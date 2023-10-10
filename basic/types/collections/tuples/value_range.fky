@@ -1,0 +1,200 @@
+#
+  Copyright (C) 2020 by
+  Dipl.-Ing. Michael Niederle
+
+  This program is free software; you can redistribute it and/or modify
+  it under the terms of the GNU Library General Public License, version 2, or
+  (at your option) under the terms of the GNU Lesser General Public License,
+  version 3.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  GNU Lesser (Library) General Public License for more details.
+
+  For details of the GNU General Public License see the accompanying
+  files LGPLv2.txt and LGLPv3.txt or
+  http://www.gnu.org/licenses/lgpl-2.0.html
+  http://www.gnu.org/licenses/lgpl-3.0.html
+  or write to the
+  Free Software Foundation, Inc.,
+  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+
+$std::lower_bound_of (!)
+  #
+    the lower bound of a range
+
+    See also: std::upper_bound_of
+
+$std::upper_bound_of (!)
+  #
+    the upper bound of a range
+
+    See also: std::lower_bound_of
+
+$std_types::value_range.subtype_of "value_range"
+  #
+    the tuple subtype for value ranges
+
+$std::is_a_value_range () # obvious
+
+$std_types::object.is_a_value_range false # obvious
+$std_types::value_range.is_a_value_range true # obvious
+
+$std_types::value_range/lower_bound_of:
+  #
+    returns the lower bound of the value-range
+
+    See also: std_types::value_range/upper_bound_of
+  (
+    self
+  )
+  self $lower_bound $_upper_bound
+  -> lower_bound
+
+$std_types::value_range/upper_bound_of:
+  #
+    returns the upper bound of the value-range
+
+    See also: std_types::value_range/lower_bound_of
+  (
+    self
+  )
+  self $_lower_bound $upper_bound
+  -> upper_bound
+
+$std_types::value_range/length_of:
+  #
+    returns the number of values within the range
+
+    This is computed as
+
+    *upper_bound* - *lower_bound* + 1
+  (
+    self
+  )
+  self $lower_bound $upper_bound
+  -> upper_bound+1-lower_bound
+
+$std_types::value_range/for_each:
+  #
+    iterates over all values within the range
+
+    The specified function is executed for each value within the range in
+    first-to-last order.
+  (
+    self # the value-range to iterate over
+    body # the statement sequence to execute for each value
+    finally = next # called after all values have been iterated over
+  )
+  self $low $high
+  from_to! low high body finally
+
+$std_types::value_range/map:
+  #
+    applies a function to all values and returns a list of the results
+
+    See also: reduce, map_reduce
+  (
+    self # the value-range which items will be mapped
+    function # the function to apply to each element of the value-range
+  )
+  $map: (from to)
+    $n to+1-from
+    if
+      n >= 2:
+	$m n >> 1
+	append
+	  map(from from+m-1)
+	  map(from+m to)
+      :
+	if
+	  n == 1
+	  : list function(from)
+	  -> empty_list
+
+  self $lower_bound $upper_bound
+  map lower_bound upper_bound
+
+$std_types::value_range/std::reduce:
+  #
+    computes a kind of sum from the values specified by the value_range
+
+    There is no guarantee in which order the values will be reduced (folded).
+
+    So the the reduction function must obey to the law of assosiativity!
+
+    See also: map, map_reduce
+  (
+    self # the value-range to build the "sum" from
+    function # the function to apply to pairs of values
+  )
+  $reduce: (from to)
+    $n to+1-from
+    if
+      n >= 2:
+	$m n >> 1
+	function
+	  reduce(from from+m-1)
+	  reduce(from+m to)
+      -> from
+
+  self $lower_bound $upper_bound
+  reduce lower_bound upper_bound
+
+$std_types::value_range/map_reduce:
+  #
+    combines a map and a reduce operation into a single operation
+
+    Does not create an intermediate list to hold the "mapped" values.
+
+    See also: map, reduce
+  (
+    self # the value-range to work on
+    map_function # the function to apply to each element of the value_range
+    reduce_function = append # the function to apply to pairs of values
+  )
+  $map_reduce: (from to)
+    $n to+1-from
+    if
+      n >= 2:
+	$m n >> 1
+	reduce_function
+	  map_reduce(from from+m-1)
+	  map_reduce(from+m to)
+      -> map_function(from)
+
+  self $lower_bound $upper_bound
+  map_reduce lower_bound upper_bound
+
+$std::value_range:
+  #
+    constructs a value-range
+
+    Both boundary values are included within the value-range.
+
+    The boundaray values specified must support the following methods:
+
+    <plus>:
+
+    The left argument has boundary type, the right argument is an integer,
+    the result should have boundary type.
+
+    <minus>:
+
+    If the left argument has boundary type and the right argument is an integer
+    then the result should have boundary type.
+
+    If both arguments have boundary type then the result should be an integer.
+
+    <less>:
+
+    Both arguments have boundary type and the result should be <true> or
+    <false>.
+  (
+    lower_bound # the first value in the value-range
+    upper_bound # the last value in the value-range
+  )
+  new std_types::value_range lower_bound upper_bound
+
+$std_types::value_range.serialization_tag_of "value_range"

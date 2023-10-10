@@ -1,0 +1,588 @@
+#
+  Copyright (C) 2023 by
+  Dipl.-Ing. Michael Niederle
+
+  This program is free software; you can redistribute it and/or modify
+  it under the terms of the GNU Library General Public License, version 2, or
+  (at your option) under the terms of the GNU Lesser General Public License,
+  version 3.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  GNU Lesser (Library) General Public License for more details.
+
+  For details of the GNU General Public License see the accompanying
+  files LGPLv2.txt and LGLPv3.txt or
+  http://www.gnu.org/licenses/lgpl-2.0.html
+  http://www.gnu.org/licenses/lgpl-3.0.html
+  or print to the
+  Free Software Foundation, Inc.,
+  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+
+$std::print_string_to:
+  #
+    writes its argument (a single string) to the specified output channel
+
+    Topic: Input-Output
+
+    See also: print_to
+  (
+    fd # the output channel
+    str # the string argument to print
+  )
+  $len length_of(str)
+  loop
+    :
+      write! $bytes_written fd str
+      if
+	bytes_written.is_an_error
+	bytes_written
+	:
+	  if
+	    bytes_written < len:
+	      range &str bytes_written+1 -1
+	      next!
+	    break
+    pass
+
+$std::print_to:
+  #
+    writes its arguments (as a single string) to the specified output channel
+
+    Topic: Input-Output
+
+    See also: print_string_to, print, eprint
+  (
+    fd # the output channel
+    args* # the arguments to concatenate and print
+  )
+  print_string_to! fd create_string(args)
+
+$std::print_string:
+  #
+    writes its argument (a single string) to the standard output channel
+
+    Topic: Input-Output
+
+    See also: print, println, eprint_string
+  (
+    str # the string to print
+  )
+  print_string_to! STDOUT_FILENO str.to_utf8
+
+$std::print:
+  #
+    writes its arguments (as a single string) to the standard output channel
+
+    Topic: Input-Output
+
+    See also: println, eprint
+  (
+    args* # the arguments to concatenate and print
+  )
+  print_string! create_string(args)
+
+$std::println:
+  #
+    writes its arguments and a trailing newline to the standard output channel
+
+    This function calls <print>.
+
+    Topic: Input-Output
+
+    See also: print, eprintln, readln
+  (
+    args* # the arguments to print
+  )
+  print_string! push(create_string(args) '@nl;')
+
+$std::eprint_string:
+  #
+    writes its argument (a single string) to the error output channel
+
+    Topic: Input-Output
+
+    See also: eprint, eprintln, print
+  (
+    str # the string to print
+  )
+  print_string_to! STDERR_FILENO str.to_utf8
+
+$std::eprint:
+  #
+    writes its arguments (as a single string) to the error output channel
+
+    Topic: Input-Output
+
+    See also: eprintln, print
+  (
+    args* # the arguments to concatenate and print
+  )
+  eprint_string! create_string(args)
+
+$std::eprintln:
+  #
+    writes its arguments and a trailing newline to the error output channel
+
+    This function calls <eprint>.
+
+    Topic: Input-Output
+
+    See also: println, println
+  (
+    args* # the arguments to print
+  )
+  eprint_string! push(create_string(args) '@nl;')
+
+$std::readln
+  #
+    reads a line from the standard input channel
+
+    The read line is returend *without* the terminating newline character.
+
+    If the read operation failes then an error object is returned.
+
+    Topic: Input-Output
+
+    See also: println
+  :
+    $line_buf ""
+    loop:
+      read! STDIN_FILENO 1 $buf
+      if
+	buf.is_undefined
+	-> buf # return the error object
+	:
+	  if
+	    buf == "@nl;"
+	    :
+	      -> line_buf
+	    :
+	      append &line_buf buf
+	      next!
+
+$std::read_all_from:
+  #
+    reads until exhaustion
+
+    Topic: Input-Output
+  (
+    fh
+  )
+  $already_read_data ""
+  loop:
+    read! $next_data fh 0x1000
+    if
+      next_data.is_an_error
+      -> next_data
+      :
+	if
+	  next_data.is_empty
+	  -> already_read_data
+	  :
+	    append &already_read_data next_data
+	    next!
+
+$std::load ()
+
+$std_types::string/load:
+  #
+    loads data from a file or a network resource
+
+    Topic: Input-Output
+  (
+    filename
+  )
+  open! $fh filename "r"
+  check fh
+  read_all_from! $data fh
+  check data
+  close! fh
+  -> data
+
+$std::save ()
+
+$std_types::string/save:
+  #
+    saves data to a file
+
+    Topic: Input-Output
+  (
+    filename
+    data
+  )
+  open! $fh filename "w+"
+  check fh
+  print_to! fh data
+  close! fh
+
+$std::try:
+  #
+    recover an error object
+
+    If the execution of *body* fails then the error-object is returned. If the
+    execution of *body* succeeds then <undefined> is returned.
+
+    *body* must not return any results.
+  (
+    body # the statements to execute
+  )
+  body!
+  -> undefined
+
+$std::check:
+  #
+    checks its argument
+
+    If the supplied argument is an error object then the error object is
+    returned. Otherwise nothing is returned.
+  (
+    argument
+  )
+  if
+    argument.is_an_error
+    -> argument
+    pass
+
+$std::file_exists: (filename)
+  stat! $info filename
+  -> not(info.is_an_error)
+
+$std::directory: (pathname)
+  $entries empty_list
+  opendir! $dir pathname
+  loop:
+    readdir! $entry dir
+    if
+      entry.is_an_error:
+	closedir! dir
+	-> entries
+      :
+	push &entries entry
+	next!
+
+$std::access_time_of ()
+
+$std_types::stat/access_time_of: (self)
+  ->
+    +
+      access_time_seconds_of(self)
+      access_time_nanoseconds_of(self)/1'000'000'000
+
+$std::modification_time_of ()
+
+$std_types::stat/modification_time_of: (self)
+  ->
+    +
+      modification_time_seconds_of(self)
+      modification_time_nanoseconds_of(self)/1'000'000'000
+
+$std::status_change_time_of ()
+
+$std_types::stat/status_change_time_of: (self)
+  ->
+    +
+      status_change_time_seconds_of(self)
+      status_change_time_nanoseconds_of(self)/1'000'000'000
+
+$std::is_a_directory ()
+
+$std_types::stat/is_a_directory: (self)
+  -> mode_of(self)(1) == 'd'
+
+$std::call: (cmd args)
+  $do_collect_output (result_count() >= 2)
+  $do_collect_error_output (result_count() == 3)
+  $env_vars undefined
+  update_if environment.is_defined &env_vars:
+    !env_vars empty_list
+    for_each environment
+      : (key value)
+	push &env_vars "@(key)=@(value)"
+	next
+      -> env_vars
+  create_process! $pid $in_fd $out_fd $err_fd cmd args env_vars
+  close! in_fd
+  $io std_types::io
+  join_process &io pid
+  start_reading_from &io out_fd
+  start_reading_from &io err_fd
+
+  $out ""
+  $err ""
+  loop:
+    get_events! &io $events
+    for_each events: (event)
+      event $type $fd $data
+      case type
+	READ:
+	  if
+	    data == "":
+	      close! fd
+	      stop_reading_from &io fd
+	      next!
+	    :
+	      case fd
+		out_fd:
+		  if
+		    do_collect_output:
+		      append &out data
+		      next!
+		    :
+		      print_to! STDOUT_FILENO data
+		      next!
+		err_fd:
+		  if
+		    do_collect_error_output:
+		      append &err data
+		      next!
+		    :
+		      print_to! STDERR_FILENO data
+		      next!
+		:
+		  next!
+	PROCESS_JOINED:
+	  $ret data
+	  if
+	    do_collect_output:
+	      if
+		do_collect_error_output
+		-> ret out err
+		-> ret out
+	    -> ret
+	: # ignore all other signals
+	  next!
+
+$std::terminate:
+  exit! EXIT_SUCCESS
+
+$std::is_a_file_descriptor ()
+
+$std_types::object.is_a_file_descriptor false
+$std_types::file_descriptor.is_a_file_descriptor true
+
+$std_types::file_descriptor.serialization_tag_of "file_descriptor"
+
+$std_types::file_descriptor/serialize:
+  (
+    self
+    indent = undefined
+  )
+  $str "
+    file_descriptor @(self.to_integer)
+  if
+    indent.is_defined
+    -> append(tabs_and_spaces(indent) str)
+    -> str
+
+$std_types::file_descriptor.deserializer_of:
+  (
+    _type
+    argument
+  )
+  -> file_descriptor(integer(argument))
+
+$std::is_a_process_id ()
+
+$std_types::object/is_a_process_id false
+$std_types::process_id/is_a_process_id true
+
+$std_types::process_id.serialization_tag_of "process_id"
+
+$std_types::process_id/serialize:
+  (
+    self
+    indent = undefined
+  )
+  $str "
+    process_id @(self.to_integer)
+  if
+    indent.is_defined
+    -> append(tabs_and_spaces(indent) str)
+    -> str
+
+$std_types::process_id.deserializer_of:
+  (
+    _type
+    argument
+  )
+  -> process_id(integer(argument))
+
+$command_of ()
+
+$extern_call:
+  (
+    myself^
+    arguments*
+  )
+  call! command_of(myself) map(flatten(arguments) to_string)
+
+$std::pipe: (args*)
+  $i 1
+  $n length_of(args)
+  $in_fd undefined
+  $feed undefined
+  $commands empty_list
+  $head undefined
+  $arguments undefined
+  $first_arg args(1)
+  if
+    first_arg.is_a_string:
+      !feed first_arg
+      !i 2
+      build_commands!
+    :
+      if
+	first_arg.is_a_file_descriptor:
+	  !in_fd first_arg
+	  build_commands!
+	build_commands
+
+  $build_commands:
+    loop
+      :
+	if
+	  i > n break
+	  :
+	    $arg args(i)
+	    if
+	      arg.is_a_function:
+		update_if head.is_defined &commands:
+		  push commands tuple(head map(flatten(arguments) to_string))
+		!head command_of(arg)
+		!arguments empty_list
+		inc &i
+		next!
+	      :
+		push &arguments arg
+		inc &i
+		next!
+      :
+	update_if head.is_defined &commands:
+	  push commands tuple(head map(flatten(arguments) to_string))
+	run_pipe! in_fd feed commands
+
+$run_pipe:
+  (
+    in_fd
+    feed
+    commands
+  )
+  $pids empty_hash_table
+  $err_fds empty_hash_table
+  $out_fd in_fd
+  $env_vars undefined
+  update_if environment.is_defined &env_vars:
+    !env_vars empty_list
+    for_each environment
+      : (key value)
+	push &env_vars "@(key)=@(value)"
+	next
+      -> env_vars
+  for_each commands
+    : (idx command)
+      command $head $arguments
+      $pid undefined
+      $err_fd undefined
+      if
+	idx == 1 && in_fd.is_undefined:
+	  create_process! !pid !in_fd !out_fd !err_fd head arguments env_vars
+	  store_pid_and_err_fd!
+	:
+	  create_process! !pid !out_fd !err_fd head arguments env_vars out_fd
+	  store_pid_and_err_fd!
+
+      $store_pid_and_err_fd:
+	!pids(pid) idx
+	!err_fds(err_fd) idx
+	next!
+    :
+      $ret dup(list(undefined) length_of(commands))
+      $out ""
+      $err dup(list("") length_of(commands))
+      if
+	feed.is_defined
+	manage_io
+	:
+	  close! in_fd
+	  !in_fd undefined
+	  manage_io!
+
+      $manage_io:
+	loop:
+	  $read_descriptor_list keys_of(err_fds)
+	  $write_descriptor_list
+	    if
+	      in_fd.is_defined
+	      -> list(in_fd)
+	      -> empty_list
+	  update_if out_fd.is_defined &read_descriptor_list:
+	    push read_descriptor_list out_fd
+	  pselect!
+	    $signals
+	    $read_descriptors read_descriptor_list
+	    $write_descriptors write_descriptor_list
+	    $_out_of_band_descriptors empty_list
+	  for_each signals
+	    : (signal)
+	      if
+		signal == CHILD_CHANGED_STATE:
+		  loop:
+		    wait2! $rpid $status
+		    if
+		      rpid.is_defined:
+			!ret(pids(rpid)) status
+			!pids(rpid) undefined
+			if!
+			  pids.is_empty
+			  break
+			  next
+		      break
+		next
+	    :
+	      for_each write_descriptors
+		: (write_descriptor) # must be <in_fd>
+		  write! $bytes_written write_descriptor feed
+		  range &feed bytes_written+1 -1
+		  if
+		    feed.is_empty:
+		      close! in_fd
+		      !in_fd undefined
+		      next!
+		    next
+		:
+		  for_each read_descriptors
+		    : (read_descriptor)
+		      read! $buf read_descriptor 0x100000
+		      if
+			buf.is_empty: # closed from the other side
+			  close! read_descriptor
+			  if
+			    read_descriptor == out_fd:
+			      !out_fd undefined
+			      next!
+			    :
+			      !err_fds(read_descriptor) undefined
+			      next!
+			:
+			  if
+			    read_descriptor == out_fd:
+			      append &out buf
+			      next!
+			    :
+			      append &err(err_fds(read_descriptor)) buf
+			      next!
+		    :
+		      if!
+			pids.is_empty && out_fd.is_undefined && err_fds.is_empty
+			-> ret out err
+			next
+
+$std::extern:
+  #
+    allows calling an external command like a builtin function
+  (
+    command
+  )
+  -> extern_call(.command_of command)

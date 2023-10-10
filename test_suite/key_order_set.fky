@@ -1,0 +1,13 @@
+#!/usr/bin/env fkyrun
+
+$adult empty_key_order_set
+
+!adult("Tom") true
+!adult("Sam") false
+!adult("Sarah") true
+
+for_each adult
+  : (name)
+    println! name
+    next!
+  pass

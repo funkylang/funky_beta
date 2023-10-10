@@ -1,0 +1,159 @@
+#
+  Copyright (C) 2021 by
+  Dipl.-Ing. Michael Niederle
+
+  This program is free software; you can redistribute it and/or modify
+  it under the terms of the GNU Library General Public License, version 2, or
+  (at your option) under the terms of the GNU Lesser General Public License,
+  version 3.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  GNU Lesser (Library) General Public License for more details.
+
+  For details of the GNU General Public License see the accompanying
+  files LGPLv2.txt and LGLPv3.txt or
+  http://www.gnu.org/licenses/lgpl-2.0.html
+  http://www.gnu.org/licenses/lgpl-3.0.html
+  or write to the
+  Free Software Foundation, Inc.,
+
+$std::is_a_character () # obvious
+
+$std_types::object.is_a_character false # obvious
+$std_types::character.is_a_character true # obvious
+
+$std_types::character/match:
+  #
+    matches the start of the stream with the character
+  (
+    self
+    stream
+  )
+  if
+    stream.is_empty
+    -> undefined
+    :
+      if
+	stream(1) == self
+	-> 1
+	-> undefined
+
+$std_types::character/search:
+  #
+    searches for the start of the character within the stream
+  (
+    self
+    stream
+    nth = 1 # search_forwards for the nth occurrence of *self* instead for the first one
+  )
+  $i undefined
+  $n length_of(stream)
+  if
+    nth < 0:
+      !i n
+      search_backwards
+    :
+      !i 1
+      search_forwards
+
+  $search_forwards:
+    if
+      i <= n
+      :
+	if
+	  stream(i) == self:
+	    if
+	      nth > 1:
+		dec &nth
+		inc &i
+		search_forwards
+	      -> i 1
+	  :
+	    inc &i
+	    search_forwards
+      -> undefined undefined
+
+  $search_backwards:
+    if
+      i >= 1
+      :
+	if
+	  stream(i) == self:
+	    if
+	      nth < -1:
+		inc &nth
+		dec &i
+		search_backwards
+	      -> i 1
+	  :
+	    dec &i
+	    search_backwards
+      -> undefined undefined
+
+$std::is_a_digit:
+  #
+    return true for the ASCII-characters from '0' to '9'
+
+    This function must be called on character-values.
+
+    See also: std_types::character, is_a_letter_character
+  (
+    chr
+  )
+  -> chr >= '0' && chr <= '9'
+
+$std::is_a_letter:
+  #
+    return true for the 26 roman letters (either case)
+
+    This function must be called on character-values.
+
+    See also: std_types::character, is_a_letter_character
+  (
+    chr
+  )
+  ->
+    ||
+      chr >= 'a' && chr <= 'z'
+      chr >= 'A' && chr <= 'Z'
+
+$std::is_an_uppercase_letter:
+  #
+    return true for the 26 roman uppercase letters
+
+    This function must be called on character-values.
+
+    See also: std_types::character, is_a_letter_character
+  (
+    chr
+  )
+  -> chr >= 'A' && chr <= 'Z'
+
+$std::is_a_lowercase_letter:
+  #
+    return true for the 26 roman lowercase letters
+
+    This function must be called on character-values.
+
+    See also: std_types::character, is_a_letter_character
+  (
+    chr
+  )
+  -> chr >= 'a' && chr <= 'z'
+
+$std_types::character/serialize:
+  (
+    self
+    indent = undefined
+  )
+  $str
+    if
+      self < '@0x20;' || self > '@0x7e;' || self == '@@'
+      -> "'@@@(self.to_integer);'@nl;"
+      -> "'@(self)'@nl;"
+  if
+    indent.is_defined
+    -> append(tabs_and_spaces(indent) str)
+    -> str

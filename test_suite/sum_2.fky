@@ -1,0 +1,12 @@
+#!/usr/bin/env fkyrun
+
+$sum 0
+$i 0
+repeat !sum 10
+  :
+    inc &i
+    plus &sum i
+    next
+  -> sum
+
+println! sum

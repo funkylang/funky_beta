@@ -1,0 +1,16 @@
+--- new_compiler/parser.fky	2023-09-24 14:35:05.933683608 +0200
++++ new_compiler/parser.fky.orig	2023-09-24 14:35:02.053760596 +0200
+@@ -1137,7 +1137,12 @@
+   parse_more_identifier_characters !text $identifier
+   if
+     text.is_defined:
+-      parse_extensions !text $extensions
++      $parse
++	if
++	  length_of(position) == length_of(funky::line_text_of(current_group))
++	  -> parse_extensions
++	  -> parse_inline_extensions
++      parse !text $extensions
+       if
+ 	text.is_defined
+ 	->

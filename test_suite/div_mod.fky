@@ -1,0 +1,11 @@
+#!/usr/bin/env fkyrun
+
+for_each 5, -5
+  : (divisor)
+    for_each 17, -17
+      : (dividend)
+	println! dividend " .div. " divisor " = " dividend .div. divisor
+	println! dividend " .mod. " divisor " = " dividend .mod. divisor
+	next!
+      next
+  pass

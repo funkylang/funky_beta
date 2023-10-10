@@ -1,0 +1,236 @@
+#
+  Copyright (C) 2022 by
+  Dipl.-Ing. Michael Niederle
+
+  This program is free software; you can redistribute it and/or modify
+  it under the terms of the GNU General Public License, version 2, or
+  (at your option) version 3.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  GNU General Public License for more details.
+
+  For details of the GNU General Public License see the accompanying
+  files GPLv2.txt and GLPv3.txt or
+  http://www.gnu.org/licenses/gpl-2.0.html
+  http://www.gnu.org/licenses/gpl-3.0.html
+  or write to the
+  Free Software Foundation, Inc.,
+  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+
+<using std>
+<using nlb2fky>
+
+$inherited_prefix_symbols_of ()
+$inherited_suffix_symbols_of ()
+$std_types::object.inherited_prefix_symbols_of empty_list
+$std_types::object.inherited_suffix_symbols_of empty_list
+
+$nlb2fky::create_to_source_methods: (filename rules name_to_index)
+  $namespace behind(filename '/' -1) .before. '.'
+  for_each rules
+    : (rule)
+      if
+	rule.is_multi_choice:
+	  spread_terminal_symbols !rules rule empty_list empty_list
+	  next
+	next
+    ->
+      "
+	#
+	  These method definitions were automatically derived from the file
+	  "@(filename)".
+	@(create_methods())@
+
+  $spread_terminal_symbols:
+    (
+      rule
+      inherited_prefix_symbols
+      inherited_suffix_symbols
+    )
+    for_each choices_of(rule)
+      : (choice)
+	$symbols symbols_of(choice)
+	if
+	  symbols.is_empty
+	  next
+	  :
+	    $prefix_symbols
+	      append(inherited_prefix_symbols prefix_symbols_of(choice))
+	    $suffix_symbols
+	      append(range(symbols 2 -1) inherited_suffix_symbols)
+	    if
+	      prefix_symbols.is_empty && suffix_symbols.is_empty
+	      next
+	      :
+		$idx name_to_index(symbols(1))
+		$referred_rule rules(idx)
+		if
+		  referred_rule.is_multi_choice:
+		    spread_terminal_symbols !rules
+		      referred_rule prefix_symbols suffix_symbols
+		    next
+		  :
+		    if
+		      &&
+			inherited_prefix_symbols_of(referred_rule).is_empty
+			inherited_suffix_symbols_of(referred_rule).is_empty
+		      :
+			!rules(idx)
+			  referred_rule
+			    .inherited_prefix_symbols_of prefix_symbols
+			    .inherited_suffix_symbols_of suffix_symbols
+			next
+		      next
+      -> rules
+
+  $create_methods:
+    string
+      with_tabs
+	"
+
+	  $@(namespace)::to_source ()
+
+	  $@(namespace)::indent 0
+
+	  $@(namespace)::add_indented_line: (item)
+	    $line @(namespace)::to_source(item)
+	    $i 1
+	    $len length_of(line)
+	    loop:
+	      if
+		i < len && line(i) == ' ':
+		  !i i+1
+		  next
+		:
+		  $vskip dup("@@nl;" @(namespace)::skip_of(item))
+		  range &line i -1
+		  if
+		    line.is_empty
+		    -> vskip
+		    ->
+		      string
+			vskip
+			tabs_and_spaces(@(namespace)::indent+i-1)
+			line
+
+	  $std_types::string/@(namespace)::to_source: (self) -> self
+	  #
+	    replace_all
+	      self
+	      '@@nl;' = "@@@@nl;"
+	      '@@quot;' = "@@@@quot;"
+	      '@@esc;' = "@@@@esc;"
+
+	  $std_types::undefined/@(namespace)::to_source: (self) -> ""
+      map_reduce
+	rules: (_rule_no rule)
+	  if_not rule.is_compound (-> ""):
+	    $base_rule_no base_rule_of(rule)
+	    $symbols symbols_of(choices_of(rule)(1))
+	    $prefix_symbols
+	      append
+		inherited_prefix_symbols_of(rule)
+		prefix_symbols_of(choices_of(rule)(1))
+	    $inherited_suffix_symbols inherited_suffix_symbols_of(rule)
+	    $suffix_symbols
+	      if
+		rule.is_derived && length_of(symbols) > 1
+		-> append(range(symbols 2 -1) inherited_suffix_symbols)
+		-> inherited_suffix_symbols
+	    update_if rule.is_derived
+	      &prefix_symbols &symbols
+	      ->
+		append
+		  prefix_symbols
+		  prefix_symbols_of(choices_of(rules(base_rule_no))(1))
+		symbols_of(choices_of(rules(base_rule_no))(1))
+	    $name name_of(rule)
+	    $components
+	      if
+		base_rule_no.is_defined
+		-> components_of(rules(base_rule_no))
+		-> components_of(rule)
+	    $buf ""
+	    $idx 1
+	    for_each !buf
+	      symbols: (_symbol_no symbol)
+		if
+		  symbol.is_a_terminal_symbol:
+		    $str terminal_symbol_to_source(symbol)
+		    if
+		      str.is_not_empty:
+			append &buf "    @quot;"
+			append &buf str
+			append &buf "@quot;@nl;"
+			next
+		      next
+		  :
+		    $component components(idx)
+		    $field_name name_of(rules(component)).to_field_name
+		    inc &idx
+		    if
+		      component.is_pruned:
+			append &buf "
+			  @
+			      map_reduce
+				@(namespace)::@(field_name)_list_of(self)
+				@(namespace)::add_indented_line
+				append
+				""
+			next
+		      :
+			append &buf "    "
+			append &buf namespace
+			append &buf "::"
+			append &buf field_name
+			append &buf "_of(self)."
+			append &buf namespace
+			append &buf "::to_source@nl;"
+			next
+	      -> buf
+	    $prefix terminal_symbols_to_source(prefix_symbols)
+	    $suffix terminal_symbols_to_source(suffix_symbols)
+	    string
+	      "
+
+		$@(namespace)_types::@(name)/@(namespace)::to_source: (self)
+	      if
+		components.is_not_empty && components(-1).is_pruned
+		-> "
+		  @
+		    !@(namespace)::indent @(namespace)::indent+2
+		-> ""
+	      "
+		@
+		  string
+	      if
+		prefix.is_empty
+		-> ""
+		-> "
+		  @
+		      "@(prefix)"
+	      buf
+	      if
+		suffix.is_empty
+		-> ""
+		-> "
+		  @
+		      "@(suffix)"
+
+$terminal_symbols_to_source: (terminal_symbols)
+  map_reduce terminal_symbols terminal_symbol_to_source append ""
+
+$terminal_symbol_to_source: (terminal_symbol)
+  if
+    length_of(terminal_symbol) == 1:
+      case terminal_symbol
+	"@quot;" -> "@@quot;"
+	"@@" -> "@@@@"
+	-> terminal_symbol
+    :
+      if
+	terminal_symbol == "SPC"
+	-> " "
+	-> ""

@@ -1,0 +1,10 @@
+#!/usr/bin/env fkyrun
+
+$a 5
+$b 3
+
+if
+  a > 3 && b < 5 && a < b:
+    println! "strange"
+  :
+    println! "okay"

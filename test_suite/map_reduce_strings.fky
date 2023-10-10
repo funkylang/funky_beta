@@ -1,0 +1,4 @@
+#!/usr/bin/env fkyrun
+
+dump! 3 `map_reduce("abc" to_integer plus)
+dump! 3 `map_reduce("abc" list append)

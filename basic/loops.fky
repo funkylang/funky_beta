@@ -1,0 +1,374 @@
+#
+  Copyright (C) 2021 by
+  Dipl.-Ing. Michael Niederle
+
+  This program is free software; you can redistribute it and/or modify
+  it under the terms of the GNU Library General Public License, version 2, or
+  (at your option) under the terms of the GNU Lesser General Public License,
+  version 3.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  GNU Lesser (Library) General Public License for more details.
+
+  For details of the GNU General Public License see the accompanying
+  files LGPLv2.txt and LGLPv3.txt or
+  http://www.gnu.org/licenses/lgpl-2.0.html
+  http://www.gnu.org/licenses/lgpl-3.0.html
+  or write to the
+  Free Software Foundation, Inc.,
+  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+
+<namespace basic_loops>
+
+$basic_loops::saved_context_of ()
+
+$basic_loops::body undefined
+$basic_loops::from undefined
+$basic_loops::to undefined
+$basic_loops::by undefined
+$basic_loops::finally undefined
+
+$std::next pass
+  #
+    the "keyword" (function) to start the next iteration of a loop
+
+    Topic: Loops
+
+$std::break undefined
+  #
+    the "keyword" (function) to exit from a loop
+
+    Topic: Loops
+
+$std::continuation_stack empty_list
+
+$std::loop:
+  #
+    a simple loop
+
+    The *loop* construct replaces loops like *while*, *do_while* and *forever*.
+
+    To start the next iteration of the loop a tail call to the *next*-function
+    has to be performed.
+
+    Topic: Loops
+
+    See also: from_to, next, break
+
+    Example:
+
+    $i 1
+    loop: # "while"
+      if
+	i <= 3:
+	  $j 1
+	  loop: # "do_while"
+	    writeln! i "*" j " = " i*j
+	    inc &j
+	    if j <= 2 next
+	  inc &i
+	  next
+	break
+
+    Output:
+
+    1*1 = 1
+    1*2 = 2
+    2*1 = 2
+    2*2 = 4
+    3*1 = 3
+    3*2 = 6
+
+    Example:
+
+    $sum 0
+    $i 0
+    loop
+      :
+	inc &i
+	plus &sum i
+	if
+	  i < 5
+	  next
+	  break
+      -> !sum
+
+    Output:
+
+    sum = 15
+  (
+    body # the statement sequence to execute for each iteration of the loop
+    finally = next
+  )
+  $saved_context tuple(next break basic_loops::finally)
+
+  !basic_loops::finally finally
+
+  !next body
+
+  !break: (myself^)
+    !finally basic_loops::finally
+    basic_loops::saved_context_of(myself) !next !break !basic_loops::finally
+    finally!
+
+  !break.basic_loops::saved_context_of saved_context
+
+  next!
+
+$std::while:
+  (
+    condition
+    body
+    finally
+  )
+  loop: if condition() body finally
+
+$std::while_not:
+  (
+    condition
+    body
+    finally
+  )
+  loop: if_not condition() body finally
+
+$std::repeat:
+  #
+    invoke a statement sequence for a specific number of times
+
+    The statement sequence *body* is invoked exactly *n* times.
+
+    *n* must be a numeric value. If it is less than 1 than *body* will not be
+    called at all. *n* might also be a negative number (in which case *body*
+    will not be called) or a noninteger number (in which case *n* will be
+    rounded down to the next integer).
+
+    To start the next iteration of the loop a tail call to the *next*-function
+    has to be performed.
+
+    To exit from the loop a tail call to the *break*-function has to be
+    performed.
+
+    Topic: Loops
+
+    See also: loop, from_to
+
+    Example:
+
+    repeat 10: write '*'
+    writeln
+
+    Output:
+
+    **********
+  (
+    n # how often to invoke *body*
+    body # the statement sequence to invoke
+    finally = next # a function to return selected variables to the caller
+  )
+  $saved_context
+    tuple
+      next
+      break
+      basic_loops::from
+      basic_loops::body
+      basic_loops::finally
+
+  !basic_loops::from n
+  !basic_loops::body body
+  !basic_loops::finally finally
+
+  $iterate:
+    if
+      basic_loops::from > 0:
+	basic_loops::body!
+      :
+	break!
+
+  !next:
+    !basic_loops::from basic_loops::from-1
+    iterate!
+
+  !break: (myself^)
+    !finally basic_loops::finally
+    basic_loops::saved_context_of(myself)
+      !next !break
+      !basic_loops::from !basic_loops::body !basic_loops::finally
+    finally!
+
+  !break.basic_loops::saved_context_of saved_context
+
+  iterate!
+
+$std::from_to:
+  #
+    a loop iterating over a sequence of values
+
+    The starting value is incremented by one after each invocation of *body*.
+
+    The type of the first and last value need not be integers but can be
+    of arbitrary types that support adding the integer value 1.
+
+    The loop terminates as soon as the current value is greater than *last*.
+    (The *body* will only be called for values that are less than or equal to
+    *last*.)
+
+    If *first* is greater than *last* then the loop body will *not* be called at
+    all!
+
+    The *body* is called with a single argument (the current value).
+
+    To start the next iteration of the loop a tail call to the *next*-function
+    has to be performed.
+
+    To exit from the loop a tail call to the *break*-function has to be
+    performed.
+
+    Topic: Loops
+
+    See also: loop
+
+    Example:
+
+    from_to 1 10: (i)
+      writeln i " x " i " = " i*i
+      next
+
+    Output:
+
+    1 x 1 = 1
+    2 x 2 = 4
+    3 x 3 = 9
+    4 x 4 = 16
+    5 x 5 = 25
+    6 x 6 = 36
+    7 x 7 = 49
+    8 x 8 = 64
+    9 x 9 = 81
+    10 x 10 = 100
+
+    Example:
+
+    $sum 0
+    from_to 1 10
+      : (i)
+	plus &sum i*i
+	next
+      -> !sum
+    writeln "sum: " sum
+
+    Output:
+
+    sum: 385
+
+    Example:
+
+    $sum 0
+    from_to 1 10
+      : (i)
+	plus &sum i*i
+	if sum < 100 next break
+      -> !sum
+    writeln "sum: " sum
+
+    Output:
+
+    sum: 140
+  (
+    from # the value to use for the first invocation of *body*
+    to # the value to use for the last invocation of *body*
+    body # the statement sequence to execute for each value
+    finally = next # code to execute after the last iteration
+  )
+  $saved_context
+    tuple
+      next
+      break
+      basic_loops::from
+      basic_loops::to
+      basic_loops::body
+      basic_loops::finally
+
+  !basic_loops::from from
+  !basic_loops::to to
+  !basic_loops::body body
+  !basic_loops::finally finally
+
+  $iterate:
+    if
+      basic_loops::from <= basic_loops::to:
+	basic_loops::body! basic_loops::from
+      :
+	break!
+
+  !next:
+    !basic_loops::from basic_loops::from+1
+    iterate!
+
+  !break: (myself^)
+    !finally basic_loops::finally
+    basic_loops::saved_context_of(myself)
+      !next !break
+      !basic_loops::from !basic_loops::to !basic_loops::body !basic_loops::finally
+    finally!
+
+  !break.basic_loops::saved_context_of saved_context
+
+  iterate!
+
+$std::from_to_by:
+  (
+    from # the value to use for the first invocation of *body*
+    to # the value to use for the last invocation of *body*
+    by # the incrementation/decrementation value
+    body # the statement sequence to execute for each value
+    finally = next # code to execute after the last iteration
+  )
+  $saved_context
+    tuple
+      next
+      break
+      basic_loops::from
+      basic_loops::to
+      basic_loops::by
+      basic_loops::body
+      basic_loops::finally
+
+  !basic_loops::from from
+  !basic_loops::to to
+  !basic_loops::by by
+  !basic_loops::body body
+  !basic_loops::finally finally
+
+  $iterate
+    if
+      by < 0
+      -> :
+	if
+	  basic_loops::from >= basic_loops::to:
+	    basic_loops::body! basic_loops::from
+	  :
+	    break!
+      -> :
+	if
+	  basic_loops::from <= basic_loops::to:
+	    basic_loops::body! basic_loops::from
+	  :
+	    break!
+
+  !next:
+    !basic_loops::from basic_loops::from+basic_loops::by
+    iterate!
+
+  !break: (myself^)
+    !finally basic_loops::finally
+    basic_loops::saved_context_of(myself)
+      !next !break
+      !basic_loops::from !basic_loops::to !basic_loops::by
+      !basic_loops::body !basic_loops::finally
+    finally!
+
+  !break.basic_loops::saved_context_of saved_context
+
+  iterate!

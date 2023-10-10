@@ -1,0 +1,303 @@
+#
+  Copyright (C) 2022 by
+  Dipl.-Ing. Michael Niederle
+
+  This program is free software; you can redistribute it and/or modify
+  it under the terms of the GNU Library General Public License, version 2, or
+  (at your option) under the terms of the GNU Lesser General Public License,
+  version 3.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  GNU Lesser (Library) General Public License for more details.
+
+  For details of the GNU General Public License see the accompanying
+  files LGPLv2.txt and LGLPv3.txt or
+  http://www.gnu.org/licenses/lgpl-2.0.html
+  http://www.gnu.org/licenses/lgpl-3.0.html
+  or write to the
+  Free Software Foundation, Inc.,
+  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+
+<using std>
+<using basic_collections>
+
+# internal methods:
+
+$insert ()
+$delete ()
+
+$std::is_a_lb2_table () # obvious
+$std_types::object.is_a_lb2_table false # obvious
+$std_types::lb2_table.is_a_lb2_table true # obvious
+
+$node.is_an_empty_node false
+
+$std_types::lb2_table std_types::binary_table
+$std_types::lb2_table.contents_of empty_node
+
+$std::empty_lb2_table std_types::lb2_table
+
+$empty_node basic_collections::empty_binary_node
+
+$node tuple(undefined undefined undefined undefined undefined)
+
+$NONE .
+
+$std_types::lb2_table/:
+  (
+    myself^
+    key
+    value = NONE
+  )
+  $contents contents_of(myself)
+  if
+    NONE == value
+    -> retrieve(contents key)
+    :
+      if
+	value.is_defined:
+	  insert &contents $did_insert $_my_length key value
+	  if_not
+	    did_insert
+	    -> myself(.contents_of contents)
+	    ->
+	      myself
+		.contents_of contents
+		.length_of length_of(myself)+1
+	:
+	  delete &contents $did_delete $_my_length key
+	  if_not
+	    did_delete
+	    -> myself
+	    ->
+	      myself
+		.contents_of contents
+		.length_of length_of(myself)-1
+
+###
+# length_of
+
+$empty_node.length_of 0
+
+$node/length_of: (self)
+  self $_left $_right $_my_key $_my_value $my_length
+  -> my_length
+
+###
+# retrieve
+
+$node/retrieve retrieve_method
+
+###
+# insert
+
+$empty_node/insert: (_self key value)
+  -> new(node empty_node empty_node key value 1) true 1
+
+$node/insert: (self key value)
+  self $left $right $my_key $my_value $my_length
+  $did_insert undefined
+  if
+    key == my_key
+    -> new(self left right key value my_length) false my_length
+    :
+      if
+	key < my_key
+	:
+	  insert &left !did_insert $new_length key value
+	  if_not
+	    did_insert
+	    return
+	    :
+	      $right_length length_of(right)
+	      if_not
+		new_length > 1 && new_length > 2*right_length
+		inc_length_and_return
+		:
+		  left
+		    $left_left
+		    $left_right
+		    $left_key
+		    $left_value
+		  $left_left_length length_of(left_left)
+		  $left_right_length length_of(left_right)
+		  if_not
+		    left_right_length+right_length > 2*left_left_length
+		    ->
+		      new
+			node
+			left_left
+			new
+			  node
+			  left_right
+			  right
+			  my_key
+			  my_value
+			  left_right_length+right_length+1
+			left_key
+			left_value
+			my_length+1
+		      true
+		      my_length+1
+		    :
+		      left_right
+			$left_right_left
+			$left_right_right
+			$left_right_key
+			$left_right_value
+		      ->
+			new
+			  node
+			  new
+			    node
+			    left_left
+			    left_right_left
+			    left_key
+			    left_value
+			    length_of(left_left)+length_of(left_right_left)+1
+			  new
+			    node
+			    left_right_right
+			    right
+			    my_key
+			    my_value
+			    right_length+length_of(left_right_right)+1
+			  left_right_key
+			  left_right_value
+			  my_length+1
+			true
+			my_length+1
+	:
+	  insert &right !did_insert $new_length key value
+	  if_not
+	    did_insert
+	    return
+	    :
+	      $left_length length_of(left)
+	      if_not
+		new_length > 1 && new_length > 2*left_length
+		inc_length_and_return
+		:
+		  right
+		    $right_left
+		    $right_right
+		    $right_key
+		    $right_value
+		  $right_right_length length_of(right_right)
+		  $right_left_length length_of(right_left)
+		  if_not
+		    right_left_length+left_length > 2*right_right_length
+		    ->
+		      new
+			node
+			new
+			  node
+			  left
+			  right_left
+			  my_key
+			  my_value
+			  right_left_length+left_length+1
+			right_right
+			right_key
+			right_value
+			my_length+1
+		      true
+		      my_length+1
+		    :
+		      right_left
+			$right_left_left
+			$right_left_right
+			$right_left_key
+			$right_left_value
+		      ->
+			new
+			  node
+			  new
+			    node
+			    left
+			    right_left_left
+			    my_key
+			    my_value
+			    left_length+length_of(right_left_left)+1
+			  new
+			    node
+			    right_left_right
+			    right_right
+			    right_key
+			    right_value
+			    length_of(right_right)+length_of(right_left_right)+1
+			  right_left_key
+			  right_left_value
+			  my_length+1
+			true
+			my_length+1
+
+  $inc_length_and_return:
+    !my_length my_length+1
+    return
+
+  $return
+    -> new(self left right my_key my_value my_length) did_insert my_length
+
+###
+# delete
+
+$fetch_first: (self)
+  self $left $right $my_key $my_value $my_length
+  if
+    left.is_an_empty_node
+    -> right my_key my_value my_length
+    :
+      fetch_first &left $first_key $first_value
+      -> new(self left right my_key my_value my_length) first_key first_value
+
+$empty_node/delete: (self _key) -> self false 0
+
+$node/delete: (self key)
+  self $left $right $my_key $my_value $my_length
+  if
+    key == my_key
+    :
+      if
+	left.is_an_empty_node
+	-> right true
+	:
+	  if
+	    right.is_an_empty_node
+	    -> left true my_length-1
+	    :
+	      fetch_first &right $first_key $first_value
+	      -> new(self left right first_key first_value my_length)
+    :
+      if
+	key < my_key
+	:
+	  delete &left $did_delete $_new_length key
+	  if_not
+	    did_delete
+	    -> self false my_length
+	    -> new(self left right my_key my_value my_length) true
+	:
+	  delete &right $did_delete $_new_length key
+	  if_not
+	    did_delete
+	    -> self false my_length
+	    -> new(self left right my_key my_value my_length) true
+
+###
+# for_each
+
+$node/for_each_1_left for_each_1_left_method
+$node/for_each_2_left for_each_2_left_method
+$node/for_each_1_call for_each_1_call_method
+$node/for_each_2_call for_each_2_call_method
+$node/for_each_1_right for_each_1_right_method
+$node/for_each_2_right for_each_2_right_method
+
+###
+# map
+
+$node/map_1 map_1_method
+$node/map_2 map_2_method

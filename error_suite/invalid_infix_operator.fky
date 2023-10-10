@@ -1,0 +1,5 @@
+#!/usr/bin/env fkyrun
+
+$m 7.mod. 3
+
+println! m

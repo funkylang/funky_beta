@@ -1,0 +1,22 @@
+#!/usr/bin/env fkyrun
+
+$is_an_adult empty_insert_order_set
+
+!is_an_adult("Detlef") true
+!is_an_adult("Dagobert") true
+!is_an_adult("Kunigunde") true
+!is_an_adult("Berta") true
+!is_an_adult("Adam") true
+
+println! length_of(is_an_adult)
+println!
+
+dump! `is_an_adult("Dagobert")
+dump! `is_an_adult("Adam")
+println!
+
+for_each is_an_adult
+  : (name)
+    println! name
+    next!
+  pass

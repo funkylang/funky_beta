@@ -1,0 +1,7 @@
+#!/usr/bin/env fkyrun
+
+$numbers list(2 3 5 7 11)
+
+$square: (x) -> x*x
+
+println! map_reduce(numbers square plus)

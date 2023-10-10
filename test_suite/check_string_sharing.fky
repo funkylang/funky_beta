@@ -1,0 +1,13 @@
+#!/usr/bin/env fkyrun
+
+do:
+  $buf "This is a text."
+  append &buf " It contains two sentences."
+  $buf_2 range(buf 6 -1)
+  $buf_3 range(buf 10 -1)
+  print! serialize(buf_2)
+  print! serialize(buf_3)
+  append &buf_2 " Some more words ..."
+  print! serialize(buf_2)
+  append &buf_3 " This is something else."
+  print! serialize(buf_3)

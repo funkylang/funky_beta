@@ -1,0 +1,3 @@
+#!/usr/bin/env fkyrun
+
+println! -3*-2.5

@@ -1,0 +1,4 @@
+ERROR: Some statement arguments expected IN LINE 3 OF FILE invalid_postfix_operator.fky
+
+println! 3 "^2 = " 3.square
+		    ^

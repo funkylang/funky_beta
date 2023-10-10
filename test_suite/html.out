@@ -1,0 +1,19 @@
+<html>
+<body>
+<h1>Funky-HTML-Testpage</h1>
+<div>
+<p>ein Absatz</p>
+<p>und noch ein Absatz</p>
+</div>
+<h2>Abschnitt 1</h2>
+<p>Blablabla</p>
+<h2>Abschnitt 2</h2>
+<p>noch mehr Blabla</p>
+<h2>Abschnitt 3</h2>
+<p>3 * 3 = 9</p>
+<h2>Abschnitt 4</h2>
+<p>4 * 4 = 16</p>
+<h2>Abschnitt 5</h2>
+<p>5 * 5 = 25</p>
+</body>
+</html>

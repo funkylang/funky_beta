@@ -1,0 +1,110 @@
+#
+  Copyright (C) 2022 by
+  Dipl.-Ing. Michael Niederle
+
+  This program is free software; you can redistribute it and/or modify
+  it under the terms of the GNU General Public License, version 2, or
+  (at your option) version 3.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  GNU General Public License for more details.
+
+  For details of the GNU General Public License see the accompanying
+  files GPLv2.txt and GLPv3.txt or
+  http://www.gnu.org/licenses/gpl-2.0.html
+  http://www.gnu.org/licenses/gpl-3.0.html
+  or write to the
+  Free Software Foundation, Inc.,
+  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+
+<using std>
+<using nlb2fky>
+
+$nlb2fky::create_nodes_serialization: (filename rules _name_to_index)
+  $namespace behind(filename '/' -1) .before. '.'
+  $field_names empty_key_order_set
+  for_each rules
+    : (rule)
+      if
+	&&
+	  rule.is_used || rule.is_a_base
+	  rule.is_compound
+	:
+	  for_each components_of(rule): (component)
+	    $referred_rule rules(component)
+	    $field_name name_of(referred_rule).to_field_name
+	    append &field_name
+	      if
+		component.is_pruned
+		-> "_list"
+		-> ""
+	    !field_names(field_name) true
+	    next
+	next
+    ->
+      string
+	"
+	  ###
+	  # Nodes Serialization
+	  @;
+	map_reduce
+	  rules
+	  : (rule)
+	    if_not
+	      &&
+		rule.is_used || rule.is_a_base
+		rule.is_compound
+	      -> ""
+	      :
+		$name name_of(rule)
+		$components components_of(rule)
+		string
+		  if
+		    rule.is_used
+		    -> "
+		      $@(namespace)_types::@(name).serialization_tag_of "@(name)"
+		    -> ""
+		  if
+		    components.is_empty || base_rule_of(rule).is_defined
+		    -> ""
+		    ->
+		      append
+			"
+			  $@(namespace)_types::@(name).serialization_fields_of
+			    list
+			map_reduce
+			  components: (component)
+			    $suffix
+			      if
+				component.is_pruned
+				-> "_list"
+				-> ""
+			    string
+			      "    `"
+			      namespace "::" name_of(rules(component)).to_field_name
+			      suffix "_of@nl;"
+	  concatenate_non_empty("@nl;")
+	"
+
+	  ###
+	  # Nodes Deserialization
+	  @;
+
+	  $@(namespace)::deserializers
+	    list
+
+	map_reduce
+	  rules
+	  : (rule)
+	    if_not
+	      &&
+		rule.is_used
+		rule.is_compound
+	      -> ""
+	      :
+		$name name_of(rule)
+		-> "
+		  @
+		      @(namespace)_types::@(name)

@@ -1,0 +1,56 @@
+#!/usr/bin/env fkyrun
+
+do:
+  $buf "4711"
+  parse_number &buf $val
+  dump! `val `buf
+
+do:
+  $buf "0815juhu"
+  parse_number &buf $val
+  dump! `val `buf
+
+do:
+  $buf "17.384(x)"
+  parse_number &buf $val
+  dump! `val `buf
+
+do:
+  $buf "4e4"
+  parse_number &buf $val
+  dump! `val `buf
+
+do:
+  $buf "26.39e-3"
+  parse_number &buf $val
+  dump! `val `buf
+
+do:
+  $buf "0b101"
+  parse_number &buf $val
+  dump! `val `buf
+
+do:
+  $buf "0b110102"
+  parse_number &buf $val
+  dump! `val `buf
+
+do:
+  $buf "0xAffen"
+  parse_number &buf $val
+  dump! `val `buf
+
+do:
+  $buf "0x7e93b"
+  parse_number &buf $val
+  dump! `val `buf
+
+do:
+  $buf "0o012345678"
+  parse_number &buf $val
+  dump! `val `buf
+
+do:
+  $buf "0o755"
+  parse_number &buf $val
+  dump! `val `buf

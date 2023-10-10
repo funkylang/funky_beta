@@ -1,0 +1,23 @@
+#!/usr/bin/env fkyrun
+
+from_to 0 99999
+  : (code)
+    $chr character(code)
+
+    $test: (function)
+      if
+	function(chr)
+	-> "T"
+	-> "."
+
+    println! pad_left(code 5) ": "
+      test(is_a_letter_character)
+      test(is_a_lower_case_letter_character)
+      test(is_an_upper_case_letter_character)
+      test(is_a_title_case_letter_character) ", "
+      to_lower_case(chr).to_integer ", "
+      to_upper_case(chr).to_integer ", "
+      to_title_case(chr).to_integer ", "
+
+    next!
+  pass

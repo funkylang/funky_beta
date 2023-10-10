@@ -1,0 +1,5 @@
+#!/usr/bin/env fkyrun
+
+$text "This is a simple text."
+
+println! replace_all(text 'i' = "(I)")

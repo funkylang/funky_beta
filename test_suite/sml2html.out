@@ -1,0 +1,40 @@
+<h1>The Funky Programming Language</h1>
+<p>
+As a functional language Funky uses value semantics. So no object can
+ever be modified, but new objects can be derived from existing ones.
+This prevents problems like deep vs. shallow copies, equality vs.
+identity and offers uniform semantics for copying and updating.
+</p>
+<p>
+The typing discipline of Funky is dynamic but it does not support
+duck typing and arguments are not converted automatically (so
+Funky uses strong typing). Compilers should test for potential runtime
+errors at compile time where possible.
+</p>
+<h2>Values And Variables</h2>
+<p>
+The two most important concepts in Funky are <i>values</i> and <i>variables</i>.
+</p>
+<h3>Values</h3>
+<p>
+There are several kinds of values:
+</p>
+<ul>
+<li>numbers
+<li>unique items
+<li>characters
+<li>strings
+<li>tuples
+<li>lists
+<li>functions
+</ul>
+<h1>Appendix A - Special Characters</h1>
+<p>
+cr: carriage return
+</p>
+<p>
+nl: new line
+</p>
+<p>
+quot: double quote
+</p>

@@ -1,0 +1,3 @@
+#!/usr/bin/env fkyrun
+
+println! reduce(1..10 times)

@@ -1,0 +1,9 @@
+#!/usr/bin/env fkyrun
+
+for_each 1..6
+  : (i)
+    for_each 1..6
+      : (j)
+	println! i " + " j " = " i+j
+	next!
+  pass

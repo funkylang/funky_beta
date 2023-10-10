@@ -1,0 +1,155 @@
+#
+  Copyright (C) 2021 by
+  Dipl.-Ing. Michael Niederle
+
+  This program is free software; you can redistribute it and/or modify
+  it under the terms of the GNU Library General Public License, version 2, or
+  (at your option) under the terms of the GNU Lesser General Public License,
+  version 3.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  GNU Lesser (Library) General Public License for more details.
+
+  For details of the GNU General Public License see the accompanying
+  files LGPLv2.txt and LGLPv3.txt or
+  http://www.gnu.org/licenses/lgpl-2.0.html
+  http://www.gnu.org/licenses/lgpl-3.0.html
+  or write to the
+  Free Software Foundation, Inc.,
+  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+
+#
+  Topic: Branches
+
+  There are no builtin branch instructions in the Funky language.
+
+  The basic branch instructions of the standard library use polymorphic dispatch
+  on the truth values <true> and <false> to implement <if> and <unless>.
+
+  More complex branches like <cond> or <case> use <if> to check their
+  conditions.
+
+$std::cond:
+  #
+    a multiway conditional expression or statement
+
+    The conditions are evaluated one after the other until a condition
+    evaluates to true. If a condition evaluates to true its corresponding
+    statement-sequence is executed and no more conditions are considered.
+
+    If there is an odd number of arguments the last argument specifies a
+    default statement-sequence that is executed if no condition evaluates
+    to true.
+
+    Topic: Branches
+
+    See also: if, case
+
+    Example:
+
+    cond
+      -> chr >= 'a' && chr <= 'z':
+	writeln "lower case character"
+      -> chr >= 'A' && chr <= 'Z':
+	writeln "upper case character"
+      -> chr == '_':
+	writeln "underscore"
+      -> chr >= '0' && chr <= '9':
+	writeln "digit"
+      -> true:
+	writeln "neither character nor digit nor underscore"
+  (
+    args* # a sequence of conditions and statement sequences
+  )
+  $i 1
+  $n length_of(args)
+  check!
+
+  $check:
+    if
+      i <= n:
+	args(i) $cond $body
+	if
+	  cond
+	  :
+	    body!
+	  :
+	    !i i+1
+	    check!
+      pass
+
+$does_match ()
+
+$std_types::object/does_match equal
+
+$std_types::value_range/does_match: (self expr)
+  self $lower_bound $upper_bound
+  -> expr >= lower_bound && expr <= upper_bound
+
+$std_types::sequence/does_match: (self expr)
+  for_each self
+    : (item)
+      if
+	does_match(item expr)
+	-> true
+	next
+    -> false
+
+$std::case:
+  #
+    multi-branch conditional
+
+    Depending on the value of *expr* the statement-sequence
+    associated with the matching case is executed.
+
+    The last argument can be a single statement-sequence without a preceding
+    value. It is executed if no case matches the expression.
+
+    Topic: Branches
+
+    See also: if, cond
+
+    Example:
+
+    case chr
+      'a' .. 'z':
+	writeln "lower case character"
+      'A' .. 'Z':
+	writeln "upper case character"
+      '_':
+	writeln "underscore"
+      '0' .. '9':
+	writeln "digit"
+      :
+	writeln "neither character nor digit nor underscore"
+  (
+    expr # the expression to check
+    values_and_bodies*
+      # an alternating sequence of case-values and statement sequences
+  )
+  check!
+
+  $check:
+    $n length_of(values_and_bodies)
+    if
+      n == 0
+      pass
+      :
+	if
+	  n == 1:
+	    $body values_and_bodies(1)
+	    body!
+	  :
+	    $value values_and_bodies(1)
+	    if
+	      ||
+		value.is_defined && does_match(value expr)
+		value.is_undefined && expr.is_undefined
+	      :
+		$body values_and_bodies(2)
+		body!
+	      :
+		range &values_and_bodies 3 -1
+		check!

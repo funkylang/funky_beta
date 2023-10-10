@@ -1,0 +1,14 @@
+#!/usr/bin/env fkyrun
+
+$x 2
+$a 7
+
+if
+  ||
+    x < 4 # remark
+    a > 5
+  :
+    println! "yeah"
+  :
+    println! "nay"
+

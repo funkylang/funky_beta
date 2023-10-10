@@ -1,0 +1,351 @@
+#
+  Copyright (C) 2023 by
+  Dipl.-Ing. Michael Niederle
+
+  This program is free software; you can redistribute it and/or modify
+  it under the terms of the GNU General Public License, version 2, or
+  (at your option) version 3.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  GNU General Public License for more details.
+
+  For details of the GNU General Public License see the accompanying
+  files GPLv2.txt and GLPv3.txt or
+  http://www.gnu.org/licenses/gpl-2.0.html
+  http://www.gnu.org/licenses/gpl-3.0.html
+  or write to the
+  Free Software Foundation, Inc.,
+  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+
+<using std>
+<using funky>
+
+$funky::resolve_variable empty_hash_table
+  # used to resolve symbol names to mangled names
+
+$redefined_variables empty_hash_set
+  #
+    variables that are redefined on the top-level;
+    statements that refer these variables can't be global definitions
+
+$funky::variables undefined
+  # a hash table of all identifiers, there kinds and values
+
+$funky::literals undefined
+  # a hash set of all literals (the set contains the nodes)
+
+$funky::defined_namespaces undefined
+  # an insert-order-table of all namespaces defined in the current module
+
+$funky::required_modules undefined
+  # an insert-order-set of all modules required by the current module
+
+$funky::used_namespaces undefined
+  # an insert-order-table of all namespaces used by the current module
+
+$funky::namespace_versions undefined
+  # an insert-order-table of all namespaces used by the current module
+
+$funky::namespace_aliases undefined
+  # an insert-order-table of all namespace aliases defined in the current module
+
+$funky::allow_hidden undefined
+  # a boolean indicating whether to allow hidden names in the current module
+
+$funky::allow_unused undefined
+  # a boolean indicating whether to allow unused names in the current module
+
+$funky::compile_module: (filename lines)
+  # load and parse the module
+
+  without_prefix &filename base_directory
+  !current_filename filename
+  !current_module_name
+    replace_all
+      filename .without_suffix. ".fky"
+      '/' = "__"
+  parse $statements lines parse_top_level_statement_group
+  on statements.is_undefined:
+    syntax_error "
+      The source file "@(current_filename)" does not contain any source code!
+
+  #print_statements statements
+  #debug_write "
+    ========================================
+
+  $first_statement statements(1)
+  $is_a_main_module
+    &&
+      first_statement.is_a_remark
+      text_of(first_statement) .has_prefix. '!'
+
+  # handle meta-instructions
+
+  retrieve_meta_instructions &statements
+    !defined_namespaces !required_modules !used_namespaces !namespace_versions
+    !namespace_aliases !allow_hidden !allow_unused
+  update_if required_modules.is_empty && is_a_main_module
+    &required_modules -> hash_set("basic/stdlib")
+  update_if used_namespaces.is_empty &used_namespaces
+    -> hash_table("std" = tuple(1 0))
+  collect_global_definitions !resolve_variable statements
+
+  update_if is_a_main_module &redefined_variables:
+    collect_global_redefinitions statements
+  map_reduce &statements simplify_statement append empty_list
+
+  #print_statements statements
+  #debug_write "
+    ----------------------------------------
+
+  #
+    collect informations about variables and literals
+    <collect_literals> depends on postprocessed <variables>
+
+  collect_variables !variables statements
+    # <variables> is an insert-order-table of all variables
+  categorize_variables &variables
+    # postprocess the collected variables
+  collect_literals !literals statements
+    # <literals> is an insert-order-set of all literal *nodes*
+
+  #debug_write "
+    ----------------------------------------
+  #print_variables! variables
+
+  #for_each literals
+    : (literal)
+      edump `literal
+      next
+    pass
+
+  # generate and save the module's C source code
+
+  generate_tabular_code statements is_a_main_module
+
+#$print_statements: (statements)
+ for_each statements
+    : (statement)
+      debug_write statement.to_string
+      debug_write "@nl;"
+      next
+    pass
+
+#$print_variables: (variables)
+  for_each variables
+    : (name info)
+      $kind first(info)
+      debug_write "@(name): @(debug_string(kind) .behind. "::")"
+      next
+    pass
+
+### Meta-Instructions
+
+$retrieve_meta_instructions: (statements)
+  $i 1
+  $n length_of(statements)
+  $defined_namespaces empty_insert_order_table
+  $required_modules empty_insert_order_set
+  $used_namespaces empty_insert_order_table
+  $namespace_versions empty_insert_order_table
+  $namespace_aliases empty_insert_order_table
+  $allow_hidden false
+  $allow_unused false
+  loop:
+    if
+      i > n
+      ->
+	empty_list
+	defined_namespaces
+	required_modules
+	used_namespaces
+	namespace_versions
+	namespace_aliases
+	allow_hidden
+	allow_unused
+      :
+	$statement statements(i)
+	case node_type_of(statement)
+	  NAMESPACE_INSTRUCTION:
+	    $namespace_name funky::name_of(statement)
+	    $version version_of(statement)
+	    if $major $minor
+	      version.is_defined:
+		 if
+		   node_type_of(version) == UNSTABLE
+		   -> 0 0
+		   -> major_of(version) minor_of(version)
+	      -> "1" "0"
+	    append &namespace_name "-@(major)"
+	    if
+	      defined_namespaces(namespace_name).is_defined:
+		syntax_error "Namespace is already defined" statement
+	      :
+		!defined_namespaces(namespace_name) tuple(major minor)
+		inc &i
+		next
+	  REQUIRE_INSTRUCTION:
+	    $required_module filename_of(statement)
+	    update_if required_module .has_prefix. "./" &required_module:
+	      ->
+		append
+		  "./"
+		  until(current_filename '/' -1)
+		  range(required_module 3 -1)
+	    if
+	      required_modules(required_module):
+		syntax_error "Module is already required" statement
+	      :
+		!required_modules(required_module) true
+		inc &i
+		next
+	  USING_INSTRUCTION:
+	    $used_namespace funky::name_of(statement)
+	    $version version_of(statement)
+	    if $major $minor
+	      version.is_defined
+	      -> major_of(version) minor_of(version)
+	      -> "1" "0"
+	    if
+	      used_namespaces(used_namespace).is_defined:
+		syntax_error "Namespace is already used" statement
+	      :
+		!used_namespaces(used_namespace) tuple(major minor)
+		inc &i
+		next
+	  RESOLVE_INSTRUCTION:
+	    $resolved_namespace funky::name_of(statement)
+	    $version version_of(statement)
+	    if
+	      namespace_versions(resolved_namespace).is_defined:
+		syntax_error "Namespace is already resolved" statement
+	      :
+		!version
+		  if
+		    node_type_of(version) == UNSTABLE
+		    -> "unstable"
+		    -> "@(major_of(version)).@(minor_of(version))"
+		!namespace_versions(resolved_namespace) version
+		inc &i
+		next
+	  ALIAS_INSTRUCTION:
+	    $alias alias_of(statement)
+	    $name funky::name_of(statement)
+	    if
+	      namespace_aliases(alias).is_defined:
+		syntax_error "Redefinition of namespace alias" statement
+	      :
+		!namespace_aliases(alias) name
+		inc &i
+		next
+	  ALLOW_INSTRUCTION:
+	    case node_type_of(pragma_of(statement))
+	      ALLOW_HIDDEN:
+		on allow_hidden:
+		  syntax_error "Allow hidden was already set" statement
+		!allow_hidden true
+		inc &i
+		next
+	      ALLOW_UNUSED:
+		on allow_unused:
+		  syntax_error "Allow unused was already set" statement
+		!allow_unused true
+		inc &i
+		next
+	  MULTILINE_REMARK:
+	    inc &i
+	    next
+	  ->
+	    range(statements i -1)
+	    defined_namespaces
+	    required_modules
+	    used_namespaces
+	    namespace_versions
+	    namespace_aliases
+	    allow_hidden
+	    allow_unused
+
+$funky::is_a_slot_definition ()
+
+$funky_types::node.is_a_slot_definition false
+$funky_types::attribute_value_pair.is_a_slot_definition true
+$funky_types::method_value_pair.is_a_slot_definition true
+$funky_types::type_function.is_a_slot_definition true
+
+### Support for hashing and comparing nodes
+
+$funky::key_of ()
+
+$funky_types::node/equal: (left right)
+  -> funky::key_of(left) == funky::key_of(right)
+
+$funky_types::node/hash: (self) -> hash(funky::key_of(self))
+
+### Handle Global Variables
+
+$collect_global_definitions: (statements)
+  for_each statements add_definitions -> resolve_variable
+
+$add_definitions ()
+
+$funky_types::node/add_definitions: (_self)
+  next
+
+$funky_types::statement/add_definitions: (self)
+  $head head_of(self)
+  $arguments arguments_of(self)
+  if
+    &&
+      node_type_of(head) == DEFINITION
+      arguments.is_not_empty
+      not(arguments(1).is_a_slot_definition)
+    :
+      $identifier identifier_of(head)
+      !resolve_variable(identifier) identifier
+      resolve_arguments
+    resolve_arguments
+
+  $resolve_arguments:
+    for_each arguments add_definition next
+
+$add_definition ()
+
+$funky_types::node/add_definition: (_self)
+  next
+
+$funky_types::definition/add_definition: (self)
+  $identifier identifier_of(self)
+  !resolve_variable(identifier) identifier
+  next
+
+$collect_global_redefinitions: (statements)
+  for_each statements add_redefinitions -> redefined_variables
+
+$add_redefinitions ()
+
+$funky_types::node/add_redefinitions: (_self)
+  next
+
+$funky_types::statement/add_redefinitions: (self)
+  for_each
+    push(arguments_of(self) head_of(self)) add_redefinition
+    next
+
+$add_redefinition ()
+
+$funky_types::node/add_redefinition: (_self)
+  next
+
+$funky_types::redefinition/add_redefinition add_identifier_redefinition
+$funky_types::update/add_redefinition add_identifier_redefinition
+
+$add_identifier_redefinition: (self)
+  $identifier identifier_of(self)
+  if
+    identifier .contains. ':'
+    next
+    :
+      !redefined_variables(identifier) true
+      next

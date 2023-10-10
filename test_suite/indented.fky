@@ -1,0 +1,27 @@
+#!/usr/bin/env fkyrun
+
+println!
+  indented
+    4 "
+      $std::wrap_words: (text width)
+	$wrapped_text ""
+	$s 1
+	$e undefined
+	for_each text
+	  : (i chr)
+	    update_if chr == ' ' &e -> i
+	    if i-s >= width:
+	      if
+		e.is_defined && e > s:
+		  append &wrapped_text range(text s e-1)
+		  push &wrapped_text '@@nl;'
+		  !s e+1
+		  !e undefined
+		  next
+		:
+		  append &wrapped_text range(text s i-1)
+		  push &wrapped_text '@@nl;'
+		  !s i
+		  next
+	  :
+	    -> append(wrapped_text range(text s -1))@

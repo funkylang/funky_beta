@@ -1,0 +1,6 @@
+#!/usr/bin/env fkyrun
+
+$text "to_file_descriptor"
+
+println! text .without_prefix. "to_"
+println! text .without_prefix. 't'

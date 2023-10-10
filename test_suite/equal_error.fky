@@ -1,0 +1,36 @@
+#!/usr/bin/env fkyrun
+
+$unique .
+$attr (!)
+
+$func: pass
+
+dump! `(3 == 1)
+dump! `(1.5 == 1)
+dump! `(-2 == 1)
+dump! `('a' == 1)
+dump! `("text" == 1)
+dump! `(false == 1)
+dump! `(true == 1)
+dump! `(unique == 1)
+dump! `(attr == 1)
+dump! `(func == 1)
+dump! `((1..10) == 1)
+dump! `((attr = 47) == 1)
+dump! `((1, 2, 3) == 1)
+println!
+dump! `(3 == 1/0)
+dump! `(1.5 == 1/0)
+dump! `(-2 == 1/0)
+dump! `('a' == 1/0)
+dump! `("text" == 1/0)
+dump! `(false == 1/0)
+dump! `(true == 1/0)
+dump! `(unique == 1/0)
+dump! `(attr == 1/0)
+dump! `(func == 1/0)
+dump! `((1..10) == 1/0)
+dump! `((attr = 47) == 1/0)
+dump! `((1, 2, 3) == 1/0)
+
+dump! `(1/0 == 1/0)

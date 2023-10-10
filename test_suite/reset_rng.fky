@@ -1,0 +1,24 @@
+#!/usr/bin/env fkyrun
+
+$rng lcg(4712)
+
+repeat 5
+  :
+    next_raw_value &rng $v
+    println! v
+    next!
+  :
+    $seed seed_of(rng)
+    println! "current seed: " seed
+    repeat 5
+      :
+	next_raw_value &rng $v
+	println! v
+	next!
+      :
+	!rng lcg(seed)
+	println! "reset random number generator to previously stored seed"
+	repeat 7:
+	  next_raw_value &rng $v
+	  println! v
+	  next!

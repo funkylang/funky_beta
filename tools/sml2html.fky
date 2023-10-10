@@ -1,0 +1,551 @@
+#!/usr/bin/env fkyrun
+
+  Copyright (C) 2021 by
+  Dipl.-Ing. Michael Niederle
+
+  This program is free software; you can redistribute it and/or modify
+  it under the terms of the GNU General Public License, version 2, or
+  (at your option) version 3.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  GNU General Public License for more details.
+
+  For details of the GNU General Public License see the accompanying
+  files GPLv2.txt and GLPv3.txt or
+  http://www.gnu.org/licenses/gpl-2.0.html
+  http://www.gnu.org/licenses/gpl-3.0.html
+  or write to the
+  Free Software Foundation, Inc.,
+  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+
+$title_of (!)
+$links_of (!)
+
+$text_to_indented_lines: (text)
+  $i 1
+  $n length_of(text)
+  $lines empty_list
+  $empty_lines empty_list
+  $indent_stack list(0)
+  $lines_stack empty_list
+  $links empty_list
+  $title undefined
+
+  do:
+    (
+      next_line^
+    )
+    $add: (line)
+      if
+	line == "":
+	  push &empty_lines ""
+	  next_line
+	:
+	  do:
+	    (
+	      pop_stack^
+	    )
+	    $top_indent indent_stack(-1)
+	    cond
+	      -> indent > top_indent
+		:
+		  push &indent_stack indent
+		  push &lines_stack lines
+		  !lines empty_lines
+		  !empty_lines empty_list
+		  push &lines line
+		  next_line
+	      -> indent < top_indent
+		:
+		  range &indent_stack 1 -2
+		  pop &lines_stack $popped_lines
+		  push !lines popped_lines
+		    top_indent-indent_stack(-1) = lines
+		  pop_stack
+	      -> true
+		:
+		  append &lines empty_lines
+		  !empty_lines empty_list
+		  push &lines line
+		  next_line
+
+    $indent 0
+    if
+      i > n
+      :
+	do:
+	  (
+	    pop_stack^
+	  )
+	  if
+	    lines_stack.is_empty
+	    ->
+	      lines
+		.title_of title
+		.links_of links
+	    :
+	      pop &indent_stack $popped_indent
+	      pop &lines_stack $popped_lines
+	      push !lines popped_lines
+		popped_indent-indent_stack(-1) = lines
+	      pop_stack
+      :
+	do:
+	  (
+	    next_tab^
+	  )
+	  if
+	    text(i) == '@ht;'
+	    :
+	      plus &indent 8
+	      inc &i
+	      next_tab
+	    :
+	      do:
+		(
+		  next_space^
+		)
+		if
+		  text(i) == ' '
+		  :
+		    inc &indent
+		    inc &i
+		    next_space
+		  :
+		    $s i
+		    do:
+		      (
+			next_character^
+		      )
+		      if
+			i <= n
+			:
+			  if text(i) != '@nl;'
+			    :
+			      inc &i
+			      next_character
+			    :
+			      $line range(text s i-1)
+			      inc &i
+			      if
+				indent == 0:
+				  cond
+				    -> line .has_prefix. "LINK:":
+				      push &links range(line 6 -1).trim
+				      next_line
+				    -> line .has_prefix. "TITLE:":
+				      !title range(line 7 -1).trim
+				      next_line
+				    -> true:
+				      add line
+				:
+				  add line
+			:
+			  $line range(text s i-1)
+			  add line
+
+$is_a_word_character: (chr)
+  -> chr.is_a_letter_character || chr.is_a_digit || chr == '_'
+
+$insert_tags: (str)
+  if
+    str.is_empty
+    -> str
+    :
+      $convert: (idx chr)
+	$before_letter ->
+	  idx < len && str(idx+1).is_a_word_character
+
+	$behind_letter ->
+	  idx > 1 && str(idx-1).is_a_word_character
+
+	$before_text ->
+	  ||
+	    idx == 1
+	    not(str(idx-1).is_a_word_character)
+	    idx < len && str(idx+1).is_a_word_character
+
+	$behind_text ->
+	  ||
+	    idx == len
+	    not(str(idx+1).is_a_word_character)
+	    idx > 1 && str(idx-1).is_a_word_character
+
+	if
+	  idx > 1 && str(idx-1) == '\'
+	  :
+	    if
+	      chr == '<'
+	      -> "&lt;"
+	      -> chr.to_string
+	  :
+	    case chr
+	      '\':
+		if
+		  idx > 1 && str(idx-1) == '\'
+		  -> "\"
+		  -> ""
+	      '*':
+		cond
+		  -> behind_text() -> "</i>"
+		  -> before_text() -> "<i>"
+		  -> true -> "*"
+	      '<':
+		if
+		  before_letter()
+		  -> "<a href=@quot;"
+		  -> "&lt;"
+	      ':':
+		if
+		  idx > 5 && range(str idx-5 idx-1) == ".html"
+		  -> "@quot;>"
+		  -> ":"
+	      '>':
+		if
+		  behind_letter()
+		  -> "</a>"
+		  -> "&gt;"
+	      '&':
+		-> "&amp;"
+	      '`':
+		cond
+		  -> behind_text() -> "</tt>"
+		  -> before_text() -> "<tt>"
+		  -> true -> "`"
+	      '_':
+		if
+		  ||
+		    idx < len && str(idx+1) == '('
+		    idx > 1 && str(idx-1) == ')'
+		  -> ""
+		  -> "_"
+	      '(':
+		if
+		  idx > 1 && str(idx-1) == '_'
+		  -> "<sub>"
+		  -> "("
+	      ')':
+		if
+		  idx < len && str(idx+1) == '_'
+		  -> "</sub>"
+		  -> ")"
+	      -> chr.to_string
+
+      $len length_of(str)
+
+      map_reduce str convert append
+
+$lines_to_text: (lines)
+  $buf ""
+  for_each lines
+    : (line)
+      if
+	line.is_a_key_value_pair:
+	  line $offset $contents
+	  append &buf lines_to_text(contents)
+	  next
+	:
+	  append &buf insert_tags(line)
+	  push &buf '@nl;'
+	  next
+    -> buf
+
+$indented_lines_to_text:
+  (
+    lines
+    indent = 0
+  )
+  $buf ""
+  $indentation spaces(indent)
+  for_each lines
+    : (line)
+      if
+	line.is_a_key_value_pair:
+	  line $offset $contents
+	  append &buf indented_lines_to_text(contents indent+offset)
+	  next
+	:
+	  append &buf indentation
+	  append &buf insert_tags(line)
+	  push &buf '@nl;'
+	  next
+    -> buf
+
+$std_types::key_value_pair.is_empty true
+
+$indented_lines_to_index: (lines)
+  $map_line: (no line)
+    if
+      line.is_a_key_value_pair || line.is_empty
+      -> ""
+      :
+	$contents
+	  if
+	    no < total && lines(no+1).is_a_key_value_pair
+	    -> value_of(lines(no+1))
+	    -> undefined
+	if
+	  &&
+	    contents.is_defined
+	    line != "`"
+	    line(1) != '*'
+	    line(1) != '['
+	    line(-1) != '='
+	  :
+	    cond $class $title
+	      -> line == "PREFACE" || line == "GLOSSARY"
+		-> "" line
+	      -> line .has_prefix. "APPENDIX"
+		-> " class=@quot;appendix@quot;" range(line 9 -1).trim
+	      -> true
+		-> " class=@quot;enum@quot;" line
+	    $sublist indented_lines_to_index(contents)
+	    $link
+	      string
+		"<a href=@quot;#"
+		title.to_lower_case
+		"@quot;>"
+		title.to_title_case
+		"</a>"
+	    if
+	      sublist.is_empty:
+		string
+		  "<li" class '>' link "</li>@nl;"
+	      :
+		string
+		  "<li" class ">@nl;"
+		  link '@nl;'
+		  sublist
+		  "</li>@nl;"
+	  -> ""
+
+  $total length_of(lines)
+
+  $subsections map_reduce(lines map_line append)
+  if
+    subsections.is_empty
+    -> ""
+    :
+      string
+	"<ol>@nl;"
+	subsections
+	"</ol>@nl;"
+
+$indented_lines_to_html:
+  (
+    lines
+    level = 1
+  )
+  $map_line: (no line)
+
+    $behind_empty_line -> no == 1 || lines(no-1).is_empty
+
+    $before_empty_line -> no == total || lines(no+1).is_empty
+
+    $previous_line:
+      #
+	the previous none-empty line or "" if no such line exists
+	subtrees are ignored
+
+      $idx no
+      loop:
+	if
+	  idx == 1
+	  -> ""
+	  :
+	    dec &idx
+	    $current_line lines(idx)
+	    if
+	      current_line.is_empty
+	      next
+	      -> current_line
+
+    $next_line:
+      #
+	the next none-empty line or "" if no such line exists
+	subtrees are ignored
+
+      $idx no
+      loop:
+	if
+	  idx == total
+	  -> ""
+	  :
+	    inc &idx
+	    $current_line lines(idx)
+	    if
+	      current_line.is_empty
+	      next
+	      -> current_line
+
+    $maybe_start_paragraph:
+      if
+	behind_empty_line()
+	-> "<p>@nl;"
+	-> ""
+
+    $maybe_end_paragraph:
+      if
+	before_empty_line()
+	-> "</p>@nl;"
+	-> ""
+
+    $maybe_start_unordered_list:
+      if
+	previous_line() .has_prefix. "* "
+	-> ""
+	-> "<ul>@nl;"
+
+    $maybe_end_unordered_list:
+      if
+	next_line() .has_prefix. "* "
+	-> ""
+	-> "</ul>@nl;"
+
+    $maybe_start_definition_list:
+      if
+	previous_line() .has_suffix. '='
+	-> ""
+	-> "<dl>@nl;"
+
+    $maybe_end_definition_list:
+      if
+	next_line() .has_suffix. '='
+	-> ""
+	-> "</dl>@nl;"
+
+    $maybe_start_table:
+      if
+	previous_line() .has_prefix. '['
+	-> ""
+	-> "<table>@nl;"
+
+    $maybe_end_table:
+      if
+	next_line() .has_prefix. '['
+	-> ""
+	-> "</table>@nl;"
+
+    $contents
+      if
+	no < total && lines(no+1).is_a_key_value_pair
+	-> value_of(lines(no+1))
+	-> undefined
+
+    cond
+      -> line.is_a_key_value_pair || line.is_empty
+	-> ""
+      -> line .has_prefix. "* ":
+	range &line 3 -1
+	if
+	  contents.is_defined:
+	    string
+	      maybe_start_unordered_list()
+	      "<li>@nl;"
+	      insert_tags(line) '@nl;'
+	      lines_to_text(contents)
+	      "</li>@nl;"
+	      maybe_end_unordered_list()
+	  :
+	    string
+	      maybe_start_unordered_list()
+	      "<li>" insert_tags(line) "</li>@nl;"
+	      maybe_end_unordered_list()
+      -> line == "`":
+	string
+	  "<pre>@nl;"
+	  indented_lines_to_text(contents 0)
+	  "</pre>@nl;"
+      -> line(-1) == '=':
+	string
+	  maybe_start_definition_list()
+	  "<dt>"
+	  range(line 1 -2).trim
+	  "</dt>@nl;<dd>@nl;"
+	  lines_to_text(contents)
+	  "</dd>@nl;"
+	  maybe_end_definition_list()
+      -> length_of(line) >= 2 && line(1) == '[' && line(-1) == ']':
+	$replace_bars: (idx chr)
+	  if
+	    chr == '|' && (idx == 1 || line(idx-1) != '\')
+	    -> "</td><td>"
+	    -> chr.to_string
+
+	range &line 2 -2
+	string
+	  maybe_start_table()
+	  "<tr><td>"
+	  map_reduce(line replace_bars append)
+	  "</td></tr>@nl;"
+	  maybe_end_table()
+      -> true:
+	if
+	  contents.is_defined:
+	    cond $class $title
+	      -> line == "PREFACE" || line == "GLOSSARY"
+		-> "" line
+	      -> line .has_prefix. "APPENDIX"
+		-> " class=@quot;appendix@quot;" range(line 9 -1).trim
+	      -> true
+		-> " class=@quot;chapter@quot;" line
+	    $anchor
+	      string
+		"<a name=@quot;"
+		title.to_lower_case
+		"@quot;>"
+		title.to_title_case
+		"</a>"
+	    string
+	      "<h@(level)@(class)>@(anchor)</h@(level)>@nl;"
+	      indented_lines_to_html(contents level+1)
+	  :
+	    string
+	      maybe_start_paragraph()
+	      insert_tags(line) '@nl;'
+	      maybe_end_paragraph()
+
+  $total length_of(lines)
+
+  map_reduce lines map_line append
+
+########################################
+
+do:
+  load! $text command_line_arguments(1)
+  from_utf8 &text
+  text_to_indented_lines text $indented_lines
+
+  print! "
+    <html>
+    <head>
+    <meta charset="utf-8">
+
+  if title_of(indented_lines).is_defined:
+    print! "
+      <title>@(title_of(indented_lines))</title>
+
+  for_each links_of(indented_lines): (link)
+    if
+      link .has_suffix. ".css":
+	print! "
+	  <link rel="stylesheet" href="@(link)">
+	next
+      :
+	next
+
+  print! "
+    </head>
+    <body>
+
+  if title_of(indented_lines).is_defined:
+    print! "
+      <h1>@(title_of(indented_lines))</h1>
+
+  print! indented_lines_to_index(indented_lines)
+  print! indented_lines_to_html(indented_lines 2)
+
+  print! "
+    </body>

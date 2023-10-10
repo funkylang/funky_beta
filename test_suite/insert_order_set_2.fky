@@ -1,0 +1,29 @@
+#!/usr/bin/env fkyrun
+
+$tools empty_insert_order_set
+
+!tools("hammer") true
+!tools("saw") true
+!tools("chainsaw") true
+println! "----------"
+print! serialize(tools 0)
+
+!tools("saw") false
+println! "----------"
+print! serialize(tools 0)
+
+!tools("rasp") true
+println! "----------"
+print! serialize(tools 0)
+
+!tools("hammer") false
+println! "----------"
+print! serialize(tools 0)
+
+!tools("chainsaw") false
+println! "----------"
+print! serialize(tools 0)
+
+!tools("rasp") false
+println! "----------"
+print! serialize(tools 0)

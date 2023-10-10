@@ -1,0 +1,191 @@
+#!/usr/bin/env fkyrun
+
+  Copyright (C) 2022 by
+  Dipl.-Ing. Michael Niederle
+
+  This program is free software; you can redistribute it and/or modify
+  it under the terms of the GNU General Public License, version 2, or
+  (at your option) version 3.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  GNU General Public License for more details.
+
+  For details of the GNU General Public License see the accompanying
+  files GPLv2.txt and GLPv3.txt or
+  http://www.gnu.org/licenses/gpl-2.0.html
+  http://www.gnu.org/licenses/gpl-3.0.html
+  or write to the
+  Free Software Foundation, Inc.,
+  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+
+$source_filename_of ()
+$head_of ()
+$source_fd_of ()
+$command_of ()
+$arguments_of ()
+$destination_filename_of ()
+$do_update ()
+$pid_of ()
+$out_fd_of ()
+$err_fd_of ()
+$data_of ()
+$exit_status_of ()
+
+program_parameters!
+  $filenames
+  list
+    MANY_PARAMETERS "filenames" "
+      the names of the funky modules to preprocess
+
+#!log_level 4
+io_task_manager! std_types::io_task main
+
+$main: (self)
+  for_each filenames
+    : (filename)
+      fork &self std_types::io_task initialize filename
+      next
+    :
+      exit self
+
+$initialize: (self source_filename)
+  $path before(source_filename '/' -1)
+  !self.source_filename_of source_filename
+  perform_io self load_source_file undefined read_head
+
+$load_source_file: (self io _arguments)
+  open! !self.source_fd_of source_filename_of(self) "r"
+  performed_io self io source_fd_of(self)
+
+$read_head: (self)
+  read_from self source_fd_of(self) 4096 store_head
+    # read at least 4 KiB (maximum is 64 KiB)
+
+$store_head: (self head)
+  !self.head_of head
+  perform_io self close_source_file undefined check_head
+
+$close_source_file: (self io _arguments)
+  try $error: close! source_fd_of(self)
+  performed_io self io error
+
+$check_head: (self)
+  $head head_of(self)
+  $autogen head .behind. "# autogen "
+  if
+    autogen.is_empty:
+      exit self
+    :
+      $command autogen .before. ' '
+      $raw_arguments between(autogen ' ' '@nl;').split
+      $source_filename source_filename_of(self)
+      $path before(source_filename '/' -1)
+      $arguments empty_list
+      $destination_filename undefined
+      for_each raw_arguments
+	: (argument)
+	  if
+	    argument(1) == '>': # output redirection
+	      !destination_filename make_absolute(range(argument 2 -1))
+	      next
+	    :
+	      push &arguments make_absolute(argument)
+	      next
+
+	  $make_absolute: (filename)
+	    if
+	      path.is_not_empty && filename .has_prefix. "./"
+	      -> string(path range(filename 2 -1))
+	      -> filename
+	:
+	  push &arguments source_filename
+	  !self.command_of command
+	  !self.arguments_of arguments
+	  !self.destination_filename_of destination_filename
+	  perform_io self check_if_update_is_necessary maybe_build
+
+$check_if_update_is_necessary: (self io)
+  stat! $source_status source_filename_of(self)
+  stat! $destination_status destination_filename_of(self)
+  !self.do_update
+    ||
+      destination_status.is_an_error
+      <
+	modification_time_of(destination_status)
+	modification_time_of(source_status)
+  performed_io self io undefined
+
+$maybe_build: (self)
+  if
+    do_update(self):
+      perform_io self create_build_process undefined check_process
+    :
+      exit self
+
+$create_build_process: (self io)
+  create_process! $pid $in_fd $out_fd $err_fd
+    command_of(self) arguments_of(self)
+  if
+    pid.is_an_error:
+      !pid.additional_error_information_of "
+	spawn "@(command_of(self))"@
+      performed_io self io pid
+    :
+      !self.pid_of pid
+      !self.out_fd_of out_fd
+      !self.err_fd_of err_fd
+      close! in_fd
+      performed_io self io undefined
+
+$check_process: (self)
+  fork &self self handle_out
+  fork &self self handle_err
+  pause self handle_process
+
+$handle_out: (self)
+  !self.data_of ""
+  read_from self out_fd_of(self) 1 read_from_out
+
+$read_from_out: (self data)
+  if
+    data.is_empty:
+      send &self parent_of(self) data_of(self)
+      exit self
+    :
+      append &self.data_of data
+      read_from self out_fd_of(self) 1 read_from_out
+
+$handle_err: (self)
+  read_from self err_fd_of(self) 1 read_from_err
+
+$read_from_err: (self data)
+  if
+    data.is_empty:
+      exit self 0
+    :
+      log &self data
+      read_from self err_fd_of(self) 1 read_from_err
+
+$handle_process: (self)
+  join_process self pid_of(self) joined_process
+
+$joined_process: (self status)
+  !self.exit_status_of status
+  if
+    status == 0:
+      wait_for_message self save_autogen
+    :
+      log &self "
+	"@(command_of(self)) @(join(arguments_of(self)))" failed!
+      exit self EXIT_FAILURE
+
+$save_autogen: (self)
+  receive &self $data
+  save self destination_filename_of(self) data saved
+
+$saved: (self)
+  log &self "
+    built @(destination_filename_of(self))
+  exit self

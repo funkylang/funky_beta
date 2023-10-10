@@ -1,0 +1,71 @@
+#
+  Copyright (C) 2023 by
+  Dipl.-Ing. Michael Niederle
+
+  This program is free software; you can redistribute it and/or modify
+  it under the terms of the GNU General Public License, version 2, or
+  (at your option) version 3.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  GNU General Public License for more details.
+
+  For details of the GNU General Public License see the accompanying
+  files GPLv2.txt and GLPv3.txt or
+  http://www.gnu.org/licenses/gpl-2.0.html
+  http://www.gnu.org/licenses/gpl-3.0.html
+  or write to the
+  Free Software Foundation, Inc.,
+  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+
+# autogen nlb2pass ./funky.nlb ./funky.nodes >./collect_literals_autogen.fky
+
+<using std>
+<using funky>
+
+$funky::collect_literals () ## merge(insert_order_set)
+
+$std_types::list/collect_literals: (self)
+  map_reduce self collect_literals merge empty_insert_order_set
+
+$funky_types::numeric_literal/collect_literals collect_literal
+$funky_types::character_sequence/collect_literals collect_literal
+$funky_types::numeric_character_literal/collect_literals collect_literal
+$funky_types::unique/collect_literals collect_literal
+$funky_types::attribute.collect_literals empty_insert_order_set
+$funky_types::attribute_with_setter.collect_literals empty_insert_order_set
+
+$collect_literal: (self) -> insert_order_set(self)
+
+$funky_types::definition/collect_literals: (self)
+  variables(identifier_of(self)) $kind $value
+  case kind
+    CONSTANT_COMPOUND, INITIALIZED_COMPOUND
+    -> insert_order_set(value)
+    -> empty_insert_order_set
+
+$funky_types::redefinition/collect_literals: (self)
+  if
+    kind_of(self) == TEMPORARY:
+      $info variables(identifier_of(self))
+      if
+	info.is_defined:
+	  info $kind $value
+	  case kind
+	    CONSTANT_COMPOUND, INITIALIZED_COMPOUND
+	    -> insert_order_set(value)
+	    -> empty_insert_order_set
+	-> empty_insert_order_set
+    -> empty_insert_order_set
+
+$funky_types::body/collect_literals: (self)
+  map_reduce funky::parameters_of(self) $result_set
+    collect_literals merge empty_insert_order_set
+  merge insert_order_set(self) &result_set
+  collect_literals funky::statement_of(self) $statement_result_set
+  merge &result_set statement_result_set
+  map_reduce funky::statements_of(self) $statements_result_set
+    collect_literals merge empty_insert_order_set
+  merge &result_set statements_result_set
+  -> result_set

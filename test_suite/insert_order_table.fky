@@ -1,0 +1,39 @@
+#!/usr/bin/env fkyrun
+
+$ages empty_insert_order_table
+
+!ages("Detlef") 27
+!ages("Dagobert") 83
+!ages("Kunigunde") 26
+!ages("Berta") 34
+!ages("Adam") 2
+
+println! length_of(ages)
+println!
+
+println! ages("Dagobert")
+println! ages("Adam")
+println!
+
+for_each ages
+  : (age)
+    println! "age: " age
+    next!
+  :
+    println!
+
+
+for_each ages
+  : (name age)
+    println! name ": " age
+    next!
+  :
+    println!
+
+map &ages inc
+
+for_each ages
+  : (name age)
+    println! name ": " age
+    next!
+  pass

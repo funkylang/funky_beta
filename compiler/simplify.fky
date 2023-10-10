@@ -1,0 +1,1304 @@
+#
+  Copyright (C) 2023 by
+  Dipl.-Ing. Michael Niederle
+
+  This program is free software; you can redistribute it and/or modify
+  it under the terms of the GNU General Public License, version 2, or
+  (at your option) version 3.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  GNU General Public License for more details.
+
+  For details of the GNU General Public License see the accompanying
+  files GPLv2.txt and GLPv3.txt or
+  http://www.gnu.org/licenses/gpl-2.0.html
+  http://www.gnu.org/licenses/gpl-3.0.html
+  or write to the
+  Free Software Foundation, Inc.,
+  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+
+# autogen nlb2pass ./funky.nlb ./funky.nodes >./simplify_autogen.fky
+
+<using std>
+<using funky>
+
+$funky::simplify () ## transform state append(statements)
+  # the state is an integer value denoting the last used temporary;
+  # it is initialized to <0> on the top level
+
+$push_leading_statement ()
+$push_trailing_statement ()
+
+$funky::kind_of ()
+$funky::no_of ()
+$funky::is_an_io_call ()
+$funky::is_a_definition ()
+
+$funky_types::functor.no_of undefined
+
+$funky_types::node.is_an_io_call false
+$funky_types::functor.kind_of undefined
+$funky_types::definition.kind_of undefined
+$funky_types::pair.kind_of undefined
+$funky_types::inline_attribute_value_pair.kind_of undefined
+$funky_types::inline_method_value_pair.kind_of undefined
+
+$funky_types::statement.is_a_definition false
+
+$funky_types::statement_list tuple(empty_list empty_list)
+$funky::empty_statements funky_types::statement_list
+
+$funky::simplify_statement: (statement)
+  simplify &statement 0 $_temp_no $generated_statements
+  generated_statements $leading_statements $trailing_statements
+  append push(leading_statements statement) trailing_statements
+
+$funky_types::variable/simplify: (self temp_no)
+  resolve_identifier &self
+  -> create_functor(self) temp_no empty_statements
+
+$funky_types::attribute_access/simplify: (self temp_no)
+  resolve_identifier &self
+  -> self temp_no empty_statements
+
+$funky_types::dummy_definition/simplify: (self temp_no)
+  -> redefine_temporary(temp_no+1 self) temp_no empty_statements
+
+$funky_types::functor/simplify: (self temp_no)
+  resolve_identifier &self
+  $extensions extensions_of(self)
+  if
+    extensions.is_empty
+    -> self temp_no empty_statements
+    :
+      simplify_extensions self(.extensions_of empty_list) extensions temp_no
+
+$simplify_extensions: (expression extensions temp_no)
+  simplify &extensions &temp_no $statements
+  for_each extensions
+    : (extension)
+      $extension_node_type node_type_of(extension)
+      case extension_node_type
+	ATTRIBUTE_ACCESS:
+	  inc &temp_no
+	  push_leading_statement &statements
+	    create_statement
+	      create_functor(extension)
+	      list(expression redefine_temporary(temp_no extension))
+	  !expression temporary(temp_no extension)
+	  next
+	FUNCTION_CALL, REMARK_AND_MULTILINE_FUNCTION_CALL:
+	  $arguments arguments_of(extension)
+	  if
+	    length_of(arguments) == 1 && arguments(1).is_a_pair:
+	      inc &temp_no
+	      push_leading_statement &statements
+		create_statement
+		  assign_attributes(extension)
+		  list
+		    expression
+		    arguments(1)
+		    redefine_temporary(temp_no extension)
+	      !expression temporary(temp_no expression)
+	      next
+	    :
+	      filter $remark_arguments &arguments is_a_remark
+	      if
+		&&
+		  arguments.is_empty
+		  ||
+		    extension_node_type == REMARK_AND_MULTILINE_FUNCTION_CALL
+		    remark_arguments.is_not_empty
+		next
+		:
+		  inc &temp_no
+		  push_leading_statement &statements
+		    create_statement
+		      expression
+		      push(arguments redefine_temporary(temp_no expression))
+		  !expression temporary(temp_no expression)
+		  next
+	IO_CALL:
+	  !expression.is_an_io_call true
+	  next
+    -> expression temp_no statements
+
+$funky_types::parameter/simplify simplify_parameter
+$funky_types::inline_parameter/simplify simplify_parameter
+
+$simplify_parameter: (self temp_no)
+  simplify &self.option_of &temp_no $statements
+  $name funky::name_of(self)
+  if
+    name(1) == '_'
+    ->
+      redefine_temporary(temp_no+1 self)(.option_of option_of(self))
+      temp_no
+      empty_statements
+    ->
+      self
+       .funky::name_of resolve_variable(funky::name_of(self))
+      temp_no
+      statements
+
+$funky_types::return/simplify: (self temp_no)
+  -> std("assign" self) temp_no empty_statements
+
+$funky_types::redefinition/simplify: (self temp_no)
+  resolve_identifier &self
+  $extensions extensions_of(self)
+  if
+    extensions.is_empty
+    -> self temp_no empty_statements
+    :
+      inc &temp_no
+      $result_temp_no temp_no
+      $base create_functor(self)
+      $bases list(base)
+      simplify &extensions &temp_no $statements
+      !statements new(funky_types::statement_list empty_list first(statements))
+      for_each range(extensions 1 -2)
+	: (extension)
+	  case node_type_of(extension)
+	    FUNCTION_CALL:
+	      filter arguments_of(extension) is_a_remark
+		$remark_arguments $arguments
+	      if
+		arguments.is_empty && remark_arguments.is_not_empty
+		next
+		:
+		  inc &temp_no
+		  push_trailing_statement &statements
+		    create_statement
+		      base
+		      push(arguments redefine_temporary(temp_no base))
+		  !base temporary(temp_no base)
+		  push &bases base
+		  next
+	    ATTRIBUTE_ACCESS:
+	      inc &temp_no
+	      push_trailing_statement &statements
+		create_statement
+		  create_functor(extension)
+		  list(base redefine_temporary(temp_no extension))
+	      !base temporary(temp_no extension)
+	      push &bases base
+	      next
+	:
+	  $result temporary(result_temp_no self)
+	  $n length_of(extensions)
+	  from_to_by n 1 -1
+	    : (idx)
+	      $extension extensions(idx)
+	      pop &bases !base
+	      $destination
+		funky_types::redefinition
+		  .identifier_of identifier_of(base)
+		  .kind_of kind_of(base)
+		  .no_of no_of(base)
+		  .source_group_of source_group_of(base)
+		  .source_position_of source_position_of(base)
+	      case node_type_of(extension)
+		FUNCTION_CALL:
+		  $arguments arguments_of(extension)
+		  push_trailing_statement &statements
+		    create_statement
+		      base
+		      push(push(arguments result) destination)
+		  !result base
+		  next
+		ATTRIBUTE_ACCESS:
+		  push_trailing_statement &statements
+		    create_statement
+		      assign_attributes(base)
+		      list
+			base
+			funky_types::inline_attribute_value_pair
+			  .identifier_of identifier_of(extension)
+			  .kind_of kind_of(extension)
+			  .funky::key_of funky::key_of(extension)
+			  .expression_of result
+			destination
+		  !result base
+		  next
+	    -> redefine_temporary(result_temp_no self) temp_no statements
+
+$funky_types::update/simplify: (self temp_no)
+  resolve_identifier &self
+  $extensions extensions_of(self)
+  if
+    extensions.is_empty
+    -> self temp_no empty_statements
+    :
+      $base create_functor(self)
+      $bases list(base)
+      simplify &extensions &temp_no $statements
+      for_each extensions
+	: (extension)
+	  case node_type_of(extension)
+	    FUNCTION_CALL:
+	      filter arguments_of(extension) is_a_remark
+		$remark_arguments $arguments
+	      if
+		arguments.is_empty && remark_arguments.is_not_empty
+		next
+		:
+		  inc &temp_no
+		  push_leading_statement &statements
+		    create_statement
+		      base
+		      push(arguments redefine_temporary(temp_no base))
+		  !base temporary(temp_no base)
+		  push &bases base
+		  next
+	    ATTRIBUTE_ACCESS:
+	      inc &temp_no
+	      push_leading_statement &statements
+		create_statement
+		  create_functor(extension)
+		  list(base redefine_temporary(temp_no extension))
+	      !base temporary(temp_no extension)
+	      push &bases base
+	      next
+	:
+	  $result temporary(temp_no self)
+	  range &bases 1 -2
+	  $n length_of(extensions)
+	  from_to_by n 1 -1
+	    : (idx)
+	      $extension extensions(idx)
+	      pop &bases !base
+	      $destination
+		funky_types::redefinition
+		  .identifier_of identifier_of(base)
+		  .kind_of kind_of(base)
+		  .source_group_of source_group_of(base)
+		  .source_position_of source_position_of(base)
+	      case node_type_of(extension)
+		FUNCTION_CALL:
+		  $arguments arguments_of(extension)
+		  push_trailing_statement &statements
+		    create_statement
+		      base
+		      push(push(arguments result) destination)
+		  !result base
+		  next
+		ATTRIBUTE_ACCESS:
+		  push_trailing_statement &statements
+		    create_statement
+		      assign_attributes(base)
+		      list
+			base
+			funky_types::inline_attribute_value_pair
+			  .identifier_of identifier_of(extension)
+			  .kind_of kind_of(extension)
+			  .funky::key_of funky::key_of(extension)
+			  .expression_of result
+			destination
+		  !result base
+		  next
+	    -> update_temporary(temp_no self) temp_no statements
+
+$funky_types::definition/simplify: (self temp_no)
+  resolve_identifier &self
+  -> self temp_no empty_statements
+
+$funky_types::parenthesed_expression/simplify: (self temp_no)
+  simplify expression_of(self) $expression &temp_no $statements
+  $calls calls_of(self)
+  if
+    calls.is_empty
+    -> expression temp_no statements
+    :
+      simplify_extensions &expression calls &temp_no $extension_statements
+      -> expression temp_no append(statements extension_statements)
+
+$funky_types::pair/simplify: (self temp_no)
+  resolve_identifier &self
+  $argument argument_of(self)
+  if
+    argument.is_a_list:
+      if
+	length_of(argument) == 1:
+	  !argument argument(1)
+	  simplify_argument
+	:
+	  syntax_error "too many arguments" argument(2)
+    :
+      simplify_argument
+
+  $simplify_argument:
+    simplify argument !self.funky::argument_of &temp_no $result_statements
+    -> self temp_no result_statements
+
+$funky_types::inline_attribute_value_pair/simplify simplify_inline_pair
+$funky_types::inline_method_value_pair/simplify simplify_inline_pair
+
+$simplify_inline_pair: (self temp_no)
+  resolve_identifier &self
+  simplify &self.funky::expression_of &temp_no $result_statements
+  -> self temp_no result_statements
+
+$resolve_identifier: (node)
+  $identifier identifier_of(node)
+  $namespace identifier .before. ':'
+  if
+    namespace.is_not_empty:
+      $true_namespace namespace_aliases(namespace)
+      if
+	true_namespace.is_defined:
+	  !namespace true_namespace
+	  !identifier append(namespace identifier .from. ':')
+	  !node.identifier_of identifier
+	  check
+	check
+    :
+      !namespace undefined
+      check
+
+  $check:
+    if
+      namespace.is_defined && node_type_of(node) != DEFINITION:
+	$version namespace_versions(namespace)
+	if
+	  version.is_defined:
+	    !identifier append(namespace "-" version identifier .from. ':')
+	    !node.identifier_of identifier
+	    resolve
+	  resolve
+      resolve
+
+  $resolve:
+    $resolved_identifier resolve_variable(identifier)
+    if
+      resolved_identifier.is_defined
+      ->
+	node
+	  .identifier_of resolved_identifier
+	  .kind_of LOCAL
+      -> node(.kind_of EXTERN)
+
+$funky_types::expression/simplify: (self temp_no)
+  $operator operator_of(self)
+  simplify $expression expression_of(self) &temp_no $statements
+  if
+    operator.is_defined:
+      binop expression operator temp_no statements
+    -> self(.expression_of expression) temp_no statements
+
+$funky_types::negation/simplify: (self temp_no)
+  simplify $expression expression_of(self) &temp_no $statements
+  if
+    node_type_of(expression) == NUMERIC_LITERAL:
+      $digits digits_of(expression)
+      $key funky::key_of(expression)
+      if !digits !key
+	digits(1) == '-'
+	-> range(digits 2 -1) range(key 7 -1)
+	-> put(digits '-') append("minus_" key)
+      ->
+	expression
+	  .digits_of digits
+	  .funky::key_of key
+	temp_no
+	statements
+    :
+      inc &temp_no
+      push_leading_statement &statements
+	create_statement
+	  std("negate" self)
+	  list
+	    expression
+	    redefine_temporary(temp_no self)
+      -> temporary(temp_no self) temp_no statements
+
+$binop: (left operator temp_no statements)
+  $operation node_type_of(operator)
+  $right expression_of(operator)
+  case operation
+    COMMA:
+      sequence_constructor list(left) right
+
+      $sequence_constructor: (sequence rest)
+	if
+	  node_type_of(rest) == SEQUENCE_EXPRESSION:
+	    simplify expression_of(rest) $item &temp_no $more_statements
+	    append &statements more_statements
+	    sequence_constructor
+	      push(sequence item)
+	      expression_of(operator_of(rest))
+	  :
+	    simplify &rest &temp_no $more_statements
+	    append &statements more_statements
+	    function_call_from_list "sequence" push(sequence rest)
+    AND:
+      update_if operator_of(operator).is_defined &right -> operator
+      !right
+	funky_types::return_expression
+	  .source_group_of source_group_of(right)
+	  .source_position_of source_position_of(right)
+	  .arguments_of list(right)
+      simplify &right &temp_no $_dummy_statements
+      function_call "and" left right
+    OR:
+      update_if operator_of(operator).is_defined &right -> operator
+      !right
+	funky_types::return_expression
+	  .source_group_of source_group_of(right)
+	  .source_position_of source_position_of(right)
+	  .arguments_of list(right)
+      simplify &right &temp_no $_dummy_statements
+      function_call "or" left right
+    :
+      simplify &right &temp_no $right_statements
+      append &statements right_statements
+      case operation !left !temp_no !statements
+	PLUS: function_call "plus" left right
+	MINUS: function_call "minus" left right
+	TIMES: function_call "times" left right
+	OVER: function_call "over" left right
+	EQUAL: function_call "equal" left right
+	NOT_EQUAL:
+	  function_call "equal" &left right !temp_no !statements
+	  function_call "not" left
+	LESS_THAN: function_call "less" left right
+	GREATER_THAN: function_call "less" right left
+	LESS_EQUAL:
+	  function_call "less" right &left !temp_no !statements
+	  function_call "not" left
+	GREATER_EQUAL:
+	  function_call "less" &left right !temp_no !statements
+	  function_call "not" left
+	RANGE: function_call "value_range" left right
+	KEY_VALUE: function_call "key_value_pair" left right
+	SHIFT_LEFT: function_call "shift_left" left right
+	SHIFT_RIGHT: function_call "shift_right" left right
+	BIT_AND: function_call "bit_and" left right
+	BIT_OR: function_call "bit_or" left right
+	BIT_XOR: function_call "bit_xor" left right
+	NAMED_OPERATOR:
+	  inc &temp_no
+	  push_leading_statement &statements
+	    create_statement
+	      funky_types::functor
+		.identifier_of identifier_of(operator)
+		.kind_of EXTERN
+		.source_group_of source_group_of(left)
+		.source_position_of source_position_of(left)
+	      list(left right redefine_temporary(temp_no left))
+	  ->
+	    temporary(temp_no left)
+	    temp_no
+	    statements
+	:
+	  edump `operation
+	  edump 9 `left
+	  edump 9 `right
+	  debug_exit
+      !operator operator_of(operator)
+      if
+	operator.is_defined:
+	  binop left operator temp_no statements
+	-> left temp_no statements
+
+  $function_call: (func arguments*)
+    function_call_from_list func arguments
+
+  $function_call_from_list: (func arguments)
+    $first_argument arguments(1)
+    inc &temp_no
+    push_leading_statement &statements
+      create_statement
+	std(func first_argument)
+	push(arguments redefine_temporary(temp_no first_argument))
+    ->
+      temporary(temp_no first_argument)
+      temp_no
+      statements
+
+$funky_types::return_expression/simplify simplify_return
+$funky_types::inline_return/simplify simplify_return
+
+$simplify_return: (self temp_no)
+  simplify
+    funky_types::body
+      .source_group_of source_group_of(self)
+      .source_position_of source_position_of(self)
+      .statements_of
+	list
+	  create_statement
+	    funky_types::return
+	      .source_group_of source_group_of(self)
+	      .source_position_of source_position_of(self)
+	    arguments_of(self)
+    temp_no
+
+$funky_types::inline_statement/simplify: (self temp_no)
+  simplify
+    funky_types::statement
+      .source_group_of source_group_of(self)
+      .source_position_of source_position_of(self)
+      .head_of head_of(self)
+      .arguments_of arguments_of(self)
+    temp_no
+
+$funky_types::multiline_plus/simplify: (self temp_no)
+  simplify_multiline_operator self temp_no "plus"
+
+$funky_types::multiline_minus/simplify: (self temp_no)
+  simplify_multiline_operator self temp_no "minus"
+
+$funky_types::multiline_minus_with_remark/simplify: (self temp_no)
+  simplify_multiline_operator self temp_no "minus"
+
+$funky_types::multiline_times/simplify: (self temp_no)
+  simplify_multiline_operator self temp_no "times"
+
+$funky_types::multiline_over/simplify: (self temp_no)
+  simplify_multiline_operator self temp_no "over"
+
+$funky_types::multiline_over_with_remark/simplify: (self temp_no)
+  simplify_multiline_operator self temp_no "over"
+
+$funky_types::multiline_shift_left/simplify: (self temp_no)
+  simplify_multiline_operator self temp_no "shift_left"
+
+$funky_types::multiline_shift_right/simplify: (self temp_no)
+  simplify_multiline_operator self temp_no "shift_right"
+
+$funky_types::multiline_equal/simplify: (self temp_no)
+  simplify_multiline_operator self temp_no "equal"
+
+$funky_types::multiline_not_equal/simplify: (self temp_no)
+  simplify_multiline_operator self temp_no "equal" true
+
+$funky_types::multiline_less_equal/simplify: (self temp_no)
+  simplify_multiline_operator self temp_no "less" true true
+
+$funky_types::multiline_less_than/simplify: (self temp_no)
+  simplify_multiline_operator self temp_no "less"
+
+$funky_types::multiline_greater_equal/simplify: (self temp_no)
+  simplify_multiline_operator self temp_no "less" true
+
+$funky_types::multiline_greater_than/simplify: (self temp_no)
+  simplify_multiline_operator self temp_no "less" false true
+
+$funky_types::multiline_and/simplify: (self temp_no)
+  simplify_multiline_operator self temp_no "and" false false true
+
+$funky_types::multiline_or/simplify: (self temp_no)
+  simplify_multiline_operator self temp_no "or" false false true
+
+$funky_types::multiline_bit_and/simplify: (self temp_no)
+  simplify_multiline_operator self temp_no "bit_and"
+
+$funky_types::multiline_bit_and_with_remark/simplify: (self temp_no)
+  simplify_multiline_operator self temp_no "bit_and"
+
+$funky_types::multiline_bit_or/simplify: (self temp_no)
+  simplify_multiline_operator self temp_no "bit_or"
+
+$funky_types::multiline_bit_xor/simplify: (self temp_no)
+  simplify_multiline_operator self temp_no "bit_xor"
+
+$funky_types::multiline_assign/simplify: (self temp_no)
+  simplify_multiline_operator self temp_no "key_value_pair"
+
+$simplify_multiline_operator:
+  (
+    self
+    temp_no
+    name
+    do_negate = false
+    do_swap = false
+    do_delay = false
+  )
+  $head std(name self)
+  $arguments
+    filter(arguments_of(self): (argument) -> node_type_of(argument) != REMARK)
+  simplify arguments(1) $left &temp_no $statements
+  $right undefined
+  $n length_of(arguments)
+  if
+    do_delay:
+      $rest range(arguments 2 -1)
+      !right
+	funky_types::return_expression
+	  .source_group_of source_group_of(arguments(2))
+	  .source_position_of source_position_of(arguments(2))
+	  .arguments_of
+	    if
+	      n == 2
+	      -> rest
+	      -> list(self(.arguments_of rest))
+      simplify &right &temp_no $more_statements
+      append &statements more_statements
+      push_statement
+    :
+      $idx 2
+      loop:
+	simplify arguments(idx) !right &temp_no $more_statements
+	append &statements more_statements
+	update_if do_swap &left &right -> right left
+	push_statement !left !temp_no !statements
+	if
+	  idx < n:
+	    inc &idx
+	    next
+	  :
+	    if
+	      do_negate:
+		inc &temp_no
+		->
+		  temporary(temp_no left)
+		  temp_no
+		  push_leading_statement
+		    statements
+		    create_statement
+		      std("not" left)
+		      list
+			left
+			redefine_temporary(temp_no left)
+	      ->
+		left
+		temp_no
+		statements
+
+  $push_statement:
+    inc &temp_no
+    push_leading_statement &statements
+      create_statement
+	head
+	list(left right redefine_temporary(temp_no left))
+    -> temporary(temp_no left) temp_no statements
+
+$funky_types::inline_body/simplify: (self temp_no)
+  simplify
+    funky_types::body
+      .parameters_of parameters_of(self)
+      .statement_of statement_of(self)
+      .statements_of empty_list
+      .source_group_of source_group_of(self)
+      .source_position_of source_position_of(self)
+    temp_no
+
+$funky_types::body/simplify: (self temp_no)
+  !on_top_level false
+  !self.funky::key_of "func_@(mangle_position(self))"
+  check_statements &self
+  collect_parameter_definitions !resolve_variable self
+  simplify &self.parameters_of 0 $_parameters_temp_no $_parameters_statements
+  $statement statement_of(self)
+  $statements statements_of(self)
+  if
+    statement.is_defined && node_type_of(statement) != REMARK:
+      if
+	all_of(statements is_a_remark):
+	  !self.statement_of undefined
+	  !statements list(statement)
+	  simplify_statements
+	:
+	  syntax_error "unexpected statements" statements(1)
+    simplify_statements
+
+  $simplify_statements:
+    collect_local_definitions !resolve_variable statements
+    map_reduce !self.statements_of statements
+      : (a_statement)
+	simplify &a_statement 0 $_dummy_temp_no $more_statements
+	more_statements $leading_statements $trailing_statements
+	append leading_statements list(a_statement) trailing_statements
+      append
+      empty_list
+    !self.is_an_io_call any_of(statements_of(self) is_an_io_call)
+    -> self temp_no empty_statements
+
+$check_statements: (body)
+  $statements statements_of(body)
+  $parameter_state 0
+  $parameters undefined
+  $new_statements empty_list
+  for_each statements
+    : (idx statement)
+      case node_type_of(statement)
+	MULTILINE_REMARK:
+	  on parameter_state == 1:
+	    syntax_error "Closing parenthesis expected" statement
+	  next
+	OPEN_PARAMETERS:
+	  if
+	    parameter_state == 0:
+	      !parameter_state 1
+	      !parameters parameter_of(statement)
+	      next
+	    :
+	      syntax_error "Unexpected opening parenthesis" statement
+	CLOSE_PARAMETERS:
+	  if
+	    parameter_state == 1:
+	      !parameter_state 2
+	      next
+	    :
+	      syntax_error "Unexpected closing parenthesis" statement
+	:
+	  on parameter_state == 1:
+	    syntax_error "Closing parenthesis expected" statement
+	  !parameter_state 2
+	  if
+	    new_statements.is_not_empty
+	    next
+	    :
+	      !new_statements range(statements idx -1)
+	      next
+    :
+      if
+	parameters.is_defined
+	->
+	  body
+	    .parameters_of parameters
+	    .statements_of new_statements
+	-> body
+
+$funky_types::statement/simplify: (self temp_no)
+  $head head_of(self)
+  $original_head head
+  $arguments arguments_of(self)
+  case node_type_of(head)
+    FUNCTOR:
+      simplify_head_and_arguments false
+    RETURN:
+      check_that_all_arguments_are_inputs
+      simplify_head_and_arguments false
+    :
+      check_that_all_arguments_are_inputs
+      push &arguments head
+      !head std("assign" self)
+      simplify_head_and_arguments true
+
+  $simplify_head_and_arguments: (is_an_assignment)
+    simplify head !self.head_of &temp_no $result_statements
+    $new_arguments empty_list
+    for_each arguments !arguments !temp_no !result_statements
+      : (item)
+	if
+	  item.is_a_remark
+	  next
+	  :
+	    simplify &item &temp_no $arguments_result_statements
+	    append &result_statements arguments_result_statements
+	    if
+	      node_type_of(item) == BACKQUOTED:
+		resolve_backquoted &new_arguments item
+		next
+	      :
+		push &new_arguments item
+		next
+      -> new_arguments temp_no result_statements
+    on is_an_assignment:
+      $n length_of(arguments)
+      on n < 2:
+	syntax_error "Missing argument in assignment" self
+      on n > 2:
+	syntax_error "Too many arguments in assignment" arguments(2)
+    !self.arguments_of arguments
+    if
+      is_an_assignment: # we have exactly one result: the last argument
+	result_statements $leading_statements $trailing_statements
+	$node_type_of_first_argument node_type_of(arguments(1))
+	$is_a_slot_definition
+	  &&
+	    node_type_of(original_head) == DEFINITION
+	    ||
+	      node_type_of_first_argument == ATTRIBUTE_VALUE_PAIR
+	      node_type_of_first_argument == METHOD_VALUE_PAIR
+	      node_type_of_first_argument == TYPE_FUNCTION
+	!self.is_a_definition is_a_slot_definition
+	if
+	  leading_statements.is_empty
+	  check_trailing_statements
+	  :
+	    $last_statement leading_statements(-1)
+	    if
+	      is_a_slot_definition:
+		$line_no line_no_of(source_group_of(argument_of(arguments(1))))
+		$const_name "const_@(line_no)"
+		!last_statement.arguments_of(-1)
+		  funky_types::definition
+		    .identifier_of const_name
+		    .kind_of CONSTANT_COMPOUND
+		!leading_statements(-1) last_statement
+		!arguments(1).argument_of.identifier_of const_name
+		!arguments(1).argument_of.kind_of LOCAL
+		!self.arguments_of arguments
+		check_trailing_statements
+	      :
+		!self
+		  last_statement
+		    .source_group_of source_group_of(self)
+		    .source_position_of source_position_of(self)
+		    .arguments_of arguments_of(last_statement)(-1 arguments(2))
+		range &leading_statements 1 -2
+		check_trailing_statements
+
+	$check_trailing_statements:
+	  if
+	    ||
+	      trailing_statements.is_empty
+	      identifier_of(head_of(self)) != "std::assign"
+	    ->
+	      self
+	      temp_no
+	      new
+		funky_types::statement_list
+		leading_statements
+		trailing_statements
+	    process_trailing_statements
+
+	$process_trailing_statements:
+	  #
+	    <self> is of the form: assign <input> <temp>;
+	    if we have trailing statements then <temp> gets used somewhere;
+	    we can replace this usage by <input> and delete <self>;
+	    deleting <self> can be done by replacing it with the first
+	    statement of <trailing_statements>
+	  $temp_name identifier_of(arguments(2))
+	  $value arguments(1)
+	  for_each trailing_statements
+	    : (stmt_idx trailing_statement)
+	      for_each arguments_of(trailing_statement)
+		: (arg_idx argument)
+		  case node_type_of(argument)
+		    FUNCTOR:
+		      if
+			identifier_of(argument) == temp_name:
+			  !trailing_statement.arguments_of(arg_idx) value
+			  !trailing_statements(stmt_idx) trailing_statement
+			  return
+			next
+		    INLINE_ATTRIBUTE_VALUE_PAIR:
+		      if
+			identifier_of(expression_of(argument)) == temp_name:
+			  !trailing_statement.arguments_of(arg_idx)
+			    argument(.expression_of value)
+			  !trailing_statements(stmt_idx) trailing_statement
+			  return
+			next
+		    next
+		next
+	    :
+	      debug_write "
+		TEMP NOT FOUND IN TRAILING STATEMENT!
+	      debug_exit
+
+	$return
+	  ->
+	    trailing_statements(1)
+	    temp_no
+	    new
+	      funky_types::statement_list
+	      leading_statements
+	      range(trailing_statements 2 -1)
+      :
+	!self.is_an_io_call
+	  ||
+	    head_of(self).is_an_io_call
+	    any_of(arguments_of(self) is_an_io_call)
+	-> self temp_no result_statements
+
+  $check_that_all_arguments_are_inputs:
+    $argument find_first(arguments is_an_output)
+    on argument.is_defined:
+      syntax_error "Unexpected output argument" argument
+
+$funky_types::numeric_literal/simplify: (self temp_no)
+  $digits delete_all(digits_of(self) '@apos;')
+  !self.digits_of digits
+  to_number &digits
+  to_string &digits
+  replace_all &digits '.' = "_"
+  ->
+    self(.funky::key_of "num_@(digits)")
+    temp_no
+    empty_statements
+
+$funky_types::character_literal/simplify: (self temp_no)
+  ->
+    create_numeric_character_literal
+      character_of(self)(1).to_integer.to_string
+      self
+    temp_no
+    empty_statements
+
+$funky_types::numeric_character_literal/simplify: (self temp_no)
+  $digits digits_of(self).to_integer.to_string
+  ->
+    self
+      .digits_of digits
+      .funky::key_of "chr_@(digits)"
+    temp_no
+    empty_statements
+
+$funky_types::named_character_literal/simplify: (self temp_no)
+  $chr character_from_name(funky::name_of(self))
+  if
+    chr.is_defined
+    ->
+      create_numeric_character_literal(chr.to_integer.to_string self)
+      temp_no
+      empty_statements
+    :
+      syntax_error "Invalid character name" self
+
+$funky_types::at_character_literal/simplify: (self temp_no)
+  ->
+    create_numeric_character_literal("64" self)
+    temp_no
+    empty_statements
+
+$create_numeric_character_literal: (digits original_node)
+  ->
+    funky_types::numeric_character_literal
+      .digits_of digits
+      .funky::key_of "chr_@(digits)"
+      .source_group_of source_group_of(original_node)
+      .source_position_of source_position_of(original_node)
+
+$funky_types::unique/simplify: (self temp_no)
+  $identifier
+    range(line_text_of(source_group_of(self)) 2 -1) .truncate_from. ' '
+  ->
+    self
+      .identifier_of identifier
+      .funky::key_of "uni_@(mangle_identifier(identifier))"
+    temp_no
+    empty_statements
+
+$funky_types::string_literal/simplify: (self temp_no)
+  $arguments empty_list
+  $characters ""
+  $statements empty_statements
+  $components components_of(self)
+  if
+    components.is_empty
+    ->
+      funky_types::character_sequence
+	.characters_of ""
+	.funky::key_of "string0_"
+	.source_group_of source_group_of(self)
+	.source_position_of source_position_of(self)
+      temp_no
+      empty_statements
+    :
+      for_each components
+	: (idx component)
+	  case node_type_of(component)
+	    CHARACTER_SEQUENCE:
+	      $component_characters characters_of(component)
+	      append &characters
+		if # suppress leading whitespace after line ending with '@'
+		  &&
+		    idx > 1
+		    node_type_of(components(idx-1)) == CHARACTER_SEQUENCE
+		  -> trim_left(component_characters)
+		  -> component_characters
+	      next
+	    NUMERIC_CHARACTER:
+	      push &characters character(digits_of(component).to_integer)
+	      next
+	    NAMED_CHARACTER:
+	      push &characters character_from_name(funky::name_of(component))
+	      next
+	    NEWLINE:
+	      push &characters '@nl;'
+	      next
+	    AT_CHARACTER:
+	      push &characters '@@'
+	      next
+	    ESCAPE_EXPRESSION:
+	      simplify expression_of(component)
+		$expression &temp_no $escape_statements
+	      append &statements escape_statements
+	      add_characters !arguments !characters
+	      push &arguments expression
+	      next
+	    TAGGED_EMPTY_CHARACTER:
+	      next
+	    :
+	      edump `node_type_of(component)
+	      next
+	:
+	  add_characters !arguments !characters
+	  if
+	    &&
+	      length_of(arguments) == 1
+	      node_type_of(arguments(1)) == CHARACTER_SEQUENCE
+	    -> arguments(1) temp_no empty_statements
+	    :
+	      inc &temp_no
+	      $text line_text_of(source_group_of(self))
+	      $position source_position_of(self)
+	      !position range(text length_of(text)-length_of(position) -1)
+	      $functor
+		funky_types::functor
+		  .identifier_of "std::string"
+		  .kind_of EXTERN
+		  .source_group_of source_group_of(self)
+		  .source_position_of position
+	      ->
+		temporary(temp_no self)
+		temp_no
+		push_leading_statement
+		  statements
+		  create_statement
+		    functor
+		    push(arguments redefine_temporary(temp_no functor))
+
+      $add_characters:
+	if
+	  characters.is_empty
+	  -> arguments characters
+	  ->
+	    push
+	      arguments
+	      funky_types::character_sequence
+		.source_group_of source_group_of(self)
+		.source_position_of source_position_of(self)
+		.characters_of characters
+		.funky::key_of "string@(length_of(characters))_@(characters)"
+	    ""
+
+$std_types::list/simplify: (self temp_no)
+  $statements empty_statements
+  $simplified_nodes empty_list
+  for_each self
+    : (node)
+      simplify &node &temp_no $node_statements
+      append &statements node_statements
+      push &simplified_nodes node
+      next
+    -> simplified_nodes temp_no statements
+
+### Functors & Temporaries
+
+$create_functor: (original_node)
+  ->
+    funky_types::functor
+      .identifier_of identifier_of(original_node)
+      .kind_of kind_of(original_node)
+      .source_group_of source_group_of(original_node)
+      .source_position_of source_position_of(original_node)
+
+$std: (name original_node)
+  ->
+    funky_types::functor
+      .identifier_of "std::@(name)"
+      .kind_of EXTERN
+      .source_group_of source_group_of(original_node)
+      .source_position_of source_position_of(original_node)
+
+$assign_attributes: (original_node)
+  ->
+    funky_types::functor
+      .identifier_of "_assign_attributes"
+      .kind_of BUILTIN
+      .source_group_of source_group_of(original_node)
+      .source_position_of source_position_of(original_node)
+
+$temporary: (no original_node)
+  # There might be more than one temporary at the same source position!
+  ->
+    funky_types::functor
+      .identifier_of "_@(mangle_position(original_node))_temp_@(no)"
+      .no_of no
+      .kind_of TEMPORARY
+      .source_group_of source_group_of(original_node)
+      .source_position_of source_position_of(original_node)
+
+$redefine_temporary: (no original_node)
+  ->
+    funky_types::redefinition
+      .identifier_of "_@(mangle_position(original_node))_temp_@(no)"
+      .no_of no
+      .kind_of TEMPORARY
+      .source_group_of source_group_of(original_node)
+      .source_position_of source_position_of(original_node)
+
+$update_temporary: (no original_node)
+  ->
+    funky_types::update
+      .identifier_of "_@(mangle_position(original_node))_temp_@(no)"
+      .no_of no
+      .kind_of TEMPORARY
+      .source_group_of source_group_of(original_node)
+      .source_position_of source_position_of(original_node)
+
+### Statements
+
+$create_statement: (head arguments)
+  if
+    arguments.is_not_empty:
+      $node_type node_type_of(arguments(1))
+      if
+	||
+	  node_type == ATTRIBUTE_VALUE_PAIR
+	  node_type == METHOD_VALUE_PAIR
+	  node_type == TYPE_FUNCTION
+	->
+	  funky_types::statement
+	    .head_of assign_attributes(head)
+	    .arguments_of put(arguments head)
+	    .source_group_of source_group_of(head)
+	    .source_position_of source_position_of(head)
+	return_statement
+    return_statement
+
+  $return_statement
+    ->
+      funky_types::statement
+	.head_of head
+	.arguments_of expand_backquotes(arguments)
+	.source_group_of source_group_of(head)
+	.source_position_of source_position_of(head)
+
+$expand_backquotes: (arguments)
+  $expanded empty_list
+  for_each arguments
+    : (argument)
+      if
+	node_type_of(argument) == BACKQUOTED:
+	  resolve_backquoted &expanded argument
+	  next
+	:
+	  push &expanded argument
+	  next
+    -> expanded
+
+$resolve_backquoted: (arguments node) # already simplified
+  $characters exctract_characters(source_position_of(node))
+  push
+    push
+      arguments
+      funky_types::character_sequence
+	.characters_of characters
+	.funky::key_of "string@(length_of(characters))_@(characters)"
+    expression_of(node)
+
+  $exctract_characters: (str)
+    $level 0
+    $within_string false
+    for_each str: (idx chr)
+      case chr
+	'@nl;' -> range(str 1 -2)
+	' ':
+	  if
+	    level == 0 && not(within_string)
+	    -> range(str 1 idx-1)
+	    next
+	'@quot;':
+	  not &within_string
+	  next
+	'(':
+	  inc &level
+	  next
+	')':
+	  dec &level
+	  next
+	next
+
+$funky_types::statement_list/append: (self right)
+  self $leading_statements $trailing_statements
+  right $right_leading_statements $right_trailing_statements
+  append &leading_statements right_leading_statements
+  append &trailing_statements right_trailing_statements
+  new self leading_statements trailing_statements
+
+$funky_types::statement_list/push_leading_statement: (self statement)
+  self $leading_statements $trailing_statements
+  push &leading_statements statement
+  new self leading_statements trailing_statements
+
+$funky_types::statement_list/push_trailing_statement: (self statement)
+  self $leading_statements $trailing_statements
+  push &trailing_statements statement
+  new self leading_statements trailing_statements
+
+### Handle Local Variables
+
+$collect_parameter_definitions: (body)
+  for_each parameters_of(body) add_definition -> resolve_variable
+
+$collect_local_definitions: (statements)
+  for_each statements add_definitions -> resolve_variable
+
+$add_definitions ()
+
+$funky_types::node/add_definitions: (_self)
+  next
+
+$funky_types::statement/add_definitions: (self)
+  for_each
+    push(arguments_of(self) head_of(self)) add_definition
+    next
+
+$add_definition ()
+
+$funky_types::node/add_definition: (_self)
+  next
+
+$funky_types::definition/add_definition: (self)
+  $identifier identifier_of(self)
+  on not(allow_hidden) && resolve_variable(identifier).is_defined:
+    syntax_error "Variable is already defined" self
+  !resolve_variable(identifier) mangle_local_definition(identifier self)
+  next
+
+$funky_types::parameter/add_definition add_parameter_definition
+$funky_types::inline_parameter/add_definition add_parameter_definition
+
+$add_parameter_definition: (self)
+  $name funky::name_of(self)
+  !resolve_variable(name) mangle_local_definition(name self)
+  next
+
+$funky::mangle_local_definition: (identifier definition)
+  -> "@(mangle_position(definition))_@(identifier)"
+
+$funky::mangle_position: (node)
+  $source_group source_group_of(node)
+  $line_text second(source_group)
+  $line_no line_no_of(source_group)
+  $column_no length_of(line_text)-length_of(source_position_of(node))
+  -> "@(line_no)_@(column_no)"
+
+### Tests
+
+$funky::is_a_remark ()
+
+$funky_types::node.is_a_remark false
+$funky_types::remark.is_a_remark true
+$funky_types::multiline_remark.is_a_remark true
+
+$funky::on_top_level true
+
+$is_a_pair ()
+
+$funky_types::node.is_a_pair false
+$funky_types::inline_attribute_value_pair.is_a_pair true
+$funky_types::inline_method_value_pair.is_a_pair true
+
+$funky::is_an_input ()
+$funky::is_an_output ()
+
+$funky_types::node.is_an_input true
+$funky_types::node.is_an_output false
+
+$funky_types::definition.is_an_input false
+$funky_types::definition.is_an_output true
+
+$funky_types::redefinition.is_an_input false
+$funky_types::redefinition.is_an_output true
+
+$funky_types::update.is_an_output true

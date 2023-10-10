@@ -1,0 +1,72 @@
+#
+  Copyright (C) 2023 by
+  Dipl.-Ing. Michael Niederle
+
+  This program is free software; you can redistribute it and/or modify
+  it under the terms of the GNU Library General Public License, version 2, or
+  (at your option) under the terms of the GNU Lesser General Public License,
+  version 3.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  GNU Lesser (Library) General Public License for more details.
+
+  For details of the GNU General Public License see the accompanying
+  files LGPLv2.txt and LGLPv3.txt or
+  http://www.gnu.org/licenses/lgpl-2.0.html
+  http://www.gnu.org/licenses/lgpl-3.0.html
+  or write to the
+  Free Software Foundation, Inc.,
+  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+
+<namespace std-2.0>
+
+<require ./branches>
+<require ./debug>
+<require ./environment>
+<require ./error>
+<require ./functional>
+<require ./grammar>
+<require ./io>
+<require ./io_events>
+<require ./io_task_manager>
+<require ./logical>
+<require ./loops>
+<require ./math>
+<require ./parameters>
+<require ./primitives>
+
+<require ./types/boolean>
+<require ./types/character>
+<require ./types/date_and_time>
+<require ./types/error>
+<require ./types/function>
+<require ./types/number>
+<require ./types/object>
+<require ./types/undefined>
+<require ./types/unique_item>
+
+<require ./types/serialization>
+<require ./types/collections/collection>
+<require ./types/collections/tuples/tuple>
+<require ./types/collections/tuples/key_value_pair>
+<require ./types/collections/tuples/value_range>
+<require ./types/collections/lists/list>
+<require ./types/collections/lists/sequence>
+<require ./types/collections/strings/string>
+<require ./types/collections/arrays/array>
+<require ./types/collections/sets/set>
+<require ./types/collections/sets/hash_set>
+<require ./types/collections/sets/insert_order_set>
+<require ./types/collections/sets/key_order_set>
+<require ./types/collections/tables/table>
+<require ./types/collections/tables/association_list>
+<require ./types/collections/tables/hash_table>
+<require ./types/collections/tables/insert_order_table>
+<require ./types/collections/tables/key_order_table>
+<require ./types/iterators/iterator>
+<require ./types/iterators/bresenham>
+<require ./types/iterators/random/lcg>
+<require ./types/iterators/random/mersenne_twister>
+<require ./types/iterators/random/random>

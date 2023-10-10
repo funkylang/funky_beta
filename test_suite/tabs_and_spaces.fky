@@ -1,0 +1,7 @@
+#!/usr/bin/env fkyrun
+
+from_to 0 99
+  : (n)
+    println! tabs_and_spaces(n) n
+    next!
+  pass

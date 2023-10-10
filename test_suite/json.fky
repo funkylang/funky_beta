@@ -1,0 +1,7 @@
+#!/usr/bin/env fkyrun
+
+<require basic/stdlib>
+<require basic/import/json>
+
+load! $buf "test_data.json"
+print! serialize(from_json(buf) 0)

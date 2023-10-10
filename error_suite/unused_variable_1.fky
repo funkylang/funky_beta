@@ -1,0 +1,10 @@
+#!/usr/bin/env fkyrun
+
+$square:
+  (
+    x
+  )
+  $s x*x
+  -> x*x
+
+println! square(3)

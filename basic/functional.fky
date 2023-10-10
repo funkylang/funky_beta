@@ -1,0 +1,135 @@
+#
+  Copyright (C) 2021 by
+  Dipl.-Ing. Michael Niederle
+
+  This program is free software; you can redistribute it and/or modify
+  it under the terms of the GNU Library General Public License, version 2, or
+  (at your option) under the terms of the GNU Lesser General Public License,
+  version 3.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  GNU Lesser (Library) General Public License for more details.
+
+  For details of the GNU General Public License see the accompanying
+  files LGPLv2.txt and LGLPv3.txt or
+  http://www.gnu.org/licenses/lgpl-2.0.html
+  http://www.gnu.org/licenses/lgpl-3.0.html
+  or write to the
+  Free Software Foundation, Inc.,
+  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+
+$NONE .
+
+$std::count:
+  #
+    counts items in a collection
+
+    Returns the number of items in the specified collection that fullfill the
+    specified criterion.
+
+    Topic: Functional
+
+    See also: any_of, all_of
+  (
+    collection
+    test = NONE
+    argument = NONE
+  )
+  if
+    NONE == test:
+      map_reduce collection
+	: (item)
+	  if
+	    item
+	    -> 1
+	    -> 0
+	plus
+	0
+    :
+      if
+	NONE == argument:
+	  map_reduce collection
+	    : (item)
+	      if
+		test(item)
+		-> 1
+		-> 0
+	    plus
+	    0
+	:
+	  map_reduce collection
+	    : (item)
+	      if
+		test(item argument)
+		-> 1
+		-> 0
+	    plus
+	    0
+
+$std::any_of:
+  #
+    tests all items of a collection
+
+    Returns <std::true> if at least one item passes the specified
+    *test*-function; <std::false> otherwise.
+
+    Topic: Collections
+
+    See also: all_of, count
+  (
+    collection # the collection which items to check
+    test # the test function
+    argument = NONE # additional argument that is passed to the test function
+  )
+  if
+    argument == NONE:
+      for_each collection
+	: (item)
+	  if
+	    test(item)
+	    -> true
+	    next
+	-> false
+    :
+      for_each collection
+	: (item)
+	  if
+	    test(item argument)
+	    -> true
+	    next
+	-> false
+
+$std::all_of:
+  #
+    tests all items of a collection
+
+    Returns <std::true> if all items pass the specified
+    *test*-function; <std::false> otherwise.
+
+    Topic: Collections
+
+    See also: any_of, count
+  (
+    collection # the collection which items to check
+    test # the test function
+    argument = NONE # additional argument that is passed to the test function
+  )
+  if
+    argument == NONE:
+      for_each collection
+	: (item)
+	  if
+	    test(item)
+	    next
+	    -> false
+	-> true
+    :
+      for_each collection
+	: (item)
+	  if
+	    test(item argument)
+	    next
+	    -> false
+	-> true

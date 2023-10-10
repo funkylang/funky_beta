@@ -1,0 +1,5 @@
+#!/usr/bin/env fkyrun
+
+println! 3 "^2 = " 3.square
+
+$square: (x) -> x*x

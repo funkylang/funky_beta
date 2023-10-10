@@ -1,0 +1,12 @@
+#!/usr/bin/env fkyrun
+
+$integers 3..7
+
+println! length_of(integers)
+dump! 2 `map(integers (: (x) -> x*x))
+println! reduce(integers plus)
+println! reduce(integers times)
+println! map_reduce(integers (: (x) -> x*x) plus)
+
+$characters 'u'..'z'
+println! map_reduce(characters to_string append)

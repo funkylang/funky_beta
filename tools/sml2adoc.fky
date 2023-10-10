@@ -1,0 +1,253 @@
+#!/usr/bin/env fkyrun
+
+$starts_a_paragraph ()
+
+load! $sml command_line_arguments(1)
+from_utf8 &sml
+
+split_into_indented_lines $indented_lines sml
+annotate_paragraph_starts &indented_lines
+$groups split_into_groups(indented_lines)
+println! map_reduce(groups reformat).trim_right
+
+$reformat: (idx group)
+  group $indent $text
+  $subgroups subgroups_of(group)
+  cond
+    -> subgroups.is_defined:
+      cond
+	-> text == "`@nl;": # preformatted text
+	  $min_indent
+	    map_reduce
+	      subgroups
+	      : (line)
+		if
+		  line.is_defined
+		  -> first(line)
+		  -> 999
+	      min
+	  append
+	    "
+	      [source,subs="verbatim, quotes"]
+	      ----
+	    map_reduce
+	      subgroups
+	      : (line)
+		if
+		  line.is_defined
+		  :
+		    line $line_indent $line_text
+		    append
+		      spaces(line_indent-min_indent)
+		      convert(line_text)
+		  -> "@nl;"
+	    "----@nl;@nl;"
+	-> text == "``@nl;": # preformatted text - do not substitute anything
+	  $min_indent
+	    map_reduce
+	      subgroups
+	      : (line)
+		if
+		  line.is_defined
+		  -> first(line)
+		  -> 999
+	      min
+	  append
+	    "
+	      [source]
+	      ----
+	    map_reduce
+	      subgroups
+	      : (line)
+		if
+		  line.is_defined
+		  :
+		    line $line_indent $line_text
+		    append
+		      spaces(line_indent-min_indent)
+		      line_text
+		  -> "@nl;"
+	    "----@nl;@nl;"
+	-> text .has_suffix. " =@nl;": # description list
+	  append
+	    (text .before. '=').trim_right "::@nl;"
+	    map_reduce
+	      subgroups
+	      : (line)
+		if
+		  line.is_defined
+		  -> convert(second(line))
+		  -> "@nl;"
+	    "@nl;"
+	-> true:
+	  !groups split_into_groups(subgroups)
+	  append
+	    cond
+	      -> text == "GLOSSARY@nl;":
+		append
+		  "
+		    [glossary]
+		  dup("=" (indent >> 1)+2) " Glossary"
+	      -> text .has_prefix. "APPENDIX:":
+		append
+		  "
+		    [appendix]
+		  dup("=" (indent >> 1)+2) " "
+		  convert(trim_left(text .behind. ':'))
+	      -> true:
+		append
+		   dup("=" (indent >> 1)+2) " " convert(text)
+	    "@nl;"
+	    map_reduce(groups reformat)
+    -> text(1) == '[':
+      $is_first_table_line
+	||
+	  idx == 1
+	  second(groups(idx-1))(1) != '['
+      $is_last_table_line
+	||
+	  idx == length_of(groups)
+	  second(groups(idx+1))(1) != '['
+      append
+	if
+	  is_first_table_line
+	  -> "
+	    [%autowidth]
+	    |===
+	  -> ""
+	"|"
+	between(text '[' ']')
+	if
+	  is_first_table_line
+	  -> "@nl;@nl;"
+	  -> "@nl;"
+	if
+	  is_last_table_line
+	  -> "
+	    |===
+	    @;
+	  -> ""
+    -> true:
+      if
+	text .has_prefix. "TITLE:"
+	-> "
+	   = @((text .behind. ':').trim)
+	   :sectnums:
+	   :toc:
+	   @;
+	:
+	  $is_last_line_of_paragraph
+	    ||
+	      idx == length_of(groups)
+	      groups(idx+1).starts_a_paragraph
+	  if
+	    is_last_line_of_paragraph:
+		$s idx
+		loop:
+		  if
+		    groups(s).starts_a_paragraph:
+		      $paragraph
+			map_reduce
+			  range(groups s idx)
+			  : (group) -> convert(range(second(group) 1 -2))
+			  concatenate(" ")
+		      cond
+			-> paragraph .has_prefix. "NOTE:" -> "
+			  [NOTE]
+			  @(trim(paragraph .behind. ':'))
+			  @;
+			-> true -> append(paragraph "@nl;@nl;")
+		    :
+		      dec &s
+		      next
+	    -> ""
+
+$annotate_paragraph_starts: (lines)
+  map lines: (line_no line)
+    ->
+      line
+	.starts_a_paragraph
+	  &&
+	    line.is_defined
+	    ||
+	      line_no == 1
+	      ||
+		lines(line_no-1).is_undefined
+		first(lines(line_no-1)) != first(line)
+
+$convert: (text)
+  $buf ""
+  $s 1
+  $n length_of(text)
+  $i 0
+  loop:
+    inc &i
+    if
+      i > n
+      -> append(buf range(text s -1))
+      :
+	$chr text(i)
+	case chr
+	  '*':
+	    if
+	      i < n && text(i+1) == '*': # bold
+		if
+		  &&
+		    i > 1
+		    i+1 < n
+		    ||
+		      &&
+			text(i-1).is_a_letter_character
+			text(i+2).is_a_letter_character
+		      &&
+			text(i-1) == ' '
+			text(i+2) == ' '
+		  next
+		  :
+		    append &buf range(text s i)
+		    inc &i
+		    !s i+1
+		    next
+	      :
+		# italics
+		if
+		  ||
+		    text .has_prefix. "* "
+		    &&
+		      i > 1
+		      i < n
+		      ||
+			&&
+			  text(i-1).is_a_letter_character
+			  text(i+1).is_a_letter_character
+			&&
+			  text(i-1) == ' '
+			  text(i+1) == ' '
+		  next
+		  :
+		    append &buf range(text s i-1)
+		    push &buf '_'
+		    !s i+1
+		    next
+	  '_': # subscript
+	    if
+	      i < n && text(i+1) == '(':
+		$subscripted_text range(text i+2 -1) .truncate_from. ")_"
+		append &buf range(text s i-1)
+		push &buf '~'
+		append &buf subscripted_text
+		push &buf '~'
+		plus &i length_of(subscripted_text)+3
+		!s i+1
+		next
+	      next
+	  '\': # escape next character
+	    if
+	      i < n:
+		append &buf range(text s i-1)
+		inc &i
+		push &buf text(i)
+		!s i+1
+		next
+	      next
+	  next

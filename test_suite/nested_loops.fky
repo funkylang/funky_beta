@@ -1,0 +1,21 @@
+#!/usr/bin/env fkyrun
+
+$buf ""
+
+$print: (val cont)
+  append &buf val.to_string
+  cont
+
+from_to !buf 1 5
+  : (i)
+    from_to 1 3
+      : (j)
+	print i:
+	  print '-':
+	    print j:
+	      print ' ':
+		next
+      next
+  -> buf
+
+println! buf '!'

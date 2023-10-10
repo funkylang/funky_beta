@@ -1,0 +1,87 @@
+#
+  Copyright (C) 2021 by
+  Dipl.-Ing. Michael Niederle
+
+  This program is free software; you can redistribute it and/or modify
+  it under the terms of the GNU Library General Public License, version 2, or
+  (at your option) under the terms of the GNU Lesser General Public License,
+  version 3.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  GNU Lesser (Library) General Public License for more details.
+
+  For details of the GNU General Public License see the accompanying
+  files LGPLv2.txt and LGLPv3.txt or
+  http://www.gnu.org/licenses/lgpl-2.0.html
+  http://www.gnu.org/licenses/lgpl-3.0.html
+  or write to the
+  Free Software Foundation, Inc.,
+  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+
+$std::undefined std_types::undefined
+  #
+    a one-of-kind object to represent *undefined* values
+
+$std::is_undefined ()
+  #
+    returns *true* for *undefined* values
+
+    Topic: Objects
+
+$std::default_value ()
+  #
+    returns the first argument if it is defined or else the second argument
+
+$std_types::undefined.is_defined false # obvious
+
+$std_types::object.is_undefined false
+  #
+    false for all objects that are not <undefined>
+
+    Topic: Objects
+
+$std_types::object/default_value:
+  #
+    returns its first arguments
+
+    Topic: Objects
+  (
+    self
+    _default
+  )
+  -> self
+
+$std_types::undefined.is_undefined true
+  #
+    <undefined> is undefined
+
+$std_types::undefined/default_value:
+  #
+    returns the *default*
+  (
+    _self
+    default
+  )
+  -> default
+
+$std_types::undefined/equal:
+  #
+    is only equal to itself
+  (
+    _left
+    right
+  )
+  -> right.is_undefined
+
+$std_types::undefined/serialize:
+  (
+    _self
+    indent = undefined
+  )
+  $str "<undefined>@nl;"
+  if
+    indent.is_defined
+    -> append(tabs_and_spaces(indent) str)
+    -> str

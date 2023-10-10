@@ -1,0 +1,11 @@
+#!/usr/bin/env fkyrun
+
+$node_fields_of ()
+
+$obj std_types::object
+
+$obj.node_fields_of
+  list
+    123
+
+print! serialize(node_fields_of(obj) 0)

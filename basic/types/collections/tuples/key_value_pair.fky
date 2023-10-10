@@ -1,0 +1,71 @@
+#
+  Copyright (C) 2021 by
+  Dipl.-Ing. Michael Niederle
+
+  This program is free software; you can redistribute it and/or modify
+  it under the terms of the GNU Library General Public License, version 2, or
+  (at your option) under the terms of the GNU Lesser General Public License,
+  version 3.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  GNU Lesser (Library) General Public License for more details.
+
+  For details of the GNU General Public License see the accompanying
+  files LGPLv2.txt and LGLPv3.txt or
+  http://www.gnu.org/licenses/lgpl-2.0.html
+  http://www.gnu.org/licenses/lgpl-3.0.html
+  or write to the
+  Free Software Foundation, Inc.,
+  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+
+$std::key_of (!)
+  #
+    the key of a key-value-pair
+
+    See also: std::value_of
+
+$std::value_of (!)
+  #
+    the value of a key-value-pair
+
+    See also: std::key_of
+
+$std_types::key_value_pair.subtype_of "key_value_pair"
+  #
+    the tuple subtype for key-value-pairs
+
+$std::is_a_key_value_pair () # obvious
+
+$std_types::object.is_a_key_value_pair false # obvious
+$std_types::key_value_pair.is_a_key_value_pair true # obvious
+
+$std_types::key_value_pair/key_of:
+  #
+    returns the key of a key-value-pair
+  (
+    self
+  )
+  self $key $_value
+  -> key
+
+$std_types::key_value_pair/value_of:
+  #
+    returns the value of a key-value-pair
+  (
+    self
+  )
+  self $_key $value
+  -> value
+
+$std::key_value_pair:
+  #
+    constructs a key-value-pair
+  (
+    key
+    value
+  )
+  new std_types::key_value_pair key value
+
+$std_types::key_value_pair.serialization_tag_of "key_value_pair"

@@ -1,0 +1,10 @@
+buf1: ""
+result1: -291
+buf2: "a"
+result2: 11
+buf3: "0ba27"
+result3: undefined
+buf4: "8"
+result4: 59
+buf5: "0xgau"
+result5: undefined

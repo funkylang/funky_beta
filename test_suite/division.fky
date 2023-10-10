@@ -1,0 +1,25 @@
+#!/usr/bin/env fkyrun
+
+from_to -5 5
+  : (i)
+    $result i/3
+    print! i " / 3 = " result
+    if
+      result.is_an_integer:
+	println! " (integer)"
+      :
+	println! " (real)"
+    next!
+  pass
+
+from_to -5 5
+  : (i)
+    $result i/2.5
+    print! i " / 2.5 = " result
+    if
+      result.is_an_integer:
+	println! " (integer)"
+      :
+	println! " (real)"
+    next!
+  pass

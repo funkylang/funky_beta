@@ -1,0 +1,479 @@
+#
+  Copyright (C) 2023 by
+  Dipl.-Ing. Michael Niederle
+
+  This program is free software; you can redistribute it and/or modify
+  it under the terms of the GNU General Public License, version 2, or
+  (at your option) version 3.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  GNU General Public License for more details.
+
+  For details of the GNU General Public License see the accompanying
+  files GPLv2.txt and GLPv3.txt or
+  http://www.gnu.org/licenses/gpl-2.0.html
+  http://www.gnu.org/licenses/gpl-3.0.html
+  or write to the
+  Free Software Foundation, Inc.,
+  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+
+# autogen nlb2pass ./funky.nlb ./funky.nodes >./collect_variables_autogen.fky
+
+<using std>
+<using funky>
+
+$funky::collect_variables () ## merge_variables(insert_order_table)
+
+$current_level 0
+
+### Variable Kinds
+
+#funky::ATTRIBUTE - defined in <nodes.fky>
+  #
+    * defined as an attribute without a setter
+
+#funky::ATTRIBUTE_WITH_SETTER - defined in <nodes.fky>
+  #
+    * defined as an attribute with a setter
+
+$funky::BUILTIN .
+  #
+    * a special symbol like "assign_attributes"
+
+$funky::CONSTANT . # (value)
+  #
+    * not namespaced
+    * no redefinitions
+    * the value is the literal node representing the constant
+
+$funky::CONSTANT_COMPOUND . # (value)
+  #
+    * creates a literal
+    * all items are themself constant or external symbols used on top-level
+    * all usages are replaced by this literal
+    * the "value" ist the statement defining the compound constant
+    * e.g. list(...), tuple(...)
+
+$funky::DERIVED . # (reference)
+  #
+    * derived from a variable defined in another module
+
+$funky::DYNAMIC .
+  #
+    * not namespaced
+    * used or redefined on an inner level
+
+$funky::EXTERN .
+  #
+    * not defined within the module
+
+$funky::EXTERN_POLYMORPHIC .
+  #
+    * not defined within the module
+    * used as a polymorphic
+
+$funky::INITIALIZED . # (value)
+  #
+    * defined on top-level and namespaced or redefined on an inner level
+
+$funky::INITIALIZED_COMPOUND . # (value)
+  #
+    * defined on top-level and namespaced or redefined on an inner level
+    * creates a literal
+    * all items are themself constant or external symbols used on top-level
+    * the "value" ist the statement defining the compound constant
+    * e.g. list(...), tuple(...)
+
+$funky::LOCAL .
+  #
+    * not namespaced
+    * not used or redefined on an inner level
+
+$funky::TEMPORARY .
+  #
+    * a local variable introduced by the compiler
+
+# tuple(definition level flags)
+
+# level
+
+  integer: defined and used only on this level
+  TOP_LEVEL: defined on level zero; used on higher levels
+  MULTI_LEVEL: used on multiple levels
+
+$funky::TOP_LEVEL .
+$funky::MULTI_LEVEL .
+
+# flags
+
+$funky::USED 1
+$funky::POLYMORPHIC 2
+$funky::USED_POLYMORPHIC 3
+$funky::REDEFINED 4
+$funky::ON_TOP_LEVEL 8
+$funky::REDEFINED_ON_TOP_LEVEL 0xc
+$funky::HAS_SLOTS 0x10
+
+$std_types::list/collect_variables: (self)
+  map_reduce self collect_variables merge_variables empty_insert_order_table
+
+$funky_types::body/collect_variables: (self)
+  !on_top_level false
+  inc &current_level
+  map_reduce parameters_of(self) $result_insert_order_table
+    collect_variables merge_variables empty_insert_order_table
+  map_reduce statements_of(self) $statements_result_insert_order_table
+    collect_variables merge_variables empty_insert_order_table
+  merge_variables &result_insert_order_table statements_result_insert_order_table
+  -> result_insert_order_table
+
+$funky_types::statement/collect_variables: (self)
+  $head head_of(self)
+  $arguments arguments_of(self)
+  if
+    identifier_of(head).is_a_builtin_function_name:
+      filter $destinations $rest arguments: (argument)
+	$node_type node_type_of(argument)
+	->
+	  ||
+	    node_type == DEFINITION
+	    node_type == REDEFINITION && kind_of(argument) == TEMPORARY
+      if
+	&&
+	  length_of(rest) == 1
+	  ||
+	    node_type_of(rest(1)) == ATTRIBUTE_VALUE_PAIR
+	    node_type_of(rest(1)) == METHOD_VALUE_PAIR
+	    node_type_of(rest(1)) == TYPE_FUNCTION
+	:
+	  merge_variables
+	    insert_order_table
+	      =
+		identifier_of(destinations(1))
+		tuple(undefined current_level USED | HAS_SLOTS)
+	    collect_variables(rest(1))
+	:
+	  if
+	    length_of(destinations) == 1:
+	      merge_variables
+		insert_order_table
+		  identifier_of(destinations(1)) = tuple(self current_level 0)
+		map_reduce
+		  push(rest head)
+		  collect_variables
+		  merge_variables
+		  empty_insert_order_table
+	    collect_statement
+    collect_statement
+
+  $collect_statement:
+    map_reduce
+      push(arguments head)
+      collect_variables
+      merge_variables
+      empty_insert_order_table
+
+# definitions
+
+$funky_types::definition/collect_variables: (self)
+  $identifier identifier_of(self)
+  $flags
+    if
+      identifier(1).is_a_digit
+      -> 0
+      :
+	case
+	  source_position_of(self)(length_of(identifier)+1)
+	  '.', '/' -> HAS_SLOTS
+	  -> 0
+  ->
+    insert_order_table
+      identifier = tuple(self current_level flags)
+
+$funky_types::parameter/collect_variables collect_parameter
+$funky_types::inline_parameter/collect_variables collect_parameter
+
+$collect_parameter: (self)
+  merge_variables
+    insert_order_table
+      funky::name_of(self) = tuple(self current_level 0)
+    collect_variables(option_of(self))
+
+# redefinitions
+
+$funky_types::redefinition/collect_variables: (self)
+  $kind kind_of(self)
+  if
+    kind == TEMPORARY
+    -> empty_insert_order_table
+    ->
+      insert_order_table
+	=
+	  identifier_of(self)
+	  tuple
+	    undefined
+	    current_level
+	    if
+	      current_level == 0
+	      -> REDEFINED_ON_TOP_LEVEL
+	      -> REDEFINED
+
+$funky_types::update/collect_variables: (self)
+  $kind kind_of(self)
+  if
+    kind == TEMPORARY
+    -> empty_insert_order_table
+    ->
+      insert_order_table
+	=
+	  identifier_of(self)
+	  tuple
+	    undefined
+	    current_level
+	    if
+	      current_level == 0
+	      -> REDEFINED_ON_TOP_LEVEL | USED
+	      -> REDEFINED | USED
+
+# uses
+
+$funky_types::functor/collect_variables: (self)
+  $kind kind_of(self)
+  case kind
+    TEMPORARY, BUILTIN -> empty_insert_order_table
+    ->
+      insert_order_table
+	identifier_of(self) = tuple(undefined current_level USED)
+
+$funky_types::pair/collect_variables: (self)
+  merge_variables
+    insert_order_table
+      identifier_of(self) = tuple(undefined current_level USED_POLYMORPHIC)
+    collect_variables(argument_of(self))
+
+$funky_types::inline_attribute_value_pair/collect_variables collect_inline_pair
+$funky_types::inline_method_value_pair/collect_variables collect_inline_pair
+
+$collect_inline_pair: (self)
+  merge_variables
+    insert_order_table
+      identifier_of(self) = tuple(undefined current_level USED_POLYMORPHIC)
+    collect_variables(expression_of(self))
+
+$funky::merge_variables: (left right)
+  merge left right: (left_info right_info)
+    left_info $left_definition $left_level $left_flags
+    right_info $right_definition $right_level $right_flags
+    tuple
+      if
+	left_definition.is_defined
+	-> left_definition
+	-> right_definition
+      if
+	left_level == right_level || left_level == TOP_LEVEL
+	-> left_level
+	:
+	  if
+	    ||
+	      right_level == TOP_LEVEL
+	      left_definition.is_defined && left_level == 0
+	      right_definition.is_defined && right_level == 0
+	    -> TOP_LEVEL
+	    -> MULTI_LEVEL
+      left_flags|right_flags
+
+$funky::categorize_variables: (variables)
+  $new_variables empty_insert_order_table
+  for_each variables
+    : (name info)
+      if
+	new_variables(name).is_defined
+	next
+	:
+	  categorize name info !new_variables
+	  next
+    -> new_variables
+
+  $categorize: (name info)
+    info $definition $level $flags
+    on
+      ==
+	flags & (HAS_SLOTS | REDEFINED_ON_TOP_LEVEL)
+	HAS_SLOTS | REDEFINED_ON_TOP_LEVEL
+      :
+	syntax_error "Object with slots redefined on top-level" definition
+    on
+      &&
+	not(allow_unused)
+	definition.is_defined
+	flags & USED == 0
+	name(1) != '_'
+	not(name .contains. ':')
+      :
+	syntax_error "Unused variable" definition
+    if
+      definition.is_defined:
+	$node_type node_type_of(definition)
+	if
+	  ||
+	    flags & REDEFINED_ON_TOP_LEVEL == REDEFINED_ON_TOP_LEVEL
+	    node_type == DEFINITION
+	    node_type == INLINE_PARAMETER
+	    node_type == PARAMETER
+	  local_or_dynamic
+	  : # it's a statement
+	    $arguments arguments_of(definition)
+	    check_arguments $arguments_are_constant !new_variables
+	      arguments level
+	    if
+	      arguments_are_constant:
+		$first_argument arguments(1)
+		$node_type_of_first_argument node_type_of(first_argument)
+		case node_type_of_first_argument
+		  ATTRIBUTE, ATTRIBUTE_WITH_SETTER
+		  -> new_variables(name tuple(node_type_of_first_argument undefined))
+		  :
+		    $func
+		      identifier_of(head_of(definition)) .truncate_until. "::"
+		    if
+		      func == "assign":
+			$value
+			  if
+			    node_type_of(first_argument) == DEFINITION
+			    -> arguments(2)
+			    -> first_argument
+			if
+			  node_type_of(value) == FUNCTOR:
+			    if
+			      kind_of(value) == EXTERN
+			      -> new_variables(name tuple(DERIVED value))
+			      :
+				if
+				  level == 0 || level == TOP_LEVEL:
+				    $new_info new_variables(identifier_of(value))
+				    ->
+				      new_variables
+					name
+					case
+					  first(new_info)
+					  DERIVED, INITIALIZED_COMPOUND
+					  -> tuple(DERIVED value)
+					  -> tuple(INITIALIZED second(new_info))
+				  local_or_dynamic
+			  :
+			    if
+			      flags & REDEFINED == 0:
+				if
+				  name .contains. ':' || flags & HAS_SLOTS != 0
+				  -> new_variables(name tuple(INITIALIZED value))
+				  -> new_variables(name tuple(CONSTANT value))
+			      :
+				if
+				  level == 0 || level == TOP_LEVEL
+				  -> new_variables(name tuple(INITIALIZED value))
+				  local_or_dynamic
+		      :
+			if
+			  flags & REDEFINED == 0:
+			    $n length_of(arguments)-1
+			    !definition.funky::key_of
+			      string
+				func
+				n
+				"_"
+				map_reduce(arguments get_key append "")
+			    if
+			      name .contains. ':' || flags & HAS_SLOTS != 0
+			      ->
+				new_variables
+				  name tuple(INITIALIZED_COMPOUND definition)
+			      ->
+				new_variables
+				  name tuple(CONSTANT_COMPOUND definition)
+			  :
+			    if
+			      level == 0 || level == TOP_LEVEL
+			      ->
+				new_variables
+				  name tuple(INITIALIZED definition)
+			      local_or_dynamic
+	      local_or_dynamic
+      :
+	!new_variables(name)
+	  tuple
+	    if
+	      flags & POLYMORPHIC != 0
+	      -> EXTERN_POLYMORPHIC
+	      -> EXTERN
+	    undefined
+	-> new_variables
+
+    $local_or_dynamic:
+      if
+	level.is_an_integer && not(name .contains. ':')
+	-> new_variables(name tuple(LOCAL undefined))
+	-> new_variables(name tuple(DYNAMIC undefined))
+
+  $check_arguments: (arguments level)
+    for_each arguments
+      : (argument)
+	if
+	  node_type_of(argument) == FUNCTOR:
+	    # check only the reference variables
+	    if
+	      kind_of(argument) == EXTERN:
+		if
+		  level == 0 || level == TOP_LEVEL
+		  next
+		  -> false new_variables
+	      :
+		$identifier identifier_of(argument)
+		$new_info new_variables(identifier)
+		if
+		  new_info.is_defined
+		  check_new_info
+		  :
+		    $info variables(identifier)
+		    if
+		      info.is_defined:
+			categorize identifier info !new_variables
+			!new_info new_variables(identifier)
+			check_new_info
+		      -> false new_variables # a non-constant temporary
+
+		$check_new_info:
+		  case first(new_info)
+		    CONSTANT, CONSTANT_COMPOUND
+		    next
+		    sequence
+		      INITIALIZED
+		      INITIALIZED_COMPOUND
+		      ATTRIBUTE
+		      ATTRIBUTE_WITH_SETTER
+		      DERIVED
+		    :
+		      if
+			level == 0 || level == TOP_LEVEL
+			next
+			-> false new_variables
+		    -> false new_variables
+	  next
+      -> true new_variables
+
+  $get_key: (node)
+    case node_type_of(node)
+      DEFINITION, REDEFINITION -> ""
+      FUNCTOR:
+	if
+	  kind_of(node) == EXTERN
+	  -> "ext_@(identifier_of(node))"
+	  :
+	    $info new_variables(identifier_of(node))
+	    info $kind $value
+	    case kind
+	      ATTRIBUTE, ATTRIBUTE_WITH_SETTER
+	      -> "attr_@(identifier_of(node))"
+	      -> get_key(value)
+      -> funky::key_of(node)

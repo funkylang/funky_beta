@@ -1,0 +1,82 @@
+#!/usr/bin/env fkyrun
+
+$starts_a_paragraph ()
+
+load! $source command_line_arguments(1)
+from_utf8 &source
+
+split_into_indented_lines $indented_lines source
+annotate_paragraph_starts &indented_lines
+$groups split_into_groups(indented_lines)
+print! map_reduce(groups reformat).trim_left
+
+$reformat: (idx group)
+  group $indent $text
+  $subgroups subgroups_of(group)
+  cond
+    -> subgroups.is_defined:
+      if
+	text == "`@nl;": # preformatted text
+	  append
+	    "@nl;"
+	    tabs_and_spaces(indent) text
+	    map_reduce
+	      subgroups
+	      : (line)
+		if
+		  line.is_defined:
+		    line $line_indent $line_text
+		    append tabs_and_spaces(line_indent) line_text
+		  -> "@nl;"
+	:
+	  !groups split_into_groups(subgroups)
+	  append
+	    "@nl;"
+	    tabs_and_spaces(indent)
+	    text.to_title_case
+	    map_reduce(groups reformat)
+    -> text(1) == '[':
+      $is_first_table_line
+	||
+	  idx == 1
+	  second(groups(idx-1))(1) != '['
+      append
+	if
+	  is_first_table_line
+	  -> "@nl;"
+	  -> ""
+	tabs_and_spaces(indent) text
+    -> true:
+      $is_last_line_of_paragraph
+	||
+	  idx == length_of(groups)
+	  groups(idx+1).starts_a_paragraph
+      if
+	is_last_line_of_paragraph:
+	    $s idx
+	    loop:
+	      if
+		groups(s).starts_a_paragraph:
+		  $paragraph
+		    map_reduce
+		      range(groups s idx)
+		      : (group) -> range(second(group) 1 -2)
+		      concatenate(" ")
+		  append "@nl;" tabs_and_spaces(indent) paragraph "@nl;"
+		:
+		  dec &s
+		  next
+	-> ""
+
+$annotate_paragraph_starts: (lines)
+  map lines: (line_no line)
+    ->
+      line
+	.starts_a_paragraph
+	  &&
+	    line.is_defined
+	    ||
+	      line_no == 1
+	      ||
+		lines(line_no-1).is_undefined
+		first(lines(line_no-1)) != first(line)

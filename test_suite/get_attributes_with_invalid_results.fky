@@ -1,0 +1,8 @@
+#!/usr/bin/env fkyrun
+
+$obj std_types::object
+$obj.length_of 47
+
+length_of obj $a $b
+dump! `a
+dump! `b

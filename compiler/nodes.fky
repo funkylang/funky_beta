@@ -1,0 +1,772 @@
+#
+  These node definitions were automatically derived from the file
+  "new_compiler/funky.nlb".
+
+###
+# Attributes
+
+$funky::node_type_of ()
+$funky::line_no_of ()
+$funky::skip_of ()
+
+###
+# Node Kinds
+
+$funky::STATEMENT .
+$funky::INLINE_STATEMENT .
+$funky::ATTRIBUTE_VALUE_PAIR .
+$funky::TYPE_FUNCTION .
+$funky::METHOD_VALUE_PAIR .
+$funky::PAIR .
+$funky::NAMESPACE_INSTRUCTION .
+$funky::REQUIRE_INSTRUCTION .
+$funky::USING_INSTRUCTION .
+$funky::ALIAS_INSTRUCTION .
+$funky::RESOLVE_INSTRUCTION .
+$funky::ALLOW_INSTRUCTION .
+$funky::ALIAS .
+$funky::VERSION_NO .
+$funky::UNSTABLE .
+$funky::ALLOW_HIDDEN .
+$funky::ALLOW_UNUSED .
+$funky::FUNCTOR .
+$funky::FUNCTION_CALL_EXTENSION .
+$funky::ATTRIBUTE_ACCESS_EXTENSION .
+$funky::INLINE_FUNCTOR .
+$funky::INLINE_FUNCTION_CALL_EXTENSION .
+$funky::INLINE_ATTRIBUTE_ACCESS_EXTENSION .
+$funky::IO_CALL .
+$funky::FUNCTION_CALL .
+$funky::FUNCTION_CALL_ARGUMENTS .
+$funky::INLINE_RETURN .
+$funky::ATTRIBUTE_ACCESS .
+$funky::SPACED_ARGUMENTS .
+$funky::SPACED_STATEMENT_ARGUMENTS .
+$funky::ARGUMENTS .
+$funky::EVEN_MORE_STATEMENT_ARGUMENTS .
+$funky::MULTILINE_ARGUMENTS .
+$funky::TAGGED_MULTILINE_ARGUMENTS .
+$funky::REMARK_AND_MULTILINE_FUNCTION_CALL .
+$funky::DUMMY_DEFINITION .
+$funky::VARIABLE .
+$funky::DEFINITION .
+$funky::REDEFINITION .
+$funky::UPDATE .
+$funky::EXPRESSION .
+$funky::KEY_VALUE .
+$funky::SEQUENCE_EXPRESSION .
+$funky::COMMA .
+$funky::COMMA_EXPRESSION .
+$funky::CONDITIONAL_EXPRESSION .
+$funky::AND .
+$funky::AND_EXPRESSION .
+$funky::OR .
+$funky::OR_EXPRESSION .
+$funky::NAMED_OPERATOR_EXPRESSION .
+$funky::NAMED_OPERATOR .
+$funky::RANGE_EXPRESSION .
+$funky::RANGE .
+$funky::RELATIONAL_EXPRESSION .
+$funky::EQUAL .
+$funky::NOT_EQUAL .
+$funky::LESS_EQUAL .
+$funky::LESS_THAN .
+$funky::GREATER_EQUAL .
+$funky::GREATER_THAN .
+$funky::TAGGED_BIT_EXPRESSION .
+$funky::BIT_EXPRESSION .
+$funky::SHIFT_LEFT .
+$funky::SHIFT_RIGHT .
+$funky::BIT_AND .
+$funky::BIT_AND2 .
+$funky::BIT_OR .
+$funky::BIT_OR2 .
+$funky::BIT_XOR .
+$funky::BIT_XOR2 .
+$funky::TAGGED_ADDITIVE_EXPRESSION .
+$funky::ADDITIVE_EXPRESSION .
+$funky::PLUS .
+$funky::PLUS2 .
+$funky::MINUS .
+$funky::TAGGED_MULTIPLICATIVE_EXPRESSION .
+$funky::MULTIPLICATIVE_EXPRESSION .
+$funky::TIMES .
+$funky::TIMES2 .
+$funky::OVER .
+$funky::PARENTHESED_EXPRESSION .
+$funky::BACKQUOTED .
+$funky::NEGATION .
+$funky::MULTILINE_OPERATOR .
+$funky::MULTILINE_PLUS .
+$funky::MULTILINE_MINUS .
+$funky::MULTILINE_MINUS_WITH_REMARK .
+$funky::MULTILINE_TIMES .
+$funky::MULTILINE_OVER .
+$funky::MULTILINE_OVER_WITH_REMARK .
+$funky::MULTILINE_SHIFT_LEFT .
+$funky::MULTILINE_SHIFT_RIGHT .
+$funky::MULTILINE_EQUAL .
+$funky::MULTILINE_NOT_EQUAL .
+$funky::MULTILINE_LESS_EQUAL .
+$funky::MULTILINE_LESS_THAN .
+$funky::MULTILINE_GREATER_EQUAL .
+$funky::MULTILINE_GREATER_THAN .
+$funky::MULTILINE_AND .
+$funky::MULTILINE_OR .
+$funky::MULTILINE_BIT_AND .
+$funky::MULTILINE_BIT_AND_WITH_REMARK .
+$funky::MULTILINE_BIT_OR .
+$funky::MULTILINE_BIT_XOR .
+$funky::MULTILINE_ASSIGN .
+$funky::INLINE_ATTRIBUTE_VALUE_PAIR .
+$funky::INLINE_METHOD_VALUE_PAIR .
+$funky::EXPRESSION_AND_INLINE_ARGUMENTS .
+$funky::SPACED_INLINE_ARGUMENTS .
+$funky::NUMERIC_LITERAL .
+$funky::AT_CHARACTER_LITERAL .
+$funky::NAMED_CHARACTER_LITERAL .
+$funky::NUMERIC_CHARACTER_LITERAL .
+$funky::CHARACTER_LITERAL .
+$funky::STRING_LITERAL .
+$funky::SOME_STRING_COMPONENTS .
+$funky::CHARACTER_SEQUENCE .
+$funky::MULTILINE_STRING_LITERAL .
+$funky::NEWLINE .
+$funky::SOME_STRING_LINE_COMPONENTS .
+$funky::STRING_LINE_END .
+$funky::AT_CHARACTER .
+$funky::TAGGED_EMPTY_CHARACTER .
+$funky::EMPTY_CHARACTER .
+$funky::ESCAPE_EXPRESSION .
+$funky::NAMED_CHARACTER .
+$funky::NUMERIC_CHARACTER .
+$funky::STRING_LINE_CHARACTER_SEQUENCE .
+$funky::UNIQUE .
+$funky::ATTRIBUTE .
+$funky::ATTRIBUTE_WITH_SETTER .
+$funky::BODY .
+$funky::LINE_END_STATEMENT .
+$funky::INLINE_BODY .
+$funky::STATEMENTS .
+$funky::ONE_OR_MORE_INLINE_PARAMETERS .
+$funky::OPEN_PARAMETERS .
+$funky::INLINE_PARAMETER .
+$funky::PARAMETER .
+$funky::MYSELF .
+$funky::REST .
+$funky::INITIAL_VALUE .
+$funky::CLOSE_PARAMETERS .
+$funky::RETURN_EXPRESSION .
+$funky::RETURN .
+$funky::REMARK .
+$funky::LINE_END_AND_LINE_REMARKS .
+$funky::LINE_REMARKS .
+$funky::SPACED_REMARK .
+$funky::MULTILINE_REMARK .
+$funky::REMARK_LINES .
+$funky::DUMMY_REMARK .
+
+###
+# Node Attributes
+
+$funky::source_group_of ()
+$funky::source_position_of ()
+$funky::access_of (!)
+$funky::alias_of (!)
+$funky::and2_of (!)
+$funky::argument_of (!)
+$funky::arguments_of (!)
+$funky::body_of (!)
+$funky::call_of (!)
+$funky::calls_of (!)
+$funky::character_of (!)
+$funky::characters_of (!)
+$funky::component_of (!)
+$funky::components_of (!)
+$funky::digits_of (!)
+$funky::expression_of (!)
+$funky::extensions_of (!)
+$funky::filename_of (!)
+$funky::head_of (!)
+$funky::identifier_of (!)
+$funky::lines_of (!)
+$funky::major_of (!)
+$funky::minor_of (!)
+$funky::name_of (!)
+$funky::operand_of (!)
+$funky::operator_of (!)
+$funky::option_of (!)
+$funky::or2_of (!)
+$funky::pair_of (!)
+$funky::parameter_of (!)
+$funky::parameters_of (!)
+$funky::plus2_of (!)
+$funky::pragma_of (!)
+$funky::remark_of (!)
+$funky::remarks_of (!)
+$funky::sign_of (!)
+$funky::statement_of (!)
+$funky::statements_of (!)
+$funky::text_of (!)
+$funky::times2_of (!)
+$funky::version_of (!)
+$funky::xor2_of (!)
+
+###
+# Node Definitions
+
+$funky_types::node std_types::object
+$funky_types::node.funky::source_group_of undefined
+$funky_types::node.funky::source_position_of undefined
+
+$funky_types::fieldless_node funky_types::node
+
+$funky_types::simple_name funky_types::node
+$funky_types::simple_name.funky::name_of undefined
+
+$funky_types::identifier_and_expression funky_types::node
+$funky_types::identifier_and_expression.funky::identifier_of undefined
+$funky_types::identifier_and_expression.funky::expression_of undefined
+
+$funky_types::simple_expression funky_types::node
+$funky_types::simple_expression.funky::expression_of undefined
+
+$funky_types::namespace_meta_instruction funky_types::node
+$funky_types::namespace_meta_instruction.funky::name_of undefined
+$funky_types::namespace_meta_instruction.funky::version_of undefined
+$funky_types::namespace_meta_instruction.funky::remarks_of undefined
+
+$funky_types::statement funky_types::node
+$funky_types::statement.funky::node_type_of funky::STATEMENT
+$funky_types::statement.funky::head_of undefined
+$funky_types::statement.funky::arguments_of empty_list
+
+$funky_types::inline_statement funky_types::node
+$funky_types::inline_statement.funky::node_type_of funky::INLINE_STATEMENT
+$funky_types::inline_statement.funky::head_of undefined
+$funky_types::inline_statement.funky::arguments_of undefined
+
+$funky_types::attribute_value_pair funky_types::pair
+$funky_types::attribute_value_pair.funky::node_type_of funky::ATTRIBUTE_VALUE_PAIR
+
+$funky_types::type_function funky_types::body
+$funky_types::type_function.funky::node_type_of funky::TYPE_FUNCTION
+
+$funky_types::method_value_pair funky_types::pair
+$funky_types::method_value_pair.funky::node_type_of funky::METHOD_VALUE_PAIR
+
+$funky_types::pair funky_types::node
+$funky_types::pair.funky::node_type_of funky::PAIR
+$funky_types::pair.funky::identifier_of undefined
+$funky_types::pair.funky::argument_of undefined
+
+$funky_types::namespace_instruction funky_types::namespace_meta_instruction
+$funky_types::namespace_instruction.funky::node_type_of funky::NAMESPACE_INSTRUCTION
+
+$funky_types::require_instruction funky_types::node
+$funky_types::require_instruction.funky::node_type_of funky::REQUIRE_INSTRUCTION
+$funky_types::require_instruction.funky::filename_of undefined
+$funky_types::require_instruction.funky::remarks_of undefined
+
+$funky_types::using_instruction funky_types::namespace_meta_instruction
+$funky_types::using_instruction.funky::node_type_of funky::USING_INSTRUCTION
+
+$funky_types::alias_instruction funky_types::node
+$funky_types::alias_instruction.funky::node_type_of funky::ALIAS_INSTRUCTION
+$funky_types::alias_instruction.funky::alias_of undefined
+$funky_types::alias_instruction.funky::sign_of undefined
+$funky_types::alias_instruction.funky::name_of undefined
+$funky_types::alias_instruction.funky::remarks_of undefined
+
+$funky_types::resolve_instruction funky_types::namespace_meta_instruction
+$funky_types::resolve_instruction.funky::node_type_of funky::RESOLVE_INSTRUCTION
+
+$funky_types::allow_instruction funky_types::node
+$funky_types::allow_instruction.funky::node_type_of funky::ALLOW_INSTRUCTION
+$funky_types::allow_instruction.funky::pragma_of undefined
+$funky_types::allow_instruction.funky::remarks_of undefined
+
+$funky_types::alias funky_types::simple_name
+$funky_types::alias.funky::node_type_of funky::ALIAS
+
+$funky_types::version_no funky_types::node
+$funky_types::version_no.funky::node_type_of funky::VERSION_NO
+$funky_types::version_no.funky::major_of undefined
+$funky_types::version_no.funky::minor_of undefined
+
+$funky_types::unstable funky_types::fieldless_node
+$funky_types::unstable.funky::node_type_of funky::UNSTABLE
+
+$funky_types::allow_hidden funky_types::fieldless_node
+$funky_types::allow_hidden.funky::node_type_of funky::ALLOW_HIDDEN
+
+$funky_types::allow_unused funky_types::fieldless_node
+$funky_types::allow_unused.funky::node_type_of funky::ALLOW_UNUSED
+
+$funky_types::functor funky_types::node
+$funky_types::functor.funky::node_type_of funky::FUNCTOR
+$funky_types::functor.funky::identifier_of undefined
+$funky_types::functor.funky::extensions_of empty_list
+
+$funky_types::function_call_extension funky_types::node
+$funky_types::function_call_extension.funky::node_type_of funky::FUNCTION_CALL_EXTENSION
+$funky_types::function_call_extension.funky::call_of undefined
+$funky_types::function_call_extension.funky::extensions_of empty_list
+
+$funky_types::attribute_access_extension funky_types::node
+$funky_types::attribute_access_extension.funky::node_type_of funky::ATTRIBUTE_ACCESS_EXTENSION
+$funky_types::attribute_access_extension.funky::access_of undefined
+$funky_types::attribute_access_extension.funky::extensions_of empty_list
+
+$funky_types::inline_functor funky_types::functor
+$funky_types::inline_functor.funky::node_type_of funky::INLINE_FUNCTOR
+
+$funky_types::inline_function_call_extension funky_types::node
+$funky_types::inline_function_call_extension.funky::node_type_of funky::INLINE_FUNCTION_CALL_EXTENSION
+$funky_types::inline_function_call_extension.funky::call_of undefined
+$funky_types::inline_function_call_extension.funky::extensions_of empty_list
+
+$funky_types::inline_attribute_access_extension funky_types::node
+$funky_types::inline_attribute_access_extension.funky::node_type_of funky::INLINE_ATTRIBUTE_ACCESS_EXTENSION
+$funky_types::inline_attribute_access_extension.funky::access_of undefined
+$funky_types::inline_attribute_access_extension.funky::extensions_of empty_list
+
+$funky_types::io_call funky_types::fieldless_node
+$funky_types::io_call.funky::node_type_of funky::IO_CALL
+
+$funky_types::function_call funky_types::node
+$funky_types::function_call.funky::node_type_of funky::FUNCTION_CALL
+$funky_types::function_call.funky::arguments_of empty_list
+
+$funky_types::function_call_arguments funky_types::function_call
+$funky_types::function_call_arguments.funky::node_type_of funky::FUNCTION_CALL_ARGUMENTS
+
+$funky_types::inline_return funky_types::function_call
+$funky_types::inline_return.funky::node_type_of funky::INLINE_RETURN
+
+$funky_types::attribute_access funky_types::node
+$funky_types::attribute_access.funky::node_type_of funky::ATTRIBUTE_ACCESS
+$funky_types::attribute_access.funky::identifier_of undefined
+
+$funky_types::spaced_arguments funky_types::node
+$funky_types::spaced_arguments.funky::node_type_of funky::SPACED_ARGUMENTS
+$funky_types::spaced_arguments.funky::arguments_of undefined
+
+$funky_types::spaced_statement_arguments funky_types::node
+$funky_types::spaced_statement_arguments.funky::node_type_of funky::SPACED_STATEMENT_ARGUMENTS
+$funky_types::spaced_statement_arguments.funky::arguments_of undefined
+
+$funky_types::arguments funky_types::node
+$funky_types::arguments.funky::node_type_of funky::ARGUMENTS
+$funky_types::arguments.funky::argument_of undefined
+$funky_types::arguments.funky::arguments_of empty_list
+
+$funky_types::even_more_statement_arguments funky_types::node
+$funky_types::even_more_statement_arguments.funky::node_type_of funky::EVEN_MORE_STATEMENT_ARGUMENTS
+$funky_types::even_more_statement_arguments.funky::argument_of undefined
+$funky_types::even_more_statement_arguments.funky::arguments_of empty_list
+
+$funky_types::multiline_arguments funky_types::function_call
+$funky_types::multiline_arguments.funky::node_type_of funky::MULTILINE_ARGUMENTS
+
+$funky_types::tagged_multiline_arguments funky_types::function_call
+$funky_types::tagged_multiline_arguments.funky::node_type_of funky::TAGGED_MULTILINE_ARGUMENTS
+
+$funky_types::remark_and_multiline_function_call funky_types::node
+$funky_types::remark_and_multiline_function_call.funky::node_type_of funky::REMARK_AND_MULTILINE_FUNCTION_CALL
+$funky_types::remark_and_multiline_function_call.funky::remark_of undefined
+$funky_types::remark_and_multiline_function_call.funky::arguments_of empty_list
+
+$funky_types::dummy_definition funky_types::simple_name
+$funky_types::dummy_definition.funky::node_type_of funky::DUMMY_DEFINITION
+
+$funky_types::variable funky_types::attribute_access
+$funky_types::variable.funky::node_type_of funky::VARIABLE
+
+$funky_types::definition funky_types::attribute_access
+$funky_types::definition.funky::node_type_of funky::DEFINITION
+
+$funky_types::redefinition funky_types::functor
+$funky_types::redefinition.funky::node_type_of funky::REDEFINITION
+
+$funky_types::update funky_types::functor
+$funky_types::update.funky::node_type_of funky::UPDATE
+
+$funky_types::expression funky_types::node
+$funky_types::expression.funky::node_type_of funky::EXPRESSION
+$funky_types::expression.funky::expression_of undefined
+$funky_types::expression.funky::operator_of undefined
+
+$funky_types::key_value funky_types::sequence_expression
+$funky_types::key_value.funky::node_type_of funky::KEY_VALUE
+
+$funky_types::sequence_expression funky_types::expression
+$funky_types::sequence_expression.funky::node_type_of funky::SEQUENCE_EXPRESSION
+
+$funky_types::comma funky_types::comma_expression
+$funky_types::comma.funky::node_type_of funky::COMMA
+
+$funky_types::comma_expression funky_types::expression
+$funky_types::comma_expression.funky::node_type_of funky::COMMA_EXPRESSION
+
+$funky_types::conditional_expression funky_types::expression
+$funky_types::conditional_expression.funky::node_type_of funky::CONDITIONAL_EXPRESSION
+
+$funky_types::and funky_types::and_expression
+$funky_types::and.funky::node_type_of funky::AND
+
+$funky_types::and_expression funky_types::expression
+$funky_types::and_expression.funky::node_type_of funky::AND_EXPRESSION
+
+$funky_types::or funky_types::or_expression
+$funky_types::or.funky::node_type_of funky::OR
+
+$funky_types::or_expression funky_types::expression
+$funky_types::or_expression.funky::node_type_of funky::OR_EXPRESSION
+
+$funky_types::named_operator_expression funky_types::expression
+$funky_types::named_operator_expression.funky::node_type_of funky::NAMED_OPERATOR_EXPRESSION
+
+$funky_types::named_operator funky_types::identifier_and_expression
+$funky_types::named_operator.funky::node_type_of funky::NAMED_OPERATOR
+
+$funky_types::range_expression funky_types::expression
+$funky_types::range_expression.funky::node_type_of funky::RANGE_EXPRESSION
+
+$funky_types::range funky_types::relational_expression
+$funky_types::range.funky::node_type_of funky::RANGE
+
+$funky_types::relational_expression funky_types::expression
+$funky_types::relational_expression.funky::node_type_of funky::RELATIONAL_EXPRESSION
+
+$funky_types::equal funky_types::tagged_bit_expression
+$funky_types::equal.funky::node_type_of funky::EQUAL
+
+$funky_types::not_equal funky_types::tagged_bit_expression
+$funky_types::not_equal.funky::node_type_of funky::NOT_EQUAL
+
+$funky_types::less_equal funky_types::tagged_bit_expression
+$funky_types::less_equal.funky::node_type_of funky::LESS_EQUAL
+
+$funky_types::less_than funky_types::tagged_bit_expression
+$funky_types::less_than.funky::node_type_of funky::LESS_THAN
+
+$funky_types::greater_equal funky_types::tagged_bit_expression
+$funky_types::greater_equal.funky::node_type_of funky::GREATER_EQUAL
+
+$funky_types::greater_than funky_types::tagged_bit_expression
+$funky_types::greater_than.funky::node_type_of funky::GREATER_THAN
+
+$funky_types::tagged_bit_expression funky_types::expression
+$funky_types::tagged_bit_expression.funky::node_type_of funky::TAGGED_BIT_EXPRESSION
+
+$funky_types::bit_expression funky_types::expression
+$funky_types::bit_expression.funky::node_type_of funky::BIT_EXPRESSION
+
+$funky_types::shift_left funky_types::tagged_additive_expression
+$funky_types::shift_left.funky::node_type_of funky::SHIFT_LEFT
+
+$funky_types::shift_right funky_types::tagged_additive_expression
+$funky_types::shift_right.funky::node_type_of funky::SHIFT_RIGHT
+
+$funky_types::bit_and funky_types::bit_and2
+$funky_types::bit_and.funky::node_type_of funky::BIT_AND
+
+$funky_types::bit_and2 funky_types::expression
+$funky_types::bit_and2.funky::node_type_of funky::BIT_AND2
+
+$funky_types::bit_or funky_types::bit_or2
+$funky_types::bit_or.funky::node_type_of funky::BIT_OR
+
+$funky_types::bit_or2 funky_types::expression
+$funky_types::bit_or2.funky::node_type_of funky::BIT_OR2
+
+$funky_types::bit_xor funky_types::bit_xor2
+$funky_types::bit_xor.funky::node_type_of funky::BIT_XOR
+
+$funky_types::bit_xor2 funky_types::expression
+$funky_types::bit_xor2.funky::node_type_of funky::BIT_XOR2
+
+$funky_types::tagged_additive_expression funky_types::expression
+$funky_types::tagged_additive_expression.funky::node_type_of funky::TAGGED_ADDITIVE_EXPRESSION
+
+$funky_types::additive_expression funky_types::expression
+$funky_types::additive_expression.funky::node_type_of funky::ADDITIVE_EXPRESSION
+
+$funky_types::plus funky_types::plus2
+$funky_types::plus.funky::node_type_of funky::PLUS
+
+$funky_types::plus2 funky_types::expression
+$funky_types::plus2.funky::node_type_of funky::PLUS2
+
+$funky_types::minus funky_types::tagged_multiplicative_expression
+$funky_types::minus.funky::node_type_of funky::MINUS
+
+$funky_types::tagged_multiplicative_expression funky_types::expression
+$funky_types::tagged_multiplicative_expression.funky::node_type_of funky::TAGGED_MULTIPLICATIVE_EXPRESSION
+
+$funky_types::multiplicative_expression funky_types::expression
+$funky_types::multiplicative_expression.funky::node_type_of funky::MULTIPLICATIVE_EXPRESSION
+
+$funky_types::times funky_types::times2
+$funky_types::times.funky::node_type_of funky::TIMES
+
+$funky_types::times2 funky_types::expression
+$funky_types::times2.funky::node_type_of funky::TIMES2
+
+$funky_types::over funky_types::simple_expression
+$funky_types::over.funky::node_type_of funky::OVER
+
+$funky_types::parenthesed_expression funky_types::node
+$funky_types::parenthesed_expression.funky::node_type_of funky::PARENTHESED_EXPRESSION
+$funky_types::parenthesed_expression.funky::expression_of undefined
+$funky_types::parenthesed_expression.funky::calls_of empty_list
+
+$funky_types::backquoted funky_types::simple_expression
+$funky_types::backquoted.funky::node_type_of funky::BACKQUOTED
+
+$funky_types::negation funky_types::simple_expression
+$funky_types::negation.funky::node_type_of funky::NEGATION
+
+$funky_types::multiline_operator funky_types::remark_and_multiline_function_call
+$funky_types::multiline_operator.funky::node_type_of funky::MULTILINE_OPERATOR
+
+$funky_types::multiline_plus funky_types::multiline_operator
+$funky_types::multiline_plus.funky::node_type_of funky::MULTILINE_PLUS
+
+$funky_types::multiline_minus funky_types::node
+$funky_types::multiline_minus.funky::node_type_of funky::MULTILINE_MINUS
+$funky_types::multiline_minus.funky::remark_of undefined
+$funky_types::multiline_minus.funky::arguments_of empty_list
+
+$funky_types::multiline_minus_with_remark funky_types::remark_and_multiline_function_call
+$funky_types::multiline_minus_with_remark.funky::node_type_of funky::MULTILINE_MINUS_WITH_REMARK
+
+$funky_types::multiline_times funky_types::multiline_operator
+$funky_types::multiline_times.funky::node_type_of funky::MULTILINE_TIMES
+
+$funky_types::multiline_over funky_types::function_call
+$funky_types::multiline_over.funky::node_type_of funky::MULTILINE_OVER
+
+$funky_types::multiline_over_with_remark funky_types::remark_and_multiline_function_call
+$funky_types::multiline_over_with_remark.funky::node_type_of funky::MULTILINE_OVER_WITH_REMARK
+
+$funky_types::multiline_shift_left funky_types::multiline_operator
+$funky_types::multiline_shift_left.funky::node_type_of funky::MULTILINE_SHIFT_LEFT
+
+$funky_types::multiline_shift_right funky_types::multiline_operator
+$funky_types::multiline_shift_right.funky::node_type_of funky::MULTILINE_SHIFT_RIGHT
+
+$funky_types::multiline_equal funky_types::multiline_operator
+$funky_types::multiline_equal.funky::node_type_of funky::MULTILINE_EQUAL
+
+$funky_types::multiline_not_equal funky_types::multiline_operator
+$funky_types::multiline_not_equal.funky::node_type_of funky::MULTILINE_NOT_EQUAL
+
+$funky_types::multiline_less_equal funky_types::multiline_operator
+$funky_types::multiline_less_equal.funky::node_type_of funky::MULTILINE_LESS_EQUAL
+
+$funky_types::multiline_less_than funky_types::multiline_operator
+$funky_types::multiline_less_than.funky::node_type_of funky::MULTILINE_LESS_THAN
+
+$funky_types::multiline_greater_equal funky_types::multiline_operator
+$funky_types::multiline_greater_equal.funky::node_type_of funky::MULTILINE_GREATER_EQUAL
+
+$funky_types::multiline_greater_than funky_types::multiline_operator
+$funky_types::multiline_greater_than.funky::node_type_of funky::MULTILINE_GREATER_THAN
+
+$funky_types::multiline_and funky_types::multiline_operator
+$funky_types::multiline_and.funky::node_type_of funky::MULTILINE_AND
+
+$funky_types::multiline_or funky_types::multiline_operator
+$funky_types::multiline_or.funky::node_type_of funky::MULTILINE_OR
+
+$funky_types::multiline_bit_and funky_types::multiline_minus
+$funky_types::multiline_bit_and.funky::node_type_of funky::MULTILINE_BIT_AND
+
+$funky_types::multiline_bit_and_with_remark funky_types::remark_and_multiline_function_call
+$funky_types::multiline_bit_and_with_remark.funky::node_type_of funky::MULTILINE_BIT_AND_WITH_REMARK
+
+$funky_types::multiline_bit_or funky_types::multiline_operator
+$funky_types::multiline_bit_or.funky::node_type_of funky::MULTILINE_BIT_OR
+
+$funky_types::multiline_bit_xor funky_types::multiline_operator
+$funky_types::multiline_bit_xor.funky::node_type_of funky::MULTILINE_BIT_XOR
+
+$funky_types::multiline_assign funky_types::multiline_operator
+$funky_types::multiline_assign.funky::node_type_of funky::MULTILINE_ASSIGN
+
+$funky_types::inline_attribute_value_pair funky_types::identifier_and_expression
+$funky_types::inline_attribute_value_pair.funky::node_type_of funky::INLINE_ATTRIBUTE_VALUE_PAIR
+
+$funky_types::inline_method_value_pair funky_types::identifier_and_expression
+$funky_types::inline_method_value_pair.funky::node_type_of funky::INLINE_METHOD_VALUE_PAIR
+
+$funky_types::expression_and_inline_arguments funky_types::node
+$funky_types::expression_and_inline_arguments.funky::node_type_of funky::EXPRESSION_AND_INLINE_ARGUMENTS
+$funky_types::expression_and_inline_arguments.funky::expression_of undefined
+$funky_types::expression_and_inline_arguments.funky::arguments_of undefined
+
+$funky_types::spaced_inline_arguments funky_types::function_call
+$funky_types::spaced_inline_arguments.funky::node_type_of funky::SPACED_INLINE_ARGUMENTS
+
+$funky_types::numeric_literal funky_types::node
+$funky_types::numeric_literal.funky::node_type_of funky::NUMERIC_LITERAL
+$funky_types::numeric_literal.funky::digits_of undefined
+
+$funky_types::at_character_literal funky_types::fieldless_node
+$funky_types::at_character_literal.funky::node_type_of funky::AT_CHARACTER_LITERAL
+
+$funky_types::named_character_literal funky_types::simple_name
+$funky_types::named_character_literal.funky::node_type_of funky::NAMED_CHARACTER_LITERAL
+
+$funky_types::numeric_character_literal funky_types::numeric_literal
+$funky_types::numeric_character_literal.funky::node_type_of funky::NUMERIC_CHARACTER_LITERAL
+
+$funky_types::character_literal funky_types::node
+$funky_types::character_literal.funky::node_type_of funky::CHARACTER_LITERAL
+$funky_types::character_literal.funky::character_of undefined
+
+$funky_types::string_literal funky_types::node
+$funky_types::string_literal.funky::node_type_of funky::STRING_LITERAL
+$funky_types::string_literal.funky::components_of empty_list
+
+$funky_types::some_string_components funky_types::node
+$funky_types::some_string_components.funky::node_type_of funky::SOME_STRING_COMPONENTS
+$funky_types::some_string_components.funky::component_of undefined
+$funky_types::some_string_components.funky::components_of empty_list
+
+$funky_types::character_sequence funky_types::node
+$funky_types::character_sequence.funky::node_type_of funky::CHARACTER_SEQUENCE
+$funky_types::character_sequence.funky::characters_of undefined
+
+$funky_types::multiline_string_literal funky_types::string_literal
+$funky_types::multiline_string_literal.funky::node_type_of funky::MULTILINE_STRING_LITERAL
+
+$funky_types::newline funky_types::fieldless_node
+$funky_types::newline.funky::node_type_of funky::NEWLINE
+
+$funky_types::some_string_line_components funky_types::node
+$funky_types::some_string_line_components.funky::node_type_of funky::SOME_STRING_LINE_COMPONENTS
+$funky_types::some_string_line_components.funky::component_of undefined
+$funky_types::some_string_line_components.funky::components_of empty_list
+
+$funky_types::string_line_end funky_types::fieldless_node
+$funky_types::string_line_end.funky::node_type_of funky::STRING_LINE_END
+
+$funky_types::at_character funky_types::fieldless_node
+$funky_types::at_character.funky::node_type_of funky::AT_CHARACTER
+
+$funky_types::tagged_empty_character funky_types::character_literal
+$funky_types::tagged_empty_character.funky::node_type_of funky::TAGGED_EMPTY_CHARACTER
+
+$funky_types::empty_character funky_types::fieldless_node
+$funky_types::empty_character.funky::node_type_of funky::EMPTY_CHARACTER
+
+$funky_types::escape_expression funky_types::expression
+$funky_types::escape_expression.funky::node_type_of funky::ESCAPE_EXPRESSION
+
+$funky_types::named_character funky_types::simple_name
+$funky_types::named_character.funky::node_type_of funky::NAMED_CHARACTER
+
+$funky_types::numeric_character funky_types::numeric_literal
+$funky_types::numeric_character.funky::node_type_of funky::NUMERIC_CHARACTER
+
+$funky_types::string_line_character_sequence funky_types::character_sequence
+$funky_types::string_line_character_sequence.funky::node_type_of funky::STRING_LINE_CHARACTER_SEQUENCE
+
+$funky_types::unique funky_types::node
+$funky_types::unique.funky::node_type_of funky::UNIQUE
+$funky_types::unique.funky::remarks_of undefined
+
+$funky_types::attribute funky_types::unique
+$funky_types::attribute.funky::node_type_of funky::ATTRIBUTE
+
+$funky_types::attribute_with_setter funky_types::unique
+$funky_types::attribute_with_setter.funky::node_type_of funky::ATTRIBUTE_WITH_SETTER
+
+$funky_types::body funky_types::node
+$funky_types::body.funky::node_type_of funky::BODY
+$funky_types::body.funky::parameters_of empty_list
+$funky_types::body.funky::remark_of undefined
+$funky_types::body.funky::statements_of empty_list
+
+$funky_types::line_end_statement funky_types::statement
+$funky_types::line_end_statement.funky::node_type_of funky::LINE_END_STATEMENT
+
+$funky_types::inline_body funky_types::node
+$funky_types::inline_body.funky::node_type_of funky::INLINE_BODY
+$funky_types::inline_body.funky::parameters_of empty_list
+$funky_types::inline_body.funky::statement_of undefined
+
+$funky_types::statements funky_types::node
+$funky_types::statements.funky::node_type_of funky::STATEMENTS
+$funky_types::statements.funky::statement_of empty_list
+
+$funky_types::one_or_more_inline_parameters funky_types::node
+$funky_types::one_or_more_inline_parameters.funky::node_type_of funky::ONE_OR_MORE_INLINE_PARAMETERS
+$funky_types::one_or_more_inline_parameters.funky::parameter_of undefined
+$funky_types::one_or_more_inline_parameters.funky::parameters_of undefined
+
+$funky_types::open_parameters funky_types::node
+$funky_types::open_parameters.funky::node_type_of funky::OPEN_PARAMETERS
+$funky_types::open_parameters.funky::remark_of undefined
+$funky_types::open_parameters.funky::parameter_of empty_list
+
+$funky_types::inline_parameter funky_types::node
+$funky_types::inline_parameter.funky::node_type_of funky::INLINE_PARAMETER
+$funky_types::inline_parameter.funky::name_of undefined
+$funky_types::inline_parameter.funky::option_of undefined
+
+$funky_types::parameter funky_types::node
+$funky_types::parameter.funky::node_type_of funky::PARAMETER
+$funky_types::parameter.funky::name_of undefined
+$funky_types::parameter.funky::option_of undefined
+$funky_types::parameter.funky::remarks_of undefined
+
+$funky_types::myself funky_types::fieldless_node
+$funky_types::myself.funky::node_type_of funky::MYSELF
+
+$funky_types::rest funky_types::fieldless_node
+$funky_types::rest.funky::node_type_of funky::REST
+
+$funky_types::initial_value funky_types::node
+$funky_types::initial_value.funky::node_type_of funky::INITIAL_VALUE
+$funky_types::initial_value.funky::operand_of undefined
+
+$funky_types::close_parameters funky_types::node
+$funky_types::close_parameters.funky::node_type_of funky::CLOSE_PARAMETERS
+$funky_types::close_parameters.funky::remark_of undefined
+
+$funky_types::return_expression funky_types::function_call
+$funky_types::return_expression.funky::node_type_of funky::RETURN_EXPRESSION
+
+$funky_types::return funky_types::fieldless_node
+$funky_types::return.funky::node_type_of funky::RETURN
+
+$funky_types::remark funky_types::node
+$funky_types::remark.funky::node_type_of funky::REMARK
+$funky_types::remark.funky::text_of undefined
+
+$funky_types::line_end_and_line_remarks funky_types::node
+$funky_types::line_end_and_line_remarks.funky::node_type_of funky::LINE_END_AND_LINE_REMARKS
+$funky_types::line_end_and_line_remarks.funky::remark_of undefined
+$funky_types::line_end_and_line_remarks.funky::remarks_of empty_list
+
+$funky_types::line_remarks funky_types::node
+$funky_types::line_remarks.funky::node_type_of funky::LINE_REMARKS
+$funky_types::line_remarks.funky::remark_of empty_list
+
+$funky_types::spaced_remark funky_types::remark
+$funky_types::spaced_remark.funky::node_type_of funky::SPACED_REMARK
+
+$funky_types::multiline_remark funky_types::node
+$funky_types::multiline_remark.funky::node_type_of funky::MULTILINE_REMARK
+$funky_types::multiline_remark.funky::text_of undefined
+$funky_types::multiline_remark.funky::lines_of undefined
+
+$funky_types::remark_lines funky_types::remark
+$funky_types::remark_lines.funky::node_type_of funky::REMARK_LINES
+
+$funky_types::dummy_remark funky_types::fieldless_node
+$funky_types::dummy_remark.funky::node_type_of funky::DUMMY_REMARK

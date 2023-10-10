@@ -1,0 +1,164 @@
+#
+  These method definitions were automatically derived from the file
+  "new_compiler/collect_literals.fky".
+
+<using std>
+<using funky>
+
+<allow unused>
+
+$std_types::undefined/collect_literals: (self)
+  -> empty_insert_order_set
+
+$funky_types::node/collect_literals: (self)
+  -> empty_insert_order_set
+
+$funky_types::identifier_and_expression/collect_literals: (self)
+  collect_literals funky::expression_of(self) $result_insert_order_set
+  -> result_insert_order_set
+
+$funky_types::simple_expression/collect_literals: (self)
+  collect_literals funky::expression_of(self) $result_insert_order_set
+  -> result_insert_order_set
+
+$funky_types::statement/collect_literals: (self)
+  collect_literals funky::head_of(self) $result_insert_order_set
+  map_reduce funky::arguments_of(self) $arguments_result_insert_order_set collect_literals merge empty_insert_order_set
+  merge &result_insert_order_set arguments_result_insert_order_set
+  -> result_insert_order_set
+
+$funky_types::inline_statement/collect_literals: (self)
+  collect_literals funky::head_of(self) $result_insert_order_set
+  collect_literals funky::arguments_of(self) $arguments_result_insert_order_set
+  merge &result_insert_order_set arguments_result_insert_order_set
+  -> result_insert_order_set
+
+$funky_types::pair/collect_literals: (self)
+  collect_literals funky::argument_of(self) $result_insert_order_set
+  -> result_insert_order_set
+
+$funky_types::functor/collect_literals: (self)
+  map_reduce funky::extensions_of(self) $result_insert_order_set collect_literals merge empty_insert_order_set
+  -> result_insert_order_set
+
+$funky_types::function_call_extension/collect_literals: (self)
+  collect_literals funky::call_of(self) $result_insert_order_set
+  map_reduce funky::extensions_of(self) $extensions_result_insert_order_set collect_literals merge empty_insert_order_set
+  merge &result_insert_order_set extensions_result_insert_order_set
+  -> result_insert_order_set
+
+$funky_types::attribute_access_extension/collect_literals: (self)
+  collect_literals funky::access_of(self) $result_insert_order_set
+  map_reduce funky::extensions_of(self) $extensions_result_insert_order_set collect_literals merge empty_insert_order_set
+  merge &result_insert_order_set extensions_result_insert_order_set
+  -> result_insert_order_set
+
+$funky_types::inline_function_call_extension/collect_literals: (self)
+  collect_literals funky::call_of(self) $result_insert_order_set
+  map_reduce funky::extensions_of(self) $extensions_result_insert_order_set collect_literals merge empty_insert_order_set
+  merge &result_insert_order_set extensions_result_insert_order_set
+  -> result_insert_order_set
+
+$funky_types::inline_attribute_access_extension/collect_literals: (self)
+  collect_literals funky::access_of(self) $result_insert_order_set
+  map_reduce funky::extensions_of(self) $extensions_result_insert_order_set collect_literals merge empty_insert_order_set
+  merge &result_insert_order_set extensions_result_insert_order_set
+  -> result_insert_order_set
+
+$funky_types::function_call/collect_literals: (self)
+  map_reduce funky::arguments_of(self) $result_insert_order_set collect_literals merge empty_insert_order_set
+  -> result_insert_order_set
+
+$funky_types::spaced_arguments/collect_literals: (self)
+  collect_literals funky::arguments_of(self) $result_insert_order_set
+  -> result_insert_order_set
+
+$funky_types::spaced_statement_arguments/collect_literals: (self)
+  collect_literals funky::arguments_of(self) $result_insert_order_set
+  -> result_insert_order_set
+
+$funky_types::arguments/collect_literals: (self)
+  collect_literals funky::argument_of(self) $result_insert_order_set
+  map_reduce funky::arguments_of(self) $arguments_result_insert_order_set collect_literals merge empty_insert_order_set
+  merge &result_insert_order_set arguments_result_insert_order_set
+  -> result_insert_order_set
+
+$funky_types::even_more_statement_arguments/collect_literals: (self)
+  collect_literals funky::argument_of(self) $result_insert_order_set
+  map_reduce funky::arguments_of(self) $arguments_result_insert_order_set collect_literals merge empty_insert_order_set
+  merge &result_insert_order_set arguments_result_insert_order_set
+  -> result_insert_order_set
+
+$funky_types::remark_and_multiline_function_call/collect_literals: (self)
+  map_reduce funky::arguments_of(self) $result_insert_order_set collect_literals merge empty_insert_order_set
+  -> result_insert_order_set
+
+$funky_types::expression/collect_literals: (self)
+  collect_literals funky::expression_of(self) $result_insert_order_set
+  collect_literals funky::operator_of(self) $operator_result_insert_order_set
+  merge &result_insert_order_set operator_result_insert_order_set
+  -> result_insert_order_set
+
+$funky_types::parenthesed_expression/collect_literals: (self)
+  collect_literals funky::expression_of(self) $result_insert_order_set
+  map_reduce funky::calls_of(self) $calls_result_insert_order_set collect_literals merge empty_insert_order_set
+  merge &result_insert_order_set calls_result_insert_order_set
+  -> result_insert_order_set
+
+$funky_types::multiline_minus/collect_literals: (self)
+  map_reduce funky::arguments_of(self) $result_insert_order_set collect_literals merge empty_insert_order_set
+  -> result_insert_order_set
+
+$funky_types::expression_and_inline_arguments/collect_literals: (self)
+  collect_literals funky::expression_of(self) $result_insert_order_set
+  collect_literals funky::arguments_of(self) $arguments_result_insert_order_set
+  merge &result_insert_order_set arguments_result_insert_order_set
+  -> result_insert_order_set
+
+$funky_types::string_literal/collect_literals: (self)
+  map_reduce funky::components_of(self) $result_insert_order_set collect_literals merge empty_insert_order_set
+  -> result_insert_order_set
+
+$funky_types::some_string_components/collect_literals: (self)
+  collect_literals funky::component_of(self) $result_insert_order_set
+  map_reduce funky::components_of(self) $components_result_insert_order_set collect_literals merge empty_insert_order_set
+  merge &result_insert_order_set components_result_insert_order_set
+  -> result_insert_order_set
+
+$funky_types::some_string_line_components/collect_literals: (self)
+  collect_literals funky::component_of(self) $result_insert_order_set
+  map_reduce funky::components_of(self) $components_result_insert_order_set collect_literals merge empty_insert_order_set
+  merge &result_insert_order_set components_result_insert_order_set
+  -> result_insert_order_set
+
+$funky_types::inline_body/collect_literals: (self)
+  map_reduce funky::parameters_of(self) $result_insert_order_set collect_literals merge empty_insert_order_set
+  collect_literals funky::statement_of(self) $statement_result_insert_order_set
+  merge &result_insert_order_set statement_result_insert_order_set
+  -> result_insert_order_set
+
+$funky_types::statements/collect_literals: (self)
+  map_reduce funky::statement_of(self) $result_insert_order_set collect_literals merge empty_insert_order_set
+  -> result_insert_order_set
+
+$funky_types::one_or_more_inline_parameters/collect_literals: (self)
+  collect_literals funky::parameter_of(self) $result_insert_order_set
+  collect_literals funky::parameters_of(self) $parameters_result_insert_order_set
+  merge &result_insert_order_set parameters_result_insert_order_set
+  -> result_insert_order_set
+
+$funky_types::open_parameters/collect_literals: (self)
+  map_reduce funky::parameter_of(self) $result_insert_order_set collect_literals merge empty_insert_order_set
+  -> result_insert_order_set
+
+$funky_types::inline_parameter/collect_literals: (self)
+  collect_literals funky::option_of(self) $result_insert_order_set
+  -> result_insert_order_set
+
+$funky_types::parameter/collect_literals: (self)
+  collect_literals funky::option_of(self) $result_insert_order_set
+  -> result_insert_order_set
+
+$funky_types::initial_value/collect_literals: (self)
+  collect_literals funky::operand_of(self) $result_insert_order_set
+  -> result_insert_order_set

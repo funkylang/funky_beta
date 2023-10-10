@@ -1,0 +1,36 @@
+insert_order_table <14>
+  "firstName"
+  "John"
+  "lastName"
+  "Smith"
+  "isAlive"
+  <true>
+  "age"
+  27
+  "address"
+  insert_order_table <8>
+    "streetAddress"
+    "21 2nd Street"
+    "city"
+    "New York"
+    "state"
+    "NY"
+    "postalCode"
+    "10021-3100"
+  "phoneNumbers"
+  list <2>
+    insert_order_table <4>
+      "type"
+      "home"
+      "number"
+      "212 555-1234"
+    insert_order_table <4>
+      "type"
+      "office"
+      "number"
+      "646 555-4567"
+  "children"
+  list <3>
+    "Catherine"
+    "Thomas"
+    "Trevor"

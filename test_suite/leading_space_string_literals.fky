@@ -1,0 +1,13 @@
+#!/usr/bin/env fkyrun
+
+$str_1 "
+  @;  abc@
+  @;  def@
+
+$str_2 "
+  f
+    abc@
+    def@
+
+println! str_1
+println! str_2

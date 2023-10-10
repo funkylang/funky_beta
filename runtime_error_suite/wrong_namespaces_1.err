@@ -1,0 +1,7 @@
+The namespace "std-1.2" used from module "wrong_namespaces_1" is not defined in the
+desired version in any module!
+
+Available versions are:
+
+std-2.0 (defined in module "_basic__stdlib")
+std-1.0 (defined in module "_builtin")

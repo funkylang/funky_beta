@@ -1,0 +1,20 @@
+#!/usr/bin/env fkyrun
+
+$t1
+  hash_table
+    "a" = 1
+    "b" = 5
+
+$t2
+  hash_table
+    "b" = 2
+    "c" = 4
+
+$t3 merge(t1 t2)
+
+$t4 merge(t1 t2 bit_or)
+
+print! serialize(t1 0)
+print! serialize(t2 0)
+print! serialize(t3 0)
+print! serialize(t4 0)

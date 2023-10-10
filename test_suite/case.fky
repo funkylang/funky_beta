@@ -1,0 +1,16 @@
+#!/usr/bin/env fkyrun
+
+from_to 0 127
+  : (code)
+    $chr character(code)
+    print! code ": "
+    case chr
+      '0'..'9':
+	print! "digit"
+      'a'..'z', 'A'..'Z':
+	print! "letter"
+      '(', ')', '[', ']', '{', '}':
+	print! "bracket"
+    println!
+    next!
+  pass

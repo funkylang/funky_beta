@@ -1,0 +1,4 @@
+ERROR: Some statement arguments expected IN LINE 3 OF FILE invalid_infix_operator.fky
+
+$m 7.mod. 3
+    ^

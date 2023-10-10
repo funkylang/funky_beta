@@ -1,0 +1,4795 @@
+#
+  This parser was automatically derived from the file "new_compiler/funky.nlb".
+
+<allow unused>
+
+###
+# "Global" Variables
+
+$funky::current_filename undefined
+$current_group undefined
+$text undefined
+$str undefined
+$subgroups undefined
+$expected undefined
+$at undefined
+
+###
+# Constants
+
+$funky::SYNTAX_ERROR .
+
+$sentinel "@nl;@nl;"
+
+###
+# Utility Functions
+
+$funky::line_indent_of: (line)
+  if
+    line.is_defined
+    -> first(line)
+    -> undefined
+
+$funky::line_text_of: (line)
+  if
+    line.is_defined
+    -> second(line)
+    -> undefined
+
+$funky::split_source_into_lines: (source)
+  split_into_indented_lines $lines source
+  map lines: (line_no line)
+    if
+      line.is_defined:
+	$prev_line_no line_no
+	loop:
+	  dec &prev_line_no
+	  if
+	    prev_line_no < 1 || lines(prev_line_no).is_defined
+	    ->
+	      line
+		.funky::line_no_of line_no
+		.funky::skip_of line_no-prev_line_no
+	    next
+      -> undefined
+
+$funky::parse: (lines parse_function)
+  !subgroups lines
+  parse_groups parse_function
+
+$convert_to_text_lines: (groups)
+  $min_indent
+    map_reduce
+      groups funky::line_indent_of: (left right)
+	if
+	  left.is_undefined
+	  -> right
+	  :
+	    if
+	      right.is_undefined
+	      -> left
+	      -> min(left right)
+  map groups: (group)
+    if
+      group.is_defined:
+	group $indent $line_text
+	->
+	  tuple(min_indent append(spaces(indent-min_indent) line_text))
+	    .funky::line_no_of funky::line_no_of(group)
+      -> tuple(min_indent "@nl;")
+
+$to_list: (node)
+  if
+    node.is_undefined
+    -> empty_list
+    :
+      if
+	node.is_a_list
+	-> node
+	-> list(node)
+
+$syntax_error: (item)
+  $pos length_of(funky::line_text_of(current_group))+1-length_of(text)
+  $message
+    string
+      if
+	expected.is_defined && text == at
+	-> expected
+	-> item
+      " expected"
+  ->
+    error
+      funky::SYNTAX_ERROR
+      message
+      tuple(funky::current_filename current_group pos)
+
+$parse_groups: (parse_function)
+  if
+    subgroups.is_defined:
+      $indent
+	if
+	  current_group.is_defined
+	  -> funky::line_indent_of(current_group)
+	  -> 0
+      map_reduce split_into_groups(subgroups): (head)
+	!current_group head
+	if
+	  funky::line_indent_of(head) < indent:
+	    error
+	      funky::SYNTAX_ERROR
+	      "Unexpected outdent"
+	      tuple(funky::current_filename current_group 1)
+	  :
+	    !text funky::line_text_of(head)
+	    !subgroups subgroups_of(head)
+	    $node parse_function()(.funky::skip_of funky::skip_of(head))
+	    if
+	      node.is_a_list
+	      -> node
+	      -> list(node)
+    -> empty_list
+
+$parse_lines: (parse_function)
+  if
+    subgroups.is_defined:
+      map_reduce convert_to_text_lines(subgroups): (head)
+	!current_group head
+	!text funky::line_text_of(head)
+	!subgroups subgroups_of(head)
+	$node parse_function()(.funky::skip_of 1)
+	if
+	  node.is_a_list
+	  -> node
+	  -> list(node)
+    -> empty_list
+
+###
+# Generated Parse Functions
+
+$funky::parse_top_level_statement_group:
+  parse_top_level_statement !text $top_level_statement
+  -> top_level_statement
+
+$funky::parse_parameters_or_statement_group:
+  parse_parameters_or_statement !text $parameters_or_statement
+  -> parameters_or_statement
+
+$funky::parse_line_start_arguments_group:
+  parse_line_start_arguments !text $line_start_arguments
+  -> line_start_arguments
+
+$funky::parse_multiline_string_components_group:
+  parse_multiline_string_components !text $multiline_string_components
+  -> multiline_string_components
+
+$funky::parse_parameter_group:
+  parse_parameter !text $parameter
+  -> parameter
+
+$funky::parse_multiline_remark_group:
+  parse_multiline_remark !text $multiline_remark
+  -> multiline_remark
+
+$parse_top_level_statement:
+  cond
+    ->
+      text(1) == '<'
+      :
+	range &text 2 -1
+	parse_meta_instruction
+    ->
+      text(1) == '#'
+      :
+	range &text 2 -1
+	parse_multiline_remark_without_prefix
+    ->
+      true
+      :
+	!expected "top level statement"
+	!at text
+	parse_statement
+
+$parse_name:
+  cond
+    ->
+      (text(1) >= 'a' && text(1) <= 'z') || (text(1) >= 'A' && text(1) <= 'Z')
+      :
+	range &text 2 -1
+	parse_more_name_characters
+    -> true:
+      syntax_error "name"
+
+$parse_more_name_characters:
+  cond
+    ->
+      (text(1) >= 'a' && text(1) <= 'z') || (text(1) >= 'A' && text(1) <= 'Z') || (text(1) >= '0' && text(1) <= '9')
+      :
+	range &text 2 -1
+	parse_more_name_characters
+    ->
+      text(1) == '_'
+      :
+	range &text 2 -1
+	parse_more_name_words
+    ->
+      true
+      -> text range(str 1 length_of(str)-length_of(text))
+
+$parse_more_name_words:
+  cond
+    ->
+      (text(1) >= 'a' && text(1) <= 'z') || (text(1) >= 'A' && text(1) <= 'Z') || (text(1) >= '0' && text(1) <= '9')
+      :
+	range &text 2 -1
+	parse_more_name_characters
+    -> true:
+      syntax_error "more name words"
+
+$parse_identifier:
+  cond
+    ->
+      (text(1) >= 'a' && text(1) <= 'z') || (text(1) >= 'A' && text(1) <= 'Z')
+      :
+	range &text 2 -1
+	parse_more_identifier_characters
+    -> true:
+      syntax_error "identifier"
+
+$parse_more_identifier_characters:
+  cond
+    ->
+      (text(1) >= 'a' && text(1) <= 'z') || (text(1) >= 'A' && text(1) <= 'Z') || (text(1) >= '0' && text(1) <= '9')
+      :
+	range &text 2 -1
+	parse_more_identifier_characters
+    ->
+      text(1) == '_'
+      :
+	range &text 2 -1
+	parse_more_identifier_words
+    ->
+      &&
+	text(1) == ':'
+	text(2) == ':'
+      :
+	range &text 3 -1
+	parse_name
+    ->
+      true
+      -> text range(str 1 length_of(str)-length_of(text))
+
+$parse_more_identifier_words:
+  cond
+    ->
+      (text(1) >= 'a' && text(1) <= 'z') || (text(1) >= 'A' && text(1) <= 'Z') || (text(1) >= '0' && text(1) <= '9')
+      :
+	range &text 2 -1
+	parse_more_identifier_characters
+    -> true:
+      syntax_error "more identifier words"
+
+$parse_versioned_identifier:
+  cond
+    ->
+      (text(1) >= 'a' && text(1) <= 'z') || (text(1) >= 'A' && text(1) <= 'Z')
+      :
+	range &text 2 -1
+	parse_more_versioned_identifier_characters
+    -> true:
+      syntax_error "versioned identifier"
+
+$parse_more_versioned_identifier_characters:
+  cond
+    ->
+      (text(1) >= 'a' && text(1) <= 'z') || (text(1) >= 'A' && text(1) <= 'Z') || (text(1) >= '0' && text(1) <= '9')
+      :
+	range &text 2 -1
+	parse_more_versioned_identifier_characters
+    ->
+      text(1) == '_'
+      :
+	range &text 2 -1
+	parse_more_versioned_identifier_words
+    ->
+      &&
+	text(1) == ':'
+	text(2) == ':'
+      :
+	range &text 3 -1
+	parse_name
+    ->
+      text(1) == '-'
+      :
+	range &text 2 -1
+	parse_namespace_description
+    ->
+      true
+      -> text range(str 1 length_of(str)-length_of(text))
+
+$parse_more_versioned_identifier_words:
+  cond
+    ->
+      (text(1) >= 'a' && text(1) <= 'z') || (text(1) >= 'A' && text(1) <= 'Z') || (text(1) >= '0' && text(1) <= '9')
+      :
+	range &text 2 -1
+	parse_more_versioned_identifier_characters
+    -> true:
+      syntax_error "more versioned identifier words"
+
+$parse_namespace_description:
+  cond
+    ->
+      (text(1) >= '1' && text(1) <= '9')
+      :
+	range &text 2 -1
+	parse_more_major_digits_or_dot
+    ->
+      &&
+	text(1) == 'u'
+	text(2) == 'n'
+	text(3) == 's'
+	text(4) == 't'
+	text(5) == 'a'
+	text(6) == 'b'
+	text(7) == 'l'
+	text(8) == 'e'
+	text(9) == ':'
+	text(10) == ':'
+      :
+	range &text 11 -1
+	parse_name
+    -> true:
+      syntax_error "namespace description"
+
+$parse_more_major_digits_or_dot:
+  cond
+    ->
+      (text(1) >= '0' && text(1) <= '9')
+      :
+	range &text 2 -1
+	parse_more_major_digits_or_dot
+    ->
+      &&
+	text(1) == '.'
+	(text(2) >= '0' && text(2) <= '9')
+      :
+	range &text 3 -1
+	parse_more_minor_digits
+    -> true:
+      syntax_error "more major digits or dot"
+
+$parse_more_minor_digits:
+  cond
+    ->
+      (text(1) >= '0' && text(1) <= '9')
+      :
+	range &text 2 -1
+	parse_more_minor_digits
+    ->
+      &&
+	text(1) == ':'
+	text(2) == ':'
+      :
+	range &text 3 -1
+	parse_name
+    -> true:
+      syntax_error "more minor digits"
+
+$parse_optional_version:
+  cond
+    ->
+      text(1) == '-'
+      :
+	range &text 2 -1
+	parse_version
+    ->
+      true
+      -> text undefined
+
+$parse_parameters_or_statement:
+  cond
+    ->
+      text(1) == '('
+      :
+	range &text 2 -1
+	parse_open_parameters_without_prefix
+    ->
+      text(1) == ')'
+      :
+	range &text 2 -1
+	parse_close_parameters_without_prefix
+    ->
+      text(1) == '#'
+      :
+	range &text 2 -1
+	parse_multiline_remark_without_prefix
+    ->
+      true
+      :
+	!expected "parameters or statement"
+	!at text
+	parse_statement
+
+$parse_statement:
+  $position text
+  parse_head !text $head
+  if
+    text.is_defined:
+      parse_statement_arguments !text $statement_arguments
+      if
+	text.is_defined
+	:
+	  if
+	    statement_arguments.is_defined
+	    ->
+	      text
+	      funky_types::statement
+		.funky::source_group_of current_group
+		.funky::source_position_of position
+		.funky::head_of head
+		.funky::arguments_of statement_arguments
+	    -> text head
+	-> undefined statement_arguments
+    -> undefined head
+
+$parse_head:
+  cond
+    ->
+      &&
+	text(1) == '$'
+	text(2) == '_'
+      :
+	range &text 3 -1
+	parse_dummy_definition_without_prefix
+    ->
+      text(1) == '$'
+      :
+	range &text 2 -1
+	parse_definition_without_prefix
+    ->
+      text(1) == '!'
+      :
+	range &text 2 -1
+	parse_redefinition_without_prefix
+    ->
+      &&
+	text(1) == '-'
+	text(2) == '>'
+      :
+	range &text 3 -1
+	parse_return_without_prefix
+    ->
+      true
+      :
+	!expected "head"
+	!at text
+	parse_inline_functor
+
+$parse_statement_arguments:
+  cond $rest $expr
+    ->
+      &&
+	text(1) == ' '
+	text(2) == '.'
+      :
+	range &text 3 -1
+	parse_unique_without_prefix
+    ->
+      &&
+	text(1) == ' '
+	text(2) == '('
+	text(3) == ')'
+      :
+	range &text 4 -1
+	parse_attribute_without_prefix
+    ->
+      &&
+	text(1) == ' '
+	text(2) == '('
+	text(3) == '!'
+	text(4) == ')'
+      :
+	range &text 5 -1
+	parse_attribute_with_setter_without_prefix
+    ->
+      &&
+	text(1) == '/'
+	text(2) == ':'
+      :
+	range &text 3 -1
+	parse_type_function_without_prefix
+    ->
+      text(1) == '.'
+      :
+	range &text 2 -1
+	parse_attribute_value_pair_without_prefix
+    ->
+      text(1) == '/'
+      :
+	range &text 2 -1
+	parse_method_value_pair_without_prefix
+    ->
+      true
+      :
+	!expected "statement arguments"
+	!at text
+	parse_some_statement_arguments
+  ->
+    rest
+    cond
+      -> expr.is_undefined -> empty_list
+      -> expr.is_a_list -> expr
+      -> true -> list(expr)
+
+$parse_inline_statement:
+  $position text
+  parse_inline_head !text $inline_head
+  if
+    text.is_defined:
+      parse_some_inline_arguments !text $some_inline_arguments
+      if
+	text.is_defined
+	:
+	  if
+	    some_inline_arguments.is_defined
+	    ->
+	      text
+	      funky_types::inline_statement
+		.funky::source_group_of current_group
+		.funky::source_position_of position
+		.funky::head_of inline_head
+		.funky::arguments_of some_inline_arguments
+	    -> text inline_head
+	-> undefined some_inline_arguments
+    -> undefined inline_head
+
+$parse_inline_head:
+  cond
+    ->
+      &&
+	text(1) == '-'
+	text(2) == '>'
+      :
+	range &text 3 -1
+	parse_return_without_prefix
+    ->
+      true
+      :
+	!expected "inline head"
+	!at text
+	parse_inline_functor
+
+$parse_some_inline_arguments:
+  cond
+    ->
+      text(1) == ':'
+      :
+	range &text 2 -1
+	parse_inline_body_without_prefix
+    ->
+      text(1) == ' '
+      :
+	range &text 2 -1
+	parse_spaced_inline_arguments_without_prefix
+    ->
+      true
+      -> text undefined
+
+$parse_attribute_value_pair_without_prefix:
+  $position text
+  parse_pair funky_types::attribute_value_pair
+
+$parse_type_function_without_prefix:
+  $position text
+  parse_body funky_types::type_function
+
+$parse_method_value_pair_without_prefix:
+  $position text
+  parse_pair funky_types::method_value_pair
+
+$parse_pair:
+  (
+    derived_node = undefined
+  )
+  $position text
+  !str text
+  parse_identifier !text $identifier
+  if
+    text.is_defined:
+      parse_some_argument !text $some_argument
+      if
+	text.is_defined
+	->
+	  text
+	  default_value(derived_node funky_types::pair)
+	    .funky::source_group_of current_group
+	    .funky::source_position_of position
+	    .funky::identifier_of identifier
+	    .funky::argument_of some_argument
+	-> undefined some_argument
+    -> undefined identifier
+
+$parse_meta_instruction:
+  cond
+    ->
+      &&
+	text(1) == 'n'
+	text(2) == 'a'
+	text(3) == 'm'
+	text(4) == 'e'
+	text(5) == 's'
+	text(6) == 'p'
+	text(7) == 'a'
+	text(8) == 'c'
+	text(9) == 'e'
+	text(10) == ' '
+      :
+	range &text 11 -1
+	parse_namespace_instruction_without_prefix
+    ->
+      &&
+	text(1) == 'r'
+	text(2) == 'e'
+	text(3) == 'q'
+	text(4) == 'u'
+	text(5) == 'i'
+	text(6) == 'r'
+	text(7) == 'e'
+	text(8) == ' '
+      :
+	range &text 9 -1
+	parse_require_instruction_without_prefix
+    ->
+      &&
+	text(1) == 'u'
+	text(2) == 's'
+	text(3) == 'i'
+	text(4) == 'n'
+	text(5) == 'g'
+	text(6) == ' '
+      :
+	range &text 7 -1
+	parse_using_instruction_without_prefix
+    ->
+      &&
+	text(1) == 'a'
+	text(2) == 'l'
+	text(3) == 'i'
+	text(4) == 'a'
+	text(5) == 's'
+	text(6) == ' '
+      :
+	range &text 7 -1
+	parse_alias_instruction_without_prefix
+    ->
+      &&
+	text(1) == 'r'
+	text(2) == 'e'
+	text(3) == 's'
+	text(4) == 'o'
+	text(5) == 'l'
+	text(6) == 'v'
+	text(7) == 'e'
+	text(8) == ' '
+      :
+	range &text 9 -1
+	parse_resolve_instruction_without_prefix
+    ->
+      true
+      :
+	!expected "meta instruction"
+	!at text
+	parse_allow_instruction
+
+$parse_namespace_instruction_without_prefix:
+  $position text
+  !str text
+  parse_name !text $name
+  if
+    text.is_defined:
+      parse_optional_version !text $optional_version
+      if
+	text.is_defined:
+	  if
+	    text(1) == '>':
+	      range &text 2 -1
+	      parse_trailing_remarks !text $trailing_remarks
+	      if
+		text.is_defined
+		->
+		  text
+		  funky_types::namespace_instruction
+		    .funky::source_group_of current_group
+		    .funky::source_position_of position
+		    .funky::name_of name
+		    .funky::version_of optional_version
+		    .funky::remarks_of trailing_remarks
+		-> undefined trailing_remarks
+	    :
+	      syntax_error "'>'"
+	-> undefined optional_version
+    -> undefined name
+
+$parse_require_instruction_without_prefix:
+  $position text
+  !str text
+  parse_filename !text $filename
+  if
+    text.is_defined:
+      if
+	text(1) == '>':
+	  range &text 2 -1
+	  parse_trailing_remarks !text $trailing_remarks
+	  if
+	    text.is_defined
+	    ->
+	      text
+	      funky_types::require_instruction
+		.funky::source_group_of current_group
+		.funky::source_position_of position
+		.funky::filename_of filename
+		.funky::remarks_of trailing_remarks
+	    -> undefined trailing_remarks
+	:
+	  syntax_error "'>'"
+    -> undefined filename
+
+$parse_using_instruction_without_prefix:
+  $position text
+  !str text
+  parse_name !text $name
+  if
+    text.is_defined:
+      parse_optional_version !text $optional_version
+      if
+	text.is_defined:
+	  if
+	    text(1) == '>':
+	      range &text 2 -1
+	      parse_trailing_remarks !text $trailing_remarks
+	      if
+		text.is_defined
+		->
+		  text
+		  funky_types::using_instruction
+		    .funky::source_group_of current_group
+		    .funky::source_position_of position
+		    .funky::name_of name
+		    .funky::version_of optional_version
+		    .funky::remarks_of trailing_remarks
+		-> undefined trailing_remarks
+	    :
+	      syntax_error "'>'"
+	-> undefined optional_version
+    -> undefined name
+
+$parse_alias_instruction_without_prefix:
+  $position text
+  parse_alias !text $alias
+  if
+    text.is_defined:
+      parse_equal_sign !text $equal_sign
+      if
+	text.is_defined:
+	  !str text
+	  parse_name !text $name
+	  if
+	    text.is_defined:
+	      if
+		text(1) == '>':
+		  range &text 2 -1
+		  parse_trailing_remarks !text $trailing_remarks
+		  if
+		    text.is_defined
+		    ->
+		      text
+		      funky_types::alias_instruction
+			.funky::source_group_of current_group
+			.funky::source_position_of position
+			.funky::alias_of alias
+			.funky::sign_of equal_sign
+			.funky::name_of name
+			.funky::remarks_of trailing_remarks
+		    -> undefined trailing_remarks
+		:
+		  syntax_error "'>'"
+	    -> undefined name
+	-> undefined equal_sign
+    -> undefined alias
+
+$parse_resolve_instruction_without_prefix:
+  $position text
+  !str text
+  parse_name !text $name
+  if
+    text.is_defined:
+      if
+	text(1) == '-':
+	  range &text 2 -1
+	  parse_version !text $version
+	  if
+	    text.is_defined:
+	      if
+		text(1) == '>':
+		  range &text 2 -1
+		  parse_trailing_remarks !text $trailing_remarks
+		  if
+		    text.is_defined
+		    ->
+		      text
+		      funky_types::resolve_instruction
+			.funky::source_group_of current_group
+			.funky::source_position_of position
+			.funky::name_of name
+			.funky::version_of version
+			.funky::remarks_of trailing_remarks
+		    -> undefined trailing_remarks
+		:
+		  syntax_error "'>'"
+	    -> undefined version
+	:
+	  syntax_error "'-'"
+    -> undefined name
+
+$parse_allow_instruction:
+  $position text
+  if
+    text(1) == 'a':
+      if
+	text(2) == 'l':
+	  if
+	    text(3) == 'l':
+	      if
+		text(4) == 'o':
+		  if
+		    text(5) == 'w':
+		      if
+			text(6) == ' ':
+			  range &text 7 -1
+			  parse_pragma !text $pragma
+			  if
+			    text.is_defined:
+			      if
+				text(1) == '>':
+				  range &text 2 -1
+				  parse_trailing_remarks !text $trailing_remarks
+				  if
+				    text.is_defined
+				    ->
+				      text
+				      funky_types::allow_instruction
+					.funky::source_group_of current_group
+					.funky::source_position_of position
+					.funky::pragma_of pragma
+					.funky::remarks_of trailing_remarks
+				    -> undefined trailing_remarks
+				:
+				  syntax_error "'>'"
+			    -> undefined pragma
+			:
+			  syntax_error "space character"
+		    :
+		      syntax_error "'w'"
+		:
+		  syntax_error "'o'"
+	    :
+	      syntax_error "'l'"
+	:
+	  syntax_error "'l'"
+    :
+      syntax_error "'a'"
+
+$parse_filename:
+  cond
+    ->
+      (text(1) >= 'a' && text(1) <= 'z') || (text(1) >= 'A' && text(1) <= 'Z')
+      :
+	range &text 2 -1
+	parse_more_filename_characters
+    ->
+      &&
+	text(1) == '.'
+	text(2) == '.'
+	text(3) == '/'
+      :
+	range &text 4 -1
+	parse_filename
+    ->
+      &&
+	text(1) == '.'
+	text(2) == '/'
+      :
+	range &text 3 -1
+	parse_filename_characters
+    -> true:
+      syntax_error "filename"
+
+$parse_filename_characters:
+  cond
+    ->
+      (text(1) >= 'a' && text(1) <= 'z') || (text(1) >= 'A' && text(1) <= 'Z')
+      :
+	range &text 2 -1
+	parse_more_filename_characters
+    -> true:
+      syntax_error "filename characters"
+
+$parse_more_filename_characters:
+  cond
+    ->
+      (text(1) >= 'a' && text(1) <= 'z') || (text(1) >= 'A' && text(1) <= 'Z') || (text(1) >= '0' && text(1) <= '9')
+      :
+	range &text 2 -1
+	parse_more_filename_characters
+    ->
+      text(1) == '_'
+      :
+	range &text 2 -1
+	parse_more_filename_words
+    ->
+      text(1) == '/'
+      :
+	range &text 2 -1
+	parse_filename_characters
+    ->
+      true
+      -> text range(str 1 length_of(str)-length_of(text))
+
+$parse_more_filename_words:
+  cond
+    ->
+      (text(1) >= 'a' && text(1) <= 'z') || (text(1) >= 'A' && text(1) <= 'Z') || (text(1) >= '0' && text(1) <= '9')
+      :
+	range &text 2 -1
+	parse_more_filename_characters
+    -> true:
+      syntax_error "more filename words"
+
+$parse_alias:
+  $position text
+  !str text
+  parse_name !text $name
+  if
+    text.is_defined
+    ->
+      text
+      name
+    -> undefined name
+
+$parse_equal_sign:
+  cond
+    ->
+      &&
+	text(1) == ' '
+	text(2) == '='
+	text(3) == ' '
+      -> range(text 4 -1) undefined
+    ->
+      text(1) == '='
+      -> range(text 2 -1) undefined
+    ->
+      true
+      :
+	syntax_error "equal sign"
+
+$parse_version:
+  cond
+    ->
+      (text(1) >= '1' && text(1) <= '9')
+      :
+	!str text
+	range &text 2 -1
+	parse_version_no_without_prefix
+    ->
+      true
+      :
+	!expected "version"
+	!at text
+	parse_unstable
+
+$parse_version_no_without_prefix:
+  $position str
+  parse_zero_or_more_digits !text $major
+  if
+    text.is_defined:
+      if
+	text(1) == '.':
+	  range &text 2 -1
+	  !str text
+	  parse_minor !text $minor
+	  if
+	    text.is_defined
+	    ->
+	      text
+	      funky_types::version_no
+		.funky::source_group_of current_group
+		.funky::source_position_of position
+		.funky::major_of major
+		.funky::minor_of minor
+	    -> undefined minor
+	:
+	  syntax_error "'.'"
+    -> undefined major
+
+$parse_minor:
+  cond
+    ->
+      (text(1) >= '0' && text(1) <= '9')
+      :
+	range &text 2 -1
+	parse_zero_or_more_digits
+    -> true:
+      syntax_error "minor"
+
+$parse_zero_or_more_digits:
+  cond
+    ->
+      (text(1) >= '0' && text(1) <= '9')
+      :
+	range &text 2 -1
+	parse_zero_or_more_digits
+    ->
+      true
+      -> text range(str 1 length_of(str)-length_of(text))
+
+$parse_unstable:
+  $position text
+  if
+    text(1) == 'u':
+      if
+	text(2) == 'n':
+	  if
+	    text(3) == 's':
+	      if
+		text(4) == 't':
+		  if
+		    text(5) == 'a':
+		      if
+			text(6) == 'b':
+			  if
+			    text(7) == 'l':
+			      if
+				text(8) == 'e'
+				->
+				  range(text 9 -1)
+				  funky_types::unstable
+				    .funky::source_group_of current_group
+				    .funky::source_position_of position
+				:
+				  syntax_error "'e'"
+			    :
+			      syntax_error "'l'"
+			:
+			  syntax_error "'b'"
+		    :
+		      syntax_error "'a'"
+		:
+		  syntax_error "'t'"
+	    :
+	      syntax_error "'s'"
+	:
+	  syntax_error "'n'"
+    :
+      syntax_error "'u'"
+
+$parse_pragma:
+  cond
+    ->
+      &&
+	text(1) == 'h'
+	text(2) == 'i'
+	text(3) == 'd'
+	text(4) == 'd'
+	text(5) == 'e'
+	text(6) == 'n'
+      :
+	range &text 7 -1
+	parse_allow_hidden_without_prefix
+    ->
+      true
+      :
+	!expected "pragma"
+	!at text
+	parse_allow_unused
+
+$parse_allow_hidden_without_prefix:
+  $position text
+  ->
+    text
+    funky_types::allow_hidden
+      .funky::source_group_of current_group
+      .funky::source_position_of position
+
+$parse_allow_unused:
+  $position text
+  if
+    text(1) == 'u':
+      if
+	text(2) == 'n':
+	  if
+	    text(3) == 'u':
+	      if
+		text(4) == 's':
+		  if
+		    text(5) == 'e':
+		      if
+			text(6) == 'd'
+			->
+			  range(text 7 -1)
+			  funky_types::allow_unused
+			    .funky::source_group_of current_group
+			    .funky::source_position_of position
+			:
+			  syntax_error "'d'"
+		    :
+		      syntax_error "'e'"
+		:
+		  syntax_error "'s'"
+	    :
+	      syntax_error "'u'"
+	:
+	  syntax_error "'n'"
+    :
+      syntax_error "'u'"
+
+$parse_functor_without_prefix:
+  $position str
+  parse_more_identifier_characters !text $identifier
+  if
+    text.is_defined:
+      $parse
+	if
+	  length_of(position) == length_of(funky::line_text_of(current_group))
+	  -> parse_extensions
+	  -> parse_inline_extensions
+      parse !text $extensions
+      if
+	text.is_defined
+	->
+	  text
+	  funky_types::functor
+	    .funky::source_group_of current_group
+	    .funky::source_position_of position
+	    .funky::identifier_of identifier
+	    .funky::extensions_of extensions
+	-> undefined extensions
+    -> undefined identifier
+
+$parse_extensions:
+  cond $rest $expr
+    ->
+      text(1) == '!'
+      :
+	range &text 2 -1
+	parse_io_call_without_prefix
+    ->
+      text(1) == '('
+      :
+	range &text 2 -1
+	parse_function_call_extension_without_prefix
+    ->
+      text(1) == '.'
+      :
+	range &text 2 -1
+	parse_attribute_access_extension_without_prefix
+    ->
+      text == "@nl;" && subgroups.is_defined
+      :
+	parse_tagged_multiline_arguments_without_prefix
+    ->
+      &&
+	text(1) == ' '
+	text(2) == '#'
+      :
+	range &text 3 -1
+	parse_remark_and_multiline_function_call_without_prefix
+    ->
+      true
+      -> text empty_list
+  ->
+    rest
+    cond
+      -> expr.is_undefined -> empty_list
+      -> expr.is_a_list -> expr
+      -> true -> list(expr)
+
+$parse_function_call_extension_without_prefix:
+  $position text
+  parse_function_call_without_prefix !text $function_call
+  if
+    text.is_defined:
+      parse_extensions !text $extensions
+      if
+	text.is_defined
+	:
+	  if
+	    extensions.is_defined
+	    ->
+	      text
+	      append
+		function_call.to_list
+		extensions.to_list
+	    -> text function_call.to_list
+	-> undefined extensions
+    -> undefined function_call
+
+$parse_attribute_access_extension_without_prefix:
+  $position text
+  parse_attribute_access_without_prefix !text $attribute_access
+  if
+    text.is_defined:
+      parse_extensions !text $extensions
+      if
+	text.is_defined
+	:
+	  if
+	    extensions.is_defined
+	    ->
+	      text
+	      append
+		attribute_access.to_list
+		extensions.to_list
+	    -> text attribute_access.to_list
+	-> undefined extensions
+    -> undefined attribute_access
+
+$parse_inline_functor:
+  $position text
+  !str text
+  parse_identifier !text $identifier
+  if
+    text.is_defined:
+      parse_inline_extensions !text $inline_extensions
+      if
+	text.is_defined
+	->
+	  text
+	  funky_types::functor
+	    .funky::source_group_of current_group
+	    .funky::source_position_of position
+	    .funky::identifier_of identifier
+	    .funky::extensions_of inline_extensions
+	-> undefined inline_extensions
+    -> undefined identifier
+
+$parse_inline_extensions:
+  cond $rest $expr
+    ->
+      text(1) == '!'
+      :
+	range &text 2 -1
+	parse_io_call_without_prefix
+    ->
+      text(1) == '('
+      :
+	range &text 2 -1
+	parse_inline_function_call_extension_without_prefix
+    ->
+      text(1) == '.'
+      :
+	range &text 2 -1
+	parse_inline_attribute_access_extension_without_prefix
+    ->
+      true
+      -> text empty_list
+  ->
+    rest
+    cond
+      -> expr.is_undefined -> empty_list
+      -> expr.is_a_list -> expr
+      -> true -> list(expr)
+
+$parse_inline_calls:
+  cond $rest $expr
+    ->
+      text(1) == '('
+      :
+	range &text 2 -1
+	parse_inline_function_call_extension_without_prefix
+    ->
+      text(1) == '.'
+      :
+	range &text 2 -1
+	parse_inline_attribute_access_extension_without_prefix
+    ->
+      true
+      -> text empty_list
+  ->
+    rest
+    cond
+      -> expr.is_undefined -> empty_list
+      -> expr.is_a_list -> expr
+      -> true -> list(expr)
+
+$parse_inline_function_call_extension_without_prefix:
+  $position text
+  parse_function_call_without_prefix !text $function_call
+  if
+    text.is_defined:
+      parse_inline_extensions !text $inline_extensions
+      if
+	text.is_defined
+	:
+	  if
+	    inline_extensions.is_defined
+	    ->
+	      text
+	      append
+		function_call.to_list
+		inline_extensions.to_list
+	    -> text function_call.to_list
+	-> undefined inline_extensions
+    -> undefined function_call
+
+$parse_inline_attribute_access_extension_without_prefix:
+  $position text
+  parse_attribute_access_without_prefix !text $attribute_access
+  if
+    text.is_defined:
+      parse_inline_extensions !text $inline_extensions
+      if
+	text.is_defined
+	:
+	  if
+	    inline_extensions.is_defined
+	    ->
+	      text
+	      append
+		attribute_access.to_list
+		inline_extensions.to_list
+	    -> text attribute_access.to_list
+	-> undefined inline_extensions
+    -> undefined attribute_access
+
+$parse_io_call_without_prefix:
+  $position text
+  ->
+    text
+    funky_types::io_call
+      .funky::source_group_of current_group
+      .funky::source_position_of position
+
+$parse_function_call_without_prefix:
+  $position text
+  parse_optional_inline_arguments !text $optional_inline_arguments
+  if
+    text.is_defined
+    ->
+      text
+      funky_types::function_call
+	.funky::source_group_of current_group
+	.funky::source_position_of position
+	.funky::arguments_of optional_inline_arguments
+    -> undefined optional_inline_arguments
+
+$parse_optional_inline_arguments:
+  cond $rest $expr
+    ->
+      text(1) == ')'
+      -> range(text 2 -1) empty_list
+    ->
+      true
+      :
+	!expected "optional inline arguments"
+	!at text
+	parse_function_call_arguments
+  ->
+    rest
+    cond
+      -> expr.is_undefined -> empty_list
+      -> expr.is_a_list -> expr
+      -> true -> list(expr)
+
+$parse_function_call_arguments:
+  $position text
+  parse_inline_arguments !text $inline_arguments
+  if
+    text.is_defined:
+      if
+	text(1) == ')'
+	->
+	  range(text 2 -1)
+	  inline_arguments
+	:
+	  syntax_error "')'"
+    -> undefined inline_arguments
+
+$parse_inline_return_without_prefix:
+  $position text
+  parse_spaced_inline_arguments !text $spaced_inline_arguments
+  if
+    text.is_defined
+    ->
+      text
+      funky_types::inline_return
+	.funky::source_group_of current_group
+	.funky::source_position_of position
+	.funky::arguments_of spaced_inline_arguments
+    -> undefined spaced_inline_arguments
+
+$parse_attribute_access_without_prefix:
+  $position text
+  !str text
+  parse_identifier !text $identifier
+  if
+    text.is_defined
+    ->
+      text
+      funky_types::attribute_access
+	.funky::source_group_of current_group
+	.funky::source_position_of position
+	.funky::identifier_of identifier
+    -> undefined identifier
+
+$parse_some_argument:
+  cond
+    ->
+      text(1) == ':'
+      :
+	range &text 2 -1
+	parse_body
+    ->
+      text(1) == ' '
+      :
+	range &text 2 -1
+	parse_argument
+    ->
+      true
+      :
+	!expected "some argument"
+	!at text
+	parse_multiline_arguments
+
+$parse_some_arguments:
+  cond $rest $expr
+    ->
+      text(1) == ':'
+      :
+	range &text 2 -1
+	parse_body
+    ->
+      text(1) == ' '
+      :
+	range &text 2 -1
+	parse_spaced_arguments_without_prefix
+    ->
+      text == "@nl;" && subgroups.is_defined
+      :
+	parse_line_remarks_without_prefix
+    ->
+      true
+      -> text empty_list
+  ->
+    rest
+    cond
+      -> expr.is_undefined -> empty_list
+      -> expr.is_a_list -> expr
+      -> true -> list(expr)
+
+$parse_some_statement_arguments:
+  cond $rest $expr
+    ->
+      text(1) == ':'
+      :
+	range &text 2 -1
+	parse_body
+    ->
+      text(1) == ' '
+      :
+	range &text 2 -1
+	parse_spaced_statement_arguments_without_prefix
+    ->
+      text == "@nl;" && subgroups.is_defined
+      :
+	parse_multiline_arguments_without_prefix
+    ->
+      text == "@nl;" && subgroups.is_defined
+      :
+	parse_line_remarks_without_prefix
+    ->
+      text(1) == '@nl;'
+      -> text empty_list
+    ->
+      true
+      :
+	syntax_error "some statement arguments"
+  ->
+    rest
+    cond
+      -> expr.is_undefined -> empty_list
+      -> expr.is_a_list -> expr
+      -> true -> list(expr)
+
+$parse_spaced_arguments_without_prefix:
+  $position text
+  parse_more_arguments !text $more_arguments
+  if
+    text.is_defined
+    ->
+      text
+      more_arguments
+    -> undefined more_arguments
+
+$parse_spaced_statement_arguments_without_prefix:
+  $position text
+  parse_more_statement_arguments !text $more_statement_arguments
+  if
+    text.is_defined
+    ->
+      text
+      more_statement_arguments
+    -> undefined more_statement_arguments
+
+$parse_more_arguments:
+  cond
+    ->
+      text(1) == ':'
+      :
+	range &text 2 -1
+	parse_body
+    ->
+      &&
+	text(1) == '-'
+	text(2) == '>'
+      :
+	range &text 3 -1
+	parse_return_expression_without_prefix
+    ->
+      text == "@quot;@nl;" && subgroups.is_defined
+      :
+	range &text 2 -1
+	parse_multiline_string_literal_without_prefix
+    ->
+      true
+      :
+	!expected "more arguments"
+	!at text
+	parse_arguments
+
+$parse_more_statement_arguments:
+  cond
+    ->
+      text(1) == ':'
+      :
+	range &text 2 -1
+	parse_body
+    ->
+      &&
+	text(1) == '-'
+	text(2) == '>'
+      :
+	range &text 3 -1
+	parse_return_expression_without_prefix
+    ->
+      text == "@quot;@nl;" && subgroups.is_defined
+      :
+	range &text 2 -1
+	parse_multiline_string_literal_without_prefix
+    ->
+      true
+      :
+	!expected "more statement arguments"
+	!at text
+	parse_even_more_statement_arguments
+
+$parse_arguments:
+  $position text
+  parse_argument !text $argument
+  if
+    text.is_defined:
+      parse_some_arguments !text $some_arguments
+      if
+	text.is_defined
+	:
+	  if
+	    some_arguments.is_defined
+	    ->
+	      text
+	      append
+		argument.to_list
+		some_arguments.to_list
+	    -> text argument.to_list
+	-> undefined some_arguments
+    -> undefined argument
+
+$parse_even_more_statement_arguments:
+  $position text
+  parse_argument !text $argument
+  if
+    text.is_defined:
+      parse_some_statement_arguments !text $some_statement_arguments
+      if
+	text.is_defined
+	:
+	  if
+	    some_statement_arguments.is_defined
+	    ->
+	      text
+	      append
+		argument.to_list
+		some_statement_arguments.to_list
+	    -> text argument.to_list
+	-> undefined some_statement_arguments
+    -> undefined argument
+
+$parse_multiline_arguments:
+  $position text
+  if
+    text == "@nl;" && subgroups.is_defined:
+      $line_start_arguments parse_groups(funky::parse_line_start_arguments_group)
+      $error find_first(line_start_arguments is_an_error)
+      if error.is_an_error
+	-> undefined error
+	->
+	  sentinel
+	  line_start_arguments
+    :
+      syntax_error "valid input characters or line end"
+
+$parse_multiline_arguments_without_prefix:
+  $position text
+  $line_start_arguments parse_groups(funky::parse_line_start_arguments_group)
+  $error find_first(line_start_arguments is_an_error)
+  if error.is_an_error
+    -> undefined error
+    ->
+      sentinel
+      line_start_arguments
+
+$parse_tagged_multiline_arguments_without_prefix:
+  $position text
+  $line_start_arguments parse_groups(funky::parse_line_start_arguments_group)
+  $error find_first(line_start_arguments is_an_error)
+  if error.is_an_error
+    -> undefined error
+    ->
+      sentinel
+      funky_types::function_call
+	.funky::source_group_of current_group
+	.funky::source_position_of position
+	.funky::arguments_of line_start_arguments
+
+$parse_remark_and_multiline_function_call_without_prefix:
+  $position text
+  parse_spaced_remark_without_prefix !text $spaced_remark
+  if
+    text.is_defined:
+      if
+	text == "@nl;":
+	  $line_start_arguments parse_groups(funky::parse_line_start_arguments_group)
+	  $error find_first(line_start_arguments is_an_error)
+	  if error.is_an_error
+	    -> undefined error
+	    ->
+	      sentinel
+	      funky_types::remark_and_multiline_function_call
+		.funky::source_group_of current_group
+		.funky::source_position_of position
+		.funky::remark_of spaced_remark
+		.funky::arguments_of line_start_arguments
+	:
+	  syntax_error "valid input characters or line end"
+    -> undefined spaced_remark
+
+$parse_argument:
+  cond
+    ->
+      &&
+	text(1) == '$'
+	text(2) == '_'
+      :
+	range &text 3 -1
+	parse_dummy_definition_without_prefix
+    ->
+      text(1) == '$'
+      :
+	range &text 2 -1
+	parse_definition_without_prefix
+    ->
+      text(1) == '!'
+      :
+	range &text 2 -1
+	parse_redefinition_without_prefix
+    ->
+      text(1) == '&'
+      :
+	range &text 2 -1
+	parse_update_without_prefix
+    ->
+      text(1) == ':'
+      :
+	range &text 2 -1
+	parse_body
+    ->
+      &&
+	text(1) == '-'
+	text(2) == '>'
+      :
+	range &text 3 -1
+	parse_return_expression_without_prefix
+    ->
+      text(1) == '#'
+      :
+	range &text 2 -1
+	parse_remark_without_prefix
+    ->
+      text == "@quot;@nl;" && subgroups.is_defined
+      :
+	range &text 2 -1
+	parse_multiline_string_literal_without_prefix
+    ->
+      true
+      :
+	!expected "argument"
+	!at text
+	parse_expression
+
+$parse_line_start_arguments:
+  cond
+    ->
+      text(1) == ':'
+      :
+	range &text 2 -1
+	parse_body
+    ->
+      &&
+	text(1) == '-'
+	text(2) == '>'
+      :
+	range &text 3 -1
+	parse_return_expression_without_prefix
+    ->
+      text(1) == '#'
+      :
+	range &text 2 -1
+	parse_multiline_remark_without_prefix
+    ->
+      text(1) == '.'
+      :
+	range &text 2 -1
+	parse_attribute_value_pair_without_prefix
+    ->
+      &&
+	text(1) == '/'
+	text(2) == ':'
+      :
+	range &text 3 -1
+	parse_type_function_without_prefix
+    ->
+      text == "@quot;@nl;" && subgroups.is_defined
+      :
+	range &text 2 -1
+	parse_multiline_string_literal_without_prefix
+    ->
+      text(1) == '+'
+      :
+	range &text 2 -1
+	parse_multiline_plus_without_prefix
+    ->
+      &&
+	text(1) == '-'
+	text(2) == '@nl;'
+      :
+	range &text 2 -1
+	parse_multiline_minus_without_prefix
+    ->
+      &&
+	text(1) == '-'
+	text(2) == ' '
+      :
+	range &text 3 -1
+	parse_multiline_minus_with_remark_without_prefix
+    ->
+      text(1) == '*'
+      :
+	range &text 2 -1
+	parse_multiline_times_without_prefix
+    ->
+      text == "/@nl;" && subgroups.is_defined
+      :
+	range &text 2 -1
+	parse_multiline_over_without_prefix
+    ->
+      &&
+	text(1) == '/'
+	text(2) == ' '
+      :
+	range &text 3 -1
+	parse_multiline_over_with_remark_without_prefix
+    ->
+      &&
+	text(1) == '<'
+	text(2) == '<'
+      :
+	range &text 3 -1
+	parse_multiline_shift_left_without_prefix
+    ->
+      &&
+	text(1) == '>'
+	text(2) == '>'
+      :
+	range &text 3 -1
+	parse_multiline_shift_right_without_prefix
+    ->
+      &&
+	text(1) == '='
+	text(2) == '='
+      :
+	range &text 3 -1
+	parse_multiline_equal_without_prefix
+    ->
+      &&
+	text(1) == '!'
+	text(2) == '='
+      :
+	range &text 3 -1
+	parse_multiline_not_equal_without_prefix
+    ->
+      &&
+	text(1) == '<'
+	text(2) == '='
+      :
+	range &text 3 -1
+	parse_multiline_less_equal_without_prefix
+    ->
+      text(1) == '<'
+      :
+	range &text 2 -1
+	parse_multiline_less_than_without_prefix
+    ->
+      &&
+	text(1) == '>'
+	text(2) == '='
+      :
+	range &text 3 -1
+	parse_multiline_greater_equal_without_prefix
+    ->
+      text(1) == '>'
+      :
+	range &text 2 -1
+	parse_multiline_greater_than_without_prefix
+    ->
+      &&
+	text(1) == '&'
+	text(2) == '&'
+      :
+	range &text 3 -1
+	parse_multiline_and_without_prefix
+    ->
+      &&
+	text(1) == '|'
+	text(2) == '|'
+      :
+	range &text 3 -1
+	parse_multiline_or_without_prefix
+    ->
+      &&
+	text(1) == '&'
+	text(2) == '@nl;'
+      :
+	range &text 2 -1
+	parse_multiline_bit_and_without_prefix
+    ->
+      &&
+	text(1) == '&'
+	text(2) == ' '
+      :
+	range &text 3 -1
+	parse_multiline_bit_and_with_remark_without_prefix
+    ->
+      text(1) == '|'
+      :
+	range &text 2 -1
+	parse_multiline_bit_or_without_prefix
+    ->
+      text(1) == '^'
+      :
+	range &text 2 -1
+	parse_multiline_bit_xor_without_prefix
+    ->
+      text(1) == '='
+      :
+	range &text 2 -1
+	parse_multiline_assign_without_prefix
+    ->
+      text(1) == '/'
+      :
+	range &text 2 -1
+	parse_method_value_pair_without_prefix
+    ->
+      true
+      :
+	!expected "line start arguments"
+	!at text
+	parse_arguments
+
+$parse_dummy_definition_without_prefix:
+  $position text
+  !str text
+  parse_name !text $name
+  if
+    text.is_defined
+    ->
+      text
+      funky_types::dummy_definition
+	.funky::source_group_of current_group
+	.funky::source_position_of position
+	.funky::name_of name
+    -> undefined name
+
+$parse_variable_without_prefix:
+  $position str
+  parse_more_identifier_characters !text $identifier
+  if
+    text.is_defined
+    ->
+      text
+      funky_types::variable
+	.funky::source_group_of current_group
+	.funky::source_position_of position
+	.funky::identifier_of identifier
+    -> undefined identifier
+
+$parse_definition_without_prefix:
+  $position text
+  !str text
+  parse_versioned_identifier !text $versioned_identifier
+  if
+    text.is_defined
+    ->
+      text
+      funky_types::definition
+	.funky::source_group_of current_group
+	.funky::source_position_of position
+	.funky::identifier_of versioned_identifier
+    -> undefined versioned_identifier
+
+$parse_redefinition_without_prefix:
+  $position text
+  !str text
+  parse_identifier !text $identifier
+  if
+    text.is_defined:
+      parse_inline_extensions !text $inline_extensions
+      if
+	text.is_defined
+	->
+	  text
+	  funky_types::redefinition
+	    .funky::source_group_of current_group
+	    .funky::source_position_of position
+	    .funky::identifier_of identifier
+	    .funky::extensions_of inline_extensions
+	-> undefined inline_extensions
+    -> undefined identifier
+
+$parse_update_without_prefix:
+  $position text
+  !str text
+  parse_identifier !text $identifier
+  if
+    text.is_defined:
+      parse_inline_extensions !text $inline_extensions
+      if
+	text.is_defined
+	->
+	  text
+	  funky_types::update
+	    .funky::source_group_of current_group
+	    .funky::source_position_of position
+	    .funky::identifier_of identifier
+	    .funky::extensions_of inline_extensions
+	-> undefined inline_extensions
+    -> undefined identifier
+
+$parse_expression:
+  (
+    derived_node = undefined
+  )
+  $position text
+  parse_sequence_expression !text $sequence_expression
+  if
+    text.is_defined:
+      parse_key_value_operator !text $key_value_operator
+      if
+	text.is_defined
+	:
+	  if
+	    derived_node.is_defined || key_value_operator.is_defined
+	    ->
+	      text
+	      default_value(derived_node funky_types::expression)
+		.funky::source_group_of current_group
+		.funky::source_position_of position
+		.funky::expression_of sequence_expression
+		.funky::operator_of key_value_operator
+	    -> text sequence_expression
+	-> undefined key_value_operator
+    -> undefined sequence_expression
+
+$parse_key_value_operator:
+  cond
+    ->
+      &&
+	text(1) == ' '
+	text(2) == '='
+	text(3) == ' '
+      :
+	range &text 4 -1
+	parse_key_value
+    ->
+      text(1) == '='
+      :
+	range &text 2 -1
+	parse_key_value
+    ->
+      true
+      -> text undefined
+
+$parse_key_value:
+  $position text
+  parse_sequence_expression funky_types::key_value
+
+$parse_sequence_expression:
+  (
+    derived_node = undefined
+  )
+  $position text
+  parse_conditional_expression !text $conditional_expression
+  if
+    text.is_defined:
+      parse_comma_operator !text $comma_operator
+      if
+	text.is_defined
+	:
+	  if
+	    derived_node.is_defined || comma_operator.is_defined
+	    ->
+	      text
+	      default_value(derived_node funky_types::expression)
+		.funky::source_group_of current_group
+		.funky::source_position_of position
+		.funky::expression_of conditional_expression
+		.funky::operator_of comma_operator
+	    -> text conditional_expression
+	-> undefined comma_operator
+    -> undefined conditional_expression
+
+$parse_comma_operator:
+  cond
+    ->
+      &&
+	text(1) == ','
+	text(2) == ' '
+      :
+	range &text 3 -1
+	parse_comma
+    ->
+      text(1) == ','
+      :
+	range &text 2 -1
+	parse_comma
+    ->
+      &&
+	text(1) == ' '
+	text(2) == ','
+	text(3) == ' '
+      :
+	range &text 4 -1
+	parse_comma
+    ->
+      true
+      -> text undefined
+
+$parse_comma:
+  $position text
+  parse_comma_expression funky_types::comma
+
+$parse_comma_expression:
+  (
+    derived_node = undefined
+  )
+  $position text
+  parse_sequence_expression !text $sequence_expression
+  if
+    text.is_defined:
+      parse_comma_operator !text $comma_operator
+      if
+	text.is_defined
+	:
+	  if
+	    derived_node.is_defined || comma_operator.is_defined
+	    ->
+	      text
+	      default_value(derived_node funky_types::expression)
+		.funky::source_group_of current_group
+		.funky::source_position_of position
+		.funky::expression_of sequence_expression
+		.funky::operator_of comma_operator
+	    -> text sequence_expression
+	-> undefined comma_operator
+    -> undefined sequence_expression
+
+$parse_conditional_expression:
+  $position text
+  parse_named_operator_expression !text $named_operator_expression
+  if
+    text.is_defined:
+      parse_logical_operator !text $logical_operator
+      if
+	text.is_defined
+	:
+	  if
+	    logical_operator.is_defined
+	    ->
+	      text
+	      funky_types::expression
+		.funky::source_group_of current_group
+		.funky::source_position_of position
+		.funky::expression_of named_operator_expression
+		.funky::operator_of logical_operator
+	    -> text named_operator_expression
+	-> undefined logical_operator
+    -> undefined named_operator_expression
+
+$parse_logical_operator:
+  cond
+    ->
+      &&
+	text(1) == ' '
+	text(2) == '&'
+	text(3) == '&'
+	text(4) == ' '
+      :
+	range &text 5 -1
+	parse_and
+    ->
+      &&
+	text(1) == ' '
+	text(2) == '|'
+	text(3) == '|'
+	text(4) == ' '
+      :
+	range &text 5 -1
+	parse_or
+    ->
+      true
+      -> text undefined
+
+$parse_and:
+  $position text
+  parse_and_expression funky_types::and
+
+$parse_and_expression:
+  (
+    derived_node = undefined
+  )
+  $position text
+  parse_named_operator_expression !text $named_operator_expression
+  if
+    text.is_defined:
+      parse_and_operator !text $and_operator
+      if
+	text.is_defined
+	:
+	  if
+	    derived_node.is_defined || and_operator.is_defined
+	    ->
+	      text
+	      default_value(derived_node funky_types::expression)
+		.funky::source_group_of current_group
+		.funky::source_position_of position
+		.funky::expression_of named_operator_expression
+		.funky::operator_of and_operator
+	    -> text named_operator_expression
+	-> undefined and_operator
+    -> undefined named_operator_expression
+
+$parse_and_operator:
+  cond
+    ->
+      &&
+	text(1) == ' '
+	text(2) == '&'
+	text(3) == '&'
+	text(4) == ' '
+      :
+	range &text 5 -1
+	parse_and
+    ->
+      true
+      -> text undefined
+
+$parse_or:
+  $position text
+  parse_or_expression funky_types::or
+
+$parse_or_expression:
+  (
+    derived_node = undefined
+  )
+  $position text
+  parse_named_operator_expression !text $named_operator_expression
+  if
+    text.is_defined:
+      parse_or_operator !text $or_operator
+      if
+	text.is_defined
+	:
+	  if
+	    derived_node.is_defined || or_operator.is_defined
+	    ->
+	      text
+	      default_value(derived_node funky_types::expression)
+		.funky::source_group_of current_group
+		.funky::source_position_of position
+		.funky::expression_of named_operator_expression
+		.funky::operator_of or_operator
+	    -> text named_operator_expression
+	-> undefined or_operator
+    -> undefined named_operator_expression
+
+$parse_or_operator:
+  cond
+    ->
+      &&
+	text(1) == ' '
+	text(2) == '|'
+	text(3) == '|'
+	text(4) == ' '
+      :
+	range &text 5 -1
+	parse_or
+    ->
+      true
+      -> text undefined
+
+$parse_named_operator_expression:
+  $position text
+  parse_range_expression !text $range_expression
+  if
+    text.is_defined:
+      parse_optional_named_operator !text $optional_named_operator
+      if
+	text.is_defined
+	:
+	  if
+	    optional_named_operator.is_defined
+	    ->
+	      text
+	      funky_types::named_operator_expression
+		.funky::source_group_of current_group
+		.funky::source_position_of position
+		.funky::expression_of range_expression
+		.funky::operator_of optional_named_operator
+	    -> text range_expression
+	-> undefined optional_named_operator
+    -> undefined range_expression
+
+$parse_optional_named_operator:
+  cond
+    ->
+      &&
+	text(1) == ' '
+	text(2) == '.'
+      :
+	range &text 3 -1
+	parse_named_operator_without_prefix
+    ->
+      true
+      -> text undefined
+
+$parse_named_operator_without_prefix:
+  $position text
+  !str text
+  parse_identifier !text $identifier
+  if
+    text.is_defined:
+      if
+	text(1) == '.':
+	  if
+	    text(2) == ' ':
+	      range &text 3 -1
+	      parse_range_expression !text $range_expression
+	      if
+		text.is_defined
+		->
+		  text
+		  funky_types::named_operator
+		    .funky::source_group_of current_group
+		    .funky::source_position_of position
+		    .funky::identifier_of identifier
+		    .funky::expression_of range_expression
+		-> undefined range_expression
+	    :
+	      syntax_error "space character"
+	:
+	  syntax_error "'.'"
+    -> undefined identifier
+
+$parse_range_expression:
+  $position text
+  parse_relational_expression !text $relational_expression
+  if
+    text.is_defined:
+      parse_range_operator !text $range_operator
+      if
+	text.is_defined
+	:
+	  if
+	    range_operator.is_defined
+	    ->
+	      text
+	      funky_types::expression
+		.funky::source_group_of current_group
+		.funky::source_position_of position
+		.funky::expression_of relational_expression
+		.funky::operator_of range_operator
+	    -> text relational_expression
+	-> undefined range_operator
+    -> undefined relational_expression
+
+$parse_range_operator:
+  cond
+    ->
+      &&
+	text(1) == '.'
+	text(2) == '.'
+      :
+	range &text 3 -1
+	parse_range
+    ->
+      &&
+	text(1) == ' '
+	text(2) == '.'
+	text(3) == '.'
+	text(4) == ' '
+      :
+	range &text 5 -1
+	parse_range
+    ->
+      true
+      -> text undefined
+
+$parse_range:
+  $position text
+  parse_relational_expression funky_types::range
+
+$parse_relational_expression:
+  (
+    derived_node = undefined
+  )
+  $position text
+  parse_bit_expression !text $bit_expression
+  if
+    text.is_defined:
+      parse_comparison_operator !text $comparison_operator
+      if
+	text.is_defined
+	:
+	  if
+	    derived_node.is_defined || comparison_operator.is_defined
+	    ->
+	      text
+	      default_value(derived_node funky_types::expression)
+		.funky::source_group_of current_group
+		.funky::source_position_of position
+		.funky::expression_of bit_expression
+		.funky::operator_of comparison_operator
+	    -> text bit_expression
+	-> undefined comparison_operator
+    -> undefined bit_expression
+
+$parse_comparison_operator:
+  cond
+    ->
+      &&
+	text(1) == ' '
+	text(2) == '='
+	text(3) == '='
+	text(4) == ' '
+      :
+	range &text 5 -1
+	parse_equal
+    ->
+      &&
+	text(1) == '='
+	text(2) == '='
+      :
+	range &text 3 -1
+	parse_equal
+    ->
+      &&
+	text(1) == ' '
+	text(2) == '!'
+	text(3) == '='
+	text(4) == ' '
+      :
+	range &text 5 -1
+	parse_not_equal
+    ->
+      &&
+	text(1) == '!'
+	text(2) == '='
+      :
+	range &text 3 -1
+	parse_not_equal
+    ->
+      &&
+	text(1) == ' '
+	text(2) == '<'
+	text(3) == '='
+	text(4) == ' '
+      :
+	range &text 5 -1
+	parse_less_equal
+    ->
+      &&
+	text(1) == '<'
+	text(2) == '='
+      :
+	range &text 3 -1
+	parse_less_equal
+    ->
+      &&
+	text(1) == ' '
+	text(2) == '<'
+	text(3) == ' '
+      :
+	range &text 4 -1
+	parse_less_than
+    ->
+      text(1) == '<'
+      :
+	range &text 2 -1
+	parse_less_than
+    ->
+      &&
+	text(1) == ' '
+	text(2) == '>'
+	text(3) == '='
+	text(4) == ' '
+      :
+	range &text 5 -1
+	parse_greater_equal
+    ->
+      &&
+	text(1) == '>'
+	text(2) == '='
+      :
+	range &text 3 -1
+	parse_greater_equal
+    ->
+      &&
+	text(1) == ' '
+	text(2) == '>'
+	text(3) == ' '
+      :
+	range &text 4 -1
+	parse_greater_than
+    ->
+      text(1) == '>'
+      :
+	range &text 2 -1
+	parse_greater_than
+    ->
+      true
+      -> text undefined
+
+$parse_equal:
+  $position text
+  parse_tagged_bit_expression funky_types::equal
+
+$parse_not_equal:
+  $position text
+  parse_tagged_bit_expression funky_types::not_equal
+
+$parse_less_equal:
+  $position text
+  parse_tagged_bit_expression funky_types::less_equal
+
+$parse_less_than:
+  $position text
+  parse_tagged_bit_expression funky_types::less_than
+
+$parse_greater_equal:
+  $position text
+  parse_tagged_bit_expression funky_types::greater_equal
+
+$parse_greater_than:
+  $position text
+  parse_tagged_bit_expression funky_types::greater_than
+
+$parse_tagged_bit_expression:
+  (
+    derived_node = undefined
+  )
+  $position text
+  parse_additive_expression !text $additive_expression
+  if
+    text.is_defined:
+      parse_bit_operator !text $bit_operator
+      if
+	text.is_defined
+	:
+	  if
+	    derived_node.is_defined || bit_operator.is_defined
+	    ->
+	      text
+	      default_value(derived_node funky_types::tagged_bit_expression)
+		.funky::source_group_of current_group
+		.funky::source_position_of position
+		.funky::expression_of additive_expression
+		.funky::operator_of bit_operator
+	    -> text additive_expression
+	-> undefined bit_operator
+    -> undefined additive_expression
+
+$parse_bit_expression:
+  $position text
+  parse_additive_expression !text $additive_expression
+  if
+    text.is_defined:
+      parse_bit_operator !text $bit_operator
+      if
+	text.is_defined
+	:
+	  if
+	    bit_operator.is_defined
+	    ->
+	      text
+	      funky_types::expression
+		.funky::source_group_of current_group
+		.funky::source_position_of position
+		.funky::expression_of additive_expression
+		.funky::operator_of bit_operator
+	    -> text additive_expression
+	-> undefined bit_operator
+    -> undefined additive_expression
+
+$parse_bit_operator:
+  cond
+    ->
+      &&
+	text(1) == ' '
+	text(2) == '<'
+	text(3) == '<'
+	text(4) == ' '
+      :
+	range &text 5 -1
+	parse_shift_left
+    ->
+      &&
+	text(1) == '<'
+	text(2) == '<'
+      :
+	range &text 3 -1
+	parse_shift_left
+    ->
+      &&
+	text(1) == ' '
+	text(2) == '>'
+	text(3) == '>'
+	text(4) == ' '
+      :
+	range &text 5 -1
+	parse_shift_right
+    ->
+      &&
+	text(1) == '>'
+	text(2) == '>'
+      :
+	range &text 3 -1
+	parse_shift_right
+    ->
+      &&
+	text(1) == ' '
+	text(2) == '&'
+	text(3) == ' '
+      :
+	range &text 4 -1
+	parse_bit_and
+    ->
+      text(1) == '&'
+      :
+	range &text 2 -1
+	parse_bit_and
+    ->
+      &&
+	text(1) == ' '
+	text(2) == '|'
+	text(3) == ' '
+      :
+	range &text 4 -1
+	parse_bit_or
+    ->
+      text(1) == '|'
+      :
+	range &text 2 -1
+	parse_bit_or
+    ->
+      &&
+	text(1) == ' '
+	text(2) == '^'
+	text(3) == ' '
+      :
+	range &text 4 -1
+	parse_bit_xor
+    ->
+      text(1) == '^'
+      :
+	range &text 2 -1
+	parse_bit_xor
+    ->
+      true
+      -> text undefined
+
+$parse_shift_left:
+  $position text
+  parse_tagged_additive_expression funky_types::shift_left
+
+$parse_shift_right:
+  $position text
+  parse_tagged_additive_expression funky_types::shift_right
+
+$parse_bit_and:
+  $position text
+  parse_bit_and2 funky_types::bit_and
+
+$parse_bit_and2:
+  (
+    derived_node = undefined
+  )
+  $position text
+  parse_additive_expression !text $additive_expression
+  if
+    text.is_defined:
+      parse_bit_and_operator !text $bit_and_operator
+      if
+	text.is_defined
+	:
+	  if
+	    derived_node.is_defined || bit_and_operator.is_defined
+	    ->
+	      text
+	      default_value(derived_node funky_types::bit_and2)
+		.funky::source_group_of current_group
+		.funky::source_position_of position
+		.funky::expression_of additive_expression
+		.funky::operator_of bit_and_operator
+	    -> text additive_expression
+	-> undefined bit_and_operator
+    -> undefined additive_expression
+
+$parse_bit_and_operator:
+  cond
+    ->
+      &&
+	text(1) == ' '
+	text(2) == '&'
+	text(3) == ' '
+      :
+	range &text 4 -1
+	parse_bit_and
+    ->
+      text(1) == '&'
+      :
+	range &text 2 -1
+	parse_bit_and
+    ->
+      true
+      -> text undefined
+
+$parse_bit_or:
+  $position text
+  parse_bit_or2 funky_types::bit_or
+
+$parse_bit_or2:
+  (
+    derived_node = undefined
+  )
+  $position text
+  parse_additive_expression !text $additive_expression
+  if
+    text.is_defined:
+      parse_bit_or_operator !text $bit_or_operator
+      if
+	text.is_defined
+	:
+	  if
+	    derived_node.is_defined || bit_or_operator.is_defined
+	    ->
+	      text
+	      default_value(derived_node funky_types::bit_or2)
+		.funky::source_group_of current_group
+		.funky::source_position_of position
+		.funky::expression_of additive_expression
+		.funky::operator_of bit_or_operator
+	    -> text additive_expression
+	-> undefined bit_or_operator
+    -> undefined additive_expression
+
+$parse_bit_or_operator:
+  cond
+    ->
+      &&
+	text(1) == ' '
+	text(2) == '|'
+	text(3) == ' '
+      :
+	range &text 4 -1
+	parse_bit_or
+    ->
+      text(1) == '|'
+      :
+	range &text 2 -1
+	parse_bit_or
+    ->
+      true
+      -> text undefined
+
+$parse_bit_xor:
+  $position text
+  parse_bit_xor2 funky_types::bit_xor
+
+$parse_bit_xor2:
+  (
+    derived_node = undefined
+  )
+  $position text
+  parse_additive_expression !text $additive_expression
+  if
+    text.is_defined:
+      parse_bit_xor_operator !text $bit_xor_operator
+      if
+	text.is_defined
+	:
+	  if
+	    derived_node.is_defined || bit_xor_operator.is_defined
+	    ->
+	      text
+	      default_value(derived_node funky_types::bit_xor2)
+		.funky::source_group_of current_group
+		.funky::source_position_of position
+		.funky::expression_of additive_expression
+		.funky::operator_of bit_xor_operator
+	    -> text additive_expression
+	-> undefined bit_xor_operator
+    -> undefined additive_expression
+
+$parse_bit_xor_operator:
+  cond
+    ->
+      &&
+	text(1) == ' '
+	text(2) == '^'
+	text(3) == ' '
+      :
+	range &text 4 -1
+	parse_bit_xor
+    ->
+      text(1) == '^'
+      :
+	range &text 2 -1
+	parse_bit_xor
+    ->
+      true
+      -> text undefined
+
+$parse_tagged_additive_expression:
+  (
+    derived_node = undefined
+  )
+  $position text
+  parse_multiplicative_expression !text $multiplicative_expression
+  if
+    text.is_defined:
+      parse_additive_operator !text $additive_operator
+      if
+	text.is_defined
+	:
+	  if
+	    derived_node.is_defined || additive_operator.is_defined
+	    ->
+	      text
+	      default_value(derived_node funky_types::tagged_additive_expression)
+		.funky::source_group_of current_group
+		.funky::source_position_of position
+		.funky::expression_of multiplicative_expression
+		.funky::operator_of additive_operator
+	    -> text multiplicative_expression
+	-> undefined additive_operator
+    -> undefined multiplicative_expression
+
+$parse_additive_expression:
+  $position text
+  parse_multiplicative_expression !text $multiplicative_expression
+  if
+    text.is_defined:
+      parse_additive_operator !text $additive_operator
+      if
+	text.is_defined
+	:
+	  if
+	    additive_operator.is_defined
+	    ->
+	      text
+	      funky_types::expression
+		.funky::source_group_of current_group
+		.funky::source_position_of position
+		.funky::expression_of multiplicative_expression
+		.funky::operator_of additive_operator
+	    -> text multiplicative_expression
+	-> undefined additive_operator
+    -> undefined multiplicative_expression
+
+$parse_additive_operator:
+  cond
+    ->
+      text(1) == '+'
+      :
+	range &text 2 -1
+	parse_plus
+    ->
+      &&
+	text(1) == ' '
+	text(2) == '+'
+	text(3) == ' '
+      :
+	range &text 4 -1
+	parse_plus
+    ->
+      text(1) == '-'
+      :
+	range &text 2 -1
+	parse_minus
+    ->
+      &&
+	text(1) == ' '
+	text(2) == '-'
+	text(3) == ' '
+      :
+	range &text 4 -1
+	parse_minus
+    ->
+      true
+      -> text undefined
+
+$parse_plus:
+  $position text
+  parse_plus2 funky_types::plus
+
+$parse_plus2:
+  (
+    derived_node = undefined
+  )
+  $position text
+  parse_multiplicative_expression !text $multiplicative_expression
+  if
+    text.is_defined:
+      parse_additive_operator !text $additive_operator
+      if
+	text.is_defined
+	:
+	  if
+	    derived_node.is_defined || additive_operator.is_defined
+	    ->
+	      text
+	      default_value(derived_node funky_types::plus2)
+		.funky::source_group_of current_group
+		.funky::source_position_of position
+		.funky::expression_of multiplicative_expression
+		.funky::operator_of additive_operator
+	    -> text multiplicative_expression
+	-> undefined additive_operator
+    -> undefined multiplicative_expression
+
+$parse_minus:
+  $position text
+  parse_tagged_multiplicative_expression funky_types::minus
+
+$parse_tagged_multiplicative_expression:
+  (
+    derived_node = undefined
+  )
+  $position text
+  parse_an_expression !text $an_expression
+  if
+    text.is_defined:
+      parse_multiplicative_operator !text $multiplicative_operator
+      if
+	text.is_defined
+	:
+	  if
+	    derived_node.is_defined || multiplicative_operator.is_defined
+	    ->
+	      text
+	      default_value(derived_node funky_types::tagged_multiplicative_expression)
+		.funky::source_group_of current_group
+		.funky::source_position_of position
+		.funky::expression_of an_expression
+		.funky::operator_of multiplicative_operator
+	    -> text an_expression
+	-> undefined multiplicative_operator
+    -> undefined an_expression
+
+$parse_multiplicative_expression:
+  $position text
+  parse_an_expression !text $an_expression
+  if
+    text.is_defined:
+      parse_multiplicative_operator !text $multiplicative_operator
+      if
+	text.is_defined
+	:
+	  if
+	    multiplicative_operator.is_defined
+	    ->
+	      text
+	      funky_types::expression
+		.funky::source_group_of current_group
+		.funky::source_position_of position
+		.funky::expression_of an_expression
+		.funky::operator_of multiplicative_operator
+	    -> text an_expression
+	-> undefined multiplicative_operator
+    -> undefined an_expression
+
+$parse_multiplicative_operator:
+  cond
+    ->
+      text(1) == '*'
+      :
+	range &text 2 -1
+	parse_times
+    ->
+      &&
+	text(1) == ' '
+	text(2) == '*'
+	text(3) == ' '
+      :
+	range &text 4 -1
+	parse_times
+    ->
+      text(1) == '/'
+      :
+	range &text 2 -1
+	parse_over
+    ->
+      &&
+	text(1) == ' '
+	text(2) == '/'
+	text(3) == ' '
+      :
+	range &text 4 -1
+	parse_over
+    ->
+      true
+      -> text undefined
+
+$parse_times:
+  $position text
+  parse_times2 funky_types::times
+
+$parse_times2:
+  (
+    derived_node = undefined
+  )
+  $position text
+  parse_an_expression !text $an_expression
+  if
+    text.is_defined:
+      parse_multiplicative_operator !text $multiplicative_operator
+      if
+	text.is_defined
+	:
+	  if
+	    derived_node.is_defined || multiplicative_operator.is_defined
+	    ->
+	      text
+	      default_value(derived_node funky_types::times2)
+		.funky::source_group_of current_group
+		.funky::source_position_of position
+		.funky::expression_of an_expression
+		.funky::operator_of multiplicative_operator
+	    -> text an_expression
+	-> undefined multiplicative_operator
+    -> undefined an_expression
+
+$parse_over:
+  $position text
+  parse_an_expression !text $an_expression
+  if
+    text.is_defined
+    ->
+      text
+      funky_types::over
+	.funky::source_group_of current_group
+	.funky::source_position_of position
+	.funky::expression_of an_expression
+    -> undefined an_expression
+
+$parse_an_expression:
+  cond
+    ->
+      text(1) == '('
+      :
+	range &text 2 -1
+	parse_parenthesed_expression_without_prefix
+    ->
+      &&
+	text(1) == '''
+	text(2) == '@@'
+      :
+	range &text 3 -1
+	parse_special_character_literal
+    ->
+      text(1) == '''
+      :
+	range &text 2 -1
+	parse_character_literal_without_prefix
+    ->
+      text(1) == '"'
+      :
+	range &text 2 -1
+	parse_string_literal_without_prefix
+    ->
+      text(1) == '-'
+      :
+	range &text 2 -1
+	parse_negation_without_prefix
+    ->
+      (text(1) >= 'a' && text(1) <= 'z') || (text(1) >= 'A' && text(1) <= 'Z')
+      :
+	!str text
+	range &text 2 -1
+	parse_functor_without_prefix
+    ->
+      text(1) == '`'
+      :
+	range &text 2 -1
+	parse_backquoted_without_prefix
+    ->
+      true
+      :
+	!expected "an expression"
+	!at text
+	parse_numeric_literal
+
+$parse_parenthesed_expression_without_prefix:
+  $position text
+  parse_inline_expression !text $inline_expression
+  if
+    text.is_defined:
+      if
+	text(1) == ')':
+	  range &text 2 -1
+	  parse_inline_calls !text $inline_calls
+	  if
+	    text.is_defined
+	    ->
+	      text
+	      funky_types::parenthesed_expression
+		.funky::source_group_of current_group
+		.funky::source_position_of position
+		.funky::expression_of inline_expression
+		.funky::calls_of inline_calls
+	    -> undefined inline_calls
+	:
+	  syntax_error "')'"
+    -> undefined inline_expression
+
+$parse_inline_expression:
+  cond
+    ->
+      text(1) == ':'
+      :
+	range &text 2 -1
+	parse_inline_body_without_prefix
+    ->
+      &&
+	text(1) == '-'
+	text(2) == '>'
+      :
+	range &text 3 -1
+	parse_inline_return_without_prefix
+    ->
+      true
+      :
+	!expected "inline expression"
+	!at text
+	parse_expression
+
+$parse_backquoted_without_prefix:
+  $position text
+  parse_an_expression !text $an_expression
+  if
+    text.is_defined
+    ->
+      text
+      funky_types::backquoted
+	.funky::source_group_of current_group
+	.funky::source_position_of position
+	.funky::expression_of an_expression
+    -> undefined an_expression
+
+$parse_negation_without_prefix:
+  $position text
+  parse_an_expression !text $an_expression
+  if
+    text.is_defined
+    ->
+      text
+      funky_types::negation
+	.funky::source_group_of current_group
+	.funky::source_position_of position
+	.funky::expression_of an_expression
+    -> undefined an_expression
+
+$parse_multiline_operator:
+  (
+    derived_node = undefined
+  )
+  $position text
+  parse_trailing_remark !text $trailing_remark
+  if
+    text.is_defined:
+      if
+	text == "@nl;" && subgroups.is_defined:
+	  $line_start_arguments parse_groups(funky::parse_line_start_arguments_group)
+	  $error find_first(line_start_arguments is_an_error)
+	  if error.is_an_error
+	    -> undefined error
+	    ->
+	      sentinel
+	      default_value(derived_node funky_types::multiline_operator)
+		.funky::source_group_of current_group
+		.funky::source_position_of position
+		.funky::remark_of trailing_remark
+		.funky::arguments_of line_start_arguments
+	:
+	  syntax_error "valid input characters or line end"
+    -> undefined trailing_remark
+
+$parse_multiline_plus_without_prefix:
+  $position text
+  parse_multiline_operator funky_types::multiline_plus
+
+$parse_multiline_minus_without_prefix:
+  $position text
+  parse_dummy_remark !text $dummy_remark
+  if
+    text.is_defined:
+      if
+	text == "@nl;" && subgroups.is_defined:
+	  $line_start_arguments parse_groups(funky::parse_line_start_arguments_group)
+	  $error find_first(line_start_arguments is_an_error)
+	  if error.is_an_error
+	    -> undefined error
+	    ->
+	      sentinel
+	      funky_types::multiline_minus
+		.funky::source_group_of current_group
+		.funky::source_position_of position
+		.funky::remark_of dummy_remark
+		.funky::arguments_of line_start_arguments
+	:
+	  syntax_error "valid input characters or line end"
+    -> undefined dummy_remark
+
+$parse_multiline_minus_with_remark_without_prefix:
+  $position text
+  parse_remark !text $remark
+  if
+    text.is_defined:
+      if
+	text == "@nl;" && subgroups.is_defined:
+	  $line_start_arguments parse_groups(funky::parse_line_start_arguments_group)
+	  $error find_first(line_start_arguments is_an_error)
+	  if error.is_an_error
+	    -> undefined error
+	    ->
+	      sentinel
+	      funky_types::multiline_minus_with_remark
+		.funky::source_group_of current_group
+		.funky::source_position_of position
+		.funky::remark_of remark
+		.funky::arguments_of line_start_arguments
+	:
+	  syntax_error "valid input characters or line end"
+    -> undefined remark
+
+$parse_multiline_times_without_prefix:
+  $position text
+  parse_multiline_operator funky_types::multiline_times
+
+$parse_multiline_over_without_prefix:
+  $position text
+  $line_start_arguments parse_groups(funky::parse_line_start_arguments_group)
+  $error find_first(line_start_arguments is_an_error)
+  if error.is_an_error
+    -> undefined error
+    ->
+      sentinel
+      funky_types::multiline_over
+	.funky::source_group_of current_group
+	.funky::source_position_of position
+	.funky::arguments_of line_start_arguments
+
+$parse_multiline_over_with_remark_without_prefix:
+  $position text
+  parse_remark !text $remark
+  if
+    text.is_defined:
+      if
+	text == "@nl;" && subgroups.is_defined:
+	  $line_start_arguments parse_groups(funky::parse_line_start_arguments_group)
+	  $error find_first(line_start_arguments is_an_error)
+	  if error.is_an_error
+	    -> undefined error
+	    ->
+	      sentinel
+	      funky_types::multiline_over_with_remark
+		.funky::source_group_of current_group
+		.funky::source_position_of position
+		.funky::remark_of remark
+		.funky::arguments_of line_start_arguments
+	:
+	  syntax_error "valid input characters or line end"
+    -> undefined remark
+
+$parse_multiline_shift_left_without_prefix:
+  $position text
+  parse_multiline_operator funky_types::multiline_shift_left
+
+$parse_multiline_shift_right_without_prefix:
+  $position text
+  parse_multiline_operator funky_types::multiline_shift_right
+
+$parse_multiline_equal_without_prefix:
+  $position text
+  parse_multiline_operator funky_types::multiline_equal
+
+$parse_multiline_not_equal_without_prefix:
+  $position text
+  parse_multiline_operator funky_types::multiline_not_equal
+
+$parse_multiline_less_equal_without_prefix:
+  $position text
+  parse_multiline_operator funky_types::multiline_less_equal
+
+$parse_multiline_less_than_without_prefix:
+  $position text
+  parse_multiline_operator funky_types::multiline_less_than
+
+$parse_multiline_greater_equal_without_prefix:
+  $position text
+  parse_multiline_operator funky_types::multiline_greater_equal
+
+$parse_multiline_greater_than_without_prefix:
+  $position text
+  parse_multiline_operator funky_types::multiline_greater_than
+
+$parse_multiline_and_without_prefix:
+  $position text
+  parse_multiline_operator funky_types::multiline_and
+
+$parse_multiline_or_without_prefix:
+  $position text
+  parse_multiline_operator funky_types::multiline_or
+
+$parse_multiline_bit_and_without_prefix:
+  $position text
+  parse_dummy_remark !text $dummy_remark
+  if
+    text.is_defined:
+      if
+	text == "@nl;" && subgroups.is_defined:
+	  $line_start_arguments parse_groups(funky::parse_line_start_arguments_group)
+	  $error find_first(line_start_arguments is_an_error)
+	  if error.is_an_error
+	    -> undefined error
+	    ->
+	      sentinel
+	      funky_types::multiline_bit_and
+		.funky::source_group_of current_group
+		.funky::source_position_of position
+		.funky::remark_of dummy_remark
+		.funky::arguments_of line_start_arguments
+	:
+	  syntax_error "valid input characters or line end"
+    -> undefined dummy_remark
+
+$parse_multiline_bit_and_with_remark_without_prefix:
+  $position text
+  parse_remark !text $remark
+  if
+    text.is_defined:
+      if
+	text == "@nl;" && subgroups.is_defined:
+	  $line_start_arguments parse_groups(funky::parse_line_start_arguments_group)
+	  $error find_first(line_start_arguments is_an_error)
+	  if error.is_an_error
+	    -> undefined error
+	    ->
+	      sentinel
+	      funky_types::multiline_bit_and_with_remark
+		.funky::source_group_of current_group
+		.funky::source_position_of position
+		.funky::remark_of remark
+		.funky::arguments_of line_start_arguments
+	:
+	  syntax_error "valid input characters or line end"
+    -> undefined remark
+
+$parse_multiline_bit_or_without_prefix:
+  $position text
+  parse_multiline_operator funky_types::multiline_bit_or
+
+$parse_multiline_bit_xor_without_prefix:
+  $position text
+  parse_multiline_operator funky_types::multiline_bit_xor
+
+$parse_multiline_assign_without_prefix:
+  $position text
+  parse_multiline_operator funky_types::multiline_assign
+
+$parse_inline_arguments:
+  cond $rest $expr
+    ->
+      text(1) == '.'
+      :
+	range &text 2 -1
+	parse_inline_attribute_value_pair_without_prefix
+    ->
+      text(1) == '/'
+      :
+	range &text 2 -1
+	parse_inline_method_value_pair_without_prefix
+    ->
+      &&
+	text(1) == '-'
+	text(2) == '>'
+      :
+	range &text 3 -1
+	parse_inline_return_without_prefix
+    ->
+      text(1) == ':'
+      :
+	range &text 2 -1
+	parse_inline_body_without_prefix
+    ->
+      true
+      :
+	!expected "inline arguments"
+	!at text
+	parse_expression_and_inline_arguments
+  ->
+    rest
+    cond
+      -> expr.is_undefined -> empty_list
+      -> expr.is_a_list -> expr
+      -> true -> list(expr)
+
+$parse_inline_attribute_value_pair_without_prefix:
+  $position text
+  !str text
+  parse_identifier !text $identifier
+  if
+    text.is_defined:
+      if
+	text(1) == ' ':
+	  range &text 2 -1
+	  parse_expression !text $expression
+	  if
+	    text.is_defined
+	    ->
+	      text
+	      funky_types::inline_attribute_value_pair
+		.funky::source_group_of current_group
+		.funky::source_position_of position
+		.funky::identifier_of identifier
+		.funky::expression_of expression
+	    -> undefined expression
+	:
+	  syntax_error "space character"
+    -> undefined identifier
+
+$parse_inline_method_value_pair_without_prefix:
+  $position text
+  !str text
+  parse_identifier !text $identifier
+  if
+    text.is_defined:
+      if
+	text(1) == ' ':
+	  range &text 2 -1
+	  parse_expression !text $expression
+	  if
+	    text.is_defined
+	    ->
+	      text
+	      funky_types::inline_method_value_pair
+		.funky::source_group_of current_group
+		.funky::source_position_of position
+		.funky::identifier_of identifier
+		.funky::expression_of expression
+	    -> undefined expression
+	:
+	  syntax_error "space character"
+    -> undefined identifier
+
+$parse_expression_and_inline_arguments:
+  $position text
+  parse_expression !text $expression
+  if
+    text.is_defined:
+      parse_some_inline_arguments !text $some_inline_arguments
+      if
+	text.is_defined
+	:
+	  if
+	    some_inline_arguments.is_defined
+	    ->
+	      text
+	      append
+		expression.to_list
+		some_inline_arguments.to_list
+	    -> text expression.to_list
+	-> undefined some_inline_arguments
+    -> undefined expression
+
+$parse_spaced_inline_arguments:
+  $position text
+  if
+    text(1) == ' ':
+      range &text 2 -1
+      parse_inline_arguments !text $inline_arguments
+      if
+	text.is_defined
+	->
+	  text
+	  inline_arguments
+	-> undefined inline_arguments
+    :
+      syntax_error "space character"
+
+$parse_spaced_inline_arguments_without_prefix:
+  $position text
+  parse_inline_arguments !text $inline_arguments
+  if
+    text.is_defined
+    ->
+      text
+      inline_arguments
+    -> undefined inline_arguments
+
+$parse_numeric_literal:
+  $position text
+  !str text
+  parse_digits !text $digits
+  if
+    text.is_defined
+    ->
+      text
+      funky_types::numeric_literal
+	.funky::source_group_of current_group
+	.funky::source_position_of position
+	.funky::digits_of digits
+    -> undefined digits
+
+$parse_digits:
+  cond
+    ->
+      (text(1) >= '1' && text(1) <= '9')
+      :
+	range &text 2 -1
+	parse_more_decimal_digits
+    ->
+      text(1) == '0'
+      :
+	range &text 2 -1
+	parse_maybe_non_decimal_numeric_literal
+    -> true:
+      syntax_error "digits"
+
+$parse_maybe_non_decimal_numeric_literal:
+  cond
+    ->
+      (text(1) >= '0' && text(1) <= '9')
+      :
+	range &text 2 -1
+	parse_more_decimal_digits
+    ->
+      &&
+	text(1) == '''
+	(text(2) >= '0' && text(2) <= '9')
+      :
+	range &text 3 -1
+	parse_more_decimal_digits
+    ->
+      &&
+	text(1) == '.'
+	(text(2) >= '0' && text(2) <= '9')
+      :
+	range &text 3 -1
+	parse_more_fraction_digits
+    ->
+      text(1) == 'b'
+      :
+	range &text 2 -1
+	parse_binary_digits
+    ->
+      text(1) == 'o'
+      :
+	range &text 2 -1
+	parse_octal_digits
+    ->
+      text(1) == 'x'
+      :
+	range &text 2 -1
+	parse_hex_digits
+    ->
+      true
+      -> text range(str 1 length_of(str)-length_of(text))
+
+$parse_more_decimal_digits:
+  cond
+    ->
+      (text(1) >= '0' && text(1) <= '9')
+      :
+	range &text 2 -1
+	parse_more_decimal_digits
+    ->
+      &&
+	text(1) == '''
+	(text(2) >= '0' && text(2) <= '9')
+      :
+	range &text 3 -1
+	parse_more_decimal_digits
+    ->
+      &&
+	text(1) == '.'
+	(text(2) >= '0' && text(2) <= '9')
+      :
+	range &text 3 -1
+	parse_more_fraction_digits
+    ->
+      text(1) == 'e'
+      :
+	range &text 2 -1
+	parse_exponent
+    ->
+      text(1) == 'E'
+      :
+	range &text 2 -1
+	parse_exponent
+    ->
+      true
+      -> text range(str 1 length_of(str)-length_of(text))
+
+$parse_more_fraction_digits:
+  cond
+    ->
+      (text(1) >= '0' && text(1) <= '9')
+      :
+	range &text 2 -1
+	parse_more_fraction_digits
+    ->
+      text(1) == 'e'
+      :
+	range &text 2 -1
+	parse_exponent
+    ->
+      text(1) == 'E'
+      :
+	range &text 2 -1
+	parse_exponent
+    ->
+      true
+      -> text range(str 1 length_of(str)-length_of(text))
+
+$parse_exponent:
+  cond
+    ->
+      text(1) == '+'
+      :
+	range &text 2 -1
+	parse_exponent_digits
+    ->
+      text(1) == '-'
+      :
+	range &text 2 -1
+	parse_exponent_digits
+    ->
+      (text(1) >= '0' && text(1) <= '9')
+      :
+	range &text 2 -1
+	parse_more_exponent_digits
+    -> true:
+      syntax_error "exponent"
+
+$parse_exponent_digits:
+  cond
+    ->
+      (text(1) >= '0' && text(1) <= '9')
+      :
+	range &text 2 -1
+	parse_more_exponent_digits
+    -> true:
+      syntax_error "exponent digits"
+
+$parse_more_exponent_digits:
+  cond
+    ->
+      (text(1) >= '0' && text(1) <= '9')
+      :
+	range &text 2 -1
+	parse_more_exponent_digits
+    ->
+      true
+      -> text range(str 1 length_of(str)-length_of(text))
+
+$parse_binary_digits:
+  cond
+    ->
+      text(1) == '0' || text(1) == '1'
+      :
+	range &text 2 -1
+	parse_more_binary_digits
+    -> true:
+      syntax_error "binary digits"
+
+$parse_more_binary_digits:
+  cond
+    ->
+      text(1) == '0' || text(1) == '1'
+      :
+	range &text 2 -1
+	parse_more_binary_digits
+    ->
+      &&
+	text(1) == '''
+	text(2) == '0' || text(2) == '1'
+      :
+	range &text 3 -1
+	parse_more_binary_digits
+    ->
+      true
+      -> text range(str 1 length_of(str)-length_of(text))
+
+$parse_octal_digits:
+  cond
+    ->
+      (text(1) >= '0' && text(1) <= '7')
+      :
+	range &text 2 -1
+	parse_more_octal_digits
+    -> true:
+      syntax_error "octal digits"
+
+$parse_more_octal_digits:
+  cond
+    ->
+      (text(1) >= '0' && text(1) <= '7')
+      :
+	range &text 2 -1
+	parse_more_octal_digits
+    ->
+      &&
+	text(1) == '''
+	(text(2) >= '0' && text(2) <= '7')
+      :
+	range &text 3 -1
+	parse_more_octal_digits
+    ->
+      true
+      -> text range(str 1 length_of(str)-length_of(text))
+
+$parse_hex_digits:
+  cond
+    ->
+      (text(1) >= '0' && text(1) <= '9') || (text(1) >= 'a' && text(1) <= 'f') || (text(1) >= 'A' && text(1) <= 'F')
+      :
+	range &text 2 -1
+	parse_more_hex_digits
+    -> true:
+      syntax_error "hex digits"
+
+$parse_more_hex_digits:
+  cond
+    ->
+      (text(1) >= '0' && text(1) <= '9') || (text(1) >= 'a' && text(1) <= 'f') || (text(1) >= 'A' && text(1) <= 'F')
+      :
+	range &text 2 -1
+	parse_more_hex_digits
+    ->
+      &&
+	text(1) == '''
+	(text(2) >= '0' && text(2) <= '9') || (text(2) >= 'a' && text(2) <= 'f') || (text(2) >= 'A' && text(2) <= 'F')
+      :
+	range &text 3 -1
+	parse_more_hex_digits
+    ->
+      true
+      -> text range(str 1 length_of(str)-length_of(text))
+
+$parse_special_character_literal:
+  cond
+    ->
+      &&
+	text(1) == '@@'
+	text(2) == '''
+      :
+	range &text 3 -1
+	parse_at_character_literal_without_prefix
+    ->
+      (text(1) >= 'a' && text(1) <= 'z') || (text(1) >= 'A' && text(1) <= 'Z')
+      :
+	!str text
+	range &text 2 -1
+	parse_named_character_literal_without_prefix
+    ->
+      true
+      :
+	!expected "special character literal"
+	!at text
+	parse_numeric_character_literal
+
+$parse_at_character_literal_without_prefix:
+  $position text
+  ->
+    text
+    funky_types::at_character_literal
+      .funky::source_group_of current_group
+      .funky::source_position_of position
+
+$parse_named_character_literal_without_prefix:
+  $position str
+  parse_more_character_name_characters !text $character_name
+  if
+    text.is_defined:
+      if
+	text(1) == ';':
+	  if
+	    text(2) == '''
+	    ->
+	      range(text 3 -1)
+	      funky_types::named_character_literal
+		.funky::source_group_of current_group
+		.funky::source_position_of position
+		.funky::name_of character_name
+	    :
+	      syntax_error "single quote"
+	:
+	  syntax_error "';'"
+    -> undefined character_name
+
+$parse_numeric_character_literal:
+  $position text
+  !str text
+  parse_digits !text $digits
+  if
+    text.is_defined:
+      if
+	text(1) == ';':
+	  if
+	    text(2) == '''
+	    ->
+	      range(text 3 -1)
+	      funky_types::numeric_character_literal
+		.funky::source_group_of current_group
+		.funky::source_position_of position
+		.funky::digits_of digits
+	    :
+	      syntax_error "single quote"
+	:
+	  syntax_error "';'"
+    -> undefined digits
+
+$parse_character_literal_without_prefix:
+  $position text
+  !str text
+  parse_character !text $character
+  if
+    text.is_defined:
+      if
+	text(1) == '''
+	->
+	  range(text 2 -1)
+	  funky_types::character_literal
+	    .funky::source_group_of current_group
+	    .funky::source_position_of position
+	    .funky::character_of character
+	:
+	  syntax_error "single quote"
+    -> undefined character
+
+$parse_character:
+  cond
+    ->
+      text(1) != '@nl;'
+      -> range(text 2 -1) range(str 1 1)
+    -> true:
+      syntax_error "character"
+
+$parse_more_character_name_characters:
+  cond
+    ->
+      (text(1) >= 'a' && text(1) <= 'z') || (text(1) >= 'A' && text(1) <= 'Z') || (text(1) >= '0' && text(1) <= '9')
+      :
+	range &text 2 -1
+	parse_more_character_name_characters
+    ->
+      true
+      -> text range(str 1 length_of(str)-length_of(text))
+
+$parse_string_literal_without_prefix:
+  $position text
+  parse_string_components !text $string_components
+  if
+    text.is_defined
+    ->
+      text
+      funky_types::string_literal
+	.funky::source_group_of current_group
+	.funky::source_position_of position
+	.funky::components_of string_components
+    -> undefined string_components
+
+$parse_string_components:
+  cond $rest $expr
+    ->
+      text(1) == '"'
+      -> range(text 2 -1) empty_list
+    ->
+      true
+      :
+	!expected "string components"
+	!at text
+	parse_some_string_components
+  ->
+    rest
+    cond
+      -> expr.is_undefined -> empty_list
+      -> expr.is_a_list -> expr
+      -> true -> list(expr)
+
+$parse_some_string_components:
+  $position text
+  parse_string_component !text $string_component
+  if
+    text.is_defined:
+      parse_string_components !text $string_components
+      if
+	text.is_defined
+	:
+	  if
+	    string_components.is_defined
+	    ->
+	      text
+	      append
+		string_component.to_list
+		string_components.to_list
+	    -> text string_component.to_list
+	-> undefined string_components
+    -> undefined string_component
+
+$parse_string_component:
+  cond
+    ->
+      &&
+	text(1) == '@@'
+	text(2) == '@@'
+      :
+	range &text 3 -1
+	parse_at_character_without_prefix
+    ->
+      &&
+	text(1) == '@@'
+	text(2) == ';'
+      :
+	range &text 3 -1
+	parse_tagged_empty_character_without_prefix
+    ->
+      &&
+	text(1) == '@@'
+	text(2) == '('
+      :
+	range &text 3 -1
+	parse_escape_expression_without_prefix
+    ->
+      text(1) == '@@'
+      :
+	range &text 2 -1
+	parse_special_character
+    ->
+      true
+      :
+	!expected "string component"
+	!at text
+	parse_character_sequence
+
+$parse_character_sequence:
+  $position text
+  !str text
+  parse_string_characters !text $string_characters
+  if
+    text.is_defined
+    ->
+      text
+      funky_types::character_sequence
+	.funky::source_group_of current_group
+	.funky::source_position_of position
+	.funky::characters_of string_characters
+    -> undefined string_characters
+
+$parse_string_characters:
+  cond
+    ->
+      text(1) != '@nl;' && text(1) != '@@' && text(1) != '"'
+      :
+	range &text 2 -1
+	parse_more_string_characters
+    -> true:
+      syntax_error "string characters"
+
+$parse_more_string_characters:
+  cond
+    ->
+      text(1) != '@nl;' && text(1) != '@@' && text(1) != '"'
+      :
+	range &text 2 -1
+	parse_more_string_characters
+    ->
+      true
+      -> text range(str 1 length_of(str)-length_of(text))
+
+$parse_multiline_string_literal_without_prefix:
+  $position text
+  $multiline_string_components parse_lines(funky::parse_multiline_string_components_group)
+  $error find_first(multiline_string_components is_an_error)
+  if error.is_an_error
+    -> undefined error
+    ->
+      sentinel
+      funky_types::string_literal
+	.funky::source_group_of current_group
+	.funky::source_position_of position
+	.funky::components_of multiline_string_components
+
+$parse_multiline_string_components:
+  cond $rest $expr
+    ->
+      &&
+	text(1) == '@@'
+	text(2) == '@nl;'
+      :
+	range &text 2 -1
+	parse_string_line_end_without_prefix
+    ->
+      text(1) == '@nl;'
+      :
+	parse_newline_without_prefix
+    ->
+      true
+      :
+	!expected "multiline string components"
+	!at text
+	parse_some_string_line_components
+  ->
+    rest
+    cond
+      -> expr.is_undefined -> empty_list
+      -> expr.is_a_list -> expr
+      -> true -> list(expr)
+
+$parse_newline_without_prefix:
+  $position text
+  ->
+    text
+    funky_types::newline
+      .funky::source_group_of current_group
+      .funky::source_position_of position
+
+$parse_some_string_line_components:
+  $position text
+  parse_string_line_component !text $string_line_component
+  if
+    text.is_defined:
+      parse_multiline_string_components !text $multiline_string_components
+      if
+	text.is_defined
+	:
+	  if
+	    multiline_string_components.is_defined
+	    ->
+	      text
+	      append
+		string_line_component.to_list
+		multiline_string_components.to_list
+	    -> text string_line_component.to_list
+	-> undefined multiline_string_components
+    -> undefined string_line_component
+
+$parse_string_line_component:
+  cond
+    ->
+      &&
+	text(1) == '@@'
+	text(2) == '@@'
+      :
+	range &text 3 -1
+	parse_at_character_without_prefix
+    ->
+      &&
+	text(1) == '@@'
+	text(2) == ';'
+      :
+	range &text 3 -1
+	parse_tagged_empty_character_without_prefix
+    ->
+      &&
+	text(1) == '@@'
+	text(2) == '('
+      :
+	range &text 3 -1
+	parse_escape_expression_without_prefix
+    ->
+      text(1) == '@@'
+      :
+	range &text 2 -1
+	parse_special_character
+    ->
+      true
+      :
+	!expected "string line component"
+	!at text
+	parse_string_line_character_sequence
+
+$parse_string_line_end_without_prefix:
+  $position text
+  ->
+    text
+    undefined
+
+$parse_at_character_without_prefix:
+  $position text
+  ->
+    text
+    funky_types::at_character
+      .funky::source_group_of current_group
+      .funky::source_position_of position
+
+$parse_tagged_empty_character_without_prefix:
+  $position text
+  parse_empty_character_without_prefix !text $empty_character
+  if
+    text.is_defined
+    ->
+      text
+      funky_types::tagged_empty_character
+	.funky::source_group_of current_group
+	.funky::source_position_of position
+	.funky::character_of empty_character
+    -> undefined empty_character
+
+$parse_empty_character_without_prefix:
+  $position text
+  ->
+    text
+    undefined
+
+$parse_escape_expression_without_prefix:
+  $position text
+  parse_expression funky_types::escape_expression !text $expression
+  if
+    text.is_defined:
+      if
+	text(1) == ')'
+	-> range(text 2 -1) expression
+	:
+	  syntax_error "')'"
+    -> undefined expression
+
+$parse_special_character:
+  cond
+    ->
+      (text(1) >= 'a' && text(1) <= 'z') || (text(1) >= 'A' && text(1) <= 'Z')
+      :
+	!str text
+	range &text 2 -1
+	parse_named_character_without_prefix
+    ->
+      true
+      :
+	!expected "special character"
+	!at text
+	parse_numeric_character
+
+$parse_named_character_without_prefix:
+  $position str
+  parse_more_character_name_characters !text $character_name
+  if
+    text.is_defined:
+      if
+	text(1) == ';'
+	->
+	  range(text 2 -1)
+	  funky_types::named_character
+	    .funky::source_group_of current_group
+	    .funky::source_position_of position
+	    .funky::name_of character_name
+	:
+	  syntax_error "';'"
+    -> undefined character_name
+
+$parse_numeric_character:
+  $position text
+  !str text
+  parse_digits !text $digits
+  if
+    text.is_defined:
+      if
+	text(1) == ';'
+	->
+	  range(text 2 -1)
+	  funky_types::numeric_character
+	    .funky::source_group_of current_group
+	    .funky::source_position_of position
+	    .funky::digits_of digits
+	:
+	  syntax_error "';'"
+    -> undefined digits
+
+$parse_string_line_character_sequence:
+  $position text
+  !str text
+  parse_string_line_characters !text $string_line_characters
+  if
+    text.is_defined
+    ->
+      text
+      funky_types::character_sequence
+	.funky::source_group_of current_group
+	.funky::source_position_of position
+	.funky::characters_of string_line_characters
+    -> undefined string_line_characters
+
+$parse_string_line_characters:
+  cond
+    ->
+      text(1) != '@nl;' && text(1) != '@@'
+      :
+	range &text 2 -1
+	parse_more_string_line_characters
+    -> true:
+      syntax_error "string line characters"
+
+$parse_more_string_line_characters:
+  cond
+    ->
+      text(1) != '@nl;' && text(1) != '@@'
+      :
+	range &text 2 -1
+	parse_more_string_line_characters
+    ->
+      true
+      -> text range(str 1 length_of(str)-length_of(text))
+
+$parse_unique_without_prefix:
+  $position text
+  parse_trailing_remarks !text $trailing_remarks
+  if
+    text.is_defined
+    ->
+      text
+      funky_types::unique
+	.funky::source_group_of current_group
+	.funky::source_position_of position
+	.funky::remarks_of trailing_remarks
+    -> undefined trailing_remarks
+
+$parse_attribute_without_prefix:
+  $position text
+  parse_trailing_remarks !text $trailing_remarks
+  if
+    text.is_defined
+    ->
+      text
+      funky_types::attribute
+	.funky::source_group_of current_group
+	.funky::source_position_of position
+	.funky::remarks_of trailing_remarks
+    -> undefined trailing_remarks
+
+$parse_attribute_with_setter_without_prefix:
+  $position text
+  parse_trailing_remarks !text $trailing_remarks
+  if
+    text.is_defined
+    ->
+      text
+      funky_types::attribute_with_setter
+	.funky::source_group_of current_group
+	.funky::source_position_of position
+	.funky::remarks_of trailing_remarks
+    -> undefined trailing_remarks
+
+$parse_body:
+  (
+    derived_node = undefined
+  )
+  $position text
+  parse_inline_parameters !text $inline_parameters
+  if
+    text.is_defined:
+      parse_optional_line_end_remark !text $optional_line_end_remark
+      if
+	text.is_defined:
+	  parse_body_statements !text $body_statements
+	  if
+	    text.is_defined
+	    ->
+	      text
+	      default_value(derived_node funky_types::body)
+		.funky::source_group_of current_group
+		.funky::source_position_of position
+		.funky::parameters_of inline_parameters
+		.funky::remark_of optional_line_end_remark
+		.funky::statements_of body_statements
+	    -> undefined body_statements
+	-> undefined optional_line_end_remark
+    -> undefined inline_parameters
+
+$parse_optional_line_end_remark:
+  cond
+    ->
+      &&
+	text(1) == ' '
+	text(2) == '#'
+      :
+	range &text 3 -1
+	parse_spaced_remark_without_prefix
+    ->
+      true
+      -> text undefined
+
+$parse_body_statements:
+  cond $rest $expr
+    ->
+      text(1) == ' '
+      :
+	range &text 2 -1
+	parse_line_end_statement_without_prefix
+    ->
+      true
+      :
+	!expected "body statements"
+	!at text
+	parse_statements
+  ->
+    rest
+    cond
+      -> expr.is_undefined -> empty_list
+      -> expr.is_a_list -> expr
+      -> true -> list(expr)
+
+$parse_line_end_statement_without_prefix:
+  $position text
+  parse_statement
+
+$parse_inline_body_without_prefix:
+  $position text
+  parse_inline_parameters !text $inline_parameters
+  if
+    text.is_defined:
+      if
+	text(1) == ' ':
+	  range &text 2 -1
+	  parse_inline_statement !text $inline_statement
+	  if
+	    text.is_defined
+	    ->
+	      text
+	      funky_types::inline_body
+		.funky::source_group_of current_group
+		.funky::source_position_of position
+		.funky::parameters_of inline_parameters
+		.funky::statement_of inline_statement
+	    -> undefined inline_statement
+	:
+	  syntax_error "space character"
+    -> undefined inline_parameters
+
+$parse_statements:
+  $position text
+  if
+    text == "@nl;" && subgroups.is_defined:
+      $parameters_or_statement parse_groups(funky::parse_parameters_or_statement_group)
+      $error find_first(parameters_or_statement is_an_error)
+      if error.is_an_error
+	-> undefined error
+	->
+	  sentinel
+	  parameters_or_statement
+    :
+      syntax_error "valid input characters or line end"
+
+$parse_inline_parameters:
+  cond $rest $expr
+    ->
+      &&
+	text(1) == ' '
+	text(2) == '('
+      :
+	range &text 3 -1
+	parse_some_inline_parameters
+    ->
+      true
+      -> text empty_list
+  ->
+    rest
+    cond
+      -> expr.is_undefined -> empty_list
+      -> expr.is_a_list -> expr
+      -> true -> list(expr)
+
+$parse_some_inline_parameters:
+  cond
+    ->
+      text(1) == ')'
+      -> range(text 2 -1) undefined
+    ->
+      true
+      :
+	!expected "some inline parameters"
+	!at text
+	parse_one_or_more_inline_parameters
+
+$parse_one_or_more_inline_parameters:
+  $position text
+  parse_inline_parameter !text $inline_parameter
+  if
+    text.is_defined:
+      parse_maybe_more_inline_parameters !text $maybe_more_inline_parameters
+      if
+	text.is_defined
+	:
+	  if
+	    maybe_more_inline_parameters.is_defined
+	    ->
+	      text
+	      append
+		inline_parameter.to_list
+		maybe_more_inline_parameters.to_list
+	    -> text inline_parameter.to_list
+	-> undefined maybe_more_inline_parameters
+    -> undefined inline_parameter
+
+$parse_maybe_more_inline_parameters:
+  cond
+    ->
+      text(1) == ' '
+      :
+	range &text 2 -1
+	parse_one_or_more_inline_parameters
+    ->
+      text(1) == ')'
+      -> range(text 2 -1) undefined
+    ->
+      true
+      :
+	syntax_error "maybe more inline parameters"
+
+$parse_parameter_name:
+  cond
+    ->
+      text(1) == '_'
+      :
+	range &text 2 -1
+	parse_name
+    ->
+      (text(1) >= 'a' && text(1) <= 'z') || (text(1) >= 'A' && text(1) <= 'Z')
+      :
+	range &text 2 -1
+	parse_more_name_characters
+    -> true:
+      syntax_error "parameter name"
+
+$parse_open_parameters_without_prefix:
+  $position text
+  parse_trailing_remark !text $trailing_remark
+  if
+    text.is_defined:
+      if
+	text == "@nl;" && subgroups.is_defined:
+	  $parameter parse_groups(funky::parse_parameter_group)
+	  $error find_first(parameter is_an_error)
+	  if error.is_an_error
+	    -> undefined error
+	    ->
+	      sentinel
+	      funky_types::open_parameters
+		.funky::source_group_of current_group
+		.funky::source_position_of position
+		.funky::remark_of trailing_remark
+		.funky::parameter_of parameter
+	:
+	  syntax_error "valid input characters or line end"
+    -> undefined trailing_remark
+
+$parse_inline_parameter:
+  $position text
+  !str text
+  parse_parameter_name !text $parameter_name
+  if
+    text.is_defined:
+      parse_parameter_option !text $parameter_option
+      if
+	text.is_defined
+	->
+	  text
+	  funky_types::inline_parameter
+	    .funky::source_group_of current_group
+	    .funky::source_position_of position
+	    .funky::name_of parameter_name
+	    .funky::option_of parameter_option
+	-> undefined parameter_option
+    -> undefined parameter_name
+
+$parse_parameter:
+  $position text
+  !str text
+  parse_parameter_name !text $parameter_name
+  if
+    text.is_defined:
+      parse_parameter_option !text $parameter_option
+      if
+	text.is_defined:
+	  parse_trailing_remarks !text $trailing_remarks
+	  if
+	    text.is_defined
+	    ->
+	      text
+	      funky_types::parameter
+		.funky::source_group_of current_group
+		.funky::source_position_of position
+		.funky::name_of parameter_name
+		.funky::option_of parameter_option
+		.funky::remarks_of trailing_remarks
+	    -> undefined trailing_remarks
+	-> undefined parameter_option
+    -> undefined parameter_name
+
+$parse_parameter_option:
+  cond
+    ->
+      text(1) == '^'
+      :
+	range &text 2 -1
+	parse_myself_without_prefix
+    ->
+      text(1) == '*'
+      :
+	range &text 2 -1
+	parse_rest_without_prefix
+    ->
+      &&
+	text(1) == ' '
+	text(2) == '='
+	text(3) == ' '
+      :
+	range &text 4 -1
+	parse_initial_value_without_prefix
+    ->
+      true
+      -> text undefined
+
+$parse_myself_without_prefix:
+  $position text
+  ->
+    text
+    funky_types::myself
+      .funky::source_group_of current_group
+      .funky::source_position_of position
+
+$parse_rest_without_prefix:
+  $position text
+  ->
+    text
+    funky_types::rest
+      .funky::source_group_of current_group
+      .funky::source_position_of position
+
+$parse_initial_value_without_prefix:
+  $position text
+  parse_simple_operand !text $simple_operand
+  if
+    text.is_defined
+    ->
+      text
+      funky_types::initial_value
+	.funky::source_group_of current_group
+	.funky::source_position_of position
+	.funky::operand_of simple_operand
+    -> undefined simple_operand
+
+$parse_simple_operand:
+  cond
+    ->
+      (text(1) >= 'a' && text(1) <= 'z') || (text(1) >= 'A' && text(1) <= 'Z')
+      :
+	!str text
+	range &text 2 -1
+	parse_variable_without_prefix
+    ->
+      &&
+	text(1) == '''
+	text(2) == '@@'
+      :
+	range &text 3 -1
+	parse_special_character_literal
+    ->
+      text(1) == '''
+      :
+	range &text 2 -1
+	parse_character_literal_without_prefix
+    ->
+      text(1) == '"'
+      :
+	range &text 2 -1
+	parse_string_literal_without_prefix
+    ->
+      true
+      :
+	!expected "simple operand"
+	!at text
+	parse_numeric_literal
+
+$parse_close_parameters_without_prefix:
+  $position text
+  parse_trailing_remark !text $trailing_remark
+  if
+    text.is_defined
+    ->
+      text
+      funky_types::close_parameters
+	.funky::source_group_of current_group
+	.funky::source_position_of position
+	.funky::remark_of trailing_remark
+    -> undefined trailing_remark
+
+$parse_return_expression_without_prefix:
+  $position text
+  parse_some_statement_arguments !text $some_statement_arguments
+  if
+    text.is_defined
+    ->
+      text
+      funky_types::return_expression
+	.funky::source_group_of current_group
+	.funky::source_position_of position
+	.funky::arguments_of some_statement_arguments
+    -> undefined some_statement_arguments
+
+$parse_return_without_prefix:
+  $position text
+  ->
+    text
+    funky_types::return
+      .funky::source_group_of current_group
+      .funky::source_position_of position
+
+$parse_remark:
+  $position text
+  if
+    text(1) == '#':
+      range &text 2 -1
+      !str text
+      parse_remark_text !text $remark_text
+      if
+	text.is_defined
+	->
+	  text
+	  funky_types::remark
+	    .funky::source_group_of current_group
+	    .funky::source_position_of position
+	    .funky::text_of remark_text
+	-> undefined remark_text
+    :
+      syntax_error "'#'"
+
+$parse_remark_without_prefix:
+  $position text
+  !str text
+  parse_remark_text !text $remark_text
+  if
+    text.is_defined
+    ->
+      text
+      funky_types::remark
+	.funky::source_group_of current_group
+	.funky::source_position_of position
+	.funky::text_of remark_text
+    -> undefined remark_text
+
+$parse_remark_text:
+  cond
+    ->
+      text(1) == '@nl;'
+      -> text range(str 1 length_of(str)-length_of(text))
+    ->
+      true
+      :
+	range &text 2 -1
+	parse_remark_text
+
+$parse_trailing_remarks:
+  cond
+    ->
+      text == "@nl;" && subgroups.is_defined
+      :
+	parse_line_remarks_without_prefix
+    ->
+      true
+      :
+	!expected "trailing remarks"
+	!at text
+	parse_line_end_and_line_remarks
+
+$parse_line_end_and_line_remarks:
+  $position text
+  parse_trailing_remark !text $trailing_remark
+  if
+    text.is_defined:
+      parse_line_remarks !text $line_remarks
+      if
+	text.is_defined
+	:
+	  if
+	    line_remarks.is_defined
+	    ->
+	      text
+	      funky_types::line_end_and_line_remarks
+		.funky::source_group_of current_group
+		.funky::source_position_of position
+		.funky::remark_of trailing_remark
+		.funky::remarks_of line_remarks
+	    -> text trailing_remark
+	-> undefined line_remarks
+    -> undefined trailing_remark
+
+$parse_trailing_remark:
+  cond
+    ->
+      &&
+	text(1) == ' '
+	text(2) == '#'
+      :
+	range &text 3 -1
+	parse_spaced_remark_without_prefix
+    ->
+      text(1) == '@nl;'
+      -> text undefined
+    ->
+      true
+      :
+	syntax_error "trailing remark"
+
+$parse_line_remarks:
+  $position text
+  if
+    text == "@nl;":
+      $multiline_remark parse_groups(funky::parse_multiline_remark_group)
+      $error find_first(multiline_remark is_an_error)
+      if error.is_an_error
+	-> undefined error
+	->
+	  sentinel
+	  multiline_remark
+    :
+      syntax_error "valid input characters or line end"
+
+$parse_line_remarks_without_prefix:
+  $position text
+  $multiline_remark parse_groups(funky::parse_multiline_remark_group)
+  $error find_first(multiline_remark is_an_error)
+  if error.is_an_error
+    -> undefined error
+    ->
+      sentinel
+      multiline_remark
+
+$parse_spaced_remark_without_prefix:
+  $position text
+  !str text
+  parse_remark_text !text $remark_text
+  if
+    text.is_defined
+    ->
+      text
+      funky_types::remark
+	.funky::source_group_of current_group
+	.funky::source_position_of position
+	.funky::text_of remark_text
+    -> undefined remark_text
+
+$parse_multiline_remark:
+  $position text
+  if
+    text(1) == '#':
+      range &text 2 -1
+      !str text
+      parse_remark_text !text $remark_text
+      if
+	text.is_defined:
+	  parse_some_remark_lines !text $some_remark_lines
+	  if
+	    text.is_defined
+	    ->
+	      text
+	      funky_types::multiline_remark
+		.funky::source_group_of current_group
+		.funky::source_position_of position
+		.funky::text_of remark_text
+		.funky::lines_of some_remark_lines
+	    -> undefined some_remark_lines
+	-> undefined remark_text
+    :
+      syntax_error "'#'"
+
+$parse_multiline_remark_without_prefix:
+  $position text
+  !str text
+  parse_remark_text !text $remark_text
+  if
+    text.is_defined:
+      parse_some_remark_lines !text $some_remark_lines
+      if
+	text.is_defined
+	->
+	  text
+	  funky_types::multiline_remark
+	    .funky::source_group_of current_group
+	    .funky::source_position_of position
+	    .funky::text_of remark_text
+	    .funky::lines_of some_remark_lines
+	-> undefined some_remark_lines
+    -> undefined remark_text
+
+$parse_some_remark_lines:
+  cond
+    ->
+      text == "@nl;" && subgroups.is_defined
+      :
+	parse_remark_lines
+    ->
+      true
+      -> text undefined
+
+$parse_remark_lines:
+  $position text
+  !str text
+  parse_remark_text !text $remark_text
+  if
+    text.is_defined
+    ->
+      text
+      funky_types::remark_lines
+	.funky::source_group_of current_group
+	.funky::source_position_of position
+	.funky::text_of remark_text
+    -> undefined remark_text
+
+$parse_dummy_remark:
+  $position text
+  if
+    text(1) == '@nl;'
+    ->
+      text
+      funky_types::dummy_remark
+	.funky::source_group_of current_group
+	.funky::source_position_of position
+    :
+      syntax_error "valid input characters or line end"

@@ -1,0 +1,937 @@
+#
+  Copyright (C) 2022 by
+  Dipl.-Ing. Michael Niederle
+
+  This program is free software; you can redistribute it and/or modify
+  it under the terms of the GNU General Public License, version 2, or
+  (at your option) version 3.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  GNU General Public License for more details.
+
+  For details of the GNU General Public License see the accompanying
+  files GPLv2.txt and GLPv3.txt or
+  http://www.gnu.org/licenses/gpl-2.0.html
+  http://www.gnu.org/licenses/gpl-3.0.html
+  or write to the
+  Free Software Foundation, Inc.,
+  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+
+<using std>
+<using nlb2fky>
+
+$is_a_group_rule ()
+$prefix_is_already_parsed ()
+
+$std_types::object.is_a_group_rule false
+$std_types::string.prefix_is_already_parsed false
+
+$nlb2fky::create_parse_functions: (filename rules name_to_index)
+  $namespace behind(filename '/' -1) .before. '.'
+
+  for_each rules # find group rules
+    : (rule)
+      if_not rule.is_used && rule.is_compound next:
+	for_each choices_of(rule): (choice)
+	  $prefix_symbols prefix_symbols_of(choice)
+	  $symbols symbols_of(choice)
+	  if
+	    ||
+	      &&
+		length_of(prefix_symbols) >= 1
+		prefix_symbols(-1).is_a_group_symbol
+	      &&
+		length_of(symbols) >= 2
+		symbols(-2).is_a_group_symbol
+	    :
+	      !rules(name_to_index(symbols(-1))).is_a_group_rule true
+	      next
+	    next
+    ->
+      string
+	with_tabs
+	  "
+	    #
+	      This parser was automatically derived from the file "@(filename)".
+
+	    <allow unused>
+
+	    ###
+	    # "Global" Variables
+
+	    $funky::current_filename undefined
+	    $current_group undefined
+	    $text undefined
+	    $str undefined
+	    $subgroups undefined
+	    $expected undefined
+	    $at undefined
+
+	    ###
+	    # Constants
+
+	    $@(namespace)::SYNTAX_ERROR .
+
+	    $sentinel "@@nl;@@nl;"
+
+	    ###
+	    # Utility Functions
+
+	    $@(namespace)::line_indent_of: (line)
+	      if
+		line.is_defined
+		-> first(line)
+		-> undefined
+
+	    $@(namespace)::line_text_of: (line)
+	      if
+		line.is_defined
+		-> second(line)
+		-> undefined
+
+	    $@(namespace)::split_source_into_lines: (source)
+	      split_into_indented_lines $lines source
+	      map lines: (line_no line)
+		if
+		  line.is_defined:
+		    $prev_line_no line_no
+		    loop:
+		      dec &prev_line_no
+		      if
+			prev_line_no < 1 || lines(prev_line_no).is_defined
+			->
+			  line
+			    .@(namespace)::line_no_of line_no
+			    .@(namespace)::skip_of line_no-prev_line_no
+			next
+		  -> undefined
+
+	    $@(namespace)::parse: (lines parse_function)
+	      !subgroups lines
+	      parse_groups parse_function
+
+	    $convert_to_text_lines: (groups)
+	      $min_indent
+		map_reduce
+		  groups @(namespace)::line_indent_of: (left right)
+		    if
+		      left.is_undefined
+		      -> right
+		      :
+			if
+			  right.is_undefined
+			  -> left
+			  -> min(left right)
+	      map groups: (group)
+		if
+		  group.is_defined:
+		    group $indent $line_text
+		    ->
+		      tuple(min_indent append(spaces(indent-min_indent) line_text))
+			.funky::line_no_of funky::line_no_of(group)
+		  -> tuple(min_indent "@@nl;")
+
+	    $to_list: (node)
+	      if
+		node.is_undefined
+		-> empty_list
+		:
+		  if
+		    node.is_a_list
+		    -> node
+		    -> list(node)
+
+	    $syntax_error: (item)
+	      $pos length_of(@(namespace)::line_text_of(current_group))+1-length_of(text)
+	      $message
+		string
+		  if
+		    expected.is_defined && text == at
+		    -> expected
+		    -> item
+		  " expected"
+	      ->
+		error
+		  @(namespace)::SYNTAX_ERROR
+		  message
+		  tuple(funky::current_filename current_group pos)
+
+	    $parse_groups: (parse_function)
+	      if
+		subgroups.is_defined:
+		  $indent
+		    if
+		      current_group.is_defined
+		      -> @(namespace)::line_indent_of(current_group)
+		      -> 0
+		  map_reduce split_into_groups(subgroups): (head)
+		    !current_group head
+		    if
+		      @(namespace)::line_indent_of(head) < indent:
+			error
+			  @(namespace)::SYNTAX_ERROR
+			  "Unexpected outdent"
+			  tuple(funky::current_filename current_group 1)
+		      :
+			!text @(namespace)::line_text_of(head)
+			!subgroups subgroups_of(head)
+			$node parse_function()(.@(namespace)::skip_of @
+			  @(namespace)::skip_of(head))
+			if
+			  node.is_a_list
+			  -> node
+			  -> list(node)
+		-> empty_list
+
+	    $parse_lines: (parse_function)
+	      if
+		subgroups.is_defined:
+		  map_reduce convert_to_text_lines(subgroups): (head)
+		    !current_group head
+		    !text @(namespace)::line_text_of(head)
+		    !subgroups subgroups_of(head)
+		    $node parse_function()(.@(namespace)::skip_of 1)
+		    if
+		      node.is_a_list
+		      -> node
+		      -> list(node)
+		-> empty_list
+
+	    ###
+	    # Generated Parse Functions
+	map_reduce(rules print_parse_group_function)
+	map_reduce(rules print_parse_functions)
+
+  $print_parse_group_function: (idx rule)
+    if_not idx == 1 || rule.is_a_group_rule (-> ""):
+      $name name_of(rule)
+      string
+	"
+
+	  $@(namespace)::parse_@(name)_group:
+	    @(parse_symbol((name))) !text $@(name)
+	    -> @(name)
+
+  $print_parse_functions: (rule)
+    if_not rule.is_used (-> ""):
+      $with_prefix_function
+	if
+	  rule.is_used_with_prefix
+	  -> print_parse_function(rule true)
+	  -> ""
+      $without_prefix_function
+	if
+	  rule.is_used_without_prefix
+	  -> print_parse_function(rule false)
+	  -> ""
+      append with_prefix_function without_prefix_function
+
+  $print_parse_function: (rule used_with_prefix)
+    $name name_of(rule)
+    $choices choices_of(rule)
+    $choice_count length_of(choices)
+    $kind kind_of(rule)
+    $declaration
+      string
+	"@nl;$parse_" name
+	if
+	  used_with_prefix
+	  -> ""
+	  -> "_without_prefix"
+	':'
+	if
+	  rule.has_derivatives
+	  -> "
+	    @;
+	      (
+		derived_node = undefined
+	      )
+	  -> '@nl;'
+	#append
+	  "
+	    @
+	      debug_write "@
+	  name
+	  if
+	    used_with_prefix
+	    -> "
+	      : @@quot;@@(text)"
+	    -> "
+	      _without_prefix: @@quot;@@(text)"
+	if
+	  kind == COMPOUND:
+	    if
+	      ||
+		used_with_prefix
+		components_of(rule).is_empty
+		kind_of(rules(components_of(rule)(1))) != PRIMITIVE
+		not(prefix_symbols_of(choices(1)).is_empty)
+	      -> "  $position text@nl;"
+	      :
+		-> "  $position str@nl;"
+	  -> ""
+
+    # print the body of the parse function depending on the rule's kind
+
+    case kind
+      COMPOUND print_compound
+      MULTI_CHOICE print_multi_choice
+      PRIMITIVE print_primitive
+
+    $print_compound: # a compound rule consists of a single choice
+      $components components_of(rule)
+      $choice choices(1)
+      $prefix_symbols prefix_symbols_of(choice)
+      $symbols symbols_of(choice)
+      if
+	is_derived_from_another_rule():
+	  if
+	    used_with_prefix:
+	      if
+		prefix_symbols.is_empty:
+		  print_derived symbols
+		:
+		  debug_write "
+		    DERIVED RULES WITH PREFIX ARE NOT YET IMPLEMENTED (@(name))!
+		  string
+		    declaration
+		    "  pass@nl;"
+	    :
+	      print_derived symbols
+	:
+	  if
+	    used_with_prefix
+	    ->
+	      string
+		declaration
+		print_parse_sequence(2 append(prefix_symbols symbols))
+	    :
+	      if
+		prefix_symbols.is_empty
+		->
+		  string
+		    declaration
+		    print_parse_sequence
+		      2 symbols(1 symbols(1)(.prefix_is_already_parsed true))
+		->
+		  string
+		    declaration
+		    print_parse_sequence(2 symbols)
+
+      $is_derived_from_another_rule:
+	->
+	  &&
+	    prefix_symbols.is_empty || not(prefix_symbols(-1).is_a_line_feed)
+	    length_of(components) == 1
+	    rules(components(1)).is_compound
+	    not(rules(components(1)).is_pruned)
+
+    $print_multi_choice:
+      $do_generate_a_list rule.returns_a_node_list
+      ->
+	append
+	  declaration
+	  "  cond"
+	  if
+	    do_generate_a_list
+	    -> " $rest $expr@nl;"
+	    -> "@nl;"
+	  map_reduce
+	    choices
+	    : (choice_no choice)
+	      $prefix_symbols prefix_symbols_of(choice)
+	      $symbols symbols_of(choice)
+	      if
+		symbols.is_empty:
+		  $offset size_of(prefix_symbols)
+		  $new_text
+		    if
+		      offset == 0
+		      -> "text"
+		      -> "range(text @(offset+1) -1)"
+		  string
+		    "    ->@nl;"
+		    terminal_symbols_to_condition(6 prefix_symbols)
+		    "      -> " new_text
+		    if
+		      do_generate_a_list
+		      -> " empty_list@nl;"
+		      -> " undefined@nl;"
+		    if
+		      choice.matches_nothing
+		      -> ""
+		      -> may_add_syntax_error()
+		:
+		  $symbol symbols(1)
+		  if
+		    choice_no == choice_count && prefix_symbols.is_empty
+		    -> "
+		      @
+			  ->
+			    true
+			    :
+		      @ht;!expected "@(description_of(rule))"
+		      @ht;!at text
+		      @ht;@(parse_symbol(symbol))
+		    :
+		      if !prefix_symbols !symbol $store_str
+			prefix_symbols.is_empty
+			:
+			  $new_prefix get_prefix(symbol)
+			  ->
+			    new_prefix
+			    symbol(.prefix_is_already_parsed true)
+			    if
+			      new_prefix.starts_a_primitive_rule
+			      -> "@ht;!str text@nl;"
+			      -> ""
+			-> prefix_symbols symbol ""
+		      $offset size_of(prefix_symbols)
+		      string
+			"    ->@nl;"
+			terminal_symbols_to_condition(6 prefix_symbols)
+			"      :@nl;@(store_str)"
+			if
+			  offset == 0
+			  -> ""
+			  -> "@ht;range &text @(offset+1) -1@nl;"
+			if
+			  length_of(symbols) > 1
+			  -> print_parse_sequence(8 symbols true)
+			  -> "@ht;@(parse_symbol(symbol))@nl;"
+			may_add_syntax_error()
+
+	      $may_add_syntax_error:
+		if choice_no < choice_count (-> "")
+		  -> "
+		    @
+			->
+			  true
+			  :
+		    @ht;syntax_error "@(description_of(rule))"
+	  if
+	    do_generate_a_list
+	    -> "
+	      @
+		->
+		  rest
+		  cond
+		    -> expr.is_undefined -> empty_list
+		    -> expr.is_a_list -> expr
+		    -> true -> list(expr)
+	    -> ""
+
+    $print_primitive:
+      $covers_all_inputs
+	||
+	  &&
+	    any_of(choices starts_with_a_line_feed)
+	    any_of(choices starts_with_any_character)
+	  any_of(choices matches_nothing)
+      ->
+	string
+	  declaration
+	  "  cond@nl;"
+	  map_reduce
+	    choices
+	    : (choice_no choice)
+	      $prefix_symbols prefix_symbols_of(choice)
+	      $symbols symbols_of(choice)
+	      $offset size_of(prefix_symbols)
+	      string
+		"    ->@nl;"
+		if
+		  covers_all_inputs && choice_no == choice_count
+		  -> "      true@nl;"
+		  -> terminal_symbols_to_condition(6 prefix_symbols)
+		if
+		  symbols.is_empty
+		  ->
+		    string
+		      "      -> "
+		      if
+			offset > 0
+			-> "range(text @(offset+1) -1)"
+			-> "text"
+		      if
+			kind == PRIMITIVE:
+			  if
+			    offset > 0
+			    -> " range(str 1 @(offset))@nl;"
+			    ->
+			      string
+				" range(str 1 length_of(str)"
+				if
+				  choice.has_a_non_constant_prefix
+				  -> "+1"
+				  -> ""
+				"-length_of(text))@nl;"
+			-> " undefined@nl;"
+		  ->
+		    string
+		      "      :@nl;"
+		      if
+			offset == 0
+			-> ""
+			-> "@ht;range &text @(offset+1) -1@nl;"
+		      "@ht;@(parse_symbol(symbols(1)))@nl;"
+	  if
+	    covers_all_inputs
+	    -> ""
+	    -> "
+	      @
+		  -> true:
+		    syntax_error "@(description_of(rule))"
+
+    $print_derived: (symbols)
+      $symbol symbols(1)
+      if
+	length_of(symbols) == 1
+	->
+	  string
+	    declaration
+	    "  " parse_symbol(symbol name) '@nl;'
+	:
+	  sequence_to_head_and_tail 6 range(symbols 2 -1)
+	    $head $tail $indent $offset
+	  ->
+	    string
+	      declaration
+	      "
+		@
+		  @(parse_symbol(symbol name)) !text $@(symbol)
+		  if
+		    text.is_defined:
+	      head
+	      tabs_and_spaces(indent)
+	      "-> "
+	      if
+		offset > 0
+		-> "range(text @(offset+1) -1) "
+		-> "text "
+	      symbol '@nl;'
+	      tail
+	      "    -> undefined @(symbol)@nl;"
+
+    $print_parse_sequence:
+      (
+	indent
+	symbols
+	force_simple_return = false
+      )
+      sequence_to_head_and_tail indent symbols $head $tail !indent $offset
+      $pos
+	if
+	  offset > 0
+	  -> "range(text @(offset+1) -1)"
+	  -> "text"
+      cond
+	-> force_simple_return
+	  ->
+	    string
+	      head
+	      tabs_and_spaces(indent) "-> " pos ' ' symbols(1) '@nl;'
+	      tail
+	->
+	  &&
+	    choice_count == 1
+	    prefix_symbols_of(choices(1)).is_empty
+	    length_of(symbols) == 2
+	    not(symbols(2).is_a_terminal_symbol)
+	    kind_of(rules(name_to_index(symbols(1)))) != PRIMITIVE
+	  ->
+	    string
+	      head
+	      tabs_and_spaces(indent) ":@nl;"
+	      tabs_and_spaces(indent+2) "if@nl;"
+	      tabs_and_spaces(indent+4)
+	      if
+		rule.has_derivatives
+		-> "derived_node.is_defined || "
+		-> ""
+	      symbols(2) ".is_defined@nl;"
+	      do
+		:
+		  !indent indent+4
+		  return_compound
+	      tabs_and_spaces(indent+4) "-> " pos ' '
+	      if
+		rule.returns_a_node_list
+		-> "@(symbols(1)).to_list"
+		-> symbols(1)
+	      '@nl;'
+	      tail
+	-> true
+	  ->
+	    string
+	      head
+	      return_compound()
+	      tail
+
+      $return_compound:
+	update_if rule.is_a_subnode &name
+	  -> name_of(rules(base_rule_of(rule)))
+        $tns0 tabs_and_spaces(indent)
+	$tns2 tabs_and_spaces(indent+2)
+	$tns4 tabs_and_spaces(indent+4)
+	$components components_of(rule)
+	update_if
+	  components.is_not_empty && rules(components(-1)).is_a_group_rule
+	  &pos
+	  -> "sentinel"
+	$common_prefix
+	  string
+	    tns0 "->@nl;"
+	    tns2 pos '@nl;'
+	    tns2
+	if
+	  rule.is_pruned:
+	    case length_of(components)
+	      0:
+		append common_prefix "undefined@nl;"
+	      1:
+		append common_prefix get_component_name(components(1)) "@nl;"
+	      2:
+		$list_head name_of(rules(components(1)))
+		$list_tail name_of(rules(components(2)))
+		append
+		  tns0 "->@nl;"
+		  tns2 "text@nl;"
+		  tns2 "append@nl;"
+		  tns4 list_head ".to_list@nl;"
+		  tns4 list_tail ".to_list@nl;"
+	      ->
+		error "
+		  Attempt to prune the rule @(name_of(rule)) that has more @
+		  than 2 components!@
+	  :
+	    append
+	      common_prefix
+	      if
+		rule.has_derivatives
+		-> "default_value(derived_node "
+		-> ""
+	      "@(namespace)_types::@(name)"
+	      if
+		rule.has_derivatives
+		-> ")@nl;"
+		-> "@nl;"
+	      "
+		@(tns4).@(namespace)::source_group_of current_group
+		@(tns4).@(namespace)::source_position_of position
+	      map_reduce
+		components: (component)
+		  $component_name name_of(rules(component))
+		  string
+		    tns4
+		    '.' namespace "::" component_name.to_field_name "_of "
+		    component_name '@nl;'
+		append
+		""
+
+      $get_component_name: (component)
+	-> name_of(rules(component))
+
+    $sequence_to_head_and_tail: (indent symbols)
+      $symbol_count length_of(symbols)
+      $head ""
+      $tail ""
+      $field_names empty_list
+      $offset 0
+      for_each symbols
+	: (symbol_no symbol)
+	  if
+	    symbol.is_a_terminal_symbol:
+	      $text_character "text(@(offset+1))"
+	      append &head
+		string
+		  tabs_and_spaces(indent) "if" '@nl;'
+		  tabs_and_spaces(indent+2)
+		  terminal_symbol_to_condition(text_character symbol)
+		  if
+		    symbol_no < symbol_count
+		    -> ":@nl;"
+		    -> '@nl;'
+	      !offset
+		if
+		  symbol.is_a_line_feed
+		  -> offset
+		  -> offset+1
+	      append
+		string
+		  tabs_and_spaces(indent+2) ":@nl;"
+		  print_syntax_error(indent+4 symbol)
+		&tail
+	      !indent
+		if
+		  symbol_no < symbol_count
+		  -> indent+4
+		  -> indent+2
+	      next
+	    :
+	      $referred_rule rules(name_to_index(symbol))
+	      $prefix_symbols prefix_symbols_of(choices(1))
+	      cond
+		->
+		  &&
+		    symbol_count == 1
+		    length_of(prefix_symbols) >= 1
+		    prefix_symbols(-1).is_a_line_feed
+		  :
+		    parse_group prefix_symbols(-1)
+		->
+		  &&
+		    symbol_no > 1
+		    symbol_no == symbol_count
+		    symbols(symbol_no-1).is_a_line_feed
+		  :
+		    parse_group symbols(symbol_no-1)
+		-> true:
+		  $kind_of_referred_rule kind_of(referred_rule)
+		  push &field_names symbol
+		  append &head
+		    string
+		      if
+			offset == 0
+			-> ""
+			->
+			  string
+			    tabs_and_spaces(indent)
+			    "range &text " offset+1 " -1@nl;"
+		      if
+			||
+			  kind_of_referred_rule != PRIMITIVE
+			  symbol.prefix_is_already_parsed
+			-> ""
+			->
+			  string
+			    tabs_and_spaces(indent)
+			    "!str text@nl;"
+		      tabs_and_spaces(indent) parse_symbol(symbol)
+		      " !text $" symbol '@nl;'
+		      tabs_and_spaces(indent) "if@nl;"
+		      tabs_and_spaces(indent+2) "text.is_defined"
+		      if
+			symbol_no < symbol_count
+			-> ":@nl;"
+			-> '@nl;'
+		  !offset 0
+		  append
+		    string
+		      tabs_and_spaces(indent+2) "-> undefined " symbol '@nl;'
+		    &tail
+		  !indent
+		    if
+		      symbol_no < symbol_count
+		      -> indent+4
+		      -> indent+2
+		  next
+
+	      $parse_group: (group_kind)
+		push &field_names symbol
+		append &head
+		  string
+		    tabs_and_spaces(indent) '$' symbol ' '
+		    if
+		      group_kind == "GRP" || group_kind == "OPTGRP"
+		      -> "parse_groups"
+		      -> "parse_lines"
+		    "(@(namespace)::parse_@(symbol)_group)@nl;"
+		    tabs_and_spaces(indent)
+		    "$error find_first(" symbol " is_an_error)@nl;"
+		    tabs_and_spaces(indent) "if error.is_an_error@nl;"
+		    tabs_and_spaces(indent+2) "-> undefined error@nl;"
+		!indent indent+2
+		next
+	-> head tail indent offset
+
+  $parse_symbol:
+    (
+      symbol
+      derived_node = undefined
+    )
+    $referred_rule rules(name_to_index(symbol))
+    if !symbol $suffix
+      symbol.prefix_is_already_parsed:
+	if
+	  referred_rule.is_compound
+	  -> symbol "_without_prefix"
+	  -> symbols_of(choices_of(referred_rule)(1))(1) ""
+      -> symbol ""
+    string
+      "parse_" symbol suffix
+      if
+	derived_node.is_defined && rules(name_to_index(symbol)).has_derivatives
+	-> " @(namespace)_types::@(derived_node)"
+	-> ""
+
+  $starts_with_a_line_feed: (choice)
+    $prefix_symbols prefix_symbols_of(choice)
+    -> length_of(prefix_symbols) == 1 && prefix_symbols(1).is_a_line_feed
+
+  $starts_with_any_character: (choice)
+    $prefix_symbols prefix_symbols_of(choice)
+    -> length_of(prefix_symbols) == 1 && prefix_symbols(1) == "ANY"
+
+  $matches_nothing: (choice)
+    $prefix_symbols prefix_symbols_of(choice)
+    -> length_of(prefix_symbols) == 1 && prefix_symbols(1) == "NIL"
+
+  $size_of: (prefix_symbols)
+    $length length_of(prefix_symbols)
+    if
+      &&
+	length >= 1
+	prefix_symbols(-1) == "NIL" || prefix_symbols(-1).is_a_line_feed
+      -> length-1
+      -> length
+
+  $get_prefix: (symbol)
+    $rule rules(name_to_index(symbol))
+    $choice choices_of(rule)(1)
+    $prefix_symbols prefix_symbols_of(choice)
+    if
+      prefix_symbols.is_empty
+      -> get_prefix(symbols_of(choice)(1))
+      -> prefix_symbols(.starts_a_primitive_rule kind_of(rule) == PRIMITIVE)
+
+  $terminal_symbols_to_condition: (indent symbols)
+    if
+      length_of(symbols) == 1:
+	if
+	  symbols(1).is_a_group_symbol
+	  ->
+	    string
+	      tabs_and_spaces(indent)
+	      "
+		text == "@@nl;" && subgroups.is_defined
+	  ->
+	    string
+	      tabs_and_spaces(indent)
+	      terminal_symbol_to_condition("text(1)" symbols(1))
+	      '@nl;'
+      :
+	if
+	  symbols(-1).is_a_group_symbol
+	  :
+	    $str
+	      append
+		map_reduce
+		  range(symbols 1 -2)
+		  mayby_escape
+		  append ""
+		"@@nl;"
+	    ->
+	      string
+		tabs_and_spaces(indent)
+		"
+		  text == "@(str)" && subgroups.is_defined
+	  ->
+	    string
+	      tabs_and_spaces(indent) "&&@nl;"
+	      map_reduce
+		symbols: (idx symbol)
+		  string
+		    tabs_and_spaces(indent+2)
+		    terminal_symbol_to_condition("text(@(idx))" symbol)
+		    '@nl;'
+
+  $terminal_symbol_to_condition: (text_character symbol)
+    if
+      length_of(symbol) == 1 || symbol == "SPC" || symbol == "LF"
+      -> string(text_character " == " to_literal(symbol))
+      :
+	case symbol
+	  "ANY" -> string(text_character " != '@@nl;'")
+	  "GRP", "LIN" -> "text == @quot;@@nl;@quot; && subgroups.is_defined"
+	  "OPTGRP", "OPTLIN" -> "text == @quot;@@nl;@quot;"
+	  "NIL" -> "true"
+	  :
+	    if
+	      symbol(1) == '~':
+		range &symbol 2 -1
+		$buf string(text_character " != '@@nl;'")
+		loop:
+		  if
+		    symbol.is_empty
+		    -> buf
+		    :
+		      append &buf " && "
+		      if
+			length_of(symbol) >= 3 && symbol(2) == '-':
+			  append &buf
+			    string
+			      '('
+			      text_character " < "
+			      symbol(1).to_string.to_literal " || "
+			      text_character " > "
+			      symbol(3).to_string.to_literal
+			      ')'
+			  range &symbol 4 -1
+			  next
+			:
+			  append &buf
+			    string
+			      text_character " != "
+			      symbol(1).to_string.to_literal
+			  range &symbol 2 -1
+			  next
+	      :
+		$buf ""
+		loop:
+		  if
+		    symbol.is_empty
+		    -> range(buf 5 -1) # remove leading " || "
+		    :
+		      append &buf " || "
+		      if
+			length_of(symbol) >= 3 && symbol(2) == '-':
+			  append &buf
+			    string
+			      '('
+			      text_character " >= "
+			      symbol(1).to_string.to_literal " && "
+			      text_character " <= "
+			      symbol(3).to_string.to_literal
+			      ')'
+			  range &symbol 4 -1
+			  next
+			:
+			  append &buf
+			    string
+			      text_character " == "
+			      symbol(1).to_string.to_literal
+			  range &symbol 2 -1
+			  next
+
+  $mayby_escape: (symbol)
+    case symbol
+      "SPC" -> " "
+      "LF", "LIN", "GRP", "OPTLIN", "OPTGRP" -> "@@nl;"
+      "@@" -> "@@@@"
+      "@quot;" -> "@@quot;"
+      -> symbol
+
+  $to_literal: (symbol)
+    case symbol
+      "SPC" -> "' '"
+      "LF", "LIN", "GRP", "OPTLIN", "OPTGRP" -> "'@@nl;'"
+      "@@" -> "'@@@@'"
+      -> "'@(symbol)'"
+
+  $print_syntax_error: (indent symbol)
+    $description
+      case
+	symbol
+	"LF", "LIN", "GRP", "OPTLIN", "OPTGRP" -> "
+	  valid input characters or line end@
+	"SPC" -> "space character"
+	"@apos;" -> "single quote"
+	"@quot;" -> "double quote"
+	-> to_literal(symbol)
+    string
+      tabs_and_spaces(indent)
+      "
+	syntax_error "@(description)"

@@ -1,0 +1,91 @@
+#!/usr/bin/env fkyrun
+
+<allow unused>
+
+$single_line_tag: (tag contents)
+  -> "
+    <@(tag)>@(contents)</@(tag)>
+
+$multi_line_tag: (tag contents)
+  string
+    '<'
+    tag
+    ">@nl;"
+    if
+      contents.is_empty || contents(-1) != '@nl;'
+      -> contents
+      -> range(contents 1 -2)
+    "@nl;</"
+    tag
+    ">@nl;"
+
+$collect_output: (items)
+  $buf ""
+  for_each items
+    : (item)
+      append &buf
+	if
+	  item.is_a_string
+	  -> item
+	  -> item()
+      next
+    -> buf
+
+$emit_single_line: (tag items)
+  collect_output $buf items
+  if
+    buf .contains. '@nl;'
+    : multi_line_tag tag buf
+    : single_line_tag tag buf
+
+$emit_multi_line: (tag items)
+  collect_output $buf items
+  multi_line_tag tag buf
+
+$HTML: (items*) emit_multi_line "html" items
+$BODY: (items*) emit_multi_line "body" items
+
+$H1: (items*) emit_single_line "h1" items
+$H2: (items*) emit_single_line "h2" items
+$H3: (items*) emit_single_line "h3" items
+$H4: (items*) emit_single_line "h4" items
+$H5: (items*) emit_single_line "h5" items
+$H6: (items*) emit_single_line "h6" items
+
+$DIV: (items*) emit_multi_line "div" items
+
+$P: (items*) emit_single_line "p" items
+
+$html ""
+
+$html_from_to: (from to body)
+  from_to from to body -> html
+
+$html_next:
+  (
+    items*
+  )
+  for_each !html items
+    : (item)
+      append &html item()
+      next
+    -> html
+  next
+
+print!
+  HTML
+    :
+      BODY
+	: H1 "Funky-HTML-Testpage"
+	: DIV
+	  : P "ein Absatz"
+	  : P "und noch ein Absatz"
+	: H2 "Abschnitt 1"
+	: P "Blablabla"
+	: H2 "Abschnitt 2"
+	: P "noch mehr Blabla"
+	:
+	  html_from_to 3 5: (i)
+	    html_next
+	      : H2 "Abschnitt @(i)"
+	      : P "@(i) * @(i) = @(i*i)"

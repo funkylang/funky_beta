@@ -1,0 +1,4 @@
+empty_1: ""
+empty_2: ""
+append(empty_1 empty_2): ""
+append(empty_2 empty_1): ""

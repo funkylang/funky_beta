@@ -1,0 +1,23 @@
+#!/usr/bin/env fkyrun
+
+do:
+  $i 1
+  $p 1.5
+  repeat 30
+    :
+      print! format("%2\. [ %2.7\%]@nl;" i p)
+      !i i+1
+      !p p/2
+      next!
+    pass
+
+do:
+  $i 1
+  $p 1.5
+  repeat 30
+    :
+      print! format("%2\. [ %2.7\%]@nl;" i p)
+      !i i+1
+      !p 3*p
+      next!
+    pass

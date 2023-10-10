@@ -1,0 +1,16 @@
+#!/usr/bin/env fkyrun
+
+<allow hidden>
+
+$x 47
+do:
+  $x 11
+  println! x
+  do:
+    println! x
+    $x 555
+  !x x+2
+  println! x
+println! x
+!x x+5
+println! x

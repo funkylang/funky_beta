@@ -1,0 +1,99 @@
+#!/usr/bin/env fkyrun
+
+$ages empty_hash_table
+
+!ages("Tom") 5
+!ages("Sam") 3
+!ages("Sarah") 11
+!ages("abcdefgh987654321") 12
+!ages("abcdefghi987654321") 25
+!ages("abcdefghij987654321") 37
+!ages("Bernard") 19
+
+dump! `length_of(ages)
+dump! `ages("Tom")
+dump! `ages("Sarah")
+dump! `ages("Tim")
+dump! `ages("Sam")
+dump! `ages("abcdefgh987654321")
+dump! `ages("abcdefghi987654321")
+dump! `ages("abcdefghij987654321")
+
+println!
+for_each ages
+  : (name age)
+    println! name ": " age
+    next!
+  pass
+
+$age_sum 0
+
+println!
+for_each !age_sum ages
+  : (age)
+    println! age
+    plus &age_sum age
+    next!
+  -> age_sum
+
+println!
+dump! `age_sum
+
+println! "----------"
+
+!ages("Sam") 4
+!ages("abcdefghi987654321") 45
+
+dump! `length_of(ages)
+dump! `ages("Tom")
+dump! `ages("Sarah")
+dump! `ages("Tim")
+dump! `ages("Sam")
+
+println!
+for_each ages
+  : (name age)
+    println! name ": " age
+    next!
+  pass
+
+println!
+!age_sum 0
+for_each !age_sum ages
+  : (age)
+    println! age
+    plus &age_sum age
+    next!
+  -> age_sum
+
+println!
+dump! `age_sum
+
+println! "----------"
+
+!ages("Tom") undefined
+
+dump! `length_of(ages)
+dump! `ages("Tom")
+dump! `ages("Sarah")
+dump! `ages("Tim")
+dump! `ages("Sam")
+
+println!
+for_each ages
+  : (name age)
+    println! name ": " age
+    next!
+  pass
+
+println!
+!age_sum 0
+for_each !age_sum ages
+  : (age)
+    println! age
+    plus &age_sum age
+    next!
+  -> age_sum
+
+println!
+dump! `age_sum

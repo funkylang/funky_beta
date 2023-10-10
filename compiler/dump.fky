@@ -1,0 +1,87 @@
+#
+  Copyright (C) 2022 by
+  Dipl.-Ing. Michael Niederle
+
+  This program is free software; you can redistribute it and/or modify
+  it under the terms of the GNU General Public License, version 2, or
+  (at your option) version 3.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  GNU General Public License for more details.
+
+  For details of the GNU General Public License see the accompanying
+  files GPLv2.txt and GLPv3.txt or
+  http://www.gnu.org/licenses/gpl-2.0.html
+  http://www.gnu.org/licenses/gpl-3.0.html
+  or write to the
+  Free Software Foundation, Inc.,
+  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+
+<using std>
+<using funky>
+
+$funky_types::node/to_string:
+  (
+    self
+    indent = 0
+  )
+  !indent indent+2
+  append
+    node_name_of(self)
+    map_reduce
+      node_fields_of(self): (attribute_of)
+	field_to_string indent attribute_of attribute_of(self)
+      append
+      ""
+
+$field_to_string: (indent name node)
+  # name is not a string but has a <to_string>-method
+  cond
+    -> node.is_undefined:
+      string
+	'@nl;'
+	tabs_and_spaces(indent)
+	name
+	" = <undefined>"
+    -> node.is_a_string:
+      string
+	'@nl;'
+	tabs_and_spaces(indent)
+	name
+	" = "
+	serialize(node).trim_right
+    -> node.is_a_list:
+      field_list_to_string indent name node
+    -> true
+      -> subnode_to_string(name node indent)
+
+$field_list_to_string: (indent name node_list)
+  # name is not a string but has a <to_string>-method
+  string
+    '@nl;'
+    tabs_and_spaces(indent) name "[]"
+    if
+      node_list.is_empty
+      -> " = <empty>"
+      ->
+	map_reduce
+	  node_list: (node) -> subnode_to_string(node indent+2)
+	  append
+	  ""
+
+$subnode_to_string:
+  (
+    name = undefined
+    node
+    indent
+  )
+  string
+    '@nl;'
+    tabs_and_spaces(indent)
+    if
+      name.is_defined
+      -> "@(name) = "
+      -> ""
+    to_string(node indent)

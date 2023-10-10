@@ -1,0 +1,19 @@
+#!/usr/bin/env fkyrun
+
+<namespace quargel-1.2>
+<namespace quargel-2.0>
+
+<using std>
+<using quargel>
+
+$quargel-1.2::eval_poly: (x coefficients)
+  map_reduce coefficients
+    : (idx value) -> value*pow(x 3-idx)
+    plus
+
+$quargel-2.0::eval_poly: (coefficients x)
+  map_reduce coefficients
+    : (idx value) -> value*pow(x 3-idx)
+    plus
+
+println! eval_poly(2 list(2 3 4))

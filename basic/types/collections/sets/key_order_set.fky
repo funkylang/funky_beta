@@ -1,0 +1,369 @@
+#
+  Copyright (C) 2023 by
+  Dipl.-Ing. Michael Niederle
+
+  This program is free software; you can redistribute it and/or modify
+  it under the terms of the GNU Library General Public License, version 2, or
+  (at your option) under the terms of the GNU Lesser General Public License,
+  version 3.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  GNU Lesser (Library) General Public License for more details.
+
+  For details of the GNU General Public License see the accompanying
+  files LGPLv2.txt and LGLPv3.txt or
+  http://www.gnu.org/licenses/lgpl-2.0.html
+  http://www.gnu.org/licenses/lgpl-3.0.html
+  or write to the
+  Free Software Foundation, Inc.,
+  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+
+# internal attributes:
+
+$contents_of ()
+
+# internal methods:
+
+$retrieve ()
+$insert ()
+$delete ()
+
+$std::is_a_key_order_set () # obvious
+$std_types::object.is_a_key_order_set false # obvious
+$std_types::key_order_set.is_a_key_order_set true # obvious
+
+$std_types::key_order_set std_types::set
+  #
+    a set which items are stored in key-order
+
+    All items stored in the set must support the following methods:
+
+    * <equal>
+
+    * <less>
+
+    Topic: Collections
+
+    See also: std_types::set, std_types::hash_set
+
+$std_types::key_order_set.contents_of empty_node
+
+$std_types::key_order_set.length_of 0
+  #
+    returns the number of items in the key-order set
+
+$std::empty_key_order_set std_types::key_order_set
+  #
+    an empty key-order set
+
+    See also: std_types::key_order_set
+
+$is_an_empty_node ()
+$std_types::object.is_an_empty_node false
+$empty_node.is_an_empty_node true
+
+$empty_node std_types::object
+
+$binary_node tuple(undefined undefined undefined)
+
+$NONE .
+
+$std_types::key_order_set/:
+  # --> std_types::set
+  (
+    myself^
+    key
+    value = NONE
+  )
+  $contents contents_of(myself)
+  if
+    NONE == value
+    -> retrieve(contents key)
+    :
+      if
+	value:
+	  insert &contents $success key
+	  if
+	    success
+	    ->
+	      myself
+		.contents_of contents
+		.length_of length_of(myself)+1
+	    -> myself
+	:
+	  delete &contents $success key
+	  if
+	    success
+	    ->
+	      myself
+		.contents_of contents
+		.length_of length_of(myself)-1
+	    -> myself
+
+###
+# retrieve
+
+$empty_node/retrieve: (_self _key) -> false
+
+$binary_node/retrieve: (self key)
+  self $my_key $my_left $my_right
+  if
+    key == my_key
+    -> true
+    :
+      if
+	key < my_key
+	: retrieve my_left key
+	: retrieve my_right key
+
+###
+# insert
+
+$empty_node/insert: (_self key)
+  -> new(binary_node key empty_node empty_node) true
+
+$binary_node/insert: (self key)
+  self $my_key $my_left $my_right
+  if
+    key == my_key
+    -> self false
+    :
+      if
+	key < my_key
+	:
+	  insert &my_left $success key
+	  if
+	    success
+	    -> new(self my_key my_left my_right) true
+	    -> self false
+	:
+	  insert &my_right $success key
+	  if
+	    success
+	    -> new(self my_key my_left my_right) true
+	    -> self false
+
+###
+# delete
+
+$fetch_first: (self)
+  self $my_key $my_left $my_right
+  if
+    my_left.is_an_empty_node
+    -> my_right my_key
+    :
+      fetch_first &my_left $first_key
+      -> new(self my_key my_left my_right) first_key
+
+$empty_node/delete: (self _key) -> self false
+
+$binary_node/delete: (self key)
+  self $my_key $my_left $my_right
+  if
+    key == my_key
+    :
+      if
+	my_left.is_an_empty_node
+	-> my_right true
+	:
+	  if
+	    my_right.is_an_empty_node
+	    -> my_left true
+	    :
+	      fetch_first &my_right $first_key
+	      -> new(self first_key my_left my_right)
+    :
+      if
+	key < my_key
+	:
+	  delete &my_left $success key
+	  if
+	    success
+	    -> new(self my_key my_left my_right) true
+	    -> self false
+	:
+	  delete &my_right $success key
+	  if
+	    success
+	    -> new(self my_key my_left my_right) true
+	    -> self false
+
+###
+# first_item_of
+
+$binary_node/first_item_of: (self)
+  self $my_key $my_left $_my_right
+  if
+    my_left.is_an_empty_node
+    -> my_key
+    -> first_item_of(my_left)
+
+$std_types::key_order_set/first_item_of: (self)
+  -> first_item_of(contents_of(self))
+
+###
+# last_item_of
+
+$binary_node/last_item_of: (self)
+  self $my_key $_my_left $my_right
+  if
+    my_right.is_an_empty_node
+    -> my_key
+    -> last_item_of(my_right)
+
+$std_types::key_order_set/last_item_of: (self)
+  -> last_item_of(contents_of(self))
+
+###
+# for_each
+
+$for_each_1_left ()
+$for_each_1_call ()
+$for_each_1_right ()
+
+$finish std_types::object # works as a sentinel
+
+$finish/for_each_1_call: (_self) break!
+
+$empty_node/for_each_1_left: (_self)
+  for_each_1_call! basic_loops::todo(-1) # peek
+
+$binary_node/for_each_1_left: (self)
+  self $_my_key $my_left $_my_right
+  push &basic_loops::todo self
+  for_each_1_left! my_left
+
+$binary_node/for_each_1_call: (self)
+  self $my_key $_my_left $_my_right
+  basic_loops::body! my_key
+
+$binary_node/for_each_1_right: (self)
+  self $_my_key $_my_left $my_right
+  for_each_1_left! my_right
+
+$std_types::key_order_set/for_each:
+  #
+    iterates over all items of the key order set
+
+    For each item the statement sequence supplied as *body* is called
+    with one argument or none argument at all
+    (depending on *body*'s parameter count).
+
+    If called with one argument the argument is the *key*.
+
+    This is a sequential loop.
+
+    Example:
+
+    $adult empty_key_order_set
+
+    !adult("Tom") true
+    !adult("Sam") false
+    !adult("Sarah") true
+
+    for_each adult: (name)
+      writeln! name
+      next
+
+    Output:
+
+    Sarah
+    Tom
+  (
+    self # the hash set to iterate over
+    body # the statement sequence to execute for each item
+    finally = next # used to return results to the caller
+  )
+  $saved_context
+    tuple
+      next
+      break
+      basic_loops::body
+      basic_loops::finally
+      basic_loops::todo
+
+  !basic_loops::body body
+  !basic_loops::finally finally
+  !basic_loops::todo list(finish)
+
+  !break: (myself^)
+    !finally basic_loops::finally
+    basic_loops::saved_context_of(myself)
+      !next !break
+      !basic_loops::body !basic_loops::finally !basic_loops::todo
+    finally!
+
+  !break.basic_loops::saved_context_of saved_context
+
+  !next:
+    pop &basic_loops::todo $node
+    for_each_1_right! node
+
+  for_each_1_left! contents_of(self)
+
+
+$std_types::key_order_set/reduce:
+  #
+    reduces a set into a single value
+  (
+    self # the set to work on
+    reduce_function # the function to apply to pairs of values
+    unit = undefined # the value to return for empty sets
+  )
+  if
+    self.is_empty
+    -> unit
+    :
+      $reduce: (node)
+	node $key $left $right
+	!key
+	  if
+	    left.is_an_empty_node
+	    -> key
+	    -> reduce_function(reduce(left) key)
+	if
+	  right.is_an_empty_node
+	  -> key
+	  -> reduce_function(key reduce(right))
+
+      -> reduce(contents_of(self))
+
+$std_types::key_order_set/map_reduce:
+  #
+    maps and reduces a set into a single value
+  (
+    self # the set to work on
+    map_function # the function to apply to each element of the set
+    reduce_function = append # the function to apply to pairs of values
+    unit = undefined # the value to return for empty sets
+  )
+  if
+    self.is_empty
+    -> unit
+    :
+      $map_reduce: (node)
+	node $key $left $right
+	map_function &key
+	if !key
+	  left.is_an_empty_node
+	  -> key
+	  -> reduce_function(map_reduce(left) key)
+	if
+	  right.is_an_empty_node
+	  -> key
+	  -> reduce_function(key map_reduce(right))
+
+      -> map_reduce(contents_of(self))
+
+$std::key_order_set: (keys*)
+  $result empty_key_order_set
+  for_each keys
+    : (key)
+      !result(key) true
+      next
+    -> result
+
+$std_types::key_order_set.serialization_tag_of "key_order_set"
+$std_types::key_order_set.empty_collection_of empty_key_order_set

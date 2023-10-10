@@ -1,0 +1,5 @@
+#!/usr/bin/env fkyrun
+
+$text "This is a text!"
+delete_all &text ' '
+println! text

@@ -1,0 +1,16 @@
+#!/usr/bin/env fkyrun
+
+from_to 0 63
+  : (l)
+    from_to 0 63: (r)
+      $left 1 << l
+      $right 1 << r
+      $prod left*right
+      !prod
+	if
+	  prod.is_an_error
+	  -> "overflow"
+	  -> prod
+      println! left " * " right " = " prod
+      next!
+  pass

@@ -1,0 +1,5 @@
+#!/usr/bin/env fkyrun
+
+println! levenshtein_distance("sitting" "kitten")
+println! levenshtein_distance(list(69 32 114 72 34) list(69 32 6 72 34))
+println! levenshtein_distance("This is a sentence." "That is also a sentence!")

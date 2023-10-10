@@ -1,0 +1,432 @@
+#
+  Copyright (C) 2023 by
+  Dipl.-Ing. Michael Niederle
+
+  This program is free software; you can redistribute it and/or modify
+  it under the terms of the GNU General Public License, version 2, or
+  (at your option) version 3.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  GNU General Public License for more details.
+
+  For details of the GNU General Public License see the accompanying
+  files GPLv2.txt and GLPv3.txt or
+  http://www.gnu.org/licenses/gpl-2.0.html
+  http://www.gnu.org/licenses/gpl-3.0.html
+  or write to the
+  Free Software Foundation, Inc.,
+  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+
+$std::extract_keys:
+  #
+    converts an input character stream into a list of keys
+  (
+    input
+  )
+  $csi_table
+    hash_table
+      "A" = CURSOR_UP
+      "B" = CURSOR_DOWN
+      "C" = CURSOR_RIGHT
+      "D" = CURSOR_LEFT
+      "F" = END
+      "H" = HOME
+      "2~" = INSERT
+      "3~" = DELETE
+      "5~" = PAGE_UP
+      "6~" = PAGE_DOWN
+      "15~" = F5
+      "17~" = F6
+      "18~" = F7
+      "19~" = F8
+      "20~" = F9
+      "21~" = F10
+      "23~" = F11
+      "24~" = F12
+      "Z" = SHIFT_TABULATOR
+      "1;2A" = SHIFT_CURSOR_UP
+      "1;2B" = SHIFT_CURSOR_DOWN
+      "1;2C" = SHIFT_CURSOR_RIGHT
+      "1;2D" = SHIFT_CURSOR_LEFT
+      "1;2F" = SHIFT_END
+      "1;2H" = SHIFT_HOME
+      "5;2~" = SHIFT_PAGE_UP
+      "6;2~" = SHIFT_PAGE_DOWN
+      "3;2~" = SHIFT_DELETE
+      "1;2P" = SHIFT_F1
+      "1;2Q" = SHIFT_F2
+      "1;2R" = SHIFT_F3
+      "1;2S" = SHIFT_F4
+      "15;2~" = SHIFT_F5
+      "17;2~" = SHIFT_F6
+      "18;2~" = SHIFT_F7
+      "19;2~" = SHIFT_F8
+      "20;2~" = SHIFT_F9
+      "21;2~" = SHIFT_F10
+      "23;2~" = SHIFT_F11
+      "24;2~" = SHIFT_F12
+      "1;3A" = ALT_CURSOR_UP
+      "1;3B" = ALT_CURSOR_DOWN
+      "1;3C" = ALT_CURSOR_RIGHT
+      "1;3D" = ALT_CURSOR_LEFT
+      "1;3F" = ALT_END
+      "1;3H" = ALT_HOME
+      "5;3~" = ALT_PAGE_UP
+      "6;3~" = ALT_PAGE_DOWN
+      "3;3~" = ALT_DELETE
+      "1;3P" = ALT_F1
+      "1;3Q" = ALT_F2
+      "1;3R" = ALT_F3
+      "1;3S" = ALT_F4
+      "15;3~" = ALT_F5
+      "17;3~" = ALT_F6
+      "18;3~" = ALT_F7
+      "19;3~" = ALT_F8
+      "20;3~" = ALT_F9
+      "21;3~" = ALT_F10
+      "23;3~" = ALT_F11
+      "24;3~" = ALT_F12
+      "1;5A" = CTRL_CURSOR_UP
+      "1;5B" = CTRL_CURSOR_DOWN
+      "1;5C" = CTRL_CURSOR_RIGHT
+      "1;5D" = CTRL_CURSOR_LEFT
+      "1;5F" = CTRL_END
+      "1;5H" = CTRL_HOME
+      "1;6A" = SHIFT_CTRL_CURSOR_UP
+      "1;6B" = SHIFT_CTRL_CURSOR_DOWN
+      "1;6C" = SHIFT_CTRL_CURSOR_RIGHT
+      "1;6D" = SHIFT_CTRL_CURSOR_LEFT
+      "5;6~" = SHIFT_CTRL_PAGE_UP
+      "6;6~" = SHIFT_CTRL_PAGE_DOWN
+      "1;6F" = SHIFT_CTRL_END
+      "1;6H" = SHIFT_CTRL_HOME
+      "5;5~" = CTRL_PAGE_UP
+      "6;5~" = CTRL_PAGE_DOWN
+      "3;5~" = CTRL_DELETE
+      "1;7F" = CTRL_ALT_END
+      "1;7H" = CTRL_ALT_HOME
+      "1;5P" = CTRL_F1
+      "1;5Q" = CTRL_F2
+      "1;5R" = CTRL_F3
+      "1;5S" = CTRL_F4
+      "15;5~" = CTRL_F5
+      "17;5~" = CTRL_F6
+      "18;5~" = CTRL_F7
+      "19;5~" = CTRL_F8
+      "20;5~" = CTRL_F9
+      "21;5~" = CTRL_F10
+      "23;5~" = CTRL_F11
+      "24;5~" = CTRL_F12
+
+  $keys empty_list
+  loop:
+    if
+      input.is_empty
+      -> keys
+      :
+	$chr input(1)
+	case chr
+	  '@cr;': # RETURN or ENTER
+	    range &input 2 -1
+	    push &keys RETURN
+	    next
+	  '@del;': # BACKSPACE
+	    range &input 2 -1
+	    push &keys BACKSPACE
+	    next
+	  '@esc;': # ignore "special" keys
+	    range &input 2 -1
+	    if
+	      input .has_prefix. '[':
+		# search for letter or tilde
+		$i 2
+		$len length_of(input)
+		loop
+		  :
+		    if
+		      i > len
+		      -> keys
+		      :
+			!chr input(i)
+			if
+			  chr.is_a_letter || chr == '~':
+			    if
+			      chr == 'O' && i < len: # function key
+				add_csi_key !input !keys i+1
+				break
+			      :
+				add_csi_key !input !keys i
+				break
+			  :
+			    inc &i
+			    next
+		  next
+	      :
+		$found undefined
+		for_each escape_sequences
+		  : (sequence)
+		    sequence $str $key
+		    if
+		      input .has_prefix. str:
+			!found key
+			range &input length_of(str)+1 -1
+			break
+		      next
+		  :
+		    push &keys default_value(found ESCAPE)
+		    next
+	  :
+	    range &input 2 -1
+	    if
+	      chr <= '@26;':
+		push &keys ctrl_key(chr+1-'@nul;')
+		next
+	      :
+		if
+		  chr < ' ':
+		    next
+		  :
+		    if
+		      chr.is_a_zero_width_character
+		      next
+		      :
+			push &keys chr
+			next
+
+  $add_csi_key: (i)
+    push &keys csi_table(range(input 2 i))
+    -> range(input i+1 -1) keys
+
+$escape_sequences
+  list
+    " " = ALT_SPACE
+    "@cr;" = ALT_RETURN
+    "OP" = F1
+    "OQ" = F2
+    "OR" = F3
+    "OS" = F4
+    "a" = ALT_A
+    "b" = ALT_B
+    "c" = ALT_C
+    "d" = ALT_D
+    "e" = ALT_E
+    "f" = ALT_F
+    "g" = ALT_G
+    "h" = ALT_H
+    "i" = ALT_I
+    "j" = ALT_J
+    "k" = ALT_K
+    "l" = ALT_L
+    "m" = ALT_M
+    "n" = ALT_N
+    "o" = ALT_O
+    "p" = ALT_P
+    "q" = ALT_Q
+    "r" = ALT_R
+    "s" = ALT_S
+    "t" = ALT_T
+    "u" = ALT_U
+    "v" = ALT_V
+    "w" = ALT_W
+    "x" = ALT_X
+    "y" = ALT_Y
+    "z" = ALT_Z
+
+$std::ESCAPE .
+$std::RETURN .
+$std::CURSOR_LEFT .
+$std::CURSOR_RIGHT .
+$std::CURSOR_UP .
+$std::CURSOR_DOWN .
+$std::HOME .
+$std::END .
+$std::PAGE_UP .
+$std::PAGE_DOWN .
+$std::INSERT .
+$std::DELETE .
+
+$std::F1 .
+$std::F2 .
+$std::F3 .
+$std::F4 .
+$std::F5 .
+$std::F6 .
+$std::F7 .
+$std::F8 .
+$std::F9 .
+$std::F10 .
+$std::F11 .
+$std::F12 .
+
+$std::SHIFT_TABULATOR .
+$std::SHIFT_CURSOR_LEFT .
+$std::SHIFT_CURSOR_RIGHT .
+$std::SHIFT_CURSOR_UP .
+$std::SHIFT_CURSOR_DOWN .
+$std::SHIFT_HOME .
+$std::SHIFT_END .
+$std::SHIFT_PAGE_UP .
+$std::SHIFT_PAGE_DOWN .
+$std::SHIFT_INSERT .
+$std::SHIFT_DELETE .
+
+$std::SHIFT_F1 .
+$std::SHIFT_F2 .
+$std::SHIFT_F3 .
+$std::SHIFT_F4 .
+$std::SHIFT_F5 .
+$std::SHIFT_F6 .
+$std::SHIFT_F7 .
+$std::SHIFT_F8 .
+$std::SHIFT_F9 .
+$std::SHIFT_F10 .
+$std::SHIFT_F11 .
+$std::SHIFT_F12 .
+
+$std::ALT_SPACE .
+$std::ALT_RETURN .
+$std::ALT_CURSOR_LEFT .
+$std::ALT_CURSOR_RIGHT .
+$std::ALT_CURSOR_UP .
+$std::ALT_CURSOR_DOWN .
+$std::ALT_HOME .
+$std::ALT_END .
+$std::ALT_PAGE_UP .
+$std::ALT_PAGE_DOWN .
+$std::ALT_DELETE .
+
+$std::ALT_A .
+$std::ALT_B .
+$std::ALT_C .
+$std::ALT_D .
+$std::ALT_E .
+$std::ALT_F .
+$std::ALT_G .
+$std::ALT_H .
+$std::ALT_I .
+$std::ALT_J .
+$std::ALT_K .
+$std::ALT_L .
+$std::ALT_M .
+$std::ALT_N .
+$std::ALT_O .
+$std::ALT_P .
+$std::ALT_Q .
+$std::ALT_R .
+$std::ALT_S .
+$std::ALT_T .
+$std::ALT_U .
+$std::ALT_V .
+$std::ALT_W .
+$std::ALT_X .
+$std::ALT_Y .
+$std::ALT_Z .
+
+$std::ALT_F1 .
+$std::ALT_F2 .
+$std::ALT_F3 .
+$std::ALT_F4 .
+$std::ALT_F5 .
+$std::ALT_F6 .
+$std::ALT_F7 .
+$std::ALT_F8 .
+$std::ALT_F9 .
+$std::ALT_F10 .
+$std::ALT_F11 .
+$std::ALT_F12 .
+
+$std::CTRL_CURSOR_LEFT .
+$std::CTRL_CURSOR_RIGHT .
+$std::CTRL_CURSOR_UP .
+$std::CTRL_CURSOR_DOWN .
+$std::CTRL_HOME .
+$std::CTRL_END .
+$std::CTRL_PAGE_UP .
+$std::CTRL_PAGE_DOWN .
+$std::CTRL_BACKSPACE .
+$std::CTRL_DELETE .
+
+$std::CTRL_F1 .
+$std::CTRL_F2 .
+$std::CTRL_F3 .
+$std::CTRL_F4 .
+$std::CTRL_F5 .
+$std::CTRL_F6 .
+$std::CTRL_F7 .
+$std::CTRL_F8 .
+$std::CTRL_F9 .
+$std::CTRL_F10 .
+$std::CTRL_F11 .
+$std::CTRL_F12 .
+
+$std::CTRL_ALT_HOME .
+$std::CTRL_ALT_END .
+
+$std::CTRL_SPACE .
+$std::CTRL_A .
+$std::CTRL_B .
+$std::CTRL_C .
+$std::CTRL_D .
+$std::CTRL_E .
+$std::CTRL_F .
+$std::CTRL_G .
+$std::BACKSPACE .
+$std::TABULATOR .
+$std::CTRL_J .
+$std::CTRL_K .
+$std::CTRL_L .
+$std::CTRL_M .
+$std::CTRL_N .
+$std::CTRL_O .
+$std::CTRL_P .
+$std::CTRL_Q .
+$std::CTRL_R .
+$std::CTRL_S .
+$std::CTRL_T .
+$std::CTRL_U .
+$std::CTRL_V .
+$std::CTRL_W .
+$std::CTRL_X .
+$std::CTRL_Y .
+$std::CTRL_Z .
+
+$std::SHIFT_CTRL_CURSOR_LEFT .
+$std::SHIFT_CTRL_CURSOR_RIGHT .
+$std::SHIFT_CTRL_CURSOR_UP .
+$std::SHIFT_CTRL_CURSOR_DOWN .
+$std::SHIFT_CTRL_HOME .
+$std::SHIFT_CTRL_END .
+$std::SHIFT_CTRL_PAGE_UP .
+$std::SHIFT_CTRL_PAGE_DOWN .
+
+$ctrl_key
+  list
+    CTRL_SPACE
+    CTRL_A
+    CTRL_B
+    CTRL_C
+    CTRL_D
+    CTRL_E
+    CTRL_F
+    CTRL_G
+    CTRL_BACKSPACE
+    TABULATOR
+    CTRL_J
+    CTRL_K
+    CTRL_L
+    CTRL_M
+    CTRL_N
+    CTRL_O
+    CTRL_P
+    CTRL_Q
+    CTRL_R
+    CTRL_S
+    CTRL_T
+    CTRL_U
+    CTRL_V
+    CTRL_W
+    CTRL_X
+    CTRL_Y
+    CTRL_Z

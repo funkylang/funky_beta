@@ -1,0 +1,33 @@
+#!/usr/bin/env fkyrun
+
+do:
+  append $buf "" "This is a text."
+  println! buf
+
+do:
+  append $buf "This " "is" " a text."
+  println! buf
+
+do:
+  append $buf "" "This " "is" " a text."
+  println! buf
+
+do:
+  append $buf "This " "is" " a ▊."
+  println! buf
+
+do:
+  append $buf "" "This " "is" " a ▅."
+  println! buf
+
+do:
+  append $buf "░" "This " "is" " a text."
+  println! buf
+
+do:
+  append $buf "This▗ " "is" " a text."
+  println! buf
+
+do:
+  append $buf "" "Th▚is " "is" " a ▟."
+  println! buf

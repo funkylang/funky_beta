@@ -1,0 +1,195 @@
+#!/usr/bin/env fkyrun
+
+$indent_of ()
+
+$build_tree: (lines)
+  $first_line (lines(1))
+  $first_indent indent_of(first_line)
+  $tree empty_list
+  $group list(first_line)
+  range &lines 2 -1
+
+  $return:
+    if
+      group.is_empty
+      -> lines tree
+      -> lines push(tree group)
+
+  loop:
+    if
+      lines.is_empty
+      return
+      :
+	$line lines(1)
+	$indent indent_of(line)
+	if
+	  indent.is_undefined
+	  :
+	    range &lines 2 -1
+	    if
+	      group.is_empty
+	      next
+	      :
+		push &tree group
+		!group empty_list
+		next
+	  :
+	    if
+	      indent == first_indent
+	      :
+		range &lines 2 -1
+		push &group line
+		next
+	      :
+		if
+		  indent < first_indent
+		  return
+		  :
+		    build_tree &lines $subtree
+		    if
+		      group.is_empty
+		      :
+			!tree(-1) tree(-1)(1) = subtree
+			next
+		      :
+			push &tree group(1) = subtree
+			next
+
+$insert_tags: (str)
+  $convert: (idx chr)
+    if
+      chr == '*'
+      :
+	cond
+	  ->
+	    &&
+	      (idx == 1 || not(str(idx-1).is_a_letter_character))
+	      idx < len
+	      str(idx+1).is_a_letter_character
+	    -> "<i>"
+	  ->
+	    &&
+	      (idx == len || not(str(idx+1).is_a_letter_character))
+	      idx > 1
+	      str(idx-1).is_a_letter_character
+	    -> "</i>"
+	  ->
+	    true
+	    -> "*"
+      -> string(chr)
+
+  $len length_of(str)
+
+  map_reduce str convert append
+
+$level 1
+
+$to_html ()
+
+$std_types::list/to_html: (self)
+  $output ""
+  if
+    all_of(self is_a_string):
+      if
+	all_of(self has_prefix "* ")
+	:
+	  for_each self
+	    : (item)
+	      append &output "<li>"
+	      append &output insert_tags(range(item 3 -1))
+	      push &output '@nl;'
+	      next
+	    -> "
+	      <ul>
+	      @(output)@
+	      </ul>
+	:
+	  for_each self
+	    : (item)
+	      append &output insert_tags(item)
+	      push &output '@nl;'
+	      next
+	    -> "
+	      <p>
+	      @(output)@
+	      </p>
+    :
+      for_each self
+	: (item)
+	  append &output item.to_html
+	  next
+	-> output
+
+$std_types::key_value_pair/to_html: (self)
+  $my_level level
+  self $head $contents
+  !level level+1
+  to_html &contents
+  -> "
+    <h@(my_level)>@(head.to_title_case)</h@(my_level)>
+    @(contents)@
+
+########################################
+
+$text "
+  THE FUNKY PROGRAMMING LANGUAGE
+
+    As a functional language Funky uses value semantics. So no object can
+    ever be modified, but new objects can be derived from existing ones.
+    This prevents problems like deep vs. shallow copies, equality vs.
+    identity and offers uniform semantics for copying and updating.
+
+    The typing discipline of Funky is dynamic but it does not support
+    duck typing and arguments are not converted automatically (so
+    Funky uses strong typing). Compilers should test for potential runtime
+    errors at compile time where possible.
+
+    VALUES AND VARIABLES
+
+      The two most important concepts in Funky are *values* and *variables*.
+
+      VALUES
+
+	There are several kinds of values:
+
+	* numbers
+	* unique items
+	* characters
+	* strings
+	* tuples
+	* lists
+	* functions
+
+  APPENDIX A - SPECIAL CHARACTERS
+
+    cr: carriage return
+
+    nl: new line
+
+    quot: double quote
+
+########################################
+
+do:
+  split $lines text '@nl;'
+
+  map &lines: (line)
+    $indent 0
+    loop:
+      if
+	line.is_empty
+	-> line(.indent_of undefined)
+	:
+	  case line(1)
+	    ' ':
+	      inc &indent
+	      range &line 2 -1
+	      next
+	    '@ht;':
+	      plus &indent 8
+	      range &line 2 -1
+	      next
+	    -> line(.indent_of indent)
+
+  build_tree &lines $tree
+  print! tree.to_html

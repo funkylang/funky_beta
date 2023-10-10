@@ -1,0 +1,130 @@
+#
+  Copyright (C) 2022 by
+  Dipl.-Ing. Michael Niederle
+
+  This program is free software; you can redistribute it and/or modify
+  it under the terms of the GNU General Public License, version 2, or
+  (at your option) version 3.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  GNU General Public License for more details.
+
+  For details of the GNU General Public License see the accompanying
+  files GPLv2.txt and GLPv3.txt or
+  http://www.gnu.org/licenses/gpl-2.0.html
+  http://www.gnu.org/licenses/gpl-3.0.html
+  or write to the
+  Free Software Foundation, Inc.,
+  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+
+<using std>
+<using nlb2fky>
+
+$nlb2fky::create_node_definitions: (filename rules _name_to_index)
+  $namespace behind(filename '/' -1) .before. '.'
+  $field_names empty_key_order_set
+  for_each rules
+    : (rule)
+      if
+	&&
+	  rule.is_used || rule.is_a_base
+	  rule.is_compound
+	:
+	  for_each components_of(rule): (component)
+	    $referred_rule rules(component)
+	    $field_name name_of(referred_rule).to_field_name
+	    !field_names(field_name) true
+	    next
+	next
+    ->
+      string
+	"
+	  ###
+	  # Attributes
+
+	  $@(namespace)::node_type_of ()
+	  $@(namespace)::line_no_of ()
+	  $@(namespace)::skip_of ()
+
+	  ###
+	  # Node Kinds
+	  @;
+	map_reduce
+	  rules: (rule)
+	    if not(rule.is_used && rule.is_compound) (-> ""):
+	      $node_name name_of(rule)
+	      -> "
+		$@(namespace)::@(node_name.to_upper_case) .
+	"
+
+	  ###
+	  # Node Attributes
+
+	  $funky::source_group_of ()
+	  $funky::source_position_of ()
+	map_reduce
+	  field_names
+	  : (field_name)
+	    -> "
+	      $@(namespace)::@(field_name)_of (!)
+	"
+
+	  ###
+	  # Node Definitions
+
+	  $@(namespace)_types::node std_types::object
+	  $@(namespace)_types::node.funky::source_group_of undefined
+	  $@(namespace)_types::node.funky::source_position_of undefined
+
+	  $@(namespace)_types::fieldless_node @(namespace)_types::node
+	map_reduce
+	  rules: (rule)
+	    if
+	      not
+		&&
+		  rule.is_used || rule.is_a_base
+		  rule.is_compound
+	      -> ""
+	      :
+		$node_name name_of(rule)
+		$components components_of(rule)
+		$base_rule_no base_rule_of(rule)
+		if $base_node !components
+		  components.is_empty
+		  -> "fieldless_node" components
+		  :
+		    if
+		      base_rule_no.is_defined
+		      :
+			$base_rule rules(base_rule_no)
+			-> name_of(base_rule) components_of(base_rule)
+		      -> "node" components
+		->
+		  append
+		    "
+
+		      $@(namespace)_types::@(node_name) @(namespace)_types::@(base_node)
+		    if
+		      rule.is_used
+		      -> "
+			$@(namespace)_types::@(node_name).@(namespace)::@
+			node_type_of @(namespace)::@(node_name.to_upper_case)
+		      -> ""
+		    map_reduce
+		      components: (component)
+			if
+			  base_rule_no.is_defined
+			  -> ""
+			  ->
+			    string
+			      "$@(namespace)_types::@(node_name).@(namespace)::"
+			      truncate_until(name_of(rules(component)) '_' -1)
+			      "_of"
+			      if
+				component.returns_a_node_list
+				-> " empty_list@nl;"
+				-> " undefined@nl;"
+		      append
+		      ""

@@ -1,0 +1,542 @@
+#
+  The nodes meta-data was automatically derived from the file
+  "new_compiler/funky.nlb".
+
+$funky::node_name_of ()
+$funky::node_fields_of ()
+
+###
+# Fields Meta-Data
+
+$funky::access_of.to_string "access"
+$funky::alias_of.to_string "alias"
+$funky::and2_of.to_string "and2"
+$funky::argument_of.to_string "argument"
+$funky::arguments_of.to_string "arguments"
+$funky::body_of.to_string "body"
+$funky::call_of.to_string "call"
+$funky::calls_of.to_string "calls"
+$funky::character_of.to_string "character"
+$funky::characters_of.to_string "characters"
+$funky::component_of.to_string "component"
+$funky::components_of.to_string "components"
+$funky::digits_of.to_string "digits"
+$funky::expression_of.to_string "expression"
+$funky::extensions_of.to_string "extensions"
+$funky::filename_of.to_string "filename"
+$funky::head_of.to_string "head"
+$funky::identifier_of.to_string "identifier"
+$funky::lines_of.to_string "lines"
+$funky::major_of.to_string "major"
+$funky::minor_of.to_string "minor"
+$funky::name_of.to_string "name"
+$funky::operand_of.to_string "operand"
+$funky::operator_of.to_string "operator"
+$funky::option_of.to_string "option"
+$funky::or2_of.to_string "or2"
+$funky::pair_of.to_string "pair"
+$funky::parameter_of.to_string "parameter"
+$funky::parameters_of.to_string "parameters"
+$funky::plus2_of.to_string "plus2"
+$funky::pragma_of.to_string "pragma"
+$funky::remark_of.to_string "remark"
+$funky::remarks_of.to_string "remarks"
+$funky::sign_of.to_string "sign"
+$funky::statement_of.to_string "statement"
+$funky::statements_of.to_string "statements"
+$funky::text_of.to_string "text"
+$funky::times2_of.to_string "times2"
+$funky::version_of.to_string "version"
+$funky::xor2_of.to_string "xor2"
+
+###
+# Nodes Meta-Data
+
+$funky_types::fieldless_node.funky::node_fields_of empty_list
+
+$funky_types::simple_name.funky::node_fields_of
+  list
+    funky::name_of
+
+$funky_types::identifier_and_expression.funky::node_fields_of
+  list
+    funky::identifier_of
+    funky::expression_of
+
+$funky_types::simple_expression.funky::node_fields_of
+  list
+    funky::expression_of
+
+$funky_types::namespace_meta_instruction.funky::node_fields_of
+  list
+    funky::name_of
+    funky::version_of
+    funky::remarks_of
+
+$funky_types::statement.funky::node_name_of "statement"
+$funky_types::statement.funky::node_fields_of
+  list
+    funky::head_of
+    funky::arguments_of
+
+$funky_types::inline_statement.funky::node_name_of "inline_statement"
+$funky_types::inline_statement.funky::node_fields_of
+  list
+    funky::head_of
+    funky::arguments_of
+
+$funky_types::attribute_value_pair.funky::node_name_of "attribute_value_pair"
+
+$funky_types::type_function.funky::node_name_of "type_function"
+
+$funky_types::method_value_pair.funky::node_name_of "method_value_pair"
+
+$funky_types::pair.funky::node_name_of "pair"
+$funky_types::pair.funky::node_fields_of
+  list
+    funky::identifier_of
+    funky::argument_of
+
+$funky_types::namespace_instruction.funky::node_name_of "namespace_instruction"
+
+$funky_types::require_instruction.funky::node_name_of "require_instruction"
+$funky_types::require_instruction.funky::node_fields_of
+  list
+    funky::filename_of
+    funky::remarks_of
+
+$funky_types::using_instruction.funky::node_name_of "using_instruction"
+
+$funky_types::alias_instruction.funky::node_name_of "alias_instruction"
+$funky_types::alias_instruction.funky::node_fields_of
+  list
+    funky::alias_of
+    funky::sign_of
+    funky::name_of
+    funky::remarks_of
+
+$funky_types::resolve_instruction.funky::node_name_of "resolve_instruction"
+
+$funky_types::allow_instruction.funky::node_name_of "allow_instruction"
+$funky_types::allow_instruction.funky::node_fields_of
+  list
+    funky::pragma_of
+    funky::remarks_of
+
+$funky_types::alias.funky::node_name_of "alias"
+
+$funky_types::version_no.funky::node_name_of "version_no"
+$funky_types::version_no.funky::node_fields_of
+  list
+    funky::major_of
+    funky::minor_of
+
+$funky_types::unstable.funky::node_name_of "unstable"
+
+$funky_types::allow_hidden.funky::node_name_of "allow_hidden"
+
+$funky_types::allow_unused.funky::node_name_of "allow_unused"
+
+$funky_types::functor.funky::node_name_of "functor"
+$funky_types::functor.funky::node_fields_of
+  list
+    funky::identifier_of
+    funky::extensions_of
+
+$funky_types::function_call_extension.funky::node_name_of "function_call_extension"
+$funky_types::function_call_extension.funky::node_fields_of
+  list
+    funky::call_of
+    funky::extensions_of
+
+$funky_types::attribute_access_extension.funky::node_name_of "attribute_access_extension"
+$funky_types::attribute_access_extension.funky::node_fields_of
+  list
+    funky::access_of
+    funky::extensions_of
+
+$funky_types::inline_functor.funky::node_name_of "inline_functor"
+
+$funky_types::inline_function_call_extension.funky::node_name_of "inline_function_call_extension"
+$funky_types::inline_function_call_extension.funky::node_fields_of
+  list
+    funky::call_of
+    funky::extensions_of
+
+$funky_types::inline_attribute_access_extension.funky::node_name_of "inline_attribute_access_extension"
+$funky_types::inline_attribute_access_extension.funky::node_fields_of
+  list
+    funky::access_of
+    funky::extensions_of
+
+$funky_types::io_call.funky::node_name_of "io_call"
+
+$funky_types::function_call.funky::node_name_of "function_call"
+$funky_types::function_call.funky::node_fields_of
+  list
+    funky::arguments_of
+
+$funky_types::function_call_arguments.funky::node_name_of "function_call_arguments"
+
+$funky_types::inline_return.funky::node_name_of "inline_return"
+
+$funky_types::attribute_access.funky::node_name_of "attribute_access"
+$funky_types::attribute_access.funky::node_fields_of
+  list
+    funky::identifier_of
+
+$funky_types::spaced_arguments.funky::node_name_of "spaced_arguments"
+$funky_types::spaced_arguments.funky::node_fields_of
+  list
+    funky::arguments_of
+
+$funky_types::spaced_statement_arguments.funky::node_name_of "spaced_statement_arguments"
+$funky_types::spaced_statement_arguments.funky::node_fields_of
+  list
+    funky::arguments_of
+
+$funky_types::arguments.funky::node_name_of "arguments"
+$funky_types::arguments.funky::node_fields_of
+  list
+    funky::argument_of
+    funky::arguments_of
+
+$funky_types::even_more_statement_arguments.funky::node_name_of "even_more_statement_arguments"
+$funky_types::even_more_statement_arguments.funky::node_fields_of
+  list
+    funky::argument_of
+    funky::arguments_of
+
+$funky_types::multiline_arguments.funky::node_name_of "multiline_arguments"
+
+$funky_types::tagged_multiline_arguments.funky::node_name_of "tagged_multiline_arguments"
+
+$funky_types::remark_and_multiline_function_call.funky::node_name_of "remark_and_multiline_function_call"
+$funky_types::remark_and_multiline_function_call.funky::node_fields_of
+  list
+    funky::remark_of
+    funky::arguments_of
+
+$funky_types::dummy_definition.funky::node_name_of "dummy_definition"
+
+$funky_types::variable.funky::node_name_of "variable"
+
+$funky_types::definition.funky::node_name_of "definition"
+
+$funky_types::redefinition.funky::node_name_of "redefinition"
+
+$funky_types::update.funky::node_name_of "update"
+
+$funky_types::expression.funky::node_name_of "expression"
+$funky_types::expression.funky::node_fields_of
+  list
+    funky::expression_of
+    funky::operator_of
+
+$funky_types::key_value.funky::node_name_of "key_value"
+
+$funky_types::sequence_expression.funky::node_name_of "sequence_expression"
+
+$funky_types::comma.funky::node_name_of "comma"
+
+$funky_types::comma_expression.funky::node_name_of "comma_expression"
+
+$funky_types::conditional_expression.funky::node_name_of "conditional_expression"
+
+$funky_types::and.funky::node_name_of "and"
+
+$funky_types::and_expression.funky::node_name_of "and_expression"
+
+$funky_types::or.funky::node_name_of "or"
+
+$funky_types::or_expression.funky::node_name_of "or_expression"
+
+$funky_types::named_operator_expression.funky::node_name_of "named_operator_expression"
+
+$funky_types::named_operator.funky::node_name_of "named_operator"
+
+$funky_types::range_expression.funky::node_name_of "range_expression"
+
+$funky_types::range.funky::node_name_of "range"
+
+$funky_types::relational_expression.funky::node_name_of "relational_expression"
+
+$funky_types::equal.funky::node_name_of "equal"
+
+$funky_types::not_equal.funky::node_name_of "not_equal"
+
+$funky_types::less_equal.funky::node_name_of "less_equal"
+
+$funky_types::less_than.funky::node_name_of "less_than"
+
+$funky_types::greater_equal.funky::node_name_of "greater_equal"
+
+$funky_types::greater_than.funky::node_name_of "greater_than"
+
+$funky_types::tagged_bit_expression.funky::node_name_of "tagged_bit_expression"
+
+$funky_types::bit_expression.funky::node_name_of "bit_expression"
+
+$funky_types::shift_left.funky::node_name_of "shift_left"
+
+$funky_types::shift_right.funky::node_name_of "shift_right"
+
+$funky_types::bit_and.funky::node_name_of "bit_and"
+
+$funky_types::bit_and2.funky::node_name_of "bit_and2"
+
+$funky_types::bit_or.funky::node_name_of "bit_or"
+
+$funky_types::bit_or2.funky::node_name_of "bit_or2"
+
+$funky_types::bit_xor.funky::node_name_of "bit_xor"
+
+$funky_types::bit_xor2.funky::node_name_of "bit_xor2"
+
+$funky_types::tagged_additive_expression.funky::node_name_of "tagged_additive_expression"
+
+$funky_types::additive_expression.funky::node_name_of "additive_expression"
+
+$funky_types::plus.funky::node_name_of "plus"
+
+$funky_types::plus2.funky::node_name_of "plus2"
+
+$funky_types::minus.funky::node_name_of "minus"
+
+$funky_types::tagged_multiplicative_expression.funky::node_name_of "tagged_multiplicative_expression"
+
+$funky_types::multiplicative_expression.funky::node_name_of "multiplicative_expression"
+
+$funky_types::times.funky::node_name_of "times"
+
+$funky_types::times2.funky::node_name_of "times2"
+
+$funky_types::over.funky::node_name_of "over"
+
+$funky_types::parenthesed_expression.funky::node_name_of "parenthesed_expression"
+$funky_types::parenthesed_expression.funky::node_fields_of
+  list
+    funky::expression_of
+    funky::calls_of
+
+$funky_types::backquoted.funky::node_name_of "backquoted"
+
+$funky_types::negation.funky::node_name_of "negation"
+
+$funky_types::multiline_operator.funky::node_name_of "multiline_operator"
+
+$funky_types::multiline_plus.funky::node_name_of "multiline_plus"
+
+$funky_types::multiline_minus.funky::node_name_of "multiline_minus"
+$funky_types::multiline_minus.funky::node_fields_of
+  list
+    funky::remark_of
+    funky::arguments_of
+
+$funky_types::multiline_minus_with_remark.funky::node_name_of "multiline_minus_with_remark"
+
+$funky_types::multiline_times.funky::node_name_of "multiline_times"
+
+$funky_types::multiline_over.funky::node_name_of "multiline_over"
+
+$funky_types::multiline_over_with_remark.funky::node_name_of "multiline_over_with_remark"
+
+$funky_types::multiline_shift_left.funky::node_name_of "multiline_shift_left"
+
+$funky_types::multiline_shift_right.funky::node_name_of "multiline_shift_right"
+
+$funky_types::multiline_equal.funky::node_name_of "multiline_equal"
+
+$funky_types::multiline_not_equal.funky::node_name_of "multiline_not_equal"
+
+$funky_types::multiline_less_equal.funky::node_name_of "multiline_less_equal"
+
+$funky_types::multiline_less_than.funky::node_name_of "multiline_less_than"
+
+$funky_types::multiline_greater_equal.funky::node_name_of "multiline_greater_equal"
+
+$funky_types::multiline_greater_than.funky::node_name_of "multiline_greater_than"
+
+$funky_types::multiline_and.funky::node_name_of "multiline_and"
+
+$funky_types::multiline_or.funky::node_name_of "multiline_or"
+
+$funky_types::multiline_bit_and.funky::node_name_of "multiline_bit_and"
+
+$funky_types::multiline_bit_and_with_remark.funky::node_name_of "multiline_bit_and_with_remark"
+
+$funky_types::multiline_bit_or.funky::node_name_of "multiline_bit_or"
+
+$funky_types::multiline_bit_xor.funky::node_name_of "multiline_bit_xor"
+
+$funky_types::multiline_assign.funky::node_name_of "multiline_assign"
+
+$funky_types::inline_attribute_value_pair.funky::node_name_of "inline_attribute_value_pair"
+
+$funky_types::inline_method_value_pair.funky::node_name_of "inline_method_value_pair"
+
+$funky_types::expression_and_inline_arguments.funky::node_name_of "expression_and_inline_arguments"
+$funky_types::expression_and_inline_arguments.funky::node_fields_of
+  list
+    funky::expression_of
+    funky::arguments_of
+
+$funky_types::spaced_inline_arguments.funky::node_name_of "spaced_inline_arguments"
+
+$funky_types::numeric_literal.funky::node_name_of "numeric_literal"
+$funky_types::numeric_literal.funky::node_fields_of
+  list
+    funky::digits_of
+
+$funky_types::at_character_literal.funky::node_name_of "at_character_literal"
+
+$funky_types::named_character_literal.funky::node_name_of "named_character_literal"
+
+$funky_types::numeric_character_literal.funky::node_name_of "numeric_character_literal"
+
+$funky_types::character_literal.funky::node_name_of "character_literal"
+$funky_types::character_literal.funky::node_fields_of
+  list
+    funky::character_of
+
+$funky_types::string_literal.funky::node_name_of "string_literal"
+$funky_types::string_literal.funky::node_fields_of
+  list
+    funky::components_of
+
+$funky_types::some_string_components.funky::node_name_of "some_string_components"
+$funky_types::some_string_components.funky::node_fields_of
+  list
+    funky::component_of
+    funky::components_of
+
+$funky_types::character_sequence.funky::node_name_of "character_sequence"
+$funky_types::character_sequence.funky::node_fields_of
+  list
+    funky::characters_of
+
+$funky_types::multiline_string_literal.funky::node_name_of "multiline_string_literal"
+
+$funky_types::newline.funky::node_name_of "newline"
+
+$funky_types::some_string_line_components.funky::node_name_of "some_string_line_components"
+$funky_types::some_string_line_components.funky::node_fields_of
+  list
+    funky::component_of
+    funky::components_of
+
+$funky_types::string_line_end.funky::node_name_of "string_line_end"
+
+$funky_types::at_character.funky::node_name_of "at_character"
+
+$funky_types::tagged_empty_character.funky::node_name_of "tagged_empty_character"
+
+$funky_types::empty_character.funky::node_name_of "empty_character"
+
+$funky_types::escape_expression.funky::node_name_of "escape_expression"
+
+$funky_types::named_character.funky::node_name_of "named_character"
+
+$funky_types::numeric_character.funky::node_name_of "numeric_character"
+
+$funky_types::string_line_character_sequence.funky::node_name_of "string_line_character_sequence"
+
+$funky_types::unique.funky::node_name_of "unique"
+$funky_types::unique.funky::node_fields_of
+  list
+    funky::remarks_of
+
+$funky_types::attribute.funky::node_name_of "attribute"
+
+$funky_types::attribute_with_setter.funky::node_name_of "attribute_with_setter"
+
+$funky_types::body.funky::node_name_of "body"
+$funky_types::body.funky::node_fields_of
+  list
+    funky::parameters_of
+    funky::remark_of
+    funky::statements_of
+
+$funky_types::line_end_statement.funky::node_name_of "line_end_statement"
+
+$funky_types::inline_body.funky::node_name_of "inline_body"
+$funky_types::inline_body.funky::node_fields_of
+  list
+    funky::parameters_of
+    funky::statement_of
+
+$funky_types::statements.funky::node_name_of "statements"
+$funky_types::statements.funky::node_fields_of
+  list
+    funky::statement_of
+
+$funky_types::one_or_more_inline_parameters.funky::node_name_of "one_or_more_inline_parameters"
+$funky_types::one_or_more_inline_parameters.funky::node_fields_of
+  list
+    funky::parameter_of
+    funky::parameters_of
+
+$funky_types::open_parameters.funky::node_name_of "open_parameters"
+$funky_types::open_parameters.funky::node_fields_of
+  list
+    funky::remark_of
+    funky::parameter_of
+
+$funky_types::inline_parameter.funky::node_name_of "inline_parameter"
+$funky_types::inline_parameter.funky::node_fields_of
+  list
+    funky::name_of
+    funky::option_of
+
+$funky_types::parameter.funky::node_name_of "parameter"
+$funky_types::parameter.funky::node_fields_of
+  list
+    funky::name_of
+    funky::option_of
+    funky::remarks_of
+
+$funky_types::myself.funky::node_name_of "myself"
+
+$funky_types::rest.funky::node_name_of "rest"
+
+$funky_types::initial_value.funky::node_name_of "initial_value"
+$funky_types::initial_value.funky::node_fields_of
+  list
+    funky::operand_of
+
+$funky_types::close_parameters.funky::node_name_of "close_parameters"
+$funky_types::close_parameters.funky::node_fields_of
+  list
+    funky::remark_of
+
+$funky_types::return_expression.funky::node_name_of "return_expression"
+
+$funky_types::return.funky::node_name_of "return"
+
+$funky_types::remark.funky::node_name_of "remark"
+$funky_types::remark.funky::node_fields_of
+  list
+    funky::text_of
+
+$funky_types::line_end_and_line_remarks.funky::node_name_of "line_end_and_line_remarks"
+$funky_types::line_end_and_line_remarks.funky::node_fields_of
+  list
+    funky::remark_of
+    funky::remarks_of
+
+$funky_types::line_remarks.funky::node_name_of "line_remarks"
+$funky_types::line_remarks.funky::node_fields_of
+  list
+    funky::remark_of
+
+$funky_types::spaced_remark.funky::node_name_of "spaced_remark"
+
+$funky_types::multiline_remark.funky::node_name_of "multiline_remark"
+$funky_types::multiline_remark.funky::node_fields_of
+  list
+    funky::text_of
+    funky::lines_of
+
+$funky_types::remark_lines.funky::node_name_of "remark_lines"
+
+$funky_types::dummy_remark.funky::node_name_of "dummy_remark"

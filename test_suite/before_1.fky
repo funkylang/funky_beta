@@ -1,0 +1,13 @@
+#!/usr/bin/env fkyrun
+
+$sentence "This is a sentence."
+
+println! sentence .before. 'e'
+println! before(sentence 'e' 1)
+println! before(sentence 'e' 2)
+println! before(sentence 'e' 3)
+println! before(sentence 'e' 4)
+println! before(sentence 'e' -1)
+println! before(sentence 'e' -2)
+println! before(sentence 'e' -3)
+println! before(sentence 'e' -4)

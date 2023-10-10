@@ -1,0 +1,75 @@
+#!/usr/bin/env fkyrun
+
+$ages empty_association_list
+
+!ages("Tom") 5
+!ages("Sam") 3
+!ages("Sarah") 11
+
+dump! `length_of(ages)
+dump! `ages("Tom")
+dump! `ages("Sarah")
+dump! `ages("Tim")
+dump! `ages("Sam")
+
+println!
+for_each ages
+  : (name age)
+    println! name ": " age
+    next!
+  pass
+
+println!
+for_each ages
+  : (age)
+    println! age
+    next!
+  pass
+
+println! "----------"
+
+!ages("Sam") 4
+
+dump! `length_of(ages)
+dump! `ages("Tom")
+dump! `ages("Sarah")
+dump! `ages("Tim")
+dump! `ages("Sam")
+
+println!
+for_each ages
+  : (name age)
+    println! name ": " age
+    next!
+  pass
+
+println!
+for_each ages
+  : (age)
+    println! age
+    next!
+  pass
+
+println! "----------"
+
+!ages("Tom") undefined
+
+dump! `length_of(ages)
+dump! `ages("Tom")
+dump! `ages("Sarah")
+dump! `ages("Tim")
+dump! `ages("Sam")
+
+println!
+for_each ages
+  : (name age)
+    println! name ": " age
+    next!
+  pass
+
+println!
+for_each ages
+  : (age)
+    println! age
+    next!
+  pass

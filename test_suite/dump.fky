@@ -1,0 +1,12 @@
+#!/usr/bin/env fkyrun
+
+$n 3
+$r 3.14
+$c 'x'
+$s "abc"
+$t tuple(n c)
+$l list(n r c s t)
+
+dump! `n `r `c `s
+dump! `t `l
+dump! 3 `t `l

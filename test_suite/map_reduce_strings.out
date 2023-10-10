@@ -1,0 +1,6 @@
+map_reduce("abc" to_integer plus): 294
+map_reduce("abc" list append):
+  list
+    'a'
+    'b'
+    'c'

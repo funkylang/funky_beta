@@ -1,0 +1,9 @@
+#!/usr/bin/env fkyrun
+
+$sum 0
+from_to !sum 1 10
+  : (i)
+    plus &sum i
+    next
+  -> sum
+println! sum

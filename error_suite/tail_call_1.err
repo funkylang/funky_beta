@@ -1,0 +1,4 @@
+ERROR: Last statement is not a tail call IN LINE 9 OF FILE tail_call_1.fky
+
+  $s x*x
+  ^

@@ -1,0 +1,314 @@
+#
+  Copyright (C) 2023 by
+  Dipl.-Ing. Michael Niederle
+
+  This program is free software; you can redistribute it and/or modify
+  it under the terms of the GNU Library General Public License, version 2, or
+  (at your option) under the terms of the GNU Lesser General Public License,
+  version 3.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  GNU Lesser (Library) General Public License for more details.
+
+  For details of the GNU General Public License see the accompanying
+  files LGPLv2.txt and LGLPv3.txt or
+  http://www.gnu.org/licenses/lgpl-2.0.html
+  http://www.gnu.org/licenses/lgpl-3.0.html
+  or write to the
+  Free Software Foundation, Inc.,
+  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+
+$std::is_a_boolean ()
+  #
+    succeeds for <true> and <false>
+
+$std::true std_types::true
+  #
+    the boolean value **true**
+
+    There is no common basetype (e.g. "boolean") for <true> and <false>!
+
+    See also: std::false, std_types::true
+
+$std::false std_types::false
+  #
+    the boolean value **false**
+
+    There is no common basetype (e.g. "boolean") for <true> and <false>!
+
+    See also: std::true, std_types::false
+
+$std_types::object.is_a_boolean false
+  #
+    obvious
+
+    Topic: Objects
+
+$std_types::true.is_a_boolean true # obvious
+$std_types::false.is_a_boolean true # obvious
+
+$std::and ()
+  #
+    "short cut" and-operation
+
+    The left argument must be <std::true> or <std::false>.
+
+    The right argument must be a function that evaluates to
+    <std::true> or <std::false>.
+
+    *a* && *b*
+
+    is converted by the compiler to
+
+    <std::and>(**a** -> **b**)
+
+    See also: std::or, std::if
+
+$std::or ()
+  #
+    "short cut" or- operation;
+
+    The left argument must be <std::true> or <std::false>.
+
+    The right argument must be a function that evaluates to
+    <std::true> or <std::false>.
+
+    *a* || *b*
+
+    is converted by the compiler to
+
+    <std::or>(**a** -> **b**)
+
+    See also: std::and, std::if
+
+$std::not ()
+  #
+    negate the boolean argument
+
+    <std::not>(<std::true>) yields <std::false)
+
+    <std::not>(<std::false>) yields <std::true)
+
+    See also: std::equal, std::less
+
+$std::if ()
+  #
+    classic if; can be used as a function or a procedure
+
+    The first argument must be <std::true> or <std::false>.
+
+    The second argument represents the "then-part" and must be a function; it
+    is called, if the first argument is <std::true>.
+
+    The third argument is optional represents the "else-part". if present it
+    must be a function and is called, if the first argument is <std::false>.
+
+    The "then-part"- and "else-part" function can return any number of results
+    (including none). But both (if then "else-part" is present) should return
+    the *same* number of results.
+
+    Topic: Branches
+
+    See also: std::default_value
+
+$std::if_not ()
+
+$std::update_if ()
+$std::update_if_not ()
+
+$std::on ()
+  #
+    if the specified condition is true then perform the specified action
+
+$std::on_not ()
+  #
+    if the specified condition is false then perform the specified action
+
+$std_types::true.not false # returns <false>
+$std_types::false.not true # returns <true>
+
+$std_types::true/and:
+  #
+    evaluates and returns its second argument
+
+    The first argument is already <true>, so the second argument decides
+    whether the *and*-expression ist *true* or not.
+  (
+    _left
+    right
+  )
+  right
+
+$std_types::false/and:
+  #
+    return <false>
+
+    The second argument is not evaluated at all!
+  (
+    _left
+    _right
+  )
+  -> false
+
+$std_types::true/or:
+  #
+    return <true>
+
+    The second argument is not evaluated at all!
+  (
+    _left
+    _right
+  )
+  -> true
+
+$std_types::false/or:
+  #
+    evaluates and returns its second argument
+
+    The first argument is already <false>, so the second argument decides
+    whether the *or*-expression ist *true* or not.
+  (
+    _left
+    right
+  )
+  right
+
+$std_types::true/if:
+  #
+    executes the *then-part*
+
+    This function passes I/O-access rights to the *then-part*.
+  (
+    _condition
+    then
+    _else
+  )
+  then!
+
+$std_types::false/if:
+  #
+    executes the *else-part*
+
+    This function passes I/O-access rights to the *else-part*.
+  (
+    _condition
+    _then
+    else
+  )
+  else!
+
+$std_types::true/if_not:
+  #
+    executes the *else-part*
+  (
+    _condition
+    _then
+    else
+  )
+  else!
+
+$std_types::false/if_not:
+  #
+    executes the *then-part*
+  (
+    _condition
+    then
+    _else
+  )
+  then!
+
+$std_types::true/update_if:
+  (
+    _condition
+    _defaults*
+    body
+  )
+  body
+
+$std_types::false/update_if:
+  (
+    _condition
+    defaults*
+    _body
+  )
+  spread defaults
+
+$std_types::true/update_if_not:
+  (
+    _condition
+    defaults*
+    _body
+  )
+  spread defaults
+
+$std_types::false/update_if_not:
+  (
+    _condition
+    _defaults*
+    body
+  )
+  body
+
+$std_types::true/on:
+  #
+    performs the specified action
+
+    This function passes I/O-access rights to the action
+  (
+    _condition
+    action
+  )
+  action!
+
+$std_types::false/on:
+  #
+    does not perform the specified action
+  (
+    _condition
+    _action
+  )
+  pass
+
+$std_types::true/on_not:
+  #
+    does not perform the specified action
+  (
+    _condition
+    _action
+  )
+  pass
+
+$std_types::false/on_not:
+  #
+    performs the specified action
+
+    This function passes I/O-access rights to the action
+  (
+    _condition
+    action
+  )
+  action!
+
+$std_types::true/serialize:
+  (
+    _self
+    indent = undefined
+  )
+  $str "<true>@nl;"
+  if
+    indent.is_defined
+    -> append(tabs_and_spaces(indent) str)
+    -> str
+
+$std_types::false/serialize:
+  (
+    _self
+    indent = undefined
+  )
+  $str "<false>@nl;"
+  if
+    indent.is_defined
+    -> append(tabs_and_spaces(indent) str)
+    -> str

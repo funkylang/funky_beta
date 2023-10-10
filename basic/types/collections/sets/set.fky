@@ -1,0 +1,88 @@
+#
+  Copyright (C) 2023 by
+  Dipl.-Ing. Michael Niederle
+
+  This program is free software; you can redistribute it and/or modify
+  it under the terms of the GNU Library General Public License, version 2, or
+  (at your option) under the terms of the GNU Lesser General Public License,
+  version 3.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  GNU Lesser (Library) General Public License for more details.
+
+  For details of the GNU General Public License see the accompanying
+  files LGPLv2.txt and LGLPv3.txt or
+  http://www.gnu.org/licenses/lgpl-2.0.html
+  http://www.gnu.org/licenses/lgpl-3.0.html
+  or write to the
+  Free Software Foundation, Inc.,
+  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+
+##########
+# set
+##########
+
+$std::is_a_set () # obvious
+$std_types::object.is_a_set false # obvious
+$std_types::set.is_a_set true # obvious
+
+$std_types::set std_types::collection
+  #
+    the prototype object for all kinds of sets
+
+    Topic: Collections
+
+    See also: std_types::hash_set, std_types::key_order_set
+
+###
+# merge
+
+$std_types::set/merge:
+  #
+    merges the two sets
+  (
+    self # the base set
+    other # the set to merge
+  )
+  for_each other
+    : (key)
+      !self(key) true
+      next
+    -> self
+
+###
+# serialization
+
+$std_types::set/serialize:
+  (
+    self
+    indent = undefined
+  )
+  $new_indent
+    if
+      indent.is_defined
+      -> indent+2
+      -> undefined
+  map_reduce $contents
+    self: (value) -> serialize(value new_indent)
+    append
+    ""
+  $header
+    "
+      @(serialization_tag_of(self)) <@(length_of(self))>
+  update_if indent.is_defined &header -> append(tabs_and_spaces(indent) header)
+  append header contents
+
+$std_types::set.deserializer_of:
+  (
+    type
+    items
+  )
+  $obj empty_collection_of(type)
+  for_each items
+    : (item)
+      !obj(item) true
+      next
+    -> obj

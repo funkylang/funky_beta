@@ -1,0 +1,5 @@
+#!/usr/bin/env fkyrun
+
+$numbers list(234 2345324 345 345 98 12 34 8 3425434 34234 89798)
+
+print! serialize(sort(numbers) 0)

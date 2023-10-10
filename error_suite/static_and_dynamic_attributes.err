@@ -1,0 +1,4 @@
+ERROR: Object with slots redefined on top-level IN LINE 7 OF FILE static_and_dynamic_attributes.fky
+
+$obj std_types::object
+^

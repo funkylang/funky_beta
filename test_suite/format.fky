@@ -1,0 +1,6 @@
+#!/usr/bin/env fkyrun
+
+print! format("%2.1\% %2.1\%@nl;" 253.70 5)
+print! format("%6.3@nl;" 1237457)
+print! format("%6.3@nl;" 89.25)
+print! format("%6.3@nl;" 0.07432)

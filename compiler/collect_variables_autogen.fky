@@ -1,0 +1,142 @@
+#
+  These method definitions were automatically derived from the file
+  "new_compiler/collect_variables.fky".
+
+<using std>
+<using funky>
+
+<allow unused>
+
+$std_types::undefined/collect_variables: (self)
+  -> empty_insert_order_table
+
+$funky_types::node/collect_variables: (self)
+  -> empty_insert_order_table
+
+$funky_types::identifier_and_expression/collect_variables: (self)
+  collect_variables funky::expression_of(self) $result_insert_order_table
+  -> result_insert_order_table
+
+$funky_types::simple_expression/collect_variables: (self)
+  collect_variables funky::expression_of(self) $result_insert_order_table
+  -> result_insert_order_table
+
+$funky_types::inline_statement/collect_variables: (self)
+  collect_variables funky::head_of(self) $result_insert_order_table
+  collect_variables funky::arguments_of(self) $arguments_result_insert_order_table
+  merge_variables &result_insert_order_table arguments_result_insert_order_table
+  -> result_insert_order_table
+
+$funky_types::function_call_extension/collect_variables: (self)
+  collect_variables funky::call_of(self) $result_insert_order_table
+  map_reduce funky::extensions_of(self) $extensions_result_insert_order_table collect_variables merge_variables empty_insert_order_table
+  merge_variables &result_insert_order_table extensions_result_insert_order_table
+  -> result_insert_order_table
+
+$funky_types::attribute_access_extension/collect_variables: (self)
+  collect_variables funky::access_of(self) $result_insert_order_table
+  map_reduce funky::extensions_of(self) $extensions_result_insert_order_table collect_variables merge_variables empty_insert_order_table
+  merge_variables &result_insert_order_table extensions_result_insert_order_table
+  -> result_insert_order_table
+
+$funky_types::inline_function_call_extension/collect_variables: (self)
+  collect_variables funky::call_of(self) $result_insert_order_table
+  map_reduce funky::extensions_of(self) $extensions_result_insert_order_table collect_variables merge_variables empty_insert_order_table
+  merge_variables &result_insert_order_table extensions_result_insert_order_table
+  -> result_insert_order_table
+
+$funky_types::inline_attribute_access_extension/collect_variables: (self)
+  collect_variables funky::access_of(self) $result_insert_order_table
+  map_reduce funky::extensions_of(self) $extensions_result_insert_order_table collect_variables merge_variables empty_insert_order_table
+  merge_variables &result_insert_order_table extensions_result_insert_order_table
+  -> result_insert_order_table
+
+$funky_types::function_call/collect_variables: (self)
+  map_reduce funky::arguments_of(self) $result_insert_order_table collect_variables merge_variables empty_insert_order_table
+  -> result_insert_order_table
+
+$funky_types::spaced_arguments/collect_variables: (self)
+  collect_variables funky::arguments_of(self) $result_insert_order_table
+  -> result_insert_order_table
+
+$funky_types::spaced_statement_arguments/collect_variables: (self)
+  collect_variables funky::arguments_of(self) $result_insert_order_table
+  -> result_insert_order_table
+
+$funky_types::arguments/collect_variables: (self)
+  collect_variables funky::argument_of(self) $result_insert_order_table
+  map_reduce funky::arguments_of(self) $arguments_result_insert_order_table collect_variables merge_variables empty_insert_order_table
+  merge_variables &result_insert_order_table arguments_result_insert_order_table
+  -> result_insert_order_table
+
+$funky_types::even_more_statement_arguments/collect_variables: (self)
+  collect_variables funky::argument_of(self) $result_insert_order_table
+  map_reduce funky::arguments_of(self) $arguments_result_insert_order_table collect_variables merge_variables empty_insert_order_table
+  merge_variables &result_insert_order_table arguments_result_insert_order_table
+  -> result_insert_order_table
+
+$funky_types::remark_and_multiline_function_call/collect_variables: (self)
+  map_reduce funky::arguments_of(self) $result_insert_order_table collect_variables merge_variables empty_insert_order_table
+  -> result_insert_order_table
+
+$funky_types::expression/collect_variables: (self)
+  collect_variables funky::expression_of(self) $result_insert_order_table
+  collect_variables funky::operator_of(self) $operator_result_insert_order_table
+  merge_variables &result_insert_order_table operator_result_insert_order_table
+  -> result_insert_order_table
+
+$funky_types::parenthesed_expression/collect_variables: (self)
+  collect_variables funky::expression_of(self) $result_insert_order_table
+  map_reduce funky::calls_of(self) $calls_result_insert_order_table collect_variables merge_variables empty_insert_order_table
+  merge_variables &result_insert_order_table calls_result_insert_order_table
+  -> result_insert_order_table
+
+$funky_types::multiline_minus/collect_variables: (self)
+  map_reduce funky::arguments_of(self) $result_insert_order_table collect_variables merge_variables empty_insert_order_table
+  -> result_insert_order_table
+
+$funky_types::expression_and_inline_arguments/collect_variables: (self)
+  collect_variables funky::expression_of(self) $result_insert_order_table
+  collect_variables funky::arguments_of(self) $arguments_result_insert_order_table
+  merge_variables &result_insert_order_table arguments_result_insert_order_table
+  -> result_insert_order_table
+
+$funky_types::string_literal/collect_variables: (self)
+  map_reduce funky::components_of(self) $result_insert_order_table collect_variables merge_variables empty_insert_order_table
+  -> result_insert_order_table
+
+$funky_types::some_string_components/collect_variables: (self)
+  collect_variables funky::component_of(self) $result_insert_order_table
+  map_reduce funky::components_of(self) $components_result_insert_order_table collect_variables merge_variables empty_insert_order_table
+  merge_variables &result_insert_order_table components_result_insert_order_table
+  -> result_insert_order_table
+
+$funky_types::some_string_line_components/collect_variables: (self)
+  collect_variables funky::component_of(self) $result_insert_order_table
+  map_reduce funky::components_of(self) $components_result_insert_order_table collect_variables merge_variables empty_insert_order_table
+  merge_variables &result_insert_order_table components_result_insert_order_table
+  -> result_insert_order_table
+
+$funky_types::inline_body/collect_variables: (self)
+  map_reduce funky::parameters_of(self) $result_insert_order_table collect_variables merge_variables empty_insert_order_table
+  collect_variables funky::statement_of(self) $statement_result_insert_order_table
+  merge_variables &result_insert_order_table statement_result_insert_order_table
+  -> result_insert_order_table
+
+$funky_types::statements/collect_variables: (self)
+  map_reduce funky::statement_of(self) $result_insert_order_table collect_variables merge_variables empty_insert_order_table
+  -> result_insert_order_table
+
+$funky_types::one_or_more_inline_parameters/collect_variables: (self)
+  collect_variables funky::parameter_of(self) $result_insert_order_table
+  collect_variables funky::parameters_of(self) $parameters_result_insert_order_table
+  merge_variables &result_insert_order_table parameters_result_insert_order_table
+  -> result_insert_order_table
+
+$funky_types::open_parameters/collect_variables: (self)
+  map_reduce funky::parameter_of(self) $result_insert_order_table collect_variables merge_variables empty_insert_order_table
+  -> result_insert_order_table
+
+$funky_types::initial_value/collect_variables: (self)
+  collect_variables funky::operand_of(self) $result_insert_order_table
+  -> result_insert_order_table

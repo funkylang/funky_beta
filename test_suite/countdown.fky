@@ -1,0 +1,35 @@
+#!/usr/bin/env fkyrun
+
+<namespace my_types>
+
+$value_of ()
+$delta_of ()
+
+$my_types::counter std_types::object
+
+$my_types::counter/:
+  (
+    myself^
+  )
+  -> value_of(myself)
+
+$my_types::counter/next_value: (self)
+  $new_value value_of(self)+delta_of(self)
+  -> self(.value_of new_value) new_value
+
+$counter:
+  (
+    initial_value
+    delta = 1
+  )
+  ->
+    my_types::counter
+      .value_of initial_value
+      .delta_of delta
+
+$count_down counter(10 -1)
+
+loop:
+  println! count_down()
+  next_value &count_down $v
+  on! v >= 0 next

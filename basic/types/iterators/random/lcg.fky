@@ -1,0 +1,50 @@
+#
+  Copyright (C) 2021 by
+  Dipl.-Ing. Michael Niederle
+
+  This program is free software; you can redistribute it and/or modify
+  it under the terms of the GNU Library General Public License, version 2, or
+  (at your option) under the terms of the GNU Lesser General Public License,
+  version 3.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  GNU Lesser (Library) General Public License for more details.
+
+  For details of the GNU General Public License see the accompanying
+  files LGPLv2.txt and LGLPv3.txt or
+  http://www.gnu.org/licenses/lgpl-2.0.html
+  http://www.gnu.org/licenses/lgpl-3.0.html
+  or write to the
+  Free Software Foundation, Inc.,
+  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+
+$std::seed_of ()
+$multiplier_of ()
+$increment_of ()
+
+$std_types::lcg std_types::random_number_generator
+
+$std_types::lcg/next_raw_value: (self)
+  $new_seed
+    mod
+      (multiplier_of(self)*seed_of(self)+increment_of(self))
+      modulus_of(self)
+  -> self(.seed_of new_seed) new_seed
+
+$std::lcg:
+  #
+    creates a pseudo random number generator
+  (
+    seed # the seed value to use
+    modulus = 31974247
+    multiplier = 642997
+    increment = 7219879
+  )
+  ->
+    std_types::lcg
+      .seed_of seed
+      .modulus_of modulus
+      .multiplier_of multiplier
+      .increment_of increment

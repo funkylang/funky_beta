@@ -1,0 +1,4 @@
+ERROR: Unexpected outdent IN LINE 8 OF FILE invalid_indentation_1.fky
+
+  q
+  ^

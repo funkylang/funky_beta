@@ -1,0 +1,6 @@
+previous umask: ----w--w-
+wrote 14 bytes
+file size: 14
+mode: -rw-rw----
+changed mode: -rwsrwS--T
+changed mode: -rwSrws--t

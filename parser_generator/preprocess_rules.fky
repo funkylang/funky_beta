@@ -1,0 +1,630 @@
+#
+  Copyright (C) 2022 by
+  Dipl.-Ing. Michael Niederle
+
+  This program is free software; you can redistribute it and/or modify
+  it under the terms of the GNU General Public License, version 2, or
+  (at your option) version 3.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  GNU General Public License for more details.
+
+  For details of the GNU General Public License see the accompanying
+  files GPLv2.txt and GLPv3.txt or
+  http://www.gnu.org/licenses/gpl-2.0.html
+  http://www.gnu.org/licenses/gpl-3.0.html
+  or write to the
+  Free Software Foundation, Inc.,
+  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+
+<using std>
+<using nlb2fky>
+
+#
+  a *rule* consists of one or more *choices*
+
+  a *choice* has a *prefix* of zero or more *terminal* symbols
+
+  a *symbol* is either a *terminal* symbol (a "literal") or a
+  *nonterminal* symbol (a reference to a rule)
+
+  a *nontterminal* symbol starts with a letter and consists of at least two
+  characters
+
+  in a *terminal* symbol a leading tilde ("~") negates the character(s);
+  this does *not* include the linefeed character!!!;
+  a single tilde stands for itself
+
+  in a *terminal* symbol a hyphen ("-") defines a range (except als leading or
+  trailing character) or immediately after a leading tilde
+
+  the predefined symbols SPC and LF match a space respectively a line feed
+
+  the predefined symbol ANY matches anything but a linefeed character
+
+  the predefined symbol NIL succeeds without matching anything
+
+$nlb2fky::COMPOUND .
+$nlb2fky::MULTI_CHOICE .
+$nlb2fky::PRIMITIVE .
+
+$nlb2fky::COMPOUND.to_string "compound"
+$nlb2fky::MULTI_CHOICE.to_string "multi-choice"
+$nlb2fky::PRIMITIVE.to_string "primitive"
+
+$nlb2fky::description_of ()
+$nlb2fky::choices_of ()
+$nlb2fky::prefix_symbols_of ()
+$nlb2fky::symbols_of ()
+$nlb2fky::kind_of ()
+$nlb2fky::components_of ()
+$nlb2fky::returns_a_node_list ()
+$nlb2fky::is_a_subnode ()
+$nlb2fky::is_pruned ()
+$nlb2fky::is_used ()
+$nlb2fky::is_used_with_prefix ()
+$nlb2fky::is_used_without_prefix ()
+$nlb2fky::is_referred ()
+$nlb2fky::starts_a_primitive_rule ()
+$nlb2fky::is_a_base ()
+$nlb2fky::has_derivatives ()
+$nlb2fky::base_rule_of ()
+$nlb2fky::is_derived ()
+
+$nlb2fky::text_of: (line)
+  if
+    line.is_defined
+    -> second(line)
+    -> ""
+
+$nlb2fky::convert_groups_to_rules: (groups)
+  map_reduce groups
+    : (group)
+      $text text_of(group)
+      if text(1) == '#' (-> empty_list):
+	$name text.trim
+	$description replace_all(name '_' = " ")
+	$choices
+	  map
+	    subgroups_of(group): (subgroup)
+	      $symbols split(text_of(subgroup).trim)
+	      for_each symbols
+		: (idx symbol)
+		  if symbol.is_a_terminal_symbol next
+		    ->
+		      new_choice(range(symbols 1 idx-1) range(symbols idx -1))
+		-> new_choice(symbols empty_list)
+	->
+	  list
+	    group
+	      .name_of name
+	      .description_of description
+	      .components_of undefined
+	      .is_used false
+	      .is_used_with_prefix false
+	      .is_used_without_prefix false
+	      .is_referred false
+	      .is_a_base false
+	      .has_derivatives false
+	      .choices_of choices
+
+$nlb2fky::preprocess_rules:
+  (
+    rules
+    pruned_nodes = empty_hash_set
+    subnodes = empty_hash_set
+  )
+  $name_to_index empty_hash_table
+  $name_collissions empty_hash_set
+  for_each rules
+    : (idx rule)
+      $name name_of(rule)
+      if
+	name_to_index(name).is_defined:
+	  !name_collissions(name) true
+	  next
+	:
+	  !name_to_index(name) idx
+	  next
+    :
+      if
+	name_collissions.is_empty
+	start_preprocessing
+	:
+	  $errors ""
+	  for_each name_collissions
+	    : (name)
+	      append &errors "
+		The rule "@(name)" has multiple definitions!
+	      next
+	    -> rules name_to_index errors undefined
+
+  $start_preprocessing:
+    map &rules: (rule) # compute rule kind
+      $name name_of(rule)
+      $choices choices_of(rule)
+      $kind
+	cond
+	  -> any_of(choices has_a_non_constant_prefix)
+	    -> PRIMITIVE
+	  -> length_of(choices) == 1
+	    -> COMPOUND
+	  -> true
+	    -> MULTI_CHOICE
+      ->
+	rule
+	  .kind_of kind
+	  .is_pruned pruned_nodes(name)
+	  .is_a_subnode subnodes(name)
+	  .returns_a_node_list undefined
+
+    map_reduce $errors rules: (rule)
+      $kind kind_of(rule)
+      $choices choices_of(rule)
+      $choice_count length_of(choices)
+      $message_text ""
+      for_each choices
+	: (choice_no choice)
+	  $prefix_symbols prefix_symbols_of(choice)
+	  case length_of(prefix_symbols)
+	    0:
+	      if
+		kind == PRIMITIVE:
+		  append &message_text
+		    error("is missing a leading terminal symbol")
+		  check_symbols
+		check_symbols
+	    1:
+	      if
+		choice_no < choice_count && prefix_symbols(1) == "NIL":
+		  append &message_text inappropriate_nil_error()
+		  check_symbols
+		check_symbols
+	    :
+	      if
+		any_of
+		  prefix_symbols: (prefix_symbol) -> prefix_symbol == "NIL"
+		:
+		  append &message_text inappropriate_nil_error()
+		  check_symbols
+		check_symbols
+
+	  $check_symbols:
+	    $symbols symbols_of(choice)
+	    update_if
+	      &&
+		kind != COMPOUND
+		count(symbols is_a_terminal_symbol) < length_of(symbols)-1
+	      &message_text
+	      : append message_text error("contains multiple references")
+
+	    for_each symbols: (_symbol_no symbol)
+	      if
+		symbol.is_a_terminal_symbol:
+		  cond
+		    -> "ANY" == symbol:
+		      append &message_text inappropriate_any_error()
+		      next
+		    -> "NIL" == symbol:
+		      append &message_text inappropriate_nil_error()
+		      next
+		    -> true
+		      next
+		: # non-terminal symbol
+		  $idx name_to_index(symbol)
+		  if
+		    idx.is_undefined:
+		      append &message_text
+			error
+			  "
+			    references the undefined symbol "@(symbol)"@
+		      next
+		    :
+		      $referred_rule rules(idx)
+		      $referred_kind kind_of(referred_rule)
+		      case kind
+			PRIMITIVE:
+			  if
+			    referred_kind != PRIMITIVE:
+			      append &message_text invalid_reference_error()
+			      next
+			    next
+			MULTI_CHOICE:
+			  case referred_kind
+			    COMPOUND:
+			      if
+				&&
+				  choice_no != choice_count
+				  not(referred_rule.is_reducible)
+				  prefix_symbols.is_empty
+				:
+				  append &message_text
+				    error
+				      "
+					starts with the irreducible symbol @
+					"@(symbol)"@
+				  next
+				next
+			    MULTI_CHOICE:
+			      if
+				&&
+				  prefix_symbols.is_empty
+				  choice_no != choice_count
+				:
+				  append &message_text invalid_reference_error()
+				  next
+				next
+			    PRIMITIVE:
+			      if
+				&&
+				  choice_no < choice_count
+				  symbols_of(choices_of(referred_rule)(1)).is_empty
+				:
+				  append &message_text
+				    error
+				      "
+					references the inappropriate @(referred_kind) rule "@(symbol)"@
+				  next
+				next
+			    next
+			next
+
+		      $invalid_reference_error:
+			error "
+			  references the @(referred_kind) rule "@(symbol)"@
+
+	  $inappropriate_any_error:
+	    error "uses the symbol ANY inappropriately"
+
+	  $inappropriate_nil_error:
+	    error "uses the symbol NIL inappropriately"
+
+	  $error: (message)
+	    string
+	      "  "
+	      message
+	      if
+		choice_count == 1
+		-> '@nl;'
+		-> " in choice no. @(choice_no)@nl;"
+
+	:
+	  if
+	    message_text.is_empty
+	    -> ""
+	    -> "
+	      The @(kind) rule "@(name_of(rule))"
+	      @(message_text)
+
+    $is_reducible: (rule)
+      $choices choices_of(rule)
+      if length_of(choices) > 1 (-> false):
+	$choice choices(1)
+	if
+	  prefix_symbols_of(choice).is_empty
+	  :
+	    $symbol symbols_of(choice)(1)
+	    $idx name_to_index(symbol)
+	    if
+	      idx.is_defined
+	      -> rules(idx).is_reducible
+	      -> false
+	  -> true
+
+    if
+      errors == ""
+      continue_preprocessing
+      -> rules name_to_index errors undefined
+
+  $continue_preprocessing:
+    map &rules: (rule) # initialize compound rules
+      if
+	rule.is_compound
+	-> make_compound()
+	-> rule
+
+      $make_compound:
+	$choice choices_of(rule)(1)
+	$prefix_symbols prefix_symbols_of(choice)
+	$symbols symbols_of(choice)
+	$symbol_count length_of(symbols)
+	->
+	  rule
+	    .base_rule_of undefined
+	    .is_derived false
+	    .components_of
+	      map_reduce
+		symbols: (symbol_no symbol)
+		  if
+		    symbol.is_a_terminal_symbol
+		    -> empty_list
+		    :
+		      $component name_to_index(symbol)
+		      !component.returns_a_node_list
+			||
+			  &&
+			    symbol_no == symbol_count
+			    length_of(prefix_symbols) >= 1
+			    prefix_symbols(-1).is_a_group_symbol
+			  &&
+			    symbol_no > 1
+			    symbols(symbol_no-1).is_a_group_symbol
+		      -> list(component)
+		append
+		empty_list
+
+    for_each &rules
+      : (rule_no _dummy)
+	if
+	  returns_a_node_list(rules(rule_no)).is_defined
+	  next
+	  :
+	    check_return_list !rules rule_no
+	    next
+      -> rules
+
+    $check_return_list: (rule_no)
+      $rule rules(rule_no)
+	# the rule could have been modified, so we need to reread it
+      $does_return_a_node_list
+	if
+	  rule.is_pruned:
+	    case kind_of(rule)
+	      MULTI_CHOICE # pruned multi-choice rules always return lists
+	      -> true
+	      COMPOUND:
+		$prefix_symbols prefix_symbols_of(choices_of(rule)(1))
+		$components components_of(rule)
+		if
+		  ||
+		    length_of(components) == 2 # [head|tail]
+		    && # ... GRP list
+		      length_of(components) == 1
+		      length_of(prefix_symbols) >= 1
+		      prefix_symbols(-1).is_a_group_symbol
+		  -> true
+		  :
+		    if
+		      length_of(components) == 1:
+			$component components(1)
+			$component_returns_a_node_list
+			  rules(component).returns_a_node_list
+			if
+			  component_returns_a_node_list.is_defined
+			  -> component_returns_a_node_list
+			  :
+			    check_return_list !rules component
+			    -> rules(component).returns_a_node_list
+		      -> false
+	      -> false
+	  -> false
+      ->
+	rules
+	  rule_no
+	  rule(.returns_a_node_list does_return_a_node_list)
+
+    map &rules
+      : (rule)
+	map &rule.components_of
+	  : (component)
+	    if
+	      rules(component).returns_a_node_list
+	      -> component(.returns_a_node_list true)
+	      -> component
+	-> rule
+
+    $base_rules empty_hash_table
+    for_each &rules # compute common base rules based on "signatures"
+      : (rule_no _dummy)
+	$rule rules(rule_no)
+	  # the rule could have been modified, so we need to reread it
+
+	$components components_of(rule)
+	if
+	  rule.is_compound && components.is_not_empty:
+	    $prefix_symbols prefix_symbols_of(choices_of(rule)(1))
+	    if
+	      &&
+		prefix_symbols.is_empty || not(prefix_symbols(-1).is_a_line_feed)
+		length_of(components) == 1
+		rules(components(1)).is_compound
+		not(rules(components(1)).is_pruned)
+	      :
+		$base_rule_no components(1)
+		#debug_write "
+		  @(name_of(rule)) -> @(name_of(rules(base_rule_no)))
+		!rule.base_rule_of base_rule_no
+		if
+		  rule.is_pruned:
+		    !rules(rule_no) rule
+		    next
+		  :
+		    !rule.is_derived true
+		    !rules(rule_no) rule
+		    $base_rule rules(base_rule_no)
+		    if base_rule.has_derivatives next:
+		      !rules(base_rule_no) base_rule(.has_derivatives true)
+		      next
+	      :
+		map_reduce $signature
+		  components: (component)
+		    append
+		      name_of(rules(component)).to_field_name
+		      if
+			||
+			  rules(component).returns_a_node_list
+			  &&
+			    prefix_symbols.is_not_empty
+			    prefix_symbols(-1).is_a_line_feed
+			-> "[]"
+			-> ""
+		  concatenate(".")
+		$base_rule_no base_rules(signature)
+		#debug_write "
+		  @(name_of(rule)): @(signature) -> @(default_value(base_rule_no "-"))
+		if
+		  base_rule_no.is_undefined:
+		    if
+		      rule.returns_a_node_list:
+			next
+		      :
+			!base_rules(signature) rule_no
+			next
+		  :
+		    if
+		      rules(base_rule_no).is_pruned
+		      next
+		      :
+			#debug_write "
+			  @(name_of(rule)) -> @(name_of(rules(base_rule_no)))
+			!rules(rule_no) rule(.base_rule_of base_rule_no)
+			$base_rule rules(base_rule_no)
+			if base_rule.is_a_base next:
+			  !rules(base_rule_no) base_rule(.is_a_base true)
+			  next
+	  next
+      -> rules
+
+    use_rule !rules rules(1) false
+
+    map_reduce $warnings rules # create warnings for unused rules
+      : (rule)
+	if
+	  rule.is_used || rule.is_referred || rule.is_a_base
+	  -> ""
+	  -> "
+	    The rule "@(name_of(rule))" is not used!
+    map_reduce $pruning_warnings pruned_nodes
+      : (node_name)
+	if
+	  name_to_index(node_name).is_defined
+	  -> ""
+	  -> "
+	    Attempt to prune the non-existing rule "@(node_name)"!
+      append ""
+    map_reduce $subnode_warnings subnodes
+      : (node_name)
+	if
+	  name_to_index(node_name).is_defined
+	  -> ""
+	  -> "
+	    Attempt to replace the non-existing (sub)node "@(node_name)"!
+      append ""
+    append &warnings pruning_warnings subnode_warnings
+    if
+      warnings.is_empty
+      -> rules name_to_index undefined undefined
+      -> rules name_to_index undefined warnings
+
+    $use_rule: (rule without_prefix)
+      $rule_index name_to_index(name_of(rule))
+      !rule.is_used true
+      !rule
+	if
+	  without_prefix
+	  -> rule(.is_used_without_prefix true)
+	  -> rule(.is_used_with_prefix true)
+      !rules(rule_index) rule
+      $kind kind_of(rule)
+      $choices choices_of(rule)
+      $choice_count length_of(choices)
+      for_each choices
+	: (choice_no choice)
+	  for_each symbols_of(choice): (symbol_no symbol)
+	    if symbol.is_a_terminal_symbol next:
+	      $idx name_to_index(symbol)
+	      $referred_rule rules(idx)
+	      !rules(idx).is_referred true
+	      if
+		case
+		  kind
+		  MULTI_CHOICE
+		  ->
+		    &&
+		      prefix_symbols_of(choice).is_empty
+		      choice_no < choice_count
+		  COMPOUND
+		  ->
+		    &&
+		      without_prefix
+		      symbol_no == 1
+		      prefix_symbols_of(choice).is_empty
+		  -> false
+		: # use rule without prefix
+		  case kind_of(referred_rule)
+		    PRIMITIVE:
+		      $without_prefix_symbol
+			symbols_of(choices_of(referred_rule)(choice_no))
+			  symbol_no
+		      !referred_rule
+			rules(name_to_index(without_prefix_symbol))
+		      if referred_rule.is_used_with_prefix next:
+			use_rule !rules referred_rule false
+			next
+		    :
+		      if referred_rule.is_used_without_prefix next:
+			use_rule !rules referred_rule true
+			next
+		: # use rule with prefix
+		  if referred_rule.is_used_with_prefix next:
+		    use_rule !rules referred_rule false
+		    next
+	-> rules
+
+$nlb2fky::to_field_name: (name) -> truncate_until(name.to_string '_' -1)
+
+$nlb2fky::is_compound: (rule)
+  -> kind_of(rule) == COMPOUND
+
+$nlb2fky::is_multi_choice: (rule)
+  -> kind_of(rule) == MULTI_CHOICE
+
+$nlb2fky::is_a_terminal_symbol: (symbol)
+  case symbol
+    "NIL", "ANY", "LF", "LIN", "GRP", "OPTLIN", "OPTGRP", "SPC" -> true
+    ->
+      ||
+	length_of(symbol) == 1
+	not(symbol(1).is_a_letter)
+	symbol .contains. '-'
+
+$nlb2fky::is_a_line_feed: (symbol)
+  ->
+    ||
+      symbol == "LF"
+      symbol == "LIN"
+      symbol == "GRP"
+      symbol == "OPTLIN"
+      symbol == "OPTGRP"
+
+$nlb2fky::is_a_group_symbol: (symbol)
+  ->
+    ||
+      symbol == "LIN"
+      symbol == "GRP"
+      symbol == "OPTLIN"
+      symbol == "OPTGRP"
+
+$nlb2fky::has_a_non_constant_prefix: (choice)
+  -> not(all_of(prefix_symbols_of(choice) is_a_constant_terminal_symbol))
+
+$is_a_constant_terminal_symbol: (terminal_symbol)
+  ->
+    ||
+      length_of(terminal_symbol) == 1
+      terminal_symbol == "NIL"
+      terminal_symbol == "SPC"
+      terminal_symbol.is_a_line_feed
+
+$new_choice:
+  (
+    prefix_symbols
+    symbols
+  )
+  ->
+    std_types::object
+      .prefix_symbols_of prefix_symbols
+      .symbols_of symbols
+      .name_of undefined

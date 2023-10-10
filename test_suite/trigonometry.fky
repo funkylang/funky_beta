@@ -1,0 +1,19 @@
+#!/usr/bin/env fkyrun
+
+from_to 0.0 2*PI
+  : (alpha)
+    print! "
+      sin(@(alpha)) = @(sin(alpha))
+      cos(@(alpha)) = @(cos(alpha))
+      tan(@(alpha)) = @(tan(alpha))
+    next!
+  pass
+
+from_to_by 0.0 1.0 0.2
+  : (value)
+    print! "
+      asin(@(value)) = @(asin(value))
+      acos(@(value)) = @(acos(value))
+      atan(@(value)) = @(atan(value))
+    next!
+  pass

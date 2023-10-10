@@ -1,0 +1,8 @@
+#!/usr/bin/env fkyrun
+
+$buf "abcbcdefbcjuhbca"
+
+println! before(buf "bc" 2)
+println! behind(buf "bc" 2)
+println! before(buf "bc" -2)
+println! behind(buf "bc" -2)

@@ -1,0 +1,23 @@
+----------
+insert_order_set <3>
+  "hammer"
+  "saw"
+  "chainsaw"
+----------
+insert_order_set <2>
+  "hammer"
+  "chainsaw"
+----------
+insert_order_set <3>
+  "hammer"
+  "chainsaw"
+  "rasp"
+----------
+insert_order_set <2>
+  "chainsaw"
+  "rasp"
+----------
+insert_order_set <1>
+  "rasp"
+----------
+insert_order_set <0>

@@ -1,0 +1,14 @@
+#!/usr/bin/env fkyrun
+
+open! $fd "/tmp/sdafklafjhlk" "r"
+
+println! error_message_text_of(fd) " - " strerror(errno_of(fd))
+
+$text "abc"
+$chr text(4)
+
+println! error_message_text_of(chr)
+
+$result plus(text 2)
+
+println! error_message_text_of(result) " - " failed_attribute_of(result)

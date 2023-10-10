@@ -1,0 +1,736 @@
+#!/bin/sh
+
+#  Copyright (C) 2023 by
+#  Guenther Brunthaler and Dipl.-Ing. Michael Niederle
+#
+#  This program is free software; you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License, version 2, or
+#  (at your option) version 3.
+#
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+#  GNU General Public License for more details.
+
+#  For details of the GNU General Public License see the accompanying
+#  files GPLv2.txt and GLPv3.txt or
+#  http://www.gnu.org/licenses/gpl-2.0.html
+#  http://www.gnu.org/licenses/gpl-3.0.html
+#  or write to the
+#  Free Software Foundation, Inc.,
+#  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+
+
+# in the case a command returns an error we report failure
+set -e
+cleanup() {
+  if [ $? != 0 ]
+  then
+    echo "$0 failed!" >&2
+  fi
+}
+trap cleanup 0
+
+PREFIX='/usr/local'
+  # the default installation prefix
+
+OPTIONAL_LIBRARIES=''
+ADDITIONAL_LIBRARIES=''
+TOOLS='tedi'
+
+show_help() {
+  echo "Usage: ./configure [OPTION]... [VAR=VALUE]..."
+  echo
+  echo "To assign environment variables (e.g., CC, CFLAGS...), specify them as"
+  echo "VAR=VALUE. See below for descriptions of some of the useful variables."
+  echo
+  echo "Defaults for the options are specified in brackets."
+  echo
+  echo "Configuration:"
+  echo "  --help      display this help and exit"
+  echo
+  echo "Installation directories:"
+  echo "  --prefix=PREFIX         install files in PREFIX [/usr/local]"
+  echo
+  echo "By default, \"make install\" will install all the files in"
+  echo "\"/usr/local/bin\", \"/usr/local/lib\" etc. You can specify"
+  echo "an installation prefix other than \"/usr/local\" using \"--prefix\","
+  echo 'for instance "--prefix=$HOME".'
+  echo
+  echo "Optional Libraries:"
+  echo "  --with-all              build all optional libraries"
+  echo "  --with-LIBRARY          build this LIBRRAY"
+  echo
+  echo "Available libraries are: $OPTIONAL_LIBRARIES"
+  echo
+  echo "Some influential environment variables:"
+  echo "  CC          C compiler command"
+  echo "  CFLAGS      C compiler flags"
+  echo "  CPPFLAGS    (Objective) C/C++ preprocessor flags, e.g. -I<include dir> if"
+  echo "  LDFLAGS     linker flags, e.g. -L<lib dir> if you have libraries in a"
+  echo "              nonstandard directory <lib dir>"
+  echo "  LIBS        link these additional libraries"
+
+  exit
+}
+
+with_library() {
+  if [ "$1" = "all" ]
+  then
+    ADDITIONAL_LIBRARIES=$OPTIONAL_LIBRARIES
+  else
+    for LIBRARY in $OPTIONAL_LIBRARIES
+    do
+      if [ "$1" = $LIBRARY ]
+      then
+	for LIBRARY in $ADDITIONAL_LIBRARIES
+	do
+	  if [ "$1" = "$LIBRARY" ]
+	  then
+	    echo "Library \"$1\" was specified twise!" >&2; false || exit
+	  fi
+	done
+	ADDITIONAL_LIBRARIES="$ADDITIONAL_LIBRARIES $1"
+	return
+      fi
+    done
+    echo "There is no library named \"$1\"!" >&2; false || exit
+  fi
+}
+
+# parse configure options ...
+while true
+do
+  case $1 in
+    --) shift; break;;
+    --prefix=*) PREFIX=${1#*=};;
+    --help) show_help;;
+    --with-*) with_library ${1#*--with-};;
+    -*) echo "Unsupported option '$1'!" >&2; false || exit;;
+    *) break
+  esac
+  shift
+done
+
+# ... and arguments
+while [ $# != 0 ]
+do
+  case $1 in
+    CC=*) CC=${1#*=};;
+    CFLAGS=*) CFLAGS=${1#*=};;
+    LDFLAGS=*) LDFLAGS=${1#*=};;
+    LIBS=*) LIBS=${1#*=};;
+    CPPFLAGS=*) CPPFLAGS=${1#*=};;
+    *) echo "Unsupported variable assignment '$1'!" >&2; false || exit;;
+  esac
+  shift
+done
+
+# to include special characters in echo-output
+TAB=`printf '\t:'`; TAB=${TAB%:}
+NL=`printf '\n:'`; NL=${NL%:}
+
+OS='posix'
+  # default platform (= Operating System)
+
+ARCHITECTURE='unknown'
+  # default architecture (= kind of CPU)
+
+UNAME=`uname`
+MACHINE=`uname -m`
+
+if [ "$MACHINE" = "amd64" ]
+then
+  MACHINE=x86_64
+fi
+
+BASIC_LIBRARIES="basic"
+  # basic libraries do not depend on any other libraries
+
+ADDITIONAL_LIBRARIES="terminal parser_generator"
+  # non-essential libraries
+
+LIBRARIES="$BASIC_LIBRARIES $ADDITIONAL_LIBRARIES"
+
+STATIC_FILES='
+  AUTHORS COPYING INSTALL README
+  GPLv2.txt GPLv3.txt LGPLv2.txt LGPLv3.txt
+  configure'
+  # additional files belonging to this package
+
+RUNTIME_MAJOR_VERSION=`cat runtime/linker.c | \
+  grep '^#define RUNTIME_MAJOR_VERSION' | cut -d ' ' -f 3`
+  # denotes a runtime API change
+
+RUNTIME_MINOR_VERSION=`cat runtime/linker.c | \
+  grep '^#define RUNTIME_MINOR_VERSION' | cut -d ' ' -f 3`
+  # denotes a runtime API extension
+
+RUNTIME_PATCH=`cat runtime/linker.c | \
+  grep '^#define RUNTIME_PATCH' | cut -d ' ' -f 3`
+  # denotes an internal change in the runtime library
+
+RUNTIME_VERSION="$RUNTIME_MAJOR_VERSION.$RUNTIME_MINOR_VERSION.$RUNTIME_PATCH"
+  # version of the Funky runtime DLL (e.g. libfky.so)
+
+DLL_VERSION="$RUNTIME_MAJOR_VERSION"
+  # runtime-DLL version *required* by Funky executables
+  # and used for all DLLs built for Simplicity libraries
+  # they don't care about the runtime minor version or revision
+
+PACKAGE_VERSION=`cat VERSION`
+  # the version used for creating distribution packages
+
+BASEDIR="funky-$PACKAGE_VERSION"
+  # the base directory for the distribution package
+
+# check on which platform we are running
+if [ 0 -ne `echo $OSTYPE | awk '{print match(toupper($0), /LINUX/)}'` ]
+then
+  OS='linux'
+elif [ 0 -ne `echo $UNAME | awk '{print match(toupper($0), /LINUX/)}'` ]
+then
+  OS='linux'
+elif [ 0 -ne `echo $UNAME | awk '{print match(toupper($0), /FREEBSD/)}'` ]
+then
+  OS='bsd'
+elif [ 0 -ne `echo $OSTYPE | awk '{print match(toupper($0), /CYGWIN/)}'` ]
+then
+  OS='cygwin'
+elif [ 0 -ne `echo $UNAME | awk '{print match(toupper($0), /CYGWIN/)}'` ]
+then
+  OS='cygwin'
+elif [ 0 -ne `echo $OSTYPE | awk '{print match(toupper($0), /DARWIN/)}'` ]
+then
+  OS='darwin'
+elif [ 0 -ne `echo $UNAME | awk '{print match(toupper($0), /DARWIN/)}'` ]
+then
+  OS='darwin'
+fi
+
+# check on which hardware architecture we are running
+if [ x$MACHINE = xx86_64 ]
+then
+  ARCHITECTURE=x86_64
+elif [ x$MACHINE = xi686 ]
+then
+  ARCHITECTURE=x86_32
+elif [ x`echo $MACHINE | cut -c1-3` = xarm ]
+then
+  ARCHITECTURE=arm_32
+fi
+
+# set platform specific settings
+if [ $OS = 'cygwin' ]
+then
+  PLATFORMS='cygwin posix all'
+  LIBRARY_EXTENSIONS='.dll.a .a'
+elif [ $OS = 'darwin' ]
+then
+  PLATFORMS='darwin posix all'
+  LIBRARY_EXTENSIONS='.dylib'
+else # probably some POSIX conform system
+  PLATFORMS='posix all'
+  LIBRARY_EXTENSIONS='.so'
+fi
+
+# check for C-compiler
+if [ -z "$CC" ]
+then
+  echo 'checking for C compiler' >&2
+  if command -v gcc >/dev/null 2>&1
+  then
+    CC=gcc
+  elif command -v clang >/dev/null 2>&1
+  then
+    CC=clang
+  elif command -v c99 >/dev/null 2>&1
+  then
+    CC=c99
+  elif command -v cc >/dev/null 2>&1
+  then
+    CC=cc
+  else
+    echo '*** No C compiler found (neither gcc nor cc)!' >&2
+    false || exit
+  fi
+fi
+
+# compute the include paths used on this platform
+INCLUDE_PATHS=`echo | $CC -E -Wp,-v - 2>&1 | grep '^[[:space:]]*/'`
+if [ "$LD_LIBRARY_PATH" != "" ]
+then
+  LIBRARY_PATHS=-L`echo $LD_LIBRARY_PATH | sed 's/:/ -L/g'`
+fi
+
+rm -f runtime/platform.h
+echo "// This file is automatically generated by 'configure' - do not edit manually!" \
+  >runtime/platform.h
+echo "#define ARCHITECTURE_$ARCHITECTURE" >>runtime/platform.h
+echo "#define ARCHITECTURE \"$ARCHITECTURE\"" >>runtime/platform.h
+echo "#define OS_$OS" >>runtime/platform.h
+echo "#define OS \"$OS\"" >>runtime/platform.h
+echo "#define CC_$CC" >>runtime/platform.h
+echo "#define CC \"$CC\"" >>runtime/platform.h
+echo "#define CPPFLAGS \"$CPPFLAGS\"" >>runtime/platform.h
+echo "#define LDFLAGS \"$LDFLAGS\"" >>runtime/platform.h
+echo "#define PREFIX \"$PREFIX\"" >>runtime/platform.h
+echo "#define PACKAGE_VERSION \"$PACKAGE_VERSION\"" >>runtime/platform.h
+
+INSTALLED_LIBRARIES='terminal parser_generator'
+  # the set of libraries within ADDITIONAL_LIBRARIES that is actually installed
+
+OMITTED_LIBRARIES=''
+  # the set of libraries within ADDITIONAL_LIBRARIES that is not installed due to
+  # missing prerequisites
+
+FATAL_ERROR=0
+
+check_dependencies () {
+  LIBNAME=$1
+  ESSENTIAL=$2
+  if [ $ESSENTIAL -eq 1 ]
+  then
+    echo "check dependencies for $LIBNAME (essential)" >&2
+  else
+    echo "check dependencies for $LIBNAME (optional)" >&2
+  fi
+  FILENAMES=`cat $LIBNAME/INCLUDES | awk "/#$OS/ || !/#/" | cut -d ' ' -f 1`
+
+  # check whether all needed include and library files are available
+  MISSING=0
+  for FILENAME in $FILENAMES
+  do
+    echo "  checking include file $FILENAME" >&2
+    echo "#include <stdlib.h>" >/tmp/test_include.c
+    echo "#include <stdio.h>" >>/tmp/test_include.c
+    echo "#include <$FILENAME>" >>/tmp/test_include.c
+    cat test.c >>/tmp/test_include.c
+    if ! $CC $CPPFLAGS -I. /tmp/test_include.c -o /tmp/test_include 2>/dev/null
+    then
+      echo "  *** Missing include file $FILENAME!" >&2
+      MISSING=`expr $MISSING + 1`
+    fi
+    rm /tmp/test_include.c
+    rm -f /tmp/test_include
+  done
+  FILENAMES=`cat $LIBNAME/LIBRARIES | awk "/#$OS/ || !/#/" | cut -d ' ' -f 1`
+  for FILENAME in $FILENAMES
+  do
+    echo "  checking library file $FILENAME" >&2
+    if ! $CC test.c $LDFLAGS $LIBRARY_PATHS -l$FILENAME -o /tmp/test_lib 2>/dev/null
+    then
+      echo "  *** Missing library file $FILENAME!" >&2
+      MISSING=`expr $MISSING + 1`
+    fi
+    rm -f /tmp/test_lib
+  done
+  if [ $MISSING -gt 0 ]
+  then
+    echo "  *** $MISSING file(s) missing!" >&2
+    if [ $ESSENTIAL = 1 ]
+    then
+      FATAL_ERROR=1
+    else
+      OMITTED_LIBRARIES=$OMITTED_LIBRARIES${OMITTED_LIBRARIES:+ }$LIBNAME
+    fi
+  else
+    if [ $ESSENTIAL = 0 ]
+    then
+      INSTALLED_LIBRARIES=$INSTALLED_LIBRARIES${INSTALLED_LIBRARIES:+ }$LIBNAME
+    fi
+  fi
+}
+
+#check_dependencies compiler 1
+
+#for LIBNAME in $BASIC_LIBRARIES
+#do
+#  check_dependencies $LIBNAME 1
+#done
+
+#for LIBNAME in $ADDITIONAL_LIBRARIES
+#do
+#  check_dependencies $LIBNAME 0
+#done
+
+if [ $FATAL_ERROR -gt 0 ]
+then
+  echo "*** ESSENTIAL PREREQUISITES ARE MISSING!" >&2
+  false || exit
+fi
+
+ALL_LIBRARIES="$BASIC_LIBRARIES $INSTALLED_LIBRARIES"
+
+echo
+if [ ! -z "$INSTALLED_LIBRARIES" ]
+then
+  echo "THE FOLLOWING OPTIONAL LIBRARIES WILL BE INSTALLED:"
+  echo "  $INSTALLED_LIBRARIES"
+fi
+if [ ! -z "$OMITTED_LIBRARIES" ]
+then
+  echo "THE FOLLOWING OPTIONAL LIBRARIES WILL BE OMITTED:"
+  echo "  $OMITTED_LIBRARIES"
+fi
+
+# redirect standard output to the generated Makefile
+exec >Makefile
+
+echo "# This file is automatically generated by 'configure' - do not edit manually!"
+echo
+echo CC = $CC
+
+CC_OPTIONS="-DNDEBUG -O2 -fno-stack-protector -Wno-ignored-optimization-argument "`:
+	  `"-falign-functions=16 -falign-loops=16 -Wno-unknown-warning-option "`:
+          `"-Wimplicit -Wimplicit-int -Wall -Wextra -Wno-trigraphs -Wno-unused-function "`:
+          `"-Wno-implicit-fallthrough -Wno-switch -Wno-parentheses -Wno-maybe-uninitialized "`:
+          `"-Wno-unused-variable -Wno-unused-parameter -Wno-missing-field-initializers "`:
+	  `"-Wno-missing-braces -I."
+
+if [ $ARCHITECTURE = 'x86_32' ]
+then
+  CC_OPTIONS="$CC_OPTIONS -msse2 -mfpmath=sse"
+elif [ $ARCHITECTURE = 'x86_64' ]
+then
+  CC_OPTIONS="$CC_OPTIONS -msse2 -mfpmath=sse"
+fi
+
+# set compiler specific options
+if [ $CC = "clang" ]
+then
+  CC_OPTIONS="$CC_OPTIONS -Wno-parentheses -Wno-logical-op-parentheses" \
+  "-Wno-ordered-compare-function-pointers -Wno-bitwise-op-parentheses"
+fi
+
+# set more platform specific settings
+if [ $OS = 'cygwin' ]
+then
+  EXE_EXTENSION='.exe'
+  DLL_EXTENSION="-$DLL_VERSION.dll"
+  echo "CC_OPTIONS = $CC_OPTIONS"
+  echo "RUNTIME_DLL_OPTIONS = -shared -Wl,-soname,libfky-$DLL_VERSION.dll"
+  #echo 'LIBRARIES = -lgmp -l:libsim.so.3 -l:libsim-basic.so.3 -l:libsim-system.so.3'
+elif [ $OS = 'darwin' ]
+then
+  EXE_EXTENSION=''
+  DLL_EXTENSION="-$DLL_VERSION.dylib"
+  echo "CC_OPTIONS = $CC_OPTIONS"
+  echo "RUNTIME_DLL_OPTIONS = -dynamiclib -Wl,-install_name,libfky-$DLL_VERSION.dylib"
+  #echo 'LIBRARIES = -lgmp -lm -l:libsim.so.3 -l:libsim-basic.so.3 -l:libsim-system.so.3'
+else # probably some POSIX conform system
+  EXE_EXTENSION=''
+  DLL_EXTENSION=".so.$DLL_VERSION"
+  echo "CC_OPTIONS = -fPIC $CC_OPTIONS"
+  echo "RUNTIME_DLL_OPTIONS = -shared -Wl,-soname,libfky.so.$DLL_VERSION"
+  #echo 'LIBRARIES = -lrt -lgmp -lm -l:libsim.so.3 -l:libsim-basic.so.3 -l:libsim-system.so.3'
+fi
+
+# generate several lists for files included in this package
+echo
+printf 'DIST_STATIC_FILES ='
+for FILENAME in $STATIC_FILES
+do
+  echo ' \'
+  printf "  $BASEDIR/$FILENAME"
+done
+echo
+
+echo
+printf 'DIST_VERSION_FILES ='
+for LIBNAME in $LIBRARIES
+do
+  echo ' \'
+  printf "  $BASEDIR/$LIBNAME/VERSION"
+done
+echo
+
+echo
+printf 'DIST_FKY_FILES ='
+for LIBNAME in compiler $LIBRARIES
+do
+  find $LIBNAME -type f -name "*.fky" | \
+  while read FILENAME
+  do
+    echo ' \'
+    printf "  $BASEDIR/$FILENAME"
+  done
+done
+echo
+
+echo
+printf 'DIST_H_FILES ='
+find runtime -type f -name "*.h" | \
+while read FILENAME
+do
+  echo ' \'
+  printf "  $BASEDIR/$FILENAME"
+done
+echo
+
+echo
+echo 'DIST_FILES = \'
+echo '  $(DIST_STATIC_FILES) \'
+echo '  $(DIST_DEPENDENCY_FILES) \'
+echo '  $(DIST_VERSION_FILES) \'
+echo '  $(DIST_DATA_FILES) \'
+echo '  $(DIST_FKY_FILES) \'
+echo '  $(DIST_H_FILES) \'
+#echo '  $(DIST_C_FILES) \'
+
+# generate several lists for files created by this package
+echo
+printf 'runtime_OBJECTS ='
+for FILENAME in runtime/*.c
+do
+  BASENAME=${FILENAME%.c}
+  OBJNAME=$BASENAME.o
+  echo ' \'
+  printf "  $OBJNAME"
+done
+echo
+
+echo
+for LIBNAME in $BASIC_LIBRARIES
+do
+  printf "${LIBNAME}_OBJECTS ="
+  find $LIBNAME -type f -name "*.c" | \
+  while read FILENAME
+  do
+    BASENAME=${FILENAME%.c}
+    OBJNAME=$BASENAME.o
+    echo ' \'
+    printf "  $OBJNAME"
+  done
+  echo
+done
+
+echo
+for LIBNAME in $ADDITIONAL_LIBRARIES
+do
+  printf "${LIBNAME}_SOURCES ="
+  find $LIBNAME -type f -name "*.fky" | \
+  while read FILENAME
+  do
+    echo ' \'
+    printf "  $FILENAME"
+  done
+  echo
+  echo
+done
+
+printf 'funky_OBJECTS ='
+for FILENAME in compiler/*.c
+do
+  if [ $FILENAME != compiler/autogen.c ]
+  then
+    BASENAME=${FILENAME%.c}
+    OBJNAME=${BASENAME%-*}.o
+    echo ' \'
+    printf "  $OBJNAME"
+  fi
+done
+echo
+
+# generate make-targets
+echo
+echo '.PHONY: all'
+printf 'all: runtime funky'
+for LIBNAME in $ALL_LIBRARIES
+do
+  printf " $LIBNAME"
+done
+for TOOL in $TOOLS
+do
+  printf " $TOOL"
+done
+echo
+
+echo
+echo '.PHONY: clean'
+echo 'clean:'
+echo "${TAB}rm -f runtime/*.o"
+echo "${TAB}rm -f compiler/*.o"
+for LIBNAME in $ALL_LIBRARIES
+do
+  find $LIBNAME -type d | LC_COLLATE=C sort | \
+  while read DIRNAME
+  do
+    echo "${TAB}rm -f $DIRNAME/*.o"
+  done
+done
+echo "${TAB}rm -f compiler/funky$EXE_EXTENSION"
+echo "${TAB}rm -f libfky$DLL_EXTENSION"
+echo "${TAB}rm -f libfky-$RUNTIME_VERSION$DLL_EXTENSION"
+for LIBNAME in $ALL_LIBRARIES
+do
+  VERSION=`cat $LIBNAME/VERSION`
+  echo "${TAB}rm -f libfky-$LIBNAME-${VERSION}${DLL_EXTENSION}"
+  echo "${TAB}rm -f libfky-${LIBNAME}${DLL_EXTENSION}"
+done
+for TOOL in $TOOLS
+do
+  echo "${TAB}rm -f $TOOL"
+done
+
+echo
+echo '.PHONY: install'
+echo 'install: all'
+echo "${TAB}mkdir -p -- \"\$(DESTDIR)$PREFIX/bin/\""
+echo "${TAB}rm -f \"\$(DESTDIR)$PREFIX/bin/funky-$DLL_VERSION\""
+echo "${TAB}cp compiler/funky$EXE_EXTENSION \"\$(DESTDIR)$PREFIX/bin/funky-$DLL_VERSION\""
+echo "${TAB}ln -fs funky-$DLL_VERSION \$(DESTDIR)$PREFIX/bin/funky"
+echo "${TAB}ln -fs funky-$DLL_VERSION \$(DESTDIR)$PREFIX/bin/fkyrun-$DLL_VERSION"
+echo "${TAB}ln -fs funky-$DLL_VERSION \$(DESTDIR)$PREFIX/bin/fkyrun"
+echo "${TAB}mkdir -p -- \"\$(DESTDIR)$PREFIX/lib/\""
+echo "${TAB}rm -f  \"\$(DESTDIR)$PREFIX/lib/libfky$DLL_EXTENSION\""
+echo "${TAB}cp libfky$DLL_EXTENSION \"\$(DESTDIR)$PREFIX/lib/\""
+for LIBNAME in $ALL_LIBRARIES
+do
+  VERSION=`cat $LIBNAME/VERSION`
+  echo "${TAB}rm -f \"\$(DESTDIR)$PREFIX/lib/libfky-$LIBNAME-$VERSION$DLL_EXTENSION\""
+  echo "${TAB}cp libfky-$LIBNAME-$VERSION$DLL_EXTENSION \"\$(DESTDIR)$PREFIX/lib/\""
+  echo "${TAB}ln -fs libfky-$LIBNAME-${VERSION}${DLL_EXTENSION}" \
+    "\$(DESTDIR)$PREFIX/lib/libfky-${LIBNAME}${DLL_EXTENSION}"
+done
+for TOOL in $TOOLS
+do
+  echo "${TAB}rm -f \"\$(DESTDIR)$PREFIX/bin/$TOOL$EXE_EXTENSION\""
+  echo "${TAB}cp $TOOL$EXE_EXTENSION \"\$(DESTDIR)$PREFIX/bin/$TOOL$EXE_EXTENSION\""
+done
+echo "${TAB}mkdir -p -- \$(DESTDIR)$PREFIX/share/funky-$RUNTIME_VERSION/runtime"
+echo "${TAB}cp runtime/*.h \"\$(DESTDIR)$PREFIX/share/funky-$RUNTIME_VERSION/runtime/\""
+echo "${TAB}ln -fs funky-$RUNTIME_VERSION \$(DESTDIR)$PREFIX/share/funky-$DLL_VERSION"
+if [ $OS = 'linux' ]
+then
+  echo "${TAB}@echo '+++ It might be necessary to run ldconfig! +++'"
+fi
+
+echo
+echo '.PHONY: uninstall'
+echo 'uninstall:'
+echo "${TAB}rm -f \"\$(DESTDIR)$PREFIX/bin/fkyrun\""
+echo "${TAB}rm -f \"\$(DESTDIR)$PREFIX/bin/fkyrun-${DLL_VERSION}$EXE_EXTENSION\""
+echo "${TAB}rm -f \"\$(DESTDIR)$PREFIX/bin/funky$EXE_EXTENSION\""
+echo "${TAB}rm -f \"\$(DESTDIR)$PREFIX/bin/funky-${DLL_VERSION}$EXE_EXTENSION\""
+echo "${TAB}rm -f \"\$(DESTDIR)$PREFIX/lib/libfky$DLL_EXTENSION\""
+echo "${TAB}rm -f \"\$(DESTDIR)$PREFIX/lib/libfky-$RUNTIME_VERSION$DLL_EXTENSION\""
+for LIBNAME in $ALL_LIBRARIES
+do
+  VERSION=`cat $LIBNAME/VERSION`
+  echo "${TAB}rm -f \"\$(DESTDIR)$PREFIX/lib/libfky-$LIBNAME-${VERSION}${DLL_EXTENSION}\""
+  echo "${TAB}rm -f \"\$(DESTDIR)$PREFIX/lib/libfky-${LIBNAME}${DLL_EXTENSION}\""
+done
+echo "${TAB}rm -f \"\$(DESTDIR)$PREFIX/share/funky-$RUNTIME_VERSION/runtime\"/*.h"
+echo "${TAB}rmdir \"\$(DESTDIR)$PREFIX/share/funky-$RUNTIME_VERSION/runtime\" || true"
+echo "${TAB}rmdir \"\$(DESTDIR)$PREFIX/share/funky-$RUNTIME_VERSION\" || true"
+echo "${TAB}rm -f \"\$(DESTDIR)$PREFIX/share/funky-$DLL_VERSION\""
+#for LIBNAME in compiler $ALL_LIBRARIES
+#do
+#  find $LIBNAME -depth -type d | LC_COLLATE=C sort -r | \
+#  while read DIRNAME
+#  do
+#    if [ ${DIRNAME%.*} = $DIRNAME ]
+#    then
+#      echo "${TAB}rm -f \"\$(DESTDIR)$PREFIX/share/funky-$PACKAGE_VERSION/$DIRNAME\"/*.fky"
+#      echo "${TAB}rmdir \"\$(DESTDIR)$PREFIX/share/funky-$PACKAGE_VERSION/$DIRNAME\" || true"
+#    fi
+#  done
+#done
+for TOOL in $TOOLS
+do
+  echo "${TAB}rm -f \"\$(DESTDIR)$PREFIX/bin/$TOOL$EXE_EXTENSION\""
+done
+
+echo
+echo '.PHONY: dist'
+echo 'dist:'
+echo "${TAB}ln -s . $BASEDIR"
+echo "${TAB}tar -czf $BASEDIR.tar.gz \$(DIST_FILES)"
+echo "${TAB}rm $BASEDIR"
+
+echo
+echo '.PHONY: runtime'
+echo "runtime: libfky$DLL_EXTENSION"
+echo
+echo "libfky$DLL_EXTENSION: libfky-$RUNTIME_VERSION$DLL_EXTENSION"
+echo "${TAB}ln -fs libfky-${RUNTIME_VERSION}${DLL_EXTENSION}" \
+  "libfky${DLL_EXTENSION}"
+echo
+echo "libfky-$RUNTIME_VERSION$DLL_EXTENSION: \$(runtime_OBJECTS)"
+echo "${TAB}\$(CC) \$(RUNTIME_DLL_OPTIONS)" $LDFLAGS "\$(runtime_OBJECTS)" \
+  $LIBS "-o libfky-$RUNTIME_VERSION$DLL_EXTENSION"
+
+echo
+echo '.PHONY: funky'
+echo "funky: compiler/funky$EXE_EXTENSION"
+
+echo
+echo -n "compiler/funky$EXE_EXTENSION: \$(funky_OBJECTS) libfky$DLL_EXTENSION"
+for LIBNAME in $BASIC_LIBRARIES
+do
+  echo -n " libfky-${LIBNAME}${DLL_EXTENSION}"
+done
+echo
+echo "${TAB}\$(CC)" $LDFLAGS \
+  "-L. \$(funky_OBJECTS) -l:libfky$DLL_EXTENSION -l:libfky-basic$DLL_EXTENSION" \
+  $ADDITIONAL_LINK_OPTIONS $LIBS " -lm -o compiler/funky$EXE_EXTENSION"
+
+# generate make-targets for all libraries
+for LIBNAME in $BASIC_LIBRARIES
+do
+  VERSION=`cat $LIBNAME/VERSION`
+  echo
+  echo ".PHONY: $LIBNAME"
+  echo "$LIBNAME: libfky-${LIBNAME}${DLL_EXTENSION}"
+  echo
+  echo "libfky-${LIBNAME}${DLL_EXTENSION}: libfky-$LIBNAME-${VERSION}${DLL_EXTENSION}"
+  echo "${TAB}ln -fs libfky-$LIBNAME-${VERSION}${DLL_EXTENSION}" \
+    "libfky-${LIBNAME}${DLL_EXTENSION}"
+  echo
+  echo "libfky-$LIBNAME-${VERSION}${DLL_EXTENSION}: \${${LIBNAME}_OBJECTS}"
+  echo "${TAB}\$(CC) -shared" \
+    "-Wl,-soname,libfky-$LIBNAME$DLL_EXTENSION \$(basic_OBJECTS)" \
+    "-o libfky-$LIBNAME-$VERSION.so.$DLL_VERSION"
+done
+
+for LIBNAME in $INSTALLED_LIBRARIES
+do
+  VERSION=`cat $LIBNAME/VERSION`
+  echo
+  echo ".PHONY: $LIBNAME"
+  echo "$LIBNAME: libfky-${LIBNAME}${DLL_EXTENSION}"
+  echo
+  echo "libfky-${LIBNAME}${DLL_EXTENSION}: libfky-$LIBNAME-${VERSION}${DLL_EXTENSION}"
+  echo "${TAB}ln -fs libfky-$LIBNAME-${VERSION}${DLL_EXTENSION}" \
+    "libfky-${LIBNAME}${DLL_EXTENSION}"
+  echo
+  echo "libfky-$LIBNAME-${VERSION}${DLL_EXTENSION}: compiler/funky \${${LIBNAME}_SOURCES}"
+  echo "${TAB}LD_LIBRARY_PATH=`pwd` FUNKY_LIBRARY_PATH=. FUNKY_INCLUDE_PATH=. compiler/funky $LIBNAME"
+done
+
+for TOOL in $TOOLS
+do
+  echo
+  echo -n "$TOOL: compiler/funky"
+  for LIBNAME in $ADDITIONAL_LIBRARIES
+  do
+    echo -n " libfky-${LIBNAME}${DLL_EXTENSION}"
+  done
+  echo
+  echo "${TAB}LD_LIBRARY_PATH=`pwd` FUNKY_LIBRARY_PATH=. FUNKY_INCLUDE_PATH=. compiler/funky $TOOL.fky"
+done
+echo
+
+# generate make-targets for all bootstrap object files
+for NAME in runtime $BASIC_LIBRARIES compiler
+do
+  find $NAME -type f -name "*.c" | \
+  while read FILENAME
+  do
+    BASENAME=${FILENAME%.c}
+    OBJNAME=${BASENAME%-*}.o
+    echo $OBJNAME: $FILENAME
+    echo "$TAB"'$(CC) $(CC_OPTIONS)' $CPPFLAGS $CFLAGS '-c' $FILENAME '-o' $OBJNAME
+  done
+done

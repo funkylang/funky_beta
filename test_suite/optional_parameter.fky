@@ -1,0 +1,13 @@
+#!/usr/bin/env fkyrun
+
+<allow unused>
+
+$subnode_to_string:
+  (
+    name = undefined
+    node
+    indent
+  )
+  pass
+
+pass

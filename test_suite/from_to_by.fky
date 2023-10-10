@@ -1,0 +1,13 @@
+#!/usr/bin/env fkyrun
+
+from_to_by 0 10 1
+  : (i)
+    println! i
+    next!
+  pass
+
+from_to_by 10 0 -1
+  : (i)
+    println! i
+    next!
+  pass

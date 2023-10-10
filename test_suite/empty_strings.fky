@@ -1,0 +1,10 @@
+#!/usr/bin/env fkyrun
+
+$empty_1 ""
+$text "abcdef"
+$empty_2 range(text 4 3)
+
+dump! `empty_1
+dump! `empty_2
+dump! `append(empty_1 empty_2)
+dump! `append(empty_2 empty_1)

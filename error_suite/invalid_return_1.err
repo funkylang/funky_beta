@@ -1,0 +1,4 @@
+ERROR: Unexpected output argument IN LINE 4 OF FILE invalid_return_1.fky
+
+  -> $a
+     ^

@@ -1,0 +1,10 @@
+5
+
+is_an_adult("Dagobert"): true
+is_an_adult("Adam"): true
+
+Detlef
+Dagobert
+Kunigunde
+Berta
+Adam

@@ -1,0 +1,20 @@
+#!/usr/bin/env fkyrun
+
+$htab empty_hash_table
+!htab("Abel") 99
+!htab("Beluga") 77
+!htab("Cara") 33
+!htab("Doro") 53
+!htab("Emil") 67
+!htab("Farid") 19
+!htab("Gustav") 89
+!htab("Hannah") 49
+!htab("Ida") 75
+
+print! htab.serialize
+
+for_each htab
+  : (key value)
+    println! key ": " value
+    next!
+  pass

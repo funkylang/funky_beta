@@ -1,0 +1,92 @@
+#
+  Copyright (C) 2021 by
+  Dipl.-Ing. Michael Niederle
+
+  This program is free software; you can redistribute it and/or modify
+  it under the terms of the GNU Library General Public License, version 2, or
+  (at your option) under the terms of the GNU Lesser General Public License,
+  version 3.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  GNU Lesser (Library) General Public License for more details.
+
+  For details of the GNU General Public License see the accompanying
+  files LGPLv2.txt and LGLPv3.txt or
+  http://www.gnu.org/licenses/lgpl-2.0.html
+  http://www.gnu.org/licenses/lgpl-3.0.html
+  or write to the
+  Free Software Foundation, Inc.,
+  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+
+$std::is_a_random_number_generator ()
+  #
+    obvious
+
+$std_types::object.is_a_random_number_generator false # obvious
+$std_types::random_number_generator.is_a_random_number_generator true # obvious
+
+$std::next_raw_value ()
+$std::modulus_of (!)
+$residual_random_of (!)
+$residual_modulus_of (!)
+
+$std_types::random_number_generator std_types::iterator
+  #
+    prototype object for all random number generators
+
+$std_types::random_number_generator.residual_modulus_of 1
+$std_types::random_number_generator.residual_random_of 0
+
+$get_next_value: (rng n)
+  # returns a value (based on the actual rng) in the range 0..n-1
+
+  $rm residual_modulus_of(rng)
+  $rr residual_random_of(rng)
+
+  $add_more_random:
+    $m modulus_of(rng)
+    next_raw_value &rng $r
+    !r rr*m+r
+    !m rm*m
+    $range_count m .div. n
+    $range_no r .div. n
+    if
+      range_no < range_count
+      ->
+	rng
+	  .residual_modulus_of range_count
+	  .residual_random_of range_no
+	r-n*range_no
+      :
+	$base range_count*n
+	!rm m-base
+	!rr r-base
+	add_more_random
+
+  if
+    n <= rm:
+      $range_count rm .div. n
+      $range_no rr .div. n
+      if
+	range_no < range_count
+	->
+	  rng
+	    .residual_modulus_of range_count
+	    .residual_random_of range_no
+	  rr-n*range_no
+	:
+	  $base range_count*n
+	  !rm rm-base
+	  !rr rr-base
+	  add_more_random
+    add_more_random
+
+$std_types::random_number_generator/next_value: (self n)
+  if $low $high
+    n.is_a_value_range
+    n
+    -> 1 n
+  get_next_value &self $r high+1-low
+  -> self low+r

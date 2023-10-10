@@ -1,0 +1,8 @@
+#!/usr/bin/env fkyrun
+
+$text "abcdef"
+
+println! text .without_suffix. 'f'
+println! text .without_suffix. 'e'
+println! text .without_suffix. "def"
+println! text .without_suffix. "abc"

@@ -1,0 +1,511 @@
+#!/usr/bin/env fkyrun
+
+  Copyright (C) 2023 by
+  Dipl.-Ing. Michael Niederle
+
+  This program is free software; you can redistribute it and/or modify
+  it under the terms of the GNU General Public License, version 2, or
+  (at your option) version 3.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  GNU General Public License for more details.
+
+  For details of the GNU General Public License see the accompanying
+  files GPLv2.txt and GLPv3.txt or
+  http://www.gnu.org/licenses/gpl-2.0.html
+  http://www.gnu.org/licenses/gpl-3.0.html
+  or write to the
+  Free Software Foundation, Inc.,
+  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+
+<namespace funky>
+<namespace funky_types>
+
+<require basic/stdlib>
+<require ./character_names>
+<require ./nodes>
+<require ./parser>
+<require ./nodes_metadata>
+<require ./dump>
+<require ./compile>
+<require ./simplify>
+<require ./simplify_autogen>
+<require ./collect_literals>
+<require ./collect_literals_autogen>
+<require ./collect_variables>
+<require ./collect_variables_autogen>
+<require ./generate_tabular_code>
+
+<using std>
+<using funky>
+
+$MAJOR 0
+#$MINOR 0
+#$PATCH 0
+
+$cc_options
+  list
+    "-Wall"
+    "-Wno-unused-function"
+    "-Wno-unused-variable"
+    "-Wno-parentheses"
+    "-Wno-switch"
+    "-Wno-trigraphs"
+    "-O2"
+    "-fomit-frame-pointer"
+    "-fno-stack-protector"
+    "-falign-functions=16"
+    "-falign-loops=16"
+
+$builtin_functions
+  hash_set
+    "assign"
+    "key_value_pair"
+    "list"
+    "tuple"
+    "sequence"
+    "value_range"
+
+$funky::is_a_builtin_function_name: (identifier)
+  $namespace identifier .before. ':'
+  if
+    namespace.is_empty
+    -> builtin_functions(identifier)
+    :
+      if
+	namespace == "std" || namespace .has_prefix. "std-"
+	-> builtin_functions(identifier .behind. "::")
+	-> false
+
+$funky::character_from_name get_character_names()
+
+get_environment $environment
+
+$include_path
+  default_value
+    environment("FUNKY_INCLUDE_PATH")
+    "/usr/local/share/funky-@(MAJOR)"
+
+$do_run (truncate_until(program_name '/' -1) .truncate_from. '-') == "fkyrun"
+
+$funky::base_directory undefined
+$funky::current_module_name undefined
+
+if $input_filename $be_verbose $do_rebuild $do_print_c
+  do_run:
+    on command_line_arguments.is_empty: Error "Missing command line arguments!"
+    -> command_line_arguments(1) false false false
+  :
+    program_parameters!
+      list
+	COPYRIGHT "
+	  Copyright (C) 2023 by
+	  Dipl.-Ing. Michael Niederle
+
+	  This program is free software; you can redistribute it and/or modify
+	  it under the terms of the GNU General Public License, version 2, or
+	  (at your option) version 3.
+
+	  This program is distributed in the hope that it will be useful,
+	  but WITHOUT ANY WARRANTY; without even the implied warranty of
+	  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+	  GNU General Public License for more details.
+
+	  For details of the GNU General Public License see the accompanying
+	  files GPLv2.txt and GLPv3.txt or
+	  http://www.gnu.org/licenses/gpl-2.0.html
+	  http://www.gnu.org/licenses/gpl-3.0.html
+	  or write to the
+	  Free Software Foundation, Inc.,
+	  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+      list
+	MANDATORY_PARAMETER "filename" "
+	  a source code file with the extension ".fky"
+      list
+	"verbose" "
+	  output detailed information about the build process
+      list
+	"rebuild" "
+	  rebuild all source files
+      list
+	"print-c" "
+	  print C source code for a single module
+
+$FUNKY_LIBRARY_PATH environment("FUNKY_LIBRARY_PATH")
+
+update_if input_filename(1) != '/'
+  &input_filename -> append("./" input_filename)
+if!
+  input_filename .has_suffix. ".fky"
+  :
+    if!
+      do_print_c
+      print_c
+      build_executable
+  build_library
+
+$print_c:
+  !base_directory until(input_filename '/' -1)
+  load_lines! $fky_lines input_filename
+  compile_module $c_source input_filename fky_lines
+  handle_error! c_source
+  print! c_source
+
+$build_executable:
+  # build a dynamically linked executable
+
+  !base_directory until(input_filename '/' -1)
+  compile! $modules $libraries input_filename
+  c_compile! &modules
+  $newest_timestamp find_newest_timestamp(modules)
+  $exe_filename input_filename .without_suffix. ".fky"
+  stat! $exe_info exe_filename
+  on
+    ||
+      do_rebuild
+      newest_timestamp.is_undefined
+      exe_info.is_an_error
+      newest_timestamp > modification_time_of(exe_info)
+    :
+      on be_verbose: eprint! "
+	creating executable "@(exe_filename)"
+      $object_files
+	map
+	  modules: (module)
+	    append
+	      first(module) .without_suffix. ".fky"
+	      ".o"
+      $arguments cc_options
+      update_if FUNKY_LIBRARY_PATH.is_defined &arguments
+	-> append(arguments list("-L" FUNKY_LIBRARY_PATH))
+      append &arguments object_files
+      append &arguments libraries
+      push &arguments "-l:libfky.so.@(MAJOR)"
+      push &arguments "-lm"
+      push &arguments "-o"
+      push &arguments exe_filename
+      call! "gcc" arguments $status $_out $err
+      on status != 0:
+	eprint! err.from_utf8
+	exit! EXIT_FAILURE
+  if
+    do_run:
+      exec! exe_filename range(command_line_arguments 2 -1)
+    :
+      on be_verbose:
+	eprint! "
+	  done
+
+$build_library:
+  # build a dynamic link library
+
+  without_suffix &input_filename '/'
+  !base_directory until(input_filename '/' -1)
+  collect_entries! $filenames input_filename
+  load_or_create_c_sources! $modules filenames
+  handle_error! modules
+  c_compile! &modules
+  $newest_timestamp find_newest_timestamp(modules)
+  $version_filename append(input_filename "/VERSION")
+  stat! $version_info version_filename
+  if $version
+    version_info.is_an_error
+    -> ""
+    :
+      load! !version version_filename
+      trim &version
+      -> put(version '-')
+  $basename truncate_until(input_filename '/' -1)
+  $so_filename "libfky-@(basename)@(version).so.@(MAJOR)"
+  stat! $so_info so_filename
+  on
+    ||
+      do_rebuild
+      newest_timestamp.is_undefined
+      so_info.is_an_error
+      newest_timestamp > modification_time_of(so_info)
+    :
+      on be_verbose: eprint! "
+	creating library "@(so_filename)"
+      $object_files
+	map
+	  modules: (module)
+	    append
+	      first(module) .without_suffix. ".fky"
+	      ".o"
+      $arguments empty_list
+      push &arguments "-shared"
+      push &arguments
+	"-Wl,-soname,libfky-@(basename).so.@(MAJOR)"
+      append &arguments object_files
+      push &arguments "-o"
+      push &arguments so_filename
+      call! "gcc" arguments $status $_out $err
+      on status != 0:
+	eprint! err.from_utf8
+	exit! EXIT_FAILURE
+  on be_verbose:
+    eprint! "
+      done
+
+$find_newest_timestamp: (modules)
+  $newest_timestamp undefined
+  for_each modules
+    : (module)
+      module $_filename $timestamp
+      if
+	timestamp.is_undefined:
+	  !newest_timestamp undefined
+	  break!
+	:
+	  if
+	    ||
+	      newest_timestamp.is_undefined
+	      timestamp.is_defined && timestamp > newest_timestamp
+	    :
+	      !newest_timestamp timestamp
+	      next!
+	    next
+    -> newest_timestamp
+
+$collect_entries: (path)
+  directory! $entries path
+  $filenames empty_list
+  for_each entries
+    : (entry)
+      $name std::name_of(entry)
+      $fullname append(path "/" name)
+      case type_of(entry)
+	DIRECTORY:
+	  if
+	    name .has_prefix. '.'
+	    next
+	    :
+	      collect_entries! $more_filenames fullname
+	      append &filenames more_filenames
+	      next!
+	REGULAR_FILE:
+	  if
+	    name .has_suffix. ".fky":
+	      push &filenames fullname
+	      next!
+	    next
+	next
+    -> filenames
+
+$compile: (base_filename)
+  $fky_filenames list(base_filename)
+  $modules empty_list
+  $libraries empty_list
+  $object_files_handled empty_hash_set
+  $libraries_handled empty_hash_set
+  loop:
+    $files_to_compile empty_list
+    for_each fky_filenames
+      : (fky_filename)
+	if
+	  object_files_handled(fky_filename)
+	  next
+	  :
+	    !object_files_handled(fky_filename) true
+	    push &files_to_compile fky_filename
+	    next!
+      :
+	if
+	  files_to_compile.is_empty
+	  -> modules libraries
+	  :
+	    load_or_create_c_sources! $more_modules files_to_compile
+	    handle_error! more_modules
+	    map_reduce $required
+	      more_modules extract_required merge empty_insert_order_set
+	    append &modules more_modules
+	    !fky_filenames empty_list
+	    for_each required
+	      : (filename)
+		if
+		  filename(1) == '.':
+		    push &fky_filenames "@(filename).fky"
+		    next!
+		  :
+		    $library_name
+		      append
+			"-l:libfky-"
+			filename .truncate_from. '/'
+			".so.0"
+		    if
+		      libraries_handled(library_name)
+		      next
+		      :
+			!libraries_handled(library_name) true
+			push &libraries library_name
+			next!
+	      next
+
+$load_or_create_c_sources: (filenames)
+  $modules empty_list # a list of tuple(filename c_timestamp c_source fky_lines)
+  for_each filenames # sequential load
+    : (fky_filename)
+      $basename truncate_from(fky_filename '.' -1)
+      $c_filename append(basename ".c")
+      stat! $fky_info fky_filename
+      on fky_info.is_an_error: Error! "
+	Input file "@(fky_filename)" does not exist!@
+      stat! $c_info c_filename
+      if
+	||
+	  do_rebuild
+	  c_info.is_an_error
+	  modification_time_of(fky_info) > modification_time_of(c_info)
+	:
+	  on be_verbose: eprint! "
+	    compiling "@(fky_filename)"
+	  load_lines! $fky_lines fky_filename
+	  push &modules tuple(fky_filename undefined undefined fky_lines)
+	  next!
+	:
+	  load! $c_source c_filename
+	  push &modules
+	    tuple(fky_filename modification_time_of(c_info) c_source undefined)
+	  next!
+    :
+      map &modules maybe_compile # parallel compile
+      for_each modules # sequential save
+	: (module)
+	  module $fky_filename $c_timestamp $c_source
+	  $basename truncate_from(fky_filename '.' -1)
+	  if
+	    c_timestamp.is_undefined:
+	      save! "@(basename).c" c_source.to_utf8
+	      next!
+	    next
+	-> modules
+
+$maybe_compile: (module)
+  module $filename $c_timestamp $c_source $fky_lines
+  update_if c_source.is_undefined &c_source:
+    compile_module filename fky_lines
+  -> tuple_or_error(filename c_timestamp c_source)
+
+$c_compile: (modules)
+  $compiled_modules empty_list
+  for_each modules
+    : (module)
+      module $fky_filename $c_timestamp
+      $basename truncate_from(fky_filename '.' -1)
+      $obj_filename "@(basename).o"
+      stat! $obj_info obj_filename
+      if
+	||
+	  do_rebuild
+	  c_timestamp.is_undefined
+	  obj_info.is_an_error
+	  c_timestamp > modification_time_of(obj_info)
+	:
+	  $c_filename "@(basename).c"
+	  on be_verbose: eprint! "
+	    compiling "@(c_filename)"
+	  $arguments cc_options
+	  push &arguments "-I@(include_path)"
+	  push &arguments "-DNDEBUG"
+	  push &arguments "-c"
+	  push &arguments "@(c_filename)"
+	  push &arguments "-o"
+	  push &arguments obj_filename
+	  call! "gcc" arguments $status $_out $err
+	  on status != 0:
+	    eprint! err.from_utf8
+	    exit! EXIT_FAILURE
+	  push &compiled_modules tuple(fky_filename undefined)
+	  next!
+	:
+	  push &compiled_modules
+	    tuple(fky_filename modification_time_of(obj_info))
+	  next!
+    -> compiled_modules
+
+$extract_required: (module)
+  module $filename $_c_timestamp $c_source
+  $path before(filename '/' -1)
+  $required empty_insert_order_set
+  while
+    -> c_source .has_prefix. "/// require"
+    :
+      $module_name (range(c_source 12 -1) .before. '@nl;').trim
+      update_if path.is_not_empty && module_name(1) == '.' &module_name
+	-> append(path range(module_name 2 -1))
+      !required(module_name) true
+      truncate_until &c_source '@nl;'
+      next
+    -> required
+
+$load_lines: (filename)
+  load! $source filename
+  cond
+    -> source.is_empty:
+      Error! "
+	Empty source file "@(filename)"!@
+    -> source(-1) != '@nl;':
+      Error! "
+	Missing trailing newline character in "@(filename)"!@
+  from_utf8 &source
+  split_source_into_lines source
+
+### Error Handling
+
+$funky::syntax_error:
+  (
+    message
+    node = undefined
+  )
+  if $column
+    node.is_defined:
+      $line line_text_of(source_group_of(node))
+      !column length_of(line)+1-length_of(source_position_of(node))
+      if
+	column == 1
+	-> column
+	:
+	  case
+	    line(column-1)
+	    '$', '!', '&', '@quot;', '@apos;' -> column-1
+	    -> column
+    -> 1
+  $details
+    tuple
+      current_filename
+      if
+	node.is_defined
+	-> source_group_of(node)
+	-> undefined
+      column
+  error funky::SYNTAX_ERROR message details
+
+$handle_error: (obj)
+  on obj.is_an_error:
+    if
+      error_category_of(obj) == SYNTAX_ERROR:
+	display_error! obj
+      :
+	debug_print obj 0 50
+    exit! EXIT_FAILURE
+
+$display_error: (error)
+  $message error_message_text_of(error)
+  error_details_of(error) $filename $line $position
+  if
+    line.is_defined:
+      line $indent $text
+      $line_no line_no_of(line)
+      eprint! "
+	ERROR: @(message.to_sentence_case) IN LINE @(line_no) OF FILE @(filename)
+
+	@(tabs_and_spaces(indent))@(text)@
+	@(tabs_and_spaces(indent+position-1))^
+      exit! EXIT_FAILURE
+    :
+      eprint! "
+	ERROR: @(message.to_sentence_case) IN FILE @(filename)
+      exit! EXIT_FAILURE

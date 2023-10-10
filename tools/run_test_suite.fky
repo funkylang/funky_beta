@@ -1,0 +1,335 @@
+#!/usr/bin/env fkyrun
+
+<allow unused>
+
+$cc_options
+  list
+    "-O1"
+    "-fno-stack-protector"
+    "-falign-functions=16"
+    "-Wall"
+    "-Wno-unused-function"
+    "-Wno-unused-variable"
+    "-Wno-parentheses"
+    "-Wno-switch"
+    "-Wno-missing-braces"
+    "-Werror"
+    "-I."
+
+!environment get_environment()
+$ld_library_path environment("LD_LIBRARY_PATH")
+getcwd! $current_directory
+!environment("LD_LIBRARY_PATH")
+  append
+    current_directory # use the freshly built libraries
+    if
+      ld_library_path.is_defined
+      -> append(":" ld_library_path)
+      -> ""
+
+$attempted_program_builds 0
+$successful_program_builds 0
+
+$attempted_runs 0
+$successful_runs 0
+
+$attempted_c_compilations 0
+$successful_c_compilations 0
+
+$total_compilations 0
+$successful_compilations 0
+
+$total_runtime_error_checks 0
+$successful_runtime_error_detections 0
+
+$total_syntax_error_checks 0
+$successful_syntax_error_detections 0
+
+$remove_object_files: (path)
+  directory! $dir path
+  sort &dir: (x y) -> name_of(x) < name_of(y)
+  for_each dir
+    : (entry)
+      $filename name_of(entry)
+      if
+	filename(1) == '.'
+	next
+	:
+	  $fullname "@(path)/@(filename)"
+	  if
+	    type_of(entry) == DIRECTORY:
+	      remove_object_files! fullname
+	    :
+	      if!
+		filename .contains. '.':
+		  if!
+		    filename .has_suffix. ".c" || filename .has_suffix. ".o"
+		    delete_file
+		    next
+		delete_file
+
+	  $delete_file:
+	    println! "rm @(fullname)"
+	    unlink! fullname
+	    next!
+    pass
+
+$compile:
+  (
+    path
+    prefix = undefined
+    expect_failure = false
+  )
+  directory! $dir path
+  sort &dir: (x y) -> name_of(x) < name_of(y)
+  for_each dir
+    : (entry)
+      $filename name_of(entry)
+      if
+	filename(1) == '.'
+	next
+	:
+	  $fullname "@(path)/@(filename)"
+	  if
+	    type_of(entry) == DIRECTORY:
+	      if
+		prefix.is_defined:
+		  compile! fullname string(prefix "/" filename)
+		:
+		  compile! fullname filename
+	    :
+	      if
+		filename .has_suffix. ".fky":
+		  $basename fullname .without_suffix. ".fky"
+		  $c_name append(basename ".c")
+		  println! "compiling " fullname " ..."
+		  $arguments list("--print-c")
+		  append &arguments
+		    if
+		      prefix.is_defined
+		      -> list("--module-prefix" prefix)
+		      -> empty_list
+		  push &arguments fullname
+		  call! $ret $out $err "compiler/funky" arguments
+		  if
+		    expect_failure:
+		      inc &total_syntax_error_checks
+		      if
+			ret == 0:
+			  println! "  SYNTACTIC INVALID SOURCE COMPILED"
+			  next!
+			:
+			  $orig_filename append(basename ".err")
+			  load! $orig orig_filename
+			  if
+			    orig.is_an_error:
+			      println!
+				"  WARNING: NO PREVIOUS RESULTS TO COMPARE WITH!"
+			      save! orig_filename err
+			      next!
+			    :
+			      if
+				err == orig:
+				  println! "  passed"
+				  inc &successful_syntax_error_detections
+				  next!
+				:
+				  println!
+				    "  COMPARISON WITH EXPECTED ERROR MESSAGE FAILED"
+				  next!
+		    :
+		      inc &total_compilations
+		      if
+			ret == 0:
+			  inc &successful_compilations
+			  save! c_name out
+			  next!
+			:
+			  println! "  FAILED TO COMPILE"
+			  next!
+		next
+    :
+      if
+	expect_failure
+	-> total_syntax_error_checks successful_syntax_error_detections
+	-> total_compilations successful_compilations
+
+$c_compile:
+  (
+    path
+    expect_failure = false
+  )
+  directory! $dir path
+  sort &dir: (x y) -> name_of(x) < name_of(y)
+  for_each dir
+    : (entry)
+      $filename name_of(entry)
+      if
+	filename(1) == '.'
+	next
+	:
+	  $fullname "@(path)/@(filename)"
+	  if
+	    filename .has_suffix. ".c":
+	      $basename fullname .without_suffix. ".c"
+	      $object_filename append(basename ".o")
+	      inc &attempted_c_compilations
+	      println! "gcc -c " fullname " ..."
+	      $arguments cc_options
+	      push &arguments "-c"
+	      push &arguments fullname
+	      push &arguments "-o"
+	      push &arguments object_filename
+	      call! "gcc" arguments $ret
+	      if
+		ret == 0:
+		  inc &successful_c_compilations
+		  next!
+		:
+		  println! "  FAILED TO COMPILE C-CODE"
+		  next!
+	    next
+    -> attempted_c_compilations successful_c_compilations
+
+$generate: (path)
+  $entries empty_list
+  directory! $dir path
+  sort &dir: (x y) -> name_of(x) < name_of(y)
+  for_each dir !entries
+    : (entry)
+      $filename name_of(entry)
+      if
+	||
+	  filename(1) == '.'
+	  type_of(entry) == DIRECTORY
+	  not(filename .has_suffix. ".c")
+	next
+	:
+	  push &entries "@(path)/@(filename .without_suffix. ".c")"
+	  next
+    -> entries
+  for_each entries
+    : (basename)
+      inc &attempted_program_builds
+      $fky_filename append(basename ".fky")
+      $c_filename append(basename ".c")
+      $object_filename append(basename ".o")
+      println! "generating program for " basename " ..."
+      $arguments list(fky_filename)
+      call! $ret $out $err "compiler/funky" arguments
+      unlink! c_filename
+      unlink! object_filename
+      if
+	ret == 0:
+	  inc &successful_program_builds
+	  next!
+	:
+	  println! "  FAILED TO BUILD PROGRAM"
+	  next!
+    -> entries attempted_program_builds successful_program_builds
+
+$run:
+  (
+    path
+    entries
+    expect_failure = false
+  )
+  for_each entries
+    : (basename)
+      file_exists! $success basename
+      if
+	success:
+	  println! "running " basename " ..."
+	  inc &attempted_runs
+	  call! $ret $out $err basename empty_list
+	  unlink! basename
+	  if
+	    expect_failure:
+	      inc &total_runtime_error_checks
+	      if
+		ret == 0:
+		  println! "  ERRONEOUS PROGRAM DID NOT GENERATE A RUNTIME ERROR"
+		:
+		  $err_filename string(basename ".err")
+		  load! $orig err_filename
+		  if
+		    orig.is_an_error:
+		      println!
+			"  WARNING: NO PREVIOUS ERROR MESSAGE TO COMPARE WITH!"
+		      save! err_filename err
+		      next!
+		    :
+		      if
+			err == orig:
+			  println! "  passed"
+			  inc &successful_runtime_error_detections
+			  next!
+			:
+			  println!
+			    "  COMPARISON WITH EXPECTED ERROR MESSAGE FAILED"
+			  next!
+	    :
+	      if
+		ret == 0:
+		  $orig_filename append(basename ".out")
+		  load! $orig orig_filename
+		  if
+		    orig.is_an_error:
+		      println! "WARNING: NO PREVIOUS OUTPUT TO COMPARE WITH!"
+		      save! orig_filename out
+		      next!
+		    :
+		      if
+			out == orig:
+			  println! "  passed"
+			  inc &successful_runs
+			  next!
+			:
+			  println! "  COMPARISON WITH EXPECTED OUTPUT FAILED"
+			  next!
+		:
+		  println! "  THE COMPILED C-CODE FAILED TO RUN"
+		  next!
+	next
+
+    :
+      if
+	expect_failure
+	-> total_runtime_error_checks successful_runtime_error_detections
+	-> attempted_runs successful_runs
+
+remove_object_files! "test_suite"
+remove_object_files! "runtime_error_suite"
+compile! "test_suite" !total_compilations !successful_compilations
+compile! "runtime_error_suite" !total_compilations !successful_compilations
+c_compile! "test_suite"
+  !attempted_c_compilations !successful_c_compilations
+c_compile! "runtime_error_suite"
+  !attempted_c_compilations !successful_c_compilations
+generate! "test_suite" $test_suite_entries
+  !attempted_program_builds !successful_program_builds
+generate! "runtime_error_suite" $runtime_error_entries
+  !attempted_program_builds !successful_program_builds
+run! "test_suite" test_suite_entries
+  !attempted_runs !successful_runs
+run! "runtime_error_suite" runtime_error_entries true
+  !total_runtime_error_checks !successful_runtime_error_detections
+compile! "error_suite" undefined true
+  !total_syntax_error_checks !successful_syntax_error_detections
+print! "
+  Funky module compilations: @(successful_compilations) of @
+  @(total_compilations) succeeded
+print! "
+  C source file compilations: @(successful_c_compilations) of @
+  @(attempted_c_compilations) succeeded
+print! "
+  Program builds: @(successful_program_builds) of @(attempted_program_builds) @
+  succeeded
+print! "
+  Runs: @(successful_runs) of @(attempted_runs) succeeded
+print! "
+  Runtime error checks: @(successful_runtime_error_detections) of @
+  @(total_runtime_error_checks) succeeded
+print! "
+  Syntax error checks: @(successful_syntax_error_detections) of @
+  @(total_syntax_error_checks) succeeded

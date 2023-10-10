@@ -1,0 +1,6 @@
+#!/usr/bin/env fkyrun
+
+println! 123.456
+println! 0b1010'0101
+println! 0o753'147
+println! 0xab'cd'ef

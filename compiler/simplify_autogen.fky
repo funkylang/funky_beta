@@ -1,0 +1,190 @@
+#
+  These method definitions were automatically derived from the file
+  "new_compiler/simplify.fky".
+
+<allow unused>
+
+<using std>
+<using funky>
+
+$std_types::undefined/simplify: (self state)
+  -> self state empty_statements
+
+$funky_types::node/simplify: (self state)
+  -> self state empty_statements
+
+$funky_types::identifier_and_expression/simplify: (self state)
+  simplify &self.funky::expression_of &state $result_statements
+  -> self state result_statements
+
+$funky_types::simple_expression/simplify: (self state)
+  simplify &self.funky::expression_of &state $result_statements
+  -> self state result_statements
+
+$funky_types::function_call_extension/simplify: (self state)
+  simplify &self.funky::call_of &state $result_statements
+  $new_extensions empty_list
+  for_each &self.extensions_of !state !result_statements
+    : (item)
+      simplify &item &state $extensions_result_statements
+      push &new_extensions item
+      append &result_statements extensions_result_statements
+      next
+    -> new_extensions state result_statements
+  -> self state result_statements
+
+$funky_types::attribute_access_extension/simplify: (self state)
+  simplify &self.funky::access_of &state $result_statements
+  $new_extensions empty_list
+  for_each &self.extensions_of !state !result_statements
+    : (item)
+      simplify &item &state $extensions_result_statements
+      push &new_extensions item
+      append &result_statements extensions_result_statements
+      next
+    -> new_extensions state result_statements
+  -> self state result_statements
+
+$funky_types::inline_function_call_extension/simplify: (self state)
+  simplify &self.funky::call_of &state $result_statements
+  $new_extensions empty_list
+  for_each &self.extensions_of !state !result_statements
+    : (item)
+      simplify &item &state $extensions_result_statements
+      push &new_extensions item
+      append &result_statements extensions_result_statements
+      next
+    -> new_extensions state result_statements
+  -> self state result_statements
+
+$funky_types::inline_attribute_access_extension/simplify: (self state)
+  simplify &self.funky::access_of &state $result_statements
+  $new_extensions empty_list
+  for_each &self.extensions_of !state !result_statements
+    : (item)
+      simplify &item &state $extensions_result_statements
+      push &new_extensions item
+      append &result_statements extensions_result_statements
+      next
+    -> new_extensions state result_statements
+  -> self state result_statements
+
+$funky_types::function_call/simplify: (self state)
+  $result_statements empty_statements
+  $new_arguments empty_list
+  for_each &self.arguments_of !state !result_statements
+    : (item)
+      simplify &item &state $arguments_result_statements
+      push &new_arguments item
+      append &result_statements arguments_result_statements
+      next
+    -> new_arguments state result_statements
+  -> self state result_statements
+
+$funky_types::spaced_arguments/simplify: (self state)
+  simplify &self.funky::arguments_of &state $result_statements
+  -> self state result_statements
+
+$funky_types::spaced_statement_arguments/simplify: (self state)
+  simplify &self.funky::arguments_of &state $result_statements
+  -> self state result_statements
+
+$funky_types::arguments/simplify: (self state)
+  simplify &self.funky::argument_of &state $result_statements
+  $new_arguments empty_list
+  for_each &self.arguments_of !state !result_statements
+    : (item)
+      simplify &item &state $arguments_result_statements
+      push &new_arguments item
+      append &result_statements arguments_result_statements
+      next
+    -> new_arguments state result_statements
+  -> self state result_statements
+
+$funky_types::even_more_statement_arguments/simplify: (self state)
+  simplify &self.funky::argument_of &state $result_statements
+  $new_arguments empty_list
+  for_each &self.arguments_of !state !result_statements
+    : (item)
+      simplify &item &state $arguments_result_statements
+      push &new_arguments item
+      append &result_statements arguments_result_statements
+      next
+    -> new_arguments state result_statements
+  -> self state result_statements
+
+$funky_types::remark_and_multiline_function_call/simplify: (self state)
+  $result_statements empty_statements
+  $new_arguments empty_list
+  for_each &self.arguments_of !state !result_statements
+    : (item)
+      simplify &item &state $arguments_result_statements
+      push &new_arguments item
+      append &result_statements arguments_result_statements
+      next
+    -> new_arguments state result_statements
+  -> self state result_statements
+
+$funky_types::expression_and_inline_arguments/simplify: (self state)
+  simplify &self.funky::expression_of &state $result_statements
+  simplify &self.funky::arguments_of &state $arguments_result_statements
+  append &result_statements arguments_result_statements
+  -> self state result_statements
+
+$funky_types::some_string_components/simplify: (self state)
+  simplify &self.funky::component_of &state $result_statements
+  $new_components empty_list
+  for_each &self.components_of !state !result_statements
+    : (item)
+      simplify &item &state $components_result_statements
+      push &new_components item
+      append &result_statements components_result_statements
+      next
+    -> new_components state result_statements
+  -> self state result_statements
+
+$funky_types::some_string_line_components/simplify: (self state)
+  simplify &self.funky::component_of &state $result_statements
+  $new_components empty_list
+  for_each &self.components_of !state !result_statements
+    : (item)
+      simplify &item &state $components_result_statements
+      push &new_components item
+      append &result_statements components_result_statements
+      next
+    -> new_components state result_statements
+  -> self state result_statements
+
+$funky_types::statements/simplify: (self state)
+  $result_statements empty_statements
+  $new_statement empty_list
+  for_each &self.statement_of !state !result_statements
+    : (item)
+      simplify &item &state $statement_result_statements
+      push &new_statement item
+      append &result_statements statement_result_statements
+      next
+    -> new_statement state result_statements
+  -> self state result_statements
+
+$funky_types::one_or_more_inline_parameters/simplify: (self state)
+  simplify &self.funky::parameter_of &state $result_statements
+  simplify &self.funky::parameters_of &state $parameters_result_statements
+  append &result_statements parameters_result_statements
+  -> self state result_statements
+
+$funky_types::open_parameters/simplify: (self state)
+  $result_statements empty_statements
+  $new_parameter empty_list
+  for_each &self.parameter_of !state !result_statements
+    : (item)
+      simplify &item &state $parameter_result_statements
+      push &new_parameter item
+      append &result_statements parameter_result_statements
+      next
+    -> new_parameter state result_statements
+  -> self state result_statements
+
+$funky_types::initial_value/simplify: (self state)
+  simplify &self.funky::operand_of &state $result_statements
+  -> self state result_statements

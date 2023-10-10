@@ -1,0 +1,2440 @@
+#!/usr/bin/env fkyrun
+
+<namespace tedi_types>
+
+<require basic/stdlib>
+<require terminal/terminal>
+<require terminal/keys>
+
+$EXIT .
+
+$PASTE_THRESHOLD 16
+
+$indent_of ()
+$text_of ()
+$marks_of ()
+$folds_of ()
+
+$tedi_types::tedi_line tuple(undefined undefined undefined undefined)
+
+$tedi_types::tedi_line/indent_of: (self) -> first(self)
+$tedi_types::tedi_line/text_of: (self) -> second(self)
+$tedi_types::tedi_line/marks_of: (self) -> third(self)
+$tedi_types::tedi_line/folds_of: (self) -> fourth(self)
+
+$x_of ()
+$y_of ()
+$first_visible_y_of ()
+$first_visible_x_of ()
+$first_updated_y_of ()
+$last_updated_y_of ()
+
+$is_a_text_window ()
+$action_of ()
+$completion_prefix_of ()
+$possible_completions_of ()
+
+$is_locked ()
+$upper_bound_of ()
+$lower_bound_of ()
+$do_keep_selection ()
+$has_a_permanent_selection ()
+$selection_start_x_of ()
+$selection_start_y_of ()
+$search_text_of ()
+$replacement_text_of ()
+$search_history_of ()
+$replacement_history_of ()
+$text_colour_of ()
+$background_colour_of ()
+$inbounds_width_of ()
+$out_of_bounds_colour_of ()
+$selection_colour_of ()
+$folds_colour_of ()
+$fake_folds_colour_of ()
+$bar_text_colour_of ()
+$bar_background_colour_of ()
+
+$colour_set_of ()
+$colour_set_no_of ()
+$clipboard_contents_of ()
+
+$mark_state_of () # decremented if positive - if equal to 1 -> set mark
+
+$current_key undefined
+
+program_parameters!
+  $filename
+  list
+    MANDATORY_PARAMETER "filename" "
+      the name of the text file to edit
+
+$alt_key_to_letter
+  hash_table
+    ALT_A = 'a'
+    ALT_B = 'b'
+    ALT_C = 'c'
+    ALT_D = 'd'
+    ALT_E = 'e'
+    ALT_F = 'f'
+    ALT_G = 'g'
+    ALT_H = 'h'
+    ALT_I = 'i'
+    ALT_J = 'j'
+    ALT_K = 'k'
+    ALT_L = 'l'
+    ALT_M = 'm'
+    ALT_N = 'n'
+    ALT_O = 'o'
+    ALT_P = 'p'
+    ALT_Q = 'q'
+    ALT_R = 'r'
+    ALT_S = 's'
+    ALT_T = 't'
+    ALT_U = 'u'
+    ALT_V = 'v'
+    ALT_W = 'w'
+    ALT_X = 'x'
+    ALT_Y = 'y'
+    ALT_Z = 'z'
+
+load_file! $lines
+on lines.is_an_error:
+  eprint! "
+    Unable to load file "@(filename)"!
+  exit! EXIT_FAILURE
+
+print! "@esc;[?47h" # switch to alternate screen
+print! "@esc;[33s" # store cursor position
+print! "@esc;]0;@(filename)@7;" # change terminal title
+
+get_terminal_attributes! STDIN_FILENO $original_attributes
+$attributes original_attributes
+use_canonical_mode &attributes false #  no line-buffering ...
+echo_characters &attributes false # ... and no echoing of typed in characters
+generate_signals &attributes false # to receive ctrl-c & ctrl-z
+enable_xon_xoff_for_output &attributes false # to receive ctrl-q & ctrl-s
+map_cr_to_lf_on_input &attributes false # to receive ctrl-m
+set_terminal_attributes! $_success STDIN_FILENO attributes
+
+$io std_types::io
+start_reading_from &io STDIN_FILENO
+
+$colour_sets
+  list
+    std_types::object
+      .text_colour_of WHITE
+      .background_colour_of BLUE
+      .out_of_bounds_colour_of '@0x0000cc;'
+      .selection_colour_of '@0x804000;'
+      .folds_colour_of '@0x00a0ff;'
+      .fake_folds_colour_of '@0x00c0ff;'
+      .bar_text_colour_of BLACK
+      .bar_background_colour_of WHITE
+    std_types::object
+      .text_colour_of BLACK
+      .background_colour_of WHITE
+      .out_of_bounds_colour_of '@0xeeeeee;'
+      .selection_colour_of YELLOW
+      .folds_colour_of '@0xa0ffa0;'
+      .fake_folds_colour_of '@0xe0ffe0;'
+      .bar_text_colour_of WHITE
+      .bar_background_colour_of BLACK
+    std_types::object
+      .text_colour_of WHITE
+      .background_colour_of BLACK
+      .out_of_bounds_colour_of '@0x111111;'
+      .selection_colour_of '@0x804000;'
+      .folds_colour_of '@0x004000;'
+      .fake_folds_colour_of '@0x002000;'
+      .bar_text_colour_of BLACK
+      .bar_background_colour_of WHITE
+
+get_terminal_size! STDIN_FILENO $terminal_width $terminal_height
+create_terminal $terminal terminal_width terminal_height
+
+$prototype_window
+  std_types::object
+    .x_of 1
+    .y_of 1
+    .inbounds_width_of undefined
+    .first_visible_y_of 1
+    .first_visible_x_of 1
+    .is_a_text_window false
+    .is_locked false
+    .upper_bound_of undefined
+    .lower_bound_of undefined
+    .has_a_permanent_selection false
+    .do_keep_selection false
+    .selection_start_x_of undefined
+    .selection_start_y_of undefined
+    .search_text_of undefined
+    .replacement_text_of undefined
+    .search_history_of empty_list
+    .replacement_history_of empty_list
+    .mark_state_of 0
+    .first_updated_y_of 1
+    .last_updated_y_of END
+    .action_of undefined
+    .completion_prefix_of undefined
+    .possible_completions_of undefined
+    .clipboard_contents_of undefined
+    .colour_set_no_of undefined
+
+$window_height terminal_height-2
+$editor_window undefined
+$editor_lines undefined
+
+$window
+  prototype_window
+    .left_x_of 1
+    .top_y_of 2
+    .width_of terminal_width
+    .height_of window_height
+    .inbounds_width_of 80
+    .is_locked true
+    .upper_bound_of 1+(window_height .div. 4)
+    .lower_bound_of window_height-(window_height .div. 4)
+    .is_a_text_window true
+    .colour_set_of colour_sets(1)
+    .colour_set_no_of 1
+update_display !terminal !window
+update_terminal &terminal $initial_output
+print! initial_output
+
+$history empty_list
+
+event_loop! !terminal !window !lines
+on terminal.is_an_error:
+  eprintln! "ERROR: " debug_string(terminal 0 50)
+quit!
+
+$event_loop:
+  loop:
+    get_events! &io $events
+    for_each events
+      : (event)
+	event $type $fd $input
+	case type
+	  READ:
+	    if
+	      fd == STDIN_FILENO:
+		from_utf8 &input
+		if
+		  &&
+		    length_of(input) >= PASTE_THRESHOLD
+		    input .contains. '@cr;'
+		  :
+		    paste_text input !window !lines
+		    update_display !terminal !window
+		    update_terminal &terminal $output
+		    print! output
+		    next!
+		  :
+		    $keys extract_keys(input).combine_characters
+		    for_each keys
+		      : (key)
+			update_if
+			  &&
+			    key != ALT_SPACE
+			    completion_prefix_of(window).is_defined
+			  &window
+			  ->
+			    window
+			      .completion_prefix_of undefined
+			      .possible_completions_of undefined
+
+			case key
+			  CTRL_Z:
+			    if
+			      history.is_empty
+			      next
+			      :
+				pop &history $entry
+				entry !window !lines
+				!window.first_updated_y_of
+				  first_visible_y_of(window)
+				!window.last_updated_y_of END
+				update_display !terminal !window
+				next!
+			  :
+			    update_history !history key
+			    if
+			      key.is_a_string:
+				insert !window !lines key
+				maybe_remove_selection !terminal !window
+				next!
+			      :
+				handle_key !window !lines key
+				$action action_of(window)
+				if
+				  action.is_defined:
+				    !window.action_of undefined
+				    if
+				      EXIT == action
+				      -> terminal window lines
+				      :
+					action! !terminal !window !lines
+					maybe_remove_selection !terminal !window
+					next!
+				  :
+				    maybe_remove_selection !terminal !window
+				    next!
+		      :
+			update_terminal &terminal $output
+			print! output
+			next!
+	      next
+	  next
+      next
+
+  $combine_characters: (keys)
+    $combined empty_list
+    $str ""
+    for_each keys
+      : (key)
+	if
+	  key.is_undefined
+	  next
+	  :
+	    if
+	      key.is_a_character:
+		push &str key
+		next
+	      :
+		if
+		  str.is_empty:
+		    push &combined key
+		    next
+		  :
+		    push &combined str
+		    push &combined key
+		    !str ""
+		    next
+      :
+	if
+	  str.is_empty
+	  -> combined
+	  -> push(combined str)
+
+  $maybe_remove_selection:
+    update_if_not do_keep_selection(window) || has_a_permanent_selection(window)
+      &window
+      ->
+	window
+	  .selection_start_x_of undefined
+	  .selection_start_y_of undefined
+    !window.do_keep_selection false
+    update_display
+
+$update_history: (key)
+  if
+    history.is_empty
+    add_entry
+    :
+      $previous_key third(history(-1))
+      if
+	||
+	  key.is_a_string && previous_key.is_a_string
+	  key.is_a_horizontal_movement && previous_key.is_a_horizontal_movement
+	  &&
+	    key.is_a_horizontal_selection
+	    previous_key.is_a_horizontal_selection
+	  key == BACKSPACE && previous_key == BACKSPACE
+	  key == DELETE && previous_key == DELETE
+	-> history
+	add_entry
+
+  $add_entry:
+    push history tuple(window lines key)
+
+$is_a_horizontal_movement: (key)
+  case key
+    CURSOR_LEFT, CURSOR_RIGHT, HOME, END
+    -> true
+    -> false
+
+$is_a_horizontal_selection: (key)
+  case key
+    SHIFT_CURSOR_LEFT, SHIFT_CURSOR_RIGHT, SHIFT_HOME, SHIFT_END
+    -> true
+    -> false
+
+$newline split_line
+$escape do_nothing
+
+$handle_key: (key)
+  !current_key key
+  update_if mark_state_of(window) > 0 &window
+    -> window(.mark_state_of mark_state_of(window)-1)
+  case key
+    # move cursor:
+
+    CURSOR_UP cursor_up
+    CURSOR_DOWN cursor_down
+    CURSOR_LEFT cursor_left
+    CURSOR_RIGHT cursor_right
+    PAGE_UP: cursor_up height_of(window)
+    PAGE_DOWN: cursor_down height_of(window)
+    CTRL_CURSOR_UP: smart_cursor_up
+    CTRL_CURSOR_DOWN: smart_cursor_down
+    HOME cursor_home
+    END cursor_end
+    CTRL_HOME cursor_top
+    CTRL_END cursor_bottom
+
+    # change selection:
+
+    SHIFT_CURSOR_UP: select cursor_up
+    SHIFT_CURSOR_DOWN: select cursor_down
+    SHIFT_CURSOR_LEFT: select cursor_left
+    SHIFT_CURSOR_RIGHT: select cursor_right
+    SHIFT_PAGE_UP: select: cursor_up height_of(window)
+    SHIFT_PAGE_DOWN: select: cursor_down height_of(window)
+    SHIFT_CTRL_CURSOR_UP: select: smart_cursor_up
+    SHIFT_CTRL_CURSOR_DOWN: select: smart_cursor_down
+    SHIFT_HOME: select cursor_home
+    SHIFT_END: select cursor_end
+    SHIFT_CTRL_HOME: select cursor_top
+    SHIFT_CTRL_END: select cursor_bottom
+
+    CTRL_PAGE_UP: cursor_up height_of(window) .div. 2
+    CTRL_PAGE_DOWN: cursor_down height_of(window) .div. 2
+
+    TABULATOR smart_indent
+    SHIFT_TABULATOR smart_outdent
+    RETURN newline
+    ESCAPE escape
+    BACKSPACE delete_left
+    DELETE delete_right
+    # CTRL_A
+    CTRL_B -> window(.action_of find_backwards) lines
+    CTRL_C copy
+    CTRL_D define_mark
+    CTRL_E toggle_line_lock
+    CTRL_F -> window(.action_of find_forwards) lines
+    CTRL_G -> window(.action_of goto_line) lines
+    # CTRL_H help
+    CTRL_J join_lines
+    CTRL_K delete_line
+    CTRL_L set_lower_bound
+    CTRL_N find_next
+    CTRL_P find_previous
+    CTRL_Q -> window(.action_of quit) lines
+    CTRL_R -> window(.action_of replace) lines
+    CTRL_S -> window(.action_of save_contents) lines
+    CTRL_T toggle_permanent_selection
+    CTRL_U set_upper_bound
+    CTRL_V paste
+    # CTRL_W
+    CTRL_X cut
+    # CTRL_Y redo
+    CTRL_BACKSPACE delete_to_line_start
+    CTRL_DELETE delete_to_line_end
+    ALT_SPACE smart_completion
+    CTRL_SPACE -> window(.action_of ai_completion) lines
+    ALT_RETURN toggle_folding
+    ALT_CURSOR_LEFT fold_contents
+    ALT_CURSOR_RIGHT unfold_contents
+    ALT_CURSOR_UP fold_everything
+    ALT_CURSOR_DOWN unfold_everything
+
+    ALT_A set_or_goto_mark
+    ALT_B set_or_goto_mark
+    ALT_C set_or_goto_mark
+    ALT_D set_or_goto_mark
+    ALT_E set_or_goto_mark
+    ALT_F set_or_goto_mark
+    ALT_G set_or_goto_mark
+    ALT_H set_or_goto_mark
+    ALT_I set_or_goto_mark
+    ALT_J set_or_goto_mark
+    ALT_K set_or_goto_mark
+    ALT_L set_or_goto_mark
+    ALT_M set_or_goto_mark
+    ALT_N set_or_goto_mark
+    ALT_O set_or_goto_mark
+    ALT_P set_or_goto_mark
+    ALT_Q set_or_goto_mark
+    ALT_R set_or_goto_mark
+    ALT_S set_or_goto_mark
+    ALT_T set_or_goto_mark
+    ALT_U set_or_goto_mark
+    ALT_V set_or_goto_mark
+    ALT_W set_or_goto_mark
+    ALT_X set_or_goto_mark
+    ALT_Y set_or_goto_mark
+    ALT_Z set_or_goto_mark
+
+    F1: keep_selection help
+    F2: keep_selection change_colour_set
+    :
+      #debug_write "Unhandled "
+      #edump `key
+      -> window lines
+
+  $keep_selection: (handler)
+    if
+      selection_start_x_of(window).is_defined:
+	!window.do_keep_selection true
+	handler
+      handler
+
+  $select: (handler)
+    !window.do_keep_selection true
+    update_if selection_start_x_of(window).is_undefined &window
+      ->
+	window
+	  .selection_start_x_of x_of(window)
+	  .selection_start_y_of y_of(window)
+    handler
+
+$paste_text: (input)
+  $s 1
+  $n length_of(input)
+  $i 0
+  loop:
+    inc &i
+    if
+      i > n:
+	insert range(input s n)
+      :
+	case input(i)
+	  '@ht;':
+	    insert !window !lines range(input s i-1)
+	    insert !window !lines "        "
+	    !s i+1
+	    next
+	  '@nl;', '@cr;':
+	    insert !window !lines range(input s i-1)
+	    new_line !window !lines
+	    !s i+1
+	    next
+	  next
+
+$do_nothing -> window lines
+
+$cursor_up: (dy = 1)
+  -> window(.y_of max(y_of(window)-dy 1)) lines
+
+$cursor_down: (dy = 1)
+  -> window(.y_of y_of(window)+dy) lines
+
+$smart_cursor_up:
+  $x x_of(window)
+  $y y_of(window)
+  $new_y y
+  loop:
+    dec &new_y
+    if
+      new_y <= length_of(lines):
+	$line lines(new_y)
+	if
+	  line.is_undefined || indent_of(line) >= x
+	  next
+	  : cursor_up y-new_y
+      -> window lines
+
+$smart_cursor_down:
+  $x x_of(window)
+  $y y_of(window)
+  $new_y y
+  loop:
+    inc &new_y
+    if
+      new_y <= length_of(lines):
+	$line lines(new_y)
+	if
+	  line.is_undefined || indent_of(line) >= x
+	  next
+	  :
+	    cursor_down new_y-y
+      -> window lines
+
+$cursor_left: (dx = 1)
+  -> window(.x_of max(x_of(window)-dx 1)) lines
+
+$cursor_right: (dx = 1)
+  -> window(.x_of x_of(window)+dx) lines
+
+$cursor_home:
+  $x x_of(window)
+  $y y_of(window)
+  if
+    y > length_of(lines)
+    -> window(.x_of 1) lines
+    :
+      $line lines(y)
+      if
+	line.is_undefined
+	-> window(.x_of 1) lines
+	:
+	  line $indent
+	  $new_x
+	    if
+	      x == indent+1
+	      -> 1
+	      -> indent+1
+	  -> window(.x_of new_x) lines
+
+$cursor_end:
+  $y y_of(window)
+  if
+    y > length_of(lines)
+    -> window(.x_of 1) lines
+    :
+      $line lines(y)
+      if
+	line.is_undefined
+	-> window(.x_of 1) lines
+	:
+	  line $indent $text
+	  -> window(.x_of indent+length_of(text)+1) lines
+
+$cursor_top:
+  ->
+    window
+      .x_of 1
+      .y_of 1
+    lines
+
+$cursor_bottom:
+  ->
+    window
+      .x_of 1
+      .y_of length_of(lines)+1
+    lines
+
+$insert: (str)
+  if
+    str.is_empty
+    -> window lines
+    :
+      $spaces_only all_of(str: (chr) -> chr == ' ')
+      $len length_of(str)
+      $y y_of(window)
+      $height length_of(lines)
+      if
+	y > height:
+	  if
+	    spaces_only:
+	      cursor_right len
+	    :
+	      $insert_line_count y-height
+	      set_first_updated_y !window height+1
+	      append &lines dup(list(undefined) insert_line_count)
+	      insert_text
+	insert_text
+
+      $insert_text:
+	$x x_of(window)
+	$line lines(y)
+	if $indent $text $marks $folds
+	  line.is_undefined
+	  -> x-1 "" "" undefined
+	  : line
+	$line_width indent+length_of(text)
+	$idx x-indent
+	if
+	  x > line_width:
+	    if
+	      spaces_only:
+		cursor_right len
+	      :
+		set_first_updated_y !window y
+		append &text spaces(x-(line_width+1)) str
+		!lines(y) tedi_line(indent text marks folds)
+		cursor_right len
+	  :
+	    set_first_updated_y !window y
+	    if
+	      x > indent+1:
+		!text append(range(text 1 idx-1) str range(text idx -1))
+		!lines(y) tedi_line(indent text marks folds)
+		cursor_right len
+	      :
+		!text append(str spaces(indent+1-x) text)
+		!lines(y) tedi_line(x-1 text marks folds)
+		cursor_right len
+
+$set_first_updated_y: (y)
+  $first_updated_y first_updated_y_of(window)
+  if
+    first_updated_y.is_undefined || y < first_updated_y
+    -> window(.first_updated_y_of y)
+    -> window
+
+$update_from: (y)
+  set_first_updated_y !window y
+  -> window(.last_updated_y_of END)
+
+$smart_indent:
+  !window.do_keep_selection true
+  $selection_start_y selection_start_y_of(window)
+  $x x_of(window)
+  if
+    selection_start_y.is_undefined:
+      $y y_of(window)
+      if
+	y > length_of(lines) || lines(y).is_undefined:
+	  $indent_above find_next_indent_above(x y)
+	  if
+	    indent_above.is_defined && indent_above+1 > x
+	    : cursor_right indent_above+1-x
+	    : cursor_right 2
+	:
+	  lines(y) $indent $text $marks $folds
+	  $indent_above find_next_indent_above(indent+1 y)
+	  if
+	    indent_above.is_defined && indent_above > indent:
+	      !lines(y) tedi_line(indent_above text marks folds)
+	      ->
+		window
+		  .x_of x+indent_above-indent
+		  .first_updated_y_of y
+		lines
+	    :
+	      !lines(y) tedi_line(indent+2 text marks folds)
+	      ->
+		window
+		  .x_of x+2
+		  .first_updated_y_of y
+		lines
+    :
+      $y y_of(window)
+      min_max !selection_start_y $selection_end_y y selection_start_y
+      update_if selection_end_y > selection_start_y &selection_end_y:
+	dec selection_end_y
+      reduce_to &selection_end_y length_of(lines)
+      $selected_lines range(lines selection_start_y selection_end_y)
+      map &selected_lines
+	: (line)
+	  line $indent $text $marks $folds
+	  if
+	    line.is_undefined
+	    -> undefined
+	    -> tedi_line(indent+2 text marks folds)
+      !lines
+	append
+	  range(lines 1 selection_start_y-1)
+	  selected_lines
+	  range(lines selection_end_y+1 -1)
+      !window.first_updated_y_of selection_start_y
+      !window.last_updated_y_of selection_end_y
+      !window.x_of x+2
+      -> window lines
+
+$find_next_indent_above: (x y)
+  reduce_to &y length_of(lines)+1
+  loop:
+    if
+      y > 1:
+	dec &y
+	$line lines(y)
+	if
+	  line.is_undefined
+	  next
+	  :
+	    line $indent
+	    if
+	      indent+1 > x
+	      -> indent
+	      -> undefined
+      -> undefined
+
+$smart_outdent:
+  !window.do_keep_selection true
+  $x x_of(window)
+  $y y_of(window)
+  $selection_start_y selection_start_y_of(window)
+  if
+    selection_start_y.is_undefined:
+      if
+	y > length_of(lines) || lines(y).is_undefined:
+	  $indent_above find_previous_indent_above(x y)
+	  if
+	    indent_above.is_defined && indent_above+1 < x
+	    : cursor_left x-(indent_above+1)
+	    : cursor_left 2
+	:
+	  lines(y) $indent $text $marks $folds
+	  if
+	    indent == 0
+	    -> window lines
+	    :
+	      $indent_above find_previous_indent_above(indent+1 y)
+	      if
+		indent_above.is_defined && indent_above < indent:
+		  !lines(y) tedi_line(indent_above text marks folds)
+		  ->
+		    window
+		      .x_of max(x-(indent-indent_above) 1)
+		      .first_updated_y_of y
+		    lines
+		:
+		  !lines(y) tedi_line(max(indent-2 0) text marks folds)
+		  ->
+		    window
+		      .x_of max(x-2 1)
+		      .first_updated_y_of y
+		    lines
+    :
+      min_max !selection_start_y $selection_end_y y selection_start_y
+      update_if selection_end_y > selection_start_y &selection_end_y:
+	dec selection_end_y
+      reduce_to &selection_end_y length_of(lines)
+      $selected_lines range(lines selection_start_y selection_end_y)
+      if
+	all_of
+	  selected_lines: (line) -> line.is_undefined || indent_of(line) >= 2
+	:
+	  map &selected_lines
+	    : (line)
+	      line $_indent $_text $marks $folds
+	      if
+		line.is_undefined
+		-> undefined
+		-> tedi_line(indent_of(line)-2 text_of(line) marks folds)
+	  !lines
+	    append
+	      range(lines 1 selection_start_y-1)
+	      selected_lines
+	      range(lines selection_end_y+1 -1)
+	  !window.first_updated_y_of selection_start_y
+	  !window.last_updated_y_of selection_end_y
+	  !window.x_of max(x-2 1)
+	  -> window lines
+	-> window lines
+
+$find_previous_indent_above: (x y)
+  reduce_to &y length_of(lines)+1
+  loop:
+    if
+      y > 1:
+	dec &y
+	$line lines(y)
+	if
+	  line.is_undefined
+	  next
+	  :
+	    line $indent
+	    if
+	      indent+1 < x
+	      -> indent
+	      next
+      -> undefined
+
+$new_line:
+  $y y_of(window)
+  if
+    y > length_of(lines):
+      !window.x_of 1
+      !window.y_of y+1
+      -> window lines
+    :
+      !lines append(push(range(lines 1 y) undefined) range(lines y+1 -1))
+      set_first_updated_y !window y+1
+      !window.last_updated_y_of END
+      !window.x_of 1
+      !window.y_of y+1
+      -> window lines
+
+$split_line:
+  $x x_of(window)
+  $y y_of(window)
+  $height length_of(lines)
+  if
+    y > length_of(lines):
+      !window.y_of y+1
+      !window.x_of 1
+      -> window lines
+    :
+      $line lines(y)
+      if
+	line.is_defined:
+	  line $indent $text $marks $folds
+	  cond
+	    -> x <= indent+1:
+	      !lines
+		append(push(range(lines 1 y-1) undefined) range(lines y -1))
+	      !window.first_updated_y_of y
+	      !window.last_updated_y_of END
+	      !window.y_of y+1
+	      -> window lines
+	    -> x > indent+length_of(text):
+	      if
+		y == height
+		->
+		  window
+		    .x_of indent+1
+		    .y_of y+1
+		  lines
+		:
+		  insert_empty_line indent
+	    -> true:
+	      update_if text != "" || y < length_of(lines) &lines:
+		append
+		  push
+		    push
+		      range(lines 1 y-1)
+		      tedi_line(indent range(text 1 x-(indent+1)) marks folds)
+		    tedi_line
+		      indent range(text x-indent -1).trim_left marks folds
+		  range(lines y+1 -1)
+	      !window.first_updated_y_of y
+	      !window.last_updated_y_of END
+	      !window.x_of indent+1
+	      !window.y_of y+1
+	      -> window lines
+	:
+	  insert_empty_line 0
+
+  $insert_empty_line: (indent)
+    !lines
+      append(push(range(lines 1 y) undefined) range(lines y+1 -1))
+    !window.first_updated_y_of y+1
+    !window.last_updated_y_of END
+    !window.x_of indent+1
+    !window.y_of y+1
+    -> window lines
+
+$delete_left:
+  $x x_of(window)
+  $y y_of(window)
+  if
+    x > 1:
+      if
+	y > length_of(lines)
+	cursor_left
+	:
+	  $line lines(y)
+	  if
+	    line.is_undefined
+	    cursor_left
+	    :
+	      line $indent $text $marks $folds
+	      cond
+		-> x <= indent+1:
+		  !window.x_of x-1
+		  update_lines_after_deletion y tedi_line(indent-1 text)
+		-> x > indent+length_of(text)+1 cursor_left
+		-> true:
+		  !window.x_of x-1
+		  !text
+		    append(range(text 1 x-(indent+2)) range(text x-indent -1))
+		  update_lines_after_deletion y
+		    tedi_line(indent text marks folds)
+    -> window lines
+
+$delete_right:
+  $x x_of(window)
+  $y y_of(window)
+  if
+    y > length_of(lines)
+    -> window lines
+    :
+      $line lines(y)
+      if
+	line.is_undefined
+	-> window lines
+	:
+	  line $indent $text $marks $folds
+
+	  cond
+	    -> x <= indent:
+	      update_lines_after_deletion y tedi_line(indent-1 text)
+	    -> x > indent+length_of(text)
+	      -> window lines
+	    -> true:
+	      !text append(range(text 1 x-(indent+1)) range(text x+1-indent -1))
+	      update_lines_after_deletion y tedi_line(indent text marks folds)
+
+$delete_line:
+  $y y_of(window)
+  $height length_of(lines)
+  if
+    y > height
+    -> window lines
+    :
+      !window.last_updated_y_of END
+      if
+	y == height:
+	  update_lines_after_deletion y undefined
+	->
+	  window(.first_updated_y_of y)
+	  append(range(lines 1 y-1) range(lines y+1 height))
+
+$delete_to_line_start:
+  $y y_of(window)
+  if
+    y > length_of(lines)
+    cursor_home
+    :
+      $line lines(y)
+      if
+	line.is_undefined
+	cursor_home
+	:
+	  line $indent $text $marks $folds
+	  $x x_of(window)
+	  $width indent+length_of(text)
+	  cond
+	    -> x > width:
+	      !window.x_of indent+1
+	      update_lines_after_deletion y undefined
+	    -> x <= indent+1:
+	      update_lines_after_deletion y tedi_line(x-1 text marks folds)
+	    -> true:
+	      !window.x_of indent+1
+	      update_lines_after_deletion y
+		tedi_line(indent range(text x-indent -1) marks folds)
+
+$delete_to_line_end:
+  $y y_of(window)
+  if
+    y > length_of(lines)
+    -> window lines
+    :
+      $line lines(y)
+      if
+	line.is_undefined
+	-> window lines
+	:
+	  line $indent $text $marks $folds
+	  $x x_of(window)
+	  $width indent+length_of(text)
+	  cond
+	    -> x > width
+	      -> window lines
+	    -> x <= indent+1:
+	      update_lines_after_deletion y undefined
+	    -> true:
+	      update_lines_after_deletion y
+		tedi_line(indent range(text 1 (x-1)-indent) marks folds)
+
+$update_lines_after_deletion: (y line)
+  $height length_of(lines)
+  if
+    line.is_undefined && y == height: # removing last line
+      loop:
+	dec &y
+	if
+	  y > 0 && lines(y).is_undefined
+	  next
+	  -> window(.first_updated_y_of max(y 1)) range(lines 1 y)
+    -> window(.first_updated_y_of y) lines(y line)
+
+$join_lines:
+  $x x_of(window)
+  $y y_of(window)
+  $height length_of(lines)
+  if
+    y > height:
+      if
+	y == height+1
+	goto_end_of_previous_line
+	cursor_up
+    :
+      $line lines(y)
+      if
+	line.is_undefined:
+	  update_from !window y
+	  if
+	    y == 1:
+	      range &lines 2 -1
+	      $line_below lines(y) # this line must exist
+	      if
+		line_below.is_undefined
+		-> window lines
+		-> window(.x_of indent_of(line_below)+1) lines
+	    :
+	      !lines append(range(lines 1 y-1) range(lines y+1 -1))
+	      $line_above lines(y-1)
+	      if
+		line_above.is_undefined
+		-> window(.y_of y-1) lines
+		:
+		  $line_below lines(y)
+		  if
+		    line_below.is_undefined
+		    -> window lines
+		    goto_end_of_previous_line
+	:
+	  line $indent $text $marks $folds
+	  $width indent+length_of(text)
+	  cond
+	    -> x <= indent+1 && y > 1: # join with line above
+	      update_from !window y-1
+	      $line_above lines(y-1)
+	      if
+		line_above.is_undefined
+		->
+		  window(.y_of y-1)
+		  append(range(lines 1 y-2) range(lines y -1))
+		:
+		  line_above $indent_above $text_above
+		  $length_above indent_above+length_of(text_above)
+		  update_if indent >= 1 &text_above: push text_above ' '
+		  append text_above &text
+		  ->
+		    window
+		      .x_of length_above+if(x > 1 (-> 2) (-> 1))
+		      .y_of y-1
+		    append
+		      push
+			range(lines 1 y-2)
+			tedi_line(indent_above text marks folds)
+		      range(lines y+1 -1)
+	    -> x > width && y < height: # join with line below
+	      update_from !window y
+	      $line_below lines(y+1)
+	      if
+		line_below.is_undefined
+		->
+		  window(.y_of y)
+		  append(range(lines 1 y) range(lines y+2 -1))
+		:
+		  line_below $indent_below $text_below
+		  update_if x > width+1 || indent_below >= 1 &text:
+		    push text ' '
+		  append &text text_below
+		  ->
+		    window
+		      .x_of width+if(x > width+1 (-> 2) (-> 1))
+		    append
+		      push
+			range(lines 1 y-1)
+			tedi_line(indent text marks folds)
+		      range(lines y+2 -1)
+	    -> true
+	      -> window lines
+
+  $goto_end_of_previous_line:
+    $line_above lines(y-1)
+    line_above $indent_above $text_above
+    $length_above indent_above+length_of(text_above)
+    ->
+      window
+	.x_of length_above+if(x == 1 (-> 1) (-> 2))
+	.y_of y-1
+      lines
+
+$save_contents:
+  save! filename lines_to_text(lines)
+  -> terminal window lines
+
+$lines_to_text: (some_lines)
+  map_reduce some_lines
+    : (line)
+      if
+	line.is_defined:
+	  line $indent $text $_marks $folds
+	  $line_text append(tabs_and_spaces(indent) text.to_utf8 "@nl;")
+	  if
+	    folds.is_defined
+	    -> append(line_text lines_to_text(folds))
+	    -> line_text
+	-> "@nl;"
+    append
+    ""
+
+$smart_completion:
+  $x x_of(window)
+  $y y_of(window)
+  $completion_prefix completion_prefix_of(window)
+  if
+    completion_prefix.is_defined:
+      $possible_completions possible_completions_of(window)
+      $line lines(y)
+      line $indent $text $marks $folds
+      $left range(text 1 x-(indent+1+length_of(possible_completions(1))))
+      $right range(text x-indent -1)
+      minus &x length_of(possible_completions(1))
+      range &possible_completions 2 -1
+      !window.first_updated_y_of y
+      if
+	possible_completions.is_empty:
+	  !lines(y)
+	    tedi_line(indent append(left completion_prefix right) marks folds)
+	  !window.x_of x+length_of(completion_prefix)
+	  !window.completion_prefix_of undefined
+	  !window.possible_completions_of undefined
+	  -> window lines
+	:
+	  !lines(y)
+	    tedi_line
+	      indent append(left possible_completions(1) right) marks folds
+	  !window.x_of x+length_of(possible_completions(1))
+	  !window.possible_completions_of possible_completions
+	  -> window lines
+    :
+      $height length_of(lines)
+      if
+	y > height:
+	  complete_prefix ""
+	:
+	  $line lines(y)
+	  if
+	    line.is_undefined:
+	      complete_prefix ""
+	    :
+	      line $indent $text
+	      $width indent+length_of(text)
+	      if
+		x <= indent || x > width+1:
+		  complete_prefix ""
+		:
+		  $e x-indent
+		  $s e
+		  loop:
+		    if
+		      s > 1 && text(s-1).is_an_identifier_character:
+			dec &s
+			next
+		      :
+			complete_prefix range(text s e-1)
+
+$complete_prefix: (prefix)
+  if $search_window $search_lines
+    editor_lines.is_defined
+    -> editor_window editor_lines
+    -> window lines
+  $y y_of(search_window)
+  $height length_of(search_lines)
+  $words empty_list
+  split $left_part $mid_part $right_part
+  update_if editor_lines.is_defined &words: collect_words mid_part false
+    #
+      do not use the word at the cursor position for completion unless we're in
+      a "dialog box"
+  collect_words !words left_part true
+  collect_words !words right_part false
+  $dy 0
+  loop:
+    inc &dy
+    $upper_y y-dy
+    $lower_y y+dy
+    if
+      upper_y < 1 && lower_y > height:
+	if
+	  words.is_empty
+	  -> window lines
+	  :
+	    !window.completion_prefix_of prefix
+	    !window.possible_completions_of words
+	    insert range(words(1) length_of(prefix)+1 -1)
+      :
+	update_if upper_y >= 1 &words: add_words upper_y true
+	update_if lower_y <= height &words: add_words lower_y false
+	next
+
+  $split:
+    $line search_lines(y)
+    if
+      line.is_undefined
+      -> undefined undefined undefined
+      :
+	line $indent $text
+	$x x_of(search_window)
+	cond
+	  -> x <= indent -> "" "" text
+	  -> x > indent+length_of(text) -> text "" ""
+	  -> true:
+	    minus &x indent
+	    $left trim_right(range(text 1 x-1) is_an_identifier_character)
+	    $right trim_left(range(text x -1) is_an_identifier_character)
+	    ->
+	      left
+	      range(text length_of(left)+1 -(length_of(right)+1))
+	      right
+
+  $add_words: (line_no right_to_left)
+    $line search_lines(line_no)
+    if
+      line.is_undefined
+      -> words
+      :
+	collect_words text_of(line) right_to_left
+
+  $collect_words: (text right_to_left)
+    cond
+      -> text.is_undefined -> empty_list
+      -> right_to_left:
+	$i length_of(text)+1
+	$e undefined
+	loop:
+	  dec &i
+	  if
+	    i < 1:
+	      if
+		e.is_defined
+		-> add_word(range(text 1 e))
+		-> words
+	    :
+	      if
+		text(i).is_an_identifier_character:
+		  update_if e.is_undefined &e -> i
+		  next
+		:
+		  if
+		    e.is_defined:
+		      add_word !words range(text i+1 e)
+		      !e undefined
+		      next
+		    next
+      -> true:
+	$n length_of(text)
+	$i 0
+	$s undefined
+	loop:
+	  inc &i
+	  if
+	    i > n:
+	      if
+		s.is_defined
+		-> add_word(range(text s n))
+		-> words
+	    :
+	      if
+		text(i).is_an_identifier_character:
+		  update_if s.is_undefined &s -> i
+		  next
+		:
+		  if
+		    s.is_defined:
+		      add_word !words range(text s i-1)
+		      !s undefined
+		      next
+		    next
+
+  $add_word: (word)
+    if
+      &&
+	word .has_prefix. prefix
+	word != prefix
+	not(words .contains. word)
+      -> push(words word)
+      -> words
+
+$is_an_identifier_character: (chr)
+  -> chr.is_a_letter || chr.is_a_digit || chr == '_'
+
+$ai_completion:
+  $y y_of(window)
+  $height length_of(lines)
+  $n min(y-1 height)
+  map_reduce $request range(lines 1 n)
+    : (line)
+      if
+	line.is_defined:
+	  line $indent $text
+	  append tabs_and_spaces(indent) text.to_utf8 "@nl;"
+	-> "@nl;"
+    append
+    ""
+  append &request dup("@nl;" y-(n+1))
+  if
+    y > height:
+      complete!: (completion)
+	if
+	  completion.is_empty
+	  done
+	  :
+	    set_first_updated_y !window height+1
+	    update_if y > height+1 &lines:
+	      append lines dup(list(undefined) y-(height+1))
+	    push &lines tedi_line(0 completion)
+	    update_from !window y
+	    done
+    :
+      $last_line lines(y)
+      if $indent $text
+	last_line.is_undefined
+	-> 0 ""
+	: last_line
+      $x x_of(window)
+      $width indent+length_of(text)
+      if
+	x <= width:
+	  complete!: (completion)
+	    !lines
+	      append
+		push(range(lines 1 n) tedi_line(0 completion))
+		range(lines n+1 -1)
+	    !window.first_updated_y_of y
+	    !window.last_updated_y_of END
+	    done
+	:
+	  append &request tabs_and_spaces(indent) text.to_utf8
+	  update_if x > width+1 &request: push request ' '
+	  complete!: (completion)
+	    !lines(y) tedi_line(indent append(text completion))
+	    !window.first_updated_y_of y
+	    done
+
+  $complete: (continuation)
+    #edump `request
+    if
+      request.is_empty
+      -> terminal window lines
+      :
+	open_socket! $sock "/tmp/takapaka.sock"
+	if
+	  sock.is_an_error
+	  -> terminal window lines
+	  :
+	    write! $_bytes_written sock request
+	    $completion ""
+	    loop:
+	      read! sock $reply 1024
+	      if
+		reply.is_empty:
+		  close! sock
+		  from_utf8 &completion
+		  #edump `completion
+		  range &completion 1 -2 # remove trailing newline
+		  replace_all &completion '@ht;' = "        "
+		  continuation completion
+		:
+		  append &completion reply
+		  next!
+
+  $done
+    ->
+      terminal
+      window
+	.x_of 1
+	.y_of y+1
+      lines
+
+$set_upper_bound:
+  ->
+    window
+      .is_locked true
+      .upper_bound_of y_of(window)+1-first_visible_y_of(window)
+    lines
+
+$set_lower_bound:
+  ->
+    window
+      .is_locked true
+      .lower_bound_of y_of(window)+1-first_visible_y_of(window)
+    lines
+
+$toggle_line_lock:
+  -> window(.is_locked not(window.is_locked)) lines
+
+$toggle_permanent_selection:
+  if
+    window.has_a_permanent_selection
+    ->
+      window
+	.has_a_permanent_selection false
+	.selection_start_x_of undefined
+	.selection_start_y_of undefined
+      lines
+    ->
+      window
+	.has_a_permanent_selection true
+	.selection_start_x_of x_of(window)
+	.selection_start_y_of y_of(window)
+      lines
+
+$copy: cut_or_copy false
+
+$cut: cut_or_copy true
+
+$cut_or_copy: (do_cut)
+  $selection_start_x selection_start_x_of(window)
+  $selection_start_y selection_start_y_of(window)
+  !window.selection_start_x_of undefined
+  !window.selection_start_y_of undefined
+  if
+    selection_start_y.is_undefined
+    -> window lines
+    :
+      $y y_of(window)
+      $height length_of(lines)
+      min_max_minus_1 !selection_start_y $selection_end_y y selection_start_y
+      if
+	selection_end_y < selection_start_y:
+	  if
+	    y > height || lines(y).is_undefined
+	    -> window lines
+	    :
+	      $line lines(y)
+	      line $indent $text $marks $folds
+	      $width indent+length_of(text)
+	      $x min(x_of(window) width+1)
+	      min_max !selection_start_x $selection_end_x x selection_start_x
+	      $s max(selection_start_x-indent 1)
+	      $e min((selection_end_x-1)-indent length_of(text))
+	      $contents range(text s e)
+	      if
+		contents.is_empty
+		-> window lines
+		:
+		  !window.clipboard_contents_of contents
+		  if
+		    do_cut
+		    :
+		      !window.x_of selection_start_x
+		      !window.first_updated_y_of y
+		      !lines(y)
+			tedi_line
+			  indent
+			  append(range(text 1 s-1) range(text e+1 -1))
+			  marks
+			  folds
+		      -> window lines
+		    -> window lines
+	:
+	  $contents
+	    if
+	      selection_start_y > height
+	      -> empty_list
+	      -> range(lines selection_start_y min(selection_end_y height))
+	  update_if selection_end_y > height &contents ->
+	    append
+	      contents
+	      dup
+		list(undefined)
+		selection_end_y-max(selection_start_y-1 height)
+	  !window.clipboard_contents_of contents
+	  if
+	    do_cut:
+	      !window.y_of selection_start_y
+	      update_from !window selection_start_y
+	      ->
+		window
+		append
+		  range(lines 1 selection_start_y-1)
+		  range(lines selection_end_y+1 -1)
+	    -> window lines
+
+$paste:
+  $clipboard_contents clipboard_contents_of(window)
+  if
+    clipboard_contents.is_defined:
+      if
+	clipboard_contents.is_a_string:
+	  insert clipboard_contents
+	:
+	  $y y_of(window)
+	  if
+	    y > length_of(lines):
+	      $insert_line_count y-length_of(lines)
+	      append &lines dup(list(undefined) insert_line_count)
+	      insert_lines
+	    insert_lines
+
+	  $insert_lines
+	    ->
+	      window
+		.first_updated_y_of y
+		.last_updated_y_of END
+	      trim_lines
+		append
+		  range(lines 1 y-1)
+		  clipboard_contents
+		  range(lines y -1)
+
+    -> window lines
+
+$trim_lines: (updated_lines)
+  $y length_of(updated_lines)
+  if
+    updated_lines(y).is_defined
+    -> updated_lines
+    :
+      loop:
+	dec &y
+	if
+	  y > 0 && updated_lines(y).is_undefined
+	  next
+	  -> range(updated_lines 1 y)
+
+$find_forwards:
+  find_text! false
+
+$find_backwards:
+  find_text! true
+
+$find_text: (do_search_backwards)
+  !editor_window window
+  !editor_lines lines
+  !lines search_history_of(window)
+  !window
+    prototype_window
+      .left_x_of 1
+      .top_y_of -1
+      .width_of terminal_width
+      .height_of 1
+      .x_of 1
+      .y_of length_of(lines)+1
+      .colour_set_of colour_sets(2)
+  !newline -> window(.action_of EXIT) lines
+  !escape -> window(.action_of EXIT) empty_list
+  define_window &terminal
+    left_x_of(window) top_y_of(window)
+    left_x_of(window)+width_of(window)-1 top_y_of(window)+height_of(window)-1
+  update_display !terminal !window
+  update_terminal &terminal $output
+  print! output
+  event_loop! !terminal $search_window $search_lines
+  !window editor_window
+  !lines editor_lines
+  draw_command_bar !terminal
+  update_display !terminal !window
+  update_terminal &terminal !output
+  print! output
+  $y y_of(search_window)
+  if
+    y <= length_of(search_lines) && search_lines(y).is_defined:
+      !window.search_history_of search_lines
+      !window.search_text_of text_of(search_lines(y))
+      !window.replacement_text_of undefined
+      if !window !lines
+	do_search_backwards
+	find_previous
+	find_next
+      -> terminal window lines
+    -> terminal window lines
+
+$find_next:
+  $search_text search_text_of(window)
+  if
+    search_text.is_undefined
+    -> window lines
+    :
+      $y y_of(window)
+      $height length_of(lines)
+      if
+	y > height
+	-> window lines
+	:
+	  $x x_of(window)
+	  $line lines(y)
+	  if
+	    line.is_undefined:
+	      find ""
+	    :
+	      line $indent $text
+	      if
+		x > length_of(text):
+		  find ""
+		:
+		  find range(text x-indent -1)
+
+      $find: (text)
+	search $pos $len search_text text
+	if
+	  pos.is_defined:
+	    lines(y) $indent $full_text
+	    $offset
+	      if
+		y == y_of(window)
+		-> length_of(full_text)-length_of(text)
+		-> 0
+	    !window
+	      window
+		.do_keep_selection true
+		.selection_start_x_of indent+offset+pos
+		.selection_start_y_of y
+		.x_of indent+offset+pos+len
+		.y_of y
+	    replace_selection
+	  :
+	    loop:
+	      inc &y
+	      if
+		y > height
+		-> window lines
+		:
+		  $line lines(y)
+		  if
+		    line.is_undefined
+		    next
+		    :
+		      find text_of(line)
+
+$find_previous:
+  $search_text search_text_of(window)
+  if
+    search_text.is_undefined
+    -> window lines
+    :
+      $y min(y_of(window) length_of(lines))
+      if
+	y < 1
+	-> window lines
+	:
+	  $x x_of(window)
+	  $line lines(y)
+	  if
+	    line.is_undefined:
+	      find ""
+	    :
+	      line $indent $text
+	      $width indent+length_of(text)
+	      cond
+		-> x <= indent: find ""
+		-> x > width: find text
+		-> true: find range(text 1 x-indent)
+
+      $find: (text)
+	search $pos $len search_text text -1
+	if
+	  pos.is_defined:
+	    !window
+	      window
+		.do_keep_selection true
+		.x_of indent_of(lines(y))+pos
+		.y_of y
+		.selection_start_x_of indent_of(lines(y))+pos+len
+		.selection_start_y_of y
+	    replace_selection
+	  :
+	    loop:
+	      dec &y
+	      if
+		y < 1
+		-> window lines
+		:
+		  $line lines(y)
+		  if
+		    line.is_undefined
+		    next
+		    :
+		      find text_of(line)
+
+$replace:
+  !editor_window window
+  !editor_lines lines
+  !lines replacement_history_of(window)
+  !window
+    prototype_window
+      .left_x_of 1
+      .top_y_of -1
+      .width_of terminal_width
+      .height_of 1
+      .x_of 1
+      .y_of length_of(lines)+1
+      .colour_set_of colour_sets(2)
+  !newline -> window(.action_of EXIT) lines
+  !escape -> window(.action_of EXIT) empty_list
+  define_window &terminal
+    left_x_of(window) top_y_of(window)
+    left_x_of(window)+width_of(window)-1 top_y_of(window)+height_of(window)-1
+  update_display !terminal !window
+  update_terminal &terminal $output
+  print! output
+  event_loop! !terminal $replacement_window $replacement_lines
+  !window editor_window
+  !lines editor_lines
+  draw_command_bar !terminal
+  update_display !terminal !window
+  update_terminal &terminal !output
+  print! output
+  $y y_of(replacement_window)
+  if
+    y <= length_of(replacement_lines) && replacement_lines(y).is_defined:
+      !window.replacement_history_of replacement_lines
+      !window.replacement_text_of text_of(replacement_lines(y))
+      replace_selection !window !lines
+      -> terminal window lines
+    -> terminal window lines
+
+$replace_selection:
+  $y y_of(window)
+  $replacement_text replacement_text_of(window)
+  if
+    ||
+      replacement_text.is_undefined
+      selection_start_y_of(window) != y
+      y > length_of(lines)
+    -> window lines
+    :
+      $line lines(y)
+      line $indent $text $marks $folds
+      $x x_of(window)
+      $selection_start_x selection_start_x_of(window)
+      min_max !selection_start_x $selection_end_x x selection_start_x
+      $s max(selection_start_x-indent 1)
+      $e min((selection_end_x-1)-indent length_of(text))
+      !text
+	append
+	  range(text 1 s-1)
+	  replacement_text_of(window)
+	  range(text e+1 -1)
+      !lines(y) tedi_line(indent text marks folds)
+      !window.first_updated_y_of y
+      !window.do_keep_selection true
+      !e s+length_of(replacement_text_of(window))
+      ->
+	if
+	  indent+s == selection_start_x
+	  -> window(.x_of indent+e)
+	  -> window(.selection_start_x_of indent+e)
+	lines
+
+$goto_line:
+  !editor_window window
+  !editor_lines lines
+  !lines list(undefined)
+  !window
+    prototype_window
+      .left_x_of 1
+      .top_y_of -1
+      .width_of terminal_width
+      .height_of 1
+      .colour_set_of colour_sets(2)
+  !newline -> window(.action_of EXIT) lines
+  define_window &terminal
+    left_x_of(window) top_y_of(window)
+    left_x_of(window)+width_of(window)-1 top_y_of(window)+height_of(window)-1
+  update_display !terminal !window
+  update_terminal &terminal $output
+  print! output
+  event_loop! !terminal !window !lines
+  $line lines(1)
+  !window editor_window
+  !lines editor_lines
+  draw_command_bar !terminal
+  update_display !terminal !window
+  update_terminal &terminal !output
+  print! output
+  if
+    line.is_defined:
+      $line_no text_of(line).to_integer
+      ->
+	terminal
+	if
+	  line_no.is_undefined
+	  -> window
+	  -> window(.y_of line_no)
+	lines
+    -> terminal window lines
+
+$define_mark:
+  -> window(.mark_state_of 2) lines
+
+$set_or_goto_mark:
+  $letter alt_key_to_letter(current_key)
+  if
+    mark_state_of(window) > 0:
+      remove_mark !lines
+      $y y_of(window)
+      $line lines(y)
+      if
+	line.is_undefined
+	-> window lines
+	:
+	  line $indent $text $marks $folds
+	  !lines(y) tedi_line(indent text push(marks letter) folds)
+	  -> window lines
+    :
+      for_each lines
+	: (y line)
+	  if
+	    line.is_undefined
+	    next
+	    :
+	      line $_indent $_text $marks
+	      if
+		marks .contains. letter
+		-> window(.y_of y) lines
+		next
+	-> window lines
+
+  $remove_mark:
+    for_each lines
+      : (y line)
+	if
+	  line.is_undefined
+	  next
+	  :
+	    line $indent $text $marks $folds
+	    if
+	      marks .contains. letter:
+		!lines(y)
+		  tedi_line(indent text replace_first(marks letter = "") folds)
+		-> lines
+	      next
+      -> lines
+
+$toggle_folding:
+  # toggles a single folding level
+  $y y_of(window)
+  if
+    y > length_of(lines) || lines(y).is_undefined
+    -> window lines
+    :
+      $line lines(y)
+      line $indent $text $marks $folds
+      if
+	folds.is_defined:
+	  update_from !window y
+	  ->
+	    window
+	    append
+	      push
+		range(lines 1 y-1)
+		tedi_line(indent text marks undefined)
+	      folds
+	      range(lines y+1 -1)
+	:
+	  collect_indented_lines $e lines y indent
+	  if
+	    e <= y
+	    -> window lines
+	    :
+	      update_from !window y
+	      ->
+		window
+		append
+		  push
+		    range(lines 1 y-1)
+		    tedi_line(indent text marks range(lines y+1 e))
+		  range(lines e+1 -1)
+
+$fold_contents:
+  $y y_of(window)
+  $height length_of(lines)
+  if
+    y > height || lines(y).is_undefined
+    -> window lines
+    :
+      $line lines(y)
+      line $indent
+      collect_indented_lines $e lines y indent
+      update_from !window y # only necessary if e > y
+      ->
+	window
+
+	append
+	  range(lines 1 y-1)
+	  fold_all(range(lines y e))
+	  range(lines e+1 -1)
+
+$unfold_contents:
+  $y y_of(window)
+  $height length_of(lines)
+  if
+    y > height || lines(y).is_undefined
+    -> window lines
+    :
+      update_from !window y
+      ->
+	window
+	append
+	  range(lines 1 y-1)
+	  recursively_collect_folded_lines(lines(y))
+	  range(lines y+1 -1)
+
+$fold_everything:
+  if
+    lines.is_empty
+    -> window lines
+    :
+      $y y_of(window)
+      $height length_of(lines)
+      find_first $skip $_dummy lines is_defined
+      !window.y_of
+	+
+	  skip-1
+	  count(range(lines 1 min(y height)) is_a_top_level_line)
+	  max(y-height 0)
+      update_from !window 1
+      -> window fold_all(lines)
+
+      $is_a_top_level_line: (line)
+	-> line.is_defined && indent_of(line) == 0
+
+$unfold_everything:
+  $y y_of(window)
+  $height length_of(lines)
+  $groups map(lines recursively_collect_folded_lines)
+  !window.y_of
+    +
+      map_reduce(range(groups 1 min(y-1 height)) length_of plus 0)
+      max(y-height 1)
+  update_from !window 1
+  -> window reduce(groups append empty_list)
+
+$fold_all: (some_lines)
+  $i 0
+  $n length_of(some_lines)
+  $folds empty_list
+  loop:
+    inc &i
+    if
+      i > n
+      -> folds
+      :
+	$line some_lines(i)
+	if
+	  line.is_undefined:
+	    push &folds line
+	    next
+	  :
+	    line $indent $text $marks $subfolds
+	    if
+	      subfolds.is_defined:
+		push &folds
+		  tedi_line(indent text marks fold_all(subfolds))
+		next
+	      :
+		collect_indented_lines $e some_lines i indent
+		if
+		  e > i:
+		    push &folds
+		      tedi_line
+			indent
+			text
+			marks
+			fold_all(range(some_lines i+1 e))
+		    !i e
+		    next
+		  :
+		    push &folds line
+		    next
+
+$collect_indented_lines: (some_lines i indent)
+  $n length_of(some_lines)
+  loop:
+    inc &i
+    if
+      i > n
+      -> n
+      :
+	$current_line some_lines(i)
+	if
+	  current_line.is_undefined
+	  next
+	  :
+	    if
+	      indent_of(current_line) > indent
+	      next
+	      -> i-1
+
+$recursively_collect_folded_lines: (line)
+  if
+    line.is_defined:
+      line $indent $text $marks $folds
+      if
+	folds.is_defined:
+	  put
+	    map_reduce(folds recursively_collect_folded_lines)
+	    tedi_line(indent text marks undefined)
+	-> list(line)
+    -> list(undefined)
+
+$help:
+  #debug_write "
+    show help
+  -> window lines
+
+$change_colour_set:
+  $colour_set_no colour_set_no_of(window)
+  if
+    colour_set_no.is_undefined
+    -> window lines
+    :
+      $next_colour_set_no
+	if
+	  colour_set_no >= length_of(colour_sets)
+	  -> 1
+	  -> colour_set_no+1
+      ->
+	window
+	  .colour_set_no_of next_colour_set_no
+	  .colour_set_of colour_sets(next_colour_set_no)
+	  .first_updated_y_of 1
+	  .last_updated_y_of END
+	lines
+
+$load_file:
+  load! $buf filename
+  from_utf8 &buf
+  trim_right &buf
+  update_if buf.is_not_empty &buf -> push(buf '@nl;')
+  map split_into_indented_lines(buf): (line)
+    if
+      line.is_defined
+      -> tedi_line(first(line) range(second(line) 1 -2))
+      -> undefined
+
+$update_display:
+  update_if window.is_a_text_window &terminal: draw_title_bar
+  $left_x left_x_of(window)
+  $top_y top_y_of(window)
+  define_window &terminal
+    left_x top_y left_x+width_of(window)-1 top_y+height_of(window)-1
+  $x x_of(window)
+  $y y_of(window)
+  $width width_of(window)
+  $height height_of(window)
+  $first_visible_x first_visible_x_of(window)
+  $first_visible_y first_visible_y_of(window)
+  $upper_bound upper_bound_of(window)
+  $lower_bound lower_bound_of(window)
+  cond $new_first_visible_x $cursor_x
+    -> x < first_visible_x
+      -> x 1
+    -> x >= first_visible_x+width
+      -> x+1-width width
+    -> true
+      -> first_visible_x x+1-first_visible_x
+  $new_first_visible_y
+    cond
+      -> window.is_locked:
+	cond
+	  -> y < first_visible_y+upper_bound-1
+	    -> max(y+1-upper_bound 1)
+	  -> y > first_visible_y+lower_bound-1
+	    -> y+1-lower_bound
+	  -> true
+	    -> first_visible_y
+      -> y < first_visible_y
+	-> y
+      -> y >= first_visible_y+height
+	-> y+1-height
+      -> true
+	-> first_visible_y
+  $cursor_y 1+y-new_first_visible_y
+  $first_updated_y first_updated_y_of(window)
+  $last_updated_y last_updated_y_of(window)
+  update_if
+    ||
+      new_first_visible_x != first_visible_x
+      new_first_visible_y != first_visible_y
+    &first_visible_x &first_visible_y &first_updated_y &last_updated_y
+    ->
+      new_first_visible_x new_first_visible_y
+      new_first_visible_y new_first_visible_y+height-1
+  $previous_window
+    if
+      history.is_empty
+      -> undefined
+      -> first(history(-1))
+  if
+    $previous_x $previous_y
+    $previous_selection_start_x $previous_selection_start_y
+    previous_window.is_undefined
+    -> undefined undefined undefined undefined
+    ->
+      x_of(previous_window)
+      y_of(previous_window)
+      selection_start_x_of(previous_window)
+      selection_start_y_of(previous_window)
+  $selection_start_x selection_start_x_of(window)
+  $selection_start_y selection_start_y_of(window)
+  if $selection_first_updated_y $selection_last_updated_y
+    previous_selection_start_x.is_defined:
+      if
+	selection_start_x.is_defined:
+	  # check for selection change
+	  cond
+	    -> y != previous_y:
+	      if
+		y > previous_y
+		-> previous_y y-1
+		-> y previous_y
+	    -> x != previous_x -> y y
+	    -> true -> first_updated_y last_updated_y
+	:
+	  # remove selection highlights
+	  if
+	    previous_y == previous_selection_start_y
+	    -> previous_y previous_y
+	    : min_max_minus_1 previous_y previous_selection_start_y
+    :
+      if
+	selection_start_x.is_defined:
+	  # show initial selection
+	  if
+	    y == selection_start_y
+	    -> y y
+	    : min_max_minus_1 y selection_start_y
+	-> first_updated_y last_updated_y
+  !first_updated_y
+    if
+      first_updated_y.is_undefined
+      -> selection_first_updated_y
+      -> min(first_updated_y selection_first_updated_y)
+  !last_updated_y
+    cond
+      -> last_updated_y.is_undefined -> selection_last_updated_y
+      -> last_updated_y == END -> END
+      -> true -> max(last_updated_y selection_last_updated_y)
+  !window
+    window
+      .first_visible_x_of first_visible_x
+      .first_visible_y_of first_visible_y
+      .first_updated_y_of first_updated_y
+      .last_updated_y_of last_updated_y
+  set_cursor &terminal cursor_x cursor_y
+  if
+    first_updated_y.is_defined:
+      $top_cursor_y
+	if
+	  previous_y.is_defined && previous_y < y
+	  -> previous_y
+	  -> y
+      $bottom_cursor_y
+	if
+	  previous_y.is_defined && previous_y > y
+	  -> previous_y
+	  -> y
+      min &first_updated_y top_cursor_y
+      update_if # include cursor line & previous cursor line if not included
+	||
+	  &&
+	    last_updated_y.is_undefined
+	    first_updated_y < bottom_cursor_y
+	  &&
+	    last_updated_y.is_defined
+	    last_updated_y != END
+	    last_updated_y < bottom_cursor_y
+	&last_updated_y -> bottom_cursor_y
+      draw_lines !terminal
+	first_updated_y+1-first_visible_y first_updated_y last_updated_y
+      !window.first_updated_y_of undefined
+      !window.last_updated_y_of undefined
+      -> terminal window
+    :
+      if
+	y != previous_y:
+	  draw_lines !terminal
+	    previous_y+1-first_visible_y previous_y previous_y
+	  draw_lines !terminal y+1-first_visible_y y y
+	  -> terminal window
+	-> terminal window
+
+$min_max_minus_1: (v1 v2)
+  min_max &v1 &v2
+  -> v1 v2-1
+
+$draw_lines: (terminal_y first_y last_y)
+  $colour_set colour_set_of(window)
+  $default_background_colour background_colour_of(colour_set)
+  $selection_colour selection_colour_of(colour_set)
+  $out_of_bounds_colour out_of_bounds_colour_of(colour_set)
+  set_text_colour &terminal text_colour_of(colour_set)
+  !last_y
+    cond
+      -> last_y == undefined -> first_y
+      -> last_y == END -> first_y+height_of(window)-terminal_y
+      -> true -> min(last_y first_y+height_of(window)-terminal_y)
+  $first_visible_x first_visible_x_of(window)
+  $width width_of(window)
+  $line_count length_of(lines)
+  $selection_start_y selection_start_y_of(window)
+  $selection_end_y undefined
+  if
+    selection_start_y.is_defined:
+      !selection_end_y max(y_of(window) selection_start_y)
+      !selection_start_y min(y_of(window) selection_start_y)
+      draw_line_range
+    draw_line_range
+  $draw_line_range:
+    from_to first_y last_y
+      : (y)
+	$background_colour
+	  if
+	    y > line_count
+	    -> out_of_bounds_colour
+	    -> default_background_colour
+	set_window_colour !terminal background_colour
+	if
+	  y > line_count
+	  clear_line
+	  :
+	    $line lines(y)
+	    if
+	      within_selection():
+		if
+		  selection_start_y == selection_end_y:
+		    draw_selected_line
+		  :
+		    set_window_colour !terminal selection_colour
+		    draw_line
+	      :
+		if
+		  line.is_defined && folds_of(line).is_defined:
+		    if
+		      all_of(folds_of(line) is_undefined):
+			set_window_colour !terminal
+			  fake_folds_colour_of(colour_set)
+			draw_line
+		      :
+			set_window_colour !terminal folds_colour_of(colour_set)
+			draw_line
+		  :
+		    set_window_colour !terminal background_colour
+		    draw_line
+
+	    $draw_line:
+	      if
+		line.is_undefined
+		clear_line
+		:
+		  line $indent $text
+		  append spaces(indent) &text
+		  pad_right &text first_visible_x+width-1
+		  range &text first_visible_x -1
+		  $inbounds_width inbounds_width_of(window)
+		  $cy terminal_y+y-first_y
+		  if
+		    inbounds_width.is_defined && width > inbounds_width:
+		      draw_text &terminal 1 cy range(text 1 inbounds_width)
+		      set_window_colour !terminal out_of_bounds_colour
+		      draw_text &terminal inbounds_width+1 cy
+			range(text inbounds_width+1 -1)
+		      next
+		    :
+		      draw_text &terminal 1 terminal_y+y-first_y text
+		      next
+
+	    $draw_selected_line:
+	      if
+		line.is_undefined
+		clear_line
+		:
+		  get_horizontal_selection $selection_start_x $selection_end_x
+		  line $indent $text
+		  append spaces(indent) &text
+		  pad_right &text first_visible_x+width-1
+		  range &text first_visible_x -1
+		  $current_y terminal_y+y-first_y
+		  !selection_start_x selection_start_x+1-first_visible_x
+		  extend_to &selection_start_x 1
+		  reduce_to &selection_start_x width
+		  !selection_end_x selection_end_x+1-first_visible_x
+		  extend_to &selection_end_x 1
+		  reduce_to &selection_end_x width
+		  set_window_colour !terminal background_colour
+		  draw_text &terminal 1 current_y
+		    range(text 1 selection_start_x-1)
+		  set_window_colour !terminal selection_colour
+		  draw_text &terminal selection_start_x current_y
+		    range(text selection_start_x selection_end_x-1)
+		  set_window_colour !terminal background_colour
+		  draw_text &terminal selection_end_x current_y
+		    range(text selection_end_x -1)
+		  next
+
+	$clear_line:
+	  if
+	    within_selection():
+	      set_window_colour !terminal selection_colour
+	      clear_and_next
+	    clear_and_next
+
+	  $clear_and_next:
+	    $cy terminal_y+y-first_y
+	    $inbounds_width inbounds_width_of(window)
+	    if
+	      inbounds_width.is_defined && width > inbounds_width:
+		clear &terminal 1 cy inbounds_width 1
+		set_window_colour !terminal out_of_bounds_colour
+		clear &terminal inbounds_width+1 cy width-inbounds_width 1
+		next
+	      :
+		clear &terminal 1 cy width 1
+		next
+
+	$within_selection
+	  ->
+	    &&
+	      selection_start_y.is_defined
+	      y >= selection_start_y
+	      y < selection_end_y || y == selection_start_y
+
+	$get_horizontal_selection:
+	  $x x_of(window)
+	  $selection_start_x selection_start_x_of(window)
+	  -> min(x selection_start_x) max(x selection_start_x)
+
+	$set_window_colour: (colour)
+	  if
+	    y == y_of(window):
+	      $red red_component_of(colour)
+	      $green green_component_of(colour)
+	      $blue blue_component_of(colour)
+	      set_background_colour terminal
+		rgb_character
+		  if(red < 0xe0 (-> red+0x20) (-> red-0x20))
+		  if(green < 0xe0 (-> green+0x20) (-> green-0x20))
+		  if(blue < 0xe0 (-> blue+0x20) (-> blue-0x20))
+	    :
+	      set_background_colour terminal colour
+
+      -> terminal
+
+$draw_title_bar:
+  define_window &terminal 1 1 -1 1
+  $colour_set colour_set_of(window)
+  set_text_colour &terminal bar_text_colour_of(colour_set)
+  set_background_colour &terminal bar_background_colour_of(colour_set)
+  clear &terminal
+  draw_text &terminal 1 1
+    pad_left("@(y_of(window))/@(length_of(lines))" 11)
+    ':' pad_right(x_of(window) 3)
+    "  " filename
+  -> terminal
+
+$draw_command_bar:
+  define_window &terminal 1 -1 -1 -1
+  $colour_set colour_set_of(window)
+  set_text_colour &terminal bar_text_colour_of(colour_set)
+  set_background_colour &terminal bar_background_colour_of(colour_set)
+  clear &terminal
+  -> terminal
+
+$quit:
+  set_terminal_attributes! $_success STDIN_FILENO original_attributes
+  print! "@esc;[u" # restore cursor position
+  print! "@esc;[?47l" # switch to default screen
+  print! "@esc;[0m" # set default colours
+  terminate!
+
+# Helper Functions
+
+$tedi_line:
+  (
+    indent
+    text
+    marks = ""
+    folds = undefined
+  )
+  # must not be called with a text containing only space characters
+  if
+    text.is_empty
+    -> undefined
+    :
+      $prefix_spaces count_prefix_spaces(text)
+      $suffix_spaces count_suffix_spaces(text)
+      range &text prefix_spaces+1 -(suffix_spaces+1)
+      -> new(tedi_types::tedi_line indent+prefix_spaces text marks folds)
+
+$count_prefix_spaces: (str)
+  $len length_of(str)
+  $i 1
+  loop:
+    if
+      i <= len && str(i) == ' ':
+	inc &i
+	next
+      -> i-1
+
+$count_suffix_spaces: (str)
+  $len length_of(str)
+  $i len
+  loop:
+    if
+      i >= 1 && str(i) == ' ':
+	dec &i
+	next
+      -> len-i

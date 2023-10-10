@@ -1,0 +1,6 @@
+#!/usr/bin/env fkyrun
+
+$names list("Albert" "Berta" "Caesar" "Detlef" "Egon")
+
+println! reverse("Albert")
+print! reverse(names).serialize

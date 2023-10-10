@@ -1,0 +1,12 @@
+#!/usr/bin/env fkyrun
+
+$t tuple(1 'B' "ccc")
+
+t $a $b
+dump! `a `b
+
+t $x $y $z
+dump! `x `y `z
+
+t $A $B $C $D
+dump! `A `B `C `D

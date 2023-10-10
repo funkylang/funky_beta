@@ -1,0 +1,1055 @@
+# the prefix "some_" means zero or more such items;
+# such a rule is responsible to take care of leading SPC
+
+# the prefix "a_" or "an_" means exactly one item;
+# such a rule is responsible to take care of leading SPC
+
+###
+# TOP-LEVEL RULE
+
+top_level_statement
+  < meta_instruction
+  multiline_remark
+  statement
+
+
+###
+# ABSTRACT RULES (to create base nodes)
+
+simple_name
+  name
+
+identifier_and_expression
+  identifier expression
+
+simple_expression
+  an_expression
+
+namespace_meta_instruction
+  name version trailing_remarks
+
+
+###
+# IDENTIFIERS
+
+name
+  a-zA-Z more_name_characters
+
+more_name_characters
+  a-zA-Z0-9 more_name_characters
+  _ more_name_words
+  NIL
+
+more_name_words
+  a-zA-Z0-9 more_name_characters
+
+identifier
+  a-zA-Z more_identifier_characters
+
+more_identifier_characters
+  a-zA-Z0-9 more_identifier_characters
+  _ more_identifier_words
+  : : name
+  NIL
+
+more_identifier_words
+  a-zA-Z0-9 more_identifier_characters
+
+versioned_identifier
+  a-zA-Z more_versioned_identifier_characters
+
+more_versioned_identifier_characters
+  a-zA-Z0-9 more_versioned_identifier_characters
+  _ more_versioned_identifier_words
+  : : name
+  - namespace_description
+  NIL
+
+more_versioned_identifier_words
+  a-zA-Z0-9 more_versioned_identifier_characters
+
+namespace_description
+  1-9 more_major_digits_or_dot
+  u n s t a b l e : : name
+
+more_major_digits_or_dot
+  0-9 more_major_digits_or_dot
+  . 0-9 more_minor_digits
+
+more_minor_digits
+  0-9 more_minor_digits
+  : : name
+
+optional_version
+  - version
+  NIL
+
+
+###
+# STATEMENTS
+
+parameters_or_statement
+  open_parameters
+  close_parameters
+  multiline_remark
+  statement
+
+statement
+  head statement_arguments
+
+head
+  dummy_definition
+  definition
+  redefinition
+  return
+  inline_functor
+
+statement_arguments
+  unique
+  attribute
+  attribute_with_setter
+  type_function
+  attribute_value_pair
+  method_value_pair
+  some_statement_arguments
+
+inline_statement
+  inline_head some_inline_arguments
+
+inline_head
+  return
+  inline_functor
+
+some_inline_arguments
+  inline_body
+  spaced_inline_arguments
+  NIL
+
+attribute_value_pair
+  . pair
+
+type_function
+  / : body
+
+method_value_pair
+  / pair
+
+pair
+  identifier some_argument
+
+
+###
+# META-INSTRUCTIONS
+
+meta_instruction
+  namespace_instruction
+  require_instruction
+  using_instruction
+  alias_instruction
+  resolve_instruction
+  allow_instruction
+
+namespace_instruction
+  n a m e s p a c e SPC name optional_version > trailing_remarks
+
+require_instruction
+  r e q u i r e SPC filename > trailing_remarks
+
+using_instruction
+  u s i n g SPC name optional_version > trailing_remarks
+
+alias_instruction
+  a l i a s SPC alias equal_sign name > trailing_remarks
+
+resolve_instruction
+  r e s o l v e SPC name - version > trailing_remarks
+
+allow_instruction
+  a l l o w SPC pragma > trailing_remarks
+
+filename
+  a-zA-Z more_filename_characters
+  . . / filename
+  . / filename_characters
+
+filename_characters
+  a-zA-Z more_filename_characters
+
+more_filename_characters
+  a-zA-Z0-9 more_filename_characters
+  _ more_filename_words
+  / filename_characters
+  NIL
+
+more_filename_words
+  a-zA-Z0-9 more_filename_characters
+
+alias
+  name
+
+equal_sign
+  SPC = SPC
+  =
+
+version
+  version_no
+  unstable
+
+version_no
+  major . minor
+
+major
+  1-9 zero_or_more_digits
+
+minor
+  0-9 zero_or_more_digits
+
+zero_or_more_digits
+  0-9 zero_or_more_digits
+  NIL
+
+unstable
+  u n s t a b l e
+
+pragma
+  allow_hidden
+  allow_unused
+
+allow_hidden
+  h i d d e n
+
+allow_unused
+  u n u s e d
+
+
+###
+# CALLS
+
+functor
+  identifier extensions
+
+extensions
+  io_call
+  function_call_extension
+  attribute_access_extension
+  tagged_multiline_arguments
+  remark_and_multiline_function_call
+  NIL
+
+function_call_extension
+  function_call extensions
+
+attribute_access_extension
+  attribute_access extensions
+
+inline_functor
+  identifier inline_extensions
+
+inline_extensions
+  io_call
+  inline_function_call_extension
+  inline_attribute_access_extension
+  NIL
+
+inline_calls
+  inline_function_call_extension
+  inline_attribute_access_extension
+  NIL
+
+inline_function_call_extension
+  function_call inline_extensions
+
+inline_attribute_access_extension
+  attribute_access inline_extensions
+
+io_call
+  !
+
+function_call
+  ( optional_inline_arguments
+
+optional_inline_arguments
+  )
+  function_call_arguments
+
+function_call_arguments
+  inline_arguments )
+
+inline_return
+  - > spaced_inline_arguments
+
+attribute_access
+  . identifier
+
+###
+# ARGUMENTS
+
+some_argument
+  : body
+  SPC argument
+  multiline_arguments
+
+some_arguments
+  : body
+  spaced_arguments
+  line_remarks
+  NIL
+
+some_statement_arguments
+  : body
+  spaced_statement_arguments
+  multiline_arguments
+  line_remarks
+  LF
+
+spaced_arguments
+  SPC more_arguments
+
+spaced_statement_arguments
+  SPC more_statement_arguments
+
+more_arguments
+  : body
+  return_expression
+  multiline_string_literal
+  arguments
+
+more_statement_arguments
+  : body
+  return_expression
+  multiline_string_literal
+  even_more_statement_arguments
+
+arguments
+  argument some_arguments
+
+even_more_statement_arguments
+  argument some_statement_arguments
+
+multiline_arguments
+  GRP line_start_arguments
+
+tagged_multiline_arguments
+  GRP line_start_arguments
+
+remark_and_multiline_function_call
+  spaced_remark OPTGRP line_start_arguments
+
+argument
+  dummy_definition
+  definition
+  redefinition
+  update
+  : body
+  return_expression
+  remark
+  multiline_string_literal
+  expression
+
+line_start_arguments
+  : body
+  return_expression
+  multiline_remark
+  attribute_value_pair
+  type_function
+  multiline_string_literal
+  multiline_plus
+  multiline_minus
+  multiline_minus_with_remark
+  multiline_times
+  multiline_over
+  multiline_over_with_remark
+  multiline_shift_left
+  multiline_shift_right
+  multiline_equal
+  multiline_not_equal
+  multiline_less_equal
+  multiline_less_than
+  multiline_greater_equal
+  multiline_greater_than
+  multiline_and
+  multiline_or
+  multiline_bit_and
+  multiline_bit_and_with_remark
+  multiline_bit_or
+  multiline_bit_xor
+  multiline_assign
+  method_value_pair
+  arguments
+
+
+###
+# ASSIGNMENTS
+
+dummy_definition
+  $ _ name
+
+variable
+  identifier
+
+definition
+  $ versioned_identifier
+
+redefinition
+  ! identifier inline_extensions
+
+update
+  & identifier inline_extensions
+
+
+###
+# EXPRESSIONS AND OPERANDS
+
+# operator precedences from high to low
+
+# * /
+# + -
+# & | ^ << >>
+# == != < <= > >=
+# ..
+# .named_operator.
+# && ||
+# ,
+# =
+
+expression
+  sequence_expression key_value_operator
+
+key_value_operator
+  SPC = SPC key_value
+  = key_value
+  NIL
+
+key_value
+  sequence_expression
+
+sequence_expression
+  conditional_expression comma_operator
+
+comma_operator
+  , SPC comma
+  , comma
+  SPC , SPC comma
+  NIL
+
+comma
+  comma_expression
+
+comma_expression
+  sequence_expression comma_operator
+
+conditional_expression
+  named_operator_expression logical_operator
+
+logical_operator
+  SPC & & SPC and
+  SPC | | SPC or
+  NIL
+
+and
+  and_expression
+
+and_expression
+  named_operator_expression and_operator
+
+and_operator
+  SPC & & SPC and
+  NIL
+
+or
+  or_expression
+
+or_expression
+  named_operator_expression or_operator
+
+or_operator
+  SPC | | SPC or
+  NIL
+
+named_operator_expression
+  range_expression optional_named_operator
+
+optional_named_operator
+  named_operator
+  NIL
+
+named_operator
+  SPC . identifier . SPC range_expression
+
+range_expression
+  relational_expression range_operator
+
+range_operator
+  . . range
+  SPC . . SPC range
+  NIL
+
+range
+  relational_expression
+
+relational_expression
+  bit_expression comparison_operator
+
+comparison_operator
+  SPC = = SPC equal
+  = = equal
+  SPC ! = SPC not_equal
+  ! = not_equal
+  SPC < = SPC less_equal
+  < = less_equal
+  SPC < SPC less_than
+  < less_than
+  SPC > = SPC greater_equal
+  > = greater_equal
+  SPC > SPC greater_than
+  > greater_than
+  NIL
+
+equal
+  tagged_bit_expression
+
+not_equal
+  tagged_bit_expression
+
+less_equal
+  tagged_bit_expression
+
+less_than
+  tagged_bit_expression
+
+greater_equal
+  tagged_bit_expression
+
+greater_than
+  tagged_bit_expression
+
+tagged_bit_expression
+  additive_expression bit_operator
+
+bit_expression
+  additive_expression bit_operator
+
+bit_operator
+  SPC < < SPC shift_left
+  < < shift_left
+  SPC > > SPC shift_right
+  > > shift_right
+  SPC & SPC bit_and
+  & bit_and
+  SPC | SPC bit_or
+  | bit_or
+  SPC ^ SPC bit_xor
+  ^ bit_xor
+  NIL
+
+shift_left
+  tagged_additive_expression
+
+shift_right
+  tagged_additive_expression
+
+bit_and
+  bit_and2
+
+bit_and2
+  additive_expression bit_and_operator
+
+bit_and_operator
+  SPC & SPC bit_and
+  & bit_and
+  NIL
+
+bit_or
+  bit_or2
+
+bit_or2
+  additive_expression bit_or_operator
+
+bit_or_operator
+  SPC | SPC bit_or
+  | bit_or
+  NIL
+
+bit_xor
+  bit_xor2
+
+bit_xor2
+  additive_expression bit_xor_operator
+
+bit_xor_operator
+  SPC ^ SPC bit_xor
+  ^ bit_xor
+  NIL
+
+tagged_additive_expression
+  multiplicative_expression additive_operator
+
+additive_expression
+  multiplicative_expression additive_operator
+
+additive_operator
+  + plus
+  SPC + SPC plus
+  - minus
+  SPC - SPC minus
+  NIL
+
+plus
+  plus2
+
+plus2
+  multiplicative_expression additive_operator
+
+minus
+  tagged_multiplicative_expression
+
+tagged_multiplicative_expression
+  an_expression multiplicative_operator
+
+multiplicative_expression
+  an_expression multiplicative_operator
+
+multiplicative_operator
+  * times
+  SPC * SPC times
+  / over
+  SPC / SPC over
+  NIL
+
+times
+  times2
+
+times2
+  an_expression multiplicative_operator
+
+over
+  an_expression
+
+an_expression
+  parenthesed_expression
+  ' @ special_character_literal
+  character_literal
+  string_literal
+  negation
+  functor
+  backquoted
+  numeric_literal
+
+parenthesed_expression
+  ( inline_expression ) inline_calls
+
+inline_expression
+  inline_body
+  inline_return
+  expression
+
+backquoted
+  ` an_expression
+
+negation
+ - an_expression
+
+multiline_operator
+  trailing_remark GRP line_start_arguments
+
+multiline_plus
+  + multiline_operator
+
+multiline_minus
+  - LF dummy_remark GRP line_start_arguments
+
+multiline_minus_with_remark
+  - SPC remark GRP line_start_arguments
+
+multiline_times
+  * multiline_operator
+
+multiline_over
+  / GRP line_start_arguments
+
+multiline_over_with_remark
+  / SPC remark GRP line_start_arguments
+
+multiline_shift_left
+  < < multiline_operator
+
+multiline_shift_right
+  > > multiline_operator
+
+multiline_equal
+  = = multiline_operator
+
+multiline_not_equal
+  ! = multiline_operator
+
+multiline_less_equal
+  < = multiline_operator
+
+multiline_less_than
+  < multiline_operator
+
+multiline_greater_equal
+  > = multiline_operator
+
+multiline_greater_than
+  > multiline_operator
+
+multiline_and
+  & & multiline_operator
+
+multiline_or
+  | | multiline_operator
+
+multiline_bit_and
+  & LF dummy_remark GRP line_start_arguments
+
+multiline_bit_and_with_remark
+  & SPC remark GRP line_start_arguments
+
+multiline_bit_or
+  | multiline_operator
+
+multiline_bit_xor
+  ^ multiline_operator
+
+multiline_assign
+  = multiline_operator
+
+inline_arguments
+  inline_attribute_value_pair
+  inline_method_value_pair
+  inline_return
+  inline_body
+  expression_and_inline_arguments
+
+inline_attribute_value_pair
+  . identifier SPC expression
+
+inline_method_value_pair
+  / identifier SPC expression
+
+expression_and_inline_arguments
+  expression some_inline_arguments
+
+spaced_inline_arguments
+  SPC inline_arguments
+
+
+###
+# LITERALS
+
+# NUMERIC LITERALS
+
+numeric_literal
+  digits
+
+digits
+  1-9 more_decimal_digits
+  0 maybe_non_decimal_numeric_literal
+
+maybe_non_decimal_numeric_literal
+  0-9 more_decimal_digits
+  ' 0-9 more_decimal_digits
+  . 0-9 more_fraction_digits
+  b binary_digits
+  o octal_digits
+  x hex_digits
+  NIL
+
+more_decimal_digits
+  0-9 more_decimal_digits
+  ' 0-9 more_decimal_digits
+  . 0-9 more_fraction_digits
+  e exponent
+  E exponent
+  NIL
+
+more_fraction_digits
+  0-9 more_fraction_digits
+  e exponent
+  E exponent
+  NIL
+
+exponent
+  + exponent_digits
+  - exponent_digits
+  0-9 more_exponent_digits
+
+exponent_digits
+  0-9 more_exponent_digits
+
+more_exponent_digits
+  0-9 more_exponent_digits
+  NIL
+
+binary_digits
+  01 more_binary_digits
+
+more_binary_digits
+  01 more_binary_digits
+  ' 01 more_binary_digits
+  NIL
+
+octal_digits
+  0-7 more_octal_digits
+
+more_octal_digits
+  0-7 more_octal_digits
+  ' 0-7 more_octal_digits
+  NIL
+
+hex_digits
+  0-9a-fA-F more_hex_digits
+
+more_hex_digits
+  0-9a-fA-F more_hex_digits
+  ' 0-9a-fA-F more_hex_digits
+  NIL
+
+# CHARACTER AND STRING LITERALS
+
+special_character_literal
+  at_character_literal
+  named_character_literal
+  numeric_character_literal
+
+at_character_literal
+  @ '
+
+named_character_literal
+  character_name ; '
+
+numeric_character_literal
+  digits ; '
+
+character_literal
+  ' character '
+
+character
+  ANY
+
+character_name
+  a-zA-Z more_character_name_characters
+
+more_character_name_characters
+  a-zA-Z0-9 more_character_name_characters
+  NIL
+
+string_literal
+ " string_components
+
+string_components
+  "
+  some_string_components
+
+some_string_components
+  string_component string_components
+
+string_component
+  at_character
+  tagged_empty_character
+  escape_expression
+  @ special_character
+  character_sequence
+
+character_sequence
+  string_characters
+
+string_characters
+  ~@" more_string_characters
+
+more_string_characters
+  ~@" more_string_characters
+  NIL
+
+multiline_string_literal
+  " LIN multiline_string_components
+
+multiline_string_components
+  string_line_end
+  newline
+  some_string_line_components
+
+newline
+  LF
+
+some_string_line_components
+  string_line_component multiline_string_components
+
+string_line_component
+  at_character
+  tagged_empty_character
+  escape_expression
+  @ special_character
+  string_line_character_sequence
+
+string_line_end
+  @ LF
+
+at_character
+  @ @
+
+tagged_empty_character
+  empty_character
+
+empty_character
+  @ ;
+
+escape_expression
+  @ ( expression )
+
+special_character
+  named_character
+  numeric_character
+
+named_character
+  character_name ;
+
+numeric_character
+  digits ;
+
+string_line_character_sequence
+  string_line_characters
+
+string_line_characters
+  ~@ more_string_line_characters
+
+more_string_line_characters
+  ~@ more_string_line_characters
+  NIL
+
+
+# SPECIAL LITERALS
+
+unique
+  SPC . trailing_remarks
+
+attribute
+  SPC ( ) trailing_remarks
+
+attribute_with_setter
+  SPC ( ! ) trailing_remarks
+
+
+###
+# LAMBDA FUNCTIONS
+
+body
+  inline_parameters optional_line_end_remark body_statements
+
+optional_line_end_remark
+  spaced_remark
+  NIL
+
+body_statements
+  line_end_statement
+  statements
+
+line_end_statement
+  SPC statement
+
+inline_body
+  : inline_parameters SPC inline_statement
+
+statements
+  GRP parameters_or_statement
+
+inline_parameters
+  SPC ( some_inline_parameters
+  NIL
+
+some_inline_parameters
+  )
+  one_or_more_inline_parameters
+
+one_or_more_inline_parameters
+  inline_parameter maybe_more_inline_parameters
+
+maybe_more_inline_parameters
+  SPC one_or_more_inline_parameters
+  )
+
+parameter_name
+  _ name
+  a-zA-Z more_name_characters
+
+open_parameters
+  ( trailing_remark GRP parameter
+
+inline_parameter
+  parameter_name parameter_option
+
+parameter
+  parameter_name parameter_option trailing_remarks
+
+parameter_option
+  myself
+  rest
+  initial_value
+  NIL
+
+myself
+  ^
+
+rest
+  *
+
+initial_value
+  SPC = SPC simple_operand
+
+simple_operand
+  variable
+  ' @ special_character_literal
+  character_literal
+  string_literal
+  numeric_literal
+
+close_parameters
+  ) trailing_remark
+
+return_expression
+  - > some_statement_arguments
+
+return
+  - >
+
+
+###
+# REMARKS
+
+remark
+  # remark_text
+
+remark_text
+  LF
+  ANY remark_text
+
+trailing_remarks
+  line_remarks
+  line_end_and_line_remarks
+
+line_end_and_line_remarks
+  trailing_remark line_remarks
+
+trailing_remark
+  spaced_remark
+  LF
+
+line_remarks
+  OPTGRP multiline_remark
+
+spaced_remark
+  SPC # remark_text
+
+multiline_remark
+  # remark_text some_remark_lines
+
+some_remark_lines
+  LIN remark_lines
+  NIL
+
+remark_lines
+  remark_text
+
+dummy_remark
+  LF

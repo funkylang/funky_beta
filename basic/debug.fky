@@ -1,0 +1,95 @@
+#
+  Copyright (C) 2021 by
+  Dipl.-Ing. Michael Niederle
+
+  This program is free software; you can redistribute it and/or modify
+  it under the terms of the GNU Library General Public License, version 2, or
+  (at your option) under the terms of the GNU Lesser General Public License,
+  version 3.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  GNU Lesser (Library) General Public License for more details.
+
+  For details of the GNU General Public License see the accompanying
+  files LGPLv2.txt and LGLPv3.txt or
+  http://www.gnu.org/licenses/lgpl-2.0.html
+  http://www.gnu.org/licenses/lgpl-3.0.html
+  or write to the
+  Free Software Foundation, Inc.,
+  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+
+$std::dump:
+  #
+    write an object dump to stdout
+
+    Dumps its arguments consisting of an alternating sequence of
+    expression names and expression values using <write>. The expression values
+    are converted into strings using <debug_string>.
+
+    The depth to which debug strings shall be generated can be provided as an
+    optional first argument; the default depth is 1.
+
+    See also: edump, debug_string
+
+    Example:
+
+    dump! `value_1 `value_2 `2*f(x)
+  (
+    args* # an alternating sequence of names and values
+  )
+  $n length_of(args)
+  $depth
+    if
+      n.is_odd
+      -> args(1)
+      -> 1
+  $i
+    if
+      n.is_odd
+      -> 2
+      -> 1
+  loop
+    :
+      if
+	i < n:
+	  $name args(i)
+	  $expr args(i+1)
+	  print! name ":" debug_string(expr -2 depth)
+	  !i i+2
+	  next!
+	break
+    pass
+
+$std::debug_writeln:
+  (
+    str
+  )
+  debug_write str
+  debug_write "@nl;"
+
+$std::edump:
+  #
+    write an object dump to stderr
+
+    Dumps the specified object.
+
+    This function needs no IO-access rights!
+
+    The depth to which debug strings shall be generated can be provided as an
+    optional first argument; the default depth is 1.
+
+    See also: dump, debug_string
+
+    Example:
+
+    edump 2 `2*f(x)
+  (
+    depth = 1 # the desired detail level
+    label # the label to use for the expression
+    expr # the expression
+  )
+  debug_write label
+  debug_write ": "
+  debug_print expr depth

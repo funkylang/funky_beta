@@ -1,0 +1,4 @@
+ERROR: Variable is already defined IN LINE 5 OF FILE name_hiding.fky
+
+  $x 11
+  ^

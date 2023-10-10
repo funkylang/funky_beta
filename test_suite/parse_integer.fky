@@ -1,0 +1,18 @@
+#!/usr/bin/env fkyrun
+
+$buf1 "-0x123"
+$buf2 "0b1011a"
+$buf3 "0ba27"
+$buf4 "0o738"
+$buf5 "0xgau"
+
+parse_integer &buf1 $result1
+dump! `buf1 `result1
+parse_integer &buf2 $result2
+dump! `buf2 `result2
+parse_integer &buf3 $result3
+dump! `buf3 `result3
+parse_integer &buf4 $result4
+dump! `buf4 `result4
+parse_integer &buf5 $result5
+dump! `buf5 `result5

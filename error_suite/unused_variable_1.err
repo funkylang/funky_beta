@@ -1,0 +1,4 @@
+ERROR: Unused variable IN LINE 7 OF FILE unused_variable_1.fky
+
+  $s x*x
+  ^

@@ -1,0 +1,83 @@
+list <15>
+  5.3
+  key_value_pair <2>
+    "A"
+    12.1
+  value_range <2>
+    1
+    10
+  4711
+  <true>
+  'a'
+  '@228;'
+  tuple <3>
+    <std::RED>
+    <std::GREEN>
+    <std::BLUE>
+  "abc@228;@246;@252;"
+  <undefined>
+  key_order_table <8>
+    "blue"
+    <std::BLUE>
+    "green"
+    <std::GREEN>
+    "red"
+    <std::RED>
+    "yellow"
+    hash_table <6>
+      "Beluga"
+      77
+      "Cara"
+      33
+      "Abel"
+      99
+  '@64;'
+  <false>
+  key_order_set <4>
+    "apples"
+    "peaches"
+    "pears"
+    "pineapples"
+  <std::RED>
+_________________________________________
+list <15>
+5.3
+key_value_pair <2>
+"A"
+12.1
+value_range <2>
+1
+10
+4711
+<true>
+'a'
+'@228;'
+tuple <3>
+<std::RED>
+<std::GREEN>
+<std::BLUE>
+"abc@228;@246;@252;"
+<undefined>
+key_order_table <8>
+"blue"
+<std::BLUE>
+"green"
+<std::GREEN>
+"red"
+<std::RED>
+"yellow"
+hash_table <6>
+"Beluga"
+77
+"Cara"
+33
+"Abel"
+99
+'@64;'
+<false>
+key_order_set <4>
+"apples"
+"peaches"
+"pears"
+"pineapples"
+<std::RED>

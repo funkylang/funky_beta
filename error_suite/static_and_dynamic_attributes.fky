@@ -1,0 +1,12 @@
+#!/usr/bin/env fkyrun
+
+$items_of ()
+
+$items list('a' 'b' 'c')
+
+$obj std_types::object
+$obj.items_of items
+
+!obj.items_of(-1) 'x'
+
+print! serialize(items_of(obj) 0)

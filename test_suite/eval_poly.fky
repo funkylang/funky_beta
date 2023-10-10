@@ -1,0 +1,8 @@
+#!/usr/bin/env fkyrun
+
+$eval_poly: (x coefficients)
+  map_reduce coefficients
+    : (idx value) -> value*pow(x 3-idx)
+    plus
+
+println! eval_poly(2 list(2 3 4))

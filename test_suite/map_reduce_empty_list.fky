@@ -1,0 +1,19 @@
+#!/usr/bin/env fkyrun
+
+$l1 list("a" "berta" "ce")
+$l2 empty_list
+
+dump! 3 `map(l1 length_of)
+dump! 3 `map(l2 length_of)
+
+dump! 3 `reduce(l1 append)
+dump! 3 `reduce(l2 append)
+
+dump! 3 `reduce(l1 append "")
+dump! 3 `reduce(l2 append "")
+
+dump! 3 `map_reduce(l1 length_of plus)
+dump! 3 `map_reduce(l2 length_of plus)
+
+dump! 3 `map_reduce(l1 length_of plus 0)
+dump! 3 `map_reduce(l2 length_of plus 0)

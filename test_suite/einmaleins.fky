@@ -1,0 +1,12 @@
+#!/usr/bin/env fkyrun
+
+from_to 1 8
+  : (a)
+    from_to 1 8
+      : (b)
+	print! pad_left(a 2) " x" pad_left(b 2) " = " pad_left(a*b 2)
+	next!
+      :
+	println!
+	next!
+  pass

@@ -1,0 +1,77 @@
+#
+  Copyright (C) 2023 by
+  Dipl.-Ing. Michael Niederle
+
+  This program is free software; you can redistribute it and/or modify
+  it under the terms of the GNU General Public License, version 2, or
+  (at your option) version 3.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  GNU General Public License for more details.
+
+  For details of the GNU General Public License see the accompanying
+  files GPLv2.txt and GLPv3.txt or
+  http://www.gnu.org/licenses/gpl-2.0.html
+  http://www.gnu.org/licenses/gpl-3.0.html
+  or write to the
+  Free Software Foundation, Inc.,
+  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+
+<require ./tuple_autogen>
+
+$std::is_a_tuple () # obvious
+
+$std_types::object.is_a_tuple false # obvious
+$std_types::tuple.is_a_tuple true # obvious
+
+$std_types::tuple.serialization_tag_of "tuple"
+
+$std::first: (t)
+  t $first
+  -> first
+
+$std::second: (t)
+  t $_first $second
+  -> second
+
+$std::third: (t)
+  t $_first $_second $third
+  -> third
+
+$std::fourth: (t)
+  t $_first $_second $_third $fourth
+  -> fourth
+
+$std::fifth: (t)
+  t $_first $_second $_third $_fourth $fifth
+  -> fifth
+
+$std_types::tuple/serialize:
+  (
+    self
+    indent = undefined
+  )
+  $new_indent
+    if
+      indent.is_defined
+      -> indent+2
+      -> undefined
+  $items self.to_list
+  map_reduce $contents
+    items: (item) -> serialize(item new_indent)
+    append
+    ""
+  $header
+    "
+      @(serialization_tag_of(self)) <@(length_of(items))>
+  update_if indent.is_defined &header -> append(tabs_and_spaces(indent) header)
+  append header contents
+
+$std_types::tuple.deserializer_of:
+  (
+    type
+    items
+  )
+  -> new_tuple(type items)

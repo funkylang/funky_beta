@@ -1,0 +1,22 @@
+#!/usr/bin/env fkyrun
+
+edump `EACCES
+edump `ENOENT
+
+stat! $info "/root/.bashrc"
+if
+  info.is_an_error:
+    $errno errno_of(info)
+    edump `errno
+    edump `(errno == EACCES || errno == ENOENT)
+  :
+    edump `info
+
+stat! !info "/tmp/sadkhfaskdjgfhkl"
+if
+  info.is_an_error:
+    $errno errno_of(info)
+    edump `errno
+    edump `(errno == EACCES || errno == ENOENT)
+  :
+    edump `info

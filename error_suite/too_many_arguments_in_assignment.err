@@ -1,0 +1,4 @@
+ERROR: Too many arguments in assignment IN LINE 6 OF FILE too_many_arguments_in_assignment.fky
+
+$x y z
+     ^

@@ -1,0 +1,155 @@
+#
+  Copyright (C) 2022 by
+  Dipl.-Ing. Michael Niederle
+
+  This program is free software; you can redistribute it and/or modify
+  it under the terms of the GNU Library General Public License, version 2, or
+  (at your option) under the terms of the GNU Lesser General Public License,
+  version 3.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  GNU Lesser (Library) General Public License for more details.
+
+  For details of the GNU General Public License see the accompanying
+  files LGPLv2.txt and LGLPv3.txt or
+  http://www.gnu.org/licenses/lgpl-2.0.html
+  http://www.gnu.org/licenses/lgpl-3.0.html
+  or write to the
+  Free Software Foundation, Inc.,
+  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+
+$std::serialize ()
+  #
+    returns a machine readable string representation of the object
+
+    If possible the object ist transformed into its source code form.
+
+    Topic: Strings, Serialization
+
+    See also: std::serialization_tag_of, std::to_string
+
+$std::serialization_tag_of ()
+
+$std::deserializer_of ()
+
+$std::deserializers empty_hash_table
+
+$std::register_type:
+  (
+    deserializers
+    type
+  )
+  -> deserializers(serialization_tag_of(type) type)
+
+$std::register_types:
+  (
+    deserializers
+    types
+  )
+  for_each types
+    : (type)
+      !deserializers(serialization_tag_of(type)) type
+      next
+    -> deserializers
+
+$std::deserialize:
+  (
+    text
+  )
+  split_into_lines $lines text
+  map &lines: (line)
+    trim &line
+    case line(1)
+      '@quot;':
+	$buf ""
+	range &line 2 -2
+	loop:
+	  if
+	    line.is_empty
+	    -> buf
+	    :
+	      $chr line(1)
+	      range &line 2 -1
+	      if
+		chr == '@@':
+		  $code integer(line)
+		  push &buf character(code)
+		  loop
+		    :
+		      if
+			line(1).is_a_digit:
+			  range &line 2 -1
+			  next
+			:
+			  range &line 2 -1 # skip semicolon
+			  break
+		    next
+		:
+		  push &buf chr
+		  next
+      '@apos;':
+	$chr line(2)
+	if
+	  chr == '@@':
+	    $code integer(range(line 3 -1))
+	    -> character(code)
+	  -> chr
+      '0'..'9':
+	if
+	  line .contains. '.'
+	  -> real(line)
+	  -> integer(line)
+      '<':
+	case line
+	  "<true>" -> true
+	  "<false>" -> false
+	  "<undefined>" -> undefined
+	  -> unique_item(range(line 2 -2))
+      :
+	$idx 1
+	$len length_of(line)
+	loop:
+	  if
+	    idx > len
+	    -> tuple(deserializers(line) "")
+	    :
+	      if
+		line(idx) == ' '
+		:
+		  $value range(line idx+1 -1)
+		  update_if value(1) == '<' && value(-1) == '>' &value
+		    -> range(value 2 -2).to_integer
+		  ->
+		    tuple
+		      deserializers(range(line 1 idx-1))
+		      value
+		:
+		  inc &idx
+		  next
+
+  fetch 1 $_pos 1 $objects
+  -> objects(1)
+
+  $fetch: (i len)
+    $items empty_list
+    repeat len
+      :
+	$item lines(i)
+	!i i+1
+	if
+	  item.is_defined && item.is_a_tuple:
+	    item $type $argument
+	    if
+	      argument.is_an_integer:
+		fetch &i argument $arguments
+		push &items deserializer_of(type)(type arguments)
+		next
+	      :
+		push &items deserializer_of(type)(type argument)
+		next
+	  :
+	    push &items item
+	    next
+      -> i items

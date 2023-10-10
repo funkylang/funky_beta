@@ -1,0 +1,463 @@
+#
+  Copyright (C) 2021 by
+  Dipl.-Ing. Michael Niederle
+
+  This program is free software; you can redistribute it and/or modify
+  it under the terms of the GNU Library General Public License, version 2, or
+  (at your option) under the terms of the GNU Lesser General Public License,
+  version 3.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  GNU Lesser (Library) General Public License for more details.
+
+  For details of the GNU General Public License see the accompanying
+  files LGPLv2.txt and LGLPv3.txt or
+  http://www.gnu.org/licenses/lgpl-2.0.html
+  http://www.gnu.org/licenses/lgpl-3.0.html
+  or write to the
+  Free Software Foundation, Inc.,
+  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+
+<using std>
+
+$std::bin:
+  #
+    returns a string consisting of binary digits
+
+    The first argument must be a positive integer number. The optional second
+    argument specifies the minimum length of the string to be returned. If there
+    are less bits then specified by the *size* then the string is left-padded
+    with '0'-characters.
+
+    Topic: Math, Strings
+
+    See also: hex, oct, to_string
+  (
+    val
+    size = undefined
+  )
+  if
+    val == 0:
+      if
+	size.is_defined
+	-> dup("0" size)
+	-> "0"
+    :
+      $str ""
+      loop !str:
+	if
+	  val > 0:
+	    put &str '0'+(val & 1)
+	    !val val >> 1
+	    next
+	  -> str
+      if
+	size.is_defined
+	-> pad_left(str size "0")
+	-> str
+
+$std::oct:
+  #
+    returns a string consisting of octal digits
+
+    The first argument must be a positive integer number. The optional second
+    argument specifies the minimum length of the string to be returned. If there
+    are less octal digits then specified by the *size* then the string is
+    left-padded with '0'-characters.
+
+    Topic: Math, Strings
+
+    See also: hex, bin, to_string
+  (
+    val
+    size = undefined
+  )
+  if
+    val == 0:
+      if
+	size.is_defined
+	-> dup("0" size)
+	-> "0"
+    :
+      $str ""
+      loop !str:
+	if
+	  val > 0:
+	    put &str '0'+(val & 0x07)
+	    !val val >> 3
+	    next
+	  -> str
+      if
+	size.is_defined
+	-> pad_left(str size "0")
+	-> str
+
+$std::hex:
+  #
+    returns a string consisting of hexadecimal digits
+
+    The first argument must be a positive integer number. The optional second
+    argument specifies the minimum length of the string to be returned. If there
+    are less hexadecimal digits then specified by the *size* then the string is
+    left-padded with '0'-characters.
+
+    Topic: Math, Strings
+
+    See also: oct, bin, to_string
+  (
+    val
+    size = undefined
+  )
+  if
+    val == 0:
+      if
+	size.is_defined
+	-> dup("0" size)
+	-> "0"
+    :
+      $str ""
+      loop !str:
+	if
+	  val > 0:
+	    $hex_digit val & 0x0f
+	    put &str
+	      if
+		hex_digit >= 10
+		-> 'a'+hex_digit-10
+		-> '0'+hex_digit
+	    !val val >> 4
+	    next
+	  -> str
+      if
+	size.is_defined
+	-> pad_left(str size "0")
+	-> str
+
+$std::inc:
+  #
+    adds the number 1
+
+    See also: dec, plus
+  (
+    var
+  )
+  plus var 1
+
+$std::dec:
+  #
+    subtracts the number 1
+
+    See also: inc, minus
+  (
+    var
+  )
+  minus var 1
+
+$std::extend_to:
+  #
+    returns the greater of its two arguments
+
+    See also: reduce_to, max
+  (
+    var
+    val
+  )
+  if
+    val > var
+    -> val
+    -> var
+
+$std::reduce_to:
+  #
+    returns the lesser of its two arguments
+
+    See also: extend_to, min
+  (
+    var
+    val
+  )
+  if
+    val < var
+    -> val
+    -> var
+
+$std::abs:
+  #
+    returns the absolute value of its (numerical) argument
+
+    Topic: Math
+
+    See also: sgn
+  (
+    var
+  )
+  if
+    var < 0:
+      negate var
+    -> var
+
+$std::sgn:
+  #
+    returns the sign of its (numerical) argument
+
+    If the argument is less than zero then *-1* is returned.
+
+    If the argument equals zero then *0* is returned.
+
+    If the argument is greater than zero then *1* is returned.
+
+    Topic: Math
+
+    See also: abs
+  (
+    x
+  )
+  cond
+    -> x > 0 -> 1
+    -> x < 0 -> -1
+    -> true -> 0
+
+$std::is_odd:
+  #
+    return <true> for *odd* integer numbers
+
+    Topic: Math
+  (
+    n
+  )
+  -> n & 1 == 1
+
+$std::is_even:
+  #
+    return <true> for *even* integer numbers
+
+    Topic: Math
+  (
+    n
+  )
+  -> n & 1 == 0
+
+$std::sqr:
+  #
+    return the power of 2 of its (numerical) argument
+
+    See also: pow
+
+    Topic: Math
+
+    #sqrt
+  (
+    var
+  )
+  -> var*var
+
+$std::min:
+  #
+    returns the smallest of its (potentially) many arguments
+
+    Topic: Math
+
+    See also: max, reduce_to
+  (
+    args*
+  )
+  $result args(1)
+  for_each range(args 2 -1)
+    : (arg)
+      if
+	arg < result:
+	  !result arg
+	  next
+	next
+    -> result
+
+$std::max:
+  #
+    returns the biggest of its (potentially) many arguments
+
+    Topic: Math
+
+    See also: min, extend_to
+  (
+    args*
+  )
+  $result args(1)
+  for_each range(args 2 -1)
+    : (arg)
+      if
+	arg > result:
+	  !result arg
+	  next
+	next
+    -> result
+
+$std::min_max:
+  #
+    returns the smaller and the larger of its two arguments
+
+    Topic: Math
+
+    See also: min, max
+  (
+    first_value
+    second_value
+  )
+  if
+    first_value <= second_value
+    -> first_value second_value
+    -> second_value first_value
+
+$std::pow:
+  #
+    returns the its first argument by the power of its second argument
+
+    **Attention**: *n* must be a positive integer!
+
+    Topic: Math
+
+    See also: sqr
+
+    # sqrt
+  (
+    x
+    n
+  )
+  cond
+    -> n == 0 -> 1
+    -> is_odd(n) -> x*sqr(pow(x n >> 1))
+    -> true -> sqr(pow(x n >> 1))
+
+#
+  $std::sqrt:
+    #
+      returns the square root of its (numerical) argument
+
+      See also: sqr, pow
+    (
+      x
+    )
+    $y 1
+    repeat 10 (-> !y):
+      !y 0.5*(y+x/y)
+      next
+    -> y
+
+$std::isqrt:
+  #
+    returns the integer square root of its argument
+
+    See also: sqr, pow
+  (
+    n
+  )
+  if
+    n < 0
+    -> undefined
+    :
+      $x n
+      $y 1
+      loop:
+	if
+	  x > y
+	  :
+	    !x (x+y) >> 1
+	    !y n .div. x
+	    next
+	  -> x
+
+$std::PI 3.1415926535897932
+  #
+    the mathematical constant PI
+
+#$std::sin:
+  #
+    trigonometric function
+
+    See also: cos, tan, atan
+  (
+    alpha
+  )
+  $p 1
+  $s alpha
+  $t alpha
+  repeat 13
+    :
+      !t -t*alpha*alpha/(2*p*(2*p+1))
+      plus &s t
+      inc &p
+      next
+    -> s
+
+#$std::cos:
+  #
+    trigonometric function
+
+    Topic: Math
+
+  See also: sin, tan, atan
+  (
+    alpha
+  )
+  $p 0
+  $s 1
+  $t 1
+  repeat 13
+    :
+      inc &p
+      !t -t*alpha*alpha/((2*p-1)*(2*p))
+      plus &s t
+      next
+    -> s
+
+#
+  $std::tan:
+    #
+      trigonometric function
+
+      Topic: Math
+
+      See also: sin, cos, atan
+    (
+      alpha
+    )
+    -> sin(alpha)/cos(alpha)
+
+  $std::atan:
+    #
+      trigonometric function
+
+      Topic: Math
+
+      See also: sin, cos, tan
+    (
+      x
+    )
+    if
+      x > 0
+      -> atan2(x)
+      -> -atan2(-x)
+
+  $atan2: (x)
+    if
+      x > 1
+      -> PI/2-atan3(1/x)
+      -> atan3(x)
+
+  $atan3: (x)
+    if
+      x > 2-sqrt(3)
+      -> PI/6+atan4((sqrt(3)*x-1)/(sqrt(3)+x))
+      -> atan4(x)
+
+  $atan4: (x)
+    $sum 0
+    $s 1
+    $p x
+    from_to_by 1 23 2 (-> !sum): (i)
+      plus &sum s*p/i
+      !p p*x*x
+      !s -s
+      next
+    -> sum

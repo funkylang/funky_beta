@@ -1,0 +1,115 @@
+#!/usr/bin/env fkyrun
+
+<namespace adv_types>
+
+# Room Ids
+
+$ENTRANCE_HALL .
+$LIBRARY .
+
+# Item Ids
+
+$RED_KEY .
+$SCREWDRIVER .
+
+# Room Attributes
+
+$name_of ()
+$items_of ()
+$north_of ()
+$east_of ()
+$south_of ()
+$west_of ()
+
+# Rooms
+
+$adv_types::room std_types::object
+
+$adv_types::room.items_of empty_insert_order_set
+$adv_types::room.north_of undefined
+$adv_types::room.east_of undefined
+$adv_types::room.south_of undefined
+$adv_types::room.west_of undefined
+
+$rooms
+  hash_table
+    =
+      ENTRANCE_HALL
+      adv_types::room
+	.name_of "entrance hall"
+	.items_of insert_order_set(RED_KEY SCREWDRIVER)
+	.north_of LIBRARY
+    =
+      LIBRARY
+      adv_types::room
+	.name_of "library"
+	.south_of ENTRANCE_HALL
+
+# Items
+
+$items
+  hash_table
+    =
+      RED_KEY
+      std_types::object
+	.name_of "red key"
+    =
+      SCREWDRIVER
+      std_types::object
+	.name_of "screwdriver"
+
+# Main
+
+create_item_lookup_table $item_name_to_id
+
+$player_location ENTRANCE_HALL # the room id of the player's current location
+$inventory empty_insert_order_set # a set of item ids
+
+loop:
+  $room rooms(player_location)
+  print! "
+    You`re in the @(name_of(room)).
+  $contents items_of(room)
+  for_each contents
+    : (item)
+      print! "
+	Here is a @(name_of(items(item))).
+      next!
+    pass
+  readln! $input
+  $action input .truncate_from. ' '
+  $object_name input .behind. ' '
+  case action
+    "n":
+      $new_location north_of(room)
+      if
+	new_location.is_defined:
+	  !player_location new_location
+	  next!
+	next
+    "s":
+      $new_location south_of(room)
+      if
+	new_location.is_defined:
+	  !player_location new_location
+	  next!
+	next
+    "take":
+      $id item_name_to_id(object_name)
+      if
+	id.is_defined:
+	  !rooms(player_location).items_of(id) false # remove from room
+	  !inventory(id) true
+	  next!
+	next
+    "q":
+      terminate!
+    next
+
+$create_item_lookup_table:
+  $lookup_table empty_hash_table
+  for_each items
+    : (id item)
+      !lookup_table(name_of(item)) id
+      next
+    -> lookup_table

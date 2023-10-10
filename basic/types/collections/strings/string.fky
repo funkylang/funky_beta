@@ -1,0 +1,1861 @@
+#
+  Copyright (C) 2023 by
+  Dipl.-Ing. Michael Niederle
+
+  This program is free software; you can redistribute it and/or modify
+  it under the terms of the GNU Library General Public License, version 2, or
+  (at your option) under the terms of the GNU Lesser General Public License,
+  version 3.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  GNU Lesser (Library) General Public License for more details.
+
+  For details of the GNU General Public License see the accompanying
+  files LGPLv2.txt and LGLPv3.txt or
+  http://www.gnu.org/licenses/lgpl-2.0.html
+  http://www.gnu.org/licenses/lgpl-3.0.html
+  or write to the
+  Free Software Foundation, Inc.,
+  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+
+$std::to_sentence_case ()
+
+$std::is_a_string ()
+  #
+    obvious
+
+    Topic: Strings
+
+$std_types::object.is_a_string false
+  #
+    obvious
+
+    Topic: Objects
+
+$std_types::string.is_a_string true
+  #
+    obvious
+
+    Topic: Strings
+
+$std::is_an_octet_string ()
+  #
+    obvious
+
+    Topic: Strings
+
+$std_types::object.is_an_octet_string false
+  #
+    obvious
+
+    Topic: Objects
+
+$std_types::octet_string.is_an_octet_string true
+  #
+    obvious
+
+    Topic: Strings
+
+$std_types::string/to_string:
+  #
+    returns its argument unaltered
+
+    Topic: Strings
+
+    See also: string
+  (
+    self
+  )
+  -> self
+
+$std::create_string:
+  #
+    returns the concatenation of all of the list's items converted to strings
+
+    Topic: Strings
+
+    See also: string
+  (
+    args # a list of printable items
+  )
+  if
+    args.is_empty
+    -> ""
+    : map_reduce args to_string append
+
+$std::string:
+  #
+    returns the concatenation of all its arguments converted to strings
+
+    Topic: Strings
+
+    See also: to_string, string_from_list
+  (
+    args*
+  )
+  create_string args
+
+$std_types::string/put:
+  #
+    adds a character at the front of the string
+
+    Topic: Strings
+
+    #See also: std_types::string/push
+
+  (
+    self # the string
+    chr # the character to add
+  )
+  -> append(chr.to_string self)
+
+$std_types::string/dup:
+  #
+    creates a string containing *n* copies of the specified string
+
+    The function aims to duplicate the specified string in a smart way.
+
+    Topic: Strings
+
+    See also: spaces
+  (
+    self # the string to duplicate
+    n # the duplication count
+  )
+  case n
+    0 -> ""
+    1 -> self
+    :
+      $h n >> 1 # fails if <n> is not a positive integer
+      $str dup(self h)
+      if
+	2*h == n:
+	  string str str
+	:
+	  string str str self
+
+$std::pad_left:
+  #
+    extends a string to a specified width
+
+    This function creates a string representation of *expr* which is at least
+    *n* characters long. If it would be shorter than it is padded to the left
+    with the pattern stored in *pad*.
+
+    See also: pad_right
+
+    # pad_or_truncate, truncate
+  (
+    expr # the expression that is converted into a string
+    n # the length of the resulting string
+    pad = " " # the pattern used to fill up the string
+  )
+  $text expr.to_string
+  $len length_of(text)
+  if
+    len < n:
+      $pad_len length_of(pad)
+      string range(dup(pad (n-len)+(pad_len-1) .div. pad_len) 1 n-len) text
+    -> text
+
+$std::pad_right:
+  #
+    extends a string to a specified width
+
+    This function creates a string representation of *expr* which is at least
+    *n* characters long. If it would be shorter than it is padded to the right
+    with the pattern stored in *pad*.
+
+    See also: pad_left
+
+    # pad_or_truncate, truncate
+  (
+    expr # the expression that is converted into a string
+    n # the length of the resulting string
+    pad = " " # the pattern used to fill up the string
+  )
+  $text expr.to_string
+  $len length_of(text)
+  if
+    len < n:
+      $pad_len length_of(pad)
+      string text range(dup(pad (n-len)+(pad_len-1) .div. pad_len) 1 n-len)
+    -> text
+
+$eighty_spaces "
+  @;                                        @
+  @;                                        @
+
+$std::spaces:
+  #
+    returns that many spaces
+  (
+    n
+  )
+  if
+    n <= 80
+    -> range(eighty_spaces 1 n)
+    -> dup(" " n)
+
+$nine_tabs_and_seven_spaces "@ht;@ht;@ht;@ht;@ht;@ht;@ht;@ht;@ht;       "
+
+$std::tabs_and_spaces:
+  #
+    returns a sequence of tabulator- and space-characters
+  (
+    n
+  )
+  if
+    n < 80
+    -> range(nine_tabs_and_seven_spaces 10-(n >> 3) 9+(n & 7))
+    -> string(dup("@ht;" n >> 3) spaces(n & 7))
+
+$tabs "@ht;@ht;@ht;@ht;@ht;@ht;@ht;@ht;@ht;"
+
+$std::with_tabs:
+  #
+    replaces leading spaces with tab-characters
+  (
+    text
+  )
+  $s 1
+  $n length_of(text)
+  $i 1
+  $output ""
+  $count 0
+  loop:
+    if
+      i <= n:
+	if
+	  text(i) == ' ':
+	    !i i+1
+	    !count count+1
+	    next
+	  :
+	    if
+	      count >= 8:
+		$tab_count count >> 3
+		if
+		  tab_count >= 1:
+		    append &output range(text s i-(count+1))
+		    append &output
+		      if
+			tab_count < 10
+			-> range(tabs 1 tab_count)
+			-> dup("@ht;" tab_count)
+		    !s (i-count)+(tab_count << 3)
+		    skip_line
+		  skip_line
+	      skip_line
+      :
+	if
+	  s == 1
+	  -> text
+	  -> append(output range(text s -1))
+
+  $skip_line:
+    loop
+      :
+	if
+	  i <= n && text(i) != '@nl;':
+	    !i i+1
+	    next
+	  break
+      :
+	!i i+1
+	!count 0
+	next
+
+
+$std_types::string/match:
+  #
+    matches the start of the stream with the string
+  (
+    self
+    stream
+  )
+  $len length_of(self)
+  if
+    length_of(stream) >= len
+    :
+      if
+	range(stream 1 len) == self
+	-> len
+	-> undefined
+    -> undefined
+
+$std_types::string/search:
+  #
+    searches for the start of the string within the stream
+  (
+    self
+    stream
+    nth = 1 # search for the nth occurrence of *self* instead for the first one
+  )
+  $i undefined
+  $length length_of(self)
+  $offset length-1
+  $n length_of(stream)-offset
+  if
+    nth < 0:
+      !i n
+      search_backwards
+    :
+      !i 1
+      search_forwards
+
+  $search_forwards:
+    if
+      i <= n
+      :
+	if
+	  range(stream i i+offset) == self:
+	    if
+	      nth > 1:
+		dec &nth
+		plus &i length
+		search_forwards
+	      -> i length
+	  :
+	    inc &i
+	    search_forwards
+      -> undefined undefined
+
+  $search_backwards:
+    if
+      i >= 1
+      :
+	if
+	  range(stream i i+offset) == self:
+	    if
+	      nth < -1:
+		inc &nth
+		minus &i length
+		search_backwards
+	      -> i length
+	  :
+	    dec &i
+	    search_backwards
+      -> undefined undefined
+
+$std_types::string/before:
+  #
+    returns the substring before the specified expression
+
+    Returns substr: the substring before *expr* or the empty string if *str*
+    does not contain *expr*
+
+    If the expression does not occur within the string then the empty
+    string is returned.
+
+    If called as a procedure then the rear part of the input string
+    (including the part matching *expr*) will be removed. If the expression does
+    not match any part of the input string then the string is replaced with
+    the empty string.
+
+    If *nth* is specified then the nth occurence of the expression *expr*
+    is looked for. If there are not at least *n* matches for *expr* within *str*
+    then the empty string is returned.
+
+    A very similar function is <string/truncate_from>. It behaves differently
+    only when the expression is *not* found.
+
+    See also: string/truncate_from, string/behind, string/between, string/until
+
+    Example:
+
+    $namespace identifier .before. "::"
+  (
+    str # the input string
+    expr # the expression to look for
+    nth = 1 # look for the nth occurrence of *expr* instead for the first one
+  )
+  search $pos $_len expr str nth
+  if
+    pos.is_defined
+    -> range(str 1 pos-1)
+    -> ""
+
+
+$std_types::string/truncate_from:
+  #
+    returns the substring before the specified expression
+
+    Returns str: the part of the input string *str* before *expr* or the
+    unmodified input string *str* if *str* does not contain *expr*
+
+    This function behaves very much like <string/before>.
+
+    The only difference is in the behaviour when the expression *expr* is *not*
+    found. In this case the original string is returned unmodified or - when
+    called as a procedure - nothing will happen.
+
+    See also: string/before, string/from, string/truncate_behind
+
+    Example:
+
+    $basename filename .truncate_from. '.'
+  (
+    str # the string to truncate
+    expr # the expression to look for
+    nth = 1 # look for the nth occurrence of *expr* instead for the first one
+  )
+  search $pos $_len expr str nth
+  if
+    pos.is_defined
+    -> range(str 1 pos-1)
+    -> str
+
+$std_types::string/behind:
+  #
+    returns the substring behind the specified expression
+
+    Returns substr: the substring behind *expr* or the empty string if *str* does
+    not contain *expr*
+
+    If the expression does not occur within the string then the empty
+    string is returned.
+
+    If called as a procedure then the front part of the original string
+    will be removed. If the expression does not occur within the string then
+    the string is replaced with the empty string.
+
+    If *nth* is specified then the nth occurence of the expression *expr*
+    is looked for.
+
+    A very similar function is <string/truncate_until>. It behaves differently
+    only when the expression is *not* found.
+
+    See also: string/truncate_until, string/before, string/between, string/from
+
+    Example:
+
+    $extension filename .behind. '.'
+  (
+    str # the input string
+    expr # the expression to look for
+    nth = 1 # look for the nth occurrence of *expr* instead for the first one
+  )
+  search $pos $len expr str nth
+  if
+    pos.is_defined
+    -> range(str pos+len -1)
+    -> ""
+
+$std_types::string/truncate_until:
+  #
+    returns the substring behind the specified expression
+
+    Returns str: the part of the input string *str* behind *expr* or the
+    unmodified input string *str* if *str* does not contain *expr*
+
+    This function behaves very much like <string/behind>.
+
+    The only difference is in the behaviour when the expression *expr* is *not*
+    found. In this case the original string is returned unmodified or - when
+    called as a procedure - nothing will happen.
+
+    See also: string/behind, string/until, string/truncate_before
+
+    Example:
+
+    $name identifier .truncate_until. "::"
+  (
+    str # the string to truncate
+    expr # the expression to look for
+    nth = 1 # look for the nth occurrence of *expr* instead for the first one
+  )
+  search $pos $len expr str nth
+  if
+    pos.is_defined
+    -> range(str pos+len -1)
+    -> str
+
+$std_types::string/from:
+  #
+    returns the substring starting with the specified expression
+
+    Returns substr: the substring starting with *expr* or the empty string if *str*
+    does not contain *expr*
+
+    If the expression does not occur within the string then the empty
+    string is returned.
+
+    If called as a procedure then the front part of the original string
+    will be removed. If the expression does not occur within the string then
+    the string is replaced with the empty string.
+
+    If *nth* is specified then the nth occurrence of the expression *expr*
+    is looked for.
+
+    A very similar function is <string/truncate_until>. It behaves differently
+    only when the expression is *not* found.
+
+    See also: string/before, string/from, string/truncate_behind
+  (
+    str # the input string
+    expr # the expression to look for
+    nth = 1 # look for the nth occurrence of *expr* instead for the first one
+  )
+  search $pos $_len expr str nth
+  if
+    pos.is_defined
+    -> range(str pos -1)
+    -> ""
+
+$std_types::string/truncate_before:
+  #
+    This function behaves very much like <string/from>.
+
+    The only difference is in the behaviour when the expression is *not* found.
+    In this case the original string is returned unchanged or - when called
+    as a procedure - nothing will happen.
+
+    See also: string/from, string/before, string/truncate_until
+  (
+    str # the string to truncate
+    expr # the expression to look for
+    nth = 1 # look for the nth occurrence of *expr* instead for the first one
+  )
+  search $pos $_len expr str nth
+  if
+    pos.is_defined
+    -> range(str pos -1)
+    -> str
+
+$std_types::string/until:
+  #
+    returns the substring before and including the specified expression
+
+    If the expression does not occur within the string then an <empty_string>
+    is returned.
+
+    If called as a procedure then the rear part of the original string
+    will be removed. If the expression does not occur within the string then
+    the string is changed into an empty string.
+
+    If *nth* is specified then the *nth* occurrence of the *expression*
+    is looked for.
+
+    A very similar function is <string.truncate_behind>. It behaves different
+    only when the expression is *not* found.
+
+    See also: string/truncate_behind, string/from, string/before
+  (
+    str # the input string
+    expr # the expression to look for
+    nth = 1 # look for the nth occurrence of *expr* instead for the first one
+  )
+  search $pos $len expr str nth
+  if
+    pos.is_defined
+    -> range(str 1 pos+len-1)
+    -> ""
+
+$std_types::string/truncate_behind:
+  #
+    This function behaves very much like <string/until>.
+
+    The only difference is in the behaviour when the expression is *not* found.
+    In this case the original string is returned unchanged or - when called
+    as a procedure - nothing will happen.
+
+    See also: string/until, string/behind, string/truncate_from
+  (
+    str # the string to truncate
+    expr # the expression to look for
+    nth = 1 # look for the nth occurrence of *expr* instead for the first one
+  )
+  search $pos $len expr str nth
+  if
+    pos.is_defined
+    -> range(str 1 pos+len-1)
+    -> str
+
+$std_types::string/between:
+  #
+    returns the substring between the two specified expressions
+
+    If either of the two expressions is not found then the <empty_string> is
+    returned.
+
+    If *nth* is specified then the *nth* occurrence of the *left expression*
+    is used instead of the first one.
+
+    See also: string/behind, string/before
+  (
+    str # the input string
+    expr_1 # the expression on the left hand side
+    expr_2 # the expression on the right hand side
+    nth = 1 # look for the nth occurrence of *expr_1* instead for the first one
+  )
+  -> behind(str expr_1 nth) .before. expr_2
+
+$std_types::string/has_prefix:
+  #
+    checks whether the string has *prefix* as a prefix
+
+    #See also: string/has_suffix, string/without_prefix
+  (
+    self
+    prefix # the prefix to check for
+  )
+  -> match(prefix self).is_defined
+
+$std_types::string/has_suffix:
+  #
+    checks whether the string has *suffix* as a suffix
+
+    #See also: string/has_prefix, string/without_suffix
+  (
+    self
+    suffix # the suffix to check for
+  )
+  if
+    suffix.is_a_character
+    -> length_of(self) >= 1 && self(-1) == suffix
+    :
+      $len length_of(suffix)
+      -> length_of(self) >= len && range(self -len -1) == suffix
+
+$std_types::string/without_prefix:
+  #
+    removes the specified prefix
+
+    See also: string/has_prefix, string/without_suffix
+  (
+    self
+    prefix
+  )
+  $n match(prefix self)
+  if
+    n.is_defined
+    -> range(self n+1 -1)
+    -> self
+
+$std_types::string/without_suffix:
+  #
+    removes the specified suffix
+
+    See also: string/has_suffix, string/without_prefix
+  (
+    self
+    suffix
+  )
+  $len length_of(self)
+  if
+    suffix.is_a_character:
+      if
+	len >= 1 && self(-1) == suffix
+	-> range(self 1 -2)
+	-> self
+    : # assume the suffix is a string
+      $slen length_of(suffix)
+      if
+	len >= slen && range(self -slen -1) == suffix
+	-> range(self 1 -slen-1)
+	-> self
+
+$std_types::string/contains:
+  #
+    succeeds if the specified expression occurrs at least once within the string
+  (
+    self
+    expr
+  )
+  search $pos $_len expr self
+  -> pos.is_defined
+
+$std::split:
+  #
+    splits a string into several parts and returns a list of these parts
+
+    The separators are removed.
+
+    See also: join
+  (
+    self
+    separator = ' '
+  )
+  if
+    self.is_empty
+    -> empty_list
+    :
+      $items empty_list
+      loop:
+	search $pos $len separator self
+	if
+	  pos.is_defined:
+	    push &items range(self 1 pos-1)
+	    range &self pos+len -1
+	    next
+	  :
+	    if
+	      self.is_empty
+	      -> items
+	      -> push(items self)
+
+$std::join:
+  #
+    concatenates the list items returns a string
+
+    See also: split
+  (
+    items
+    separator = " "
+  )
+  to_string &separator
+  map_reduce
+    items to_string
+    : (left right) append left separator right
+    ""
+
+$std::trim:
+  #
+    removes leading and trailing whitespace
+  (
+    self
+    test = is_a_whitespace_character
+  )
+  $s 1
+  $e length_of(self)
+  loop:
+    if
+      s <= e && test(self(s)):
+	inc &s
+	next
+      :
+	loop:
+	  if
+	    e >= s && test(self(e)):
+	      dec &e
+	      next
+	    :
+	      range self s e
+
+$std::trim_left:
+  #
+    removes leading whitespace
+  (
+    self
+    test = is_a_whitespace_character
+  )
+  $s 1
+  $e length_of(self)
+  loop:
+    if
+      s <= e && test(self(s)):
+	inc &s
+	next
+      :
+	range self s e
+
+$std::trim_right:
+  #
+    removes trailing whitespace
+  (
+    self
+    test = is_a_whitespace_character
+  )
+  $e length_of(self)
+  loop:
+    if
+      e >= 1 && test(self(e)):
+	dec &e
+	next
+      :
+	range self 1 e
+
+$std::parse_integer:
+  #
+    extracts an integer value from the start of the string
+
+    If successful the rest of the string and the parsed integer value are
+    returned.
+
+    If unsuccessfull the unmodified string and an <undefined> value are
+    returned.
+
+    #See also: to_integer, parse_number
+  (
+    self # the string to parse
+  )
+  $maybe_negated:
+    if
+      negate
+      -> -value
+      -> value
+
+  $partial_match: (idx)
+    if
+      idx > 1
+      -> range(self idx -1) maybe_negated()
+      -> orig undefined
+
+  $exhausted:
+    if
+      self.is_empty
+      -> orig undefined
+      -> "" maybe_negated()
+
+  $orig self
+  $negate self .has_prefix. '-'
+  !self
+    if
+      negate
+      -> range(self 2 -1)
+      -> self
+  $value 0
+  cond
+    -> self .has_prefix. "0b":
+      range &self 3 -1
+      for_each self
+	: (idx chr)
+	  case
+	    chr
+	    '0'..'1':
+	      !value (value << 1)+(chr-'0')
+	      next
+	    :
+	      partial_match idx
+	exhausted
+    -> self .has_prefix. "0o":
+      range &self 3 -1
+      for_each self
+	: (idx chr)
+	  case chr
+	    '0'..'7':
+	      !value (value << 3)+(chr-'0')
+	      next
+	    :
+	      partial_match idx
+	exhausted
+    -> self .has_prefix. "0x":
+      range &self 3 -1
+      for_each self
+	: (idx chr)
+	  case chr
+	    '0'..'9':
+	      !value (value << 4)+(chr-'0')
+	      next
+	    'a'..'f':
+	      !value (value << 4)+(chr-'a')+10
+	      next
+	    'A'..'F':
+	      !value (value << 4)+(chr-'A')+10
+	      next
+	    :
+	      partial_match idx
+	exhausted
+    -> true:
+      for_each self
+	: (idx chr)
+	  case chr
+	    '0'..'9':
+	      !value 10*value+(chr-'0')
+	      next
+	    :
+	      partial_match idx
+	exhausted
+
+$std::parse_number:
+  #
+    extracts a numeric value from the start of the string
+
+    If successful the rest of the string and the parsed numeric value are
+    returned.
+
+    If unsuccessfull the unmodified string and an <undefined> value are
+    returned.
+
+    See also: to_number, parse_integer
+  (
+    self # the string to parse
+  )
+  $i 1
+  $n length_of(self)
+  if
+    i > n
+    -> self undefined
+    :
+      $sign_chr self(1)
+      update_if sign_chr == '-' || sign_chr == '+' &i -> i+1
+      if
+	self(i) == '0' && i+1 < n:
+	  case self(i+1)
+	    'b': parse_binary self i+2
+	    'o': parse_octal self i+2
+	    'x': parse_hex self i+2
+	    parse
+	parse
+
+  $parse:
+    skip_one_ore_more_digits:
+      if
+	i > n return_integer
+	:
+	  case self(i)
+	    '.':
+	      !i i+1
+	      skip_one_ore_more_digits:
+		if
+		  i > n
+		  return_real
+		  :
+		    case self(i)
+		      'e', 'E' handle_exponent
+		      return_real
+	    'e', 'E' handle_exponent
+	    return_integer
+
+    $skip_one_ore_more_digits: (cont)
+      if
+	i > n
+	-> self undefined
+	:
+	  $digit self(i)
+	  if
+	    digit < '0' || digit > '9'
+	    -> self undefined
+	    :
+	      loop:
+		!i i+1
+		if
+		  i > n
+		  cont
+		  :
+		    $next_digit self(i)
+		    if
+		      next_digit >= '0' && next_digit <= '9'
+		      next
+		      cont
+
+    $handle_exponent:
+      !i i+1
+      if
+	i > n
+	-> self undefined
+	:
+	  $exp_sign_chr self(i)
+	  update_if exp_sign_chr == '-' || exp_sign_chr == '+' &i -> i+1
+	  skip_one_ore_more_digits return_real
+
+    $return_integer -> range(self i -1) integer(range(self 1 i-1))
+
+    $return_real -> range(self i -1) real(range(self 1 i-1))
+
+$parse_binary: (str i)
+  $n length_of(str)
+  if
+    i > n -> str undefined
+    :
+      $digit str(i)
+      if
+	digit < '0' || digit > '1'
+	-> str undefined
+	:
+	  $value digit-'0'
+	  loop:
+	    !i i+1
+	    if
+	      i > n
+	      -> "" value
+	      :
+		$next_digit str(i)
+		if
+		  next_digit >= '0' && next_digit <= '1':
+		    !value (value << 1)+(next_digit-'0')
+		    next
+		  -> range(str i -1) value
+
+$parse_octal: (str i)
+  $n length_of(str)
+  if
+    i > n -> str undefined
+    :
+      $digit str(i)
+      if
+	digit < '0' || digit > '7'
+	-> str undefined
+	:
+	  $value digit-'0'
+	  loop:
+	    !i i+1
+	    if
+	      i > n
+	      -> "" value
+	      :
+		$next_digit str(i)
+		if
+		  next_digit >= '0' && next_digit <= '7':
+		    !value (value << 3)+(next_digit-'0')
+		    next
+		  -> range(str i -1) value
+
+$parse_hex: (str i)
+  $n length_of(str)
+  if
+    i > n -> str undefined
+    :
+      $digit str(i)
+      cond
+	-> digit >= '0' && digit <= '9':
+	  handle_more_digits digit-'0'
+	-> digit >= 'a' && digit <= 'f':
+	  handle_more_digits (digit-'a')+10
+	-> digit >= 'A' && digit <= 'F':
+	  handle_more_digits (digit-'A')+10
+	-> true -> str undefined
+
+      $handle_more_digits: (value)
+	loop:
+	  !i i+1
+	  if
+	    i > n
+	    -> "" value
+	    :
+	      $next_digit str(i)
+	      cond
+		-> next_digit >= '0' && next_digit <= '9':
+		  !value (value << 4)+(next_digit-'0')
+		  next
+		-> next_digit >= 'a' && next_digit <= 'f':
+		  !value (value << 4)+(next_digit-'a')+10
+		  next
+		-> next_digit >= 'A' && next_digit <= 'F':
+		  !value (value << 4)+(next_digit-'A')+10
+		  next
+		-> true -> range(str i -1) value
+
+$std_types::string/to_integer:
+  #
+    converts the whole string into an integer value
+  (
+    self
+  )
+  parse_integer &self $value
+  if
+    self == ""
+    -> value
+    -> undefined
+
+$std_types::string/to_number:
+  #
+    converts the whole string into a numeric value
+  (
+    self
+  )
+  parse_number &self $value
+  if
+    self == ""
+    -> value
+    -> undefined
+
+$std::map_characters:
+  #
+    applies a function to all characters of the string
+
+    The string of "mapped" characters is returned.
+
+    See also: reduce, map_reduce
+  (
+    self # the string which characters will be mapped
+    function # the function to apply to each character of the string
+  )
+  $map
+    if
+      parameter_count_of(function) == 2
+      ->
+	: (s e)
+	  if
+	    s < e:
+	      $m (s+e) >> 1
+	      append
+		map(s m)
+		map(m+1 e)
+	    :
+	      if
+		s > e
+		-> ""
+		-> string(function(s self(s)))
+      ->
+	: (s e)
+	  if
+	    s < e:
+	      $m (s+e) >> 1
+	      append
+		map(s m)
+		map(m+1 e)
+	    :
+	      if
+		s > e
+		-> ""
+		-> string(function(self(s)))
+
+  map 1 length_of(self)
+
+$std_types::string/to_upper_case:
+  #
+    converts the spefied string to "UPPER CASE"
+
+    Topic: Strings
+
+    See also: to_lower_case, to_title_case, to_sentence_case
+  (
+    self
+  )
+  map_characters self to_upper_case
+
+$std_types::string/to_lower_case:
+  #
+    converts the spefied string to "lower case"
+
+    Topic: Strings
+
+    See also: to_upper_case, to_title_case, to_sentence_case
+  (
+    self
+  )
+  map_characters self to_lower_case
+
+$std_types::string/to_title_case:
+  #
+    converts the spefied string to "Title Case"
+
+    Topic: Strings
+
+    See also: to_upper_case, to_lower_case, to_sentence_case
+  (
+    self
+  )
+  map_characters self: (idx chr)
+    if
+      idx > 1 && self(idx-1).is_a_letter_character
+      -> chr.to_lower_case
+      -> chr.to_title_case
+
+$std_types::string/to_sentence_case:
+  #
+    converts the spefied string to "Sentence case"
+
+    Topic: Strings
+
+    See also: to_upper_case, to_lower_case, to_title_case
+  (
+    self
+  )
+  map_characters self: (idx chr)
+    if
+      idx == 1 && self(idx).is_a_letter_character
+      -> chr.to_title_case
+      -> chr.to_lower_case
+
+$std::delete_all:
+  #
+    deletes all occurences of the specfified expressions
+  (
+    text
+    expressions*
+  )
+  $delete_all: (txt)
+    if
+      txt.is_empty
+      -> new_text
+      :
+	for_each expressions
+	  : (expression)
+	    $len match(expression txt)
+	    if_not len.is_defined next:
+	      delete_all range(txt len+1 -1)
+	  :
+	    push &new_text txt(1)
+	    delete_all range(txt 2 -1)
+
+  $new_text ""
+  delete_all text
+
+$std::replace_all:
+  #
+    replaces all occurences of the specfified expressions with a replacement
+    text
+  (
+    text
+    args*
+  )
+  $replace_all: (txt)
+    if
+      txt.is_empty
+      -> new_text
+      :
+	for_each args
+	  : (arg)
+	    arg $expression $replacement
+	    $len match(expression txt)
+	    if_not len.is_defined next:
+	      if
+		replacement.is_a_string:
+		  append &new_text replacement
+		  replace_all range(txt len+1 -1)
+		:
+		  append &new_text replacement(range(txt 1 len))
+		  replace_all range(txt len+1 -1)
+	  :
+	    push &new_text txt(1)
+	    replace_all range(txt 2 -1)
+
+  $new_text ""
+  replace_all text
+
+$std::replace_first:
+  #
+    replaces the first occurence of the specfified expressions with a replacement
+    text
+  (
+    text
+    args*
+  )
+  $replace_first: (txt)
+    if
+      txt.is_empty
+      -> new_text
+      :
+	for_each args
+	  : (arg)
+	    arg $expression $replacement
+	    $len match(expression txt)
+	    if_not
+	      len.is_defined
+	      next
+	      :
+		update_if_not replacement.is_a_string &replacement
+		  -> replacement(range(txt 1 len))
+		-> append(new_text replacement range(txt len+1 -1))
+	  :
+	    push &new_text txt(1)
+	    replace_first range(txt 2 -1)
+
+  $new_text ""
+  replace_first text
+
+$std::count_occurrences:
+  #
+    counts how often the specified expression occurrs within the string
+  (
+    text
+    expr
+  )
+  $search_next: (txt count)
+    if
+      txt == ""
+      -> count
+      :
+	$n match(expr txt)
+	if
+	  n.is_defined:
+	    search_next range(txt n+1 -1) count+1
+	  :
+	    search_next range(txt 2 -1) count
+
+  search_next text 0
+
+$FORK_TEXT_THRESHOLD 300
+
+$std::partition:
+  #
+    partitions a string into several parts and returns a list of these parts
+
+    The separators are not removed but start each part
+
+    See also: join, split_into_lines
+  (
+    text
+    separators*
+  )
+  $n length_of(text)
+  partition 1 n
+
+  $partition: (s e)
+    if
+      e+1-s > FORK_TEXT_THRESHOLD: # recurse to exploit parallel execution
+	$m (s+e) .div. 2
+	append partition(s m) partition(m+1 e)
+      :
+	$parts empty_list
+	$ls undefined
+	from_to s e
+	  : (i)
+	    if_not any_of(separators equal text(i)) next:
+	      if
+		ls.is_defined:
+		  push &parts range(text ls i-1)
+		  !ls i
+		  next
+		:
+		  !ls i
+		  next
+	  :
+	    if
+	      ls.is_defined && ls <= e:
+		if
+		  e == n:
+		    -> push(parts range(text ls e))
+		  :
+		    loop: # the last part extends into the next block
+		      !e e+1
+		      if
+			any_of(separators equal text(e))
+			-> push(parts range(text ls e-1))
+			next
+	      -> parts
+
+# parallel version
+  $std::split_into_lines: (text)
+    $n length_of(text)
+    split 1 n
+
+    $split: (s e)
+      if
+	e+1-s > FORK_TEXT_THRESHOLD: # recurse to exploit parallel execution
+	  $m (s+e) .div. 2
+	  append split(s m) split(m+1 e)
+	:
+	  $lines empty_list
+	  $ls
+	    if
+	      s == 1 || text(s-1) == '@nl;'
+	      -> s # the current block starts at a line start
+	      -> undefined # just skip the characters until the next line start
+	  from_to s e
+	    : (i)
+	      if_not text(i) == '@nl;' next:
+		if
+		  ls.is_defined:
+		    push &lines range(text ls i)
+		    !ls i+1
+		    next
+		  :
+		    !ls i+1
+		    next
+	    :
+	      if
+		ls.is_defined && ls <= e:
+		  loop: # the last line extends into the next block
+		    !e e+1
+		    if
+		      text(e) == '@nl;'
+		      -> push(lines range(text ls e))
+		      next
+		-> lines
+
+#serial version
+$std::split_into_lines: (text)
+  $lines empty_list
+  $i 1
+  $n length_of(text)
+  $s i
+  loop:
+    if
+      i > n
+      ->
+	if
+	  s <= n
+	  -> push(lines range(text s n))
+	  -> lines
+      :
+	if
+	  text(i) == '@nl;':
+	    push &lines range(text s i)
+	    !i i+1
+	    !s i
+	    next
+	  :
+	    !i i+1
+	    next
+
+$std::split_into_indented_lines:
+  #
+    splits a text into indented lines
+
+    The result is a list of tuples with two fields:
+
+    * indent
+
+    * text_line
+
+    The *text_line* still contains the trailing line feed but leading whitespace
+    is removed.
+
+    If a line does not contain any text (whitespace does not count as text) then
+    the whole tuple is replaced with the special value <undefined>.
+
+    See also: split_into_lines, split_into_groups
+  (
+    text
+  )
+  $n length_of(text)
+  split 1 n
+
+  $split: (s e)
+    if
+      e+1-s > FORK_TEXT_THRESHOLD: # recurse to exploit parallel execution
+	$m (s+e) .div. 2
+	append split(s m) split(m+1 e)
+      :
+	$lines empty_list
+	$ls
+	  if
+	    s == 1 || text(s-1) == '@nl;'
+	    -> s # the current block starts at a line start
+	    -> undefined # just skip the characters until the next line start
+	from_to s e
+	  : (i)
+	    if_not text(i) == '@nl;' next:
+	      if
+		ls.is_defined:
+		  push &lines create_line(ls i)
+		  !ls i+1
+		  next
+		:
+		  !ls i+1
+		  next
+	  :
+	    if
+	      ls.is_defined && ls <= e:
+		loop: # the last line extends into the next block
+		  !e e+1
+		  if
+		    text(e) == '@nl;'
+		    -> push(lines create_line(ls e))
+		    next
+	      -> lines
+
+  $create_line: (s e)
+    $indent 0
+    loop:
+      if
+	text(s) == '@ht;':
+	  !indent indent+8
+	  !s s+1
+	  next
+	:
+	  if
+	    text(s) == ' ':
+	      !indent indent+1
+	      !s s+1
+	      next
+	    :
+	      $line_text range(text s e)
+	      if
+		line_text == "@nl;"
+		-> undefined
+		-> tuple(indent line_text)
+
+$FORK_LINES_THRESHOLD 20
+$VERY_LARGE_INDENT 9999
+
+$std::subgroups_of (!)
+
+$indent_of: (line)
+  if
+    line.is_defined
+    -> first(line)
+    -> undefined
+
+$std::split_into_groups:
+  #
+    splits "indented lines" into "groups"
+
+    Returns a list of indented lines where each line has a <subgroups>-attribute
+    which is itself a list of "indented lines".
+
+    The division onto subgroups is only done on the top-level! The subgroups
+    do not contain any further subgroups.
+
+    See also: split_into_indented_lines
+  (
+    lines # the indented lines
+  )
+  $n length_of(lines)
+  $fv 1 # first valid line
+  loop:
+    if
+      fv <= n:
+	$indent indent_of(lines(fv))
+	if
+	  indent.is_defined:
+	    split fv n indent undefined
+	  :
+	    !fv fv+1
+	    next
+      -> empty_list
+
+  $split: (s e indent gs)
+    if
+      e+1-s > FORK_LINES_THRESHOLD: # recurse to exploit parallel execution
+	$m (s+e) .div. 2
+	append split(s m indent gs) split(m+1 e indent undefined)
+      :
+	$groups empty_list
+	$minimum_indent VERY_LARGE_INDENT
+	$ge gs
+	from_to s e
+	  : (i)
+	    $current_indent indent_of(lines(i))
+	    if
+	      current_indent == indent:
+		if
+		  gs.is_defined && gs < i:
+		    add_groups !groups ge
+		    start_new_fragment_and_next i
+		  :
+		    start_new_fragment_and_next i
+	      :
+		!ge
+		  if
+		    current_indent.is_defined
+		    -> i
+		    -> ge
+		reduce_minimum_indent_and_next current_indent
+	  :
+	    if
+	      gs.is_defined:
+		loop: # the last group extends into the next block
+		  !e e+1
+		  if
+		    e > n
+		    -> add_groups(ge)
+		    :
+		      $current_indent indent_of(lines(e))
+		      if
+			current_indent.is_defined && current_indent <= indent
+			-> add_groups(ge)
+			:
+			  !ge
+			    if
+			      current_indent.is_defined
+			      -> e
+			      -> ge
+			  reduce_minimum_indent_and_next current_indent
+	      -> groups
+
+	$add_groups: (l)
+	  if
+	    gs == l
+	    -> push(groups lines(gs))
+	    :
+	      if
+		minimum_indent == VERY_LARGE_INDENT
+		-> append(groups range(lines gs l))
+		:
+		  $headline lines(gs)
+		  push groups headline(.subgroups_of range(lines gs+1 l))
+
+	$reduce_minimum_indent_and_next: (current_indent)
+	  if
+	    current_indent.is_defined && current_indent < minimum_indent:
+	      !minimum_indent current_indent
+	      next
+	    next
+
+	$start_new_fragment_and_next: (i)
+	  !minimum_indent VERY_LARGE_INDENT
+	  !gs i
+	  !ge i
+	  next
+
+$std::wrap_words: (text width)
+  $wrapped_text ""
+  $n length_of(text)
+  $s 1 # start of not yet copied text
+  $l s # line start position
+  $b undefined # possible break position
+  $i 1
+  loop:
+    if
+      i > n
+      -> append(wrapped_text range(text s n))
+      :
+	$chr text(i)
+	if
+	  chr == '@nl;':
+	    !i i+1
+	    !l i
+	    !b undefined
+	    next
+	  :
+	    if
+	      chr == ' ':
+		if
+		  i-l == width: # break
+		    append &wrapped_text range(text s i-1)
+		    push &wrapped_text '@nl;'
+		    !i i+1
+		    !s i
+		    !l s
+		    !b undefined
+		    next
+		  :
+		    !b i
+		    !i i+1
+		    next
+	      :
+		!i i+1
+		if
+		  i-l <= width
+		  next
+		  :
+		    if
+		      b.is_defined: # wrap
+			append &wrapped_text range(text s b-1)
+			push &wrapped_text '@nl;'
+			!s b+1
+			!l s
+			!b undefined
+			next
+		      : # hard break
+			append &wrapped_text range(text s i-2)
+			push &wrapped_text '@nl;'
+			!s i-1
+			!l s
+			next
+
+$std_types::string/serialize:
+  (
+    self
+    indent = undefined
+  )
+  $str "@quot;"
+  $s 1
+  for_each self
+    : (idx chr)
+      if
+	chr < '@0x20;' || chr > '@0x7e;' || chr == '"' || chr == '@@':
+	  append &str range(self s idx-1)
+	  append &str "@@@(chr.to_integer);"
+	  !s idx+1
+	  next
+	next
+    :
+      append &str range(self s -1)
+      append &str "@quot;@nl;"
+      if
+	indent.is_defined
+	-> append(tabs_and_spaces(indent) str)
+	-> str
+
+$std::indented:
+  #
+    increases the indent of the specified (multi-line) string
+
+    The text is indented via tabs and spaces. Existing indents are treated
+    correctly.
+
+    The line feed character after the last line is optional.
+  (
+    indent
+    text
+  )
+  $indented_text ""
+  $new_indent undefined
+  $i 1
+  $n length_of(text)
+  loop:
+    !new_indent indent
+    skip_indent !i !new_indent
+    if
+      i <= n:
+	if
+	  text(i) == '@nl;':
+	    push &indented_text '@nl;'
+	    !i i+1
+	    next
+	  :
+	    append &indented_text tabs_and_spaces(new_indent)
+	    $s i
+	    loop:
+	      if
+		text(i) == '@nl;':
+		  append &indented_text range(text s i)
+		  !i i+1
+		  break
+		:
+		  if
+		    i < n:
+		      !i i+1
+		      next
+		    :
+		      append indented_text range(text s -1)
+
+      -> indented_text
+
+  $skip_indent:
+    if
+      i <= n:
+	if
+	  text(i) == '@ht;':
+	    !i i+1
+	    !new_indent new_indent+8
+	    skip_indent
+	  skip_spaces
+      -> i new_indent
+
+  $skip_spaces:
+    if
+      i <= n && text(i) == ' ':
+	!i i+1
+	!new_indent new_indent+1
+	skip_spaces
+      -> i new_indent
+
+$std::format:
+  (
+    str
+    arguments*
+  )
+  $output ""
+  $arg_idx 1
+  $i 1
+  $n length_of(str)
+  loop:
+    if
+      i > n
+      -> output
+      :
+	$chr str(i)
+	!i i+1
+	case chr
+	  '%':
+	    if
+	      i > n
+	      -> undefined
+	      :
+		$len_chr str(i)
+		if
+		  len_chr < '0' || len_chr > '9'
+		  -> undefined
+		  :
+		    $width len_chr-'0'
+		    loop
+		      :
+			!i i+1
+			if
+			  i > n
+			  break
+			  :
+			    $fmt_chr str(i)
+			    if
+			      fmt_chr < '0' || fmt_chr > '9'
+			      break
+			      :
+				!width 10*width+(fmt_chr-'0')
+				next
+		      :
+			if
+			  i > n:
+			    add_argument width
+			  :
+			    if
+			      str(i) == '.':
+				!i i+1
+				if
+				  i > n
+				  -> undefined
+				  :
+				    $dw_chr str(i)
+				    if
+				      dw_chr < '0' || dw_chr > '9'
+				      -> undefined
+				      :
+					$dw dw_chr-'0'
+					loop
+					  :
+					    !i i+1
+					    if
+					      i > n
+					      break
+					      :
+						$fmt_chr str(i)
+						if
+						  fmt_chr < '0' || fmt_chr > '9'
+						  break
+						  :
+						    !dw 10*dw+(fmt_chr-'0')
+						    next
+					  :
+					    add_argument width dw
+			      :
+				add_argument width
+	  '\':
+	    if
+	      i > n
+	      -> undefined
+	      :
+		push &output str(i)
+		!i i+1
+		next
+	  :
+	    push &output chr
+	    next
+
+  $add_argument:
+    (
+      width
+      decimal_width = undefined
+    )
+    $argument arguments(arg_idx)
+    !arg_idx arg_idx+1
+    append &output
+      if
+	decimal_width.is_defined:
+	  real_to_string &argument
+	  if
+	    argument.is_undefined
+	    -> undefined
+	    :
+	      $value argument .truncate_from. '.'
+	      $decimals argument .behind. '.'
+	      string
+		pad_left(value width)
+		"."
+		truncate(pad_right(decimals decimal_width "0") decimal_width)
+	-> pad_left(argument width)
+    next
+
+$real_to_string: (num)
+  $str num.to_string
+  $n length_of(str)
+  $i n
+  loop:
+    if
+      i == 0
+      -> str
+      :
+	if
+	  str(i) == 'e'
+	  handle_exponent
+	  :
+	    !i i-1
+	    next
+
+  $handle_exponent:
+    if
+      i >= n || str(2) != '.'
+      -> undefined
+      :
+	$exp range(str i+2 n).to_integer
+	$man put(range(str 3 i-1) str(1))
+	if
+	  exp.is_undefined
+	  -> undefined
+	  :
+	    $zeros dup("0" exp-1)
+	    case str(i+1)
+	      '+':
+		-> append(man zeros)
+	      '-':
+		-> append("0." append(zeros man))
+	      -> undefined
+
+$std_types::string.empty_collection_of ""

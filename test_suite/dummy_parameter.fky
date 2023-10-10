@@ -1,0 +1,5 @@
+#!/usr/bin/env fkyrun
+
+$f: (a b _c d e) -> a+b+d+e
+
+println! f(1 2 3 4 5)

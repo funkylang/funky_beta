@@ -1,0 +1,11 @@
+#!/usr/bin/env fkyrun
+
+<allow unused>
+
+$square:
+  (
+    x
+  )
+  $s x*x
+
+println! square(3)

@@ -1,0 +1,187 @@
+#
+  Copyright (C) 2021 by
+  Dipl.-Ing. Michael Niederle
+
+  This program is free software; you can redistribute it and/or modify
+  it under the terms of the GNU Library General Public License, version 2, or
+  (at your option) under the terms of the GNU Lesser General Public License,
+  version 3.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  GNU Lesser (Library) General Public License for more details.
+
+  For details of the GNU General Public License see the accompanying
+  files LGPLv2.txt and LGLPv3.txt or
+  http://www.gnu.org/licenses/lgpl-2.0.html
+  http://www.gnu.org/licenses/lgpl-3.0.html
+  or write to the
+  Free Software Foundation, Inc.,
+  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+
+<using std>
+
+$std::is_an_array () # obvious
+
+$std_types::object.is_an_array false
+  #
+    obvious
+
+    Topic: Objects
+
+$std_types::generic_array.is_an_array true
+  #
+    obvious
+
+    Topic: Lists
+
+$std_types::generic_array/for_each:
+  #
+    iterates over all items of the array
+
+    For each item the statement sequence supplied as *body* is called
+    with one or two arguments (depending on *body*'s parameter count).
+
+    If called with two arguments the first argument is the position number
+    of the item within the array.
+
+    To start the next iteration of the loop a tail call to the *next*-function
+    has to be performed.
+
+    The loop is exited when the end of the loop is reached without calling
+    the *next*-function.
+
+    This is a sequential loop.
+  (
+    self # the array to iterate over
+    body # the statement sequence to execute for each item
+    finally = next # called after all items have been iterated over
+  )
+  $saved_context
+    tuple
+      next
+      break
+      basic_loops::from
+      basic_loops::to
+      basic_loops::self
+      basic_loops::body
+      basic_loops::finally
+
+  !basic_loops::from 1 # the first ...
+  !basic_loops::to length_of(self) # ... and last index of the array
+  !basic_loops::self self
+  !basic_loops::body body
+  !basic_loops::finally finally
+
+  $iterate_1:
+    if
+      basic_loops::from <= basic_loops::to # another item available?
+      :
+	basic_loops::body basic_loops::self(basic_loops::from)
+	  # supply only the value of each item
+      break
+
+  $iterate_2:
+    if
+      basic_loops::from <= basic_loops::to # another item available?
+      :
+	basic_loops::body basic_loops::from basic_loops::self(basic_loops::from)
+	  # supply index *and* value of each item
+      break
+
+  !break: (myself^)
+    !finally basic_loops::finally
+    basic_loops::saved_context_of(myself)
+      !next !break
+      !basic_loops::from !basic_loops::to !basic_loops::self
+      !basic_loops::body !basic_loops::finally
+    finally
+
+  !break.basic_loops::saved_context_of saved_context
+
+  if
+    parameter_count_of(body) == 2:
+      !next:
+	!basic_loops::from basic_loops::from+1 # increase the array index
+	iterate_2 # start the next iteration
+      iterate_2 # start the first iteration
+    :
+      !next:
+	!basic_loops::from basic_loops::from+1 # increase the array index
+	iterate_1 # start the next iteration
+      iterate_1 # start the first iteration
+
+$std_types::generic_array/map_reduce:
+  #
+    combines a map and a reduce operation into a single operation
+
+    Does not create an intermediate array to hold the "mapped" values.
+
+    Topic: Lists
+
+    See also: map, reduce
+  (
+    self # the array to work on
+    map_function # the function to apply to each element of the array
+    reduce_function = append # the function to apply to pairs of values
+    _unit = undefined # the value to return for empty arrays
+  )
+  $map_reduce
+    if
+      parameter_count_of(map_function) == 2
+      ->
+	: (s e)
+	  if
+	    s < e:
+	      $m (s+e) >> 1
+	      reduce_function
+		map_reduce(s m)
+		map_reduce(m+1 e)
+	    -> map_function(s self(s))
+      ->
+	: (s e)
+	  if
+	    s < e:
+	      $m (s+e) >> 1
+	      reduce_function
+		map_reduce(s m)
+		map_reduce(m+1 e)
+	    -> map_function(self(s))
+
+  map_reduce 1 length_of(self)
+
+###
+# serialization
+
+$std_types::array.serialization_tag_of "array"
+$std_types::boolean_array.serialization_tag_of "boolean_array"
+$std_types::character_array.serialization_tag_of "character_array"
+$std_types::int8_array.serialization_tag_of "int8_array"
+$std_types::uint8_array.serialization_tag_of "uint8_array"
+$std_types::int16_array.serialization_tag_of "int16_array"
+$std_types::uint16_array.serialization_tag_of "uint16_array"
+$std_types::int32_array.serialization_tag_of "int32_array"
+$std_types::uint32_array.serialization_tag_of "uint32_array"
+$std_types::int64_array.serialization_tag_of "int64_array"
+$std_types::uint64_array.serialization_tag_of "uint64_array"
+
+$std_types::generic_array/serialize:
+  (
+    self
+    indent = undefined
+  )
+  $new_indent
+    if
+      indent.is_defined
+      -> indent+2
+      -> undefined
+  map_reduce $contents
+    self: (value) serialize value new_indent
+    append
+    ""
+  $header
+    "
+      @(serialization_tag_of(self)) @(length_of(self))
+  update_if indent.is_defined &header -> append(tabs_and_spaces(indent) header)
+  append header contents

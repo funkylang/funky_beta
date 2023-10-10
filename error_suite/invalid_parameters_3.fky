@@ -1,0 +1,10 @@
+#!/usr/bin/env fkyrun
+
+$p:
+  $y 23
+  (
+    x
+  )
+  -> x*y
+
+println! p(5)

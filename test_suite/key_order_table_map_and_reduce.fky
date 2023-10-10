@@ -1,0 +1,41 @@
+#!/usr/bin/env fkyrun
+
+$ages empty_key_order_table
+
+!ages("Tom") 55
+!ages("Jenny") 52
+!ages("Gerard") 49
+!ages("Danielle") 51
+!ages("Dagobert") 87
+
+$print_ages:
+  for_each ages
+    : (name age)
+      println! name ": " age
+      next!
+    pass
+
+print_ages!
+
+map &ages: (age) -> age+1
+
+print_ages!
+
+map &ages: (name age)
+  case name(-1)
+    'a', 'e', 'i', 'o', 'u', 'y' -> age-5
+    -> age
+
+print_ages!
+
+println! "sum of ages: " reduce(ages plus)
+
+println! map_reduce(ages to_string append)
+
+println! "sum of female ages: "
+  map_reduce
+    ages: (name age)
+      case name(-1)
+	'a', 'e', 'i', 'o', 'u', 'y' -> age
+	-> 0
+    plus

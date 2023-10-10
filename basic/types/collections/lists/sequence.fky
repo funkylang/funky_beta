@@ -1,0 +1,47 @@
+#
+  Copyright (C) 2021 by
+  Dipl.-Ing. Michael Niederle
+
+  This program is free software; you can redistribute it and/or modify
+  it under the terms of the GNU Library General Public License, version 2, or
+  (at your option) under the terms of the GNU Lesser General Public License,
+  version 3.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  GNU Lesser (Library) General Public License for more details.
+
+  For details of the GNU General Public License see the accompanying
+  files LGPLv2.txt and LGLPv3.txt or
+  http://www.gnu.org/licenses/lgpl-2.0.html
+  http://www.gnu.org/licenses/lgpl-3.0.html
+  or write to the
+  Free Software Foundation, Inc.,
+  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+
+$std_types::sequence.subtype_of "sequence"
+  #
+    the list subtype for sequences
+
+$std::is_a_sequence () # obvious
+
+$std_types::object.is_a_sequence false
+  #
+    obvious
+
+    Topic: Objects
+
+$std_types::sequence.is_a_sequence true # obvious
+
+$std::sequence:
+  #
+    constructs a sequence
+
+    Topic: Collections
+
+    See also: list, std_types::sequence, std_types::list
+  (
+    args*
+  )
+  new std_types::sequence args

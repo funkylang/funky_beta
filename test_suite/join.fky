@@ -1,0 +1,11 @@
+#!/usr/bin/env fkyrun
+
+do:
+  $fruits list("apples" "bananas" "grapes" "ananas")
+  println! join(fruits)
+  println! join(fruits ", ")
+
+do:
+  $fruits key_order_set("apples" "bananas" "grapes" "ananas")
+  println! join(fruits)
+  println! join(fruits ", ")
