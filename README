@@ -1,99 +1,69 @@
-Simplicity
-==========
+FUNKY
 
-Simplicity is a new programming language for scripting and application
-development.
+Funky is an all-purpose (pure) functional and object oriented programming
+language. It can be used to write small scripts, application programs and just
+about any software that does not rely on direct access to hardware.
 
-Compatibility
--------------
+One of the design goals was to create a language suited to create large
+software projects in the realm of classical artificial intelligence (e.g.
+"expert systems").
 
-The current version is tested under Linux (32-bit and 64-bit), FreeBSD (64-bit)
-and Windows 10 (Cygwin, 64-bit).
+But meanwhile AI systems based on neural networks had an unimaginable boost.
+To accomodate this new development an interface to use LLMs (Large Language
+Models) is planned for the near future.
 
-Key Features
-------------
+Funky makes it easy to write comprehensible software and at the same time
+allows the utilization of the vast amount of execution units of modern
+computers. The logical flow of control is always sequential. The functional
+design of the language makes it easy for the compiler and runtime system to
+exploit the lack of side effects to compute function results in parallel at
+a very fine grained level.
 
-Simplicity is an all-purpose functional programming language with
-imperative and object oriented elements. Declarations can be split
-over several modules (source code files) and their order is
-insignificant.
+Funky uses an indentation based syntax for *all* multi-line language
+constructs including string literals and remarks.
 
-Simplicity is intended to be used for short scripts as well as for
-large software projects.
+It has a very simple syntax for defining anonymous functions which are widely
+used. There are no keywords and no "special forms".
 
-Its syntax is completely indentation based. (There are also single line
-variants for most syntactic elements.) It also uses indentation for
-multi-line string constants as well as for multi-line remarks.
-Simplicity has a very simple syntax for defining anonymous functions
-which encourages their use. There are no keywords and no special forms.
+Function calls (the only kind of "statement" in Funky) can be written in
+several ways that make their semantic intention more clear.
 
-Function calls (the only kind of "statement" in Simplicity) can be
-written in several ways that makes their intention more readable.
-Loops and branches are functions calls, too.
+There are no loop- or branch-statements; they are replaced by recursion and
+polymorphic function calls.
 
-There is also no special syntax for defining "standard" data structures
-like lists or maps which encourages the user to not overuse the
-standard data structures but instead use more sophisticated data
-structures that are more suited to the kind of problem to be solved.
+Variables have lexical scope but dynamic lifetime.
 
-Single assignment variables are the default to encourage a functional
-programming style.
+To ease arithmetic and logic operations, C-style operators (+, -, &&, >>, etc.)
+are supported as *syntactic sugar*.
 
-To ease arithmetic and logical operations C-style operators (+, -, &&,
->>, etc.) are supported.
+Funky supports completely separate compilation of source code modules. To
+compile a module no other file than the module's source code file has to be
+consulted.
 
-Simplicity supports completely separate compilation of source code
-modules. To compile a module no other file than the module's source
-code file has to be consulted. But it's also possible to build
-stand-alone applications.
+As a functional language Funky uses value semantics. So no object can ever be
+modified, but new objects can be derived from existing ones. This prevents problems
+like deep vs. shallow copies, equality vs. identity and offers uniform semantics
+for copying and updating.
 
-The runtime-library is very slim (less than 100 KB). Nearly everything is
-implemented in libraries written in Simplicity or Inline-C - even
-integer arithmetics and control structures like "if" or "while" (using
-polymorphism and recursion).
+The typing discipline of Funky is dynamic but it does not support duck typing and
+arguments are not converted automatically (so Funky uses strong typing). Funky
+compilers should test for potential runtime errors at compile time wherever possible.
 
-Simplicity uses value semantics. So no object can ever be modified, but
-new objects can be derived from existing ones. This prevents problems
-with deep vs. shallow copies, equality vs. identity and offers
-uniform semantics for copying and updating. Multi-assignment variables
-are the only way to store state.
+The use of dynamic variables makes Funky well suited for parallel execution.
 
-Simplicity offers continuations at no extra cost.
+Funky offers uniform access to functions, data structures, methods and attributes -
+they are all function calls in Funky. So the implementation can be changed later on
+without the need to change the interface.
 
-The typing discipline of Simplicity is dynamic but it does not support
-duck typing and arguments are not converted automatically (so
-Simplicity uses strong typing). Compilers should test for potential
-runtime errors at compile time.
+The definitions of methods and attributes for any specific object can be distributed
+over several source code modules. An application program can add (private or global)
+methods and attributes to a prototype object defined in a library.
 
-Simplicity supports (like Common Lisp) static and dynamic scoping.
-Dynamic scoping is seldomly needed, but it can be very useful. It
-allows to write algorithms in a quite natural way without the need of
-using global variables which would complicate the parallelization of
-programs.
-
-Simplicity offers uniform access to functions, data structures, methods
-and attributes - they are all function calls in Simplicity. So the
-implementation can be changed later on without the need to change the
-interface, too.
-
-The definitions of methods and attributes of an object can be
-distributed over several source code modules. An application program
-can add methods and attributes to a prototype object defined in a
-library.
-
-Simplicity offers parallelism but no concurrency. So there can't be any race
-conditions!
-
-Simplicity also offers complete determinism: a program run on the same
-stream of input data will always produce the same stream of output
-data. This makes debugging Simplicity programs quite easy. All input
-events can be logged and a post mortem debugger can replay these events
-and allow the user to run his program forwards and backwards in small
+Funky guarantees determinism: a program run on the same stream of input data will
+always produce the same stream of output data. This makes debugging Funky programs
+quite easy. All input events can be logged and a post mortem debugger can replay
+these events and allow the user to run his program forwards and backwards in small
 or large steps.
 
-Simplicity allows defining objects in any order. Everything that can be
+Funky allows defining objects and their parts in any order. Everything that can be
 resolved will be resolved!
-
-To add bindings for existing libraries or to implement data structures
-like lists or tables efficiently, Simplicity offers the possibility to
-define objects and functions in "inline-C".
