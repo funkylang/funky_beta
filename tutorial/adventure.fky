@@ -68,7 +68,7 @@ $inventory empty_insert_order_set # a set of item ids
 loop:
   $room rooms(player_location)
   print! "
-    You`re in the @(name_of(room)).
+    You're in the @(name_of(room)).
   $contents items_of(room)
   for_each contents
     : (item)
