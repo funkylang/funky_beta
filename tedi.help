@@ -1,0 +1,185 @@
+cursor left
+  move the cursor one position to the left;
+  if already there then do nothing
+
+cursor right
+  move the cursor one position to the right;
+  does not jump to the start of the next line after reaching the line's last
+  character
+
+cursor up
+  moves the cursor one line up;
+  if the "line lock" is active and the cursor is already at the "upper bound"
+  then scroll down the window contents instead
+
+cursor down
+  moves the cursor one line down;
+  if the "line lock" is active and the cursor is already at the "lower bound"
+  then scroll up the window contents instead
+
+page up
+  moves the cursor up as many lines as the window height;
+  if the "line lock" is active and the cursor is already at the "upper bound"
+  then scroll down the window contents instead
+
+page down
+  moves the cursor down as many lines as the window height;
+  if the "line lock" is active and the cursor is already at the "lower bound"
+  then scroll up the window contents instead
+
+ctrl cursor up
+  moves the cursor up in a straight line until it "collides with text"
+
+ctrl cursor down
+  moves the cursor down in a straight line until it "collides with text"
+
+home
+  jump to the first character of the line or if already there then
+  jump to the start of the line
+
+end
+  jump behind the last character of the line
+
+ctrl home
+  jump to the start of the document
+
+ctrl end
+  jump behind the last line of the document
+
+ctrl backspace
+  deletes all text to the left of the cursor;
+  the cursor is positioned at the (previous) leftmost character
+
+ctrl delete
+  deletes all text to the right of the cursor;
+  the cursor does not move
+
+ctrl space
+  AI completion;
+  needs a running AI-server
+
+alt space
+  smart completion;
+  completes identifiers and numbers based on existing (surrounding) text
+
+alt return
+  toggle folding
+
+alt cursor left
+  folds the current line
+
+alt cursor right
+  unfolds the current line
+
+alt cursor up
+  folds all lines
+
+alt cursor down
+  unfolds all lines
+
+ALL THESE KEYS CAN BE COMBINED WITH <shift> TO SELECT TEXT
+
+ATTENTION: WHEN SELECTING MULTIPLE LINES THEN THE WHOLE LINES WILL BE SELECTED
+
+ctrl page up
+  like page up, but only moves a half window height
+
+ctrl page down
+  like page down, but only moves a half window height
+
+tab
+  indents the current line or the current selection
+
+shift tab
+  unindents the current line or the current selection
+
+return
+  splits the current line into two;
+  tries to handle spaces in a smart way
+
+escape
+  closes the "edit box"
+
+backspace
+  deletes one character to the left;
+  does nothing if already at the start of a line
+
+delete
+  deletes one character to the right;
+  does nothing if there is no more text to the right
+
+ctrl b
+  starts a backward search
+
+ctrl c
+  copies the current selection into the clipboard;
+  the clipboard is only available within the editor
+
+ctrl d <letter>
+  defines a "mark";
+  marks cannot be defined on empty lines
+
+ctrl e
+  toggles "line lock" mode
+
+ctrl f
+  starts a forward search
+
+ctrl g
+  jumps to a specific line;
+  you have to enter the line in the "edit box"
+
+ctrl k
+  deletes the current line
+
+ctrl l
+  sets the lower bound of the "line lock"
+
+ctrl n
+  searches (and replaces) the next occurence of the search string;
+  the found string is selected and the cursor is positioned behind the string
+
+ctrl p
+  searches (and replaces) the previous occurence of the search string;
+  the found string is selected and the cursor is positioned at the start of the
+  string
+
+ctrl q
+  leaves the editor;
+  THE DOCUMENT WILL **NOT** BE SAVED!
+
+ctrl r
+  lets you specify a replacement string in the "edit box";
+  also replaces the current selection
+
+ctrl s
+  saves the current contents
+
+ctrl t
+  starts the permanent selection mode
+
+ctrl u
+  sets the upper bound of the "line lock"
+
+ctrl v
+  pastes the contents of the clipboard a the current position
+
+ctrl x
+  cuts the current selection into the clipboard;
+  the clipboard is only available within the editor
+
+ctrl z
+  undo;
+  realy does undo **EVERYTHING**!
+
+alt <letter>
+  jumpts to the specified mark
+
+F1
+  should show this help - but does not ...
+
+F2
+  change the colour set
+
+F3
+  toggle indentation highlighting

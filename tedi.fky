@@ -47,6 +47,8 @@ $search_history_of ()
 $replacement_history_of ()
 $text_colour_of ()
 $background_colour_of ()
+$background_colour_2_of ()
+$background_colour_3_of ()
 $inbounds_width_of ()
 $out_of_bounds_colour_of ()
 $selection_colour_of ()
@@ -54,7 +56,8 @@ $folds_colour_of ()
 $fake_folds_colour_of ()
 $bar_text_colour_of ()
 $bar_background_colour_of ()
-
+$indentation_patterns_of ()
+$do_highlight_indentations_of ()
 $colour_set_of ()
 $colour_set_no_of ()
 $clipboard_contents_of ()
@@ -124,8 +127,21 @@ $colour_sets
   list
     std_types::object
       .text_colour_of WHITE
-      .background_colour_of BLUE
+      .background_colour_of '@0x0000e0;'
+      .background_colour_2_of '@0x0000c8;'
+      .background_colour_3_of '@0x0000b0;'
       .out_of_bounds_colour_of '@0x0000cc;'
+      .selection_colour_of '@0x804000;'
+      .folds_colour_of '@0x00a0ff;'
+      .fake_folds_colour_of '@0x00c0ff;'
+      .bar_text_colour_of BLACK
+      .bar_background_colour_of WHITE
+    std_types::object
+      .text_colour_of WHITE
+      .background_colour_of BLUE
+      .background_colour_2_of '@0x0000f0;'
+      .background_colour_3_of '@0x0000e8;'
+      .out_of_bounds_colour_of '@0x0000c0;'
       .selection_colour_of '@0x804000;'
       .folds_colour_of '@0x00a0ff;'
       .fake_folds_colour_of '@0x00c0ff;'
@@ -134,6 +150,8 @@ $colour_sets
     std_types::object
       .text_colour_of BLACK
       .background_colour_of WHITE
+      .background_colour_2_of '@0xf4f4f4;'
+      .background_colour_3_of '@0xe8e8e8;'
       .out_of_bounds_colour_of '@0xeeeeee;'
       .selection_colour_of YELLOW
       .folds_colour_of '@0xa0ffa0;'
@@ -143,12 +161,16 @@ $colour_sets
     std_types::object
       .text_colour_of WHITE
       .background_colour_of BLACK
+      .background_colour_2_of '@0x000810;'
+      .background_colour_3_of '@0x000e1c;'
       .out_of_bounds_colour_of '@0x111111;'
       .selection_colour_of '@0x804000;'
       .folds_colour_of '@0x004000;'
       .fake_folds_colour_of '@0x002000;'
       .bar_text_colour_of BLACK
       .bar_background_colour_of WHITE
+
+map &colour_sets create_indentation_patterns
 
 get_terminal_size! STDIN_FILENO $terminal_width $terminal_height
 create_terminal $terminal terminal_width terminal_height
@@ -198,6 +220,7 @@ $window
     .is_a_text_window true
     .colour_set_of colour_sets(1)
     .colour_set_no_of 1
+    .do_highlight_indentations_of true
 update_display !terminal !window
 update_terminal &terminal $initial_output
 print! initial_output
@@ -468,6 +491,7 @@ $handle_key: (key)
 
     F1: keep_selection help
     F2: keep_selection change_colour_set
+    F3: keep_selection toggle_indentation_highlighting
     :
       #debug_write "Unhandled "
       #edump `key
@@ -2054,6 +2078,14 @@ $change_colour_set:
 	  .last_updated_y_of END
 	lines
 
+$toggle_indentation_highlighting:
+  ->
+    window
+      .do_highlight_indentations_of not(do_highlight_indentations_of(window))
+      .first_updated_y_of 1
+      .last_updated_y_of END
+    lines
+
 $load_file:
   load! $buf filename
   from_utf8 &buf
@@ -2177,27 +2209,7 @@ $update_display:
   set_cursor &terminal cursor_x cursor_y
   if
     first_updated_y.is_defined:
-      $top_cursor_y
-	if
-	  previous_y.is_defined && previous_y < y
-	  -> previous_y
-	  -> y
-      $bottom_cursor_y
-	if
-	  previous_y.is_defined && previous_y > y
-	  -> previous_y
-	  -> y
-      min &first_updated_y top_cursor_y
-      update_if # include cursor line & previous cursor line if not included
-	||
-	  &&
-	    last_updated_y.is_undefined
-	    first_updated_y < bottom_cursor_y
-	  &&
-	    last_updated_y.is_defined
-	    last_updated_y != END
-	    last_updated_y < bottom_cursor_y
-	&last_updated_y -> bottom_cursor_y
+      extend_to &first_updated_y first_visible_y
       draw_lines !terminal
 	first_updated_y+1-first_visible_y first_updated_y last_updated_y
       !window.first_updated_y_of undefined
@@ -2218,7 +2230,7 @@ $min_max_minus_1: (v1 v2)
 
 $draw_lines: (terminal_y first_y last_y)
   $colour_set colour_set_of(window)
-  $default_background_colour background_colour_of(colour_set)
+  $do_highlight_indentations do_highlight_indentations_of(window)
   $selection_colour selection_colour_of(colour_set)
   $out_of_bounds_colour out_of_bounds_colour_of(colour_set)
   set_text_colour &terminal text_colour_of(colour_set)
@@ -2227,6 +2239,8 @@ $draw_lines: (terminal_y first_y last_y)
       -> last_y == undefined -> first_y
       -> last_y == END -> first_y+height_of(window)-terminal_y
       -> true -> min(last_y first_y+height_of(window)-terminal_y)
+  #debug_write "
+    draw_lines @(first_y) .. @(last_y)
   $first_visible_x first_visible_x_of(window)
   $width width_of(window)
   $line_count length_of(lines)
@@ -2239,8 +2253,16 @@ $draw_lines: (terminal_y first_y last_y)
       draw_line_range
     draw_line_range
   $draw_line_range:
+    #debug_write "
+      draw_line_range @(first_y) .. @(last_y)
     from_to first_y last_y
       : (y)
+	$default_background_colour background_colour_of(colour_set)
+	  #case
+	    y .mod. 3
+	    0 -> background_colour_of(colour_set)
+	    1 -> background_colour_2_of(colour_set)
+	    2 -> background_colour_3_of(colour_set)
 	$background_colour
 	  if
 	    y > line_count
@@ -2281,21 +2303,46 @@ $draw_lines: (terminal_y first_y last_y)
 		clear_line
 		:
 		  line $indent $text
-		  append spaces(indent) &text
-		  pad_right &text first_visible_x+width-1
-		  range &text first_visible_x -1
 		  $inbounds_width inbounds_width_of(window)
 		  $cy terminal_y+y-first_y
 		  if
-		    inbounds_width.is_defined && width > inbounds_width:
-		      draw_text &terminal 1 cy range(text 1 inbounds_width)
-		      set_window_colour !terminal out_of_bounds_colour
-		      draw_text &terminal inbounds_width+1 cy
-			range(text inbounds_width+1 -1)
-		      next
+		    &&
+		      do_highlight_indentations
+		      y != y_of(window)
+		      not(within_selection())
 		    :
-		      draw_text &terminal 1 terminal_y+y-first_y text
-		      next
+		      pad_right &text first_visible_x+width-(indent+1)
+		      range &text max(first_visible_x-indent 1) -1
+		      draw_attributed_text &terminal 1 cy
+			range
+			  indentation_patterns_of(colour_set)(1)
+			  1
+			  3*indent
+		      if
+			inbounds_width.is_defined && width > inbounds_width:
+			  draw_text &terminal indent+1 cy
+			    range(text 1 inbounds_width-indent)
+			  set_window_colour !terminal out_of_bounds_colour
+			  draw_text &terminal inbounds_width+1 cy
+			    range(text inbounds_width+1-indent -1)
+			  next
+			:
+			  draw_text &terminal indent+1 cy text
+			  next
+		    :
+		      append spaces(indent) &text
+		      pad_right &text first_visible_x+width-1
+		      range &text first_visible_x -1
+		      if
+			inbounds_width.is_defined && width > inbounds_width:
+			  draw_text &terminal 1 cy range(text 1 inbounds_width)
+			  set_window_colour !terminal out_of_bounds_colour
+			  draw_text &terminal inbounds_width+1 cy
+			    range(text inbounds_width+1 -1)
+			  next
+			:
+			  draw_text &terminal 1 cy text
+			  next
 
 	    $draw_selected_line:
 	      if
@@ -2336,14 +2383,44 @@ $draw_lines: (terminal_y first_y last_y)
 	    $cy terminal_y+y-first_y
 	    $inbounds_width inbounds_width_of(window)
 	    if
-	      inbounds_width.is_defined && width > inbounds_width:
-		clear &terminal 1 cy inbounds_width 1
-		set_window_colour !terminal out_of_bounds_colour
-		clear &terminal inbounds_width+1 cy width-inbounds_width 1
-		next
+	      &&
+		do_highlight_indentations
+		y != y_of(window)
+		y < line_count
+		not(within_selection())
 	      :
-		clear &terminal 1 cy width 1
-		next
+		$indent get_next_indent(y)
+		if
+		  indent == 0
+		  clear_whole_line
+		  :
+		    draw_attributed_text &terminal 1 cy
+		      range
+			indentation_patterns_of(colour_set)(1)
+			1
+			3*indent
+		    if
+		      inbounds_width.is_defined && width > inbounds_width:
+			reduce_to &indent inbounds_width
+			clear &terminal indent+1 cy inbounds_width-indent 1
+			set_window_colour !terminal out_of_bounds_colour
+			clear &terminal inbounds_width+1 cy width-inbounds_width 1
+			next
+		      :
+			clear &terminal indent+1 cy width 1
+			next
+	      clear_whole_line
+
+	    $clear_whole_line:
+	      if
+		inbounds_width.is_defined && width > inbounds_width:
+		  clear &terminal 1 cy inbounds_width 1
+		  set_window_colour !terminal out_of_bounds_colour
+		  clear &terminal inbounds_width+1 cy width-inbounds_width 1
+		  next
+		:
+		  clear &terminal 1 cy width 1
+		  next
 
 	$within_selection
 	  ->
@@ -2438,3 +2515,67 @@ $count_suffix_spaces: (str)
 	dec &i
 	next
       -> len-i
+
+$get_next_indent: (y)
+  loop:
+    inc &y
+    $line lines(y)
+    if
+      line.is_defined
+      -> first(line)
+      next
+
+$create_indentation_patterns: (colour_set)
+  $text_colour text_colour_of(colour_set)
+  $background_colour background_colour_of(colour_set)
+  $background_colour_2 background_colour_2_of(colour_set)
+  $background_colour_3 background_colour_3_of(colour_set)
+  ->
+    colour_set
+      .indentation_patterns_of
+	list
+	  dup
+	    string
+	      ' '
+	      text_colour
+	      background_colour
+	      ' '
+	      text_colour
+	      background_colour
+	      ' '
+	      text_colour
+	      background_colour_2
+	      ' '
+	      text_colour
+	      background_colour_2
+	    256
+	  dup
+	    string
+	      ' '
+	      text_colour
+	      background_colour
+	      ' '
+	      text_colour
+	      background_colour
+	      ' '
+	      text_colour
+	      background_colour_3
+	      ' '
+	      text_colour
+	      background_colour_3
+	    256
+	  dup
+	    string
+	      ' '
+	      text_colour
+	      background_colour_2
+	      ' '
+	      text_colour
+	      background_colour_2
+	      ' '
+	      text_colour
+	      background_colour_3
+	      ' '
+	      text_colour
+	      background_colour_3
+	    256

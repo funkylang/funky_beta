@@ -39,6 +39,7 @@ $std::define_window ()
 $std::set_cursor ()
 $std::draw_character ()
 $std::draw_text ()
+$std::draw_attributed_text ()
 $std::draw_line ()
 $std::draw_rectangle ()
 $std::plot ()
@@ -1192,7 +1193,7 @@ $std_types::screen/draw_text:
       x > right_x
       first_y > bottom_y
       first_y+length_of(lines) <= top_y
-    -> self # text is completely outside the screen
+    -> self # text is completely outside the "window"
     :
       update_if first_y < top_y &lines &first_y
 	-> range(lines top_y+1-first_y -1) top_y
@@ -1296,6 +1297,63 @@ $std_types::screen/draw_text:
 	  buf
 	  range(row max(3*min(cx right_x+1)-2 1) -1)
       -> z
+
+$std_types::screen/draw_attributed_text:
+  #
+    draw the specified attributed text at the current screen position
+
+    The text must not contain any newline characters
+
+    The text is clipped on the borders of the current window.
+
+    Topic: Terminal
+
+    See also: draw_text
+  (
+    self
+    x # in logical screen coordinates
+    y # in logical screen coordinates (any coordinate within a row is accepted)
+    attributed_text # the text to draw
+  )
+  $n length_of(attributed_text) .div. 3
+  $left_x left_x_of(self)
+  $top_y top_y_of(self)
+  $right_x right_x_of(self)
+  $bottom_y bottom_y_of(self)
+  plus &x left_x-1
+  plus &y top_y-1
+  if
+    ||
+      x+n-1 < left_x
+      x > right_x
+      y < top_y
+      y > bottom_y
+    -> self # text is completely outside the "window"
+    :
+      $rows rows_of(self)
+      ->
+	self
+	  .rows_of
+	    append
+	      push(range(rows 1 y-1) update_row(rows(y)))
+	      range(rows y+1 -1)
+
+  $update_row: (row)
+    $s max(left_x+1-x 1) # first attributed character to output
+    $e min(right_x+1-x n)
+    extend_to &x left_x
+    $left_text range(row 1 3*(x-1))
+    range &attributed_text 3*s-2 3*e
+    $right_text range(row 3*(x+e-s)+1 -1)
+    update_if left_text.is_not_empty && character_width(left_text(-3)) > 1
+      &left_text -> left_text(-3 ' ')
+    update_if attributed_text(1) == INVALID_CHARACTER
+      &attributed_text -> attributed_text(1 ' ')
+    update_if character_width(attributed_text(-3)) > 1
+      &attributed_text -> attributed_text(-3 ' ')
+    update_if right_text.is_not_empty && right_text(1) == INVALID_CHARACTER
+      &right_text -> right_text(1 ' ')
+    append left_text attributed_text right_text
 
 $std_types::screen/draw_line:
   #
