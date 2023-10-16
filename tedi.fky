@@ -202,6 +202,7 @@ $prototype_window
     .possible_completions_of undefined
     .clipboard_contents_of undefined
     .colour_set_no_of undefined
+    .do_highlight_indentations_of false
 
 $window_height terminal_height-2
 $editor_window undefined
@@ -702,9 +703,20 @@ $smart_indent:
       if
 	y > length_of(lines) || lines(y).is_undefined:
 	  $indent_above find_next_indent_above(x y)
+	  $indent_below find_next_indent_below(x y)
+	  $indent
+	    if
+	      &&
+		indent_above.is_defined
+		||
+		  indent_below.is_undefined
+		  indent_above <= indent_below
+		  indent_below < x
+	      -> indent_above
+	      -> indent_below
 	  if
-	    indent_above.is_defined && indent_above+1 > x
-	    : cursor_right indent_above+1-x
+	    indent.is_defined && indent+1 > x
+	    : cursor_right indent+1-x
 	    : cursor_right 2
 	:
 	  lines(y) $indent $text $marks $folds
@@ -754,6 +766,24 @@ $find_next_indent_above: (x y)
     if
       y > 1:
 	dec &y
+	$line lines(y)
+	if
+	  line.is_undefined
+	  next
+	  :
+	    line $indent
+	    if
+	      indent+1 > x
+	      -> indent
+	      -> undefined
+      -> undefined
+
+$find_next_indent_below: (x y)
+  $n length_of(lines)
+  loop:
+    if
+      y < n:
+	inc &y
 	$line lines(y)
 	if
 	  line.is_undefined
@@ -1383,7 +1413,12 @@ $ai_completion:
 	  complete!: (completion)
 	    !lines
 	      append
-		push(range(lines 1 n) tedi_line(0 completion))
+		push
+		  range(lines 1 n)
+		  if
+		    all_of(completion: (chr) -> chr == ' ')
+		    -> undefined
+		    -> tedi_line(0 completion)
 		range(lines n+1 -1)
 	    !window.first_updated_y_of y
 	    !window.last_updated_y_of END

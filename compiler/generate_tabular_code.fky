@@ -258,6 +258,9 @@ $funky::generate_tabular_code: (top_level_statements is_a_main_module)
 		    ATTRIBUTE_WITH_SETTER -> "
 		      ,
 			  {.has_a_setter = true}@
+		    EXTERN, EXTERN_POLYMORPHIC -> "
+		      ,
+			  {.position = @(get_source_position(second(info)))}@
 		    -> ""
 		-> "
 		  @
@@ -702,11 +705,14 @@ $add_source_positions ()
 $funky_types::node/add_source_positions: (_self) -> ""
 
 $funky_types::statement/add_source_positions: (self)
-  $source_group source_group_of(self)
+  -> "  @(get_source_position(self)),@nl;"
+
+$get_source_position: (node)
+  $source_group source_group_of(node)
   source_group $indent $text
   $line_no line_no_of(source_group)
-  $column_no indent+length_of(text)+1-length_of(source_position_of(self))
-  -> "  POS(@(line_no), @(column_no)),@nl;"
+  $column_no indent+length_of(text)+1-length_of(source_position_of(node))
+  -> "POS(@(line_no), @(column_no))"
 
 $to_separated_index ()
 

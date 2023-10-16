@@ -361,6 +361,7 @@ static void register_symbol(FUNKY_VARIABLE *variable) {
 
 static FUNKY_VARIABLE *update_symbol(
   const char *name,
+  FUNKY_VARIABLE *variable,
   FUNKY_VARIABLE *new_variable
 ) {
   // the variable is already defined; this is just an *access*
@@ -417,10 +418,14 @@ static FUNKY_VARIABLE *update_symbol(
       namespace, name, current_module->name+1);
   } else {
     if (!hep) {
+      int32_t pos = variable->position;
+      int line_no = pos >> 16;
+      int column_no = pos & 0xffff;
+
       unrecoverable_error(
-	"The symbol \"%s\" needed by the module \"%s\" is not defined in any "
-	"namespace!",
-	name, current_module->name+1);
+	"The symbol \"%s\" needed by the module \"%s\" in line %d, column %d "
+	" is not defined in any namespace!",
+	name, current_module->name+1, line_no, column_no);
     }
 
     //fprintf(stderr, "update symbol %s\n", name);
@@ -523,7 +528,7 @@ static FUNKY_VARIABLE *update_symbol(
 }
 
 EXPORT FUNKY_VARIABLE *resolve_symbol(const char *name) {
-  return update_symbol(name, NULL);
+  return update_symbol(name, NULL, NULL);
 }
 
 static FUNKY_VARIABLE *get_defined_variable(const char *name) {
@@ -957,7 +962,9 @@ static void resolve_symbols(void) {
 	// the variable chain for this symbol
 	FUNKY_VARIABLE *resolved_variable =
 	  update_symbol(
-	    variable->name, variable->attributes_count > 0 ? variable : NULL);
+	    variable->name,
+	    variable,
+	    variable->attributes_count > 0 ? variable : NULL);
 	variable->name = resolved_variable->name;
 	  // replace with fully qualified name
 	DEBUG

@@ -185,6 +185,7 @@ enum {
   func__std_types___real___std___exp,
   func__std___real,
   func__std___integer,
+  func__std___sqrt,
   func__std_types___positive_integer___std___plus,
   func__negative_integer___std___plus,
   func__std_types___real___std___plus,
@@ -503,6 +504,7 @@ enum {
   var_no__std_types___real,
   var_no__std___real,
   var_no__std___integer,
+  var_no__std___sqrt,
   var_no__std_types___polymorphic_function,
   var_no__std_types___polymorphic_function_with_setter,
   var_no__std___subtype_of,
@@ -15908,6 +15910,22 @@ static void entry__std___integer (void)
     return;
   }
 
+static void entry__std___sqrt (void)
+  {
+    if (TLS_argument_count != 1) {
+      invalid_arguments();
+      return;
+    }
+    double arg;
+    if (!to_double(TLS_arguments[0], &arg)) return;
+    {
+      NODE *result__node = (NODE *)(create__std_types___real(sqrt(arg)));
+      TLS_arguments[0] = result__node;
+      TLS_argument_count = 1;
+      return;
+    }
+  }
+
 static void entry__std_types___positive_integer___std___plus (void)
   {
     if (TLS_argument_count != 2) {
@@ -21841,6 +21859,7 @@ static FUNKY_CONSTANT constants_table[] = {
   {FLT_C_FUNCTION, 1, {.func = entry__std_types___real___std___exp}},
   {FLT_C_FUNCTION, 1, {.func = entry__std___real}},
   {FLT_C_FUNCTION, 1, {.func = entry__std___integer}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std___sqrt}},
   {FLT_C_FUNCTION, 2, {.func = entry__std_types___positive_integer___std___plus}},
   {FLT_C_FUNCTION, 2, {.func = entry__negative_integer___std___plus}},
   {FLT_C_FUNCTION, 2, {.func = entry__std_types___real___std___plus}},
@@ -23568,6 +23587,11 @@ static FUNKY_VARIABLE variables_table[] = {
     FOT_INITIALIZED, 0, 0,
     "integer\000std", NULL,
     {.const_idx = func__std___integer}
+  },
+  {
+    FOT_INITIALIZED, 0, 0,
+    "sqrt\000std", NULL,
+    {.const_idx = func__std___sqrt}
   },
   {
     FOT_TYPE, 0, 0,
@@ -25452,13 +25476,13 @@ FUNKY_MODULE module__builtin = {
   NULL,
   0, 0,
   3, 0,
-  319, 425,
+  320, 426,
   NULL,
   defined_namespaces, NULL,
   constants_table, variables_table
 };
 
-BUILTIN_FUNCTION_NAME builtin_function_names[368] = {
+BUILTIN_FUNCTION_NAME builtin_function_names[369] = {
   {std_types___generic_array____type, "std_types::generic_array/_type"},
   {std_types___array____type, "std_types::array/_type"},
   {entry__std_types___array___std___length_of, "std_types::array/length_of"},
@@ -25636,6 +25660,7 @@ BUILTIN_FUNCTION_NAME builtin_function_names[368] = {
   {entry__std_types___real___std___exp, "std_types::real/exp"},
   {entry__std___real, "std::real"},
   {entry__std___integer, "std::integer"},
+  {entry__std___sqrt, "std::sqrt"},
   {entry__std_types___positive_integer___std___plus, "std_types::positive_integer/plus"},
   {entry__negative_integer___std___plus, "negative_integer/plus"},
   {entry__std_types___real___std___plus, "std_types::real/plus"},

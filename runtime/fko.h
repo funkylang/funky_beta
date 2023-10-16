@@ -114,6 +114,7 @@ typedef struct FUNKY_VARIABLE {
     int const_idx; // the constant to use for initialization
     int has_a_setter; // for polymorphic functions (boolean)
     struct FUNKY_VARIABLE *link; // link chain for distributed definitions
+    int32_t position; // source position for unknown symbols
   };
   union { // see FUNKY_OBJECT_TYPE
     int methods_count;

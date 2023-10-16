@@ -152,14 +152,16 @@ $funky_types::statement/collect_variables: (self)
 	    insert_order_table
 	      =
 		identifier_of(destinations(1))
-		tuple(undefined current_level USED | HAS_SLOTS)
+		tuple(undefined head current_level USED | HAS_SLOTS)
 	    collect_variables(rest(1))
 	:
 	  if
 	    length_of(destinations) == 1:
 	      merge_variables
 		insert_order_table
-		  identifier_of(destinations(1)) = tuple(self current_level 0)
+		  =
+		    identifier_of(destinations(1))
+		    tuple(self destinations(1) current_level 0)
 		map_reduce
 		  push(rest head)
 		  collect_variables
@@ -190,7 +192,7 @@ $funky_types::definition/collect_variables: (self)
 	  -> 0
   ->
     insert_order_table
-      identifier = tuple(self current_level flags)
+      identifier = tuple(self undefined current_level flags)
 
 $funky_types::parameter/collect_variables collect_parameter
 $funky_types::inline_parameter/collect_variables collect_parameter
@@ -198,7 +200,7 @@ $funky_types::inline_parameter/collect_variables collect_parameter
 $collect_parameter: (self)
   merge_variables
     insert_order_table
-      funky::name_of(self) = tuple(self current_level 0)
+      funky::name_of(self) = tuple(self undefined current_level 0)
     collect_variables(option_of(self))
 
 # redefinitions
@@ -214,6 +216,7 @@ $funky_types::redefinition/collect_variables: (self)
 	  identifier_of(self)
 	  tuple
 	    undefined
+	    self
 	    current_level
 	    if
 	      current_level == 0
@@ -231,6 +234,7 @@ $funky_types::update/collect_variables: (self)
 	  identifier_of(self)
 	  tuple
 	    undefined
+	    self
 	    current_level
 	    if
 	      current_level == 0
@@ -245,12 +249,12 @@ $funky_types::functor/collect_variables: (self)
     TEMPORARY, BUILTIN -> empty_insert_order_table
     ->
       insert_order_table
-	identifier_of(self) = tuple(undefined current_level USED)
+	identifier_of(self) = tuple(undefined self current_level USED)
 
 $funky_types::pair/collect_variables: (self)
   merge_variables
     insert_order_table
-      identifier_of(self) = tuple(undefined current_level USED_POLYMORPHIC)
+      identifier_of(self) = tuple(undefined self current_level USED_POLYMORPHIC)
     collect_variables(argument_of(self))
 
 $funky_types::inline_attribute_value_pair/collect_variables collect_inline_pair
@@ -259,18 +263,22 @@ $funky_types::inline_method_value_pair/collect_variables collect_inline_pair
 $collect_inline_pair: (self)
   merge_variables
     insert_order_table
-      identifier_of(self) = tuple(undefined current_level USED_POLYMORPHIC)
+      identifier_of(self) = tuple(undefined self current_level USED_POLYMORPHIC)
     collect_variables(expression_of(self))
 
 $funky::merge_variables: (left right)
   merge left right: (left_info right_info)
-    left_info $left_definition $left_level $left_flags
-    right_info $right_definition $right_level $right_flags
+    left_info $left_definition $left_use $left_level $left_flags
+    right_info $right_definition $right_use $right_level $right_flags
     tuple
       if
 	left_definition.is_defined
 	-> left_definition
 	-> right_definition
+      if
+	left_use.is_defined
+	-> left_use
+	-> right_use
       if
 	left_level == right_level || left_level == TOP_LEVEL
 	-> left_level
@@ -297,7 +305,7 @@ $funky::categorize_variables: (variables)
     -> new_variables
 
   $categorize: (name info)
-    info $definition $level $flags
+    info $definition $use $level $flags
     on
       ==
 	flags & (HAS_SLOTS | REDEFINED_ON_TOP_LEVEL)
@@ -407,7 +415,7 @@ $funky::categorize_variables: (variables)
 	      flags & POLYMORPHIC != 0
 	      -> EXTERN_POLYMORPHIC
 	      -> EXTERN
-	    undefined
+	    use
 	-> new_variables
 
     $local_or_dynamic:

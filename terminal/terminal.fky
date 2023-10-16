@@ -37,6 +37,9 @@
 
 $std::define_window ()
 $std::set_cursor ()
+$std::set_character_at ()
+$std::set_text_colour_at ()
+$std::set_background_colour_at ()
 $std::draw_character ()
 $std::draw_text ()
 $std::draw_attributed_text ()
@@ -48,7 +51,10 @@ $std::set_text_colour ()
 $std::set_background_colour ()
 $std::clear ()
 $std::copy ()
-
+$std::scroll_left ()
+$std::scroll_right ()
+$std::scroll_up ()
+$std::scroll_down ()
 $rows_of (!)
 $std::left_x_of ()
 $std::right_x_of ()
@@ -327,28 +333,25 @@ $std::background_colour_at:
   range &logical_screen.background_colours_of 1 -(delta+1)
   append empty_background_colour_lines &logical_screen.background_colours_of
 
-#$std::scroll_left:
+$std::scroll_left:
   #
     scrolls the contents of the <logical_screen> leftwards
 
     Topic: Terminal
   (
+    screen
     delta = 1 # the amount of columns to scroll
   )
-  $right_text spaces(delta)
+  $pad
+    dup
+      string
+	' '
+	text_colour_of(screen)
+	background_colour_of(screen)
+      delta
 
-  $right_text_colours
-    dup(text_colour_of(logical_screen).to_string delta)
-
-  $right_background_colours
-    dup(background_colour_of(logical_screen).to_string delta)
-
-  update_each &logical_screen.characters_of: (line)
-    append range(line 1+delta -1) right_text
-  update_each &logical_screen.text_colours_of: (line)
-    append range(line 1+delta -1) right_text_colours
-  update_each &logical_screen.background_colours_of: (line)
-    append range(line 1+delta -1) right_background_colours
+  map &screen.rows_of: (row) append range(row 3*delta+1 -1) pad
+  -> screen
 
 #$std::scroll_right:
   #
@@ -1058,6 +1061,63 @@ $std_types::screen/set_cursor:
       .cursor_x_of left_x_of(self)+x-1
       .cursor_y_of top_y_of(self)+y-1
 
+$std_types::screen/set_character_at:
+  #
+    changes the character at the specified screen position
+
+    The arguments are *not* validated!
+
+    See also: set_text_colour_at, set_background_colour_at
+  (
+    screen # the terminal on which to draw
+    x # in logical screen coordinates
+    y # in logical screen coordinates (any coordinate within a row is accepted)
+    chr # the character to set
+  )
+  $rows rows_of(screen)
+  $row rows(y)
+  !row(3*x-2) chr
+  !rows(y) row
+  -> screen(.rows_of rows)
+
+$std_types::screen/set_text_colour_at:
+  #
+    changes the text colour at the specified screen position
+
+    The arguments are *not* validated!
+
+    See also: set_background_colour_at, set_character_at
+  (
+    screen # the terminal on which to draw
+    x # in logical screen coordinates
+    y # in logical screen coordinates (any coordinate within a row is accepted)
+    colour # the new text colour
+  )
+  $rows rows_of(screen)
+  $row rows(y)
+  !row(3*x-1) colour
+  !rows(y) row
+  -> screen(.rows_of rows)
+
+$std_types::screen/set_background_colour_at:
+  #
+    changes the background colour at the specified screen position
+
+    The arguments are *not* validated!
+
+    See also: set_text_colour_at, set_character_at
+  (
+    screen # the terminal on which to draw
+    x # in logical screen coordinates
+    y # in logical screen coordinates (any coordinate within a row is accepted)
+    colour # the new background colour
+  )
+  $rows rows_of(screen)
+  $row rows(y)
+  !row(3*x) colour
+  !rows(y) row
+  -> screen(.rows_of rows)
+
 $std_types::screen/draw_character:
   #
     draws a character at the current screen position
@@ -1641,6 +1701,10 @@ $std::create_terminal
 	.cursor_y_of 1
 	.width_of width
 	.height_of height
+	.left_x_of 1
+	.top_y_of 1
+	.right_x_of width
+	.bottom_y_of height
 	.text_colour_of text_colour
 	.background_colour_of background_colour
 	.line_height_of line_height
@@ -1765,7 +1829,7 @@ $std_types::character/blue_component_of:
   )
   -> chr.to_integer & 0xff
 
-#$std::colour_mixture:
+$std::colour_mixture:
   #
     constructs a colour (character) from a mixture of the specified colours
 
@@ -1792,27 +1856,30 @@ $std_types::character/blue_component_of:
   $red 0
   $green 0
   $blue 0
-  for_each args: (arg)
-    if
-      arg.is_a_key_value_pair:
-	$colour key_of(arg)
-	$parts value_of(arg)
-	plus &red parts*red_component_of(colour)
-	plus &green parts*green_component_of(colour)
-	plus &blue parts*blue_component_of(colour)
-	plus &total_parts parts
-      :
-	plus &red red_component_of(arg)
-	plus &green green_component_of(arg)
-	plus &blue blue_component_of(arg)
-	inc &total_parts
-  ->
-    rgb_character
-      round(red/total_parts).to_integer
-      round(green/total_parts).to_integer
-      round(blue/total_parts).to_integer
+  for_each args
+    : (arg)
+      if
+	arg.is_a_key_value_pair:
+	  $colour key_of(arg)
+	  $parts value_of(arg)
+	  plus &red parts*red_component_of(colour)
+	  plus &green parts*green_component_of(colour)
+	  plus &blue parts*blue_component_of(colour)
+	  plus &total_parts parts
+	  next
+	:
+	  plus &red red_component_of(arg)
+	  plus &green green_component_of(arg)
+	  plus &blue blue_component_of(arg)
+	  inc &total_parts
+	  next
+    ->
+      rgb_character
+	round(red/total_parts).to_integer
+	round(green/total_parts).to_integer
+	round(blue/total_parts).to_integer
 
-#$std::rows_and_columns:
+$std::rows_and_columns:
   #
     returns the number of rows and the width of the longest row in the text
 
@@ -1823,38 +1890,39 @@ $std_types::character/blue_component_of:
   $rows 0
   $longest 0
   $length 0
-  for_each text: (chr)
-    if
-      chr == '@nl;':
-	extend_to &longest length
-	inc &rows
-	!length 0
-      :
-	inc &length
-  if text(-1) != '@nl;':
-    extend_to &longest length
-    inc &rows
-  -> rows longest
+  for_each text
+    : (chr)
+      if
+	chr == '@nl;':
+	  extend_to &longest length
+	  inc &rows
+	  !length 0
+	  next
+	:
+	  inc &length
+	  next
+    :
+      if
+	text(-1) != '@nl;':
+	  extend_to &longest length
+	  -> rows+1 longest
+	-> rows longest
 
-#$std::get_key:
+$std::get_key:
   #
     wait for a keyboard input event or until the timeout expires
 
     See also: wait_to, read_from
   (
-    timeout = undefined # in seconds - a decimal number
+    _timeout = undefined # in seconds - a decimal number
   )
-  $options empty_list
-  if timeout.is_defined: push &options TIMEOUT = timeout
-  wait_to $event READ_FROM = STDIN_FILENO options*
-  $input_buffer ""
-  if
-    std::type_of(event) == READ_FROM
-
-    # we got a keystroke
-
-    -> read_from(STDIN_FILENO)(1)
-    -> undefined
+  $io std_types::io
+  start_reading_from &io STDIN_FILENO
+  get_events! &io $events
+  $event events(1)
+  event $_type $_fd $input
+  from_utf8 &input
+  -> input
 
 #$std::set_direct_terminal_input_mode
   #
