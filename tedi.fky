@@ -45,6 +45,7 @@ $search_text_of ()
 $replacement_text_of ()
 $search_history_of ()
 $replacement_history_of ()
+$goto_history_of ()
 $text_colour_of ()
 $background_colour_of ()
 $background_colour_2_of ()
@@ -194,6 +195,7 @@ $prototype_window
     .replacement_text_of undefined
     .search_history_of empty_list
     .replacement_history_of empty_list
+    .goto_history_of empty_list
     .mark_state_of 0
     .first_updated_y_of 1
     .last_updated_y_of END
@@ -1840,40 +1842,51 @@ $replace_selection:
 $goto_line:
   !editor_window window
   !editor_lines lines
-  !lines list(undefined)
+  !lines goto_history_of(window)
   !window
     prototype_window
       .left_x_of 1
       .top_y_of -1
       .width_of terminal_width
       .height_of 1
+      .x_of 1
+      .y_of length_of(lines)+1
       .colour_set_of colour_sets(2)
   !newline -> window(.action_of EXIT) lines
+  !escape -> window(.action_of EXIT) empty_list
   define_window &terminal
     left_x_of(window) top_y_of(window)
     left_x_of(window)+width_of(window)-1 top_y_of(window)+height_of(window)-1
   update_display !terminal !window
   update_terminal &terminal $output
   print! output
-  event_loop! !terminal !window !lines
-  $line lines(1)
+  event_loop! !terminal $goto_window $goto_lines
   !window editor_window
   !lines editor_lines
   draw_command_bar !terminal
   update_display !terminal !window
   update_terminal &terminal !output
   print! output
+  $y y_of(goto_window)
   if
-    line.is_defined:
-      $line_no text_of(line).to_integer
-      ->
-	terminal
-	if
-	  line_no.is_undefined
-	  -> window
-	  -> window(.y_of line_no)
-	lines
+    y > length_of(goto_lines)
     -> terminal window lines
+    :
+      $line goto_lines(y)
+      if
+	line.is_defined:
+	  $line_no text_of(line).to_integer
+	  ->
+	    terminal
+	    if
+	      line_no.is_undefined
+	      -> window
+	      ->
+		window
+		  .goto_history_of goto_lines
+		  .y_of line_no
+	    lines
+	-> terminal window lines
 
 $define_mark:
   -> window(.mark_state_of 2) lines
