@@ -649,6 +649,7 @@ $insert: (str)
 	    :
 	      $insert_line_count y-height
 	      set_first_updated_y !window height+1
+	      !window.last_updated_y_of y
 	      append &lines dup(list(undefined) insert_line_count)
 	      insert_text
 	insert_text
