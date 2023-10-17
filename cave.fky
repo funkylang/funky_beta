@@ -525,7 +525,9 @@ $hit_an_obstacle:
 
 get_terminal_size! STDIN_FILENO $terminal_width $terminal_height
 on terminal_width != 80 || terminal_height != 25:
-  Error! "Please change your terminal size to 80x25!"
+  Error! "
+    Please change your terminal size to 80x25!
+           You current size = @(terminal_width)x@(terminal_height).
 
 create_terminal $terminal terminal_width terminal_height
 
