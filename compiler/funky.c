@@ -2449,11 +2449,13 @@ static FUNKY_CONSTANT constants_table[] = {
 static FUNKY_VARIABLE variables_table[] = {
   {
     FOT_UNKNOWN, 0, 0,
-    "assign\000std", NULL
+    "assign\000std", NULL,
+    {.position = POS(44, 1)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "list\000", NULL
+    "list\000", NULL,
+    {.position = POS(49, 3)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
@@ -2461,7 +2463,8 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "hash_set\000", NULL
+    "hash_set\000", NULL,
+    {.position = POS(63, 3)}
   },
   {
     FOT_INITIALIZED, 0, 0,
@@ -2478,35 +2481,43 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "before\000", NULL
+    "before\000", NULL,
+    {.position = POS(72, 14)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "is_empty\000", NULL
+    "is_empty\000", NULL,
+    {.position = POS(74, 15)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "equal\000std", NULL
+    "equal\000std", NULL,
+    {.position = POS(78, 9)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "has_prefix\000", NULL
+    "has_prefix\000", NULL,
+    {.position = POS(78, 31)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "or\000std", NULL
+    "or\000std", NULL,
+    {.position = POS(78, 9)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "behind\000", NULL
+    "behind\000", NULL,
+    {.position = POS(79, 30)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "false\000", NULL
+    "false\000", NULL,
+    {.position = POS(80, 12)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "if\000", NULL
+    "if\000", NULL,
+    {.position = POS(77, 7)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
@@ -2514,15 +2525,18 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "get_character_names\000", NULL
+    "get_character_names\000", NULL,
+    {.position = POS(82, 29)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "get_environment\000", NULL
+    "get_environment\000", NULL,
+    {.position = POS(84, 1)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "string\000std", NULL
+    "string\000std", NULL,
+    {.position = POS(89, 5)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
@@ -2530,19 +2544,23 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "default_value\000", NULL
+    "default_value\000", NULL,
+    {.position = POS(87, 3)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "program_name\000", NULL
+    "program_name\000", NULL,
+    {.position = POS(91, 25)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "truncate_until\000", NULL
+    "truncate_until\000", NULL,
+    {.position = POS(91, 10)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "truncate_from\000", NULL
+    "truncate_from\000", NULL,
+    {.position = POS(91, 10)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
@@ -2555,7 +2573,8 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "undefined\000", NULL
+    "undefined\000", NULL,
+    {.position = POS(93, 24)}
   },
   {
     FOT_DERIVED, 0, 0,
@@ -2580,27 +2599,33 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "command_line_arguments\000", NULL
+    "command_line_arguments\000", NULL,
+    {.position = POS(98, 8)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "Error\000", NULL
+    "Error\000", NULL,
+    {.position = POS(98, 41)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "on\000", NULL
+    "on\000", NULL,
+    {.position = POS(98, 5)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "COPYRIGHT\000", NULL
+    "COPYRIGHT\000", NULL,
+    {.position = POS(103, 9)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "MANDATORY_PARAMETER\000", NULL
+    "MANDATORY_PARAMETER\000", NULL,
+    {.position = POS(124, 9)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "program_parameters\000", NULL
+    "program_parameters\000", NULL,
+    {.position = POS(101, 5)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
@@ -2608,35 +2633,43 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "not\000std", NULL
+    "not\000std", NULL,
+    {.position = POS(138, 11)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "append\000", NULL
+    "append\000", NULL,
+    {.position = POS(139, 22)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "update_if\000", NULL
+    "update_if\000", NULL,
+    {.position = POS(138, 1)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "has_suffix\000", NULL
+    "has_suffix\000", NULL,
+    {.position = POS(141, 3)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "base_directory\000", NULL
+    "base_directory\000", NULL,
+    {.position = POS(150, 4)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "until\000", NULL
+    "until\000", NULL,
+    {.position = POS(150, 19)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "compile_module\000", NULL
+    "compile_module\000", NULL,
+    {.position = POS(152, 3)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "print\000", NULL
+    "print\000", NULL,
+    {.position = POS(154, 3)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
@@ -2656,7 +2689,8 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "without_suffix\000", NULL
+    "without_suffix\000", NULL,
+    {.position = POS(163, 17)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
@@ -2664,35 +2698,43 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "stat\000", NULL
+    "stat\000", NULL,
+    {.position = POS(164, 3)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "is_undefined\000", NULL
+    "is_undefined\000", NULL,
+    {.position = POS(168, 24)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "is_an_error\000", NULL
+    "is_an_error\000", NULL,
+    {.position = POS(169, 16)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "modification_time_of\000", NULL
+    "modification_time_of\000", NULL,
+    {.position = POS(170, 26)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "less\000std", NULL
+    "less\000std", NULL,
+    {.position = POS(170, 26)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "eprint\000", NULL
+    "eprint\000", NULL,
+    {.position = POS(172, 22)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "first\000", NULL
+    "first\000", NULL,
+    {.position = POS(178, 15)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "map\000", NULL
+    "map\000", NULL,
+    {.position = POS(175, 9)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
@@ -2700,11 +2742,13 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "is_defined\000", NULL
+    "is_defined\000", NULL,
+    {.position = POS(181, 36)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "push\000", NULL
+    "push\000", NULL,
+    {.position = POS(185, 7)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
@@ -2712,27 +2756,33 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "call\000", NULL
+    "call\000", NULL,
+    {.position = POS(189, 7)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "from_utf8\000", NULL
+    "from_utf8\000", NULL,
+    {.position = POS(191, 21)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "EXIT_FAILURE\000", NULL
+    "EXIT_FAILURE\000", NULL,
+    {.position = POS(192, 15)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "exit\000", NULL
+    "exit\000", NULL,
+    {.position = POS(192, 9)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "range\000", NULL
+    "range\000", NULL,
+    {.position = POS(195, 26)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "exec\000", NULL
+    "exec\000", NULL,
+    {.position = POS(195, 7)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
@@ -2752,15 +2802,18 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "load\000", NULL
+    "load\000", NULL,
+    {.position = POS(217, 7)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "trim\000", NULL
+    "trim\000", NULL,
+    {.position = POS(218, 7)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "put\000", NULL
+    "put\000", NULL,
+    {.position = POS(219, 10)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
@@ -2776,7 +2829,8 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "empty_list\000", NULL
+    "empty_list\000", NULL,
+    {.position = POS(238, 18)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
@@ -2792,19 +2846,23 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "break\000", NULL
+    "break\000", NULL,
+    {.position = POS(261, 11)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "and\000std", NULL
+    "and\000std", NULL,
+    {.position = POS(266, 25)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "next\000", NULL
+    "next\000", NULL,
+    {.position = POS(269, 15)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "for_each\000", NULL
+    "for_each\000", NULL,
+    {.position = POS(255, 3)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
@@ -2812,7 +2870,8 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "directory\000", NULL
+    "directory\000", NULL,
+    {.position = POS(274, 3)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
@@ -2824,7 +2883,8 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "name_of\000std", NULL
+    "name_of\000std", NULL,
+    {.position = POS(278, 13)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
@@ -2832,19 +2892,23 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "type_of\000", NULL
+    "type_of\000", NULL,
+    {.position = POS(280, 12)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "DIRECTORY\000", NULL
+    "DIRECTORY\000", NULL,
+    {.position = POS(281, 9)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "REGULAR_FILE\000", NULL
+    "REGULAR_FILE\000", NULL,
+    {.position = POS(289, 9)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "case\000", NULL
+    "case\000", NULL,
+    {.position = POS(280, 7)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
@@ -2864,7 +2928,8 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "empty_hash_set\000", NULL
+    "empty_hash_set\000", NULL,
+    {.position = POS(302, 25)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
@@ -2880,19 +2945,23 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "true\000", NULL
+    "true\000", NULL,
+    {.position = POS(312, 49)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "merge\000", NULL
+    "merge\000", NULL,
+    {.position = POS(323, 45)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "empty_insert_order_set\000", NULL
+    "empty_insert_order_set\000", NULL,
+    {.position = POS(323, 51)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "map_reduce\000", NULL
+    "map_reduce\000", NULL,
+    {.position = POS(322, 13)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
@@ -2904,7 +2973,8 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "loop\000", NULL
+    "loop\000", NULL,
+    {.position = POS(304, 3)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
@@ -2928,7 +2998,8 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "tuple\000", NULL
+    "tuple\000", NULL,
+    {.position = POS(366, 25)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
@@ -2940,11 +3011,13 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "to_utf8\000", NULL
+    "to_utf8\000", NULL,
+    {.position = POS(381, 46)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "save\000", NULL
+    "save\000", NULL,
+    {.position = POS(381, 15)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
@@ -2956,7 +3029,8 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "tuple_or_error\000", NULL
+    "tuple_or_error\000", NULL,
+    {.position = POS(390, 6)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
@@ -3008,11 +3082,13 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "is_not_empty\000", NULL
+    "is_not_empty\000", NULL,
+    {.position = POS(437, 22)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "while\000", NULL
+    "while\000", NULL,
+    {.position = POS(433, 3)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
@@ -3024,11 +3100,13 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "cond\000", NULL
+    "cond\000", NULL,
+    {.position = POS(446, 3)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "split_source_into_lines\000", NULL
+    "split_source_into_lines\000", NULL,
+    {.position = POS(454, 3)}
   },
   {
     FOT_INITIALIZED, 0, 0,
@@ -3045,7 +3123,8 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "source_group_of\000", NULL
+    "source_group_of\000", NULL,
+    {.position = POS(465, 26)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
@@ -3053,39 +3132,48 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "line_text_of\000", NULL
+    "line_text_of\000", NULL,
+    {.position = POS(465, 13)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "length_of\000", NULL
+    "length_of\000", NULL,
+    {.position = POS(466, 15)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "plus\000std", NULL
+    "plus\000std", NULL,
+    {.position = POS(466, 15)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "source_position_of\000", NULL
+    "source_position_of\000", NULL,
+    {.position = POS(466, 43)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "minus\000std", NULL
+    "minus\000std", NULL,
+    {.position = POS(466, 15)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "sequence\000std", NULL
+    "sequence\000std", NULL,
+    {.position = POS(473, 30)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "current_filename\000", NULL
+    "current_filename\000", NULL,
+    {.position = POS(478, 7)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "SYNTAX_ERROR\000funky", NULL
+    "SYNTAX_ERROR\000funky", NULL,
+    {.position = POS(484, 9)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "error\000", NULL
+    "error\000", NULL,
+    {.position = POS(484, 3)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
@@ -3093,15 +3181,18 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "error_category_of\000", NULL
+    "error_category_of\000", NULL,
+    {.position = POS(489, 7)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "SYNTAX_ERROR\000", NULL
+    "SYNTAX_ERROR\000", NULL,
+    {.position = POS(489, 33)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "debug_print\000", NULL
+    "debug_print\000", NULL,
+    {.position = POS(492, 9)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
@@ -3109,11 +3200,13 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "error_message_text_of\000", NULL
+    "error_message_text_of\000", NULL,
+    {.position = POS(496, 12)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "error_details_of\000", NULL
+    "error_details_of\000", NULL,
+    {.position = POS(497, 3)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
@@ -3129,15 +3222,18 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "line_no_of\000", NULL
+    "line_no_of\000", NULL,
+    {.position = POS(501, 16)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "to_sentence_case\000", NULL
+    "to_sentence_case\000", NULL,
+    {.position = POS(503, 26)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "tabs_and_spaces\000", NULL
+    "tabs_and_spaces\000", NULL,
+    {.position = POS(505, 11)}
   }
 };
 

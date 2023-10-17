@@ -1,6 +1,6 @@
 #
   These node definitions were automatically derived from the file
-  "new_compiler/funky.nlb".
+  "compiler/funky.nlb".
 
 ###
 # Attributes
@@ -88,11 +88,12 @@ $funky::ADDITIVE_EXPRESSION .
 $funky::PLUS .
 $funky::PLUS2 .
 $funky::MINUS .
-$funky::TAGGED_MULTIPLICATIVE_EXPRESSION .
+$funky::MINUS2 .
 $funky::MULTIPLICATIVE_EXPRESSION .
 $funky::TIMES .
 $funky::TIMES2 .
 $funky::OVER .
+$funky::OVER2 .
 $funky::PARENTHESED_EXPRESSION .
 $funky::BACKQUOTED .
 $funky::NEGATION .
@@ -192,11 +193,13 @@ $funky::identifier_of (!)
 $funky::lines_of (!)
 $funky::major_of (!)
 $funky::minor_of (!)
+$funky::minus2_of (!)
 $funky::name_of (!)
 $funky::operand_of (!)
 $funky::operator_of (!)
 $funky::option_of (!)
 $funky::or2_of (!)
+$funky::over2_of (!)
 $funky::pair_of (!)
 $funky::parameter_of (!)
 $funky::parameters_of (!)
@@ -499,11 +502,11 @@ $funky_types::plus.funky::node_type_of funky::PLUS
 $funky_types::plus2 funky_types::expression
 $funky_types::plus2.funky::node_type_of funky::PLUS2
 
-$funky_types::minus funky_types::tagged_multiplicative_expression
+$funky_types::minus funky_types::minus2
 $funky_types::minus.funky::node_type_of funky::MINUS
 
-$funky_types::tagged_multiplicative_expression funky_types::expression
-$funky_types::tagged_multiplicative_expression.funky::node_type_of funky::TAGGED_MULTIPLICATIVE_EXPRESSION
+$funky_types::minus2 funky_types::expression
+$funky_types::minus2.funky::node_type_of funky::MINUS2
 
 $funky_types::multiplicative_expression funky_types::expression
 $funky_types::multiplicative_expression.funky::node_type_of funky::MULTIPLICATIVE_EXPRESSION
@@ -514,8 +517,11 @@ $funky_types::times.funky::node_type_of funky::TIMES
 $funky_types::times2 funky_types::expression
 $funky_types::times2.funky::node_type_of funky::TIMES2
 
-$funky_types::over funky_types::simple_expression
+$funky_types::over funky_types::over2
 $funky_types::over.funky::node_type_of funky::OVER
+
+$funky_types::over2 funky_types::expression
+$funky_types::over2.funky::node_type_of funky::OVER2
 
 $funky_types::parenthesed_expression funky_types::node
 $funky_types::parenthesed_expression.funky::node_type_of funky::PARENTHESED_EXPRESSION

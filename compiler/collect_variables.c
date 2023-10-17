@@ -2427,7 +2427,7 @@ static FUNKY_VARIABLE variables_table[] = {
   {
     FOT_UNKNOWN, 0, 0,
     "assign\000std", NULL,
-    {.position = POS(0,0)}
+    {.position = POS(27, 1)}
   },
   {
     FOT_INITIALIZED, 0, 0,
@@ -2537,62 +2537,62 @@ static FUNKY_VARIABLE variables_table[] = {
   {
     FOT_UNKNOWN, 0, 1,
     "list\000std_types", std_types__list__attributes,
-    {.position = POS(0,0)}
+    {.position = POS(119, 1)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
     "collect_variables\000", NULL,
-    {.position = POS(0,0)}
+    {.position = POS(119, 18)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "merge_variables\000", NULL,
-    {.position = POS(0,0)}
+    {.position = POS(120, 37)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "empty_insert_order_table\000", NULL,
-    {.position = POS(0,0)}
+    {.position = POS(120, 53)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "map_reduce\000", NULL,
-    {.position = POS(0,0)}
+    {.position = POS(120, 3)}
   },
   {
     FOT_UNKNOWN, 0, 1,
     "body\000funky_types", funky_types__body__attributes,
-    {.position = POS(0,0)}
+    {.position = POS(122, 1)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "false\000", NULL,
-    {.position = POS(0,0)}
+    {.position = POS(123, 17)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "on_top_level\000", NULL,
-    {.position = POS(0,0)}
+    {.position = POS(123, 4)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "inc\000", NULL,
-    {.position = POS(0,0)}
+    {.position = POS(124, 3)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "parameters_of\000", NULL,
-    {.position = POS(0,0)}
+    {.position = POS(125, 14)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "statements_of\000", NULL,
-    {.position = POS(0,0)}
+    {.position = POS(127, 14)}
   },
   {
     FOT_UNKNOWN, 0, 1,
     "statement\000funky_types", funky_types__statement__attributes,
-    {.position = POS(0,0)}
+    {.position = POS(132, 1)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
@@ -2605,7 +2605,7 @@ static FUNKY_VARIABLE variables_table[] = {
   {
     FOT_UNKNOWN, 0, 0,
     "head_of\000", NULL,
-    {.position = POS(0,0)}
+    {.position = POS(133, 9)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
@@ -2614,17 +2614,17 @@ static FUNKY_VARIABLE variables_table[] = {
   {
     FOT_UNKNOWN, 0, 0,
     "arguments_of\000", NULL,
-    {.position = POS(0,0)}
+    {.position = POS(134, 14)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "identifier_of\000", NULL,
-    {.position = POS(0,0)}
+    {.position = POS(136, 5)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "is_a_builtin_function_name\000", NULL,
-    {.position = POS(0,0)}
+    {.position = POS(136, 25)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
@@ -2645,117 +2645,117 @@ static FUNKY_VARIABLE variables_table[] = {
   {
     FOT_UNKNOWN, 0, 0,
     "node_type_of\000", NULL,
-    {.position = POS(0,0)}
+    {.position = POS(138, 20)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "DEFINITION\000", NULL,
-    {.position = POS(0,0)}
+    {.position = POS(141, 26)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "equal\000std", NULL,
-    {.position = POS(0,0)}
+    {.position = POS(141, 13)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "REDEFINITION\000", NULL,
-    {.position = POS(0,0)}
+    {.position = POS(142, 26)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "kind_of\000", NULL,
-    {.position = POS(0,0)}
+    {.position = POS(142, 42)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "TEMPORARY\000", NULL,
-    {.position = POS(0,0)}
+    {.position = POS(142, 63)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "and\000std", NULL,
-    {.position = POS(0,0)}
+    {.position = POS(142, 13)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "or\000std", NULL,
-    {.position = POS(0,0)}
+    {.position = POS(140, 13)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "filter\000", NULL,
-    {.position = POS(0,0)}
+    {.position = POS(137, 7)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "length_of\000", NULL,
-    {.position = POS(0,0)}
+    {.position = POS(145, 11)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "ATTRIBUTE_VALUE_PAIR\000", NULL,
-    {.position = POS(0,0)}
+    {.position = POS(147, 38)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "METHOD_VALUE_PAIR\000", NULL,
-    {.position = POS(0,0)}
+    {.position = POS(148, 38)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "TYPE_FUNCTION\000", NULL,
-    {.position = POS(0,0)}
+    {.position = POS(149, 38)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "USED\000", NULL,
-    {.position = POS(0,0)}
+    {.position = POS(155, 52)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "HAS_SLOTS\000", NULL,
-    {.position = POS(0,0)}
+    {.position = POS(155, 59)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "bit_or\000std", NULL,
-    {.position = POS(0,0)}
+    {.position = POS(155, 52)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "undefined\000", NULL,
-    {.position = POS(0,0)}
+    {.position = POS(155, 23)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "tuple\000", NULL,
-    {.position = POS(0,0)}
+    {.position = POS(155, 17)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "key_value_pair\000std", NULL,
-    {.position = POS(0,0)}
+    {.position = POS(153, 16)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "insert_order_table\000", NULL,
-    {.position = POS(0,0)}
+    {.position = POS(152, 13)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "push\000", NULL,
-    {.position = POS(0,0)}
+    {.position = POS(166, 19)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "if\000", NULL,
-    {.position = POS(0,0)}
+    {.position = POS(158, 11)}
   },
   {
     FOT_UNKNOWN, 0, 1,
     "definition\000funky_types", funky_types__definition__attributes,
-    {.position = POS(0,0)}
+    {.position = POS(182, 1)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
@@ -2768,52 +2768,52 @@ static FUNKY_VARIABLE variables_table[] = {
   {
     FOT_UNKNOWN, 0, 0,
     "is_a_digit\000", NULL,
-    {.position = POS(0,0)}
+    {.position = POS(186, 21)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "plus\000std", NULL,
-    {.position = POS(0,0)}
+    {.position = POS(190, 36)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "source_position_of\000", NULL,
-    {.position = POS(0,0)}
+    {.position = POS(190, 11)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "sequence\000std", NULL,
-    {.position = POS(0,0)}
+    {.position = POS(191, 12)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "case\000", NULL,
-    {.position = POS(0,0)}
+    {.position = POS(189, 9)}
   },
   {
     FOT_UNKNOWN, 0, 1,
     "parameter\000funky_types", funky_types__parameter__attributes,
-    {.position = POS(0,0)}
+    {.position = POS(197, 1)}
   },
   {
     FOT_UNKNOWN, 0, 1,
     "inline_parameter\000funky_types", funky_types__inline_parameter__attributes,
-    {.position = POS(0,0)}
+    {.position = POS(198, 1)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "name_of\000funky", NULL,
-    {.position = POS(0,0)}
+    {.position = POS(203, 7)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "option_of\000", NULL,
-    {.position = POS(0,0)}
+    {.position = POS(204, 23)}
   },
   {
     FOT_UNKNOWN, 0, 1,
     "redefinition\000funky_types", funky_types__redefinition__attributes,
-    {.position = POS(0,0)}
+    {.position = POS(208, 1)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
@@ -2822,17 +2822,17 @@ static FUNKY_VARIABLE variables_table[] = {
   {
     FOT_UNKNOWN, 0, 0,
     "REDEFINED_ON_TOP_LEVEL\000", NULL,
-    {.position = POS(0,0)}
+    {.position = POS(223, 18)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "REDEFINED\000", NULL,
-    {.position = POS(0,0)}
+    {.position = POS(224, 18)}
   },
   {
     FOT_UNKNOWN, 0, 1,
     "update\000funky_types", funky_types__update__attributes,
-    {.position = POS(0,0)}
+    {.position = POS(226, 1)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
@@ -2841,7 +2841,7 @@ static FUNKY_VARIABLE variables_table[] = {
   {
     FOT_UNKNOWN, 0, 1,
     "functor\000funky_types", funky_types__functor__attributes,
-    {.position = POS(0,0)}
+    {.position = POS(246, 1)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
@@ -2850,37 +2850,37 @@ static FUNKY_VARIABLE variables_table[] = {
   {
     FOT_UNKNOWN, 0, 0,
     "BUILTIN\000", NULL,
-    {.position = POS(0,0)}
+    {.position = POS(249, 16)}
   },
   {
     FOT_UNKNOWN, 0, 1,
     "pair\000funky_types", funky_types__pair__attributes,
-    {.position = POS(0,0)}
+    {.position = POS(254, 1)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "USED_POLYMORPHIC\000", NULL,
-    {.position = POS(0,0)}
+    {.position = POS(257, 64)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "argument_of\000", NULL,
-    {.position = POS(0,0)}
+    {.position = POS(258, 23)}
   },
   {
     FOT_UNKNOWN, 0, 1,
     "inline_attribute_value_pair\000funky_types", funky_types__inline_attribute_value_pair__attributes,
-    {.position = POS(0,0)}
+    {.position = POS(260, 1)}
   },
   {
     FOT_UNKNOWN, 0, 1,
     "inline_method_value_pair\000funky_types", funky_types__inline_method_value_pair__attributes,
-    {.position = POS(0,0)}
+    {.position = POS(261, 1)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "expression_of\000", NULL,
-    {.position = POS(0,0)}
+    {.position = POS(267, 23)}
   },
   {
     FOT_INITIALIZED, 0, 0,
@@ -2914,22 +2914,22 @@ static FUNKY_VARIABLE variables_table[] = {
   {
     FOT_UNKNOWN, 0, 0,
     "is_defined\000", NULL,
-    {.position = POS(0,0)}
+    {.position = POS(275, 25)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "TOP_LEVEL\000", NULL,
-    {.position = POS(0,0)}
+    {.position = POS(283, 52)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "MULTI_LEVEL\000", NULL,
-    {.position = POS(0,0)}
+    {.position = POS(292, 16)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "merge\000", NULL,
-    {.position = POS(0,0)}
+    {.position = POS(270, 3)}
   },
   {
     FOT_INITIALIZED, 0, 0,
@@ -2955,12 +2955,12 @@ static FUNKY_VARIABLE variables_table[] = {
   {
     FOT_UNKNOWN, 0, 0,
     "next\000", NULL,
-    {.position = POS(0,0)}
+    {.position = POS(301, 9)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "for_each\000", NULL,
-    {.position = POS(0,0)}
+    {.position = POS(297, 3)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
@@ -2985,37 +2985,37 @@ static FUNKY_VARIABLE variables_table[] = {
   {
     FOT_UNKNOWN, 0, 0,
     "bit_and\000std", NULL,
-    {.position = POS(0,0)}
+    {.position = POS(311, 9)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "syntax_error\000", NULL,
-    {.position = POS(0,0)}
+    {.position = POS(314, 9)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "on\000", NULL,
-    {.position = POS(0,0)}
+    {.position = POS(309, 5)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "allow_unused\000", NULL,
-    {.position = POS(0,0)}
+    {.position = POS(317, 13)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "not\000", NULL,
-    {.position = POS(0,0)}
+    {.position = POS(317, 9)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "not\000std", NULL,
-    {.position = POS(0,0)}
+    {.position = POS(320, 9)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "contains\000", NULL,
-    {.position = POS(0,0)}
+    {.position = POS(321, 13)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
@@ -3024,12 +3024,12 @@ static FUNKY_VARIABLE variables_table[] = {
   {
     FOT_UNKNOWN, 0, 0,
     "INLINE_PARAMETER\000", NULL,
-    {.position = POS(0,0)}
+    {.position = POS(331, 26)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "PARAMETER\000", NULL,
-    {.position = POS(0,0)}
+    {.position = POS(332, 26)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
@@ -3046,12 +3046,12 @@ static FUNKY_VARIABLE variables_table[] = {
   {
     FOT_UNKNOWN, 0, 0,
     "ATTRIBUTE\000", NULL,
-    {.position = POS(0,0)}
+    {.position = POS(343, 19)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "ATTRIBUTE_WITH_SETTER\000", NULL,
-    {.position = POS(0,0)}
+    {.position = POS(343, 30)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
@@ -3060,7 +3060,7 @@ static FUNKY_VARIABLE variables_table[] = {
   {
     FOT_UNKNOWN, 0, 0,
     "truncate_until\000", NULL,
-    {.position = POS(0,0)}
+    {.position = POS(347, 23)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
@@ -3069,17 +3069,17 @@ static FUNKY_VARIABLE variables_table[] = {
   {
     FOT_UNKNOWN, 0, 0,
     "FUNCTOR\000", NULL,
-    {.position = POS(0,0)}
+    {.position = POS(356, 50)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "EXTERN\000", NULL,
-    {.position = POS(0,0)}
+    {.position = POS(358, 49)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "DERIVED\000", NULL,
-    {.position = POS(0,0)}
+    {.position = POS(359, 59)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
@@ -3088,77 +3088,77 @@ static FUNKY_VARIABLE variables_table[] = {
   {
     FOT_UNKNOWN, 0, 0,
     "first\000", NULL,
-    {.position = POS(0,0)}
+    {.position = POS(368, 43)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "INITIALIZED_COMPOUND\000", NULL,
-    {.position = POS(0,0)}
+    {.position = POS(369, 52)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "second\000", NULL,
-    {.position = POS(0,0)}
+    {.position = POS(371, 64)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "INITIALIZED\000", NULL,
-    {.position = POS(0,0)}
+    {.position = POS(371, 52)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "CONSTANT\000", NULL,
-    {.position = POS(0,0)}
+    {.position = POS(379, 63)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "minus\000std", NULL,
-    {.position = POS(0,0)}
+    {.position = POS(388, 32)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "append\000", NULL,
-    {.position = POS(0,0)}
+    {.position = POS(394, 62)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "string\000", NULL,
-    {.position = POS(0,0)}
+    {.position = POS(390, 31)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
     "key_of\000funky", NULL,
-    {.position = POS(0,0)}
+    {.position = POS(0, 0)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "CONSTANT_COMPOUND\000", NULL,
-    {.position = POS(0,0)}
+    {.position = POS(402, 46)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "POLYMORPHIC\000", NULL,
-    {.position = POS(0,0)}
+    {.position = POS(415, 23)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "EXTERN_POLYMORPHIC\000", NULL,
-    {.position = POS(0,0)}
+    {.position = POS(416, 18)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "is_an_integer\000", NULL,
-    {.position = POS(0,0)}
+    {.position = POS(423, 15)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "LOCAL\000", NULL,
-    {.position = POS(0,0)}
+    {.position = POS(424, 37)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "DYNAMIC\000", NULL,
-    {.position = POS(0,0)}
+    {.position = POS(425, 37)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
@@ -3183,12 +3183,12 @@ static FUNKY_VARIABLE variables_table[] = {
   {
     FOT_UNKNOWN, 0, 0,
     "sequence\000", NULL,
-    {.position = POS(0,0)}
+    {.position = POS(458, 21)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "true\000", NULL,
-    {.position = POS(0,0)}
+    {.position = POS(471, 10)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
@@ -3197,7 +3197,7 @@ static FUNKY_VARIABLE variables_table[] = {
   {
     FOT_UNKNOWN, 0, 0,
     "string\000std", NULL,
-    {.position = POS(0,0)}
+    {.position = POS(479, 14)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,

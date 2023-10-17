@@ -1,6 +1,6 @@
 #
   The nodes meta-data was automatically derived from the file
-  "new_compiler/funky.nlb".
+  "compiler/funky.nlb".
 
 $funky::node_name_of ()
 $funky::node_fields_of ()
@@ -29,11 +29,13 @@ $funky::identifier_of.to_string "identifier"
 $funky::lines_of.to_string "lines"
 $funky::major_of.to_string "major"
 $funky::minor_of.to_string "minor"
+$funky::minus2_of.to_string "minus2"
 $funky::name_of.to_string "name"
 $funky::operand_of.to_string "operand"
 $funky::operator_of.to_string "operator"
 $funky::option_of.to_string "option"
 $funky::or2_of.to_string "or2"
+$funky::over2_of.to_string "over2"
 $funky::pair_of.to_string "pair"
 $funky::parameter_of.to_string "parameter"
 $funky::parameters_of.to_string "parameters"
@@ -303,7 +305,7 @@ $funky_types::plus2.funky::node_name_of "plus2"
 
 $funky_types::minus.funky::node_name_of "minus"
 
-$funky_types::tagged_multiplicative_expression.funky::node_name_of "tagged_multiplicative_expression"
+$funky_types::minus2.funky::node_name_of "minus2"
 
 $funky_types::multiplicative_expression.funky::node_name_of "multiplicative_expression"
 
@@ -312,6 +314,8 @@ $funky_types::times.funky::node_name_of "times"
 $funky_types::times2.funky::node_name_of "times2"
 
 $funky_types::over.funky::node_name_of "over"
+
+$funky_types::over2.funky::node_name_of "over2"
 
 $funky_types::parenthesed_expression.funky::node_name_of "parenthesed_expression"
 $funky_types::parenthesed_expression.funky::node_fields_of

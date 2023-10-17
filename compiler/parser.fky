@@ -1,5 +1,5 @@
 #
-  This parser was automatically derived from the file "new_compiler/funky.nlb".
+  This parser was automatically derived from the file "compiler/funky.nlb".
 
 <allow unused>
 
@@ -2886,32 +2886,32 @@ $parse_plus2:
 
 $parse_minus:
   $position text
-  parse_tagged_multiplicative_expression funky_types::minus
+  parse_minus2 funky_types::minus
 
-$parse_tagged_multiplicative_expression:
+$parse_minus2:
   (
     derived_node = undefined
   )
   $position text
-  parse_an_expression !text $an_expression
+  parse_multiplicative_expression !text $multiplicative_expression
   if
     text.is_defined:
-      parse_multiplicative_operator !text $multiplicative_operator
+      parse_additive_operator !text $additive_operator
       if
 	text.is_defined
 	:
 	  if
-	    derived_node.is_defined || multiplicative_operator.is_defined
+	    derived_node.is_defined || additive_operator.is_defined
 	    ->
 	      text
-	      default_value(derived_node funky_types::tagged_multiplicative_expression)
+	      default_value(derived_node funky_types::minus2)
 		.funky::source_group_of current_group
 		.funky::source_position_of position
-		.funky::expression_of an_expression
-		.funky::operator_of multiplicative_operator
-	    -> text an_expression
-	-> undefined multiplicative_operator
-    -> undefined an_expression
+		.funky::expression_of multiplicative_expression
+		.funky::operator_of additive_operator
+	    -> text multiplicative_expression
+	-> undefined additive_operator
+    -> undefined multiplicative_expression
 
 $parse_multiplicative_expression:
   $position text
@@ -2998,15 +2998,31 @@ $parse_times2:
 
 $parse_over:
   $position text
+  parse_over2 funky_types::over
+
+$parse_over2:
+  (
+    derived_node = undefined
+  )
+  $position text
   parse_an_expression !text $an_expression
   if
-    text.is_defined
-    ->
-      text
-      funky_types::over
-	.funky::source_group_of current_group
-	.funky::source_position_of position
-	.funky::expression_of an_expression
+    text.is_defined:
+      parse_multiplicative_operator !text $multiplicative_operator
+      if
+	text.is_defined
+	:
+	  if
+	    derived_node.is_defined || multiplicative_operator.is_defined
+	    ->
+	      text
+	      default_value(derived_node funky_types::over2)
+		.funky::source_group_of current_group
+		.funky::source_position_of position
+		.funky::expression_of an_expression
+		.funky::operator_of multiplicative_operator
+	    -> text an_expression
+	-> undefined multiplicative_operator
     -> undefined an_expression
 
 $parse_an_expression:

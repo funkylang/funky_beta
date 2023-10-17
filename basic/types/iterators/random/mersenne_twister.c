@@ -449,7 +449,8 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "assign\000std", NULL
+    "assign\000std", NULL,
+    {.position = POS(25, 1)}
   },
   {
     FOT_POLYMORPHIC, 0, 0,
@@ -463,15 +464,18 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "random_number_generator\000std_types", NULL
+    "random_number_generator\000std_types", NULL,
+    {.position = POS(35, 30)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
-    "modulus_of\000", NULL
+    "modulus_of\000", NULL,
+    {.position = POS(37, 30)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
-    "next_raw_value\000", NULL
+    "next_raw_value\000", NULL,
+    {.position = POS(39, 30)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
@@ -483,11 +487,13 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "list\000", NULL
+    "list\000", NULL,
+    {.position = POS(42, 8)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "less\000std", NULL
+    "less\000std", NULL,
+    {.position = POS(44, 13)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
@@ -495,59 +501,73 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "empty_list\000", NULL
+    "empty_list\000", NULL,
+    {.position = POS(45, 18)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "minus\000std", NULL
+    "minus\000std", NULL,
+    {.position = POS(47, 11)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "bit_and\000std", NULL
+    "bit_and\000std", NULL,
+    {.position = POS(51, 15)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "plus\000std", NULL
+    "plus\000std", NULL,
+    {.position = POS(52, 21)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "bit_or\000std", NULL
+    "bit_or\000std", NULL,
+    {.position = POS(50, 14)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "shift_right\000std", NULL
+    "shift_right\000std", NULL,
+    {.position = POS(53, 55)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "bit_xor\000std", NULL
+    "bit_xor\000std", NULL,
+    {.position = POS(53, 27)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "push\000", NULL
+    "push\000", NULL,
+    {.position = POS(53, 11)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "next\000", NULL
+    "next\000", NULL,
+    {.position = POS(54, 11)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "from_to\000", NULL
+    "from_to\000", NULL,
+    {.position = POS(46, 7)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "do\000", NULL
+    "do\000", NULL,
+    {.position = POS(72, 7)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "if\000", NULL
+    "if\000", NULL,
+    {.position = POS(43, 3)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "inc\000", NULL
+    "inc\000", NULL,
+    {.position = POS(82, 3)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "shift_left\000std", NULL
+    "shift_left\000std", NULL,
+    {.position = POS(84, 12)}
   },
   {
     FOT_INITIALIZED, 0, 0,
@@ -560,11 +580,13 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "times\000std", NULL
+    "times\000std", NULL,
+    {.position = POS(102, 27)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "repeat\000", NULL
+    "repeat\000", NULL,
+    {.position = POS(100, 3)}
   }
 };
 

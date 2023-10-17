@@ -1,6 +1,6 @@
 #
   These method definitions were automatically derived from the file
-  "new_compiler/simplify.fky".
+  "compiler/simplify.fky".
 
 <allow unused>
 

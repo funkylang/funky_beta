@@ -749,191 +749,238 @@ static ATTRIBUTE_DEFINITION funky_types__initial_value__attributes[] = {
 static FUNKY_VARIABLE variables_table[] = {
   {
     FOT_UNKNOWN, 0, 1,
-    "undefined\000std_types", std_types__undefined__attributes
+    "undefined\000std_types", std_types__undefined__attributes,
+    {.position = POS(10, 1)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
-    "collect_variables\000", NULL
+    "collect_variables\000", NULL,
+    {.position = POS(10, 23)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "empty_insert_order_table\000", NULL
+    "empty_insert_order_table\000", NULL,
+    {.position = POS(11, 6)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "assign\000std", NULL
+    "assign\000std", NULL,
+    {.position = POS(11, 5)}
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "node\000funky_types", funky_types__node__attributes
+    "node\000funky_types", funky_types__node__attributes,
+    {.position = POS(13, 1)}
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "identifier_and_expression\000funky_types", funky_types__identifier_and_expression__attributes
+    "identifier_and_expression\000funky_types", funky_types__identifier_and_expression__attributes,
+    {.position = POS(16, 1)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "expression_of\000funky", NULL
+    "expression_of\000funky", NULL,
+    {.position = POS(17, 21)}
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "simple_expression\000funky_types", funky_types__simple_expression__attributes
+    "simple_expression\000funky_types", funky_types__simple_expression__attributes,
+    {.position = POS(20, 1)}
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "inline_statement\000funky_types", funky_types__inline_statement__attributes
+    "inline_statement\000funky_types", funky_types__inline_statement__attributes,
+    {.position = POS(24, 1)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "head_of\000funky", NULL
+    "head_of\000funky", NULL,
+    {.position = POS(25, 21)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "arguments_of\000funky", NULL
+    "arguments_of\000funky", NULL,
+    {.position = POS(26, 21)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "merge_variables\000", NULL
+    "merge_variables\000", NULL,
+    {.position = POS(27, 3)}
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "function_call_extension\000funky_types", funky_types__function_call_extension__attributes
+    "function_call_extension\000funky_types", funky_types__function_call_extension__attributes,
+    {.position = POS(30, 1)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "call_of\000funky", NULL
+    "call_of\000funky", NULL,
+    {.position = POS(31, 21)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "extensions_of\000funky", NULL
+    "extensions_of\000funky", NULL,
+    {.position = POS(32, 14)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "map_reduce\000", NULL
+    "map_reduce\000", NULL,
+    {.position = POS(32, 3)}
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "attribute_access_extension\000funky_types", funky_types__attribute_access_extension__attributes
+    "attribute_access_extension\000funky_types", funky_types__attribute_access_extension__attributes,
+    {.position = POS(36, 1)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "access_of\000funky", NULL
+    "access_of\000funky", NULL,
+    {.position = POS(37, 21)}
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "inline_function_call_extension\000funky_types", funky_types__inline_function_call_extension__attributes
+    "inline_function_call_extension\000funky_types", funky_types__inline_function_call_extension__attributes,
+    {.position = POS(42, 1)}
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "inline_attribute_access_extension\000funky_types", funky_types__inline_attribute_access_extension__attributes
+    "inline_attribute_access_extension\000funky_types", funky_types__inline_attribute_access_extension__attributes,
+    {.position = POS(48, 1)}
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "function_call\000funky_types", funky_types__function_call__attributes
+    "function_call\000funky_types", funky_types__function_call__attributes,
+    {.position = POS(54, 1)}
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "spaced_arguments\000funky_types", funky_types__spaced_arguments__attributes
+    "spaced_arguments\000funky_types", funky_types__spaced_arguments__attributes,
+    {.position = POS(58, 1)}
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "spaced_statement_arguments\000funky_types", funky_types__spaced_statement_arguments__attributes
+    "spaced_statement_arguments\000funky_types", funky_types__spaced_statement_arguments__attributes,
+    {.position = POS(62, 1)}
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "arguments\000funky_types", funky_types__arguments__attributes
+    "arguments\000funky_types", funky_types__arguments__attributes,
+    {.position = POS(66, 1)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "argument_of\000funky", NULL
+    "argument_of\000funky", NULL,
+    {.position = POS(67, 21)}
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "even_more_statement_arguments\000funky_types", funky_types__even_more_statement_arguments__attributes
+    "even_more_statement_arguments\000funky_types", funky_types__even_more_statement_arguments__attributes,
+    {.position = POS(72, 1)}
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "remark_and_multiline_function_call\000funky_types", funky_types__remark_and_multiline_function_call__attributes
+    "remark_and_multiline_function_call\000funky_types", funky_types__remark_and_multiline_function_call__attributes,
+    {.position = POS(78, 1)}
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "expression\000funky_types", funky_types__expression__attributes
+    "expression\000funky_types", funky_types__expression__attributes,
+    {.position = POS(82, 1)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "operator_of\000funky", NULL
+    "operator_of\000funky", NULL,
+    {.position = POS(84, 21)}
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "parenthesed_expression\000funky_types", funky_types__parenthesed_expression__attributes
+    "parenthesed_expression\000funky_types", funky_types__parenthesed_expression__attributes,
+    {.position = POS(88, 1)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "calls_of\000funky", NULL
+    "calls_of\000funky", NULL,
+    {.position = POS(90, 14)}
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "multiline_minus\000funky_types", funky_types__multiline_minus__attributes
+    "multiline_minus\000funky_types", funky_types__multiline_minus__attributes,
+    {.position = POS(94, 1)}
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "expression_and_inline_arguments\000funky_types", funky_types__expression_and_inline_arguments__attributes
+    "expression_and_inline_arguments\000funky_types", funky_types__expression_and_inline_arguments__attributes,
+    {.position = POS(98, 1)}
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "string_literal\000funky_types", funky_types__string_literal__attributes
+    "string_literal\000funky_types", funky_types__string_literal__attributes,
+    {.position = POS(104, 1)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "components_of\000funky", NULL
+    "components_of\000funky", NULL,
+    {.position = POS(105, 14)}
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "some_string_components\000funky_types", funky_types__some_string_components__attributes
+    "some_string_components\000funky_types", funky_types__some_string_components__attributes,
+    {.position = POS(108, 1)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "component_of\000funky", NULL
+    "component_of\000funky", NULL,
+    {.position = POS(109, 21)}
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "some_string_line_components\000funky_types", funky_types__some_string_line_components__attributes
+    "some_string_line_components\000funky_types", funky_types__some_string_line_components__attributes,
+    {.position = POS(114, 1)}
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "inline_body\000funky_types", funky_types__inline_body__attributes
+    "inline_body\000funky_types", funky_types__inline_body__attributes,
+    {.position = POS(120, 1)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "parameters_of\000funky", NULL
+    "parameters_of\000funky", NULL,
+    {.position = POS(121, 14)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "statement_of\000funky", NULL
+    "statement_of\000funky", NULL,
+    {.position = POS(122, 21)}
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "statements\000funky_types", funky_types__statements__attributes
+    "statements\000funky_types", funky_types__statements__attributes,
+    {.position = POS(126, 1)}
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "one_or_more_inline_parameters\000funky_types", funky_types__one_or_more_inline_parameters__attributes
+    "one_or_more_inline_parameters\000funky_types", funky_types__one_or_more_inline_parameters__attributes,
+    {.position = POS(130, 1)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "parameter_of\000funky", NULL
+    "parameter_of\000funky", NULL,
+    {.position = POS(131, 21)}
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "open_parameters\000funky_types", funky_types__open_parameters__attributes
+    "open_parameters\000funky_types", funky_types__open_parameters__attributes,
+    {.position = POS(136, 1)}
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "initial_value\000funky_types", funky_types__initial_value__attributes
+    "initial_value\000funky_types", funky_types__initial_value__attributes,
+    {.position = POS(140, 1)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "operand_of\000funky", NULL
+    "operand_of\000funky", NULL,
+    {.position = POS(141, 21)}
   }
 };
 

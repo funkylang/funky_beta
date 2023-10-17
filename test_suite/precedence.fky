@@ -1,0 +1,7 @@
+#!/usr/bin/env fkyrun
+
+$r 27
+$i 2
+$n 10
+
+println! r-i*n

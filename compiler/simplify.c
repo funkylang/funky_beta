@@ -5994,7 +5994,8 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "assign\000std", NULL
+    "assign\000std", NULL,
+    {.position = POS(27, 1)}
   },
   {
     FOT_POLYMORPHIC, 0, 0,
@@ -6028,55 +6029,68 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 3,
-    "functor\000funky_types", funky_types__functor__attributes
+    "functor\000funky_types", funky_types__functor__attributes,
+    {.position = POS(39, 1)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
-    "no_of\000", NULL
+    "no_of\000", NULL,
+    {.position = POS(39, 23)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "undefined\000", NULL
+    "undefined\000", NULL,
+    {.position = POS(39, 29)}
   },
   {
     FOT_UNKNOWN, 0, 7,
-    "node\000funky_types", funky_types__node__attributes
+    "node\000funky_types", funky_types__node__attributes,
+    {.position = POS(41, 1)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
-    "is_an_io_call\000", NULL
+    "is_an_io_call\000", NULL,
+    {.position = POS(41, 20)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "false\000", NULL
+    "false\000", NULL,
+    {.position = POS(41, 34)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
-    "kind_of\000", NULL
+    "kind_of\000", NULL,
+    {.position = POS(42, 23)}
   },
   {
     FOT_UNKNOWN, 0, 5,
-    "definition\000funky_types", funky_types__definition__attributes
+    "definition\000funky_types", funky_types__definition__attributes,
+    {.position = POS(43, 1)}
   },
   {
     FOT_UNKNOWN, 0, 2,
-    "pair\000funky_types", funky_types__pair__attributes
+    "pair\000funky_types", funky_types__pair__attributes,
+    {.position = POS(44, 1)}
   },
   {
     FOT_UNKNOWN, 0, 3,
-    "inline_attribute_value_pair\000funky_types", funky_types__inline_attribute_value_pair__attributes
+    "inline_attribute_value_pair\000funky_types", funky_types__inline_attribute_value_pair__attributes,
+    {.position = POS(45, 1)}
   },
   {
     FOT_UNKNOWN, 0, 3,
-    "inline_method_value_pair\000funky_types", funky_types__inline_method_value_pair__attributes
+    "inline_method_value_pair\000funky_types", funky_types__inline_method_value_pair__attributes,
+    {.position = POS(46, 1)}
   },
   {
     FOT_UNKNOWN, 0, 3,
-    "statement\000funky_types", funky_types__statement__attributes
+    "statement\000funky_types", funky_types__statement__attributes,
+    {.position = POS(48, 1)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
-    "is_a_definition\000", NULL
+    "is_a_definition\000", NULL,
+    {.position = POS(48, 25)}
   },
   {
     FOT_INITIALIZED, 0, 3,
@@ -6085,11 +6099,13 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "empty_list\000", NULL
+    "empty_list\000", NULL,
+    {.position = POS(50, 36)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "tuple\000", NULL
+    "tuple\000", NULL,
+    {.position = POS(50, 30)}
   },
   {
     FOT_DERIVED, 0, 0,
@@ -6103,35 +6119,43 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
-    "simplify\000", NULL
+    "simplify\000", NULL,
+    {.position = POS(54, 3)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "push\000", NULL
+    "push\000", NULL,
+    {.position = POS(56, 10)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
-    "append\000", NULL
+    "append\000", NULL,
+    {.position = POS(56, 3)}
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "variable\000funky_types", funky_types__variable__attributes
+    "variable\000funky_types", funky_types__variable__attributes,
+    {.position = POS(58, 1)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "empty_statements\000", NULL
+    "empty_statements\000", NULL,
+    {.position = POS(60, 35)}
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "attribute_access\000funky_types", funky_types__attribute_access__attributes
+    "attribute_access\000funky_types", funky_types__attribute_access__attributes,
+    {.position = POS(62, 1)}
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "dummy_definition\000funky_types", funky_types__dummy_definition__attributes
+    "dummy_definition\000funky_types", funky_types__dummy_definition__attributes,
+    {.position = POS(66, 1)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "plus\000std", NULL
+    "plus\000std", NULL,
+    {.position = POS(67, 25)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
@@ -6147,15 +6171,18 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
-    "extensions_of\000", NULL
+    "extensions_of\000", NULL,
+    {.position = POS(71, 15)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "is_empty\000", NULL
+    "is_empty\000", NULL,
+    {.position = POS(73, 16)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "if\000", NULL
+    "if\000", NULL,
+    {.position = POS(72, 3)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
@@ -6179,35 +6206,43 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "node_type_of\000", NULL
+    "node_type_of\000", NULL,
+    {.position = POS(82, 28)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "FUNCTION_CALL\000", NULL
+    "FUNCTION_CALL\000", NULL,
+    {.position = POS(92, 9)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "REMARK_AND_MULTILINE_FUNCTION_CALL\000", NULL
+    "REMARK_AND_MULTILINE_FUNCTION_CALL\000", NULL,
+    {.position = POS(92, 24)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "sequence\000std", NULL
+    "sequence\000std", NULL,
+    {.position = POS(92, 9)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "ATTRIBUTE_ACCESS\000", NULL
+    "ATTRIBUTE_ACCESS\000", NULL,
+    {.position = POS(84, 9)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "inc\000", NULL
+    "inc\000", NULL,
+    {.position = POS(85, 11)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "list\000", NULL
+    "list\000", NULL,
+    {.position = POS(89, 15)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "next\000", NULL
+    "next\000", NULL,
+    {.position = POS(91, 11)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
@@ -6215,15 +6250,18 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
-    "arguments_of\000", NULL
+    "arguments_of\000", NULL,
+    {.position = POS(93, 22)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "length_of\000", NULL
+    "length_of\000", NULL,
+    {.position = POS(95, 13)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "equal\000std", NULL
+    "equal\000std", NULL,
+    {.position = POS(95, 13)}
   },
   {
     FOT_POLYMORPHIC, 0, 0,
@@ -6232,7 +6270,8 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "and\000std", NULL
+    "and\000std", NULL,
+    {.position = POS(95, 13)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
@@ -6240,43 +6279,53 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
-    "is_a_remark\000", NULL
+    "is_a_remark\000", NULL,
+    {.position = POS(107, 51)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "filter\000", NULL
+    "filter\000", NULL,
+    {.position = POS(107, 15)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "is_not_empty\000", NULL
+    "is_not_empty\000", NULL,
+    {.position = POS(113, 38)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "or\000std", NULL
+    "or\000std", NULL,
+    {.position = POS(111, 21)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "IO_CALL\000", NULL
+    "IO_CALL\000", NULL,
+    {.position = POS(123, 9)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "true\000", NULL
+    "true\000", NULL,
+    {.position = POS(124, 37)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "case\000", NULL
+    "case\000", NULL,
+    {.position = POS(83, 7)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "for_each\000", NULL
+    "for_each\000", NULL,
+    {.position = POS(80, 3)}
   },
   {
     FOT_UNKNOWN, 0, 2,
-    "parameter\000funky_types", funky_types__parameter__attributes
+    "parameter\000funky_types", funky_types__parameter__attributes,
+    {.position = POS(128, 1)}
   },
   {
     FOT_UNKNOWN, 0, 2,
-    "inline_parameter\000funky_types", funky_types__inline_parameter__attributes
+    "inline_parameter\000funky_types", funky_types__inline_parameter__attributes,
+    {.position = POS(129, 1)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
@@ -6288,7 +6337,8 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
-    "option_of\000", NULL
+    "option_of\000", NULL,
+    {.position = POS(132, 18)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
@@ -6296,19 +6346,23 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
-    "name_of\000funky", NULL
+    "name_of\000funky", NULL,
+    {.position = POS(133, 9)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "resolve_variable\000", NULL
+    "resolve_variable\000", NULL,
+    {.position = POS(142, 24)}
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "return\000funky_types", funky_types__return__attributes
+    "return\000funky_types", funky_types__return__attributes,
+    {.position = POS(146, 1)}
   },
   {
     FOT_UNKNOWN, 0, 3,
-    "redefinition\000funky_types", funky_types__redefinition__attributes
+    "redefinition\000funky_types", funky_types__redefinition__attributes,
+    {.position = POS(149, 1)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
@@ -6340,15 +6394,18 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "first\000", NULL
+    "first\000", NULL,
+    {.position = POS(161, 62)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "new\000", NULL
+    "new\000", NULL,
+    {.position = POS(161, 19)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "range\000", NULL
+    "range\000", NULL,
+    {.position = POS(162, 16)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
@@ -6372,19 +6429,23 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "pop\000", NULL
+    "pop\000", NULL,
+    {.position = POS(195, 15)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
-    "identifier_of\000", NULL
+    "identifier_of\000", NULL,
+    {.position = POS(198, 34)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
-    "source_group_of\000", NULL
+    "source_group_of\000", NULL,
+    {.position = POS(201, 36)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
-    "source_position_of\000", NULL
+    "source_position_of\000", NULL,
+    {.position = POS(202, 39)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
@@ -6392,19 +6453,23 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
-    "key_of\000funky", NULL
+    "key_of\000funky", NULL,
+    {.position = POS(221, 42)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
-    "expression_of\000", NULL
+    "expression_of\000", NULL,
+    {.position = POS(222, 28)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "from_to_by\000", NULL
+    "from_to_by\000", NULL,
+    {.position = POS(192, 11)}
   },
   {
     FOT_UNKNOWN, 0, 2,
-    "update\000funky_types", funky_types__update__attributes
+    "update\000funky_types", funky_types__update__attributes,
+    {.position = POS(228, 1)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
@@ -6456,7 +6521,8 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "parenthesed_expression\000funky_types", funky_types__parenthesed_expression__attributes
+    "parenthesed_expression\000funky_types", funky_types__parenthesed_expression__attributes,
+    {.position = POS(308, 1)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
@@ -6476,7 +6542,8 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "calls_of\000", NULL
+    "calls_of\000", NULL,
+    {.position = POS(310, 10)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
@@ -6492,23 +6559,28 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
-    "argument_of\000", NULL
+    "argument_of\000", NULL,
+    {.position = POS(320, 13)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "is_a_list\000", NULL
+    "is_a_list\000", NULL,
+    {.position = POS(322, 14)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "syntax_error\000", NULL
+    "syntax_error\000", NULL,
+    {.position = POS(328, 11)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
-    "argument_of\000funky", NULL
+    "argument_of\000funky", NULL,
+    {.position = POS(0, 0)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
-    "expression_of\000funky", NULL
+    "expression_of\000funky", NULL,
+    {.position = POS(341, 18)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
@@ -6524,7 +6596,8 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "before\000", NULL
+    "before\000", NULL,
+    {.position = POS(346, 14)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
@@ -6532,23 +6605,28 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "namespace_aliases\000", NULL
+    "namespace_aliases\000", NULL,
+    {.position = POS(349, 23)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "is_defined\000", NULL
+    "is_defined\000", NULL,
+    {.position = POS(351, 24)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "from\000", NULL
+    "from\000", NULL,
+    {.position = POS(353, 40)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "DEFINITION\000", NULL
+    "DEFINITION\000", NULL,
+    {.position = POS(363, 53)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "not\000std", NULL
+    "not\000std", NULL,
+    {.position = POS(363, 31)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
@@ -6556,7 +6634,8 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "namespace_versions\000", NULL
+    "namespace_versions\000", NULL,
+    {.position = POS(364, 18)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
@@ -6564,15 +6643,18 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "LOCAL\000", NULL
+    "LOCAL\000", NULL,
+    {.position = POS(380, 20)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "EXTERN\000", NULL
+    "EXTERN\000", NULL,
+    {.position = POS(381, 24)}
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "expression\000funky_types", funky_types__expression__attributes
+    "expression\000funky_types", funky_types__expression__attributes,
+    {.position = POS(383, 1)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
@@ -6588,7 +6670,8 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "operator_of\000", NULL
+    "operator_of\000", NULL,
+    {.position = POS(384, 13)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
@@ -6600,7 +6683,8 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "negation\000funky_types", funky_types__negation__attributes
+    "negation\000funky_types", funky_types__negation__attributes,
+    {.position = POS(391, 1)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
@@ -6620,7 +6704,8 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "NUMERIC_LITERAL\000", NULL
+    "NUMERIC_LITERAL\000", NULL,
+    {.position = POS(394, 33)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
@@ -6628,7 +6713,8 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
-    "digits_of\000", NULL
+    "digits_of\000", NULL,
+    {.position = POS(395, 15)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
@@ -6636,7 +6722,8 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "put\000", NULL
+    "put\000", NULL,
+    {.position = POS(400, 12)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
@@ -6664,7 +6751,8 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "COMMA\000", NULL
+    "COMMA\000", NULL,
+    {.position = POS(421, 5)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
@@ -6676,207 +6764,258 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "SEQUENCE_EXPRESSION\000", NULL
+    "SEQUENCE_EXPRESSION\000", NULL,
+    {.position = POS(426, 33)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "AND\000", NULL
+    "AND\000", NULL,
+    {.position = POS(436, 5)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "update_if\000", NULL
+    "update_if\000", NULL,
+    {.position = POS(437, 7)}
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "return_expression\000funky_types", funky_types__return_expression__attributes
+    "return_expression\000funky_types", funky_types__return_expression__attributes,
+    {.position = POS(439, 9)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "OR\000", NULL
+    "OR\000", NULL,
+    {.position = POS(445, 5)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "PLUS\000", NULL
+    "PLUS\000", NULL,
+    {.position = POS(458, 9)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "MINUS\000", NULL
+    "MINUS\000", NULL,
+    {.position = POS(459, 9)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "TIMES\000", NULL
+    "TIMES\000", NULL,
+    {.position = POS(460, 9)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "OVER\000", NULL
+    "OVER\000", NULL,
+    {.position = POS(461, 9)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "EQUAL\000", NULL
+    "EQUAL\000", NULL,
+    {.position = POS(462, 9)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "NOT_EQUAL\000", NULL
+    "NOT_EQUAL\000", NULL,
+    {.position = POS(463, 9)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "LESS_THAN\000", NULL
+    "LESS_THAN\000", NULL,
+    {.position = POS(466, 9)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "GREATER_THAN\000", NULL
+    "GREATER_THAN\000", NULL,
+    {.position = POS(467, 9)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "LESS_EQUAL\000", NULL
+    "LESS_EQUAL\000", NULL,
+    {.position = POS(468, 9)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "GREATER_EQUAL\000", NULL
+    "GREATER_EQUAL\000", NULL,
+    {.position = POS(471, 9)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "RANGE\000", NULL
+    "RANGE\000", NULL,
+    {.position = POS(474, 9)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "KEY_VALUE\000", NULL
+    "KEY_VALUE\000", NULL,
+    {.position = POS(475, 9)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "SHIFT_LEFT\000", NULL
+    "SHIFT_LEFT\000", NULL,
+    {.position = POS(476, 9)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "SHIFT_RIGHT\000", NULL
+    "SHIFT_RIGHT\000", NULL,
+    {.position = POS(477, 9)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "BIT_AND\000", NULL
+    "BIT_AND\000", NULL,
+    {.position = POS(478, 9)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "BIT_OR\000", NULL
+    "BIT_OR\000", NULL,
+    {.position = POS(479, 9)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "BIT_XOR\000", NULL
+    "BIT_XOR\000", NULL,
+    {.position = POS(480, 9)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "NAMED_OPERATOR\000", NULL
+    "NAMED_OPERATOR\000", NULL,
+    {.position = POS(481, 9)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "edump\000", NULL
+    "edump\000", NULL,
+    {.position = POS(496, 11)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "debug_exit\000", NULL
+    "debug_exit\000", NULL,
+    {.position = POS(499, 11)}
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "inline_return\000funky_types", funky_types__inline_return__attributes
+    "inline_return\000funky_types", funky_types__inline_return__attributes,
+    {.position = POS(522, 1)}
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "body\000funky_types", funky_types__body__attributes
+    "body\000funky_types", funky_types__body__attributes,
+    {.position = POS(526, 5)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
-    "statements_of\000", NULL
+    "statements_of\000", NULL,
+    {.position = POS(529, 8)}
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "inline_statement\000funky_types", funky_types__inline_statement__attributes
+    "inline_statement\000funky_types", funky_types__inline_statement__attributes,
+    {.position = POS(538, 1)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
-    "head_of\000", NULL
+    "head_of\000", NULL,
+    {.position = POS(543, 16)}
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "multiline_plus\000funky_types", funky_types__multiline_plus__attributes
+    "multiline_plus\000funky_types", funky_types__multiline_plus__attributes,
+    {.position = POS(547, 1)}
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "multiline_minus\000funky_types", funky_types__multiline_minus__attributes
+    "multiline_minus\000funky_types", funky_types__multiline_minus__attributes,
+    {.position = POS(550, 1)}
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "multiline_minus_with_remark\000funky_types", funky_types__multiline_minus_with_remark__attributes
+    "multiline_minus_with_remark\000funky_types", funky_types__multiline_minus_with_remark__attributes,
+    {.position = POS(553, 1)}
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "multiline_times\000funky_types", funky_types__multiline_times__attributes
+    "multiline_times\000funky_types", funky_types__multiline_times__attributes,
+    {.position = POS(556, 1)}
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "multiline_over\000funky_types", funky_types__multiline_over__attributes
+    "multiline_over\000funky_types", funky_types__multiline_over__attributes,
+    {.position = POS(559, 1)}
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "multiline_over_with_remark\000funky_types", funky_types__multiline_over_with_remark__attributes
+    "multiline_over_with_remark\000funky_types", funky_types__multiline_over_with_remark__attributes,
+    {.position = POS(562, 1)}
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "multiline_shift_left\000funky_types", funky_types__multiline_shift_left__attributes
+    "multiline_shift_left\000funky_types", funky_types__multiline_shift_left__attributes,
+    {.position = POS(565, 1)}
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "multiline_shift_right\000funky_types", funky_types__multiline_shift_right__attributes
+    "multiline_shift_right\000funky_types", funky_types__multiline_shift_right__attributes,
+    {.position = POS(568, 1)}
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "multiline_equal\000funky_types", funky_types__multiline_equal__attributes
+    "multiline_equal\000funky_types", funky_types__multiline_equal__attributes,
+    {.position = POS(571, 1)}
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "multiline_not_equal\000funky_types", funky_types__multiline_not_equal__attributes
+    "multiline_not_equal\000funky_types", funky_types__multiline_not_equal__attributes,
+    {.position = POS(574, 1)}
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "multiline_less_equal\000funky_types", funky_types__multiline_less_equal__attributes
+    "multiline_less_equal\000funky_types", funky_types__multiline_less_equal__attributes,
+    {.position = POS(577, 1)}
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "multiline_less_than\000funky_types", funky_types__multiline_less_than__attributes
+    "multiline_less_than\000funky_types", funky_types__multiline_less_than__attributes,
+    {.position = POS(580, 1)}
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "multiline_greater_equal\000funky_types", funky_types__multiline_greater_equal__attributes
+    "multiline_greater_equal\000funky_types", funky_types__multiline_greater_equal__attributes,
+    {.position = POS(583, 1)}
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "multiline_greater_than\000funky_types", funky_types__multiline_greater_than__attributes
+    "multiline_greater_than\000funky_types", funky_types__multiline_greater_than__attributes,
+    {.position = POS(586, 1)}
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "multiline_and\000funky_types", funky_types__multiline_and__attributes
+    "multiline_and\000funky_types", funky_types__multiline_and__attributes,
+    {.position = POS(589, 1)}
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "multiline_or\000funky_types", funky_types__multiline_or__attributes
+    "multiline_or\000funky_types", funky_types__multiline_or__attributes,
+    {.position = POS(592, 1)}
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "multiline_bit_and\000funky_types", funky_types__multiline_bit_and__attributes
+    "multiline_bit_and\000funky_types", funky_types__multiline_bit_and__attributes,
+    {.position = POS(595, 1)}
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "multiline_bit_and_with_remark\000funky_types", funky_types__multiline_bit_and_with_remark__attributes
+    "multiline_bit_and_with_remark\000funky_types", funky_types__multiline_bit_and_with_remark__attributes,
+    {.position = POS(598, 1)}
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "multiline_bit_or\000funky_types", funky_types__multiline_bit_or__attributes
+    "multiline_bit_or\000funky_types", funky_types__multiline_bit_or__attributes,
+    {.position = POS(601, 1)}
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "multiline_bit_xor\000funky_types", funky_types__multiline_bit_xor__attributes
+    "multiline_bit_xor\000funky_types", funky_types__multiline_bit_xor__attributes,
+    {.position = POS(604, 1)}
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "multiline_assign\000funky_types", funky_types__multiline_assign__attributes
+    "multiline_assign\000funky_types", funky_types__multiline_assign__attributes,
+    {.position = POS(607, 1)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
@@ -6900,7 +7039,8 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "REMARK\000", NULL
+    "REMARK\000", NULL,
+    {.position = POS(621, 72)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
@@ -6932,23 +7072,28 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "less\000std", NULL
+    "less\000std", NULL,
+    {.position = POS(648, 11)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "loop\000", NULL
+    "loop\000", NULL,
+    {.position = POS(642, 7)}
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "inline_body\000funky_types", funky_types__inline_body__attributes
+    "inline_body\000funky_types", funky_types__inline_body__attributes,
+    {.position = POS(678, 1)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
-    "parameters_of\000", NULL
+    "parameters_of\000", NULL,
+    {.position = POS(681, 22)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
-    "statement_of\000", NULL
+    "statement_of\000", NULL,
+    {.position = POS(682, 21)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
@@ -6960,15 +7105,18 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "on_top_level\000", NULL
+    "on_top_level\000", NULL,
+    {.position = POS(689, 4)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "mangle_position\000", NULL
+    "mangle_position\000", NULL,
+    {.position = POS(690, 31)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "string\000std", NULL
+    "string\000std", NULL,
+    {.position = POS(690, 23)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
@@ -6980,15 +7128,18 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "all_of\000", NULL
+    "all_of\000", NULL,
+    {.position = POS(699, 9)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "map_reduce\000", NULL
+    "map_reduce\000", NULL,
+    {.position = POS(709, 5)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "any_of\000", NULL
+    "any_of\000", NULL,
+    {.position = POS(716, 25)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
@@ -7020,23 +7171,28 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "MULTILINE_REMARK\000", NULL
+    "MULTILINE_REMARK\000", NULL,
+    {.position = POS(727, 9)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "on\000", NULL
+    "on\000", NULL,
+    {.position = POS(728, 11)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "OPEN_PARAMETERS\000", NULL
+    "OPEN_PARAMETERS\000", NULL,
+    {.position = POS(731, 9)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "parameter_of\000", NULL
+    "parameter_of\000", NULL,
+    {.position = POS(735, 27)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "CLOSE_PARAMETERS\000", NULL
+    "CLOSE_PARAMETERS\000", NULL,
+    {.position = POS(739, 9)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
@@ -7060,11 +7216,13 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "FUNCTOR\000", NULL
+    "FUNCTOR\000", NULL,
+    {.position = POS(770, 5)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "RETURN\000", NULL
+    "RETURN\000", NULL,
+    {.position = POS(772, 5)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
@@ -7080,7 +7238,8 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "BACKQUOTED\000", NULL
+    "BACKQUOTED\000", NULL,
+    {.position = POS(793, 37)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
@@ -7096,15 +7255,18 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "ATTRIBUTE_VALUE_PAIR\000", NULL
+    "ATTRIBUTE_VALUE_PAIR\000", NULL,
+    {.position = POS(815, 46)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "METHOD_VALUE_PAIR\000", NULL
+    "METHOD_VALUE_PAIR\000", NULL,
+    {.position = POS(816, 46)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "TYPE_FUNCTION\000", NULL
+    "TYPE_FUNCTION\000", NULL,
+    {.position = POS(817, 46)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
@@ -7116,11 +7278,13 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "line_no_of\000", NULL
+    "line_no_of\000", NULL,
+    {.position = POS(826, 26)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "CONSTANT_COMPOUND\000", NULL
+    "CONSTANT_COMPOUND\000", NULL,
+    {.position = POS(831, 30)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
@@ -7148,15 +7312,18 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "INLINE_ATTRIBUTE_VALUE_PAIR\000", NULL
+    "INLINE_ATTRIBUTE_VALUE_PAIR\000", NULL,
+    {.position = POS(881, 21)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "debug_write\000", NULL
+    "debug_write\000", NULL,
+    {.position = POS(892, 15)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
-    "is_an_output\000", NULL
+    "is_an_output\000", NULL,
+    {.position = POS(912, 36)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
@@ -7164,51 +7331,63 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "find_first\000", NULL
+    "find_first\000", NULL,
+    {.position = POS(912, 15)}
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "numeric_literal\000funky_types", funky_types__numeric_literal__attributes
+    "numeric_literal\000funky_types", funky_types__numeric_literal__attributes,
+    {.position = POS(916, 1)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "delete_all\000", NULL
+    "delete_all\000", NULL,
+    {.position = POS(917, 11)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "to_number\000", NULL
+    "to_number\000", NULL,
+    {.position = POS(919, 3)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "to_string\000", NULL
+    "to_string\000", NULL,
+    {.position = POS(920, 3)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "key_value_pair\000std", NULL
+    "key_value_pair\000std", NULL,
+    {.position = POS(921, 24)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "replace_all\000", NULL
+    "replace_all\000", NULL,
+    {.position = POS(921, 3)}
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "character_literal\000funky_types", funky_types__character_literal__attributes
+    "character_literal\000funky_types", funky_types__character_literal__attributes,
+    {.position = POS(927, 1)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "character_of\000", NULL
+    "character_of\000", NULL,
+    {.position = POS(930, 7)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "to_integer\000", NULL
+    "to_integer\000", NULL,
+    {.position = POS(930, 29)}
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "numeric_character_literal\000funky_types", funky_types__numeric_character_literal__attributes
+    "numeric_character_literal\000funky_types", funky_types__numeric_character_literal__attributes,
+    {.position = POS(935, 1)}
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "named_character_literal\000funky_types", funky_types__named_character_literal__attributes
+    "named_character_literal\000funky_types", funky_types__named_character_literal__attributes,
+    {.position = POS(944, 1)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
@@ -7224,31 +7403,38 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "character_from_name\000", NULL
+    "character_from_name\000", NULL,
+    {.position = POS(945, 8)}
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "at_character_literal\000funky_types", funky_types__at_character_literal__attributes
+    "at_character_literal\000funky_types", funky_types__at_character_literal__attributes,
+    {.position = POS(955, 1)}
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "unique\000funky_types", funky_types__unique__attributes
+    "unique\000funky_types", funky_types__unique__attributes,
+    {.position = POS(969, 1)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "line_text_of\000", NULL
+    "line_text_of\000", NULL,
+    {.position = POS(971, 11)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "truncate_from\000", NULL
+    "truncate_from\000", NULL,
+    {.position = POS(971, 5)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "mangle_identifier\000", NULL
+    "mangle_identifier\000", NULL,
+    {.position = POS(975, 29)}
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "string_literal\000funky_types", funky_types__string_literal__attributes
+    "string_literal\000funky_types", funky_types__string_literal__attributes,
+    {.position = POS(979, 1)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
@@ -7276,15 +7462,18 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "components_of\000", NULL
+    "components_of\000", NULL,
+    {.position = POS(983, 15)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "character_sequence\000funky_types", NULL
+    "character_sequence\000funky_types", NULL,
+    {.position = POS(987, 7)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
-    "characters_of\000", NULL
+    "characters_of\000", NULL,
+    {.position = POS(988, 10)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
@@ -7296,7 +7485,8 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "CHARACTER_SEQUENCE\000", NULL
+    "CHARACTER_SEQUENCE\000", NULL,
+    {.position = POS(998, 13)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
@@ -7304,43 +7494,53 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "minus\000std", NULL
+    "minus\000std", NULL,
+    {.position = POS(1004, 45)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "trim_left\000", NULL
+    "trim_left\000", NULL,
+    {.position = POS(1005, 22)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "NUMERIC_CHARACTER\000", NULL
+    "NUMERIC_CHARACTER\000", NULL,
+    {.position = POS(1008, 13)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "character\000", NULL
+    "character\000", NULL,
+    {.position = POS(1009, 32)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "NAMED_CHARACTER\000", NULL
+    "NAMED_CHARACTER\000", NULL,
+    {.position = POS(1011, 13)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "NEWLINE\000", NULL
+    "NEWLINE\000", NULL,
+    {.position = POS(1014, 13)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "AT_CHARACTER\000", NULL
+    "AT_CHARACTER\000", NULL,
+    {.position = POS(1017, 13)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "ESCAPE_EXPRESSION\000", NULL
+    "ESCAPE_EXPRESSION\000", NULL,
+    {.position = POS(1020, 13)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "TAGGED_EMPTY_CHARACTER\000", NULL
+    "TAGGED_EMPTY_CHARACTER\000", NULL,
+    {.position = POS(1027, 13)}
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "list\000std_types", std_types__list__attributes
+    "list\000std_types", std_types__list__attributes,
+    {.position = POS(1073, 1)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
@@ -7356,11 +7556,13 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "BUILTIN\000", NULL
+    "BUILTIN\000", NULL,
+    {.position = POS(1106, 16)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "TEMPORARY\000", NULL
+    "TEMPORARY\000", NULL,
+    {.position = POS(1116, 16)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
@@ -7400,11 +7602,13 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "not\000", NULL
+    "not\000", NULL,
+    {.position = POS(1197, 27)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "dec\000", NULL
+    "dec\000", NULL,
+    {.position = POS(1207, 11)}
   },
   {
     FOT_POLYMORPHIC, 0, 0,
@@ -7426,11 +7630,13 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "allow_hidden\000", NULL
+    "allow_hidden\000", NULL,
+    {.position = POS(1253, 10)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "mangle_local_definition\000", NULL
+    "mangle_local_definition\000", NULL,
+    {.position = POS(1255, 33)}
   },
   {
     FOT_INITIALIZED, 0, 0,
@@ -7444,7 +7650,8 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "second\000", NULL
+    "second\000", NULL,
+    {.position = POS(1271, 14)}
   },
   {
     FOT_POLYMORPHIC, 0, 0,
@@ -7453,11 +7660,13 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "remark\000funky_types", funky_types__remark__attributes
+    "remark\000funky_types", funky_types__remark__attributes,
+    {.position = POS(1281, 1)}
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "multiline_remark\000funky_types", funky_types__multiline_remark__attributes
+    "multiline_remark\000funky_types", funky_types__multiline_remark__attributes,
+    {.position = POS(1282, 1)}
   },
   {
     FOT_DERIVED, 0, 0,
@@ -7476,7 +7685,8 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
-    "is_an_input\000", NULL
+    "is_an_input\000", NULL,
+    {.position = POS(1295, 20)}
   }
 };
 

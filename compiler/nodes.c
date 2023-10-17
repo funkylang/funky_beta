@@ -83,83 +83,84 @@ enum {
   uni_funky__PLUS = -74,
   uni_funky__PLUS2 = -75,
   uni_funky__MINUS = -76,
-  uni_funky__TAGGED_MULTIPLICATIVE_EXPRESSION = -77,
+  uni_funky__MINUS2 = -77,
   uni_funky__MULTIPLICATIVE_EXPRESSION = -78,
   uni_funky__TIMES = -79,
   uni_funky__TIMES2 = -80,
   uni_funky__OVER = -81,
-  uni_funky__PARENTHESED_EXPRESSION = -82,
-  uni_funky__BACKQUOTED = -83,
-  uni_funky__NEGATION = -84,
-  uni_funky__MULTILINE_OPERATOR = -85,
-  uni_funky__MULTILINE_PLUS = -86,
-  uni_funky__MULTILINE_MINUS = -87,
-  uni_funky__MULTILINE_MINUS_WITH_REMARK = -88,
-  uni_funky__MULTILINE_TIMES = -89,
-  uni_funky__MULTILINE_OVER = -90,
-  uni_funky__MULTILINE_OVER_WITH_REMARK = -91,
-  uni_funky__MULTILINE_SHIFT_LEFT = -92,
-  uni_funky__MULTILINE_SHIFT_RIGHT = -93,
-  uni_funky__MULTILINE_EQUAL = -94,
-  uni_funky__MULTILINE_NOT_EQUAL = -95,
-  uni_funky__MULTILINE_LESS_EQUAL = -96,
-  uni_funky__MULTILINE_LESS_THAN = -97,
-  uni_funky__MULTILINE_GREATER_EQUAL = -98,
-  uni_funky__MULTILINE_GREATER_THAN = -99,
-  uni_funky__MULTILINE_AND = -100,
-  uni_funky__MULTILINE_OR = -101,
-  uni_funky__MULTILINE_BIT_AND = -102,
-  uni_funky__MULTILINE_BIT_AND_WITH_REMARK = -103,
-  uni_funky__MULTILINE_BIT_OR = -104,
-  uni_funky__MULTILINE_BIT_XOR = -105,
-  uni_funky__MULTILINE_ASSIGN = -106,
-  uni_funky__INLINE_ATTRIBUTE_VALUE_PAIR = -107,
-  uni_funky__INLINE_METHOD_VALUE_PAIR = -108,
-  uni_funky__EXPRESSION_AND_INLINE_ARGUMENTS = -109,
-  uni_funky__SPACED_INLINE_ARGUMENTS = -110,
-  uni_funky__NUMERIC_LITERAL = -111,
-  uni_funky__AT_CHARACTER_LITERAL = -112,
-  uni_funky__NAMED_CHARACTER_LITERAL = -113,
-  uni_funky__NUMERIC_CHARACTER_LITERAL = -114,
-  uni_funky__CHARACTER_LITERAL = -115,
-  uni_funky__STRING_LITERAL = -116,
-  uni_funky__SOME_STRING_COMPONENTS = -117,
-  uni_funky__CHARACTER_SEQUENCE = -118,
-  uni_funky__MULTILINE_STRING_LITERAL = -119,
-  uni_funky__NEWLINE = -120,
-  uni_funky__SOME_STRING_LINE_COMPONENTS = -121,
-  uni_funky__STRING_LINE_END = -122,
-  uni_funky__AT_CHARACTER = -123,
-  uni_funky__TAGGED_EMPTY_CHARACTER = -124,
-  uni_funky__EMPTY_CHARACTER = -125,
-  uni_funky__ESCAPE_EXPRESSION = -126,
-  uni_funky__NAMED_CHARACTER = -127,
-  uni_funky__NUMERIC_CHARACTER = -128,
-  uni_funky__STRING_LINE_CHARACTER_SEQUENCE = -129,
-  uni_funky__UNIQUE = -130,
-  uni_funky__ATTRIBUTE = -131,
-  uni_funky__ATTRIBUTE_WITH_SETTER = -132,
-  uni_funky__BODY = -133,
-  uni_funky__LINE_END_STATEMENT = -134,
-  uni_funky__INLINE_BODY = -135,
-  uni_funky__STATEMENTS = -136,
-  uni_funky__ONE_OR_MORE_INLINE_PARAMETERS = -137,
-  uni_funky__OPEN_PARAMETERS = -138,
-  uni_funky__INLINE_PARAMETER = -139,
-  uni_funky__PARAMETER = -140,
-  uni_funky__MYSELF = -141,
-  uni_funky__REST = -142,
-  uni_funky__INITIAL_VALUE = -143,
-  uni_funky__CLOSE_PARAMETERS = -144,
-  uni_funky__RETURN_EXPRESSION = -145,
-  uni_funky__RETURN = -146,
-  uni_funky__REMARK = -147,
-  uni_funky__LINE_END_AND_LINE_REMARKS = -148,
-  uni_funky__LINE_REMARKS = -149,
-  uni_funky__SPACED_REMARK = -150,
-  uni_funky__MULTILINE_REMARK = -151,
-  uni_funky__REMARK_LINES = -152,
-  uni_funky__DUMMY_REMARK = -153
+  uni_funky__OVER2 = -82,
+  uni_funky__PARENTHESED_EXPRESSION = -83,
+  uni_funky__BACKQUOTED = -84,
+  uni_funky__NEGATION = -85,
+  uni_funky__MULTILINE_OPERATOR = -86,
+  uni_funky__MULTILINE_PLUS = -87,
+  uni_funky__MULTILINE_MINUS = -88,
+  uni_funky__MULTILINE_MINUS_WITH_REMARK = -89,
+  uni_funky__MULTILINE_TIMES = -90,
+  uni_funky__MULTILINE_OVER = -91,
+  uni_funky__MULTILINE_OVER_WITH_REMARK = -92,
+  uni_funky__MULTILINE_SHIFT_LEFT = -93,
+  uni_funky__MULTILINE_SHIFT_RIGHT = -94,
+  uni_funky__MULTILINE_EQUAL = -95,
+  uni_funky__MULTILINE_NOT_EQUAL = -96,
+  uni_funky__MULTILINE_LESS_EQUAL = -97,
+  uni_funky__MULTILINE_LESS_THAN = -98,
+  uni_funky__MULTILINE_GREATER_EQUAL = -99,
+  uni_funky__MULTILINE_GREATER_THAN = -100,
+  uni_funky__MULTILINE_AND = -101,
+  uni_funky__MULTILINE_OR = -102,
+  uni_funky__MULTILINE_BIT_AND = -103,
+  uni_funky__MULTILINE_BIT_AND_WITH_REMARK = -104,
+  uni_funky__MULTILINE_BIT_OR = -105,
+  uni_funky__MULTILINE_BIT_XOR = -106,
+  uni_funky__MULTILINE_ASSIGN = -107,
+  uni_funky__INLINE_ATTRIBUTE_VALUE_PAIR = -108,
+  uni_funky__INLINE_METHOD_VALUE_PAIR = -109,
+  uni_funky__EXPRESSION_AND_INLINE_ARGUMENTS = -110,
+  uni_funky__SPACED_INLINE_ARGUMENTS = -111,
+  uni_funky__NUMERIC_LITERAL = -112,
+  uni_funky__AT_CHARACTER_LITERAL = -113,
+  uni_funky__NAMED_CHARACTER_LITERAL = -114,
+  uni_funky__NUMERIC_CHARACTER_LITERAL = -115,
+  uni_funky__CHARACTER_LITERAL = -116,
+  uni_funky__STRING_LITERAL = -117,
+  uni_funky__SOME_STRING_COMPONENTS = -118,
+  uni_funky__CHARACTER_SEQUENCE = -119,
+  uni_funky__MULTILINE_STRING_LITERAL = -120,
+  uni_funky__NEWLINE = -121,
+  uni_funky__SOME_STRING_LINE_COMPONENTS = -122,
+  uni_funky__STRING_LINE_END = -123,
+  uni_funky__AT_CHARACTER = -124,
+  uni_funky__TAGGED_EMPTY_CHARACTER = -125,
+  uni_funky__EMPTY_CHARACTER = -126,
+  uni_funky__ESCAPE_EXPRESSION = -127,
+  uni_funky__NAMED_CHARACTER = -128,
+  uni_funky__NUMERIC_CHARACTER = -129,
+  uni_funky__STRING_LINE_CHARACTER_SEQUENCE = -130,
+  uni_funky__UNIQUE = -131,
+  uni_funky__ATTRIBUTE = -132,
+  uni_funky__ATTRIBUTE_WITH_SETTER = -133,
+  uni_funky__BODY = -134,
+  uni_funky__LINE_END_STATEMENT = -135,
+  uni_funky__INLINE_BODY = -136,
+  uni_funky__STATEMENTS = -137,
+  uni_funky__ONE_OR_MORE_INLINE_PARAMETERS = -138,
+  uni_funky__OPEN_PARAMETERS = -139,
+  uni_funky__INLINE_PARAMETER = -140,
+  uni_funky__PARAMETER = -141,
+  uni_funky__MYSELF = -142,
+  uni_funky__REST = -143,
+  uni_funky__INITIAL_VALUE = -144,
+  uni_funky__CLOSE_PARAMETERS = -145,
+  uni_funky__RETURN_EXPRESSION = -146,
+  uni_funky__RETURN = -147,
+  uni_funky__REMARK = -148,
+  uni_funky__LINE_END_AND_LINE_REMARKS = -149,
+  uni_funky__LINE_REMARKS = -150,
+  uni_funky__SPACED_REMARK = -151,
+  uni_funky__MULTILINE_REMARK = -152,
+  uni_funky__REMARK_LINES = -153,
+  uni_funky__DUMMY_REMARK = -154
 };
 
 enum {
@@ -244,11 +245,12 @@ enum {
   var_funky__PLUS, // initialized
   var_funky__PLUS2, // initialized
   var_funky__MINUS, // initialized
-  var_funky__TAGGED_MULTIPLICATIVE_EXPRESSION, // initialized
+  var_funky__MINUS2, // initialized
   var_funky__MULTIPLICATIVE_EXPRESSION, // initialized
   var_funky__TIMES, // initialized
   var_funky__TIMES2, // initialized
   var_funky__OVER, // initialized
+  var_funky__OVER2, // initialized
   var_funky__PARENTHESED_EXPRESSION, // initialized
   var_funky__BACKQUOTED, // initialized
   var_funky__NEGATION, // initialized
@@ -344,11 +346,13 @@ enum {
   var_funky__lines_of, // attribute with setter
   var_funky__major_of, // attribute with setter
   var_funky__minor_of, // attribute with setter
+  var_funky__minus2_of, // attribute with setter
   var_funky__name_of, // attribute with setter
   var_funky__operand_of, // attribute with setter
   var_funky__operator_of, // attribute with setter
   var_funky__option_of, // attribute with setter
   var_funky__or2_of, // attribute with setter
+  var_funky__over2_of, // attribute with setter
   var_funky__pair_of, // attribute with setter
   var_funky__parameter_of, // attribute with setter
   var_funky__parameters_of, // attribute with setter
@@ -448,11 +452,12 @@ enum {
   var_funky_types__additive_expression, // derived
   var_funky_types__plus2, // derived
   var_funky_types__plus, // derived
-  var_funky_types__tagged_multiplicative_expression, // derived
+  var_funky_types__minus2, // derived
   var_funky_types__minus, // derived
   var_funky_types__multiplicative_expression, // derived
   var_funky_types__times2, // derived
   var_funky_types__times, // derived
+  var_funky_types__over2, // derived
   var_funky_types__over, // derived
   var_funky_types__parenthesed_expression, // derived
   var_funky_types__backquoted, // derived
@@ -606,11 +611,12 @@ static FUNKY_CONSTANT constants_table[] = {
   {FLT_UNIQUE, 0, {.str_8 = "funky::PLUS"}},
   {FLT_UNIQUE, 0, {.str_8 = "funky::PLUS2"}},
   {FLT_UNIQUE, 0, {.str_8 = "funky::MINUS"}},
-  {FLT_UNIQUE, 0, {.str_8 = "funky::TAGGED_MULTIPLICATIVE_EXPRESSION"}},
+  {FLT_UNIQUE, 0, {.str_8 = "funky::MINUS2"}},
   {FLT_UNIQUE, 0, {.str_8 = "funky::MULTIPLICATIVE_EXPRESSION"}},
   {FLT_UNIQUE, 0, {.str_8 = "funky::TIMES"}},
   {FLT_UNIQUE, 0, {.str_8 = "funky::TIMES2"}},
   {FLT_UNIQUE, 0, {.str_8 = "funky::OVER"}},
+  {FLT_UNIQUE, 0, {.str_8 = "funky::OVER2"}},
   {FLT_UNIQUE, 0, {.str_8 = "funky::PARENTHESED_EXPRESSION"}},
   {FLT_UNIQUE, 0, {.str_8 = "funky::BACKQUOTED"}},
   {FLT_UNIQUE, 0, {.str_8 = "funky::NEGATION"}},
@@ -1051,8 +1057,8 @@ static ATTRIBUTE_DEFINITION funky_types__minus__attributes[] = {
   {-var_funky__node_type_of, -var_funky__MINUS}
 };
 
-static ATTRIBUTE_DEFINITION funky_types__tagged_multiplicative_expression__attributes[] = {
-  {-var_funky__node_type_of, -var_funky__TAGGED_MULTIPLICATIVE_EXPRESSION}
+static ATTRIBUTE_DEFINITION funky_types__minus2__attributes[] = {
+  {-var_funky__node_type_of, -var_funky__MINUS2}
 };
 
 static ATTRIBUTE_DEFINITION funky_types__multiplicative_expression__attributes[] = {
@@ -1069,6 +1075,10 @@ static ATTRIBUTE_DEFINITION funky_types__times2__attributes[] = {
 
 static ATTRIBUTE_DEFINITION funky_types__over__attributes[] = {
   {-var_funky__node_type_of, -var_funky__OVER}
+};
+
+static ATTRIBUTE_DEFINITION funky_types__over2__attributes[] = {
+  {-var_funky__node_type_of, -var_funky__OVER2}
 };
 
 static ATTRIBUTE_DEFINITION funky_types__parenthesed_expression__attributes[] = {
@@ -1405,7 +1415,8 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "assign\000std", NULL
+    "assign\000std", NULL,
+    {.position = POS(8, 1)}
   },
   {
     FOT_POLYMORPHIC, 0, 0,
@@ -1799,8 +1810,8 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_INITIALIZED, 0, 0,
-    "TAGGED_MULTIPLICATIVE_EXPRESSION\000funky", NULL,
-    {.const_idx = -uni_funky__TAGGED_MULTIPLICATIVE_EXPRESSION}
+    "MINUS2\000funky", NULL,
+    {.const_idx = -uni_funky__MINUS2}
   },
   {
     FOT_INITIALIZED, 0, 0,
@@ -1821,6 +1832,11 @@ static FUNKY_VARIABLE variables_table[] = {
     FOT_INITIALIZED, 0, 0,
     "OVER\000funky", NULL,
     {.const_idx = -uni_funky__OVER}
+  },
+  {
+    FOT_INITIALIZED, 0, 0,
+    "OVER2\000funky", NULL,
+    {.const_idx = -uni_funky__OVER2}
   },
   {
     FOT_INITIALIZED, 0, 0,
@@ -2299,6 +2315,11 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_POLYMORPHIC, 0, 0,
+    "minus2_of\000funky", NULL,
+    {.has_a_setter = true}
+  },
+  {
+    FOT_POLYMORPHIC, 0, 0,
     "name_of\000funky", NULL,
     {.has_a_setter = true}
   },
@@ -2320,6 +2341,11 @@ static FUNKY_VARIABLE variables_table[] = {
   {
     FOT_POLYMORPHIC, 0, 0,
     "or2_of\000funky", NULL,
+    {.has_a_setter = true}
+  },
+  {
+    FOT_POLYMORPHIC, 0, 0,
+    "over2_of\000funky", NULL,
     {.has_a_setter = true}
   },
   {
@@ -2399,11 +2425,13 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "object\000std_types", NULL
+    "object\000std_types", NULL,
+    {.position = POS(221, 20)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "undefined\000", NULL
+    "undefined\000", NULL,
+    {.position = POS(222, 43)}
   },
   {
     FOT_DERIVED, 0, 0,
@@ -2437,7 +2465,8 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "empty_list\000", NULL
+    "empty_list\000", NULL,
+    {.position = POS(245, 45)}
   },
   {
     FOT_DERIVED, 0, 3,
@@ -2816,13 +2845,13 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_DERIVED, 0, 1,
-    "tagged_multiplicative_expression\000funky_types", funky_types__tagged_multiplicative_expression__attributes,
+    "minus2\000funky_types", funky_types__minus2__attributes,
     {"expression\000funky_types"}
   },
   {
     FOT_DERIVED, 0, 1,
     "minus\000funky_types", funky_types__minus__attributes,
-    {"tagged_multiplicative_expression\000funky_types"}
+    {"minus2\000funky_types"}
   },
   {
     FOT_DERIVED, 0, 1,
@@ -2841,8 +2870,13 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_DERIVED, 0, 1,
+    "over2\000funky_types", funky_types__over2__attributes,
+    {"expression\000funky_types"}
+  },
+  {
+    FOT_DERIVED, 0, 1,
     "over\000funky_types", funky_types__over__attributes,
-    {"simple_expression\000funky_types"}
+    {"over2\000funky_types"}
   },
   {
     FOT_DERIVED, 0, 3,
@@ -3215,8 +3249,8 @@ FUNKY_MODULE module__nodes = {
   0, // number of required modules
   0, // number of defined namespaces
   1, // number of used namespaces
-  153, // number of constants
-  361, // number of variables
+  154, // number of constants
+  365, // number of variables
   NULL, // required modules
   NULL, // defined namespaces
   used_namespaces,

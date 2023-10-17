@@ -308,67 +308,83 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "assign\000std", NULL
+    "assign\000std", NULL,
+    {.position = POS(27, 1)}
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "list\000std_types", std_types__list__attributes
+    "list\000std_types", std_types__list__attributes,
+    {.position = POS(29, 1)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
-    "collect_literals\000", NULL
+    "collect_literals\000", NULL,
+    {.position = POS(29, 18)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "merge\000", NULL
+    "merge\000", NULL,
+    {.position = POS(30, 36)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "empty_insert_order_set\000", NULL
+    "empty_insert_order_set\000", NULL,
+    {.position = POS(30, 42)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "map_reduce\000", NULL
+    "map_reduce\000", NULL,
+    {.position = POS(30, 3)}
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "numeric_literal\000funky_types", funky_types__numeric_literal__attributes
+    "numeric_literal\000funky_types", funky_types__numeric_literal__attributes,
+    {.position = POS(32, 1)}
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "character_sequence\000funky_types", funky_types__character_sequence__attributes
+    "character_sequence\000funky_types", funky_types__character_sequence__attributes,
+    {.position = POS(33, 1)}
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "numeric_character_literal\000funky_types", funky_types__numeric_character_literal__attributes
+    "numeric_character_literal\000funky_types", funky_types__numeric_character_literal__attributes,
+    {.position = POS(34, 1)}
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "unique\000funky_types", funky_types__unique__attributes
+    "unique\000funky_types", funky_types__unique__attributes,
+    {.position = POS(35, 1)}
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "attribute\000funky_types", funky_types__attribute__attributes
+    "attribute\000funky_types", funky_types__attribute__attributes,
+    {.position = POS(36, 1)}
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "attribute_with_setter\000funky_types", funky_types__attribute_with_setter__attributes
+    "attribute_with_setter\000funky_types", funky_types__attribute_with_setter__attributes,
+    {.position = POS(37, 1)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "insert_order_set\000", NULL
+    "insert_order_set\000", NULL,
+    {.position = POS(39, 29)}
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "definition\000funky_types", funky_types__definition__attributes
+    "definition\000funky_types", funky_types__definition__attributes,
+    {.position = POS(41, 1)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "identifier_of\000", NULL
+    "identifier_of\000", NULL,
+    {.position = POS(42, 13)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "variables\000", NULL
+    "variables\000", NULL,
+    {.position = POS(42, 3)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
@@ -376,23 +392,28 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "CONSTANT_COMPOUND\000", NULL
+    "CONSTANT_COMPOUND\000", NULL,
+    {.position = POS(44, 5)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "INITIALIZED_COMPOUND\000", NULL
+    "INITIALIZED_COMPOUND\000", NULL,
+    {.position = POS(44, 24)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "sequence\000std", NULL
+    "sequence\000std", NULL,
+    {.position = POS(44, 5)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "case\000", NULL
+    "case\000", NULL,
+    {.position = POS(43, 3)}
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "redefinition\000funky_types", funky_types__redefinition__attributes
+    "redefinition\000funky_types", funky_types__redefinition__attributes,
+    {.position = POS(48, 1)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
@@ -400,15 +421,18 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "kind_of\000", NULL
+    "kind_of\000", NULL,
+    {.position = POS(50, 5)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "TEMPORARY\000", NULL
+    "TEMPORARY\000", NULL,
+    {.position = POS(50, 22)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "equal\000std", NULL
+    "equal\000std", NULL,
+    {.position = POS(50, 5)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
@@ -416,7 +440,8 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "is_defined\000", NULL
+    "is_defined\000", NULL,
+    {.position = POS(53, 14)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
@@ -424,23 +449,28 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "if\000", NULL
+    "if\000", NULL,
+    {.position = POS(52, 7)}
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "body\000funky_types", funky_types__body__attributes
+    "body\000funky_types", funky_types__body__attributes,
+    {.position = POS(62, 1)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "parameters_of\000funky", NULL
+    "parameters_of\000funky", NULL,
+    {.position = POS(63, 14)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "statement_of\000funky", NULL
+    "statement_of\000funky", NULL,
+    {.position = POS(66, 20)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "statements_of\000funky", NULL
+    "statements_of\000funky", NULL,
+    {.position = POS(68, 14)}
   }
 };
 

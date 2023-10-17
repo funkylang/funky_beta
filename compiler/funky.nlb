@@ -601,10 +601,10 @@ plus2
   multiplicative_expression additive_operator
 
 minus
-  tagged_multiplicative_expression
+  minus2
 
-tagged_multiplicative_expression
-  an_expression multiplicative_operator
+minus2
+  multiplicative_expression additive_operator
 
 multiplicative_expression
   an_expression multiplicative_operator
@@ -623,7 +623,10 @@ times2
   an_expression multiplicative_operator
 
 over
-  an_expression
+  over2
+
+over2
+  an_expression multiplicative_operator
 
 an_expression
   parenthesed_expression

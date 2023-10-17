@@ -28,205 +28,206 @@ enum {
   str_lines = -19,
   str_major = -20,
   str_minor = -21,
-  str_name = -22,
-  str_operand = -23,
-  str_operator = -24,
-  str_option = -25,
-  str_or = -26,
-  str_pair = -27,
-  str_parameter = -28,
-  str_parameters = -29,
-  str_plus = -30,
-  str_pragma = -31,
-  str_remark = -32,
-  str_remarks = -33,
-  str_sign = -34,
-  str_statement = -35,
-  str_statements = -36,
-  str_text = -37,
-  str_times = -38,
-  str_version = -39,
-  str_xor = -40,
-  list_58_0 = -41,
-  list_62_0 = -42,
-  list_67_0 = -43,
-  list_71_0 = -44,
-  list_78_0 = -45,
-  str_inline_statement = -46,
-  str_attribute_value = -47,
-  str_type_function = -48,
-  str_method_value_pai = -49,
-  list_96_0 = -50,
-  str_namespace_instru = -51,
-  str_require_instruct = -52,
-  list_104_0 = -53,
-  str_using_instructio = -54,
-  str_alias_instructio = -55,
-  list_112_0 = -56,
-  str_resolve_instruct = -57,
-  str_allow_instructio = -58,
-  list_122_0 = -59,
-  str_version_no = -60,
-  list_130_0 = -61,
-  str_unstable = -62,
-  str_allow_hidden = -63,
-  str_allow_unused = -64,
-  str_functor = -65,
-  list_142_0 = -66,
-  str_function_call_ex = -67,
-  list_148_0 = -68,
-  str_attribute_access = -69,
-  list_154_0 = -70,
-  str_inline_functor = -71,
-  str_inline_function = -72,
-  str_inline_attribute = -73,
-  str_io_call = -74,
-  str_function_call = -75,
-  list_176_0 = -76,
-  str_function_call_ar = -77,
-  str_inline_return = -78,
-  str_attribute_access_2 = -79,
-  list_185_0 = -80,
-  str_spaced_arguments = -81,
-  str_spaced_statement = -82,
-  list_200_0 = -83,
-  str_even_more_statem = -84,
-  str_multiline_argume = -85,
-  str_tagged_multiline = -86,
-  str_remark_and_multi = -87,
-  list_216_0 = -88,
-  str_dummy_definition = -89,
-  str_variable = -90,
-  str_definition = -91,
-  str_redefinition = -92,
-  str_update = -93,
-  list_232_0 = -94,
-  str_key_value = -95,
-  str_sequence_express = -96,
-  str_comma = -97,
-  str_comma_expression = -98,
-  str_conditional_expr = -99,
-  str_and_2 = -100,
-  str_and_expression = -101,
-  str_or_2 = -102,
-  str_or_expression = -103,
-  str_named_operator_e = -104,
-  str_named_operator = -105,
-  str_range_expression = -106,
-  str_range = -107,
-  str_relational_expre = -108,
-  str_equal = -109,
-  str_not_equal = -110,
-  str_less_equal = -111,
-  str_less_than = -112,
-  str_greater_equal = -113,
-  str_greater_than = -114,
-  str_tagged_bit_expre = -115,
-  str_bit_expression = -116,
-  str_shift_left = -117,
-  str_shift_right = -118,
-  str_bit_and = -119,
-  str_bit_and_2 = -120,
-  str_bit_or = -121,
-  str_bit_or_2 = -122,
-  str_bit_xor = -123,
-  str_bit_xor_2 = -124,
-  str_tagged_additive = -125,
-  str_additive_express = -126,
-  str_plus_2 = -127,
-  str_minus = -128,
-  str_tagged_multiplic = -129,
-  str_multiplicative_e = -130,
-  str_times_2 = -131,
-  str_over = -132,
-  str_parenthesed_expr = -133,
-  list_318_0 = -134,
-  str_backquoted = -135,
-  str_negation = -136,
-  str_multiline_operat = -137,
-  str_multiline_plus = -138,
-  str_multiline_minus = -139,
-  str_multiline_minus_2 = -140,
-  str_multiline_times = -141,
-  str_multiline_over = -142,
-  str_multiline_over_w = -143,
-  str_multiline_shift = -144,
-  str_multiline_shift_2 = -145,
-  str_multiline_equal = -146,
-  str_multiline_not_eq = -147,
-  str_multiline_less_e = -148,
-  str_multiline_less_t = -149,
-  str_multiline_greate = -150,
-  str_multiline_greate_2 = -151,
-  str_multiline_and = -152,
-  str_multiline_or = -153,
-  str_multiline_bit_an = -154,
-  str_multiline_bit_an_2 = -155,
-  str_multiline_bit_or = -156,
-  str_multiline_bit_xo = -157,
-  str_multiline_assign = -158,
-  str_inline_attribute_2 = -159,
-  str_inline_method_va = -160,
-  str_expression_and_i = -161,
-  list_380_0 = -162,
-  str_spaced_inline_ar = -163,
-  str_numeric_literal = -164,
-  list_388_0 = -165,
-  str_at_character_lit = -166,
-  str_named_character = -167,
-  str_numeric_characte = -168,
-  str_character_litera = -169,
-  list_399_0 = -170,
-  str_string_literal = -171,
-  list_404_0 = -172,
-  str_some_string_comp = -173,
-  list_409_0 = -174,
-  str_character_sequen = -175,
-  list_415_0 = -176,
-  str_multiline_string = -177,
-  str_newline = -178,
-  str_some_string_line = -179,
-  str_string_line_end = -180,
-  str_at_character = -181,
-  str_tagged_empty_cha = -182,
-  str_empty_character = -183,
-  str_escape_expressio = -184,
-  str_named_character_2 = -185,
-  str_numeric_characte_2 = -186,
-  str_string_line_char = -187,
-  str_unique = -188,
-  list_446_0 = -189,
-  str_attribute = -190,
-  str_attribute_with_s = -191,
-  list_455_0 = -192,
-  str_line_end_stateme = -193,
-  str_inline_body = -194,
-  list_464_0 = -195,
-  list_470_0 = -196,
-  str_one_or_more_inli = -197,
-  list_475_0 = -198,
-  str_open_parameters = -199,
-  list_481_0 = -200,
-  str_inline_parameter = -201,
-  list_487_0 = -202,
-  list_493_0 = -203,
-  str_myself = -204,
-  str_rest = -205,
-  str_initial_value = -206,
-  list_504_0 = -207,
-  str_close_parameters = -208,
-  list_509_0 = -209,
-  str_return_expressio = -210,
-  str_return = -211,
-  list_518_0 = -212,
-  str_line_end_and_lin = -213,
-  list_523_0 = -214,
-  str_line_remarks = -215,
-  str_spaced_remark = -216,
-  str_multiline_remark = -217,
-  list_536_0 = -218,
-  str_remark_lines = -219,
-  str_dummy_remark = -220
+  str_minus = -22,
+  str_name = -23,
+  str_operand = -24,
+  str_operator = -25,
+  str_option = -26,
+  str_or = -27,
+  str_over = -28,
+  str_pair = -29,
+  str_parameter = -30,
+  str_parameters = -31,
+  str_plus = -32,
+  str_pragma = -33,
+  str_remark = -34,
+  str_remarks = -35,
+  str_sign = -36,
+  str_statement = -37,
+  str_statements = -38,
+  str_text = -39,
+  str_times = -40,
+  str_version = -41,
+  str_xor = -42,
+  list_60_0 = -43,
+  list_64_0 = -44,
+  list_69_0 = -45,
+  list_73_0 = -46,
+  list_80_0 = -47,
+  str_inline_statement = -48,
+  str_attribute_value = -49,
+  str_type_function = -50,
+  str_method_value_pai = -51,
+  list_98_0 = -52,
+  str_namespace_instru = -53,
+  str_require_instruct = -54,
+  list_106_0 = -55,
+  str_using_instructio = -56,
+  str_alias_instructio = -57,
+  list_114_0 = -58,
+  str_resolve_instruct = -59,
+  str_allow_instructio = -60,
+  list_124_0 = -61,
+  str_version_no = -62,
+  list_132_0 = -63,
+  str_unstable = -64,
+  str_allow_hidden = -65,
+  str_allow_unused = -66,
+  str_functor = -67,
+  list_144_0 = -68,
+  str_function_call_ex = -69,
+  list_150_0 = -70,
+  str_attribute_access = -71,
+  list_156_0 = -72,
+  str_inline_functor = -73,
+  str_inline_function = -74,
+  str_inline_attribute = -75,
+  str_io_call = -76,
+  str_function_call = -77,
+  list_178_0 = -78,
+  str_function_call_ar = -79,
+  str_inline_return = -80,
+  str_attribute_access_2 = -81,
+  list_187_0 = -82,
+  str_spaced_arguments = -83,
+  str_spaced_statement = -84,
+  list_202_0 = -85,
+  str_even_more_statem = -86,
+  str_multiline_argume = -87,
+  str_tagged_multiline = -88,
+  str_remark_and_multi = -89,
+  list_218_0 = -90,
+  str_dummy_definition = -91,
+  str_variable = -92,
+  str_definition = -93,
+  str_redefinition = -94,
+  str_update = -95,
+  list_234_0 = -96,
+  str_key_value = -97,
+  str_sequence_express = -98,
+  str_comma = -99,
+  str_comma_expression = -100,
+  str_conditional_expr = -101,
+  str_and_2 = -102,
+  str_and_expression = -103,
+  str_or_2 = -104,
+  str_or_expression = -105,
+  str_named_operator_e = -106,
+  str_named_operator = -107,
+  str_range_expression = -108,
+  str_range = -109,
+  str_relational_expre = -110,
+  str_equal = -111,
+  str_not_equal = -112,
+  str_less_equal = -113,
+  str_less_than = -114,
+  str_greater_equal = -115,
+  str_greater_than = -116,
+  str_tagged_bit_expre = -117,
+  str_bit_expression = -118,
+  str_shift_left = -119,
+  str_shift_right = -120,
+  str_bit_and = -121,
+  str_bit_and_2 = -122,
+  str_bit_or = -123,
+  str_bit_or_2 = -124,
+  str_bit_xor = -125,
+  str_bit_xor_2 = -126,
+  str_tagged_additive = -127,
+  str_additive_express = -128,
+  str_plus_2 = -129,
+  str_minus_2 = -130,
+  str_multiplicative_e = -131,
+  str_times_2 = -132,
+  str_over_2 = -133,
+  str_parenthesed_expr = -134,
+  list_322_0 = -135,
+  str_backquoted = -136,
+  str_negation = -137,
+  str_multiline_operat = -138,
+  str_multiline_plus = -139,
+  str_multiline_minus = -140,
+  str_multiline_minus_2 = -141,
+  str_multiline_times = -142,
+  str_multiline_over = -143,
+  str_multiline_over_w = -144,
+  str_multiline_shift = -145,
+  str_multiline_shift_2 = -146,
+  str_multiline_equal = -147,
+  str_multiline_not_eq = -148,
+  str_multiline_less_e = -149,
+  str_multiline_less_t = -150,
+  str_multiline_greate = -151,
+  str_multiline_greate_2 = -152,
+  str_multiline_and = -153,
+  str_multiline_or = -154,
+  str_multiline_bit_an = -155,
+  str_multiline_bit_an_2 = -156,
+  str_multiline_bit_or = -157,
+  str_multiline_bit_xo = -158,
+  str_multiline_assign = -159,
+  str_inline_attribute_2 = -160,
+  str_inline_method_va = -161,
+  str_expression_and_i = -162,
+  list_384_0 = -163,
+  str_spaced_inline_ar = -164,
+  str_numeric_literal = -165,
+  list_392_0 = -166,
+  str_at_character_lit = -167,
+  str_named_character = -168,
+  str_numeric_characte = -169,
+  str_character_litera = -170,
+  list_403_0 = -171,
+  str_string_literal = -172,
+  list_408_0 = -173,
+  str_some_string_comp = -174,
+  list_413_0 = -175,
+  str_character_sequen = -176,
+  list_419_0 = -177,
+  str_multiline_string = -178,
+  str_newline = -179,
+  str_some_string_line = -180,
+  str_string_line_end = -181,
+  str_at_character = -182,
+  str_tagged_empty_cha = -183,
+  str_empty_character = -184,
+  str_escape_expressio = -185,
+  str_named_character_2 = -186,
+  str_numeric_characte_2 = -187,
+  str_string_line_char = -188,
+  str_unique = -189,
+  list_450_0 = -190,
+  str_attribute = -191,
+  str_attribute_with_s = -192,
+  list_459_0 = -193,
+  str_line_end_stateme = -194,
+  str_inline_body = -195,
+  list_468_0 = -196,
+  list_474_0 = -197,
+  str_one_or_more_inli = -198,
+  list_479_0 = -199,
+  str_open_parameters = -200,
+  list_485_0 = -201,
+  str_inline_parameter = -202,
+  list_491_0 = -203,
+  list_497_0 = -204,
+  str_myself = -205,
+  str_rest = -206,
+  str_initial_value = -207,
+  list_508_0 = -208,
+  str_close_parameters = -209,
+  list_513_0 = -210,
+  str_return_expressio = -211,
+  str_return = -212,
+  list_522_0 = -213,
+  str_line_end_and_lin = -214,
+  list_527_0 = -215,
+  str_line_remarks = -216,
+  str_spaced_remark = -217,
+  str_multiline_remark = -218,
+  list_540_0 = -219,
+  str_remark_lines = -220,
+  str_dummy_remark = -221
 };
 
 enum {
@@ -256,11 +257,13 @@ enum {
   var_funky__lines_of, // extern
   var_funky__major_of, // extern
   var_funky__minor_of, // extern
+  var_funky__minus2_of, // extern
   var_funky__name_of, // extern
   var_funky__operand_of, // extern
   var_funky__operator_of, // extern
   var_funky__option_of, // extern
   var_funky__or2_of, // extern
+  var_funky__over2_of, // extern
   var_funky__pair_of, // extern
   var_funky__parameter_of, // extern
   var_funky__parameters_of, // extern
@@ -358,11 +361,12 @@ enum {
   var_funky_types__plus, // extern
   var_funky_types__plus2, // extern
   var_funky_types__minus, // extern
-  var_funky_types__tagged_multiplicative_expression, // extern
+  var_funky_types__minus2, // extern
   var_funky_types__multiplicative_expression, // extern
   var_funky_types__times, // extern
   var_funky_types__times2, // extern
   var_funky_types__over, // extern
+  var_funky_types__over2, // extern
   var_funky_types__parenthesed_expression, // extern
   var_funky_types__backquoted, // extern
   var_funky_types__negation, // extern
@@ -439,155 +443,155 @@ enum {
 };
 
 
-static int list_58_0_arguments[] = {
+static int list_60_0_arguments[] = {
   -var_funky__name_of
 };
 
-static int list_62_0_arguments[] = {
+static int list_64_0_arguments[] = {
   -var_funky__identifier_of, -var_funky__expression_of
 };
 
-static int list_67_0_arguments[] = {
+static int list_69_0_arguments[] = {
   -var_funky__expression_of
 };
 
-static int list_71_0_arguments[] = {
+static int list_73_0_arguments[] = {
   -var_funky__name_of, -var_funky__version_of, -var_funky__remarks_of
 };
 
-static int list_78_0_arguments[] = {
+static int list_80_0_arguments[] = {
   -var_funky__head_of, -var_funky__arguments_of
 };
 
-static int list_96_0_arguments[] = {
+static int list_98_0_arguments[] = {
   -var_funky__identifier_of, -var_funky__argument_of
 };
 
-static int list_104_0_arguments[] = {
+static int list_106_0_arguments[] = {
   -var_funky__filename_of, -var_funky__remarks_of
 };
 
-static int list_112_0_arguments[] = {
+static int list_114_0_arguments[] = {
   -var_funky__alias_of, -var_funky__sign_of, -var_funky__name_of, -var_funky__remarks_of
 };
 
-static int list_122_0_arguments[] = {
+static int list_124_0_arguments[] = {
   -var_funky__pragma_of, -var_funky__remarks_of
 };
 
-static int list_130_0_arguments[] = {
+static int list_132_0_arguments[] = {
   -var_funky__major_of, -var_funky__minor_of
 };
 
-static int list_142_0_arguments[] = {
+static int list_144_0_arguments[] = {
   -var_funky__identifier_of, -var_funky__extensions_of
 };
 
-static int list_148_0_arguments[] = {
+static int list_150_0_arguments[] = {
   -var_funky__call_of, -var_funky__extensions_of
 };
 
-static int list_154_0_arguments[] = {
+static int list_156_0_arguments[] = {
   -var_funky__access_of, -var_funky__extensions_of
 };
 
-static int list_176_0_arguments[] = {
+static int list_178_0_arguments[] = {
   -var_funky__arguments_of
 };
 
-static int list_185_0_arguments[] = {
+static int list_187_0_arguments[] = {
   -var_funky__identifier_of
 };
 
-static int list_200_0_arguments[] = {
+static int list_202_0_arguments[] = {
   -var_funky__argument_of, -var_funky__arguments_of
 };
 
-static int list_216_0_arguments[] = {
+static int list_218_0_arguments[] = {
   -var_funky__remark_of, -var_funky__arguments_of
 };
 
-static int list_232_0_arguments[] = {
+static int list_234_0_arguments[] = {
   -var_funky__expression_of, -var_funky__operator_of
 };
 
-static int list_318_0_arguments[] = {
+static int list_322_0_arguments[] = {
   -var_funky__expression_of, -var_funky__calls_of
 };
 
-static int list_380_0_arguments[] = {
+static int list_384_0_arguments[] = {
   -var_funky__expression_of, -var_funky__arguments_of
 };
 
-static int list_388_0_arguments[] = {
+static int list_392_0_arguments[] = {
   -var_funky__digits_of
 };
 
-static int list_399_0_arguments[] = {
+static int list_403_0_arguments[] = {
   -var_funky__character_of
 };
 
-static int list_404_0_arguments[] = {
+static int list_408_0_arguments[] = {
   -var_funky__components_of
 };
 
-static int list_409_0_arguments[] = {
+static int list_413_0_arguments[] = {
   -var_funky__component_of, -var_funky__components_of
 };
 
-static int list_415_0_arguments[] = {
+static int list_419_0_arguments[] = {
   -var_funky__characters_of
 };
 
-static int list_446_0_arguments[] = {
+static int list_450_0_arguments[] = {
   -var_funky__remarks_of
 };
 
-static int list_455_0_arguments[] = {
+static int list_459_0_arguments[] = {
   -var_funky__parameters_of, -var_funky__remark_of, -var_funky__statements_of
 };
 
-static int list_464_0_arguments[] = {
+static int list_468_0_arguments[] = {
   -var_funky__parameters_of, -var_funky__statement_of
 };
 
-static int list_470_0_arguments[] = {
+static int list_474_0_arguments[] = {
   -var_funky__statement_of
 };
 
-static int list_475_0_arguments[] = {
+static int list_479_0_arguments[] = {
   -var_funky__parameter_of, -var_funky__parameters_of
 };
 
-static int list_481_0_arguments[] = {
+static int list_485_0_arguments[] = {
   -var_funky__remark_of, -var_funky__parameter_of
 };
 
-static int list_487_0_arguments[] = {
+static int list_491_0_arguments[] = {
   -var_funky__name_of, -var_funky__option_of
 };
 
-static int list_493_0_arguments[] = {
+static int list_497_0_arguments[] = {
   -var_funky__name_of, -var_funky__option_of, -var_funky__remarks_of
 };
 
-static int list_504_0_arguments[] = {
+static int list_508_0_arguments[] = {
   -var_funky__operand_of
 };
 
-static int list_509_0_arguments[] = {
+static int list_513_0_arguments[] = {
   -var_funky__remark_of
 };
 
-static int list_518_0_arguments[] = {
+static int list_522_0_arguments[] = {
   -var_funky__text_of
 };
 
-static int list_523_0_arguments[] = {
+static int list_527_0_arguments[] = {
   -var_funky__remark_of, -var_funky__remarks_of
 };
 
-static int list_536_0_arguments[] = {
+static int list_540_0_arguments[] = {
   -var_funky__text_of, -var_funky__lines_of
 };
 
@@ -613,11 +617,13 @@ static FUNKY_CONSTANT constants_table[] = {
   {FLT_STRING_8, 5, {.str_8 = "lines"}},
   {FLT_STRING_8, 5, {.str_8 = "major"}},
   {FLT_STRING_8, 5, {.str_8 = "minor"}},
+  {FLT_STRING_8, 6, {.str_8 = "minus2"}},
   {FLT_STRING_8, 4, {.str_8 = "name"}},
   {FLT_STRING_8, 7, {.str_8 = "operand"}},
   {FLT_STRING_8, 8, {.str_8 = "operator"}},
   {FLT_STRING_8, 6, {.str_8 = "option"}},
   {FLT_STRING_8, 3, {.str_8 = "or2"}},
+  {FLT_STRING_8, 5, {.str_8 = "over2"}},
   {FLT_STRING_8, 4, {.str_8 = "pair"}},
   {FLT_STRING_8, 9, {.str_8 = "parameter"}},
   {FLT_STRING_8, 10, {.str_8 = "parameters"}},
@@ -632,60 +638,60 @@ static FUNKY_CONSTANT constants_table[] = {
   {FLT_STRING_8, 6, {.str_8 = "times2"}},
   {FLT_STRING_8, 7, {.str_8 = "version"}},
   {FLT_STRING_8, 4, {.str_8 = "xor2"}},
-  {FLT_LIST, 1, {.arguments = list_58_0_arguments}},
-  {FLT_LIST, 2, {.arguments = list_62_0_arguments}},
-  {FLT_LIST, 1, {.arguments = list_67_0_arguments}},
-  {FLT_LIST, 3, {.arguments = list_71_0_arguments}},
-  {FLT_LIST, 2, {.arguments = list_78_0_arguments}},
+  {FLT_LIST, 1, {.arguments = list_60_0_arguments}},
+  {FLT_LIST, 2, {.arguments = list_64_0_arguments}},
+  {FLT_LIST, 1, {.arguments = list_69_0_arguments}},
+  {FLT_LIST, 3, {.arguments = list_73_0_arguments}},
+  {FLT_LIST, 2, {.arguments = list_80_0_arguments}},
   {FLT_STRING_8, 16, {.str_8 = "inline_statement"}},
   {FLT_STRING_8, 20, {.str_8 = "attribute_value_pair"}},
   {FLT_STRING_8, 13, {.str_8 = "type_function"}},
   {FLT_STRING_8, 17, {.str_8 = "method_value_pair"}},
-  {FLT_LIST, 2, {.arguments = list_96_0_arguments}},
+  {FLT_LIST, 2, {.arguments = list_98_0_arguments}},
   {FLT_STRING_8, 21, {.str_8 = "namespace_instruction"}},
   {FLT_STRING_8, 19, {.str_8 = "require_instruction"}},
-  {FLT_LIST, 2, {.arguments = list_104_0_arguments}},
+  {FLT_LIST, 2, {.arguments = list_106_0_arguments}},
   {FLT_STRING_8, 17, {.str_8 = "using_instruction"}},
   {FLT_STRING_8, 17, {.str_8 = "alias_instruction"}},
-  {FLT_LIST, 4, {.arguments = list_112_0_arguments}},
+  {FLT_LIST, 4, {.arguments = list_114_0_arguments}},
   {FLT_STRING_8, 19, {.str_8 = "resolve_instruction"}},
   {FLT_STRING_8, 17, {.str_8 = "allow_instruction"}},
-  {FLT_LIST, 2, {.arguments = list_122_0_arguments}},
+  {FLT_LIST, 2, {.arguments = list_124_0_arguments}},
   {FLT_STRING_8, 10, {.str_8 = "version_no"}},
-  {FLT_LIST, 2, {.arguments = list_130_0_arguments}},
+  {FLT_LIST, 2, {.arguments = list_132_0_arguments}},
   {FLT_STRING_8, 8, {.str_8 = "unstable"}},
   {FLT_STRING_8, 12, {.str_8 = "allow_hidden"}},
   {FLT_STRING_8, 12, {.str_8 = "allow_unused"}},
   {FLT_STRING_8, 7, {.str_8 = "functor"}},
-  {FLT_LIST, 2, {.arguments = list_142_0_arguments}},
+  {FLT_LIST, 2, {.arguments = list_144_0_arguments}},
   {FLT_STRING_8, 23, {.str_8 = "function_call_extension"}},
-  {FLT_LIST, 2, {.arguments = list_148_0_arguments}},
+  {FLT_LIST, 2, {.arguments = list_150_0_arguments}},
   {FLT_STRING_8, 26, {.str_8 = "attribute_access_extension"}},
-  {FLT_LIST, 2, {.arguments = list_154_0_arguments}},
+  {FLT_LIST, 2, {.arguments = list_156_0_arguments}},
   {FLT_STRING_8, 14, {.str_8 = "inline_functor"}},
   {FLT_STRING_8, 30, {.str_8 = "inline_function_call_extension"}},
   {FLT_STRING_8, 33, {.str_8 = "inline_attribute_access_extension"}},
   {FLT_STRING_8, 7, {.str_8 = "io_call"}},
   {FLT_STRING_8, 13, {.str_8 = "function_call"}},
-  {FLT_LIST, 1, {.arguments = list_176_0_arguments}},
+  {FLT_LIST, 1, {.arguments = list_178_0_arguments}},
   {FLT_STRING_8, 23, {.str_8 = "function_call_arguments"}},
   {FLT_STRING_8, 13, {.str_8 = "inline_return"}},
   {FLT_STRING_8, 16, {.str_8 = "attribute_access"}},
-  {FLT_LIST, 1, {.arguments = list_185_0_arguments}},
+  {FLT_LIST, 1, {.arguments = list_187_0_arguments}},
   {FLT_STRING_8, 16, {.str_8 = "spaced_arguments"}},
   {FLT_STRING_8, 26, {.str_8 = "spaced_statement_arguments"}},
-  {FLT_LIST, 2, {.arguments = list_200_0_arguments}},
+  {FLT_LIST, 2, {.arguments = list_202_0_arguments}},
   {FLT_STRING_8, 29, {.str_8 = "even_more_statement_arguments"}},
   {FLT_STRING_8, 19, {.str_8 = "multiline_arguments"}},
   {FLT_STRING_8, 26, {.str_8 = "tagged_multiline_arguments"}},
   {FLT_STRING_8, 34, {.str_8 = "remark_and_multiline_function_call"}},
-  {FLT_LIST, 2, {.arguments = list_216_0_arguments}},
+  {FLT_LIST, 2, {.arguments = list_218_0_arguments}},
   {FLT_STRING_8, 16, {.str_8 = "dummy_definition"}},
   {FLT_STRING_8, 8, {.str_8 = "variable"}},
   {FLT_STRING_8, 10, {.str_8 = "definition"}},
   {FLT_STRING_8, 12, {.str_8 = "redefinition"}},
   {FLT_STRING_8, 6, {.str_8 = "update"}},
-  {FLT_LIST, 2, {.arguments = list_232_0_arguments}},
+  {FLT_LIST, 2, {.arguments = list_234_0_arguments}},
   {FLT_STRING_8, 9, {.str_8 = "key_value"}},
   {FLT_STRING_8, 19, {.str_8 = "sequence_expression"}},
   {FLT_STRING_8, 5, {.str_8 = "comma"}},
@@ -720,12 +726,11 @@ static FUNKY_CONSTANT constants_table[] = {
   {FLT_STRING_8, 19, {.str_8 = "additive_expression"}},
   {FLT_STRING_8, 4, {.str_8 = "plus"}},
   {FLT_STRING_8, 5, {.str_8 = "minus"}},
-  {FLT_STRING_8, 32, {.str_8 = "tagged_multiplicative_expression"}},
   {FLT_STRING_8, 25, {.str_8 = "multiplicative_expression"}},
   {FLT_STRING_8, 5, {.str_8 = "times"}},
   {FLT_STRING_8, 4, {.str_8 = "over"}},
   {FLT_STRING_8, 22, {.str_8 = "parenthesed_expression"}},
-  {FLT_LIST, 2, {.arguments = list_318_0_arguments}},
+  {FLT_LIST, 2, {.arguments = list_322_0_arguments}},
   {FLT_STRING_8, 10, {.str_8 = "backquoted"}},
   {FLT_STRING_8, 8, {.str_8 = "negation"}},
   {FLT_STRING_8, 18, {.str_8 = "multiline_operator"}},
@@ -753,21 +758,21 @@ static FUNKY_CONSTANT constants_table[] = {
   {FLT_STRING_8, 27, {.str_8 = "inline_attribute_value_pair"}},
   {FLT_STRING_8, 24, {.str_8 = "inline_method_value_pair"}},
   {FLT_STRING_8, 31, {.str_8 = "expression_and_inline_arguments"}},
-  {FLT_LIST, 2, {.arguments = list_380_0_arguments}},
+  {FLT_LIST, 2, {.arguments = list_384_0_arguments}},
   {FLT_STRING_8, 23, {.str_8 = "spaced_inline_arguments"}},
   {FLT_STRING_8, 15, {.str_8 = "numeric_literal"}},
-  {FLT_LIST, 1, {.arguments = list_388_0_arguments}},
+  {FLT_LIST, 1, {.arguments = list_392_0_arguments}},
   {FLT_STRING_8, 20, {.str_8 = "at_character_literal"}},
   {FLT_STRING_8, 23, {.str_8 = "named_character_literal"}},
   {FLT_STRING_8, 25, {.str_8 = "numeric_character_literal"}},
   {FLT_STRING_8, 17, {.str_8 = "character_literal"}},
-  {FLT_LIST, 1, {.arguments = list_399_0_arguments}},
+  {FLT_LIST, 1, {.arguments = list_403_0_arguments}},
   {FLT_STRING_8, 14, {.str_8 = "string_literal"}},
-  {FLT_LIST, 1, {.arguments = list_404_0_arguments}},
+  {FLT_LIST, 1, {.arguments = list_408_0_arguments}},
   {FLT_STRING_8, 22, {.str_8 = "some_string_components"}},
-  {FLT_LIST, 2, {.arguments = list_409_0_arguments}},
+  {FLT_LIST, 2, {.arguments = list_413_0_arguments}},
   {FLT_STRING_8, 18, {.str_8 = "character_sequence"}},
-  {FLT_LIST, 1, {.arguments = list_415_0_arguments}},
+  {FLT_LIST, 1, {.arguments = list_419_0_arguments}},
   {FLT_STRING_8, 24, {.str_8 = "multiline_string_literal"}},
   {FLT_STRING_8, 7, {.str_8 = "newline"}},
   {FLT_STRING_8, 27, {.str_8 = "some_string_line_components"}},
@@ -780,36 +785,36 @@ static FUNKY_CONSTANT constants_table[] = {
   {FLT_STRING_8, 17, {.str_8 = "numeric_character"}},
   {FLT_STRING_8, 30, {.str_8 = "string_line_character_sequence"}},
   {FLT_STRING_8, 6, {.str_8 = "unique"}},
-  {FLT_LIST, 1, {.arguments = list_446_0_arguments}},
+  {FLT_LIST, 1, {.arguments = list_450_0_arguments}},
   {FLT_STRING_8, 9, {.str_8 = "attribute"}},
   {FLT_STRING_8, 21, {.str_8 = "attribute_with_setter"}},
-  {FLT_LIST, 3, {.arguments = list_455_0_arguments}},
+  {FLT_LIST, 3, {.arguments = list_459_0_arguments}},
   {FLT_STRING_8, 18, {.str_8 = "line_end_statement"}},
   {FLT_STRING_8, 11, {.str_8 = "inline_body"}},
-  {FLT_LIST, 2, {.arguments = list_464_0_arguments}},
-  {FLT_LIST, 1, {.arguments = list_470_0_arguments}},
+  {FLT_LIST, 2, {.arguments = list_468_0_arguments}},
+  {FLT_LIST, 1, {.arguments = list_474_0_arguments}},
   {FLT_STRING_8, 29, {.str_8 = "one_or_more_inline_parameters"}},
-  {FLT_LIST, 2, {.arguments = list_475_0_arguments}},
+  {FLT_LIST, 2, {.arguments = list_479_0_arguments}},
   {FLT_STRING_8, 15, {.str_8 = "open_parameters"}},
-  {FLT_LIST, 2, {.arguments = list_481_0_arguments}},
+  {FLT_LIST, 2, {.arguments = list_485_0_arguments}},
   {FLT_STRING_8, 16, {.str_8 = "inline_parameter"}},
-  {FLT_LIST, 2, {.arguments = list_487_0_arguments}},
-  {FLT_LIST, 3, {.arguments = list_493_0_arguments}},
+  {FLT_LIST, 2, {.arguments = list_491_0_arguments}},
+  {FLT_LIST, 3, {.arguments = list_497_0_arguments}},
   {FLT_STRING_8, 6, {.str_8 = "myself"}},
   {FLT_STRING_8, 4, {.str_8 = "rest"}},
   {FLT_STRING_8, 13, {.str_8 = "initial_value"}},
-  {FLT_LIST, 1, {.arguments = list_504_0_arguments}},
+  {FLT_LIST, 1, {.arguments = list_508_0_arguments}},
   {FLT_STRING_8, 16, {.str_8 = "close_parameters"}},
-  {FLT_LIST, 1, {.arguments = list_509_0_arguments}},
+  {FLT_LIST, 1, {.arguments = list_513_0_arguments}},
   {FLT_STRING_8, 17, {.str_8 = "return_expression"}},
   {FLT_STRING_8, 6, {.str_8 = "return"}},
-  {FLT_LIST, 1, {.arguments = list_518_0_arguments}},
+  {FLT_LIST, 1, {.arguments = list_522_0_arguments}},
   {FLT_STRING_8, 25, {.str_8 = "line_end_and_line_remarks"}},
-  {FLT_LIST, 2, {.arguments = list_523_0_arguments}},
+  {FLT_LIST, 2, {.arguments = list_527_0_arguments}},
   {FLT_STRING_8, 12, {.str_8 = "line_remarks"}},
   {FLT_STRING_8, 13, {.str_8 = "spaced_remark"}},
   {FLT_STRING_8, 16, {.str_8 = "multiline_remark"}},
-  {FLT_LIST, 2, {.arguments = list_536_0_arguments}},
+  {FLT_LIST, 2, {.arguments = list_540_0_arguments}},
   {FLT_STRING_8, 12, {.str_8 = "remark_lines"}},
   {FLT_STRING_8, 12, {.str_8 = "dummy_remark"}}
 };
@@ -898,6 +903,10 @@ static ATTRIBUTE_DEFINITION funky__minor_of__attributes[] = {
   {-var_to_string, -str_minor}
 };
 
+static ATTRIBUTE_DEFINITION funky__minus2_of__attributes[] = {
+  {-var_to_string, -str_minus}
+};
+
 static ATTRIBUTE_DEFINITION funky__name_of__attributes[] = {
   {-var_to_string, -str_name}
 };
@@ -916,6 +925,10 @@ static ATTRIBUTE_DEFINITION funky__option_of__attributes[] = {
 
 static ATTRIBUTE_DEFINITION funky__or2_of__attributes[] = {
   {-var_to_string, -str_or}
+};
+
+static ATTRIBUTE_DEFINITION funky__over2_of__attributes[] = {
+  {-var_to_string, -str_over}
 };
 
 static ATTRIBUTE_DEFINITION funky__pair_of__attributes[] = {
@@ -979,29 +992,29 @@ static ATTRIBUTE_DEFINITION funky_types__fieldless_node__attributes[] = {
 };
 
 static ATTRIBUTE_DEFINITION funky_types__simple_name__attributes[] = {
-  {-var_funky__node_fields_of, -list_58_0}
+  {-var_funky__node_fields_of, -list_60_0}
 };
 
 static ATTRIBUTE_DEFINITION funky_types__identifier_and_expression__attributes[] = {
-  {-var_funky__node_fields_of, -list_62_0}
+  {-var_funky__node_fields_of, -list_64_0}
 };
 
 static ATTRIBUTE_DEFINITION funky_types__simple_expression__attributes[] = {
-  {-var_funky__node_fields_of, -list_67_0}
+  {-var_funky__node_fields_of, -list_69_0}
 };
 
 static ATTRIBUTE_DEFINITION funky_types__namespace_meta_instruction__attributes[] = {
-  {-var_funky__node_fields_of, -list_71_0}
+  {-var_funky__node_fields_of, -list_73_0}
 };
 
 static ATTRIBUTE_DEFINITION funky_types__statement__attributes[] = {
   {-var_funky__node_name_of, -str_statement},
-  {-var_funky__node_fields_of, -list_78_0}
+  {-var_funky__node_fields_of, -list_80_0}
 };
 
 static ATTRIBUTE_DEFINITION funky_types__inline_statement__attributes[] = {
   {-var_funky__node_name_of, -str_inline_statement},
-  {-var_funky__node_fields_of, -list_78_0}
+  {-var_funky__node_fields_of, -list_80_0}
 };
 
 static ATTRIBUTE_DEFINITION funky_types__attribute_value_pair__attributes[] = {
@@ -1018,7 +1031,7 @@ static ATTRIBUTE_DEFINITION funky_types__method_value_pair__attributes[] = {
 
 static ATTRIBUTE_DEFINITION funky_types__pair__attributes[] = {
   {-var_funky__node_name_of, -str_pair},
-  {-var_funky__node_fields_of, -list_96_0}
+  {-var_funky__node_fields_of, -list_98_0}
 };
 
 static ATTRIBUTE_DEFINITION funky_types__namespace_instruction__attributes[] = {
@@ -1027,7 +1040,7 @@ static ATTRIBUTE_DEFINITION funky_types__namespace_instruction__attributes[] = {
 
 static ATTRIBUTE_DEFINITION funky_types__require_instruction__attributes[] = {
   {-var_funky__node_name_of, -str_require_instruct},
-  {-var_funky__node_fields_of, -list_104_0}
+  {-var_funky__node_fields_of, -list_106_0}
 };
 
 static ATTRIBUTE_DEFINITION funky_types__using_instruction__attributes[] = {
@@ -1036,7 +1049,7 @@ static ATTRIBUTE_DEFINITION funky_types__using_instruction__attributes[] = {
 
 static ATTRIBUTE_DEFINITION funky_types__alias_instruction__attributes[] = {
   {-var_funky__node_name_of, -str_alias_instructio},
-  {-var_funky__node_fields_of, -list_112_0}
+  {-var_funky__node_fields_of, -list_114_0}
 };
 
 static ATTRIBUTE_DEFINITION funky_types__resolve_instruction__attributes[] = {
@@ -1045,7 +1058,7 @@ static ATTRIBUTE_DEFINITION funky_types__resolve_instruction__attributes[] = {
 
 static ATTRIBUTE_DEFINITION funky_types__allow_instruction__attributes[] = {
   {-var_funky__node_name_of, -str_allow_instructio},
-  {-var_funky__node_fields_of, -list_122_0}
+  {-var_funky__node_fields_of, -list_124_0}
 };
 
 static ATTRIBUTE_DEFINITION funky_types__alias__attributes[] = {
@@ -1054,7 +1067,7 @@ static ATTRIBUTE_DEFINITION funky_types__alias__attributes[] = {
 
 static ATTRIBUTE_DEFINITION funky_types__version_no__attributes[] = {
   {-var_funky__node_name_of, -str_version_no},
-  {-var_funky__node_fields_of, -list_130_0}
+  {-var_funky__node_fields_of, -list_132_0}
 };
 
 static ATTRIBUTE_DEFINITION funky_types__unstable__attributes[] = {
@@ -1071,17 +1084,17 @@ static ATTRIBUTE_DEFINITION funky_types__allow_unused__attributes[] = {
 
 static ATTRIBUTE_DEFINITION funky_types__functor__attributes[] = {
   {-var_funky__node_name_of, -str_functor},
-  {-var_funky__node_fields_of, -list_142_0}
+  {-var_funky__node_fields_of, -list_144_0}
 };
 
 static ATTRIBUTE_DEFINITION funky_types__function_call_extension__attributes[] = {
   {-var_funky__node_name_of, -str_function_call_ex},
-  {-var_funky__node_fields_of, -list_148_0}
+  {-var_funky__node_fields_of, -list_150_0}
 };
 
 static ATTRIBUTE_DEFINITION funky_types__attribute_access_extension__attributes[] = {
   {-var_funky__node_name_of, -str_attribute_access},
-  {-var_funky__node_fields_of, -list_154_0}
+  {-var_funky__node_fields_of, -list_156_0}
 };
 
 static ATTRIBUTE_DEFINITION funky_types__inline_functor__attributes[] = {
@@ -1090,12 +1103,12 @@ static ATTRIBUTE_DEFINITION funky_types__inline_functor__attributes[] = {
 
 static ATTRIBUTE_DEFINITION funky_types__inline_function_call_extension__attributes[] = {
   {-var_funky__node_name_of, -str_inline_function},
-  {-var_funky__node_fields_of, -list_148_0}
+  {-var_funky__node_fields_of, -list_150_0}
 };
 
 static ATTRIBUTE_DEFINITION funky_types__inline_attribute_access_extension__attributes[] = {
   {-var_funky__node_name_of, -str_inline_attribute},
-  {-var_funky__node_fields_of, -list_154_0}
+  {-var_funky__node_fields_of, -list_156_0}
 };
 
 static ATTRIBUTE_DEFINITION funky_types__io_call__attributes[] = {
@@ -1104,7 +1117,7 @@ static ATTRIBUTE_DEFINITION funky_types__io_call__attributes[] = {
 
 static ATTRIBUTE_DEFINITION funky_types__function_call__attributes[] = {
   {-var_funky__node_name_of, -str_function_call},
-  {-var_funky__node_fields_of, -list_176_0}
+  {-var_funky__node_fields_of, -list_178_0}
 };
 
 static ATTRIBUTE_DEFINITION funky_types__function_call_arguments__attributes[] = {
@@ -1117,27 +1130,27 @@ static ATTRIBUTE_DEFINITION funky_types__inline_return__attributes[] = {
 
 static ATTRIBUTE_DEFINITION funky_types__attribute_access__attributes[] = {
   {-var_funky__node_name_of, -str_attribute_access_2},
-  {-var_funky__node_fields_of, -list_185_0}
+  {-var_funky__node_fields_of, -list_187_0}
 };
 
 static ATTRIBUTE_DEFINITION funky_types__spaced_arguments__attributes[] = {
   {-var_funky__node_name_of, -str_spaced_arguments},
-  {-var_funky__node_fields_of, -list_176_0}
+  {-var_funky__node_fields_of, -list_178_0}
 };
 
 static ATTRIBUTE_DEFINITION funky_types__spaced_statement_arguments__attributes[] = {
   {-var_funky__node_name_of, -str_spaced_statement},
-  {-var_funky__node_fields_of, -list_176_0}
+  {-var_funky__node_fields_of, -list_178_0}
 };
 
 static ATTRIBUTE_DEFINITION funky_types__arguments__attributes[] = {
   {-var_funky__node_name_of, -str_arguments},
-  {-var_funky__node_fields_of, -list_200_0}
+  {-var_funky__node_fields_of, -list_202_0}
 };
 
 static ATTRIBUTE_DEFINITION funky_types__even_more_statement_arguments__attributes[] = {
   {-var_funky__node_name_of, -str_even_more_statem},
-  {-var_funky__node_fields_of, -list_200_0}
+  {-var_funky__node_fields_of, -list_202_0}
 };
 
 static ATTRIBUTE_DEFINITION funky_types__multiline_arguments__attributes[] = {
@@ -1150,7 +1163,7 @@ static ATTRIBUTE_DEFINITION funky_types__tagged_multiline_arguments__attributes[
 
 static ATTRIBUTE_DEFINITION funky_types__remark_and_multiline_function_call__attributes[] = {
   {-var_funky__node_name_of, -str_remark_and_multi},
-  {-var_funky__node_fields_of, -list_216_0}
+  {-var_funky__node_fields_of, -list_218_0}
 };
 
 static ATTRIBUTE_DEFINITION funky_types__dummy_definition__attributes[] = {
@@ -1175,7 +1188,7 @@ static ATTRIBUTE_DEFINITION funky_types__update__attributes[] = {
 
 static ATTRIBUTE_DEFINITION funky_types__expression__attributes[] = {
   {-var_funky__node_name_of, -str_expression},
-  {-var_funky__node_fields_of, -list_232_0}
+  {-var_funky__node_fields_of, -list_234_0}
 };
 
 static ATTRIBUTE_DEFINITION funky_types__key_value__attributes[] = {
@@ -1315,11 +1328,11 @@ static ATTRIBUTE_DEFINITION funky_types__plus2__attributes[] = {
 };
 
 static ATTRIBUTE_DEFINITION funky_types__minus__attributes[] = {
-  {-var_funky__node_name_of, -str_minus}
+  {-var_funky__node_name_of, -str_minus_2}
 };
 
-static ATTRIBUTE_DEFINITION funky_types__tagged_multiplicative_expression__attributes[] = {
-  {-var_funky__node_name_of, -str_tagged_multiplic}
+static ATTRIBUTE_DEFINITION funky_types__minus2__attributes[] = {
+  {-var_funky__node_name_of, -str_minus}
 };
 
 static ATTRIBUTE_DEFINITION funky_types__multiplicative_expression__attributes[] = {
@@ -1335,12 +1348,16 @@ static ATTRIBUTE_DEFINITION funky_types__times2__attributes[] = {
 };
 
 static ATTRIBUTE_DEFINITION funky_types__over__attributes[] = {
+  {-var_funky__node_name_of, -str_over_2}
+};
+
+static ATTRIBUTE_DEFINITION funky_types__over2__attributes[] = {
   {-var_funky__node_name_of, -str_over}
 };
 
 static ATTRIBUTE_DEFINITION funky_types__parenthesed_expression__attributes[] = {
   {-var_funky__node_name_of, -str_parenthesed_expr},
-  {-var_funky__node_fields_of, -list_318_0}
+  {-var_funky__node_fields_of, -list_322_0}
 };
 
 static ATTRIBUTE_DEFINITION funky_types__backquoted__attributes[] = {
@@ -1361,7 +1378,7 @@ static ATTRIBUTE_DEFINITION funky_types__multiline_plus__attributes[] = {
 
 static ATTRIBUTE_DEFINITION funky_types__multiline_minus__attributes[] = {
   {-var_funky__node_name_of, -str_multiline_minus},
-  {-var_funky__node_fields_of, -list_216_0}
+  {-var_funky__node_fields_of, -list_218_0}
 };
 
 static ATTRIBUTE_DEFINITION funky_types__multiline_minus_with_remark__attributes[] = {
@@ -1450,7 +1467,7 @@ static ATTRIBUTE_DEFINITION funky_types__inline_method_value_pair__attributes[] 
 
 static ATTRIBUTE_DEFINITION funky_types__expression_and_inline_arguments__attributes[] = {
   {-var_funky__node_name_of, -str_expression_and_i},
-  {-var_funky__node_fields_of, -list_380_0}
+  {-var_funky__node_fields_of, -list_384_0}
 };
 
 static ATTRIBUTE_DEFINITION funky_types__spaced_inline_arguments__attributes[] = {
@@ -1459,7 +1476,7 @@ static ATTRIBUTE_DEFINITION funky_types__spaced_inline_arguments__attributes[] =
 
 static ATTRIBUTE_DEFINITION funky_types__numeric_literal__attributes[] = {
   {-var_funky__node_name_of, -str_numeric_literal},
-  {-var_funky__node_fields_of, -list_388_0}
+  {-var_funky__node_fields_of, -list_392_0}
 };
 
 static ATTRIBUTE_DEFINITION funky_types__at_character_literal__attributes[] = {
@@ -1476,22 +1493,22 @@ static ATTRIBUTE_DEFINITION funky_types__numeric_character_literal__attributes[]
 
 static ATTRIBUTE_DEFINITION funky_types__character_literal__attributes[] = {
   {-var_funky__node_name_of, -str_character_litera},
-  {-var_funky__node_fields_of, -list_399_0}
+  {-var_funky__node_fields_of, -list_403_0}
 };
 
 static ATTRIBUTE_DEFINITION funky_types__string_literal__attributes[] = {
   {-var_funky__node_name_of, -str_string_literal},
-  {-var_funky__node_fields_of, -list_404_0}
+  {-var_funky__node_fields_of, -list_408_0}
 };
 
 static ATTRIBUTE_DEFINITION funky_types__some_string_components__attributes[] = {
   {-var_funky__node_name_of, -str_some_string_comp},
-  {-var_funky__node_fields_of, -list_409_0}
+  {-var_funky__node_fields_of, -list_413_0}
 };
 
 static ATTRIBUTE_DEFINITION funky_types__character_sequence__attributes[] = {
   {-var_funky__node_name_of, -str_character_sequen},
-  {-var_funky__node_fields_of, -list_415_0}
+  {-var_funky__node_fields_of, -list_419_0}
 };
 
 static ATTRIBUTE_DEFINITION funky_types__multiline_string_literal__attributes[] = {
@@ -1504,7 +1521,7 @@ static ATTRIBUTE_DEFINITION funky_types__newline__attributes[] = {
 
 static ATTRIBUTE_DEFINITION funky_types__some_string_line_components__attributes[] = {
   {-var_funky__node_name_of, -str_some_string_line},
-  {-var_funky__node_fields_of, -list_409_0}
+  {-var_funky__node_fields_of, -list_413_0}
 };
 
 static ATTRIBUTE_DEFINITION funky_types__string_line_end__attributes[] = {
@@ -1541,7 +1558,7 @@ static ATTRIBUTE_DEFINITION funky_types__string_line_character_sequence__attribu
 
 static ATTRIBUTE_DEFINITION funky_types__unique__attributes[] = {
   {-var_funky__node_name_of, -str_unique},
-  {-var_funky__node_fields_of, -list_446_0}
+  {-var_funky__node_fields_of, -list_450_0}
 };
 
 static ATTRIBUTE_DEFINITION funky_types__attribute__attributes[] = {
@@ -1554,7 +1571,7 @@ static ATTRIBUTE_DEFINITION funky_types__attribute_with_setter__attributes[] = {
 
 static ATTRIBUTE_DEFINITION funky_types__body__attributes[] = {
   {-var_funky__node_name_of, -str_body},
-  {-var_funky__node_fields_of, -list_455_0}
+  {-var_funky__node_fields_of, -list_459_0}
 };
 
 static ATTRIBUTE_DEFINITION funky_types__line_end_statement__attributes[] = {
@@ -1563,32 +1580,32 @@ static ATTRIBUTE_DEFINITION funky_types__line_end_statement__attributes[] = {
 
 static ATTRIBUTE_DEFINITION funky_types__inline_body__attributes[] = {
   {-var_funky__node_name_of, -str_inline_body},
-  {-var_funky__node_fields_of, -list_464_0}
+  {-var_funky__node_fields_of, -list_468_0}
 };
 
 static ATTRIBUTE_DEFINITION funky_types__statements__attributes[] = {
   {-var_funky__node_name_of, -str_statements},
-  {-var_funky__node_fields_of, -list_470_0}
+  {-var_funky__node_fields_of, -list_474_0}
 };
 
 static ATTRIBUTE_DEFINITION funky_types__one_or_more_inline_parameters__attributes[] = {
   {-var_funky__node_name_of, -str_one_or_more_inli},
-  {-var_funky__node_fields_of, -list_475_0}
+  {-var_funky__node_fields_of, -list_479_0}
 };
 
 static ATTRIBUTE_DEFINITION funky_types__open_parameters__attributes[] = {
   {-var_funky__node_name_of, -str_open_parameters},
-  {-var_funky__node_fields_of, -list_481_0}
+  {-var_funky__node_fields_of, -list_485_0}
 };
 
 static ATTRIBUTE_DEFINITION funky_types__inline_parameter__attributes[] = {
   {-var_funky__node_name_of, -str_inline_parameter},
-  {-var_funky__node_fields_of, -list_487_0}
+  {-var_funky__node_fields_of, -list_491_0}
 };
 
 static ATTRIBUTE_DEFINITION funky_types__parameter__attributes[] = {
   {-var_funky__node_name_of, -str_parameter},
-  {-var_funky__node_fields_of, -list_493_0}
+  {-var_funky__node_fields_of, -list_497_0}
 };
 
 static ATTRIBUTE_DEFINITION funky_types__myself__attributes[] = {
@@ -1601,12 +1618,12 @@ static ATTRIBUTE_DEFINITION funky_types__rest__attributes[] = {
 
 static ATTRIBUTE_DEFINITION funky_types__initial_value__attributes[] = {
   {-var_funky__node_name_of, -str_initial_value},
-  {-var_funky__node_fields_of, -list_504_0}
+  {-var_funky__node_fields_of, -list_508_0}
 };
 
 static ATTRIBUTE_DEFINITION funky_types__close_parameters__attributes[] = {
   {-var_funky__node_name_of, -str_close_parameters},
-  {-var_funky__node_fields_of, -list_509_0}
+  {-var_funky__node_fields_of, -list_513_0}
 };
 
 static ATTRIBUTE_DEFINITION funky_types__return_expression__attributes[] = {
@@ -1619,17 +1636,17 @@ static ATTRIBUTE_DEFINITION funky_types__return__attributes[] = {
 
 static ATTRIBUTE_DEFINITION funky_types__remark__attributes[] = {
   {-var_funky__node_name_of, -str_remark},
-  {-var_funky__node_fields_of, -list_518_0}
+  {-var_funky__node_fields_of, -list_522_0}
 };
 
 static ATTRIBUTE_DEFINITION funky_types__line_end_and_line_remarks__attributes[] = {
   {-var_funky__node_name_of, -str_line_end_and_lin},
-  {-var_funky__node_fields_of, -list_523_0}
+  {-var_funky__node_fields_of, -list_527_0}
 };
 
 static ATTRIBUTE_DEFINITION funky_types__line_remarks__attributes[] = {
   {-var_funky__node_name_of, -str_line_remarks},
-  {-var_funky__node_fields_of, -list_509_0}
+  {-var_funky__node_fields_of, -list_513_0}
 };
 
 static ATTRIBUTE_DEFINITION funky_types__spaced_remark__attributes[] = {
@@ -1638,7 +1655,7 @@ static ATTRIBUTE_DEFINITION funky_types__spaced_remark__attributes[] = {
 
 static ATTRIBUTE_DEFINITION funky_types__multiline_remark__attributes[] = {
   {-var_funky__node_name_of, -str_multiline_remark},
-  {-var_funky__node_fields_of, -list_536_0}
+  {-var_funky__node_fields_of, -list_540_0}
 };
 
 static ATTRIBUTE_DEFINITION funky_types__remark_lines__attributes[] = {
@@ -1657,7 +1674,8 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "assign\000std", NULL
+    "assign\000std", NULL,
+    {.position = POS(5, 1)}
   },
   {
     FOT_POLYMORPHIC, 0, 0,
@@ -1666,807 +1684,1023 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "access_of\000funky", funky__access_of__attributes
+    "access_of\000funky", funky__access_of__attributes,
+    {.position = POS(11, 1)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
-    "to_string\000", NULL
+    "to_string\000", NULL,
+    {.position = POS(11, 19)}
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "alias_of\000funky", funky__alias_of__attributes
+    "alias_of\000funky", funky__alias_of__attributes,
+    {.position = POS(12, 1)}
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "and2_of\000funky", funky__and2_of__attributes
+    "and2_of\000funky", funky__and2_of__attributes,
+    {.position = POS(13, 1)}
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "argument_of\000funky", funky__argument_of__attributes
+    "argument_of\000funky", funky__argument_of__attributes,
+    {.position = POS(14, 1)}
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "arguments_of\000funky", funky__arguments_of__attributes
+    "arguments_of\000funky", funky__arguments_of__attributes,
+    {.position = POS(15, 1)}
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "body_of\000funky", funky__body_of__attributes
+    "body_of\000funky", funky__body_of__attributes,
+    {.position = POS(16, 1)}
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "call_of\000funky", funky__call_of__attributes
+    "call_of\000funky", funky__call_of__attributes,
+    {.position = POS(17, 1)}
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "calls_of\000funky", funky__calls_of__attributes
+    "calls_of\000funky", funky__calls_of__attributes,
+    {.position = POS(18, 1)}
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "character_of\000funky", funky__character_of__attributes
+    "character_of\000funky", funky__character_of__attributes,
+    {.position = POS(19, 1)}
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "characters_of\000funky", funky__characters_of__attributes
+    "characters_of\000funky", funky__characters_of__attributes,
+    {.position = POS(20, 1)}
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "component_of\000funky", funky__component_of__attributes
+    "component_of\000funky", funky__component_of__attributes,
+    {.position = POS(21, 1)}
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "components_of\000funky", funky__components_of__attributes
+    "components_of\000funky", funky__components_of__attributes,
+    {.position = POS(22, 1)}
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "digits_of\000funky", funky__digits_of__attributes
+    "digits_of\000funky", funky__digits_of__attributes,
+    {.position = POS(23, 1)}
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "expression_of\000funky", funky__expression_of__attributes
+    "expression_of\000funky", funky__expression_of__attributes,
+    {.position = POS(24, 1)}
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "extensions_of\000funky", funky__extensions_of__attributes
+    "extensions_of\000funky", funky__extensions_of__attributes,
+    {.position = POS(25, 1)}
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "filename_of\000funky", funky__filename_of__attributes
+    "filename_of\000funky", funky__filename_of__attributes,
+    {.position = POS(26, 1)}
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "head_of\000funky", funky__head_of__attributes
+    "head_of\000funky", funky__head_of__attributes,
+    {.position = POS(27, 1)}
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "identifier_of\000funky", funky__identifier_of__attributes
+    "identifier_of\000funky", funky__identifier_of__attributes,
+    {.position = POS(28, 1)}
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "lines_of\000funky", funky__lines_of__attributes
+    "lines_of\000funky", funky__lines_of__attributes,
+    {.position = POS(29, 1)}
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "major_of\000funky", funky__major_of__attributes
+    "major_of\000funky", funky__major_of__attributes,
+    {.position = POS(30, 1)}
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "minor_of\000funky", funky__minor_of__attributes
+    "minor_of\000funky", funky__minor_of__attributes,
+    {.position = POS(31, 1)}
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "name_of\000funky", funky__name_of__attributes
+    "minus2_of\000funky", funky__minus2_of__attributes,
+    {.position = POS(32, 1)}
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "operand_of\000funky", funky__operand_of__attributes
+    "name_of\000funky", funky__name_of__attributes,
+    {.position = POS(33, 1)}
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "operator_of\000funky", funky__operator_of__attributes
+    "operand_of\000funky", funky__operand_of__attributes,
+    {.position = POS(34, 1)}
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "option_of\000funky", funky__option_of__attributes
+    "operator_of\000funky", funky__operator_of__attributes,
+    {.position = POS(35, 1)}
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "or2_of\000funky", funky__or2_of__attributes
+    "option_of\000funky", funky__option_of__attributes,
+    {.position = POS(36, 1)}
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "pair_of\000funky", funky__pair_of__attributes
+    "or2_of\000funky", funky__or2_of__attributes,
+    {.position = POS(37, 1)}
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "parameter_of\000funky", funky__parameter_of__attributes
+    "over2_of\000funky", funky__over2_of__attributes,
+    {.position = POS(38, 1)}
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "parameters_of\000funky", funky__parameters_of__attributes
+    "pair_of\000funky", funky__pair_of__attributes,
+    {.position = POS(39, 1)}
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "plus2_of\000funky", funky__plus2_of__attributes
+    "parameter_of\000funky", funky__parameter_of__attributes,
+    {.position = POS(40, 1)}
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "pragma_of\000funky", funky__pragma_of__attributes
+    "parameters_of\000funky", funky__parameters_of__attributes,
+    {.position = POS(41, 1)}
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "remark_of\000funky", funky__remark_of__attributes
+    "plus2_of\000funky", funky__plus2_of__attributes,
+    {.position = POS(42, 1)}
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "remarks_of\000funky", funky__remarks_of__attributes
+    "pragma_of\000funky", funky__pragma_of__attributes,
+    {.position = POS(43, 1)}
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "sign_of\000funky", funky__sign_of__attributes
+    "remark_of\000funky", funky__remark_of__attributes,
+    {.position = POS(44, 1)}
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "statement_of\000funky", funky__statement_of__attributes
+    "remarks_of\000funky", funky__remarks_of__attributes,
+    {.position = POS(45, 1)}
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "statements_of\000funky", funky__statements_of__attributes
+    "sign_of\000funky", funky__sign_of__attributes,
+    {.position = POS(46, 1)}
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "text_of\000funky", funky__text_of__attributes
+    "statement_of\000funky", funky__statement_of__attributes,
+    {.position = POS(47, 1)}
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "times2_of\000funky", funky__times2_of__attributes
+    "statements_of\000funky", funky__statements_of__attributes,
+    {.position = POS(48, 1)}
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "version_of\000funky", funky__version_of__attributes
+    "text_of\000funky", funky__text_of__attributes,
+    {.position = POS(49, 1)}
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "xor2_of\000funky", funky__xor2_of__attributes
+    "times2_of\000funky", funky__times2_of__attributes,
+    {.position = POS(50, 1)}
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "fieldless_node\000funky_types", funky_types__fieldless_node__attributes
+    "version_of\000funky", funky__version_of__attributes,
+    {.position = POS(51, 1)}
+  },
+  {
+    FOT_UNKNOWN, 0, 1,
+    "xor2_of\000funky", funky__xor2_of__attributes,
+    {.position = POS(52, 1)}
+  },
+  {
+    FOT_UNKNOWN, 0, 1,
+    "fieldless_node\000funky_types", funky_types__fieldless_node__attributes,
+    {.position = POS(57, 1)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "empty_list\000", NULL
+    "empty_list\000", NULL,
+    {.position = POS(57, 52)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "list\000", NULL
+    "list\000", NULL,
+    {.position = POS(60, 3)}
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "simple_name\000funky_types", funky_types__simple_name__attributes
+    "simple_name\000funky_types", funky_types__simple_name__attributes,
+    {.position = POS(59, 1)}
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "identifier_and_expression\000funky_types", funky_types__identifier_and_expression__attributes
+    "identifier_and_expression\000funky_types", funky_types__identifier_and_expression__attributes,
+    {.position = POS(63, 1)}
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "simple_expression\000funky_types", funky_types__simple_expression__attributes
+    "simple_expression\000funky_types", funky_types__simple_expression__attributes,
+    {.position = POS(68, 1)}
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "namespace_meta_instruction\000funky_types", funky_types__namespace_meta_instruction__attributes
-  },
-  {
-    FOT_UNKNOWN, 0, 2,
-    "statement\000funky_types", funky_types__statement__attributes
-  },
-  {
-    FOT_UNKNOWN, 0, 2,
-    "inline_statement\000funky_types", funky_types__inline_statement__attributes
-  },
-  {
-    FOT_UNKNOWN, 0, 1,
-    "attribute_value_pair\000funky_types", funky_types__attribute_value_pair__attributes
-  },
-  {
-    FOT_UNKNOWN, 0, 1,
-    "type_function\000funky_types", funky_types__type_function__attributes
-  },
-  {
-    FOT_UNKNOWN, 0, 1,
-    "method_value_pair\000funky_types", funky_types__method_value_pair__attributes
+    "namespace_meta_instruction\000funky_types", funky_types__namespace_meta_instruction__attributes,
+    {.position = POS(72, 1)}
   },
   {
     FOT_UNKNOWN, 0, 2,
-    "pair\000funky_types", funky_types__pair__attributes
-  },
-  {
-    FOT_UNKNOWN, 0, 1,
-    "namespace_instruction\000funky_types", funky_types__namespace_instruction__attributes
+    "statement\000funky_types", funky_types__statement__attributes,
+    {.position = POS(78, 1)}
   },
   {
     FOT_UNKNOWN, 0, 2,
-    "require_instruction\000funky_types", funky_types__require_instruction__attributes
+    "inline_statement\000funky_types", funky_types__inline_statement__attributes,
+    {.position = POS(84, 1)}
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "using_instruction\000funky_types", funky_types__using_instruction__attributes
-  },
-  {
-    FOT_UNKNOWN, 0, 2,
-    "alias_instruction\000funky_types", funky_types__alias_instruction__attributes
+    "attribute_value_pair\000funky_types", funky_types__attribute_value_pair__attributes,
+    {.position = POS(90, 1)}
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "resolve_instruction\000funky_types", funky_types__resolve_instruction__attributes
-  },
-  {
-    FOT_UNKNOWN, 0, 2,
-    "allow_instruction\000funky_types", funky_types__allow_instruction__attributes
+    "type_function\000funky_types", funky_types__type_function__attributes,
+    {.position = POS(92, 1)}
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "alias\000funky_types", funky_types__alias__attributes
+    "method_value_pair\000funky_types", funky_types__method_value_pair__attributes,
+    {.position = POS(94, 1)}
   },
   {
     FOT_UNKNOWN, 0, 2,
-    "version_no\000funky_types", funky_types__version_no__attributes
+    "pair\000funky_types", funky_types__pair__attributes,
+    {.position = POS(96, 1)}
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "unstable\000funky_types", funky_types__unstable__attributes
-  },
-  {
-    FOT_UNKNOWN, 0, 1,
-    "allow_hidden\000funky_types", funky_types__allow_hidden__attributes
-  },
-  {
-    FOT_UNKNOWN, 0, 1,
-    "allow_unused\000funky_types", funky_types__allow_unused__attributes
+    "namespace_instruction\000funky_types", funky_types__namespace_instruction__attributes,
+    {.position = POS(102, 1)}
   },
   {
     FOT_UNKNOWN, 0, 2,
-    "functor\000funky_types", funky_types__functor__attributes
+    "require_instruction\000funky_types", funky_types__require_instruction__attributes,
+    {.position = POS(104, 1)}
+  },
+  {
+    FOT_UNKNOWN, 0, 1,
+    "using_instruction\000funky_types", funky_types__using_instruction__attributes,
+    {.position = POS(110, 1)}
   },
   {
     FOT_UNKNOWN, 0, 2,
-    "function_call_extension\000funky_types", funky_types__function_call_extension__attributes
+    "alias_instruction\000funky_types", funky_types__alias_instruction__attributes,
+    {.position = POS(112, 1)}
+  },
+  {
+    FOT_UNKNOWN, 0, 1,
+    "resolve_instruction\000funky_types", funky_types__resolve_instruction__attributes,
+    {.position = POS(120, 1)}
   },
   {
     FOT_UNKNOWN, 0, 2,
-    "attribute_access_extension\000funky_types", funky_types__attribute_access_extension__attributes
+    "allow_instruction\000funky_types", funky_types__allow_instruction__attributes,
+    {.position = POS(122, 1)}
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "inline_functor\000funky_types", funky_types__inline_functor__attributes
-  },
-  {
-    FOT_UNKNOWN, 0, 2,
-    "inline_function_call_extension\000funky_types", funky_types__inline_function_call_extension__attributes
-  },
-  {
-    FOT_UNKNOWN, 0, 2,
-    "inline_attribute_access_extension\000funky_types", funky_types__inline_attribute_access_extension__attributes
-  },
-  {
-    FOT_UNKNOWN, 0, 1,
-    "io_call\000funky_types", funky_types__io_call__attributes
+    "alias\000funky_types", funky_types__alias__attributes,
+    {.position = POS(128, 1)}
   },
   {
     FOT_UNKNOWN, 0, 2,
-    "function_call\000funky_types", funky_types__function_call__attributes
+    "version_no\000funky_types", funky_types__version_no__attributes,
+    {.position = POS(130, 1)}
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "function_call_arguments\000funky_types", funky_types__function_call_arguments__attributes
+    "unstable\000funky_types", funky_types__unstable__attributes,
+    {.position = POS(136, 1)}
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "inline_return\000funky_types", funky_types__inline_return__attributes
+    "allow_hidden\000funky_types", funky_types__allow_hidden__attributes,
+    {.position = POS(138, 1)}
   },
   {
-    FOT_UNKNOWN, 0, 2,
-    "attribute_access\000funky_types", funky_types__attribute_access__attributes
-  },
-  {
-    FOT_UNKNOWN, 0, 2,
-    "spaced_arguments\000funky_types", funky_types__spaced_arguments__attributes
-  },
-  {
-    FOT_UNKNOWN, 0, 2,
-    "spaced_statement_arguments\000funky_types", funky_types__spaced_statement_arguments__attributes
+    FOT_UNKNOWN, 0, 1,
+    "allow_unused\000funky_types", funky_types__allow_unused__attributes,
+    {.position = POS(140, 1)}
   },
   {
     FOT_UNKNOWN, 0, 2,
-    "arguments\000funky_types", funky_types__arguments__attributes
+    "functor\000funky_types", funky_types__functor__attributes,
+    {.position = POS(142, 1)}
   },
   {
     FOT_UNKNOWN, 0, 2,
-    "even_more_statement_arguments\000funky_types", funky_types__even_more_statement_arguments__attributes
-  },
-  {
-    FOT_UNKNOWN, 0, 1,
-    "multiline_arguments\000funky_types", funky_types__multiline_arguments__attributes
-  },
-  {
-    FOT_UNKNOWN, 0, 1,
-    "tagged_multiline_arguments\000funky_types", funky_types__tagged_multiline_arguments__attributes
+    "function_call_extension\000funky_types", funky_types__function_call_extension__attributes,
+    {.position = POS(148, 1)}
   },
   {
     FOT_UNKNOWN, 0, 2,
-    "remark_and_multiline_function_call\000funky_types", funky_types__remark_and_multiline_function_call__attributes
+    "attribute_access_extension\000funky_types", funky_types__attribute_access_extension__attributes,
+    {.position = POS(154, 1)}
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "dummy_definition\000funky_types", funky_types__dummy_definition__attributes
-  },
-  {
-    FOT_UNKNOWN, 0, 1,
-    "variable\000funky_types", funky_types__variable__attributes
-  },
-  {
-    FOT_UNKNOWN, 0, 1,
-    "definition\000funky_types", funky_types__definition__attributes
-  },
-  {
-    FOT_UNKNOWN, 0, 1,
-    "redefinition\000funky_types", funky_types__redefinition__attributes
-  },
-  {
-    FOT_UNKNOWN, 0, 1,
-    "update\000funky_types", funky_types__update__attributes
+    "inline_functor\000funky_types", funky_types__inline_functor__attributes,
+    {.position = POS(160, 1)}
   },
   {
     FOT_UNKNOWN, 0, 2,
-    "expression\000funky_types", funky_types__expression__attributes
-  },
-  {
-    FOT_UNKNOWN, 0, 1,
-    "key_value\000funky_types", funky_types__key_value__attributes
-  },
-  {
-    FOT_UNKNOWN, 0, 1,
-    "sequence_expression\000funky_types", funky_types__sequence_expression__attributes
-  },
-  {
-    FOT_UNKNOWN, 0, 1,
-    "comma\000funky_types", funky_types__comma__attributes
-  },
-  {
-    FOT_UNKNOWN, 0, 1,
-    "comma_expression\000funky_types", funky_types__comma_expression__attributes
-  },
-  {
-    FOT_UNKNOWN, 0, 1,
-    "conditional_expression\000funky_types", funky_types__conditional_expression__attributes
-  },
-  {
-    FOT_UNKNOWN, 0, 1,
-    "and\000funky_types", funky_types__and__attributes
-  },
-  {
-    FOT_UNKNOWN, 0, 1,
-    "and_expression\000funky_types", funky_types__and_expression__attributes
-  },
-  {
-    FOT_UNKNOWN, 0, 1,
-    "or\000funky_types", funky_types__or__attributes
-  },
-  {
-    FOT_UNKNOWN, 0, 1,
-    "or_expression\000funky_types", funky_types__or_expression__attributes
-  },
-  {
-    FOT_UNKNOWN, 0, 1,
-    "named_operator_expression\000funky_types", funky_types__named_operator_expression__attributes
-  },
-  {
-    FOT_UNKNOWN, 0, 1,
-    "named_operator\000funky_types", funky_types__named_operator__attributes
-  },
-  {
-    FOT_UNKNOWN, 0, 1,
-    "range_expression\000funky_types", funky_types__range_expression__attributes
-  },
-  {
-    FOT_UNKNOWN, 0, 1,
-    "range\000funky_types", funky_types__range__attributes
-  },
-  {
-    FOT_UNKNOWN, 0, 1,
-    "relational_expression\000funky_types", funky_types__relational_expression__attributes
-  },
-  {
-    FOT_UNKNOWN, 0, 1,
-    "equal\000funky_types", funky_types__equal__attributes
-  },
-  {
-    FOT_UNKNOWN, 0, 1,
-    "not_equal\000funky_types", funky_types__not_equal__attributes
-  },
-  {
-    FOT_UNKNOWN, 0, 1,
-    "less_equal\000funky_types", funky_types__less_equal__attributes
-  },
-  {
-    FOT_UNKNOWN, 0, 1,
-    "less_than\000funky_types", funky_types__less_than__attributes
-  },
-  {
-    FOT_UNKNOWN, 0, 1,
-    "greater_equal\000funky_types", funky_types__greater_equal__attributes
-  },
-  {
-    FOT_UNKNOWN, 0, 1,
-    "greater_than\000funky_types", funky_types__greater_than__attributes
-  },
-  {
-    FOT_UNKNOWN, 0, 1,
-    "tagged_bit_expression\000funky_types", funky_types__tagged_bit_expression__attributes
-  },
-  {
-    FOT_UNKNOWN, 0, 1,
-    "bit_expression\000funky_types", funky_types__bit_expression__attributes
-  },
-  {
-    FOT_UNKNOWN, 0, 1,
-    "shift_left\000funky_types", funky_types__shift_left__attributes
-  },
-  {
-    FOT_UNKNOWN, 0, 1,
-    "shift_right\000funky_types", funky_types__shift_right__attributes
-  },
-  {
-    FOT_UNKNOWN, 0, 1,
-    "bit_and\000funky_types", funky_types__bit_and__attributes
-  },
-  {
-    FOT_UNKNOWN, 0, 1,
-    "bit_and2\000funky_types", funky_types__bit_and2__attributes
-  },
-  {
-    FOT_UNKNOWN, 0, 1,
-    "bit_or\000funky_types", funky_types__bit_or__attributes
-  },
-  {
-    FOT_UNKNOWN, 0, 1,
-    "bit_or2\000funky_types", funky_types__bit_or2__attributes
-  },
-  {
-    FOT_UNKNOWN, 0, 1,
-    "bit_xor\000funky_types", funky_types__bit_xor__attributes
-  },
-  {
-    FOT_UNKNOWN, 0, 1,
-    "bit_xor2\000funky_types", funky_types__bit_xor2__attributes
-  },
-  {
-    FOT_UNKNOWN, 0, 1,
-    "tagged_additive_expression\000funky_types", funky_types__tagged_additive_expression__attributes
-  },
-  {
-    FOT_UNKNOWN, 0, 1,
-    "additive_expression\000funky_types", funky_types__additive_expression__attributes
-  },
-  {
-    FOT_UNKNOWN, 0, 1,
-    "plus\000funky_types", funky_types__plus__attributes
-  },
-  {
-    FOT_UNKNOWN, 0, 1,
-    "plus2\000funky_types", funky_types__plus2__attributes
-  },
-  {
-    FOT_UNKNOWN, 0, 1,
-    "minus\000funky_types", funky_types__minus__attributes
-  },
-  {
-    FOT_UNKNOWN, 0, 1,
-    "tagged_multiplicative_expression\000funky_types", funky_types__tagged_multiplicative_expression__attributes
-  },
-  {
-    FOT_UNKNOWN, 0, 1,
-    "multiplicative_expression\000funky_types", funky_types__multiplicative_expression__attributes
-  },
-  {
-    FOT_UNKNOWN, 0, 1,
-    "times\000funky_types", funky_types__times__attributes
-  },
-  {
-    FOT_UNKNOWN, 0, 1,
-    "times2\000funky_types", funky_types__times2__attributes
-  },
-  {
-    FOT_UNKNOWN, 0, 1,
-    "over\000funky_types", funky_types__over__attributes
+    "inline_function_call_extension\000funky_types", funky_types__inline_function_call_extension__attributes,
+    {.position = POS(162, 1)}
   },
   {
     FOT_UNKNOWN, 0, 2,
-    "parenthesed_expression\000funky_types", funky_types__parenthesed_expression__attributes
+    "inline_attribute_access_extension\000funky_types", funky_types__inline_attribute_access_extension__attributes,
+    {.position = POS(168, 1)}
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "backquoted\000funky_types", funky_types__backquoted__attributes
-  },
-  {
-    FOT_UNKNOWN, 0, 1,
-    "negation\000funky_types", funky_types__negation__attributes
-  },
-  {
-    FOT_UNKNOWN, 0, 1,
-    "multiline_operator\000funky_types", funky_types__multiline_operator__attributes
-  },
-  {
-    FOT_UNKNOWN, 0, 1,
-    "multiline_plus\000funky_types", funky_types__multiline_plus__attributes
+    "io_call\000funky_types", funky_types__io_call__attributes,
+    {.position = POS(174, 1)}
   },
   {
     FOT_UNKNOWN, 0, 2,
-    "multiline_minus\000funky_types", funky_types__multiline_minus__attributes
+    "function_call\000funky_types", funky_types__function_call__attributes,
+    {.position = POS(176, 1)}
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "multiline_minus_with_remark\000funky_types", funky_types__multiline_minus_with_remark__attributes
+    "function_call_arguments\000funky_types", funky_types__function_call_arguments__attributes,
+    {.position = POS(181, 1)}
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "multiline_times\000funky_types", funky_types__multiline_times__attributes
-  },
-  {
-    FOT_UNKNOWN, 0, 1,
-    "multiline_over\000funky_types", funky_types__multiline_over__attributes
-  },
-  {
-    FOT_UNKNOWN, 0, 1,
-    "multiline_over_with_remark\000funky_types", funky_types__multiline_over_with_remark__attributes
-  },
-  {
-    FOT_UNKNOWN, 0, 1,
-    "multiline_shift_left\000funky_types", funky_types__multiline_shift_left__attributes
-  },
-  {
-    FOT_UNKNOWN, 0, 1,
-    "multiline_shift_right\000funky_types", funky_types__multiline_shift_right__attributes
-  },
-  {
-    FOT_UNKNOWN, 0, 1,
-    "multiline_equal\000funky_types", funky_types__multiline_equal__attributes
-  },
-  {
-    FOT_UNKNOWN, 0, 1,
-    "multiline_not_equal\000funky_types", funky_types__multiline_not_equal__attributes
-  },
-  {
-    FOT_UNKNOWN, 0, 1,
-    "multiline_less_equal\000funky_types", funky_types__multiline_less_equal__attributes
-  },
-  {
-    FOT_UNKNOWN, 0, 1,
-    "multiline_less_than\000funky_types", funky_types__multiline_less_than__attributes
-  },
-  {
-    FOT_UNKNOWN, 0, 1,
-    "multiline_greater_equal\000funky_types", funky_types__multiline_greater_equal__attributes
-  },
-  {
-    FOT_UNKNOWN, 0, 1,
-    "multiline_greater_than\000funky_types", funky_types__multiline_greater_than__attributes
-  },
-  {
-    FOT_UNKNOWN, 0, 1,
-    "multiline_and\000funky_types", funky_types__multiline_and__attributes
-  },
-  {
-    FOT_UNKNOWN, 0, 1,
-    "multiline_or\000funky_types", funky_types__multiline_or__attributes
-  },
-  {
-    FOT_UNKNOWN, 0, 1,
-    "multiline_bit_and\000funky_types", funky_types__multiline_bit_and__attributes
-  },
-  {
-    FOT_UNKNOWN, 0, 1,
-    "multiline_bit_and_with_remark\000funky_types", funky_types__multiline_bit_and_with_remark__attributes
-  },
-  {
-    FOT_UNKNOWN, 0, 1,
-    "multiline_bit_or\000funky_types", funky_types__multiline_bit_or__attributes
-  },
-  {
-    FOT_UNKNOWN, 0, 1,
-    "multiline_bit_xor\000funky_types", funky_types__multiline_bit_xor__attributes
-  },
-  {
-    FOT_UNKNOWN, 0, 1,
-    "multiline_assign\000funky_types", funky_types__multiline_assign__attributes
-  },
-  {
-    FOT_UNKNOWN, 0, 1,
-    "inline_attribute_value_pair\000funky_types", funky_types__inline_attribute_value_pair__attributes
-  },
-  {
-    FOT_UNKNOWN, 0, 1,
-    "inline_method_value_pair\000funky_types", funky_types__inline_method_value_pair__attributes
+    "inline_return\000funky_types", funky_types__inline_return__attributes,
+    {.position = POS(183, 1)}
   },
   {
     FOT_UNKNOWN, 0, 2,
-    "expression_and_inline_arguments\000funky_types", funky_types__expression_and_inline_arguments__attributes
-  },
-  {
-    FOT_UNKNOWN, 0, 1,
-    "spaced_inline_arguments\000funky_types", funky_types__spaced_inline_arguments__attributes
+    "attribute_access\000funky_types", funky_types__attribute_access__attributes,
+    {.position = POS(185, 1)}
   },
   {
     FOT_UNKNOWN, 0, 2,
-    "numeric_literal\000funky_types", funky_types__numeric_literal__attributes
-  },
-  {
-    FOT_UNKNOWN, 0, 1,
-    "at_character_literal\000funky_types", funky_types__at_character_literal__attributes
-  },
-  {
-    FOT_UNKNOWN, 0, 1,
-    "named_character_literal\000funky_types", funky_types__named_character_literal__attributes
-  },
-  {
-    FOT_UNKNOWN, 0, 1,
-    "numeric_character_literal\000funky_types", funky_types__numeric_character_literal__attributes
+    "spaced_arguments\000funky_types", funky_types__spaced_arguments__attributes,
+    {.position = POS(190, 1)}
   },
   {
     FOT_UNKNOWN, 0, 2,
-    "character_literal\000funky_types", funky_types__character_literal__attributes
+    "spaced_statement_arguments\000funky_types", funky_types__spaced_statement_arguments__attributes,
+    {.position = POS(195, 1)}
   },
   {
     FOT_UNKNOWN, 0, 2,
-    "string_literal\000funky_types", funky_types__string_literal__attributes
+    "arguments\000funky_types", funky_types__arguments__attributes,
+    {.position = POS(200, 1)}
   },
   {
     FOT_UNKNOWN, 0, 2,
-    "some_string_components\000funky_types", funky_types__some_string_components__attributes
+    "even_more_statement_arguments\000funky_types", funky_types__even_more_statement_arguments__attributes,
+    {.position = POS(206, 1)}
+  },
+  {
+    FOT_UNKNOWN, 0, 1,
+    "multiline_arguments\000funky_types", funky_types__multiline_arguments__attributes,
+    {.position = POS(212, 1)}
+  },
+  {
+    FOT_UNKNOWN, 0, 1,
+    "tagged_multiline_arguments\000funky_types", funky_types__tagged_multiline_arguments__attributes,
+    {.position = POS(214, 1)}
   },
   {
     FOT_UNKNOWN, 0, 2,
-    "character_sequence\000funky_types", funky_types__character_sequence__attributes
+    "remark_and_multiline_function_call\000funky_types", funky_types__remark_and_multiline_function_call__attributes,
+    {.position = POS(216, 1)}
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "multiline_string_literal\000funky_types", funky_types__multiline_string_literal__attributes
+    "dummy_definition\000funky_types", funky_types__dummy_definition__attributes,
+    {.position = POS(222, 1)}
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "newline\000funky_types", funky_types__newline__attributes
+    "variable\000funky_types", funky_types__variable__attributes,
+    {.position = POS(224, 1)}
+  },
+  {
+    FOT_UNKNOWN, 0, 1,
+    "definition\000funky_types", funky_types__definition__attributes,
+    {.position = POS(226, 1)}
+  },
+  {
+    FOT_UNKNOWN, 0, 1,
+    "redefinition\000funky_types", funky_types__redefinition__attributes,
+    {.position = POS(228, 1)}
+  },
+  {
+    FOT_UNKNOWN, 0, 1,
+    "update\000funky_types", funky_types__update__attributes,
+    {.position = POS(230, 1)}
   },
   {
     FOT_UNKNOWN, 0, 2,
-    "some_string_line_components\000funky_types", funky_types__some_string_line_components__attributes
+    "expression\000funky_types", funky_types__expression__attributes,
+    {.position = POS(232, 1)}
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "string_line_end\000funky_types", funky_types__string_line_end__attributes
+    "key_value\000funky_types", funky_types__key_value__attributes,
+    {.position = POS(238, 1)}
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "at_character\000funky_types", funky_types__at_character__attributes
+    "sequence_expression\000funky_types", funky_types__sequence_expression__attributes,
+    {.position = POS(240, 1)}
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "tagged_empty_character\000funky_types", funky_types__tagged_empty_character__attributes
+    "comma\000funky_types", funky_types__comma__attributes,
+    {.position = POS(242, 1)}
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "empty_character\000funky_types", funky_types__empty_character__attributes
+    "comma_expression\000funky_types", funky_types__comma_expression__attributes,
+    {.position = POS(244, 1)}
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "escape_expression\000funky_types", funky_types__escape_expression__attributes
+    "conditional_expression\000funky_types", funky_types__conditional_expression__attributes,
+    {.position = POS(246, 1)}
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "named_character\000funky_types", funky_types__named_character__attributes
+    "and\000funky_types", funky_types__and__attributes,
+    {.position = POS(248, 1)}
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "numeric_character\000funky_types", funky_types__numeric_character__attributes
+    "and_expression\000funky_types", funky_types__and_expression__attributes,
+    {.position = POS(250, 1)}
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "string_line_character_sequence\000funky_types", funky_types__string_line_character_sequence__attributes
+    "or\000funky_types", funky_types__or__attributes,
+    {.position = POS(252, 1)}
+  },
+  {
+    FOT_UNKNOWN, 0, 1,
+    "or_expression\000funky_types", funky_types__or_expression__attributes,
+    {.position = POS(254, 1)}
+  },
+  {
+    FOT_UNKNOWN, 0, 1,
+    "named_operator_expression\000funky_types", funky_types__named_operator_expression__attributes,
+    {.position = POS(256, 1)}
+  },
+  {
+    FOT_UNKNOWN, 0, 1,
+    "named_operator\000funky_types", funky_types__named_operator__attributes,
+    {.position = POS(258, 1)}
+  },
+  {
+    FOT_UNKNOWN, 0, 1,
+    "range_expression\000funky_types", funky_types__range_expression__attributes,
+    {.position = POS(260, 1)}
+  },
+  {
+    FOT_UNKNOWN, 0, 1,
+    "range\000funky_types", funky_types__range__attributes,
+    {.position = POS(262, 1)}
+  },
+  {
+    FOT_UNKNOWN, 0, 1,
+    "relational_expression\000funky_types", funky_types__relational_expression__attributes,
+    {.position = POS(264, 1)}
+  },
+  {
+    FOT_UNKNOWN, 0, 1,
+    "equal\000funky_types", funky_types__equal__attributes,
+    {.position = POS(266, 1)}
+  },
+  {
+    FOT_UNKNOWN, 0, 1,
+    "not_equal\000funky_types", funky_types__not_equal__attributes,
+    {.position = POS(268, 1)}
+  },
+  {
+    FOT_UNKNOWN, 0, 1,
+    "less_equal\000funky_types", funky_types__less_equal__attributes,
+    {.position = POS(270, 1)}
+  },
+  {
+    FOT_UNKNOWN, 0, 1,
+    "less_than\000funky_types", funky_types__less_than__attributes,
+    {.position = POS(272, 1)}
+  },
+  {
+    FOT_UNKNOWN, 0, 1,
+    "greater_equal\000funky_types", funky_types__greater_equal__attributes,
+    {.position = POS(274, 1)}
+  },
+  {
+    FOT_UNKNOWN, 0, 1,
+    "greater_than\000funky_types", funky_types__greater_than__attributes,
+    {.position = POS(276, 1)}
+  },
+  {
+    FOT_UNKNOWN, 0, 1,
+    "tagged_bit_expression\000funky_types", funky_types__tagged_bit_expression__attributes,
+    {.position = POS(278, 1)}
+  },
+  {
+    FOT_UNKNOWN, 0, 1,
+    "bit_expression\000funky_types", funky_types__bit_expression__attributes,
+    {.position = POS(280, 1)}
+  },
+  {
+    FOT_UNKNOWN, 0, 1,
+    "shift_left\000funky_types", funky_types__shift_left__attributes,
+    {.position = POS(282, 1)}
+  },
+  {
+    FOT_UNKNOWN, 0, 1,
+    "shift_right\000funky_types", funky_types__shift_right__attributes,
+    {.position = POS(284, 1)}
+  },
+  {
+    FOT_UNKNOWN, 0, 1,
+    "bit_and\000funky_types", funky_types__bit_and__attributes,
+    {.position = POS(286, 1)}
+  },
+  {
+    FOT_UNKNOWN, 0, 1,
+    "bit_and2\000funky_types", funky_types__bit_and2__attributes,
+    {.position = POS(288, 1)}
+  },
+  {
+    FOT_UNKNOWN, 0, 1,
+    "bit_or\000funky_types", funky_types__bit_or__attributes,
+    {.position = POS(290, 1)}
+  },
+  {
+    FOT_UNKNOWN, 0, 1,
+    "bit_or2\000funky_types", funky_types__bit_or2__attributes,
+    {.position = POS(292, 1)}
+  },
+  {
+    FOT_UNKNOWN, 0, 1,
+    "bit_xor\000funky_types", funky_types__bit_xor__attributes,
+    {.position = POS(294, 1)}
+  },
+  {
+    FOT_UNKNOWN, 0, 1,
+    "bit_xor2\000funky_types", funky_types__bit_xor2__attributes,
+    {.position = POS(296, 1)}
+  },
+  {
+    FOT_UNKNOWN, 0, 1,
+    "tagged_additive_expression\000funky_types", funky_types__tagged_additive_expression__attributes,
+    {.position = POS(298, 1)}
+  },
+  {
+    FOT_UNKNOWN, 0, 1,
+    "additive_expression\000funky_types", funky_types__additive_expression__attributes,
+    {.position = POS(300, 1)}
+  },
+  {
+    FOT_UNKNOWN, 0, 1,
+    "plus\000funky_types", funky_types__plus__attributes,
+    {.position = POS(302, 1)}
+  },
+  {
+    FOT_UNKNOWN, 0, 1,
+    "plus2\000funky_types", funky_types__plus2__attributes,
+    {.position = POS(304, 1)}
+  },
+  {
+    FOT_UNKNOWN, 0, 1,
+    "minus\000funky_types", funky_types__minus__attributes,
+    {.position = POS(306, 1)}
+  },
+  {
+    FOT_UNKNOWN, 0, 1,
+    "minus2\000funky_types", funky_types__minus2__attributes,
+    {.position = POS(308, 1)}
+  },
+  {
+    FOT_UNKNOWN, 0, 1,
+    "multiplicative_expression\000funky_types", funky_types__multiplicative_expression__attributes,
+    {.position = POS(310, 1)}
+  },
+  {
+    FOT_UNKNOWN, 0, 1,
+    "times\000funky_types", funky_types__times__attributes,
+    {.position = POS(312, 1)}
+  },
+  {
+    FOT_UNKNOWN, 0, 1,
+    "times2\000funky_types", funky_types__times2__attributes,
+    {.position = POS(314, 1)}
+  },
+  {
+    FOT_UNKNOWN, 0, 1,
+    "over\000funky_types", funky_types__over__attributes,
+    {.position = POS(316, 1)}
+  },
+  {
+    FOT_UNKNOWN, 0, 1,
+    "over2\000funky_types", funky_types__over2__attributes,
+    {.position = POS(318, 1)}
   },
   {
     FOT_UNKNOWN, 0, 2,
-    "unique\000funky_types", funky_types__unique__attributes
+    "parenthesed_expression\000funky_types", funky_types__parenthesed_expression__attributes,
+    {.position = POS(320, 1)}
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "attribute\000funky_types", funky_types__attribute__attributes
+    "backquoted\000funky_types", funky_types__backquoted__attributes,
+    {.position = POS(326, 1)}
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "attribute_with_setter\000funky_types", funky_types__attribute_with_setter__attributes
-  },
-  {
-    FOT_UNKNOWN, 0, 2,
-    "body\000funky_types", funky_types__body__attributes
+    "negation\000funky_types", funky_types__negation__attributes,
+    {.position = POS(328, 1)}
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "line_end_statement\000funky_types", funky_types__line_end_statement__attributes
-  },
-  {
-    FOT_UNKNOWN, 0, 2,
-    "inline_body\000funky_types", funky_types__inline_body__attributes
-  },
-  {
-    FOT_UNKNOWN, 0, 2,
-    "statements\000funky_types", funky_types__statements__attributes
-  },
-  {
-    FOT_UNKNOWN, 0, 2,
-    "one_or_more_inline_parameters\000funky_types", funky_types__one_or_more_inline_parameters__attributes
-  },
-  {
-    FOT_UNKNOWN, 0, 2,
-    "open_parameters\000funky_types", funky_types__open_parameters__attributes
-  },
-  {
-    FOT_UNKNOWN, 0, 2,
-    "inline_parameter\000funky_types", funky_types__inline_parameter__attributes
-  },
-  {
-    FOT_UNKNOWN, 0, 2,
-    "parameter\000funky_types", funky_types__parameter__attributes
+    "multiline_operator\000funky_types", funky_types__multiline_operator__attributes,
+    {.position = POS(330, 1)}
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "myself\000funky_types", funky_types__myself__attributes
-  },
-  {
-    FOT_UNKNOWN, 0, 1,
-    "rest\000funky_types", funky_types__rest__attributes
+    "multiline_plus\000funky_types", funky_types__multiline_plus__attributes,
+    {.position = POS(332, 1)}
   },
   {
     FOT_UNKNOWN, 0, 2,
-    "initial_value\000funky_types", funky_types__initial_value__attributes
-  },
-  {
-    FOT_UNKNOWN, 0, 2,
-    "close_parameters\000funky_types", funky_types__close_parameters__attributes
+    "multiline_minus\000funky_types", funky_types__multiline_minus__attributes,
+    {.position = POS(334, 1)}
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "return_expression\000funky_types", funky_types__return_expression__attributes
+    "multiline_minus_with_remark\000funky_types", funky_types__multiline_minus_with_remark__attributes,
+    {.position = POS(340, 1)}
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "return\000funky_types", funky_types__return__attributes
-  },
-  {
-    FOT_UNKNOWN, 0, 2,
-    "remark\000funky_types", funky_types__remark__attributes
-  },
-  {
-    FOT_UNKNOWN, 0, 2,
-    "line_end_and_line_remarks\000funky_types", funky_types__line_end_and_line_remarks__attributes
-  },
-  {
-    FOT_UNKNOWN, 0, 2,
-    "line_remarks\000funky_types", funky_types__line_remarks__attributes
+    "multiline_times\000funky_types", funky_types__multiline_times__attributes,
+    {.position = POS(342, 1)}
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "spaced_remark\000funky_types", funky_types__spaced_remark__attributes
+    "multiline_over\000funky_types", funky_types__multiline_over__attributes,
+    {.position = POS(344, 1)}
+  },
+  {
+    FOT_UNKNOWN, 0, 1,
+    "multiline_over_with_remark\000funky_types", funky_types__multiline_over_with_remark__attributes,
+    {.position = POS(346, 1)}
+  },
+  {
+    FOT_UNKNOWN, 0, 1,
+    "multiline_shift_left\000funky_types", funky_types__multiline_shift_left__attributes,
+    {.position = POS(348, 1)}
+  },
+  {
+    FOT_UNKNOWN, 0, 1,
+    "multiline_shift_right\000funky_types", funky_types__multiline_shift_right__attributes,
+    {.position = POS(350, 1)}
+  },
+  {
+    FOT_UNKNOWN, 0, 1,
+    "multiline_equal\000funky_types", funky_types__multiline_equal__attributes,
+    {.position = POS(352, 1)}
+  },
+  {
+    FOT_UNKNOWN, 0, 1,
+    "multiline_not_equal\000funky_types", funky_types__multiline_not_equal__attributes,
+    {.position = POS(354, 1)}
+  },
+  {
+    FOT_UNKNOWN, 0, 1,
+    "multiline_less_equal\000funky_types", funky_types__multiline_less_equal__attributes,
+    {.position = POS(356, 1)}
+  },
+  {
+    FOT_UNKNOWN, 0, 1,
+    "multiline_less_than\000funky_types", funky_types__multiline_less_than__attributes,
+    {.position = POS(358, 1)}
+  },
+  {
+    FOT_UNKNOWN, 0, 1,
+    "multiline_greater_equal\000funky_types", funky_types__multiline_greater_equal__attributes,
+    {.position = POS(360, 1)}
+  },
+  {
+    FOT_UNKNOWN, 0, 1,
+    "multiline_greater_than\000funky_types", funky_types__multiline_greater_than__attributes,
+    {.position = POS(362, 1)}
+  },
+  {
+    FOT_UNKNOWN, 0, 1,
+    "multiline_and\000funky_types", funky_types__multiline_and__attributes,
+    {.position = POS(364, 1)}
+  },
+  {
+    FOT_UNKNOWN, 0, 1,
+    "multiline_or\000funky_types", funky_types__multiline_or__attributes,
+    {.position = POS(366, 1)}
+  },
+  {
+    FOT_UNKNOWN, 0, 1,
+    "multiline_bit_and\000funky_types", funky_types__multiline_bit_and__attributes,
+    {.position = POS(368, 1)}
+  },
+  {
+    FOT_UNKNOWN, 0, 1,
+    "multiline_bit_and_with_remark\000funky_types", funky_types__multiline_bit_and_with_remark__attributes,
+    {.position = POS(370, 1)}
+  },
+  {
+    FOT_UNKNOWN, 0, 1,
+    "multiline_bit_or\000funky_types", funky_types__multiline_bit_or__attributes,
+    {.position = POS(372, 1)}
+  },
+  {
+    FOT_UNKNOWN, 0, 1,
+    "multiline_bit_xor\000funky_types", funky_types__multiline_bit_xor__attributes,
+    {.position = POS(374, 1)}
+  },
+  {
+    FOT_UNKNOWN, 0, 1,
+    "multiline_assign\000funky_types", funky_types__multiline_assign__attributes,
+    {.position = POS(376, 1)}
+  },
+  {
+    FOT_UNKNOWN, 0, 1,
+    "inline_attribute_value_pair\000funky_types", funky_types__inline_attribute_value_pair__attributes,
+    {.position = POS(378, 1)}
+  },
+  {
+    FOT_UNKNOWN, 0, 1,
+    "inline_method_value_pair\000funky_types", funky_types__inline_method_value_pair__attributes,
+    {.position = POS(380, 1)}
   },
   {
     FOT_UNKNOWN, 0, 2,
-    "multiline_remark\000funky_types", funky_types__multiline_remark__attributes
+    "expression_and_inline_arguments\000funky_types", funky_types__expression_and_inline_arguments__attributes,
+    {.position = POS(382, 1)}
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "remark_lines\000funky_types", funky_types__remark_lines__attributes
+    "spaced_inline_arguments\000funky_types", funky_types__spaced_inline_arguments__attributes,
+    {.position = POS(388, 1)}
+  },
+  {
+    FOT_UNKNOWN, 0, 2,
+    "numeric_literal\000funky_types", funky_types__numeric_literal__attributes,
+    {.position = POS(390, 1)}
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "dummy_remark\000funky_types", funky_types__dummy_remark__attributes
+    "at_character_literal\000funky_types", funky_types__at_character_literal__attributes,
+    {.position = POS(395, 1)}
+  },
+  {
+    FOT_UNKNOWN, 0, 1,
+    "named_character_literal\000funky_types", funky_types__named_character_literal__attributes,
+    {.position = POS(397, 1)}
+  },
+  {
+    FOT_UNKNOWN, 0, 1,
+    "numeric_character_literal\000funky_types", funky_types__numeric_character_literal__attributes,
+    {.position = POS(399, 1)}
+  },
+  {
+    FOT_UNKNOWN, 0, 2,
+    "character_literal\000funky_types", funky_types__character_literal__attributes,
+    {.position = POS(401, 1)}
+  },
+  {
+    FOT_UNKNOWN, 0, 2,
+    "string_literal\000funky_types", funky_types__string_literal__attributes,
+    {.position = POS(406, 1)}
+  },
+  {
+    FOT_UNKNOWN, 0, 2,
+    "some_string_components\000funky_types", funky_types__some_string_components__attributes,
+    {.position = POS(411, 1)}
+  },
+  {
+    FOT_UNKNOWN, 0, 2,
+    "character_sequence\000funky_types", funky_types__character_sequence__attributes,
+    {.position = POS(417, 1)}
+  },
+  {
+    FOT_UNKNOWN, 0, 1,
+    "multiline_string_literal\000funky_types", funky_types__multiline_string_literal__attributes,
+    {.position = POS(422, 1)}
+  },
+  {
+    FOT_UNKNOWN, 0, 1,
+    "newline\000funky_types", funky_types__newline__attributes,
+    {.position = POS(424, 1)}
+  },
+  {
+    FOT_UNKNOWN, 0, 2,
+    "some_string_line_components\000funky_types", funky_types__some_string_line_components__attributes,
+    {.position = POS(426, 1)}
+  },
+  {
+    FOT_UNKNOWN, 0, 1,
+    "string_line_end\000funky_types", funky_types__string_line_end__attributes,
+    {.position = POS(432, 1)}
+  },
+  {
+    FOT_UNKNOWN, 0, 1,
+    "at_character\000funky_types", funky_types__at_character__attributes,
+    {.position = POS(434, 1)}
+  },
+  {
+    FOT_UNKNOWN, 0, 1,
+    "tagged_empty_character\000funky_types", funky_types__tagged_empty_character__attributes,
+    {.position = POS(436, 1)}
+  },
+  {
+    FOT_UNKNOWN, 0, 1,
+    "empty_character\000funky_types", funky_types__empty_character__attributes,
+    {.position = POS(438, 1)}
+  },
+  {
+    FOT_UNKNOWN, 0, 1,
+    "escape_expression\000funky_types", funky_types__escape_expression__attributes,
+    {.position = POS(440, 1)}
+  },
+  {
+    FOT_UNKNOWN, 0, 1,
+    "named_character\000funky_types", funky_types__named_character__attributes,
+    {.position = POS(442, 1)}
+  },
+  {
+    FOT_UNKNOWN, 0, 1,
+    "numeric_character\000funky_types", funky_types__numeric_character__attributes,
+    {.position = POS(444, 1)}
+  },
+  {
+    FOT_UNKNOWN, 0, 1,
+    "string_line_character_sequence\000funky_types", funky_types__string_line_character_sequence__attributes,
+    {.position = POS(446, 1)}
+  },
+  {
+    FOT_UNKNOWN, 0, 2,
+    "unique\000funky_types", funky_types__unique__attributes,
+    {.position = POS(448, 1)}
+  },
+  {
+    FOT_UNKNOWN, 0, 1,
+    "attribute\000funky_types", funky_types__attribute__attributes,
+    {.position = POS(453, 1)}
+  },
+  {
+    FOT_UNKNOWN, 0, 1,
+    "attribute_with_setter\000funky_types", funky_types__attribute_with_setter__attributes,
+    {.position = POS(455, 1)}
+  },
+  {
+    FOT_UNKNOWN, 0, 2,
+    "body\000funky_types", funky_types__body__attributes,
+    {.position = POS(457, 1)}
+  },
+  {
+    FOT_UNKNOWN, 0, 1,
+    "line_end_statement\000funky_types", funky_types__line_end_statement__attributes,
+    {.position = POS(464, 1)}
+  },
+  {
+    FOT_UNKNOWN, 0, 2,
+    "inline_body\000funky_types", funky_types__inline_body__attributes,
+    {.position = POS(466, 1)}
+  },
+  {
+    FOT_UNKNOWN, 0, 2,
+    "statements\000funky_types", funky_types__statements__attributes,
+    {.position = POS(472, 1)}
+  },
+  {
+    FOT_UNKNOWN, 0, 2,
+    "one_or_more_inline_parameters\000funky_types", funky_types__one_or_more_inline_parameters__attributes,
+    {.position = POS(477, 1)}
+  },
+  {
+    FOT_UNKNOWN, 0, 2,
+    "open_parameters\000funky_types", funky_types__open_parameters__attributes,
+    {.position = POS(483, 1)}
+  },
+  {
+    FOT_UNKNOWN, 0, 2,
+    "inline_parameter\000funky_types", funky_types__inline_parameter__attributes,
+    {.position = POS(489, 1)}
+  },
+  {
+    FOT_UNKNOWN, 0, 2,
+    "parameter\000funky_types", funky_types__parameter__attributes,
+    {.position = POS(495, 1)}
+  },
+  {
+    FOT_UNKNOWN, 0, 1,
+    "myself\000funky_types", funky_types__myself__attributes,
+    {.position = POS(502, 1)}
+  },
+  {
+    FOT_UNKNOWN, 0, 1,
+    "rest\000funky_types", funky_types__rest__attributes,
+    {.position = POS(504, 1)}
+  },
+  {
+    FOT_UNKNOWN, 0, 2,
+    "initial_value\000funky_types", funky_types__initial_value__attributes,
+    {.position = POS(506, 1)}
+  },
+  {
+    FOT_UNKNOWN, 0, 2,
+    "close_parameters\000funky_types", funky_types__close_parameters__attributes,
+    {.position = POS(511, 1)}
+  },
+  {
+    FOT_UNKNOWN, 0, 1,
+    "return_expression\000funky_types", funky_types__return_expression__attributes,
+    {.position = POS(516, 1)}
+  },
+  {
+    FOT_UNKNOWN, 0, 1,
+    "return\000funky_types", funky_types__return__attributes,
+    {.position = POS(518, 1)}
+  },
+  {
+    FOT_UNKNOWN, 0, 2,
+    "remark\000funky_types", funky_types__remark__attributes,
+    {.position = POS(520, 1)}
+  },
+  {
+    FOT_UNKNOWN, 0, 2,
+    "line_end_and_line_remarks\000funky_types", funky_types__line_end_and_line_remarks__attributes,
+    {.position = POS(525, 1)}
+  },
+  {
+    FOT_UNKNOWN, 0, 2,
+    "line_remarks\000funky_types", funky_types__line_remarks__attributes,
+    {.position = POS(531, 1)}
+  },
+  {
+    FOT_UNKNOWN, 0, 1,
+    "spaced_remark\000funky_types", funky_types__spaced_remark__attributes,
+    {.position = POS(536, 1)}
+  },
+  {
+    FOT_UNKNOWN, 0, 2,
+    "multiline_remark\000funky_types", funky_types__multiline_remark__attributes,
+    {.position = POS(538, 1)}
+  },
+  {
+    FOT_UNKNOWN, 0, 1,
+    "remark_lines\000funky_types", funky_types__remark_lines__attributes,
+    {.position = POS(544, 1)}
+  },
+  {
+    FOT_UNKNOWN, 0, 1,
+    "dummy_remark\000funky_types", funky_types__dummy_remark__attributes,
+    {.position = POS(546, 1)}
   }
 };
 
@@ -2484,8 +2718,8 @@ FUNKY_MODULE module__nodes_metadata = {
   0, // number of required modules
   0, // number of defined namespaces
   1, // number of used namespaces
-  220, // number of constants
-  204, // number of variables
+  221, // number of constants
+  207, // number of variables
   NULL, // required modules
   NULL, // defined namespaces
   used_namespaces,

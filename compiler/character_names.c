@@ -2796,15 +2796,18 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "key_value_pair\000std", NULL
+    "key_value_pair\000std", NULL,
+    {.position = POS(27, 6)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "hash_table\000", NULL
+    "hash_table\000", NULL,
+    {.position = POS(26, 3)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "assign\000std", NULL
+    "assign\000std", NULL,
+    {.position = POS(25, 1)}
   }
 };
 

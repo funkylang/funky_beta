@@ -709,10 +709,14 @@ $funky_types::statement/add_source_positions: (self)
 
 $get_source_position: (node)
   $source_group source_group_of(node)
-  source_group $indent $text
-  $line_no line_no_of(source_group)
-  $column_no indent+length_of(text)+1-length_of(source_position_of(node))
-  -> "POS(@(line_no), @(column_no))"
+  # ATTENTION: Why can <source_group> be undefined?
+  if
+    source_group.is_defined:
+      source_group $indent $text
+      $line_no line_no_of(source_group)
+      $column_no indent+length_of(text)+1-length_of(source_position_of(node))
+      -> "POS(@(line_no), @(column_no))"
+    -> "POS(0, 0)"
 
 $to_separated_index ()
 
