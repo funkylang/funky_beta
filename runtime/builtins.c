@@ -161,6 +161,8 @@ enum {
   func__std_types___real___std___negate,
   func__std_types___positive_integer___std___times,
   func__negative_integer___std___times,
+  func__std_types___positive_integer___std___to_integer,
+  func__negative_integer___std___to_integer,
   func__std_types___real___std___to_integer,
   func__std_types___real___std___floor,
   func__std_types___real___std___ceil,
@@ -15301,6 +15303,34 @@ static void entry__negative_integer___std___times (void)
     }
   }
 
+static void entry__std_types___positive_integer___std___to_integer (void)
+  {
+    if (TLS_argument_count != 1) {
+      invalid_arguments();
+      return;
+    }
+    {
+      NODE *result__node = (NODE *)(TLS_arguments[0]);
+      TLS_arguments[0] = result__node;
+      TLS_argument_count = 1;
+      return;
+    }
+  }
+
+static void entry__negative_integer___std___to_integer (void)
+  {
+    if (TLS_argument_count != 1) {
+      invalid_arguments();
+      return;
+    }
+    {
+      NODE *result__node = (NODE *)(TLS_arguments[0]);
+      TLS_arguments[0] = result__node;
+      TLS_argument_count = 1;
+      return;
+    }
+  }
+
 static void entry__std_types___real___std___to_integer (void)
   {
     if (TLS_argument_count != 1) {
@@ -21835,6 +21865,8 @@ static FUNKY_CONSTANT constants_table[] = {
   {FLT_C_FUNCTION, 1, {.func = entry__std_types___real___std___negate}},
   {FLT_C_FUNCTION, 2, {.func = entry__std_types___positive_integer___std___times}},
   {FLT_C_FUNCTION, 2, {.func = entry__negative_integer___std___times}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std_types___positive_integer___std___to_integer}},
+  {FLT_C_FUNCTION, 1, {.func = entry__negative_integer___std___to_integer}},
   {FLT_C_FUNCTION, 1, {.func = entry__std_types___real___std___to_integer}},
   {FLT_C_FUNCTION, 1, {.func = entry__std_types___real___std___floor}},
   {FLT_C_FUNCTION, 1, {.func = entry__std_types___real___std___ceil}},
@@ -22195,6 +22227,7 @@ static ATTRIBUTE_DEFINITION std_types___positive_integer__attributes[] = {
   {var_no__std___shift_left, func__std_types___positive_integer___std___shift_left},
   {var_no__std___shift_right, func__std_types___positive_integer___std___shift_right},
   {var_no__std___times, func__std_types___positive_integer___std___times},
+  {var_no__std___to_integer, func__std_types___positive_integer___std___to_integer},
   {var_no__std___to_string, func__std_types___positive_integer___std___to_string}
 };
 
@@ -22426,6 +22459,7 @@ static ATTRIBUTE_DEFINITION negative_integer__attributes[] = {
   {var_no__std___over, func__negative_integer___std___over},
   {var_no__std___plus, func__negative_integer___std___plus},
   {var_no__std___times, func__negative_integer___std___times},
+  {var_no__std___to_integer, func__negative_integer___std___to_integer},
   {var_no__std___to_string, func__negative_integer___std___to_string}
 };
 
@@ -23175,7 +23209,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {(NODE *)&std___EXIT_FAILURE}
   },
   {
-    FOT_TYPE, 0, 19,
+    FOT_TYPE, 0, 20,
     "positive_integer\000std_types", std_types___positive_integer__attributes,
     {"integer\000std_types"},
     {.methods_count = 14}, 0,
@@ -23563,7 +23597,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {(NODE *)&std_types___integer}
   },
   {
-    FOT_TYPE, 0, 13,
+    FOT_TYPE, 0, 14,
     "negative_integer\000", negative_integer__attributes,
     {"integer\000std_types"},
     {.methods_count = 8}, 0,
@@ -25476,13 +25510,13 @@ FUNKY_MODULE module__builtin = {
   NULL,
   0, 0,
   3, 0,
-  320, 426,
+  322, 426,
   NULL,
   defined_namespaces, NULL,
   constants_table, variables_table
 };
 
-BUILTIN_FUNCTION_NAME builtin_function_names[369] = {
+BUILTIN_FUNCTION_NAME builtin_function_names[371] = {
   {std_types___generic_array____type, "std_types::generic_array/_type"},
   {std_types___array____type, "std_types::array/_type"},
   {entry__std_types___array___std___length_of, "std_types::array/length_of"},
@@ -25636,6 +25670,8 @@ BUILTIN_FUNCTION_NAME builtin_function_names[369] = {
   {entry__std_types___real___std___negate, "std_types::real/negate"},
   {entry__std_types___positive_integer___std___times, "std_types::positive_integer/times"},
   {entry__negative_integer___std___times, "negative_integer/times"},
+  {entry__std_types___positive_integer___std___to_integer, "std_types::positive_integer/to_integer"},
+  {entry__negative_integer___std___to_integer, "negative_integer/to_integer"},
   {entry__std_types___real___std___to_integer, "std_types::real/to_integer"},
   {entry__std_types___real___std___floor, "std_types::real/floor"},
   {entry__std_types___real___std___ceil, "std_types::real/ceil"},
