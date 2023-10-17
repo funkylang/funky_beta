@@ -275,6 +275,7 @@ enum {
   func__std___write,
   func__std___umask,
   func__std___unlink,
+  func__std___usleep,
   func__std_types___octet_string___std___length_of,
   func__quad_octet_string___std___length_of,
   func__std_types___octet_string___std___is_empty,
@@ -729,6 +730,7 @@ enum {
   var_no__std___write,
   var_no__std___umask,
   var_no__std___unlink,
+  var_no__std___usleep,
   var_no__std_types___sequence,
   var_no__std___to_utf8,
   var_no__std_types___string,
@@ -18776,6 +18778,39 @@ static void entry__std___unlink (void)
     deallocate_memory(filename);
   }
 
+static void entry__std___usleep (void)
+  {
+    if (TLS_argument_count != 1) {
+      invalid_arguments();
+      return;
+    }
+    if (TLS_deny_io) {
+      missing_io_access_rights();
+      return;
+    }
+    unsigned int microseconds;
+    int result;
+    if (!to_uint(TLS_arguments[0], &microseconds)) return;
+    if (event__mode != EM__REPLAY) {
+      result = usleep(microseconds);
+      if (event__mode == EM__RECORD) {
+        record__event("usleep");
+        store__integer(result);
+      }
+    } else {
+      replay__event("usleep");
+      retrieve__integer(&result);
+      report__event("usleep");
+      print__unsigned_integer(microseconds);
+      print__integer(result);
+    }
+    {
+      NODE *result__node = (NODE *)(from_int(result));
+      TLS_arguments[0] = result__node;
+      TLS_argument_count = 1;
+    }
+  }
+
 static void entry__std_types___octet_string___std___length_of (void)
   {
     if (TLS_argument_count != 1) {
@@ -21979,6 +22014,7 @@ static FUNKY_CONSTANT constants_table[] = {
   {FLT_C_FUNCTION, 2, {.func = entry__std___write}},
   {FLT_C_FUNCTION, 1, {.func = entry__std___umask}},
   {FLT_C_FUNCTION, 1, {.func = entry__std___unlink}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std___usleep}},
   {FLT_C_FUNCTION, 1, {.func = entry__std_types___octet_string___std___length_of}},
   {FLT_C_FUNCTION, 1, {.func = entry__quad_octet_string___std___length_of}},
   {FLT_C_FUNCTION, 1, {.func = entry__std_types___octet_string___std___is_empty}},
@@ -25206,6 +25242,11 @@ static FUNKY_VARIABLE variables_table[] = {
     {.const_idx = func__std___unlink}
   },
   {
+    FOT_INITIALIZED, 0, 0,
+    "usleep\000std", NULL,
+    {.const_idx = func__std___usleep}
+  },
+  {
     FOT_OBJECT, 0, 0,
     "sequence\000std_types", NULL,
     {"list\000std_types"},
@@ -25510,13 +25551,13 @@ FUNKY_MODULE module__builtin = {
   NULL,
   0, 0,
   3, 0,
-  322, 426,
+  323, 427,
   NULL,
   defined_namespaces, NULL,
   constants_table, variables_table
 };
 
-BUILTIN_FUNCTION_NAME builtin_function_names[371] = {
+BUILTIN_FUNCTION_NAME builtin_function_names[372] = {
   {std_types___generic_array____type, "std_types::generic_array/_type"},
   {std_types___array____type, "std_types::array/_type"},
   {entry__std_types___array___std___length_of, "std_types::array/length_of"},
@@ -25799,6 +25840,7 @@ BUILTIN_FUNCTION_NAME builtin_function_names[371] = {
   {entry__std___write, "std::write"},
   {entry__std___umask, "std::umask"},
   {entry__std___unlink, "std::unlink"},
+  {entry__std___usleep, "std::usleep"},
   {std_types___string____type, "std_types::string/_type"},
   {std_types___octet_string____type, "std_types::octet_string/_type"},
   {quad_octet_string____type, "quad_octet_string/_type"},

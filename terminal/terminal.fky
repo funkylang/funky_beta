@@ -333,7 +333,7 @@ $std::background_colour_at:
   range &logical_screen.background_colours_of 1 -(delta+1)
   append empty_background_colour_lines &logical_screen.background_colours_of
 
-$std::scroll_left:
+$std_types::screen/scroll_left:
   #
     scrolls the contents of the <logical_screen> leftwards
 
@@ -1916,15 +1916,20 @@ $std::get_key:
 
     See also: wait_to, read_from
   (
-    _timeout = undefined # in seconds - a decimal number
+    timeout = undefined # in seconds - a decimal number
   )
   $io std_types::io
   start_reading_from &io STDIN_FILENO
-  get_events! &io $events
-  $event events(1)
-  event $_type $_fd $input
-  from_utf8 &input
-  -> input
+  get_events! &io $events timeout
+  if
+    events.is_empty
+    -> undefined
+    :
+      $event events(1)
+      event $_type $_fd $input
+      from_utf8 &input
+      $keys extract_keys(input)
+      -> keys(1)
 
 #$std::set_direct_terminal_input_mode
   #
