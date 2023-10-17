@@ -1,0 +1,803 @@
+#!/usr/bin/env fkyrun
+
+  Copyright (C) 2023 by
+  Dipl.-Ing. Michael Niederle
+
+  This program is free software; you can redistribute it and/or modify
+  it under the terms of the GNU General Public License, version 2, or
+  (at your option) version 3.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  GNU General Public License for more details.
+
+  For details of the GNU General Public License see the accompanying
+  files GPLv2.txt and GLPv3.txt or
+  http://www.gnu.org/licenses/gpl-2.0.html
+  http://www.gnu.org/licenses/gpl-3.0.html
+  or write to the
+  Free Software Foundation, Inc.,
+  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+
+#
+  This is a very basic implementation of a scramble like video game to be played
+  on a character console.
+
+  https://en.wikipedia.org/wiki/Scramble_(video_game)
+
+  This is by purpose only a skeleton of the game - waiting for *you* to develop
+  it into a full fledged action game!
+
+<require basic/stdlib>
+<require terminal/terminal>
+<require terminal/keys>
+
+# dynamic content types
+
+$CANNON .
+$SHOT .
+$LASER_BEAM .
+
+$type_of (!) # used for dynamic contents
+$symbol_of (!) # used for dynamic contents
+$colour_of (!) # used for dynamic contents
+$frequency_of (!) # used for dynamic contents
+$tick_of (!) # used for dynamic contents
+$x_of (!) # used for dynamic contents
+$y_of (!) # used for dynamic contents
+$dx_of (!) # used for dynamic contents
+$dy_of (!) # used for dynamic contents
+$y1_of (!) # used for dynamic contents
+$y2_of (!) # used for dynamic contents
+
+$WIDTH 80 # the width of the cave in character columns
+$HEIGHT 25 # the height of the cave in character rows
+$CAVE_HEIGHT 2*HEIGHT # the height of the cave in half character rows
+
+#
+  The height of a character is approximately about twice the size of its width.
+
+  So we use half-blocks to accommodate for this inbalance.
+
+# unicode graphic characters
+
+$full_block '@0x2588;'
+$upper_half_block '@0x2580;'
+$lower_half_block '@0x2584;'
+$spaceship_head '@0x2326;'
+$spaceship_tail '@0x2327;'
+$cannon '@0x25e2;'
+$star '@0x2726;'
+$mine '@0x2738;'
+$shot '\'
+$laser_beam '@0x2502;'
+$laser_beamer '@0x2551;'
+
+# colours
+
+$BLACK '@0x000000;'
+$WHITE '@0xffffff;'
+$GREY '@0x808080;'
+$DARK_GREY '@0x202020;'
+$RED '@0xff0000;'
+$GREEN '@0x00ff00;'
+$BLUE '@0x0000ff;'
+$YELLOW '@0xffff00;'
+$ORANGE '@0xff8000;'
+$SKY_BLUE '@0xc0c0ff;'
+
+# game element colours
+
+$spaceship_colour BLUE
+$fuel_tank_colour BLUE
+$fuel_tank_text_colour WHITE
+$star_colour GREEN
+$mine_colour DARK_GREY
+$beam_colour YELLOW
+$beam_cannon_colour ORANGE
+$cannon_colour RED
+
+# for documentation of the following variables see the inialization section
+
+$dynamic_contents undefined
+$rng undefined
+$ceiling_y undefined
+$floor_y undefined
+$spaceship_x undefined
+$spaceship_y undefined
+$cave_length undefined
+$cave_draw_x undefined
+$cave_start_x undefined
+$fuel undefined
+$next_fuel_tank_x undefined
+
+$prev_floor_y undefined
+$prev_ceiling_y undefined
+
+$draw_vertical_bar:
+  #
+    draws a vertical stack of block graphics characters
+
+    *x* is the character column where to draw the bar
+
+    *top_y* and *bottom_y* are measured in half rows!
+  (
+    x
+    top_y
+    bottom_y
+  )
+  $y (top_y+1) >> 1 # in rows
+  draw_top
+
+  $draw_top:
+    if
+      top_y.is_even:
+	set_text_colour_at &terminal x y BLACK
+	set_character_at &terminal x y lower_half_block
+	inc &y
+	draw_mid
+      draw_mid
+
+  $draw_mid:
+    repeat (bottom_y >> 1) - (top_y >> 1)
+      :
+	set_text_colour_at &terminal x y BLACK
+	set_character_at &terminal x y full_block
+	inc &y
+	next
+      draw_bottom
+
+  $draw_bottom:
+    if
+      bottom_y.is_odd:
+	set_text_colour_at &terminal x y BLACK
+	set_character_at &terminal x y upper_half_block
+	-> terminal
+      -> terminal
+
+$draw_cave_column:
+  #
+    draws a new column of the cave
+  (
+    x # the column number on the screen
+  )
+  inc &cave_draw_x
+
+  draw_vertical_bar !terminal x 1 ceiling_y # draw the ceiling
+  draw_vertical_bar !terminal x floor_y CAVE_HEIGHT # draw the floor
+
+  # add dynamic content
+
+  $y1 (ceiling_y+1 .div. 2) + 1
+  $y2 (floor_y-1 .div. 2)
+
+  maybe_draw_fuel_tank
+
+  $maybe_draw_fuel_tank:
+    if
+      cave_draw_x >= next_fuel_tank_x && prev_ceiling_y < ceiling_y:
+	next_value &rng $r 7
+	if
+	  r == 1:
+	    set_text_colour_at &terminal x y1-1 BLACK
+	    set_character_at &terminal x y1-1 full_block
+	    set_background_colour_at &terminal x y1 fuel_tank_colour
+	    set_text_colour_at &terminal x y1 fuel_tank_text_colour
+	    set_character_at &terminal x y1 'F'
+	    !next_fuel_tank_x cave_draw_x+20
+	    minus &ceiling_y 3
+	    extend_to &ceiling_y 2
+	    update_floor_and_ceiling
+	  maybe_draw_laser_beam
+      maybe_draw_laser_beam
+
+
+  $maybe_draw_laser_beam:
+    if
+      cave_draw_x > 400 && cave_draw_x <= 500:
+	next_value &rng $r 40
+	if
+	  r == 1:
+	    set_text_colour_at &terminal x y1-1 beam_cannon_colour
+	    set_character_at &terminal x y1-1 laser_beamer
+	    set_text_colour_at &terminal x y2+1 beam_cannon_colour
+	    set_character_at &terminal x y2+1 laser_beamer
+	    push &dynamic_contents
+	      std_types::object
+		.type_of LASER_BEAM
+		.x_of cave_draw_x
+		.y1_of y1
+		.y2_of y2
+	    update_floor_and_ceiling
+	  maybe_draw_cannon
+      maybe_draw_cannon
+
+  $maybe_draw_cannon:
+    if
+      cave_draw_x > 300 && prev_floor_y >= floor_y:
+	next_value &rng $r 20
+	if
+	  r == 14:
+	    set_text_colour_at &terminal x y2+1 cannon_colour
+	    set_character_at &terminal x y2+1 cannon
+	    push &dynamic_contents
+	      std_types::object
+		.type_of CANNON
+		.x_of cave_draw_x-1
+		.y_of y2
+		.dx_of -1
+		.dy_of -1
+		.symbol_of shot
+		.colour_of YELLOW
+		.frequency_of
+		  if
+		    cave_draw_x > 500
+		    -> 10
+		    -> 20
+		.tick_of 0
+	    update_floor_and_ceiling
+	  maybe_draw_mine
+      maybe_draw_mine
+
+  $maybe_draw_mine:
+    if
+      cave_draw_x > 200:
+	next_value &rng $r 12
+	if
+	  r == 1:
+	    next_value &rng $mine_y y1 .. y2
+	    set_text_colour_at &terminal x mine_y mine_colour
+	    set_character_at &terminal x mine_y mine
+	    update_floor_and_ceiling
+	  maybe_draw_star
+      maybe_draw_star
+
+  $maybe_draw_star:
+    if
+      cave_draw_x > 100:
+	next_value &rng $r 12
+	if
+	  r == 1:
+	    next_value &rng $star_y y1 .. y2
+	    set_text_colour_at &terminal x star_y star_colour
+	    set_character_at &terminal x star_y star
+	    update_floor_and_ceiling
+	  update_floor_and_ceiling
+      update_floor_and_ceiling
+
+  $update_floor_and_ceiling:
+    !prev_ceiling_y ceiling_y
+    !prev_floor_y floor_y
+
+    # update the ceiling height
+
+    next_value &rng $cr 5
+    !ceiling_y ceiling_y+cr-3 # make a random change
+    extend_to &ceiling_y 2 # not too high
+    reduce_to &ceiling_y 35 # not too low
+
+    # update the floor height
+
+    next_value &rng $fr 5
+    !floor_y floor_y+fr-3 # make a random change
+    reduce_to &floor_y CAVE_HEIGHT # not too low
+    extend_to &floor_y 16 # not too high
+
+    # check whether the cave would be too narrow
+
+    $cave_height floor_y-ceiling_y # the height of the cave
+    if
+      cave_height < 15: # too narrow?
+	$delta (15-cave_height) .div. 2 # how much?
+	minus &ceiling_y delta # distribute the change to ceiling ...
+	plus &floor_y delta # ... and floor
+	return
+      return
+
+  $return
+    ->
+      terminal rng cave_draw_x
+      ceiling_y floor_y
+      prev_ceiling_y prev_floor_y
+      dynamic_contents
+
+$draw_fuel:
+  set_background_colour &terminal BLACK
+  if
+    fuel > 0:
+      set_text_colour &terminal WHITE
+      draw_text terminal 1 1 "Fuel: @(pad_left(fuel 4))"
+    :
+      set_text_colour &terminal RED
+      draw_text terminal 1 1 "Out of fuel!"
+
+$draw_dynamic_contents:
+  for_each dynamic_contents
+    : (item)
+      $x x_of(item)-cave_start_x
+      case type_of(item)
+	LASER_BEAM:
+	  if
+	    (cave_start_x .mod. 20) >= 15:
+	      from_to y1_of(item) y2_of(item)
+		: (y)
+		  set_text_colour_at &terminal x y beam_colour
+		  set_character_at &terminal x y laser_beam
+		  next
+		next
+	    next
+	SHOT:
+	  $y y_of(item)
+	  set_text_colour_at &terminal x y colour_of(item)
+	  set_character_at &terminal x y symbol_of(item)
+	  next
+	next
+    -> terminal
+
+$undraw_dynamic_contents:
+  for_each dynamic_contents
+    : (item)
+      $x x_of(item)-cave_start_x
+      case type_of(item)
+	LASER_BEAM:
+	  if
+	    (cave_start_x .mod. 20) >= 15:
+	      from_to y1_of(item) y2_of(item)
+		: (y)
+		  set_character_at &terminal x y ' '
+		  next
+	    next
+	SHOT:
+	  $y y_of(item)
+	  set_character_at &terminal x y ' '
+	  next
+	next
+    -> terminal
+
+$update_dynamic_contents:
+  map_reduce dynamic_contents
+    : (item)
+      if
+	x_of(item) <= cave_start_x
+	-> empty_list # the item is no longer visible - delete it
+	:
+	  case type_of(item)
+	    CANNON:
+	      inc &item.tick_of
+	      if
+		tick_of(item) == frequency_of(item)
+		->
+		  list
+		    item(.tick_of 0)
+		    item(.type_of SHOT)
+		-> list(item)
+	    SHOT:
+	      $new_x x_of(item)+dx_of(item)
+	      $new_y y_of(item)+dy_of(item)
+	      if
+		&&
+		  new_x > cave_start_x
+		  character_at(terminal new_x-cave_start_x new_y) == ' '
+		->
+		  list
+		    item
+		      .x_of new_x
+		      .y_of new_y
+		-> empty_list # crashed into an obstacle
+	    -> list(item)
+    append
+    empty_list
+
+$original_background_colours undefined
+
+$draw_spaceship
+  #
+    draws the spaceship
+  :
+    set_text_colour_at &terminal spaceship_x spaceship_y spaceship_colour
+    set_text_colour_at &terminal spaceship_x+1 spaceship_y spaceship_colour
+    set_character_at &terminal spaceship_x spaceship_y spaceship_tail
+    set_character_at &terminal spaceship_x+1 spaceship_y spaceship_head
+
+    # draw cone of light
+
+    $RX 20
+    $RY 5
+
+    $cx spaceship_x
+    $cy spaceship_y
+
+    $min_x cx
+    $max_x min(cx+RX WIDTH)
+    $min_y max(cy-RY 1)
+    $max_y min(cy+RY HEIGHT)
+
+    !original_background_colours empty_list
+    from_to min_y max_y
+      : (y)
+	$background_colour_line empty_list
+	from_to min_x max_x
+	  : (x)
+	    $background_colour background_colour_at(terminal x y)
+	    push &background_colour_line background_colour
+	    $dx x-cx
+	    $dy 2*(y-cy)
+	    if
+	      dx >= 2*abs(dy):
+		$distance min(sqrt(dx*dx+dy*dy) RX)
+		$lighting_colour
+		  colour_mixture
+		    GREY = RX-distance
+		    background_colour = distance
+		set_background_colour_at &terminal x y lighting_colour
+		next
+	      next
+	  :
+	    push &original_background_colours background_colour_line
+	    next
+      -> terminal original_background_colours
+
+$undraw_spaceship:
+  set_character_at &terminal spaceship_x spaceship_y ' '
+  set_character_at &terminal spaceship_x+1 spaceship_y ' '
+
+  $RX 20
+  $RY 5
+
+  $cx spaceship_x
+  $cy spaceship_y
+
+  $min_x cx
+  $max_x min(cx+RX WIDTH)
+  $min_y max(cy-RY 1)
+  $max_y min(cy+RY HEIGHT)
+
+  from_to min_y max_y
+    : (y)
+      $background_colour_line original_background_colours(y+1-min_y)
+      from_to min_x max_x
+	: (x)
+	  set_background_colour_at &terminal
+	    x y background_colour_line(x+1-min_x)
+	  next
+	next
+    -> terminal
+
+$draw_message
+  #
+    draws a message in the center of the screen
+  :
+    (
+      msg # the message to draw
+    )
+    set_text_colour &terminal BLACK
+    set_background_colour &terminal WHITE
+    rows_and_columns $rows $_columns msg
+    $row 13-div(rows 2)
+    for_each split(msg '@nl;')
+      : (line)
+	draw_text &terminal
+	  div((WIDTH-length_of(line)) 2)+1 row
+	  line
+	inc &row
+	next
+      -> terminal
+
+$hit_an_obstacle:
+  # checks whether the spaceship hit any obstacle
+
+  $msg undefined
+  check spaceship_x+1 spaceship_y:
+    check spaceship_x spaceship_y -> msg fuel
+
+  $check: (x y continuation)
+    $chr character_at(terminal x y)
+    if
+      chr == 'F': # refuel
+	plus &fuel 100
+	continuation
+      :
+	if
+	  chr != ' ':
+	    !msg "crashed into the walls of the cave"
+	    case chr
+	      star:
+		!msg "hit a floating star"
+		continuation
+	      mine:
+		!msg "hit a mine"
+		continuation
+	      laser_beam:
+		!msg "was hit by a laser beam"
+		continuation
+	      laser_beamer:
+		!msg "crashed into a laser beamer"
+		continuation
+	      shot:
+		!msg "was hit by the shot of a cannon"
+		continuation
+	      cannon:
+		!msg "crashed into a cannon"
+		continuation
+	      continuation
+	  continuation
+
+get_terminal_size! STDIN_FILENO $terminal_width $terminal_height
+on terminal_width != 80 || terminal_height != 25:
+  Error! "Please change your terminal size to 80x25!"
+
+create_terminal $terminal terminal_width terminal_height
+
+  # must be called before any other terminal function
+
+#
+  We check for the standard terminal size.
+
+  The cave would be different for other resolutions and results (highscores!)
+  could not be compared.
+
+
+# initialize the terminal
+get_terminal_attributes! STDIN_FILENO $original_attributes
+$attributes original_attributes
+use_canonical_mode &attributes false #  no line-buffering ...
+echo_characters &attributes false # ... and no echoing of typed in characters
+generate_signals &attributes false # to receive ctrl-c & ctrl-z
+enable_xon_xoff_for_output &attributes false # to receive ctrl-q & ctrl-s
+map_cr_to_lf_on_input &attributes false # to receive ctrl-m
+set_terminal_attributes! $_success STDIN_FILENO attributes
+cursor_off! # we want no blinking cursor
+
+try $error: start_game!
+on error.is_an_error:
+  eprintln! "ERROR: " debug_string(error 0 50)
+  quit!
+
+$start_game:
+  loop:
+    # draw welcome screen
+    set_background_colour &terminal WHITE
+    clear &terminal
+    draw_text &terminal 10 3 "
+			  Welcome to the CAVE!
+
+	     (an action game for console/terminal windows)
+
+      Try to survive and escape from the cave into the clear daylight!
+
+      Avoid all obstacles but hit the fuel tanks to refuel your ship!
+
+
+		  'w' or 'j': move shaceship up
+
+		  's' or 'n': move shaceship down
+
+		  'a' or 'v': move shaceship backwards
+
+		  'd' or 'b': move shaceship forwards
+
+		  'q':        quit the game
+
+
+		  Press any key to start the game.
+
+    update_terminal &terminal $output
+    print! output
+
+    get_key! $key
+
+    on key == 'q': quit!
+
+    !dynamic_contents empty_list
+
+    !rng mersenne_twister(4713)
+      #
+	our pseudo random number generator
+
+	To change the cave just change the seed value.
+
+    # initialize the ceiling and floor coordinates of the cave
+
+    next_value &rng !ceiling_y 20
+    !ceiling_y ceiling_y+1
+      #
+	the height of the cave's ceiling - initialized with a random value
+
+    next_value &rng !floor_y 21
+    !floor_y CAVE_HEIGHT+1-floor_y
+      #
+	the height of the cave's floor - initialized with a random value
+
+    !spaceship_x 1
+      #
+	the horizontal position (column) of the spaceship
+
+	We start in the leftmost column of the screen.
+
+    !spaceship_y 13
+      #
+	the vertical position (row) of the spaceship
+
+	We start in the middle of the screen.
+
+    !cave_length 600
+      #
+	the total length of the cave
+
+    !cave_draw_x 0
+      #
+	the current drawing position of the cave
+
+    !cave_start_x 0
+      #
+	the current display start position of the cave
+
+    !fuel 200
+      #
+	out spacesheep needs fuel - this is the initial amount
+
+    !next_fuel_tank_x 50
+      #
+	where is the next fuel tank?
+
+    # draw the initial view of the cave
+
+    set_background_colour &terminal DARK_GREY
+    clear &terminal
+
+    from_to 1 WIDTH
+      : (x)
+	draw_cave_column # fill all columns of the screen
+	  !terminal !rng !cave_draw_x
+	  !ceiling_y !floor_y
+	  !prev_ceiling_y !prev_floor_y
+	  !dynamic_contents
+	  x
+	next!
+      draw_spaceship_and_update_terminal
+
+    $draw_spaceship_and_update_terminal:
+      draw_spaceship &terminal !original_background_colours
+      update_terminal &terminal !output
+      print! output
+      undraw_spaceship &terminal
+      event_loop!
+
+    $event_loop:
+      $t current_time()
+      loop:
+	plus &t 0.08
+	$timeout t-current_time()
+	get_key! !key timeout
+
+	if !fuel !spaceship_y
+	  fuel > 0
+	  -> fuel-1 spaceship_y
+	  -> fuel spaceship_y+1 # move the spaceship downwards
+
+	if
+	  key.is_defined:
+	    usleep! $_dummy (1'000'000*(t-current_time())).to_integer
+	    case key
+	      'w', 'j':
+		if
+		  fuel >= 3:
+		    dec &spaceship_y # move the spaceship upwards
+		    minus &fuel 3
+		    update_the_cave!
+		  update_the_cave
+	      's', 'n':
+		if
+		  fuel >= 3:
+		    inc &spaceship_y # move the spaceship downwards
+		    minus &fuel 3
+		    update_the_cave!
+		  update_the_cave
+	      'a', 'v':
+		if
+		  spaceship_x > 1 && fuel >= 3:
+		    dec &spaceship_x # move the spaceship backwards
+		    minus &fuel 3
+		    update_the_cave!
+		  update_the_cave
+	      'd', 'b':
+		if
+		  spaceship_x < WIDTH && fuel >= 3:
+		    inc &spaceship_x # move the spaceship forwards
+		    minus &fuel 3
+		    update_the_cave!
+		  update_the_cave
+	      'q': quit! # the user wants to quit the game
+	      update_the_cave
+	  update_the_cave
+
+	$update_the_cave:
+	  inc &cave_start_x
+	  $distance_to_exit cave_length-cave_draw_x
+	  if
+	    distance_to_exit >= 0:
+	      if
+		distance_to_exit > 100:
+		  set_background_colour &terminal DARK_GREY
+		  scroll!
+		:
+		  $a distance_to_exit
+		  $b 100-a
+		  set_background_colour &terminal
+		    colour_mixture(DARK_GREY = a SKY_BLUE = b)
+		  scroll!
+	    :
+	      set_background_colour &terminal SKY_BLUE
+	      scroll!
+
+	$scroll:
+	  scroll_left &terminal
+	    # scroll the whole cave left by 1 character column
+
+	  set_background_colour &terminal undefined
+
+	  if
+	    cave_draw_x <= cave_length:
+	      draw_cave_column # draw a new right-most character column
+		!terminal !rng !cave_draw_x
+		!ceiling_y !floor_y
+		!prev_ceiling_y !prev_floor_y
+		!dynamic_contents
+		80
+	      draw_contents!
+	    :
+	      inc &cave_draw_x
+	      draw_contents!
+
+	$draw_contents:
+	  draw_fuel !terminal
+
+	  draw_dynamic_contents !terminal
+
+	  hit_an_obstacle $msg !fuel
+	  on msg.is_defined:
+	    draw_message !terminal "
+	      Your ship @(msg)!
+
+	      Press 'c' to play again or 'q' to quit.
+	    update_terminal &terminal !output
+	    print! output
+
+	    loop:
+	      get_key! !key
+	      case! key
+		'c' start_game
+		'q' quit # quit the game
+		next
+
+	  draw_spaceship &terminal !original_background_colours
+	  update_terminal &terminal !output
+	  print! output
+	  undraw_dynamic_contents &terminal
+	  undraw_spaceship &terminal
+	  update_dynamic_contents !dynamic_contents
+
+	  if
+	    cave_draw_x+spaceship_x > cave_length+WIDTH:
+	      draw_message !terminal "
+		Congratulations
+
+		 You survived!
+
+		Press any key to end the game
+	      update_terminal &terminal !output
+	      print! output
+	      get_key! $_dummy
+	      quit!
+	    next
+
+$quit:
+  # restore all changes we made to input buffering and echoing
+
+  set_terminal_attributes! $_success STDIN_FILENO original_attributes
+  print! "@esc;[u" # restore cursor position
+  print! "@esc;[?47l" # switch to default screen
+  print! "@esc;[0m" # set default colours
+  cursor_on!
+  terminate!
