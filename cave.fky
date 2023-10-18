@@ -74,16 +74,9 @@ $shot '\'
 $laser_beam '@0x2502;'
 $laser_beamer '@0x2551;'
 
-# colours
+# additional colours (base colours are defined in the library)
 
-$BLACK '@0x000000;'
-$WHITE '@0xffffff;'
-$GREY '@0x808080;'
 $DARK_GREY '@0x202020;'
-$RED '@0xff0000;'
-$GREEN '@0x00ff00;'
-$BLUE '@0x0000ff;'
-$YELLOW '@0xffff00;'
 $ORANGE '@0xff8000;'
 $SKY_BLUE '@0xc0c0ff;'
 
@@ -94,9 +87,10 @@ $fuel_tank_colour BLUE
 $fuel_tank_text_colour WHITE
 $star_colour GREEN
 $mine_colour DARK_GREY
-$beam_colour YELLOW
-$beam_cannon_colour ORANGE
 $cannon_colour RED
+$shot_colour YELLOW
+$beam_cannon_colour ORANGE
+$beam_colour YELLOW
 
 # for documentation of the following variables see the inialization section
 
@@ -229,7 +223,7 @@ $draw_cave_column:
 		.dx_of -1
 		.dy_of -1
 		.symbol_of shot
-		.colour_of YELLOW
+		.colour_of shot_colour
 		.frequency_of
 		  if
 		    cave_draw_x > 500
@@ -315,7 +309,7 @@ $draw_fuel:
 $draw_dynamic_contents:
   for_each dynamic_contents
     : (item)
-      $x x_of(item)-cave_start_x
+      $x x_of(item)+1-cave_start_x
       case type_of(item)
 	LASER_BEAM:
 	  if
@@ -338,7 +332,7 @@ $draw_dynamic_contents:
 $undraw_dynamic_contents:
   for_each dynamic_contents
     : (item)
-      $x x_of(item)-cave_start_x
+      $x x_of(item)+1-cave_start_x
       case type_of(item)
 	LASER_BEAM:
 	  if
@@ -593,7 +587,7 @@ $start_game:
 
     !dynamic_contents empty_list
 
-    !rng mersenne_twister(4713)
+    !rng mersenne_twister(4715)
       #
 	our pseudo random number generator
 
@@ -631,7 +625,7 @@ $start_game:
       #
 	the current drawing position of the cave
 
-    !cave_start_x 0
+    !cave_start_x 1
       #
 	the current display start position of the cave
 
@@ -770,7 +764,7 @@ $start_game:
 	      get_key! !key
 	      case! key
 		'c' start_game
-		'q' quit # quit the game
+		'q' quit
 		next
 
 	  draw_spaceship &terminal !original_background_colours
@@ -787,11 +781,14 @@ $start_game:
 
 		 You survived!
 
-		Press any key to end the game
+		Press 'q' to end the game
 	      update_terminal &terminal !output
 	      print! output
-	      get_key! $_dummy
-	      quit!
+	      loop:
+		get_key! !key
+		case! key
+		  'q': quit!
+		  next
 	    next
 
 $quit:
