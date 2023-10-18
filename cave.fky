@@ -378,6 +378,7 @@ $update_dynamic_contents:
 	      if
 		&&
 		  new_x > cave_start_x
+		  new_y > 1
 		  character_at(terminal new_x-cave_start_x new_y) == ' '
 		->
 		  list
@@ -527,11 +528,7 @@ get_terminal_size! STDIN_FILENO $terminal_width $terminal_height
 on terminal_width != 80 || terminal_height != 25:
   Error! "
     Please change your terminal size to 80x25!
-           You current size = @(terminal_width)x@(terminal_height).
-
-create_terminal $terminal terminal_width terminal_height
-
-  # must be called before any other terminal function
+	   You current size = @(terminal_width)x@(terminal_height).
 
 #
   We check for the standard terminal size.
@@ -541,15 +538,18 @@ create_terminal $terminal terminal_width terminal_height
 
 
 # initialize the terminal
+print! "@esc;[?47h" # switch to alternate screen
+print! "@esc;[33s" # store cursor position
 get_terminal_attributes! STDIN_FILENO $original_attributes
 $attributes original_attributes
 use_canonical_mode &attributes false #  no line-buffering ...
 echo_characters &attributes false # ... and no echoing of typed in characters
-generate_signals &attributes false # to receive ctrl-c & ctrl-z
-enable_xon_xoff_for_output &attributes false # to receive ctrl-q & ctrl-s
-map_cr_to_lf_on_input &attributes false # to receive ctrl-m
 set_terminal_attributes! $_success STDIN_FILENO attributes
 cursor_off! # we want no blinking cursor
+
+create_terminal $terminal terminal_width terminal_height
+
+  # must be called before any other terminal function
 
 try $error: start_game!
 on error.is_an_error:

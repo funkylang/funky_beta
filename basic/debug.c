@@ -210,15 +210,18 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "length_of\000", NULL
+    "length_of\000", NULL,
+    {.position = POS(42, 6)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "is_odd\000", NULL
+    "is_odd\000", NULL,
+    {.position = POS(45, 9)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "assign\000std", NULL
+    "assign\000std", NULL,
+    {.position = POS(46, 9)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
@@ -226,7 +229,8 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "if\000", NULL
+    "if\000", NULL,
+    {.position = POS(44, 5)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
@@ -234,35 +238,43 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "less\000std", NULL
+    "less\000std", NULL,
+    {.position = POS(56, 9)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "plus\000std", NULL
+    "plus\000std", NULL,
+    {.position = POS(58, 22)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "debug_string\000", NULL
+    "debug_string\000", NULL,
+    {.position = POS(59, 27)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "print\000", NULL
+    "print\000", NULL,
+    {.position = POS(59, 11)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "next\000", NULL
+    "next\000", NULL,
+    {.position = POS(61, 11)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "break\000", NULL
+    "break\000", NULL,
+    {.position = POS(62, 9)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "pass\000", NULL
+    "pass\000", NULL,
+    {.position = POS(63, 5)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "loop\000", NULL
+    "loop\000", NULL,
+    {.position = POS(53, 3)}
   },
   {
     FOT_INITIALIZED, 0, 0,
@@ -271,7 +283,8 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "debug_write\000", NULL
+    "debug_write\000", NULL,
+    {.position = POS(69, 3)}
   },
   {
     FOT_INITIALIZED, 0, 0,
@@ -280,7 +293,8 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "debug_print\000", NULL
+    "debug_print\000", NULL,
+    {.position = POS(95, 3)}
   }
 };
 

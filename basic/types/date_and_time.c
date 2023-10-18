@@ -218,11 +218,13 @@ static ATTRIBUTE_DEFINITION std_types__date_and_time__attributes[] = {
 static FUNKY_VARIABLE variables_table[] = {
   {
     FOT_UNKNOWN, 0, 1,
-    "date_and_time\000std_types", std_types__date_and_time__attributes
+    "date_and_time\000std_types", std_types__date_and_time__attributes,
+    {.position = POS(23, 1)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
-    "to_string\000", NULL
+    "to_string\000", NULL,
+    {.position = POS(23, 27)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
@@ -230,75 +232,93 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "time_shift_of\000", NULL
+    "time_shift_of\000", NULL,
+    {.position = POS(29, 7)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "plus\000std", NULL
+    "plus\000std", NULL,
+    {.position = POS(30, 6)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "second_of\000", NULL
+    "second_of\000", NULL,
+    {.position = POS(31, 11)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "year_of\000", NULL
+    "year_of\000", NULL,
+    {.position = POS(34, 7)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "month_of\000", NULL
+    "month_of\000", NULL,
+    {.position = POS(36, 16)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "pad_left\000", NULL
+    "pad_left\000", NULL,
+    {.position = POS(36, 7)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "day_of\000", NULL
+    "day_of\000", NULL,
+    {.position = POS(38, 16)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "hour_of\000", NULL
+    "hour_of\000", NULL,
+    {.position = POS(40, 7)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "minute_of\000", NULL
+    "minute_of\000", NULL,
+    {.position = POS(42, 16)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "floor\000", NULL
+    "floor\000", NULL,
+    {.position = POS(44, 16)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "minus\000std", NULL
+    "minus\000std", NULL,
+    {.position = POS(46, 28)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "times\000std", NULL
+    "times\000std", NULL,
+    {.position = POS(46, 22)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "less\000std", NULL
+    "less\000std", NULL,
+    {.position = POS(49, 17)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "over\000std", NULL
+    "over\000std", NULL,
+    {.position = POS(49, 33)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "string\000", NULL
+    "string\000", NULL,
+    {.position = POS(49, 22)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "assign\000std", NULL
+    "assign\000std", NULL,
+    {.position = POS(49, 21)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "true\000", NULL
+    "true\000", NULL,
+    {.position = POS(51, 12)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "cond\000", NULL
+    "cond\000", NULL,
+    {.position = POS(48, 7)}
   }
 };
 

@@ -2145,7 +2145,8 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "assign\000std", NULL
+    "assign\000std", NULL,
+    {.position = POS(28, 1)}
   },
   {
     FOT_POLYMORPHIC, 0, 0,
@@ -2164,15 +2165,18 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "object\000std_types", std_types__object__attributes
+    "object\000std_types", std_types__object__attributes,
+    {.position = POS(33, 1)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
-    "is_an_avl_table\000", NULL
+    "is_an_avl_table\000", NULL,
+    {.position = POS(33, 20)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "false\000", NULL
+    "false\000", NULL,
+    {.position = POS(33, 36)}
   },
   {
     FOT_DERIVED, 0, 5,
@@ -2181,7 +2185,8 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "true\000", NULL
+    "true\000", NULL,
+    {.position = POS(34, 39)}
   },
   {
     FOT_INITIALIZED, 0, 14,
@@ -2190,15 +2195,18 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
-    "is_an_empty_node\000", NULL
+    "is_an_empty_node\000", NULL,
+    {.position = POS(36, 11)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "binary_table\000std_types", NULL
+    "binary_table\000std_types", NULL,
+    {.position = POS(38, 23)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
-    "contents_of\000", NULL
+    "contents_of\000", NULL,
+    {.position = POS(39, 23)}
   },
   {
     FOT_DERIVED, 0, 3,
@@ -2212,15 +2220,18 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "empty_binary_node\000basic_collections", NULL
+    "empty_binary_node\000basic_collections", NULL,
+    {.position = POS(43, 13)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "undefined\000", NULL
+    "undefined\000", NULL,
+    {.position = POS(45, 17)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "tuple\000", NULL
+    "tuple\000", NULL,
+    {.position = POS(45, 11)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
@@ -2240,43 +2251,53 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "equal\000std", NULL
+    "equal\000std", NULL,
+    {.position = POS(58, 5)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
-    "retrieve\000", NULL
+    "retrieve\000", NULL,
+    {.position = POS(59, 8)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "is_defined\000", NULL
+    "is_defined\000", NULL,
+    {.position = POS(62, 15)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
-    "length_of\000", NULL
+    "length_of\000", NULL,
+    {.position = POS(69, 28)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "plus\000std", NULL
+    "plus\000std", NULL,
+    {.position = POS(69, 28)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "if\000", NULL
+    "if\000", NULL,
+    {.position = POS(64, 11)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "minus\000std", NULL
+    "minus\000std", NULL,
+    {.position = POS(78, 28)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "retrieve_method\000", NULL
+    "retrieve_method\000", NULL,
+    {.position = POS(93, 20)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
-    "first_key_of\000", NULL
+    "first_key_of\000", NULL,
+    {.position = POS(95, 23)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
-    "next_key_of\000", NULL
+    "next_key_of\000", NULL,
+    {.position = POS(103, 23)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
@@ -2296,7 +2317,8 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "less\000std", NULL
+    "less\000std", NULL,
+    {.position = POS(115, 7)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
@@ -2304,7 +2326,8 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "is_undefined\000", NULL
+    "is_undefined\000", NULL,
+    {.position = POS(118, 23)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
@@ -2316,7 +2339,8 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "new\000", NULL
+    "new\000", NULL,
+    {.position = POS(145, 6)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
@@ -2356,11 +2380,13 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "or\000std", NULL
+    "or\000std", NULL,
+    {.position = POS(161, 17)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "if_not\000", NULL
+    "if_not\000", NULL,
+    {.position = POS(166, 19)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
@@ -2604,7 +2630,8 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "cond\000", NULL
+    "cond\000", NULL,
+    {.position = POS(395, 15)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
@@ -2620,71 +2647,88 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
-    "for_each_1_left\000", NULL
+    "for_each_1_left\000", NULL,
+    {.position = POS(480, 11)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "for_each_1_left_method\000", NULL
+    "for_each_1_left_method\000", NULL,
+    {.position = POS(480, 27)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
-    "for_each_2_left\000", NULL
+    "for_each_2_left\000", NULL,
+    {.position = POS(481, 11)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "for_each_2_left_method\000", NULL
+    "for_each_2_left_method\000", NULL,
+    {.position = POS(481, 27)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
-    "for_each_1_call\000", NULL
+    "for_each_1_call\000", NULL,
+    {.position = POS(482, 11)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "for_each_1_call_method\000", NULL
+    "for_each_1_call_method\000", NULL,
+    {.position = POS(482, 27)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
-    "for_each_2_call\000", NULL
+    "for_each_2_call\000", NULL,
+    {.position = POS(483, 11)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "for_each_2_call_method\000", NULL
+    "for_each_2_call_method\000", NULL,
+    {.position = POS(483, 27)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
-    "for_each_1_right\000", NULL
+    "for_each_1_right\000", NULL,
+    {.position = POS(484, 11)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "for_each_1_right_method\000", NULL
+    "for_each_1_right_method\000", NULL,
+    {.position = POS(484, 28)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
-    "for_each_2_right\000", NULL
+    "for_each_2_right\000", NULL,
+    {.position = POS(485, 11)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "for_each_2_right_method\000", NULL
+    "for_each_2_right_method\000", NULL,
+    {.position = POS(485, 28)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
-    "map_1\000", NULL
+    "map_1\000", NULL,
+    {.position = POS(490, 11)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "map_1_method\000", NULL
+    "map_1_method\000", NULL,
+    {.position = POS(490, 17)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
-    "map_2\000", NULL
+    "map_2\000", NULL,
+    {.position = POS(491, 11)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "map_2_method\000", NULL
+    "map_2_method\000", NULL,
+    {.position = POS(491, 17)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
-    "validate\000", NULL
+    "validate\000", NULL,
+    {.position = POS(496, 11)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
@@ -2712,27 +2756,33 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "and\000std", NULL
+    "and\000std", NULL,
+    {.position = POS(500, 11)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "default_value\000", NULL
+    "default_value\000", NULL,
+    {.position = POS(504, 11)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "string\000std", NULL
+    "string\000std", NULL,
+    {.position = POS(503, 19)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "debug_write\000", NULL
+    "debug_write\000", NULL,
+    {.position = POS(503, 7)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "debug_exit\000", NULL
+    "debug_exit\000", NULL,
+    {.position = POS(505, 7)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "pass\000", NULL
+    "pass\000", NULL,
+    {.position = POS(506, 5)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
@@ -2744,7 +2794,8 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "max\000", NULL
+    "max\000", NULL,
+    {.position = POS(510, 5)}
   }
 };
 

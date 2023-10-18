@@ -139,11 +139,13 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 5,
-    "undefined\000std_types", std_types__undefined__attributes
+    "undefined\000std_types", std_types__undefined__attributes,
+    {.position = POS(23, 17)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "assign\000std", NULL
+    "assign\000std", NULL,
+    {.position = POS(23, 1)}
   },
   {
     FOT_POLYMORPHIC, 0, 0,
@@ -157,35 +159,43 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
-    "is_defined\000", NULL
+    "is_defined\000", NULL,
+    {.position = POS(37, 23)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "false\000", NULL
+    "false\000", NULL,
+    {.position = POS(37, 34)}
   },
   {
     FOT_UNKNOWN, 0, 2,
-    "object\000std_types", std_types__object__attributes
+    "object\000std_types", std_types__object__attributes,
+    {.position = POS(39, 1)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
-    "is_undefined\000", NULL
+    "is_undefined\000", NULL,
+    {.position = POS(39, 20)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
-    "default_value\000", NULL
+    "default_value\000", NULL,
+    {.position = POS(45, 20)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "true\000", NULL
+    "true\000", NULL,
+    {.position = POS(56, 36)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
-    "equal\000", NULL
+    "equal\000", NULL,
+    {.position = POS(69, 23)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
-    "serialize\000", NULL
+    "serialize\000", NULL,
+    {.position = POS(78, 23)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
@@ -193,19 +203,23 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "undefined\000", NULL
+    "undefined\000", NULL,
+    {.position = POS(81, 14)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "tabs_and_spaces\000", NULL
+    "tabs_and_spaces\000", NULL,
+    {.position = POS(86, 15)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "append\000", NULL
+    "append\000", NULL,
+    {.position = POS(86, 8)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "if\000", NULL
+    "if\000", NULL,
+    {.position = POS(84, 3)}
   }
 };
 

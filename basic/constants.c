@@ -36,7 +36,8 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "assign\000std", NULL
+    "assign\000std", NULL,
+    {.position = POS(23, 1)}
   },
   {
     FOT_INITIALIZED, 0, 0,

@@ -95,7 +95,8 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "assign\000std", NULL
+    "assign\000std", NULL,
+    {.position = POS(23, 1)}
   },
   {
     FOT_POLYMORPHIC, 0, 0,
@@ -104,11 +105,13 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 5,
-    "key_value_pair\000std_types", std_types__key_value_pair__attributes
+    "key_value_pair\000std_types", std_types__key_value_pair__attributes,
+    {.position = POS(35, 1)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
-    "subtype_of\000", NULL
+    "subtype_of\000", NULL,
+    {.position = POS(35, 28)}
   },
   {
     FOT_POLYMORPHIC, 0, 0,
@@ -117,27 +120,33 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "object\000std_types", std_types__object__attributes
+    "object\000std_types", std_types__object__attributes,
+    {.position = POS(41, 1)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
-    "is_a_key_value_pair\000", NULL
+    "is_a_key_value_pair\000", NULL,
+    {.position = POS(41, 20)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "false\000", NULL
+    "false\000", NULL,
+    {.position = POS(41, 40)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "true\000", NULL
+    "true\000", NULL,
+    {.position = POS(42, 48)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
-    "key_of\000", NULL
+    "key_of\000", NULL,
+    {.position = POS(44, 28)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
-    "value_of\000", NULL
+    "value_of\000", NULL,
+    {.position = POS(53, 28)}
   },
   {
     FOT_INITIALIZED, 0, 0,
@@ -146,11 +155,13 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "new\000", NULL
+    "new\000", NULL,
+    {.position = POS(69, 3)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
-    "serialization_tag_of\000", NULL
+    "serialization_tag_of\000", NULL,
+    {.position = POS(71, 28)}
   }
 };
 

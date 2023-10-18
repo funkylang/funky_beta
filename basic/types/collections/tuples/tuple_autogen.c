@@ -2718,7 +2718,8 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "assign\000std", NULL
+    "assign\000std", NULL,
+    {.position = POS(26, 1)}
   },
   {
     FOT_POLYMORPHIC, 0, 0,
@@ -2732,19 +2733,23 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 5,
-    "tuple2\000builtin", builtin__tuple2__attributes
+    "tuple2\000builtin", builtin__tuple2__attributes,
+    {.position = POS(32, 1)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
-    "equal\000", NULL
+    "equal\000", NULL,
+    {.position = POS(32, 18)}
   },
   {
     FOT_UNKNOWN, 0, 7,
-    "object\000std_types", std_types__object__attributes
+    "object\000std_types", std_types__object__attributes,
+    {.position = POS(35, 1)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "false\000", NULL
+    "false\000", NULL,
+    {.position = POS(35, 46)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
@@ -2756,15 +2761,18 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "equal\000std", NULL
+    "equal\000std", NULL,
+    {.position = POS(42, 7)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "and\000std", NULL
+    "and\000std", NULL,
+    {.position = POS(41, 7)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
-    "less\000", NULL
+    "less\000", NULL,
+    {.position = POS(45, 18)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
@@ -2784,27 +2792,33 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "less\000std", NULL
+    "less\000std", NULL,
+    {.position = POS(50, 7)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "or\000std", NULL
+    "or\000std", NULL,
+    {.position = POS(49, 7)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
-    "hash\000", NULL
+    "hash\000", NULL,
+    {.position = POS(55, 18)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "bit_xor\000std", NULL
+    "bit_xor\000std", NULL,
+    {.position = POS(58, 6)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
-    "to_binop\000", NULL
+    "to_binop\000", NULL,
+    {.position = POS(62, 18)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "tuple\000", NULL
+    "tuple\000", NULL,
+    {.position = POS(68, 3)}
   },
   {
     FOT_POLYMORPHIC, 0, 0,
@@ -2813,7 +2827,8 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 5,
-    "tuple3\000builtin", builtin__tuple3__attributes
+    "tuple3\000builtin", builtin__tuple3__attributes,
+    {.position = POS(74, 1)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
@@ -2862,7 +2877,8 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 5,
-    "tuple4\000builtin", builtin__tuple4__attributes
+    "tuple4\000builtin", builtin__tuple4__attributes,
+    {.position = POS(123, 1)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
@@ -2927,7 +2943,8 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 5,
-    "tuple5\000builtin", builtin__tuple5__attributes
+    "tuple5\000builtin", builtin__tuple5__attributes,
+    {.position = POS(179, 1)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
@@ -3008,7 +3025,8 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 5,
-    "tuple6\000builtin", builtin__tuple6__attributes
+    "tuple6\000builtin", builtin__tuple6__attributes,
+    {.position = POS(242, 1)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
@@ -3105,7 +3123,8 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 5,
-    "tuple7\000builtin", builtin__tuple7__attributes
+    "tuple7\000builtin", builtin__tuple7__attributes,
+    {.position = POS(312, 1)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
@@ -3218,7 +3237,8 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 5,
-    "tuple8\000builtin", builtin__tuple8__attributes
+    "tuple8\000builtin", builtin__tuple8__attributes,
+    {.position = POS(389, 1)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,

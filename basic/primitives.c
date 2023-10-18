@@ -74,11 +74,13 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "pass\000", NULL
+    "pass\000", NULL,
+    {.position = POS(48, 3)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "spread\000", NULL
+    "spread\000", NULL,
+    {.position = POS(55, 3)}
   }
 };
 

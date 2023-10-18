@@ -81,8 +81,8 @@ $std_types::mersenne_twister/next_raw_value: (self)
   $y state(index)
   inc &index
   !y y ^ (y >> 11)
-  !y (y ^ (y << 7)) & TEMPERING_MASK_B
-  !y (y ^ (y << 15)) & TEMPERING_MASK_C
+  !y y ^ ((y << 7) & TEMPERING_MASK_B)
+  !y y ^ ((y << 15) & TEMPERING_MASK_C)
   !y y ^ (y >> 18)
   ->
     self

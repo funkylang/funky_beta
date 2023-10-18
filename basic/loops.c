@@ -549,7 +549,8 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "assign\000std", NULL
+    "assign\000std", NULL,
+    {.position = POS(25, 1)}
   },
   {
     FOT_DERIVED, 0, 0,
@@ -558,7 +559,8 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "undefined\000", NULL
+    "undefined\000", NULL,
+    {.position = POS(27, 20)}
   },
   {
     FOT_DERIVED, 0, 0,
@@ -587,7 +589,8 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "pass\000", NULL
+    "pass\000", NULL,
+    {.position = POS(33, 12)}
   },
   {
     FOT_DERIVED, 0, 0,
@@ -601,7 +604,8 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "empty_list\000", NULL
+    "empty_list\000", NULL,
+    {.position = POS(45, 26)}
   },
   {
     FOT_INITIALIZED, 0, 0,
@@ -614,15 +618,18 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "next\000", NULL
+    "next\000", NULL,
+    {.position = POS(103, 15)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "break\000", NULL
+    "break\000", NULL,
+    {.position = POS(105, 29)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "tuple\000", NULL
+    "tuple\000", NULL,
+    {.position = POS(105, 18)}
   },
   {
     FOT_INITIALIZED, 0, 0,
@@ -643,11 +650,13 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "if\000", NULL
+    "if\000", NULL,
+    {.position = POS(126, 9)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "loop\000", NULL
+    "loop\000", NULL,
+    {.position = POS(126, 3)}
   },
   {
     FOT_INITIALIZED, 0, 0,
@@ -668,7 +677,8 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "if_not\000", NULL
+    "if_not\000", NULL,
+    {.position = POS(134, 9)}
   },
   {
     FOT_INITIALIZED, 0, 0,
@@ -681,11 +691,13 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "less\000std", NULL
+    "less\000std", NULL,
+    {.position = POS(184, 27)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "minus\000std", NULL
+    "minus\000std", NULL,
+    {.position = POS(190, 24)}
   },
   {
     FOT_INITIALIZED, 0, 0,
@@ -698,11 +710,13 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "not\000std", NULL
+    "not\000std", NULL,
+    {.position = POS(300, 28)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "plus\000std", NULL
+    "plus\000std", NULL,
+    {.position = POS(306, 24)}
   },
   {
     FOT_INITIALIZED, 0, 0,

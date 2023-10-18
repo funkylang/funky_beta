@@ -24,7 +24,8 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "assign\000std", NULL
+    "assign\000std", NULL,
+    {.position = POS(26, 1)}
   },
   {
     FOT_POLYMORPHIC, 0, 0,

@@ -57,27 +57,33 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "create_string\000", NULL
+    "create_string\000", NULL,
+    {.position = POS(24, 23)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "without_suffix\000", NULL
+    "without_suffix\000", NULL,
+    {.position = POS(24, 23)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "eprintln\000", NULL
+    "eprintln\000", NULL,
+    {.position = POS(24, 3)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "EXIT_FAILURE\000", NULL
+    "EXIT_FAILURE\000", NULL,
+    {.position = POS(25, 9)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "exit\000", NULL
+    "exit\000", NULL,
+    {.position = POS(25, 3)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "assign\000std", NULL
+    "assign\000std", NULL,
+    {.position = POS(23, 1)}
   }
 };
 

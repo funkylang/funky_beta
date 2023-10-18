@@ -94,18 +94,18 @@ static TAB_NUM t_func_std_types__mersenne_twister___next_raw_value[] = {
   var_std__shift_right, 2, LOCAL(4), num_11, 1, LOCAL(1),
   // !y y ^ (y >> 11)
   var_std__bit_xor, 2, LOCAL(4), LOCAL(1), 1, LOCAL(4),
-  // y << 7)) & TEMPERING_MASK_B
+  // y << 7) & TEMPERING_MASK_B)
   var_std__shift_left, 2, LOCAL(4), num_7, 1, LOCAL(1),
-  // y ^ (y << 7)) & TEMPERING_MASK_B
-  var_std__bit_xor, 2, LOCAL(4), LOCAL(1), 1, LOCAL(2),
-  // !y (y ^ (y << 7)) & TEMPERING_MASK_B
-  var_std__bit_and, 2, LOCAL(2), num_2636928640, 1, LOCAL(4),
-  // y << 15)) & TEMPERING_MASK_C
+  // y << 7) & TEMPERING_MASK_B)
+  var_std__bit_and, 2, LOCAL(1), num_2636928640, 1, LOCAL(2),
+  // !y y ^ ((y << 7) & TEMPERING_MASK_B)
+  var_std__bit_xor, 2, LOCAL(4), LOCAL(2), 1, LOCAL(4),
+  // y << 15) & TEMPERING_MASK_C)
   var_std__shift_left, 2, LOCAL(4), num_15, 1, LOCAL(1),
-  // y ^ (y << 15)) & TEMPERING_MASK_C
-  var_std__bit_xor, 2, LOCAL(4), LOCAL(1), 1, LOCAL(2),
-  // !y (y ^ (y << 15)) & TEMPERING_MASK_C
-  var_std__bit_and, 2, LOCAL(2), num_4022730752, 1, LOCAL(4),
+  // y << 15) & TEMPERING_MASK_C)
+  var_std__bit_and, 2, LOCAL(1), num_4022730752, 1, LOCAL(2),
+  // !y y ^ ((y << 15) & TEMPERING_MASK_C)
+  var_std__bit_xor, 2, LOCAL(4), LOCAL(2), 1, LOCAL(4),
   // y >> 18)
   var_std__shift_right, 2, LOCAL(4), num_18, 1, LOCAL(1),
   // !y y ^ (y >> 18)
@@ -123,10 +123,10 @@ static TAB_NUM t_func_std_types__mersenne_twister___next_raw_value[] = {
   POS(83, 11),
   POS(83, 3),
   POS(84, 12),
-  POS(84, 7),
+  POS(84, 12),
   POS(84, 3),
   POS(85, 12),
-  POS(85, 7),
+  POS(85, 12),
   POS(85, 3),
   POS(86, 11),
   POS(86, 3),

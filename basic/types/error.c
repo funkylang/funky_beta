@@ -41,31 +41,38 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "assign\000std", NULL
+    "assign\000std", NULL,
+    {.position = POS(23, 1)}
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "object\000std_types", std_types__object__attributes
+    "object\000std_types", std_types__object__attributes,
+    {.position = POS(27, 1)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
-    "is_an_error\000", NULL
+    "is_an_error\000", NULL,
+    {.position = POS(27, 20)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "false\000", NULL
+    "false\000", NULL,
+    {.position = POS(27, 32)}
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "undefined\000std_types", std_types__undefined__attributes
+    "undefined\000std_types", std_types__undefined__attributes,
+    {.position = POS(29, 1)}
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "error\000std_types", std_types__error__attributes
+    "error\000std_types", std_types__error__attributes,
+    {.position = POS(33, 1)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "true\000", NULL
+    "true\000", NULL,
+    {.position = POS(33, 31)}
   }
 };
 

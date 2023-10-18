@@ -393,7 +393,8 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "assign\000std", NULL
+    "assign\000std", NULL,
+    {.position = POS(66, 3)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
@@ -401,15 +402,18 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "length_of\000", NULL
+    "length_of\000", NULL,
+    {.position = POS(67, 6)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "less\000std", NULL
+    "less\000std", NULL,
+    {.position = POS(72, 12)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "not\000std", NULL
+    "not\000std", NULL,
+    {.position = POS(72, 12)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
@@ -417,15 +421,18 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "plus\000std", NULL
+    "plus\000std", NULL,
+    {.position = POS(79, 16)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "if\000", NULL
+    "if\000", NULL,
+    {.position = POS(74, 9)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "pass\000", NULL
+    "pass\000", NULL,
+    {.position = POS(81, 7)}
   },
   {
     FOT_POLYMORPHIC, 0, 0,
@@ -434,15 +441,18 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "object\000std_types", std_types__object__attributes
+    "object\000std_types", std_types__object__attributes,
+    {.position = POS(85, 1)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "equal\000", NULL
+    "equal\000", NULL,
+    {.position = POS(85, 31)}
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "value_range\000std_types", std_types__value_range__attributes
+    "value_range\000std_types", std_types__value_range__attributes,
+    {.position = POS(87, 1)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
@@ -454,11 +464,13 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "and\000std", NULL
+    "and\000std", NULL,
+    {.position = POS(89, 6)}
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "sequence\000std_types", std_types__sequence__attributes
+    "sequence\000std_types", std_types__sequence__attributes,
+    {.position = POS(91, 1)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
@@ -466,19 +478,23 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "true\000", NULL
+    "true\000", NULL,
+    {.position = POS(96, 12)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "next\000", NULL
+    "next\000", NULL,
+    {.position = POS(97, 9)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "false\000", NULL
+    "false\000", NULL,
+    {.position = POS(98, 8)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "for_each\000", NULL
+    "for_each\000", NULL,
+    {.position = POS(92, 3)}
   },
   {
     FOT_INITIALIZED, 0, 0,
@@ -499,7 +515,8 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "equal\000std", NULL
+    "equal\000std", NULL,
+    {.position = POS(137, 7)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
@@ -507,19 +524,23 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "is_defined\000", NULL
+    "is_defined\000", NULL,
+    {.position = POS(148, 23)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "is_undefined\000", NULL
+    "is_undefined\000", NULL,
+    {.position = POS(149, 23)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "or\000std", NULL
+    "or\000std", NULL,
+    {.position = POS(147, 17)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "range\000", NULL
+    "range\000", NULL,
+    {.position = POS(154, 17)}
   }
 };
 

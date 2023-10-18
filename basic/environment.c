@@ -86,11 +86,13 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "undefined\000", NULL
+    "undefined\000", NULL,
+    {.position = POS(23, 19)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "assign\000std", NULL
+    "assign\000std", NULL,
+    {.position = POS(23, 1)}
   },
   {
     FOT_INITIALIZED, 0, 0,
@@ -103,31 +105,38 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "empty_key_order_table\000", NULL
+    "empty_key_order_table\000", NULL,
+    {.position = POS(26, 16)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "environment_variables\000", NULL
+    "environment_variables\000", NULL,
+    {.position = POS(27, 12)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "from_utf8\000", NULL
+    "from_utf8\000", NULL,
+    {.position = POS(29, 7)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "before\000", NULL
+    "before\000", NULL,
+    {.position = POS(30, 12)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "behind\000", NULL
+    "behind\000", NULL,
+    {.position = POS(31, 14)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "next\000", NULL
+    "next\000", NULL,
+    {.position = POS(33, 7)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "for_each\000", NULL
+    "for_each\000", NULL,
+    {.position = POS(27, 3)}
   }
 };
 

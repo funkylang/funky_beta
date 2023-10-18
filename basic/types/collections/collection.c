@@ -7,9 +7,9 @@
 #include "runtime/memory.h"
 
 enum {
-  func_std_types__collection___is_not_empty = -1,
-  func_std_types__collection___is_empty = -2,
-  num_0 = -3
+  func_std_types__collection___is_empty = -1,
+  num_0 = -2,
+  func_std_types__collection___is_not_empty = -3
 };
 
 enum {
@@ -65,21 +65,6 @@ enum {
 };
 
 
-static TAB_NUM t_func_std_types__collection___is_not_empty[] = {
-  3, // locals
-  1, // parameters
-  LOCAL(3), // 52_0_self
-  // length_of(self) > 0
-  var_length_of, 1, LOCAL(3), 1, LOCAL(1),
-  // 0
-  var_std__less, 2, num_0, LOCAL(1), 1, LOCAL(2),
-  // -> length_of(self) > 0
-  LET, 1, LOCAL(2), TAIL_CALL,
-  POS(54, 6),
-  POS(54, 24),
-  POS(54, 3)
-};
-
 static TAB_NUM t_func_std_types__collection___is_empty[] = {
   3, // locals
   1, // parameters
@@ -95,10 +80,25 @@ static TAB_NUM t_func_std_types__collection___is_empty[] = {
   POS(47, 3)
 };
 
+static TAB_NUM t_func_std_types__collection___is_not_empty[] = {
+  3, // locals
+  1, // parameters
+  LOCAL(3), // 52_0_self
+  // length_of(self) > 0
+  var_length_of, 1, LOCAL(3), 1, LOCAL(1),
+  // 0
+  var_std__less, 2, num_0, LOCAL(1), 1, LOCAL(2),
+  // -> length_of(self) > 0
+  LET, 1, LOCAL(2), TAIL_CALL,
+  POS(54, 6),
+  POS(54, 24),
+  POS(54, 3)
+};
+
 static FUNKY_CONSTANT constants_table[] = {
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std_types__collection___is_not_empty}},
   {FLT_FUNCTION, 0, {.tfunc = t_func_std_types__collection___is_empty}},
-  {FLT_POSITIVE_INT64, 0, {.value = 0}}
+  {FLT_POSITIVE_INT64, 0, {.value = 0}},
+  {FLT_FUNCTION, 0, {.tfunc = t_func_std_types__collection___is_not_empty}}
 };
 
 static ATTRIBUTE_DEFINITION std_types__collection__attributes[] = {
@@ -114,31 +114,38 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "object\000std_types", NULL
+    "object\000std_types", NULL,
+    {.position = POS(36, 24)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "assign\000std", NULL
+    "assign\000std", NULL,
+    {.position = POS(36, 1)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
-    "is_empty\000", NULL
+    "is_empty\000", NULL,
+    {.position = POS(42, 24)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "length_of\000", NULL
+    "length_of\000", NULL,
+    {.position = POS(47, 6)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "equal\000std", NULL
+    "equal\000std", NULL,
+    {.position = POS(47, 6)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
-    "is_not_empty\000", NULL
+    "is_not_empty\000", NULL,
+    {.position = POS(49, 24)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "less\000std", NULL
+    "less\000std", NULL,
+    {.position = POS(54, 24)}
   },
   {
     FOT_POLYMORPHIC, 0, 0,

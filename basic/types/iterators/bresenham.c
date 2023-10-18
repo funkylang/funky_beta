@@ -172,7 +172,8 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "assign\000std", NULL
+    "assign\000std", NULL,
+    {.position = POS(22, 1)}
   },
   {
     FOT_POLYMORPHIC, 0, 0,
@@ -206,43 +207,53 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "minus\000std", NULL
+    "minus\000std", NULL,
+    {.position = POS(40, 14)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "abs\000", NULL
+    "abs\000", NULL,
+    {.position = POS(40, 10)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "sgn\000", NULL
+    "sgn\000", NULL,
+    {.position = POS(41, 9)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "mod\000", NULL
+    "mod\000", NULL,
+    {.position = POS(46, 17)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "div\000", NULL
+    "div\000", NULL,
+    {.position = POS(47, 31)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "times\000std", NULL
+    "times\000std", NULL,
+    {.position = POS(47, 26)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "shift_right\000std", NULL
+    "shift_right\000std", NULL,
+    {.position = POS(51, 17)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "iterator\000std_types", NULL
+    "iterator\000std_types", NULL,
+    {.position = POS(44, 5)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
-    "length_of\000", NULL
+    "length_of\000", NULL,
+    {.position = POS(45, 8)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
-    "next_value\000", NULL
+    "next_value\000", NULL,
+    {.position = POS(52, 8)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
@@ -262,19 +273,23 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "minus\000", NULL
+    "minus\000", NULL,
+    {.position = POS(61, 9)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "plus\000", NULL
+    "plus\000", NULL,
+    {.position = POS(62, 9)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "less\000std", NULL
+    "less\000std", NULL,
+    {.position = POS(64, 11)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "if\000", NULL
+    "if\000", NULL,
+    {.position = POS(63, 9)}
   }
 };
 

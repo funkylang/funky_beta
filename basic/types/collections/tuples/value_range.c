@@ -431,7 +431,8 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "assign\000std", NULL
+    "assign\000std", NULL,
+    {.position = POS(23, 1)}
   },
   {
     FOT_POLYMORPHIC, 0, 0,
@@ -440,11 +441,13 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 10,
-    "value_range\000std_types", std_types__value_range__attributes
+    "value_range\000std_types", std_types__value_range__attributes,
+    {.position = POS(35, 1)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
-    "subtype_of\000", NULL
+    "subtype_of\000", NULL,
+    {.position = POS(35, 25)}
   },
   {
     FOT_POLYMORPHIC, 0, 0,
@@ -453,55 +456,68 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "object\000std_types", std_types__object__attributes
+    "object\000std_types", std_types__object__attributes,
+    {.position = POS(41, 1)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
-    "is_a_value_range\000", NULL
+    "is_a_value_range\000", NULL,
+    {.position = POS(41, 20)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "false\000", NULL
+    "false\000", NULL,
+    {.position = POS(41, 37)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "true\000", NULL
+    "true\000", NULL,
+    {.position = POS(42, 42)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
-    "lower_bound_of\000", NULL
+    "lower_bound_of\000", NULL,
+    {.position = POS(44, 25)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
-    "upper_bound_of\000", NULL
+    "upper_bound_of\000", NULL,
+    {.position = POS(55, 25)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
-    "length_of\000", NULL
+    "length_of\000", NULL,
+    {.position = POS(66, 25)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "plus\000std", NULL
+    "plus\000std", NULL,
+    {.position = POS(77, 6)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "minus\000std", NULL
+    "minus\000std", NULL,
+    {.position = POS(77, 6)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
-    "for_each\000", NULL
+    "for_each\000", NULL,
+    {.position = POS(79, 25)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "next\000", NULL
+    "next\000", NULL,
+    {.position = POS(88, 15)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "from_to\000", NULL
+    "from_to\000", NULL,
+    {.position = POS(91, 3)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
-    "map\000", NULL
+    "map\000", NULL,
+    {.position = POS(93, 25)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
@@ -521,39 +537,48 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "less\000std", NULL
+    "less\000std", NULL,
+    {.position = POS(105, 7)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "not\000std", NULL
+    "not\000std", NULL,
+    {.position = POS(105, 7)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "shift_right\000std", NULL
+    "shift_right\000std", NULL,
+    {.position = POS(106, 12)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "append\000", NULL
+    "append\000", NULL,
+    {.position = POS(107, 9)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "equal\000std", NULL
+    "equal\000std", NULL,
+    {.position = POS(112, 11)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "list\000", NULL
+    "list\000", NULL,
+    {.position = POS(113, 13)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "empty_list\000", NULL
+    "empty_list\000", NULL,
+    {.position = POS(114, 14)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "if\000", NULL
+    "if\000", NULL,
+    {.position = POS(111, 9)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
-    "reduce\000std", NULL
+    "reduce\000std", NULL,
+    {.position = POS(119, 25)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
@@ -573,7 +598,8 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
-    "map_reduce\000", NULL
+    "map_reduce\000", NULL,
+    {.position = POS(145, 25)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
@@ -602,11 +628,13 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "new\000", NULL
+    "new\000", NULL,
+    {.position = POS(198, 3)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
-    "serialization_tag_of\000", NULL
+    "serialization_tag_of\000", NULL,
+    {.position = POS(200, 25)}
   }
 };
 

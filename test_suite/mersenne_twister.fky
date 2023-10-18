@@ -1,0 +1,9 @@
+#!/usr/bin/env fkyrun
+
+$rng mersenne_twister(4711)
+repeat 500
+  :
+    next_raw_value &rng $r
+    println! hex(r 8)
+    next!
+  pass

@@ -101,7 +101,8 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "assign\000std", NULL
+    "assign\000std", NULL,
+    {.position = POS(23, 1)}
   },
   {
     FOT_POLYMORPHIC, 0, 0,
@@ -120,31 +121,38 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "random_number_generator\000std_types", NULL
+    "random_number_generator\000std_types", NULL,
+    {.position = POS(27, 17)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
-    "next_raw_value\000", NULL
+    "next_raw_value\000", NULL,
+    {.position = POS(29, 17)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
-    "seed_of\000", NULL
+    "seed_of\000", NULL,
+    {.position = POS(32, 28)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "times\000std", NULL
+    "times\000std", NULL,
+    {.position = POS(32, 8)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "plus\000std", NULL
+    "plus\000std", NULL,
+    {.position = POS(32, 8)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
-    "modulus_of\000", NULL
+    "modulus_of\000", NULL,
+    {.position = POS(33, 7)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "mod\000", NULL
+    "mod\000", NULL,
+    {.position = POS(31, 5)}
   },
   {
     FOT_INITIALIZED, 0, 0,
