@@ -84,8 +84,6 @@ $std::extract_options:
     To make the code more readable it is recommended to interleave the option
     templates and the results.
 
-    See also: extract_some_options
-
     Example:
 
     $std::load_csv: (options\* filename)

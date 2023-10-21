@@ -58,10 +58,10 @@ $std_types::table/merge:
   #
     merges the two tables
 
-    If a key is contained in both tables and not <merge_function> is specified
-    then the value from the <other> table is used for the merged table.
+    If a key is contained in both tables and *merge_function* is not specified
+    then the value from the *other* table is used for the merged table.
 
-    The <merge_function> is applied only if both tables contain a value for the
+    The *merge_function* is applied only if both tables contain a value for the
     same key.
   (
     self # the base table

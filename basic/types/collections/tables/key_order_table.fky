@@ -555,7 +555,7 @@ $std_types::key_order_table/merge:
   #
     merges the two tables
 
-    If a key is contained in both tables then the value from the <other>
+    If a key is contained in both tables then the value from the *other*
     table is used for the merged table.
   (
     self # the base table

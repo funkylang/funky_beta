@@ -261,7 +261,7 @@ $std::background_colour_at:
 
 #$std::scroll_up:
   #
-    scrolls the contents of the <logical_screen> upwards
+    scrolls the contents of the *screen* upwards
 
     Topic: Terminal
   (
@@ -298,7 +298,7 @@ $std::background_colour_at:
 
 #$std::scroll_down:
   #
-    scrolls the contents of the <logical_screen> downwards
+    scrolls the contents of the *screen* downwards
 
     Topic: Terminal
   (
@@ -335,7 +335,7 @@ $std::background_colour_at:
 
 $std_types::screen/scroll_left:
   #
-    scrolls the contents of the <logical_screen> leftwards
+    scrolls the contents of the *screen* leftwards
 
     Topic: Terminal
   (
@@ -355,7 +355,7 @@ $std_types::screen/scroll_left:
 
 #$std::scroll_right:
   #
-    scrolls the contents of the <logical_screen> rightwards
+    scrolls the contents of the *screen* rightwards
 
     Topic: Terminal
   (
@@ -667,24 +667,24 @@ $std::blit:
 
 $std::update_terminal
   #
-    updates the terminal screen to show the contents of <logical_screen>
+    updates the terminal windwo to show the contents of *terminal*
 
     Topic: Terminal
   :
     (
-      term # the terminal to be updated
+      terminal # the terminal to be updated
       do_log = false
     )
     $output ""
-    $current_buffer current_buffer_of(term)
+    $current_buffer current_buffer_of(terminal)
     $current_y cursor_y_of(current_buffer)
     $current_x cursor_x_of(current_buffer)
     $current_text_colour text_colour_of(current_buffer)
     $current_background_colour background_colour_of(current_buffer)
-    $new_rows rows_of(term)
+    $new_rows rows_of(terminal)
     $current_rows rows_of(current_buffer)
-    $terminal_width width_of(term)
-    $terminal_height height_of(term)
+    $terminal_width width_of(terminal)
+    $terminal_height height_of(terminal)
     from_to 1 terminal_height
       !output
       !current_y !current_x
@@ -853,8 +853,8 @@ $std::update_terminal
 
     $finish:
       if
-	term.has_a_visible_cursor:
-	  move_to cursor_x_of(term) cursor_y_of(term) update_current_buffer
+	terminal.has_a_visible_cursor:
+	  move_to cursor_x_of(terminal) cursor_y_of(terminal) update_current_buffer
 	update_current_buffer
 
       $update_current_buffer:
@@ -863,7 +863,7 @@ $std::update_terminal
 	!current_buffer.text_colour_of current_text_colour
 	!current_buffer.background_colour_of current_background_colour
 	!current_buffer.rows_of new_rows
-	-> term(.current_buffer_of current_buffer) output
+	-> terminal(.current_buffer_of current_buffer) output
 
 $std_types::screen/plot:
   #
@@ -1914,7 +1914,7 @@ $std::get_key:
   #
     wait for a keyboard input event or until the timeout expires
 
-    See also: wait_to, read_from
+    See also: get_events
   (
     timeout = undefined # in seconds - a decimal number
   )

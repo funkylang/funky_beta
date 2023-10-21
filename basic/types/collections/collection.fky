@@ -89,10 +89,6 @@ $std::reverse ()
   #
     reverse the order of all items of a collection
 
-    Topic: Loops
-
-    See also: for_each
-
 $std::for_each ()
   #
     iterates over all items of a collection

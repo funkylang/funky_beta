@@ -94,7 +94,7 @@ $avl_node/retrieve retrieve_method
 
 $std_types::avl_table/first_key_of:
   #
-    returns the first key of a non-empty <avl_table>
+    returns the first key of a non-empty AVL-table
   (
     self
   )

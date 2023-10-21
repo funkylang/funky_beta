@@ -30,28 +30,64 @@ $basic_loops::to undefined
 $basic_loops::by undefined
 $basic_loops::finally undefined
 
+#
+  Topic: Loops
+
+  There are **no** *loop* instructions in Funky and it isn't really possible to
+  "loop" over some code.
+
+  But there are a lot of functions that offer anonymous recursion that look and
+  work a lot like loops.
+
+  The make use of the dynamic variables of Funky that can be redefined in inner
+  scopes.
+
+  A "loop" consists of a *body* and a *finally-function*. The
+  *finally-function* is called after the last "iteration" of the loop and is
+  responsible to return any results from the "loop". Due to the fact that the
+  "loop" is a normal function it cannot make any changes to its caller's
+  variables directly.
+
+  All "loops" redefine the function <next> to start the next iteration of the
+  "loop". This <next> function must be called at the end of each "iteration".
+
+  Some loops also offer a <break> function which can be used to stop
+  "iterating" and calls the *finally* function immediately.
+
+  Due to some clever context saving and restoring "loops" can be nested to any
+  level.
+
+  The most basic "loop" is <loop>.
+
+  Practically all <collections> support <for_each>.
+
 $std::next pass
   #
-    the "keyword" (function) to start the next iteration of a loop
+    starts the next "iteration" of a "loop"
+
+    All "loops" redefine this function to call the next "iteration" of the loop.
+
+    *next* should **always** be called in tail position!
 
     Topic: Loops
 
 $std::break undefined
   #
-    the "keyword" (function) to exit from a loop
+    cancels the current "loop"
+
+    *break* calls the *finally* function of the loop.
 
     Topic: Loops
 
-$std::continuation_stack empty_list
-
 $std::loop:
   #
-    a simple loop
+    a simple "loop"
 
-    The *loop* construct replaces loops like *while*, *do_while* and *forever*.
+    The "loop" construct replaces loops like *while*, *do_while* and *forever*.
 
-    To start the next iteration of the loop a tail call to the *next*-function
-    has to be performed.
+    To start the next iteration of the "loop" use the <next>-function.
+
+    <next> should **always** be called in tail position!
 
     Topic: Loops
 
@@ -60,17 +96,24 @@ $std::loop:
     Example:
 
     $i 1
-    loop: # "while"
-      if
-	i <= 3:
-	  $j 1
-	  loop: # "do_while"
-	    writeln! i "*" j " = " i*j
-	    inc &j
-	    if j <= 2 next
-	  inc &i
-	  next
-	break
+    loop
+      : # "while"
+	if
+	  i <= 3:
+	    $j 1
+	    loop
+	      : # "do_while"
+		println! i "*" j " = " i*j
+		inc &j
+		if
+		  j <= 2
+		  next
+		  break
+	      next
+	    inc &i
+	    next
+	  break
+      pass
 
     Output:
 
@@ -85,22 +128,23 @@ $std::loop:
 
     $sum 0
     $i 0
-    loop
-      :
-	inc &i
-	plus &sum i
-	if
-	  i < 5
-	  next
-	  break
-      -> !sum
+    println!
+      loop
+	:
+	  inc &i
+	  plus &sum i
+	  if
+	    i < 5
+	    next
+	    break
+	-> sum
 
     Output:
 
     sum = 15
   (
-    body # the statement sequence to execute for each iteration of the loop
-    finally = next
+    body # the function to execute for each "iteration" of the "loop"
+    finally = pass # the function to execute after the last "iteration"
   )
   $saved_context tuple(next break basic_loops::finally)
 
@@ -227,7 +271,7 @@ $std::from_to:
 
     Topic: Loops
 
-    See also: loop
+    See also: from_to_by, loop
 
     Example:
 
@@ -318,6 +362,12 @@ $std::from_to:
   iterate!
 
 $std::from_to_by:
+  #
+    a loop iterating over a sequence of values
+
+    Topic: Loops
+
+    See also: from_to
   (
     from # the value to use for the first invocation of *body*
     to # the value to use for the last invocation of *body*

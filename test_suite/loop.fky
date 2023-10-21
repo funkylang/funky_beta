@@ -1,0 +1,36 @@
+#!/usr/bin/env fkyrun
+
+do:
+  $i 1
+  loop
+    : # "while"
+      if
+	i <= 3:
+	  $j 1
+	  loop
+	    : # "do_while"
+	      println! i "*" j " = " i*j
+	      inc &j
+	      if!
+		j <= 2
+		next
+		break
+	    :
+	      inc &i
+	      next!
+	break
+    pass
+
+do:
+  $sum 0
+  $i 0
+  println!
+    loop
+      :
+	inc &i
+	plus &sum i
+	if
+	  i < 5
+	  next
+	  break
+      -> sum

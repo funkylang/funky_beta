@@ -91,7 +91,7 @@ $std::string:
 
     Topic: Strings
 
-    See also: to_string, string_from_list
+    See also: to_string
   (
     args*
   )
@@ -1467,7 +1467,7 @@ $std::split_into_groups:
   #
     splits "indented lines" into "groups"
 
-    Returns a list of indented lines where each line has a <subgroups>-attribute
+    Returns a list of indented lines where each line has a *subgroups*-attribute
     which is itself a list of "indented lines".
 
     The division onto subgroups is only done on the top-level! The subgroups
@@ -1674,19 +1674,21 @@ $std::indented:
 	  :
 	    append &indented_text tabs_and_spaces(new_indent)
 	    $s i
-	    loop:
-	      if
-		text(i) == '@nl;':
-		  append &indented_text range(text s i)
-		  !i i+1
-		  break
-		:
-		  if
-		    i < n:
-		      !i i+1
-		      next
-		    :
-		      append indented_text range(text s -1)
+	    loop
+	      :
+		if
+		  text(i) == '@nl;':
+		    append &indented_text range(text s i)
+		    !i i+1
+		    break
+		  :
+		    if
+		      i < n:
+			!i i+1
+			next
+		      :
+			append indented_text range(text s -1)
+	      next
 
       -> indented_text
 

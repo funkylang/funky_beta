@@ -120,10 +120,6 @@ $std::concatenate_non_empty: (separator)
 $std_types::generic_list/reverse:
   #
     reverse the order of all items of the list
-
-    Topic: Loops
-
-    See also: for_each
   (
     self
   )
