@@ -302,8 +302,7 @@ $funky_types::statement/add_definitions: (self)
       arguments.is_not_empty
       not(arguments(1).is_a_slot_definition)
     :
-      $identifier identifier_of(head)
-      !resolve_variable(identifier) identifier
+      add_variable !resolve_variable head
       resolve_arguments
     resolve_arguments
 
@@ -316,9 +315,14 @@ $funky_types::node/add_definition: (_self)
   next
 
 $funky_types::definition/add_definition: (self)
-  $identifier identifier_of(self)
-  !resolve_variable(identifier) identifier
+  add_variable !resolve_variable self
   next
+
+$add_variable: (node)
+  $identifier identifier_of(node)
+  on not(allow_hidden) && resolve_variable(identifier).is_defined:
+    syntax_error "Variable is already defined" node
+  -> resolve_variable(identifier identifier)
 
 $collect_global_redefinitions: (statements)
   for_each statements add_redefinitions -> redefined_variables
