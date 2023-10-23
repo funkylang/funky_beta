@@ -86,7 +86,6 @@ enum {
   func__std_types___uint64_array___std___bit_xor,
   func__std___uint64_array,
   func__std___initialized_uint64_array,
-  func__std_types___positive_integer___std___exit,
   func__std___pass,
   func__std___let,
   func__std___result_count,
@@ -188,6 +187,7 @@ enum {
   func__std___real,
   func__std___integer,
   func__std___sqrt,
+  func__std_types___positive_integer___std___exit,
   func__std_types___positive_integer___std___plus,
   func__negative_integer___std___plus,
   func__std_types___real___std___plus,
@@ -438,7 +438,6 @@ enum {
   var_no__std___initialized_uint64_array,
   var_no__std___EXIT_SUCCESS,
   var_no__std___EXIT_FAILURE,
-  var_no__std_types___positive_integer,
   var_no__std___pass,
   var_no__std___let,
   var_no__std___result_count,
@@ -484,13 +483,13 @@ enum {
   var_no__std___create_process,
   var_no__std_types___function,
   var_no__tabular_function,
+  var_no__std_types___file_descriptor,
   var_no__std___WINDOW_CHANGED_SIZE,
   var_no__std___CHILD_CHANGED_STATE,
   var_no__std___SIGUSR1,
   var_no__std___SIGUSR2,
   var_no__std___gethostname,
   var_no__std___get_terminal_size,
-  var_no__std_types___file_descriptor,
   var_no__std___exitstatus,
   var_no__std___pselect,
   var_no__std___do_not_close,
@@ -503,6 +502,7 @@ enum {
   var_no__std___list,
   var_no__std_types___number,
   var_no__std_types___integer,
+  var_no__std_types___positive_integer,
   var_no__negative_integer,
   var_no__std_types___real,
   var_no__std___real,
@@ -1012,11 +1012,6 @@ static void *create__std_types___uint64_array
     ARRAY_UPDATES *updates
   );
 
-static void *create__std_types___positive_integer
-  (
-    uint64_t value
-  );
-
 static void *create__c_function
   (
     int32_t parameter_count
@@ -1044,6 +1039,11 @@ static void *create__std_types___file_descriptor
   );
 
 static void *create__std_types___integer
+  (
+    uint64_t value
+  );
+
+static void *create__std_types___positive_integer
   (
     uint64_t value
   );
@@ -1268,6 +1268,7 @@ static int std_types___undefined____length_of(NODE *node);
 static int std_types___object____unfold(NODE *node);
 static int std_types___undefined____unfold(NODE *node);
 static long std_types___function____debug_string(NODE *node, int indent, int max_depth, char *buf);
+static void *std_types___file_descriptor____collect(FILE_DESCRIPTOR *node);
 static void *std_types___list____collect(LIST *node);
 static long std_types___list____debug_string(NODE *node, int indent, int max_depth, char *buf);
 static int std_types___list____get_item_of(NODE *node, long idx, NODE **result_p);
@@ -1303,7 +1304,6 @@ static void *std_types___object____collect(SIMPLE_NODE *node);
 static long std_types___object____debug_string(NODE *node, int indent, int max_depth, char *buf);
 static void *std_types___file_type____collect(FILE_TYPE *node);
 static long std_types___file_type____debug_string(NODE *node, int indent, int max_depth, char *buf);
-static void *std_types___file_descriptor____collect(FILE_DESCRIPTOR *node);
 static long std_types___file_descriptor____debug_string(NODE *node, int indent, int max_depth, char *buf);
 static void *std_types___device_id____collect(DEVICE_ID *node);
 static long std_types___device_id____debug_string(NODE *node, int indent, int max_depth, char *buf);
@@ -3180,7 +3180,7 @@ void create_error_message
       TLS_frame->code = TLS_code; // this was not initialized by the caller!
       long n = 0;
       FRAME *trace = TLS_frame;
-      while (trace->link) {
+      while (trace) {
 	++n;
 	trace = trace->link;
       }
@@ -3856,6 +3856,20 @@ NODE *create_function
     NODE *node = create__tabular_function();
     node->type = (FUNC)((unsigned long)code|TABULAR_FUNCTION_TAG);
     return node;
+  }
+
+static void *std_types___file_descriptor____collect
+  (
+    FILE_DESCRIPTOR *node
+  )
+  {
+    FILE_DESCRIPTOR *new_node;
+    new_node = allocate(sizeof(FILE_DESCRIPTOR));
+    new_node->type = node->type;
+    *(void **)node = ENCODE_ADDRESS(new_node);
+    new_node->attributes = collect_attributes(node->attributes);
+    new_node->value = node->value;
+    return new_node;
   }
 
 static int flags_to_int
@@ -5081,20 +5095,6 @@ static NODE *file_type_from_int
   )
   {
     return create__std_types___file_type(value);
-  }
-
-static void *std_types___file_descriptor____collect
-  (
-    FILE_DESCRIPTOR *node
-  )
-  {
-    FILE_DESCRIPTOR *new_node;
-    new_node = allocate(sizeof(FILE_DESCRIPTOR));
-    new_node->type = node->type;
-    *(void **)node = ENCODE_ADDRESS(new_node);
-    new_node->attributes = collect_attributes(node->attributes);
-    new_node->value = node->value;
-    return new_node;
   }
 
 static long std_types___file_descriptor____debug_string
@@ -9276,16 +9276,6 @@ static void std_types___uint64_array____type (void)
     }
   }
 
-static void std_types___positive_integer____type (void)
-  {
-    {
-      create_error_message(
-        module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
-        "Attempt to call a positive integer value as a function!", 0, 0, NULL);
-      return;
-    }
-  }
-
 static void std_types___true____type (void)
   {
     {
@@ -9469,6 +9459,16 @@ static void std_types___integer____type (void)
       create_error_message(
         module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
         "Attempt to call the integer protoype object as a function!", 0, 0, NULL);
+      return;
+    }
+  }
+
+static void std_types___positive_integer____type (void)
+  {
+    {
+      create_error_message(
+        module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+        "Attempt to call a positive integer value as a function!", 0, 0, NULL);
       return;
     }
   }
@@ -10045,10 +10045,6 @@ UINT64_ARRAY std_types___uint64_array = {
   std_types___uint64_array____type, NULL
 };
 
-POSITIVE_INTEGER std_types___positive_integer = {
-  std_types___positive_integer____type, NULL
-};
-
 SIMPLE_NODE std_types___true = {
   std_types___true____type, NULL
 };
@@ -10107,6 +10103,10 @@ SIMPLE_NODE std_types___number = {
 
 INTEGER std_types___integer = {
   std_types___integer____type, NULL
+};
+
+POSITIVE_INTEGER std_types___positive_integer = {
+  std_types___positive_integer____type, NULL
 };
 
 NEGATIVE_INTEGER negative_integer = {
@@ -11009,18 +11009,6 @@ static void *create__std_types___uint64_array
     return node;
   }
 
-static void *create__std_types___positive_integer
-  (
-    uint64_t value
-  )
-  {
-    POSITIVE_INTEGER *node = allocate(sizeof(POSITIVE_INTEGER));
-    node->type = std_types___positive_integer____type;
-    node->attributes = std_types___positive_integer.attributes;
-    node->value = value;
-    return node;
-  }
-
 static void *create__c_function
   (
     int32_t parameter_count
@@ -11130,6 +11118,18 @@ static void *create__std_types___integer
     INTEGER *node = allocate(sizeof(INTEGER));
     node->type = std_types___integer____type;
     node->attributes = std_types___integer.attributes;
+    node->value = value;
+    return node;
+  }
+
+static void *create__std_types___positive_integer
+  (
+    uint64_t value
+  )
+  {
+    POSITIVE_INTEGER *node = allocate(sizeof(POSITIVE_INTEGER));
+    node->type = std_types___positive_integer____type;
+    node->attributes = std_types___positive_integer.attributes;
     node->value = value;
     return node;
   }
@@ -13168,21 +13168,6 @@ static void entry__std___initialized_uint64_array (void)
     }
   }
 
-static void entry__std_types___positive_integer___std___exit (void)
-  {
-    if (TLS_argument_count != 1) {
-      invalid_arguments();
-      return;
-    }
-    if (TLS_deny_io) {
-      missing_io_access_rights();
-      return;
-    }
-    int status;
-    if (!to_int(TLS_arguments[0], &status)) return;
-    exit(status);
-  }
-
 static void entry__std___pass (void)
   {
     if (TLS_argument_count != 0) {
@@ -14284,7 +14269,7 @@ static void entry__std___create_process (void)
     child_stderr = file_descriptor_from_int(err_pipe.read_fd);
 
 
-    if (TLS_argument_count == 4) { // we got <stdin> from the caller
+    if (TLS_argument_count == 4) { // we got *stdin* from the caller
       TLS_argument_count = 3;
       TLS_arguments[0] = child_pid;
       TLS_arguments[1] = child_stdout;
@@ -15956,6 +15941,21 @@ static void entry__std___sqrt (void)
       TLS_argument_count = 1;
       return;
     }
+  }
+
+static void entry__std_types___positive_integer___std___exit (void)
+  {
+    if (TLS_argument_count != 1) {
+      invalid_arguments();
+      return;
+    }
+    if (TLS_deny_io) {
+      missing_io_access_rights();
+      return;
+    }
+    int status;
+    if (!to_int(TLS_arguments[0], &status)) return;
+    exit(status);
   }
 
 static void entry__std_types___positive_integer___std___plus (void)
@@ -21825,7 +21825,6 @@ static FUNKY_CONSTANT constants_table[] = {
   {FLT_C_FUNCTION, 2, {.func = entry__std_types___uint64_array___std___bit_xor}},
   {FLT_C_FUNCTION, -1, {.func = entry__std___uint64_array}},
   {FLT_C_FUNCTION, -1, {.func = entry__std___initialized_uint64_array}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std_types___positive_integer___std___exit}},
   {FLT_C_FUNCTION, 0, {.func = entry__std___pass}},
   {FLT_C_FUNCTION, -1, {.func = entry__std___let}},
   {FLT_C_FUNCTION, 0, {.func = entry__std___result_count}},
@@ -21927,6 +21926,7 @@ static FUNKY_CONSTANT constants_table[] = {
   {FLT_C_FUNCTION, 1, {.func = entry__std___real}},
   {FLT_C_FUNCTION, 1, {.func = entry__std___integer}},
   {FLT_C_FUNCTION, 1, {.func = entry__std___sqrt}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std_types___positive_integer___std___exit}},
   {FLT_C_FUNCTION, 2, {.func = entry__std_types___positive_integer___std___plus}},
   {FLT_C_FUNCTION, 2, {.func = entry__negative_integer___std___plus}},
   {FLT_C_FUNCTION, 2, {.func = entry__std_types___real___std___plus}},
@@ -22227,46 +22227,6 @@ static ATTRIBUTE_DEFINITION std_types___uint64_array__attributes[] = {
   {var_no__std___length_of, func__std_types___uint64_array___std___length_of}
 };
 
-static INTERNAL_METHOD std_types___positive_integer__internal_methods[] = {
-  {FIM_DEBUG_STRING, {std_types___positive_integer____debug_string}},
-  {FIM_TO_DOUBLE, {std_types___positive_integer____to_double}},
-  {FIM_TO_INT, {std_types___positive_integer____to_int}},
-  {FIM_TO_LONG, {std_types___positive_integer____to_long}},
-  {FIM_TO_UINT, {std_types___positive_integer____to_uint}},
-  {FIM_TO_ULONG, {std_types___positive_integer____to_ulong}},
-  {FIM_TO_INT8, {std_types___positive_integer____to_int8}},
-  {FIM_TO_INT16, {std_types___positive_integer____to_int16}},
-  {FIM_TO_INT32, {std_types___positive_integer____to_int32}},
-  {FIM_TO_INT64, {std_types___positive_integer____to_int64}},
-  {FIM_TO_UINT8, {std_types___positive_integer____to_uint8}},
-  {FIM_TO_UINT16, {std_types___positive_integer____to_uint16}},
-  {FIM_TO_UINT32, {std_types___positive_integer____to_uint32}},
-  {FIM_TO_UINT64, {std_types___positive_integer____to_uint64}}
-};
-
-static ATTRIBUTE_DEFINITION std_types___positive_integer__attributes[] = {
-  {var_no__std___bit_and, func__std_types___positive_integer___std___bit_and},
-  {var_no__std___bit_or, func__std_types___positive_integer___std___bit_or},
-  {var_no__std___bit_xor, func__std_types___positive_integer___std___bit_xor},
-  {var_no__std___div, func__std_types___positive_integer___std___div},
-  {var_no__std___equal, func__std_types___positive_integer___std___equal},
-  {var_no__std___exit, func__std_types___positive_integer___std___exit},
-  {var_no__std___exp, func__std_types___positive_integer___std___exp},
-  {var_no__std___hash, func__std_types___positive_integer___std___hash},
-  {var_no__std___less, func__std_types___positive_integer___std___less},
-  {var_no__std___ln, func__std_types___positive_integer___std___ln},
-  {var_no__std___minus, func__std_types___positive_integer___std___minus},
-  {var_no__std___mod, func__std_types___positive_integer___std___mod},
-  {var_no__std___negate, func__std_types___positive_integer___std___negate},
-  {var_no__std___over, func__std_types___positive_integer___std___over},
-  {var_no__std___plus, func__std_types___positive_integer___std___plus},
-  {var_no__std___shift_left, func__std_types___positive_integer___std___shift_left},
-  {var_no__std___shift_right, func__std_types___positive_integer___std___shift_right},
-  {var_no__std___times, func__std_types___positive_integer___std___times},
-  {var_no__std___to_integer, func__std_types___positive_integer___std___to_integer},
-  {var_no__std___to_string, func__std_types___positive_integer___std___to_string}
-};
-
 static INTERNAL_METHOD std_types___true__internal_methods[] = {
   {FIM_TO_BOOL, {std_types___true____to_bool}},
   {FIM_DEBUG_STRING, {std_types___true____debug_string}}
@@ -22469,6 +22429,46 @@ static ATTRIBUTE_DEFINITION std_types___list__attributes[] = {
 static INTERNAL_METHOD std_types___integer__internal_methods[] = {
   {FIM_SIZE, {.size = sizeof(INTEGER)}},
   {FIM_COLLECT, {std_types___integer____collect}}
+};
+
+static INTERNAL_METHOD std_types___positive_integer__internal_methods[] = {
+  {FIM_DEBUG_STRING, {std_types___positive_integer____debug_string}},
+  {FIM_TO_DOUBLE, {std_types___positive_integer____to_double}},
+  {FIM_TO_INT, {std_types___positive_integer____to_int}},
+  {FIM_TO_LONG, {std_types___positive_integer____to_long}},
+  {FIM_TO_UINT, {std_types___positive_integer____to_uint}},
+  {FIM_TO_ULONG, {std_types___positive_integer____to_ulong}},
+  {FIM_TO_INT8, {std_types___positive_integer____to_int8}},
+  {FIM_TO_INT16, {std_types___positive_integer____to_int16}},
+  {FIM_TO_INT32, {std_types___positive_integer____to_int32}},
+  {FIM_TO_INT64, {std_types___positive_integer____to_int64}},
+  {FIM_TO_UINT8, {std_types___positive_integer____to_uint8}},
+  {FIM_TO_UINT16, {std_types___positive_integer____to_uint16}},
+  {FIM_TO_UINT32, {std_types___positive_integer____to_uint32}},
+  {FIM_TO_UINT64, {std_types___positive_integer____to_uint64}}
+};
+
+static ATTRIBUTE_DEFINITION std_types___positive_integer__attributes[] = {
+  {var_no__std___bit_and, func__std_types___positive_integer___std___bit_and},
+  {var_no__std___bit_or, func__std_types___positive_integer___std___bit_or},
+  {var_no__std___bit_xor, func__std_types___positive_integer___std___bit_xor},
+  {var_no__std___div, func__std_types___positive_integer___std___div},
+  {var_no__std___equal, func__std_types___positive_integer___std___equal},
+  {var_no__std___exit, func__std_types___positive_integer___std___exit},
+  {var_no__std___exp, func__std_types___positive_integer___std___exp},
+  {var_no__std___hash, func__std_types___positive_integer___std___hash},
+  {var_no__std___less, func__std_types___positive_integer___std___less},
+  {var_no__std___ln, func__std_types___positive_integer___std___ln},
+  {var_no__std___minus, func__std_types___positive_integer___std___minus},
+  {var_no__std___mod, func__std_types___positive_integer___std___mod},
+  {var_no__std___negate, func__std_types___positive_integer___std___negate},
+  {var_no__std___over, func__std_types___positive_integer___std___over},
+  {var_no__std___plus, func__std_types___positive_integer___std___plus},
+  {var_no__std___shift_left, func__std_types___positive_integer___std___shift_left},
+  {var_no__std___shift_right, func__std_types___positive_integer___std___shift_right},
+  {var_no__std___times, func__std_types___positive_integer___std___times},
+  {var_no__std___to_integer, func__std_types___positive_integer___std___to_integer},
+  {var_no__std___to_string, func__std_types___positive_integer___std___to_string}
 };
 
 static INTERNAL_METHOD negative_integer__internal_methods[] = {
@@ -23245,14 +23245,6 @@ static FUNKY_VARIABLE variables_table[] = {
     {(NODE *)&std___EXIT_FAILURE}
   },
   {
-    FOT_TYPE, 0, 20,
-    "positive_integer\000std_types", std_types___positive_integer__attributes,
-    {"integer\000std_types"},
-    {.methods_count = 14}, 0,
-    std_types___positive_integer__internal_methods,
-    {(NODE *)&std_types___positive_integer}
-  },
-  {
     FOT_INITIALIZED, 0, 0,
     "pass\000std", NULL,
     {.const_idx = func__std___pass}
@@ -23517,6 +23509,14 @@ static FUNKY_VARIABLE variables_table[] = {
     {(NODE *)&tabular_function}
   },
   {
+    FOT_TYPE, 0, 6,
+    "file_descriptor\000std_types", std_types___file_descriptor__attributes,
+    {"object\000std_types"},
+    {.methods_count = 3}, 0,
+    std_types___file_descriptor__internal_methods,
+    {(NODE *)&std_types___file_descriptor}
+  },
+  {
     FOT_INITIALIZED, 0, 0,
     "WINDOW_CHANGED_SIZE\000std", NULL,
     {.const_idx = unique__std___WINDOW_CHANGED_SIZE}
@@ -23545,14 +23545,6 @@ static FUNKY_VARIABLE variables_table[] = {
     FOT_POLYMORPHIC, 0, 0,
     "get_terminal_size\000std", NULL,
     {.has_a_setter = false}
-  },
-  {
-    FOT_TYPE, 0, 6,
-    "file_descriptor\000std_types", std_types___file_descriptor__attributes,
-    {"object\000std_types"},
-    {.methods_count = 3}, 0,
-    std_types___file_descriptor__internal_methods,
-    {(NODE *)&std_types___file_descriptor}
   },
   {
     FOT_INITIALIZED, 0, 0,
@@ -23631,6 +23623,14 @@ static FUNKY_VARIABLE variables_table[] = {
     {.methods_count = 2}, 0,
     std_types___integer__internal_methods,
     {(NODE *)&std_types___integer}
+  },
+  {
+    FOT_TYPE, 0, 20,
+    "positive_integer\000std_types", std_types___positive_integer__attributes,
+    {"integer\000std_types"},
+    {.methods_count = 14}, 0,
+    std_types___positive_integer__internal_methods,
+    {(NODE *)&std_types___positive_integer}
   },
   {
     FOT_TYPE, 0, 14,
@@ -25628,7 +25628,6 @@ BUILTIN_FUNCTION_NAME builtin_function_names[372] = {
   {entry__std_types___uint64_array___std___bit_xor, "std_types::uint64_array/bit_xor"},
   {entry__std___uint64_array, "std::uint64_array"},
   {entry__std___initialized_uint64_array, "std::initialized_uint64_array"},
-  {entry__std_types___positive_integer___std___exit, "std_types::positive_integer/exit"},
   {entry__std___pass, "std::pass"},
   {entry__std___let, "std::let"},
   {entry__std___result_count, "std::result_count"},
@@ -25738,6 +25737,7 @@ BUILTIN_FUNCTION_NAME builtin_function_names[372] = {
   {entry__std___real, "std::real"},
   {entry__std___integer, "std::integer"},
   {entry__std___sqrt, "std::sqrt"},
+  {entry__std_types___positive_integer___std___exit, "std_types::positive_integer/exit"},
   {entry__std_types___positive_integer___std___plus, "std_types::positive_integer/plus"},
   {entry__negative_integer___std___plus, "negative_integer/plus"},
   {entry__std_types___real___std___plus, "std_types::real/plus"},

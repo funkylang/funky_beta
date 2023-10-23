@@ -309,12 +309,6 @@ typedef struct {
 typedef struct {
   void *type;
   ATTRIBUTES *attributes;
-  uint64_t value;
-} POSITIVE_INTEGER;
-
-typedef struct {
-  void *type;
-  ATTRIBUTES *attributes;
   int32_t parameter_count;
 } C_FUNCTION;
 
@@ -367,6 +361,12 @@ typedef struct {
   ATTRIBUTES *attributes;
   uint64_t value;
 } INTEGER;
+
+typedef struct {
+  void *type;
+  ATTRIBUTES *attributes;
+  uint64_t value;
+} POSITIVE_INTEGER;
 
 typedef struct {
   void *type;
@@ -543,7 +543,6 @@ typedef union NODE {
   UINT32_ARRAY uint32_array;
   INT64_ARRAY int64_array;
   UINT64_ARRAY uint64_array;
-  POSITIVE_INTEGER positive_integer;
   C_FUNCTION c_function;
   CHARACTER character;
   DATE_AND_TIME date_and_time;
@@ -552,6 +551,7 @@ typedef union NODE {
   FILE_DESCRIPTOR file_descriptor;
   LIST list;
   INTEGER integer;
+  POSITIVE_INTEGER positive_integer;
   NEGATIVE_INTEGER negative_integer;
   REAL real;
   FILE_TYPE file_type;
@@ -687,7 +687,6 @@ extern INT32_ARRAY std_types___int32_array;
 extern UINT32_ARRAY std_types___uint32_array;
 extern INT64_ARRAY std_types___int64_array;
 extern UINT64_ARRAY std_types___uint64_array;
-extern POSITIVE_INTEGER std_types___positive_integer;
 extern SIMPLE_NODE std_types___true;
 extern SIMPLE_NODE std_types___false;
 extern C_FUNCTION c_function;
@@ -703,6 +702,7 @@ extern SIMPLE_NODE std_types___generic_list;
 extern LIST std_types___list;
 extern SIMPLE_NODE std_types___number;
 extern INTEGER std_types___integer;
+extern POSITIVE_INTEGER std_types___positive_integer;
 extern NEGATIVE_INTEGER negative_integer;
 extern REAL std_types___real;
 extern SIMPLE_NODE std_types___polymorphic_function;
