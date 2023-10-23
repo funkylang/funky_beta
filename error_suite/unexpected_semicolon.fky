@@ -1,0 +1,14 @@
+#!/usr/bin/env fkyrun
+
+$items list("hammer" "apple" "parrot")
+
+$n length_of(items)
+for_each items
+  : (idx item)
+    if
+      idx == n;
+	print! item ", "
+	next!
+      next
+  :
+    println!

@@ -1457,8 +1457,12 @@ $parse_some_arguments:
       :
 	parse_line_remarks_without_prefix
     ->
-      true
+      text(1) == '@nl;'
       -> text empty_list
+    ->
+      true
+      :
+	syntax_error "some arguments"
   ->
     rest
     cond

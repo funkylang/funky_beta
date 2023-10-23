@@ -293,7 +293,7 @@ some_arguments
   : body
   spaced_arguments
   line_remarks
-  NIL
+  LF
 
 some_statement_arguments
   : body

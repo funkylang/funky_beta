@@ -1,0 +1,4 @@
+ERROR: Some arguments expected IN LINE 9 OF FILE unexpected_semicolon.fky
+
+      idx == n;
+	      ^
