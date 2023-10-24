@@ -110,6 +110,8 @@ $std::green_component_of (!)
   #
     the green component of a colour
 
+    Topic: Colours
+
     See also: red_component_of, blue_component_of
 
     Parameters:
@@ -244,11 +246,19 @@ $std_types::screen.serialization_tag_of "screen"
 
     Topic: Terminal
 
+    See also:
+      std_types::screen/serialization_fields_of,
+      std_types::terminal/serialization_tag_of
+
 $std_types::screen.serialization_fields_of
   #
     the serialized fields of a <std_types::screen> object
 
     Topic: Terminal
+
+    See also:
+      std_types::screen/serialization_tag_of,
+      std_types::terminal/serialization_fields_of
   list
     `rows_of
     `cursor_x_of
@@ -275,11 +285,19 @@ $std_types::terminal.serialization_tag_of "terminal"
 
     Topic: Terminal
 
+    See also:
+      std_types::terminal/serialization_fields_of,
+      std_types::screen/serialization_tag_of
+
 $std_types::terminal.serialization_fields_of
   #
     the serialized fields of a <std_types::terminal> object
 
     Topic: Terminal
+
+    See also:
+      std_types::terminal/serialization_tag_of,
+      std_types::screen/serialization_fields_of
   list
     `rows_of
     `cursor_x_of
@@ -2041,27 +2059,6 @@ $std::rows_and_columns:
 	  extend_to &longest length
 	  -> rows+1 longest
 	-> rows longest
-
-$std::get_key:
-  #
-    wait for a keyboard input event or until the timeout expires
-
-    See also: get_events
-  (
-    timeout = undefined # in seconds - a decimal number
-  )
-  $io std_types::io
-  start_reading_from &io STDIN_FILENO
-  get_events! &io $events timeout
-  if
-    events.is_empty
-    -> undefined
-    :
-      $event events(1)
-      event $_type $_fd $input
-      from_utf8 &input
-      $keys extract_keys(input)
-      -> keys(1)
 
 #$std::set_direct_terminal_input_mode
   #

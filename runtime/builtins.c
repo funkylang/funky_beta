@@ -268,7 +268,6 @@ enum {
   func__std___realpath,
   func__std___rename,
   func__std___sethostname,
-  func__std___sleep,
   func__std___stat,
   func__std___strerror,
   func__std___wait,
@@ -483,13 +482,13 @@ enum {
   var_no__std___create_process,
   var_no__std_types___function,
   var_no__tabular_function,
-  var_no__std_types___file_descriptor,
   var_no__std___WINDOW_CHANGED_SIZE,
   var_no__std___CHILD_CHANGED_STATE,
   var_no__std___SIGUSR1,
   var_no__std___SIGUSR2,
   var_no__std___gethostname,
   var_no__std___get_terminal_size,
+  var_no__std_types___file_descriptor,
   var_no__std___exitstatus,
   var_no__std___pselect,
   var_no__std___do_not_close,
@@ -723,7 +722,6 @@ enum {
   var_no__std___realpath,
   var_no__std___rename,
   var_no__std___sethostname,
-  var_no__std___sleep,
   var_no__std___stat,
   var_no__std___strerror,
   var_no__std___wait,
@@ -1268,7 +1266,6 @@ static int std_types___undefined____length_of(NODE *node);
 static int std_types___object____unfold(NODE *node);
 static int std_types___undefined____unfold(NODE *node);
 static long std_types___function____debug_string(NODE *node, int indent, int max_depth, char *buf);
-static void *std_types___file_descriptor____collect(FILE_DESCRIPTOR *node);
 static void *std_types___list____collect(LIST *node);
 static long std_types___list____debug_string(NODE *node, int indent, int max_depth, char *buf);
 static int std_types___list____get_item_of(NODE *node, long idx, NODE **result_p);
@@ -1304,6 +1301,7 @@ static void *std_types___object____collect(SIMPLE_NODE *node);
 static long std_types___object____debug_string(NODE *node, int indent, int max_depth, char *buf);
 static void *std_types___file_type____collect(FILE_TYPE *node);
 static long std_types___file_type____debug_string(NODE *node, int indent, int max_depth, char *buf);
+static void *std_types___file_descriptor____collect(FILE_DESCRIPTOR *node);
 static long std_types___file_descriptor____debug_string(NODE *node, int indent, int max_depth, char *buf);
 static void *std_types___device_id____collect(DEVICE_ID *node);
 static long std_types___device_id____debug_string(NODE *node, int indent, int max_depth, char *buf);
@@ -3858,20 +3856,6 @@ NODE *create_function
     return node;
   }
 
-static void *std_types___file_descriptor____collect
-  (
-    FILE_DESCRIPTOR *node
-  )
-  {
-    FILE_DESCRIPTOR *new_node;
-    new_node = allocate(sizeof(FILE_DESCRIPTOR));
-    new_node->type = node->type;
-    *(void **)node = ENCODE_ADDRESS(new_node);
-    new_node->attributes = collect_attributes(node->attributes);
-    new_node->value = node->value;
-    return new_node;
-  }
-
 static int flags_to_int
 (
   NODE *node,
@@ -5095,6 +5079,20 @@ static NODE *file_type_from_int
   )
   {
     return create__std_types___file_type(value);
+  }
+
+static void *std_types___file_descriptor____collect
+  (
+    FILE_DESCRIPTOR *node
+  )
+  {
+    FILE_DESCRIPTOR *new_node;
+    new_node = allocate(sizeof(FILE_DESCRIPTOR));
+    new_node->type = node->type;
+    *(void **)node = ENCODE_ADDRESS(new_node);
+    new_node->attributes = collect_attributes(node->attributes);
+    new_node->value = node->value;
+    return new_node;
   }
 
 static long std_types___file_descriptor____debug_string
@@ -14484,21 +14482,21 @@ static void entry__std___pselect (void)
       retry:;
       ret = pselect(last_fd+1, &read_set, &write_set, &except_set, timeout_ptr, &set);
       if (ret < 0 && errno == EINTR) {
-        if (child_changed_state) {
-          child_changed_state = false;
-          chld_changed_state = true;
-        } else if (window_changed_size) {
-          window_changed_size = false;
-          win_changed_size = true;
-        } else if (caught_sigusr1) {
-          caught_sigusr1 = false;
-          caught_usr1 = true;
-        } else if (caught_sigusr2) {
-          caught_sigusr2 = false;
-          caught_usr2 = true;
-        } else {
-          goto retry;
-        }
+	if (child_changed_state) {
+	  child_changed_state = false;
+	  chld_changed_state = true;
+	} else if (window_changed_size) {
+	  window_changed_size = false;
+	  win_changed_size = true;
+	} else if (caught_sigusr1) {
+	  caught_sigusr1 = false;
+	  caught_usr1 = true;
+	} else if (caught_sigusr2) {
+	  caught_sigusr2 = false;
+	  caught_usr2 = true;
+	} else {
+	  goto retry;
+	}
       }
       if (event__mode == EM__RECORD) {
         record__event("pselect");
@@ -18412,39 +18410,6 @@ static void entry__std___sethostname (void)
     deallocate_memory(buf);
   }
 
-static void entry__std___sleep (void)
-  {
-    if (TLS_argument_count != 1) {
-      invalid_arguments();
-      return;
-    }
-    if (TLS_deny_io) {
-      missing_io_access_rights();
-      return;
-    }
-    unsigned int seconds;
-    unsigned int result;
-    if (!to_uint(TLS_arguments[0], &seconds)) return;
-    if (event__mode != EM__REPLAY) {
-      result = sleep(seconds);
-      if (event__mode == EM__RECORD) {
-        record__event("sleep");
-        store__unsigned_integer(result);
-      }
-    } else {
-      replay__event("sleep");
-      retrieve__unsigned_integer(&result);
-      report__event("sleep");
-      print__unsigned_integer(seconds);
-      print__unsigned_integer(result);
-    }
-    {
-      NODE *result__node = (NODE *)(from_uint(result));
-      TLS_arguments[0] = result__node;
-      TLS_argument_count = 1;
-    }
-  }
-
 static void entry__std___stat (void)
   {
     if (TLS_argument_count != 1) {
@@ -22007,7 +21972,6 @@ static FUNKY_CONSTANT constants_table[] = {
   {FLT_C_FUNCTION, 1, {.func = entry__std___realpath}},
   {FLT_C_FUNCTION, 2, {.func = entry__std___rename}},
   {FLT_C_FUNCTION, 1, {.func = entry__std___sethostname}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std___sleep}},
   {FLT_C_FUNCTION, 1, {.func = entry__std___stat}},
   {FLT_C_FUNCTION, 1, {.func = entry__std___strerror}},
   {FLT_C_FUNCTION, 0, {.func = entry__std___wait}},
@@ -23509,14 +23473,6 @@ static FUNKY_VARIABLE variables_table[] = {
     {(NODE *)&tabular_function}
   },
   {
-    FOT_TYPE, 0, 6,
-    "file_descriptor\000std_types", std_types___file_descriptor__attributes,
-    {"object\000std_types"},
-    {.methods_count = 3}, 0,
-    std_types___file_descriptor__internal_methods,
-    {(NODE *)&std_types___file_descriptor}
-  },
-  {
     FOT_INITIALIZED, 0, 0,
     "WINDOW_CHANGED_SIZE\000std", NULL,
     {.const_idx = unique__std___WINDOW_CHANGED_SIZE}
@@ -23545,6 +23501,14 @@ static FUNKY_VARIABLE variables_table[] = {
     FOT_POLYMORPHIC, 0, 0,
     "get_terminal_size\000std", NULL,
     {.has_a_setter = false}
+  },
+  {
+    FOT_TYPE, 0, 6,
+    "file_descriptor\000std_types", std_types___file_descriptor__attributes,
+    {"object\000std_types"},
+    {.methods_count = 3}, 0,
+    std_types___file_descriptor__internal_methods,
+    {(NODE *)&std_types___file_descriptor}
   },
   {
     FOT_INITIALIZED, 0, 0,
@@ -25208,11 +25172,6 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_INITIALIZED, 0, 0,
-    "sleep\000std", NULL,
-    {.const_idx = func__std___sleep}
-  },
-  {
-    FOT_INITIALIZED, 0, 0,
     "stat\000std", NULL,
     {.const_idx = func__std___stat}
   },
@@ -25551,13 +25510,13 @@ FUNKY_MODULE module__builtin = {
   NULL,
   0, 0,
   3, 0,
-  323, 427,
+  322, 426,
   NULL,
   defined_namespaces, NULL,
   constants_table, variables_table
 };
 
-BUILTIN_FUNCTION_NAME builtin_function_names[372] = {
+BUILTIN_FUNCTION_NAME builtin_function_names[371] = {
   {std_types___generic_array____type, "std_types::generic_array/_type"},
   {std_types___array____type, "std_types::array/_type"},
   {entry__std_types___array___std___length_of, "std_types::array/length_of"},
@@ -25833,7 +25792,6 @@ BUILTIN_FUNCTION_NAME builtin_function_names[372] = {
   {entry__std___realpath, "std::realpath"},
   {entry__std___rename, "std::rename"},
   {entry__std___sethostname, "std::sethostname"},
-  {entry__std___sleep, "std::sleep"},
   {entry__std___stat, "std::stat"},
   {entry__std___strerror, "std::strerror"},
   {entry__std___wait, "std::wait"},

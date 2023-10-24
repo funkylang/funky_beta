@@ -223,9 +223,7 @@ $start_game:
     get_key! $key timeout
     on key == 'q': quit! # the user wants to quit the game
     on key.is_defined: # the user pressed a key
-      usleep! $_dummy (1'000'000*(t-current_time())).to_integer
-	# let us sleep for the rest of the slot time
-      pass
+      sleep! t-current_time() # let us sleep for the rest of the slot time
 
     # check fuel
 

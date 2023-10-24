@@ -20,6 +20,27 @@
   Free Software Foundation, Inc.,
   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
+#
+  Topic: Input-Output
+
+  Input/Output is handled in a special way in Funky.
+
+  I/O-functions must be called with *I/O-access rights*.
+
+$std::sleep:
+  #
+    sleeps for the specified number of seconds
+
+    If duration is a negative value then the function returns immediately.
+
+    Topic: Input-Output
+  (
+    duration # time in seconds
+  )
+  on duration > 0:
+    usleep! $_dummy (1'000'000*duration).to_integer
+    pass # Attention: Fix the compiler!
+
 $std::print_string_to:
   #
     writes its argument (a single string) to the specified output channel

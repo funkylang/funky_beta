@@ -19,6 +19,27 @@
   Free Software Foundation, Inc.,
   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
+$std::get_key:
+  #
+    wait for a keyboard input event or until the timeout expires
+
+    See also: get_events
+  (
+    timeout = undefined # in seconds - a decimal number
+  )
+  $io std_types::io
+  start_reading_from &io STDIN_FILENO
+  get_events! &io $events timeout
+  if
+    events.is_empty
+    -> undefined
+    :
+      $event events(1)
+      event $_type $_fd $input
+      from_utf8 &input
+      $keys extract_keys(input)
+      -> keys(1)
+
 $std::extract_keys:
   #
     converts an input character stream into a list of keys
