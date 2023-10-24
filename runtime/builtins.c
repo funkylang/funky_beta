@@ -132,17 +132,6 @@ enum {
   func__std___exec,
   func__std___create_process,
   func__std_types___function___std___parameter_count_of,
-  unique__std___WINDOW_CHANGED_SIZE,
-  unique__std___CHILD_CHANGED_STATE,
-  unique__std___SIGUSR1,
-  unique__std___SIGUSR2,
-  func__std___gethostname,
-  func__std_types___file_descriptor___std___get_terminal_size,
-  func__std___exitstatus,
-  func__std___pselect,
-  func__std___do_not_close,
-  func__std___wait2,
-  func__std___open_socket,
   func__std_types___list___std___new,
   func__std___list,
   func__std_types___list___std___length_of,
@@ -349,7 +338,18 @@ enum {
   func__std_types___unique_item___std___to_string,
   func__std_types___unique_item___std___equal,
   func__std_types___unique_item___std___hash,
-  func__std___unique_item
+  func__std___unique_item,
+  unique__std___WINDOW_CHANGED_SIZE,
+  unique__std___CHILD_CHANGED_STATE,
+  unique__std___SIGUSR1,
+  unique__std___SIGUSR2,
+  func__std___gethostname,
+  func__std_types___file_descriptor___std___get_terminal_size,
+  func__std___exitstatus,
+  func__std___pselect,
+  func__std___do_not_close,
+  func__std___wait2,
+  func__std___open_socket
 };
 
 enum {
@@ -482,18 +482,6 @@ enum {
   var_no__std___create_process,
   var_no__std_types___function,
   var_no__tabular_function,
-  var_no__std___WINDOW_CHANGED_SIZE,
-  var_no__std___CHILD_CHANGED_STATE,
-  var_no__std___SIGUSR1,
-  var_no__std___SIGUSR2,
-  var_no__std___gethostname,
-  var_no__std___get_terminal_size,
-  var_no__std_types___file_descriptor,
-  var_no__std___exitstatus,
-  var_no__std___pselect,
-  var_no__std___do_not_close,
-  var_no__std___wait2,
-  var_no__std___open_socket,
   var_no__std_types___key_value_pair,
   var_no__std_types___generic_list,
   var_no__std_types___list,
@@ -678,6 +666,7 @@ enum {
   var_no__std___username_of,
   var_no__std_types___file_type,
   var_no__std___file_type,
+  var_no__std_types___file_descriptor,
   var_no__std___file_descriptor,
   var_no__std_types___device_id,
   var_no__std___device_id,
@@ -778,7 +767,18 @@ enum {
   var_no__std___is_a_zero_width_character,
   var_no__std_types___unique_item,
   var_no__std___unique_item,
-  var_no__std_types___value_range
+  var_no__std_types___value_range,
+  var_no__std___WINDOW_CHANGED_SIZE,
+  var_no__std___CHILD_CHANGED_STATE,
+  var_no__std___SIGUSR1,
+  var_no__std___SIGUSR2,
+  var_no__std___gethostname,
+  var_no__std___get_terminal_size,
+  var_no__std___exitstatus,
+  var_no__std___pselect,
+  var_no__std___do_not_close,
+  var_no__std___wait2,
+  var_no__std___open_socket
 };
 
 static FUNKY_VARIABLE variables_table[];
@@ -1031,11 +1031,6 @@ static void *create__tabular_function
 
   );
 
-static void *create__std_types___file_descriptor
-  (
-    int value
-  );
-
 static void *create__std_types___integer
   (
     uint64_t value
@@ -1052,6 +1047,11 @@ static void *create__std_types___real
   );
 
 static void *create__std_types___file_type
+  (
+    int value
+  );
+
+static void *create__std_types___file_descriptor
   (
     int value
   );
@@ -3854,351 +3854,6 @@ NODE *create_function
     NODE *node = create__tabular_function();
     node->type = (FUNC)((unsigned long)code|TABULAR_FUNCTION_TAG);
     return node;
-  }
-
-static int flags_to_int
-(
-  NODE *node,
-  int *result_p
-)
-{
-  char *flags_str = NULL;
-  int flags = 0;
-  if (!to_c_string(node, &flags_str)) return false;
-  switch (flags_str[0]) {
-    case 'R':
-      flags = O_NONBLOCK;
-    case 'r':
-      if (flags_str[1] == '+') {
-	if (flags_str[2] == 0) {
-	  flags |= O_CLOEXEC|O_RDWR;
-	  break;
-	} else {
-	  goto err;
-	}
-      } else if (flags_str[1] == 0) {
-	flags |= O_CLOEXEC|O_RDONLY;
-	break;
-      } else {
-	goto err;
-	goto err;
-      }
-    case 'W':
-      flags = O_NONBLOCK;
-    case 'w':
-      if (flags_str[1] == '+') {
-	if (flags_str[2] == 0) {
-	  flags |= O_CLOEXEC|O_RDWR|O_CREAT|O_TRUNC;
-	  break;
-	} else {
-	  goto err;
-	}
-      } else if (flags_str[1] == 0) {
-	flags |= O_CLOEXEC|O_WRONLY|O_CREAT|O_TRUNC;
-	break;
-      } else {
-	goto err;
-      }
-    case 'A':
-      flags = O_NONBLOCK;
-    case 'a':
-      if (flags_str[1] == '+') {
-	if (flags_str[2] == 0) {
-	  flags |= O_CLOEXEC|O_RDWR|O_CREAT|O_APPEND;
-	  break;
-	} else {
-	  goto err;
-	}
-      } else if (flags_str[1] == 0) {
-	flags |= O_CLOEXEC|O_WRONLY|O_CREAT|O_APPEND;
-	break;
-      } else {
-	goto err;
-      }
-    default:
-      goto err;
-  }
-  deallocate_memory(flags_str);
-  *result_p = flags;
-  return true;
-
-  err:
-  deallocate_memory(flags_str);
-  create_error_message(
-    module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
-    "Conversion to open flags failed!", 0, 0, NULL);
-  return false;
-}
-
-static int mode_to_int
-(
-  NODE *node,
-  int *result_p
-)
-{
-  char *mode_str = NULL;
-  int mode = 0;
-  if (!to_c_string(node, &mode_str)) return false;
-  if (strlen(mode_str) != 9) goto err;
-  switch (mode_str[0]) {
-    case 'r':
-      mode |= 0400;
-      break;
-    case '-':
-      break;
-    default:
-      goto err;
-  }
-  switch (mode_str[1]) {
-    case 'w':
-      mode |= 0200;
-      break;
-    case '-':
-      break;
-    default:
-      goto err;
-  }
-  switch (mode_str[2]) {
-    case 'x':
-      mode |= 0100;
-      break;
-    case 's':
-      mode |= 0100|S_ISUID;
-      break;
-    case 'S':
-      mode |= S_ISUID;
-      break;
-    case '-':
-      break;
-    default:
-      goto err;
-  }
-  switch (mode_str[3]) {
-    case 'r':
-      mode |= 040;
-      break;
-    case '-':
-      break;
-    default:
-      goto err;
-  }
-  switch (mode_str[4]) {
-    case 'w':
-      mode |= 020;
-      break;
-    case '-':
-      break;
-    default:
-      goto err;
-  }
-  switch (mode_str[5]) {
-    case 'x':
-      mode |= 010;
-      break;
-    case 's':
-      mode |= 010|S_ISGID;
-      break;
-    case 'S':
-      mode |= S_ISGID;
-      break;
-    case '-':
-      break;
-    default:
-      goto err;
-  }
-  switch (mode_str[6]) {
-    case 'r':
-      mode |= 04;
-      break;
-    case '-':
-      break;
-    default:
-      goto err;
-  }
-  switch (mode_str[7]) {
-    case 'w':
-      mode |= 02;
-      break;
-    case '-':
-      break;
-    default:
-      goto err;
-  }
-  switch (mode_str[8]) {
-    case 'x':
-      mode |= 01;
-      break;
-    case 't':
-      mode |= 01|S_ISVTX;
-      break;
-    case 'T':
-      mode |= S_ISVTX;
-      break;
-    case '-':
-      break;
-    default:
-      goto err;
-  }
-  deallocate_memory(mode_str);
-  *result_p = mode;
-  return true;
-
-  err:
-  deallocate_memory(mode_str);
-  create_error_message(
-    module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
-    "Conversion to file mode failed!", 0, 0, NULL);
-  return false;
-}
-
-static NODE *mode_from_int
-(
-  int value
-)
-{
-  char mode[12];
-  if (S_ISREG(value)) {
-    mode[0] = '-';
-  } else if (S_ISBLK(value)) {
-    mode[0] = 'b';
-  } else if (S_ISCHR(value)) {
-    mode[0] = 'c';
-  } else if (S_ISDIR(value)) {
-    mode[0] = 'd';
-  } else if (S_ISLNK(value)) {
-    mode[0] = 'l';
-  } else if (S_ISFIFO(value)) {
-    mode[0] = 'p';
-  } else {
-    mode[0] = 0;
-  }
-  if (value & 0400) {
-    mode[1] = 'r';
-  } else {
-    mode[1] = '-';
-  }
-  if (value & 0200) {
-    mode[2] = 'w';
-  } else {
-    mode[2] = '-';
-  }
-  if (value & 0100) {
-    if (value & S_ISUID) {
-      mode[3] = 's';
-    } else {
-      mode[3] = 'x';
-    }
-  } else {
-    if (value & S_ISUID) {
-      mode[3] = 'S';
-    } else {
-      mode[3] = '-';
-    }
-  }
-  if (value & 040) {
-    mode[4] = 'r';
-  } else {
-    mode[4] = '-';
-  }
-  if (value & 020) {
-    mode[5] = 'w';
-  } else {
-    mode[5] = '-';
-  }
-  if (value & 010) {
-    if (value & S_ISGID) {
-      mode[6] = 's';
-    } else {
-      mode[6] = 'x';
-    }
-  } else {
-    if (value & S_ISGID) {
-      mode[6] = 'S';
-    } else {
-      mode[6] = '-';
-    }
-  }
-  if (value & 04) {
-    mode[7] = 'r';
-  } else {
-    mode[7] = '-';
-  }
-  if (value & 02) {
-    mode[8] = 'w';
-  } else {
-    mode[8] = '-';
-  }
-  if (value & 01) {
-    if (value & S_ISVTX) {
-      mode[9] = 't';
-    } else {
-      mode[9] = 'x';
-    }
-  } else {
-    if (value & S_ISVTX) {
-      mode[9] = 'T';
-    } else {
-      mode[9] = '-';
-    }
-  }
-  mode[10] = 0;
-  return from_c_string(mode[0] ? mode : mode+1);
-}
-
-static int initialize_fd_set
-  (
-    fd_set *set,
-    NODE *descriptors,
-    long *descriptor_count_p,
-    int *last_fd_p
-  )
-  {
-    long descriptor_count;
-    if (!length_of(descriptors, &descriptor_count)) return false;
-    FD_ZERO(set);
-    int last_fd = *last_fd_p;
-    long i;
-    for (i = 0; i < descriptor_count; ++i) {
-      NODE *descriptor;
-      if (!get_item_of(descriptors, i, &descriptor)) return false;
-      if ((descriptor)->type != std_types___file_descriptor.type) {
-	create_error_message(
-	  module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
-	  "Invalid arguments!", 0, 0, NULL);
-	return false;
-      }
-      int fd = descriptor->file_descriptor.value;
-      FD_SET(fd, set);
-      if (fd > last_fd) last_fd = fd;
-    }
-    *descriptor_count_p = descriptor_count;
-    *last_fd_p = last_fd;
-    return true;
-  }
-
-static NODE *create_descriptor_list
-  (
-    fd_set *set,
-    int fd_count,
-    NODE *descriptors,
-    long descriptor_count
-  )
-  {
-    LIST_DATA *data =
-      allocate_large(sizeof(LIST_DATA)+fd_count*sizeof(NODE *));
-    data->size = fd_count;
-    data->length = fd_count;
-    int n = 0;
-    long i;
-    for (i = 0; i < descriptor_count; ++i) {
-      NODE *descriptor;
-      get_item_of(descriptors, i, &descriptor);
-      int fd = descriptor->file_descriptor.value;
-      if (FD_ISSET(fd, set)) {
-	data->items[n++] = descriptor;
-      }
-    }
-    return create__std_types___list(0, fd_count, data);
   }
 
 static LIST_DATA *collect_list_data
@@ -8725,6 +8380,351 @@ static long std_types___unique_item____debug_string
       my_unique_item_names[node->unique_item.id]);
   }
 
+static int flags_to_int
+(
+  NODE *node,
+  int *result_p
+)
+{
+  char *flags_str = NULL;
+  int flags = 0;
+  if (!to_c_string(node, &flags_str)) return false;
+  switch (flags_str[0]) {
+    case 'R':
+      flags = O_NONBLOCK;
+    case 'r':
+      if (flags_str[1] == '+') {
+	if (flags_str[2] == 0) {
+	  flags |= O_CLOEXEC|O_RDWR;
+	  break;
+	} else {
+	  goto err;
+	}
+      } else if (flags_str[1] == 0) {
+	flags |= O_CLOEXEC|O_RDONLY;
+	break;
+      } else {
+	goto err;
+	goto err;
+      }
+    case 'W':
+      flags = O_NONBLOCK;
+    case 'w':
+      if (flags_str[1] == '+') {
+	if (flags_str[2] == 0) {
+	  flags |= O_CLOEXEC|O_RDWR|O_CREAT|O_TRUNC;
+	  break;
+	} else {
+	  goto err;
+	}
+      } else if (flags_str[1] == 0) {
+	flags |= O_CLOEXEC|O_WRONLY|O_CREAT|O_TRUNC;
+	break;
+      } else {
+	goto err;
+      }
+    case 'A':
+      flags = O_NONBLOCK;
+    case 'a':
+      if (flags_str[1] == '+') {
+	if (flags_str[2] == 0) {
+	  flags |= O_CLOEXEC|O_RDWR|O_CREAT|O_APPEND;
+	  break;
+	} else {
+	  goto err;
+	}
+      } else if (flags_str[1] == 0) {
+	flags |= O_CLOEXEC|O_WRONLY|O_CREAT|O_APPEND;
+	break;
+      } else {
+	goto err;
+      }
+    default:
+      goto err;
+  }
+  deallocate_memory(flags_str);
+  *result_p = flags;
+  return true;
+
+  err:
+  deallocate_memory(flags_str);
+  create_error_message(
+    module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+    "Conversion to open flags failed!", 0, 0, NULL);
+  return false;
+}
+
+static int mode_to_int
+(
+  NODE *node,
+  int *result_p
+)
+{
+  char *mode_str = NULL;
+  int mode = 0;
+  if (!to_c_string(node, &mode_str)) return false;
+  if (strlen(mode_str) != 9) goto err;
+  switch (mode_str[0]) {
+    case 'r':
+      mode |= 0400;
+      break;
+    case '-':
+      break;
+    default:
+      goto err;
+  }
+  switch (mode_str[1]) {
+    case 'w':
+      mode |= 0200;
+      break;
+    case '-':
+      break;
+    default:
+      goto err;
+  }
+  switch (mode_str[2]) {
+    case 'x':
+      mode |= 0100;
+      break;
+    case 's':
+      mode |= 0100|S_ISUID;
+      break;
+    case 'S':
+      mode |= S_ISUID;
+      break;
+    case '-':
+      break;
+    default:
+      goto err;
+  }
+  switch (mode_str[3]) {
+    case 'r':
+      mode |= 040;
+      break;
+    case '-':
+      break;
+    default:
+      goto err;
+  }
+  switch (mode_str[4]) {
+    case 'w':
+      mode |= 020;
+      break;
+    case '-':
+      break;
+    default:
+      goto err;
+  }
+  switch (mode_str[5]) {
+    case 'x':
+      mode |= 010;
+      break;
+    case 's':
+      mode |= 010|S_ISGID;
+      break;
+    case 'S':
+      mode |= S_ISGID;
+      break;
+    case '-':
+      break;
+    default:
+      goto err;
+  }
+  switch (mode_str[6]) {
+    case 'r':
+      mode |= 04;
+      break;
+    case '-':
+      break;
+    default:
+      goto err;
+  }
+  switch (mode_str[7]) {
+    case 'w':
+      mode |= 02;
+      break;
+    case '-':
+      break;
+    default:
+      goto err;
+  }
+  switch (mode_str[8]) {
+    case 'x':
+      mode |= 01;
+      break;
+    case 't':
+      mode |= 01|S_ISVTX;
+      break;
+    case 'T':
+      mode |= S_ISVTX;
+      break;
+    case '-':
+      break;
+    default:
+      goto err;
+  }
+  deallocate_memory(mode_str);
+  *result_p = mode;
+  return true;
+
+  err:
+  deallocate_memory(mode_str);
+  create_error_message(
+    module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+    "Conversion to file mode failed!", 0, 0, NULL);
+  return false;
+}
+
+static NODE *mode_from_int
+(
+  int value
+)
+{
+  char mode[12];
+  if (S_ISREG(value)) {
+    mode[0] = '-';
+  } else if (S_ISBLK(value)) {
+    mode[0] = 'b';
+  } else if (S_ISCHR(value)) {
+    mode[0] = 'c';
+  } else if (S_ISDIR(value)) {
+    mode[0] = 'd';
+  } else if (S_ISLNK(value)) {
+    mode[0] = 'l';
+  } else if (S_ISFIFO(value)) {
+    mode[0] = 'p';
+  } else {
+    mode[0] = 0;
+  }
+  if (value & 0400) {
+    mode[1] = 'r';
+  } else {
+    mode[1] = '-';
+  }
+  if (value & 0200) {
+    mode[2] = 'w';
+  } else {
+    mode[2] = '-';
+  }
+  if (value & 0100) {
+    if (value & S_ISUID) {
+      mode[3] = 's';
+    } else {
+      mode[3] = 'x';
+    }
+  } else {
+    if (value & S_ISUID) {
+      mode[3] = 'S';
+    } else {
+      mode[3] = '-';
+    }
+  }
+  if (value & 040) {
+    mode[4] = 'r';
+  } else {
+    mode[4] = '-';
+  }
+  if (value & 020) {
+    mode[5] = 'w';
+  } else {
+    mode[5] = '-';
+  }
+  if (value & 010) {
+    if (value & S_ISGID) {
+      mode[6] = 's';
+    } else {
+      mode[6] = 'x';
+    }
+  } else {
+    if (value & S_ISGID) {
+      mode[6] = 'S';
+    } else {
+      mode[6] = '-';
+    }
+  }
+  if (value & 04) {
+    mode[7] = 'r';
+  } else {
+    mode[7] = '-';
+  }
+  if (value & 02) {
+    mode[8] = 'w';
+  } else {
+    mode[8] = '-';
+  }
+  if (value & 01) {
+    if (value & S_ISVTX) {
+      mode[9] = 't';
+    } else {
+      mode[9] = 'x';
+    }
+  } else {
+    if (value & S_ISVTX) {
+      mode[9] = 'T';
+    } else {
+      mode[9] = '-';
+    }
+  }
+  mode[10] = 0;
+  return from_c_string(mode[0] ? mode : mode+1);
+}
+
+static int initialize_fd_set
+  (
+    fd_set *set,
+    NODE *descriptors,
+    long *descriptor_count_p,
+    int *last_fd_p
+  )
+  {
+    long descriptor_count;
+    if (!length_of(descriptors, &descriptor_count)) return false;
+    FD_ZERO(set);
+    int last_fd = *last_fd_p;
+    long i;
+    for (i = 0; i < descriptor_count; ++i) {
+      NODE *descriptor;
+      if (!get_item_of(descriptors, i, &descriptor)) return false;
+      if ((descriptor)->type != std_types___file_descriptor.type) {
+	create_error_message(
+	  module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+	  "Invalid arguments!", 0, 0, NULL);
+	return false;
+      }
+      int fd = descriptor->file_descriptor.value;
+      FD_SET(fd, set);
+      if (fd > last_fd) last_fd = fd;
+    }
+    *descriptor_count_p = descriptor_count;
+    *last_fd_p = last_fd;
+    return true;
+  }
+
+static NODE *create_descriptor_list
+  (
+    fd_set *set,
+    int fd_count,
+    NODE *descriptors,
+    long descriptor_count
+  )
+  {
+    LIST_DATA *data =
+      allocate_large(sizeof(LIST_DATA)+fd_count*sizeof(NODE *));
+    data->size = fd_count;
+    data->length = fd_count;
+    int n = 0;
+    long i;
+    for (i = 0; i < descriptor_count; ++i) {
+      NODE *descriptor;
+      get_item_of(descriptors, i, &descriptor);
+      int fd = descriptor->file_descriptor.value;
+      if (FD_ISSET(fd, set)) {
+	data->items[n++] = descriptor;
+      }
+    }
+    return create__std_types___list(0, fd_count, data);
+  }
+
 static void std_types___generic_array____type (void)
   {
     {
@@ -9377,16 +9377,6 @@ static void tabular_function____type (void)
     }
   }
 
-static void std_types___file_descriptor____type (void)
-  {
-    {
-      create_error_message(
-        module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
-        "Attempt to call a file descriptor as a function!", 0, 0, NULL);
-      return;
-    }
-  }
-
 static void std_types___generic_list____type (void)
   {
     {
@@ -9517,6 +9507,16 @@ static void std_types___file_type____type (void)
       create_error_message(
         module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
         "Attempt to call a file type as a function!", 0, 0, NULL);
+      return;
+    }
+  }
+
+static void std_types___file_descriptor____type (void)
+  {
+    {
+      create_error_message(
+        module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+        "Attempt to call a file descriptor as a function!", 0, 0, NULL);
       return;
     }
   }
@@ -10083,10 +10083,6 @@ TABULAR_FUNCTION tabular_function = {
   tabular_function____type, NULL
 };
 
-FILE_DESCRIPTOR std_types___file_descriptor = {
-  std_types___file_descriptor____type, NULL
-};
-
 SIMPLE_NODE std_types___generic_list = {
   std_types___generic_list____type, NULL
 };
@@ -10125,6 +10121,10 @@ SIMPLE_NODE std_types___polymorphic_function_with_setter = {
 
 FILE_TYPE std_types___file_type = {
   std_types___file_type____type, NULL
+};
+
+FILE_DESCRIPTOR std_types___file_descriptor = {
+  std_types___file_descriptor____type, NULL
 };
 
 DEVICE_ID std_types___device_id = {
@@ -11080,18 +11080,6 @@ static void *create__tabular_function
     return node;
   }
 
-static void *create__std_types___file_descriptor
-  (
-    int value
-  )
-  {
-    FILE_DESCRIPTOR *node = allocate(sizeof(FILE_DESCRIPTOR));
-    node->type = std_types___file_descriptor____type;
-    node->attributes = std_types___file_descriptor.attributes;
-    node->value = value;
-    return node;
-  }
-
 void *create__std_types___list
   (
     long offset,
@@ -11164,6 +11152,18 @@ static void *create__std_types___file_type
     FILE_TYPE *node = allocate(sizeof(FILE_TYPE));
     node->type = std_types___file_type____type;
     node->attributes = std_types___file_type.attributes;
+    node->value = value;
+    return node;
+  }
+
+static void *create__std_types___file_descriptor
+  (
+    int value
+  )
+  {
+    FILE_DESCRIPTOR *node = allocate(sizeof(FILE_DESCRIPTOR));
+    node->type = std_types___file_descriptor____type;
+    node->attributes = std_types___file_descriptor.attributes;
     node->value = value;
     return node;
   }
@@ -14334,422 +14334,6 @@ static void entry__std_types___function___std___parameter_count_of (void)
         TLS_argument_count = 1;
         return;
       }
-  }
-
-static void entry__std___gethostname (void)
-  {
-    if (TLS_argument_count != 0) {
-      invalid_arguments();
-      return;
-    }
-    char buf[256]; // maximum host name length (255) + null byte
-    int result;
-    if (event__mode != EM__REPLAY) {
-      result = gethostname(buf, sizeof(buf));
-      if (event__mode == EM__RECORD) {
-        record__event("gethostname");
-        store__memory(buf, result);
-      }
-    } else {
-      replay__event("gethostname");
-      result = retrieve__memory((uint8_t **)&buf);
-      report__event("gethostname");
-      print__memory(buf, result);
-    }
-    if (result == -1) {
-      create_error_message(
-	module__builtin.constants_base[unique__std___IO_ERROR-1],
-	"GETHOSTNAME FAILED", errno, 0, NULL);
-    } else {
-      {
-        NODE *result__node = (NODE *)(from_c_string(buf));
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-      }
-    }
-  }
-
-static void entry__std_types___file_descriptor___std___get_terminal_size (void)
-  {
-    if (TLS_argument_count != 1) {
-      invalid_arguments();
-      return;
-    }
-    if (TLS_deny_io) {
-      missing_io_access_rights();
-      return;
-    }
-
-    int fd = TLS_arguments[0]->file_descriptor.value;
-    int width, height;
-    struct winsize winsize;
-
-    if (event__mode != EM__REPLAY) {
-      ioctl(fd, TIOCGWINSZ, &winsize);
-      width = winsize.ws_col;
-      height = winsize.ws_row;
-      if (event__mode == EM__RECORD) {
-        record__event("get_terminal_size");
-        store__integer(width);
-        store__integer(height);
-      }
-    } else {
-      replay__event("get_terminal_size");
-      retrieve__integer(&width);
-      retrieve__integer(&height);
-    }
-    NODE *width_node = from_int(width);
-    NODE *height_node = from_int(height);
-    TLS_argument_count = 2;;
-    TLS_arguments[0] = width_node;
-    TLS_arguments[1] = height_node;
-    {
-      return;
-    }
-  }
-
-static void entry__std___exitstatus (void)
-  {
-    if (TLS_argument_count != 1) {
-      invalid_arguments();
-      return;
-    }
-    int status;
-    if (!to_int(TLS_arguments[0], &status)) return;
-    {
-      NODE *result__node = (NODE *)(from_int(WEXITSTATUS(status)));
-      TLS_arguments[0] = result__node;
-      TLS_argument_count = 1;
-    }
-  }
-
-static void entry__std___pselect (void)
-  {
-    if (TLS_argument_count < 3) {
-      too_few_arguments();
-      return;
-    }
-    if (TLS_argument_count > 4) {
-      too_many_arguments();
-      return;
-    }
-    if (TLS_result_count != 4) {
-      result_count_mismatch();
-      return;
-    }
-    if (TLS_deny_io) {
-      missing_io_access_rights();
-      return;
-    }
-    NODE *read_descriptors = TLS_arguments[0];
-    NODE *write_descriptors = TLS_arguments[1];
-    NODE *except_descriptors = TLS_arguments[2];
-    double timeout = 0.0;
-    struct timespec timeout_data;
-    struct timespec *timeout_ptr = NULL;
-
-    if (
-      TLS_argument_count > 3 &&
-      (TLS_arguments[3])->type != std_types___undefined.type
-    ) {
-      if (!to_double(TLS_arguments[3], &timeout)) return;
-      if (timeout < 0.0) timeout = 0.0;
-      timeout_data.tv_sec = timeout;
-      timeout_data.tv_nsec = 1000000000*(timeout-floor(timeout));
-      timeout_ptr = &timeout_data;
-    }
-    long read_descriptor_count, write_descriptor_count, except_descriptor_count;
-    fd_set read_set, write_set, except_set;
-    int last_fd = 0;
-    if (!initialize_fd_set(
-    	&read_set, read_descriptors, &read_descriptor_count, &last_fd)) return;
-    if (!initialize_fd_set(
-    	&write_set, write_descriptors, &write_descriptor_count, &last_fd)) return;
-    if (!initialize_fd_set(
-    	&except_set, except_descriptors, &except_descriptor_count, &last_fd)) return;
-    int ret;
-    int chld_changed_state = false;
-    int win_changed_size = false;
-    int caught_usr1 = false;
-    int caught_usr2 = false;
-    if (event__mode != EM__REPLAY) {
-      sigset_t set;
-      sigprocmask(0, NULL, &set);
-      sigdelset(&set, SIGCHLD);
-      sigdelset(&set, SIGWINCH);
-      sigdelset(&set, SIGUSR1);
-      sigdelset(&set, SIGUSR2);
-      retry:;
-      ret = pselect(last_fd+1, &read_set, &write_set, &except_set, timeout_ptr, &set);
-      if (ret < 0 && errno == EINTR) {
-	if (child_changed_state) {
-	  child_changed_state = false;
-	  chld_changed_state = true;
-	} else if (window_changed_size) {
-	  window_changed_size = false;
-	  win_changed_size = true;
-	} else if (caught_sigusr1) {
-	  caught_sigusr1 = false;
-	  caught_usr1 = true;
-	} else if (caught_sigusr2) {
-	  caught_sigusr2 = false;
-	  caught_usr2 = true;
-	} else {
-	  goto retry;
-	}
-      }
-      if (event__mode == EM__RECORD) {
-        record__event("pselect");
-        store__integer(ret);
-        store__integer(chld_changed_state);
-        store__integer(win_changed_size);
-        store__integer(caught_usr1);
-        store__integer(caught_usr2);
-      }
-    } else {
-      replay__event("pselect");
-      retrieve__integer(&ret);
-      retrieve__integer(&chld_changed_state);
-      retrieve__integer(&win_changed_size);
-      retrieve__integer(&caught_usr1);
-      retrieve__integer(&caught_usr2);
-    }
-    //   store__integer(read_count);
-    //   store__integer(write_count);
-    //   store__integer(except_count);
-    //   store__int_array(descriptors, descriptor_count);
-    if (ret == -1 && errno != EINTR) {
-      create_error_message(
-	module__builtin.constants_base[unique__std___IO_ERROR-1],
-	"PSELECT FAILED", errno, 0, NULL);
-      return;
-    }
-    NODE *signals = (NODE *)&std___empty_list;
-    int read_count = 0;
-    int write_count = 0;
-    int except_count = 0;
-    if (ret > 0) { // success
-      int fd;
-      for (fd = 0; fd <= last_fd; ++fd) {
-	if (FD_ISSET(fd, &read_set)) ++read_count;
-	if (FD_ISSET(fd, &write_set)) ++write_count;
-	if (FD_ISSET(fd, &except_set)) ++except_count;
-      }
-      if (read_count != read_descriptor_count) {
-	if (read_count == 0) {
-	  read_descriptors = (NODE *)&std___empty_list;
-	} else {
-	  read_descriptors =
-	    create_descriptor_list(
-	      &read_set, read_count,
-	      read_descriptors, read_descriptor_count);
-	}
-      }
-      if (write_count != write_descriptor_count) {
-	if (write_count == 0) {
-	  write_descriptors = (NODE *)&std___empty_list;
-	} else {
-	  write_descriptors =
-	    create_descriptor_list(
-	      &write_set, write_count,
-	      write_descriptors, write_descriptor_count);
-	}
-      }
-      if (except_count != except_descriptor_count) {
-	if (except_count == 0) {
-	  except_descriptors = (NODE *)&std___empty_list;
-	} else {
-	  except_descriptors =
-	    create_descriptor_list(
-	      &except_set, except_count,
-	      except_descriptors, except_descriptor_count);
-	}
-      }
-    } else {
-      read_descriptors = (NODE *)&std___empty_list;
-      write_descriptors = (NODE *)&std___empty_list;
-      except_descriptors = (NODE *)&std___empty_list;
-    }
-    int signal_count =
-      chld_changed_state+win_changed_size+caught_usr1+caught_usr2;
-    if (signal_count > 0) {
-      LIST_DATA *data =
-	allocate_large(sizeof(LIST_DATA)+signal_count*sizeof(NODE *));
-      data->size = signal_count;
-      data->length = signal_count;
-      int n = 0;
-      if (chld_changed_state) {
-	data->items[n++] =
-	  module__builtin.constants_base[unique__std___CHILD_CHANGED_STATE-1];
-      }
-      if (win_changed_size) {
-	data->items[n++] =
-	  module__builtin.constants_base[unique__std___WINDOW_CHANGED_SIZE-1];
-      }
-      if (caught_usr1) {
-	data->items[n++] =
-	  module__builtin.constants_base[unique__std___SIGUSR1-1];
-      }
-      signals = create__std_types___list(0, signal_count, data);
-      if (caught_usr2) {
-	data->items[n++] =
-	  module__builtin.constants_base[unique__std___SIGUSR2-1];
-      }
-      signals = create__std_types___list(0, signal_count, data);
-    }
-    TLS_argument_count = 4;;
-    TLS_arguments[0] = signals;
-    TLS_arguments[1] = read_descriptors;
-    TLS_arguments[2] = write_descriptors;
-    TLS_arguments[3] = except_descriptors;
-    {
-      return;
-    }
-  }
-
-static void entry__std___do_not_close (void)
-  {
-    if (TLS_argument_count != 1) {
-      invalid_arguments();
-      return;
-    }
-    if (TLS_deny_io) {
-      missing_io_access_rights();
-      return;
-    }
-    int fd;
-    int result;
-    if (!file_descriptor_to_int(TLS_arguments[0], &fd)) return;
-    if (event__mode != EM__REPLAY) {
-      do {
-	result = fcntl(fd, F_GETFD);
-      } while (result == -1 && errno == EINTR);
-      if (result != -1) {
-	int flags = result&~FD_CLOEXEC;
-	do {
-	  result = fcntl(fd, F_SETFD, flags);
-	} while (result == -1 && errno == EINTR);
-      }
-      if (event__mode == EM__RECORD) {
-        if (result == 0) {
-            successful__action("do_not_close");
-          } else {
-            failed__action("do_not_close");
-            store__integer(result);
-          }
-        }
-      } else {
-        if (replay__action("do_not_close")) {
-          retrieve__integer(&result);
-      } else {
-          result = 0;
-      }
-        report__event("do_not_close");
-          print__integer(fd);
-          print__integer(result);
-    }
-    if (result == -1) {
-      create_error_message(
-	module__builtin.constants_base[unique__std___IO_ERROR-1],
-	"DO_NO_CLOSE FAILED", errno, 0, NULL);
-    } else {
-      TLS_argument_count = 0;
-    }
-  }
-
-static void entry__std___wait2 (void)
-  {
-    if (TLS_argument_count != 0) {
-      invalid_arguments();
-      return;
-    }
-    if (TLS_deny_io) {
-      missing_io_access_rights();
-      return;
-    }
-    int status;
-    int result;
-    if (event__mode != EM__REPLAY) {
-      do {
-	result = waitpid(-1, &status, WNOHANG);
-      } while (result == -1 && errno == EINTR);
-      if (event__mode == EM__RECORD) {
-        record__event("wait2");
-        store__integer(result);
-        store__integer(status);
-      }
-    } else {
-      replay__event("wait2");
-      retrieve__integer(&result);
-      retrieve__integer(&status);
-      report__event("wait2");
-      print__integer(result);
-      print__integer(status);
-    }
-    if (result == -1) {
-      create_error_message(
-	module__builtin.constants_base[unique__std___IO_ERROR-1],
-      "WAIT FAILED", errno, 0, NULL);
-    } else if (result == 0) {
-      TLS_argument_count = 2;
-      TLS_arguments[0] = undefined;
-      TLS_arguments[1] = undefined;
-    } else {
-      TLS_argument_count = 2;
-      TLS_arguments[0] = process_id_from_int(result);
-      TLS_arguments[1] = from_int(status);
-    }
-  }
-
-static void entry__std___open_socket (void)
-  {
-    if (TLS_argument_count != 1) {
-      invalid_arguments();
-      return;
-    }
-    if (TLS_deny_io) {
-      missing_io_access_rights();
-      return;
-    }
-    char *filename = NULL;
-    int result;
-    int sock;
-    struct sockaddr_un addr;
-    if (!to_c_string(TLS_arguments[0], &filename)) goto cleanup;
-    if (event__mode != EM__REPLAY) {
-      sock = socket(AF_UNIX, SOCK_STREAM, 0);
-      if (sock == -1) goto error;
-      memset(&addr, 0, sizeof(struct sockaddr_un));
-      addr.sun_family = AF_UNIX;
-      strcpy(addr.sun_path, filename);
-      do {
-	result = connect(sock, (const struct sockaddr *)&addr, sizeof(addr));
-      } while (result == -1 && errno == EINTR);
-      if (event__mode == EM__RECORD) {
-        record__event("open_socket");
-        store__integer(sock);
-      }
-    } else {
-      replay__event("open_socket");
-      retrieve__integer(&sock);
-      report__event("open_socket");
-      print__c_string(filename);
-      print__integer(sock);
-    }
-    if (result == -1) {
-      error:
-      create_error_message(
-	module__builtin.constants_base[unique__std___IO_ERROR-1],
-      "OPEN SOCKET FAILED", errno, 0, NULL);
-    } else {
-      {
-        NODE *result__node = (NODE *)(file_descriptor_from_int(sock));
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-      }
-    }
-    cleanup:
-    deallocate_memory(filename);
   }
 
 static void entry__std_types___list___std___new (void)
@@ -21725,6 +21309,422 @@ static void entry__std___unique_item (void)
     deallocate_memory(name);
   }
 
+static void entry__std___gethostname (void)
+  {
+    if (TLS_argument_count != 0) {
+      invalid_arguments();
+      return;
+    }
+    char buf[256]; // maximum host name length (255) + null byte
+    int result;
+    if (event__mode != EM__REPLAY) {
+      result = gethostname(buf, sizeof(buf));
+      if (event__mode == EM__RECORD) {
+        record__event("gethostname");
+        store__memory(buf, result);
+      }
+    } else {
+      replay__event("gethostname");
+      result = retrieve__memory((uint8_t **)&buf);
+      report__event("gethostname");
+      print__memory(buf, result);
+    }
+    if (result == -1) {
+      create_error_message(
+	module__builtin.constants_base[unique__std___IO_ERROR-1],
+	"GETHOSTNAME FAILED", errno, 0, NULL);
+    } else {
+      {
+        NODE *result__node = (NODE *)(from_c_string(buf));
+        TLS_arguments[0] = result__node;
+        TLS_argument_count = 1;
+      }
+    }
+  }
+
+static void entry__std_types___file_descriptor___std___get_terminal_size (void)
+  {
+    if (TLS_argument_count != 1) {
+      invalid_arguments();
+      return;
+    }
+    if (TLS_deny_io) {
+      missing_io_access_rights();
+      return;
+    }
+
+    int fd = TLS_arguments[0]->file_descriptor.value;
+    int width, height;
+    struct winsize winsize;
+
+    if (event__mode != EM__REPLAY) {
+      ioctl(fd, TIOCGWINSZ, &winsize);
+      width = winsize.ws_col;
+      height = winsize.ws_row;
+      if (event__mode == EM__RECORD) {
+        record__event("get_terminal_size");
+        store__integer(width);
+        store__integer(height);
+      }
+    } else {
+      replay__event("get_terminal_size");
+      retrieve__integer(&width);
+      retrieve__integer(&height);
+    }
+    NODE *width_node = from_int(width);
+    NODE *height_node = from_int(height);
+    TLS_argument_count = 2;;
+    TLS_arguments[0] = width_node;
+    TLS_arguments[1] = height_node;
+    {
+      return;
+    }
+  }
+
+static void entry__std___exitstatus (void)
+  {
+    if (TLS_argument_count != 1) {
+      invalid_arguments();
+      return;
+    }
+    int status;
+    if (!to_int(TLS_arguments[0], &status)) return;
+    {
+      NODE *result__node = (NODE *)(from_int(WEXITSTATUS(status)));
+      TLS_arguments[0] = result__node;
+      TLS_argument_count = 1;
+    }
+  }
+
+static void entry__std___pselect (void)
+  {
+    if (TLS_argument_count < 3) {
+      too_few_arguments();
+      return;
+    }
+    if (TLS_argument_count > 4) {
+      too_many_arguments();
+      return;
+    }
+    if (TLS_result_count != 4) {
+      result_count_mismatch();
+      return;
+    }
+    if (TLS_deny_io) {
+      missing_io_access_rights();
+      return;
+    }
+    NODE *read_descriptors = TLS_arguments[0];
+    NODE *write_descriptors = TLS_arguments[1];
+    NODE *except_descriptors = TLS_arguments[2];
+    double timeout = 0.0;
+    struct timespec timeout_data;
+    struct timespec *timeout_ptr = NULL;
+
+    if (
+      TLS_argument_count > 3 &&
+      (TLS_arguments[3])->type != std_types___undefined.type
+    ) {
+      if (!to_double(TLS_arguments[3], &timeout)) return;
+      if (timeout < 0.0) timeout = 0.0;
+      timeout_data.tv_sec = timeout;
+      timeout_data.tv_nsec = 1000000000*(timeout-floor(timeout));
+      timeout_ptr = &timeout_data;
+    }
+    long read_descriptor_count, write_descriptor_count, except_descriptor_count;
+    fd_set read_set, write_set, except_set;
+    int last_fd = 0;
+    if (!initialize_fd_set(
+    	&read_set, read_descriptors, &read_descriptor_count, &last_fd)) return;
+    if (!initialize_fd_set(
+    	&write_set, write_descriptors, &write_descriptor_count, &last_fd)) return;
+    if (!initialize_fd_set(
+    	&except_set, except_descriptors, &except_descriptor_count, &last_fd)) return;
+    int ret;
+    int chld_changed_state = false;
+    int win_changed_size = false;
+    int caught_usr1 = false;
+    int caught_usr2 = false;
+    if (event__mode != EM__REPLAY) {
+      sigset_t set;
+      sigprocmask(0, NULL, &set);
+      sigdelset(&set, SIGCHLD);
+      sigdelset(&set, SIGWINCH);
+      sigdelset(&set, SIGUSR1);
+      sigdelset(&set, SIGUSR2);
+      retry:;
+      ret = pselect(last_fd+1, &read_set, &write_set, &except_set, timeout_ptr, &set);
+      if (ret < 0 && errno == EINTR) {
+	if (child_changed_state) {
+	  child_changed_state = false;
+	  chld_changed_state = true;
+	} else if (window_changed_size) {
+	  window_changed_size = false;
+	  win_changed_size = true;
+	} else if (caught_sigusr1) {
+	  caught_sigusr1 = false;
+	  caught_usr1 = true;
+	} else if (caught_sigusr2) {
+	  caught_sigusr2 = false;
+	  caught_usr2 = true;
+	} else {
+	  goto retry;
+	}
+      }
+      if (event__mode == EM__RECORD) {
+        record__event("pselect");
+        store__integer(ret);
+        store__integer(chld_changed_state);
+        store__integer(win_changed_size);
+        store__integer(caught_usr1);
+        store__integer(caught_usr2);
+      }
+    } else {
+      replay__event("pselect");
+      retrieve__integer(&ret);
+      retrieve__integer(&chld_changed_state);
+      retrieve__integer(&win_changed_size);
+      retrieve__integer(&caught_usr1);
+      retrieve__integer(&caught_usr2);
+    }
+    //   store__integer(read_count);
+    //   store__integer(write_count);
+    //   store__integer(except_count);
+    //   store__int_array(descriptors, descriptor_count);
+    if (ret == -1 && errno != EINTR) {
+      create_error_message(
+	module__builtin.constants_base[unique__std___IO_ERROR-1],
+	"PSELECT FAILED", errno, 0, NULL);
+      return;
+    }
+    NODE *signals = (NODE *)&std___empty_list;
+    int read_count = 0;
+    int write_count = 0;
+    int except_count = 0;
+    if (ret > 0) { // success
+      int fd;
+      for (fd = 0; fd <= last_fd; ++fd) {
+	if (FD_ISSET(fd, &read_set)) ++read_count;
+	if (FD_ISSET(fd, &write_set)) ++write_count;
+	if (FD_ISSET(fd, &except_set)) ++except_count;
+      }
+      if (read_count != read_descriptor_count) {
+	if (read_count == 0) {
+	  read_descriptors = (NODE *)&std___empty_list;
+	} else {
+	  read_descriptors =
+	    create_descriptor_list(
+	      &read_set, read_count,
+	      read_descriptors, read_descriptor_count);
+	}
+      }
+      if (write_count != write_descriptor_count) {
+	if (write_count == 0) {
+	  write_descriptors = (NODE *)&std___empty_list;
+	} else {
+	  write_descriptors =
+	    create_descriptor_list(
+	      &write_set, write_count,
+	      write_descriptors, write_descriptor_count);
+	}
+      }
+      if (except_count != except_descriptor_count) {
+	if (except_count == 0) {
+	  except_descriptors = (NODE *)&std___empty_list;
+	} else {
+	  except_descriptors =
+	    create_descriptor_list(
+	      &except_set, except_count,
+	      except_descriptors, except_descriptor_count);
+	}
+      }
+    } else {
+      read_descriptors = (NODE *)&std___empty_list;
+      write_descriptors = (NODE *)&std___empty_list;
+      except_descriptors = (NODE *)&std___empty_list;
+    }
+    int signal_count =
+      chld_changed_state+win_changed_size+caught_usr1+caught_usr2;
+    if (signal_count > 0) {
+      LIST_DATA *data =
+	allocate_large(sizeof(LIST_DATA)+signal_count*sizeof(NODE *));
+      data->size = signal_count;
+      data->length = signal_count;
+      int n = 0;
+      if (chld_changed_state) {
+	data->items[n++] =
+	  module__builtin.constants_base[unique__std___CHILD_CHANGED_STATE-1];
+      }
+      if (win_changed_size) {
+	data->items[n++] =
+	  module__builtin.constants_base[unique__std___WINDOW_CHANGED_SIZE-1];
+      }
+      if (caught_usr1) {
+	data->items[n++] =
+	  module__builtin.constants_base[unique__std___SIGUSR1-1];
+      }
+      signals = create__std_types___list(0, signal_count, data);
+      if (caught_usr2) {
+	data->items[n++] =
+	  module__builtin.constants_base[unique__std___SIGUSR2-1];
+      }
+      signals = create__std_types___list(0, signal_count, data);
+    }
+    TLS_argument_count = 4;;
+    TLS_arguments[0] = signals;
+    TLS_arguments[1] = read_descriptors;
+    TLS_arguments[2] = write_descriptors;
+    TLS_arguments[3] = except_descriptors;
+    {
+      return;
+    }
+  }
+
+static void entry__std___do_not_close (void)
+  {
+    if (TLS_argument_count != 1) {
+      invalid_arguments();
+      return;
+    }
+    if (TLS_deny_io) {
+      missing_io_access_rights();
+      return;
+    }
+    int fd;
+    int result;
+    if (!file_descriptor_to_int(TLS_arguments[0], &fd)) return;
+    if (event__mode != EM__REPLAY) {
+      do {
+	result = fcntl(fd, F_GETFD);
+      } while (result == -1 && errno == EINTR);
+      if (result != -1) {
+	int flags = result&~FD_CLOEXEC;
+	do {
+	  result = fcntl(fd, F_SETFD, flags);
+	} while (result == -1 && errno == EINTR);
+      }
+      if (event__mode == EM__RECORD) {
+        if (result == 0) {
+            successful__action("do_not_close");
+          } else {
+            failed__action("do_not_close");
+            store__integer(result);
+          }
+        }
+      } else {
+        if (replay__action("do_not_close")) {
+          retrieve__integer(&result);
+      } else {
+          result = 0;
+      }
+        report__event("do_not_close");
+          print__integer(fd);
+          print__integer(result);
+    }
+    if (result == -1) {
+      create_error_message(
+	module__builtin.constants_base[unique__std___IO_ERROR-1],
+	"DO_NO_CLOSE FAILED", errno, 0, NULL);
+    } else {
+      TLS_argument_count = 0;
+    }
+  }
+
+static void entry__std___wait2 (void)
+  {
+    if (TLS_argument_count != 0) {
+      invalid_arguments();
+      return;
+    }
+    if (TLS_deny_io) {
+      missing_io_access_rights();
+      return;
+    }
+    int status;
+    int result;
+    if (event__mode != EM__REPLAY) {
+      do {
+	result = waitpid(-1, &status, WNOHANG);
+      } while (result == -1 && errno == EINTR);
+      if (event__mode == EM__RECORD) {
+        record__event("wait2");
+        store__integer(result);
+        store__integer(status);
+      }
+    } else {
+      replay__event("wait2");
+      retrieve__integer(&result);
+      retrieve__integer(&status);
+      report__event("wait2");
+      print__integer(result);
+      print__integer(status);
+    }
+    if (result == -1) {
+      create_error_message(
+	module__builtin.constants_base[unique__std___IO_ERROR-1],
+      "WAIT FAILED", errno, 0, NULL);
+    } else if (result == 0) {
+      TLS_argument_count = 2;
+      TLS_arguments[0] = undefined;
+      TLS_arguments[1] = undefined;
+    } else {
+      TLS_argument_count = 2;
+      TLS_arguments[0] = process_id_from_int(result);
+      TLS_arguments[1] = from_int(status);
+    }
+  }
+
+static void entry__std___open_socket (void)
+  {
+    if (TLS_argument_count != 1) {
+      invalid_arguments();
+      return;
+    }
+    if (TLS_deny_io) {
+      missing_io_access_rights();
+      return;
+    }
+    char *filename = NULL;
+    int result;
+    int sock;
+    struct sockaddr_un addr;
+    if (!to_c_string(TLS_arguments[0], &filename)) goto cleanup;
+    if (event__mode != EM__REPLAY) {
+      sock = socket(AF_UNIX, SOCK_STREAM, 0);
+      if (sock == -1) goto error;
+      memset(&addr, 0, sizeof(struct sockaddr_un));
+      addr.sun_family = AF_UNIX;
+      strcpy(addr.sun_path, filename);
+      do {
+	result = connect(sock, (const struct sockaddr *)&addr, sizeof(addr));
+      } while (result == -1 && errno == EINTR);
+      if (event__mode == EM__RECORD) {
+        record__event("open_socket");
+        store__integer(sock);
+      }
+    } else {
+      replay__event("open_socket");
+      retrieve__integer(&sock);
+      report__event("open_socket");
+      print__c_string(filename);
+      print__integer(sock);
+    }
+    if (result == -1) {
+      error:
+      create_error_message(
+	module__builtin.constants_base[unique__std___IO_ERROR-1],
+      "OPEN SOCKET FAILED", errno, 0, NULL);
+    } else {
+      {
+        NODE *result__node = (NODE *)(file_descriptor_from_int(sock));
+        TLS_arguments[0] = result__node;
+        TLS_argument_count = 1;
+      }
+    }
+    cleanup:
+    deallocate_memory(filename);
+  }
+
 static FUNKY_NAMESPACE defined_namespaces[] = {
   {"builtin", 1, 0},
   {"std", 1, 0},
@@ -21836,17 +21836,6 @@ static FUNKY_CONSTANT constants_table[] = {
   {FLT_C_FUNCTION, 2, {.func = entry__std___exec}},
   {FLT_C_FUNCTION, -1, {.func = entry__std___create_process}},
   {FLT_C_FUNCTION, 1, {.func = entry__std_types___function___std___parameter_count_of}},
-  {FLT_UNIQUE, 0, {.str_8 = "std::WINDOW_CHANGED_SIZE"}},
-  {FLT_UNIQUE, 0, {.str_8 = "std::CHILD_CHANGED_STATE"}},
-  {FLT_UNIQUE, 0, {.str_8 = "std::SIGUSR1"}},
-  {FLT_UNIQUE, 0, {.str_8 = "std::SIGUSR2"}},
-  {FLT_C_FUNCTION, 0, {.func = entry__std___gethostname}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std_types___file_descriptor___std___get_terminal_size}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std___exitstatus}},
-  {FLT_C_FUNCTION, -1, {.func = entry__std___pselect}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std___do_not_close}},
-  {FLT_C_FUNCTION, 0, {.func = entry__std___wait2}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std___open_socket}},
   {FLT_C_FUNCTION, 2, {.func = entry__std_types___list___std___new}},
   {FLT_C_FUNCTION, -1, {.func = entry__std___list}},
   {FLT_C_FUNCTION, 1, {.func = entry__std_types___list___std___length_of}},
@@ -22053,7 +22042,18 @@ static FUNKY_CONSTANT constants_table[] = {
   {FLT_C_FUNCTION, 1, {.func = entry__std_types___unique_item___std___to_string}},
   {FLT_C_FUNCTION, 2, {.func = entry__std_types___unique_item___std___equal}},
   {FLT_C_FUNCTION, 1, {.func = entry__std_types___unique_item___std___hash}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std___unique_item}}
+  {FLT_C_FUNCTION, 1, {.func = entry__std___unique_item}},
+  {FLT_UNIQUE, 0, {.str_8 = "std::WINDOW_CHANGED_SIZE"}},
+  {FLT_UNIQUE, 0, {.str_8 = "std::CHILD_CHANGED_STATE"}},
+  {FLT_UNIQUE, 0, {.str_8 = "std::SIGUSR1"}},
+  {FLT_UNIQUE, 0, {.str_8 = "std::SIGUSR2"}},
+  {FLT_C_FUNCTION, 0, {.func = entry__std___gethostname}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std_types___file_descriptor___std___get_terminal_size}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std___exitstatus}},
+  {FLT_C_FUNCTION, -1, {.func = entry__std___pselect}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std___do_not_close}},
+  {FLT_C_FUNCTION, 0, {.func = entry__std___wait2}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std___open_socket}}
 };
 
 static INTERNAL_METHOD std_types___array__internal_methods[] = {
@@ -22352,21 +22352,6 @@ static ATTRIBUTE_DEFINITION std_types___function__attributes[] = {
   {var_no__std___parameter_count_of, func__std_types___function___std___parameter_count_of}
 };
 
-static INTERNAL_METHOD std_types___file_descriptor__internal_methods[] = {
-  {FIM_SIZE, {.size = sizeof(FILE_DESCRIPTOR)}},
-  {FIM_COLLECT, {std_types___file_descriptor____collect}},
-  {FIM_DEBUG_STRING, {std_types___file_descriptor____debug_string}}
-};
-
-static ATTRIBUTE_DEFINITION std_types___file_descriptor__attributes[] = {
-  {var_no__std___equal, func__std_types___file_descriptor___std___equal},
-  {var_no__std___get_terminal_attributes, func__std_types___file_descriptor___std___get_terminal_attributes},
-  {var_no__std___get_terminal_size, func__std_types___file_descriptor___std___get_terminal_size},
-  {var_no__std___hash, func__std_types___file_descriptor___std___hash},
-  {var_no__std___set_terminal_attributes, func__std_types___file_descriptor___std___set_terminal_attributes},
-  {var_no__std___to_integer, func__std_types___file_descriptor___std___to_integer}
-};
-
 static INTERNAL_METHOD std_types___list__internal_methods[] = {
   {FIM_SIZE, {.size = sizeof(LIST)}},
   {FIM_COLLECT, {std_types___list____collect}},
@@ -22498,6 +22483,21 @@ static ATTRIBUTE_DEFINITION std_types___file_type__attributes[] = {
   {var_no__std___equal, func__std_types___file_type___std___equal},
   {var_no__std___hash, func__std_types___file_type___std___hash},
   {var_no__std___to_integer, func__std_types___file_type___std___to_integer}
+};
+
+static INTERNAL_METHOD std_types___file_descriptor__internal_methods[] = {
+  {FIM_SIZE, {.size = sizeof(FILE_DESCRIPTOR)}},
+  {FIM_COLLECT, {std_types___file_descriptor____collect}},
+  {FIM_DEBUG_STRING, {std_types___file_descriptor____debug_string}}
+};
+
+static ATTRIBUTE_DEFINITION std_types___file_descriptor__attributes[] = {
+  {var_no__std___equal, func__std_types___file_descriptor___std___equal},
+  {var_no__std___get_terminal_attributes, func__std_types___file_descriptor___std___get_terminal_attributes},
+  {var_no__std___get_terminal_size, func__std_types___file_descriptor___std___get_terminal_size},
+  {var_no__std___hash, func__std_types___file_descriptor___std___hash},
+  {var_no__std___set_terminal_attributes, func__std_types___file_descriptor___std___set_terminal_attributes},
+  {var_no__std___to_integer, func__std_types___file_descriptor___std___to_integer}
 };
 
 static INTERNAL_METHOD std_types___device_id__internal_methods[] = {
@@ -23471,69 +23471,6 @@ static FUNKY_VARIABLE variables_table[] = {
     {.methods_count = 0}, 0,
     NULL,
     {(NODE *)&tabular_function}
-  },
-  {
-    FOT_INITIALIZED, 0, 0,
-    "WINDOW_CHANGED_SIZE\000std", NULL,
-    {.const_idx = unique__std___WINDOW_CHANGED_SIZE}
-  },
-  {
-    FOT_INITIALIZED, 0, 0,
-    "CHILD_CHANGED_STATE\000std", NULL,
-    {.const_idx = unique__std___CHILD_CHANGED_STATE}
-  },
-  {
-    FOT_INITIALIZED, 0, 0,
-    "SIGUSR1\000std", NULL,
-    {.const_idx = unique__std___SIGUSR1}
-  },
-  {
-    FOT_INITIALIZED, 0, 0,
-    "SIGUSR2\000std", NULL,
-    {.const_idx = unique__std___SIGUSR2}
-  },
-  {
-    FOT_INITIALIZED, 0, 0,
-    "gethostname\000std", NULL,
-    {.const_idx = func__std___gethostname}
-  },
-  {
-    FOT_POLYMORPHIC, 0, 0,
-    "get_terminal_size\000std", NULL,
-    {.has_a_setter = false}
-  },
-  {
-    FOT_TYPE, 0, 6,
-    "file_descriptor\000std_types", std_types___file_descriptor__attributes,
-    {"object\000std_types"},
-    {.methods_count = 3}, 0,
-    std_types___file_descriptor__internal_methods,
-    {(NODE *)&std_types___file_descriptor}
-  },
-  {
-    FOT_INITIALIZED, 0, 0,
-    "exitstatus\000std", NULL,
-    {.const_idx = func__std___exitstatus}
-  },
-  {
-    FOT_INITIALIZED, 0, 0,
-    "pselect\000std", NULL,
-    {.const_idx = func__std___pselect}
-  },
-  {
-    FOT_INITIALIZED, 0, 0,
-    "do_not_close\000std", NULL,
-    {.const_idx = func__std___do_not_close}
-  },
-  {
-    FOT_INITIALIZED, 0, 0,
-    "wait2\000std", NULL,
-    {.const_idx = func__std___wait2}
-  },
-  {
-    FOT_INITIALIZED, 0, 0,
-    "open_socket\000std", NULL,
-    {.const_idx = func__std___open_socket}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -24921,6 +24858,14 @@ static FUNKY_VARIABLE variables_table[] = {
     {.const_idx = func__std___file_type}
   },
   {
+    FOT_TYPE, 0, 6,
+    "file_descriptor\000std_types", std_types___file_descriptor__attributes,
+    {"object\000std_types"},
+    {.methods_count = 3}, 0,
+    std_types___file_descriptor__internal_methods,
+    {(NODE *)&std_types___file_descriptor}
+  },
+  {
     FOT_INITIALIZED, 0, 0,
     "file_descriptor\000std", NULL,
     {.const_idx = func__std___file_descriptor}
@@ -25502,6 +25447,61 @@ static FUNKY_VARIABLE variables_table[] = {
     {.methods_count = 0}, 0,
     NULL,
     {(NODE *)&std_types___value_range}
+  },
+  {
+    FOT_INITIALIZED, 0, 0,
+    "WINDOW_CHANGED_SIZE\000std", NULL,
+    {.const_idx = unique__std___WINDOW_CHANGED_SIZE}
+  },
+  {
+    FOT_INITIALIZED, 0, 0,
+    "CHILD_CHANGED_STATE\000std", NULL,
+    {.const_idx = unique__std___CHILD_CHANGED_STATE}
+  },
+  {
+    FOT_INITIALIZED, 0, 0,
+    "SIGUSR1\000std", NULL,
+    {.const_idx = unique__std___SIGUSR1}
+  },
+  {
+    FOT_INITIALIZED, 0, 0,
+    "SIGUSR2\000std", NULL,
+    {.const_idx = unique__std___SIGUSR2}
+  },
+  {
+    FOT_INITIALIZED, 0, 0,
+    "gethostname\000std", NULL,
+    {.const_idx = func__std___gethostname}
+  },
+  {
+    FOT_POLYMORPHIC, 0, 0,
+    "get_terminal_size\000std", NULL,
+    {.has_a_setter = false}
+  },
+  {
+    FOT_INITIALIZED, 0, 0,
+    "exitstatus\000std", NULL,
+    {.const_idx = func__std___exitstatus}
+  },
+  {
+    FOT_INITIALIZED, 0, 0,
+    "pselect\000std", NULL,
+    {.const_idx = func__std___pselect}
+  },
+  {
+    FOT_INITIALIZED, 0, 0,
+    "do_not_close\000std", NULL,
+    {.const_idx = func__std___do_not_close}
+  },
+  {
+    FOT_INITIALIZED, 0, 0,
+    "wait2\000std", NULL,
+    {.const_idx = func__std___wait2}
+  },
+  {
+    FOT_INITIALIZED, 0, 0,
+    "open_socket\000std", NULL,
+    {.const_idx = func__std___open_socket}
   }
 };
 
@@ -25638,13 +25638,6 @@ BUILTIN_FUNCTION_NAME builtin_function_names[371] = {
   {std_types___function____type, "std_types::function/_type"},
   {tabular_function____type, "tabular_function/_type"},
   {entry__std_types___function___std___parameter_count_of, "std_types::function/parameter_count_of"},
-  {entry__std___gethostname, "std::gethostname"},
-  {entry__std_types___file_descriptor___std___get_terminal_size, "std_types::file_descriptor/std::get_terminal_size"},
-  {entry__std___exitstatus, "std::exitstatus"},
-  {entry__std___pselect, "std::pselect"},
-  {entry__std___do_not_close, "std::do_not_close"},
-  {entry__std___wait2, "std::wait2"},
-  {entry__std___open_socket, "std::open_socket"},
   {std_types___generic_list____type, "std_types::generic_list/_type"},
   {std_types___list____type, "std_types::list/_type"},
   {entry__std_types___list___std___new, "std_types::list/new"},
@@ -25887,7 +25880,14 @@ BUILTIN_FUNCTION_NAME builtin_function_names[371] = {
   {entry__std_types___unique_item___std___to_string, "std_types::unique_item/to_string"},
   {entry__std_types___unique_item___std___equal, "std_types::unique_item/equal"},
   {entry__std_types___unique_item___std___hash, "std_types::unique_item/hash"},
-  {entry__std___unique_item, "std::unique_item"}
+  {entry__std___unique_item, "std::unique_item"},
+  {entry__std___gethostname, "std::gethostname"},
+  {entry__std_types___file_descriptor___std___get_terminal_size, "std_types::file_descriptor/std::get_terminal_size"},
+  {entry__std___exitstatus, "std::exitstatus"},
+  {entry__std___pselect, "std::pselect"},
+  {entry__std___do_not_close, "std::do_not_close"},
+  {entry__std___wait2, "std::wait2"},
+  {entry__std___open_socket, "std::open_socket"}
 };
 
 const char *internal_method_names[] = {

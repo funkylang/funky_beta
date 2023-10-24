@@ -345,12 +345,6 @@ typedef struct {
 typedef struct {
   void *type;
   ATTRIBUTES *attributes;
-  int value;
-} FILE_DESCRIPTOR;
-
-typedef struct {
-  void *type;
-  ATTRIBUTES *attributes;
   long offset;
   long length;
   LIST_DATA *data;
@@ -385,6 +379,12 @@ typedef struct {
   ATTRIBUTES *attributes;
   int value;
 } FILE_TYPE;
+
+typedef struct {
+  void *type;
+  ATTRIBUTES *attributes;
+  int value;
+} FILE_DESCRIPTOR;
 
 typedef struct {
   void *type;
@@ -548,13 +548,13 @@ typedef union NODE {
   DATE_AND_TIME date_and_time;
   ERROR error;
   TABULAR_FUNCTION tabular_function;
-  FILE_DESCRIPTOR file_descriptor;
   LIST list;
   INTEGER integer;
   POSITIVE_INTEGER positive_integer;
   NEGATIVE_INTEGER negative_integer;
   REAL real;
   FILE_TYPE file_type;
+  FILE_DESCRIPTOR file_descriptor;
   DEVICE_ID device_id;
   DIRECTORY directory;
   GROUP_ID group_id;
@@ -697,7 +697,6 @@ extern SIMPLE_NODE std_types___object;
 extern SIMPLE_NODE std_types___undefined;
 extern SIMPLE_NODE std_types___function;
 extern TABULAR_FUNCTION tabular_function;
-extern FILE_DESCRIPTOR std_types___file_descriptor;
 extern SIMPLE_NODE std_types___generic_list;
 extern LIST std_types___list;
 extern SIMPLE_NODE std_types___number;
@@ -708,6 +707,7 @@ extern REAL std_types___real;
 extern SIMPLE_NODE std_types___polymorphic_function;
 extern SIMPLE_NODE std_types___polymorphic_function_with_setter;
 extern FILE_TYPE std_types___file_type;
+extern FILE_DESCRIPTOR std_types___file_descriptor;
 extern DEVICE_ID std_types___device_id;
 extern DIRECTORY std_types___directory;
 extern GROUP_ID std_types___group_id;

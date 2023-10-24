@@ -81,6 +81,14 @@ $line_height_of (!)
 
   For more details about colour handling see <colours>.
 
+  Example:
+
+  get_terminal_size! STDIN_FILENO $width $height
+  create_terminal $terminal width height
+  draw_text &terminal 10 5 "Hello, world!"
+  update_terminal &terminal $output
+  print! output
+
 #
   Topic: Colours
 
@@ -426,6 +434,8 @@ $std_types::screen/scroll_up:
     scrolls the contents of the *screen* upwards
 
     Topic: Terminal
+
+    See also: scroll_down, scroll_left, scroll_right
   (
     screen
     delta = 1 # the amount of rows to scroll
@@ -438,7 +448,7 @@ $std_types::screen/scroll_up:
 	text_colour_of(screen)
 	background_colour_of(screen)
       width_of(screen)
-  $empty_lines dup(empty_line delta)
+  $empty_lines dup(list(empty_line) delta)
   ->
     screen
       .rows_of
@@ -446,48 +456,40 @@ $std_types::screen/scroll_up:
 	  range(rows_of(screen) delta+1 -1)
 	  empty_lines
 
-#$std::scroll_down:
+$std_types::screen/scroll_down:
   #
     scrolls the contents of the *screen* downwards
 
     Topic: Terminal
+
+    See also: scroll_up, scroll_left, scroll_right
   (
+    screen
     delta = 1 # the amount of rows to scroll
   )
-  $width width_of(logical_screen)
-
-  # empty line contents
-
-  $empty_text_lines dup(list(spaces(width)) delta)
-
-  $empty_text_colour_lines
-    dup(list(dup(text_colour_of(logical_screen).to_string width)) delta)
-
-  $empty_background_colour_lines
+  reduce_to &delta height_of(screen)
+  $empty_line
     dup
-      list(dup(background_colour_of(logical_screen).to_string width))
-      delta
-
-  # move characters
-
-  range &logical_screen.characters_of 1 -(delta+1)
-  append empty_text_lines &logical_screen.characters_of
-
-  # move text colours
-
-  range &logical_screen.text_colours_of 1 -(delta+1)
-  append empty_text_colour_lines &logical_screen.text_colours_of
-
-  # move background colours
-
-  range &logical_screen.background_colours_of 1 -(delta+1)
-  append empty_background_colour_lines &logical_screen.background_colours_of
+      string
+	' '
+	text_colour_of(screen)
+	background_colour_of(screen)
+      width_of(screen)
+  $empty_lines dup(list(empty_line) delta)
+  ->
+    screen
+      .rows_of
+	append
+	  empty_lines
+	  range(rows_of(screen) 1 -(delta+1))
 
 $std_types::screen/scroll_left:
   #
     scrolls the contents of the *screen* leftwards
 
     Topic: Terminal
+
+    See also: scroll_up, scroll_down, scroll_right
   (
     screen
     delta = 1 # the amount of columns to scroll
@@ -499,46 +501,29 @@ $std_types::screen/scroll_left:
 	text_colour_of(screen)
 	background_colour_of(screen)
       delta
-
   map &screen.rows_of: (row) append range(row 3*delta+1 -1) pad
   -> screen
 
-#$std::scroll_right:
+$std_types::screen/scroll_right:
   #
     scrolls the contents of the *screen* rightwards
 
     Topic: Terminal
+
+    See also: scroll_up, scroll_down, scroll_left
   (
+    screen
     delta = 1 # the amount of columns to scroll
   )
-  $left_text spaces(delta)
-  $left_text_colours dup(text_colour_of(logical_screen).to_string delta)
-
-  $left_background_colours
-    dup(background_colour_of(logical_screen).to_string delta)
-
-  update_each &logical_screen.characters_of: (line)
-    append left_text range(line 1 -(delta+1))
-  update_each &logical_screen.text_colours_of: (line)
-    append left_text_colours range(line 1 -(delta+1))
-  update_each &logical_screen.background_colours_of: (line)
-    append left_background_colours range(line 1 -(delta+1))
-
-$append_lines: (left right)
-  map left: (i line)
-    append line right(i)
-
-$std::arrange_horizontally: (left right)
-  ->
-    left
-      .width_of width_of(left)+width_of(right)
-      .rows_of append_lines(rows_of(left) rows_of(right))
-
-$std::arrange_vertically: (top bottom)
-  ->
-    top
-      .height_of width_of(top)+height_of(bottom)
-      .rows_of append(rows_of(top) rows_of(bottom))
+  $pad
+    dup
+      string
+	' '
+	text_colour_of(screen)
+	background_colour_of(screen)
+      delta
+  map &screen.rows_of: (row) append pad range(row 1 -(3*delta+1))
+  -> screen
 
 $adapt_to_window: (screen x y width height)
   $left_x left_x_of(screen)
@@ -578,7 +563,22 @@ $adapt_to_window: (screen x y width height)
 
   $return -> x y width height
 
-$std_types::screen/define_window: (self left_x top_y right_x bottom_y)
+$std_types::screen/define_window:
+  #
+    defines a rectangular drawing area
+
+    x- and y-coordinates are one-based
+
+    Topic: Terminal
+
+    See also: create_terminal
+  (
+    self # the screen or terminal
+    left_x # the left border of the draw area
+    top_y # the top border of the draw area
+    right_x # the right border of the draw area (inclusive!)
+    bottom_y # the bottom border of the draw area (inclusive!)
+  )
   ->
     self
       .left_x_of
@@ -817,13 +817,24 @@ $std::blit:
 
 $std::update_terminal
   #
-    updates the terminal windwo to show the contents of *terminal*
+    create a command sequence to update the terminal
+
+    This functions updates the terminal object **and** returns an ANSI-command
+    sequence that can be used to update the terminal.
 
     Topic: Terminal
+
+    Example:
+
+    get_terminal_size! STDIN_FILENO $width $height
+    create_terminal $terminal width height
+    draw_text &terminal 10 5 "Hello, world!"
+    update_terminal &terminal $output
+    print! output
   :
     (
       terminal # the terminal to be updated
-      do_log = false
+      do_log = false # log updates to <stderr>
     )
     $output ""
     $current_buffer current_buffer_of(terminal)
@@ -1019,11 +1030,33 @@ $std_types::screen/plot:
   #
     plots a half character block
 
+    Draws a lower or upper half block on the specified position.
+
+    Attention: The y-coordinate is measured in half lines.
+
     Topic: Terminal
+
+    See also: plot_line
+
+    Example:
+
+    get_terminal_size! STDIN_FILENO $terminal_width $terminal_height
+    create_terminal $terminal terminal_width terminal_height
+    $r 24
+    $cy 25
+    $width 60
+    from_to !terminal 1 width
+      : (x)
+	$y cy+to_integer(sin(x*2*PI/width)*r)
+	plot &terminal x y
+	next
+      -> terminal
+    update_terminal! &terminal $output
+    print! output
   (
-    screen
-    x
-    y
+    screen # the screen or terminal onto which to plot
+    x # the x-cordinate of the *half block*
+    y # the y-coordinate of the *half block*
   )
   $row_no (y+1) .div. 2
   $rows rows_of(screen)
@@ -1060,7 +1093,35 @@ $std_types::screen/plot:
 	  !row(3*x-1) text_colour_of(screen)
 	  -> screen(.rows_of rows(row_no row))
 
-$std_types::screen/plot_line: (screen x1 y1 x2 y2)
+$std_types::screen/plot_line:
+  #
+    plots a line consisting of half character blocks
+
+    Draws a line from the specified start coordinate (*x1*/*y1*) to the
+    specified end coordinate (*x2*/*y2*).
+
+    Attention: The y-coordinates are measured in half lines.
+
+    Topic: Terminal
+
+    See also: plot
+
+    Example:
+
+    get_terminal_size! STDIN_FILENO $terminal_width $terminal_height  (
+    create_terminal $terminal terminal_width terminal_height
+    plot_line &terminal 5 5 70 30
+    plot_line &terminal 70 30 45 40
+    plot_line &terminal 45 40 5 5
+    update_terminal! &terminal $output
+    print! output
+  (
+    screen # the screen or terminal onto which to plot
+    x1 # the x-coordinate of the start point
+    y1 # the y-coordinate of the start point
+    x2 # the x-coordinate of the end point
+    y2 # the y-coordinate of the end point
+  )
   $dx x2-x1
   $dy y2-y1
   if
@@ -1144,55 +1205,16 @@ $std_types::screen/set_background_colour:
     :
       !logical_screen.characters_of(y)(x) chr
 
-#$std::set_text_colour_at:
-  #
-    sets the text colour at the specified screen position
-
-    The character and the background colour are left unchanged.
-
-    Topic: Terminal
-
-    See also: set_background_colour_at, set_character_at, background_colour_at
-  (
-    x
-    y
-    colour # the new text colour
-  )
-  if
-    &&
-      y >= 1
-      y <= height_of(logical_screen)
-      x >= 1
-      x <= width_of(logical_screen)
-    :
-      !logical_screen.text_colours_of(y)(x) colour
-
-#$std::set_background_colour_at:
-  #
-    sets the background colour at the specified screen position
-
-    The character and the text colour are left unchanged.
-
-    Topic: Terminal
-
-    See also: set_text_colour_at, set_character_at, text_colour_at
-  (
-    x
-    y
-    colour # the new background colour
-  )
-  if
-    &&
-      y >= 1
-      y <= height_of(logical_screen)
-      x >= 1
-      x <= width_of(logical_screen)
-    :
-      !logical_screen.background_colours_of(y)(x) colour
-
 $INVALID_CHARACTER '@0;'
 
-$std::character_width: (chr)
+$std::character_width:
+  #
+    returns the width of a potentially wide characters
+
+    The return value is either 1 or 2.
+  (
+    chr # the character to be measured
+  )
   if
     ||
       chr >= '@0x1f000;' && chr <= '@0x1f7ff;'
@@ -1202,7 +1224,7 @@ $std::character_width: (chr)
 
 $std_types::screen/set_cursor:
   (
-    self
+    self # the terminal for which to set the cursor
     x # in logical screen coordinates
     y # in logical screen coordinates (any coordinate within a row is accepted)
   )
