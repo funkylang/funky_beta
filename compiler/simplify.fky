@@ -320,6 +320,7 @@ $funky_types::pair/simplify: (self temp_no)
   $argument argument_of(self)
   if
     argument.is_a_list:
+      filter &argument: (argument) -> not(argument.is_a_remark)
       if
 	length_of(argument) == 1:
 	  !argument argument(1)

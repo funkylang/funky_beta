@@ -68,8 +68,30 @@ $std::text_colour_of (!)
 $std::background_colour_of (!)
 $line_height_of (!)
 
+#
+  Topic: Terminal
+
+  The terminal library is somewhat similar to the curses library. It tries to
+  update the contents of a terminal in a smart way.
+
+  To start using the functions of this library one must first create a
+  <std_types::terminal> object (see <create_terminal>) supplying the
+  terminal's width and height. The current terminal size can be retrieved via
+  the I/O-function <get_terminal_size>.
+
+  For more details about colour handling see <colours>.
+
+#
+  Topic: Colours
+
+  The <terminal> library uses <std_types::character>s for text and background
+  colours.
+
 $has_a_visible_cursor (!)
-  # returns true if the terminal has a visible cursor
+  #
+    returns true if the terminal has a visible cursor
+
+    Topic: Terminal
 
 $current_buffer_of (!)
 
@@ -77,47 +99,134 @@ $std::red_component_of (!)
   #
     the red component of a colour
 
-    Topic: Terminal
+    Topic: Colours
 
     See also: green_component_of, blue_component_of
+
+    Parameters:
+      colour # the colour (character)
 
 $std::green_component_of (!)
   #
     the green component of a colour
 
-    Topic: Terminal
-
     See also: red_component_of, blue_component_of
+
+    Parameters:
+      colour # the colour (character)
 
 $std::blue_component_of (!)
   #
     the blue component of a colour
 
-    Topic: Terminal
+    Topic: Colours
 
     See also: red_component_of, green_component_of
 
+    Parameters:
+      colour # the colour (character)
+
 $std::TEXT_COLOUR .
-  # the text colour option used in <create_screen> and <create_terminal>
+  #
+    the text colour option used in <create_screen> and <create_terminal>
+
+    Topic: Terminal
+
+    See also: create_terminal
 
 $std::BACKGROUND_COLOUR .
-  # the background colour option used in <create_screen> and <create_terminal>
+  #
+    the background colour option used in <create_screen> and <create_terminal>
+
+    Topic: Terminal
 
 $std::LINE_HEIGHT .
-  # the line height option used in <create_screen> and <create_terminal>
+  #
+    the line height option used in <create_screen> and <create_terminal>
+
+    Topic: Terminal
+
+    See also: create_terminal
 
 $std::VISIBLE_CURSOR .
-  # the option to make the cursor visible in <create_terminal>
+  #
+    the option to make the cursor visible in <create_terminal>
+
+    Topic: Terminal
+
+    See also: create_terminal
 
 $std::BLACK '@0x000000;'
+  #
+    the colour black as used by the terminal library
+
+    Topic: Colours
+
+    See also: WHITE, RED, GREEN, BLUE, CYAN, MAGENTA, YELLOW, GREY
+
 $std::WHITE '@0xffffff;'
+  #
+    the colour white as used by the terminal library
+
+    Topic: Colours
+
+    See also: BLACK, RED, GREEN, BLUE, CYAN, MAGENTA, YELLOW, GREY
+
 $std::RED '@0xff0000;'
+  #
+    the colour red as used by the terminal library
+
+    Topic: Colours
+
+    See also: BLACK, WHITE, GREEN, BLUE, CYAN, MAGENTA, YELLOW, GREY
+
 $std::GREEN '@0x00ff00;'
+  #
+    the colour green as used by the terminal library
+
+    Topic: Colours
+
+    See also: BLACK, WHITE, RED, BLUE, CYAN, MAGENTA, YELLOW, GREY
+
 $std::BLUE '@0x0000ff;'
+  #
+    the colour blue as used by the terminal library
+
+    Topic: Colours
+
+    See also: BLACK, WHITE, RED, GREEN, CYAN, MAGENTA, YELLOW, GREY
+
 $std::CYAN '@0x00ffff;'
+  #
+    the colour cyan as used by the terminal library
+
+    Topic: Colours
+
+    See also: BLACK, WHITE, RED, GREEN, BLUE, MAGENTA, YELLOW, GREY
+
 $std::MAGENTA '@0xff00ff;'
+  #
+    the colour magenta as used by the terminal library
+
+    Topic: Colours
+
+    See also: BLACK, WHITE, RED, GREEN, BLUE, CYAN, YELLOW, GREY
+
 $std::YELLOW '@0xffff00;'
+  #
+    the colour yellow as used by the terminal library
+
+    Topic: Colours
+
+    See also: BLACK, WHITE, RED, GREEN, BLUE, CYAN, MAGENTA, GREY
+
 $std::GREY '@0x808080;'
+  #
+    the colour grey as used by the terminal library
+
+    Topic: Colours
+
+    See also: BLACK, WHITE, RED, GREEN, BLUE, CYAN, MAGENTA, YELLOW
 
 $INVALID_COLOUR '@0xffffffff;'
 
@@ -130,7 +239,16 @@ $std_types::screen std_types::object
     See also: create_screen
 
 $std_types::screen.serialization_tag_of "screen"
+  #
+    the tag used to serialize a <std_types::screen> object
+
+    Topic: Terminal
+
 $std_types::screen.serialization_fields_of
+  #
+    the serialized fields of a <std_types::screen> object
+
+    Topic: Terminal
   list
     `rows_of
     `cursor_x_of
@@ -145,12 +263,23 @@ $std_types::terminal std_types::screen
   #
     the prototype objects for all terminals
 
+    To create a terminal object call <create_terminal>.
+
     Topic: Terminal
 
     See also: create_terminal
 
 $std_types::terminal.serialization_tag_of "terminal"
+  #
+    the tag used to serialize a <std_types::terminal> object
+
+    Topic: Terminal
+
 $std_types::terminal.serialization_fields_of
+  #
+    the serialized fields of a <std_types::terminal> object
+
+    Topic: Terminal
   list
     `rows_of
     `cursor_x_of
@@ -209,6 +338,11 @@ $std::character_at:
   #
     returns the character at the specified position of the screen
 
+    The x- and y-coordinates are both one-based.
+
+    Attention: This is a low-level function. The arguments are not checked for
+    validity!
+
     Topic: Terminal
 
     See also: text_colour_at, background_colour_at, set_character_at
@@ -226,6 +360,11 @@ $std::character_at:
 $std::text_colour_at:
   #
     returns the text colour at the specified position of the screen
+
+    The x- and y-coordinates are both one-based.
+
+    Attention: This is a low-level function. The arguments are not checked for
+    validity!
 
     Topic: Terminal
 
@@ -245,6 +384,11 @@ $std::background_colour_at:
   #
     returns the background colour at the specified position of the screen
 
+    The x- and y-coordinates are both one-based.
+
+    Attention: This is a low-level function. The arguments are not checked for
+    validity!
+
     Topic: Terminal
 
     See also: text_colour_at, character_at, set_background_colour_at
@@ -259,42 +403,30 @@ $std::background_colour_at:
   )
   -> rows_of(screen)(y)(3*x)
 
-#$std::scroll_up:
+$std_types::screen/scroll_up:
   #
     scrolls the contents of the *screen* upwards
 
     Topic: Terminal
   (
+    screen
     delta = 1 # the amount of rows to scroll
   )
-  $width width_of(logical_screen)
-
-  # empty line contents
-
-  $empty_text_lines dup(list(spaces(width)) delta)
-
-  $empty_text_colour_lines
-    dup(list(dup(text_colour_of(logical_screen).to_string width)) delta)
-
-  $empty_background_colour_lines
+  reduce_to &delta height_of(screen)
+  $empty_line
     dup
-      list(dup(background_colour_of(logical_screen).to_string width))
-      delta
-
-  # move characters
-
-  range &logical_screen.characters_of delta+1 -1
-  append &logical_screen.characters_of empty_text_lines
-
-  # move text colours
-
-  range &logical_screen.text_colours_of delta+1 -1
-  append &logical_screen.text_colours_of empty_text_colour_lines
-
-  # move background colours
-
-  range &logical_screen.background_colours_of delta+1 -1
-  append &logical_screen.background_colours_of empty_background_colour_lines
+      string
+	' '
+	text_colour_of(screen)
+	background_colour_of(screen)
+      width_of(screen)
+  $empty_lines dup(empty_line delta)
+  ->
+    screen
+      .rows_of
+	append
+	  range(rows_of(screen) delta+1 -1)
+	  empty_lines
 
 #$std::scroll_down:
   #
