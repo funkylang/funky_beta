@@ -1440,7 +1440,7 @@ $ai_completion:
       request.is_empty
       -> terminal window lines
       :
-	open_socket! $sock "/tmp/takapaka.sock"
+	open_unix_socket! $sock "/tmp/takapaka.sock"
 	if
 	  sock.is_an_error
 	  -> terminal window lines
@@ -2143,7 +2143,7 @@ $load_file:
   map split_into_indented_lines(buf): (line)
     if
       line.is_defined
-      -> tedi_line(first(line) range(second(line) 1 -2))
+      -> tedi_line(first(line) trim_right(range(second(line) 1 -2)))
       -> undefined
 
 $update_display:

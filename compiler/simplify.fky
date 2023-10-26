@@ -1010,7 +1010,10 @@ $funky_types::string_literal/simplify: (self temp_no)
 	      push &characters character(digits_of(component).to_integer)
 	      next
 	    NAMED_CHARACTER:
-	      push &characters character_from_name(funky::name_of(component))
+	      $character character_from_name(funky::name_of(component))
+	      on character.is_undefined:
+		syntax_error "Invalid character name" component
+	      push &characters character
 	      next
 	    NEWLINE:
 	      push &characters '@nl;'

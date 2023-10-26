@@ -18,6 +18,8 @@
 #include <sys/un.h>
 #include <sys/stat.h>
 #include <sys/wait.h>
+#include <netinet/in.h>
+#include <netdb.h>
 #include <dirent.h>
 
 #include "common.h"
@@ -204,6 +206,10 @@ enum {
   func__std_types___file_descriptor___std___hash,
   func__std___file_descriptor,
   func__std_types___file_descriptor___std___to_integer,
+  func__std_types___shutdown_type___std___equal,
+  func__std_types___shutdown_type___std___hash,
+  func__std___shutdown_type,
+  func__std_types___shutdown_type___std___to_integer,
   func__std_types___device_id___std___equal,
   func__std_types___device_id___std___hash,
   func__std___device_id,
@@ -257,6 +263,7 @@ enum {
   func__std___realpath,
   func__std___rename,
   func__std___sethostname,
+  func__std___shutdown,
   func__std___stat,
   func__std___strerror,
   func__std___wait,
@@ -349,7 +356,8 @@ enum {
   func__std___pselect,
   func__std___do_not_close,
   func__std___wait2,
-  func__std___open_socket
+  func__std___open_unix_socket,
+  func__std___open_tcp_socket
 };
 
 enum {
@@ -509,6 +517,9 @@ enum {
   var_no__std___STDIN_FILENO,
   var_no__std___STDOUT_FILENO,
   var_no__std___STDERR_FILENO,
+  var_no__std___SHUT_RD,
+  var_no__std___SHUT_WR,
+  var_no__std___SHUT_RDWR,
   var_no__std___ENOERR,
   var_no__std___EPERM,
   var_no__std___ENOENT,
@@ -668,6 +679,8 @@ enum {
   var_no__std___file_type,
   var_no__std_types___file_descriptor,
   var_no__std___file_descriptor,
+  var_no__std_types___shutdown_type,
+  var_no__std___shutdown_type,
   var_no__std_types___device_id,
   var_no__std___device_id,
   var_no__std_types___directory,
@@ -711,6 +724,7 @@ enum {
   var_no__std___realpath,
   var_no__std___rename,
   var_no__std___sethostname,
+  var_no__std___shutdown,
   var_no__std___stat,
   var_no__std___strerror,
   var_no__std___wait,
@@ -778,7 +792,8 @@ enum {
   var_no__std___pselect,
   var_no__std___do_not_close,
   var_no__std___wait2,
-  var_no__std___open_socket
+  var_no__std___open_unix_socket,
+  var_no__std___open_tcp_socket
 };
 
 static FUNKY_VARIABLE variables_table[];
@@ -799,6 +814,9 @@ static FILE_TYPE std___UNKNOWN_FILE_TYPE;
 static FILE_DESCRIPTOR std___STDIN_FILENO;
 static FILE_DESCRIPTOR std___STDOUT_FILENO;
 static FILE_DESCRIPTOR std___STDERR_FILENO;
+static SHUTDOWN_TYPE std___SHUT_RD;
+static SHUTDOWN_TYPE std___SHUT_WR;
+static SHUTDOWN_TYPE std___SHUT_RDWR;
 static ERROR_NUMBER std___ENOERR;
 static ERROR_NUMBER std___EPERM;
 static ERROR_NUMBER std___ENOENT;
@@ -1056,6 +1074,11 @@ static void *create__std_types___file_descriptor
     int value
   );
 
+static void *create__std_types___shutdown_type
+  (
+    int value
+  );
+
 static void *create__std_types___device_id
   (
     unsigned long value
@@ -1303,6 +1326,8 @@ static void *std_types___file_type____collect(FILE_TYPE *node);
 static long std_types___file_type____debug_string(NODE *node, int indent, int max_depth, char *buf);
 static void *std_types___file_descriptor____collect(FILE_DESCRIPTOR *node);
 static long std_types___file_descriptor____debug_string(NODE *node, int indent, int max_depth, char *buf);
+static void *std_types___shutdown_type____collect(SHUTDOWN_TYPE *node);
+static long std_types___shutdown_type____debug_string(NODE *node, int indent, int max_depth, char *buf);
 static void *std_types___device_id____collect(DEVICE_ID *node);
 static long std_types___device_id____debug_string(NODE *node, int indent, int max_depth, char *buf);
 static void *std_types___directory____collect(DIRECTORY *node);
@@ -4783,6 +4808,55 @@ static NODE *file_descriptor_from_int
   )
   {
     return create__std_types___file_descriptor(value);
+  }
+
+static void *std_types___shutdown_type____collect
+  (
+    SHUTDOWN_TYPE *node
+  )
+  {
+    SHUTDOWN_TYPE *new_node;
+    new_node = allocate(sizeof(SHUTDOWN_TYPE));
+    new_node->type = node->type;
+    *(void **)node = ENCODE_ADDRESS(new_node);
+    new_node->attributes = collect_attributes(node->attributes);
+    new_node->value = node->value;
+    return new_node;
+  }
+
+static long std_types___shutdown_type____debug_string
+  (
+    NODE *node,
+    int indent,
+    int max_depth,
+    char *buf
+  )
+  {
+    return debug_print(
+      indent, buf, "<shutdown_type %d>", node->shutdown_type.value);
+  }
+
+static int shutdown_type_to_int
+  (
+    NODE *node,
+    int *result_p
+  )
+  {
+    if ((node)->type != std_types___shutdown_type.type) {
+      invalid_arguments();
+      return false;
+    } else {
+      *result_p = node->shutdown_type.value;
+      return true;
+    }
+  }
+
+static NODE *shutdown_type_from_int
+  (
+    int value
+  )
+  {
+    return create__std_types___shutdown_type(value);
   }
 
 static void *std_types___device_id____collect
@@ -9521,6 +9595,16 @@ static void std_types___file_descriptor____type (void)
     }
   }
 
+static void std_types___shutdown_type____type (void)
+  {
+    {
+      create_error_message(
+        module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+        "Attempt to call a shutdown type as a function!", 0, 0, NULL);
+      return;
+    }
+  }
+
 static void std_types___device_id____type (void)
   {
     {
@@ -10127,6 +10211,10 @@ FILE_DESCRIPTOR std_types___file_descriptor = {
   std_types___file_descriptor____type, NULL
 };
 
+SHUTDOWN_TYPE std_types___shutdown_type = {
+  std_types___shutdown_type____type, NULL
+};
+
 DEVICE_ID std_types___device_id = {
   std_types___device_id____type, NULL
 };
@@ -10289,6 +10377,18 @@ static FILE_DESCRIPTOR std___STDOUT_FILENO = {
 
 static FILE_DESCRIPTOR std___STDERR_FILENO = {
   std_types___file_descriptor____type, NULL, STDERR_FILENO
+};
+
+static SHUTDOWN_TYPE std___SHUT_RD = {
+  std_types___shutdown_type____type, NULL, SHUT_RD
+};
+
+static SHUTDOWN_TYPE std___SHUT_WR = {
+  std_types___shutdown_type____type, NULL, SHUT_WR
+};
+
+static SHUTDOWN_TYPE std___SHUT_RDWR = {
+  std_types___shutdown_type____type, NULL, SHUT_RDWR
 };
 
 static ERROR_NUMBER std___ENOERR = {
@@ -11164,6 +11264,18 @@ static void *create__std_types___file_descriptor
     FILE_DESCRIPTOR *node = allocate(sizeof(FILE_DESCRIPTOR));
     node->type = std_types___file_descriptor____type;
     node->attributes = std_types___file_descriptor.attributes;
+    node->value = value;
+    return node;
+  }
+
+static void *create__std_types___shutdown_type
+  (
+    int value
+  )
+  {
+    SHUTDOWN_TYPE *node = allocate(sizeof(SHUTDOWN_TYPE));
+    node->type = std_types___shutdown_type____type;
+    node->attributes = std_types___shutdown_type.attributes;
     node->value = value;
     return node;
   }
@@ -16358,6 +16470,76 @@ static void entry__std_types___file_descriptor___std___to_integer (void)
     }
   }
 
+static void entry__std_types___shutdown_type___std___equal (void)
+  {
+    if (TLS_argument_count != 2) {
+      invalid_arguments();
+      return;
+    }
+    if ((TLS_arguments[1])->type == std_types___shutdown_type.type)
+      {
+        NODE *result__node = (NODE *)(from_bool(
+                TLS_arguments[0]->shutdown_type.value ==
+                TLS_arguments[1]->shutdown_type.value));
+        TLS_arguments[0] = result__node;
+        TLS_argument_count = 1;
+        return;
+      }
+    {
+      invalid_arguments();
+      return;
+    }
+  }
+
+static void entry__std_types___shutdown_type___std___hash (void)
+  {
+    if (TLS_argument_count != 1) {
+      invalid_arguments();
+      return;
+    }
+    uint32_t hash = TLS_arguments[0]->shutdown_type.value;
+    hash += 1037657925u;
+    hash *= 1893456841;
+    hash ^= hash >> 19 | hash << 13;
+    {
+      NODE *result__node = (NODE *)(from_uint32(hash));
+      TLS_arguments[0] = result__node;
+      TLS_argument_count = 1;
+      return;
+    };
+  }
+
+static void entry__std___shutdown_type (void)
+  {
+    if (TLS_argument_count != 1) {
+      invalid_arguments();
+      return;
+    }
+    int value;
+    if (!(to_int(TLS_arguments[0], &value))) return;
+    {
+      NODE *result__node = (NODE *)(create__std_types___shutdown_type(value));
+      TLS_arguments[0] = result__node;
+      TLS_argument_count = 1;
+      return;
+    }
+  }
+
+static void entry__std_types___shutdown_type___std___to_integer (void)
+  {
+    if (TLS_argument_count != 1) {
+      invalid_arguments();
+      return;
+    }
+    int value = TLS_arguments[0]->shutdown_type.value;
+    {
+      NODE *result__node = (NODE *)(from_int(value));
+      TLS_arguments[0] = result__node;
+      TLS_argument_count = 1;
+      return;
+    }
+  }
+
 static void entry__std_types___device_id___std___equal (void)
   {
     if (TLS_argument_count != 2) {
@@ -17992,6 +18174,51 @@ static void entry__std___sethostname (void)
     }
     cleanup:
     deallocate_memory(buf);
+  }
+
+static void entry__std___shutdown (void)
+  {
+    if (TLS_argument_count != 2) {
+      invalid_arguments();
+      return;
+    }
+    if (TLS_deny_io) {
+      missing_io_access_rights();
+      return;
+    }
+    int fd;
+    int how;
+    int result;
+    if (!file_descriptor_to_int(TLS_arguments[0], &fd)) return;
+    if (!shutdown_type_to_int(TLS_arguments[1], &how)) return;
+    if (event__mode != EM__REPLAY) {
+      result = shutdown(fd, how);
+      if (event__mode == EM__RECORD) {
+        if (result == 0) {
+            successful__action("shutdown");
+          } else {
+            failed__action("shutdown");
+            store__integer(result);
+          }
+        }
+      } else {
+        if (replay__action("shutdown")) {
+          retrieve__integer(&result);
+      } else {
+          result = 0;
+      }
+        report__event("shutdown");
+          print__integer(fd);
+          print__integer(how);
+          print__integer(result);
+    }
+    if (result == -1) {
+      create_error_message(
+	module__builtin.constants_base[unique__std___IO_ERROR-1],
+      "SHUTDOWN FAILED", errno, 0, NULL);
+    } else {
+      TLS_argument_count = 0;
+    }
   }
 
 static void entry__std___stat (void)
@@ -21674,7 +21901,7 @@ static void entry__std___wait2 (void)
     }
   }
 
-static void entry__std___open_socket (void)
+static void entry__std___open_unix_socket (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -21699,13 +21926,13 @@ static void entry__std___open_socket (void)
 	result = connect(sock, (const struct sockaddr *)&addr, sizeof(addr));
       } while (result == -1 && errno == EINTR);
       if (event__mode == EM__RECORD) {
-        record__event("open_socket");
+        record__event("open_tcp_socket");
         store__integer(sock);
       }
     } else {
-      replay__event("open_socket");
+      replay__event("open_tcp_socket");
       retrieve__integer(&sock);
-      report__event("open_socket");
+      report__event("open_tcp_socket");
       print__c_string(filename);
       print__integer(sock);
     }
@@ -21713,7 +21940,7 @@ static void entry__std___open_socket (void)
       error:
       create_error_message(
 	module__builtin.constants_base[unique__std___IO_ERROR-1],
-      "OPEN SOCKET FAILED", errno, 0, NULL);
+	"OPEN SOCKET FAILED", errno, 0, NULL);
     } else {
       {
         NODE *result__node = (NODE *)(file_descriptor_from_int(sock));
@@ -21723,6 +21950,64 @@ static void entry__std___open_socket (void)
     }
     cleanup:
     deallocate_memory(filename);
+  }
+
+static void entry__std___open_tcp_socket (void)
+  {
+    if (TLS_argument_count != 2) {
+      invalid_arguments();
+      return;
+    }
+    if (TLS_deny_io) {
+      missing_io_access_rights();
+      return;
+    }
+    char *uri = NULL;
+    int port_no;
+    int result;
+    int sock;
+    struct hostent *server;
+    struct sockaddr_in addr;
+    if (!to_c_string(TLS_arguments[0], &uri)) goto cleanup;
+    if (!to_int(TLS_arguments[1], &port_no)) goto cleanup;
+    if (event__mode != EM__REPLAY) {
+      sock = socket(AF_INET, SOCK_STREAM, 0);
+      if (sock == -1) goto error;
+      server = gethostbyname(uri);
+      if (!server) goto error;
+      memset(&addr, 0, sizeof(addr));
+      addr.sin_family = AF_INET;
+      addr.sin_port = htons(port_no);
+      memcpy(&addr.sin_addr.s_addr,server->h_addr,server->h_length);
+      do {
+	result = connect(sock, (const struct sockaddr *)&addr, sizeof(addr));
+      } while (result == -1 && errno == EINTR);
+      if (event__mode == EM__RECORD) {
+        record__event("open_unix_socket");
+        store__integer(sock);
+      }
+    } else {
+      replay__event("open_unix_socket");
+      retrieve__integer(&sock);
+      report__event("open_unix_socket");
+      print__c_string(uri);
+      print__integer(port_no);
+      print__integer(sock);
+    }
+    if (result == -1) {
+      error:
+      create_error_message(
+	module__builtin.constants_base[unique__std___IO_ERROR-1],
+	"OPEN SOCKET FAILED", errno, 0, NULL);
+    } else {
+      {
+        NODE *result__node = (NODE *)(file_descriptor_from_int(sock));
+        TLS_arguments[0] = result__node;
+        TLS_argument_count = 1;
+      }
+    }
+    cleanup:
+    deallocate_memory(uri);
   }
 
 static FUNKY_NAMESPACE defined_namespaces[] = {
@@ -21908,6 +22193,10 @@ static FUNKY_CONSTANT constants_table[] = {
   {FLT_C_FUNCTION, 1, {.func = entry__std_types___file_descriptor___std___hash}},
   {FLT_C_FUNCTION, 1, {.func = entry__std___file_descriptor}},
   {FLT_C_FUNCTION, 1, {.func = entry__std_types___file_descriptor___std___to_integer}},
+  {FLT_C_FUNCTION, 2, {.func = entry__std_types___shutdown_type___std___equal}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std_types___shutdown_type___std___hash}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std___shutdown_type}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std_types___shutdown_type___std___to_integer}},
   {FLT_C_FUNCTION, 2, {.func = entry__std_types___device_id___std___equal}},
   {FLT_C_FUNCTION, 1, {.func = entry__std_types___device_id___std___hash}},
   {FLT_C_FUNCTION, 1, {.func = entry__std___device_id}},
@@ -21961,6 +22250,7 @@ static FUNKY_CONSTANT constants_table[] = {
   {FLT_C_FUNCTION, 1, {.func = entry__std___realpath}},
   {FLT_C_FUNCTION, 2, {.func = entry__std___rename}},
   {FLT_C_FUNCTION, 1, {.func = entry__std___sethostname}},
+  {FLT_C_FUNCTION, 2, {.func = entry__std___shutdown}},
   {FLT_C_FUNCTION, 1, {.func = entry__std___stat}},
   {FLT_C_FUNCTION, 1, {.func = entry__std___strerror}},
   {FLT_C_FUNCTION, 0, {.func = entry__std___wait}},
@@ -22053,7 +22343,8 @@ static FUNKY_CONSTANT constants_table[] = {
   {FLT_C_FUNCTION, -1, {.func = entry__std___pselect}},
   {FLT_C_FUNCTION, 1, {.func = entry__std___do_not_close}},
   {FLT_C_FUNCTION, 0, {.func = entry__std___wait2}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std___open_socket}}
+  {FLT_C_FUNCTION, 1, {.func = entry__std___open_unix_socket}},
+  {FLT_C_FUNCTION, 2, {.func = entry__std___open_tcp_socket}}
 };
 
 static INTERNAL_METHOD std_types___array__internal_methods[] = {
@@ -22498,6 +22789,18 @@ static ATTRIBUTE_DEFINITION std_types___file_descriptor__attributes[] = {
   {var_no__std___hash, func__std_types___file_descriptor___std___hash},
   {var_no__std___set_terminal_attributes, func__std_types___file_descriptor___std___set_terminal_attributes},
   {var_no__std___to_integer, func__std_types___file_descriptor___std___to_integer}
+};
+
+static INTERNAL_METHOD std_types___shutdown_type__internal_methods[] = {
+  {FIM_SIZE, {.size = sizeof(SHUTDOWN_TYPE)}},
+  {FIM_COLLECT, {std_types___shutdown_type____collect}},
+  {FIM_DEBUG_STRING, {std_types___shutdown_type____debug_string}}
+};
+
+static ATTRIBUTE_DEFINITION std_types___shutdown_type__attributes[] = {
+  {var_no__std___equal, func__std_types___shutdown_type___std___equal},
+  {var_no__std___hash, func__std_types___shutdown_type___std___hash},
+  {var_no__std___to_integer, func__std_types___shutdown_type___std___to_integer}
 };
 
 static INTERNAL_METHOD std_types___device_id__internal_methods[] = {
@@ -23672,6 +23975,30 @@ static FUNKY_VARIABLE variables_table[] = {
     {.methods_count = 0}, 0,
     NULL,
     {(NODE *)&std___STDERR_FILENO}
+  },
+  {
+    FOT_OBJECT, 0, 0,
+    "SHUT_RD\000std", NULL,
+    {"shutdown_type\000std_types"},
+    {.methods_count = 0}, 0,
+    NULL,
+    {(NODE *)&std___SHUT_RD}
+  },
+  {
+    FOT_OBJECT, 0, 0,
+    "SHUT_WR\000std", NULL,
+    {"shutdown_type\000std_types"},
+    {.methods_count = 0}, 0,
+    NULL,
+    {(NODE *)&std___SHUT_WR}
+  },
+  {
+    FOT_OBJECT, 0, 0,
+    "SHUT_RDWR\000std", NULL,
+    {"shutdown_type\000std_types"},
+    {.methods_count = 0}, 0,
+    NULL,
+    {(NODE *)&std___SHUT_RDWR}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -24872,6 +25199,19 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_TYPE, 0, 3,
+    "shutdown_type\000std_types", std_types___shutdown_type__attributes,
+    {"object\000std_types"},
+    {.methods_count = 3}, 0,
+    std_types___shutdown_type__internal_methods,
+    {(NODE *)&std_types___shutdown_type}
+  },
+  {
+    FOT_INITIALIZED, 0, 0,
+    "shutdown_type\000std", NULL,
+    {.const_idx = func__std___shutdown_type}
+  },
+  {
+    FOT_TYPE, 0, 3,
     "device_id\000std_types", std_types___device_id__attributes,
     {"object\000std_types"},
     {.methods_count = 3}, 0,
@@ -25114,6 +25454,11 @@ static FUNKY_VARIABLE variables_table[] = {
     FOT_INITIALIZED, 0, 0,
     "sethostname\000std", NULL,
     {.const_idx = func__std___sethostname}
+  },
+  {
+    FOT_INITIALIZED, 0, 0,
+    "shutdown\000std", NULL,
+    {.const_idx = func__std___shutdown}
   },
   {
     FOT_INITIALIZED, 0, 0,
@@ -25500,8 +25845,13 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_INITIALIZED, 0, 0,
-    "open_socket\000std", NULL,
-    {.const_idx = func__std___open_socket}
+    "open_unix_socket\000std", NULL,
+    {.const_idx = func__std___open_unix_socket}
+  },
+  {
+    FOT_INITIALIZED, 0, 0,
+    "open_tcp_socket\000std", NULL,
+    {.const_idx = func__std___open_tcp_socket}
   }
 };
 
@@ -25510,13 +25860,13 @@ FUNKY_MODULE module__builtin = {
   NULL,
   0, 0,
   3, 0,
-  322, 426,
+  328, 433,
   NULL,
   defined_namespaces, NULL,
   constants_table, variables_table
 };
 
-BUILTIN_FUNCTION_NAME builtin_function_names[371] = {
+BUILTIN_FUNCTION_NAME builtin_function_names[378] = {
   {std_types___generic_array____type, "std_types::generic_array/_type"},
   {std_types___array____type, "std_types::array/_type"},
   {entry__std_types___array___std___length_of, "std_types::array/length_of"},
@@ -25722,6 +26072,11 @@ BUILTIN_FUNCTION_NAME builtin_function_names[371] = {
   {entry__std_types___file_descriptor___std___hash, "std_types::file_descriptor/hash"},
   {entry__std___file_descriptor, "std::file_descriptor"},
   {entry__std_types___file_descriptor___std___to_integer, "std_types::file_descriptor/to_integer"},
+  {std_types___shutdown_type____type, "std_types::shutdown_type/_type"},
+  {entry__std_types___shutdown_type___std___equal, "std_types::shutdown_type/equal"},
+  {entry__std_types___shutdown_type___std___hash, "std_types::shutdown_type/hash"},
+  {entry__std___shutdown_type, "std::shutdown_type"},
+  {entry__std_types___shutdown_type___std___to_integer, "std_types::shutdown_type/to_integer"},
   {std_types___device_id____type, "std_types::device_id/_type"},
   {entry__std_types___device_id___std___equal, "std_types::device_id/equal"},
   {entry__std_types___device_id___std___hash, "std_types::device_id/hash"},
@@ -25785,6 +26140,7 @@ BUILTIN_FUNCTION_NAME builtin_function_names[371] = {
   {entry__std___realpath, "std::realpath"},
   {entry__std___rename, "std::rename"},
   {entry__std___sethostname, "std::sethostname"},
+  {entry__std___shutdown, "std::shutdown"},
   {entry__std___stat, "std::stat"},
   {entry__std___strerror, "std::strerror"},
   {entry__std___wait, "std::wait"},
@@ -25887,7 +26243,8 @@ BUILTIN_FUNCTION_NAME builtin_function_names[371] = {
   {entry__std___pselect, "std::pselect"},
   {entry__std___do_not_close, "std::do_not_close"},
   {entry__std___wait2, "std::wait2"},
-  {entry__std___open_socket, "std::open_socket"}
+  {entry__std___open_unix_socket, "std::open_unix_socket"},
+  {entry__std___open_tcp_socket, "std::open_tcp_socket"}
 };
 
 const char *internal_method_names[] = {

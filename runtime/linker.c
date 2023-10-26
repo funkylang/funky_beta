@@ -386,6 +386,9 @@ static FUNKY_VARIABLE *update_symbol(
     hep = hep->link;
   }
   SYMBOL_VERSION *version_found;
+  int32_t pos = variable ? variable->position : 0;
+  int line_no = pos >> 16;
+  int column_no = pos & 0xffff;
   if (*namespace) {
     //fprintf(stderr, "update symbol %s::%s (%d.%d)\n", namespace, name, major, minor);
     if (hep) {
@@ -414,17 +417,14 @@ static FUNKY_VARIABLE *update_symbol(
       } while (sep);
     }
     unrecoverable_error(
-      "The symbol \"%s::%s\" needed by the module \"%s\" is not defined!",
-      namespace, name, current_module->name+1);
+      "The symbol \"%s::%s\" needed by the module\n"
+      "\"%s\" in line %d, column %d is not defined!",
+      namespace, name, current_module->name+1, line_no, column_no);
   } else {
     if (!hep) {
-      int32_t pos = variable->position;
-      int line_no = pos >> 16;
-      int column_no = pos & 0xffff;
-
       unrecoverable_error(
-	"The symbol \"%s\" needed by the module \"%s\" in line %d, column %d "
-	" is not defined in any namespace!",
+	"The symbol \"%s\" needed by the module\n"
+	"\"%s\" in line %d, column %d is not defined in any namespace!",
 	name, current_module->name+1, line_no, column_no);
     }
 
@@ -454,9 +454,10 @@ static FUNKY_VARIABLE *update_symbol(
 	    ) {
 	      if (version_found) {
 		unrecoverable_error(
-		  "The symbol \"%s\" needed by the module \"%s\" is defined\n"
-		  "in at least two used namespaces (\"%s\" and \"%s\")!",
-		  name, current_module->name+1,
+		  "The symbol \"%s\" needed by the module\n"
+		  "\"%s\" in line %d, column %d\n"
+		  "is defined in at least two used namespaces (\"%s\" and \"%s\")!",
+		  name, current_module->name+1, line_no, column_no,
 		  sep->namespace, sep_found->namespace);
 	      } else {
 		sep_found = sep;
@@ -474,14 +475,16 @@ static FUNKY_VARIABLE *update_symbol(
     if (version_found) goto found;
     if (found_something) {
       fprintf(stderr,
-	"The symbol \"%s\" needed by the module \"%s\" is not defined in an\n"
-	"appropriate version in any used namespace (",
-	name, current_module->name+1);
+	"The symbol \"%s\" needed by the module\n"
+	"\"%s\"\n in line %d, column %d\n"
+	"is not defined in an appropriate version in any used namespace (",
+	name, current_module->name+1, line_no, column_no);
     } else {
       fprintf(stderr,
-	"The symbol \"%s\" needed by the module \"%s\" is not defined in any "
-	"used namespace (",
-	name, current_module->name+1);
+	"The symbol \"%s\" needed by the module\n"
+	"\"%s\" in line %d, column %d\n"
+	"is not defined in any used namespace (",
+	name, current_module->name+1, line_no, column_no);
     }
     int something_printed = 0;
     for (i = 0; i < current_module->used_namespaces_count; ++i) {

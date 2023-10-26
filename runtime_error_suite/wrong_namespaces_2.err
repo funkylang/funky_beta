@@ -1,5 +1,7 @@
-The symbol "eval_poly" needed by the module "wrong_namespaces_2" is not defined in an
-appropriate version in any used namespace ("std-1.0", "quargel-1.0")!
+The symbol "eval_poly" needed by the module
+"wrong_namespaces_2"
+ in line 19, column 10
+is not defined in an appropriate version in any used namespace ("std-1.0", "quargel-1.0")!
 
 The following versions are available:
 
