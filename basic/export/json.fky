@@ -1,0 +1,85 @@
+#
+  Copyright (C) 2023 by
+  Dipl.-Ing. Michael Niederle
+
+  This program is free software; you can redistribute it and/or modify
+  it under the terms of the GNU Library General Public License, version 2, or
+  (at your option) under the terms of the GNU Lesser General Public License,
+  version 3.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  GNU Lesser (Library) General Public License for more details.
+
+  For details of the GNU General Public License see the accompanying
+  files LGPLv2.txt and LGLPv3.txt or
+  http://www.gnu.org/licenses/lgpl-2.0.html
+  http://www.gnu.org/licenses/lgpl-3.0.html
+  or write to the
+  Free Software Foundation, Inc.,
+  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+
+$std::to_json ()
+
+$std_types::string/to_json: (self)
+  append "@quot;" quoted(self) "@quot;"
+
+$std_types::number/to_json: (self) -> self.to_string
+
+$std_types::true/to_json: (_self) -> "true"
+
+$std_types::false/to_json: (_self) -> "false"
+
+$std_types::undefined/to_json: (_self) -> "null"
+
+$std_types::generic_list/to_json: (self)
+  $buf ""
+  if
+    self.is_empty
+    -> "[]"
+    :
+      for_each self
+	: (item)
+	  append &buf "," item.to_json
+	  next
+	-> append("[" range(buf 2 -1) "]")
+
+$std_types::table/to_json: (self)
+  $buf ""
+  if
+    self.is_empty
+    -> "{}"
+    :
+      for_each self
+	: (key value)
+	  append &buf "," key.to_json ":" value.to_json
+	  next
+	-> append("{" range(buf 2 -1) "}")
+
+$quoted: (text)
+  $buf ""
+  $s 1
+  $n length_of(text)
+  $i 0
+  loop:
+    inc &i
+    if
+      i > n
+      -> append(buf range(text s n))
+      :
+	$chr text(i)
+	case chr
+	  '@nl;':
+	    append &buf range(text s i-1)
+	    append &buf "\n"
+	    !s i+1
+	    next
+	  '@quot;', '\':
+	    append &buf range(text s i-1)
+	    push &buf '\'
+	    push &buf chr
+	    !s i+1
+	    next
+	  next
+

@@ -209,7 +209,7 @@ $std::repeat:
   (
     n # how often to invoke *body*
     body # the statement sequence to invoke
-    finally = next # a function to return selected variables to the caller
+    finally = pass # a function to return selected variables to the caller
   )
   $saved_context
     tuple

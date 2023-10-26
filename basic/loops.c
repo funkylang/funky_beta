@@ -176,7 +176,7 @@ static TAB_NUM t_func_std__repeat[] = {
   -3, // parameters
   MANDATORY_PARAMETER, LOCAL(1), // 210_0_n
   MANDATORY_PARAMETER, LOCAL(2), // 211_0_body
-  var_next, var_212_0_finally,
+  var_pass, var_212_0_finally,
   // $saved_context
   var_tuple, 5, var_next, var_break, var_basic_loops__from, var_basic_loops__body, var_basic_loops__finally, 1, LOCAL(3),
   // !basic_loops::from n
