@@ -1,0 +1,176 @@
+#!/usr/bin/env fkyrun
+
+<require basic/stdlib>
+<require basic/export/json>
+<require basic/import/json>
+
+program_parameters!
+  $do_log
+  list
+    "log" "
+      log the confidence values to <stderr>
+  $prompt
+  list
+    MANDATORY_PARAMETER "prompt" "
+      the prompt text to use
+
+$generated_tokens 0
+
+tokenize! $tokens prompt
+print! prompt
+loop:
+  evaluate! tokens $_token $confidence_values
+  inc &generated_tokens
+  confidence_values(1) $best_token $best_confidence
+  detokenize! list(best_token) $piece
+  on do_log:
+    eprintln! pad_right("@quot;@(quoted(piece))@quot;:" 16) best_confidence
+  if
+    best_confidence >= 15 || generated_tokens < 5:
+      print! piece
+      push &tokens best_token
+      if
+	generated_tokens < 1024
+	next
+	:
+	  println!
+	  println! "I think, I've told you enough ..."
+    :
+      println!
+      println! "I'm not sure how to continue ..."
+
+$evaluate: (prompt)
+  $do_return_confidence_values result_count() == 2
+  $use_tokens not(prompt.is_a_string)
+  $PROMPT
+    if
+      use_tokens
+      -> "tokens"
+      -> "prompt"
+  $json
+    to_json
+      insert_order_table
+	PROMPT = prompt
+	"logits" = true # also disables server side token selection
+	"brief" = true
+	"n_probs" = 10
+	"n_predict" = 1
+  open_tcp_socket! $fd "127.0.0.1" 8080
+  write! $_bytes_written fd "
+    POST /completion HTTP/1.1@cr;
+    Content-Type: application/json@cr;
+    Content-Length: @(length_of(json))@cr;
+    Connection: close@cr;
+    @cr;
+    @(json)
+  $result ""
+  loop
+    :
+      read! fd $buf 4096
+      if
+	buf.is_empty:
+	  close! fd
+	  break!
+	:
+	  append &result buf
+	  next!
+    :
+      behind &result "@cr;@nl;@cr;@nl;"
+      $info result.from_json
+      if
+	do_return_confidence_values:
+	  $logits info("logits")
+	  map &logits: (logit) tuple logit(1) logit(2)
+	  if
+	    use_tokens
+	    -> info("token") logits
+	    -> info("content") logits
+	:
+	  if
+	    use_tokens
+	    -> info("token")
+	    -> info("content")
+
+$tokenize: (prompt)
+  $json
+    to_json
+      insert_order_table
+	"content" = prompt
+  open_tcp_socket! $fd "127.0.0.1" 8080
+  write! $_bytes_written fd "
+    POST /tokenize HTTP/1.1@cr;
+    Content-Type: application/json@cr;
+    Content-Length: @(length_of(json))@cr;
+    Connection: close@cr;
+    @cr;
+    @(json)
+  $result ""
+  loop
+    :
+      read! fd $buf 4096
+      if
+	buf.is_empty:
+	  close! fd
+	  break!
+	:
+	  append &result buf
+	  next!
+    :
+      behind &result "@cr;@nl;@cr;@nl;"
+      $info result.from_json
+      -> info("tokens")
+
+$detokenize: (tokens)
+  $json
+    to_json
+      insert_order_table
+	"tokens" = tokens
+  open_tcp_socket! $fd "127.0.0.1" 8080
+  write! $_bytes_written fd "
+    POST /detokenize HTTP/1.1@cr;
+    Content-Type: application/json@cr;
+    Content-Length: @(length_of(json))@cr;
+    Connection: close@cr;
+    @cr;
+    @(json)
+  $result ""
+  loop
+    :
+      read! fd $buf 4096
+      if
+	buf.is_empty:
+	  close! fd
+	  break!
+	:
+	  append &result buf
+	  next!
+    :
+      behind &result "@cr;@nl;@cr;@nl;"
+      $info result.from_json
+      -> info("content")
+
+$quoted: (text)
+  $buf ""
+  $s 1
+  $n length_of(text)
+  $i 0
+  loop:
+    inc &i
+    if
+      i > n
+      -> append(buf range(text s n))
+      :
+	$chr text(i)
+	case chr
+	  '@nl;':
+	    append &buf range(text s i-1)
+	    append &buf "\n"
+	    !s i+1
+	    next
+	  '@quot;', '\':
+	    append &buf range(text s i-1)
+	    push &buf '\'
+	    push &buf chr
+	    !s i+1
+	    next
+	  next
