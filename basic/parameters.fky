@@ -543,7 +543,7 @@ $check_arguments: (arguments templates)
 	$table empty_list
 	for_each options
 	  : (option idx)
-	    push &table list(option_name() help_messages(idx))
+	    push &table list(option_name() help_message(idx))
 	    next!
 
 	    $option_name:

@@ -9,10 +9,23 @@ program_parameters!
   list
     "log" "
       log the confidence values to <stderr>
+  $minimum_confidence
+  list
+    VALUED_OPTION "min" 15 to_number "
+      the minimum confidence value
+  $maximum_length
+  list
+    VALUED_OPTION "length" 1024 to_integer "
+      the maximum number of tokens to generate
   $prompt
   list
     MANDATORY_PARAMETER "prompt" "
       the prompt text to use
+
+on do_log:
+  eprint! "
+    minimum confidence: @(minimum_confidence)
+    @;
 
 $generated_tokens 0
 
@@ -26,11 +39,11 @@ loop:
   on do_log:
     eprintln! pad_right("@quot;@(quoted(piece))@quot;:" 16) best_confidence
   if
-    best_confidence >= 15 || generated_tokens < 5:
+    best_confidence >= minimum_confidence || generated_tokens < 5:
       print! piece
       push &tokens best_token
       if
-	generated_tokens < 1024
+	generated_tokens < maximum_length
 	next
 	:
 	  println!

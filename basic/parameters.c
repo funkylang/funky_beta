@@ -2015,13 +2015,13 @@ static TAB_NUM t_lambda_91[] = {
   2, // parameters
   var_545_3_option,
   var_545_10_idx,
-  // option_name() help_messages(idx))
+  // option_name() help_message(idx))
   func_option_name, 0, 1, LOCAL(1),
-  // help_messages(idx))
-  var_244_1_help_messages, 1, var_545_10_idx, 1, LOCAL(2),
-  // list(option_name() help_messages(idx))
+  // help_message(idx))
+  func_help_message, 1, var_545_10_idx, 1, LOCAL(2),
+  // list(option_name() help_message(idx))
   var_list, 2, LOCAL(1), LOCAL(2), 1, LOCAL(3),
-  // push &table list(option_name() help_messages(idx))
+  // push &table list(option_name() help_message(idx))
   var_push, 2, var_543_1_table, LOCAL(3), 1, var_543_1_table,
   // next!
   var_next, 0, IO_TAIL_CALL,
