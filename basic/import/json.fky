@@ -48,7 +48,7 @@ $tokenize: (line)
 	  :
 	    case chr
 	      '@quot;' handle_string
-	      '0'..'9' handle_number
+	      '-', '0'..'9' handle_number
 	      ',', ':', '{', '}', '[', ']' handle_simple_token
 	      't' handle_true
 	      'f' handle_false
