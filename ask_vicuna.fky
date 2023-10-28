@@ -88,33 +88,22 @@ $evaluate: (prompt)
     Connection: close@cr;
     @cr;
     @(json)
-  $result ""
-  loop
-    :
-      read! fd $buf 4096
+  load! $result fd
+  behind &result "@cr;@nl;@cr;@nl;"
+  $info result.from_json
+  if
+    do_return_confidence_values:
+      $logits info("logits")
+      map &logits: (logit) tuple logit(1) logit(2)
       if
-	buf.is_empty:
-	  close! fd
-	  break!
-	:
-	  append &result buf
-	  next!
+	use_tokens
+	-> info("token") logits
+	-> info("content") logits
     :
-      behind &result "@cr;@nl;@cr;@nl;"
-      $info result.from_json
       if
-	do_return_confidence_values:
-	  $logits info("logits")
-	  map &logits: (logit) tuple logit(1) logit(2)
-	  if
-	    use_tokens
-	    -> info("token") logits
-	    -> info("content") logits
-	:
-	  if
-	    use_tokens
-	    -> info("token")
-	    -> info("content")
+	use_tokens
+	-> info("token")
+	-> info("content")
 
 $tokenize: (prompt)
   $json
@@ -130,21 +119,10 @@ $tokenize: (prompt)
     Connection: close@cr;
     @cr;
     @(json)
-  $result ""
-  loop
-    :
-      read! fd $buf 4096
-      if
-	buf.is_empty:
-	  close! fd
-	  break!
-	:
-	  append &result buf
-	  next!
-    :
-      behind &result "@cr;@nl;@cr;@nl;"
-      $info result.from_json
-      -> info("tokens")
+  load! $result fd
+  behind &result "@cr;@nl;@cr;@nl;"
+  $info result.from_json
+  -> info("tokens")
 
 $detokenize: (tokens)
   $json
@@ -159,21 +137,10 @@ $detokenize: (tokens)
     Connection: close@cr;
     @cr;
     @(json)
-  $result ""
-  loop
-    :
-      read! fd $buf 4096
-      if
-	buf.is_empty:
-	  close! fd
-	  break!
-	:
-	  append &result buf
-	  next!
-    :
-      behind &result "@cr;@nl;@cr;@nl;"
-      $info result.from_json
-      -> info("content").from_utf8
+  load! $result fd
+  behind &result "@cr;@nl;@cr;@nl;"
+  $info result.from_json
+  -> info("content").from_utf8
 
 $quoted: (text)
   $buf ""

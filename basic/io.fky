@@ -209,17 +209,27 @@ $std::load ()
 
 $std_types::string/load:
   #
-    loads data from a file or a network resource
+    loads data from a file
 
     Topic: Input-Output
   (
-    filename
+    filename # name of the file to load
   )
-  open! $fh filename "r"
-  check fh
-  read_all_from! $data fh
+  open! $fd filename "r"
+  check fd
+  load! fd
+
+$std_types::file_descriptor/load:
+  #
+    loads data from a *file descriptor*
+
+    Topic: Input-Output
+  (
+    fd # the file descriptor
+  )
+  read_all_from! $data fd
   check data
-  close! fh
+  close! fd
   -> data
 
 $std::save ()

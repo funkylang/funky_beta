@@ -17,29 +17,45 @@ program_parameters!
   list
     VALUED_OPTION "length" 1024 to_integer "
       the maximum number of tokens to generate
-  $prompt
+  $filename
   list
-    MANDATORY_PARAMETER "prompt" "
-      the prompt text to use
+    MANDATORY_PARAMETER "filename" "
+      the name of the file that contains the text to be summarized
+
+$generated_tokens 0
+
+load! $text filename
+
+$prompt "
+  Below is an text that should be summarized.
+  ### Text: @(text)
+  ### Summary:@
 
 on do_log:
   eprint! "
     minimum confidence: @(minimum_confidence)
+    maximum length: @(maximum_length)
+    start time: @(current_time())
     @;
 
-$generated_tokens 0
-
 tokenize! $tokens prompt
-print! prompt
+
+on do_log:
+  eprint! "
+    @(current_time()): tokenized @(length_of(tokens)) tokens
+
 loop:
   evaluate! tokens $_token $confidence_values
   inc &generated_tokens
   confidence_values(1) $best_token $best_confidence
   detokenize! list(best_token) $piece
   on do_log:
-    eprintln! pad_right("@quot;@(quoted(piece))@quot;:" 16) best_confidence
+    eprintln!
+      current_time() ": "
+      pad_right("@quot;@(quoted(piece))@quot;:" 16) best_confidence
   if
     best_confidence >= minimum_confidence || generated_tokens < 5:
+      update_if generated_tokens == 1 &piece: trim_left piece
       print! piece
       push &tokens best_token
       if
@@ -47,10 +63,11 @@ loop:
 	next
 	:
 	  println!
+	  println!
 	  println! "I think, I've told you enough ..."
     :
       println!
-      println! "I'm not sure how to continue ..."
+      break
 
 $evaluate: (prompt)
   $do_return_confidence_values result_count() == 2
