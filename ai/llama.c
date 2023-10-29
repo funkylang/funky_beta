@@ -29,10 +29,10 @@ enum {
   str_brief = -20,
   str_n_probs = -21,
   num_10 = -22,
-  key_value_pair_58_1 = -23,
+  key_value_pair_72_1 = -23,
   str_n_predict = -24,
   num_1 = -25,
-  key_value_pair_59_1 = -26,
+  key_value_pair_73_1 = -26,
   str_POST_completion = -27,
   lambda_do_return_confidence_values = -28,
   lambda_3 = -29,
@@ -68,13 +68,13 @@ enum {
   var_result_count, // extern
   var_std__equal, // extern
   var_is_a_string, // extern
-  var_46_1_use_tokens, // dynamic
+  var_60_1_use_tokens, // dynamic
   var_not, // extern
   var_if, // extern
   var_true, // extern
   var_to_utf8, // extern
-  var_71_1_info, // dynamic
-  var_74_1_logits, // dynamic
+  var_85_1_info, // dynamic
+  var_88_1_logits, // dynamic
   var_tuple, // extern
   var_map, // extern
   var_ai__tokenize, // initialized
@@ -133,7 +133,7 @@ static TAB_NUM t_func_ai__get_tokens[] = {
 static TAB_NUM t_func_ai__evaluate[] = {
   12, // locals
   1, // parameters
-  LOCAL(7), // 44_16_prompt
+  LOCAL(7), // 57_0_prompt
   // result_count() == 2
   var_result_count, 0, 1, LOCAL(1),
   // $do_return_confidence_values result_count() == 2
@@ -141,9 +141,9 @@ static TAB_NUM t_func_ai__evaluate[] = {
   // is_a_string)
   var_is_a_string, 1, LOCAL(7), 1, LOCAL(1),
   // $use_tokens not(prompt.is_a_string)
-  var_not, 1, LOCAL(1), 1, var_46_1_use_tokens,
+  var_not, 1, LOCAL(1), 1, var_60_1_use_tokens,
   // $PROMPT
-  var_if, 3, var_46_1_use_tokens, lambda_1, lambda_2, 1, LOCAL(9),
+  var_if, 3, var_60_1_use_tokens, lambda_1, lambda_2, 1, LOCAL(9),
   // PROMPT = prompt
   var_std__key_value_pair, 2, LOCAL(9), LOCAL(7), 1, LOCAL(1),
   // logits" = true # also disables server side token selection
@@ -151,7 +151,7 @@ static TAB_NUM t_func_ai__evaluate[] = {
   // brief" = true
   var_std__key_value_pair, 2, str_brief, var_true, 1, LOCAL(3),
   // insert_order_table
-  var_insert_order_table, 5, LOCAL(1), LOCAL(2), LOCAL(3), key_value_pair_58_1, key_value_pair_59_1, 1, LOCAL(6),
+  var_insert_order_table, 5, LOCAL(1), LOCAL(2), LOCAL(3), key_value_pair_72_1, key_value_pair_73_1, 1, LOCAL(6),
   // $json
   var_to_json, 1, LOCAL(6), 1, LOCAL(10),
   // to_utf8 &json
@@ -169,28 +169,28 @@ static TAB_NUM t_func_ai__evaluate[] = {
   // behind &result "@cr;@nl;@cr;@nl;"
   var_behind, 2, LOCAL(12), string_3, 1, LOCAL(12),
   // $info result.from_json
-  var_from_json, 1, LOCAL(12), 1, var_71_1_info,
+  var_from_json, 1, LOCAL(12), 1, var_85_1_info,
   // if
   var_if, 3, LOCAL(8), lambda_do_return_confidence_values, lambda_6, TAIL_CALL,
-  POS(45, 32),
-  POS(45, 3),
-  POS(46, 26),
-  POS(46, 3),
-  POS(47, 3),
-  POS(55, 9),
-  POS(56, 10),
-  POS(57, 10),
-  POS(54, 7),
-  POS(52, 3),
+  POS(59, 32),
+  POS(59, 3),
+  POS(60, 26),
   POS(60, 3),
   POS(61, 3),
-  POS(65, 23),
-  POS(62, 16),
-  POS(62, 3),
-  POS(69, 3),
-  POS(70, 3),
-  POS(71, 3),
-  POS(72, 3)
+  POS(69, 9),
+  POS(70, 10),
+  POS(71, 10),
+  POS(68, 7),
+  POS(66, 3),
+  POS(74, 3),
+  POS(75, 3),
+  POS(79, 23),
+  POS(76, 16),
+  POS(76, 3),
+  POS(83, 3),
+  POS(84, 3),
+  POS(85, 3),
+  POS(86, 3)
 };
 
 static TAB_NUM t_lambda_1[] = {
@@ -198,7 +198,7 @@ static TAB_NUM t_lambda_1[] = {
   0, // parameters
   //  "tokens"
   LET, 1, str_tokens, TAIL_CALL,
-  POS(50, 9)
+  POS(64, 9)
 };
 
 static TAB_NUM t_lambda_2[] = {
@@ -206,94 +206,94 @@ static TAB_NUM t_lambda_2[] = {
   0, // parameters
   //  "prompt"
   LET, 1, str_prompt, TAIL_CALL,
-  POS(51, 9)
+  POS(65, 9)
 };
 
 static TAB_NUM t_lambda_do_return_confidence_values[] = {
   0, // locals
   0, // parameters
   // $logits info("logits")
-  var_71_1_info, 1, str_logits, 1, var_74_1_logits,
+  var_85_1_info, 1, str_logits, 1, var_88_1_logits,
   // map &logits: (logit) tuple logit(1) logit(2)
-  var_map, 2, var_74_1_logits, lambda_3, 1, var_74_1_logits,
+  var_map, 2, var_88_1_logits, lambda_3, 1, var_88_1_logits,
   // if
-  var_if, 3, var_46_1_use_tokens, lambda_4, lambda_5, TAIL_CALL,
-  POS(74, 7),
-  POS(75, 7),
-  POS(76, 7)
+  var_if, 3, var_60_1_use_tokens, lambda_4, lambda_5, TAIL_CALL,
+  POS(88, 7),
+  POS(89, 7),
+  POS(90, 7)
 };
 
 static TAB_NUM t_lambda_3[] = {
   3, // locals
   1, // parameters
-  LOCAL(3), // 75_14_logit
+  LOCAL(3), // 89_14_logit
   // logit(1) logit(2)
   LOCAL(3), 1, num_1, 1, LOCAL(1),
   // logit(2)
   LOCAL(3), 1, num_2, 1, LOCAL(2),
   // tuple logit(1) logit(2)
   var_tuple, 2, LOCAL(1), LOCAL(2), TAIL_CALL,
-  POS(75, 34),
-  POS(75, 43),
-  POS(75, 28)
+  POS(89, 34),
+  POS(89, 43),
+  POS(89, 28)
 };
 
 static TAB_NUM t_lambda_4[] = {
   1, // locals
   0, // parameters
   // info("token") logits
-  var_71_1_info, 1, str_token, 1, LOCAL(1),
+  var_85_1_info, 1, str_token, 1, LOCAL(1),
   //  info("token") logits
-  LET, 2, LOCAL(1), var_74_1_logits, TAIL_CALL,
-  POS(78, 12),
-  POS(78, 11)
+  LET, 2, LOCAL(1), var_88_1_logits, TAIL_CALL,
+  POS(92, 12),
+  POS(92, 11)
 };
 
 static TAB_NUM t_lambda_5[] = {
   1, // locals
   0, // parameters
   // info("content") logits
-  var_71_1_info, 1, str_content, 1, LOCAL(1),
+  var_85_1_info, 1, str_content, 1, LOCAL(1),
   //  info("content") logits
-  LET, 2, LOCAL(1), var_74_1_logits, TAIL_CALL,
-  POS(79, 12),
-  POS(79, 11)
+  LET, 2, LOCAL(1), var_88_1_logits, TAIL_CALL,
+  POS(93, 12),
+  POS(93, 11)
 };
 
 static TAB_NUM t_lambda_6[] = {
   0, // locals
   0, // parameters
   // if
-  var_if, 3, var_46_1_use_tokens, lambda_7, lambda_8, TAIL_CALL,
-  POS(81, 7)
+  var_if, 3, var_60_1_use_tokens, lambda_7, lambda_8, TAIL_CALL,
+  POS(95, 7)
 };
 
 static TAB_NUM t_lambda_7[] = {
   1, // locals
   0, // parameters
   // info("token")
-  var_71_1_info, 1, str_token, 1, LOCAL(1),
+  var_85_1_info, 1, str_token, 1, LOCAL(1),
   //  info("token")
   LET, 1, LOCAL(1), TAIL_CALL,
-  POS(83, 12),
-  POS(83, 11)
+  POS(97, 12),
+  POS(97, 11)
 };
 
 static TAB_NUM t_lambda_8[] = {
   1, // locals
   0, // parameters
   // info("content")
-  var_71_1_info, 1, str_content, 1, LOCAL(1),
+  var_85_1_info, 1, str_content, 1, LOCAL(1),
   //  info("content")
   LET, 1, LOCAL(1), TAIL_CALL,
-  POS(84, 12),
-  POS(84, 11)
+  POS(98, 12),
+  POS(98, 11)
 };
 
 static TAB_NUM t_func_ai__tokenize[] = {
   7, // locals
   1, // parameters
-  LOCAL(3), // 86_16_prompt
+  LOCAL(3), // 100_16_prompt
   // content" = prompt
   var_std__key_value_pair, 2, str_content, LOCAL(3), 1, LOCAL(1),
   // insert_order_table
@@ -320,25 +320,25 @@ static TAB_NUM t_func_ai__tokenize[] = {
   LOCAL(7), 1, str_tokens, 1, LOCAL(1),
   // -> info("tokens")
   LET, 1, LOCAL(1), TAIL_CALL,
-  POS(90, 10),
-  POS(89, 7),
-  POS(87, 3),
-  POS(91, 3),
-  POS(92, 3),
-  POS(96, 23),
-  POS(93, 16),
-  POS(93, 3),
-  POS(100, 3),
+  POS(104, 10),
+  POS(103, 7),
   POS(101, 3),
-  POS(102, 3),
-  POS(103, 6),
-  POS(103, 3)
+  POS(105, 3),
+  POS(106, 3),
+  POS(110, 23),
+  POS(107, 16),
+  POS(107, 3),
+  POS(114, 3),
+  POS(115, 3),
+  POS(116, 3),
+  POS(117, 6),
+  POS(117, 3)
 };
 
 static TAB_NUM t_func_ai__detokenize[] = {
   7, // locals
   1, // parameters
-  LOCAL(3), // 105_18_tokens
+  LOCAL(3), // 119_18_tokens
   // tokens" = tokens
   var_std__key_value_pair, 2, str_tokens, LOCAL(3), 1, LOCAL(1),
   // insert_order_table
@@ -365,30 +365,30 @@ static TAB_NUM t_func_ai__detokenize[] = {
   var_from_utf8, 1, LOCAL(1), 1, LOCAL(2),
   // -> info("content").from_utf8
   LET, 1, LOCAL(2), TAIL_CALL,
-  POS(109, 10),
-  POS(108, 7),
-  POS(106, 3),
-  POS(110, 3),
-  POS(114, 23),
-  POS(111, 16),
-  POS(111, 3),
-  POS(118, 3),
-  POS(119, 3),
+  POS(123, 10),
+  POS(122, 7),
   POS(120, 3),
-  POS(121, 6),
-  POS(121, 22),
-  POS(121, 3)
+  POS(124, 3),
+  POS(128, 23),
+  POS(125, 16),
+  POS(125, 3),
+  POS(132, 3),
+  POS(133, 3),
+  POS(134, 3),
+  POS(135, 6),
+  POS(135, 22),
+  POS(135, 3)
 };
 
 static int key_value_pair_29_1_arguments[] = {
   -str_model, -str_dummy
 };
 
-static int key_value_pair_58_1_arguments[] = {
+static int key_value_pair_72_1_arguments[] = {
   -str_n_probs, -num_10
 };
 
-static int key_value_pair_59_1_arguments[] = {
+static int key_value_pair_73_1_arguments[] = {
   -str_n_predict, -num_1
 };
 
@@ -415,10 +415,10 @@ static FUNKY_CONSTANT constants_table[] = {
   {FLT_STRING_8, 5, {.str_8 = "brief"}},
   {FLT_STRING_8, 7, {.str_8 = "n_probs"}},
   {FLT_POSITIVE_INT64, 0, {.value = 10}},
-  {FLT_KEY_VALUE_PAIR, 2, {.arguments = key_value_pair_58_1_arguments}},
+  {FLT_KEY_VALUE_PAIR, 2, {.arguments = key_value_pair_72_1_arguments}},
   {FLT_STRING_8, 9, {.str_8 = "n_predict"}},
   {FLT_POSITIVE_INT64, 0, {.value = 1}},
-  {FLT_KEY_VALUE_PAIR, 2, {.arguments = key_value_pair_59_1_arguments}},
+  {FLT_KEY_VALUE_PAIR, 2, {.arguments = key_value_pair_73_1_arguments}},
   {FLT_STRING_8, 75, {.str_8 = "POST /completion HTTP/1.1\015\012Content-Type: application/json\015\012Content-Length: "}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_do_return_confidence_values}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_3}},
@@ -509,59 +509,59 @@ static FUNKY_VARIABLE variables_table[] = {
   {
     FOT_UNKNOWN, 0, 0,
     "result_count\000", NULL,
-    {.position = POS(45, 32)}
+    {.position = POS(59, 32)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "equal\000std", NULL,
-    {.position = POS(45, 32)}
+    {.position = POS(59, 32)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "is_a_string\000", NULL,
-    {.position = POS(46, 26)}
+    {.position = POS(60, 26)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "46_1_use_tokens\000", NULL
+    "60_1_use_tokens\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
     "not\000", NULL,
-    {.position = POS(46, 15)}
+    {.position = POS(60, 15)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "if\000", NULL,
-    {.position = POS(48, 5)}
+    {.position = POS(62, 5)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "true\000", NULL,
-    {.position = POS(56, 20)}
+    {.position = POS(70, 20)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "to_utf8\000", NULL,
-    {.position = POS(60, 3)}
+    {.position = POS(74, 3)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "71_1_info\000", NULL
+    "85_1_info\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "74_1_logits\000", NULL
+    "88_1_logits\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
     "tuple\000", NULL,
-    {.position = POS(75, 28)}
+    {.position = POS(89, 28)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "map\000", NULL,
-    {.position = POS(75, 7)}
+    {.position = POS(89, 7)}
   },
   {
     FOT_INITIALIZED, 0, 0,

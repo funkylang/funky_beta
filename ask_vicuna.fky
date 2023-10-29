@@ -13,6 +13,10 @@ program_parameters!
   list
     "log" "
       log the confidence values to <stderr>
+  $log_level
+  list
+    VALUED_OPTION "log-level" 1 to_integer "
+      specify how many details shall be logged (higher is more)
   $minimum_confidence
   list
     VALUED_OPTION "min" 15 to_number "
@@ -21,47 +25,81 @@ program_parameters!
   list
     VALUED_OPTION "length" 1024 to_integer "
       the maximum number of tokens to generate
+  $detailed
+  list
+    "detailed" "
+      request a more detailed answer
   $question
   list
     MANDATORY_PARAMETER "question" "
       the question you want to ask
 
+update_if log_level > 1 &do_log -> true
+
 on do_log:
   eprint! "
     minimum confidence: @(minimum_confidence)
     maximum length: @(maximum_length)
+    detailed: @(if(detailed (-> "true") (-> "false")))
+    log level: @(log_level)
     @;
 
-get_tokens! $all_tokens $_BEGIN_OF_STREAM $END_OF_STREAM
+$DETAILED
+  if
+    detailed
+    -> " detailed"
+    -> ""
+
+get_tokens! $all_tokens $BEGIN_OF_STREAM $END_OF_STREAM
 
 $generated_tokens 0
 
 $prompt "
   Below is an instruction that describes a task, paired with an input that @
-  provides further context. Write a response that appropriately completes the @
-  request.
+  provides further context. Write a@(DETAILED) response that appropriately @
+  completes the request.
   ### Instruction: @(question)
   ### Response:@
 
 tokenize! $tokens prompt
+put &tokens BEGIN_OF_STREAM
+
 loop:
-  evaluate! tokens $token $confidence_values
+  $t current_time()
+  evaluate! tokens $next_token $confidence_values
   inc &generated_tokens
   if
-    token == END_OF_STREAM
+    next_token == END_OF_STREAM
     done
     :
       confidence_values(1) $best_token $best_confidence
-      $piece (all_tokens(best_token+1))
+      $best_piece all_tokens(best_token+1)
       on do_log:
-	eprintln!
-	  current_time() ": "
-	  pad_left(best_token 5) ' '
-	  pad_right("@quot;@(quoted(piece))@quot;:" 16) best_confidence
+	$dt 1000*(current_time()-t) # in ms
+	if
+	  log_level <= 1:
+	    $token_string "@quot;@(quoted(best_piece))@quot;:"
+	    eprintln!
+	      format
+		"[%4|%3.1] %l18 %3.3"
+		generated_tokens dt token_string best_confidence
+	  :
+	    eprintln! format("-[%4|%3.1]-------------" generated_tokens dt)
+	    from_to 1 10
+	      : (i)
+		confidence_values(i) $token $confidence
+		$piece all_tokens(token+1)
+		update_if any_of(piece: (chr) -> chr == '@0x142;') &piece
+		  -> "<???>" # 'ł' cannot be printed - why?
+		$token_string "@quot;@(quoted(piece))@quot;:"
+		eprintln!
+		  format("%l18 %3.3" token_string confidence)
+		next!
+	      pass
       if
 	best_confidence >= minimum_confidence || generated_tokens < 5:
-	  update_if generated_tokens == 1 &piece: trim_left piece
-	  print! piece
+	  update_if generated_tokens == 1 &best_piece: trim_left best_piece
+	  print! best_piece
 	  push &tokens best_token
 	  if
 	    generated_tokens < maximum_length

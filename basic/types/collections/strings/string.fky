@@ -1723,6 +1723,10 @@ $std::indented:
 	skip_spaces
       -> i new_indent
 
+$LEFT .
+$RIGHT .
+$CENTER .
+
 $std::format:
   (
     str
@@ -1745,6 +1749,11 @@ $std::format:
 	      i > n
 	      -> undefined
 	      :
+		case str(i) $alignment !i
+		  'l' -> LEFT i+1
+		  'r' -> RIGHT i+1
+		  'c' -> CENTER i+1
+		  -> RIGHT i
 		$len_chr str(i)
 		if
 		  len_chr < '0' || len_chr > '9'
@@ -1798,9 +1807,9 @@ $std::format:
 						    !dw 10*dw+(fmt_chr-'0')
 						    next
 					  :
-					    add_argument width dw
+					    add_argument alignment width dw
 			      :
-				add_argument width
+				add_argument alignment width
 	  '\':
 	    if
 	      i > n
@@ -1815,6 +1824,7 @@ $std::format:
 
   $add_argument:
     (
+      alignment
       width
       decimal_width = undefined
     )
@@ -1834,7 +1844,10 @@ $std::format:
 		pad_left(value width)
 		"."
 		truncate(pad_right(decimals decimal_width "0") decimal_width)
-	-> pad_left(argument width)
+	:
+	  case alignment
+	    LEFT -> pad_right(argument width)
+	    RIGHT -> pad_left(argument width)
     next
 
 $real_to_string: (num)

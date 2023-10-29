@@ -41,7 +41,21 @@ $ai::get_tokens:
   $info result.from_json
   -> info("tokens") info("begin_of_stream") info("end_of_stream")
 
-$ai::evaluate: (prompt)
+$ai::evaluate:
+  #
+    evaluate a prompt and return a token string or confidence values
+
+    If the *prompt* is a string then the returned value is a the string
+    corresponding to the generated token.
+
+    If the prompt is a list of tokens then the returned value is a list of
+    10 tuples <*token_id*, *confidence*>.
+
+    Attention: In the case the prompt is a list of tokens a
+    "*begin of stream*"-token will **not** be added automatically!
+  (
+    prompt
+  )
   $do_return_confidence_values result_count() == 2
   $use_tokens not(prompt.is_a_string)
   $PROMPT

@@ -177,9 +177,9 @@ enum {
   var_loop, // extern
   var_std__print_to, // initialized
   var_create_string, // extern
+  var_to_utf8, // extern
   var_print_string_to, // extern
   var_std__print_string, // initialized
-  var_to_utf8, // extern
   var_STDOUT_FILENO, // extern
   var_std__print, // initialized
   var_print_string, // extern
@@ -433,15 +433,18 @@ static TAB_NUM t_lambda_4[] = {
 };
 
 static TAB_NUM t_func_std__print_to[] = {
-  3, // locals
+  4, // locals
   -2, // parameters
-  MANDATORY_PARAMETER, LOCAL(2), // 78_0_fd
-  REST_PARAMETER, LOCAL(3), // 79_0_args
-  // create_string(args)
-  var_create_string, 1, LOCAL(3), 1, LOCAL(1),
-  // print_string_to! fd create_string(args)
-  var_print_string_to, 2, LOCAL(2), LOCAL(1), IO_TAIL_CALL,
+  MANDATORY_PARAMETER, LOCAL(3), // 78_0_fd
+  REST_PARAMETER, LOCAL(4), // 79_0_args
+  // create_string(args).to_utf8
+  var_create_string, 1, LOCAL(4), 1, LOCAL(1),
+  // to_utf8
+  var_to_utf8, 1, LOCAL(1), 1, LOCAL(2),
+  // print_string_to! fd create_string(args).to_utf8
+  var_print_string_to, 2, LOCAL(3), LOCAL(2), IO_TAIL_CALL,
   POS(81, 23),
+  POS(81, 43),
   POS(81, 3)
 };
 
@@ -2283,6 +2286,11 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 0,
+    "to_utf8\000", NULL,
+    {.position = POS(81, 43)}
+  },
+  {
+    FOT_UNKNOWN, 0, 0,
     "print_string_to\000", NULL,
     {.position = POS(81, 3)}
   },
@@ -2290,11 +2298,6 @@ static FUNKY_VARIABLE variables_table[] = {
     FOT_INITIALIZED, 0, 0,
     "print_string\000std", NULL,
     {.const_idx = -func_std__print_string}
-  },
-  {
-    FOT_UNKNOWN, 0, 0,
-    "to_utf8\000", NULL,
-    {.position = POS(93, 38)}
   },
   {
     FOT_UNKNOWN, 0, 0,
