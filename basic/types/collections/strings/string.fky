@@ -994,7 +994,19 @@ $parse_octal: (str i)
 		    next
 		  -> range(str i -1) value
 
-$parse_hex: (str i)
+$std::parse_hex:
+  #
+    parses a string starting with hex digits
+
+    An optional start index within the string can be supplied;
+    the rest of the string and the parsed value is returned.
+
+    If the string does not start with any hex digit then the string is returned
+    unaltered and the value is <undefined>.
+  (
+    str
+    i = 1
+  )
   $n length_of(str)
   if
     i > n -> str undefined

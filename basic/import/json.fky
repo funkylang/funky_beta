@@ -143,9 +143,9 @@ $tokenize: (line)
 			      'u':
 				if
 				  i+5 <= n:
-				    $code range(line i+2 i+5).to_integer
+				    parse_hex range(line i+2 i+5) $rest $code
 				    if
-				      code.is_defined:
+				      code.is_defined && rest.is_empty:
 					push &str character(code)
 					!i i+6
 					next
