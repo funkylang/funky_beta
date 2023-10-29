@@ -16,7 +16,7 @@ program_parameters!
   $log_level
   list
     VALUED_OPTION "log-level" 1 to_integer "
-      specify how many details shall be logged (higher is mo
+      specify level of details in log
   $minimum_confidence
   list
     VALUED_OPTION "min" 15 to_number "

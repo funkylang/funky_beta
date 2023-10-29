@@ -2111,3 +2111,30 @@ $std::rows_and_columns:
       echo_characters &attributes true
       unless set_terminal_attributes(STDIN_FILENO attributes):
 	Error "Failed to reset input mode!"
+
+$std::ansi_text_colour:
+  (
+    colour
+  )
+  $colour_value colour.to_integer
+  $red colour_value >> 16
+  $green (colour_value >> 8) & 0xff
+  $blue colour_value & 0xff
+  -> csi(38 2 red green blue 'm')
+
+$std::ansi_background_colour:
+  (
+    colour
+  )
+  $colour_value colour.to_integer
+  $red colour_value >> 16
+  $green (colour_value >> 8) & 0xff
+  $blue colour_value & 0xff
+  -> csi(48 2 red green blue 'm')
+
+$std::ansi_reset_colour:
+  -> csi("0m")
+
+$std::csi: (arguments* command)
+  -> string("@esc;[" join(arguments ';') command)
+

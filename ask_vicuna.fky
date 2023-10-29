@@ -3,6 +3,7 @@
 <require basic/stdlib>
 <require basic/export/json>
 <require basic/import/json>
+<require terminal/terminal>
 <require ./ai/llama>
 
 <using std>
@@ -16,7 +17,11 @@ program_parameters!
   $log_level
   list
     VALUED_OPTION "log-level" 1 to_integer "
-      specify how many details shall be logged (higher is more)
+      specify level of details in log
+  $use_colours
+  list
+    "colour" "
+      use background colours to display the confidence level
   $minimum_confidence
   list
     VALUED_OPTION "min" 15 to_number "
@@ -64,6 +69,7 @@ $prompt "
 tokenize! $tokens prompt
 put &tokens BEGIN_OF_STREAM
 
+on use_colours: print! ansi_text_colour(BLACK)
 loop:
   $t current_time()
   evaluate! tokens $next_token $confidence_values
@@ -99,6 +105,23 @@ loop:
       if
 	best_confidence >= minimum_confidence || generated_tokens < 5:
 	  update_if generated_tokens == 1 &best_piece: trim_left best_piece
+	  on use_colours:
+	    $confidence_delta best_confidence-minimum_confidence
+	    $colour
+	      cond
+		-> confidence_delta < 0 ->
+		  colour_mixture
+		    BLACK = minimum_confidence+confidence_delta
+		    RED = -confidence_delta
+		-> confidence_delta > 10 ->
+		  colour_mixture
+		    GREEN = 10
+		    WHITE = confidence_delta-10
+		-> true ->
+		  colour_mixture
+		    RED = 10-confidence_delta
+		    GREEN = confidence_delta
+	    print! ansi_background_colour(colour)
 	  print! best_piece
 	  push &tokens best_token
 	  if
@@ -111,6 +134,7 @@ loop:
 	done
 
   $done:
+    on use_colours: print! ansi_reset_colour()
     println!
     terminate!
 
