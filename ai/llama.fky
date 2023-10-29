@@ -38,7 +38,8 @@ $ai::get_tokens:
   load! $result fd
   behind &result "@cr;@nl;@cr;@nl;"
   from_utf8 &result
-  -> result.from_json("tokens")
+  $info result.from_json
+  -> info("tokens") info("begin_of_stream") info("end_of_stream")
 
 $ai::evaluate: (prompt)
   $do_return_confidence_values result_count() == 2

@@ -3,6 +3,10 @@
 <require basic/stdlib>
 <require basic/export/json>
 <require basic/import/json>
+<require ./ai/llama>
+
+<using std>
+<using ai>
 
 program_parameters!
   $do_log
@@ -28,6 +32,8 @@ on do_log:
     maximum length: @(maximum_length)
     @;
 
+get_tokens! $all_tokens $_BEGIN_OF_STREAM $END_OF_STREAM
+
 $generated_tokens 0
 
 $prompt "
@@ -39,108 +45,36 @@ $prompt "
 
 tokenize! $tokens prompt
 loop:
-  evaluate! tokens $_token $confidence_values
+  evaluate! tokens $token $confidence_values
   inc &generated_tokens
-  confidence_values(1) $best_token $best_confidence
-  detokenize! list(best_token) $piece
-  on do_log:
-    eprintln!
-      current_time() ": "
-      pad_right("@quot;@(quoted(piece))@quot;:" 16) best_confidence
   if
-    best_confidence >= minimum_confidence || generated_tokens < 5:
-      update_if generated_tokens == 1 &piece: trim_left piece
-      print! piece
-      push &tokens best_token
-      if
-	generated_tokens < maximum_length
-	next
-	:
-	  println!
-	  println!
-	  println! "I think, I've told you enough ..."
+    token == END_OF_STREAM
+    done
     :
-      println!
-      break
-
-$evaluate: (prompt)
-  $do_return_confidence_values result_count() == 2
-  $use_tokens not(prompt.is_a_string)
-  $PROMPT
-    if
-      use_tokens
-      -> "tokens"
-      -> "prompt"
-  $json
-    to_json
-      insert_order_table
-	PROMPT = prompt
-	"logits" = true # also disables server side token selection
-	"brief" = true
-	"n_probs" = 10
-	"n_predict" = 1
-  to_utf8 &json
-  open_tcp_socket! $fd "127.0.0.1" 8080
-  write! $_bytes_written fd "
-    POST /completion HTTP/1.1@cr;
-    Content-Type: application/json@cr;
-    Content-Length: @(length_of(json))@cr;
-    Connection: close@cr;
-    @cr;
-    @(json)
-  load! $result fd
-  behind &result "@cr;@nl;@cr;@nl;"
-  $info result.from_json
-  if
-    do_return_confidence_values:
-      $logits info("logits")
-      map &logits: (logit) tuple logit(1) logit(2)
+      confidence_values(1) $best_token $best_confidence
+      $piece (all_tokens(best_token+1))
+      on do_log:
+	eprintln!
+	  current_time() ": "
+	  pad_left(best_token 5) ' '
+	  pad_right("@quot;@(quoted(piece))@quot;:" 16) best_confidence
       if
-	use_tokens
-	-> info("token") logits
-	-> info("content") logits
-    :
-      if
-	use_tokens
-	-> info("token")
-	-> info("content")
+	best_confidence >= minimum_confidence || generated_tokens < 5:
+	  update_if generated_tokens == 1 &piece: trim_left piece
+	  print! piece
+	  push &tokens best_token
+	  if
+	    generated_tokens < maximum_length
+	    next
+	    :
+	      println!
+	      println!
+	      println! "I think, I've told you enough ..."
+	done
 
-$tokenize: (prompt)
-  $json
-    to_json
-      insert_order_table
-	"content" = prompt
-  to_utf8 &json
-  open_tcp_socket! $fd "127.0.0.1" 8080
-  write! $_bytes_written fd "
-    POST /tokenize HTTP/1.1@cr;
-    Content-Type: application/json@cr;
-    Content-Length: @(length_of(json))@cr;
-    Connection: close@cr;
-    @cr;
-    @(json)
-  load! $result fd
-  behind &result "@cr;@nl;@cr;@nl;"
-  $info result.from_json
-  -> info("tokens")
-
-$detokenize: (tokens)
-  $json
-    to_json
-      insert_order_table
-	"tokens" = tokens
-  open_tcp_socket! $fd "127.0.0.1" 8080
-  write! $_bytes_written fd "
-    POST /detokenize HTTP/1.1@cr;
-    Content-Type: application/json@cr;
-    Content-Length: @(length_of(json))@cr;
-    Connection: close@cr;
-    @cr;
-    @(json)
-  load! $result fd
-  behind &result "@cr;@nl;@cr;@nl;"
-  $info result.from_json
-  -> info("content").from_utf8
+  $done:
+    println!
+    terminate!
 
 $quoted: (text)
   $buf ""
