@@ -69,7 +69,7 @@ $std::print_string_to:
 
 $std::print_to:
   #
-    writes its arguments (as a single string) to the specified output channel
+    writes its arguments (converted to an utf-8 string)
 
     Topic: Input-Output
 
@@ -78,7 +78,7 @@ $std::print_to:
     fd # the output channel
     args* # the arguments to concatenate and print
   )
-  print_string_to! fd create_string(args)
+  print_string_to! fd create_string(args).to_utf8
 
 $std::print_string:
   #
