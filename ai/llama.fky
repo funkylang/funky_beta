@@ -35,6 +35,12 @@ $ai::pieces_of ()
     a list of pieces (token texts)
 
 $ai::piece_table_of ()
+  #
+    a hash table that maps all valid pieces to tokens
+
+$ai::maximum_piece_length_of ()
+  #
+    the length of the longest piece (token string)
 
 $ai::begin_of_stream_token_of ()
   #
@@ -160,7 +166,7 @@ $ai_types::model/ai::evaluate:
 	"n_predict" = 1
   to_utf8 &json
   open_tcp_socket! $fd address_of(model) port_no_of(model)
-  print_to! fd "
+  write_all_to! fd "
     POST /completion HTTP/1.1@cr;
     Content-Type: application/json@cr;
     Content-Length: @(length_of(json))@cr;
@@ -298,7 +304,7 @@ $ai_types::model/ai::tokenize:
 	"content" = prompt
   to_utf8 &json
   open_tcp_socket! $fd address_of(model) port_no_of(model)
-  print_to! fd "
+  write_all_to! fd "
     POST /tokenize HTTP/1.1@cr;
     Content-Type: application/json@cr;
     Content-Length: @(length_of(json))@cr;
@@ -333,14 +339,17 @@ $build_piece_table: (model)
   $pieces ai::pieces_of(model)
   $piece_table empty_hash_table
   for_each pieces
-    : (token piece)
+    : (idx piece)
       if
 	piece.is_empty
 	next
 	:
-	  !piece_table(piece) token
+	  !piece_table(piece) idx-1
 	  next
-    -> model(.ai::piece_table_of piece_table)
+    ->
+      model
+	.ai::piece_table_of piece_table
+	.ai::maximum_piece_length_of map_reduce(pieces length_of max)
 
 $get_tokens:
   $json

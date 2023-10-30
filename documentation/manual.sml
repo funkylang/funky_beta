@@ -1159,40 +1159,24 @@ Functions
 
 	If the association is *none* then you must explicitely use parentheses when combining multiple operators.
 
-	The expression
-
-	`a - b - c`
-
-	is invalid!
-
-	Write instead
-
-	`(a - b) - c`
-
-	or
-
-	`a - (b - c)`
-
-	to make the intended order of operations explicit.
-
 	This is the complete list of infix-operators:
 
 	[Symbol|Function|Precedence|Association]
 	[`*`|`std::times`|9|undefined]
 	[`/`|`std::over`|9|none]
 	[`+`|`std::plus`|8|undefined]
-	[`-`|`std::minus`|8|none]
+	[`-`|`std::minus`|8|left]
 	[`<<`|`std::shift_left`|7|none]
 	[`>>`|`std::shift_right`|7|none]
 	[`&`|`std::bit_and`|7|none]
 	[`\|`|`std::bit_or`|7|none]
 	[`^`|`std::bit_xor`|7|none]
 	[`==`|`std::equal`|6|none]
-	[`!=`|`std::equal`|6|none]
+	[`!=`|`std::not(std::equal(left right))`|6|none]
 	[`<`|`std::less`|6|none]
-	[`\<=`|`std::less`|6|none]
-	[`>`|`std::less`|6|none]
-	[`>=`|`std::less`|6|none]
+	[`\<=`|`std::not(std::less(right left))`|6|none]
+	[`>`|`std::less(right left)`|6|none]
+	[`>=`|`std::not(std::less(left right))`|6|none]
 	[`..`|`std::value_range`|5|none]
 	[._named_operator_.|_named_operator_|4|none]
 	[`&&`|`std::and`|3|right]

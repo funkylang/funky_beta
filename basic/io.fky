@@ -67,9 +67,30 @@ $std::print_string_to:
 	    break
     pass
 
+$std::write_all_to:
+  #
+    writes its arguments to the specified file descriptor
+
+    The arguments are converted into a single string but are **not** converted
+    into utf-8.
+
+    This function always writes the whole string and may therefor block.
+
+    Topic: Input-Output
+
+    See also: print_string_to, print, eprint
+  (
+    fd # the output channel
+    args* # the arguments to concatenate and print
+  )
+  print_string_to! fd create_string(args)
+
 $std::print_to:
   #
-    writes its arguments (converted to an utf-8 string)
+    prints its arguments to the specified file descriptor
+
+    The arguments are converted into a single string which is then converted
+    into utf-8.
 
     Topic: Input-Output
 
