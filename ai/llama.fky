@@ -268,10 +268,13 @@ $ai_types::model/ai::generate:
       $confidence_delta confidence-minimum_confidence
       $colour
 	cond
-	  -> confidence_delta < 0 ->
-	    colour_mixture
-	      BLACK = minimum_confidence+confidence_delta
-	      RED = -confidence_delta
+	  -> confidence_delta < 0:
+	    edump `minimum_confidence
+	    edump `confidence_delta
+	    ->
+	      colour_mixture
+		BLACK = -confidence_delta
+		RED = minimum_confidence+confidence_delta
 	  -> confidence_delta > 10 ->
 	    colour_mixture
 	      GREEN = 10

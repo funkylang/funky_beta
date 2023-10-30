@@ -1,22 +1,50 @@
 #!/usr/bin/env fkyrun
 
+  Copyright (C) 2023 by
+  Dipl.-Ing. Michael Niederle
+
+  This program is free software; you can redistribute it and/or modify
+  it under the terms of the GNU Library General Public License, version 2, or
+  (at your option) under the terms of the GNU Lesser General Public License,
+  version 3.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  GNU Lesser (Library) General Public License for more details.
+
+  For details of the GNU General Public License see the accompanying
+  files LGPLv2.txt and LGLPv3.txt or
+  http://www.gnu.org/licenses/lgpl-2.0.html
+  http://www.gnu.org/licenses/lgpl-3.0.html
+  or print to the
+  Free Software Foundation, Inc.,
+  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+
 <require basic/stdlib>
 <require basic/export/json>
 <require basic/import/json>
+<require terminal/terminal>
 <require ./ai/llama>
 
 <using std>
 <using ai>
 
+<allow unused>
+
 program_parameters!
-  $do_log
-  list
-    "log" "
-      log the confidence values to <stderr>
   $log_level
   list
-    VALUED_OPTION "log-level" 1 to_integer "
-      specify level of details in log
+    VALUED_OPTION "log" 0 to_integer "
+      specify the log level (0 = disable)
+  $verbose
+  list
+    "verbose" "
+      display the text during generation
+  $use_colours
+  list
+    "colour" "
+      use background colours to display the confidence level
   $minimum_confidence
   list
     VALUED_OPTION "min" 15 to_number "
@@ -25,104 +53,45 @@ program_parameters!
   list
     VALUED_OPTION "length" 1024 to_integer "
       the maximum number of tokens to generate
-  $add_bos
+  $backtrack
   list
-    "add-bos" "
-      start the prompt with a "begin-of-stream"-token
+    VALUED_OPTION "backtrack" 0 to_integer "
+      the maximum number of steps to backtrack
+  $detailed
+  list
+    "detailed" "
+      request a more detailed answer
   $prompt
   list
     MANDATORY_PARAMETER "prompt" "
       the prompt text to use
 
-update_if log_level > 1 &do_log -> true
+$do_log log_level > 0
 
 on do_log:
   eprint! "
     minimum confidence: @(minimum_confidence)
     maximum length: @(maximum_length)
+    backtrack: @(backtrack)
+    detailed: @(if(detailed (-> "true") (-> "false")))
     log level: @(log_level)
     @;
 
-get_tokens! $all_tokens $BEGIN_OF_STREAM $END_OF_STREAM
-
-$generated_tokens 0
-
-tokenize! $tokens prompt
-update_if add_bos &tokens: put tokens BEGIN_OF_STREAM
-
-loop:
-  $t current_time()
-  evaluate! tokens $next_token $confidence_values
-  inc &generated_tokens
+$DETAILED
   if
-    next_token == END_OF_STREAM
-    done
-    :
-      confidence_values(1) $best_token $best_confidence
-      $best_piece all_tokens(best_token+1)
-      on do_log:
-	$dt 1000*(current_time()-t) # in ms
-	if
-	  log_level <= 1:
-	    $token_string "@quot;@(quoted(best_piece))@quot;:"
-	    eprintln!
-	      format
-		"[%4|%3.1] %l18 %3.3"
-		generated_tokens dt token_string best_confidence
-	  :
-	    eprintln! format("-[%4|%3.1]-------------" generated_tokens dt)
-	    from_to 1 10
-	      : (i)
-		confidence_values(i) $token $confidence
-		$piece all_tokens(token+1)
-		update_if any_of(piece: (chr) -> chr == '@0x142;') &piece
-		  -> "<???>" # 'Å' cannot be printed - why?
-		$token_string "@quot;@(quoted(piece))@quot;:"
-		eprintln!
-		  format("%l18 %3.3" token_string confidence)
-		next!
-	      pass
-      if
-	best_confidence >= minimum_confidence || generated_tokens < 5:
-	  update_if generated_tokens == 1 &best_piece: trim_left best_piece
-	  print! best_piece
-	  push &tokens best_token
-	  if
-	    generated_tokens < maximum_length
-	    next
-	    :
-	      println!
-	      println!
-	      println! "I think, I've told you enough ..."
-	done
+    detailed
+    -> " detailed"
+    -> ""
 
-  $done:
-    println!
-    terminate!
+load_ai_model! $vicuna "wizard-vicuna-13b.Q4_K_M.gguf"
 
-$quoted: (text)
-  $buf ""
-  $s 1
-  $n length_of(text)
-  $i 0
-  loop:
-    inc &i
-    if
-      i > n
-      -> append(buf range(text s n))
-      :
-	$chr text(i)
-	case chr
-	  '@nl;':
-	    append &buf range(text s i-1)
-	    append &buf "\n"
-	    !s i+1
-	    next
-	  '@quot;', '\':
-	    append &buf range(text s i-1)
-	    push &buf '\'
-	    push &buf chr
-	    !s i+1
-	    next
-	  next
+generate! vicuna $response
+  MINIMUM_CONFIDENCE = minimum_confidence
+  MAXIMUM_LENGTH = maximum_length
+  BACKTRACK = backtrack
+  LOG_LEVEL = log_level
+  VERBOSE = verbose
+  USE_COLOURS = use_colours
+  prompt
 
+println! response
