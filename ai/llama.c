@@ -14,64 +14,64 @@ enum {
   uni_ai__VERBOSE = -5,
   uni_ai__USE_COLOURS = -6,
   func_ai__load_ai_model = -7,
-  str_wizardvicuna13bQ = -8,
-  string_1 = -9,
-  num_8080 = -10,
-  lambda_1 = -11,
-  lambda_2 = -12,
-  func_ai_types__model___ai__evaluate = -13,
-  num_2 = -14,
-  lambda_3 = -15,
-  str_tokens = -16,
-  lambda_4 = -17,
-  str_prompt = -18,
-  str_logits = -19,
-  str_brief = -20,
-  str_n_probs = -21,
-  num_10 = -22,
-  key_value_pair_158_1 = -23,
-  str_n_predict = -24,
-  num_1 = -25,
-  key_value_pair_159_1 = -26,
-  str_POST_completion = -27,
-  str_Connection_close = -28,
-  string_2 = -29,
-  string_3 = -30,
-  lambda_do_return_confidence_values = -31,
-  lambda_5 = -32,
-  lambda_6 = -33,
-  str_token = -34,
-  lambda_7 = -35,
-  str_content = -36,
-  lambda_8 = -37,
-  lambda_9 = -38,
-  lambda_10 = -39,
-  func_ai_types__model___ai__generate = -40,
-  num_15 = -41,
-  num_1024 = -42,
-  num_0 = -43,
-  lambda_11 = -44,
-  lambda_12 = -45,
-  string_4 = -46,
-  lambda_13 = -47,
-  lambda_14 = -48,
-  func_generate_text = -49,
-  lambda_15 = -50,
-  lambda_16 = -51,
-  lambda_loop = -52,
-  lambda_17 = -53,
-  num_1000 = -54,
-  lambda_18 = -55,
-  string_5 = -56,
-  string_6 = -57,
-  str_431_l = -58,
-  lambda_19 = -59,
-  string_7 = -60,
-  lambda_20 = -61,
-  str_l = -62,
-  lambda_21 = -63,
-  num_5 = -64,
-  lambda_22 = -65,
+  string_1 = -8,
+  num_8080 = -9,
+  lambda_1 = -10,
+  lambda_2 = -11,
+  func_ai_types__model___ai__evaluate = -12,
+  num_2 = -13,
+  lambda_3 = -14,
+  str_tokens = -15,
+  lambda_4 = -16,
+  str_prompt = -17,
+  str_logits = -18,
+  str_brief = -19,
+  str_n_probs = -20,
+  num_10 = -21,
+  key_value_pair_159_1 = -22,
+  str_n_predict = -23,
+  num_1 = -24,
+  key_value_pair_160_1 = -25,
+  str_POST_completion = -26,
+  str_Connection_close = -27,
+  string_2 = -28,
+  string_3 = -29,
+  lambda_do_return_confidence_values = -30,
+  lambda_5 = -31,
+  lambda_6 = -32,
+  str_token = -33,
+  lambda_7 = -34,
+  str_content = -35,
+  lambda_8 = -36,
+  lambda_9 = -37,
+  lambda_10 = -38,
+  func_ai_types__model___ai__generate = -39,
+  num_15 = -40,
+  num_1024 = -41,
+  num_0 = -42,
+  lambda_11 = -43,
+  lambda_12 = -44,
+  string_4 = -45,
+  lambda_13 = -46,
+  lambda_14 = -47,
+  func_generate_text = -48,
+  lambda_15 = -49,
+  lambda_16 = -50,
+  str_end_of_stream = -51,
+  lambda_17 = -52,
+  lambda_loop = -53,
+  lambda_18 = -54,
+  num_1000 = -55,
+  lambda_19 = -56,
+  string_5 = -57,
+  string_6 = -58,
+  str_431_l = -59,
+  lambda_20 = -60,
+  string_7 = -61,
+  lambda_21 = -62,
+  str_l = -63,
+  lambda_22 = -64,
+  num_5 = -65,
   lambda_23 = -66,
   lambda_24 = -67,
   lambda_25 = -68,
@@ -79,57 +79,61 @@ enum {
   lambda_27 = -70,
   lambda_28 = -71,
   lambda_29 = -72,
-  string_8 = -73,
-  lambda_30 = -74,
-  minus_num_1 = -75,
-  lambda_31 = -76,
+  lambda_30 = -73,
+  string_8 = -74,
+  lambda_31 = -75,
+  minus_num_1 = -76,
   lambda_32 = -77,
-  func_print_piece = -78,
-  lambda_33 = -79,
+  lambda_33 = -78,
+  func_print_piece = -79,
   lambda_34 = -80,
   lambda_35 = -81,
-  str_minimum_confiden = -82,
-  str_confidence_delta = -83,
-  lambda_36 = -84,
-  lambda_37 = -85,
-  lambda_38 = -86,
-  lambda_39 = -87,
-  lambda_40 = -88,
-  func_ai_types__model___ai__tokenize = -89,
-  str_POST_tokenize_HT = -90,
-  func_ai_types__model___ai__detokenize = -91,
-  lambda_41 = -92,
-  lambda_42 = -93,
-  func_token_to_piece = -94,
-  lambda_any_ofpiece = -95,
-  chr_322 = -96,
-  lambda_43 = -97,
-  string_9 = -98,
-  lambda_44 = -99,
-  func_get_tokens = -100,
-  str_model = -101,
-  str_dummy = -102,
-  key_value_pair_336_1 = -103,
-  str_POST_get_tokens = -104,
-  str_begin_of_stream = -105,
-  str_end_of_stream = -106,
-  func_quoted = -107,
-  lambda_2_loop = -108,
-  lambda_45 = -109,
-  lambda_46 = -110,
-  chr_34 = -111,
-  chr_92 = -112,
-  sequence_369_2 = -113,
-  chr_10 = -114,
-  lambda_nl = -115,
-  str_n = -116,
-  lambda_47 = -117
+  lambda_36 = -82,
+  lambda_37 = -83,
+  lambda_38 = -84,
+  lambda_39 = -85,
+  lambda_40 = -86,
+  lambda_41 = -87,
+  func_ai_types__model___ai__tokenize = -88,
+  str_POST_tokenize_HT = -89,
+  func_ai_types__model___ai__detokenize = -90,
+  lambda_42 = -91,
+  lambda_43 = -92,
+  func_token_to_piece = -93,
+  lambda_any_ofpiece = -94,
+  chr_322 = -95,
+  lambda_44 = -96,
+  string_9 = -97,
+  lambda_45 = -98,
+  func_build_piece_table = -99,
+  lambda_46 = -100,
+  lambda_47 = -101,
+  lambda_48 = -102,
+  func_get_tokens = -103,
+  str_model = -104,
+  str_dummy = -105,
+  key_value_pair_349_1 = -106,
+  str_POST_get_tokens = -107,
+  str_begin_of_stream = -108,
+  str_end_of_stream_2 = -109,
+  func_quoted = -110,
+  lambda_2_loop = -111,
+  lambda_49 = -112,
+  lambda_50 = -113,
+  chr_34 = -114,
+  chr_92 = -115,
+  sequence_382_2 = -116,
+  chr_10 = -117,
+  lambda_nl = -118,
+  str_n = -119,
+  lambda_51 = -120
 };
 
 enum {
   var__START = FIRST_VAR-1,
   var_ai__pieces_of, // attribute
   var_std__assign, // extern
+  var_ai__piece_table_of, // attribute
   var_ai__begin_of_stream_token_of, // attribute
   var_ai__end_of_stream_token_of, // attribute
   var_std__address_of, // attribute
@@ -156,7 +160,7 @@ enum {
   var_result_count, // extern
   var_std__equal, // extern
   var_is_a_string, // extern
-  var_146_1_use_tokens, // dynamic
+  var_147_1_use_tokens, // dynamic
   var_not, // extern
   var_std__key_value_pair, // extern
   var_true, // extern
@@ -169,21 +173,21 @@ enum {
   var_print_to, // extern
   var_load, // extern
   var_behind, // extern
-  var_171_1_info, // dynamic
+  var_172_1_info, // dynamic
   var_from_json, // extern
-  var_174_1_logits, // dynamic
+  var_175_1_logits, // dynamic
   var_tuple, // extern
   var_map, // extern
-  var_188_0_model, // dynamic
+  var_189_0_model, // dynamic
   var_false, // extern
-  var_193_29_minimum_confidence, // dynamic
-  var_194_27_maximum_length, // dynamic
-  var_195_19_backtrack, // dynamic
-  var_196_19_log_level, // dynamic
-  var_197_21_be_verbose, // dynamic
-  var_198_25_use_colours, // dynamic
+  var_194_29_minimum_confidence, // dynamic
+  var_195_27_maximum_length, // dynamic
+  var_196_19_backtrack, // dynamic
+  var_197_19_log_level, // dynamic
+  var_198_21_be_verbose, // dynamic
+  var_199_25_use_colours, // dynamic
   var_extract_options, // extern
-  var_199_1_do_log, // dynamic
+  var_200_1_do_log, // dynamic
   var_std__less, // extern
   var_update_if, // extern
   var_BLACK, // extern
@@ -193,22 +197,22 @@ enum {
   var_put, // extern
   var_ansi_reset_colour, // extern
   var_println, // extern
-  var_209_17_tokens, // dynamic
-  var_209_24_text, // dynamic
-  var_209_29_no, // dynamic
-  var_210_1_t, // dynamic
+  var_210_17_tokens, // dynamic
+  var_210_24_text, // dynamic
+  var_210_29_no, // dynamic
+  var_211_1_t, // dynamic
   var_current_time, // extern
-  var_211_28_next_token, // dynamic
-  var_211_40_confidence_values, // dynamic
-  var_216_1_max_no, // dynamic
-  var_218_34_next_confidence, // dynamic
-  var_219_1_next_piece, // dynamic
+  var_212_28_next_token, // dynamic
+  var_212_40_confidence_values, // dynamic
+  var_eprintln, // extern
+  var_219_1_max_no, // dynamic
+  var_221_34_next_confidence, // dynamic
+  var_222_1_next_piece, // dynamic
   var_std__minus, // extern
-  var_221_1_dt, // dynamic
+  var_224_1_dt, // dynamic
   var_std__times, // extern
   var_std__not, // extern
   var_format, // extern
-  var_eprintln, // extern
   var_next, // extern
   var_pass, // extern
   var_for_each, // extern
@@ -217,17 +221,16 @@ enum {
   var_append, // extern
   var_push, // extern
   var_std__plus, // extern
-  var_247_16_response, // dynamic
+  var_250_16_response, // dynamic
   var_extend_to, // extern
   var_is_empty, // extern
   var_std__and, // extern
   var_dup, // extern
   var_range, // extern
   var_loop, // extern
-  var_266_15_piece, // dynamic
-  var_266_21_confidence, // dynamic
-  var_268_1_confidence_delta, // dynamic
-  var_edump, // extern
+  var_269_15_piece, // dynamic
+  var_269_21_confidence, // dynamic
+  var_271_1_confidence_delta, // dynamic
   var_std__negate, // extern
   var_RED, // extern
   var_colour_mixture, // extern
@@ -241,14 +244,19 @@ enum {
   var_map_reduce, // extern
   var_326_1_piece, // dynamic
   var_any_of, // extern
+  var_332_21_model, // dynamic
+  var_334_1_piece_table, // dynamic
+  var_empty_hash_table, // extern
+  var_336_3_token, // dynamic
+  var_336_9_piece, // dynamic
   var_from_utf8, // extern
-  var_351_10_text, // dynamic
-  var_352_1_buf, // dynamic
-  var_353_1_s, // dynamic
-  var_354_1_n, // dynamic
-  var_355_1_i, // dynamic
+  var_364_10_text, // dynamic
+  var_365_1_buf, // dynamic
+  var_366_1_s, // dynamic
+  var_367_1_n, // dynamic
+  var_368_1_i, // dynamic
   var_inc, // extern
-  var_362_1_chr, // dynamic
+  var_375_1_chr, // dynamic
   var_std__sequence, // extern
   var_case, // extern
   var__END
@@ -260,7 +268,7 @@ static TAB_NUM t_func_ai__load_ai_model[] = {
   1, // parameters
   LOCAL(4), // 113_0_name
   // $model
-  LET, -3, var_ai_types__model, var_name_of, str_wizardvicuna13bQ, var_address_of, string_1, var_port_no_of, num_8080, var_115_1_model,
+  LET, -3, var_ai_types__model, var_name_of, LOCAL(4), var_address_of, string_1, var_port_no_of, num_8080, var_115_1_model,
   // get_tokens!
   func_get_tokens, 0, IO_CALL(3), LOCAL(1), LOCAL(2), LOCAL(3),
   // model.ai::pieces_of
@@ -299,16 +307,16 @@ static TAB_NUM t_lambda_1[] = {
 static TAB_NUM t_lambda_2[] = {
   0, // locals
   0, // parameters
-  //  model
-  LET, 1, var_115_1_model, TAIL_CALL,
-  POS(127, 7)
+  // build_piece_table model
+  func_build_piece_table, 1, var_115_1_model, TAIL_CALL,
+  POS(128, 7)
 };
 
 static TAB_NUM t_func_ai_types__model___ai__evaluate[] = {
   13, // locals
   2, // parameters
-  LOCAL(7), // 142_0_self
-  LOCAL(8), // 143_0_prompt
+  LOCAL(7), // 143_0_model
+  LOCAL(8), // 144_0_prompt
   // result_count() == 2
   var_result_count, 0, 1, LOCAL(1),
   // $do_return_confidence_values result_count() == 2
@@ -316,9 +324,9 @@ static TAB_NUM t_func_ai_types__model___ai__evaluate[] = {
   // is_a_string)
   var_is_a_string, 1, LOCAL(8), 1, LOCAL(1),
   // $use_tokens not(prompt.is_a_string)
-  var_not, 1, LOCAL(1), 1, var_146_1_use_tokens,
+  var_not, 1, LOCAL(1), 1, var_147_1_use_tokens,
   // $PROMPT
-  var_if, 3, var_146_1_use_tokens, lambda_3, lambda_4, 1, LOCAL(10),
+  var_if, 3, var_147_1_use_tokens, lambda_3, lambda_4, 1, LOCAL(10),
   // PROMPT = prompt
   var_std__key_value_pair, 2, LOCAL(10), LOCAL(8), 1, LOCAL(1),
   // logits" = true # also disables server side token selection
@@ -326,13 +334,17 @@ static TAB_NUM t_func_ai_types__model___ai__evaluate[] = {
   // brief" = true
   var_std__key_value_pair, 2, str_brief, var_true, 1, LOCAL(3),
   // insert_order_table
-  var_insert_order_table, 5, LOCAL(1), LOCAL(2), LOCAL(3), key_value_pair_158_1, key_value_pair_159_1, 1, LOCAL(6),
+  var_insert_order_table, 5, LOCAL(1), LOCAL(2), LOCAL(3), key_value_pair_159_1, key_value_pair_160_1, 1, LOCAL(6),
   // $json
   var_to_json, 1, LOCAL(6), 1, LOCAL(11),
   // to_utf8 &json
   var_to_utf8, 1, LOCAL(11), 1, LOCAL(11),
-  // open_tcp_socket! $fd "127.0.0.1" 8080
-  var_open_tcp_socket, 2, string_1, num_8080, IO_CALL(1), LOCAL(12),
+  // address_of(model) port_no_of(model)
+  var_address_of, 1, LOCAL(7), 1, LOCAL(1),
+  // port_no_of(model)
+  var_port_no_of, 1, LOCAL(7), 1, LOCAL(2),
+  // open_tcp_socket! $fd address_of(model) port_no_of(model)
+  var_open_tcp_socket, 2, LOCAL(1), LOCAL(2), IO_CALL(1), LOCAL(12),
   // length_of(json))@cr;
   var_length_of, 1, LOCAL(11), 1, LOCAL(1),
   // "
@@ -344,28 +356,30 @@ static TAB_NUM t_func_ai_types__model___ai__evaluate[] = {
   // behind &result "@cr;@nl;@cr;@nl;"
   var_behind, 2, LOCAL(13), string_3, 1, LOCAL(13),
   // $info result.from_json
-  var_from_json, 1, LOCAL(13), 1, var_171_1_info,
+  var_from_json, 1, LOCAL(13), 1, var_172_1_info,
   // if
   var_if, 3, LOCAL(9), lambda_do_return_confidence_values, lambda_8, TAIL_CALL,
-  POS(145, 32),
-  POS(145, 3),
-  POS(146, 26),
+  POS(146, 32),
   POS(146, 3),
+  POS(147, 26),
   POS(147, 3),
-  POS(155, 9),
-  POS(156, 10),
+  POS(148, 3),
+  POS(156, 9),
   POS(157, 10),
-  POS(154, 7),
-  POS(152, 3),
-  POS(160, 3),
+  POS(158, 10),
+  POS(155, 7),
+  POS(153, 3),
   POS(161, 3),
-  POS(165, 23),
-  POS(162, 16),
+  POS(162, 24),
+  POS(162, 42),
   POS(162, 3),
-  POS(169, 3),
+  POS(166, 23),
+  POS(163, 16),
+  POS(163, 3),
   POS(170, 3),
   POS(171, 3),
-  POS(172, 3)
+  POS(172, 3),
+  POS(173, 3)
 };
 
 static TAB_NUM t_lambda_3[] = {
@@ -373,7 +387,7 @@ static TAB_NUM t_lambda_3[] = {
   0, // parameters
   //  "tokens"
   LET, 1, str_tokens, TAIL_CALL,
-  POS(150, 9)
+  POS(151, 9)
 };
 
 static TAB_NUM t_lambda_4[] = {
@@ -381,96 +395,96 @@ static TAB_NUM t_lambda_4[] = {
   0, // parameters
   //  "prompt"
   LET, 1, str_prompt, TAIL_CALL,
-  POS(151, 9)
+  POS(152, 9)
 };
 
 static TAB_NUM t_lambda_do_return_confidence_values[] = {
   0, // locals
   0, // parameters
   // $logits info("logits")
-  var_171_1_info, 1, str_logits, 1, var_174_1_logits,
+  var_172_1_info, 1, str_logits, 1, var_175_1_logits,
   // map &logits: (logit) tuple logit(1) logit(2)
-  var_map, 2, var_174_1_logits, lambda_5, 1, var_174_1_logits,
+  var_map, 2, var_175_1_logits, lambda_5, 1, var_175_1_logits,
   // if
-  var_if, 3, var_146_1_use_tokens, lambda_6, lambda_7, TAIL_CALL,
-  POS(174, 7),
+  var_if, 3, var_147_1_use_tokens, lambda_6, lambda_7, TAIL_CALL,
   POS(175, 7),
-  POS(176, 7)
+  POS(176, 7),
+  POS(177, 7)
 };
 
 static TAB_NUM t_lambda_5[] = {
   3, // locals
   1, // parameters
-  LOCAL(3), // 175_14_logit
+  LOCAL(3), // 176_14_logit
   // logit(1) logit(2)
   LOCAL(3), 1, num_1, 1, LOCAL(1),
   // logit(2)
   LOCAL(3), 1, num_2, 1, LOCAL(2),
   // tuple logit(1) logit(2)
   var_tuple, 2, LOCAL(1), LOCAL(2), TAIL_CALL,
-  POS(175, 34),
-  POS(175, 43),
-  POS(175, 28)
+  POS(176, 34),
+  POS(176, 43),
+  POS(176, 28)
 };
 
 static TAB_NUM t_lambda_6[] = {
   1, // locals
   0, // parameters
   // info("token") logits
-  var_171_1_info, 1, str_token, 1, LOCAL(1),
+  var_172_1_info, 1, str_token, 1, LOCAL(1),
   //  info("token") logits
-  LET, 2, LOCAL(1), var_174_1_logits, TAIL_CALL,
-  POS(178, 12),
-  POS(178, 11)
+  LET, 2, LOCAL(1), var_175_1_logits, TAIL_CALL,
+  POS(179, 12),
+  POS(179, 11)
 };
 
 static TAB_NUM t_lambda_7[] = {
   1, // locals
   0, // parameters
   // info("content") logits
-  var_171_1_info, 1, str_content, 1, LOCAL(1),
+  var_172_1_info, 1, str_content, 1, LOCAL(1),
   //  info("content") logits
-  LET, 2, LOCAL(1), var_174_1_logits, TAIL_CALL,
-  POS(179, 12),
-  POS(179, 11)
+  LET, 2, LOCAL(1), var_175_1_logits, TAIL_CALL,
+  POS(180, 12),
+  POS(180, 11)
 };
 
 static TAB_NUM t_lambda_8[] = {
   0, // locals
   0, // parameters
   // if
-  var_if, 3, var_146_1_use_tokens, lambda_9, lambda_10, TAIL_CALL,
-  POS(181, 7)
+  var_if, 3, var_147_1_use_tokens, lambda_9, lambda_10, TAIL_CALL,
+  POS(182, 7)
 };
 
 static TAB_NUM t_lambda_9[] = {
   1, // locals
   0, // parameters
   // info("token")
-  var_171_1_info, 1, str_token, 1, LOCAL(1),
+  var_172_1_info, 1, str_token, 1, LOCAL(1),
   //  info("token")
   LET, 1, LOCAL(1), TAIL_CALL,
-  POS(183, 12),
-  POS(183, 11)
+  POS(184, 12),
+  POS(184, 11)
 };
 
 static TAB_NUM t_lambda_10[] = {
   1, // locals
   0, // parameters
   // info("content")
-  var_171_1_info, 1, str_content, 1, LOCAL(1),
+  var_172_1_info, 1, str_content, 1, LOCAL(1),
   //  info("content")
   LET, 1, LOCAL(1), TAIL_CALL,
-  POS(184, 12),
-  POS(184, 11)
+  POS(185, 12),
+  POS(185, 11)
 };
 
 static TAB_NUM t_func_ai_types__model___ai__generate[] = {
   10, // locals
   -3, // parameters
-  MANDATORY_PARAMETER, var_188_0_model,
-  REST_PARAMETER, LOCAL(7), // 189_0_options
-  MANDATORY_PARAMETER, LOCAL(8), // 190_0_prompt
+  MANDATORY_PARAMETER, var_189_0_model,
+  REST_PARAMETER, LOCAL(7), // 190_0_options
+  MANDATORY_PARAMETER, LOCAL(8), // 191_0_prompt
   // ai::MINIMUM_CONFIDENCE = 15 $minimum_confidence
   var_std__key_value_pair, 2, var_ai__MINIMUM_CONFIDENCE, num_15, 1, LOCAL(1),
   // ai::MAXIMUM_LENGTH = 1024 $maximum_length
@@ -484,44 +498,44 @@ static TAB_NUM t_func_ai_types__model___ai__generate[] = {
   // ai::USE_COLOURS = false $use_colours
   var_std__key_value_pair, 2, var_ai__USE_COLOURS, var_false, 1, LOCAL(6),
   // extract_options options
-  var_extract_options, 7, LOCAL(7), LOCAL(1), LOCAL(2), LOCAL(3), LOCAL(4), LOCAL(5), LOCAL(6), 6, var_193_29_minimum_confidence, var_194_27_maximum_length, var_195_19_backtrack, var_196_19_log_level, var_197_21_be_verbose, var_198_25_use_colours,
+  var_extract_options, 7, LOCAL(7), LOCAL(1), LOCAL(2), LOCAL(3), LOCAL(4), LOCAL(5), LOCAL(6), 6, var_194_29_minimum_confidence, var_195_27_maximum_length, var_196_19_backtrack, var_197_19_log_level, var_198_21_be_verbose, var_199_25_use_colours,
   // $do_log log_level > 0
-  var_std__less, 2, num_0, var_196_19_log_level, 1, var_199_1_do_log,
+  var_std__less, 2, num_0, var_197_19_log_level, 1, var_200_1_do_log,
   // update_if use_colours &be_verbose -> true
-  var_update_if, 3, var_198_25_use_colours, var_197_21_be_verbose, lambda_11, 1, var_197_21_be_verbose,
+  var_update_if, 3, var_199_25_use_colours, var_198_21_be_verbose, lambda_11, 1, var_198_21_be_verbose,
   // on use_colours: print! ansi_text_colour(BLACK)
-  var_on, 2, var_198_25_use_colours, lambda_12, IO_CALL(0),
+  var_on, 2, var_199_25_use_colours, lambda_12, IO_CALL(0),
   // ai::tokenize! $tokens model prompt
-  var_ai__tokenize, 2, var_188_0_model, LOCAL(8), IO_CALL(1), LOCAL(9),
+  var_ai__tokenize, 2, var_189_0_model, LOCAL(8), IO_CALL(1), LOCAL(9),
   // ai::begin_of_stream_token_of(model)) "" 0
-  var_ai__begin_of_stream_token_of, 1, var_188_0_model, 1, LOCAL(1),
+  var_ai__begin_of_stream_token_of, 1, var_189_0_model, 1, LOCAL(1),
   // put(tokens ai::begin_of_stream_token_of(model)) "" 0
   var_put, 2, LOCAL(9), LOCAL(1), 1, LOCAL(2),
   // generate_text! $text $_max_no
   func_generate_text, 3, LOCAL(2), string_4, num_0, IO_CALL(2), LOCAL(10), LOCAL(1),
   // on use_colours: print! ansi_reset_colour()
-  var_on, 2, var_198_25_use_colours, lambda_13, IO_CALL(0),
+  var_on, 2, var_199_25_use_colours, lambda_13, IO_CALL(0),
   // on be_verbose: println!
-  var_on, 2, var_197_21_be_verbose, lambda_14, IO_CALL(0),
+  var_on, 2, var_198_21_be_verbose, lambda_14, IO_CALL(0),
   // -> text
   LET, 1, LOCAL(10), TAIL_CALL,
-  POS(193, 5),
   POS(194, 5),
   POS(195, 5),
   POS(196, 5),
   POS(197, 5),
   POS(198, 5),
-  POS(192, 3),
-  POS(199, 3),
+  POS(199, 5),
+  POS(193, 3),
   POS(200, 3),
   POS(201, 3),
   POS(202, 3),
-  POS(204, 16),
-  POS(204, 5),
   POS(203, 3),
-  POS(205, 3),
+  POS(205, 16),
+  POS(205, 5),
+  POS(204, 3),
   POS(206, 3),
-  POS(207, 3)
+  POS(207, 3),
+  POS(208, 3)
 };
 
 static TAB_NUM t_lambda_11[] = {
@@ -529,7 +543,7 @@ static TAB_NUM t_lambda_11[] = {
   0, // parameters
   //  true
   LET, 1, var_true, TAIL_CALL,
-  POS(200, 39)
+  POS(201, 39)
 };
 
 static TAB_NUM t_lambda_12[] = {
@@ -539,8 +553,8 @@ static TAB_NUM t_lambda_12[] = {
   var_ansi_text_colour, 1, var_BLACK, 1, LOCAL(1),
   // print! ansi_text_colour(BLACK)
   var_print, 1, LOCAL(1), IO_TAIL_CALL,
-  POS(201, 26),
-  POS(201, 19)
+  POS(202, 26),
+  POS(202, 19)
 };
 
 static TAB_NUM t_lambda_13[] = {
@@ -550,8 +564,8 @@ static TAB_NUM t_lambda_13[] = {
   var_ansi_reset_colour, 0, 1, LOCAL(1),
   // print! ansi_reset_colour()
   var_print, 1, LOCAL(1), IO_TAIL_CALL,
-  POS(205, 26),
-  POS(205, 19)
+  POS(206, 26),
+  POS(206, 19)
 };
 
 static TAB_NUM t_lambda_14[] = {
@@ -559,142 +573,153 @@ static TAB_NUM t_lambda_14[] = {
   0, // parameters
   // println!
   var_println, 0, IO_TAIL_CALL,
-  POS(206, 18)
+  POS(207, 18)
 };
 
 static TAB_NUM t_func_generate_text[] = {
   2, // locals
   3, // parameters
-  var_209_17_tokens,
-  var_209_24_text,
-  var_209_29_no,
+  var_210_17_tokens,
+  var_210_24_text,
+  var_210_29_no,
   // $t current_time()
-  var_current_time, 0, 1, var_210_1_t,
+  var_current_time, 0, 1, var_211_1_t,
   // ai::evaluate! model tokens $next_token $confidence_values
-  var_ai__evaluate, 2, var_188_0_model, var_209_17_tokens, IO_CALL(2), var_211_28_next_token, var_211_40_confidence_values,
-  // ai::end_of_stream_token_of(model)
-  var_ai__end_of_stream_token_of, 1, var_188_0_model, 1, LOCAL(1),
-  // next_token == ai::end_of_stream_token_of(model)
-  var_std__equal, 2, var_211_28_next_token, LOCAL(1), 1, LOCAL(2),
+  var_ai__evaluate, 2, var_189_0_model, var_210_17_tokens, IO_CALL(2), var_212_28_next_token, var_212_40_confidence_values,
+  // ai::end_of_stream_token_of(model):
+  var_ai__end_of_stream_token_of, 1, var_189_0_model, 1, LOCAL(1),
+  // next_token == ai::end_of_stream_token_of(model):
+  var_std__equal, 2, var_212_28_next_token, LOCAL(1), 1, LOCAL(2),
   // if
-  var_if, 3, LOCAL(2), lambda_15, lambda_16, IO_TAIL_CALL,
-  POS(210, 5),
+  var_if, 3, LOCAL(2), lambda_15, lambda_17, IO_TAIL_CALL,
   POS(211, 5),
-  POS(213, 21),
-  POS(213, 7),
-  POS(212, 5)
+  POS(212, 5),
+  POS(214, 21),
+  POS(214, 7),
+  POS(213, 5)
 };
 
 static TAB_NUM t_lambda_15[] = {
   0, // locals
   0, // parameters
-  //  text no
-  LET, 2, var_209_24_text, var_209_29_no, TAIL_CALL,
-  POS(214, 9)
+  // on do_log:
+  var_on, 2, var_200_1_do_log, lambda_16, IO_CALL(0),
+  // -> text no
+  LET, 2, var_210_24_text, var_210_29_no, TAIL_CALL,
+  POS(215, 9),
+  POS(217, 9)
 };
 
 static TAB_NUM t_lambda_16[] = {
   0, // locals
   0, // parameters
+  // eprintln! "<end of stream>"
+  var_eprintln, 1, str_end_of_stream, IO_TAIL_CALL,
+  POS(216, 11)
+};
+
+static TAB_NUM t_lambda_17[] = {
+  0, // locals
+  0, // parameters
   // $max_no no
-  LET, 1, var_209_29_no, 1, var_216_1_max_no,
+  LET, 1, var_210_29_no, 1, var_219_1_max_no,
   // loop:
   var_loop, 1, lambda_loop, IO_TAIL_CALL,
-  POS(216, 9),
-  POS(217, 9)
+  POS(219, 9),
+  POS(220, 9)
 };
 
 static TAB_NUM t_lambda_loop[] = {
   3, // locals
   0, // parameters
   // confidence_values(1) !next_token $next_confidence
-  var_211_40_confidence_values, 1, num_1, 1, LOCAL(1),
+  var_212_40_confidence_values, 1, num_1, 1, LOCAL(1),
   // confidence_values(1) !next_token $next_confidence
-  LOCAL(1), 0, 2, var_211_28_next_token, var_218_34_next_confidence,
+  LOCAL(1), 0, 2, var_212_28_next_token, var_221_34_next_confidence,
   // $next_piece ai::detokenize(model next_token)
-  var_ai__detokenize, 2, var_188_0_model, var_211_28_next_token, 1, var_219_1_next_piece,
+  var_ai__detokenize, 2, var_189_0_model, var_212_28_next_token, 1, var_222_1_next_piece,
   // on do_log:
-  var_on, 2, var_199_1_do_log, lambda_17, IO_CALL(0),
+  var_on, 2, var_200_1_do_log, lambda_18, IO_CALL(0),
   // next_confidence >= minimum_confidence || no < 5:
-  var_std__less, 2, var_218_34_next_confidence, var_193_29_minimum_confidence, 1, LOCAL(1),
+  var_std__less, 2, var_221_34_next_confidence, var_194_29_minimum_confidence, 1, LOCAL(1),
   // next_confidence >= minimum_confidence || no < 5:
   var_std__not, 1, LOCAL(1), 1, LOCAL(2),
   // next_confidence >= minimum_confidence || no < 5:
-  var_std__or, 2, LOCAL(2), lambda_21, 1, LOCAL(3),
+  var_std__or, 2, LOCAL(2), lambda_22, 1, LOCAL(3),
   // if
-  var_if, 3, LOCAL(3), lambda_22, lambda_32, IO_TAIL_CALL,
-  POS(218, 11),
-  POS(218, 11),
-  POS(219, 11),
-  POS(220, 11),
-  POS(240, 13),
-  POS(240, 13),
-  POS(240, 13),
-  POS(239, 11)
-};
-
-static TAB_NUM t_lambda_17[] = {
-  2, // locals
-  0, // parameters
-  // current_time()-t) # in ms
-  var_current_time, 0, 1, LOCAL(1),
-  // current_time()-t) # in ms
-  var_std__minus, 2, LOCAL(1), var_210_1_t, 1, LOCAL(2),
-  // $dt 1000*(current_time()-t) # in ms
-  var_std__times, 2, num_1000, LOCAL(2), 1, var_221_1_dt,
-  // 1:
-  var_std__less, 2, num_1, var_196_19_log_level, 1, LOCAL(1),
-  // 1:
-  var_std__not, 1, LOCAL(1), 1, LOCAL(2),
-  // if
-  var_if, 3, LOCAL(2), lambda_18, lambda_19, IO_TAIL_CALL,
-  POS(221, 23),
-  POS(221, 23),
-  POS(221, 13),
-  POS(223, 28),
-  POS(223, 28),
-  POS(222, 13)
+  var_if, 3, LOCAL(3), lambda_23, lambda_33, IO_TAIL_CALL,
+  POS(221, 11),
+  POS(221, 11),
+  POS(222, 11),
+  POS(223, 11),
+  POS(243, 13),
+  POS(243, 13),
+  POS(243, 13),
+  POS(242, 11)
 };
 
 static TAB_NUM t_lambda_18[] = {
   2, // locals
   0, // parameters
-  // quoted(next_piece))@quot;:"
-  func_quoted, 1, var_219_1_next_piece, 1, LOCAL(1),
-  // $token_string "@quot;@(quoted(next_piece))@quot;:"
-  var_std__string, 3, string_5, LOCAL(1), string_6, 1, LOCAL(2),
-  // format
-  var_format, 5, str_431_l, var_209_29_no, var_221_1_dt, LOCAL(2), var_218_34_next_confidence, 1, LOCAL(1),
-  // eprintln!
-  var_eprintln, 1, LOCAL(1), IO_TAIL_CALL,
-  POS(224, 40),
-  POS(224, 17),
-  POS(226, 19),
-  POS(225, 17)
+  // current_time()-t) # in ms
+  var_current_time, 0, 1, LOCAL(1),
+  // current_time()-t) # in ms
+  var_std__minus, 2, LOCAL(1), var_211_1_t, 1, LOCAL(2),
+  // $dt 1000*(current_time()-t) # in ms
+  var_std__times, 2, num_1000, LOCAL(2), 1, var_224_1_dt,
+  // 1:
+  var_std__less, 2, num_1, var_197_19_log_level, 1, LOCAL(1),
+  // 1:
+  var_std__not, 1, LOCAL(1), 1, LOCAL(2),
+  // if
+  var_if, 3, LOCAL(2), lambda_19, lambda_20, IO_TAIL_CALL,
+  POS(224, 23),
+  POS(224, 23),
+  POS(224, 13),
+  POS(226, 28),
+  POS(226, 28),
+  POS(225, 13)
 };
 
 static TAB_NUM t_lambda_19[] = {
-  1, // locals
+  2, // locals
   0, // parameters
-  // format("-[%4|%3.1]-------------" no dt)
-  var_format, 3, string_7, var_209_29_no, var_221_1_dt, 1, LOCAL(1),
-  // eprintln! format("-[%4|%3.1]-------------" no dt)
-  var_eprintln, 1, LOCAL(1), IO_CALL(0),
-  // for_each confidence_values
-  var_for_each, 3, var_211_40_confidence_values, lambda_20, var_pass, IO_TAIL_CALL,
-  POS(230, 27),
-  POS(230, 17),
-  POS(231, 17)
+  // quoted(next_piece))@quot;:"
+  func_quoted, 1, var_222_1_next_piece, 1, LOCAL(1),
+  // $token_string "@quot;@(quoted(next_piece))@quot;:"
+  var_std__string, 3, string_5, LOCAL(1), string_6, 1, LOCAL(2),
+  // format
+  var_format, 5, str_431_l, var_210_29_no, var_224_1_dt, LOCAL(2), var_221_34_next_confidence, 1, LOCAL(1),
+  // eprintln!
+  var_eprintln, 1, LOCAL(1), IO_TAIL_CALL,
+  POS(227, 40),
+  POS(227, 17),
+  POS(229, 19),
+  POS(228, 17)
 };
 
 static TAB_NUM t_lambda_20[] = {
+  1, // locals
+  0, // parameters
+  // format("-[%4|%3.1]-------------" no dt)
+  var_format, 3, string_7, var_210_29_no, var_224_1_dt, 1, LOCAL(1),
+  // eprintln! format("-[%4|%3.1]-------------" no dt)
+  var_eprintln, 1, LOCAL(1), IO_CALL(0),
+  // for_each confidence_values
+  var_for_each, 3, var_212_40_confidence_values, lambda_21, var_pass, IO_TAIL_CALL,
+  POS(233, 27),
+  POS(233, 17),
+  POS(234, 17)
+};
+
+static TAB_NUM t_lambda_21[] = {
   6, // locals
   1, // parameters
-  LOCAL(2), // 232_3_confidence_value
+  LOCAL(2), // 235_3_confidence_value
   // confidence_value $token $confidence
   LOCAL(2), 0, 2, LOCAL(3), LOCAL(4),
   // $piece ai::detokenize(model token)
-  var_ai__detokenize, 2, var_188_0_model, LOCAL(3), 1, LOCAL(5),
+  var_ai__detokenize, 2, var_189_0_model, LOCAL(3), 1, LOCAL(5),
   // quoted(piece))@quot;:"
   func_quoted, 1, LOCAL(5), 1, LOCAL(1),
   // $token_string "@quot;@(quoted(piece))@quot;:"
@@ -705,286 +730,280 @@ static TAB_NUM t_lambda_20[] = {
   var_eprintln, 1, LOCAL(1), IO_CALL(0),
   // next!
   var_next, 0, IO_TAIL_CALL,
-  POS(233, 21),
-  POS(234, 21),
-  POS(235, 44),
-  POS(235, 21),
-  POS(236, 31),
   POS(236, 21),
-  POS(237, 21)
-};
-
-static TAB_NUM t_lambda_21[] = {
-  1, // locals
-  0, // parameters
-  // no < 5:
-  var_std__less, 2, var_209_29_no, num_5, 1, LOCAL(1),
-  // no < 5:
-  LET, 1, LOCAL(1), TAIL_CALL,
-  POS(240, 54),
-  POS(240, 54)
+  POS(237, 21),
+  POS(238, 44),
+  POS(238, 21),
+  POS(239, 31),
+  POS(239, 21),
+  POS(240, 21)
 };
 
 static TAB_NUM t_lambda_22[] = {
-  2, // locals
+  1, // locals
   0, // parameters
-  // no == 0 &next_piece: trim_left next_piece
-  var_std__equal, 2, var_209_29_no, num_0, 1, LOCAL(1),
-  // update_if no == 0 &next_piece: trim_left next_piece
-  var_update_if, 3, LOCAL(1), var_219_1_next_piece, lambda_23, 1, var_219_1_next_piece,
-  // print_piece! next_piece next_confidence
-  func_print_piece, 2, var_219_1_next_piece, var_218_34_next_confidence, IO_CALL(0),
-  // no >= maximum_length
-  var_std__less, 2, var_209_29_no, var_194_27_maximum_length, 1, LOCAL(1),
-  // no >= maximum_length
-  var_std__not, 1, LOCAL(1), 1, LOCAL(2),
-  // if
-  var_if, 3, LOCAL(2), lambda_24, lambda_25, IO_TAIL_CALL,
-  POS(241, 25),
-  POS(241, 15),
-  POS(242, 15),
-  POS(244, 17),
-  POS(244, 17),
-  POS(243, 15)
+  // no < 5:
+  var_std__less, 2, var_210_29_no, num_5, 1, LOCAL(1),
+  // no < 5:
+  LET, 1, LOCAL(1), TAIL_CALL,
+  POS(243, 54),
+  POS(243, 54)
 };
 
 static TAB_NUM t_lambda_23[] = {
-  0, // locals
+  2, // locals
   0, // parameters
-  // trim_left next_piece
-  var_trim_left, 1, var_219_1_next_piece, TAIL_CALL,
-  POS(241, 46)
+  // no == 0 &next_piece: trim_left next_piece
+  var_std__equal, 2, var_210_29_no, num_0, 1, LOCAL(1),
+  // update_if no == 0 &next_piece: trim_left next_piece
+  var_update_if, 3, LOCAL(1), var_222_1_next_piece, lambda_24, 1, var_222_1_next_piece,
+  // print_piece! next_piece next_confidence
+  func_print_piece, 2, var_222_1_next_piece, var_221_34_next_confidence, IO_CALL(0),
+  // no >= maximum_length
+  var_std__less, 2, var_210_29_no, var_195_27_maximum_length, 1, LOCAL(1),
+  // no >= maximum_length
+  var_std__not, 1, LOCAL(1), 1, LOCAL(2),
+  // if
+  var_if, 3, LOCAL(2), lambda_25, lambda_26, IO_TAIL_CALL,
+  POS(244, 25),
+  POS(244, 15),
+  POS(245, 15),
+  POS(247, 17),
+  POS(247, 17),
+  POS(246, 15)
 };
 
 static TAB_NUM t_lambda_24[] = {
-  1, // locals
+  0, // locals
   0, // parameters
-  // append(text next_piece) no
-  var_append, 2, var_209_24_text, var_219_1_next_piece, 1, LOCAL(1),
-  //  append(text next_piece) no
-  LET, 2, LOCAL(1), var_209_29_no, TAIL_CALL,
-  POS(245, 20),
-  POS(245, 19)
+  // trim_left next_piece
+  var_trim_left, 1, var_222_1_next_piece, TAIL_CALL,
+  POS(244, 46)
 };
 
 static TAB_NUM t_lambda_25[] = {
-  4, // locals
+  1, // locals
   0, // parameters
-  // push(tokens next_token)
-  var_push, 2, var_209_17_tokens, var_211_28_next_token, 1, LOCAL(1),
-  // append(text next_piece)
-  var_append, 2, var_209_24_text, var_219_1_next_piece, 1, LOCAL(2),
-  // no+1
-  var_std__plus, 2, var_209_29_no, num_1, 1, LOCAL(3),
-  // generate_text! $response $highest_no
-  func_generate_text, 3, LOCAL(1), LOCAL(2), LOCAL(3), IO_CALL(2), var_247_16_response, LOCAL(4),
-  // extend_to &max_no highest_no
-  var_extend_to, 2, var_216_1_max_no, LOCAL(4), 1, var_216_1_max_no,
-  // is_empty
-  var_is_empty, 1, var_247_16_response, 1, LOCAL(1),
-  // 
-  var_std__and, 2, LOCAL(1), lambda_26, 1, LOCAL(2),
-  // if
-  var_if, 3, LOCAL(2), lambda_28, lambda_31, IO_TAIL_CALL,
-  POS(248, 21),
-  POS(249, 21),
-  POS(250, 21),
-  POS(247, 19),
-  POS(251, 19),
-  POS(254, 32),
-  POS(253, 23),
-  POS(252, 19)
+  // append(text next_piece) no
+  var_append, 2, var_210_24_text, var_222_1_next_piece, 1, LOCAL(1),
+  //  append(text next_piece) no
+  LET, 2, LOCAL(1), var_210_29_no, TAIL_CALL,
+  POS(248, 20),
+  POS(248, 19)
 };
 
 static TAB_NUM t_lambda_26[] = {
   4, // locals
   0, // parameters
+  // push(tokens next_token)
+  var_push, 2, var_210_17_tokens, var_212_28_next_token, 1, LOCAL(1),
+  // append(text next_piece)
+  var_append, 2, var_210_24_text, var_222_1_next_piece, 1, LOCAL(2),
+  // no+1
+  var_std__plus, 2, var_210_29_no, num_1, 1, LOCAL(3),
+  // generate_text! $response $highest_no
+  func_generate_text, 3, LOCAL(1), LOCAL(2), LOCAL(3), IO_CALL(2), var_250_16_response, LOCAL(4),
+  // extend_to &max_no highest_no
+  var_extend_to, 2, var_219_1_max_no, LOCAL(4), 1, var_219_1_max_no,
+  // is_empty
+  var_is_empty, 1, var_250_16_response, 1, LOCAL(1),
+  // 
+  var_std__and, 2, LOCAL(1), lambda_27, 1, LOCAL(2),
+  // if
+  var_if, 3, LOCAL(2), lambda_29, lambda_32, IO_TAIL_CALL,
+  POS(251, 21),
+  POS(252, 21),
+  POS(253, 21),
+  POS(250, 19),
+  POS(254, 19),
+  POS(257, 32),
+  POS(256, 23),
+  POS(255, 19)
+};
+
+static TAB_NUM t_lambda_27[] = {
+  4, // locals
+  0, // parameters
   // length_of(confidence_values) >= 1
-  var_length_of, 1, var_211_40_confidence_values, 1, LOCAL(1),
+  var_length_of, 1, var_212_40_confidence_values, 1, LOCAL(1),
   // length_of(confidence_values) >= 1
   var_std__less, 2, LOCAL(1), num_1, 1, LOCAL(2),
   // length_of(confidence_values) >= 1
   var_std__not, 1, LOCAL(2), 1, LOCAL(3),
   // 
-  var_std__and, 2, LOCAL(3), lambda_27, 1, LOCAL(4),
+  var_std__and, 2, LOCAL(3), lambda_28, 1, LOCAL(4),
   // length_of(confidence_values) >= 1
   LET, 1, LOCAL(4), TAIL_CALL,
-  POS(255, 23),
-  POS(255, 23),
-  POS(255, 23),
-  POS(253, 23),
-  POS(255, 23)
+  POS(258, 23),
+  POS(258, 23),
+  POS(258, 23),
+  POS(256, 23),
+  POS(258, 23)
 };
 
-static TAB_NUM t_lambda_27[] = {
+static TAB_NUM t_lambda_28[] = {
   3, // locals
   0, // parameters
   // no+backtrack
-  var_std__plus, 2, var_209_29_no, var_195_19_backtrack, 1, LOCAL(1),
+  var_std__plus, 2, var_210_29_no, var_196_19_backtrack, 1, LOCAL(1),
   // no+backtrack
-  var_std__less, 2, LOCAL(1), var_216_1_max_no, 1, LOCAL(2),
+  var_std__less, 2, LOCAL(1), var_219_1_max_no, 1, LOCAL(2),
   // no+backtrack
   var_std__not, 1, LOCAL(2), 1, LOCAL(3),
   // max_no <= no+backtrack
   LET, 1, LOCAL(3), TAIL_CALL,
-  POS(256, 33),
-  POS(256, 33),
-  POS(256, 33),
-  POS(256, 23)
+  POS(259, 33),
+  POS(259, 33),
+  POS(259, 33),
+  POS(259, 23)
 };
 
-static TAB_NUM t_lambda_28[] = {
+static TAB_NUM t_lambda_29[] = {
   2, // locals
   0, // parameters
   // on use_colours: print! ansi_reset_colour()
-  var_on, 2, var_198_25_use_colours, lambda_29, IO_CALL(0),
+  var_on, 2, var_199_25_use_colours, lambda_30, IO_CALL(0),
   // length_of(next_piece))
-  var_length_of, 1, var_219_1_next_piece, 1, LOCAL(1),
+  var_length_of, 1, var_222_1_next_piece, 1, LOCAL(1),
   // dup("@bs; @bs;" length_of(next_piece))
   var_dup, 2, string_8, LOCAL(1), 1, LOCAL(2),
   // print! dup("@bs; @bs;" length_of(next_piece))
   var_print, 1, LOCAL(2), IO_CALL(0),
   // on use_colours: print! ansi_text_colour(BLACK)
-  var_on, 2, var_198_25_use_colours, lambda_30, IO_CALL(0),
+  var_on, 2, var_199_25_use_colours, lambda_31, IO_CALL(0),
   // range &confidence_values 2 -1
-  var_range, 3, var_211_40_confidence_values, num_2, minus_num_1, 1, var_211_40_confidence_values,
+  var_range, 3, var_212_40_confidence_values, num_2, minus_num_1, 1, var_212_40_confidence_values,
   // next!
   var_next, 0, IO_TAIL_CALL,
-  POS(258, 23),
-  POS(259, 46),
-  POS(259, 30),
-  POS(259, 23),
-  POS(260, 23),
   POS(261, 23),
-  POS(262, 23)
+  POS(262, 46),
+  POS(262, 30),
+  POS(262, 23),
+  POS(263, 23),
+  POS(264, 23),
+  POS(265, 23)
 };
 
-static TAB_NUM t_lambda_29[] = {
+static TAB_NUM t_lambda_30[] = {
   1, // locals
   0, // parameters
   // ansi_reset_colour()
   var_ansi_reset_colour, 0, 1, LOCAL(1),
   // print! ansi_reset_colour()
   var_print, 1, LOCAL(1), IO_TAIL_CALL,
-  POS(258, 46),
-  POS(258, 39)
+  POS(261, 46),
+  POS(261, 39)
 };
 
-static TAB_NUM t_lambda_30[] = {
+static TAB_NUM t_lambda_31[] = {
   1, // locals
   0, // parameters
   // ansi_text_colour(BLACK)
   var_ansi_text_colour, 1, var_BLACK, 1, LOCAL(1),
   // print! ansi_text_colour(BLACK)
   var_print, 1, LOCAL(1), IO_TAIL_CALL,
-  POS(260, 46),
-  POS(260, 39)
-};
-
-static TAB_NUM t_lambda_31[] = {
-  0, // locals
-  0, // parameters
-  //  response max_no
-  LET, 2, var_247_16_response, var_216_1_max_no, TAIL_CALL,
-  POS(263, 23)
+  POS(263, 46),
+  POS(263, 39)
 };
 
 static TAB_NUM t_lambda_32[] = {
   0, // locals
   0, // parameters
+  //  response max_no
+  LET, 2, var_250_16_response, var_219_1_max_no, TAIL_CALL,
+  POS(266, 23)
+};
+
+static TAB_NUM t_lambda_33[] = {
+  0, // locals
+  0, // parameters
   //  "" max_no
-  LET, 2, string_4, var_216_1_max_no, TAIL_CALL,
-  POS(264, 15)
+  LET, 2, string_4, var_219_1_max_no, TAIL_CALL,
+  POS(267, 15)
 };
 
 static TAB_NUM t_func_print_piece[] = {
   0, // locals
   2, // parameters
-  var_266_15_piece,
-  var_266_21_confidence,
+  var_269_15_piece,
+  var_269_21_confidence,
   // on use_colours:
-  var_on, 2, var_198_25_use_colours, lambda_33, IO_CALL(0),
+  var_on, 2, var_199_25_use_colours, lambda_34, IO_CALL(0),
   // on be_verbose: print! piece
-  var_on, 2, var_197_21_be_verbose, lambda_40, IO_TAIL_CALL,
-  POS(267, 5),
+  var_on, 2, var_198_21_be_verbose, lambda_41, IO_TAIL_CALL,
+  POS(270, 5),
   POS(287, 5)
 };
 
-static TAB_NUM t_lambda_33[] = {
+static TAB_NUM t_lambda_34[] = {
   2, // locals
   0, // parameters
   // $confidence_delta confidence-minimum_confidence
-  var_std__minus, 2, var_266_21_confidence, var_193_29_minimum_confidence, 1, var_268_1_confidence_delta,
+  var_std__minus, 2, var_269_21_confidence, var_194_29_minimum_confidence, 1, var_271_1_confidence_delta,
   // $colour
-  var_cond, 3, lambda_34, lambda_36, lambda_38, 1, LOCAL(2),
+  var_cond, 3, lambda_35, lambda_37, lambda_39, 1, LOCAL(2),
   // ansi_background_colour(colour)
   var_ansi_background_colour, 1, LOCAL(2), 1, LOCAL(1),
   // print! ansi_background_colour(colour)
   var_print, 1, LOCAL(1), IO_TAIL_CALL,
-  POS(268, 7),
-  POS(269, 7),
+  POS(271, 7),
+  POS(272, 7),
   POS(286, 14),
   POS(286, 7)
 };
 
-static TAB_NUM t_lambda_34[] = {
+static TAB_NUM t_lambda_35[] = {
   1, // locals
   0, // parameters
-  // confidence_delta < 0:
-  var_std__less, 2, var_268_1_confidence_delta, num_0, 1, LOCAL(1),
-  //  confidence_delta < 0:
-  LET, 2, LOCAL(1), lambda_35, TAIL_CALL,
-  POS(271, 14),
-  POS(271, 13)
-};
-
-static TAB_NUM t_lambda_35[] = {
-  5, // locals
-  0, // parameters
-  // edump `minimum_confidence
-  var_edump, 2, str_minimum_confiden, var_193_29_minimum_confidence, 0,
-  // edump `confidence_delta
-  var_edump, 2, str_confidence_delta, var_268_1_confidence_delta, 0,
-  // confidence_delta
-  var_std__negate, 1, var_268_1_confidence_delta, 1, LOCAL(1),
-  // BLACK = -confidence_delta
-  var_std__key_value_pair, 2, var_BLACK, LOCAL(1), 1, LOCAL(2),
-  // minimum_confidence+confidence_delta
-  var_std__plus, 2, var_193_29_minimum_confidence, var_268_1_confidence_delta, 1, LOCAL(3),
-  // RED = minimum_confidence+confidence_delta
-  var_std__key_value_pair, 2, var_RED, LOCAL(3), 1, LOCAL(4),
-  // colour_mixture
-  var_colour_mixture, 2, LOCAL(2), LOCAL(4), 1, LOCAL(5),
-  // ->
-  LET, 1, LOCAL(5), TAIL_CALL,
-  POS(272, 13),
-  POS(273, 13),
-  POS(276, 26),
-  POS(276, 17),
-  POS(277, 23),
-  POS(277, 17),
-  POS(275, 15),
+  // confidence_delta < 0 ->
+  var_std__less, 2, var_271_1_confidence_delta, num_0, 1, LOCAL(1),
+  //  confidence_delta < 0 ->
+  LET, 2, LOCAL(1), lambda_36, TAIL_CALL,
+  POS(274, 14),
   POS(274, 13)
 };
 
 static TAB_NUM t_lambda_36[] = {
+  5, // locals
+  0, // parameters
+  // confidence_delta
+  var_std__negate, 1, var_271_1_confidence_delta, 1, LOCAL(1),
+  // BLACK = -confidence_delta
+  var_std__key_value_pair, 2, var_BLACK, LOCAL(1), 1, LOCAL(2),
+  // minimum_confidence+confidence_delta
+  var_std__plus, 2, var_194_29_minimum_confidence, var_271_1_confidence_delta, 1, LOCAL(3),
+  // RED = minimum_confidence+confidence_delta
+  var_std__key_value_pair, 2, var_RED, LOCAL(3), 1, LOCAL(4),
+  // colour_mixture
+  var_colour_mixture, 2, LOCAL(2), LOCAL(4), 1, LOCAL(5),
+  // 
+  LET, 1, LOCAL(5), TAIL_CALL,
+  POS(276, 24),
+  POS(276, 15),
+  POS(277, 21),
+  POS(277, 15),
+  POS(275, 13),
+  POS(274, 37)
+};
+
+static TAB_NUM t_lambda_37[] = {
   1, // locals
   0, // parameters
   // 10 ->
-  var_std__less, 2, num_10, var_268_1_confidence_delta, 1, LOCAL(1),
+  var_std__less, 2, num_10, var_271_1_confidence_delta, 1, LOCAL(1),
   //  confidence_delta > 10 ->
-  LET, 2, LOCAL(1), lambda_37, TAIL_CALL,
+  LET, 2, LOCAL(1), lambda_38, TAIL_CALL,
   POS(278, 33),
   POS(278, 13)
 };
 
-static TAB_NUM t_lambda_37[] = {
+static TAB_NUM t_lambda_38[] = {
   4, // locals
   0, // parameters
   // GREEN = 10
   var_std__key_value_pair, 2, var_GREEN, num_10, 1, LOCAL(1),
   // confidence_delta-10
-  var_std__minus, 2, var_268_1_confidence_delta, num_10, 1, LOCAL(2),
+  var_std__minus, 2, var_271_1_confidence_delta, num_10, 1, LOCAL(2),
   // WHITE = confidence_delta-10
   var_std__key_value_pair, 2, var_WHITE, LOCAL(2), 1, LOCAL(3),
   // colour_mixture
@@ -998,23 +1017,23 @@ static TAB_NUM t_lambda_37[] = {
   POS(278, 38)
 };
 
-static TAB_NUM t_lambda_38[] = {
+static TAB_NUM t_lambda_39[] = {
   0, // locals
   0, // parameters
   //  true ->
-  LET, 2, var_true, lambda_39, TAIL_CALL,
+  LET, 2, var_true, lambda_40, TAIL_CALL,
   POS(282, 13)
 };
 
-static TAB_NUM t_lambda_39[] = {
+static TAB_NUM t_lambda_40[] = {
   4, // locals
   0, // parameters
   // 10-confidence_delta
-  var_std__minus, 2, num_10, var_268_1_confidence_delta, 1, LOCAL(1),
+  var_std__minus, 2, num_10, var_271_1_confidence_delta, 1, LOCAL(1),
   // RED = 10-confidence_delta
   var_std__key_value_pair, 2, var_RED, LOCAL(1), 1, LOCAL(2),
   // GREEN = confidence_delta
-  var_std__key_value_pair, 2, var_GREEN, var_268_1_confidence_delta, 1, LOCAL(3),
+  var_std__key_value_pair, 2, var_GREEN, var_271_1_confidence_delta, 1, LOCAL(3),
   // colour_mixture
   var_colour_mixture, 2, LOCAL(2), LOCAL(3), 1, LOCAL(4),
   // 
@@ -1026,11 +1045,11 @@ static TAB_NUM t_lambda_39[] = {
   POS(282, 21)
 };
 
-static TAB_NUM t_lambda_40[] = {
+static TAB_NUM t_lambda_41[] = {
   0, // locals
   0, // parameters
   // print! piece
-  var_print, 1, var_266_15_piece, IO_TAIL_CALL,
+  var_print, 1, var_269_15_piece, IO_TAIL_CALL,
   POS(287, 20)
 };
 
@@ -1096,13 +1115,13 @@ static TAB_NUM t_func_ai_types__model___ai__detokenize[] = {
   // is_a_list
   var_is_a_list, 1, var_316_0_token_or_list, 1, LOCAL(1),
   // if
-  var_if, 3, LOCAL(1), lambda_41, lambda_42, TAIL_CALL,
+  var_if, 3, LOCAL(1), lambda_42, lambda_43, TAIL_CALL,
   POS(318, 3),
   POS(320, 19),
   POS(319, 3)
 };
 
-static TAB_NUM t_lambda_41[] = {
+static TAB_NUM t_lambda_42[] = {
   1, // locals
   0, // parameters
   // map_reduce(token_or_list token_to_piece append "")
@@ -1113,7 +1132,7 @@ static TAB_NUM t_lambda_41[] = {
   POS(321, 7)
 };
 
-static TAB_NUM t_lambda_42[] = {
+static TAB_NUM t_lambda_43[] = {
   1, // locals
   0, // parameters
   // token_to_piece(token_or_list)
@@ -1135,7 +1154,7 @@ static TAB_NUM t_func_token_to_piece[] = {
   // any_of(piece: (chr) -> chr == '@0x142;')
   var_any_of, 2, var_326_1_piece, lambda_any_ofpiece, 1, LOCAL(1),
   // if
-  var_if, 3, LOCAL(1), lambda_43, lambda_44, TAIL_CALL,
+  var_if, 3, LOCAL(1), lambda_44, lambda_45, TAIL_CALL,
   POS(326, 19),
   POS(326, 5),
   POS(328, 7),
@@ -1154,7 +1173,7 @@ static TAB_NUM t_lambda_any_ofpiece[] = {
   POS(328, 27)
 };
 
-static TAB_NUM t_lambda_43[] = {
+static TAB_NUM t_lambda_44[] = {
   0, // locals
   0, // parameters
   //  "<???>" # 'ÃÂ' cannot be printed - why?
@@ -1162,7 +1181,7 @@ static TAB_NUM t_lambda_43[] = {
   POS(329, 9)
 };
 
-static TAB_NUM t_lambda_44[] = {
+static TAB_NUM t_lambda_45[] = {
   0, // locals
   0, // parameters
   //  piece
@@ -1170,11 +1189,61 @@ static TAB_NUM t_lambda_44[] = {
   POS(330, 9)
 };
 
+static TAB_NUM t_func_build_piece_table[] = {
+  1, // locals
+  1, // parameters
+  var_332_21_model,
+  // $pieces ai::pieces_of(model)
+  var_ai__pieces_of, 1, var_332_21_model, 1, LOCAL(1),
+  // $piece_table empty_hash_table
+  LET, 1, var_empty_hash_table, 1, var_334_1_piece_table,
+  // for_each pieces
+  var_for_each, 3, LOCAL(1), lambda_46, lambda_48, TAIL_CALL,
+  POS(333, 3),
+  POS(334, 3),
+  POS(335, 3)
+};
+
+static TAB_NUM t_lambda_46[] = {
+  1, // locals
+  2, // parameters
+  var_336_3_token,
+  var_336_9_piece,
+  // is_empty
+  var_is_empty, 1, var_336_9_piece, 1, LOCAL(1),
+  // if
+  var_if, 3, LOCAL(1), var_next, lambda_47, TAIL_CALL,
+  POS(338, 15),
+  POS(337, 7)
+};
+
+static TAB_NUM t_lambda_47[] = {
+  0, // locals
+  0, // parameters
+  // piece_table(piece) token
+  var_334_1_piece_table, 2, var_336_9_piece, var_336_3_token, 1, var_334_1_piece_table,
+  // next
+  var_next, 0, TAIL_CALL,
+  POS(341, 12),
+  POS(342, 11)
+};
+
+static TAB_NUM t_lambda_48[] = {
+  1, // locals
+  0, // parameters
+  // .ai::piece_table_of piece_table)
+  LET, -1, var_332_21_model, var_ai__piece_table_of, var_334_1_piece_table, LOCAL(1),
+  //  model(.ai::piece_table_of piece_table)
+  LET, 1, LOCAL(1), TAIL_CALL,
+  POS(343, 14),
+  POS(343, 7)
+};
+
 static TAB_NUM t_func_get_tokens[] = {
   7, // locals
   0, // parameters
   // insert_order_table
-  var_insert_order_table, 1, key_value_pair_336_1, 1, LOCAL(2),
+  var_insert_order_table, 1, key_value_pair_349_1, 1, LOCAL(2),
   // $json
   var_to_json, 1, LOCAL(2), 1, LOCAL(4),
   // open_tcp_socket! $fd "127.0.0.1" 8080
@@ -1198,147 +1267,147 @@ static TAB_NUM t_func_get_tokens[] = {
   // info("begin_of_stream") info("end_of_stream")
   LOCAL(7), 1, str_begin_of_stream, 1, LOCAL(2),
   // info("end_of_stream")
-  LOCAL(7), 1, str_end_of_stream, 1, LOCAL(3),
+  LOCAL(7), 1, str_end_of_stream_2, 1, LOCAL(3),
   // -> info("tokens") info("begin_of_stream") info("end_of_stream")
   LET, 3, LOCAL(1), LOCAL(2), LOCAL(3), TAIL_CALL,
-  POS(335, 7),
-  POS(333, 3),
-  POS(337, 3),
-  POS(341, 23),
-  POS(338, 16),
-  POS(338, 3),
-  POS(345, 3),
+  POS(348, 7),
   POS(346, 3),
-  POS(347, 3),
-  POS(348, 3),
-  POS(349, 6),
-  POS(349, 21),
-  POS(349, 45),
-  POS(349, 3)
+  POS(350, 3),
+  POS(354, 23),
+  POS(351, 16),
+  POS(351, 3),
+  POS(358, 3),
+  POS(359, 3),
+  POS(360, 3),
+  POS(361, 3),
+  POS(362, 6),
+  POS(362, 21),
+  POS(362, 45),
+  POS(362, 3)
 };
 
 static TAB_NUM t_func_quoted[] = {
   0, // locals
   1, // parameters
-  var_351_10_text,
+  var_364_10_text,
   // $buf ""
-  LET, 1, string_4, 1, var_352_1_buf,
+  LET, 1, string_4, 1, var_365_1_buf,
   // $s 1
-  LET, 1, num_1, 1, var_353_1_s,
+  LET, 1, num_1, 1, var_366_1_s,
   // $n length_of(text)
-  var_length_of, 1, var_351_10_text, 1, var_354_1_n,
+  var_length_of, 1, var_364_10_text, 1, var_367_1_n,
   // $i 0
-  LET, 1, num_0, 1, var_355_1_i,
+  LET, 1, num_0, 1, var_368_1_i,
   // loop:
   var_loop, 1, lambda_2_loop, TAIL_CALL,
-  POS(352, 3),
-  POS(353, 3),
-  POS(354, 3),
-  POS(355, 3),
-  POS(356, 3)
+  POS(365, 3),
+  POS(366, 3),
+  POS(367, 3),
+  POS(368, 3),
+  POS(369, 3)
 };
 
 static TAB_NUM t_lambda_2_loop[] = {
   1, // locals
   0, // parameters
   // inc &i
-  var_inc, 1, var_355_1_i, 1, var_355_1_i,
+  var_inc, 1, var_368_1_i, 1, var_368_1_i,
   // n
-  var_std__less, 2, var_354_1_n, var_355_1_i, 1, LOCAL(1),
+  var_std__less, 2, var_367_1_n, var_368_1_i, 1, LOCAL(1),
   // if
-  var_if, 3, LOCAL(1), lambda_45, lambda_46, TAIL_CALL,
-  POS(357, 5),
-  POS(359, 11),
-  POS(358, 5)
+  var_if, 3, LOCAL(1), lambda_49, lambda_50, TAIL_CALL,
+  POS(370, 5),
+  POS(372, 11),
+  POS(371, 5)
 };
 
-static TAB_NUM t_lambda_45[] = {
+static TAB_NUM t_lambda_49[] = {
   2, // locals
   0, // parameters
   // range(text s n))
-  var_range, 3, var_351_10_text, var_353_1_s, var_354_1_n, 1, LOCAL(1),
+  var_range, 3, var_364_10_text, var_366_1_s, var_367_1_n, 1, LOCAL(1),
   // append(buf range(text s n))
-  var_append, 2, var_352_1_buf, LOCAL(1), 1, LOCAL(2),
+  var_append, 2, var_365_1_buf, LOCAL(1), 1, LOCAL(2),
   //  append(buf range(text s n))
   LET, 1, LOCAL(2), TAIL_CALL,
-  POS(360, 21),
-  POS(360, 10),
-  POS(360, 9)
+  POS(373, 21),
+  POS(373, 10),
+  POS(373, 9)
 };
 
-static TAB_NUM t_lambda_46[] = {
+static TAB_NUM t_lambda_50[] = {
   0, // locals
   0, // parameters
   // $chr text(i)
-  var_351_10_text, 1, var_355_1_i, 1, var_362_1_chr,
+  var_364_10_text, 1, var_368_1_i, 1, var_375_1_chr,
   // case chr
-  var_case, 6, var_362_1_chr, chr_10, lambda_nl, sequence_369_2, lambda_47, var_next, TAIL_CALL,
-  POS(362, 9),
-  POS(363, 9)
+  var_case, 6, var_375_1_chr, chr_10, lambda_nl, sequence_382_2, lambda_51, var_next, TAIL_CALL,
+  POS(375, 9),
+  POS(376, 9)
 };
 
 static TAB_NUM t_lambda_nl[] = {
   2, // locals
   0, // parameters
   // i-1)
-  var_std__minus, 2, var_355_1_i, num_1, 1, LOCAL(1),
+  var_std__minus, 2, var_368_1_i, num_1, 1, LOCAL(1),
   // range(text s i-1)
-  var_range, 3, var_351_10_text, var_353_1_s, LOCAL(1), 1, LOCAL(2),
+  var_range, 3, var_364_10_text, var_366_1_s, LOCAL(1), 1, LOCAL(2),
   // append &buf range(text s i-1)
-  var_append, 2, var_352_1_buf, LOCAL(2), 1, var_352_1_buf,
+  var_append, 2, var_365_1_buf, LOCAL(2), 1, var_365_1_buf,
   // append &buf "\n"
-  var_append, 2, var_352_1_buf, str_n, 1, var_352_1_buf,
+  var_append, 2, var_365_1_buf, str_n, 1, var_365_1_buf,
   // !s i+1
-  var_std__plus, 2, var_355_1_i, num_1, 1, var_353_1_s,
+  var_std__plus, 2, var_368_1_i, num_1, 1, var_366_1_s,
   // next
   var_next, 0, TAIL_CALL,
-  POS(365, 38),
-  POS(365, 25),
-  POS(365, 13),
-  POS(366, 13),
-  POS(367, 13),
-  POS(368, 13)
+  POS(378, 38),
+  POS(378, 25),
+  POS(378, 13),
+  POS(379, 13),
+  POS(380, 13),
+  POS(381, 13)
 };
 
-static TAB_NUM t_lambda_47[] = {
+static TAB_NUM t_lambda_51[] = {
   2, // locals
   0, // parameters
   // i-1)
-  var_std__minus, 2, var_355_1_i, num_1, 1, LOCAL(1),
+  var_std__minus, 2, var_368_1_i, num_1, 1, LOCAL(1),
   // range(text s i-1)
-  var_range, 3, var_351_10_text, var_353_1_s, LOCAL(1), 1, LOCAL(2),
+  var_range, 3, var_364_10_text, var_366_1_s, LOCAL(1), 1, LOCAL(2),
   // append &buf range(text s i-1)
-  var_append, 2, var_352_1_buf, LOCAL(2), 1, var_352_1_buf,
+  var_append, 2, var_365_1_buf, LOCAL(2), 1, var_365_1_buf,
   // push &buf '\'
-  var_push, 2, var_352_1_buf, chr_92, 1, var_352_1_buf,
+  var_push, 2, var_365_1_buf, chr_92, 1, var_365_1_buf,
   // push &buf chr
-  var_push, 2, var_352_1_buf, var_362_1_chr, 1, var_352_1_buf,
+  var_push, 2, var_365_1_buf, var_375_1_chr, 1, var_365_1_buf,
   // !s i+1
-  var_std__plus, 2, var_355_1_i, num_1, 1, var_353_1_s,
+  var_std__plus, 2, var_368_1_i, num_1, 1, var_366_1_s,
   // next
   var_next, 0, TAIL_CALL,
-  POS(370, 38),
-  POS(370, 25),
-  POS(370, 13),
-  POS(371, 13),
-  POS(372, 13),
-  POS(373, 13),
-  POS(374, 13)
-};
-
-static int key_value_pair_158_1_arguments[] = {
-  -str_n_probs, -num_10
+  POS(383, 38),
+  POS(383, 25),
+  POS(383, 13),
+  POS(384, 13),
+  POS(385, 13),
+  POS(386, 13),
+  POS(387, 13)
 };
 
 static int key_value_pair_159_1_arguments[] = {
+  -str_n_probs, -num_10
+};
+
+static int key_value_pair_160_1_arguments[] = {
   -str_n_predict, -num_1
 };
 
-static int key_value_pair_336_1_arguments[] = {
+static int key_value_pair_349_1_arguments[] = {
   -str_model, -str_dummy
 };
 
-static int sequence_369_2_arguments[] = {
+static int sequence_382_2_arguments[] = {
   -chr_34, -chr_92
 };
 
@@ -1350,7 +1419,6 @@ static FUNKY_CONSTANT constants_table[] = {
   {FLT_UNIQUE, 0, {.str_8 = "ai::VERBOSE"}},
   {FLT_UNIQUE, 0, {.str_8 = "ai::USE_COLOURS"}},
   {FLT_FUNCTION, 0, {.tfunc = t_func_ai__load_ai_model}},
-  {FLT_STRING_8, 29, {.str_8 = "wizard-vicuna-13b.Q4_K_M.gguf"}},
   {FLT_STRING_8, 9, {.str_8 = "127.0.0.1"}},
   {FLT_POSITIVE_INT64, 0, {.value = 8080}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_1}},
@@ -1365,10 +1433,10 @@ static FUNKY_CONSTANT constants_table[] = {
   {FLT_STRING_8, 5, {.str_8 = "brief"}},
   {FLT_STRING_8, 7, {.str_8 = "n_probs"}},
   {FLT_POSITIVE_INT64, 0, {.value = 10}},
-  {FLT_KEY_VALUE_PAIR, 2, {.arguments = key_value_pair_158_1_arguments}},
+  {FLT_KEY_VALUE_PAIR, 2, {.arguments = key_value_pair_159_1_arguments}},
   {FLT_STRING_8, 9, {.str_8 = "n_predict"}},
   {FLT_POSITIVE_INT64, 0, {.value = 1}},
-  {FLT_KEY_VALUE_PAIR, 2, {.arguments = key_value_pair_159_1_arguments}},
+  {FLT_KEY_VALUE_PAIR, 2, {.arguments = key_value_pair_160_1_arguments}},
   {FLT_STRING_8, 75, {.str_8 = "POST /completion HTTP/1.1\015\012Content-Type: application/json\015\012Content-Length: "}},
   {FLT_STRING_8, 23, {.str_8 = "\015\012Connection: close\015\012\015\012"}},
   {FLT_STRING_8, 1, {.str_8 = "\012"}},
@@ -1394,20 +1462,21 @@ static FUNKY_CONSTANT constants_table[] = {
   {FLT_FUNCTION, 0, {.tfunc = t_func_generate_text}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_15}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_16}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_loop}},
+  {FLT_STRING_8, 15, {.str_8 = "<end of stream>"}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_17}},
-  {FLT_POSITIVE_INT64, 0, {.value = 1000}},
+  {FLT_FUNCTION, 0, {.tfunc = t_lambda_loop}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_18}},
+  {FLT_POSITIVE_INT64, 0, {.value = 1000}},
+  {FLT_FUNCTION, 0, {.tfunc = t_lambda_19}},
   {FLT_STRING_8, 1, {.str_8 = "\042"}},
   {FLT_STRING_8, 2, {.str_8 = "\042:"}},
   {FLT_STRING_8, 19, {.str_8 = "[%4|%3.1] %l18 %3.3"}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_19}},
-  {FLT_STRING_8, 23, {.str_8 = "-[%4|%3.1]-------------"}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_20}},
-  {FLT_STRING_8, 9, {.str_8 = "%l18 %3.3"}},
+  {FLT_STRING_8, 23, {.str_8 = "-[%4|%3.1]-------------"}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_21}},
-  {FLT_POSITIVE_INT64, 0, {.value = 5}},
+  {FLT_STRING_8, 9, {.str_8 = "%l18 %3.3"}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_22}},
+  {FLT_POSITIVE_INT64, 0, {.value = 5}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_23}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_24}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_25}},
@@ -1415,51 +1484,54 @@ static FUNKY_CONSTANT constants_table[] = {
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_27}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_28}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_29}},
-  {FLT_STRING_8, 3, {.str_8 = "\010 \010"}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_30}},
-  {FLT_NEGATIVE_INT64, 0, {.value = 1}},
+  {FLT_STRING_8, 3, {.str_8 = "\010 \010"}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_31}},
+  {FLT_NEGATIVE_INT64, 0, {.value = 1}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_32}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_print_piece}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_33}},
+  {FLT_FUNCTION, 0, {.tfunc = t_func_print_piece}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_34}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_35}},
-  {FLT_STRING_8, 18, {.str_8 = "minimum_confidence"}},
-  {FLT_STRING_8, 16, {.str_8 = "confidence_delta"}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_36}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_37}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_38}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_39}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_40}},
+  {FLT_FUNCTION, 0, {.tfunc = t_lambda_41}},
   {FLT_FUNCTION, 0, {.tfunc = t_func_ai_types__model___ai__tokenize}},
   {FLT_STRING_8, 73, {.str_8 = "POST /tokenize HTTP/1.1\015\012Content-Type: application/json\015\012Content-Length: "}},
   {FLT_FUNCTION, 0, {.tfunc = t_func_ai_types__model___ai__detokenize}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_41}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_42}},
+  {FLT_FUNCTION, 0, {.tfunc = t_lambda_43}},
   {FLT_FUNCTION, 0, {.tfunc = t_func_token_to_piece}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_any_ofpiece}},
   {FLT_CHARACTER, 0, {.value = 322}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_43}},
-  {FLT_STRING_8, 5, {.str_8 = "<???>"}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_44}},
+  {FLT_STRING_8, 5, {.str_8 = "<???>"}},
+  {FLT_FUNCTION, 0, {.tfunc = t_lambda_45}},
+  {FLT_FUNCTION, 0, {.tfunc = t_func_build_piece_table}},
+  {FLT_FUNCTION, 0, {.tfunc = t_lambda_46}},
+  {FLT_FUNCTION, 0, {.tfunc = t_lambda_47}},
+  {FLT_FUNCTION, 0, {.tfunc = t_lambda_48}},
   {FLT_FUNCTION, 0, {.tfunc = t_func_get_tokens}},
   {FLT_STRING_8, 5, {.str_8 = "model"}},
   {FLT_STRING_8, 5, {.str_8 = "dummy"}},
-  {FLT_KEY_VALUE_PAIR, 2, {.arguments = key_value_pair_336_1_arguments}},
+  {FLT_KEY_VALUE_PAIR, 2, {.arguments = key_value_pair_349_1_arguments}},
   {FLT_STRING_8, 75, {.str_8 = "POST /get_tokens HTTP/1.1\015\012Content-Type: application/json\015\012Content-Length: "}},
   {FLT_STRING_8, 15, {.str_8 = "begin_of_stream"}},
   {FLT_STRING_8, 13, {.str_8 = "end_of_stream"}},
   {FLT_FUNCTION, 0, {.tfunc = t_func_quoted}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_2_loop}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_45}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_46}},
+  {FLT_FUNCTION, 0, {.tfunc = t_lambda_49}},
+  {FLT_FUNCTION, 0, {.tfunc = t_lambda_50}},
   {FLT_CHARACTER, 0, {.value = 34}},
   {FLT_CHARACTER, 0, {.value = 92}},
-  {FLT_SEQUENCE, 2, {.arguments = sequence_369_2_arguments}},
+  {FLT_SEQUENCE, 2, {.arguments = sequence_382_2_arguments}},
   {FLT_CHARACTER, 0, {.value = 10}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_nl}},
   {FLT_STRING_8, 2, {.str_8 = "\134n"}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_47}}
+  {FLT_FUNCTION, 0, {.tfunc = t_lambda_51}}
 };
 
 static ATTRIBUTE_DEFINITION ai_types__model__attributes[] = {
@@ -1478,7 +1550,12 @@ static FUNKY_VARIABLE variables_table[] = {
   {
     FOT_UNKNOWN, 0, 0,
     "assign\000std", NULL,
-    {.position = POS(35, 1)}
+    {.position = POS(33, 1)}
+  },
+  {
+    FOT_POLYMORPHIC, 0, 0,
+    "piece_table_of\000ai", NULL,
+    {.has_a_setter = false}
   },
   {
     FOT_POLYMORPHIC, 0, 0,
@@ -1597,367 +1674,362 @@ static FUNKY_VARIABLE variables_table[] = {
   {
     FOT_UNKNOWN, 0, 0,
     "result_count\000", NULL,
-    {.position = POS(145, 32)}
+    {.position = POS(146, 32)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "equal\000std", NULL,
-    {.position = POS(145, 32)}
+    {.position = POS(146, 32)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "is_a_string\000", NULL,
-    {.position = POS(146, 26)}
+    {.position = POS(147, 26)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "146_1_use_tokens\000", NULL
+    "147_1_use_tokens\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
     "not\000", NULL,
-    {.position = POS(146, 15)}
+    {.position = POS(147, 15)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "key_value_pair\000std", NULL,
-    {.position = POS(155, 9)}
+    {.position = POS(156, 9)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "true\000", NULL,
-    {.position = POS(156, 20)}
+    {.position = POS(157, 20)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "insert_order_table\000", NULL,
-    {.position = POS(154, 7)}
+    {.position = POS(155, 7)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "to_json\000", NULL,
-    {.position = POS(153, 5)}
+    {.position = POS(154, 5)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "to_utf8\000", NULL,
-    {.position = POS(160, 3)}
-  },
-  {
-    FOT_UNKNOWN, 0, 0,
-    "open_tcp_socket\000", NULL,
     {.position = POS(161, 3)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "length_of\000", NULL,
-    {.position = POS(165, 23)}
-  },
-  {
-    FOT_UNKNOWN, 0, 0,
-    "string\000std", NULL,
-    {.position = POS(162, 16)}
-  },
-  {
-    FOT_UNKNOWN, 0, 0,
-    "print_to\000", NULL,
+    "open_tcp_socket\000", NULL,
     {.position = POS(162, 3)}
   },
   {
     FOT_UNKNOWN, 0, 0,
+    "length_of\000", NULL,
+    {.position = POS(166, 23)}
+  },
+  {
+    FOT_UNKNOWN, 0, 0,
+    "string\000std", NULL,
+    {.position = POS(163, 16)}
+  },
+  {
+    FOT_UNKNOWN, 0, 0,
+    "print_to\000", NULL,
+    {.position = POS(163, 3)}
+  },
+  {
+    FOT_UNKNOWN, 0, 0,
     "load\000", NULL,
-    {.position = POS(169, 3)}
+    {.position = POS(170, 3)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "behind\000", NULL,
-    {.position = POS(170, 3)}
+    {.position = POS(171, 3)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "171_1_info\000", NULL
+    "172_1_info\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
     "from_json\000", NULL,
-    {.position = POS(171, 16)}
+    {.position = POS(172, 16)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "174_1_logits\000", NULL
+    "175_1_logits\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
     "tuple\000", NULL,
-    {.position = POS(175, 28)}
+    {.position = POS(176, 28)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "map\000", NULL,
-    {.position = POS(175, 7)}
+    {.position = POS(176, 7)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "188_0_model\000", NULL
+    "189_0_model\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
     "false\000", NULL,
-    {.position = POS(197, 19)}
+    {.position = POS(198, 19)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "193_29_minimum_confidence\000", NULL
+    "194_29_minimum_confidence\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "194_27_maximum_length\000", NULL
+    "195_27_maximum_length\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "195_19_backtrack\000", NULL
+    "196_19_backtrack\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "196_19_log_level\000", NULL
+    "197_19_log_level\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "197_21_be_verbose\000", NULL
+    "198_21_be_verbose\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "198_25_use_colours\000", NULL
+    "199_25_use_colours\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
     "extract_options\000", NULL,
-    {.position = POS(192, 3)}
+    {.position = POS(193, 3)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "199_1_do_log\000", NULL
+    "200_1_do_log\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
     "less\000std", NULL,
-    {.position = POS(199, 23)}
+    {.position = POS(200, 23)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "update_if\000", NULL,
-    {.position = POS(200, 3)}
-  },
-  {
-    FOT_UNKNOWN, 0, 0,
-    "BLACK\000", NULL,
-    {.position = POS(201, 43)}
-  },
-  {
-    FOT_UNKNOWN, 0, 0,
-    "ansi_text_colour\000", NULL,
-    {.position = POS(201, 26)}
-  },
-  {
-    FOT_UNKNOWN, 0, 0,
-    "print\000", NULL,
-    {.position = POS(201, 19)}
-  },
-  {
-    FOT_UNKNOWN, 0, 0,
-    "on\000", NULL,
     {.position = POS(201, 3)}
   },
   {
     FOT_UNKNOWN, 0, 0,
+    "BLACK\000", NULL,
+    {.position = POS(202, 43)}
+  },
+  {
+    FOT_UNKNOWN, 0, 0,
+    "ansi_text_colour\000", NULL,
+    {.position = POS(202, 26)}
+  },
+  {
+    FOT_UNKNOWN, 0, 0,
+    "print\000", NULL,
+    {.position = POS(202, 19)}
+  },
+  {
+    FOT_UNKNOWN, 0, 0,
+    "on\000", NULL,
+    {.position = POS(202, 3)}
+  },
+  {
+    FOT_UNKNOWN, 0, 0,
     "put\000", NULL,
-    {.position = POS(204, 5)}
+    {.position = POS(205, 5)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "ansi_reset_colour\000", NULL,
-    {.position = POS(205, 26)}
+    {.position = POS(206, 26)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "println\000", NULL,
-    {.position = POS(206, 18)}
+    {.position = POS(207, 18)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "209_17_tokens\000", NULL
+    "210_17_tokens\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "209_24_text\000", NULL
+    "210_24_text\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "209_29_no\000", NULL
+    "210_29_no\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "210_1_t\000", NULL
+    "211_1_t\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
     "current_time\000", NULL,
-    {.position = POS(210, 8)}
+    {.position = POS(211, 8)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "211_28_next_token\000", NULL
+    "212_28_next_token\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "211_40_confidence_values\000", NULL
-  },
-  {
-    FOT_UNINITIALIZED, 0, 0,
-    "216_1_max_no\000", NULL
-  },
-  {
-    FOT_UNINITIALIZED, 0, 0,
-    "218_34_next_confidence\000", NULL
-  },
-  {
-    FOT_UNINITIALIZED, 0, 0,
-    "219_1_next_piece\000", NULL
-  },
-  {
-    FOT_UNKNOWN, 0, 0,
-    "minus\000std", NULL,
-    {.position = POS(221, 23)}
-  },
-  {
-    FOT_UNINITIALIZED, 0, 0,
-    "221_1_dt\000", NULL
-  },
-  {
-    FOT_UNKNOWN, 0, 0,
-    "times\000std", NULL,
-    {.position = POS(221, 17)}
-  },
-  {
-    FOT_UNKNOWN, 0, 0,
-    "not\000std", NULL,
-    {.position = POS(223, 28)}
-  },
-  {
-    FOT_UNKNOWN, 0, 0,
-    "format\000", NULL,
-    {.position = POS(226, 19)}
+    "212_40_confidence_values\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
     "eprintln\000", NULL,
-    {.position = POS(225, 17)}
+    {.position = POS(216, 11)}
+  },
+  {
+    FOT_UNINITIALIZED, 0, 0,
+    "219_1_max_no\000", NULL
+  },
+  {
+    FOT_UNINITIALIZED, 0, 0,
+    "221_34_next_confidence\000", NULL
+  },
+  {
+    FOT_UNINITIALIZED, 0, 0,
+    "222_1_next_piece\000", NULL
+  },
+  {
+    FOT_UNKNOWN, 0, 0,
+    "minus\000std", NULL,
+    {.position = POS(224, 23)}
+  },
+  {
+    FOT_UNINITIALIZED, 0, 0,
+    "224_1_dt\000", NULL
+  },
+  {
+    FOT_UNKNOWN, 0, 0,
+    "times\000std", NULL,
+    {.position = POS(224, 17)}
+  },
+  {
+    FOT_UNKNOWN, 0, 0,
+    "not\000std", NULL,
+    {.position = POS(226, 28)}
+  },
+  {
+    FOT_UNKNOWN, 0, 0,
+    "format\000", NULL,
+    {.position = POS(229, 19)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "next\000", NULL,
-    {.position = POS(237, 21)}
+    {.position = POS(240, 21)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "pass\000", NULL,
-    {.position = POS(238, 19)}
+    {.position = POS(241, 19)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "for_each\000", NULL,
-    {.position = POS(231, 17)}
+    {.position = POS(234, 17)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "or\000std", NULL,
-    {.position = POS(240, 13)}
+    {.position = POS(243, 13)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "trim_left\000", NULL,
-    {.position = POS(241, 46)}
+    {.position = POS(244, 46)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "append\000", NULL,
-    {.position = POS(245, 20)}
+    {.position = POS(248, 20)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "push\000", NULL,
-    {.position = POS(248, 21)}
+    {.position = POS(251, 21)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "plus\000std", NULL,
-    {.position = POS(250, 21)}
+    {.position = POS(253, 21)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "247_16_response\000", NULL
+    "250_16_response\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
     "extend_to\000", NULL,
-    {.position = POS(251, 19)}
+    {.position = POS(254, 19)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "is_empty\000", NULL,
-    {.position = POS(254, 32)}
+    {.position = POS(257, 32)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "and\000std", NULL,
-    {.position = POS(253, 23)}
+    {.position = POS(256, 23)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "dup\000", NULL,
-    {.position = POS(259, 30)}
+    {.position = POS(262, 30)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "range\000", NULL,
-    {.position = POS(261, 23)}
+    {.position = POS(264, 23)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "loop\000", NULL,
-    {.position = POS(217, 9)}
+    {.position = POS(220, 9)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "266_15_piece\000", NULL
+    "269_15_piece\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "266_21_confidence\000", NULL
+    "269_21_confidence\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "268_1_confidence_delta\000", NULL
-  },
-  {
-    FOT_UNKNOWN, 0, 0,
-    "edump\000", NULL,
-    {.position = POS(272, 13)}
+    "271_1_confidence_delta\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
     "negate\000std", NULL,
-    {.position = POS(276, 26)}
+    {.position = POS(276, 24)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "RED\000", NULL,
-    {.position = POS(277, 17)}
+    {.position = POS(277, 15)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "colour_mixture\000", NULL,
-    {.position = POS(275, 15)}
+    {.position = POS(275, 13)}
   },
   {
     FOT_UNKNOWN, 0, 0,
@@ -1972,7 +2044,7 @@ static FUNKY_VARIABLE variables_table[] = {
   {
     FOT_UNKNOWN, 0, 0,
     "cond\000", NULL,
-    {.position = POS(270, 9)}
+    {.position = POS(273, 9)}
   },
   {
     FOT_UNKNOWN, 0, 0,
@@ -2007,48 +2079,69 @@ static FUNKY_VARIABLE variables_table[] = {
     {.position = POS(328, 7)}
   },
   {
+    FOT_UNINITIALIZED, 0, 0,
+    "332_21_model\000", NULL
+  },
+  {
+    FOT_UNINITIALIZED, 0, 0,
+    "334_1_piece_table\000", NULL
+  },
+  {
+    FOT_UNKNOWN, 0, 0,
+    "empty_hash_table\000", NULL,
+    {.position = POS(334, 16)}
+  },
+  {
+    FOT_UNINITIALIZED, 0, 0,
+    "336_3_token\000", NULL
+  },
+  {
+    FOT_UNINITIALIZED, 0, 0,
+    "336_9_piece\000", NULL
+  },
+  {
     FOT_UNKNOWN, 0, 0,
     "from_utf8\000", NULL,
-    {.position = POS(347, 3)}
+    {.position = POS(360, 3)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "351_10_text\000", NULL
+    "364_10_text\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "352_1_buf\000", NULL
+    "365_1_buf\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "353_1_s\000", NULL
+    "366_1_s\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "354_1_n\000", NULL
+    "367_1_n\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "355_1_i\000", NULL
+    "368_1_i\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
     "inc\000", NULL,
-    {.position = POS(357, 5)}
+    {.position = POS(370, 5)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "362_1_chr\000", NULL
+    "375_1_chr\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
     "sequence\000std", NULL,
-    {.position = POS(369, 13)}
+    {.position = POS(382, 13)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "case\000", NULL,
-    {.position = POS(363, 9)}
+    {.position = POS(376, 9)}
   }
 };
 
@@ -2071,8 +2164,8 @@ FUNKY_MODULE module__ai__llama = {
   0, // number of required modules
   2, // number of defined namespaces
   1, // number of used namespaces
-  117, // number of constants
-  123, // number of variables
+  120, // number of constants
+  128, // number of variables
   NULL, // required modules
   defined_namespaces,
   used_namespaces,

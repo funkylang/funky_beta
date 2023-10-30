@@ -405,9 +405,22 @@ void interpreter(void) {
 	  set_argument(*TLS_code++, get_argument(callee_frame, *args++));
 	}
       } else {
-	// let - implies a single argument and result
-	set_argument(TLS_code[1], get_argument(TLS_frame, args[0]));
-	TLS_code += 2; // result count and result
+	if (TLS_argument_count == 1) {
+	  // a single argument and result
+	  set_argument(TLS_code[1], get_argument(TLS_frame, args[0]));
+	  TLS_code += 2; // result count and result
+	} else {
+	  // copy via TLS_arguments
+	  int i;
+	  for (i = 0; i < TLS_argument_count; ++i) {
+	    TLS_arguments[i] = get_argument(TLS_frame, args[i]);
+	  }
+	  ++TLS_code;
+	  for (i = 0; i < TLS_argument_count; ++i) {
+	    set_argument(TLS_code[i], TLS_arguments[i]);
+	  }
+	  TLS_code += TLS_argument_count;
+	}
       }
     }
     goto execute_statements;
