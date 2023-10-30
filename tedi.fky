@@ -2258,6 +2258,8 @@ $update_display:
   set_cursor &terminal cursor_x cursor_y
   if
     first_updated_y.is_defined:
+      update_if previous_y.is_defined && previous_y < first_updated_y
+	&first_updated_y -> previous_y
       extend_to &first_updated_y first_visible_y
       draw_lines !terminal
 	first_updated_y+1-first_visible_y first_updated_y last_updated_y

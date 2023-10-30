@@ -21,27 +21,112 @@
   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
 <namespace ai>
+<namespace ai_types>
 
-$ai::get_tokens:
-  $json
-    to_json
-      insert_order_table
-	"model" = "dummy"
-  open_tcp_socket! $fd "127.0.0.1" 8080
-  print_to! fd "
-    POST /get_tokens HTTP/1.1@cr;
-    Content-Type: application/json@cr;
-    Content-Length: @(length_of(json))@cr;
-    Connection: close@cr;
-    @cr;
-    @(json)
-  load! $result fd
-  behind &result "@cr;@nl;@cr;@nl;"
-  from_utf8 &result
-  $info result.from_json
-  -> info("tokens") info("begin_of_stream") info("end_of_stream")
+<allow unused>
 
-$ai::evaluate:
+#
+  Topic: AI
+
+  Funky currently supports large language models based on the llama.cpp project.
+
+# Attributes
+
+$ai::pieces_of ()
+  #
+    a list of pieces (token texts)
+
+$ai::begin_of_stream_token_of ()
+  #
+    the token no. used to denote the begin of a stream
+
+$ai::end_of_stream_token_of ()
+  #
+    the token no. used to denote the end of a stream
+
+$std::address_of ()
+  #
+    the (IP) address of the server
+
+$std::port_no_of ()
+  #
+    the port no. of the server
+
+# Methods
+
+$ai::evaluate ()
+  #
+    evaluate a prompt string or list of tokens
+
+$ai::tokenize ()
+  #
+    convert a string into a list of tokens
+
+$ai::detokenize ()
+  #
+    convert a single token or a list of tokens into a string
+
+$ai::generate ()
+  #
+    generate a response for the specified prompt
+
+# Options
+
+$ai::MINIMUM_CONFIDENCE .
+  #
+    the minimum confidence level to continue generation
+
+$ai::MAXIMUM_LENGTH .
+  #
+    the maximum number of tokens to generate
+
+$ai::BACKTRACK .
+  #
+    specfies the maximum number of backtracking steps
+
+$ai::LOG_LEVEL .
+  #
+    specifies the log level
+
+$ai::VERBOSE .
+  #
+    if set the response text will be displayed during generation
+
+$ai::USE_COLOURS .
+  #
+    use colours to display the response text
+
+# Prototype Objects
+
+$ai_types::model std_types::object
+  #
+    the base object for all AI models
+
+# Implementation
+
+$ai::load_ai_model:
+  #
+    load an AI model
+
+    Topic: AI
+  (
+    name # the name of the model
+  )
+  $model
+    ai_types::model
+      .name_of "wizard-vicuna-13b.Q4_K_M.gguf"
+      .address_of "127.0.0.1"
+      .port_no_of 8080
+  get_tokens!
+    !model.ai::pieces_of
+    !model.ai::begin_of_stream_token_of
+    !model.ai::end_of_stream_token_of
+  if
+    ai::pieces_of(model).is_an_error
+    -> ai::pieces_of(model)
+    -> model
+
+$ai_types::model/ai::evaluate:
   #
     evaluate a prompt and return a token string or confidence values
 
@@ -54,6 +139,7 @@ $ai::evaluate:
     Attention: In the case the prompt is a list of tokens a
     "*begin of stream*"-token will **not** be added automatically!
   (
+    self
     prompt
   )
   $do_return_confidence_values result_count() == 2
@@ -97,13 +183,118 @@ $ai::evaluate:
 	-> info("token")
 	-> info("content")
 
-$ai::tokenize: (prompt)
+$ai_types::model/ai::generate:
+  (
+    model
+    options*
+    prompt
+  )
+  extract_options options
+    ai::MINIMUM_CONFIDENCE = 15 $minimum_confidence
+    ai::MAXIMUM_LENGTH = 1024 $maximum_length
+    ai::BACKTRACK = 0 $backtrack
+    ai::LOG_LEVEL = 0 $log_level
+    ai::VERBOSE = false $be_verbose
+    ai::USE_COLOURS = false $use_colours
+  $do_log log_level > 0
+  update_if use_colours &be_verbose -> true
+  on use_colours: print! ansi_text_colour(BLACK)
+  ai::tokenize! $tokens model prompt
+  generate_text! $text $_max_no
+    put(tokens ai::begin_of_stream_token_of(model)) "" 0
+  on use_colours: print! ansi_reset_colour()
+  on be_verbose: println!
+  -> text
+
+  $generate_text: (tokens text no)
+    $t current_time()
+    ai::evaluate! model tokens $next_token $confidence_values
+    if
+      next_token == ai::end_of_stream_token_of(model)
+      -> text no
+      :
+	$max_no no
+	loop:
+	  confidence_values(1) !next_token $next_confidence
+	  $next_piece ai::detokenize(model next_token)
+	  on do_log:
+	    $dt 1000*(current_time()-t) # in ms
+	    if
+	      log_level <= 1:
+		$token_string "@quot;@(quoted(next_piece))@quot;:"
+		eprintln!
+		  format
+		    "[%4|%3.1] %l18 %3.3"
+		    no dt token_string next_confidence
+	      :
+		eprintln! format("-[%4|%3.1]-------------" no dt)
+		for_each confidence_values
+		  : (confidence_value)
+		    confidence_value $token $confidence
+		    $piece ai::detokenize(model token)
+		    $token_string "@quot;@(quoted(piece))@quot;:"
+		    eprintln! format("%l18 %3.3" token_string confidence)
+		    next!
+		  pass
+	  if
+	    next_confidence >= minimum_confidence || no < 5:
+	      update_if no == 0 &next_piece: trim_left next_piece
+	      print_piece! next_piece next_confidence
+	      if
+		no >= maximum_length
+		-> append(text next_piece) no
+		:
+		  generate_text! $response $highest_no
+		    push(tokens next_token)
+		    append(text next_piece)
+		    no+1
+		  extend_to &max_no highest_no
+		  if
+		    &&
+		      response.is_empty
+		      length_of(confidence_values) >= 1
+		      max_no <= no+backtrack
+		    :
+		      on use_colours: print! ansi_reset_colour()
+		      print! dup("@bs; @bs;" length_of(next_piece))
+		      on use_colours: print! ansi_text_colour(BLACK)
+		      range &confidence_values 2 -1
+		      next!
+		    -> response max_no
+	    -> "" max_no
+
+  $print_piece: (piece confidence)
+    on use_colours:
+      $confidence_delta confidence-minimum_confidence
+      $colour
+	cond
+	  -> confidence_delta < 0 ->
+	    colour_mixture
+	      BLACK = minimum_confidence+confidence_delta
+	      RED = -confidence_delta
+	  -> confidence_delta > 10 ->
+	    colour_mixture
+	      GREEN = 10
+	      WHITE = confidence_delta-10
+	  -> true ->
+	    colour_mixture
+	      RED = 10-confidence_delta
+	      GREEN = confidence_delta
+      print! ansi_background_colour(colour)
+    on be_verbose: print! piece
+
+
+$ai_types::model/ai::tokenize:
+  (
+    model
+    prompt
+  )
   $json
     to_json
       insert_order_table
 	"content" = prompt
   to_utf8 &json
-  open_tcp_socket! $fd "127.0.0.1" 8080
+  open_tcp_socket! $fd address_of(model) port_no_of(model)
   print_to! fd "
     POST /tokenize HTTP/1.1@cr;
     Content-Type: application/json@cr;
@@ -116,14 +307,33 @@ $ai::tokenize: (prompt)
   $info result.from_json
   -> info("tokens")
 
-$ai::detokenize: (tokens)
+$ai_types::model/ai::detokenize:
+  (
+    model
+    token_or_list
+  )
+  $pieces ai::pieces_of(model)
+  if
+    token_or_list.is_a_list
+    -> map_reduce(token_or_list token_to_piece append "")
+
+    -> token_to_piece(token_or_list)
+
+  $token_to_piece: (token)
+    $piece pieces(token+1)
+    if
+      any_of(piece: (chr) -> chr == '@0x142;')
+      -> "<???>" # 'Å' cannot be printed - why?
+      -> piece
+
+$get_tokens:
   $json
     to_json
       insert_order_table
-	"tokens" = tokens
+	"model" = "dummy"
   open_tcp_socket! $fd "127.0.0.1" 8080
   print_to! fd "
-    POST /detokenize HTTP/1.1@cr;
+    POST /get_tokens HTTP/1.1@cr;
     Content-Type: application/json@cr;
     Content-Length: @(length_of(json))@cr;
     Connection: close@cr;
@@ -131,6 +341,32 @@ $ai::detokenize: (tokens)
     @(json)
   load! $result fd
   behind &result "@cr;@nl;@cr;@nl;"
+  from_utf8 &result
   $info result.from_json
-  -> info("content").from_utf8
+  -> info("tokens") info("begin_of_stream") info("end_of_stream")
 
+$quoted: (text)
+  $buf ""
+  $s 1
+  $n length_of(text)
+  $i 0
+  loop:
+    inc &i
+    if
+      i > n
+      -> append(buf range(text s n))
+      :
+	$chr text(i)
+	case chr
+	  '@nl;':
+	    append &buf range(text s i-1)
+	    append &buf "\n"
+	    !s i+1
+	    next
+	  '@quot;', '\':
+	    append &buf range(text s i-1)
+	    push &buf '\'
+	    push &buf chr
+	    !s i+1
+	    next
+	  next
