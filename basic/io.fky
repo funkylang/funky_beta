@@ -266,7 +266,7 @@ $std_types::string/save:
   )
   open! $fh filename "w+"
   check fh
-  print_to! fh data
+  write_all_to! fh data
   close! fh
 
 $std::try:
@@ -382,7 +382,7 @@ $std::call: (cmd args)
 		      append &out data
 		      next!
 		    :
-		      print_to! STDOUT_FILENO data
+		      write_all_to! STDOUT_FILENO data
 		      next!
 		err_fd:
 		  if
@@ -390,7 +390,7 @@ $std::call: (cmd args)
 		      append &err data
 		      next!
 		    :
-		      print_to! STDERR_FILENO data
+		      write_all_to! STDERR_FILENO data
 		      next!
 		:
 		  next!

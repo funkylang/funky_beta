@@ -215,7 +215,7 @@ enum {
   var_close, // extern
   var_std__save, // attribute
   var_save, // extern polymorphic
-  var_print_to, // extern
+  var_write_all_to, // extern
   var_std__try, // initialized
   var_undefined, // extern
   var_std__check, // initialized
@@ -710,8 +710,8 @@ static TAB_NUM t_func_std_types__string___save[] = {
   var_open, 2, LOCAL(1), str_w, IO_CALL(1), LOCAL(3),
   // check fh
   var_check, 1, LOCAL(3), 0,
-  // print_to! fh data
-  var_print_to, 2, LOCAL(3), LOCAL(2), IO_CALL(0),
+  // write_all_to! fh data
+  var_write_all_to, 2, LOCAL(3), LOCAL(2), IO_CALL(0),
   // close! fh
   var_close, 1, LOCAL(3), IO_TAIL_CALL,
   POS(267, 3),
@@ -1073,8 +1073,8 @@ static TAB_NUM t_lambda_do_collect_output[] = {
 static TAB_NUM t_lambda_22[] = {
   0, // locals
   0, // parameters
-  // print_to! STDOUT_FILENO data
-  var_print_to, 2, var_STDOUT_FILENO, var_369_17_data, IO_CALL(0),
+  // write_all_to! STDOUT_FILENO data
+  var_write_all_to, 2, var_STDOUT_FILENO, var_369_17_data, IO_CALL(0),
   // next!
   var_next, 0, IO_TAIL_CALL,
   POS(385, 23),
@@ -1103,8 +1103,8 @@ static TAB_NUM t_lambda_do_collect_error_output[] = {
 static TAB_NUM t_lambda_23[] = {
   0, // locals
   0, // parameters
-  // print_to! STDERR_FILENO data
-  var_print_to, 2, var_STDERR_FILENO, var_369_17_data, IO_CALL(0),
+  // write_all_to! STDERR_FILENO data
+  var_write_all_to, 2, var_STDERR_FILENO, var_369_17_data, IO_CALL(0),
   // next!
   var_next, 0, IO_TAIL_CALL,
   POS(393, 23),
@@ -2482,7 +2482,7 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "print_to\000", NULL,
+    "write_all_to\000", NULL,
     {.position = POS(269, 3)}
   },
   {

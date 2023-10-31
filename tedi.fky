@@ -236,6 +236,7 @@ on terminal.is_an_error:
 quit!
 
 $event_loop:
+  $rc result_count()
   loop:
     get_events! &io $events
     for_each events
@@ -298,7 +299,11 @@ $event_loop:
 				    !window.action_of undefined
 				    if
 				      EXIT == action
-				      -> terminal window lines
+				      :
+					if
+					  rc == 4
+					  -> terminal window lines key
+					  -> terminal window lines
 				      :
 					action! !terminal !window !lines
 					maybe_remove_selection !terminal !window
@@ -388,6 +393,7 @@ $is_a_horizontal_selection: (key)
 
 $newline split_line
 $escape do_nothing
+$alt_return toggle_folding
 
 $handle_key: (key)
   !current_key key
@@ -459,7 +465,7 @@ $handle_key: (key)
     CTRL_DELETE delete_to_line_end
     ALT_SPACE smart_completion
     CTRL_SPACE -> window(.action_of ai_completion) lines
-    ALT_RETURN toggle_folding
+    ALT_RETURN alt_return
     ALT_CURSOR_LEFT fold_contents
     ALT_CURSOR_RIGHT unfold_contents
     ALT_CURSOR_UP fold_everything
@@ -1636,6 +1642,7 @@ $find_text: (do_search_backwards)
       .y_of length_of(lines)+1
       .colour_set_of colour_sets(2)
   !newline -> window(.action_of EXIT) lines
+  !alt_return -> window(.action_of EXIT) lines
   !escape -> window(.action_of EXIT) empty_list
   define_window &terminal
     left_x_of(window) top_y_of(window)
@@ -1643,7 +1650,8 @@ $find_text: (do_search_backwards)
   update_display !terminal !window
   update_terminal &terminal $output
   print! output
-  event_loop! !terminal $search_window $search_lines
+  event_loop! !terminal $search_window $search_lines $key
+  update_if key == ALT_RETURN &do_search_backwards -> true
   !window editor_window
   !lines editor_lines
   draw_command_bar !terminal

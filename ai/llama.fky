@@ -86,6 +86,10 @@ $ai::MAXIMUM_LENGTH .
   #
     the maximum number of tokens to generate
 
+$ai::STOP .
+  #
+    a stop text
+
 $ai::BACKTRACK .
   #
     specfies the maximum number of backtracking steps
@@ -123,7 +127,7 @@ $ai::load_ai_model:
       .name_of name
       .address_of "127.0.0.1"
       .port_no_of 8080
-  get_tokens!
+  get_tokens! model
     !model.ai::pieces_of
     !model.ai::begin_of_stream_token_of
     !model.ai::end_of_stream_token_of
@@ -199,6 +203,7 @@ $ai_types::model/ai::generate:
   extract_options options
     ai::MINIMUM_CONFIDENCE = 15 $minimum_confidence
     ai::MAXIMUM_LENGTH = 1024 $maximum_length
+    ai::STOP = undefined $stop_text
     ai::BACKTRACK = 0 $backtrack
     ai::LOG_LEVEL = 0 $log_level
     ai::VERBOSE = false $be_verbose
@@ -214,69 +219,75 @@ $ai_types::model/ai::generate:
   -> text
 
   $generate_text: (tokens text no)
-    $t current_time()
-    ai::evaluate! model tokens $next_token $confidence_values
     if
-      next_token == ai::end_of_stream_token_of(model):
-	on do_log:
-	  eprintln! "<end of stream>"
-	-> text no
+      stop_text.is_defined && text .contains. stop_text
+      -> text no
       :
-	$max_no no
-	loop:
-	  confidence_values(1) !next_token $next_confidence
-	  $next_piece ai::detokenize(model next_token)
-	  on do_log:
-	    $dt 1000*(current_time()-t) # in ms
-	    if
-	      log_level <= 1:
-		$token_string "@quot;@(quoted(next_piece))@quot;:"
-		eprintln!
-		  format
-		    "[%4|%3.1] %l18 %3.3"
-		    no dt token_string next_confidence
-	      :
-		eprintln! format("-[%4|%3.1]-------------" no dt)
-		for_each confidence_values
-		  : (confidence_value)
-		    confidence_value $token $confidence
-		    $piece ai::detokenize(model token)
-		    $token_string "@quot;@(quoted(piece))@quot;:"
-		    eprintln! format("%l18 %3.3" token_string confidence)
-		    next!
-		  pass
-	  if
-	    next_confidence >= minimum_confidence || no < 5:
-	      update_if no == 0 &next_piece: trim_left next_piece
-	      print_piece! next_piece next_confidence
+	$t current_time()
+	ai::evaluate! model tokens $next_token $confidence_values
+	if
+	  next_token == ai::end_of_stream_token_of(model):
+	    on do_log:
+	      eprintln! "<end of stream>"
+	    -> text no
+	  :
+	    $max_no no
+	    loop:
+	      confidence_values(1) !next_token $next_confidence
+	      $next_piece ai::detokenize(model next_token)
+	      on do_log:
+		$dt 1000*(current_time()-t) # in ms
+		if
+		  log_level <= 1:
+		    $token_string "@quot;@(quoted(next_piece))@quot;:"
+		    eprintln!
+		      format
+			"[%4|%3.1] %l18 %3.3"
+			no dt token_string next_confidence
+		  :
+		    eprintln! format("-[%4|%3.1]-------------" no dt)
+		    for_each confidence_values
+		      : (confidence_value)
+			confidence_value $token $confidence
+			$piece ai::detokenize(model token)
+			$token_string "@quot;@(quoted(piece))@quot;:"
+			eprintln! format("%l18 %3.3" token_string confidence)
+			next!
+		      pass
 	      if
-		no >= maximum_length
-		-> append(text next_piece) no
-		:
-		  generate_text! $response $highest_no
-		    push(tokens next_token)
-		    append(text next_piece)
-		    no+1
-		  extend_to &max_no highest_no
+		next_confidence >= minimum_confidence || no < 5:
+		  update_if no == 0 &next_piece: trim_left next_piece
+		  print_piece! next_piece next_confidence
 		  if
-		    response.is_empty:
+		    no >= maximum_length
+		    -> append(text next_piece) no
+		    :
+		      generate_text! $response $highest_no
+			push(tokens next_token)
+			append(text next_piece)
+			no+1
+		      extend_to &max_no highest_no
 		      if
-			next_piece == "@nl;"
-			-> push(text '@nl;') max_no # stop backtracking
-			:
+			response.is_empty:
 			  if
-			    ||
-			      confidence_values.is_empty
-			      max_no > no+backtrack
-			    -> "" max_no
+			    next_piece == "@nl;"
+			    -> push(text '@nl;') max_no # stop backtracking
 			    :
-			      on use_colours: print! ansi_reset_colour()
-			      print! dup("@bs; @bs;" length_of(next_piece))
-			      on use_colours: print! ansi_text_colour(BLACK)
-			      range &confidence_values 2 -1
-			      next!
-		    -> response max_no
-	    -> "" max_no
+			      if
+				||
+				  length_of(confidence_values) > 1
+				  max_no > no+backtrack
+				-> "" max_no
+				:
+				  on use_colours: print! ansi_reset_colour()
+				  on be_verbose: print!
+				    dup("@bs; @bs;" length_of(next_piece))
+				  on use_colours: print! ansi_text_colour(BLACK)
+				  range &confidence_values 2 -1
+				  edump `confidence_values
+				  next!
+			-> response max_no
+		-> "" max_no
 
   $print_piece: (piece confidence)
     on use_colours:
@@ -369,7 +380,7 @@ $ai_types::model/ai::detokenize:
     $piece pieces(token+1)
     if
       any_of(piece: (chr) -> chr == '@0x142;')
-      -> "<???>" # 'ÃÂ' cannot be printed - why?
+      -> "<???>" # 'ł' cannot be printed - why?
       -> piece
 
 $build_piece_table: (model)
