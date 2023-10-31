@@ -259,16 +259,22 @@ $ai_types::model/ai::generate:
 		    no+1
 		  extend_to &max_no highest_no
 		  if
-		    &&
-		      response.is_empty
-		      length_of(confidence_values) >= 1
-		      max_no <= no+backtrack
-		    :
-		      on use_colours: print! ansi_reset_colour()
-		      print! dup("@bs; @bs;" length_of(next_piece))
-		      on use_colours: print! ansi_text_colour(BLACK)
-		      range &confidence_values 2 -1
-		      next!
+		    response.is_empty:
+		      if
+			next_piece == "@nl;"
+			-> push(text '@nl;') max_no # stop backtracking
+			:
+			  if
+			    ||
+			      confidence_values.is_empty
+			      max_no > no+backtrack
+			    -> "" max_no
+			    :
+			      on use_colours: print! ansi_reset_colour()
+			      print! dup("@bs; @bs;" length_of(next_piece))
+			      on use_colours: print! ansi_text_colour(BLACK)
+			      range &confidence_values 2 -1
+			      next!
 		    -> response max_no
 	    -> "" max_no
 
@@ -292,6 +298,37 @@ $ai_types::model/ai::generate:
       print! ansi_background_colour(colour)
     on be_verbose: print! piece
 
+#$ai_types::model/ai::tokenize:
+  (
+    model
+    text
+  )
+  $tokens empty_list
+  $i 1
+  $n length_of(text)
+  $piece_table ai::piece_table_of(model)
+  $max_offset ai::maximum_piece_length_of(model)-1
+  loop
+    :
+      if
+	i > n
+	break
+	:
+	  from_to_by max_offset 0 -1
+	    : (offset)
+	      if
+		i+offset > n
+		next
+		:
+		  $token piece_table(range(text i i+offset))
+		  if
+		    token.is_defined:
+		      push &tokens token
+		      plus &i offset+1
+		      break
+		    next
+	    next
+    -> tokens
 
 $ai_types::model/ai::tokenize:
   (
@@ -332,7 +369,7 @@ $ai_types::model/ai::detokenize:
     $piece pieces(token+1)
     if
       any_of(piece: (chr) -> chr == '@0x142;')
-      -> "<???>" # 'Å' cannot be printed - why?
+      -> "<???>" # 'ÃÂ' cannot be printed - why?
       -> piece
 
 $build_piece_table: (model)
