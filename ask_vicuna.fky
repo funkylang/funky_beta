@@ -83,7 +83,7 @@ $DETAILED
     -> " detailed"
     -> ""
 
-load_ai_model! $vicuna "wizard-vicuna-13b.Q4_K_M.gguf"
+load_ai_model! $vicuna "vicuna-13b-v1.5.Q4_K_M.gguf"
 
 generate! vicuna $response
   MINIMUM_CONFIDENCE = minimum_confidence

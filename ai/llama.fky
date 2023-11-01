@@ -60,6 +60,10 @@ $std::port_no_of ()
 
 # Methods
 
+$ai::get_tokens ()
+  #
+    get the model's token list
+
 $ai::evaluate ()
   #
     evaluate a prompt string or list of tokens
@@ -127,7 +131,7 @@ $ai::load_ai_model:
       .name_of name
       .address_of "127.0.0.1"
       .port_no_of 8080
-  get_tokens! model
+  ai::get_tokens! model
     !model.ai::pieces_of
     !model.ai::begin_of_stream_token_of
     !model.ai::end_of_stream_token_of
@@ -164,6 +168,7 @@ $ai_types::model/ai::evaluate:
     to_json
       insert_order_table
 	PROMPT = prompt
+	"model" = name_of(model)
 	"logits" = true # also disables server side token selection
 	"brief" = true
 	"n_probs" = 10
@@ -275,7 +280,7 @@ $ai_types::model/ai::generate:
 			    :
 			      if
 				||
-				  length_of(confidence_values) > 1
+				  length_of(confidence_values) < 2
 				  max_no > no+backtrack
 				-> "" max_no
 				:
@@ -284,7 +289,6 @@ $ai_types::model/ai::generate:
 				    dup("@bs; @bs;" length_of(next_piece))
 				  on use_colours: print! ansi_text_colour(BLACK)
 				  range &confidence_values 2 -1
-				  edump `confidence_values
 				  next!
 			-> response max_no
 		-> "" max_no
@@ -309,38 +313,6 @@ $ai_types::model/ai::generate:
       print! ansi_background_colour(colour)
     on be_verbose: print! piece
 
-#$ai_types::model/ai::tokenize:
-  (
-    model
-    text
-  )
-  $tokens empty_list
-  $i 1
-  $n length_of(text)
-  $piece_table ai::piece_table_of(model)
-  $max_offset ai::maximum_piece_length_of(model)-1
-  loop
-    :
-      if
-	i > n
-	break
-	:
-	  from_to_by max_offset 0 -1
-	    : (offset)
-	      if
-		i+offset > n
-		next
-		:
-		  $token piece_table(range(text i i+offset))
-		  if
-		    token.is_defined:
-		      push &tokens token
-		      plus &i offset+1
-		      break
-		    next
-	    next
-    -> tokens
-
 $ai_types::model/ai::tokenize:
   (
     model
@@ -349,6 +321,7 @@ $ai_types::model/ai::tokenize:
   $json
     to_json
       insert_order_table
+	"model" = name_of(model)
 	"content" = prompt
   to_utf8 &json
   open_tcp_socket! $fd address_of(model) port_no_of(model)
@@ -399,12 +372,17 @@ $build_piece_table: (model)
 	.ai::piece_table_of piece_table
 	.ai::maximum_piece_length_of map_reduce(pieces length_of max)
 
-$get_tokens:
+$ai_types::model/ai::get_tokens:
+  #
+    get the model's token list
+  (
+    model # the model object
+  )
   $json
     to_json
       insert_order_table
-	"model" = "dummy"
-  open_tcp_socket! $fd "127.0.0.1" 8080
+	"model" = name_of(model)
+  open_tcp_socket! $fd address_of(model) port_no_of(model)
   print_to! fd "
     POST /get_tokens HTTP/1.1@cr;
     Content-Type: application/json@cr;
@@ -413,10 +391,15 @@ $get_tokens:
     @cr;
     @(json)
   load! $result fd
-  behind &result "@cr;@nl;@cr;@nl;"
-  from_utf8 &result
-  $info result.from_json
-  -> info("tokens") info("begin_of_stream") info("end_of_stream")
+  $error_code between(result ' ' ' ').to_integer
+  if
+    error_code >= 300:
+      error result .behind. "@cr;@nl;@cr;@nl;"
+    :
+      behind &result "@cr;@nl;@cr;@nl;"
+      from_utf8 &result
+      $info result.from_json
+      -> info("tokens") info("begin_of_stream") info("end_of_stream")
 
 $quoted: (text)
   $buf ""

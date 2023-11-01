@@ -455,6 +455,7 @@ $handle_key: (key)
     CTRL_Q -> window(.action_of quit) lines
     CTRL_R -> window(.action_of replace) lines
     CTRL_S -> window(.action_of save_contents) lines
+    CTRL_ALT_S -> window(.action_of save_with_leading_spaces) lines
     CTRL_T toggle_permanent_selection
     CTRL_U set_upper_bound
     CTRL_V paste
@@ -1186,6 +1187,10 @@ $save_contents:
   save! filename lines_to_text(lines)
   -> terminal window lines
 
+$save_with_leading_spaces:
+  save! filename lines_to_spaced_text(lines)
+  -> terminal window lines
+
 $lines_to_text: (some_lines)
   map_reduce some_lines
     : (line)
@@ -1196,6 +1201,21 @@ $lines_to_text: (some_lines)
 	  if
 	    folds.is_defined
 	    -> append(line_text lines_to_text(folds))
+	    -> line_text
+	-> "@nl;"
+    append
+    ""
+
+$lines_to_spaced_text: (some_lines)
+  map_reduce some_lines
+    : (line)
+      if
+	line.is_defined:
+	  line $indent $text $_marks $folds
+	  $line_text append(spaces(indent) text.to_utf8 "@nl;")
+	  if
+	    folds.is_defined
+	    -> append(line_text lines_to_spaced_text(folds))
 	    -> line_text
 	-> "@nl;"
     append

@@ -224,6 +224,7 @@ $escape_sequences
   list
     " " = ALT_SPACE
     "@cr;" = ALT_RETURN
+    "@0x13;" = CTRL_ALT_S
     "OP" = F1
     "OQ" = F2
     "OR" = F3
@@ -421,6 +422,8 @@ $std::SHIFT_CTRL_HOME .
 $std::SHIFT_CTRL_END .
 $std::SHIFT_CTRL_PAGE_UP .
 $std::SHIFT_CTRL_PAGE_DOWN .
+
+$std::CTRL_ALT_S .
 
 $ctrl_key
   list
