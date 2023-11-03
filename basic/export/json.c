@@ -45,11 +45,23 @@ enum {
   lambda_10 = -36,
   chr_34 = -37,
   chr_92 = -38,
-  sequence_78_2 = -39,
+  sequence_98_2 = -39,
   chr_10 = -40,
   lambda_nl = -41,
   str_n = -42,
-  lambda_11 = -43
+  chr_13 = -43,
+  lambda_cr = -44,
+  str_r = -45,
+  chr_9 = -46,
+  lambda_ht = -47,
+  str_t = -48,
+  chr_8 = -49,
+  lambda_bs = -50,
+  str_b = -51,
+  chr_12 = -52,
+  lambda_ff = -53,
+  str_f = -54,
+  lambda_11 = -55
 };
 
 enum {
@@ -324,7 +336,7 @@ static TAB_NUM t_lambda_10[] = {
   // $chr text(i)
   var_60_10_text, 1, var_64_1_i, 1, var_71_1_chr,
   // case chr
-  var_case, 6, var_71_1_chr, chr_10, lambda_nl, sequence_78_2, lambda_11, var_next, TAIL_CALL,
+  var_case, 14, var_71_1_chr, chr_10, lambda_nl, chr_13, lambda_cr, chr_9, lambda_ht, chr_8, lambda_bs, chr_12, lambda_ff, sequence_98_2, lambda_11, var_next, TAIL_CALL,
   POS(71, 9),
   POS(72, 9)
 };
@@ -352,6 +364,98 @@ static TAB_NUM t_lambda_nl[] = {
   POS(77, 13)
 };
 
+static TAB_NUM t_lambda_cr[] = {
+  2, // locals
+  0, // parameters
+  // i-1)
+  var_std__minus, 2, var_64_1_i, num_1, 1, LOCAL(1),
+  // range(text s i-1)
+  var_range, 3, var_60_10_text, var_62_1_s, LOCAL(1), 1, LOCAL(2),
+  // append &buf range(text s i-1)
+  var_append, 2, var_61_1_buf, LOCAL(2), 1, var_61_1_buf,
+  // append &buf "\r"
+  var_append, 2, var_61_1_buf, str_r, 1, var_61_1_buf,
+  // !s i+1
+  var_std__plus, 2, var_64_1_i, num_1, 1, var_62_1_s,
+  // next
+  var_next, 0, TAIL_CALL,
+  POS(79, 38),
+  POS(79, 25),
+  POS(79, 13),
+  POS(80, 13),
+  POS(81, 13),
+  POS(82, 13)
+};
+
+static TAB_NUM t_lambda_ht[] = {
+  2, // locals
+  0, // parameters
+  // i-1)
+  var_std__minus, 2, var_64_1_i, num_1, 1, LOCAL(1),
+  // range(text s i-1)
+  var_range, 3, var_60_10_text, var_62_1_s, LOCAL(1), 1, LOCAL(2),
+  // append &buf range(text s i-1)
+  var_append, 2, var_61_1_buf, LOCAL(2), 1, var_61_1_buf,
+  // append &buf "\t"
+  var_append, 2, var_61_1_buf, str_t, 1, var_61_1_buf,
+  // !s i+1
+  var_std__plus, 2, var_64_1_i, num_1, 1, var_62_1_s,
+  // next
+  var_next, 0, TAIL_CALL,
+  POS(84, 38),
+  POS(84, 25),
+  POS(84, 13),
+  POS(85, 13),
+  POS(86, 13),
+  POS(87, 13)
+};
+
+static TAB_NUM t_lambda_bs[] = {
+  2, // locals
+  0, // parameters
+  // i-1)
+  var_std__minus, 2, var_64_1_i, num_1, 1, LOCAL(1),
+  // range(text s i-1)
+  var_range, 3, var_60_10_text, var_62_1_s, LOCAL(1), 1, LOCAL(2),
+  // append &buf range(text s i-1)
+  var_append, 2, var_61_1_buf, LOCAL(2), 1, var_61_1_buf,
+  // append &buf "\b"
+  var_append, 2, var_61_1_buf, str_b, 1, var_61_1_buf,
+  // !s i+1
+  var_std__plus, 2, var_64_1_i, num_1, 1, var_62_1_s,
+  // next
+  var_next, 0, TAIL_CALL,
+  POS(89, 38),
+  POS(89, 25),
+  POS(89, 13),
+  POS(90, 13),
+  POS(91, 13),
+  POS(92, 13)
+};
+
+static TAB_NUM t_lambda_ff[] = {
+  2, // locals
+  0, // parameters
+  // i-1)
+  var_std__minus, 2, var_64_1_i, num_1, 1, LOCAL(1),
+  // range(text s i-1)
+  var_range, 3, var_60_10_text, var_62_1_s, LOCAL(1), 1, LOCAL(2),
+  // append &buf range(text s i-1)
+  var_append, 2, var_61_1_buf, LOCAL(2), 1, var_61_1_buf,
+  // append &buf "\f"
+  var_append, 2, var_61_1_buf, str_f, 1, var_61_1_buf,
+  // !s i+1
+  var_std__plus, 2, var_64_1_i, num_1, 1, var_62_1_s,
+  // next
+  var_next, 0, TAIL_CALL,
+  POS(94, 38),
+  POS(94, 25),
+  POS(94, 13),
+  POS(95, 13),
+  POS(96, 13),
+  POS(97, 13)
+};
+
 static TAB_NUM t_lambda_11[] = {
   2, // locals
   0, // parameters
@@ -369,16 +473,16 @@ static TAB_NUM t_lambda_11[] = {
   var_std__plus, 2, var_64_1_i, num_1, 1, var_62_1_s,
   // next
   var_next, 0, TAIL_CALL,
-  POS(79, 38),
-  POS(79, 25),
-  POS(79, 13),
-  POS(80, 13),
-  POS(81, 13),
-  POS(82, 13),
-  POS(83, 13)
+  POS(99, 38),
+  POS(99, 25),
+  POS(99, 13),
+  POS(100, 13),
+  POS(101, 13),
+  POS(102, 13),
+  POS(103, 13)
 };
 
-static int sequence_78_2_arguments[] = {
+static int sequence_98_2_arguments[] = {
   -chr_34, -chr_92
 };
 
@@ -421,10 +525,22 @@ static FUNKY_CONSTANT constants_table[] = {
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_10}},
   {FLT_CHARACTER, 0, {.value = 34}},
   {FLT_CHARACTER, 0, {.value = 92}},
-  {FLT_SEQUENCE, 2, {.arguments = sequence_78_2_arguments}},
+  {FLT_SEQUENCE, 2, {.arguments = sequence_98_2_arguments}},
   {FLT_CHARACTER, 0, {.value = 10}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_nl}},
   {FLT_STRING_8, 2, {.str_8 = "\134n"}},
+  {FLT_CHARACTER, 0, {.value = 13}},
+  {FLT_FUNCTION, 0, {.tfunc = t_lambda_cr}},
+  {FLT_STRING_8, 2, {.str_8 = "\134r"}},
+  {FLT_CHARACTER, 0, {.value = 9}},
+  {FLT_FUNCTION, 0, {.tfunc = t_lambda_ht}},
+  {FLT_STRING_8, 2, {.str_8 = "\134t"}},
+  {FLT_CHARACTER, 0, {.value = 8}},
+  {FLT_FUNCTION, 0, {.tfunc = t_lambda_bs}},
+  {FLT_STRING_8, 2, {.str_8 = "\134b"}},
+  {FLT_CHARACTER, 0, {.value = 12}},
+  {FLT_FUNCTION, 0, {.tfunc = t_lambda_ff}},
+  {FLT_STRING_8, 2, {.str_8 = "\134f"}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_11}}
 };
 
@@ -600,7 +716,7 @@ static FUNKY_VARIABLE variables_table[] = {
   {
     FOT_UNKNOWN, 0, 0,
     "sequence\000std", NULL,
-    {.position = POS(78, 13)}
+    {.position = POS(98, 13)}
   },
   {
     FOT_UNKNOWN, 0, 0,
@@ -615,7 +731,7 @@ static FUNKY_VARIABLE variables_table[] = {
   {
     FOT_UNKNOWN, 0, 0,
     "push\000", NULL,
-    {.position = POS(80, 13)}
+    {.position = POS(100, 13)}
   },
   {
     FOT_UNKNOWN, 0, 0,
@@ -643,7 +759,7 @@ FUNKY_MODULE module__basic__export__json = {
   0, // number of required modules
   0, // number of defined namespaces
   1, // number of used namespaces
-  43, // number of constants
+  55, // number of constants
   36, // number of variables
   NULL, // required modules
   NULL, // defined namespaces

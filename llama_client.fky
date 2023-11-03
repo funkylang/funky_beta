@@ -61,6 +61,10 @@ program_parameters!
   list
     "detailed" "
       request a more detailed answer
+  $model_name
+  list
+    VALUED_OPTION "model" "vicuna-13b-v1.5.Q4_K_M.gguf" "
+      the model to use
   $prompt
   list
     MANDATORY_PARAMETER "prompt" "
@@ -70,6 +74,7 @@ $do_log log_level > 0
 
 on do_log:
   eprint! "
+    model: @(model_name)
     minimum confidence: @(minimum_confidence)
     maximum length: @(maximum_length)
     backtrack: @(backtrack)
@@ -83,9 +88,9 @@ $DETAILED
     -> " detailed"
     -> ""
 
-load_ai_model! $vicuna "wizard-vicuna-13b.Q4_K_M.gguf"
+load_ai_model! $model model_name
 
-generate! vicuna $response
+generate! model $response
   MINIMUM_CONFIDENCE = minimum_confidence
   MAXIMUM_LENGTH = maximum_length
   BACKTRACK = backtrack

@@ -63,12 +63,12 @@ program_parameters!
       request a more detailed answer
   $model_name
   list
-    VALUED_OPTION "model" "vicuna-13b-v1.5.Q4_K_M.gguf" "
+    VALUED_OPTION "model" "vicuna-13b-v1.5-16k.Q4_0.gguf" "
       the model to use
-  $question
+  $term
   list
-    MANDATORY_PARAMETER "question" "
-      the question you want to ask
+    MANDATORY_PARAMETER "term" "
+      the term to be explained
 
 $do_log log_level > 0
 
@@ -88,21 +88,20 @@ $DETAILED
     -> " detailed"
     -> ""
 
-load_ai_model! $vicuna model_name
+load_ai_model! $model model_name
 
-generate! vicuna $response
+generate! model $response
   MINIMUM_CONFIDENCE = minimum_confidence
   MAXIMUM_LENGTH = maximum_length
   BACKTRACK = backtrack
   LOG_LEVEL = log_level
   VERBOSE = verbose
-  STOP = "###"
   USE_COLOURS = use_colours
   "
     Below is an instruction that describes a task, paired with an input that @
     provides further context. Write a@(DETAILED) response that appropriately @
     completes the request.
-    ### Instruction: @(question)
+    ### Instruction: Explain the term "@(term)".
     ### Response:@
 
 println! response

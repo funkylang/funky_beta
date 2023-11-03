@@ -954,8 +954,7 @@ $split_line:
 	  insert_empty_line 0
 
   $insert_empty_line: (indent)
-    !lines
-      append(push(range(lines 1 y) undefined) range(lines y+1 -1))
+    !lines append(push(range(lines 1 y) undefined) range(lines y+1 -1))
     !window.first_updated_y_of y+1
     !window.last_updated_y_of END
     !window.x_of indent+1

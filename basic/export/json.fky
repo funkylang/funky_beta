@@ -75,6 +75,26 @@ $quoted: (text)
 	    append &buf "\n"
 	    !s i+1
 	    next
+	  '@cr;':
+	    append &buf range(text s i-1)
+	    append &buf "\r"
+	    !s i+1
+	    next
+	  '@ht;':
+	    append &buf range(text s i-1)
+	    append &buf "\t"
+	    !s i+1
+	    next
+	  '@bs;':
+	    append &buf range(text s i-1)
+	    append &buf "\b"
+	    !s i+1
+	    next
+	  '@ff;':
+	    append &buf range(text s i-1)
+	    append &buf "\f"
+	    !s i+1
+	    next
 	  '@quot;', '\':
 	    append &buf range(text s i-1)
 	    push &buf '\'

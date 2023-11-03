@@ -155,6 +155,9 @@ ctrl r
 ctrl s
   saves the current contents
 
+ctrl alt s
+  saves the current contents using only leading *spaces* (no tabulators)
+
 ctrl t
   starts the permanent selection mode
 
