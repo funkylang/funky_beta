@@ -1728,20 +1728,44 @@ $RIGHT .
 $CENTER .
 
 $std::format:
+  #
+    formats its arguments using the specified template string
+
+    The *template* contains a format specifier for each argument.
+
+    Each format specifier start with a '%'-character and is folled by a length
+    and (optionally) by a '.'-character and a second length specifying the
+    number of decimal places.
+
+    E.g. "%3.1" is a format specifier to print a real number with 3 digits,
+    followed by a decimal point and 1 decimal place.
+
+    If the size of the number exceeds the specified number of digits then the
+    number is displayed anyways (ignoring the format specification).
+
+    If the '%'-character is immediately followed by an 'l' or an 'r' it ist
+    left- respectively righ-justified. The default is right justification.
+
+    To print a character that might me misinterpreted as a part of a format
+    specifier ('%', '.' or a digit) precede it with a backslash character ('\').
+    This is also the way to print a backslash itself.
+
+    The function returns the constructed string or <undefined> if the template
+    string contains invalid format specifiers.
   (
-    str
-    arguments*
+    template # the template string
+    arguments* # the embedded arguments
   )
   $output ""
   $arg_idx 1
   $i 1
-  $n length_of(str)
+  $n length_of(template)
   loop:
     if
       i > n
       -> output
       :
-	$chr str(i)
+	$chr template(i)
 	!i i+1
 	case chr
 	  '%':
@@ -1749,12 +1773,12 @@ $std::format:
 	      i > n
 	      -> undefined
 	      :
-		case str(i) $alignment !i
+		case template(i) $alignment !i
 		  'l' -> LEFT i+1
 		  'r' -> RIGHT i+1
 		  'c' -> CENTER i+1
 		  -> RIGHT i
-		$len_chr str(i)
+		$len_chr template(i)
 		if
 		  len_chr < '0' || len_chr > '9'
 		  -> undefined
@@ -1767,7 +1791,7 @@ $std::format:
 			  i > n
 			  break
 			  :
-			    $fmt_chr str(i)
+			    $fmt_chr template(i)
 			    if
 			      fmt_chr < '0' || fmt_chr > '9'
 			      break
@@ -1780,13 +1804,13 @@ $std::format:
 			    add_argument width
 			  :
 			    if
-			      str(i) == '.':
+			      template(i) == '.':
 				!i i+1
 				if
 				  i > n
 				  -> undefined
 				  :
-				    $dw_chr str(i)
+				    $dw_chr template(i)
 				    if
 				      dw_chr < '0' || dw_chr > '9'
 				      -> undefined
@@ -1799,7 +1823,7 @@ $std::format:
 					      i > n
 					      break
 					      :
-						$fmt_chr str(i)
+						$fmt_chr template(i)
 						if
 						  fmt_chr < '0' || fmt_chr > '9'
 						  break
@@ -1815,7 +1839,7 @@ $std::format:
 	      i > n
 	      -> undefined
 	      :
-		push &output str(i)
+		push &output template(i)
 		!i i+1
 		next
 	  :

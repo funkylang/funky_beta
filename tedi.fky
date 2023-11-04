@@ -1425,9 +1425,13 @@ $ai_completion:
 	    set_first_updated_y !window height+1
 	    update_if y > height+1 &lines:
 	      append lines dup(list(undefined) y-(height+1))
-	    push &lines tedi_line(0 completion)
-	    update_from !window y
-	    done
+	    if
+	      all_of(completion: (chr) -> chr == ' ')
+	      -> terminal window lines
+	      :
+		push &lines tedi_line(0 completion)
+		update_from !window y
+		done
     :
       $last_line lines(y)
       if $indent $text
@@ -1594,9 +1598,17 @@ $cut_or_copy: (do_cut)
 	      update_from !window selection_start_y
 	      ->
 		window
-		append
-		  range(lines 1 selection_start_y-1)
-		  range(lines selection_end_y+1 -1)
+		if
+		  selection_start_y > height
+		  -> lines
+		  :
+		    if
+		      selection_end_y < height
+		      ->
+			append
+			  range(lines 1 selection_start_y-1)
+			  range(lines selection_end_y+1 -1)
+		      -> range(lines 1 selection_start_y-1)
 	    -> window lines
 
 $paste:
