@@ -12,14 +12,15 @@ $PASTE_THRESHOLD 16
 
 $indent_of ()
 $text_of ()
-$marks_of ()
+$mark_of ()
 $folds_of ()
 
-$tedi_types::tedi_line tuple(undefined undefined undefined undefined)
+$tedi_types::tedi_line tuple(undefined undefined undefined undefined undefined)
+  # indent, text, mark, folds, tokens
 
 $tedi_types::tedi_line/indent_of: (self) -> first(self)
 $tedi_types::tedi_line/text_of: (self) -> second(self)
-$tedi_types::tedi_line/marks_of: (self) -> third(self)
+$tedi_types::tedi_line/mark_of: (self) -> third(self)
 $tedi_types::tedi_line/folds_of: (self) -> fourth(self)
 
 $x_of ()
@@ -664,7 +665,7 @@ $insert: (str)
       $insert_text:
 	$x x_of(window)
 	$line lines(y)
-	if $indent $text $marks $folds
+	if $indent $text $mark $folds
 	  line.is_undefined
 	  -> x-1 "" "" undefined
 	  : line
@@ -678,18 +679,18 @@ $insert: (str)
 	      :
 		set_first_updated_y !window y
 		append &text spaces(x-(line_width+1)) str
-		!lines(y) tedi_line(indent text marks folds)
+		!lines(y) tedi_line(indent text mark folds)
 		cursor_right len
 	  :
 	    set_first_updated_y !window y
 	    if
 	      x > indent+1:
 		!text append(range(text 1 idx-1) str range(text idx -1))
-		!lines(y) tedi_line(indent text marks folds)
+		!lines(y) tedi_line(indent text mark folds)
 		cursor_right len
 	      :
 		!text append(str spaces(indent+1-x) text)
-		!lines(y) tedi_line(x-1 text marks folds)
+		!lines(y) tedi_line(x-1 text mark folds)
 		cursor_right len
 
 $set_first_updated_y: (y)
@@ -729,18 +730,18 @@ $smart_indent:
 	    : cursor_right indent+1-x
 	    : cursor_right 2
 	:
-	  lines(y) $indent $text $marks $folds
+	  lines(y) $indent $text $mark $folds
 	  $indent_above find_next_indent_above(indent+1 y)
 	  if
 	    indent_above.is_defined && indent_above > indent:
-	      !lines(y) tedi_line(indent_above text marks folds)
+	      !lines(y) tedi_line(indent_above text mark folds)
 	      ->
 		window
 		  .x_of x+indent_above-indent
 		  .first_updated_y_of y
 		lines
 	    :
-	      !lines(y) tedi_line(indent+2 text marks folds)
+	      !lines(y) tedi_line(indent+2 text mark folds)
 	      ->
 		window
 		  .x_of x+2
@@ -755,11 +756,11 @@ $smart_indent:
       $selected_lines range(lines selection_start_y selection_end_y)
       map &selected_lines
 	: (line)
-	  line $indent $text $marks $folds
+	  line $indent $text $mark $folds
 	  if
 	    line.is_undefined
 	    -> undefined
-	    -> tedi_line(indent+2 text marks folds)
+	    -> tedi_line(indent+2 text mark folds)
       !lines
 	append
 	  range(lines 1 selection_start_y-1)
@@ -821,7 +822,7 @@ $smart_outdent:
 	    : cursor_left x-(indent_above+1)
 	    : cursor_left 2
 	:
-	  lines(y) $indent $text $marks $folds
+	  lines(y) $indent $text $mark $folds
 	  if
 	    indent == 0
 	    -> window lines
@@ -829,14 +830,14 @@ $smart_outdent:
 	      $indent_above find_previous_indent_above(indent+1 y)
 	      if
 		indent_above.is_defined && indent_above < indent:
-		  !lines(y) tedi_line(indent_above text marks folds)
+		  !lines(y) tedi_line(indent_above text mark folds)
 		  ->
 		    window
 		      .x_of max(x-(indent-indent_above) 1)
 		      .first_updated_y_of y
 		    lines
 		:
-		  !lines(y) tedi_line(max(indent-2 0) text marks folds)
+		  !lines(y) tedi_line(max(indent-2 0) text mark folds)
 		  ->
 		    window
 		      .x_of max(x-2 1)
@@ -854,11 +855,11 @@ $smart_outdent:
 	:
 	  map &selected_lines
 	    : (line)
-	      line $_indent $_text $marks $folds
+	      line $_indent $_text $mark $folds
 	      if
 		line.is_undefined
 		-> undefined
-		-> tedi_line(indent_of(line)-2 text_of(line) marks folds)
+		-> tedi_line(indent_of(line)-2 text_of(line) mark folds)
 	  !lines
 	    append
 	      range(lines 1 selection_start_y-1)
@@ -916,7 +917,7 @@ $split_line:
       $line lines(y)
       if
 	line.is_defined:
-	  line $indent $text $marks $folds
+	  line $indent $text $mark $folds
 	  cond
 	    -> x <= indent+1:
 	      !lines
@@ -941,9 +942,9 @@ $split_line:
 		  push
 		    push
 		      range(lines 1 y-1)
-		      tedi_line(indent range(text 1 x-(indent+1)) marks folds)
+		      tedi_line(indent range(text 1 x-(indent+1)) mark folds)
 		    tedi_line
-		      indent range(text x-indent -1).trim_left marks folds
+		      indent range(text x-indent -1).trim_left mark folds
 		  range(lines y+1 -1)
 	      !window.first_updated_y_of y
 	      !window.last_updated_y_of END
@@ -975,7 +976,7 @@ $delete_left:
 	    line.is_undefined
 	    cursor_left
 	    :
-	      line $indent $text $marks $folds
+	      line $indent $text $mark $folds
 	      cond
 		-> x <= indent+1:
 		  !window.x_of x-1
@@ -986,7 +987,7 @@ $delete_left:
 		  !text
 		    append(range(text 1 x-(indent+2)) range(text x-indent -1))
 		  update_lines_after_deletion y
-		    tedi_line(indent text marks folds)
+		    tedi_line(indent text mark folds)
     -> window lines
 
 $delete_right:
@@ -1001,7 +1002,7 @@ $delete_right:
 	line.is_undefined
 	-> window lines
 	:
-	  line $indent $text $marks $folds
+	  line $indent $text $mark $folds
 
 	  cond
 	    -> x <= indent:
@@ -1010,7 +1011,7 @@ $delete_right:
 	      -> window lines
 	    -> true:
 	      !text append(range(text 1 x-(indent+1)) range(text x+1-indent -1))
-	      update_lines_after_deletion y tedi_line(indent text marks folds)
+	      update_lines_after_deletion y tedi_line(indent text mark folds)
 
 $delete_line:
   $y y_of(window)
@@ -1038,7 +1039,7 @@ $delete_to_line_start:
 	line.is_undefined
 	cursor_home
 	:
-	  line $indent $text $marks $folds
+	  line $indent $text $mark $folds
 	  $x x_of(window)
 	  $width indent+length_of(text)
 	  cond
@@ -1046,11 +1047,11 @@ $delete_to_line_start:
 	      !window.x_of indent+1
 	      update_lines_after_deletion y undefined
 	    -> x <= indent+1:
-	      update_lines_after_deletion y tedi_line(x-1 text marks folds)
+	      update_lines_after_deletion y tedi_line(x-1 text mark folds)
 	    -> true:
 	      !window.x_of indent+1
 	      update_lines_after_deletion y
-		tedi_line(indent range(text x-indent -1) marks folds)
+		tedi_line(indent range(text x-indent -1) mark folds)
 
 $delete_to_line_end:
   $y y_of(window)
@@ -1063,7 +1064,7 @@ $delete_to_line_end:
 	line.is_undefined
 	-> window lines
 	:
-	  line $indent $text $marks $folds
+	  line $indent $text $mark $folds
 	  $x x_of(window)
 	  $width indent+length_of(text)
 	  cond
@@ -1073,7 +1074,7 @@ $delete_to_line_end:
 	      update_lines_after_deletion y undefined
 	    -> true:
 	      update_lines_after_deletion y
-		tedi_line(indent range(text 1 (x-1)-indent) marks folds)
+		tedi_line(indent range(text 1 (x-1)-indent) mark folds)
 
 $update_lines_after_deletion: (y line)
   $height length_of(lines)
@@ -1123,7 +1124,7 @@ $join_lines:
 		    -> window lines
 		    goto_end_of_previous_line
 	:
-	  line $indent $text $marks $folds
+	  line $indent $text $mark $folds
 	  $width indent+length_of(text)
 	  cond
 	    -> x <= indent+1 && y > 1: # join with line above
@@ -1146,7 +1147,7 @@ $join_lines:
 		    append
 		      push
 			range(lines 1 y-2)
-			tedi_line(indent_above text marks folds)
+			tedi_line(indent_above text mark folds)
 		      range(lines y+1 -1)
 	    -> x > width && y < height: # join with line below
 	      update_from !window y
@@ -1167,7 +1168,7 @@ $join_lines:
 		    append
 		      push
 			range(lines 1 y-1)
-			tedi_line(indent text marks folds)
+			tedi_line(indent text mark folds)
 		      range(lines y+2 -1)
 	    -> true
 	      -> window lines
@@ -1195,7 +1196,7 @@ $lines_to_text: (some_lines)
     : (line)
       if
 	line.is_defined:
-	  line $indent $text $_marks $folds
+	  line $indent $text $_mark $folds
 	  $line_text append(tabs_and_spaces(indent) text.to_utf8 "@nl;")
 	  if
 	    folds.is_defined
@@ -1210,7 +1211,7 @@ $lines_to_spaced_text: (some_lines)
     : (line)
       if
 	line.is_defined:
-	  line $indent $text $_marks $folds
+	  line $indent $text $_mark $folds
 	  $line_text append(spaces(indent) text.to_utf8 "@nl;")
 	  if
 	    folds.is_defined
@@ -1228,7 +1229,7 @@ $smart_completion:
     completion_prefix.is_defined:
       $possible_completions possible_completions_of(window)
       $line lines(y)
-      line $indent $text $marks $folds
+      line $indent $text $mark $folds
       $left range(text 1 x-(indent+1+length_of(possible_completions(1))))
       $right range(text x-indent -1)
       minus &x length_of(possible_completions(1))
@@ -1237,7 +1238,7 @@ $smart_completion:
       if
 	possible_completions.is_empty:
 	  !lines(y)
-	    tedi_line(indent append(left completion_prefix right) marks folds)
+	    tedi_line(indent append(left completion_prefix right) mark folds)
 	  !window.x_of x+length_of(completion_prefix)
 	  !window.completion_prefix_of undefined
 	  !window.possible_completions_of undefined
@@ -1245,7 +1246,7 @@ $smart_completion:
 	:
 	  !lines(y)
 	    tedi_line
-	      indent append(left possible_completions(1) right) marks folds
+	      indent append(left possible_completions(1) right) mark folds
 	  !window.x_of x+length_of(possible_completions(1))
 	  !window.possible_completions_of possible_completions
 	  -> window lines
@@ -1554,7 +1555,7 @@ $cut_or_copy: (do_cut)
 	    -> window lines
 	    :
 	      $line lines(y)
-	      line $indent $text $marks $folds
+	      line $indent $text $mark $folds
 	      $width indent+length_of(text)
 	      $x min(x_of(window) width+1)
 	      min_max !selection_start_x $selection_end_x x selection_start_x
@@ -1575,7 +1576,7 @@ $cut_or_copy: (do_cut)
 			tedi_line
 			  indent
 			  append(range(text 1 s-1) range(text e+1 -1))
-			  marks
+			  mark
 			  folds
 		      -> window lines
 		    -> window lines
@@ -1857,7 +1858,7 @@ $replace_selection:
     -> window lines
     :
       $line lines(y)
-      line $indent $text $marks $folds
+      line $indent $text $mark $folds
       $x x_of(window)
       $selection_start_x selection_start_x_of(window)
       min_max !selection_start_x $selection_end_x x selection_start_x
@@ -1868,7 +1869,7 @@ $replace_selection:
 	  range(text 1 s-1)
 	  replacement_text_of(window)
 	  range(text e+1 -1)
-      !lines(y) tedi_line(indent text marks folds)
+      !lines(y) tedi_line(indent text mark folds)
       !window.first_updated_y_of y
       !window.do_keep_selection true
       !e s+length_of(replacement_text_of(window))
@@ -1934,7 +1935,7 @@ $define_mark:
 $set_or_goto_mark:
   $letter alt_key_to_letter(current_key)
   if
-    mark_state_of(window) > 0:
+    mark_state_of(window) > 0: # set mark
       remove_mark !lines
       $y y_of(window)
       $line lines(y)
@@ -1942,19 +1943,19 @@ $set_or_goto_mark:
 	line.is_undefined
 	-> window lines
 	:
-	  line $indent $text $marks $folds
-	  !lines(y) tedi_line(indent text push(marks letter) folds)
+	  line $indent $text $_mark $folds
+	  !lines(y) tedi_line(indent text letter folds)
 	  -> window lines
-    :
+    : # goto mark
       for_each lines
 	: (y line)
 	  if
 	    line.is_undefined
 	    next
 	    :
-	      line $_indent $_text $marks
+	      line $_indent $_text $mark
 	      if
-		marks .contains. letter
+		mark == letter
 		-> window(.y_of y) lines
 		next
 	-> window lines
@@ -1966,11 +1967,11 @@ $set_or_goto_mark:
 	  line.is_undefined
 	  next
 	  :
-	    line $indent $text $marks $folds
+	    line $indent $text $mark $folds
 	    if
-	      marks .contains. letter:
+	      mark == letter:
 		!lines(y)
-		  tedi_line(indent text replace_first(marks letter = "") folds)
+		  tedi_line(indent text undefined folds)
 		-> lines
 	      next
       -> lines
@@ -1983,7 +1984,7 @@ $toggle_folding:
     -> window lines
     :
       $line lines(y)
-      line $indent $text $marks $folds
+      line $indent $text $mark $folds
       if
 	folds.is_defined:
 	  update_from !window y
@@ -1992,7 +1993,7 @@ $toggle_folding:
 	    append
 	      push
 		range(lines 1 y-1)
-		tedi_line(indent text marks undefined)
+		tedi_line(indent text mark undefined)
 	      folds
 	      range(lines y+1 -1)
 	:
@@ -2007,7 +2008,7 @@ $toggle_folding:
 		append
 		  push
 		    range(lines 1 y-1)
-		    tedi_line(indent text marks range(lines y+1 e))
+		    tedi_line(indent text mark range(lines y+1 e))
 		  range(lines e+1 -1)
 
 $fold_contents:
@@ -2090,11 +2091,11 @@ $fold_all: (some_lines)
 	    push &folds line
 	    next
 	  :
-	    line $indent $text $marks $subfolds
+	    line $indent $text $mark $subfolds
 	    if
 	      subfolds.is_defined:
 		push &folds
-		  tedi_line(indent text marks fold_all(subfolds))
+		  tedi_line(indent text mark fold_all(subfolds))
 		next
 	      :
 		collect_indented_lines $e some_lines i indent
@@ -2104,7 +2105,7 @@ $fold_all: (some_lines)
 		      tedi_line
 			indent
 			text
-			marks
+			mark
 			fold_all(range(some_lines i+1 e))
 		    !i e
 		    next
@@ -2133,12 +2134,12 @@ $collect_indented_lines: (some_lines i indent)
 $recursively_collect_folded_lines: (line)
   if
     line.is_defined:
-      line $indent $text $marks $folds
+      line $indent $text $mark $folds
       if
 	folds.is_defined:
 	  put
 	    map_reduce(folds recursively_collect_folded_lines)
-	    tedi_line(indent text marks undefined)
+	    tedi_line(indent text mark undefined)
 	-> list(line)
     -> list(undefined)
 
@@ -2593,8 +2594,9 @@ $tedi_line:
   (
     indent
     text
-    marks = ""
+    mark = ""
     folds = undefined
+    tokens = undefined
   )
   # must not be called with a text containing only space characters
   if
@@ -2604,7 +2606,7 @@ $tedi_line:
       $prefix_spaces count_prefix_spaces(text)
       $suffix_spaces count_suffix_spaces(text)
       range &text prefix_spaces+1 -(suffix_spaces+1)
-      -> new(tedi_types::tedi_line indent+prefix_spaces text marks folds)
+      -> new(tedi_types::tedi_line indent+prefix_spaces text mark folds tokens)
 
 $count_prefix_spaces: (str)
   $len length_of(str)
