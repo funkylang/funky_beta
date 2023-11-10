@@ -130,7 +130,10 @@ enum {
   lambda_63 = -121,
   lambda_64 = -122,
   func_std_types__key_order_table___merge = -123,
-  str_key_order_table = -124
+  func_std__key_order_table = -124,
+  lambda_65 = -125,
+  lambda_66 = -126,
+  str_key_order_table = -127
 };
 
 enum {
@@ -259,9 +262,11 @@ enum {
   var_loop, // extern
   var_540_18_cont, // dynamic
   var_plus, // extern
+  var_std__key_order_table, // initialized
+  var_576_1_table, // dynamic
+  var_empty_key_order_table, // extern
   var_serialization_tag_of, // extern polymorphic
   var_empty_collection_of, // extern polymorphic
-  var_empty_key_order_table, // extern
   var__END
 };
 
@@ -1713,6 +1718,41 @@ static TAB_NUM t_func_std_types__key_order_table___merge[] = {
   POS(565, 3)
 };
 
+static TAB_NUM t_func_std__key_order_table[] = {
+  1, // locals
+  -1, // parameters
+  REST_PARAMETER, LOCAL(1), // 574_0_pairs
+  // $table empty_key_order_table
+  LET, 1, var_empty_key_order_table, 1, var_576_1_table,
+  // for_each pairs
+  var_for_each, 3, LOCAL(1), lambda_65, lambda_66, TAIL_CALL,
+  POS(576, 3),
+  POS(577, 3)
+};
+
+static TAB_NUM t_lambda_65[] = {
+  3, // locals
+  1, // parameters
+  LOCAL(1), // 578_3_pair
+  // pair $key $value
+  LOCAL(1), 0, 2, LOCAL(2), LOCAL(3),
+  // table(key) value
+  var_576_1_table, 2, LOCAL(2), LOCAL(3), 1, var_576_1_table,
+  // next
+  var_next, 0, TAIL_CALL,
+  POS(579, 7),
+  POS(580, 8),
+  POS(581, 7)
+};
+
+static TAB_NUM t_lambda_66[] = {
+  0, // locals
+  0, // parameters
+  //  table
+  LET, 1, var_576_1_table, TAIL_CALL,
+  POS(582, 7)
+};
+
 static int tuple_71_0_arguments[] = {
   -var_undefined, -var_undefined, -var_undefined, -var_undefined
 };
@@ -1841,6 +1881,9 @@ static FUNKY_CONSTANT constants_table[] = {
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_63}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_64}},
   {FLT_FUNCTION, 0, {.tfunc = t_func_std_types__key_order_table___merge}},
+  {FLT_FUNCTION, 0, {.tfunc = t_func_std__key_order_table}},
+  {FLT_FUNCTION, 0, {.tfunc = t_lambda_65}},
+  {FLT_FUNCTION, 0, {.tfunc = t_lambda_66}},
   {FLT_STRING_8, 15, {.str_8 = "key_order_table"}}
 };
 
@@ -2456,19 +2499,28 @@ static FUNKY_VARIABLE variables_table[] = {
     {.position = POS(541, 9)}
   },
   {
-    FOT_UNKNOWN_POLYMORPHIC, 0, 0,
-    "serialization_tag_of\000", NULL,
-    {.position = POS(573, 29)}
+    FOT_INITIALIZED, 0, 0,
+    "key_order_table\000std", NULL,
+    {.const_idx = -func_std__key_order_table}
   },
   {
-    FOT_UNKNOWN_POLYMORPHIC, 0, 0,
-    "empty_collection_of\000", NULL,
-    {.position = POS(574, 29)}
+    FOT_UNINITIALIZED, 0, 0,
+    "576_1_table\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
     "empty_key_order_table\000", NULL,
-    {.position = POS(574, 49)}
+    {.position = POS(576, 10)}
+  },
+  {
+    FOT_UNKNOWN_POLYMORPHIC, 0, 0,
+    "serialization_tag_of\000", NULL,
+    {.position = POS(586, 29)}
+  },
+  {
+    FOT_UNKNOWN_POLYMORPHIC, 0, 0,
+    "empty_collection_of\000", NULL,
+    {.position = POS(587, 29)}
   }
 };
 
@@ -2486,8 +2538,8 @@ FUNKY_MODULE module__basic__types__collections__tables__key_order_table = {
   0, // number of required modules
   0, // number of defined namespaces
   1, // number of used namespaces
-  124, // number of constants
-  127, // number of variables
+  127, // number of constants
+  129, // number of variables
   NULL, // required modules
   NULL, // defined namespaces
   used_namespaces,

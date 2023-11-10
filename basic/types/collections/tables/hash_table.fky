@@ -1,5 +1,5 @@
 #
-  Copyright (C) 2021 by
+  Copyright (C) 2023 by
   Dipl.-Ing. Michael Niederle
 
   This program is free software; you can redistribute it and/or modify
@@ -601,8 +601,7 @@ $std_types::hash_table/map_reduce:
 	:
 	  map_reduce_1 contents_of(self)
 
-###
-# constructor
+# Constructor
 
 $std::hash_table:
   (

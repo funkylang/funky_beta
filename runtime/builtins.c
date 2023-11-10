@@ -13934,6 +13934,10 @@ static void entry__std___current_time (void)
       invalid_arguments();
       return;
     }
+    if (TLS_deny_io) {
+      missing_io_access_rights();
+      return;
+    }
     struct timespec timespec;
     clock_gettime(CLOCK_REALTIME, &timespec);
     {

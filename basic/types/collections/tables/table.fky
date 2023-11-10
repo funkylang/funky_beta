@@ -51,8 +51,7 @@ $std::values_of: (collection)
     append
     empty_list
 
-###
-# merge
+# Merge
 
 $std_types::table/merge:
   #
@@ -88,8 +87,21 @@ $std_types::table/merge:
 	  next
 	-> self
 
-###
-# serialization
+# Constructor
+
+$std_types::table/new:
+  (
+    self
+    pairs*
+  )
+  for_each pairs
+    : (pair)
+      pair $key $value
+      !self(key) value
+      next
+    -> self
+
+# Serialization
 
 $std_types::table/serialize:
   (

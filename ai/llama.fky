@@ -189,7 +189,8 @@ $ai_types::model/ai::generate:
 		$dt 1000*(current_time()-t) # in ms
 		if
 		  log_level <= 1:
-		    $token_string "@quot;@(quoted(next_piece))@quot;:"
+		    $token_string
+		      "@quot;@(ai::escaped_piece(next_piece))@quot;:"
 		    eprintln!
 		      format
 			"[#%4] %l18 %3.3"
@@ -205,7 +206,7 @@ $ai_types::model/ai::generate:
 			confidence_value $token $confidence
 			$piece ai::detokenize(model token)
 			replace_all &piece '@ht;' = "<<<ht>>>"
-			$token_string "@quot;@(quoted(piece))@quot;:"
+			$token_string "@quot;@(ai::escaped_piece(piece))@quot;:"
 			eprintln! format("%l18 %3.3" token_string confidence)
 			next!
 		      pass
@@ -298,18 +299,29 @@ $ai_types::model/ai::get_tokens:
       -> info("tokens") info("begin_of_stream") info("end_of_stream")
 
 $ai_types::model/ai::tokenize:
+  #
+    tokenizes the specified (list of) text(s)
+
+    *text* can be a single text or a list of several text lines
+
+    The result is a list of tokens or a list of list of tokens.
   (
-    model
-    prompt
+    model # the model to query for tokens
+    text # the text(s) to tokenize
   )
   #debug_write "
 
     ai_types::model/ai::tokenize
+  $CONTENT
+    if
+      text.is_a_string
+      -> "content"
+      -> "lines"
   $json
     to_json
       insert_order_table
 	"model" = name_of(model)
-	"content" = prompt
+	CONTENT = text
   to_utf8 &json
   open_tcp_socket! $fd address_of(model) port_no_of(model)
   write_all_to! fd "
@@ -339,8 +351,8 @@ $ai_types::model/ai::evaluate:
     Attention: In the case the prompt is a list of tokens a
     "*begin of stream*"-token will **not** be added automatically!
   (
-    model
-    prompt
+    model # the model on which to evaluate the prompt
+    prompt # the prompt to evaluate
   )
   #debug_write "
 
@@ -424,26 +436,29 @@ $build_piece_table: (model)
 	.ai::piece_table_of piece_table
 	.ai::maximum_piece_length_of map_reduce(pieces length_of max)
 
-$quoted: (text)
+$ai::escaped_token: (model token)
+  -> ai::escaped_piece(ai::detokenize(model token))
+
+$ai::escaped_piece: (piece)
   $buf ""
   $s 1
-  $n length_of(text)
+  $n length_of(piece)
   $i 0
   loop:
     inc &i
     if
       i > n
-      -> append(buf range(text s n))
+      -> append(buf range(piece s n))
       :
-	$chr text(i)
+	$chr piece(i)
 	case chr
 	  '@nl;':
-	    append &buf range(text s i-1)
+	    append &buf range(piece s i-1)
 	    append &buf "\n"
 	    !s i+1
 	    next
 	  '@quot;', '\':
-	    append &buf range(text s i-1)
+	    append &buf range(piece s i-1)
 	    push &buf '\'
 	    push &buf chr
 	    !s i+1

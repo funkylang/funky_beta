@@ -237,7 +237,7 @@ enum {
   var_append, // extern
   var_590_0_unit, // dynamic
   var_std__hash_table, // initialized
-  var_611_1_table, // dynamic
+  var_610_1_table, // dynamic
   var_empty_hash_table, // extern
   var_serialization_tag_of, // extern polymorphic
   var_empty_collection_of, // extern polymorphic
@@ -1948,36 +1948,36 @@ static TAB_NUM t_lambda_43[] = {
 static TAB_NUM t_func_std__hash_table[] = {
   1, // locals
   -1, // parameters
-  REST_PARAMETER, LOCAL(1), // 609_0_pairs
+  REST_PARAMETER, LOCAL(1), // 608_0_pairs
   // $table empty_hash_table
-  LET, 1, var_empty_hash_table, 1, var_611_1_table,
+  LET, 1, var_empty_hash_table, 1, var_610_1_table,
   // for_each pairs
   var_for_each, 3, LOCAL(1), lambda_44, lambda_45, TAIL_CALL,
-  POS(611, 3),
-  POS(612, 3)
+  POS(610, 3),
+  POS(611, 3)
 };
 
 static TAB_NUM t_lambda_44[] = {
   3, // locals
   1, // parameters
-  LOCAL(1), // 613_3_pair
+  LOCAL(1), // 612_3_pair
   // pair $key $value
   LOCAL(1), 0, 2, LOCAL(2), LOCAL(3),
   // table(key) value
-  var_611_1_table, 2, LOCAL(2), LOCAL(3), 1, var_611_1_table,
+  var_610_1_table, 2, LOCAL(2), LOCAL(3), 1, var_610_1_table,
   // next
   var_next, 0, TAIL_CALL,
-  POS(614, 7),
-  POS(615, 8),
-  POS(616, 7)
+  POS(613, 7),
+  POS(614, 8),
+  POS(615, 7)
 };
 
 static TAB_NUM t_lambda_45[] = {
   0, // locals
   0, // parameters
   //  table
-  LET, 1, var_611_1_table, TAIL_CALL,
-  POS(617, 7)
+  LET, 1, var_610_1_table, TAIL_CALL,
+  POS(616, 7)
 };
 
 static int tuple_73_0_arguments[] = {
@@ -2660,22 +2660,22 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "611_1_table\000", NULL
+    "610_1_table\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
     "empty_hash_table\000", NULL,
-    {.position = POS(611, 10)}
+    {.position = POS(610, 10)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
     "serialization_tag_of\000", NULL,
-    {.position = POS(619, 24)}
+    {.position = POS(618, 24)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
     "empty_collection_of\000", NULL,
-    {.position = POS(620, 24)}
+    {.position = POS(619, 24)}
   }
 };
 

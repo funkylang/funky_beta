@@ -567,6 +567,19 @@ $std_types::key_order_table/merge:
       .length_of length_of(self)+length_of(other)-total_removed
       .contents_of contents
 
+# Constructor
+
+$std::key_order_table:
+  (
+    pairs*
+  )
+  $table empty_key_order_table
+  for_each pairs
+    : (pair)
+      pair $key $value
+      !table(key) value
+      next
+    -> table
 ###
 # serialization
 
