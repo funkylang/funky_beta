@@ -84,6 +84,7 @@ on do_log:
     @;
 
 load! $prompt filename
+from_utf8 &prompt
 
 load_ai_model! $model model_name
 
