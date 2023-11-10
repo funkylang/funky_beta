@@ -59,7 +59,7 @@ program_parameters!
       the maximum number of steps to backtrack
   $stop
   list
-    VALUED_OPTION "stop" "" "
+    VALUED_OPTION "stop" "
       a text on which to stop generation
   $model_name
   list
@@ -70,6 +70,8 @@ program_parameters!
     MANDATORY_PARAMETER "filename" "
       the name of the file containing the prompt text
 
+edump `stop
+
 $do_log log_level > 0
 
 on do_log:
@@ -79,7 +81,7 @@ on do_log:
     minimum confidence: @(minimum_confidence)
     maximum length: @(maximum_length)
     backtrack: @(backtrack)
-    stop: @(stop)
+    stop: @(default_value(stop ""))
     log level: @(log_level)
     @;
 
