@@ -70,8 +70,6 @@ program_parameters!
     MANDATORY_PARAMETER "filename" "
       the name of the file containing the prompt text
 
-edump `stop
-
 $do_log log_level > 0
 
 on do_log:
