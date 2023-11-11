@@ -173,7 +173,7 @@ $ai_types::model/ai::generate:
       stop_text.is_defined && text .contains. stop_text
       -> text no
       :
-	$t current_time()
+	current_time! $t1
 	ai::evaluate! model tokens $next_token $confidence_values
 	if
 	  next_token == ai::end_of_stream_token_of(model):
@@ -186,7 +186,8 @@ $ai_types::model/ai::generate:
 	      confidence_values(1) !next_token $next_confidence
 	      $next_piece ai::detokenize(model next_token)
 	      on do_log:
-		$dt 1000*(current_time()-t) # in ms
+		current_time! $t2
+		$dt 1000*(t2-t1) # in ms
 		if
 		  log_level <= 1:
 		    $token_string
