@@ -294,6 +294,7 @@ enum {
   func__quad_octet_string___std___to_utf8,
   func__std_types___file_descriptor___std___get_terminal_attributes,
   func__std_types___file_descriptor___std___set_terminal_attributes,
+  func__std_types___terminal_attributes___std___backspace_character_of,
   func__std_types___terminal_attributes___std___use_canonical_mode,
   func__std_types___terminal_attributes___std___echo_characters,
   func__std_types___terminal_attributes___std___echo_new_lines,
@@ -740,6 +741,7 @@ enum {
   var_no__std___empty_string,
   var_no__std___get_terminal_attributes,
   var_no__std___set_terminal_attributes,
+  var_no__std___backspace_character_of,
   var_no__std___use_canonical_mode,
   var_no__std___echo_characters,
   var_no__std___echo_new_lines,
@@ -19873,6 +19875,21 @@ static void entry__std_types___file_descriptor___std___set_terminal_attributes (
     }
   }
 
+static void entry__std_types___terminal_attributes___std___backspace_character_of (void)
+  {
+    if (TLS_argument_count != 1) {
+      invalid_arguments();
+      return;
+    }
+    struct termios *termios = &TLS_arguments[0]->terminal_attributes.data->termios;
+    {
+      NODE *result__node = (NODE *)(from_uchar32(termios->c_cc[VERASE]));
+      TLS_arguments[0] = result__node;
+      TLS_argument_count = 1;
+      return;
+    }
+  }
+
 static void entry__std_types___terminal_attributes___std___use_canonical_mode (void)
   {
     if (TLS_argument_count < 1) {
@@ -22285,6 +22302,7 @@ static FUNKY_CONSTANT constants_table[] = {
   {FLT_C_FUNCTION, 1, {.func = entry__quad_octet_string___std___to_utf8}},
   {FLT_C_FUNCTION, 1, {.func = entry__std_types___file_descriptor___std___get_terminal_attributes}},
   {FLT_C_FUNCTION, 2, {.func = entry__std_types___file_descriptor___std___set_terminal_attributes}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std_types___terminal_attributes___std___backspace_character_of}},
   {FLT_C_FUNCTION, -1, {.func = entry__std_types___terminal_attributes___std___use_canonical_mode}},
   {FLT_C_FUNCTION, -1, {.func = entry__std_types___terminal_attributes___std___echo_characters}},
   {FLT_C_FUNCTION, -1, {.func = entry__std_types___terminal_attributes___std___echo_new_lines}},
@@ -22942,6 +22960,7 @@ static INTERNAL_METHOD std_types___terminal_attributes__internal_methods[] = {
 };
 
 static ATTRIBUTE_DEFINITION std_types___terminal_attributes__attributes[] = {
+  {var_no__std___backspace_character_of, func__std_types___terminal_attributes___std___backspace_character_of},
   {var_no__std___echo_characters, func__std_types___terminal_attributes___std___echo_characters},
   {var_no__std___echo_new_lines, func__std_types___terminal_attributes___std___echo_new_lines},
   {var_no__std___enable_xon_xoff_for_input, func__std_types___terminal_attributes___std___enable_xon_xoff_for_input},
@@ -25556,6 +25575,11 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_POLYMORPHIC, 0, 0,
+    "backspace_character_of\000std", NULL,
+    {.has_a_setter = false}
+  },
+  {
+    FOT_POLYMORPHIC, 0, 0,
     "use_canonical_mode\000std", NULL,
     {.has_a_setter = false}
   },
@@ -25630,7 +25654,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {.has_a_setter = false}
   },
   {
-    FOT_TYPE, 0, 15,
+    FOT_TYPE, 0, 16,
     "terminal_attributes\000std_types", std_types___terminal_attributes__attributes,
     {"object\000std_types"},
     {.methods_count = 3}, 0,
@@ -25864,13 +25888,13 @@ FUNKY_MODULE module__builtin = {
   NULL,
   0, 0,
   3, 0,
-  328, 433,
+  329, 434,
   NULL,
   defined_namespaces, NULL,
   constants_table, variables_table
 };
 
-BUILTIN_FUNCTION_NAME builtin_function_names[378] = {
+BUILTIN_FUNCTION_NAME builtin_function_names[379] = {
   {std_types___generic_array____type, "std_types::generic_array/_type"},
   {std_types___array____type, "std_types::array/_type"},
   {entry__std_types___array___std___length_of, "std_types::array/length_of"},
@@ -26179,6 +26203,7 @@ BUILTIN_FUNCTION_NAME builtin_function_names[378] = {
   {std_types___terminal_attributes____type, "std_types::terminal_attributes/_type"},
   {entry__std_types___file_descriptor___std___get_terminal_attributes, "std_types::file_descriptor/get_terminal_attributes"},
   {entry__std_types___file_descriptor___std___set_terminal_attributes, "std_types::file_descriptor/set_terminal_attributes"},
+  {entry__std_types___terminal_attributes___std___backspace_character_of, "std_types::terminal_attributes/backspace_character_of"},
   {entry__std_types___terminal_attributes___std___use_canonical_mode, "std_types::terminal_attributes/use_canonical_mode"},
   {entry__std_types___terminal_attributes___std___echo_characters, "std_types::terminal_attributes/echo_characters"},
   {entry__std_types___terminal_attributes___std___echo_new_lines, "std_types::terminal_attributes/echo_new_lines"},

@@ -50,6 +50,27 @@ $ai::end_of_stream_token_of ()
   #
     the token no. used to denote the end of a stream
 
+$ai::newline_token_of ()
+  #
+    the token no. used to denote a newline
+
+$ai::end_of_text_token_of ()
+  #
+    the token no. used to denote the end of a text
+
+$ai::prefix_token_of ()
+  #
+    the token no. used to denote a prefix
+
+$ai::suffix_token_of ()
+  #
+    the token no. used to denote a suffix
+
+$ai::middle_token_of ()
+  #
+    the token no. used to denote the "middle"
+
+
 $std::address_of ()
   #
     the (IP) address of the server
@@ -59,10 +80,6 @@ $std::port_no_of ()
     the port no. of the server
 
 # Methods
-
-$ai::get_tokens ()
-  #
-    get the model's token list
 
 $ai::evaluate ()
   #
@@ -131,10 +148,15 @@ $ai::load_ai_model:
       .name_of name
       .address_of "127.0.0.1"
       .port_no_of 8080
-  ai::get_tokens! model
+  get_tokens! model
     !model.ai::pieces_of
     !model.ai::begin_of_stream_token_of
     !model.ai::end_of_stream_token_of
+    !model.ai::newline_token_of
+    !model.ai::end_of_text_token_of
+    !model.ai::prefix_token_of
+    !model.ai::suffix_token_of
+    !model.ai::middle_token_of
   if
     ai::pieces_of(model).is_an_error
     -> ai::pieces_of(model)
@@ -265,12 +287,7 @@ $ai_types::model/ai::generate:
       print! ansi_background_colour(colour)
     on be_verbose: print! piece
 
-$ai_types::model/ai::get_tokens:
-  #
-    get the model's token list
-  (
-    model # the model object
-  )
+$get_tokens: (model)
   #debug_write "
 
     ai_types::model/ai::get_tokens
@@ -297,7 +314,15 @@ $ai_types::model/ai::get_tokens:
       behind &result "@cr;@nl;@cr;@nl;"
       from_utf8 &result
       $info result.from_json
-      -> info("tokens") info("begin_of_stream") info("end_of_stream")
+      ->
+	info("tokens")
+	info("begin_of_stream")
+	info("end_of_stream")
+	info("newline")
+	info("end_of_text")
+	info("prefix")
+	info("suffix")
+	info("middle")
 
 $ai_types::model/ai::tokenize:
   #
