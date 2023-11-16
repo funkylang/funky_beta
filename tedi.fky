@@ -272,7 +272,6 @@ $search_key_bindings
 
 get_environment $environment
 $configuration_filename append(environment("HOME") "/tedi.cfg")
-load! $configuration configuration_filename
 
 $colour_sets
   list
@@ -481,6 +480,25 @@ $main: (initial_terminal)
       .search_text_of undefined
       .replacement_text_of undefined
 
+  load! $configuration configuration_filename
+  if
+    configuration.is_an_error # no configuration file found
+    start_tedi
+    :
+      for_each split(configuration '@nl;')
+	: (line)
+	  normalize &line
+	  if
+	    line.is_empty || line(1) == '#'
+	    next
+	    :
+	      $name line .truncate_from. ' '
+	      eprintln! name
+	      next!
+	:
+	  start_tedi!
+
+$start_tedi:
   update_display !terminal !state
   update_terminal &terminal $initial_output
   print! initial_output

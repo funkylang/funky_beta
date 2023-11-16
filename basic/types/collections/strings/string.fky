@@ -768,6 +768,45 @@ $std::trim_right:
       :
 	range self 1 e
 
+$std::normalize:
+  #
+    trims the string and replaces whitespace by a single space
+  (
+    self
+  )
+  $buf ""
+  $e length_of(self)
+  $i 0
+  loop:
+    loop
+      :
+	inc &i
+	if
+	  i > e
+	  -> buf
+	  :
+	    if
+	      self(i).is_a_whitespace_character
+	      next
+	      break
+      :
+	update_if buf.is_not_empty &buf -> push(buf ' ')
+	$s i
+	loop
+	  :
+	    inc &i
+	    if
+	      i > e
+	      -> append(buf range(self s e))
+	      :
+		if
+		  self(i).is_a_whitespace_character
+		  break
+		  next
+	  :
+	    append &buf range(self s i-1)
+	    next
+
 $std::parse_integer:
   #
     extracts an integer value from the start of the string
