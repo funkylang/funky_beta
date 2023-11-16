@@ -6,7 +6,6 @@
 <require basic/export/json>
 <require basic/import/json>
 <require terminal/terminal>
-<require terminal/keys>
 
 <require ./ai/llama>
 
@@ -275,26 +274,6 @@ get_environment $environment
 $configuration_filename append(environment("HOME") "/tedi.cfg")
 load! $configuration configuration_filename
 
-get_terminal_size! STDIN_FILENO $terminal_width $terminal_height
-create_terminal $terminal terminal_width terminal_height
-
-print! "@esc;[?47h" # switch to alternate screen
-print! "@esc;[33s" # store cursor position
-print! "@esc;]0;@(filename)@7;" # change terminal title
-
-get_terminal_attributes! STDIN_FILENO $original_attributes
-$attributes original_attributes
-use_canonical_mode &attributes false #  no line-buffering ...
-echo_characters &attributes false # ... and no echoing of typed in characters
-generate_signals &attributes false # to receive ctrl-c & ctrl-z
-enable_xon_xoff_for_output &attributes false # to receive ctrl-q & ctrl-s
-map_cr_to_lf_on_input &attributes false # to receive ctrl-m
-set_terminal_attributes! $_success STDIN_FILENO attributes
-$do_toggle_backspace backspace_character_of(attributes) == '@bs;'
-
-$io std_types::io
-start_reading_from &io STDIN_FILENO
-
 $colour_sets
   list
     std_types::object
@@ -376,9 +355,6 @@ $prototype_window
     .colour_set_no_of undefined
     .do_highlight_indentations_of false
 
-$window_height terminal_height-2
-$editor_lines undefined
-
 $go_to_key_bindings
   new
     simple_key_bindings
@@ -408,12 +384,8 @@ $window
     .lines_of lines
     .left_x_of 1
     .top_y_of 2
-    .width_of terminal_width
-    .height_of window_height
     .inbounds_width_of 80
     .is_locked true
-    .upper_bound_of 1+(window_height .div. 4)
-    .lower_bound_of window_height-(window_height .div. 4)
     .is_a_text_window true
     .colour_set_of colour_sets(1)
     .colour_set_no_of 1
@@ -424,8 +396,6 @@ $status_window
   prototype_window
     .lines_of tedi_line(0 "")
     .left_x_of 1
-    .top_y_of terminal_height
-    .width_of terminal_width
     .height_of 1
     .colour_set_of status_colour_set
 
@@ -435,8 +405,6 @@ $search_window
     .key_of undefined
     .lines_of empty_list
     .left_x_of 1
-    .top_y_of terminal_height
-    .width_of terminal_width
     .height_of 1
     .colour_set_of colour_sets(3)
     .cursor_movement_of ADD_SINGLE_LINE
@@ -447,8 +415,6 @@ $go_to_window
     .key_of undefined
     .lines_of empty_list
     .left_x_of 1
-    .top_y_of terminal_height
-    .width_of terminal_width
     .height_of 1
     .colour_set_of colour_sets(4)
     .cursor_movement_of ADD_SINGLE_LINE
@@ -459,35 +425,69 @@ $STATUS_WINDOW -1
 $SEARCH_WINDOW -2
 $GOTO_WINDOW -3
 
-$state
-  std_types::object
-    .ai_model_of undefined
-    .windows_of
-      list
-	window
-	go_to_window
-	search_window
-	status_window
-    .current_window_index_of 1 # current window index
-    .text_window_index_of 1
-    .key_of undefined
-    .completion_prefix_of undefined
-    .possible_completions_of undefined
-    .action_of undefined
-    .clipboard_contents_of undefined
-    .search_text_of undefined
-    .replacement_text_of undefined
-
+$state undefined
 $current_window_index 1
 
-update_display !terminal !state
-update_terminal &terminal $initial_output
-print! initial_output
+$terminal undefined
+$io std_types::io
 
-event_loop! !terminal !state
-on terminal.is_an_error:
-  eprintln! "ERROR: " debug_string(terminal 0 50)
-quit!
+initialize_terminal!
+  RECEIVE_CTRL_C_AND_CTRL_Z = true
+  RECEIVE_CTRL_Q_AND_CTRL_S = true
+  MAP_CR = true
+  TITLE = filename
+  main
+
+$main: (initial_terminal)
+  !terminal initial_terminal
+
+  $terminal_width width_of(terminal)
+  $terminal_height height_of(terminal)
+  $window_height terminal_height-2
+
+  !window.width_of terminal_width
+  !window.height_of window_height
+  !window.upper_bound_of 1+(window_height .div. 4)
+  !window.lower_bound_of window_height-(window_height .div. 4)
+
+  !status_window.width_of terminal_width
+  !status_window.top_y_of terminal_height
+  !status_window.width_of terminal_width
+
+  !search_window.width_of terminal_width
+  !search_window.top_y_of terminal_height
+  !search_window.width_of terminal_width
+
+  !go_to_window.width_of terminal_width
+  !go_to_window.top_y_of terminal_height
+  !go_to_window.width_of terminal_width
+
+  !state
+    std_types::object
+      .ai_model_of undefined
+      .windows_of
+	list
+	  window
+	  go_to_window
+	  search_window
+	  status_window
+      .current_window_index_of 1 # current window index
+      .text_window_index_of 1
+      .key_of undefined
+      .completion_prefix_of undefined
+      .possible_completions_of undefined
+      .action_of undefined
+      .clipboard_contents_of undefined
+      .search_text_of undefined
+      .replacement_text_of undefined
+
+  update_display !terminal !state
+  update_terminal &terminal $initial_output
+  print! initial_output
+
+  start_reading_from &io STDIN_FILENO
+  event_loop! !terminal !state
+  on terminal.is_an_error terminal
 
 $event_loop:
   $rc result_count()
@@ -517,7 +517,7 @@ $event_loop:
 		    $keys extract_keys(input).combine_characters
 		    for_each keys
 		      : (key)
-			update_if do_toggle_backspace &key:
+			#update_if do_toggle_backspace &key:
 			  case key
 			    BACKSPACE -> CTRL_BACKSPACE
 			    CTRL_BACKSPACE -> BACKSPACE
@@ -1284,7 +1284,7 @@ $delete_left:
 		    append(range(text 1 x-(indent+2)) range(text x-indent -1))
 		  update_lines_after_deletion y
 		    tedi_line(indent text mark folds)
-    -> window lines
+    -> state
 
 $delete_right:
   $x x_of(window)
@@ -1296,7 +1296,7 @@ $delete_right:
       $line lines(y)
       if
 	line.is_undefined
-	-> window lines
+	-> state
 	:
 	  line $indent $text $mark $folds
 
@@ -2337,6 +2337,8 @@ $find_previous: (x = undefined)
 		e <= indent
 		search_backwards
 		:
+		  edump `text
+		  edump `e
 		  range &text 1 e
 		  search $pos $len search_text text -1
 		  if
@@ -3214,13 +3216,6 @@ $draw_command_bar:
   set_background_colour &terminal bar_background_colour_of(colour_set)
   clear &terminal
   -> terminal
-
-$quit:
-  set_terminal_attributes! $_success STDIN_FILENO original_attributes
-  print! "@esc;[u" # restore cursor position
-  print! "@esc;[?47l" # switch to default screen
-  print! "@esc;[0m" # set default colours
-  terminate!
 
 # Helper Functions
 

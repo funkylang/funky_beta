@@ -383,15 +383,15 @@ $funky::categorize_variables: (variables)
 				  -> new_variables(name tuple(INITIALIZED value))
 				  local_or_dynamic
 		      :
+			$n length_of(arguments)-1
+			!definition.funky::key_of
+			  string
+			    func
+			    n
+			    "_"
+			    map_reduce(arguments get_key append "")
 			if
 			  flags & REDEFINED == 0:
-			    $n length_of(arguments)-1
-			    !definition.funky::key_of
-			      string
-				func
-				n
-				"_"
-				map_reduce(arguments get_key append "")
 			    if
 			      name .contains. ':' || flags & HAS_SLOTS != 0
 			      ->
@@ -405,7 +405,7 @@ $funky::categorize_variables: (variables)
 			      level == 0 || level == TOP_LEVEL
 			      ->
 				new_variables
-				  name tuple(INITIALIZED definition)
+				  name tuple(INITIALIZED_COMPOUND definition)
 			      local_or_dynamic
 	      local_or_dynamic
       :

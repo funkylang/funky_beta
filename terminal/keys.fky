@@ -19,34 +19,10 @@
   Free Software Foundation, Inc.,
   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
-$std::get_key:
-  #
-    wait for a keyboard input event or until the timeout expires
+$csi_table undefined
 
-    See also: get_events
-  (
-    timeout = undefined # in seconds - a decimal number
-  )
-  $io std_types::io
-  start_reading_from &io STDIN_FILENO
-  get_events! &io $events timeout
-  if
-    events.is_empty
-    -> undefined
-    :
-      $event events(1)
-      event $_type $_fd $input
-      from_utf8 &input
-      $keys extract_keys(input)
-      -> keys(1)
-
-$std::extract_keys:
-  #
-    converts an input character stream into a list of keys
-  (
-    input
-  )
-  $csi_table
+$terminal_private::initialize_keys: (body)
+  !csi_table
     hash_table
       "A" = CURSOR_UP
       "B" = CURSOR_DOWN
@@ -141,6 +117,39 @@ $std::extract_keys:
       "23;5~" = CTRL_F11
       "24;5~" = CTRL_F12
 
+  if
+    terminal_private::backspace_character == '@bs;':
+      !ctrl_key(9) BACKSPACE
+      body!
+    body
+
+$std::get_key:
+  #
+    wait for a keyboard input event or until the timeout expires
+
+    See also: get_events
+  (
+    timeout = undefined # in seconds - a decimal number
+  )
+  $io std_types::io
+  start_reading_from &io STDIN_FILENO
+  get_events! &io $events timeout
+  if
+    events.is_empty
+    -> undefined
+    :
+      $event events(1)
+      event $_type $_fd $input
+      from_utf8 &input
+      $keys extract_keys(input)
+      -> keys(1)
+
+$std::extract_keys:
+  #
+    converts an input character stream into a list of keys
+  (
+    input
+  )
   $keys empty_list
   loop:
     if
@@ -148,14 +157,19 @@ $std::extract_keys:
       -> keys
       :
 	$chr input(1)
+	edump `chr
 	case chr
 	  '@cr;': # RETURN or ENTER
 	    range &input 2 -1
 	    push &keys RETURN
 	    next
-	  '@del;': # BACKSPACE
+	  terminal_private::backspace_character:
 	    range &input 2 -1
 	    push &keys BACKSPACE
+	    next
+	  '@del;': # for terminals that switch BACKSPACE and CTRL_BACKSPACE
+	    range &input 2 -1
+	    push &keys CTRL_BACKSPACE
 	    next
 	  '@esc;': # ignore "special" keys
 	    range &input 2 -1

@@ -125,9 +125,9 @@ enum {
   lambda_69 = -116,
   lambda_70 = -117,
   lambda_71 = -118,
-  lambda_72 = -119,
-  string_2 = -120,
-  string_3 = -121,
+  string_2 = -119,
+  string_3 = -120,
+  lambda_72 = -121,
   lambda_73 = -122,
   lambda_74 = -123,
   lambda_75 = -124,
@@ -1681,20 +1681,6 @@ static TAB_NUM t_lambda_70[] = {
 };
 
 static TAB_NUM t_lambda_71[] = {
-  2, // locals
-  0, // parameters
-  // flags & REDEFINED == 0:
-  var_std__bit_and, 2, var_308_30_flags, var_REDEFINED, 1, LOCAL(1),
-  // flags & REDEFINED == 0:
-  var_std__equal, 2, LOCAL(1), num_0, 1, LOCAL(2),
-  // if
-  var_if, 3, LOCAL(2), lambda_72, lambda_76, TAIL_CALL,
-  POS(387, 27),
-  POS(387, 27),
-  POS(386, 25)
-};
-
-static TAB_NUM t_lambda_72[] = {
   4, // locals
   0, // parameters
   // length_of(arguments)-1
@@ -1707,17 +1693,31 @@ static TAB_NUM t_lambda_72[] = {
   var_string, 4, var_346_1_func, LOCAL(4), string_3, LOCAL(1), 1, LOCAL(3),
   // definition.funky::key_of
   LET, -1, var_308_6_definition, var_funky__key_of, LOCAL(3), var_308_6_definition,
+  // flags & REDEFINED == 0:
+  var_std__bit_and, 2, var_308_30_flags, var_REDEFINED, 1, LOCAL(1),
+  // flags & REDEFINED == 0:
+  var_std__equal, 2, LOCAL(1), num_0, 1, LOCAL(2),
+  // if
+  var_if, 3, LOCAL(2), lambda_72, lambda_76, TAIL_CALL,
+  POS(386, 28),
+  POS(386, 25),
+  POS(392, 29),
+  POS(387, 25),
+  POS(387, 26),
+  POS(394, 27),
+  POS(394, 27),
+  POS(393, 25)
+};
+
+static TAB_NUM t_lambda_72[] = {
+  2, // locals
+  0, // parameters
   // name .contains. ':' || flags & HAS_SLOTS != 0
   var_contains, 2, var_307_14_name, chr_58, 1, LOCAL(1),
   // name .contains. ':' || flags & HAS_SLOTS != 0
   var_std__or, 2, LOCAL(1), lambda_73, 1, LOCAL(2),
   // if
   var_if, 3, LOCAL(2), lambda_74, lambda_75, TAIL_CALL,
-  POS(388, 32),
-  POS(388, 29),
-  POS(394, 33),
-  POS(389, 29),
-  POS(389, 30),
   POS(396, 31),
   POS(396, 31),
   POS(395, 29)
@@ -1796,8 +1796,8 @@ static TAB_NUM t_lambda_77[] = {
 static TAB_NUM t_lambda_78[] = {
   2, // locals
   0, // parameters
-  // tuple(INITIALIZED definition)
-  var_tuple, 2, var_INITIALIZED, var_308_6_definition, 1, LOCAL(1),
+  // tuple(INITIALIZED_COMPOUND definition)
+  var_tuple, 2, var_INITIALIZED_COMPOUND, var_308_6_definition, 1, LOCAL(1),
   // new_variables
   var_296_1_new_variables, 2, var_307_14_name, LOCAL(1), 1, LOCAL(2),
   // 
@@ -2326,9 +2326,9 @@ static FUNKY_CONSTANT constants_table[] = {
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_69}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_70}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_71}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_72}},
   {FLT_STRING_8, 0, {.str_8 = ""}},
   {FLT_STRING_8, 1, {.str_8 = "_"}},
+  {FLT_FUNCTION, 0, {.tfunc = t_lambda_72}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_73}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_74}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_75}},
@@ -3113,17 +3113,17 @@ static FUNKY_VARIABLE variables_table[] = {
   {
     FOT_UNKNOWN, 0, 0,
     "minus\000std", NULL,
-    {.position = POS(388, 32)}
+    {.position = POS(386, 28)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "append\000", NULL,
-    {.position = POS(394, 62)}
+    {.position = POS(392, 58)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "string\000", NULL,
-    {.position = POS(390, 31)}
+    {.position = POS(388, 27)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,

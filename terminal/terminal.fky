@@ -35,6 +35,10 @@
   Horizontal and vertical lines are drawn using the appropriate unicode graphics
   characters.
 
+<namespace terminal_private>
+
+<require ./keys>
+
 $std::define_window ()
 $std::set_cursor ()
 $std::set_character_at ()
@@ -814,6 +818,84 @@ $std::blit:
 		range src 3*min_x-2 3*max_x
 	      copy_lines
     -> destination
+
+$std::FILE_DESCRIPTOR .
+  #
+    specify file descriptor in call to *initialize_terminal*
+
+$std::RECEIVE_CTRL_C_AND_CTRL_Z .
+  #
+    specify that the terminal should receive ctrl-c and ctrl-z
+
+$std::RECEIVE_CTRL_Q_AND_CTRL_S .
+  #
+    specify that the terminal should receive ctrl-q and ctrl-s
+
+$std::MAP_CR .
+  #
+    specify that the terminal should map carriage return to line feed
+
+$std::RECEIVE_SIGWINCH .
+  #
+    specify that the terminal should receive SIGWINCH
+
+$std::CURSOR_OFF .
+  #
+    specify that the cursor should be turned off
+
+$std::TITLE .
+  #
+    the title to use for the terminal window
+
+$terminal_private::backspace_character '@del;'
+
+$std::initialize_terminal:
+  (
+    options*
+    body
+  )
+  extract_options options
+    FILE_DESCRIPTOR = STDIN_FILENO $fd
+    RECEIVE_CTRL_C_AND_CTRL_Z = false $do_receive_ctrl_c_and_ctrl_z
+    RECEIVE_CTRL_Q_AND_CTRL_S = false $do_receive_ctrl_q_and_ctrl_s
+    MAP_CR = false $do_map_cr
+    RECEIVE_SIGWINCH = false $_do_receive_sigwinch
+    CURSOR_OFF = false $do_switch_cursor_off
+    TITLE = undefined $title
+
+  get_terminal_attributes! fd $original_attributes
+  $attributes original_attributes
+  use_canonical_mode &attributes false #  no line-buffering ...
+  echo_characters &attributes false # ... and no echoing of typed in characters
+  update_if do_receive_ctrl_c_and_ctrl_z &attributes:
+    generate_signals attributes false
+  update_if do_receive_ctrl_q_and_ctrl_s &attributes:
+    enable_xon_xoff_for_output attributes false
+  update_if do_map_cr &attributes:
+    map_cr_to_lf_on_input attributes false
+  set_terminal_attributes! $success STDIN_FILENO attributes
+
+  on success.is_an_error success
+
+  !terminal_private::backspace_character backspace_character_of(attributes)
+
+  print! "@esc;[?47h" # switch to alternate screen
+  print! "@esc;[33s" # store cursor position
+  on do_switch_cursor_off: cursor_off!
+  on title.is_defined: print! "@esc;]0;@(title)@7;"
+
+  get_terminal_size! fd $width $height
+  create_terminal $terminal width height
+
+  terminal_private::initialize_keys:
+    try $err: body! terminal
+
+    set_terminal_attributes! $_success fd original_attributes
+    print! "@esc;[u" # restore cursor position
+    print! "@esc;[?47l" # switch to default screen
+    print! "@esc;[0m" # set default colours
+
+    on err.is_an_error: debug_print err 50
 
 $std::update_terminal
   #
@@ -2137,4 +2219,3 @@ $std::ansi_reset_colour:
 
 $std::csi: (arguments* command)
   -> string("@esc;[" join(arguments ';') command)
-
