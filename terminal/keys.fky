@@ -122,6 +122,32 @@ $terminal_private::initialize_keys: (body)
 
   !std::key_names
     hash_table
+      "ctrl-a" = '@1;'
+      "ctrl-b" = '@2;'
+      "ctrl-c" = '@3;'
+      "ctrl-d" = '@4;'
+      "ctrl-e" = '@5;'
+      "ctrl-f" = '@6;'
+      "ctrl-g" = '@7;'
+      "ctrl-h" = '@8;'
+      "ctrl-i" = '@9;'
+      "ctrl-j" = '@10;'
+      "ctrl-k" = '@11;'
+      "ctrl-l" = '@12;'
+      "ctrl-m" = '@13;'
+      "ctrl-n" = '@14;'
+      "ctrl-o" = '@15;'
+      "ctrl-p" = '@16;'
+      "ctrl-q" = '@17;'
+      "ctrl-r" = '@18;'
+      "ctrl-s" = '@19;'
+      "ctrl-t" = '@20;'
+      "ctrl-u" = '@21;'
+      "ctrl-v" = '@22;'
+      "ctrl-w" = '@23;'
+      "ctrl-x" = '@24;'
+      "ctrl-y" = '@25;'
+      "ctrl-z" = '@26;'
       "tabulator" = TABULATOR
       "cursor-up" = CURSOR_UP
       "cursor-down" = CURSOR_DOWN
@@ -256,7 +282,6 @@ $std::extract_keys:
   (
     input
   )
-  edump `input
   $keys empty_list
   loop:
     if

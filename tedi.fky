@@ -12,7 +12,7 @@
 <using std>
 <using ai>
 
-<allow unused>
+#<allow unused>
 
 $EXIT .
 
@@ -122,35 +122,6 @@ program_parameters!
     MANDATORY_PARAMETER "filename" "
       the name of the text file to edit
 
-$alt_key_to_letter
-  hash_table
-    ALT_A = 'a'
-    ALT_B = 'b'
-    ALT_C = 'c'
-    ALT_D = 'd'
-    ALT_E = 'e'
-    ALT_F = 'f'
-    ALT_G = 'g'
-    ALT_H = 'h'
-    ALT_I = 'i'
-    ALT_J = 'j'
-    ALT_K = 'k'
-    ALT_L = 'l'
-    ALT_M = 'm'
-    ALT_N = 'n'
-    ALT_O = 'o'
-    ALT_P = 'p'
-    ALT_Q = 'q'
-    ALT_R = 'r'
-    ALT_S = 's'
-    ALT_T = 't'
-    ALT_U = 'u'
-    ALT_V = 'v'
-    ALT_W = 'w'
-    ALT_X = 'x'
-    ALT_Y = 'y'
-    ALT_Z = 'z'
-
 load_file! $lines
 on lines.is_an_error:
   eprint! "
@@ -226,6 +197,11 @@ $editor_key_bindings
     CTRL_ALT_S = save_with_leading_spaces_action
     CTRL_V = paste
     CTRL_X = cut
+
+    # function keys
+
+    F2 = change_colour_set
+    F3 = toggle_indentation_highlighting
 
 $simple_key_bindings
   hash_table
@@ -420,7 +396,7 @@ $go_to_window
 
 # Window Ids
 
-$STATUS_WINDOW -1
+#$STATUS_WINDOW -1
 $SEARCH_WINDOW -2
 $GOTO_WINDOW -3
 
@@ -493,7 +469,10 @@ $main: (initial_terminal)
 	    next
 	    :
 	      $name line .truncate_from. ' '
-	      eprintln! name
+	      #$function line .behind. ' '
+	      $key key_names(name)
+	      eprint! name ": "
+	      edump `key
 	      next!
 	:
 	  start_tedi!
@@ -508,7 +487,6 @@ $start_tedi:
   on terminal.is_an_error terminal
 
 $event_loop:
-  $rc result_count()
   loop:
     get_events! &io $events
     for_each events
@@ -810,8 +788,6 @@ $paste_text: (input)
 	    !s i+1
 	    next
 	  next
-
-$do_nothing -> window lines
 
 $select_page_up: select page_up
 $select_page_down: select page_down
@@ -1514,7 +1490,7 @@ $save_contents_action:
   save! filename lines_to_text(lines)
   -> terminal state
 
-$save_with_leading_spaces -> state(.action_of save_with_leading_spaces_action)
+#$save_with_leading_spaces -> state(.action_of save_with_leading_spaces_action)
 
 $save_with_leading_spaces_action:
   save! filename lines_to_spaced_text(lines)
@@ -1894,25 +1870,6 @@ $ai_completion_action:
 	next
       -> lines
 
-  $get_indent: (text)
-    $i 0
-    $n length_of(text)
-    $indent 0
-    loop:
-      inc &i
-      if
-	i > n
-	-> undefined 0
-	:
-	  case text(i)
-	    ' ':
-	      inc &indent
-	      next
-	    '@ht;':
-	      plus &indent 8
-	      next
-	    -> range(text i -1) indent
-
 $line_start_tokens:
   #
     return a list of tokens corresponding to the text from the line start
@@ -1928,7 +1885,7 @@ $line_start_tokens:
 	line.is_undefined
 	-> 1 empty_list empty_list
 	:
-	  line $indent $text $_mark $_folds $tokens
+	  line $indent $_text $_mark $_folds $tokens
 	  $x x_of(window)
 	  $cx indent+1
 	  if
@@ -2004,24 +1961,24 @@ $initialize_ai:
 		   next
 	     -> model(.space_tokens_of space_tokens)
 
-$set_upper_bound:
+#$set_upper_bound:
   ->
     window
       .is_locked true
       .upper_bound_of y_of(window)+1-first_visible_y_of(window)
     lines
 
-$set_lower_bound:
+#$set_lower_bound:
   ->
     window
       .is_locked true
       .lower_bound_of y_of(window)+1-first_visible_y_of(window)
     lines
 
-$toggle_line_lock:
+#$toggle_line_lock:
   -> window(.is_locked not(window.is_locked)) lines
 
-$toggle_permanent_selection:
+#$toggle_permanent_selection:
   if
     window.has_a_permanent_selection
     ->
@@ -2720,37 +2677,32 @@ $recursively_collect_folded_lines: (line)
 	-> list(line)
     -> list(undefined)
 
-$help:
-  #debug_write "
-    show help
-  -> window lines
-
 $change_colour_set:
   $colour_set_no colour_set_no_of(window)
   if
     colour_set_no.is_undefined
-    -> window lines
+    -> state
     :
       $next_colour_set_no
 	if
 	  colour_set_no >= length_of(colour_sets)
 	  -> 1
 	  -> colour_set_no+1
-      ->
+      !window
 	window
 	  .colour_set_no_of next_colour_set_no
 	  .colour_set_of colour_sets(next_colour_set_no)
 	  .first_updated_y_of 1
 	  .last_updated_y_of END
-	lines
+      return_window
 
 $toggle_indentation_highlighting:
-  ->
+  !window
     window
       .do_highlight_indentations_of not(do_highlight_indentations_of(window))
       .first_updated_y_of 1
       .last_updated_y_of END
-    lines
+  return_window
 
 $load_file:
   load! $buf filename
@@ -2813,48 +2765,8 @@ $update_display:
       new_first_visible_y new_first_visible_y+height-1
   $previous_x previous_x_of(window)
   $previous_y previous_y_of(window)
-  $previous_selection_start_x previous_selection_start_x_of(window)
   $previous_selection_start_y previous_selection_start_y_of(window)
-  $selection_start_x selection_start_x_of(window)
   $selection_start_y selection_start_y_of(window)
-  #if $selection_first_updated_y $selection_last_updated_y
-    previous_selection_start_x.is_defined:
-      if
-	selection_start_x.is_defined:
-	  # check for selection change
-	  cond
-	    -> y != previous_y:
-	      if
-		y > previous_y
-		-> previous_y y-1
-		-> y previous_y
-	    -> x != previous_x -> y y
-	    -> true -> first_updated_y last_updated_y
-	:
-	  # remove selection highlights
-	  if
-	    previous_y == previous_selection_start_y
-	    -> previous_y previous_y
-	    : min_max_minus_1 previous_y previous_selection_start_y
-    :
-      if
-	selection_start_x.is_defined:
-	  # show initial selection
-	  if
-	    y == selection_start_y
-	    -> y y
-	    : min_max_minus_1 y selection_start_y
-	-> first_updated_y last_updated_y
-  #!first_updated_y
-    if
-      first_updated_y.is_undefined
-      -> selection_first_updated_y
-      -> min(first_updated_y selection_first_updated_y)
-  #!last_updated_y
-    cond
-      -> last_updated_y.is_undefined -> selection_last_updated_y
-      -> last_updated_y == END -> END
-      -> true -> max(last_updated_y selection_last_updated_y)
   !window
     window
       .first_visible_x_of first_visible_x
@@ -3225,14 +3137,6 @@ $draw_title_bar:
     pad_left("@(y_of(window))/@(length_of(lines))" 11)
     ':' pad_right(x_of(window) 3)
     "  " filename
-  -> terminal
-
-$draw_command_bar:
-  define_window &terminal 1 -1 -1 -1
-  $colour_set colour_set_of(window)
-  set_text_colour &terminal bar_text_colour_of(colour_set)
-  set_background_colour &terminal bar_background_colour_of(colour_set)
-  clear &terminal
   -> terminal
 
 # Helper Functions
