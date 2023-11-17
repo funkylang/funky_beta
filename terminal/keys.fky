@@ -122,32 +122,8 @@ $terminal_private::initialize_keys: (body)
 
   !std::key_names
     hash_table
-      "ctrl-a" = '@1;'
-      "ctrl-b" = '@2;'
-      "ctrl-c" = '@3;'
-      "ctrl-d" = '@4;'
-      "ctrl-e" = '@5;'
-      "ctrl-f" = '@6;'
-      "ctrl-g" = '@7;'
-      "ctrl-h" = '@8;'
-      "ctrl-i" = '@9;'
-      "ctrl-j" = '@10;'
-      "ctrl-k" = '@11;'
-      "ctrl-l" = '@12;'
-      "ctrl-m" = '@13;'
-      "ctrl-n" = '@14;'
-      "ctrl-o" = '@15;'
-      "ctrl-p" = '@16;'
-      "ctrl-q" = '@17;'
-      "ctrl-r" = '@18;'
-      "ctrl-s" = '@19;'
-      "ctrl-t" = '@20;'
-      "ctrl-u" = '@21;'
-      "ctrl-v" = '@22;'
-      "ctrl-w" = '@23;'
-      "ctrl-x" = '@24;'
-      "ctrl-y" = '@25;'
-      "ctrl-z" = '@26;'
+      "return" = RETURN
+      "backspace" = BACKSPACE
       "tabulator" = TABULATOR
       "cursor-up" = CURSOR_UP
       "cursor-down" = CURSOR_DOWN
@@ -198,12 +174,15 @@ $terminal_private::initialize_keys: (body)
       "alt-cursor-down" = ALT_CURSOR_DOWN
       "alt-cursor-right" = ALT_CURSOR_RIGHT
       "alt-cursor-left" = ALT_CURSOR_LEFT
+      "alt-return" = ALT_RETURN
       "alt-home" = ALT_HOME
       "alt-end" = ALT_END
       "alt-page-up" = ALT_PAGE_UP
       "alt-page-down" = ALT_PAGE_DOWN
       "alt-insert" = ALT_INSERT
       "alt-delete" = ALT_DELETE
+      "alt-space" = ALT_SPACE
+      "alt-backspace" = ALT_BACKSPACE
       "alt-f1" = ALT_F1
       "alt-f2" = ALT_F2
       "alt-f3" = ALT_F3
@@ -216,6 +195,30 @@ $terminal_private::initialize_keys: (body)
       "alt-f10" = ALT_F10
       "alt-f11" = ALT_F11
       "alt-f12" = ALT_F12
+      "ctrl-a" = CTRL_A
+      "ctrl-b" = CTRL_B
+      "ctrl-c" = CTRL_C
+      "ctrl-d" = CTRL_D
+      "ctrl-e" = CTRL_E
+      "ctrl-f" = CTRL_F
+      "ctrl-g" = CTRL_G
+      "ctrl-j" = CTRL_J
+      "ctrl-k" = CTRL_K
+      "ctrl-l" = CTRL_L
+      "ctrl-m" = CTRL_M
+      "ctrl-n" = CTRL_N
+      "ctrl-o" = CTRL_O
+      "ctrl-p" = CTRL_P
+      "ctrl-q" = CTRL_Q
+      "ctrl-r" = CTRL_R
+      "ctrl-s" = CTRL_S
+      "ctrl-t" = CTRL_T
+      "ctrl-u" = CTRL_U
+      "ctrl-v" = CTRL_V
+      "ctrl-w" = CTRL_W
+      "ctrl-x" = CTRL_X
+      "ctrl-y" = CTRL_Y
+      "ctrl-z" = CTRL_Z
       "ctrl-cursor-up" = CTRL_CURSOR_UP
       "ctrl-cursor-down" = CTRL_CURSOR_DOWN
       "ctrl-cursor-right" = CTRL_CURSOR_RIGHT
@@ -226,6 +229,8 @@ $terminal_private::initialize_keys: (body)
       "ctrl-page-down" = CTRL_PAGE_DOWN
       "ctrl-insert" = CTRL_INSERT
       "ctrl-delete" = CTRL_DELETE
+      "ctrl-space" = CTRL_SPACE
+      "ctrl-backspace" = CTRL_BACKSPACE
       "ctrl-f1" = CTRL_F1
       "ctrl-f2" = CTRL_F2
       "ctrl-f3" = CTRL_F3
@@ -248,6 +253,32 @@ $terminal_private::initialize_keys: (body)
       "shift-ctrl-page-down" = SHIFT_CTRL_PAGE_DOWN
       "shift-ctrl-end" = SHIFT_CTRL_END
       "shift-ctrl-home" = SHIFT_CTRL_HOME
+      "ctrl-alt-a" = CTRL_ALT_A
+      "ctrl-alt-b" = CTRL_ALT_B
+      "ctrl-alt-c" = CTRL_ALT_C
+      "ctrl-alt-d" = CTRL_ALT_D
+      "ctrl-alt-e" = CTRL_ALT_E
+      "ctrl-alt-f" = CTRL_ALT_F
+      "ctrl-alt-g" = CTRL_ALT_G
+      "ctrl-alt-h" = CTRL_ALT_H
+      "ctrl-alt-i" = CTRL_ALT_I
+      "ctrl-alt-j" = CTRL_ALT_J
+      "ctrl-alt-k" = CTRL_ALT_K
+      "ctrl-alt-l" = CTRL_ALT_L
+      "ctrl-alt-m" = CTRL_ALT_M
+      "ctrl-alt-n" = CTRL_ALT_N
+      "ctrl-alt-o" = CTRL_ALT_O
+      "ctrl-alt-p" = CTRL_ALT_P
+      "ctrl-alt-q" = CTRL_ALT_Q
+      "ctrl-alt-r" = CTRL_ALT_R
+      "ctrl-alt-s" = CTRL_ALT_S
+      "ctrl-alt-t" = CTRL_ALT_T
+      "ctrl-alt-u" = CTRL_ALT_U
+      "ctrl-alt-v" = CTRL_ALT_V
+      "ctrl-alt-w" = CTRL_ALT_W
+      "ctrl-alt-x" = CTRL_ALT_X
+      "ctrl-alt-y" = CTRL_ALT_Y
+      "ctrl-alt-z" = CTRL_ALT_Z
 
   if
     terminal_private::backspace_character == '@bs;':
@@ -369,7 +400,32 @@ $escape_sequences
   list
     " " = ALT_SPACE
     "@cr;" = ALT_RETURN
-    "@0x13;" = CTRL_ALT_S
+    "@1;" = CTRL_ALT_A
+    "@2;" = CTRL_ALT_B
+    "@3;" = CTRL_ALT_C
+    "@4;" = CTRL_ALT_D
+    "@5;" = CTRL_ALT_E
+    "@6;" = CTRL_ALT_F
+    "@7;" = CTRL_ALT_G
+    "@8;" = CTRL_ALT_H
+    "@9;" = CTRL_ALT_I
+    "@10;" = CTRL_ALT_J
+    "@11;" = CTRL_ALT_K
+    "@12;" = CTRL_ALT_L
+    "@13;" = CTRL_ALT_M
+    "@14;" = CTRL_ALT_N
+    "@15;" = CTRL_ALT_O
+    "@16;" = CTRL_ALT_P
+    "@17;" = CTRL_ALT_Q
+    "@18;" = CTRL_ALT_R
+    "@19;" = CTRL_ALT_S
+    "@20;" = CTRL_ALT_T
+    "@21;" = CTRL_ALT_U
+    "@22;" = CTRL_ALT_V
+    "@23;" = CTRL_ALT_W
+    "@24;" = CTRL_ALT_X
+    "@25;" = CTRL_ALT_Y
+    "@26;" = CTRL_ALT_Z
     "OP" = F1
     "OQ" = F2
     "OR" = F3
@@ -400,6 +456,7 @@ $escape_sequences
     "x" = ALT_X
     "y" = ALT_Y
     "z" = ALT_Z
+    "@0x7f;" = ALT_BACKSPACE
 
 $std::ESCAPE .
 $std::RETURN .
@@ -453,6 +510,7 @@ $std::SHIFT_F11 .
 $std::SHIFT_F12 .
 
 $std::ALT_SPACE .
+$std::ALT_BACKSPACE .
 $std::ALT_RETURN .
 $std::ALT_CURSOR_LEFT .
 $std::ALT_CURSOR_RIGHT .
@@ -530,6 +588,33 @@ $std::CTRL_F10 .
 $std::CTRL_F11 .
 $std::CTRL_F12 .
 
+$std::CTRL_ALT_A .
+$std::CTRL_ALT_B .
+$std::CTRL_ALT_C .
+$std::CTRL_ALT_D .
+$std::CTRL_ALT_E .
+$std::CTRL_ALT_F .
+$std::CTRL_ALT_G .
+$std::CTRL_ALT_H .
+$std::CTRL_ALT_I .
+$std::CTRL_ALT_J .
+$std::CTRL_ALT_K .
+$std::CTRL_ALT_L .
+$std::CTRL_ALT_M .
+$std::CTRL_ALT_N .
+$std::CTRL_ALT_O .
+$std::CTRL_ALT_P .
+$std::CTRL_ALT_Q .
+$std::CTRL_ALT_R .
+$std::CTRL_ALT_S .
+$std::CTRL_ALT_T .
+$std::CTRL_ALT_U .
+$std::CTRL_ALT_V .
+$std::CTRL_ALT_W .
+$std::CTRL_ALT_X .
+$std::CTRL_ALT_Y .
+$std::CTRL_ALT_Z .
+
 $std::CTRL_ALT_HOME .
 $std::CTRL_ALT_END .
 
@@ -569,8 +654,6 @@ $std::SHIFT_CTRL_HOME .
 $std::SHIFT_CTRL_END .
 $std::SHIFT_CTRL_PAGE_UP .
 $std::SHIFT_CTRL_PAGE_DOWN .
-
-$std::CTRL_ALT_S .
 
 $ctrl_key
   list

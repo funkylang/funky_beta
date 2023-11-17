@@ -122,6 +122,81 @@ program_parameters!
     MANDATORY_PARAMETER "filename" "
       the name of the text file to edit
 
+$functions
+  hash_table
+    # cursor movement
+
+    "cursor_up" = cursor_up
+    "cursor_down" = cursor_down
+    "cursor_left" = cursor_left
+    "cursor_right" = cursor_right
+
+    "page_up" = page_up
+    "page_down" = page_down
+    "cursor_home" = cursor_home
+    "cursor_end" = cursor_end
+
+    "smart_cursor_up" = smart_cursor_up
+    "smart_cursor_down" = smart_cursor_down
+    "cursor_top" = cursor_top
+    "cursor_bottom" = cursor_bottom
+
+    # text selection
+
+    "select_cursor_up" = select_cursor_up
+    "select_cursor_down" = select_cursor_down
+    "select_cursor_left" = select_cursor_left
+    "select_cursor_right" = select_cursor_right
+
+    "select_page_up" = select_page_up
+    "select_page_down" = select_page_down
+    "select_cursor_home" = select_cursor_home
+    "select_cursor_end" = select_cursor_end
+
+    "select_smart_cursor_up" = select_smart_cursor_up
+    "select_smart_cursor_down" = select_smart_cursor_down
+    "select_cursor_top" = select_cursor_top
+    "select_cursor_bottom" = select_cursor_bottom
+
+    # insert & delete
+
+    "smart_indent" = smart_indent
+    "smart_outdent" = smart_outdent
+    "split_line" = split_line
+    "delete_left" = delete_left
+    "delete_right" = delete_right
+
+    "delete_to_line_start" = delete_to_line_start
+    "delete_to_line_end" = delete_to_line_end
+    "smart_completion" = smart_completion
+    "ai_completion" = ai_completion
+    "toggle_folding" = toggle_folding
+    "fold_contents" = fold_contents
+    "unfold_contents" = unfold_contents
+    "fold_everything" = fold_everything
+    "unfold_everything" = unfold_everything
+
+    # control commands
+
+    "copy" = copy
+    "define_mark" = define_mark
+    "find_text_dialog" = find_text_dialog
+    "go_to_line_dialog" = go_to_line_dialog
+    "join_lines" = join_lines
+    "delete_line" = delete_line
+    "find_next" = find_next
+    "find_previous" = find_previous
+    "save_contents" = save_contents
+    "save_with_leading_spaces" = save_with_leading_spaces
+    "paste" = paste
+    "cut" = cut
+
+    # function keys
+
+    "change_colour_set" = change_colour_set
+    "toggle_indentation_highlighting" = toggle_indentation_highlighting
+
+
 load_file! $lines
 on lines.is_an_error:
   eprint! "
@@ -194,7 +269,7 @@ $editor_key_bindings
     CTRL_P = find_previous
     CTRL_Q = EXIT
     CTRL_S = save_contents
-    CTRL_ALT_S = save_with_leading_spaces_action
+    CTRL_ALT_S = save_with_leading_spaces
     CTRL_V = paste
     CTRL_X = cut
 
@@ -245,6 +320,9 @@ $search_key_bindings
     CTRL_X = cut
     CTRL_N = start_search
     CTRL_P = start_search
+
+$redo_key CTRL_Y
+$undo_key CTRL_Z
 
 get_environment $environment
 $configuration_filename append(environment("HOME") "/tedi.cfg")
@@ -437,6 +515,66 @@ $main: (initial_terminal)
   !go_to_window.top_y_of terminal_height
   !go_to_window.width_of terminal_width
 
+  load! $configuration configuration_filename
+  if
+    configuration.is_an_error # no configuration file found
+    start_tedi
+    :
+      for_each split(configuration '@nl;')
+	: (no line)
+	  normalize &line
+	  if
+	    line.is_empty || line(1) == '#'
+	    next
+	    :
+	      $name line .truncate_from. ' '
+	      $function_name line .behind. ' '
+	      $key key_names(name)
+	      on key.is_undefined:
+		eprint! "
+		  Invalid key name "@(name)" in line @(no)!
+	      edump `function_name
+	      case function_name
+		"undefined":
+		  if
+		    key.is_defined:
+		      !editor_key_bindings(key) undefined
+		      next!
+		    next
+		"quit":
+		  if
+		    key.is_defined:
+		      !editor_key_bindings(key) EXIT
+		      next!
+		    next
+		"redo":
+		  if
+		    key.is_defined:
+		      !redo_key key
+		      next!
+		    next
+		"undo":
+		  if
+		    key.is_defined:
+		      !undo_key key
+		      next!
+		    next
+		:
+		  $function functions(function_name)
+		  on function.is_undefined:
+		    eprint! "
+		      Invalid function name "@(function_name)" in line @(no)!
+		  if
+		    key.is_defined && function.is_defined:
+		      !editor_key_bindings(key) function
+		      next!
+		    next
+	:
+	  edump `undo_key
+	  !window.key_bindings_of editor_key_bindings
+	  start_tedi!
+
+$start_tedi:
   !state
     std_types::object
       .ai_model_of undefined
@@ -456,28 +594,6 @@ $main: (initial_terminal)
       .search_text_of undefined
       .replacement_text_of undefined
 
-  load! $configuration configuration_filename
-  if
-    configuration.is_an_error # no configuration file found
-    start_tedi
-    :
-      for_each split(configuration '@nl;')
-	: (line)
-	  normalize &line
-	  if
-	    line.is_empty || line(1) == '#'
-	    next
-	    :
-	      $name line .truncate_from. ' '
-	      #$function line .behind. ' '
-	      $key key_names(name)
-	      eprint! name ": "
-	      edump `key
-	      next!
-	:
-	  start_tedi!
-
-$start_tedi:
   update_display !terminal !state
   update_terminal &terminal $initial_output
   print! initial_output
@@ -513,11 +629,6 @@ $event_loop:
 		    $keys extract_keys(input).combine_characters
 		    for_each keys
 		      : (key)
-			#update_if do_toggle_backspace &key:
-			  case key
-			    BACKSPACE -> CTRL_BACKSPACE
-			    CTRL_BACKSPACE -> BACKSPACE
-			    -> key
 			!current_window_index current_window_index_of(state)
 			!window windows_of(state)(current_window_index)
 			!window.previous_x_of x_of(window)
@@ -537,7 +648,7 @@ $event_loop:
 			      .possible_completions_of undefined
 
 			case key
-			  CTRL_Y: # redo
+			  redo_key: # redo
 			    if
 			      ||
 				not(features_of(window)(HAS_HISTORY))
@@ -548,7 +659,7 @@ $event_loop:
 				!window redo_of(window)
 				!window.previous_of current_window
 				update_all!
-			  CTRL_Z: # undo
+			  undo_key: # undo
 			    if
 			      ||
 				not(features_of(window)(HAS_HISTORY))
@@ -1490,7 +1601,7 @@ $save_contents_action:
   save! filename lines_to_text(lines)
   -> terminal state
 
-#$save_with_leading_spaces -> state(.action_of save_with_leading_spaces_action)
+$save_with_leading_spaces -> state(.action_of save_with_leading_spaces_action)
 
 $save_with_leading_spaces_action:
   save! filename lines_to_spaced_text(lines)
