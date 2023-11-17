@@ -712,7 +712,7 @@ done
 for TOOL in $TOOLS
 do
   echo
-  echo -n "$TOOL: compiler/funky"
+  echo -n "$TOOL: compiler/funky $TOOL.fky"
   for LIBNAME in $ADDITIONAL_LIBRARIES
   do
     echo -n " libfky-${LIBNAME}${DLL_EXTENSION}"

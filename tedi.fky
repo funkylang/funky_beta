@@ -533,7 +533,6 @@ $main: (initial_terminal)
 	      on key.is_undefined:
 		eprint! "
 		  Invalid key name "@(name)" in line @(no)!
-	      edump `function_name
 	      case function_name
 		"undefined":
 		  if
@@ -570,7 +569,6 @@ $main: (initial_terminal)
 		      next!
 		    next
 	:
-	  edump `undo_key
 	  !window.key_bindings_of editor_key_bindings
 	  start_tedi!
 
@@ -1832,7 +1830,7 @@ $ai_completion_action:
       if
 	ai_model.is_an_error:
 	  eprint! debug_string(ai_model 0 10)
-	  -> terminal window lines
+	  -> terminal state
 	:
 	  !state.ai_model_of ai_model
 	  check_tokens!
