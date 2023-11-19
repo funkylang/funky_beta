@@ -31,6 +31,7 @@ $SELECTION .
 $DELETION .
 $INSERTION .
 $FOLDING .
+$AI .
 $OTHER .
 
 # Features
@@ -860,7 +861,8 @@ $class_of: (key)
       CTRL_DELETE
       CTRL_X
     -> DELETION
-    RETURN, TABULATOR, CTRL_V, CTRL_SPACE, ALT_SPACE -> INSERTION
+    CTRL_SPACE -> AI
+    RETURN, TABULATOR, CTRL_V, ALT_SPACE -> INSERTION
     :
       if
 	key.is_a_string
@@ -1933,6 +1935,7 @@ $ai_completion_action:
 		:
 		  update_if ai_text(1) == ' ' && ai_text(2) != ' ' &ai_text
 		    -> range(ai_text 2 -1)
+		  !window.previous_of window
 		  !window.x_of 1
 		  insert !state ai_text
 		  !window windows_of(state)(current_window_index)
