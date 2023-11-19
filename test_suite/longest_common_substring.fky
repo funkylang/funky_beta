@@ -1,0 +1,37 @@
+#!/usr/bin/env fkyrun
+
+$longest_common_substring: (s t)
+  $n length_of(s)
+  $m length_of(t)
+  $dp initialized_int32_array(2 m+1 0)
+  $res 0
+  $best_i 0
+  $best_j 0
+
+  from_to 1 n
+    : (i)
+      from_to 1 m
+	: (j)
+	  if
+	    s(i) == t(j):
+	      $new_res dp((i-1 .mod. 2)+1 j)+1
+	      !dp((i .mod. 2)+1 j+1) new_res
+	      if
+		new_res > res:
+		  !res new_res
+		  !best_i i
+		  !best_j j
+		  next
+		next
+	    :
+	      !dp((i .mod. 2)+1 j+1) 0
+	      next
+	next
+    -> res best_i-res+1 best_j-res+1
+
+do:
+  $s1 "OldSite:GeeksforGeeks.org"
+  $s2 "NewerSite:GeeksQuiz.com"
+
+  longest_common_substring s1 s2 $n $i $j
+  dump! `n `i `j

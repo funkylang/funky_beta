@@ -1820,13 +1820,20 @@ $is_an_identifier_character: (chr)
 $ai_completion -> state(.action_of ai_completion_action)
 
 $ai_completion_action:
+  eprint! "
+    --------------------
   current_time! $t1
+  $t2 undefined
   $ai_model ai_model_of(state)
   if
     ai_model.is_defined
     check_tokens
     :
       initialize_ai! !ai_model
+      current_time! !t2
+      eprintln!
+	format("%2.3: loading model " t2-t1)
+      !t1 t2
       if
 	ai_model.is_an_error:
 	  eprint! debug_string(ai_model 0 10)
@@ -1843,6 +1850,9 @@ $ai_completion_action:
       :
 	tokenize! ai_model line_texts $line_tokens
 	update_tokens !lines line_numbers line_tokens
+	current_time! !t2
+	eprintln! format("%2.3: tokenize " t2-t1)
+	!t1 t2
 	attempt_completion!
 
   $attempt_completion:
@@ -1859,14 +1869,14 @@ $ai_completion_action:
 	:
 	  line_to_tokens $line_tokens y
 	  if
-	    length_of(line_tokens)+length_of(tokens) > 2560
-	    -> tokens
+	    length_of(line_tokens)+length_of(tokens) > 2560:
+	      debug_write detokenize(ai_model line_tokens)
+	      -> tokens
 	    :
 	      append line_tokens &tokens
 	      next
     edump `length_of(tokens)
     # ATTENTION: infill seems *not* to work - therefor it is currently ignored!
-    #put &tokens begin_of_stream_token_of(ai_model)
     #update_if suffix.is_not_empty &tokens:
       $space_token space_tokens_of(ai_model)(1)(1)
       put &tokens prefix_token_of(ai_model)
@@ -1877,10 +1887,8 @@ $ai_completion_action:
       push &tokens space_token
       push tokens middle_token_of(ai_model)
     #edump `length_of(tokens)
-    current_time! $t2
-    eprintln!
-      format("%2.3: preparation " t2-t1)
     $n length_of(tokens)
+    $zz 30
     loop:
       current_time! $t3
       evaluate! ai_model $token tokens
@@ -1889,8 +1897,9 @@ $ai_completion_action:
 	format("%2.3: " t4-t3)
 	'@quot;' escaped_token(ai_model token) '@quot;'
       if!
-	token != newline_token_of(ai_model):
+	zz > 0 && token != newline_token_of(ai_model):
 	  push &tokens token
+	  dec &zz
 	  next!
 	:
 	  # tokenization is that fast that we do not store the returned tokens
@@ -2350,14 +2359,11 @@ $find_next: (x = undefined)
 	    search_forwards
 	    :
 	      line $indent $text
-	      $s x-indent
+	      $s max(x-indent 1)
 	      if
 		s > length_of(text)
 		search_forwards
 		:
-		  edump `text
-		  edump `s
-		  edump `search_text
 		  range &text s -1
 		  search $pos $len search_text text
 		  if
