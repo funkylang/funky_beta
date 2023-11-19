@@ -127,76 +127,79 @@ $functions
   hash_table
     # cursor movement
 
-    "cursor_up" = cursor_up
-    "cursor_down" = cursor_down
-    "cursor_left" = cursor_left
-    "cursor_right" = cursor_right
+    "cursor_up" = tuple(cursor_up MOVEMENT)
+    "cursor_down" = tuple(cursor_down MOVEMENT)
+    "cursor_left" = tuple(cursor_left MOVEMENT)
+    "cursor_right" = tuple(cursor_right MOVEMENT)
 
-    "page_up" = page_up
-    "page_down" = page_down
-    "cursor_home" = cursor_home
-    "cursor_end" = cursor_end
+    "page_up" = tuple(page_up MOVEMENT)
+    "page_down" = tuple(page_down MOVEMENT)
+    "cursor_home" = tuple(cursor_home MOVEMENT)
+    "cursor_end" = tuple(cursor_end MOVEMENT)
 
-    "smart_cursor_up" = smart_cursor_up
-    "smart_cursor_down" = smart_cursor_down
-    "cursor_top" = cursor_top
-    "cursor_bottom" = cursor_bottom
+    "smart_cursor_up" = tuple(smart_cursor_up MOVEMENT)
+    "smart_cursor_down" = tuple(smart_cursor_down MOVEMENT)
+    "cursor_top" = tuple(cursor_top MOVEMENT)
+    "cursor_bottom" = tuple(cursor_bottom MOVEMENT)
 
     # text selection
 
-    "select_cursor_up" = select_cursor_up
-    "select_cursor_down" = select_cursor_down
-    "select_cursor_left" = select_cursor_left
-    "select_cursor_right" = select_cursor_right
+    "select_cursor_up" = tuple(select_cursor_up SELECTION)
+    "select_cursor_down" = tuple(select_cursor_down SELECTION)
+    "select_cursor_left" = tuple(select_cursor_left SELECTION)
+    "select_cursor_right" = tuple(select_cursor_right SELECTION)
 
-    "select_page_up" = select_page_up
-    "select_page_down" = select_page_down
-    "select_cursor_home" = select_cursor_home
-    "select_cursor_end" = select_cursor_end
+    "select_page_up" = tuple(select_page_up SELECTION)
+    "select_page_down" = tuple(select_page_down SELECTION)
+    "select_cursor_home" = tuple(select_cursor_home SELECTION)
+    "select_cursor_end" = tuple(select_cursor_end SELECTION)
 
-    "select_smart_cursor_up" = select_smart_cursor_up
-    "select_smart_cursor_down" = select_smart_cursor_down
-    "select_cursor_top" = select_cursor_top
-    "select_cursor_bottom" = select_cursor_bottom
+    "select_smart_cursor_up" = tuple(select_smart_cursor_up SELECTION)
+    "select_smart_cursor_down" = tuple(select_smart_cursor_down SELECTION)
+    "select_cursor_top" = tuple(select_cursor_top SELECTION)
+    "select_cursor_bottom" = tuple(select_cursor_bottom SELECTION)
 
     # insert & delete
 
-    "smart_indent" = smart_indent
-    "smart_outdent" = smart_outdent
-    "split_line" = split_line
-    "delete_left" = delete_left
-    "delete_right" = delete_right
+    "smart_indent" = tuple(smart_indent INSERTION)
+    "smart_outdent" = tuple(smart_outdent INSERTION)
+    "split_line" = tuple(split_line INSERTION)
+    "delete_left" = tuple(delete_left DELETION)
+    "delete_right" = tuple(delete_right DELETION)
 
-    "delete_to_line_start" = delete_to_line_start
-    "delete_to_line_end" = delete_to_line_end
-    "smart_completion" = smart_completion
-    "ai_completion" = ai_completion
-    "toggle_folding" = toggle_folding
-    "fold_contents" = fold_contents
-    "unfold_contents" = unfold_contents
-    "fold_everything" = fold_everything
-    "unfold_everything" = unfold_everything
+    "delete_to_line_start" = tuple(delete_to_line_start DELETION)
+    "delete_to_line_end" = tuple(delete_to_line_end DELETION)
+    "smart_completion" = tuple(smart_completion INSERTION)
+    "ai_completion" = tuple(ai_completion AI)
+    "toggle_folding" = tuple(toggle_folding FOLDING)
+    "fold_contents" = tuple(fold_contents FOLDING)
+    "unfold_contents" = tuple(unfold_contents FOLDING)
+    "fold_everything" = tuple(fold_everything FOLDING)
+    "unfold_everything" = tuple(unfold_everything FOLDING)
 
     # control commands
 
-    "copy" = copy
-    "define_mark" = define_mark
-    "find_text_dialog" = find_text_dialog
-    "go_to_line_dialog" = go_to_line_dialog
-    "join_lines" = join_lines
-    "delete_line" = delete_line
-    "find_next" = find_next
-    "find_previous" = find_previous
-    "save_contents" = save_contents
-    "save_with_leading_spaces" = save_with_leading_spaces
-    "paste" = paste
-    "cut" = cut
+    "copy" = tuple(copy OTHER)
+    "define_mark" = tuple(define_mark OTHER)
+    "find_text_dialog" = tuple(find_text_dialog OTHER)
+    "go_to_line_dialog" = tuple(go_to_line_dialog OTHER)
+    "join_lines" = tuple(join_lines DELETION)
+    "delete_line" = tuple(delete_line DELETION)
+    "find_next" = tuple(find_next MOVEMENT)
+    "find_previous" = tuple(find_previous MOVEMENT)
+    "save_contents" = tuple(save_contents OTHER)
+    "save_with_leading_spaces" = tuple(save_with_leading_spaces OTHER)
+    "paste" = tuple(paste INSERTION)
+    "cut" = tuple(cut DELETION)
 
     # function keys
 
-    "change_colour_set" = change_colour_set
-    "toggle_indentation_highlighting" = toggle_indentation_highlighting
+    "change_colour_set" = tuple(change_colour_set OTHER)
+    =
+      "toggle_indentation_highlighting"
+      tuple(toggle_indentation_highlighting OTHER)
 
+$class_of empty_hash_table
 
 load_file! $lines
 on lines.is_an_error:
@@ -545,28 +548,33 @@ $main: (initial_terminal)
 		  if
 		    key.is_defined:
 		      !editor_key_bindings(key) EXIT
+		      !class_of(key) OTHER
 		      next!
 		    next
 		"redo":
 		  if
 		    key.is_defined:
 		      !redo_key key
+		      !class_of(key) OTHER
 		      next!
 		    next
 		"undo":
 		  if
 		    key.is_defined:
 		      !undo_key key
+		      !class_of(key) OTHER
 		      next!
 		    next
 		:
-		  $function functions(function_name)
+		  $info functions(function_name)
+		  info $function $class
 		  on function.is_undefined:
 		    eprint! "
 		      Invalid function name "@(function_name)" in line @(no)!
 		  if
 		    key.is_defined && function.is_defined:
 		      !editor_key_bindings(key) function
+		      !class_of(key) class
 		      next!
 		    next
 	:
@@ -810,64 +818,6 @@ $update_history: (key)
 	      window
 		.previous_of window
 		.key_of key
-
-$class_of: (key)
-  case key
-    undefined -> undefined
-    sequence
-      CURSOR_LEFT
-      CURSOR_RIGHT
-      CURSOR_UP
-      CURSOR_DOWN
-      PAGE_UP
-      PAGE_DOWN
-      HOME
-      END
-      CTRL_CURSOR_UP
-      CTRL_CURSOR_DOWN
-      CTRL_HOME
-      CTRL_END
-    -> MOVEMENT
-    sequence
-      SHIFT_CURSOR_LEFT
-      SHIFT_CURSOR_RIGHT
-      SHIFT_CURSOR_UP
-      SHIFT_CURSOR_DOWN
-      PAGE_UP
-      PAGE_DOWN
-      SHIFT_HOME
-      SHIFT_END
-      SHIFT_CTRL_CURSOR_UP
-      SHIFT_CTRL_CURSOR_DOWN
-      SHIFT_CTRL_HOME
-      SHIFT_CTRL_END
-      CTRL_F
-      CTRL_G
-      CTRL_N
-      CTRL_P
-    -> SELECTION
-    sequence
-      ALT_RETURN
-      ALT_CURSOR_LEFT
-      ALT_CURSOR_RIGHT
-      ALT_CURSOR_UP
-      ALT_CURSOR_DOWN
-    -> FOLDING
-    sequence
-      BACKSPACE
-      DELETE
-      SHIFT_TABULATOR
-      CTRL_BACKSPACE
-      CTRL_DELETE
-      CTRL_X
-    -> DELETION
-    CTRL_SPACE -> AI
-    RETURN, TABULATOR, CTRL_V, ALT_SPACE -> INSERTION
-    :
-      if
-	key.is_a_string
-	-> INSERTION
-	-> OTHER
 
 $paste_text: (input)
   $s 1
@@ -1890,7 +1840,6 @@ $ai_completion_action:
       push tokens middle_token_of(ai_model)
     #edump `length_of(tokens)
     $n length_of(tokens)
-    $zz 30
     loop:
       current_time! $t3
       evaluate! ai_model $token tokens
@@ -1899,9 +1848,8 @@ $ai_completion_action:
 	format("%2.3: " t4-t3)
 	'@quot;' escaped_token(ai_model token) '@quot;'
       if!
-	zz > 0 && token != newline_token_of(ai_model):
+	token != newline_token_of(ai_model):
 	  push &tokens token
-	  dec &zz
 	  next!
 	:
 	  # tokenization is that fast that we do not store the returned tokens
