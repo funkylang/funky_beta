@@ -30,8 +30,6 @@
 <using std>
 <using ai>
 
-<allow unused>
-
 program_parameters!
   $log_level
   list
@@ -57,10 +55,6 @@ program_parameters!
   list
     VALUED_OPTION "backtrack" 0 to_integer "
       the maximum number of steps to backtrack
-  $detailed
-  list
-    "detailed" "
-      request a more detailed answer
   $model_name
   list
     VALUED_OPTION "model" "vicuna-13b-v1.5.Q4_K_M.gguf" "
@@ -78,15 +72,8 @@ on do_log:
     minimum confidence: @(minimum_confidence)
     maximum length: @(maximum_length)
     backtrack: @(backtrack)
-    detailed: @(if(detailed (-> "true") (-> "false")))
     log level: @(log_level)
     @;
-
-$DETAILED
-  if
-    detailed
-    -> " detailed"
-    -> ""
 
 load_ai_model! $model model_name
 

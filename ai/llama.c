@@ -636,7 +636,7 @@ static TAB_NUM t_lambda_15[] = {
   // $token_string
   var_std__string, 3, string_3, LOCAL(1), string_4, 1, LOCAL(2),
   // format
-  var_format, 5, str_4_l, var_193_29_no, var_212_1_dt, LOCAL(2), var_208_34_next_confidence, 1, LOCAL(1),
+  var_format, 4, str_4_l, var_193_29_no, LOCAL(2), var_208_34_next_confidence, 1, LOCAL(1),
   // eprintln!
   var_eprintln, 1, LOCAL(1), IO_TAIL_CALL,
   POS(216, 32),

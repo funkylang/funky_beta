@@ -217,7 +217,7 @@ $ai_types::model/ai::generate:
 		    eprintln!
 		      format
 			"[#%4] %l18 %3.3"
-			no dt token_string next_confidence
+			no token_string next_confidence
 		  :
 		    if
 		      log_level >= 3:

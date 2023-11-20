@@ -71,6 +71,8 @@ $std::next pass
 
     Topic: Loops
 
+    See also: break, loop
+
 $std::break undefined
   #
     cancels the current "loop"
@@ -78,6 +80,8 @@ $std::break undefined
     *break* calls the *finally* function of the loop.
 
     Topic: Loops
+
+    See also: next, loop
 
 $std::loop:
   #
@@ -91,7 +95,7 @@ $std::loop:
 
     Topic: Loops
 
-    See also: from_to, next, break
+    See also: repeat, from_to, from_to_by, next, break
 
     Example:
 
@@ -162,18 +166,30 @@ $std::loop:
   next!
 
 $std::while:
+  #
+    a "while" loop
+
+    Topic: Loops
+
+    See also: while_not, loop, repeat, from_to, from_to_by
   (
-    condition
-    body
-    finally
+    condition # the condition to check for each "iteration"
+    body # the function to execute for each "iteration"
+    finally = pass # the function to execute after the last "iteration"
   )
   loop: if condition() body finally
 
 $std::while_not:
+  #
+    a "while" loop
+
+    Topic: Loops
+
+    See also: while, loop, repeat, from_to, from_to_by
   (
-    condition
-    body
-    finally
+    condition # the condition to check for each "iteration"
+    body # the function to execute for each "iteration"
+    finally = pass # the function to execute after the last "iteration"
   )
   loop: if_not condition() body finally
 
@@ -196,7 +212,7 @@ $std::repeat:
 
     Topic: Loops
 
-    See also: loop, from_to
+    See also: loop, while, while_not, from_to, from_to_by
 
     Example:
 
@@ -271,7 +287,7 @@ $std::from_to:
 
     Topic: Loops
 
-    See also: from_to_by, loop
+    See also: loop, while, while_not, repeat, from_to_by
 
     Example:
 
@@ -323,7 +339,7 @@ $std::from_to:
     from # the value to use for the first invocation of *body*
     to # the value to use for the last invocation of *body*
     body # the statement sequence to execute for each value
-    finally = next # code to execute after the last iteration
+    finally = pass # code to execute after the last iteration
   )
   $saved_context
     tuple
@@ -367,13 +383,19 @@ $std::from_to_by:
 
     Topic: Loops
 
-    See also: from_to
+    Example:
+
+    from_to_by 1 10 2: (i)
+      writeln i " x " i " = " i*i
+      next
+
+    See also: loop, while, while_not, repeat, from_to
   (
     from # the value to use for the first invocation of *body*
     to # the value to use for the last invocation of *body*
     by # the incrementation/decrementation value
     body # the statement sequence to execute for each value
-    finally = next # code to execute after the last iteration
+    finally = pass # code to execute after the last iteration
   )
   $saved_context
     tuple
