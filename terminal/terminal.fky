@@ -39,6 +39,7 @@
 
 <require ./keys>
 
+$std::resize ()
 $std::define_window ()
 $std::set_cursor ()
 $std::set_character_at ()
@@ -363,6 +364,42 @@ $std::create_screen:
       .background_colour_of background_colour
       .line_height_of line_height
       .rows_of rows
+
+$std_types::screen/resize:
+  #
+    resizes a screen
+
+    Topic: Terminal
+
+    See also: create_screen
+  (
+    screen
+    new_width # the new number of columns
+    new_height # the new number of rows
+  )
+  edump `new_height
+  resize_rows &screen
+    new_width new_height
+    text_colour_of(screen) background_colour_of(screen)
+  -> screen
+
+$resize_rows: (screen new_width new_height text_colour background_colour)
+  $width width_of(screen)
+  $height height_of(screen)
+  $rows rows_of(screen)
+  update_if new_height < height &rows -> range(rows 1 new_height)
+  update_if new_width != width &rows:
+    if
+      new_width < width: map rows: (row) range row 1 3*new_width
+      :
+	$empty dup(string(' ' text_colour background_colour) new_width-width)
+	map rows: (row) append row empty
+  update_if new_height > height &rows:
+    $empty dup(string(' ' text_colour background_colour) width)
+    append rows dup(list(empty) new_height-height)
+  !screen.width_of new_width
+  !screen.height_of new_height
+  -> screen
 
 $std::character_at:
   #
@@ -1141,39 +1178,47 @@ $std_types::screen/plot:
     y # the y-coordinate of the *half block*
   )
   $row_no (y+1) .div. 2
-  $rows rows_of(screen)
-  $row rows(row_no)
-  $chr row(3*x-2)
-  if !row
-    chr == INVALID_CHARACTER
-    -> row(3*x-5 ' ')
-    -> row
-  if !row
-    character_width(chr) == 2
-    -> row(3*x+1 ' ')
-    -> row
   if
-    y.is_odd:
-      # upper half block
-      if
-	chr == '▄':
-	  !row(3*x) text_colour_of(screen)
-	  -> screen(.rows_of rows(row_no row))
-	:
-	  !row(3*x-2) '▄'
-	  !row(3*x-1) row(3*x)
-	  !row(3*x) text_colour_of(screen)
-	  -> screen(.rows_of rows(row_no row))
+    ||
+      row_no < 1
+      row_no > height_of(screen)
+      x < 1
+      x > width_of(screen)
+    -> screen
     :
-      # lower half block
+      $rows rows_of(screen)
+      $row rows(row_no)
+      $chr row(3*x-2)
+      if !row
+	chr == INVALID_CHARACTER
+	-> row(3*x-5 ' ')
+	-> row
+      if !row
+	character_width(chr) == 2
+	-> row(3*x+1 ' ')
+	-> row
       if
-	chr == '▄':
-	  !row(3*x-1) text_colour_of(screen)
-	  -> screen(.rows_of rows(row_no row))
+	y.is_odd:
+	  # upper half block
+	  if
+	    chr == '▄':
+	      !row(3*x) text_colour_of(screen)
+	      -> screen(.rows_of rows(row_no row))
+	    :
+	      !row(3*x-2) '▄'
+	      !row(3*x-1) row(3*x)
+	      !row(3*x) text_colour_of(screen)
+	      -> screen(.rows_of rows(row_no row))
 	:
-	  !row(3*x-2) '▄'
-	  !row(3*x-1) text_colour_of(screen)
-	  -> screen(.rows_of rows(row_no row))
+	  # lower half block
+	  if
+	    chr == '▄':
+	      !row(3*x-1) text_colour_of(screen)
+	      -> screen(.rows_of rows(row_no row))
+	    :
+	      !row(3*x-2) '▄'
+	      !row(3*x-1) text_colour_of(screen)
+	      -> screen(.rows_of rows(row_no row))
 
 $std_types::screen/plot_line:
   #
@@ -1977,6 +2022,25 @@ $std::create_terminal
 	  buffer
 	    .cursor_x_of undefined # cursor column
 	    .cursor_y_of undefined # cursor row
+
+$std_types::terminal/resize:
+  #
+    resizes the terminal
+
+    Topic: Terminal
+  (
+    self # the terminal
+    new_width # the new number of columns
+    new_height # the new number of rows
+  )
+  edump `new_width
+  resize_rows &self
+    new_width new_height
+    text_colour_of(self) background_colour_of(self)
+  resize_rows &self.current_buffer_of
+    new_width new_width
+    INVALID_COLOUR INVALID_COLOUR
+  -> self
 
 $std::cursor_off
   #

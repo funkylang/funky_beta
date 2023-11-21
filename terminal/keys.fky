@@ -22,6 +22,8 @@
 $csi_table undefined
 $std::key_names undefined
 
+$std::NEW_WINDOW_SIZE .
+
 $terminal_private::initialize_keys: (body)
   !csi_table
     hash_table
@@ -393,8 +395,17 @@ $std::extract_keys:
 			next
 
   $add_csi_key: (i)
-    push &keys csi_table(range(input 2 i))
-    -> range(input i+1 -1) keys
+    $sequence range(input 2 i)
+    range &input i+1 -1
+    if
+      sequence(1) == '8': # window size change
+	$height between(sequence ';' ';').to_integer
+	$width between(sequence ';' 't' 2).to_integer
+	push &keys tuple(NEW_WINDOW_SIZE width height)
+	-> input keys
+      :
+	push &keys csi_table(sequence)
+	-> input keys
 
 $escape_sequences
   list
