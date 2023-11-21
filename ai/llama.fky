@@ -70,6 +70,9 @@ $ai::middle_token_of ()
   #
     the token no. used to denote the "middle"
 
+$ai::context_size_of ()
+  #
+    the size of the context (number of tokens)
 
 $std::address_of ()
   #
@@ -142,12 +145,20 @@ $ai::load_ai_model:
     Topic: AI
   (
     name # the name of the model
+    server = "127.0.0.1:8080"
   )
+  $address server .truncate_from. ':'
+  $port_no server .behind. ':'
+  !port_no
+    if
+      port_no.is_empty
+      -> 8080
+      -> port_no.to_integer
   $model
     ai_types::model
       .name_of name
-      .address_of "127.0.0.1"
-      .port_no_of 8080
+      .address_of address
+      .port_no_of port_no
   get_tokens! model
     !model.ai::pieces_of
     !model.ai::begin_of_stream_token_of
@@ -157,6 +168,7 @@ $ai::load_ai_model:
     !model.ai::prefix_token_of
     !model.ai::suffix_token_of
     !model.ai::middle_token_of
+    !model.ai::context_size_of
   if
     ai::pieces_of(model).is_an_error
     -> ai::pieces_of(model)
@@ -323,6 +335,7 @@ $get_tokens: (model)
 	info("prefix")
 	info("suffix")
 	info("middle")
+	info("context_size")
 
 $ai_types::model/ai::tokenize:
   #
