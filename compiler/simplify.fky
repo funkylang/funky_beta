@@ -919,7 +919,9 @@ $funky_types::numeric_literal/simplify: (self temp_no)
   !self.digits_of digits
   to_number &digits
   to_string &digits
-  replace_all &digits '.' = "_"
+  replace_all &digits
+    '.' = "_"
+    '-' = "_"
   ->
     self(.funky::key_of "num_@(digits)")
     temp_no

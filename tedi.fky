@@ -462,6 +462,7 @@ $window
     .colour_set_no_of 1
     .do_highlight_indentations_of true
     .cursor_movement_of ANYWHERE
+    .use_soft_line_break_of true
 
 $status_window
   prototype_window
