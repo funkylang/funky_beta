@@ -70,6 +70,10 @@ $ai::middle_token_of ()
   #
     the token no. used to denote the "middle"
 
+$ai::question_token_of ()
+
+$ai::answer_token_of ()
+
 $ai::context_size_of ()
   #
     the size of the context (number of tokens)
@@ -169,11 +173,55 @@ $ai::load_ai_model:
     !model.ai::suffix_token_of
     !model.ai::middle_token_of
     !model.ai::context_size_of
+  !model
+    model
+      .ai::question_token_of undefined
+      .ai::answer_token_of undefined
   if
     ai::pieces_of(model).is_an_error
     -> ai::pieces_of(model)
     :
-      build_piece_table model
+      build_piece_table &model
+
+      #
+	The default special tokens are only meant to be used with LLama models
+	So let's replace them for other models (especially Falcon).
+
+      !model.ai::newline_token_of ai::piece_table_of(model)("@nl;")
+
+      for_each ai::pieces_of(model)
+	: (token piece)
+	  if
+	    &&
+	      piece.is_a_string
+	      length_of(piece) > 4
+	      ||
+		piece .has_prefix. "<|" && piece .has_suffix. "|>"
+		piece .has_prefix. ">>" && piece .has_suffix. "<<"
+	    :
+	      $special range(piece 3 -3)
+	      case special
+		"endoftext":
+		  !model.ai::end_of_text_token_of token-1
+		  next
+		"QUESTION":
+		  !model.ai::question_token_of token-1
+		  next
+		"ANSWER":
+		  !model.ai::answer_token_of token-1
+		  next
+		"PREFIX":
+		  !model.ai::prefix_token_of token-1
+		  next
+		"SUFFIX":
+		  !model.ai::suffix_token_of token-1
+		  next
+		"MIDDLE":
+		  !model.ai::middle_token_of token-1
+		  next
+		next
+	    next
+	-> model
 
 $ai_types::model/ai::generate:
   (
@@ -488,8 +536,7 @@ $ai_types::model/ai::detokenize:
 		: (code)
 		  push &octets character(code)
 		  next
-		:
-		  -> from_utf8(octets) range(piece e+1 -1)
+		-> from_utf8(octets) range(piece e+1 -1)
 	    :
 	      $code piece(i)
 	      cond

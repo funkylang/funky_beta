@@ -920,32 +920,43 @@ $select: (handler)
   handler
 
 $smart_cursor_down:
-  $x x_of(window)
+  $cursor_x cursor_x_of(window)
   $y y_of(window)
-  $new_y y
+  $height length_of(lines)
   loop:
-    inc &new_y
+    inc &y
     if
-      new_y <= length_of(lines):
-	$line lines(new_y)
+      y <= height:
+	$line lines(y)
 	if
-	  line.is_undefined || indent_of(line) >= x
+	  line.is_undefined || indent_of(line) >= cursor_x
 	  next
 	  :
-	    cursor_down new_y-y
+	    !window
+	      window
+		.x_of cursor_x
+		.y_of y
+		.sub_y_of 1
+		.cursor_x_of undefined
+		.cursor_y_of undefined
+	    return_window
       -> state
 
 $page_down:
   cursor_down height_of(window)
 
 $cursor_down: (dy = 1)
-  $height length_of(lines)
   if
     use_soft_line_break_of(window):
-      move_down &window.y_of &window.sub_y_of dy
-      plus &window.cursor_y_of dy
+      !window
+	window
+	  .x_of undefined
+	  .y_of undefined
+	  .sub_y_of undefined
+	  .cursor_y_of cursor_y_of(window)+dy
       return_window
     :
+      $height length_of(lines)
       case cursor_movement_of(window)
 	ANYWHERE:
 	  plus &window.y_of dy
@@ -957,35 +968,27 @@ $cursor_down: (dy = 1)
 	  !window.y_of min(y_of(window)+dy height+1)
 	  return_window
 
-$move_down: (y sub_y dy)
-  loop:
-    if
-      dy == 0
-      -> y sub_y
-      :
-	$line_height get_line_height(y)
-	if
-	  sub_y+dy <= line_height
-	  -> y sub_y+dy
-	  :
-	    minus &dy line_height+1-sub_y
-	    inc &y
-	    !sub_y 1
-	    next
-
 $smart_cursor_up:
-  $x x_of(window)
+  $cursor_x cursor_x_of(window)
   $y y_of(window)
-  $new_y y
+  $height length_of(lines)
   loop:
-    dec &new_y
+    dec &y
     if
-      new_y <= length_of(lines):
-	$line lines(new_y)
+      y >= 1:
+	$line lines(y)
 	if
-	  line.is_undefined || indent_of(line) >= x
+	  line.is_undefined || indent_of(line) >= cursor_x
 	  next
-	  : cursor_up y-new_y
+	  :
+	    !window
+	      window
+		.x_of cursor_x
+		.y_of y
+		.sub_y_of 1
+		.cursor_x_of undefined
+		.cursor_y_of undefined
+	    return_window
       -> state
 
 $page_up:
@@ -994,107 +997,96 @@ $page_up:
 $cursor_up: (dy = 1)
   if
     use_soft_line_break_of(window):
-      move_up &window.y_of &window.sub_y_of dy
-      !window.cursor_y_of
-	if
-	  y_of(window) == 1 && sub_y_of(window) == 1
-	  -> 1
-	  -> cursor_y_of(window)-dy
+      !window
+	window
+	  .x_of undefined
+	  .y_of undefined
+	  .sub_y_of undefined
+	  .cursor_y_of cursor_y_of(window)-dy
       return_window
     :
       !window.y_of max(y_of(window)-dy 1)
       return_window
 
-$move_up: (y sub_y dy)
-  loop:
-    if
-      y < 1
-      -> 1 1
-      :
-	$line_height get_line_height(y)
-	update_if sub_y.is_undefined &sub_y -> line_height
-	if
-	  dy == 0
-	  -> y sub_y
-	  :
-	    if
-	      sub_y-dy >= 1
-	      -> y sub_y-dy
-	      :
-		minus &dy sub_y
-		dec &y
-		!sub_y undefined
-		next
+$cursor_right: (dx = 1)
+  $cursor_x cursor_x_of(window)
+  $y y_of(window)
+  if
+    &&
+      use_soft_line_break_of(window)
+      cursor_x < first_position(y) || cursor_x > last_position(y)
+    :
+      !window
+	window
+	  .x_of undefined
+	  .cursor_x_of cursor_x_of(window)+dx
+      return_window
+    :
+      !window
+	window
+	  .x_of x_of(window)+dx
+	  .sub_y_of undefined
+	  .cursor_x_of undefined
+	  .cursor_y_of undefined
+      return_window
 
 $cursor_left: (dx = 1)
-  !window.x_of max(x_of(window)-dx 1)
-  !window.cursor_x_of max(cursor_x_of(window)-dx 1)
-  return_window
-
-$cursor_right: (dx = 1)
-  plus &window.x_of dx
-  plus &window.cursor_x_of 1
-  return_window
+  if
+    &&
+      use_soft_line_break_of(window)
+      cursor_x_of(window) != first_position(y_of(window))
+    :
+      !window
+	window
+	  .x_of undefined
+	  .cursor_x_of max(cursor_x_of(window)-dx 1)
+      return_window
+    :
+      !window
+	window
+	  .x_of max(x_of(window)-dx 1)
+	  .sub_y_of undefined
+	  .cursor_x_of undefined
+	  .cursor_y_of undefined
+      return_window
 
 $cursor_home:
-  $x x_of(window)
-  $y y_of(window)
-  if
-    y > length_of(lines)
-    :
-      !window.x_of 1
-      !window.cursor_x_of 1
-      return_window
-    :
-      $line lines(y)
-      if
-	line.is_undefined:
-	  !window.x_of 1
-	  !window.cursor_x_of 1
-	  return_window
-	:
-	  line $indent
-	  !window.x_of
-	    if
-	      x == indent+1
-	      -> 1
-	      -> indent+1
-	  return_window
+  $pos first_position(y_of(window))
+  !window
+    window
+      .x_of undefined
+      .cursor_x_of
+	if
+	  cursor_x_of(window) == pos
+	  -> 1
+	  -> pos
+  return_window
 
 $cursor_end:
-  $y y_of(window)
-  if
-    y > length_of(lines):
-      !window.x_of 1
-      !window.cursor_x_of 1
-      return_window
-    :
-      $line lines(y)
-      if
-	line.is_undefined:
-	  !window.x_of 1
-	  !window.cursor_x_of 1
-	  return_window
-	:
-	  line $indent $text
-	  !window.x_of indent+length_of(text)+1
-	  return_window
+  !window
+    window
+      .x_of undefined
+      .cursor_x_of last_position(y_of(window))
+  return_window
 
 $cursor_top:
   !window
     window
       .x_of 1
-      .cursor_x_of 1
       .y_of 1
-      .sub_y_of 1
+      .sub_y_of undefined
+      .cursor_x_of undefined
+      .cursor_y_of undefined
   return_window
 
 $cursor_bottom:
   !window
     window
       .x_of 1
-      .cursor_x_of 1
       .y_of length_of(lines)+1
+      .sub_y_of undefined
+      .cursor_x_of undefined
+      .cursor_y_of undefined
   return_window
 
 $insert: (str)
@@ -1102,7 +1094,7 @@ $insert: (str)
     str.is_empty
     -> state
     :
-      $spaces_only all_of(str: (chr) -> chr == ' ')
+      $spaces_only str.contains_only_spaces
       $len length_of(str)
       $y y_of(window)
       $height length_of(lines)
@@ -1122,12 +1114,19 @@ $insert: (str)
       $insert_text:
 	$x x_of(window)
 	$line lines(y)
+	edump `x
+	edump `line
 	if $indent $text $mark $folds
 	  line.is_undefined
 	  -> x-1 "" "" undefined
 	  : line
+	edump `indent
+	edump `text
 	$line_width indent+length_of(text)
+	edump `line_width
 	$idx x-indent
+	edump `idx
+	edump `spaces_only
 	if
 	  x > line_width:
 	    if
@@ -1137,21 +1136,30 @@ $insert: (str)
 		set_first_updated_y !window y
 		append &text spaces(x-(line_width+1)) str
 		!lines(y) tedi_line(indent text mark folds)
-		!window.lines_of lines
-		cursor_right len
+		advance_cursor
 	  :
 	    set_first_updated_y !window y
 	    if
 	      x > indent+1:
 		!text append(range(text 1 idx-1) str range(text idx -1))
 		!lines(y) tedi_line(indent text mark folds)
-		!window.lines_of lines
-		cursor_right len
+		advance_cursor
 	      :
 		!text append(str spaces(indent+1-x) text)
 		!lines(y) tedi_line(x-1 text mark folds)
-		!window.lines_of lines
-		cursor_right len
+		advance_cursor
+
+	$advance_cursor:
+	  !window
+	    window
+	      .cursor_x_of undefined
+	      .cursor_y_of undefined
+	      .sub_y_of undefined
+	      .x_of x_of(window)+len
+	  return_window_and_lines
+
+$contains_only_spaces: (str)
+  all_of str: (chr) -> chr == ' '
 
 $set_first_updated_y: (y)
   $first_updated_y first_updated_y_of(window)
@@ -1368,6 +1376,11 @@ $split_line:
   $x x_of(window)
   $y y_of(window)
   $height length_of(lines)
+  !window
+    window
+      .cursor_x_of undefined
+      .cursor_y_of undefined
+      .sub_y_of undefined
   if
     y > length_of(lines):
       !window.y_of y+1
@@ -1538,6 +1551,11 @@ $delete_to_line_end:
 		tedi_line(indent range(text 1 (x-1)-indent) mark folds)
 
 $update_lines_after_deletion: (y line)
+  !window
+    window
+      .cursor_x_of undefined
+      .cursor_y_of undefined
+      .sub_y_of undefined
   $height length_of(lines)
   if
     line.is_undefined && y == height: # removing last line
@@ -1548,7 +1566,6 @@ $update_lines_after_deletion: (y line)
 	  next
 	  :
 	    !window.first_updated_y_of max(y 1)
-	    !window.last_updated_y_of END
 	    range &lines 1 y
 	    return_window_and_lines
     :
@@ -1893,6 +1910,7 @@ $ai_completion_action:
     check_tokens
     :
       initialize_ai! !ai_model
+      edump `ai_model
       current_time! !t2
       eprintln!
 	format("%2.3: loading model " t2-t1)
@@ -1922,8 +1940,6 @@ $ai_completion_action:
     $y y_of(window)
     line_start_tokens !window.x_of $tokens $suffix
     $within_line tokens.is_not_empty
-    dump_tokens tokens
-    dump_tokens suffix
     loop !tokens:
       dec &y
       if
@@ -1938,7 +1954,12 @@ $ai_completion_action:
 	    :
 	      append line_tokens &tokens
 	      next
-    edump `length_of(tokens)
+    debug_write "
+      prompt length: @(length_of(tokens)) tokens
+    debug_write "prompt = ..."
+    debug_print behind(detokenize(ai_model tokens) '@nl;' -4)
+    debug_write "suffix = "
+    debug_print detokenize(ai_model suffix)
     # ATTENTION: infill seems *not* to work - therefor it is currently ignored!
     #update_if suffix.is_not_empty &tokens:
       $space_token space_tokens_of(ai_model)(1)(1)
@@ -1958,19 +1979,20 @@ $ai_completion_action:
       eprintln!
 	format("%2.3: " t4-t3)
 	'@quot;' escaped_token(ai_model token) '@quot;'
+      $newline_token newline_token_of(ai_model)
+      $end_of_text_token end_of_text_token_of(ai_model)
       if!
-	token != newline_token_of(ai_model):
+	token != newline_token && token != end_of_text_token:
 	  push &tokens token
 	  next!
 	:
 	  # tokenization is that fast that we do not store the returned tokens
 
 	  $ai_text detokenize(ai_model range(tokens n+1 -1))
-	  edump `within_line
 	  if
 	    within_line:
 	      if
-		ai_text.is_empty
+		ai_text.contains_only_spaces
 		->
 		  terminal
 		  state
@@ -1988,7 +2010,7 @@ $ai_completion_action:
 		    return
 	    :
 	      if
-		ai_text.is_empty
+		ai_text.contains_only_spaces
 		->
 		  terminal
 		  split_line()
@@ -2000,7 +2022,12 @@ $ai_completion_action:
 		    y <= length_of(lines):
 		      set_first_updated_y !window y
 		      !window.last_updated_y_of END
-		      !window.y_of y+1
+		      !window
+			window
+			  .cursor_x_of undefined
+			  .cursor_y_of undefined
+			  .sub_y_of undefined
+			  .y_of y+1
 		      !lines
 			append
 			  push
@@ -2406,114 +2433,103 @@ $search_for_text: (text)
 	key_of(state) == CTRL_P:
 	  find_previous max(x_of(window) 1)
 	:
-	  find_next max(x_of(window)-length_of(search_text) 1)
+	  find_next
+	    max
+	      x_of(window)-length_of(search_text)
+	      first_position(y_of(window))
 
 $find_next: (x = undefined)
+  $search_text search_text_of(state)
   if
-    &&
-      replacement_text_of(state).is_defined
-      search_text_of(state) == selected_text()
-    replace_selection
+    search_text.is_undefined
+    -> state
     :
-      update_if x.is_undefined &x -> x_of(window)
-      $y y_of(window)
-      $search_text search_text_of(state)
-      $height length_of(lines)
       if
-	y > height
-	-> state
+	&&
+	  replacement_text_of(state).is_defined
+	  search_text == selected_text()
+	replace_selection
 	:
-	  $line lines(y)
+	  update_if x.is_undefined &x -> x_of(window)
+	  $y y_of(window)
+	  $height length_of(lines)
 	  if
-	    line.is_undefined
-	    search_forwards
+	    y > height
+	    -> state
 	    :
-	      line $indent $text
-	      $s max(x-indent 1)
+	      $line lines(y)
 	      if
-		s > length_of(text)
+		line.is_undefined
 		search_forwards
 		:
-		  range &text s -1
-		  search $pos $len search_text text
+		  line $indent $text
+		  $s max(x-indent 1)
 		  if
-		    pos.is_defined && is_a_valid_match(text pos len):
-		      !window.selection_start_x_of x+pos-1
-		      !window.selection_start_y_of y
-		      !window.x_of x+pos+len-1
-		      !window.do_keep_selection true
-		      return_window
+		    s > length_of(text)
 		    search_forwards
+		    :
+		      range &text s -1
+		      search $pos $len search_text text
+		      if
+			pos.is_defined && is_a_valid_match(text pos len):
+			  !window
+			    window
+			      .cursor_x_of undefined
+			      .cursor_y_of undefined
+			      .sub_y_of undefined
+			      .selection_start_x_of x+pos-1
+			      .selection_start_y_of y
+			      .x_of x+pos+len-1
+			      .do_keep_selection true
+			  return_window
+			search_forwards
 
-      $search_forwards:
-	loop
-	  :
-	    inc &y
-	    if
-	      y > height
-	      -> state
+	  $search_forwards:
+	    loop
 	      :
-		$line lines(y)
+		inc &y
 		if
-		  line.is_undefined
-		  next
+		  y > height
+		  -> state
 		  :
-		    line $indent $text
-		    search $pos $len search_text text
+		    $line lines(y)
 		    if
-		      pos.is_defined && is_a_valid_match(text pos len):
-			!window
-			  window
-			    .x_of indent+pos+len
-			    .y_of y
-			    .cursor_y_of undefined
-			    .selection_start_x_of indent+pos
-			    .selection_start_y_of y
-			    .do_keep_selection true
-			return_window
+		      line.is_undefined
 		      next
-	  -> state
+		      :
+			line $indent $text
+			search $pos $len search_text text
+			if
+			  pos.is_defined && is_a_valid_match(text pos len):
+			    !window
+			      window
+				.x_of indent+pos+len
+				.y_of y
+				.sub_y_of undefined
+				.cursor_x_of undefined
+				.cursor_y_of undefined
+				.selection_start_x_of indent+pos
+				.selection_start_y_of y
+				.do_keep_selection true
+			    return_window
+			  next
+	      -> state
 
 $find_previous: (x = undefined)
+  $search_text search_text_of(state)
   if
-    &&
-      replacement_text_of(state).is_defined
-      search_text_of(state) == selected_text()
-    replace_selection
+    search_text.is_undefined
+    -> state
     :
-      update_if x.is_undefined &x -> x_of(window)
-      $height length_of(lines)
-      $y min(y_of(window) height)
-      $search_text search_text_of(state)
       if
-	y < 1
-	-> state
+	&&
+	  replacement_text_of(state).is_defined
+	  search_text == selected_text()
+	replace_selection
 	:
-	  $line lines(y)
-	  if
-	    line.is_undefined
-	    search_backwards
-	    :
-	      line $indent $text
-	      $e x-indent-1
-	      if
-		e <= indent
-		search_backwards
-		:
-		  range &text 1 e
-		  search $pos $len search_text text -1
-		  if
-		    pos.is_defined && is_a_valid_match(text pos len):
-		      !window.selection_start_x_of indent+pos+len
-		      !window.selection_start_y_of y
-		      !window.x_of indent+pos
-		      !window.do_keep_selection true
-		      return_window
-		    search_backwards
-
-      $search_backwards:
-	loop:
-	  dec &y
+	  update_if x.is_undefined &x -> x_of(window)
+	  $height length_of(lines)
+	  $y min(y_of(window) height)
 	  if
 	    y < 1
 	    -> state
@@ -2521,22 +2537,58 @@ $find_previous: (x = undefined)
 	      $line lines(y)
 	      if
 		line.is_undefined
-		next
+		search_backwards
 		:
 		  line $indent $text
-		  search $pos $len search_text text -1
+		  $e x-indent-1
 		  if
-		    pos.is_defined && is_a_valid_match(text pos len):
-		      !window
-			window
-			  .x_of indent+pos
-			  .y_of y
-			  .cursor_y_of undefined
-			  .selection_start_x_of indent+pos+len
-			  .selection_start_y_of y
-			  .do_keep_selection true
-		      return_window
+		    e <= indent
+		    search_backwards
+		    :
+		      range &text 1 e
+		      search $pos $len search_text text -1
+		      if
+			pos.is_defined && is_a_valid_match(text pos len):
+			  !window
+			    window
+			      .sub_y_of undefined
+			      .cursor_x_of undefined
+			      .cursor_y_of undefined
+			      .selection_start_x_of indent+pos+len
+			      .selection_start_y_of y
+			      .x_of indent+pos
+			      .do_keep_selection true
+			  return_window
+			search_backwards
+
+	  $search_backwards:
+	    loop:
+	      dec &y
+	      if
+		y < 1
+		-> state
+		:
+		  $line lines(y)
+		  if
+		    line.is_undefined
 		    next
+		    :
+		      line $indent $text
+		      search $pos $len search_text text -1
+		      if
+			pos.is_defined && is_a_valid_match(text pos len):
+			  !window
+			    window
+			      .x_of indent+pos
+			      .y_of y
+			      .sub_y_of undefined
+			      .cursor_x_of undefined
+			      .cursor_y_of undefined
+			      .selection_start_x_of indent+pos+len
+			      .selection_start_y_of y
+			      .do_keep_selection true
+			  return_window
+			next
 
 $is_a_valid_match: (text pos len)
   if
@@ -2719,14 +2771,14 @@ $toggle_folding:
       if
 	folds.is_defined:
 	  update_from !window y
-	  ->
-	    window
+	  !lines
 	    append
 	      push
 		range(lines 1 y-1)
 		tedi_line(indent text mark undefined)
 	      folds
 	      range(lines y+1 -1)
+	  return_window_and_lines
 	:
 	  collect_indented_lines $e lines y indent
 	  if
@@ -2734,13 +2786,13 @@ $toggle_folding:
 	    -> window lines
 	    :
 	      update_from !window y
-	      ->
-		window
+	      !lines
 		append
 		  push
 		    range(lines 1 y-1)
 		    tedi_line(indent text mark range(lines y+1 e))
 		  range(lines e+1 -1)
+	      return_window_and_lines
 
 $fold_contents:
   $y y_of(window)
@@ -2753,13 +2805,13 @@ $fold_contents:
       line $indent
       collect_indented_lines $e lines y indent
       update_from !window y # only necessary if e > y
-      ->
-	window
-
+      !lines
 	append
 	  range(lines 1 y-1)
 	  fold_all(range(lines y e))
 	  range(lines e+1 -1)
+      return_window_and_lines
+
 
 $unfold_contents:
   $y y_of(window)
@@ -2769,12 +2821,12 @@ $unfold_contents:
     -> window lines
     :
       update_from !window y
-      ->
-	window
+      !lines
 	append
 	  range(lines 1 y-1)
 	  recursively_collect_folded_lines(lines(y))
 	  range(lines y+1 -1)
+      return_window_and_lines
 
 $fold_everything:
   if
@@ -2790,7 +2842,8 @@ $fold_everything:
 	  count(range(lines 1 min(y height)) is_a_top_level_line)
 	  max(y-height 0)
       update_from !window 1
-      -> window fold_all(lines)
+      fold_all &lines
+      return_window_and_lines
 
       $is_a_top_level_line: (line)
 	-> line.is_defined && indent_of(line) == 0
@@ -2804,7 +2857,8 @@ $unfold_everything:
       map_reduce(range(groups 1 min(y-1 height)) length_of plus 0)
       max(y-height 1)
   update_from !window 1
-  -> window reduce(groups append empty_list)
+  !lines reduce(groups append empty_list)
+  return_window_and_lines
 
 $fold_all: (some_lines)
   $i 0
@@ -2921,16 +2975,14 @@ $load_file:
       -> undefined
 
 $update_display:
-  update_if window.is_a_text_window &terminal: draw_title_bar
-  $left_x left_x_of(window)
-  $top_y top_y_of(window)
-  define_window &terminal left_x top_y -1 -1
   if
     use_soft_line_break_of(window)
     draw_lines_with_soft_breaks
     update_display_2
 
 $update_display_2:
+  update_if window.is_a_text_window &terminal: draw_title_bar
+  define_window &terminal left_x_of(window) top_y_of(window) -1 -1
   $x x_of(window)
   $y y_of(window)
   $width width_of(window)
@@ -3336,51 +3388,170 @@ $draw_lines: (terminal_y first_y last_y)
       -> terminal
 
 $draw_lines_with_soft_breaks:
-  debug_write "
-    _________________________
-  edump `x_of(window)
-  edump `y_of(window)
-  edump `sub_y_of(window)
-  edump `cursor_x_of(window)
-  edump `cursor_y_of(window)
+  #
+    if <cursor_x> or <cursor_y> is undefined then <x> and <y> must be defined
+
+    if <sub_y> is undefined then either
+      <x> and <y> or <cursor_x> and <cursor_y> must be defined
+
+    if <y> is undefined then <cursor_x> and <cursor_y> must be defined
+
+    if <x> is undefined then <sub_y> and <cursor_x> must be defined
+
+  #
+    debug_write "
+      _________________________
+    edump `x_of(window)
+    edump `y_of(window)
+    edump `sub_y_of(window)
+    edump `cursor_x_of(window)
+    edump `cursor_y_of(window)
 
   $upper_bound upper_bound_of(window)
   $lower_bound lower_bound_of(window)
   $height height_of(window)
   $first_visible_y first_visible_y_of(window)
   $first_visible_sub_y first_visible_sub_y_of(window)
-  $cursor_y cursor_y_of(window)
-  update_if cursor_y.is_undefined &cursor_y:
-    plus
-      1
-      lines_from_to
-	first_visible_y first_visible_sub_y
-	y_of(window) sub_y_of(window)
+  $inbounds_width inbounds_width_of(window)
+  $line_count length_of(lines)
+  $x x_of(window)
+  $y y_of(window)
+
+  if $cursor_x $cursor_y $sub_y
+    cursor_y_of(window).is_defined
+    -> cursor_x_of(window) cursor_y_of(window) sub_y_of(window)
+    :
+      $dy count_lines_from_to(first_visible_y first_visible_sub_y y 1)
+      $line
+	if
+	  y > line_count
+	  -> undefined
+	  -> lines(y)
+      if
+	line.is_defined:
+	  line $indent $text
+	  !cursor_x x-indent
+	  $text_lines break_into_lines(text inbounds_width-indent)
+	  $text_line_count length_of(text_lines)
+	  $text_line_no 1
+	  loop:
+	    if
+	      text_line_no >= text_line_count
+	      -> indent+cursor_x dy+text_line_count text_line_count
+	      :
+		$len length_of(text_lines(text_line_no))+1 # trailing space
+		if
+		  cursor_x <= len
+		  -> indent+cursor_x dy+text_line_no text_line_no
+		  :
+		    minus &cursor_x len
+		    inc &text_line_no
+		    next
+	-> x dy+1 1
+
+  #
+    debug_write "
+      ______
+    edump `x
+    edump `y
+    edump `sub_y
+    edump `cursor_x
+    edump `cursor_y
+
+  if !y !sub_y
+    y.is_defined
+    -> y sub_y
+    :
+      move !y !sub_y $dy first_visible_y first_visible_sub_y cursor_y-1
+      -> y sub_y
+
+  update_if x.is_undefined &x:
+    $line
+      if
+	y > line_count
+	-> undefined
+	-> lines(y)
+    if
+      line.is_undefined
+      -> cursor_x
+      :
+	line $indent $text
+	if
+	  cursor_x <= indent
+	  -> cursor_x
+	  :
+	    $text_lines break_into_lines(text inbounds_width-indent)
+	    $text_line_count length_of(text_lines)
+	    $text_line_no 1
+	    !x cursor_x
+	    loop:
+	      $len length_of(text_lines(text_line_no))+1 # trailing space
+	      if
+		sub_y <= text_line_no
+		-> x-max(cursor_x-indent-len 0)
+		:
+		  plus &x len
+		  inc &text_line_no
+		  next
+
+  #
+    debug_write "
+      ___
+    edump `x
+    edump `y
+    edump `sub_y
+    edump `cursor_x
+    edump `cursor_y
+
+  $selection_start_x selection_start_x_of(window)
+  $selection_start_y selection_start_y_of(window)
+  if !selection_start_x $selection_end_x !selection_start_y $selection_end_y
+    selection_start_y.is_undefined
+    -> undefined undefined undefined undefined
+    :
+      if
+	selection_start_y == y # horizontal selection
+	-> min(selection_start_x x) max(selection_start_x x) y y
+	->
+	  undefined undefined
+	  min(selection_start_y y) max(selection_start_y y)-1
+
+  on selection_start_y.is_defined:
+    edump `selection_start_x
+    edump `selection_start_y
+    edump `selection_end_x
+    edump `selection_end_y
+
+  !window
+    window
+      .x_of x
+      .y_of y
+
+  update_if window.is_a_text_window &terminal: draw_title_bar
+  define_window &terminal left_x_of(window) top_y_of(window) -1 -1
+
   cond
     -> cursor_y < upper_bound:
-      if
-	first_visible_y == 1 && first_visible_sub_y == 1:
-	  # cannot scroll up
-	  if
-	    first_updated_y_of(window).is_defined
-	    draw
-	    update_cursor
-	:
-	  move_up &first_visible_y &first_visible_sub_y upper_bound-cursor_y
-	  !window.cursor_y_of upper_bound
-	  draw
+      move &first_visible_y &first_visible_sub_y $dy cursor_y-upper_bound
+      !cursor_y max(upper_bound+dy 1)
+      draw
     -> cursor_y > lower_bound:
-      move_down &first_visible_y &first_visible_sub_y cursor_y-lower_bound
-      !window.cursor_y_of lower_bound
+      move &first_visible_y &first_visible_sub_y $_dummy cursor_y-lower_bound
+      !cursor_y lower_bound
       draw
     -> true:
       if
-	first_updated_y_of(window).is_defined
+	first_updated_y_of(window).is_defined || selection_start_y.is_defined
 	draw
 	update_cursor
 
   $update_cursor:
-    set_cursor &terminal cursor_x_of(window) cursor_y_of(window)
+    !window
+      window
+	.cursor_x_of cursor_x
+	.cursor_y_of cursor_y
+	.sub_y_of sub_y
+    set_cursor &terminal cursor_x cursor_y
     -> terminal return_window()
 
   $draw:
@@ -3394,12 +3565,11 @@ $draw_lines_with_soft_breaks:
     $out_of_bounds_colour out_of_bounds_colour_of(colour_set)
     $indentation_pattern indentation_patterns_of(colour_set)(1)
     set_text_colour &terminal text_colour
-    $inbounds_width inbounds_width_of(window)
+
     $width width_of(window)
-    $line_count length_of(lines)
     $indent undefined
-    $y first_visible_y
-    $sub_y first_visible_sub_y
+    $cy first_visible_y-1
+    $sy first_visible_sub_y
     $display_y 1
     loop:
       if
@@ -3408,13 +3578,13 @@ $draw_lines_with_soft_breaks:
 	draw_line
 
     $draw_line:
+      inc &cy
       if
-	y > line_count:
+	cy > line_count:
 	  !indent 0
 	  draw_empty_line
 	:
-	  $line lines(y)
-	  inc &y
+	  $line lines(cy)
 	  if
 	    line.is_undefined
 	    draw_empty_line
@@ -3426,43 +3596,110 @@ $draw_lines_with_soft_breaks:
 		draw_long_line
 
 	      $draw_short_line:
-		draw_text_line text
+		draw_text_line !terminal text indent+1
+		inc &display_y
+		next
 
 	      $draw_long_line:
 		$text_lines break_into_lines(text inbounds_width-indent)
-		range &text_lines sub_y -1
-		!sub_y 1
+		range &text_lines sy -1
+		!sy 1
 		update_if length_of(text_lines) > height-display_y+1 &text_lines
 		  -> range(text_lines 1 height-display_y+1)
-		for_each text_lines draw_text_line next
+		$cx indent+1
+		for_each text_lines
+		  : (text)
+		    draw_text_line !terminal text cx
+		    plus &cx length_of(text)+1
+		    inc &display_y
+		    next
+		  next
 
     $draw_empty_line:
       update_if indent.is_undefined &indent:
 	loop:
-	  dec &y
+	  dec &cy
 	  if
-	    y < 1
+	    cy < 1
 	    -> 0
 	    :
-	      $line lines(y)
+	      $line lines(cy)
 	      if
 		line.is_undefined
 		next
 		-> indent_of(line)
+      if
+	&&
+	  selection_start_y.is_defined
+	  cy >= selection_start_y
+	  cy <= selection_end_y
+	:
+	  set_background_colour &terminal selection_colour_of(colour_set)
+	  draw_text &terminal 1 display_y spaces(width)
+	  inc &display_y
+	  next
+	:
+	  draw_indent !terminal
+	  set_background_colour &terminal background_colour
+	  draw_text &terminal indent+1 display_y spaces(inbounds_width)
+	  draw_out_of_bounds !terminal
+	  inc &display_y
+	  next
 
-      draw_indent !terminal
-      set_background_colour &terminal background_colour
-      draw_text &terminal indent+1 display_y spaces(inbounds_width)
-      draw_out_of_bounds
+    $draw_text_line: (text cx)
+      if
+	&&
+	  selection_start_y.is_defined
+	  selection_start_x.is_undefined
+	  cy >= selection_start_y
+	  cy <= selection_end_y
+	:
+	  $w width-indent
+	  pad_right &text w
+	  update_if length_of(text) > w &text -> range(text 1 w)
+	  set_background_colour &terminal selection_colour_of(colour_set)
+	  draw_text terminal 1 display_y append(spaces(indent) text)
+	:
+	  $len length_of(text)
+	  $w inbounds_width-indent
+	  pad_right &text w
+	  update_if length_of(text) > w &text -> range(text 1 w)
+	  draw_indent !terminal
+	  if
+	    &&
+	      selection_start_x.is_defined
+	      cy == selection_start_y
+	      overlap(selection_start_x selection_end_x cx cx+len)
+	    :
+	      $sx indent+1
+	      edump `cx
+	      if
+		selection_start_x > cx:
+		  set_background_colour &terminal background_colour
+		  draw_text &terminal sx display_y
+		    range(text 1 selection_start_x-cx)
+		  plus &sx selection_start_x-cx
+		  range &text selection_start_x-cx+1 -1
+		  draw_rest
+		draw_rest
 
-    $draw_text_line: (text)
-      draw_indent !terminal
-      $w inbounds_width-indent
-      pad_right &text w
-      update_if length_of(text) > w &text -> range(text 1 w)
-      set_background_colour &terminal background_colour
-      draw_text &terminal indent+1 display_y text
-      draw_out_of_bounds
+	      $draw_rest:
+		set_background_colour &terminal selection_colour_of(colour_set)
+		draw_text &terminal sx display_y
+		  range(text 1 selection_end_x-selection_start_x)
+		range &text selection_end_x-selection_start_x+1 -1
+		if
+		  text.is_empty
+		  draw_out_of_bounds
+		  :
+		    set_background_colour &terminal background_colour
+		    draw_text &terminal
+		      sx+selection_end_x-selection_start_x display_y text
+		    draw_out_of_bounds
+	    :
+	      set_background_colour &terminal background_colour
+	      draw_text &terminal indent+1 display_y text
+	      draw_out_of_bounds
 
     $draw_indent:
       draw_attributed_text terminal 1 display_y range(indentation_pattern 1 3*indent+2)
@@ -3471,12 +3708,13 @@ $draw_lines_with_soft_breaks:
       if
 	width > inbounds_width:
 	  set_background_colour &terminal out_of_bounds_colour
-	  draw_text &terminal inbounds_width+1 display_y spaces(width-inbounds_width)
-	  inc &display_y
-	  next
-	:
-	  inc &display_y
-	  next
+	  draw_text terminal
+	    inbounds_width+1 display_y spaces(width-inbounds_width)
+	-> terminal
+
+$overlap: (s1 e1 s2 e2)
+  # the end positions are *exclusive*!
+  -> e1 > s2 && e2 > s1
 
 $break_into_lines: (text width)
   $text_lines empty_list
@@ -3517,7 +3755,7 @@ $get_line_height: (y)
 	  line $indent $text
 	  -> length_of(break_into_lines(text inbounds_width_of(window)-indent))
 
-$lines_from_to: (first_y first_sub_y last_y last_sub_y)
+$count_lines_from_to: (first_y first_sub_y last_y last_sub_y)
   if
     ||
       first_y > last_y
@@ -3549,6 +3787,45 @@ $lines_from_to: (first_y first_sub_y last_y last_sub_y)
 	  !first_sub_y 1
 	  next
 
+$move: (y sub_y dy)
+  cond
+    -> dy > 0:
+      loop:
+	if
+	  dy == 0
+	  -> y sub_y 0
+	  :
+	    $line_height get_line_height(y)
+	    if
+	      sub_y+dy <= line_height
+	      -> y sub_y+dy 0
+	      :
+		minus &dy line_height+1-sub_y
+		inc &y
+		!sub_y 1
+		next
+    -> dy < 0:
+      loop:
+	if
+	  y < 1
+	  -> 1 1 dy-1
+	  :
+	    $line_height get_line_height(y)
+	    update_if sub_y.is_undefined &sub_y -> line_height
+	    if
+	      dy == 0
+	      -> y sub_y 0
+	      :
+		if
+		  sub_y+dy >= 1
+		  -> y sub_y+dy 0
+		  :
+		    plus &dy sub_y
+		    dec &y
+		    !sub_y undefined
+		    next
+    -> true -> y sub_y 0
+
 $draw_title_bar:
   define_window &terminal 1 1 -1 1
   $colour_set colour_set_of(window)
@@ -3562,6 +3839,35 @@ $draw_title_bar:
   -> terminal
 
 # Helper Functions
+
+$first_position: (y)
+  if
+    y > length_of(lines)
+    -> 1
+    :
+      $line lines(y)
+      if
+	line.is_undefined
+	-> 1
+	-> indent_of(line)+1
+
+$last_position: (y)
+  if
+    y > length_of(lines)
+    -> 1
+    :
+      $line lines(y)
+      if
+	line.is_undefined
+	-> 1
+	:
+	  line $indent $text
+	  if
+	    use_soft_line_break_of(window):
+	      $text_lines
+		break_into_lines(text inbounds_width_of(window)-indent)
+	      -> indent+length_of(text_lines(sub_y_of(window)))+1
+	    -> indent+length_of(text)+1
 
 $tedi_line:
   (
