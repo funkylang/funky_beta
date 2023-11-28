@@ -194,7 +194,7 @@ $ai_types::model/ai::generate:
   on use_colours: print! ansi_text_colour(BLACK)
   ai::tokenize! $tokens model prompt
   generate_text! $text $_max_no
-    put(tokens ai::begin_of_stream_token_of(model)) "" 0
+    put(tokens ai::begin_of_stream_token_of(model)) "" 0 empty_list
   on use_colours: print! ansi_reset_colour()
   on be_verbose: println!
   if
@@ -202,7 +202,7 @@ $ai_types::model/ai::generate:
     -> text
     pass
 
-  $generate_text: (tokens text no)
+  $generate_text: (tokens text no prefix)
     if
       stop_text.is_defined && text .contains. stop_text
       -> text no
@@ -218,7 +218,7 @@ $ai_types::model/ai::generate:
 	    $max_no no
 	    loop:
 	      confidence_values(1) !next_token $next_confidence
-	      $next_piece ai::detokenize(model next_token)
+	      ai::detokenize model next_token prefix $next_piece $suffix
 	      on do_log:
 		current_time! $t2
 		$dt 1000*(t2-t1) # in ms
@@ -233,16 +233,18 @@ $ai_types::model/ai::generate:
 		  :
 		    if
 		      log_level >= 3:
-			eprintln! format("-[#%4|%3.1 ms]---------" no dt)
+			eprintln! format("-[#%4|%3.1 ms]---------------" no dt)
 		      :
-			eprintln! format("-[#%4]------------------" no dt)
+			eprintln! format("-[#%4]------------------------" no dt)
 		    for_each confidence_values
 		      : (confidence_value)
 			confidence_value $token $confidence
-			$piece ai::detokenize(model token)
+			ai::detokenize model token prefix $piece
 			replace_all &piece '@ht;' = "<<<ht>>>"
 			$token_string "@quot;@(ai::escaped_piece(piece))@quot;:"
-			eprintln! format("%l18 %3.3" token_string confidence)
+			eprintln!
+			  format
+			    "%5 %l18 %3.3" token token_string confidence
 			next!
 		      pass
 	      if
@@ -257,6 +259,7 @@ $ai_types::model/ai::generate:
 			push(tokens next_token)
 			append(text next_piece)
 			no+1
+			suffix
 		      extend_to &max_no highest_no
 		      if
 			response.is_empty:
@@ -444,20 +447,69 @@ $ai_types::model/ai::detokenize:
   (
     model
     token_or_list
+    prefix = empty_list
   )
+  $rc result_count()
   $pieces ai::pieces_of(model)
   if
-    token_or_list.is_a_list
-    -> map_reduce(token_or_list token_to_piece append "")
+    token_or_list.is_a_list:
+      $text ""
+      for_each token_or_list
+	: (token)
+	  token_to_piece token $str &prefix
+	  append &text str
+	  next
+	:
+	  if
+	    rc == 1
+	    -> text
+	    -> text prefix
+    :
+      token_to_piece token_or_list $str &prefix
+      if
+	rc == 1
+	-> str
+	-> str prefix
 
-    -> token_to_piece(token_or_list)
-
-  $token_to_piece: (token)
+  $token_to_piece: (token prefix_octets)
     $piece pieces(token+1)
     if
-      any_of(piece: (chr) -> chr == '@0x142;')
-      -> "<???>" # 'ł' cannot be printed - why?
-      -> piece
+      piece.is_a_list:
+	append prefix_octets &piece
+	$n length_of(piece)
+	$i 1
+	$e undefined
+	loop:
+	  update_if i-1 <= n &e -> i-1
+	  if
+	    i > n:
+	      $octets ""
+	      for_each range(piece 1 e)
+		: (code)
+		  push &octets character(code)
+		  next
+		:
+		  -> from_utf8(octets) range(piece e+1 -1)
+	    :
+	      $code piece(i)
+	      cond
+		-> code < 0x80:
+		  inc &i
+		  next
+		-> code & 0xe0 == 0xc0:
+		  plus &i 2
+		  next
+		-> code & 0xf0 == 0xe0:
+		  plus &i 3
+		  next
+		-> code & 0xf8 == 0xf0:
+		  plus &i 4
+		  next
+		-> true -> "<???>" empty_list
+      :
+	update_if any_of(piece: (chr) -> chr == '@0x142;') &piece -> "<???>"
+	  # 'ł' cannot be printed - why?
+	-> piece empty_list
 
 $build_piece_table: (model)
   $pieces ai::pieces_of(model)
@@ -465,11 +517,10 @@ $build_piece_table: (model)
   for_each pieces
     : (idx piece)
       if
-	piece.is_empty
-	next
-	:
+	piece.is_a_string:
 	  !piece_table(piece) idx-1
 	  next
+	next # ignore incomplete sequences
     ->
       model
 	.ai::piece_table_of piece_table

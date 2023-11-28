@@ -61,6 +61,10 @@ program_parameters!
   list
     "detailed" "
       request a more detailed answer
+  $german
+  list
+    "german" "
+      use a german prompt text
   $model_name
   list
     VALUED_OPTION "model" "vicuna-13b-v1.5.Q4_K_M.gguf" "
@@ -88,6 +92,12 @@ $DETAILED
     -> " detailed"
     -> ""
 
+$DETAILIERT
+  if
+    detailed
+    -> " in ausführlicher Weise"
+    -> ""
+
 load_ai_model! $vicuna model_name
 
 generate! vicuna $response
@@ -98,11 +108,19 @@ generate! vicuna $response
   VERBOSE = verbose
   STOP = "###"
   USE_COLOURS = use_colours
-  "
-    Below is an instruction that describes a task, paired with an input that @
-    provides further context. Write a@(DETAILED) response that appropriately @
-    completes the request.
-    ### Instruction: @(question)
-    ### Response:@
+  if
+    german
+    ->
+      "
+	Beantworte die nachstehende Frage@(DETAILIERT) auf deutsch.
+	### Frage: @(question)
+	### Antwort:@
+    ->
+      "
+	Below is an instruction that describes a task, paired with an input that @
+	provides further context. Write a@(DETAILED) response that appropriately @
+	completes the request.
+	### Instruction: @(question)
+	### Response:@
 
 println! response
