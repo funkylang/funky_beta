@@ -601,7 +601,8 @@ $std_types::generic_list/contains:
       if
 	self(1) == item
 	-> true
-	-> range(self 2 -1) .contains. item
+	:
+	  contains range(self 2 -1) item
 
 $std_types::generic_list/find_first: (self test)
   if

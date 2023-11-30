@@ -945,6 +945,7 @@ $std::initialize_terminal:
     print! "@esc;[u" # restore cursor position
     print! "@esc;[?47l" # switch to default screen
     print! "@esc;[0m" # set default colours
+    on do_switch_cursor_off: cursor_on!
 
     on err.is_an_error: debug_print err 50
 

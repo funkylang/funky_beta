@@ -40,6 +40,11 @@ $HAS_HISTORY .
 $ALLOW_SEARCH .
 $ALLOW_NEW_LINE .
 
+# Boundary
+
+$WORD .
+$LINE .
+
 $indent_of ()
 $text_of ()
 $mark_of ()
@@ -117,6 +122,7 @@ $bar_text_colour_of ()
 $bar_background_colour_of ()
 $indentation_patterns_of ()
 $do_highlight_indentations_of ()
+$do_highlight_cursor_line_of ()
 $colour_set_of ()
 $colour_set_no_of ()
 $clipboard_contents_of ()
@@ -204,6 +210,9 @@ $functions
     =
       "toggle_indentation_highlighting"
       tuple(toggle_indentation_highlighting OTHER)
+    =
+      "toggle_cursor_line_highlighting"
+      tuple(toggle_cursor_line_highlighting OTHER)
     "toggle_soft_line_break" = tuple(toggle_soft_line_break OTHER)
 
 $class_of empty_hash_table
@@ -288,7 +297,8 @@ $editor_key_bindings
 
     F2 = change_colour_set
     F3 = toggle_indentation_highlighting
-    F4 = toggle_soft_line_break
+    F4 = toggle_cursor_line_highlighting
+    F5 = toggle_soft_line_break
 
 $simple_key_bindings
   hash_table
@@ -424,6 +434,7 @@ $prototype_window
     .last_updated_y_of END
     .colour_set_no_of undefined
     .do_highlight_indentations_of false
+    .do_highlight_cursor_line_of false
     .use_soft_line_break_of false
 
 $go_to_key_bindings
@@ -461,8 +472,9 @@ $window
     .colour_set_of colour_sets(1)
     .colour_set_no_of 1
     .do_highlight_indentations_of true
+    .do_highlight_cursor_line_of true
     .cursor_movement_of ANYWHERE
-    .use_soft_line_break_of true
+    #.use_soft_line_break_of true
 
 $status_window
   prototype_window
@@ -601,16 +613,16 @@ $main: (initial_terminal)
 			    next
 			:
 			  $info functions(value)
-			  info $function $class
-			  on function.is_undefined:
-			    eprint! "
-			      Invalid function name "@(value)" in line @(no)!
 			  if
-			    key.is_defined && function.is_defined:
+			    info.is_undefined:
+			      eprint! "
+				Invalid function name "@(value)" in line @(no)!
+			      next!
+			    :
+			      info $function $class
 			      !editor_key_bindings(key) function
 			      !class_of(key) class
 			      next!
-			    next
 	:
 	  !window.key_bindings_of editor_key_bindings
 	  start_tedi!
@@ -1121,8 +1133,6 @@ $insert: (str)
 	  line.is_undefined
 	  -> x-1 "" "" undefined
 	  : line
-	edump `indent
-	edump `text
 	$line_width indent+length_of(text)
 	edump `line_width
 	$idx x-indent
@@ -1779,6 +1789,7 @@ $complete_prefix: (prefix)
   $height length_of(lines)
   $words empty_list
   split $left_part $mid_part $right_part
+
   update_if current_window_index != text_window_index_of(state)
     &words: collect_words mid_part false
     #
@@ -1958,6 +1969,9 @@ $ai_completion_action:
     debug_write "
       prompt length: @(length_of(tokens)) tokens
     debug_write "prompt = ..."
+    on detokenize(ai_model tokens).is_an_error:
+      edump `tokens
+      edump 50 `detokenize(ai_model tokens)
     debug_print behind(detokenize(ai_model tokens) '@nl;' -4)
     debug_write "suffix = "
     debug_print detokenize(ai_model suffix)
@@ -2173,8 +2187,15 @@ $initialize_ai:
 		   push &space_tokens tokens
 		   next
 		 :
-		   push &space_tokens push(tokens space_token(n))
-		   next
+		   $piece space_token(n)
+		   if
+		     piece.is_defined:
+		       push &space_tokens push(tokens piece)
+		       next
+		     : # the desired number of spaces is not a single token
+		       push &space_tokens
+			 push(push(tokens space_token(n-1)) space_token(1))
+		       next
 	     -> model(.space_tokens_of space_tokens)
 
 #$set_upper_bound:
@@ -2381,10 +2402,11 @@ $search_for_text: (text)
   $search_text ""
   $replacement_text undefined
   $match_start_boundary false
-  $match_end_boundary false
+  $match_end_boundary undefined
   $escaped false
+  $len length_of(text)
   for_each text
-    : (chr)
+    : (idx chr)
       if
 	escaped:
 	  !escaped false
@@ -2397,11 +2419,26 @@ $search_for_text: (text)
 	    '%':
 	      if
 		search_text.is_empty:
-		  !match_start_boundary true
+		  !match_start_boundary WORD
 		  next
 		:
-		  !match_end_boundary true
+		  if
+		    idx == len || text(idx+1) == '/':
+		      !match_end_boundary WORD
+		      next
+		    add_character
+	    '^':
+	      if
+		search_text.is_empty:
+		  !match_start_boundary LINE
 		  next
+		add_character
+	    '$':
+	      if
+		idx == len || text(idx+1) == '/':
+		  !match_end_boundary LINE
+		  next
+		add_character
 	    '/':
 	      if
 		replacement_text.is_defined
@@ -2475,6 +2512,7 @@ $find_next: (x = undefined)
 			pos.is_defined && is_a_valid_match(text pos len):
 			  !window
 			    window
+			      .previous_of window
 			      .cursor_x_of undefined
 			      .cursor_y_of undefined
 			      .sub_y_of undefined
@@ -2504,6 +2542,7 @@ $find_next: (x = undefined)
 			  pos.is_defined && is_a_valid_match(text pos len):
 			    !window
 			      window
+				.previous_of window
 				.x_of indent+pos+len
 				.y_of y
 				.sub_y_of undefined
@@ -2552,6 +2591,8 @@ $find_previous: (x = undefined)
 			pos.is_defined && is_a_valid_match(text pos len):
 			  !window
 			    window
+			      .previous_of window
+			      .cursor_x_of undefined
 			      .sub_y_of undefined
 			      .cursor_x_of undefined
 			      .cursor_y_of undefined
@@ -2580,6 +2621,7 @@ $find_previous: (x = undefined)
 			pos.is_defined && is_a_valid_match(text pos len):
 			  !window
 			    window
+			      .previous_of window
 			      .x_of indent+pos
 			      .y_of y
 			      .sub_y_of undefined
@@ -2592,24 +2634,31 @@ $find_previous: (x = undefined)
 			next
 
 $is_a_valid_match: (text pos len)
+  $match_start_boundary match_start_boundary_of(state)
   if
-    &&
-      match_start_boundary_of(state)
-      pos > 1
-      ==
-	is_a_word_character(text(pos))
-	is_a_word_character(text(pos-1))
+    ||
+      &&
+	match_start_boundary == WORD
+	pos > 1
+	is_a_word_character(text(pos)) == is_a_word_character(text(pos-1))
+      &&
+	match_start_boundary == LINE
+	pos > 1
     -> false
     :
       $e pos+len
+      $match_end_boundary match_end_boundary_of(state)
+      $text_len length_of(text)
       -> # ATTENTION: Why is the "->" necessary?
 	not
-	  &&
-	    match_end_boundary_of(state)
-	    e <= length_of(text)
-	    ==
-	      is_a_word_character(text(e-1))
-	      is_a_word_character(text(e))
+	  ||
+	    &&
+	      match_end_boundary == WORD
+	      e <= text_len
+	      is_a_word_character(text(e)) == is_a_word_character(text(e-1))
+	    &&
+	      match_end_boundary == LINE
+	      e < text_len
 
 $is_a_word_character: (chr)
   -> chr == '_' || chr.is_a_digit || chr.is_a_letter_character
@@ -2620,7 +2669,7 @@ $selected_text:
     line is not empty; otherwise <undefined> is returned
   $y y_of(window)
   if
-    y < length_of(lines) && y == selection_start_y_of(window)
+    y <= length_of(lines) && y == selection_start_y_of(window)
     :
       $line lines(y)
       if
@@ -2655,8 +2704,14 @@ $replace_selection:
       replacement_text
       range(text e+1 -1)
   !lines(y) tedi_line(indent text mark folds)
-  !window.first_updated_y_of y
-  !window.x_of s+length_of(replacement_text)
+  !window
+    window
+      .previous_of window
+      .cursor_x_of undefined
+      .cursor_y_of undefined
+      .sub_y_of undefined
+      .first_updated_y_of y
+      .x_of indent+s+length_of(replacement_text)
   return_window_and_lines
 
 $cancel
@@ -2956,6 +3011,13 @@ $toggle_indentation_highlighting:
       .last_updated_y_of END
   return_window
 
+$toggle_cursor_line_highlighting:
+  !window
+    window
+      .do_highlight_cursor_line_of not(do_highlight_cursor_line_of(window))
+      .first_updated_y_of y_of(window)
+  return_window
+
 $toggle_soft_line_break:
   !window
     window
@@ -2982,17 +3044,29 @@ $update_display:
     update_display_2
 
 $update_display_2:
-  update_if window.is_a_text_window &terminal: draw_title_bar
-  define_window &terminal left_x_of(window) top_y_of(window) -1 -1
   $x x_of(window)
   $y y_of(window)
+  $cursor_x cursor_x_of(window)
+  $cursor_y cursor_y_of(window)
+  update_if x.is_undefined &x -> cursor_x_of(window)
+  update_if y.is_undefined &y -> cursor_y_of(window)
+  update_if cursor_x.is_undefined &cursor_x -> x_of(window)
+  update_if cursor_y.is_undefined &cursor_y -> y_of(window)
+  !window
+    window
+      .cursor_x_of cursor_x
+      .cursor_y_of cursor_y
+      .x_of x
+      .y_of y
+  update_if window.is_a_text_window &terminal: draw_title_bar
+  define_window &terminal left_x_of(window) top_y_of(window) -1 -1
   $width width_of(window)
   $height height_of(window)
   $first_visible_x first_visible_x_of(window)
   $first_visible_y first_visible_y_of(window)
   $upper_bound upper_bound_of(window)
   $lower_bound lower_bound_of(window)
-  cond $new_first_visible_x $cursor_x
+  cond $new_first_visible_x !cursor_x
     -> x < first_visible_x
       -> x 1
     -> x >= first_visible_x+width
@@ -3015,7 +3089,7 @@ $update_display_2:
 	-> y+1-height
       -> true
 	-> first_visible_y
-  $cursor_y 1+y-new_first_visible_y
+  !cursor_y 1+y-new_first_visible_y
   $first_updated_y first_updated_y_of(window)
   $last_updated_y last_updated_y_of(window)
   update_if
@@ -3151,6 +3225,7 @@ $min_max_minus_1: (v1 v2)
 $draw_lines: (terminal_y first_y last_y)
   $colour_set colour_set_of(window)
   $do_highlight_indentations do_highlight_indentations_of(window)
+  $do_highlight_cursor_line do_highlight_cursor_line_of(window)
   $selection_colour selection_colour_of(colour_set)
   $out_of_bounds_colour out_of_bounds_colour_of(colour_set)
   set_text_colour &terminal text_colour_of(colour_set)
@@ -3374,7 +3449,7 @@ $draw_lines: (terminal_y first_y last_y)
 
 	$set_window_colour: (colour)
 	  if
-	    y == y_of(window):
+	    do_highlight_cursor_line && y == y_of(window):
 	      $red red_component_of(colour)
 	      $green green_component_of(colour)
 	      $blue blue_component_of(colour)
@@ -3517,12 +3592,6 @@ $draw_lines_with_soft_breaks:
 	  undefined undefined
 	  min(selection_start_y y) max(selection_start_y y)-1
 
-  on selection_start_y.is_defined:
-    edump `selection_start_x
-    edump `selection_start_y
-    edump `selection_end_x
-    edump `selection_end_y
-
   !window
     window
       .x_of x
@@ -3531,6 +3600,7 @@ $draw_lines_with_soft_breaks:
   update_if window.is_a_text_window &terminal: draw_title_bar
   define_window &terminal left_x_of(window) top_y_of(window) -1 -1
 
+  $do_highlight_cursor_line do_highlight_cursor_line_of(window)
   cond
     -> cursor_y < upper_bound:
       move &first_visible_y &first_visible_sub_y $dy cursor_y-upper_bound
@@ -3542,7 +3612,10 @@ $draw_lines_with_soft_breaks:
       draw
     -> true:
       if
-	first_updated_y_of(window).is_defined || selection_start_y.is_defined
+	||
+	  do_highlight_cursor_line
+	  first_updated_y_of(window).is_defined
+	  selection_start_y.is_defined
 	draw
 	update_cursor
 
@@ -3635,13 +3708,13 @@ $draw_lines_with_soft_breaks:
 	  cy >= selection_start_y
 	  cy <= selection_end_y
 	:
-	  set_background_colour &terminal selection_colour_of(colour_set)
+	  set_window_colour !terminal selection_colour_of(colour_set)
 	  draw_text &terminal 1 display_y spaces(width)
 	  inc &display_y
 	  next
 	:
 	  draw_indent !terminal
-	  set_background_colour &terminal background_colour
+	  set_window_colour !terminal background_colour
 	  draw_text &terminal indent+1 display_y spaces(inbounds_width)
 	  draw_out_of_bounds !terminal
 	  inc &display_y
@@ -3654,11 +3727,11 @@ $draw_lines_with_soft_breaks:
 	  selection_start_x.is_undefined
 	  cy >= selection_start_y
 	  cy <= selection_end_y
-	:
+	: # whole line(s) selection
 	  $w width-indent
 	  pad_right &text w
 	  update_if length_of(text) > w &text -> range(text 1 w)
-	  set_background_colour &terminal selection_colour_of(colour_set)
+	  set_window_colour !terminal selection_colour_of(colour_set)
 	  draw_text terminal 1 display_y append(spaces(indent) text)
 	:
 	  $len length_of(text)
@@ -3671,12 +3744,11 @@ $draw_lines_with_soft_breaks:
 	      selection_start_x.is_defined
 	      cy == selection_start_y
 	      overlap(selection_start_x selection_end_x cx cx+len)
-	    :
+	    : # partial line selected
 	      $sx indent+1
-	      edump `cx
 	      if
 		selection_start_x > cx:
-		  set_background_colour &terminal background_colour
+		  set_window_colour !terminal background_colour
 		  draw_text &terminal sx display_y
 		    range(text 1 selection_start_x-cx)
 		  plus &sx selection_start_x-cx
@@ -3685,20 +3757,19 @@ $draw_lines_with_soft_breaks:
 		draw_rest
 
 	      $draw_rest:
-		set_background_colour &terminal selection_colour_of(colour_set)
-		draw_text &terminal sx display_y
-		  range(text 1 selection_end_x-selection_start_x)
-		range &text selection_end_x-selection_start_x+1 -1
+		set_window_colour !terminal selection_colour_of(colour_set)
+		$dx min(cx+len selection_end_x)-max(cx selection_start_x)
+		draw_text &terminal sx display_y range(text 1 dx)
+		range &text dx+1 -1
 		if
 		  text.is_empty
 		  draw_out_of_bounds
 		  :
-		    set_background_colour &terminal background_colour
-		    draw_text &terminal
-		      sx+selection_end_x-selection_start_x display_y text
+		    set_window_colour !terminal background_colour
+		    draw_text &terminal sx+dx display_y text
 		    draw_out_of_bounds
 	    :
-	      set_background_colour &terminal background_colour
+	      set_window_colour !terminal background_colour
 	      draw_text &terminal indent+1 display_y text
 	      draw_out_of_bounds
 
@@ -3708,10 +3779,27 @@ $draw_lines_with_soft_breaks:
     $draw_out_of_bounds:
       if
 	width > inbounds_width:
-	  set_background_colour &terminal out_of_bounds_colour
+	  set_window_colour !terminal out_of_bounds_colour
 	  draw_text terminal
 	    inbounds_width+1 display_y spaces(width-inbounds_width)
 	-> terminal
+
+    $set_window_colour: (colour)
+      if
+	&&
+	  do_highlight_cursor_line
+	  cy == y
+	:
+	  $red red_component_of(colour)
+	  $green green_component_of(colour)
+	  $blue blue_component_of(colour)
+	  set_background_colour terminal
+	    rgb_character
+	      if(red < 0xe0 (-> red+0x20) (-> red-0x20))
+	      if(green < 0xe0 (-> green+0x20) (-> green-0x20))
+	      if(blue < 0xe0 (-> blue+0x20) (-> blue-0x20))
+	:
+	  set_background_colour terminal colour
 
 $overlap: (s1 e1 s2 e2)
   # the end positions are *exclusive*!
