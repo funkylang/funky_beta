@@ -39,7 +39,7 @@
 
 #define do_inline
 
-#define STACK_SIZE 65536
+#define STACK_SIZE 0x100000
 
 static char stack[STACK_SIZE];
 

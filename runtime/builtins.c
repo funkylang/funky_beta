@@ -242,6 +242,7 @@ enum {
   func__std___chroot,
   func__std___close,
   func__std___closedir,
+  func__std___fstat,
   func__std___fsync,
   func__std___getcwd,
   func__std___getenv,
@@ -704,6 +705,7 @@ enum {
   var_no__std___chroot,
   var_no__std___close,
   var_no__std___closedir,
+  var_no__std___fstat,
   var_no__std___fsync,
   var_no__std___getcwd,
   var_no__std___getenv,
@@ -17276,6 +17278,136 @@ static void entry__std___closedir (void)
     }
   }
 
+static void entry__std___fstat (void)
+  {
+    if (TLS_argument_count != 1) {
+      invalid_arguments();
+      return;
+    }
+    if (TLS_deny_io) {
+      missing_io_access_rights();
+      return;
+    }
+    int fd;
+    struct stat statbuf;
+    int result;
+    if (!file_descriptor_to_int(TLS_arguments[0], &fd)) return;
+    if (event__mode != EM__REPLAY) {
+      result = fstat(fd, &statbuf);
+      if (event__mode == EM__RECORD) {
+        record__event("fstat");
+        store__integer(result);
+        store__memory(&statbuf, sizeof(statbuf));
+      }
+    } else {
+      replay__event("fstat");
+      retrieve__integer(&result);
+      retrieve__fixed_memory((uint8_t *)&statbuf, sizeof(statbuf));
+      report__event("fstat");
+      print__integer(fd);
+      print__integer(result);
+      print__memory(&statbuf, sizeof(statbuf));
+    }
+    if (result == -1) {
+      create_error_message(
+	module__builtin.constants_base[unique__std___IO_ERROR-1],
+      "FSTAT FAILED", errno, 0, NULL);
+    } else {
+      NODE *node__device_of = device_id_from_ulong(statbuf.st_dev);
+      NODE *node__inode_number_of = inode_number_from_ulong(statbuf.st_ino);
+      NODE *node__mode_of = mode_from_int(statbuf.st_mode);
+      NODE *node__link_count_of = from_int(statbuf.st_nlink);
+      NODE *node__user_id_of = user_id_from_int(statbuf.st_uid);
+      NODE *node__group_id_of = group_id_from_int(statbuf.st_gid);
+      NODE *node__root_device_of = device_id_from_ulong(statbuf.st_rdev);
+      NODE *node__size_of = from_long(statbuf.st_size);
+      NODE *node__block_size_of = from_long(statbuf.st_blksize);
+      NODE *node__block_count_of = from_long(statbuf.st_blocks);
+      NODE *node__access_time_seconds_of = from_long(statbuf.st_atim.tv_sec);
+      NODE *node__access_time_nanoseconds_of =
+	from_long(statbuf.st_atim.tv_nsec);
+      NODE *node__modification_time_seconds_of =
+	from_long(statbuf.st_mtim.tv_sec);
+      NODE *node__modification_time_nanoseconds_of =
+	from_long(statbuf.st_mtim.tv_nsec);
+      NODE *node__status_change_time_seconds_of =
+	from_long(statbuf.st_ctim.tv_sec);
+      NODE *node__status_change_time_nanoseconds_of =
+	from_long(statbuf.st_ctim.tv_nsec);
+      NODE *node = clone_object_and_attributes((NODE *)&std_types___stat);
+      update_start_p = node_p;
+      set_attribute(
+	node->attributes,
+	variables_table[var_no__std___device_of-FIRST_VAR].poly_idx,
+	MAKE_ATTRIBUTE_VALUE(node__device_of));
+      set_attribute(
+	node->attributes,
+	variables_table[var_no__std___inode_number_of-FIRST_VAR].poly_idx,
+	MAKE_ATTRIBUTE_VALUE(node__inode_number_of));
+      set_attribute(
+	node->attributes,
+	variables_table[var_no__std___mode_of-FIRST_VAR].poly_idx,
+	MAKE_ATTRIBUTE_VALUE(node__mode_of));
+      set_attribute(
+	node->attributes,
+	variables_table[var_no__std___link_count_of-FIRST_VAR].poly_idx,
+	MAKE_ATTRIBUTE_VALUE(node__link_count_of));
+      set_attribute(
+	node->attributes,
+	variables_table[var_no__std___user_id_of-FIRST_VAR].poly_idx,
+	MAKE_ATTRIBUTE_VALUE(node__user_id_of));
+      set_attribute(
+	node->attributes,
+	variables_table[var_no__std___group_id_of-FIRST_VAR].poly_idx,
+	MAKE_ATTRIBUTE_VALUE(node__group_id_of));
+      set_attribute(
+	node->attributes,
+	variables_table[var_no__std___root_device_of-FIRST_VAR].poly_idx,
+	MAKE_ATTRIBUTE_VALUE(node__root_device_of));
+      set_attribute(
+	node->attributes,
+	variables_table[var_no__std___size_of-FIRST_VAR].poly_idx,
+	MAKE_ATTRIBUTE_VALUE(node__size_of));
+      set_attribute(
+	node->attributes,
+	variables_table[var_no__std___block_size_of-FIRST_VAR].poly_idx,
+	MAKE_ATTRIBUTE_VALUE(node__block_size_of));
+      set_attribute(
+	node->attributes,
+	variables_table[var_no__std___block_count_of-FIRST_VAR].poly_idx,
+	MAKE_ATTRIBUTE_VALUE(node__block_count_of));
+      set_attribute(
+	node->attributes,
+	variables_table[var_no__std___access_time_seconds_of-FIRST_VAR].poly_idx,
+	MAKE_ATTRIBUTE_VALUE(node__access_time_seconds_of));
+      set_attribute(
+	node->attributes,
+	variables_table[var_no__std___access_time_nanoseconds_of-FIRST_VAR].poly_idx,
+	MAKE_ATTRIBUTE_VALUE(node__access_time_nanoseconds_of));
+      set_attribute(
+	node->attributes,
+	variables_table[var_no__std___modification_time_seconds_of-FIRST_VAR].poly_idx,
+	MAKE_ATTRIBUTE_VALUE(node__modification_time_seconds_of));
+      set_attribute(
+	node->attributes,
+	variables_table[var_no__std___modification_time_nanoseconds_of-FIRST_VAR].poly_idx,
+	MAKE_ATTRIBUTE_VALUE(node__modification_time_nanoseconds_of));
+      set_attribute(
+	node->attributes,
+	variables_table[var_no__std___status_change_time_seconds_of-FIRST_VAR].poly_idx,
+	MAKE_ATTRIBUTE_VALUE(node__status_change_time_seconds_of));
+      set_attribute(
+	node->attributes,
+	variables_table[var_no__std___status_change_time_nanoseconds_of-FIRST_VAR].poly_idx,
+	MAKE_ATTRIBUTE_VALUE(node__status_change_time_nanoseconds_of));
+      {
+        NODE *result__node = (NODE *)(node);
+        TLS_arguments[0] = result__node;
+        TLS_argument_count = 1;
+      }
+    }
+  }
+
 static void entry__std___fsync (void)
   {
     if (TLS_argument_count != 1) {
@@ -22250,6 +22382,7 @@ static FUNKY_CONSTANT constants_table[] = {
   {FLT_C_FUNCTION, 1, {.func = entry__std___chroot}},
   {FLT_C_FUNCTION, 1, {.func = entry__std___close}},
   {FLT_C_FUNCTION, 1, {.func = entry__std___closedir}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std___fstat}},
   {FLT_C_FUNCTION, 1, {.func = entry__std___fsync}},
   {FLT_C_FUNCTION, 0, {.func = entry__std___getcwd}},
   {FLT_C_FUNCTION, 1, {.func = entry__std___getenv}},
@@ -25375,6 +25508,11 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_INITIALIZED, 0, 0,
+    "fstat\000std", NULL,
+    {.const_idx = func__std___fstat}
+  },
+  {
+    FOT_INITIALIZED, 0, 0,
     "fsync\000std", NULL,
     {.const_idx = func__std___fsync}
   },
@@ -25888,13 +26026,13 @@ FUNKY_MODULE module__builtin = {
   NULL,
   0, 0,
   3, 0,
-  329, 434,
+  330, 435,
   NULL,
   defined_namespaces, NULL,
   constants_table, variables_table
 };
 
-BUILTIN_FUNCTION_NAME builtin_function_names[379] = {
+BUILTIN_FUNCTION_NAME builtin_function_names[380] = {
   {std_types___generic_array____type, "std_types::generic_array/_type"},
   {std_types___array____type, "std_types::array/_type"},
   {entry__std_types___array___std___length_of, "std_types::array/length_of"},
@@ -26147,6 +26285,7 @@ BUILTIN_FUNCTION_NAME builtin_function_names[379] = {
   {entry__std___chroot, "std::chroot"},
   {entry__std___close, "std::close"},
   {entry__std___closedir, "std::closedir"},
+  {entry__std___fstat, "std::fstat"},
   {entry__std___fsync, "std::fsync"},
   {entry__std___getcwd, "std::getcwd"},
   {entry__std___getenv, "std::getenv"},

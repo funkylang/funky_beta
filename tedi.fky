@@ -519,6 +519,13 @@ $ai_model_name "codellama-13b.Q4_0.gguf"
 $ai_server "127.0.0.1:8080"
 $ai_context_size 2560
 
+fstat! $stdout_info STDOUT_FILENO
+fstat! $stderr_info STDERR_FILENO
+$do_log
+  &&
+    inode_number_of(stderr_info) == inode_number_of(stdout_info)
+    device_of(stderr_info) == device_of(stdout_info)
+
 initialize_terminal!
   RECEIVE_CTRL_C_AND_CTRL_Z = true
   RECEIVE_CTRL_Q_AND_CTRL_S = true
@@ -690,7 +697,6 @@ $event_loop:
 			    case action
 			      NEW_WINDOW_SIZE:
 				resize &terminal new_width new_height
-				edump `terminal
 				!window windows_of(state)(current_window_index)
 				!lines lines_of(window)
 				update_all!
@@ -1127,17 +1133,12 @@ $insert: (str)
       $insert_text:
 	$x x_of(window)
 	$line lines(y)
-	edump `x
-	edump `line
 	if $indent $text $mark $folds
 	  line.is_undefined
 	  -> x-1 "" "" undefined
 	  : line
 	$line_width indent+length_of(text)
-	edump `line_width
 	$idx x-indent
-	edump `idx
-	edump `spaces_only
 	if
 	  x > line_width:
 	    if
@@ -1912,8 +1913,9 @@ $is_an_identifier_character: (chr)
 $ai_completion -> state(.action_of ai_completion_action)
 
 $ai_completion_action:
-  eprint! "
-    --------------------
+  on do_log:
+    eprint! "
+      --------------------
   current_time! $t1
   $t2 undefined
   $ai_model ai_model_of(state)
@@ -1922,14 +1924,15 @@ $ai_completion_action:
     check_tokens
     :
       initialize_ai! !ai_model
-      edump `ai_model
       current_time! !t2
-      eprintln!
-	format("%2.3: loading model " t2-t1)
+      on do_log:
+	edump `ai_model
+	eprintln!
+	  format("%2.3: loading model " t2-t1)
       !t1 t2
       if
 	ai_model.is_an_error:
-	  eprint! debug_string(ai_model 0 10)
+	  on do_log: eprint! debug_string(ai_model 0 10)
 	  -> terminal state
 	:
 	  !state.ai_model_of ai_model
@@ -1969,12 +1972,13 @@ $ai_completion_action:
     debug_write "
       prompt length: @(length_of(tokens)) tokens
     debug_write "prompt = ..."
-    on detokenize(ai_model tokens).is_an_error:
+    on detokenize(ai_model tokens).is_an_error && do_log:
       edump `tokens
       edump 50 `detokenize(ai_model tokens)
-    debug_print behind(detokenize(ai_model tokens) '@nl;' -4)
-    debug_write "suffix = "
-    debug_print detokenize(ai_model suffix)
+    on do_log:
+      debug_print behind(detokenize(ai_model tokens) '@nl;' -4)
+      debug_write "suffix = "
+      debug_print detokenize(ai_model suffix)
     # ATTENTION: infill seems *not* to work - therefor it is currently ignored!
     #update_if suffix.is_not_empty &tokens:
       $space_token space_tokens_of(ai_model)(1)(1)
@@ -1991,9 +1995,10 @@ $ai_completion_action:
       current_time! $t3
       evaluate! ai_model $token tokens
       current_time! $t4
-      eprintln!
-	format("%2.3: " t4-t3)
-	'@quot;' escaped_token(ai_model token) '@quot;'
+      on do_log:
+	eprintln!
+	  format("%2.3: " t4-t3)
+	  '@quot;' escaped_token(ai_model token) '@quot;'
       $newline_token newline_token_of(ai_model)
       $end_of_text_token end_of_text_token_of(ai_model)
       if!
@@ -2053,6 +2058,7 @@ $ai_completion_action:
 		    return
 
 	  $return:
+	    edump `ai_text
 	    ->
 	      terminal
 	      insert(ai_text)

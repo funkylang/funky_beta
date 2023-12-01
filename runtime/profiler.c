@@ -58,7 +58,7 @@ EXPORT PROFILE profile;
 extern int do_profile;
 extern int do_trace;
 
-#define STACK_SIZE 65536
+#define STACK_SIZE 0x100000
 
 static char stack[STACK_SIZE];
 
