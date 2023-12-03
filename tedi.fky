@@ -680,6 +680,9 @@ $event_loop:
 		    length_of(input) >= PASTE_THRESHOLD
 		    input .contains. '@cr;'
 		  :
+		    !current_window_index current_window_index_of(state)
+		    !window windows_of(state)(current_window_index)
+		    !lines lines_of(window)
 		    paste_text input !state
 		    !window windows_of(state)(current_window_index)
 		    !lines lines_of(window)
@@ -886,6 +889,7 @@ $update_history: (key)
 		.key_of key
 
 $paste_text: (input)
+  replace_all &input '@ht;' = "        "
   $s 1
   $n length_of(input)
   $i 0
@@ -896,15 +900,6 @@ $paste_text: (input)
 	insert range(input s n)
       :
 	case input(i)
-	  '@ht;':
-	    insert !state range(input s i-1)
-	    !window windows_of(state)(current_window_index)
-	    !lines lines_of(window)
-	    insert !state "        "
-	    !window windows_of(state)(current_window_index)
-	    !lines lines_of(window)
-	    !s i+1
-	    next
 	  '@nl;', '@cr;':
 	    insert !state range(input s i-1)
 	    !window windows_of(state)(current_window_index)
@@ -1947,7 +1942,7 @@ $ai_completion_action:
 	tokenize! ai_model line_texts $line_tokens
 	update_tokens !lines line_numbers line_tokens
 	current_time! !t2
-	eprintln! format("%2.3: tokenize " t2-t1)
+	on do_log: eprintln! format("%2.3: tokenize " t2-t1)
 	!t1 t2
 	attempt_completion!
 
