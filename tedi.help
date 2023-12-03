@@ -1,188 +1,198 @@
-cursor left
-  move the cursor one position to the left;
-  if already there then do nothing
+Cursor Movement
 
-cursor right
-  move the cursor one position to the right;
-  does not jump to the start of the next line after reaching the line's last
-  character
+  cursor-left
+    move the cursor one position to the left;
+    if already there then do nothing
 
-cursor up
-  moves the cursor one line up;
-  if the "line lock" is active and the cursor is already at the "upper bound"
-  then scroll down the window contents instead
+  cursor-right
+    move the cursor one position to the right;
+    does not jump to the start of the next line after reaching the line's last
+    character
 
-cursor down
-  moves the cursor one line down;
-  if the "line lock" is active and the cursor is already at the "lower bound"
-  then scroll up the window contents instead
+  cursor-up
+    moves the cursor one line up;
+    if the "line lock" is active and the cursor is already at the "upper bound"
+    then scroll down the window contents instead
 
-page up
-  moves the cursor up as many lines as the window height;
-  if the "line lock" is active and the cursor is already at the "upper bound"
-  then scroll down the window contents instead
+  cursor-down
+    moves the cursor one line down;
+    if the "line lock" is active and the cursor is already at the "lower bound"
+    then scroll up the window contents instead
 
-page down
-  moves the cursor down as many lines as the window height;
-  if the "line lock" is active and the cursor is already at the "lower bound"
-  then scroll up the window contents instead
+  page-up
+    moves the cursor up as many lines as the window height;
+    if the "line lock" is active and the cursor is already at the "upper bound"
+    then scroll down the window contents instead
 
-ctrl cursor up
-  moves the cursor up in a straight line until it "collides with text"
+  page-down
+    moves the cursor down as many lines as the window height;
+    if the "line lock" is active and the cursor is already at the "lower bound"
+    then scroll up the window contents instead
 
-ctrl cursor down
-  moves the cursor down in a straight line until it "collides with text"
+  ctrl-cursor-up
+    moves the cursor up in a straight line until it "collides with text"
 
-home
-  jump to the first character of the line or if already there then
-  jump to the start of the line
+  ctrl-cursor-down
+    moves the cursor down in a straight line until it "collides with text"
 
-end
-  jump behind the last character of the line
+  home
+    jump to the first character of the line or if already there then
+    jump to the start of the line
 
-ctrl home
-  jump to the start of the document
+  end
+    jump behind the last character of the line
 
-ctrl end
-  jump behind the last line of the document
+  ctrl-home
+    jump to the start of the document
 
-ctrl backspace
-  deletes all text to the left of the cursor;
-  the cursor is positioned at the (previous) leftmost character
+  ctrl-end
+    jump behind the last line of the document
 
-ctrl delete
-  deletes all text to the right of the cursor;
-  the cursor does not move
+  ALL THESE KEYS CAN BE COMBINED WITH <shift> TO SELECT TEXT
 
-ctrl space
-  AI completion;
-  needs a running AI-server
+  ATTENTION: WHEN SELECTING MULTIPLE LINES THEN THE WHOLE LINES WILL BE SELECTED
 
-alt space
-  smart completion;
-  completes identifiers and numbers based on existing (surrounding) text
+Insertion
 
-alt return
-  toggle folding
+  return
+    splits the current line into two;
+    tries to handle spaces in a smart way
 
-alt cursor left
-  folds the current line
+Deletion
 
-alt cursor right
-  unfolds the current line
+  backspace
+    deletes one character to the left;
+    does nothing if already at the start of a line
 
-alt cursor up
-  folds all lines
+  delete
+    deletes one character to the right;
+    does nothing if there is no more text to the right
 
-alt cursor down
-  unfolds all lines
+  ctrl-backspace
+    deletes all text to the left of the cursor;
+    the cursor is positioned at the (previous) leftmost character
 
-ALL THESE KEYS CAN BE COMBINED WITH <shift> TO SELECT TEXT
+  ctrl-delete
+    deletes all text to the right of the cursor;
+    the cursor does not move
 
-ATTENTION: WHEN SELECTING MULTIPLE LINES THEN THE WHOLE LINES WILL BE SELECTED
+  ctrl-k
+    deletes the current line
 
-ctrl page up
-  like page up, but only moves a half window height
+Completion
 
-ctrl page down
-  like page down, but only moves a half window height
+  alt-space
+    smart completion;
+    completes identifiers and numbers based on existing (surrounding) text
 
-tab
-  indents the current line or the current selection
+  ctrl-space
+    AI completion;
+    needs a running AI-server
 
-shift tab
-  unindents the current line or the current selection
+Indentation
 
-return
-  splits the current line into two;
-  tries to handle spaces in a smart way
+  tab
+    indents the current line or the current selection
 
-escape
-  closes the "edit box"
+  shift tab
+    unindents the current line or the current selection
 
-backspace
-  deletes one character to the left;
-  does nothing if already at the start of a line
+Folding
 
-delete
-  deletes one character to the right;
-  does nothing if there is no more text to the right
+  alt return
+    toggle folding
 
-ctrl c
-  copies the current selection into the clipboard;
-  the clipboard is only available within the editor
+  alt cursor left
+    folds the current line
 
-ctrl d <letter>
-  defines a "mark";
-  marks cannot be defined on empty lines
+  alt cursor right
+    unfolds the current line
 
-ctrl e
-  toggles "line lock" mode
+  alt cursor up
+    folds all lines
 
-ctrl f
-  starts a search;
-  after entering the search string:
-  * press <return> to search forwards
-  * press <alt return> to search backwards
+  alt cursor down
+    unfolds all lines
 
-ctrl g
-  jumps to a specific line;
-  you have to enter the line in the "edit box"
+Cut & Paste
 
-ctrl k
-  deletes the current line
+  ctrl-c
+    copies the current selection into the clipboard;
+    the clipboard is only available within the editor
 
-ctrl l
-  sets the lower bound of the "line lock"
+  ctrl-v
+    pastes the contents of the clipboard a the current position
 
-ctrl n
-  searches (and replaces) the next occurence of the search string;
-  the found string is selected and the cursor is positioned behind the string
+  ctrl-x
+    cuts the current selection into the clipboard;
+    the clipboard is only available within the editor
 
-ctrl p
-  searches (and replaces) the previous occurence of the search string;
-  the found string is selected and the cursor is positioned at the start of the
-  string
+Search & Replace
 
-ctrl q
-  leaves the editor;
-  THE DOCUMENT WILL **NOT** BE SAVED!
+  ctrl-f
+    starts a search;
+    after entering the search string:
+    * press <return> or <ctrl-n> to search forwards
+    * press <ctrl-p> to search backwards
 
-ctrl r
-  lets you specify a replacement string in the "edit box";
-  also replaces the current selection
+  ctrl-n
+    searches or replaces the next occurence of the search string;
+    the found string is selected and the cursor is positioned behind the string
 
-ctrl s
-  saves the current contents
+  ctrl-p
+    searches or replaces the previous occurence of the search string;
+    the found string is selected and the cursor is positioned at the start of the
+    string
 
-ctrl alt s
-  saves the current contents using only leading *spaces* (no tabulators)
+  escape
+    closes the "edit box" and aborts the search/replace
 
-ctrl t
-  starts the permanent selection mode
+Marks
 
-ctrl u
-  sets the upper bound of the "line lock"
+  ctrl-d <letter>
+    defines a "mark";
+    marks cannot be defined on empty lines
 
-ctrl v
-  pastes the contents of the clipboard a the current position
+  ctrl-g
+    jumps to a mark or a specific line;
+    you have to enter the mark letter or the line no. in the "edit box"
 
-ctrl x
-  cuts the current selection into the clipboard;
-  the clipboard is only available within the editor
+  escape
+    closes the "edit box" and does not jump
 
-ctrl z
-  undo;
-  realy does undo **EVERYTHING**!
+Files and Quit
 
-alt <letter>
-  jumpts to the specified mark
+  ctrl-q
+    leaves the editor;
+    THE DOCUMENT WILL **NOT** BE SAVED!
 
-F1
-  should show this help - but does not ...
+  ctrl-s
+    saves the current contents
 
-F2
-  change the colour set
+  ctrl-alt-s
+    saves the current contents using only leading *spaces* (no tabulators)
 
-F3
-  toggle indentation highlighting
+Undo & Redo
+
+  ctrl-y
+    redo
+
+  ctrl-z
+    undo
+
+Function Keys
+
+  F1
+    should show this help - but does not ...
+
+  F2
+    change the colour set
+
+  F3
+    toggle indentation highlighting
+
+  F4
+    toggle cursor line hightlighting
+
+  F5
+    toggle soft-break-mode

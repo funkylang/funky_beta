@@ -522,9 +522,9 @@ $ai_context_size 2560
 fstat! $stdout_info STDOUT_FILENO
 fstat! $stderr_info STDERR_FILENO
 $do_log
-  &&
-    inode_number_of(stderr_info) == inode_number_of(stdout_info)
-    device_of(stderr_info) == device_of(stdout_info)
+  ||
+    inode_number_of(stderr_info) != inode_number_of(stdout_info)
+    device_of(stderr_info) != device_of(stdout_info)
 
 initialize_terminal!
   RECEIVE_CTRL_C_AND_CTRL_Z = true
@@ -1969,36 +1969,41 @@ $ai_completion_action:
 	    :
 	      append line_tokens &tokens
 	      next
-    debug_write "
-      prompt length: @(length_of(tokens)) tokens
-    debug_write "prompt = ..."
-    on detokenize(ai_model tokens).is_an_error && do_log:
-      edump `tokens
-      edump 50 `detokenize(ai_model tokens)
     on do_log:
+      debug_write "
+	prompt length: @(length_of(tokens)) tokens
+      debug_write "prompt = ..."
       debug_print behind(detokenize(ai_model tokens) '@nl;' -4)
       debug_write "suffix = "
       debug_print detokenize(ai_model suffix)
+
     # ATTENTION: infill seems *not* to work - therefor it is currently ignored!
-    #update_if suffix.is_not_empty &tokens:
-      $space_token space_tokens_of(ai_model)(1)(1)
-      put &tokens prefix_token_of(ai_model)
-      put &tokens space_token
-      push &tokens space_token
-      push &tokens suffix_token_of(ai_model)
-      append &tokens suffix
-      push &tokens space_token
-      push tokens middle_token_of(ai_model)
-    #edump `length_of(tokens)
+      update_if suffix.is_not_empty &tokens:
+	$space_token space_tokens_of(ai_model)(1)(1)
+	put &tokens prefix_token_of(ai_model)
+	put &tokens space_token
+	push &tokens space_token
+	push &tokens suffix_token_of(ai_model)
+	append &tokens suffix
+	push &tokens space_token
+	push tokens middle_token_of(ai_model)
+
     $n length_of(tokens)
+    $rest empty_list
     loop:
       current_time! $t3
       evaluate! ai_model $token tokens
       current_time! $t4
+      detokenize ai_model token $piece &rest
       on do_log:
-	eprintln!
-	  format("%2.3: " t4-t3)
-	  '@quot;' escaped_token(ai_model token) '@quot;'
+	eprint!
+	  format("%2.3: %5 " t4-t3 token)
+	  '@quot;' escaped_piece(piece) '@quot;'
+	if
+	  rest.is_empty:
+	    eprintln!
+	  :
+	    edump `rest
       $newline_token newline_token_of(ai_model)
       $end_of_text_token end_of_text_token_of(ai_model)
       if!
@@ -2058,7 +2063,7 @@ $ai_completion_action:
 		    return
 
 	  $return:
-	    edump `ai_text
+	    on do_log: edump `ai_text
 	    ->
 	      terminal
 	      insert(ai_text)
@@ -2072,9 +2077,7 @@ $ai_completion_action:
 	if
 	  line.is_defined:
 	    line $indent $_text $_mark $_folds $tokens
-	    update_if indent > 1 &tokens:
-	      append space_tokens_of(ai_model)(indent-1) tokens
-	    push tokens newline_token_of(ai_model)
+	    push indented_tokens(indent tokens) newline_token_of(ai_model)
 	  -> list(newline_token_of(ai_model))
 
   $get_not_tokenized_lines:
@@ -2128,9 +2131,10 @@ $line_start_tokens:
 	    -> 1 empty_list empty_list
 	    :
 	      $ai_model ai_model_of(state)
+	      $rest empty_list
 	      for_each tokens
 		: (i token)
-		  $piece detokenize(ai_model token)
+		  detokenize ai_model token $piece &rest
 		  $len length_of(piece)
 		  plus &cx
 		    if
@@ -2152,11 +2156,21 @@ $line_start_tokens:
 		  return tokens empty_list
 
 	      $return: (prefix suffix)
-		update_if indent >= 2 &prefix:
-		  append
-		    space_tokens_of(ai_model)(indent-1)
-		    prefix
-		-> cx prefix suffix
+		-> cx indented_tokens(indent prefix) suffix
+
+$indented_tokens: (indent tokens)
+  if
+    indent > 0 && tokens.is_not_empty:
+      $ai_model ai_model_of(state)
+      $first_piece detokenize(ai_model tokens(1))
+      if
+	first_piece .has_prefix. ' ':
+	  if
+	    indent > 1
+	    -> append(space_tokens_of(ai_model)(indent-1) tokens)
+	    -> tokens
+	-> append(space_tokens_of(ai_model)(indent) tokens)
+    -> tokens
 
 $dump_tokens: (tokens)
   debug_write "@quot;"
@@ -2275,8 +2289,13 @@ $cut_or_copy: (do_cut)
 		  if
 		    do_cut
 		    :
-		      !window.x_of selection_start_x
-		      !window.first_updated_y_of y
+		      !window
+			window
+			  .cursor_x_of undefined
+			  .cursor_y_of undefined
+			  .sub_y_of undefined
+			  .x_of selection_start_x
+			  .first_updated_y_of y
 		      !lines(y)
 			tedi_line
 			  indent
@@ -2300,7 +2319,13 @@ $cut_or_copy: (do_cut)
 	  !state.clipboard_contents_of contents
 	  if
 	    do_cut:
-	      !window.y_of selection_start_y
+	      !window
+		window
+		  .cursor_x_of undefined
+		  .cursor_y_of undefined
+		  .sub_y_of undefined
+		  .x_of 1
+		  .y_of selection_start_y
 	      update_from !window selection_start_y
 	      if
 		selection_start_y > height
@@ -3028,6 +3053,9 @@ $toggle_soft_line_break:
   !window
     window
       .use_soft_line_break_of not(use_soft_line_break_of(window))
+      .cursor_x_of undefined
+      .cursor_y_of undefined
+      .sub_y_of undefined
       .first_updated_y_of 1
       .last_updated_y_of END
   return_window
