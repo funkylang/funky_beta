@@ -57,6 +57,10 @@ program_parameters!
   list
     VALUED_OPTION "backtrack" 0 to_integer "
       the maximum number of steps to backtrack
+  $stop
+  list
+    VALUED_OPTION "stop" "
+      a substring on which to stop the text generation
   $detailed
   list
     "detailed" "
@@ -104,6 +108,7 @@ generate! vicuna $response
   MINIMUM_CONFIDENCE = minimum_confidence
   MAXIMUM_LENGTH = maximum_length
   BACKTRACK = backtrack
+  STOP = stop
   LOG_LEVEL = log_level
   VERBOSE = verbose
   STOP = "###"
