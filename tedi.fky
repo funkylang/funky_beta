@@ -40,17 +40,18 @@ $HAS_HISTORY .
 $ALLOW_SEARCH .
 $ALLOW_NEW_LINE .
 
-# Boundary
+# Type of Boundary Used to Match Search Expressions
 
 $WORD .
 $LINE .
+
+# Components of a TEDI line
 
 $indent_of ()
 $text_of ()
 $mark_of ()
 $folds_of ()
-
-$space_tokens_of ()
+$tokens_of ()
 
 $tedi_types::tedi_line tuple(undefined undefined undefined undefined undefined)
   # indent, text, mark, folds, tokens
@@ -59,6 +60,12 @@ $tedi_types::tedi_line/indent_of: (self) -> first(self)
 $tedi_types::tedi_line/text_of: (self) -> second(self)
 $tedi_types::tedi_line/mark_of: (self) -> third(self)
 $tedi_types::tedi_line/folds_of: (self) -> fourth(self)
+$tedi_types::tedi_line/tokens_of: (self) -> fifth(self)
+
+# Additional Attributes for AI Models
+
+$space_tokens_of ()
+$period_token_of ()
 
 # State
 
@@ -73,47 +80,58 @@ $search_text_of ()
 $match_start_boundary_of () # search text must start at a boundary
 $match_end_boundary_of () # search text must end at a boundary
 $replacement_text_of ()
+$clipboard_contents_of ()
 
 # Window
 
-$features_of ()
-$key_bindings_of ()
-$previous_of ()
-$redo_of ()
-$lines_of ()
-$x_of ()
-$y_of ()
-$sub_y_of () # the line no. within a "paragraph" (soft breaks)
+  a "paragraph" is a long line that will be broken into "sub-lines" using soft
+  line breaks
+
+  a "sub_line" is a line within a "paragraph"
+
+$features_of () # a <hash_set> of the window's features
+$key_bindings_of () # a <hash_table> of the window's key bindings
+$previous_of () # the previous state of the window (history)
+$redo_of () # the redo state of the window (history)
+$lines_of () # the logical lines ("paragraphs") of the window
+$x_of () # the x-coordinate of the current text line including the line's indent
+$y_of () # the index of the current text line ("paragraph")
+$sub_y_of () # the index of the current "sub_line" within its "paragraph"
 $previous_x_of ()
 $previous_y_of ()
 $previous_sub_y_of ()
-$first_visible_y_of ()
-$first_visible_sub_y_of ()
-$first_visible_x_of ()
+$first_visible_y_of () # the index of the first visible text line ("paragraph")
+$first_visible_sub_y_of () # the index of the first visible "sub_line"
+$first_visible_x_of () # the first visible x-coordinate within its line
 $first_updated_y_of ()
 $last_updated_y_of ()
-$cursor_x_of ()
-$cursor_y_of ()
+$cursor_x_of () # the cursor position measured from the window's left edge
+$cursor_y_of () # the cursor position measured from the window's top edge
 $is_locked ()
-$upper_bound_of ()
-$lower_bound_of ()
+$inbounds_width_of () # the soft line break width of the window
+$upper_bound_of () # do not move the cursor above this line
+$lower_bound_of () # do not move the cursor below this line
 $do_keep_selection ()
 $has_a_permanent_selection ()
-$selection_start_x_of ()
-$selection_start_y_of ()
+$selection_start_x_of () # the selection spans the range from ...
+$selection_start_y_of () # <selection_start...> to <selection_end...>
 $previous_selection_start_x_of ()
 $previous_selection_start_y_of ()
-$go_to_history_of ()
-$cursor_movement_of ()
-$use_soft_line_break_of ()
+$cursor_movement_of () # the cursor movement mode
+$use_soft_line_break_of () # break long lines at <inbounds_width>
+$is_a_text_window () # is *not* a status window, etc.
+$do_highlight_indentations_of () # show vertical lines at the start of each line
+$do_highlight_cursor_line_of () # highlight the cursor's horizontal line
+$colour_set_of () # the colour set to use for the window
+$colour_set_no_of () # the colour set index of the currently active colour set
+$do_define_mark_of () # expect a letter that defines a "mark"
 
-$is_a_text_window ()
+# Colour Set
 
 $text_colour_of ()
 $background_colour_of ()
 $background_colour_2_of ()
 $background_colour_3_of ()
-$inbounds_width_of ()
 $out_of_bounds_colour_of ()
 $selection_colour_of ()
 $folds_colour_of ()
@@ -121,13 +139,8 @@ $fake_folds_colour_of ()
 $bar_text_colour_of ()
 $bar_background_colour_of ()
 $indentation_patterns_of ()
-$do_highlight_indentations_of ()
-$do_highlight_cursor_line_of ()
-$colour_set_of ()
-$colour_set_no_of ()
-$clipboard_contents_of ()
 
-$do_define_mark_of ()
+# Start
 
 program_parameters!
   $filename
@@ -428,7 +441,6 @@ $prototype_window
     .selection_start_y_of undefined
     .previous_selection_start_x_of undefined
     .previous_selection_start_y_of undefined
-    .go_to_history_of empty_list
     .do_define_mark_of false
     .first_updated_y_of 1
     .last_updated_y_of END
@@ -680,16 +692,14 @@ $event_loop:
 		    length_of(input) >= PASTE_THRESHOLD
 		    input .contains. '@cr;'
 		  :
-		    !current_window_index current_window_index_of(state)
-		    !window windows_of(state)(current_window_index)
-		    !lines lines_of(window)
-		    paste_text input !state
-		    !window windows_of(state)(current_window_index)
-		    !lines lines_of(window)
-		    update_display !terminal !state
-		    update_terminal &terminal $output
-		    print! output
-		    next!
+		    extract_window_and_lines:
+		      paste_text input !state
+		      !window windows_of(state)(current_window_index)
+		      !lines lines_of(window)
+		      update_display !terminal !state
+		      update_terminal &terminal $output
+		      print! output
+		      next!
 		  :
 		    $keys extract_keys(input).combine_characters
 		    for_each keys
@@ -700,9 +710,8 @@ $event_loop:
 			    case action
 			      NEW_WINDOW_SIZE:
 				resize &terminal new_width new_height
-				!window windows_of(state)(current_window_index)
-				!lines lines_of(window)
-				update_all!
+				extract_window_and_lines:
+				  update_all!
 			      next
 			  :
 			    !current_window_index current_window_index_of(state)
@@ -814,12 +823,10 @@ $event_loop:
 	  EXIT == action
 	  -> terminal state
 	  :
-	    !current_window_index current_window_index_of(state)
-	    !window windows_of(state)(current_window_index)
-	    !lines lines_of(window)
-	    action! !terminal !state
-	    maybe_remove_selection_and_update_display !terminal !state
-	    next!
+	    extract_window_and_lines:
+	      action! !terminal !state
+	      maybe_remove_selection_and_update_display !terminal !state
+	      next!
       :
 	maybe_remove_selection_and_update_display !terminal !state
 	next!
@@ -854,17 +861,15 @@ $event_loop:
 	  -> push(combined str)
 
   $maybe_remove_selection_and_update_display:
-    !current_window_index current_window_index_of(state)
-    !window windows_of(state)(current_window_index)
-    !lines lines_of(window)
-    update_if_not do_keep_selection(window) || has_a_permanent_selection(window)
-      &window
-      ->
-	window
-	  .selection_start_x_of undefined
-	  .selection_start_y_of undefined
-    !window.do_keep_selection false
-    update_display
+    extract_window_and_lines:
+      update_if_not do_keep_selection(window) || has_a_permanent_selection(window)
+	&window
+	->
+	  window
+	    .selection_start_x_of undefined
+	    .selection_start_y_of undefined
+      !window.do_keep_selection false
+      update_display
 
 $update_history: (key)
   if_not
@@ -902,13 +907,12 @@ $paste_text: (input)
 	case input(i)
 	  '@nl;', '@cr;':
 	    insert !state range(input s i-1)
-	    !window windows_of(state)(current_window_index)
-	    !lines lines_of(window)
-	    new_line !state
-	    !window windows_of(state)(current_window_index)
-	    !lines lines_of(window)
-	    !s i+1
-	    next
+	    extract_window_and_lines:
+	      new_line !state
+	      !window windows_of(state)(current_window_index)
+	      !lines lines_of(window)
+	      !s i+1
+	      next
 	  next
 
 $select_page_up: select page_up
@@ -1366,6 +1370,8 @@ $find_previous_indent_above: (x y)
 
 $new_line:
   $y y_of(window)
+  edump `y
+  edump `length_of(lines)
   if
     y > length_of(lines):
       !window.x_of 1
@@ -1949,7 +1955,7 @@ $ai_completion_action:
   $attempt_completion:
     $y y_of(window)
     line_start_tokens !window.x_of $tokens $suffix
-    $within_line tokens.is_not_empty
+    $at_line_start tokens.is_empty
     loop !tokens:
       dec &y
       if
@@ -1968,7 +1974,7 @@ $ai_completion_action:
       debug_write "
 	prompt length: @(length_of(tokens)) tokens
       debug_write "prompt = ..."
-      debug_print behind(detokenize(ai_model tokens) '@nl;' -4)
+      debug_print truncate_until(detokenize(ai_model tokens) '@nl;' -4)
       debug_write "suffix = "
       debug_print detokenize(ai_model suffix)
 
@@ -2001,67 +2007,37 @@ $ai_completion_action:
 	    edump `rest
       $newline_token newline_token_of(ai_model)
       $end_of_text_token end_of_text_token_of(ai_model)
+      $period_token period_token_of(ai_model)
+      $use_soft_line_break use_soft_line_break_of(window)
       if!
-	token != newline_token && token != end_of_text_token:
+	&&
+	  token != newline_token
+	  token != end_of_text_token
+	  not(use_soft_line_break) || token != period_token
+	:
 	  push &tokens token
 	  next!
 	:
 	  # tokenization is that fast that we do not store the returned tokens
 
+	  update_if token == period_token &tokens: push tokens token
 	  $ai_text detokenize(ai_model range(tokens n+1 -1))
+	  on do_log: edump `ai_text
 	  if
-	    within_line:
+	    ai_text.is_empty:
 	      if
-		ai_text.contains_only_spaces
-		->
-		  terminal
-		  state
-		:
-		  if
-		    ai_text(1) == ' ':
-		      $line lines(y)
-		      line $indent $text
-		      $prev_x x_of(window)-indent-1
-		      if
-			prev_x > length_of(text) || text(prev_x) == ' ':
-			  range &ai_text 2 -1
-			  return
-			return
-		    return
+		token == newline_token
+		-> terminal split_line()
+		-> terminal state
 	    :
+	      !window.previous_of window
+	      update_if at_line_start && ai_text(1) == ' ' && ai_text(2) != ' '
+		&ai_text -> range(ai_text 2 -1)
 	      if
-		ai_text.contains_only_spaces
-		->
-		  terminal
-		  split_line()
-		:
-		  update_if ai_text(1) == ' ' && ai_text(2) != ' ' &ai_text
-		    -> range(ai_text 2 -1)
-		  !window.previous_of window
-		  if
-		    y <= length_of(lines):
-		      set_first_updated_y !window y
-		      !window.last_updated_y_of END
-		      !window
-			window
-			  .cursor_x_of undefined
-			  .cursor_y_of undefined
-			  .sub_y_of undefined
-			  .y_of y+1
-		      !lines
-			append
-			  push
-			    range(lines 1 y-1)
-			    tedi_line(0 ai_text)
-			  range(lines y -1)
-		      -> terminal return_window_and_lines()
-		    return
-
-	  $return:
-	    on do_log: edump `ai_text
-	    ->
-	      terminal
-	      insert(ai_text)
+		token == newline_token:
+		  insert !state ai_text
+		  extract_window_and_lines -> terminal split_line()
+		-> terminal insert(ai_text)
 
   $line_to_tokens: (y)
     if
@@ -2191,6 +2167,7 @@ $initialize_ai:
 	   push &space_token piece_table_of(model)(spaces(i))
 	   next
 	 :
+	   !model.period_token_of piece_table_of(model)(".")
 	   $space_tokens empty_list
 	   $tokens empty_list
 	   from_to 1 80
@@ -3246,6 +3223,12 @@ $return_window_and_lines:
 $return_window:
   !state.windows_of(current_window_index) window
   -> state
+
+$extract_window_and_lines: (body)
+  !current_window_index current_window_index_of(state)
+  !window windows_of(state)(current_window_index)
+  !lines lines_of(window)
+  body!
 
 $min_max_minus_1: (v1 v2)
   min_max &v1 &v2
