@@ -1580,135 +1580,139 @@ $std_types::screen/draw_text:
     args* # the text to draw
   )
   $text create_string(args)
-  $left_x get_left_x_of(self)
-  $top_y get_top_y_of(self)
-  $right_x get_right_x_of(self)
-  $bottom_y get_bottom_y_of(self)
-  plus &x left_x-1
-  plus &y top_y-1
-  $line_height line_height_of(self)
-  $first_y
-    if
-      line_height == 1
-      -> y
-      -> y+line_height-1 .div. line_height
-  $colour
-    string
-      text_colour_of(self)
-      background_colour_of(self)
-  without_suffix &text '@nl;'
-  split text '@nl;' $lines
   if
-    ||
-      x > right_x
-      first_y > bottom_y
-      first_y+length_of(lines) <= top_y
-    -> self # text is completely outside the "window"
+    text.is_empty
+    -> self
     :
-      update_if first_y < top_y &lines &first_y
-	-> range(lines top_y+1-first_y -1) top_y
-      $line_count length_of(lines)
-      if !lines $last_y
-	first_y+line_count-1 > bottom_y
-	-> range(lines 1 bottom_y+1-first_y) bottom_y
-	-> lines first_y+line_count-1
-      $rows rows_of(self)
-      ->
-	self
-	  .rows_of
-	    append
-	      range(rows 1 first_y-1)
-	      map(range(rows first_y last_y) update_row)
-	      range(rows last_y+1 -1)
+      $left_x get_left_x_of(self)
+      $top_y get_top_y_of(self)
+      $right_x get_right_x_of(self)
+      $bottom_y get_bottom_y_of(self)
+      plus &x left_x-1
+      plus &y top_y-1
+      $line_height line_height_of(self)
+      $first_y
+	if
+	  line_height == 1
+	  -> y
+	  -> y+line_height-1 .div. line_height
+      $colour
+	string
+	  text_colour_of(self)
+	  background_colour_of(self)
+      without_suffix &text '@nl;'
+      split text '@nl;' $lines
+      if
+	||
+	  x > right_x
+	  first_y > bottom_y
+	  first_y+length_of(lines) <= top_y
+	-> self # text is completely outside the "window"
+	:
+	  update_if first_y < top_y &lines &first_y
+	    -> range(lines top_y+1-first_y -1) top_y
+	  $line_count length_of(lines)
+	  if !lines $last_y
+	    first_y+line_count-1 > bottom_y
+	    -> range(lines 1 bottom_y+1-first_y) bottom_y
+	    -> lines first_y+line_count-1
+	  $rows rows_of(self)
+	  ->
+	    self
+	      .rows_of
+		append
+		  range(rows 1 first_y-1)
+		  map(range(rows first_y last_y) update_row)
+		  range(rows last_y+1 -1)
 
-  $update_row: (no row)
-    $line lines(no)
-    if
-      line.is_empty
-      -> row
-      :
-	$i 1
-	$n length_of(line)
-	$cx x
-	$cw undefined
-	$buf ""
-	skip_clipped_characters
+      $update_row: (no row)
+	$line lines(no)
+	if
+	  line.is_empty
+	  -> row
+	  :
+	    $i 1
+	    $n length_of(line)
+	    $cx x
+	    $cw undefined
+	    $buf ""
+	    skip_clipped_characters
 
-	$skip_clipped_characters:
-	  if
-	    i > n
-	    -> ""
-	    :
-	      cond
-		-> cx < left_x
-		  skip_one_character
-		-> i > 1 && cx > left_x:
-		  push_if_wide ' '
-		-> row(3*cx-2) == INVALID_CHARACTER
-		  update_preceding_wide_character
-		-> true
-		  update_characters
-
-	$skip_one_character:
-	  $chr line(i)
-	  inc &i
-	  !cw character_width(chr)
-	  plus &cx cw
-	  skip_clipped_characters
-
-	$push_if_wide: (chr)
-	  if
-	    cw == 1
-	    update_characters
-	    :
-	      push &buf chr
-	      append &buf colour
-	      update_characters
-
-	$update_characters:
-	  if
-	    i > n:
+	    $skip_clipped_characters:
 	      if
-		cx <= right_x && row(3*cx-2) == INVALID_CHARACTER
-		update_following_wide_character
-		return_updates
-	    :
+		i > n
+		-> row
+		:
+		  cond
+		    -> cx < left_x
+		      skip_one_character
+		    -> i > 1 && cx > left_x:
+		      push_if_wide ' '
+		    -> row(3*cx-2) == INVALID_CHARACTER
+		      update_preceding_wide_character
+		    -> true
+		      update_characters
+
+	    $skip_one_character:
 	      $chr line(i)
 	      inc &i
 	      !cw character_width(chr)
 	      plus &cx cw
-	      cond
-		-> cx-1 <= right_x:
+	      skip_clipped_characters
+
+	    $push_if_wide: (chr)
+	      if
+		cw == 1
+		update_characters
+		:
 		  push &buf chr
 		  append &buf colour
-		  push_if_wide INVALID_CHARACTER
-		-> cx-cw <= right_x
-		  push_trailing_half_character
-		-> true
-		  return_updates
+		  update_characters
 
-	$update_preceding_wide_character:
-	  dec &x
-	  push &buf ' '
-	  append &buf colour
-	  update_characters
+	    $update_characters:
+	      if
+		i > n:
+		  if
+		    cx <= right_x && row(3*cx-2) == INVALID_CHARACTER
+		    update_following_wide_character
+		    return_updates
+		:
+		  $chr line(i)
+		  inc &i
+		  !cw character_width(chr)
+		  plus &cx cw
+		  cond
+		    -> cx-1 <= right_x:
+		      push &buf chr
+		      append &buf colour
+		      push_if_wide INVALID_CHARACTER
+		    -> cx-cw <= right_x
+		      push_trailing_half_character
+		    -> true
+		      return_updates
 
-	$update_following_wide_character:
-	  inc &cx
-	  push &buf ' '
-	  append &buf colour
-	  return_updates
+	    $update_preceding_wide_character:
+	      dec &x
+	      push &buf ' '
+	      append &buf colour
+	      update_characters
 
-	$push_trailing_half_character:
-	  push &buf ' '
-	  append &buf colour
-	  return_updates
+	    $update_following_wide_character:
+	      inc &cx
+	      push &buf ' '
+	      append &buf colour
+	      return_updates
 
-	$return_updates:
-	  append
-	    range(row 1 3*(max(x left_x)-1))
-	    buf
-	    range(row max(3*min(cx right_x+1)-2 1) -1)
+	    $push_trailing_half_character:
+	      push &buf ' '
+	      append &buf colour
+	      return_updates
+
+	    $return_updates:
+	      append
+		range(row 1 3*(max(x left_x)-1))
+		buf
+		range(row max(3*min(cx right_x+1)-2 1) -1)
 
 $std_types::screen/draw_attributed_text:
   #
@@ -2333,3 +2337,18 @@ $std::ansi_reset_colour:
 
 $std::csi: (arguments* command)
   -> string("@esc;[" join(arguments ';') command)
+
+$std::add_attributes:
+  (
+    text
+    text_colour
+    background_colour
+  )
+  $buf ""
+  for_each text
+    : (chr)
+      push &buf chr
+      push &buf text_colour
+      push &buf background_colour
+      next
+    -> buf

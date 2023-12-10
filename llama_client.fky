@@ -66,7 +66,7 @@ program_parameters!
   $prompt
   list
     MANDATORY_PARAMETER "prompt" "
-      the prompt text to use
+      the prompt text to use or @@<filename>
 
 $do_log log_level > 0
 
@@ -81,10 +81,13 @@ on do_log:
 
 if !prompt
   prompt .has_prefix. '@@': # filename
-    load! range(prompt 2 -1)
+    load! !prompt range(prompt 2 -1)
+    from_utf8 prompt
   -> prompt
 
 load_ai_model! $model model_name
+
+update_if stop.is_defined &stop -> replace_all(stop "\n" = "@nl;")
 
 generate! model $response
   MINIMUM_CONFIDENCE = minimum_confidence

@@ -104,6 +104,8 @@ $DETAILIERT
 
 load_ai_model! $vicuna model_name
 
+update_if stop.is_defined &stop -> replace_all(stop "\n" = "@nl;")
+
 generate! vicuna $response
   MINIMUM_CONFIDENCE = minimum_confidence
   MAXIMUM_LENGTH = maximum_length

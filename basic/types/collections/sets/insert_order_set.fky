@@ -28,8 +28,6 @@ $std_types::insert_order_set.is_an_insert_order_set true # obvious
 $NONE .
 
 $items_of () # a hash tree of tuples <previous_key next_key>
-$first_key_of ()
-$last_key_of ()
 
 $std_types::insert_order_set std_types::set
   #
@@ -40,8 +38,8 @@ $std::empty_insert_order_set std_types::insert_order_set
     an empty insert-order set
 
 $std_types::insert_order_set.items_of empty_hash_table
-$std_types::insert_order_set.first_key_of undefined
-$std_types::insert_order_set.last_key_of undefined
+$std_types::insert_order_set.first_item_of undefined
+$std_types::insert_order_set.last_item_of undefined
 
 $std_types::insert_order_set/:
   #
@@ -63,7 +61,7 @@ $std_types::insert_order_set/:
 	    item.is_defined # already set
 	    -> myself
 	    : # add a new entry
-	      $last_key last_key_of(myself)
+	      $last_key last_item_of(myself)
 	      !items(key) tuple(last_key undefined)
 	      if
 		last_key.is_defined:
@@ -71,20 +69,20 @@ $std_types::insert_order_set/:
 		  ->
 		    myself
 		      .items_of items
-		      .last_key_of key
+		      .last_item_of key
 		->
 		  myself
 		    .items_of items
-		    .first_key_of key
-		    .last_key_of key
+		    .first_item_of key
+		    .last_item_of key
 	: # remove entry
 	  if
 	    item.is_undefined # not set
 	    -> myself
 	    :
 	      item $previous_key $next_key
-	      $first_key first_key_of(myself)
-	      $last_key last_key_of(myself)
+	      $first_key first_item_of(myself)
+	      $last_key last_item_of(myself)
 	      !items(key) undefined
 	      if
 		previous_key.is_defined:
@@ -109,8 +107,8 @@ $std_types::insert_order_set/:
 		->
 		  myself
 		    .items_of items
-		    .first_key_of first_key
-		    .last_key_of last_key
+		    .first_item_of first_key
+		    .last_item_of last_key
 
 $std_types::insert_order_set/length_of: (self)
   -> length_of(items_of(self))
@@ -123,7 +121,7 @@ $std_types::insert_order_set/to_list:
   )
   $items items_of(self)
   $keys empty_list
-  add_keys first_key_of(self)
+  add_keys first_item_of(self)
 
   $add_keys: (key)
     if
@@ -142,25 +140,6 @@ $std_types::insert_order_set/for_each:
     finally = next # called after all items have been iterated over
   )
   for_each! self.to_list body finally
-
-###
-# retrieve values
-
-$std_types::insert_order_set/first_item_of:
-  #
-    returns the first value of a non-empty <insert_order_set>
-  (
-    self
-  )
-  -> items_of(self)(first_item_of(self))
-
-$std_types::insert_order_set/last_item_of:
-  #
-    returns the last value of a non-empty <insert_order_set>
-  (
-    self
-  )
-  -> items_of(self)(last_item_of(self))
 
 ###
 # map_reduce
