@@ -1501,7 +1501,13 @@ $delete_line:
 	y == height:
 	  update_lines_after_deletion y undefined
 	:
-	  !window.was_updated true
+	  !window
+	    window
+	      .was_updated true
+	      .x_of undefined
+	      .y_of undefined
+	      .sub_y_of undefined
+	      .cursor_y_of cursor_y_of(window)-sub_y_of(window)+1
 	  !lines append(range(lines 1 y-1) range(lines y+1 height))
 	  return_window_and_lines
 
@@ -1987,8 +1993,6 @@ $ai_completion_action:
 	    :
 	      append line_tokens &tokens
 	      next
-    edump `start_tokens
-    edump `tokens
     append start_tokens &tokens
     on do_log:
       $detokenized_text detokenize(ai_model tokens)
