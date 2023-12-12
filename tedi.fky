@@ -1955,29 +1955,52 @@ $ai_completion_action:
 	attempt_completion!
 
   $attempt_completion:
-    $y y_of(window)
     line_start_tokens x_of(window) $cx $tokens $suffix
     $at_line_start tokens.is_empty
-    loop !tokens:
-      dec &y
+    $start_tokens empty_list
+    $sy 0
+    $cy y_of(window)
+    $half_context_size (context_size_of(ai_model) .div. 2)-64
+    loop !sy !start_tokens:
+      inc &sy
       if
-	y < 1
+	sy >= cy
+	-> sy-1 start_tokens
+	:
+	  line_to_tokens $line_tokens sy
+	  if
+	    length_of(start_tokens)+length_of(line_tokens) > half_context_size
+	    -> sy-1 start_tokens
+	    :
+	      append &start_tokens line_tokens
+	      next
+    loop !tokens:
+      dec &cy
+      if
+	cy <= sy
 	-> tokens
 	:
-	  line_to_tokens $line_tokens y
-	  $context_size context_size_of(ai_model)-128
+	  line_to_tokens $line_tokens cy
 	  if
-	    length_of(line_tokens)+length_of(tokens) > context_size
+	    length_of(line_tokens)+length_of(tokens) > half_context_size
 	    -> tokens
 	    :
 	      append line_tokens &tokens
 	      next
+    edump `start_tokens
+    edump `tokens
+    append start_tokens &tokens
     on do_log:
       $detokenized_text detokenize(ai_model tokens)
       debug_write "
 	prompt length: @(length_of(tokens)) tokens
-      $line_count count_occurrences(detokenized_text '@nl;')
-      if
+      #$line_count count_occurrences(detokenized_text '@nl;')
+      debug_write "
+	_________________________
+      debug_write detokenized_text
+      debug_write "
+	-------------------------
+      #if
 	line_count > 7:
 	  debug_write "prompt = "
 	  debug_print truncate_from(detokenized_text '@nl;' 3)
