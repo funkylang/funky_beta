@@ -17888,7 +17888,7 @@ static void entry__std___mkdir (void)
       return;
     }
     char *pathname = NULL;
-    int mode = 0644;
+    int mode = 0755;
     int result;
     if (!to_c_string(TLS_arguments[0], &pathname)) goto cleanup;
     if (TLS_argument_count >= 2 && !mode_to_int(TLS_arguments[1], &mode)) goto cleanup;

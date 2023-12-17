@@ -1998,13 +1998,8 @@ $ai_completion_action:
       $detokenized_text detokenize(ai_model tokens)
       debug_write "
 	prompt length: @(length_of(tokens)) tokens
-      #$line_count count_occurrences(detokenized_text '@nl;')
-      debug_write "
-	_________________________
-      debug_write detokenized_text
-      debug_write "
-	-------------------------
-      #if
+      $line_count count_occurrences(detokenized_text '@nl;')
+      if
 	line_count > 7:
 	  debug_write "prompt = "
 	  debug_print truncate_from(detokenized_text '@nl;' 3)
@@ -2014,18 +2009,6 @@ $ai_completion_action:
 	  debug_print detokenized_text
       debug_write "suffix = "
       debug_print detokenize(ai_model suffix)
-
-    # ATTENTION: infill seems *not* to work - therefor it is currently ignored!
-      update_if suffix.is_not_empty &tokens:
-	$space_token space_tokens_of(ai_model)(1)(1)
-	put &tokens prefix_token_of(ai_model)
-	put &tokens space_token
-	push &tokens space_token
-	push &tokens suffix_token_of(ai_model)
-	append &tokens suffix
-	push &tokens space_token
-	push tokens middle_token_of(ai_model)
-
     $n length_of(tokens)
     $rest empty_list
     loop:
