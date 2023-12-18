@@ -62,6 +62,7 @@ $tedi_types::tedi_line/tokens_of: (self) -> fifth(self)
 
 # Additional Attributes for AI Models
 
+$is_a_space_token_of ()
 $space_tokens_of ()
 $period_token_of ()
 
@@ -1994,6 +1995,12 @@ $ai_completion_action:
 	      append line_tokens &tokens
 	      next
     append start_tokens &tokens
+    $newline_token newline_token_of(ai_model)
+    $first_token tokens(1)
+    update_if_not
+      is_a_space_token_of(ai_model)(first_token) || first_token == newline_token
+      &tokens -> put(tokens space_token_of(ai_model))
+    debug_write serialize(is_a_space_token_of(ai_model) 0)
     on do_log:
       $detokenized_text detokenize(ai_model tokens)
       debug_write "
@@ -2011,9 +2018,11 @@ $ai_completion_action:
       debug_print detokenize(ai_model suffix)
     $n length_of(tokens)
     $rest empty_list
+    $generated_tokens_count 0
     loop:
       current_time! $t3
       evaluate! ai_model $token tokens
+      inc &generated_tokens_count
       if
 	token == -1
 	-> terminal state
@@ -2029,12 +2038,12 @@ $ai_completion_action:
 		eprintln!
 	      :
 		edump `rest
-	  $newline_token newline_token_of(ai_model)
 	  $end_of_text_token end_of_text_token_of(ai_model)
 	  $period_token period_token_of(ai_model)
 	  $use_soft_line_break use_soft_line_break_of(window)
 	  if!
 	    &&
+	      generated_tokens_count < 50
 	      token != newline_token
 	      token != end_of_text_token
 	      not(use_soft_line_break) || token != period_token
@@ -2185,10 +2194,16 @@ $initialize_ai:
      -> model
      :
        $space_token empty_list
+       $is_a_space_token empty_hash_set
        from_to 1 16
 	 : (i)
-	   push &space_token piece_table_of(model)(spaces(i))
-	   next
+	   $token piece_table_of(model)(spaces(i))
+	   push &space_token token
+	   if
+	     token.is_defined:
+	       !is_a_space_token(token) true
+	       next
+	     next
 	 :
 	   !model.period_token_of piece_table_of(model)(".")
 	   $space_tokens empty_list
@@ -2211,7 +2226,10 @@ $initialize_ai:
 		       push &space_tokens
 			 push(push(tokens space_token(n-1)) space_token(1))
 		       next
-	     -> model(.space_tokens_of space_tokens)
+	     ->
+	       model
+		 .is_a_space_token_of is_a_space_token
+		 .space_tokens_of space_tokens
 
 $copy: cut_or_copy false
 

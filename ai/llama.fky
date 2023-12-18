@@ -52,7 +52,11 @@ $ai::end_of_stream_token_of ()
 
 $ai::newline_token_of ()
   #
-    the token no. used to denote a newline
+    the token no. used to denote a newline character
+
+$ai::space_token_of ()
+  #
+    the token no. used to denote a space character
 
 $ai::end_of_text_token_of ()
   #
@@ -188,6 +192,7 @@ $ai::load_ai_model:
 	So let's replace them for other models (especially Falcon).
 
       !model.ai::newline_token_of ai::piece_table_of(model)("@nl;")
+      !model.ai::space_token_of ai::piece_table_of(model)(" ")
 
       for_each ai::pieces_of(model)
 	: (token piece)
