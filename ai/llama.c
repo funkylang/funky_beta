@@ -202,17 +202,18 @@ enum {
   lambda_90 = -193,
   lambda_piece_is_a_string = -194,
   lambda_91 = -195,
-  func_ai__escaped_token = -196,
-  func_ai__escaped_piece = -197,
-  lambda_3_loop = -198,
-  lambda_92 = -199,
+  lambda_92 = -196,
+  func_ai__escaped_token = -197,
+  func_ai__escaped_piece = -198,
+  lambda_3_loop = -199,
   lambda_93 = -200,
-  chr_34 = -201,
-  chr_92 = -202,
-  sequence_601_2 = -203,
-  lambda_nl = -204,
-  str_n = -205,
-  lambda_94 = -206
+  lambda_94 = -201,
+  chr_34 = -202,
+  chr_92 = -203,
+  sequence_605_2 = -204,
+  lambda_nl = -205,
+  str_n = -206,
+  lambda_95 = -207
 };
 
 enum {
@@ -385,12 +386,12 @@ enum {
   var_max, // extern
   var_map_reduce, // extern
   var_ai__escaped_token, // initialized
-  var_583_21_piece, // dynamic
-  var_584_1_buf, // dynamic
-  var_585_1_s, // dynamic
-  var_586_1_n, // dynamic
-  var_587_1_i, // dynamic
-  var_594_1_chr, // dynamic
+  var_587_21_piece, // dynamic
+  var_588_1_buf, // dynamic
+  var_589_1_s, // dynamic
+  var_590_1_n, // dynamic
+  var_591_1_i, // dynamic
+  var_598_1_chr, // dynamic
   var_std__sequence, // extern
   var__END
 };
@@ -2138,7 +2139,7 @@ static TAB_NUM t_func_build_piece_table[] = {
   // $piece_table empty_hash_table
   LET, 1, var_empty_hash_table, 1, var_567_1_piece_table,
   // for_each pieces
-  var_for_each, 3, var_566_1_pieces, lambda_90, lambda_91, TAIL_CALL,
+  var_for_each, 3, var_566_1_pieces, lambda_90, lambda_92, TAIL_CALL,
   POS(566, 3),
   POS(567, 3),
   POS(568, 3)
@@ -2160,18 +2161,32 @@ static TAB_NUM t_lambda_90[] = {
 static TAB_NUM t_lambda_piece_is_a_string[] = {
   2, // locals
   0, // parameters
+  // piece_table(piece).is_defined
+  var_567_1_piece_table, 1, var_569_7_piece, 1, LOCAL(1),
+  // is_defined
+  var_is_defined, 1, LOCAL(1), 1, LOCAL(2),
+  // if
+  var_if, 3, LOCAL(2), var_next, lambda_91, TAIL_CALL,
+  POS(573, 13),
+  POS(573, 32),
+  POS(572, 11)
+};
+
+static TAB_NUM t_lambda_91[] = {
+  2, // locals
+  0, // parameters
   // !piece_table(piece) idx-1
   var_std__minus, 2, var_569_3_idx, num_1, 1, LOCAL(2),
   // piece_table(piece) idx-1
   var_567_1_piece_table, 2, var_569_7_piece, LOCAL(2), 1, var_567_1_piece_table,
   // next
   var_next, 0, TAIL_CALL,
-  POS(572, 11),
-  POS(572, 12),
-  POS(573, 11)
+  POS(576, 15),
+  POS(576, 16),
+  POS(577, 15)
 };
 
-static TAB_NUM t_lambda_91[] = {
+static TAB_NUM t_lambda_92[] = {
   2, // locals
   0, // parameters
   // map_reduce(pieces length_of max)
@@ -2180,134 +2195,134 @@ static TAB_NUM t_lambda_91[] = {
   LET, -2, var_565_21_model, var_ai__piece_table_of, var_567_1_piece_table, var_ai__maximum_piece_length_of, LOCAL(1), LOCAL(2),
   // 
   LET, 1, LOCAL(2), TAIL_CALL,
-  POS(578, 38),
-  POS(576, 7),
-  POS(575, 7)
+  POS(582, 38),
+  POS(580, 7),
+  POS(579, 7)
 };
 
 static TAB_NUM t_func_ai__escaped_token[] = {
   4, // locals
   2, // parameters
-  LOCAL(3), // 580_21_model
-  LOCAL(4), // 580_27_token
+  LOCAL(3), // 584_21_model
+  LOCAL(4), // 584_27_token
   // ai::detokenize(model token))
   var_ai__detokenize, 2, LOCAL(3), LOCAL(4), 1, LOCAL(1),
   // ai::escaped_piece(ai::detokenize(model token))
   var_ai__escaped_piece, 1, LOCAL(1), 1, LOCAL(2),
   // -> ai::escaped_piece(ai::detokenize(model token))
   LET, 1, LOCAL(2), TAIL_CALL,
-  POS(581, 24),
-  POS(581, 6),
-  POS(581, 3)
+  POS(585, 24),
+  POS(585, 6),
+  POS(585, 3)
 };
 
 static TAB_NUM t_func_ai__escaped_piece[] = {
   0, // locals
   1, // parameters
-  var_583_21_piece,
+  var_587_21_piece,
   // $buf ""
-  LET, 1, string_8, 1, var_584_1_buf,
+  LET, 1, string_8, 1, var_588_1_buf,
   // $s 1
-  LET, 1, num_1, 1, var_585_1_s,
+  LET, 1, num_1, 1, var_589_1_s,
   // $n length_of(piece)
-  var_length_of, 1, var_583_21_piece, 1, var_586_1_n,
+  var_length_of, 1, var_587_21_piece, 1, var_590_1_n,
   // $i 0
-  LET, 1, num_0, 1, var_587_1_i,
+  LET, 1, num_0, 1, var_591_1_i,
   // loop:
   var_loop, 1, lambda_3_loop, TAIL_CALL,
-  POS(584, 3),
-  POS(585, 3),
-  POS(586, 3),
-  POS(587, 3),
-  POS(588, 3)
+  POS(588, 3),
+  POS(589, 3),
+  POS(590, 3),
+  POS(591, 3),
+  POS(592, 3)
 };
 
 static TAB_NUM t_lambda_3_loop[] = {
   1, // locals
   0, // parameters
   // inc &i
-  var_inc, 1, var_587_1_i, 1, var_587_1_i,
+  var_inc, 1, var_591_1_i, 1, var_591_1_i,
   // n
-  var_std__less, 2, var_586_1_n, var_587_1_i, 1, LOCAL(1),
+  var_std__less, 2, var_590_1_n, var_591_1_i, 1, LOCAL(1),
   // if
-  var_if, 3, LOCAL(1), lambda_92, lambda_93, TAIL_CALL,
-  POS(589, 5),
-  POS(591, 11),
-  POS(590, 5)
-};
-
-static TAB_NUM t_lambda_92[] = {
-  2, // locals
-  0, // parameters
-  // range(piece s n))
-  var_range, 3, var_583_21_piece, var_585_1_s, var_586_1_n, 1, LOCAL(1),
-  // append(buf range(piece s n))
-  var_append, 2, var_584_1_buf, LOCAL(1), 1, LOCAL(2),
-  //  append(buf range(piece s n))
-  LET, 1, LOCAL(2), TAIL_CALL,
-  POS(592, 21),
-  POS(592, 10),
-  POS(592, 9)
+  var_if, 3, LOCAL(1), lambda_93, lambda_94, TAIL_CALL,
+  POS(593, 5),
+  POS(595, 11),
+  POS(594, 5)
 };
 
 static TAB_NUM t_lambda_93[] = {
+  2, // locals
+  0, // parameters
+  // range(piece s n))
+  var_range, 3, var_587_21_piece, var_589_1_s, var_590_1_n, 1, LOCAL(1),
+  // append(buf range(piece s n))
+  var_append, 2, var_588_1_buf, LOCAL(1), 1, LOCAL(2),
+  //  append(buf range(piece s n))
+  LET, 1, LOCAL(2), TAIL_CALL,
+  POS(596, 21),
+  POS(596, 10),
+  POS(596, 9)
+};
+
+static TAB_NUM t_lambda_94[] = {
   0, // locals
   0, // parameters
   // $chr piece(i)
-  var_583_21_piece, 1, var_587_1_i, 1, var_594_1_chr,
+  var_587_21_piece, 1, var_591_1_i, 1, var_598_1_chr,
   // case chr
-  var_case, 6, var_594_1_chr, chr_10, lambda_nl, sequence_601_2, lambda_94, var_next, TAIL_CALL,
-  POS(594, 9),
-  POS(595, 9)
+  var_case, 6, var_598_1_chr, chr_10, lambda_nl, sequence_605_2, lambda_95, var_next, TAIL_CALL,
+  POS(598, 9),
+  POS(599, 9)
 };
 
 static TAB_NUM t_lambda_nl[] = {
   2, // locals
   0, // parameters
   // i-1)
-  var_std__minus, 2, var_587_1_i, num_1, 1, LOCAL(1),
+  var_std__minus, 2, var_591_1_i, num_1, 1, LOCAL(1),
   // range(piece s i-1)
-  var_range, 3, var_583_21_piece, var_585_1_s, LOCAL(1), 1, LOCAL(2),
+  var_range, 3, var_587_21_piece, var_589_1_s, LOCAL(1), 1, LOCAL(2),
   // append &buf range(piece s i-1)
-  var_append, 2, var_584_1_buf, LOCAL(2), 1, var_584_1_buf,
+  var_append, 2, var_588_1_buf, LOCAL(2), 1, var_588_1_buf,
   // append &buf "\n"
-  var_append, 2, var_584_1_buf, str_n, 1, var_584_1_buf,
+  var_append, 2, var_588_1_buf, str_n, 1, var_588_1_buf,
   // !s i+1
-  var_std__plus, 2, var_587_1_i, num_1, 1, var_585_1_s,
+  var_std__plus, 2, var_591_1_i, num_1, 1, var_589_1_s,
   // next
   var_next, 0, TAIL_CALL,
-  POS(597, 39),
-  POS(597, 25),
-  POS(597, 13),
-  POS(598, 13),
-  POS(599, 13),
-  POS(600, 13)
+  POS(601, 39),
+  POS(601, 25),
+  POS(601, 13),
+  POS(602, 13),
+  POS(603, 13),
+  POS(604, 13)
 };
 
-static TAB_NUM t_lambda_94[] = {
+static TAB_NUM t_lambda_95[] = {
   2, // locals
   0, // parameters
   // i-1)
-  var_std__minus, 2, var_587_1_i, num_1, 1, LOCAL(1),
+  var_std__minus, 2, var_591_1_i, num_1, 1, LOCAL(1),
   // range(piece s i-1)
-  var_range, 3, var_583_21_piece, var_585_1_s, LOCAL(1), 1, LOCAL(2),
+  var_range, 3, var_587_21_piece, var_589_1_s, LOCAL(1), 1, LOCAL(2),
   // append &buf range(piece s i-1)
-  var_append, 2, var_584_1_buf, LOCAL(2), 1, var_584_1_buf,
+  var_append, 2, var_588_1_buf, LOCAL(2), 1, var_588_1_buf,
   // push &buf '\'
-  var_push, 2, var_584_1_buf, chr_92, 1, var_584_1_buf,
+  var_push, 2, var_588_1_buf, chr_92, 1, var_588_1_buf,
   // push &buf chr
-  var_push, 2, var_584_1_buf, var_594_1_chr, 1, var_584_1_buf,
+  var_push, 2, var_588_1_buf, var_598_1_chr, 1, var_588_1_buf,
   // !s i+1
-  var_std__plus, 2, var_587_1_i, num_1, 1, var_585_1_s,
+  var_std__plus, 2, var_591_1_i, num_1, 1, var_589_1_s,
   // next
   var_next, 0, TAIL_CALL,
-  POS(602, 39),
-  POS(602, 25),
-  POS(602, 13),
-  POS(603, 13),
-  POS(604, 13),
-  POS(605, 13),
-  POS(606, 13)
+  POS(606, 39),
+  POS(606, 25),
+  POS(606, 13),
+  POS(607, 13),
+  POS(608, 13),
+  POS(609, 13),
+  POS(610, 13)
 };
 
 static int key_value_pair_295_21_arguments[] = {
@@ -2322,7 +2337,7 @@ static int key_value_pair_469_1_arguments[] = {
   -str_n_predict, -num_1
 };
 
-static int sequence_601_2_arguments[] = {
+static int sequence_605_2_arguments[] = {
   -chr_34, -chr_92
 };
 
@@ -2522,17 +2537,18 @@ static FUNKY_CONSTANT constants_table[] = {
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_90}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_piece_is_a_string}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_91}},
+  {FLT_FUNCTION, 0, {.tfunc = t_lambda_92}},
   {FLT_FUNCTION, 0, {.tfunc = t_func_ai__escaped_token}},
   {FLT_FUNCTION, 0, {.tfunc = t_func_ai__escaped_piece}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_3_loop}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_92}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_93}},
+  {FLT_FUNCTION, 0, {.tfunc = t_lambda_94}},
   {FLT_CHARACTER, 0, {.value = 34}},
   {FLT_CHARACTER, 0, {.value = 92}},
-  {FLT_SEQUENCE, 2, {.arguments = sequence_601_2_arguments}},
+  {FLT_SEQUENCE, 2, {.arguments = sequence_605_2_arguments}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_nl}},
   {FLT_STRING_8, 2, {.str_8 = "\134n"}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_94}}
+  {FLT_FUNCTION, 0, {.tfunc = t_lambda_95}}
 };
 
 static ATTRIBUTE_DEFINITION ai_types__model__attributes[] = {
@@ -3319,12 +3335,12 @@ static FUNKY_VARIABLE variables_table[] = {
   {
     FOT_UNKNOWN, 0, 0,
     "max\000", NULL,
-    {.position = POS(578, 66)}
+    {.position = POS(582, 66)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "map_reduce\000", NULL,
-    {.position = POS(578, 38)}
+    {.position = POS(582, 38)}
   },
   {
     FOT_INITIALIZED, 0, 0,
@@ -3333,32 +3349,32 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "583_21_piece\000", NULL
+    "587_21_piece\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "584_1_buf\000", NULL
+    "588_1_buf\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "585_1_s\000", NULL
+    "589_1_s\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "586_1_n\000", NULL
+    "590_1_n\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "587_1_i\000", NULL
+    "591_1_i\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "594_1_chr\000", NULL
+    "598_1_chr\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
     "sequence\000std", NULL,
-    {.position = POS(601, 13)}
+    {.position = POS(605, 13)}
   }
 };
 
@@ -3381,7 +3397,7 @@ FUNKY_MODULE module__ai__llama = {
   0, // number of required modules
   2, // number of defined namespaces
   1, // number of used namespaces
-  206, // number of constants
+  207, // number of constants
   175, // number of variables
   NULL, // required modules
   defined_namespaces,

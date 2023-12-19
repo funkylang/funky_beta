@@ -569,8 +569,12 @@ $build_piece_table: (model)
     : (idx piece)
       if
 	piece.is_a_string:
-	  !piece_table(piece) idx-1
-	  next
+	  if
+	    piece_table(piece).is_defined
+	    next
+	    : # do not redefine a piece table entry
+	      !piece_table(piece) idx-1
+	      next
 	next # ignore incomplete sequences
     ->
       model

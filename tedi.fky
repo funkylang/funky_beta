@@ -2000,7 +2000,6 @@ $ai_completion_action:
     update_if_not
       is_a_space_token_of(ai_model)(first_token) || first_token == newline_token
       &tokens -> put(tokens space_token_of(ai_model))
-    debug_write serialize(is_a_space_token_of(ai_model) 0)
     on do_log:
       $detokenized_text detokenize(ai_model tokens)
       debug_write "
