@@ -28,6 +28,12 @@
 
   Funky currently supports large language models based on the llama.cpp project.
 
+# Modes
+
+$ai::EXACT .
+$ai::SHIFT .
+$ai::SMART .
+
 # Attributes
 
 $ai::pieces_of ()
@@ -447,6 +453,8 @@ $ai_types::model/ai::evaluate:
   (
     model # the model on which to evaluate the prompt
     prompt # the prompt to evaluate
+    mode = ai::SMART # how to handle context change
+    start = 0 # the number of fixed start tokens
   )
   #debug_write "
 
@@ -458,11 +466,18 @@ $ai_types::model/ai::evaluate:
       use_tokens
       -> "tokens"
       -> "prompt"
+  case &mode
+    ai::EXACT -> "exact"
+    ai::SHIFT -> "shift"
+    ai::SMART -> "smart"
+    -> "exact"
   $json
     to_json
       insert_order_table
 	PROMPT = prompt
+	"start" = start
 	"model" = name_of(model)
+	"mode" = mode
 	"logits" = true # also disables server side token selection
 	"brief" = true
 	"n_probs" = 10

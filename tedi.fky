@@ -1546,7 +1546,7 @@ $delete_to_line_end:
       $line lines(y)
       if
 	line.is_undefined
-	-> window lines
+	-> state
 	:
 	  line $indent $text $mark $folds
 	  $x x_of(window)
@@ -2020,7 +2020,7 @@ $ai_completion_action:
     $generated_tokens_count 0
     loop:
       current_time! $t3
-      evaluate! ai_model $token tokens
+      evaluate! ai_model $token tokens SMART length_of(start_tokens)
       inc &generated_tokens_count
       if
 	token == -1
