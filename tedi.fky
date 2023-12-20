@@ -1154,6 +1154,31 @@ $insert: (str)
 	      .x_of x_of(window)+len
 	  return_window_and_lines
 
+$insert_line: (str)
+  $y y_of(window)
+  $line_count length_of(lines)
+  if
+    y > line_count+1:
+      !lines
+	push
+	  append(lines dup(list(undefined) y-line_count))
+	  tedi_line(0 str)
+      return
+    :
+      !lines append(push(range(lines 1 y-1) tedi_line(0 str)) range(lines y -1))
+      return
+
+  $return:
+    !window
+      window
+	.cursor_x_of undefined
+	.cursor_y_of undefined
+	.sub_y_of undefined
+	.x_of 1
+	.y_of y+1
+	.was_updated true
+    return_window_and_lines
+
 $contains_only_spaces: (str)
   all_of str: (chr) -> chr == ' '
 
@@ -2069,16 +2094,11 @@ $ai_completion_action:
 		      .cursor_y_of undefined
 		      .sub_y_of undefined
 		      .x_of cx
-		  update_if
-		    &&
-		      at_line_start
-		      ai_text(1) == ' '
-		      ai_text(2) != ' '
+		  update_if at_line_start && ai_text(1) == ' '
 		    &ai_text -> range(ai_text 2 -1)
 		  if
-		    token == newline_token:
-		      insert !state ai_text
-		      extract_window_and_lines -> terminal split_line()
+		    token == newline_token && at_line_start
+		    -> terminal insert_line(ai_text)
 		    -> terminal insert(ai_text)
 
   $line_to_tokens: (y)
@@ -2141,7 +2161,7 @@ $line_start_tokens:
 	  $cx indent+1
 	  if
 	    x <= cx
-	    -> 1 empty_list empty_list
+	    -> 1 empty_list tokens
 	    :
 	      $ai_model ai_model_of(state)
 	      $rest empty_list
@@ -2155,12 +2175,12 @@ $line_start_tokens:
 		      -> len-1
 		      -> len
 		  if
-		    cx < x
+		    cx <= x
 		    next
 		    :
 		      if
 			i == 1
-			-> 1 empty_list empty_list
+			-> 1 empty_list tokens
 			:
 			  return
 			    range(tokens 1 i)
@@ -2173,17 +2193,22 @@ $line_start_tokens:
 
 $indented_tokens: (indent tokens)
   if
-    indent > 0 && tokens.is_not_empty:
+    tokens.is_empty
+    -> empty_list
+    :
       $ai_model ai_model_of(state)
-      $first_piece detokenize(ai_model tokens(1))
+      $first_token tokens(1)
+      $first_piece detokenize(ai_model first_token)
+      $is_spaced first_piece(1) == ' '
       if
-	first_piece .has_prefix. ' ':
+	indent > 0:
+	  update_if_not is_spaced &indent -> indent+1
+	  -> append(space_tokens_of(ai_model)(indent) tokens)
+	:
 	  if
-	    indent > 1
-	    -> append(space_tokens_of(ai_model)(indent-1) tokens)
+	    is_spaced
 	    -> tokens
-	-> append(space_tokens_of(ai_model)(indent) tokens)
-    -> tokens
+	    -> put(tokens space_token_of(ai_model))
 
 $initialize_ai:
    load_ai_model! $model ai_model_name ai_server

@@ -27,6 +27,40 @@
 
   I/O-functions must be called with *I/O-access rights*.
 
+# Directory Entry Attributes
+
+$std::access_time_of ()
+  #
+    timestamp of last file access
+
+    Topic: Input-Output
+
+    See also: modification_time_of, status_change_time_of, is_a_directory
+
+$std::modification_time_of ()
+  #
+    timestamp of last file modification
+
+    Topic: Input-Output
+
+    See also: access_time_of, status_change_time_of, is_a_directory
+
+$std::status_change_time_of ()
+  #
+    timestamp of last file status change
+
+    Topic: Input-Output
+
+    See also: access_time_of, modification_time_of, is_a_directory
+
+$std::is_a_directory ()
+  #
+    returns true if the file is a directory
+
+    Topic: Input-Output
+
+    See also: access_time_of, modification_time_of, status_change_time_of
+
 $std::sleep:
   #
     sleeps for the specified number of seconds
@@ -227,6 +261,11 @@ $std::read_all_from:
 	    next!
 
 $std::load ()
+  #
+    load something
+
+    Topic: Input-Output
+
 
 $std_types::string/load:
   #
@@ -234,7 +273,7 @@ $std_types::string/load:
 
     Topic: Input-Output
   (
-    filename # name of the file to load
+    filename # the name of the file to load
   )
   open! $fd filename "r"
   check fd
@@ -254,13 +293,19 @@ $std_types::file_descriptor/load:
   -> data
 
 $std::save ()
+  #
+    save something
+
+    Topic: Input-Output
 
 $std_types::string/save:
   #
-    saves data to a file
+    saves data to the specified file
 
     Topic: Input-Output
   (
+    filename # the name of the file to save
+    data # an octet string containing the data
     filename
     data
   )
@@ -289,6 +334,13 @@ $std::check:
 
     If the supplied argument is an error object then the error object is
     returned. Otherwise nothing is returned.
+
+    Topic: Input-Output
+
+    Example:
+
+    load! $buf filename
+    check buf
   (
     argument
   )
@@ -297,11 +349,28 @@ $std::check:
     -> argument
     pass
 
-$std::file_exists: (filename)
+$std::file_exists:
+  #
+    checks if the specified file exists
+
+    Topic: Input-Output
+  (
+    filename
+  )
   stat! $info filename
   -> not(info.is_an_error)
 
-$std::directory: (pathname)
+$std::directory:
+  #
+    returns a list of directory entries
+
+    Topic: Input-Output
+
+    See also: access_time_of, modification_time_of, status_change_time_of,
+	      is_a_directory
+  (
+    pathname
+  )
   $entries empty_list
   opendir! $dir pathname
   loop:
@@ -314,36 +383,67 @@ $std::directory: (pathname)
 	push &entries entry
 	next!
 
-$std::access_time_of ()
+$std_types::stat/access_time_of:
+  #
+    returns the access time of the specified file
 
-$std_types::stat/access_time_of: (self)
+    Topic: Input-Output
+
+    See also: modification_time_of, status_change_time_of, is_a_directory
+  (
+    self
+  )
   ->
     +
       access_time_seconds_of(self)
       access_time_nanoseconds_of(self)/1'000'000'000
 
-$std::modification_time_of ()
-
 $std_types::stat/modification_time_of: (self)
+  #
+    returns the modification time of the specified file
+
+    Topic: Input-Output
+
+    See also: access_time_of, status_change_time_of, is_a_directory
   ->
     +
       modification_time_seconds_of(self)
       modification_time_nanoseconds_of(self)/1'000'000'000
 
-$std::status_change_time_of ()
-
 $std_types::stat/status_change_time_of: (self)
+  #
+    returns the status change time of the specified file
+
+    Topic: Input-Output
+
+    See also: access_time_of, modification_time_of, is_a_directory
   ->
     +
       status_change_time_seconds_of(self)
       status_change_time_nanoseconds_of(self)/1'000'000'000
 
-$std::is_a_directory ()
-
 $std_types::stat/is_a_directory: (self)
+  #
+    returns true if the file is a directory
+
+    Topic: Input-Output
+
+    See also: access_time_of, modification_time_of, status_change_time_of
   -> mode_of(self)(1) == 'd'
 
-$std::call: (cmd args)
+$std::call:
+  #
+    calls an external program
+
+    Topic: Input-Output
+
+    Example:
+
+    call! "ls" list("-l") $status $out $err
+  (
+    cmd # the command to execute
+    args* # the arguments list to pass to the command
+  )
   $do_collect_output (result_count() >= 2)
   $do_collect_error_output (result_count() == 3)
   $env_vars undefined
@@ -407,19 +507,39 @@ $std::call: (cmd args)
 	  next!
 
 $std::terminate:
+  #
+    terminates the current process
+
+    Topic: Input-Output
+
+    Example:
+
+    terminate!
+
   exit! EXIT_SUCCESS
 
 $std::is_a_file_descriptor ()
+  #
+    returns true if the argument is a file descriptor
 
 $std_types::object.is_a_file_descriptor false
+  #
+    objects aren't file descriptors per default
+
 $std_types::file_descriptor.is_a_file_descriptor true
+  #
+    file descriptors are file descriptors
 
 $std_types::file_descriptor.serialization_tag_of "file_descriptor"
+  #
+    the serialization tag for file descriptors
 
 $std_types::file_descriptor/serialize:
+  #
+    serializes a file descriptor
   (
-    self
-    indent = undefined
+    self # the file descriptor to serialize
+    indent = undefined # the indentation level
   )
   $str "
     file_descriptor @(self.to_integer)
@@ -429,23 +549,36 @@ $std_types::file_descriptor/serialize:
     -> str
 
 $std_types::file_descriptor.deserializer_of:
+  #
+    constructs a file descriptor from a serialization string
   (
-    _type
-    argument
+    _type # type ...
+    argument # ... and argument of the serialization string
   )
   -> file_descriptor(integer(argument))
 
 $std::is_a_process_id ()
+  #
+    returns true if the argument is a process id
 
 $std_types::object/is_a_process_id false
+  #
+    objects aren't process ids per default
+
 $std_types::process_id/is_a_process_id true
+  #
+    process ids are process ids
 
 $std_types::process_id.serialization_tag_of "process_id"
+  #
+    the serialization tag for process ids
 
 $std_types::process_id/serialize:
+  #
+    serializes a process id
   (
-    self
-    indent = undefined
+    self # the process id to serialize
+    indent = undefined # the indentation level
   )
   $str "
     process_id @(self.to_integer)
@@ -455,18 +588,24 @@ $std_types::process_id/serialize:
     -> str
 
 $std_types::process_id.deserializer_of:
+  #
+    constructs a process id from a serialization string
   (
-    _type
-    argument
+    _type # type ...
+    argument # ... and argument of the serialization string
   )
   -> process_id(integer(argument))
 
 $command_of ()
+  #
+    stores the command attribute of a call
 
 $extern_call:
+  #
+    executes an external call
   (
-    myself^
-    arguments*
+    myself^ # the call object
+    arguments* # the associated arguments
   )
   call! command_of(myself) map(flatten(arguments) to_string)
 
