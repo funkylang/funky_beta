@@ -25,7 +25,33 @@
 
   Input/Output is handled in a special way in Funky.
 
-  I/O-functions must be called with *I/O-access rights*.
+  I/O-functions must be called with so-called *I/O-access rights*.
+
+  To call a function with I/O-access rights you
+
+  * must have *I/O-access rights* yourself
+
+  * hand them on to the called function
+
+  To hand on *I/O-access rights* a function is called with a "!"-suffix.
+
+  Example:
+
+  writeln! "Hello, world!"
+
+# File Operations
+
+$std::load ()
+  #
+    load data
+
+    Topic: Input-Output
+
+$std::save ()
+  #
+    save data
+
+    Topic: Input-Output
 
 # Directory Entry Attributes
 
@@ -35,7 +61,8 @@ $std::access_time_of ()
 
     Topic: Input-Output
 
-    See also: modification_time_of, status_change_time_of, is_a_directory
+    See also: stat, fstat,
+	      modification_time_of, status_change_time_of, is_a_directory
 
 $std::modification_time_of ()
   #
@@ -43,7 +70,8 @@ $std::modification_time_of ()
 
     Topic: Input-Output
 
-    See also: access_time_of, status_change_time_of, is_a_directory
+    See also: stat, fstat,
+	      access_time_of, status_change_time_of, is_a_directory
 
 $std::status_change_time_of ()
   #
@@ -51,7 +79,8 @@ $std::status_change_time_of ()
 
     Topic: Input-Output
 
-    See also: access_time_of, modification_time_of, is_a_directory
+    See also: stat, fstat,
+	      access_time_of, modification_time_of, is_a_directory
 
 $std::is_a_directory ()
   #
@@ -59,7 +88,8 @@ $std::is_a_directory ()
 
     Topic: Input-Output
 
-    See also: access_time_of, modification_time_of, status_change_time_of
+    See also: stat, fstat,
+	      access_time_of, modification_time_of, status_change_time_of
 
 $std::sleep:
   #
@@ -69,19 +99,25 @@ $std::sleep:
 
     Topic: Input-Output
   (
-    duration # time in seconds
+    duration # sleep time in seconds
   )
   on duration > 0:
     usleep! $_dummy (1'000'000*duration).to_integer
     pass # Attention: Fix the compiler!
 
-$std::print_string_to:
+$std::write_string_to:
   #
     writes its argument (a single string) to the specified output channel
 
+    The argument is **not** converted into utf-8.
+
     Topic: Input-Output
 
-    See also: print_to
+    See also: write_all_to, print_to, print, eprint
+
+    Example:
+
+    write_string_to! STDOUT_FILENO "Hello, world!@nl;"
   (
     fd # the output channel
     str # the string argument to print
@@ -103,7 +139,7 @@ $std::print_string_to:
 
 $std::write_all_to:
   #
-    writes its arguments to the specified file descriptor
+    writes its arguments to the specified output channel
 
     The arguments are converted into a single string but are **not** converted
     into utf-8.
@@ -112,12 +148,17 @@ $std::write_all_to:
 
     Topic: Input-Output
 
-    See also: print_string_to, print, eprint
+    See also: write_string_to, print_to, print, eprint
+
+    Example:
+
+    $name "Joe"
+    write_all_to! STDOUT_FILENO "Hello, " name "!@nl;"
   (
     fd # the output channel
     args* # the arguments to concatenate and print
   )
-  print_string_to! fd create_string(args)
+  write_string_to! fd create_string(args)
 
 $std::print_to:
   #
@@ -128,32 +169,51 @@ $std::print_to:
 
     Topic: Input-Output
 
-    See also: print_string_to, print, eprint
+    See also: write_all_to, write_string_to, print, eprint
+
+    Example:
+
+    $name "Chloé"
+    print_to! STDOUT_FILENO "Bonjour, " name "!@nl;"
   (
     fd # the output channel
     args* # the arguments to concatenate and print
   )
-  print_string_to! fd create_string(args).to_utf8
+  write_string_to! fd create_string(args).to_utf8
 
 $std::print_string:
   #
     writes its argument (a single string) to the standard output channel
 
+    The argument is converted into utf-8.
+
     Topic: Input-Output
 
     See also: print, println, eprint_string
+
+    Example:
+
+    print_string! "Bonjour, Chloé!@nl;"
   (
     str # the string to print
   )
-  print_string_to! STDOUT_FILENO str.to_utf8
+  write_string_to! STDOUT_FILENO str.to_utf8
 
 $std::print:
   #
     writes its arguments (as a single string) to the standard output channel
 
+    The arguments are converted into a single string which is then converted
+    into utf-8.
+
     Topic: Input-Output
 
-    See also: println, eprint
+    See also: println, print_string, eprint
+
+    Example:
+
+    $name "Chloé"
+    print! "Bonjour, " name "!@nl;"
   (
     args* # the arguments to concatenate and print
   )
@@ -163,11 +223,17 @@ $std::println:
   #
     writes its arguments and a trailing newline to the standard output channel
 
-    This function calls <print>.
+    The arguments are converted into a single string which is then converted
+    into utf-8.
 
     Topic: Input-Output
 
-    See also: print, eprintln, readln
+    See also: print, print_string, eprint
+
+    Example:
+
+    $name "Chloé"
+    println! "Bonjour, " name "!"
   (
     args* # the arguments to print
   )
@@ -177,21 +243,35 @@ $std::eprint_string:
   #
     writes its argument (a single string) to the error output channel
 
+    The argument is converted into utf-8.
+
     Topic: Input-Output
 
-    See also: eprint, eprintln, print
+    See also: eprint, eprintln, print_string
+
+    Example:
+
+    eprint_string! "Bonjour, Chloé!@nl;"
   (
     str # the string to print
   )
-  print_string_to! STDERR_FILENO str.to_utf8
+  write_string_to! STDERR_FILENO str.to_utf8
 
 $std::eprint:
   #
     writes its arguments (as a single string) to the error output channel
 
+    The arguments are converted into a single string which is then converted
+    into utf-8.
+
     Topic: Input-Output
 
-    See also: eprintln, print
+    See also: eprintln, eprint_string, print
+
+    Example:
+
+    $name "Chloé"
+    eprint! "Bonjour, " name "!@nl;"
   (
     args* # the arguments to concatenate and print
   )
@@ -201,11 +281,17 @@ $std::eprintln:
   #
     writes its arguments and a trailing newline to the error output channel
 
-    This function calls <eprint>.
+    The arguments are converted into a single string which is then converted
+    into utf-8.
 
     Topic: Input-Output
 
-    See also: println, println
+    See also: eprint, eprint_string, println
+
+    Example:
+
+    $name "Chloé"
+    eprintln! "Bonjour, " name "!"
   (
     args* # the arguments to print
   )
@@ -217,11 +303,15 @@ $std::readln
 
     The read line is returend *without* the terminating newline character.
 
-    If the read operation failes then an error object is returned.
+    If the read operation fails then an error object is returned.
 
     Topic: Input-Output
 
-    See also: println
+    See also: read_all_from, println
+
+    Example:
+
+    readln! $line
   :
     $line_buf ""
     loop:
@@ -240,9 +330,19 @@ $std::readln
 
 $std::read_all_from:
   #
-    reads until exhaustion
+    reads all data from the specified input channel
+
+    The read data is returend as a single string.
+
+    If the read operation fails then an error object is returned.
 
     Topic: Input-Output
+
+    See also: readln, println
+
+    Example:
+
+    read_all_from! $buf STDIN_FILENO
   (
     fh
   )
@@ -260,18 +360,19 @@ $std::read_all_from:
 	    append &already_read_data next_data
 	    next!
 
-$std::load ()
-  #
-    load something
-
-    Topic: Input-Output
-
-
 $std_types::string/load:
   #
     loads data from a file
 
+    The read data is not converted from utf-8.
+
     Topic: Input-Output
+
+    See also: std_types::string/save
+
+    Example:
+
+    load! $buf "data.txt"
   (
     filename # the name of the file to load
   )
@@ -283,7 +384,15 @@ $std_types::file_descriptor/load:
   #
     loads data from a *file descriptor*
 
+    The read data is not converted from utf-8.
+
     Topic: Input-Output
+
+    See also: std_types::string/load
+
+    Example:
+
+    load! $buf STDIN_FILENO
   (
     fd # the file descriptor
   )
@@ -292,22 +401,26 @@ $std_types::file_descriptor/load:
   close! fd
   -> data
 
-$std::save ()
-  #
-    save something
-
-    Topic: Input-Output
-
 $std_types::string/save:
   #
     saves data to the specified file
 
+    The data written is not converted to utf-8.
+
     Topic: Input-Output
+
+    See also: std_types::string/load
+
+    Example:
+
+    $text "
+      ...
+      This is some text.
+      ...
+    save! "data.txt" data
   (
     filename # the name of the file to save
     data # an octet string containing the data
-    filename
-    data
   )
   open! $fh filename "w+"
   check fh
@@ -353,7 +466,13 @@ $std::file_exists:
   #
     checks if the specified file exists
 
+    Returns <true> if the file exists and <false> otherwise.
+
     Topic: Input-Output
+
+    Example:
+
+    file_exists! $does_exist"data.txt"
   (
     filename
   )
@@ -363,6 +482,14 @@ $std::file_exists:
 $std::directory:
   #
     returns a list of directory entries
+
+    Each directory entry contains the following attributes:
+
+    <name_of>
+
+    <type_of>
+
+    <inode_number_of>
 
     Topic: Input-Output
 

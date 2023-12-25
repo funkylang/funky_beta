@@ -3061,6 +3061,11 @@ $toggle_indentation_highlighting:
   !window
     window
       .do_highlight_indentations_of not(do_highlight_indentations_of(window))
+      .inbounds_width_of
+	if
+	  inbounds_width_of(window).is_defined
+	  -> undefined
+	  -> 80
       .needs_redraw true
   return_window
 
@@ -3239,6 +3244,7 @@ $update_display:
   define_window &terminal left_x_of(window) top_y_of(window) -1 -1
 
   $do_highlight_cursor_line do_highlight_cursor_line_of(window)
+  $do_highlight_indentations do_highlight_indentations_of(window)
   cond
     -> cursor_y < upper_bound:
       move &first_visible_y &first_visible_sub_y $dy cursor_y-upper_bound
@@ -3381,8 +3387,8 @@ $update_display:
 	      inc &display_y
 	      next
 	    :
-	      draw_indent !terminal
 	      set_window_colour !terminal background_colour
+	      draw_indent !terminal
 	      draw_text &terminal indent-first_visible_x+2 display_y
 		spaces(inbounds_width)
 	      draw_out_of_bounds !terminal
@@ -3426,8 +3432,13 @@ $update_display:
 	:
 	  $attributed_text
 	    if
-	      sx > 1
-	      -> range(indentation_pattern 3*first_visible_x-2 3*indent)
+	      sx > 1:
+		if
+		  do_highlight_indentations
+		  -> range(indentation_pattern 3*first_visible_x-2 3*indent)
+		  :
+		    $cell string(' ' text_colour background_colour)
+		    -> dup(cell indent-first_visible_x+1)
 	      -> ""
 	  $inbounds_rx max(inbounds_width-max(first_visible_x-1 indent) 0)
 	  if
@@ -3504,8 +3515,12 @@ $update_display:
 	first_visible_x > indent
 	-> terminal
 	:
-	  draw_attributed_text terminal 1 display_y
-	    range(indentation_pattern 3*first_visible_x-2 3*indent)
+	  if
+	    do_highlight_indentations:
+	      draw_attributed_text terminal 1 display_y
+		range(indentation_pattern 3*first_visible_x-2 3*indent)
+	    :
+	      draw_text terminal 1 display_y spaces(indent-first_visible_x+1)
 
     $draw_out_of_bounds: (text = "")
       if

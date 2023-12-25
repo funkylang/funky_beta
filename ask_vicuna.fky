@@ -113,7 +113,6 @@ generate! vicuna $response
   STOP = stop
   LOG_LEVEL = log_level
   VERBOSE = verbose
-  STOP = "###"
   USE_COLOURS = use_colours
   if
     german

@@ -77,13 +77,18 @@ $std::create_string:
     Topic: Strings
 
     See also: string
+
+    Example:
+
+    $arguments list(7 " x " 7 " = " 7*7 '@nl;')
+    $str create_string(arguments)
   (
-    args # a list of printable items
+    arguments # a list of printable items
   )
   if
-    args.is_empty
+    arguments.is_empty
     -> ""
-    : map_reduce args to_string append
+    : map_reduce arguments to_string append
 
 $std::string:
   #
@@ -91,7 +96,11 @@ $std::string:
 
     Topic: Strings
 
-    See also: to_string
+    See also: create_string, to_string
+
+    Example:
+
+    $str string(7 " x " 7 " = " 7*7 '@nl;')
   (
     args*
   )
@@ -103,8 +112,12 @@ $std_types::string/put:
 
     Topic: Strings
 
-    #See also: std_types::string/push
+    See also: std_types::string/push, std_types::string/append
 
+    Example:
+
+    $str " big surprise"
+    put &str 'a'
   (
     self # the string
     chr # the character to add
@@ -119,7 +132,17 @@ $std_types::string/dup:
 
     Topic: Strings
 
-    See also: spaces
+    See also: spaces, tabs_and_spaces
+
+    Example:
+
+    $str "abc"
+    $str_x_3 dup(str 3)
+    println! str_x_3
+
+    Output:
+
+    abcabcabc
   (
     self # the string to duplicate
     n # the duplication count
@@ -138,15 +161,27 @@ $std_types::string/dup:
 
 $std::pad_left:
   #
-    extends a string to a specified width
+    extends a string to the specified width
 
     This function creates a string representation of *expr* which is at least
     *n* characters long. If it would be shorter than it is padded to the left
-    with the pattern stored in *pad*.
+    with the string pattern stored in *pad*.
+
+    The default value for *pad* is a single space.
+
+    Topic: Strings
 
     See also: pad_right
 
-    # pad_or_truncate, truncate
+    Example:
+
+    $str "123"
+    $padded_str pad_left(str 5 "0")
+    println! padded_str
+
+    Output:
+
+    00123
   (
     expr # the expression that is converted into a string
     n # the length of the resulting string
@@ -162,15 +197,27 @@ $std::pad_left:
 
 $std::pad_right:
   #
-    extends a string to a specified width
+    extends a string to the specified width
 
     This function creates a string representation of *expr* which is at least
     *n* characters long. If it would be shorter than it is padded to the right
-    with the pattern stored in *pad*.
+    with the string pattern stored in *pad*.
+
+    The default value for *pad* is a single space.
+
+    Topic: Strings
 
     See also: pad_left
 
-    # pad_or_truncate, truncate
+    Example:
+
+    $str "computer"
+    $padded_str pad_right(str 10 '_')
+    println! padded_str
+
+    Output:
+
+    computer__
   (
     expr # the expression that is converted into a string
     n # the length of the resulting string
@@ -190,9 +237,13 @@ $eighty_spaces "
 
 $std::spaces:
   #
-    returns that many spaces
+    returns the specified number of spaces
+
+    Topic: Strings
+
+    See also: tabs_and_spaces
   (
-    n
+    n # the desired number of spaces
   )
   if
     n <= 80
@@ -204,8 +255,12 @@ $nine_tabs_and_seven_spaces "@ht;@ht;@ht;@ht;@ht;@ht;@ht;@ht;@ht;       "
 $std::tabs_and_spaces:
   #
     returns a sequence of tabulator- and space-characters
+
+    Topic: Strings
+
+    See also: spaces
   (
-    n
+    n # the desired display width
   )
   if
     n < 80
@@ -217,8 +272,15 @@ $tabs "@ht;@ht;@ht;@ht;@ht;@ht;@ht;@ht;@ht;"
 $std::with_tabs:
   #
     replaces leading spaces with tab-characters
+
+    Replaces sequences of 8 or more leading spaces with the apprpriate number
+    of tabulator-characters and the remaining spaces.
+
+    Topic: Strings
+
+    See also: tabs_and_spaces
   (
-    text
+    text # the text to be processed
   )
   $s 1
   $n length_of(text)
@@ -272,9 +334,17 @@ $std::with_tabs:
 $std_types::string/match:
   #
     matches the start of the stream with the string
+
+    Attempts to match the start of the stream with the specified string.
+    If the match is successful the stream the length of the string is returned.
+    Otherwise <undefined> is returned.
+
+    Topic: Strings
+
+    See also: std_types::string/search
   (
-    self
-    stream
+    self # the string to match
+    stream # the stream to match against
   )
   $len length_of(self)
   if
@@ -289,6 +359,19 @@ $std_types::string/match:
 $std_types::string/search:
   #
     searches for the start of the string within the stream
+
+    Attempts to find the start of the string within the stream. If the match
+    is successful the found position (one based) and the length of the string
+    is returned. Otherwise the returned values for the position and the length
+    are <undefined>.
+
+    If *nth* is specified then the nth occurence of the string is looked for.
+    If there are not at least *n* matches for *expr* within *str* then the
+    returned values for the position and the length are <undefined>.
+
+    Topic: Strings
+
+    See also: std_types::string/match
   (
     self
     stream
@@ -344,16 +427,8 @@ $std_types::string/before:
   #
     returns the substring before the specified expression
 
-    Returns substr: the substring before *expr* or the empty string if *str*
-    does not contain *expr*
-
-    If the expression does not occur within the string then the empty
-    string is returned.
-
-    If called as a procedure then the rear part of the input string
-    (including the part matching *expr*) will be removed. If the expression does
-    not match any part of the input string then the string is replaced with
-    the empty string.
+    If the specified expression is found within the string the substring
+    before the expression is returned. Otherwise the empty string is returned.
 
     If *nth* is specified then the nth occurence of the expression *expr*
     is looked for. If there are not at least *n* matches for *expr* within *str*
@@ -362,11 +437,29 @@ $std_types::string/before:
     A very similar function is <string/truncate_from>. It behaves differently
     only when the expression is *not* found.
 
+    Topic: Strings
+
     See also: string/truncate_from, string/behind, string/between, string/until
 
     Example:
 
+    $identifier "std::before"
     $namespace identifier .before. "::"
+    println! namespace
+
+    Output:
+
+    std
+
+    Example:
+
+    $identifier "std::before"
+    $first_part identifier .before. '.'
+    println! '<' first_part '>'
+
+    Output:
+
+    <>
   (
     str # the input string
     expr # the expression to look for
@@ -383,20 +476,40 @@ $std_types::string/truncate_from:
   #
     returns the substring before the specified expression
 
-    Returns str: the part of the input string *str* before *expr* or the
-    unmodified input string *str* if *str* does not contain *expr*
+    If the specified expression is found within the string the substring
+    before the expression is returned. Otherwise the string is returned
+    unaltered.
 
-    This function behaves very much like <string/before>.
+    If *nth* is specified then the nth occurence of the expression *expr*
+    is looked for. If there are not at least *n* matches for *expr* within *str*
+    then the string is returned unaltered.
 
-    The only difference is in the behaviour when the expression *expr* is *not*
-    found. In this case the original string is returned unmodified or - when
-    called as a procedure - nothing will happen.
+    A very similar function is <string/before>. It behaves differently only when
+    the expression is *not* found.
 
-    See also: string/before, string/from, string/truncate_behind
+    Topic: Strings
+
+    See also: string/before, string/behind, string/between, string/until
 
     Example:
 
-    $basename filename .truncate_from. '.'
+    $identifier "std::truncate_from"
+    $namespace identifier .truncate_from. "::"
+    println! namespace
+
+    Output:
+
+    std
+
+    Example:
+
+    $identifier "std::truncate_from"
+    $first_part identifier .truncate_from. '.'
+    println! '<' first_part '>'
+
+    Output:
+
+    <std::truncate_from>
   (
     str # the string to truncate
     expr # the expression to look for
@@ -410,29 +523,41 @@ $std_types::string/truncate_from:
 
 $std_types::string/behind:
   #
-    returns the substring behind the specified expression
+    returns the substring after the specified expression
 
-    Returns substr: the substring behind *expr* or the empty string if *str* does
-    not contain *expr*
-
-    If the expression does not occur within the string then the empty
-    string is returned.
-
-    If called as a procedure then the front part of the original string
-    will be removed. If the expression does not occur within the string then
-    the string is replaced with the empty string.
+    If the specified expression is found within the string the substring
+    after the expression is returned. Otherwise the empty string is returned.
 
     If *nth* is specified then the nth occurence of the expression *expr*
-    is looked for.
+    is looked for. If there are not at least *n* matches for *expr* within *str*
+    then the empty string is returned.
 
     A very similar function is <string/truncate_until>. It behaves differently
     only when the expression is *not* found.
 
-    See also: string/truncate_until, string/before, string/between, string/from
+    Topic: Strings
+
+    See also: string/truncate_until, string/before, string/between, string/until
 
     Example:
 
-    $extension filename .behind. '.'
+    $identifier "std::behind"
+    $name identifier .behind. "::"
+    println! name
+
+    Output:
+
+    behind
+
+    Example:
+
+    $identifier "std::behind"
+    $last_part identifier .behind. '.'
+    println! '<' last_part '>'
+
+    Output:
+
+    <>
   (
     str # the input string
     expr # the expression to look for
@@ -448,20 +573,40 @@ $std_types::string/truncate_until:
   #
     returns the substring behind the specified expression
 
-    Returns str: the part of the input string *str* behind *expr* or the
-    unmodified input string *str* if *str* does not contain *expr*
+    If the specified expression is found within the string the substring
+    behind the expression is returned. Otherwise the string is returned
+    unaltered.
 
-    This function behaves very much like <string/behind>.
+    If *nth* is specified then the nth occurence of the expression *expr*
+    is looked for. If there are not at least *n* matches for *expr* within *str*
+    then the string is returned unaltered.
 
-    The only difference is in the behaviour when the expression *expr* is *not*
-    found. In this case the original string is returned unmodified or - when
-    called as a procedure - nothing will happen.
+    A very similar function is <string/behind>. It behaves differently only when
+    the expression is *not* found.
 
-    See also: string/behind, string/until, string/truncate_before
+    Topic: Strings
+
+    See also: string/behind, string/before, string/between, string/until
 
     Example:
 
+    $identifier "std::truncate_until"
     $name identifier .truncate_until. "::"
+    println! name
+
+    Output:
+
+    truncate_until
+
+    Example:
+
+    $identifier "std::truncate_until"
+    $last_part identifier .truncate_until. '.'
+    println! '<' last_part '>'
+
+    Output:
+
+    <std::truncate_until>
   (
     str # the string to truncate
     expr # the expression to look for
@@ -477,23 +622,40 @@ $std_types::string/from:
   #
     returns the substring starting with the specified expression
 
-    Returns substr: the substring starting with *expr* or the empty string if *str*
-    does not contain *expr*
+    If the specified expression is found within the string the substring
+    starting with the expression is returned. Otherwise the empty string is
+    returned.
 
-    If the expression does not occur within the string then the empty
-    string is returned.
+    If *nth* is specified then the nth occurence of the expression *expr* is
+    looked for. If there are not at least *n* matches for *expr* within *str*
+    then the empty string is returned.
 
-    If called as a procedure then the front part of the original string
-    will be removed. If the expression does not occur within the string then
-    the string is replaced with the empty string.
-
-    If *nth* is specified then the nth occurrence of the expression *expr*
-    is looked for.
-
-    A very similar function is <string/truncate_until>. It behaves differently
+    A very similar function is <string/truncate_before>. It behaves differently
     only when the expression is *not* found.
 
-    See also: string/before, string/from, string/truncate_behind
+    Topic: Strings
+
+    See also: string/truncate_before, string/between, string/until, string/until
+
+    Example:
+
+    $identifier "std::from"
+    $last_part identifier .from. "::"
+    println! last_part
+
+    Output:
+
+    ::from
+
+    Example:
+
+    $identifier "std::from"
+    $first_part identifier .from. '.'
+    println! '<' first_part '>'
+
+    Output:
+
+    <>
   (
     str # the input string
     expr # the expression to look for
@@ -507,13 +669,42 @@ $std_types::string/from:
 
 $std_types::string/truncate_before:
   #
-    This function behaves very much like <string/from>.
+    returns the substring starting with the specified expression
 
-    The only difference is in the behaviour when the expression is *not* found.
-    In this case the original string is returned unchanged or - when called
-    as a procedure - nothing will happen.
+    If the specified expression is found within the string the substring
+    starting with the expression is returned. Otherwise the string is returned
+    unaltered.
 
-    See also: string/from, string/before, string/truncate_until
+    If *nth* is specified then the nth occurence of the expression *expr* is
+    looked for. If there are not at least *n* matches for *expr* within *str*
+    then the string is returned unaltered.
+
+    A very similar function is <string/from>. It behaves differently only when
+    the expression is *not* found.
+
+    Topic: Strings
+
+    See also: string/from, string/between, string/until, string/until
+
+    Example:
+
+    $identifier "std::truncate_before"
+    $last_part identifier .truncate_before. "::"
+    println! last_part
+
+    Output:
+
+    ::truncate_before
+
+    Example:
+
+    $identifier "std::truncate_before"
+    $first_part identifier .truncate_before. '.'
+    println! '<' first_part '>'
+
+    Output:
+
+    <std::truncate_before>
   (
     str # the string to truncate
     expr # the expression to look for
@@ -527,22 +718,41 @@ $std_types::string/truncate_before:
 
 $std_types::string/until:
   #
-    returns the substring before and including the specified expression
+    returns the substring until (including) the specified expression
 
-    If the expression does not occur within the string then an <empty_string>
-    is returned.
+    If the specified expression is found within the string the substring
+    until the expression is returned. Otherwise the empty string is returned.
 
-    If called as a procedure then the rear part of the original string
-    will be removed. If the expression does not occur within the string then
-    the string is changed into an empty string.
+    If *nth* is specified then the nth occurence of the expression *expr*
+    is looked for. If there are not at least *n* matches for *expr* within *str*
+    then the empty string is returned.
 
-    If *nth* is specified then the *nth* occurrence of the *expression*
-    is looked for.
-
-    A very similar function is <string.truncate_behind>. It behaves different
+    A very similar function is <string/truncate_behind>. It behaves differently
     only when the expression is *not* found.
 
-    See also: string/truncate_behind, string/from, string/before
+    Topic: Strings
+
+    See also: string/truncate_behind, string/before, string/behind, string/from
+
+    Example:
+
+    $identifier "std::until"
+    $first_part identifier .until. "::"
+    println! first_part
+
+    Output:
+
+    std::
+
+    Example:
+
+    $identifier "std::until"
+    $first_part identifier .until. '.'
+    println! '<' first_part '>'
+
+    Output:
+
+    <>
   (
     str # the input string
     expr # the expression to look for
@@ -556,13 +766,42 @@ $std_types::string/until:
 
 $std_types::string/truncate_behind:
   #
-    This function behaves very much like <string/until>.
+    returns the substring until (including) the specified expression
 
-    The only difference is in the behaviour when the expression is *not* found.
-    In this case the original string is returned unchanged or - when called
-    as a procedure - nothing will happen.
+    If the specified expression is found within the string the substring
+    until the expression is returned. Otherwise the string is returned
+    unaltered.
 
-    See also: string/until, string/behind, string/truncate_from
+    If *nth* is specified then the nth occurence of the expression *expr*
+    is looked for. If there are not at least *n* matches for *expr* within *str*
+    then the string is returned unaltered.
+
+    A very similar function is <string/until>. It behaves differently only when
+    the expression is *not* found.
+
+    Topic: Strings
+
+    See also: string/until, string/before, string/behind, string/from
+
+    Example:
+
+    $identifier "std::truncate_behind"
+    $first_part identifier .truncate_behind. "::"
+    println! first_part
+
+    Output:
+
+    std::
+
+    Example:
+
+    $identifier "std::truncate_behind"
+    $first_part identifier .truncate_behind. '.'
+    println! '<' first_part '>'
+
+    Output:
+
+    <std::truncate_behind>
   (
     str # the string to truncate
     expr # the expression to look for
@@ -576,15 +815,29 @@ $std_types::string/truncate_behind:
 
 $std_types::string/between:
   #
-    returns the substring between the two specified expressions
+    returns the substring between two expressions
 
-    If either of the two expressions is not found then the <empty_string> is
+    If the specified expressions are found within the string the substring
+    between the expressions is returned. Otherwise the empty string is
     returned.
 
-    If *nth* is specified then the *nth* occurrence of the *left expression*
-    is used instead of the first one.
+    If *nth* is specified then the nth occurence of the first expression
+    *expr_1* is looked for. If there are not at least *n* matches for
+    *expr_1* within *str* then the empty string is returned.
 
-    See also: string/behind, string/before
+    Topic: Strings
+
+    See also: string/before, string/behind, string/until, string/from
+
+    Example:
+
+    $path "/home/user/"
+    $user_name between(path "/" "/" 2)
+    println! user_name
+
+    Output:
+
+    user
   (
     str # the input string
     expr_1 # the expression on the left hand side
@@ -597,7 +850,18 @@ $std_types::string/has_prefix:
   #
     checks whether the string has *prefix* as a prefix
 
-    #See also: string/has_suffix, string/without_prefix
+    Topic: Strings
+
+    See also: string/has_suffix, string/without_prefix, string/contains
+
+    Example:
+
+    $path "/home/user/"
+    if
+      path .has_prefix. "/home/":
+	println! "path starts with /home/"
+      :
+	println! "path does not start with /home/"
   (
     self
     prefix # the prefix to check for
@@ -608,7 +872,18 @@ $std_types::string/has_suffix:
   #
     checks whether the string has *suffix* as a suffix
 
-    #See also: string/has_prefix, string/without_suffix
+    Topic: Strings
+
+    See also: string/has_prefix, string/without_suffix, string/contains
+
+    Example:
+
+    $path "/home/user/"
+    if
+      path .has_suffix. '/':
+	println! "path ends with a slash"
+      :
+	println! "path does not end with a slash"
   (
     self
     suffix # the suffix to check for
@@ -622,9 +897,24 @@ $std_types::string/has_suffix:
 
 $std_types::string/without_prefix:
   #
-    removes the specified prefix
+    returns the string without the specified prefix
 
-    See also: string/has_prefix, string/without_suffix
+    Checks whether the string has the specified prefix and if so returns
+    the string without it. Otherwise the string is returned unaltered.
+
+    Topic: Strings
+
+    See also: string/without_suffix, string/has_prefix
+
+    Example:
+
+    $path "/home/user"
+    $user_name path .without_prefix. "/home/"
+    println! user_name
+
+    Output:
+
+    user
   (
     self
     prefix
@@ -637,9 +927,24 @@ $std_types::string/without_prefix:
 
 $std_types::string/without_suffix:
   #
-    removes the specified suffix
+    returns the string without the specified suffix
 
-    See also: string/has_suffix, string/without_prefix
+    Checks whether the string has the specified suffix and if so returns
+    the string without it. Otherwise the string is returned unaltered.
+
+    Topic: Strings
+
+    See also: string/without_prefix, string/has_suffix
+
+    Example:
+
+    $path "/home/user"
+    $base_dir path .without_suffix. "/user"
+    println! base_dir
+
+    Output:
+
+    /home
   (
     self
     suffix
@@ -661,6 +966,25 @@ $std_types::string/without_suffix:
 $std_types::string/contains:
   #
     succeeds if the specified expression occurrs at least once within the string
+
+    Returns <true> if the specified expression occurs at least once within the
+    string.
+
+    Returns <false> if the specified expression does not occur within the
+    string.
+
+    Topic: Strings
+
+    See also: string/has_prefix, string/has_suffix
+
+    Example:
+
+    $path "/home/user/.bashrc"
+    if
+      path .contains. "/user/":
+	println! "path contains /user/"
+      :
+	println! "path does not contain /user/"
   (
     self
     expr
@@ -674,7 +998,22 @@ $std::split:
 
     The separators are removed.
 
-    See also: join
+    Topic: Strings
+
+    See also: string/join
+
+    Example:
+
+    $items split("a;b;c" ";")
+    dump! 2 `items
+
+    Output:
+
+    items:
+      list
+	"a"
+	"b"
+	"c"
   (
     self
     separator = ' '
@@ -699,9 +1038,26 @@ $std::split:
 
 $std::join:
   #
-    concatenates the list items returns a string
+    concatenates the list items using the specified separator
 
-    See also: split
+    Returns a string which is the concatenation of all the list items
+    separated by the specified separator.
+
+    If the list is empty then the empty string is returned.
+
+    Topic: Strings
+
+    See also: string/split
+
+    Example:
+
+    $items list("a" "b" "c")
+    $str join(items ";")
+    println! str
+
+    Output:
+
+    a;b;c
   (
     items
     separator = " "
@@ -715,6 +1071,23 @@ $std::join:
 $std::trim:
   #
     removes leading and trailing whitespace
+
+    Returns a string which is the specified string without any leading or
+    trailing whitespace.
+
+    Topic: Strings
+
+    See also: string/trim_left, string/trim_right, string/normalize
+
+    Example:
+
+    $str "   text   "
+    $trimmed_str trim(str)
+    println! '*' trimmed_str '*'
+
+    Output:
+
+    *text*
   (
     self
     test = is_a_whitespace_character
@@ -738,6 +1111,23 @@ $std::trim:
 $std::trim_left:
   #
     removes leading whitespace
+
+    Returns a string which is the specified string without any leading
+    whitespace.
+
+    Topic: Strings
+
+    See also: string/trim, string/trim_right
+
+    Example:
+
+    $str "   text   "
+    $trimmed_str trim_left(str)
+    println! '*' trimmed_str '*'
+
+    Output:
+
+    *text   *
   (
     self
     test = is_a_whitespace_character
@@ -755,6 +1145,23 @@ $std::trim_left:
 $std::trim_right:
   #
     removes trailing whitespace
+
+    Returns a string which is the specified string without any trailing
+    whitespace.
+
+    Topic: Strings
+
+    See also: string/trim, string/trim_left
+
+    Example:
+
+    $str "   text   "
+    $trimmed_str trim_right(str)
+    println! '*' trimmed_str '*'
+
+    Output:
+
+    *   text*
   (
     self
     test = is_a_whitespace_character
@@ -771,6 +1178,24 @@ $std::trim_right:
 $std::normalize:
   #
     trims the string and replaces whitespace by a single space
+
+    Returns a string which is the specified string without any leading or
+    trailing whitespace and where all sequences of whitespace are replaced by
+    a single space.
+
+    Topic: Strings
+
+    See also: string/trim
+
+    Example:
+
+    $str "   This    is    a     strange    text!   "
+    $normalized_str normalize(str)
+    println! '*' normalized_str '*'
+
+    Output:
+
+    *This is a strange text!*
   (
     self
   )
@@ -811,13 +1236,28 @@ $std::parse_integer:
   #
     extracts an integer value from the start of the string
 
-    If successful the rest of the string and the parsed integer value are
+    Returns the unused part of the string as well as the extracted integer
+    value.
+
+    The function succeeds if the string starts with an integer literal in
+    decimal, octal, hexadecimal or binary notation.
+
+    If the function fails then the unaltered string and <undefined> are
     returned.
 
-    If unsuccessfull the unmodified string and an <undefined> value are
-    returned.
+    Topic: Strings
 
-    #See also: to_integer, parse_number
+    See also: string/parse_number, string/to_integer
+
+    Example:
+
+    $str "123abc"
+    parse_integer &str $value
+    println! "value: " value ", rest: " str
+
+    Output:
+
+    value: 123, rest: abc
   (
     self # the string to parse
   )
@@ -903,13 +1343,28 @@ $std::parse_number:
   #
     extracts a numeric value from the start of the string
 
-    If successful the rest of the string and the parsed numeric value are
+    Returns the unused part of the string as well as the extracted numeric
+    value (real or integer).
+
+    The function succeeds if the string starts with a numeric literal in
+    decimal, octal, hexadecimal or binary notation (integers only).
+
+    If the function fails then the unaltered string and <undefined> are
     returned.
 
-    If unsuccessfull the unmodified string and an <undefined> value are
-    returned.
+    Topic: Strings
 
-    See also: to_number, parse_integer
+    See also: string/parse_integer
+
+    Example:
+
+    $str "123.456abc"
+    parse_number &str $value
+    println! "value: " value ", rest: " str
+
+    Output:
+
+    value: 123.456, rest: abc
   (
     self # the string to parse
   )
@@ -1035,16 +1490,34 @@ $parse_octal: (str i)
 
 $std::parse_hex:
   #
-    parses a string starting with hex digits
+    extracts a hexadecimal value from the start of the string
 
-    An optional start index within the string can be supplied;
-    the rest of the string and the parsed value is returned.
+    Returns the unused part of the string as well as the extracted numeric
+    value.
 
-    If the string does not start with any hex digit then the string is returned
-    unaltered and the value is <undefined>.
+    The function succeeds if the string starts with a hexadecimal literal.
+
+    If the function fails then the unaltered string and <undefined> are
+    returned.
+
+    Optionally a start index (*i*) can be specified.
+
+    Topic: Strings
+
+    See also: string/parse_integer
+
+    Example:
+
+    $str "123abc---"
+    parse_hex &str $value
+    println! "value: " value ", rest: " str
+
+    Output:
+
+    value: 1194684, rest: ---
   (
-    str
-    i = 1
+    str # the string to parse
+    i = 1 # the start index
   )
   $n length_of(str)
   if
@@ -1083,8 +1556,38 @@ $std::parse_hex:
 $std_types::string/to_integer:
   #
     converts the whole string into an integer value
+
+    If the complete string can be converted into an integer then the
+    resulting integer is returned.
+
+    If the conversion fails or does not consume the complete string then
+    <undefined> is returned.
+
+    Topic: Strings
+
+    See also: string/parse_integer
+
+    Example:
+
+    $str "123"
+    $value str.to_integer
+    println! "value: " value
+
+    Output:
+
+    value: 123
+
+    Example:
+
+    $str "123, 456"
+    $value str.to_integer
+    dump! `value
+
+    Output:
+
+    value: <undefined>
   (
-    self
+    self # the string to convert
   )
   parse_integer &self $value
   if
@@ -1094,9 +1597,39 @@ $std_types::string/to_integer:
 
 $std_types::string/to_number:
   #
-    converts the whole string into a numeric value
+    converts the whole string into a number value
+
+    If the complete string can be converted into a number then the
+    resulting number (integer or real) is returned.
+
+    If the conversion fails or does not consume the complete string then
+    <undefined> is returned.
+
+    Topic: Strings
+
+    See also: string/to_integer, strint/parse_number
+
+    Example:
+
+    $str "123.456"
+    $value str.to_number
+    println! "value: " value
+
+    Output:
+
+    value: 123.456
+
+    Example:
+
+    $str "123.456, 789"
+    $value str.to_number
+    dump! `value
+
+    Output:
+
+    value: <undefined>
   (
-    self
+    self # the string to convert
   )
   parse_number &self $value
   if
@@ -1106,11 +1639,24 @@ $std_types::string/to_number:
 
 $std::map_characters:
   #
-    applies a function to all characters of the string
+    applies a function to each character of the string
 
-    The string of "mapped" characters is returned.
+    The function returns a string that is the result of applying the
+    specified function to each character of the string.
 
-    See also: reduce, map_reduce
+    Topic: Strings
+
+    See also: to_upper_case, to_lower_case, to_title_case, map, map_reduce
+
+    Example:
+
+    $str "abc"
+    $upper_case_str map_characters(str to_upper_case)
+    println! upper_case_str
+
+    Output:
+
+    ABC
   (
     self # the string which characters will be mapped
     function # the function to apply to each character of the string
@@ -1149,37 +1695,67 @@ $std::map_characters:
 
 $std_types::string/to_upper_case:
   #
-    converts the spefied string to "UPPER CASE"
+    returns the string converted to UPPER CASE
 
     Topic: Strings
 
-    See also: to_lower_case, to_title_case, to_sentence_case
+    See also: to_lower_case, to_title_case, map_characters
+
+    Example:
+
+    $str "abc"
+    $upper_case_str str.to_upper_case
+    println! upper_case_str
+
+    Output:
+
+    ABC
   (
-    self
+    self # the string to convert
   )
   map_characters self to_upper_case
 
 $std_types::string/to_lower_case:
   #
-    converts the spefied string to "lower case"
+    returns the string converted to lower case
 
     Topic: Strings
 
-    See also: to_upper_case, to_title_case, to_sentence_case
+    See also: to_upper_case, to_title_case, map_characters
+
+    Example:
+
+    $str "ABC"
+    $lower_case_str str.to_lower_case
+    println! lower_case_str
+
+    Output:
+
+    abc
   (
-    self
+    self # the string to convert
   )
   map_characters self to_lower_case
 
 $std_types::string/to_title_case:
   #
-    converts the spefied string to "Title Case"
+    returns the string converted to "Title Case"
 
     Topic: Strings
 
-    See also: to_upper_case, to_lower_case, to_sentence_case
+    See also: to_sentence_case, to_upper_case, to_lower_case, map_characters
+
+    Example:
+
+    $str "this is a test"
+    $title_case_str str.to_title_case
+    println! title_case_str
+
+    Output:
+
+    This Is A Test
   (
-    self
+    self # the string to convert
   )
   map_characters self: (idx chr)
     if
@@ -1193,7 +1769,17 @@ $std_types::string/to_sentence_case:
 
     Topic: Strings
 
-    See also: to_upper_case, to_lower_case, to_title_case
+    See also: to_title_case
+
+    Example:
+
+    $str "this is a test."
+    $sentence_case_str str.to_sentence_case
+    println! sentence_case_str
+
+    Output:
+
+    This is s test.
   (
     self
   )
@@ -1206,9 +1792,26 @@ $std_types::string/to_sentence_case:
 $std::delete_all:
   #
     deletes all occurences of the specfified expressions
+
+    This function deletes all occurences of the specified expressions from
+    the string.
+
+    Topic: Strings
+
+    See also: replace_all
+
+    Example:
+
+    $str "abcabc"
+    $str_without_b delete_all(str 'b')
+    println! str_without_b
+
+    Output:
+
+    acac
   (
-    text
-    expressions*
+    text # the string to process
+    expressions* # the expressions to delete
   )
   $delete_all: (txt)
     if
@@ -1229,11 +1832,27 @@ $std::delete_all:
 
 $std::replace_all:
   #
-    replaces all occurences of the specfified expressions with a replacement
-    text
+    replaces all occurences of the specified expressions
+
+    This function replaces all occurences of the specified expressions with
+    their corresponding replacement texts.
+
+    Topic: Strings
+
+    See also: replace_first, delete_all
+
+    Example:
+
+    $str "abcabc"
+    $str_with_x replace_all(str 'b' = 'x')
+    println! str_with_x
+
+    Output:
+
+    axcaxc
   (
-    text
-    args*
+    text # the string to process
+    args* # the expressions and their replacements
   )
   $replace_all: (txt)
     if
@@ -1261,11 +1880,27 @@ $std::replace_all:
 
 $std::replace_first:
   #
-    replaces the first occurence of the specfified expressions with a replacement
-    text
+    replaces the first occurence of the specified expressions
+
+    This function replaces the first occurence of the specified expressions
+    with their corresponding replacement texts.
+
+    Topic: Strings
+
+    See also: replace_all
+
+    Example:
+
+    $str "abcabc"
+    $str_with_x replace_first(str 'b' = 'x')
+    println! str_with_x
+
+    Output:
+
+    axcabc
   (
-    text
-    args*
+    text # the string to process
+    args* # the expressions and their replacements
   )
   $replace_first: (txt)
     if
@@ -1292,10 +1927,25 @@ $std::replace_first:
 
 $std::count_occurrences:
   #
-    counts how often the specified expression occurrs within the string
+    returns the number of occurences of the specified expression
+
+    This function returns the number of occurences of the specified
+    expression in the string.
+
+    Topic: Strings
+
+    Example:
+
+    $str "abcabc"
+    $occurrences count_occurrences(str 'b')
+    println! occurrences
+
+    Output:
+
+    2
   (
-    text
-    expr
+    text # the string to process
+    expr # the expression to count
   )
   $search_next: (txt count)
     if
@@ -1317,12 +1967,27 @@ $std::partition:
   #
     partitions a string into several parts and returns a list of these parts
 
-    The separators are not removed but start each part
+    This function partitions the specified string into several parts.
+    The separators are not removed but start each part.
 
-    See also: join, split_into_lines
+    The function returns a list of the parts.
+
+    Topic: Strings
+
+    See also: split, split_into_lines, join
+
+    Example:
+
+    $str "a:b;c"
+    $parts partition(str ';', ':')
+    dump! parts
+
+    Output:
+
+    list("a" ":b" ";c")
   (
-    text
-    separators*
+    text # the string to process
+    separators* # the separators
   )
   $n length_of(text)
   partition 1 n
@@ -1441,9 +2106,50 @@ $std::split_into_indented_lines:
     If a line does not contain any text (whitespace does not count as text) then
     the whole tuple is replaced with the special value <undefined>.
 
+    Topic: Strings
+
     See also: split_into_lines, split_into_groups
+
+    Example:
+
+    $text "
+      a
+	1
+	2
+	3
+      b
+	4
+	5
+    $lines split_into_indented_lines(text)
+    dump! 3 lines
+
+    Output:
+
+    lines:
+      list
+	tuple
+	  0
+	  "a@0xa;"
+	tuple
+	  2
+	  "1@0xa;"
+	tuple
+	  2
+	  "2@0xa;"
+	tuple
+	  2
+	  "3@0xa;"
+	tuple
+	  0
+	  "b@0xa;"
+	tuple
+	  2
+	  "4@0xa;"
+	tuple
+	  2
+	  "5@0xa;"
   (
-    text
+    text # the string to process
   )
   $n length_of(text)
   split 1 n
@@ -1516,15 +2222,54 @@ $indent_of: (line)
 
 $std::split_into_groups:
   #
-    splits "indented lines" into "groups"
+    splits already indented lines into groups
 
     Returns a list of indented lines where each line has a *subgroups*-attribute
     which is itself a list of "indented lines".
 
-    The division onto subgroups is only done on the top-level! The subgroups
+    The division into subgroups is only done on the top-level! The subgroups
     do not contain any further subgroups.
 
+    Topic: Strings
+
     See also: split_into_indented_lines
+
+    Example:
+
+    $text "
+      a
+	1
+	2
+	3
+      b
+	4
+	5
+    $lines split_into_indented_lines(text)
+    $groups split_into_groups(lines)
+    dump! 3 `groups
+    dump! 3 `subgroups_of(groups(1))
+
+    Output:
+
+    groups:
+      list
+	tuple
+	  0
+	  "a@0xa;"
+	tuple
+	  0
+	  "b@0xa;"
+    subgroups_of(groups(1)):
+      list
+	tuple
+	  2
+	  "1@0xa;"
+	tuple
+	  2
+	  "2@0xa;"
+	tuple
+	  2
+	  "3@0xa;"
   (
     lines # the indented lines
   )
@@ -1616,7 +2361,36 @@ $std::split_into_groups:
 	  !ge i
 	  next
 
-$std::wrap_words: (text width)
+$std::wrap_words:
+  #
+    wraps a string consisting of words onto multiple lines
+
+    The string is split into multiple lines according to the specified line
+    width.
+
+    The result is a list of lines.
+
+    Topic: Strings
+
+    See also: indented
+
+    Example:
+
+    $str "This is a very long string that should be wrapped onto multiple lines"
+    $lines wrap_words(str 30)
+    dump! 2 `lines
+
+    Output:
+
+    lines:
+      list
+	"This is a very long string"
+	"that should be wrapped"
+	"onto multiple lines"
+  (
+    text # the string to wrap
+    width # the desired line width
+  )
   $wrapped_text ""
   $n length_of(text)
   $s 1 # start of not yet copied text
@@ -1673,6 +2447,22 @@ $std::wrap_words: (text width)
 			next
 
 $std_types::string/serialize:
+  #
+    returns a string representation of the string
+
+    Topic: Strings
+
+    See also: deserialize
+
+    Example:
+
+    $str "Hello World"
+    $serialized_str serialize(str)
+    dump! `serialized_str
+
+    Output:
+
+    serialized_str: "@quot;Hello World@quot;@0xa;"
   (
     self
     indent = undefined
@@ -1704,6 +2494,20 @@ $std::indented:
     correctly.
 
     The line feed character after the last line is optional.
+
+    Topic: Strings
+
+    See also: wrap_words
+
+    Example:
+
+    $str "
+      a
+	b
+	  c
+      d
+    $indented_str indented(str 2)
+
   (
     indent
     text

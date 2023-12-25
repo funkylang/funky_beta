@@ -987,7 +987,8 @@ $std::update_terminal
       : (y)
 	$new_row new_rows(y)
 	$current_row current_rows(y)
-	from_to 1 terminal_width
+	$last_column find_last_non_empty_column(new_row)
+	from_to 1 last_column
 	  : (x)
 	    $new_chr new_row(3*x-2)
 	    if
@@ -1008,7 +1009,14 @@ $std::update_terminal
 			  emit_character new_chr:
 			    next
 		  next
-	  next
+	  :
+	    if
+	      last_column < terminal_width:
+		move_to last_column+1 y:
+		  use_background_colour new_row(-1):
+		    append &output csi("K") # clear to the end of the line
+		    next
+	      next
       ->
 	output
 	current_y current_x
@@ -1159,6 +1167,16 @@ $std::update_terminal
 	!current_buffer.background_colour_of current_background_colour
 	!current_buffer.rows_of new_rows
 	-> terminal(.current_buffer_of current_buffer) output
+
+$find_last_non_empty_column: (row)
+  $i length_of(row)
+  $background_colour row(i)
+  loop:
+    if
+      i > 0 && row(i-2) == ' ' && row(i) == background_colour:
+	!i i-3
+	next
+      -> i .div. 3
 
 $std_types::screen/plot:
   #
