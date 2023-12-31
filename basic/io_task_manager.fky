@@ -83,6 +83,8 @@
 
 $std::log_level 1
   #
+    the used log-level
+  
     0: no logging
     1: just print the log messages
     2: prefix the log messages with the task no.

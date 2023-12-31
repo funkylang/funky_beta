@@ -1,0 +1,140 @@
+#
+  Copyright (C) 2023 by
+  Dipl.-Ing. Michael Niederle
+
+  This program is free software; you can redistribute it and/or modify
+  it under the terms of the GNU General Public License, version 2, or
+  (at your option) version 3.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  GNU General Public License for more details.
+
+  For details of the GNU General Public License see the accompanying
+  files GPLv2.txt and GLPv3.txt or
+  http://www.gnu.org/licenses/gpl-2.0.html
+  http://www.gnu.org/licenses/gpl-3.0.html
+  or write to the
+  Free Software Foundation, Inc.,
+  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+
+<namespace html>
+
+$single_line_tag: (tag options contents)
+  -> "
+    <@(tag)@(options)>@(contents)</@(tag)>
+
+$multi_line_tag: (tag options contents)
+  string
+    '<'
+    tag
+    options
+    ">"
+    if
+      contents .has_prefix. '<'
+      -> '@nl;'
+      -> ""
+    contents
+    if
+      contents .has_suffix. '>'
+      -> '@nl;'
+      -> ""
+    "</"
+    tag
+    ">@nl;"
+
+$extract_options: (items)
+  filter items is_a_key_value_pair
+
+$collect_output: (items)
+  $buf ""
+  for_each items
+    : (item)
+      append &buf
+	if
+	  item.is_a_string
+	  -> item
+	  -> item()
+      next
+    -> buf
+
+$collect_options: (options)
+  $buf ""
+  for_each options
+    : (option)
+      option $key $value
+      append &buf " @(key)=@quot;@(value)@quot;"
+      next
+    -> buf
+
+$emit_single_line: (tag items)
+  extract_options $options &items
+  collect_options &options
+  collect_output $buf items
+  if
+    buf .contains. '@nl;'
+    : multi_line_tag tag options buf
+    : single_line_tag tag options buf
+
+$emit_simple: (tag options)
+  collect_options &options
+  -> "
+    <@(tag)@(options)/>
+
+$emit_multi_line: (tag items)
+  extract_options $options &items
+  collect_options &options
+  collect_output $buf items
+  multi_line_tag tag options buf
+
+$html::HTML: (items*) emit_multi_line "html" items
+$html::HEAD: (items*) emit_multi_line "head" items
+$html::BODY: (items*) emit_multi_line "body" items
+
+$html::TITLE: (items*) emit_single_line "title" items
+$html::STYLE: (items*) emit_single_line "style" items
+$html::LINK: (options*) emit_simple "link" options
+
+$html::H1: (items*) emit_single_line "h1" items
+$html::H2: (items*) emit_single_line "h2" items
+$html::H3: (items*) emit_single_line "h3" items
+$html::H4: (items*) emit_single_line "h4" items
+$html::H5: (items*) emit_single_line "h5" items
+$html::H6: (items*) emit_single_line "h6" items
+
+$html::DIV: (items*) emit_multi_line "div" items
+$html::TABLE: (items*) emit_multi_line "table" items
+$html::TR: (items*) emit_multi_line "tr" items
+$html::TH: (items*) emit_single_line "th" items
+$html::TD: (items*) emit_single_line "td" items
+
+$html::P: (items*) emit_single_line "p" items
+
+$html::PRE: (items*) emit_single_line "pre" items
+
+$html::A: (items*) emit_single_line "a" items
+
+$html::GROUP: (items*)
+  $text ""
+  for_each items
+    : (item)
+      append &text item()
+      next
+    -> text
+
+$html::FROM_TO: (from to body)
+  $text ""
+  from_to from to
+    : (idx)
+      append &text body(idx)
+      next
+    -> text
+
+$html::FOR_EACH: (items body)
+  $text ""
+  for_each items
+    : (item)
+      append &text body(item)
+      next
+    -> text

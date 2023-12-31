@@ -1,0 +1,613 @@
+#!/usr/bin/env fkyrun
+
+  Copyright (C) 2023 by
+  Dipl.-Ing. Michael Niederle
+
+  This program is free software; you can redistribute it and/or modify
+  it under the terms of the GNU General Public License, version 2, or
+  (at your option) version 3.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  GNU General Public License for more details.
+
+  For details of the GNU General Public License see the accompanying
+  files GPLv2.txt and GLPv3.txt or
+  http://www.gnu.org/licenses/gpl-2.0.html
+  http://www.gnu.org/licenses/gpl-3.0.html
+  or write to the
+  Free Software Foundation, Inc.,
+  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+
+# Funky is a one based language
+
+#
+  $a 23 # definition
+  !a 42 # assignement
+
+<require basic/stdlib>
+<require basic/export/html>
+
+<using std>
+<using html>
+
+$TOPIC .
+$POLYMORPHIC_FUNCTION .
+$POLYMORPHIC_FUNCTION_WITH_SETTER .
+$ATTRIBUTE .
+$DERIVED .
+$FUNCTION .
+$LITERAL .
+$METHOD .
+$UNIQUE_ITEM .
+
+program_parameters!
+  list
+    COPYRIGHT "
+      Copyright (C) 2023 by
+      Dipl.-Ing. Michael Niederle
+
+      This program is free software; you can redistribute it and/or modify
+      it under the terms of the GNU General Public License, version 2, or
+      (at your option) version 3.
+
+      This program is distributed in the hope that it will be useful,
+      but WITHOUT ANY WARRANTY; without even the implied warranty of
+      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+      GNU General Public License for more details.
+
+      For details of the GNU General Public License see the accompanying
+      files GPLv2.txt and GLPv3.txt or
+      http://www.gnu.org/licenses/gpl-2.0.html
+      http://www.gnu.org/licenses/gpl-3.0.html
+      or write to the
+      Free Software Foundation, Inc.,
+      51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+  $libraries
+  list
+    MANY_PARAMETERS "libraries" "
+      one or more libraries from which to extract documentation
+  $be_verbose
+  list
+    "verbose" "
+      output detailed information about the build process
+
+$topics empty_key_order_table
+$definitions empty_key_order_table
+
+for_each libraries
+  : (library)
+    traverse_source_files! library !topics !definitions
+    next!
+  :
+    for_each topics
+      : (topic text)
+	save! "html/@(topic.to_filename)" text
+	next!
+      :
+	for_each definitions
+	  : (definition info)
+	    info $_kind $text
+	    save! "html/@(definition.to_filename)" text
+	    next!
+	  :
+	    save! "html/style.css" style
+
+$traverse_source_files: (library)
+  directory! $entries library
+  for_each entries
+    : (entry)
+      $name std::name_of(entry)
+      case type_of(entry)
+	DIRECTORY:
+	  if
+	    name .has_prefix. '.'
+	    next
+	    :
+	      traverse_source_files! append(library "/" name) !topics !definitions
+	      next!
+	REGULAR_FILE:
+	  if_not
+	    name .has_suffix. ".fky"
+	    next
+	    :
+	      extract_documentation! append(library "/" name) !topics !definitions
+	      next!
+	next
+    -> topics definitions
+
+$extract_documentation: (filename)
+  on be_verbose: println! filename
+  load_groups! $groups filename
+  handle_groups groups
+
+$handle_groups: (groups)
+  for_each groups
+    : (group)
+      if
+	group.is_undefined
+	next
+	:
+	  group $indent $text
+	  if
+	    indent != 0
+	    next
+	    :
+	      cond
+		-> text(1) == '#' && is_a_topic(group):
+		  handle_topic group !topics
+		  next
+		-> is_a_namespaced_definition(text):
+		  handle_definition group !definitions
+		  next
+		-> true next
+    -> topics definitions
+
+$is_a_topic: (group)
+  $subgroups subgroups_of(group)
+  if
+    subgroups.is_undefined
+    -> false
+    :
+      $head subgroups(1)
+      if
+	head.is_undefined
+	-> false
+	:
+	  head $_indent $text
+	  -> text .has_prefix. "Topic:"
+
+$GLOBAL_DEFINITION '$', FUNKY_IDENTIFIER, "::", FUNKY_IDENTIFIER
+
+$is_a_namespaced_definition: (text)
+  -> match(GLOBAL_DEFINITION text).is_defined
+
+$handle_topic: (group)
+  $subgroups subgroups_of(group)
+  $head subgroups(1)
+  head $_indent $text
+  $topic trim(text .behind. ':')
+  create_html $html TOPIC topic range(subgroups 2 -1)
+  -> topics(topic html)
+
+$handle_definition: (group)
+  group $_indent $text
+  $namespace between(text '$' "::")
+  $rest behind(text "::")
+  $id_len match(FUNKY_IDENTIFIER rest)
+  $name range(rest 1 id_len)
+  range &rest id_len+1 -1
+  $identifier append(namespace "::" name)
+  if
+    rest.is_empty:
+      debug_write "
+	@(namespace)::@(name) ???
+      -> definitions
+    :
+      case rest(1)
+	' ':
+	  trim_left &rest
+	  case rest(1)
+	    '.': handle UNIQUE_ITEM
+	    '(':
+	      cond
+		-> rest .has_prefix. "()": handle POLYMORPHIC_FUNCTION
+		-> rest .has_prefix. "(!)": handle POLYMORPHIC_FUNCTION_WITH_SETTER
+		-> true: handle undefined
+	    '@apos;': handle LITERAL
+	    '@quot;': handle LITERAL
+	    '0'..'9': handle LITERAL
+	    :
+	      $derived_len match(FUNKY_IDENTIFIER rest)
+	      if
+		derived_len.is_defined: handle DERIVED
+		: handle undefined
+	':': handle FUNCTION
+	'/': handle_slot_definition METHOD
+	'.': handle_slot_definition ATTRIBUTE
+	: handle undefined
+
+  $handle_slot_definition: (kind)
+    $separator range(rest 1 1)
+    range &rest 2 -1
+    $slot_len match(FUNKY_IDENTIFIER rest)
+    if
+      slot_len.is_undefined:
+	handle undefined
+      :
+	$slot_name range(rest 1 slot_len)
+	range &rest slot_len+1 -1
+	if
+	  rest .has_prefix. "::":
+	    range &rest 3 -1
+	    $slot_name_len match(FUNKY_IDENTIFIER rest)
+	    if
+	      slot_name_len.is_undefined:
+		handle undefined
+	      :
+		$real_slot_name range(rest 1 slot_name_len)
+		append &identifier separator slot_name "::" real_slot_name
+		handle kind
+	  :
+	    append &identifier separator "std::" slot_name
+	    handle kind
+
+  $handle: (kind)
+    if
+      kind.is_undefined:
+	debug_write "
+	  CANNOT DETERMINE TYPE: @(identifier)
+	-> definitions
+      :
+	$subgroups subgroups_of(group)
+	if
+	  subgroups.is_undefined
+	  missing_documentation
+	  :
+	    split_into_groups &subgroups
+	    $subgroup find_first(subgroups is_a_remark)
+	    if
+	      subgroup.is_undefined
+	      missing_documentation
+	      :
+		!subgroups subgroups_of(subgroup)
+		if
+		  subgroups.is_undefined
+		  missing_documentation
+		  ->
+		    definitions
+		      identifier
+		      tuple
+			kind
+			create_html(kind identifier subgroups)
+
+  $missing_documentation:
+    #debug_write "
+      MISSING DOCUMENTATION: @(identifier)
+    -> definitions
+
+$is_a_remark: (line) -> line.is_defined && second(line)(1) == '#'
+
+$create_html: (kind title subgroups)
+  $paragraph ""
+  $paragraphs empty_list
+  $is_preformatted false
+  for_each subgroups
+    : (group)
+      if
+	group.is_undefined:
+	  if
+	    paragraph.is_empty
+	    next
+	    :
+	      push &paragraphs paragraph
+	      !paragraph ""
+	      next
+	:
+	  group $_indent $text
+	  range &text 1 -2 # remove trailing newline
+	  if
+	    paragraph.is_empty:
+	      !paragraph text
+	      if
+		text .has_prefix. "Topic:" || text .has_prefix. "Output:":
+		  !is_preformatted true
+		  next
+		next
+	    :
+	      push &paragraph
+		if
+		  is_preformatted
+		  -> '@nl;'
+		  -> ' '
+	      append &paragraph text
+	      next
+    :
+      update_if paragraph.is_not_empty &paragraphs -> push(paragraphs paragraph)
+      HTML
+	: HEAD
+	  : TITLE title
+	  : LINK "rel" = "stylesheet" "href" = "style.css"
+	: BODY
+	  : P
+	    : A "class" = "Button" "href" = "index.html" "Home"
+	    : A "class" = "Button" "href" = "manual.html" "Manual"
+	    : A "class" = "Button" "href" = "topics_index.html" "Topics"
+	    : A "class" = "Button" "href" = "type_index.html" "Type Index"
+	    : A "class" = "Button" "href" = "symbol_index.html" "Symbol Index"
+	  : if
+	      kind == TOPIC:
+		H1 title
+	      :
+		H1 "class" = "pre" title
+	  :
+	    if
+	      kind == TOPIC:
+		map_reduce paragraphs to_html
+	      :
+		$short_descripition paragraphs(1)
+		GROUP
+		  : P "class" = "short" short_descripition
+		  : H2 "Description"
+		  :
+		    range &paragraphs 2 -1
+		    map_reduce paragraphs to_html append ""
+
+  $to_html: (idx paragraph)
+    cond
+      -> paragraph .has_prefix. "Topic:":
+	$items split(paragraph .behind. ':' ',')
+	GROUP
+	  : H2 if(length_of(items) == 1 (-> "Topic") (-> "Topics"))
+	  : P
+	    : FOR_EACH items: (item)
+	      trim &item
+	      A "href" = to_filename(item) item
+      -> paragraph .has_prefix. "See also:":
+	$items split(paragraph .behind. ':' ',')
+	GROUP
+	  : H2 "See also"
+	  : TABLE
+	    : FOR_EACH items: (item)
+	      trim &item
+	      maybe_add_namespace &item
+	      TR
+		: TD
+		  : A "href" = to_filename(item) item
+      -> paragraph .has_prefix. "Example:": H2 "Example"
+      -> paragraph .has_prefix. "Output:": H2 "Output"
+      -> true:
+	cond
+	  -> idx > 1 && paragraphs(idx-1) .has_prefix. "Example:":
+	    DIV "class" = "Example" paragraph
+	  -> idx > 1 && paragraphs(idx-1) .has_prefix. "Output:":
+	    DIV "class" = "Output" paragraph
+	  -> true: P convert(paragraph)
+
+$maybe_add_namespace: (name)
+  cond
+    -> name .contains. '.':
+      append
+	handle(name .before. '.' "std_types")
+	"."
+	handle(name .behind. '.')
+    -> name .contains. '/':
+      append
+	handle(name .before. '/' "std_types")
+	"/"
+	handle(name .behind. '/')
+    -> true:
+      handle name
+
+  $handle: (part default_namespace = "std")
+    if
+      part .contains. "::"
+      -> part
+      -> "@(default_namespace)::@(part)"
+
+$convert: (text)
+  $buf ""
+  if
+    text .has_prefix. "* "
+    insert_list_item
+    convert_rest
+
+  $insert_list_item:
+    !buf "<li>"
+    range &text 3 -1
+    convert_rest
+
+  $convert_rest:
+    $i 0
+    $n length_of(text)
+    $s 1
+    $within_italics false
+    $within_bold false
+    $within_link false
+    loop:
+      inc &i
+      if
+	i > n
+	-> append(buf range(text s n))
+	:
+	  case text(i)
+	    '*':
+	      if
+		i < n && text(i+1) == '*':
+		  if
+		    within_bold:
+		      append &buf range(text s i-1)
+		      append &buf "</b>"
+		      inc &i
+		      !s i+1
+		      !within_bold false
+		      next
+		    :
+		      append &buf range(text s i-1)
+		      append &buf "<b>"
+		      inc &i
+		      !s i+1
+		      !within_bold true
+		      next
+		:
+		  if
+		    within_italics:
+		      append &buf range(text s i-1)
+		      append &buf "</i>"
+		      !s i+1
+		      !within_italics false
+		      next
+		    :
+		      append &buf range(text s i-1)
+		      append &buf "<i>"
+		      !within_italics true
+		      !s i+1
+		      next
+	    '<':
+	      append &buf range(text s i-1)
+	      !within_link true
+	      !s i+1
+	      next
+	    '>':
+	      if
+		within_link:
+		  $link range(text s i-1)
+		  maybe_add_namespace &link
+		  append &buf "
+		    <a href="@(link.to_filename)">@(link)</a>@
+		  !within_link false
+		  !s i+1
+		  next
+		next
+	    next
+
+$load_groups: (filename)
+  load! $source filename
+  cond
+    -> source.is_empty:
+      Error! "
+	Empty source file "@(filename)"!@
+    -> source(-1) != '@nl;':
+      Error! "
+	Missing trailing newline character in "@(filename)"!@
+  from_utf8 &source
+  split_into_indented_lines $lines source
+  split_into_groups lines
+
+$to_filename: (name)
+  to_lower_case &name
+  replace_all &name
+    ' ' = "_"
+    "::" = "__"
+    '.' = "___"
+    '/' = "___"
+  -> "@(name).html"
+
+$style "
+  body {
+    font-family: Arial, Helvetica;;
+    font-size: 12pt;
+    color: #222;
+    background-color: white;
+  }
+  h1 {
+    font-family: Arial, Helvetica;
+    font-size: 20pt;
+    color: #333;
+    margin-top: 0pt;
+    margin-bottom: 8pt;
+  }
+  h2 {
+    font-family: Arial, Helvetica;
+    font-size: 16pt;
+    color: #222;
+    margin-top: 6pt;
+    margin-bottom: 7pt;
+  }
+  h1.pre {
+    font-family: Courier New, Courier; Typewriter;
+    font-size: 22pt;
+    color: black;
+    margin-top: 5pt;
+    margin-bottom: 11pt;
+  }
+  dt {
+    font-style: italic;
+    margin-bottom: 4pt;
+  }
+  dd {
+    padding-left: 0pt;
+    margin-left: 16pt;
+    margin-top: 0pt;
+    margin-bottom: 0pt;
+  }
+  p {
+    margin-top: 0pt;
+    margin-bottom: 8pt;
+  }
+  p.short {
+    font-style: italic;
+    font-size: 14pt;
+  }
+  a {
+    font-family: Times New Roman, Times;
+    font-size: 13pt;
+    text-decoration: none;
+  }
+  i {
+    font-family: Times New Roman, Times;
+    font-size: 14pt;
+  }
+  a.Button {
+    display: inline-block;
+    padding-top: 2pt;
+    padding-bottom: 3pt;
+    padding-left: 3pt;
+    padding-right: 3pt;
+    border-radius: 8pt;
+    border-width: 2pt;
+    border-style: solid;
+  }
+  div.Example {
+    font-family: Courier New, Courier, Typewriter;
+    font-size: 13pt;
+    background-color: #ffc;
+    border: solid 1pt;
+    margin-top: 6pt;
+    margin-bottom: 8pt;
+    padding: 2pt;
+    white-space: pre;
+    border-radius: 6pt;
+  }
+  div.Output {
+    font-family: Courier New, Courier, Typewriter;
+    font-size: 13pt;
+    background-color: #cff;
+    border: solid 1pt;
+    margin-top: 6pt;
+    margin-bottom: 8pt;
+    padding: 2pt;
+    white-space: pre;
+    border-radius: 6pt;
+  }
+  div.footer {
+    padding-top: 10pt;
+    font-size: 10pt;
+  }
+  pre {
+    font-family: Courier New, Courier, Typewriter;
+    font-size: 13pt;
+    padding-top: 0pt;
+    padding-bottom: 0pt;
+    margin-top: 2pt;
+    margin-bottom: 2pt;
+  }
+  td.remark {
+    padding-left: 10pt;
+  }
+
+  @@media (prefers-color-scheme: dark) {
+    body {
+      color: #eee;
+      background-color: #222;
+    }
+    h1 {
+      color: #ddd;
+    }
+    h1.pre {
+      color: white;
+    }
+    h2 {
+      color: #ccc;
+    }
+    a {
+      color: #aaf;
+    }
+    a:visited {
+      color: #faf;
+    }
+    div.Example, div.Output {
+      color: #222;
+    }
+  }

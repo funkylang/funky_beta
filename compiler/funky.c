@@ -202,35 +202,32 @@ enum {
   lambda_node_is_defined = -178,
   lambda_75 = -179,
   lambda_76 = -180,
-  chr_34 = -181,
-  chr_39 = -182,
-  sequence_473_17 = -183,
-  chr_38 = -184,
-  sequence_473_11 = -185,
-  chr_33 = -186,
-  sequence_473_6 = -187,
-  chr_36 = -188,
-  sequence_473_1 = -189,
-  lambda_77 = -190,
-  lambda_78 = -191,
-  lambda_79 = -192,
-  lambda_80 = -193,
-  lambda_81 = -194,
-  func_handle_error = -195,
-  lambda_82 = -196,
-  lambda_83 = -197,
-  lambda_84 = -198,
-  num_50 = -199,
-  func_display_error = -200,
-  lambda_line_is_defined = -201,
-  str_ERROR = -202,
-  str__IN_LINE = -203,
-  str__OF_FILE = -204,
-  string_7 = -205,
-  string_8 = -206,
-  lambda_85 = -207,
-  str__IN_FILE = -208,
-  string_9 = -209
+  chr_36 = -181,
+  chr_33 = -182,
+  chr_38 = -183,
+  chr_34 = -184,
+  chr_39 = -185,
+  sequence_473_1 = -186,
+  lambda_77 = -187,
+  lambda_78 = -188,
+  lambda_79 = -189,
+  lambda_80 = -190,
+  lambda_81 = -191,
+  func_handle_error = -192,
+  lambda_82 = -193,
+  lambda_83 = -194,
+  lambda_84 = -195,
+  num_50 = -196,
+  func_display_error = -197,
+  lambda_line_is_defined = -198,
+  str_ERROR = -199,
+  str__IN_LINE = -200,
+  str__OF_FILE = -201,
+  string_7 = -202,
+  string_8 = -203,
+  lambda_85 = -204,
+  str__IN_FILE = -205,
+  string_9 = -206
 };
 
 enum {
@@ -2217,20 +2214,8 @@ static int list_132_0_arguments[] = {
   -str_printc, -str_print_C_source_c
 };
 
-static int sequence_473_17_arguments[] = {
-  -chr_34, -chr_39
-};
-
-static int sequence_473_11_arguments[] = {
-  -chr_38, -sequence_473_17
-};
-
-static int sequence_473_6_arguments[] = {
-  -chr_33, -sequence_473_11
-};
-
 static int sequence_473_1_arguments[] = {
-  -chr_36, -sequence_473_6
+  -chr_36, -chr_33, -chr_38, -chr_34, -chr_39
 };
 
 static FUNKY_CONSTANT constants_table[] = {
@@ -2414,15 +2399,12 @@ static FUNKY_CONSTANT constants_table[] = {
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_node_is_defined}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_75}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_76}},
+  {FLT_CHARACTER, 0, {.value = 36}},
+  {FLT_CHARACTER, 0, {.value = 33}},
+  {FLT_CHARACTER, 0, {.value = 38}},
   {FLT_CHARACTER, 0, {.value = 34}},
   {FLT_CHARACTER, 0, {.value = 39}},
-  {FLT_SEQUENCE, 2, {.arguments = sequence_473_17_arguments}},
-  {FLT_CHARACTER, 0, {.value = 38}},
-  {FLT_SEQUENCE, 2, {.arguments = sequence_473_11_arguments}},
-  {FLT_CHARACTER, 0, {.value = 33}},
-  {FLT_SEQUENCE, 2, {.arguments = sequence_473_6_arguments}},
-  {FLT_CHARACTER, 0, {.value = 36}},
-  {FLT_SEQUENCE, 2, {.arguments = sequence_473_1_arguments}},
+  {FLT_SEQUENCE, 5, {.arguments = sequence_473_1_arguments}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_77}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_78}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_79}},
@@ -3158,7 +3140,7 @@ static FUNKY_VARIABLE variables_table[] = {
   {
     FOT_UNKNOWN, 0, 0,
     "sequence\000std", NULL,
-    {.position = POS(473, 30)}
+    {.position = POS(473, 14)}
   },
   {
     FOT_UNKNOWN, 0, 0,
@@ -3289,7 +3271,7 @@ FUNKY_MODULE module__funky = {
   14, // number of required modules
   2, // number of defined namespaces
   2, // number of used namespaces
-  210, // number of constants
+  207, // number of constants
   172, // number of variables
   required_modules,
   defined_namespaces,

@@ -23,6 +23,8 @@
 #
   Topic: Grammar Objects
 
+  Grammar objects support methods for matching and searching.
+
 $std::match ()
   #
     match the *grammar object* with the start of the specified string
@@ -46,3 +48,39 @@ $std::search ()
     Topic: Grammar Objects
 
     See also: match
+
+$std_types::FUNKY_IDENTIFIER std_types::object
+
+$std::FUNKY_IDENTIFIER std_types::FUNKY_IDENTIFIER
+
+$std_types::FUNKY_IDENTIFIER/match:
+  (
+    _self
+    str
+  )
+  $i 0
+  $n length_of(str)
+  word_start
+
+  $word_start:
+    inc &i
+    if
+      i > n
+      -> undefined
+      :
+	$chr str(i)
+	case chr
+	  'a' .. 'z', 'A' .. 'Z' within_word
+	  -> undefined
+
+  $within_word:
+    inc &i
+    if
+      i > n
+      -> n
+      :
+	$chr str(i)
+	case chr
+	  'a' .. 'z', 'A' .. 'Z', '0' .. '9' within_word
+	  '_' word_start
+	  -> i-1

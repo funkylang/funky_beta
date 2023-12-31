@@ -455,11 +455,11 @@ $std_types::string/before:
 
     $identifier "std::before"
     $first_part identifier .before. '.'
-    println! '<' first_part '>'
+    println! '[' first_part ']'
 
     Output:
 
-    <>
+    []
   (
     str # the input string
     expr # the expression to look for
@@ -505,11 +505,11 @@ $std_types::string/truncate_from:
 
     $identifier "std::truncate_from"
     $first_part identifier .truncate_from. '.'
-    println! '<' first_part '>'
+    println! '[' first_part ']'
 
     Output:
 
-    <std::truncate_from>
+    [std::truncate_from]
   (
     str # the string to truncate
     expr # the expression to look for
@@ -553,11 +553,11 @@ $std_types::string/behind:
 
     $identifier "std::behind"
     $last_part identifier .behind. '.'
-    println! '<' last_part '>'
+    println! '[' last_part ']'
 
     Output:
 
-    <>
+    []
   (
     str # the input string
     expr # the expression to look for
@@ -602,11 +602,11 @@ $std_types::string/truncate_until:
 
     $identifier "std::truncate_until"
     $last_part identifier .truncate_until. '.'
-    println! '<' last_part '>'
+    println! '[' last_part ']'
 
     Output:
 
-    <std::truncate_until>
+    [std::truncate_until]
   (
     str # the string to truncate
     expr # the expression to look for
@@ -651,11 +651,11 @@ $std_types::string/from:
 
     $identifier "std::from"
     $first_part identifier .from. '.'
-    println! '<' first_part '>'
+    println! '[' first_part ']'
 
     Output:
 
-    <>
+    []
   (
     str # the input string
     expr # the expression to look for
@@ -700,11 +700,11 @@ $std_types::string/truncate_before:
 
     $identifier "std::truncate_before"
     $first_part identifier .truncate_before. '.'
-    println! '<' first_part '>'
+    println! '[' first_part ']'
 
     Output:
 
-    <std::truncate_before>
+    [std::truncate_before]
   (
     str # the string to truncate
     expr # the expression to look for
@@ -752,7 +752,7 @@ $std_types::string/until:
 
     Output:
 
-    <>
+    []
   (
     str # the input string
     expr # the expression to look for
@@ -797,11 +797,11 @@ $std_types::string/truncate_behind:
 
     $identifier "std::truncate_behind"
     $first_part identifier .truncate_behind. '.'
-    println! '<' first_part '>'
+    println! '[' first_part ']'
 
     Output:
 
-    <std::truncate_behind>
+    [std::truncate_behind]
   (
     str # the string to truncate
     expr # the expression to look for
@@ -2506,8 +2506,15 @@ $std::indented:
 	b
 	  c
       d
-    $indented_str indented(str 2)
+    $indented_str indented(5 str)
+    print! indented_str
 
+    Output:
+
+	 a
+	   b
+	     c
+	 d
   (
     indent
     text
@@ -2595,6 +2602,8 @@ $std::format:
 
     The function returns the constructed string or <undefined> if the template
     string contains invalid format specifiers.
+
+    Topic: Strings
   (
     template # the template string
     arguments* # the embedded arguments

@@ -297,7 +297,7 @@ $std::eprintln:
   )
   eprint_string! push(create_string(args) '@nl;')
 
-$std::readln
+$std::readln:
   #
     reads a line from the standard input channel
 
@@ -312,21 +312,21 @@ $std::readln
     Example:
 
     readln! $line
-  :
-    $line_buf ""
-    loop:
-      read! STDIN_FILENO 1 $buf
-      if
-	buf.is_undefined
-	-> buf # return the error object
-	:
-	  if
-	    buf == "@nl;"
-	    :
-	      -> line_buf
-	    :
-	      append &line_buf buf
-	      next!
+
+  $line_buf ""
+  loop:
+    read! STDIN_FILENO 1 $buf
+    if
+      buf.is_undefined
+      -> buf # return the error object
+      :
+	if
+	  buf == "@nl;"
+	  :
+	    -> line_buf
+	  :
+	    append &line_buf buf
+	    next!
 
 $std::read_all_from:
   #
@@ -569,7 +569,7 @@ $std::call:
     call! "ls" list("-l") $status $out $err
   (
     cmd # the command to execute
-    args* # the arguments list to pass to the command
+    args # the arguments list to pass to the command
   )
   $do_collect_output (result_count() >= 2)
   $do_collect_error_output (result_count() == 3)

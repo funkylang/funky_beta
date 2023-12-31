@@ -1,0 +1,22 @@
+#!/usr/bin/env fkyrun
+
+<require basic/stdlib>
+<require basic/export/html>
+
+<using std>
+<using html>
+
+$items list("apples" "peaches" "carrots")
+
+HTML $buf
+  : HEAD
+      : TITLE "Input-Output"
+  : BODY
+      : H1 "Input-Output"
+      : FROM_TO 1 3
+	: (i) GROUP
+	  : H2 "Abschnitt @(i)"
+	  : FOR_EACH items
+	    : (item) P "@(item)-@(i)"
+
+print! buf

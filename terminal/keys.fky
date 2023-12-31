@@ -437,6 +437,12 @@ $escape_sequences
     "@24;" = CTRL_ALT_X
     "@25;" = CTRL_ALT_Y
     "@26;" = CTRL_ALT_Z
+    "OA" = CURSOR_UP
+    "OB" = CURSOR_DOWN
+    "OC" = CURSOR_RIGHT
+    "OD" = CURSOR_LEFT
+    "OF" = END
+    "OH" = HOME
     "OP" = F1
     "OQ" = F2
     "OR" = F3

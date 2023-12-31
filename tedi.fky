@@ -693,6 +693,7 @@ $event_loop:
 	    if
 	      fd == STDIN_FILENO:
 		from_utf8 &input
+		on do_log: edump `input
 		if
 		  &&
 		    length_of(input) >= PASTE_THRESHOLD

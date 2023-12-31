@@ -2343,6 +2343,7 @@ enum {
   var_2041_1_position, // dynamic
   var_2042_36_conditional_expression, // dynamic
   var_2045_28_comma_operator, // dynamic
+  var_funky_types__sequence_expression, // extern
   var_funky_types__comma, // extern
   var_2094_0_derived_node, // dynamic
   var_2096_1_position, // dynamic
@@ -13956,9 +13957,9 @@ static TAB_NUM t_lambda_749[] = {
 static TAB_NUM t_lambda_750[] = {
   2, // locals
   0, // parameters
-  // default_value(derived_node funky_types::expression)
-  var_default_value, 2, var_2039_0_derived_node, var_funky_types__expression, 1, LOCAL(1),
-  // default_value(derived_node funky_types::expression)
+  // default_value(derived_node funky_types::sequence_expression)
+  var_default_value, 2, var_2039_0_derived_node, var_funky_types__sequence_expression, 1, LOCAL(1),
+  // default_value(derived_node funky_types::sequence_expression)
   LET, -4, LOCAL(1), var_funky__source_group_of, var_current_group, var_funky__source_position_of, var_2041_1_position, var_funky__expression_of, var_2042_36_conditional_expression, var_funky__operator_of, var_2045_28_comma_operator, LOCAL(2),
   // 
   LET, 2, var_text, LOCAL(2), TAIL_CALL,
@@ -30496,6 +30497,11 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 0,
+    "sequence_expression\000funky_types", NULL,
+    {.position = POS(2053, 42)}
+  },
+  {
+    FOT_UNKNOWN, 0, 0,
     "comma\000funky_types", NULL,
     {.position = POS(2090, 26)}
   },
@@ -31853,7 +31859,7 @@ FUNKY_MODULE module__parser = {
   0, // number of defined namespaces
   1, // number of used namespaces
   2104, // number of constants
-  538, // number of variables
+  539, // number of variables
   NULL, // required modules
   NULL, // defined namespaces
   used_namespaces,

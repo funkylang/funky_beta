@@ -1,0 +1,15 @@
+#!/usr/bin/env fkyrun
+
+$buf "$std::Abra_ca_dabra()"
+$buf2 "std::Abra_ca()"
+$buf3 "77"
+$buf4 "a77"
+$buf5 "$std_types::a77"
+
+$GLOBAL_DEFINITION '$', FUNKY_IDENTIFIER, "::", FUNKY_IDENTIFIER
+
+dump! `match(GLOBAL_DEFINITION buf)
+dump! `match(GLOBAL_DEFINITION buf2)
+dump! `match(GLOBAL_DEFINITION buf3)
+dump! `match(GLOBAL_DEFINITION buf4)
+dump! `match(GLOBAL_DEFINITION buf5)

@@ -2050,7 +2050,7 @@ $parse_sequence_expression:
 	    derived_node.is_defined || comma_operator.is_defined
 	    ->
 	      text
-	      default_value(derived_node funky_types::expression)
+	      default_value(derived_node funky_types::sequence_expression)
 		.funky::source_group_of current_group
 		.funky::source_position_of position
 		.funky::expression_of conditional_expression

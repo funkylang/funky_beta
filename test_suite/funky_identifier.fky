@@ -1,0 +1,11 @@
+#!/usr/bin/env fkyrun
+
+$buf "Abra_ca_dabra()"
+$buf2 "Abra_ca_()"
+$buf3 "77"
+$buf4 "a77"
+
+dump! `match(FUNKY_IDENTIFIER buf)
+dump! `match(FUNKY_IDENTIFIER buf2)
+dump! `match(FUNKY_IDENTIFIER buf3)
+dump! `match(FUNKY_IDENTIFIER buf4)

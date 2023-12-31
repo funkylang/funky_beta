@@ -8,7 +8,14 @@
 
 enum {
   str_sequence = -1,
-  func_std__sequence = -2
+  func_std_types__sequence___match = -2,
+  num_1 = -3,
+  lambda_1 = -4,
+  minus_num_1 = -5,
+  lambda_2 = -6,
+  lambda_3 = -7,
+  lambda_4 = -8,
+  func_std__sequence = -9
 };
 
 enum {
@@ -21,29 +28,110 @@ enum {
   var_is_a_sequence, // extern polymorphic
   var_false, // extern
   var_true, // extern
+  var_match, // extern polymorphic
+  var_40_0_str, // dynamic
+  var_42_1_pos, // dynamic
+  var_range, // extern
+  var_45_1_len, // dynamic
+  var_is_undefined, // extern
+  var_undefined, // extern
+  var_plus, // extern
+  var_next, // extern
+  var_if, // extern
+  var_std__minus, // extern
+  var_for_each, // extern
   var_std__sequence, // initialized
   var_new, // extern
   var__END
 };
 
 
+static TAB_NUM t_func_std_types__sequence___match[] = {
+  1, // locals
+  2, // parameters
+  LOCAL(1), // 39_0_self
+  var_40_0_str,
+  // $pos 1
+  LET, 1, num_1, 1, var_42_1_pos,
+  // for_each self
+  var_for_each, 3, LOCAL(1), lambda_1, lambda_4, TAIL_CALL,
+  POS(42, 3),
+  POS(43, 3)
+};
+
+static TAB_NUM t_lambda_1[] = {
+  2, // locals
+  1, // parameters
+  LOCAL(2), // 44_3_item
+  // range(str pos -1))
+  var_range, 3, var_40_0_str, var_42_1_pos, minus_num_1, 1, LOCAL(1),
+  // $len match(item range(str pos -1))
+  var_match, 2, LOCAL(2), LOCAL(1), 1, var_45_1_len,
+  // is_undefined
+  var_is_undefined, 1, var_45_1_len, 1, LOCAL(1),
+  // if
+  var_if, 3, LOCAL(1), lambda_2, lambda_3, TAIL_CALL,
+  POS(45, 23),
+  POS(45, 7),
+  POS(47, 13),
+  POS(46, 7)
+};
+
+static TAB_NUM t_lambda_2[] = {
+  0, // locals
+  0, // parameters
+  //  undefined
+  LET, 1, var_undefined, TAIL_CALL,
+  POS(48, 11)
+};
+
+static TAB_NUM t_lambda_3[] = {
+  0, // locals
+  0, // parameters
+  // plus &pos len
+  var_plus, 2, var_42_1_pos, var_45_1_len, 1, var_42_1_pos,
+  // next
+  var_next, 0, TAIL_CALL,
+  POS(50, 11),
+  POS(51, 11)
+};
+
+static TAB_NUM t_lambda_4[] = {
+  1, // locals
+  0, // parameters
+  // pos-1
+  var_std__minus, 2, var_42_1_pos, num_1, 1, LOCAL(1),
+  //  pos-1
+  LET, 1, LOCAL(1), TAIL_CALL,
+  POS(52, 8),
+  POS(52, 7)
+};
+
 static TAB_NUM t_func_std__sequence[] = {
   1, // locals
   -1, // parameters
-  REST_PARAMETER, LOCAL(1), // 45_0_args
+  REST_PARAMETER, LOCAL(1), // 62_0_args
   // new std_types::sequence args
   var_new, 2, var_std_types__sequence, LOCAL(1), TAIL_CALL,
-  POS(47, 3)
+  POS(64, 3)
 };
 
 static FUNKY_CONSTANT constants_table[] = {
   {FLT_STRING_8, 8, {.str_8 = "sequence"}},
+  {FLT_FUNCTION, 0, {.tfunc = t_func_std_types__sequence___match}},
+  {FLT_POSITIVE_INT64, 0, {.value = 1}},
+  {FLT_FUNCTION, 0, {.tfunc = t_lambda_1}},
+  {FLT_NEGATIVE_INT64, 0, {.value = 1}},
+  {FLT_FUNCTION, 0, {.tfunc = t_lambda_2}},
+  {FLT_FUNCTION, 0, {.tfunc = t_lambda_3}},
+  {FLT_FUNCTION, 0, {.tfunc = t_lambda_4}},
   {FLT_FUNCTION, 0, {.tfunc = t_func_std__sequence}}
 };
 
 static ATTRIBUTE_DEFINITION std_types__sequence__attributes[] = {
   {-var_subtype_of, -str_sequence},
-  {-var_is_a_sequence, -var_true}
+  {-var_is_a_sequence, -var_true},
+  {var_match, -func_std_types__sequence___match}
 };
 
 static ATTRIBUTE_DEFINITION std_types__object__attributes[] = {
@@ -52,7 +140,7 @@ static ATTRIBUTE_DEFINITION std_types__object__attributes[] = {
 
 static FUNKY_VARIABLE variables_table[] = {
   {
-    FOT_UNKNOWN, 0, 2,
+    FOT_UNKNOWN, 0, 3,
     "sequence\000std_types", std_types__sequence__attributes,
     {.position = POS(23, 1)}
   },
@@ -92,6 +180,63 @@ static FUNKY_VARIABLE variables_table[] = {
     {.position = POS(35, 36)}
   },
   {
+    FOT_UNKNOWN_POLYMORPHIC, 0, 0,
+    "match\000", NULL,
+    {.position = POS(37, 22)}
+  },
+  {
+    FOT_UNINITIALIZED, 0, 0,
+    "40_0_str\000", NULL
+  },
+  {
+    FOT_UNINITIALIZED, 0, 0,
+    "42_1_pos\000", NULL
+  },
+  {
+    FOT_UNKNOWN, 0, 0,
+    "range\000", NULL,
+    {.position = POS(45, 23)}
+  },
+  {
+    FOT_UNINITIALIZED, 0, 0,
+    "45_1_len\000", NULL
+  },
+  {
+    FOT_UNKNOWN, 0, 0,
+    "is_undefined\000", NULL,
+    {.position = POS(47, 13)}
+  },
+  {
+    FOT_UNKNOWN, 0, 0,
+    "undefined\000", NULL,
+    {.position = POS(48, 12)}
+  },
+  {
+    FOT_UNKNOWN, 0, 0,
+    "plus\000", NULL,
+    {.position = POS(50, 11)}
+  },
+  {
+    FOT_UNKNOWN, 0, 0,
+    "next\000", NULL,
+    {.position = POS(51, 11)}
+  },
+  {
+    FOT_UNKNOWN, 0, 0,
+    "if\000", NULL,
+    {.position = POS(46, 7)}
+  },
+  {
+    FOT_UNKNOWN, 0, 0,
+    "minus\000std", NULL,
+    {.position = POS(52, 8)}
+  },
+  {
+    FOT_UNKNOWN, 0, 0,
+    "for_each\000", NULL,
+    {.position = POS(43, 3)}
+  },
+  {
     FOT_INITIALIZED, 0, 0,
     "sequence\000std", NULL,
     {.const_idx = -func_std__sequence}
@@ -99,7 +244,7 @@ static FUNKY_VARIABLE variables_table[] = {
   {
     FOT_UNKNOWN, 0, 0,
     "new\000", NULL,
-    {.position = POS(47, 3)}
+    {.position = POS(64, 3)}
   }
 };
 
@@ -117,8 +262,8 @@ FUNKY_MODULE module__basic__types__collections__lists__sequence = {
   0, // number of required modules
   0, // number of defined namespaces
   1, // number of used namespaces
-  2, // number of constants
-  10, // number of variables
+  9, // number of constants
+  22, // number of variables
   NULL, // required modules
   NULL, // defined namespaces
   used_namespaces,
