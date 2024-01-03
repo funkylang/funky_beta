@@ -24,6 +24,11 @@
 # table
 ##########
 
+#
+  Topic: Tables
+
+  Tables are associative arrays.
+
 $std::is_a_table () # obvious
 $std_types::object.is_a_table false # obvious
 $std_types::table.is_a_table true # obvious

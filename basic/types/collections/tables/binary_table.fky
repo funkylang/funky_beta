@@ -55,9 +55,18 @@ $std_types::binary_table.is_a_binary_table true # obvious
 $node.is_an_empty_node false
 
 $std_types::binary_table std_types::table
+  #
+    a table based on binary trees
+
 $std_types::binary_table.contents_of basic_collections::empty_binary_node
 
 $std::empty_binary_table std_types::binary_table
+  #
+    an empty binary table
+
+    Topics: Tables, Collections
+
+    See also: std_types::binary_table
 
 $basic_collections::empty_binary_node
   tuple(undefined undefined undefined undefined 0)
@@ -67,6 +76,35 @@ $node tuple(undefined undefined undefined undefined)
 $NONE .
 
 $std_types::binary_table/:
+  #
+    the "type function" for binary
+
+    It is used to set or retrieve an element in the binary table.
+
+    Topics: Tables, Collections
+
+    See also: std_types::binary_table
+
+    Example:
+
+    <require basic/stdlib>
+    <require basic/types/collections/tables/binary_table>
+
+    $ages empty_binary_table
+    !ages("Victor") 23
+    !ages("Robert") 25
+    !ages("Eva") 27
+    println! serialize(ages 0)
+
+    Output:
+
+    object <6>
+      "Eva"
+      27
+      "Robert"
+      25
+      "Victor"
+      23
   (
     myself^
     key

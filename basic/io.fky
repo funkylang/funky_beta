@@ -846,17 +846,19 @@ $run_pipe:
 	    : (signal)
 	      if
 		signal == CHILD_CHANGED_STATE:
-		  loop:
-		    wait2! $rpid $status
-		    if
-		      rpid.is_defined:
-			!ret(pids(rpid)) status
-			!pids(rpid) undefined
-			if!
-			  pids.is_empty
-			  break
-			  next
-		      break
+		  loop
+		    :
+		      wait2! $rpid $status
+		      if
+			rpid.is_defined:
+			  !ret(pids(rpid)) status
+			  !pids(rpid) undefined
+			  if!
+			    pids.is_empty
+			    break
+			    next
+			break
+		    next
 		next
 	    :
 	      for_each write_descriptors

@@ -30,6 +30,7 @@ $DELETION .
 $INSERTION .
 $FOLDING .
 $AI .
+$COMMAND .
 $OTHER .
 
 # Features (specified for each window)
@@ -146,6 +147,10 @@ program_parameters!
     MANDATORY_PARAMETER "filename" "
       the name of the text file to edit
 
+# Optional Function Argument
+
+$argument_of (!)
+
 $functions
   hash_table
     # cursor movement
@@ -225,6 +230,10 @@ $functions
       "toggle_cursor_line_highlighting"
       tuple(toggle_cursor_line_highlighting OTHER)
     "toggle_soft_line_break" = tuple(toggle_soft_line_break OTHER)
+
+    # filter & action
+
+    "filter" = tuple(filter_selection COMMAND)
 
 $class_of empty_hash_table
 
@@ -586,7 +595,9 @@ $main: (initial_terminal)
 	    next
 	    :
 	      $name line .truncate_from. ' '
-	      $value line .behind. ' '
+	      behind &line ' '
+	      $value line .truncate_from. ' '
+	      $argument line .behind. ' '
 	      case name
 		"ai-model":
 		  !ai_model_name value
@@ -642,6 +653,8 @@ $main: (initial_terminal)
 			      next!
 			    :
 			      info $function $class
+			      update_if argument.is_not_empty &function
+				-> function(.argument_of argument)
 			      !editor_key_bindings(key) function
 			      !class_of(key) class
 			      next!
@@ -693,7 +706,6 @@ $event_loop:
 	    if
 	      fd == STDIN_FILENO:
 		from_utf8 &input
-		on do_log: edump `input
 		if
 		  &&
 		    length_of(input) >= PASTE_THRESHOLD
@@ -2256,6 +2268,65 @@ $initialize_ai:
 		 .is_a_space_token_of is_a_space_token
 		 .space_tokens_of space_tokens
 
+$filter_selection: (myself^)
+  -> state(.action_of filter_selection_action(.argument_of argument_of(myself)))
+
+$filter_selection_action: (myself^)
+  $filter_command argument_of(myself)
+  on do_log: debug_write "
+    filter_selection_action "@(filter_command)"
+  get_spaced_selection_text $text
+  if
+    text.is_undefined
+    -> terminal state
+    :
+      on do_log: debug_write "
+	@(text)
+      extern $command filter_command
+      pipe! $ret_list $out $_err_list text command
+      if
+	ret_list(1) == 0:
+	  on do_log: debug_write out
+	  update_if out .contains. '@nl;' &out:
+	    $raw_lines split(out '@nl;')
+	    map raw_lines: (line) tedi_line 0 line.trim_right
+	  cut !state
+	  ->
+	    terminal
+	    extract_window_and_lines(: paste_contents out)
+	-> terminal state
+
+$get_spaced_selection_text:
+  $selection_start_y selection_start_y_of(window)
+  $line_count length_of(lines)
+  if
+    selection_start_y_of.is_undefined
+    -> undefined
+    :
+      $y y_of(window)
+      if
+	y != selection_start_y: # multi-line selection
+	  min_max &selection_start_y &y
+	  !y min(y-1 line_count)
+	  -> lines_to_spaced_text(range(lines selection_start_y y))
+	:
+	  if
+	    y > line_count
+	    -> undefined
+	    :
+	      $line lines(y)
+	      if
+		line.is_undefined
+		-> undefined
+		:
+		  line $indent $text
+		  $selection_start_x selection_start_x_of(window)
+		  $x x_of(window)
+		  min_max &selection_start_x &x
+		  append spaces(indent) &text
+		  !x min(x-1 length_of(text))
+		  -> range(text selection_start_x x)
+
 $copy: cut_or_copy false
 
 $cut: cut_or_copy true
@@ -2349,12 +2420,14 @@ $cut_or_copy: (do_cut)
 	    return_window
 
 $paste:
-  $clipboard_contents clipboard_contents_of(state)
+  paste_contents clipboard_contents_of(state)
+
+$paste_contents: (contents)
   if
-    clipboard_contents.is_defined:
+    contents.is_defined:
       if
-	clipboard_contents.is_a_string:
-	  insert clipboard_contents
+	contents.is_a_string:
+	  insert contents
 	:
 	  $y y_of(window)
 	  if
@@ -2369,14 +2442,14 @@ $paste:
 	      trim_lines
 		append
 		  range(lines 1 y-1)
-		  clipboard_contents
+		  contents
 		  range(lines y -1)
 	    !window
 	      window
 		.cursor_x_of undefined
 		.cursor_y_of undefined
 		.sub_y_of undefined
-		.y_of y+length_of(clipboard_contents)
+		.y_of y+length_of(contents)
 		.was_updated true
 	    return_window_and_lines
     -> state

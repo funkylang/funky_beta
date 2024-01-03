@@ -20,6 +20,11 @@
   Free Software Foundation, Inc.,
   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
+#
+  Topic: Numbers
+
+  See also: std_types::number, std_types::integer, std_types::real
+
 $std::is_a_number () # obvious
 $std::is_an_integer () # obvious
 

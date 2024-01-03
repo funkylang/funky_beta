@@ -21,6 +21,9 @@
 
 <namespace html>
 
+$inline_tag: (tag options contents)
+  -> "<@(tag)@(options)>@(contents)</@(tag)>"
+
 $single_line_tag: (tag options contents)
   -> "
     <@(tag)@(options)>@(contents)</@(tag)>
@@ -68,6 +71,11 @@ $collect_options: (options)
       next
     -> buf
 
+$emit_simple: (tag options)
+  collect_options &options
+  -> "
+    <@(tag)@(options)/>
+
 $emit_single_line: (tag items)
   extract_options $options &items
   collect_options &options
@@ -77,10 +85,11 @@ $emit_single_line: (tag items)
     : multi_line_tag tag options buf
     : single_line_tag tag options buf
 
-$emit_simple: (tag options)
+$emit_inline: (tag items)
+  extract_options $options &items
   collect_options &options
-  -> "
-    <@(tag)@(options)/>
+  collect_output $buf items
+  inline_tag tag options buf
 
 $emit_multi_line: (tag items)
   extract_options $options &items
@@ -88,34 +97,167 @@ $emit_multi_line: (tag items)
   collect_output $buf items
   multi_line_tag tag options buf
 
-$html::HTML: (items*) emit_multi_line "html" items
-$html::HEAD: (items*) emit_multi_line "head" items
-$html::BODY: (items*) emit_multi_line "body" items
+$html::HTML:
+  (
+    items*
+  )
+  emit_multi_line "html" items
 
-$html::TITLE: (items*) emit_single_line "title" items
-$html::STYLE: (items*) emit_single_line "style" items
-$html::LINK: (options*) emit_simple "link" options
+$html::HEAD:
+  (
+    items*
+  )
+  emit_multi_line "head" items
 
-$html::H1: (items*) emit_single_line "h1" items
-$html::H2: (items*) emit_single_line "h2" items
-$html::H3: (items*) emit_single_line "h3" items
-$html::H4: (items*) emit_single_line "h4" items
-$html::H5: (items*) emit_single_line "h5" items
-$html::H6: (items*) emit_single_line "h6" items
 
-$html::DIV: (items*) emit_multi_line "div" items
-$html::TABLE: (items*) emit_multi_line "table" items
-$html::TR: (items*) emit_multi_line "tr" items
-$html::TH: (items*) emit_single_line "th" items
-$html::TD: (items*) emit_single_line "td" items
+$html::BODY:
+  (
+    items*
+  )
+  emit_multi_line "body" items
 
-$html::P: (items*) emit_single_line "p" items
+$html::TITLE:
+  (
+    items*
+  )
+  emit_single_line "title" items
 
-$html::PRE: (items*) emit_single_line "pre" items
+$html::STYLE:
+  (
+    items*
+  )
+  emit_single_line "style" items
 
-$html::A: (items*) emit_single_line "a" items
+$html::LINK:
+  (
+    options*
+  )
+  emit_simple "link" options
 
-$html::GROUP: (items*)
+$html::H1:
+  (
+    items*
+  )
+  emit_single_line "h1" items
+
+$html::H2:
+  (
+    items*
+  )
+  emit_single_line "h2" items
+
+$html::H3:
+  (
+    items*
+  )
+  emit_single_line "h3" items
+
+$html::H4:
+  (
+    items*
+  )
+  emit_single_line "h4" items
+
+$html::H5:
+  (
+    items*
+  )
+  emit_single_line "h5" items
+
+$html::H6:
+  (
+    items*
+  )
+  emit_single_line "h6" items
+
+$html::P:
+  (
+    items*
+  )
+  emit_single_line "p" items
+
+$html::DIV:
+  (
+    items*
+  )
+  emit_multi_line "div" items
+
+$html::TABLE:
+  (
+    items*
+  )
+  emit_multi_line "table" items
+
+$html::TBODY:
+  (
+    items*
+  )
+  emit_multi_line "tbody" items
+
+$html::TR:
+  (
+    items*
+  )
+  emit_multi_line "tr" items
+
+$html::TH:
+  (
+    items*
+  )
+  emit_single_line "th" items
+
+$html::TD:
+  (
+    items*
+  )
+  emit_single_line "td" items
+
+$html::DL:
+  (
+    items*
+  )
+  emit_multi_line "dl" items
+
+$html::DT:
+  (
+    items*
+  )
+  emit_single_line "dt" items
+
+$html::DD:
+  (
+    items*
+  )
+  emit_multi_line "dd" items
+
+$html::PRE:
+  (
+    items*
+  )
+  emit_single_line "pre" items
+
+$html::A:
+  (
+    items*
+  )
+  emit_inline "a" items
+
+$html::I:
+  (
+    items*
+  )
+  emit_inline "i" items
+
+$html::B:
+  (
+    items*
+  )
+  emit_inline "b" items
+
+$html::GROUP:
+  (
+    items*
+  )
   $text ""
   for_each items
     : (item)
@@ -123,7 +265,12 @@ $html::GROUP: (items*)
       next
     -> text
 
-$html::FROM_TO: (from to body)
+$html::FROM_TO:
+  (
+    from
+    to
+    body
+  )
   $text ""
   from_to from to
     : (idx)
@@ -131,7 +278,11 @@ $html::FROM_TO: (from to body)
       next
     -> text
 
-$html::FOR_EACH: (items body)
+$html::FOR_EACH:
+  (
+    items
+    body
+  )
   $text ""
   for_each items
     : (item)

@@ -333,17 +333,21 @@ $std::create_screen:
 
     Column and row numbers start with 1!
 
+    Available options are:
+
+    * <TEXT_COLOUR> (default: <BLACK>)
+
+    * <BACKGROUND_COLOUR> (default: <WHITE>)
+
+    * <LINE_HEIGHT> (default: 1)
+
     Topic: Terminal
 
     See also: create_terminal, std_types::screen
   (
     width # the number of columns
     height # the number of rows
-    options*
-      #
-	TEXT_COLOUR = BLACK
-	BACKGROUND_COLOUR = WHITE
-	LINE_HEIGHT = 1
+    options* # optional screen attributes
   )
   extract_options options
     TEXT_COLOUR = BLACK $text_colour
@@ -2047,18 +2051,23 @@ $std::create_terminal:
 
     Creates a default screen and allows the use of all drawing functions.
 
+    Available options are:
+
+    * <TEXT_COLOUR> (default: <BLACK>)
+
+    * <BACKGROUND_COLOUR> (default: <WHITE>)
+
+    * <LINE_HEIGHT> (default: 1)
+
+    * <VISIBLE_CURSOR> (default: <true>)
+
     Topic: Terminal
 
     See also: create_screen
   (
     width # the number of columns
     height # the number of rows
-    options*
-      #
-	TEXT_COLOUR = BLACK
-	BACKGROUND_COLOUR = WHITE
-	LINE_HEIGHT = 1
-	VISIBLE_CURSOR = true
+    options* # optional terminal attributes
   )
   extract_options options
     TEXT_COLOUR = BLACK $text_colour

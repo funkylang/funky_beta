@@ -126,7 +126,7 @@ $std_types::string/put:
 
 $std_types::string/dup:
   #
-    creates a string containing *n* copies of the specified string
+    creates a string containing n copies of the specified string
 
     The function aims to duplicate the specified string in a smart way.
 
@@ -848,7 +848,7 @@ $std_types::string/between:
 
 $std_types::string/has_prefix:
   #
-    checks whether the string has *prefix* as a prefix
+    checks whether the string has the specified prefix
 
     Topic: Strings
 
@@ -870,7 +870,7 @@ $std_types::string/has_prefix:
 
 $std_types::string/has_suffix:
   #
-    checks whether the string has *suffix* as a suffix
+    checks whether the string has the specified suffix
 
     Topic: Strings
 

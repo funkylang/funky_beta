@@ -22,23 +22,27 @@
 
 # Funky is a one based language
 
-#
-  $a 23 # definition
-  !a 42 # assignement
-
 <require basic/stdlib>
 <require basic/export/html>
 
 <using std>
 <using html>
 
+<allow unused>
+
+# Kinds
+
 $TOPIC .
+$TYPE .
 $POLYMORPHIC_FUNCTION .
 $POLYMORPHIC_FUNCTION_WITH_SETTER .
 $ATTRIBUTE .
+$OBJECT .
 $DERIVED .
 $FUNCTION .
+$TYPE_FUNCTION .
 $LITERAL .
+$UNIQUE .
 $METHOD .
 $UNIQUE_ITEM .
 
@@ -74,27 +78,64 @@ program_parameters!
       output detailed information about the build process
 
 $topics empty_key_order_table
-$definitions empty_key_order_table
+  #
+    key: topic name
+    value:
+      tuple:
+	kind
+	undefined
+	undefined
+	undefined
+	list of paragraphs
+	filename
+
+$definitions empty_hash_table
+  #
+    key: name of defined entity
+    value:
+      tuple:
+	kind
+	short description
+	list of parameters
+	list of results
+	list of paragraphs
+	filename
+
+$kind_of_definition
+  hash_table
+    "TYPE" = TYPE
+    "FUNCTION" = FUNCTION
+    "METHOD" = METHOD
+    "OBJECT" = OBJECT
+    "UNIQUE" = UNIQUE_ITEM
+    "POLY" = POLYMORPHIC_FUNCTION
+    "ATTR" = ATTRIBUTE
+
+$is_a_private_namespace
+  hash_set
+    "basic_collections"
+
+$current_filename undefined
 
 for_each libraries
   : (library)
-    traverse_source_files! library !topics !definitions
+    traverse_files! library !topics !definitions
     next!
   :
     for_each topics
-      : (topic text)
-	save! "html/@(topic.to_filename)" text
+      : (topic info)
+	save! "html/@(topic.to_filename)" create_html_page(topic info)
 	next!
       :
 	for_each definitions
 	  : (definition info)
-	    info $_kind $text
-	    save! "html/@(definition.to_filename)" text
+	    save! "html/@(definition.to_filename)"
+	      create_html_page(definition info)
 	    next!
 	  :
 	    save! "html/style.css" style
 
-$traverse_source_files: (library)
+$traverse_files: (library)
   directory! $entries library
   for_each entries
     : (entry)
@@ -105,22 +146,32 @@ $traverse_source_files: (library)
 	    name .has_prefix. '.'
 	    next
 	    :
-	      traverse_source_files! append(library "/" name) !topics !definitions
+	      traverse_files! append(library "/" name) !topics !definitions
 	      next!
 	REGULAR_FILE:
-	  if_not
-	    name .has_suffix. ".fky"
-	    next
-	    :
-	      extract_documentation! append(library "/" name) !topics !definitions
+	  cond
+	    -> name .has_suffix. ".fky":
+	      extract_from_funky! append(library "/" name) !topics !definitions
 	      next!
+	    -> name .has_suffix. ".template":
+	      extract_from_template! append(library "/" name) !definitions
+	      next!
+	    -> true
+	      next
 	next
     -> topics definitions
 
-$extract_documentation: (filename)
+$extract_from_funky: (filename)
   on be_verbose: println! filename
+  !current_filename filename
   load_groups! $groups filename
   handle_groups groups
+
+$extract_from_template: (filename)
+  on be_verbose: println! filename
+  !current_filename filename
+  load_groups! $groups filename
+  handle_template_groups groups
 
 $handle_groups: (groups)
   for_each groups
@@ -156,20 +207,67 @@ $is_a_topic: (group)
 	-> false
 	:
 	  head $_indent $text
-	  -> text .has_prefix. "Topic:"
+	  -> text .has_prefix. "Topic:" || text .has_prefix. "Topics:"
 
 $GLOBAL_DEFINITION '$', FUNKY_IDENTIFIER, "::", FUNKY_IDENTIFIER
 
 $is_a_namespaced_definition: (text)
   -> match(GLOBAL_DEFINITION text).is_defined
 
+$handle_template_groups: (groups)
+  for_each groups
+    : (group)
+      group $_indent $text
+      $keyword text .truncate_from. ' '
+      update_if keyword == "PUBLIC" &keyword
+	-> (text .behind. ' ') .truncate_from. ' '
+      $kind kind_of_definition(keyword)
+      if
+	kind.is_undefined
+	next
+	:
+	  behind &text keyword
+	  trim &text
+	  case kind
+	    FUNCTION:
+	      if
+		text .contains. ' '
+		next
+		: add_definition text
+	    METHOD:
+	      if
+		text .contains. "/_"
+		next
+		: add_definition text
+	    TYPE:
+	      $name (text .truncate_from. ' ')
+	      $base (text .behind. "->").trim
+	      update_if base.is_empty &base -> undefined
+	      add_definition name base
+	    next
+
+      $add_definition: (name extra_info = undefined)
+	maybe_add_namespace &name
+	$subgroups subgroups_of(group)
+	if
+	  subgroups.is_undefined || subgroups(1).is_undefined
+	  next
+	  :
+	    split_into_groups &subgroups
+	    !subgroups subgroups_of(subgroups(1))
+	    if
+	      subgroups.is_defined:
+		!definitions(name) collect_info(kind extra_info subgroups)
+		next
+	      next
+    -> definitions
+
 $handle_topic: (group)
   $subgroups subgroups_of(group)
   $head subgroups(1)
   head $_indent $text
   $topic trim(text .behind. ':')
-  create_html $html TOPIC topic range(subgroups 2 -1)
-  -> topics(topic html)
+  -> topics(topic collect_info(TOPIC range(subgroups 2 -1)))
 
 $handle_definition: (group)
   group $_indent $text
@@ -204,7 +302,12 @@ $handle_definition: (group)
 		derived_len.is_defined: handle DERIVED
 		: handle undefined
 	':': handle FUNCTION
-	'/': handle_slot_definition METHOD
+	'/':
+	  if
+	    rest(2) == ':':
+	      handle TYPE_FUNCTION
+	    :
+	      handle_slot_definition METHOD
 	'.': handle_slot_definition ATTRIBUTE
 	: handle undefined
 
@@ -234,33 +337,45 @@ $handle_definition: (group)
 	    handle kind
 
   $handle: (kind)
-    if
-      kind.is_undefined:
+    cond
+      -> (identifier .before. "::").is_a_private_namespace
+	-> definitions
+      -> kind.is_undefined:
+	edump `identifier
 	debug_write "
 	  CANNOT DETERMINE TYPE: @(identifier)
 	-> definitions
-      :
+      -> true:
 	$subgroups subgroups_of(group)
 	if
 	  subgroups.is_undefined
 	  missing_documentation
 	  :
 	    split_into_groups &subgroups
-	    $subgroup find_first(subgroups is_a_remark)
+	    $description find_first(subgroups is_a_remark)
 	    if
-	      subgroup.is_undefined
+	      description.is_undefined
 	      missing_documentation
 	      :
-		!subgroups subgroups_of(subgroup)
+		$descriptions subgroups_of(description)
 		if
-		  subgroups.is_undefined
+		  descriptions.is_undefined
 		  missing_documentation
-		  ->
-		    definitions
-		      identifier
-		      tuple
-			kind
-			create_html(kind identifier subgroups)
+		  :
+		    if
+		      ||
+			kind == FUNCTION
+			kind == METHOD
+			kind == TYPE_FUNCTION
+		      :
+			$parameters find_first(subgroups is_a_parameter_list)
+			update_if parameters.is_defined &parameters
+			  -> split_into_groups(subgroups_of(parameters))
+			->
+			  definitions
+			    identifier
+			    collect_info(kind parameters descriptions)
+		      -> definitions(identifier collect_info(kind descriptions))
 
   $missing_documentation:
     #debug_write "
@@ -269,14 +384,53 @@ $handle_definition: (group)
 
 $is_a_remark: (line) -> line.is_defined && second(line)(1) == '#'
 
-$create_html: (kind title subgroups)
+$is_a_parameter_list: (line) -> line.is_defined && second(line)(1) == '('
+
+$PARAMETER .
+$RESULT .
+
+$collect_info:
+  (
+    kind
+    extra_info = undefined # parameters, derived or value
+    description_groups
+  )
   $paragraph ""
   $paragraphs empty_list
   $is_preformatted false
-  for_each subgroups
+  $parameters
+    case
+      kind
+      sequence
+	FUNCTION
+	METHOD
+	TYPE_FUNCTION
+	POLYMORPHIC_FUNCTION
+	POLYMORPHIC_FUNCTION_WITH_SETTER
+      :
+	!parameters empty_list
+	if
+	  extra_info.is_defined:
+	    for_each extra_info
+	      : (group)
+		add_result_or_parameter &parameters group
+		next
+	      -> parameters
+	  -> parameters
+      -> undefined
+  $results
+    case
+      kind
+      FUNCTION, METHOD, TYPE_FUNCTION
+      -> empty_list
+      -> undefined
+
+  $mode undefined
+  for_each description_groups
     : (group)
       if
 	group.is_undefined:
+	  !mode undefined
 	  if
 	    paragraph.is_empty
 	    next
@@ -285,85 +439,275 @@ $create_html: (kind title subgroups)
 	      !paragraph ""
 	      next
 	:
-	  group $_indent $text
-	  range &text 1 -2 # remove trailing newline
-	  if
-	    paragraph.is_empty:
-	      !paragraph text
-	      if
-		text .has_prefix. "Topic:" || text .has_prefix. "Output:":
-		  !is_preformatted true
-		  next
-		next
-	    :
-	      push &paragraph
-		if
-		  is_preformatted
-		  -> '@nl;'
-		  -> ' '
-	      append &paragraph text
+	  cond
+	    -> mode == PARAMETER:
+	      add_result_or_parameter &parameters group
 	      next
+	    -> mode == RESULT:
+	      add_result_or_parameter &results group
+	      next
+	    -> true:
+	      $text second(group)
+	      range &text 1 -2 # remove trailing newline
+	      if
+		paragraph.is_empty:
+		  cond
+		    ->
+		      ||
+			text .has_prefix. "Parameter:"
+			text .has_prefix. "Parameters:"
+		      :
+			!mode PARAMETER
+			next
+		    ->
+		      ||
+			text .has_prefix. "Result:"
+			text .has_prefix. "Results:"
+		      :
+			!mode RESULT
+			next
+		    -> true:
+		      !paragraph text
+		      if
+			||
+			  text .has_prefix. "Example:"
+			  text .has_prefix. "Output:"
+			:
+			  !is_preformatted true
+			  next
+			next
+		:
+		  push &paragraph
+		    if
+		      is_preformatted
+		      -> '@nl;'
+		      -> ' '
+		  append &paragraph text
+		  next
     :
       update_if paragraph.is_not_empty &paragraphs -> push(paragraphs paragraph)
-      HTML
-	: HEAD
-	  : TITLE title
-	  : LINK "rel" = "stylesheet" "href" = "style.css"
-	: BODY
-	  : P
-	    : A "class" = "Button" "href" = "index.html" "Home"
-	    : A "class" = "Button" "href" = "manual.html" "Manual"
-	    : A "class" = "Button" "href" = "topics_index.html" "Topics"
-	    : A "class" = "Button" "href" = "type_index.html" "Type Index"
-	    : A "class" = "Button" "href" = "symbol_index.html" "Symbol Index"
-	  : if
-	      kind == TOPIC:
-		H1 title
-	      :
-		H1 "class" = "pre" title
-	  :
+      if
+	kind == TOPIC
+	-> tuple(kind undefined undefined undefined paragraphs current_filename)
+	->
+	  tuple
+	    kind
+	    paragraphs(1)
 	    if
-	      kind == TOPIC:
-		map_reduce paragraphs to_html
-	      :
-		$short_descripition paragraphs(1)
-		GROUP
-		  : P "class" = "short" short_descripition
-		  : H2 "Description"
-		  :
-		    range &paragraphs 2 -1
-		    map_reduce paragraphs to_html append ""
+	      parameters.is_defined
+	      -> parameters
+	      -> extra_info
+	    results
+	    range(paragraphs 2 -1)
+	    current_filename
 
-  $to_html: (idx paragraph)
-    cond
-      -> paragraph .has_prefix. "Topic:":
-	$items split(paragraph .behind. ':' ',')
-	GROUP
-	  : H2 if(length_of(items) == 1 (-> "Topic") (-> "Topics"))
-	  : P
-	    : FOR_EACH items: (item)
-	      trim &item
-	      A "href" = to_filename(item) item
-      -> paragraph .has_prefix. "See also:":
-	$items split(paragraph .behind. ':' ',')
-	GROUP
-	  : H2 "See also"
-	  : TABLE
-	    : FOR_EACH items: (item)
-	      trim &item
-	      maybe_add_namespace &item
-	      TR
-		: TD
-		  : A "href" = to_filename(item) item
-      -> paragraph .has_prefix. "Example:": H2 "Example"
-      -> paragraph .has_prefix. "Output:": H2 "Output"
-      -> true:
-	cond
-	  -> idx > 1 && paragraphs(idx-1) .has_prefix. "Example:":
-	    DIV "class" = "Example" paragraph
-	  -> idx > 1 && paragraphs(idx-1) .has_prefix. "Output:":
-	    DIV "class" = "Output" paragraph
-	  -> true: P convert(paragraph)
+$add_result_or_parameter: (parameters group)
+  $text second(group)
+  $parameter (text .truncate_from. '#').trim
+  $subgroups subgroups_of(group)
+  update_if subgroups.is_defined &text -> second(subgroups(1))
+  $remark (text .behind. '#').trim
+  push parameters tuple(parameter remark)
+
+$create_html_page: (title info)
+  info $kind $short_descripition $extra_info $results $paragraphs $filename
+  $parameters
+    case
+      kind
+      sequence
+	FUNCTION
+	METHOD
+	TYPE_FUNCTION
+	POLYMORPHIC_FUNCTION
+	POLYMORPHIC_FUNCTION_WITH_SETTER
+      -> extra_info
+      -> undefined
+  HTML
+    : HEAD
+      : TITLE title
+      : LINK "rel" = "stylesheet" "href" = "style.css"
+    : BODY
+      : P
+	: A "class" = "Button" "href" = "index.html" "Home"
+	: A "class" = "Button" "href" = "manual.html" "Manual"
+	: A "class" = "Button" "href" = "topics_index.html" "Topics"
+	: A "class" = "Button" "href" = "type_index.html" "Type Index"
+	: A "class" = "Button" "href" = "symbol_index.html" "Symbol Index"
+      : if
+	  kind == TOPIC:
+	    H1 title
+	  :
+	    H1 "class" = "pre" title
+      :
+	$description empty_list
+	$associated_topics empty_list
+	$preformatted empty_list
+	$see_also empty_list
+	$already_consumed false
+	for_each paragraphs
+	  : (idx paragraph)
+	    cond
+	      ->
+		||
+		  paragraph .has_prefix. "Topic:"
+		  paragraph .has_prefix. "Topics:"
+		:
+		  !associated_topics map(split(paragraph .behind. ':' ',') trim)
+		  on length_of(associated_topics) > 1: edump 2 `associated_topics
+		  next
+	      -> paragraph .has_prefix. "See also:":
+		!see_also
+		  map
+		    split(paragraph .behind. ':' ','): (item)
+		      maybe_add_namespace item.trim
+		next
+	      -> paragraph .has_prefix. "Example:":
+		push &preformatted "Example" = paragraphs(idx+1)
+		!already_consumed true
+		next
+	      -> paragraph .has_prefix. "Output:":
+		push &preformatted "Output" = paragraphs(idx+1)
+		!already_consumed true
+		next
+	      -> true:
+		if
+		  already_consumed:
+		    !already_consumed false
+		    next
+		  :
+		    push &description paragraph
+		    next
+	  :
+	    GROUP
+	      : if
+		  short_descripition.is_undefined
+		  -> ""
+		  : P "class" = "short" short_descripition
+	      :
+		if
+		  parameters.is_undefined
+		  -> ""
+		  : GROUP
+		    : H2
+		      if
+			length_of(parameters) == 1
+			-> "Parameter"
+			-> "Parameters"
+		    :
+		      if
+			parameters.is_empty:
+			  P: I "None"
+			: DL
+			  :
+			    FOR_EACH parameters: (parameter)
+			      parameter $parameter_name $parameter_description
+			      GROUP
+				: DT parameter_name
+				: DD parameter_description
+	      :
+		if
+		  results.is_undefined
+		  -> ""
+		  : GROUP
+		    : H2
+		      if
+			length_of(results) == 1
+			-> "Result"
+			-> "Results"
+		    :
+		      if
+			results.is_empty:
+			  P: I "None"
+			: DL
+			  :
+			    FOR_EACH results: (result)
+			      result $result_name $result_description
+			      GROUP
+				: DT result_name
+				: DD result_description
+	      :
+		if
+		  description.is_empty
+		  -> ""
+		  : GROUP
+		    : H2 "Description"
+		    : FOR_EACH description: (paragraph) P convert(paragraph)
+	      :
+		map_reduce
+		  preformatted
+		  : (info)
+		    info $class $paragraph
+		    GROUP
+		      : H2 class
+		      : DIV "class" = class paragraph
+		  append
+		  ""
+	      :
+		if
+		  associated_topics.is_empty
+		  -> ""
+		  : GROUP
+		    : H2
+		      if
+			length_of(associated_topics) == 1
+			-> "Topic"
+			-> "Topics"
+		    : P
+		      : FOR_EACH associated_topics: (item)
+			P: A "href" = to_filename(item) item
+	      :
+		if
+		  kind == TYPE && extra_info.is_defined:
+		    GROUP
+		      : H2 "Derived from"
+		      : TABLE: link_to extra_info
+		  -> ""
+	      :
+		if
+		  see_also.is_empty
+		  -> ""
+		  : GROUP
+		    : H2 "See also"
+		    : TABLE
+		      :
+			FOR_EACH see_also: (item)
+			  link_to item
+	      :
+		if
+		  kind == TYPE:
+		    $names empty_list
+		    for_each definitions
+		      : (name definition)
+			if
+			  (name .before. '/') == title:
+			    push &names name
+			    next
+			  next
+		      :
+			if
+			  names.is_empty
+			  -> ""
+			  :
+			    sort &names
+			    GROUP
+			      : H2 "Supported polymorphic functions"
+			      : TABLE:
+				FOR_EACH names: (name)
+				  link_to name
+		  -> ""
+	      : DIV "class" = "footer" "(defined in @(filename))"
+
+$link_to: (item)
+  TR
+    : TD : A "href" = to_filename(item) item .truncate_until. '/'
+    :
+      $item_definition definitions(item)
+      if
+	item_definition.is_undefined
+	-> ""
+	:
+	  item_definition $_item_kind $item_description
+	  TD "class" = "description": I item_description
 
 $maybe_add_namespace: (name)
   cond
@@ -545,6 +889,7 @@ $style "
     padding-bottom: 3pt;
     padding-left: 3pt;
     padding-right: 3pt;
+    margin-right: 5pt;
     border-radius: 8pt;
     border-width: 2pt;
     border-style: solid;
@@ -583,7 +928,7 @@ $style "
     margin-top: 2pt;
     margin-bottom: 2pt;
   }
-  td.remark {
+  td.description {
     padding-left: 10pt;
   }
 
