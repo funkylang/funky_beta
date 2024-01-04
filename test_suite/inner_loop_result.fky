@@ -4,15 +4,17 @@ $sum 0
 
 from_to $result 1 10
   : (i)
-    from_to 1 10: (j)
-      $prod i*j
-      if
-	prod == 49
-	-> sum
-	:
-	  plus &sum prod
-	  println! sum
-	  next!
+    from_to 1 10
+      : (j)
+	$prod i*j
+	if
+	  prod == 49
+	  -> sum
+	  :
+	    plus &sum prod
+	    println! sum
+	    next!
+       next
   -> "not found"
 
 println! "result = " result

@@ -754,6 +754,7 @@ $std::pipe: (args*)
       if
 	first_arg.is_a_file_descriptor:
 	  !in_fd first_arg
+	  !i 2
 	  build_commands!
 	build_commands
 
@@ -780,6 +781,21 @@ $std::pipe: (args*)
 	update_if head.is_defined &commands:
 	  push commands tuple(head map(flatten(arguments) to_string))
 	run_pipe! in_fd feed commands
+
+$std::pipe_commands:
+  (
+    feed_or_fd = undefined
+    commands
+  )
+  if
+    feed_or_fd.is_defined:
+      if
+	feed_or_fd.is_a_file_descriptor:
+	  run_pipe! feed_or_fd undefined commands
+	:
+	  run_pipe! undefined feed_or_fd commands
+    :
+      run_pipe! undefined undefined commands
 
 $run_pipe:
   (

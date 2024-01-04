@@ -30,7 +30,6 @@ $DELETION .
 $INSERTION .
 $FOLDING .
 $AI .
-$COMMAND .
 $OTHER .
 
 # Features (specified for each window)
@@ -211,6 +210,7 @@ $functions
     "define_mark" = tuple(define_mark OTHER)
     "find_text_dialog" = tuple(find_text_dialog OTHER)
     "go_to_line_dialog" = tuple(go_to_line_dialog OTHER)
+    "filter_dialog" = tuple(filter_dialog OTHER)
     "join_lines" = tuple(join_lines DELETION)
     "delete_line" = tuple(delete_line DELETION)
     "find_next" = tuple(find_next MOVEMENT)
@@ -233,7 +233,7 @@ $functions
 
     # filter & action
 
-    "filter" = tuple(filter_selection COMMAND)
+    "filter" = tuple(filter_selection OTHER)
 
 $class_of empty_hash_table
 
@@ -464,6 +464,21 @@ $go_to_key_bindings
     CTRL_V = paste
     CTRL_X = cut
 
+$filter_key_bindings
+  new
+    simple_key_bindings
+
+    # actions
+
+    RETURN = filter_selection_with_command
+    ESCAPE = cancel
+
+    # control commands
+
+    CTRL_C = copy
+    CTRL_V = paste
+    CTRL_X = cut
+
 $window
   prototype_window
     .revision_no_of 0
@@ -492,6 +507,7 @@ $window
 $STATUS_WINDOW -1
 $SEARCH_WINDOW -2
 $GO_TO_WINDOW -3
+$FILTER_WINDOW -4
 
 $status_window
   prototype_window
@@ -521,6 +537,17 @@ $go_to_window
     .left_x_of 1
     .height_of 1
     .colour_set_of colour_sets(4)
+    .cursor_movement_of ADD_SINGLE_LINE
+
+$filter_window
+  prototype_window
+    .id_of FILTER_WINDOW
+    .key_bindings_of filter_key_bindings
+    .key_of undefined
+    .lines_of empty_list
+    .left_x_of 1
+    .height_of 1
+    .colour_set_of colour_sets(2)
     .cursor_movement_of ADD_SINGLE_LINE
 
 $state undefined
@@ -577,6 +604,12 @@ $main: (initial_terminal)
 
   !go_to_window
     go_to_window
+      .width_of terminal_width
+      .top_y_of terminal_height
+      .height_of 1
+
+  !filter_window
+    filter_window
       .width_of terminal_width
       .top_y_of terminal_height
       .height_of 1
@@ -669,6 +702,7 @@ $start_tedi:
       .windows_of
 	list
 	  window
+	  filter_window
 	  go_to_window
 	  search_window
 	  status_window
@@ -2269,24 +2303,32 @@ $initialize_ai:
 		 .space_tokens_of space_tokens
 
 $filter_selection: (myself^)
-  -> state(.action_of filter_selection_action(.argument_of argument_of(myself)))
+  -> state(.action_of filter_action(.argument_of argument_of(myself)))
 
-$filter_selection_action: (myself^)
+$filter_action: (myself^)
   $filter_command argument_of(myself)
-  on do_log: debug_write "
-    filter_selection_action "@(filter_command)"
+  on do_log:
+    eprint! "
+      -------------------
+      filter_action "@(filter_command)"
   get_spaced_selection_text $text
   if
     text.is_undefined
     -> terminal state
     :
-      on do_log: debug_write "
+      on do_log: eprint! "
 	@(text)
-      extern $command filter_command
-      pipe! $ret_list $out $_err_list text command
+	- - - - - - - - - -
+      $command filter_command .truncate_from. ' '
+      $arguments split((filter_command .behind. ' ') ' ')
+      pipe_commands! $ret_list $out $_err_list
+	text list(tuple(command arguments))
       if
 	ret_list(1) == 0:
-	  on do_log: debug_write out
+	  replace_all &out '@ht;' = "        "
+	  on do_log: eprintln! "
+	    @(out)
+	    - - - - - - - - - -
 	  update_if out .contains. '@nl;' &out:
 	    $raw_lines split(out '@nl;')
 	    map raw_lines: (line) tedi_line 0 line.trim_right
@@ -2882,6 +2924,43 @@ $go_to_line:
 		  .y_of line_no
 		  .cursor_y_of undefined
 	      return_window
+
+$filter_dialog:
+  if
+    selection_start_y_of(window).is_undefined
+    -> state
+    :
+      $windows windows_of(state)
+      !window windows(FILTER_WINDOW)
+      !lines lines_of(window)
+      !window
+	window
+	  .x_of 1
+	  .y_of 1
+      !windows(FILTER_WINDOW) window
+      ->
+	state
+	  .text_window_index_of cwi()
+	  .current_window_index_of FILTER_WINDOW
+	  .windows_of windows
+
+$filter_selection_with_command:
+  $y y_of(window)
+  $line
+    if
+      y > length_of(lines)
+      -> undefined
+      -> lines(y)
+  !state.current_window_index_of text_window_index_of(state)
+  if
+    line.is_undefined
+    -> state
+    :
+      $command text_of(line)
+      if
+	command.is_empty
+	-> state
+	-> state(.action_of filter_action(.argument_of command))
 
 $define_mark:
   !window.do_define_mark_of true

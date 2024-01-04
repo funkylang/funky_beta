@@ -5,6 +5,9 @@ $N 100
 $primes initialized_boolean_array(N true)
 !primes(1) false
 
+debug_write "
+  juhu
+
 from_to_by 4 N 2
   : (i)
     !primes(i) false
@@ -13,10 +16,13 @@ from_to_by 4 N 2
     from_to_by 3 isqrt(N) 2
       : (s)
 	if_not primes(s) next:
-	  from_to_by s*s N 2*s: (i)
-	    !primes(i) false
-	    next!
+	  from_to_by s*s N 2*s
+	    : (i)
+	      !primes(i) false
+	      next!
+	    next
       :
+	edump `primes
 	from_to 1 N
 	  : (i)
 	    if_not primes(i) next:

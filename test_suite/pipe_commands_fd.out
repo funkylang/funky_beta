@@ -1,0 +1,6 @@
+$funky::is_a_builtin_function_name: (identifier)
+$funky::character_from_name get_character_names()
+$funky::base_directory undefined
+$funky::current_module_name undefined
+$find_newest_timestamp: (modules)
+$funky::syntax_error:

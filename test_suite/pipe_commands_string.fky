@@ -1,0 +1,14 @@
+#!/usr/bin/env fkyrun
+
+load! $buf "compiler/funky.fky"
+
+pipe_commands! $ret $out $err
+  buf
+  list(tuple("grep" list("^\$f")))
+
+if
+  any_of(ret: (value) -> value != 0):
+    eprint! reduce(err).from_utf8
+  :
+    print! out.from_utf8
+

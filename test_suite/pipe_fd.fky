@@ -1,0 +1,16 @@
+#!/usr/bin/env fkyrun
+
+extern $grep "grep"
+
+open! $fd "compiler/funky.fky" "r"
+
+pipe! $ret $out $err
+  fd
+  grep "^\$f"
+
+if
+  any_of(ret: (value) -> value != 0):
+    eprint! reduce(err).from_utf8
+  :
+    print! out.from_utf8
+

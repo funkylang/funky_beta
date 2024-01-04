@@ -8845,11 +8845,11 @@ static void std_types___array____type (void)
       value = TLS_arguments[dimension_count];
       long length = TLS_myself->array.updates_length;
       TLS_myself =
-        add_update(
-          (ARRAY *)TLS_myself, sizeof(UPDATE_ARRAY_DATA_SET_VALUE));
+	add_update(
+	  (ARRAY *)TLS_myself, sizeof(UPDATE_ARRAY_DATA_SET_VALUE));
       UPDATE_ARRAY_DATA_SET_VALUE *update =
-        (UPDATE_ARRAY_DATA_SET_VALUE *)
-        (TLS_myself->array.updates->buffer+length);
+	(UPDATE_ARRAY_DATA_SET_VALUE *)
+	(TLS_myself->array.updates->buffer+length);
       update->tag = SET_VALUE;
       update->offset = offset;
       update->value = value;
@@ -8894,11 +8894,11 @@ static void std_types___boolean_array____type (void)
       if (!to_bool(TLS_arguments[dimension_count], &value)) return;
       long length = TLS_myself->boolean_array.updates_length;
       TLS_myself =
-        add_update(
-          (ARRAY *)TLS_myself, sizeof(UPDATE_BOOLEAN_ARRAY_DATA_SET_VALUE));
+	add_update(
+	  (ARRAY *)TLS_myself, sizeof(UPDATE_BOOLEAN_ARRAY_DATA_SET_VALUE));
       UPDATE_BOOLEAN_ARRAY_DATA_SET_VALUE *update =
-        (UPDATE_BOOLEAN_ARRAY_DATA_SET_VALUE *)
-        (TLS_myself->boolean_array.updates->buffer+length);
+	(UPDATE_BOOLEAN_ARRAY_DATA_SET_VALUE *)
+	(TLS_myself->boolean_array.updates->buffer+length);
       update->tag = SET_VALUE;
       update->offset = offset;
       update->value = value;
@@ -8943,11 +8943,11 @@ static void std_types___character_array____type (void)
       if (!to_uchar32(TLS_arguments[dimension_count], &value)) return;
       long length = TLS_myself->character_array.updates_length;
       TLS_myself =
-        add_update(
-          (ARRAY *)TLS_myself, sizeof(UPDATE_CHARACTER_ARRAY_DATA_SET_VALUE));
+	add_update(
+	  (ARRAY *)TLS_myself, sizeof(UPDATE_CHARACTER_ARRAY_DATA_SET_VALUE));
       UPDATE_CHARACTER_ARRAY_DATA_SET_VALUE *update =
-        (UPDATE_CHARACTER_ARRAY_DATA_SET_VALUE *)
-        (TLS_myself->character_array.updates->buffer+length);
+	(UPDATE_CHARACTER_ARRAY_DATA_SET_VALUE *)
+	(TLS_myself->character_array.updates->buffer+length);
       update->tag = SET_VALUE;
       update->offset = offset;
       update->value = value;
@@ -8992,11 +8992,11 @@ static void std_types___int8_array____type (void)
       if (!to_int8(TLS_arguments[dimension_count], &value)) return;
       long length = TLS_myself->int8_array.updates_length;
       TLS_myself =
-        add_update(
-          (ARRAY *)TLS_myself, sizeof(UPDATE_INT8_ARRAY_DATA_SET_VALUE));
+	add_update(
+	  (ARRAY *)TLS_myself, sizeof(UPDATE_INT8_ARRAY_DATA_SET_VALUE));
       UPDATE_INT8_ARRAY_DATA_SET_VALUE *update =
-        (UPDATE_INT8_ARRAY_DATA_SET_VALUE *)
-        (TLS_myself->int8_array.updates->buffer+length);
+	(UPDATE_INT8_ARRAY_DATA_SET_VALUE *)
+	(TLS_myself->int8_array.updates->buffer+length);
       update->tag = SET_VALUE;
       update->offset = offset;
       update->value = value;
@@ -9041,11 +9041,11 @@ static void std_types___uint8_array____type (void)
       if (!to_uint8(TLS_arguments[dimension_count], &value)) return;
       long length = TLS_myself->uint8_array.updates_length;
       TLS_myself =
-        add_update(
-          (ARRAY *)TLS_myself, sizeof(UPDATE_UINT8_ARRAY_DATA_SET_VALUE));
+	add_update(
+	  (ARRAY *)TLS_myself, sizeof(UPDATE_UINT8_ARRAY_DATA_SET_VALUE));
       UPDATE_UINT8_ARRAY_DATA_SET_VALUE *update =
-        (UPDATE_UINT8_ARRAY_DATA_SET_VALUE *)
-        (TLS_myself->uint8_array.updates->buffer+length);
+	(UPDATE_UINT8_ARRAY_DATA_SET_VALUE *)
+	(TLS_myself->uint8_array.updates->buffer+length);
       update->tag = SET_VALUE;
       update->offset = offset;
       update->value = value;
@@ -9090,11 +9090,11 @@ static void std_types___int16_array____type (void)
       if (!to_int16(TLS_arguments[dimension_count], &value)) return;
       long length = TLS_myself->int16_array.updates_length;
       TLS_myself =
-        add_update(
-          (ARRAY *)TLS_myself, sizeof(UPDATE_INT16_ARRAY_DATA_SET_VALUE));
+	add_update(
+	  (ARRAY *)TLS_myself, sizeof(UPDATE_INT16_ARRAY_DATA_SET_VALUE));
       UPDATE_INT16_ARRAY_DATA_SET_VALUE *update =
-        (UPDATE_INT16_ARRAY_DATA_SET_VALUE *)
-        (TLS_myself->int16_array.updates->buffer+length);
+	(UPDATE_INT16_ARRAY_DATA_SET_VALUE *)
+	(TLS_myself->int16_array.updates->buffer+length);
       update->tag = SET_VALUE;
       update->offset = offset;
       update->value = value;
@@ -9139,11 +9139,11 @@ static void std_types___uint16_array____type (void)
       if (!to_uint16(TLS_arguments[dimension_count], &value)) return;
       long length = TLS_myself->uint16_array.updates_length;
       TLS_myself =
-        add_update(
-          (ARRAY *)TLS_myself, sizeof(UPDATE_UINT16_ARRAY_DATA_SET_VALUE));
+	add_update(
+	  (ARRAY *)TLS_myself, sizeof(UPDATE_UINT16_ARRAY_DATA_SET_VALUE));
       UPDATE_UINT16_ARRAY_DATA_SET_VALUE *update =
-        (UPDATE_UINT16_ARRAY_DATA_SET_VALUE *)
-        (TLS_myself->uint16_array.updates->buffer+length);
+	(UPDATE_UINT16_ARRAY_DATA_SET_VALUE *)
+	(TLS_myself->uint16_array.updates->buffer+length);
       update->tag = SET_VALUE;
       update->offset = offset;
       update->value = value;
@@ -9188,11 +9188,11 @@ static void std_types___int32_array____type (void)
       if (!to_int32(TLS_arguments[dimension_count], &value)) return;
       long length = TLS_myself->int32_array.updates_length;
       TLS_myself =
-        add_update(
-          (ARRAY *)TLS_myself, sizeof(UPDATE_INT32_ARRAY_DATA_SET_VALUE));
+	add_update(
+	  (ARRAY *)TLS_myself, sizeof(UPDATE_INT32_ARRAY_DATA_SET_VALUE));
       UPDATE_INT32_ARRAY_DATA_SET_VALUE *update =
-        (UPDATE_INT32_ARRAY_DATA_SET_VALUE *)
-        (TLS_myself->int32_array.updates->buffer+length);
+	(UPDATE_INT32_ARRAY_DATA_SET_VALUE *)
+	(TLS_myself->int32_array.updates->buffer+length);
       update->tag = SET_VALUE;
       update->offset = offset;
       update->value = value;
@@ -9237,11 +9237,11 @@ static void std_types___uint32_array____type (void)
       if (!to_uint32(TLS_arguments[dimension_count], &value)) return;
       long length = TLS_myself->uint32_array.updates_length;
       TLS_myself =
-        add_update(
-          (ARRAY *)TLS_myself, sizeof(UPDATE_UINT32_ARRAY_DATA_SET_VALUE));
+	add_update(
+	  (ARRAY *)TLS_myself, sizeof(UPDATE_UINT32_ARRAY_DATA_SET_VALUE));
       UPDATE_UINT32_ARRAY_DATA_SET_VALUE *update =
-        (UPDATE_UINT32_ARRAY_DATA_SET_VALUE *)
-        (TLS_myself->uint32_array.updates->buffer+length);
+	(UPDATE_UINT32_ARRAY_DATA_SET_VALUE *)
+	(TLS_myself->uint32_array.updates->buffer+length);
       update->tag = SET_VALUE;
       update->offset = offset;
       update->value = value;
@@ -9286,11 +9286,11 @@ static void std_types___int64_array____type (void)
       if (!to_int64(TLS_arguments[dimension_count], &value)) return;
       long length = TLS_myself->int64_array.updates_length;
       TLS_myself =
-        add_update(
-          (ARRAY *)TLS_myself, sizeof(UPDATE_INT64_ARRAY_DATA_SET_VALUE));
+	add_update(
+	  (ARRAY *)TLS_myself, sizeof(UPDATE_INT64_ARRAY_DATA_SET_VALUE));
       UPDATE_INT64_ARRAY_DATA_SET_VALUE *update =
-        (UPDATE_INT64_ARRAY_DATA_SET_VALUE *)
-        (TLS_myself->int64_array.updates->buffer+length);
+	(UPDATE_INT64_ARRAY_DATA_SET_VALUE *)
+	(TLS_myself->int64_array.updates->buffer+length);
       update->tag = SET_VALUE;
       update->offset = offset;
       update->value = value;
@@ -9335,11 +9335,11 @@ static void std_types___uint64_array____type (void)
       if (!to_uint64(TLS_arguments[dimension_count], &value)) return;
       long length = TLS_myself->uint64_array.updates_length;
       TLS_myself =
-        add_update(
-          (ARRAY *)TLS_myself, sizeof(UPDATE_UINT64_ARRAY_DATA_SET_VALUE));
+	add_update(
+	  (ARRAY *)TLS_myself, sizeof(UPDATE_UINT64_ARRAY_DATA_SET_VALUE));
       UPDATE_UINT64_ARRAY_DATA_SET_VALUE *update =
-        (UPDATE_UINT64_ARRAY_DATA_SET_VALUE *)
-        (TLS_myself->uint64_array.updates->buffer+length);
+	(UPDATE_UINT64_ARRAY_DATA_SET_VALUE *)
+	(TLS_myself->uint64_array.updates->buffer+length);
       update->tag = SET_VALUE;
       update->offset = offset;
       update->value = value;
@@ -11692,7 +11692,7 @@ static void entry__std_types___boolean_array___std___equal (void)
     BOOLEAN_ARRAY_DATA *right = apply_boolean_array_updates(TLS_arguments[1]);
     {
       NODE *result__node = (NODE *)(from_bool(memcmp(
-            left->items, right->items,sizeof(int)*left->size) == 0));
+    	left->items, right->items,sizeof(int)*left->size) == 0));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -11725,7 +11725,7 @@ static void entry__std_types___boolean_array___std___bit_and (void)
     long size = left->size;
     BOOLEAN_ARRAY_DATA *data =
       allocate_large(
-        ALLOCATION_SIZE(sizeof(BOOLEAN_ARRAY_DATA)+size*sizeof(int)));
+	ALLOCATION_SIZE(sizeof(BOOLEAN_ARRAY_DATA)+size*sizeof(int)));
     long i;
     for (i = 0; i < size; ++i) {
       data->items[i] = left->items[i] & right->items[i];
@@ -11766,7 +11766,7 @@ static void entry__std_types___boolean_array___std___bit_or (void)
     long size = left->size;
     BOOLEAN_ARRAY_DATA *data =
       allocate_large(
-        ALLOCATION_SIZE(sizeof(BOOLEAN_ARRAY_DATA)+size*sizeof(int)));
+	ALLOCATION_SIZE(sizeof(BOOLEAN_ARRAY_DATA)+size*sizeof(int)));
     long i;
     for (i = 0; i < size; ++i) {
       data->items[i] = left->items[i] | right->items[i];
@@ -11801,7 +11801,7 @@ static void entry__std_types___boolean_array___std___bit_xor (void)
     long size = left->size;
     BOOLEAN_ARRAY_DATA *data =
       allocate_large(
-        ALLOCATION_SIZE(sizeof(BOOLEAN_ARRAY_DATA)+size*sizeof(int)));
+	ALLOCATION_SIZE(sizeof(BOOLEAN_ARRAY_DATA)+size*sizeof(int)));
     long i;
     for (i = 0; i < size; ++i) {
       data->items[i] = left->items[i] ^ right->items[i];
@@ -11915,7 +11915,7 @@ static void entry__std_types___character_array___std___equal (void)
     CHARACTER_ARRAY_DATA *right = apply_character_array_updates(TLS_arguments[1]);
     {
       NODE *result__node = (NODE *)(from_bool(memcmp(
-            left->items, right->items,sizeof(uint32_t)*left->size) == 0));
+    	left->items, right->items,sizeof(uint32_t)*left->size) == 0));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -12021,7 +12021,7 @@ static void entry__std_types___int8_array___std___equal (void)
     INT8_ARRAY_DATA *right = apply_int8_array_updates(TLS_arguments[1]);
     {
       NODE *result__node = (NODE *)(from_bool(memcmp(
-            left->items, right->items,sizeof(int8_t)*left->size) == 0));
+    	left->items, right->items,sizeof(int8_t)*left->size) == 0));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -12127,7 +12127,7 @@ static void entry__std_types___uint8_array___std___equal (void)
     UINT8_ARRAY_DATA *right = apply_uint8_array_updates(TLS_arguments[1]);
     {
       NODE *result__node = (NODE *)(from_bool(memcmp(
-            left->items, right->items,sizeof(uint8_t)*left->size) == 0));
+    	left->items, right->items,sizeof(uint8_t)*left->size) == 0));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -12160,7 +12160,7 @@ static void entry__std_types___uint8_array___std___bit_and (void)
     long size = left->size;
     UINT8_ARRAY_DATA *data =
       allocate_large(
-        ALLOCATION_SIZE(sizeof(UINT8_ARRAY_DATA)+size*sizeof(uint8_t)));
+	ALLOCATION_SIZE(sizeof(UINT8_ARRAY_DATA)+size*sizeof(uint8_t)));
     long i;
     for (i = 0; i < size; ++i) {
       data->items[i] = left->items[i] & right->items[i];
@@ -12201,7 +12201,7 @@ static void entry__std_types___uint8_array___std___bit_or (void)
     long size = left->size;
     UINT8_ARRAY_DATA *data =
       allocate_large(
-        ALLOCATION_SIZE(sizeof(UINT8_ARRAY_DATA)+size*sizeof(uint8_t)));
+	ALLOCATION_SIZE(sizeof(UINT8_ARRAY_DATA)+size*sizeof(uint8_t)));
     long i;
     for (i = 0; i < size; ++i) {
       data->items[i] = left->items[i] | right->items[i];
@@ -12236,7 +12236,7 @@ static void entry__std_types___uint8_array___std___bit_xor (void)
     long size = left->size;
     UINT8_ARRAY_DATA *data =
       allocate_large(
-        ALLOCATION_SIZE(sizeof(UINT8_ARRAY_DATA)+size*sizeof(uint8_t)));
+	ALLOCATION_SIZE(sizeof(UINT8_ARRAY_DATA)+size*sizeof(uint8_t)));
     long i;
     for (i = 0; i < size; ++i) {
       data->items[i] = left->items[i] ^ right->items[i];
@@ -12350,7 +12350,7 @@ static void entry__std_types___int16_array___std___equal (void)
     INT16_ARRAY_DATA *right = apply_int16_array_updates(TLS_arguments[1]);
     {
       NODE *result__node = (NODE *)(from_bool(memcmp(
-            left->items, right->items,sizeof(int16_t)*left->size) == 0));
+    	left->items, right->items,sizeof(int16_t)*left->size) == 0));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -12456,7 +12456,7 @@ static void entry__std_types___uint16_array___std___equal (void)
     UINT16_ARRAY_DATA *right = apply_uint16_array_updates(TLS_arguments[1]);
     {
       NODE *result__node = (NODE *)(from_bool(memcmp(
-            left->items, right->items,sizeof(uint16_t)*left->size) == 0));
+    	left->items, right->items,sizeof(uint16_t)*left->size) == 0));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -12489,7 +12489,7 @@ static void entry__std_types___uint16_array___std___bit_and (void)
     long size = left->size;
     UINT16_ARRAY_DATA *data =
       allocate_large(
-        ALLOCATION_SIZE(sizeof(UINT16_ARRAY_DATA)+size*sizeof(uint16_t)));
+	ALLOCATION_SIZE(sizeof(UINT16_ARRAY_DATA)+size*sizeof(uint16_t)));
     long i;
     for (i = 0; i < size; ++i) {
       data->items[i] = left->items[i] & right->items[i];
@@ -12530,7 +12530,7 @@ static void entry__std_types___uint16_array___std___bit_or (void)
     long size = left->size;
     UINT16_ARRAY_DATA *data =
       allocate_large(
-        ALLOCATION_SIZE(sizeof(UINT16_ARRAY_DATA)+size*sizeof(uint16_t)));
+	ALLOCATION_SIZE(sizeof(UINT16_ARRAY_DATA)+size*sizeof(uint16_t)));
     long i;
     for (i = 0; i < size; ++i) {
       data->items[i] = left->items[i] | right->items[i];
@@ -12565,7 +12565,7 @@ static void entry__std_types___uint16_array___std___bit_xor (void)
     long size = left->size;
     UINT16_ARRAY_DATA *data =
       allocate_large(
-        ALLOCATION_SIZE(sizeof(UINT16_ARRAY_DATA)+size*sizeof(uint16_t)));
+	ALLOCATION_SIZE(sizeof(UINT16_ARRAY_DATA)+size*sizeof(uint16_t)));
     long i;
     for (i = 0; i < size; ++i) {
       data->items[i] = left->items[i] ^ right->items[i];
@@ -12679,7 +12679,7 @@ static void entry__std_types___int32_array___std___equal (void)
     INT32_ARRAY_DATA *right = apply_int32_array_updates(TLS_arguments[1]);
     {
       NODE *result__node = (NODE *)(from_bool(memcmp(
-            left->items, right->items,sizeof(int32_t)*left->size) == 0));
+    	left->items, right->items,sizeof(int32_t)*left->size) == 0));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -12785,7 +12785,7 @@ static void entry__std_types___uint32_array___std___equal (void)
     UINT32_ARRAY_DATA *right = apply_uint32_array_updates(TLS_arguments[1]);
     {
       NODE *result__node = (NODE *)(from_bool(memcmp(
-            left->items, right->items,sizeof(uint32_t)*left->size) == 0));
+    	left->items, right->items,sizeof(uint32_t)*left->size) == 0));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -12818,7 +12818,7 @@ static void entry__std_types___uint32_array___std___bit_and (void)
     long size = left->size;
     UINT32_ARRAY_DATA *data =
       allocate_large(
-        ALLOCATION_SIZE(sizeof(UINT32_ARRAY_DATA)+size*sizeof(uint32_t)));
+	ALLOCATION_SIZE(sizeof(UINT32_ARRAY_DATA)+size*sizeof(uint32_t)));
     long i;
     for (i = 0; i < size; ++i) {
       data->items[i] = left->items[i] & right->items[i];
@@ -12859,7 +12859,7 @@ static void entry__std_types___uint32_array___std___bit_or (void)
     long size = left->size;
     UINT32_ARRAY_DATA *data =
       allocate_large(
-        ALLOCATION_SIZE(sizeof(UINT32_ARRAY_DATA)+size*sizeof(uint32_t)));
+	ALLOCATION_SIZE(sizeof(UINT32_ARRAY_DATA)+size*sizeof(uint32_t)));
     long i;
     for (i = 0; i < size; ++i) {
       data->items[i] = left->items[i] | right->items[i];
@@ -12894,7 +12894,7 @@ static void entry__std_types___uint32_array___std___bit_xor (void)
     long size = left->size;
     UINT32_ARRAY_DATA *data =
       allocate_large(
-        ALLOCATION_SIZE(sizeof(UINT32_ARRAY_DATA)+size*sizeof(uint32_t)));
+	ALLOCATION_SIZE(sizeof(UINT32_ARRAY_DATA)+size*sizeof(uint32_t)));
     long i;
     for (i = 0; i < size; ++i) {
       data->items[i] = left->items[i] ^ right->items[i];
@@ -13008,7 +13008,7 @@ static void entry__std_types___int64_array___std___equal (void)
     INT64_ARRAY_DATA *right = apply_int64_array_updates(TLS_arguments[1]);
     {
       NODE *result__node = (NODE *)(from_bool(memcmp(
-            left->items, right->items,sizeof(int64_t)*left->size) == 0));
+    	left->items, right->items,sizeof(int64_t)*left->size) == 0));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -13114,7 +13114,7 @@ static void entry__std_types___uint64_array___std___equal (void)
     UINT64_ARRAY_DATA *right = apply_uint64_array_updates(TLS_arguments[1]);
     {
       NODE *result__node = (NODE *)(from_bool(memcmp(
-            left->items, right->items,sizeof(uint64_t)*left->size) == 0));
+    	left->items, right->items,sizeof(uint64_t)*left->size) == 0));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -13147,7 +13147,7 @@ static void entry__std_types___uint64_array___std___bit_and (void)
     long size = left->size;
     UINT64_ARRAY_DATA *data =
       allocate_large(
-        ALLOCATION_SIZE(sizeof(UINT64_ARRAY_DATA)+size*sizeof(uint64_t)));
+	ALLOCATION_SIZE(sizeof(UINT64_ARRAY_DATA)+size*sizeof(uint64_t)));
     long i;
     for (i = 0; i < size; ++i) {
       data->items[i] = left->items[i] & right->items[i];
@@ -13188,7 +13188,7 @@ static void entry__std_types___uint64_array___std___bit_or (void)
     long size = left->size;
     UINT64_ARRAY_DATA *data =
       allocate_large(
-        ALLOCATION_SIZE(sizeof(UINT64_ARRAY_DATA)+size*sizeof(uint64_t)));
+	ALLOCATION_SIZE(sizeof(UINT64_ARRAY_DATA)+size*sizeof(uint64_t)));
     long i;
     for (i = 0; i < size; ++i) {
       data->items[i] = left->items[i] | right->items[i];
@@ -13223,7 +13223,7 @@ static void entry__std_types___uint64_array___std___bit_xor (void)
     long size = left->size;
     UINT64_ARRAY_DATA *data =
       allocate_large(
-        ALLOCATION_SIZE(sizeof(UINT64_ARRAY_DATA)+size*sizeof(uint64_t)));
+	ALLOCATION_SIZE(sizeof(UINT64_ARRAY_DATA)+size*sizeof(uint64_t)));
     long i;
     for (i = 0; i < size; ++i) {
       data->items[i] = left->items[i] ^ right->items[i];
@@ -14220,9 +14220,9 @@ static void entry__std___exec (void)
     if (ret != -1) {
       // cancel all pending signals
       for (i = 1; i <= 31; ++i) {
-        if (sigismember(&set, i)) {
-          signal(i, SIG_IGN);
-        }
+	if (sigismember(&set, i)) {
+	  signal(i, SIG_IGN);
+	}
       }
     }
 
@@ -14317,7 +14317,7 @@ static void entry__std___create_process (void)
 
     if (TLS_argument_count < 4) {
       if (pipe((int *)&in_pipe) != 0) {
-        pipe_creation_failed:
+	pipe_creation_failed:
 	create_error_message(
 	  module__builtin.constants_base[unique__std___IO_ERROR-1],
 	  "PIPE_CREATION FAILED", errno, 0, NULL);
@@ -14331,8 +14331,8 @@ static void entry__std___create_process (void)
     if (pid == 0) {
       // child process
       if (TLS_argument_count == 4) {
-	dup2_fd(TLS_arguments[2]->file_descriptor.value, STDIN_FILENO);
-	close(TLS_arguments[2]->file_descriptor.value);
+	dup2_fd(TLS_arguments[3]->file_descriptor.value, STDIN_FILENO);
+	close(TLS_arguments[3]->file_descriptor.value);
       } else {
 	close(in_pipe.write_fd);
 	dup2_fd(in_pipe.read_fd, STDIN_FILENO);
@@ -14372,7 +14372,7 @@ static void entry__std___create_process (void)
 
     if (pid == -1) {
       create_error_message(
-      	module__builtin.constants_base[unique__std___IO_ERROR-1],
+	      module__builtin.constants_base[unique__std___IO_ERROR-1],
 	"FORK FAILED", errno, 0, NULL);
       goto cleanup;
     }
@@ -14911,7 +14911,7 @@ static void entry__std_types___positive_integer___std___times (void)
     uint64_t low, high;
     if ((TLS_arguments[1])->type == std_types___positive_integer.type) {
       high =
-        umul64(TLS_arguments[0]->integer.value, TLS_arguments[1]->integer.value, &low);
+	umul64(TLS_arguments[0]->integer.value, TLS_arguments[1]->integer.value, &low);
       if (high == 0) {
 	{
 	  NODE *result__node = (NODE *)(create__std_types___positive_integer(low));
@@ -14922,7 +14922,7 @@ static void entry__std_types___positive_integer___std___times (void)
       }
     } else if ((TLS_arguments[1])->type == negative_integer.type) {
       high =
-        umul64(TLS_arguments[0]->integer.value, TLS_arguments[1]->integer.value, &low);
+	umul64(TLS_arguments[0]->integer.value, TLS_arguments[1]->integer.value, &low);
       if (high == 0) {
 	{
 	  NODE *result__node = (NODE *)(create__negative_integer(low));
@@ -14958,7 +14958,7 @@ static void entry__negative_integer___std___times (void)
     uint64_t low, high;
     if ((TLS_arguments[1])->type == std_types___positive_integer.type) {
       high =
-        umul64(TLS_arguments[0]->integer.value, TLS_arguments[1]->integer.value, &low);
+	umul64(TLS_arguments[0]->integer.value, TLS_arguments[1]->integer.value, &low);
       if (high == 0) {
 	{
 	  NODE *result__node = (NODE *)(create__negative_integer(low));
@@ -14969,7 +14969,7 @@ static void entry__negative_integer___std___times (void)
       }
     } else if ((TLS_arguments[1])->type == negative_integer.type) {
       high =
-        umul64(TLS_arguments[0]->integer.value, TLS_arguments[1]->integer.value, &low);
+	umul64(TLS_arguments[0]->integer.value, TLS_arguments[1]->integer.value, &low);
       if (high == 0) {
 	{
 	  NODE *result__node = (NODE *)(create__std_types___positive_integer(low));
@@ -16347,14 +16347,16 @@ static void entry__std_types___file_type___std___equal (void)
     if ((TLS_arguments[1])->type == std_types___file_type.type)
       {
         NODE *result__node = (NODE *)(from_bool(
-                TLS_arguments[0]->file_type.value ==
-                TLS_arguments[1]->file_type.value));
+      	  TLS_arguments[0]->file_type.value ==
+      	  TLS_arguments[1]->file_type.value));
         TLS_arguments[0] = result__node;
         TLS_argument_count = 1;
         return;
       }
     {
-      invalid_arguments();
+      NODE *result__node = (NODE *)(&std_types___false);
+      TLS_arguments[0] = result__node;
+      TLS_argument_count = 1;
       return;
     }
   }
@@ -16417,14 +16419,16 @@ static void entry__std_types___file_descriptor___std___equal (void)
     if ((TLS_arguments[1])->type == std_types___file_descriptor.type)
       {
         NODE *result__node = (NODE *)(from_bool(
-                TLS_arguments[0]->file_descriptor.value ==
-                TLS_arguments[1]->file_descriptor.value));
+      	  TLS_arguments[0]->file_descriptor.value ==
+      	  TLS_arguments[1]->file_descriptor.value));
         TLS_arguments[0] = result__node;
         TLS_argument_count = 1;
         return;
       }
     {
-      invalid_arguments();
+      NODE *result__node = (NODE *)(&std_types___false);
+      TLS_arguments[0] = result__node;
+      TLS_argument_count = 1;
       return;
     }
   }
@@ -16487,14 +16491,16 @@ static void entry__std_types___shutdown_type___std___equal (void)
     if ((TLS_arguments[1])->type == std_types___shutdown_type.type)
       {
         NODE *result__node = (NODE *)(from_bool(
-                TLS_arguments[0]->shutdown_type.value ==
-                TLS_arguments[1]->shutdown_type.value));
+      	  TLS_arguments[0]->shutdown_type.value ==
+      	  TLS_arguments[1]->shutdown_type.value));
         TLS_arguments[0] = result__node;
         TLS_argument_count = 1;
         return;
       }
     {
-      invalid_arguments();
+      NODE *result__node = (NODE *)(&std_types___false);
+      TLS_arguments[0] = result__node;
+      TLS_argument_count = 1;
       return;
     }
   }
@@ -16557,14 +16563,16 @@ static void entry__std_types___device_id___std___equal (void)
     if ((TLS_arguments[1])->type == std_types___device_id.type)
       {
         NODE *result__node = (NODE *)(from_bool(
-                TLS_arguments[0]->device_id.value ==
-                TLS_arguments[1]->device_id.value));
+      	  TLS_arguments[0]->device_id.value ==
+      	  TLS_arguments[1]->device_id.value));
         TLS_arguments[0] = result__node;
         TLS_argument_count = 1;
         return;
       }
     {
-      invalid_arguments();
+      NODE *result__node = (NODE *)(&std_types___false);
+      TLS_arguments[0] = result__node;
+      TLS_argument_count = 1;
       return;
     }
   }
@@ -16627,14 +16635,16 @@ static void entry__std_types___directory___std___equal (void)
     if ((TLS_arguments[1])->type == std_types___directory.type)
       {
         NODE *result__node = (NODE *)(from_bool(
-                TLS_arguments[0]->directory.value ==
-                TLS_arguments[1]->directory.value));
+      	  TLS_arguments[0]->directory.value ==
+      	  TLS_arguments[1]->directory.value));
         TLS_arguments[0] = result__node;
         TLS_argument_count = 1;
         return;
       }
     {
-      invalid_arguments();
+      NODE *result__node = (NODE *)(&std_types___false);
+      TLS_arguments[0] = result__node;
+      TLS_argument_count = 1;
       return;
     }
   }
@@ -16666,14 +16676,16 @@ static void entry__std_types___group_id___std___equal (void)
     if ((TLS_arguments[1])->type == std_types___group_id.type)
       {
         NODE *result__node = (NODE *)(from_bool(
-                TLS_arguments[0]->group_id.value ==
-                TLS_arguments[1]->group_id.value));
+      	  TLS_arguments[0]->group_id.value ==
+      	  TLS_arguments[1]->group_id.value));
         TLS_arguments[0] = result__node;
         TLS_argument_count = 1;
         return;
       }
     {
-      invalid_arguments();
+      NODE *result__node = (NODE *)(&std_types___false);
+      TLS_arguments[0] = result__node;
+      TLS_argument_count = 1;
       return;
     }
   }
@@ -16736,14 +16748,16 @@ static void entry__std_types___inode_number___std___equal (void)
     if ((TLS_arguments[1])->type == std_types___inode_number.type)
       {
         NODE *result__node = (NODE *)(from_bool(
-                TLS_arguments[0]->inode_number.value ==
-                TLS_arguments[1]->inode_number.value));
+      	  TLS_arguments[0]->inode_number.value ==
+      	  TLS_arguments[1]->inode_number.value));
         TLS_arguments[0] = result__node;
         TLS_argument_count = 1;
         return;
       }
     {
-      invalid_arguments();
+      NODE *result__node = (NODE *)(&std_types___false);
+      TLS_arguments[0] = result__node;
+      TLS_argument_count = 1;
       return;
     }
   }
@@ -16806,14 +16820,16 @@ static void entry__std_types___process_id___std___equal (void)
     if ((TLS_arguments[1])->type == std_types___process_id.type)
       {
         NODE *result__node = (NODE *)(from_bool(
-                TLS_arguments[0]->process_id.value ==
-                TLS_arguments[1]->process_id.value));
+      	  TLS_arguments[0]->process_id.value ==
+      	  TLS_arguments[1]->process_id.value));
         TLS_arguments[0] = result__node;
         TLS_argument_count = 1;
         return;
       }
     {
-      invalid_arguments();
+      NODE *result__node = (NODE *)(&std_types___false);
+      TLS_arguments[0] = result__node;
+      TLS_argument_count = 1;
       return;
     }
   }
@@ -16876,14 +16892,16 @@ static void entry__std_types___user_id___std___equal (void)
     if ((TLS_arguments[1])->type == std_types___user_id.type)
       {
         NODE *result__node = (NODE *)(from_bool(
-                TLS_arguments[0]->user_id.value ==
-                TLS_arguments[1]->user_id.value));
+      	  TLS_arguments[0]->user_id.value ==
+      	  TLS_arguments[1]->user_id.value));
         TLS_arguments[0] = result__node;
         TLS_argument_count = 1;
         return;
       }
     {
-      invalid_arguments();
+      NODE *result__node = (NODE *)(&std_types___false);
+      TLS_arguments[0] = result__node;
+      TLS_argument_count = 1;
       return;
     }
   }
@@ -16946,14 +16964,16 @@ static void entry__std_types___error_number___std___equal (void)
     if ((TLS_arguments[1])->type == std_types___error_number.type)
       {
         NODE *result__node = (NODE *)(from_bool(
-                TLS_arguments[0]->error_number.value ==
-                TLS_arguments[1]->error_number.value));
+      	  TLS_arguments[0]->error_number.value ==
+      	  TLS_arguments[1]->error_number.value));
         TLS_arguments[0] = result__node;
         TLS_argument_count = 1;
         return;
       }
     {
-      invalid_arguments();
+      NODE *result__node = (NODE *)(&std_types___false);
+      TLS_arguments[0] = result__node;
+      TLS_argument_count = 1;
       return;
     }
   }
