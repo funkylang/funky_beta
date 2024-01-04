@@ -2304,7 +2304,10 @@ $initialize_ai:
 		 .space_tokens_of space_tokens
 
 $filter_selection: (myself^)
-  -> state(.action_of filter_action(.argument_of argument_of(myself)))
+  if
+    selection_start_y_of(window).is_undefined
+    -> state
+    -> state(.action_of filter_action(.argument_of argument_of(myself)))
 
 $filter_action: (myself^)
   $filter_command argument_of(myself)
@@ -2312,19 +2315,19 @@ $filter_action: (myself^)
     eprint! "
       -------------------
       filter_action "@(filter_command)"
-  get_spaced_selection_text $text
+  get_spaced_selection_text $text # text is already utf8 encoded
   if
     text.is_undefined
     -> terminal state
     :
-      on do_log: eprint! "
+      on do_log: debug_write! "
 	___________________
 	@(text)
 	___________________
       $command filter_command .truncate_from. ' '
       $arguments (filter_command .behind. ' ').trim.to_arguments
       pipe_commands! $ret_list $out $err_list
-	text.to_utf8 list(tuple(command arguments))
+	text list(tuple(command arguments))
       if
 	ret_list(1) == 0:
 	  from_utf8 &out

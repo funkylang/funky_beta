@@ -37,7 +37,11 @@
 
   Example:
 
-  writeln! "Hello, world!"
+    println! "Hello, world!"
+
+  Output:
+
+    Hello, world!
 
 # File Operations
 
@@ -117,7 +121,11 @@ $std::write_string_to:
 
     Example:
 
-    write_string_to! STDOUT_FILENO "Hello, world!@nl;"
+      write_string_to! STDOUT_FILENO "Hello, world!@nl;"
+
+    Output:
+
+      Hello, world!
   (
     fd # the output channel
     str # the string argument to print
@@ -152,8 +160,12 @@ $std::write_all_to:
 
     Example:
 
-    $name "Joe"
-    write_all_to! STDOUT_FILENO "Hello, " name "!@nl;"
+      $name "Joe"
+      write_all_to! STDOUT_FILENO "Hello, " name "!@nl;"
+
+    Output:
+
+      Hello, Joe!
   (
     fd # the output channel
     args* # the arguments to concatenate and print
@@ -173,8 +185,12 @@ $std::print_to:
 
     Example:
 
-    $name "Chloé"
-    print_to! STDOUT_FILENO "Bonjour, " name "!@nl;"
+      $name "Chloé"
+      print_to! STDOUT_FILENO "Bonjour, " name "!@nl;"
+
+    Output:
+
+      Bonjour, Chloé!
   (
     fd # the output channel
     args* # the arguments to concatenate and print
@@ -193,7 +209,11 @@ $std::print_string:
 
     Example:
 
-    print_string! "Bonjour, Chloé!@nl;"
+      print_string! "Bonjour, Chloé!@nl;"
+
+    Output:
+
+      Bonjour, Chloé!
   (
     str # the string to print
   )
@@ -212,8 +232,12 @@ $std::print:
 
     Example:
 
-    $name "Chloé"
-    print! "Bonjour, " name "!@nl;"
+      $name "Chloé"
+      print! "Bonjour, " name "!@nl;"
+
+    Output:
+
+      Bonjour, Chloé!
   (
     args* # the arguments to concatenate and print
   )
@@ -232,8 +256,12 @@ $std::println:
 
     Example:
 
-    $name "Chloé"
-    println! "Bonjour, " name "!"
+      $name "Chloé"
+      println! "Bonjour, " name "!"
+
+    Output:
+
+      Bonjour, Chloé!
   (
     args* # the arguments to print
   )
@@ -251,7 +279,7 @@ $std::eprint_string:
 
     Example:
 
-    eprint_string! "Bonjour, Chloé!@nl;"
+      eprint_string! "Bonjour, Chloé!@nl;"
   (
     str # the string to print
   )
@@ -818,7 +846,6 @@ $run_pipe:
     : (idx command)
       command $head $arguments
       map &arguments to_utf8
-      edump 3 `arguments
       $pid undefined
       $err_fd undefined
       if

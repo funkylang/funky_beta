@@ -24,16 +24,22 @@ $std::UTF8 .
   #
     used as a value for specifying a text encoding
 
+    See also: ENCODING, LATIN1
+
     Topics: Input-Output, Strings
 
 $std::LATIN1 .
   #
     used as a value for specifying a text encoding
 
+    See also: ENCODING, UTF8
+
     Topics: Input-Output, Strings
 
 $std::ENCODING .
   #
     used as an option key to specify a text encoding
+
+    See also: LATIN1, UTF8
 
     Topic: Input-Output

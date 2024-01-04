@@ -20,22 +20,49 @@
   Free Software Foundation, Inc.,
   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
+#
+  Topic: Debug
+
 $std::dump:
   #
-    write an object dump to stdout
+    print an object dump to stdout
 
     Dumps its arguments consisting of an alternating sequence of
-    expression names and expression values using <write>. The expression values
+    expression names and expression values using <print>. The expression values
     are converted into strings using <debug_string>.
 
     The depth to which debug strings shall be generated can be provided as an
     optional first argument; the default depth is 1.
 
+    Topic: Debug, Input-Output
+
     See also: edump, debug_string
 
     Example:
 
-    dump! `value_1 `value_2 `2*f(x)
+      $value_1 27
+      $value_2 list("Peter" 'x' list(47 11))
+      dump! `value_1 `value_2 `(2*sqrt(9))
+      dump! 2 `value_2
+      dump! 3 `value_2
+
+    Output:
+
+      value_1: 27
+      value_2: <list of 3 items>
+      (2*sqrt(9)): 6
+      value_2:
+	list
+	  "Peter"
+	  'x'
+	  <list of 2 items>
+      value_2:
+	list
+	  "Peter"
+	  'x'
+	  list
+	    47
+	    11
   (
     args* # an alternating sequence of names and values
   )
@@ -84,7 +111,7 @@ $std::edump:
 
     Example:
 
-    edump 2 `2*f(x)
+      edump 2 `2*f(x)
   (
     depth = 1 # the desired detail level
     label # the label to use for the expression
@@ -93,3 +120,23 @@ $std::edump:
   debug_write label
   debug_write ": "
   debug_print expr depth
+
+$std::hexdump:
+  (
+    str
+  )
+  $i 0
+  $n length_of(str)
+  loop:
+    if
+      i >= n:
+	on (i .mod. 16) != 0: debug_write "@nl;"
+      :
+	on (i .mod. 16) == 0:
+	  debug_write hex(i 8)
+	  debug_write ":"
+	inc &i
+	debug_write " "
+	debug_write hex(str(i).to_integer 2)
+	on (i .mod. 16) == 0: debug_write "@nl;"
+	next

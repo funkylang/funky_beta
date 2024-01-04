@@ -398,6 +398,7 @@ $collect_info:
   $paragraph ""
   $paragraphs empty_list
   $is_preformatted false
+  $base_indent undefined
   $parameters
     case
       kind
@@ -447,8 +448,21 @@ $collect_info:
 	      add_result_or_parameter &results group
 	      next
 	    -> true:
-	      $text second(group)
+	      group $indent $text
+	      if !is_preformatted !base_indent
+		is_preformatted:
+		  if
+		    base_indent.is_undefined
+		    -> true indent
+		    :
+		      if
+			indent < base_indent
+			-> false undefined
+			-> true base_indent
+		-> false undefined
 	      range &text 1 -2 # remove trailing newline
+	      update_if is_preformatted &text:
+		append spaces(indent-base_indent) replace_all(text '<' = "&lt;")
 	      if
 		paragraph.is_empty:
 		  cond
@@ -553,7 +567,6 @@ $create_html_page: (title info)
 		  paragraph .has_prefix. "Topics:"
 		:
 		  !associated_topics map(split(paragraph .behind. ':' ',') trim)
-		  on length_of(associated_topics) > 1: edump 2 `associated_topics
 		  next
 	      -> paragraph .has_prefix. "See also:":
 		!see_also
@@ -673,8 +686,34 @@ $create_html_page: (title info)
 			FOR_EACH see_also: (item)
 			  link_to item
 	      :
-		if
-		  kind == TYPE:
+		case kind
+		  TOPIC:
+		    $names empty_list
+		    for_each definitions
+		      : (name definition)
+			definition
+			  $_kind $_short_descripition $_parameters $_results
+			  $definition_paragraphs
+			for_each definition_paragraphs
+			  : (paragraph)
+			    if
+			      ||
+				paragraph .has_prefix. "Topic:"
+				paragraph .has_prefix. "Topics:"
+			      :
+				if
+				  paragraph .contains. title:
+				    push &names name
+				    next
+				  next
+			      next
+		      :
+			sort &names
+			GROUP
+			  : TABLE:
+			    FOR_EACH names: (name)
+			      link_to name
+		  TYPE:
 		    $names empty_list
 		    for_each definitions
 		      : (name definition)
@@ -710,25 +749,29 @@ $link_to: (item)
 	  TD "class" = "description": I item_description
 
 $maybe_add_namespace: (name)
-  cond
-    -> name .contains. '.':
-      append
-	handle(name .before. '.' "std_types")
-	"."
-	handle(name .behind. '.')
-    -> name .contains. '/':
-      append
-	handle(name .before. '/' "std_types")
-	"/"
-	handle(name .behind. '/')
-    -> true:
-      handle name
+  if
+    name(1) == '@@'
+    -> range(name 2 -1)
+    :
+      cond
+	-> name .contains. '.':
+	  append
+	    handle(name .before. '.' "std_types")
+	    "."
+	    handle(name .behind. '.')
+	-> name .contains. '/':
+	  append
+	    handle(name .before. '/' "std_types")
+	    "/"
+	    handle(name .behind. '/')
+	-> true:
+	  handle name
 
-  $handle: (part default_namespace = "std")
-    if
-      part .contains. "::"
-      -> part
-      -> "@(default_namespace)::@(part)"
+      $handle: (part default_namespace = "std")
+	if
+	  part .contains. "::"
+	  -> part
+	  -> "@(default_namespace)::@(part)"
 
 $convert: (text)
   $buf ""
@@ -858,13 +901,13 @@ $style "
   }
   dt {
     font-style: italic;
-    margin-bottom: 4pt;
+    margin-bottom: 2pt;
   }
   dd {
     padding-left: 0pt;
     margin-left: 16pt;
     margin-top: 0pt;
-    margin-bottom: 0pt;
+    margin-bottom: 4pt;
   }
   p {
     margin-top: 0pt;

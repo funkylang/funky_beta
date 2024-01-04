@@ -25,23 +25,37 @@
 
   There are no builtin branch instructions in the Funky language.
 
+  Branch "instructions" are functions that are supplied some form of *condition*
+  and two or more functions. Based upon the evaluation of the condition, one of
+  the supplied functions is called.
+
   The basic branch instructions of the standard library use polymorphic dispatch
-  on the truth values <true> and <false> to implement <if> and <unless>.
+  on the truth values <true> and <false> to implement <if> and <if_not>.
 
   More complex branches like <cond> or <case> use <if> to check their
   conditions.
+
+  See also: @Loops
 
 $std::cond:
   #
     a multiway conditional expression or statement
 
-    The conditions are evaluated one after the other until a condition
-    evaluates to true. If a condition evaluates to true its corresponding
-    statement-sequence is executed and no more conditions are considered.
+    Results:
+      results # whatever the selected function returns
 
-    If there is an odd number of arguments the last argument specifies a
-    default statement-sequence that is executed if no condition evaluates
-    to true.
+    Each argument is a function that returns two results:
+
+    * a boolean value (<true> or <false>)
+
+    and
+
+    * a function (statement sequence)
+
+    The arguments are evaluated in order and as soon as an argument returns
+    <true> the corresponding function is called.
+
+    If none of the arguments returns <true> no function is called.
 
     Topic: Branches
 
@@ -49,19 +63,24 @@ $std::cond:
 
     Example:
 
-    cond
-      -> chr >= 'a' && chr <= 'z':
-	writeln "lower case character"
-      -> chr >= 'A' && chr <= 'Z':
-	writeln "upper case character"
-      -> chr == '_':
-	writeln "underscore"
-      -> chr >= '0' && chr <= '9':
-	writeln "digit"
-      -> true:
-	writeln "neither character nor digit nor underscore"
+      $chr '7'
+      cond
+	-> chr >= 'a' && chr <= 'z':
+	  println! "lower case character"
+	-> chr >= 'A' && chr <= 'Z':
+	  println! "upper case character"
+	-> chr == '_':
+	  println! "underscore"
+	-> chr >= '0' && chr <= '9':
+	  println! "digit"
+	-> true:
+	  println! "neither character nor digit nor underscore"
+
+    Output:
+
+      digit
   (
-    args* # a sequence of conditions and statement sequences
+    args* # a sequence of functions that return a boolean and a function
   )
   $i 1
   $n length_of(args)
@@ -99,13 +118,23 @@ $std_types::sequence/does_match: (self expr)
 
 $std::case:
   #
-    multi-branch conditional
+    a multiway conditional expression or statement
 
-    Depending on the value of *expr* the statement-sequence
-    associated with the matching case is executed.
+    Results:
+      results # whatever the selected function returns
 
-    The last argument can be a single statement-sequence without a preceding
-    value. It is executed if no case matches the expression.
+    The first argument is a value that is compared to the values of the
+    following arguments.
+
+    The arguments are an alternating sequence of values and functions
+    (statement sequences).
+
+    The values are compared to the first argument in the order they appear.
+
+    If a value matches the first argument, the corresponding function is called.
+
+    If no value matches the first argument, the last function (if any) is
+    called.
 
     Topic: Branches
 
@@ -113,19 +142,24 @@ $std::case:
 
     Example:
 
-    case chr
-      'a' .. 'z':
-	writeln "lower case character"
-      'A' .. 'Z':
-	writeln "upper case character"
-      '_':
-	writeln "underscore"
-      '0' .. '9':
-	writeln "digit"
-      :
-	writeln "neither character nor digit nor underscore"
+      $chr 'H'
+      case chr
+	'a' .. 'z':
+	  println! "lower case character"
+	'A' .. 'Z':
+	  println! "upper case character"
+	'_':
+	  println! "underscore"
+	'0' .. '9':
+	  println! "digit"
+	:
+	  println! "neither character nor digit nor underscore"
+
+    Output:
+
+      upper case character
   (
-    expr # the expression to check
+    expr # the first argument
     values_and_bodies*
       # an alternating sequence of case-values and statement sequences
   )
