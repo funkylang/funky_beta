@@ -817,6 +817,8 @@ $run_pipe:
   for_each commands
     : (idx command)
       command $head $arguments
+      map &arguments to_utf8
+      edump 3 `arguments
       $pid undefined
       $err_fd undefined
       if

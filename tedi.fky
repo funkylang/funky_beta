@@ -615,6 +615,7 @@ $main: (initial_terminal)
       .height_of 1
 
   load! $configuration configuration_filename
+  from_utf8 &configuration
   if
     configuration.is_an_error # no configuration file found
     start_tedi
@@ -2317,18 +2318,20 @@ $filter_action: (myself^)
     -> terminal state
     :
       on do_log: eprint! "
+	___________________
 	@(text)
-	- - - - - - - - - -
+	___________________
       $command filter_command .truncate_from. ' '
-      $arguments split((filter_command .behind. ' ') ' ')
-      pipe_commands! $ret_list $out $_err_list
-	text list(tuple(command arguments))
+      $arguments (filter_command .behind. ' ').trim.to_arguments
+      pipe_commands! $ret_list $out $err_list
+	text.to_utf8 list(tuple(command arguments))
       if
 	ret_list(1) == 0:
+	  from_utf8 &out
 	  replace_all &out '@ht;' = "        "
 	  on do_log: eprintln! "
 	    @(out)
-	    - - - - - - - - - -
+	    ___________________
 	  update_if out .contains. '@nl;' &out:
 	    $raw_lines split(out '@nl;')
 	    map raw_lines: (line) tedi_line 0 line.trim_right
@@ -2336,7 +2339,56 @@ $filter_action: (myself^)
 	  ->
 	    terminal
 	    extract_window_and_lines(: paste_contents out)
-	-> terminal state
+	:
+	  edump `ret_list(1)
+	  edump `err_list(1)
+	  -> terminal state
+
+  $to_arguments: (str)
+    $arguments empty_list
+    $i 0
+    $n length_of(str)
+    $s 1
+    $within_string false
+    $buf ""
+    loop:
+      inc &i
+      if
+	i > n:
+	  append &buf range(str s n)
+	  if
+	    buf.is_empty
+	    -> arguments
+	    -> push(arguments buf)
+	:
+	  case str(i)
+	    ' ':
+	      if
+		within_string
+		next
+		:
+		  append &buf range(str s i-1)
+		  !s i+1
+		  if
+		    buf.is_empty
+		    next
+		    :
+		      push &arguments buf
+		      !buf ""
+		      next
+	    '@apos;':
+	      if
+		within_string:
+		  append &buf range(str s i-1)
+		  !within_string false
+		  !s i+1
+		  next
+		:
+		  !buf range(str s i-1)
+		  !within_string true
+		  !s i+1
+		  next
+	    next
 
 $get_spaced_selection_text:
   $selection_start_y selection_start_y_of(window)
@@ -2881,6 +2933,9 @@ $go_to_line_dialog:
   !lines lines_of(window)
   !window
     window
+      .cursor_x_of undefined
+      .cursor_y_of undefined
+      .sub_y_of undefined
       .x_of 1
       .y_of
 	if
@@ -2925,7 +2980,7 @@ $go_to_line:
 		  .cursor_y_of undefined
 	      return_window
 
-$filter_dialog:
+$filter_dialog: (myself^)
   if
     selection_start_y_of(window).is_undefined
     -> state
@@ -2933,16 +2988,37 @@ $filter_dialog:
       $windows windows_of(state)
       !window windows(FILTER_WINDOW)
       !lines lines_of(window)
+      $argument argument_of(myself)
       !window
 	window
+	  .cursor_x_of undefined
+	  .cursor_y_of undefined
+	  .sub_y_of undefined
 	  .x_of 1
-	  .y_of 1
-      !windows(FILTER_WINDOW) window
-      ->
-	state
-	  .text_window_index_of cwi()
-	  .current_window_index_of FILTER_WINDOW
-	  .windows_of windows
+      if
+	argument.is_defined:
+	  push &lines tedi_line(0 argument)
+	  !window
+	    window
+	      .x_of length_of(argument)+2
+	      .y_of length_of(lines)
+	      .lines_of lines
+	  return
+	:
+	  !window.y_of
+	    if
+	      lines.is_defined
+	      -> length_of(lines)+1
+	      -> 1
+	  return
+
+      $return:
+	!windows(FILTER_WINDOW) window
+	->
+	  state
+	    .text_window_index_of cwi()
+	    .current_window_index_of FILTER_WINDOW
+	    .windows_of windows
 
 $filter_selection_with_command:
   $y y_of(window)
