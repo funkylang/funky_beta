@@ -1,0 +1,62 @@
+#
+  Copyright (C) 2021 by
+  Dipl.-Ing. Michael Niederle
+
+  This program is free software; you can redistribute it and/or modify
+  it under the terms of the GNU General Public License, version 2, or
+  (at your option) version 3.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  GNU General Public License for more details.
+
+  For details of the GNU General Public License see the accompanying
+  files GPLv2.txt and GLPv3.txt or
+  http://www.gnu.org/licenses/gpl-2.0.html
+  http://www.gnu.org/licenses/gpl-3.0.html
+  or write to the
+  Free Software Foundation, Inc.,
+  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+
+TYPE c_function -> std_types::function
+  int32_t parameter_count
+
+METHOD c_function/_type
+  {
+    RUNTIME_ERROR("Attempt to call the C function protoype object!")
+  }
+
+METHOD c_function/parameter_count_of
+  #
+    the number of arguments to supply in calls to this function
+  {
+    CHECK_ARGUMENTS(1)
+    CHECK_RESULTS(1)
+    if (ARGUMENTS(0)->c_function.parameter_count < 0)
+      RETURN_UNDEFINED
+    else
+      RETURN_SINGLE_RESULT(from_uint32(ARGUMENTS(0)->c_function.parameter_count))
+  }
+
+METHOD long c_function/_debug_string
+  (
+    NODE *node,
+    int indent,
+    int max_depth,
+    char *buf
+  )
+  {
+    return debug_print(indent, buf, "<c function>");
+  }
+
+FUNCTION NODE *create_c_function
+  (
+    FUNC func,
+    int par_cnt
+  )
+  {
+    NODE *node = CREATE(c_function, par_cnt);
+    node->type = func;
+    return node;
+  }

@@ -1,0 +1,1513 @@
+#
+  Copyright (C) 2024 by
+  Dipl.-Ing. Michael Niederle
+
+  This program is free software; you can redistribute it and/or modify
+  it under the terms of the GNU General Public License, version 2, or
+  (at your option) version 3.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  GNU General Public License for more details.
+
+  For details of the GNU General Public License see the accompanying
+  files GPLv2.txt and GLPv3.txt or
+  http://www.gnu.org/licenses/gpl-2.0.html
+  http://www.gnu.org/licenses/gpl-3.0.html
+  or write to the
+  Free Software Foundation, Inc.,
+  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+
+TYPE std_types::number -> std_types::object
+  #
+    the prototype object for all kinds of numbers
+
+    Topic: Numbers
+
+    See also: std_types::integer, std_types::real
+
+METHOD std_types::number/_type
+  {
+    RUNTIME_ERROR("Attempt to call a numeric value as a function!")
+  }
+
+TYPE std_types::integer -> std_types::number
+  #
+    the prototype object for all integral numbers
+
+    Topic: Numbers
+
+    See also: std_types::positive_integer, std_types::number, std_types::real
+
+  uint64_t value
+
+METHOD std_types::integer/_type
+  {
+    RUNTIME_ERROR("Attempt to call the integer protoype object as a function!")
+  }
+
+TYPE std_types::positive_integer -> std_types::integer
+  #
+    the prototype object for all non-negative integers
+
+    Topic: Numbers
+
+    See also: std_types::integer, std_types::number, std_types::real
+
+METHOD std_types::positive_integer/_type
+  {
+    RUNTIME_ERROR("Attempt to call a positive integer value as a function!")
+  }
+
+PUBLIC TYPE negative_integer -> std_types::integer
+
+METHOD negative_integer/_type
+  {
+    RUNTIME_ERROR("Attempt to call a negative integer value as a function!")
+  }
+
+TYPE std_types::real -> std_types::number
+  #
+    the prototype object for all non-integral numbers
+
+    Topic: Numbers
+
+    See also: std_types::integer, std_types::number
+
+  double value
+
+METHOD std_types::real/_type
+  {
+    RUNTIME_ERROR("Attempt to call a real number as a function!")
+  }
+
+METHOD long std_types::positive_integer/_debug_string
+  (
+    NODE *node,
+    int indent,
+    int max_depth,
+    char *buf
+  )
+  {
+    return debug_print(indent, buf, "%" PRIu64, node->integer.value);
+  }
+
+METHOD long negative_integer/_debug_string
+  (
+    NODE *node,
+    int indent,
+    int max_depth,
+    char *buf
+  )
+  {
+    return debug_print(indent, buf, "-%" PRIu64, node->integer.value);
+  }
+
+METHOD long std_types::real/_debug_string
+  (
+    NODE *node,
+    int indent,
+    int max_depth,
+    char *buf
+  )
+  {
+    return debug_print(indent, buf, "%.15g", node->real.value);
+  }
+
+FUNCTION NODE *from_double
+  (
+    double value
+  )
+  {
+    return CREATE(std_types::real, value);
+  }
+
+METHOD int std_types::positive_integer/_to_double
+  (
+    NODE *node,
+    double *result_p
+  )
+  {
+    *result_p = node->integer.value;
+    return true;
+  }
+
+METHOD int negative_integer/_to_double
+  (
+    NODE *node,
+    double *result_p
+  )
+  {
+    *result_p = -node->integer.value;
+    return true;
+  }
+
+METHOD int std_types::real/_to_double
+  (
+    NODE *node,
+    double *result_p
+  )
+  {
+    *result_p = node->real.value;
+    return true;
+  }
+
+METHOD std_types::positive_integer/negate
+  #
+    returns a negative_integer or 0
+
+    Parameter:
+      self: a positive integer value
+
+    Result:
+      result: the negated integer value
+
+    Topic: Numbers
+
+    See also: std_types::positive_integer, std_types::integer
+  {
+    CHECK_ARGUMENTS(1)
+    CHECK_RESULTS(1)
+    if (ARGUMENTS(0)->integer.value == 0) RETURN
+    RETURN_SINGLE_RESULT(
+      CREATE(negative_integer, ARGUMENTS(0)->integer.value))
+  }
+
+METHOD negative_integer/negate
+  #
+    returns a <std_types::positive_integer>
+  {
+    CHECK_ARGUMENTS(1)
+    CHECK_RESULTS(1)
+    RETURN_SINGLE_RESULT(
+      CREATE(std_types::positive_integer, ARGUMENTS(0)->integer.value))
+  }
+
+METHOD std_types::real/negate
+  #
+    returns the negated real value
+
+    Parameter:
+      self: a real value
+
+    Result:
+      result: the negated real value
+
+    Topic: Numbers
+
+    See also: std_types::real
+  {
+    CHECK_ARGUMENTS(1)
+    CHECK_RESULTS(1)
+    RETURN_SINGLE_RESULT(CREATE(std_types::real, -ARGUMENTS(0)->real.value))
+  }
+
+CODE
+  #if TARGET_64
+    static inline uint64_t umul64
+      (
+	uint64_t left,
+	uint64_t right,
+	uint64_t *result_low_p
+      )
+      {
+	__uint128_t result = (__uint128_t)left * right;
+
+	*result_low_p = result;
+	return result >> 64;
+      }
+  #else
+    static uint64_t umul64
+      (
+	uint64_t left,
+	uint64_t right,
+	uint64_t *result_low_p
+      )
+      {
+	uint64_t left_high = left >> 32;
+	uint64_t left_low  = left & 0xffffffff;
+	uint64_t right_high = right >> 32;
+	uint64_t right_low  = right & 0xffffffff;
+
+	uint64_t result_low = left_low * right_low;
+	uint64_t result_mid_1 = left_low * right_high;
+	uint64_t result_mid_2 = left_high * right_low;
+	uint64_t result_high = left_high * right_high;
+
+	uint64_t carry =
+	  (
+	    (result_low >> 32) +
+	    (result_mid_1 & 0xffffffff) +
+	    (result_mid_2 & 0xffffffff)
+	  ) >> 32;
+
+	*result_low_p =
+	  result_low + (result_mid_1 << 32) + (result_mid_2 << 32);
+	return
+	  result_high + (result_mid_1 >> 32) + (result_mid_2 >> 32) + carry;
+      }
+  #endif
+
+METHOD std_types::positive_integer/times
+  #
+    implements the times operation
+
+    Parameters:
+      left: a positive integer value
+      right: any kind of number
+
+    Result:
+      result: the product of left and right
+
+    Topic: Numbers
+
+    See also: std_types::positive_integer, over, plus, minus
+  {
+    CHECK_ARGUMENTS(2)
+    CHECK_RESULTS(1)
+    uint64_t low, high;
+    if (TYPEOF(ARGUMENTS(1)) == TYPE(std_types::positive_integer)) {
+      high =
+	umul64(ARGUMENTS(0)->integer.value, ARGUMENTS(1)->integer.value, &low);
+      if (high == 0) {
+	RETURN_SINGLE_RESULT(CREATE(std_types::positive_integer, low))
+      }
+    } else if (TYPEOF(ARGUMENTS(1)) == TYPE(negative_integer)) {
+      high =
+	umul64(ARGUMENTS(0)->integer.value, ARGUMENTS(1)->integer.value, &low);
+      if (high == 0) {
+	RETURN_SINGLE_RESULT(CREATE(negative_integer, low))
+      }
+    } else if (TYPEOF(ARGUMENTS(1)) == TYPE(std_types::real)) {
+      RETURN_SINGLE_RESULT(CREATE(std_types::real,
+	ARGUMENTS(0)->integer.value*ARGUMENTS(1)->real.value))
+    }
+    INVALID_ARGUMENTS
+  }
+
+METHOD negative_integer/times
+  {
+    CHECK_ARGUMENTS(2)
+    CHECK_RESULTS(1)
+    uint64_t low, high;
+    if (TYPEOF(ARGUMENTS(1)) == TYPE(std_types::positive_integer)) {
+      high =
+	umul64(ARGUMENTS(0)->integer.value, ARGUMENTS(1)->integer.value, &low);
+      if (high == 0) {
+	RETURN_SINGLE_RESULT(CREATE(negative_integer, low))
+      }
+    } else if (TYPEOF(ARGUMENTS(1)) == TYPE(negative_integer)) {
+      high =
+	umul64(ARGUMENTS(0)->integer.value, ARGUMENTS(1)->integer.value, &low);
+      if (high == 0) {
+	RETURN_SINGLE_RESULT(CREATE(std_types::positive_integer, low))
+      }
+    } else if (TYPEOF(ARGUMENTS(1)) == TYPE(std_types::real)) {
+      RETURN_SINGLE_RESULT(CREATE(std_types::real,
+	-(ARGUMENTS(0)->integer.value*ARGUMENTS(1)->real.value)))
+    }
+    INVALID_ARGUMENTS
+  }
+
+METHOD std_types::positive_integer/to_integer
+  #
+    returns the (unaltered) integer value
+
+    Parameter:
+      self: a positive integer value
+
+    Result:
+      result: the unaltered input value
+
+    Topic: Numbers
+
+    See also: std_types::positive_integer, std_types::integer
+  {
+    CHECK_ARGUMENTS(1)
+    RETURN_SINGLE_RESULT(ARGUMENTS(0))
+  }
+
+METHOD negative_integer/to_integer
+  #
+    returns the integer value
+  {
+    CHECK_ARGUMENTS(1)
+    RETURN_SINGLE_RESULT(ARGUMENTS(0))
+  }
+
+METHOD std_types::real/to_integer
+  #
+    returns the integral part of the floating point number
+
+    Parameter:
+      self: a real value
+
+    Result:
+      result: the integral part of the input value
+
+    Topic: Numbers
+
+    See also: std_types::real, std_types::integer
+  {
+    CHECK_ARGUMENTS(1)
+    long val = floor(ARGUMENTS(0)->real.value);
+    RETURN_SINGLE_RESULT(from_long(val))
+  }
+
+METHOD std_types::real/floor
+  #
+    returns the floor of the real value
+
+    Parameter:
+      self: a real value
+
+    Result:
+      result: the (real) floor of the input value
+
+    The result does not contain any fractional part.
+
+    Topic: Numbers
+
+    See also: std_types::real, std_types::integer
+
+    Example:
+
+    println! floor(3.1414)
+
+    Output:
+
+    3
+
+    Example:
+
+    println! floor(-3.1414)
+
+    Output:
+
+    -4
+  {
+    CHECK_ARGUMENTS(1)
+    RETURN_SINGLE_RESULT(CREATE(std_types::real, floor(ARGUMENTS(0)->real.value)))
+  }
+
+METHOD std_types::real/ceil
+  #
+    returns the ceiling of the real value
+
+    Parameter:
+      self: a real value
+
+    Result:
+      result: the (real) ceiling of the input value
+
+    The result does not contain any fractional part.
+
+    Topic: Numbers
+
+    See also: std_types::real, std_types::integer
+
+    Example:
+
+    println! ceil(3.1414)
+
+    Output:
+
+    4
+
+    Example:
+
+    println! ceil(-3.1414)
+
+    Output:
+
+    -3
+  {
+    CHECK_ARGUMENTS(1)
+    RETURN_SINGLE_RESULT(CREATE(std_types::real, ceil(ARGUMENTS(0)->real.value)))
+  }
+
+METHOD std_types::real/round
+  #
+    returns a *floating point* number
+  {
+    CHECK_ARGUMENTS(1)
+    RETURN_SINGLE_RESULT(CREATE(std_types::real, round(ARGUMENTS(0)->real.value)))
+  }
+
+METHOD negative_integer/to_string
+  #
+    returns a human readable string representation
+  {
+    CHECK_ARGUMENTS(1)
+    CHECK_RESULTS(1)
+    char buf[24];
+    sprintf(buf, "-%" PRIu64, ARGUMENTS(0)->integer.value);
+    RETURN_SINGLE_RESULT(from_c_string(buf))
+  }
+
+METHOD std_types::positive_integer/to_string
+  #
+    returns a human readable string representation
+  {
+    CHECK_ARGUMENTS(1)
+    CHECK_RESULTS(1)
+    char buf[24];
+    sprintf(buf, "%" PRIu64, ARGUMENTS(0)->integer.value);
+    RETURN_SINGLE_RESULT(from_c_string(buf))
+  }
+
+METHOD std_types::real/to_string
+  #
+    returns a human readable string representation
+  {
+    CHECK_ARGUMENTS(1)
+    CHECK_RESULTS(1)
+    char buf[24];
+    sprintf(buf, "%.15g", ARGUMENTS(0)->real.value);
+    RETURN_SINGLE_RESULT(from_c_string(buf))
+  }
+
+METHOD std_types::positive_integer/over
+  #
+    implements the *over* operation
+  {
+    CHECK_ARGUMENTS(2)
+    CHECK_RESULTS(1)
+    if (TYPEOF(ARGUMENTS(1)) == TYPE(std_types::positive_integer)) {
+      if (ARGUMENTS(1)->integer.value == 0) goto invalid_arguments;
+      if (ARGUMENTS(0)->integer.value % ARGUMENTS(1)->integer.value == 0) {
+	RETURN_SINGLE_RESULT(
+	  CREATE(
+	    std_types::positive_integer,
+	    ARGUMENTS(0)->integer.value / ARGUMENTS(1)->integer.value))
+      } else {
+	RETURN_SINGLE_RESULT(
+	  CREATE(
+	    std_types::real,
+	    (double)ARGUMENTS(0)->integer.value / ARGUMENTS(1)->integer.value))
+      }
+    } else if (TYPEOF(ARGUMENTS(1)) == TYPE(negative_integer)) {
+      if (ARGUMENTS(0)->integer.value % ARGUMENTS(1)->integer.value == 0) {
+	RETURN_SINGLE_RESULT(
+	  CREATE(
+	    negative_integer,
+	    ARGUMENTS(0)->integer.value / ARGUMENTS(1)->integer.value))
+      } else {
+	RETURN_SINGLE_RESULT(
+	  CREATE(
+	    std_types::real,
+	    -((double)ARGUMENTS(0)->integer.value /
+	    ARGUMENTS(1)->integer.value)))
+      }
+    } else if (TYPEOF(ARGUMENTS(1)) == TYPE(std_types::real)) {
+      RETURN_SINGLE_RESULT(
+	CREATE(
+	  std_types::real,
+	  ARGUMENTS(0)->integer.value/ARGUMENTS(1)->real.value))
+    }
+    invalid_arguments:
+    INVALID_ARGUMENTS
+  }
+
+METHOD negative_integer/over
+  #
+    implements the *over* operation
+  {
+    CHECK_ARGUMENTS(2)
+    CHECK_RESULTS(1)
+    if (TYPEOF(ARGUMENTS(1)) == TYPE(negative_integer)) {
+      if (ARGUMENTS(0)->integer.value % ARGUMENTS(1)->integer.value == 0) {
+	RETURN_SINGLE_RESULT(
+	  CREATE(
+	    std_types::positive_integer,
+	    ARGUMENTS(0)->integer.value / ARGUMENTS(1)->integer.value))
+      } else {
+	RETURN_SINGLE_RESULT(
+	  CREATE(
+	    std_types::real,
+	    (double)ARGUMENTS(0)->integer.value /
+	    ARGUMENTS(1)->integer.value))
+      }
+    } else if (TYPEOF(ARGUMENTS(1)) == TYPE(std_types::positive_integer)) {
+      if (ARGUMENTS(1)->integer.value == 0) goto invalid_arguments;
+      if (ARGUMENTS(0)->integer.value % ARGUMENTS(1)->integer.value == 0) {
+	RETURN_SINGLE_RESULT(
+	  CREATE(
+	    negative_integer,
+	    ARGUMENTS(0)->integer.value / ARGUMENTS(1)->integer.value))
+      } else {
+	RETURN_SINGLE_RESULT(
+	  CREATE(
+	    std_types::real,
+	    -((double)ARGUMENTS(0)->integer.value /
+	    ARGUMENTS(1)->integer.value)))
+      }
+    } else if (TYPEOF(ARGUMENTS(1)) == TYPE(std_types::real)) {
+      RETURN_SINGLE_RESULT(
+	CREATE(
+	  std_types::real,
+	  -(ARGUMENTS(0)->integer.value/ARGUMENTS(1)->real.value)))
+    }
+    invalid_arguments:
+    INVALID_ARGUMENTS
+  }
+
+METHOD std_types::positive_integer/div
+  #
+    implements the *div* operation
+  {
+    CHECK_ARGUMENTS(2)
+    CHECK_RESULTS(1)
+    if (TYPEOF(ARGUMENTS(1)) == TYPE(std_types::positive_integer)) {
+      if (ARGUMENTS(1)->integer.value) {
+	RETURN_SINGLE_RESULT(
+	  CREATE(std_types::positive_integer,
+	    ARGUMENTS(0)->integer.value / ARGUMENTS(1)->integer.value))
+      } else DIVIDE_BY_ZERO
+    } else if (TYPEOF(ARGUMENTS(1)) == TYPE(negative_integer)) {
+      RETURN_SINGLE_RESULT(
+	CREATE(negative_integer,
+	  (ARGUMENTS(0)->integer.value+ARGUMENTS(1)->integer.value-1) /
+	  ARGUMENTS(1)->integer.value))
+    }
+    INVALID_ARGUMENTS
+  }
+
+METHOD negative_integer/div
+  #
+    implements the *div* operation
+  {
+    CHECK_ARGUMENTS(2)
+    CHECK_RESULTS(1)
+    if (TYPEOF(ARGUMENTS(1)) == TYPE(std_types::positive_integer)) {
+      if (ARGUMENTS(1)->integer.value) {
+	RETURN_SINGLE_RESULT(
+	  CREATE(negative_integer,
+	    (ARGUMENTS(0)->integer.value+ARGUMENTS(1)->integer.value-1) /
+	    ARGUMENTS(1)->integer.value))
+      } else DIVIDE_BY_ZERO
+    } else if (TYPEOF(ARGUMENTS(1)) == TYPE(negative_integer)) {
+      RETURN_SINGLE_RESULT(
+	CREATE(std_types::positive_integer,
+	  ARGUMENTS(0)->integer.value / ARGUMENTS(1)->integer.value))
+    }
+    INVALID_ARGUMENTS
+  }
+
+METHOD std_types::positive_integer/mod
+  #
+    implements the *mod* operation
+  {
+    CHECK_ARGUMENTS(2)
+    CHECK_RESULTS(1)
+    if (TYPEOF(ARGUMENTS(1)) == TYPE(std_types::positive_integer)) {
+      if (ARGUMENTS(1)->integer.value) {
+	RETURN_SINGLE_RESULT(
+	  CREATE(
+	    std_types::positive_integer,
+	    ARGUMENTS(0)->integer.value % ARGUMENTS(1)->integer.value))
+      } else DIVIDE_BY_ZERO
+    } else if (TYPEOF(ARGUMENTS(1)) == TYPE(negative_integer)) {
+      long result = ARGUMENTS(0)->integer.value % ARGUMENTS(1)->integer.value;
+      RETURN_SINGLE_RESULT(
+	CREATE(
+	  negative_integer,
+	  result ? ARGUMENTS(1)->integer.value-result : 0))
+    }
+    INVALID_ARGUMENTS
+  }
+
+METHOD negative_integer/mod
+  #
+    implements the *mod* operation
+  {
+    CHECK_ARGUMENTS(2)
+    CHECK_RESULTS(1)
+    if (TYPEOF(ARGUMENTS(1)) == TYPE(std_types::positive_integer)) {
+      if (ARGUMENTS(1)->integer.value) {
+	long result = ARGUMENTS(0)->integer.value % ARGUMENTS(1)->integer.value;
+	RETURN_SINGLE_RESULT(
+	  CREATE(
+	    std_types::positive_integer,
+	    result ? ARGUMENTS(1)->integer.value-result : 0))
+      } else DIVIDE_BY_ZERO
+    } else if (TYPEOF(ARGUMENTS(1)) == TYPE(negative_integer)) {
+      RETURN_SINGLE_RESULT(
+	CREATE(
+	  negative_integer,
+	  ARGUMENTS(0)->integer.value % ARGUMENTS(1)->integer.value))
+    }
+    INVALID_ARGUMENTS
+  }
+
+METHOD std_types::positive_integer/hash
+  #
+    returns an integer hash value
+  {
+    CHECK_ARGUMENTS(1)
+    uint32_t hash =
+      (uint32_t)ARGUMENTS(0)->integer.value ^ (ARGUMENTS(0)->integer.value >> 32);
+    hash *= 179234567;
+    hash ^= hash >> 27 | hash << 5;
+    //hash *= 257913241;
+    //hash ^= hash >> 21 | hash << 11;
+    RETURN_SINGLE_RESULT(from_uint32(hash))
+  }
+
+METHOD negative_integer/hash
+  #
+    returns an integer hash value
+  {
+    CHECK_ARGUMENTS(1)
+    uint32_t hash =
+      (uint32_t)ARGUMENTS(0)->integer.value ^ (ARGUMENTS(0)->integer.value >> 32);
+    hash *= 179234567;
+    hash ^= hash >> 27 | hash << 5;
+    //hash *= 326987239;
+    //hash ^= hash >> 21 | hash << 11;
+    RETURN_SINGLE_RESULT(from_uint32(hash))
+  }
+
+METHOD std_types::real/hash
+  #
+    returns an integer hash value
+  {
+    CHECK_ARGUMENTS(1)
+    uint32_t hash =
+      (uint32_t)ARGUMENTS(0)->integer.value ^ (ARGUMENTS(0)->integer.value >> 32);
+    hash ^= hash >> 23 | hash << 9;
+    RETURN_SINGLE_RESULT(from_uint32(hash))
+  }
+
+METHOD std_types::positive_integer/ln
+  #
+    computes the logarithm to the base e
+  {
+    CHECK_ARGUMENTS(1)
+    RETURN_SINGLE_RESULT(CREATE(std_types::real, log(ARGUMENTS(0)->integer.value)))
+  }
+
+METHOD negative_integer/ln
+  #
+    computes the logarithm to the base e
+  {
+    CHECK_ARGUMENTS(1)
+    RETURN_SINGLE_RESULT(CREATE(std_types::real, log(-ARGUMENTS(0)->integer.value)))
+  }
+
+METHOD std_types::real/ln
+  #
+    computes the logarithm to the base e
+  {
+    CHECK_ARGUMENTS(1)
+    RETURN_SINGLE_RESULT(CREATE(std_types::real, log(ARGUMENTS(0)->real.value)))
+  }
+
+METHOD std_types::positive_integer/exp
+  #
+    computes the exponential function of its argument
+  {
+    CHECK_ARGUMENTS(1)
+    RETURN_SINGLE_RESULT(CREATE(std_types::real, exp(ARGUMENTS(0)->integer.value)))
+  }
+
+METHOD negative_integer/exp
+  #
+    computes the exponential function of its argument
+  {
+    CHECK_ARGUMENTS(1)
+    RETURN_SINGLE_RESULT(CREATE(std_types::real, exp(-ARGUMENTS(0)->integer.value)))
+  }
+
+METHOD std_types::real/exp
+  #
+    computes the exponential function of its argument
+  {
+    CHECK_ARGUMENTS(1)
+    RETURN_SINGLE_RESULT(CREATE(std_types::real, exp(ARGUMENTS(0)->real.value)))
+  }
+
+FUNCTION std::real
+  #
+    constructs a real number from its string representation
+  {
+    CHECK_ARGUMENTS(1)
+    char *str;
+    CHECK(to_c_string(ARGUMENTS(0), &str))
+    NODE *result = from_double(atof(str));
+    deallocate_memory(str);
+    RETURN_SINGLE_RESULT(result)
+  }
+
+FUNCTION std::integer
+  #
+    constructs an integer from its string representation
+  {
+    CHECK_ARGUMENTS(1)
+    char *buf;
+    CHECK(to_c_string(ARGUMENTS(0), &buf))
+    int sign = 1;
+    unsigned long value = 0;
+    char *str = buf;
+    if (*str == '-') {
+      sign = -1;
+      ++str;
+    }
+    if (*str < '0' || *str > '9') {
+      invalid_arguments();
+      goto cleanup;
+    }
+    char c;
+    next:
+    c = *str++;
+    if (c < '0' || c > '9') {
+      NODE *result;
+      if (sign < 0 && value != 0) {
+	result = CREATE(negative_integer, value);
+      } else {
+	result = CREATE(std_types::positive_integer, value);
+      }
+      PREPARE_SINGLE_RESULT(result)
+      goto cleanup;
+    } else {
+      unsigned long old_value = value;
+      value <<= 1;
+      if (value < old_value) goto overflow;
+      unsigned long intermediate_value = value;
+      value <<= 1;
+      if (value < intermediate_value) goto overflow;
+      intermediate_value = value;
+      value += old_value;
+      if (value < intermediate_value) goto overflow;
+      intermediate_value = value;
+      value <<= 1;
+      if (value < intermediate_value) goto overflow;
+      intermediate_value = value;
+      value += c-'0';
+      if (value < intermediate_value) goto overflow;
+      goto next;
+    }
+
+    overflow:
+
+    create_error_message(
+      module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+      "std::integer OVERFLOW", 0, 0, NULL);
+
+    cleanup:
+
+    deallocate_memory(buf);
+    return;
+  }
+
+FUNCTION std::sqrt
+  #
+    computes the square root of its argument
+
+    This function calls the *sqrt*-function of the C library.
+
+    Parameter:
+      value # a real number
+
+    Result:
+      result # the computed square root
+
+    Topic: Numbers
+
+    See also: exp, ln
+  {
+    CHECK_ARGUMENTS(1)
+    double arg;
+    CHECK(to_double(ARGUMENTS(0), &arg))
+    RETURN_SINGLE_RESULT(CREATE(std_types::real, sqrt(arg)))
+  }
+
+METHOD std_types::positive_integer/exit
+  #
+    terminates the process and returns the specified exit-code
+
+    Parameter:
+      exit_code # the exit-code to return
+
+    This function does not return and therefor returns no results.
+
+    This function must be called with I/O-access rights.
+
+    It cleanly shuts down the runtime system and terminates the process.
+
+    Example:
+
+    exit! EXIT_SUCCESS
+
+    Topic: Input-Output
+
+    See also: EXIT_SUCCESS, EXIT_FAILURE, debug_exit
+  {
+    CHECK_ARGUMENTS(1)
+    CHECK_IO_ACCESS_RIGHTS
+    int status;
+    CHECK(to_int(ARGUMENTS(0), &status))
+    exit(status);
+  }
+
+FUNCTION NODE *from_int
+  (
+    int value
+  )
+  {
+    if (value >= 0)
+      return CREATE(std_types::positive_integer, value);
+    else
+      return CREATE(negative_integer, -value);
+  }
+
+FUNCTION NODE *from_long
+  (
+    long value
+  )
+  {
+    if (value >= 0)
+      return CREATE(std_types::positive_integer, value);
+    else
+      return CREATE(negative_integer, -value);
+  }
+
+FUNCTION NODE *from_uint
+  (
+    unsigned int value
+  )
+  {
+    return CREATE(std_types::positive_integer, value);
+  }
+
+FUNCTION NODE *from_ulong
+  (
+    unsigned long value
+  )
+  {
+    return CREATE(std_types::positive_integer, value);
+  }
+
+FUNCTION NODE *from_int8
+  (
+    int8_t value
+  )
+  {
+    if (value >= 0)
+      return CREATE(std_types::positive_integer, value);
+    else
+      return CREATE(negative_integer, -value);
+  }
+
+FUNCTION NODE *from_int16
+  (
+    int16_t value
+  )
+  {
+    if (value >= 0)
+      return CREATE(std_types::positive_integer, value);
+    else
+      return CREATE(negative_integer, -value);
+  }
+
+FUNCTION NODE *from_int32
+  (
+    int32_t value
+  )
+  {
+    if (value >= 0)
+      return CREATE(std_types::positive_integer, value);
+    else
+      return CREATE(negative_integer, -value);
+  }
+
+FUNCTION NODE *from_int64
+  (
+    int64_t value
+  )
+  {
+    if (value >= 0)
+      return CREATE(std_types::positive_integer, value);
+    else
+      return CREATE(negative_integer, -value);
+  }
+
+FUNCTION NODE *from_uint8
+  (
+    uint8_t value
+  )
+  {
+    return CREATE(std_types::positive_integer, value);
+  }
+
+FUNCTION NODE *from_uint16
+  (
+    uint16_t value
+  )
+  {
+    return CREATE(std_types::positive_integer, value);
+  }
+
+FUNCTION NODE *from_uint32
+  (
+    uint32_t value
+  )
+  {
+    return CREATE(std_types::positive_integer, value);
+  }
+
+FUNCTION NODE *from_uint64
+  (
+    uint64_t value
+  )
+  {
+    return CREATE(std_types::positive_integer, value);
+  }
+
+METHOD int std_types::positive_integer/_to_int
+  (
+    NODE *node,
+    int *result_p
+  )
+  {
+    if (node->integer.value > INT_MAX) {
+      CREATE_RUNTIME_ERROR("Conversion of integer value to \"int\" failed!")
+      return false;
+    }
+    *result_p = node->integer.value;
+    return true;
+  }
+
+METHOD int negative_integer/_to_int
+  (
+    NODE *node,
+    int *result_p
+  )
+  {
+    if (node->integer.value > -(uint64_t)INT_MIN) {
+      CREATE_RUNTIME_ERROR("Conversion of integer value to \"int\" failed!")
+      return false;
+    }
+    *result_p = -node->integer.value;
+    return true;
+  }
+
+METHOD int std_types::positive_integer/_to_long
+  (
+    NODE *node,
+    long *result_p
+  )
+  {
+    if (node->integer.value > LONG_MAX) {
+      CREATE_RUNTIME_ERROR("Conversion of integer value to \"long\" failed!")
+      return false;
+    }
+    *result_p = node->integer.value;
+    return true;
+  }
+
+METHOD int negative_integer/_to_long
+  (
+    NODE *node,
+    long *result_p
+  )
+  {
+    if (node->integer.value > -(uint64_t)LONG_MIN) {
+      CREATE_RUNTIME_ERROR("Conversion of integer value to \"long\" failed!")
+      return false;
+    }
+    *result_p = -node->integer.value;
+    return true;
+  }
+
+METHOD int std_types::positive_integer/_to_uint
+  (
+    NODE *node,
+    uint *result_p
+  )
+  {
+    if (node->integer.value > UINT_MAX) {
+      CREATE_RUNTIME_ERROR("Conversion of integer value to \"uint\" failed!")
+      return false;
+    }
+    *result_p = node->integer.value;
+    return true;
+  }
+
+METHOD int std_types::positive_integer/_to_ulong
+  (
+    NODE *node,
+    unsigned long *result_p
+  ) {
+    *result_p = node->integer.value;
+    return true;
+  }
+
+METHOD int std_types::positive_integer/_to_int8
+  (
+    NODE *node,
+    int8_t *result_p
+  )
+  {
+    if (node->integer.value > 0x7f) {
+      CREATE_RUNTIME_ERROR("Conversion of integer value to \"int8\" failed!")
+      return false;
+    }
+    *result_p = node->integer.value;
+    return true;
+  }
+
+METHOD int negative_integer/_to_int8
+  (
+    NODE *node,
+    int8_t *result_p
+  )
+  {
+    if (node->integer.value > 0x80) {
+      CREATE_RUNTIME_ERROR("Conversion of integer value to \"int8\" failed!")
+      return false;
+    }
+    *result_p = -node->integer.value;
+    return true;
+  }
+
+METHOD int std_types::positive_integer/_to_int16
+  (
+    NODE *node,
+    int16_t *result_p
+  )
+  {
+    if (node->integer.value > 0x7fff) {
+      CREATE_RUNTIME_ERROR("Conversion of integer value to \"int16\" failed!")
+      return false;
+    }
+    *result_p = node->integer.value;
+    return true;
+  }
+
+METHOD int negative_integer/_to_int16
+  (
+    NODE *node,
+    int16_t *result_p
+  )
+  {
+    if (node->integer.value > 0x8000) {
+      CREATE_RUNTIME_ERROR("Conversion of integer value to \"int16\" failed!")
+      return false;
+    }
+    *result_p = -node->integer.value;
+    return true;
+  }
+
+METHOD int std_types::positive_integer/_to_int32
+  (
+    NODE *node,
+    int32_t *result_p
+  )
+  {
+    if (node->integer.value > 0x7fffffff) {
+      CREATE_RUNTIME_ERROR("Conversion of integer value to \"int32\" failed!")
+      return false;
+    }
+    *result_p = node->integer.value;
+    return true;
+  }
+
+METHOD int negative_integer/_to_int32
+  (
+    NODE *node,
+    int32_t *result_p
+  )
+  {
+    if (node->integer.value > 0x80000000) {
+      CREATE_RUNTIME_ERROR("Conversion of integer value to \"int32\" failed!")
+      return false;
+    }
+    *result_p = -node->integer.value;
+    return true;
+  }
+
+METHOD int std_types::positive_integer/_to_int64
+  (
+    NODE *node,
+    int64_t *result_p
+  )
+  {
+    if (node->integer.value > 0x7fffffffffffffff) {
+      CREATE_RUNTIME_ERROR("Conversion of integer value to \"int64\" failed!")
+      return false;
+    }
+    *result_p = node->integer.value;
+    return true;
+  }
+
+METHOD int negative_integer/_to_int64
+  (
+    NODE *node,
+    int64_t *result_p
+  )
+  {
+    if (node->integer.value > 0x8000000000000000) {
+      CREATE_RUNTIME_ERROR("Conversion of integer value to \"int64\" failed!")
+      return false;
+    }
+    *result_p = -node->integer.value;
+    return true;
+  }
+
+METHOD int std_types::positive_integer/_to_uint8
+  (
+    NODE *node,
+    uint8_t *result_p
+  )
+  {
+    if (node->integer.value > 0xff) {
+      CREATE_RUNTIME_ERROR("Conversion of integer value to \"uint8\" failed!")
+      return false;
+    }
+    *result_p = node->integer.value;
+    return true;
+  }
+
+METHOD int std_types::positive_integer/_to_uint16
+  (
+    NODE *node,
+    uint16_t *result_p
+  )
+  {
+    if (node->integer.value > 0xffff) {
+      CREATE_RUNTIME_ERROR("Conversion of integer value to \"uint16\" failed!")
+      return false;
+    }
+    *result_p = node->integer.value;
+    return true;
+  }
+
+METHOD int std_types::positive_integer/_to_uint32
+  (
+    NODE *node,
+    uint32_t *result_p
+  )
+  {
+    if (node->integer.value > 0xffffffff) {
+      CREATE_RUNTIME_ERROR("Conversion of integer value to \"uint32\" failed!")
+      return false;
+    }
+    *result_p = node->integer.value;
+    return true;
+  }
+
+METHOD int std_types::positive_integer/_to_uint64
+  (
+    NODE *node,
+    uint64_t *result_p
+  ) {
+    *result_p = node->integer.value;
+    return true;
+  }
+
+METHOD std_types::positive_integer/plus
+  #
+    implements the *plus* operation
+  {
+    CHECK_ARGUMENTS(2)
+    CHECK_RESULTS(1)
+    if (TYPEOF(ARGUMENTS(1)) == TYPE(std_types::positive_integer)) {
+      if (ARGUMENTS(0)->integer.value+ARGUMENTS(1)->integer.value >= ARGUMENTS(0)->integer.value) {
+        RETURN_SINGLE_RESULT(CREATE(std_types::positive_integer, ARGUMENTS(0)->integer.value+ARGUMENTS(1)->integer.value))
+      }
+    } else if (TYPEOF(ARGUMENTS(1)) == TYPE(negative_integer)) {
+      if (ARGUMENTS(0)->integer.value >= ARGUMENTS(1)->integer.value) {
+        RETURN_SINGLE_RESULT(CREATE(std_types::positive_integer, ARGUMENTS(0)->integer.value-ARGUMENTS(1)->integer.value))
+      } else {
+        RETURN_SINGLE_RESULT(CREATE(negative_integer, ARGUMENTS(1)->integer.value-ARGUMENTS(0)->integer.value))
+      }
+    } else if (TYPEOF(ARGUMENTS(1)) == TYPE(std_types::real)) {
+      RETURN_SINGLE_RESULT(CREATE(std_types::real, ARGUMENTS(0)->integer.value+ARGUMENTS(1)->real.value))
+    }
+    INVALID_ARGUMENTS
+  }
+
+METHOD negative_integer/plus
+  #
+    implements the *plus* operation
+  {
+    CHECK_ARGUMENTS(2)
+    CHECK_RESULTS(1)
+    if (TYPEOF(ARGUMENTS(1)) == TYPE(negative_integer)) {
+      if (ARGUMENTS(0)->integer.value+ARGUMENTS(1)->integer.value >= ARGUMENTS(0)->integer.value) {
+        RETURN_SINGLE_RESULT(CREATE(negative_integer, ARGUMENTS(0)->integer.value+ARGUMENTS(1)->integer.value))
+      }
+    } else if (TYPEOF(ARGUMENTS(1)) == TYPE(std_types::positive_integer)) {
+      if (ARGUMENTS(0)->integer.value > ARGUMENTS(1)->integer.value) {
+        RETURN_SINGLE_RESULT(CREATE(negative_integer, ARGUMENTS(0)->integer.value-ARGUMENTS(1)->integer.value))
+      } else {
+        RETURN_SINGLE_RESULT(CREATE(std_types::positive_integer, ARGUMENTS(1)->integer.value-ARGUMENTS(0)->integer.value))
+      }
+    } else if (TYPEOF(ARGUMENTS(1)) == TYPE(std_types::real)) {
+      RETURN_SINGLE_RESULT(CREATE(std_types::real, ARGUMENTS(1)->real.value-ARGUMENTS(0)->integer.value))
+    }
+    INVALID_ARGUMENTS
+  }
+
+METHOD std_types::real/plus
+  #
+    implements the *plus* operation
+  {
+    CHECK_ARGUMENTS(2)
+    CHECK_RESULTS(1)
+    if (TYPEOF(ARGUMENTS(1)) == TYPE(std_types::real)) {
+      RETURN_SINGLE_RESULT(CREATE(std_types::real, ARGUMENTS(0)->real.value+ARGUMENTS(1)->real.value))
+    } else if (TYPEOF(ARGUMENTS(1)) == TYPE(std_types::positive_integer)) {
+      RETURN_SINGLE_RESULT(CREATE(std_types::real, ARGUMENTS(0)->real.value+ARGUMENTS(1)->integer.value))
+    } else if (TYPEOF(ARGUMENTS(1)) == TYPE(negative_integer)) {
+      RETURN_SINGLE_RESULT(CREATE(std_types::real, ARGUMENTS(0)->real.value-ARGUMENTS(1)->integer.value))
+    }
+    INVALID_ARGUMENTS
+  }
+
+METHOD std_types::positive_integer/minus
+  #
+    implements the *minus* operation
+  {
+    CHECK_ARGUMENTS(2)
+    CHECK_RESULTS(1)
+    if (TYPEOF(ARGUMENTS(1)) == TYPE(std_types::positive_integer)) {
+      if (ARGUMENTS(0)->integer.value >= ARGUMENTS(1)->integer.value) {
+        RETURN_SINGLE_RESULT(CREATE(std_types::positive_integer, ARGUMENTS(0)->integer.value-ARGUMENTS(1)->integer.value))
+      } else {
+        RETURN_SINGLE_RESULT(CREATE(negative_integer, ARGUMENTS(1)->integer.value-ARGUMENTS(0)->integer.value))
+      }
+    } else if (TYPEOF(ARGUMENTS(1)) == TYPE(negative_integer)) {
+      if (ARGUMENTS(0)->integer.value+ARGUMENTS(1)->integer.value >= ARGUMENTS(0)->integer.value) {
+        RETURN_SINGLE_RESULT(CREATE(std_types::positive_integer, ARGUMENTS(0)->integer.value+ARGUMENTS(1)->integer.value))
+      }
+    } else if (TYPEOF(ARGUMENTS(1)) == TYPE(std_types::real)) {
+      RETURN_SINGLE_RESULT(CREATE(std_types::real, ARGUMENTS(0)->integer.value-ARGUMENTS(1)->real.value))
+    }
+    INVALID_ARGUMENTS
+  }
+
+METHOD negative_integer/minus
+  #
+    implements the *minus* operation
+  {
+    CHECK_ARGUMENTS(2)
+    CHECK_RESULTS(1)
+    if (TYPEOF(ARGUMENTS(1)) == TYPE(negative_integer)) {
+      if (ARGUMENTS(0)->integer.value > ARGUMENTS(1)->integer.value) {
+        RETURN_SINGLE_RESULT(CREATE(negative_integer, ARGUMENTS(0)->integer.value-ARGUMENTS(1)->integer.value))
+      } else {
+        RETURN_SINGLE_RESULT(CREATE(std_types::positive_integer, ARGUMENTS(1)->integer.value-ARGUMENTS(0)->integer.value))
+      }
+    } else if (TYPEOF(ARGUMENTS(1)) == TYPE(std_types::positive_integer)) {
+      if (ARGUMENTS(0)->integer.value+ARGUMENTS(1)->integer.value >= ARGUMENTS(0)->integer.value) {
+        RETURN_SINGLE_RESULT(CREATE(negative_integer, ARGUMENTS(0)->integer.value+ARGUMENTS(1)->integer.value))
+      }
+    } else if (TYPEOF(ARGUMENTS(1)) == TYPE(std_types::real)) {
+      RETURN_SINGLE_RESULT(CREATE(std_types::real, -(ARGUMENTS(0)->integer.value+ARGUMENTS(1)->real.value)))
+    }
+    INVALID_ARGUMENTS
+  }
+
+METHOD std_types::real/minus
+  #
+    implements the *minus* operation
+  {
+    CHECK_ARGUMENTS(2)
+    CHECK_RESULTS(1)
+    if (TYPEOF(ARGUMENTS(1)) == TYPE(std_types::real)) {
+      RETURN_SINGLE_RESULT(CREATE(std_types::real, ARGUMENTS(0)->real.value-ARGUMENTS(1)->real.value))
+    } else if (TYPEOF(ARGUMENTS(1)) == TYPE(std_types::positive_integer)) {
+      RETURN_SINGLE_RESULT(CREATE(std_types::real, ARGUMENTS(0)->real.value-ARGUMENTS(1)->integer.value))
+    } else if (TYPEOF(ARGUMENTS(1)) == TYPE(negative_integer)) {
+      RETURN_SINGLE_RESULT(CREATE(std_types::real, ARGUMENTS(0)->real.value+ARGUMENTS(1)->integer.value))
+    }
+    INVALID_ARGUMENTS
+  }
+
+METHOD std_types::real/times
+  #
+    implements the *times* operation
+  {
+    CHECK_ARGUMENTS(2)
+    CHECK_RESULTS(1)
+    if (TYPEOF(ARGUMENTS(1)) == TYPE(std_types::real)) {
+      RETURN_SINGLE_RESULT(CREATE(std_types::real, ARGUMENTS(0)->real.value*ARGUMENTS(1)->real.value))
+    } else if (TYPEOF(ARGUMENTS(1)) == TYPE(std_types::positive_integer)) {
+      RETURN_SINGLE_RESULT(CREATE(std_types::real, ARGUMENTS(0)->real.value*ARGUMENTS(1)->integer.value))
+    } else if (TYPEOF(ARGUMENTS(1)) == TYPE(negative_integer)) {
+      RETURN_SINGLE_RESULT(CREATE(std_types::real, -(ARGUMENTS(0)->real.value*ARGUMENTS(1)->integer.value)))
+    }
+    INVALID_ARGUMENTS
+  }
+
+METHOD std_types::real/over
+  #
+    implements the *over* operation
+  {
+    CHECK_ARGUMENTS(2)
+    CHECK_RESULTS(1)
+    if (TYPEOF(ARGUMENTS(1)) == TYPE(std_types::real)) {
+      RETURN_SINGLE_RESULT(CREATE(std_types::real, ARGUMENTS(0)->real.value/ARGUMENTS(1)->real.value))
+    } else if (TYPEOF(ARGUMENTS(1)) == TYPE(std_types::positive_integer)) {
+      RETURN_SINGLE_RESULT(CREATE(std_types::real, ARGUMENTS(0)->real.value/ARGUMENTS(1)->integer.value))
+    } else if (TYPEOF(ARGUMENTS(1)) == TYPE(negative_integer)) {
+      RETURN_SINGLE_RESULT(CREATE(std_types::real, -(ARGUMENTS(0)->real.value/ARGUMENTS(1)->integer.value)))
+    }
+    INVALID_ARGUMENTS
+  }
+
+METHOD std_types::positive_integer/equal
+  #
+    implements the *equal* operation
+  {
+    CHECK_ARGUMENTS(2)
+    CHECK_RESULTS(1)
+    if (TYPEOF(ARGUMENTS(1)) == TYPE(std_types::positive_integer)) {
+      RETURN_BOOLEAN(ARGUMENTS(0)->integer.value == ARGUMENTS(1)->integer.value)
+    } else if (TYPEOF(ARGUMENTS(1)) == TYPE(std_types::error)) {
+      INVALID_ARGUMENTS
+    } else {
+      RETURN_FALSE
+    }
+  }
+
+METHOD negative_integer/equal
+  #
+    implements the *equal* operation
+  {
+    CHECK_ARGUMENTS(2)
+    CHECK_RESULTS(1)
+    if (TYPEOF(ARGUMENTS(1)) == TYPE(negative_integer)) {
+      RETURN_BOOLEAN(ARGUMENTS(0)->integer.value == ARGUMENTS(1)->integer.value)
+    } else if (TYPEOF(ARGUMENTS(1)) == TYPE(std_types::error)) {
+      INVALID_ARGUMENTS
+    } else {
+      RETURN_FALSE
+    }
+  }
+
+METHOD std_types::real/equal
+  #
+    implements the *equal* operation
+  {
+    CHECK_ARGUMENTS(2)
+    CHECK_RESULTS(1)
+    if (TYPEOF(ARGUMENTS(1)) == TYPE(std_types::real)) {
+      RETURN_BOOLEAN(ARGUMENTS(0)->real.value == ARGUMENTS(1)->real.value)
+    } else if (TYPEOF(ARGUMENTS(1)) == TYPE(std_types::error)) {
+      INVALID_ARGUMENTS
+    } else {
+      RETURN_FALSE
+    }
+  }
+
+METHOD std_types::positive_integer/less
+  #
+    implements the *less* operation
+  {
+    CHECK_ARGUMENTS(2)
+    CHECK_RESULTS(1)
+    if (TYPEOF(ARGUMENTS(1)) == TYPE(std_types::positive_integer)) {
+      RETURN_BOOLEAN(ARGUMENTS(0)->integer.value < ARGUMENTS(1)->integer.value)
+    } else if (TYPEOF(ARGUMENTS(1)) == TYPE(negative_integer)) {
+      RETURN_FALSE
+    } else if (TYPEOF(ARGUMENTS(1)) == TYPE(std_types::real)) {
+      RETURN_BOOLEAN(ARGUMENTS(0)->integer.value < ARGUMENTS(1)->real.value)
+    }
+    INVALID_ARGUMENTS
+  }
+
+METHOD negative_integer/less
+  #
+    implements the *less* operation
+  {
+    CHECK_ARGUMENTS(2)
+    CHECK_RESULTS(1)
+    if (TYPEOF(ARGUMENTS(1)) == TYPE(negative_integer)) {
+      RETURN_BOOLEAN(ARGUMENTS(0)->integer.value > ARGUMENTS(1)->integer.value)
+    } else if (TYPEOF(ARGUMENTS(1)) == TYPE(std_types::positive_integer)) {
+      RETURN_TRUE
+    } else if (TYPEOF(ARGUMENTS(1)) == TYPE(std_types::real)) {
+      RETURN_BOOLEAN(ARGUMENTS(0)->integer.value > -ARGUMENTS(1)->real.value)
+    }
+    INVALID_ARGUMENTS
+  }
+
+METHOD std_types::real/less
+  #
+    implements the *less* operation
+  {
+    CHECK_ARGUMENTS(2)
+    CHECK_RESULTS(1)
+    if (TYPEOF(ARGUMENTS(1)) == TYPE(std_types::real)) {
+      RETURN_BOOLEAN(ARGUMENTS(0)->real.value < ARGUMENTS(1)->real.value)
+    } else if (TYPEOF(ARGUMENTS(1)) == TYPE(std_types::positive_integer)) {
+      RETURN_BOOLEAN(ARGUMENTS(0)->real.value < ARGUMENTS(1)->integer.value)
+    } else if (TYPEOF(ARGUMENTS(1)) == TYPE(negative_integer)) {
+      RETURN_BOOLEAN(-ARGUMENTS(0)->real.value > ARGUMENTS(1)->integer.value)
+    }
+    INVALID_ARGUMENTS
+  }
+
+METHOD std_types::positive_integer/shift_left
+  #
+    implements the *shift left* operation
+  {
+    CHECK_ARGUMENTS(2)
+    CHECK_RESULTS(1)
+    if (TYPEOF(ARGUMENTS(1)) == TYPE(std_types::positive_integer)) {
+      RETURN_SINGLE_RESULT(CREATE(std_types::positive_integer, ARGUMENTS(0)->integer.value << ARGUMENTS(1)->integer.value))
+    }
+    INVALID_ARGUMENTS
+  }
+
+METHOD std_types::positive_integer/shift_right
+  #
+    implements the *shift right* operation
+  {
+    CHECK_ARGUMENTS(2)
+    CHECK_RESULTS(1)
+    if (TYPEOF(ARGUMENTS(1)) == TYPE(std_types::positive_integer)) {
+      RETURN_SINGLE_RESULT(CREATE(std_types::positive_integer, ARGUMENTS(0)->integer.value >> ARGUMENTS(1)->integer.value))
+    }
+    INVALID_ARGUMENTS
+  }
+
+METHOD std_types::positive_integer/bit_and
+  #
+    implements the *bit and* operation
+  {
+    CHECK_ARGUMENTS(2)
+    CHECK_RESULTS(1)
+    if (TYPEOF(ARGUMENTS(1)) == TYPE(std_types::positive_integer)) {
+      RETURN_SINGLE_RESULT(CREATE(std_types::positive_integer, ARGUMENTS(0)->integer.value & ARGUMENTS(1)->integer.value))
+    }
+    INVALID_ARGUMENTS
+  }
+
+METHOD std_types::positive_integer/bit_or
+  #
+    implements the *bit or* operation
+  {
+    CHECK_ARGUMENTS(2)
+    CHECK_RESULTS(1)
+    if (TYPEOF(ARGUMENTS(1)) == TYPE(std_types::positive_integer)) {
+      RETURN_SINGLE_RESULT(CREATE(std_types::positive_integer, ARGUMENTS(0)->integer.value | ARGUMENTS(1)->integer.value))
+    }
+    INVALID_ARGUMENTS
+  }
+
+METHOD std_types::positive_integer/bit_xor
+  #
+    implements the *bit xor* operation
+  {
+    CHECK_ARGUMENTS(2)
+    CHECK_RESULTS(1)
+    if (TYPEOF(ARGUMENTS(1)) == TYPE(std_types::positive_integer)) {
+      RETURN_SINGLE_RESULT(CREATE(std_types::positive_integer, ARGUMENTS(0)->integer.value ^ ARGUMENTS(1)->integer.value))
+    }
+    INVALID_ARGUMENTS
+  }

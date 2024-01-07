@@ -1,0 +1,476 @@
+#
+  Copyright (C) 2021 by
+  Dipl.-Ing. Michael Niederle
+
+  This program is free software; you can redistribute it and/or modify
+  it under the terms of the GNU General Public License, version 2, or
+  (at your option) version 3.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  GNU General Public License for more details.
+
+  For details of the GNU General Public License see the accompanying
+  files GPLv2.txt and GLPv3.txt or
+  http://www.gnu.org/licenses/gpl-2.0.html
+  http://www.gnu.org/licenses/gpl-3.0.html
+  or write to the
+  Free Software Foundation, Inc.,
+
+#
+  define polymorphic functions before any other template is initialized
+
+POLY std::new
+  #
+    creates a new collection with inherited attributes
+
+POLY std::plus
+  #
+    add two numbers of any kind
+
+    The result is always stored in the simplest possible form.
+
+    See also: std::minus, std::times, std::over, std::div, std::mod
+
+POLY std::minus
+  #
+    subtract two numbers of any kind
+
+    The result is always stored in the simplest possible form.
+
+    See also: std::negate, std::plus, std::times, std::over, std::div, std::mod
+
+POLY std::times
+  #
+    multiply two numbers of any kind
+
+    The result is always stored in the simplest possible form.
+
+    See also: std::over, std::div, std::mod, std::plus, std::minus
+
+POLY std::over
+  #
+    divide two numbers of any kind
+
+    The result is stored as an integer if there is no remainder.
+
+    See also: std::div, std::mod, std::times, std::plus, std::minus
+
+POLY std::div
+  #
+    divide two integer numbers
+
+    The result is rounded towards zero.
+
+    See also: std::times, std::over, std::mod, std::plus, std::minus
+
+POLY std::mod
+  #
+    compute the remainder of two integer numbers
+
+    The result has the same sign as the dividend
+
+    See also: std::div,  std::times, std::over, std::plus, std::minus
+
+POLY std::negate
+  #
+    negate the numeric argument
+
+    The result is equal to
+
+    0 - argument
+
+    See also: std::minus
+
+POLY std::floor
+  #
+    computes the greatest integral number smaller or equal than its argument
+
+    Topic: Math
+
+    See also: ceil, round
+
+POLY std::ceil
+  #
+    computes the smallest integral number greater or equal than its argument
+
+    Topic: Math
+
+    See also: ceil, round
+
+POLY std::round
+  #
+    computes the nearest integral number for its argument
+
+    Topic: Math
+
+    See also: floor, ceil
+
+POLY std::ln
+  #
+    computes the logarithm to the base e
+
+    Topic: Math
+
+POLY std::exp
+  #
+    computes the exponential function of its argument
+
+    Topic: Math
+
+POLY std::equal
+  #
+    compares two objects for equality
+
+    Two objects are equal if the equal function says so ... ^^
+
+    Two identical objects should always be equal.
+
+    <std::undefined> should only be equal to itself and to no other object.
+
+    There is no separate function to test non-equality.
+
+    *a* != *b*
+
+    is converted by the compiler to
+
+    <std::not>(<std::equal>(*a* *b*))
+
+    See also: std::less
+
+POLY std::less
+  #
+    compares two objects in an object specific way
+
+    The two objects must be of a comparable type.
+
+    This function is used to implement the following comparison operators:
+
+    *a* < *b*
+
+    is converted by the compiler to
+
+    <std::less>(*a* *b*)
+
+    *a* > *b*
+
+    is converted by the compiler to
+
+    <std::less>(*b* *a*)
+
+    *a* <= *b*
+
+    is converted by the compiler to
+
+    <std::not>(<std::less>(*b* *a*))
+
+    *a* >= *b*
+
+    is converted by the compiler to
+
+    <std::not>(<std::less>(*a* *b*))
+
+    See also: std::equal
+
+POLY std::shift_left
+  #
+    bitwise shift-left operation
+
+    The first operand (must be positive integer) is shifted left by the number
+    of bits specified by the second operandt, that must be a positive integer,
+    too.
+
+    There is no restriction in the size of the integer numbers!
+
+    See also: std::shift_right, std::bit_and, std::bit_or, std::bit_xor
+
+POLY std::shift_right
+  #
+    bitwise shift-right operation
+
+    The first operand (must be positive integer) is shifted right by the number
+    of bits specified by the second operandt, that must be a positive integer,
+    too.
+
+    Bits that are shifted out on the right side are "lost".
+
+    There is no restriction in the size of the integer numbers!
+
+    See also: std::shift_right, std::bit_and, std::bit_or, std::bit_xor
+
+POLY std::bit_and
+  #
+    bitwise and operation
+
+    The two operands (both must be positive integers of any size) are combined
+    bit for bit using an and-operation.
+
+    See also: std::bit_or, std::bit_xor, std::shift_left, std::shift_right
+
+POLY std::bit_or
+  #
+    bitwise inclusive or operation
+
+    The two operands (both must be positive integers of any size) are combined
+    bit for bit using an inclusive-or-operation.
+
+    See also: std::bit_and, std::bit_xor, std::shift_left, std::shift_right
+
+POLY std::bit_xor
+  #
+    bitwise exclusive or operation
+
+    The two operands (both must be positive integers of any size) are combined
+    bit for bit using an exclusive-or-operation.
+
+    See also: std::bit_and, std::bit_or, std::shift_left, std::shift_right
+
+ATTR std::parameter_count_of
+  #
+    number of wanted arguments
+
+    This attribute returns the number of arguments to use when calling its
+    function. Functions that accept a variable number of arguments will return
+    <std::undefined>.
+
+    **Attention**: Functions accepting a variable number of arguments might have
+    a minimum and/or maximum number of expected arguments. These numbers **cannot** be
+    retrieved during runtime!
+
+POLY std::to_string
+  #
+    returns a human readable presentation of the object
+
+    Returns a string representation of its single argument.
+
+    When called on a string the string is returned unaltered.
+
+    Topic: Strings
+
+    See also: std::to_number, std::to_integer, std::to_real
+
+POLY std::to_integer
+  #
+    converts its argument into an integer number
+
+    See also: std::parse_integer, std::to_number, std::to_real, std::to_string
+
+POLY std::to_real
+  #
+    converts its argument into a real (floating point) number
+
+    See also: std::to_number, std::to_integer, std::to_string
+
+POLY std::to_number
+  #
+    converts its argument into a number
+
+    See also: std::to_integer, std::to_real, std::to_string
+
+POLY std::to_lower_case
+  #
+    converts all upper case characters to lower case
+
+    Topic: Strings
+
+    See also: std::to_upper_case, std::to_title_case
+
+POLY std::to_upper_case
+  #
+    converts all lower case characters to UPPER CASE
+
+    Topic: Strings
+
+    See also: std::to_lower_case, std::to_title_case
+
+POLY std::to_title_case
+  #
+    converts the contents to Title Case
+
+    All characters but the first character of each word are converted to lower
+    case. The first characters of all words are converted to upper case.
+
+    Topic: Strings
+
+    See also: std::to_lower_case, std::to_upper_case
+
+POLY std::is_empty
+  #
+    checks whether a collection contains any items
+
+    The following invariant should always hold:
+
+    <std::is_empty>(*collection*) == (<std::length_of>(*collection*) == 0)
+
+    Topic: Strings
+
+    See also: is_not_empty, std::length_of
+
+POLY std::is_not_empty
+  #
+    checks whether a collection contains at least one item
+
+    The following invariant should always hold:
+
+    <std::is_empty>(*collection*) == (<std::length_of>(*collection*) > 0)
+
+    Topic: Strings
+
+    See also: is_empty, length_of
+
+ATTR std::length_of
+  #
+    returns the number of items within a collection
+
+    Many collections just store this value explicitely, making this a very cheap
+    operation.
+
+    But there are collections which must traverse all its contents to compute
+    the total number of stored items, making this a very expensive operation!
+
+    Topics: Strings, Lists, Collections
+
+    See also: std::is_empty
+
+POLY std::hash
+  #
+    returns a hash value
+
+    The returned integer number will always be the same for an object. The
+    returned number might not depend on the platform the program is running!
+
+    It must be computed from the object's contents solely!
+
+    Topics: Math, Objects, Strings
+
+    See also: std::equal
+
+POLY std::push
+  #
+    add a single item at the end of a collection
+
+    Topics: Strings, Lists
+
+    See also: std::pop, std::peek, std::drop, std::put, std::append
+
+POLY std::pop
+  #
+    remove and return the last item of a collection
+
+    Topics: Strings, Lists
+
+    See also: std::peek, std::drop, std::push, std::put
+
+POLY std::peek
+  #
+    returns the last item of a collection without removing it
+
+    Topics: Strings, Lists
+
+    See also: std::pop, std::drop, std::push, std::put
+
+POLY std::drop
+  #
+    removes the last item of a collection without returning it
+
+    Topics: Strings, Lists
+
+    See also: std::pop, std::peek, std::push, std::put
+
+POLY std::put
+  #
+    adds a single item at the front of a collection
+
+    Topics: Strings, Lists
+
+    See also: std::get, std::push, std::pop
+
+POLY std::get
+  #
+    removes and returns the first item of a collection
+
+    Topics: Strings, Lists
+
+    See also: std::put, std::pop, std::push
+
+POLY std::append
+  #
+    appends two collections to form a single collection
+
+    Topics: Strings, Lists
+
+    See also: std::push, std::dup
+
+POLY std::range
+  #
+    returns a subrange of a collection
+
+    The first argument specifies the collection.
+
+    The second argument specifies the first index of the first item to include
+    in the subrange.
+
+    The third argument specifies the last index of the first item to include in
+    the subrange.
+
+    It is okay if the subrange is empty:
+
+    *first_index* == *last_index* + 1
+
+    It is an error if the size of the subrange would be negative:
+
+    *first_index* > *last_index* + 1
+
+    If an index is negativ it is counted from the end of the collection.
+
+    So -1 denotes the last item of the collection, -2 denotes the next-to-last
+    item and so on.
+
+    Topics: Strings, Lists
+
+POLY std::spread
+  #
+    returns the items of a collection as separate results
+
+    Obviously this function should be used with care!
+
+    Topics: Lists
+
+POLY std::to_list
+  #
+    create a list representing the collection
+
+POLY std::exit
+  #
+    terminates the current program or task
+
+POLY std::from_utf8
+  #
+    converts a string from utf-8 encoding to code points
+
+POLY std::read
+  #
+    a low level read function
+
+    Topic: Input-Output
+
+POLY std::write
+  #
+    a low level write function
+
+    Topic: Input-Output
+
+#POLY std::close
+  #
+    closes a resource
+
+    Topic: Input-Output
+
+    See also: std::open_file
+
+POLY std::flush
+  #
+    flushes all buffers associated with the resource
+
+    Topic: Input-Output

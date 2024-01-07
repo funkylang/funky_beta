@@ -1,0 +1,47 @@
+#
+  Copyright (C) 2021 by
+  Dipl.-Ing. Michael Niederle
+
+  This program is free software; you can redistribute it and/or modify
+  it under the terms of the GNU General Public License, version 2, or
+  (at your option) version 3.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  GNU General Public License for more details.
+
+  For details of the GNU General Public License see the accompanying
+  files GPLv2.txt and GLPv3.txt or
+  http://www.gnu.org/licenses/gpl-2.0.html
+  http://www.gnu.org/licenses/gpl-3.0.html
+  or write to the
+  Free Software Foundation, Inc.,
+  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+
+PUBLIC TYPE std_types::undefined
+  #
+    the undefined object
+
+    This is one of the three Funky root objects.
+
+    Topics: Basics, Objects
+
+    See also: std_types::object, std_types::error
+
+METHOD std_types::undefined/_type
+  #
+    the pototype for the <undefined> object
+  {
+    RUNTIME_ERROR("Attempt to call an undefined object as a function!")
+  }
+
+METHOD long std_types::undefined/_debug_string
+  (
+    NODE *node,
+    int indent,
+    int max_depth,
+    char *buf
+  ) {
+    return debug_print(indent, buf, "undefined");
+  }

@@ -1,0 +1,264 @@
+#
+  Copyright (C) 2020 by
+  Dipl.-Ing. Michael Niederle
+
+  This program is free software; you can redistribute it and/or modify
+  it under the terms of the GNU General Public License, version 2, or
+  (at your option) version 3.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  GNU General Public License for more details.
+
+  For details of the GNU General Public License see the accompanying
+  files GPLv2.txt and GLPv3.txt or
+  http://www.gnu.org/licenses/gpl-2.0.html
+  http://www.gnu.org/licenses/gpl-3.0.html
+  or write to the
+  Free Software Foundation, Inc.,
+  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+
+FUNCTION std::exec
+  #
+    replaces the current process with the given command
+
+    This function does not return on success.
+
+    Topics: Input-Output, POSIX
+
+    Parameters:
+      filename # the executable image of the new process
+      arguments # a list of arguments to supply to the new process
+  {
+    CHECK_ARGUMENTS(2)
+    if (TYPEOF(ARGUMENTS(1)) != TYPE(std_types::list)) INVALID_ARGUMENTS
+    CHECK_IO_ACCESS_RIGHTS
+    int i;
+    sigset_t set;
+    int ret = sigpending(&set);
+    if (ret != -1) {
+      // cancel all pending signals
+      for (i = 1; i <= 31; ++i) {
+	if (sigismember(&set, i)) {
+	  signal(i, SIG_IGN);
+	}
+      }
+    }
+
+    NODE *arguments = ARGUMENTS(1);
+    char **args = allocate_memory((arguments->list.length+2)*sizeof(char *));
+    for (i = 0; i < arguments->list.length+1; ++i) {
+      args[i] = NULL;
+    }
+    // convert the command and all arguments into C-strings
+    if (!to_c_string(ARGUMENTS(0), &args[0])) goto cleanup;
+    long offset = arguments->list.offset;
+    for (i = 0; i < arguments->list.length; ++i) {
+      if (!to_c_string(arguments->list.data->items[offset+i], &args[i+1]))
+	goto cleanup;
+    }
+    args[arguments->list.length+1] = NULL;
+
+    int err = execvp(args[0], args); // This call should not return!
+    create_error_message(
+      module__builtin.constants_base[unique__std___IO_ERROR-1],
+      "EXEC FAILED", errno, 0, NULL);
+
+    cleanup:
+
+    if (args) {
+      for (i = 0; i < arguments->list.length+1; ++i) {
+	deallocate_memory(args[i]);
+      }
+      deallocate_memory(args);
+    }
+  }
+
+CODE
+  int close_fd(int *fd_p) {
+    int err = 0;
+    if (*fd_p >= 0) {
+      do {
+	err = close(*fd_p);
+      } while (err == -1 && errno == EINTR);
+      *fd_p = -1;
+    }
+    return err;
+  }
+
+  int dup2_fd(int src_fd, int dest_fd) {
+    int err;
+    do {
+      err = dup2(src_fd, dest_fd);
+    } while (err == -1 && errno == EINTR);
+    return err;
+  }
+
+FUNCTION std::create_process
+  #
+    creates a new child process
+
+    Returns the process id of the child process, a file-descriptor to write
+    to the process' stdin-channel - only if no *stdin* was supplied as an
+    argument, a file-descriptor to read from the process' stdout-channel,
+    and a file-descriptor to read from the process' stderr-channel
+
+    Parameters:
+      filename # the executable image of the new process
+      arguments # a list of arguments to supply to the new process
+      environment? # a list of environment variables or <undefined>
+      stdin? # a file-descriptor to be used as the process' stdin
+  {
+    MIN_ARGUMENTS(2)
+    MAX_ARGUMENTS(4)
+    if (TYPEOF(ARGUMENTS(1)) != TYPE(std_types::list)) INVALID_ARGUMENTS
+    NODE *environment = VAR(std_types::undefined);
+    if (ARGUMENT_COUNT >= 3) {
+      environment = ARGUMENTS(2);
+      if (
+	TYPEOF(environment) != TYPE(std_types::undefined) &&
+	TYPEOF(environment) != TYPE(std_types::list)
+      ) INVALID_ARGUMENTS
+    }
+    if (
+      ARGUMENT_COUNT == 4 &&
+      TYPEOF(ARGUMENTS(3)) != TYPE(std_types::file_descriptor)
+    ) INVALID_ARGUMENTS
+    CHECK_IO_ACCESS_RIGHTS
+
+    char **envp = NULL;
+
+    // initialize all pipe handles to invalid file descriptors
+    struct {
+      int read_fd;
+      int write_fd;
+    } in_pipe = {-1, -1}, out_pipe = {-1, -1}, err_pipe = {-1, -1};
+
+    NODE *arguments = ARGUMENTS(1);
+    char **args = allocate_memory((arguments->list.length+2)*sizeof(char *));
+    int i;
+    for (i = 0; i < arguments->list.length+1; ++i) {
+      args[i] = NULL;
+    }
+    // convert the command and all arguments into C-strings
+    if (!to_c_string(ARGUMENTS(0), &args[0])) goto cleanup;
+    long offset = arguments->list.offset;
+    for (i = 0; i < arguments->list.length; ++i) {
+      if (!to_c_string(arguments->list.data->items[offset+i], &args[i+1]))
+	goto cleanup;
+    }
+    args[arguments->list.length+1] = NULL;
+
+    if (ARGUMENT_COUNT < 4) {
+      if (pipe((int *)&in_pipe) != 0) {
+	pipe_creation_failed:
+	create_error_message(
+	  module__builtin.constants_base[unique__std___IO_ERROR-1],
+	  "PIPE_CREATION FAILED", errno, 0, NULL);
+	goto cleanup;
+      }
+    }
+    if (pipe((int *)&out_pipe) != 0) goto pipe_creation_failed;
+    if (pipe((int *)&err_pipe) != 0) goto pipe_creation_failed;
+
+    int pid = fork();
+    if (pid == 0) {
+      // child process
+      if (ARGUMENT_COUNT == 4) {
+	dup2_fd(ARGUMENTS(3)->file_descriptor.value, STDIN_FILENO);
+	close(ARGUMENTS(3)->file_descriptor.value);
+      } else {
+	close(in_pipe.write_fd);
+	dup2_fd(in_pipe.read_fd, STDIN_FILENO);
+	close(in_pipe.read_fd);
+      }
+
+      close(out_pipe.read_fd);
+      dup2_fd(out_pipe.write_fd, STDOUT_FILENO);
+      close(out_pipe.write_fd);
+
+      close(err_pipe.read_fd);
+      dup2_fd(err_pipe.write_fd, STDERR_FILENO);
+      close(err_pipe.write_fd);
+
+      if (TYPEOF(environment) == TYPE(std_types::list)) {
+	envp = allocate_memory((environment->list.length+1)*sizeof(char *));
+	int i;
+	for (i = 0; i < environment->list.length; ++i) {
+	  envp[i] = NULL;
+	}
+	// convert the environment into C-strings
+	long offset = environment->list.offset;
+	for (i = 0; i < environment->list.length; ++i) {
+	  if (!to_c_string(environment->list.data->items[offset+i], &envp[i]))
+	    goto cleanup;
+	}
+	envp[environment->list.length] = NULL;
+	execvpe(args[0], args, envp);
+      } else {
+	execvp(args[0], args);
+      }
+      fprintf(stderr, "EXEC \"%s\" FAILED - %s\n", args[0], strerror(errno));
+      exit(EXIT_FAILURE);
+    }
+
+    // parent process
+
+    if (pid == -1) {
+      create_error_message(
+	      module__builtin.constants_base[unique__std___IO_ERROR-1],
+	"FORK FAILED", errno, 0, NULL);
+      goto cleanup;
+    }
+
+    NODE *child_pid, *child_stdin, *child_stdout, *child_stderr;
+
+    child_pid = process_id_from_int(pid);
+    if (ARGUMENT_COUNT < 4) {
+      child_stdin = file_descriptor_from_int(in_pipe.write_fd);
+    }
+    child_stdout = file_descriptor_from_int(out_pipe.read_fd);
+    child_stderr = file_descriptor_from_int(err_pipe.read_fd);
+
+
+    if (ARGUMENT_COUNT == 4) { // we got *stdin* from the caller
+      START_ARGUMENTS(3)
+      ARGUMENTS(0) = child_pid;
+      ARGUMENTS(1) = child_stdout;
+      ARGUMENTS(2) = child_stderr;
+      goto cleanup_2;
+    } else {
+      START_ARGUMENTS(4)
+      ARGUMENTS(0) = child_pid;
+      ARGUMENTS(1) = child_stdin;
+      ARGUMENTS(2) = child_stdout;
+      ARGUMENTS(3) = child_stderr;
+      goto cleanup_2;
+    }
+
+    cleanup:
+
+    close_fd(&in_pipe.write_fd);
+    close_fd(&out_pipe.read_fd);
+    close_fd(&err_pipe.read_fd);
+
+    cleanup_2:
+
+    close_fd(&in_pipe.read_fd);
+    close_fd(&out_pipe.write_fd);
+    close_fd(&err_pipe.write_fd);
+
+    if (args) {
+      for (i = 0; i < arguments->list.length+1; ++i) {
+	deallocate_memory(args[i]);
+      }
+      deallocate_memory(args);
+    }
+    if (envp) {
+      for (i = 0; i < environment->list.length; ++i) {
+	deallocate_memory(envp[i]);
+      }
+      deallocate_memory(envp);
+    }
+  }

@@ -1,0 +1,97 @@
+#
+  Copyright (C) 2021 by
+  Dipl.-Ing. Michael Niederle
+
+  This program is free software; you can redistribute it and/or modify
+  it under the terms of the GNU General Public License, version 2, or
+  (at your option) version 3.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  GNU General Public License for more details.
+
+  For details of the GNU General Public License see the accompanying
+  files GPLv2.txt and GLPv3.txt or
+  http://www.gnu.org/licenses/gpl-2.0.html
+  http://www.gnu.org/licenses/gpl-3.0.html
+  or write to the
+  Free Software Foundation, Inc.,
+  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+
+TYPE std_types::object
+  #
+    the prototype object for all "normal" objects
+
+    This is one of the three Funky root objects.
+
+    Topics: Basics, Objects
+
+    See also: std_types::undefined, std_types::error
+
+METHOD std_types::object/_type
+  {
+    RUNTIME_ERROR("Attempt to call an object as a function!")
+  }
+
+METHOD long std_types::object/_debug_string
+  (
+    NODE *node,
+    int indent,
+    int max_depth,
+    char *buf
+  )
+  {
+    if (max_depth == 0) {
+      return debug_print(indent, buf, "<object>");
+    } else {
+      int i, n, len;
+      n = debug_print_head(&indent, &buf, "object");
+      const char *contents_indent = indent_to_string(indent);
+      int count =
+	next_polymorphic_function > next_polymorphic_function_with_setter
+	? next_polymorphic_function
+	: next_polymorphic_function_with_setter;
+      for (i = 1; i < count; ++i) { // 0 is no valid attribute id
+	if (
+	  (i & 7) != 0 &&
+	  (
+	    (i & 1) != 0 && i < next_polymorphic_function ||
+	    (i & 1) == 0 && i < next_polymorphic_function_with_setter
+	  )
+	) {
+	  NODE *attr = get_attribute(node, i);
+	  NODE *attr_addr = (NODE *)((long)attr-1);
+	  const char *poly_name = polymorphic_function_names[i];
+	  const char *poly_namespace = poly_name;
+	  while (*poly_namespace++);
+	  if (
+	    (long)attr & 1 &&
+	    attr_addr != VAR(std_types::undefined) &&
+	    (
+	      attr_addr == VAR(std_types::true) ||
+	      strncmp(poly_name, "is_", 3) != 0
+	    ) &&
+	    (
+	      strcmp(poly_namespace, "std") != 0 ||
+	      (
+		strcmp(poly_name, "is_defined") != 0 &&
+		strncmp(poly_name, "serialization_", 14) != 0 &&
+		strcmp(poly_name, "deserializer_of") != 0
+	      )
+	    )
+	  ) {
+	    n += print(&buf, contents_indent);
+	    if (*poly_namespace) {
+	      n += print(&buf, "%s::", poly_namespace);
+	    }
+	    n += print(&buf, "%s:", poly_name);
+	    len = debug_string(attr_addr, -indent-2, max_depth-1, buf);
+	    if (buf) buf += len;
+	    n += len;
+	  }
+	}
+      }
+      return n;
+    }
+  }

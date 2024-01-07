@@ -1,0 +1,137 @@
+#
+  Copyright (C) 2021 by
+  Dipl.-Ing. Michael Niederle
+
+  This program is free software; you can redistribute it and/or modify
+  it under the terms of the GNU General Public License, version 2, or
+  (at your option) version 3.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  GNU General Public License for more details.
+
+  For details of the GNU General Public License see the accompanying
+  files GPLv2.txt and GLPv3.txt or
+  http://www.gnu.org/licenses/gpl-2.0.html
+  http://www.gnu.org/licenses/gpl-3.0.html
+  or write to the
+  Free Software Foundation, Inc.,
+  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+
+TYPE std_types::true -> std_types::object
+  #
+    the *type* of the boolean value **true**
+
+    Use <std::true> for constants in your programs (not <std_types::true>).
+
+    Use <std_types::true> to add new functionality to the *true*-type.
+
+    See also: std_types::false, std::true
+
+METHOD std_types::true/_type
+  {
+    RUNTIME_ERROR("Attempt to call the boolean value true as a function!")
+  }
+
+METHOD int std_types::true/_to_bool
+  (
+    NODE *node,
+    int *result_p
+  )
+  {
+    *result_p = true;
+    return true;
+  }
+
+METHOD long std_types::true/_debug_string
+  (
+    NODE *node,
+    int indent,
+    int max_depth,
+    char *buf
+  )
+  {
+    return debug_print(indent, buf, "true");
+  }
+
+METHOD std_types::true/equal
+  #
+    is only equal to itself
+  {
+    CHECK_ARGUMENTS(2)
+    CHECK_RESULTS(1)
+    if (TYPEOF(ARGUMENTS(1)) == TYPE(std_types::true)) {
+      RETURN_TRUE
+    } else if (TYPEOF(ARGUMENTS(1)) == TYPE(std_types::error)) {
+      INVALID_ARGUMENTS
+    } else {
+      RETURN_FALSE
+    }
+  }
+
+# false
+
+TYPE std_types::false -> std_types::object
+  #
+    the *type* of the boolean value **false**
+
+    Use <std::false> for constants in your programs (not <std_types::false>).
+
+    Use <std_types::false> to add new functionality to the *false*-type.
+
+    See also: std_types::true, std::false
+
+METHOD std_types::false/_type
+  {
+    RUNTIME_ERROR("Attempt to call the boolean value false as a function!")
+  }
+
+METHOD int std_types::false/_to_bool
+  (
+    NODE *node,
+    int *result_p
+  )
+  {
+    *result_p = false;
+    return true;
+  }
+
+METHOD long std_types::false/_debug_string
+  (
+    NODE *node,
+    int indent,
+    int max_depth,
+    char *buf
+  )
+  {
+    return debug_print(indent, buf, "false");
+  }
+
+METHOD std_types::false/equal
+  #
+    is only equal to itself
+  {
+    CHECK_ARGUMENTS(2)
+    CHECK_RESULTS(1)
+    if (TYPEOF(ARGUMENTS(1)) == TYPE(std_types::false)) {
+      RETURN_TRUE
+    } else if (TYPEOF(ARGUMENTS(1)) == TYPE(std_types::error)) {
+      INVALID_ARGUMENTS
+    } else {
+      RETURN_FALSE
+    }
+  }
+
+# boolean
+
+FUNCTION NODE *from_bool
+  (
+    int val
+  )
+  {
+    if (val)
+      return VAR(std_types::true);
+    else
+      return VAR(std_types::false);
+  }

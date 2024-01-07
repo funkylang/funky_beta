@@ -1,0 +1,4893 @@
+#
+  Copyright (C) 2024 by
+  Dipl.-Ing. Michael Niederle
+
+  This program is free software; you can redistribute it and/or modify
+  it under the terms of the GNU General Public License, version 2, or
+  (at your option) version 3.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  GNU General Public License for more details.
+
+  For details of the GNU General Public License see the accompanying
+  files GPLv2.txt and GLPv3.txt or
+  http://www.gnu.org/licenses/gpl-2.0.html
+  http://www.gnu.org/licenses/gpl-3.0.html
+  or write to the
+  Free Software Foundation, Inc.,
+  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+
+INCLUDE dirent.h
+
+OBJECT std::BLOCK_DEVICE -> std_types::file_type
+  #
+    a file type referring to a block device
+
+    File types are returned by <readdir>.
+
+    Topic: POSIX
+
+    See also: std_types::file_type
+
+  {DT_BLK}
+
+OBJECT std::CHARACTER_DEVICE -> std_types::file_type
+  #
+    a file type referring to a character device
+
+    File types are returned by <readdir>.
+
+    Topic: POSIX
+
+    See also: std_types::file_type
+
+  {DT_CHR}
+
+OBJECT std::DIRECTORY -> std_types::file_type
+  #
+    a file type referring to a directory
+
+    File types are returned by <readdir>.
+
+    Topic: POSIX
+
+    See also: std_types::file_type
+
+  {DT_DIR}
+
+OBJECT std::NAMED_PIPE -> std_types::file_type
+  #
+    a file type referring to a named pipe
+
+    File types are returned by <readdir>.
+
+    Topic: POSIX
+
+    See also: std_types::file_type
+
+  {DT_FIFO}
+
+OBJECT std::SYMBOLIC_LINK -> std_types::file_type
+  #
+    a file type referring to a symbolic link
+
+    File types are returned by <readdir>.
+
+    Topic: POSIX
+
+    See also: std_types::file_type
+
+  {DT_LNK}
+
+OBJECT std::REGULAR_FILE -> std_types::file_type
+  #
+    a file type referring to a regular file
+
+    File types are returned by <readdir>.
+
+    Topic: POSIX
+
+    See also: std_types::file_type
+
+  {DT_REG}
+
+OBJECT std::SOCKET -> std_types::file_type
+  #
+    a file type referring to a socket
+
+    File types are returned by <readdir>.
+
+    Topic: POSIX
+
+    See also: std_types::file_type
+
+  {DT_SOCK}
+
+OBJECT std::UNKNOWN_FILE_TYPE -> std_types::file_type
+  #
+    a file type referring to an unknown file type
+
+    File types are returned by <readdir>.
+
+    Topic: POSIX
+
+    See also: std_types::file_type
+
+  {DT_UNKNOWN}
+
+OBJECT std::STDIN_FILENO -> std_types::file_descriptor
+  #
+    the file descriptor for standard input
+
+    Topic: POSIX
+
+    See also: std_types::file_descriptor
+
+  {STDIN_FILENO}
+
+OBJECT std::STDOUT_FILENO -> std_types::file_descriptor
+  #
+    the file descriptor for standard output
+
+    Topic: POSIX
+
+    See also: std_types::file_descriptor
+
+  {STDOUT_FILENO}
+
+OBJECT std::STDERR_FILENO -> std_types::file_descriptor
+  #
+    the file descriptor for standard error output
+
+    Topic: POSIX
+
+    See also: std_types::file_descriptor
+
+  {STDERR_FILENO}
+
+OBJECT std::SHUT_RD -> std_types::shutdown_type
+  #
+    shutdown read side
+
+    Topic: POSIX
+
+    See also: std_types::shutdown_type
+
+  {SHUT_RD}
+
+OBJECT std::SHUT_WR -> std_types::shutdown_type
+  #
+    shutdown write side
+
+    Topic: POSIX
+
+    See also: std_types::shutdown_type
+
+  {SHUT_WR}
+
+OBJECT std::SHUT_RDWR -> std_types::shutdown_type
+  #
+    shutdown read and write side
+
+    Topic: POSIX
+
+    See also: std_types::shutdown_type
+
+  {SHUT_RDWR}
+
+OBJECT std::ENOERR -> std_types::error_number
+  #
+    no error
+
+    Topic: POSIX
+
+    See also: std_types::error_number
+
+  {0}
+
+OBJECT std::EPERM -> std_types::error_number
+  #
+    operation not permitted
+
+    Topic: POSIX
+
+    See also: std_types::error_number
+
+  {EPERM}
+
+OBJECT std::ENOENT -> std_types::error_number
+  #
+    no such file or directory
+
+    Topic: POSIX
+
+    See also: std_types::error_number
+
+  {ENOENT}
+
+OBJECT std::ESRCH -> std_types::error_number
+  #
+    no such process
+
+    Topic: POSIX
+
+    See also: std_types::error_number
+
+  {ESRCH}
+
+OBJECT std::EINTR -> std_types::error_number
+  #
+    interrupted system call
+
+    Topic: POSIX
+
+    See also: std_types::error_number
+
+  {EINTR}
+
+OBJECT std::EIO -> std_types::error_number
+  #
+    input/output error
+
+    Topic: POSIX
+
+    See also: std_types::error_number
+
+  {EIO}
+
+OBJECT std::ENXIO -> std_types::error_number
+  #
+    no such device or address
+
+    Topic: POSIX
+
+    See also: std_types::error_number
+
+  {ENXIO}
+
+OBJECT std::E2BIG -> std_types::error_number
+  #
+    argument list too long
+
+    Topic: POSIX
+
+    See also: std_types::error_number
+
+  {E2BIG}
+
+OBJECT std::ENOEXEC -> std_types::error_number
+  #
+    exec format error
+
+    Topic: POSIX
+
+    See also: std_types::error_number
+
+  {ENOEXEC}
+
+OBJECT std::EBADF -> std_types::error_number
+  #
+    bad file descriptor
+
+    Topic: POSIX
+
+    See also: std_types::error_number
+
+  {EBADF}
+
+OBJECT std::ECHILD -> std_types::error_number
+  #
+    no child processes
+
+    Topic: POSIX
+
+    See also: std_types::error_number
+
+  {ECHILD}
+
+OBJECT std::EAGAIN -> std_types::error_number
+  #
+    try again
+
+    Topic: POSIX
+
+    See also: std_types::error_number
+
+  {EAGAIN}
+
+OBJECT std::ENOMEM -> std_types::error_number
+  #
+    out of memory
+
+    Topic: POSIX
+
+    See also: std_types::error_number
+
+  {ENOMEM}
+
+OBJECT std::EACCES -> std_types::error_number
+  #
+    permission denied
+
+    Topic: POSIX
+
+    See also: std_types::error_number
+
+  {EACCES}
+
+OBJECT std::EFAULT -> std_types::error_number
+  #
+    bad address
+
+    Topic: POSIX
+
+    See also: std_types::error_number
+
+  {EFAULT}
+
+OBJECT std::ENOTBLK -> std_types::error_number
+  #
+    blocking operation not supported
+
+    Topic: POSIX
+
+    See also: std_types::error_number
+
+  {ENOTBLK}
+
+OBJECT std::EBUSY -> std_types::error_number
+  #
+    device or resource busy
+
+    Topic: POSIX
+
+    See also: std_types::error_number
+
+  {EBUSY}
+
+OBJECT std::EEXIST -> std_types::error_number
+  #
+    file exists
+
+    Topic: POSIX
+
+    See also: std_types::error_number
+
+  {EEXIST}
+
+OBJECT std::EXDEV -> std_types::error_number
+  #
+    cross-device link not permitted
+
+    Topic: POSIX
+
+    See also: std_types::error_number
+
+  {EXDEV}
+
+OBJECT std::ENODEV -> std_types::error_number
+  #
+    no such device
+
+    Topic: POSIX
+
+    See also: std_types::error_number
+
+  {ENODEV}
+
+OBJECT std::ENOTDIR -> std_types::error_number
+  #
+    not a directory
+
+    Topic: POSIX
+
+    See also: std_types::error_number
+
+  {ENOTDIR}
+
+OBJECT std::EISDIR -> std_types::error_number
+  #
+    is a directory
+
+    Topic: POSIX
+
+    See also: std_types::error_number
+
+  {EISDIR}
+
+OBJECT std::EINVAL -> std_types::error_number
+  #
+    invalid argument
+
+    Topic: POSIX
+
+    See also: std_types::error_number
+
+  {EINVAL}
+
+OBJECT std::ENFILE -> std_types::error_number
+  #
+    file table overflow
+
+    Topic: POSIX
+
+    See also: std_types::error_number
+
+  {ENFILE}
+
+OBJECT std::EMFILE -> std_types::error_number
+  #
+    too many open files
+
+    Topic: POSIX
+
+    See also: std_types::error_number
+
+  {EMFILE}
+
+OBJECT std::ENOTTY -> std_types::error_number
+  #
+    not a typewriter
+
+    Topic: POSIX
+
+    See also: std_types::error_number
+
+  {ENOTTY}
+
+OBJECT std::ETXTBSY -> std_types::error_number
+  #
+    text file busy
+
+    Topic: POSIX
+
+    See also: std_types::error_number
+
+  {ETXTBSY}
+
+OBJECT std::EFBIG -> std_types::error_number
+  #
+    file too large
+
+    Topic: POSIX
+
+    See also: std_types::error_number
+
+  {EFBIG}
+
+OBJECT std::ENOSPC -> std_types::error_number
+  #
+    no space left on device
+
+    Topic: POSIX
+
+    See also: std_types::error_number
+
+  {ENOSPC}
+
+OBJECT std::ESPIPE -> std_types::error_number
+  #
+    illegal seek
+
+    Topic: POSIX
+
+    See also: std_types::error_number
+
+  {ESPIPE}
+
+OBJECT std::EROFS -> std_types::error_number
+  #
+    read-only file system
+
+    Topic: POSIX
+
+    See also: std_types::error_number
+
+  {EROFS}
+
+OBJECT std::EMLINK -> std_types::error_number
+  #
+    too many links
+
+    Topic: POSIX
+
+    See also: std_types::error_number
+
+  {EMLINK}
+
+OBJECT std::EPIPE -> std_types::error_number
+  #
+    broken pipe
+
+    Topic: POSIX
+
+    See also: std_types::error_number
+
+  {EPIPE}
+
+OBJECT std::EDOM -> std_types::error_number
+  #
+    domain error
+
+    Topic: POSIX
+
+    See also: std_types::error_number
+
+  {EDOM}
+
+OBJECT std::ERANGE -> std_types::error_number
+  #
+    result too large
+
+    Topic: POSIX
+
+    See also: std_types::error_number
+
+  {ERANGE}
+
+OBJECT std::EDEADLK -> std_types::error_number
+  #
+    deadlock condition
+
+    Topic: POSIX
+
+    See also: std_types::error_number
+
+  {EDEADLK}
+
+OBJECT std::ENAMETOOLONG -> std_types::error_number
+  #
+    file name too long
+
+    Topic: POSIX
+
+    See also: std_types::error_number
+
+  {ENAMETOOLONG}
+
+OBJECT std::ENOLCK -> std_types::error_number
+  #
+    no record locks available
+
+    Topic: POSIX
+
+    See also: std_types::error_number
+
+  {ENOLCK}
+
+OBJECT std::ENOSYS -> std_types::error_number
+  #
+    function not implemented
+
+    Topic: POSIX
+
+    See also: std_types::error_number
+
+  {ENOSYS}
+
+OBJECT std::ENOTEMPTY -> std_types::error_number
+  #
+    directory not empty
+
+    Topic: POSIX
+
+    See also: std_types::error_number
+
+  {ENOTEMPTY}
+
+OBJECT std::EILSEQ -> std_types::error_number
+  #
+    illegal byte sequence
+
+    Topic: POSIX
+
+    See also: std_types::error_number
+
+  {EILSEQ}
+
+OBJECT std::ELOOP -> std_types::error_number
+  #
+    too many symbolic links encountered
+
+    Topic: POSIX
+
+    See also: std_types::error_number
+
+  {ELOOP}
+
+OBJECT std::ENOMSG -> std_types::error_number
+  #
+    no message of desired type
+
+    Topic: POSIX
+
+    See also: std_types::error_number
+
+  {ENOMSG}
+
+OBJECT std::EIDRM -> std_types::error_number
+  #
+    identifier removed
+
+    Topic: POSIX
+
+    See also: std_types::error_number
+
+  {EIDRM}
+
+OBJECT std::ECHRNG -> std_types::error_number
+  #
+    channel number out of range
+
+    Topic: POSIX
+
+    See also: std_types::error_number
+
+  {ECHRNG}
+
+OBJECT std::EL2NSYNC -> std_types::error_number
+  #
+    level 2 not synchronized
+
+    Topic: POSIX
+
+    See also: std_types::error_number
+
+  {EL2NSYNC}
+
+OBJECT std::EL3HLT -> std_types::error_number
+  #
+    level 3 halted
+
+    Topic: POSIX
+
+    See also: std_types::error_number
+
+  {EL3HLT}
+
+OBJECT std::EL3RST -> std_types::error_number
+  #
+    level 3 reset
+
+    Topic: POSIX
+
+    See also: std_types::error_number
+
+  {EL3RST}
+
+OBJECT std::ELNRNG -> std_types::error_number
+  #
+    link number out of range
+
+    Topic: POSIX
+
+    See also: std_types::error_number
+
+  {ELNRNG}
+
+OBJECT std::EUNATCH -> std_types::error_number
+  #
+    protocol driver not attached
+
+    Topic: POSIX
+
+    See also: std_types::error_number
+
+  {EUNATCH}
+
+OBJECT std::ENOCSI -> std_types::error_number
+  #
+    no CSI structure available
+
+    Topic: POSIX
+
+    See also: std_types::error_number
+
+  {ENOCSI}
+
+OBJECT std::EL2HLT -> std_types::error_number
+  #
+    level 2 halted
+
+    Topic: POSIX
+
+    See also: std_types::error_number
+
+  {EL2HLT}
+
+OBJECT std::EBADE -> std_types::error_number
+  #
+    bad exchange
+
+    Topic: POSIX
+
+    See also: std_types::error_number
+
+  {EBADE}
+
+OBJECT std::EBADR -> std_types::error_number
+  #
+    bad address
+
+    Topic: POSIX
+
+    See also: std_types::error_number
+
+  {EBADR}
+
+OBJECT std::EXFULL -> std_types::error_number
+  #
+    exchange full
+
+    Topic: POSIX
+
+    See also: std_types::error_number
+
+  {EXFULL}
+
+OBJECT std::ENOANO -> std_types::error_number
+  #
+    no anode
+
+    Topic: POSIX
+
+    See also: std_types::error_number
+
+  {ENOANO}
+
+OBJECT std::EBADRQC -> std_types::error_number
+  #
+    invalid request descriptor
+
+    Topic: POSIX
+
+    See also: std_types::error_number
+
+  {EBADRQC}
+
+OBJECT std::EBADSLT -> std_types::error_number
+  #
+    invalid slot
+
+    Topic: POSIX
+
+    See also: std_types::error_number
+
+  {EBADSLT}
+
+OBJECT std::EBFONT -> std_types::error_number
+  #
+    bad font file format
+
+    Topic: POSIX
+
+    See also: std_types::error_number
+
+  {EBFONT}
+
+OBJECT std::ENOSTR -> std_types::error_number
+  #
+    device not a stream
+
+    Topic: POSIX
+
+    See also: std_types::error_number
+
+  {ENOSTR}
+
+OBJECT std::ENODATA -> std_types::error_number
+  #
+    no data available
+
+    Topic: POSIX
+
+    See also: std_types::error_number
+
+  {ENODATA}
+
+OBJECT std::ETIME -> std_types::error_number
+  #
+    timer expired
+
+    Topic: POSIX
+
+    See also: std_types::error_number
+
+  {ETIME}
+
+OBJECT std::ENOSR -> std_types::error_number
+  #
+    out of streams resources
+
+    Topic: POSIX
+
+    See also: std_types::error_number
+
+  {ENOSR}
+
+OBJECT std::ENONET -> std_types::error_number
+  #
+    machine is not on the network
+
+    Topic: POSIX
+
+    See also: std_types::error_number
+
+  {ENONET}
+
+OBJECT std::ENOPKG -> std_types::error_number
+  #
+    package not installed
+
+    Topic: POSIX
+
+    See also: std_types::error_number
+
+  {ENOPKG}
+
+OBJECT std::EREMOTE -> std_types::error_number
+  #
+    address not available
+
+    Topic: POSIX
+
+    See also: std_types::error_number
+
+  {EREMOTE}
+
+OBJECT std::ENOLINK -> std_types::error_number
+  #
+    link has been severed
+
+    Topic: POSIX
+
+    See also: std_types::error_number
+
+  {ENOLINK}
+
+OBJECT std::EADV -> std_types::error_number
+  #
+    advertise error
+
+    Topic: POSIX
+
+    See also: std_types::error_number
+
+  {EADV}
+
+OBJECT std::ESRMNT -> std_types::error_number
+  #
+    srmount error
+
+    Topic: POSIX
+
+    See also: std_types::error_number
+
+  {ESRMNT}
+
+OBJECT std::ECOMM -> std_types::error_number
+  #
+    communication error on send
+
+    Topic: POSIX
+
+    See also: std_types::error_number
+
+  {ECOMM}
+
+OBJECT std::EPROTO -> std_types::error_number
+  #
+    protocol error
+
+    Topic: POSIX
+
+    See also: std_types::error_number
+
+  {EPROTO}
+
+OBJECT std::EMULTIHOP -> std_types::error_number
+  #
+    multihop attempted
+
+    Topic: POSIX
+
+    See also: std_types::error_number
+
+  {EMULTIHOP}
+
+OBJECT std::EDOTDOT -> std_types::error_number
+  #
+    rfc931 nfs v2 error
+
+    Topic: POSIX
+
+    See also: std_types::error_number
+
+  {EDOTDOT}
+
+OBJECT std::EBADMSG -> std_types::error_number
+  #
+    not a data message
+
+    Topic: POSIX
+
+    See also: std_types::error_number
+
+  {EBADMSG}
+
+OBJECT std::EOVERFLOW -> std_types::error_number
+  #
+    value too large for defined data type
+
+    Topic: POSIX
+
+    See also: std_types::error_number
+
+  {EOVERFLOW}
+
+OBJECT std::ENOTUNIQ -> std_types::error_number
+  #
+    file system does not support byte swapped files
+
+    Topic: POSIX
+
+    See also: std_types::error_number
+
+  {ENOTUNIQ}
+
+OBJECT std::EBADFD -> std_types::error_number
+  #
+    file descriptor in bad state
+
+    Topic: POSIX
+
+    See also: std_types::error_number
+
+  {EBADFD}
+
+OBJECT std::EREMCHG -> std_types::error_number
+  #
+    remote address changed
+
+    Topic: POSIX
+
+    See also: std_types::error_number
+
+  {EREMCHG}
+
+OBJECT std::ELIBACC -> std_types::error_number
+  #
+    can not access a needed shared library
+
+    Topic: POSIX
+
+    See also: std_types::error_number
+
+  {ELIBACC}
+
+OBJECT std::ELIBBAD -> std_types::error_number
+  #
+    accessing a corrupted shared library
+
+    Topic: POSIX
+
+    See also: std_types::error_number
+
+  {ELIBBAD}
+
+OBJECT std::ELIBSCN -> std_types::error_number
+  #
+    .lib section in a.out corrupted
+
+    Topic: POSIX
+
+    See also: std_types::error_number
+
+  {ELIBSCN}
+
+OBJECT std::ELIBMAX -> std_types::error_number
+  #
+    attempted using too many links
+
+    Topic: POSIX
+
+    See also: std_types::error_number
+
+  {ELIBMAX}
+
+OBJECT std::ELIBEXEC -> std_types::error_number
+  #
+    cannot exec a shared library directly
+
+    Topic: POSIX
+
+    See also: std_types::error_number
+
+  {ELIBEXEC}
+
+OBJECT std::ERESTART -> std_types::error_number
+  #
+    restart point is not valid
+
+    Topic: POSIX
+
+    See also: std_types::error_number
+
+  {ERESTART}
+OBJECT std::ESTRPIPE -> std_types::error_number
+  #
+    stream pipe error
+
+    Topic: POSIX
+
+    See also: std_types::error_number
+
+  {ESTRPIPE}
+OBJECT std::EUSERS -> std_types::error_number
+  #
+    too many users
+
+    Topic: POSIX
+
+    See also: std_types::error_number
+
+  {EUSERS}
+
+OBJECT std::ENOTSOCK -> std_types::error_number
+  #
+    operation not supported on socket
+
+    Topic: POSIX
+
+    See also: std_types::error_number
+
+  {ENOTSOCK}
+
+OBJECT std::EDESTADDRREQ -> std_types::error_number
+  #
+    destination address required
+
+    Topic: POSIX
+
+    See also: std_types::error_number
+
+  {EDESTADDRREQ}
+
+OBJECT std::EMSGSIZE -> std_types::error_number
+  #
+    message too long
+
+    Topic: POSIX
+
+    See also: std_types::error_number
+
+  {EMSGSIZE}
+
+OBJECT std::EPROTOTYPE -> std_types::error_number
+  #
+    protocol error
+
+    Topic: POSIX
+
+    See also: std_types::error_number
+
+  {EPROTOTYPE}
+
+OBJECT std::ENOPROTOOPT -> std_types::error_number
+  #
+    protocol not available
+
+    Topic: POSIX
+
+    See also: std_types::error_number
+
+  {ENOPROTOOPT}
+
+OBJECT std::EPROTONOSUPPORT -> std_types::error_number
+  #
+    protocol not supported
+
+    Topic: POSIX
+
+    See also: std_types::error_number
+
+  {EPROTONOSUPPORT}
+
+OBJECT std::ESOCKTNOSUPPORT -> std_types::error_number
+  #
+    socket type not supported
+
+    Topic: POSIX
+
+    See also: std_types::error_number
+
+  {ESOCKTNOSUPPORT}
+
+OBJECT std::EOPNOTSUPP -> std_types::error_number
+  #
+    operation not supported
+
+    Topic: POSIX
+
+    See also: std_types::error_number
+
+  {EOPNOTSUPP}
+
+OBJECT std::EPFNOSUPPORT -> std_types::error_number
+  #
+    protocol family not supported
+
+    Topic: POSIX
+
+    See also: std_types::error_number
+
+  {EPFNOSUPPORT}
+
+OBJECT std::EAFNOSUPPORT -> std_types::error_number
+  #
+    address family not supported by protocol
+
+    Topic: POSIX
+
+    See also: std_types::error_number
+
+  {EAFNOSUPPORT}
+
+OBJECT std::EADDRINUSE -> std_types::error_number
+  #
+    address already in use
+
+    Topic: POSIX
+
+    See also: std_types::error_number
+
+  {EADDRINUSE}
+
+OBJECT std::EADDRNOTAVAIL -> std_types::error_number
+  #
+    cannot assign requested address
+
+    Topic: POSIX
+
+    See also: std_types::error_number
+
+  {EADDRNOTAVAIL}
+
+OBJECT std::ENETDOWN -> std_types::error_number
+  #
+    network is down
+
+    Topic: POSIX
+
+    See also: std_types::error_number
+
+  {ENETDOWN}
+
+OBJECT std::ENETUNREACH -> std_types::error_number
+  #
+    network is unreachable
+
+    Topic: POSIX
+
+    See also: std_types::error_number
+
+  {ENETUNREACH}
+
+OBJECT std::ENETRESET -> std_types::error_number
+  #
+    network dropped connection because of reset
+
+    Topic: POSIX
+
+    See also: std_types::error_number
+
+  {ENETRESET}
+
+OBJECT std::ECONNABORTED -> std_types::error_number
+  #
+    software caused connection abort
+
+    Topic: POSIX
+
+    See also: std_types::error_number
+
+  {ECONNABORTED}
+
+OBJECT std::ECONNRESET -> std_types::error_number
+  #
+    connection reset by peer
+
+    Topic: POSIX
+
+    See also: std_types::error_number
+
+  {ECONNRESET}
+
+OBJECT std::ENOBUFS -> std_types::error_number
+  #
+    no buffer space available
+
+    Topic: POSIX
+
+    See also: std_types::error_number
+
+  {ENOBUFS}
+
+OBJECT std::EISCONN -> std_types::error_number
+  #
+    socket is already connected
+
+    Topic: POSIX
+
+    See also: std_types::error_number
+
+  {EISCONN}
+
+OBJECT std::ENOTCONN -> std_types::error_number
+  #
+    socket is not connected
+
+    Topic: POSIX
+
+    See also: std_types::error_number
+
+  {ENOTCONN}
+
+OBJECT std::ESHUTDOWN -> std_types::error_number
+  #
+    socket shutdown
+
+    Topic: POSIX
+
+    See also: std_types::error_number
+
+  {ESHUTDOWN}
+
+OBJECT std::ETOOMANYREFS -> std_types::error_number
+  #
+    too many references: cannot splice
+
+    Topic: POSIX
+
+    See also: std_types::error_number
+
+  {ETOOMANYREFS}
+
+OBJECT std::ETIMEDOUT -> std_types::error_number
+  #
+    connection timed out
+
+    Topic: POSIX
+
+    See also: std_types::error_number
+
+  {ETIMEDOUT}
+
+OBJECT std::ECONNREFUSED -> std_types::error_number
+  #
+    connection refused
+
+    Topic: POSIX
+
+    See also: std_types::error_number
+
+  {ECONNREFUSED}
+
+OBJECT std::EHOSTDOWN -> std_types::error_number
+  #
+    host is down
+
+    Topic: POSIX
+
+    See also: std_types::error_number
+
+  {EHOSTDOWN}
+
+OBJECT std::EHOSTUNREACH -> std_types::error_number
+  #
+    no route to host
+
+    Topic: POSIX
+
+    See also: std_types::error_number
+
+  {EHOSTUNREACH}
+
+OBJECT std::EALREADY -> std_types::error_number
+  #
+    operation already in progress
+
+    Topic: POSIX
+
+    See also: std_types::error_number
+
+  {EALREADY}
+
+OBJECT std::EINPROGRESS -> std_types::error_number
+  #
+    operation now in progress
+
+    Topic: POSIX
+
+    See also: std_types::error_number
+
+  {EINPROGRESS}
+
+OBJECT std::ESTALE -> std_types::error_number
+  #
+    stale NFS file handle
+
+    Topic: POSIX
+
+    See also: std_types::error_number
+
+  {ESTALE}
+
+OBJECT std::EUCLEAN -> std_types::error_number
+  #
+    struct member not updated
+
+    Topic: POSIX
+
+    See also: std_types::error_number
+
+  {EUCLEAN}
+
+OBJECT std::ENOTNAM -> std_types::error_number
+  #
+    not a XENIX named type file
+
+    Topic: POSIX
+
+    See also: std_types::error_number
+
+  {ENOTNAM}
+
+OBJECT std::ENAVAIL -> std_types::error_number
+  #
+    no XENIX semaphores available
+
+    Topic: POSIX
+
+    See also: std_types::error_number
+
+  {ENAVAIL}
+
+OBJECT std::EISNAM -> std_types::error_number
+  #
+    is a named type file
+
+    Topic: POSIX
+
+    See also: std_types::error_number
+
+  {EISNAM}
+
+OBJECT std::EREMOTEIO -> std_types::error_number
+  #
+    remote I/O error
+
+    Topic: POSIX
+
+    See also: std_types::error_number
+
+  {EREMOTEIO}
+
+OBJECT std::EDQUOT -> std_types::error_number
+  #
+    quota exceeded
+
+    Topic: POSIX
+
+    See also: std_types::error_number
+
+  {EDQUOT}
+
+OBJECT std::ENOMEDIUM -> std_types::error_number
+  #
+    no medium found
+
+    Topic: POSIX
+
+    See also: std_types::error_number
+
+  {ENOMEDIUM}
+
+OBJECT std::EMEDIUMTYPE -> std_types::error_number
+  #
+    incorrect medium type
+
+    Topic: POSIX
+
+    See also: std_types::error_number
+
+  {EMEDIUMTYPE}
+
+OBJECT std::ECANCELED -> std_types::error_number
+  #
+    operation canceled
+
+    Topic: POSIX
+
+    See also: std_types::error_number
+
+  {ECANCELED}
+
+OBJECT std::ENOKEY -> std_types::error_number
+  #
+    key not available
+
+    Topic: POSIX
+
+    See also: std_types::error_number
+
+  {ENOKEY}
+
+OBJECT std::EKEYEXPIRED -> std_types::error_number
+  #
+    key expired
+
+    Topic: POSIX
+
+    See also: std_types::error_number
+
+  {EKEYEXPIRED}
+
+OBJECT std::EKEYREVOKED -> std_types::error_number
+  #
+    key revoked
+
+    Topic: POSIX
+
+    See also: std_types::error_number
+
+  {EKEYREVOKED}
+
+OBJECT std::EKEYREJECTED -> std_types::error_number
+  #
+    key rejected
+
+    Topic: POSIX
+
+    See also: std_types::error_number
+
+  {EKEYREJECTED}
+
+OBJECT std::EOWNERDEAD -> std_types::error_number
+  #
+    owner died
+
+    Topic: POSIX
+
+    See also: std_types::error_number
+
+  {EOWNERDEAD}
+
+OBJECT std::ENOTRECOVERABLE -> std_types::error_number
+  #
+    state not recoverable
+
+    Topic: POSIX
+
+    See also: std_types::error_number
+
+  {ENOTRECOVERABLE}
+
+ATTR std::access_time_nanoseconds_of
+  #
+    the nanoseconds part of the access time of a file
+
+    Topic: POSIX
+
+    See also: std_types::stat
+
+ATTR std::access_time_seconds_of
+  #
+    the whole seconds part of the access time of a file
+
+    Topic: POSIX
+
+    See also: std_types::stat
+
+ATTR std::block_count_of
+  #
+    the number of blocks allocated for the file
+
+    Topic: POSIX
+
+    See also: std_types::stat
+
+ATTR std::block_size_of
+  #
+    the size of a block
+
+    Topic: POSIX
+
+    See also: std_types::stat
+
+ATTR std::device_of
+  #
+    the device number
+
+    Topic: POSIX
+
+    See also: std_types::stat
+
+ATTR std::group_id_of
+  #
+    the group id
+
+    Topic: POSIX
+
+    See also: std_types::stat
+
+ATTR std::home_directory_of
+  #
+    the home directory
+
+    Topic: POSIX
+
+    See also: std_types::stat
+
+ATTR std::inode_number_of
+  #
+    the inode number
+
+    Topic: POSIX
+
+    See also: std_types::stat
+
+ATTR std::link_count_of
+  #
+    the number of hard links
+
+    Topic: POSIX
+
+    See also: std_types::stat
+
+ATTR std::mode_of
+  #
+    the file mode
+
+    Topic: POSIX
+
+    See also: std_types::stat
+
+ATTR std::modification_time_nanoseconds_of
+  #
+    the nanoseconds part of the modification time of a file
+
+    Topic: POSIX
+
+    See also: std_types::stat
+
+ATTR std::modification_time_seconds_of
+  #
+    the whole seconds part of the modification time of a file
+
+    Topic: POSIX
+
+    See also: std_types::stat
+
+ATTR std::password_of
+  #
+    the password
+
+    Topic: POSIX
+
+    See also: std_types::passwd
+
+ATTR std::root_device_of
+  #
+    the root device
+
+    Topic: POSIX
+
+    See also: std_types::stat
+
+ATTR std::shell_of
+  #
+    the login shell
+
+    Topic: POSIX
+
+    See also: std_types::passwd
+
+ATTR std::size_of
+  #
+    the size of the file
+
+    Topic: POSIX
+
+    See also: std_types::stat
+
+ATTR std::status_change_time_nanoseconds_of
+  #
+    the nanoseconds part of the status change time of a file
+
+    Topic: POSIX
+
+    See also: std_types::stat
+
+ATTR std::status_change_time_seconds_of
+  #
+    the whole seconds part of the status change time of a file
+
+    Topic: POSIX
+
+    See also: std_types::stat
+
+ATTR std::type_of
+  #
+    the type of the file
+
+    Topic: POSIX
+
+    See also: std_types::stat
+
+ATTR std::user_id_of
+  #
+    the user id
+
+    Topic: POSIX
+
+    See also: std_types::stat
+
+ATTR std::user_information_of
+  #
+    the user information
+
+    Topic: POSIX
+
+    See also: std_types::passwd
+
+ATTR std::username_of
+  #
+    the username
+
+    Topic: POSIX
+
+    See also: std_types::passwd
+
+ATTR std::name_of
+  #
+    a filename
+
+    This attribute is used to associate file descriptors with filenames.
+
+    Topic: POSIX
+
+    See also: open
+
+TYPE std_types::file_type -> std_types::object
+  #
+    a POSIX file type
+
+    Topic: POSIX
+
+  int value
+
+METHOD std_types::file_type/_type
+  {
+    RUNTIME_ERROR("Attempt to call a file type as a function!")
+  }
+
+METHOD long std_types::file_type/_debug_string
+  (
+    NODE *node,
+    int indent,
+    int max_depth,
+    char *buf
+  )
+  {
+    return debug_print(
+      indent, buf, "<file_type %d>", node->file_type.value);
+  }
+
+CODE
+  static int file_type_to_int
+    (
+      NODE *node,
+      int *result_p
+    )
+    {
+      if (TYPEOF(node) != TYPE(std_types::file_type)) {
+	invalid_arguments();
+	return false;
+      } else {
+	*result_p = node->file_type.value;
+	return true;
+      }
+    }
+
+CODE
+  static NODE *file_type_from_int
+    (
+      int value
+    )
+    {
+      return create__std_types___file_type(value);
+    }
+
+METHOD std_types::file_type/equal
+  #
+    compares two file types for equality
+
+    Parameters:
+      left # a file type
+      right # a file type
+
+    Result:
+      success  # true if the two file types are equal
+
+    Topic: POSIX
+
+    See also: std_types::file_type, std_types::file_type/hash
+
+    Example:
+
+      opendir! $dir "/bin"
+      loop:
+	readdir! $entry dir
+	if
+	  entry.is_an_error
+	  break
+	  :
+	    if
+	      type_of(entry) == SYMBOLIC_LINK: # check file type
+		println! name_of(entry)
+		next!
+	      next
+
+    Output:
+
+      texosquery
+      lzip-compressor
+      a2ping
+      ...
+  {
+    CHECK_ARGUMENTS(2)
+    if (TYPEOF(ARGUMENTS(1)) == TYPE(std_types::file_type))
+      RETURN_SINGLE_RESULT(
+	from_bool(
+	  ARGUMENTS(0)->file_type.value ==
+	  ARGUMENTS(1)->file_type.value))
+    RETURN_FALSE
+  }
+
+METHOD std_types::file_type/hash
+  #
+    returns an integer hash value for a file type
+
+    Parameter:
+      type # a file type
+
+    Result:
+      value # the hash value
+
+    Topic: POSIX
+
+    See also: std_types::file_type, std_types::file_type/equal
+  {
+    CHECK_ARGUMENTS(1)
+    uint32_t hash = ARGUMENTS(0)->file_type.value;
+    hash += 4243007357u;
+    hash *= 1893456841;
+    hash ^= hash >> 19 | hash << 13;
+    RETURN_SINGLE_RESULT(from_uint32(hash));
+  }
+
+FUNCTION std::file_type
+  #
+    constructs a file_type from an integer value
+
+    Parameter:
+      value # an integer value
+
+    Result:
+      type # a file type
+
+    This function is for internal use mainly.
+
+    Topic: POSIX
+
+    See also: std_types::file_type
+  {
+    CHECK_ARGUMENTS(1)
+    int value;
+    if (!(to_int(ARGUMENTS(0), &value))) return;
+    RETURN_SINGLE_RESULT(create__std_types___file_type(value))
+  }
+
+METHOD std_types::file_type/to_integer
+  #
+    returns an integer value representing the file_type
+
+    Parameter:
+      type # a file type
+
+    Result:
+      value # an integer value
+
+    This function returns the internal (POSIX) representation of the file type.
+
+    Topic: POSIX
+
+    See also: std_types::file_type, std::file_type
+  {
+    CHECK_ARGUMENTS(1)
+    int value = ARGUMENTS(0)->file_type.value;
+    RETURN_SINGLE_RESULT(from_int(value))
+  }
+
+TYPE std_types::file_descriptor -> std_types::object
+  #
+    a POSIX file descriptor
+
+    Topic: POSIX
+
+  int value
+
+METHOD std_types::file_descriptor/_type
+  {
+    RUNTIME_ERROR("Attempt to call a file descriptor as a function!")
+  }
+
+METHOD long std_types::file_descriptor/_debug_string
+  (
+    NODE *node,
+    int indent,
+    int max_depth,
+    char *buf
+  )
+  {
+    return debug_print(
+      indent, buf, "<file_descriptor %d>", node->file_descriptor.value);
+  }
+
+CODE
+  static int file_descriptor_to_int
+    (
+      NODE *node,
+      int *result_p
+    )
+    {
+      if (TYPEOF(node) != TYPE(std_types::file_descriptor)) {
+	invalid_arguments();
+	return false;
+      } else {
+	*result_p = node->file_descriptor.value;
+	return true;
+      }
+    }
+
+CODE
+  static NODE *file_descriptor_from_int
+    (
+      int value
+    )
+    {
+      return create__std_types___file_descriptor(value);
+    }
+
+METHOD std_types::file_descriptor/equal
+  #
+    compares two file descriptors for equality
+
+    Parameters:
+      left # a file descriptor
+      right # a file descriptor
+
+    Result:
+      success  # true if the two file descriptors are equal
+
+    Topic: POSIX
+
+    See also: std_types::file_descriptor, std_types::file_descriptor/hash
+  {
+    CHECK_ARGUMENTS(2)
+    if (TYPEOF(ARGUMENTS(1)) == TYPE(std_types::file_descriptor))
+      RETURN_SINGLE_RESULT(
+	from_bool(
+	  ARGUMENTS(0)->file_descriptor.value ==
+	  ARGUMENTS(1)->file_descriptor.value))
+    RETURN_FALSE
+  }
+
+METHOD std_types::file_descriptor/hash
+  #
+    returns an integer hash value for a file descriptor
+
+    Parameter:
+      descriptor # a file descriptor
+
+    Result:
+      value # the hash value
+
+    Topic: POSIX
+
+    See also: std_types::file_descriptor, std_types::file_descriptor/equal
+  {
+    CHECK_ARGUMENTS(1)
+    uint32_t hash = ARGUMENTS(0)->file_descriptor.value;
+    hash += 1659535014u;
+    hash *= 1893456841;
+    hash ^= hash >> 19 | hash << 13;
+    RETURN_SINGLE_RESULT(from_uint32(hash));
+  }
+
+FUNCTION std::file_descriptor
+  #
+    constructs a file_descriptor from an integer value
+
+    Parameter:
+      value # an integer value
+
+    Result:
+      descriptor # a file descriptor
+
+    This function is for internal use mainly.
+
+    Topic: POSIX
+
+    See also: std_types::file_descriptor
+  {
+    CHECK_ARGUMENTS(1)
+    int value;
+    if (!(to_int(ARGUMENTS(0), &value))) return;
+    RETURN_SINGLE_RESULT(create__std_types___file_descriptor(value))
+  }
+
+METHOD std_types::file_descriptor/to_integer
+  #
+    returns an integer value representing the file descriptor
+
+    Parameter:
+      descriptor # a file descriptor
+
+    Result:
+      value # an integer value
+
+    This function returns the internal (POSIX) representation of the file
+    descriptor.
+
+    Topic: POSIX
+
+    See also: std_types::file_descriptor, std::file_descriptor
+  {
+    CHECK_ARGUMENTS(1)
+    int value = ARGUMENTS(0)->file_descriptor.value;
+    RETURN_SINGLE_RESULT(from_int(value))
+  }
+
+
+TYPE std_types::shutdown_type -> std_types::object
+  #
+    a POSIX shutdown type
+
+    Topic: POSIX
+
+    See also: shutdown
+
+  int value
+
+METHOD std_types::shutdown_type/_type
+  {
+    RUNTIME_ERROR("Attempt to call a shutdown type as a function!")
+  }
+
+METHOD long std_types::shutdown_type/_debug_string
+  (
+    NODE *node,
+    int indent,
+    int max_depth,
+    char *buf
+  )
+  {
+    return debug_print(
+      indent, buf, "<shutdown_type %d>", node->shutdown_type.value);
+  }
+
+CODE
+  static int shutdown_type_to_int
+    (
+      NODE *node,
+      int *result_p
+    )
+    {
+      if (TYPEOF(node) != TYPE(std_types::shutdown_type)) {
+	invalid_arguments();
+	return false;
+      } else {
+	*result_p = node->shutdown_type.value;
+	return true;
+      }
+    }
+
+CODE
+  static NODE *shutdown_type_from_int
+    (
+      int value
+    )
+    {
+      return create__std_types___shutdown_type(value);
+    }
+
+METHOD std_types::shutdown_type/equal
+  #
+    compares two shutdown types for equality
+
+    Parameters:
+      left # a shutdown type
+      right # a shutdown type
+
+    Result:
+      success  # true if the two shutdown types are equal
+
+    Topic: POSIX
+
+    See also: std_types::shutdown_type, std_types::shutdown_type/hash
+  {
+    CHECK_ARGUMENTS(2)
+    if (TYPEOF(ARGUMENTS(1)) == TYPE(std_types::shutdown_type))
+      RETURN_SINGLE_RESULT(
+	from_bool(
+	  ARGUMENTS(0)->shutdown_type.value ==
+	  ARGUMENTS(1)->shutdown_type.value))
+    RETURN_FALSE
+  }
+
+METHOD std_types::shutdown_type/hash
+  #
+    returns an integer hash value for a shutdown type
+
+    Parameter:
+      type # a shutdown type
+
+    Result:
+      value # the hash value
+
+    Topic: POSIX
+
+    See also: std_types::shutdown_type, std_types::shutdown_type/equal
+  {
+    CHECK_ARGUMENTS(1)
+    uint32_t hash = ARGUMENTS(0)->shutdown_type.value;
+    hash += 1037657925u;
+    hash *= 1893456841;
+    hash ^= hash >> 19 | hash << 13;
+    RETURN_SINGLE_RESULT(from_uint32(hash));
+  }
+
+FUNCTION std::shutdown_type
+  #
+    constructs a shutdown type from an integer value
+
+    Parameter:
+      value # an integer value
+
+    Result:
+      type # a shutdown type
+
+    This function is for internal use mainly.
+
+    Topic: POSIX
+
+    See also: std_types::shutdown_type
+  {
+    CHECK_ARGUMENTS(1)
+    int value;
+    if (!(to_int(ARGUMENTS(0), &value))) return;
+    RETURN_SINGLE_RESULT(create__std_types___shutdown_type(value))
+  }
+
+METHOD std_types::shutdown_type/to_integer
+  #
+    returns an integer value representing the shutdown type
+
+    Parameter:
+      type # a shutdown type
+
+    Result:
+      value # an integer value
+
+    This function returns the internal (POSIX) representation of the shutdown
+    type.
+
+    Topic: POSIX
+
+    See also: std_types::shutdown_type, std::shutdown_type
+  {
+    CHECK_ARGUMENTS(1)
+    int value = ARGUMENTS(0)->shutdown_type.value;
+    RETURN_SINGLE_RESULT(from_int(value))
+  }
+
+
+TYPE std_types::device_id -> std_types::object
+  #
+    a POSIX device ID
+
+    Topic: POSIX
+
+    See also: stat, fstat
+
+  unsigned long value
+
+METHOD std_types::device_id/_type
+  {
+    RUNTIME_ERROR("Attempt to call a device id as a function!")
+  }
+
+METHOD long std_types::device_id/_debug_string
+  (
+    NODE *node,
+    int indent,
+    int max_depth,
+    char *buf
+  )
+  {
+    return debug_print(
+      indent, buf, "<device_id %d>", node->device_id.value);
+  }
+
+CODE
+  static int device_id_to_ulong
+    (
+      NODE *node,
+      unsigned long *result_p
+    )
+    {
+      if (TYPEOF(node) != TYPE(std_types::device_id)) {
+	invalid_arguments();
+	return false;
+      } else {
+	*result_p = node->device_id.value;
+	return true;
+      }
+    }
+
+CODE
+  static NODE *device_id_from_ulong
+    (
+      unsigned long value
+    )
+    {
+      return create__std_types___device_id(value);
+    }
+
+METHOD std_types::device_id/equal
+  #
+    compares two device IDs for equality
+
+    Parameters:
+      left # a device ID
+      right # a device ID
+
+    Result:
+      success  # true if the two device IDs are equal
+
+    Topic: POSIX
+
+    See also: std_types::device_id, std_types::device_id/hash
+  {
+    CHECK_ARGUMENTS(2)
+    if (TYPEOF(ARGUMENTS(1)) == TYPE(std_types::device_id))
+      RETURN_SINGLE_RESULT(
+	from_bool(
+	  ARGUMENTS(0)->device_id.value ==
+	  ARGUMENTS(1)->device_id.value))
+    RETURN_FALSE
+  }
+
+METHOD std_types::device_id/hash
+  #
+    returns an integer hash value for a device ID
+
+    Parameter:
+      id # a device ID
+
+    Result:
+      value # the hash value
+
+    Topic: POSIX
+
+    See also: std_types::device_id, std_types::device_id/equal
+  {
+    CHECK_ARGUMENTS(1)
+    uint32_t hash = ARGUMENTS(0)->device_id.value;
+    hash += 1532833290u;
+    hash *= 1893456841;
+    hash ^= hash >> 19 | hash << 13;
+    RETURN_SINGLE_RESULT(from_uint32(hash));
+  }
+
+FUNCTION std::device_id
+  #
+    constructs a device ID from an unsigned long value
+
+    Parameter:
+      value # an unsigned long value
+
+    Result:
+      id # a device ID
+
+    This function is for internal use mainly.
+
+    Topic: POSIX
+
+    See also: std_types::device_id
+  {
+    CHECK_ARGUMENTS(1)
+    unsigned long value;
+    if (!(to_ulong(ARGUMENTS(0), &value))) return;
+    RETURN_SINGLE_RESULT(create__std_types___device_id(value))
+  }
+
+METHOD std_types::device_id/to_integer
+  #
+    returns an integer value representing the device ID
+
+    Parameter:
+      id # a device ID
+
+    Result:
+      value # an integer value
+
+    This function returns the internal (POSIX) representation of the device
+    ID.
+
+    Topic: POSIX
+
+    See also: std_types::device_id, std::device_id
+  {
+    CHECK_ARGUMENTS(1)
+    unsigned long value = ARGUMENTS(0)->device_id.value;
+    RETURN_SINGLE_RESULT(from_ulong(value))
+  }
+
+
+TYPE std_types::directory -> std_types::object
+  #
+    a POSIX directory
+
+    Topic: POSIX
+
+    See also: opendir, readdir, closedir
+
+  void * value
+
+METHOD std_types::directory/_type
+  {
+    RUNTIME_ERROR("Attempt to call a directory as a function!")
+  }
+
+METHOD long std_types::directory/_debug_string
+  (
+    NODE *node,
+    int indent,
+    int max_depth,
+    char *buf
+  )
+  {
+    return debug_print(
+      indent, buf, "<directory %d>", node->directory.value);
+  }
+
+CODE
+  static int directory_to_ptr
+    (
+      NODE *node,
+      void * *result_p
+    )
+    {
+      if (TYPEOF(node) != TYPE(std_types::directory)) {
+	invalid_arguments();
+	return false;
+      } else {
+	*result_p = node->directory.value;
+	return true;
+      }
+    }
+
+CODE
+  static NODE *directory_from_ptr
+    (
+      void * value
+    )
+    {
+      return create__std_types___directory(value);
+    }
+
+METHOD std_types::directory/equal
+  #
+    compares two directories for equality
+
+    Parameters:
+      left # a directory
+      right # a directory
+
+    Result:
+      success  # true if the two directories are equal
+
+    Topic: POSIX
+
+    See also: std_types::directory, std_types::directory/hash
+  {
+    CHECK_ARGUMENTS(2)
+    if (TYPEOF(ARGUMENTS(1)) == TYPE(std_types::directory))
+      RETURN_SINGLE_RESULT(
+	from_bool(
+	  ARGUMENTS(0)->directory.value ==
+	  ARGUMENTS(1)->directory.value))
+    RETURN_FALSE
+  }
+
+METHOD std_types::directory/hash
+  #
+    returns an integer hash value for a directory
+
+    Parameter:
+      dir # a directory
+
+    Result:
+      value # the hash value
+
+    Topic: POSIX
+
+    See also: std_types::directory, std_types::directory/equal
+  {
+    CHECK_ARGUMENTS(1)
+    uint32_t hash = (uint32_t)(long)ARGUMENTS(0)->directory.value;
+    hash += 835235593u;
+    hash *= 1893456841;
+    hash ^= hash >> 19 | hash << 13;
+    RETURN_SINGLE_RESULT(from_uint32(hash));
+  }
+
+TYPE std_types::group_id -> std_types::object
+  #
+    a POSIX group ID
+
+    Topic: POSIX
+
+    See also: getgid, getegid
+
+  int value
+
+METHOD std_types::group_id/_type
+  {
+    RUNTIME_ERROR("Attempt to call a group id as a function!")
+  }
+
+METHOD long std_types::group_id/_debug_string
+  (
+    NODE *node,
+    int indent,
+    int max_depth,
+    char *buf
+  )
+  {
+    return debug_print(
+      indent, buf, "<group_id %d>", node->group_id.value);
+  }
+
+CODE
+  static int group_id_to_int
+    (
+      NODE *node,
+      int *result_p
+    )
+    {
+      if (TYPEOF(node) != TYPE(std_types::group_id)) {
+	invalid_arguments();
+	return false;
+      } else {
+	*result_p = node->group_id.value;
+	return true;
+      }
+    }
+
+CODE
+  static NODE *group_id_from_int
+    (
+      int value
+    )
+    {
+      return create__std_types___group_id(value);
+    }
+
+METHOD std_types::group_id/equal
+  #
+    compares two group IDs for equality
+
+    Parameters:
+      left # a group ID
+      right # a group ID
+
+    Result:
+      success  # true if the two group IDs are equal
+
+    Topic: POSIX
+
+    See also: std_types::group_id, std_types::group_id/hash
+
+    Example:
+
+      getgid! $my_gid
+      println! my_gid.to_integer
+
+    Output:
+
+      1000
+  {
+    CHECK_ARGUMENTS(2)
+    if (TYPEOF(ARGUMENTS(1)) == TYPE(std_types::group_id))
+      RETURN_SINGLE_RESULT(
+	from_bool(
+	  ARGUMENTS(0)->group_id.value ==
+	  ARGUMENTS(1)->group_id.value))
+    RETURN_FALSE
+  }
+
+METHOD std_types::group_id/hash
+  #
+    returns an integer hash value for a group ID
+
+    Parameter:
+      id # a group ID
+
+    Result:
+      value # the hash value
+
+    Topic: POSIX
+
+    See also: std_types::group_id, std_types::group_id/equal
+  {
+    CHECK_ARGUMENTS(1)
+    uint32_t hash = ARGUMENTS(0)->group_id.value;
+    hash += 1390477003u;
+    hash *= 1893456841;
+    hash ^= hash >> 19 | hash << 13;
+    RETURN_SINGLE_RESULT(from_uint32(hash));
+  }
+
+FUNCTION std::group_id
+  #
+    constructs a group ID from an integer value
+
+    Parameter:
+      value # an integer value
+
+    Result:
+      id # a group ID
+
+    This function is for internal use mainly.
+
+    Topic: POSIX
+
+    See also: std_types::group_id
+  {
+    CHECK_ARGUMENTS(1)
+    int value;
+    if (!(to_int(ARGUMENTS(0), &value))) return;
+    RETURN_SINGLE_RESULT(create__std_types___group_id(value))
+  }
+
+METHOD std_types::group_id/to_integer
+  #
+    returns an integer value representing the group ID
+
+    Parameter:
+      id # a group ID
+
+    Result:
+      value # an integer value
+
+    This function returns the internal (POSIX) representation of the group
+    ID.
+
+    Topic: POSIX
+
+    See also: std_types::group_id, std::group_id
+  {
+    CHECK_ARGUMENTS(1)
+    int value = ARGUMENTS(0)->group_id.value;
+    RETURN_SINGLE_RESULT(from_int(value))
+  }
+
+
+TYPE std_types::inode_number -> std_types::object
+  #
+    a POSIX inode number
+
+    Topic: POSIX
+
+    See also: fstat, stat
+
+  unsigned long value
+
+METHOD std_types::inode_number/_type
+  {
+    RUNTIME_ERROR("Attempt to call a inode number as a function!")
+  }
+
+METHOD long std_types::inode_number/_debug_string
+  (
+    NODE *node,
+    int indent,
+    int max_depth,
+    char *buf
+  )
+  {
+    return debug_print(
+      indent, buf, "<inode_number %d>", node->inode_number.value);
+  }
+
+CODE
+  static int inode_number_to_ulong
+    (
+      NODE *node,
+      unsigned long *result_p
+    )
+    {
+      if (TYPEOF(node) != TYPE(std_types::inode_number)) {
+	invalid_arguments();
+	return false;
+      } else {
+	*result_p = node->inode_number.value;
+	return true;
+      }
+    }
+
+CODE
+  static NODE *inode_number_from_ulong
+    (
+      unsigned long value
+    )
+    {
+      return create__std_types___inode_number(value);
+    }
+
+METHOD std_types::inode_number/equal
+  #
+    compares two inode numbers for equality
+
+    Parameters:
+      left # an inode number
+      right # an inode number
+
+    Result:
+      success  # true if the two inode numbers are equal
+
+    Topic: POSIX
+
+    See also: std_types::inode_number, std_types::inode_number/hash
+  {
+    CHECK_ARGUMENTS(2)
+    if (TYPEOF(ARGUMENTS(1)) == TYPE(std_types::inode_number))
+      RETURN_SINGLE_RESULT(
+	from_bool(
+	  ARGUMENTS(0)->inode_number.value ==
+	  ARGUMENTS(1)->inode_number.value))
+    RETURN_FALSE
+  }
+
+METHOD std_types::inode_number/hash
+  #
+    returns an integer hash value for an inode number
+
+    Parameter:
+      number # an inode number
+
+    Result:
+      value # the hash value
+
+    Topic: POSIX
+
+    See also: std_types::inode_number, std_types::inode_number/equal
+  {
+    CHECK_ARGUMENTS(1)
+    uint32_t hash = ARGUMENTS(0)->inode_number.value;
+    hash += 524255112u;
+    hash *= 1893456841;
+    hash ^= hash >> 19 | hash << 13;
+    RETURN_SINGLE_RESULT(from_uint32(hash));
+  }
+
+FUNCTION std::inode_number
+  #
+    constructs an inode number from an integer value
+
+    Parameter:
+      value # an integer value
+
+    Result:
+      number # an inode number
+
+    This function is for internal use mainly.
+
+    Topic: POSIX
+
+    See also: std_types::inode_number
+  {
+    CHECK_ARGUMENTS(1)
+    unsigned long value;
+    if (!(to_ulong(ARGUMENTS(0), &value))) return;
+    RETURN_SINGLE_RESULT(create__std_types___inode_number(value))
+  }
+
+METHOD std_types::inode_number/to_integer
+  #
+    returns an integer value representing the inode number
+
+    Parameter:
+      number # an inode number
+
+    Result:
+      value # an integer value
+
+    This function returns the internal (POSIX) representation of the inode
+    number.
+
+    Topic: POSIX
+
+    See also: std_types::inode_number, std::inode_number
+  {
+    CHECK_ARGUMENTS(1)
+    unsigned long value = ARGUMENTS(0)->inode_number.value;
+    RETURN_SINGLE_RESULT(from_ulong(value))
+  }
+
+TYPE std_types::process_id -> std_types::object
+  #
+    a POSIX process ID
+
+    Topic: POSIX
+
+    See also: getpid, getppid
+
+  int value
+
+METHOD std_types::process_id/_type
+  {
+    RUNTIME_ERROR("Attempt to call a process id as a function!")
+  }
+
+METHOD long std_types::process_id/_debug_string
+  (
+    NODE *node,
+    int indent,
+    int max_depth,
+    char *buf
+  )
+  {
+    return debug_print(
+      indent, buf, "<process_id %d>", node->process_id.value);
+  }
+
+CODE
+  static int process_id_to_int
+    (
+      NODE *node,
+      int *result_p
+    )
+    {
+      if (TYPEOF(node) != TYPE(std_types::process_id)) {
+	invalid_arguments();
+	return false;
+      } else {
+	*result_p = node->process_id.value;
+	return true;
+      }
+    }
+
+CODE
+  static NODE *process_id_from_int
+    (
+      int value
+    )
+    {
+      return create__std_types___process_id(value);
+    }
+
+METHOD std_types::process_id/equal
+  #
+    compares two process ids for equality
+
+    Parameters:
+      left # a process id
+      right # a process id
+
+    Result:
+      success  # true if the two process ids are equal
+
+    Topic: POSIX
+
+    See also: std_types::process_id, std_types::process_id/hash
+  {
+    CHECK_ARGUMENTS(2)
+    if (TYPEOF(ARGUMENTS(1)) == TYPE(std_types::process_id))
+      RETURN_SINGLE_RESULT(
+	from_bool(
+	  ARGUMENTS(0)->process_id.value ==
+	  ARGUMENTS(1)->process_id.value))
+    RETURN_FALSE
+  }
+
+METHOD std_types::process_id/hash
+  #
+    returns an integer hash value for a process id
+
+    Parameter:
+      id # a process id
+
+    Result:
+      value # the hash value
+
+    Topic: POSIX
+
+    See also: std_types::process_id, std_types::process_id/equal
+  {
+    CHECK_ARGUMENTS(1)
+    uint32_t hash = ARGUMENTS(0)->process_id.value;
+    hash += 3109630881u;
+    hash *= 1893456841;
+    hash ^= hash >> 19 | hash << 13;
+    RETURN_SINGLE_RESULT(from_uint32(hash));
+  }
+
+FUNCTION std::process_id
+  #
+    constructs a process id from an integer value
+
+    Parameter:
+      value # an integer value
+
+    Result:
+      id # a process id
+
+    This function is for internal use mainly.
+
+    Topic: POSIX
+
+    See also: std_types::process_id
+  {
+    CHECK_ARGUMENTS(1)
+    int value;
+    if (!(to_int(ARGUMENTS(0), &value))) return;
+    RETURN_SINGLE_RESULT(create__std_types___process_id(value))
+  }
+
+METHOD std_types::process_id/to_integer
+  #
+    returns an integer value representing the process id
+
+    Parameter:
+      id # a process id
+
+    Result:
+      value # an integer value
+
+    This function returns the internal (POSIX) representation of the process
+    id.
+
+    Topic: POSIX
+
+    See also: std_types::process_id, std::process_id
+  {
+    CHECK_ARGUMENTS(1)
+    int value = ARGUMENTS(0)->process_id.value;
+    RETURN_SINGLE_RESULT(from_int(value))
+  }
+
+
+TYPE std_types::user_id -> std_types::object
+  #
+    a POSIX user id
+
+    Topic: POSIX
+
+    See also: getuid, geteuid
+
+  int value
+
+METHOD std_types::user_id/_type
+  {
+    RUNTIME_ERROR("Attempt to call a user id as a function!")
+  }
+
+METHOD long std_types::user_id/_debug_string
+  (
+    NODE *node,
+    int indent,
+    int max_depth,
+    char *buf
+  )
+  {
+    return debug_print(
+      indent, buf, "<user_id %d>", node->user_id.value);
+  }
+
+CODE
+  static int user_id_to_int
+    (
+      NODE *node,
+      int *result_p
+    )
+    {
+      if (TYPEOF(node) != TYPE(std_types::user_id)) {
+	invalid_arguments();
+	return false;
+      } else {
+	*result_p = node->user_id.value;
+	return true;
+      }
+    }
+
+CODE
+  static NODE *user_id_from_int
+    (
+      int value
+    )
+    {
+      return create__std_types___user_id(value);
+    }
+
+METHOD std_types::user_id/equal
+  #
+    compares two user ids for equality
+
+    Parameters:
+      left # a user id
+      right # a user id
+
+    Result:
+      success  # true if the two user ids are equal
+
+    Topic: POSIX
+
+    See also: std_types::user_id, std_types::user_id/hash
+
+    Example:
+
+      getuid! $my_uid
+      println! my_uid.to_integer
+
+    Output:
+
+      1000
+  {
+    CHECK_ARGUMENTS(2)
+    if (TYPEOF(ARGUMENTS(1)) == TYPE(std_types::user_id))
+      RETURN_SINGLE_RESULT(
+	from_bool(
+	  ARGUMENTS(0)->user_id.value ==
+	  ARGUMENTS(1)->user_id.value))
+    RETURN_FALSE
+  }
+
+METHOD std_types::user_id/hash
+  #
+    returns an integer hash value for a user id
+
+    Parameter:
+      id # a user id
+
+    Result:
+      value # the hash value
+
+    Topic: POSIX
+
+    See also: std_types::user_id, std_types::user_id/equal
+  {
+    CHECK_ARGUMENTS(1)
+    uint32_t hash = ARGUMENTS(0)->user_id.value;
+    hash += 4053581900u;
+    hash *= 1893456841;
+    hash ^= hash >> 19 | hash << 13;
+    RETURN_SINGLE_RESULT(from_uint32(hash));
+  }
+
+FUNCTION std::user_id
+  #
+    constructs a user id from an integer value
+
+    Parameter:
+      value # an integer value
+
+    Result:
+      id # a user id
+
+    This function is for internal use mainly.
+
+    Topic: POSIX
+
+    See also: std_types::user_id
+  {
+    CHECK_ARGUMENTS(1)
+    int value;
+    if (!(to_int(ARGUMENTS(0), &value))) return;
+    RETURN_SINGLE_RESULT(create__std_types___user_id(value))
+  }
+
+METHOD std_types::user_id/to_integer
+  #
+    returns an integer value representing the user id
+
+    Parameter:
+      id # a user id
+
+    Result:
+      value # an integer value
+
+    This function returns the internal (POSIX) representation of the user id.
+
+    Topic: POSIX
+
+    See also: std_types::user_id, std::user_id
+  {
+    CHECK_ARGUMENTS(1)
+    int value = ARGUMENTS(0)->user_id.value;
+    RETURN_SINGLE_RESULT(from_int(value))
+  }
+
+
+TYPE std_types::error_number -> std_types::object
+  #
+    a POSIX error number
+
+    Topic: POSIX
+
+  int value
+
+METHOD std_types::error_number/_type
+  {
+    RUNTIME_ERROR("Attempt to call a error number as a function!")
+  }
+
+METHOD long std_types::error_number/_debug_string
+  (
+    NODE *node,
+    int indent,
+    int max_depth,
+    char *buf
+  )
+  {
+    return debug_print(
+      indent, buf, "<error_number %d>", node->error_number.value);
+  }
+
+CODE
+  static int error_number_to_int
+    (
+      NODE *node,
+      int *result_p
+    )
+    {
+      if (TYPEOF(node) != TYPE(std_types::error_number)) {
+	invalid_arguments();
+	return false;
+      } else {
+	*result_p = node->error_number.value;
+	return true;
+      }
+    }
+
+CODE
+  static NODE *error_number_from_int
+    (
+      int value
+    )
+    {
+      return create__std_types___error_number(value);
+    }
+
+METHOD std_types::error_number/equal
+  #
+    compares two error numbers for equality
+
+    Parameters:
+      left # an error number
+      right # an error number
+
+    Result:
+      success  # true if the two error numbers are equal
+
+    Topic: POSIX
+
+    See also: std_types::error_number, std_types::error_number/hash
+  {
+    CHECK_ARGUMENTS(2)
+    if (TYPEOF(ARGUMENTS(1)) == TYPE(std_types::error_number))
+      RETURN_SINGLE_RESULT(
+	from_bool(
+	  ARGUMENTS(0)->error_number.value ==
+	  ARGUMENTS(1)->error_number.value))
+    RETURN_FALSE
+  }
+
+METHOD std_types::error_number/hash
+  #
+    returns an integer hash value for an error number
+
+    Parameter:
+      id # an error number
+
+    Result:
+      value # the hash value
+
+    Topic: POSIX
+
+    See also: std_types::error_number, std_types::error_number/equal
+  {
+    CHECK_ARGUMENTS(1)
+    uint32_t hash = ARGUMENTS(0)->error_number.value;
+    hash += 1056763753u;
+    hash *= 1893456841;
+    hash ^= hash >> 19 | hash << 13;
+    RETURN_SINGLE_RESULT(from_uint32(hash));
+  }
+
+FUNCTION std::error_number
+  #
+    constructs an error number from an integer value
+
+    Parameter:
+      value # an integer value
+
+    Result:
+      id # an error number
+
+    This function is for internal use mainly.
+
+    Topic: POSIX
+
+    See also: std_types::error_number
+  {
+    CHECK_ARGUMENTS(1)
+    int value;
+    if (!(to_int(ARGUMENTS(0), &value))) return;
+    RETURN_SINGLE_RESULT(create__std_types___error_number(value))
+  }
+
+METHOD std_types::error_number/to_integer
+  #
+    returns an integer value representing the error number
+
+    Parameter:
+      id # an error number
+
+    Result:
+      value # an integer value
+
+    This function returns the internal (POSIX) representation of the error number.
+
+    Topic: POSIX
+
+    See also: std_types::error_number, std::error_number
+  {
+    CHECK_ARGUMENTS(1)
+    int value = ARGUMENTS(0)->error_number.value;
+    RETURN_SINGLE_RESULT(from_int(value))
+  }
+
+
+TYPE std_types::passwd -> std_types::object
+  #
+    a password entry
+
+    Topic: POSIX
+
+METHOD std_types::passwd/_type
+  {
+    RUNTIME_ERROR("Attempt to call a passwd as a function!")
+  }
+
+TYPE std_types::stat -> std_types::object
+  #
+    file status information
+
+    Topic: POSIX
+
+METHOD std_types::stat/_type
+  {
+    RUNTIME_ERROR("Attempt to call a stat as a function!")
+  }
+
+TYPE std_types::dirent -> std_types::object
+  #
+    a directory entry
+
+    Topic: POSIX
+
+    See also: readdir
+
+METHOD std_types::dirent/_type
+  {
+    RUNTIME_ERROR("Attempt to call a dirent as a function!")
+  }
+
+FUNCTION std::chdir
+  #
+    changes the current working directory
+
+    Parameter:
+      pathname # the name of the new working directory
+
+    This function needs I/O-access rights.
+
+    Topic: POSIX
+
+    See also: chroot, getcwd, mkdir, realpath
+
+    Example:
+
+      # make the user's home directory the current working directory
+      get_environment $environment
+      $HOME environment("HOME")
+      chdir! HOME
+  {
+    CHECK_ARGUMENTS(1)
+    CHECK_IO_ACCESS_RIGHTS
+    char *pathname = NULL;
+    int result;
+    if (!to_c_string(ARGUMENTS(0), &pathname)) goto cleanup;
+    ACTION(chdir)
+      result = chdir(pathname);
+    INFO
+      C_STRING(pathname)
+      INT(result)
+    DATA
+      INT(result)
+    END
+    if (result == -1) {
+      create_error_message(
+	module__builtin.constants_base[unique__std___IO_ERROR-1],
+	"CHDIR FAILED", errno, 0, NULL);
+    } else {
+      PREPARE_NO_RESULT
+    }
+    cleanup:
+    deallocate_memory(pathname);
+  }
+
+FUNCTION std::chmod
+  #
+    changes the mode of the specified file
+
+    Parameters:
+      filename # the name of the file for which the mode is to be changed
+      mode # the new mode
+
+    This function needs I/O-access rights.
+
+    The mode is written as an ASCII-string like it is displayed by the *ls*
+    command.
+
+    The first three letters specify the permissions for the owner of the file,
+    the next three letters specify the permissions for the group of the file,
+    and the last three letters specify the permissions for all other users.
+
+    Each letter group is interpreted as follows:
+
+    The first letter specifies the read permission. It can be one of the
+    following characters:
+
+    r: read permission is granted
+    -: read permission is not granted
+
+    The second letter specifies the write permission. It can be one of the
+    following characters:
+
+    w: write permission is granted
+    -: write permission is not granted
+
+    The third letter specifies the execute permission. It can be one of the
+    following characters:
+
+    x: execute permission is granted
+    -: execute permission is not granted
+
+    Instead of 'x' the following letters can be used:
+
+    s (owner and group): additionally sets the SUID respektively SGID bit
+    S (owner and group): only sets the SUID respektively SGID bit
+    t (other): additionally sets the sticky bit
+    T (other): only sets the sticky bit
+
+    Topic: POSIX
+
+    See also: chown
+
+    Example:
+
+      # make a file readable and executable for everyone
+      chmod! "myfile.txt" "r-xr-xr-x"
+  {
+    CHECK_ARGUMENTS(2)
+    CHECK_IO_ACCESS_RIGHTS
+    char *filename = NULL;
+    int mode;
+    int result;
+    if (!to_c_string(ARGUMENTS(0), &filename)) goto cleanup;
+    if (!mode_to_int(ARGUMENTS(1), &mode)) goto cleanup;
+    ACTION(chmod)
+      result = chmod(filename, mode);
+    INFO
+      C_STRING(filename)
+      INT(mode)
+      INT(result)
+    DATA
+      INT(result)
+    END
+    if (result == -1) {
+      create_error_message(
+	module__builtin.constants_base[unique__std___IO_ERROR-1],
+	"CHMOD FAILED", errno, 0, NULL);
+    } else {
+      PREPARE_NO_RESULT
+    }
+    cleanup:
+    deallocate_memory(filename);
+  }
+
+FUNCTION std::chown
+  #
+    changes the owner and group of the specified file
+
+    Parameters:
+      filename # the name of the file for which to change the owner and group
+      owner_id # the ID of the new owner
+      group_id # the ID of the new group
+
+    This function needs I/O-access rights.
+
+    Topic: POSIX
+
+    See also: chmod, std_types::user_id, std_types::group_id
+
+    Example:
+
+      # change the owner and group of a file
+      getuid $my_uid
+      getgid $my_gid
+      chown! "myfile.txt" my_uid my_gid
+  {
+    CHECK_ARGUMENTS(3)
+    CHECK_IO_ACCESS_RIGHTS
+    char *filename = NULL;
+    int owner;
+    int group;
+    int result;
+    if (!to_c_string(ARGUMENTS(0), &filename)) goto cleanup;
+    if (!user_id_to_int(ARGUMENTS(1), &owner)) goto cleanup;
+    if (!group_id_to_int(ARGUMENTS(2), &group)) goto cleanup;
+    ACTION(chown)
+      result = chown(filename, owner, group);
+    INFO
+      C_STRING(filename)
+      INT(owner)
+      INT(group)
+      INT(result)
+    DATA
+      INT(result)
+    END
+    if (result == -1) {
+      create_error_message(
+	module__builtin.constants_base[unique__std___IO_ERROR-1],
+	"CHOWN FAILED", errno, 0, NULL);
+    } else {
+      PREPARE_NO_RESULT
+    }
+    cleanup:
+    deallocate_memory(filename);
+  }
+
+FUNCTION std::chroot
+  #
+    changes the root directory
+
+    Parameter:
+      new_root # the new root directory
+
+    This function needs I/O-access rights.
+
+    Topic: POSIX
+
+    See also: chdir
+
+    Example:
+
+      chroot! "/my_root_jail"
+  {
+    CHECK_ARGUMENTS(1)
+    CHECK_IO_ACCESS_RIGHTS
+    char *pathname = NULL;
+    int result;
+    if (!to_c_string(ARGUMENTS(0), &pathname)) goto cleanup;
+    ACTION(chroot)
+      result = chroot(pathname);
+    INFO
+      C_STRING(pathname)
+      INT(result)
+    DATA
+      INT(result)
+    END
+    if (result == -1) {
+      create_error_message(
+	module__builtin.constants_base[unique__std___IO_ERROR-1],
+	"CHROOT FAILED", errno, 0, NULL);
+    } else {
+      PREPARE_NO_RESULT
+    }
+    cleanup:
+    deallocate_memory(pathname);
+  }
+
+FUNCTION std::close
+  #
+    closes the specified file without returning success status
+
+    Parameter:
+      fd # the file descriptor
+
+    This function needs I/O-access rights.
+
+    Topic: POSIX
+
+    See also: fsync, mkfifo, open, read, write
+  {
+    CHECK_ARGUMENTS(1)
+    CHECK_IO_ACCESS_RIGHTS
+    int fd;
+    int result;
+    if (!file_descriptor_to_int(ARGUMENTS(0), &fd)) return;
+    ACTION(close)
+      do {
+	result = close(fd);
+      } while (result == -1 && errno == EINTR);
+    INFO
+      INT(fd)
+      INT(result)
+    DATA
+      INT(result)
+    END
+    if (result == -1) {
+      create_error_message(
+	module__builtin.constants_base[unique__std___IO_ERROR-1],
+	"CLOSE FAILED", errno, 0, NULL);
+    } else {
+      PREPARE_NO_RESULT
+    }
+  }
+
+FUNCTION std::closedir
+  #
+    closes the specified directory stream
+
+    Parameter:
+      dir # the directory stream
+
+    This function needs I/O-access rights.
+
+    Topic: POSIX
+
+    See also: opendir, readdir, std_types::directory
+
+    Example:
+
+      # display the entries of the current working directory
+      opendir! $dir "."
+      loop:
+	readdir! $entry dir
+	if
+	  entry.is_an_error:
+	    closedir! dir
+	  :
+	    println! name_of(entry)
+	    next!
+  {
+    CHECK_ARGUMENTS(1)
+    CHECK_IO_ACCESS_RIGHTS
+    void *dir = NULL;
+    int result;
+    if (!directory_to_ptr(ARGUMENTS(0), &dir)) return;
+    ACTION(closedir)
+      result = closedir(dir);
+    INFO
+      PTR(dir)
+      INT(result)
+    DATA
+      INT(result)
+    END
+    if (result == -1) {
+      create_error_message(
+	module__builtin.constants_base[unique__std___IO_ERROR-1],
+	"CLOSEDIR FAILED", errno, 0, NULL);
+    } else {
+      PREPARE_NO_RESULT
+    }
+  }
+
+FUNCTION std::fstat
+  #
+    retrieves status information about the file described by the specified file
+    descriptor
+
+    Parameter:
+      fd # the file descriptor
+
+    Result:
+      stat # the status information
+
+    This function needs I/O-access rights.
+
+    Topic: POSIX
+
+    See also: stat, readlink, std_types::stat
+
+    Example:
+
+      stat! $stat_info "/bin/ls"
+      println! size_of(stat_info)
+
+    Output:
+
+      147176
+  {
+    CHECK_ARGUMENTS(1)
+    CHECK_IO_ACCESS_RIGHTS
+    int fd;
+    struct stat statbuf;
+    int result;
+    if (!file_descriptor_to_int(ARGUMENTS(0), &fd)) return;
+    EVENT(fstat)
+      result = fstat(fd, &statbuf);
+    INFO
+      INT(fd)
+      INT(result)
+      MEMORY(&statbuf, sizeof(statbuf))
+    DATA
+      INT(result)
+      MEMORY(&statbuf, sizeof(statbuf))
+    END
+    if (result == -1) {
+      create_error_message(
+	module__builtin.constants_base[unique__std___IO_ERROR-1],
+	"FSTAT FAILED", errno, 0, NULL);
+    } else {
+      NODE *node__device_of = device_id_from_ulong(statbuf.st_dev);
+      NODE *node__inode_number_of = inode_number_from_ulong(statbuf.st_ino);
+      NODE *node__mode_of = mode_from_int(statbuf.st_mode);
+      NODE *node__link_count_of = from_int(statbuf.st_nlink);
+      NODE *node__user_id_of = user_id_from_int(statbuf.st_uid);
+      NODE *node__group_id_of = group_id_from_int(statbuf.st_gid);
+      NODE *node__root_device_of = device_id_from_ulong(statbuf.st_rdev);
+      NODE *node__size_of = from_long(statbuf.st_size);
+      NODE *node__block_size_of = from_long(statbuf.st_blksize);
+      NODE *node__block_count_of = from_long(statbuf.st_blocks);
+      NODE *node__access_time_seconds_of = from_long(statbuf.st_atim.tv_sec);
+      NODE *node__access_time_nanoseconds_of =
+	from_long(statbuf.st_atim.tv_nsec);
+      NODE *node__modification_time_seconds_of =
+	from_long(statbuf.st_mtim.tv_sec);
+      NODE *node__modification_time_nanoseconds_of =
+	from_long(statbuf.st_mtim.tv_nsec);
+      NODE *node__status_change_time_seconds_of =
+	from_long(statbuf.st_ctim.tv_sec);
+      NODE *node__status_change_time_nanoseconds_of =
+	from_long(statbuf.st_ctim.tv_nsec);
+      NODE *node = clone_object_and_attributes((NODE *)&std_types::stat);
+      update_start_p = node_p;
+      set_attribute(
+	node->attributes,
+	variables_table[var_no__std___device_of-FIRST_VAR].poly_idx,
+	MAKE_ATTRIBUTE_VALUE(node__device_of));
+      set_attribute(
+	node->attributes,
+	variables_table[var_no__std___inode_number_of-FIRST_VAR].poly_idx,
+	MAKE_ATTRIBUTE_VALUE(node__inode_number_of));
+      set_attribute(
+	node->attributes,
+	variables_table[var_no__std___mode_of-FIRST_VAR].poly_idx,
+	MAKE_ATTRIBUTE_VALUE(node__mode_of));
+      set_attribute(
+	node->attributes,
+	variables_table[var_no__std___link_count_of-FIRST_VAR].poly_idx,
+	MAKE_ATTRIBUTE_VALUE(node__link_count_of));
+      set_attribute(
+	node->attributes,
+	variables_table[var_no__std___user_id_of-FIRST_VAR].poly_idx,
+	MAKE_ATTRIBUTE_VALUE(node__user_id_of));
+      set_attribute(
+	node->attributes,
+	variables_table[var_no__std___group_id_of-FIRST_VAR].poly_idx,
+	MAKE_ATTRIBUTE_VALUE(node__group_id_of));
+      set_attribute(
+	node->attributes,
+	variables_table[var_no__std___root_device_of-FIRST_VAR].poly_idx,
+	MAKE_ATTRIBUTE_VALUE(node__root_device_of));
+      set_attribute(
+	node->attributes,
+	variables_table[var_no__std___size_of-FIRST_VAR].poly_idx,
+	MAKE_ATTRIBUTE_VALUE(node__size_of));
+      set_attribute(
+	node->attributes,
+	variables_table[var_no__std___block_size_of-FIRST_VAR].poly_idx,
+	MAKE_ATTRIBUTE_VALUE(node__block_size_of));
+      set_attribute(
+	node->attributes,
+	variables_table[var_no__std___block_count_of-FIRST_VAR].poly_idx,
+	MAKE_ATTRIBUTE_VALUE(node__block_count_of));
+      set_attribute(
+	node->attributes,
+	variables_table[var_no__std___access_time_seconds_of-FIRST_VAR].poly_idx,
+	MAKE_ATTRIBUTE_VALUE(node__access_time_seconds_of));
+      set_attribute(
+	node->attributes,
+	variables_table[var_no__std___access_time_nanoseconds_of-FIRST_VAR].poly_idx,
+	MAKE_ATTRIBUTE_VALUE(node__access_time_nanoseconds_of));
+      set_attribute(
+	node->attributes,
+	variables_table[var_no__std___modification_time_seconds_of-FIRST_VAR].poly_idx,
+	MAKE_ATTRIBUTE_VALUE(node__modification_time_seconds_of));
+      set_attribute(
+	node->attributes,
+	variables_table[var_no__std___modification_time_nanoseconds_of-FIRST_VAR].poly_idx,
+	MAKE_ATTRIBUTE_VALUE(node__modification_time_nanoseconds_of));
+      set_attribute(
+	node->attributes,
+	variables_table[var_no__std___status_change_time_seconds_of-FIRST_VAR].poly_idx,
+	MAKE_ATTRIBUTE_VALUE(node__status_change_time_seconds_of));
+      set_attribute(
+	node->attributes,
+	variables_table[var_no__std___status_change_time_nanoseconds_of-FIRST_VAR].poly_idx,
+	MAKE_ATTRIBUTE_VALUE(node__status_change_time_nanoseconds_of));
+      PREPARE_SINGLE_RESULT(node)
+    }
+  }
+
+FUNCTION std::fsync
+  #
+    flushes all buffers associated with the file descriptor
+
+    Parameter:
+      fd # the file descriptor
+
+    This function needs I/O-access rights.
+
+    Topic: POSIX
+
+    See also: std_types::file_descriptor
+  {
+    CHECK_ARGUMENTS(1)
+    CHECK_IO_ACCESS_RIGHTS
+    int fd;
+    int result;
+    if (!file_descriptor_to_int(ARGUMENTS(0), &fd)) return;
+    ACTION(fsync)
+      result = fsync(fd);
+    INFO
+      INT(fd)
+      INT(result)
+    DATA
+      INT(result)
+    END
+    if (result == -1) {
+      create_error_message(
+	module__builtin.constants_base[unique__std___IO_ERROR-1],
+	"FSYNC FAILED", errno, 0, NULL);
+    } else {
+      PREPARE_NO_RESULT
+    }
+  }
+
+FUNCTION std::getcwd
+  #
+    returns the current working directory
+
+    Results:
+      a string containing the current working directory
+
+    This function needs I/O-access rights.
+
+    Topic: POSIX
+
+    See also: chdir, mkdir, realpath
+  {
+    CHECK_ARGUMENTS(0)
+    CHECK_IO_ACCESS_RIGHTS
+    uint8_t static_buf[1024];
+    uint8_t *buf = NULL;
+    size_t size;
+    char *result = NULL;
+    EVENT(getcwd)
+      buf = static_buf;
+      size = 1024;
+      retry:
+      result = getcwd((char *)buf, size);
+      if (buf == static_buf) buf = NULL;
+      if (errno == ERANGE) {
+	size += size;
+	buf = reallocate_memory(buf, size);
+	goto retry;
+      }
+    INFO
+      C_STRING(result)
+    DATA
+      C_STRING(result)
+    END
+    if (result == NULL) {
+      create_error_message(
+	module__builtin.constants_base[unique__std___IO_ERROR-1],
+	"GETCWD FAILED", errno, 0, NULL);
+    } else {
+      PREPARE_SINGLE_RESULT(from_c_string(result))
+    }
+    deallocate_memory(buf);
+  }
+
+FUNCTION std::getenv
+  #
+    returns the value of the specified environment variable
+
+    Parameter:
+      name # the name of the environment variable
+
+    Results:
+      a string containing the value of the environment variable
+
+    This function needs I/O-access rights.
+
+    Topic: POSIX
+  {
+    CHECK_ARGUMENTS(1)
+    CHECK_IO_ACCESS_RIGHTS
+    char *var_name = NULL;
+    char *result = NULL;
+    if (!to_c_string(ARGUMENTS(0), &var_name)) goto cleanup;
+    EVENT(getenv)
+      result = getenv(var_name);
+    INFO
+      C_STRING(var_name)
+      C_STRING(result)
+    DATA
+      C_STRING(result)
+    END
+    if (result == NULL) {
+      create_error_message(
+	module__builtin.constants_base[unique__std___IO_ERROR-1],
+	"GETENV FAILED", errno, 0, NULL);
+    } else {
+      PREPARE_SINGLE_RESULT(from_c_string(result))
+    }
+    cleanup:
+    deallocate_memory(var_name);
+  }
+
+FUNCTION std::getegid
+  #
+    returns the effective group ID
+
+    Results:
+      id: an integer describing the effective group ID
+
+    This function needs I/O-access rights.
+
+    Topic: POSIX
+
+    See also: geteuid, getgid, getuid
+  {
+    CHECK_ARGUMENTS(0)
+    CHECK_IO_ACCESS_RIGHTS
+    int result;
+    EVENT(getegid)
+      result = getegid();
+    INFO
+      INT(result)
+    DATA
+      INT(result)
+    END
+    PREPARE_SINGLE_RESULT(group_id_from_int(result))
+  }
+
+FUNCTION std::geteuid
+  #
+    returns the effective user id
+
+    Results:
+      id: an integer describing the effective user ID
+
+    This function needs I/O-access rights.
+
+    Topic: POSIX
+
+    See also: getegid, getuid, getgid
+  {
+    CHECK_ARGUMENTS(0)
+    CHECK_IO_ACCESS_RIGHTS
+    int result;
+    EVENT(geteuid)
+      result = geteuid();
+    INFO
+      INT(result)
+    DATA
+      INT(result)
+    END
+    PREPARE_SINGLE_RESULT(user_id_from_int(result))
+  }
+
+FUNCTION std::getgid
+  #
+    returns the real group ID
+
+    Results:
+      id: an integer describing the real group ID
+
+    This function needs I/O-access rights.
+
+    Topic: POSIX
+
+    See also: geteuid, getgid, getuid
+  {
+    CHECK_ARGUMENTS(0)
+    CHECK_IO_ACCESS_RIGHTS
+    int result;
+    EVENT(getgid)
+      result = getgid();
+    INFO
+      INT(result)
+    DATA
+      INT(result)
+    END
+    PREPARE_SINGLE_RESULT(group_id_from_int(result))
+  }
+
+FUNCTION std::gethostname
+  #
+    returns the hostname of the local computer
+
+    Result:
+      name # the hostname
+
+    This function needs I/O-access rights.
+
+    Topic: POSIX
+
+    See also: sethostname
+
+    Example:
+
+      gethostname! $hostname
+      println! hostname
+
+    Output:
+
+      funky
+  {
+    CHECK_ARGUMENTS(0)
+    CHECK_IO_ACCESS_RIGHTS
+    char buf[HOST_NAME_MAX+1];
+    int result;
+    EVENT(gethostname)
+      result = gethostname(buf, sizeof(buf));
+    INFO
+      MEMORY(buf, result)
+    DATA
+      MEMORY(buf, result)
+    END
+    if (result == -1) {
+      create_error_message(
+	module__builtin.constants_base[unique__std___IO_ERROR-1],
+	"GETHOSTNAME FAILED", errno, 0, NULL);
+    } else {
+      PREPARE_SINGLE_RESULT(from_c_string(buf))
+    }
+  }
+
+FUNCTION std::getlogin
+  #
+    returns the login name of the current user
+
+    Results:
+      a string containing the login name of the current user
+
+    This function needs I/O-access rights.
+
+    Topic: POSIX
+
+    See also: getuid, getgid
+  {
+    CHECK_ARGUMENTS(0)
+    CHECK_IO_ACCESS_RIGHTS
+    char *result = NULL;
+    EVENT(getlogin)
+      result = getlogin();
+    INFO
+      C_STRING(result)
+    DATA
+      C_STRING(result)
+    END
+    if (result == NULL) {
+      create_error_message(
+	module__builtin.constants_base[unique__std___IO_ERROR-1],
+	"GETLOGIN FAILED", errno, 0, NULL);
+    } else {
+      PREPARE_SINGLE_RESULT(from_c_string(result))
+    }
+  }
+
+FUNCTION std::getpid
+  #
+    returns the process ID
+
+    Results:
+      id: an integer describing the process ID
+
+    This function needs I/O-access rights.
+
+    Topic: POSIX
+
+    See also: getppid, getuid, getgid
+  {
+    CHECK_ARGUMENTS(0)
+    CHECK_IO_ACCESS_RIGHTS
+    int result;
+    EVENT(getpid)
+      result = getpid();
+    INFO
+      INT(result)
+    DATA
+      INT(result)
+    END
+    PREPARE_SINGLE_RESULT(process_id_from_int(result))
+  }
+
+FUNCTION std::getppid
+  #
+    returns the parent process ID
+
+    Results:
+      id: an integer describing the parent process ID
+
+    This function needs I/O-access rights.
+
+    Topic: POSIX
+
+    See also: getpid, getuid, getgid
+  {
+    CHECK_ARGUMENTS(0)
+    CHECK_IO_ACCESS_RIGHTS
+    int result;
+    EVENT(getppid)
+      result = getppid();
+    INFO
+      INT(result)
+    DATA
+      INT(result)
+    END
+    PREPARE_SINGLE_RESULT(process_id_from_int(result))
+  }
+
+FUNCTION std::getpwuid
+  #
+    returns the password entry for the specified user ID
+
+    Parameter:
+      id # the user ID
+
+    Result:
+      info # an object describing the password entry
+
+    This function needs I/O-access rights.
+
+    Topic: POSIX
+
+    See also: std_types::passwd
+  {
+    CHECK_ARGUMENTS(1)
+    CHECK_IO_ACCESS_RIGHTS
+    int uid;
+    struct passwd *result = NULL;
+    if (!user_id_to_int(ARGUMENTS(0), &uid)) return;
+    EVENT(getpwuid)
+      do {
+	result = getpwuid(uid);
+      } while (result == NULL && errno == EINTR);
+    INFO
+      INT(uid)
+      MEMORY(&result, sizeof(result))
+    DATA
+      MEMORY(&result, sizeof(result))
+    END
+    if (result == NULL) {
+      create_error_message(
+	module__builtin.constants_base[unique__std___IO_ERROR-1],
+	"GETPWUID FAILED", errno, 0, NULL);
+    } else {
+      NODE *node__username_of = from_c_string(result->pw_name);
+      NODE *node__password_of = from_c_string(result->pw_passwd);
+      NODE *node__user_id_of = user_id_from_int(result->pw_uid);
+      NODE *node__group_id_of = group_id_from_int(result->pw_gid);
+      NODE *node__user_information_of = from_c_string(result->pw_gecos);
+      NODE *node__home_directory_of = from_c_string(result->pw_dir);
+      NODE *node__shell_of = from_c_string(result->pw_shell);
+      NODE *node = clone_object_and_attributes((NODE *)&std_types::passwd);
+      update_start_p = node_p;
+      set_attribute(
+	node->attributes,
+	variables_table[var_no__std___username_of-FIRST_VAR].poly_idx,
+	MAKE_ATTRIBUTE_VALUE(node__username_of));
+      set_attribute(
+	node->attributes,
+	variables_table[var_no__std___password_of-FIRST_VAR].poly_idx,
+	MAKE_ATTRIBUTE_VALUE(node__password_of));
+      set_attribute(
+	node->attributes,
+	variables_table[var_no__std___user_id_of-FIRST_VAR].poly_idx,
+	MAKE_ATTRIBUTE_VALUE(node__user_id_of));
+      set_attribute(
+	node->attributes,
+	variables_table[var_no__std___group_id_of-FIRST_VAR].poly_idx,
+	MAKE_ATTRIBUTE_VALUE(node__group_id_of));
+      set_attribute(
+	node->attributes,
+	variables_table[var_no__std___user_information_of-FIRST_VAR].poly_idx,
+	MAKE_ATTRIBUTE_VALUE(node__user_information_of));
+      set_attribute(
+	node->attributes,
+	variables_table[var_no__std___home_directory_of-FIRST_VAR].poly_idx,
+	MAKE_ATTRIBUTE_VALUE(node__home_directory_of));
+      set_attribute(
+	node->attributes,
+	variables_table[var_no__std___shell_of-FIRST_VAR].poly_idx,
+	MAKE_ATTRIBUTE_VALUE(node__shell_of));
+      PREPARE_SINGLE_RESULT(node)
+    }
+  }
+
+FUNCTION std::getsid
+  #
+    returns the process ID of the session leader of the process group
+
+    Parameter:
+      id # the process ID
+
+    Results:
+      id: an integer describing the session leader's process ID
+
+    This function needs I/O-access rights.
+
+    Topic: POSIX
+
+    See also: getpid, getppid
+  {
+    CHECK_ARGUMENTS(1)
+    CHECK_IO_ACCESS_RIGHTS
+    int pid;
+    int result;
+    if (!process_id_to_int(ARGUMENTS(0), &pid)) return;
+    EVENT(getsid)
+      result = getsid(pid);
+    INFO
+      INT(pid)
+      INT(result)
+    DATA
+      INT(result)
+    END
+    if (result == -1) {
+      create_error_message(
+	module__builtin.constants_base[unique__std___IO_ERROR-1],
+	"GETSID FAILED", errno, 0, NULL);
+    } else {
+      PREPARE_SINGLE_RESULT(process_id_from_int(result))
+    }
+  }
+
+FUNCTION std::getuid
+  #
+    returns the real user ID
+
+    Results:
+      id: an integer describing the real user ID
+
+    This function needs I/O-access rights.
+
+    Topic: POSIX
+
+    See also: getegid, geteuid, getgid
+  {
+    CHECK_ARGUMENTS(0)
+    CHECK_IO_ACCESS_RIGHTS
+    int result;
+    EVENT(getuid)
+      result = getuid();
+    INFO
+      INT(result)
+    DATA
+      INT(result)
+    END
+    PREPARE_SINGLE_RESULT(user_id_from_int(result))
+  }
+
+FUNCTION std::mkdir
+  #
+    creates a directory
+
+    Parameters:
+      pathname # the path of the directory to create
+      mode? # the mode of the directory
+
+    This function needs I/O-access rights.
+
+    Topic: POSIX
+
+    See also: chdir, stat
+
+    Example:
+
+      mkdir! "test_data"
+  {
+    MIN_ARGUMENTS(1)
+    MAX_ARGUMENTS(2)
+    CHECK_IO_ACCESS_RIGHTS
+    char *pathname = NULL;
+    int mode = 0755;
+    int result;
+    if (!to_c_string(ARGUMENTS(0), &pathname)) goto cleanup;
+    if (ARGUMENT_COUNT >= 2 && !mode_to_int(ARGUMENTS(1), &mode)) goto cleanup;
+    ACTION(mkdir)
+      result = mkdir(pathname, mode);
+    INFO
+      C_STRING(pathname)
+      INT(mode)
+      INT(result)
+    DATA
+      INT(result)
+    END
+    if (result == -1) {
+      create_error_message(
+	module__builtin.constants_base[unique__std___IO_ERROR-1],
+	"MKDIR FAILED", errno, 0, NULL);
+    } else {
+      PREPARE_NO_RESULT
+    }
+    cleanup:
+    deallocate_memory(pathname);
+  }
+
+FUNCTION std::mkfifo
+  #
+    creates a FIFO
+
+    Parameters:
+      pathname # the path of the FIFO to create
+      mode? # the mode of the FIFO
+
+    The optional mode parameter is a string of the form "rwxrwxrwx". The
+    default value is "rw-r--r--".
+
+    This function needs I/O-access rights.
+
+    Topic: POSIX
+
+    See also: mkdir
+
+    Example:
+
+      mkfifo! "test_fifo" "rw-rw----"
+  {
+    MIN_ARGUMENTS(1)
+    MAX_ARGUMENTS(2)
+    CHECK_IO_ACCESS_RIGHTS
+    char *filename = NULL;
+    int mode = 0644;
+    int result;
+    if (!to_c_string(ARGUMENTS(0), &filename)) goto cleanup;
+    if (ARGUMENT_COUNT >= 2 && !mode_to_int(ARGUMENTS(1), &mode)) goto cleanup;
+    ACTION(mkfifo)
+      result = mkfifo(filename, mode);
+    INFO
+      C_STRING(filename)
+      INT(mode)
+      INT(result)
+    DATA
+      INT(result)
+    END
+    if (result == -1) {
+      create_error_message(
+	module__builtin.constants_base[unique__std___IO_ERROR-1],
+	"MKFIFO FAILED", errno, 0, NULL);
+    } else {
+      PREPARE_NO_RESULT
+    }
+    cleanup:
+    deallocate_memory(filename);
+  }
+
+FUNCTION std::open
+  #
+    opens a file
+
+    Parameters:
+      pathname # the path of the file to open
+      flags # whether to open the file for reading, writing or appending
+      mode? # the mode of the file
+
+    Result:
+      fd: a file descriptor
+
+    On success a valid file handle is returned, on failure an appropriate
+    error-object is returned.
+
+    Possible flag combinations:
+
+    r:  Open a file for reading only.
+
+    r+: Open a file for reading and writing.
+
+    w:  Create a new or truncate an existing file and open it for writing only.
+
+    w+: Create a new or truncate an existing file and open it for reading and
+	writing.
+
+    a:  Create a new or open an existing file. The current file position is
+	initially at the end of the file. The file is opened for writing only.
+
+    a+: Create a new or open an existing file. The current file position is
+	initially at the end of the file. The file is opened for reading and
+	writing.
+
+    The optional mode parameter is a string of the form "rwxrwxrwx". The
+    default value is "rw-r--r--".
+
+    This function needs I/O-access rights.
+
+    Topic: POSIX
+
+    See also: close, read, write, fsync
+
+    Example:
+
+      open! $fd "test.txt" "w+"
+      write! $bytes_written fd "Hello, World!"
+      on bytes_written.is_an_error: Error! "Failed to write to file!"
+      close! fd
+  {
+    MIN_ARGUMENTS(2)
+    MAX_ARGUMENTS(3)
+    CHECK_IO_ACCESS_RIGHTS
+    char *filename = NULL;
+    int flags;
+    int mode = 0644;
+    int result;
+    if (!to_c_string(ARGUMENTS(0), &filename)) goto cleanup;
+    if (!flags_to_int(ARGUMENTS(1), &flags)) goto cleanup;
+    if (ARGUMENT_COUNT >= 3 && !mode_to_int(ARGUMENTS(2), &mode)) goto cleanup;
+    EVENT(open)
+      do {
+	result = open(filename, flags, mode);
+      } while (result == -1 && errno == EINTR);
+    INFO
+      C_STRING(filename)
+      INT(flags)
+      INT(mode)
+      INT(result)
+    DATA
+      INT(result)
+    END
+    if (result == -1) {
+      create_error_message(
+	module__builtin.constants_base[unique__std___IO_ERROR-1],
+	"OPEN FAILED", errno, 0, NULL);
+    } else {
+      PREPARE_SINGLE_RESULT(file_descriptor_from_int(result))
+    }
+    cleanup:
+    deallocate_memory(filename);
+  }
+
+FUNCTION std::opendir
+  #
+    opens a directory stream
+
+    Parameters:
+      pathname # the path of the directory to open
+
+    Result:
+      dir: a directory stream
+
+    On success a <std_types::directory> is returned, on failure an appropriate
+    error-object is returned.
+
+    This function needs I/O-access rights.
+
+    Topic: POSIX
+
+    See also: closedir, readdir
+
+    Example:
+
+      opendir! $dir "/bin"
+      loop:
+	readdir! $entry dir
+	if
+	  entry.is_an_error
+	  break
+	  :
+	    if
+	      type_of(entry) == SYMBOLIC_LINK: # check file type
+		println! name_of(entry)
+		next!
+	      next
+
+    Output:
+
+      texosquery
+      lzip-compressor
+      a2ping
+      ...
+  {
+    CHECK_ARGUMENTS(1)
+    CHECK_IO_ACCESS_RIGHTS
+    char *name = NULL;
+    void *result = NULL;
+    if (!to_c_string(ARGUMENTS(0), &name)) goto cleanup;
+    EVENT(opendir)
+      result = opendir(name);
+    INFO
+      C_STRING(name)
+      PTR(result)
+    DATA
+      PTR(result)
+    END
+    if (!result) {
+      create_error_message(
+	module__builtin.constants_base[unique__std___IO_ERROR-1],
+	"OPENDIR FAILED", errno, 0, NULL);
+    } else {
+      PREPARE_SINGLE_RESULT(directory_from_ptr(result))
+    }
+    cleanup:
+    deallocate_memory(name);
+  }
+
+METHOD std_types::file_descriptor/read
+  #
+    reads from a file
+
+    Parameters:
+      fd # the file descriptor
+      size # the maximum number of bytes to read
+
+    Result:
+      buf # the read data
+
+    If *buf* is empty then no more data is available.
+
+    Otherwise, if *buf* is not an error-object, then *buf* contains as many
+    bytes as could be read without further blocking.
+
+    If an error occurs then an appropriate error-object is returned.
+
+    This function needs I/O-access rights.
+
+    Topic: POSIX
+
+    See also: write, open, close, fsync
+  {
+    CHECK_ARGUMENTS(2)
+    CHECK_IO_ACCESS_RIGHTS
+    int fd = ARGUMENTS(0)->file_descriptor.value;
+    uint8_t *buf = NULL;
+    size_t size;
+    ssize_t result;
+    if (!to_ulong(ARGUMENTS(1), &size)) goto cleanup;
+    buf = allocate_memory(size);
+    EVENT(read)
+      do {
+	result = read(fd, (char *)buf, size);
+      } while (result == -1 && errno == EINTR);
+    INFO
+      INT(fd)
+      ULONG(size)
+      MEMORY(buf, result)
+    DATA
+      MEMORY(buf, result)
+    END
+    if (result == -1) {
+      create_error_message(
+	module__builtin.constants_base[unique__std___IO_ERROR-1],
+	"READ FAILED", errno, 0, NULL);
+    } else {
+      PREPARE_SINGLE_RESULT(from_latin_1_string(buf, result))
+    }
+    cleanup:
+    deallocate_memory(buf);
+  }
+
+FUNCTION std::readdir
+  #
+    reads a directory entry
+
+    Parameters:
+      dir # the directory stream
+
+    Result:
+      entry: a directory entry
+
+    On success a <std_types::dirent> is returned, on failure an appropriate
+    error-object is returned.
+
+    This function needs I/O-access rights.
+
+    Topic: POSIX
+
+    See also: opendir, closedir, std_types::dirent
+
+    Example:
+
+      opendir! $dir "/bin"
+      loop:
+	readdir! $entry dir
+	if
+	  entry.is_an_error
+	  break
+	  :
+	    if
+	      type_of(entry) == SYMBOLIC_LINK: # check file type
+		println! name_of(entry)
+		next!
+	      next
+
+    Output:
+
+      texosquery
+      lzip-compressor
+      a2ping
+      ...
+  {
+    CHECK_ARGUMENTS(1)
+    CHECK_IO_ACCESS_RIGHTS
+    void *dir = NULL;
+    struct dirent *result = NULL;
+    if (!directory_to_ptr(ARGUMENTS(0), &dir)) return;
+    EVENT(readdir)
+      result = readdir(dir);
+    INFO
+      PTR(dir)
+      MEMORY(&result, sizeof(result))
+    DATA
+      MEMORY(&result, sizeof(result))
+    END
+    if (result == NULL) {
+      create_error_message(
+	module__builtin.constants_base[unique__std___IO_ERROR-1],
+	"READDIR FAILED", errno, 0, NULL);
+    } else {
+      NODE *node__inode_number_of = inode_number_from_ulong(result->d_ino);
+      NODE *node__type_of = file_type_from_int(result->d_type);
+      NODE *node__name_of = from_c_string(result->d_name);
+      NODE *node = clone_object_and_attributes((NODE *)&std_types::dirent);
+      update_start_p = node_p;
+      set_attribute(
+	node->attributes,
+	variables_table[var_no__std___inode_number_of-FIRST_VAR].poly_idx,
+	MAKE_ATTRIBUTE_VALUE(node__inode_number_of));
+      set_attribute(
+	node->attributes,
+	variables_table[var_no__std___type_of-FIRST_VAR].poly_idx,
+	MAKE_ATTRIBUTE_VALUE(node__type_of));
+      set_attribute(
+	node->attributes,
+	variables_table[var_no__std___name_of-FIRST_VAR].poly_idx,
+	MAKE_ATTRIBUTE_VALUE(node__name_of));
+      PREPARE_SINGLE_RESULT(node)
+    }
+  }
+
+FUNCTION std::realpath
+  #
+    resolves the specified pathname
+
+    Parameters:
+      path # the path to resolve
+
+    Result:
+      resolved_path # the resolved path
+
+    On success the resolved path is returned, on failure an appropriate
+    error-object is returned.
+
+    This function needs I/O-access rights.
+
+    In the resolved path, symbolic links are followed and resolved. Additionally
+    the resolved path is canonicalized. This means that the resolved path is
+    normalized according to the local file system. Especially, redundant slashes
+    are removed or relative paths are resolved.
+
+    Topic: POSIX
+
+    See also: unlink, stat, lstat
+
+    Example:
+
+      realpath! $resolved_path "//var/log//../lock"
+      println! resolved_path
+
+    Output:
+
+      /run/lock
+  {
+    CHECK_ARGUMENTS(1)
+    CHECK_IO_ACCESS_RIGHTS
+    char *filename = NULL;
+    char *resolved_name = NULL;
+    char *result = NULL;
+    if (!to_c_string(ARGUMENTS(0), &filename)) goto cleanup;
+    EVENT(realpath)
+      result = realpath(filename, resolved_name);
+    INFO
+      C_STRING(filename)
+      C_STRING(result)
+    DATA
+      C_STRING(result)
+    END
+    if (result == NULL) {
+      create_error_message(
+	module__builtin.constants_base[unique__std___IO_ERROR-1],
+	"REALPATH FAILED", errno, 0, NULL);
+    } else {
+      PREPARE_SINGLE_RESULT(from_c_string(result))
+    }
+    cleanup:
+    deallocate_memory(filename);
+    deallocate_memory(resolved_name);
+    free(result);
+  }
+
+FUNCTION std::rename
+  #
+    renames or moves the specified file
+
+    Parameters:
+      old_path # the current file location
+      new_path # the new file location
+
+    This function needs I/O-access rights.
+
+    Topic: POSIX
+
+    See also: unlink, stat, lstat
+  {
+    CHECK_ARGUMENTS(2)
+    CHECK_IO_ACCESS_RIGHTS
+    char *old_filename = NULL;
+    char *new_filename = NULL;
+    int result;
+    if (!to_c_string(ARGUMENTS(0), &old_filename)) goto cleanup;
+    if (!to_c_string(ARGUMENTS(1), &new_filename)) goto cleanup;
+    ACTION(rename)
+      result = rename(old_filename, new_filename);
+    INFO
+      C_STRING(old_filename)
+      C_STRING(new_filename)
+      INT(result)
+    DATA
+      INT(result)
+    END
+    if (result == -1) {
+      create_error_message(
+	module__builtin.constants_base[unique__std___IO_ERROR-1],
+	"RENAME FAILED", errno, 0, NULL);
+    } else {
+      PREPARE_NO_RESULT
+    }
+    cleanup:
+    deallocate_memory(old_filename);
+    deallocate_memory(new_filename);
+  }
+
+FUNCTION std::sethostname
+  #
+    sets the hostname of the local computer
+
+    Parameters:
+      name # the new hostname
+
+    This function needs I/O-access rights.
+
+    Topic: POSIX
+
+    See also: gethostname
+  {
+    CHECK_ARGUMENTS(1)
+    CHECK_IO_ACCESS_RIGHTS
+    uint8_t *buf = NULL;
+    size_t size;
+    int result;
+    if (
+      !to_octets(ARGUMENTS(1),
+      (const uint8_t **)&buf, (long *)&size)) goto cleanup;
+    ACTION(sethostname)
+      do {
+	result = sethostname((char *)buf, size);
+      } while (result == -1 && errno == EINTR);
+    INFO
+      MEMORY(buf, size)
+      INT(result)
+    DATA
+      INT(result)
+    END
+    if (result == -1) {
+      create_error_message(
+	module__builtin.constants_base[unique__std___IO_ERROR-1],
+	"SETHOSTNAME FAILED", errno, 0, NULL);
+    } else {
+      PREPARE_NO_RESULT
+    }
+    cleanup:
+    deallocate_memory(buf);
+  }
+
+FUNCTION std::shutdown
+  #
+    shutdown the receiver and/or sender of the specified socket
+
+    Arguments:
+      socket # the socket to shutdown
+      how # which sides (receiver, sender) to shutdown
+
+    This function needs I/O-access rights.
+
+    Topic: POSIX
+
+    See also: socket, connect, bind, listen, accept, send, recv
+  {
+    CHECK_ARGUMENTS(2)
+    CHECK_IO_ACCESS_RIGHTS
+    int fd;
+    int how;
+    int result;
+    if (!file_descriptor_to_int(ARGUMENTS(0), &fd)) return;
+    if (!shutdown_type_to_int(ARGUMENTS(1), &how)) return;
+    ACTION(shutdown)
+      result = shutdown(fd, how);
+    INFO
+      INT(fd)
+      INT(how)
+      INT(result)
+    DATA
+      INT(result)
+    END
+    if (result == -1) {
+      create_error_message(
+	module__builtin.constants_base[unique__std___IO_ERROR-1],
+	"SHUTDOWN FAILED", errno, 0, NULL);
+    } else {
+      PREPARE_NO_RESULT
+    }
+  }
+
+FUNCTION std::stat
+  #
+    retrieves status information about the specified file
+
+    If a file with the specified name exists a status object is
+    returned which can be queried using functions like <size_of>.
+
+    If no such file exists then an error object is returned.
+
+    Argument:
+      filename # the name of the file
+
+    Topic: POSIX
+  {
+    CHECK_ARGUMENTS(1)
+    CHECK_IO_ACCESS_RIGHTS
+    char *filename = NULL;
+    struct stat statbuf;
+    int result;
+    if (!to_c_string(ARGUMENTS(0), &filename)) goto cleanup;
+    EVENT(stat)
+      result = stat(filename, &statbuf);
+    INFO
+      C_STRING(filename)
+      INT(result)
+      MEMORY(&statbuf, sizeof(statbuf))
+    DATA
+      INT(result)
+      MEMORY(&statbuf, sizeof(statbuf))
+    END
+    if (result == -1) {
+      create_error_message(
+	module__builtin.constants_base[unique__std___IO_ERROR-1],
+	"STAT FAILED", errno, 0, NULL);
+    } else {
+      NODE *node__device_of = device_id_from_ulong(statbuf.st_dev);
+      NODE *node__inode_number_of = inode_number_from_ulong(statbuf.st_ino);
+      NODE *node__mode_of = mode_from_int(statbuf.st_mode);
+      NODE *node__link_count_of = from_int(statbuf.st_nlink);
+      NODE *node__user_id_of = user_id_from_int(statbuf.st_uid);
+      NODE *node__group_id_of = group_id_from_int(statbuf.st_gid);
+      NODE *node__root_device_of = device_id_from_ulong(statbuf.st_rdev);
+      NODE *node__size_of = from_long(statbuf.st_size);
+      NODE *node__block_size_of = from_long(statbuf.st_blksize);
+      NODE *node__block_count_of = from_long(statbuf.st_blocks);
+      NODE *node__access_time_seconds_of = from_long(statbuf.st_atim.tv_sec);
+      NODE *node__access_time_nanoseconds_of =
+	from_long(statbuf.st_atim.tv_nsec);
+      NODE *node__modification_time_seconds_of =
+	from_long(statbuf.st_mtim.tv_sec);
+      NODE *node__modification_time_nanoseconds_of =
+	from_long(statbuf.st_mtim.tv_nsec);
+      NODE *node__status_change_time_seconds_of =
+	from_long(statbuf.st_ctim.tv_sec);
+      NODE *node__status_change_time_nanoseconds_of =
+	from_long(statbuf.st_ctim.tv_nsec);
+      NODE *node = clone_object_and_attributes((NODE *)&std_types::stat);
+      update_start_p = node_p;
+      set_attribute(
+	node->attributes,
+	variables_table[var_no__std___device_of-FIRST_VAR].poly_idx,
+	MAKE_ATTRIBUTE_VALUE(node__device_of));
+      set_attribute(
+	node->attributes,
+	variables_table[var_no__std___inode_number_of-FIRST_VAR].poly_idx,
+	MAKE_ATTRIBUTE_VALUE(node__inode_number_of));
+      set_attribute(
+	node->attributes,
+	variables_table[var_no__std___mode_of-FIRST_VAR].poly_idx,
+	MAKE_ATTRIBUTE_VALUE(node__mode_of));
+      set_attribute(
+	node->attributes,
+	variables_table[var_no__std___link_count_of-FIRST_VAR].poly_idx,
+	MAKE_ATTRIBUTE_VALUE(node__link_count_of));
+      set_attribute(
+	node->attributes,
+	variables_table[var_no__std___user_id_of-FIRST_VAR].poly_idx,
+	MAKE_ATTRIBUTE_VALUE(node__user_id_of));
+      set_attribute(
+	node->attributes,
+	variables_table[var_no__std___group_id_of-FIRST_VAR].poly_idx,
+	MAKE_ATTRIBUTE_VALUE(node__group_id_of));
+      set_attribute(
+	node->attributes,
+	variables_table[var_no__std___root_device_of-FIRST_VAR].poly_idx,
+	MAKE_ATTRIBUTE_VALUE(node__root_device_of));
+      set_attribute(
+	node->attributes,
+	variables_table[var_no__std___size_of-FIRST_VAR].poly_idx,
+	MAKE_ATTRIBUTE_VALUE(node__size_of));
+      set_attribute(
+	node->attributes,
+	variables_table[var_no__std___block_size_of-FIRST_VAR].poly_idx,
+	MAKE_ATTRIBUTE_VALUE(node__block_size_of));
+      set_attribute(
+	node->attributes,
+	variables_table[var_no__std___block_count_of-FIRST_VAR].poly_idx,
+	MAKE_ATTRIBUTE_VALUE(node__block_count_of));
+      set_attribute(
+	node->attributes,
+	variables_table[var_no__std___access_time_seconds_of-FIRST_VAR].poly_idx,
+	MAKE_ATTRIBUTE_VALUE(node__access_time_seconds_of));
+      set_attribute(
+	node->attributes,
+	variables_table[var_no__std___access_time_nanoseconds_of-FIRST_VAR].poly_idx,
+	MAKE_ATTRIBUTE_VALUE(node__access_time_nanoseconds_of));
+      set_attribute(
+	node->attributes,
+	variables_table[var_no__std___modification_time_seconds_of-FIRST_VAR].poly_idx,
+	MAKE_ATTRIBUTE_VALUE(node__modification_time_seconds_of));
+      set_attribute(
+	node->attributes,
+	variables_table[var_no__std___modification_time_nanoseconds_of-FIRST_VAR].poly_idx,
+	MAKE_ATTRIBUTE_VALUE(node__modification_time_nanoseconds_of));
+      set_attribute(
+	node->attributes,
+	variables_table[var_no__std___status_change_time_seconds_of-FIRST_VAR].poly_idx,
+	MAKE_ATTRIBUTE_VALUE(node__status_change_time_seconds_of));
+      set_attribute(
+	node->attributes,
+	variables_table[var_no__std___status_change_time_nanoseconds_of-FIRST_VAR].poly_idx,
+	MAKE_ATTRIBUTE_VALUE(node__status_change_time_nanoseconds_of));
+      PREPARE_SINGLE_RESULT(node)
+    }
+    cleanup:
+    deallocate_memory(filename);
+  }
+
+FUNCTION std::strerror
+  #
+    returns a textual representation of an error number
+
+    Argument:
+      errnum # the error number
+
+    Topic: POSIX
+  {
+    CHECK_ARGUMENTS(1)
+    int errnum;
+    char *result = NULL;
+    if (!error_number_to_int(ARGUMENTS(0), &errnum)) return;
+    EVENT(strerror)
+      result = strerror(errnum);
+    INFO
+      INT(errnum)
+      C_STRING(result)
+    DATA
+      C_STRING(result)
+    END
+    if (result == NULL) {
+      create_error_message(
+	module__builtin.constants_base[unique__std___IO_ERROR-1],
+	"STRERROR FAILED", errno, 0, NULL);
+    } else {
+      PREPARE_SINGLE_RESULT(from_c_string(result))
+    }
+  }
+
+FUNCTION std::wait
+  #
+    waits for a child process to terminate
+
+    Arguments: none
+
+    Topic: POSIX
+  {
+    CHECK_ARGUMENTS(0)
+    CHECK_IO_ACCESS_RIGHTS
+    int status;
+    int result;
+    EVENT(wait)
+      do {
+	result = wait(&status);
+      } while (result == -1 && errno == EINTR);
+    INFO
+      INT(result)
+      INT(status)
+    DATA
+      INT(result)
+      INT(status)
+    END
+    if (result == -1) {
+      create_error_message(
+	module__builtin.constants_base[unique__std___IO_ERROR-1],
+	"WAIT FAILED", errno, 0, NULL);
+    } else {
+      START_ARGUMENTS(2)
+      ARGUMENTS(0) = process_id_from_int(result);
+      ARGUMENTS(1) = from_int(status);
+    }
+  }
+
+METHOD std_types::file_descriptor/write
+  #
+    try to write the specified number of octets
+
+    Arguments:
+      fd  # the file descriptor
+      buf # the octects to write
+
+    Topic: POSIX
+
+    See also: close, fsync, mkfifo, open, read
+  {
+    CHECK_ARGUMENTS(2)
+    CHECK_IO_ACCESS_RIGHTS
+    int fd = ARGUMENTS(0)->file_descriptor.value;
+    uint8_t *buf = NULL;
+    size_t size;
+    ssize_t result;
+    if (
+      !to_octets(ARGUMENTS(1),
+      (const uint8_t **)&buf, (long *)&size)) goto cleanup;
+    EVENT(write)
+      do {
+	result = write(fd, (char *)buf, size);
+      } while (result == -1 && errno == EINTR);
+    INFO
+      INT(fd)
+      MEMORY(buf, size)
+      LONG(result)
+    DATA
+      LONG(result)
+    END
+    if (result == -1) {
+      create_error_message(
+	module__builtin.constants_base[unique__std___IO_ERROR-1],
+	"WRITE FAILED", errno, 0, NULL);
+    } else {
+      PREPARE_SINGLE_RESULT(from_long(result))
+    }
+    cleanup:
+    deallocate_memory(buf);
+  }
+
+FUNCTION std::umask
+  #
+    set a new file creation mask
+
+    the previous mask value is returned
+
+    Argument:
+      mask # the new file creation mask
+
+    Topic: POSIX
+  {
+    CHECK_ARGUMENTS(1)
+    CHECK_IO_ACCESS_RIGHTS
+    int mask;
+    int result;
+    if (!mode_to_int(ARGUMENTS(0), &mask)) return;
+    EVENT(umask)
+      result = umask(mask);
+    INFO
+      INT(mask)
+      INT(result)
+    DATA
+      INT(result)
+    END
+    PREPARE_SINGLE_RESULT(mode_from_int(result))
+  }
+
+FUNCTION std::unlink
+  #
+    remove the specified file
+
+    Argument:
+      filename # the name of the file
+
+    Topic: POSIX
+  {
+    CHECK_ARGUMENTS(1)
+    CHECK_IO_ACCESS_RIGHTS
+    char *filename = NULL;
+    int result;
+    if (!to_c_string(ARGUMENTS(0), &filename)) goto cleanup;
+    ACTION(unlink)
+      result = unlink(filename);
+    INFO
+      C_STRING(filename)
+      INT(result)
+    DATA
+      INT(result)
+    END
+    if (result == -1) {
+      create_error_message(
+	module__builtin.constants_base[unique__std___IO_ERROR-1],
+	"UNLINK FAILED", errno, 0, NULL);
+    } else {
+      PREPARE_NO_RESULT
+    }
+    cleanup:
+    deallocate_memory(filename);
+  }
+
+FUNCTION std::usleep
+  #
+    sleep for the specified number of microseconds
+
+    Argument:
+      int microseconds # the sleep delay
+
+    Topic: POSIX
+  {
+    CHECK_ARGUMENTS(1)
+    CHECK_IO_ACCESS_RIGHTS
+    unsigned int microseconds;
+    int result;
+    if (!to_uint(ARGUMENTS(0), &microseconds)) return;
+    EVENT(usleep)
+      result = usleep(microseconds);
+    INFO
+      UINT(microseconds)
+      INT(result)
+    DATA
+      INT(result)
+    END
+    PREPARE_SINGLE_RESULT(from_int(result))
+  }
