@@ -35,6 +35,8 @@
 
   To hand on *I/O-access rights* a function is called with a "!"-suffix.
 
+  See also: @POSIX
+
   Example:
 
     println! "Hello, world!"
@@ -42,6 +44,18 @@
   Output:
 
     Hello, world!
+
+#
+  Topic: POSIX
+
+  The Funky-API includes most POSIX-function calls.
+
+  The are wrapped in a Funky-style API.
+
+  Funky supports non-blocking I/O to allow for asynchronous programming
+  without the need of concurrency.
+
+  See also: @Input-Output
 
 # File Operations
 
@@ -51,11 +65,15 @@ $std::load ()
 
     Topic: Input-Output
 
+    See also: save
+
 $std::save ()
   #
     save data
 
     Topic: Input-Output
+
+    See also: load
 
 # Directory Entry Attributes
 
@@ -115,9 +133,12 @@ $std::write_string_to:
 
     The argument is **not** converted into utf-8.
 
+    The function might block until the output channel is ready to accept more
+    data.
+
     Topic: Input-Output
 
-    See also: write_all_to, print_to, print, eprint
+    See also: write_to, print_to, print, eprint
 
     Example:
 
@@ -145,7 +166,7 @@ $std::write_string_to:
 	    break
     pass
 
-$std::write_all_to:
+$std::write_to:
   #
     writes its arguments to the specified output channel
 
@@ -156,12 +177,12 @@ $std::write_all_to:
 
     Topic: Input-Output
 
-    See also: write_string_to, print_to, print, eprint
+    See also: writeln_to, write_string_to, print_to, print, eprint
 
     Example:
 
       $name "Joe"
-      write_all_to! STDOUT_FILENO "Hello, " name "!@nl;"
+      write_to! STDOUT_FILENO "Hello, " name "!@nl;"
 
     Output:
 
@@ -172,6 +193,59 @@ $std::write_all_to:
   )
   write_string_to! fd create_string(args)
 
+$std::writeln_to:
+  #
+    writes its arguments to the specified output channel and adds a newline
+
+    The arguments are converted into a single string but are **not** converted
+    into utf-8.
+
+    This function always writes the whole string and may therefor block.
+
+    Topic: Input-Output
+
+    See also: write_to, println_to, write_string_to, print_to
+
+    Example:
+
+      $name "Joe"
+      writeln_to! STDOUT_FILENO "Hello, " name "!"
+
+    Output:
+
+      Hello, Joe!
+  (
+    fd # the output channel
+    args* # the arguments to concatenate and print
+  )
+  write_string_to! fd push(create_string(args) '@nl;')
+
+$std::print_string_to:
+  #
+    writes its argument (a single string) to the specified output channel
+
+    The argument is converted into utf-8.
+
+    The function might block until the output channel is ready to accept more
+    data.
+
+    Topic: Input-Output
+
+    See also: print_to, print, eprint, write_string_to
+
+    Example:
+
+      print_string_to! STDOUT_FILENO "Hello, world!@nl;"
+
+    Output:
+
+      Hello, world!
+  (
+    fd # the output channel
+    str # the string argument to print
+  )
+  write_string_to! fd str.to_utf8
+
 $std::print_to:
   #
     prints its arguments to the specified file descriptor
@@ -181,7 +255,7 @@ $std::print_to:
 
     Topic: Input-Output
 
-    See also: write_all_to, write_string_to, print, eprint
+    See also: write_to, write_string_to, print, eprint
 
     Example:
 
@@ -196,6 +270,31 @@ $std::print_to:
     args* # the arguments to concatenate and print
   )
   write_string_to! fd create_string(args).to_utf8
+
+$std::println_to:
+  #
+    prints its arguments to the specified output channel and adds a newline
+
+    The arguments are converted into a single string which is then converted
+    into utf-8.
+
+    Topic: Input-Output
+
+    See also: print_to, write_string_to, print, eprint
+
+    Example:
+
+      $name "Chloé"
+      println_to! STDOUT_FILENO "Bonjour, " name "!"
+
+    Output:
+
+      Bonjour, Chloé!
+  (
+    fd # the output channel
+    args* # the arguments to concatenate and print
+  )
+  write_string_to! fd push(create_string(args).to_utf8 '@nl;')
 
 $std::print_string:
   #
@@ -280,6 +379,14 @@ $std::eprint_string:
     Example:
 
       eprint_string! "Bonjour, Chloé!@nl;"
+
+    Example:
+
+      eprint_string! "Bonjour, Chloé!@nl;"
+
+    Error output:
+
+      Bonjour, Chloé!
   (
     str # the string to print
   )
@@ -298,8 +405,12 @@ $std::eprint:
 
     Example:
 
-    $name "Chloé"
-    eprint! "Bonjour, " name "!@nl;"
+      $name "Chloé"
+      eprint! "Bonjour, " name "!@nl;"
+
+    Error output:
+
+      Bonjour, Chloé!
   (
     args* # the arguments to concatenate and print
   )
@@ -318,75 +429,253 @@ $std::eprintln:
 
     Example:
 
-    $name "Chloé"
-    eprintln! "Bonjour, " name "!"
+      $name "Chloé"
+      eprintln! "Bonjour, " name "!"
+
+    Error output:
+
+      Bonjour, Chloé!
   (
     args* # the arguments to print
   )
   eprint_string! push(create_string(args) '@nl;')
 
-$std::readln:
+$std::read_from:
   #
-    reads a line from the standard input channel
+    reads data from the specified input channel
 
-    The read line is returend *without* the terminating newline character.
+    The function might block until the input channel is ready to deliver more
+    data.
 
-    If the read operation fails then an error object is returned.
+    The read data is treated as binary bytes.
 
     Topic: Input-Output
 
-    See also: read_all_from, println
+    See also: read, readln_from, read_from_until
 
     Example:
 
-    readln! $line
-
-  $line_buf ""
+      read_from! $buf STDIN_FILENO 10
+  (
+    fd # the input channel
+    length # the number of bytes to read
+  )
+  $data ""
   loop:
-    read! STDIN_FILENO 1 $buf
-    if
-      buf.is_undefined
-      -> buf # return the error object
-      :
-	if
-	  buf == "@nl;"
-	  :
-	    -> line_buf
-	  :
-	    append &line_buf buf
-	    next!
+    read! $buf fd length
+    cond
+      -> buf.is_an_error -> buf
+      -> buf.is_empty -> data
+      -> true:
+	append &data buf
+	minus &length length_of(buf)
+	next!
+
+$std::read_from_until:
+  #
+    reads data from the specified input channel until a specific sentinel is
+    encountered
+
+    The sentinel must consist of octets.
+
+    If *nth* is given then the sentinel must occur exactly *nth* times.
+
+    Sentinels should *not* overlap!
+
+    The function might block until the input channel is ready to deliver more
+    data.
+
+    The read data is treated as binary bytes.
+
+    The sentinel is included in the returned octet string.
+
+    Topic: Input-Output
+
+    See also: readln_from, read_from
+
+    Example:
+
+      read_from_until! $data fd STDIN_FILENO '@nl;'
+  (
+    fd # the input channel
+    sentinel # the sentinel to look for
+    nth = 1 #
+  )
+  $data ""
+  loop:
+    read! $buf fd 1
+    cond
+      -> buf.is_an_error -> buf
+      -> buf.is_empty -> data
+      -> true:
+	append &data buf
+	if!
+	  buf .has_suffix. sentinel:
+	    dec &nth
+	    if!
+	      nth > 0
+	      next
+	      -> data
+	  next
+
+$std::readln_from:
+  #
+    reads a line from the specified input channel
+
+    The function might block until the input channel is ready to deliver more
+    data.
+
+    The read data is treated as binary bytes.
+
+    The newline character is included in the returned string.
+
+    Topic: Input-Output
+
+    See also: read_from_until, read_from
+
+    Example:
+
+      readln_from! $line STDIN_FILENO
+  (
+    fd # the input channel
+  )
+  read_from_until! fd '@nl;'
 
 $std::read_all_from:
   #
     reads all data from the specified input channel
 
-    The read data is returend as a single string.
+    The function might block until the input channel is ready to deliver more
+    data.
 
-    If the read operation fails then an error object is returned.
+    The read data is treated as binary bytes.
 
     Topic: Input-Output
 
-    See also: readln, println
+    See also: read_from, readln_from, read_from_until
 
     Example:
 
-    read_all_from! $buf STDIN_FILENO
+      read_all_from! $data STDIN_FILENO
   (
-    fh
+    fd # the input channel
   )
-  $already_read_data ""
+  $data ""
   loop:
-    read! $next_data fh 0x1000
-    if
-      next_data.is_an_error
-      -> next_data
-      :
-	if
-	  next_data.is_empty
-	  -> already_read_data
-	  :
-	    append &already_read_data next_data
-	    next!
+    read! $buf fd 0x100000
+    cond
+      -> buf.is_an_error -> buf
+      -> buf.is_empty -> data
+      -> true:
+	append &data buf
+	next!
+
+$std::get_from_until:
+  #
+    reads text from the specified input channel until a specific sentinel is
+    encountered
+
+    **Attention**: The sentinel must consist of **ASCII** characters.
+
+    If *nth* is given then the sentinel must occur exactly *nth* times.
+
+    Sentinels should *not* overlap!
+
+    The function might block until the input channel is ready to deliver more
+    data.
+
+    The read data must be in utf8 encoding. The data is converted before
+    returning.
+
+    The sentinel is included in the returned string.
+
+    Topic: Input-Output
+
+    See also: getln_from, get_until
+
+    Example:
+
+      get_from_until! $data STDIN_FILENO '@nl;'
+  (
+    fd # the input channel
+    sentinel # the sentinel to look for
+    nth = 1
+  )
+  read_from_until! $data fd sentinel nth
+  -> data.from_utf8
+
+$std::getln_from:
+  #
+    reads a text line from the specified input channel
+
+    The function might block until the input channel is ready to deliver more
+    data.
+
+    The read data must be in utf8 encoding. The data is converted before
+    returning.
+
+    The newline character is included in the returned string.
+
+    Topic: Input-Output
+
+    See also: get_from_until, getln
+
+    Example:
+
+      getln_from! $line STDIN_FILENO
+  (
+    fd # the input channel
+  )
+  get_from_until! fd '@nl;'
+
+$std::get_until:
+  #
+    reads text from the standard input channel until a specific sentinel is
+    encountered
+
+    **Attention**: The sentinel must consist of **ASCII** characters.
+
+    The function might block until the input channel is ready to deliver more
+    data.
+
+    The read data must be in utf8 encoding. The data is converted before
+    returning.
+
+    The sentinel is included in the returned string.
+
+    Topic: Input-Output
+
+    See also: getln, get_from_until
+
+    Example:
+
+      get_until! $data '@nl;'
+  (
+    sentinel # the sentinel to look for
+  )
+  get_from_until! STDIN_FILENO sentinel
+
+$std::getln:
+  #
+    reads a text line from the standard input channel
+
+    The function might block until the input channel is ready to deliver more
+    data.
+
+    The read data must be in utf8 encoding. The data is converted before
+    returning.
+
+    The newline character is included in the returned string.
+
+    Topic: Input-Output
+
+    See also: get_until, getln_from
+
+    Example:
+
+      getln! $line
+
+  getln_from! STDIN_FILENO
 
 $std_types::string/load:
   #
@@ -452,7 +741,7 @@ $std_types::string/save:
   )
   open! $fh filename "w+"
   check fh
-  write_all_to! fh data
+  write_to! fh data
   close! fh
 
 $std::try:
@@ -463,6 +752,10 @@ $std::try:
     execution of *body* succeeds then <undefined> is returned.
 
     *body* must not return any results.
+
+    Topic: Errors
+
+    See also: error_check
   (
     body # the statements to execute
   )
@@ -476,7 +769,7 @@ $std::check:
     If the supplied argument is an error object then the error object is
     returned. Otherwise nothing is returned.
 
-    Topic: Input-Output
+    Topic: Errors
 
     Example:
 
@@ -637,7 +930,7 @@ $std::call:
 		      append &out data
 		      next!
 		    :
-		      write_all_to! STDOUT_FILENO data
+		      write_to! STDOUT_FILENO data
 		      next!
 		err_fd:
 		  if
@@ -645,7 +938,7 @@ $std::call:
 		      append &err data
 		      next!
 		    :
-		      write_all_to! STDERR_FILENO data
+		      write_to! STDERR_FILENO data
 		      next!
 		:
 		  next!
@@ -752,19 +1045,18 @@ $std_types::process_id.deserializer_of:
   -> process_id(integer(argument))
 
 $command_of ()
-  #
-    stores the command attribute of a call
 
 $extern_call:
-  #
-    executes an external call
   (
     myself^ # the call object
     arguments* # the associated arguments
   )
   call! command_of(myself) map(flatten(arguments) to_string)
 
-$std::pipe: (args*)
+$std::pipe:
+  (
+    args*
+  )
   $i 1
   $n length_of(args)
   $in_fd undefined

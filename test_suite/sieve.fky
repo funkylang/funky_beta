@@ -5,9 +5,6 @@ $N 100
 $primes initialized_boolean_array(N true)
 !primes(1) false
 
-debug_write "
-  juhu
-
 from_to_by 4 N 2
   : (i)
     !primes(i) false
@@ -22,7 +19,6 @@ from_to_by 4 N 2
 	      next!
 	    next
       :
-	edump `primes
 	from_to 1 N
 	  : (i)
 	    if_not primes(i) next:

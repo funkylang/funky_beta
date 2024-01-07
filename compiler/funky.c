@@ -394,7 +394,7 @@ enum {
   var_486_16_obj, // dynamic
   var_error_category_of, // extern
   var_SYNTAX_ERROR, // extern
-  var_debug_print, // extern
+  var_debug__dump_object, // extern
   var_496_1_message, // dynamic
   var_error_message_text_of, // extern
   var_error_details_of, // extern
@@ -2064,8 +2064,8 @@ static TAB_NUM t_lambda_83[] = {
 static TAB_NUM t_lambda_84[] = {
   0, // locals
   0, // parameters
-  // debug_print obj 0 50
-  var_debug_print, 3, var_486_16_obj, num_0, num_50, TAIL_CALL,
+  // debug::dump_object 50 obj
+  var_debug__dump_object, 2, num_50, var_486_16_obj, TAIL_CALL,
   POS(492, 9)
 };
 
@@ -3173,7 +3173,7 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "debug_print\000", NULL,
+    "dump_object\000debug", NULL,
     {.position = POS(492, 9)}
   },
   {

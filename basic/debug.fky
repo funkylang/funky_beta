@@ -23,120 +23,348 @@
 #
   Topic: Debug
 
+  **Attention**: Functions in the namespace "debug" are not available in
+  production code.
+
+  They can access object details via introspection which is not available in
+  production code.
+
+  These functions can also write to stderr without needing I/O-acccess rights!
+  To do so they prevent parallel code execution.
+
+  See also: @Errors, @Input-Output
+
+$debug::println:
+  #
+    writes the given string and a newline character to stderr
+
+    The function always prints the whole string and may block until *stderr* is
+    ready to accept new data.
+
+    The function can be called without I/O-access rights.
+
+    The supplied string is converted to utf-8 before beeing written.
+
+    Topic: Debug
+
+    See also: debug::print, debug::dump, debug::dump_object, debug::hexdump
+
+    Example:
+
+      debug::println "success"
+
+    Error output:
+
+      success
+  (
+    str # the string to print
+  )
+  debug::print str
+  debug::print "@nl;"
+
+$debug::dump:
+  #
+    writes a string representation of an object to stderr
+
+    The function displays a label and the object's attribute via introspection.
+
+    The function can be called without I/O-access rights.
+
+    The string representation is converted to utf-8 before beeing written.
+
+    The optional *depth* argument specifies the maximum recursion depth used to
+    display the object's attributes.
+
+    Topic: Debug
+
+    See also: debug::dump_object, debug::println, debug::print
+
+    Example:
+
+      $name_of ()
+      $age_of ()
+      $obj
+	std_types::object
+	  .name_of "Albert"
+	  .age_of 42
+      debug::dump 2 `obj
+
+    Error output:
+
+      obj: object
+	name_of: "Albert"
+	age_of: 42
+  (
+    depth = 1 # the desired level of detail (recursion depth)
+    label # the label to use for the expression
+    expr # the expression
+  )
+  debug::print label
+  debug::print ": "
+  debug::dump_object depth expr
+
+$dump_args_to: (fd args)
+  $i 1
+  $n length_of(args)
+  loop:
+    if
+      i < n:
+	$name args(i)
+	$expr args(i+1)
+	!i i+2
+	print_to! fd name ": "
+	if
+	  expr.is_an_error:
+	    println_to! fd error_message_text_of(expr)
+	    next!
+	  :
+	    print_to! fd serialize(expr 0)
+	    next!
+      break
+
+$std::dump_to:
+  #
+    writes a string representation of some objects to the given file descriptor
+
+    **Attention**: This function must be called with I/O-access rights!
+
+    The function displays a label before each object.
+
+    To display an object's details the function uses serialization.
+
+    The string representation is converted to utf-8 before beeing written.
+
+    Topic: Debug
+
+    See also: dump, edump, debug::dump, debug::dump_object
+
+    Example:
+
+      $fruits list("apple" "banana" "cherry")
+      dump_to! STDOUT_FILENO `fruits
+
+    Output:
+
+      fruits: list <3>
+	"apple"
+	"banana"
+	"cherry"
+  (
+    fd # the file descriptor to write to
+    args* # an alternating sequence of labels and objects
+  )
+  dump_args_to! fd args
+
 $std::dump:
   #
-    print an object dump to stdout
+    writes a string representation of some objects to stdout
 
-    Dumps its arguments consisting of an alternating sequence of
-    expression names and expression values using <print>. The expression values
-    are converted into strings using <debug_string>.
+    **Attention**: This function must be called with I/O-access rights!
 
-    The depth to which debug strings shall be generated can be provided as an
-    optional first argument; the default depth is 1.
+    The function displays a label before each object.
 
-    Topic: Debug, Input-Output
+    To display an object's details the function uses serialization.
 
-    See also: edump, debug_string
+    The string representation is converted to utf-8 before beeing written.
+
+    Topic: Debug
+
+    See also: edump, dump_to, debug::dump, debug::dump_object
+
+    Example:
+
+      $fruits list("apple" "banana" "cherry")
+      dump `fruits
+
+    Output:
+
+      fruits: list <3>
+	"apple"
+	"banana"
+	"cherry"
 
     Example:
 
       $value_1 27
       $value_2 list("Peter" 'x' list(47 11))
       dump! `value_1 `value_2 `(2*sqrt(9))
-      dump! 2 `value_2
-      dump! 3 `value_2
 
     Output:
 
       value_1: 27
-      value_2: <list of 3 items>
-      (2*sqrt(9)): 6
-      value_2:
-	list
-	  "Peter"
-	  'x'
-	  <list of 2 items>
-      value_2:
-	list
-	  "Peter"
-	  'x'
-	  list
-	    47
-	    11
+      value_2: list <3>
+	"Peter"
+	'x'
+	list <2>
+	  47
+	  11
+      (2*sqrt(9)): 6.0
   (
     args* # an alternating sequence of names and values
   )
-  $n length_of(args)
-  $depth
-    if
-      n.is_odd
-      -> args(1)
-      -> 1
-  $i
-    if
-      n.is_odd
-      -> 2
-      -> 1
-  loop
-    :
-      if
-	i < n:
-	  $name args(i)
-	  $expr args(i+1)
-	  print! name ":" debug_string(expr -2 depth)
-	  !i i+2
-	  next!
-	break
-    pass
-
-$std::debug_writeln:
-  (
-    str
-  )
-  debug_write str
-  debug_write "@nl;"
+  dump_args_to! STDOUT_FILENO args
 
 $std::edump:
   #
-    write an object dump to stderr
+    print an object dump to stderr
 
-    Dumps the specified object.
-
-    This function needs no IO-access rights!
+    Dumps its arguments consisting of an alternating sequence of
+    expression names and expression values using <print>. The expression values
+    are converted into strings using <debug::string>.
 
     The depth to which debug strings shall be generated can be provided as an
     optional first argument; the default depth is 1.
 
-    See also: dump, debug_string
+    Topic: Input-Output, Debug
+
+    See also: debug::dump, debug::string
 
     Example:
 
-      edump 2 `2*f(x)
-  (
-    depth = 1 # the desired detail level
-    label # the label to use for the expression
-    expr # the expression
-  )
-  debug_write label
-  debug_write ": "
-  debug_print expr depth
+      $value_1 27
+      $value_2 list("Peter" 'x' list(47 11))
+      edump! `value_1 `value_2 `(2*sqrt(9))
 
-$std::hexdump:
+    Error output:
+
+      value_1: 27
+      value_2: list <3>
+	"Peter"
+	'x'
+	list <2>
+	  47
+	  11
+      (2*sqrt(9)): 6.0
   (
-    str
+    args* # an alternating sequence of names and values
+  )
+  dump_args_to! STDERR_FILENO args
+
+$std::hexdump_to:
+  #
+    writes a hexdump of the given string to the given file descriptor
+
+    **Attention**: This function must be called with I/O-access rights!
+
+    The function displays the string's hexadecimal representation.
+
+    Topic: Debug
+
+    See also: hexdump, ehexdump, debug::hexdump, dump_to
+
+    Example:
+
+      $data "Hello, world!"
+      hexdump_to! STDOUT_FILENO data
+
+    Output:
+
+      00000000: 48 65 6c 6c 6f 2c 20 77 6f 72 6c 64 21
+  (
+    fd # the file descriptor to write to
+    str # the string to dump
   )
   $i 0
   $n length_of(str)
   loop:
     if
       i >= n:
-	on (i .mod. 16) != 0: debug_write "@nl;"
+	on (i .mod. 16) != 0: print_to! fd "@nl;"
       :
 	on (i .mod. 16) == 0:
-	  debug_write hex(i 8)
-	  debug_write ":"
+	  print_to! fd hex(i 8)
+	  print_to! fd ":"
 	inc &i
-	debug_write " "
-	debug_write hex(str(i).to_integer 2)
-	on (i .mod. 16) == 0: debug_write "@nl;"
-	next
+	print_to! fd " "
+	print_to! fd hex(str(i).to_integer 2)
+	on (i .mod. 16) == 0: print_to! fd "@nl;"
+	next!
+
+$std::hexdump:
+  #
+    writes a hexdump of the given string to stdout
+
+    **Attention**: This function must be called with I/O-access rights!
+
+    The function displays the string's hexadecimal representation.
+
+    Topic: Debug
+
+    See also: ehexdump, hexdump_to, dump, debug::hexdump
+
+    Example:
+
+      $data "Hello, world!"
+      hexdump! data
+
+    Output:
+
+      00000000: 48 65 6c 6c 6f 2c 20 77 6f 72 6c 64 21
+  (
+    str # the string to dump
+  )
+  hexdump_to! STDOUT_FILENO str
+
+$std::ehexdump:
+  #
+    writes a hexdump of the given string to stderr
+
+    **Attention**: This function must be called with I/O-access rights!
+
+    The function displays the string's hexadecimal representation.
+
+    Topic: Debug
+
+    See also: hexdump, hexdump_to, debug::hexdump
+
+    Example:
+
+      $data "Hello, world!"
+      ehexdump! data
+
+    Error output:
+
+      00000000: 48 65 6c 6c 6f 2c 20 77 6f 72 6c 64 21
+  (
+    str # the string to dump
+  )
+  hexdump_to! STDERR_FILENO str
+
+$debug::hexdump:
+  #
+    writes a hexdump of the given string to stderr
+
+    The function displays the string's hexadecimal representation.
+
+    The function can be called without I/O-access rights.
+
+    Topic: Debug
+
+    See also: hexdump, ehexdump, hexdump_to, debug::dump
+
+    Example:
+
+      $data "Hello, world!"
+      debug::hexdump data
+
+    Error output:
+
+      00000000: 48 65 6c 6c 6f 2c 20 77 6f 72 6c 64 21
+  (
+    str # the string to dump
+  )
+  $i 0
+  $n length_of(str)
+  loop:
+    if
+      i >= n:
+	on (i .mod. 16) != 0: debug::print! "@nl;"
+      :
+	on (i .mod. 16) == 0:
+	  debug::print! hex(i 8)
+	  debug::print! ":"
+	inc &i
+	debug::print! " "
+	debug::print! hex(str(i).to_integer 2)
+	on (i .mod. 16) == 0: debug::print! "@nl;"
+	next!

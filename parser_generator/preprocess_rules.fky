@@ -433,7 +433,7 @@ $nlb2fky::preprocess_rules:
 		not(rules(components(1)).is_pruned)
 	      :
 		$base_rule_no components(1)
-		#debug_write "
+		#debug::print "
 		  @(name_of(rule)) -> @(name_of(rules(base_rule_no)))
 		!rule.base_rule_of base_rule_no
 		if
@@ -462,7 +462,7 @@ $nlb2fky::preprocess_rules:
 			-> ""
 		  concatenate(".")
 		$base_rule_no base_rules(signature)
-		#debug_write "
+		#debug::print "
 		  @(name_of(rule)): @(signature) -> @(default_value(base_rule_no "-"))
 		if
 		  base_rule_no.is_undefined:
@@ -477,7 +477,7 @@ $nlb2fky::preprocess_rules:
 		      rules(base_rule_no).is_pruned
 		      next
 		      :
-			#debug_write "
+			#debug::print "
 			  @(name_of(rule)) -> @(name_of(rules(base_rule_no)))
 			!rules(rule_no) rule(.base_rule_of base_rule_no)
 			$base_rule rules(base_rule_no)

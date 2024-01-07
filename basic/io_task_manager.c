@@ -102,7 +102,7 @@ enum {
   lambda_36 = -93,
   func_2_try_close_file = -94,
   lambda_37 = -95,
-  func_std_types__io_task___read_from = -96,
+  func_std_types__io_task___read = -96,
   func_start_read_request = -97,
   lambda_5_task_is_cancelled = -98,
   lambda_38 = -99,
@@ -118,7 +118,7 @@ enum {
   lambda_46 = -109,
   lambda_47 = -110,
   func_complete_read_request = -111,
-  func_std_types__io_task___write_to = -112,
+  func_std_types__io_task___write = -112,
   func_write_request = -113,
   lambda_7_task_is_cancelled = -114,
   lambda_48 = -115,
@@ -410,18 +410,18 @@ enum {
   var_422_10_filename, // dynamic
   var_422_20_data, // dynamic
   var_427_7_fd, // dynamic
-  var_write_to, // extern polymorphic
+  var_write, // extern polymorphic
   var_437_22_task, // dynamic
   var_437_27_events, // dynamic
   var_437_34_fd, // dynamic
-  var_cancel_write_to, // extern
+  var_cancel_write, // extern
   var_447_13_efd, // dynamic
   var_447_18_data, // dynamic
   var_WRITE_COMPLETED, // extern
   var_WRITE_ERROR, // extern
   var_463_33_fd, // dynamic
   var_468_10_fd, // dynamic
-  var_read_from, // extern polymorphic
+  var_read, // extern polymorphic
   var_483_22_task, // dynamic
   var_483_27_io, // dynamic
   var_483_30_argument, // dynamic
@@ -543,7 +543,6 @@ enum {
   var_979_16_mode, // dynamic
   var_982_14_something_to_do, // dynamic
   var_pass, // extern
-  var_write, // extern
   var_998_24_something_to_do, // dynamic
   var_get_events, // extern
   var_1013_16_request, // dynamic
@@ -1387,8 +1386,8 @@ static TAB_NUM t_lambda_2_fd_is_an_error[] = {
 static TAB_NUM t_lambda_29[] = {
   0, // locals
   0, // parameters
-  // write_to &io fd data
-  var_write_to, 3, var_421_21_io, var_427_7_fd, var_422_20_data, 1, var_421_21_io,
+  // write &io fd data
+  var_write, 3, var_421_21_io, var_427_7_fd, var_422_20_data, 1, var_421_21_io,
   // check_io task io check_save_request fd
   var_check_io, 4, var_421_16_task, var_421_21_io, func_check_save_request, var_427_7_fd, TAIL_CALL,
   POS(434, 13),
@@ -1414,8 +1413,8 @@ static TAB_NUM t_lambda_4_task_is_cancelled[] = {
   0, // parameters
   // $io events
   LET, 1, var_437_27_events, 1, LOCAL(2),
-  // cancel_write_to &io $unwritten_text fd
-  var_cancel_write_to, 2, LOCAL(2), var_437_34_fd, 2, LOCAL(2), LOCAL(3),
+  // cancel_write &io $unwritten_text fd
+  var_cancel_write, 2, LOCAL(2), var_437_34_fd, 2, LOCAL(2), LOCAL(3),
   // try $_ignore_error: close! fd
   var_try, 1, lambda_30, IO_CALL(1), LOCAL(1),
   // performed_io task io unwritten_text # return the not yet written text
@@ -1550,7 +1549,7 @@ static TAB_NUM t_lambda_37[] = {
   POS(469, 25)
 };
 
-static TAB_NUM t_func_std_types__io_task___read_from[] = {
+static TAB_NUM t_func_std_types__io_task___read[] = {
   5, // locals
   4, // parameters
   LOCAL(2), // 476_0_self
@@ -1761,13 +1760,13 @@ static TAB_NUM t_func_complete_read_request[] = {
   POS(521, 5)
 };
 
-static TAB_NUM t_func_std_types__io_task___write_to[] = {
+static TAB_NUM t_func_std_types__io_task___write[] = {
   5, // locals
   4, // parameters
-  LOCAL(2), // 523_31_self
-  LOCAL(3), // 523_36_my_fd
-  LOCAL(4), // 523_42_my_text
-  LOCAL(5), // 523_50_continuation
+  LOCAL(2), // 523_28_self
+  LOCAL(3), // 523_33_my_fd
+  LOCAL(4), // 523_39_my_text
+  LOCAL(5), // 523_47_continuation
   // tuple(my_fd my_text) continuation
   var_tuple, 2, LOCAL(3), LOCAL(4), 1, LOCAL(1),
   // perform_io self write_request tuple(my_fd my_text) continuation
@@ -1804,8 +1803,8 @@ static TAB_NUM t_lambda_7_task_is_cancelled[] = {
 static TAB_NUM t_lambda_48[] = {
   0, // locals
   0, // parameters
-  // write_to &io fd text
-  var_write_to, 3, var_526_22_io, var_527_10_fd, var_527_14_text, 1, var_526_22_io,
+  // write &io fd text
+  var_write, 3, var_526_22_io, var_527_10_fd, var_527_14_text, 1, var_526_22_io,
   // check_io task io check_write_request fd
   var_check_io, 4, var_526_17_task, var_526_22_io, func_check_write_request, var_527_10_fd, TAIL_CALL,
   POS(532, 9),
@@ -1831,8 +1830,8 @@ static TAB_NUM t_lambda_8_task_is_cancelled[] = {
   0, // parameters
   // $io events
   LET, 1, var_535_28_events, 1, LOCAL(1),
-  // cancel_write_to &io $unwritten_text fd
-  var_cancel_write_to, 2, LOCAL(1), var_535_35_fd, 2, LOCAL(1), LOCAL(2),
+  // cancel_write &io $unwritten_text fd
+  var_cancel_write, 2, LOCAL(1), var_535_35_fd, 2, LOCAL(1), LOCAL(2),
   // performed_io task io unwritten_text # return the not yet written text
   var_performed_io, 3, var_535_23_task, LOCAL(1), LOCAL(2), TAIL_CALL,
   POS(538, 9),
@@ -3392,14 +3391,14 @@ static TAB_NUM t_lambda_118[] = {
   var_update_if, 3, LOCAL(2), var_633_1_io, lambda_119, 1, var_633_1_io,
   // to_utf8
   var_to_utf8, 1, var_639_1_log_message, 1, LOCAL(1),
-  // write_to &io STDERR_FILENO log_message.to_utf8
-  var_write_to, 3, var_633_1_io, var_STDERR_FILENO, LOCAL(1), 1, var_633_1_io,
+  // write &io STDERR_FILENO log_message.to_utf8
+  var_write, 3, var_633_1_io, var_STDERR_FILENO, LOCAL(1), 1, var_633_1_io,
   // -> io
   LET, 1, var_633_1_io, TAIL_CALL,
   POS(954, 19),
   POS(954, 19),
   POS(954, 9),
-  POS(957, 48),
+  POS(957, 45),
   POS(957, 9),
   POS(958, 9)
 };
@@ -3409,9 +3408,9 @@ static TAB_NUM t_lambda_119[] = {
   0, // parameters
   // "
   var_std__string, 3, string_8, var_644_1_iteration_no, string_9, 1, LOCAL(1),
-  // write_to io STDERR_FILENO "
-  var_write_to, 3, var_633_1_io, var_STDERR_FILENO, LOCAL(1), TAIL_CALL,
-  POS(955, 37),
+  // write io STDERR_FILENO "
+  var_write, 3, var_633_1_io, var_STDERR_FILENO, LOCAL(1), TAIL_CALL,
+  POS(955, 34),
   POS(955, 11)
 };
 
@@ -3882,7 +3881,7 @@ static FUNKY_CONSTANT constants_table[] = {
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_36}},
   {FLT_FUNCTION, 0, {.tfunc = t_func_2_try_close_file}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_37}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std_types__io_task___read_from}},
+  {FLT_FUNCTION, 0, {.tfunc = t_func_std_types__io_task___read}},
   {FLT_FUNCTION, 0, {.tfunc = t_func_start_read_request}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_5_task_is_cancelled}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_38}},
@@ -3898,7 +3897,7 @@ static FUNKY_CONSTANT constants_table[] = {
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_46}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_47}},
   {FLT_FUNCTION, 0, {.tfunc = t_func_complete_read_request}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std_types__io_task___write_to}},
+  {FLT_FUNCTION, 0, {.tfunc = t_func_std_types__io_task___write}},
   {FLT_FUNCTION, 0, {.tfunc = t_func_write_request}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_7_task_is_cancelled}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_48}},
@@ -4096,8 +4095,8 @@ static ATTRIBUTE_DEFINITION std_types__io_task__attributes[] = {
   {var_on_cancel, -func_std_types__io_task___on_cancel},
   {var_load, -func_std_types__io_task___load},
   {var_save, -func_std_types__io_task___save},
-  {var_read_from, -func_std_types__io_task___read_from},
-  {var_write_to, -func_std_types__io_task___write_to},
+  {var_read, -func_std_types__io_task___read},
+  {var_write, -func_std_types__io_task___write},
   {var_join_process, -func_std_types__io_task___join_process},
   {var_catch_signal, -func_std_types__io_task___catch_signal},
   {var_fork, -func_std_types__io_task___fork},
@@ -4720,7 +4719,7 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
-    "write_to\000", NULL,
+    "write\000", NULL,
     {.position = POS(434, 13)}
   },
   {
@@ -4737,7 +4736,7 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "cancel_write_to\000", NULL,
+    "cancel_write\000", NULL,
     {.position = POS(441, 9)}
   },
   {
@@ -4768,7 +4767,7 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
-    "read_from\000", NULL,
+    "read\000", NULL,
     {.position = POS(472, 21)}
   },
   {
@@ -5245,12 +5244,12 @@ static FUNKY_VARIABLE variables_table[] = {
   {
     FOT_UNKNOWN, 0, 0,
     "STDERR_FILENO\000", NULL,
-    {.position = POS(955, 23)}
+    {.position = POS(955, 20)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "to_utf8\000", NULL,
-    {.position = POS(957, 48)}
+    {.position = POS(957, 45)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
@@ -5288,11 +5287,6 @@ static FUNKY_VARIABLE variables_table[] = {
     FOT_UNKNOWN, 0, 0,
     "pass\000", NULL,
     {.position = POS(991, 15)}
-  },
-  {
-    FOT_UNKNOWN, 0, 0,
-    "write\000", NULL,
-    {.position = POS(993, 17)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
@@ -5356,7 +5350,7 @@ FUNKY_MODULE module__basic__io_task_manager = {
   0, // number of defined namespaces
   1, // number of used namespaces
   270, // number of constants
-  274, // number of variables
+  273, // number of variables
   NULL, // required modules
   NULL, // defined namespaces
   used_namespaces,

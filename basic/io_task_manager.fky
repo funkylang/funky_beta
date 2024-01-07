@@ -160,8 +160,8 @@ $std::checked_io () # self arguments
 #
   load
   save
-  read_from
-  write_to
+  read
+  write
   join_process
   catch_signal
 
@@ -431,14 +431,14 @@ $std_types::io_task/save: (self my_filename my_data continuation)
 	      save "@(filename)"@
 	    performed_io task io fd
 	  :
-	    write_to &io fd data
+	    write &io fd data
 	    check_io task io check_save_request fd
 
   $check_save_request: (task events fd)
     if
       task.is_cancelled: # we are called as a start-I/O-handler!
 	$io events
-	cancel_write_to &io $unwritten_text fd
+	cancel_write &io $unwritten_text fd
 	try $_ignore_error: close! fd
 	performed_io task io unwritten_text # return the not yet written text
       :
@@ -469,7 +469,7 @@ $std_types::io_task/save: (self my_filename my_data continuation)
     try $_ignore_error: close! fd
     performed_io task io write_error # return the error returned from <write>
 
-$std_types::io_task/read_from:
+$std_types::io_task/read:
   #
     reads at least the specified number of octets
   (
@@ -520,7 +520,7 @@ $std_types::io_task/read_from:
     stop_reading_from &io fd
     performed_io task io buf
 
-$std_types::io_task/write_to: (self my_fd my_text continuation)
+$std_types::io_task/write: (self my_fd my_text continuation)
   perform_io self write_request tuple(my_fd my_text) continuation
 
   $write_request: (task io argument)
@@ -529,14 +529,14 @@ $std_types::io_task/write_to: (self my_fd my_text continuation)
       task.is_cancelled: # we must not start an I/O operation!
 	performed_io task io text # we didn't write a single byte ...
       :
-	write_to &io fd text
+	write &io fd text
 	check_io task io check_write_request fd
 
   $check_write_request: (task events fd)
     if
       task.is_cancelled: # we are called as a start-I/O-handler!
 	$io events
-	cancel_write_to &io $unwritten_text fd
+	cancel_write &io $unwritten_text fd
 	performed_io task io unwritten_text # return the not yet written text
       :
 	for_each events
@@ -952,9 +952,9 @@ $std::io_task_manager:
       -> io
       : # any events caused by these writes are ignored
 	update_if log_level >= 3 &io:
-	  write_to io STDERR_FILENO "
+	  write io STDERR_FILENO "
 	    ---[@(iteration_no)]---------------------------
-	write_to &io STDERR_FILENO log_message.to_utf8
+	write &io STDERR_FILENO log_message.to_utf8
 	-> io
 
   $start_io_operation: (request)

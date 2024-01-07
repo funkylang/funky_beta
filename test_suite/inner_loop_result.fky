@@ -14,7 +14,7 @@ from_to $result 1 10
 	    plus &sum prod
 	    println! sum
 	    next!
-       next
+      next
   -> "not found"
 
 println! "result = " result

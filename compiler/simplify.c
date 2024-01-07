@@ -563,8 +563,8 @@ enum {
   var_BIT_OR, // extern
   var_BIT_XOR, // extern
   var_NAMED_OPERATOR, // extern
-  var_edump, // extern
-  var_debug_exit, // extern
+  var_debug__dump, // extern
+  var_debug__exit, // extern
   var_funky_types__inline_return, // extern
   var_funky_types__body, // extern
   var_statements_of, // extern polymorphic
@@ -659,7 +659,7 @@ enum {
   var_873_3_arg_idx, // dynamic
   var_873_11_argument, // dynamic
   var_INLINE_ATTRIBUTE_VALUE_PAIR, // extern
-  var_debug_write, // extern
+  var_debug__print, // extern
   var_is_an_output, // extern polymorphic
   var_913_1_argument, // dynamic
   var_find_first, // extern
@@ -2546,14 +2546,14 @@ static TAB_NUM t_lambda_NAMED_OPERATOR[] = {
 static TAB_NUM t_lambda_51[] = {
   0, // locals
   0, // parameters
-  // edump `operation
-  var_edump, 2, str_operation, var_419_1_operation, 0,
-  // edump 9 `left
-  var_edump, 3, num_9, str_left, var_418_9_left, 0,
-  // edump 9 `right
-  var_edump, 3, num_9, str_right, var_420_1_right, 0,
-  // debug_exit
-  var_debug_exit, 0, TAIL_CALL,
+  // debug::dump `operation
+  var_debug__dump, 2, str_operation, var_419_1_operation, 0,
+  // debug::dump 9 `left
+  var_debug__dump, 3, num_9, str_left, var_418_9_left, 0,
+  // debug::dump 9 `right
+  var_debug__dump, 3, num_9, str_right, var_420_1_right, 0,
+  // debug::exit
+  var_debug__exit, 0, TAIL_CALL,
   POS(497, 11),
   POS(498, 11),
   POS(499, 11),
@@ -4024,10 +4024,10 @@ static TAB_NUM t_lambda_96[] = {
 static TAB_NUM t_lambda_97[] = {
   0, // locals
   0, // parameters
-  // debug_write "
-  var_debug_write, 1, str_TEMP_NOT_FOUND_I, 0,
-  // debug_exit
-  var_debug_exit, 0, TAIL_CALL,
+  // debug::print "
+  var_debug__print, 1, str_TEMP_NOT_FOUND_I, 0,
+  // debug::exit
+  var_debug__exit, 0, TAIL_CALL,
   POS(893, 15),
   POS(895, 15)
 };
@@ -4533,11 +4533,11 @@ static TAB_NUM t_lambda_111[] = {
   0, // parameters
   // node_type_of(component)
   var_node_type_of, 1, var_999_7_component, 1, LOCAL(1),
-  // edump `node_type_of(component)
-  var_edump, 2, str_node_type_ofcomp, LOCAL(1), 0,
+  // debug::dump `node_type_of(component)
+  var_debug__dump, 2, str_node_type_ofcomp, LOCAL(1), 0,
   // next
   var_next, 0, TAIL_CALL,
-  POS(1036, 22),
+  POS(1036, 28),
   POS(1036, 15),
   POS(1037, 15)
 };
@@ -6927,12 +6927,12 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "edump\000", NULL,
+    "dump\000debug", NULL,
     {.position = POS(497, 11)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "debug_exit\000", NULL,
+    "exit\000debug", NULL,
     {.position = POS(500, 11)}
   },
   {
@@ -7365,7 +7365,7 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "debug_write\000", NULL,
+    "print\000debug", NULL,
     {.position = POS(893, 15)}
   },
   {

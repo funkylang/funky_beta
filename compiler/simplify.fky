@@ -494,10 +494,10 @@ $binop: (left operator temp_no statements)
 	    temp_no
 	    statements
 	:
-	  edump `operation
-	  edump 9 `left
-	  edump 9 `right
-	  debug_exit
+	  debug::dump `operation
+	  debug::dump 9 `left
+	  debug::dump 9 `right
+	  debug::exit
       !operator operator_of(operator)
       if
 	operator.is_defined:
@@ -890,9 +890,9 @@ $funky_types::statement/simplify: (self temp_no)
 		    next
 		next
 	    :
-	      debug_write "
+	      debug::print "
 		TEMP NOT FOUND IN TRAILING STATEMENT!
-	      debug_exit
+	      debug::exit
 
 	$return
 	  ->
@@ -1033,7 +1033,7 @@ $funky_types::string_literal/simplify: (self temp_no)
 	    TAGGED_EMPTY_CHARACTER:
 	      next
 	    :
-	      edump `node_type_of(component)
+	      debug::dump `node_type_of(component)
 	      next
 	:
 	  add_characters !arguments !characters

@@ -1,11 +1,5 @@
 5
-map(integers (: (x) -> x*x)):
-  list
-    9
-    16
-    25
-    36
-    49
+2: "map(integers (: (x) -> x*x))"
 25
 2520
 135

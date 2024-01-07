@@ -116,12 +116,12 @@ enum {
   func__std_types___date_and_time___std___less,
   func__std_types___date_and_time___std___time_shift_of,
   func__std___current_time,
-  func__std___debug_string,
-  func__std___debug_write,
-  func__std___debug_print,
-  func__std___debug_exit,
+  func__debug___string,
+  func__debug___print,
+  func__debug___dump_object,
+  func__debug___exit,
   func__std___error_check,
-  func__std___total_garbage_collections,
+  func__debug___total_garbage_collections,
   unique__std___IO_ERROR,
   unique__std___RUNTIME_ERROR,
   unique__std___APPLICATION_ERROR,
@@ -249,6 +249,7 @@ enum {
   func__std___getegid,
   func__std___geteuid,
   func__std___getgid,
+  func__std___gethostname,
   func__std___getlogin,
   func__std___getpid,
   func__std___getppid,
@@ -259,7 +260,7 @@ enum {
   func__std___mkfifo,
   func__std___open,
   func__std___opendir,
-  func__std___read,
+  func__std_types___file_descriptor___std___read,
   func__std___readdir,
   func__std___realpath,
   func__std___rename,
@@ -268,7 +269,7 @@ enum {
   func__std___stat,
   func__std___strerror,
   func__std___wait,
-  func__std___write,
+  func__std_types___file_descriptor___std___write,
   func__std___umask,
   func__std___unlink,
   func__std___usleep,
@@ -352,7 +353,6 @@ enum {
   unique__std___CHILD_CHANGED_STATE,
   unique__std___SIGUSR1,
   unique__std___SIGUSR2,
-  func__std___gethostname,
   func__std_types___file_descriptor___std___get_terminal_size,
   func__std___exitstatus,
   func__std___pselect,
@@ -405,12 +405,11 @@ enum {
   var_no__std___range,
   var_no__std___spread,
   var_no__std___to_list,
-  var_no__std___write_some_bytes_to,
-  var_no__std___flush,
-  var_no__std___read_some_bytes_from,
-  var_no__std___read_from,
   var_no__std___exit,
   var_no__std___from_utf8,
+  var_no__std___read,
+  var_no__std___write,
+  var_no__std___flush,
   var_no__std_types___generic_array,
   var_no__std_types___array,
   var_no__std___array,
@@ -467,12 +466,12 @@ enum {
   var_no__std_types___from_unix_time,
   var_no__std___date_and_time,
   var_no__std___current_time,
-  var_no__std___debug_string,
-  var_no__std___debug_write,
-  var_no__std___debug_print,
-  var_no__std___debug_exit,
+  var_no__debug___string,
+  var_no__debug___print,
+  var_no__debug___dump_object,
+  var_no__debug___exit,
   var_no__std___error_check,
-  var_no__std___total_garbage_collections,
+  var_no__debug___total_garbage_collections,
   var_no__std___program_name,
   var_no__std___command_line_arguments,
   var_no__std___environment_variables,
@@ -562,8 +561,8 @@ enum {
   var_no__std___ENOLCK,
   var_no__std___ENOSYS,
   var_no__std___ENOTEMPTY,
+  var_no__std___EILSEQ,
   var_no__std___ELOOP,
-  var_no__std___E41,
   var_no__std___ENOMSG,
   var_no__std___EIDRM,
   var_no__std___ECHRNG,
@@ -580,7 +579,6 @@ enum {
   var_no__std___ENOANO,
   var_no__std___EBADRQC,
   var_no__std___EBADSLT,
-  var_no__std___E58,
   var_no__std___EBFONT,
   var_no__std___ENOSTR,
   var_no__std___ENODATA,
@@ -606,7 +604,6 @@ enum {
   var_no__std___ELIBSCN,
   var_no__std___ELIBMAX,
   var_no__std___ELIBEXEC,
-  var_no__std___EILSEQ,
   var_no__std___ERESTART,
   var_no__std___ESTRPIPE,
   var_no__std___EUSERS,
@@ -666,7 +663,6 @@ enum {
   var_no__std___mode_of,
   var_no__std___modification_time_nanoseconds_of,
   var_no__std___modification_time_seconds_of,
-  var_no__std___name_of,
   var_no__std___password_of,
   var_no__std___root_device_of,
   var_no__std___shell_of,
@@ -677,6 +673,7 @@ enum {
   var_no__std___user_id_of,
   var_no__std___user_information_of,
   var_no__std___username_of,
+  var_no__std___name_of,
   var_no__std_types___file_type,
   var_no__std___file_type,
   var_no__std_types___file_descriptor,
@@ -712,6 +709,7 @@ enum {
   var_no__std___getegid,
   var_no__std___geteuid,
   var_no__std___getgid,
+  var_no__std___gethostname,
   var_no__std___getlogin,
   var_no__std___getpid,
   var_no__std___getppid,
@@ -722,7 +720,6 @@ enum {
   var_no__std___mkfifo,
   var_no__std___open,
   var_no__std___opendir,
-  var_no__std___read,
   var_no__std___readdir,
   var_no__std___realpath,
   var_no__std___rename,
@@ -731,7 +728,6 @@ enum {
   var_no__std___stat,
   var_no__std___strerror,
   var_no__std___wait,
-  var_no__std___write,
   var_no__std___umask,
   var_no__std___unlink,
   var_no__std___usleep,
@@ -790,7 +786,6 @@ enum {
   var_no__std___CHILD_CHANGED_STATE,
   var_no__std___SIGUSR1,
   var_no__std___SIGUSR2,
-  var_no__std___gethostname,
   var_no__std___get_terminal_size,
   var_no__std___exitstatus,
   var_no__std___pselect,
@@ -861,8 +856,8 @@ static ERROR_NUMBER std___ENAMETOOLONG;
 static ERROR_NUMBER std___ENOLCK;
 static ERROR_NUMBER std___ENOSYS;
 static ERROR_NUMBER std___ENOTEMPTY;
+static ERROR_NUMBER std___EILSEQ;
 static ERROR_NUMBER std___ELOOP;
-static ERROR_NUMBER std___E41;
 static ERROR_NUMBER std___ENOMSG;
 static ERROR_NUMBER std___EIDRM;
 static ERROR_NUMBER std___ECHRNG;
@@ -879,7 +874,6 @@ static ERROR_NUMBER std___EXFULL;
 static ERROR_NUMBER std___ENOANO;
 static ERROR_NUMBER std___EBADRQC;
 static ERROR_NUMBER std___EBADSLT;
-static ERROR_NUMBER std___E58;
 static ERROR_NUMBER std___EBFONT;
 static ERROR_NUMBER std___ENOSTR;
 static ERROR_NUMBER std___ENODATA;
@@ -905,7 +899,6 @@ static ERROR_NUMBER std___ELIBBAD;
 static ERROR_NUMBER std___ELIBSCN;
 static ERROR_NUMBER std___ELIBMAX;
 static ERROR_NUMBER std___ELIBEXEC;
-static ERROR_NUMBER std___EILSEQ;
 static ERROR_NUMBER std___ERESTART;
 static ERROR_NUMBER std___ESTRPIPE;
 static ERROR_NUMBER std___EUSERS;
@@ -10555,12 +10548,12 @@ static ERROR_NUMBER std___ENOTEMPTY = {
   std_types___error_number____type, NULL, ENOTEMPTY
 };
 
-static ERROR_NUMBER std___ELOOP = {
-  std_types___error_number____type, NULL, ELOOP
+static ERROR_NUMBER std___EILSEQ = {
+  std_types___error_number____type, NULL, EILSEQ
 };
 
-static ERROR_NUMBER std___E41 = {
-  std_types___error_number____type, NULL, 41
+static ERROR_NUMBER std___ELOOP = {
+  std_types___error_number____type, NULL, ELOOP
 };
 
 static ERROR_NUMBER std___ENOMSG = {
@@ -10625,10 +10618,6 @@ static ERROR_NUMBER std___EBADRQC = {
 
 static ERROR_NUMBER std___EBADSLT = {
   std_types___error_number____type, NULL, EBADSLT
-};
-
-static ERROR_NUMBER std___E58 = {
-  std_types___error_number____type, NULL, 58
 };
 
 static ERROR_NUMBER std___EBFONT = {
@@ -10729,10 +10718,6 @@ static ERROR_NUMBER std___ELIBMAX = {
 
 static ERROR_NUMBER std___ELIBEXEC = {
   std_types___error_number____type, NULL, ELIBEXEC
-};
-
-static ERROR_NUMBER std___EILSEQ = {
-  std_types___error_number____type, NULL, EILSEQ
 };
 
 static ERROR_NUMBER std___ERESTART = {
@@ -13952,7 +13937,7 @@ static void entry__std___current_time (void)
     }
   }
 
-static void entry__std___debug_string (void)
+static void entry__debug___string (void)
   {
     if (TLS_argument_count < 1) {
       too_few_arguments();
@@ -13987,7 +13972,7 @@ static void entry__std___debug_string (void)
     };
   }
 
-static void entry__std___debug_write (void)
+static void entry__debug___print (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -14013,7 +13998,7 @@ static void entry__std___debug_write (void)
     }
   }
 
-static void entry__std___debug_print (void)
+static void entry__debug___dump_object (void)
   {
     if (TLS_argument_count < 1) {
       too_few_arguments();
@@ -14023,10 +14008,10 @@ static void entry__std___debug_print (void)
       too_many_arguments();
       return;
     }
-    NODE *node = TLS_arguments[0];
+    NODE *node = TLS_arguments[TLS_argument_count-1];
     int depth = 1;
     if (TLS_argument_count == 2) {
-      if (!to_int(TLS_arguments[1], &depth)) return;
+      if (!to_int(TLS_arguments[0], &depth)) return;
     }
     long len = debug_string(node, 0, depth, NULL);
     char *buf = allocate_memory(len+1);
@@ -14048,7 +14033,7 @@ static void entry__std___debug_print (void)
     }
   }
 
-static void entry__std___debug_exit (void)
+static void entry__debug___exit (void)
   {
     // ignore all arguments
     exit(EXIT_FAILURE);
@@ -14077,7 +14062,7 @@ static void entry__std___error_check (void)
     }
   }
 
-static void entry__std___total_garbage_collections (void)
+static void entry__debug___total_garbage_collections (void)
   {
     if (TLS_argument_count != 0) {
       invalid_arguments();
@@ -17063,7 +17048,7 @@ static void entry__std___chdir (void)
     if (result == -1) {
       create_error_message(
 	module__builtin.constants_base[unique__std___IO_ERROR-1],
-      "CHDIR FAILED", errno, 0, NULL);
+	"CHDIR FAILED", errno, 0, NULL);
     } else {
       TLS_argument_count = 0;
     }
@@ -17110,7 +17095,7 @@ static void entry__std___chmod (void)
     if (result == -1) {
       create_error_message(
 	module__builtin.constants_base[unique__std___IO_ERROR-1],
-      "CHMOD FAILED", errno, 0, NULL);
+	"CHMOD FAILED", errno, 0, NULL);
     } else {
       TLS_argument_count = 0;
     }
@@ -17160,7 +17145,7 @@ static void entry__std___chown (void)
     if (result == -1) {
       create_error_message(
 	module__builtin.constants_base[unique__std___IO_ERROR-1],
-      "CHOWN FAILED", errno, 0, NULL);
+	"CHOWN FAILED", errno, 0, NULL);
     } else {
       TLS_argument_count = 0;
     }
@@ -17204,7 +17189,7 @@ static void entry__std___chroot (void)
     if (result == -1) {
       create_error_message(
 	module__builtin.constants_base[unique__std___IO_ERROR-1],
-      "CHROOT FAILED", errno, 0, NULL);
+	"CHROOT FAILED", errno, 0, NULL);
     } else {
       TLS_argument_count = 0;
     }
@@ -17250,7 +17235,7 @@ static void entry__std___close (void)
     if (result == -1) {
       create_error_message(
 	module__builtin.constants_base[unique__std___IO_ERROR-1],
-      "CLOSE FAILED", errno, 0, NULL);
+	"CLOSE FAILED", errno, 0, NULL);
     } else {
       TLS_argument_count = 0;
     }
@@ -17292,7 +17277,7 @@ static void entry__std___closedir (void)
     if (result == -1) {
       create_error_message(
 	module__builtin.constants_base[unique__std___IO_ERROR-1],
-      "CLOSEDIR FAILED", errno, 0, NULL);
+	"CLOSEDIR FAILED", errno, 0, NULL);
     } else {
       TLS_argument_count = 0;
     }
@@ -17331,7 +17316,7 @@ static void entry__std___fstat (void)
     if (result == -1) {
       create_error_message(
 	module__builtin.constants_base[unique__std___IO_ERROR-1],
-      "FSTAT FAILED", errno, 0, NULL);
+	"FSTAT FAILED", errno, 0, NULL);
     } else {
       NODE *node__device_of = device_id_from_ulong(statbuf.st_dev);
       NODE *node__inode_number_of = inode_number_from_ulong(statbuf.st_ino);
@@ -17464,7 +17449,7 @@ static void entry__std___fsync (void)
     if (result == -1) {
       create_error_message(
 	module__builtin.constants_base[unique__std___IO_ERROR-1],
-      "FSYNC FAILED", errno, 0, NULL);
+	"FSYNC FAILED", errno, 0, NULL);
     } else {
       TLS_argument_count = 0;
     }
@@ -17508,7 +17493,7 @@ static void entry__std___getcwd (void)
     if (result == NULL) {
       create_error_message(
 	module__builtin.constants_base[unique__std___IO_ERROR-1],
-      "GETCWD FAILED", errno, 0, NULL);
+	"GETCWD FAILED", errno, 0, NULL);
     } else {
       {
         NODE *result__node = (NODE *)(from_c_string(result));
@@ -17548,7 +17533,7 @@ static void entry__std___getenv (void)
     if (result == NULL) {
       create_error_message(
 	module__builtin.constants_base[unique__std___IO_ERROR-1],
-      "GETENV FAILED", errno, 0, NULL);
+	"GETENV FAILED", errno, 0, NULL);
     } else {
       {
         NODE *result__node = (NODE *)(from_c_string(result));
@@ -17650,6 +17635,43 @@ static void entry__std___getgid (void)
     }
   }
 
+static void entry__std___gethostname (void)
+  {
+    if (TLS_argument_count != 0) {
+      invalid_arguments();
+      return;
+    }
+    if (TLS_deny_io) {
+      missing_io_access_rights();
+      return;
+    }
+    char buf[HOST_NAME_MAX+1];
+    int result;
+    if (event__mode != EM__REPLAY) {
+      result = gethostname(buf, sizeof(buf));
+      if (event__mode == EM__RECORD) {
+        record__event("gethostname");
+        store__memory(buf, result);
+      }
+    } else {
+      replay__event("gethostname");
+      result = retrieve__memory((uint8_t **)&buf);
+      report__event("gethostname");
+      print__memory(buf, result);
+    }
+    if (result == -1) {
+      create_error_message(
+	module__builtin.constants_base[unique__std___IO_ERROR-1],
+	"GETHOSTNAME FAILED", errno, 0, NULL);
+    } else {
+      {
+        NODE *result__node = (NODE *)(from_c_string(buf));
+        TLS_arguments[0] = result__node;
+        TLS_argument_count = 1;
+      }
+    }
+  }
+
 static void entry__std___getlogin (void)
   {
     if (TLS_argument_count != 0) {
@@ -17676,7 +17698,7 @@ static void entry__std___getlogin (void)
     if (result == NULL) {
       create_error_message(
 	module__builtin.constants_base[unique__std___IO_ERROR-1],
-      "GETLOGIN FAILED", errno, 0, NULL);
+	"GETLOGIN FAILED", errno, 0, NULL);
     } else {
       {
         NODE *result__node = (NODE *)(from_c_string(result));
@@ -17777,7 +17799,7 @@ static void entry__std___getpwuid (void)
     if (result == NULL) {
       create_error_message(
 	module__builtin.constants_base[unique__std___IO_ERROR-1],
-      "GETPWUID FAILED", errno, 0, NULL);
+	"GETPWUID FAILED", errno, 0, NULL);
     } else {
       NODE *node__username_of = from_c_string(result->pw_name);
       NODE *node__password_of = from_c_string(result->pw_passwd);
@@ -17853,7 +17875,7 @@ static void entry__std___getsid (void)
     if (result == -1) {
       create_error_message(
 	module__builtin.constants_base[unique__std___IO_ERROR-1],
-      "GETSID FAILED", errno, 0, NULL);
+	"GETSID FAILED", errno, 0, NULL);
     } else {
       {
         NODE *result__node = (NODE *)(process_id_from_int(result));
@@ -17936,7 +17958,7 @@ static void entry__std___mkdir (void)
     if (result == -1) {
       create_error_message(
 	module__builtin.constants_base[unique__std___IO_ERROR-1],
-      "MKDIR FAILED", errno, 0, NULL);
+	"MKDIR FAILED", errno, 0, NULL);
     } else {
       TLS_argument_count = 0;
     }
@@ -17987,7 +18009,7 @@ static void entry__std___mkfifo (void)
     if (result == -1) {
       create_error_message(
 	module__builtin.constants_base[unique__std___IO_ERROR-1],
-      "MKFIFO FAILED", errno, 0, NULL);
+	"MKFIFO FAILED", errno, 0, NULL);
     } else {
       TLS_argument_count = 0;
     }
@@ -18036,7 +18058,7 @@ static void entry__std___open (void)
     if (result == -1) {
       create_error_message(
 	module__builtin.constants_base[unique__std___IO_ERROR-1],
-      "OPEN FAILED", errno, 0, NULL);
+	"OPEN FAILED", errno, 0, NULL);
     } else {
       {
         NODE *result__node = (NODE *)(file_descriptor_from_int(result));
@@ -18077,7 +18099,7 @@ static void entry__std___opendir (void)
     if (!result) {
       create_error_message(
 	module__builtin.constants_base[unique__std___IO_ERROR-1],
-      "OPENDIR FAILED", errno, 0, NULL);
+	"OPENDIR FAILED", errno, 0, NULL);
     } else {
       {
         NODE *result__node = (NODE *)(directory_from_ptr(result));
@@ -18089,7 +18111,7 @@ static void entry__std___opendir (void)
     deallocate_memory(name);
   }
 
-static void entry__std___read (void)
+static void entry__std_types___file_descriptor___std___read (void)
   {
     if (TLS_argument_count != 2) {
       invalid_arguments();
@@ -18099,11 +18121,10 @@ static void entry__std___read (void)
       missing_io_access_rights();
       return;
     }
-    int fd;
+    int fd = TLS_arguments[0]->file_descriptor.value;
     uint8_t *buf = NULL;
     size_t size;
     ssize_t result;
-    if (!file_descriptor_to_int(TLS_arguments[0], &fd)) goto cleanup;
     if (!to_ulong(TLS_arguments[1], &size)) goto cleanup;
     buf = allocate_memory(size);
     if (event__mode != EM__REPLAY) {
@@ -18125,7 +18146,7 @@ static void entry__std___read (void)
     if (result == -1) {
       create_error_message(
 	module__builtin.constants_base[unique__std___IO_ERROR-1],
-      "READ FAILED", errno, 0, NULL);
+	"READ FAILED", errno, 0, NULL);
     } else {
       {
         NODE *result__node = (NODE *)(from_latin_1_string(buf, result));
@@ -18166,7 +18187,7 @@ static void entry__std___readdir (void)
     if (result == NULL) {
       create_error_message(
 	module__builtin.constants_base[unique__std___IO_ERROR-1],
-      "READDIR FAILED", errno, 0, NULL);
+	"READDIR FAILED", errno, 0, NULL);
     } else {
       NODE *node__inode_number_of = inode_number_from_ulong(result->d_ino);
       NODE *node__type_of = file_type_from_int(result->d_type);
@@ -18223,7 +18244,7 @@ static void entry__std___realpath (void)
     if (result == NULL) {
       create_error_message(
 	module__builtin.constants_base[unique__std___IO_ERROR-1],
-      "REALPATH FAILED", errno, 0, NULL);
+	"REALPATH FAILED", errno, 0, NULL);
     } else {
       {
         NODE *result__node = (NODE *)(from_c_string(result));
@@ -18276,7 +18297,7 @@ static void entry__std___rename (void)
     if (result == -1) {
       create_error_message(
 	module__builtin.constants_base[unique__std___IO_ERROR-1],
-      "RENAME FAILED", errno, 0, NULL);
+	"RENAME FAILED", errno, 0, NULL);
     } else {
       TLS_argument_count = 0;
     }
@@ -18326,7 +18347,7 @@ static void entry__std___sethostname (void)
     if (result == -1) {
       create_error_message(
 	module__builtin.constants_base[unique__std___IO_ERROR-1],
-      "SETHOSTNAME FAILED", errno, 0, NULL);
+	"SETHOSTNAME FAILED", errno, 0, NULL);
     } else {
       TLS_argument_count = 0;
     }
@@ -18373,7 +18394,7 @@ static void entry__std___shutdown (void)
     if (result == -1) {
       create_error_message(
 	module__builtin.constants_base[unique__std___IO_ERROR-1],
-      "SHUTDOWN FAILED", errno, 0, NULL);
+	"SHUTDOWN FAILED", errno, 0, NULL);
     } else {
       TLS_argument_count = 0;
     }
@@ -18412,7 +18433,7 @@ static void entry__std___stat (void)
     if (result == -1) {
       create_error_message(
 	module__builtin.constants_base[unique__std___IO_ERROR-1],
-      "STAT FAILED", errno, 0, NULL);
+	"STAT FAILED", errno, 0, NULL);
     } else {
       NODE *node__device_of = device_id_from_ulong(statbuf.st_dev);
       NODE *node__inode_number_of = inode_number_from_ulong(statbuf.st_ino);
@@ -18536,7 +18557,7 @@ static void entry__std___strerror (void)
     if (result == NULL) {
       create_error_message(
 	module__builtin.constants_base[unique__std___IO_ERROR-1],
-      "STRERROR FAILED", errno, 0, NULL);
+	"STRERROR FAILED", errno, 0, NULL);
     } else {
       {
         NODE *result__node = (NODE *)(from_c_string(result));
@@ -18578,7 +18599,7 @@ static void entry__std___wait (void)
     if (result == -1) {
       create_error_message(
 	module__builtin.constants_base[unique__std___IO_ERROR-1],
-      "WAIT FAILED", errno, 0, NULL);
+	"WAIT FAILED", errno, 0, NULL);
     } else {
       TLS_argument_count = 2;
       TLS_arguments[0] = process_id_from_int(result);
@@ -18586,7 +18607,7 @@ static void entry__std___wait (void)
     }
   }
 
-static void entry__std___write (void)
+static void entry__std_types___file_descriptor___std___write (void)
   {
     if (TLS_argument_count != 2) {
       invalid_arguments();
@@ -18596,11 +18617,10 @@ static void entry__std___write (void)
       missing_io_access_rights();
       return;
     }
-    int fd;
+    int fd = TLS_arguments[0]->file_descriptor.value;
     uint8_t *buf = NULL;
     size_t size;
     ssize_t result;
-    if (!file_descriptor_to_int(TLS_arguments[0], &fd)) goto cleanup;
     if (
       !to_octets(TLS_arguments[1],
       (const uint8_t **)&buf, (long *)&size)) goto cleanup;
@@ -18623,7 +18643,7 @@ static void entry__std___write (void)
     if (result == -1) {
       create_error_message(
 	module__builtin.constants_base[unique__std___IO_ERROR-1],
-      "WRITE FAILED", errno, 0, NULL);
+	"WRITE FAILED", errno, 0, NULL);
     } else {
       {
         NODE *result__node = (NODE *)(from_long(result));
@@ -18704,7 +18724,7 @@ static void entry__std___unlink (void)
     if (result == -1) {
       create_error_message(
 	module__builtin.constants_base[unique__std___IO_ERROR-1],
-      "UNLINK FAILED", errno, 0, NULL);
+	"UNLINK FAILED", errno, 0, NULL);
     } else {
       TLS_argument_count = 0;
     }
@@ -21709,39 +21729,6 @@ static void entry__std___unique_item (void)
     deallocate_memory(name);
   }
 
-static void entry__std___gethostname (void)
-  {
-    if (TLS_argument_count != 0) {
-      invalid_arguments();
-      return;
-    }
-    char buf[256]; // maximum host name length (255) + null byte
-    int result;
-    if (event__mode != EM__REPLAY) {
-      result = gethostname(buf, sizeof(buf));
-      if (event__mode == EM__RECORD) {
-        record__event("gethostname");
-        store__memory(buf, result);
-      }
-    } else {
-      replay__event("gethostname");
-      result = retrieve__memory((uint8_t **)&buf);
-      report__event("gethostname");
-      print__memory(buf, result);
-    }
-    if (result == -1) {
-      create_error_message(
-	module__builtin.constants_base[unique__std___IO_ERROR-1],
-	"GETHOSTNAME FAILED", errno, 0, NULL);
-    } else {
-      {
-        NODE *result__node = (NODE *)(from_c_string(buf));
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-      }
-    }
-  }
-
 static void entry__std_types___file_descriptor___std___get_terminal_size (void)
   {
     if (TLS_argument_count != 1) {
@@ -22185,6 +22172,7 @@ static void entry__std___open_tcp_socket (void)
 
 static FUNKY_NAMESPACE defined_namespaces[] = {
   {"builtin", 1, 0},
+  {"debug", 1, 0},
   {"std", 1, 0},
   {"std_types", 1, 0}
 };
@@ -22276,12 +22264,12 @@ static FUNKY_CONSTANT constants_table[] = {
   {FLT_C_FUNCTION, 2, {.func = entry__std_types___date_and_time___std___less}},
   {FLT_C_FUNCTION, 1, {.func = entry__std_types___date_and_time___std___time_shift_of}},
   {FLT_C_FUNCTION, 0, {.func = entry__std___current_time}},
-  {FLT_C_FUNCTION, -1, {.func = entry__std___debug_string}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std___debug_write}},
-  {FLT_C_FUNCTION, -1, {.func = entry__std___debug_print}},
-  {FLT_C_FUNCTION, -1, {.func = entry__std___debug_exit}},
+  {FLT_C_FUNCTION, -1, {.func = entry__debug___string}},
+  {FLT_C_FUNCTION, 1, {.func = entry__debug___print}},
+  {FLT_C_FUNCTION, -1, {.func = entry__debug___dump_object}},
+  {FLT_C_FUNCTION, -1, {.func = entry__debug___exit}},
   {FLT_C_FUNCTION, -1, {.func = entry__std___error_check}},
-  {FLT_C_FUNCTION, 0, {.func = entry__std___total_garbage_collections}},
+  {FLT_C_FUNCTION, 0, {.func = entry__debug___total_garbage_collections}},
   {FLT_UNIQUE, 0, {.str_8 = "std::IO_ERROR"}},
   {FLT_UNIQUE, 0, {.str_8 = "std::RUNTIME_ERROR"}},
   {FLT_UNIQUE, 0, {.str_8 = "std::APPLICATION_ERROR"}},
@@ -22409,6 +22397,7 @@ static FUNKY_CONSTANT constants_table[] = {
   {FLT_C_FUNCTION, 0, {.func = entry__std___getegid}},
   {FLT_C_FUNCTION, 0, {.func = entry__std___geteuid}},
   {FLT_C_FUNCTION, 0, {.func = entry__std___getgid}},
+  {FLT_C_FUNCTION, 0, {.func = entry__std___gethostname}},
   {FLT_C_FUNCTION, 0, {.func = entry__std___getlogin}},
   {FLT_C_FUNCTION, 0, {.func = entry__std___getpid}},
   {FLT_C_FUNCTION, 0, {.func = entry__std___getppid}},
@@ -22419,7 +22408,7 @@ static FUNKY_CONSTANT constants_table[] = {
   {FLT_C_FUNCTION, -1, {.func = entry__std___mkfifo}},
   {FLT_C_FUNCTION, -1, {.func = entry__std___open}},
   {FLT_C_FUNCTION, 1, {.func = entry__std___opendir}},
-  {FLT_C_FUNCTION, 2, {.func = entry__std___read}},
+  {FLT_C_FUNCTION, 2, {.func = entry__std_types___file_descriptor___std___read}},
   {FLT_C_FUNCTION, 1, {.func = entry__std___readdir}},
   {FLT_C_FUNCTION, 1, {.func = entry__std___realpath}},
   {FLT_C_FUNCTION, 2, {.func = entry__std___rename}},
@@ -22428,7 +22417,7 @@ static FUNKY_CONSTANT constants_table[] = {
   {FLT_C_FUNCTION, 1, {.func = entry__std___stat}},
   {FLT_C_FUNCTION, 1, {.func = entry__std___strerror}},
   {FLT_C_FUNCTION, 0, {.func = entry__std___wait}},
-  {FLT_C_FUNCTION, 2, {.func = entry__std___write}},
+  {FLT_C_FUNCTION, 2, {.func = entry__std_types___file_descriptor___std___write}},
   {FLT_C_FUNCTION, 1, {.func = entry__std___umask}},
   {FLT_C_FUNCTION, 1, {.func = entry__std___unlink}},
   {FLT_C_FUNCTION, 1, {.func = entry__std___usleep}},
@@ -22512,7 +22501,6 @@ static FUNKY_CONSTANT constants_table[] = {
   {FLT_UNIQUE, 0, {.str_8 = "std::CHILD_CHANGED_STATE"}},
   {FLT_UNIQUE, 0, {.str_8 = "std::SIGUSR1"}},
   {FLT_UNIQUE, 0, {.str_8 = "std::SIGUSR2"}},
-  {FLT_C_FUNCTION, 0, {.func = entry__std___gethostname}},
   {FLT_C_FUNCTION, 1, {.func = entry__std_types___file_descriptor___std___get_terminal_size}},
   {FLT_C_FUNCTION, 1, {.func = entry__std___exitstatus}},
   {FLT_C_FUNCTION, -1, {.func = entry__std___pselect}},
@@ -22962,8 +22950,10 @@ static ATTRIBUTE_DEFINITION std_types___file_descriptor__attributes[] = {
   {var_no__std___get_terminal_attributes, func__std_types___file_descriptor___std___get_terminal_attributes},
   {var_no__std___get_terminal_size, func__std_types___file_descriptor___std___get_terminal_size},
   {var_no__std___hash, func__std_types___file_descriptor___std___hash},
+  {var_no__std___read, func__std_types___file_descriptor___std___read},
   {var_no__std___set_terminal_attributes, func__std_types___file_descriptor___std___set_terminal_attributes},
-  {var_no__std___to_integer, func__std_types___file_descriptor___std___to_integer}
+  {var_no__std___to_integer, func__std_types___file_descriptor___std___to_integer},
+  {var_no__std___write, func__std_types___file_descriptor___std___write}
 };
 
 static INTERNAL_METHOD std_types___shutdown_type__internal_methods[] = {
@@ -23437,32 +23427,27 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_POLYMORPHIC, 0, 0,
-    "write_some_bytes_to\000std", NULL,
-    {.has_a_setter = false}
-  },
-  {
-    FOT_POLYMORPHIC, 0, 0,
-    "flush\000std", NULL,
-    {.has_a_setter = false}
-  },
-  {
-    FOT_POLYMORPHIC, 0, 0,
-    "read_some_bytes_from\000std", NULL,
-    {.has_a_setter = false}
-  },
-  {
-    FOT_POLYMORPHIC, 0, 0,
-    "read_from\000std", NULL,
-    {.has_a_setter = false}
-  },
-  {
-    FOT_POLYMORPHIC, 0, 0,
     "exit\000std", NULL,
     {.has_a_setter = false}
   },
   {
     FOT_POLYMORPHIC, 0, 0,
     "from_utf8\000std", NULL,
+    {.has_a_setter = false}
+  },
+  {
+    FOT_POLYMORPHIC, 0, 0,
+    "read\000std", NULL,
+    {.has_a_setter = false}
+  },
+  {
+    FOT_POLYMORPHIC, 0, 0,
+    "write\000std", NULL,
+    {.has_a_setter = false}
+  },
+  {
+    FOT_POLYMORPHIC, 0, 0,
+    "flush\000std", NULL,
     {.has_a_setter = false}
   },
   {
@@ -23804,23 +23789,23 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_INITIALIZED, 0, 0,
-    "debug_string\000std", NULL,
-    {.const_idx = func__std___debug_string}
+    "string\000debug", NULL,
+    {.const_idx = func__debug___string}
   },
   {
     FOT_INITIALIZED, 0, 0,
-    "debug_write\000std", NULL,
-    {.const_idx = func__std___debug_write}
+    "print\000debug", NULL,
+    {.const_idx = func__debug___print}
   },
   {
     FOT_INITIALIZED, 0, 0,
-    "debug_print\000std", NULL,
-    {.const_idx = func__std___debug_print}
+    "dump_object\000debug", NULL,
+    {.const_idx = func__debug___dump_object}
   },
   {
     FOT_INITIALIZED, 0, 0,
-    "debug_exit\000std", NULL,
-    {.const_idx = func__std___debug_exit}
+    "exit\000debug", NULL,
+    {.const_idx = func__debug___exit}
   },
   {
     FOT_INITIALIZED, 0, 0,
@@ -23829,8 +23814,8 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_INITIALIZED, 0, 0,
-    "total_garbage_collections\000std", NULL,
-    {.const_idx = func__std___total_garbage_collections}
+    "total_garbage_collections\000debug", NULL,
+    {.const_idx = func__debug___total_garbage_collections}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -24498,19 +24483,19 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_OBJECT, 0, 0,
+    "EILSEQ\000std", NULL,
+    {"error_number\000std_types"},
+    {.methods_count = 0}, 0,
+    NULL,
+    {(NODE *)&std___EILSEQ}
+  },
+  {
+    FOT_OBJECT, 0, 0,
     "ELOOP\000std", NULL,
     {"error_number\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
     {(NODE *)&std___ELOOP}
-  },
-  {
-    FOT_OBJECT, 0, 0,
-    "E41\000std", NULL,
-    {"error_number\000std_types"},
-    {.methods_count = 0}, 0,
-    NULL,
-    {(NODE *)&std___E41}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -24639,14 +24624,6 @@ static FUNKY_VARIABLE variables_table[] = {
     {.methods_count = 0}, 0,
     NULL,
     {(NODE *)&std___EBADSLT}
-  },
-  {
-    FOT_OBJECT, 0, 0,
-    "E58\000std", NULL,
-    {"error_number\000std_types"},
-    {.methods_count = 0}, 0,
-    NULL,
-    {(NODE *)&std___E58}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -24847,14 +24824,6 @@ static FUNKY_VARIABLE variables_table[] = {
     {.methods_count = 0}, 0,
     NULL,
     {(NODE *)&std___ELIBEXEC}
-  },
-  {
-    FOT_OBJECT, 0, 0,
-    "EILSEQ\000std", NULL,
-    {"error_number\000std_types"},
-    {.methods_count = 0}, 0,
-    NULL,
-    {(NODE *)&std___EILSEQ}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -25294,11 +25263,6 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_POLYMORPHIC, 0, 0,
-    "name_of\000std", NULL,
-    {.has_a_setter = true}
-  },
-  {
-    FOT_POLYMORPHIC, 0, 0,
     "password_of\000std", NULL,
     {.has_a_setter = true}
   },
@@ -25348,6 +25312,11 @@ static FUNKY_VARIABLE variables_table[] = {
     {.has_a_setter = true}
   },
   {
+    FOT_POLYMORPHIC, 0, 0,
+    "name_of\000std", NULL,
+    {.has_a_setter = true}
+  },
+  {
     FOT_TYPE, 0, 3,
     "file_type\000std_types", std_types___file_type__attributes,
     {"object\000std_types"},
@@ -25361,7 +25330,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {.const_idx = func__std___file_type}
   },
   {
-    FOT_TYPE, 0, 6,
+    FOT_TYPE, 0, 8,
     "file_descriptor\000std_types", std_types___file_descriptor__attributes,
     {"object\000std_types"},
     {.methods_count = 3}, 0,
@@ -25563,6 +25532,11 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_INITIALIZED, 0, 0,
+    "gethostname\000std", NULL,
+    {.const_idx = func__std___gethostname}
+  },
+  {
+    FOT_INITIALIZED, 0, 0,
     "getlogin\000std", NULL,
     {.const_idx = func__std___getlogin}
   },
@@ -25613,11 +25587,6 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_INITIALIZED, 0, 0,
-    "read\000std", NULL,
-    {.const_idx = func__std___read}
-  },
-  {
-    FOT_INITIALIZED, 0, 0,
     "readdir\000std", NULL,
     {.const_idx = func__std___readdir}
   },
@@ -25655,11 +25624,6 @@ static FUNKY_VARIABLE variables_table[] = {
     FOT_INITIALIZED, 0, 0,
     "wait\000std", NULL,
     {.const_idx = func__std___wait}
-  },
-  {
-    FOT_INITIALIZED, 0, 0,
-    "write\000std", NULL,
-    {.const_idx = func__std___write}
   },
   {
     FOT_INITIALIZED, 0, 0,
@@ -26000,11 +25964,6 @@ static FUNKY_VARIABLE variables_table[] = {
     {.const_idx = unique__std___SIGUSR2}
   },
   {
-    FOT_INITIALIZED, 0, 0,
-    "gethostname\000std", NULL,
-    {.const_idx = func__std___gethostname}
-  },
-  {
     FOT_POLYMORPHIC, 0, 0,
     "get_terminal_size\000std", NULL,
     {.has_a_setter = false}
@@ -26045,8 +26004,8 @@ FUNKY_MODULE module__builtin = {
   "_builtin",
   NULL,
   0, 0,
-  3, 0,
-  330, 435,
+  4, 0,
+  330, 430,
   NULL,
   defined_namespaces, NULL,
   constants_table, variables_table
@@ -26156,12 +26115,12 @@ BUILTIN_FUNCTION_NAME builtin_function_names[380] = {
   {entry__std_types___date_and_time___std___less, "std_types::date_and_time/less"},
   {entry__std_types___date_and_time___std___time_shift_of, "std_types::date_and_time/time_shift_of"},
   {entry__std___current_time, "std::current_time"},
-  {entry__std___debug_string, "std::debug_string"},
-  {entry__std___debug_write, "std::debug_write"},
-  {entry__std___debug_print, "std::debug_print"},
-  {entry__std___debug_exit, "std::debug_exit"},
+  {entry__debug___string, "debug::string"},
+  {entry__debug___print, "debug::print"},
+  {entry__debug___dump_object, "debug::dump_object"},
+  {entry__debug___exit, "debug::exit"},
   {entry__std___error_check, "std::error_check"},
-  {entry__std___total_garbage_collections, "std::total_garbage_collections"},
+  {entry__debug___total_garbage_collections, "debug::total_garbage_collections"},
   {std_types___error____type, "std_types::error/_type"},
   {entry__std_types___error___std___error_category_of, "std_types::error/error_category_of"},
   {entry__std_types___error___std___error_message_text_of, "std_types::error/error_message_text_of"},
@@ -26312,6 +26271,7 @@ BUILTIN_FUNCTION_NAME builtin_function_names[380] = {
   {entry__std___getegid, "std::getegid"},
   {entry__std___geteuid, "std::geteuid"},
   {entry__std___getgid, "std::getgid"},
+  {entry__std___gethostname, "std::gethostname"},
   {entry__std___getlogin, "std::getlogin"},
   {entry__std___getpid, "std::getpid"},
   {entry__std___getppid, "std::getppid"},
@@ -26322,7 +26282,7 @@ BUILTIN_FUNCTION_NAME builtin_function_names[380] = {
   {entry__std___mkfifo, "std::mkfifo"},
   {entry__std___open, "std::open"},
   {entry__std___opendir, "std::opendir"},
-  {entry__std___read, "std::read"},
+  {entry__std_types___file_descriptor___std___read, "std_types::file_descriptor/read"},
   {entry__std___readdir, "std::readdir"},
   {entry__std___realpath, "std::realpath"},
   {entry__std___rename, "std::rename"},
@@ -26331,7 +26291,7 @@ BUILTIN_FUNCTION_NAME builtin_function_names[380] = {
   {entry__std___stat, "std::stat"},
   {entry__std___strerror, "std::strerror"},
   {entry__std___wait, "std::wait"},
-  {entry__std___write, "std::write"},
+  {entry__std_types___file_descriptor___std___write, "std_types::file_descriptor/write"},
   {entry__std___umask, "std::umask"},
   {entry__std___unlink, "std::unlink"},
   {entry__std___usleep, "std::usleep"},
@@ -26425,7 +26385,6 @@ BUILTIN_FUNCTION_NAME builtin_function_names[380] = {
   {entry__std_types___unique_item___std___equal, "std_types::unique_item/equal"},
   {entry__std_types___unique_item___std___hash, "std_types::unique_item/hash"},
   {entry__std___unique_item, "std::unique_item"},
-  {entry__std___gethostname, "std::gethostname"},
   {entry__std_types___file_descriptor___std___get_terminal_size, "std_types::file_descriptor/std::get_terminal_size"},
   {entry__std___exitstatus, "std::exitstatus"},
   {entry__std___pselect, "std::pselect"},

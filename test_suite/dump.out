@@ -2,18 +2,14 @@ n: 3
 r: 3.14
 c: 'x'
 s: "abc"
-t: <tuple of 2 items>
-l: <list of 5 items>
-t:
-  tuple
+t: tuple <2>
+  3
+  'x'
+l: list <5>
+  3
+  3.14
+  'x'
+  "abc"
+  tuple <2>
     3
     'x'
-l:
-  list
-    3
-    3.14
-    'x'
-    "abc"
-    tuple
-      3
-      'x'

@@ -9,4 +9,3 @@ $l list(n r c s t)
 
 dump! `n `r `c `s
 dump! `t `l
-dump! 3 `t `l

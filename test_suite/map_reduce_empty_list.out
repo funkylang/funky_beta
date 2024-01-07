@@ -1,14 +1,10 @@
-map(l1 length_of):
-  list
-    1
-    5
-    2
-map(l2 length_of): <empty_list>
-reduce(l1 append): "abertace"
-reduce(l2 append): undefined
-reduce(l1 append ""): "abertace"
-reduce(l2 append ""): ""
-map_reduce(l1 length_of plus): 8
-map_reduce(l2 length_of plus): undefined
-map_reduce(l1 length_of plus 0): 8
-map_reduce(l2 length_of plus 0): 0
+3: "map(l1 length_of)"
+3: "map(l2 length_of)"
+3: "reduce(l1 append)"
+3: "reduce(l2 append)"
+3: "reduce(l1 append @34;@34;)"
+3: "reduce(l2 append @34;@34;)"
+3: "map_reduce(l1 length_of plus)"
+3: "map_reduce(l2 length_of plus)"
+3: "map_reduce(l1 length_of plus 0)"
+3: "map_reduce(l2 length_of plus 0)"

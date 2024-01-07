@@ -366,7 +366,7 @@ enum {
   var_from_utf8, // extern
   var_from_json, // extern
   var_to_utf8, // extern
-  var_write_all_to, // extern
+  var_write_to, // extern
   var_463_1_use_tokens, // dynamic
   var_not, // extern
   var_498_1_info, // dynamic
@@ -1543,8 +1543,8 @@ static TAB_NUM t_func_ai_types__model___ai__tokenize[] = {
   var_length_of, 1, LOCAL(8), 1, LOCAL(1),
   // "
   var_std__string, 5, str_POST_tokenize_HT, LOCAL(1), str_Connection_close, LOCAL(8), string_2, 1, LOCAL(2),
-  // write_all_to! fd "
-  var_write_all_to, 2, LOCAL(9), LOCAL(2), IO_CALL(0),
+  // write_to! fd "
+  var_write_to, 2, LOCAL(9), LOCAL(2), IO_CALL(0),
   // load! $result fd
   var_load, 1, LOCAL(9), IO_CALL(1), LOCAL(10),
   // behind &result "@cr;@nl;@cr;@nl;"
@@ -1567,7 +1567,7 @@ static TAB_NUM t_func_ai_types__model___ai__tokenize[] = {
   POS(426, 42),
   POS(426, 3),
   POS(430, 23),
-  POS(427, 20),
+  POS(427, 16),
   POS(427, 3),
   POS(434, 3),
   POS(437, 3),
@@ -1641,8 +1641,8 @@ static TAB_NUM t_func_ai_types__model___ai__evaluate[] = {
   var_length_of, 1, LOCAL(17), 1, LOCAL(1),
   // "
   var_std__string, 5, str_POST_completion, LOCAL(1), str_Connection_close, LOCAL(17), string_2, 1, LOCAL(2),
-  // write_all_to! fd "
-  var_write_all_to, 2, LOCAL(18), LOCAL(2), IO_CALL(0),
+  // write_to! fd "
+  var_write_to, 2, LOCAL(18), LOCAL(2), IO_CALL(0),
   // load! $result fd
   var_load, 1, LOCAL(18), IO_CALL(1), LOCAL(19),
   // behind &result "@cr;@nl;@cr;@nl;"
@@ -1671,7 +1671,7 @@ static TAB_NUM t_func_ai_types__model___ai__evaluate[] = {
   POS(486, 42),
   POS(486, 3),
   POS(490, 23),
-  POS(487, 20),
+  POS(487, 16),
   POS(487, 3),
   POS(494, 3),
   POS(497, 3),
@@ -3280,7 +3280,7 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "write_all_to\000", NULL,
+    "write_to\000", NULL,
     {.position = POS(427, 3)}
   },
   {

@@ -500,9 +500,9 @@ $avl_node/validate: (self low high)
       low.is_defined && key < low
       high.is_defined && key > high
     :
-      debug_write "
+      debug::print "
 	@(default_value(low '[')) < @(key) < @(default_value(high ']')) failed!
-      debug_exit
+      debug::exit
     pass
   left $_left_left $_left_right $_left_key $_left_value $left_height
   right $_right_left $_right_right $_right_key $_right_value $right_height
@@ -510,7 +510,7 @@ $avl_node/validate: (self low high)
     max(left_height right_height)+1 == height
     -> validate(left low key)+1+validate(right key high)
     :
-      debug_write "
+      debug::print "
 	left height: @(left_height), right height: @(right_height), @
 	height: @(height)
-      debug_exit
+      debug::exit

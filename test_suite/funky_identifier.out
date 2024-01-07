@@ -1,4 +1,4 @@
 match(FUNKY_IDENTIFIER buf): 13
-match(FUNKY_IDENTIFIER buf2): undefined
-match(FUNKY_IDENTIFIER buf3): undefined
+match(FUNKY_IDENTIFIER buf2): <undefined>
+match(FUNKY_IDENTIFIER buf3): <undefined>
 match(FUNKY_IDENTIFIER buf4): 3

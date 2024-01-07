@@ -502,9 +502,9 @@ $node/validate: (self low high)
       low.is_defined && key < low
       high.is_defined && key > high
     :
-      debug_write "
+      debug::print "
 	@(default_value(low '[')) < @(key) < @(default_value(high ']')) failed!
-      debug_exit
+      debug::exit
     pass
   -> validate(left low key)+1+validate(right key high)
 
@@ -513,7 +513,7 @@ $std_types::binary_table/validate: (self)
   $stored_length length_of(self)
   if
     real_length != stored_length:
-      debug_write "
+      debug::print "
 	Table contains @(real_length) entries (stored: @(stored_length))
-      debug_exit
+      debug::exit
     pass

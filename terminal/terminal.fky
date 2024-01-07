@@ -712,9 +712,9 @@ $std_types::screen/clear:
 		    updated_rows
 		    range(rows y+height -1)
     :
-      debug_write "
+      debug::print "
 	screen/clear is currently only implemented for line_height 1!
-      debug_exit
+      debug::exit
 
 $std_types::screen/copy:
   #
@@ -951,7 +951,7 @@ $std::initialize_terminal:
     print! "@esc;[0m" # set default colours
     on do_switch_cursor_off: cursor_on!
 
-    on err.is_an_error: debug_print err 50
+    on err.is_an_error: debug::dump_object 50 err
 
 $std::update_terminal:
   #
@@ -1040,7 +1040,7 @@ $std::update_terminal:
     )
     if
       do_log:
-	debug_write push(create_string(args) '@nl;')
+	debug::print push(create_string(args) '@nl;')
       pass
 
   $csi: (arguments* command)
@@ -1140,7 +1140,7 @@ $std::update_terminal:
       cont
 
   $emit_character: (chr cont)
-    log "print " debug_string(chr).trim
+    log "print " debug::string(chr).trim
     $chr_width character_width(chr)
     if !chr !chr_width
       current_x == terminal_width && chr_width == 2

@@ -175,7 +175,7 @@ create_terminal $terminal terminal_width terminal_height
 
 try $error: start_game!
 on error.is_an_error:
-  eprintln! "ERROR: " debug_string(error 0 50)
+  eprintln! "ERROR: " debug::string(error 0 50)
   quit!
 
 $start_game:

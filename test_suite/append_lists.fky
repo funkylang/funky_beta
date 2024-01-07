@@ -5,4 +5,4 @@ do:
   $furniture list("table" "chair" "cupboard")
   $tools list("hammer" "saw")
   append $all items furniture tools
-  print! debug_string(all 0 2)
+  print! debug::string(all 0 2)

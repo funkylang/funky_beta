@@ -4,7 +4,7 @@ val: 815
 buf: "juhu"
 val: 17.384
 buf: "(x)"
-val: 40000
+val: 40000.0
 buf: ""
 val: 0.02639
 buf: ""

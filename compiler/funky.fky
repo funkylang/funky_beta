@@ -489,7 +489,7 @@ $handle_error: (obj)
       error_category_of(obj) == SYNTAX_ERROR:
 	display_error! obj
       :
-	debug_print obj 0 50
+	debug::dump_object 50 obj
     exit! EXIT_FAILURE
 
 $display_error: (error)

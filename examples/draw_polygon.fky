@@ -187,8 +187,8 @@ $draw_boundry:
       $idx2 mod(idx+1 length_of(shape))+1
       $xy1 shape(idx)
       $xy2 shape(idx2)
-      #edump `"@(xy1(1)) @(xy1(2))"
-      #edump `"@(xy2(1)) @(xy2(2))"
+      #debug::dump `"@(xy1(1)) @(xy1(2))"
+      #debug::dump `"@(xy2(1)) @(xy2(2))"
       plot_line &terminal xy1(1) xy1(2) xy2(1) xy2(2)
       next
     -> terminal

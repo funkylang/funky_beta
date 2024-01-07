@@ -2009,13 +2009,13 @@ $ai_completion_action:
       initialize_ai! !ai_model
       current_time! !t2
       on do_log:
-	edump `ai_model
+	debug::dump `ai_model
 	eprintln!
 	  format("%2.3: loading model " t2-t1)
       !t1 t2
       if
 	ai_model.is_an_error:
-	  on do_log: eprint! debug_string(ai_model 0 10)
+	  on do_log: eprint! debug::string(ai_model 0 10)
 	  -> terminal state
 	:
 	  !state.ai_model_of ai_model
@@ -2075,19 +2075,19 @@ $ai_completion_action:
       &tokens -> put(tokens space_token_of(ai_model))
     on do_log:
       $detokenized_text detokenize(ai_model tokens)
-      debug_write "
+      debug::print "
 	prompt length: @(length_of(tokens)) tokens
       $line_count count_occurrences(detokenized_text '@nl;')
       if
 	line_count > 7:
-	  debug_write "prompt = "
-	  debug_print truncate_from(detokenized_text '@nl;' 3)
-	  debug_write "..."
-	  debug_print truncate_until(detokenized_text '@nl;' -4)
+	  debug::print "prompt = "
+	  debug::dump_object truncate_from(detokenized_text '@nl;' 3)
+	  debug::print "..."
+	  debug::dump_object truncate_until(detokenized_text '@nl;' -4)
 	:
-	  debug_print detokenized_text
-      debug_write "suffix = "
-      debug_print detokenize(ai_model suffix)
+	  debug::dump_object detokenized_text
+      debug::print "suffix = "
+      debug::dump_object detokenize(ai_model suffix)
     $n length_of(tokens)
     $rest empty_list
     $generated_tokens_count 0
@@ -2109,7 +2109,7 @@ $ai_completion_action:
 	      rest.is_empty:
 		eprintln!
 	      :
-		edump `rest
+		debug::dump `rest
 	  $end_of_text_token end_of_text_token_of(ai_model)
 	  $period_token period_token_of(ai_model)
 	  $use_soft_line_break use_soft_line_break_of(window)
@@ -2127,7 +2127,7 @@ $ai_completion_action:
 
 	      update_if token == period_token &tokens: push tokens token
 	      $ai_text detokenize(ai_model range(tokens n+1 -1))
-	      on do_log: edump `ai_text
+	      on do_log: debug::dump `ai_text
 	      if
 		ai_text.is_empty:
 		  if
@@ -2320,7 +2320,7 @@ $filter_action: (myself^)
     text.is_undefined
     -> terminal state
     :
-      on do_log: debug_write! "
+      on do_log: debug::print! "
 	___________________
 	@(text)
 	___________________
@@ -2343,8 +2343,8 @@ $filter_action: (myself^)
 	    terminal
 	    extract_window_and_lines(: paste_contents out)
 	:
-	  edump `ret_list(1)
-	  edump `err_list(1)
+	  debug::dump `ret_list(1)
+	  debug::dump `err_list(1)
 	  -> terminal state
 
   $to_arguments: (str)
@@ -3184,7 +3184,11 @@ $fold_everything:
 	  skip-1
 	  count(range(lines 1 min(y height)) is_a_top_level_line)
 	  max(y-height 0)
-      !window.was_updated true
+      !window
+	window
+	  .was_updated true
+	  .cursor_x_of undefined
+	  .cursor_y_of undefined
       fold_all &lines
       return_window_and_lines
 
@@ -3199,7 +3203,11 @@ $unfold_everything:
     +
       map_reduce(range(groups 1 min(y-1 height)) length_of plus 0)
       max(y-height 1)
-  !window.was_updated true
+  !window
+    window
+      .was_updated true
+      .cursor_x_of undefined
+      .cursor_y_of undefined
   !lines reduce(groups append empty_list)
   return_window_and_lines
 
@@ -3701,8 +3709,8 @@ $update_display:
 	    )
 	    update_if width.is_undefined &width -> length_of(text)
 	    on width > length_of(text):
-	      edump `width
-	      edump `text
+	      debug::dump `width
+	      debug::dump `text
 	    if
 	      width < 0
 	      continuation

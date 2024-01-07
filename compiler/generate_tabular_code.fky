@@ -235,7 +235,7 @@ $funky::generate_tabular_code: (top_level_statements is_a_main_module)
 		    DYNAMIC -> "UNINITIALIZED"
 		    DERIVED -> "DERIVED"
 		    :
-		      edump `kind
+		      debug::dump `kind
 		      -> "???"
 		$initialization
 		  case
@@ -537,8 +537,8 @@ $is_a_valid_statement: (statement)
 $variable_kind ()
 
 $funky_types::node/variable_kind: (node _level _flags)
-  edump `node
-  debug_exit
+  debug::dump `node
+  debug::exit
 
 $std_types::undefined/variable_kind: (_node _level flags)
   if
@@ -750,8 +750,8 @@ $local_mapping undefined
 $to_index ()
 
 $funky_types::node/to_index: (self)
-  debug_write "/to_index failed: "
-  edump `self
+  debug::print "/to_index failed: "
+  debug::dump `self
   -> "?"
 
 $funky_types::functor/to_index retrieve_name
@@ -785,9 +785,9 @@ $retrieve_name: (self)
 	  append("var_" mangle_identifier(identifier))
 	CONSTANT, CONSTANT_COMPOUND -> mangled_literals(value)
 	:
-	  edump `kind
-	  edump `value
-	  debug_exit
+	  debug::dump `kind
+	  debug::dump `value
+	  debug::exit
 
 $funky_types::numeric_literal/to_index get_literal
 
@@ -805,7 +805,7 @@ $get_literal: (self)
 $get_index ()
 
 $funky_types::node/get_index: (node _level _flags)
-  edump `node
+  debug::dump `node
   -> "???"
 
 $funky_types::definition/get_index: (node level _flags)
@@ -872,8 +872,8 @@ $funky_types::character_sequence/add_literal: (self)
 	      add_mangled mangled
 
   $add_mangled: (mangled_name)
-    #debug_write "
-      @(mangled_name): @(debug_string(characters_of(self)))@
+    #debug::print "
+      @(mangled_name): @(debug::string(characters_of(self)))@
     !mangled_literals(self) mangled_name
     -> mangled_literals mangling_counter
 

@@ -361,7 +361,7 @@ $ai_types::model/ai::generate:
     on be_verbose: print! piece
 
 $get_tokens: (model)
-  #debug_write "
+  #debug::print "
 
     ai_types::model/ai::get_tokens
   $json
@@ -377,7 +377,7 @@ $get_tokens: (model)
     @cr;
     @(json)
   load! $result fd
-  #debug_write "
+  #debug::print "
     @(result)
   $error_code between(result ' ' ' ').to_integer
   if
@@ -409,7 +409,7 @@ $ai_types::model/ai::tokenize:
     model # the model to query for tokens
     text # the text(s) to tokenize
   )
-  #debug_write "
+  #debug::print "
 
     ai_types::model/ai::tokenize
   $CONTENT
@@ -424,7 +424,7 @@ $ai_types::model/ai::tokenize:
 	CONTENT = text
   to_utf8 &json
   open_tcp_socket! $fd address_of(model) port_no_of(model)
-  write_all_to! fd "
+  write_to! fd "
     POST /tokenize HTTP/1.1@cr;
     Content-Type: application/json@cr;
     Content-Length: @(length_of(json))@cr;
@@ -432,7 +432,7 @@ $ai_types::model/ai::tokenize:
     @cr;
     @(json)
   load! $result fd
-  #debug_write "
+  #debug::print "
     @(result)
   behind &result "@cr;@nl;@cr;@nl;"
   $info result.from_json
@@ -456,7 +456,7 @@ $ai_types::model/ai::evaluate:
     mode = ai::SMART # how to handle context change
     start = 0 # the number of fixed start tokens
   )
-  #debug_write "
+  #debug::print "
 
     ai_types::model/ai::evaluate
   $do_return_confidence_values result_count() == 2
@@ -484,7 +484,7 @@ $ai_types::model/ai::evaluate:
 	"n_predict" = 1
   to_utf8 &json
   open_tcp_socket! $fd address_of(model) port_no_of(model)
-  write_all_to! fd "
+  write_to! fd "
     POST /completion HTTP/1.1@cr;
     Content-Type: application/json@cr;
     Content-Length: @(length_of(json))@cr;
@@ -492,7 +492,7 @@ $ai_types::model/ai::evaluate:
     @cr;
     @(json)
   load! $result fd
-  #debug_write "
+  #debug::print "
     @(result)
   behind &result "@cr;@nl;@cr;@nl;"
   $info result.from_json

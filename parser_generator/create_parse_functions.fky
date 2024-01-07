@@ -252,7 +252,7 @@ $nlb2fky::create_parse_functions: (filename rules name_to_index)
 	#append
 	  "
 	    @
-	      debug_write "@
+	      debug::print "@
 	  name
 	  if
 	    used_with_prefix
@@ -293,7 +293,7 @@ $nlb2fky::create_parse_functions: (filename rules name_to_index)
 		prefix_symbols.is_empty:
 		  print_derived symbols
 		:
-		  debug_write "
+		  debug::print "
 		    DERIVED RULES WITH PREFIX ARE NOT YET IMPLEMENTED (@(name))!
 		  string
 		    declaration

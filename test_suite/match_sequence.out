@@ -1,5 +1,5 @@
 match(GLOBAL_DEFINITION buf): 19
-match(GLOBAL_DEFINITION buf2): undefined
-match(GLOBAL_DEFINITION buf3): undefined
-match(GLOBAL_DEFINITION buf4): undefined
+match(GLOBAL_DEFINITION buf2): <undefined>
+match(GLOBAL_DEFINITION buf3): <undefined>
+match(GLOBAL_DEFINITION buf4): <undefined>
 match(GLOBAL_DEFINITION buf5): 15

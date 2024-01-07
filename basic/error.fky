@@ -20,6 +20,26 @@
   Free Software Foundation, Inc.,
   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
-$std::Error: (args*)
+#
+  Topic: Errors
+
+  In Funky errors are handled via so-called error objects.
+
+$std::Error:
+  #
+    displays an error message and terminates the program
+
+    All arguments are converted to strings, concatenated and printed to stderr.
+
+    Afterwards the program terminates with exit code <EXIT_FAILURE>.
+
+    This function needs I/O-access rights.
+
+    Topic: Errors
+
+    See also: exit
+  (
+    args*
+  )
   eprintln! "ERROR: " create_string(args) .without_suffix. '@nl;'
   exit! EXIT_FAILURE

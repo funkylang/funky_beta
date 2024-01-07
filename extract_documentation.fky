@@ -1,6 +1,6 @@
 #!/usr/bin/env fkyrun
 
-  Copyright (C) 2023 by
+  Copyright (C) 2024 by
   Dipl.-Ing. Michael Niederle
 
   This program is free software; you can redistribute it and/or modify
@@ -133,6 +133,9 @@ for_each libraries
 	      create_html_page(definition info)
 	    next!
 	  :
+	    save! "html/topics.html" create_topics_page()
+	    save! "html/symbols.html" create_symbols_page()
+	    save! "html/types.html" create_types_page()
 	    save! "html/style.css" style
 
 $traverse_files: (library)
@@ -236,10 +239,10 @@ $handle_template_groups: (groups)
 		: add_definition text
 	    METHOD:
 	      if
-		text .contains. "/_"
+		text .contains. ' ' || text .contains. "/_"
 		next
 		: add_definition text
-	    TYPE:
+	    TYPE, OBJECT:
 	      $name (text .truncate_from. ' ')
 	      $base (text .behind. "->").trim
 	      update_if base.is_empty &base -> undefined
@@ -247,19 +250,40 @@ $handle_template_groups: (groups)
 	    next
 
       $add_definition: (name extra_info = undefined)
-	maybe_add_namespace &name
-	$subgroups subgroups_of(group)
 	if
-	  subgroups.is_undefined || subgroups(1).is_undefined
+	  name .has_prefix. "builtin::"
 	  next
 	  :
-	    split_into_groups &subgroups
-	    !subgroups subgroups_of(subgroups(1))
+	    maybe_add_namespace &name
+	    $subgroups subgroups_of(group)
 	    if
-	      subgroups.is_defined:
-		!definitions(name) collect_info(kind extra_info subgroups)
-		next
-	      next
+	      subgroups.is_undefined || subgroups(1).is_undefined
+	      missing_documentation
+	      :
+		split_into_groups &subgroups
+		$first_group subgroups(1)
+		if
+		  first_group.is_undefined
+		  missing_documentation
+		  :
+		    first_group $_indent $remark
+		    if
+		      remark(1) != '#'
+		      missing_documentation
+		      :
+			!subgroups subgroups_of(subgroups(1))
+			if
+			  subgroups.is_defined:
+			    !definitions(name)
+			      collect_info(kind extra_info subgroups)
+			    next
+			  missing_documentation
+
+	$missing_documentation:
+	  debug::print "
+	    MISSING DOCUMENTATION: @(name)
+	  next
+
     -> definitions
 
 $handle_topic: (group)
@@ -279,7 +303,7 @@ $handle_definition: (group)
   $identifier append(namespace "::" name)
   if
     rest.is_empty:
-      debug_write "
+      debug::print "
 	@(namespace)::@(name) ???
       -> definitions
     :
@@ -341,8 +365,8 @@ $handle_definition: (group)
       -> (identifier .before. "::").is_a_private_namespace
 	-> definitions
       -> kind.is_undefined:
-	edump `identifier
-	debug_write "
+	debug::dump `identifier
+	debug::print "
 	  CANNOT DETERMINE TYPE: @(identifier)
 	-> definitions
       -> true:
@@ -378,7 +402,7 @@ $handle_definition: (group)
 		      -> definitions(identifier collect_info(kind descriptions))
 
   $missing_documentation:
-    #debug_write "
+    debug::print "
       MISSING DOCUMENTATION: @(identifier)
     -> definitions
 
@@ -486,6 +510,7 @@ $collect_info:
 			||
 			  text .has_prefix. "Example:"
 			  text .has_prefix. "Output:"
+			  text .has_prefix. "Error output:"
 			:
 			  !is_preformatted true
 			  next
@@ -523,6 +548,69 @@ $add_result_or_parameter: (parameters group)
   $remark (text .behind. '#').trim
   push parameters tuple(parameter remark)
 
+$create_topics_page:
+  HTML
+    : HEAD
+      : TITLE "Topics"
+      : LINK "rel" = "stylesheet" "href" = "style.css"
+    : BODY
+      : header
+      : H1 "Topics"
+      : TABLE
+	:
+	  FOR_EACH topics: (topic info)
+	    TR: TD: A "href" = to_filename(topic) topic
+
+$create_symbols_page:
+  $symbols retrieve_symbols()
+  HTML
+    : HEAD
+      : TITLE "Symbols"
+      : LINK "rel" = "stylesheet" "href" = "style.css"
+    : BODY
+      : header
+      : H1 "Symbols"
+      : TABLE
+	:
+	  FOR_EACH symbols: (symbol) identifier_description symbol
+
+$retrieve_symbols:
+  sort
+    filter
+      keys_of(definitions): (key)
+	-> not(key .contains. '/' || key .contains. '.')
+
+$create_types_page:
+  $types retrieve_types()
+  HTML
+    : HEAD
+      : TITLE "Types"
+      : LINK "rel" = "stylesheet" "href" = "style.css"
+    : BODY
+      : header
+      : H1 "Types"
+      : TABLE
+	:
+	  FOR_EACH types: (type) identifier_description type true
+
+$retrieve_types:
+  $types empty_hash_set
+  for_each definitions
+    : (name definition)
+      $type name .before. '/'
+      if
+	type.is_empty:
+	  definition $kind
+	  if
+	    kind == TYPE:
+	      !types(name) true
+	      next
+	    next
+	:
+	  !types(type) true
+	  next
+    -> sort(types.to_list)
+
 $create_html_page: (title info)
   info $kind $short_descripition $extra_info $results $paragraphs $filename
   $parameters
@@ -541,12 +629,7 @@ $create_html_page: (title info)
       : TITLE title
       : LINK "rel" = "stylesheet" "href" = "style.css"
     : BODY
-      : P
-	: A "class" = "Button" "href" = "index.html" "Home"
-	: A "class" = "Button" "href" = "manual.html" "Manual"
-	: A "class" = "Button" "href" = "topics_index.html" "Topics"
-	: A "class" = "Button" "href" = "type_index.html" "Type Index"
-	: A "class" = "Button" "href" = "symbol_index.html" "Symbol Index"
+      : header
       : if
 	  kind == TOPIC:
 	    H1 title
@@ -582,6 +665,10 @@ $create_html_page: (title info)
 		push &preformatted "Output" = paragraphs(idx+1)
 		!already_consumed true
 		next
+	      -> paragraph .has_prefix. "Error output:":
+		push &preformatted "Error output" = paragraphs(idx+1)
+		!already_consumed true
+		next
 	      -> true:
 		if
 		  already_consumed:
@@ -614,6 +701,19 @@ $create_html_page: (title info)
 			  :
 			    FOR_EACH parameters: (parameter)
 			      parameter $parameter_name $parameter_description
+			      !parameter_name
+				cond
+				  -> parameter_name .has_suffix. '?':
+				    append
+				      range(parameter_name 1 -2)
+				      " (optional)"
+				  -> parameter_name .contains. '=':
+				    append
+				      (parameter_name .before. '=').trim
+				      " (default: "
+				      (parameter_name .behind. '=').trim
+				      ")"
+				  -> true -> parameter_name
 			      GROUP
 				: DT parameter_name
 				: DD parameter_description
@@ -652,7 +752,7 @@ $create_html_page: (title info)
 		    info $class $paragraph
 		    GROUP
 		      : H2 class
-		      : DIV "class" = class paragraph
+		      : DIV "class" = replace_all(class ' ' = "_") paragraph
 		  append
 		  ""
 	      :
@@ -732,13 +832,43 @@ $create_html_page: (title info)
 			      : H2 "Supported polymorphic functions"
 			      : TABLE:
 				FOR_EACH names: (name)
-				  link_to name
+				  link_to name true
 		  -> ""
 	      : DIV "class" = "footer" "(defined in @(filename))"
 
-$link_to: (item)
+$header:
+  P
+    : A "class" = "Button" "href" = "index.html" "Home"
+    : A "class" = "Button" "href" = "manual.html" "Manual"
+    : A "class" = "Button" "href" = "topics.html" "Topics"
+    : A "class" = "Button" "href" = "types.html" "Types"
+    : A "class" = "Button" "href" = "symbols.html" "Symbols"
+
+$identifier_description: (identifier do_hide_namespace = false)
   TR
-    : TD : A "href" = to_filename(item) item .truncate_until. '/'
+    : TD:
+      A "href" = to_filename(identifier)
+	if
+	  do_hide_namespace
+	  -> identifier .behind. "::"
+	  -> identifier
+    :
+      $definition definitions(identifier)
+      if
+	definition.is_undefined
+	-> ""
+	:
+	  definition $_kind $description
+	  TD description
+
+$link_to: (item do_truncate = false)
+  $name
+    if
+      do_truncate
+      -> item .truncate_until. '/'
+      -> item
+  TR
+    : TD : A "href" = to_filename(item) name
     :
       $item_definition definitions(item)
       if
@@ -863,7 +993,6 @@ $load_groups: (filename)
   split_into_groups lines
 
 $to_filename: (name)
-  to_lower_case &name
   replace_all &name
     ' ' = "_"
     "::" = "__"
@@ -900,10 +1029,12 @@ $style "
     margin-bottom: 11pt;
   }
   dt {
-    font-style: italic;
+    font-size: 14pt;
     margin-bottom: 2pt;
   }
   dd {
+    font-style: italic;
+    font-size: 11pt;
     padding-left: 0pt;
     margin-left: 16pt;
     margin-top: 0pt;
@@ -951,7 +1082,18 @@ $style "
   div.Output {
     font-family: Courier New, Courier, Typewriter;
     font-size: 13pt;
-    background-color: #cff;
+    background-color: #dfd;
+    border: solid 1pt;
+    margin-top: 6pt;
+    margin-bottom: 8pt;
+    padding: 2pt;
+    white-space: pre;
+    border-radius: 6pt;
+  }
+  div.Error_output {
+    font-family: Courier New, Courier, Typewriter;
+    font-size: 13pt;
+    background-color: #fdd;
     border: solid 1pt;
     margin-top: 6pt;
     margin-bottom: 8pt;

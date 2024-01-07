@@ -87,7 +87,7 @@ if !prompt
 
 load_ai_model! $model model_name
 
-edump `detokenize(model 28705)
+debug::dump `detokenize(model 28705)
 
 update_if stop.is_defined &stop -> replace_all(stop "\n" = "@nl;")
 

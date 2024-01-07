@@ -36,9 +36,6 @@ $std_types::set std_types::collection
 
     See also: std_types::hash_set, std_types::key_order_set
 
-###
-# merge
-
 $std_types::set/merge:
   #
     merges the two sets
@@ -52,7 +49,19 @@ $std_types::set/merge:
       next
     -> self
 
-###
+$std_types::set/to_list:
+  #
+    returns a list of all elements in the set
+  (
+    self # the set
+  )
+  $items empty_list
+  for_each self
+    : (item)
+      push &items item
+      next
+    -> items
+
 # serialization
 
 $std_types::set/serialize:

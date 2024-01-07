@@ -60,7 +60,7 @@ $load_source_file: (self io _arguments)
   performed_io self io source_fd_of(self)
 
 $read_head: (self)
-  read_from self source_fd_of(self) 4096 store_head
+  read self source_fd_of(self) 4096 store_head
     # read at least 4 KiB (maximum is 64 KiB)
 
 $store_head: (self head)
@@ -146,27 +146,27 @@ $check_process: (self)
 
 $handle_out: (self)
   !self.data_of ""
-  read_from self out_fd_of(self) 1 read_from_out
+  read self out_fd_of(self) 1 read_out
 
-$read_from_out: (self data)
+$read_out: (self data)
   if
     data.is_empty:
       send &self parent_of(self) data_of(self)
       exit self
     :
       append &self.data_of data
-      read_from self out_fd_of(self) 1 read_from_out
+      read self out_fd_of(self) 1 read_out
 
 $handle_err: (self)
-  read_from self err_fd_of(self) 1 read_from_err
+  read self err_fd_of(self) 1 read_err
 
-$read_from_err: (self data)
+$read_err: (self data)
   if
     data.is_empty:
       exit self 0
     :
       log &self data
-      read_from self err_fd_of(self) 1 read_from_err
+      read self err_fd_of(self) 1 read_err
 
 $handle_process: (self)
   join_process self pid_of(self) joined_process

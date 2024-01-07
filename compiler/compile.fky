@@ -72,7 +72,7 @@ $funky::compile_module: (filename lines)
       The source file "@(current_filename)" does not contain any source code!
 
   #print_statements statements
-  #debug_write "
+  #debug::print "
     ========================================
 
   $first_statement statements(1)
@@ -97,7 +97,7 @@ $funky::compile_module: (filename lines)
   map_reduce &statements simplify_statement append empty_list
 
   #print_statements statements
-  #debug_write "
+  #debug::print "
     ----------------------------------------
 
   #
@@ -111,13 +111,13 @@ $funky::compile_module: (filename lines)
   collect_literals !literals statements
     # <literals> is an insert-order-set of all literal *nodes*
 
-  #debug_write "
+  #debug::print "
     ----------------------------------------
   #print_variables! variables
 
   #for_each literals
     : (literal)
-      edump `literal
+      debug::dump `literal
       next
     pass
 
@@ -128,8 +128,8 @@ $funky::compile_module: (filename lines)
 #$print_statements: (statements)
  for_each statements
     : (statement)
-      debug_write statement.to_string
-      debug_write "@nl;"
+      debug::print statement.to_string
+      debug::print "@nl;"
       next
     pass
 
@@ -137,7 +137,7 @@ $funky::compile_module: (filename lines)
   for_each variables
     : (name info)
       $kind first(info)
-      debug_write "@(name): @(debug_string(kind) .behind. "::")"
+      debug::print "@(name): @(debug::string(kind) .behind. "::")"
       next
     pass
 

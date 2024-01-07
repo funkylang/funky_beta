@@ -612,7 +612,7 @@ enum {
   var_EXTERN_POLYMORPHIC, // extern
   var_DYNAMIC, // extern
   var_DERIVED, // extern
-  var_edump, // extern
+  var_debug__dump, // extern
   var_case, // extern
   var_identifier_of, // extern
   var_second, // extern
@@ -674,7 +674,7 @@ enum {
   var_sequence, // extern
   var_variable_kind, // attribute
   var_funky_types__node, // extern
-  var_debug_exit, // extern
+  var_debug__exit, // extern
   var_std_types__undefined, // extern
   var_POLYMORPHIC, // extern
   var_std__bit_and, // extern
@@ -731,7 +731,7 @@ enum {
   var_argument_of, // extern
   var_funky_types__method_value_pair, // extern
   var_funky_types__type_function, // extern
-  var_debug_write, // extern
+  var_debug__print, // extern
   var_funky_types__functor, // extern
   var_funky_types__redefinition, // extern
   var_funky_types__update, // extern
@@ -1576,8 +1576,8 @@ static TAB_NUM t_lambda_DERIVED[] = {
 static TAB_NUM t_lambda_44[] = {
   0, // locals
   0, // parameters
-  // edump `kind
-  var_edump, 2, str_kind, var_220_6_kind, 0,
+  // debug::dump `kind
+  var_debug__dump, 2, str_kind, var_220_6_kind, 0,
   // -> "???"
   LET, 1, string_14, TAIL_CALL,
   POS(238, 23),
@@ -2782,10 +2782,10 @@ static TAB_NUM t_func_funky_types__node___variable_kind[] = {
   LOCAL(2), // 539_35_node
   LOCAL(1),
   LOCAL(1),
-  // edump `node
-  var_edump, 2, str_node, LOCAL(2), 0,
-  // debug_exit
-  var_debug_exit, 0, TAIL_CALL,
+  // debug::dump `node
+  var_debug__dump, 2, str_node, LOCAL(2), 0,
+  // debug::exit
+  var_debug__exit, 0, TAIL_CALL,
   POS(540, 3),
   POS(541, 3)
 };
@@ -3726,10 +3726,10 @@ static TAB_NUM t_func_funky_types__node___to_index[] = {
   1, // locals
   1, // parameters
   LOCAL(1), // 752_30_self
-  // debug_write "/to_index failed: "
-  var_debug_write, 1, str_to_index_failed, 0,
-  // edump `self
-  var_edump, 2, str_self, LOCAL(1), 0,
+  // debug::print "/to_index failed: "
+  var_debug__print, 1, str_to_index_failed, 0,
+  // debug::dump `self
+  var_debug__dump, 2, str_self, LOCAL(1), 0,
   // -> "?"
   LET, 1, string_38, TAIL_CALL,
   POS(753, 3),
@@ -3893,12 +3893,12 @@ static TAB_NUM t_lambda_156[] = {
 static TAB_NUM t_lambda_157[] = {
   0, // locals
   0, // parameters
-  // edump `kind
-  var_edump, 2, str_kind, var_773_23_kind, 0,
-  // edump `value
-  var_edump, 2, str_value, var_773_29_value, 0,
-  // debug_exit
-  var_debug_exit, 0, TAIL_CALL,
+  // debug::dump `kind
+  var_debug__dump, 2, str_kind, var_773_23_kind, 0,
+  // debug::dump `value
+  var_debug__dump, 2, str_value, var_773_29_value, 0,
+  // debug::exit
+  var_debug__exit, 0, TAIL_CALL,
   POS(788, 11),
   POS(789, 11),
   POS(790, 11)
@@ -3922,8 +3922,8 @@ static TAB_NUM t_func_funky_types__node___get_index[] = {
   LOCAL(2), // 807_31_node
   LOCAL(1),
   LOCAL(1),
-  // edump `node
-  var_edump, 2, str_node, LOCAL(2), 0,
+  // debug::dump `node
+  var_debug__dump, 2, str_node, LOCAL(2), 0,
   // -> "???"
   LET, 1, string_14, TAIL_CALL,
   POS(808, 3),
@@ -6739,7 +6739,7 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "edump\000", NULL,
+    "dump\000debug", NULL,
     {.position = POS(238, 23)}
   },
   {
@@ -7028,7 +7028,7 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "debug_exit\000", NULL,
+    "exit\000debug", NULL,
     {.position = POS(541, 3)}
   },
   {
@@ -7295,7 +7295,7 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "debug_write\000", NULL,
+    "print\000debug", NULL,
     {.position = POS(753, 3)}
   },
   {

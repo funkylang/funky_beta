@@ -295,8 +295,8 @@ enum {
   var_std__and, // extern
   var_default_value, // extern
   var_std__string, // extern
-  var_debug_write, // extern
-  var_debug_exit, // extern
+  var_debug__print, // extern
+  var_debug__exit, // extern
   var_pass, // extern
   var_507_55_left_height, // dynamic
   var_508_60_right_height, // dynamic
@@ -1910,13 +1910,13 @@ static TAB_NUM t_lambda_107[] = {
   var_default_value, 2, var_496_30_high, chr_93, 1, LOCAL(2),
   // "
   var_std__string, 6, LOCAL(1), string_1, var_497_19_key, string_1, LOCAL(2), str__failed, 1, LOCAL(3),
-  // debug_write "
-  var_debug_write, 1, LOCAL(3), 0,
-  // debug_exit
-  var_debug_exit, 0, TAIL_CALL,
+  // debug::print "
+  var_debug__print, 1, LOCAL(3), 0,
+  // debug::exit
+  var_debug__exit, 0, TAIL_CALL,
   POS(504, 11),
   POS(504, 48),
-  POS(503, 19),
+  POS(503, 20),
   POS(503, 7),
   POS(505, 7)
 };
@@ -1946,11 +1946,11 @@ static TAB_NUM t_lambda_109[] = {
   0, // parameters
   // "
   var_std__string, 7, str_left_height, var_507_55_left_height, str__right_height, var_508_60_right_height, str__height, var_497_32_height, string_2, 1, LOCAL(1),
-  // debug_write "
-  var_debug_write, 1, LOCAL(1), 0,
-  // debug_exit
-  var_debug_exit, 0, TAIL_CALL,
-  POS(513, 19),
+  // debug::print "
+  var_debug__print, 1, LOCAL(1), 0,
+  // debug::exit
+  var_debug__exit, 0, TAIL_CALL,
+  POS(513, 20),
   POS(513, 7),
   POS(516, 7)
 };
@@ -2767,16 +2767,16 @@ static FUNKY_VARIABLE variables_table[] = {
   {
     FOT_UNKNOWN, 0, 0,
     "string\000std", NULL,
-    {.position = POS(503, 19)}
+    {.position = POS(503, 20)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "debug_write\000", NULL,
+    "print\000debug", NULL,
     {.position = POS(503, 7)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "debug_exit\000", NULL,
+    "exit\000debug", NULL,
     {.position = POS(505, 7)}
   },
   {

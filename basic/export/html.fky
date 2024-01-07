@@ -284,8 +284,16 @@ $html::FOR_EACH:
     body
   )
   $text ""
-  for_each items
-    : (item)
-      append &text body(item)
-      next
-    -> text
+  if
+    parameter_count_of(body) == 2:
+      for_each items
+	: (key value)
+	  append &text body(key value)
+	  next
+	-> text
+    :
+      for_each items
+	: (item)
+	  append &text body(item)
+	  next
+	-> text

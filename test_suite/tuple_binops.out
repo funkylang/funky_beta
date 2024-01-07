@@ -1,6 +1,5 @@
-op(t1 t2):
-  tuple
-    8
-    -1
-    45
-less(t1 t2): true
+op(t1 t2): tuple <3>
+  8
+  -1
+  45
+less(t1 t2): <true>

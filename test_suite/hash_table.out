@@ -1,7 +1,7 @@
 length_of(ages): 7
 ages("Tom"): 5
 ages("Sarah"): 11
-ages("Tim"): undefined
+ages("Tim"): <undefined>
 ages("Sam"): 3
 ages("abcdefgh987654321"): 12
 ages("abcdefghi987654321"): 25
@@ -28,7 +28,7 @@ age_sum: 112
 length_of(ages): 7
 ages("Tom"): 5
 ages("Sarah"): 11
-ages("Tim"): undefined
+ages("Tim"): <undefined>
 ages("Sam"): 4
 
 Bernard: 19
@@ -50,9 +50,9 @@ Tom: 5
 age_sum: 133
 ----------
 length_of(ages): 6
-ages("Tom"): undefined
+ages("Tom"): <undefined>
 ages("Sarah"): 11
-ages("Tim"): undefined
+ages("Tim"): <undefined>
 ages("Sam"): 4
 
 Bernard: 19

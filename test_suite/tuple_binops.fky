@@ -3,5 +3,5 @@
 $t1 tuple(2 3 5)
 $t2 tuple(6 4 9)
 $op tuple(plus minus times).to_binop
-dump! 2 `op(t1 t2)
+dump! `op(t1 t2)
 dump! `less(t1 t2)

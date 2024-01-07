@@ -23,7 +23,7 @@ $create_screen: (width height options*)
     TEXT_COLOUR = BLACK !screen.text_colour_of
     BACKGROUND_COLOUR = WHITE !screen.background_colour_of
     LINE_HEIGHT = 1 !screen.line_height_of
-  dump! `screen
+  print! debug::string(screen)
 
 create_screen! 80 25
   BACKGROUND_COLOUR = YELLOW

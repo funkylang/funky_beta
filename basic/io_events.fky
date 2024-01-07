@@ -39,8 +39,7 @@ $std::SIGNAL .
 $std::get_events ()
 $std::start_reading_from ()
 $std::stop_reading_from ()
-$std::write_to ()
-$std::cancel_write_to ()
+$std::cancel_write ()
 $std::join_process ()
 $std::start_injecting_window_change_events ()
 $std::stop_injecting_window_change_events ()
@@ -95,7 +94,7 @@ $std_types::io/stop_reading_from: (self fd)
 	  -> self
     -> self
 
-$std_types::io/write_to: (self fd text)
+$std_types::io/write: (self fd text)
   $job write_jobs_of(self)(fd)
   !job
     if
@@ -105,7 +104,7 @@ $std_types::io/write_to: (self fd text)
   !self.write_jobs_of(fd) job
   -> self
 
-$std_types::io/cancel_write_to: (self fd)
+$std_types::io/cancel_write: (self fd)
   $unwritten_text write_jobs_of(self)(fd)
   !self.write_jobs_of(fd) undefined
   -> self unwritten_text
@@ -153,7 +152,7 @@ $std_types::io/get_events:
     <pselect> does not check for interrupts if a file descriptor is available
     without the need to wait
 
-  $want_to_write_to empty_list
+  $want_to_write empty_list
   update_if # do not wait if an exit code is pending
     &&
       timeout.is_defined
@@ -164,13 +163,13 @@ $std_types::io/get_events:
     -> 0
   for_each write_jobs_of(self)
     : (fd _text)
-      push &want_to_write_to fd
+      push &want_to_write fd
       next!
     :
       pselect!
 	$signals
-	$can_read_from read_descriptor_list_of(self)
-	$can_write_to want_to_write_to
+	$can_read read_descriptor_list_of(self)
+	$can_write want_to_write
 	$_has_out_of_band_data empty_list
 	timeout
       $events empty_list
@@ -216,7 +215,7 @@ $std_types::io/get_events:
 	      check_file_descriptors!
 
 	  $check_file_descriptors:
-	    for_each can_write_to
+	    for_each can_write
 	      : (fd)
 		$job write_jobs(fd)
 		write! $bytes_written fd job
@@ -242,7 +241,7 @@ $std_types::io/get_events:
 			  new(std_types::event WRITE_COMPLETED fd undefined)
 			next!
 	      :
-		for_each can_read_from
+		for_each can_read
 		  : (fd)
 		    if_not fd != STDIN_FILENO || not(injected_into_stdin) next:
 		      read! $buf fd 0x10000
