@@ -1102,6 +1102,8 @@ $cursor_home:
   !window
     window
       .x_of undefined
+      .y_of undefined
+      .sub_y_of undefined
       .cursor_x_of
 	if
 	  cursor_x_of(window) == pos
@@ -3452,6 +3454,8 @@ $update_display:
 		  inc &text_line_no
 		  next
 
+  $previous_first_visible_x first_visible_x
+  $previous_first_visible_y first_visible_y
   !first_visible_x
     cond
       -> cursor_x < first_visible_x
@@ -3503,8 +3507,8 @@ $update_display:
 	needs_redraw(window)
 	was_updated(window)
 	id_of(window) != id_of(previous_window)
-	first_visible_x != first_visible_x_of(previous_window)
-	first_visible_y != first_visible_y_of(previous_window)
+	first_visible_x != previous_first_visible_x
+	first_visible_y != previous_first_visible_y
 	first_visible_sub_y != first_visible_sub_y_of(previous_window)
 	selection_start_y.is_defined
 	selection_start_y_of(previous_window).is_defined

@@ -136,6 +136,7 @@ for_each libraries
 	    save! "html/topics.html" create_topics_page()
 	    save! "html/symbols.html" create_symbols_page()
 	    save! "html/types.html" create_types_page()
+	    save! "html/index.html" create_index_page()
 	    save! "html/style.css" style
 
 $traverse_files: (library)
@@ -592,6 +593,85 @@ $create_types_page:
       : TABLE
 	:
 	  FOR_EACH types: (type) identifier_description type true
+
+$create_index_page:
+  HTML
+    : HEAD
+      : TITLE "Funky"
+      : LINK "rel" = "stylesheet" "href" = "style.css"
+    : BODY
+      : header
+      : H1 "Funky"
+      : MDP "
+	Funky is an all-purpose (pure) functional and object oriented programming
+	language. It can be used to write small scripts, application programs and just
+	about any software that does not rely on direct access to hardware.
+      : MDP "
+	One of the design goals was to create a language suited to create large
+	software projects in the realm of classical artificial intelligence (e.g.
+	"expert systems").
+      : MDP "
+	But meanwhile AI systems based on neural networks had an unimaginable boost.
+	To accomodate this new development an interface to use LLMs (Large Language
+	Models) is planned for the near future.
+      : MDP "
+	Funky makes it easy to write comprehensible software and at the same time
+	allows the utilization of the vast amount of execution units of modern
+	computers. The logical flow of control is always sequential. The functional
+	design of the language makes it easy for the compiler and runtime system to
+	exploit the lack of side effects to compute function results in parallel at
+	a very fine grained level.
+      : MDP "
+	Funky uses an indentation based syntax for *all* multi-line language
+	constructs including string literals and remarks.
+      : MDP "
+	It has a very simple syntax for defining anonymous functions which are widely
+	used. There are no keywords and no "special forms".
+      : MDP "
+	Function calls (the only kind of "statement" in Funky) can be written in
+	several ways that make their semantic intention more clear.
+      : MDP "
+	There are no loop- or branch-statements; they are replaced by recursion and
+	polymorphic function calls.
+      : MDP "
+	Variables have lexical scope but dynamic lifetime.
+      : MDP "
+	To ease arithmetic and logic operations, C-style operators (+, -, &&, >>, etc.)
+	are supported as *syntactic sugar*.
+      : MDP "
+	Funky supports completely separate compilation of source code modules. To
+	compile a module no other file than the module's source code file has to be
+	consulted.
+      : MDP "
+	As a functional language Funky uses value semantics. So no object can ever be
+	modified, but new objects can be derived from existing ones. This prevents problems
+	like deep vs. shallow copies, equality vs. identity and offers uniform semantics
+	for copying and updating.
+      : MDP "
+	The typing discipline of Funky is dynamic but it does not support duck typing and
+	arguments are not converted automatically (so Funky uses strong typing). Funky
+	compilers should test for potential runtime errors at compile time wherever possible.
+      : MDP "
+	The use of dynamic variables makes Funky well suited for parallel execution.
+      : MDP "
+	Funky offers uniform access to functions, data structures, methods and attributes -
+	they are all function calls in Funky. So the implementation can be changed later on
+	without the need to change the interface.
+      : MDP "
+	The definitions of methods and attributes for any specific object can be distributed
+	over several source code modules. An application program can add (private or global)
+	methods and attributes to a prototype object defined in a library.
+      : MDP "
+	Funky guarantees determinism: a program run on the same stream of input data will
+	always produce the same stream of output data. This makes debugging Funky programs
+	quite easy. All input events can be logged and a post mortem debugger can replay
+	these events and allow the user to run his program forwards and backwards in small
+	or large steps.
+      : MDP "
+	Funky allows defining objects and their parts in any order. Everything that can be
+	resolved will be resolved!
+
+  $MDP: (text) P convert(text)
 
 $retrieve_types:
   $types empty_hash_set
