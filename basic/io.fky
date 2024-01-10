@@ -1,5 +1,5 @@
 #
-  Copyright (C) 2023 by
+  Copyright (C) 2024 by
   Dipl.-Ing. Michael Niederle
 
   This program is free software; you can redistribute it and/or modify
@@ -35,7 +35,7 @@
 
   To hand on *I/O-access rights* a function is called with a "!"-suffix.
 
-  See also: @POSIX
+  See also: @Input-Output Events, @POSIX, @Input-Output Task Manager
 
   Example:
 
@@ -136,6 +136,8 @@ $std::write_string_to:
     The function might block until the output channel is ready to accept more
     data.
 
+    This function needs I/O-access rights.
+
     Topic: Input-Output
 
     See also: write_to, print_to, print, eprint
@@ -175,6 +177,8 @@ $std::write_to:
 
     This function always writes the whole string and may therefor block.
 
+    This function needs I/O-access rights.
+
     Topic: Input-Output
 
     See also: writeln_to, write_string_to, print_to, print, eprint
@@ -201,6 +205,8 @@ $std::writeln_to:
     into utf-8.
 
     This function always writes the whole string and may therefor block.
+
+    This function needs I/O-access rights.
 
     Topic: Input-Output
 
@@ -229,6 +235,8 @@ $std::print_string_to:
     The function might block until the output channel is ready to accept more
     data.
 
+    This function needs I/O-access rights.
+
     Topic: Input-Output
 
     See also: print_to, print, eprint, write_string_to
@@ -252,6 +260,8 @@ $std::print_to:
 
     The arguments are converted into a single string which is then converted
     into utf-8.
+
+    This function needs I/O-access rights.
 
     Topic: Input-Output
 
@@ -278,6 +288,8 @@ $std::println_to:
     The arguments are converted into a single string which is then converted
     into utf-8.
 
+    This function needs I/O-access rights.
+
     Topic: Input-Output
 
     See also: print_to, write_string_to, print, eprint
@@ -302,6 +314,8 @@ $std::print_string:
 
     The argument is converted into utf-8.
 
+    This function needs I/O-access rights.
+
     Topic: Input-Output
 
     See also: print, println, eprint_string
@@ -324,6 +338,8 @@ $std::print:
 
     The arguments are converted into a single string which is then converted
     into utf-8.
+
+    This function needs I/O-access rights.
 
     Topic: Input-Output
 
@@ -349,6 +365,8 @@ $std::println:
     The arguments are converted into a single string which is then converted
     into utf-8.
 
+    This function needs I/O-access rights.
+
     Topic: Input-Output
 
     See also: print, print_string, eprint
@@ -371,6 +389,8 @@ $std::eprint_string:
     writes its argument (a single string) to the error output channel
 
     The argument is converted into utf-8.
+
+    This function needs I/O-access rights.
 
     Topic: Input-Output
 
@@ -399,6 +419,8 @@ $std::eprint:
     The arguments are converted into a single string which is then converted
     into utf-8.
 
+    This function needs I/O-access rights.
+
     Topic: Input-Output
 
     See also: eprintln, eprint_string, print
@@ -422,6 +444,8 @@ $std::eprintln:
 
     The arguments are converted into a single string which is then converted
     into utf-8.
+
+    This function needs I/O-access rights.
 
     Topic: Input-Output
 
@@ -448,6 +472,8 @@ $std::read_from:
     data.
 
     The read data is treated as binary bytes.
+
+    This function needs I/O-access rights.
 
     Topic: Input-Output
 
@@ -489,6 +515,8 @@ $std::read_from_until:
 
     The sentinel is included in the returned octet string.
 
+    This function needs I/O-access rights.
+
     Topic: Input-Output
 
     See also: readln_from, read_from
@@ -529,6 +557,8 @@ $std::readln_from:
 
     The newline character is included in the returned string.
 
+    This function needs I/O-access rights.
+
     Topic: Input-Output
 
     See also: read_from_until, read_from
@@ -549,6 +579,8 @@ $std::read_all_from:
     data.
 
     The read data is treated as binary bytes.
+
+    This function needs I/O-access rights.
 
     Topic: Input-Output
 
@@ -589,6 +621,8 @@ $std::get_from_until:
 
     The sentinel is included in the returned string.
 
+    This function needs I/O-access rights.
+
     Topic: Input-Output
 
     See also: getln_from, get_until
@@ -616,6 +650,8 @@ $std::getln_from:
 
     The newline character is included in the returned string.
 
+    This function needs I/O-access rights.
+
     Topic: Input-Output
 
     See also: get_from_until, getln
@@ -642,6 +678,8 @@ $std::get_until:
     returning.
 
     The sentinel is included in the returned string.
+
+    This function needs I/O-access rights.
 
     Topic: Input-Output
 
@@ -683,6 +721,8 @@ $std_types::string/load:
 
     The read data is not converted from utf-8.
 
+    This function needs I/O-access rights.
+
     Topic: Input-Output
 
     See also: std_types::string/save
@@ -702,6 +742,8 @@ $std_types::file_descriptor/load:
     loads data from a *file descriptor*
 
     The read data is not converted from utf-8.
+
+    This function needs I/O-access rights.
 
     Topic: Input-Output
 
@@ -723,6 +765,8 @@ $std_types::string/save:
     saves data to the specified file
 
     The data written is not converted to utf-8.
+
+    This function needs I/O-access rights.
 
     Topic: Input-Output
 
@@ -789,6 +833,8 @@ $std::file_exists:
 
     Returns <true> if the file exists and <false> otherwise.
 
+    This function needs I/O-access rights.
+
     Topic: Input-Output
 
     Example:
@@ -811,6 +857,8 @@ $std::directory:
     <type_of>
 
     <inode_number_of>
+
+    This function needs I/O-access rights.
 
     Topic: Input-Output
 

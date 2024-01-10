@@ -150,40 +150,40 @@ $std_types::generic_list/for_each:
 
     Example:
 
-    $persons list("Peter" "Mary" "Paul" "John" "David" "Emma")
+      $persons list("Peter" "Mary" "Paul" "John" "David" "Emma")
 
-    for_each persons: (person)
-      writeln! person
-      next
+      for_each persons: (person)
+	writeln! person
+	next
 
     Output:
 
-    Peter
-    Mary
-    Paul
-    John
-    David
-    Emma
+      Peter
+      Mary
+      Paul
+      John
+      David
+      Emma
 
     Example:
 
-    $persons list("Peter" "Mary" "Paul" "John" "David" "Emma")
+      $persons list("Peter" "Mary" "Paul" "John" "David" "Emma")
 
-    $total_length 0
-    $hash_sum 0
-    for_each persons
-      : (person)
-	plus &total_length length_of(person)
-	plus &hash_sum hash(person)
-	next
-      -> !total_length !hash_sum
-    writeln "total length: " total_length
-    writeln "hash sum: " hash_sum
+      $total_length 0
+      $hash_sum 0
+      for_each persons
+	: (person)
+	  plus &total_length length_of(person)
+	  plus &hash_sum hash(person)
+	  next
+	-> !total_length !hash_sum
+      writeln "total length: " total_length
+      writeln "hash sum: " hash_sum
 
     Output:
 
-    total length: 26
-    hash sum: 17062575543
+      total length: 26
+      hash sum: 17062575543
 
     Topic: Lists
 

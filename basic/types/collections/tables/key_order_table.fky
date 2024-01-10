@@ -251,21 +251,21 @@ $std_types::key_order_table/for_each:
 
     Example:
 
-    $ages empty_key_order_table
+      $ages empty_key_order_table
 
-    !ages("Tom") 5
-    !ages("Sam") 3
-    !ages("Sarah") 11
+      !ages("Tom") 5
+      !ages("Sam") 3
+      !ages("Sarah") 11
 
-    for_each ages: (name age)
-      writeln! name ": " age
-      next
+      for_each ages: (name age)
+	writeln! name ": " age
+	next
 
     Output:
 
-    Sarah: 11
-    Sam: 3
-    Tom: 5
+      Sarah: 11
+      Sam: 3
+      Tom: 5
   (
     self # the hash table to iterate over
     body # the statement sequence to execute for each item

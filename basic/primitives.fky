@@ -30,9 +30,9 @@ $std::do:
 
     Example:
 
-    do:
-      $y f(x)
-      writeln! y
+      do:
+	$y f(x)
+	writeln! y
 
   (
     body

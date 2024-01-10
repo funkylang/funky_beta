@@ -1,5 +1,5 @@
 #
-  Copyright (C) 2021 by
+  Copyright (C) 2024 by
   Dipl.-Ing. Michael Niederle
 
   This program is free software; you can redistribute it and/or modify
@@ -42,8 +42,8 @@ $basic_loops::finally undefined
   The make use of the dynamic variables of Funky that can be redefined in inner
   scopes.
 
-  A "loop" consists of a *body* and a *finally-function*. The
-  *finally-function* is called after the last "iteration" of the loop and is
+  A "loop" consists of a *body* and a *finally* function. The
+  *finally* function is called after the last "iteration" of the loop and is
   responsible to return any results from the "loop". Due to the fact that the
   "loop" is a normal function it cannot make any changes to its caller's
   variables directly.
@@ -53,6 +53,12 @@ $basic_loops::finally undefined
 
   Some loops also offer a <break> function which can be used to stop
   "iterating" and calls the *finally* function immediately.
+
+  Some "loops" define the no-op function <pass> as the default function for
+  *finally*.
+
+  Instead of calling <next> or <break> a loop's body can direct return one or
+  more results.
 
   Due to some clever context saving and restoring "loops" can be nested to any
   level.
@@ -91,7 +97,9 @@ $std::loop:
 
     To start the next iteration of the "loop" use the <next>-function.
 
-    <next> should **always** be called in tail position!
+    <next> and <break> **must** be called in tail position!
+
+    A "loop" is exited via <break> or through returning one or more results.
 
     Topic: Loops
 
@@ -99,53 +107,56 @@ $std::loop:
 
     Example:
 
-    $i 1
-    loop
-      : # "while"
-	if
-	  i <= 3:
-	    $j 1
-	    loop
-	      : # "do_while"
-		println! i "*" j " = " i*j
-		inc &j
-		if
-		  j <= 2
+      $buf ""
+      $a 1
+      loop !buf
+	: # "while" style
+	  if
+	    a <= 3:
+	      $b 1
+	      loop
+		: # "do while" style
+		  append &buf "
+		    @(a) * @(b) = @(a*b)
+		  inc &b
+		  if
+		    b <= 2
+		    next
+		    break
+		:
+		  inc &a
 		  next
-		  break
-	      next
-	    inc &i
-	    next
-	  break
-      pass
+	    -> buf
+
+      print! buf
 
     Output:
 
-    1*1 = 1
-    1*2 = 2
-    2*1 = 2
-    2*2 = 4
-    3*1 = 3
-    3*2 = 6
+      1*1 = 1
+      1*2 = 2
+      2*1 = 2
+      2*2 = 4
+      3*1 = 3
+      3*2 = 6
 
     Example:
 
-    $sum 0
-    $i 0
-    println!
-      loop
-	:
-	  inc &i
-	  plus &sum i
-	  if
-	    i < 5
-	    next
-	    break
-	-> sum
+      $sum 0
+      $i 0
+      println! "sum = "
+	loop
+	  :
+	    inc &i
+	    plus &sum i
+	    if
+	      i < 5
+	      next
+	      break
+	  -> sum
 
     Output:
 
-    sum = 15
+      sum = 15
   (
     body # the function to execute for each "iteration" of the "loop"
     finally = pass # the function to execute after the last "iteration"
@@ -169,6 +180,13 @@ $std::while:
   #
     a "while" loop
 
+    This is just a simply layer around <loop>:
+
+    Example:
+
+      $while: (condition body finally)
+	loop: if condition() body finally
+
     Topic: Loops
 
     See also: while_not, loop, repeat, from_to, from_to_by
@@ -182,6 +200,13 @@ $std::while:
 $std::while_not:
   #
     a "while" loop
+
+    This is just a simply layer around <loop>:
+
+    Example:
+
+      $while_not: (condition body finally)
+	loop: if not condition() body finally
 
     Topic: Loops
 
@@ -199,16 +224,15 @@ $std::repeat:
 
     The statement sequence *body* is invoked exactly *n* times.
 
-    *n* must be a numeric value. If it is less than 1 than *body* will not be
-    called at all. *n* might also be a negative number (in which case *body*
-    will not be called) or a noninteger number (in which case *n* will be
-    rounded down to the next integer).
+    *n* must be a numeric value. If it is not greater than 0 than *body* will
+    not be called at all. *n* might also be a negative number (in which case
+    *body* will not be called).
 
     To start the next iteration of the loop a tail call to the *next*-function
     has to be performed.
 
     To exit from the loop a tail call to the *break*-function has to be
-    performed.
+    performed or one or more results have to be returned.
 
     Topic: Loops
 
@@ -216,12 +240,56 @@ $std::repeat:
 
     Example:
 
-    repeat 10: write '*'
-    writeln
+      repeat 10:
+	print! '*'
+	next!
+      println!
 
     Output:
 
-    **********
+      **********
+
+    Example:
+
+      $value 1
+      $n 1
+      $result
+	repeat
+	  10
+	  :
+	    inc &n
+	    times &value n
+	    if
+	      value > 100
+	      -> value
+	      next
+	  -> value
+      println! result
+
+    Output:
+
+      120
+
+    Example:
+
+      $value 1
+      $n 1
+      $result
+	repeat
+	  10
+	  :
+	    inc &n
+	    times &value n
+	    if
+	      value > 1'000'000
+	      -> value
+	      next
+	  -> value
+      println! result
+
+    Output:
+
+      3628800
   (
     n # how often to invoke *body*
     body # the statement sequence to invoke
@@ -283,7 +351,7 @@ $std::from_to:
     has to be performed.
 
     To exit from the loop a tail call to the *break*-function has to be
-    performed.
+    performed or one or more results have to be returned.
 
     Topic: Loops
 
@@ -291,50 +359,50 @@ $std::from_to:
 
     Example:
 
-    from_to 1 10: (i)
-      writeln i " x " i " = " i*i
-      next
+      from_to 1 10: (i)
+	println! i " x " i " = " i*i
+	next!
 
     Output:
 
-    1 x 1 = 1
-    2 x 2 = 4
-    3 x 3 = 9
-    4 x 4 = 16
-    5 x 5 = 25
-    6 x 6 = 36
-    7 x 7 = 49
-    8 x 8 = 64
-    9 x 9 = 81
-    10 x 10 = 100
+      1 x 1 = 1
+      2 x 2 = 4
+      3 x 3 = 9
+      4 x 4 = 16
+      5 x 5 = 25
+      6 x 6 = 36
+      7 x 7 = 49
+      8 x 8 = 64
+      9 x 9 = 81
+      10 x 10 = 100
 
     Example:
 
-    $sum 0
-    from_to 1 10
-      : (i)
-	plus &sum i*i
-	next
-      -> !sum
-    writeln "sum: " sum
+      $sum 0
+      from_to !sum 1 10
+	: (i)
+	  plus &sum i*i
+	  next
+	-> sum
+      println! "sum: " sum
 
     Output:
 
-    sum: 385
+      sum: 385
 
     Example:
 
-    $sum 0
-    from_to 1 10
-      : (i)
-	plus &sum i*i
-	if sum < 100 next break
-      -> !sum
-    writeln "sum: " sum
+      $sum 0
+      from_to !sum 1 10
+	: (i)
+	  plus &sum i*i
+	  if sum < 100 next break
+	-> sum
+      println! "sum: " sum
 
     Output:
 
-    sum: 140
+      sum: 140
   (
     from # the value to use for the first invocation of *body*
     to # the value to use for the last invocation of *body*
@@ -381,15 +449,44 @@ $std::from_to_by:
   #
     a loop iterating over a sequence of values
 
+    The starting value is incremented by the given step after each invocation
+    of *body*.
+
+    The type of the first and last value need not be integers but can be of
+    arbitrary types that support adding the given step value.
+
+    The loop terminates as soon as the current value is greater than *last*.
+    (The *body* will only be called for values that are less than or equal to
+    *last*.)
+
+    If *first* is greater than *last* then the loop body will *not* be called at
+    all!
+
+    The *body* is called with a single argument (the current value).
+
+    To start the next iteration of the loop a tail call to the *next*-function
+    has to be performed.
+
+    To exit from the loop a tail call to the *break*-function has to be
+    performed or one or more results have to be returned.
+
     Topic: Loops
+
+    See also: loop, while, while_not, repeat, from_to
 
     Example:
 
-    from_to_by 1 10 2: (i)
-      writeln i " x " i " = " i*i
-      next
+      from_to_by 1 10 2: (i)
+	println! i " x " i " = " i*i
+	next!
 
-    See also: loop, while, while_not, repeat, from_to
+    Output:
+
+      1 x 1 = 1
+      3 x 3 = 9
+      5 x 5 = 25
+      7 x 7 = 49
+      9 x 9 = 81
   (
     from # the value to use for the first invocation of *body*
     to # the value to use for the last invocation of *body*

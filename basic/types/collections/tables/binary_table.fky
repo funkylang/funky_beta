@@ -87,24 +87,24 @@ $std_types::binary_table/:
 
     Example:
 
-    <require basic/stdlib>
-    <require basic/types/collections/tables/binary_table>
+      <require basic/stdlib>
+      <require basic/types/collections/tables/binary_table>
 
-    $ages empty_binary_table
-    !ages("Victor") 23
-    !ages("Robert") 25
-    !ages("Eva") 27
-    println! serialize(ages 0)
+      $ages empty_binary_table
+      !ages("Victor") 23
+      !ages("Robert") 25
+      !ages("Eva") 27
+      println! serialize(ages 0)
 
     Output:
 
-    object <6>
-      "Eva"
-      27
-      "Robert"
-      25
-      "Victor"
-      23
+      object <6>
+	"Eva"
+	27
+	"Robert"
+	25
+	"Victor"
+	23
   (
     myself^
     key
@@ -292,21 +292,21 @@ $std_types::binary_table/for_each:
 
     Example:
 
-    $ages empty_binary_table
+      $ages empty_binary_table
 
-    !ages("Tom") 5
-    !ages("Sam") 3
-    !ages("Sarah") 11
+      !ages("Tom") 5
+      !ages("Sam") 3
+      !ages("Sarah") 11
 
-    for_each ages: (name age)
-      writeln! name ": " age
-      next
+      for_each ages: (name age)
+	writeln! name ": " age
+	next
 
     Output:
 
-    Sarah: 11
-    Sam: 3
-    Tom: 5
+      Sarah: 11
+      Sam: 3
+      Tom: 5
   (
     self # the hash table to iterate over
     body # the statement sequence to execute for each item

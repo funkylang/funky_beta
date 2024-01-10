@@ -1,5 +1,5 @@
 #
-  Copyright (C) 2020 by
+  Copyright (C) 2024 by
   Dipl.-Ing. Michael Niederle
 
   This program is free software; you can redistribute it and/or modify
@@ -23,8 +23,10 @@
 $std::in:
   #
     checks whether an element is contained in a collection
+
+    Topic: Collections
   (
-    element
-    collection
+    element # the element to be searched for
+    collection # the collection to be searched
   )
   -> contains(collection element)

@@ -281,7 +281,7 @@ $handle_template_groups: (groups)
 			  missing_documentation
 
 	$missing_documentation:
-	  debug::print "
+	  #debug::print "
 	    MISSING DOCUMENTATION: @(name)
 	  next
 
@@ -403,7 +403,7 @@ $handle_definition: (group)
 		      -> definitions(identifier collect_info(kind descriptions))
 
   $missing_documentation:
-    debug::print "
+    #debug::print "
       MISSING DOCUMENTATION: @(identifier)
     -> definitions
 
@@ -461,9 +461,14 @@ $collect_info:
 	    paragraph.is_empty
 	    next
 	    :
-	      push &paragraphs paragraph
-	      !paragraph ""
-	      next
+	      if
+		base_indent.is_defined:
+		  push &paragraph '@nl;'
+		  next
+		:
+		  push &paragraphs paragraph
+		  !paragraph ""
+		  next
 	:
 	  cond
 	    -> mode == PARAMETER:
@@ -474,17 +479,17 @@ $collect_info:
 	      next
 	    -> true:
 	      group $indent $text
-	      if !is_preformatted !base_indent
+	      if !is_preformatted !base_indent !paragraphs !paragraph
 		is_preformatted:
 		  if
 		    base_indent.is_undefined
-		    -> true indent
+		    -> true indent paragraphs paragraph
 		    :
 		      if
 			indent < base_indent
-			-> false undefined
-			-> true base_indent
-		-> false undefined
+			-> false undefined push(paragraphs paragraph) ""
+			-> true base_indent paragraphs paragraph
+		-> false undefined paragraphs paragraph
 	      range &text 1 -2 # remove trailing newline
 	      update_if is_preformatted &text:
 		append spaces(indent-base_indent) replace_all(text '<' = "&lt;")

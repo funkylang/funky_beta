@@ -80,12 +80,12 @@ $std::create_string:
 
     Example:
 
-    $arguments list(7 " x " 7 " = " 7*7 '@nl;')
-    print! create_string(arguments)
+      $arguments list(7 " x " 7 " = " 7*7 '@nl;')
+      print! create_string(arguments)
 
     Output:
 
-    7 x 7 = 49
+      7 x 7 = 49
   (
     arguments # a list of printable items
   )
@@ -104,7 +104,7 @@ $std::string:
 
     Example:
 
-    $str string(7 " x " 7 " = " 7*7 '@nl;')
+      $str string(7 " x " 7 " = " 7*7 '@nl;')
   (
     args*
   )
@@ -120,8 +120,8 @@ $std_types::string/put:
 
     Example:
 
-    $str " big surprise"
-    put &str 'a'
+      $str " big surprise"
+      put &str 'a'
   (
     self # the string
     chr # the character to add
@@ -140,13 +140,13 @@ $std_types::string/dup:
 
     Example:
 
-    $str "abc"
-    $str_x_3 dup(str 3)
-    println! str_x_3
+      $str "abc"
+      $str_x_3 dup(str 3)
+      println! str_x_3
 
     Output:
 
-    abcabcabc
+      abcabcabc
   (
     self # the string to duplicate
     n # the duplication count
@@ -179,13 +179,13 @@ $std::pad_left:
 
     Example:
 
-    $str "123"
-    $padded_str pad_left(str 5 "0")
-    println! padded_str
+      $str "123"
+      $padded_str pad_left(str 5 "0")
+      println! padded_str
 
     Output:
 
-    00123
+      00123
   (
     expr # the expression that is converted into a string
     n # the length of the resulting string
@@ -215,13 +215,13 @@ $std::pad_right:
 
     Example:
 
-    $str "computer"
-    $padded_str pad_right(str 10 '_')
-    println! padded_str
+      $str "computer"
+      $padded_str pad_right(str 10 '_')
+      println! padded_str
 
     Output:
 
-    computer__
+      computer__
   (
     expr # the expression that is converted into a string
     n # the length of the resulting string
@@ -447,23 +447,23 @@ $std_types::string/before:
 
     Example:
 
-    $identifier "std::before"
-    $namespace identifier .before. "::"
-    println! namespace
+      $identifier "std::before"
+      $namespace identifier .before. "::"
+      println! namespace
 
     Output:
 
-    std
+      std
 
     Example:
 
-    $identifier "std::before"
-    $first_part identifier .before. '.'
-    println! '[' first_part ']'
+      $identifier "std::before"
+      $first_part identifier .before. '.'
+      println! '[' first_part ']'
 
     Output:
 
-    []
+      []
   (
     str # the input string
     expr # the expression to look for
@@ -497,23 +497,23 @@ $std_types::string/truncate_from:
 
     Example:
 
-    $identifier "std::truncate_from"
-    $namespace identifier .truncate_from. "::"
-    println! namespace
+      $identifier "std::truncate_from"
+      $namespace identifier .truncate_from. "::"
+      println! namespace
 
     Output:
 
-    std
+      std
 
     Example:
 
-    $identifier "std::truncate_from"
-    $first_part identifier .truncate_from. '.'
-    println! '[' first_part ']'
+      $identifier "std::truncate_from"
+      $first_part identifier .truncate_from. '.'
+      println! '[' first_part ']'
 
     Output:
 
-    [std::truncate_from]
+      [std::truncate_from]
   (
     str # the string to truncate
     expr # the expression to look for
@@ -545,23 +545,23 @@ $std_types::string/behind:
 
     Example:
 
-    $identifier "std::behind"
-    $name identifier .behind. "::"
-    println! name
+      $identifier "std::behind"
+      $name identifier .behind. "::"
+      println! name
 
     Output:
 
-    behind
+      behind
 
     Example:
 
-    $identifier "std::behind"
-    $last_part identifier .behind. '.'
-    println! '[' last_part ']'
+      $identifier "std::behind"
+      $last_part identifier .behind. '.'
+      println! '[' last_part ']'
 
     Output:
 
-    []
+      []
   (
     str # the input string
     expr # the expression to look for
@@ -594,23 +594,23 @@ $std_types::string/truncate_until:
 
     Example:
 
-    $identifier "std::truncate_until"
-    $name identifier .truncate_until. "::"
-    println! name
+      $identifier "std::truncate_until"
+      $name identifier .truncate_until. "::"
+      println! name
 
     Output:
 
-    truncate_until
+      truncate_until
 
     Example:
 
-    $identifier "std::truncate_until"
-    $last_part identifier .truncate_until. '.'
-    println! '[' last_part ']'
+      $identifier "std::truncate_until"
+      $last_part identifier .truncate_until. '.'
+      println! '[' last_part ']'
 
     Output:
 
-    [std::truncate_until]
+      [std::truncate_until]
   (
     str # the string to truncate
     expr # the expression to look for
@@ -643,23 +643,23 @@ $std_types::string/from:
 
     Example:
 
-    $identifier "std::from"
-    $last_part identifier .from. "::"
-    println! last_part
+      $identifier "std::from"
+      $last_part identifier .from. "::"
+      println! last_part
 
     Output:
 
-    ::from
+      ::from
 
     Example:
 
-    $identifier "std::from"
-    $first_part identifier .from. '.'
-    println! '[' first_part ']'
+      $identifier "std::from"
+      $first_part identifier .from. '.'
+      println! '[' first_part ']'
 
     Output:
 
-    []
+      []
   (
     str # the input string
     expr # the expression to look for
@@ -692,23 +692,23 @@ $std_types::string/truncate_before:
 
     Example:
 
-    $identifier "std::truncate_before"
-    $last_part identifier .truncate_before. "::"
-    println! last_part
+      $identifier "std::truncate_before"
+      $last_part identifier .truncate_before. "::"
+      println! last_part
 
     Output:
 
-    ::truncate_before
+      ::truncate_before
 
     Example:
 
-    $identifier "std::truncate_before"
-    $first_part identifier .truncate_before. '.'
-    println! '[' first_part ']'
+      $identifier "std::truncate_before"
+      $first_part identifier .truncate_before. '.'
+      println! '[' first_part ']'
 
     Output:
 
-    [std::truncate_before]
+      [std::truncate_before]
   (
     str # the string to truncate
     expr # the expression to look for
@@ -740,23 +740,23 @@ $std_types::string/until:
 
     Example:
 
-    $identifier "std::until"
-    $first_part identifier .until. "::"
-    println! first_part
+      $identifier "std::until"
+      $first_part identifier .until. "::"
+      println! first_part
 
     Output:
 
-    std::
+      std::
 
     Example:
 
-    $identifier "std::until"
-    $first_part identifier .until. '.'
-    println! '<' first_part '>'
+      $identifier "std::until"
+      $first_part identifier .until. '.'
+      println! '<' first_part '>'
 
     Output:
 
-    []
+      []
   (
     str # the input string
     expr # the expression to look for
@@ -789,23 +789,23 @@ $std_types::string/truncate_behind:
 
     Example:
 
-    $identifier "std::truncate_behind"
-    $first_part identifier .truncate_behind. "::"
-    println! first_part
+      $identifier "std::truncate_behind"
+      $first_part identifier .truncate_behind. "::"
+      println! first_part
 
     Output:
 
-    std::
+      std::
 
     Example:
 
-    $identifier "std::truncate_behind"
-    $first_part identifier .truncate_behind. '.'
-    println! '[' first_part ']'
+      $identifier "std::truncate_behind"
+      $first_part identifier .truncate_behind. '.'
+      println! '[' first_part ']'
 
     Output:
 
-    [std::truncate_behind]
+      [std::truncate_behind]
   (
     str # the string to truncate
     expr # the expression to look for
@@ -835,13 +835,13 @@ $std_types::string/between:
 
     Example:
 
-    $path "/home/user/"
-    $user_name between(path "/" "/" 2)
-    println! user_name
+      $path "/home/user/"
+      $user_name between(path "/" "/" 2)
+      println! user_name
 
     Output:
 
-    user
+      user
   (
     str # the input string
     expr_1 # the expression on the left hand side
@@ -860,12 +860,12 @@ $std_types::string/has_prefix:
 
     Example:
 
-    $path "/home/user/"
-    if
-      path .has_prefix. "/home/":
-	println! "path starts with /home/"
-      :
-	println! "path does not start with /home/"
+      $path "/home/user/"
+      if
+	path .has_prefix. "/home/":
+	  println! "path starts with /home/"
+	:
+	  println! "path does not start with /home/"
   (
     self
     prefix # the prefix to check for
@@ -882,12 +882,12 @@ $std_types::string/has_suffix:
 
     Example:
 
-    $path "/home/user/"
-    if
-      path .has_suffix. '/':
-	println! "path ends with a slash"
-      :
-	println! "path does not end with a slash"
+      $path "/home/user/"
+      if
+	path .has_suffix. '/':
+	  println! "path ends with a slash"
+	:
+	  println! "path does not end with a slash"
   (
     self
     suffix # the suffix to check for
@@ -912,13 +912,13 @@ $std_types::string/without_prefix:
 
     Example:
 
-    $path "/home/user"
-    $user_name path .without_prefix. "/home/"
-    println! user_name
+      $path "/home/user"
+      $user_name path .without_prefix. "/home/"
+      println! user_name
 
     Output:
 
-    user
+      user
   (
     self
     prefix
@@ -942,13 +942,13 @@ $std_types::string/without_suffix:
 
     Example:
 
-    $path "/home/user"
-    $base_dir path .without_suffix. "/user"
-    println! base_dir
+      $path "/home/user"
+      $base_dir path .without_suffix. "/user"
+      println! base_dir
 
     Output:
 
-    /home
+      /home
   (
     self
     suffix
@@ -983,12 +983,12 @@ $std_types::string/contains:
 
     Example:
 
-    $path "/home/user/.bashrc"
-    if
-      path .contains. "/user/":
-	println! "path contains /user/"
-      :
-	println! "path does not contain /user/"
+      $path "/home/user/.bashrc"
+      if
+	path .contains. "/user/":
+	  println! "path contains /user/"
+	:
+	  println! "path does not contain /user/"
   (
     self
     expr
@@ -1008,16 +1008,16 @@ $std::split:
 
     Example:
 
-    $items split("a;b;c" ";")
-    dump! 2 `items
+      $items split("a;b;c" ";")
+      dump! 2 `items
 
     Output:
 
-    items:
-      list
-	"a"
-	"b"
-	"c"
+      items:
+	list
+	  "a"
+	  "b"
+	  "c"
   (
     self
     separator = ' '
@@ -1055,13 +1055,13 @@ $std::join:
 
     Example:
 
-    $items list("a" "b" "c")
-    $str join(items ";")
-    println! str
+      $items list("a" "b" "c")
+      $str join(items ";")
+      println! str
 
     Output:
 
-    a;b;c
+      a;b;c
   (
     items
     separator = " "
@@ -1085,13 +1085,13 @@ $std::trim:
 
     Example:
 
-    $str "   text   "
-    $trimmed_str trim(str)
-    println! '*' trimmed_str '*'
+      $str "   text   "
+      $trimmed_str trim(str)
+      println! '*' trimmed_str '*'
 
     Output:
 
-    *text*
+      *text*
   (
     self
     test = is_a_whitespace_character
@@ -1125,13 +1125,13 @@ $std::trim_left:
 
     Example:
 
-    $str "   text   "
-    $trimmed_str trim_left(str)
-    println! '*' trimmed_str '*'
+      $str "   text   "
+      $trimmed_str trim_left(str)
+      println! '*' trimmed_str '*'
 
     Output:
 
-    *text   *
+      *text   *
   (
     self
     test = is_a_whitespace_character
@@ -1159,13 +1159,13 @@ $std::trim_right:
 
     Example:
 
-    $str "   text   "
-    $trimmed_str trim_right(str)
-    println! '*' trimmed_str '*'
+      $str "   text   "
+      $trimmed_str trim_right(str)
+      println! '*' trimmed_str '*'
 
     Output:
 
-    *   text*
+      *   text*
   (
     self
     test = is_a_whitespace_character
@@ -1193,13 +1193,13 @@ $std::normalize:
 
     Example:
 
-    $str "   This    is    a     strange    text!   "
-    $normalized_str normalize(str)
-    println! '*' normalized_str '*'
+      $str "   This    is    a     strange    text!   "
+      $normalized_str normalize(str)
+      println! '*' normalized_str '*'
 
     Output:
 
-    *This is a strange text!*
+      *This is a strange text!*
   (
     self
   )
@@ -1255,13 +1255,13 @@ $std::parse_integer:
 
     Example:
 
-    $str "123abc"
-    parse_integer &str $value
-    println! "value: " value ", rest: " str
+      $str "123abc"
+      parse_integer &str $value
+      println! "value: " value ", rest: " str
 
     Output:
 
-    value: 123, rest: abc
+      value: 123, rest: abc
   (
     self # the string to parse
   )
@@ -1362,13 +1362,13 @@ $std::parse_number:
 
     Example:
 
-    $str "123.456abc"
-    parse_number &str $value
-    println! "value: " value ", rest: " str
+      $str "123.456abc"
+      parse_number &str $value
+      println! "value: " value ", rest: " str
 
     Output:
 
-    value: 123.456, rest: abc
+      value: 123.456, rest: abc
   (
     self # the string to parse
   )
@@ -1512,13 +1512,13 @@ $std::parse_hex:
 
     Example:
 
-    $str "123abc---"
-    parse_hex &str $value
-    println! "value: " value ", rest: " str
+      $str "123abc---"
+      parse_hex &str $value
+      println! "value: " value ", rest: " str
 
     Output:
 
-    value: 1194684, rest: ---
+      value: 1194684, rest: ---
   (
     str # the string to parse
     i = 1 # the start index
@@ -1573,23 +1573,23 @@ $std_types::string/to_integer:
 
     Example:
 
-    $str "123"
-    $value str.to_integer
-    println! "value: " value
+      $str "123"
+      $value str.to_integer
+      println! "value: " value
 
     Output:
 
-    value: 123
+      value: 123
 
     Example:
 
-    $str "123, 456"
-    $value str.to_integer
-    dump! `value
+      $str "123, 456"
+      $value str.to_integer
+      dump! `value
 
     Output:
 
-    value: <undefined>
+      value: <undefined>
   (
     self # the string to convert
   )
@@ -1615,23 +1615,23 @@ $std_types::string/to_number:
 
     Example:
 
-    $str "123.456"
-    $value str.to_number
-    println! "value: " value
+      $str "123.456"
+      $value str.to_number
+      println! "value: " value
 
     Output:
 
-    value: 123.456
+      value: 123.456
 
     Example:
 
-    $str "123.456, 789"
-    $value str.to_number
-    dump! `value
+      $str "123.456, 789"
+      $value str.to_number
+      dump! `value
 
     Output:
 
-    value: <undefined>
+      value: <undefined>
   (
     self # the string to convert
   )
@@ -1654,13 +1654,13 @@ $std::map_characters:
 
     Example:
 
-    $str "abc"
-    $upper_case_str map_characters(str to_upper_case)
-    println! upper_case_str
+      $str "abc"
+      $upper_case_str map_characters(str to_upper_case)
+      println! upper_case_str
 
     Output:
 
-    ABC
+      ABC
   (
     self # the string which characters will be mapped
     function # the function to apply to each character of the string
@@ -1707,13 +1707,13 @@ $std_types::string/to_upper_case:
 
     Example:
 
-    $str "abc"
-    $upper_case_str str.to_upper_case
-    println! upper_case_str
+      $str "abc"
+      $upper_case_str str.to_upper_case
+      println! upper_case_str
 
     Output:
 
-    ABC
+      ABC
   (
     self # the string to convert
   )
@@ -1729,13 +1729,13 @@ $std_types::string/to_lower_case:
 
     Example:
 
-    $str "ABC"
-    $lower_case_str str.to_lower_case
-    println! lower_case_str
+      $str "ABC"
+      $lower_case_str str.to_lower_case
+      println! lower_case_str
 
     Output:
 
-    abc
+      abc
   (
     self # the string to convert
   )
@@ -1751,13 +1751,13 @@ $std_types::string/to_title_case:
 
     Example:
 
-    $str "this is a test"
-    $title_case_str str.to_title_case
-    println! title_case_str
+      $str "this is a test"
+      $title_case_str str.to_title_case
+      println! title_case_str
 
     Output:
 
-    This Is A Test
+      This Is A Test
   (
     self # the string to convert
   )
@@ -1777,13 +1777,13 @@ $std_types::string/to_sentence_case:
 
     Example:
 
-    $str "this is a test."
-    $sentence_case_str str.to_sentence_case
-    println! sentence_case_str
+      $str "this is a test."
+      $sentence_case_str str.to_sentence_case
+      println! sentence_case_str
 
     Output:
 
-    This is s test.
+      This is s test.
   (
     self
   )
@@ -1806,13 +1806,13 @@ $std::delete_all:
 
     Example:
 
-    $str "abcabc"
-    $str_without_b delete_all(str 'b')
-    println! str_without_b
+      $str "abcabc"
+      $str_without_b delete_all(str 'b')
+      println! str_without_b
 
     Output:
 
-    acac
+      acac
   (
     text # the string to process
     expressions* # the expressions to delete
@@ -1847,13 +1847,13 @@ $std::replace_all:
 
     Example:
 
-    $str "abcabc"
-    $str_with_x replace_all(str 'b' = 'x')
-    println! str_with_x
+      $str "abcabc"
+      $str_with_x replace_all(str 'b' = 'x')
+      println! str_with_x
 
     Output:
 
-    axcaxc
+      axcaxc
   (
     text # the string to process
     args* # the expressions and their replacements
@@ -1895,13 +1895,13 @@ $std::replace_first:
 
     Example:
 
-    $str "abcabc"
-    $str_with_x replace_first(str 'b' = 'x')
-    println! str_with_x
+      $str "abcabc"
+      $str_with_x replace_first(str 'b' = 'x')
+      println! str_with_x
 
     Output:
 
-    axcabc
+      axcabc
   (
     text # the string to process
     args* # the expressions and their replacements
@@ -1940,13 +1940,13 @@ $std::count_occurrences:
 
     Example:
 
-    $str "abcabc"
-    $occurrences count_occurrences(str 'b')
-    println! occurrences
+      $str "abcabc"
+      $occurrences count_occurrences(str 'b')
+      println! occurrences
 
     Output:
 
-    2
+      2
   (
     text # the string to process
     expr # the expression to count
@@ -1982,13 +1982,13 @@ $std::partition:
 
     Example:
 
-    $str "a:b;c"
-    $parts partition(str ';', ':')
-    dump! parts
+      $str "a:b;c"
+      $parts partition(str ';', ':')
+      dump! parts
 
     Output:
 
-    list("a" ":b" ";c")
+      list("a" ":b" ";c")
   (
     text # the string to process
     separators* # the separators
@@ -2116,42 +2116,42 @@ $std::split_into_indented_lines:
 
     Example:
 
-    $text "
-      a
-	1
-	2
-	3
-      b
-	4
-	5
-    $lines split_into_indented_lines(text)
-    dump! 3 lines
+      $text "
+	a
+	  1
+	  2
+	  3
+	b
+	  4
+	  5
+      $lines split_into_indented_lines(text)
+      dump! 3 lines
 
     Output:
 
-    lines:
-      list
-	tuple
-	  0
-	  "a@0xa;"
-	tuple
-	  2
-	  "1@0xa;"
-	tuple
-	  2
-	  "2@0xa;"
-	tuple
-	  2
-	  "3@0xa;"
-	tuple
-	  0
-	  "b@0xa;"
-	tuple
-	  2
-	  "4@0xa;"
-	tuple
-	  2
-	  "5@0xa;"
+      lines:
+	list
+	  tuple
+	    0
+	    "a@0xa;"
+	  tuple
+	    2
+	    "1@0xa;"
+	  tuple
+	    2
+	    "2@0xa;"
+	  tuple
+	    2
+	    "3@0xa;"
+	  tuple
+	    0
+	    "b@0xa;"
+	  tuple
+	    2
+	    "4@0xa;"
+	  tuple
+	    2
+	    "5@0xa;"
   (
     text # the string to process
   )
@@ -2240,40 +2240,40 @@ $std::split_into_groups:
 
     Example:
 
-    $text "
-      a
-	1
-	2
-	3
-      b
-	4
-	5
-    $lines split_into_indented_lines(text)
-    $groups split_into_groups(lines)
-    dump! 3 `groups
-    dump! 3 `subgroups_of(groups(1))
+      $text "
+	a
+	  1
+	  2
+	  3
+	b
+	  4
+	  5
+      $lines split_into_indented_lines(text)
+      $groups split_into_groups(lines)
+      dump! 3 `groups
+      dump! 3 `subgroups_of(groups(1))
 
     Output:
 
-    groups:
-      list
-	tuple
-	  0
-	  "a@0xa;"
-	tuple
-	  0
-	  "b@0xa;"
-    subgroups_of(groups(1)):
-      list
-	tuple
-	  2
-	  "1@0xa;"
-	tuple
-	  2
-	  "2@0xa;"
-	tuple
-	  2
-	  "3@0xa;"
+      groups:
+	list
+	  tuple
+	    0
+	    "a@0xa;"
+	  tuple
+	    0
+	    "b@0xa;"
+      subgroups_of(groups(1)):
+	list
+	  tuple
+	    2
+	    "1@0xa;"
+	  tuple
+	    2
+	    "2@0xa;"
+	  tuple
+	    2
+	    "3@0xa;"
   (
     lines # the indented lines
   )
@@ -2380,17 +2380,17 @@ $std::wrap_words:
 
     Example:
 
-    $str "This is a very long string that should be wrapped onto multiple lines"
-    $lines wrap_words(str 30)
-    dump! 2 `lines
+      $str "This is a very long string that should be wrapped onto multiple lines"
+      $lines wrap_words(str 30)
+      dump! 2 `lines
 
     Output:
 
-    lines:
-      list
-	"This is a very long string"
-	"that should be wrapped"
-	"onto multiple lines"
+      lines:
+	list
+	  "This is a very long string"
+	  "that should be wrapped"
+	  "onto multiple lines"
   (
     text # the string to wrap
     width # the desired line width
@@ -2460,13 +2460,13 @@ $std_types::string/serialize:
 
     Example:
 
-    $str "Hello World"
-    $serialized_str serialize(str)
-    dump! `serialized_str
+      $str "Hello World"
+      $serialized_str serialize(str)
+      dump! `serialized_str
 
     Output:
 
-    serialized_str: "@quot;Hello World@quot;@0xa;"
+      serialized_str: "@quot;Hello World@quot;@0xa;"
   (
     self
     indent = undefined
@@ -2505,20 +2505,20 @@ $std::indented:
 
     Example:
 
-    $str "
-      a
-	b
-	  c
-      d
-    $indented_str indented(5 str)
-    print! indented_str
+      $str "
+	a
+	  b
+	    c
+	d
+      $indented_str indented(5 str)
+      print! indented_str
 
     Output:
 
-	 a
-	   b
-	     c
-	 d
+	   a
+	     b
+	       c
+	   d
   (
     indent
     text

@@ -19,7 +19,7 @@ enum {
   var_undefined, // extern
   var_std__assign, // extern
   var_std__get_environment, // initialized
-  var_26_1_environment, // dynamic
+  var_62_1_environment, // dynamic
   var_empty_key_order_table, // extern
   var_environment_variables, // extern
   var_from_utf8, // extern
@@ -35,17 +35,17 @@ static TAB_NUM t_func_std__get_environment[] = {
   0, // locals
   0, // parameters
   // $environment empty_key_order_table
-  LET, 1, var_empty_key_order_table, 1, var_26_1_environment,
+  LET, 1, var_empty_key_order_table, 1, var_62_1_environment,
   // for_each environment_variables
   var_for_each, 3, var_environment_variables, lambda_1, lambda_2, TAIL_CALL,
-  POS(26, 3),
-  POS(27, 3)
+  POS(62, 3),
+  POS(63, 3)
 };
 
 static TAB_NUM t_lambda_1[] = {
   3, // locals
   1, // parameters
-  LOCAL(1), // 28_3_key_and_value
+  LOCAL(1), // 64_3_key_and_value
   // from_utf8 &key_and_value
   var_from_utf8, 1, LOCAL(1), 1, LOCAL(1),
   // $key key_and_value .before. '='
@@ -53,22 +53,22 @@ static TAB_NUM t_lambda_1[] = {
   // $value key_and_value .behind. '='
   var_behind, 2, LOCAL(1), chr_61, 1, LOCAL(3),
   // environment(key) value
-  var_26_1_environment, 2, LOCAL(2), LOCAL(3), 1, var_26_1_environment,
+  var_62_1_environment, 2, LOCAL(2), LOCAL(3), 1, var_62_1_environment,
   // next
   var_next, 0, TAIL_CALL,
-  POS(29, 7),
-  POS(30, 7),
-  POS(31, 7),
-  POS(32, 8),
-  POS(33, 7)
+  POS(65, 7),
+  POS(66, 7),
+  POS(67, 7),
+  POS(68, 8),
+  POS(69, 7)
 };
 
 static TAB_NUM t_lambda_2[] = {
   0, // locals
   0, // parameters
   //  environment
-  LET, 1, var_26_1_environment, TAIL_CALL,
-  POS(34, 7)
+  LET, 1, var_62_1_environment, TAIL_CALL,
+  POS(70, 7)
 };
 
 static FUNKY_CONSTANT constants_table[] = {
@@ -101,42 +101,42 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "26_1_environment\000", NULL
+    "62_1_environment\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
     "empty_key_order_table\000", NULL,
-    {.position = POS(26, 16)}
+    {.position = POS(62, 16)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "environment_variables\000", NULL,
-    {.position = POS(27, 12)}
+    {.position = POS(63, 12)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "from_utf8\000", NULL,
-    {.position = POS(29, 7)}
+    {.position = POS(65, 7)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "before\000", NULL,
-    {.position = POS(30, 12)}
+    {.position = POS(66, 12)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "behind\000", NULL,
-    {.position = POS(31, 14)}
+    {.position = POS(67, 14)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "next\000", NULL,
-    {.position = POS(33, 7)}
+    {.position = POS(69, 7)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "for_each\000", NULL,
-    {.position = POS(27, 3)}
+    {.position = POS(63, 3)}
   }
 };
 

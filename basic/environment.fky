@@ -1,5 +1,5 @@
 #
-  Copyright (C) 2023 by
+  Copyright (C) 2024 by
   Dipl.-Ing. Michael Niederle
 
   This program is free software; you can redistribute it and/or modify
@@ -21,8 +21,44 @@
   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
 $std::environment undefined
+  #
+    a table holding all environment variables
+
+    This table must be explicitly initialized.
+
+    Topics: Input-Output
+
+    See also: environment_variables, get_environment
+
+    Example:
+
+      get_environment !environment
+      println! environment("HOME")
+
+    Output:
+
+      /home/funky
 
 $std::get_environment:
+  #
+    constructs a table holding all environment variables
+
+    Result:
+      environment: a table holding all environment variables
+
+    Topics: Input-Output
+
+    See also: environment, environment_variables
+
+    Example:
+
+      get_environment !environment
+      println! environment("HOME")
+
+    Output:
+
+      /home/funky
+
   $environment empty_key_order_table
   for_each environment_variables
     : (key_and_value)

@@ -14,23 +14,22 @@ enum {
   lambda_2 = -5,
   chr_97 = -6,
   chr_122 = -7,
-  value_range_73_1 = -8,
+  value_range_85_1 = -8,
   chr_65 = -9,
   chr_90 = -10,
-  value_range_73_13 = -11,
-  sequence_73_1 = -12,
+  value_range_85_13 = -11,
+  sequence_85_1 = -12,
   lambda_3 = -13,
   func_within_word = -14,
   lambda_4 = -15,
   lambda_5 = -16,
   chr_48 = -17,
   chr_57 = -18,
-  value_range_84_25 = -19,
-  sequence_84_13 = -20,
-  sequence_84_1 = -21,
-  chr_95 = -22,
-  lambda_6 = -23,
-  num_1 = -24
+  value_range_96_25 = -19,
+  sequence_96_1 = -20,
+  chr_95 = -21,
+  lambda_6 = -22,
+  num_1 = -23
 };
 
 enum {
@@ -42,9 +41,9 @@ enum {
   var_std_types__object, // extern
   var_std__FUNKY_IDENTIFIER, // derived
   var_match, // extern polymorphic
-  var_59_0_str, // dynamic
-  var_61_1_i, // dynamic
-  var_62_1_n, // dynamic
+  var_71_0_str, // dynamic
+  var_73_1_i, // dynamic
+  var_74_1_n, // dynamic
   var_length_of, // extern
   var_inc, // extern
   var_std__less, // extern
@@ -62,30 +61,30 @@ static TAB_NUM t_func_std_types__FUNKY_IDENTIFIER___match[] = {
   1, // locals
   2, // parameters
   LOCAL(1),
-  var_59_0_str,
+  var_71_0_str,
   // $i 0
-  LET, 1, num_0, 1, var_61_1_i,
+  LET, 1, num_0, 1, var_73_1_i,
   // $n length_of(str)
-  var_length_of, 1, var_59_0_str, 1, var_62_1_n,
+  var_length_of, 1, var_71_0_str, 1, var_74_1_n,
   // word_start
   func_word_start, 0, TAIL_CALL,
-  POS(61, 3),
-  POS(62, 3),
-  POS(63, 3)
+  POS(73, 3),
+  POS(74, 3),
+  POS(75, 3)
 };
 
 static TAB_NUM t_func_word_start[] = {
   1, // locals
   0, // parameters
   // inc &i
-  var_inc, 1, var_61_1_i, 1, var_61_1_i,
+  var_inc, 1, var_73_1_i, 1, var_73_1_i,
   // n
-  var_std__less, 2, var_62_1_n, var_61_1_i, 1, LOCAL(1),
+  var_std__less, 2, var_74_1_n, var_73_1_i, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_1, lambda_2, TAIL_CALL,
-  POS(66, 5),
-  POS(68, 11),
-  POS(67, 5)
+  POS(78, 5),
+  POS(80, 11),
+  POS(79, 5)
 };
 
 static TAB_NUM t_lambda_1[] = {
@@ -93,18 +92,18 @@ static TAB_NUM t_lambda_1[] = {
   0, // parameters
   //  undefined
   LET, 1, var_undefined, TAIL_CALL,
-  POS(69, 9)
+  POS(81, 9)
 };
 
 static TAB_NUM t_lambda_2[] = {
   1, // locals
   0, // parameters
   // $chr str(i)
-  var_59_0_str, 1, var_61_1_i, 1, LOCAL(1),
+  var_71_0_str, 1, var_73_1_i, 1, LOCAL(1),
   // case chr
-  var_case, 4, LOCAL(1), sequence_73_1, func_within_word, lambda_3, TAIL_CALL,
-  POS(71, 9),
-  POS(72, 9)
+  var_case, 4, LOCAL(1), sequence_85_1, func_within_word, lambda_3, TAIL_CALL,
+  POS(83, 9),
+  POS(84, 9)
 };
 
 static TAB_NUM t_lambda_3[] = {
@@ -112,75 +111,71 @@ static TAB_NUM t_lambda_3[] = {
   0, // parameters
   //  undefined
   LET, 1, var_undefined, TAIL_CALL,
-  POS(74, 13)
+  POS(86, 13)
 };
 
 static TAB_NUM t_func_within_word[] = {
   1, // locals
   0, // parameters
   // inc &i
-  var_inc, 1, var_61_1_i, 1, var_61_1_i,
+  var_inc, 1, var_73_1_i, 1, var_73_1_i,
   // n
-  var_std__less, 2, var_62_1_n, var_61_1_i, 1, LOCAL(1),
+  var_std__less, 2, var_74_1_n, var_73_1_i, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_4, lambda_5, TAIL_CALL,
-  POS(77, 5),
-  POS(79, 11),
-  POS(78, 5)
+  POS(89, 5),
+  POS(91, 11),
+  POS(90, 5)
 };
 
 static TAB_NUM t_lambda_4[] = {
   0, // locals
   0, // parameters
   //  n
-  LET, 1, var_62_1_n, TAIL_CALL,
-  POS(80, 9)
+  LET, 1, var_74_1_n, TAIL_CALL,
+  POS(92, 9)
 };
 
 static TAB_NUM t_lambda_5[] = {
   1, // locals
   0, // parameters
   // $chr str(i)
-  var_59_0_str, 1, var_61_1_i, 1, LOCAL(1),
+  var_71_0_str, 1, var_73_1_i, 1, LOCAL(1),
   // case chr
-  var_case, 6, LOCAL(1), sequence_84_1, func_within_word, chr_95, func_word_start, lambda_6, TAIL_CALL,
-  POS(82, 9),
-  POS(83, 9)
+  var_case, 6, LOCAL(1), sequence_96_1, func_within_word, chr_95, func_word_start, lambda_6, TAIL_CALL,
+  POS(94, 9),
+  POS(95, 9)
 };
 
 static TAB_NUM t_lambda_6[] = {
   1, // locals
   0, // parameters
   // i-1
-  var_std__minus, 2, var_61_1_i, num_1, 1, LOCAL(1),
+  var_std__minus, 2, var_73_1_i, num_1, 1, LOCAL(1),
   //  i-1
   LET, 1, LOCAL(1), TAIL_CALL,
-  POS(86, 14),
-  POS(86, 13)
+  POS(98, 14),
+  POS(98, 13)
 };
 
-static int value_range_73_1_arguments[] = {
+static int value_range_85_1_arguments[] = {
   -chr_97, -chr_122
 };
 
-static int value_range_73_13_arguments[] = {
+static int value_range_85_13_arguments[] = {
   -chr_65, -chr_90
 };
 
-static int sequence_73_1_arguments[] = {
-  -value_range_73_1, -value_range_73_13
+static int sequence_85_1_arguments[] = {
+  -value_range_85_1, -value_range_85_13
 };
 
-static int value_range_84_25_arguments[] = {
+static int value_range_96_25_arguments[] = {
   -chr_48, -chr_57
 };
 
-static int sequence_84_13_arguments[] = {
-  -value_range_73_13, -value_range_84_25
-};
-
-static int sequence_84_1_arguments[] = {
-  -value_range_73_1, -sequence_84_13
+static int sequence_96_1_arguments[] = {
+  -value_range_85_1, -value_range_85_13, -value_range_96_25
 };
 
 static FUNKY_CONSTANT constants_table[] = {
@@ -191,20 +186,19 @@ static FUNKY_CONSTANT constants_table[] = {
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_2}},
   {FLT_CHARACTER, 0, {.value = 97}},
   {FLT_CHARACTER, 0, {.value = 122}},
-  {FLT_VALUE_RANGE, 2, {.arguments = value_range_73_1_arguments}},
+  {FLT_VALUE_RANGE, 2, {.arguments = value_range_85_1_arguments}},
   {FLT_CHARACTER, 0, {.value = 65}},
   {FLT_CHARACTER, 0, {.value = 90}},
-  {FLT_VALUE_RANGE, 2, {.arguments = value_range_73_13_arguments}},
-  {FLT_SEQUENCE, 2, {.arguments = sequence_73_1_arguments}},
+  {FLT_VALUE_RANGE, 2, {.arguments = value_range_85_13_arguments}},
+  {FLT_SEQUENCE, 2, {.arguments = sequence_85_1_arguments}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_3}},
   {FLT_FUNCTION, 0, {.tfunc = t_func_within_word}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_4}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_5}},
   {FLT_CHARACTER, 0, {.value = 48}},
   {FLT_CHARACTER, 0, {.value = 57}},
-  {FLT_VALUE_RANGE, 2, {.arguments = value_range_84_25_arguments}},
-  {FLT_SEQUENCE, 2, {.arguments = sequence_84_13_arguments}},
-  {FLT_SEQUENCE, 2, {.arguments = sequence_84_1_arguments}},
+  {FLT_VALUE_RANGE, 2, {.arguments = value_range_96_25_arguments}},
+  {FLT_SEQUENCE, 3, {.arguments = sequence_96_1_arguments}},
   {FLT_CHARACTER, 0, {.value = 95}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_6}},
   {FLT_POSITIVE_INT64, 0, {.value = 1}}
@@ -248,64 +242,64 @@ static FUNKY_VARIABLE variables_table[] = {
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
     "match\000", NULL,
-    {.position = POS(56, 30)}
+    {.position = POS(68, 30)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "59_0_str\000", NULL
+    "71_0_str\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "61_1_i\000", NULL
+    "73_1_i\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "62_1_n\000", NULL
+    "74_1_n\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
     "length_of\000", NULL,
-    {.position = POS(62, 6)}
+    {.position = POS(74, 6)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "inc\000", NULL,
-    {.position = POS(66, 5)}
+    {.position = POS(78, 5)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "less\000std", NULL,
-    {.position = POS(68, 11)}
+    {.position = POS(80, 11)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "undefined\000", NULL,
-    {.position = POS(69, 10)}
+    {.position = POS(81, 10)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "value_range\000std", NULL,
-    {.position = POS(73, 12)}
+    {.position = POS(85, 12)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "sequence\000std", NULL,
-    {.position = POS(73, 12)}
+    {.position = POS(85, 12)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "case\000", NULL,
-    {.position = POS(72, 9)}
+    {.position = POS(84, 9)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "if\000", NULL,
-    {.position = POS(67, 5)}
+    {.position = POS(79, 5)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "minus\000std", NULL,
-    {.position = POS(86, 14)}
+    {.position = POS(98, 14)}
   }
 };
 
@@ -323,7 +317,7 @@ FUNKY_MODULE module__basic__grammar = {
   0, // number of required modules
   0, // number of defined namespaces
   1, // number of used namespaces
-  24, // number of constants
+  23, // number of constants
   19, // number of variables
   NULL, // required modules
   NULL, // defined namespaces

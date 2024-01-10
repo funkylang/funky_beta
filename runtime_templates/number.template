@@ -373,19 +373,19 @@ METHOD std_types::real/floor
 
     Example:
 
-    println! floor(3.1414)
+      println! floor(3.1414)
 
     Output:
 
-    3
+      3
 
     Example:
 
-    println! floor(-3.1414)
+      println! floor(-3.1414)
 
     Output:
 
-    -4
+      -4
   {
     CHECK_ARGUMENTS(1)
     RETURN_SINGLE_RESULT(CREATE(std_types::real, floor(ARGUMENTS(0)->real.value)))
@@ -409,19 +409,19 @@ METHOD std_types::real/ceil
 
     Example:
 
-    println! ceil(3.1414)
+      println! ceil(3.1414)
 
     Output:
 
-    4
+      4
 
     Example:
 
-    println! ceil(-3.1414)
+      println! ceil(-3.1414)
 
     Output:
 
-    -3
+      -3
   {
     CHECK_ARGUMENTS(1)
     RETURN_SINGLE_RESULT(CREATE(std_types::real, ceil(ARGUMENTS(0)->real.value)))
@@ -838,7 +838,7 @@ METHOD std_types::positive_integer/exit
 
     Example:
 
-    exit! EXIT_SUCCESS
+      exit! EXIT_SUCCESS
 
     Topic: Input-Output
 
@@ -1215,13 +1215,13 @@ METHOD std_types::positive_integer/plus
     CHECK_RESULTS(1)
     if (TYPEOF(ARGUMENTS(1)) == TYPE(std_types::positive_integer)) {
       if (ARGUMENTS(0)->integer.value+ARGUMENTS(1)->integer.value >= ARGUMENTS(0)->integer.value) {
-        RETURN_SINGLE_RESULT(CREATE(std_types::positive_integer, ARGUMENTS(0)->integer.value+ARGUMENTS(1)->integer.value))
+	RETURN_SINGLE_RESULT(CREATE(std_types::positive_integer, ARGUMENTS(0)->integer.value+ARGUMENTS(1)->integer.value))
       }
     } else if (TYPEOF(ARGUMENTS(1)) == TYPE(negative_integer)) {
       if (ARGUMENTS(0)->integer.value >= ARGUMENTS(1)->integer.value) {
-        RETURN_SINGLE_RESULT(CREATE(std_types::positive_integer, ARGUMENTS(0)->integer.value-ARGUMENTS(1)->integer.value))
+	RETURN_SINGLE_RESULT(CREATE(std_types::positive_integer, ARGUMENTS(0)->integer.value-ARGUMENTS(1)->integer.value))
       } else {
-        RETURN_SINGLE_RESULT(CREATE(negative_integer, ARGUMENTS(1)->integer.value-ARGUMENTS(0)->integer.value))
+	RETURN_SINGLE_RESULT(CREATE(negative_integer, ARGUMENTS(1)->integer.value-ARGUMENTS(0)->integer.value))
       }
     } else if (TYPEOF(ARGUMENTS(1)) == TYPE(std_types::real)) {
       RETURN_SINGLE_RESULT(CREATE(std_types::real, ARGUMENTS(0)->integer.value+ARGUMENTS(1)->real.value))
@@ -1237,13 +1237,13 @@ METHOD negative_integer/plus
     CHECK_RESULTS(1)
     if (TYPEOF(ARGUMENTS(1)) == TYPE(negative_integer)) {
       if (ARGUMENTS(0)->integer.value+ARGUMENTS(1)->integer.value >= ARGUMENTS(0)->integer.value) {
-        RETURN_SINGLE_RESULT(CREATE(negative_integer, ARGUMENTS(0)->integer.value+ARGUMENTS(1)->integer.value))
+	RETURN_SINGLE_RESULT(CREATE(negative_integer, ARGUMENTS(0)->integer.value+ARGUMENTS(1)->integer.value))
       }
     } else if (TYPEOF(ARGUMENTS(1)) == TYPE(std_types::positive_integer)) {
       if (ARGUMENTS(0)->integer.value > ARGUMENTS(1)->integer.value) {
-        RETURN_SINGLE_RESULT(CREATE(negative_integer, ARGUMENTS(0)->integer.value-ARGUMENTS(1)->integer.value))
+	RETURN_SINGLE_RESULT(CREATE(negative_integer, ARGUMENTS(0)->integer.value-ARGUMENTS(1)->integer.value))
       } else {
-        RETURN_SINGLE_RESULT(CREATE(std_types::positive_integer, ARGUMENTS(1)->integer.value-ARGUMENTS(0)->integer.value))
+	RETURN_SINGLE_RESULT(CREATE(std_types::positive_integer, ARGUMENTS(1)->integer.value-ARGUMENTS(0)->integer.value))
       }
     } else if (TYPEOF(ARGUMENTS(1)) == TYPE(std_types::real)) {
       RETURN_SINGLE_RESULT(CREATE(std_types::real, ARGUMENTS(1)->real.value-ARGUMENTS(0)->integer.value))
@@ -1275,13 +1275,13 @@ METHOD std_types::positive_integer/minus
     CHECK_RESULTS(1)
     if (TYPEOF(ARGUMENTS(1)) == TYPE(std_types::positive_integer)) {
       if (ARGUMENTS(0)->integer.value >= ARGUMENTS(1)->integer.value) {
-        RETURN_SINGLE_RESULT(CREATE(std_types::positive_integer, ARGUMENTS(0)->integer.value-ARGUMENTS(1)->integer.value))
+	RETURN_SINGLE_RESULT(CREATE(std_types::positive_integer, ARGUMENTS(0)->integer.value-ARGUMENTS(1)->integer.value))
       } else {
-        RETURN_SINGLE_RESULT(CREATE(negative_integer, ARGUMENTS(1)->integer.value-ARGUMENTS(0)->integer.value))
+	RETURN_SINGLE_RESULT(CREATE(negative_integer, ARGUMENTS(1)->integer.value-ARGUMENTS(0)->integer.value))
       }
     } else if (TYPEOF(ARGUMENTS(1)) == TYPE(negative_integer)) {
       if (ARGUMENTS(0)->integer.value+ARGUMENTS(1)->integer.value >= ARGUMENTS(0)->integer.value) {
-        RETURN_SINGLE_RESULT(CREATE(std_types::positive_integer, ARGUMENTS(0)->integer.value+ARGUMENTS(1)->integer.value))
+	RETURN_SINGLE_RESULT(CREATE(std_types::positive_integer, ARGUMENTS(0)->integer.value+ARGUMENTS(1)->integer.value))
       }
     } else if (TYPEOF(ARGUMENTS(1)) == TYPE(std_types::real)) {
       RETURN_SINGLE_RESULT(CREATE(std_types::real, ARGUMENTS(0)->integer.value-ARGUMENTS(1)->real.value))
@@ -1297,13 +1297,13 @@ METHOD negative_integer/minus
     CHECK_RESULTS(1)
     if (TYPEOF(ARGUMENTS(1)) == TYPE(negative_integer)) {
       if (ARGUMENTS(0)->integer.value > ARGUMENTS(1)->integer.value) {
-        RETURN_SINGLE_RESULT(CREATE(negative_integer, ARGUMENTS(0)->integer.value-ARGUMENTS(1)->integer.value))
+	RETURN_SINGLE_RESULT(CREATE(negative_integer, ARGUMENTS(0)->integer.value-ARGUMENTS(1)->integer.value))
       } else {
-        RETURN_SINGLE_RESULT(CREATE(std_types::positive_integer, ARGUMENTS(1)->integer.value-ARGUMENTS(0)->integer.value))
+	RETURN_SINGLE_RESULT(CREATE(std_types::positive_integer, ARGUMENTS(1)->integer.value-ARGUMENTS(0)->integer.value))
       }
     } else if (TYPEOF(ARGUMENTS(1)) == TYPE(std_types::positive_integer)) {
       if (ARGUMENTS(0)->integer.value+ARGUMENTS(1)->integer.value >= ARGUMENTS(0)->integer.value) {
-        RETURN_SINGLE_RESULT(CREATE(negative_integer, ARGUMENTS(0)->integer.value+ARGUMENTS(1)->integer.value))
+	RETURN_SINGLE_RESULT(CREATE(negative_integer, ARGUMENTS(0)->integer.value+ARGUMENTS(1)->integer.value))
       }
     } else if (TYPEOF(ARGUMENTS(1)) == TYPE(std_types::real)) {
       RETURN_SINGLE_RESULT(CREATE(std_types::real, -(ARGUMENTS(0)->integer.value+ARGUMENTS(1)->real.value)))

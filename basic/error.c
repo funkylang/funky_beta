@@ -28,7 +28,7 @@ enum {
 static TAB_NUM t_func_std__Error[] = {
   3, // locals
   -1, // parameters
-  REST_PARAMETER, LOCAL(3), // 42_0_args
+  REST_PARAMETER, LOCAL(3), // 65_0_args
   // create_string(args) .without_suffix. '@nl;'
   var_create_string, 1, LOCAL(3), 1, LOCAL(1),
   // create_string(args) .without_suffix. '@nl;'
@@ -37,10 +37,10 @@ static TAB_NUM t_func_std__Error[] = {
   var_eprintln, 2, str_ERROR, LOCAL(2), IO_CALL(0),
   // exit! EXIT_FAILURE
   var_exit, 1, var_EXIT_FAILURE, IO_TAIL_CALL,
-  POS(44, 23),
-  POS(44, 23),
-  POS(44, 3),
-  POS(45, 3)
+  POS(67, 23),
+  POS(67, 23),
+  POS(67, 3),
+  POS(68, 3)
 };
 
 static FUNKY_CONSTANT constants_table[] = {
@@ -58,32 +58,32 @@ static FUNKY_VARIABLE variables_table[] = {
   {
     FOT_UNKNOWN, 0, 0,
     "create_string\000", NULL,
-    {.position = POS(44, 23)}
+    {.position = POS(67, 23)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "without_suffix\000", NULL,
-    {.position = POS(44, 23)}
+    {.position = POS(67, 23)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "eprintln\000", NULL,
-    {.position = POS(44, 3)}
+    {.position = POS(67, 3)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "EXIT_FAILURE\000", NULL,
-    {.position = POS(45, 9)}
+    {.position = POS(68, 9)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "exit\000", NULL,
-    {.position = POS(45, 3)}
+    {.position = POS(68, 3)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "assign\000std", NULL,
-    {.position = POS(28, 1)}
+    {.position = POS(51, 1)}
   }
 };
 

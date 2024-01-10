@@ -1,5 +1,5 @@
 #
-  Copyright (C) 2022 by
+  Copyright (C) 2024 by
   Dipl.-Ing. Michael Niederle
 
   This program is free software; you can redistribute it and/or modify
@@ -20,31 +20,317 @@
   Free Software Foundation, Inc.,
   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
+#
+  Topic: Input-Output Events
+
+  Events are the Funky way to handle multiple input/output streams in a
+  parallel way.
+
+  The event system is based on the concept of an event "loop". The event "loop"
+  is part of the application program.
+
+  Before entering the event loop, the application program must create an
+  input-output object and register all input-output streams that should be
+  handled by the event loop.
+
+  To create an input-output object, simply clone the object <std_types::io>.
+
+  The event loop then waits for an event to occur. When an event occurs, the
+  event loop calls the event handler function associated with the event.
+
+  The event handler function can then process the event and return to the
+  event loop.
+
+  The event loop continues to wait for the next event.
+
+  Possible events can be registered or unregistered at any time.
+
+  To register an event call
+
+  <start_reading_from> - for reading from a stream
+
+  <start_catching_signals> - for catching signals like SIGINT
+
+  <start_injecting_window_change_events> - for catching window change events
+
+  To unregister an event call
+
+  <stop_reading_from> - to stop reading from a stream
+
+  <stop_catching_signals> - to stop catching signals
+
+  <stop_injecting_window_change_events> - to stop injecting window change events
+
+  In the event loop call
+
+  <get_events> - to get one or more events
+
+  Actual input operations are performed by <get_events>. Write operations are
+  initiated by the application program and performed by <get_events>.
+
+  See also: @Input-Output, @Input-Output Task Manager
+
+  Example:
+
+    $io std_types::io # create an input-output object
+    start_reading_from &io STDIN_FILENO # register reading from STDIN
+    write &io STDOUT_FILENO "Please enter some text:@nl;"
+      # write a prompt text to STDOUT
+    $input_buffer "" # create an initially empty input buffer
+
+    loop: # the event loop
+      get_events! &io $events # get one or more events
+      for_each events # handle all received events
+	: (event)
+	  event $type $fd $argument # destructure the event
+	  case type # check the event type
+	    READ: # event is a read event
+	      case fd # check the file descriptor
+		STDIN_FILENO: # it was a read event from STDIN
+		  append &input_buffer argument
+		    # append the received data to the input buffer
+		  handle_input !io &input_buffer # call the input handler
+		  if
+		    io.is_undefined:
+		      #
+			the input handler returned undefined to indicate
+			that the input processing is finished
+		      terminate! # terminate the program
+		    next # otherwise continue processing the events
+		next # ignore read events for other file descriptors
+	    READ_ERROR: # event is a read error
+	      Error! "Error reading from standard input!"
+	    WRITE_PENDING: # event is a write pending event
+	      # ignore
+	      next! # continue processing the events
+	    WRITE_COMPLETED: # event is a write completed event
+	      # ignore
+	      next! # continue processing the events
+	    next # ignore all other events
+	next # check for more events
+
+    $handle_input: (buffer)
+      loop:
+	if
+	  buffer .contains. '@nl;':
+	    # the input buffer contains at least one complete line
+	    $line buffer .before. '@nl;' # extract the line
+	    if
+	      line == "quit" # the user entered "quit"
+	      -> undefined undefined
+		#
+		  return undefined to indicate that the input processing is
+		  finished
+	      : # Output the line
+		write &io STDOUT_FILENO "
+		  You entered: "@(line)"
+		behind &buffer '@nl;'
+		  # remove the processed line from the input buffer
+		next # continue processing the buffer
+	  -> io buffer
+	    # return the (maybe) modified input-output object and buffer
+
 $std::READ .
-  # returns the read text
+  #
+    used to tag "read" events
+
+    Topic: Input-Output Events
+
+    See also: READ_ERROR, WRITE_PENDING, WRITE_COMPLETED, WRITE_ERROR,
+	      PROCESS_JOINED, SIGNAL
+
 $std::READ_ERROR .
-  # returns the error message
+  #
+    used to tag "read error" events
+
+    Topic: Input-Output Events
+
+    See also: READ, WRITE_PENDING, WRITE_COMPLETED, WRITE_ERROR,
+	      PROCESS_JOINED, SIGNAL
+
 $std::WRITE_PENDING .
-  # returns the text not yet written
+  #
+    used to tag "write pending" events
+
+    Topic: Input-Output Events
+
+    See also: READ, READ_ERROR, WRITE_COMPLETED, WRITE_ERROR,
+	      PROCESS_JOINED, SIGNAL
+
 $std::WRITE_COMPLETED .
-  # returns <undefined>
+  #
+    used to tag "write completed" events
+
+    Topic: Input-Output Events
+
+    See also: READ, READ_ERROR, WRITE_PENDING, WRITE_ERROR,
+
 $std::WRITE_ERROR .
+  #
+    used to tag "write error" events
+
+    Topic: Input-Output Events
+
+    See also: READ, READ_ERROR, WRITE_PENDING, WRITE_COMPLETED,
+	      PROCESS_JOINED, SIGNAL
+
 $std::PROCESS_JOINED .
   #
-    returns a tuple of the error message and the text not yet written;
-    the write is cancelled
+    used to tag "process joined" events
+
+    Topic: Input-Output Events
+
+    See also: READ, READ_ERROR, WRITE_PENDING, WRITE_COMPLETED,
+	      WRITE_ERROR, SIGNAL
+
 $std::SIGNAL .
-  # returns the signal that occurred
+  #
+    used to tag "signal" events
+
+    Topic: Input-Output Events
+
+    See also: READ, READ_ERROR, WRITE_PENDING, WRITE_COMPLETED,
+	      WRITE_ERROR, PROCESS_JOINED
 
 $std::get_events ()
+  #
+    gets one or more events
+
+    Result:
+
+      events # a list of events
+
+    Each event is a tuple with the following components:
+
+    *  type - the event type
+
+    *  fd - the file descriptor associated with the event
+
+    *  argument - an argument associated with the event
+
+    This function needs I/O-access rights.
+
+    For a detailed example see <@Input-Output Events>.
+
+    Topic: Input-Output Events
+
+    See also: READ, READ_ERROR, WRITE_PENDING, WRITE_COMPLETED,
+	      WRITE_ERROR, PROCESS_JOINED, SIGNAL
+
 $std::start_reading_from ()
+  #
+    registers a read request for a file descriptor
+
+    Parameters:
+      io # an input-output object
+      fd # the file descriptor of the stream
+
+    For a detailed example see <@Input-Output Events>.
+
+    Topic: Input-Output Events
+
+    See also: stop_reading_from, get_events
+
 $std::stop_reading_from ()
+  #
+    unregisters a read request for a file descriptor
+
+    Parameters:
+      io # an input-output object
+      fd # the file descriptor of the stream
+
+    For a detailed example see <@Input-Output Events>.
+
+    Topic: Input-Output Events
+
+    See also: start_reading_from, get_events
+
 $std::cancel_write ()
+  #
+    cancels a write operation
+
+    Parameters:
+      io # an input-output object
+      fd # the file descriptor of the stream
+
+    For a detailed example see <@Input-Output Events>.
+
+    Topic: Input-Output Events
+
+    See also: write, get_events
+
 $std::join_process ()
+  #
+    joins a process
+
+    Parameters:
+      io # an input-output object
+      pid # the process ID
+
+    Topic: Input-Output Events
+
+    See also: get_events, PROCESS_JOINED
+
+    Example:
+
+      create_process! $pid $in_fd $out_fd $err_fd command arguments
+      ...
+      join_process &io pid
+      ...
+      loop:
+	get_events! &io $events
+	  for_each events
+	    : (event)
+	      event $type $epid $argument
+	      case type
+		PROCESS_JOINED:
+		  if
+		    pid == epid:
+		      ...
+
 $std::start_injecting_window_change_events ()
+  #
+    starts receiving window change events
+
+    Parameters:
+      io # an input-output object
+
+    Topic: Input-Output Events
+
+    See also: stop_injecting_window_change_events, get_events
+
 $std::stop_injecting_window_change_events ()
+  #
+    stops receiving window change events
+
+    Parameters:
+      io # an input-output object
+
+    Topic: Input-Output Events
+
+    See also: start_injecting_window_change_events, get_events
+
 $std::start_catching_signals ()
+  #
+    starts catching signals
+
+    Parameters:
+      io # an input-output object
+
+    Topic: Input-Output Events
+
+    See also: stop_catching_signals, get_events
+
 $std::stop_catching_signals ()
+  #
+    stops catching signals
+
+    Parameters:
+      io # an input-output object
+
+    Topic: Input-Output Events
+
+    See also: start_catching_signals, get_events
 
 $read_descriptor_list_of ()
 $read_descriptor_set_of ()
@@ -56,6 +342,11 @@ $do_catch_signals ()
 $window_change_event_occurred ()
 
 $std_types::io std_types::object
+  #
+    the prototype for all input-output objects
+
+    Topic: Input-Output Events
+
 $std_types::io.read_descriptor_list_of empty_list
 $std_types::io.read_descriptor_set_of empty_hash_set
 $std_types::io.write_jobs_of empty_hash_table
@@ -65,8 +356,22 @@ $std_types::io.do_inject_window_change_events false
 $std_types::io.window_change_event_occurred false
 
 $std_types::event tuple(undefined undefined undefined)
+  #
+    the prototype for all events
 
-$std_types::io/start_reading_from: (self fd)
+    Topic: Input-Output Events
+
+$std_types::io/start_reading_from:
+  #
+    registers a read reqest for a file descriptor
+
+    Topic: Input-Output Events
+
+    See also: @Input-Output Events, stop_reading_from
+  (
+    self # the input-output object
+    fd # the file descriptor of the stream
+  )
   if
     read_descriptor_set_of(self)(fd)
     -> self
@@ -75,7 +380,17 @@ $std_types::io/start_reading_from: (self fd)
       push &self.read_descriptor_list_of fd
       -> self
 
-$std_types::io/stop_reading_from: (self fd)
+$std_types::io/stop_reading_from:
+  #
+    unregisters a read request for a file descriptor
+
+    Topic: Input-Output Events
+
+    See also: @Input-Output Events, start_reading_from
+  (
+    self # the input-output object
+    fd # the file descriptor of the stream
+  )
   if
     read_descriptor_set_of(self)(fd)
     :
@@ -94,49 +409,134 @@ $std_types::io/stop_reading_from: (self fd)
 	  -> self
     -> self
 
-$std_types::io/write: (self fd text)
+$std_types::io/write:
+  #
+    writes data to a stream
+
+    Topic: Input-Output Events
+
+    See also: @Input-Output Events, cancel_write
+  (
+    self # the input-output object
+    fd # the file descriptor of the stream
+    data # the data to write
+  )
   $job write_jobs_of(self)(fd)
   !job
     if
       job.is_defined
-      -> append(job text)
-      -> text
+      -> append(job data)
+      -> data
   !self.write_jobs_of(fd) job
   -> self
 
-$std_types::io/cancel_write: (self fd)
+$std_types::io/cancel_write:
+  #
+    cancels a write operation
+
+    Topic: Input-Output Events
+
+    See also: @Input-Output Events, write
+  (
+    self # the input-output object
+    fd # the file descriptor of the stream
+  )
   $unwritten_text write_jobs_of(self)(fd)
   !self.write_jobs_of(fd) undefined
   -> self unwritten_text
 
-$std_types::io/join_process: (self pid)
+$std_types::io/join_process:
+  #
+    joins a process
+
+    Topic: Input-Output Events
+
+    See also: @Input-Output Events, get_events
+  (
+    self # the input-output object
+    pid # the process ID
+  )
   !self.watched_pids_of(pid) true
   -> self
 
-$std_types::io/start_injecting_window_change_events: (self)
+$std_types::io/start_injecting_window_change_events:
+  #
+    starts receiving window change events
+
+    Topic: Input-Output Events
+
+    See also: @Input-Output Events, stop_injecting_window_change_events
+  (
+    self # the input-output object
+  )
   !self.do_inject_window_change_events true
   -> self
 
-$std_types::io/stop_injecting_window_change_events: (self)
+$std_types::io/stop_injecting_window_change_events:
+  #
+    stops receiving window change events
+
+    Topic: Input-Output Events
+
+    See also: @Input-Output Events, start_injecting_window_change_events
+  (
+    self # the input-output object
+  )
   !self.do_inject_window_change_events false
   -> self
 
-$std_types::io/start_catching_signals: (self)
+$std_types::io/start_catching_signals:
+  #
+    starts catching signals
+
+    Topic: Input-Output Events
+
+    See also: @Input-Output Events, stop_catching_signals
+  (
+    self # the input-output object
+  )
   !self.do_catch_signals true
   -> self
 
-$std_types::io/stop_catching_signals: (self)
+$std_types::io/stop_catching_signals:
+  #
+    stops catching signals
+
+    Topic: Input-Output Events
+
+    See also: @Input-Output Events, start_catching_signals
+  (
+    self # the input-output object
+  )
   !self.do_catch_signals false
   -> self
 
-$std_types::io/is_empty: (self)
+$std_types::io/is_empty:
+  #
+    checks if the input-output object contains any event registrations
+
+    Topic: Input-Output Events
+
+    See also: @Input-Output Events
+  (
+    self # the input-output object
+  )
   ->
     &&
       read_descriptor_list_of(self).is_empty
       write_jobs_of(self).is_empty
       watched_pids_of(self).is_empty
 
-$std_types::io/is_not_empty: (self)
+$std_types::io/is_not_empty:
+  #
+    checks if the input-output object contains any event registrations
+
+    Topic: Input-Output Events
+
+    See also: @Input-Output Events
+  (
+    self # the input-output object
+  )
   ->
     ||
       read_descriptor_list_of(self).is_not_empty
@@ -144,9 +544,19 @@ $std_types::io/is_not_empty: (self)
       watched_pids_of(self).is_not_empty
 
 $std_types::io/get_events:
+  #
+    gets one or more events
+
+    The optional timeout event is measurered in seconds.
+
+    For an example see <@Input-Output Events>.
+
+    Topic: Input-Output Events
+
+    See also: @Input-Output Events, read, read_error, write_pending,
   (
-    self
-    timeout = undefined
+    self # the input-output object
+    timeout = undefined # the optional timeout
   )
   #
     <pselect> does not check for interrupts if a file descriptor is available

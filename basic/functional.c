@@ -48,25 +48,25 @@ enum {
   var__START = FIRST_VAR-1,
   var_std__assign, // extern
   var_std__count, // initialized
-  var_36_0_collection, // dynamic
-  var_37_0_test, // dynamic
-  var_38_0_argument, // dynamic
+  var_57_0_collection, // dynamic
+  var_58_0_test, // dynamic
+  var_59_0_argument, // dynamic
   var_std__equal, // extern
   var_if, // extern
   var_plus, // extern
   var_map_reduce, // extern
   var_std__any_of, // initialized
-  var_82_0_collection, // dynamic
-  var_83_0_test, // dynamic
-  var_84_0_argument, // dynamic
+  var_123_0_collection, // dynamic
+  var_124_0_test, // dynamic
+  var_125_0_argument, // dynamic
   var_true, // extern
   var_next, // extern
   var_false, // extern
   var_for_each, // extern
   var_std__all_of, // initialized
-  var_115_0_collection, // dynamic
-  var_116_0_test, // dynamic
-  var_117_0_argument, // dynamic
+  var_176_0_collection, // dynamic
+  var_177_0_test, // dynamic
+  var_178_0_argument, // dynamic
   var__END
 };
 
@@ -74,32 +74,32 @@ enum {
 static TAB_NUM t_func_std__count[] = {
   1, // locals
   -3, // parameters
-  MANDATORY_PARAMETER, var_36_0_collection,
-  uni_NONE, var_37_0_test,
-  uni_NONE, var_38_0_argument,
+  MANDATORY_PARAMETER, var_57_0_collection,
+  uni_NONE, var_58_0_test,
+  uni_NONE, var_59_0_argument,
   // NONE == test:
-  var_std__equal, 2, uni_NONE, var_37_0_test, 1, LOCAL(1),
+  var_std__equal, 2, uni_NONE, var_58_0_test, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_1, lambda_5, TAIL_CALL,
-  POS(41, 5),
-  POS(40, 3)
+  POS(62, 5),
+  POS(61, 3)
 };
 
 static TAB_NUM t_lambda_1[] = {
   0, // locals
   0, // parameters
   // map_reduce collection
-  var_map_reduce, 4, var_36_0_collection, lambda_2, var_plus, num_0, TAIL_CALL,
-  POS(42, 7)
+  var_map_reduce, 4, var_57_0_collection, lambda_2, var_plus, num_0, TAIL_CALL,
+  POS(63, 7)
 };
 
 static TAB_NUM t_lambda_2[] = {
   1, // locals
   1, // parameters
-  LOCAL(1), // 43_3_item
+  LOCAL(1), // 64_3_item
   // if
   var_if, 3, LOCAL(1), lambda_3, lambda_4, TAIL_CALL,
-  POS(44, 11)
+  POS(65, 11)
 };
 
 static TAB_NUM t_lambda_3[] = {
@@ -107,7 +107,7 @@ static TAB_NUM t_lambda_3[] = {
   0, // parameters
   //  1
   LET, 1, num_1, TAIL_CALL,
-  POS(46, 15)
+  POS(67, 15)
 };
 
 static TAB_NUM t_lambda_4[] = {
@@ -115,38 +115,38 @@ static TAB_NUM t_lambda_4[] = {
   0, // parameters
   //  0
   LET, 1, num_0, TAIL_CALL,
-  POS(47, 15)
+  POS(68, 15)
 };
 
 static TAB_NUM t_lambda_5[] = {
   1, // locals
   0, // parameters
   // NONE == argument:
-  var_std__equal, 2, uni_NONE, var_38_0_argument, 1, LOCAL(1),
+  var_std__equal, 2, uni_NONE, var_59_0_argument, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_6, lambda_10, TAIL_CALL,
-  POS(52, 9),
-  POS(51, 7)
+  POS(73, 9),
+  POS(72, 7)
 };
 
 static TAB_NUM t_lambda_6[] = {
   0, // locals
   0, // parameters
   // map_reduce collection
-  var_map_reduce, 4, var_36_0_collection, lambda_7, var_plus, num_0, TAIL_CALL,
-  POS(53, 11)
+  var_map_reduce, 4, var_57_0_collection, lambda_7, var_plus, num_0, TAIL_CALL,
+  POS(74, 11)
 };
 
 static TAB_NUM t_lambda_7[] = {
   2, // locals
   1, // parameters
-  LOCAL(2), // 54_3_item
+  LOCAL(2), // 75_3_item
   // test(item)
-  var_37_0_test, 1, LOCAL(2), 1, LOCAL(1),
+  var_58_0_test, 1, LOCAL(2), 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_8, lambda_9, TAIL_CALL,
-  POS(56, 17),
-  POS(55, 15)
+  POS(77, 17),
+  POS(76, 15)
 };
 
 static TAB_NUM t_lambda_8[] = {
@@ -154,7 +154,7 @@ static TAB_NUM t_lambda_8[] = {
   0, // parameters
   //  1
   LET, 1, num_1, TAIL_CALL,
-  POS(57, 19)
+  POS(78, 19)
 };
 
 static TAB_NUM t_lambda_9[] = {
@@ -162,27 +162,27 @@ static TAB_NUM t_lambda_9[] = {
   0, // parameters
   //  0
   LET, 1, num_0, TAIL_CALL,
-  POS(58, 19)
+  POS(79, 19)
 };
 
 static TAB_NUM t_lambda_10[] = {
   0, // locals
   0, // parameters
   // map_reduce collection
-  var_map_reduce, 4, var_36_0_collection, lambda_11, var_plus, num_0, TAIL_CALL,
-  POS(62, 11)
+  var_map_reduce, 4, var_57_0_collection, lambda_11, var_plus, num_0, TAIL_CALL,
+  POS(83, 11)
 };
 
 static TAB_NUM t_lambda_11[] = {
   2, // locals
   1, // parameters
-  LOCAL(2), // 63_3_item
+  LOCAL(2), // 84_3_item
   // test(item argument)
-  var_37_0_test, 2, LOCAL(2), var_38_0_argument, 1, LOCAL(1),
+  var_58_0_test, 2, LOCAL(2), var_59_0_argument, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_12, lambda_13, TAIL_CALL,
-  POS(65, 17),
-  POS(64, 15)
+  POS(86, 17),
+  POS(85, 15)
 };
 
 static TAB_NUM t_lambda_12[] = {
@@ -190,7 +190,7 @@ static TAB_NUM t_lambda_12[] = {
   0, // parameters
   //  1
   LET, 1, num_1, TAIL_CALL,
-  POS(66, 19)
+  POS(87, 19)
 };
 
 static TAB_NUM t_lambda_13[] = {
@@ -198,41 +198,41 @@ static TAB_NUM t_lambda_13[] = {
   0, // parameters
   //  0
   LET, 1, num_0, TAIL_CALL,
-  POS(67, 19)
+  POS(88, 19)
 };
 
 static TAB_NUM t_func_std__any_of[] = {
   1, // locals
   -3, // parameters
-  MANDATORY_PARAMETER, var_82_0_collection,
-  MANDATORY_PARAMETER, var_83_0_test,
-  uni_NONE, var_84_0_argument,
+  MANDATORY_PARAMETER, var_123_0_collection,
+  MANDATORY_PARAMETER, var_124_0_test,
+  uni_NONE, var_125_0_argument,
   // argument == NONE:
-  var_std__equal, 2, var_84_0_argument, uni_NONE, 1, LOCAL(1),
+  var_std__equal, 2, var_125_0_argument, uni_NONE, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_14, lambda_18, TAIL_CALL,
-  POS(87, 5),
-  POS(86, 3)
+  POS(128, 5),
+  POS(127, 3)
 };
 
 static TAB_NUM t_lambda_14[] = {
   0, // locals
   0, // parameters
   // for_each collection
-  var_for_each, 3, var_82_0_collection, lambda_15, lambda_17, TAIL_CALL,
-  POS(88, 7)
+  var_for_each, 3, var_123_0_collection, lambda_15, lambda_17, TAIL_CALL,
+  POS(129, 7)
 };
 
 static TAB_NUM t_lambda_15[] = {
   2, // locals
   1, // parameters
-  LOCAL(2), // 89_3_item
+  LOCAL(2), // 130_3_item
   // test(item)
-  var_83_0_test, 1, LOCAL(2), 1, LOCAL(1),
+  var_124_0_test, 1, LOCAL(2), 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_16, var_next, TAIL_CALL,
-  POS(91, 13),
-  POS(90, 11)
+  POS(132, 13),
+  POS(131, 11)
 };
 
 static TAB_NUM t_lambda_16[] = {
@@ -240,7 +240,7 @@ static TAB_NUM t_lambda_16[] = {
   0, // parameters
   //  true
   LET, 1, var_true, TAIL_CALL,
-  POS(92, 15)
+  POS(133, 15)
 };
 
 static TAB_NUM t_lambda_17[] = {
@@ -248,27 +248,27 @@ static TAB_NUM t_lambda_17[] = {
   0, // parameters
   //  false
   LET, 1, var_false, TAIL_CALL,
-  POS(94, 11)
+  POS(135, 11)
 };
 
 static TAB_NUM t_lambda_18[] = {
   0, // locals
   0, // parameters
   // for_each collection
-  var_for_each, 3, var_82_0_collection, lambda_19, lambda_21, TAIL_CALL,
-  POS(96, 7)
+  var_for_each, 3, var_123_0_collection, lambda_19, lambda_21, TAIL_CALL,
+  POS(137, 7)
 };
 
 static TAB_NUM t_lambda_19[] = {
   2, // locals
   1, // parameters
-  LOCAL(2), // 97_3_item
+  LOCAL(2), // 138_3_item
   // test(item argument)
-  var_83_0_test, 2, LOCAL(2), var_84_0_argument, 1, LOCAL(1),
+  var_124_0_test, 2, LOCAL(2), var_125_0_argument, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_20, var_next, TAIL_CALL,
-  POS(99, 13),
-  POS(98, 11)
+  POS(140, 13),
+  POS(139, 11)
 };
 
 static TAB_NUM t_lambda_20[] = {
@@ -276,7 +276,7 @@ static TAB_NUM t_lambda_20[] = {
   0, // parameters
   //  true
   LET, 1, var_true, TAIL_CALL,
-  POS(100, 15)
+  POS(141, 15)
 };
 
 static TAB_NUM t_lambda_21[] = {
@@ -284,41 +284,41 @@ static TAB_NUM t_lambda_21[] = {
   0, // parameters
   //  false
   LET, 1, var_false, TAIL_CALL,
-  POS(102, 11)
+  POS(143, 11)
 };
 
 static TAB_NUM t_func_std__all_of[] = {
   1, // locals
   -3, // parameters
-  MANDATORY_PARAMETER, var_115_0_collection,
-  MANDATORY_PARAMETER, var_116_0_test,
-  uni_NONE, var_117_0_argument,
+  MANDATORY_PARAMETER, var_176_0_collection,
+  MANDATORY_PARAMETER, var_177_0_test,
+  uni_NONE, var_178_0_argument,
   // argument == NONE:
-  var_std__equal, 2, var_117_0_argument, uni_NONE, 1, LOCAL(1),
+  var_std__equal, 2, var_178_0_argument, uni_NONE, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_22, lambda_26, TAIL_CALL,
-  POS(120, 5),
-  POS(119, 3)
+  POS(181, 5),
+  POS(180, 3)
 };
 
 static TAB_NUM t_lambda_22[] = {
   0, // locals
   0, // parameters
   // for_each collection
-  var_for_each, 3, var_115_0_collection, lambda_23, lambda_25, TAIL_CALL,
-  POS(121, 7)
+  var_for_each, 3, var_176_0_collection, lambda_23, lambda_25, TAIL_CALL,
+  POS(182, 7)
 };
 
 static TAB_NUM t_lambda_23[] = {
   2, // locals
   1, // parameters
-  LOCAL(2), // 122_3_item
+  LOCAL(2), // 183_3_item
   // test(item)
-  var_116_0_test, 1, LOCAL(2), 1, LOCAL(1),
+  var_177_0_test, 1, LOCAL(2), 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), var_next, lambda_24, TAIL_CALL,
-  POS(124, 13),
-  POS(123, 11)
+  POS(185, 13),
+  POS(184, 11)
 };
 
 static TAB_NUM t_lambda_24[] = {
@@ -326,7 +326,7 @@ static TAB_NUM t_lambda_24[] = {
   0, // parameters
   //  false
   LET, 1, var_false, TAIL_CALL,
-  POS(126, 15)
+  POS(187, 15)
 };
 
 static TAB_NUM t_lambda_25[] = {
@@ -334,27 +334,27 @@ static TAB_NUM t_lambda_25[] = {
   0, // parameters
   //  true
   LET, 1, var_true, TAIL_CALL,
-  POS(127, 11)
+  POS(188, 11)
 };
 
 static TAB_NUM t_lambda_26[] = {
   0, // locals
   0, // parameters
   // for_each collection
-  var_for_each, 3, var_115_0_collection, lambda_27, lambda_29, TAIL_CALL,
-  POS(129, 7)
+  var_for_each, 3, var_176_0_collection, lambda_27, lambda_29, TAIL_CALL,
+  POS(190, 7)
 };
 
 static TAB_NUM t_lambda_27[] = {
   2, // locals
   1, // parameters
-  LOCAL(2), // 130_3_item
+  LOCAL(2), // 191_3_item
   // test(item argument)
-  var_116_0_test, 2, LOCAL(2), var_117_0_argument, 1, LOCAL(1),
+  var_177_0_test, 2, LOCAL(2), var_178_0_argument, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), var_next, lambda_28, TAIL_CALL,
-  POS(132, 13),
-  POS(131, 11)
+  POS(193, 13),
+  POS(192, 11)
 };
 
 static TAB_NUM t_lambda_28[] = {
@@ -362,7 +362,7 @@ static TAB_NUM t_lambda_28[] = {
   0, // parameters
   //  false
   LET, 1, var_false, TAIL_CALL,
-  POS(134, 15)
+  POS(195, 15)
 };
 
 static TAB_NUM t_lambda_29[] = {
@@ -370,7 +370,7 @@ static TAB_NUM t_lambda_29[] = {
   0, // parameters
   //  true
   LET, 1, var_true, TAIL_CALL,
-  POS(135, 11)
+  POS(196, 11)
 };
 
 static FUNKY_CONSTANT constants_table[] = {
@@ -424,35 +424,35 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "36_0_collection\000", NULL
+    "57_0_collection\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "37_0_test\000", NULL
+    "58_0_test\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "38_0_argument\000", NULL
+    "59_0_argument\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
     "equal\000std", NULL,
-    {.position = POS(41, 5)}
+    {.position = POS(62, 5)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "if\000", NULL,
-    {.position = POS(44, 11)}
+    {.position = POS(65, 11)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "plus\000", NULL,
-    {.position = POS(48, 9)}
+    {.position = POS(69, 9)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "map_reduce\000", NULL,
-    {.position = POS(42, 7)}
+    {.position = POS(63, 7)}
   },
   {
     FOT_INITIALIZED, 0, 0,
@@ -461,35 +461,35 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "82_0_collection\000", NULL
+    "123_0_collection\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "83_0_test\000", NULL
+    "124_0_test\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "84_0_argument\000", NULL
+    "125_0_argument\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
     "true\000", NULL,
-    {.position = POS(92, 16)}
+    {.position = POS(133, 16)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "next\000", NULL,
-    {.position = POS(93, 13)}
+    {.position = POS(134, 13)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "false\000", NULL,
-    {.position = POS(94, 12)}
+    {.position = POS(135, 12)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "for_each\000", NULL,
-    {.position = POS(88, 7)}
+    {.position = POS(129, 7)}
   },
   {
     FOT_INITIALIZED, 0, 0,
@@ -498,15 +498,15 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "115_0_collection\000", NULL
+    "176_0_collection\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "116_0_test\000", NULL
+    "177_0_test\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "117_0_argument\000", NULL
+    "178_0_argument\000", NULL
   }
 };
 

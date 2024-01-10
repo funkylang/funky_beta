@@ -1,5 +1,5 @@
 #
-  Copyright (C) 2021 by
+  Copyright (C) 2024 by
   Dipl.-Ing. Michael Niederle
 
   This program is free software; you can redistribute it and/or modify
@@ -29,9 +29,30 @@ $std::count:
     Returns the number of items in the specified collection that fullfill the
     specified criterion.
 
-    Topic: Functional
+    If no *test*-function is given the collection must contain boolean values.
+
+    If an *argument* is given the *test*-function is called with the collection
+    item as the first argument and the *argument* as the second argument.
+
+    Topic: Collections
 
     See also: any_of, all_of
+
+    Example:
+
+      $persons
+	hash_table
+	  "Gregory" = 39
+	  "Julia" = 37
+	  "Maria" = 33
+	  "James" = 41
+	  "Sarah" = 38
+
+      println! count(persons less 40)
+
+    Output:
+
+      4
   (
     collection
     test = NONE
@@ -72,12 +93,32 @@ $std::any_of:
   #
     tests all items of a collection
 
-    Returns <std::true> if at least one item passes the specified
-    *test*-function; <std::false> otherwise.
+    Returns <true> if at least one item in the specified collection fullfills
+    the specified criterion.
 
     Topic: Collections
 
     See also: all_of, count
+
+    Example:
+
+      $persons
+	hash_table
+	  "Gregory" = 39
+	  "Julia" = 37
+	  "Maria" = 33
+	  "James" = 41
+	  "Sarah" = 38
+
+      if
+	any_of(persons less 40):
+	  println! "true"
+	:
+	  println! "false"
+
+    Output:
+
+      true
   (
     collection # the collection which items to check
     test # the test function
@@ -105,12 +146,32 @@ $std::all_of:
   #
     tests all items of a collection
 
-    Returns <std::true> if all items pass the specified
-    *test*-function; <std::false> otherwise.
+    Returns <true> if all items in the specified collection fullfill the
+    specified criterion.
 
     Topic: Collections
 
     See also: any_of, count
+
+    Example:
+
+      $persons
+	hash_table
+	  "Gregory" = 39
+	  "Julia" = 37
+	  "Maria" = 33
+	  "James" = 41
+	  "Sarah" = 38
+
+      if
+	all_of(persons less 40):
+	  println! "true"
+	:
+	  println! "false"
+
+    Output:
+
+      false
   (
     collection # the collection which items to check
     test # the test function

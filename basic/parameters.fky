@@ -86,12 +86,12 @@ $std::extract_options:
 
     Example:
 
-    $std::load_csv: (options\* filename)
-      extract_options options
-	ENCODING = UTF8 $encoding
-	SEPARATOR = ';' $separator
-      load $buf filename
-      ...
+      $std::load_csv: (options\* filename)
+	extract_options options
+	  ENCODING = UTF8 $encoding
+	  SEPARATOR = ';' $separator
+	load $buf filename
+	...
   (
     options
     templates*
@@ -130,82 +130,83 @@ $std::program_parameters:
     Topic: Command Line Argument Parsing
 
     Example:
-    program_parameters
-      # the following options act on a single file only
 
-      $compiler::do_check_only -> "check-only" "
-	do not compile; just check for syntax errors
+      program_parameters
+	# the following options act on a single file only
 
-      $compiler::do_dump_trees -> "dump-trees" "
-	dump abstract syntax trees
+	$compiler::do_check_only -> "check-only" "
+	  do not compile; just check for syntax errors
 
-      $compiler::do_pretty_print -> "pretty-print" "
-	do not compile; just pretty print the source file
+	$compiler::do_dump_trees -> "dump-trees" "
+	  dump abstract syntax trees
 
-      $compiler::do_print_simplified_source -> "print-simplified-source" "
-	do not generate a C-file; just print the simplified source text
+	$compiler::do_pretty_print -> "pretty-print" "
+	  do not compile; just pretty print the source file
 
-      $do_print_c -> "print-c" "
-	print C source code for a single module
+	$compiler::do_print_simplified_source -> "print-simplified-source" "
+	  do not generate a C-file; just print the simplified source text
 
-      $do_time_passes -> "time-passes" "
-	print running time for the individual compiler passes
+	$do_print_c -> "print-c" "
+	  print C source code for a single module
 
-      $module_prefix -> VALUED_OPTION "module-prefix" "
-	needed to compile a single file within a subdirectory;
-	if the subdirectories are nested use slashes to separate
-	the directory names
+	$do_time_passes -> "time-passes" "
+	  print running time for the individual compiler passes
 
-      # the following options change the diagnostic output
+	$module_prefix -> VALUED_OPTION "module-prefix" "
+	  needed to compile a single file within a subdirectory;
+	  if the subdirectories are nested use slashes to separate
+	  the directory names
 
-      $compiler::do_show_brief_messages -> "brief" "
-	show brief error messages
+	# the following options change the diagnostic output
 
-      $compiler::do_print_warnings -> "warnings" "
-	show warning messages
+	$compiler::do_show_brief_messages -> "brief" "
+	  show brief error messages
 
-      $compiler::do_print_missing -> "missing" "
-	inform about missing documentation
+	$compiler::do_print_warnings -> "warnings" "
+	  show warning messages
 
-      $compiler::do_print_summary -> "summary" "
-	show a statistical summary
+	$compiler::do_print_missing -> "missing" "
+	  inform about missing documentation
 
-      $compiler::verbose -> "verbose" "
-	output verbose informations
+	$compiler::do_print_summary -> "summary" "
+	  show a statistical summary
 
-      $compiler::do_show_debug_infos -> "debug" "
-	show C-compiler and linker calls
+	$compiler::verbose -> "verbose" "
+	  output verbose informations
 
-      $compiler::do_show_compiler_debug_infos -> "debug_compiler" "
-	show internal debug messages of the Simplicity compiler
+	$compiler::do_show_debug_infos -> "debug" "
+	  show C-compiler and linker calls
 
-      # the following options create meta-informations
+	$compiler::do_show_compiler_debug_infos -> "debug_compiler" "
+	  show internal debug messages of the Simplicity compiler
 
-      $do_build_codeblocks_project -> "codeblocks" "
-	create Code::Blocks project
+	# the following options create meta-informations
 
-      $do_extract_documentation -> "extract-documentation" "
-	extract documentation encoded as HTML
+	$do_build_codeblocks_project -> "codeblocks" "
+	  create Code::Blocks project
 
-      $do_list_dependencies -> "list-dependencies" "
-	list all dependencies
+	$do_extract_documentation -> "extract-documentation" "
+	  extract documentation encoded as HTML
 
-      # the following options influence the build process for all modules
+	$do_list_dependencies -> "list-dependencies" "
+	  list all dependencies
 
-      $do_rebuild -> "rebuild" "
-	rebuild all source files
+	# the following options influence the build process for all modules
 
-      $do_omit_meta -> "omit-meta" "
-	do not rebuild meta files
+	$do_rebuild -> "rebuild" "
+	  rebuild all source files
 
-      $do_build_static -> "static" "
-	create statically linked executable
+	$do_omit_meta -> "omit-meta" "
+	  do not rebuild meta files
 
-      $do_link_profiler -> "profile" "
-	link with libprofiler
+	$do_build_static -> "static" "
+	  create statically linked executable
 
-      $input_filename -> std::MANDATORY_PARAMETER "filename" "
-	the name of the source file to compile
+	$do_link_profiler -> "profile" "
+	  link with libprofiler
+
+	$input_filename -> std::MANDATORY_PARAMETER "filename" "
+	  the name of the source file to compile
   (
     templates* # the accepted options and arguments
   )

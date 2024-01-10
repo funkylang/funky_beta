@@ -20,6 +20,11 @@
   Free Software Foundation, Inc.,
   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
+#
+  Topic: Input-Output Task Manager
+
+  See also: @Input-Output, @Input-Output Events
+
 ###
 # Phases
 
@@ -84,7 +89,7 @@
 $std::log_level 1
   #
     the used log-level
-  
+
     0: no logging
     1: just print the log messages
     2: prefix the log messages with the task no.

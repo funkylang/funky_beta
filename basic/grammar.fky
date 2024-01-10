@@ -1,5 +1,5 @@
 #
-  Copyright (C) 2021 by
+  Copyright (C) 2024 by
   Dipl.-Ing. Michael Niederle
 
   This program is free software; you can redistribute it and/or modify
@@ -27,7 +27,7 @@
 
 $std::match ()
   #
-    match the *grammar object* with the start of the specified string
+    match the grammar object with the start of the specified string
 
     Parameter obj: the grammar object
 
@@ -50,8 +50,20 @@ $std::search ()
     See also: match
 
 $std_types::FUNKY_IDENTIFIER std_types::object
+  #
+    a grammar object type for matching Funky identifiers
+
+    Topic: Grammar Objects
+
+    See also: std_types::match, std_types::search
 
 $std::FUNKY_IDENTIFIER std_types::FUNKY_IDENTIFIER
+  #
+    the single instance of the Funky identifier grammar object type
+
+    Topic: Grammar Objects
+
+    See also: std_types::match, std_types::search
 
 $std_types::FUNKY_IDENTIFIER/match:
   (

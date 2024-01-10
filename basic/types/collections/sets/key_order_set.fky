@@ -257,20 +257,20 @@ $std_types::key_order_set/for_each:
 
     Example:
 
-    $adult empty_key_order_set
+      $adult empty_key_order_set
 
-    !adult("Tom") true
-    !adult("Sam") false
-    !adult("Sarah") true
+      !adult("Tom") true
+      !adult("Sam") false
+      !adult("Sarah") true
 
-    for_each adult: (name)
-      writeln! name
-      next
+      for_each adult: (name)
+	writeln! name
+	next
 
     Output:
 
-    Sarah
-    Tom
+      Sarah
+      Tom
   (
     self # the hash set to iterate over
     body # the statement sequence to execute for each item

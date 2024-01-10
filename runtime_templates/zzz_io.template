@@ -364,7 +364,7 @@ POLY std::get_terminal_size
 
     Example:
 
-    get_terminal_size! STDIN_FILENO $width $height
+      get_terminal_size! STDIN_FILENO $width $height
 
 METHOD std_types::file_descriptor/std::get_terminal_size
   #
