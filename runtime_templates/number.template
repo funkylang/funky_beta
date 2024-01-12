@@ -139,7 +139,7 @@ METHOD int negative_integer/_to_double
     double *result_p
   )
   {
-    *result_p = -node->integer.value;
+    *result_p = -(double)node->integer.value;
     return true;
   }
 
@@ -815,12 +815,69 @@ FUNCTION std::sqrt
 
     Topic: Numbers
 
-    See also: exp, ln
+    See also: exp, ln, pow
+
+    Example:
+
+      println! sqrt(9)
+
+    Output:
+
+      3
+
+    Example:
+
+      println! sqrt(8)
+
+    Output:
+
+      2.82842712474619
   {
     CHECK_ARGUMENTS(1)
     double arg;
     CHECK(to_double(ARGUMENTS(0), &arg))
     RETURN_SINGLE_RESULT(CREATE(std_types::real, sqrt(arg)))
+  }
+
+FUNCTION std::pow
+  #
+    computes the power of its first argument to the second argument
+
+    This function calls the *pow*-function of the C library.
+
+    Parameter:
+      base # a real number
+      exponent # a real number
+
+    Result:
+      result # the computed power
+
+    Topic: Numbers
+
+    See also: exp, ln, sqrt
+
+    Example:
+
+      println! pow(2 3)
+
+    Output:
+
+      8
+
+    Example:
+
+      println! pow(2 -3)
+
+    Output:
+
+      0.125
+  {
+    CHECK_ARGUMENTS(2)
+    double base;
+    CHECK(to_double(ARGUMENTS(0), &base))
+    double exponent;
+    CHECK(to_double(ARGUMENTS(1), &exponent))
+    RETURN_SINGLE_RESULT(CREATE(std_types::real, pow(base, exponent)))
   }
 
 METHOD std_types::positive_integer/exit
@@ -1209,7 +1266,18 @@ METHOD int std_types::positive_integer/_to_uint64
 
 METHOD std_types::positive_integer/plus
   #
-    implements the *plus* operation
+    implements the plus operation for positive integers
+
+    Parameters:
+      left: a positive integer value
+      right: any numeric value
+
+    Result:
+      result: the sum of left and right
+
+    Topic: Numbers
+
+    See also: std_types::integer, std_types::real
   {
     CHECK_ARGUMENTS(2)
     CHECK_RESULTS(1)
@@ -1230,8 +1298,6 @@ METHOD std_types::positive_integer/plus
   }
 
 METHOD negative_integer/plus
-  #
-    implements the *plus* operation
   {
     CHECK_ARGUMENTS(2)
     CHECK_RESULTS(1)
@@ -1253,7 +1319,18 @@ METHOD negative_integer/plus
 
 METHOD std_types::real/plus
   #
-    implements the *plus* operation
+    implements the plus operation for real numbers
+
+    Parameters:
+      left: a real number
+      right: any numeric value
+
+    Result:
+      result: the sum of left and right
+
+    Topic: Numbers
+
+    See also: std_types::real, std_types::integer
   {
     CHECK_ARGUMENTS(2)
     CHECK_RESULTS(1)
@@ -1269,7 +1346,18 @@ METHOD std_types::real/plus
 
 METHOD std_types::positive_integer/minus
   #
-    implements the *minus* operation
+    implements the minus operation for positive integers
+
+    Parameters:
+      left: a positive integer value
+      right: any numeric value
+
+    Result:
+      result: the difference of left and right
+
+    Topic: Numbers
+
+    See also: std_types::integer, std_types::real
   {
     CHECK_ARGUMENTS(2)
     CHECK_RESULTS(1)
@@ -1291,7 +1379,18 @@ METHOD std_types::positive_integer/minus
 
 METHOD negative_integer/minus
   #
-    implements the *minus* operation
+    implements the minus operation for negative integers
+
+    Parameters:
+      left: a negative integer value
+      right: any numeric value
+
+    Result:
+      result: the difference of left and right
+
+    Topic: Numbers
+
+    See also: std_types::integer, std_types::real
   {
     CHECK_ARGUMENTS(2)
     CHECK_RESULTS(1)
@@ -1313,7 +1412,18 @@ METHOD negative_integer/minus
 
 METHOD std_types::real/minus
   #
-    implements the *minus* operation
+    implements the minus operation for real numbers
+
+    Parameters:
+      left: a real number
+      right: any numeric value
+
+    Result:
+      result: the difference of left and right
+
+    Topic: Numbers
+
+    See also: std_types::real, std_types::integer
   {
     CHECK_ARGUMENTS(2)
     CHECK_RESULTS(1)
@@ -1329,7 +1439,18 @@ METHOD std_types::real/minus
 
 METHOD std_types::real/times
   #
-    implements the *times* operation
+    implements the times operation for real numbers
+
+    Parameters:
+      left: a real number
+      right: any numeric value
+
+    Result:
+      result: the product of left and right
+
+    Topic: Numbers
+
+    See also: std_types::real, std_types::integer
   {
     CHECK_ARGUMENTS(2)
     CHECK_RESULTS(1)
@@ -1345,7 +1466,18 @@ METHOD std_types::real/times
 
 METHOD std_types::real/over
   #
-    implements the *over* operation
+    implements the over operation for real numbers
+
+    Parameters:
+      left: a real number
+      right: any numeric value
+
+    Result:
+      result: the quotient of left and right
+
+    Topic: Numbers
+
+    See also: std_types::real, std_types::integer
   {
     CHECK_ARGUMENTS(2)
     CHECK_RESULTS(1)
@@ -1361,12 +1493,44 @@ METHOD std_types::real/over
 
 METHOD std_types::positive_integer/equal
   #
-    implements the *equal* operation
+    returns true if both arguments are numerically equal
+
+    Parameters:
+      left: a positive integer value
+      right: any numeric value
+
+    Result:
+      result: true if left and right are numerically equal, false otherwise
+
+    If the *right* argument is a real number then *left* is converted to a real
+    value before the comparison.
+
+    Topic: Numbers
+
+    See also: std_types::integer, std_types::real, less
+
+    Example:
+
+      dump! `(4 == 4)
+
+    Output:
+
+      (4 == 4): <true>
+
+    Example:
+
+      dump! `(4 == 4.0)
+
+    Output:
+
+      (4 == 4.0): <true>
   {
     CHECK_ARGUMENTS(2)
     CHECK_RESULTS(1)
     if (TYPEOF(ARGUMENTS(1)) == TYPE(std_types::positive_integer)) {
       RETURN_BOOLEAN(ARGUMENTS(0)->integer.value == ARGUMENTS(1)->integer.value)
+    } else if (TYPEOF(ARGUMENTS(1)) == TYPE(std_types::real)) {
+      RETURN_BOOLEAN(ARGUMENTS(0)->integer.value == ARGUMENTS(1)->real.value)
     } else if (TYPEOF(ARGUMENTS(1)) == TYPE(std_types::error)) {
       INVALID_ARGUMENTS
     } else {
@@ -1375,13 +1539,13 @@ METHOD std_types::positive_integer/equal
   }
 
 METHOD negative_integer/equal
-  #
-    implements the *equal* operation
   {
     CHECK_ARGUMENTS(2)
     CHECK_RESULTS(1)
     if (TYPEOF(ARGUMENTS(1)) == TYPE(negative_integer)) {
       RETURN_BOOLEAN(ARGUMENTS(0)->integer.value == ARGUMENTS(1)->integer.value)
+    } else if (TYPEOF(ARGUMENTS(1)) == TYPE(std_types::real)) {
+      RETURN_BOOLEAN(ARGUMENTS(0)->integer.value == -ARGUMENTS(1)->real.value)
     } else if (TYPEOF(ARGUMENTS(1)) == TYPE(std_types::error)) {
       INVALID_ARGUMENTS
     } else {
@@ -1391,12 +1555,46 @@ METHOD negative_integer/equal
 
 METHOD std_types::real/equal
   #
-    implements the *equal* operation
+    implements the *equal* operation for real numbers
+
+    Parameters:
+      left: a real number
+      right: any numeric value
+
+    Result:
+      result: true if left and right are numerically equal, false otherwise
+
+    If the *right* argument is an integer then *right* is converted to a real
+    value before the comparison.
+
+    Topic: Numbers
+
+    See also: std_types::integer, std_types::real, less
+
+    Example:
+
+      dump! `(4.0 == 4.0)
+
+    Output:
+
+      (4.0 == 4.0): <true>
+
+    Example:
+
+      dump! `(4.0 == 4)
+
+    Output:
+
+      (4.0 == 4): <true>
   {
     CHECK_ARGUMENTS(2)
     CHECK_RESULTS(1)
     if (TYPEOF(ARGUMENTS(1)) == TYPE(std_types::real)) {
       RETURN_BOOLEAN(ARGUMENTS(0)->real.value == ARGUMENTS(1)->real.value)
+    } else if (TYPEOF(ARGUMENTS(1)) == TYPE(std_types::positive_integer)) {
+      RETURN_BOOLEAN(ARGUMENTS(0)->real.value == ARGUMENTS(1)->integer.value)
+    } else if (TYPEOF(ARGUMENTS(1)) == TYPE(negative_integer)) {
+      RETURN_BOOLEAN(-ARGUMENTS(0)->real.value == ARGUMENTS(1)->integer.value)
     } else if (TYPEOF(ARGUMENTS(1)) == TYPE(std_types::error)) {
       INVALID_ARGUMENTS
     } else {
@@ -1406,7 +1604,37 @@ METHOD std_types::real/equal
 
 METHOD std_types::positive_integer/less
   #
-    implements the *less* operation
+    returns true if the left argument is less than the right argument
+
+    Parameters:
+      left: a positive integer value
+      right: any numeric value
+
+    Result:
+      result: true if left is less than right, false otherwise
+
+    If the *right* argument is a real number then *left* is converted to a real
+    value before the comparison.
+
+    Topic: Numbers
+
+    See also: std_types::integer, std_types::real, equal
+
+    Example:
+
+      dump! `(4 < 4)
+
+    Output:
+
+      (4 < 4): <false>
+
+    Example:
+
+      dump! `(4 < 4.0)
+
+    Output:
+
+      (4 < 4.0): <false>
   {
     CHECK_ARGUMENTS(2)
     CHECK_RESULTS(1)
@@ -1421,8 +1649,6 @@ METHOD std_types::positive_integer/less
   }
 
 METHOD negative_integer/less
-  #
-    implements the *less* operation
   {
     CHECK_ARGUMENTS(2)
     CHECK_RESULTS(1)
@@ -1438,7 +1664,38 @@ METHOD negative_integer/less
 
 METHOD std_types::real/less
   #
-    implements the *less* operation
+    implements the *less* operation for real numbers
+
+    Parameters:
+      left: a real number
+      right: any numeric value
+
+    Result:
+      result: true if left is less than right, false otherwise
+
+    If the *right* argument is an integer then *right* is converted to a real
+    value before the comparison.
+
+    Topic: Numbers
+
+    See also: std_types::integer, std_types::real, equal
+
+    Example:
+
+      dump! `(4.0 < 4.0)
+
+    Output:
+
+      (4.0 < 4.0): <false>
+
+    Example:
+
+      dump! `(4.0 < 4)
+
+
+    Output:
+
+      (4.0 < 4): <false>
   {
     CHECK_ARGUMENTS(2)
     CHECK_RESULTS(1)
@@ -1454,7 +1711,26 @@ METHOD std_types::real/less
 
 METHOD std_types::positive_integer/shift_left
   #
-    implements the *shift left* operation
+    returns the left-shifted value
+
+    Parameters:
+      self: a positive integer value
+      shift_count: a positive integer value
+
+    Result:
+      result: the left-shifted integer value
+
+    Topic: Numbers
+
+    See also: std_types::integer, std_types::positive_integer
+
+    Example:
+
+      println! 4 << 2
+
+    Output:
+
+      16
   {
     CHECK_ARGUMENTS(2)
     CHECK_RESULTS(1)
@@ -1466,7 +1742,26 @@ METHOD std_types::positive_integer/shift_left
 
 METHOD std_types::positive_integer/shift_right
   #
-    implements the *shift right* operation
+    returns the right-shifted value
+
+    Parameters:
+      self: a positive integer value
+      shift_count: a positive integer value
+
+    Result:
+      result: the right-shifted integer value
+
+    Topic: Numbers
+
+    See also: std_types::integer, std_types::positive_integer
+
+    Example:
+
+      println! 4 >> 2
+
+    Output:
+
+      1
   {
     CHECK_ARGUMENTS(2)
     CHECK_RESULTS(1)
@@ -1478,7 +1773,26 @@ METHOD std_types::positive_integer/shift_right
 
 METHOD std_types::positive_integer/bit_and
   #
-    implements the *bit and* operation
+    returns the bit-wise AND of the two arguments
+
+    Parameters:
+      left: a positive integer value
+      right: a positive integer value
+
+    Result:
+      result: the bit-wise AND of the two arguments
+
+    Topic: Numbers
+
+    See also: std_types::integer, std_types::positive_integer
+
+    Example:
+
+      println! 6 & 3
+
+    Output:
+
+      2
   {
     CHECK_ARGUMENTS(2)
     CHECK_RESULTS(1)
@@ -1490,7 +1804,26 @@ METHOD std_types::positive_integer/bit_and
 
 METHOD std_types::positive_integer/bit_or
   #
-    implements the *bit or* operation
+    returns the bit-wise OR of the two arguments
+
+    Parameters:
+      left: a positive integer value
+      right: a positive integer value
+
+    Result:
+      result: the bit-wise OR of the two arguments
+
+    Topic: Numbers
+
+    See also: std_types::integer, std_types::positive_integer
+
+    Example:
+
+      println! 6 | 10
+
+    Output:
+
+     14
   {
     CHECK_ARGUMENTS(2)
     CHECK_RESULTS(1)
@@ -1502,7 +1835,26 @@ METHOD std_types::positive_integer/bit_or
 
 METHOD std_types::positive_integer/bit_xor
   #
-    implements the *bit xor* operation
+    returns the bit-wise exclusive OR of the two arguments
+
+    Parameters:
+      left: a positive integer value
+      right: a positive integer value
+
+    Result:
+      result: the bit-wise XOR of the two arguments
+
+    Topic: Numbers
+
+    See also: std_types::integer, std_types::positive_integer
+
+    Example:
+
+      println! 6 ^ 10
+
+    Output:
+
+      12
   {
     CHECK_ARGUMENTS(2)
     CHECK_RESULTS(1)
@@ -1510,4 +1862,172 @@ METHOD std_types::positive_integer/bit_xor
       RETURN_SINGLE_RESULT(CREATE(std_types::positive_integer, ARGUMENTS(0)->integer.value ^ ARGUMENTS(1)->integer.value))
     }
     INVALID_ARGUMENTS
+  }
+
+FUNCTION std::sin
+  #
+    returns the sine of the given angle
+
+    Parameter:
+      angle: a (real) numeric value
+
+    Result:
+      result: the sine of the given angle
+
+    Topic: Numbers
+
+    See also: cos, tan, asin, acos, atan
+
+    Example:
+
+      println! sin(PI/2)
+
+    Output:
+
+      1
+  {
+    CHECK_ARGUMENTS(1)
+    double arg;
+    CHECK(to_double(ARGUMENTS(0), &arg))
+    RETURN_SINGLE_RESULT(CREATE(std_types::real, sin(arg)))
+  }
+
+FUNCTION std::cos
+  #
+    returns the cosine of the given angle
+
+    Parameter:
+      angle: a (real) numeric value
+
+    Result:
+      result: the cosine of the given angle
+
+    Topic: Numbers
+
+    See also: sin, tan, acos, asin, atan
+
+    Example:
+
+      println! cos(PI/2)
+
+    Output:
+
+      0
+  {
+    CHECK_ARGUMENTS(1)
+    double arg;
+    CHECK(to_double(ARGUMENTS(0), &arg))
+    RETURN_SINGLE_RESULT(CREATE(std_types::real, cos(arg)))
+  }
+
+FUNCTION std::tan
+  #
+    returns the tangent of the given angle
+
+    Parameter:
+      angle: a (real) numeric value
+
+    Result:
+      result: the tangent of the given angle
+
+    Topic: Numbers
+
+    See also: sin, cos, atan, asin, acos
+
+    Example:
+
+      println! tan(PI/4)
+
+    Output:
+
+      1
+  {
+    CHECK_ARGUMENTS(1)
+    double arg;
+    CHECK(to_double(ARGUMENTS(0), &arg))
+    RETURN_SINGLE_RESULT(CREATE(std_types::real, tan(arg)))
+  }
+
+FUNCTION std::asin
+  #
+    returns the arcsine of the given value
+
+    Parameter:
+      value: a real numeric value
+
+    Result:
+      result: the arcsine of the given value
+
+    Topic: Numbers
+
+    See also: sin, cos, atan, tan, acos
+
+    Example:
+
+      println! asin(1)
+
+    Output:
+
+      1.5707963267949
+  {
+    CHECK_ARGUMENTS(1)
+    double arg;
+    CHECK(to_double(ARGUMENTS(0), &arg))
+    RETURN_SINGLE_RESULT(CREATE(std_types::real, asin(arg)))
+  }
+
+FUNCTION std::acos
+  #
+    returns the arccosine of the given value
+
+    Parameter:
+      value: a real numeric value
+
+    Result:
+      result: the arccosine of the given value
+
+    Topic: Numbers
+
+    See also: sin, cos, atan, tan, asin
+
+    Example:
+
+      println! acos(1)
+
+    Output:
+
+      0
+  {
+    CHECK_ARGUMENTS(1)
+    double arg;
+    CHECK(to_double(ARGUMENTS(0), &arg))
+    RETURN_SINGLE_RESULT(CREATE(std_types::real, acos(arg)))
+  }
+
+FUNCTION std::atan
+  #
+    returns the arctangent of the given value
+
+    Parameter:
+      value: a real numeric value
+
+    Result:
+      result: the arctangent of the given value
+
+    Topic: Numbers
+
+    See also: sin, cos, asin, acos, tan
+
+    Example:
+
+      println! atan(1)
+
+    Output:
+
+      0.785398163397448
+  {
+    CHECK_ARGUMENTS(1)
+    double arg;
+    CHECK(to_double(ARGUMENTS(0), &arg))
+    RETURN_SINGLE_RESULT(CREATE(std_types::real, atan(arg)))
   }

@@ -54,32 +54,32 @@ enum {
   var_pass, // extern
   var_std__break, // derived
   var_std__loop, // initialized
-  var_151_0_finally, // dynamic
+  var_162_0_finally, // dynamic
   var_next, // extern
   var_break, // extern
   var_tuple, // extern
   var_std__while, // initialized
-  var_176_0_condition, // dynamic
-  var_177_0_body, // dynamic
-  var_178_0_finally, // dynamic
+  var_194_0_condition, // dynamic
+  var_195_0_body, // dynamic
+  var_196_0_finally, // dynamic
   var_if, // extern
   var_loop, // extern
   var_std__while_not, // initialized
-  var_190_0_condition, // dynamic
-  var_191_0_body, // dynamic
-  var_192_0_finally, // dynamic
+  var_215_0_condition, // dynamic
+  var_216_0_body, // dynamic
+  var_217_0_finally, // dynamic
   var_if_not, // extern
   var_std__repeat, // initialized
-  var_228_0_finally, // dynamic
+  var_296_0_finally, // dynamic
   var_std__less, // extern
   var_std__minus, // extern
   var_std__from_to, // initialized
-  var_342_0_finally, // dynamic
+  var_410_0_finally, // dynamic
   var_std__not, // extern
   var_std__plus, // extern
   var_std__from_to_by, // initialized
-  var_398_0_finally, // dynamic
-  var_416_1_iterate, // dynamic
+  var_495_0_finally, // dynamic
+  var_513_1_iterate, // dynamic
   var__END
 };
 
@@ -87,12 +87,12 @@ enum {
 static TAB_NUM t_func_std__loop[] = {
   2, // locals
   -2, // parameters
-  MANDATORY_PARAMETER, LOCAL(1), // 150_0_body
-  var_pass, var_151_0_finally,
+  MANDATORY_PARAMETER, LOCAL(1), // 161_0_body
+  var_pass, var_162_0_finally,
   // $saved_context tuple(next break basic_loops::finally)
   var_tuple, 3, var_next, var_break, var_basic_loops__finally, 1, LOCAL(2),
   // !basic_loops::finally finally
-  LET, 1, var_151_0_finally, 1, var_basic_loops__finally,
+  LET, 1, var_162_0_finally, 1, var_basic_loops__finally,
   // !next body
   LET, 1, LOCAL(1), 1, var_next,
   // !break: (myself^)
@@ -101,82 +101,82 @@ static TAB_NUM t_func_std__loop[] = {
   LET, -1, var_break, var_basic_loops__saved_context_of, LOCAL(2), var_break,
   // next!
   var_next, 0, IO_TAIL_CALL,
-  POS(153, 3),
-  POS(155, 3),
-  POS(157, 3),
-  POS(159, 3),
-  POS(164, 4),
-  POS(166, 3)
+  POS(164, 3),
+  POS(166, 3),
+  POS(168, 3),
+  POS(170, 3),
+  POS(175, 4),
+  POS(177, 3)
 };
 
 static TAB_NUM t_lambda_break[] = {
   2, // locals
   -1, // parameters
-  MYSELF_PARAMETER, LOCAL(2), // 159_9_myself
+  MYSELF_PARAMETER, LOCAL(2), // 170_9_myself
   // !finally basic_loops::finally
-  LET, 1, var_basic_loops__finally, 1, var_151_0_finally,
+  LET, 1, var_basic_loops__finally, 1, var_162_0_finally,
   // basic_loops::saved_context_of(myself) !next !break !basic_loops::finally
   var_basic_loops__saved_context_of, 1, LOCAL(2), 1, LOCAL(1),
   // basic_loops::saved_context_of(myself) !next !break !basic_loops::finally
   LOCAL(1), 0, 3, var_next, var_break, var_basic_loops__finally,
   // finally!
-  var_151_0_finally, 0, IO_TAIL_CALL,
-  POS(160, 5),
-  POS(161, 5),
-  POS(161, 5),
-  POS(162, 5)
+  var_162_0_finally, 0, IO_TAIL_CALL,
+  POS(171, 5),
+  POS(172, 5),
+  POS(172, 5),
+  POS(173, 5)
 };
 
 static TAB_NUM t_func_std__while[] = {
   0, // locals
   -3, // parameters
-  MANDATORY_PARAMETER, var_176_0_condition,
-  MANDATORY_PARAMETER, var_177_0_body,
-  var_pass, var_178_0_finally,
+  MANDATORY_PARAMETER, var_194_0_condition,
+  MANDATORY_PARAMETER, var_195_0_body,
+  var_pass, var_196_0_finally,
   // loop: if condition() body finally
   var_loop, 1, lambda_loop, TAIL_CALL,
-  POS(180, 3)
+  POS(198, 3)
 };
 
 static TAB_NUM t_lambda_loop[] = {
   1, // locals
   0, // parameters
   // condition() body finally
-  var_176_0_condition, 0, 1, LOCAL(1),
+  var_194_0_condition, 0, 1, LOCAL(1),
   // if condition() body finally
-  var_if, 3, LOCAL(1), var_177_0_body, var_178_0_finally, TAIL_CALL,
-  POS(180, 12),
-  POS(180, 9)
+  var_if, 3, LOCAL(1), var_195_0_body, var_196_0_finally, TAIL_CALL,
+  POS(198, 12),
+  POS(198, 9)
 };
 
 static TAB_NUM t_func_std__while_not[] = {
   0, // locals
   -3, // parameters
-  MANDATORY_PARAMETER, var_190_0_condition,
-  MANDATORY_PARAMETER, var_191_0_body,
-  var_pass, var_192_0_finally,
+  MANDATORY_PARAMETER, var_215_0_condition,
+  MANDATORY_PARAMETER, var_216_0_body,
+  var_pass, var_217_0_finally,
   // loop: if_not condition() body finally
   var_loop, 1, lambda_2_loop, TAIL_CALL,
-  POS(194, 3)
+  POS(219, 3)
 };
 
 static TAB_NUM t_lambda_2_loop[] = {
   1, // locals
   0, // parameters
   // condition() body finally
-  var_190_0_condition, 0, 1, LOCAL(1),
+  var_215_0_condition, 0, 1, LOCAL(1),
   // if_not condition() body finally
-  var_if_not, 3, LOCAL(1), var_191_0_body, var_192_0_finally, TAIL_CALL,
-  POS(194, 16),
-  POS(194, 9)
+  var_if_not, 3, LOCAL(1), var_216_0_body, var_217_0_finally, TAIL_CALL,
+  POS(219, 16),
+  POS(219, 9)
 };
 
 static TAB_NUM t_func_std__repeat[] = {
   3, // locals
   -3, // parameters
-  MANDATORY_PARAMETER, LOCAL(1), // 226_0_n
-  MANDATORY_PARAMETER, LOCAL(2), // 227_0_body
-  var_pass, var_228_0_finally,
+  MANDATORY_PARAMETER, LOCAL(1), // 294_0_n
+  MANDATORY_PARAMETER, LOCAL(2), // 295_0_body
+  var_pass, var_296_0_finally,
   // $saved_context
   var_tuple, 5, var_next, var_break, var_basic_loops__from, var_basic_loops__body, var_basic_loops__finally, 1, LOCAL(3),
   // !basic_loops::from n
@@ -184,7 +184,7 @@ static TAB_NUM t_func_std__repeat[] = {
   // !basic_loops::body body
   LET, 1, LOCAL(2), 1, var_basic_loops__body,
   // !basic_loops::finally finally
-  LET, 1, var_228_0_finally, 1, var_basic_loops__finally,
+  LET, 1, var_296_0_finally, 1, var_basic_loops__finally,
   // !next:
   LET, 1, lambda_next, 1, var_next,
   // !break: (myself^)
@@ -193,14 +193,14 @@ static TAB_NUM t_func_std__repeat[] = {
   LET, -1, var_break, var_basic_loops__saved_context_of, LOCAL(3), var_break,
   // iterate!
   func_iterate, 0, IO_TAIL_CALL,
-  POS(230, 3),
-  POS(238, 3),
-  POS(239, 3),
-  POS(240, 3),
-  POS(249, 3),
-  POS(253, 3),
-  POS(260, 4),
-  POS(262, 3)
+  POS(298, 3),
+  POS(306, 3),
+  POS(307, 3),
+  POS(308, 3),
+  POS(317, 3),
+  POS(321, 3),
+  POS(328, 4),
+  POS(330, 3)
 };
 
 static TAB_NUM t_func_iterate[] = {
@@ -210,8 +210,8 @@ static TAB_NUM t_func_iterate[] = {
   var_std__less, 2, num_0, var_basic_loops__from, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_1, lambda_2, IO_TAIL_CALL,
-  POS(244, 27),
-  POS(243, 5)
+  POS(312, 27),
+  POS(311, 5)
 };
 
 static TAB_NUM t_lambda_1[] = {
@@ -219,7 +219,7 @@ static TAB_NUM t_lambda_1[] = {
   0, // parameters
   // basic_loops::body!
   var_basic_loops__body, 0, IO_TAIL_CALL,
-  POS(245, 9)
+  POS(313, 9)
 };
 
 static TAB_NUM t_lambda_2[] = {
@@ -227,7 +227,7 @@ static TAB_NUM t_lambda_2[] = {
   0, // parameters
   // break!
   var_break, 0, IO_TAIL_CALL,
-  POS(247, 9)
+  POS(315, 9)
 };
 
 static TAB_NUM t_lambda_next[] = {
@@ -237,35 +237,35 @@ static TAB_NUM t_lambda_next[] = {
   var_std__minus, 2, var_basic_loops__from, num_1, 1, var_basic_loops__from,
   // iterate!
   func_iterate, 0, IO_TAIL_CALL,
-  POS(250, 5),
-  POS(251, 5)
+  POS(318, 5),
+  POS(319, 5)
 };
 
 static TAB_NUM t_lambda_2_break[] = {
   2, // locals
   -1, // parameters
-  MYSELF_PARAMETER, LOCAL(2), // 253_9_myself
+  MYSELF_PARAMETER, LOCAL(2), // 321_9_myself
   // !finally basic_loops::finally
-  LET, 1, var_basic_loops__finally, 1, var_228_0_finally,
+  LET, 1, var_basic_loops__finally, 1, var_296_0_finally,
   // basic_loops::saved_context_of(myself)
   var_basic_loops__saved_context_of, 1, LOCAL(2), 1, LOCAL(1),
   // basic_loops::saved_context_of(myself)
   LOCAL(1), 0, 5, var_next, var_break, var_basic_loops__from, var_basic_loops__body, var_basic_loops__finally,
   // finally!
-  var_228_0_finally, 0, IO_TAIL_CALL,
-  POS(254, 5),
-  POS(255, 5),
-  POS(255, 5),
-  POS(258, 5)
+  var_296_0_finally, 0, IO_TAIL_CALL,
+  POS(322, 5),
+  POS(323, 5),
+  POS(323, 5),
+  POS(326, 5)
 };
 
 static TAB_NUM t_func_std__from_to[] = {
   4, // locals
   -4, // parameters
-  MANDATORY_PARAMETER, LOCAL(1), // 339_0_from
-  MANDATORY_PARAMETER, LOCAL(2), // 340_0_to
-  MANDATORY_PARAMETER, LOCAL(3), // 341_0_body
-  var_pass, var_342_0_finally,
+  MANDATORY_PARAMETER, LOCAL(1), // 407_0_from
+  MANDATORY_PARAMETER, LOCAL(2), // 408_0_to
+  MANDATORY_PARAMETER, LOCAL(3), // 409_0_body
+  var_pass, var_410_0_finally,
   // $saved_context
   var_tuple, 6, var_next, var_break, var_basic_loops__from, var_basic_loops__to, var_basic_loops__body, var_basic_loops__finally, 1, LOCAL(4),
   // !basic_loops::from from
@@ -275,7 +275,7 @@ static TAB_NUM t_func_std__from_to[] = {
   // !basic_loops::body body
   LET, 1, LOCAL(3), 1, var_basic_loops__body,
   // !basic_loops::finally finally
-  LET, 1, var_342_0_finally, 1, var_basic_loops__finally,
+  LET, 1, var_410_0_finally, 1, var_basic_loops__finally,
   // !next:
   LET, 1, lambda_2_next, 1, var_next,
   // !break: (myself^)
@@ -284,15 +284,15 @@ static TAB_NUM t_func_std__from_to[] = {
   LET, -1, var_break, var_basic_loops__saved_context_of, LOCAL(4), var_break,
   // iterate!
   func_2_iterate, 0, IO_TAIL_CALL,
-  POS(344, 3),
-  POS(353, 3),
-  POS(354, 3),
-  POS(355, 3),
-  POS(356, 3),
-  POS(365, 3),
-  POS(369, 3),
-  POS(376, 4),
-  POS(378, 3)
+  POS(412, 3),
+  POS(421, 3),
+  POS(422, 3),
+  POS(423, 3),
+  POS(424, 3),
+  POS(433, 3),
+  POS(437, 3),
+  POS(444, 4),
+  POS(446, 3)
 };
 
 static TAB_NUM t_func_2_iterate[] = {
@@ -304,9 +304,9 @@ static TAB_NUM t_func_2_iterate[] = {
   var_std__not, 1, LOCAL(1), 1, LOCAL(2),
   // if
   var_if, 3, LOCAL(2), lambda_3, lambda_4, IO_TAIL_CALL,
-  POS(360, 28),
-  POS(360, 28),
-  POS(359, 5)
+  POS(428, 28),
+  POS(428, 28),
+  POS(427, 5)
 };
 
 static TAB_NUM t_lambda_3[] = {
@@ -314,7 +314,7 @@ static TAB_NUM t_lambda_3[] = {
   0, // parameters
   // basic_loops::body! basic_loops::from
   var_basic_loops__body, 1, var_basic_loops__from, IO_TAIL_CALL,
-  POS(361, 9)
+  POS(429, 9)
 };
 
 static TAB_NUM t_lambda_4[] = {
@@ -322,7 +322,7 @@ static TAB_NUM t_lambda_4[] = {
   0, // parameters
   // break!
   var_break, 0, IO_TAIL_CALL,
-  POS(363, 9)
+  POS(431, 9)
 };
 
 static TAB_NUM t_lambda_2_next[] = {
@@ -332,36 +332,36 @@ static TAB_NUM t_lambda_2_next[] = {
   var_std__plus, 2, var_basic_loops__from, num_1, 1, var_basic_loops__from,
   // iterate!
   func_2_iterate, 0, IO_TAIL_CALL,
-  POS(366, 5),
-  POS(367, 5)
+  POS(434, 5),
+  POS(435, 5)
 };
 
 static TAB_NUM t_lambda_3_break[] = {
   2, // locals
   -1, // parameters
-  MYSELF_PARAMETER, LOCAL(2), // 369_9_myself
+  MYSELF_PARAMETER, LOCAL(2), // 437_9_myself
   // !finally basic_loops::finally
-  LET, 1, var_basic_loops__finally, 1, var_342_0_finally,
+  LET, 1, var_basic_loops__finally, 1, var_410_0_finally,
   // basic_loops::saved_context_of(myself)
   var_basic_loops__saved_context_of, 1, LOCAL(2), 1, LOCAL(1),
   // basic_loops::saved_context_of(myself)
   LOCAL(1), 0, 6, var_next, var_break, var_basic_loops__from, var_basic_loops__to, var_basic_loops__body, var_basic_loops__finally,
   // finally!
-  var_342_0_finally, 0, IO_TAIL_CALL,
-  POS(370, 5),
-  POS(371, 5),
-  POS(371, 5),
-  POS(374, 5)
+  var_410_0_finally, 0, IO_TAIL_CALL,
+  POS(438, 5),
+  POS(439, 5),
+  POS(439, 5),
+  POS(442, 5)
 };
 
 static TAB_NUM t_func_std__from_to_by[] = {
   6, // locals
   -5, // parameters
-  MANDATORY_PARAMETER, LOCAL(2), // 394_0_from
-  MANDATORY_PARAMETER, LOCAL(3), // 395_0_to
-  MANDATORY_PARAMETER, LOCAL(4), // 396_0_by
-  MANDATORY_PARAMETER, LOCAL(5), // 397_0_body
-  var_pass, var_398_0_finally,
+  MANDATORY_PARAMETER, LOCAL(2), // 491_0_from
+  MANDATORY_PARAMETER, LOCAL(3), // 492_0_to
+  MANDATORY_PARAMETER, LOCAL(4), // 493_0_by
+  MANDATORY_PARAMETER, LOCAL(5), // 494_0_body
+  var_pass, var_495_0_finally,
   // $saved_context
   var_tuple, 7, var_next, var_break, var_basic_loops__from, var_basic_loops__to, var_basic_loops__by, var_basic_loops__body, var_basic_loops__finally, 1, LOCAL(6),
   // !basic_loops::from from
@@ -373,11 +373,11 @@ static TAB_NUM t_func_std__from_to_by[] = {
   // !basic_loops::body body
   LET, 1, LOCAL(5), 1, var_basic_loops__body,
   // !basic_loops::finally finally
-  LET, 1, var_398_0_finally, 1, var_basic_loops__finally,
+  LET, 1, var_495_0_finally, 1, var_basic_loops__finally,
   // by < 0
   var_std__less, 2, LOCAL(4), num_0, 1, LOCAL(1),
   // $iterate
-  var_if, 3, LOCAL(1), lambda_5, lambda_9, 1, var_416_1_iterate,
+  var_if, 3, LOCAL(1), lambda_5, lambda_9, 1, var_513_1_iterate,
   // !next:
   LET, 1, lambda_3_next, 1, var_next,
   // !break: (myself^)
@@ -385,19 +385,19 @@ static TAB_NUM t_func_std__from_to_by[] = {
   // break.basic_loops::saved_context_of saved_context
   LET, -1, var_break, var_basic_loops__saved_context_of, LOCAL(6), var_break,
   // iterate!
-  var_416_1_iterate, 0, IO_TAIL_CALL,
-  POS(400, 3),
-  POS(410, 3),
-  POS(411, 3),
-  POS(412, 3),
-  POS(413, 3),
-  POS(414, 3),
-  POS(418, 7),
-  POS(416, 3),
-  POS(432, 3),
-  POS(436, 3),
-  POS(444, 4),
-  POS(446, 3)
+  var_513_1_iterate, 0, IO_TAIL_CALL,
+  POS(497, 3),
+  POS(507, 3),
+  POS(508, 3),
+  POS(509, 3),
+  POS(510, 3),
+  POS(511, 3),
+  POS(515, 7),
+  POS(513, 3),
+  POS(529, 3),
+  POS(533, 3),
+  POS(541, 4),
+  POS(543, 3)
 };
 
 static TAB_NUM t_lambda_5[] = {
@@ -405,7 +405,7 @@ static TAB_NUM t_lambda_5[] = {
   0, // parameters
   //  :
   LET, 1, lambda_6, IO_TAIL_CALL,
-  POS(419, 9)
+  POS(516, 9)
 };
 
 static TAB_NUM t_lambda_6[] = {
@@ -417,9 +417,9 @@ static TAB_NUM t_lambda_6[] = {
   var_std__not, 1, LOCAL(1), 1, LOCAL(2),
   // if
   var_if, 3, LOCAL(2), lambda_7, lambda_8, IO_TAIL_CALL,
-  POS(421, 11),
-  POS(421, 11),
-  POS(420, 9)
+  POS(518, 11),
+  POS(518, 11),
+  POS(517, 9)
 };
 
 static TAB_NUM t_lambda_7[] = {
@@ -427,7 +427,7 @@ static TAB_NUM t_lambda_7[] = {
   0, // parameters
   // basic_loops::body! basic_loops::from
   var_basic_loops__body, 1, var_basic_loops__from, IO_TAIL_CALL,
-  POS(422, 13)
+  POS(519, 13)
 };
 
 static TAB_NUM t_lambda_8[] = {
@@ -435,7 +435,7 @@ static TAB_NUM t_lambda_8[] = {
   0, // parameters
   // break!
   var_break, 0, IO_TAIL_CALL,
-  POS(424, 13)
+  POS(521, 13)
 };
 
 static TAB_NUM t_lambda_9[] = {
@@ -443,7 +443,7 @@ static TAB_NUM t_lambda_9[] = {
   0, // parameters
   //  :
   LET, 1, lambda_10, IO_TAIL_CALL,
-  POS(425, 9)
+  POS(522, 9)
 };
 
 static TAB_NUM t_lambda_10[] = {
@@ -455,9 +455,9 @@ static TAB_NUM t_lambda_10[] = {
   var_std__not, 1, LOCAL(1), 1, LOCAL(2),
   // if
   var_if, 3, LOCAL(2), lambda_11, lambda_12, IO_TAIL_CALL,
-  POS(427, 32),
-  POS(427, 32),
-  POS(426, 9)
+  POS(524, 32),
+  POS(524, 32),
+  POS(523, 9)
 };
 
 static TAB_NUM t_lambda_11[] = {
@@ -465,7 +465,7 @@ static TAB_NUM t_lambda_11[] = {
   0, // parameters
   // basic_loops::body! basic_loops::from
   var_basic_loops__body, 1, var_basic_loops__from, IO_TAIL_CALL,
-  POS(428, 13)
+  POS(525, 13)
 };
 
 static TAB_NUM t_lambda_12[] = {
@@ -473,7 +473,7 @@ static TAB_NUM t_lambda_12[] = {
   0, // parameters
   // break!
   var_break, 0, IO_TAIL_CALL,
-  POS(430, 13)
+  POS(527, 13)
 };
 
 static TAB_NUM t_lambda_3_next[] = {
@@ -482,27 +482,27 @@ static TAB_NUM t_lambda_3_next[] = {
   // !basic_loops::from basic_loops::from+basic_loops::by
   var_std__plus, 2, var_basic_loops__from, var_basic_loops__by, 1, var_basic_loops__from,
   // iterate!
-  var_416_1_iterate, 0, IO_TAIL_CALL,
-  POS(433, 5),
-  POS(434, 5)
+  var_513_1_iterate, 0, IO_TAIL_CALL,
+  POS(530, 5),
+  POS(531, 5)
 };
 
 static TAB_NUM t_lambda_4_break[] = {
   2, // locals
   -1, // parameters
-  MYSELF_PARAMETER, LOCAL(2), // 436_9_myself
+  MYSELF_PARAMETER, LOCAL(2), // 533_9_myself
   // !finally basic_loops::finally
-  LET, 1, var_basic_loops__finally, 1, var_398_0_finally,
+  LET, 1, var_basic_loops__finally, 1, var_495_0_finally,
   // basic_loops::saved_context_of(myself)
   var_basic_loops__saved_context_of, 1, LOCAL(2), 1, LOCAL(1),
   // basic_loops::saved_context_of(myself)
   LOCAL(1), 0, 7, var_next, var_break, var_basic_loops__from, var_basic_loops__to, var_basic_loops__by, var_basic_loops__body, var_basic_loops__finally,
   // finally!
-  var_398_0_finally, 0, IO_TAIL_CALL,
-  POS(437, 5),
-  POS(438, 5),
-  POS(438, 5),
-  POS(442, 5)
+  var_495_0_finally, 0, IO_TAIL_CALL,
+  POS(534, 5),
+  POS(535, 5),
+  POS(535, 5),
+  POS(539, 5)
 };
 
 static FUNKY_CONSTANT constants_table[] = {
@@ -588,7 +588,7 @@ static FUNKY_VARIABLE variables_table[] = {
   {
     FOT_UNKNOWN, 0, 0,
     "pass\000", NULL,
-    {.position = POS(64, 12)}
+    {.position = POS(70, 12)}
   },
   {
     FOT_DERIVED, 0, 0,
@@ -602,22 +602,22 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "151_0_finally\000", NULL
+    "162_0_finally\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
     "next\000", NULL,
-    {.position = POS(153, 24)}
+    {.position = POS(164, 24)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "break\000", NULL,
-    {.position = POS(153, 29)}
+    {.position = POS(164, 29)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "tuple\000", NULL,
-    {.position = POS(153, 18)}
+    {.position = POS(164, 18)}
   },
   {
     FOT_INITIALIZED, 0, 0,
@@ -626,25 +626,25 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "176_0_condition\000", NULL
+    "194_0_condition\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "177_0_body\000", NULL
+    "195_0_body\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "178_0_finally\000", NULL
+    "196_0_finally\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
     "if\000", NULL,
-    {.position = POS(180, 9)}
+    {.position = POS(198, 9)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "loop\000", NULL,
-    {.position = POS(180, 3)}
+    {.position = POS(198, 3)}
   },
   {
     FOT_INITIALIZED, 0, 0,
@@ -653,20 +653,20 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "190_0_condition\000", NULL
+    "215_0_condition\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "191_0_body\000", NULL
+    "216_0_body\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "192_0_finally\000", NULL
+    "217_0_finally\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
     "if_not\000", NULL,
-    {.position = POS(194, 9)}
+    {.position = POS(219, 9)}
   },
   {
     FOT_INITIALIZED, 0, 0,
@@ -675,17 +675,17 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "228_0_finally\000", NULL
+    "296_0_finally\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
     "less\000std", NULL,
-    {.position = POS(244, 27)}
+    {.position = POS(312, 27)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "minus\000std", NULL,
-    {.position = POS(250, 24)}
+    {.position = POS(318, 24)}
   },
   {
     FOT_INITIALIZED, 0, 0,
@@ -694,17 +694,17 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "342_0_finally\000", NULL
+    "410_0_finally\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
     "not\000std", NULL,
-    {.position = POS(360, 28)}
+    {.position = POS(428, 28)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "plus\000std", NULL,
-    {.position = POS(366, 24)}
+    {.position = POS(434, 24)}
   },
   {
     FOT_INITIALIZED, 0, 0,
@@ -713,11 +713,11 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "398_0_finally\000", NULL
+    "495_0_finally\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "416_1_iterate\000", NULL
+    "513_1_iterate\000", NULL
   }
 };
 

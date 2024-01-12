@@ -342,7 +342,7 @@ enum {
   var_push, // extern
   var_std__plus, // extern
   var_316_16_response, // dynamic
-  var_extend_to, // extern
+  var_max, // extern
   var_dup, // extern
   var_loop, // extern
   var_343_15_piece, // dynamic
@@ -398,7 +398,6 @@ enum {
   var_empty_hash_table, // extern
   var_584_3_idx, // dynamic
   var_584_7_piece, // dynamic
-  var_max, // extern
   var_map_reduce, // extern
   var_ai__escaped_token, // initialized
   var_602_21_piece, // dynamic
@@ -1124,8 +1123,8 @@ static TAB_NUM t_lambda_34[] = {
   var_std__plus, 2, var_263_29_no, num_1, 1, LOCAL(3),
   // generate_text! $response $highest_no
   func_generate_text, 4, LOCAL(1), LOCAL(2), LOCAL(3), var_279_52_suffix, IO_CALL(2), var_316_16_response, LOCAL(4),
-  // extend_to &max_no highest_no
-  var_extend_to, 2, var_276_1_max_no, LOCAL(4), 1, var_276_1_max_no,
+  // max &max_no highest_no
+  var_max, 2, var_276_1_max_no, LOCAL(4), 1, var_276_1_max_no,
   // is_empty:
   var_is_empty, 1, var_316_16_response, 1, LOCAL(1),
   // if
@@ -3164,7 +3163,7 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "extend_to\000", NULL,
+    "max\000", NULL,
     {.position = POS(321, 23)}
   },
   {
@@ -3419,11 +3418,6 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "max\000", NULL,
-    {.position = POS(597, 66)}
-  },
-  {
-    FOT_UNKNOWN, 0, 0,
     "map_reduce\000", NULL,
     {.position = POS(597, 38)}
   },
@@ -3483,7 +3477,7 @@ FUNKY_MODULE module__ai__llama = {
   2, // number of defined namespaces
   1, // number of used namespaces
   219, // number of constants
-  178, // number of variables
+  177, // number of variables
   NULL, // required modules
   defined_namespaces,
   used_namespaces,

@@ -29,25 +29,54 @@ $std::match ()
   #
     match the grammar object with the start of the specified string
 
-    Parameter obj: the grammar object
+    Parameters:
+      object # the grammar object
+      string # the string to match
 
-    Parameter str: the string
+    Result:
+      n # the number of matched characters
 
-    Topic: Grammar Objects
+    If the match is unsuccessful, then *n* is <undefined>.
 
-    See also: search
+    Topic: Grammar Objects, Strings
+
+    See also: match_back, search
+
+$std::match_back ()
+  #
+    match the grammar object with the end of the specified string
+
+    Parameters:
+      object # the grammar object
+      string # the string to match
+
+    Result:
+      n # the number of matched characters
+
+    If the match is unsuccessful, then *n* is <undefined>.
+
+    Topic: Grammar Objects, Strings
+
+    See also: match, search
 
 $std::search ()
   #
-    search from the *grammar object* from the start of the specified string
+    search from the grammar object from the start or end of the specified string
 
-    Parameter obj: the grammar object
+    Parameters:
+      object # the grammar object
+      string # the string to search
+      nth # search for the nth occurrence of the grammar object
 
-    Parameter str: the string
+    Results:
+      pos # the position of the match measured from the start of the string
+      len # the number of matched characters
 
-    Topic: Grammar Objects
+    Negative values of *nth* search from the end of the string.
 
-    See also: match
+    Topic: Grammar Objects, Strings
+
+    See also: match, match_back
 
 $std_types::FUNKY_IDENTIFIER std_types::object
   #

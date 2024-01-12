@@ -178,6 +178,7 @@ enum {
   func__std___real,
   func__std___integer,
   func__std___sqrt,
+  func__std___pow,
   func__std_types___positive_integer___std___exit,
   func__std_types___positive_integer___std___plus,
   func__negative_integer___std___plus,
@@ -198,6 +199,12 @@ enum {
   func__std_types___positive_integer___std___bit_and,
   func__std_types___positive_integer___std___bit_or,
   func__std_types___positive_integer___std___bit_xor,
+  func__std___sin,
+  func__std___cos,
+  func__std___tan,
+  func__std___asin,
+  func__std___acos,
+  func__std___atan,
   func__std_types___file_type___std___equal,
   func__std_types___file_type___std___hash,
   func__std___file_type,
@@ -312,12 +319,6 @@ enum {
   func__std_types___terminal_attributes___std___timeout_for_reads,
   func__std_types___terminal_attributes___std___input_speed,
   func__std_types___terminal_attributes___std___output_speed,
-  func__std___sin,
-  func__std___cos,
-  func__std___tan,
-  func__std___asin,
-  func__std___acos,
-  func__std___atan,
   func__std_types___tuple___std___new,
   func__builtin___tuple2___std___to_list,
   func__builtin___tuple2___std___new,
@@ -504,6 +505,13 @@ enum {
   var_no__std___real,
   var_no__std___integer,
   var_no__std___sqrt,
+  var_no__std___pow,
+  var_no__std___sin,
+  var_no__std___cos,
+  var_no__std___tan,
+  var_no__std___asin,
+  var_no__std___acos,
+  var_no__std___atan,
   var_no__std_types___polymorphic_function,
   var_no__std_types___polymorphic_function_with_setter,
   var_no__std___subtype_of,
@@ -756,12 +764,6 @@ enum {
   var_no__std___input_speed,
   var_no__std___output_speed,
   var_no__std_types___terminal_attributes,
-  var_no__std___sin,
-  var_no__std___cos,
-  var_no__std___tan,
-  var_no__std___asin,
-  var_no__std___acos,
-  var_no__std___atan,
   var_no__std_types___tuple,
   var_no__builtin___tuple2,
   var_no__builtin___tuple3,
@@ -4159,7 +4161,7 @@ static int negative_integer____to_double
     double *result_p
   )
   {
-    *result_p = -node->integer.value;
+    *result_p = -(double)node->integer.value;
     return true;
   }
 
@@ -15630,6 +15632,24 @@ static void entry__std___sqrt (void)
     }
   }
 
+static void entry__std___pow (void)
+  {
+    if (TLS_argument_count != 2) {
+      invalid_arguments();
+      return;
+    }
+    double base;
+    if (!to_double(TLS_arguments[0], &base)) return;
+    double exponent;
+    if (!to_double(TLS_arguments[1], &exponent)) return;
+    {
+      NODE *result__node = (NODE *)(create__std_types___real(pow(base, exponent)));
+      TLS_arguments[0] = result__node;
+      TLS_argument_count = 1;
+      return;
+    }
+  }
+
 static void entry__std_types___positive_integer___std___exit (void)
   {
     if (TLS_argument_count != 1) {
@@ -15657,7 +15677,7 @@ static void entry__std_types___positive_integer___std___plus (void)
     }
     if ((TLS_arguments[1])->type == std_types___positive_integer.type) {
       if (TLS_arguments[0]->integer.value+TLS_arguments[1]->integer.value >= TLS_arguments[0]->integer.value) {
-        {
+	{
 	  NODE *result__node = (NODE *)(create__std_types___positive_integer(TLS_arguments[0]->integer.value+TLS_arguments[1]->integer.value));
 	  TLS_arguments[0] = result__node;
 	  TLS_argument_count = 1;
@@ -15666,14 +15686,14 @@ static void entry__std_types___positive_integer___std___plus (void)
       }
     } else if ((TLS_arguments[1])->type == negative_integer.type) {
       if (TLS_arguments[0]->integer.value >= TLS_arguments[1]->integer.value) {
-        {
+	{
 	  NODE *result__node = (NODE *)(create__std_types___positive_integer(TLS_arguments[0]->integer.value-TLS_arguments[1]->integer.value));
 	  TLS_arguments[0] = result__node;
 	  TLS_argument_count = 1;
 	  return;
 	}
       } else {
-        {
+	{
 	  NODE *result__node = (NODE *)(create__negative_integer(TLS_arguments[1]->integer.value-TLS_arguments[0]->integer.value));
 	  TLS_arguments[0] = result__node;
 	  TLS_argument_count = 1;
@@ -15706,7 +15726,7 @@ static void entry__negative_integer___std___plus (void)
     }
     if ((TLS_arguments[1])->type == negative_integer.type) {
       if (TLS_arguments[0]->integer.value+TLS_arguments[1]->integer.value >= TLS_arguments[0]->integer.value) {
-        {
+	{
 	  NODE *result__node = (NODE *)(create__negative_integer(TLS_arguments[0]->integer.value+TLS_arguments[1]->integer.value));
 	  TLS_arguments[0] = result__node;
 	  TLS_argument_count = 1;
@@ -15715,14 +15735,14 @@ static void entry__negative_integer___std___plus (void)
       }
     } else if ((TLS_arguments[1])->type == std_types___positive_integer.type) {
       if (TLS_arguments[0]->integer.value > TLS_arguments[1]->integer.value) {
-        {
+	{
 	  NODE *result__node = (NODE *)(create__negative_integer(TLS_arguments[0]->integer.value-TLS_arguments[1]->integer.value));
 	  TLS_arguments[0] = result__node;
 	  TLS_argument_count = 1;
 	  return;
 	}
       } else {
-        {
+	{
 	  NODE *result__node = (NODE *)(create__std_types___positive_integer(TLS_arguments[1]->integer.value-TLS_arguments[0]->integer.value));
 	  TLS_arguments[0] = result__node;
 	  TLS_argument_count = 1;
@@ -15793,14 +15813,14 @@ static void entry__std_types___positive_integer___std___minus (void)
     }
     if ((TLS_arguments[1])->type == std_types___positive_integer.type) {
       if (TLS_arguments[0]->integer.value >= TLS_arguments[1]->integer.value) {
-        {
+	{
 	  NODE *result__node = (NODE *)(create__std_types___positive_integer(TLS_arguments[0]->integer.value-TLS_arguments[1]->integer.value));
 	  TLS_arguments[0] = result__node;
 	  TLS_argument_count = 1;
 	  return;
 	}
       } else {
-        {
+	{
 	  NODE *result__node = (NODE *)(create__negative_integer(TLS_arguments[1]->integer.value-TLS_arguments[0]->integer.value));
 	  TLS_arguments[0] = result__node;
 	  TLS_argument_count = 1;
@@ -15809,7 +15829,7 @@ static void entry__std_types___positive_integer___std___minus (void)
       }
     } else if ((TLS_arguments[1])->type == negative_integer.type) {
       if (TLS_arguments[0]->integer.value+TLS_arguments[1]->integer.value >= TLS_arguments[0]->integer.value) {
-        {
+	{
 	  NODE *result__node = (NODE *)(create__std_types___positive_integer(TLS_arguments[0]->integer.value+TLS_arguments[1]->integer.value));
 	  TLS_arguments[0] = result__node;
 	  TLS_argument_count = 1;
@@ -15842,14 +15862,14 @@ static void entry__negative_integer___std___minus (void)
     }
     if ((TLS_arguments[1])->type == negative_integer.type) {
       if (TLS_arguments[0]->integer.value > TLS_arguments[1]->integer.value) {
-        {
+	{
 	  NODE *result__node = (NODE *)(create__negative_integer(TLS_arguments[0]->integer.value-TLS_arguments[1]->integer.value));
 	  TLS_arguments[0] = result__node;
 	  TLS_argument_count = 1;
 	  return;
 	}
       } else {
-        {
+	{
 	  NODE *result__node = (NODE *)(create__std_types___positive_integer(TLS_arguments[1]->integer.value-TLS_arguments[0]->integer.value));
 	  TLS_arguments[0] = result__node;
 	  TLS_argument_count = 1;
@@ -15858,7 +15878,7 @@ static void entry__negative_integer___std___minus (void)
       }
     } else if ((TLS_arguments[1])->type == std_types___positive_integer.type) {
       if (TLS_arguments[0]->integer.value+TLS_arguments[1]->integer.value >= TLS_arguments[0]->integer.value) {
-        {
+	{
 	  NODE *result__node = (NODE *)(create__negative_integer(TLS_arguments[0]->integer.value+TLS_arguments[1]->integer.value));
 	  TLS_arguments[0] = result__node;
 	  TLS_argument_count = 1;
@@ -16010,6 +16030,13 @@ static void entry__std_types___positive_integer___std___equal (void)
         TLS_argument_count = 1;
         return;
       }
+    } else if ((TLS_arguments[1])->type == std_types___real.type) {
+      {
+        NODE *result__node = (NODE *)(from_bool(TLS_arguments[0]->integer.value == TLS_arguments[1]->real.value));
+        TLS_arguments[0] = result__node;
+        TLS_argument_count = 1;
+        return;
+      }
     } else if ((TLS_arguments[1])->type == std_types___error.type) {
       {
         invalid_arguments();
@@ -16042,6 +16069,13 @@ static void entry__negative_integer___std___equal (void)
         TLS_argument_count = 1;
         return;
       }
+    } else if ((TLS_arguments[1])->type == std_types___real.type) {
+      {
+        NODE *result__node = (NODE *)(from_bool(TLS_arguments[0]->integer.value == -TLS_arguments[1]->real.value));
+        TLS_arguments[0] = result__node;
+        TLS_argument_count = 1;
+        return;
+      }
     } else if ((TLS_arguments[1])->type == std_types___error.type) {
       {
         invalid_arguments();
@@ -16070,6 +16104,20 @@ static void entry__std_types___real___std___equal (void)
     if ((TLS_arguments[1])->type == std_types___real.type) {
       {
         NODE *result__node = (NODE *)(from_bool(TLS_arguments[0]->real.value == TLS_arguments[1]->real.value));
+        TLS_arguments[0] = result__node;
+        TLS_argument_count = 1;
+        return;
+      }
+    } else if ((TLS_arguments[1])->type == std_types___positive_integer.type) {
+      {
+        NODE *result__node = (NODE *)(from_bool(TLS_arguments[0]->real.value == TLS_arguments[1]->integer.value));
+        TLS_arguments[0] = result__node;
+        TLS_argument_count = 1;
+        return;
+      }
+    } else if ((TLS_arguments[1])->type == negative_integer.type) {
+      {
+        NODE *result__node = (NODE *)(from_bool(-TLS_arguments[0]->real.value == TLS_arguments[1]->integer.value));
         TLS_arguments[0] = result__node;
         TLS_argument_count = 1;
         return;
@@ -16319,6 +16367,102 @@ static void entry__std_types___positive_integer___std___bit_xor (void)
     }
     {
       invalid_arguments();
+      return;
+    }
+  }
+
+static void entry__std___sin (void)
+  {
+    if (TLS_argument_count != 1) {
+      invalid_arguments();
+      return;
+    }
+    double arg;
+    if (!to_double(TLS_arguments[0], &arg)) return;
+    {
+      NODE *result__node = (NODE *)(create__std_types___real(sin(arg)));
+      TLS_arguments[0] = result__node;
+      TLS_argument_count = 1;
+      return;
+    }
+  }
+
+static void entry__std___cos (void)
+  {
+    if (TLS_argument_count != 1) {
+      invalid_arguments();
+      return;
+    }
+    double arg;
+    if (!to_double(TLS_arguments[0], &arg)) return;
+    {
+      NODE *result__node = (NODE *)(create__std_types___real(cos(arg)));
+      TLS_arguments[0] = result__node;
+      TLS_argument_count = 1;
+      return;
+    }
+  }
+
+static void entry__std___tan (void)
+  {
+    if (TLS_argument_count != 1) {
+      invalid_arguments();
+      return;
+    }
+    double arg;
+    if (!to_double(TLS_arguments[0], &arg)) return;
+    {
+      NODE *result__node = (NODE *)(create__std_types___real(tan(arg)));
+      TLS_arguments[0] = result__node;
+      TLS_argument_count = 1;
+      return;
+    }
+  }
+
+static void entry__std___asin (void)
+  {
+    if (TLS_argument_count != 1) {
+      invalid_arguments();
+      return;
+    }
+    double arg;
+    if (!to_double(TLS_arguments[0], &arg)) return;
+    {
+      NODE *result__node = (NODE *)(create__std_types___real(asin(arg)));
+      TLS_arguments[0] = result__node;
+      TLS_argument_count = 1;
+      return;
+    }
+  }
+
+static void entry__std___acos (void)
+  {
+    if (TLS_argument_count != 1) {
+      invalid_arguments();
+      return;
+    }
+    double arg;
+    if (!to_double(TLS_arguments[0], &arg)) return;
+    {
+      NODE *result__node = (NODE *)(create__std_types___real(acos(arg)));
+      TLS_arguments[0] = result__node;
+      TLS_argument_count = 1;
+      return;
+    }
+  }
+
+static void entry__std___atan (void)
+  {
+    if (TLS_argument_count != 1) {
+      invalid_arguments();
+      return;
+    }
+    double arg;
+    if (!to_double(TLS_arguments[0], &arg)) return;
+    {
+      NODE *result__node = (NODE *)(create__std_types___real(atan(arg)));
+      TLS_arguments[0] = result__node;
+      TLS_argument_count = 1;
       return;
     }
   }
@@ -20872,102 +21016,6 @@ static void entry__std_types___terminal_attributes___std___output_speed (void)
     }
   }
 
-static void entry__std___sin (void)
-  {
-    if (TLS_argument_count != 1) {
-      invalid_arguments();
-      return;
-    }
-    double arg;
-    if (!to_double(TLS_arguments[0], &arg)) return;
-    {
-      NODE *result__node = (NODE *)(create__std_types___real(sin(arg)));
-      TLS_arguments[0] = result__node;
-      TLS_argument_count = 1;
-      return;
-    }
-  }
-
-static void entry__std___cos (void)
-  {
-    if (TLS_argument_count != 1) {
-      invalid_arguments();
-      return;
-    }
-    double arg;
-    if (!to_double(TLS_arguments[0], &arg)) return;
-    {
-      NODE *result__node = (NODE *)(create__std_types___real(cos(arg)));
-      TLS_arguments[0] = result__node;
-      TLS_argument_count = 1;
-      return;
-    }
-  }
-
-static void entry__std___tan (void)
-  {
-    if (TLS_argument_count != 1) {
-      invalid_arguments();
-      return;
-    }
-    double arg;
-    if (!to_double(TLS_arguments[0], &arg)) return;
-    {
-      NODE *result__node = (NODE *)(create__std_types___real(tan(arg)));
-      TLS_arguments[0] = result__node;
-      TLS_argument_count = 1;
-      return;
-    }
-  }
-
-static void entry__std___asin (void)
-  {
-    if (TLS_argument_count != 1) {
-      invalid_arguments();
-      return;
-    }
-    double arg;
-    if (!to_double(TLS_arguments[0], &arg)) return;
-    {
-      NODE *result__node = (NODE *)(create__std_types___real(asin(arg)));
-      TLS_arguments[0] = result__node;
-      TLS_argument_count = 1;
-      return;
-    }
-  }
-
-static void entry__std___acos (void)
-  {
-    if (TLS_argument_count != 1) {
-      invalid_arguments();
-      return;
-    }
-    double arg;
-    if (!to_double(TLS_arguments[0], &arg)) return;
-    {
-      NODE *result__node = (NODE *)(create__std_types___real(acos(arg)));
-      TLS_arguments[0] = result__node;
-      TLS_argument_count = 1;
-      return;
-    }
-  }
-
-static void entry__std___atan (void)
-  {
-    if (TLS_argument_count != 1) {
-      invalid_arguments();
-      return;
-    }
-    double arg;
-    if (!to_double(TLS_arguments[0], &arg)) return;
-    {
-      NODE *result__node = (NODE *)(create__std_types___real(atan(arg)));
-      TLS_arguments[0] = result__node;
-      TLS_argument_count = 1;
-      return;
-    }
-  }
-
 static void entry__std_types___tuple___std___new (void)
   {
     {
@@ -22326,6 +22374,7 @@ static FUNKY_CONSTANT constants_table[] = {
   {FLT_C_FUNCTION, 1, {.func = entry__std___real}},
   {FLT_C_FUNCTION, 1, {.func = entry__std___integer}},
   {FLT_C_FUNCTION, 1, {.func = entry__std___sqrt}},
+  {FLT_C_FUNCTION, 2, {.func = entry__std___pow}},
   {FLT_C_FUNCTION, 1, {.func = entry__std_types___positive_integer___std___exit}},
   {FLT_C_FUNCTION, 2, {.func = entry__std_types___positive_integer___std___plus}},
   {FLT_C_FUNCTION, 2, {.func = entry__negative_integer___std___plus}},
@@ -22346,6 +22395,12 @@ static FUNKY_CONSTANT constants_table[] = {
   {FLT_C_FUNCTION, 2, {.func = entry__std_types___positive_integer___std___bit_and}},
   {FLT_C_FUNCTION, 2, {.func = entry__std_types___positive_integer___std___bit_or}},
   {FLT_C_FUNCTION, 2, {.func = entry__std_types___positive_integer___std___bit_xor}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std___sin}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std___cos}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std___tan}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std___asin}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std___acos}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std___atan}},
   {FLT_C_FUNCTION, 2, {.func = entry__std_types___file_type___std___equal}},
   {FLT_C_FUNCTION, 1, {.func = entry__std_types___file_type___std___hash}},
   {FLT_C_FUNCTION, 1, {.func = entry__std___file_type}},
@@ -22460,12 +22515,6 @@ static FUNKY_CONSTANT constants_table[] = {
   {FLT_C_FUNCTION, -1, {.func = entry__std_types___terminal_attributes___std___timeout_for_reads}},
   {FLT_C_FUNCTION, -1, {.func = entry__std_types___terminal_attributes___std___input_speed}},
   {FLT_C_FUNCTION, -1, {.func = entry__std_types___terminal_attributes___std___output_speed}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std___sin}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std___cos}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std___tan}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std___asin}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std___acos}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std___atan}},
   {FLT_C_FUNCTION, -1, {.func = entry__std_types___tuple___std___new}},
   {FLT_C_FUNCTION, 1, {.func = entry__builtin___tuple2___std___to_list}},
   {FLT_C_FUNCTION, 3, {.func = entry__builtin___tuple2___std___new}},
@@ -24027,6 +24076,41 @@ static FUNKY_VARIABLE variables_table[] = {
     FOT_INITIALIZED, 0, 0,
     "sqrt\000std", NULL,
     {.const_idx = func__std___sqrt}
+  },
+  {
+    FOT_INITIALIZED, 0, 0,
+    "pow\000std", NULL,
+    {.const_idx = func__std___pow}
+  },
+  {
+    FOT_INITIALIZED, 0, 0,
+    "sin\000std", NULL,
+    {.const_idx = func__std___sin}
+  },
+  {
+    FOT_INITIALIZED, 0, 0,
+    "cos\000std", NULL,
+    {.const_idx = func__std___cos}
+  },
+  {
+    FOT_INITIALIZED, 0, 0,
+    "tan\000std", NULL,
+    {.const_idx = func__std___tan}
+  },
+  {
+    FOT_INITIALIZED, 0, 0,
+    "asin\000std", NULL,
+    {.const_idx = func__std___asin}
+  },
+  {
+    FOT_INITIALIZED, 0, 0,
+    "acos\000std", NULL,
+    {.const_idx = func__std___acos}
+  },
+  {
+    FOT_INITIALIZED, 0, 0,
+    "atan\000std", NULL,
+    {.const_idx = func__std___atan}
   },
   {
     FOT_TYPE, 0, 0,
@@ -25784,36 +25868,6 @@ static FUNKY_VARIABLE variables_table[] = {
     {(NODE *)&std_types___terminal_attributes}
   },
   {
-    FOT_INITIALIZED, 0, 0,
-    "sin\000std", NULL,
-    {.const_idx = func__std___sin}
-  },
-  {
-    FOT_INITIALIZED, 0, 0,
-    "cos\000std", NULL,
-    {.const_idx = func__std___cos}
-  },
-  {
-    FOT_INITIALIZED, 0, 0,
-    "tan\000std", NULL,
-    {.const_idx = func__std___tan}
-  },
-  {
-    FOT_INITIALIZED, 0, 0,
-    "asin\000std", NULL,
-    {.const_idx = func__std___asin}
-  },
-  {
-    FOT_INITIALIZED, 0, 0,
-    "acos\000std", NULL,
-    {.const_idx = func__std___acos}
-  },
-  {
-    FOT_INITIALIZED, 0, 0,
-    "atan\000std", NULL,
-    {.const_idx = func__std___atan}
-  },
-  {
     FOT_TYPE, 0, 1,
     "tuple\000std_types", std_types___tuple__attributes,
     {"object\000std_types"},
@@ -26005,13 +26059,13 @@ FUNKY_MODULE module__builtin = {
   NULL,
   0, 0,
   4, 0,
-  330, 430,
+  331, 431,
   NULL,
   defined_namespaces, NULL,
   constants_table, variables_table
 };
 
-BUILTIN_FUNCTION_NAME builtin_function_names[380] = {
+BUILTIN_FUNCTION_NAME builtin_function_names[381] = {
   {std_types___generic_array____type, "std_types::generic_array/_type"},
   {std_types___array____type, "std_types::array/_type"},
   {entry__std_types___array___std___length_of, "std_types::array/length_of"},
@@ -26184,6 +26238,7 @@ BUILTIN_FUNCTION_NAME builtin_function_names[380] = {
   {entry__std___real, "std::real"},
   {entry__std___integer, "std::integer"},
   {entry__std___sqrt, "std::sqrt"},
+  {entry__std___pow, "std::pow"},
   {entry__std_types___positive_integer___std___exit, "std_types::positive_integer/exit"},
   {entry__std_types___positive_integer___std___plus, "std_types::positive_integer/plus"},
   {entry__negative_integer___std___plus, "negative_integer/plus"},
@@ -26204,6 +26259,12 @@ BUILTIN_FUNCTION_NAME builtin_function_names[380] = {
   {entry__std_types___positive_integer___std___bit_and, "std_types::positive_integer/bit_and"},
   {entry__std_types___positive_integer___std___bit_or, "std_types::positive_integer/bit_or"},
   {entry__std_types___positive_integer___std___bit_xor, "std_types::positive_integer/bit_xor"},
+  {entry__std___sin, "std::sin"},
+  {entry__std___cos, "std::cos"},
+  {entry__std___tan, "std::tan"},
+  {entry__std___asin, "std::asin"},
+  {entry__std___acos, "std::acos"},
+  {entry__std___atan, "std::atan"},
   {std_types___object____type, "std_types::object/_type"},
   {std_types___polymorphic_function____type, "std_types::polymorphic_function/_type"},
   {std_types___polymorphic_function_with_setter____type, "std_types::polymorphic_function_with_setter/_type"},
@@ -26338,12 +26399,6 @@ BUILTIN_FUNCTION_NAME builtin_function_names[380] = {
   {entry__std_types___terminal_attributes___std___timeout_for_reads, "std_types::terminal_attributes/timeout_for_reads"},
   {entry__std_types___terminal_attributes___std___input_speed, "std_types::terminal_attributes/input_speed"},
   {entry__std_types___terminal_attributes___std___output_speed, "std_types::terminal_attributes/output_speed"},
-  {entry__std___sin, "std::sin"},
-  {entry__std___cos, "std::cos"},
-  {entry__std___tan, "std::tan"},
-  {entry__std___asin, "std::asin"},
-  {entry__std___acos, "std::acos"},
-  {entry__std___atan, "std::atan"},
   {std_types___tuple____type, "std_types::tuple/_type"},
   {entry__std_types___tuple___std___new, "std_types::tuple/new"},
   {builtin___tuple2____type, "builtin::tuple2/_type"},

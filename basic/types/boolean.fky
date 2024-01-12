@@ -24,9 +24,11 @@ $std::is_a_boolean ()
   #
     succeeds for <true> and <false>
 
+    Topic: Branches
+
 $std::true std_types::true
   #
-    the boolean value **true**
+    the boolean value "true"
 
     There is no common basetype (e.g. "boolean") for <true> and <false>!
 
@@ -34,7 +36,7 @@ $std::true std_types::true
 
 $std::false std_types::false
   #
-    the boolean value **false**
+    the boolean value "false"
 
     There is no common basetype (e.g. "boolean") for <true> and <false>!
 
@@ -46,8 +48,23 @@ $std_types::object.is_a_boolean false
 
     Topic: Objects
 
-$std_types::true.is_a_boolean true # obvious
-$std_types::false.is_a_boolean true # obvious
+    See also: true, false
+
+$std_types::true.is_a_boolean true
+  #
+    obvious
+
+    Topic: Branches
+
+    See also: std_types::true
+
+$std_types::false.is_a_boolean true
+  #
+    obvious
+
+    Topic: Branches
+
+    See also: std_types::false
 
 $std::and ()
   #
@@ -55,20 +72,19 @@ $std::and ()
 
     The left argument must be <std::true> or <std::false>.
 
-    The right argument must be a function that evaluates to
-    <std::true> or <std::false>.
+    The right argument must be a function that evaluates to <true> or <false>.
 
     *a* && *b*
 
     is converted by the compiler to
 
-    <std::and>(**a** -> **b**)
+    <std::and>(*a* -> *b*)
 
     See also: std::or, std::if
 
 $std::or ()
   #
-    "short cut" or- operation;
+    "short cut" or- operation
 
     The left argument must be <std::true> or <std::false>.
 
@@ -79,175 +95,466 @@ $std::or ()
 
     is converted by the compiler to
 
-    <std::or>(**a** -> **b**)
+    <std::or>(*a* -> *b*)
 
     See also: std::and, std::if
 
 $std::not ()
   #
-    negate the boolean argument
+    negates its boolean argument
 
-    <std::not>(<std::true>) yields <std::false)
+    <not>(true>) yields <false)
 
-    <std::not>(<std::false>) yields <std::true)
+    <not>(false>) yields <true)
 
-    See also: std::equal, std::less
+    See also: equal, less, if, if_not
 
 $std::if ()
   #
     classic if; can be used as a function or a procedure
 
-    The first argument must be <std::true> or <std::false>.
+    Parameters:
+      condition # true or false
+      then_part # the function to be evaluated if the condition is true
+      else_part # the function to be evaluated if the condition is false
 
-    The second argument represents the "then-part" and must be a function; it
-    is called, if the first argument is <std::true>.
 
-    The third argument is optional represents the "else-part". if present it
-    must be a function and is called, if the first argument is <std::false>.
-
-    The "then-part"- and "else-part" function can return any number of results
-    (including none). But both (if then "else-part" is present) should return
-    the *same* number of results.
+    The "then-part"- and "else-part" functions can return any number of results
+    (including none). But both should return the same number of results.
 
     Topic: Branches
 
-    See also: std::default_value
+    See also: if_not, on, on_not, cond, case, and, or, default_value
+
+    Example:
+
+      # "if" as a procedure
+
+      $x 5
+      if
+	x > 3:
+	  println! "x is larger than 3"
+	:
+	  println! "x is not larger than 3"
+
+    Output:
+
+      x is larger than 3
+
+    Example:
+
+      # "if" as a function
+
+      $x 5
+      println!
+	if
+	  x > 3
+	  -> "x is larger than 3"
+	  -> "x is not larger than 3"
+
+    Output:
+
+      x is larger than 3
+
+    Example:
+
+      # "if" with multiple results
+
+      $x 5
+
+      if $a $b
+	x > 7
+	-> x*x x+1
+	-> 2*x*x x+3
+
+      print! "
+	a = @(a)
+	b = @(b)
+
+    Output:
+
+      a = 50
+      b = 8
 
 $std::if_not ()
+  #
+    can be used as a function or a procedure
+
+    Parameters:
+      condition # true or false
+      then_part # the function to be evaluated if the condition is not true
+      else_part # the function to be evaluated if the condition is true
+
+    The "then-part"- and "else-part" functions can return any number of results
+    (including none). But both should return the same number of results.
+
+    *if_not* is usually used with a simple then-part and a complex else-part.
+
+    Topic: Branches
+
+    See also: if, cond, case, and, or, default_value
+
+    Example:
+
+      # "if_not" as a procedure
+
+      $x 5
+      if_not
+	x > 3:
+	  println! "x is not larger than 3"
+	:
+	  println! "x is larger than 3"
+
+    Output:
+
+      x is larger than 3
+
+    Example:
+
+      # "if_not" as a function
+
+      $x 5
+      println!
+	if_not
+	  x > 3
+	  -> "x is not larger than 3"
+	  -> "x is larger than 3"
+
+    Output:
+
+      x is larger than 3
 
 $std::update_if ()
+  #
+    updates one or more variables depending on a condition
+
+    Parameters:
+      condition # true or false
+      values* # the original values of the variables to be updated
+      body # a function used to update the variables
+
+    Results:
+      values* # the maybe updated values
+
+    Topic: Branches
+
+    See also: update_if_not, if, if_not
+
+    Example:
+
+      $x -5
+      update_if x < 0 &x -> -x
+      println! x
+
+    Output:
+
+      5
+
+    Example:
+
+      $items list("apples" "bananas" "cherries")
+      $already_processed_items list()
+
+      update_if items.is_not_empty &items &already_processed_items
+	-> range(items 2 -1) push(already_processed_items items(1))
+
+      dump! `items `already_processed_items
+
+    Output:
+
+      items: list <2>
+	"bananas"
+	"cherries"
+      already_processed_items: list <1>
+	"apples"
+
 $std::update_if_not ()
+  #
+    updates one or more variables depending on a condition
+
+    Parameters:
+      condition # true or false
+      values* # the original values of the variables to be updated
+      body # a function used to update the variables
+
+    Results:
+      values* # the maybe updated values
+
+    Topic: Branches
+
+    See also: update_if, if_not, if
+
+    Example:
+
+      $x -5
+      update_if_not x > 0 &x -> -x
+      println! x
+
+    Output:
+
+      5
+
+    Example:
+
+      $items list("apples" "bananas" "cherries")
+      $already_processed_items list()
+
+      update_if_not items.is_empty &items &already_processed_items
+	-> range(items 2 -1) push(already_processed_items items(1))
+
+      dump! `items `already_processed_items
+
+    Output:
+
+      items: list <2>
+	"bananas"
+	"cherries"
+      already_processed_items: list <1>
+	"apples"
 
 $std::on ()
   #
     if the specified condition is true then perform the specified action
 
+    Parameters:
+      condition # true or false
+      action # an action to be performed when the condition is true
+
+    *on* is a conditional without an else-part. It is therefor performed only
+    for the side-effects of the action.
+
+    Topic: Branches
+
+    See also: on_no, if, if_not
+
+    Example:
+
+      $x 5
+      on x > 3: println! "x is larger than 3"
+
+    Output:
+
+      x is larger than 3
+
 $std::on_not ()
   #
     if the specified condition is false then perform the specified action
 
-$std_types::true.not false # returns <false>
-$std_types::false.not true # returns <true>
+    Parameters:
+      condition # true or false
+      action # an action to be performed when the condition is false
+
+    *on_not* is a conditional without an else-part. It is therefor performed
+    only for the side-effects of the action.
+
+    Topic: Branches
+
+    See also: on, if_not, if
+
+    Example:
+
+      $x 2
+      on_not x > 3: println! "x is not larger than 3"
+
+    Output:
+
+      x is not larger than 3
+
+$std_types::true.not false
+  #
+    returns false
+
+    Topic: Branches
+
+    See also: std_types::true, std_types::false, not
+
+$std_types::false.not true
+  #
+    returns true
+
+    Topic: Branches
+
+    See also: std_types::true, std_types::false, not
 
 $std_types::true/and:
   #
-    evaluates and returns its second argument
+    evaluates its second argument and returns its result
 
     The first argument is already <true>, so the second argument decides
     whether the *and*-expression ist *true* or not.
+
+    Topic: Branches
+
+    See also: std_types::true, std_types::false, and
   (
-    _left
-    right
+    _left # <std_types::true>
+    right # an expression that evaluates to <true> or <false>
   )
   right
 
 $std_types::false/and:
   #
-    return <false>
+    returns <false>
 
     The second argument is not evaluated at all!
+
+    Topic: Branches
+
+    See also: std_types::true, std_types::false, and
   (
-    _left
-    _right
+    _left # <std_types::false>
+    _right # an expression that is ignored
   )
   -> false
 
 $std_types::true/or:
   #
-    return <true>
+    returns <true>
 
     The second argument is not evaluated at all!
+
+    Topic: Branches
+
+    See also: std_types::true, std_types::false, or
   (
-    _left
-    _right
+    _left # <std_types::true>
+    _right # an expression that is ignored
   )
   -> true
 
 $std_types::false/or:
   #
-    evaluates and returns its second argument
+    evaluates its second argument and returns its result
 
     The first argument is already <false>, so the second argument decides
     whether the *or*-expression ist *true* or not.
+
+    Topic: Branches
+
+    See also: std_types::true, std_types::false, or
   (
-    _left
-    right
+    _left # <std_types::false>
+    right # an expression that evaluates to <true> or <false>
   )
   right
 
 $std_types::true/if:
   #
-    executes the *then-part*
+    evaluates the then-part and returns its result(s)
 
     This function passes I/O-access rights to the *then-part*.
+
+    Topic: Branches
+
+    See also: std_types::true, std_types::false, if
   (
-    _condition
-    then
-    _else
+    _condition # <std_types::true>_
+    then # a function that evaluates to any number of results
+    _else # a function that is ignored
   )
   then!
 
 $std_types::false/if:
   #
-    executes the *else-part*
+    evaluates the else-part and returns its result(s)
 
     This function passes I/O-access rights to the *else-part*.
+
+    Topic: Branches
+
+    See also: std_types::true, std_types::false, if
   (
-    _condition
-    _then
-    else
+    _condition # <std_types::false>
+    _then # a function that is ignored
+    else # a function that evaluates to any number of results
   )
   else!
 
 $std_types::true/if_not:
   #
-    executes the *else-part*
+    evaluates the else-part and returns its result(s)
+
+    This function passes I/O-access rights to the *else-part*.
+
+    Topic: Branches
+
+    See also: std_types::true, std_types::false, if_not
   (
-    _condition
-    _then
-    else
+    _condition # <std_types::true>
+    _then # a function that is ignored
+    else # a function that evaluates to any number of results
   )
   else!
 
 $std_types::false/if_not:
   #
-    executes the *then-part*
+    evaluates the then-part and returns its result(s)
+
+    This function passes I/O-access rights to the *then-part*.
+
+    Topic: Branches
+
+    See also: std_types::true, std_types::false, if_not
   (
-    _condition
-    then
-    _else
+    _condition # <std_types::false>
+    then # a function that evaluates to any number of results
+    _else # a function that is ignored
   )
   then!
 
 $std_types::true/update_if:
+  #
+    updates the specified variable(s)
+
+    Topic: Branches
+
+    See also: std_types::true, std_types::false, update_if
   (
-    _condition
-    _defaults*
-    body
+    _condition # <std_types::true>_
+    _values* # the original values of the variables to be updated
+    body # a function which results are used to update the variables
   )
   body
 
 $std_types::false/update_if:
+  #
+    does not update the specified variable(s)
+
+    Topic: Branches
+
+    See also: std_types::true, std_types::false, update_if
   (
-    _condition
-    defaults*
-    _body
+    _condition # <std_types::false>
+    values* # the original values of the variables to be updated
+    _body # a function which is not called
   )
-  spread defaults
+  spread values
 
 $std_types::true/update_if_not:
+  #
+    does not update the specified variable(s)
+
+    Topic: Branches
+
+    See also: std_types::true, std_types::false, update_if_not
   (
-    _condition
-    defaults*
-    _body
+    _condition # <std_types::true>
+    values* # the original values of the variables to be updated
+    _body # a function which is not called
   )
-  spread defaults
+  spread values
 
 $std_types::false/update_if_not:
+  #
+    updates the specified variable(s)
+
+    Topic: Branches
+
+    See also: std_types::true, std_types::false, update_if_not
   (
-    _condition
-    _defaults*
-    body
+    _condition # <std_types::false>
+    _values* # the original values of the variables to be updated
+    body # a function which results are used to update the variables
   )
   body
 
@@ -256,27 +563,39 @@ $std_types::true/on:
     performs the specified action
 
     This function passes I/O-access rights to the action
+
+    Topic: Branches
+
+    See also: std_types::true, std_types::false, on
   (
-    _condition
-    action
+    _condition # <std_types::true>
+    action # an action to be performed
   )
   action!
 
 $std_types::false/on:
   #
     does not perform the specified action
+
+    Topic: Branches
+
+    See also: std_types::true, std_types::false, on
   (
-    _condition
-    _action
+    _condition # <std_types::false>
+    _action # an action which is not performed
   )
   pass
 
 $std_types::true/on_not:
   #
     does not perform the specified action
+
+    Topic: Branches
+
+    See also: std_types::true, std_types::false, on_not
   (
-    _condition
-    _action
+    _condition # <std_types::true>
+    _action # an action which is not performed
   )
   pass
 
@@ -285,16 +604,28 @@ $std_types::false/on_not:
     performs the specified action
 
     This function passes I/O-access rights to the action
+
+    Topic: Branches
+
+    See also: std_types::true, std_types::false, on_not
   (
-    _condition
-    action
+    _condition # <std_types::false>
+    action # an action to be performed
   )
   action!
 
 $std_types::true/serialize:
+  #
+    returns the string "<true>" and a newline character
+
+    The optional *indent* is obeyed.
+
+    Topic: Branches
+
+    See also: std_types::true, std_types::false, serialize
   (
-    _self
-    indent = undefined
+    _self # <std_types::true>
+    indent = undefined # optional indentation value
   )
   $str "<true>@nl;"
   if
@@ -303,9 +634,17 @@ $std_types::true/serialize:
     -> str
 
 $std_types::false/serialize:
+  #
+    returns the string "<false>" and a newline character
+
+    The optional *indent* is obeyed.
+
+    Topic: Branches
+
+    See also: std_types::true, std_types::false, serialize
   (
-    _self
-    indent = undefined
+    _self # <std_types::false>
+    indent = undefined # optional indentation value
   )
   $str "<false>@nl;"
   if

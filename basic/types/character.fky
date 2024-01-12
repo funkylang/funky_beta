@@ -1,5 +1,5 @@
 #
-  Copyright (C) 2021 by
+  Copyright (C) 2024 by
   Dipl.-Ing. Michael Niederle
 
   This program is free software; you can redistribute it and/or modify
@@ -19,30 +19,171 @@
   or write to the
   Free Software Foundation, Inc.,
 
-$std::is_a_character () # obvious
+$std::is_a_character ()
+  #
+    tests if an object is a character
 
-$std_types::object.is_a_character false # obvious
-$std_types::character.is_a_character true # obvious
+    Topic: Strings
+
+$std_types::object.is_a_character false
+  #
+    by default, an object is not a character
+
+    Topic: Strings
+
+$std_types::character.is_a_character true
+  #
+    a character is a character
+
+    Topic: Strings
 
 $std_types::character/match:
   #
-    matches the start of the stream with the character
+    matches the start of a string with the character
+
+    Result:
+      len # the number of matched characters
+
+    If the match is unsuccessful, then *len* is <undefined>.
+
+    Topic: Strings
+
+    See also: match_back, search
+
+    Example:
+
+      $str "abcdef"
+      $len match('a' str)
+      dump! `len
+
+    Output:
+
+      len: 1
+
+    Example:
+
+      $str "abcdef"
+      $len match('z' str)
+      dump! `len
+
+    Output:
+
+      len: <undefined>
   (
-    self
-    stream
+    self # the character to match with
+    str # the string which's start is matched
   )
   if
-    stream.is_empty
+    str.is_empty
     -> undefined
     :
       if
-	stream(1) == self
+	str(1) == self
+	-> 1
+	-> undefined
+
+$std_types::character/match_back:
+  #
+    matches the end of a string with the character
+
+    Result:
+      len # the number of matched characters
+
+    If the match is unsuccessful, then *len* is <undefined>.
+
+    Topic: Strings
+
+    See also: match, search
+
+    Example:
+
+      $str "abcdef"
+      $len match_back('f' str)
+      dump! `len
+
+    Output:
+
+      len: 1
+
+    Example:
+
+      $str "abcdef"
+      $len match_back('z' str)
+      dump! `len
+
+    Output:
+
+      len: <undefined>
+  (
+    self # the character to match with
+    str # the string which's end is matched
+  )
+  if
+    str.is_empty
+    -> undefined
+    :
+      if
+	str(-1) == self
 	-> 1
 	-> undefined
 
 $std_types::character/search:
   #
-    searches for the start of the character within the stream
+    searches for the character from the start or the end of a string
+
+    Results:
+      pos # the position of the first occurrence of the character
+      len # 1 if successful
+
+    If the character is not found, then *pos* and *len* are <undefined>.
+
+    Topic: Strings
+
+    See also: match, match_back
+
+    Example:
+
+      $str "abcdef"
+      search $pos $len 'd' str
+      dump! `pos `len
+
+    Output:
+
+      pos: 4
+      len: 1
+
+    Example:
+
+      $str "abcdef"
+      search $pos $len 'z' str
+      dump! `pos `len
+
+    Output:
+
+      pos: <undefined>
+      len: <undefined>
+
+    Example:
+
+      $str "In the wild, wild west we were alone."
+      search $pos $len 'w' str 2
+      dump! `pos `len
+
+    Output:
+
+      pos: 14
+      len: 1
+
+    Example:
+
+      $str "In the wild, wild west we were alone."
+      search $pos $len 'w' str -2
+      dump! `pos `len
+
+    Output:
+
+      pos: 24
+      len: 1
   (
     self
     stream
@@ -94,25 +235,84 @@ $std_types::character/search:
 
 $std::is_a_digit:
   #
-    return true for the ASCII-characters from '0' to '9'
+    checks wheter its argument is a digit
 
-    This function must be called on character-values.
+    Result:
+      success # true if the argument is a digit
 
-    See also: std_types::character, is_a_letter_character
+    This function must be called on character-values only.
+
+    Topic: Strings
+
+    See also: std_types::character, is_a_letter, is_a_letter_character
+
+    Example:
+
+      if
+	is_a_digit('3'):
+	  println! "3 is a digit"
+	:
+	  println! "3 is not a digit"
+
+    Output:
+
+      3 is a digit
+
+    Example:
+
+      if
+	is_a_digit('a'):
+	  println! "a is a digit"
+	:
+	  println! "a is not a digit"
+
+    Output:
+
+      a is not a digit
   (
-    chr
+    chr # the character to check
   )
   -> chr >= '0' && chr <= '9'
 
 $std::is_a_letter:
   #
-    return true for the 26 roman letters (either case)
+    checks wheter its argument is a letter (upper or lower case)
 
-    This function must be called on character-values.
+    Result:
+      success # true if the argument is a letter
 
-    See also: std_types::character, is_a_letter_character
+    This function must be called on character-values only.
+
+    Topic: Strings
+
+    See also: is_an_uppercase_letter, is_a_lowercase_letter,
+	      is_a_letter_character, is_a_digit
+
+    Example:
+
+      if
+	is_a_letter('t'):
+	  println! "t is a letter"
+	:
+	  println! "t is not a letter"
+
+    Output:
+
+      t is a letter
+
+    Example:
+
+      if
+	is_a_letter('3'):
+	  println! "3 is a letter"
+	:
+	  println! "3 is not a letter"
+
+    Output:
+
+     3 is not a letter
   (
-    chr
+    chr # the character to check
   )
   ->
     ||
@@ -121,32 +321,119 @@ $std::is_a_letter:
 
 $std::is_an_uppercase_letter:
   #
-    return true for the 26 roman uppercase letters
+    checks wheter its argument is an uppercase letter
 
-    This function must be called on character-values.
+    Result:
+      success # true if the argument is an uppercase letter
 
-    See also: std_types::character, is_a_letter_character
+    This function must be called on character-values only.
+
+    Topic: Strings
+
+    See also: is_a_letter, is_a_lowercase_letter,
+	      is_a_letter_character, is_a_digit
+
+    Example:
+
+      if
+	is_an_uppercase_letter('T'):
+	  println! "T is an uppercase letter"
+	:
+	  println! "T is not an uppercase letter"
+
+    Output:
+
+      T is an uppercase letter
+
+    Example:
+
+      if
+	is_an_uppercase_letter('t'):
+	  println! "t is an uppercase letter"
+	:
+	  println! "t is not an uppercase letter"
+
+    Output:
+
+      t is not an uppercase letter
   (
-    chr
+    chr # the character to check
   )
   -> chr >= 'A' && chr <= 'Z'
 
 $std::is_a_lowercase_letter:
   #
-    return true for the 26 roman lowercase letters
+    checks wheter its argument is a lowercase letter
 
-    This function must be called on character-values.
+    Result:
+      success # true if the argument is a lowercase letter
 
-    See also: std_types::character, is_a_letter_character
+    This function must be called on character-values only.
+
+    Topic: Strings
+
+    See also: is_a_letter, is_an_uppercase_letter,
+	      is_a_letter_character, is_a_digit
+
+    Example:
+
+      if
+	is_a_lowercase_letter('t'):
+	  println! "t is a lowercase letter"
+	:
+	  println! "t is not a lowercase letter"
+
+    Output:
+
+      t is a lowercase letter
+
+    Example:
+
+      if
+	is_a_lowercase_letter('T'):
+	  println! "T is a lowercase letter"
+	:
+	  println! "T is not a lowercase letter"
+
+    Output:
+
+      T is not a lowercase letter
   (
-    chr
+    chr # the character to check
   )
   -> chr >= 'a' && chr <= 'z'
 
 $std_types::character/serialize:
+  #
+    serializes the character
+
+    Result:
+      str # the serialization of the character
+
+    Topic: Strings
+
+    The optional indent is obeyed.
+
+    Example:
+
+      $str serialize('a')
+      println! str
+
+    Output:
+
+      'a'
+
+    Example:
+
+      $str serialize('a' 2)
+      println! str
+
+    Output:
+
+	'a'
   (
-    self
-    indent = undefined
+    self # the character to serialize
+    indent = undefined # the indentation depth in character positions
   )
   $str
     if

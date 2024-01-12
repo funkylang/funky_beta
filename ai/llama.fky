@@ -318,7 +318,7 @@ $ai_types::model/ai::generate:
 			append(text next_piece)
 			no+1
 			suffix
-		      extend_to &max_no highest_no
+		      max &max_no highest_no
 		      if
 			response.is_empty:
 			  if

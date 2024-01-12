@@ -1280,7 +1280,7 @@ $smart_indent:
       min_max !selection_start_y $selection_end_y y selection_start_y
       update_if selection_end_y > selection_start_y &selection_end_y:
 	dec selection_end_y
-      reduce_to &selection_end_y length_of(lines)
+      min &selection_end_y length_of(lines)
       $selected_lines range(lines selection_start_y selection_end_y)
       map &selected_lines
 	: (line)
@@ -1301,7 +1301,7 @@ $smart_indent:
       return_window_and_lines
 
 $find_next_indent_above: (x y)
-  reduce_to &y length_of(lines)+1
+  min &y length_of(lines)+1
   loop:
     if
       y > 1:
@@ -1376,7 +1376,7 @@ $smart_outdent:
       min_max !selection_start_y $selection_end_y y selection_start_y
       update_if selection_end_y > selection_start_y &selection_end_y:
 	dec selection_end_y
-      reduce_to &selection_end_y length_of(lines)
+      min &selection_end_y length_of(lines)
       $selected_lines range(lines selection_start_y selection_end_y)
       if
 	all_of
@@ -1402,7 +1402,7 @@ $smart_outdent:
 	return_window_and_lines
 
 $find_previous_indent_above: (x y)
-  reduce_to &y length_of(lines)+1
+  min &y length_of(lines)+1
   loop:
     if
       y > 1:
@@ -1984,6 +1984,7 @@ $complete_prefix: (prefix)
 		    next
 
   $add_word: (word)
+    on do_log: debug::dump `word
     if
       &&
 	word .has_prefix. prefix
@@ -2262,7 +2263,7 @@ $indented_tokens: (indent tokens)
 
 $initialize_ai:
    load_ai_model! $model ai_model_name ai_server
-   reduce_to &model.context_size_of ai_context_size
+   min &model.context_size_of ai_context_size
    if
      model.is_an_error
      -> model

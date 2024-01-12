@@ -447,7 +447,12 @@ $collect_info:
   $results
     case
       kind
-      FUNCTION, METHOD, TYPE_FUNCTION
+      sequence
+	FUNCTION
+	METHOD
+	TYPE_FUNCTION
+	POLYMORPHIC_FUNCTION
+	POLYMORPHIC_FUNCTION_WITH_SETTER
       -> empty_list
       -> undefined
 

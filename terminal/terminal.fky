@@ -1,5 +1,5 @@
 #
-  Copyright (C) 2023 by
+  Copyright (C) 2024 by
   Dipl.-Ing. Michael Niederle
 
   This program is free software; you can redistribute it and/or modify
@@ -487,7 +487,7 @@ $std_types::screen/scroll_up:
     screen
     delta = 1 # the amount of rows to scroll
   )
-  reduce_to &delta height_of(screen)
+  min &delta height_of(screen)
   $empty_line
     dup
       string
@@ -514,7 +514,7 @@ $std_types::screen/scroll_down:
     screen
     delta = 1 # the amount of rows to scroll
   )
-  reduce_to &delta height_of(screen)
+  min &delta height_of(screen)
   $empty_line
     dup
       string
@@ -1778,7 +1778,7 @@ $std_types::screen/draw_attributed_text:
   $update_row: (row)
     $s max(left_x+1-x 1) # first attributed character to output
     $e min(right_x+1-x n)
-    extend_to &x left_x
+    max &x left_x
     $left_text range(row 1 3*(x-1))
     range &attributed_text 3*s-2 3*e
     $right_text range(row 3*(x+e-s)+1 -1)
@@ -2293,7 +2293,7 @@ $std::rows_and_columns:
     : (chr)
       if
 	chr == '@nl;':
-	  extend_to &longest length
+	  max &longest length
 	  inc &rows
 	  !length 0
 	  next
@@ -2303,7 +2303,7 @@ $std::rows_and_columns:
     :
       if
 	text(-1) != '@nl;':
-	  extend_to &longest length
+	  max &longest length
 	  -> rows+1 longest
 	-> rows longest
 

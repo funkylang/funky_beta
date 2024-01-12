@@ -1,5 +1,5 @@
 #
-  Copyright (C) 2021 by
+  Copyright (C) 2024 by
   Dipl.-Ing. Michael Niederle
 
   This program is free software; you can redistribute it and/or modify
@@ -24,19 +24,37 @@
 
 $std::bin:
   #
-    returns a string consisting of binary digits
+    converts a positive integer value into a string consisting of binary digits
 
-    The first argument must be a positive integer number. The optional second
-    argument specifies the minimum length of the string to be returned. If there
-    are less bits then specified by the *size* then the string is left-padded
-    with '0'-characters.
+    Result:
+      string # a string consisting of binary digits
+
+    The optional second parameter specifies the minimum length of the resulting
+    string. If there are fewer binary digits than the specified length, the
+    strint is left-padded with zeros.
 
     Topic: Math, Strings
 
     See also: hex, oct, to_string
+
+    Example:
+
+      println! bin(123)
+
+    Output:
+
+      1111011
+
+    Example:
+
+      println! bin(123 8)
+
+    Output:
+
+      01111011
   (
-    val
-    size = undefined
+    val # the value to convert
+    size = undefined # the optional minimum length
   )
   if
     val == 0:
@@ -60,19 +78,37 @@ $std::bin:
 
 $std::oct:
   #
-    returns a string consisting of octal digits
+    converts a positive integer value into a string consisting of octal digits
 
-    The first argument must be a positive integer number. The optional second
-    argument specifies the minimum length of the string to be returned. If there
-    are less octal digits then specified by the *size* then the string is
-    left-padded with '0'-characters.
+    The optional second parameter specifies the minimum length of the resulting
+    string. If there are fewer octal digits than the specified length, the
+    string is left-padded with zeros.
+
+    Result:
+      string # a string consisting of octal digits
 
     Topic: Math, Strings
 
-    See also: hex, bin, to_string
+    See also: bin, hex, to_string
+
+    Example:
+
+      println! oct(123)
+
+    Output:
+
+      173
+
+    Example:
+
+      println! oct(123 4)
+
+    Output:
+
+      0173
   (
-    val
-    size = undefined
+    val # the value to convert
+    size = undefined # the optional minimum length
   )
   if
     val == 0:
@@ -96,19 +132,38 @@ $std::oct:
 
 $std::hex:
   #
-    returns a string consisting of hexadecimal digits
+    converts a positive integer value into a string consisting of hexadecimal
+    digits
 
-    The first argument must be a positive integer number. The optional second
-    argument specifies the minimum length of the string to be returned. If there
-    are less hexadecimal digits then specified by the *size* then the string is
-    left-padded with '0'-characters.
+    Result:
+      string # a string consisting of hexadecimal digits
+
+    The optional second parameter specifies the minimum length of the resulting
+    string. If there are fewer hexadecimal digits than the specified length,
+    the string is left-padded with zeros.
 
     Topic: Math, Strings
 
-    See also: oct, bin, to_string
+    See also: bin, oct, to_string
+
+    Example:
+
+      println! hex(123)
+
+    Output:
+
+      7b
+
+    Example:
+
+      println! hex(123 4)
+
+    Output:
+
+      007b
   (
-    val
-    size = undefined
+    val # the value to convert
+    size = undefined # the optional minimum length
   )
   if
     val == 0:
@@ -137,51 +192,49 @@ $std::hex:
 
 $std::inc:
   #
-    adds the number 1
+    adds the number 1 to the specified value
+
+    Result:
+      value # the value increased by 1
+
+    Topic: Math
 
     See also: dec, plus
+
+    Example:
+
+      println! inc(123)
+
+    Output:
+
+      124
   (
-    var
+    value # the value to increase
   )
-  plus var 1
+  plus value 1
 
 $std::dec:
   #
-    subtracts the number 1
+    subtracts the number 1 from the specified value
+
+    Result:
+      value # the value decreased by 1
+
+    Topic: Math
 
     See also: inc, minus
+
+    Example:
+
+      println! dec(123)
+
+    Output:
+
+     122
   (
-    var
+    value # the value to decrease
   )
-  minus var 1
-
-$std::extend_to:
-  #
-    returns the greater of its two arguments
-
-    See also: reduce_to, max
-  (
-    var
-    val
-  )
-  if
-    val > var
-    -> val
-    -> var
-
-$std::reduce_to:
-  #
-    returns the lesser of its two arguments
-
-    See also: extend_to, min
-  (
-    var
-    val
-  )
-  if
-    val < var
-    -> val
-    -> var
+  minus value 1
 
 $std::abs:
   #
@@ -190,17 +243,28 @@ $std::abs:
     Topic: Math
 
     See also: sgn
+
+    Example:
+
+      println! abs(-123)
+
+    Output:
+
+      123
   (
-    var
+    value # the value to take the absolute value of
   )
   if
-    var < 0:
-      negate var
-    -> var
+    value < 0
+    -> negate(value)
+    -> value
 
 $std::sgn:
   #
     returns the sign of its (numerical) argument
+
+    Result:
+      result # -1, 0, or 1
 
     If the argument is less than zero then *-1* is returned.
 
@@ -211,57 +275,143 @@ $std::sgn:
     Topic: Math
 
     See also: abs
+
+    Example:
+
+      println! sgn(-123)
+
+    Output:
+
+      -1
+
+    Example:
+
+      println! sgn(0)
+
+    Output:
+
+      0
+
+    Example:
+
+      println! sgn(123)
+
+    Output:
+
+      1
   (
-    x
+    value # the value to determine the sign of
   )
   cond
-    -> x > 0 -> 1
-    -> x < 0 -> -1
+    -> value > 0 -> 1
+    -> value < 0 -> -1
     -> true -> 0
 
 $std::is_odd:
   #
-    return <true> for *odd* integer numbers
+    returns true if the specified value is odd, false otherwise
+
+    Result:
+      success # true or false
 
     Topic: Math
+
+    See also: is_even
+
+    Example:
+
+      dump! `is_odd(123)
+
+    Output:
+
+      is_odd(123): <true>
+
+    Example:
+
+      dump! `is_odd(124)
+
+    Output:
+
+      is_odd(124): <false>
   (
-    n
+    n # the value to check
   )
   -> n & 1 == 1
 
 $std::is_even:
   #
-    return <true> for *even* integer numbers
+    returns true if the specified value is even, false otherwise
+
+    Result:
+      success # true or false
 
     Topic: Math
+
+    See also: is_odd
+
+    Example:
+
+      dump! `is_even(124)
+
+    Output:
+
+      is_even(124): <true>
+
+    Example:
+
+      dump! `is_even(123)
+
+    Output:
+
+      is_even(123): <false>
   (
-    n
+    n # the value to check
   )
   -> n & 1 == 0
 
 $std::sqr:
   #
-    return the power of 2 of its (numerical) argument
+    returns the square of its (numerical) argument
 
-    See also: pow
+    Result:
+      value # the square of the argument
 
     Topic: Math
 
-    #sqrt
+    See also: pow, sqrt, isqrt
+
+    Example:
+
+      println! sqr(4)
+
+    Output:
+
+      16
   (
-    var
+    value # the value to square
   )
-  -> var*var
+  -> value*value
 
 $std::min:
   #
     returns the smallest of its (potentially) many arguments
 
+    Result:
+      value # the smallest of the arguments
+
     Topic: Math
 
-    See also: max, reduce_to
+    See also: max, min_max
+
+    Example:
+
+      println! min(47 11 32)
+
+    Output:
+
+      11
   (
-    args*
+    args* # the arguments to compare
   )
   $result args(1)
   for_each range(args 2 -1)
@@ -275,13 +425,23 @@ $std::min:
 
 $std::max:
   #
-    returns the biggest of its (potentially) many arguments
+    returns the largest of its (potentially) many arguments
 
+    Result:
+      value # the largest of the arguments
     Topic: Math
 
-    See also: min, extend_to
+    See also: min, min_max
+
+    Example:
+
+      println! max(47 11 32)
+
+    Output:
+
+      47
   (
-    args*
+    args* # the arguments to compare
   )
   $result args(1)
   for_each range(args 2 -1)
@@ -297,52 +457,34 @@ $std::min_max:
   #
     returns the smaller and the larger of its two arguments
 
+    Result:
+      min # the smaller of the arguments
+      max # the larger of the arguments
+
     Topic: Math
 
     See also: min, max
+
+    Example:
+
+      $a 47
+      $b 11
+      min_max &a &b
+      println! "min: " a
+      println! "max: " b
+
+    Output:
+
+      min: 11
+      max: 47
   (
-    first_value
-    second_value
+    first_value # the first argument
+    second_value # the second argument
   )
   if
     first_value <= second_value
     -> first_value second_value
     -> second_value first_value
-
-$std::pow:
-  #
-    returns the its first argument by the power of its second argument
-
-    **Attention**: *n* must be a positive integer!
-
-    Topic: Math
-
-    See also: sqr
-
-    # sqrt
-  (
-    x
-    n
-  )
-  cond
-    -> n == 0 -> 1
-    -> is_odd(n) -> x*sqr(pow(x n >> 1))
-    -> true -> sqr(pow(x n >> 1))
-
-#
-  $std::sqrt:
-    #
-      returns the square root of its (numerical) argument
-
-      See also: sqr, pow
-    (
-      x
-    )
-    $y 1
-    repeat 10 (-> !y):
-      !y 0.5*(y+x/y)
-      next
-    -> y
 
 $std::isqrt:
   #

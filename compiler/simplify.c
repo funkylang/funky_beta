@@ -665,7 +665,6 @@ enum {
   var_find_first, // extern
   var_funky_types__numeric_literal, // extern
   var_delete_all, // extern
-  var_to_number, // extern
   var_to_string, // extern
   var_std__key_value_pair, // extern
   var_replace_all, // extern
@@ -4116,8 +4115,6 @@ static TAB_NUM t_func_funky_types__numeric_literal___simplify[] = {
   var_delete_all, 2, LOCAL(1), chr_39, 1, LOCAL(5),
   // self.digits_of digits
   LET, -1, LOCAL(3), var_digits_of, LOCAL(5), LOCAL(3),
-  // to_number &digits
-  var_to_number, 1, LOCAL(5), 1, LOCAL(5),
   // to_string &digits
   var_to_string, 1, LOCAL(5), 1, LOCAL(5),
   // replace_all &digits
@@ -4131,7 +4128,6 @@ static TAB_NUM t_func_funky_types__numeric_literal___simplify[] = {
   POS(918, 22),
   POS(918, 3),
   POS(919, 4),
-  POS(920, 3),
   POS(921, 3),
   POS(922, 3),
   POS(926, 25),
@@ -7394,11 +7390,6 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "to_number\000", NULL,
-    {.position = POS(920, 3)}
-  },
-  {
-    FOT_UNKNOWN, 0, 0,
     "to_string\000", NULL,
     {.position = POS(921, 3)}
   },
@@ -7754,7 +7745,7 @@ FUNKY_MODULE module__simplify = {
   0, // number of defined namespaces
   2, // number of used namespaces
   359, // number of constants
-  369, // number of variables
+  368, // number of variables
   NULL, // required modules
   NULL, // defined namespaces
   used_namespaces,

@@ -20,41 +20,86 @@
   Free Software Foundation, Inc.,
   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
+#
+  Topic: Strings
+
+  Strings consist of zero or more characters.
+
+  A character is a tagged unsigned 32-bit integer.
+
+  They usually store uni-code code points.
+
+  The subtype <std_types::octet_string> of <std_types::string> is used for
+  binary data, often for storing utf8 encoded strings.
+
+  The most efficient string operation is <push> which adds a character to the
+  end of the string. Appending two or more strings is also done in an efficient
+  way.
+
+  Reading a character at any position is also efficient.
+
+  The most basic string operations are builtin.
+
+  Strings have a lot in common with <std_types::list>.
+
+  See also: @Lists
+
 $std::to_sentence_case ()
+  #
+    converts a string to "Sentence case"
+
+    Parameter:
+      string # the string to convert
+
+    Result:
+      string # the converted string
+
+    Topic: Strings
+
+    See also: to_lower_case, to_upper_case
+
+    Example:
+
+      $str "this is a test."
+      println! str.to_sentence_case
+
+    Output:
+
+      This is a test.
 
 $std::is_a_string ()
   #
-    obvious
+    tests if an object is a string
 
     Topic: Strings
 
 $std_types::object.is_a_string false
   #
-    obvious
+    by default, objects are not strings
 
-    Topic: Objects
+    Topic: Objects, Strings
 
 $std_types::string.is_a_string true
   #
-    obvious
+    strings are strings
 
     Topic: Strings
 
 $std::is_an_octet_string ()
   #
-    obvious
+    tests if an object is an octet string
 
     Topic: Strings
 
 $std_types::object.is_an_octet_string false
   #
-    obvious
+    by default, objects are not octet strings
 
-    Topic: Objects
+    Topic: Objects, Strings
 
 $std_types::octet_string.is_an_octet_string true
   #
-    obvious
+    octet strings are octet strings
 
     Topic: Strings
 
@@ -66,7 +111,7 @@ $std_types::string/to_string:
 
     See also: string
   (
-    self
+    self # the string
   )
   -> self
 

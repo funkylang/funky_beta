@@ -66,12 +66,12 @@ enum {
   var_pass, // extern
   var_on_not, // extern polymorphic
   var_serialize, // extern polymorphic
-  var_297_0_indent, // dynamic
+  var_628_0_indent, // dynamic
   var_undefined, // extern
   var_is_defined, // extern
   var_tabs_and_spaces, // extern
   var_append, // extern
-  var_308_0_indent, // dynamic
+  var_647_0_indent, // dynamic
   var__END
 };
 
@@ -80,10 +80,10 @@ static TAB_NUM t_func_std_types__true___and[] = {
   2, // locals
   2, // parameters
   LOCAL(1),
-  LOCAL(2), // 140_0_right
+  LOCAL(2), // 391_0_right
   // right
   LOCAL(2), 0, TAIL_CALL,
-  POS(142, 3)
+  POS(393, 3)
 };
 
 static TAB_NUM t_func_std_types__false___and[] = {
@@ -93,7 +93,7 @@ static TAB_NUM t_func_std_types__false___and[] = {
   LOCAL(1),
   // -> false
   LET, 1, var_false, TAIL_CALL,
-  POS(153, 3)
+  POS(408, 3)
 };
 
 static TAB_NUM t_func_std_types__true___or[] = {
@@ -103,28 +103,28 @@ static TAB_NUM t_func_std_types__true___or[] = {
   LOCAL(1),
   // -> true
   LET, 1, var_true, TAIL_CALL,
-  POS(164, 3)
+  POS(423, 3)
 };
 
 static TAB_NUM t_func_std_types__false___or[] = {
   2, // locals
   2, // parameters
   LOCAL(1),
-  LOCAL(2), // 174_0_right
+  LOCAL(2), // 437_0_right
   // right
   LOCAL(2), 0, TAIL_CALL,
-  POS(176, 3)
+  POS(439, 3)
 };
 
 static TAB_NUM t_func_std_types__true___if[] = {
   2, // locals
   3, // parameters
   LOCAL(1),
-  LOCAL(2), // 185_0_then
+  LOCAL(2), // 452_0_then
   LOCAL(1),
   // then!
   LOCAL(2), 0, IO_TAIL_CALL,
-  POS(188, 3)
+  POS(455, 3)
 };
 
 static TAB_NUM t_func_std_types__false___if[] = {
@@ -132,10 +132,10 @@ static TAB_NUM t_func_std_types__false___if[] = {
   3, // parameters
   LOCAL(1),
   LOCAL(1),
-  LOCAL(2), // 198_0_else
+  LOCAL(2), // 469_0_else
   // else!
   LOCAL(2), 0, IO_TAIL_CALL,
-  POS(200, 3)
+  POS(471, 3)
 };
 
 static TAB_NUM t_func_std_types__true___if_not[] = {
@@ -143,21 +143,21 @@ static TAB_NUM t_func_std_types__true___if_not[] = {
   3, // parameters
   LOCAL(1),
   LOCAL(1),
-  LOCAL(2), // 208_0_else
+  LOCAL(2), // 485_0_else
   // else!
   LOCAL(2), 0, IO_TAIL_CALL,
-  POS(210, 3)
+  POS(487, 3)
 };
 
 static TAB_NUM t_func_std_types__false___if_not[] = {
   2, // locals
   3, // parameters
   LOCAL(1),
-  LOCAL(2), // 217_0_then
+  LOCAL(2), // 500_0_then
   LOCAL(1),
   // then!
   LOCAL(2), 0, IO_TAIL_CALL,
-  POS(220, 3)
+  POS(503, 3)
 };
 
 static TAB_NUM t_func_std_types__true___update_if[] = {
@@ -165,32 +165,32 @@ static TAB_NUM t_func_std_types__true___update_if[] = {
   -3, // parameters
   MANDATORY_PARAMETER, LOCAL(1),
   REST_PARAMETER, LOCAL(1),
-  MANDATORY_PARAMETER, LOCAL(2), // 226_0_body
+  MANDATORY_PARAMETER, LOCAL(2), // 515_0_body
   // body
   LOCAL(2), 0, TAIL_CALL,
-  POS(228, 3)
+  POS(517, 3)
 };
 
 static TAB_NUM t_func_std_types__false___update_if[] = {
   2, // locals
   -3, // parameters
   MANDATORY_PARAMETER, LOCAL(1),
-  REST_PARAMETER, LOCAL(2), // 233_0_defaults
+  REST_PARAMETER, LOCAL(2), // 528_0_values
   MANDATORY_PARAMETER, LOCAL(1),
-  // spread defaults
+  // spread values
   var_spread, 1, LOCAL(2), TAIL_CALL,
-  POS(236, 3)
+  POS(531, 3)
 };
 
 static TAB_NUM t_func_std_types__true___update_if_not[] = {
   2, // locals
   -3, // parameters
   MANDATORY_PARAMETER, LOCAL(1),
-  REST_PARAMETER, LOCAL(2), // 241_0_defaults
+  REST_PARAMETER, LOCAL(2), // 542_0_values
   MANDATORY_PARAMETER, LOCAL(1),
-  // spread defaults
+  // spread values
   var_spread, 1, LOCAL(2), TAIL_CALL,
-  POS(244, 3)
+  POS(545, 3)
 };
 
 static TAB_NUM t_func_std_types__false___update_if_not[] = {
@@ -198,20 +198,20 @@ static TAB_NUM t_func_std_types__false___update_if_not[] = {
   -3, // parameters
   MANDATORY_PARAMETER, LOCAL(1),
   REST_PARAMETER, LOCAL(1),
-  MANDATORY_PARAMETER, LOCAL(2), // 250_0_body
+  MANDATORY_PARAMETER, LOCAL(2), // 557_0_body
   // body
   LOCAL(2), 0, TAIL_CALL,
-  POS(252, 3)
+  POS(559, 3)
 };
 
 static TAB_NUM t_func_std_types__true___on[] = {
   2, // locals
   2, // parameters
   LOCAL(1),
-  LOCAL(2), // 261_0_action
+  LOCAL(2), // 572_0_action
   // action!
   LOCAL(2), 0, IO_TAIL_CALL,
-  POS(263, 3)
+  POS(574, 3)
 };
 
 static TAB_NUM t_func_std_types__false___on[] = {
@@ -221,7 +221,7 @@ static TAB_NUM t_func_std_types__false___on[] = {
   LOCAL(1),
   // pass
   var_pass, 0, TAIL_CALL,
-  POS(272, 3)
+  POS(587, 3)
 };
 
 static TAB_NUM t_func_std_types__true___on_not[] = {
@@ -231,44 +231,44 @@ static TAB_NUM t_func_std_types__true___on_not[] = {
   LOCAL(1),
   // pass
   var_pass, 0, TAIL_CALL,
-  POS(281, 3)
+  POS(600, 3)
 };
 
 static TAB_NUM t_func_std_types__false___on_not[] = {
   2, // locals
   2, // parameters
   LOCAL(1),
-  LOCAL(2), // 290_0_action
+  LOCAL(2), // 613_0_action
   // action!
   LOCAL(2), 0, IO_TAIL_CALL,
-  POS(292, 3)
+  POS(615, 3)
 };
 
 static TAB_NUM t_func_std_types__true___serialize[] = {
   1, // locals
   -2, // parameters
   MANDATORY_PARAMETER, LOCAL(1),
-  var_undefined, var_297_0_indent,
+  var_undefined, var_628_0_indent,
   // is_defined
-  var_is_defined, 1, var_297_0_indent, 1, LOCAL(1),
+  var_is_defined, 1, var_628_0_indent, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_1, lambda_2, TAIL_CALL,
-  POS(301, 12),
-  POS(300, 3)
+  POS(632, 12),
+  POS(631, 3)
 };
 
 static TAB_NUM t_lambda_1[] = {
   2, // locals
   0, // parameters
   // tabs_and_spaces(indent) str)
-  var_tabs_and_spaces, 1, var_297_0_indent, 1, LOCAL(1),
+  var_tabs_and_spaces, 1, var_628_0_indent, 1, LOCAL(1),
   // append(tabs_and_spaces(indent) str)
   var_append, 2, LOCAL(1), str_true, 1, LOCAL(2),
   //  append(tabs_and_spaces(indent) str)
   LET, 1, LOCAL(2), TAIL_CALL,
-  POS(302, 15),
-  POS(302, 8),
-  POS(302, 7)
+  POS(633, 15),
+  POS(633, 8),
+  POS(633, 7)
 };
 
 static TAB_NUM t_lambda_2[] = {
@@ -276,34 +276,34 @@ static TAB_NUM t_lambda_2[] = {
   0, // parameters
   //  str
   LET, 1, str_true, TAIL_CALL,
-  POS(303, 7)
+  POS(634, 7)
 };
 
 static TAB_NUM t_func_std_types__false___serialize[] = {
   1, // locals
   -2, // parameters
   MANDATORY_PARAMETER, LOCAL(1),
-  var_undefined, var_308_0_indent,
+  var_undefined, var_647_0_indent,
   // is_defined
-  var_is_defined, 1, var_308_0_indent, 1, LOCAL(1),
+  var_is_defined, 1, var_647_0_indent, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_3, lambda_4, TAIL_CALL,
-  POS(312, 12),
-  POS(311, 3)
+  POS(651, 12),
+  POS(650, 3)
 };
 
 static TAB_NUM t_lambda_3[] = {
   2, // locals
   0, // parameters
   // tabs_and_spaces(indent) str)
-  var_tabs_and_spaces, 1, var_308_0_indent, 1, LOCAL(1),
+  var_tabs_and_spaces, 1, var_647_0_indent, 1, LOCAL(1),
   // append(tabs_and_spaces(indent) str)
   var_append, 2, LOCAL(1), str_false, 1, LOCAL(2),
   //  append(tabs_and_spaces(indent) str)
   LET, 1, LOCAL(2), TAIL_CALL,
-  POS(313, 15),
-  POS(313, 8),
-  POS(313, 7)
+  POS(652, 15),
+  POS(652, 8),
+  POS(652, 7)
 };
 
 static TAB_NUM t_lambda_4[] = {
@@ -311,7 +311,7 @@ static TAB_NUM t_lambda_4[] = {
   0, // parameters
   //  str
   LET, 1, str_false, TAIL_CALL,
-  POS(314, 7)
+  POS(653, 7)
 };
 
 static FUNKY_CONSTANT constants_table[] = {
@@ -392,7 +392,7 @@ static FUNKY_VARIABLE variables_table[] = {
   {
     FOT_UNKNOWN, 0, 11,
     "true\000std_types", std_types__true__attributes,
-    {.position = POS(27, 12)}
+    {.position = POS(29, 12)}
   },
   {
     FOT_DERIVED, 0, 0,
@@ -402,27 +402,27 @@ static FUNKY_VARIABLE variables_table[] = {
   {
     FOT_UNKNOWN, 0, 11,
     "false\000std_types", std_types__false__attributes,
-    {.position = POS(35, 13)}
+    {.position = POS(37, 13)}
   },
   {
     FOT_UNKNOWN, 0, 1,
     "object\000std_types", std_types__object__attributes,
-    {.position = POS(43, 1)}
+    {.position = POS(45, 1)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
     "is_a_boolean\000", NULL,
-    {.position = POS(43, 20)}
+    {.position = POS(45, 20)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "false\000", NULL,
-    {.position = POS(43, 33)}
+    {.position = POS(45, 33)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "true\000", NULL,
-    {.position = POS(49, 31)}
+    {.position = POS(53, 31)}
   },
   {
     FOT_POLYMORPHIC, 0, 0,
@@ -472,90 +472,90 @@ static FUNKY_VARIABLE variables_table[] = {
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
     "not\000", NULL,
-    {.position = POS(129, 18)}
+    {.position = POS(363, 18)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
     "and\000", NULL,
-    {.position = POS(132, 18)}
+    {.position = POS(379, 18)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
     "or\000", NULL,
-    {.position = POS(155, 18)}
+    {.position = POS(410, 18)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
     "if\000", NULL,
-    {.position = POS(178, 18)}
+    {.position = POS(441, 18)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
     "if_not\000", NULL,
-    {.position = POS(202, 18)}
+    {.position = POS(473, 18)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
     "update_if\000", NULL,
-    {.position = POS(222, 18)}
+    {.position = POS(505, 18)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "spread\000", NULL,
-    {.position = POS(236, 3)}
+    {.position = POS(531, 3)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
     "update_if_not\000", NULL,
-    {.position = POS(238, 18)}
+    {.position = POS(533, 18)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
     "on\000", NULL,
-    {.position = POS(254, 18)}
+    {.position = POS(561, 18)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "pass\000", NULL,
-    {.position = POS(272, 3)}
+    {.position = POS(587, 3)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
     "on_not\000", NULL,
-    {.position = POS(274, 18)}
+    {.position = POS(589, 18)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
     "serialize\000", NULL,
-    {.position = POS(294, 18)}
+    {.position = POS(617, 18)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "297_0_indent\000", NULL
+    "628_0_indent\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
     "undefined\000", NULL,
-    {.position = POS(297, 14)}
+    {.position = POS(628, 14)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "is_defined\000", NULL,
-    {.position = POS(301, 12)}
+    {.position = POS(632, 12)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "tabs_and_spaces\000", NULL,
-    {.position = POS(302, 15)}
+    {.position = POS(633, 15)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "append\000", NULL,
-    {.position = POS(302, 8)}
+    {.position = POS(633, 8)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "308_0_indent\000", NULL
+    "647_0_indent\000", NULL
   }
 };
 

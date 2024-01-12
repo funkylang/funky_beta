@@ -1,6 +1,6 @@
 #!/usr/bin/env fkyrun
 
-  Copyright (C) 2023 by
+  Copyright (C) 2024 by
   Dipl.-Ing. Michael Niederle
 
   This program is free software; you can redistribute it and/or modify
@@ -438,7 +438,7 @@ $draw_cave_columns:
 		set_character_at &terminal x y1 'F'
 		!next_fuel_tank_x cave_draw_x+20
 		minus &ceiling_y 3
-		extend_to &ceiling_y 2
+		max &ceiling_y 2
 		update_floor_and_ceiling
 	      maybe_draw_laser_beam
 	  maybe_draw_laser_beam
@@ -525,15 +525,15 @@ $draw_cave_columns:
 
 	next_value &rng $cr 5
 	!ceiling_y ceiling_y+cr-3 # make a random change
-	extend_to &ceiling_y 2 # not too high
-	reduce_to &ceiling_y 35 # not too low
+	max &ceiling_y 2 # not too high
+	min &ceiling_y 35 # not too low
 
 	# update the floor height
 
 	next_value &rng $fr 5
 	!floor_y floor_y+fr-3 # make a random change
-	reduce_to &floor_y CAVE_HEIGHT # not too low
-	extend_to &floor_y 16 # not too high
+	min &floor_y CAVE_HEIGHT # not too low
+	max &floor_y 16 # not too high
 
 	# check whether the cave would be too narrow
 

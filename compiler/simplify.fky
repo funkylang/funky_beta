@@ -917,7 +917,6 @@ $funky_types::statement/simplify: (self temp_no)
 $funky_types::numeric_literal/simplify: (self temp_no)
   $digits delete_all(digits_of(self) '@apos;')
   !self.digits_of digits
-  to_number &digits
   to_string &digits
   replace_all &digits
     '.' = "_"
