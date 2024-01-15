@@ -29,7 +29,7 @@ enum {
   lambda_13 = -20,
   lambda_14 = -21,
   lambda_15 = -22,
-  num_7 = -23,
+  num_0x07 = -23,
   num_3 = -24,
   lambda_16 = -25,
   lambda_17 = -26,
@@ -41,7 +41,7 @@ enum {
   lambda_22 = -32,
   lambda_23 = -33,
   lambda_24 = -34,
-  num_15 = -35,
+  num_0x0f = -35,
   num_10 = -36,
   lambda_25 = -37,
   chr_97 = -38,
@@ -84,7 +84,7 @@ enum {
   lambda_loop = -75,
   lambda_48 = -76,
   lambda_49 = -77,
-  num_3_14159265358979 = -78
+  num_3_1415926535897932846 = -78
 };
 
 enum {
@@ -145,9 +145,9 @@ enum {
   var_481_0_first_value, // dynamic
   var_482_0_second_value, // dynamic
   var_std__isqrt, // initialized
-  var_495_0_n, // dynamic
-  var_501_1_x, // dynamic
-  var_502_1_y, // dynamic
+  var_497_0_n, // dynamic
+  var_503_1_x, // dynamic
+  var_504_1_y, // dynamic
   var_div, // extern
   var_std__PI, // initialized
   var__END
@@ -347,7 +347,7 @@ static TAB_NUM t_lambda_15[] = {
   2, // locals
   0, // parameters
   // val & 0x07)
-  var_std__bit_and, 2, var_110_0_val, num_7, 1, LOCAL(1),
+  var_std__bit_and, 2, var_110_0_val, num_0x07, 1, LOCAL(1),
   // 0'+(val & 0x07)
   var_std__plus, 2, chr_48, LOCAL(1), 1, LOCAL(2),
   // put &str '0'+(val & 0x07)
@@ -465,7 +465,7 @@ static TAB_NUM t_lambda_24[] = {
   3, // locals
   0, // parameters
   // $hex_digit val & 0x0f
-  var_std__bit_and, 2, var_165_0_val, num_15, 1, var_179_1_hex_digit,
+  var_std__bit_and, 2, var_165_0_val, num_0x0f, 1, var_179_1_hex_digit,
   // hex_digit >= 10
   var_std__less, 2, var_179_1_hex_digit, num_10, 1, LOCAL(1),
   // hex_digit >= 10
@@ -820,13 +820,13 @@ static TAB_NUM t_lambda_45[] = {
 static TAB_NUM t_func_std__isqrt[] = {
   1, // locals
   1, // parameters
-  var_495_0_n,
+  var_497_0_n,
   // n < 0
-  var_std__less, 2, var_495_0_n, num_0, 1, LOCAL(1),
+  var_std__less, 2, var_497_0_n, num_0, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_46, lambda_47, TAIL_CALL,
-  POS(498, 5),
-  POS(497, 3)
+  POS(500, 5),
+  POS(499, 3)
 };
 
 static TAB_NUM t_lambda_46[] = {
@@ -834,57 +834,57 @@ static TAB_NUM t_lambda_46[] = {
   0, // parameters
   //  undefined
   LET, 1, var_undefined, TAIL_CALL,
-  POS(499, 7)
+  POS(501, 7)
 };
 
 static TAB_NUM t_lambda_47[] = {
   0, // locals
   0, // parameters
   // $x n
-  LET, 1, var_495_0_n, 1, var_501_1_x,
+  LET, 1, var_497_0_n, 1, var_503_1_x,
   // $y 1
-  LET, 1, num_1, 1, var_502_1_y,
+  LET, 1, num_1, 1, var_504_1_y,
   // loop:
   var_loop, 1, lambda_loop, TAIL_CALL,
-  POS(501, 7),
-  POS(502, 7),
-  POS(503, 7)
+  POS(503, 7),
+  POS(504, 7),
+  POS(505, 7)
 };
 
 static TAB_NUM t_lambda_loop[] = {
   1, // locals
   0, // parameters
   // y
-  var_std__less, 2, var_502_1_y, var_501_1_x, 1, LOCAL(1),
+  var_std__less, 2, var_504_1_y, var_503_1_x, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_48, lambda_49, TAIL_CALL,
-  POS(505, 15),
-  POS(504, 9)
+  POS(507, 15),
+  POS(506, 9)
 };
 
 static TAB_NUM t_lambda_48[] = {
   1, // locals
   0, // parameters
   // x+y) >> 1
-  var_std__plus, 2, var_501_1_x, var_502_1_y, 1, LOCAL(1),
+  var_std__plus, 2, var_503_1_x, var_504_1_y, 1, LOCAL(1),
   // !x (x+y) >> 1
-  var_std__shift_right, 2, LOCAL(1), num_1, 1, var_501_1_x,
+  var_std__shift_right, 2, LOCAL(1), num_1, 1, var_503_1_x,
   // !y n .div. x
-  var_div, 2, var_495_0_n, var_501_1_x, 1, var_502_1_y,
+  var_div, 2, var_497_0_n, var_503_1_x, 1, var_504_1_y,
   // next
   var_next, 0, TAIL_CALL,
-  POS(507, 17),
-  POS(507, 13),
-  POS(508, 13),
-  POS(509, 13)
+  POS(509, 17),
+  POS(509, 13),
+  POS(510, 13),
+  POS(511, 13)
 };
 
 static TAB_NUM t_lambda_49[] = {
   0, // locals
   0, // parameters
   //  x
-  LET, 1, var_501_1_x, TAIL_CALL,
-  POS(510, 13)
+  LET, 1, var_503_1_x, TAIL_CALL,
+  POS(512, 13)
 };
 
 static FUNKY_CONSTANT constants_table[] = {
@@ -965,7 +965,7 @@ static FUNKY_CONSTANT constants_table[] = {
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_loop}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_48}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_49}},
-  {FLT_REAL, 0, {.real_value = 3.1415926535897932}}
+  {FLT_REAL, 0, {.real_value = 3.1415926535897932846}}
 };
 
 static FUNKY_VARIABLE variables_table[] = {
@@ -1233,25 +1233,25 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "495_0_n\000", NULL
+    "497_0_n\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "501_1_x\000", NULL
+    "503_1_x\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "502_1_y\000", NULL
+    "504_1_y\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
     "div\000", NULL,
-    {.position = POS(508, 16)}
+    {.position = POS(510, 16)}
   },
   {
     FOT_INITIALIZED, 0, 0,
     "PI\000std", NULL,
-    {.const_idx = -num_3_14159265358979}
+    {.const_idx = -num_3_1415926535897932846}
   }
 };
 

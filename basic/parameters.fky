@@ -22,13 +22,51 @@
 
 $BOOLEAN_OPTION . # used internly
 
+#
+  Topic: Parameters
+
+  These functions make it easy to parse
+
+  * command line parameters - <program_parameters>
+
+  * "named" options of functions - <extract_options>
+
 $std::COPYRIGHT .
   #
-    the copyright message of the program
+    adds a copyright message
+
+    Topic: Parameters
+
+    See also: program_parameters, VERSION
+
+    Example:
+
+      program_parameters!
+	list
+	  COPYRIGHT "
+	    Copyright (C) 2024 by
+	    <your name>
+
+	    This program is free software; you can redistribute it and/or modify
+	    it under the terms of the GNU General Public License, version 2, or
+	    (at your option) version 3.
+	    ...
 
 $std::VERSION .
   #
-    the version of the program
+    defines the version of the application program
+
+    Topic: Parameters
+
+    See also: program_parameters, COPYRIGHT
+
+    Example:
+
+      program_parameters!
+	list
+	  COPYRIGHT ...
+	list
+	  VERSION "1.2.3"
 
 $std::VALUED_OPTION .
   #
@@ -36,39 +74,113 @@ $std::VALUED_OPTION .
 
     This option must not appear more than once in the options list.
 
-    See also: MULTI_VALUED_OPTION
+    Topic: Parameters
+
+    See also: MULTI_VALUED_OPTION, MANDATORY_PARAMETER, OPTIONAL_PARAMETER,
+	      SOME_PARAMETERS, MANY_PARAMETERS
+
+    Example:
+
+      program_parameters!
+	$log_level
+	list
+	  VALUED_OPTION "log-level" 0 to_integer "
+	    specify the log level (0 = disable)
 
 $std::MULTI_VALUED_OPTION .
   #
-    describes an option with an associated value
+    describes an option with an associated list of values
 
     This option may appear many times in the options list.
 
-    See also: MULTI_VALUED_OPTION
+    Topic: Parameters
+
+    See also: VALUED_OPTION, MANDATORY_PARAMETER, OPTIONAL_PARAMETER,
+	      SOME_PARAMETERS, MANY_PARAMETERS
+
+    Example:
+
+      program_parameters!
+	$stop_word
+	list
+	  MULTI_VALUED_OPTION "stop" "
+	    specify stop words
 
 $std::MANDATORY_PARAMETER .
   #
     describes a mandatory parameter
 
-    See also: OPTIONAL_PARAMETER
+    This parameter must appear exactly once in the parameter list.
+
+    Topic: Parameters
+
+    See also: OPTIONAL_PARAMETER, SOME_PARAMETERS, MANY_PARAMETERS,
+	      VALUED_OPTION, MULTI_VALUED_OPTION
+
+    Example:
+
+      program_parameters!
+	$input_file
+	list
+	  MANDATORY_PARAMETER "input" "
+	    the input file to use
 
 $std::OPTIONAL_PARAMETER .
   #
     describes an optional parameter
 
-    See also: MANDATORY_PARAMETER
+    This parameter may appear zero or once in the parameter list.
+
+    Topic: Parameters
+
+    See also: MANDATORY_PARAMETER, SOME_PARAMETERS, MANY_PARAMETERS,
+	      VALUED_OPTION, MULTI_VALUED_OPTION
+
+    Example:
+
+      program_parameters!
+	$log_file
+	list
+	  OPTIONAL_PARAMETER "log-file" "
+	    specify the name of the log file to use
 
 $std::SOME_PARAMETERS .
   #
     describes list of zero or more parameters
 
-    See also: MANY_PARAMETERS
+    This parameters may appear zero or more times in the parameter list.
+
+    Topic: Parameters
+
+    See also: MANY_PARAMETERS, MANDATORY_PARAMETER, OPTIONAL_PARAMETER,
+	      VALUED_OPTION, MULTI_VALUED_OPTION
+
+    Example:
+
+      program_parameters!
+	$input_files
+	list
+	  SOME_PARAMETERS "input" "
+	    the input files to use; if none are specified <stdin> is used
 
 $std::MANY_PARAMETERS .
   #
     describes list of one or more parameters
 
-    See also: SOME_PARAMETERS
+    This parameters must appear at least once in the parameter list.
+
+    Topic: Parameters
+
+    See also: SOME_PARAMETERS, MANDATORY_PARAMETER, OPTIONAL_PARAMETER,
+	      VALUED_OPTION, MULTI_VALUED_OPTION
+
+    Example:
+
+      program_parameters!
+	$input_files
+	list
+	  MANY_PARAMETERS "input" "
+	    the input files to use; at least one must be specified
 
 $std::extract_options:
   #
@@ -83,6 +195,10 @@ $std::extract_options:
 
     To make the code more readable it is recommended to interleave the option
     templates and the results.
+
+    Topic: Parameters
+
+    See also: program_parameters
 
     Example:
 
@@ -116,97 +232,59 @@ $std::extract_options:
 
 $std::program_parameters:
   #
-    defines the appliation's options and parameters
+    defines the application's options and parameters
 
     The specified information is used to parse the application's input arguments
     as well as to print a brief help message.
 
     Options to print the program's version and the copyright notice are added
-    automatically.
+    automatically if you specify <VERSION> and <COPYRIGHT>.
 
     The syntax is quite complicated. The example shows the complete list of
-    options and parameters of the Simplicity compiler.
+    options and parameters of the Funky compiler.
 
-    Topic: Command Line Argument Parsing
+    Topic: Parameters
+
+    See also: COPYRIGHT, VERSION, VALUED_OPTION, MULTI_VALUED_OPTION,
+	      MANDATORY_PARAMETER, OPTIONAL_PARAMETER, SOME_PARAMETERS,
+	      MANY_PARAMETERS, extract_options
 
     Example:
 
-      program_parameters
-	# the following options act on a single file only
+      program_parameters!
+	list
+	  COPYRIGHT "
+	    Copyright (C) 2024 by
+	    Dipl.-Ing. Michael Niederle
 
-	$compiler::do_check_only -> "check-only" "
-	  do not compile; just check for syntax errors
+	    This program is free software; you can redistribute it and/or modify
+	    it under the terms of the GNU General Public License, version 2, or
+	    (at your option) version 3.
 
-	$compiler::do_dump_trees -> "dump-trees" "
-	  dump abstract syntax trees
+	    This program is distributed in the hope that it will be useful,
+	    but WITHOUT ANY WARRANTY; without even the implied warranty of
+	    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+	    GNU General Public License for more details.
 
-	$compiler::do_pretty_print -> "pretty-print" "
-	  do not compile; just pretty print the source file
-
-	$compiler::do_print_simplified_source -> "print-simplified-source" "
-	  do not generate a C-file; just print the simplified source text
-
-	$do_print_c -> "print-c" "
-	  print C source code for a single module
-
-	$do_time_passes -> "time-passes" "
-	  print running time for the individual compiler passes
-
-	$module_prefix -> VALUED_OPTION "module-prefix" "
-	  needed to compile a single file within a subdirectory;
-	  if the subdirectories are nested use slashes to separate
-	  the directory names
-
-	# the following options change the diagnostic output
-
-	$compiler::do_show_brief_messages -> "brief" "
-	  show brief error messages
-
-	$compiler::do_print_warnings -> "warnings" "
-	  show warning messages
-
-	$compiler::do_print_missing -> "missing" "
-	  inform about missing documentation
-
-	$compiler::do_print_summary -> "summary" "
-	  show a statistical summary
-
-	$compiler::verbose -> "verbose" "
-	  output verbose informations
-
-	$compiler::do_show_debug_infos -> "debug" "
-	  show C-compiler and linker calls
-
-	$compiler::do_show_compiler_debug_infos -> "debug_compiler" "
-	  show internal debug messages of the Simplicity compiler
-
-	# the following options create meta-informations
-
-	$do_build_codeblocks_project -> "codeblocks" "
-	  create Code::Blocks project
-
-	$do_extract_documentation -> "extract-documentation" "
-	  extract documentation encoded as HTML
-
-	$do_list_dependencies -> "list-dependencies" "
-	  list all dependencies
-
-	# the following options influence the build process for all modules
-
-	$do_rebuild -> "rebuild" "
-	  rebuild all source files
-
-	$do_omit_meta -> "omit-meta" "
-	  do not rebuild meta files
-
-	$do_build_static -> "static" "
-	  create statically linked executable
-
-	$do_link_profiler -> "profile" "
-	  link with libprofiler
-
-	$input_filename -> std::MANDATORY_PARAMETER "filename" "
-	  the name of the source file to compile
+	    For details of the GNU General Public License see the accompanying
+	    files GPLv2.txt and GLPv3.txt or
+	    http://www.gnu.org/licenses/gpl-2.0.html
+	    http://www.gnu.org/licenses/gpl-3.0.html
+	    or write to the
+	    Free Software Foundation, Inc.,
+	    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+	list
+	  MANDATORY_PARAMETER "filename" "
+	    a source code file with the extension ".fky"
+	list
+	  "verbose" "
+	    output detailed information about the build process
+	list
+	  "rebuild" "
+	    rebuild all source files
+	list
+	  "print-c" "
+	    print C source code for a single module
   (
     templates* # the accepted options and arguments
   )

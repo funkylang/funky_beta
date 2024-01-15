@@ -1163,9 +1163,20 @@ $to_c_string_32: (str)
       if
 	chr < ' ' || chr > '~' || chr == '@quot;' || chr == '\':
 	  append &buf range(str s idx-1)
-	  append &buf "\U" hex(chr.to_integer 8)
+	  $val chr.to_integer
 	  !s idx+1
-	  next
+	  if
+	    val <= 0xff:
+	      append &buf "\x" hex(val 2)
+	      next
+	    :
+	      if
+		val <= 0xffff:
+		  append &buf "\u" hex(val 4)
+		  next
+		:
+		  append &buf "\U" hex(val 8)
+		  next
 	next
     :
       if

@@ -62,6 +62,172 @@ $std_types::set/to_list:
       next
     -> items
 
+# grammar functions
+
+$std_types::set/match:
+  #
+    matches the start of a string with the set's characters
+
+    Result:
+      len # 1 if any character in the set matches the start of the string
+
+    If the match is unsuccessful, then *len* is <undefined>.
+
+    Use the <alt>-function to construct a set of characters.
+
+    Topic: Strings
+
+    See also: alt, match_back, search
+
+    Example:
+
+      $str "[abc]"
+      $len match(alt('(' '[' '{') str)
+      dump! `len
+
+    Output:
+
+      len: 1
+
+    Example:
+
+      $str "abc"
+      $len match(alt('(' ']' '}') str)
+      dump! `len
+
+    Output:
+
+      len: <undefined>
+  (
+    self # a set of characters
+    str # the string which's start is matched
+  )
+  if
+    str.is_empty
+    -> undefined
+    :
+      if
+	self(str(1))
+	-> 1
+	-> undefined
+
+$std_types::set/match_back:
+  #
+    matches the end of a string with the set's characters
+
+    Result:
+      len # 1 if any character in the set matches the end of the string
+
+    If the match is unsuccessful, then *len* is <undefined>.
+
+    Use the <alt>-function to construct a set of characters.
+
+    Topic: Strings
+
+    See also: alt, match, search
+
+    Example:
+
+      $str "[abc]"
+      $len match_back(alt(')' ']' '}') str)
+      dump! `len
+
+    Output:
+
+      len: 1
+
+    Example:
+
+      $str "abc"
+      $len match_back(alt(')' ']' '}') str)
+      dump! `len
+
+    Output:
+
+      len: <undefined>
+  (
+    self # a set of characters
+    str # the string which's end is matched
+  )
+  if
+    str.is_empty
+    -> undefined
+    :
+      if
+	self(str(-1))
+	-> 1
+	-> undefined
+
+$std_types::set/search:
+  #
+    searches for one of the alternatives from the start or the end of a string
+
+    Results:
+      pos # the position of the first occurrence of a matching character
+      len # 1 if successful
+
+    If a matching character is not found, then *pos* and *len* are <undefined>.
+
+    Topic: Strings
+
+    See also: match, match_back
+
+    Example:
+
+      println! "std_types::positive_integer/std::minus" .before. alt('.' '/')
+
+    Output:
+
+      std_types::positive_integer
+  (
+    self # a set of characters
+    stream # the string to search in
+    nth = 1 # search for the nth occurrence; negative value search backwards
+  )
+  $i undefined
+  $n length_of(stream)
+  if
+    nth < 0:
+      !i n
+      search_backwards
+    :
+      !i 1
+      search_forwards
+
+  $search_forwards:
+    if
+      i <= n
+      :
+	if
+	  self(stream(i)):
+	    if
+	      nth > 1:
+		dec &nth
+		inc &i
+		search_forwards
+	      -> i 1
+	  :
+	    inc &i
+	    search_forwards
+      -> undefined undefined
+
+  $search_backwards:
+    if
+      i >= 1
+      :
+	if
+	  self(stream(i)):
+	    if
+	      nth < -1:
+		inc &nth
+		dec &i
+		search_backwards
+	      -> i 1
+	  :
+	    dec &i
+	    search_backwards
+      -> undefined undefined
+
 # serialization
 
 $std_types::set/serialize:

@@ -1,5 +1,5 @@
 #
-  Copyright (C) 2021 by
+  Copyright (C) 2024 by
   Dipl.-Ing. Michael Niederle
 
   This program is free software; you can redistribute it and/or modify
@@ -20,11 +20,28 @@
   Free Software Foundation, Inc.,
   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
+#
+  Topic: Date and Time
+
 $std_types::date_and_time/to_string:
   #
-    returns a human readable interpretation
+    returns a string representation of the date-and-time object
+
+    Topics: Date and Time, Strings
+
+    See also: year_of, month_of, day_of, hour_of, minute_of, second_of,
+	      day_of_week_of, time_shift_of
+
+    Example:
+
+      current_time! $t
+      println! t
+
+    Output:
+
+      2024-01-14 9:12:42.792 GMT+1
   (
-    self
+    self # the date-and-time object
   )
   $ts time_shift_of(self)
   $t self+ts

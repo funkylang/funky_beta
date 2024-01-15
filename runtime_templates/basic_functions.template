@@ -21,12 +21,22 @@
 
 OBJECT std::EXIT_SUCCESS -> std_types::positive_integer
   #
-    the empty string
+    status code for successful termination
+
+    Topic: Primitives
+
+    See also: EXIT_FAILURE
+
   EXIT_SUCCESS
 
 OBJECT std::EXIT_FAILURE -> std_types::positive_integer
   #
-    the empty string
+    status code for unsuccessful termination
+
+    Topic: Primitives
+
+    See also: EXIT_SUCCESS
+
   EXIT_FAILURE
 
 FUNCTION std::pass
@@ -35,19 +45,27 @@ FUNCTION std::pass
 
     <pass> must be called without any arguments expecting no results
 
-    See also: let
+    Topic: Primitives
+
+    See also: assign, spread
+
+    Example:
+
+      $items list("apples" "bananas" "cherries")
+      for_each items
+	: (item)
+	  println! item
+	  next!
+	pass
+
+    Output:
+
+      apples
+      bananas
+      cherries
   {
     CHECK_ARGUMENTS(0)
     CHECK_RESULTS(0)
-    RETURN
-  }
-
-FUNCTION std::let
-  #
-    returns all supplied arguments as results
-
-    See also: pass
-  {
     RETURN
   }
 
@@ -57,6 +75,8 @@ FUNCTION std::result_count
 
     When a function is called then the caller supplies the number of expected
     results as an invisible argument.
+
+    Topic: Primitives
 
     See also: parameter_count_of
   {

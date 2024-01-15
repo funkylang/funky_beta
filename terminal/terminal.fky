@@ -87,13 +87,18 @@ $line_height_of (!)
 
   For more details about colour handling see <colours>.
 
+  See also: @Input-Output
+
   Example:
 
-    get_terminal_size! STDIN_FILENO $width $height
-    create_terminal $terminal width height
-    draw_text &terminal 10 5 "Hello, world!"
-    update_terminal &terminal $output
-    print! output
+      <require basic/stdlib>
+      <require terminal/terminal>
+
+      get_terminal_size! STDIN_FILENO $width $height
+      create_terminal $terminal width height
+      draw_text &terminal 10 5 "Hello, world!"
+      update_terminal &terminal $output # create output character stream
+      print! output # print the generated character stream
 
 #
   Topic: Colours
@@ -905,11 +910,17 @@ $std::TITLE .
 $terminal_private::backspace_character '@del;'
 
 $std::initialize_terminal:
+  #
+    creates a terminal object for the given input file descriptor
+
+    If no file descriptor is given, the function uses the standard input.
   (
     options*
     body
   )
   extract_options options
+    TEXT_COLOUR = BLACK $text_colour
+    BACKGROUND_COLOUR = WHITE $background_colour
     FILE_DESCRIPTOR = STDIN_FILENO $fd
     RECEIVE_CTRL_C_AND_CTRL_Z = false $do_receive_ctrl_c_and_ctrl_z
     RECEIVE_CTRL_Q_AND_CTRL_S = false $do_receive_ctrl_q_and_ctrl_s
@@ -941,6 +952,9 @@ $std::initialize_terminal:
 
   get_terminal_size! fd $width $height
   create_terminal $terminal width height
+    TEXT_COLOUR = text_colour
+    BACKGROUND_COLOUR = background_colour
+  debug::dump `terminal
 
   terminal_private::initialize_keys:
     try $err: body! terminal
@@ -2064,6 +2078,24 @@ $std::create_terminal:
     Topic: Terminal
 
     See also: create_screen
+
+    Example:
+
+      <require basic/stdlib>
+      <require terminal/terminal>
+
+      get_terminal_size! STDIN_FILENO $width $height
+      create_terminal $terminal width height
+	TEXT_COLOUR = WHITE
+	BACKGROUND_COLOUR = BLUE
+      draw_text &terminal
+	10 # column
+	5 # row
+	"
+	  This is a multi-line
+	  text.
+      update_terminal &terminal $output # create output character stream
+      print! output # print the generated character stream
   (
     width # the number of columns
     height # the number of rows

@@ -20,6 +20,9 @@
   Free Software Foundation, Inc.,
   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
+#
+  Topic: Primitives
+
 $std::do:
   #
     execute a statement sequence
@@ -28,6 +31,8 @@ $std::do:
 
     See also: pass
 
+    Topic: Primitives
+
     Example:
 
       do:
@@ -35,21 +40,42 @@ $std::do:
 	writeln! y
 
   (
-    body
+    body # the statement sequence
   )
   body!
 
 $std::ignore:
   #
     accepts a single argument and returns nothing
+
+    This procedure is used to ignore a result value.
+
+    See also: pass
+
+    Topic: Primitives
   (
-    _arg
+    _arg # the argument to ignore
   )
   pass
 
 $std::assign:
-  # returns all its arguments unaltered
+  #
+    returns all its arguments unaltered
+
+    This procedure is used to assign multiple values to multiple variables.
+
+    See also: pass
+
+    Topic: Primitives
+
+    Example:
+
+      # swap
+
+      assign
+	!x y
+	!y x
   (
-    args*
+    args* # the return values
   )
   spread args

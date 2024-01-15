@@ -42,7 +42,7 @@ $std_types::character/match:
     matches the start of a string with the character
 
     Result:
-      len # the number of matched characters
+      len # 1 if the character is the first character of the string
 
     If the match is unsuccessful, then *len* is <undefined>.
 
@@ -87,7 +87,7 @@ $std_types::character/match_back:
     matches the end of a string with the character
 
     Result:
-      len # the number of matched characters
+      len # 1 if the character is the last character of the string
 
     If the match is unsuccessful, then *len* is <undefined>.
 
@@ -185,9 +185,9 @@ $std_types::character/search:
       pos: 24
       len: 1
   (
-    self
-    stream
-    nth = 1 # search_forwards for the nth occurrence of *self* instead for the first one
+    self # the character to search for
+    stream # the string to search in
+    nth = 1 # search for the nth occurrence; negative value search backwards
   )
   $i undefined
   $n length_of(stream)

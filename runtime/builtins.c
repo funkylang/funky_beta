@@ -89,7 +89,6 @@ enum {
   func__std___uint64_array,
   func__std___initialized_uint64_array,
   func__std___pass,
-  func__std___let,
   func__std___result_count,
   func__std_types___true___std___equal,
   func__std_types___false___std___equal,
@@ -102,6 +101,7 @@ enum {
   func__std_types___character___std___hash,
   func__std_types___character___std___to_string,
   func__std_types___character___std___to_integer,
+  func__std___from_unix_time,
   func__std___date_and_time,
   func__std_types___date_and_time___std___year_of,
   func__std_types___date_and_time___std___month_of,
@@ -448,7 +448,6 @@ enum {
   var_no__std___EXIT_SUCCESS,
   var_no__std___EXIT_FAILURE,
   var_no__std___pass,
-  var_no__std___let,
   var_no__std___result_count,
   var_no__std_types___true,
   var_no__std_types___false,
@@ -464,7 +463,7 @@ enum {
   var_no__std___second_of,
   var_no__std___time_shift_of,
   var_no__std_types___date_and_time,
-  var_no__std_types___from_unix_time,
+  var_no__std___from_unix_time,
   var_no__std___date_and_time,
   var_no__std___current_time,
   var_no__debug___string,
@@ -13284,13 +13283,6 @@ static void entry__std___pass (void)
     }
   }
 
-static void entry__std___let (void)
-  {
-    {
-      return;
-    }
-  }
-
 static void entry__std___result_count (void)
   {
     if (TLS_argument_count != 0) {
@@ -13603,6 +13595,22 @@ static void entry__std_types___character___std___to_integer (void)
     }
   }
 
+static void entry__std___from_unix_time (void)
+  {
+    if (TLS_argument_count != 1) {
+      invalid_arguments();
+      return;
+    }
+    int64_t sec;
+    if (!to_int64(TLS_arguments[0], &sec)) return;
+    {
+      NODE *result__node = (NODE *)(create__std_types___date_and_time(sec, 0));
+      TLS_arguments[0] = result__node;
+      TLS_argument_count = 1;
+      return;
+    }
+  }
+
 static void entry__std___date_and_time (void)
   {
     if (TLS_argument_count != 6) {
@@ -13650,14 +13658,14 @@ static void entry__std___date_and_time (void)
     for (m = 1; m <= 12; ++m) {
       int d;
       switch (m) {
-        case 2:
-          d = year == 0 ? 29 : 28;
-          break;
-        case 4: case 6: case 9: case 11:
-          d = 30;
-          break;
-        default:
-          d = 31;
+	case 2:
+	  d = year == 0 ? 29 : 28;
+	  break;
+	case 4: case 6: case 9: case 11:
+	  d = 30;
+	  break;
+	default:
+	  d = 31;
       }
       if (month > m) days += d;
       if (month == m && day > d) {
@@ -13733,7 +13741,7 @@ static void entry__std_types___date_and_time___std___day_of_week_of (void)
     }
     {
       NODE *result__node = (NODE *)(from_long(
-            (3+TLS_arguments[0]->date_and_time.seconds/86400)%7+1));
+    	(3+TLS_arguments[0]->date_and_time.seconds/86400)%7+1));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -13778,8 +13786,8 @@ static void entry__std_types___date_and_time___std___second_of (void)
     }
     {
       NODE *result__node = (NODE *)(from_double(
-            TLS_arguments[0]->date_and_time.seconds%60+
-            TLS_arguments[0]->date_and_time.nanoseconds/1000000000.0));
+    	TLS_arguments[0]->date_and_time.seconds%60+
+    	TLS_arguments[0]->date_and_time.nanoseconds/1000000000.0));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -13825,7 +13833,7 @@ static void entry__std_types___date_and_time___std___minus (void)
       int32_t nanoseconds_2 = TLS_arguments[1]->date_and_time.nanoseconds;
       {
         NODE *result__node = (NODE *)(from_double(
-              seconds-seconds_2+(nanoseconds-nanoseconds_2)/1000000000.0));
+      	seconds-seconds_2+(nanoseconds-nanoseconds_2)/1000000000.0));
         TLS_arguments[0] = result__node;
         TLS_argument_count = 1;
         return;
@@ -13838,8 +13846,8 @@ static void entry__std_types___date_and_time___std___minus (void)
       seconds -= delta_seconds;
       nanoseconds -= delta_nanoseconds;
       if (nanoseconds < 00) {
-        nanoseconds += 1000000000;
-        --seconds;
+	nanoseconds += 1000000000;
+	--seconds;
       }
       {
         NODE *result__node = (NODE *)(create__std_types___date_and_time(seconds, nanoseconds));
@@ -14112,8 +14120,10 @@ static void entry__std_types___error___std___error_details_of (void)
       invalid_arguments();
       return;
     }
+    NODE *details = TLS_arguments[0]->error.object;
+    if (!details) details = (NODE *)&std_types___undefined;
     {
-      NODE *result__node = (NODE *)(TLS_arguments[0]->error.object);
+      NODE *result__node = (NODE *)(details);
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -18902,10 +18912,12 @@ static void entry__std___usleep (void)
       print__unsigned_integer(microseconds);
       print__integer(result);
     }
-    {
-      NODE *result__node = (NODE *)(from_int(result));
-      TLS_arguments[0] = result__node;
-      TLS_argument_count = 1;
+    if (result == -1) {
+      create_error_message(
+	module__builtin.constants_base[unique__std___IO_ERROR-1],
+	"SLEEP FAILED", errno, 0, NULL);
+    } else {
+      TLS_argument_count = 0;
     }
   }
 
@@ -20141,6 +20153,10 @@ static void entry__std_types___file_descriptor___std___get_terminal_attributes (
       invalid_arguments();
       return;
     }
+    if (TLS_deny_io) {
+      missing_io_access_rights();
+      return;
+    }
 
     int fd = TLS_arguments[0]->file_descriptor.value;
     TERMIO_DATA *data = allocate(sizeof(TERMIO_DATA));
@@ -20167,6 +20183,11 @@ static void entry__std_types___file_descriptor___std___set_terminal_attributes (
       invalid_arguments();
       return;
     }
+    if (TLS_deny_io) {
+      missing_io_access_rights();
+      return;
+    }
+
     int fd = TLS_arguments[0]->file_descriptor.value;
     NODE *attributes = TLS_arguments[1];
     if ((attributes)->type != ((NODE *)&std_types___terminal_attributes)->type)
@@ -20230,9 +20251,9 @@ static void entry__std_types___terminal_attributes___std___use_canonical_mode (v
       TERMIO_DATA *data = allocate(sizeof(TERMIO_DATA));
       data->termios = *termios;
       if (do_set) {
-        data->termios.c_lflag |= ICANON;
+	data->termios.c_lflag |= ICANON;
       } else {
-        data->termios.c_lflag &= ~ICANON;
+	data->termios.c_lflag &= ~ICANON;
       }
       {
         NODE *result__node = (NODE *)(create__std_types___terminal_attributes(data));
@@ -20267,9 +20288,9 @@ static void entry__std_types___terminal_attributes___std___echo_characters (void
       TERMIO_DATA *data = allocate(sizeof(TERMIO_DATA));
       data->termios = *termios;
       if (do_set) {
-        data->termios.c_lflag |= ECHO;
+	data->termios.c_lflag |= ECHO;
       } else {
-        data->termios.c_lflag &= ~ECHO;
+	data->termios.c_lflag &= ~ECHO;
       }
       {
         NODE *result__node = (NODE *)(create__std_types___terminal_attributes(data));
@@ -20304,9 +20325,9 @@ static void entry__std_types___terminal_attributes___std___echo_new_lines (void)
       TERMIO_DATA *data = allocate(sizeof(TERMIO_DATA));
       data->termios = *termios;
       if (do_set) {
-        data->termios.c_lflag |= ECHONL;
+	data->termios.c_lflag |= ECHONL;
       } else {
-        data->termios.c_lflag &= ~ECHONL;
+	data->termios.c_lflag &= ~ECHONL;
       }
       {
         NODE *result__node = (NODE *)(create__std_types___terminal_attributes(data));
@@ -20341,9 +20362,9 @@ static void entry__std_types___terminal_attributes___std___enable_xon_xoff_for_i
       TERMIO_DATA *data = allocate(sizeof(TERMIO_DATA));
       data->termios = *termios;
       if (do_set) {
-        data->termios.c_iflag |= IXOFF;
+	data->termios.c_iflag |= IXOFF;
       } else {
-        data->termios.c_iflag &= ~IXOFF;
+	data->termios.c_iflag &= ~IXOFF;
       }
       {
         NODE *result__node = (NODE *)(create__std_types___terminal_attributes(data));
@@ -20378,9 +20399,9 @@ static void entry__std_types___terminal_attributes___std___enable_xon_xoff_for_o
       TERMIO_DATA *data = allocate(sizeof(TERMIO_DATA));
       data->termios = *termios;
       if (do_set) {
-        data->termios.c_iflag |= IXON;
+	data->termios.c_iflag |= IXON;
       } else {
-        data->termios.c_iflag &= ~IXON;
+	data->termios.c_iflag &= ~IXON;
       }
       {
         NODE *result__node = (NODE *)(create__std_types___terminal_attributes(data));
@@ -20415,9 +20436,9 @@ static void entry__std_types___terminal_attributes___std___restart_output_on_any
       TERMIO_DATA *data = allocate(sizeof(TERMIO_DATA));
       data->termios = *termios;
       if (do_set) {
-        data->termios.c_iflag |= IXANY;
+	data->termios.c_iflag |= IXANY;
       } else {
-        data->termios.c_iflag &= ~IXANY;
+	data->termios.c_iflag &= ~IXANY;
       }
       {
         NODE *result__node = (NODE *)(create__std_types___terminal_attributes(data));
@@ -20452,9 +20473,9 @@ static void entry__std_types___terminal_attributes___std___ignore_cr_on_input (v
       TERMIO_DATA *data = allocate(sizeof(TERMIO_DATA));
       data->termios = *termios;
       if (do_set) {
-        data->termios.c_iflag |= IGNCR;
+	data->termios.c_iflag |= IGNCR;
       } else {
-        data->termios.c_iflag &= ~IGNCR;
+	data->termios.c_iflag &= ~IGNCR;
       }
       {
         NODE *result__node = (NODE *)(create__std_types___terminal_attributes(data));
@@ -20489,9 +20510,9 @@ static void entry__std_types___terminal_attributes___std___generate_signals (voi
       TERMIO_DATA *data = allocate(sizeof(TERMIO_DATA));
       data->termios = *termios;
       if (do_set) {
-        data->termios.c_lflag |= ISIG;
+	data->termios.c_lflag |= ISIG;
       } else {
-        data->termios.c_lflag &= ~ISIG;
+	data->termios.c_lflag &= ~ISIG;
       }
       {
         NODE *result__node = (NODE *)(create__std_types___terminal_attributes(data));
@@ -20526,9 +20547,9 @@ static void entry__std_types___terminal_attributes___std___map_cr_to_lf_on_input
       TERMIO_DATA *data = allocate(sizeof(TERMIO_DATA));
       data->termios = *termios;
       if (do_set) {
-        data->termios.c_iflag |= ICRNL;
+	data->termios.c_iflag |= ICRNL;
       } else {
-        data->termios.c_iflag &= ~ICRNL;
+	data->termios.c_iflag &= ~ICRNL;
       }
       {
         NODE *result__node = (NODE *)(create__std_types___terminal_attributes(data));
@@ -20563,9 +20584,9 @@ static void entry__std_types___terminal_attributes___std___hangup_on_close (void
       TERMIO_DATA *data = allocate(sizeof(TERMIO_DATA));
       data->termios = *termios;
       if (do_set) {
-        data->termios.c_oflag |= HUPCL;
+	data->termios.c_oflag |= HUPCL;
       } else {
-        data->termios.c_oflag &= ~HUPCL;
+	data->termios.c_oflag &= ~HUPCL;
       }
       {
         NODE *result__node = (NODE *)(create__std_types___terminal_attributes(data));
@@ -20600,9 +20621,9 @@ static void entry__std_types___terminal_attributes___std___map_lf_to_crlf_on_out
       TERMIO_DATA *data = allocate(sizeof(TERMIO_DATA));
       data->termios = *termios;
       if (do_set) {
-        data->termios.c_oflag |= ONLCR;
+	data->termios.c_oflag |= ONLCR;
       } else {
-        data->termios.c_oflag &= ~ONLCR;
+	data->termios.c_oflag &= ~ONLCR;
       }
       {
         NODE *result__node = (NODE *)(create__std_types___terminal_attributes(data));
@@ -20694,75 +20715,75 @@ static void entry__std_types___terminal_attributes___std___input_speed (void)
     if (TLS_argument_count == 1) {
       int speed = cfgetispeed(termios);
       switch (speed) {
-        case B0:
-          speed = 0;
-          break;
-        case B50:
-          speed = 50;
-          break;
-        case B75:
-          speed = 75;
-          break;
-        case B110:
-          speed = 110;
-          break;
-        case B134:
-          speed = 134;
-          break;
-        case B150:
-          speed = 150;
-          break;
-        case B200:
-          speed = 200;
-          break;
-        case B300:
-          speed = 300;
-          break;
-        case B600:
-          speed = 600;
-          break;
-        case B1200:
-          speed = 1200;
-          break;
-        case B1800:
-          speed = 1800;
-          break;
-        case B2400:
-          speed = 2400;
-          break;
-        case B4800:
-          speed = 4800;
-          break;
-        case B9600:
-          speed = 9600;
-          break;
-        case B19200:
-          speed = 19200;
-          break;
-        case B38400:
-          speed = 38400;
-          break;
-        case B57600:
-          speed = 57600;
-          break;
-        case B115200:
-          speed = 115200;
-          break;
-        case B230400:
-          speed = 230400;
-          break;
-        default:
-          speed = -1;
+	case B0:
+	  speed = 0;
+	  break;
+	case B50:
+	  speed = 50;
+	  break;
+	case B75:
+	  speed = 75;
+	  break;
+	case B110:
+	  speed = 110;
+	  break;
+	case B134:
+	  speed = 134;
+	  break;
+	case B150:
+	  speed = 150;
+	  break;
+	case B200:
+	  speed = 200;
+	  break;
+	case B300:
+	  speed = 300;
+	  break;
+	case B600:
+	  speed = 600;
+	  break;
+	case B1200:
+	  speed = 1200;
+	  break;
+	case B1800:
+	  speed = 1800;
+	  break;
+	case B2400:
+	  speed = 2400;
+	  break;
+	case B4800:
+	  speed = 4800;
+	  break;
+	case B9600:
+	  speed = 9600;
+	  break;
+	case B19200:
+	  speed = 19200;
+	  break;
+	case B38400:
+	  speed = 38400;
+	  break;
+	case B57600:
+	  speed = 57600;
+	  break;
+	case B115200:
+	  speed = 115200;
+	  break;
+	case B230400:
+	  speed = 230400;
+	  break;
+	default:
+	  speed = -1;
       }
       if (speed < 0) {
-        {
+	{
 	  NODE *result__node = (NODE *)(&std_types___undefined);
 	  TLS_arguments[0] = result__node;
 	  TLS_argument_count = 1;
 	  return;
 	}
       } else {
-        {
+	{
 	  NODE *result__node = (NODE *)(from_int(speed));
 	  TLS_arguments[0] = result__node;
 	  TLS_argument_count = 1;
@@ -20773,65 +20794,65 @@ static void entry__std_types___terminal_attributes___std___input_speed (void)
       int speed;
       if (!to_int(TLS_arguments[1], &speed)) return;;
       switch (speed) {
-        case 0:
-          speed = B0;
-          break;
-        case 50:
-          speed = B50;
-          break;
-        case 75:
-          speed = B75;
-          break;
-        case 110:
-          speed = B110;
-          break;
-        case 134:
-          speed = B134;
-          break;
-        case 150:
-          speed = B150;
-          break;
-        case 200:
-          speed = B200;
-          break;
-        case 300:
-          speed = B300;
-          break;
-        case 600:
-          speed = B600;
-          break;
-        case 1200:
-          speed = B1200;
-          break;
-        case 1800:
-          speed = B1800;
-          break;
-        case 2400:
-          speed = B2400;
-          break;
-        case 4800:
-          speed = B4800;
-          break;
-        case 9600:
-          speed = B9600;
-          break;
-        case 19200:
-          speed = B19200;
-          break;
-        case 38400:
-          speed = B38400;
-          break;
-        case 57600:
-          speed = B57600;
-          break;
-        case 115200:
-          speed = B115200;
-          break;
-        case 230400:
-          speed = B230400;
-          break;
-        default:
-          {
+	case 0:
+	  speed = B0;
+	  break;
+	case 50:
+	  speed = B50;
+	  break;
+	case 75:
+	  speed = B75;
+	  break;
+	case 110:
+	  speed = B110;
+	  break;
+	case 134:
+	  speed = B134;
+	  break;
+	case 150:
+	  speed = B150;
+	  break;
+	case 200:
+	  speed = B200;
+	  break;
+	case 300:
+	  speed = B300;
+	  break;
+	case 600:
+	  speed = B600;
+	  break;
+	case 1200:
+	  speed = B1200;
+	  break;
+	case 1800:
+	  speed = B1800;
+	  break;
+	case 2400:
+	  speed = B2400;
+	  break;
+	case 4800:
+	  speed = B4800;
+	  break;
+	case 9600:
+	  speed = B9600;
+	  break;
+	case 19200:
+	  speed = B19200;
+	  break;
+	case 38400:
+	  speed = B38400;
+	  break;
+	case 57600:
+	  speed = B57600;
+	  break;
+	case 115200:
+	  speed = B115200;
+	  break;
+	case 230400:
+	  speed = B230400;
+	  break;
+	default:
+	  {
 	    invalid_arguments();
 	    return;
 	  }
@@ -20862,75 +20883,75 @@ static void entry__std_types___terminal_attributes___std___output_speed (void)
     if (TLS_argument_count == 1) {
       int speed = cfgetospeed(termios);
       switch (speed) {
-        case B0:
-          speed = 0;
-          break;
-        case B50:
-          speed = 50;
-          break;
-        case B75:
-          speed = 75;
-          break;
-        case B110:
-          speed = 110;
-          break;
-        case B134:
-          speed = 134;
-          break;
-        case B150:
-          speed = 150;
-          break;
-        case B200:
-          speed = 200;
-          break;
-        case B300:
-          speed = 300;
-          break;
-        case B600:
-          speed = 600;
-          break;
-        case B1200:
-          speed = 1200;
-          break;
-        case B1800:
-          speed = 1800;
-          break;
-        case B2400:
-          speed = 2400;
-          break;
-        case B4800:
-          speed = 4800;
-          break;
-        case B9600:
-          speed = 9600;
-          break;
-        case B19200:
-          speed = 19200;
-          break;
-        case B38400:
-          speed = 38400;
-          break;
-        case B57600:
-          speed = 57600;
-          break;
-        case B115200:
-          speed = 115200;
-          break;
-        case B230400:
-          speed = 230400;
-          break;
-        default:
-          speed = -1;
+	case B0:
+	  speed = 0;
+	  break;
+	case B50:
+	  speed = 50;
+	  break;
+	case B75:
+	  speed = 75;
+	  break;
+	case B110:
+	  speed = 110;
+	  break;
+	case B134:
+	  speed = 134;
+	  break;
+	case B150:
+	  speed = 150;
+	  break;
+	case B200:
+	  speed = 200;
+	  break;
+	case B300:
+	  speed = 300;
+	  break;
+	case B600:
+	  speed = 600;
+	  break;
+	case B1200:
+	  speed = 1200;
+	  break;
+	case B1800:
+	  speed = 1800;
+	  break;
+	case B2400:
+	  speed = 2400;
+	  break;
+	case B4800:
+	  speed = 4800;
+	  break;
+	case B9600:
+	  speed = 9600;
+	  break;
+	case B19200:
+	  speed = 19200;
+	  break;
+	case B38400:
+	  speed = 38400;
+	  break;
+	case B57600:
+	  speed = 57600;
+	  break;
+	case B115200:
+	  speed = 115200;
+	  break;
+	case B230400:
+	  speed = 230400;
+	  break;
+	default:
+	  speed = -1;
       }
       if (speed < 0) {
-        {
+	{
 	  NODE *result__node = (NODE *)(&std_types___undefined);
 	  TLS_arguments[0] = result__node;
 	  TLS_argument_count = 1;
 	  return;
 	}
       } else {
-        {
+	{
 	  NODE *result__node = (NODE *)(from_int(speed));
 	  TLS_arguments[0] = result__node;
 	  TLS_argument_count = 1;
@@ -20941,65 +20962,65 @@ static void entry__std_types___terminal_attributes___std___output_speed (void)
       int speed;
       if (!to_int(TLS_arguments[1], &speed)) return;;
       switch (speed) {
-        case 0:
-          speed = B0;
-          break;
-        case 50:
-          speed = B50;
-          break;
-        case 75:
-          speed = B75;
-          break;
-        case 110:
-          speed = B110;
-          break;
-        case 134:
-          speed = B134;
-          break;
-        case 150:
-          speed = B150;
-          break;
-        case 200:
-          speed = B200;
-          break;
-        case 300:
-          speed = B300;
-          break;
-        case 600:
-          speed = B600;
-          break;
-        case 1200:
-          speed = B1200;
-          break;
-        case 1800:
-          speed = B1800;
-          break;
-        case 2400:
-          speed = B2400;
-          break;
-        case 4800:
-          speed = B4800;
-          break;
-        case 9600:
-          speed = B9600;
-          break;
-        case 19200:
-          speed = B19200;
-          break;
-        case 38400:
-          speed = B38400;
-          break;
-        case 57600:
-          speed = B57600;
-          break;
-        case 115200:
-          speed = B115200;
-          break;
-        case 230400:
-          speed = B230400;
-          break;
-        default:
-          {
+	case 0:
+	  speed = B0;
+	  break;
+	case 50:
+	  speed = B50;
+	  break;
+	case 75:
+	  speed = B75;
+	  break;
+	case 110:
+	  speed = B110;
+	  break;
+	case 134:
+	  speed = B134;
+	  break;
+	case 150:
+	  speed = B150;
+	  break;
+	case 200:
+	  speed = B200;
+	  break;
+	case 300:
+	  speed = B300;
+	  break;
+	case 600:
+	  speed = B600;
+	  break;
+	case 1200:
+	  speed = B1200;
+	  break;
+	case 1800:
+	  speed = B1800;
+	  break;
+	case 2400:
+	  speed = B2400;
+	  break;
+	case 4800:
+	  speed = B4800;
+	  break;
+	case 9600:
+	  speed = B9600;
+	  break;
+	case 19200:
+	  speed = B19200;
+	  break;
+	case 38400:
+	  speed = B38400;
+	  break;
+	case 57600:
+	  speed = B57600;
+	  break;
+	case 115200:
+	  speed = B115200;
+	  break;
+	case 230400:
+	  speed = B230400;
+	  break;
+	default:
+	  {
 	    invalid_arguments();
 	    return;
 	  }
@@ -22285,7 +22306,6 @@ static FUNKY_CONSTANT constants_table[] = {
   {FLT_C_FUNCTION, -1, {.func = entry__std___uint64_array}},
   {FLT_C_FUNCTION, -1, {.func = entry__std___initialized_uint64_array}},
   {FLT_C_FUNCTION, 0, {.func = entry__std___pass}},
-  {FLT_C_FUNCTION, -1, {.func = entry__std___let}},
   {FLT_C_FUNCTION, 0, {.func = entry__std___result_count}},
   {FLT_C_FUNCTION, 2, {.func = entry__std_types___true___std___equal}},
   {FLT_C_FUNCTION, 2, {.func = entry__std_types___false___std___equal}},
@@ -22298,6 +22318,7 @@ static FUNKY_CONSTANT constants_table[] = {
   {FLT_C_FUNCTION, 1, {.func = entry__std_types___character___std___hash}},
   {FLT_C_FUNCTION, 1, {.func = entry__std_types___character___std___to_string}},
   {FLT_C_FUNCTION, 1, {.func = entry__std_types___character___std___to_integer}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std___from_unix_time}},
   {FLT_C_FUNCTION, 6, {.func = entry__std___date_and_time}},
   {FLT_C_FUNCTION, 1, {.func = entry__std_types___date_and_time___std___year_of}},
   {FLT_C_FUNCTION, 1, {.func = entry__std_types___date_and_time___std___month_of}},
@@ -23728,11 +23749,6 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_INITIALIZED, 0, 0,
-    "let\000std", NULL,
-    {.const_idx = func__std___let}
-  },
-  {
-    FOT_INITIALIZED, 0, 0,
     "result_count\000std", NULL,
     {.const_idx = func__std___result_count}
   },
@@ -23822,9 +23838,9 @@ static FUNKY_VARIABLE variables_table[] = {
     {(NODE *)&std_types___date_and_time}
   },
   {
-    FOT_POLYMORPHIC, 0, 0,
-    "from_unix_time\000std_types", NULL,
-    {.has_a_setter = true}
+    FOT_INITIALIZED, 0, 0,
+    "from_unix_time\000std", NULL,
+    {.const_idx = func__std___from_unix_time}
   },
   {
     FOT_INITIALIZED, 0, 0,
@@ -26059,7 +26075,7 @@ FUNKY_MODULE module__builtin = {
   NULL,
   0, 0,
   4, 0,
-  331, 431,
+  331, 430,
   NULL,
   defined_namespaces, NULL,
   constants_table, variables_table
@@ -26137,7 +26153,6 @@ BUILTIN_FUNCTION_NAME builtin_function_names[381] = {
   {entry__std___uint64_array, "std::uint64_array"},
   {entry__std___initialized_uint64_array, "std::initialized_uint64_array"},
   {entry__std___pass, "std::pass"},
-  {entry__std___let, "std::let"},
   {entry__std___result_count, "std::result_count"},
   {std_types___true____type, "std_types::true/_type"},
   {entry__std_types___true___std___equal, "std_types::true/equal"},
@@ -26155,6 +26170,7 @@ BUILTIN_FUNCTION_NAME builtin_function_names[381] = {
   {entry__std_types___character___std___to_string, "std_types::character/to_string"},
   {entry__std_types___character___std___to_integer, "std_types::character/to_integer"},
   {std_types___date_and_time____type, "std_types::date_and_time/_type"},
+  {entry__std___from_unix_time, "std::from_unix_time"},
   {entry__std___date_and_time, "std::date_and_time"},
   {entry__std_types___date_and_time___std___year_of, "std_types::date_and_time/year_of"},
   {entry__std_types___date_and_time___std___month_of, "std_types::date_and_time/month_of"},

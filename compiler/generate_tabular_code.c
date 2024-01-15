@@ -532,11 +532,20 @@ enum {
   lambda_234 = -523,
   lambda_235 = -524,
   lambda_236 = -525,
-  num_8 = -526,
-  str_U = -527,
-  lambda_237 = -528,
+  num_0xff = -526,
+  lambda_237 = -527,
+  str_x = -528,
   lambda_238 = -529,
-  lambda_239 = -530
+  num_0xffff = -530,
+  lambda_239 = -531,
+  num_4 = -532,
+  str_u = -533,
+  lambda_240 = -534,
+  num_8 = -535,
+  str_U = -536,
+  lambda_241 = -537,
+  lambda_242 = -538,
+  lambda_243 = -539
 };
 
 enum {
@@ -816,6 +825,7 @@ enum {
   var_1160_1_s, // dynamic
   var_1162_3_idx, // dynamic
   var_1162_7_chr, // dynamic
+  var_1166_1_val, // dynamic
   var_hex, // extern
   var__END
 };
@@ -5573,7 +5583,7 @@ static TAB_NUM t_func_to_c_string_32[] = {
   // $s 1
   LET, 1, num_1, 1, var_1160_1_s,
   // for_each str
-  var_for_each, 3, var_1158_18_str, lambda_232, lambda_237, TAIL_CALL,
+  var_for_each, 3, var_1158_18_str, lambda_232, lambda_241, TAIL_CALL,
   POS(1159, 3),
   POS(1160, 3),
   POS(1161, 3)
@@ -5643,27 +5653,83 @@ static TAB_NUM t_lambda_236[] = {
   var_range, 3, var_1158_18_str, var_1160_1_s, LOCAL(1), 1, LOCAL(2),
   // append &buf range(str s idx-1)
   var_append, 2, var_1159_1_buf, LOCAL(2), 1, var_1159_1_buf,
-  // to_integer 8)
-  var_to_integer, 1, var_1162_7_chr, 1, LOCAL(1),
-  // hex(chr.to_integer 8)
-  var_hex, 2, LOCAL(1), num_8, 1, LOCAL(2),
-  // append &buf "\U" hex(chr.to_integer 8)
-  var_append, 3, var_1159_1_buf, str_U, LOCAL(2), 1, var_1159_1_buf,
+  // $val chr.to_integer
+  var_to_integer, 1, var_1162_7_chr, 1, var_1166_1_val,
   // !s idx+1
   var_std__plus, 2, var_1162_3_idx, num_1, 1, var_1160_1_s,
-  // next
-  var_next, 0, TAIL_CALL,
+  // 0xff:
+  var_std__less, 2, num_0xff, var_1166_1_val, 1, LOCAL(1),
+  // 0xff:
+  var_std__not, 1, LOCAL(1), 1, LOCAL(2),
+  // if
+  var_if, 3, LOCAL(2), lambda_237, lambda_238, TAIL_CALL,
   POS(1165, 35),
   POS(1165, 23),
   POS(1165, 11),
-  POS(1166, 36),
-  POS(1166, 28),
   POS(1166, 11),
   POS(1167, 11),
+  POS(1169, 20),
+  POS(1169, 20),
   POS(1168, 11)
 };
 
 static TAB_NUM t_lambda_237[] = {
+  1, // locals
+  0, // parameters
+  // hex(val 2)
+  var_hex, 2, var_1166_1_val, num_2, 1, LOCAL(1),
+  // append &buf "\x" hex(val 2)
+  var_append, 3, var_1159_1_buf, str_x, LOCAL(1), 1, var_1159_1_buf,
+  // next
+  var_next, 0, TAIL_CALL,
+  POS(1170, 32),
+  POS(1170, 15),
+  POS(1171, 15)
+};
+
+static TAB_NUM t_lambda_238[] = {
+  2, // locals
+  0, // parameters
+  // 0xffff:
+  var_std__less, 2, num_0xffff, var_1166_1_val, 1, LOCAL(1),
+  // 0xffff:
+  var_std__not, 1, LOCAL(1), 1, LOCAL(2),
+  // if
+  var_if, 3, LOCAL(2), lambda_239, lambda_240, TAIL_CALL,
+  POS(1174, 24),
+  POS(1174, 24),
+  POS(1173, 15)
+};
+
+static TAB_NUM t_lambda_239[] = {
+  1, // locals
+  0, // parameters
+  // hex(val 4)
+  var_hex, 2, var_1166_1_val, num_4, 1, LOCAL(1),
+  // append &buf "\u" hex(val 4)
+  var_append, 3, var_1159_1_buf, str_u, LOCAL(1), 1, var_1159_1_buf,
+  // next
+  var_next, 0, TAIL_CALL,
+  POS(1175, 36),
+  POS(1175, 19),
+  POS(1176, 19)
+};
+
+static TAB_NUM t_lambda_240[] = {
+  1, // locals
+  0, // parameters
+  // hex(val 8)
+  var_hex, 2, var_1166_1_val, num_8, 1, LOCAL(1),
+  // append &buf "\U" hex(val 8)
+  var_append, 3, var_1159_1_buf, str_U, LOCAL(1), 1, var_1159_1_buf,
+  // next
+  var_next, 0, TAIL_CALL,
+  POS(1178, 36),
+  POS(1178, 19),
+  POS(1179, 19)
+};
+
+static TAB_NUM t_lambda_241[] = {
   3, // locals
   0, // parameters
   // length_of(str)
@@ -5673,14 +5739,14 @@ static TAB_NUM t_lambda_237[] = {
   // length_of(str)
   var_std__not, 1, LOCAL(2), 1, LOCAL(3),
   // if
-  var_if, 3, LOCAL(3), lambda_238, lambda_239, TAIL_CALL,
-  POS(1172, 14),
-  POS(1172, 14),
-  POS(1172, 14),
-  POS(1171, 7)
+  var_if, 3, LOCAL(3), lambda_242, lambda_243, TAIL_CALL,
+  POS(1183, 14),
+  POS(1183, 14),
+  POS(1183, 14),
+  POS(1182, 7)
 };
 
-static TAB_NUM t_lambda_238[] = {
+static TAB_NUM t_lambda_242[] = {
   2, // locals
   0, // parameters
   // range(str s -1))
@@ -5689,17 +5755,17 @@ static TAB_NUM t_lambda_238[] = {
   var_append, 2, var_1159_1_buf, LOCAL(1), 1, LOCAL(2),
   //  append(buf range(str s -1))
   LET, 1, LOCAL(2), TAIL_CALL,
-  POS(1173, 23),
-  POS(1173, 12),
-  POS(1173, 11)
+  POS(1184, 23),
+  POS(1184, 12),
+  POS(1184, 11)
 };
 
-static TAB_NUM t_lambda_239[] = {
+static TAB_NUM t_lambda_243[] = {
   0, // locals
   0, // parameters
   //  buf
   LET, 1, var_1159_1_buf, TAIL_CALL,
-  POS(1174, 11)
+  POS(1185, 11)
 };
 
 static int key_value_pair_201_1_arguments[] = {
@@ -6268,11 +6334,20 @@ static FUNKY_CONSTANT constants_table[] = {
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_234}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_235}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_236}},
+  {FLT_POSITIVE_INT64, 0, {.value = 0xff}},
+  {FLT_FUNCTION, 0, {.tfunc = t_lambda_237}},
+  {FLT_STRING_8, 2, {.str_8 = "\134x"}},
+  {FLT_FUNCTION, 0, {.tfunc = t_lambda_238}},
+  {FLT_POSITIVE_INT64, 0, {.value = 0xffff}},
+  {FLT_FUNCTION, 0, {.tfunc = t_lambda_239}},
+  {FLT_POSITIVE_INT64, 0, {.value = 4}},
+  {FLT_STRING_8, 2, {.str_8 = "\134u"}},
+  {FLT_FUNCTION, 0, {.tfunc = t_lambda_240}},
   {FLT_POSITIVE_INT64, 0, {.value = 8}},
   {FLT_STRING_8, 2, {.str_8 = "\134U"}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_237}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_238}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_239}}
+  {FLT_FUNCTION, 0, {.tfunc = t_lambda_241}},
+  {FLT_FUNCTION, 0, {.tfunc = t_lambda_242}},
+  {FLT_FUNCTION, 0, {.tfunc = t_lambda_243}}
 };
 
 static ATTRIBUTE_DEFINITION funky_types__node__attributes[] = {
@@ -7672,9 +7747,13 @@ static FUNKY_VARIABLE variables_table[] = {
     "1162_7_chr\000", NULL
   },
   {
+    FOT_UNINITIALIZED, 0, 0,
+    "1166_1_val\000", NULL
+  },
+  {
     FOT_UNKNOWN, 0, 0,
     "hex\000", NULL,
-    {.position = POS(1166, 28)}
+    {.position = POS(1170, 32)}
   }
 };
 
@@ -7693,8 +7772,8 @@ FUNKY_MODULE module__generate_tabular_code = {
   0, // number of required modules
   0, // number of defined namespaces
   2, // number of used namespaces
-  530, // number of constants
-  276, // number of variables
+  539, // number of constants
+  277, // number of variables
   NULL, // required modules
   NULL, // defined namespaces
   used_namespaces,

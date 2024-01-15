@@ -54,6 +54,8 @@ enum {
   var_case, // extern
   var_if, // extern
   var_std__minus, // extern
+  var_std__alt, // derived
+  var_std__hash_set, // extern
   var__END
 };
 
@@ -306,6 +308,16 @@ static FUNKY_VARIABLE variables_table[] = {
     FOT_UNKNOWN, 0, 0,
     "minus\000std", NULL,
     {.position = POS(127, 14)}
+  },
+  {
+    FOT_DERIVED, 0, 0,
+    "alt\000std", NULL,
+    {"hash_set\000std"}
+  },
+  {
+    FOT_UNKNOWN, 0, 0,
+    "hash_set\000std", NULL,
+    {.position = POS(129, 11)}
   }
 };
 
@@ -324,7 +336,7 @@ FUNKY_MODULE module__basic__grammar = {
   0, // number of defined namespaces
   1, // number of used namespaces
   23, // number of constants
-  20, // number of variables
+  22, // number of variables
   NULL, // required modules
   NULL, // defined namespaces
   used_namespaces,

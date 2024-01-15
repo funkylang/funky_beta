@@ -123,9 +123,7 @@ $std::sleep:
   (
     duration # sleep time in seconds
   )
-  on duration > 0:
-    usleep! $_dummy (1'000'000*duration).to_integer
-    pass # Attention: Fix the compiler!
+  on duration > 0: usleep! (1'000'000*duration).to_integer
 
 $std::write_string_to:
   #

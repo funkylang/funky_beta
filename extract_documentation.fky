@@ -109,7 +109,7 @@ $kind_of_definition
     "OBJECT" = OBJECT
     "UNIQUE" = UNIQUE_ITEM
     "POLY" = POLYMORPHIC_FUNCTION
-    "ATTR" = ATTRIBUTE
+    "ATTR" = POLYMORPHIC_FUNCTION_WITH_SETTER
 
 $is_a_private_namespace
   hash_set
@@ -248,6 +248,8 @@ $handle_template_groups: (groups)
 	      $base (text .behind. "->").trim
 	      update_if base.is_empty &base -> undefined
 	      add_definition name base
+	    POLYMORPHIC_FUNCTION, POLYMORPHIC_FUNCTION_WITH_SETTER:
+	      add_definition text
 	    next
 
       $add_definition: (name extra_info = undefined)
@@ -866,6 +868,14 @@ $create_html_page: (title info)
 		      : TABLE: link_to extra_info
 		  -> ""
 	      :
+		$method title .behind. alt('/' '.')
+		if
+		  method.is_empty
+		  -> ""
+		  : GROUP
+		    : H2 "Implements"
+		    : TABLE: link_to method
+	      :
 		if
 		  see_also.is_empty
 		  -> ""
@@ -908,7 +918,7 @@ $create_html_page: (title info)
 		    for_each definitions
 		      : (name definition)
 			if
-			  (name .before. '/') == title:
+			  (name .before. alt('/' '.')) == title:
 			    push &names name
 			    next
 			  next
@@ -922,7 +932,27 @@ $create_html_page: (title info)
 			      : H2 "Supported polymorphic functions"
 			      : TABLE:
 				FOR_EACH names: (name)
-				  link_to name true
+				  link_to name METHOD
+		  POLYMORPHIC_FUNCTION, POLYMORPHIC_FUNCTION_WITH_SETTER:
+		    $names empty_list
+		    for_each definitions
+		      : (name definition)
+			if
+			  (name .behind. alt('/' '.')) == title:
+			    push &names name
+			    next
+			  next
+		      :
+			if
+			  names.is_empty
+			  -> ""
+			  :
+			    sort &names
+			    GROUP
+			      : H2 "Implemented by"
+			      : TABLE:
+				FOR_EACH names: (name)
+				  link_to name TYPE
 		  -> ""
 	      : DIV "class" = "footer" "(defined in @(filename))"
 
@@ -951,11 +981,12 @@ $identifier_description: (identifier do_hide_namespace = false)
 	  definition $_kind $description
 	  TD description
 
-$link_to: (item do_truncate = false)
+$link_to: (item mode = FUNCTION)
   $name
-    if
-      do_truncate
-      -> item .truncate_until. '/'
+    case
+      mode
+      METHOD -> item .behind. alt('/' '.')
+      TYPE -> item .before. alt('/' '.')
       -> item
   TR
     : TD : A "href" = to_filename(item) name
@@ -1142,6 +1173,9 @@ $style "
     font-family: Times New Roman, Times;
     font-size: 13pt;
     text-decoration: none;
+  }
+  a:visited {
+    color: #80f;
   }
   i {
     font-family: Times New Roman, Times;

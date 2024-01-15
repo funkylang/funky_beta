@@ -1,5 +1,5 @@
 #
-  Copyright (C) 2021 by
+  Copyright (C) 2024 by
   Dipl.-Ing. Michael Niederle
 
   This program is free software; you can redistribute it and/or modify
@@ -24,10 +24,42 @@ $std::is_an_error ()
   #
     returns true if the argument denotes an error-object
 
-$std_types::object.is_an_error false # obvious
+    Topic: Errors
+
+    See also: error_message_text_of, error_category_of, error_details_of,
+	      errno_of, failed_attribute_of
+
+    Example:
+
+      load! $buf "some-non-existing-file"
+      on buf.is_an_error:
+	println! error_message_text_of(buf)
+
+    Output:
+
+      OPEN FAILED
+
+$std_types::object.is_an_error false
+  #
+    objects are not errors by default
+
+    Topic: Errors
+
+    See also: is_an_error
 
 $std_types::undefined.is_an_error false
   #
-    *undefined* ist *not* an error
+    the special undefined object is not an error
 
-$std_types::error.is_an_error true # obvious
+    Topic: Errors
+
+    See also: is_an_error
+
+$std_types::error.is_an_error true
+  #
+    error objects are errors
+
+    Topic: Errors
+
+
+    See also: is_an_error

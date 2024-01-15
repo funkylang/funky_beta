@@ -692,7 +692,7 @@ $std::levenshtein_distance:
 	  !v1(j+1) min(deletion_cost insertion_cost substitution_cost)
 	  next
 	:
-	  let
+	  assign
 	    !v0 v1
 	    !v1 v0
 	  next

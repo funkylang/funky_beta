@@ -4871,8 +4871,8 @@ FUNCTION std::usleep
   #
     sleep for the specified number of microseconds
 
-    Argument:
-      int microseconds # the sleep delay
+    Parameter:
+      microseconds # the sleep delay
 
     Topic: POSIX
   {
@@ -4889,5 +4889,11 @@ FUNCTION std::usleep
     DATA
       INT(result)
     END
-    PREPARE_SINGLE_RESULT(from_int(result))
+    if (result == -1) {
+      create_error_message(
+	module__builtin.constants_base[unique__std___IO_ERROR-1],
+	"SLEEP FAILED", errno, 0, NULL);
+    } else {
+      PREPARE_NO_RESULT
+    }
   }

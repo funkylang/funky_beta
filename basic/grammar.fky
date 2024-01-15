@@ -125,3 +125,5 @@ $std_types::FUNKY_IDENTIFIER/match:
 	  'a' .. 'z', 'A' .. 'Z', '0' .. '9' within_word
 	  '_' word_start
 	  -> i-1
+
+$std::alt std::hash_set

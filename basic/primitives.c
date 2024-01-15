@@ -26,10 +26,10 @@ enum {
 static TAB_NUM t_func_std__do[] = {
   1, // locals
   1, // parameters
-  LOCAL(1), // 38_0_body
+  LOCAL(1), // 43_0_body
   // body!
   LOCAL(1), 0, IO_TAIL_CALL,
-  POS(40, 3)
+  POS(45, 3)
 };
 
 static TAB_NUM t_func_std__ignore[] = {
@@ -38,16 +38,16 @@ static TAB_NUM t_func_std__ignore[] = {
   LOCAL(1),
   // pass
   var_pass, 0, TAIL_CALL,
-  POS(48, 3)
+  POS(59, 3)
 };
 
 static TAB_NUM t_func_std__assign[] = {
   1, // locals
   -1, // parameters
-  REST_PARAMETER, LOCAL(1), // 53_0_args
+  REST_PARAMETER, LOCAL(1), // 79_0_args
   // spread args
   var_spread, 1, LOCAL(1), TAIL_CALL,
-  POS(55, 3)
+  POS(81, 3)
 };
 
 static FUNKY_CONSTANT constants_table[] = {
@@ -75,12 +75,12 @@ static FUNKY_VARIABLE variables_table[] = {
   {
     FOT_UNKNOWN, 0, 0,
     "pass\000", NULL,
-    {.position = POS(48, 3)}
+    {.position = POS(59, 3)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "spread\000", NULL,
-    {.position = POS(55, 3)}
+    {.position = POS(81, 3)}
   }
 };
 

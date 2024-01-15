@@ -356,7 +356,7 @@ enum {
   var_674_1_v1, // dynamic
   var_681_3_i, // dynamic
   var_684_3_j, // dynamic
-  var_let, // extern
+  var_assign, // extern
   var_to_list, // extern polymorphic
   var_serialization_tag_of, // extern polymorphic
   var_serialize, // extern polymorphic
@@ -2586,8 +2586,8 @@ static TAB_NUM t_lambda_128[] = {
 static TAB_NUM t_lambda_129[] = {
   0, // locals
   0, // parameters
-  // let
-  var_let, 2, var_674_1_v1, var_673_1_v0, 2, var_673_1_v0, var_674_1_v1,
+  // assign
+  LET, 2, var_674_1_v1, var_673_1_v0, 2, var_673_1_v0, var_674_1_v1,
   // next
   var_next, 0, TAIL_CALL,
   POS(695, 11),
@@ -3654,7 +3654,7 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "let\000", NULL,
+    "assign\000", NULL,
     {.position = POS(695, 11)}
   },
   {

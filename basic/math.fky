@@ -490,6 +490,8 @@ $std::isqrt:
   #
     returns the integer square root of its argument
 
+    Topic: Math
+
     See also: sqr, pow
   (
     n
@@ -509,97 +511,12 @@ $std::isqrt:
 	    next
 	  -> x
 
-$std::PI 3.1415926535897932
+$std::PI 3.1415926535897932846
   #
     the mathematical constant PI
 
-#$std::sin:
-  #
-    trigonometric function
-
-    See also: cos, tan, atan
-  (
-    alpha
-  )
-  $p 1
-  $s alpha
-  $t alpha
-  repeat 13
-    :
-      !t -t*alpha*alpha/(2*p*(2*p+1))
-      plus &s t
-      inc &p
-      next
-    -> s
-
-#$std::cos:
-  #
-    trigonometric function
-
     Topic: Math
 
-  See also: sin, tan, atan
-  (
-    alpha
-  )
-  $p 0
-  $s 1
-  $t 1
-  repeat 13
-    :
-      inc &p
-      !t -t*alpha*alpha/((2*p-1)*(2*p))
-      plus &s t
-      next
-    -> s
+    See also: cos, sin, tan, asin, acos, atan
 
-#
-  $std::tan:
-    #
-      trigonometric function
 
-      Topic: Math
-
-      See also: sin, cos, atan
-    (
-      alpha
-    )
-    -> sin(alpha)/cos(alpha)
-
-  $std::atan:
-    #
-      trigonometric function
-
-      Topic: Math
-
-      See also: sin, cos, tan
-    (
-      x
-    )
-    if
-      x > 0
-      -> atan2(x)
-      -> -atan2(-x)
-
-  $atan2: (x)
-    if
-      x > 1
-      -> PI/2-atan3(1/x)
-      -> atan3(x)
-
-  $atan3: (x)
-    if
-      x > 2-sqrt(3)
-      -> PI/6+atan4((sqrt(3)*x-1)/(sqrt(3)+x))
-      -> atan4(x)
-
-  $atan4: (x)
-    $sum 0
-    $s 1
-    $p x
-    from_to_by 1 23 2 (-> !sum): (i)
-      plus &sum s*p/i
-      !p p*x*x
-      !s -s
-      next
-    -> sum
