@@ -1905,24 +1905,28 @@ $complete_prefix: (prefix)
 	next
 
   $split:
-    $line lines(y)
     if
-      line.is_undefined
+      y > height
       -> undefined undefined undefined
       :
-	line $indent $text
-	$x x_of(window)
-	cond
-	  -> x <= indent -> "" "" text
-	  -> x > indent+length_of(text) -> text "" ""
-	  -> true:
-	    minus &x indent
-	    $left trim_right(range(text 1 x-1) is_an_identifier_character)
-	    $right trim_left(range(text x -1) is_an_identifier_character)
-	    ->
-	      left
-	      range(text length_of(left)+1 -(length_of(right)+1))
-	      right
+	$line lines(y)
+	if
+	  line.is_undefined
+	  -> undefined undefined undefined
+	  :
+	    line $indent $text
+	    $x x_of(window)
+	    cond
+	      -> x <= indent -> "" "" text
+	      -> x > indent+length_of(text) -> text "" ""
+	      -> true:
+		minus &x indent
+		$left trim_right(range(text 1 x-1) is_an_identifier_character)
+		$right trim_left(range(text x -1) is_an_identifier_character)
+		->
+		  left
+		  range(text length_of(left)+1 -(length_of(right)+1))
+		  right
 
   $add_words: (line_no right_to_left)
     $line lines(line_no)
@@ -1934,7 +1938,7 @@ $complete_prefix: (prefix)
 
   $collect_words: (text right_to_left)
     cond
-      -> text.is_undefined -> empty_list
+      -> text.is_undefined -> empty_insert_order_set
       -> right_to_left:
 	$i length_of(text)+1
 	$e undefined
@@ -1984,7 +1988,6 @@ $complete_prefix: (prefix)
 		    next
 
   $add_word: (word)
-    on do_log: debug::dump `word
     if
       &&
 	word .has_prefix. prefix
