@@ -382,6 +382,9 @@ cat > compiler/configuration.fky << EOF
 \$funky::CC "$CC"
 EOF
 
+PREFIX_LEN=`expr length $PREFIX`
+CC_LEN=`expr length $CC`
+
 cat > compiler/configuration.c << EOF
 #include <stddef.h>
 #include <stdint.h>
@@ -406,8 +409,8 @@ enum {
 
 
 static FUNKY_CONSTANT constants_table[] = {
-  {FLT_STRING_8, 10, {.str_8 = "$PREFIX"}},
-  {FLT_STRING_8, 3, {.str_8 = "$CC"}}
+  {FLT_STRING_8, $PREFIX_LEN, {.str_8 = "$PREFIX"}},
+  {FLT_STRING_8, $CC_LEN, {.str_8 = "$CC"}}
 };
 
 static FUNKY_VARIABLE variables_table[] = {
