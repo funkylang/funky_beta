@@ -19,63 +19,34 @@
   Free Software Foundation, Inc.,
   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
-#
-  Topic: Terminal
-
-  These functions allow to use the terminal as an array of rows and columns.
-
-  Each character in each row and column can be addressed individually.
-
-  Each character has associated text and background colours with support
-  for "true colours" (256 shades of red, green and blue).
-
-  The set text and background colours are used for consequent drawing
-  operations.
-
-  Horizontal and vertical lines are drawn using the appropriate unicode graphics
-  characters.
-
 <namespace terminal_private>
 
 <require ./keys>
 
-$std::resize ()
-$std::define_window ()
-$std::set_cursor ()
-$std::set_character_at ()
-$std::set_text_colour_at ()
-$std::set_background_colour_at ()
-$std::draw_character ()
-$std::draw_text ()
-$std::draw_attributed_text ()
-$std::draw_line ()
-$std::draw_rectangle ()
-$std::plot ()
-$std::plot_line ()
-$std::fill_trapezoid ()
-$std::set_text_colour ()
-$std::set_background_colour ()
-$std::clear ()
-$std::copy ()
-$std::scroll_left ()
-$std::scroll_right ()
-$std::scroll_up ()
-$std::scroll_down ()
-$rows_of (!)
-$std::left_x_of ()
-$std::right_x_of ()
-$std::top_y_of ()
-$std::bottom_y_of ()
-$std::cursor_x_of (!)
-$std::cursor_y_of (!)
-$std::width_of (!)
-$std::height_of (!)
-$std::text_colour_of (!)
-$std::background_colour_of (!)
-$line_height_of (!)
-
 #
   Topic: Terminal
+
+  The terminal library offers an interface for using text-terminals in a
+  comfortable way.
+
+  The base data type is the <std_types::screen>, a rectangular array of
+  characters and associated fore- and background colors.
+
+  All coordinates are one-based.
+
+  Each colour supports 256 shades of red, green and blue.
+
+  To update the state of a <std_types::screen> or <std_types::terminal) no
+  I/O-acccess rights are necessary.
+
+  There are methods to set fore- and background colors, to draw text, lines
+  or more complex shapes, to clear the screen or parts of it, to scroll the
+  screen or copy arbitrary rectangular areas between screens ("blitting").
+
+  Horizontal and vertical lines are drawn using the appropriate unicode graphics
+  characters.
+
+  Screens and terminals also support Unicode Emojis.
 
   The terminal library is somewhat similar to the curses library. It tries to
   update the contents of a terminal in a smart way.
@@ -85,9 +56,14 @@ $line_height_of (!)
   terminal's width and height. The current terminal size can be retrieved via
   the I/O-function <get_terminal_size>.
 
-  For more details about colour handling see <colours>.
+  As an alternative one can use the high-level function <initialize_terminal>.
+  When using this function one gets automatic cleanup "for free".
 
-  See also: @Input-Output
+  For more details about colour handling see <@Colours>.
+
+  Topic: Terminal
+
+  See also: @Input-Output, @Colours
 
   Example:
 
@@ -100,11 +76,314 @@ $line_height_of (!)
       update_terminal &terminal $output # create output character stream
       print! output # print the generated character stream
 
+  Example:
+
+    <require basic/stdlib>
+    <require terminal/terminal>
+
+    initialize_terminal!: (terminal)
+      draw_text &terminal 10 5 "Hello, world!"
+      update_terminal &terminal $output # create output character stream
+      print! output # print the generated character stream
+
 #
   Topic: Colours
 
-  The <terminal> library uses <std_types::character>s for text and background
+  The <@Terminal> library uses <std_types::character>s for text and background
   colours.
+
+  See also: @Terminal
+
+$std::resize ()
+  #
+    resizes a screen or terminal
+
+    Parameters:
+      screen # some kind of screen
+      new_width # new width of the screen
+      new_height # new height of the screen
+
+    Result:
+      screen # the resized screen
+
+    Topic: Terminal
+
+    See also: clear, copy, scroll_up, scroll_down, scroll_left, scroll_right
+
+$std::define_window ()
+  #
+    defines a rectangular area as the current drawing area
+
+    Parameters:
+      screen # some kind of screen
+      left_x # left border of the window
+      top_y # top border of the window
+      right_x # right border of the window
+      bottom_y # bottom border of the window
+
+    Result:
+      screen # the screen with the defined window
+
+    All coordinates are "inclusive".
+
+    Topic: Terminal
+
+    See also: draw_text, draw_character
+
+$std::set_cursor ()
+  #
+    sets the current cursor position
+
+    Parameters:
+      screen # some kind of screen
+      x # x-coordinate of the cursor
+      y # y-coordinate of the cursor
+
+    Result:
+      screen # the screen with the updated cursor position
+
+
+$std::set_character_at ()
+  #
+    sets the character at the given position
+
+    Parameters:
+      screen # some kind of screen
+      x # x-coordinate of the character
+      y # y-coordinate of the character
+      chr # the character to set
+
+    Result:
+      screen # the screen with the updated character
+
+    This is a low-level method. It ignores the current window and does not
+    change the fore- and background color.
+
+    Topic: Terminal
+
+    See also: set_text_colour_at, set_background_colour_at, draw_character
+
+    Example:
+
+      set_character_at &screen x y '+'
+
+$std::set_text_colour_at ()
+  #
+    sets the foreground color at the given position
+
+    Parameters:
+      screen # some kind of screen
+      x # x-coordinate of the character
+      y # y-coordinate of the character
+      colour # the colour to use as the new foreground colour
+
+    Result:
+      screen # the updated screen
+
+    This is a low-level method. It ignores the current window and does not
+    change the character and the background colour.
+
+    Topic: Terminal
+
+    See also: set_character_at, set_background_colour_at, draw_character
+
+    Example:
+
+      set_text_colour_at &screen x y RED
+
+$std::set_background_colour_at ()
+  #
+    sets the background colour at the given position
+
+    Parameters:
+      screen # some kind of screen
+      x # x-coordinate of the character
+      y # y-coordinate of the character
+      colour # the colour to use as the new background colour
+
+    Result:
+      screen # the updated screen
+
+    This is a low-level method. It ignores the current window and does not
+    change the character and the foreground colour.
+
+    Topic: Terminal
+
+    See also: set_character_at, set_text_colour_at, draw_character
+
+    Example:
+
+      set_background_colour_at &screen x y YELLOW
+
+$std::draw_character ()
+  #
+    draws a character at the given position
+
+    Parameters:
+      screen # some kind of screen
+      x # x-coordinate of the character
+      y # y-coordinate of the character
+      chr # the character to draw
+
+    Result:
+      screen # the updated screen
+
+    This method uses the current foreground and background colour and obeyes
+    the current window.
+
+    Topic: Terminal
+
+    See also: draw_text, set_character_at, set_text_colour_at,
+	      set_background_colour_at
+
+    Example:
+
+      draw_character &screen x y '+'
+
+$std::draw_text ()
+  #
+    draws text at the given position
+
+    Parameters:
+      screen # some kind of screen
+      x # x-coordinate of the first character
+      y # y-coordinate of the first character
+      args* # the text to draw
+
+    Result:
+      screen # the updated screen
+
+    All *args* are converted to strings and concatenated.
+
+    This method uses the current foreground and background colour and obeyes
+    the current window.
+
+    If the text consists of multiple lines, the cursor is moved back to *x*
+    after each line.
+
+    Topic: Terminal
+
+    See also: draw_character, set_text_colour_at, set_background_colour_at
+
+    Example:
+
+      draw_text &screen x y "Hello World!"
+
+$std::draw_attributed_text ()
+  #
+    draws text with given fore- and background colours
+
+    Parameters:
+      screen # some kind of screen
+      x # x-coordinate of the first character
+      y # y-coordinate of the first character
+      attributed_text # the text to draw
+
+    Result:
+      screen # the updated screen
+
+    The *attributed_text* must not contain newline characters. Each character is
+    a triple consisting of *character*, *text colour* and *background colour*.
+
+    The text and background colours are themself character values.
+
+    Topic: Terminal
+
+    See also: draw_text, set_character_at, set_text_colour_at,
+	      set_background_colour_at
+
+$std::draw_line ()
+  #
+    draws a horizontal or vertical line
+
+    Parameters:
+      screen # some kind of screen
+      x1 # x-coordinate of the start of the line
+      y1 # y-coordinate of the start of the line
+      x2 # x-coordinate of the end of the line
+      y2 # y-coordinate of the end of the line
+
+    Result:
+      screen # the updated screen
+
+    The line is drawn using the appropriate unicode graphics characters and uses
+    the current text colour.
+
+    Either *x1* and *x2* or *y1* and *y2* must be equal.
+
+    Topic: Terminal
+
+    Example:
+
+      draw_line &screen 1 1 10 1
+
+$std::draw_rectangle ()
+  #
+    draws a rectangle
+
+    Parameters:
+      screen # some kind of screen
+      x1 # x-coordinate of one corner of the rectangle
+      y1 # y-coordinate of one corner of the rectangle
+      x2 # x-coordinate of the opposite corner of the rectangle
+      y2 # y-coordinate of the opposite corner of the rectangle
+
+    Result:
+      screen # the updated screen
+
+    The rectangle is drawn using the appropriate unicode graphics characters and
+    uses the current text colour.
+
+    Topic: Terminal
+
+    Example:
+
+      draw_rectangle &screen 1 1 10 10
+
+$std::plot ()
+
+$std::plot_line ()
+
+$std::fill_trapezoid ()
+
+$std::set_text_colour ()
+
+$std::set_background_colour ()
+
+$std::clear ()
+
+$std::copy ()
+
+$std::scroll_left ()
+
+$std::scroll_right ()
+
+$std::scroll_up ()
+
+$std::scroll_down ()
+
+$std::left_x_of ()
+
+$std::right_x_of ()
+
+$std::top_y_of ()
+
+$std::bottom_y_of ()
+
+$std::cursor_x_of (!)
+
+$std::cursor_y_of (!)
+
+$std::width_of (!)
+
+$std::height_of (!)
+
+$std::text_colour_of (!)
+
+$std::background_colour_of (!)
+
+$rows_of (!)
+$line_height_of (!)
 
 $has_a_visible_cursor (!)
   #
@@ -914,9 +1193,56 @@ $std::initialize_terminal:
     creates a terminal object for the given input file descriptor
 
     If no file descriptor is given, the function uses the standard input.
+
+    The supplied options are used to configure the terminal.
+
+    Possible options are:
+
+      * TEXT_COLOUR: specify the initial text colour
+
+      * BACKGROUND_COLOUR: specify the initial background colour
+
+      * FILE_DESCRIPTOR: explicitly specify the file descriptor
+
+      * RECEIVE_CTRL_C_AND_CTRL_Z: specify that the terminal should receive
+	ctrl-c and ctrl-z
+
+      * RECEIVE_CTRL_Q_AND_CTRL_S: specify that the terminal should receive
+	ctrl-q and ctrl-s
+
+      * MAP_CR: specify that the terminal should map carriage returns to line
+	feeds
+
+      * RECEIVE_SIGWINCH: specify that the terminal should receive window
+	resize events
+
+      * CURSOR_OFF: specify that the cursor should be initially turned off
+
+      * TITLE: specify the title to use for the terminal window
+
+    After successfull initialization the function calls *body* with the
+    <std_types::terminal> object as its sole argument.
+
+    When *body* returns, the function undoes all changes made to the terminal
+    window.
+
+    Topic: Terminal
+
+    See also: create_terminal
+
+    Example:
+
+      initialize_terminal!
+	TEXT_COLOUR = RED
+	BACKGROUND_COLOUR = BLACK
+	TITLE = "My Terminal"
+	: (terminal)
+	  draw_text &terminal 10 5 "Hello, world!"
+	  update_terminal &terminal $output # create output character stream
+	  print! output # print the generated character stream
   (
-    options*
-    body
+    options* # the options to use
+    body # the function to call
   )
   extract_options options
     TEXT_COLOUR = BLACK $text_colour

@@ -24,6 +24,7 @@
 <namespace funky_types>
 
 <require basic/stdlib>
+<require ./configuration>
 <require ./character_names>
 <require ./nodes>
 <require ./parser>
@@ -86,7 +87,7 @@ get_environment $environment
 $include_path
   default_value
     environment("FUNKY_INCLUDE_PATH")
-    "/usr/local/share/funky-@(MAJOR)"
+    "@(PREFIX)/share/funky-@(MAJOR)"
 
 $do_run (truncate_until(program_name '/' -1) .truncate_from. '-') == "fkyrun"
 
@@ -186,7 +187,7 @@ $build_executable:
       push &arguments "-lm"
       push &arguments "-o"
       push &arguments exe_filename
-      call! "gcc" arguments $status $_out $err
+      call! CC arguments $status $_out $err
       on status != 0:
 	eprint! err.from_utf8
 	exit! EXIT_FAILURE
@@ -242,7 +243,7 @@ $build_library:
       append &arguments object_files
       push &arguments "-o"
       push &arguments so_filename
-      call! "gcc" arguments $status $_out $err
+      call! CC arguments $status $_out $err
       on status != 0:
 	eprint! err.from_utf8
 	exit! EXIT_FAILURE
@@ -414,7 +415,7 @@ $c_compile: (modules)
 	  push &arguments "@(c_filename)"
 	  push &arguments "-o"
 	  push &arguments obj_filename
-	  call! "gcc" arguments $status $_out $err
+	  call! CC arguments $status $_out $err
 	  on status != 0:
 	    eprint! err.from_utf8
 	    exit! EXIT_FAILURE
