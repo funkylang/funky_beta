@@ -23,13 +23,33 @@ FUNCTION std::exec
   #
     replaces the current process with the given command
 
-    This function does not return on success.
-
-    Topics: Input-Output, POSIX
-
     Parameters:
       filename # the executable image of the new process
       arguments # a list of arguments to supply to the new process
+
+    This function does not return on success.
+
+    On failure it returns an appropriate error object.
+
+    Topics: Input-Output, POSIX
+
+    See also: call, create_process
+
+    Example:
+
+      exec! "ls" list("-l" "/usr/local/share/funky-0/runtime/")
+
+    Output:
+
+      total 52
+      -rw-r--r-- 1 root root 15955 17. Jän 15:43 builtins.h
+      -rw-r--r-- 1 root root  4093 17. Jän 15:43 common.h
+      -rw-r--r-- 1 root root  4636 17. Jän 15:43 fko.h
+      -rw-r--r-- 1 root root  1015 17. Jän 15:43 interpreter.h
+      -rw-r--r-- 1 root root  3557 17. Jän 15:43 linker.h
+      -rw-r--r-- 1 root root  7579 17. Jän 15:43 memory.h
+      -rw-r--r-- 1 root root   304 17. Jän 15:43 platform.h
+      -rw-r--r-- 1 root root  1299 17. Jän 15:43 profiler.h
   {
     CHECK_ARGUMENTS(2)
     if (TYPEOF(ARGUMENTS(1)) != TYPE(std_types::list)) INVALID_ARGUMENTS
@@ -99,16 +119,54 @@ FUNCTION std::create_process
   #
     creates a new child process
 
-    Returns the process id of the child process, a file-descriptor to write
-    to the process' stdin-channel - only if no *stdin* was supplied as an
-    argument, a file-descriptor to read from the process' stdout-channel,
-    and a file-descriptor to read from the process' stderr-channel
-
     Parameters:
       filename # the executable image of the new process
       arguments # a list of arguments to supply to the new process
       environment? # a list of environment variables or <undefined>
       stdin? # a file-descriptor to be used as the process' stdin
+
+    Results:
+      child_pid # the process id of the new process
+      child_stdin? # the file-descriptor to write to the child process' stdin
+      child_stdout # the file-descriptor to read from the child process' stdout
+      child_stderr # the file-descriptor to read from the child process' stderr
+
+    *child_stdin* is returned only if no value was supplied for *stdin*.
+
+    Topics: Input-Output, POSIX
+
+    See also: exec, wait
+
+    Example:
+
+      # we do not check for errors in this example
+
+      create_process! $pid $in_fd $out_fd $err_fd
+	"ls" list("-l" "/usr/local/share/funky-0/runtime/")
+      close! in_fd
+      loop:
+	read! $buf out_fd 0x10000
+	if
+	  buf.is_not_empty:
+	    write! $_bytes_written STDOUT_FILENO buf
+	    next!
+	  :
+	    close! out_fd
+	    close! err_fd
+	    waitpid! $_ret $_status pid
+	    pass
+
+    Output:
+
+      insgesamt 52
+      -rw-r--r-- 1 root root 15955 17. Jän 17:59 builtins.h
+      -rw-r--r-- 1 root root  4093 17. Jän 17:59 common.h
+      -rw-r--r-- 1 root root  4636 17. Jän 17:59 fko.h
+      -rw-r--r-- 1 root root  1015 17. Jän 17:59 interpreter.h
+      -rw-r--r-- 1 root root  3557 17. Jän 17:59 linker.h
+      -rw-r--r-- 1 root root  7579 17. Jän 17:59 memory.h
+      -rw-r--r-- 1 root root   304 17. Jän 17:59 platform.h
+      -rw-r--r-- 1 root root  1299 17. Jän 17:59 profiler.h
   {
     MIN_ARGUMENTS(2)
     MAX_ARGUMENTS(4)

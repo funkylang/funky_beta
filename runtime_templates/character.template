@@ -23,7 +23,10 @@ TYPE std_types::character -> std_types::object
   #
     a unicode code point encoded as a 32-bit value
 
+    Topic: Strings
+
     See also: std_types::string
+
   uint32_t code
 
 METHOD std_types::character/_type
@@ -51,7 +54,25 @@ METHOD uint32_t std_types::character/_to_uchar32
 
 FUNCTION std::character
   #
-    returns the character with the specified unicode
+    returns the character with the specified unicode codepoint
+
+    Parameter:
+      codepoint # an integer representing the unicode codepoint
+
+    Result:
+      chr # the character with the specified unicode codepoint
+
+    Topic: Strings
+
+    See also: std_types::character/to_integer
+
+    Example:
+
+      println! character(97)
+
+    Output:
+
+      a
   {
     CHECK_ARGUMENTS(1)
     CHECK_RESULTS(1)
@@ -62,13 +83,26 @@ FUNCTION std::character
 
 METHOD std_types::character/plus
   #
-    returns the *n*th-next character
+    returns the nth-next character
 
-    Parameter chr: the base character
+    Parameter:
+      chr # the character to increment
+      n # the number of times to increment
 
-    Parameter n: the number of characters to skip
+    Result:
+      chr # the nth-next character
+
+    Topic: Strings
 
     See also: std_types::character/minus
+
+    Example:
+
+      println! 'a'+1
+
+    Output:
+
+      b
   {
     CHECK_ARGUMENTS(2)
     CHECK_RESULTS(1)
@@ -81,20 +115,42 @@ METHOD std_types::character/plus
 
 METHOD std_types::character/minus
   #
-    returns the *n*th-previous character
+    returns the nth-previous character or the difference between two characters
 
-    Parameter chr: the base character
+    Parameter:
+      chr # the character to decrement
+      chr_2_or_n # the character to compare or the number of times to decrement
 
-    Parameter n: the number of characters to skip
+    Result:
+      chr_or_diff # the nth-previous character or the difference between two
+		    characters
+
+    Topic: Strings
 
     See also: std_types::character/plus
+
+    Example:
+
+      println! 'z'-1
+
+    Output:
+
+      y
+
+    Example:
+
+      println! 'z'-'a'
+
+    Output:
+
+      25
   {
     CHECK_ARGUMENTS(2)
     CHECK_RESULTS(1)
     if (TYPEOF(ARGUMENTS(1)) == TYPE(std_types::character)) {
       RETURN_SINGLE_RESULT(
-        from_long(
-          (long)ARGUMENTS(0)->character.code-(long)ARGUMENTS(1)->character.code));
+	from_long(
+	  (long)ARGUMENTS(0)->character.code-(long)ARGUMENTS(1)->character.code));
     } else {
       long offset;
       CHECK(to_long(ARGUMENTS(1), &offset))
@@ -107,6 +163,35 @@ METHOD std_types::character/minus
 METHOD std_types::character/equal
   #
     compares two characters for equality
+
+    Parameters:
+      chr_1 # the first character
+      chr_2 # the second character
+
+    Result:
+      success # true if the characters are equal, false otherwise
+
+    A comparison of a character with a non-character value always returns false.
+
+    Topic: Strings
+
+    See also: std_types::character/less
+
+    Example:
+
+      dump! `('a' == 'a')
+
+    Output:
+
+      ('a' == 'a'): <true>
+
+    Example:
+
+      dump! `('a' == 97)
+
+    Output:
+
+      ('a' == 97): <false>
   {
     CHECK_ARGUMENTS(2)
     CHECK_RESULTS(1)
@@ -121,7 +206,38 @@ METHOD std_types::character/equal
 
 METHOD std_types::character/less
   #
-    numerically compares the unicodes of the two specified characters
+    numerically compares the unicode codepoints of the two specified characters
+
+    Parameters:
+      chr_1 # the first character
+      chr_2 # the second character
+
+    Result:
+      success # true if chr_1 is less than chr_2, false otherwise
+
+    A comparison of a character with a non-character value returns an error
+    object!
+
+    Topic: Strings
+
+    See also: std_types::character/equal
+
+    Example:
+
+      dump! `('a' < 'b')
+
+    Output:
+
+      ('a' < 'b'): <true>
+
+    Example:
+
+      dump! `('a' < 97)
+
+
+    Output:
+
+      ('a' < 97): INVALID ARGUMENTS
   {
     CHECK_ARGUMENTS(2)
     CHECK_RESULTS(1)
@@ -133,7 +249,25 @@ METHOD std_types::character/less
 
 METHOD std_types::character/hash
   #
-    computes a numerical hash value
+    returns an integer value of the character
+
+    Parameter:
+      chr # the character to hash
+
+    Result:
+      hash # the hash value of the character
+
+    Topic: Strings
+
+    See also: std_types::character/to_integer
+
+    Example:
+
+      println! hash('a')
+
+    Output:
+
+      2230631750
   {
     CHECK_ARGUMENTS(1)
     CHECK_RESULTS(1)
@@ -146,6 +280,24 @@ METHOD std_types::character/hash
 METHOD std_types::character/to_string
   #
     returns a single-character string containing only the specified character
+
+    Parameter:
+      chr # the character to convert
+
+    Result:
+      str # the string containing the specified character
+
+    Topic: Strings
+
+    See also: std_types::character/to_integer
+
+    Example:
+
+      dump! `to_string('a')
+
+    Output:
+
+      to_string('a'): "a"
   {
     CHECK_ARGUMENTS(1)
     CHECK_RESULTS(1)
@@ -160,7 +312,25 @@ METHOD std_types::character/to_string
 
 METHOD std_types::character/to_integer
   #
-    returns the character's unicode as an integer value
+    returns the unicode codepoint of the specified character
+
+    Parameter:
+      chr # the character to convert
+
+    Result:
+      integer # the unicode codepoint of the specified character
+
+    Topic: Strings
+
+    See also: std_types::character/to_string
+
+    Example:
+
+      println! to_integer('a')
+
+    Output:
+
+      97
   {
     CHECK_ARGUMENTS(1)
     CHECK_RESULTS(1)

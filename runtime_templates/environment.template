@@ -21,28 +21,66 @@
 
 OBJECT std::program_name -> std_types::octet_string
   #
-    the name of the application program
+    the name of the current process
+
+    Topic: Parameters
 
     See also: command_line_arguments
+
+    Example:
+
+      println! program_name
+
+    Output:
+
+      /tmp/create_output
 
   0, 0, NULL
 
 OBJECT std::command_line_arguments -> std_types::list
   #
-    the application's command line arguments
+    a list containing the application's command line arguments
 
-    **Attention**: The first argument is **really** the first **argument**.
+    **Attention**: The first list item is **really** the first **argument**.
 
-    The name of the application program is stored in <program_name>.
+    The name of the current process is stored in <program_name>.
+
+    Topic: Parameters
 
     See also: program_name
+
+    Example:
+
+      for_each command_line_arguments
+	: (argument)
+	  println! argument
+	  next!
+	pass
+
   0, 0,  NULL
 
 OBJECT std::environment_variables -> std_types::list
   #
-    the application's environment variables
+    a list containing the environment variables
 
-    See also: program_name, command_line_arguments
+    Topic: Parameters
+
+    See also: program_name, command_line_arguments, environment
+
+    Example:
+
+      for_each environment_variables
+	: (environment_variable)
+	  println! environment_variable
+	  next!
+	pass
+
+    Output:
+
+      ...
+      TERM=xterm-256color
+      ...
+
   0, 0,  NULL
 
 CODE

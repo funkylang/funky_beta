@@ -228,9 +228,10 @@ static ATTRIBUTES attributes__types__uninitialized = {
 };
 
 static void type__types__uninitialized(void) {
-  {
-    runtime_error("Attempt to call an uninitialized value as a function!");
-  }
+  create_error_message(
+    //module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+    undefined,
+    "Attempt to call an uninitialized value as a function!", 0, 0, NULL);
 }
 
 static SIMPLE_NODE types__uninitialized__node =

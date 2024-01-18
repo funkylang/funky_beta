@@ -25,6 +25,8 @@ POLY std::new
   #
     creates a new collection with inherited attributes
 
+    Topic: Collections, Lists
+
 POLY std::plus
   #
     add two numbers of any kind

@@ -754,7 +754,7 @@ FUNCTION std::do_not_close
     }
   }
 
-FUNCTION std::wait2
+FUNCTION std::waitpid
   #
     waits for a child process to terminate
 
@@ -766,13 +766,15 @@ FUNCTION std::wait2
 
     Topic: POSIX
   {
-    CHECK_ARGUMENTS(0)
+    CHECK_ARGUMENTS(1)
     CHECK_IO_ACCESS_RIGHTS
     int status;
     int result;
-    EVENT(wait2)
+    int pid;
+    if (!process_id_to_int(ARGUMENTS(0), &pid)) return;
+    EVENT(waitpid)
       do {
-	result = waitpid(-1, &status, WNOHANG);
+	result = waitpid(pid, &status, WNOHANG);
       } while (result == -1 && errno == EINTR);
     INFO
       INT(result)
@@ -785,10 +787,6 @@ FUNCTION std::wait2
       create_error_message(
 	module__builtin.constants_base[unique__std___IO_ERROR-1],
       "WAIT FAILED", errno, 0, NULL);
-    } else if (result == 0) {
-      START_ARGUMENTS(2)
-      ARGUMENTS(0) = UNDEFINED;
-      ARGUMENTS(1) = UNDEFINED;
     } else {
       START_ARGUMENTS(2)
       ARGUMENTS(0) = process_id_from_int(result);

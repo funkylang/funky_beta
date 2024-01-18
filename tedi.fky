@@ -2804,7 +2804,7 @@ $find_previous: (x = undefined)
 		    e <= indent
 		    search_backwards
 		    :
-		      range &text 1 e
+		      update_if e < length_of(text) &text -> range(text 1 e)
 		      search $pos $len search_text text -1
 		      if
 			pos.is_defined && is_a_valid_match(text pos len):

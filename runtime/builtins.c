@@ -358,7 +358,7 @@ enum {
   func__std___exitstatus,
   func__std___pselect,
   func__std___do_not_close,
-  func__std___wait2,
+  func__std___waitpid,
   func__std___open_unix_socket,
   func__std___open_tcp_socket
 };
@@ -791,7 +791,7 @@ enum {
   var_no__std___exitstatus,
   var_no__std___pselect,
   var_no__std___do_not_close,
-  var_no__std___wait2,
+  var_no__std___waitpid,
   var_no__std___open_unix_socket,
   var_no__std___open_tcp_socket
 };
@@ -13449,7 +13449,7 @@ static void entry__std_types___character___std___minus (void)
     if ((TLS_arguments[1])->type == std_types___character.type) {
       {
         NODE *result__node = (NODE *)(from_long(
-                (long)TLS_arguments[0]->character.code-(long)TLS_arguments[1]->character.code));
+      	  (long)TLS_arguments[0]->character.code-(long)TLS_arguments[1]->character.code));
         TLS_arguments[0] = result__node;
         TLS_argument_count = 1;
         return;
@@ -22086,9 +22086,9 @@ static void entry__std___do_not_close (void)
     }
   }
 
-static void entry__std___wait2 (void)
+static void entry__std___waitpid (void)
   {
-    if (TLS_argument_count != 0) {
+    if (TLS_argument_count != 1) {
       invalid_arguments();
       return;
     }
@@ -22098,20 +22098,22 @@ static void entry__std___wait2 (void)
     }
     int status;
     int result;
+    int pid;
+    if (!process_id_to_int(TLS_arguments[0], &pid)) return;
     if (event__mode != EM__REPLAY) {
       do {
-	result = waitpid(-1, &status, WNOHANG);
+	result = waitpid(pid, &status, WNOHANG);
       } while (result == -1 && errno == EINTR);
       if (event__mode == EM__RECORD) {
-        record__event("wait2");
+        record__event("waitpid");
         store__integer(result);
         store__integer(status);
       }
     } else {
-      replay__event("wait2");
+      replay__event("waitpid");
       retrieve__integer(&result);
       retrieve__integer(&status);
-      report__event("wait2");
+      report__event("waitpid");
       print__integer(result);
       print__integer(status);
     }
@@ -22119,10 +22121,6 @@ static void entry__std___wait2 (void)
       create_error_message(
 	module__builtin.constants_base[unique__std___IO_ERROR-1],
       "WAIT FAILED", errno, 0, NULL);
-    } else if (result == 0) {
-      TLS_argument_count = 2;
-      TLS_arguments[0] = undefined;
-      TLS_arguments[1] = undefined;
     } else {
       TLS_argument_count = 2;
       TLS_arguments[0] = process_id_from_int(result);
@@ -22575,7 +22573,7 @@ static FUNKY_CONSTANT constants_table[] = {
   {FLT_C_FUNCTION, 1, {.func = entry__std___exitstatus}},
   {FLT_C_FUNCTION, -1, {.func = entry__std___pselect}},
   {FLT_C_FUNCTION, 1, {.func = entry__std___do_not_close}},
-  {FLT_C_FUNCTION, 0, {.func = entry__std___wait2}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std___waitpid}},
   {FLT_C_FUNCTION, 1, {.func = entry__std___open_unix_socket}},
   {FLT_C_FUNCTION, 2, {.func = entry__std___open_tcp_socket}}
 };
@@ -26055,8 +26053,8 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_INITIALIZED, 0, 0,
-    "wait2\000std", NULL,
-    {.const_idx = func__std___wait2}
+    "waitpid\000std", NULL,
+    {.const_idx = func__std___waitpid}
   },
   {
     FOT_INITIALIZED, 0, 0,
@@ -26460,7 +26458,7 @@ BUILTIN_FUNCTION_NAME builtin_function_names[381] = {
   {entry__std___exitstatus, "std::exitstatus"},
   {entry__std___pselect, "std::pselect"},
   {entry__std___do_not_close, "std::do_not_close"},
-  {entry__std___wait2, "std::wait2"},
+  {entry__std___waitpid, "std::waitpid"},
   {entry__std___open_unix_socket, "std::open_unix_socket"},
   {entry__std___open_tcp_socket, "std::open_tcp_socket"}
 };

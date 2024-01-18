@@ -1231,7 +1231,7 @@ $run_pipe:
 		signal == CHILD_CHANGED_STATE:
 		  loop
 		    :
-		      wait2! $rpid $status
+		      wait! $rpid $status
 		      if
 			rpid.is_defined:
 			  !ret(pids(rpid)) status

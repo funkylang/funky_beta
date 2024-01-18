@@ -396,9 +396,9 @@ enum {
   var_1226_1_write_descriptors, // dynamic
   var_pselect, // extern
   var_CHILD_CHANGED_STATE, // extern
-  var_1234_8_rpid, // dynamic
-  var_1234_14_status, // dynamic
-  var_wait2, // extern
+  var_1234_7_rpid, // dynamic
+  var_1234_13_status, // dynamic
+  var_wait, // extern
   var_1259_3_read_descriptor, // dynamic
   var_1260_7_buf, // dynamic
   var_std__extern, // initialized
@@ -2115,10 +2115,10 @@ static TAB_NUM t_lambda_66[] = {
 static TAB_NUM t_lambda_67[] = {
   1, // locals
   0, // parameters
-  // wait2! $rpid $status
-  var_wait2, 0, IO_CALL(2), var_1234_8_rpid, var_1234_14_status,
+  // wait! $rpid $status
+  var_wait, 0, IO_CALL(2), var_1234_7_rpid, var_1234_13_status,
   // is_defined:
-  var_is_defined, 1, var_1234_8_rpid, 1, LOCAL(1),
+  var_is_defined, 1, var_1234_7_rpid, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_rpid_is_defined, var_break, IO_TAIL_CALL,
   POS(1234, 23),
@@ -2130,11 +2130,11 @@ static TAB_NUM t_lambda_rpid_is_defined[] = {
   2, // locals
   0, // parameters
   // pids(rpid)) status
-  var_1172_1_pids, 1, var_1234_8_rpid, 1, LOCAL(2),
+  var_1172_1_pids, 1, var_1234_7_rpid, 1, LOCAL(2),
   // ret(pids(rpid)) status
-  var_1202_1_ret, 2, LOCAL(2), var_1234_14_status, 1, var_1202_1_ret,
+  var_1202_1_ret, 2, LOCAL(2), var_1234_13_status, 1, var_1202_1_ret,
   // pids(rpid) undefined
-  var_1172_1_pids, 2, var_1234_8_rpid, var_undefined, 1, var_1172_1_pids,
+  var_1172_1_pids, 2, var_1234_7_rpid, var_undefined, 1, var_1172_1_pids,
   // is_empty
   var_is_empty, 1, var_1172_1_pids, 1, LOCAL(1),
   // if!
@@ -3578,15 +3578,15 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "1234_8_rpid\000", NULL
+    "1234_7_rpid\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "1234_14_status\000", NULL
+    "1234_13_status\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "wait2\000", NULL,
+    "wait\000", NULL,
     {.position = POS(1234, 23)}
   },
   {

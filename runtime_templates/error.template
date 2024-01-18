@@ -313,6 +313,22 @@ POLY std::errno_of
       errno_of(buf): object <0>
 
 METHOD std_types::error/errno_of
+  #
+    returns the errno value of the error object
+
+    Topic: Errors
+
+    See also: errno_of, std_types::error
+
+    Example:
+
+      load! $buf "some-non-existing-file"
+      on buf.is_an_error:
+	dump! `errno_of(buf)
+
+    Output:
+
+      errno_of(buf): object <0>
   {
     CHECK_ARGUMENTS(1)
     if (ARGUMENTS(0)->error.err_no) {
@@ -324,9 +340,51 @@ METHOD std_types::error/errno_of
 
 POLY std::failed_attribute_of
   #
-    retrieves the *attribute* associated with the error object
+    retrieves the attribute associated with the error object
+
+    This field is used in conjunctions with the "NO SUCH ATTRIBUTE" error.
+
+    Topic: Errors
+
+    See also: std_types::error, error_category_of, error_message_text_of,
+	      error_details_of, errno_of
+
+    Example:
+
+      $my_attr_of ()
+      $attr my_attr_of("abc")
+      on attr.is_an_error:
+	dump! `error_message_text_of(attr)
+	dump! `failed_attribute_of(attr)
+
+    Output:
+
+      error_message_text_of(attr): "NO SUCH ATTRIBUTE"
+      failed_attribute_of(attr): "my_attr_of"
 
 METHOD std_types::error/failed_attribute_of
+  #
+    retrieves the attribute associated with the error object
+
+    This field is used in conjunctions with the "NO SUCH ATTRIBUTE" error.
+
+    Topic: Errors
+
+    See also: std_types::error, error_category_of, error_message_text_of,
+	      error_details_of, errno_of
+
+    Example:
+
+      $my_attr_of ()
+      $attr my_attr_of("abc")
+      on attr.is_an_error:
+	dump! `error_message_text_of(attr)
+	dump! `failed_attribute_of(attr)
+
+    Output:
+
+      error_message_text_of(attr): "NO SUCH ATTRIBUTE"
+      failed_attribute_of(attr): "my_attr_of"
   {
     CHECK_ARGUMENTS(1)
     if (ARGUMENTS(0)->error.attr_idx) {
