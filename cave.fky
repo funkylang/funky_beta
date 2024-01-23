@@ -216,14 +216,16 @@ $start_game:
   undraw_spaceship !terminal
     # "undraw" the spaceship and restore the original background colours
 
-  $t current_time() # needed to compute timeouts
+  current_time! $t # needed to compute timeouts
   loop:
     plus &t 0.08 # one movement per 80 ms
-    $timeout t-current_time()
+    current_time! $t1
+    $timeout t-t1
     get_key! $key timeout
     on key == 'q': quit! # the user wants to quit the game
     on key.is_defined: # the user pressed a key
-      sleep! t-current_time() # let us sleep for the rest of the slot time
+      current_time! $t2
+      sleep! t-t2 # let us sleep for the rest of the slot time
 
     # check fuel
 
@@ -293,8 +295,8 @@ $start_game:
       :
 	draw_spaceship !terminal !colours_behind_space_ship
 	update_terminal_window! !terminal
-	undraw_spaceship &terminal
-	undraw_dynamic_items &terminal
+	undraw_spaceship !terminal
+	undraw_dynamic_items !terminal
 	update_dynamic_items !dynamic_items
 
 	if
@@ -596,6 +598,7 @@ $undraw_dynamic_items:
 		: (y)
 		  set_character_at &terminal x y ' '
 		  next
+		next
 	    next
 	SHOT:
 	  $y y_of(item)
