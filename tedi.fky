@@ -1,5 +1,27 @@
 #!/usr/bin/env fkyrun
 
+  Copyright (C) 2024 by
+  Dipl.-Ing. Michael Niederle
+
+  This program is free software; you can redistribute it and/or modify
+  it under the terms of the GNU General Public License, version 2, or
+  (at your option) version 3.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  GNU General Public License for more details.
+
+  For details of the GNU General Public License see the accompanying
+  files GPLv2.txt and GLPv3.txt or
+  http://www.gnu.org/licenses/gpl-2.0.html
+  http://www.gnu.org/licenses/gpl-3.0.html
+  or write to the
+  Free Software Foundation, Inc.,
+  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+
+# Funky is a one-based language
+
 <namespace tedi_types>
 
 <require basic/stdlib>
@@ -425,6 +447,7 @@ map &colour_sets create_indentation_patterns
 
 $prototype_window
   std_types::object
+    .revision_no_of 0
     .needs_redraw true
     .features_of empty_hash_set
     .x_of 1
@@ -481,7 +504,6 @@ $filter_key_bindings
 
 $window
   prototype_window
-    .revision_no_of 0
     .features_of
       hash_set
 	HAS_HISTORY
@@ -620,7 +642,7 @@ $main: (initial_terminal)
     configuration.is_an_error # no configuration file found
     start_tedi
     :
-      for_each split(configuration '@nl;')
+      for_each split(configuration.trim_right '@nl;')
 	: (no line)
 	  truncate_from &line '#'
 	  normalize &line
@@ -1948,7 +1970,7 @@ $complete_prefix: (prefix)
 	    i < 1:
 	      if
 		e.is_defined
-		-> add_word(range(text 1 e))
+		-> add_identifier(range(text 1 e))
 		-> words
 	    :
 	      if
@@ -1958,7 +1980,7 @@ $complete_prefix: (prefix)
 		:
 		  if
 		    e.is_defined:
-		      add_word !words range(text i+1 e)
+		      add_identifier !words range(text i+1 e)
 		      !e undefined
 		      next
 		    next
@@ -1972,7 +1994,7 @@ $complete_prefix: (prefix)
 	    i > n:
 	      if
 		s.is_defined
-		-> add_word(range(text s n))
+		-> add_identifier(range(text s n))
 		-> words
 	    :
 	      if
@@ -1982,14 +2004,35 @@ $complete_prefix: (prefix)
 		:
 		  if
 		    s.is_defined:
-		      add_word !words range(text s i-1)
+		      add_identifier !words range(text s i-1)
 		      !s undefined
 		      next
 		    next
 
+  $add_identifier: (word)
+    loop:
+      cond
+	-> word .has_prefix. ':':
+	  range &word 2 -1
+	  next
+	-> word .has_suffix. ':':
+	  range &word 1 -2
+	  next
+	-> true:
+	  if
+	    word .contains. "::":
+	      add_word !words word .before. "::"
+	      add_word !words word .behind. "::"
+	      add_full_word
+	    add_full_word
+
+	  $add_full_word:
+	    add_word word
+
   $add_word: (word)
     if
       &&
+	word.is_not_empty
 	word .has_prefix. prefix
 	word != prefix
 	not(words(word))
@@ -1997,7 +2040,7 @@ $complete_prefix: (prefix)
       -> words
 
 $is_an_identifier_character: (chr)
-  -> chr.is_a_letter_character || chr.is_a_digit || chr == '_'
+  -> chr.is_a_letter_character || chr.is_a_digit || chr == '_' || chr == ':'
 
 $ai_completion -> state(.action_of ai_completion_action)
 

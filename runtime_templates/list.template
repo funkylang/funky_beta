@@ -53,7 +53,7 @@ METHOD std_types::list/_type
     long idx;
     CHECK(to_long(ARGUMENTS(0), &idx))
     if (idx < 0) idx = length+idx+1;
-    if (idx < 1 || idx > length) INVALID_INDEX
+    if (idx < 1 || idx > length) INVALID_INDEX(MYSELF);
     long offset = MYSELF->list.offset;
     if (ARGUMENT_COUNT == 1)
       RETURN_SINGLE_RESULT(MYSELF->list.data->items[offset+idx-1])
@@ -82,7 +82,7 @@ METHOD long std_types::list/_debug_string
     if (CONTAINS_AN_ATTRIBUTE_VALUE(subtype)) {
       subtype = RETRIEVE_ATTRIBUTE_VALUE(subtype);
       if (TYPEOF(subtype) == TYPE(std_types::undefined)) {
-        subtype = NULL;
+	subtype = NULL;
       }
     } else {
       subtype = NULL;
@@ -90,24 +90,24 @@ METHOD long std_types::list/_debug_string
     long n, len;
     if (node->list.length == 0) {
       /*if (subtype) {
-        n = 0;
+	n = 0;
 	if (indent < 0) {
 	  if (buf) *buf++ = ' ';
 	  n = 1;
 	}
 	n += print(&buf, "<empty_list-");
-        len = debug_string(subtype, 0, max_depth, buf);
+	len = debug_string(subtype, 0, max_depth, buf);
 	--len; // remove trailing newline
-        if (buf) buf += len;
-        n += len;
-        n += print(&buf, ">\n");
-        return n;
+	if (buf) buf += len;
+	n += len;
+	n += print(&buf, ">\n");
+	return n;
       } else {*/
 	return debug_print(indent, buf, "<empty_list>", node);
       /*}*/
     } else {
       if (max_depth <= 1) {
-        n = 0;
+	n = 0;
 	if (indent < 0) {
 	  if (buf) *buf++ = ' ';
 	  ++n;
@@ -121,14 +121,14 @@ METHOD long std_types::list/_debug_string
 	  if (buf) buf += len;
 	  n += len;
 	}*/
-        if (node->list.length == 1) {
-          n += print(&buf, " of 1 item>\n", node);
-        } else {
-          n += print(&buf, " of %ld items>\n", node->list.length);
-        }
-        return n;
+	if (node->list.length == 1) {
+	  n += print(&buf, " of 1 item>\n", node);
+	} else {
+	  n += print(&buf, " of %ld items>\n", node->list.length);
+	}
+	return n;
       } else {
-        long i;
+	long i;
 	n = debug_print_indent(&indent, &buf);
 	n += print(&buf, "list");
 	/*if (subtype) {
@@ -141,17 +141,17 @@ METHOD long std_types::list/_debug_string
 	  if (buf) *buf++ = '\n';
 	  ++n;
 	/*}*/
-        const char *contents_indent = indent_to_string(indent);
+	const char *contents_indent = indent_to_string(indent);
 	long offset = node->list.offset;
-        for (i = 0; i < node->list.length; ++i) {
-          n += print(&buf, contents_indent);
-          len =
+	for (i = 0; i < node->list.length; ++i) {
+	  n += print(&buf, contents_indent);
+	  len =
 	    debug_string(
 	      node->list.data->items[offset+i], indent, max_depth-1, buf);
-          if (buf) buf += len;
-          n += len;
-        }
-        return n;
+	  if (buf) buf += len;
+	  n += len;
+	}
+	return n;
       }
     }
   }
@@ -165,7 +165,7 @@ METHOD int std_types::list/_get_item_of
   {
     long length = node->list.length;
     if (idx < 0 || idx >= length) {
-      invalid_index();
+      invalid_index(node);
       return false;
     }
     *result_p = node->list.data->items[node->list.offset+idx];
@@ -242,10 +242,10 @@ METHOD std_types::list/new
     NODE *prototype = ARGUMENTS(0);
     NODE *clone =
       CREATE(
-        std_types::list,
+	std_types::list,
 	ARGUMENTS(1)->list.offset,
-        ARGUMENTS(1)->list.length,
-        ARGUMENTS(1)->list.data
+	ARGUMENTS(1)->list.length,
+	ARGUMENTS(1)->list.data
       );
     clone->attributes = prototype->attributes;
     RETURN_SINGLE_RESULT(clone)
@@ -495,8 +495,8 @@ METHOD std_types::list/range
     long length = self->list.length;
     if (first_idx < 0) first_idx = length+first_idx+1;
     if (last_idx < 0) last_idx = length+last_idx+1;
-    if (first_idx < 1 || first_idx > length+1) INVALID_INDEX
-    if (last_idx < 0 || last_idx > length) INVALID_INDEX
+    if (first_idx < 1 || first_idx > length+1) INVALID_INDEX(self);
+    if (last_idx < 0 || last_idx > length) INVALID_INDEX(self);
     if (first_idx > last_idx+1) INVALID_ARGUMENTS
     if (first_idx == 1 && last_idx == length) RETURN_SINGLE_RESULT(self)
     long new_len = last_idx-first_idx+1;
@@ -504,7 +504,7 @@ METHOD std_types::list/range
     RETURN_SINGLE_RESULT(
       CREATE(
 	std_types::list,
-        self->list.offset+first_idx-1,
+	self->list.offset+first_idx-1,
 	new_len, self->list.data))
   }
 
@@ -521,4 +521,3 @@ METHOD std_types::list/spread
     }
     RETURN
   }
-

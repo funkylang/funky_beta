@@ -1167,7 +1167,7 @@ $to_c_string_32: (str)
 	  !s idx+1
 	  if
 	    val <= 0xff:
-	      append &buf "\x" hex(val 2)
+	      append &buf "\" oct(val 3)
 	      next
 	    :
 	      if

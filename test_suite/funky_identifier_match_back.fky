@@ -1,0 +1,22 @@
+#!/usr/bin/env fkyrun
+
+$str "abc def_ghi"
+dump! `match_back(FUNKY_IDENTIFIER str)
+
+!str "abc _def_ghi"
+dump! `match_back(FUNKY_IDENTIFIER str)
+
+!str "abc 3def_4ghi"
+dump! `match_back(FUNKY_IDENTIFIER str)
+
+!str "abc def_4ghi"
+dump! `match_back(FUNKY_IDENTIFIER str)
+
+!str "def_4ghi"
+dump! `match_back(FUNKY_IDENTIFIER str)
+
+!str "def_4ghi"
+dump! `match_back(FUNKY_IDENTIFIER str)
+
+!str "3def_4ghi"
+dump! `match_back(FUNKY_IDENTIFIER str)

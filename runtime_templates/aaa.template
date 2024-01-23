@@ -565,6 +565,23 @@ ATTR std::length_of
 
     See also: std::is_empty
 
+ATTR std::width_of
+  #
+    returns the width of an object in character positions
+
+    Parameter:
+      object # the object to be analyzed
+
+    Result:
+      width # the width of object in character positions
+
+    This attribute returns the number of character positions needed to display
+    the object.
+
+    Topic: Strings
+
+    See also: std::length_of
+
 POLY std::hash
   #
     returns a hash value

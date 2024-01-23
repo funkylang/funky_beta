@@ -374,8 +374,6 @@ $std::cursor_x_of (!)
 
 $std::cursor_y_of (!)
 
-$std::width_of (!)
-
 $std::height_of (!)
 
 $std::text_colour_of (!)

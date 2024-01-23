@@ -1,0 +1,35 @@
+len: 3
+len: <undefined>
+
+len: 1
+len: <undefined>
+
+pos: 1
+len: 2
+pos: 8
+len: 1
+pos: 11
+len: 1
+pos: 13
+len: 10
+pos: 26
+len: 1
+pos: 31
+len: 1
+pos: <undefined>
+len: <undefined>
+
+pos: 31
+len: 1
+pos: 26
+len: 1
+pos: 13
+len: 10
+pos: 11
+len: 1
+pos: 8
+len: 1
+pos: 1
+len: 2
+pos: <undefined>
+len: <undefined>

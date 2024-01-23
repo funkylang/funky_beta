@@ -257,6 +257,9 @@ static INLINE void allocate_frame_and_initialize_locals(
   }
 }
 
+const TAB_NUM *tail_call_stack[256];
+const TAB_NUM **tail_call_sp;
+
 void interpreter(void) {
   // initialize stack
   TREE *initial_dynamics = TLS_frame->dynamics;
@@ -268,6 +271,7 @@ void interpreter(void) {
   TLS_argument_count = 0;
 
   TLS_code = NULL;
+  tail_call_sp = tail_call_stack;
 
   enter:;
 
@@ -356,6 +360,7 @@ void interpreter(void) {
 
   execute_statements:;
 
+  const TAB_NUM *code_start = TLS_code;
   TAB_NUM functor = *TLS_code++;
   TLS_argument_count = *TLS_code++;
   int i;
@@ -383,10 +388,11 @@ void interpreter(void) {
       TLS_code += TLS_argument_count;
       TLS_result_count = *TLS_code;
       if (TLS_result_count < 0) { // it's a RETURN
+	tail_call_sp = tail_call_stack;
 	FRAME *callee_frame = TLS_frame;
 	TLS_frame = TLS_frame->link;
 	if (TLS_deny_io) --TLS_deny_io;
-          // if we do not have I/O-access then remove one level
+	  // if we do not have I/O-access then remove one level
 	TLS_code = TLS_frame->code;
 	TLS_result_count = *TLS_code;
 	if (TLS_argument_count != TLS_result_count) {
@@ -441,12 +447,14 @@ void interpreter(void) {
 
 	if (*TLS_frame->code >= 0) {
 	  // no tail call
-          if (functor >= 0 || TLS_deny_io) ++TLS_deny_io;
-            // do no increase if it is an I/O-call and we do have I/O-access
+	  if (functor >= 0 || TLS_deny_io) ++TLS_deny_io;
+	    // do no increase if it is an I/O-call and we do have I/O-access
 	  goto enter;
 	}
 
 	// tail call
+
+	*tail_call_sp++ = code_start;
 
 	if (TLS_deny_io == 0 && functor >= 0) TLS_deny_io = 1;
 	  // we had I/O-access rights but loose them due to a non-IO-tail-call
@@ -497,7 +505,7 @@ void interpreter(void) {
 	      from_arguments(TLS_frame, caller_code+i, argument_count-i);
 	  } else if (i < argument_count) {
 	    func = too_many_arguments;
-            TLS_code = caller_code;
+	    TLS_code = caller_code;
 	    goto call_c_function;
 	  }
 
@@ -615,7 +623,7 @@ void interpreter(void) {
     if (TLS_deny_io) {
       --TLS_deny_io; // we returned from the C-call
       if (TLS_deny_io && is_a_tail_call) --TLS_deny_io;
-        // we return to the caller
+	// we return to the caller
     }
     if (TLS_argument_count != TLS_result_count) {
       if (TLS_argument_count < TLS_result_count) {
@@ -633,7 +641,7 @@ void interpreter(void) {
     if (TLS_deny_io) {
       --TLS_deny_io; // we returned from the C-call
       if (TLS_deny_io && is_a_tail_call) --TLS_deny_io;
-        // we return to the caller
+	// we return to the caller
     }
     if (TLS_argument_count) { // an error object was returned
       do {
@@ -649,5 +657,6 @@ void interpreter(void) {
       set_argument(*TLS_code++, TLS_arguments[0]); // propagate error
     }
   }
+  tail_call_sp = tail_call_stack;
   goto execute_statements;
 }

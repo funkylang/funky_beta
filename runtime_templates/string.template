@@ -89,7 +89,7 @@ METHOD std_types::octet_string/_type
     CHECK(to_long(ARGUMENTS(0), &idx))
     long length = MYSELF->octet_string.length;
     if (idx < 0) idx = length+idx+1;
-    if (idx < 1 || idx > length) INVALID_INDEX
+    if (idx < 1 || idx > length) INVALID_INDEX(MYSELF);
     long offset = MYSELF->octet_string.offset;
     if (ARGUMENT_COUNT == 1)
       RETURN_SINGLE_RESULT(
@@ -138,7 +138,7 @@ METHOD quad_octet_string/_type
     CHECK(to_long(ARGUMENTS(0), &idx))
     long length = MYSELF->quad_octet_string.length;
     if (idx < 0) idx = length+idx+1;
-    if (idx < 1 || idx > length) INVALID_INDEX
+    if (idx < 1 || idx > length) INVALID_INDEX(MYSELF);
     long offset = MYSELF->quad_octet_string.offset;
     if (ARGUMENT_COUNT == 1)
       RETURN_SINGLE_RESULT(
@@ -193,16 +193,16 @@ METHOD long std_types::octet_string/_debug_string
     for (i = s; i < e; ++i) {
       uint8_t chr = node->octet_string.data->buffer[i];
       if (chr >= 0x20 && chr <= 0x7e) {
-        if (chr == '\"') {
-          len += print(&buf, "@quot;");
-        } else if (chr == '@') {
-          len += print(&buf, "@@");
-        } else {
-          if (buf) *buf++ = chr;
-          ++len;
-        }
+	if (chr == '\"') {
+	  len += print(&buf, "@quot;");
+	} else if (chr == '@') {
+	  len += print(&buf, "@@");
+	} else {
+	  if (buf) *buf++ = chr;
+	  ++len;
+	}
       } else {
-        len += print(&buf, "@0x%x;", chr);
+	len += print(&buf, "@0x%x;", chr);
       }
     }
     len += print(&buf, "\"\n");
@@ -229,17 +229,17 @@ METHOD long quad_octet_string/_debug_string
     long e = s+node->quad_octet_string.length;
     for (i = s; i < e; ++i) {
       uint32_t chr = node->quad_octet_string.data->buffer[i];
-      if (chr >= 0x20 && chr <= 0x7e || chr >= 0xa0 && chr < 0xff) {
-        if (chr == '\"') {
-          len += print(&buf, "@quot;");
-        } else if (chr == '@') {
-          len += print(&buf, "@@");
-        } else {
-          if (buf) *buf++ = chr;
-          ++len;
-        }
+      if (chr >= 0x20 && chr <= 0x7e) {
+	if (chr == '\"') {
+	  len += print(&buf, "@quot;");
+	} else if (chr == '@') {
+	  len += print(&buf, "@@");
+	} else {
+	  if (buf) *buf++ = chr;
+	  ++len;
+	}
       } else {
-        len += print(&buf, "@0x%x;", chr);
+	len += print(&buf, "@0x%x;", chr);
       }
     }
     len += print(&buf, "\"\n");
@@ -255,7 +255,7 @@ METHOD int std_types::octet_string/_get_item_of
   {
     long length = node->octet_string.length;
     if (idx < 0 || idx >= length) {
-      invalid_index();
+      invalid_index(node);
       return false;
     }
     *result_p =
@@ -273,7 +273,7 @@ METHOD int quad_octet_string/_get_item_of
   {
     long length = node->quad_octet_string.length;
     if (idx < 0 || idx >= length) {
-      invalid_index();
+      invalid_index(node);
       return false;
     }
     *result_p =
@@ -440,18 +440,18 @@ METHOD std_types::octet_string/push
     OCTET_DATA *data = self->octet_string.data;
     if (chr_code <= 0xff) {
       if (!data || data->size < end_offset+1 || data->length != end_offset) {
-        long new_size = ALLOCATION_SIZE(2*new_length);
-        OCTET_DATA *new_data = allocate_large(sizeof(OCTET_DATA)+new_size);
-        if (data) {
-          memcpy(
-            new_data->buffer,
-            data->buffer+left_start_offset,
-            length);
-        }
-        left_start_offset = 0;
-        end_offset = length;
-        new_data->size = new_size;
-        data = new_data;
+	long new_size = ALLOCATION_SIZE(2*new_length);
+	OCTET_DATA *new_data = allocate_large(sizeof(OCTET_DATA)+new_size);
+	if (data) {
+	  memcpy(
+	    new_data->buffer,
+	    data->buffer+left_start_offset,
+	    length);
+	}
+	left_start_offset = 0;
+	end_offset = length;
+	new_data->size = new_size;
+	data = new_data;
       }
       data->buffer[end_offset] = (uint8_t)chr_code;
       data->length = end_offset+1;
@@ -463,10 +463,10 @@ METHOD std_types::octet_string/push
       new_data->size = new_size;
       new_data->length = new_length;
       if (data) {
-        long idx;
-        for (idx = 0; idx < length; ++idx) {
-          new_data->buffer[idx] = data->buffer[left_start_offset+idx];
-        }
+	long idx;
+	for (idx = 0; idx < length; ++idx) {
+	  new_data->buffer[idx] = data->buffer[left_start_offset+idx];
+	}
       }
       new_data->buffer[length] = chr_code;
       RETURN_SINGLE_RESULT(
@@ -492,10 +492,10 @@ METHOD quad_octet_string/push
       long new_size = ALLOCATION_SIZE(4*2*new_length);
       QUAD_OCTET_DATA *new_data = allocate_large(sizeof(QUAD_OCTET_DATA)+new_size);
       if (data) {
-        memcpy(
-          new_data->buffer,
-          data->buffer+start_offset,
-          4*length);
+	memcpy(
+	  new_data->buffer,
+	  data->buffer+start_offset,
+	  4*length);
       }
       start_offset = 0;
       end_offset = length;
@@ -542,7 +542,7 @@ METHOD std_types::octet_string/append
       new_data->length = new_length;
       long idx;
       for (idx = 0; idx < left_length; ++idx) {
-        new_data->buffer[idx] = data->buffer[left_offset+idx];
+	new_data->buffer[idx] = data->buffer[left_offset+idx];
       }
       long offset = left_length;
       for (i = 1; i < ARGUMENT_COUNT; ++i) {
@@ -569,14 +569,14 @@ METHOD std_types::octet_string/append
 	!data || data->size < left_offset+new_length ||
 	data->length != left_offset+left_length
       ) {
-        long new_size = ALLOCATION_SIZE(2*new_length);
-        OCTET_DATA *new_data = allocate_large(sizeof(OCTET_DATA)+new_size);
+	long new_size = ALLOCATION_SIZE(2*new_length);
+	OCTET_DATA *new_data = allocate_large(sizeof(OCTET_DATA)+new_size);
 	if (data) {
 	  memcpy(new_data->buffer, data->buffer+left_offset, left_length);
 	}
-        left_offset = 0;
-        new_data->size = new_size;
-        data = new_data;
+	left_offset = 0;
+	new_data->size = new_size;
+	data = new_data;
       }
       long offset = left_offset+left_length;
       for (i = 1; i < ARGUMENT_COUNT; ++i) {
@@ -670,8 +670,8 @@ METHOD std_types::octet_string/range
     long length = self->octet_string.length;
     if (first_idx < 0) first_idx = length+first_idx+1;
     if (last_idx < 0) last_idx = length+last_idx+1;
-    if (first_idx < 1 || first_idx > length+1) INVALID_INDEX
-    if (last_idx < 0 || last_idx > length) INVALID_INDEX
+    if (first_idx < 1 || first_idx > length+1) INVALID_INDEX(self);
+    if (last_idx < 0 || last_idx > length) INVALID_INDEX(self);
     if (first_idx > last_idx+1) INVALID_ARGUMENTS
     if (first_idx == 1 && last_idx == length) RETURN_SINGLE_RESULT(self)
     long new_len = last_idx-first_idx+1;
@@ -679,7 +679,7 @@ METHOD std_types::octet_string/range
     RETURN_SINGLE_RESULT(
       CREATE(
 	std_types::octet_string,
-        self->octet_string.offset+first_idx-1,
+	self->octet_string.offset+first_idx-1,
 	new_len, self->octet_string.data))
   }
 
@@ -696,8 +696,8 @@ METHOD quad_octet_string/range
     long length = self->octet_string.length;
     if (first_idx < 0) first_idx = length+first_idx+1;
     if (last_idx < 0) last_idx = length+last_idx+1;
-    if (first_idx < 1 || first_idx > length+1) INVALID_INDEX
-    if (last_idx < 0 || last_idx > length) INVALID_INDEX
+    if (first_idx < 1 || first_idx > length+1) INVALID_INDEX(self);
+    if (last_idx < 0 || last_idx > length) INVALID_INDEX(self);
     if (first_idx > last_idx+1) INVALID_ARGUMENTS
     if (first_idx == 1 && last_idx == length) RETURN_SINGLE_RESULT(self)
     long new_len = last_idx-first_idx+1;
@@ -707,8 +707,8 @@ METHOD quad_octet_string/range
     QUAD_OCTET_DATA *data = self->quad_octet_string.data;
     for (idx = first_idx-1; idx < last_idx; ++idx) {
       if (data->buffer[offset+idx] > 0xff) {
-        RETURN_SINGLE_RESULT(
-          CREATE(
+	RETURN_SINGLE_RESULT(
+	  CREATE(
 	    quad_octet_string, offset+first_idx-1, new_len, data))
       }
     }
@@ -736,8 +736,8 @@ METHOD std_types::octet_string/hash
     long i;
     if (length > 16) {
       for (i = length-8; i < length; ++i) {
-        hash = (hash << 7) | (hash >> 25);
-        hash ^= buf[i];
+	hash = (hash << 7) | (hash >> 25);
+	hash ^= buf[i];
       }
       length = 8;
     }
@@ -764,8 +764,8 @@ METHOD quad_octet_string/hash
     long i;
     if (length > 16) {
       for (i = length-8; i < length; ++i) {
-        hash = (hash << 13) | (hash >> 19);
-        hash ^= buf[i];
+	hash = (hash << 13) | (hash >> 19);
+	hash ^= buf[i];
       }
       length = 8;
     }
@@ -857,20 +857,20 @@ METHOD std_types::octet_string/less
       long left_length = left->octet_string.length;
       long right_length = right->octet_string.length;
       if (left_offset == right_offset && left_length == right_length && left_data == right_data)
-        RETURN_FALSE
+	RETURN_FALSE
       long length = left_length;
       if (right_length < length) length = right_length;
       long i;
       for (i = 0; i < length; ++i) {
-        uint8_t left_chr = left_data->buffer[left_offset+i];
-        uint8_t right_chr = right_data->buffer[right_offset+i];
-        if (left_chr < right_chr) RETURN_TRUE
-        if (left_chr > right_chr) RETURN_FALSE
+	uint8_t left_chr = left_data->buffer[left_offset+i];
+	uint8_t right_chr = right_data->buffer[right_offset+i];
+	if (left_chr < right_chr) RETURN_TRUE
+	if (left_chr > right_chr) RETURN_FALSE
       }
       if (left_length < right_length) RETURN_TRUE
       if (left_offset == right_offset && left_length == right_length) { // both strings are equal!
-        // join the two versions of the string data to simplify future comparisons
-        join_nodes(&left->octet_string.data, &right->octet_string.data);
+	// join the two versions of the string data to simplify future comparisons
+	join_nodes(&left->octet_string.data, &right->octet_string.data);
       }
       RETURN_FALSE
     } else if (TYPEOF(right) == TYPE(quad_octet_string)) {
@@ -884,10 +884,10 @@ METHOD std_types::octet_string/less
       if (right_length < length) length = right_length;
       long i;
       for (i = 0; i < length; ++i) {
-        uint32_t left_chr = left_data->buffer[left_offset+i];
-        uint32_t right_chr = right_data->buffer[right_offset+i];
-        if (left_chr < right_chr) RETURN_TRUE
-        if (left_chr > right_chr) RETURN_FALSE
+	uint32_t left_chr = left_data->buffer[left_offset+i];
+	uint32_t right_chr = right_data->buffer[right_offset+i];
+	if (left_chr < right_chr) RETURN_TRUE
+	if (left_chr > right_chr) RETURN_FALSE
       }
       if (left_length < right_length) RETURN_TRUE
       RETURN_FALSE
@@ -916,10 +916,10 @@ METHOD quad_octet_string/less
       if (right_length < length) length = right_length;
       long i;
       for (i = 0; i < length; ++i) {
-        uint32_t left_chr = left_data->buffer[left_offset+i];
-        uint32_t right_chr = right_data->buffer[right_offset+i];
-        if (left_chr < right_chr) RETURN_TRUE
-        if (left_chr > right_chr) RETURN_FALSE
+	uint32_t left_chr = left_data->buffer[left_offset+i];
+	uint32_t right_chr = right_data->buffer[right_offset+i];
+	if (left_chr < right_chr) RETURN_TRUE
+	if (left_chr > right_chr) RETURN_FALSE
       }
       if (left_length < right_length) RETURN_TRUE
       RETURN_FALSE
@@ -931,25 +931,64 @@ METHOD quad_octet_string/less
       long left_length = left->quad_octet_string.length;
       long right_length = right->quad_octet_string.length;
       if (left_offset == right_offset && left_length == right_length && left_data == right_data)
-        RETURN_FALSE
+	RETURN_FALSE
       long length = left_length;
       if (right_length < length) length = right_length;
       long i;
       for (i = 0; i < length; ++i) {
-        uint32_t left_chr = left_data->buffer[left_offset+i];
-        uint32_t right_chr = right_data->buffer[right_offset+i];
-        if (left_chr < right_chr) RETURN_TRUE
-        if (left_chr > right_chr) RETURN_FALSE
+	uint32_t left_chr = left_data->buffer[left_offset+i];
+	uint32_t right_chr = right_data->buffer[right_offset+i];
+	if (left_chr < right_chr) RETURN_TRUE
+	if (left_chr > right_chr) RETURN_FALSE
       }
       if (left_length < right_length) RETURN_TRUE
       if (left_offset == right_offset && left_length == right_length) { // both strings are equal!
-        // join the two versions of the string data to simplify future comparisons
-        join_nodes(&left->octet_string.data, &right->octet_string.data);
+	// join the two versions of the string data to simplify future comparisons
+	join_nodes(&left->octet_string.data, &right->octet_string.data);
       }
       RETURN_FALSE
     } else {
       INVALID_ARGUMENTS
     }
+  }
+
+METHOD std_types::octet_string/width_of
+  #
+    returns the number of character positions needed to print the string
+  {
+    CHECK_ARGUMENTS(1)
+    CHECK_RESULTS(1)
+    long width = 0;
+    NODE *string = ARGUMENTS(0);
+    OCTET_DATA *data = string->octet_string.data;
+    long offset = string->octet_string.offset;
+    long length = string->octet_string.length;
+    for (long i = 0; i < length; ++i) {
+      uint8_t chr = data->buffer[offset+i];
+      if (!is_a_zero_width_character(chr)) ++width;
+    }
+    RETURN_SINGLE_RESULT(from_long(width))
+  }
+
+METHOD quad_octet_string/width_of
+  #
+    returns the number of character positions needed to print the string
+  {
+    CHECK_ARGUMENTS(1)
+    CHECK_RESULTS(1)
+    long width = 0;
+    NODE *string = ARGUMENTS(0);
+    QUAD_OCTET_DATA *data = string->quad_octet_string.data;
+    long offset = string->quad_octet_string.offset;
+    long length = string->quad_octet_string.length;
+    for (long i = 0; i < length; ++i) {
+      uint32_t chr = data->buffer[offset+i];
+      if (!is_a_zero_width_character(chr)) {
+	if (is_a_wide_character(chr)) width += 2;
+	else ++width;
+      }
+    }
+    RETURN_SINGLE_RESULT(from_long(width))
   }
 
 METHOD std_types::octet_string/from_utf8
@@ -972,31 +1011,31 @@ METHOD std_types::octet_string/from_utf8
       int n; // number of continuation octets
       chr = buf[src_idx++];
       if (chr >= 0x80) {
-        if ((chr & 0xe0) == 0xc0) { // 2 byte code
-          if (chr & 0x3c) is_latin_1 = false; // more than 8 bits
-          n = 1;
-        } else if ((chr & 0xf0) == 0xe0) { // 3 byte code
-          is_latin_1 = false;
-          n = 2;
-        } else if ((chr & 0xf8) == 0xf0) { // 4 byte code
-          is_latin_1 = false;
-          n = 3;
-        } else if ((chr & 0xfc) == 0xf8) { // 5 byte code
-          is_latin_1 = false;
-          n = 4;
-        } else if ((chr & 0xfe) == 0xfc) { // 6 byte code
-          is_latin_1 = false;
-          n = 5;
-        } else if (chr == 0xfe) { // 7 byte code
-          if (buf[src_idx] & 0x3e) INVALID_ARGUMENTS // more than 32 bits
-          is_latin_1 = false;
-          n = 6;
-        } else INVALID_ARGUMENTS
+	if ((chr & 0xe0) == 0xc0) { // 2 byte code
+	  if (chr & 0x3c) is_latin_1 = false; // more than 8 bits
+	  n = 1;
+	} else if ((chr & 0xf0) == 0xe0) { // 3 byte code
+	  is_latin_1 = false;
+	  n = 2;
+	} else if ((chr & 0xf8) == 0xf0) { // 4 byte code
+	  is_latin_1 = false;
+	  n = 3;
+	} else if ((chr & 0xfc) == 0xf8) { // 5 byte code
+	  is_latin_1 = false;
+	  n = 4;
+	} else if ((chr & 0xfe) == 0xfc) { // 6 byte code
+	  is_latin_1 = false;
+	  n = 5;
+	} else if (chr == 0xfe) { // 7 byte code
+	  if (buf[src_idx] & 0x3e) INVALID_ARGUMENTS // more than 32 bits
+	  is_latin_1 = false;
+	  n = 6;
+	} else INVALID_ARGUMENTS
 	if (src_idx+n > length) INVALID_ARGUMENTS
-        while (--n >= 0) {
-          chr = buf[src_idx++];
-          if ((chr & 0xc0) != 0x80) INVALID_ARGUMENTS
-        }
+	while (--n >= 0) {
+	  chr = buf[src_idx++];
+	  if ((chr & 0xc0) != 0x80) INVALID_ARGUMENTS
+	}
       }
       ++new_length;
     }
@@ -1007,12 +1046,12 @@ METHOD std_types::octet_string/from_utf8
       data->length = new_length;
       src_idx = 0;
       for (dest_idx = 0; dest_idx < new_length; ++dest_idx) {
-        uint8_t chr;
-        chr = buf[src_idx++];
-        if (chr >= 0x80) {
-          chr = ((chr & 0x1f) << 6) | (buf[src_idx++] & 0x3f);
-        }
-        data->buffer[dest_idx] = chr;
+	uint8_t chr;
+	chr = buf[src_idx++];
+	if (chr >= 0x80) {
+	  chr = ((chr & 0x1f) << 6) | (buf[src_idx++] & 0x3f);
+	}
+	data->buffer[dest_idx] = chr;
       }
       RETURN_SINGLE_RESULT(CREATE(std_types::octet_string, 0, new_length, data))
     } else {
@@ -1022,34 +1061,34 @@ METHOD std_types::octet_string/from_utf8
       data->length = new_length;
       src_idx = 0;
       for (dest_idx = 0; dest_idx < new_length; ++dest_idx) {
-        uint32_t chr;
-        chr = buf[src_idx++];
-        if (chr >= 0x80) {
-          int n; // number of continuation octets
-          if ((chr & 0xe0) == 0xc0) { // 2 byte code
-            chr &= 0x1f;
-            n = 1;
-          } else if ((chr & 0xf0) == 0xe0) { // 3 byte code
-            chr &= 0x0f;
-            n = 2;
-          } else if ((chr & 0xf8) == 0xf0) { // 4 byte code
-            chr &= 0x07;
-            n = 3;
-          } else if ((chr & 0xfc) == 0xf8) { // 5 byte code
-            chr &= 0x03;
-            n = 4;
-          } else if ((chr & 0xfe) == 0xfc) { // 6 byte code
-            chr &= 0x01;
-            n = 5;
-          } else { // 7 byte code
-            chr = 0;
-            n = 6;
-          }
-          while (--n >= 0) {
-            chr = (chr << 6) | (buf[src_idx++] & 0x3f);
-          }
-        }
-        data->buffer[dest_idx] = chr;
+	uint32_t chr;
+	chr = buf[src_idx++];
+	if (chr >= 0x80) {
+	  int n; // number of continuation octets
+	  if ((chr & 0xe0) == 0xc0) { // 2 byte code
+	    chr &= 0x1f;
+	    n = 1;
+	  } else if ((chr & 0xf0) == 0xe0) { // 3 byte code
+	    chr &= 0x0f;
+	    n = 2;
+	  } else if ((chr & 0xf8) == 0xf0) { // 4 byte code
+	    chr &= 0x07;
+	    n = 3;
+	  } else if ((chr & 0xfc) == 0xf8) { // 5 byte code
+	    chr &= 0x03;
+	    n = 4;
+	  } else if ((chr & 0xfe) == 0xfc) { // 6 byte code
+	    chr &= 0x01;
+	    n = 5;
+	  } else { // 7 byte code
+	    chr = 0;
+	    n = 6;
+	  }
+	  while (--n >= 0) {
+	    chr = (chr << 6) | (buf[src_idx++] & 0x3f);
+	  }
+	}
+	data->buffer[dest_idx] = chr;
       }
       RETURN_SINGLE_RESULT(CREATE(quad_octet_string, 0, new_length, data))
     }
@@ -1069,7 +1108,7 @@ METHOD std_types::octet_string/to_utf8
     for(i = 0; i < length; ++i) {
       uint8_t chr = src[i];
       if (chr >= 0x80) {
-        ++new_len;
+	++new_len;
       }
     }
     long size = ALLOCATION_SIZE(new_len);
@@ -1080,10 +1119,10 @@ METHOD std_types::octet_string/to_utf8
     for(i = 0; i < length; ++i) {
       uint8_t chr = src[i];
       if (chr >= 0x80) {
-        *dst++ = chr >> 6 | 0xc0;
-        *dst++ = chr & 0x3f | 0x80;
+	*dst++ = chr >> 6 | 0xc0;
+	*dst++ = chr & 0x3f | 0x80;
       } else {
-        *dst++ = chr;
+	*dst++ = chr;
       }
     }
     RETURN_SINGLE_RESULT(CREATE(std_types::octet_string, 0, new_len, data))
@@ -1114,27 +1153,27 @@ METHOD quad_octet_string/to_utf8
     for(i = 0; i < length; ++i) {
       uint32_t chr = src[i];
       if (chr >= 0x80) {
-        if (chr >= 0x800) {
-          if (chr >= 0x10000) {
-            if (chr >= 0x200000) {
-              if (chr >= 0x4000000) {
-                if (chr >= 0x80000000) {
-                  new_len += 6;
-                } else {
-                  new_len += 5;
-                }
-              } else {
-                new_len += 4;
-              }
-            } else {
-              new_len += 3;
-            }
-          } else {
-            new_len += 2;
-          }
-        } else {
-          ++new_len;
-        }
+	if (chr >= 0x800) {
+	  if (chr >= 0x10000) {
+	    if (chr >= 0x200000) {
+	      if (chr >= 0x4000000) {
+		if (chr >= 0x80000000) {
+		  new_len += 6;
+		} else {
+		  new_len += 5;
+		}
+	      } else {
+		new_len += 4;
+	      }
+	    } else {
+	      new_len += 3;
+	    }
+	  } else {
+	    new_len += 2;
+	  }
+	} else {
+	  ++new_len;
+	}
       }
     }
     long size = ALLOCATION_SIZE(new_len);
@@ -1145,50 +1184,50 @@ METHOD quad_octet_string/to_utf8
     for(i = 0; i < length; ++i) {
       uint32_t chr = src[i];
       if (chr >= 0x80) {
-        if (chr >= 0x800) {
-          if (chr >= 0x10000) {
-            if (chr >= 0x200000) {
-              if (chr >= 0x4000000) {
-                if (chr >= 0x80000000) {
-                  *dst++ = 0xfe;
-                  *dst++ = (chr >> 30) & 0x3f | 0x80;
-                  *dst++ = (chr >> 24) & 0x3f | 0x80;
-                  *dst++ = (chr >> 18) & 0x3f | 0x80;
-                  *dst++ = (chr >> 12) & 0x3f | 0x80;
-                  *dst++ = (chr >> 6) & 0x3f | 0x80;
-                  *dst++ = chr & 0x3f | 0x80;
-                } else {
-                  *dst++ = chr >> 30 | 0xfc0;
-                  *dst++ = (chr >> 24) & 0x3f | 0x80;
-                  *dst++ = (chr >> 18) & 0x3f | 0x80;
-                  *dst++ = (chr >> 12) & 0x3f | 0x80;
-                  *dst++ = (chr >> 6) & 0x3f | 0x80;
-                  *dst++ = chr & 0x3f | 0x80;
-                }
-              } else {
-                *dst++ = chr >> 24 | 0xf8;
-                *dst++ = (chr >> 18) & 0x3f | 0x80;
-                *dst++ = (chr >> 12) & 0x3f | 0x80;
-                *dst++ = (chr >> 6) & 0x3f | 0x80;
-                *dst++ = chr & 0x3f | 0x80;
-              }
-            } else {
-              *dst++ = chr >> 18 | 0xf0;
-              *dst++ = (chr >> 12) & 0x3f | 0x80;
-              *dst++ = (chr >> 6) & 0x3f | 0x80;
-              *dst++ = chr & 0x3f | 0x80;
-            }
-          } else {
-            *dst++ = chr >> 12 | 0xe0;
-            *dst++ = (chr >> 6) & 0x3f | 0x80;
-            *dst++ = chr & 0x3f | 0x80;
-          }
-        } else {
-          *dst++ = chr >> 6 | 0xc0;
-          *dst++ = chr & 0x3f | 0x80;
-        }
+	if (chr >= 0x800) {
+	  if (chr >= 0x10000) {
+	    if (chr >= 0x200000) {
+	      if (chr >= 0x4000000) {
+		if (chr >= 0x80000000) {
+		  *dst++ = 0xfe;
+		  *dst++ = (chr >> 30) & 0x3f | 0x80;
+		  *dst++ = (chr >> 24) & 0x3f | 0x80;
+		  *dst++ = (chr >> 18) & 0x3f | 0x80;
+		  *dst++ = (chr >> 12) & 0x3f | 0x80;
+		  *dst++ = (chr >> 6) & 0x3f | 0x80;
+		  *dst++ = chr & 0x3f | 0x80;
+		} else {
+		  *dst++ = chr >> 30 | 0xfc0;
+		  *dst++ = (chr >> 24) & 0x3f | 0x80;
+		  *dst++ = (chr >> 18) & 0x3f | 0x80;
+		  *dst++ = (chr >> 12) & 0x3f | 0x80;
+		  *dst++ = (chr >> 6) & 0x3f | 0x80;
+		  *dst++ = chr & 0x3f | 0x80;
+		}
+	      } else {
+		*dst++ = chr >> 24 | 0xf8;
+		*dst++ = (chr >> 18) & 0x3f | 0x80;
+		*dst++ = (chr >> 12) & 0x3f | 0x80;
+		*dst++ = (chr >> 6) & 0x3f | 0x80;
+		*dst++ = chr & 0x3f | 0x80;
+	      }
+	    } else {
+	      *dst++ = chr >> 18 | 0xf0;
+	      *dst++ = (chr >> 12) & 0x3f | 0x80;
+	      *dst++ = (chr >> 6) & 0x3f | 0x80;
+	      *dst++ = chr & 0x3f | 0x80;
+	    }
+	  } else {
+	    *dst++ = chr >> 12 | 0xe0;
+	    *dst++ = (chr >> 6) & 0x3f | 0x80;
+	    *dst++ = chr & 0x3f | 0x80;
+	  }
+	} else {
+	  *dst++ = chr >> 6 | 0xc0;
+	  *dst++ = chr & 0x3f | 0x80;
+	}
       } else {
-        *dst++ = chr;
+	*dst++ = chr;
       }
     }
     RETURN_SINGLE_RESULT(CREATE(std_types::octet_string, 0, new_len, data))

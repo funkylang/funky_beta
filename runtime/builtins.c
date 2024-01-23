@@ -101,6 +101,7 @@ enum {
   func__std_types___character___std___hash,
   func__std_types___character___std___to_string,
   func__std_types___character___std___to_integer,
+  func__std_types___character___std___width_of,
   func__std___from_unix_time,
   func__std___date_and_time,
   func__std_types___date_and_time___std___year_of,
@@ -298,6 +299,8 @@ enum {
   func__quad_octet_string___std___equal,
   func__std_types___octet_string___std___less,
   func__quad_octet_string___std___less,
+  func__std_types___octet_string___std___width_of,
+  func__quad_octet_string___std___width_of,
   func__std_types___octet_string___std___from_utf8,
   func__std_types___octet_string___std___to_utf8,
   func__quad_octet_string___std___to_utf8,
@@ -346,6 +349,7 @@ enum {
   func__std___is_a_letter_character,
   func__std___is_a_whitespace_character,
   func__std___is_a_zero_width_character,
+  func__std___is_a_wide_character,
   func__std_types___unique_item___std___to_string,
   func__std_types___unique_item___std___equal,
   func__std_types___unique_item___std___hash,
@@ -395,6 +399,7 @@ enum {
   var_no__std___is_empty,
   var_no__std___is_not_empty,
   var_no__std___length_of,
+  var_no__std___width_of,
   var_no__std___hash,
   var_no__std___push,
   var_no__std___pop,
@@ -780,6 +785,7 @@ enum {
   var_no__std___is_a_letter_character,
   var_no__std___is_a_whitespace_character,
   var_no__std___is_a_zero_width_character,
+  var_no__std___is_a_wide_character,
   var_no__std_types___unique_item,
   var_no__std___unique_item,
   var_no__std_types___value_range,
@@ -1656,6 +1662,7 @@ static void *add_update
 
 static long compute_array_offset
   (
+    NODE *array,
     ARRAY_INFO *info
   )
   {
@@ -1671,7 +1678,7 @@ static long compute_array_offset
       --idx;
     }
     if (idx < 0 || idx >= info->dimensions[i]) {
-      invalid_index();
+      invalid_index(array);
       return -1;
     }
     offset += idx;
@@ -3176,6 +3183,31 @@ int propagate_error
     return false;
   }
 
+extern const TAB_NUM *tail_call_stack[256];
+extern const TAB_NUM **tail_call_sp;
+extern int do_dump_errors;
+
+void print_code_reference
+  (
+    const TAB_NUM *code
+  )
+  {
+    const char *module_name, *function_name;
+    int line_no, column_no;
+    retrieve_continuation_info(
+      code, &module_name, &function_name, &line_no, &column_no);
+    if (function_name) {
+      fprintf(stderr, "%s ", function_name);
+    } else {
+      fprintf(stderr, "<anonymous function> ");
+    }
+    fprintf(stderr, "(called from %s", module_name);
+    if (line_no > 0) {
+      fprintf(stderr, ", line: %d, column: %d", line_no, column_no);
+    }
+    fprintf(stderr, ")\n");
+  }
+
 void create_error_message
   (
     NODE *category,
@@ -3194,12 +3226,15 @@ void create_error_message
       }
     }
     if (!err) {
+      if (do_dump_errors) {
+	fprintf(stderr, "create error message \"%s\"\n", msg);
+      }
       long size = ALLOCATION_SIZE(strlen(msg)+1);
       MESSAGE_TEXT *message = allocate(sizeof(MESSAGE_TEXT)+size);
       message->size = size;
       strcpy(message->text, msg);
       TLS_frame->code = TLS_code; // this was not initialized by the caller!
-      long n = 0;
+      long n = tail_call_sp-tail_call_stack;
       FRAME *trace = TLS_frame;
       while (trace) {
 	++n;
@@ -3208,8 +3243,17 @@ void create_error_message
       FUNC_DATA *data = allocate_large(sizeof(FUNC_DATA)+n*sizeof(TAB_NUM *));
       data->length = n;
       n = 0;
+      while (tail_call_sp > tail_call_stack) {
+	const TAB_NUM *code = *--tail_call_sp;
+	if (do_dump_errors) {
+	  fprintf(stderr, "tail call: ");
+	  print_code_reference(code);
+	}
+	data->entries[n++] = code;
+      }
       trace = TLS_frame;
       while (trace) {
+	if (do_dump_errors) print_code_reference(trace->code);
 	data->entries[n++] = trace->code;
 	trace = trace->link;
       }
@@ -3751,12 +3795,12 @@ void invalid_results
 
 void invalid_index
   (
-    void
+    NODE *node
   )
   {
     create_error_message(
       module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
-      "INVALID INDEX", 0, 0, NULL);
+      "INVALID INDEX", 0, 0, node);
   }
 
 void divide_by_zero
@@ -4023,7 +4067,7 @@ static int std_types___list____get_item_of
   {
     long length = node->list.length;
     if (idx < 0 || idx >= length) {
-      invalid_index();
+      invalid_index(node);
       return false;
     }
     *result_p = node->list.data->items[node->list.offset+idx];
@@ -5349,7 +5393,7 @@ static long quad_octet_string____debug_string
     long e = s+node->quad_octet_string.length;
     for (i = s; i < e; ++i) {
       uint32_t chr = node->quad_octet_string.data->buffer[i];
-      if (chr >= 0x20 && chr <= 0x7e || chr >= 0xa0 && chr < 0xff) {
+      if (chr >= 0x20 && chr <= 0x7e) {
 	if (chr == '\"') {
 	  len += print(&buf, "@quot;");
 	} else if (chr == '@') {
@@ -5375,7 +5419,7 @@ static int std_types___octet_string____get_item_of
   {
     long length = node->octet_string.length;
     if (idx < 0 || idx >= length) {
-      invalid_index();
+      invalid_index(node);
       return false;
     }
     *result_p =
@@ -5393,7 +5437,7 @@ static int quad_octet_string____get_item_of
   {
     long length = node->quad_octet_string.length;
     if (idx < 0 || idx >= length) {
-      invalid_index();
+      invalid_index(node);
       return false;
     }
     *result_p =
@@ -6287,7 +6331,7 @@ int is_an_upper_case_letter_character
     if (chr == 0x2145) return true;
     if (chr == 0x2183) return true;
     if (chr < 0x2c00) return false;
-    if (chr <= 0x2c2e) return true;
+    if (chr <= 0x2c2f) return true;
     if (chr < 0x2c60) return false;
     if ((chr & 1) == 0 && chr <= 0x2c62) return true;
     if (chr < 0x2c63) return false;
@@ -6328,12 +6372,13 @@ int is_an_upper_case_letter_character
     if (chr < 0xa7b0) return false;
     if (chr <= 0xa7b4) return true;
     if (chr < 0xa7b6) return false;
-    if ((chr & 1) == 0 && chr <= 0xa7be) return true;
-    if (chr < 0xa7c2) return false;
     if ((chr & 1) == 0 && chr <= 0xa7c4) return true;
     if (chr < 0xa7c5) return false;
     if (chr <= 0xa7c7) return true;
     if (chr == 0xa7c9) return true;
+    if (chr == 0xa7d0) return true;
+    if (chr < 0xa7d6) return false;
+    if ((chr & 1) == 0 && chr <= 0xa7d8) return true;
     if (chr == 0xa7f5) return true;
     if (chr < 0xff21) return false;
     if (chr <= 0xff3a) return true;
@@ -6341,6 +6386,14 @@ int is_an_upper_case_letter_character
     if (chr <= 0x10427) return true;
     if (chr < 0x104b0) return false;
     if (chr <= 0x104d3) return true;
+    if (chr < 0x10570) return false;
+    if (chr <= 0x1057a) return true;
+    if (chr < 0x1057c) return false;
+    if (chr <= 0x1058a) return true;
+    if (chr < 0x1058c) return false;
+    if (chr <= 0x10592) return true;
+    if (chr < 0x10594) return false;
+    if (chr <= 0x10595) return true;
     if (chr < 0x10c80) return false;
     if (chr <= 0x10cb2) return true;
     if (chr < 0x118a0) return false;
@@ -6635,7 +6688,7 @@ static uint32_t to_upper_case
     if (chr < 0x24d0) return chr;
     if (chr <= 0x24e9) return chr-0x1a;
     if (chr < 0x2c30) return chr;
-    if (chr <= 0x2c5e) return chr-0x30;
+    if (chr <= 0x2c5f) return chr-0x30;
     if (chr == 0x2c61) return chr-1;
     if (chr == 0x2c65) return chr-0x2a2b;
     if (chr == 0x2c66) return chr-0x2a28;
@@ -6671,10 +6724,12 @@ static uint32_t to_upper_case
     if (chr < 0xa797) return chr;
     if ((chr & 1) == 1 && chr <= 0xa7a9) return chr-1;
     if (chr < 0xa7b5) return chr;
-    if ((chr & 1) == 1 && chr <= 0xa7bf) return chr-1;
-    if (chr == 0xa7c3) return chr-1;
+    if ((chr & 1) == 1 && chr <= 0xa7c3) return chr-1;
     if (chr < 0xa7c8) return chr;
     if ((chr & 1) == 0 && chr <= 0xa7ca) return chr-1;
+    if (chr == 0xa7d1) return chr-1;
+    if (chr < 0xa7d7) return chr;
+    if ((chr & 1) == 1 && chr <= 0xa7d9) return chr-1;
     if (chr == 0xa7f6) return chr-1;
     if (chr == 0xab53) return chr-0x3a0;
     if (chr < 0xab70) return chr;
@@ -6685,6 +6740,14 @@ static uint32_t to_upper_case
     if (chr <= 0x1044f) return chr-0x28;
     if (chr < 0x104d8) return chr;
     if (chr <= 0x104fb) return chr-0x28;
+    if (chr < 0x10597) return chr;
+    if (chr <= 0x105a1) return chr-0x27;
+    if (chr < 0x105a3) return chr;
+    if (chr <= 0x105b1) return chr-0x27;
+    if (chr < 0x105b3) return chr;
+    if (chr <= 0x105b9) return chr-0x27;
+    if (chr < 0x105bb) return chr;
+    if (chr <= 0x105bc) return chr-0x27;
     if (chr < 0x10cc0) return chr;
     if (chr <= 0x10cf2) return chr-0x40;
     if (chr < 0x118c0) return chr;
@@ -6871,7 +6934,7 @@ int is_a_lower_case_letter_character
     if (chr == 0x214e) return true;
     if (chr == 0x2184) return true;
     if (chr < 0x2c30) return false;
-    if (chr <= 0x2c5e) return true;
+    if (chr <= 0x2c5f) return true;
     if (chr == 0x2c61) return true;
     if (chr < 0x2c65) return false;
     if (chr <= 0x2c66) return true;
@@ -6919,10 +6982,11 @@ int is_a_lower_case_letter_character
     if ((chr & 1) == 1 && chr <= 0xa7a9) return true;
     if (chr == 0xa7af) return true;
     if (chr < 0xa7b5) return false;
-    if ((chr & 1) == 1 && chr <= 0xa7bf) return true;
-    if (chr == 0xa7c3) return true;
+    if ((chr & 1) == 1 && chr <= 0xa7c3) return true;
     if (chr < 0xa7c8) return false;
     if ((chr & 1) == 0 && chr <= 0xa7ca) return true;
+    if (chr < 0xa7d1) return false;
+    if ((chr & 1) == 1 && chr <= 0xa7d9) return true;
     if (chr == 0xa7f6) return true;
     if (chr == 0xa7fa) return true;
     if (chr < 0xab30) return false;
@@ -6941,6 +7005,14 @@ int is_a_lower_case_letter_character
     if (chr <= 0x1044f) return true;
     if (chr < 0x104d8) return false;
     if (chr <= 0x104fb) return true;
+    if (chr < 0x10597) return false;
+    if (chr <= 0x105a1) return true;
+    if (chr < 0x105a3) return false;
+    if (chr <= 0x105b1) return true;
+    if (chr < 0x105b3) return false;
+    if (chr <= 0x105b9) return true;
+    if (chr < 0x105bb) return false;
+    if (chr <= 0x105bc) return true;
     if (chr < 0x10cc0) return false;
     if (chr <= 0x10cf2) return true;
     if (chr < 0x118c0) return false;
@@ -7002,6 +7074,12 @@ int is_a_lower_case_letter_character
     if (chr < 0x1d7c4) return false;
     if (chr <= 0x1d7c9) return true;
     if (chr == 0x1d7cb) return true;
+    if (chr < 0x1df00) return false;
+    if (chr <= 0x1df09) return true;
+    if (chr < 0x1df0b) return false;
+    if (chr <= 0x1df1e) return true;
+    if (chr < 0x1df25) return false;
+    if (chr <= 0x1df2a) return true;
     if (chr < 0x1e922) return false;
     if (chr <= 0x1e943) return true;
     return false;
@@ -7201,7 +7279,7 @@ static uint32_t to_lower_case
     if (chr < 0x24b6) return chr;
     if (chr <= 0x24cf) return chr+0x1a;
     if (chr < 0x2c00) return chr;
-    if (chr <= 0x2c2e) return chr+0x30;
+    if (chr <= 0x2c2f) return chr+0x30;
     if (chr == 0x2c60) return chr+1;
     if (chr == 0x2c62) return chr-0x29f7;
     if (chr == 0x2c63) return chr-0xee6;
@@ -7250,13 +7328,15 @@ static uint32_t to_lower_case
     if (chr == 0xa7b2) return chr-0xa515;
     if (chr == 0xa7b3) return chr+0x3a0;
     if (chr < 0xa7b4) return chr;
-    if ((chr & 1) == 0 && chr <= 0xa7be) return chr+1;
-    if (chr == 0xa7c2) return chr+1;
+    if ((chr & 1) == 0 && chr <= 0xa7c2) return chr+1;
     if (chr == 0xa7c4) return chr-0x30;
     if (chr == 0xa7c5) return chr-0xa543;
     if (chr == 0xa7c6) return chr-0x8a38;
     if (chr < 0xa7c7) return chr;
     if ((chr & 1) == 1 && chr <= 0xa7c9) return chr+1;
+    if (chr == 0xa7d0) return chr+1;
+    if (chr < 0xa7d6) return chr;
+    if ((chr & 1) == 0 && chr <= 0xa7d8) return chr+1;
     if (chr == 0xa7f5) return chr+1;
     if (chr < 0xff21) return chr;
     if (chr <= 0xff3a) return chr+0x20;
@@ -7264,6 +7344,14 @@ static uint32_t to_lower_case
     if (chr <= 0x10427) return chr+0x28;
     if (chr < 0x104b0) return chr;
     if (chr <= 0x104d3) return chr+0x28;
+    if (chr < 0x10570) return chr;
+    if (chr <= 0x1057a) return chr+0x27;
+    if (chr < 0x1057c) return chr;
+    if (chr <= 0x1058a) return chr+0x27;
+    if (chr < 0x1058c) return chr;
+    if (chr <= 0x10592) return chr+0x27;
+    if (chr < 0x10594) return chr;
+    if (chr <= 0x10595) return chr+0x27;
     if (chr < 0x10c80) return chr;
     if (chr <= 0x10cb2) return chr+0x40;
     if (chr < 0x118a0) return chr;
@@ -7516,7 +7604,7 @@ static uint32_t to_title_case
     if (chr < 0x24d0) return chr;
     if (chr <= 0x24e9) return chr-0x1a;
     if (chr < 0x2c30) return chr;
-    if (chr <= 0x2c5e) return chr-0x30;
+    if (chr <= 0x2c5f) return chr-0x30;
     if (chr == 0x2c61) return chr-1;
     if (chr == 0x2c65) return chr-0x2a2b;
     if (chr == 0x2c66) return chr-0x2a28;
@@ -7552,10 +7640,12 @@ static uint32_t to_title_case
     if (chr < 0xa797) return chr;
     if ((chr & 1) == 1 && chr <= 0xa7a9) return chr-1;
     if (chr < 0xa7b5) return chr;
-    if ((chr & 1) == 1 && chr <= 0xa7bf) return chr-1;
-    if (chr == 0xa7c3) return chr-1;
+    if ((chr & 1) == 1 && chr <= 0xa7c3) return chr-1;
     if (chr < 0xa7c8) return chr;
     if ((chr & 1) == 0 && chr <= 0xa7ca) return chr-1;
+    if (chr == 0xa7d1) return chr-1;
+    if (chr < 0xa7d7) return chr;
+    if ((chr & 1) == 1 && chr <= 0xa7d9) return chr-1;
     if (chr == 0xa7f6) return chr-1;
     if (chr == 0xab53) return chr-0x3a0;
     if (chr < 0xab70) return chr;
@@ -7566,6 +7656,14 @@ static uint32_t to_title_case
     if (chr <= 0x1044f) return chr-0x28;
     if (chr < 0x104d8) return chr;
     if (chr <= 0x104fb) return chr-0x28;
+    if (chr < 0x10597) return chr;
+    if (chr <= 0x105a1) return chr-0x27;
+    if (chr < 0x105a3) return chr;
+    if (chr <= 0x105b1) return chr-0x27;
+    if (chr < 0x105b3) return chr;
+    if (chr <= 0x105b9) return chr-0x27;
+    if (chr < 0x105bb) return chr;
+    if (chr <= 0x105bc) return chr-0x27;
     if (chr < 0x10cc0) return chr;
     if (chr <= 0x10cf2) return chr-0x40;
     if (chr < 0x118c0) return chr;
@@ -7703,10 +7801,6 @@ int is_a_letter_character
     if (chr < 0x2183) return false;
     if (chr <= 0x2184) return true;
     if (chr < 0x2c00) return false;
-    if (chr <= 0x2c2e) return true;
-    if (chr < 0x2c30) return false;
-    if (chr <= 0x2c5e) return true;
-    if (chr < 0x2c60) return false;
     if (chr <= 0x2c7b) return true;
     if (chr < 0x2c7e) return false;
     if (chr <= 0x2ce4) return true;
@@ -7729,9 +7823,13 @@ int is_a_letter_character
     if (chr < 0xa78b) return false;
     if (chr <= 0xa78e) return true;
     if (chr < 0xa790) return false;
-    if (chr <= 0xa7bf) return true;
-    if (chr < 0xa7c2) return false;
     if (chr <= 0xa7ca) return true;
+    if (chr < 0xa7d0) return false;
+    if (chr <= 0xa7d1) return true;
+    if (chr < 0xa7d3) return false;
+    if ((chr & 1) == 1 && chr <= 0xa7d5) return true;
+    if (chr < 0xa7d6) return false;
+    if (chr <= 0xa7d9) return true;
     if (chr < 0xa7f5) return false;
     if (chr <= 0xa7f6) return true;
     if (chr == 0xa7fa) return true;
@@ -7755,6 +7853,22 @@ int is_a_letter_character
     if (chr <= 0x104d3) return true;
     if (chr < 0x104d8) return false;
     if (chr <= 0x104fb) return true;
+    if (chr < 0x10570) return false;
+    if (chr <= 0x1057a) return true;
+    if (chr < 0x1057c) return false;
+    if (chr <= 0x1058a) return true;
+    if (chr < 0x1058c) return false;
+    if (chr <= 0x10592) return true;
+    if (chr < 0x10594) return false;
+    if (chr <= 0x10595) return true;
+    if (chr < 0x10597) return false;
+    if (chr <= 0x105a1) return true;
+    if (chr < 0x105a3) return false;
+    if (chr <= 0x105b1) return true;
+    if (chr < 0x105b3) return false;
+    if (chr <= 0x105b9) return true;
+    if (chr < 0x105bb) return false;
+    if (chr <= 0x105bc) return true;
     if (chr < 0x10c80) return false;
     if (chr <= 0x10cb2) return true;
     if (chr < 0x10cc0) return false;
@@ -7821,6 +7935,12 @@ int is_a_letter_character
     if (chr <= 0x1d7c2) return true;
     if (chr < 0x1d7c4) return false;
     if (chr <= 0x1d7cb) return true;
+    if (chr < 0x1df00) return false;
+    if (chr <= 0x1df09) return true;
+    if (chr < 0x1df0b) return false;
+    if (chr <= 0x1df1e) return true;
+    if (chr < 0x1df25) return false;
+    if (chr <= 0x1df2a) return true;
     if (chr < 0x1e900) return false;
     if (chr <= 0x1e943) return true;
     return false;
@@ -7894,7 +8014,9 @@ int is_a_zero_width_character
     if (chr <= 0x82d) return true;
     if (chr < 0x859) return false;
     if (chr <= 0x85b) return true;
-    if (chr < 0x8d3) return false;
+    if (chr < 0x898) return false;
+    if (chr <= 0x89f) return true;
+    if (chr < 0x8ca) return false;
     if (chr <= 0x8e1) return true;
     if (chr < 0x8e3) return false;
     if (chr <= 0x902) return true;
@@ -7956,7 +8078,9 @@ int is_a_zero_width_character
     if (chr == 0xbcd) return true;
     if (chr == 0xc00) return true;
     if (chr == 0xc04) return true;
-    if (chr < 0xc3e) return false;
+    if (chr < 0xc3c) return false;
+    if ((chr & 1) == 0 && chr <= 0xc3e) return true;
+    if (chr < 0xc3f) return false;
     if (chr <= 0xc40) return true;
     if (chr < 0xc46) return false;
     if (chr <= 0xc48) return true;
@@ -7997,7 +8121,7 @@ int is_a_zero_width_character
     if (chr < 0xeb4) return false;
     if (chr <= 0xebc) return true;
     if (chr < 0xec8) return false;
-    if (chr <= 0xecd) return true;
+    if (chr <= 0xece) return true;
     if (chr < 0xf18) return false;
     if (chr <= 0xf19) return true;
     if (chr < 0xf35) return false;
@@ -8037,7 +8161,7 @@ int is_a_zero_width_character
     if (chr < 0x1712) return false;
     if (chr <= 0x1714) return true;
     if (chr < 0x1732) return false;
-    if (chr <= 0x1734) return true;
+    if (chr <= 0x1733) return true;
     if (chr < 0x1752) return false;
     if (chr <= 0x1753) return true;
     if (chr < 0x1772) return false;
@@ -8052,6 +8176,7 @@ int is_a_zero_width_character
     if (chr == 0x17dd) return true;
     if (chr < 0x180b) return false;
     if (chr <= 0x180d) return true;
+    if (chr == 0x180f) return true;
     if (chr < 0x1885) return false;
     if (chr <= 0x1886) return true;
     if (chr == 0x18a9) return true;
@@ -8079,7 +8204,7 @@ int is_a_zero_width_character
     if (chr < 0x1ab0) return false;
     if (chr <= 0x1abd) return true;
     if (chr < 0x1abf) return false;
-    if (chr <= 0x1ac0) return true;
+    if (chr <= 0x1ace) return true;
     if (chr < 0x1b00) return false;
     if (chr <= 0x1b03) return true;
     if (chr < 0x1b34) return false;
@@ -8120,8 +8245,6 @@ int is_a_zero_width_character
     if (chr < 0x1cf8) return false;
     if (chr <= 0x1cf9) return true;
     if (chr < 0x1dc0) return false;
-    if (chr <= 0x1df9) return true;
-    if (chr < 0x1dfb) return false;
     if (chr <= 0x1dff) return true;
     if (chr < 0x20d0) return false;
     if (chr <= 0x20dc) return true;
@@ -8215,17 +8338,25 @@ int is_a_zero_width_character
     if (chr <= 0x10d27) return true;
     if (chr < 0x10eab) return false;
     if (chr <= 0x10eac) return true;
+    if (chr < 0x10efd) return false;
+    if (chr <= 0x10eff) return true;
     if (chr < 0x10f46) return false;
     if (chr <= 0x10f50) return true;
+    if (chr < 0x10f82) return false;
+    if (chr <= 0x10f85) return true;
     if (chr == 0x11001) return true;
     if (chr < 0x11038) return false;
     if (chr <= 0x11046) return true;
+    if (chr == 0x11070) return true;
+    if (chr < 0x11073) return false;
+    if (chr <= 0x11074) return true;
     if (chr < 0x1107f) return false;
     if (chr <= 0x11081) return true;
     if (chr < 0x110b3) return false;
     if (chr <= 0x110b6) return true;
     if (chr < 0x110b9) return false;
     if (chr <= 0x110ba) return true;
+    if (chr == 0x110c2) return true;
     if (chr < 0x11100) return false;
     if (chr <= 0x11102) return true;
     if (chr < 0x11127) return false;
@@ -8246,6 +8377,7 @@ int is_a_zero_width_character
     if ((chr & 1) == 0 && chr <= 0x11236) return true;
     if (chr == 0x11237) return true;
     if (chr == 0x1123e) return true;
+    if (chr == 0x11241) return true;
     if (chr == 0x112df) return true;
     if (chr < 0x112e3) return false;
     if (chr <= 0x112ea) return true;
@@ -8351,6 +8483,15 @@ int is_a_zero_width_character
     if ((chr & 1) == 1 && chr <= 0x11d97) return true;
     if (chr < 0x11ef3) return false;
     if (chr <= 0x11ef4) return true;
+    if (chr < 0x11f00) return false;
+    if (chr <= 0x11f01) return true;
+    if (chr < 0x11f36) return false;
+    if (chr <= 0x11f3a) return true;
+    if (chr < 0x11f40) return false;
+    if ((chr & 1) == 0 && chr <= 0x11f42) return true;
+    if (chr == 0x13440) return true;
+    if (chr < 0x13447) return false;
+    if (chr <= 0x13455) return true;
     if (chr < 0x16af0) return false;
     if (chr <= 0x16af4) return true;
     if (chr < 0x16b30) return false;
@@ -8361,6 +8502,10 @@ int is_a_zero_width_character
     if (chr == 0x16fe4) return true;
     if (chr < 0x1bc9d) return false;
     if (chr <= 0x1bc9e) return true;
+    if (chr < 0x1cf00) return false;
+    if (chr <= 0x1cf2d) return true;
+    if (chr < 0x1cf30) return false;
+    if (chr <= 0x1cf46) return true;
     if (chr < 0x1d167) return false;
     if (chr <= 0x1d169) return true;
     if (chr < 0x1d17b) return false;
@@ -8391,16 +8536,227 @@ int is_a_zero_width_character
     if (chr <= 0x1e024) return true;
     if (chr < 0x1e026) return false;
     if (chr <= 0x1e02a) return true;
+    if (chr == 0x1e08f) return true;
     if (chr < 0x1e130) return false;
     if (chr <= 0x1e136) return true;
+    if (chr == 0x1e2ae) return true;
     if (chr < 0x1e2ec) return false;
     if (chr <= 0x1e2ef) return true;
+    if (chr < 0x1e4ec) return false;
+    if (chr <= 0x1e4ef) return true;
     if (chr < 0x1e8d0) return false;
     if (chr <= 0x1e8d6) return true;
     if (chr < 0x1e944) return false;
     if (chr <= 0x1e94a) return true;
     if (chr < 0xe0100) return false;
     if (chr <= 0xe01ef) return true;
+    return false;
+  }
+
+int is_a_wide_character
+  (
+    uint32_t chr
+  )
+  {
+    if (chr <= 0x10ff) return false;
+    if (chr >= 0x1100 && chr <= 0x115f) return true;
+    if (chr >= 0x1160 && chr <= 0x2319) return false;
+    if (chr >= 0x231a && chr <= 0x231b) return true;
+    if (chr >= 0x231c && chr <= 0x2328) return false;
+    if (chr >= 0x2329 && chr <= 0x232a) return true;
+    if (chr >= 0x232b && chr <= 0x23e8) return false;
+    if (chr >= 0x23e9 && chr <= 0x23ec) return true;
+    if (chr >= 0x23ed && chr <= 0x23ef) return false;
+    if (chr == 0x23f0) return true;
+    if (chr >= 0x23f1 && chr <= 0x23f2) return false;
+    if (chr == 0x23f3) return true;
+    if (chr >= 0x23f4 && chr <= 0x25fc) return false;
+    if (chr >= 0x25fd && chr <= 0x25fe) return true;
+    if (chr >= 0x25ff && chr <= 0x2613) return false;
+    if (chr >= 0x2614 && chr <= 0x2615) return true;
+    if (chr >= 0x2616 && chr <= 0x2647) return false;
+    if (chr >= 0x2648 && chr <= 0x2653) return true;
+    if (chr >= 0x2654 && chr <= 0x267e) return false;
+    if (chr == 0x267f) return true;
+    if (chr >= 0x2680 && chr <= 0x2692) return false;
+    if (chr == 0x2693) return true;
+    if (chr >= 0x2694 && chr <= 0x26a0) return false;
+    if (chr == 0x26a1) return true;
+    if (chr >= 0x26a2 && chr <= 0x26a9) return false;
+    if (chr >= 0x26aa && chr <= 0x26ab) return true;
+    if (chr >= 0x26ac && chr <= 0x26bc) return false;
+    if (chr >= 0x26bd && chr <= 0x26be) return true;
+    if (chr >= 0x26bf && chr <= 0x26c3) return false;
+    if (chr >= 0x26c4 && chr <= 0x26c5) return true;
+    if (chr >= 0x26c6 && chr <= 0x26cd) return false;
+    if (chr == 0x26ce) return true;
+    if (chr >= 0x26cf && chr <= 0x26d3) return false;
+    if (chr == 0x26d4) return true;
+    if (chr >= 0x26d5 && chr <= 0x26e9) return false;
+    if (chr == 0x26ea) return true;
+    if (chr >= 0x26eb && chr <= 0x26f1) return false;
+    if (chr >= 0x26f2 && chr <= 0x26f3) return true;
+    if (chr == 0x26f4) return false;
+    if (chr == 0x26f5) return true;
+    if (chr >= 0x26f6 && chr <= 0x26f9) return false;
+    if (chr == 0x26fa) return true;
+    if (chr >= 0x26fb && chr <= 0x26fc) return false;
+    if (chr == 0x26fd) return true;
+    if (chr >= 0x26fe && chr <= 0x2704) return false;
+    if (chr == 0x2705) return true;
+    if (chr >= 0x2706 && chr <= 0x2709) return false;
+    if (chr >= 0x270a && chr <= 0x270b) return true;
+    if (chr >= 0x270c && chr <= 0x2727) return false;
+    if (chr == 0x2728) return true;
+    if (chr >= 0x2729 && chr <= 0x274b) return false;
+    if (chr == 0x274c) return true;
+    if (chr == 0x274d) return false;
+    if (chr == 0x274e) return true;
+    if (chr >= 0x274f && chr <= 0x2752) return false;
+    if (chr >= 0x2753 && chr <= 0x2755) return true;
+    if (chr == 0x2756) return false;
+    if (chr == 0x2757) return true;
+    if (chr >= 0x2758 && chr <= 0x2794) return false;
+    if (chr >= 0x2795 && chr <= 0x2797) return true;
+    if (chr >= 0x2798 && chr <= 0x27af) return false;
+    if (chr == 0x27b0) return true;
+    if (chr >= 0x27b1 && chr <= 0x27be) return false;
+    if (chr == 0x27bf) return true;
+    if (chr >= 0x27c0 && chr <= 0x2b1a) return false;
+    if (chr >= 0x2b1b && chr <= 0x2b1c) return true;
+    if (chr >= 0x2b1d && chr <= 0x2b4f) return false;
+    if (chr == 0x2b50) return true;
+    if (chr >= 0x2b51 && chr <= 0x2b54) return false;
+    if (chr == 0x2b55) return true;
+    if (chr >= 0x2b56 && chr <= 0x2e5d) return false;
+    if (chr >= 0x2e80 && chr <= 0x2e99) return true;
+    if (chr >= 0x2e9b && chr <= 0x2ef3) return true;
+    if (chr >= 0x2f00 && chr <= 0x2fd5) return true;
+    if (chr >= 0x2ff0 && chr <= 0x2fff) return true;
+    if (chr == 0x3000) return false;
+    if (chr >= 0x3001 && chr <= 0x303e) return true;
+    if (chr == 0x303f) return false;
+    if (chr >= 0x3041 && chr <= 0x3096) return true;
+    if (chr >= 0x3099 && chr <= 0x30ff) return true;
+    if (chr >= 0x3105 && chr <= 0x312f) return true;
+    if (chr >= 0x3131 && chr <= 0x318e) return true;
+    if (chr >= 0x3190 && chr <= 0x31e3) return true;
+    if (chr >= 0x31ef && chr <= 0x321e) return true;
+    if (chr >= 0x3220 && chr <= 0x3247) return true;
+    if (chr >= 0x3248 && chr <= 0x324f) return false;
+    if (chr >= 0x3250 && chr <= 0x4dbf) return true;
+    if (chr >= 0x4dc0 && chr <= 0x4dff) return false;
+    if (chr >= 0x4e00 && chr <= 0xa48c) return true;
+    if (chr >= 0xa490 && chr <= 0xa4c6) return true;
+    if (chr >= 0xa4d0 && chr <= 0xa95f) return false;
+    if (chr >= 0xa960 && chr <= 0xa97c) return true;
+    if (chr >= 0xa980 && chr <= 0xabf9) return false;
+    if (chr >= 0xac00 && chr <= 0xd7a3) return true;
+    if (chr >= 0xd7b0 && chr <= 0xf8ff) return false;
+    if (chr >= 0xf900 && chr <= 0xfaff) return true;
+    if (chr >= 0xfb00 && chr <= 0xfe0f) return false;
+    if (chr >= 0xfe10 && chr <= 0xfe19) return true;
+    if (chr >= 0xfe20 && chr <= 0xfe2f) return false;
+    if (chr >= 0xfe30 && chr <= 0xfe52) return true;
+    if (chr >= 0xfe54 && chr <= 0xfe66) return true;
+    if (chr >= 0xfe68 && chr <= 0xfe6b) return true;
+    if (chr >= 0xfe70 && chr <= 0x16f9f) return false;
+    if (chr >= 0x16fe0 && chr <= 0x16fe4) return true;
+    if (chr >= 0x16ff0 && chr <= 0x16ff1) return true;
+    if (chr >= 0x17000 && chr <= 0x187f7) return true;
+    if (chr >= 0x18800 && chr <= 0x18cd5) return true;
+    if (chr >= 0x18d00 && chr <= 0x18d08) return true;
+    if (chr >= 0x1aff0 && chr <= 0x1aff3) return true;
+    if (chr >= 0x1aff5 && chr <= 0x1affb) return true;
+    if (chr >= 0x1affd && chr <= 0x1affe) return true;
+    if (chr >= 0x1b000 && chr <= 0x1b122) return true;
+    if (chr == 0x1b132) return true;
+    if (chr >= 0x1b150 && chr <= 0x1b152) return true;
+    if (chr == 0x1b155) return true;
+    if (chr >= 0x1b164 && chr <= 0x1b167) return true;
+    if (chr >= 0x1b170 && chr <= 0x1b2fb) return true;
+    if (chr >= 0x1bc00 && chr <= 0x1f003) return false;
+    if (chr == 0x1f004) return true;
+    if (chr >= 0x1f005 && chr <= 0x1f0ce) return false;
+    if (chr == 0x1f0cf) return true;
+    if (chr >= 0x1f0d1 && chr <= 0x1f18d) return false;
+    if (chr == 0x1f18e) return true;
+    if (chr >= 0x1f18f && chr <= 0x1f190) return false;
+    if (chr >= 0x1f191 && chr <= 0x1f19a) return true;
+    if (chr >= 0x1f19b && chr <= 0x1f1ff) return false;
+    if (chr >= 0x1f200 && chr <= 0x1f202) return true;
+    if (chr >= 0x1f210 && chr <= 0x1f23b) return true;
+    if (chr >= 0x1f240 && chr <= 0x1f248) return true;
+    if (chr >= 0x1f250 && chr <= 0x1f251) return true;
+    if (chr >= 0x1f260 && chr <= 0x1f265) return true;
+    if (chr >= 0x1f300 && chr <= 0x1f320) return true;
+    if (chr >= 0x1f321 && chr <= 0x1f32c) return false;
+    if (chr >= 0x1f32d && chr <= 0x1f335) return true;
+    if (chr == 0x1f336) return false;
+    if (chr >= 0x1f337 && chr <= 0x1f37c) return true;
+    if (chr == 0x1f37d) return false;
+    if (chr >= 0x1f37e && chr <= 0x1f393) return true;
+    if (chr >= 0x1f394 && chr <= 0x1f39f) return false;
+    if (chr >= 0x1f3a0 && chr <= 0x1f3ca) return true;
+    if (chr >= 0x1f3cb && chr <= 0x1f3ce) return false;
+    if (chr >= 0x1f3cf && chr <= 0x1f3d3) return true;
+    if (chr >= 0x1f3d4 && chr <= 0x1f3df) return false;
+    if (chr >= 0x1f3e0 && chr <= 0x1f3f0) return true;
+    if (chr >= 0x1f3f1 && chr <= 0x1f3f3) return false;
+    if (chr == 0x1f3f4) return true;
+    if (chr >= 0x1f3f5 && chr <= 0x1f3f7) return false;
+    if (chr >= 0x1f3f8 && chr <= 0x1f43e) return true;
+    if (chr == 0x1f43f) return false;
+    if (chr == 0x1f440) return true;
+    if (chr == 0x1f441) return false;
+    if (chr >= 0x1f442 && chr <= 0x1f4fc) return true;
+    if (chr >= 0x1f4fd && chr <= 0x1f4fe) return false;
+    if (chr >= 0x1f4ff && chr <= 0x1f53d) return true;
+    if (chr >= 0x1f53e && chr <= 0x1f54a) return false;
+    if (chr >= 0x1f54b && chr <= 0x1f54e) return true;
+    if (chr == 0x1f54f) return false;
+    if (chr >= 0x1f550 && chr <= 0x1f567) return true;
+    if (chr >= 0x1f568 && chr <= 0x1f579) return false;
+    if (chr == 0x1f57a) return true;
+    if (chr >= 0x1f57b && chr <= 0x1f594) return false;
+    if (chr >= 0x1f595 && chr <= 0x1f596) return true;
+    if (chr >= 0x1f597 && chr <= 0x1f5a3) return false;
+    if (chr == 0x1f5a4) return true;
+    if (chr >= 0x1f5a5 && chr <= 0x1f5fa) return false;
+    if (chr >= 0x1f5fb && chr <= 0x1f64f) return true;
+    if (chr >= 0x1f650 && chr <= 0x1f67f) return false;
+    if (chr >= 0x1f680 && chr <= 0x1f6c5) return true;
+    if (chr >= 0x1f6c6 && chr <= 0x1f6cb) return false;
+    if (chr == 0x1f6cc) return true;
+    if (chr >= 0x1f6cd && chr <= 0x1f6cf) return false;
+    if (chr >= 0x1f6d0 && chr <= 0x1f6d2) return true;
+    if (chr >= 0x1f6d3 && chr <= 0x1f6d4) return false;
+    if (chr >= 0x1f6d5 && chr <= 0x1f6d7) return true;
+    if (chr >= 0x1f6dc && chr <= 0x1f6df) return true;
+    if (chr >= 0x1f6e0 && chr <= 0x1f6ea) return false;
+    if (chr >= 0x1f6eb && chr <= 0x1f6ec) return true;
+    if (chr >= 0x1f6f0 && chr <= 0x1f6f3) return false;
+    if (chr >= 0x1f6f4 && chr <= 0x1f6fc) return true;
+    if (chr >= 0x1f700 && chr <= 0x1f7d9) return false;
+    if (chr >= 0x1f7e0 && chr <= 0x1f7eb) return true;
+    if (chr == 0x1f7f0) return true;
+    if (chr >= 0x1f800 && chr <= 0x1f90b) return false;
+    if (chr >= 0x1f90c && chr <= 0x1f93a) return true;
+    if (chr == 0x1f93b) return false;
+    if (chr >= 0x1f93c && chr <= 0x1f945) return true;
+    if (chr == 0x1f946) return false;
+    if (chr >= 0x1f947 && chr <= 0x1f9ff) return true;
+    if (chr >= 0x1fa00 && chr <= 0x1fa6d) return false;
+    if (chr >= 0x1fa70 && chr <= 0x1fa7c) return true;
+    if (chr >= 0x1fa80 && chr <= 0x1fa88) return true;
+    if (chr >= 0x1fa90 && chr <= 0x1fabd) return true;
+    if (chr >= 0x1fabf && chr <= 0x1fac5) return true;
+    if (chr >= 0x1face && chr <= 0x1fadb) return true;
+    if (chr >= 0x1fae0 && chr <= 0x1fae8) return true;
+    if (chr >= 0x1faf0 && chr <= 0x1faf8) return true;
+    if (chr >= 0x1fb00 && chr <= 0x1fbf9) return false;
+    if (chr >= 0x20000 && chr <= 0x2fffd) return true;
+    if (chr >= 0x30000 && chr <= 0x3fffd) return true;
     return false;
   }
 
@@ -8820,7 +9176,7 @@ static void std_types___array____type (void)
       too_many_arguments();
       return;
     }
-    long offset = compute_array_offset(data->info);
+    long offset = compute_array_offset(TLS_myself, data->info);
     if (offset < 0) return;
     if (TLS_argument_count == dimension_count) {
       // get item
@@ -8869,7 +9225,7 @@ static void std_types___boolean_array____type (void)
       too_many_arguments();
       return;
     }
-    long offset = compute_array_offset(data->info);
+    long offset = compute_array_offset(TLS_myself, data->info);
     if (offset < 0) return;
     if (TLS_argument_count == dimension_count) {
       // get item
@@ -8918,7 +9274,7 @@ static void std_types___character_array____type (void)
       too_many_arguments();
       return;
     }
-    long offset = compute_array_offset(data->info);
+    long offset = compute_array_offset(TLS_myself, data->info);
     if (offset < 0) return;
     if (TLS_argument_count == dimension_count) {
       // get item
@@ -8967,7 +9323,7 @@ static void std_types___int8_array____type (void)
       too_many_arguments();
       return;
     }
-    long offset = compute_array_offset(data->info);
+    long offset = compute_array_offset(TLS_myself, data->info);
     if (offset < 0) return;
     if (TLS_argument_count == dimension_count) {
       // get item
@@ -9016,7 +9372,7 @@ static void std_types___uint8_array____type (void)
       too_many_arguments();
       return;
     }
-    long offset = compute_array_offset(data->info);
+    long offset = compute_array_offset(TLS_myself, data->info);
     if (offset < 0) return;
     if (TLS_argument_count == dimension_count) {
       // get item
@@ -9065,7 +9421,7 @@ static void std_types___int16_array____type (void)
       too_many_arguments();
       return;
     }
-    long offset = compute_array_offset(data->info);
+    long offset = compute_array_offset(TLS_myself, data->info);
     if (offset < 0) return;
     if (TLS_argument_count == dimension_count) {
       // get item
@@ -9114,7 +9470,7 @@ static void std_types___uint16_array____type (void)
       too_many_arguments();
       return;
     }
-    long offset = compute_array_offset(data->info);
+    long offset = compute_array_offset(TLS_myself, data->info);
     if (offset < 0) return;
     if (TLS_argument_count == dimension_count) {
       // get item
@@ -9163,7 +9519,7 @@ static void std_types___int32_array____type (void)
       too_many_arguments();
       return;
     }
-    long offset = compute_array_offset(data->info);
+    long offset = compute_array_offset(TLS_myself, data->info);
     if (offset < 0) return;
     if (TLS_argument_count == dimension_count) {
       // get item
@@ -9212,7 +9568,7 @@ static void std_types___uint32_array____type (void)
       too_many_arguments();
       return;
     }
-    long offset = compute_array_offset(data->info);
+    long offset = compute_array_offset(TLS_myself, data->info);
     if (offset < 0) return;
     if (TLS_argument_count == dimension_count) {
       // get item
@@ -9261,7 +9617,7 @@ static void std_types___int64_array____type (void)
       too_many_arguments();
       return;
     }
-    long offset = compute_array_offset(data->info);
+    long offset = compute_array_offset(TLS_myself, data->info);
     if (offset < 0) return;
     if (TLS_argument_count == dimension_count) {
       // get item
@@ -9310,7 +9666,7 @@ static void std_types___uint64_array____type (void)
       too_many_arguments();
       return;
     }
-    long offset = compute_array_offset(data->info);
+    long offset = compute_array_offset(TLS_myself, data->info);
     if (offset < 0) return;
     if (TLS_argument_count == dimension_count) {
       // get item
@@ -9474,9 +9830,9 @@ void std_types___list____type (void)
     if (!to_long(TLS_arguments[0], &idx)) return;
     if (idx < 0) idx = length+idx+1;
     if (idx < 1 || idx > length) {
-      invalid_index();
+      invalid_index(TLS_myself);
       return;
-    }
+    };
     long offset = TLS_myself->list.offset;
     if (TLS_argument_count == 1)
       {
@@ -9732,9 +10088,9 @@ static void std_types___octet_string____type (void)
     long length = TLS_myself->octet_string.length;
     if (idx < 0) idx = length+idx+1;
     if (idx < 1 || idx > length) {
-      invalid_index();
+      invalid_index(TLS_myself);
       return;
-    }
+    };
     long offset = TLS_myself->octet_string.offset;
     if (TLS_argument_count == 1)
       {
@@ -9803,9 +10159,9 @@ static void quad_octet_string____type (void)
     long length = TLS_myself->quad_octet_string.length;
     if (idx < 0) idx = length+idx+1;
     if (idx < 1 || idx > length) {
-      invalid_index();
+      invalid_index(TLS_myself);
       return;
-    }
+    };
     long offset = TLS_myself->quad_octet_string.offset;
     if (TLS_argument_count == 1)
       {
@@ -13595,6 +13951,27 @@ static void entry__std_types___character___std___to_integer (void)
     }
   }
 
+static void entry__std_types___character___std___width_of (void)
+  {
+    if (TLS_argument_count != 1) {
+      invalid_arguments();
+      return;
+    }
+    if (TLS_result_count != 1) {
+      result_count_mismatch();
+      return;
+    }
+    {
+      NODE *result__node = (NODE *)(from_uint32(
+    	is_a_zero_width_character(TLS_arguments[0]->character.code)
+    	? 0
+    	: is_a_wide_character(TLS_arguments[0]->character.code) ? 2 : 1));
+      TLS_arguments[0] = result__node;
+      TLS_argument_count = 1;
+      return;
+    }
+  }
+
 static void entry__std___from_unix_time (void)
   {
     if (TLS_argument_count != 1) {
@@ -14784,13 +15161,13 @@ static void entry__std_types___list___std___range (void)
     if (first_idx < 0) first_idx = length+first_idx+1;
     if (last_idx < 0) last_idx = length+last_idx+1;
     if (first_idx < 1 || first_idx > length+1) {
-      invalid_index();
+      invalid_index(self);
       return;
-    }
+    };
     if (last_idx < 0 || last_idx > length) {
-      invalid_index();
+      invalid_index(self);
       return;
-    }
+    };
     if (first_idx > last_idx+1) {
       invalid_arguments();
       return;
@@ -19049,18 +19426,18 @@ static void entry__std_types___octet_string___std___push (void)
     OCTET_DATA *data = self->octet_string.data;
     if (chr_code <= 0xff) {
       if (!data || data->size < end_offset+1 || data->length != end_offset) {
-        long new_size = ALLOCATION_SIZE(2*new_length);
-        OCTET_DATA *new_data = allocate_large(sizeof(OCTET_DATA)+new_size);
-        if (data) {
-          memcpy(
-            new_data->buffer,
-            data->buffer+left_start_offset,
-            length);
-        }
-        left_start_offset = 0;
-        end_offset = length;
-        new_data->size = new_size;
-        data = new_data;
+	long new_size = ALLOCATION_SIZE(2*new_length);
+	OCTET_DATA *new_data = allocate_large(sizeof(OCTET_DATA)+new_size);
+	if (data) {
+	  memcpy(
+	    new_data->buffer,
+	    data->buffer+left_start_offset,
+	    length);
+	}
+	left_start_offset = 0;
+	end_offset = length;
+	new_data->size = new_size;
+	data = new_data;
       }
       data->buffer[end_offset] = (uint8_t)chr_code;
       data->length = end_offset+1;
@@ -19076,10 +19453,10 @@ static void entry__std_types___octet_string___std___push (void)
       new_data->size = new_size;
       new_data->length = new_length;
       if (data) {
-        long idx;
-        for (idx = 0; idx < length; ++idx) {
-          new_data->buffer[idx] = data->buffer[left_start_offset+idx];
-        }
+	long idx;
+	for (idx = 0; idx < length; ++idx) {
+	  new_data->buffer[idx] = data->buffer[left_start_offset+idx];
+	}
       }
       new_data->buffer[length] = chr_code;
       {
@@ -19113,10 +19490,10 @@ static void entry__quad_octet_string___std___push (void)
       long new_size = ALLOCATION_SIZE(4*2*new_length);
       QUAD_OCTET_DATA *new_data = allocate_large(sizeof(QUAD_OCTET_DATA)+new_size);
       if (data) {
-        memcpy(
-          new_data->buffer,
-          data->buffer+start_offset,
-          4*length);
+	memcpy(
+	  new_data->buffer,
+	  data->buffer+start_offset,
+	  4*length);
       }
       start_offset = 0;
       end_offset = length;
@@ -19184,7 +19561,7 @@ static void entry__std_types___octet_string___std___append (void)
       new_data->length = new_length;
       long idx;
       for (idx = 0; idx < left_length; ++idx) {
-        new_data->buffer[idx] = data->buffer[left_offset+idx];
+	new_data->buffer[idx] = data->buffer[left_offset+idx];
       }
       long offset = left_length;
       for (i = 1; i < TLS_argument_count; ++i) {
@@ -19215,14 +19592,14 @@ static void entry__std_types___octet_string___std___append (void)
 	!data || data->size < left_offset+new_length ||
 	data->length != left_offset+left_length
       ) {
-        long new_size = ALLOCATION_SIZE(2*new_length);
-        OCTET_DATA *new_data = allocate_large(sizeof(OCTET_DATA)+new_size);
+	long new_size = ALLOCATION_SIZE(2*new_length);
+	OCTET_DATA *new_data = allocate_large(sizeof(OCTET_DATA)+new_size);
 	if (data) {
 	  memcpy(new_data->buffer, data->buffer+left_offset, left_length);
 	}
-        left_offset = 0;
-        new_data->size = new_size;
-        data = new_data;
+	left_offset = 0;
+	new_data->size = new_size;
+	data = new_data;
       }
       long offset = left_offset+left_length;
       for (i = 1; i < TLS_argument_count; ++i) {
@@ -19346,13 +19723,13 @@ static void entry__std_types___octet_string___std___range (void)
     if (first_idx < 0) first_idx = length+first_idx+1;
     if (last_idx < 0) last_idx = length+last_idx+1;
     if (first_idx < 1 || first_idx > length+1) {
-      invalid_index();
+      invalid_index(self);
       return;
-    }
+    };
     if (last_idx < 0 || last_idx > length) {
-      invalid_index();
+      invalid_index(self);
       return;
-    }
+    };
     if (first_idx > last_idx+1) {
       invalid_arguments();
       return;
@@ -19396,13 +19773,13 @@ static void entry__quad_octet_string___std___range (void)
     if (first_idx < 0) first_idx = length+first_idx+1;
     if (last_idx < 0) last_idx = length+last_idx+1;
     if (first_idx < 1 || first_idx > length+1) {
-      invalid_index();
+      invalid_index(self);
       return;
-    }
+    };
     if (last_idx < 0 || last_idx > length) {
-      invalid_index();
+      invalid_index(self);
       return;
-    }
+    };
     if (first_idx > last_idx+1) {
       invalid_arguments();
       return;
@@ -19425,7 +19802,7 @@ static void entry__quad_octet_string___std___range (void)
     QUAD_OCTET_DATA *data = self->quad_octet_string.data;
     for (idx = first_idx-1; idx < last_idx; ++idx) {
       if (data->buffer[offset+idx] > 0xff) {
-        {
+	{
 	  NODE *result__node = (NODE *)(create__quad_octet_string(offset+first_idx-1, new_len, data));
 	  TLS_arguments[0] = result__node;
 	  TLS_argument_count = 1;
@@ -19466,8 +19843,8 @@ static void entry__std_types___octet_string___std___hash (void)
     long i;
     if (length > 16) {
       for (i = length-8; i < length; ++i) {
-        hash = (hash << 7) | (hash >> 25);
-        hash ^= buf[i];
+	hash = (hash << 7) | (hash >> 25);
+	hash ^= buf[i];
       }
       length = 8;
     }
@@ -19503,8 +19880,8 @@ static void entry__quad_octet_string___std___hash (void)
     long i;
     if (length > 16) {
       for (i = length-8; i < length; ++i) {
-        hash = (hash << 13) | (hash >> 19);
-        hash ^= buf[i];
+	hash = (hash << 13) | (hash >> 19);
+	hash ^= buf[i];
       }
       length = 8;
     }
@@ -19681,7 +20058,7 @@ static void entry__std_types___octet_string___std___less (void)
       long left_length = left->octet_string.length;
       long right_length = right->octet_string.length;
       if (left_offset == right_offset && left_length == right_length && left_data == right_data)
-        {
+	{
 	  NODE *result__node = (NODE *)(&std_types___false);
 	  TLS_arguments[0] = result__node;
 	  TLS_argument_count = 1;
@@ -19691,15 +20068,15 @@ static void entry__std_types___octet_string___std___less (void)
       if (right_length < length) length = right_length;
       long i;
       for (i = 0; i < length; ++i) {
-        uint8_t left_chr = left_data->buffer[left_offset+i];
-        uint8_t right_chr = right_data->buffer[right_offset+i];
-        if (left_chr < right_chr) {
+	uint8_t left_chr = left_data->buffer[left_offset+i];
+	uint8_t right_chr = right_data->buffer[right_offset+i];
+	if (left_chr < right_chr) {
 	  NODE *result__node = (NODE *)(&std_types___true);
 	  TLS_arguments[0] = result__node;
 	  TLS_argument_count = 1;
 	  return;
 	}
-        if (left_chr > right_chr) {
+	if (left_chr > right_chr) {
 	  NODE *result__node = (NODE *)(&std_types___false);
 	  TLS_arguments[0] = result__node;
 	  TLS_argument_count = 1;
@@ -19713,8 +20090,8 @@ static void entry__std_types___octet_string___std___less (void)
         return;
       }
       if (left_offset == right_offset && left_length == right_length) { // both strings are equal!
-        // join the two versions of the string data to simplify future comparisons
-        join_nodes(&left->octet_string.data, &right->octet_string.data);
+	// join the two versions of the string data to simplify future comparisons
+	join_nodes(&left->octet_string.data, &right->octet_string.data);
       }
       {
         NODE *result__node = (NODE *)(&std_types___false);
@@ -19733,15 +20110,15 @@ static void entry__std_types___octet_string___std___less (void)
       if (right_length < length) length = right_length;
       long i;
       for (i = 0; i < length; ++i) {
-        uint32_t left_chr = left_data->buffer[left_offset+i];
-        uint32_t right_chr = right_data->buffer[right_offset+i];
-        if (left_chr < right_chr) {
+	uint32_t left_chr = left_data->buffer[left_offset+i];
+	uint32_t right_chr = right_data->buffer[right_offset+i];
+	if (left_chr < right_chr) {
 	  NODE *result__node = (NODE *)(&std_types___true);
 	  TLS_arguments[0] = result__node;
 	  TLS_argument_count = 1;
 	  return;
 	}
-        if (left_chr > right_chr) {
+	if (left_chr > right_chr) {
 	  NODE *result__node = (NODE *)(&std_types___false);
 	  TLS_arguments[0] = result__node;
 	  TLS_argument_count = 1;
@@ -19797,15 +20174,15 @@ static void entry__quad_octet_string___std___less (void)
       if (right_length < length) length = right_length;
       long i;
       for (i = 0; i < length; ++i) {
-        uint32_t left_chr = left_data->buffer[left_offset+i];
-        uint32_t right_chr = right_data->buffer[right_offset+i];
-        if (left_chr < right_chr) {
+	uint32_t left_chr = left_data->buffer[left_offset+i];
+	uint32_t right_chr = right_data->buffer[right_offset+i];
+	if (left_chr < right_chr) {
 	  NODE *result__node = (NODE *)(&std_types___true);
 	  TLS_arguments[0] = result__node;
 	  TLS_argument_count = 1;
 	  return;
 	}
-        if (left_chr > right_chr) {
+	if (left_chr > right_chr) {
 	  NODE *result__node = (NODE *)(&std_types___false);
 	  TLS_arguments[0] = result__node;
 	  TLS_argument_count = 1;
@@ -19832,7 +20209,7 @@ static void entry__quad_octet_string___std___less (void)
       long left_length = left->quad_octet_string.length;
       long right_length = right->quad_octet_string.length;
       if (left_offset == right_offset && left_length == right_length && left_data == right_data)
-        {
+	{
 	  NODE *result__node = (NODE *)(&std_types___false);
 	  TLS_arguments[0] = result__node;
 	  TLS_argument_count = 1;
@@ -19842,15 +20219,15 @@ static void entry__quad_octet_string___std___less (void)
       if (right_length < length) length = right_length;
       long i;
       for (i = 0; i < length; ++i) {
-        uint32_t left_chr = left_data->buffer[left_offset+i];
-        uint32_t right_chr = right_data->buffer[right_offset+i];
-        if (left_chr < right_chr) {
+	uint32_t left_chr = left_data->buffer[left_offset+i];
+	uint32_t right_chr = right_data->buffer[right_offset+i];
+	if (left_chr < right_chr) {
 	  NODE *result__node = (NODE *)(&std_types___true);
 	  TLS_arguments[0] = result__node;
 	  TLS_argument_count = 1;
 	  return;
 	}
-        if (left_chr > right_chr) {
+	if (left_chr > right_chr) {
 	  NODE *result__node = (NODE *)(&std_types___false);
 	  TLS_arguments[0] = result__node;
 	  TLS_argument_count = 1;
@@ -19864,8 +20241,8 @@ static void entry__quad_octet_string___std___less (void)
         return;
       }
       if (left_offset == right_offset && left_length == right_length) { // both strings are equal!
-        // join the two versions of the string data to simplify future comparisons
-        join_nodes(&left->octet_string.data, &right->octet_string.data);
+	// join the two versions of the string data to simplify future comparisons
+	join_nodes(&left->octet_string.data, &right->octet_string.data);
       }
       {
         NODE *result__node = (NODE *)(&std_types___false);
@@ -19878,6 +20255,63 @@ static void entry__quad_octet_string___std___less (void)
         invalid_arguments();
         return;
       }
+    }
+  }
+
+static void entry__std_types___octet_string___std___width_of (void)
+  {
+    if (TLS_argument_count != 1) {
+      invalid_arguments();
+      return;
+    }
+    if (TLS_result_count != 1) {
+      result_count_mismatch();
+      return;
+    }
+    long width = 0;
+    NODE *string = TLS_arguments[0];
+    OCTET_DATA *data = string->octet_string.data;
+    long offset = string->octet_string.offset;
+    long length = string->octet_string.length;
+    for (long i = 0; i < length; ++i) {
+      uint8_t chr = data->buffer[offset+i];
+      if (!is_a_zero_width_character(chr)) ++width;
+    }
+    {
+      NODE *result__node = (NODE *)(from_long(width));
+      TLS_arguments[0] = result__node;
+      TLS_argument_count = 1;
+      return;
+    }
+  }
+
+static void entry__quad_octet_string___std___width_of (void)
+  {
+    if (TLS_argument_count != 1) {
+      invalid_arguments();
+      return;
+    }
+    if (TLS_result_count != 1) {
+      result_count_mismatch();
+      return;
+    }
+    long width = 0;
+    NODE *string = TLS_arguments[0];
+    QUAD_OCTET_DATA *data = string->quad_octet_string.data;
+    long offset = string->quad_octet_string.offset;
+    long length = string->quad_octet_string.length;
+    for (long i = 0; i < length; ++i) {
+      uint32_t chr = data->buffer[offset+i];
+      if (!is_a_zero_width_character(chr)) {
+	if (is_a_wide_character(chr)) width += 2;
+	else ++width;
+      }
+    }
+    {
+      NODE *result__node = (NODE *)(from_long(width));
+      TLS_arguments[0] = result__node;
+      TLS_argument_count = 1;
+      return;
     }
   }
 
@@ -19902,29 +20336,29 @@ static void entry__std_types___octet_string___std___from_utf8 (void)
       int n; // number of continuation octets
       chr = buf[src_idx++];
       if (chr >= 0x80) {
-        if ((chr & 0xe0) == 0xc0) { // 2 byte code
-          if (chr & 0x3c) is_latin_1 = false; // more than 8 bits
-          n = 1;
-        } else if ((chr & 0xf0) == 0xe0) { // 3 byte code
-          is_latin_1 = false;
-          n = 2;
-        } else if ((chr & 0xf8) == 0xf0) { // 4 byte code
-          is_latin_1 = false;
-          n = 3;
-        } else if ((chr & 0xfc) == 0xf8) { // 5 byte code
-          is_latin_1 = false;
-          n = 4;
-        } else if ((chr & 0xfe) == 0xfc) { // 6 byte code
-          is_latin_1 = false;
-          n = 5;
-        } else if (chr == 0xfe) { // 7 byte code
-          if (buf[src_idx] & 0x3e) {
+	if ((chr & 0xe0) == 0xc0) { // 2 byte code
+	  if (chr & 0x3c) is_latin_1 = false; // more than 8 bits
+	  n = 1;
+	} else if ((chr & 0xf0) == 0xe0) { // 3 byte code
+	  is_latin_1 = false;
+	  n = 2;
+	} else if ((chr & 0xf8) == 0xf0) { // 4 byte code
+	  is_latin_1 = false;
+	  n = 3;
+	} else if ((chr & 0xfc) == 0xf8) { // 5 byte code
+	  is_latin_1 = false;
+	  n = 4;
+	} else if ((chr & 0xfe) == 0xfc) { // 6 byte code
+	  is_latin_1 = false;
+	  n = 5;
+	} else if (chr == 0xfe) { // 7 byte code
+	  if (buf[src_idx] & 0x3e) {
 	    invalid_arguments();
 	    return;
 	  } // more than 32 bits
-          is_latin_1 = false;
-          n = 6;
-        } else {
+	  is_latin_1 = false;
+	  n = 6;
+	} else {
 	  invalid_arguments();
 	  return;
 	}
@@ -19932,13 +20366,13 @@ static void entry__std_types___octet_string___std___from_utf8 (void)
 	  invalid_arguments();
 	  return;
 	}
-        while (--n >= 0) {
-          chr = buf[src_idx++];
-          if ((chr & 0xc0) != 0x80) {
+	while (--n >= 0) {
+	  chr = buf[src_idx++];
+	  if ((chr & 0xc0) != 0x80) {
 	    invalid_arguments();
 	    return;
 	  }
-        }
+	}
       }
       ++new_length;
     }
@@ -19949,12 +20383,12 @@ static void entry__std_types___octet_string___std___from_utf8 (void)
       data->length = new_length;
       src_idx = 0;
       for (dest_idx = 0; dest_idx < new_length; ++dest_idx) {
-        uint8_t chr;
-        chr = buf[src_idx++];
-        if (chr >= 0x80) {
-          chr = ((chr & 0x1f) << 6) | (buf[src_idx++] & 0x3f);
-        }
-        data->buffer[dest_idx] = chr;
+	uint8_t chr;
+	chr = buf[src_idx++];
+	if (chr >= 0x80) {
+	  chr = ((chr & 0x1f) << 6) | (buf[src_idx++] & 0x3f);
+	}
+	data->buffer[dest_idx] = chr;
       }
       {
         NODE *result__node = (NODE *)(create__std_types___octet_string(0, new_length, data));
@@ -19969,34 +20403,34 @@ static void entry__std_types___octet_string___std___from_utf8 (void)
       data->length = new_length;
       src_idx = 0;
       for (dest_idx = 0; dest_idx < new_length; ++dest_idx) {
-        uint32_t chr;
-        chr = buf[src_idx++];
-        if (chr >= 0x80) {
-          int n; // number of continuation octets
-          if ((chr & 0xe0) == 0xc0) { // 2 byte code
-            chr &= 0x1f;
-            n = 1;
-          } else if ((chr & 0xf0) == 0xe0) { // 3 byte code
-            chr &= 0x0f;
-            n = 2;
-          } else if ((chr & 0xf8) == 0xf0) { // 4 byte code
-            chr &= 0x07;
-            n = 3;
-          } else if ((chr & 0xfc) == 0xf8) { // 5 byte code
-            chr &= 0x03;
-            n = 4;
-          } else if ((chr & 0xfe) == 0xfc) { // 6 byte code
-            chr &= 0x01;
-            n = 5;
-          } else { // 7 byte code
-            chr = 0;
-            n = 6;
-          }
-          while (--n >= 0) {
-            chr = (chr << 6) | (buf[src_idx++] & 0x3f);
-          }
-        }
-        data->buffer[dest_idx] = chr;
+	uint32_t chr;
+	chr = buf[src_idx++];
+	if (chr >= 0x80) {
+	  int n; // number of continuation octets
+	  if ((chr & 0xe0) == 0xc0) { // 2 byte code
+	    chr &= 0x1f;
+	    n = 1;
+	  } else if ((chr & 0xf0) == 0xe0) { // 3 byte code
+	    chr &= 0x0f;
+	    n = 2;
+	  } else if ((chr & 0xf8) == 0xf0) { // 4 byte code
+	    chr &= 0x07;
+	    n = 3;
+	  } else if ((chr & 0xfc) == 0xf8) { // 5 byte code
+	    chr &= 0x03;
+	    n = 4;
+	  } else if ((chr & 0xfe) == 0xfc) { // 6 byte code
+	    chr &= 0x01;
+	    n = 5;
+	  } else { // 7 byte code
+	    chr = 0;
+	    n = 6;
+	  }
+	  while (--n >= 0) {
+	    chr = (chr << 6) | (buf[src_idx++] & 0x3f);
+	  }
+	}
+	data->buffer[dest_idx] = chr;
       }
       {
         NODE *result__node = (NODE *)(create__quad_octet_string(0, new_length, data));
@@ -20022,7 +20456,7 @@ static void entry__std_types___octet_string___std___to_utf8 (void)
     for(i = 0; i < length; ++i) {
       uint8_t chr = src[i];
       if (chr >= 0x80) {
-        ++new_len;
+	++new_len;
       }
     }
     long size = ALLOCATION_SIZE(new_len);
@@ -20033,10 +20467,10 @@ static void entry__std_types___octet_string___std___to_utf8 (void)
     for(i = 0; i < length; ++i) {
       uint8_t chr = src[i];
       if (chr >= 0x80) {
-        *dst++ = chr >> 6 | 0xc0;
-        *dst++ = chr & 0x3f | 0x80;
+	*dst++ = chr >> 6 | 0xc0;
+	*dst++ = chr & 0x3f | 0x80;
       } else {
-        *dst++ = chr;
+	*dst++ = chr;
       }
     }
     {
@@ -20062,27 +20496,27 @@ static void entry__quad_octet_string___std___to_utf8 (void)
     for(i = 0; i < length; ++i) {
       uint32_t chr = src[i];
       if (chr >= 0x80) {
-        if (chr >= 0x800) {
-          if (chr >= 0x10000) {
-            if (chr >= 0x200000) {
-              if (chr >= 0x4000000) {
-                if (chr >= 0x80000000) {
-                  new_len += 6;
-                } else {
-                  new_len += 5;
-                }
-              } else {
-                new_len += 4;
-              }
-            } else {
-              new_len += 3;
-            }
-          } else {
-            new_len += 2;
-          }
-        } else {
-          ++new_len;
-        }
+	if (chr >= 0x800) {
+	  if (chr >= 0x10000) {
+	    if (chr >= 0x200000) {
+	      if (chr >= 0x4000000) {
+		if (chr >= 0x80000000) {
+		  new_len += 6;
+		} else {
+		  new_len += 5;
+		}
+	      } else {
+		new_len += 4;
+	      }
+	    } else {
+	      new_len += 3;
+	    }
+	  } else {
+	    new_len += 2;
+	  }
+	} else {
+	  ++new_len;
+	}
       }
     }
     long size = ALLOCATION_SIZE(new_len);
@@ -20093,50 +20527,50 @@ static void entry__quad_octet_string___std___to_utf8 (void)
     for(i = 0; i < length; ++i) {
       uint32_t chr = src[i];
       if (chr >= 0x80) {
-        if (chr >= 0x800) {
-          if (chr >= 0x10000) {
-            if (chr >= 0x200000) {
-              if (chr >= 0x4000000) {
-                if (chr >= 0x80000000) {
-                  *dst++ = 0xfe;
-                  *dst++ = (chr >> 30) & 0x3f | 0x80;
-                  *dst++ = (chr >> 24) & 0x3f | 0x80;
-                  *dst++ = (chr >> 18) & 0x3f | 0x80;
-                  *dst++ = (chr >> 12) & 0x3f | 0x80;
-                  *dst++ = (chr >> 6) & 0x3f | 0x80;
-                  *dst++ = chr & 0x3f | 0x80;
-                } else {
-                  *dst++ = chr >> 30 | 0xfc0;
-                  *dst++ = (chr >> 24) & 0x3f | 0x80;
-                  *dst++ = (chr >> 18) & 0x3f | 0x80;
-                  *dst++ = (chr >> 12) & 0x3f | 0x80;
-                  *dst++ = (chr >> 6) & 0x3f | 0x80;
-                  *dst++ = chr & 0x3f | 0x80;
-                }
-              } else {
-                *dst++ = chr >> 24 | 0xf8;
-                *dst++ = (chr >> 18) & 0x3f | 0x80;
-                *dst++ = (chr >> 12) & 0x3f | 0x80;
-                *dst++ = (chr >> 6) & 0x3f | 0x80;
-                *dst++ = chr & 0x3f | 0x80;
-              }
-            } else {
-              *dst++ = chr >> 18 | 0xf0;
-              *dst++ = (chr >> 12) & 0x3f | 0x80;
-              *dst++ = (chr >> 6) & 0x3f | 0x80;
-              *dst++ = chr & 0x3f | 0x80;
-            }
-          } else {
-            *dst++ = chr >> 12 | 0xe0;
-            *dst++ = (chr >> 6) & 0x3f | 0x80;
-            *dst++ = chr & 0x3f | 0x80;
-          }
-        } else {
-          *dst++ = chr >> 6 | 0xc0;
-          *dst++ = chr & 0x3f | 0x80;
-        }
+	if (chr >= 0x800) {
+	  if (chr >= 0x10000) {
+	    if (chr >= 0x200000) {
+	      if (chr >= 0x4000000) {
+		if (chr >= 0x80000000) {
+		  *dst++ = 0xfe;
+		  *dst++ = (chr >> 30) & 0x3f | 0x80;
+		  *dst++ = (chr >> 24) & 0x3f | 0x80;
+		  *dst++ = (chr >> 18) & 0x3f | 0x80;
+		  *dst++ = (chr >> 12) & 0x3f | 0x80;
+		  *dst++ = (chr >> 6) & 0x3f | 0x80;
+		  *dst++ = chr & 0x3f | 0x80;
+		} else {
+		  *dst++ = chr >> 30 | 0xfc0;
+		  *dst++ = (chr >> 24) & 0x3f | 0x80;
+		  *dst++ = (chr >> 18) & 0x3f | 0x80;
+		  *dst++ = (chr >> 12) & 0x3f | 0x80;
+		  *dst++ = (chr >> 6) & 0x3f | 0x80;
+		  *dst++ = chr & 0x3f | 0x80;
+		}
+	      } else {
+		*dst++ = chr >> 24 | 0xf8;
+		*dst++ = (chr >> 18) & 0x3f | 0x80;
+		*dst++ = (chr >> 12) & 0x3f | 0x80;
+		*dst++ = (chr >> 6) & 0x3f | 0x80;
+		*dst++ = chr & 0x3f | 0x80;
+	      }
+	    } else {
+	      *dst++ = chr >> 18 | 0xf0;
+	      *dst++ = (chr >> 12) & 0x3f | 0x80;
+	      *dst++ = (chr >> 6) & 0x3f | 0x80;
+	      *dst++ = chr & 0x3f | 0x80;
+	    }
+	  } else {
+	    *dst++ = chr >> 12 | 0xe0;
+	    *dst++ = (chr >> 6) & 0x3f | 0x80;
+	    *dst++ = chr & 0x3f | 0x80;
+	  }
+	} else {
+	  *dst++ = chr >> 6 | 0xc0;
+	  *dst++ = chr & 0x3f | 0x80;
+	}
       } else {
-        *dst++ = chr;
+	*dst++ = chr;
       }
     }
     {
@@ -21555,8 +21989,10 @@ static void entry__std_types___character___std___to_upper_case (void)
       result_count_mismatch();
       return;
     }
+    uint32_t chr_code;
+    if (!to_uchar32(TLS_arguments[0], &chr_code)) return;;
     {
-      NODE *result__node = (NODE *)(create__std_types___character(to_upper_case(TLS_arguments[0]->character.code)));
+      NODE *result__node = (NODE *)(create__std_types___character(to_upper_case(chr_code)));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -21573,8 +22009,10 @@ static void entry__std___is_an_upper_case_letter_character (void)
       result_count_mismatch();
       return;
     }
+    uint32_t chr_code;
+    if (!to_uchar32(TLS_arguments[0], &chr_code)) return;;
     {
-      NODE *result__node = (NODE *)(from_bool(is_an_upper_case_letter_character(TLS_arguments[0]->character.code)));
+      NODE *result__node = (NODE *)(from_bool(is_an_upper_case_letter_character(chr_code)));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -21591,8 +22029,10 @@ static void entry__std_types___character___std___to_lower_case (void)
       result_count_mismatch();
       return;
     }
+    uint32_t chr_code;
+    if (!to_uchar32(TLS_arguments[0], &chr_code)) return;;
     {
-      NODE *result__node = (NODE *)(create__std_types___character(to_lower_case(TLS_arguments[0]->character.code)));
+      NODE *result__node = (NODE *)(create__std_types___character(to_lower_case(chr_code)));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -21609,8 +22049,10 @@ static void entry__std___is_a_lower_case_letter_character (void)
       result_count_mismatch();
       return;
     }
+    uint32_t chr_code;
+    if (!to_uchar32(TLS_arguments[0], &chr_code)) return;;
     {
-      NODE *result__node = (NODE *)(from_bool(is_a_lower_case_letter_character(TLS_arguments[0]->character.code)));
+      NODE *result__node = (NODE *)(from_bool(is_a_lower_case_letter_character(chr_code)));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -21627,8 +22069,10 @@ static void entry__std_types___character___std___to_title_case (void)
       result_count_mismatch();
       return;
     }
+    uint32_t chr_code;
+    if (!to_uchar32(TLS_arguments[0], &chr_code)) return;;
     {
-      NODE *result__node = (NODE *)(create__std_types___character(to_title_case(TLS_arguments[0]->character.code)));
+      NODE *result__node = (NODE *)(create__std_types___character(to_title_case(chr_code)));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -21645,8 +22089,10 @@ static void entry__std___is_a_title_case_letter_character (void)
       result_count_mismatch();
       return;
     }
+    uint32_t chr_code;
+    if (!to_uchar32(TLS_arguments[0], &chr_code)) return;;
     {
-      NODE *result__node = (NODE *)(from_bool(is_a_title_case_letter_character(TLS_arguments[0]->character.code)));
+      NODE *result__node = (NODE *)(from_bool(is_a_title_case_letter_character(chr_code)));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -21663,8 +22109,10 @@ static void entry__std___is_a_letter_character (void)
       result_count_mismatch();
       return;
     }
+    uint32_t chr_code;
+    if (!to_uchar32(TLS_arguments[0], &chr_code)) return;;
     {
-      NODE *result__node = (NODE *)(from_bool(is_a_letter_character(TLS_arguments[0]->character.code)));
+      NODE *result__node = (NODE *)(from_bool(is_a_letter_character(chr_code)));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -21681,8 +22129,10 @@ static void entry__std___is_a_whitespace_character (void)
       result_count_mismatch();
       return;
     }
+    uint32_t chr_code;
+    if (!to_uchar32(TLS_arguments[0], &chr_code)) return;;
     {
-      NODE *result__node = (NODE *)(from_bool(is_a_whitespace_character(TLS_arguments[0]->character.code)));
+      NODE *result__node = (NODE *)(from_bool(is_a_whitespace_character(chr_code)));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -21699,8 +22149,30 @@ static void entry__std___is_a_zero_width_character (void)
       result_count_mismatch();
       return;
     }
+    uint32_t chr_code;
+    if (!to_uchar32(TLS_arguments[0], &chr_code)) return;;
     {
-      NODE *result__node = (NODE *)(from_bool(is_a_zero_width_character(TLS_arguments[0]->character.code)));
+      NODE *result__node = (NODE *)(from_bool(is_a_zero_width_character(chr_code)));
+      TLS_arguments[0] = result__node;
+      TLS_argument_count = 1;
+      return;
+    }
+  }
+
+static void entry__std___is_a_wide_character (void)
+  {
+    if (TLS_argument_count != 1) {
+      invalid_arguments();
+      return;
+    }
+    if (TLS_result_count != 1) {
+      result_count_mismatch();
+      return;
+    }
+    uint32_t chr_code;
+    if (!to_uchar32(TLS_arguments[0], &chr_code)) return;;
+    {
+      NODE *result__node = (NODE *)(from_bool(is_a_wide_character(chr_code)));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -22316,6 +22788,7 @@ static FUNKY_CONSTANT constants_table[] = {
   {FLT_C_FUNCTION, 1, {.func = entry__std_types___character___std___hash}},
   {FLT_C_FUNCTION, 1, {.func = entry__std_types___character___std___to_string}},
   {FLT_C_FUNCTION, 1, {.func = entry__std_types___character___std___to_integer}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std_types___character___std___width_of}},
   {FLT_C_FUNCTION, 1, {.func = entry__std___from_unix_time}},
   {FLT_C_FUNCTION, 6, {.func = entry__std___date_and_time}},
   {FLT_C_FUNCTION, 1, {.func = entry__std_types___date_and_time___std___year_of}},
@@ -22513,6 +22986,8 @@ static FUNKY_CONSTANT constants_table[] = {
   {FLT_C_FUNCTION, 2, {.func = entry__quad_octet_string___std___equal}},
   {FLT_C_FUNCTION, 2, {.func = entry__std_types___octet_string___std___less}},
   {FLT_C_FUNCTION, 2, {.func = entry__quad_octet_string___std___less}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std_types___octet_string___std___width_of}},
+  {FLT_C_FUNCTION, 1, {.func = entry__quad_octet_string___std___width_of}},
   {FLT_C_FUNCTION, 1, {.func = entry__std_types___octet_string___std___from_utf8}},
   {FLT_C_FUNCTION, 1, {.func = entry__std_types___octet_string___std___to_utf8}},
   {FLT_C_FUNCTION, 1, {.func = entry__quad_octet_string___std___to_utf8}},
@@ -22561,6 +23036,7 @@ static FUNKY_CONSTANT constants_table[] = {
   {FLT_C_FUNCTION, 1, {.func = entry__std___is_a_letter_character}},
   {FLT_C_FUNCTION, 1, {.func = entry__std___is_a_whitespace_character}},
   {FLT_C_FUNCTION, 1, {.func = entry__std___is_a_zero_width_character}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std___is_a_wide_character}},
   {FLT_C_FUNCTION, 1, {.func = entry__std_types___unique_item___std___to_string}},
   {FLT_C_FUNCTION, 2, {.func = entry__std_types___unique_item___std___equal}},
   {FLT_C_FUNCTION, 1, {.func = entry__std_types___unique_item___std___hash}},
@@ -22758,7 +23234,8 @@ static ATTRIBUTE_DEFINITION std_types___character__attributes[] = {
   {var_no__std___to_lower_case, func__std_types___character___std___to_lower_case},
   {var_no__std___to_string, func__std_types___character___std___to_string},
   {var_no__std___to_title_case, func__std_types___character___std___to_title_case},
-  {var_no__std___to_upper_case, func__std_types___character___std___to_upper_case}
+  {var_no__std___to_upper_case, func__std_types___character___std___to_upper_case},
+  {var_no__std___width_of, func__std_types___character___std___width_of}
 };
 
 static INTERNAL_METHOD std_types___date_and_time__internal_methods[] = {
@@ -23140,7 +23617,8 @@ static ATTRIBUTE_DEFINITION std_types___octet_string__attributes[] = {
   {var_no__std___less, func__std_types___octet_string___std___less},
   {var_no__std___push, func__std_types___octet_string___std___push},
   {var_no__std___range, func__std_types___octet_string___std___range},
-  {var_no__std___to_utf8, func__std_types___octet_string___std___to_utf8}
+  {var_no__std___to_utf8, func__std_types___octet_string___std___to_utf8},
+  {var_no__std___width_of, func__std_types___octet_string___std___width_of}
 };
 
 static INTERNAL_METHOD quad_octet_string__internal_methods[] = {
@@ -23161,7 +23639,8 @@ static ATTRIBUTE_DEFINITION quad_octet_string__attributes[] = {
   {var_no__std___less, func__quad_octet_string___std___less},
   {var_no__std___push, func__quad_octet_string___std___push},
   {var_no__std___range, func__quad_octet_string___std___range},
-  {var_no__std___to_utf8, func__quad_octet_string___std___to_utf8}
+  {var_no__std___to_utf8, func__quad_octet_string___std___to_utf8},
+  {var_no__std___width_of, func__quad_octet_string___std___width_of}
 };
 
 static INTERNAL_METHOD std_types___terminal_attributes__internal_methods[] = {
@@ -23436,6 +23915,11 @@ static FUNKY_VARIABLE variables_table[] = {
   {
     FOT_POLYMORPHIC, 0, 0,
     "length_of\000std", NULL,
+    {.has_a_setter = true}
+  },
+  {
+    FOT_POLYMORPHIC, 0, 0,
+    "width_of\000std", NULL,
     {.has_a_setter = true}
   },
   {
@@ -23775,7 +24259,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {(NODE *)&c_function}
   },
   {
-    FOT_TYPE, 0, 10,
+    FOT_TYPE, 0, 11,
     "character\000std_types", std_types___character__attributes,
     {"object\000std_types"},
     {.methods_count = 4}, 0,
@@ -25760,7 +26244,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {(NODE *)&std_types___string}
   },
   {
-    FOT_TYPE, 0, 11,
+    FOT_TYPE, 0, 12,
     "octet_string\000std_types", std_types___octet_string__attributes,
     {"string\000std_types"},
     {.methods_count = 7}, 0,
@@ -25768,7 +26252,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {(NODE *)&std_types___octet_string}
   },
   {
-    FOT_TYPE, 0, 10,
+    FOT_TYPE, 0, 11,
     "quad_octet_string\000", quad_octet_string__attributes,
     {"string\000std_types"},
     {.methods_count = 5}, 0,
@@ -25991,6 +26475,11 @@ static FUNKY_VARIABLE variables_table[] = {
     {.const_idx = func__std___is_a_zero_width_character}
   },
   {
+    FOT_INITIALIZED, 0, 0,
+    "is_a_wide_character\000std", NULL,
+    {.const_idx = func__std___is_a_wide_character}
+  },
+  {
     FOT_TYPE, 0, 3,
     "unique_item\000std_types", std_types___unique_item__attributes,
     {"object\000std_types"},
@@ -26073,13 +26562,13 @@ FUNKY_MODULE module__builtin = {
   NULL,
   0, 0,
   4, 0,
-  331, 430,
+  335, 432,
   NULL,
   defined_namespaces, NULL,
   constants_table, variables_table
 };
 
-BUILTIN_FUNCTION_NAME builtin_function_names[381] = {
+BUILTIN_FUNCTION_NAME builtin_function_names[385] = {
   {std_types___generic_array____type, "std_types::generic_array/_type"},
   {std_types___array____type, "std_types::array/_type"},
   {entry__std_types___array___std___length_of, "std_types::array/length_of"},
@@ -26167,6 +26656,7 @@ BUILTIN_FUNCTION_NAME builtin_function_names[381] = {
   {entry__std_types___character___std___hash, "std_types::character/hash"},
   {entry__std_types___character___std___to_string, "std_types::character/to_string"},
   {entry__std_types___character___std___to_integer, "std_types::character/to_integer"},
+  {entry__std_types___character___std___width_of, "std_types::character/width_of"},
   {std_types___date_and_time____type, "std_types::date_and_time/_type"},
   {entry__std___from_unix_time, "std::from_unix_time"},
   {entry__std___date_and_time, "std::date_and_time"},
@@ -26391,6 +26881,8 @@ BUILTIN_FUNCTION_NAME builtin_function_names[381] = {
   {entry__quad_octet_string___std___equal, "quad_octet_string/equal"},
   {entry__std_types___octet_string___std___less, "std_types::octet_string/less"},
   {entry__quad_octet_string___std___less, "quad_octet_string/less"},
+  {entry__std_types___octet_string___std___width_of, "std_types::octet_string/width_of"},
+  {entry__quad_octet_string___std___width_of, "quad_octet_string/width_of"},
   {entry__std_types___octet_string___std___from_utf8, "std_types::octet_string/from_utf8"},
   {entry__std_types___octet_string___std___to_utf8, "std_types::octet_string/to_utf8"},
   {entry__quad_octet_string___std___to_utf8, "quad_octet_string/to_utf8"},
@@ -26449,6 +26941,7 @@ BUILTIN_FUNCTION_NAME builtin_function_names[381] = {
   {entry__std___is_a_letter_character, "std::is_a_letter_character"},
   {entry__std___is_a_whitespace_character, "std::is_a_whitespace_character"},
   {entry__std___is_a_zero_width_character, "std::is_a_zero_width_character"},
+  {entry__std___is_a_wide_character, "std::is_a_wide_character"},
   {std_types___unique_item____type, "std_types::unique_item/_type"},
   {entry__std_types___unique_item___std___to_string, "std_types::unique_item/to_string"},
   {entry__std_types___unique_item___std___equal, "std_types::unique_item/equal"},

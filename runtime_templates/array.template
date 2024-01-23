@@ -125,6 +125,7 @@ CODE
 
   static long compute_array_offset
     (
+      NODE *array,
       ARRAY_INFO *info
     )
     {
@@ -140,7 +141,7 @@ CODE
 	--idx;
       }
       if (idx < 0 || idx >= info->dimensions[i]) {
-	invalid_index();
+	invalid_index(array);
 	return -1;
       }
       offset += idx;
@@ -263,7 +264,7 @@ METHOD std_types::array/_type
     int dimension_count = info->dimension_count;
     MIN_ARGUMENTS(dimension_count)
     MAX_ARGUMENTS(dimension_count+1)
-    long offset = compute_array_offset(data->info);
+    long offset = compute_array_offset(MYSELF, data->info);
     if (offset < 0) return;
     if (ARGUMENT_COUNT == dimension_count) {
       // get item
@@ -415,7 +416,7 @@ METHOD std_types::boolean_array/_type
     int dimension_count = info->dimension_count;
     MIN_ARGUMENTS(dimension_count)
     MAX_ARGUMENTS(dimension_count+1)
-    long offset = compute_array_offset(data->info);
+    long offset = compute_array_offset(MYSELF, data->info);
     if (offset < 0) return;
     if (ARGUMENT_COUNT == dimension_count) {
       // get item
@@ -652,7 +653,7 @@ METHOD std_types::character_array/_type
     int dimension_count = info->dimension_count;
     MIN_ARGUMENTS(dimension_count)
     MAX_ARGUMENTS(dimension_count+1)
-    long offset = compute_array_offset(data->info);
+    long offset = compute_array_offset(MYSELF, data->info);
     if (offset < 0) return;
     if (ARGUMENT_COUNT == dimension_count) {
       // get item
@@ -819,7 +820,7 @@ METHOD std_types::int8_array/_type
     int dimension_count = info->dimension_count;
     MIN_ARGUMENTS(dimension_count)
     MAX_ARGUMENTS(dimension_count+1)
-    long offset = compute_array_offset(data->info);
+    long offset = compute_array_offset(MYSELF, data->info);
     if (offset < 0) return;
     if (ARGUMENT_COUNT == dimension_count) {
       // get item
@@ -986,7 +987,7 @@ METHOD std_types::uint8_array/_type
     int dimension_count = info->dimension_count;
     MIN_ARGUMENTS(dimension_count)
     MAX_ARGUMENTS(dimension_count+1)
-    long offset = compute_array_offset(data->info);
+    long offset = compute_array_offset(MYSELF, data->info);
     if (offset < 0) return;
     if (ARGUMENT_COUNT == dimension_count) {
       // get item
@@ -1223,7 +1224,7 @@ METHOD std_types::int16_array/_type
     int dimension_count = info->dimension_count;
     MIN_ARGUMENTS(dimension_count)
     MAX_ARGUMENTS(dimension_count+1)
-    long offset = compute_array_offset(data->info);
+    long offset = compute_array_offset(MYSELF, data->info);
     if (offset < 0) return;
     if (ARGUMENT_COUNT == dimension_count) {
       // get item
@@ -1390,7 +1391,7 @@ METHOD std_types::uint16_array/_type
     int dimension_count = info->dimension_count;
     MIN_ARGUMENTS(dimension_count)
     MAX_ARGUMENTS(dimension_count+1)
-    long offset = compute_array_offset(data->info);
+    long offset = compute_array_offset(MYSELF, data->info);
     if (offset < 0) return;
     if (ARGUMENT_COUNT == dimension_count) {
       // get item
@@ -1627,7 +1628,7 @@ METHOD std_types::int32_array/_type
     int dimension_count = info->dimension_count;
     MIN_ARGUMENTS(dimension_count)
     MAX_ARGUMENTS(dimension_count+1)
-    long offset = compute_array_offset(data->info);
+    long offset = compute_array_offset(MYSELF, data->info);
     if (offset < 0) return;
     if (ARGUMENT_COUNT == dimension_count) {
       // get item
@@ -1794,7 +1795,7 @@ METHOD std_types::uint32_array/_type
     int dimension_count = info->dimension_count;
     MIN_ARGUMENTS(dimension_count)
     MAX_ARGUMENTS(dimension_count+1)
-    long offset = compute_array_offset(data->info);
+    long offset = compute_array_offset(MYSELF, data->info);
     if (offset < 0) return;
     if (ARGUMENT_COUNT == dimension_count) {
       // get item
@@ -2031,7 +2032,7 @@ METHOD std_types::int64_array/_type
     int dimension_count = info->dimension_count;
     MIN_ARGUMENTS(dimension_count)
     MAX_ARGUMENTS(dimension_count+1)
-    long offset = compute_array_offset(data->info);
+    long offset = compute_array_offset(MYSELF, data->info);
     if (offset < 0) return;
     if (ARGUMENT_COUNT == dimension_count) {
       // get item
@@ -2198,7 +2199,7 @@ METHOD std_types::uint64_array/_type
     int dimension_count = info->dimension_count;
     MIN_ARGUMENTS(dimension_count)
     MAX_ARGUMENTS(dimension_count+1)
-    long offset = compute_array_offset(data->info);
+    long offset = compute_array_offset(MYSELF, data->info);
     if (offset < 0) return;
     if (ARGUMENT_COUNT == dimension_count) {
       // get item

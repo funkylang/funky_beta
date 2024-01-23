@@ -6,7 +6,7 @@ typedef struct {
   const char *name;
 } BUILTIN_FUNCTION_NAME;
 
-extern BUILTIN_FUNCTION_NAME builtin_function_names[381];
+extern BUILTIN_FUNCTION_NAME builtin_function_names[385];
 
 typedef enum {
   FIM_SIZE,
@@ -607,6 +607,7 @@ NODE *create_c_function(FUNC func, int par_cnt);
 NODE *from_uchar32(uint32_t code);
 void initialize_environment(void);
 int propagate_error(NODE *node);
+void print_code_reference(const TAB_NUM *code);
 void create_error_message(NODE *category, const char *msg, int err_no, int attr_idx, NODE *node);
 void no_such_function(void);
 void too_few_arguments(void);
@@ -616,7 +617,7 @@ void result_count_mismatch(void);
 void too_few_results(void);
 void too_many_results(void);
 void invalid_results(void);
-void invalid_index(void);
+void invalid_index(NODE *node);
 void divide_by_zero(void);
 void missing_io_access_rights(void);
 void not_yet_implemented(void);
@@ -654,6 +655,7 @@ int is_a_title_case_letter_character(uint32_t chr);
 int is_a_letter_character(uint32_t chr);
 int is_a_whitespace_character(uint32_t chr);
 int is_a_zero_width_character(uint32_t chr);
+int is_a_wide_character(uint32_t chr);
 NODE *register_unique_item(const char *name);
 
 void *create__std_types___error

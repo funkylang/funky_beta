@@ -1,0 +1,50 @@
+#!/usr/bin/env fkyrun
+
+$str "@ht;  This is a text."
+match WHITESPACE str $len
+dump! `len
+!str "This is a text."
+match WHITESPACE str !len
+dump! `len
+
+println!
+
+!str "This is a text.@nl;"
+match_back WHITESPACE str !len
+dump! `len
+!str "This is a text."
+match_back WHITESPACE str !len
+dump! `len
+
+println!
+!str "  There is a          big gap!@nl;"
+search WHITESPACE str $pos !len
+dump! `pos `len
+search WHITESPACE str 2 !pos !len
+dump! `pos `len
+search WHITESPACE str 3 !pos !len
+dump! `pos `len
+search WHITESPACE str 4 !pos !len
+dump! `pos `len
+search WHITESPACE str 5 !pos !len
+dump! `pos `len
+search WHITESPACE str 6 !pos !len
+dump! `pos `len
+search WHITESPACE str 7 !pos !len
+dump! `pos `len
+
+println!
+search WHITESPACE str -1 !pos !len
+dump! `pos `len
+search WHITESPACE str -2 !pos !len
+dump! `pos `len
+search WHITESPACE str -3 !pos !len
+dump! `pos `len
+search WHITESPACE str -4 !pos !len
+dump! `pos `len
+search WHITESPACE str -5 !pos !len
+dump! `pos `len
+search WHITESPACE str -6 !pos !len
+dump! `pos `len
+search WHITESPACE str -7 !pos !len
+dump! `pos `len

@@ -337,6 +337,37 @@ METHOD std_types::character/to_integer
     RETURN_SINGLE_RESULT(from_uint32(ARGUMENTS(0)->character.code))
   }
 
+METHOD std_types::character/width_of
+  #
+    returns the width of the specified character in character positions
+
+    Parameter:
+      chr # the character to query
+
+    Result:
+      integer # the width of the character in character positions
+
+    Topic: Strings
+
+    See also: std_types::character/to_integer
+
+    Example:
+
+      println! width_of('a')
+
+    Output:
+
+      1
+  {
+    CHECK_ARGUMENTS(1)
+    CHECK_RESULTS(1)
+    RETURN_SINGLE_RESULT(
+      from_uint32(
+	is_a_zero_width_character(ARGUMENTS(0)->character.code)
+	? 0
+	: is_a_wide_character(ARGUMENTS(0)->character.code) ? 2 : 1))
+  }
+
 METHOD long std_types::character/_debug_string
   (
     NODE *node,

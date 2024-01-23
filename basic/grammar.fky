@@ -95,24 +95,31 @@ $std::FUNKY_IDENTIFIER std_types::FUNKY_IDENTIFIER
     See also: std_types::match, std_types::search
 
 $std_types::FUNKY_IDENTIFIER/match:
-  (
-    _self
-    str
-  )
-  $i 0
-  $n length_of(str)
-  word_start
+  #
+    checks whether the specified string starts with a Funky identifier
 
-  $word_start:
-    inc &i
-    if
-      i > n
-      -> undefined
-      :
-	$chr str(i)
-	case chr
-	  'a' .. 'z', 'A' .. 'Z' within_word
-	  -> undefined
+    Result:
+      len # the number of matched characters or <undefined> if the match is
+	    unsuccessful
+
+    Topic: Grammar Objects, Strings
+
+    See also: std_types::FUNKY_IDENTIFIER, std_types::match_back,
+	      std_types::search
+  (
+    _self # FUNKY_IDENTIFIER
+    str # the string to match with
+  )
+  $i 1
+  $n length_of(str)
+
+  if
+    n == 0
+    -> undefined
+    :
+      case str(1)
+	'a' .. 'z', 'A' .. 'Z' within_word
+	-> undefined
 
   $within_word:
     inc &i
@@ -120,10 +127,442 @@ $std_types::FUNKY_IDENTIFIER/match:
       i > n
       -> n
       :
-	$chr str(i)
-	case chr
+	case str(i)
 	  'a' .. 'z', 'A' .. 'Z', '0' .. '9' within_word
 	  '_' word_start
 	  -> i-1
+
+  $word_start:
+    inc &i
+    case str(i)
+      'a' .. 'z', 'A' .. 'Z', '0' .. '9' within_word
+      -> undefined
+
+$std_types::FUNKY_IDENTIFIER/match_back:
+  #
+    checks whether the specified string ends with a Funky identifier
+
+    Result:
+      len # the number of matched characters or <undefined> if the match is
+	    unsuccessful
+
+    Topic: Grammar Objects, Strings
+
+    See also: std_types::FUNKY_IDENTIFIER, std_types::match, std_types::search
+  (
+    _self # FUNKY_IDENTIFIER
+    str # the string to match with
+  )
+  $n length_of(str)
+  $i n+1
+  word_end
+
+  $word_end:
+    dec &i
+    if
+      i < 1
+      -> undefined
+      :
+	case str(i)
+	  'a' .. 'z', 'A' .. 'Z', '0' .. '9' within_word
+	  -> undefined
+
+  $within_word:
+    dec &i
+    if
+      i < 1
+      check_start
+      :
+	case str(i)
+	  'a' .. 'z', 'A' .. 'Z', '0' .. '9' within_word
+	  '_' word_end
+	  check_start
+
+  $check_start:
+    if
+      str(i+1) >= '0' && str(i+1) <= '9'
+      -> undefined
+      -> n-i
+
+$std_types::FUNKY_IDENTIFIER/search:
+  #
+    searches for the nth occurrence of a Funky identifier
+
+    Result:
+      pos # the position of the match measured from the start of the string
+      len # the number of matched characters
+
+    Negative values of *nth* search from the end of the string.
+
+    Topic: Grammar Objects, Strings
+
+    See also: std_types::FUNKY_IDENTIFIER, FUNKY_IDENTIFIER/match,
+	      FUNKY_IDENTIFIER/match_back
+  (
+    _self # FUNKY_IDENTIFIER
+    str # the string to search
+    nth = 1 # the nth occurrence to search for
+  )
+  $n length_of(str)
+  if
+    nth < 0
+    search_backwards
+    search_forwards
+
+  $search_forwards:
+    $i 0
+    $s undefined
+    search_for_word_start
+
+    $search_for_word_start:
+      inc &i
+      if
+	i > n
+	-> undefined undefined
+	:
+	  case str(i)
+	    'a' .. 'z', 'A' .. 'Z':
+	      if
+		i == 1:
+		  !s 1
+		  within_word
+		:
+		  case str(i-1)
+		    'a' .. 'z', 'A' .. 'Z', '0' .. '9', '_'
+		    search_for_word_start
+		    :
+		      !s i
+		      within_word
+	    search_for_word_start
+
+    $within_word:
+      inc &i
+      if
+	i > n:
+	  if
+	    nth > 1
+	    -> undefined undefined
+	    -> s i-s
+	:
+	  case str(i)
+	    'a' .. 'z', 'A' .. 'Z', '0' .. '9' within_word
+	    '_' word_start
+	    :
+	      if
+		nth > 1:
+		  dec &nth
+		  search_for_word_start
+		-> s i-s
+
+    $word_start:
+      inc &i
+      if
+	i > n
+	-> undefined undefined
+	:
+	  case str(i)
+	    'a' .. 'z', 'A' .. 'Z', '0' .. '9' within_word
+	    search_for_word_start
+
+  $search_backwards:
+    $i n+1
+    $e undefined
+    search_for_word_end
+
+    $search_for_word_end:
+      dec &i
+      if
+	i < 1
+	-> undefined undefined
+	:
+	  case str(i)
+	    'a' .. 'z', 'A' .. 'Z', '0' .. '9':
+	      !e i
+	      within_word
+	    search_for_word_end
+
+    $within_word:
+      dec &i
+      if
+	i < 1:
+	  check_start -> undefined undefined
+	:
+	  case str(i)
+	    'a' .. 'z', 'A' .. 'Z', '0' .. '9' within_word
+	    '_' word_end
+	    :
+	      check_start search_for_word_end
+
+    $word_end:
+      dec &i
+      if
+	i < 1
+	-> undefined undefined
+	:
+	  case str(i)
+	    'a' .. 'z', 'A' .. 'Z', '0' .. '9' within_word
+	    search_for_word_end
+
+    $check_start: (continuation)
+      $chr str(i+1)
+      if
+	chr >= '0' && chr <= '9'
+	continuation
+	:
+	  inc &nth
+	  if
+	    nth == 0
+	    -> i+1 e-i
+	    continuation
+
+$std_types::WHITESPACE std_types::object
+  #
+    a grammar object type for matching whitespace characters
+
+    Topic: Grammar Objects
+
+    See also: std_types::match, std_types::search
+
+$std::WHITESPACE std_types::WHITESPACE
+  #
+    the single instance of the whitespace grammar object type
+
+    Topic: Grammar Objects
+
+    See also: std_types::match, std_types::search
+
+$std_types::WHITESPACE/match:
+  #
+    checks whether the specified string starts with whitespace characters
+
+    Result:
+      len # the number of matched characters or <undefined> if the match is
+	    unsuccessful
+
+    Topic: Grammar Objects, Strings
+
+    See also: std_types::WHITESPACE, std_types::match_back,
+	      std_types::search
+
+    Example:
+
+      $str "@ht;  This is a text."
+      match WHITESPACE str $len
+      dump! `len
+
+    Output:
+
+      len: 3
+
+    Example:
+
+      $str "This is a text."
+      match WHITESPACE str $len
+      dump! `len
+
+    Output:
+
+      len: <undefined>
+  (
+    _self # WHITESPACE
+    str # the string to match with
+  )
+  $i 0
+  $n length_of(str)
+  if
+    n == 0
+    -> undefined
+    :
+      loop:
+	inc &i
+	if
+	  i > n
+	  -> n
+	  :
+	    if
+	      str(i).is_a_whitespace_character
+	      next
+	      :
+		if
+		  i > 1
+		  -> i-1
+		  -> undefined
+
+$std_types::WHITESPACE/match_back:
+  #
+    checks whether the specified string ends with whitespace characters
+
+    Result:
+      len # the number of matched characters or <undefined> if the match is
+	    unsuccessful
+
+    Topic: Grammar Objects, Strings
+
+    See also: std_types::WHITESPACE, std_types::match, std_types::search
+
+    Example:
+
+      $str "This is a text."
+      match_back WHITESPACE str $len
+      dump! `len
+
+    Output:
+
+      len: <undefined>
+
+    Example:
+
+      $str "This is a text.@nl;"
+      match_back WHITESPACE str $len
+      dump! `len
+
+    Output:
+
+      len: 1
+  (
+    _self # WHITESPACE
+    str # the string to match with
+  )
+  $n length_of(str)
+  if
+    n == 0
+    -> undefined
+    :
+      $i n+1
+      loop:
+	dec &i
+	if
+	  i < 1
+	  -> n
+	  :
+	    if
+	      str(i).is_a_whitespace_character
+	      next
+	      :
+		if
+		  i < n
+		  -> n-i
+		  -> undefined
+
+$std_types::WHITESPACE/search:
+  #
+    searches for the nth occurrence of whitespace characters
+
+    Result:
+      pos # the position of the match measured from the start of the string
+      len # the number of matched characters
+
+    Negative values of *nth* search from the end of the string.
+
+    Topic: Grammar Objects, Strings
+
+    See also: std_types::WHITESPACE, WHITESPACE/match, WHITESPACE/match_back
+
+    Example:
+
+      $str "This is a text."
+      search WHITESPACE str 2 $pos $len
+      dump! `pos `len
+
+    Output:
+
+      pos: 8
+      len: 1
+
+    Example:
+
+      $str "This is a text.@nl;"
+      search WHITESPACE str -1 $pos $len
+      dump! `pos `len
+
+    Output:
+
+      pos: 10
+      len: 1
+  (
+    _self # WHITESPACE
+    str # the string to search
+    nth = 1 # the nth occurrence to search for
+  )
+  $n length_of(str)
+  if
+    nth < 0
+    search_backwards
+    search_forwards
+
+  $search_forwards:
+    $i 0
+    $s undefined
+    search_for_whitespace
+
+    $search_for_whitespace:
+      inc &i
+      if
+	i > n
+	-> undefined undefined
+	:
+	  if
+	    str(i).is_a_whitespace_character
+	    :
+	      !s i
+	      match_more_whitespace
+	    search_for_whitespace
+
+    $match_more_whitespace:
+      inc &i
+      if
+	i > n:
+	  if
+	    nth > 1
+	    -> undefined undefined
+	    -> s i-s
+	:
+	  if
+	    str(i).is_a_whitespace_character
+	    match_more_whitespace
+	    :
+	      if
+		nth > 1:
+		  dec &nth
+		  search_for_whitespace
+		-> s i-s
+
+  $search_backwards:
+    $i n+1
+    $e undefined
+    search_for_whitespace
+
+    $search_for_whitespace:
+      dec &i
+      if
+	i < 1
+	-> undefined undefined
+	:
+	  if
+	    str(i).is_a_whitespace_character
+	    :
+	      !e i
+	      match_more_whitespace
+	    search_for_whitespace
+
+    $match_more_whitespace:
+      dec &i
+      if
+	i < 1:
+	  inc &nth
+	  if
+	    nth == 0
+	    -> 1 e
+	    -> undefined undefined
+	:
+	  if
+	    str(i).is_a_whitespace_character
+	    match_more_whitespace
+	    :
+	      inc &nth
+	      if
+		nth == 0
+		-> i+1 e-i
+		search_for_whitespace
 
 $std::alt std::hash_set

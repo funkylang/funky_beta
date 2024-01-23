@@ -1,0 +1,504 @@
+#!/usr/bin/env fkyrun
+
+  Copyright (C) 2024 by
+  Dipl.-Ing. Michael Niederle
+
+  This program is free software; you can redistribute it and/or modify
+  it under the terms of the GNU General Public License, version 2, or
+  (at your option) version 3.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  GNU General Public License for more details.
+
+  For details of the GNU General Public License see the accompanying
+  files GPLv2.txt and GLPv3.txt or
+  http://www.gnu.org/licenses/gpl-2.0.html
+  http://www.gnu.org/licenses/gpl-3.0.html
+  or write to the
+  Free Software Foundation, Inc.,
+  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+
+<using std>
+<using meta>
+
+#
+  Fields
+
+   1: codepoint (hexadecimal)
+   2: character name
+   3: general category
+   4: canonical combining classes
+   5: bidirectional category
+   6: character decomposition mapping
+   7: decimal digit value
+   8: digit value
+   9: numeric value
+  10: mirrored
+  11: unicode 1.0 name
+  12: iso 10646 comment
+  13: upper case mapping
+  14: lower case mapping
+  15: title case mapping
+
+#
+  Character Categories
+
+  Cc: Control
+  Cf: Format
+  Co: Private Use
+  Cs: Surrrogate
+  Ll: Lowercase Letter
+  Lm: Modifier Letter
+  Lo: Other Letter
+  Lt: Titlecase Letter
+  Lu: Uppercase Letter
+  Mc: Spacing Mark
+  Me: Enclosing Mark
+  Mn: Nonspacing Mark
+  Nd: Decimal Number
+  Nl: Letter Number
+  No: Other Number
+  Pc: Connector Punctuation
+  Pd: Dash Punctuation
+  Pe: Close Punctuation
+  Pf: Final Punctuation
+  Pi: Initial Punctuation
+  Po: Other Punctuation
+  Ps: Open Punctuation
+  Sc: Currency Symbol
+  Sk: Modifier Symbol
+  Sm: Math Symbol
+  So: Other Symbol
+  Zl: Line Separator
+  Zp: Paragraph Separator
+  Zs: Space
+
+$category_of ()
+
+load! $unicode_data "meta/data/UnicodeData.txt"
+load! $east_asian_width "meta/data/EastAsianWidth.txt"
+
+$from_hex: (field)
+  if
+    field == ""
+    -> undefined
+    -> to_integer("0x@(field)")
+
+$name_of ()
+  #
+    upper_case_letter, lower_case_letter, title_case_letter, letter,
+    whitespace, zero_width
+
+$category_checker_of ()
+  #
+    Checks if the character is in the given category
+
+$first_code_of ()
+$last_code_of ()
+  # <first_code_of> and <last_code_of> specify the current character range
+
+$step_of ()
+  #
+    the delta between two characters in the current range; if it is zero,
+    the current "range" is a single character
+
+$first_conversion_code_of ()
+$last_conversion_code_of ()
+$conversion_step_of ()
+$diff_of ()
+
+$is_a_character_function (!)
+  #
+    generates a function that checks if a given codepoint is in the given
+    category
+
+$to_case_function (!)
+  #
+    generates a function that converts a given codepoint based on the category
+
+$character_categories empty_list
+
+$std_types::character_category
+  std_types::object
+    .first_code_of 0
+    .last_code_of 0
+    .step_of 0
+    .first_conversion_code_of 0
+    .last_conversion_code_of 0
+    .conversion_step_of 0
+    .diff_of 0
+    .category_checker_of undefined
+
+# generate categories for upper, lower and title case
+
+for_each !character_categories
+  "upper", "lower", "title"
+  : (name)
+    $category_checker: (myself^ category) -> category == category_of(myself)
+    !category_checker.category_of "L@(name(1))"
+    push &character_categories
+      std_types::character_category
+	.name_of "@(name)_case_letter"
+	.category_checker_of category_checker
+	.to_case_function "
+
+	  FUNCTION static uint32_t to_@(name)_case
+	    (
+	      uint32_t chr
+	    )
+	    {
+    next
+  -> character_categories
+
+# generate the category for letters
+
+push &character_categories
+  std_types::character_category
+    .name_of "letter"
+    .category_checker_of: (category)
+      case category
+	"Lu", "Ll", "Lt" -> true
+	-> false
+
+# generate the category for whitespace
+
+push &character_categories
+  std_types::character_category
+    .name_of "whitespace"
+    .category_checker_of: (category)
+      -> category(1) == 'Z' || category == "Cc"
+
+# generate the category for zero width characters
+
+push &character_categories
+  std_types::character_category
+    .name_of "zero_width"
+    .category_checker_of: (category)
+      -> category == "Mn"
+
+# generate the category for wide characters
+
+push &character_categories
+  std_types::character_category
+    .name_of "wide"
+
+# add "is_a" functions for each category
+
+map &character_categories: (character_category)
+  $name name_of(character_category)
+  $name_with_article
+    if
+      name(1) == 'u'
+      -> "an_@(name)"
+      -> "a_@(name)"
+  !character_category.is_a_character_function "
+
+    FUNCTION int is_@(name_with_article)_character
+      (
+	uint32_t chr
+      )
+      {
+  -> character_category
+
+# convert a (signed) value into a decimal or hexadecimal string
+
+$signed: (value)
+  if
+    value > -10 && value < 10:
+      if
+	value > 0
+	-> "+@(value)"
+	-> value.to_string
+    :
+      if
+	value > 0
+	-> "+0x@(hex(value))"
+	-> "-0x@(hex(-value))"
+
+# generate a character test of a <is_a_...>-function>
+
+$maybe_write_a_case_test_entry: (character_category)
+  $first_code first_code_of(character_category)
+  if
+    first_code > 0:
+      $last_code last_code_of(character_category)
+      case character_category.step_of
+	0:
+	  append &character_category.is_a_character_function "
+	    @;    if (chr == 0x@(hex(first_code))) return true;
+	  -> character_category
+	1:
+	  append &character_category.is_a_character_function "
+	    @
+		if (chr < 0x@(hex(first_code))) return false;
+		if (chr <= 0x@(hex(last_code))) return true;
+	  -> character_category
+	2:
+	  $modulo
+	    if
+	      first_code_of(character_category).is_even
+	      -> 0
+	      -> 1
+	  append &character_category.is_a_character_function "
+		if (chr < 0x@(hex(first_code))) return false;
+		if ((chr & 1) == @(modulo) && chr <= 0x@(hex(last_code))) @
+	    return true;
+	  -> character_category
+    -> character_category
+
+# generate a character test and convert of a <to_..._case>-function>
+
+$maybe_write_a_conversion_entry: (character_category)
+  if
+    &&
+      first_conversion_code_of(character_category) != 0
+      diff_of(character_category) != 0
+    :
+      $first_conversion_code first_conversion_code_of(character_category)
+      $last_conversion_code last_conversion_code_of(character_category)
+      $diff diff_of(character_category)
+      case conversion_step_of(character_category)
+	0:
+	  append &character_category.to_case_function "
+		if (chr == 0x@(hex(first_conversion_code))) @
+	    return chr@(signed(diff));
+	  -> character_category
+	1:
+	  append &character_category.to_case_function "
+		if (chr < 0x@(hex(first_conversion_code))) return chr;
+		if (chr <= 0x@(hex(last_conversion_code))) @
+	    return chr@(signed(diff));
+	  -> character_category
+	2:
+	  $modulo
+	    if
+	      character_category.first_conversion_code_of.is_even
+	      -> 0
+	      -> 1
+	  append &character_category.to_case_function "
+		if (chr < 0x@(hex(first_conversion_code))) return chr;
+		if ((chr & 1) == @(modulo) && @
+	    chr <= 0x@(hex(last_conversion_code))) @
+	    return chr@(signed(diff));
+	  -> character_category
+    -> character_category
+
+# generate the functions
+
+for_each !character_categories
+  unicode_data.trim .split. '@nl;'
+  : (line)
+    $fields split(line ';')
+    $code fields(1).from_hex
+    $category fields(3)
+    map &character_categories: (idx character_category)
+      $category_checker category_checker_of(character_category)
+      if
+	category_checker.is_undefined
+	-> character_category
+	:
+	  if
+	    category_checker(category):
+	      $delta code-character_category.first_code_of
+	      if
+		||
+		  first_code_of(character_category) == 0
+		  &&
+		    step_of(character_category) > 0
+		    !=
+		      code
+		      last_code_of(character_category)+step_of(character_category)
+		  step_of(character_category) == 0 && delta > 2
+		:
+		  maybe_write_a_case_test_entry &character_category
+		  !character_category.first_code_of code
+		  !character_category.step_of 0
+		  set_last_code
+		:
+		  if
+		    step_of(character_category) == 0:
+		      !character_category.step_of delta
+		      set_last_code
+		    set_last_code
+
+	      $set_last_code:
+		!character_category.last_code_of code
+		handle_to_case
+
+	    handle_to_case
+
+	  $handle_to_case:
+	    if
+	      character_category.to_case_function.is_defined:
+		$conversion_code fields(12+idx).from_hex
+		if
+		  conversion_code.is_defined:
+		    $new_diff conversion_code-code
+		    $delta code-character_category.first_conversion_code_of
+		    if
+		      ||
+			first_conversion_code_of(character_category) == 0
+			new_diff != diff_of(character_category)
+			&&
+			  character_category.conversion_step_of > 0
+			  !=
+			    code
+			    +
+			      last_conversion_code_of(character_category)
+			      conversion_step_of(character_category)
+			conversion_step_of(character_category) == 0 && delta > 2
+		      :
+			maybe_write_a_conversion_entry &character_category
+			!character_category.first_conversion_code_of code
+			!character_category.diff_of new_diff
+			!character_category.conversion_step_of 0
+			set_last_conversion_code
+		      :
+			if
+			  conversion_step_of(character_category) == 0:
+			    !character_category.conversion_step_of delta
+			    set_last_conversion_code
+			  set_last_conversion_code
+
+		    $set_last_conversion_code:
+		      !character_category.last_conversion_code_of code
+		      -> character_category
+		  -> character_category
+	      -> character_category
+    next
+  -> character_categories
+
+$first undefined
+$last undefined
+$width undefined
+$wide_character_category character_categories(-1)
+for_each !character_categories(-1)
+  east_asian_width.trim .split. '@nl;'
+  : (line)
+    if
+      line.is_empty || line(1) == '#'
+      next
+      :
+	$codes trim(line .before. ';')
+	$new_width
+	  case
+	    trim_left(line .behind. ';') .truncate_from. WHITESPACE
+	    "W"
+	    -> "true"
+	    -> "false"
+	parse_hex &codes $new_first
+	$new_last
+	  if
+	    codes .has_prefix. "..":
+	      range &codes 3 -1
+	      parse_hex &codes $value
+	      -> value
+	    -> new_first
+	if
+	  ||
+	    new_width != width
+	    first.is_undefined
+	    width == "true" && new_first != last+1
+	  :
+	    if
+	      width.is_defined:
+		debug::print "
+		  @(hex(first 4)) .. @(hex(last 4)): @(width)
+		if
+		  first != last:
+		    if
+		      first == 0:
+			append &wide_character_category.is_a_character_function "
+			  @
+			      if (chr <= 0x@(hex(last))) return @(width);
+			start_new_range
+		      :
+			append &wide_character_category.is_a_character_function "
+			  @
+			      if (chr >= 0x@(hex(first)) && chr <= 0x@(hex(last))) @
+				return @(width);
+			start_new_range
+		  :
+		    append &wide_character_category.is_a_character_function "
+		      @
+			  if (chr == 0x@(hex(first))) return @(width);
+		    start_new_range
+	      start_new_range
+
+	    $start_new_range:
+	      !width new_width
+	      !first new_first
+	      !last new_last
+	      next
+	  :
+	    !last new_last
+	    next
+  -> wide_character_category
+
+# Print Low Level Functions
+
+for_each character_categories
+  : (character_category)
+    update_if character_category.to_case_function.is_defined
+      &character_category: maybe_write_a_conversion_entry character_category
+    maybe_write_a_case_test_entry &character_category
+    print! "
+      @(character_category.is_a_character_function)@
+	  return false;
+	}
+    on character_category.to_case_function.is_defined:
+      print! "
+	@(character_category.to_case_function)@
+	    return chr;
+	  }
+    next!
+  pass
+
+# Print High Level Functions
+
+for_each character_categories
+  : (character_category)
+    $name name_of(character_category)
+    $name_with_article
+      if
+	name(1) == 'u'
+	-> "an_@(name)"
+	-> "a_@(name)"
+
+    on character_category.to_case_function.is_defined:
+      $to_name name .without_suffix. "_letter"
+      $pendant replace_all(to_name '_' = " ")
+
+      print! "
+
+	METHOD std_types::character/to_@(to_name)
+	  #
+	    converts to @(pendant)
+
+	    All letter characters are converted to their @(pendant)
+	    pendants; all other characters are returned unaltered.
+	  {
+	    CHECK_ARGUMENTS(1)
+	    CHECK_RESULTS(1)
+	    uint32_t chr_code;
+	    CHECK(to_uchar32(ARGUMENTS(0), &chr_code));
+	    RETURN_SINGLE_RESULT(@
+	      CREATE(std_types::character, to_@(to_name)(chr_code)))
+	  }
+
+    print! "
+
+      FUNCTION std::is_@(name_with_article)_character
+	#
+	  returns <true> for @(replace_all(name '_' = " ")) characters
+	{
+	  CHECK_ARGUMENTS(1)
+	  CHECK_RESULTS(1)
+	  uint32_t chr_code;
+	  CHECK(to_uchar32(ARGUMENTS(0), &chr_code));
+	  RETURN_BOOLEAN(is_@(name_with_article)_character(chr_code))
+	}
+    next!
+  pass

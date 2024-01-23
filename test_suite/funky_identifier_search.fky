@@ -1,0 +1,63 @@
+#!/usr/bin/env fkyrun
+
+$str "abc_def ghi_i2jk lmn_opq345"
+search $pos $len FUNKY_IDENTIFIER str
+dump! `pos
+dump! `len
+search !pos !len FUNKY_IDENTIFIER str 2
+dump! `pos
+dump! `len
+search !pos !len FUNKY_IDENTIFIER str 3
+dump! `pos
+dump! `len
+
+println!
+
+!str "34 abc_def( (a) ghi_i2jk 33+972   lmn_opq345"
+search !pos !len FUNKY_IDENTIFIER str
+dump! `pos
+dump! `len
+search !pos !len FUNKY_IDENTIFIER str 2
+dump! `pos
+dump! `len
+search !pos !len FUNKY_IDENTIFIER str 3
+dump! `pos
+dump! `len
+search !pos !len FUNKY_IDENTIFIER str 4
+dump! `pos
+dump! `len
+search !pos !len FUNKY_IDENTIFIER str 5
+dump! `pos
+dump! `len
+
+println!
+
+!str "abc_def ghi_i2jk lmn_opq345"
+search !pos !len FUNKY_IDENTIFIER str -1
+dump! `pos
+dump! `len
+search !pos !len FUNKY_IDENTIFIER str -2
+dump! `pos
+dump! `len
+search !pos !len FUNKY_IDENTIFIER str -3
+dump! `pos
+dump! `len
+
+println!
+
+!str "34 abc_def( (a) ghi_i2jk 33+972   lmn_opq345"
+search !pos !len FUNKY_IDENTIFIER str -1
+dump! `pos
+dump! `len
+search !pos !len FUNKY_IDENTIFIER str -2
+dump! `pos
+dump! `len
+search !pos !len FUNKY_IDENTIFIER str -3
+dump! `pos
+dump! `len
+search !pos !len FUNKY_IDENTIFIER str -4
+dump! `pos
+dump! `len
+search !pos !len FUNKY_IDENTIFIER str -5
+dump! `pos
+dump! `len

@@ -425,6 +425,32 @@ METHOD int std_types::error/_get_item_of propagate_error
 METHOD int std_types::error/_length_of propagate_error
 METHOD int std_types::error/_unfold propagate_error
 
+CODE
+  extern const TAB_NUM *tail_call_stack[256];
+  extern const TAB_NUM **tail_call_sp;
+  extern int do_dump_errors;
+
+FUNCTION void print_code_reference
+  (
+    const TAB_NUM *code
+  )
+  {
+    const char *module_name, *function_name;
+    int line_no, column_no;
+    retrieve_continuation_info(
+      code, &module_name, &function_name, &line_no, &column_no);
+    if (function_name) {
+      fprintf(stderr, "%s ", function_name);
+    } else {
+      fprintf(stderr, "<anonymous function> ");
+    }
+    fprintf(stderr, "(called from %s", module_name);
+    if (line_no > 0) {
+      fprintf(stderr, ", line: %d, column: %d", line_no, column_no);
+    }
+    fprintf(stderr, ")\n");
+  }
+
 FUNCTION void create_error_message
   (
     NODE *category,
@@ -443,12 +469,15 @@ FUNCTION void create_error_message
       }
     }
     if (!err) {
+      if (do_dump_errors) {
+	fprintf(stderr, "create error message \"%s\"\n", msg);
+      }
       long size = ALLOCATION_SIZE(strlen(msg)+1);
       MESSAGE_TEXT *message = allocate(sizeof(MESSAGE_TEXT)+size);
       message->size = size;
       strcpy(message->text, msg);
       TLS_frame->code = TLS_code; // this was not initialized by the caller!
-      long n = 0;
+      long n = tail_call_sp-tail_call_stack;
       FRAME *trace = TLS_frame;
       while (trace) {
 	++n;
@@ -457,8 +486,17 @@ FUNCTION void create_error_message
       FUNC_DATA *data = allocate_large(sizeof(FUNC_DATA)+n*sizeof(TAB_NUM *));
       data->length = n;
       n = 0;
+      while (tail_call_sp > tail_call_stack) {
+	const TAB_NUM *code = *--tail_call_sp;
+	if (do_dump_errors) {
+	  fprintf(stderr, "tail call: ");
+	  print_code_reference(code);
+	}
+	data->entries[n++] = code;
+      }
       trace = TLS_frame;
       while (trace) {
+	if (do_dump_errors) print_code_reference(trace->code);
 	data->entries[n++] = trace->code;
 	trace = trace->link;
       }
@@ -1022,12 +1060,12 @@ FUNCTION void invalid_results
 
 FUNCTION void invalid_index
   (
-    void
+    NODE *node
   )
   {
     create_error_message(
       module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
-      "INVALID INDEX", 0, 0, NULL);
+      "INVALID INDEX", 0, 0, node);
   }
 
 FUNCTION void divide_by_zero

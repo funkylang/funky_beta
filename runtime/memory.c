@@ -660,9 +660,9 @@ EXPORT void join_nodes(void *left_node_pp, void *right_node_pp) {
   if (left_p >= static_node_buf && left_p < static_node_buf_end) {
     if (right_p >= static_node_buf && right_p < static_node_buf_end) {
       if (left_p < right_p) {
-        joined_p = left_p;
+	joined_p = left_p;
       } else {
-        joined_p = right_p;
+	joined_p = right_p;
       }
     } else {
       joined_p = left_p;
@@ -672,9 +672,9 @@ EXPORT void join_nodes(void *left_node_pp, void *right_node_pp) {
       joined_p = right_p;
     } else {
       if (left_p < right_p) {
-        joined_p = left_p;
+	joined_p = left_p;
       } else {
-        joined_p = right_p;
+	joined_p = right_p;
       }
     }
   }
@@ -792,14 +792,14 @@ EXPORT void end_garbage_collection() {
     mbp = memory_blocks;
     while (mbp) {
       if (mbp->mark == current_mark) {
-        *mbpp = mbp;
-        mbpp = &mbp->link;
-        mbp = *mbpp;
+	*mbpp = mbp;
+	mbpp = &mbp->link;
+	mbp = *mbpp;
       } else {
-        MEMORY_BLOCK *p = mbp;
-        mbp = mbp->link;
+	MEMORY_BLOCK *p = mbp;
+	mbp = mbp->link;
 	if (p->destructor) p->destructor(p+1);
-        deallocate_memory(p);
+	deallocate_memory(p);
       }
     }
     *mbpp = NULL;
@@ -1224,9 +1224,9 @@ static void print_memory(FILE *fp, const uint8_t *buf, long len) {
       if (i % 32 == 0) fprintf(fp, "\n  ");
       uint8_t chr = buf[i];
       if (chr > 0x20 && chr < 0x7f && chr != '%') {
-        fputc((char)chr, fp);
+	fputc((char)chr, fp);
       } else {
-        fprintf(fp, "%%%02x", chr);
+	fprintf(fp, "%%%02x", chr);
       }
     }
   }
@@ -1296,7 +1296,7 @@ static void print_c_string(FILE *fp, const char *buf) {
     fprintf(fp, "  %ld \"", strlen(buf));
     while (chr = (uint8_t)*buf++) {
       if (chr >= 0x20 && chr < 0x7f && chr != '%') {
-        fputc((char)chr, fp);
+	fputc((char)chr, fp);
       } else {
 	fprintf(fp, "%%%02x", chr);
       }
@@ -1547,6 +1547,7 @@ static void open_log_file(void) {
 
 EXPORT int be_verbose = false;
 static int do_dump = false;
+int do_dump_errors = false;
 
 #define WRAPPER 0
 #define CATCHER 1
@@ -1600,6 +1601,11 @@ EXPORT __attribute__ ((noreturn)) void run(FUNKY_MODULE *module) {
     }
     if (strcmp(main_argv[i], "++DUMP++") == 0) {
       do_dump = true;
+      ++i;
+      goto check_option;
+    }
+    if (strcmp(main_argv[i], "++DUMP_ERRORS++") == 0) {
+      do_dump_errors = true;
       ++i;
       goto check_option;
     }

@@ -300,6 +300,9 @@ static void allocate_frame_and_initialize_locals(
   }
 }
 
+extern const TAB_NUM *tail_call_stack[256];
+extern const TAB_NUM **tail_call_sp;
+
 void profiler(void) {
   // initialize stack
   TREE *initial_dynamics = TLS_frame->dynamics;
@@ -311,6 +314,7 @@ void profiler(void) {
   TLS_argument_count = 0;
 
   TLS_code = NULL;
+  tail_call_sp = tail_call_stack;
 
   enter:;
 
@@ -402,6 +406,7 @@ void profiler(void) {
   ++instruction_counter;
   ++profile.counts[COUNT_instructions];
 
+  const TAB_NUM *code_start = TLS_code;
   TAB_NUM functor = *TLS_code++;
   TLS_argument_count = *TLS_code++;
   int i;
@@ -429,6 +434,7 @@ void profiler(void) {
       TLS_code += TLS_argument_count;
       TLS_result_count = *TLS_code;
       if (TLS_result_count < 0) { // it's a RETURN
+	tail_call_sp = tail_call_stack;
 	FRAME *callee_frame = TLS_frame;
 	TLS_frame = TLS_frame->link;
 	if (TLS_deny_io) --TLS_deny_io;
@@ -493,6 +499,8 @@ void profiler(void) {
 	}
 
 	// tail call
+
+	*tail_call_sp++ = code_start;
 
 	if (TLS_deny_io == 0 && functor >= 0) TLS_deny_io = 1;
 	  // we had I/O-access rights but loose them due to a non-IO-tail-call
@@ -696,6 +704,6 @@ void profiler(void) {
       set_argument(*TLS_code++, TLS_arguments[0]); // propagate error
     }
   }
-
+  tail_call_sp = tail_call_stack;
   goto execute_statements;
 }

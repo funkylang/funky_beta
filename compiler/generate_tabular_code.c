@@ -534,18 +534,17 @@ enum {
   lambda_236 = -525,
   num_0xff = -526,
   lambda_237 = -527,
-  str_x = -528,
-  lambda_238 = -529,
-  num_0xffff = -530,
-  lambda_239 = -531,
-  num_4 = -532,
-  str_u = -533,
-  lambda_240 = -534,
-  num_8 = -535,
-  str_U = -536,
-  lambda_241 = -537,
-  lambda_242 = -538,
-  lambda_243 = -539
+  lambda_238 = -528,
+  num_0xffff = -529,
+  lambda_239 = -530,
+  num_4 = -531,
+  str_u = -532,
+  lambda_240 = -533,
+  num_8 = -534,
+  str_U = -535,
+  lambda_241 = -536,
+  lambda_242 = -537,
+  lambda_243 = -538
 };
 
 enum {
@@ -5676,13 +5675,13 @@ static TAB_NUM t_lambda_236[] = {
 static TAB_NUM t_lambda_237[] = {
   1, // locals
   0, // parameters
-  // hex(val 2)
-  var_hex, 2, var_1166_1_val, num_2, 1, LOCAL(1),
-  // append &buf "\x" hex(val 2)
-  var_append, 3, var_1159_1_buf, str_x, LOCAL(1), 1, var_1159_1_buf,
+  // oct(val 3)
+  var_oct, 2, var_1166_1_val, num_3, 1, LOCAL(1),
+  // append &buf "\" oct(val 3)
+  var_append, 3, var_1159_1_buf, string_45, LOCAL(1), 1, var_1159_1_buf,
   // next
   var_next, 0, TAIL_CALL,
-  POS(1170, 32),
+  POS(1170, 31),
   POS(1170, 15),
   POS(1171, 15)
 };
@@ -6336,7 +6335,6 @@ static FUNKY_CONSTANT constants_table[] = {
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_236}},
   {FLT_POSITIVE_INT64, 0, {.value = 0xff}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_237}},
-  {FLT_STRING_8, 2, {.str_8 = "\134x"}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_238}},
   {FLT_POSITIVE_INT64, 0, {.value = 0xffff}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_239}},
@@ -7753,7 +7751,7 @@ static FUNKY_VARIABLE variables_table[] = {
   {
     FOT_UNKNOWN, 0, 0,
     "hex\000", NULL,
-    {.position = POS(1170, 32)}
+    {.position = POS(1175, 36)}
   }
 };
 
@@ -7772,7 +7770,7 @@ FUNKY_MODULE module__generate_tabular_code = {
   0, // number of required modules
   0, // number of defined namespaces
   2, // number of used namespaces
-  539, // number of constants
+  538, // number of constants
   277, // number of variables
   NULL, // required modules
   NULL, // defined namespaces

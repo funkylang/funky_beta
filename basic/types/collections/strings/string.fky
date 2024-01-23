@@ -1054,15 +1054,26 @@ $std::split:
     Example:
 
       $items split("a;b;c" ";")
-      dump! 2 `items
+      dump! `items
 
     Output:
 
-      items:
-	list
-	  "a"
-	  "b"
-	  "c"
+      items: list <3>
+	"a"
+	"b"
+	"c"
+
+    Example:
+
+      $items split("a;b;" ";")
+      dump! `items
+
+    Output:
+
+      items: list <3>
+	"a"
+	"b"
+	""
   (
     self
     separator = ' '
@@ -1079,11 +1090,7 @@ $std::split:
 	    push &items range(self 1 pos-1)
 	    range &self pos+len -1
 	    next
-	  :
-	    if
-	      self.is_empty
-	      -> items
-	      -> push(items self)
+	  -> push(items self)
 
 $std::join:
   #
@@ -2011,69 +2018,6 @@ $std::count_occurrences:
   search_next text 0
 
 $FORK_TEXT_THRESHOLD 300
-
-$std::partition:
-  #
-    partitions a string into several parts and returns a list of these parts
-
-    This function partitions the specified string into several parts.
-    The separators are not removed but start each part.
-
-    The function returns a list of the parts.
-
-    Topic: Strings
-
-    See also: split, split_into_lines, join
-
-    Example:
-
-      $str "a:b;c"
-      $parts partition(str ';', ':')
-      dump! parts
-
-    Output:
-
-      list("a" ":b" ";c")
-  (
-    text # the string to process
-    separators* # the separators
-  )
-  $n length_of(text)
-  partition 1 n
-
-  $partition: (s e)
-    if
-      e+1-s > FORK_TEXT_THRESHOLD: # recurse to exploit parallel execution
-	$m (s+e) .div. 2
-	append partition(s m) partition(m+1 e)
-      :
-	$parts empty_list
-	$ls undefined
-	from_to s e
-	  : (i)
-	    if_not any_of(separators equal text(i)) next:
-	      if
-		ls.is_defined:
-		  push &parts range(text ls i-1)
-		  !ls i
-		  next
-		:
-		  !ls i
-		  next
-	  :
-	    if
-	      ls.is_defined && ls <= e:
-		if
-		  e == n:
-		    -> push(parts range(text ls e))
-		  :
-		    loop: # the last part extends into the next block
-		      !e e+1
-		      if
-			any_of(separators equal text(e))
-			-> push(parts range(text ls e-1))
-			next
-	      -> parts
 
 # parallel version
   $std::split_into_lines: (text)
