@@ -1479,13 +1479,13 @@ $std::update_terminal:
 
   $emit_character: (chr cont)
     log "print " debug::string(chr).trim
-    $chr_width character_width(chr)
+    $chr_width width_of(chr)
     if !chr !chr_width
       current_x == terminal_width && chr_width == 2
       -> ' ' 1
       -> chr chr_width
     push &output chr
-    plus &current_x character_width(chr)
+    plus &current_x width_of(chr)
     if
       current_x > terminal_width:
 	#
@@ -1568,7 +1568,7 @@ $std_types::screen/plot:
 	-> row(3*x-5 ' ')
 	-> row
       if !row
-	character_width(chr) == 2
+	width_of(chr) == 2
 	-> row(3*x+1 ' ')
 	-> row
       if
@@ -1744,21 +1744,6 @@ $std_types::screen/set_background_colour:
 
 $INVALID_CHARACTER '@0;'
 
-$std::character_width:
-  #
-    returns the width of a potentially wide characters
-
-    The return value is either 1 or 2.
-  (
-    chr # the character to be measured
-  )
-  if
-    ||
-      chr >= '@0x1f000;' && chr <= '@0x1f7ff;'
-      chr >= '@0x1f900;' && chr <= '@0x1f9ff;'
-    -> 2
-    -> 1
-
 $std_types::screen/set_cursor:
   (
     self # the terminal for which to set the cursor
@@ -1875,9 +1860,9 @@ $std_types::screen/draw_character:
 	  x == width # no need to check character width
 	  return_update
 	  :
-	    $old_chr_width character_width(old_chr)
+	    $old_chr_width width_of(old_chr)
 	    if
-	      character_width(chr) == 1:
+	      width_of(chr) == 1:
 		if
 		  old_chr_width == 1
 		  return_update
@@ -1890,7 +1875,7 @@ $std_types::screen/draw_character:
 		if
 		  old_chr_width == 1:
 		    if
-		      x+1 == width || character_width(row(3*x+1)) == 1:
+		      x+1 == width || width_of(row(3*x+1)) == 1:
 			push &buf INVALID_CHARACTER
 			append &buf colour
 			!w w+3
@@ -2015,7 +2000,7 @@ $std_types::screen/draw_text:
 	    $skip_one_character:
 	      $chr line(i)
 	      inc &i
-	      !cw character_width(chr)
+	      !cw width_of(chr)
 	      plus &cx cw
 	      skip_clipped_characters
 
@@ -2038,7 +2023,7 @@ $std_types::screen/draw_text:
 		:
 		  $chr line(i)
 		  inc &i
-		  !cw character_width(chr)
+		  !cw width_of(chr)
 		  plus &cx cw
 		  cond
 		    -> cx-1 <= right_x:
@@ -2120,11 +2105,11 @@ $std_types::screen/draw_attributed_text:
     $left_text range(row 1 3*(x-1))
     range &attributed_text 3*s-2 3*e
     $right_text range(row 3*(x+e-s)+1 -1)
-    update_if left_text.is_not_empty && character_width(left_text(-3)) > 1
+    update_if left_text.is_not_empty && width_of(left_text(-3)) > 1
       &left_text -> left_text(-3 ' ')
     update_if attributed_text(1) == INVALID_CHARACTER
       &attributed_text -> attributed_text(1 ' ')
-    update_if character_width(attributed_text(-3)) > 1
+    update_if width_of(attributed_text(-3)) > 1
       &attributed_text -> attributed_text(-3 ' ')
     update_if right_text.is_not_empty && right_text(1) == INVALID_CHARACTER
       &right_text -> right_text(1 ' ')
@@ -2731,5 +2716,11 @@ $std::add_attributes:
       push &buf chr
       push &buf text_colour
       push &buf background_colour
-      next
+      if
+	chr.is_a_wide_character:
+	  push &buf INVALID_CHARACTER
+	  push &buf text_colour
+	  push &buf background_colour
+	  next
+	next
     -> buf

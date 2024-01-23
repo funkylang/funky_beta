@@ -3759,9 +3759,6 @@ $update_display:
 	      continuation
 	    )
 	    update_if width.is_undefined &width -> length_of(text)
-	    on width > length_of(text):
-	      debug::dump `width
-	      debug::dump `text
 	    if
 	      width < 0
 	      continuation
