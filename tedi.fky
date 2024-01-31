@@ -1091,13 +1091,49 @@ $cursor_right: (dx = 1)
 	  .cursor_x_of cursor_x_of(window)+dx
       return_window
     :
-      !window
-	window
-	  .x_of x_of(window)+dx
-	  .sub_y_of undefined
-	  .cursor_x_of undefined
-	  .cursor_y_of undefined
-      return_window
+      $new_x x_of(window)+dx
+      if
+	y > length_of(lines)
+	update_x_position
+	:
+	  $line lines(y)
+	  if
+	    line.is_undefined
+	    update_x_position
+	    :
+	      line $indent $text
+	      if
+		new_x-1 <= indent
+		update_x_position
+		:
+		  #
+		    if the current x position is at the start of a wide
+		    character, advance an additional character position
+		  $len length_of(text)
+		  $pos indent+1
+		  $i 0
+		  loop:
+		    inc &i
+		    if
+		      i > len
+		      update_x_position
+		      :
+			if
+			  pos < new_x:
+			    plus &pos width_of(text(i))
+			    next
+			  :
+			    !new_x pos
+			    update_x_position
+
+      $update_x_position:
+	!window
+	  window
+	    .x_of new_x
+	    .sub_y_of undefined
+	    .cursor_x_of undefined
+	    .cursor_y_of undefined
+	return_window
 
 $cursor_left: (dx = 1)
   if
@@ -1111,13 +1147,51 @@ $cursor_left: (dx = 1)
 	  .cursor_x_of max(cursor_x_of(window)-dx 1)
       return_window
     :
-      !window
-	window
-	  .x_of max(x_of(window)-dx 1)
-	  .sub_y_of undefined
-	  .cursor_x_of undefined
-	  .cursor_y_of undefined
-      return_window
+      $new_x max(x_of(window)-dx 1)
+      $y y_of(window)
+      if
+	y > length_of(lines)
+	update_x_position
+	:
+	  $line lines(y)
+	  if
+	    line.is_undefined
+	    update_x_position
+	    :
+	      line $indent $text
+	      if
+		new_x-1 <= indent
+		update_x_position
+		:
+		  #
+		    if the current x position is at the end of a wide
+		    character, move back an additional character position
+		  $len length_of(text)
+		  $pos indent
+		  $i 0
+		  loop:
+		    inc &i
+		    if
+		      i > len
+		      update_x_position
+		      :
+			$new_pos pos+width_of(text(i))
+			if
+			  new_pos <= new_x:
+			    !pos new_pos
+			    next
+			  :
+			    !new_x pos
+			    update_x_position
+
+      $update_x_position:
+	!window
+	  window
+	    .x_of new_x
+	    .sub_y_of undefined
+	    .cursor_x_of undefined
+	    .cursor_y_of undefined
+	return_window
 
 $cursor_home:
   $pos first_position(y_of(window))
@@ -1171,14 +1245,14 @@ $insert: (str)
     -> state
     :
       $spaces_only str.contains_only_spaces
-      $len length_of(str)
+      $insert_width width_of(str)
       $y y_of(window)
       $height length_of(lines)
       if
 	y > height:
 	  if
 	    spaces_only:
-	      cursor_right len
+	      cursor_right insert_width
 	    :
 	      $insert_line_count y-height
 	      !window.was_updated true
@@ -1193,29 +1267,39 @@ $insert: (str)
 	  line.is_undefined
 	  -> x-1 "" "" undefined
 	  : line
-	$line_width indent+length_of(text)
-	$idx x-indent
 	if
-	  x > line_width:
-	    if
-	      spaces_only:
-		cursor_right len
-	      :
-		!window.was_updated true
-		append &text spaces(x-(line_width+1)) str
-		!lines(y) tedi_line(indent text mark folds)
-		advance_cursor
+	  x > indent+1:
+	    $len length_of(text)
+	    $pos indent+1
+	    $i 0
+	    loop:
+	      inc &i
+	      if
+		i > len:
+		  if
+		    spaces_only
+		    advance_cursor
+		    :
+		      !window.was_updated true
+		      append &text spaces(x-pos) str
+		      !lines(y) tedi_line(indent text mark folds)
+		      advance_cursor
+		:
+		  $new_pos pos+width_of(text(i))
+		  if
+		    new_pos <= x:
+		      !pos new_pos
+		      next
+		    :
+		      !window.was_updated true
+		      !text append(range(text 1 i-1) str range(text i -1))
+		      !lines(y) tedi_line(indent text mark folds)
+		      advance_cursor
 	  :
 	    !window.was_updated true
-	    if
-	      x > indent+1:
-		!text append(range(text 1 idx-1) str range(text idx -1))
-		!lines(y) tedi_line(indent text mark folds)
-		advance_cursor
-	      :
-		!text append(str spaces(indent+1-x) text)
-		!lines(y) tedi_line(x-1 text mark folds)
-		advance_cursor
+	    !text append(str spaces(indent+1-x) text)
+	    !lines(y) tedi_line(x-1 text mark folds)
+	    advance_cursor
 
 	$advance_cursor:
 	  !window
@@ -1223,7 +1307,7 @@ $insert: (str)
 	      .cursor_x_of undefined
 	      .cursor_y_of undefined
 	      .sub_y_of undefined
-	      .x_of x_of(window)+len
+	      .x_of x+insert_width
 	  return_window_and_lines
 
 $insert_line: (str)
@@ -1233,7 +1317,7 @@ $insert_line: (str)
     y > line_count+1:
       !lines
 	push
-	  append(lines dup(list(undefined) y-line_count))
+	  append(lines dup(list(undefined) y-(line_count+1)))
 	  tedi_line(0 str)
       return
     :
@@ -1552,17 +1636,47 @@ $delete_left:
 	    cursor_left
 	    :
 	      line $indent $text $mark $folds
-	      cond
-		-> x <= indent+1:
-		  !window.x_of x-1
-		  update_lines_after_deletion y tedi_line(indent-1 text)
-		-> x > indent+length_of(text)+1 cursor_left
-		-> true:
-		  !window.x_of x-1
-		  !text
-		    append(range(text 1 x-(indent+2)) range(text x-indent -1))
-		  update_lines_after_deletion y
-		    tedi_line(indent text mark folds)
+	      if
+		x <= indent+1
+		reduce_indent
+		:
+		  $len length_of(text)
+		  $pos indent+1
+		  $i 0
+		  loop:
+		    inc &i
+		    if
+		      i > len
+		      cursor_left
+		      :
+			$new_pos pos+width_of(text(i))
+			if
+			  new_pos < x:
+			    !pos new_pos
+			    next
+			  :
+			    if
+			      new_pos > x:
+				if
+				  i == 1
+				  reduce_indent
+				  :
+				    dec &i
+				    !pos x-width_of(text(i))
+				    do_delete
+			      do_delete
+
+			    $do_delete:
+			      !window.x_of pos
+			      !text
+				append(range(text 1 i-1) range(text i+1 -1))
+			      update_lines_after_deletion
+				y tedi_line(indent text mark folds)
+
+	      $reduce_indent:
+		!window.x_of x-1
+		update_lines_after_deletion
+		  y tedi_line(max(indent-1 0) text mark folds)
     -> state
 
 $delete_right:
@@ -1578,15 +1692,29 @@ $delete_right:
 	-> state
 	:
 	  line $indent $text $mark $folds
-
-	  cond
-	    -> x <= indent:
-	      update_lines_after_deletion y tedi_line(indent-1 text)
-	    -> x > indent+length_of(text)
-	      -> state
-	    -> true:
-	      !text append(range(text 1 x-(indent+1)) range(text x+1-indent -1))
-	      update_lines_after_deletion y tedi_line(indent text mark folds)
+	  if
+	    x <= indent:
+	      update_lines_after_deletion y tedi_line(indent-1 text mark folds)
+	    :
+	      $len length_of(text)
+	      $pos indent+1
+	      $i 0
+	      loop:
+		inc &i
+		if
+		  i > len
+		  -> state
+		  :
+		    $new_pos pos+width_of(text(i))
+		    if
+		      new_pos <= x:
+			!pos new_pos
+			next
+		      :
+			!window.x_of pos
+			!text append(range(text 1 i-1) range(text i+1 -1))
+			update_lines_after_deletion
+			  y tedi_line(indent text mark folds)
 
 $delete_line:
   $y y_of(window)
@@ -2151,14 +2279,9 @@ $ai_completion_action:
 	  current_time! $t4
 	  detokenize ai_model token $piece &rest
 	  on do_log:
-	    eprint!
+	    eprintln!
 	      format("%2.3: %5 " t4-t3 token)
 	      '@quot;' escaped_piece(piece) '@quot;'
-	    if
-	      rest.is_empty:
-		eprintln!
-	      :
-		debug::dump `rest
 	  $end_of_text_token end_of_text_token_of(ai_model)
 	  $period_token period_token_of(ai_model)
 	  $use_soft_line_break use_soft_line_break_of(window)
@@ -3433,10 +3556,8 @@ $update_display:
     cursor_y_of(window).is_defined
     -> cursor_x_of(window) cursor_y_of(window) sub_y_of(window)
     :
-      if_not
-	use_soft_line_break
-	-> x y-first_visible_y+1 1
-	:
+      if
+	use_soft_line_break:
 	  $dy count_lines_from_to(first_visible_y first_visible_sub_y y 1)
 	  $line
 	    if
@@ -3464,6 +3585,7 @@ $update_display:
 			inc &text_line_no
 			next
 	    -> x dy+1 1
+	-> x y-first_visible_y+1 1
 
   update_if y.is_undefined &y &sub_y &cursor_y:
     move !y !sub_y $dy first_visible_y first_visible_sub_y cursor_y-1
@@ -4033,7 +4155,7 @@ $last_position: (y)
 		default_value(inbounds_width_of(window) 999'999'999)
 	      $text_lines break_into_lines(text inbounds_width-indent)
 	      -> indent+length_of(text_lines(sub_y_of(window)))+1
-	    -> indent+length_of(text)+1
+	    -> indent+width_of(text)+1
 
 $tedi_line:
   (

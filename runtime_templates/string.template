@@ -958,16 +958,7 @@ METHOD std_types::octet_string/width_of
   {
     CHECK_ARGUMENTS(1)
     CHECK_RESULTS(1)
-    long width = 0;
-    NODE *string = ARGUMENTS(0);
-    OCTET_DATA *data = string->octet_string.data;
-    long offset = string->octet_string.offset;
-    long length = string->octet_string.length;
-    for (long i = 0; i < length; ++i) {
-      uint8_t chr = data->buffer[offset+i];
-      if (!is_a_zero_width_character(chr)) ++width;
-    }
-    RETURN_SINGLE_RESULT(from_long(width))
+    RETURN_SINGLE_RESULT(from_long(ARGUMENTS(0)->octet_string.length))
   }
 
 METHOD quad_octet_string/width_of
@@ -983,9 +974,10 @@ METHOD quad_octet_string/width_of
     long length = string->quad_octet_string.length;
     for (long i = 0; i < length; ++i) {
       uint32_t chr = data->buffer[offset+i];
-      if (!is_a_zero_width_character(chr)) {
-	if (is_a_wide_character(chr)) width += 2;
-	else ++width;
+      if (is_a_wide_character(chr)) {
+	width += 2;
+      } else {
+	++width;
       }
     }
     RETURN_SINGLE_RESULT(from_long(width))

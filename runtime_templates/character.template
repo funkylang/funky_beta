@@ -362,10 +362,7 @@ METHOD std_types::character/width_of
     CHECK_ARGUMENTS(1)
     CHECK_RESULTS(1)
     RETURN_SINGLE_RESULT(
-      from_uint32(
-	is_a_zero_width_character(ARGUMENTS(0)->character.code)
-	? 0
-	: is_a_wide_character(ARGUMENTS(0)->character.code) ? 2 : 1))
+      from_uint32(is_a_wide_character(ARGUMENTS(0)->character.code) ? 2 : 1))
   }
 
 METHOD long std_types::character/_debug_string

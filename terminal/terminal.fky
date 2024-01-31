@@ -1278,7 +1278,6 @@ $std::initialize_terminal:
   create_terminal $terminal width height
     TEXT_COLOUR = text_colour
     BACKGROUND_COLOUR = background_colour
-  debug::dump `terminal
 
   terminal_private::initialize_keys:
     try $err: body! terminal

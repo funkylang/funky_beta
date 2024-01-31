@@ -13962,10 +13962,7 @@ static void entry__std_types___character___std___width_of (void)
       return;
     }
     {
-      NODE *result__node = (NODE *)(from_uint32(
-    	is_a_zero_width_character(TLS_arguments[0]->character.code)
-    	? 0
-    	: is_a_wide_character(TLS_arguments[0]->character.code) ? 2 : 1));
+      NODE *result__node = (NODE *)(from_uint32(is_a_wide_character(TLS_arguments[0]->character.code) ? 2 : 1));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -20268,17 +20265,8 @@ static void entry__std_types___octet_string___std___width_of (void)
       result_count_mismatch();
       return;
     }
-    long width = 0;
-    NODE *string = TLS_arguments[0];
-    OCTET_DATA *data = string->octet_string.data;
-    long offset = string->octet_string.offset;
-    long length = string->octet_string.length;
-    for (long i = 0; i < length; ++i) {
-      uint8_t chr = data->buffer[offset+i];
-      if (!is_a_zero_width_character(chr)) ++width;
-    }
     {
-      NODE *result__node = (NODE *)(from_long(width));
+      NODE *result__node = (NODE *)(from_long(TLS_arguments[0]->octet_string.length));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -20302,9 +20290,10 @@ static void entry__quad_octet_string___std___width_of (void)
     long length = string->quad_octet_string.length;
     for (long i = 0; i < length; ++i) {
       uint32_t chr = data->buffer[offset+i];
-      if (!is_a_zero_width_character(chr)) {
-	if (is_a_wide_character(chr)) width += 2;
-	else ++width;
+      if (is_a_wide_character(chr)) {
+	width += 2;
+      } else {
+	++width;
       }
     }
     {
