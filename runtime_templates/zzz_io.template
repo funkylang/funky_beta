@@ -794,65 +794,60 @@ FUNCTION std::waitpid
     }
   }
 
-FUNCTION std::open_unix_socket
+FUNCTION std::open_tcp_client_socket
   #
-    opens a UNIX domain socket
-
-    The optional mode parameter is a string of the form "rwxrwxrwx". The
-    default value is "rw-r--r--".
-
-    Parameters:
-      filename # the path and name of the socket
-
-    Topic: POSIX
-
-    See also: open_tcp_socket, open, close, read, write
-  {
-    CHECK_ARGUMENTS(1)
-    CHECK_IO_ACCESS_RIGHTS
-    char *filename = NULL;
-    int result;
-    int sock;
-    struct sockaddr_un addr;
-    if (!to_c_string(ARGUMENTS(0), &filename)) goto cleanup;
-    EVENT(open_tcp_socket)
-      sock = socket(AF_UNIX, SOCK_STREAM, 0);
-      if (sock == -1) goto error;
-      memset(&addr, 0, sizeof(struct sockaddr_un));
-      addr.sun_family = AF_UNIX;
-      strcpy(addr.sun_path, filename);
-      do {
-	result = connect(sock, (const struct sockaddr *)&addr, sizeof(addr));
-      } while (result == -1 && errno == EINTR);
-    INFO
-      C_STRING(filename)
-      INT(sock)
-    DATA
-      INT(sock)
-    END
-    if (result == -1) {
-      error:
-      create_error_message(
-	module__builtin.constants_base[unique__std___IO_ERROR-1],
-	"OPEN SOCKET FAILED", errno, 0, NULL);
-    } else {
-      PREPARE_SINGLE_RESULT(file_descriptor_from_int(sock))
-    }
-    cleanup:
-    deallocate_memory(filename);
-  }
-
-FUNCTION std::open_tcp_socket
-  #
-    opens a TCP socket
+    opens a TCP socket and connects to the given host and port
 
     Parameters:
       uri # the universal resource identifier of the socket
       port_no # the port number to connect to
 
+    Result:
+      socket # the opened and connected socket
+
     Topic: POSIX
 
-    See also: open_unix_socket, open, close, read, write
+    See also: open_tcp_server_socket, open, close, read, write
+
+    Example:
+
+      open_tcp_client_socket! $fd "funkylang.org" 80
+      write! $_bytes_written fd "
+	GET / HTTP/1.1@cr;
+	Host: funkylang.org@cr;
+	Connection: close@cr;
+	@cr;
+      loop
+	:
+	  read! fd $buf 4096
+	  if
+	    buf.is_empty:
+	      close! fd
+	      println!
+	    :
+	      print! buf
+	      next!
+
+    Output:
+
+      HTTP/1.1 200 OK
+      Date: Thu, 01 Feb 2024 17:21:29 GMT
+      Server: Apache
+      Last-Modified: Tue, 16 Jan 2024 13:46:22 GMT
+      ETag: "edd-60f105b18c05f"
+      Accept-Ranges: bytes
+      Content-Length: 3805
+      Vary: Accept-Encoding
+      Connection: close
+      Content-Type: text/html
+
+      <html>
+      <head>
+      <title>Funky</title>
+      <link rel="stylesheet" href="style.css"/>
+      </head>
+      <body>
+      ...
   {
     CHECK_ARGUMENTS(2)
     CHECK_IO_ACCESS_RIGHTS
@@ -864,7 +859,7 @@ FUNCTION std::open_tcp_socket
     struct sockaddr_in addr;
     if (!to_c_string(ARGUMENTS(0), &uri)) goto cleanup;
     if (!to_int(ARGUMENTS(1), &port_no)) goto cleanup;
-    EVENT(open_unix_socket)
+    EVENT(open_tcp_client_socket)
       sock = socket(AF_INET, SOCK_STREAM, 0);
       if (sock == -1) goto error;
       server = gethostbyname(uri);
@@ -887,10 +882,115 @@ FUNCTION std::open_tcp_socket
       error:
       create_error_message(
 	module__builtin.constants_base[unique__std___IO_ERROR-1],
-	"OPEN SOCKET FAILED", errno, 0, NULL);
+	"OPEN_TCP_CLIENT_SOCKET FAILED", errno, 0, NULL);
     } else {
       PREPARE_SINGLE_RESULT(file_descriptor_from_int(sock))
     }
     cleanup:
     deallocate_memory(uri);
+  }
+
+FUNCTION std::open_tcp_server_socket
+  #
+    opens a TCP socket to listen for incoming connections
+
+    Parameters:
+      port_no # the port number to listen on
+      backlog_count # the maximum number of pending connections
+
+    Result:
+      socket # the opened and listening socket
+
+    Topic: POSIX
+
+    See also: open_tcp_client_socket, open, close, accept, read, write
+
+    Example:
+
+      open_tcp_server_socket! $fd 80 5
+      loop
+	:
+	  accept! fd $client_fd
+	  print! "New connection from " client_fd.serialize
+	  ...
+  {
+    CHECK_ARGUMENTS(2)
+    CHECK_IO_ACCESS_RIGHTS
+    int port_no;
+    int backlog_count;
+    int sock;
+    int result;
+    struct sockaddr_in addr;
+    if (!to_int(ARGUMENTS(0), &port_no)) return;
+    if (!to_int(ARGUMENTS(1), &backlog_count)) return;
+    EVENT(open_tcp_server_socket)
+      sock = socket(AF_INET, SOCK_STREAM, 0);
+      if (sock == -1) goto error;
+      addr.sin_family = AF_INET;
+      addr.sin_addr.s_addr = htonl(INADDR_ANY);
+      addr.sin_port = htons(port_no);
+      if (bind(sock, (struct sockaddr *)&addr, sizeof(addr)) == -1) goto error;
+      if (listen(sock, backlog_count) == -1) goto error;
+    INFO
+      INT(port_no)
+      INT(backlog_count)
+      INT(sock)
+    DATA
+      INT(sock)
+    END
+    if (result == -1) {
+      error:
+      create_error_message(
+	module__builtin.constants_base[unique__std___IO_ERROR-1],
+	"OPEN_TCP_SERVER_SOCKET FAILED", errno, 0, NULL);
+    } else {
+      PREPARE_SINGLE_RESULT(file_descriptor_from_int(sock))
+    }
+  }
+
+FUNCTION std::accept
+  #
+    accepts an incoming connection on a socket
+
+    Parameter:
+      socket # the socket to accept the connection on
+
+    Returns:
+      socket # a new socket for the accepted connection
+
+    Topic: POSIX
+
+    See also: open_tcp_socket, listen, connect, read, write, close
+
+    Example:
+
+      open_tcp_socket! $sockd "127.0.0.1" 8080
+      listen! sockd 5
+      accept $conn sockd
+      write! conn ...
+  {
+    CHECK_ARGUMENTS(1)
+    CHECK_IO_ACCESS_RIGHTS
+    int sock;
+    int result;
+    int conn;
+    if (!file_descriptor_to_int(ARGUMENTS(0), &sock)) return;
+    EVENT(accept)
+      do {
+	conn = accept(sock, NULL, 0);
+      } while (conn == -1 && errno == EINTR);
+      if (conn == -1) {
+	create_error_message(
+	  module__builtin.constants_base[unique__std___IO_ERROR-1],
+	  "ACCEPT FAILED", errno, 0, NULL);
+      }
+    INFO
+      INT(sock)
+      INT(conn)
+    DATA
+      INT(conn)
+    END
+    if (conn != -1) {
+      PREPARE_SINGLE_RESULT(file_descriptor_from_int(conn))
+    }
   }

@@ -368,7 +368,7 @@ $get_tokens: (model)
     to_json
       insert_order_table
 	"model" = name_of(model)
-  open_tcp_socket! $fd address_of(model) port_no_of(model)
+  open_tcp_client_socket! $fd address_of(model) port_no_of(model)
   print_to! fd "
     POST /get_tokens HTTP/1.1@cr;
     Content-Type: application/json@cr;
@@ -377,7 +377,7 @@ $get_tokens: (model)
     @cr;
     @(json)
   load! $result fd
-  #debug::print "
+  debug::print "
     @(result)
   $error_code between(result ' ' ' ').to_integer
   if
@@ -423,7 +423,7 @@ $ai_types::model/ai::tokenize:
 	"model" = name_of(model)
 	CONTENT = text
   to_utf8 &json
-  open_tcp_socket! $fd address_of(model) port_no_of(model)
+  open_tcp_client_socket! $fd address_of(model) port_no_of(model)
   write_to! fd "
     POST /tokenize HTTP/1.1@cr;
     Content-Type: application/json@cr;
@@ -483,7 +483,7 @@ $ai_types::model/ai::evaluate:
 	"n_probs" = 10
 	"n_predict" = 1
   to_utf8 &json
-  open_tcp_socket! $fd address_of(model) port_no_of(model)
+  open_tcp_client_socket! $fd address_of(model) port_no_of(model)
   write_to! fd "
     POST /completion HTTP/1.1@cr;
     Content-Type: application/json@cr;

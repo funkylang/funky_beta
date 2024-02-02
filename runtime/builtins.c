@@ -363,8 +363,9 @@ enum {
   func__std___pselect,
   func__std___do_not_close,
   func__std___waitpid,
-  func__std___open_unix_socket,
-  func__std___open_tcp_socket
+  func__std___open_tcp_client_socket,
+  func__std___open_tcp_server_socket,
+  func__std___accept
 };
 
 enum {
@@ -798,8 +799,9 @@ enum {
   var_no__std___pselect,
   var_no__std___do_not_close,
   var_no__std___waitpid,
-  var_no__std___open_unix_socket,
-  var_no__std___open_tcp_socket
+  var_no__std___open_tcp_client_socket,
+  var_no__std___open_tcp_server_socket,
+  var_no__std___accept
 };
 
 static FUNKY_VARIABLE variables_table[];
@@ -22589,58 +22591,7 @@ static void entry__std___waitpid (void)
     }
   }
 
-static void entry__std___open_unix_socket (void)
-  {
-    if (TLS_argument_count != 1) {
-      invalid_arguments();
-      return;
-    }
-    if (TLS_deny_io) {
-      missing_io_access_rights();
-      return;
-    }
-    char *filename = NULL;
-    int result;
-    int sock;
-    struct sockaddr_un addr;
-    if (!to_c_string(TLS_arguments[0], &filename)) goto cleanup;
-    if (event__mode != EM__REPLAY) {
-      sock = socket(AF_UNIX, SOCK_STREAM, 0);
-      if (sock == -1) goto error;
-      memset(&addr, 0, sizeof(struct sockaddr_un));
-      addr.sun_family = AF_UNIX;
-      strcpy(addr.sun_path, filename);
-      do {
-	result = connect(sock, (const struct sockaddr *)&addr, sizeof(addr));
-      } while (result == -1 && errno == EINTR);
-      if (event__mode == EM__RECORD) {
-        record__event("open_tcp_socket");
-        store__integer(sock);
-      }
-    } else {
-      replay__event("open_tcp_socket");
-      retrieve__integer(&sock);
-      report__event("open_tcp_socket");
-      print__c_string(filename);
-      print__integer(sock);
-    }
-    if (result == -1) {
-      error:
-      create_error_message(
-	module__builtin.constants_base[unique__std___IO_ERROR-1],
-	"OPEN SOCKET FAILED", errno, 0, NULL);
-    } else {
-      {
-        NODE *result__node = (NODE *)(file_descriptor_from_int(sock));
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-      }
-    }
-    cleanup:
-    deallocate_memory(filename);
-  }
-
-static void entry__std___open_tcp_socket (void)
+static void entry__std___open_tcp_client_socket (void)
   {
     if (TLS_argument_count != 2) {
       invalid_arguments();
@@ -22671,13 +22622,13 @@ static void entry__std___open_tcp_socket (void)
 	result = connect(sock, (const struct sockaddr *)&addr, sizeof(addr));
       } while (result == -1 && errno == EINTR);
       if (event__mode == EM__RECORD) {
-        record__event("open_unix_socket");
+        record__event("open_tcp_client_socket");
         store__integer(sock);
       }
     } else {
-      replay__event("open_unix_socket");
+      replay__event("open_tcp_client_socket");
       retrieve__integer(&sock);
-      report__event("open_unix_socket");
+      report__event("open_tcp_client_socket");
       print__c_string(uri);
       print__integer(port_no);
       print__integer(sock);
@@ -22686,7 +22637,7 @@ static void entry__std___open_tcp_socket (void)
       error:
       create_error_message(
 	module__builtin.constants_base[unique__std___IO_ERROR-1],
-	"OPEN SOCKET FAILED", errno, 0, NULL);
+	"OPEN_TCP_CLIENT_SOCKET FAILED", errno, 0, NULL);
     } else {
       {
         NODE *result__node = (NODE *)(file_descriptor_from_int(sock));
@@ -22696,6 +22647,100 @@ static void entry__std___open_tcp_socket (void)
     }
     cleanup:
     deallocate_memory(uri);
+  }
+
+static void entry__std___open_tcp_server_socket (void)
+  {
+    if (TLS_argument_count != 2) {
+      invalid_arguments();
+      return;
+    }
+    if (TLS_deny_io) {
+      missing_io_access_rights();
+      return;
+    }
+    int port_no;
+    int backlog_count;
+    int sock;
+    int result;
+    struct sockaddr_in addr;
+    if (!to_int(TLS_arguments[0], &port_no)) return;
+    if (!to_int(TLS_arguments[1], &backlog_count)) return;
+    if (event__mode != EM__REPLAY) {
+      sock = socket(AF_INET, SOCK_STREAM, 0);
+      if (sock == -1) goto error;
+      addr.sin_family = AF_INET;
+      addr.sin_addr.s_addr = htonl(INADDR_ANY);
+      addr.sin_port = htons(port_no);
+      if (bind(sock, (struct sockaddr *)&addr, sizeof(addr)) == -1) goto error;
+      if (listen(sock, backlog_count) == -1) goto error;
+      if (event__mode == EM__RECORD) {
+        record__event("open_tcp_server_socket");
+        store__integer(sock);
+      }
+    } else {
+      replay__event("open_tcp_server_socket");
+      retrieve__integer(&sock);
+      report__event("open_tcp_server_socket");
+      print__integer(port_no);
+      print__integer(backlog_count);
+      print__integer(sock);
+    }
+    if (result == -1) {
+      error:
+      create_error_message(
+	module__builtin.constants_base[unique__std___IO_ERROR-1],
+	"OPEN_TCP_SERVER_SOCKET FAILED", errno, 0, NULL);
+    } else {
+      {
+        NODE *result__node = (NODE *)(file_descriptor_from_int(sock));
+        TLS_arguments[0] = result__node;
+        TLS_argument_count = 1;
+      }
+    }
+  }
+
+static void entry__std___accept (void)
+  {
+    if (TLS_argument_count != 1) {
+      invalid_arguments();
+      return;
+    }
+    if (TLS_deny_io) {
+      missing_io_access_rights();
+      return;
+    }
+    int sock;
+    int result;
+    int conn;
+    if (!file_descriptor_to_int(TLS_arguments[0], &sock)) return;
+    if (event__mode != EM__REPLAY) {
+      do {
+	conn = accept(sock, NULL, 0);
+      } while (conn == -1 && errno == EINTR);
+      if (conn == -1) {
+	create_error_message(
+	  module__builtin.constants_base[unique__std___IO_ERROR-1],
+	  "ACCEPT FAILED", errno, 0, NULL);
+      }
+      if (event__mode == EM__RECORD) {
+        record__event("accept");
+        store__integer(conn);
+      }
+    } else {
+      replay__event("accept");
+      retrieve__integer(&conn);
+      report__event("accept");
+      print__integer(sock);
+      print__integer(conn);
+    }
+    if (conn != -1) {
+      {
+        NODE *result__node = (NODE *)(file_descriptor_from_int(conn));
+        TLS_arguments[0] = result__node;
+        TLS_argument_count = 1;
+      }
+    }
   }
 
 static FUNKY_NAMESPACE defined_namespaces[] = {
@@ -23039,8 +23084,9 @@ static FUNKY_CONSTANT constants_table[] = {
   {FLT_C_FUNCTION, -1, {.func = entry__std___pselect}},
   {FLT_C_FUNCTION, 1, {.func = entry__std___do_not_close}},
   {FLT_C_FUNCTION, 1, {.func = entry__std___waitpid}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std___open_unix_socket}},
-  {FLT_C_FUNCTION, 2, {.func = entry__std___open_tcp_socket}}
+  {FLT_C_FUNCTION, 2, {.func = entry__std___open_tcp_client_socket}},
+  {FLT_C_FUNCTION, 2, {.func = entry__std___open_tcp_server_socket}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std___accept}}
 };
 
 static INTERNAL_METHOD std_types___array__internal_methods[] = {
@@ -26536,13 +26582,18 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_INITIALIZED, 0, 0,
-    "open_unix_socket\000std", NULL,
-    {.const_idx = func__std___open_unix_socket}
+    "open_tcp_client_socket\000std", NULL,
+    {.const_idx = func__std___open_tcp_client_socket}
   },
   {
     FOT_INITIALIZED, 0, 0,
-    "open_tcp_socket\000std", NULL,
-    {.const_idx = func__std___open_tcp_socket}
+    "open_tcp_server_socket\000std", NULL,
+    {.const_idx = func__std___open_tcp_server_socket}
+  },
+  {
+    FOT_INITIALIZED, 0, 0,
+    "accept\000std", NULL,
+    {.const_idx = func__std___accept}
   }
 };
 
@@ -26551,13 +26602,13 @@ FUNKY_MODULE module__builtin = {
   NULL,
   0, 0,
   4, 0,
-  335, 432,
+  336, 433,
   NULL,
   defined_namespaces, NULL,
   constants_table, variables_table
 };
 
-BUILTIN_FUNCTION_NAME builtin_function_names[385] = {
+BUILTIN_FUNCTION_NAME builtin_function_names[386] = {
   {std_types___generic_array____type, "std_types::generic_array/_type"},
   {std_types___array____type, "std_types::array/_type"},
   {entry__std_types___array___std___length_of, "std_types::array/length_of"},
@@ -26941,8 +26992,9 @@ BUILTIN_FUNCTION_NAME builtin_function_names[385] = {
   {entry__std___pselect, "std::pselect"},
   {entry__std___do_not_close, "std::do_not_close"},
   {entry__std___waitpid, "std::waitpid"},
-  {entry__std___open_unix_socket, "std::open_unix_socket"},
-  {entry__std___open_tcp_socket, "std::open_tcp_socket"}
+  {entry__std___open_tcp_client_socket, "std::open_tcp_client_socket"},
+  {entry__std___open_tcp_server_socket, "std::open_tcp_server_socket"},
+  {entry__std___accept, "std::accept"}
 };
 
 const char *internal_method_names[] = {

@@ -191,17 +191,17 @@ enum {
   lambda_76 = -182,
   lambda_77 = -183,
   lambda_78 = -184,
-  num_128 = -185,
+  num_0x80 = -185,
   lambda_79 = -186,
   lambda_80 = -187,
-  num_224 = -188,
-  num_192 = -189,
+  num_0xe0 = -188,
+  num_0xc0 = -189,
   lambda_81 = -190,
   lambda_82 = -191,
-  num_240 = -192,
+  num_0xf0 = -192,
   lambda_83 = -193,
   lambda_84 = -194,
-  num_248 = -195,
+  num_0xf8 = -195,
   lambda_85 = -196,
   lambda_86 = -197,
   lambda_87 = -198,
@@ -357,10 +357,11 @@ enum {
   var_ansi_background_colour, // extern
   var_insert_order_table, // extern
   var_to_json, // extern
-  var_open_tcp_socket, // extern
+  var_open_tcp_client_socket, // extern
   var_print_to, // extern
   var_379_7_result, // dynamic
   var_load, // extern
+  var_debug__print, // extern
   var_between, // extern
   var_error, // extern
   var_from_utf8, // extern
@@ -1418,8 +1419,8 @@ static TAB_NUM t_func_get_tokens[] = {
   var_address_of, 1, LOCAL(4), 1, LOCAL(1),
   // port_no_of(model)
   var_port_no_of, 1, LOCAL(4), 1, LOCAL(2),
-  // open_tcp_socket! $fd address_of(model) port_no_of(model)
-  var_open_tcp_socket, 2, LOCAL(1), LOCAL(2), IO_CALL(1), LOCAL(6),
+  // open_tcp_client_socket! $fd address_of(model) port_no_of(model)
+  var_open_tcp_client_socket, 2, LOCAL(1), LOCAL(2), IO_CALL(1), LOCAL(6),
   // length_of(json))@cr;
   var_length_of, 1, LOCAL(5), 1, LOCAL(1),
   // "
@@ -1428,6 +1429,10 @@ static TAB_NUM t_func_get_tokens[] = {
   var_print_to, 2, LOCAL(6), LOCAL(2), IO_CALL(0),
   // load! $result fd
   var_load, 1, LOCAL(6), IO_CALL(1), var_379_7_result,
+  // "
+  var_std__string, 2, var_379_7_result, string_2, 1, LOCAL(1),
+  // debug::print "
+  var_debug__print, 1, LOCAL(1), 0,
   // between(result ' ' ' ').to_integer
   var_between, 3, var_379_7_result, chr_32, chr_32, 1, LOCAL(1),
   // $error_code between(result ' ' ' ').to_integer
@@ -1442,13 +1447,15 @@ static TAB_NUM t_func_get_tokens[] = {
   POS(370, 10),
   POS(369, 7),
   POS(367, 3),
-  POS(371, 24),
-  POS(371, 42),
+  POS(371, 31),
+  POS(371, 49),
   POS(371, 3),
   POS(375, 23),
   POS(372, 16),
   POS(372, 3),
   POS(379, 3),
+  POS(380, 16),
+  POS(380, 3),
   POS(382, 15),
   POS(382, 3),
   POS(384, 5),
@@ -1536,8 +1543,8 @@ static TAB_NUM t_func_ai_types__model___ai__tokenize[] = {
   var_address_of, 1, LOCAL(5), 1, LOCAL(1),
   // port_no_of(model)
   var_port_no_of, 1, LOCAL(5), 1, LOCAL(2),
-  // open_tcp_socket! $fd address_of(model) port_no_of(model)
-  var_open_tcp_socket, 2, LOCAL(1), LOCAL(2), IO_CALL(1), LOCAL(9),
+  // open_tcp_client_socket! $fd address_of(model) port_no_of(model)
+  var_open_tcp_client_socket, 2, LOCAL(1), LOCAL(2), IO_CALL(1), LOCAL(9),
   // length_of(json))@cr;
   var_length_of, 1, LOCAL(8), 1, LOCAL(1),
   // "
@@ -1562,8 +1569,8 @@ static TAB_NUM t_func_ai_types__model___ai__tokenize[] = {
   POS(422, 7),
   POS(420, 3),
   POS(425, 3),
-  POS(426, 24),
-  POS(426, 42),
+  POS(426, 31),
+  POS(426, 49),
   POS(426, 3),
   POS(430, 23),
   POS(427, 16),
@@ -1634,8 +1641,8 @@ static TAB_NUM t_func_ai_types__model___ai__evaluate[] = {
   var_address_of, 1, LOCAL(11), 1, LOCAL(1),
   // port_no_of(model)
   var_port_no_of, 1, LOCAL(11), 1, LOCAL(2),
-  // open_tcp_socket! $fd address_of(model) port_no_of(model)
-  var_open_tcp_socket, 2, LOCAL(1), LOCAL(2), IO_CALL(1), LOCAL(18),
+  // open_tcp_client_socket! $fd address_of(model) port_no_of(model)
+  var_open_tcp_client_socket, 2, LOCAL(1), LOCAL(2), IO_CALL(1), LOCAL(18),
   // length_of(json))@cr;
   var_length_of, 1, LOCAL(17), 1, LOCAL(1),
   // "
@@ -1666,8 +1673,8 @@ static TAB_NUM t_func_ai_types__model___ai__evaluate[] = {
   POS(476, 7),
   POS(474, 3),
   POS(485, 3),
-  POS(486, 24),
-  POS(486, 42),
+  POS(486, 31),
+  POS(486, 49),
   POS(486, 3),
   POS(490, 23),
   POS(487, 16),
@@ -2044,7 +2051,7 @@ static TAB_NUM t_lambda_78[] = {
   1, // locals
   0, // parameters
   // code < 0x80:
-  var_std__less, 2, var_560_1_code, num_128, 1, LOCAL(1),
+  var_std__less, 2, var_560_1_code, num_0x80, 1, LOCAL(1),
   //  code < 0x80:
   LET, 2, LOCAL(1), lambda_79, TAIL_CALL,
   POS(562, 20),
@@ -2066,9 +2073,9 @@ static TAB_NUM t_lambda_80[] = {
   2, // locals
   0, // parameters
   // code & 0xe0 == 0xc0:
-  var_std__bit_and, 2, var_560_1_code, num_224, 1, LOCAL(1),
+  var_std__bit_and, 2, var_560_1_code, num_0xe0, 1, LOCAL(1),
   // code & 0xe0 == 0xc0:
-  var_std__equal, 2, LOCAL(1), num_192, 1, LOCAL(2),
+  var_std__equal, 2, LOCAL(1), num_0xc0, 1, LOCAL(2),
   //  code & 0xe0 == 0xc0:
   LET, 2, LOCAL(2), lambda_81, TAIL_CALL,
   POS(565, 20),
@@ -2091,9 +2098,9 @@ static TAB_NUM t_lambda_82[] = {
   2, // locals
   0, // parameters
   // code & 0xf0 == 0xe0:
-  var_std__bit_and, 2, var_560_1_code, num_240, 1, LOCAL(1),
+  var_std__bit_and, 2, var_560_1_code, num_0xf0, 1, LOCAL(1),
   // code & 0xf0 == 0xe0:
-  var_std__equal, 2, LOCAL(1), num_224, 1, LOCAL(2),
+  var_std__equal, 2, LOCAL(1), num_0xe0, 1, LOCAL(2),
   //  code & 0xf0 == 0xe0:
   LET, 2, LOCAL(2), lambda_83, TAIL_CALL,
   POS(568, 20),
@@ -2116,9 +2123,9 @@ static TAB_NUM t_lambda_84[] = {
   2, // locals
   0, // parameters
   // code & 0xf8 == 0xf0:
-  var_std__bit_and, 2, var_560_1_code, num_248, 1, LOCAL(1),
+  var_std__bit_and, 2, var_560_1_code, num_0xf8, 1, LOCAL(1),
   // code & 0xf8 == 0xf0:
-  var_std__equal, 2, LOCAL(1), num_240, 1, LOCAL(2),
+  var_std__equal, 2, LOCAL(1), num_0xf0, 1, LOCAL(2),
   //  code & 0xf8 == 0xf0:
   LET, 2, LOCAL(2), lambda_85, TAIL_CALL,
   POS(571, 20),
@@ -3235,7 +3242,7 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "open_tcp_socket\000", NULL,
+    "open_tcp_client_socket\000", NULL,
     {.position = POS(371, 3)}
   },
   {
@@ -3251,6 +3258,11 @@ static FUNKY_VARIABLE variables_table[] = {
     FOT_UNKNOWN, 0, 0,
     "load\000", NULL,
     {.position = POS(379, 3)}
+  },
+  {
+    FOT_UNKNOWN, 0, 0,
+    "print\000debug", NULL,
+    {.position = POS(380, 3)}
   },
   {
     FOT_UNKNOWN, 0, 0,
@@ -3477,7 +3489,7 @@ FUNKY_MODULE module__ai__llama = {
   2, // number of defined namespaces
   1, // number of used namespaces
   219, // number of constants
-  177, // number of variables
+  178, // number of variables
   NULL, // required modules
   defined_namespaces,
   used_namespaces,
