@@ -428,3 +428,11 @@ $std::dup ()
 $std::empty_collection_of ()
   #
     an empty collection of the appropriate type
+
+$std::to_base64 ()
+  #
+    converts a string to base64
+
+$std::from_base64 ()
+  #
+    converts a base64 string to a string

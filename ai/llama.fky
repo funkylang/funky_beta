@@ -377,7 +377,7 @@ $get_tokens: (model)
     @cr;
     @(json)
   load! $result fd
-  debug::print "
+  #debug::print "
     @(result)
   $error_code between(result ' ' ' ').to_integer
   if

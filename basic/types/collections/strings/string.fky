@@ -1288,6 +1288,141 @@ $std::normalize:
 	    append &buf range(self s i-1)
 	    next
 
+$std_types::octet_string/to_base64:
+  #
+    converts the octet string to base64
+
+    Topic: Strings
+
+    See also: from_base64
+
+    Example:
+
+      println! to_base64("Hello, world!")
+
+    Output:
+
+      SGVsbG8sIHdvcmxkIQ==
+  (
+    str # the octet string
+  )
+  $base64 ""
+  loop:
+    $len length_of(str)
+    if
+      len >= 3:
+	append &base64 encode(range(str 1 3))
+	range &str 4 -1
+	next
+      :
+	if
+	  len == 0
+	  -> base64
+	  :
+	    append &str dup("@0;" 3-len)
+	    append &base64 encode(str)
+	    case len
+	      1 -> append(range(base64 1 -3) "==")
+	      2 -> push(range(base64 1 -2) '=')
+
+  $encode: (three_octets)
+    #  converts three octets to four base64 characters
+    $bits
+      |
+	three_octets(1).to_integer << 16
+	three_octets(2).to_integer << 8
+	three_octets(3).to_integer
+    $buf ""
+    repeat 4
+      :
+	$value bits >> 18
+	!bits (bits & 0x3ffff) << 6
+	case value
+	  0 .. 25:
+	    push &buf 'A'+value
+	    next
+	  26 .. 51:
+	    push &buf 'a'+(value-26)
+	    next
+	  52 .. 61:
+	    push &buf '0'+(value-52)
+	    next
+	  62:
+	    push &buf '+'
+	    next
+	  63:
+	    push &buf '/'
+	    next
+      -> buf
+
+$std_types::octet_string/from_base64:
+  #
+    converts the base64 string to an octet string
+
+    If the base64 string is not valid or not a multiple of four characters
+    long, then the special value <undefined> is returned.
+
+    Topic: Strings
+
+    See also: to_base64
+
+    Example:
+
+      println! from_base64("SGVsbG8sIHdvcmxkIQ==")
+
+    Output:
+
+      Hello, world!
+  (
+    str # the base64 string
+  )
+  $octets ""
+  if
+    (length_of(str) .mod. 4) != 0
+    -> undefined
+    :
+      loop:
+	if
+	  str.is_empty
+	  -> octets
+	  :
+	    $bits 0
+	    from_to 1 4
+	      : (i)
+		$value decode(str(i))
+		if
+		  value.is_undefined
+		  -> undefined
+		  :
+		    !bits (bits << 6) | value
+		    next
+	      :
+		push &octets character(bits >> 16)
+		push &octets character((bits >> 8) & 0xff)
+		push &octets character(bits & 0xff)
+		if
+		  str(4) == '=':
+		    if
+		      str(3) == '='
+		      -> range(octets 1 -3)
+		      -> range(octets 1 -2)
+		  :
+		    range &str 5 -1
+		    next
+
+  $decode: (chr)
+    # converts a base64 character to an integer
+    case chr
+      'A' .. 'Z' -> chr-'A'
+      'a' .. 'z' -> chr-'a'+26
+      '0' .. '9' -> chr-'0'+52
+      '+' -> 62
+      '/' -> 63
+      '=' -> 0
+      -> undefined
+
+$std_types::octet_string/sha1
+
 $std::parse_integer:
   #
     extracts an integer value from the start of the string
