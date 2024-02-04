@@ -2261,11 +2261,20 @@ $parse_named_operator_expression:
 	    optional_named_operator.is_defined
 	    ->
 	      text
-	      funky_types::named_operator_expression
+	      funky_types::functor
 		.funky::source_group_of current_group
 		.funky::source_position_of position
-		.funky::expression_of range_expression
-		.funky::operator_of optional_named_operator
+		.funky::identifier_of
+		  funky::identifier_of(optional_named_operator)
+		.funky::extensions_of
+		  list
+		    funky_types::function_call
+		      .funky::source_group_of current_group
+		      .funky::source_position_of position
+		      .funky::arguments_of
+			list
+			  range_expression
+			  funky::expression_of(optional_named_operator)
 	    -> text range_expression
 	-> undefined optional_named_operator
     -> undefined range_expression

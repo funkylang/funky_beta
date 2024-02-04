@@ -361,7 +361,6 @@ enum {
   var_print_to, // extern
   var_379_7_result, // dynamic
   var_load, // extern
-  var_debug__print, // extern
   var_between, // extern
   var_error, // extern
   var_from_utf8, // extern
@@ -1429,10 +1428,6 @@ static TAB_NUM t_func_get_tokens[] = {
   var_print_to, 2, LOCAL(6), LOCAL(2), IO_CALL(0),
   // load! $result fd
   var_load, 1, LOCAL(6), IO_CALL(1), var_379_7_result,
-  // "
-  var_std__string, 2, var_379_7_result, string_2, 1, LOCAL(1),
-  // debug::print "
-  var_debug__print, 1, LOCAL(1), 0,
   // between(result ' ' ' ').to_integer
   var_between, 3, var_379_7_result, chr_32, chr_32, 1, LOCAL(1),
   // $error_code between(result ' ' ' ').to_integer
@@ -1454,8 +1449,6 @@ static TAB_NUM t_func_get_tokens[] = {
   POS(372, 16),
   POS(372, 3),
   POS(379, 3),
-  POS(380, 16),
-  POS(380, 3),
   POS(382, 15),
   POS(382, 3),
   POS(384, 5),
@@ -3261,11 +3254,6 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "print\000debug", NULL,
-    {.position = POS(380, 3)}
-  },
-  {
-    FOT_UNKNOWN, 0, 0,
     "between\000", NULL,
     {.position = POS(382, 15)}
   },
@@ -3489,7 +3477,7 @@ FUNKY_MODULE module__ai__llama = {
   2, // number of defined namespaces
   1, // number of used namespaces
   219, // number of constants
-  178, // number of variables
+  177, // number of variables
   NULL, // required modules
   defined_namespaces,
   used_namespaces,

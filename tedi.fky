@@ -168,6 +168,15 @@ program_parameters!
     MANDATORY_PARAMETER "filename" "
       the name of the text file to edit
 
+# initialize error logging
+
+fstat! $stdout_info STDOUT_FILENO
+fstat! $stderr_info STDERR_FILENO
+$do_log
+  ||
+    inode_number_of(stderr_info) != inode_number_of(stdout_info)
+    device_of(stderr_info) != device_of(stdout_info)
+
 # Optional Function Argument
 
 $argument_of (!)
@@ -580,13 +589,6 @@ $io std_types::io
 $ai_model_name "codellama-13b.Q4_0.gguf"
 $ai_server "127.0.0.1:8080"
 $ai_context_size 2560
-
-fstat! $stdout_info STDOUT_FILENO
-fstat! $stderr_info STDERR_FILENO
-$do_log
-  ||
-    inode_number_of(stderr_info) != inode_number_of(stdout_info)
-    device_of(stderr_info) != device_of(stdout_info)
 
 initialize_terminal!
   RECEIVE_CTRL_C_AND_CTRL_Z = true
@@ -2515,8 +2517,9 @@ $filter_action: (myself^)
 	    terminal
 	    extract_window_and_lines(: paste_contents out)
 	:
-	  debug::dump `ret_list(1)
-	  debug::dump `err_list(1)
+	  on do_log:
+	    debug::dump `ret_list(1)
+	    debug::dump `err_list(1)
 	  -> terminal state
 
   $to_arguments: (str)
@@ -4170,6 +4173,9 @@ $tedi_line:
     text.is_empty
     -> undefined
     :
+      on do_log:
+	debug::dump `count_prefix_spaces(text)
+	debug::dump `count_suffix_spaces(text)
       $prefix_spaces count_prefix_spaces(text)
       $suffix_spaces count_suffix_spaces(text)
       range &text prefix_spaces+1 -(suffix_spaces+1)

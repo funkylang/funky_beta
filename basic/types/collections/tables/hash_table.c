@@ -12,7 +12,7 @@ enum {
   list_79_0 = -3,
   uni_NONE = -4,
   func_std_types__hash_table = -5,
-  num_3221225472 = -6,
+  num_0xc0000000 = -6,
   lambda_1 = -7,
   lambda_2 = -8,
   lambda_value_is_defined = -9,
@@ -346,7 +346,7 @@ static TAB_NUM t_func_std_types__hash_table[] = {
   // hash(key) | 0xc000'0000 # add sentinel hash index (3)
   var_hash, 1, var_96_0_key, 1, LOCAL(1),
   // $hash_index hash(key) | 0xc000'0000 # add sentinel hash index (3)
-  var_std__bit_or, 2, LOCAL(1), num_3221225472, 1, var_99_1_hash_index,
+  var_std__bit_or, 2, LOCAL(1), num_0xc0000000, 1, var_99_1_hash_index,
   // $contents contents_of(myself)
   var_contents_of, 1, var_95_0_myself, 1, var_100_1_contents,
   // NONE == value

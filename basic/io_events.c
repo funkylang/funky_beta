@@ -73,7 +73,7 @@ enum {
   lambda_31 = -64,
   lambda_32 = -65,
   lambda_33 = -66,
-  num_65536 = -67,
+  num_0x10000 = -67,
   lambda_buf_is_an_error = -68,
   lambda_34 = -69,
   lambda_35 = -70
@@ -1012,7 +1012,7 @@ static TAB_NUM t_lambda_33[] = {
   1, // locals
   0, // parameters
   // read! $buf fd 0x10000
-  var_read, 2, var_655_3_fd, num_65536, IO_CALL(1), var_657_7_buf,
+  var_read, 2, var_655_3_fd, num_0x10000, IO_CALL(1), var_657_7_buf,
   // is_an_error:
   var_is_an_error, 1, var_657_7_buf, 1, LOCAL(1),
   // if

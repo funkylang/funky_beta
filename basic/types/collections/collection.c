@@ -63,6 +63,7 @@ enum {
   var_std__empty_collection_of, // attribute
   var_std__to_base64, // attribute
   var_std__from_base64, // attribute
+  var_std__sha1, // attribute
   var__END
 };
 
@@ -353,6 +354,11 @@ static FUNKY_VARIABLE variables_table[] = {
     FOT_POLYMORPHIC, 0, 0,
     "from_base64\000std", NULL,
     {.has_a_setter = false}
+  },
+  {
+    FOT_POLYMORPHIC, 0, 0,
+    "sha1\000std", NULL,
+    {.has_a_setter = false}
   }
 };
 
@@ -375,7 +381,7 @@ FUNKY_MODULE module__basic__types__collections__collection = {
   1, // number of defined namespaces
   1, // number of used namespaces
   3, // number of constants
-  49, // number of variables
+  50, // number of variables
   NULL, // required modules
   defined_namespaces,
   used_namespaces,

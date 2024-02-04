@@ -9,14 +9,14 @@
 enum {
   num_624 = -1,
   num_397 = -2,
-  num_2147483648 = -3,
-  num_2147483647 = -4,
-  num_2636928640 = -5,
-  num_4022730752 = -6,
-  num_4294967296 = -7,
+  num_0x80000000 = -3,
+  num_0x7fffffff = -4,
+  num_0x9d2c5680 = -5,
+  num_0xefc60000 = -6,
+  num_0x100000000 = -7,
   func_std_types__mersenne_twister___next_raw_value = -8,
-  num_0 = -9,
-  num_2567483615 = -10,
+  num_0x0 = -9,
+  num_0x9908b0df = -10,
   list_42_0 = -11,
   lambda_1 = -12,
   num_1 = -13,
@@ -31,7 +31,7 @@ enum {
   num_15 = -22,
   num_18 = -23,
   func_std__mersenne_twister = -24,
-  num_4294967295 = -25,
+  num_0xffffffff = -25,
   lambda_7 = -26,
   minus_num_1 = -27,
   num_6069 = -28,
@@ -97,13 +97,13 @@ static TAB_NUM t_func_std_types__mersenne_twister___next_raw_value[] = {
   // y << 7) & TEMPERING_MASK_B)
   var_std__shift_left, 2, LOCAL(4), num_7, 1, LOCAL(1),
   // y << 7) & TEMPERING_MASK_B)
-  var_std__bit_and, 2, LOCAL(1), num_2636928640, 1, LOCAL(2),
+  var_std__bit_and, 2, LOCAL(1), num_0x9d2c5680, 1, LOCAL(2),
   // !y y ^ ((y << 7) & TEMPERING_MASK_B)
   var_std__bit_xor, 2, LOCAL(4), LOCAL(2), 1, LOCAL(4),
   // y << 15) & TEMPERING_MASK_C)
   var_std__shift_left, 2, LOCAL(4), num_15, 1, LOCAL(1),
   // y << 15) & TEMPERING_MASK_C)
-  var_std__bit_and, 2, LOCAL(1), num_4022730752, 1, LOCAL(2),
+  var_std__bit_and, 2, LOCAL(1), num_0xefc60000, 1, LOCAL(2),
   // !y y ^ ((y << 15) & TEMPERING_MASK_C)
   var_std__bit_xor, 2, LOCAL(4), LOCAL(2), 1, LOCAL(4),
   // y >> 18)
@@ -170,13 +170,13 @@ static TAB_NUM t_lambda_2[] = {
   // state(kk) & UPPER_MASK
   var_40_1_state, 1, LOCAL(9), 1, LOCAL(1),
   // state(kk) & UPPER_MASK
-  var_std__bit_and, 2, LOCAL(1), num_2147483648, 1, LOCAL(2),
+  var_std__bit_and, 2, LOCAL(1), num_0x80000000, 1, LOCAL(2),
   // kk+1) & LOWER_MASK
   var_std__plus, 2, LOCAL(9), num_1, 1, LOCAL(3),
   // state(kk+1) & LOWER_MASK
   var_40_1_state, 1, LOCAL(3), 1, LOCAL(4),
   // state(kk+1) & LOWER_MASK
-  var_std__bit_and, 2, LOCAL(4), num_2147483647, 1, LOCAL(5),
+  var_std__bit_and, 2, LOCAL(4), num_0x7fffffff, 1, LOCAL(5),
   // $x
   var_std__bit_or, 2, LOCAL(2), LOCAL(5), 1, LOCAL(10),
   // kk+STATE_VECTOR_M) ^ (x >> 1) ^ mag((x & 1)+1)
@@ -232,13 +232,13 @@ static TAB_NUM t_lambda_4[] = {
   // state(kk) & UPPER_MASK
   var_40_1_state, 1, LOCAL(10), 1, LOCAL(1),
   // state(kk) & UPPER_MASK
-  var_std__bit_and, 2, LOCAL(1), num_2147483648, 1, LOCAL(2),
+  var_std__bit_and, 2, LOCAL(1), num_0x80000000, 1, LOCAL(2),
   // kk+1) & LOWER_MASK
   var_std__plus, 2, LOCAL(10), num_1, 1, LOCAL(3),
   // state(kk+1) & LOWER_MASK
   var_40_1_state, 1, LOCAL(3), 1, LOCAL(4),
   // state(kk+1) & LOWER_MASK
-  var_std__bit_and, 2, LOCAL(4), num_2147483647, 1, LOCAL(5),
+  var_std__bit_and, 2, LOCAL(4), num_0x7fffffff, 1, LOCAL(5),
   // $x
   var_std__bit_or, 2, LOCAL(2), LOCAL(5), 1, LOCAL(11),
   // kk+STATE_VECTOR_M-STATE_VECTOR_LENGTH)
@@ -296,11 +296,11 @@ static TAB_NUM t_lambda_do[] = {
   // state(STATE_VECTOR_LENGTH) & UPPER_MASK
   var_40_1_state, 1, num_624, 1, LOCAL(1),
   // state(STATE_VECTOR_LENGTH) & UPPER_MASK
-  var_std__bit_and, 2, LOCAL(1), num_2147483648, 1, LOCAL(2),
+  var_std__bit_and, 2, LOCAL(1), num_0x80000000, 1, LOCAL(2),
   // new_state(1) & LOWER_MASK
   var_45_1_new_state, 1, num_1, 1, LOCAL(3),
   // new_state(1) & LOWER_MASK
-  var_std__bit_and, 2, LOCAL(3), num_2147483647, 1, LOCAL(4),
+  var_std__bit_and, 2, LOCAL(3), num_0x7fffffff, 1, LOCAL(4),
   // $x
   var_std__bit_or, 2, LOCAL(2), LOCAL(4), 1, LOCAL(8),
   // new_state(STATE_VECTOR_M) ^ (x >> 1) ^ mag((x & 1)+1)
@@ -350,7 +350,7 @@ static TAB_NUM t_func_std__mersenne_twister[] = {
   1, // parameters
   LOCAL(3), // 97_0_seed
   // seed & 0xffffffff)
-  var_std__bit_and, 2, LOCAL(3), num_4294967295, 1, LOCAL(1),
+  var_std__bit_and, 2, LOCAL(3), num_0xffffffff, 1, LOCAL(1),
   // $initial_state list(seed & 0xffffffff)
   var_list, 1, LOCAL(1), 1, var_99_1_initial_state,
   // STATE_VECTOR_LENGTH-1
@@ -380,7 +380,7 @@ static TAB_NUM t_lambda_7[] = {
   // 6069*initial_state(-1) & 0xffffffff
   var_std__times, 2, num_6069, LOCAL(1), 1, LOCAL(2),
   // 6069*initial_state(-1) & 0xffffffff
-  var_std__bit_and, 2, LOCAL(2), num_4294967295, 1, LOCAL(3),
+  var_std__bit_and, 2, LOCAL(2), num_0xffffffff, 1, LOCAL(3),
   // push &initial_state 6069*initial_state(-1) & 0xffffffff
   var_push, 2, var_99_1_initial_state, LOCAL(3), 1, var_99_1_initial_state,
   // next
@@ -401,7 +401,7 @@ static TAB_NUM t_lambda_8[] = {
 };
 
 static int list_42_0_arguments[] = {
-  -num_0, -num_2567483615
+  -num_0x0, -num_0x9908b0df
 };
 
 static FUNKY_CONSTANT constants_table[] = {
@@ -437,7 +437,7 @@ static FUNKY_CONSTANT constants_table[] = {
 };
 
 static ATTRIBUTE_DEFINITION std_types__mersenne_twister__attributes[] = {
-  {-var_modulus_of, -num_4294967296},
+  {-var_modulus_of, -num_0x100000000},
   {var_next_raw_value, -func_std_types__mersenne_twister___next_raw_value}
 };
 

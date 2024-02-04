@@ -517,12 +517,12 @@ static TAB_NUM t_lambda_10[] = {
   0, // parameters
   // 2+first_column_width
   var_std__plus, 2, num_2, var_294_1_first_column_width, 1, LOCAL(1),
-  //  " .dup. 2+first_column_width
+  // " " .dup. 2+first_column_width
   var_dup, 2, string_3, LOCAL(1), 1, LOCAL(2),
   //  " " .dup. 2+first_column_width
   LET, 1, LOCAL(2), TAIL_CALL,
   POS(309, 26),
-  POS(309, 17),
+  POS(309, 16),
   POS(309, 15)
 };
 
@@ -2738,7 +2738,7 @@ static FUNKY_VARIABLE variables_table[] = {
   {
     FOT_UNKNOWN, 0, 0,
     "dup\000", NULL,
-    {.position = POS(309, 17)}
+    {.position = POS(309, 16)}
   },
   {
     FOT_UNKNOWN, 0, 0,

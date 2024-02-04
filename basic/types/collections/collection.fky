@@ -436,3 +436,7 @@ $std::to_base64 ()
 $std::from_base64 ()
   #
     converts a base64 string to a string
+
+$std::sha1 ()
+  #
+    computes the sha1 hash of a string
