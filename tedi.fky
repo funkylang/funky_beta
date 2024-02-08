@@ -4168,19 +4168,21 @@ $tedi_line:
     folds = undefined
     tokens = undefined
   )
-  # must not be called with a text containing only space characters
   if
     text.is_empty
     -> undefined
     :
-      on do_log:
-	debug::dump `count_prefix_spaces(text)
-	debug::dump `count_suffix_spaces(text)
-	debug::dump `text
       $prefix_spaces count_prefix_spaces(text)
-      $suffix_spaces count_suffix_spaces(text)
-      range &text prefix_spaces+1 -(suffix_spaces+1)
-      -> new(tedi_types::tedi_line indent+prefix_spaces text mark folds tokens)
+      if
+	prefix_spaces == length_of(text)
+	-> undefined
+	:
+	  $suffix_spaces count_suffix_spaces(text)
+	  range &text prefix_spaces+1 -(suffix_spaces+1)
+	  ->
+	    new
+	      tedi_types::tedi_line
+	      indent+prefix_spaces text mark folds tokens
 
 $equals_everything std_types::object
 $equals_everything/equal: (_left _right) -> true

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Funky Chat</title>
+    <script language="javascript" type="text/javascript">
+      var input, input_text, output
+      var websocket
+
+      function dump(obj, show_methods) {
+	var text = ""
+	var idx
+	for(idx in obj) {
+	  var value
+	  try {
+	    value = obj[idx]
+	  } catch (exception) {
+	    value = "<INACCESSIBLE>"
+	  }
+	  if (idx != "innerHTML" && idx != "outerHTML" &&
+	      idx != "innerText" && idx != "outerText" &&
+	      show_methods || (value != null && typeof(value) != "function")
+	  ) {
+	    text += idx+" = "+value+"\n"
+	  }
+
+	}
+	alert(text)
+      }
+
+      function elem(id) {
+	return document.getElementById(id)
+      }
+
+      function open_websocket(url) {
+	websocket = new WebSocket(url);
+	websocket.onopen = handle_event
+	websocket.onclose = handle_event
+	websocket.onmessage = handle_event
+	websocket.onerror = handle_event
+      }
+
+      function handle_event(event) {
+	switch (event.type) {
+	  case "open":
+	    websocket.send(document.getElementById("nick").value) // send login name
+	    document.body.removeChild(elem("login"))
+	    elem("input").style.display = "block"
+	    break
+	  case "close":
+	    writeln('<span style="color: red;">CONNECTION CLOSED</span>')
+	    break
+	  case "message":
+	    writeln(event.data)
+	    break
+	  case "error":
+	    writeln('<span style="color: red;">ERROR: ' + event.data+'</span>');
+	    break
+	}
+      }
+
+      function writeln(message)
+      {
+	var pre = document.createElement("p")
+	pre.style.wordWrap = "break-word"
+	pre.innerHTML = message
+	output.appendChild(pre)
+      }
+
+      function login() {
+	var url = document.URL
+	input = elem("input")
+	input_text = elem("input_text")
+	output = elem("output")
+	open_websocket("ws"+url.substr(url.indexOf("://")))
+      }
+
+      function send() {
+	websocket.send(input_text.value)
+	input_text.value = ""
+      }
+    </script>
+  </head>
+  <body>
+    <h2>Funky Chat</h2>
+    <p id="login">
+      Your (nick)name:
+      <input id="nick" type="text"></input>
+      <button onclick="login()">Login</button>
+    </p>
+    <div id="output"></div>
+    <div id="input" style="display: none;">
+      <textarea id="input_text" cols="80 "rows="5"></textarea>
+      <br>
+      <button onclick="send()">Send</button>
+    </div>
+  </body>
+</html>
