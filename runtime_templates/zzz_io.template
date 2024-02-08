@@ -897,6 +897,7 @@ FUNCTION std::open_tcp_server_socket
     Parameters:
       port_no # the port number to listen on
       backlog_count # the maximum number of pending connections
+      reuse = false # reuse the socket, even it is still in TIME_WAIT state
 
     Result:
       socket # the opened and listening socket
@@ -914,18 +915,31 @@ FUNCTION std::open_tcp_server_socket
 	  print! "New connection from " client_fd.serialize
 	  ...
   {
-    CHECK_ARGUMENTS(2)
+    MIN_ARGUMENTS(2)
+    MAX_ARGUMENTS(3)
     CHECK_IO_ACCESS_RIGHTS
     int port_no;
     int backlog_count;
+    int do_reuse = false;
     int sock;
     int result;
     struct sockaddr_in addr;
     if (!to_int(ARGUMENTS(0), &port_no)) return;
     if (!to_int(ARGUMENTS(1), &backlog_count)) return;
+    if (ARGUMENT_COUNT == 3) {
+      if (!to_bool(ARGUMENTS(2), &do_reuse)) return;
+    }
     EVENT(open_tcp_server_socket)
       sock = socket(AF_INET, SOCK_STREAM, 0);
       if (sock == -1) goto error;
+      if (do_reuse) {
+	int opt = 1;
+	if (
+	  setsockopt(sock, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt)) == -1
+	) {
+	  goto error;
+	}
+      }
       addr.sin_family = AF_INET;
       addr.sin_addr.s_addr = htonl(INADDR_ANY);
       addr.sin_port = htons(port_no);
@@ -960,12 +974,11 @@ FUNCTION std::accept
 
     Topic: POSIX
 
-    See also: open_tcp_socket, listen, connect, read, write, close
+    See also: open_tcp_server_socket, read, write, close
 
     Example:
 
-      open_tcp_socket! $sockd "127.0.0.1" 8080
-      listen! sockd 5
+      open_tcp_server_socket! $sockd 8080 5
       accept $conn sockd
       write! conn ...
   {
@@ -992,5 +1005,42 @@ FUNCTION std::accept
     END
     if (conn != -1) {
       PREPARE_SINGLE_RESULT(file_descriptor_from_int(conn))
+    }
+  }
+
+FUNCTION std::is_listening
+  #
+    checks if a socket is listening for incoming connections
+
+    Parameters:
+      socket # the socket to check
+
+    Returns:
+      bool # true if the socket is listening, false otherwise
+
+    Topic: POSIX
+
+    See also: open_tcp_socket, accept, read, write, close
+
+    Example:
+
+      open_tcp_server_socket! $sock 8080 5
+      is_listening! $does_listen sock
+      if does_listen ...
+  {
+    CHECK_ARGUMENTS(1)
+    CHECK_IO_ACCESS_RIGHTS
+    int sock;
+    if (!file_descriptor_to_int(ARGUMENTS(0), &sock)) return;
+    int result;
+    int does_listen;
+    socklen_t len = sizeof(does_listen);
+    result = getsockopt(sock, SOL_SOCKET, SO_ACCEPTCONN, &does_listen, &len);
+    if (result == -1) {
+      create_error_message(
+	module__builtin.constants_base[unique__std___IO_ERROR-1],
+	"GETSOCKOPT FAILED", errno, 0, NULL);
+    } else {
+      RETURN_BOOLEAN(does_listen ? true : false)
     }
   }

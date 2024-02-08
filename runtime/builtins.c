@@ -248,7 +248,7 @@ enum {
   func__std___chmod,
   func__std___chown,
   func__std___chroot,
-  func__std___close,
+  func__std_types___file_descriptor___std___close,
   func__std___closedir,
   func__std___fstat,
   func__std___fsync,
@@ -365,7 +365,8 @@ enum {
   func__std___waitpid,
   func__std___open_tcp_client_socket,
   func__std___open_tcp_server_socket,
-  func__std___accept
+  func__std___accept,
+  func__std___is_listening
 };
 
 enum {
@@ -416,6 +417,7 @@ enum {
   var_no__std___from_utf8,
   var_no__std___read,
   var_no__std___write,
+  var_no__std___close,
   var_no__std___flush,
   var_no__std_types___generic_array,
   var_no__std_types___array,
@@ -713,7 +715,6 @@ enum {
   var_no__std___chmod,
   var_no__std___chown,
   var_no__std___chroot,
-  var_no__std___close,
   var_no__std___closedir,
   var_no__std___fstat,
   var_no__std___fsync,
@@ -801,7 +802,8 @@ enum {
   var_no__std___waitpid,
   var_no__std___open_tcp_client_socket,
   var_no__std___open_tcp_server_socket,
-  var_no__std___accept
+  var_no__std___accept,
+  var_no__std___is_listening
 };
 
 static FUNKY_VARIABLE variables_table[];
@@ -17727,7 +17729,7 @@ static void entry__std___chroot (void)
     deallocate_memory(pathname);
   }
 
-static void entry__std___close (void)
+static void entry__std_types___file_descriptor___std___close (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -17737,9 +17739,8 @@ static void entry__std___close (void)
       missing_io_access_rights();
       return;
     }
-    int fd;
+    int fd = TLS_arguments[0]->file_descriptor.value;
     int result;
-    if (!file_descriptor_to_int(TLS_arguments[0], &fd)) return;
     if (event__mode != EM__REPLAY) {
       do {
 	result = close(fd);
@@ -17850,6 +17851,7 @@ static void entry__std___fstat (void)
     } else {
       NODE *node__device_of = device_id_from_ulong(statbuf.st_dev);
       NODE *node__inode_number_of = inode_number_from_ulong(statbuf.st_ino);
+      NODE *node__type_of = file_type_from_int(statbuf.st_mode >> 12);
       NODE *node__mode_of = mode_from_int(statbuf.st_mode);
       NODE *node__link_count_of = from_int(statbuf.st_nlink);
       NODE *node__user_id_of = user_id_from_int(statbuf.st_uid);
@@ -17879,6 +17881,10 @@ static void entry__std___fstat (void)
 	node->attributes,
 	variables_table[var_no__std___inode_number_of-FIRST_VAR].poly_idx,
 	MAKE_ATTRIBUTE_VALUE(node__inode_number_of));
+      set_attribute(
+	node->attributes,
+	variables_table[var_no__std___type_of-FIRST_VAR].poly_idx,
+	MAKE_ATTRIBUTE_VALUE(node__type_of));
       set_attribute(
 	node->attributes,
 	variables_table[var_no__std___mode_of-FIRST_VAR].poly_idx,
@@ -18967,6 +18973,7 @@ static void entry__std___stat (void)
     } else {
       NODE *node__device_of = device_id_from_ulong(statbuf.st_dev);
       NODE *node__inode_number_of = inode_number_from_ulong(statbuf.st_ino);
+      NODE *node__type_of = file_type_from_int(statbuf.st_mode >> 12);
       NODE *node__mode_of = mode_from_int(statbuf.st_mode);
       NODE *node__link_count_of = from_int(statbuf.st_nlink);
       NODE *node__user_id_of = user_id_from_int(statbuf.st_uid);
@@ -18996,6 +19003,10 @@ static void entry__std___stat (void)
 	node->attributes,
 	variables_table[var_no__std___inode_number_of-FIRST_VAR].poly_idx,
 	MAKE_ATTRIBUTE_VALUE(node__inode_number_of));
+      set_attribute(
+	node->attributes,
+	variables_table[var_no__std___type_of-FIRST_VAR].poly_idx,
+	MAKE_ATTRIBUTE_VALUE(node__type_of));
       set_attribute(
 	node->attributes,
 	variables_table[var_no__std___mode_of-FIRST_VAR].poly_idx,
@@ -22651,8 +22662,12 @@ static void entry__std___open_tcp_client_socket (void)
 
 static void entry__std___open_tcp_server_socket (void)
   {
-    if (TLS_argument_count != 2) {
-      invalid_arguments();
+    if (TLS_argument_count < 2) {
+      too_few_arguments();
+      return;
+    }
+    if (TLS_argument_count > 3) {
+      too_many_arguments();
       return;
     }
     if (TLS_deny_io) {
@@ -22661,14 +22676,26 @@ static void entry__std___open_tcp_server_socket (void)
     }
     int port_no;
     int backlog_count;
+    int do_reuse = false;
     int sock;
     int result;
     struct sockaddr_in addr;
     if (!to_int(TLS_arguments[0], &port_no)) return;
     if (!to_int(TLS_arguments[1], &backlog_count)) return;
+    if (TLS_argument_count == 3) {
+      if (!to_bool(TLS_arguments[2], &do_reuse)) return;
+    }
     if (event__mode != EM__REPLAY) {
       sock = socket(AF_INET, SOCK_STREAM, 0);
       if (sock == -1) goto error;
+      if (do_reuse) {
+	int opt = 1;
+	if (
+	  setsockopt(sock, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt)) == -1
+	) {
+	  goto error;
+	}
+      }
       addr.sin_family = AF_INET;
       addr.sin_addr.s_addr = htonl(INADDR_ANY);
       addr.sin_port = htons(port_no);
@@ -22739,6 +22766,36 @@ static void entry__std___accept (void)
         NODE *result__node = (NODE *)(file_descriptor_from_int(conn));
         TLS_arguments[0] = result__node;
         TLS_argument_count = 1;
+      }
+    }
+  }
+
+static void entry__std___is_listening (void)
+  {
+    if (TLS_argument_count != 1) {
+      invalid_arguments();
+      return;
+    }
+    if (TLS_deny_io) {
+      missing_io_access_rights();
+      return;
+    }
+    int sock;
+    if (!file_descriptor_to_int(TLS_arguments[0], &sock)) return;
+    int result;
+    int does_listen;
+    socklen_t len = sizeof(does_listen);
+    result = getsockopt(sock, SOL_SOCKET, SO_ACCEPTCONN, &does_listen, &len);
+    if (result == -1) {
+      create_error_message(
+	module__builtin.constants_base[unique__std___IO_ERROR-1],
+	"GETSOCKOPT FAILED", errno, 0, NULL);
+    } else {
+      {
+        NODE *result__node = (NODE *)(from_bool(does_listen ? true : false));
+        TLS_arguments[0] = result__node;
+        TLS_argument_count = 1;
+        return;
       }
     }
   }
@@ -22969,7 +23026,7 @@ static FUNKY_CONSTANT constants_table[] = {
   {FLT_C_FUNCTION, 2, {.func = entry__std___chmod}},
   {FLT_C_FUNCTION, 3, {.func = entry__std___chown}},
   {FLT_C_FUNCTION, 1, {.func = entry__std___chroot}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std___close}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std_types___file_descriptor___std___close}},
   {FLT_C_FUNCTION, 1, {.func = entry__std___closedir}},
   {FLT_C_FUNCTION, 1, {.func = entry__std___fstat}},
   {FLT_C_FUNCTION, 1, {.func = entry__std___fsync}},
@@ -23085,8 +23142,9 @@ static FUNKY_CONSTANT constants_table[] = {
   {FLT_C_FUNCTION, 1, {.func = entry__std___do_not_close}},
   {FLT_C_FUNCTION, 1, {.func = entry__std___waitpid}},
   {FLT_C_FUNCTION, 2, {.func = entry__std___open_tcp_client_socket}},
-  {FLT_C_FUNCTION, 2, {.func = entry__std___open_tcp_server_socket}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std___accept}}
+  {FLT_C_FUNCTION, -1, {.func = entry__std___open_tcp_server_socket}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std___accept}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std___is_listening}}
 };
 
 static INTERNAL_METHOD std_types___array__internal_methods[] = {
@@ -23526,6 +23584,7 @@ static INTERNAL_METHOD std_types___file_descriptor__internal_methods[] = {
 };
 
 static ATTRIBUTE_DEFINITION std_types___file_descriptor__attributes[] = {
+  {var_no__std___close, func__std_types___file_descriptor___std___close},
   {var_no__std___equal, func__std_types___file_descriptor___std___equal},
   {var_no__std___get_terminal_attributes, func__std_types___file_descriptor___std___get_terminal_attributes},
   {var_no__std___get_terminal_size, func__std_types___file_descriptor___std___get_terminal_size},
@@ -24030,6 +24089,11 @@ static FUNKY_VARIABLE variables_table[] = {
   {
     FOT_POLYMORPHIC, 0, 0,
     "write\000std", NULL,
+    {.has_a_setter = false}
+  },
+  {
+    FOT_POLYMORPHIC, 0, 0,
+    "close\000std", NULL,
     {.has_a_setter = false}
   },
   {
@@ -25947,7 +26011,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {.const_idx = func__std___file_type}
   },
   {
-    FOT_TYPE, 0, 8,
+    FOT_TYPE, 0, 9,
     "file_descriptor\000std_types", std_types___file_descriptor__attributes,
     {"object\000std_types"},
     {.methods_count = 3}, 0,
@@ -26101,11 +26165,6 @@ static FUNKY_VARIABLE variables_table[] = {
     FOT_INITIALIZED, 0, 0,
     "chroot\000std", NULL,
     {.const_idx = func__std___chroot}
-  },
-  {
-    FOT_INITIALIZED, 0, 0,
-    "close\000std", NULL,
-    {.const_idx = func__std___close}
   },
   {
     FOT_INITIALIZED, 0, 0,
@@ -26594,6 +26653,11 @@ static FUNKY_VARIABLE variables_table[] = {
     FOT_INITIALIZED, 0, 0,
     "accept\000std", NULL,
     {.const_idx = func__std___accept}
+  },
+  {
+    FOT_INITIALIZED, 0, 0,
+    "is_listening\000std", NULL,
+    {.const_idx = func__std___is_listening}
   }
 };
 
@@ -26602,13 +26666,13 @@ FUNKY_MODULE module__builtin = {
   NULL,
   0, 0,
   4, 0,
-  336, 433,
+  337, 434,
   NULL,
   defined_namespaces, NULL,
   constants_table, variables_table
 };
 
-BUILTIN_FUNCTION_NAME builtin_function_names[386] = {
+BUILTIN_FUNCTION_NAME builtin_function_names[387] = {
   {std_types___generic_array____type, "std_types::generic_array/_type"},
   {std_types___array____type, "std_types::array/_type"},
   {entry__std_types___array___std___length_of, "std_types::array/length_of"},
@@ -26867,7 +26931,7 @@ BUILTIN_FUNCTION_NAME builtin_function_names[386] = {
   {entry__std___chmod, "std::chmod"},
   {entry__std___chown, "std::chown"},
   {entry__std___chroot, "std::chroot"},
-  {entry__std___close, "std::close"},
+  {entry__std_types___file_descriptor___std___close, "std_types::file_descriptor/close"},
   {entry__std___closedir, "std::closedir"},
   {entry__std___fstat, "std::fstat"},
   {entry__std___fsync, "std::fsync"},
@@ -26994,7 +27058,8 @@ BUILTIN_FUNCTION_NAME builtin_function_names[386] = {
   {entry__std___waitpid, "std::waitpid"},
   {entry__std___open_tcp_client_socket, "std::open_tcp_client_socket"},
   {entry__std___open_tcp_server_socket, "std::open_tcp_server_socket"},
-  {entry__std___accept, "std::accept"}
+  {entry__std___accept, "std::accept"},
+  {entry__std___is_listening, "std::is_listening"}
 };
 
 const char *internal_method_names[] = {

@@ -1,5 +1,5 @@
 #
-  Copyright (C) 2022 by
+  Copyright (C) 2024 by
   Dipl.-Ing. Michael Niederle
 
   This program is free software; you can redistribute it and/or modify
@@ -114,7 +114,7 @@ $std::wait_for_message () # self continuation
 
 $std::fork () # &self task start_function
 
-$std::log () # &self text
+#$std::log () # &self text
   #
     the arguments are converted into a single string;
     a newline character is added if not already supplied by the caller

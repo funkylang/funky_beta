@@ -3327,7 +3327,7 @@ FUNCTION std::chroot
     deallocate_memory(pathname);
   }
 
-FUNCTION std::close
+METHOD std_types::file_descriptor/close
   #
     closes the specified file without returning success status
 
@@ -3342,9 +3342,8 @@ FUNCTION std::close
   {
     CHECK_ARGUMENTS(1)
     CHECK_IO_ACCESS_RIGHTS
-    int fd;
+    int fd = ARGUMENTS(0)->file_descriptor.value;
     int result;
-    if (!file_descriptor_to_int(ARGUMENTS(0), &fd)) return;
     ACTION(close)
       do {
 	result = close(fd);
@@ -3461,6 +3460,7 @@ FUNCTION std::fstat
     } else {
       NODE *node__device_of = device_id_from_ulong(statbuf.st_dev);
       NODE *node__inode_number_of = inode_number_from_ulong(statbuf.st_ino);
+      NODE *node__type_of = file_type_from_int(statbuf.st_mode >> 12);
       NODE *node__mode_of = mode_from_int(statbuf.st_mode);
       NODE *node__link_count_of = from_int(statbuf.st_nlink);
       NODE *node__user_id_of = user_id_from_int(statbuf.st_uid);
@@ -3490,6 +3490,10 @@ FUNCTION std::fstat
 	node->attributes,
 	variables_table[var_no__std___inode_number_of-FIRST_VAR].poly_idx,
 	MAKE_ATTRIBUTE_VALUE(node__inode_number_of));
+      set_attribute(
+	node->attributes,
+	variables_table[var_no__std___type_of-FIRST_VAR].poly_idx,
+	MAKE_ATTRIBUTE_VALUE(node__type_of));
       set_attribute(
 	node->attributes,
 	variables_table[var_no__std___mode_of-FIRST_VAR].poly_idx,
@@ -4609,6 +4613,7 @@ FUNCTION std::stat
     } else {
       NODE *node__device_of = device_id_from_ulong(statbuf.st_dev);
       NODE *node__inode_number_of = inode_number_from_ulong(statbuf.st_ino);
+      NODE *node__type_of = file_type_from_int(statbuf.st_mode >> 12);
       NODE *node__mode_of = mode_from_int(statbuf.st_mode);
       NODE *node__link_count_of = from_int(statbuf.st_nlink);
       NODE *node__user_id_of = user_id_from_int(statbuf.st_uid);
@@ -4638,6 +4643,10 @@ FUNCTION std::stat
 	node->attributes,
 	variables_table[var_no__std___inode_number_of-FIRST_VAR].poly_idx,
 	MAKE_ATTRIBUTE_VALUE(node__inode_number_of));
+      set_attribute(
+	node->attributes,
+	variables_table[var_no__std___type_of-FIRST_VAR].poly_idx,
+	MAKE_ATTRIBUTE_VALUE(node__type_of));
       set_attribute(
 	node->attributes,
 	variables_table[var_no__std___mode_of-FIRST_VAR].poly_idx,

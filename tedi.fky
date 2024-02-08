@@ -1047,7 +1047,7 @@ $cursor_down: (dy = 1)
 
 $smart_cursor_up:
   $cursor_x cursor_x_of(window)
-  $y y_of(window)
+  $y min(y_of(window) length_of(lines)+1)
   loop:
     dec &y
     if
@@ -4176,6 +4176,7 @@ $tedi_line:
       on do_log:
 	debug::dump `count_prefix_spaces(text)
 	debug::dump `count_suffix_spaces(text)
+	debug::dump `text
       $prefix_spaces count_prefix_spaces(text)
       $suffix_spaces count_suffix_spaces(text)
       range &text prefix_spaces+1 -(suffix_spaces+1)

@@ -136,8 +136,8 @@ $std::READ .
 
     Topic: Input-Output Events
 
-    See also: READ_ERROR, WRITE_PENDING, WRITE_COMPLETED, WRITE_ERROR,
-	      PROCESS_JOINED, SIGNAL
+    See also: CONNECT, READ_ERROR, WRITE_PENDING, WRITE_COMPLETED,
+	      WRITE_ERROR, PROCESS_JOINED, SIGNAL
 
 $std::READ_ERROR .
   #
@@ -145,8 +145,17 @@ $std::READ_ERROR .
 
     Topic: Input-Output Events
 
-    See also: READ, WRITE_PENDING, WRITE_COMPLETED, WRITE_ERROR,
-	      PROCESS_JOINED, SIGNAL
+    See also: READ, CONNECT, WRITE_PENDING, WRITE_COMPLETED,
+	      WRITE_ERROR, PROCESS_JOINED, SIGNAL
+
+$std::CONNECT .
+  #
+    used to tag "connected" socket events
+
+    Topic: Input-Output Events
+
+    See also: READ, READ_ERROR, WRITE_PENDING, WRITE_COMPLETED,
+	      WRITE_ERROR, PROCESS_JOINED, SIGNAL
 
 $std::WRITE_PENDING .
   #
@@ -154,8 +163,8 @@ $std::WRITE_PENDING .
 
     Topic: Input-Output Events
 
-    See also: READ, READ_ERROR, WRITE_COMPLETED, WRITE_ERROR,
-	      PROCESS_JOINED, SIGNAL
+    See also: READ, CONNECT, READ_ERROR, WRITE_COMPLETED,
+	      WRITE_ERROR, PROCESS_JOINED, SIGNAL
 
 $std::WRITE_COMPLETED .
   #
@@ -163,7 +172,8 @@ $std::WRITE_COMPLETED .
 
     Topic: Input-Output Events
 
-    See also: READ, READ_ERROR, WRITE_PENDING, WRITE_ERROR,
+    See also: READ, CONNECT, READ_ERROR, WRITE_PENDING,
+	      WRITE_ERROR, PROCESS_JOINED, SIGNAL
 
 $std::WRITE_ERROR .
   #
@@ -171,8 +181,8 @@ $std::WRITE_ERROR .
 
     Topic: Input-Output Events
 
-    See also: READ, READ_ERROR, WRITE_PENDING, WRITE_COMPLETED,
-	      PROCESS_JOINED, SIGNAL
+    See also: READ, CONNECT, READ_ERROR, WRITE_PENDING,
+	      WRITE_COMPLETED, PROCESS_JOINED, SIGNAL
 
 $std::PROCESS_JOINED .
   #
@@ -180,8 +190,8 @@ $std::PROCESS_JOINED .
 
     Topic: Input-Output Events
 
-    See also: READ, READ_ERROR, WRITE_PENDING, WRITE_COMPLETED,
-	      WRITE_ERROR, SIGNAL
+    See also: READ, CONNECT, READ_ERROR, WRITE_PENDING,
+	      WRITE_COMPLETED, WRITE_ERROR, SIGNAL
 
 $std::SIGNAL .
   #
@@ -189,8 +199,8 @@ $std::SIGNAL .
 
     Topic: Input-Output Events
 
-    See also: READ, READ_ERROR, WRITE_PENDING, WRITE_COMPLETED,
-	      WRITE_ERROR, PROCESS_JOINED
+    See also: READ, CONNECT, READ_ERROR, WRITE_PENDING,
+	      WRITE_COMPLETED, WRITE_ERROR, PROCESS_JOINED
 
 $std::get_events ()
   #
@@ -332,14 +342,60 @@ $std::stop_catching_signals ()
 
     See also: start_catching_signals, get_events
 
+$std::enable_logging ()
+  #
+    enables logging
+
+    Parameters:
+      io # an input-output object
+      level = 1 # the log level
+
+    level:
+
+    0: no logging (the same as <disable_logging>)
+    1: minimum logging
+    ...
+
+    Topic: Input-Output Events
+
+    See also: log, get_events
+
+$std::disable_logging ()
+  #
+    disables logging
+
+    Parameters:
+      io # an input-output object
+
+    Sets the log level to 0.
+
+    Topic: Input-Output Events
+
+    See also: log, get_events
+
+$std::log ()
+  #
+    logs a message
+
+    Parameters:
+      io # an input-output object
+      level = 1 # the log level
+      message # the log message
+
+    Topic: Input-Output Events
+
+    See also: enable_logging, disable_logging, get_events
+
 $read_descriptor_list_of ()
 $read_descriptor_set_of ()
 $write_jobs_of ()
+$close_jobs_of ()
 $watched_pids_of ()
 $exit_codes_of ()
 $do_inject_window_change_events ()
 $do_catch_signals ()
 $window_change_event_occurred ()
+$log_level_of ()
 
 $std_types::io std_types::object
   #
@@ -350,10 +406,12 @@ $std_types::io std_types::object
 $std_types::io.read_descriptor_list_of empty_list
 $std_types::io.read_descriptor_set_of empty_hash_set
 $std_types::io.write_jobs_of empty_hash_table
+$std_types::io.close_jobs_of empty_hash_set
 $std_types::io.watched_pids_of empty_hash_set
 $std_types::io.exit_codes_of empty_hash_table
 $std_types::io.do_inject_window_change_events false
 $std_types::io.window_change_event_occurred false
+$std_types::io.log_level_of 0
 
 $std_types::event tuple(undefined undefined undefined)
   #
@@ -445,6 +503,25 @@ $std_types::io/cancel_write:
   !self.write_jobs_of(fd) undefined
   -> self unwritten_text
 
+$std_types::io/close:
+  #
+    closes a stream
+
+    This also stops reading from the stream. If there are pending write
+    operations, the close operation is delayed until all write operations
+    have been completed.
+
+    Topic: Input-Output Events
+
+    See also: @Input-Output Events, stop_reading_from, cancel_write
+  (
+    self # the input-output object
+    fd # the file descriptor of the stream to close
+  )
+  stop_reading_from &self fd
+  !self.close_jobs_of(fd) true
+  -> self
+
 $std_types::io/join_process:
   #
     joins a process
@@ -469,8 +546,7 @@ $std_types::io/start_injecting_window_change_events:
   (
     self # the input-output object
   )
-  !self.do_inject_window_change_events true
-  -> self
+  -> self(.do_inject_window_change_events true)
 
 $std_types::io/stop_injecting_window_change_events:
   #
@@ -482,8 +558,7 @@ $std_types::io/stop_injecting_window_change_events:
   (
     self # the input-output object
   )
-  !self.do_inject_window_change_events false
-  -> self
+  -> self(.do_inject_window_change_events false)
 
 $std_types::io/start_catching_signals:
   #
@@ -495,8 +570,7 @@ $std_types::io/start_catching_signals:
   (
     self # the input-output object
   )
-  !self.do_catch_signals true
-  -> self
+  -> self(.do_catch_signals true)
 
 $std_types::io/stop_catching_signals:
   #
@@ -508,8 +582,51 @@ $std_types::io/stop_catching_signals:
   (
     self # the input-output object
   )
-  !self.do_catch_signals false
-  -> self
+  -> self(.do_catch_signals false)
+
+$std_types::io/enable_logging:
+  #
+    enables logging
+
+    Topic: Input-Output Events
+
+    See also: @Input-Output Events, disable_logging
+  (
+    self # the input-output object
+    level = 1 # the log level
+  )
+  -> self(.log_level_of level)
+
+$std_types::io/disable_logging:
+  #
+    disables logging
+
+    Topic: Input-Output Events
+
+    See also: @Input-Output Events, enable_logging
+  (
+    self # the input-output object
+  )
+  -> self(.log_level_of 0)
+
+$std_types::io/log:
+  #
+    logs a message
+
+    Topic: Input-Output Events
+
+    See also: @Input-Output Events, enable_logging, disable_logging
+  (
+    self # the input-output object
+    level = 1 # the log level
+    message # the log message
+  )
+  if
+    level <= log_level_of(self):
+      append "[@(level)] " &message
+      update_if_not message .has_suffix. '@nl;' &message: push message '@nl;'
+      write self STDERR_FILENO message.to_utf8
+    -> self
 
 $std_types::io/is_empty:
   #
@@ -525,23 +642,8 @@ $std_types::io/is_empty:
     &&
       read_descriptor_list_of(self).is_empty
       write_jobs_of(self).is_empty
+      close_jobs_of(self).is_empty
       watched_pids_of(self).is_empty
-
-$std_types::io/is_not_empty:
-  #
-    checks if the input-output object contains any event registrations
-
-    Topic: Input-Output Events
-
-    See also: @Input-Output Events
-  (
-    self # the input-output object
-  )
-  ->
-    ||
-      read_descriptor_list_of(self).is_not_empty
-      write_jobs_of(self).is_not_empty
-      watched_pids_of(self).is_not_empty
 
 $std_types::io/get_events:
   #
@@ -562,6 +664,9 @@ $std_types::io/get_events:
     <pselect> does not check for interrupts if a file descriptor is available
     without the need to wait
 
+  attempt_close_operations! &self
+    # perform all close jobs without pending writes
+
   $want_to_write empty_list
   update_if # do not wait if an exit code is pending
     &&
@@ -575,91 +680,132 @@ $std_types::io/get_events:
     : (fd _text)
       push &want_to_write fd
       next!
-    :
-      pselect!
-	$signals
-	$can_read read_descriptor_list_of(self)
-	$can_write want_to_write
-	$_has_out_of_band_data empty_list
-	timeout
-      $events empty_list
-      $write_jobs write_jobs_of(self)
-      for_each signals
-	: (signal)
-	  case signal
-	    CHILD_CHANGED_STATE:
-	      wait! $pid $status
-	      exitstatus &status
+    wait_for_events
+
+  $wait_for_events:
+    pselect!
+      $signals
+      $can_read read_descriptor_list_of(self)
+      $can_write want_to_write
+      $_has_out_of_band_data empty_list
+      timeout
+    $events empty_list
+    $injected_into_stdin false
+    $write_jobs write_jobs_of(self)
+    for_each signals
+      : (signal)
+	case signal
+	  CHILD_CHANGED_STATE:
+	    wait! $pid $status
+	    exitstatus &status
+	    if
+	      watched_pids_of(self)(pid):
+		!self.watched_pids_of(pid) false
+		push &events new(std_types::event PROCESS_JOINED pid status)
+		next!
+	      :
+		!self.exit_codes_of(pid) status
+		next!
+	  WINDOW_CHANGED_SIZE:
+	    !self.window_change_event_occurred true
+	    next!
+	  SIGUSR1, SIGUSR2:
+	    if
+	      self.do_catch_signals:
+		push &events new(std_types::event SIGNAL undefined signal)
+		next!
+	      next
+      handle_write_requests
+
+    $handle_write_requests:
+      if
+	&&
+	  self.window_change_event_occurred
+	  self.do_inject_window_change_events
+	  read_descriptor_set_of(self)(STDIN_FILENO)
+	:
+	  get_terminal_size! STDIN_FILENO $width $height
+	  !self.window_change_event_occurred false
+	  $buf "@esc;[8;@(height);@(width)t"
+	  push &events new(std_types::event READ STDIN_FILENO buf)
+	  !injected_into_stdin true
+	  check_file_descriptors!
+	:
+	  check_file_descriptors!
+
+    $check_file_descriptors:
+      for_each can_write
+	: (fd)
+	  $job write_jobs(fd)
+	  write! $bytes_written fd job
+	  if
+	    bytes_written.is_an_error:
+	      !self.write_jobs_of(fd) undefined
+	      push &events
+		new
+		  std_types::event WRITE_ERROR
+		  fd
+		  tuple(bytes_written job)
+	      next!
+	    :
 	      if
-		watched_pids_of(self)(pid):
-		  !self.watched_pids_of(pid) false
-		  push &events new(std_types::event PROCESS_JOINED pid status)
+		bytes_written < length_of(job):
+		  range &job bytes_written+1 -1
+		  !self.write_jobs_of(fd) job # remaining text to write
+		  push &events new(std_types::event WRITE_PENDING fd job)
 		  next!
 		:
-		  !self.exit_codes_of(pid) status
+		  !self.write_jobs_of(fd) undefined
+		  push &events
+		    new(std_types::event WRITE_COMPLETED fd undefined)
 		  next!
-	    WINDOW_CHANGED_SIZE:
-	      !self.window_change_event_occurred true
-	      next!
-	    SIGUSR1, SIGUSR2:
-	      if
-		self.do_catch_signals:
-		  push &events new(std_types::event SIGNAL undefined signal)
-		  next!
-		next
-	:
-	  $injected_into_stdin false
-	  if
-	    &&
-	      self.window_change_event_occurred
-	      self.do_inject_window_change_events
-	      read_descriptor_set_of(self)(STDIN_FILENO)
-	    :
-	      get_terminal_size! STDIN_FILENO $width $height
-	      !self.window_change_event_occurred false
-	      $buf "@esc;[8;@(height);@(width)t"
-	      push &events new(std_types::event READ STDIN_FILENO buf)
-	      !injected_into_stdin true
-	      check_file_descriptors!
-	    :
-	      check_file_descriptors!
+	attempt_reads
 
-	  $check_file_descriptors:
-	    for_each can_write
-	      : (fd)
-		$job write_jobs(fd)
-		write! $bytes_written fd job
+    $attempt_reads:
+      for_each can_read
+	: (fd)
+	  if_not fd != STDIN_FILENO || not(injected_into_stdin) next:
+	    fstat! fd $info
+	    if
+	      type_of(info) == SOCKET:
+		is_listening! $does_listen fd
 		if
-		  bytes_written.is_an_error:
-		    !self.write_jobs_of(fd) undefined
-		    push &events
-		      new
-			std_types::event WRITE_ERROR
-			fd
-			tuple(bytes_written job)
-		    next!
-		  :
+		  does_listen:
+		    accept! $conn fd
 		    if
-		      bytes_written < length_of(job):
-			range &job bytes_written+1 -1
-			!self.write_jobs_of(fd) job # remaining text to write
-			push &events new(std_types::event WRITE_PENDING fd job)
+		      conn.is_an_error:
+			push &events
+			  new(std_types::event READ_ERROR fd conn)
 			next!
 		      :
-			!self.write_jobs_of(fd) undefined
 			push &events
-			  new(std_types::event WRITE_COMPLETED fd undefined)
+			  new(std_types::event CONNECT fd conn)
 			next!
-	      :
-		for_each can_read
-		  : (fd)
-		    if_not fd != STDIN_FILENO || not(injected_into_stdin) next:
-		      read! $buf fd 0x10000
-		      if
-			buf.is_an_error:
-			  push &events new(std_types::event READ_ERROR fd buf)
-			  next!
-			:
-			  push &events new(std_types::event READ fd buf)
-			  next!
-		  -> self events
+		  do_read
+	      do_read
+
+	    $do_read:
+	      read! $buf fd 0x10'0000
+	      if
+		buf.is_an_error:
+		  push &events new(std_types::event READ_ERROR fd buf)
+		  next!
+		:
+		  push &events new(std_types::event READ fd buf)
+		  next!
+	:
+	  attempt_close_operations! &self
+	    # perform all close jobs without pending writes
+
+	  -> self events
+
+$attempt_close_operations: (io)
+  for_each close_jobs_of(io)
+    : (fd)
+      if
+	write_jobs_of(io)(fd).is_undefined:
+	  close! fd
+	  !io.close_jobs_of(fd) false
+	  next!
+	next
+    -> io

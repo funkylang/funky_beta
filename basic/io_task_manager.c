@@ -287,7 +287,6 @@ enum {
   var_std__pause, // attribute
   var_std__wait_for_message, // attribute
   var_std__fork, // attribute
-  var_std__log, // attribute
   var_std__send, // attribute
   var_std__cancel, // attribute
   var_std__receive, // attribute
@@ -4136,11 +4135,6 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_POLYMORPHIC, 0, 0,
-    "log\000std", NULL,
-    {.has_a_setter = false}
-  },
-  {
-    FOT_POLYMORPHIC, 0, 0,
     "send\000std", NULL,
     {.has_a_setter = false}
   },
@@ -5350,7 +5344,7 @@ FUNKY_MODULE module__basic__io_task_manager = {
   0, // number of defined namespaces
   1, // number of used namespaces
   270, // number of constants
-  273, // number of variables
+  272, // number of variables
   NULL, // required modules
   NULL, // defined namespaces
   used_namespaces,

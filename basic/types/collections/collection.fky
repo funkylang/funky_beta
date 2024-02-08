@@ -1,5 +1,5 @@
 #
-  Copyright (C) 2021 by
+  Copyright (C) 2024 by
   Dipl.-Ing. Michael Niederle
 
   This program is free software; you can redistribute it and/or modify
@@ -51,7 +51,7 @@ $std_types::collection/is_not_empty:
   (
     self
   )
-  -> length_of(self) > 0
+  -> not(self.is_empty)
 
 $std::first_key_of ()
   #

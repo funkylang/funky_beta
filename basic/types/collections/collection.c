@@ -21,7 +21,7 @@ enum {
   var_length_of, // extern
   var_std__equal, // extern
   var_is_not_empty, // extern polymorphic
-  var_std__less, // extern
+  var_not, // extern
   var_std__first_key_of, // attribute
   var_std__first_item_of, // attribute
   var_std__last_key_of, // attribute
@@ -87,14 +87,14 @@ static TAB_NUM t_func_std_types__collection___is_not_empty[] = {
   3, // locals
   1, // parameters
   LOCAL(3), // 52_0_self
-  // length_of(self) > 0
-  var_length_of, 1, LOCAL(3), 1, LOCAL(1),
-  // 0
-  var_std__less, 2, num_0, LOCAL(1), 1, LOCAL(2),
-  // -> length_of(self) > 0
+  // is_empty)
+  var_is_empty, 1, LOCAL(3), 1, LOCAL(1),
+  // not(self.is_empty)
+  var_not, 1, LOCAL(1), 1, LOCAL(2),
+  // -> not(self.is_empty)
   LET, 1, LOCAL(2), TAIL_CALL,
+  POS(54, 15),
   POS(54, 6),
-  POS(54, 24),
   POS(54, 3)
 };
 
@@ -147,8 +147,8 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "less\000std", NULL,
-    {.position = POS(54, 24)}
+    "not\000", NULL,
+    {.position = POS(54, 6)}
   },
   {
     FOT_POLYMORPHIC, 0, 0,

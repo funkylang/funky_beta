@@ -1,0 +1,389 @@
+#
+  Copyright (C) 2024 by
+  Dipl.-Ing. Michael Niederle
+
+  This program is free software; you can redistribute it and/or modify
+  it under the terms of the GNU Library General Public License, version 2, or
+  (at your option) under the terms of the GNU Lesser General Public License,
+  version 3.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  GNU Lesser (Library) General Public License for more details.
+
+  For details of the GNU General Public License see the accompanying
+  files LGPLv2.txt and LGLPv3.txt or
+  http://www.gnu.org/licenses/lgpl-2.0.html
+  http://www.gnu.org/licenses/lgpl-3.0.html
+  or write to the
+  Free Software Foundation, Inc.,
+  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+
+# Event Types
+
+$std::GET .
+$std::UPGRADE_TO_WEBSOCKET .
+$std::WEBSOCKET_MESSAGE .
+$std::WEBSOCKET_CLOSED .
+
+# Web Server Methods
+
+$std::start_web_server ()
+$std::stop_web_server ()
+
+# Private Web Server Methods and Attributes
+
+$web_server_socket_of ()
+$protocols_of ()
+
+# Protocol types
+
+$HTTP .
+$WEBSOCKET .
+
+# Websocket opcodes
+
+#$CONTINUATION_FRAME 0
+$TEXT_FRAME 1
+#$BINARY_FRAME 2
+$CLOSE_FRAME 8
+#$PING_FRAME 9
+#$PONG_FRAME 10
+
+# Websocket Bits and Masks
+
+$FIN_BIT 0x80
+$MASK_BIT 0x80
+$PAYLOAD_MASK 0x7f
+
+$std_types::io.web_server_socket_of undefined
+$std_types::io.protocols_of empty_hash_table
+
+$std_types::io/start_web_server: (io port_no)
+  log &io "starting web-server on port @(port_no)"
+  open_tcp_server_socket! $sock port_no 1 true
+  if
+    sock.is_an_error
+    sock
+    :
+      start_reading_from &io sock
+      -> io(.web_server_socket_of sock)
+
+$std_types::io/stop_web_server: (io)
+  $sock web_server_socket_of(io)
+  if
+    sock.is_defined:
+      stop_reading_from &io sock
+      close! sock
+      -> io
+    :
+      log io "NO WEB SERVER TO STOP"
+
+$std::handle_web_server_events: (io events)
+  $new_events empty_list
+  for_each events
+    : (event)
+      event $type $fd $argument
+      case type
+	CONNECT:
+	  if
+	    fd == web_server_socket_of(io):
+	      $conn_fd argument
+	      start_reading_from &io conn_fd
+	      !io.protocols_of(conn_fd) HTTP
+	      next
+	    :
+	      push &new_events event
+	      next
+	READ:
+	  $message argument
+	  case protocols_of(io)(fd)
+	    HTTP:
+	      if
+		message.is_empty:
+		  close_connection io fd
+		:
+		  handle_http_request &io !event fd message
+		  if
+		    event.is_defined:
+		      push &new_events event
+		      next
+		    next
+	    WEBSOCKET:
+	      if
+		message.is_empty:
+		  close_connection io fd
+		:
+		  handle_websocket_message &io !event fd message
+		  if
+		    event.is_defined:
+		      push &new_events event
+		      next
+		    next
+	    :
+	      push &new_events event
+	      next
+	READ_ERROR:
+	  if
+	    protocols_of(io)(fd).is_defined:
+	      log &io "READ ERROR - @(serialize(fd))"
+	      close_connection io fd
+	    next
+	WRITE_ERROR:
+	  if
+	    protocols_of(io)(fd).is_defined:
+	      log &io "WRITE ERROR - @(serialize(fd))"
+	      close_connection io fd
+	    next
+	WRITE_PENDING, WRITE_COMPLETED:
+	  if
+	    protocols_of(io)(fd).is_defined
+	    next
+	    :
+	      push &new_events event
+	      next
+	:
+	  push &new_events event
+	  next
+
+    -> io new_events
+
+$handle_http_request: (io fd request)
+  extract_request_header $method $uri $fields request
+  case method
+    "GET":
+      $upgrade fields("Upgrade")
+      if
+	upgrade.is_defined:
+	  if
+	    upgrade == "websocket"
+	    -> io new(std_types::event UPGRADE_TO_WEBSOCKET fd fields)
+	    :
+	      bad_request! &io fd
+	      -> io undefined
+	-> io new(std_types::event GET fd uri)
+    :
+      bad_request &io fd
+      -> io undefined
+
+$std::upgrade_to_websocket: (io fd fields)
+  log &io "upgrade to websocket - @(serialize(fd))"
+  !io.protocols_of(fd) WEBSOCKET
+  $key fields("Sec-WebSocket-Key")
+  $accept append(key "258EAFA5-E914-47DA-95CA-C5AB0DC85B11")
+  sha1 &accept
+  to_base64 &accept
+  write &io fd "
+    HTTP/1.1 101 Switching Protocols@cr;
+    Upgrade: websocket@cr;
+    Connection: Upgrade@cr;
+    Sec-WebSocket-Accept: @(accept)@cr;
+    @cr;
+  -> io
+
+$extract_request_header: (buf)
+  $lines split(buf.trim_right '@nl;')
+  $first_line lines(1)
+  $method first_line .before. ' '
+  $uri between(first_line ' ' ' ')
+  $fields empty_hash_table
+  for_each range(lines 2 -1)
+    : (line)
+      $key line .before. ':'
+      $value (line .behind. ':').trim
+      !fields(key) value
+      next
+    -> method uri fields
+
+$bad_request: (io fd)
+  $bad_request_message "
+    <html>
+      <head>
+	<title>Bad Request</title>
+      </head>
+      <body>
+	<h1>Bad Request</h1>
+	<p>Your browser sent a request that this server could not understand.@
+	</p>
+      </body>
+    </html>
+  log &io "BAD HTTP REQUEST - @(serialize(fd))"
+  write &io fd "
+    HTTP/1.1 400 Bad Request@cr;
+    Content-Type: text/html@cr;
+    Content-Length: @(length_of(bad_request_message))@cr;
+    Connection: close
+    @cr;
+    @(bad_request_message)
+  close_connection io fd
+
+$std::http_resource_not_found: (io fd uri)
+  log &io "
+    HTTP RESOURCE "@(uri)" NOT FOUND - @(serialize(fd))@
+  $not_found_message "
+    <html>
+      <head>
+	<title>Not Found</title>
+      </head>
+      <body>
+	<h1>Not Found</h1>
+	<p>The requested resource was not found on this server.</p>
+      </body>
+    </html>
+  write &io fd "
+    HTTP/1.1 404 Not Found@cr;
+    Content-Type: text/html@cr;
+    Content-Length: @(length_of(not_found_message))@cr;
+    Connection: close
+    @cr;
+    @(not_found_message)
+  close_connection io fd
+
+$std::return_http_resource:
+  (
+    io
+    fd
+    uri
+    type = "text/html"
+    content
+  )
+  log &io 2 "
+    return http resource "@(uri)" - @(serialize(fd))@
+  write &io fd "
+    HTTP/1.1 200 OK@cr;
+    Content-Type: @(type)@cr;
+    Content-Length: @(length_of(content))@cr;
+    Connection: close
+    @cr;
+    @(content)
+  close_connection io fd
+
+$std::log_unhandled_event: (io event)
+  event $type $fd $_argument
+  if
+    &&
+      ||
+	type == WRITE_ERROR
+	type == WRITE_PENDING
+	type == WRITE_COMPLETED
+      fd == STDERR_FILENO
+    -> io # prevent recursive logging
+    :
+      $log_level
+	case
+	  type
+	  WRITE_PENDING,WRITE_COMPLETED -> 4
+	  -> 2
+      log io log_level "
+	unhandled event @(serialize(type).trim_right) - @(serialize(fd))@
+
+$handle_websocket_message: (io fd message)
+  if
+    length_of(message) < 2:
+      log &io "INVALID WEBSOCKET MESSAGE - @(serialize(fd))"
+      close_connection &io fd
+      -> io undefined
+    :
+      $first_octet message(1).to_integer
+      $second_octet message(2).to_integer
+      #$is_final_fragment first_octet & FIN_BIT == FIN_BIT
+      $opcode first_octet & 0x3f
+      $is_masked second_octet & MASK_BIT == MASK_BIT
+      $payload_size second_octet & PAYLOAD_MASK
+      case opcode
+	TEXT_FRAME:
+	  if
+	    is_masked:
+	      $mask map(range(message 3 6) to_integer)
+	      $data range(message 7 -1)
+	      if
+		length_of(data) != payload_size:
+		  log &io "INVALID WEBSOCKET PAYLOAD LENGTH - @(serialize(fd))"
+		  close_connection &io fd
+		  -> io undefined
+		:
+		  $unmasked_data ""
+		  $mask_idx 1
+		  for_each data
+		    : (chr)
+		      to_integer &chr
+		      push &unmasked_data character(chr ^ mask(mask_idx))
+		      !mask_idx
+			if
+			  mask_idx == 4
+			  -> 1
+			  -> mask_idx+1
+		      next!
+		    :
+		      queue_message unmasked_data
+	    :
+	      $data range(message 3 -1)
+	      queue_message data
+	CLOSE_FRAME:
+	  log &io 2 "websocket closed - @(serialize(fd))"
+	  close_connection &io fd
+	  -> io new(std_types::event WEBSOCKET_CLOSED fd undefined)
+	:
+	  log &io "INVALID WEBSOCKET OPCODE (@(opcode)) - @(serialize(fd))"
+	  close_connection &io fd
+	  -> io undefined
+
+  $queue_message: (data)
+    log &io 4 "
+      received websocket text message - @(serialize(fd))@
+    -> io new(std_types::event WEBSOCKET_MESSAGE fd data)
+
+$std::send_websocket_text_message: (io fd text)
+  log &io 4 "
+    sending websocket text message - @(serialize(fd))@
+  to_utf8 &text
+  $length length_of(text)
+  $header ""
+  push &header character(FIN_BIT | TEXT_FRAME)
+  if
+    length <= 125:
+      push &header character(length)
+      send
+    :
+      if
+	length < 0x10000:
+	  push &header character(126)
+	  push &header character(length >> 8)
+	  push &header character(length & 0xff)
+	  send
+	:
+	  push &header character(127)
+	  push &header character(length >> 56)
+	  push &header character((length >> 48) & 0xff)
+	  push &header character((length >> 40) & 0xff)
+	  push &header character((length >> 32) & 0xff)
+	  push &header character((length >> 24) & 0xff)
+	  push &header character((length >> 16) & 0xff)
+	  push &header character((length >> 8) & 0xff)
+	  push &header character(length & 0xff)
+	  send
+
+  $send:
+    write io fd append(header text)
+
+$std::broadcast_websocket_text_message: (io omit_fd text)
+  log &io 3
+    if
+      omit_fd.is_defined
+      -> "
+	broadcasting websocket text message to all except @(serialize(omit_fd))@
+      -> "broadcasting websocket text message"
+  for_each protocols_of(io)
+    : (fd protocol)
+      if
+	protocol == WEBSOCKET && fd != omit_fd:
+	  send_websocket_text_message! &io fd text
+	  next
+	next
+    -> io
+
+$std::close_connection: (io fd)
+  log &io 3 "close connection @(serialize(fd))"
+  !io.protocols_of(fd) undefined
+  close io fd

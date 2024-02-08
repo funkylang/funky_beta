@@ -804,7 +804,7 @@ POLY std::write
 
     Topic: Input-Output
 
-#POLY std::close
+POLY std::close
   #
     closes a resource
 
