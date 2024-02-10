@@ -250,6 +250,7 @@ enum {
   func__std___chroot,
   func__std_types___file_descriptor___std___close,
   func__std___closedir,
+  func__std___dup2,
   func__std___fstat,
   func__std___fsync,
   func__std___getcwd,
@@ -716,6 +717,7 @@ enum {
   var_no__std___chown,
   var_no__std___chroot,
   var_no__std___closedir,
+  var_no__std___dup2,
   var_no__std___fstat,
   var_no__std___fsync,
   var_no__std___getcwd,
@@ -17814,6 +17816,53 @@ static void entry__std___closedir (void)
     }
   }
 
+static void entry__std___dup2 (void)
+  {
+    if (TLS_argument_count != 2) {
+      invalid_arguments();
+      return;
+    }
+    if (TLS_deny_io) {
+      missing_io_access_rights();
+      return;
+    }
+    int old_fd;
+    int new_fd;
+    int result;
+    if (!file_descriptor_to_int(TLS_arguments[0], &old_fd)) return;
+    if (!file_descriptor_to_int(TLS_arguments[1], &new_fd)) return;
+    if (event__mode != EM__REPLAY) {
+      do {
+	result = dup2(old_fd, new_fd);
+      } while (result == -1 && errno == EINTR);
+      if (event__mode == EM__RECORD) {
+        if (result == 0) {
+            successful__action("dup2");
+          } else {
+            failed__action("dup2");
+            store__integer(result);
+          }
+        }
+      } else {
+        if (replay__action("dup2")) {
+          retrieve__integer(&result);
+      } else {
+          result = 0;
+      }
+        report__event("dup2");
+          print__integer(old_fd);
+          print__integer(new_fd);
+          print__integer(result);
+    }
+    if (result == -1) {
+      create_error_message(
+	module__builtin.constants_base[unique__std___IO_ERROR-1],
+	"DUP2 FAILED", errno, 0, NULL);
+    } else {
+      TLS_argument_count = 0;
+    }
+  }
+
 static void entry__std___fstat (void)
   {
     if (TLS_argument_count != 1) {
@@ -23028,6 +23077,7 @@ static FUNKY_CONSTANT constants_table[] = {
   {FLT_C_FUNCTION, 1, {.func = entry__std___chroot}},
   {FLT_C_FUNCTION, 1, {.func = entry__std_types___file_descriptor___std___close}},
   {FLT_C_FUNCTION, 1, {.func = entry__std___closedir}},
+  {FLT_C_FUNCTION, 2, {.func = entry__std___dup2}},
   {FLT_C_FUNCTION, 1, {.func = entry__std___fstat}},
   {FLT_C_FUNCTION, 1, {.func = entry__std___fsync}},
   {FLT_C_FUNCTION, 0, {.func = entry__std___getcwd}},
@@ -26173,6 +26223,11 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_INITIALIZED, 0, 0,
+    "dup2\000std", NULL,
+    {.const_idx = func__std___dup2}
+  },
+  {
+    FOT_INITIALIZED, 0, 0,
     "fstat\000std", NULL,
     {.const_idx = func__std___fstat}
   },
@@ -26666,13 +26721,13 @@ FUNKY_MODULE module__builtin = {
   NULL,
   0, 0,
   4, 0,
-  337, 434,
+  338, 435,
   NULL,
   defined_namespaces, NULL,
   constants_table, variables_table
 };
 
-BUILTIN_FUNCTION_NAME builtin_function_names[387] = {
+BUILTIN_FUNCTION_NAME builtin_function_names[388] = {
   {std_types___generic_array____type, "std_types::generic_array/_type"},
   {std_types___array____type, "std_types::array/_type"},
   {entry__std_types___array___std___length_of, "std_types::array/length_of"},
@@ -26933,6 +26988,7 @@ BUILTIN_FUNCTION_NAME builtin_function_names[387] = {
   {entry__std___chroot, "std::chroot"},
   {entry__std_types___file_descriptor___std___close, "std_types::file_descriptor/close"},
   {entry__std___closedir, "std::closedir"},
+  {entry__std___dup2, "std::dup2"},
   {entry__std___fstat, "std::fstat"},
   {entry__std___fsync, "std::fsync"},
   {entry__std___getcwd, "std::getcwd"},

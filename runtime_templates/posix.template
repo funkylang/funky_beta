@@ -3411,6 +3411,52 @@ FUNCTION std::closedir
     }
   }
 
+FUNCTION std::dup2
+  #
+    duplicates the old file descriptor into the specified new file descriptor
+
+    Parameters:
+      old_fd # the file descriptor to duplicate
+      new_fd # the new file descriptor
+
+    This function needs I/O-access rights.
+
+    Topic: POSIX
+
+    See also: dup
+
+    Example:
+
+      open! $fd "myfile.txt" "r"
+      dup2! fd STDOUT_FILENO
+  {
+    CHECK_ARGUMENTS(2)
+    CHECK_IO_ACCESS_RIGHTS
+    int old_fd;
+    int new_fd;
+    int result;
+    if (!file_descriptor_to_int(ARGUMENTS(0), &old_fd)) return;
+    if (!file_descriptor_to_int(ARGUMENTS(1), &new_fd)) return;
+    ACTION(dup2)
+      do {
+	result = dup2(old_fd, new_fd);
+      } while (result == -1 && errno == EINTR);
+    INFO
+      INT(old_fd)
+      INT(new_fd)
+      INT(result)
+    DATA
+      INT(result)
+    END
+    if (result == -1) {
+      create_error_message(
+	module__builtin.constants_base[unique__std___IO_ERROR-1],
+	"DUP2 FAILED", errno, 0, NULL);
+    } else {
+      PREPARE_NO_RESULT
+    }
+  }
+
 FUNCTION std::fstat
   #
     retrieves status information about the file described by the specified file

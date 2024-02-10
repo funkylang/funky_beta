@@ -6,7 +6,7 @@ typedef struct {
   const char *name;
 } BUILTIN_FUNCTION_NAME;
 
-extern BUILTIN_FUNCTION_NAME builtin_function_names[387];
+extern BUILTIN_FUNCTION_NAME builtin_function_names[388];
 
 typedef enum {
   FIM_SIZE,

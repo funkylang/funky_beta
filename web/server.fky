@@ -102,7 +102,8 @@ $std::handle_web_server_events: (io events)
 	    HTTP:
 	      if
 		message.is_empty:
-		  close_connection io fd
+		  close_connection &io fd
+		  next
 		:
 		  handle_http_request &io !event fd message
 		  if
@@ -113,7 +114,8 @@ $std::handle_web_server_events: (io events)
 	    WEBSOCKET:
 	      if
 		message.is_empty:
-		  close_connection io fd
+		  close_connection &io fd
+		  next
 		:
 		  handle_websocket_message &io !event fd message
 		  if
@@ -128,13 +130,15 @@ $std::handle_web_server_events: (io events)
 	  if
 	    protocols_of(io)(fd).is_defined:
 	      log &io "READ ERROR - @(serialize(fd))"
-	      close_connection io fd
+	      close_connection &io fd
+	      next
 	    next
 	WRITE_ERROR:
 	  if
 	    protocols_of(io)(fd).is_defined:
 	      log &io "WRITE ERROR - @(serialize(fd))"
-	      close_connection io fd
+	      close_connection &io fd
+	      next
 	    next
 	WRITE_PENDING, WRITE_COMPLETED:
 	  if

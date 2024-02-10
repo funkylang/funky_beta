@@ -47,6 +47,7 @@ $ANYWHERE .
 # Key Classes (used to decide about new history entries)
 
 $MOVEMENT .
+$INLINE_MOVEMENT .
 $SELECTION .
 $DELETION .
 $INSERTION .
@@ -187,13 +188,13 @@ $functions
 
     "cursor_up" = tuple(cursor_up MOVEMENT)
     "cursor_down" = tuple(cursor_down MOVEMENT)
-    "cursor_left" = tuple(cursor_left MOVEMENT)
-    "cursor_right" = tuple(cursor_right MOVEMENT)
+    "cursor_left" = tuple(cursor_left INLINE_MOVEMENT)
+    "cursor_right" = tuple(cursor_right INLINE_MOVEMENT)
 
     "page_up" = tuple(page_up MOVEMENT)
     "page_down" = tuple(page_down MOVEMENT)
-    "cursor_home" = tuple(cursor_home MOVEMENT)
-    "cursor_end" = tuple(cursor_end MOVEMENT)
+    "cursor_home" = tuple(cursor_home INLINE_MOVEMENT)
+    "cursor_end" = tuple(cursor_end INLINE_MOVEMENT)
 
     "smart_cursor_up" = tuple(smart_cursor_up MOVEMENT)
     "smart_cursor_down" = tuple(smart_cursor_down MOVEMENT)
@@ -894,9 +895,17 @@ $event_loop:
 	  -> terminal state
 	  :
 	    extract_window_and_lines:
-	      action! !terminal !state
-	      maybe_remove_selection_and_update_display !terminal !state
-	      next!
+	      action! $new_terminal $new_state
+	      if
+		new_terminal.is_an_error:
+		  # SHOW ERROR MESSAGE!!!
+		  debug::dump `new_terminal
+		  next!
+		:
+		  !terminal new_terminal
+		  !state new_state
+		  maybe_remove_selection_and_update_display !terminal !state
+		  next!
       :
 	maybe_remove_selection_and_update_display !terminal !state
 	!previous_window windows_of(state)(cwi())
@@ -1740,29 +1749,35 @@ $delete_line:
 	  return_window_and_lines
 
 $delete_to_line_start:
-  $y y_of(window)
+  $x x_of(window)
   if
-    y > length_of(lines)
-    cursor_home
+    x == 1
+    -> state
     :
-      $line lines(y)
+      $y y_of(window)
       if
-	line.is_undefined
+	y > length_of(lines)
 	cursor_home
 	:
-	  line $indent $text $mark $folds
-	  $x x_of(window)
-	  $width indent+length_of(text)
-	  cond
-	    -> x > width:
-	      !window.x_of indent+1
-	      update_lines_after_deletion y undefined
-	    -> x <= indent+1:
-	      update_lines_after_deletion y tedi_line(x-1 text mark folds)
-	    -> true:
-	      !window.x_of indent+1
-	      update_lines_after_deletion y
-		tedi_line(indent range(text x-indent -1) mark folds)
+	  $line lines(y)
+	  if
+	    line.is_undefined
+	    cursor_home
+	    :
+	      line $indent $text $mark $folds
+	      $width indent+length_of(text)
+	      cond
+		-> x > width:
+		  !window.x_of indent+1
+		  update_lines_after_deletion y undefined
+		-> x <= indent+1:
+		  !window.x_of 1
+		  update_lines_after_deletion y
+		    tedi_line(indent-(x-1) text mark folds)
+		-> true:
+		  !window.x_of indent+1
+		  update_lines_after_deletion y
+		    tedi_line(indent range(text x-indent -1) mark folds)
 
 $delete_to_line_end:
   $y y_of(window)
@@ -1866,6 +1881,8 @@ $join_lines:
 		  append text_above &text
 		  !window
 		    window
+		      .cursor_x_of undefined
+		      .cursor_y_of undefined
 		      .x_of length_above+if(x > 1 (-> 2) (-> 1))
 		      .y_of y-1
 		  !lines
@@ -2187,18 +2204,14 @@ $ai_completion_action:
     :
       initialize_ai! !ai_model
       current_time! !t2
+      on ai_model.is_an_error ai_model # propagate error
       on do_log:
 	debug::dump `ai_model
 	eprintln!
 	  format("%2.3: loading model " t2-t1)
       !t1 t2
-      if
-	ai_model.is_an_error:
-	  on do_log: eprint! debug::string(ai_model 0 10)
-	  -> terminal state
-	:
-	  !state.ai_model_of ai_model
-	  check_tokens!
+      !state.ai_model_of ai_model
+      check_tokens!
 
   $check_tokens:
     get_not_tokenized_lines $line_numbers $line_texts
@@ -2434,6 +2447,9 @@ $indented_tokens: (indent tokens)
 
 $initialize_ai:
    load_ai_model! $model ai_model_name ai_server
+   on model.is_an_error:
+      on do_log: eprintln! "FAILED TO LOAD AI MODEL!"
+      model # propagate error
    min &model.context_size_of ai_context_size
    if
      model.is_an_error

@@ -941,6 +941,7 @@ $std::call:
   $do_collect_output (result_count() >= 2)
   $do_collect_error_output (result_count() == 3)
   $env_vars undefined
+  map &args to_string
   update_if environment.is_defined &env_vars:
     !env_vars empty_list
     for_each environment
