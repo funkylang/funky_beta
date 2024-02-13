@@ -1,0 +1,105 @@
+#!/usr/bin/env fkyrun
+
+  Copyright (C) 2024 by
+  Dipl.-Ing. Michael Niederle
+
+  This program is free software; you can redistribute it and/or modify
+  it under the terms of the GNU General Public License, version 2, or
+  (at your option) version 3.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  GNU General Public License for more details.
+
+  For details of the GNU General Public License see the accompanying
+  files GPLv2.txt and GLPv3.txt or
+  http://www.gnu.org/licenses/gpl-2.0.html
+  http://www.gnu.org/licenses/gpl-3.0.html
+  or write to the
+  Free Software Foundation, Inc.,
+  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+
+<require basic/stdlib>
+<require ./web/server>
+
+$HTTP .
+$WEBSOCKET .
+
+$universal_server_address "127.0.0.1"
+$universal_server_port 8000
+
+current_time! $t
+
+$rng mersenne_twister((1'000'000'000*second_of(t)).to_integer)
+
+$websocket_id ""
+repeat !websocket_id 20
+  :
+    next_value &rng $r 256
+    push &websocket_id character(r-1)
+    next
+  -> websocket_id
+
+$io std_types::io
+enable_logging &io 3
+
+!io.random_seed_of (1'000'000'000*second_of(t)).to_integer
+
+open_tcp_client_socket! $conn_fd universal_server_address universal_server_port
+on conn_fd.is_an_error conn_fd
+
+upgrade_to_websocket &io conn_fd
+
+$mode HTTP
+get_terminal_size! STDIN_FILENO $terminal_width $terminal_height
+start_reading_from &io conn_fd
+loop:
+  get_events! &io $events
+  handle_web_client_events &io &events
+  for_each events
+    : (event)
+      event $type $fd $argument
+      case type
+	READ:
+	  if
+	    argument == "":
+	      log &io "connection closed"
+	      close &io fd
+	      exit &io 1
+	      next!
+	    :
+	      case mode
+		HTTP:
+		  $header argument .before. '@nl;'
+		  if
+		    header .has_prefix. "HTTP/":
+		      $code between(header ' ' ' ')
+		      if
+			code == "101":
+			  !mode WEBSOCKET
+			  send_websocket_text_message &io fd "
+			    VT
+			    width: @(terminal_width)
+			    height: @(2*terminal_height)
+			    character_width: 1
+			    ascent: 1
+			    descent: 1
+			    character_height: 2
+			    line_spacing: 0
+			    line_height: 2
+			    base_line: 1
+			  next!
+			upgrading_failed
+		    upgrading_failed
+
+		  $upgrading_failed:
+		    log &io "UPGRADING TO WEBSOCKET FAILED!"
+		    exit &io 1
+		    next!
+		WEBSOCKET:
+		  write &io STDOUT_FILENO argument
+		  next!
+		next
+	next
+    next

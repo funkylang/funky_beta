@@ -71,7 +71,7 @@ FUNCTION debug::string
     RETURN_SINGLE_RESULT(result);
   }
 
-FUNCTION debug::print
+FUNCTION debug::write
   #
     writes the given string to stderr
 
@@ -80,15 +80,13 @@ FUNCTION debug::print
 
     The function can be called without I/O-access rights.
 
-    The supplied string is converted to utf-8 before beeing written.
-
     Topic: Debug
 
     See also: debug::println
 
     Example:
 
-      debug::println "success@nl;"
+      debug::write "success@nl;"
 
     Error output:
 

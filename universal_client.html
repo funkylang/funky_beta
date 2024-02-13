@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Funky Chat</title>
+    <script language="javascript" type="text/javascript">
+      var universal_server_ip = "127.0.0.1"
+      var universal_server_port = 8000
+      var output
+      var canvas
+      var websocket
+
+      var width
+      var height
+      var character_width
+      var ascent
+      var descent
+      var character_height
+      var line_spacing
+      var line_height
+      var base_line
+
+      function dump(obj, show_methods) {
+	var text = ""
+	var idx
+	for(idx in obj) {
+	  var value
+	  try {
+	    value = obj[idx]
+	  } catch (exception) {
+	    value = "<INACCESSIBLE>"
+	  }
+	  if (idx != "innerHTML" && idx != "outerHTML" &&
+	      idx != "innerText" && idx != "outerText" &&
+	      show_methods || (value != null && typeof(value) != "function")
+	  ) {
+	    text += idx+" = "+value+"\n"
+	  }
+
+	}
+	alert(text)
+      }
+
+      function elem(id) {
+	return document.getElementById(id)
+      }
+
+      function open_websocket(url) {
+	websocket = new WebSocket(url);
+	websocket.onopen = handle_event
+	websocket.onclose = handle_event
+	websocket.onmessage = handle_event
+	websocket.onerror = handle_event
+      }
+
+      function handle_event(event) {
+	switch (event.type) {
+	  case "open":
+	    websocket.send(
+	      "DOM"+
+	      "\nwidth: "+width+
+	      "\nheight: "+height+
+	      "\ncharacter_width: "+character_width+
+	      "\nascent: "+ascent+
+	      "\ndescent: "+descent+
+	      "\ncharacter_height: "+character_height+
+	      "\nline_spacing: "+line_spacing+
+	      "\nline_height: "+line_height+
+	      "\nbase_line: "+base_line+
+	      "\n"
+	    ) // Document Object Model
+	    break
+	  case "close":
+	    writeln('<span style="color: red;">CONNECTION CLOSED</span>')
+	    break
+	  case "message":
+	    eval(event.data)
+	    break
+	  case "error":
+	    writeln('<span style="color: red;">ERROR: ' + event.data+'</span>');
+	    break
+	}
+      }
+
+      function writeln(message) {
+	var pre = document.createElement("p")
+	pre.style.wordWrap = "break-word"
+	pre.innerHTML = message
+	output.appendChild(pre)
+      }
+
+      function send() {
+	websocket.send(input_text.value)
+	input_text.value = ""
+      }
+
+      function draw_text(ctx, x, y, text) {
+	ctx.fillText(text, x, y)
+      }
+
+      function set_text_colour(ctx, colour) {
+	ctx.strokeStyle = colour
+      }
+
+      function plot_line(ctx, x1, y1, x2, y2) {
+	ctx.beginPath()
+	ctx.moveTo(x1, y1)
+	ctx.lineTo(x2, y2)
+	ctx.stroke()
+      }
+
+      function initialize() {
+	output = elem("output")
+	width = window.innerWidth
+	height = window.innerHeight
+	canvas = document.createElement("canvas")
+	canvas.style.position = "fixed"
+	canvas.style.top = 0
+	canvas.style.left = 0
+	canvas.width = width
+	canvas.height = height
+	ctx = canvas.getContext("2d")
+	ctx.font = "12pt monospace"
+	let tm = ctx.measureText("m")
+	character_width = tm.width
+	ascent = tm.fontBoundingBoxAscent
+	descent = tm.fontBoundingBoxDescent
+	character_height = ascent+descent
+	line_spacing = Math.ceil(0.15*character_height)
+	line_height = character_height+line_spacing
+	base_line = ascent+line_spacing/2
+	/*let x = 0
+	let y = base_line
+	ctx.fillText("Hello, world!", x, y)
+	ctx.fillText("Hello, world!", x, y+line_height)
+	ctx.fillText("Hello, world!", x, y+2*line_height)
+	ctx.fillText("H", x, y+3*line_height)
+	ctx.fillText("e", x+character_width, y+3*line_height)
+	ctx.fillText("l", x+2*character_width, y+3*line_height)
+	ctx.fillText("l", x+3*character_width, y+3*line_height)
+	ctx.fillText("o", x+4*character_width, y+3*line_height)
+	ctx.fillText(",", x+5*character_width, y+3*line_height)
+	ctx.fillText(" ", x+6*character_width, y+3*line_height)
+	ctx.fillText("w", x+7*character_width, y+3*line_height)
+	ctx.fillText("o", x+8*character_width, y+3*line_height)
+	ctx.fillText("r", x+9*character_width, y+3*line_height)
+	ctx.fillText("l", x+10*character_width, y+3*line_height)
+	ctx.fillText("d", x+11*character_width, y+3*line_height)
+	ctx.fillText("!", x+12*character_width, y+3*line_height)*/
+	//dump(tm)
+	document.body.appendChild(canvas)
+	open_websocket("ws://"+universal_server_ip+":"+universal_server_port)
+      }
+    </script>
+  </head>
+  <body onload="initialize()">
+    <div id="output"></div>
+  </body>
+</html>

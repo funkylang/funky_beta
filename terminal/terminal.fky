@@ -215,6 +215,18 @@ $std::set_background_colour_at ()
 
       set_background_colour_at &screen x y YELLOW
 
+$abs_x: (screen x)
+  if
+    x < 0
+    -> width_of(screen)+x+1
+    -> x
+
+$abs_y: (screen y)
+  if
+    y < 0
+    -> height_of(screen)+y+1
+    -> y
+
 $std::draw_character ()
   #
     draws a character at the given position
@@ -373,8 +385,6 @@ $std::bottom_y_of ()
 $std::cursor_x_of (!)
 
 $std::cursor_y_of (!)
-
-$std::height_of (!)
 
 $std::text_colour_of (!)
 
@@ -1290,6 +1300,8 @@ $std::initialize_terminal:
 
     on err.is_an_error: debug::dump_object 50 err
 
+$std_types::terminal/update update_terminal
+
 $std::update_terminal:
   #
     create a command sequence to update the terminal
@@ -1550,6 +1562,8 @@ $std_types::screen/plot:
     x # the x-cordinate of the *half block*
     y # the y-coordinate of the *half block*
   )
+  abs_x screen &x
+  abs_y screen &y
   $row_no (y+1) .div. 2
   if
     ||
@@ -1622,6 +1636,10 @@ $std_types::screen/plot_line:
     x2 # the x-coordinate of the end point
     y2 # the y-coordinate of the end point
   )
+  abs_x screen &x1
+  abs_y screen &y1
+  abs_x screen &x2
+  abs_y screen &y2
   $dx x2-x1
   $dy y2-y1
   if
@@ -1677,6 +1695,10 @@ $std_types::screen/fill_trapezoid:
     y2 # the y-coordinate of the bottom left corner
     w2 # the width of the bottom edge
   )
+  abs_x screen &x1
+  abs_y screen &y1
+  abs_x screen &x2
+  abs_y screen &y2
   if
     ||
       w1 < 0
@@ -1826,6 +1848,8 @@ $std_types::screen/draw_character:
     y # in logical screen coordinates (any coordinate within a row is accepted)
     chr # the character to draw
   )
+  abs_x screen &x
+  abs_y screen &y
   $width width_of(screen)
   $height height_of(screen)
   $line_height line_height_of(screen)
@@ -1922,6 +1946,8 @@ $std_types::screen/draw_text:
     y # in logical screen coordinates (any coordinate within a row is accepted)
     args* # the text to draw
   )
+  abs_x self &x
+  abs_y self &y
   $text create_string(args)
   if
     text.is_empty
@@ -2074,6 +2100,8 @@ $std_types::screen/draw_attributed_text:
     y # in logical screen coordinates (any coordinate within a row is accepted)
     attributed_text # the text to draw
   )
+  abs_x self &x
+  abs_y self &y
   $n length_of(attributed_text) .div. 3
   $left_x get_left_x_of(self)
   $top_y get_top_y_of(self)
@@ -2132,6 +2160,10 @@ $std_types::screen/draw_line:
     x2
     y2
   )
+  abs_x self &x1
+  abs_y self &y1
+  abs_x self &x2
+  abs_y self &y2
   $min_x min(x1 x2)
   $max_x max(x1 x2)
   $min_y min(y1 y2)

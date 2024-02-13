@@ -57,6 +57,8 @@
 
   See also: @Input-Output
 
+$std::update ()
+
 # File Operations
 
 $std::load ()

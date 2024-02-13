@@ -582,6 +582,16 @@ ATTR std::width_of
 
     See also: std::length_of
 
+ATTR std::height_of
+  #
+    returns the height of an object
+
+    Parameter:
+      object # the object to be analyzed
+
+    Result:
+      height # the height of object in lines
+
 POLY std::hash
   #
     returns a hash value

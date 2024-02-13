@@ -116,6 +116,7 @@ $saved_revisions_of ()
   a "sub_line" is a line within a "paragraph"
 
 $id_of () # a unique value (currently an integer) to identify the window
+$filename_of () # the name of the file associated with the window
 $revision_no_of () # the total number of changes
 $features_of () # a <hash_set> of the window's features
 $key_bindings_of () # a <hash_table> of the window's key bindings
@@ -164,10 +165,13 @@ $indentation_patterns_of () # a precomputed pattern to display indents
 # Start
 
 program_parameters!
-  $filename
+  $filenames
   list
-    MANDATORY_PARAMETER "filename" "
-      the name of the text file to edit
+    MANY_PARAMETERS "filename" "
+      the name(s) of the text file(s) to edit
+
+
+$io std_types::io
 
 # initialize error logging
 
@@ -177,6 +181,10 @@ $do_log
   ||
     inode_number_of(stderr_info) != inode_number_of(stdout_info)
     device_of(stderr_info) != device_of(stdout_info)
+$log_level if(do_log (-> 4) (-> 0))
+enable_logging &io log_level
+
+log &io "TEDI: started logging (log-level: log_level)"
 
 # Optional Function Argument
 
@@ -268,12 +276,6 @@ $functions
     "filter" = tuple(filter_selection OTHER)
 
 $class_of empty_hash_table
-
-load_file! $lines
-on lines.is_an_error:
-  eprint! "
-    Unable to load file "@(filename)"!
-  exit! EXIT_FAILURE
 
 $editor_key_bindings
   hash_table
@@ -512,27 +514,38 @@ $filter_key_bindings
     CTRL_V = paste
     CTRL_X = cut
 
-$window
-  prototype_window
-    .features_of
-      hash_set
-	HAS_HISTORY
-	ALLOW_SEARCH
-	ALLOW_NEW_LINE
-    .key_bindings_of editor_key_bindings
-    .previous_of undefined
-    .redo_of undefined
-    .key_of undefined
-    .lines_of lines
-    .left_x_of 1
-    .top_y_of 2
-    .inbounds_width_of 80
-    .is_a_text_window true
-    .colour_set_of colour_sets(1)
-    .colour_set_no_of 1
-    .do_highlight_indentations_of true
-    .do_highlight_cursor_line_of true
-    .cursor_movement_of ANYWHERE
+$text_windows empty_list
+for_each !text_windows filenames
+  : (filename)
+    load_file! $text_lines filename
+    on text_lines.is_an_error:
+      eprint! "
+	Unable to load file "@(filename)"!
+      exit! EXIT_FAILURE
+    push &text_windows
+      prototype_window
+	.features_of
+	  hash_set
+	    HAS_HISTORY
+	    ALLOW_SEARCH
+	    ALLOW_NEW_LINE
+	.key_bindings_of editor_key_bindings
+	.previous_of undefined
+	.redo_of undefined
+	.key_of undefined
+	.filename_of filename
+	.lines_of text_lines
+	.left_x_of 1
+	.top_y_of 2
+	.inbounds_width_of 80
+	.is_a_text_window true
+	.colour_set_of colour_sets(1)
+	.colour_set_no_of 1
+	.do_highlight_indentations_of true
+	.do_highlight_cursor_line_of true
+	.cursor_movement_of ANYWHERE
+    next!
+  -> text_windows
 
 # Window Ids
 
@@ -585,7 +598,6 @@ $filter_window
 $state undefined
 
 $terminal undefined
-$io std_types::io
 
 $ai_model_name "codellama-13b.Q4_0.gguf"
 $ai_server "127.0.0.1:8080"
@@ -595,9 +607,11 @@ initialize_terminal!
   RECEIVE_CTRL_C_AND_CTRL_Z = true
   RECEIVE_CTRL_Q_AND_CTRL_S = true
   MAP_CR = true
-  TITLE = filename
+  TITLE = filenames(1)
   main
 
+$window undefined
+$lines undefined
 $previous_window undefined
 
 $main: (initial_terminal)
@@ -607,8 +621,9 @@ $main: (initial_terminal)
   $terminal_height height_of(terminal)
   $window_height terminal_height-2
 
+  !lines lines_of(text_windows(1))
   !window
-    window
+    text_windows(1)
       .id_of 1
       .width_of terminal_width
       .height_of window_height
@@ -895,13 +910,14 @@ $event_loop:
 	  -> terminal state
 	  :
 	    extract_window_and_lines:
-	      action! $new_terminal $new_state
+	      action! $new_io $new_terminal $new_state
 	      if
 		new_terminal.is_an_error:
 		  # SHOW ERROR MESSAGE!!!
-		  debug::dump `new_terminal
+		  log &io error_message_text_of(new_io)
 		  next!
 		:
+		  !io new_io
 		  !terminal new_terminal
 		  !state new_state
 		  maybe_remove_selection_and_update_display !terminal !state
@@ -1929,16 +1945,16 @@ $join_lines:
 $save_contents -> state(.action_of save_contents_action)
 
 $save_contents_action:
-  save! filename lines_to_text(lines)
+  save! filename_of(window) lines_to_text(lines)
   !state.saved_revisions_of(id_of(window)) revision_no_of(window)
-  -> terminal state
+  -> io terminal state
 
 $save_with_leading_spaces -> state(.action_of save_with_leading_spaces_action)
 
 $save_with_leading_spaces_action:
-  save! filename lines_to_spaced_text(lines)
+  save! filename_of(window) lines_to_spaced_text(lines)
   !state.saved_revisions_of(id_of(window)) revision_no_of(window)
-  -> terminal state
+  -> io terminal state
 
 $lines_to_text: (some_lines)
   map_reduce some_lines
@@ -2192,9 +2208,6 @@ $is_an_identifier_character: (chr)
 $ai_completion -> state(.action_of ai_completion_action)
 
 $ai_completion_action:
-  on do_log:
-    eprint! "
-      --------------------
   current_time! $t1
   $t2 undefined
   $ai_model ai_model_of(state)
@@ -2205,10 +2218,12 @@ $ai_completion_action:
       initialize_ai! !ai_model
       current_time! !t2
       on ai_model.is_an_error ai_model # propagate error
-      on do_log:
-	debug::dump `ai_model
-	eprintln!
-	  format("%2.3: loading model " t2-t1)
+      log &io 2 "
+	loaded AI model "@(name_of(ai_model))
+	server address: @(address_of(ai_model))
+	server port no.: @(port_no_of(ai_model))
+	context size: @(context_size_of(ai_model))
+	load time: @(format("%1.3 s" t2-t1))
       !t1 t2
       !state.ai_model_of ai_model
       check_tokens!
@@ -2222,12 +2237,12 @@ $ai_completion_action:
 	tokenize! ai_model line_texts $line_tokens
 	update_tokens !lines line_numbers line_tokens
 	current_time! !t2
-	on do_log: eprintln! format("%2.3: tokenize " t2-t1)
+	log &io 5 "tokenization time: @(format("%1.3 s" t2-t1))"
 	!t1 t2
 	attempt_completion!
 
   $attempt_completion:
-    line_start_tokens x_of(window) $cx $tokens $suffix
+    line_start_tokens x_of(window) $cx $tokens $_suffix
     $at_line_start tokens.is_empty
     $start_tokens empty_list
     $sy 0
@@ -2265,21 +2280,7 @@ $ai_completion_action:
     update_if_not
       is_a_space_token_of(ai_model)(first_token) || first_token == newline_token
       &tokens -> put(tokens space_token_of(ai_model))
-    on do_log:
-      $detokenized_text detokenize(ai_model tokens)
-      debug::print "
-	prompt length: @(length_of(tokens)) tokens
-      $line_count count_occurrences(detokenized_text '@nl;')
-      if
-	line_count > 7:
-	  debug::print "prompt = "
-	  debug::dump_object truncate_from(detokenized_text '@nl;' 3)
-	  debug::print "..."
-	  debug::dump_object truncate_until(detokenized_text '@nl;' -4)
-	:
-	  debug::dump_object detokenized_text
-      debug::print "suffix = "
-      debug::dump_object detokenize(ai_model suffix)
+    log &io 3 "prompt length: @(length_of(tokens))"
     $n length_of(tokens)
     $rest empty_list
     $generated_tokens_count 0
@@ -2289,14 +2290,12 @@ $ai_completion_action:
       inc &generated_tokens_count
       if
 	token == -1
-	-> terminal state
+	-> io terminal state
 	:
 	  current_time! $t4
 	  detokenize ai_model token $piece &rest
-	  on do_log:
-	    eprintln!
-	      format("%2.3: %5 " t4-t3 token)
-	      '@quot;' escaped_piece(piece) '@quot;'
+	  log &io 4 "
+	    @(format("%1.3: %5 " t4-t3 token)); "@(escaped_piece(piece))"
 	  $end_of_text_token end_of_text_token_of(ai_model)
 	  $period_token period_token_of(ai_model)
 	  $use_soft_line_break use_soft_line_break_of(window)
@@ -2314,13 +2313,14 @@ $ai_completion_action:
 
 	      update_if token == period_token &tokens: push tokens token
 	      $ai_text detokenize(ai_model range(tokens n+1 -1))
-	      on do_log: debug::dump `ai_text
+	      log &io 3 "
+		"@(ai_text)"
 	      if
 		ai_text.is_empty:
 		  if
 		    token == newline_token
-		    -> terminal split_line()
-		    -> terminal state
+		    -> io terminal split_line()
+		    -> io terminal state
 		:
 		  !window.previous_of window
 		  !window
@@ -2333,8 +2333,8 @@ $ai_completion_action:
 		    &ai_text -> range(ai_text 2 -1)
 		  if
 		    token == newline_token && at_line_start
-		    -> terminal insert_line(ai_text)
-		    -> terminal insert(ai_text)
+		    -> io terminal insert_line(ai_text)
+		    -> io terminal insert(ai_text)
 
   $line_to_tokens: (y)
     if
@@ -2448,7 +2448,7 @@ $indented_tokens: (indent tokens)
 $initialize_ai:
    load_ai_model! $model ai_model_name ai_server
    on model.is_an_error:
-      on do_log: eprintln! "FAILED TO LOAD AI MODEL!"
+      log &io "FAILED TO LOAD AI MODEL!"
       model # propagate error
    min &model.context_size_of ai_context_size
    if
@@ -2501,42 +2501,37 @@ $filter_selection: (myself^)
 
 $filter_action: (myself^)
   $filter_command argument_of(myself)
-  on do_log:
-    eprint! "
-      -------------------
-      filter_action "@(filter_command)"
+  log &io 2 "
+    filter_action: "@(filter_command)"
   get_spaced_selection_text $text # text is already utf8 encoded
   if
     text.is_undefined
     -> terminal state
     :
-      on do_log: debug::print! "
-	___________________
-	@(text)
-	___________________
+      log &io 4 "
+	___(input text)______
+	@(text.trim_right)
       $command filter_command .truncate_from. ' '
       $arguments (filter_command .behind. ' ').trim.to_arguments
-      pipe_commands! $ret_list $out $err_list
+      pipe_commands! $ret_list $out $_err_list
 	text list(tuple(command arguments))
       if
 	ret_list(1) == 0:
 	  from_utf8 &out
 	  replace_all &out '@ht;' = "        "
-	  on do_log: eprintln! "
-	    @(out)
-	    ___________________
+	  log &io 4 "
+	    ___(filtered text)___
+	    @(out.trim_right)
+	    _____________________
 	  update_if out .contains. '@nl;' &out:
 	    $raw_lines split(out '@nl;')
 	    map raw_lines: (line) tedi_line 0 line.trim_right
 	  cut !state
 	  ->
+	    io
 	    terminal
 	    extract_window_and_lines(: paste_contents out)
-	:
-	  on do_log:
-	    debug::dump `ret_list(1)
-	    debug::dump `err_list(1)
-	  -> terminal state
+	-> io terminal state
 
   $to_arguments: (str)
     $arguments empty_list
@@ -3517,7 +3512,7 @@ $toggle_soft_line_break:
       .needs_redraw true
   return_window
 
-$load_file:
+$load_file: (filename)
   load! $buf filename
   from_utf8 &buf
   trim_right &buf
@@ -4141,7 +4136,7 @@ $draw_title_bar:
       revision_no_of(window) != saved_revisions_of(state)(id_of(window))
       -> "*"
       -> ""
-    filename
+    filename_of(window)
   -> terminal
 
 # Helper Functions

@@ -118,7 +118,7 @@ enum {
   func__std_types___date_and_time___std___time_shift_of,
   func__std___current_time,
   func__debug___string,
-  func__debug___print,
+  func__debug___write,
   func__debug___dump_object,
   func__debug___exit,
   func__std___error_check,
@@ -403,6 +403,7 @@ enum {
   var_no__std___is_not_empty,
   var_no__std___length_of,
   var_no__std___width_of,
+  var_no__std___height_of,
   var_no__std___hash,
   var_no__std___push,
   var_no__std___pop,
@@ -476,7 +477,7 @@ enum {
   var_no__std___date_and_time,
   var_no__std___current_time,
   var_no__debug___string,
-  var_no__debug___print,
+  var_no__debug___write,
   var_no__debug___dump_object,
   var_no__debug___exit,
   var_no__std___error_check,
@@ -14362,7 +14363,7 @@ static void entry__debug___string (void)
     };
   }
 
-static void entry__debug___print (void)
+static void entry__debug___write (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -22945,7 +22946,7 @@ static FUNKY_CONSTANT constants_table[] = {
   {FLT_C_FUNCTION, 1, {.func = entry__std_types___date_and_time___std___time_shift_of}},
   {FLT_C_FUNCTION, 0, {.func = entry__std___current_time}},
   {FLT_C_FUNCTION, -1, {.func = entry__debug___string}},
-  {FLT_C_FUNCTION, 1, {.func = entry__debug___print}},
+  {FLT_C_FUNCTION, 1, {.func = entry__debug___write}},
   {FLT_C_FUNCTION, -1, {.func = entry__debug___dump_object}},
   {FLT_C_FUNCTION, -1, {.func = entry__debug___exit}},
   {FLT_C_FUNCTION, -1, {.func = entry__std___error_check}},
@@ -24068,6 +24069,11 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_POLYMORPHIC, 0, 0,
+    "height_of\000std", NULL,
+    {.has_a_setter = true}
+  },
+  {
+    FOT_POLYMORPHIC, 0, 0,
     "hash\000std", NULL,
     {.has_a_setter = false}
   },
@@ -24490,8 +24496,8 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_INITIALIZED, 0, 0,
-    "print\000debug", NULL,
-    {.const_idx = func__debug___print}
+    "write\000debug", NULL,
+    {.const_idx = func__debug___write}
   },
   {
     FOT_INITIALIZED, 0, 0,
@@ -26721,7 +26727,7 @@ FUNKY_MODULE module__builtin = {
   NULL,
   0, 0,
   4, 0,
-  338, 435,
+  338, 436,
   NULL,
   defined_namespaces, NULL,
   constants_table, variables_table
@@ -26833,7 +26839,7 @@ BUILTIN_FUNCTION_NAME builtin_function_names[388] = {
   {entry__std_types___date_and_time___std___time_shift_of, "std_types::date_and_time/time_shift_of"},
   {entry__std___current_time, "std::current_time"},
   {entry__debug___string, "debug::string"},
-  {entry__debug___print, "debug::print"},
+  {entry__debug___write, "debug::write"},
   {entry__debug___dump_object, "debug::dump_object"},
   {entry__debug___exit, "debug::exit"},
   {entry__std___error_check, "std::error_check"},

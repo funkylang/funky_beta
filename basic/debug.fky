@@ -34,6 +34,12 @@
 
   See also: @Errors, @Input-Output
 
+$debug::print:
+  (
+    str # the string to print
+  )
+  debug::write str.to_utf8
+
 $debug::println:
   #
     writes the given string and a newline character to stderr

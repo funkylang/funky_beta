@@ -171,7 +171,7 @@ $handle_http_request: (io fd request)
       bad_request &io fd
       -> io undefined
 
-$std::upgrade_to_websocket: (io fd fields)
+$std::accept_upgrade_to_websocket: (io fd fields)
   log &io "upgrade to websocket - @(serialize(fd))"
   !io.protocols_of(fd) WEBSOCKET
   $key fields("Sec-WebSocket-Key")
@@ -295,12 +295,29 @@ $handle_websocket_message: (io fd message)
       $opcode first_octet & 0x3f
       $is_masked second_octet & MASK_BIT == MASK_BIT
       $payload_size second_octet & PAYLOAD_MASK
+      case !message !payload_size
+	payload_size
+	126 ->
+	  range(message 5 -1)
+	  (message(3).to_integer << 8) | message(4).to_integer
+	127 ->
+	  range(message 11 -1)
+	  |
+	    message(3).to_integer << 56
+	    message(4).to_integer << 48
+	    message(5).to_integer << 40
+	    message(6).to_integer << 32
+	    message(7).to_integer << 24
+	    message(8).to_integer << 16
+	    message(9).to_integer << 8
+	    message(10).to_integer
+	-> range(message 3 -1) payload_size
       case opcode
 	TEXT_FRAME:
 	  if
 	    is_masked:
-	      $mask map(range(message 3 6) to_integer)
-	      $data range(message 7 -1)
+	      $mask map(range(message 1 4) to_integer)
+	      $data range(message 5 -1)
 	      if
 		length_of(data) != payload_size:
 		  log &io "INVALID WEBSOCKET PAYLOAD LENGTH - @(serialize(fd))"
@@ -322,8 +339,13 @@ $handle_websocket_message: (io fd message)
 		    :
 		      queue_message unmasked_data
 	    :
-	      $data range(message 3 -1)
-	      queue_message data
+	      if
+		length_of(message) != payload_size:
+		  log &io "INVALID WEBSOCKET PAYLOAD LENGTH - @(serialize(fd))"
+		  close_connection &io fd
+		  -> io undefined
+		:
+		  queue_message message
 	CLOSE_FRAME:
 	  log &io 2 "websocket closed - @(serialize(fd))"
 	  close_connection &io fd
@@ -391,3 +413,25 @@ $std::close_connection: (io fd)
   log &io 3 "close connection @(serialize(fd))"
   !io.protocols_of(fd) undefined
   close io fd
+
+# Web Client
+
+$std::upgrade_to_websocket: (io fd)
+  # generate random key
+  $key
+    append
+      random_seed_of(io).to_string "."
+      step_no_of(io).to_string "."
+      fd.to_integer.to_string
+  sha1 &key
+  to_base64 &key
+  write io fd "
+    GET / HTTP/1.1@cr;
+    Connection: Upgrade@cr;
+    Upgrade: websocket@cr;
+    Sec-WebSocket-Key: @(key)@cr;
+    @cr;
+
+$std::handle_web_client_events: (io events)
+  # dummy implementation
+  -> io events

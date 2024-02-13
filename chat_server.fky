@@ -61,7 +61,7 @@ $main:
 	    next!
 	  UPGRADE_TO_WEBSOCKET:
 	    $fields argument
-	    upgrade_to_websocket &io fd fields
+	    accept_upgrade_to_websocket &io fd fields
 	    next!
 	  WEBSOCKET_MESSAGE:
 	    $message argument

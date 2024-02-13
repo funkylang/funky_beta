@@ -1,0 +1,266 @@
+#!/usr/bin/env fkyrun
+
+  Copyright (C) 2024 by
+  Dipl.-Ing. Michael Niederle
+
+  This program is free software; you can redistribute it and/or modify
+  it under the terms of the GNU General Public License, version 2, or
+  (at your option) version 3.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  GNU General Public License for more details.
+
+  For details of the GNU General Public License see the accompanying
+  files GPLv2.txt and GLPv3.txt or
+  http://www.gnu.org/licenses/gpl-2.0.html
+  http://www.gnu.org/licenses/gpl-3.0.html
+  or write to the
+  Free Software Foundation, Inc.,
+  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+
+<require basic/stdlib>
+<require terminal/terminal>
+<require ./web/server>
+
+$DOM .
+$VT .
+
+$client_type_of ()
+
+$character_width_of ()
+$ascent_of ()
+$descent_of ()
+$character_height_of ()
+$line_spacing_of ()
+$line_height_of ()
+$base_line_of ()
+
+$std_types::client std_types::object
+$std_types::dom std_types::client
+
+$std_types::client.width_of undefined
+$std_types::client.height_of undefined
+$std_types::client.character_width_of undefined
+$std_types::client.ascent_of undefined
+$std_types::client.descent_of undefined
+$std_types::client.character_height_of undefined
+$std_types::client.line_spacing_of undefined
+$std_types::client.line_height_of undefined
+$std_types::client.base_line_of undefined
+
+$std_types::dom.client_type_of DOM
+$std_types::terminal.client_type_of VT
+
+load! $chat "chat.html"
+append "<!DOCTYPE html>@nl;" &chat
+
+$clients_of ()
+
+$io std_types::io
+$io.clients_of empty_hash_table
+
+main!
+
+$main:
+  enable_logging &io 3
+  start_web_server! &io 8000
+  start_reading_from &io STDIN_FILENO
+
+  loop:
+    get_events! &io $events
+    handle_web_server_events &io &events
+    for_each events
+      : (event)
+	event $type $fd $argument
+	case type
+	  READ:
+	    if
+	      fd == STDIN_FILENO:
+		stop_web_server &io
+		terminate!
+	      :
+		log_unhandled_event &io event
+		next!
+	  GET:
+	    $uri argument
+	    get_requested_resource &io fd uri
+	    next!
+	  UPGRADE_TO_WEBSOCKET:
+	    $fields argument
+	    accept_upgrade_to_websocket &io fd fields
+	    next!
+	  WEBSOCKET_MESSAGE:
+	    $message argument
+	    handle_message &io fd message
+	    next!
+	  WEBSOCKET_CLOSED:
+	    handle_close &io fd
+	    next!
+	  :
+	    log_unhandled_event &io event
+	    next!
+      next
+
+$get_requested_resource: (io fd uri)
+  case uri
+    "/":
+      return_http_resource io fd uri chat
+    :
+      http_resource_not_found io fd uri
+
+$handle_message: (io fd message)
+  cond
+    -> message .has_prefix. "DOM@nl;":
+      $vt std_types::dom
+      extract_parameters &io &vt message
+      start_screen io vt fd
+    -> message .has_prefix. "VT@nl;":
+      $client std_types::client
+      extract_parameters &io &client message
+      $vt create_terminal(width_of(client) height_of(client))
+      !vt.character_width_of character_width_of(client)
+      !vt.ascent_of ascent_of(client)
+      !vt.descent_of descent_of(client)
+      !vt.character_height_of character_height_of(client)
+      !vt.line_spacing_of line_spacing_of(client)
+      !vt.line_height_of line_height_of(client)
+      !vt.base_line_of base_line_of(client)
+      start_screen io vt fd
+    -> true:
+      close_connection io fd
+
+  $extract_parameters: (io client message)
+    $lines split_into_lines(message .truncate_until. '@nl;')
+    for_each lines
+      : (line)
+	$key (line .before. ':').trim
+	$value (line .behind. ':').trim
+	case key
+	  "width":
+	    !client.width_of value.to_number
+	    next
+	  "height":
+	    !client.height_of value.to_number
+	    next
+	  "character_width":
+	    !client.character_width_of value.to_number
+	    next
+	  "ascent":
+	    !client.ascent_of value.to_number
+	    next
+	  "descent":
+	    !client.descent_of value.to_number
+	    next
+	  "character_height":
+	    !client.character_height_of value.to_number
+	    next
+	  "line_spacing":
+	    !client.line_spacing_of value.to_number
+	    next
+	  "line_height":
+	    !client.line_height_of value.to_number
+	    next
+	  "base_line":
+	    !client.base_line_of value.to_number
+	    next
+	  :
+	    log &io 3 "
+	      Unknown client attribute: "@(key)"
+	    next
+      :
+	log &io 2 "
+	  client
+	  width: @(width_of(client))
+	  height: @(height_of(client))
+	  character_width: @(character_width_of(client))
+	  ascent: @(ascent_of(client))
+	  descent: @(descent_of(client))
+	  character_height: @(character_height_of(client))
+	  line_spacing: @(line_spacing_of(client))
+	  line_height: @(line_height_of(client))
+	  base_line: @(base_line_of(client))
+	-> io client
+
+$script_of ()
+
+$script_start "
+  {
+  let ctx = canvas.getContext('2d')
+
+
+$std_types::dom.script_of script_start
+
+$abs_x: (screen x)
+  if
+    x < 0
+    -> width_of(screen)+x+1
+    -> x
+
+$abs_y: (screen y)
+  if
+    y < 0
+    -> height_of(screen)+y+1
+    -> y
+
+$std_types::dom/draw_text: (self x y text)
+  abs_x self &x
+  abs_y self &y
+  dec &x
+  dec &y
+  $lines split(text '@nl;')
+  for_each lines
+    : (idx text)
+      if
+	text.is_empty
+	next
+	:
+	  append &self.script_of "
+	    ctx.fillText("@(text)", @(x), @(y+(idx-1)*line_height_of(self)))
+	  next
+    -> self
+
+$std_types::dom/set_text_colour: (self colour)
+  to_integer &colour
+  $red colour >> 16
+  $green (colour >> 8) & 0xFF
+  $blue colour & 0xFF
+  append &self.script_of "
+    ctx.strokeStyle = "rgb(@(red),@(green),@(blue))"
+  -> self
+
+$std_types::dom/plot_line: (self x1 y1 x2 y2)
+  abs_x self &x1
+  abs_y self &y1
+  abs_x self &x2
+  abs_y self &y2
+  append &self.script_of "
+    ctx.beginPath()
+    ctx.moveTo(@(x1-1), @(y1-1))
+    ctx.lineTo(@(x2-1), @(y2-1))
+    ctx.stroke()
+  -> self
+
+$std_types::dom/update: (self)
+  $command append(script_of(self) "}@nl;")
+  !self.script_of script_start
+  -> self command
+
+$start_screen: (io vt fd)
+  $x 1
+  $y base_line_of(vt)
+  draw_text &vt x y "
+    Greetings from the Test Server!
+    width: @(width_of(vt)), height: @(height_of(vt))
+  set_text_colour &vt BLUE
+  plot_line &vt 5 5 -5 -5
+  set_text_colour &vt MAGENTA
+  plot_line &vt 10 -10 -10 10
+  update &vt $commands
+  #debug::print commands
+  !io.clients_of(fd) vt
+  send_websocket_text_message io fd commands
+
+$handle_close: (io _fd)
+  -> io
