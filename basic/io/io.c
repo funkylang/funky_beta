@@ -3617,9 +3617,9 @@ static FUNKY_NAMESPACE used_namespaces[] = {
   {"std", 1, 0}
 };
 
-FUNKY_MODULE module__basic__io = {
-  "_basic__io", // module name
-  "basic/io.fky", // module filename
+FUNKY_MODULE module__basic__io__io = {
+  "_basic__io__io", // module name
+  "basic/io/io.fky", // module filename
   .major_version = 0,
   .minor_version = 0,
   .feature_flags = FEAT_POSITIONS,

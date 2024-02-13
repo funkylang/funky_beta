@@ -53,6 +53,10 @@ upgrade_to_websocket &io conn_fd
 
 $mode HTTP
 get_terminal_size! STDIN_FILENO $terminal_width $terminal_height
+
+# switch to alternate screen and store cursor position
+write &io STDOUT_FILENO "@esc;[?47h@esc;[33s"
+
 start_reading_from &io conn_fd
 loop:
   get_events! &io $events
@@ -66,6 +70,10 @@ loop:
 	    argument == "":
 	      log &io "connection closed"
 	      close &io fd
+	      #
+		restore cursor position, switch to default screen and set
+		default colours
+	      write &io STDOUT_FILENO "@esc;[u@esc;[?47l@esc;[0m"
 	      exit &io 1
 	      next!
 	    :

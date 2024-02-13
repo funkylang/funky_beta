@@ -538,13 +538,17 @@ $std::GREY '@0x808080;'
 
 $INVALID_COLOUR '@0xffffffff;'
 
-$std_types::screen std_types::object
+$std_types::screen std_types::generic_terminal
   #
     the prototype objects for all screens
 
     Topic: Terminal
 
     See also: create_screen
+
+$std::TEXT .
+
+$std_types::screen.type_of TEXT
 
 $std_types::screen.serialization_tag_of "screen"
   #

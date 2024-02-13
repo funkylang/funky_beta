@@ -28,9 +28,10 @@
 <require ./error>
 <require ./functional>
 <require ./grammar>
-<require ./io>
-<require ./io_events>
-<require ./io_task_manager>
+<require ./io/io>
+<require ./io/io_events>
+<require ./io/io_task_manager>
+<require ./io/generic_terminal>
 <require ./logical>
 <require ./loops>
 <require ./math>

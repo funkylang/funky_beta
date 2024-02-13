@@ -4,9 +4,10 @@
 /// require ./error
 /// require ./functional
 /// require ./grammar
-/// require ./io
-/// require ./io_events
-/// require ./io_task_manager
+/// require ./io/io
+/// require ./io/io_events
+/// require ./io/io_task_manager
+/// require ./io/generic_terminal
 /// require ./logical
 /// require ./loops
 /// require ./math
@@ -62,9 +63,10 @@ extern FUNKY_MODULE module__basic__environment;
 extern FUNKY_MODULE module__basic__error;
 extern FUNKY_MODULE module__basic__functional;
 extern FUNKY_MODULE module__basic__grammar;
-extern FUNKY_MODULE module__basic__io;
-extern FUNKY_MODULE module__basic__io_events;
-extern FUNKY_MODULE module__basic__io_task_manager;
+extern FUNKY_MODULE module__basic__io__io;
+extern FUNKY_MODULE module__basic__io__io_events;
+extern FUNKY_MODULE module__basic__io__io_task_manager;
+extern FUNKY_MODULE module__basic__io__generic_terminal;
 extern FUNKY_MODULE module__basic__logical;
 extern FUNKY_MODULE module__basic__loops;
 extern FUNKY_MODULE module__basic__math;
@@ -110,9 +112,10 @@ static FUNKY_MODULE *required_modules[] = {
   &module__basic__error,
   &module__basic__functional,
   &module__basic__grammar,
-  &module__basic__io,
-  &module__basic__io_events,
-  &module__basic__io_task_manager,
+  &module__basic__io__io,
+  &module__basic__io__io_events,
+  &module__basic__io__io_task_manager,
+  &module__basic__io__generic_terminal,
   &module__basic__logical,
   &module__basic__loops,
   &module__basic__math,
@@ -167,7 +170,7 @@ FUNKY_MODULE module__basic__stdlib = {
   .minor_version = 0,
   .feature_flags = FEAT_POSITIONS,
   .marker = 0,
-  46, // number of required modules
+  47, // number of required modules
   1, // number of defined namespaces
   1, // number of used namespaces
   0, // number of constants

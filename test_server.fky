@@ -23,43 +23,15 @@
 <require basic/stdlib>
 <require terminal/terminal>
 <require ./web/server>
-
-$DOM .
-$VT .
-
-$client_type_of ()
-
-$character_width_of ()
-$ascent_of ()
-$descent_of ()
-$character_height_of ()
-$line_spacing_of ()
-$line_height_of ()
-$base_line_of ()
-
-$std_types::client std_types::object
-$std_types::dom std_types::client
-
-$std_types::client.width_of undefined
-$std_types::client.height_of undefined
-$std_types::client.character_width_of undefined
-$std_types::client.ascent_of undefined
-$std_types::client.descent_of undefined
-$std_types::client.character_height_of undefined
-$std_types::client.line_spacing_of undefined
-$std_types::client.line_height_of undefined
-$std_types::client.base_line_of undefined
-
-$std_types::dom.client_type_of DOM
-$std_types::terminal.client_type_of VT
+<require ./web/terminal>
 
 load! $chat "chat.html"
 append "<!DOCTYPE html>@nl;" &chat
 
-$clients_of ()
+$terminals_of ()
 
 $io std_types::io
-$io.clients_of empty_hash_table
+$io.terminals_of empty_hash_table
 
 main!
 
@@ -113,11 +85,11 @@ $get_requested_resource: (io fd uri)
 $handle_message: (io fd message)
   cond
     -> message .has_prefix. "DOM@nl;":
-      $vt std_types::dom
+      $vt std_types::web_terminal
       extract_parameters &io &vt message
       start_screen io vt fd
     -> message .has_prefix. "VT@nl;":
-      $client std_types::client
+      $client std_types::generic_terminal
       extract_parameters &io &client message
       $vt create_terminal(width_of(client) height_of(client))
       !vt.character_width_of character_width_of(client)
@@ -183,70 +155,6 @@ $handle_message: (io fd message)
 	  base_line: @(base_line_of(client))
 	-> io client
 
-$script_of ()
-
-$script_start "
-  {
-  let ctx = canvas.getContext('2d')
-
-
-$std_types::dom.script_of script_start
-
-$abs_x: (screen x)
-  if
-    x < 0
-    -> width_of(screen)+x+1
-    -> x
-
-$abs_y: (screen y)
-  if
-    y < 0
-    -> height_of(screen)+y+1
-    -> y
-
-$std_types::dom/draw_text: (self x y text)
-  abs_x self &x
-  abs_y self &y
-  dec &x
-  dec &y
-  $lines split(text '@nl;')
-  for_each lines
-    : (idx text)
-      if
-	text.is_empty
-	next
-	:
-	  append &self.script_of "
-	    ctx.fillText("@(text)", @(x), @(y+(idx-1)*line_height_of(self)))
-	  next
-    -> self
-
-$std_types::dom/set_text_colour: (self colour)
-  to_integer &colour
-  $red colour >> 16
-  $green (colour >> 8) & 0xFF
-  $blue colour & 0xFF
-  append &self.script_of "
-    ctx.strokeStyle = "rgb(@(red),@(green),@(blue))"
-  -> self
-
-$std_types::dom/plot_line: (self x1 y1 x2 y2)
-  abs_x self &x1
-  abs_y self &y1
-  abs_x self &x2
-  abs_y self &y2
-  append &self.script_of "
-    ctx.beginPath()
-    ctx.moveTo(@(x1-1), @(y1-1))
-    ctx.lineTo(@(x2-1), @(y2-1))
-    ctx.stroke()
-  -> self
-
-$std_types::dom/update: (self)
-  $command append(script_of(self) "}@nl;")
-  !self.script_of script_start
-  -> self command
-
 $start_screen: (io vt fd)
   $x 1
   $y base_line_of(vt)
@@ -259,7 +167,7 @@ $start_screen: (io vt fd)
   plot_line &vt 10 -10 -10 10
   update &vt $commands
   #debug::print commands
-  !io.clients_of(fd) vt
+  !io.terminals_of(fd) vt
   send_websocket_text_message io fd commands
 
 $handle_close: (io _fd)

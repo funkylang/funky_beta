@@ -2293,9 +2293,9 @@ static FUNKY_NAMESPACE used_namespaces[] = {
   {"std", 1, 0}
 };
 
-FUNKY_MODULE module__basic__io_events = {
-  "_basic__io_events", // module name
-  "basic/io_events.fky", // module filename
+FUNKY_MODULE module__basic__io__io_events = {
+  "_basic__io__io_events", // module name
+  "basic/io/io_events.fky", // module filename
   .major_version = 0,
   .minor_version = 0,
   .feature_flags = FEAT_POSITIONS,
