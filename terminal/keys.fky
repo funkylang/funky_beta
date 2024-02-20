@@ -329,7 +329,12 @@ $std::get_key:
   )
   $io std_types::io
   start_reading_from &io STDIN_FILENO
-  get_events! &io $events timeout
+  if !io
+    timeout.is_defined:
+      current_time! $t
+      set_timeout io t+timeout
+    -> io
+  get_events! &io $events
   if
     events.is_empty
     -> undefined

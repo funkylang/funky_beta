@@ -4,8 +4,7 @@
     <meta charset="utf-8" />
     <title>Funky Chat</title>
     <script language="javascript" type="text/javascript">
-      var universal_server_ip = "127.0.0.1"
-      var universal_server_port = 8000
+      var server_address = document.URL.substr(document.URL.indexOf("://")+3)
       var output
       var canvas
       var websocket
@@ -227,7 +226,7 @@
 	ctx.fillText("!", x+12*character_width, y+3*line_height)*/
 	//dump(tm)
 	document.body.appendChild(canvas)
-	open_websocket("ws://"+universal_server_ip+":"+universal_server_port)
+	open_websocket("ws://"+server_address)
       }
     </script>
   </head>

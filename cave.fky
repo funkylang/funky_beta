@@ -31,7 +31,6 @@
 
 <require basic/stdlib>
 <require terminal/terminal>
-<require terminal/keys>
 
 # Dynamic Items Types
 
@@ -173,7 +172,7 @@ create_terminal $terminal terminal_width terminal_height
 
   catching errors is important to restore the terminal to a sane state
 
-try $error: start_game!
+try $error: chain! initialize_terminal_keys start_game
 on error.is_an_error:
   eprintln! "ERROR: " debug::string(error 0 50)
   quit!

@@ -24,8 +24,19 @@
 <require ./web/server>
 <require terminal/terminal>
 
-$universal_server_address "127.0.0.1"
-$universal_server_port 8000
+program_parameters!
+  $server_address
+  list
+    MANDATORY_PARAMETER "uri" "
+      the URI of the server to connect to (can include a port no.)
+
+
+$universal_server_address server_address .truncate_from. ':'
+$universal_server_port
+  if
+    server_address .contains. ':'
+    -> (server_address .behind. ':').to_integer
+    -> 80
 
 current_time! $t
 
