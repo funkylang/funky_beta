@@ -10,15 +10,19 @@
       var canvas
       var websocket
 
-      var width
-      var height
+      var canvas_width
+      var canvas_height
       var character_width
       var ascent
       var descent
       var character_height
       var line_spacing
       var line_height
-      var base_line
+      var baseline
+
+      var ctx
+      var draw_colour
+      var clear_colour
 
       function dump(obj, show_methods) {
 	var text = ""
@@ -58,17 +62,20 @@
 	  case "open":
 	    websocket.send(
 	      "DOM"+
-	      "\nwidth: "+width+
-	      "\nheight: "+height+
+	      "\nwidth: "+canvas_width+
+	      "\nheight: "+canvas_height+
 	      "\ncharacter_width: "+character_width+
 	      "\nascent: "+ascent+
 	      "\ndescent: "+descent+
 	      "\ncharacter_height: "+character_height+
 	      "\nline_spacing: "+line_spacing+
 	      "\nline_height: "+line_height+
-	      "\nbase_line: "+base_line+
+	      "\nbaseline: "+baseline+
 	      "\n"
 	    ) // Document Object Model
+	    // add event listeners for key press and mouse click events
+	    window.addEventListener("keydown", handle_keydown, false)
+	    window.addEventListener("click", handle_click, false)
 	    break
 	  case "close":
 	    writeln('<span style="color: red;">CONNECTION CLOSED</span>')
@@ -80,6 +87,52 @@
 	    writeln('<span style="color: red;">ERROR: ' + event.data+'</span>');
 	    break
 	}
+      }
+
+      function handle_keydown(event) {
+	switch (event.key) {
+	  case "Shift":
+	  case "Control":
+	  case "Meta":
+	  case "Alt":
+	  case "AltGraph":
+	    break;
+	  default:
+	    let key = event.key
+	    let modifiers = ""
+	    if (key.length > 1) {
+	      key = key.toLowerCase()
+	      switch (key) {
+		case "pagedown": key = "page-down"; break
+		case "pageup": key = "page-up"; break
+		case "arrowleft": key = "cursor-left"; break
+		case "arrowright": key = "cursor-right"; break
+		case "arrowup": key = "cursor-up"; break
+		case "arrowdown": key = "cursor-down"; break
+	      }
+	      if (event.shiftKey) {
+		modifiers += "shift-"
+	      }
+	    }
+	    if (event.ctrlKey) {
+	      modifiers += "ctrl-"
+	    }
+	    if (event.altKey) {
+	      modifiers += "alt-"
+	    }
+	    if (event.metaKey) {
+	      modifiers += "meta-"
+	    }
+	    websocket.send("KEY_PRESS: "+modifiers+key)
+	}
+	event.preventDefault()
+	event.stopPropagation()
+	return false
+      }
+
+      function handle_click(event) {
+	websocket.send("MOUSE_CLICK: "+event.pageX+" "+event.pageY)
+	event.stopPropagation()
       }
 
       function writeln(message) {
@@ -94,31 +147,56 @@
 	input_text.value = ""
       }
 
-      function draw_text(ctx, x, y, text) {
-	ctx.fillText(text, x, y)
+      function draw_text(x, y, text) {
+	if (x < 0) x = canvas_width+x; else --x
+	if (y < 0) y = canvas_height+y; else --y
+	let lines = text.split('\n')
+	let i
+	for (i = 0; i < lines.length; ++i) {
+	  let line = lines[i]
+	  if (line) {
+	    if (clear_colour) {
+	      ctx.fillStyle = clear_colour
+	      ctx.fillRect(
+		x, y+i*line_height, line.length*character_width, line_height)
+	    }
+	    ctx.fillStyle = draw_colour
+	    ctx.fillText(lines[i], x, y+baseline+i*line_height)
+	  }
+	}
       }
 
-      function set_text_colour(ctx, colour) {
-	ctx.strokeStyle = colour
-      }
-
-      function plot_line(ctx, x1, y1, x2, y2) {
+      function plot_line(x1, y1, x2, y2) {
+	if (x1 < 0) x1 = canvas_width+x1; else --x1
+	if (y1 < 0) y1 = canvas_height+y1; else --y1
+	if (x2 < 0) x2 = canvas_width+x2; else --x2
+	if (y2 < 0) y2 = canvas_height+y2; else --y2
+	ctx.strokeStyle = draw_colour
 	ctx.beginPath()
 	ctx.moveTo(x1, y1)
 	ctx.lineTo(x2, y2)
 	ctx.stroke()
       }
 
+      function clear(x, y, width, height) {
+	if (x < 0) x = width+x; else --x
+	if (y < 0) y = height+y; else --y
+	if (width === null || x+width > canvas_width) width = canvas_width-x
+	if (height === null || y+height > canvas_height) height = canvas_height-y
+	ctx.fillStyle = clear_colour
+	ctx.fillRect(x, y, width, height)
+      }
+
       function initialize() {
 	output = elem("output")
-	width = window.innerWidth
-	height = window.innerHeight
+	canvas_width = window.innerWidth
+	canvas_height = window.innerHeight
 	canvas = document.createElement("canvas")
 	canvas.style.position = "fixed"
 	canvas.style.top = 0
 	canvas.style.left = 0
-	canvas.width = width
-	canvas.height = height
+	canvas.width = canvas_width
+	canvas.height = canvas_height
 	ctx = canvas.getContext("2d")
 	ctx.font = "12pt monospace"
 	let tm = ctx.measureText("m")
@@ -128,9 +206,9 @@
 	character_height = ascent+descent
 	line_spacing = Math.ceil(0.15*character_height)
 	line_height = character_height+line_spacing
-	base_line = ascent+line_spacing/2
+	baseline = ascent+line_spacing/2
 	/*let x = 0
-	let y = base_line
+	let y = baseline
 	ctx.fillText("Hello, world!", x, y)
 	ctx.fillText("Hello, world!", x, y+line_height)
 	ctx.fillText("Hello, world!", x, y+2*line_height)

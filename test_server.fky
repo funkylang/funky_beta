@@ -25,21 +25,41 @@
 <require ./web/server>
 <require ./web/terminal>
 
-load! $chat "chat.html"
-append "<!DOCTYPE html>@nl;" &chat
+<allow unused>
 
-$terminals_of ()
+$clients_of ()
+$job_id_of ()
+$board_of ()
+$rng_of ()
+$player_mask_of ()
+$player_no_of ()
+$x_of ()
+$y_of ()
+
+load! $universal_client "universal_client.html"
+append "<!DOCTYPE html>@nl;" &universal_client
+
+$BOARD_WIDTH 10
+$BOARD_HEIGHT 10
 
 $io std_types::io
-$io.terminals_of empty_hash_table
+$io.clients_of empty_hash_table
+$io.player_mask_of 0
 
-main!
-
-$main:
+chain initialize_terminal_keys:
+  !io.board_of
+    dup
+      list
+	dup
+	  list(undefined)
+	  BOARD_WIDTH
+      BOARD_HEIGHT
+  current_time! $t
+  !io.rng_of mersenne_twister((1'000'000'000*second_of(t)).to_integer)
   enable_logging &io 3
+  on_websocket_message &io login
   start_web_server! &io 8000
   start_reading_from &io STDIN_FILENO
-
   loop:
     get_events! &io $events
     handle_web_server_events &io &events
@@ -47,128 +67,182 @@ $main:
       : (event)
 	event $type $fd $argument
 	case type
-	  READ:
+	  WEBSOCKET_CLOSED:
+	    log &io 4 "client disconnected @(fd.serialize)"
+	    $vt clients_of(io)(fd)
+	    !io.clients_of(fd) undefined
+	    $job_id job_id_of(vt)
 	    if
-	      fd == STDIN_FILENO:
-		stop_web_server &io
-		terminate!
+	      job_id.is_defined:
+		cancel &io job_id
+		next!
+	      next
+	  next
+      :
+	handle_terminal_events &io &events
+	for_each events
+	  : (event)
+	    event $type $fd $argument
+	    case type
+	      READ:
+		if
+		  fd == STDIN_FILENO:
+		    stop_web_server &io
+		    terminate!
+		  :
+		    log_unhandled_event &io event
+		    next!
+	      GET:
+		$uri argument
+		get_requested_resource &io fd uri
+		next!
 	      :
 		log_unhandled_event &io event
 		next!
-	  GET:
-	    $uri argument
-	    get_requested_resource &io fd uri
-	    next!
-	  UPGRADE_TO_WEBSOCKET:
-	    $fields argument
-	    accept_upgrade_to_websocket &io fd fields
-	    next!
-	  WEBSOCKET_MESSAGE:
-	    $message argument
-	    handle_message &io fd message
-	    next!
-	  WEBSOCKET_CLOSED:
-	    handle_close &io fd
-	    next!
 	  :
-	    log_unhandled_event &io event
+	    handle_jobs &io
 	    next!
-      next
 
 $get_requested_resource: (io fd uri)
   case uri
     "/":
-      return_http_resource io fd uri chat
+      return_http_resource io fd uri universal_client
     :
       http_resource_not_found io fd uri
 
-$handle_message: (io fd message)
-  cond
-    -> message .has_prefix. "DOM@nl;":
-      $vt std_types::web_terminal
-      extract_parameters &io &vt message
-      start_screen io vt fd
-    -> message .has_prefix. "VT@nl;":
-      $client std_types::generic_terminal
-      extract_parameters &io &client message
-      $vt create_terminal(width_of(client) height_of(client))
-      !vt.character_width_of character_width_of(client)
-      !vt.ascent_of ascent_of(client)
-      !vt.descent_of descent_of(client)
-      !vt.character_height_of character_height_of(client)
-      !vt.line_spacing_of line_spacing_of(client)
-      !vt.line_height_of line_height_of(client)
-      !vt.base_line_of base_line_of(client)
-      start_screen io vt fd
-    -> true:
+$login: (io fd message)
+  log &io 3 "login from @(fd.serialize)"
+  on_websocket_message &io fd handle_dom_input_event
+  on_key_press &io fd handle_key_press
+  $player_mask player_mask_of(io)
+  from_to $player_no 1 7
+    : (no)
+      if
+	player_mask & (1 << no) != 0
+	next
+	-> no
+    -> undefined
+  if
+    player_no.is_undefined:
+      log &io 1 "too many players"
       close_connection io fd
+    :
+      log &io 3 "player @(player_no) joined"
+      !io.player_mask_of player_mask | (1 << player_no)
+      next_value &io.rng_of $x BOARD_WIDTH
+      next_value &io.rng_of $y BOARD_HEIGHT
+      log &io 3 "board position: @(x) @(y)"
+      !io.board_of(y)(x) player_no
+      create_web_terminal &io $vt fd message
+      !vt.player_no_of player_no
+      !vt.x_of x
+      !vt.y_of y
+      draw_board &vt board_of(io)
+      update &vt $commands
+      send_websocket_text_message &io fd commands
+      schedule &io !vt.job_id_of 1 next_frame fd
+      !io.clients_of(fd) vt
+      -> io
 
-  $extract_parameters: (io client message)
-    $lines split_into_lines(message .truncate_until. '@nl;')
-    for_each lines
-      : (line)
-	$key (line .before. ':').trim
-	$value (line .behind. ':').trim
-	case key
-	  "width":
-	    !client.width_of value.to_number
-	    next
-	  "height":
-	    !client.height_of value.to_number
-	    next
-	  "character_width":
-	    !client.character_width_of value.to_number
-	    next
-	  "ascent":
-	    !client.ascent_of value.to_number
-	    next
-	  "descent":
-	    !client.descent_of value.to_number
-	    next
-	  "character_height":
-	    !client.character_height_of value.to_number
-	    next
-	  "line_spacing":
-	    !client.line_spacing_of value.to_number
-	    next
-	  "line_height":
-	    !client.line_height_of value.to_number
-	    next
-	  "base_line":
-	    !client.base_line_of value.to_number
-	    next
-	  :
-	    log &io 3 "
-	      Unknown client attribute: "@(key)"
-	    next
-      :
-	log &io 2 "
-	  client
-	  width: @(width_of(client))
-	  height: @(height_of(client))
-	  character_width: @(character_width_of(client))
-	  ascent: @(ascent_of(client))
-	  descent: @(descent_of(client))
-	  character_height: @(character_height_of(client))
-	  line_spacing: @(line_spacing_of(client))
-	  line_height: @(line_height_of(client))
-	  base_line: @(base_line_of(client))
-	-> io client
-
-$start_screen: (io vt fd)
-  $x 1
-  $y base_line_of(vt)
-  draw_text &vt x y "
-    Greetings from the Test Server!
-    width: @(width_of(vt)), height: @(height_of(vt))
-  set_text_colour &vt BLUE
-  plot_line &vt 5 5 -5 -5
-  set_text_colour &vt MAGENTA
-  plot_line &vt 10 -10 -10 10
+$next_frame: (io fd)
+  log &io 3 "next frame for @(fd.serialize)"
+  $vt clients_of(io)(fd)
+  draw_board &vt board_of(io)
   update &vt $commands
-  #debug::print commands
-  !io.terminals_of(fd) vt
-  send_websocket_text_message io fd commands
-
-$handle_close: (io _fd)
+  send_websocket_text_message &io fd commands
+  schedule &io !vt.job_id_of 1 next_frame fd
+  !io.clients_of(fd) vt
   -> io
+
+$handle_key_press: (io fd key)
+  log &io 3 "key press: @(key)"
+  $vt clients_of(io)(fd)
+  $board board_of(io)
+  $x x_of(vt)
+  $y y_of(vt)
+  $player_no player_no_of(vt)
+  case key
+    CURSOR_LEFT:
+      if
+	x > 1:
+	  !board(y)(x) undefined
+	  dec &x
+	  !board(y)(x) player_no
+	  !vt.x_of x
+	  !io.board_of board
+	  !io.clients_of(fd) vt
+	  -> io
+	-> io
+    CURSOR_RIGHT:
+      if
+	x < BOARD_WIDTH:
+	  !board(y)(x) undefined
+	  inc &x
+	  !board(y)(x) player_no
+	  !vt.x_of x
+	  !io.board_of board
+	  !io.clients_of(fd) vt
+	  -> io
+	-> io
+    CURSOR_UP:
+      if
+	y > 1:
+	  !board(y)(x) undefined
+	  dec &y
+	  !board(y)(x) player_no
+	  !vt.y_of y
+	  !io.board_of board
+	  !io.clients_of(fd) vt
+	  -> io
+	-> io
+    CURSOR_DOWN:
+      if
+	y < BOARD_HEIGHT:
+	  !board(y)(x) undefined
+	  inc &y
+	  !board(y)(x) player_no
+	  !vt.y_of y
+	  !io.board_of board
+	  !io.clients_of(fd) vt
+	  -> io
+	-> io
+    -> io
+
+$RED_CIRCLE '🔴'
+$BLUE_CIRCLE '🔵'
+$ORANGE_CIRCLE '🟠'
+$YELLOW_CIRCLE '🟡'
+$GREEN_CIRCLE '🟢'
+$PURPLE_CIRCLE '🟣'
+$BROWN_CIRCLE '🟤'
+
+$circles
+  list
+    RED_CIRCLE
+    BLUE_CIRCLE
+    ORANGE_CIRCLE
+    YELLOW_CIRCLE
+    GREEN_CIRCLE
+    PURPLE_CIRCLE
+    BROWN_CIRCLE
+
+$draw_board: (vt board)
+  $cw character_width_of(vt)
+  $ch character_height_of(vt)
+  set_clear_colour &vt GREEN
+  clear &vt
+  set_clear_colour &vt WHITE
+  $sx 4*cw+1
+  $sy 2*ch+1
+  clear &vt sx+2*cw sy+ch BOARD_WIDTH*2*cw BOARD_HEIGHT*ch
+  for_each board
+    : (y row)
+      for_each row
+	: (x player_no)
+	  if
+	    player_no.is_defined:
+	      draw_character &vt sx+x*2*cw sy+y*ch circles(player_no)
+	      next
+	    next
+	next
+    -> vt

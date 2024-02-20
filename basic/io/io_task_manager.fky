@@ -122,7 +122,7 @@ $std::fork () # &self task start_function
 $std::send () # &self destination message
   # send a message to one or more tasks
 
-$std::cancel () # &self task_ids
+#$std::cancel () # &self task_ids
   # cancels the specified tasks
 
 $std::receive () # &self !message

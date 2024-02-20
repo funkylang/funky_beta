@@ -967,10 +967,8 @@ $std::call:
       case type
 	READ:
 	  if
-	    data == "":
-	      close! fd
-	      stop_reading_from &io fd
-	      next!
+	    data == ""
+	    next
 	    :
 	      case fd
 		out_fd:

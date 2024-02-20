@@ -30,6 +30,7 @@
 <require ./grammar>
 <require ./io/io>
 <require ./io/io_events>
+<require ./io/jobs>
 <require ./io/io_task_manager>
 <require ./io/generic_terminal>
 <require ./logical>

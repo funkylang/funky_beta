@@ -650,7 +650,7 @@ $std::create_screen:
     BACKGROUND_COLOUR = WHITE $background_colour
     LINE_HEIGHT = 1 $line_height
   $row dup(string(' ' text_colour background_colour) width)
-  $rows dup(list(row) height)
+  $rows dup(list(row) height .div. line_height)
   ->
     std_types::screen
       .cursor_x_of 1
@@ -976,41 +976,55 @@ $std_types::screen/clear:
     width = undefined # the number of columns to fill
     height = undefined # the number of rows to fill
   )
-  $line_height line_height_of(self)
+  adapt_to_window self &x &y &width &height
   if
-    line_height == 1:
-      adapt_to_window self &x &y &width &height
-      if
-	width < 1 || height < 1
-	-> self
-	:
-	  $rows rows_of(self)
-	  $insertion
-	    dup
-	      string
-		' '
-		text_colour_of(self)
-		background_colour_of(self)
-	      width
-	  map $updated_rows range(rows y y+height-1): (row)
-	    ->
-	      append
-		range(row 1 3*(x-1))
-		append
-		  insertion
-		  range(row 3*(x+width)-2 -1)
-	  ->
-	    self
-	      .rows_of
-		append
-		  range(rows 1 y-1)
-		  append
-		    updated_rows
-		    range(rows y+height -1)
+    width < 1 || height < 1
+    -> self
     :
-      debug::print "
-	screen/clear is currently only implemented for line_height 1!
-      debug::exit
+      $rows rows_of(self)
+      $text_colour text_colour_of(self)
+      $background_colour background_colour_of(self)
+      $line_height line_height_of(self)
+      if
+	line_height == 1:
+	  clear_rows !rows x y width height
+	  -> self(.rows_of rows)
+	:
+	  if
+	    y & 1 == 0: # draw upper half line
+	      debug::print "
+		screen/clear is currently only implemented for line_height 1!
+	      debug::exit
+	    :
+	      $full_line_count height >> 1
+	      clear_rows !rows
+		x
+		(y+1) >> 1
+		width
+		full_line_count
+	      -> self(.rows_of rows)
+
+      $clear_rows: (cx cy cw ch)
+	$insertion
+	  dup
+	    string
+	      ' '
+	      text_colour
+	      background_colour
+	    width
+	map $updated_rows range(rows cy cy+ch-1): (row)
+	  ->
+	    append
+	      range(row 1 3*(cx-1))
+	      append
+		insertion
+		range(row 3*(cx+cw)-2 -1)
+	->
+	  append
+	    range(rows 1 cy-1)
+	    append
+	      updated_rows
+	      range(rows cy+ch -1)
 
 $std_types::screen/copy:
   #
@@ -1293,7 +1307,7 @@ $std::initialize_terminal:
     TEXT_COLOUR = text_colour
     BACKGROUND_COLOUR = background_colour
 
-  terminal_private::initialize_keys:
+  initialize_terminal_keys:
     try $err: body! terminal
 
     set_terminal_attributes! $_success fd original_attributes
@@ -1334,8 +1348,9 @@ $std::update_terminal:
   $current_background_colour background_colour_of(current_buffer)
   $new_rows rows_of(terminal)
   $current_rows rows_of(current_buffer)
+  $line_height line_height_of(terminal)
   $terminal_width width_of(terminal)
-  $terminal_height height_of(terminal)
+  $terminal_height height_of(terminal) .div. line_height
   from_to 1 terminal_height
     !output
     !current_y !current_x
@@ -1344,7 +1359,7 @@ $std::update_terminal:
       $new_row new_rows(y)
       $current_row current_rows(y)
       $last_column find_last_non_empty_column(new_row)
-      from_to 1 last_column
+      from_to 1 terminal_width
 	: (x)
 	  $new_chr new_row(3*x-2)
 	  if
@@ -1359,20 +1374,20 @@ $std::update_terminal:
 		  new_text_colour != current_row(3*x-1)
 		  new_background_colour != current_row(3*x)
 		:
-		  move_to x y:
-		    use_text_colour new_text_colour:
-		      use_background_colour new_background_colour:
-			emit_character new_chr:
-			  next
+		  if
+		    x > last_column:
+		      move_to last_column+1 y:
+			use_background_colour new_row(-1):
+			  append &output csi('K') # clear to the end of the line
+			  break
+		    :
+		      move_to x y:
+			use_text_colour new_text_colour:
+			  use_background_colour new_background_colour:
+			    emit_character new_chr:
+			      next
 		next
-	:
-	  if
-	    last_column < terminal_width:
-	      move_to last_column+1 y:
-		use_background_colour new_row(-1):
-		  append &output csi("K") # clear to the end of the line
-		  next
-	    next
+	next
     ->
       output
       current_y current_x
@@ -1733,7 +1748,29 @@ $std_types::screen/set_text_colour:
   )
   -> screen(.text_colour_of colour)
 
+$std_types::screen/set_draw_colour:
+  #
+    sets the colour to be used for drawing text or lines
+
+    Topic: Terminal
+  (
+    screen # the screen on which to set the colour
+    colour # the new text colour
+  )
+  -> screen(.text_colour_of colour)
+
 $std_types::screen/set_background_colour:
+  #
+    sets the background colour to be used
+
+    Topic: Terminal
+  (
+    screen # the screen on which to set the colour
+    colour # the new background colour
+  )
+  -> screen(.background_colour_of colour)
+
+$std_types::screen/set_clear_colour:
   #
     sets the background colour to be used
 
@@ -2451,7 +2488,7 @@ $std::create_terminal:
     LINE_HEIGHT = 1 $line_height
     VISIBLE_CURSOR = true $visible_cursor
   $row dup(string(' ' text_colour background_colour) width)
-  $rows dup(list(row) height)
+  $rows dup(list(row) height .div. line_height)
   $terminal
     std_types::terminal
       .cursor_x_of 1
@@ -2472,6 +2509,7 @@ $std::create_terminal:
       width height
       TEXT_COLOUR = INVALID_COLOUR
       BACKGROUND_COLOUR = INVALID_COLOUR
+      LINE_HEIGHT = line_height
   ->
     terminal
       .current_buffer_of

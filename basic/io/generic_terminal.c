@@ -16,7 +16,9 @@ enum {
   var_std__character_height_of, // attribute
   var_std__line_spacing_of, // attribute
   var_std__line_height_of, // attribute
-  var_std__base_line_of, // attribute
+  var_std__baseline_of, // attribute
+  var_std__set_draw_colour, // attribute
+  var_std__set_clear_colour, // attribute
   var_std_types__generic_terminal, // derived
   var_std_types__object, // extern
   var_type_of, // extern polymorphic
@@ -29,7 +31,7 @@ enum {
   var_character_height_of, // extern polymorphic
   var_line_spacing_of, // extern polymorphic
   var_line_height_of, // extern polymorphic
-  var_base_line_of, // extern polymorphic
+  var_baseline_of, // extern polymorphic
   var__END
 };
 
@@ -44,7 +46,7 @@ static ATTRIBUTE_DEFINITION std_types__generic_terminal__attributes[] = {
   {-var_character_height_of, -var_undefined},
   {-var_line_spacing_of, -var_undefined},
   {-var_line_height_of, -var_undefined},
-  {-var_base_line_of, -var_undefined}
+  {-var_baseline_of, -var_undefined}
 };
 
 static FUNKY_VARIABLE variables_table[] = {
@@ -85,7 +87,17 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_POLYMORPHIC, 0, 0,
-    "base_line_of\000std", NULL,
+    "baseline_of\000std", NULL,
+    {.has_a_setter = false}
+  },
+  {
+    FOT_POLYMORPHIC, 0, 0,
+    "set_draw_colour\000std", NULL,
+    {.has_a_setter = false}
+  },
+  {
+    FOT_POLYMORPHIC, 0, 0,
+    "set_clear_colour\000std", NULL,
     {.has_a_setter = false}
   },
   {
@@ -96,62 +108,62 @@ static FUNKY_VARIABLE variables_table[] = {
   {
     FOT_UNKNOWN, 0, 0,
     "object\000std_types", NULL,
-    {.position = POS(31, 30)}
-  },
-  {
-    FOT_UNKNOWN_POLYMORPHIC, 0, 0,
-    "type_of\000", NULL,
-    {.position = POS(33, 30)}
-  },
-  {
-    FOT_UNKNOWN, 0, 0,
-    "undefined\000", NULL,
-    {.position = POS(33, 38)}
-  },
-  {
-    FOT_UNKNOWN_POLYMORPHIC, 0, 0,
-    "width_of\000", NULL,
     {.position = POS(34, 30)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
-    "height_of\000", NULL,
-    {.position = POS(35, 30)}
-  },
-  {
-    FOT_UNKNOWN_POLYMORPHIC, 0, 0,
-    "character_width_of\000", NULL,
+    "type_of\000", NULL,
     {.position = POS(36, 30)}
   },
   {
+    FOT_UNKNOWN, 0, 0,
+    "undefined\000", NULL,
+    {.position = POS(36, 38)}
+  },
+  {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
-    "ascent_of\000", NULL,
+    "width_of\000", NULL,
     {.position = POS(37, 30)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
-    "descent_of\000", NULL,
+    "height_of\000", NULL,
     {.position = POS(38, 30)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
-    "character_height_of\000", NULL,
+    "character_width_of\000", NULL,
     {.position = POS(39, 30)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
-    "line_spacing_of\000", NULL,
+    "ascent_of\000", NULL,
     {.position = POS(40, 30)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
-    "line_height_of\000", NULL,
+    "descent_of\000", NULL,
     {.position = POS(41, 30)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
-    "base_line_of\000", NULL,
+    "character_height_of\000", NULL,
     {.position = POS(42, 30)}
+  },
+  {
+    FOT_UNKNOWN_POLYMORPHIC, 0, 0,
+    "line_spacing_of\000", NULL,
+    {.position = POS(43, 30)}
+  },
+  {
+    FOT_UNKNOWN_POLYMORPHIC, 0, 0,
+    "line_height_of\000", NULL,
+    {.position = POS(44, 30)}
+  },
+  {
+    FOT_UNKNOWN_POLYMORPHIC, 0, 0,
+    "baseline_of\000", NULL,
+    {.position = POS(45, 30)}
   }
 };
 
@@ -170,7 +182,7 @@ FUNKY_MODULE module__basic__io__generic_terminal = {
   0, // number of defined namespaces
   1, // number of used namespaces
   0, // number of constants
-  21, // number of variables
+  23, // number of variables
   NULL, // required modules
   NULL, // defined namespaces
   used_namespaces,

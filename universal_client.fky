@@ -22,9 +22,7 @@
 
 <require basic/stdlib>
 <require ./web/server>
-
-$HTTP .
-$WEBSOCKET .
+<require terminal/terminal>
 
 $universal_server_address "127.0.0.1"
 $universal_server_port 8000
@@ -51,63 +49,81 @@ on conn_fd.is_an_error conn_fd
 
 upgrade_to_websocket &io conn_fd
 
-$mode HTTP
 get_terminal_size! STDIN_FILENO $terminal_width $terminal_height
 
+# set terminal attributes
+
+get_terminal_attributes! STDIN_FILENO $original_attributes
+$attributes original_attributes
+use_canonical_mode &attributes false #  no line-buffering ...
+echo_characters &attributes false # ... and no echoing of typed in characters
+generate_signals &attributes false
+enable_xon_xoff_for_output &attributes false
+map_cr_to_lf_on_input &attributes false
+set_terminal_attributes! $_success STDIN_FILENO attributes
+
 # switch to alternate screen and store cursor position
+
 write &io STDOUT_FILENO "@esc;[?47h@esc;[33s"
+cursor_off!
 
-start_reading_from &io conn_fd
-loop:
-  get_events! &io $events
-  handle_web_client_events &io &events
-  for_each events
-    : (event)
-      event $type $fd $argument
-      case type
-	READ:
-	  if
-	    argument == "":
-	      log &io "connection closed"
-	      close &io fd
-	      #
-		restore cursor position, switch to default screen and set
-		default colours
-	      write &io STDOUT_FILENO "@esc;[u@esc;[?47l@esc;[0m"
-	      exit &io 1
-	      next!
-	    :
-	      case mode
-		HTTP:
-		  $header argument .before. '@nl;'
-		  if
-		    header .has_prefix. "HTTP/":
-		      $code between(header ' ' ' ')
-		      if
-			code == "101":
-			  !mode WEBSOCKET
-			  send_websocket_text_message &io fd "
-			    VT
-			    width: @(terminal_width)
-			    height: @(2*terminal_height)
-			    character_width: 1
-			    ascent: 1
-			    descent: 1
-			    character_height: 2
-			    line_spacing: 0
-			    line_height: 2
-			    base_line: 1
-			  next!
-			upgrading_failed
-		    upgrading_failed
+$err undefined
+try !err: chain initialize_terminal_keys:
+  start_reading_from &io STDIN_FILENO
+  start_reading_from &io conn_fd
+  loop:
+    get_events! &io $events
+    handle_web_client_events &io &events conn_fd
+    for_each events
+      : (event)
+	event $type $fd $argument
+	case type
+	  READ: # stdin
+	    $keys extract_keys(argument)
+	    for_each keys
+	      : (key)
+		update_if_not key.is_a_character &key -> key_to_name(key)
+		send_websocket_text_message &io conn_fd "KEY_PRESS: @(key)"
+		next!
+	      next
+	  CLOSED: cleanup!
+	  UPGRADED_TO_WEBSOCKET:
+	    send_websocket_text_message &io fd "
+	      VT
+	      width: @(terminal_width)
+	      height: @(2*terminal_height)
+	      character_width: 1
+	      ascent: 1
+	      descent: 1
+	      character_height: 2
+	      line_spacing: 0
+	      line_height: 2
+	      baseline: 1
+	    next!
+	  WEBSOCKET_MESSAGE:
+	    write &io STDOUT_FILENO argument
+	    next!
+	  :
+	    log_unhandled_event &io event
+	    next!
+      next
 
-		  $upgrading_failed:
-		    log &io "UPGRADING TO WEBSOCKET FAILED!"
-		    exit &io 1
-		    next!
-		WEBSOCKET:
-		  write &io STDOUT_FILENO argument
-		  next!
-		next
-	next
-    next
+cleanup!
+
+$cleanup:
+  debug::print "
+    cleanup
+
+  # restore terminal attributes
+
+  set_terminal_attributes! $_success STDIN_FILENO original_attributes
+
+  print! "@esc;[u" # restore cursor position
+  print! "@esc;[?47l" # switch to default screen
+  print! "@esc;[0m" # set default colours
+
+  cursor_on!
+
+  on err.is_an_error err
+
+  exit! EXIT_SUCCESS

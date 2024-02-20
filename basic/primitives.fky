@@ -79,3 +79,13 @@ $std::assign:
     args* # the return values
   )
   spread args
+
+$std::chain: (initializers* body)
+  loop:
+    if!
+      initializers.is_empty
+      body
+      :
+	initializers(1):
+	  range &initializers 2 -1
+	  next!

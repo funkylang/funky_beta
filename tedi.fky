@@ -683,7 +683,7 @@ $main: (initial_terminal)
 		  !ai_context_size value.to_integer
 		  next!
 		:
-		  $key key_names(name)
+		  $key name_to_key(name)
 		  if
 		    key.is_undefined:
 		      eprint! "

@@ -24,6 +24,7 @@
 
 $std::GET .
 $std::UPGRADE_TO_WEBSOCKET .
+$std::UPGRADED_TO_WEBSOCKET .
 $std::WEBSOCKET_MESSAGE .
 $std::WEBSOCKET_CLOSED .
 
@@ -100,31 +101,31 @@ $std::handle_web_server_events: (io events)
 	  $message argument
 	  case protocols_of(io)(fd)
 	    HTTP:
+	      handle_http_request &io !event fd message
 	      if
-		message.is_empty:
-		  close_connection &io fd
+		event.is_defined:
+		  push &new_events event
 		  next
-		:
-		  handle_http_request &io !event fd message
-		  if
-		    event.is_defined:
-		      push &new_events event
-		      next
-		    next
+		next
 	    WEBSOCKET:
+	      handle_websocket_message &io !event fd message
 	      if
-		message.is_empty:
-		  close_connection &io fd
+		event.is_defined:
+		  push &new_events event
 		  next
-		:
-		  handle_websocket_message &io !event fd message
-		  if
-		    event.is_defined:
-		      push &new_events event
-		      next
-		    next
+		next
 	    :
 	      push &new_events event
+	      next
+	CLOSED:
+	  if
+	    protocols_of(io)(fd) == WEBSOCKET:
+	      push &new_events
+		new(std_types::event WEBSOCKET_CLOSED fd undefined)
+	      closed_connection &io fd
+	      next
+	    :
+	      closed_connection &io fd
 	      next
 	READ_ERROR:
 	  if
@@ -409,9 +410,13 @@ $std::broadcast_websocket_text_message: (io omit_fd text)
 	next
     -> io
 
-$std::close_connection: (io fd)
-  log &io 3 "close connection @(serialize(fd))"
+$std::closed_connection: (io fd)
   !io.protocols_of(fd) undefined
+  log io 3 "closed connection @(serialize(fd))"
+
+$std::close_connection: (io fd)
+  !io.protocols_of(fd) undefined
+  log &io 3 "close connection @(serialize(fd))"
   close io fd
 
 # Web Client
@@ -432,6 +437,42 @@ $std::upgrade_to_websocket: (io fd)
     Sec-WebSocket-Key: @(key)@cr;
     @cr;
 
-$std::handle_web_client_events: (io events)
-  # dummy implementation
-  -> io events
+$std::handle_web_client_events: (io events conn_fd)
+  $new_events empty_list
+  for_each events
+    : (event)
+      event $type $fd $argument
+      if
+	type == READ && fd == conn_fd:
+	  $message argument
+	  case protocols_of(io)(fd)
+	    WEBSOCKET:
+	      handle_websocket_message &io !event fd message
+	      if
+		event.is_defined:
+		  push &new_events event
+		  next
+		next
+	    :
+	      $header message .before. '@nl;'
+	      if
+		header .has_prefix. "HTTP/":
+		  $code between(header ' ' ' ')
+		  if
+		    code == "101":
+		      log &io "upgraded to websocket - @(serialize(fd))"
+		      !io.protocols_of(fd) WEBSOCKET
+		      push &new_events
+			new(std_types::event UPGRADED_TO_WEBSOCKET fd undefined)
+		      next
+		    upgrading_failed
+		upgrading_failed
+
+	      $upgrading_failed:
+		log &io "UPGRADING TO WEBSOCKET FAILED!"
+		exit &io EXIT_FAILURE
+		next
+	:
+	  push &new_events event
+	  next
+    -> io new_events

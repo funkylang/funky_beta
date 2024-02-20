@@ -26,7 +26,10 @@ $std::descent_of ()
 $std::character_height_of ()
 $std::line_spacing_of ()
 $std::line_height_of ()
-$std::base_line_of ()
+$std::baseline_of ()
+
+$std::set_draw_colour ()
+$std::set_clear_colour ()
 
 $std_types::generic_terminal std_types::object
 
@@ -39,4 +42,4 @@ $std_types::generic_terminal.descent_of undefined
 $std_types::generic_terminal.character_height_of undefined
 $std_types::generic_terminal.line_spacing_of undefined
 $std_types::generic_terminal.line_height_of undefined
-$std_types::generic_terminal.base_line_of undefined
+$std_types::generic_terminal.baseline_of undefined

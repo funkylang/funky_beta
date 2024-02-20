@@ -6,6 +6,7 @@
 /// require ./grammar
 /// require ./io/io
 /// require ./io/io_events
+/// require ./io/jobs
 /// require ./io/io_task_manager
 /// require ./io/generic_terminal
 /// require ./logical
@@ -65,6 +66,7 @@ extern FUNKY_MODULE module__basic__functional;
 extern FUNKY_MODULE module__basic__grammar;
 extern FUNKY_MODULE module__basic__io__io;
 extern FUNKY_MODULE module__basic__io__io_events;
+extern FUNKY_MODULE module__basic__io__jobs;
 extern FUNKY_MODULE module__basic__io__io_task_manager;
 extern FUNKY_MODULE module__basic__io__generic_terminal;
 extern FUNKY_MODULE module__basic__logical;
@@ -114,6 +116,7 @@ static FUNKY_MODULE *required_modules[] = {
   &module__basic__grammar,
   &module__basic__io__io,
   &module__basic__io__io_events,
+  &module__basic__io__jobs,
   &module__basic__io__io_task_manager,
   &module__basic__io__generic_terminal,
   &module__basic__logical,
@@ -170,7 +173,7 @@ FUNKY_MODULE module__basic__stdlib = {
   .minor_version = 0,
   .feature_flags = FEAT_POSITIONS,
   .marker = 0,
-  47, // number of required modules
+  48, // number of required modules
   1, // number of defined namespaces
   1, // number of used namespaces
   0, // number of constants
