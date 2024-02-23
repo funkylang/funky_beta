@@ -34,6 +34,7 @@ $board_of ()
 $rng_of ()
 $player_mask_of ()
 $changed_fields_of ()
+$job_id_of ()
 
 # virtual terminal (per client data)
 
@@ -41,6 +42,24 @@ $player_no_of ()
 $x_of ()
 $y_of ()
 $action_of ()
+
+$RED_CIRCLE '🔴'
+$BLUE_CIRCLE '🔵'
+$ORANGE_CIRCLE '🟠'
+$YELLOW_CIRCLE '🟡'
+$GREEN_CIRCLE '🟢'
+$PURPLE_CIRCLE '🟣'
+$BROWN_CIRCLE '🟤'
+
+$circles
+  list
+    RED_CIRCLE
+    BLUE_CIRCLE
+    ORANGE_CIRCLE
+    YELLOW_CIRCLE
+    GREEN_CIRCLE
+    PURPLE_CIRCLE
+    BROWN_CIRCLE
 
 $FRAME_RATE 6
 
@@ -82,15 +101,7 @@ chain initialize_terminal_keys:
 	event $type $fd $argument
 	case type
 	  WEBSOCKET_CLOSED:
-	    $vt clients_of(io)(fd)
-	    $player_no player_no_of(vt)
-	    log &io 2 -> "player @(player_no) left the game"
-	    !io.player_mask_of player_mask_of(io) ^ (1 << player_no)
-	    $x x_of(vt)
-	    $y y_of(vt)
-	    !io.board_of(x)(y) ' '
-	    push &io.changed_fields_of tuple(x y)
-	    !io.clients_of(fd) undefined
+	    logout &io fd
 	    next!
 	  next
       :
@@ -163,8 +174,27 @@ $login: (io fd message)
       if
 	player_mask == 0:
 	  log &io 2 -> "game started"
-	  schedule io 1/FRAME_RATE next_frame
+	  schedule &io !io.job_id_of 1/FRAME_RATE next_frame
+	  -> io
 	-> io
+
+$logout: (io fd)
+  $clients clients_of(io)
+  $vt clients(fd)
+  $player_no player_no_of(vt)
+  log &io 2 -> "player @(player_no) left the game"
+  !io.player_mask_of player_mask_of(io) ^ (1 << player_no)
+  $x x_of(vt)
+  $y y_of(vt)
+  !io.board_of(y)(x) ' '
+  push &io.changed_fields_of tuple(x y)
+  !clients(fd) undefined
+  !io.clients_of clients
+  if
+    clients.is_empty:
+      cancel &io job_id_of(io)
+      log io 2 "all players left the game"
+    -> io
 
 $handle_key_press: (io fd key)
   log &io 3 -> "key press: @(key)"
@@ -179,23 +209,118 @@ $handle_key_press: (io fd key)
       !io.clients_of(fd) vt
       -> io
 
-$RED_CIRCLE '🔴'
-$BLUE_CIRCLE '🔵'
-$ORANGE_CIRCLE '🟠'
-$YELLOW_CIRCLE '🟡'
-$GREEN_CIRCLE '🟢'
-$PURPLE_CIRCLE '🟣'
-$BROWN_CIRCLE '🟤'
+$next_frame: (io)
+  log &io 4 -> "next frame"
+  $clients clients_of(io)
+  $board board_of(io)
+  $changed_fields empty_list
+  for_each changed_fields_of(io)
+    : (field)
+      field $x $y
+      push &changed_fields field
+      next
+    :
+      !io.changed_fields_of empty_list
+      for_each clients
+	: (fd vt)
+	  $x x_of(vt)
+	  $y y_of(vt)
+	  case action_of(vt)
+	    CURSOR_LEFT:
+	      if
+		board(y)(x-1) == ' ':
+		  !board(y)(x) ' '
+		  push &changed_fields tuple(x y)
+		  minus &x 1
+		  !board(y)(x) circles(player_no_of(vt))
+		  push &changed_fields tuple(x y)
+		  !vt.x_of x
+		  !clients(fd) vt
+		  next
+		:
+		  !vt.action_of undefined
+		  next
+	    CURSOR_RIGHT:
+	      if
+		board(y)(x+1) == ' ':
+		  !board(y)(x) ' '
+		  push &changed_fields tuple(x y)
+		  plus &x 1
+		  !board(y)(x) circles(player_no_of(vt))
+		  push &changed_fields tuple(x y)
+		  !vt.x_of x
+		  !clients(fd) vt
+		  next
+		:
+		  !vt.action_of undefined
+		  next
+	    CURSOR_UP:
+	      if
+		board(y-1)(x) == ' ':
+		  !board(y)(x) ' '
+		  push &changed_fields tuple(x y)
+		  minus &y 1
+		  !board(y)(x) circles(player_no_of(vt))
+		  push &changed_fields tuple(x y)
+		  !vt.y_of y
+		  !clients(fd) vt
+		  next
+		:
+		  !vt.action_of undefined
+		  next
+	    CURSOR_DOWN:
+	      if
+		board(y+1)(x) == ' ':
+		  !board(y)(x) ' '
+		  push &changed_fields tuple(x y)
+		  plus &y 1
+		  !board(y)(x) circles(player_no_of(vt))
+		  push &changed_fields tuple(x y)
+		  !vt.y_of y
+		  !clients(fd) vt
+		  next
+		:
+		  !vt.action_of undefined
+		  next
+	    next
+	:
+	  if
+	    changed_fields.is_empty
+	    reschedule
+	    :
+	      log &io 4 "sending new board"
+	      for_each clients
+		: (fd vt)
+		  $cw character_width_of(vt)
+		  $ch character_height_of(vt)
+		  set_clear_colour &vt WHITE
+		  set_draw_colour &vt BLACK
+		  $sx 2*cw+1
+		  $sy ch+1
+		  for_each changed_fields
+		    : (field)
+		      field $x $y
+		      $chr board(y)(x)
+		      if
+			width_of(chr) == 2:
+			  draw_character &vt sx+x*2*cw sy+y*ch chr
+			  next
+			:
+			  draw_text &vt sx+x*2*cw sy+y*ch string(chr chr)
+			  next
+		    :
+		      update &vt $commands
+		      !clients(fd) vt
+		      #log &io 4 -> "sending commands: @(commands)"
+		      send_websocket_text_message &io fd commands
+		      next
+		reschedule
 
-$circles
-  list
-    RED_CIRCLE
-    BLUE_CIRCLE
-    ORANGE_CIRCLE
-    YELLOW_CIRCLE
-    GREEN_CIRCLE
-    PURPLE_CIRCLE
-    BROWN_CIRCLE
+      $reschedule:
+	!io.board_of board
+	!io.clients_of clients
+	schedule &io !io.job_id_of 1/FRAME_RATE next_frame
+	-> io
 
 $draw_board: (vt board)
   $cw character_width_of(vt)
@@ -223,119 +348,3 @@ $draw_board: (vt board)
 	  draw_text &vt sx sy+(y-1)*ch buf
 	  next
     -> vt
-
-$next_frame: (io)
-  log &io 4 -> "next frame"
-  $clients clients_of(io)
-  if
-    clients.is_empty:
-      log io 2 "all players left the game"
-    :
-      $board board_of(io)
-      $changed_fields empty_list
-      for_each changed_fields_of(io)
-	: (field)
-	  field $x $y
-	  push &changed_fields field
-	  next
-	:
-	  !io.changed_fields_of empty_list
-	  for_each clients
-	    : (fd vt)
-	      $x x_of(vt)
-	      $y y_of(vt)
-	      case action_of(vt)
-		CURSOR_LEFT:
-		  if
-		    board(y)(x-1) == ' ':
-		      !board(y)(x) ' '
-		      push &changed_fields tuple(x y)
-		      minus &x 1
-		      !board(y)(x) circles(player_no_of(vt))
-		      push &changed_fields tuple(x y)
-		      !vt.x_of x
-		      !clients(fd) vt
-		      next
-		    :
-		      !vt.action_of undefined
-		      next
-		CURSOR_RIGHT:
-		  if
-		    board(y)(x+1) == ' ':
-		      !board(y)(x) ' '
-		      push &changed_fields tuple(x y)
-		      plus &x 1
-		      !board(y)(x) circles(player_no_of(vt))
-		      push &changed_fields tuple(x y)
-		      !vt.x_of x
-		      !clients(fd) vt
-		      next
-		    :
-		      !vt.action_of undefined
-		      next
-		CURSOR_UP:
-		  if
-		    board(y-1)(x) == ' ':
-		      !board(y)(x) ' '
-		      push &changed_fields tuple(x y)
-		      minus &y 1
-		      !board(y)(x) circles(player_no_of(vt))
-		      push &changed_fields tuple(x y)
-		      !vt.y_of y
-		      !clients(fd) vt
-		      next
-		    :
-		      !vt.action_of undefined
-		      next
-		CURSOR_DOWN:
-		  if
-		    board(y+1)(x) == ' ':
-		      !board(y)(x) ' '
-		      push &changed_fields tuple(x y)
-		      plus &y 1
-		      !board(y)(x) circles(player_no_of(vt))
-		      push &changed_fields tuple(x y)
-		      !vt.y_of y
-		      !clients(fd) vt
-		      next
-		    :
-		      !vt.action_of undefined
-		      next
-		next
-	    :
-	      if
-		changed_fields.is_empty
-		reschedule
-		:
-		  log &io 4 "sending new board"
-		  for_each clients
-		    : (fd vt)
-		      $cw character_width_of(vt)
-		      $ch character_height_of(vt)
-		      set_clear_colour &vt WHITE
-		      set_draw_colour &vt BLACK
-		      $sx 2*cw+1
-		      $sy ch+1
-		      for_each changed_fields
-			: (field)
-			  field $x $y
-			  $chr board(y)(x)
-			  if
-			    width_of(chr) == 2:
-			      draw_character &vt sx+x*2*cw sy+y*ch chr
-			      next
-			    :
-			      draw_text &vt sx+x*2*cw sy+y*ch string(chr chr)
-			      next
-			:
-			  update &vt $commands
-			  !clients(fd) vt
-			  #log &io 4 -> "sending commands: @(commands)"
-			  send_websocket_text_message &io fd commands
-			  next
-		    reschedule
-
-	  $reschedule:
-	    !io.board_of board
-	    !io.clients_of clients
-	    schedule io 1/FRAME_RATE next_frame
