@@ -27,36 +27,50 @@
 
 <allow unused>
 
-$clients_of ()
-$job_id_of ()
+# io (global data)
+
+$clients_of () # virtual terminals
 $board_of ()
 $rng_of ()
 $player_mask_of ()
+$changed_fields_of ()
+
+# virtual terminal (per client data)
+
 $player_no_of ()
 $x_of ()
 $y_of ()
+$action_of ()
+
+$FRAME_RATE 6
 
 load! $universal_client "universal_client.html"
 append "<!DOCTYPE html>@nl;" &universal_client
 
-$BOARD_WIDTH 10
-$BOARD_HEIGHT 10
+$BOARD_WIDTH 20
+$BOARD_HEIGHT 20
 
 $io std_types::io
 $io.clients_of empty_hash_table
 $io.player_mask_of 0
+$io.changed_fields_of empty_list
 
 chain initialize_terminal_keys:
+  $full_line dup("▒" BOARD_WIDTH)
   !io.board_of
-    dup
-      list
-	dup
-	  list(undefined)
-	  BOARD_WIDTH
-      BOARD_HEIGHT
+    append
+      list(full_line)
+      dup
+	list
+	  append
+	    "▒"
+	    dup(" " BOARD_WIDTH-2)
+	    "▒"
+	BOARD_HEIGHT-2
+      list(full_line)
   current_time! $t
   !io.rng_of mersenne_twister((1'000'000'000*second_of(t)).to_integer)
-  enable_logging &io 3
+  enable_logging &io 2
   on_websocket_message &io login
   start_web_server! &io 8000
   start_reading_from &io STDIN_FILENO
@@ -68,15 +82,16 @@ chain initialize_terminal_keys:
 	event $type $fd $argument
 	case type
 	  WEBSOCKET_CLOSED:
-	    log &io 4 "client disconnected @(fd.serialize)"
 	    $vt clients_of(io)(fd)
+	    $player_no player_no_of(vt)
+	    log &io 2 -> "player @(player_no) left the game"
+	    !io.player_mask_of player_mask_of(io) ^ (1 << player_no)
+	    $x x_of(vt)
+	    $y y_of(vt)
+	    !io.board_of(x)(y) ' '
+	    push &io.changed_fields_of tuple(x y)
 	    !io.clients_of(fd) undefined
-	    $job_id job_id_of(vt)
-	    if
-	      job_id.is_defined:
-		cancel &io job_id
-		next!
-	      next
+	    next!
 	  next
       :
 	handle_terminal_events &io &events
@@ -111,7 +126,7 @@ $get_requested_resource: (io fd uri)
       http_resource_not_found io fd uri
 
 $login: (io fd message)
-  log &io 3 "login from @(fd.serialize)"
+  log &io 3 -> "login from @(fd.serialize)"
   on_websocket_message &io fd handle_dom_input_event
   on_key_press &io fd handle_key_press
   $player_mask player_mask_of(io)
@@ -127,86 +142,42 @@ $login: (io fd message)
       log &io 1 "too many players"
       close_connection io fd
     :
-      log &io 3 "player @(player_no) joined"
+      log &io 2 -> "player @(player_no) joined the game"
       !io.player_mask_of player_mask | (1 << player_no)
-      next_value &io.rng_of $x BOARD_WIDTH
-      next_value &io.rng_of $y BOARD_HEIGHT
-      log &io 3 "board position: @(x) @(y)"
-      !io.board_of(y)(x) player_no
+      next_value &io.rng_of $x BOARD_WIDTH-2
+      next_value &io.rng_of $y BOARD_HEIGHT-2
+      plus &x 1
+      plus &y 1
+      log &io 3 -> "board position: @(x) @(y)"
+      !io.board_of(y)(x) circles(player_no)
+      push &io.changed_fields_of tuple(x y)
       create_web_terminal &io $vt fd message
       !vt.player_no_of player_no
       !vt.x_of x
       !vt.y_of y
+      !vt.action_of undefined
       draw_board &vt board_of(io)
       update &vt $commands
       send_websocket_text_message &io fd commands
-      schedule &io !vt.job_id_of 1 next_frame fd
       !io.clients_of(fd) vt
-      -> io
-
-$next_frame: (io fd)
-  log &io 3 "next frame for @(fd.serialize)"
-  $vt clients_of(io)(fd)
-  draw_board &vt board_of(io)
-  update &vt $commands
-  send_websocket_text_message &io fd commands
-  schedule &io !vt.job_id_of 1 next_frame fd
-  !io.clients_of(fd) vt
-  -> io
+      if
+	player_mask == 0:
+	  log &io 2 -> "game started"
+	  schedule io 1/FRAME_RATE next_frame
+	-> io
 
 $handle_key_press: (io fd key)
-  log &io 3 "key press: @(key)"
+  log &io 3 -> "key press: @(key)"
   $vt clients_of(io)(fd)
-  $board board_of(io)
-  $x x_of(vt)
-  $y y_of(vt)
-  $player_no player_no_of(vt)
   case key
-    CURSOR_LEFT:
-      if
-	x > 1:
-	  !board(y)(x) undefined
-	  dec &x
-	  !board(y)(x) player_no
-	  !vt.x_of x
-	  !io.board_of board
-	  !io.clients_of(fd) vt
-	  -> io
-	-> io
-    CURSOR_RIGHT:
-      if
-	x < BOARD_WIDTH:
-	  !board(y)(x) undefined
-	  inc &x
-	  !board(y)(x) player_no
-	  !vt.x_of x
-	  !io.board_of board
-	  !io.clients_of(fd) vt
-	  -> io
-	-> io
-    CURSOR_UP:
-      if
-	y > 1:
-	  !board(y)(x) undefined
-	  dec &y
-	  !board(y)(x) player_no
-	  !vt.y_of y
-	  !io.board_of board
-	  !io.clients_of(fd) vt
-	  -> io
-	-> io
-    CURSOR_DOWN:
-      if
-	y < BOARD_HEIGHT:
-	  !board(y)(x) undefined
-	  inc &y
-	  !board(y)(x) player_no
-	  !vt.y_of y
-	  !io.board_of board
-	  !io.clients_of(fd) vt
-	  -> io
-	-> io
-    -> io
+    CURSOR_LEFT, CURSOR_RIGHT, CURSOR_UP, CURSOR_DOWN:
+      !vt.action_of key
+      !io.clients_of(fd) vt
+      -> io
+    :
+      !vt.action_of undefined
+      !io.clients_of(fd) vt
+      -> io
 
 $RED_CIRCLE '🔴'
 $BLUE_CIRCLE '🔵'
@@ -232,17 +203,139 @@ $draw_board: (vt board)
   set_clear_colour &vt GREEN
   clear &vt
   set_clear_colour &vt WHITE
+  set_draw_colour &vt BLACK
   $sx 4*cw+1
   $sy 2*ch+1
-  clear &vt sx+2*cw sy+ch BOARD_WIDTH*2*cw BOARD_HEIGHT*ch
   for_each board
     : (y row)
+      $buf ""
       for_each row
-	: (x player_no)
+	: (chr)
 	  if
-	    player_no.is_defined:
-	      draw_character &vt sx+x*2*cw sy+y*ch circles(player_no)
+	    width_of(chr) > 1:
+	      push &buf chr
 	      next
-	    next
-	next
+	    :
+	      push &buf chr
+	      push &buf chr
+	      next
+	:
+	  draw_text &vt sx sy+(y-1)*ch buf
+	  next
     -> vt
+
+$next_frame: (io)
+  log &io 4 -> "next frame"
+  $clients clients_of(io)
+  if
+    clients.is_empty:
+      log io 2 "all players left the game"
+    :
+      $board board_of(io)
+      $changed_fields empty_list
+      for_each changed_fields_of(io)
+	: (field)
+	  field $x $y
+	  push &changed_fields field
+	  next
+	:
+	  !io.changed_fields_of empty_list
+	  for_each clients
+	    : (fd vt)
+	      $x x_of(vt)
+	      $y y_of(vt)
+	      case action_of(vt)
+		CURSOR_LEFT:
+		  if
+		    board(y)(x-1) == ' ':
+		      !board(y)(x) ' '
+		      push &changed_fields tuple(x y)
+		      minus &x 1
+		      !board(y)(x) circles(player_no_of(vt))
+		      push &changed_fields tuple(x y)
+		      !vt.x_of x
+		      !clients(fd) vt
+		      next
+		    :
+		      !vt.action_of undefined
+		      next
+		CURSOR_RIGHT:
+		  if
+		    board(y)(x+1) == ' ':
+		      !board(y)(x) ' '
+		      push &changed_fields tuple(x y)
+		      plus &x 1
+		      !board(y)(x) circles(player_no_of(vt))
+		      push &changed_fields tuple(x y)
+		      !vt.x_of x
+		      !clients(fd) vt
+		      next
+		    :
+		      !vt.action_of undefined
+		      next
+		CURSOR_UP:
+		  if
+		    board(y-1)(x) == ' ':
+		      !board(y)(x) ' '
+		      push &changed_fields tuple(x y)
+		      minus &y 1
+		      !board(y)(x) circles(player_no_of(vt))
+		      push &changed_fields tuple(x y)
+		      !vt.y_of y
+		      !clients(fd) vt
+		      next
+		    :
+		      !vt.action_of undefined
+		      next
+		CURSOR_DOWN:
+		  if
+		    board(y+1)(x) == ' ':
+		      !board(y)(x) ' '
+		      push &changed_fields tuple(x y)
+		      plus &y 1
+		      !board(y)(x) circles(player_no_of(vt))
+		      push &changed_fields tuple(x y)
+		      !vt.y_of y
+		      !clients(fd) vt
+		      next
+		    :
+		      !vt.action_of undefined
+		      next
+		next
+	    :
+	      if
+		changed_fields.is_empty
+		reschedule
+		:
+		  log &io 4 "sending new board"
+		  for_each clients
+		    : (fd vt)
+		      $cw character_width_of(vt)
+		      $ch character_height_of(vt)
+		      set_clear_colour &vt WHITE
+		      set_draw_colour &vt BLACK
+		      $sx 2*cw+1
+		      $sy ch+1
+		      for_each changed_fields
+			: (field)
+			  field $x $y
+			  $chr board(y)(x)
+			  if
+			    width_of(chr) == 2:
+			      draw_character &vt sx+x*2*cw sy+y*ch chr
+			      next
+			    :
+			      draw_text &vt sx+x*2*cw sy+y*ch string(chr chr)
+			      next
+			:
+			  update &vt $commands
+			  !clients(fd) vt
+			  #log &io 4 -> "sending commands: @(commands)"
+			  send_websocket_text_message &io fd commands
+			  next
+		    reschedule
+
+	  $reschedule:
+	    !io.board_of board
+	    !io.clients_of clients
+	    schedule io 1/FRAME_RATE next_frame

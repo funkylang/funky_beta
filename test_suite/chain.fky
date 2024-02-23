@@ -1,0 +1,26 @@
+#!/usr/bin/env fkyrun
+
+$initialize_a: (continuation)
+  println! "a"
+  continuation!
+
+$initialize_b: (continuation)
+  println! "b"
+  continuation!
+
+$initialize_c: (continuation)
+  println! "c"
+  continuation!
+
+chain initialize_a initialize_b initialize_c:
+  println! "everything initialized"
+
+$chain: (initializers* body)
+  loop:
+    if!
+      initializers.is_empty
+      body
+      :
+	initializers(1):
+	  range &initializers 2 -1
+	  next!

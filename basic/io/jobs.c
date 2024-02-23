@@ -23,21 +23,23 @@ enum {
   lambda_7 = -14,
   lambda_8 = -15,
   lambda_9 = -16,
-  lambda_10 = -17,
-  func_insert = -18,
+  lambda_data_is_defined = -17,
+  lambda_10 = -18,
   lambda_11 = -19,
-  lambda_12 = -20,
-  lambda_13 = -21,
-  lambda_14 = -22,
-  lambda_15 = -23,
-  lambda_16 = -24,
-  lambda_17 = -25,
-  func_split = -26,
-  lambda_loop = -27,
-  lambda_18 = -28,
-  lambda_19 = -29,
-  lambda_20 = -30,
-  lambda_21 = -31
+  func_insert = -20,
+  lambda_12 = -21,
+  lambda_13 = -22,
+  lambda_14 = -23,
+  lambda_15 = -24,
+  lambda_16 = -25,
+  lambda_17 = -26,
+  lambda_18 = -27,
+  func_split = -28,
+  lambda_loop = -29,
+  lambda_19 = -30,
+  lambda_20 = -31,
+  lambda_21 = -32,
+  lambda_22 = -33
 };
 
 enum {
@@ -53,6 +55,7 @@ enum {
   var_schedule, // extern polymorphic
   var_34_0_io, // dynamic
   var_35_0_time, // dynamic
+  var_undefined, // extern
   var_result_count, // extern
   var_is_a_number, // extern
   var_current_time_of, // extern
@@ -78,23 +81,26 @@ enum {
   var_72_0_io, // dynamic
   var_74_39_now_jobs, // dynamic
   var_74_49_remaining_jobs, // dynamic
-  var_89_10_jobs, // dynamic
-  var_89_15_job, // dynamic
+  var_84_17_function, // dynamic
+  var_84_27_data, // dynamic
+  var_is_defined, // extern
+  var_94_10_jobs, // dynamic
+  var_94_15_job, // dynamic
   var_is_empty, // extern
   var_list, // extern
-  var_94_5_time, // dynamic
+  var_99_5_time, // dynamic
   var_std__less, // extern
   var_std__not, // extern
   var_push, // extern
   var_length_of, // extern
-  var_102_3_idx, // dynamic
+  var_107_3_idx, // dynamic
   var_put, // extern
   var_from_to_by, // extern
-  var_112_9_jobs, // dynamic
-  var_112_14_time, // dynamic
-  var_116_1_s, // dynamic
-  var_118_1_e, // dynamic
-  var_124_1_m, // dynamic
+  var_117_9_jobs, // dynamic
+  var_117_14_time, // dynamic
+  var_121_1_s, // dynamic
+  var_123_1_e, // dynamic
+  var_129_1_m, // dynamic
   var_div, // extern
   var_loop, // extern
   var__END
@@ -103,11 +109,11 @@ enum {
 
 static TAB_NUM t_func_std_types__io___schedule[] = {
   5, // locals
-  4, // parameters
-  var_34_0_io,
-  var_35_0_time,
-  LOCAL(2), // 36_0_function
-  LOCAL(3), // 37_0_data
+  -4, // parameters
+  MANDATORY_PARAMETER, var_34_0_io,
+  MANDATORY_PARAMETER, var_35_0_time,
+  MANDATORY_PARAMETER, LOCAL(2), // 36_0_function
+  var_undefined, LOCAL(3), // 37_0_data
   // $rc result_count()
   var_result_count, 0, 1, LOCAL(4),
   // is_a_number &time -> current_time_of(io)+time
@@ -284,245 +290,267 @@ static TAB_NUM t_lambda_8[] = {
   // io.jobs_of remaining_jobs
   LET, -1, var_72_0_io, var_jobs_of, var_74_49_remaining_jobs, var_72_0_io,
   // for_each now_jobs
-  var_for_each, 3, var_74_39_now_jobs, lambda_9, lambda_10, TAIL_CALL,
+  var_for_each, 3, var_74_39_now_jobs, lambda_9, lambda_11, TAIL_CALL,
   POS(81, 8),
   POS(82, 7)
 };
 
 static TAB_NUM t_lambda_9[] = {
-  4, // locals
+  2, // locals
   1, // parameters
   LOCAL(2), // 83_3_job
   // job $_time $_no $function $data
-  LOCAL(2), 0, 4, LOCAL(1), LOCAL(1), LOCAL(3), LOCAL(4),
+  LOCAL(2), 0, 4, LOCAL(1), LOCAL(1), var_84_17_function, var_84_27_data,
+  // is_defined:
+  var_is_defined, 1, var_84_27_data, 1, LOCAL(1),
+  // if
+  var_if, 3, LOCAL(1), lambda_data_is_defined, lambda_10, TAIL_CALL,
+  POS(84, 11),
+  POS(86, 18),
+  POS(85, 11)
+};
+
+static TAB_NUM t_lambda_data_is_defined[] = {
+  0, // locals
+  0, // parameters
   // function &io data
-  LOCAL(3), 2, var_72_0_io, LOCAL(4), 1, var_72_0_io,
+  var_84_17_function, 2, var_72_0_io, var_84_27_data, 1, var_72_0_io,
   // next
   var_next, 0, TAIL_CALL,
-  POS(84, 11),
-  POS(85, 11),
-  POS(86, 11)
+  POS(87, 15),
+  POS(88, 15)
 };
 
 static TAB_NUM t_lambda_10[] = {
   0, // locals
   0, // parameters
+  // function &io
+  var_84_17_function, 1, var_72_0_io, 1, var_72_0_io,
+  // next
+  var_next, 0, TAIL_CALL,
+  POS(90, 15),
+  POS(91, 15)
+};
+
+static TAB_NUM t_lambda_11[] = {
+  0, // locals
+  0, // parameters
   //  io
   LET, 1, var_72_0_io, TAIL_CALL,
-  POS(87, 11)
+  POS(92, 11)
 };
 
 static TAB_NUM t_func_insert[] = {
   1, // locals
   2, // parameters
-  var_89_10_jobs,
-  var_89_15_job,
+  var_94_10_jobs,
+  var_94_15_job,
   // is_empty
-  var_is_empty, 1, var_89_10_jobs, 1, LOCAL(1),
+  var_is_empty, 1, var_94_10_jobs, 1, LOCAL(1),
   // if
-  var_if, 3, LOCAL(1), lambda_11, lambda_12, TAIL_CALL,
-  POS(91, 10),
-  POS(90, 3)
-};
-
-static TAB_NUM t_lambda_11[] = {
-  1, // locals
-  0, // parameters
-  // list(job)
-  var_list, 1, var_89_15_job, 1, LOCAL(1),
-  //  list(job)
-  LET, 1, LOCAL(1), TAIL_CALL,
-  POS(92, 8),
-  POS(92, 7)
+  var_if, 3, LOCAL(1), lambda_12, lambda_13, TAIL_CALL,
+  POS(96, 10),
+  POS(95, 3)
 };
 
 static TAB_NUM t_lambda_12[] = {
-  4, // locals
+  1, // locals
   0, // parameters
-  // job $time
-  var_89_15_job, 0, 1, var_94_5_time,
-  // $last_job jobs(-1)
-  var_89_10_jobs, 1, minus_num_1, 1, LOCAL(3),
-  // last_job $last_time
-  LOCAL(3), 0, 1, LOCAL(4),
-  // time >= last_time # an optimization for the common case
-  var_std__less, 2, var_94_5_time, LOCAL(4), 1, LOCAL(1),
-  // time >= last_time # an optimization for the common case
-  var_std__not, 1, LOCAL(1), 1, LOCAL(2),
-  // if
-  var_if, 3, LOCAL(2), lambda_13, lambda_14, TAIL_CALL,
-  POS(94, 7),
-  POS(95, 7),
-  POS(96, 7),
-  POS(98, 9),
-  POS(98, 9),
+  // list(job)
+  var_list, 1, var_94_15_job, 1, LOCAL(1),
+  //  list(job)
+  LET, 1, LOCAL(1), TAIL_CALL,
+  POS(97, 8),
   POS(97, 7)
 };
 
 static TAB_NUM t_lambda_13[] = {
-  1, // locals
+  4, // locals
   0, // parameters
-  // push(jobs job)
-  var_push, 2, var_89_10_jobs, var_89_15_job, 1, LOCAL(1),
-  //  push(jobs job)
-  LET, 1, LOCAL(1), TAIL_CALL,
-  POS(99, 12),
-  POS(99, 11)
+  // job $time
+  var_94_15_job, 0, 1, var_99_5_time,
+  // $last_job jobs(-1)
+  var_94_10_jobs, 1, minus_num_1, 1, LOCAL(3),
+  // last_job $last_time
+  LOCAL(3), 0, 1, LOCAL(4),
+  // time >= last_time # an optimization for the common case
+  var_std__less, 2, var_99_5_time, LOCAL(4), 1, LOCAL(1),
+  // time >= last_time # an optimization for the common case
+  var_std__not, 1, LOCAL(1), 1, LOCAL(2),
+  // if
+  var_if, 3, LOCAL(2), lambda_14, lambda_15, TAIL_CALL,
+  POS(99, 7),
+  POS(100, 7),
+  POS(101, 7),
+  POS(103, 9),
+  POS(103, 9),
+  POS(102, 7)
 };
 
 static TAB_NUM t_lambda_14[] = {
-  2, // locals
+  1, // locals
   0, // parameters
-  // length_of(jobs)-1 1 -1
-  var_length_of, 1, var_89_10_jobs, 1, LOCAL(1),
-  // length_of(jobs)-1 1 -1
-  var_std__minus, 2, LOCAL(1), num_1, 1, LOCAL(2),
-  // from_to_by length_of(jobs)-1 1 -1
-  var_from_to_by, 5, LOCAL(2), num_1, minus_num_1, lambda_15, lambda_17, TAIL_CALL,
-  POS(101, 22),
-  POS(101, 22),
-  POS(101, 11)
+  // push(jobs job)
+  var_push, 2, var_94_10_jobs, var_94_15_job, 1, LOCAL(1),
+  //  push(jobs job)
+  LET, 1, LOCAL(1), TAIL_CALL,
+  POS(104, 12),
+  POS(104, 11)
 };
 
 static TAB_NUM t_lambda_15[] = {
-  3, // locals
-  1, // parameters
-  var_102_3_idx,
-  // jobs(idx) $idx_time
-  var_89_10_jobs, 1, var_102_3_idx, 1, LOCAL(1),
-  // jobs(idx) $idx_time
-  LOCAL(1), 0, 1, LOCAL(3),
-  // time >= idx_time:
-  var_std__less, 2, var_94_5_time, LOCAL(3), 1, LOCAL(1),
-  // time >= idx_time:
-  var_std__not, 1, LOCAL(1), 1, LOCAL(2),
-  // if
-  var_if, 3, LOCAL(2), lambda_16, var_next, TAIL_CALL,
-  POS(103, 15),
-  POS(103, 15),
-  POS(105, 17),
-  POS(105, 17),
-  POS(104, 15)
+  2, // locals
+  0, // parameters
+  // length_of(jobs)-1 1 -1
+  var_length_of, 1, var_94_10_jobs, 1, LOCAL(1),
+  // length_of(jobs)-1 1 -1
+  var_std__minus, 2, LOCAL(1), num_1, 1, LOCAL(2),
+  // from_to_by length_of(jobs)-1 1 -1
+  var_from_to_by, 5, LOCAL(2), num_1, minus_num_1, lambda_16, lambda_18, TAIL_CALL,
+  POS(106, 22),
+  POS(106, 22),
+  POS(106, 11)
 };
 
 static TAB_NUM t_lambda_16[] = {
-  4, // locals
-  0, // parameters
-  // range(jobs 1 idx) job)
-  var_range, 3, var_89_10_jobs, num_1, var_102_3_idx, 1, LOCAL(1),
-  // push(range(jobs 1 idx) job)
-  var_push, 2, LOCAL(1), var_89_15_job, 1, LOCAL(2),
-  // idx+1 -1)
-  var_std__plus, 2, var_102_3_idx, num_1, 1, LOCAL(3),
-  // range(jobs idx+1 -1)
-  var_range, 3, var_89_10_jobs, LOCAL(3), minus_num_1, 1, LOCAL(4),
-  // append
-  var_append, 2, LOCAL(2), LOCAL(4), TAIL_CALL,
-  POS(107, 26),
-  POS(107, 21),
-  POS(108, 32),
-  POS(108, 21),
-  POS(106, 19)
+  3, // locals
+  1, // parameters
+  var_107_3_idx,
+  // jobs(idx) $idx_time
+  var_94_10_jobs, 1, var_107_3_idx, 1, LOCAL(1),
+  // jobs(idx) $idx_time
+  LOCAL(1), 0, 1, LOCAL(3),
+  // time >= idx_time:
+  var_std__less, 2, var_99_5_time, LOCAL(3), 1, LOCAL(1),
+  // time >= idx_time:
+  var_std__not, 1, LOCAL(1), 1, LOCAL(2),
+  // if
+  var_if, 3, LOCAL(2), lambda_17, var_next, TAIL_CALL,
+  POS(108, 15),
+  POS(108, 15),
+  POS(110, 17),
+  POS(110, 17),
+  POS(109, 15)
 };
 
 static TAB_NUM t_lambda_17[] = {
+  4, // locals
+  0, // parameters
+  // range(jobs 1 idx) job)
+  var_range, 3, var_94_10_jobs, num_1, var_107_3_idx, 1, LOCAL(1),
+  // push(range(jobs 1 idx) job)
+  var_push, 2, LOCAL(1), var_94_15_job, 1, LOCAL(2),
+  // idx+1 -1)
+  var_std__plus, 2, var_107_3_idx, num_1, 1, LOCAL(3),
+  // range(jobs idx+1 -1)
+  var_range, 3, var_94_10_jobs, LOCAL(3), minus_num_1, 1, LOCAL(4),
+  // append
+  var_append, 2, LOCAL(2), LOCAL(4), TAIL_CALL,
+  POS(112, 26),
+  POS(112, 21),
+  POS(113, 32),
+  POS(113, 21),
+  POS(111, 19)
+};
+
+static TAB_NUM t_lambda_18[] = {
   1, // locals
   0, // parameters
   // put(jobs job)
-  var_put, 2, var_89_10_jobs, var_89_15_job, 1, LOCAL(1),
+  var_put, 2, var_94_10_jobs, var_94_15_job, 1, LOCAL(1),
   //  put(jobs job)
   LET, 1, LOCAL(1), TAIL_CALL,
-  POS(110, 16),
-  POS(110, 15)
+  POS(115, 16),
+  POS(115, 15)
 };
 
 static TAB_NUM t_func_split[] = {
   1, // locals
   2, // parameters
-  var_112_9_jobs,
-  var_112_14_time,
+  var_117_9_jobs,
+  var_117_14_time,
   // $s 1
-  LET, 1, num_1, 1, var_116_1_s,
+  LET, 1, num_1, 1, var_121_1_s,
   // $n length_of(jobs)
-  var_length_of, 1, var_112_9_jobs, 1, LOCAL(1),
+  var_length_of, 1, var_117_9_jobs, 1, LOCAL(1),
   // $e n
-  LET, 1, LOCAL(1), 1, var_118_1_e,
+  LET, 1, LOCAL(1), 1, var_123_1_e,
   // loop:
   var_loop, 1, lambda_loop, TAIL_CALL,
-  POS(116, 3),
-  POS(117, 3),
-  POS(118, 3),
-  POS(119, 3)
+  POS(121, 3),
+  POS(122, 3),
+  POS(123, 3),
+  POS(124, 3)
 };
 
 static TAB_NUM t_lambda_loop[] = {
   1, // locals
   0, // parameters
   // e
-  var_std__less, 2, var_118_1_e, var_116_1_s, 1, LOCAL(1),
+  var_std__less, 2, var_123_1_e, var_121_1_s, 1, LOCAL(1),
   // if
-  var_if, 3, LOCAL(1), lambda_18, lambda_19, TAIL_CALL,
-  POS(121, 11),
-  POS(120, 5)
-};
-
-static TAB_NUM t_lambda_18[] = {
-  2, // locals
-  0, // parameters
-  // range(jobs 1 e) range(jobs s -1)
-  var_range, 3, var_112_9_jobs, num_1, var_118_1_e, 1, LOCAL(1),
-  // range(jobs s -1)
-  var_range, 3, var_112_9_jobs, var_116_1_s, minus_num_1, 1, LOCAL(2),
-  //  range(jobs 1 e) range(jobs s -1)
-  LET, 2, LOCAL(1), LOCAL(2), TAIL_CALL,
-  POS(122, 10),
-  POS(122, 26),
-  POS(122, 9)
+  var_if, 3, LOCAL(1), lambda_19, lambda_20, TAIL_CALL,
+  POS(126, 11),
+  POS(125, 5)
 };
 
 static TAB_NUM t_lambda_19[] = {
   2, // locals
   0, // parameters
-  // s+e .div. 2
-  var_std__plus, 2, var_116_1_s, var_118_1_e, 1, LOCAL(1),
-  // $m s+e .div. 2
-  var_div, 2, LOCAL(1), num_2, 1, var_124_1_m,
-  // jobs(m) $job_time
-  var_112_9_jobs, 1, var_124_1_m, 1, LOCAL(1),
-  // jobs(m) $job_time
-  LOCAL(1), 0, 1, LOCAL(2),
-  // time:
-  var_std__less, 2, var_112_14_time, LOCAL(2), 1, LOCAL(1),
-  // if
-  var_if, 3, LOCAL(1), lambda_20, lambda_21, TAIL_CALL,
-  POS(124, 12),
-  POS(124, 9),
-  POS(125, 9),
-  POS(125, 9),
-  POS(127, 22),
-  POS(126, 9)
+  // range(jobs 1 e) range(jobs s -1)
+  var_range, 3, var_117_9_jobs, num_1, var_123_1_e, 1, LOCAL(1),
+  // range(jobs s -1)
+  var_range, 3, var_117_9_jobs, var_121_1_s, minus_num_1, 1, LOCAL(2),
+  //  range(jobs 1 e) range(jobs s -1)
+  LET, 2, LOCAL(1), LOCAL(2), TAIL_CALL,
+  POS(127, 10),
+  POS(127, 26),
+  POS(127, 9)
 };
 
 static TAB_NUM t_lambda_20[] = {
-  0, // locals
+  2, // locals
   0, // parameters
-  // !e m-1
-  var_std__minus, 2, var_124_1_m, num_1, 1, var_118_1_e,
-  // next
-  var_next, 0, TAIL_CALL,
-  POS(128, 13),
-  POS(129, 13)
+  // s+e .div. 2
+  var_std__plus, 2, var_121_1_s, var_123_1_e, 1, LOCAL(1),
+  // $m s+e .div. 2
+  var_div, 2, LOCAL(1), num_2, 1, var_129_1_m,
+  // jobs(m) $job_time
+  var_117_9_jobs, 1, var_129_1_m, 1, LOCAL(1),
+  // jobs(m) $job_time
+  LOCAL(1), 0, 1, LOCAL(2),
+  // time:
+  var_std__less, 2, var_117_14_time, LOCAL(2), 1, LOCAL(1),
+  // if
+  var_if, 3, LOCAL(1), lambda_21, lambda_22, TAIL_CALL,
+  POS(129, 12),
+  POS(129, 9),
+  POS(130, 9),
+  POS(130, 9),
+  POS(132, 22),
+  POS(131, 9)
 };
 
 static TAB_NUM t_lambda_21[] = {
   0, // locals
   0, // parameters
-  // !s m+1
-  var_std__plus, 2, var_124_1_m, num_1, 1, var_116_1_s,
+  // !e m-1
+  var_std__minus, 2, var_129_1_m, num_1, 1, var_123_1_e,
   // next
   var_next, 0, TAIL_CALL,
-  POS(131, 13),
-  POS(132, 13)
+  POS(133, 13),
+  POS(134, 13)
+};
+
+static TAB_NUM t_lambda_22[] = {
+  0, // locals
+  0, // parameters
+  // !s m+1
+  var_std__plus, 2, var_129_1_m, num_1, 1, var_121_1_s,
+  // next
+  var_next, 0, TAIL_CALL,
+  POS(136, 13),
+  POS(137, 13)
 };
 
 static FUNKY_CONSTANT constants_table[] = {
@@ -542,21 +570,23 @@ static FUNKY_CONSTANT constants_table[] = {
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_7}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_8}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_9}},
+  {FLT_FUNCTION, 0, {.tfunc = t_lambda_data_is_defined}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_10}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_insert}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_11}},
+  {FLT_FUNCTION, 0, {.tfunc = t_func_insert}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_12}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_13}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_14}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_15}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_16}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_17}},
+  {FLT_FUNCTION, 0, {.tfunc = t_lambda_18}},
   {FLT_FUNCTION, 0, {.tfunc = t_func_split}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_loop}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_18}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_19}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_20}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_21}}
+  {FLT_FUNCTION, 0, {.tfunc = t_lambda_21}},
+  {FLT_FUNCTION, 0, {.tfunc = t_lambda_22}}
 };
 
 static ATTRIBUTE_DEFINITION std_types__io__attributes[] = {
@@ -620,6 +650,11 @@ static FUNKY_VARIABLE variables_table[] = {
   {
     FOT_UNINITIALIZED, 0, 0,
     "35_0_time\000", NULL
+  },
+  {
+    FOT_UNKNOWN, 0, 0,
+    "undefined\000", NULL,
+    {.position = POS(37, 12)}
   },
   {
     FOT_UNKNOWN, 0, 0,
@@ -740,89 +775,102 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "89_10_jobs\000", NULL
+    "84_17_function\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "89_15_job\000", NULL
+    "84_27_data\000", NULL
+  },
+  {
+    FOT_UNKNOWN, 0, 0,
+    "is_defined\000", NULL,
+    {.position = POS(86, 18)}
+  },
+  {
+    FOT_UNINITIALIZED, 0, 0,
+    "94_10_jobs\000", NULL
+  },
+  {
+    FOT_UNINITIALIZED, 0, 0,
+    "94_15_job\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
     "is_empty\000", NULL,
-    {.position = POS(91, 10)}
+    {.position = POS(96, 10)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "list\000", NULL,
-    {.position = POS(92, 8)}
+    {.position = POS(97, 8)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "94_5_time\000", NULL
+    "99_5_time\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
     "less\000std", NULL,
-    {.position = POS(98, 9)}
+    {.position = POS(103, 9)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "not\000std", NULL,
-    {.position = POS(98, 9)}
+    {.position = POS(103, 9)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "push\000", NULL,
-    {.position = POS(99, 12)}
+    {.position = POS(104, 12)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "length_of\000", NULL,
-    {.position = POS(101, 22)}
+    {.position = POS(106, 22)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "102_3_idx\000", NULL
+    "107_3_idx\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
     "put\000", NULL,
-    {.position = POS(110, 16)}
+    {.position = POS(115, 16)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "from_to_by\000", NULL,
-    {.position = POS(101, 11)}
+    {.position = POS(106, 11)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "112_9_jobs\000", NULL
+    "117_9_jobs\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "112_14_time\000", NULL
+    "117_14_time\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "116_1_s\000", NULL
+    "121_1_s\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "118_1_e\000", NULL
+    "123_1_e\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "124_1_m\000", NULL
+    "129_1_m\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
     "div\000", NULL,
-    {.position = POS(124, 12)}
+    {.position = POS(129, 12)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "loop\000", NULL,
-    {.position = POS(119, 3)}
+    {.position = POS(124, 3)}
   }
 };
 
@@ -840,8 +888,8 @@ FUNKY_MODULE module__basic__io__jobs = {
   0, // number of required modules
   0, // number of defined namespaces
   1, // number of used namespaces
-  31, // number of constants
-  55, // number of variables
+  33, // number of constants
+  59, // number of variables
   NULL, // required modules
   NULL, // defined namespaces
   used_namespaces,

@@ -34,7 +34,7 @@ $std_types::io/schedule:
     io # the input-output object
     time # timeout or point in time
     function # the function to schedule
-    data # the data to pass to the function
+    data = undefined # the data to pass to the function
   )
   $rc result_count()
   update_if time.is_a_number &time -> current_time_of(io)+time
@@ -82,8 +82,13 @@ $std_types::io/handle_jobs:
       for_each now_jobs
 	: (job)
 	  job $_time $_no $function $data
-	  function &io data
-	  next
+	  if
+	    data.is_defined:
+	      function &io data
+	      next
+	    :
+	      function &io
+	      next
 	-> io
 
 $insert: (jobs job)

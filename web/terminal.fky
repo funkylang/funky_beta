@@ -168,7 +168,6 @@ $handle_websocket_message: (io fd message)
       log io 2 "No websocket message handler defined for @(fd.serialize)"
 
 $std::create_web_terminal: (io fd message)
-  log &io 2 "create web terminal for @(fd.serialize)"
   $vt undefined
   cond
     -> message .has_prefix. "DOM@nl;":
@@ -228,7 +227,14 @@ $std::create_web_terminal: (io fd message)
 	    log &io 3 "
 	      Unknown client attribute: "@(key)"
 	    next
-      -> io client
+      :
+	log &io 3 "
+	  create web terminal for @(fd.serialize):
+	  width: @(width_of(client))
+	  height: @(height_of(client))
+	  character_width: @(character_width_of(client))
+	  character_height: @(character_height_of(client))
+	-> io client
 
 $std::handle_dom_input_event: (io fd message)
   from_utf8 &message

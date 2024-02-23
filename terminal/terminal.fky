@@ -1273,6 +1273,7 @@ $std::initialize_terminal:
   extract_options options
     TEXT_COLOUR = BLACK $text_colour
     BACKGROUND_COLOUR = WHITE $background_colour
+    LINE_HEIGHT = 1 $line_height
     FILE_DESCRIPTOR = STDIN_FILENO $fd
     RECEIVE_CTRL_C_AND_CTRL_Z = false $do_receive_ctrl_c_and_ctrl_z
     RECEIVE_CTRL_Q_AND_CTRL_S = false $do_receive_ctrl_q_and_ctrl_s
@@ -1306,6 +1307,7 @@ $std::initialize_terminal:
   create_terminal $terminal width height
     TEXT_COLOUR = text_colour
     BACKGROUND_COLOUR = background_colour
+    LINE_HEIGHT = line_height
 
   initialize_terminal_keys:
     try $err: body! terminal

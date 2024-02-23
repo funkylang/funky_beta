@@ -150,17 +150,48 @@
 	if (x < 0) x = canvas_width+x; else --x
 	if (y < 0) y = canvas_height+y; else --y
 	let lines = text.split('\n')
-	let i
-	for (i = 0; i < lines.length; ++i) {
+	for (let i = 0; i < lines.length; ++i) {
 	  let line = lines[i]
 	  if (line) {
-	    if (clear_colour) {
-	      ctx.fillStyle = clear_colour
-	      ctx.fillRect(
-		x, y+i*line_height, line.length*character_width, line_height)
+	    let arr = Array.from(line)
+	    if (arr.length == line.length) {
+	      if (clear_colour) {
+		ctx.fillStyle = clear_colour
+		ctx.fillRect(
+		  x, y+i*line_height, line.length*character_width, line_height)
+	      }
+	      ctx.fillStyle = draw_colour
+	      ctx.fillText(lines[i], x, y+baseline+i*line_height)
+	    } else { // print character by character
+	      if (clear_colour) {
+		let n = 0
+		for (let j = 0; j < arr.length; ++j) {
+		  let chr = arr[j]
+		  let tm = ctx.measureText(chr)
+		  if (tm.width > character_width) {
+		    n += 2
+		  } else {
+		    ++n
+		  }
+		}
+		ctx.fillStyle = clear_colour
+		ctx.fillRect(
+		  x, y+i*line_height, n*character_width, line_height)
+		ctx.fillStyle = draw_colour
+		n = 0
+		for (let j = 0; j < arr.length; ++j) {
+		  let chr = arr[j]
+		  let tm = ctx.measureText(chr)
+		  ctx.fillText(
+		    chr, x+n*character_width, y+baseline+i*line_height)
+		  if (tm.width > character_width) {
+		    n += 2
+		  } else {
+		    ++n
+		  }
+		}
+	      }
 	    }
-	    ctx.fillStyle = draw_colour
-	    ctx.fillText(lines[i], x, y+baseline+i*line_height)
 	  }
 	}
       }
@@ -198,33 +229,14 @@
 	canvas.height = canvas_height
 	ctx = canvas.getContext("2d")
 	ctx.font = "12pt monospace"
-	let tm = ctx.measureText("m")
+	let tm = ctx.measureText("\u{2588}") // full block
 	character_width = tm.width
 	ascent = tm.fontBoundingBoxAscent
 	descent = tm.fontBoundingBoxDescent
 	character_height = ascent+descent
-	line_spacing = Math.ceil(0.15*character_height)
+	line_spacing = 0
 	line_height = character_height+line_spacing
-	baseline = ascent+line_spacing/2
-	/*let x = 0
-	let y = baseline
-	ctx.fillText("Hello, world!", x, y)
-	ctx.fillText("Hello, world!", x, y+line_height)
-	ctx.fillText("Hello, world!", x, y+2*line_height)
-	ctx.fillText("H", x, y+3*line_height)
-	ctx.fillText("e", x+character_width, y+3*line_height)
-	ctx.fillText("l", x+2*character_width, y+3*line_height)
-	ctx.fillText("l", x+3*character_width, y+3*line_height)
-	ctx.fillText("o", x+4*character_width, y+3*line_height)
-	ctx.fillText(",", x+5*character_width, y+3*line_height)
-	ctx.fillText(" ", x+6*character_width, y+3*line_height)
-	ctx.fillText("w", x+7*character_width, y+3*line_height)
-	ctx.fillText("o", x+8*character_width, y+3*line_height)
-	ctx.fillText("r", x+9*character_width, y+3*line_height)
-	ctx.fillText("l", x+10*character_width, y+3*line_height)
-	ctx.fillText("d", x+11*character_width, y+3*line_height)
-	ctx.fillText("!", x+12*character_width, y+3*line_height)*/
-	//dump(tm)
+	baseline = ascent
 	document.body.appendChild(canvas)
 	open_websocket("ws://"+server_address)
       }

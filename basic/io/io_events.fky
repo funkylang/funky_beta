@@ -689,6 +689,7 @@ $std_types::io/log:
   )
   if
     level <= log_level_of(self):
+      update_if_not message.is_a_string &message -> message()
       update_if_not message .has_suffix. '@nl;' &message: push message '@nl;'
       $lines split_into_lines(message)
       $prefix "[@(level)] "

@@ -62,7 +62,7 @@ $std_types::io.web_server_socket_of undefined
 $std_types::io.protocols_of empty_hash_table
 
 $std_types::io/start_web_server: (io port_no)
-  log &io "starting web-server on port @(port_no)"
+  log &io -> "starting web-server on port @(port_no)"
   open_tcp_server_socket! $sock port_no 1 true
   if
     sock.is_an_error
@@ -130,14 +130,14 @@ $std::handle_web_server_events: (io events)
 	READ_ERROR:
 	  if
 	    protocols_of(io)(fd).is_defined:
-	      log &io "READ ERROR - @(serialize(fd))"
+	      log &io -> "READ ERROR - @(serialize(fd))"
 	      close_connection &io fd
 	      next
 	    next
 	WRITE_ERROR:
 	  if
 	    protocols_of(io)(fd).is_defined:
-	      log &io "WRITE ERROR - @(serialize(fd))"
+	      log &io -> "WRITE ERROR - @(serialize(fd))"
 	      close_connection &io fd
 	      next
 	    next
@@ -173,7 +173,7 @@ $handle_http_request: (io fd request)
       -> io undefined
 
 $std::accept_upgrade_to_websocket: (io fd fields)
-  log &io "upgrade to websocket - @(serialize(fd))"
+  log &io 4 -> "upgrade to websocket - @(serialize(fd))"
   !io.protocols_of(fd) WEBSOCKET
   $key fields("Sec-WebSocket-Key")
   $accept append(key "258EAFA5-E914-47DA-95CA-C5AB0DC85B11")
@@ -213,7 +213,7 @@ $bad_request: (io fd)
 	</p>
       </body>
     </html>
-  log &io "BAD HTTP REQUEST - @(serialize(fd))"
+  log &io -> "BAD HTTP REQUEST - @(serialize(fd))"
   write &io fd "
     HTTP/1.1 400 Bad Request@cr;
     Content-Type: text/html@cr;
@@ -224,7 +224,7 @@ $bad_request: (io fd)
   close_connection io fd
 
 $std::http_resource_not_found: (io fd uri)
-  log &io "
+  log &io -> "
     HTTP RESOURCE "@(uri)" NOT FOUND - @(serialize(fd))@
   $not_found_message "
     <html>
@@ -253,7 +253,7 @@ $std::return_http_resource:
     type = "text/html"
     content
   )
-  log &io 2 "
+  log &io 4 -> "
     return http resource "@(uri)" - @(serialize(fd))@
   write &io fd "
     HTTP/1.1 200 OK@cr;
@@ -280,13 +280,13 @@ $std::log_unhandled_event: (io event)
 	  type
 	  WRITE_PENDING,WRITE_COMPLETED -> 4
 	  -> 2
-      log io log_level "
+      log io log_level -> "
 	unhandled event @(serialize(type).trim_right) - @(serialize(fd))@
 
 $handle_websocket_message: (io fd message)
   if
     length_of(message) < 2:
-      log &io "INVALID WEBSOCKET MESSAGE - @(serialize(fd))"
+      log &io -> "INVALID WEBSOCKET MESSAGE - @(serialize(fd))"
       close_connection &io fd
       -> io undefined
     :
@@ -321,7 +321,8 @@ $handle_websocket_message: (io fd message)
 	      $data range(message 5 -1)
 	      if
 		length_of(data) != payload_size:
-		  log &io "INVALID WEBSOCKET PAYLOAD LENGTH - @(serialize(fd))"
+		  log &io ->
+		    "INVALID WEBSOCKET PAYLOAD LENGTH - @(serialize(fd))"
 		  close_connection &io fd
 		  -> io undefined
 		:
@@ -342,28 +343,27 @@ $handle_websocket_message: (io fd message)
 	    :
 	      if
 		length_of(message) != payload_size:
-		  log &io "INVALID WEBSOCKET PAYLOAD LENGTH - @(serialize(fd))"
+		  log &io ->
+		    "INVALID WEBSOCKET PAYLOAD LENGTH - @(serialize(fd))"
 		  close_connection &io fd
 		  -> io undefined
 		:
 		  queue_message message
 	CLOSE_FRAME:
-	  log &io 2 "websocket closed - @(serialize(fd))"
+	  log &io 4 -> "websocket closed - @(serialize(fd))"
 	  close_connection &io fd
 	  -> io new(std_types::event WEBSOCKET_CLOSED fd undefined)
 	:
-	  log &io "INVALID WEBSOCKET OPCODE (@(opcode)) - @(serialize(fd))"
+	  log &io -> "INVALID WEBSOCKET OPCODE (@(opcode)) - @(serialize(fd))"
 	  close_connection &io fd
 	  -> io undefined
 
   $queue_message: (data)
-    log &io 4 "
-      received websocket text message - @(serialize(fd))@
+    log &io 4 -> "received websocket text message - @(serialize(fd))"
     -> io new(std_types::event WEBSOCKET_MESSAGE fd data)
 
 $std::send_websocket_text_message: (io fd text)
-  log &io 4 "
-    sending websocket text message - @(serialize(fd))@
+  log &io 4 -> "sending websocket text message - @(serialize(fd))"
   to_utf8 &text
   $length length_of(text)
   $header ""
@@ -395,7 +395,7 @@ $std::send_websocket_text_message: (io fd text)
     write io fd append(header text)
 
 $std::broadcast_websocket_text_message: (io omit_fd text)
-  log &io 3
+  log &io 3:
     if
       omit_fd.is_defined
       -> "
@@ -412,11 +412,11 @@ $std::broadcast_websocket_text_message: (io omit_fd text)
 
 $std::closed_connection: (io fd)
   !io.protocols_of(fd) undefined
-  log io 3 "closed connection @(serialize(fd))"
+  log io 4 -> "closed connection @(serialize(fd))"
 
 $std::close_connection: (io fd)
   !io.protocols_of(fd) undefined
-  log &io 3 "close connection @(serialize(fd))"
+  log &io 4 -> "close connection @(serialize(fd))"
   close io fd
 
 # Web Client
@@ -460,7 +460,7 @@ $std::handle_web_client_events: (io events conn_fd)
 		  $code between(header ' ' ' ')
 		  if
 		    code == "101":
-		      log &io "upgraded to websocket - @(serialize(fd))"
+		      log &io 4 -> "upgraded to websocket - @(serialize(fd))"
 		      !io.protocols_of(fd) WEBSOCKET
 		      push &new_events
 			new(std_types::event UPGRADED_TO_WEBSOCKET fd undefined)
