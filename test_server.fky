@@ -89,7 +89,7 @@ chain initialize_terminal_keys:
       list(full_line)
   current_time! $t
   !io.rng_of mersenne_twister((1'000'000'000*second_of(t)).to_integer)
-  enable_logging &io 2
+  enable_logging &io 3
   on_websocket_message &io login
   start_web_server! &io 8000
   start_reading_from &io STDIN_FILENO
@@ -292,21 +292,21 @@ $next_frame: (io)
 	      for_each clients
 		: (fd vt)
 		  $cw character_width_of(vt)
-		  $ch character_height_of(vt)
+		  $lh line_height_of(vt)
 		  set_clear_colour &vt WHITE
 		  set_draw_colour &vt BLACK
 		  $sx 2*cw+1
-		  $sy ch+1
+		  $sy lh+1
 		  for_each changed_fields
 		    : (field)
 		      field $x $y
 		      $chr board(y)(x)
 		      if
 			width_of(chr) == 2:
-			  draw_character &vt sx+x*2*cw sy+y*ch chr
+			  draw_character &vt sx+x*2*cw sy+y*lh chr
 			  next
 			:
-			  draw_text &vt sx+x*2*cw sy+y*ch string(chr chr)
+			  draw_text &vt sx+x*2*cw sy+y*lh string(chr chr)
 			  next
 		    :
 		      update &vt $commands
@@ -324,13 +324,13 @@ $next_frame: (io)
 
 $draw_board: (vt board)
   $cw character_width_of(vt)
-  $ch character_height_of(vt)
+  $lh line_height_of(vt)
   set_clear_colour &vt GREEN
   clear &vt
   set_clear_colour &vt WHITE
   set_draw_colour &vt BLACK
   $sx 4*cw+1
-  $sy 2*ch+1
+  $sy 2*lh+1
   for_each board
     : (y row)
       $buf ""
@@ -345,6 +345,6 @@ $draw_board: (vt board)
 	      push &buf chr
 	      next
 	:
-	  draw_text &vt sx sy+(y-1)*ch buf
+	  draw_text &vt sx sy+(y-1)*lh buf
 	  next
     -> vt

@@ -2904,54 +2904,45 @@ $find_next: (x = undefined)
 		    s > length_of(text)
 		    search_forwards
 		    :
-		      range &text s -1
-		      search $pos $len search_text text
+		      search_forwards_within_line $pos $len range(text s -1)
 		      if
-			pos.is_defined && is_a_valid_match(text pos len):
-			  !window
-			    window
-			      .previous_of window
-			      .cursor_x_of undefined
-			      .cursor_y_of undefined
-			      .sub_y_of undefined
-			      .selection_start_x_of x+pos-1
-			      .selection_start_y_of y
-			      .x_of x+pos+len-1
-			      .do_keep_selection true
-			  return_window
+			pos.is_defined: return_match y x+pos-1 len false
 			search_forwards
 
 	  $search_forwards:
-	    loop
-	      :
-		inc &y
-		if
-		  y > height
-		  -> state
-		  :
-		    $line lines(y)
-		    if
-		      line.is_undefined
-		      next
-		      :
-			line $indent $text
-			search $pos $len search_text text
-			if
-			  pos.is_defined && is_a_valid_match(text pos len):
-			    !window
-			      window
-				.previous_of window
-				.x_of indent+pos+len
-				.y_of y
-				.sub_y_of undefined
-				.cursor_x_of undefined
-				.cursor_y_of undefined
-				.selection_start_x_of indent+pos
-				.selection_start_y_of y
-				.do_keep_selection true
-			    return_window
-			  next
-	      -> state
+	    loop:
+	      inc &y
+	      if
+		y > height
+		-> state
+		:
+		  $line lines(y)
+		  if
+		    line.is_undefined
+		    next
+		    :
+		      line $indent $text
+		      search_forwards_within_line $pos $len text
+		      if
+			pos.is_defined: return_match y indent+pos len false
+			next
+
+  $search_forwards_within_line: (text)
+    search $pos $len search_text text
+    if
+      pos.is_undefined
+      -> undefined undefined
+      :
+	if
+	  is_a_valid_match(text pos len)
+	  -> pos len
+	  :
+	    $s pos+len
+	    search_forwards_within_line range(text s -1) !pos !len
+	    if
+	      pos.is_defined
+	      -> s+pos-1 len
+	      -> undefined undefined
 
 $find_previous: (x = undefined)
   $search_text search_text_of(state)
@@ -2984,21 +2975,9 @@ $find_previous: (x = undefined)
 		    search_backwards
 		    :
 		      update_if e < length_of(text) &text -> range(text 1 e)
-		      search $pos $len search_text text -1
+		      search_backwards_within_line $pos $len text
 		      if
-			pos.is_defined && is_a_valid_match(text pos len):
-			  !window
-			    window
-			      .previous_of window
-			      .cursor_x_of undefined
-			      .sub_y_of undefined
-			      .cursor_x_of undefined
-			      .cursor_y_of undefined
-			      .selection_start_x_of indent+pos+len
-			      .selection_start_y_of y
-			      .x_of indent+pos
-			      .do_keep_selection true
-			  return_window
+			pos.is_defined: return_match y indent+pos len true
 			search_backwards
 
 	  $search_backwards:
@@ -3014,22 +2993,41 @@ $find_previous: (x = undefined)
 		    next
 		    :
 		      line $indent $text
-		      search $pos $len search_text text -1
+		      search_backwards_within_line $pos $len text
 		      if
-			pos.is_defined && is_a_valid_match(text pos len):
-			  !window
-			    window
-			      .previous_of window
-			      .x_of indent+pos
-			      .y_of y
-			      .sub_y_of undefined
-			      .cursor_x_of undefined
-			      .cursor_y_of undefined
-			      .selection_start_x_of indent+pos+len
-			      .selection_start_y_of y
-			      .do_keep_selection true
-			  return_window
+			pos.is_defined: return_match y indent+pos len true
 			next
+
+  $search_backwards_within_line: (text)
+    search $pos $len search_text text -1
+    if
+      pos.is_undefined
+      -> undefined undefined
+      :
+	if
+	  is_a_valid_match(text pos len)
+	  -> pos len
+	  :
+	    search_backwards_within_line range(text 1 pos-1) !pos !len
+	    if
+	      pos.is_defined
+	      -> pos len
+	      -> undefined undefined
+
+$return_match: (y pos len is_a_backwards_search)
+  $right_pos pos+len
+  !window
+    window
+      .previous_of window
+      .x_of if(is_a_backwards_search (-> pos) (-> right_pos))
+      .y_of y
+      .sub_y_of undefined
+      .cursor_x_of undefined
+      .cursor_y_of undefined
+      .selection_start_x_of if(is_a_backwards_search (-> right_pos) (-> pos))
+      .selection_start_y_of y
+      .do_keep_selection true
+  return_window
 
 $is_a_valid_match: (text pos len)
   $match_start_boundary match_start_boundary_of(state)
