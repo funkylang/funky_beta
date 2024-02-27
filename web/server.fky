@@ -108,12 +108,9 @@ $std::handle_web_server_events: (io events)
 		  next
 		next
 	    WEBSOCKET:
-	      handle_websocket_message &io !event fd message
-	      if
-		event.is_defined:
-		  push &new_events event
-		  next
-		next
+	      handle_websocket_message &io $websocket_events fd message
+	      append &new_events websocket_events
+	      next
 	    :
 	      push &new_events event
 	      next
@@ -284,83 +281,94 @@ $std::log_unhandled_event: (io event)
 	unhandled event @(serialize(type).trim_right) - @(serialize(fd))@
 
 $handle_websocket_message: (io fd message)
-  if
-    length_of(message) < 2:
-      log &io -> "INVALID WEBSOCKET MESSAGE - @(serialize(fd))"
-      close_connection &io fd
-      -> io undefined
-    :
-      $first_octet message(1).to_integer
-      $second_octet message(2).to_integer
-      #$is_final_fragment first_octet & FIN_BIT == FIN_BIT
-      $opcode first_octet & 0x3f
-      $is_masked second_octet & MASK_BIT == MASK_BIT
-      $payload_size second_octet & PAYLOAD_MASK
-      case !message !payload_size
-	payload_size
-	126 ->
-	  range(message 5 -1)
-	  (message(3).to_integer << 8) | message(4).to_integer
-	127 ->
-	  range(message 11 -1)
-	  |
-	    message(3).to_integer << 56
-	    message(4).to_integer << 48
-	    message(5).to_integer << 40
-	    message(6).to_integer << 32
-	    message(7).to_integer << 24
-	    message(8).to_integer << 16
-	    message(9).to_integer << 8
-	    message(10).to_integer
-	-> range(message 3 -1) payload_size
-      case opcode
-	TEXT_FRAME:
-	  if
-	    is_masked:
-	      $mask map(range(message 1 4) to_integer)
-	      $data range(message 5 -1)
-	      if
-		length_of(data) != payload_size:
-		  log &io ->
-		    "INVALID WEBSOCKET PAYLOAD LENGTH - @(serialize(fd))"
-		  close_connection &io fd
-		  -> io undefined
-		:
-		  $unmasked_data ""
-		  $mask_idx 1
-		  for_each data
-		    : (chr)
-		      to_integer &chr
-		      push &unmasked_data character(chr ^ mask(mask_idx))
-		      !mask_idx
-			if
-			  mask_idx == 4
-			  -> 1
-			  -> mask_idx+1
-		      next!
-		    :
-		      queue_message unmasked_data
-	    :
-	      if
-		length_of(message) != payload_size:
-		  log &io ->
-		    "INVALID WEBSOCKET PAYLOAD LENGTH - @(serialize(fd))"
-		  close_connection &io fd
-		  -> io undefined
-		:
-		  queue_message message
-	CLOSE_FRAME:
-	  log &io 4 -> "websocket closed - @(serialize(fd))"
-	  close_connection &io fd
-	  -> io new(std_types::event WEBSOCKET_CLOSED fd undefined)
-	:
-	  log &io -> "INVALID WEBSOCKET OPCODE (@(opcode)) - @(serialize(fd))"
-	  close_connection &io fd
-	  -> io undefined
+  $events empty_list
+  loop:
+    if
+      length_of(message) < 2:
+	log &io -> "INVALID WEBSOCKET MESSAGE - @(serialize(fd))"
+	close_connection &io fd
+	-> io events
+      :
+	$first_octet message(1).to_integer
+	$second_octet message(2).to_integer
+	$opcode first_octet & 0x3f
+	$is_masked second_octet & MASK_BIT == MASK_BIT
+	$payload_size second_octet & PAYLOAD_MASK
+	# ATTENTION: message length check needed!!!
+	case !message !payload_size
+	  payload_size
+	  126 ->
+	    range(message 5 -1)
+	    (message(3).to_integer << 8) | message(4).to_integer
+	  127 ->
+	    range(message 11 -1)
+	    |
+	      message(3).to_integer << 56
+	      message(4).to_integer << 48
+	      message(5).to_integer << 40
+	      message(6).to_integer << 32
+	      message(7).to_integer << 24
+	      message(8).to_integer << 16
+	      message(9).to_integer << 8
+	      message(10).to_integer
+	  -> range(message 3 -1) payload_size
+	case opcode
+	  TEXT_FRAME:
+	    if
+	      is_masked:
+		$mask map(range(message 1 4) to_integer)
+		range &message 5 -1
+		if
+		  length_of(message) < payload_size
+		  incomplete_message
+		  :
+		    $unmasked ""
+		    $mask_idx 1
+		    $payload range(message 1 payload_size)
+		    range &message payload_size+1 -1
+		    for_each payload
+		      : (chr)
+			to_integer &chr
+			push &unmasked character(chr ^ mask(mask_idx))
+			!mask_idx
+			  if
+			    mask_idx == 4
+			    -> 1
+			    -> mask_idx+1
+			next
+		      :
+			queue_message unmasked
+	      :
+		if
+		  length_of(message) < payload_size
+		  incomplete_message
+		  :
+		    $payload range(message 1 payload_size)
+		    range &message payload_size+1 -1
+		    queue_message payload
+	  CLOSE_FRAME:
+	    log &io 4 -> "websocket closed - @(serialize(fd))"
+	    close_connection &io fd
+	    -> io list(new(std_types::event WEBSOCKET_CLOSED fd undefined))
+	  :
+	    log &io -> "INVALID WEBSOCKET OPCODE (@(opcode)) - @(serialize(fd))"
+	    close_connection &io fd
+	    -> io events
 
-  $queue_message: (data)
+  $incomplete_message:
+    log &io -> "
+      MULTI-PACKET WEBSOCKET MESSAGES ARE NOT YET SUPPORTED - @
+      @(serialize(fd))@
+    close_connection &io fd
+    -> io events
+
+  $queue_message: (payload)
     log &io 4 -> "received websocket text message - @(serialize(fd))"
-    -> io new(std_types::event WEBSOCKET_MESSAGE fd data)
+    push &events new(std_types::event WEBSOCKET_MESSAGE fd payload)
+    if
+      message.is_empty
+      -> io events
+      next
 
 $std::send_websocket_text_message: (io fd text)
   log &io 4 -> "sending websocket text message - @(serialize(fd))"
@@ -447,12 +455,9 @@ $std::handle_web_client_events: (io events conn_fd)
 	  $message argument
 	  case protocols_of(io)(fd)
 	    WEBSOCKET:
-	      handle_websocket_message &io !event fd message
-	      if
-		event.is_defined:
-		  push &new_events event
-		  next
-		next
+	      handle_websocket_message &io $websocket_events fd message
+	      append &new_events websocket_events
+	      next
 	    :
 	      $header message .before. '@nl;'
 	      if

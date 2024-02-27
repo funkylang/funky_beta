@@ -88,6 +88,7 @@ try !err: chain initialize_terminal_keys:
     for_each events
       : (event)
 	event $type $fd $argument
+	debug::dump 3 `event
 	case type
 	  READ: # stdin
 	    $keys extract_keys(argument)
