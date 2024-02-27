@@ -38,10 +38,17 @@ $job_id_of ()
 
 # virtual terminal (per client data)
 
-$player_no_of ()
-$x_of ()
-$y_of ()
-$action_of ()
+$player_no_of () # the index no. of the player using this terminal
+$x_of () # the x position of the player within the board
+$y_of () # the y position of the player within the board
+$sx_of () # the horizontal start position of the board withing the terminal
+$sy_of () # the vertical start position of the board withing the terminal
+$first_x_of () # the x position of the first visible field within the board
+$first_y_of () # the y position of the first visible field within the board
+$last_x_of () # the x position of the last visible field within the board
+$last_y_of () # the y position of the last visible field within the board
+
+$action_of () # the last key press
 
 $RED_CIRCLE '🔴'
 $BLUE_CIRCLE '🔵'
@@ -66,8 +73,8 @@ $FRAME_RATE 6
 load! $universal_client "universal_client.html"
 append "<!DOCTYPE html>@nl;" &universal_client
 
-$BOARD_WIDTH 20
-$BOARD_HEIGHT 20
+$BOARD_WIDTH 100
+$BOARD_HEIGHT 100
 
 $io std_types::io
 $io.clients_of empty_hash_table
@@ -76,7 +83,7 @@ $io.changed_fields_of empty_list
 
 chain initialize_terminal_keys:
   $full_line dup("▒" BOARD_WIDTH)
-  !io.board_of
+  $board
     append
       list(full_line)
       dup
@@ -89,6 +96,8 @@ chain initialize_terminal_keys:
       list(full_line)
   current_time! $t
   !io.rng_of mersenne_twister((1'000'000'000*second_of(t)).to_integer)
+  set_random_blocks &io &board 1500
+  !io.board_of board
   enable_logging &io 3
   on_websocket_message &io login
   start_web_server! &io 8000
@@ -129,6 +138,25 @@ chain initialize_terminal_keys:
 	    handle_jobs &io
 	    next!
 
+$set_random_blocks: (io board n)
+  repeat n
+    :
+      get_empty_position &io $x $y board
+      !board(y)(x) '▒'
+      next
+    -> io board
+
+$get_empty_position: (io board)
+  $x undefined
+  $y undefined
+  loop:
+    next_value &io.rng_of !x BOARD_WIDTH
+    next_value &io.rng_of !y BOARD_HEIGHT
+    if
+      board(y)(x) == ' '
+      -> io x y
+      next
+
 $get_requested_resource: (io fd uri)
   case uri
     "/":
@@ -153,20 +181,20 @@ $login: (io fd message)
       log &io 1 "too many players"
       close_connection io fd
     :
-      log &io 2 -> "player @(player_no) joined the game"
       !io.player_mask_of player_mask | (1 << player_no)
-      next_value &io.rng_of $x BOARD_WIDTH-2
-      next_value &io.rng_of $y BOARD_HEIGHT-2
-      plus &x 1
-      plus &y 1
+      $board board_of(io)
+      get_empty_position &io $x $y board
+      !board(y)(x) circles(player_no)
+      !io.board_of board
       log &io 3 -> "board position: @(x) @(y)"
-      !io.board_of(y)(x) circles(player_no)
       push &io.changed_fields_of tuple(x y)
       create_web_terminal &io $vt fd message
       !vt.player_no_of player_no
       !vt.x_of x
       !vt.y_of y
       !vt.action_of undefined
+      log &io 2 -> "player @(player_no) joined the game at (@(x), @(y))"
+      initialize_vt &vt x y
       draw_board &vt board_of(io)
       update &vt $commands
       send_websocket_text_message &io fd commands
@@ -225,6 +253,16 @@ $next_frame: (io)
 	: (fd vt)
 	  $x x_of(vt)
 	  $y y_of(vt)
+	  $first_x first_x_of(vt)
+	  $first_y first_y_of(vt)
+	  $last_x last_x_of(vt)
+	  $last_y last_y_of(vt)
+	  $horizontal_border (last_x-first_x+1) .div. 4
+	  $vertical_border (last_y-first_y+1) .div. 4
+	  $min_x first_x+horizontal_border
+	  $max_x last_x-horizontal_border
+	  $min_y first_y+vertical_border
+	  $max_y last_y-vertical_border
 	  case action_of(vt)
 	    CURSOR_LEFT:
 	      if
@@ -235,11 +273,14 @@ $next_frame: (io)
 		  !board(y)(x) circles(player_no_of(vt))
 		  push &changed_fields tuple(x y)
 		  !vt.x_of x
-		  !clients(fd) vt
-		  next
+		  if
+		    x < min_x && first_x > 1:
+		      move_left &vt board
+		      update_vt
+		    update_vt
 		:
 		  !vt.action_of undefined
-		  next
+		  update_vt
 	    CURSOR_RIGHT:
 	      if
 		board(y)(x+1) == ' ':
@@ -249,11 +290,14 @@ $next_frame: (io)
 		  !board(y)(x) circles(player_no_of(vt))
 		  push &changed_fields tuple(x y)
 		  !vt.x_of x
-		  !clients(fd) vt
-		  next
+		  if
+		    x > max_x && last_x < BOARD_WIDTH:
+		      move_right &vt board
+		      update_vt
+		    update_vt
 		:
 		  !vt.action_of undefined
-		  next
+		  update_vt
 	    CURSOR_UP:
 	      if
 		board(y-1)(x) == ' ':
@@ -263,11 +307,14 @@ $next_frame: (io)
 		  !board(y)(x) circles(player_no_of(vt))
 		  push &changed_fields tuple(x y)
 		  !vt.y_of y
-		  !clients(fd) vt
-		  next
+		  if
+		    y < min_y && first_y > 1:
+		      move_up &vt board
+		      update_vt
+		    update_vt
 		:
 		  !vt.action_of undefined
-		  next
+		  update_vt
 	    CURSOR_DOWN:
 	      if
 		board(y+1)(x) == ' ':
@@ -277,16 +324,24 @@ $next_frame: (io)
 		  !board(y)(x) circles(player_no_of(vt))
 		  push &changed_fields tuple(x y)
 		  !vt.y_of y
-		  !clients(fd) vt
-		  next
+		  if
+		    y > max_y && last_y < BOARD_HEIGHT:
+		      move_down &vt board
+		      update_vt
+		    update_vt
 		:
 		  !vt.action_of undefined
-		  next
+		  update_vt
+	    next
+
+	  $update_vt:
+	    !clients(fd) vt
 	    next
 	:
 	  if
-	    changed_fields.is_empty
-	    reschedule
+	    changed_fields.is_empty:
+	      !io.clients_of clients
+	      reschedule
 	    :
 	      log &io 4 "sending new board"
 	      for_each clients
@@ -295,19 +350,31 @@ $next_frame: (io)
 		  $lh line_height_of(vt)
 		  set_clear_colour &vt WHITE
 		  set_draw_colour &vt BLACK
-		  $sx 2*cw+1
-		  $sy lh+1
+		  $sx sx_of(vt)
+		  $sy sy_of(vt)
+		  $first_x first_x_of(vt)
+		  $first_y first_y_of(vt)
+		  $last_x last_x_of(vt)
+		  $last_y last_y_of(vt)
 		  for_each changed_fields
 		    : (field)
 		      field $x $y
-		      $chr board(y)(x)
 		      if
-			width_of(chr) == 2:
-			  draw_character &vt sx+x*2*cw sy+y*lh chr
-			  next
+			&&
+			  x >= first_x && x <= last_x
+			  y >= first_y && y <= last_y
 			:
-			  draw_text &vt sx+x*2*cw sy+y*lh string(chr chr)
-			  next
+			  $chr board(y)(x)
+			  $cx sx+(x-first_x)*2*cw
+			  $cy sy+(y-first_y)*lh
+			  if
+			    width_of(chr) == 2:
+			      draw_character &vt cx cy chr
+			      next
+			    :
+			      draw_text &vt cx cy string(chr chr)
+			      next
+			next
 		    :
 		      update &vt $commands
 		      !clients(fd) vt
@@ -322,20 +389,161 @@ $next_frame: (io)
 	schedule &io !io.job_id_of 1/FRAME_RATE next_frame
 	-> io
 
+$move_left: (vt board)
+  $sx sx_of(vt)
+  $sy sy_of(vt)
+  $first_x first_x_of(vt)
+  $last_x last_x_of(vt)
+  $first_y first_y_of(vt)
+  $last_y last_y_of(vt)
+  dec &first_x
+  dec &last_x
+  !vt.first_x_of first_x
+  !vt.last_x_of last_x
+  $field_width 2*character_width_of(vt)
+  $field_height line_height_of(vt)
+  copy # scroll right
+    &vt sx+field_width sy
+    vt sx sy
+    (last_x-first_x)*field_width (last_y-first_y+1)*field_height
+  draw_text vt sx sy # first column
+    map_reduce
+      range(board first_y last_y)
+      : (row)
+	$chr row(first_x)
+	if
+	  width_of(chr) == 2
+	  -> string(chr '@nl;')
+	  -> string(chr chr '@nl;')
+
+$move_right: (vt board)
+  $sx sx_of(vt)
+  $sy sy_of(vt)
+  $first_x first_x_of(vt)
+  $last_x last_x_of(vt)
+  $first_y first_y_of(vt)
+  $last_y last_y_of(vt)
+  inc &first_x
+  inc &last_x
+  !vt.first_x_of first_x
+  !vt.last_x_of last_x
+  $field_width 2*character_width_of(vt)
+  $field_height line_height_of(vt)
+  copy # scroll left
+    &vt sx sy
+    vt sx+field_width sy
+    (last_x-first_x)*field_width (last_y-first_y+1)*field_height
+  draw_text vt sx+(last_x-first_x)*field_width sy # last column
+    map_reduce
+      range(board first_y last_y)
+      : (row)
+	$chr row(last_x)
+	if
+	  width_of(chr) == 2
+	  -> string(chr '@nl;')
+	  -> string(chr chr '@nl;')
+
+$move_up: (vt board)
+  $sx sx_of(vt)
+  $sy sy_of(vt)
+  $first_x first_x_of(vt)
+  $last_x last_x_of(vt)
+  $first_y first_y_of(vt)
+  $last_y last_y_of(vt)
+  dec &first_y
+  dec &last_y
+  !vt.first_y_of first_y
+  !vt.last_y_of last_y
+  $field_width 2*character_width_of(vt)
+  $field_height line_height_of(vt)
+  copy # scroll down
+    &vt sx sy+field_height
+    vt sx sy
+    (last_x-first_x+1)*field_width (last_y-first_y)*field_height
+  draw_text vt sx sy # first row
+    map_reduce
+      range(board(first_y) first_x last_x)
+      : (chr)
+	if
+	  width_of(chr) == 2
+	  -> string(chr)
+	  -> string(chr chr)
+
+$move_down: (vt board)
+  $sx sx_of(vt)
+  $sy sy_of(vt)
+  $first_x first_x_of(vt)
+  $last_x last_x_of(vt)
+  $first_y first_y_of(vt)
+  $last_y last_y_of(vt)
+  inc &first_y
+  inc &last_y
+  !vt.first_y_of first_y
+  !vt.last_y_of last_y
+  $field_width 2*character_width_of(vt)
+  $field_height line_height_of(vt)
+  copy # scroll up
+    &vt sx sy
+    vt sx sy+field_height
+    (last_x-first_x+1)*field_width (last_y-first_y)*field_height
+  draw_text vt sx sy+(last_y-first_y)*field_height # last row
+    map_reduce
+      range(board(last_y) first_x last_x)
+      : (chr)
+	if
+	  width_of(chr) == 2
+	  -> string(chr)
+	  -> string(chr chr)
+
+$initialize_vt: (vt player_x player_y)
+  $vt_width width_of(vt)
+  $vt_height height_of(vt)
+  $field_width 2*character_width_of(vt)
+  $field_height line_height_of(vt)
+  $horizontal_field_count
+    min(floor(vt_width/field_width).to_integer BOARD_WIDTH)
+  $vertical_field_count
+    min(floor(vt_height/field_height).to_integer BOARD_HEIGHT)
+  $sx floor((vt_width-horizontal_field_count*field_width)/2).to_integer+1
+  $sy floor((vt_height-vertical_field_count*field_height)/2).to_integer+1
+  $first_x
+    min
+      max(player_x-(horizontal_field_count .div. 2) 1)
+      BOARD_WIDTH-horizontal_field_count+1
+  $last_x first_x+horizontal_field_count-1
+  $first_y
+    min
+      max(player_y-(vertical_field_count .div. 2) 1)
+      BOARD_HEIGHT-vertical_field_count+1
+  $last_y first_y+vertical_field_count-1
+  ->
+    vt
+      .sx_of sx
+      .sy_of sy
+      .first_x_of first_x
+      .first_y_of first_y
+      .last_x_of last_x
+      .last_y_of last_y
+
 $draw_board: (vt board)
-  $cw character_width_of(vt)
-  $lh line_height_of(vt)
+  $sx sx_of(vt)
+  $sy sy_of(vt)
+  $first_x first_x_of(vt)
+  $first_y first_y_of(vt)
+  $last_x last_x_of(vt)
+  $last_y last_y_of(vt)
+  $field_height line_height_of(vt)
   set_clear_colour &vt GREEN
   clear &vt
   set_clear_colour &vt WHITE
   set_draw_colour &vt BLACK
-  $sx 4*cw+1
-  $sy 2*lh+1
-  for_each board
-    : (y row)
+  from_to first_y last_y
+    : (y)
+      $row board(y)
       $buf ""
-      for_each row
-	: (chr)
+      from_to first_x last_x
+	: (x)
+	  $chr row(x)
 	  if
 	    width_of(chr) > 1:
 	      push &buf chr
@@ -345,6 +553,6 @@ $draw_board: (vt board)
 	      push &buf chr
 	      next
 	:
-	  draw_text &vt sx sy+(y-1)*lh buf
+	  draw_text &vt sx sy+(y-first_y)*field_height buf
 	  next
     -> vt

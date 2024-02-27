@@ -95,6 +95,30 @@ $std_types::web_terminal/clear:
     clear(@(x),@(y),@(width),@(height))
   -> self
 
+$std_types::web_terminal/copy:
+  #
+    copies a rectangular area from one screen to another
+
+    This function can also copy a rectangular area within a single screen.
+
+    Topic: Terminal
+
+    See also: std_types::screen/clear
+
+  (
+    destination
+    x
+    y
+    source = destination
+    sx
+    sy
+    width
+    height
+  )
+  ignore source
+  append &destination.script_of "
+    copy(@(x),@(y),@(sx),@(sy),@(width),@(height))
+  -> destination
 
 $std_types::web_terminal/update: (self)
   $script script_of(self)

@@ -154,42 +154,32 @@
 	  let line = lines[i]
 	  if (line) {
 	    let arr = Array.from(line)
-	    if (arr.length == line.length) {
-	      if (clear_colour) {
-		ctx.fillStyle = clear_colour
-		ctx.fillRect(
-		  x, y+i*line_height, line.length*character_width, line_height)
+	    if (clear_colour) {
+	      let n = 0
+	      for (let j = 0; j < arr.length; ++j) {
+		let chr = arr[j]
+		let tm = ctx.measureText(chr)
+		if (tm.width > character_width) {
+		  n += 2
+		} else {
+		  ++n
+		}
 	      }
-	      ctx.fillStyle = draw_colour
-	      ctx.fillText(lines[i], x, y+baseline+i*line_height)
-	    } else { // print character by character
-	      if (clear_colour) {
-		let n = 0
-		for (let j = 0; j < arr.length; ++j) {
-		  let chr = arr[j]
-		  let tm = ctx.measureText(chr)
-		  if (tm.width > character_width) {
-		    n += 2
-		  } else {
-		    ++n
-		  }
-		}
-		ctx.fillStyle = clear_colour
-		ctx.fillRect(
-		  x, y+i*line_height, n*character_width, line_height)
-		ctx.fillStyle = draw_colour
-		n = 0
-		for (let j = 0; j < arr.length; ++j) {
-		  let chr = arr[j]
-		  let tm = ctx.measureText(chr)
-		  ctx.fillText(
-		    chr, x+n*character_width, y+baseline+i*line_height)
-		  if (tm.width > character_width) {
-		    n += 2
-		  } else {
-		    ++n
-		  }
-		}
+	      ctx.fillStyle = clear_colour
+	      ctx.fillRect(
+		x, y+i*line_height, n*character_width, line_height)
+	    }
+	    ctx.fillStyle = draw_colour
+	    n = 0
+	    for (let j = 0; j < arr.length; ++j) {
+	      let chr = arr[j]
+	      let tm = ctx.measureText(chr)
+	      ctx.fillText(
+		chr, x+n*character_width, y+baseline+i*line_height)
+	      if (tm.width > character_width) {
+		n += 2
+	      } else {
+		++n
 	      }
 	    }
 	  }
@@ -217,6 +207,14 @@
 	ctx.fillRect(x, y, width, height)
       }
 
+      function copy(x, y, sx, sy, width, height) {
+	if (x < 0) x = canvas_width+x; else --x
+	if (y < 0) y = canvas_height+y; else --y
+	if (sx < 0) sx = canvas_width+sx; else --sx
+	if (sy < 0) sy = canvas_height+sy; else --sy
+	ctx.drawImage(canvas, sx, sy, width, height, x, y, width, height)
+      }
+
       function initialize() {
 	output = elem("output")
 	canvas_width = window.innerWidth
@@ -230,7 +228,7 @@
 	ctx = canvas.getContext("2d")
 	ctx.font = "12pt monospace"
 	let tm = ctx.measureText("\u{2588}") // full block
-	character_width = tm.width
+	character_width = Math.ceil(tm.width)
 	ascent = tm.fontBoundingBoxAscent
 	descent = tm.fontBoundingBoxDescent
 	character_height = ascent+descent

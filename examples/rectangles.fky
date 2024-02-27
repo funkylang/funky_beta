@@ -1,0 +1,31 @@
+#!/usr/bin/env fkyrun
+
+<require basic/stdlib>
+<require terminal/terminal>
+
+$rng mersenne_twister(4711)
+
+initialize_terminal LINE_HEIGHT = 2: (terminal)
+  $width width_of(terminal)
+  $height height_of(terminal)
+  repeat 1000
+    :
+      # set random clear colour
+      next_value &rng $red 256
+      next_value &rng $green 256
+      next_value &rng $blue 256
+      set_clear_colour &terminal rgb_character(red-1 green-1 blue-1)
+
+      # clear random rectangle
+      next_value &rng $rx width
+      next_value &rng $ry height
+      next_value &rng $rw width-rx+1
+      next_value &rng $rh height-ry+1
+      clear &terminal rx ry rw rh
+
+      update &terminal $out
+      print! out
+      next!
+    :
+      get_key! $_key
+      pass
