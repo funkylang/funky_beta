@@ -25,8 +25,6 @@
 <require terminal/terminal>
 <require terminal/events>
 
-<allow unused>
-
 # the attributes of the I/O-object
 
 $terminal_of () # the associated terminal object
@@ -133,7 +131,6 @@ $next_frame: (io)
   $level level_of(io) # the current level's graphics
   $x x_of(io) # the current x-coordinate of the player (a real number)
   $y y_of(io) # the current y-coordinate of the player (a real number)
-  $prev_x prev_x_of(io) # the previous x-coordinate of the player (an integer)
   $prev_y prev_y_of(io) # the previous y-coordinate of the player (an integer)
   $dx dx_of(io) # the horizontal movement of the player (a real number)
   $dy dy_of(io) # the vertical movement of the player (a real number)
