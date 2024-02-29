@@ -1,0 +1,218 @@
+#!/usr/bin/env fkyrun
+
+  Copyright (C) 2024 by
+  Dipl.-Ing. Michael Niederle
+
+  This program is free software; you can redistribute it and/or modify
+  it under the terms of the GNU Library General Public License, version 2, or
+  (at your option) under the terms of the GNU Lesser General Public License,
+  version 3.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  GNU Lesser (Library) General Public License for more details.
+
+  For details of the GNU General Public License see the accompanying
+  files LGPLv2.txt and LGLPv3.txt or
+  http://www.gnu.org/licenses/lgpl-2.0.html
+  http://www.gnu.org/licenses/lgpl-3.0.html
+  or write to the
+  Free Software Foundation, Inc.,
+  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+
+<require basic/stdlib>
+<require terminal/terminal>
+<require terminal/events>
+
+<allow unused>
+
+# the attributes of the I/O-object
+
+$terminal_of () # the associated terminal object
+$level_of () # a list of strings representing the current level
+$x_of () # the current x-coordinate of the player (a real number)
+$y_of () # the current y-coordinate of the player (a real number)
+$prev_x_of () # the previous x-coordinate of the player (an integer)
+$prev_y_of () # the previous y-coordinate of the player (an integer)
+$dx_of () # the horizontal movement of the player (a real number)
+$dy_of () # the vertical movement of the player (a real number)
+$action_of () # the current action of the player (a key press or <undefined>)
+$do_exit_of () # if true, the game should exit
+
+$RED_CIRCLE '🔴' # the player's symbol
+
+$image "
+
+
+  ▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+
+
+
+		    ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+
+
+
+
+      ▀▀▀▀▀▀▀▀▀▀
+
+
+
+
+
+		  ▀▀▀▀▀
+
+
+
+
+
+			  ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+
+$PLAYER_START_X 4 # the x-coordinate of the player's starting position
+$PLAYER_START_Y 2 # the y-coordinate of the player's starting position
+
+# create an I/O-object with "undefined" attributes
+
+$io std_types::io # the I/O-object
+$io.terminal_of undefined
+$io.level_of undefined
+$io.x_of undefined
+$io.y_of undefined
+$io.prev_x_of undefined
+$io.prev_y_of undefined
+$io.dx_of undefined
+$io.dy_of undefined
+$io.action_of undefined
+$io.do_exit_of false
+
+$FRAME_RATE 60 # the frame rate of the game
+$GRAVITY 0.02 # the gravity used to accelerate the player downwards
+$DELTA_X 1/FRAME_RATE # the horizontal acceleration
+$MAX_FALL_SPEED 0.5 # the maximum speed the player can survive a fall
+
+initialize_terminal CURSOR_OFF = true: (terminal)
+  initialize! &io # initialize the terminal to be able to use timeouts
+  enable_logging &io 3 # set verbose logging
+
+  !io.level_of map(split(image '@nl;'): (line) -> pad_right(line 80))
+    # create the initial level from the image
+
+  draw_text &terminal 2 1 image # display the level's image
+
+  !io.terminal_of terminal # store the terminal in the I/O-object
+
+  update_player &io PLAYER_START_X PLAYER_START_Y
+    # set the player's initial position
+
+  start_reading_from &io STDIN_FILENO
+    # we want an event when the user presses a key
+
+  on_key_press &io handle_key_press
+    # define the callback function for key presses
+
+  loop: # the event loop
+    get_events! &io $events # get all events
+    handle_terminal_events &io &events
+      # let the terminal module handle the terminal events
+    if
+      do_exit_of(io) # if the game should exit
+      break # exit the loop
+      : # otherwise
+	handle_jobs &io # handle any pending jobs
+	next! # continue with the next iteration of the event loop
+
+$handle_key_press: (io key) # the callback function for key presses
+  case key
+    ESCAPE -> io(.do_exit_of true) # if the user presses ESCAPE, exit the game
+    CURSOR_LEFT, CURSOR_RIGHT -> io(.action_of key)
+      # if the user presses the left or right cursor key, remember it
+    -> io # otherwise, simply return the unaltered I/O-object
+
+$next_frame: (io)
+  # the function to update the game state and draw the next frame
+  $level level_of(io) # the current level's graphics
+  $x x_of(io) # the current x-coordinate of the player (a real number)
+  $y y_of(io) # the current y-coordinate of the player (a real number)
+  $prev_x prev_x_of(io) # the previous x-coordinate of the player (an integer)
+  $prev_y prev_y_of(io) # the previous y-coordinate of the player (an integer)
+  $dx dx_of(io) # the horizontal movement of the player (a real number)
+  $dy dy_of(io) # the vertical movement of the player (a real number)
+  if
+    dy == 0: # if the player is not falling
+      case action_of(io) # check if the player is moving left or right
+	CURSOR_LEFT: # if the player is moving left
+	  minus &dx DELTA_X # decrease the horizontal movement
+	  move_horizontally # and move the player horizontally
+	CURSOR_RIGHT: # if the player is moving right
+	  plus &dx DELTA_X # increase the horizontal movement
+	  move_horizontally # and move the player horizontally
+	move_horizontally # otherwise, move the player horizontally
+    move_horizontally # otherwise, move the player horizontally
+
+  $move_horizontally: # move the player horizontally
+    plus &x dx # increase the x-coordinate of the player
+    $new_x x.to_integer # truncate the x-coordinate to an integer
+    if
+      new_x < 1 || new_x >= length_of(level(1))
+      # if the new x-coordinate is out of bounds
+      you_lost # the player loses
+      :
+	if
+	  level(prev_y+1)(new_x) == ' ' && level(prev_y+1)(new_x+1) == ' ':
+	    # if the player is not supported by some solid blocks, let him fall
+	    plus &dy GRAVITY # increase the vertical movement
+	    move_vertically # and move the player vertically
+	  :
+	    if
+	      dy > 0: # if the player is falling
+		if
+		  dy > MAX_FALL_SPEED: # if the player is falling too fast
+		    you_lost # the player loses
+		  :
+		    !dy 0 # otherwise, stop the player from falling
+		    move_vertically # and move the player vertically
+	      move_vertically # otherwise, move the player vertically
+
+    $move_vertically: # move the player vertically
+      plus &y dy # increase the y-coordinate of the player
+      $new_y y.to_integer # truncate the y-coordinate to an integer
+      if
+	new_y >= length_of(level) # if the new y-coordinate is out of bounds
+	you_lost # the player loses
+	: update_player io new_x new_y x y dx dy
+	  # otherwise, update the player's position
+
+  $you_lost: # the player loses
+    update_player io PLAYER_START_X PLAYER_START_Y # reset the player's position
+
+$update_player: # update the player's position and draw him
+  (
+    io # the I/O-object
+    new_x # the new x-coordinate of the player (an integer)
+    new_y # the new y-coordinate of the player (an integer)
+    x = new_x # the new x-coordinate of the player (a real number)
+    y = new_y # the new y-coordinate of the player (a real number)
+    dx = 0 # the new horizontal movement of the player (a real number)
+    dy = 0 # the new vertical movement of the player (a real number)
+  )
+  $terminal terminal_of(io) # the associated terminal object
+  if
+    prev_x_of(io).is_defined: # if the previous x-coordinate is defined
+      draw_text &terminal prev_x_of(io) prev_y_of(io) "  "
+	# clear the previous position of the player
+      draw_player # and draw the player at the new position
+    draw_player # otherwise, draw the player at the new position
+
+  $draw_player: # draw the player
+    draw_character &terminal new_x new_y RED_CIRCLE # draw the player's symbol
+    update &terminal $out # create the update string ...
+    write &io STDOUT_FILENO out.to_utf8 # ... and send it to the terminal
+    !io.prev_x_of new_x # store the new x-coordinate as the previous x-coordinate
+    !io.prev_y_of new_y # store the new y-coordinate as the previous y-coordinate
+    !io.x_of x # store the new x-coordinate
+    !io.y_of y # store the new y-coordinate
+    !io.dx_of dx # store the new horizontal movement
+    !io.dy_of dy # store the new vertical movement
+    !io.terminal_of terminal # store the terminal object
+    !io.action_of undefined # clear the action
+    schedule io 1/FRAME_RATE next_frame # schedule the next frame

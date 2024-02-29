@@ -21,7 +21,7 @@
   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
 <require basic/stdlib>
-<require ./web/server>
+<require web/server>
 <require terminal/terminal>
 
 program_parameters!
@@ -88,7 +88,6 @@ try !err: chain initialize_terminal_keys:
     for_each events
       : (event)
 	event $type $fd $argument
-	debug::dump 3 `event
 	case type
 	  READ: # stdin
 	    $keys extract_keys(argument)

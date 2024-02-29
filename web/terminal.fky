@@ -132,18 +132,9 @@ $std_types::web_terminal/update: (self)
 
 $websocket_message_handler_of ()
 $websocket_message_handlers_of ()
-$key_press_handler_of ()
-$key_press_handlers_of ()
-$mouse_click_handler_of ()
-$mouse_click_handlers_of ()
 
 $std_types::io.websocket_message_handler_of undefined
 $std_types::io.websocket_message_handlers_of empty_hash_table
-
-$std_types::io.key_press_handler_of undefined
-$std_types::io.key_press_handlers_of empty_hash_table
-$std_types::io.mouse_click_handler_of undefined
-$std_types::io.mouse_click_handlers_of empty_hash_table
 
 $std::on_websocket_message:
   (
@@ -159,7 +150,7 @@ $std::on_websocket_message:
       !websocket_message_handlers(fd) handler
       -> io(.websocket_message_handlers_of websocket_message_handlers)
 
-$std::handle_terminal_events: (io events)
+$std::handle_websocket_terminal_events: (io events)
   $remaining_events empty_list
   for_each events
     : (event)
@@ -287,34 +278,6 @@ $std::handle_dom_input_event: (io fd message)
 
   #$log_error
     log io 2 "ERROR IN DOM INPUT EVENT FROM @(fd.serialize.trim): @(message)"
-
-$std::on_key_press:
-  (
-    io
-    fd = undefined
-    handler
-  )
-  if
-    fd.is_undefined
-    -> io(.key_press_handler_of handler)
-    :
-      $key_press_handlers key_press_handlers_of(io)
-      !key_press_handlers(fd) handler
-      -> io(.key_press_handlers_of key_press_handlers)
-
-$std::on_mouse_click:
-  (
-    io
-    fd = undefined
-    handler
-  )
-  if
-    fd.is_undefined
-    -> io(.mouse_click_handler_of handler)
-    :
-      $mouse_click_handlers mouse_click_handlers_of(io)
-      !mouse_click_handlers(fd) handler
-      -> io(.mouse_click_handlers_of mouse_click_handlers)
 
 $handle_close: (io fd)
   log &io 4 "close web terminal for @(fd.serialize)"

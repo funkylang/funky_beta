@@ -147,7 +147,7 @@ fi
 BASIC_LIBRARIES="basic"
   # basic libraries do not depend on any other libraries
 
-ADDITIONAL_LIBRARIES="terminal parser_generator"
+ADDITIONAL_LIBRARIES="terminal ai web"
   # non-essential libraries
 
 LIBRARIES="$BASIC_LIBRARIES $ADDITIONAL_LIBRARIES"
@@ -277,7 +277,7 @@ echo "#define LDFLAGS \"$LDFLAGS\"" >>runtime/platform.h
 echo "#define PREFIX \"$PREFIX\"" >>runtime/platform.h
 echo "#define PACKAGE_VERSION \"$PACKAGE_VERSION\"" >>runtime/platform.h
 
-INSTALLED_LIBRARIES='terminal parser_generator'
+INSTALLED_LIBRARIES="terminal ai web"
   # the set of libraries within ADDITIONAL_LIBRARIES that is actually installed
 
 OMITTED_LIBRARIES=''

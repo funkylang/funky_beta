@@ -261,25 +261,6 @@ $std::return_http_resource:
     @(content)
   close_connection io fd
 
-$std::log_unhandled_event: (io event)
-  event $type $fd $_argument
-  if
-    &&
-      ||
-	type == WRITE_ERROR
-	type == WRITE_PENDING
-	type == WRITE_COMPLETED
-      fd == STDERR_FILENO
-    -> io # prevent recursive logging
-    :
-      $log_level
-	case
-	  type
-	  WRITE_PENDING,WRITE_COMPLETED -> 4
-	  -> 2
-      log io log_level -> "
-	unhandled event @(serialize(type).trim_right) - @(serialize(fd))@
-
 $handle_websocket_message: (io fd message)
   $events empty_list
   loop:
