@@ -4,7 +4,7 @@
 <require basic/export/json>
 <require basic/import/json>
 <require terminal/terminal>
-<require ./ai/llama>
+<require ai/llama>
 
 <using std>
 <using ai>
