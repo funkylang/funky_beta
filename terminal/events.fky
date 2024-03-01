@@ -1,0 +1,84 @@
+#
+  Copyright (C) 2024 by
+  Dipl.-Ing. Michael Niederle
+
+  This program is free software; you can redistribute it and/or modify
+  it under the terms of the GNU General Public License, version 2, or
+  (at your option) version 3.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  GNU General Public License for more details.
+
+  For details of the GNU General Public License see the accompanying
+  files GPLv2.txt and GLPv3.txt or
+  http://www.gnu.org/licenses/gpl-2.0.html
+  http://www.gnu.org/licenses/gpl-3.0.html
+  or write to the
+  Free Software Foundation, Inc.,
+  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+
+$std::key_press_handler_of ()
+$std::key_press_handlers_of ()
+
+$std::mouse_click_handler_of ()
+$std::mouse_click_handlers_of ()
+
+$std_types::io.key_press_handler_of undefined
+$std_types::io.key_press_handlers_of empty_hash_table
+
+$std_types::io.mouse_click_handler_of undefined
+$std_types::io.mouse_click_handlers_of empty_hash_table
+
+$std::on_key_press:
+  (
+    io
+    fd = undefined
+    handler
+  )
+  if
+    fd.is_undefined
+    -> io(.key_press_handler_of handler)
+    :
+      $key_press_handlers key_press_handlers_of(io)
+      !key_press_handlers(fd) handler
+      -> io(.key_press_handlers_of key_press_handlers)
+
+$std::on_mouse_click:
+  (
+    io
+    fd = undefined
+    handler
+  )
+  if
+    fd.is_undefined
+    -> io(.mouse_click_handler_of handler)
+    :
+      $mouse_click_handlers mouse_click_handlers_of(io)
+      !mouse_click_handlers(fd) handler
+      -> io(.mouse_click_handlers_of mouse_click_handlers)
+
+$std::handle_terminal_events: (io events)
+  $remaining_events empty_list
+  for_each events
+    : (event)
+      event $type $fd $input
+      if
+	type == READ && fd == STDIN_FILENO:
+	  $key_press_handler key_press_handler_of(io)
+	  if
+	    key_press_handler.is_undefined:
+	      log &io 2 "No key press handler defined"
+	      next
+	    :
+	      $keys extract_keys(input.from_utf8)
+	      for_each keys
+		: (key)
+		   key_press_handler &io key
+		   next
+		next
+	:
+	  push &remaining_events event
+	  next
+    -> io remaining_events
