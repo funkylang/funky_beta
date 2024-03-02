@@ -88,7 +88,7 @@ $GRAVITY 0.02 # the gravity used to accelerate the player downwards
 $DELTA_X 1/FRAME_RATE # the horizontal acceleration
 $MAX_FALL_SPEED 0.5 # the maximum speed the player can survive a fall
 
-initialize_terminal CURSOR_OFF = true: (terminal)
+initialize_terminal CURSOR_OFF: (terminal)
   initialize! &io # initialize the terminal to be able to use timeouts
   enable_logging &io 3 # set verbose logging
 

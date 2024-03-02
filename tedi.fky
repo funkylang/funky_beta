@@ -2822,7 +2822,7 @@ $search_for_text: (text)
 		  next
 		:
 		  if
-		    idx == len || text(idx+1) == '/':
+		    idx == len || text(idx+1) == '=':
 		      !match_end_boundary WORD
 		      next
 		    add_character
@@ -2831,14 +2831,13 @@ $search_for_text: (text)
 		search_text.is_empty:
 		  !match_start_boundary LINE
 		  next
-		add_character
-	    '$':
-	      if
-		idx == len || text(idx+1) == '/':
-		  !match_end_boundary LINE
-		  next
-		add_character
-	    '/':
+		:
+		  if
+		    idx == len || text(idx+1) == '=':
+		      !match_end_boundary LINE
+		      next
+		    add_character
+	    '=':
 	      if
 		replacement_text.is_defined
 		-> state # error

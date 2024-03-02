@@ -218,12 +218,20 @@ $std::extract_options:
       template $name $result
       for_each options
 	: (option)
-	  option $key $value
 	  if
-	    key == name:
-	      !result value
-	      break
-	    next
+	    option.is_a_unique_item:
+	      if
+		option == name:
+		  !result true
+		  break
+		next
+	    :
+	      option $key $value
+	      if
+		key == name:
+		  !result value
+		  break
+		next
 	:
 	  push &results result
 	  next

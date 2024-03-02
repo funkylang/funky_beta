@@ -1420,7 +1420,7 @@ static TAB_NUM t_lambda_36[] = {
   var_first, 1, var_191_8_info, 1, LOCAL(1),
   // to_string .truncate_until. "::").to_lower_case
   var_to_string, 1, LOCAL(1), 1, LOCAL(2),
-  // to_string .truncate_until. "::").to_lower_case
+  // first(info).to_string .truncate_until. "::").to_lower_case
   var_truncate_until, 2, LOCAL(2), string_11, 1, LOCAL(3),
   // to_lower_case
   var_to_lower_case, 1, LOCAL(3), 1, LOCAL(4),
@@ -1432,7 +1432,7 @@ static TAB_NUM t_lambda_36[] = {
   LET, 1, LOCAL(1), TAIL_CALL,
   POS(200, 22),
   POS(200, 34),
-  POS(200, 34),
+  POS(200, 22),
   POS(200, 67),
   POS(198, 17),
   POS(202, 20),
@@ -6723,7 +6723,7 @@ static FUNKY_VARIABLE variables_table[] = {
   {
     FOT_UNKNOWN, 0, 0,
     "truncate_until\000", NULL,
-    {.position = POS(200, 34)}
+    {.position = POS(200, 22)}
   },
   {
     FOT_UNKNOWN, 0, 0,

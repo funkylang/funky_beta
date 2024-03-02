@@ -355,9 +355,7 @@ $resolve_identifier: (node)
 	  !node.identifier_of identifier
 	  check
 	check
-    :
-      !namespace undefined
-      check
+    resolve
 
   $check:
     if
