@@ -1928,43 +1928,47 @@ $smart_completion_or_indent:
 $smart_completion_or: (handler)
   $completion_prefix completion_prefix_of(state)
   if
-    completion_prefix.is_defined:
-      change_completion 1
+    selection_start_y_of(window).is_defined
+    handler
     :
-      $x x_of(window)
-      $y y_of(window)
-      $height length_of(lines)
       if
-	y > height:
-	  if
-	    window.is_a_text_window
-	    handler
-	    : complete_prefix ""
+	completion_prefix.is_defined:
+	  change_completion 1
 	:
-	  $line lines(y)
+	  $x x_of(window)
+	  $y y_of(window)
+	  $height length_of(lines)
 	  if
-	    line.is_undefined
-	    handler
-	    :
-	      line $indent $text
-	      $width indent+length_of(text)
+	    y > height:
 	      if
-		x <= indent+1
+		window.is_a_text_window
+		handler
+		: complete_prefix ""
+	    :
+	      $line lines(y)
+	      if
+		line.is_undefined
 		handler
 		:
+		  line $indent $text
+		  $width indent+length_of(text)
 		  if
-		    x > width+1:
-		      complete_prefix ""
+		    x <= indent+1
+		    handler
 		    :
-		      $e x-indent
-		      $s e
-		      loop:
-			if
-			  s > 1 && text(s-1).is_an_identifier_character:
-			    dec &s
-			    next
-			  :
-			    complete_prefix range(text s e-1)
+		      if
+			x > width+1:
+			  complete_prefix ""
+			:
+			  $e x-indent
+			  $s e
+			  loop:
+			    if
+			      s > 1 && text(s-1).is_an_identifier_character:
+				dec &s
+				next
+			      :
+				complete_prefix range(text s e-1)
 
 $complete_prefix: (prefix)
   !window windows_of(state)(text_window_index_of(state))
@@ -2131,19 +2135,23 @@ $smart_uncompletion_or_outdent:
   smart_uncompletion_or smart_outdent
 
 $smart_uncompletion_or: (handler)
-  $completion_prefix completion_prefix_of(state)
   if
-    completion_prefix.is_undefined:
-      $x x_of(window)
-      $y y_of(window)
+    selection_start_y_of(window).is_defined
+    handler
+    :
+      $completion_prefix completion_prefix_of(state)
       if
-	||
-	  y > length_of(lines)
-	  lines(y).is_undefined
-	  x <= indent_of(lines(y))+1
-	handler
-	-> state
-    : change_completion -1
+	completion_prefix.is_undefined:
+	  $x x_of(window)
+	  $y y_of(window)
+	  if
+	    ||
+	      y > length_of(lines)
+	      lines(y).is_undefined
+	      x <= indent_of(lines(y))+1
+	    handler
+	    -> state
+	: change_completion -1
 
 $change_completion: (delta)
   $x x_of(window)
