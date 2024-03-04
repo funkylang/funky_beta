@@ -659,24 +659,25 @@ $compile: (self is_last)
   $arguments arguments_of(self)
   $input_arguments filter(arguments is_an_input)
   $output_arguments filter(arguments is_an_output)
+  on is_last && not(all_of(output_arguments is_a_dummy_definition)):
+    syntax_error "Last statement is not a tail call" self
   $input_count length_of(input_arguments)
   $output_count length_of(output_arguments)
+  $is_a_tail_call (is_last && output_arguments.is_empty)
   !output_count
     if
       self.is_an_io_call:
 	if
-	  is_last
+	  is_a_tail_call
 	  -> "IO_TAIL_CALL"
 	  -> "IO_CALL(@(output_count))"
       :
 	if
-	  is_last
+	  is_a_tail_call
 	  -> "TAIL_CALL"
 	  -> output_count
   $inputs map_reduce(input_arguments to_separated_index append "")
   $outputs map_reduce(output_arguments to_separated_index append "")
-  on is_last && outputs.is_not_empty:
-    syntax_error "Last statement is not a tail call" self
   append
     "
       @
@@ -692,10 +693,17 @@ $compile: (self is_last)
 	    @
 	      LET, @
 	      -@(input_count-1)@(inputs)@(outputs),
-	  -> "
-	    @
-	      @(head.to_index), @
-	      @(input_count)@(inputs), @(output_count)@(outputs),
+	  :
+	    $statement "
+	      @
+		@(head.to_index), @
+		@(input_count)@(inputs), @(output_count)@(outputs),
+	    if
+	      is_last && not(is_a_tail_call)
+	      -> "
+		@(statement)@
+		  LET, 0, TAIL_CALL,
+	      -> statement
       -> "
 	@
 	  LET, 1@(inputs), 1, @(head.to_index),

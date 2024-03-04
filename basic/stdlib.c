@@ -159,7 +159,7 @@ static FUNKY_MODULE *required_modules[] = {
 };
 
 static FUNKY_NAMESPACE defined_namespaces[] = {
-  {"std", 2, 0}
+  {"std_private", 1, 0}
 };
 
 static FUNKY_NAMESPACE used_namespaces[] = {

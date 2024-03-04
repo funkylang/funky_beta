@@ -215,18 +215,6 @@ $std::set_background_colour_at ()
 
       set_background_colour_at &screen x y YELLOW
 
-$abs_x: (screen x)
-  if
-    x < 0
-    -> width_of(screen)+x+1
-    -> x
-
-$abs_y: (screen y)
-  if
-    y < 0
-    -> height_of(screen)+y+1
-    -> y
-
 $std::draw_character ()
   #
     draws a character at the given position
@@ -251,58 +239,6 @@ $std::draw_character ()
     Example:
 
       draw_character &screen x y '+'
-
-$std::draw_text ()
-  #
-    draws text at the given position
-
-    Parameters:
-      screen # some kind of screen
-      x # x-coordinate of the first character
-      y # y-coordinate of the first character
-      args* # the text to draw
-
-    Result:
-      screen # the updated screen
-
-    All *args* are converted to strings and concatenated.
-
-    This method uses the current foreground and background colour and obeyes
-    the current window.
-
-    If the text consists of multiple lines, the cursor is moved back to *x*
-    after each line.
-
-    Topic: Terminal
-
-    See also: draw_character, set_text_colour_at, set_background_colour_at
-
-    Example:
-
-      draw_text &screen x y "Hello World!"
-
-$std::draw_attributed_text ()
-  #
-    draws text with given fore- and background colours
-
-    Parameters:
-      screen # some kind of screen
-      x # x-coordinate of the first character
-      y # y-coordinate of the first character
-      attributed_text # the text to draw
-
-    Result:
-      screen # the updated screen
-
-    The *attributed_text* must not contain newline characters. Each character is
-    a triple consisting of *character*, *text colour* and *background colour*.
-
-    The text and background colours are themself character values.
-
-    Topic: Terminal
-
-    See also: draw_text, set_character_at, set_text_colour_at,
-	      set_background_colour_at
 
 $std::draw_line ()
   #
@@ -385,10 +321,6 @@ $std::bottom_y_of ()
 $std::cursor_x_of (!)
 
 $std::cursor_y_of (!)
-
-$std::text_colour_of (!)
-
-$std::background_colour_of (!)
 
 $rows_of (!)
 $line_height_of (!)
@@ -575,8 +507,8 @@ $std_types::screen.serialization_fields_of
     `cursor_y_of
     `std::width_of
     `std::height_of
-    `text_colour_of
-    `background_colour_of
+    `draw_colour_of
+    `clear_colour_of
     `line_height_of
 
 $std_types::terminal std_types::screen
@@ -614,8 +546,8 @@ $std_types::terminal.serialization_fields_of
     `cursor_y_of
     `std::width_of
     `std::height_of
-    `text_colour_of
-    `background_colour_of
+    `draw_colour_of
+    `clear_colour_of
     `line_height_of
     `has_a_visible_cursor
     `current_buffer_of
@@ -661,8 +593,8 @@ $std::create_screen:
       .top_y_of 1
       .right_x_of width
       .bottom_y_of height
-      .text_colour_of text_colour
-      .background_colour_of background_colour
+      .draw_colour_of text_colour
+      .clear_colour_of background_colour
       .line_height_of line_height
       .rows_of rows
 
@@ -680,7 +612,7 @@ $std_types::screen/resize:
   )
   resize_rows &screen
     new_width new_height
-    text_colour_of(screen) background_colour_of(screen)
+    draw_colour_of(screen) clear_colour_of(screen)
   -> screen
 
 $resize_rows: (screen new_width new_height text_colour background_colour)
@@ -788,8 +720,8 @@ $std_types::screen/scroll_up:
     dup
       string
 	' '
-	text_colour_of(screen)
-	background_colour_of(screen)
+	draw_colour_of(screen)
+	clear_colour_of(screen)
       width_of(screen)
   $empty_lines dup(list(empty_line) delta)
   ->
@@ -815,8 +747,8 @@ $std_types::screen/scroll_down:
     dup
       string
 	' '
-	text_colour_of(screen)
-	background_colour_of(screen)
+	draw_colour_of(screen)
+	clear_colour_of(screen)
       width_of(screen)
   $empty_lines dup(list(empty_line) delta)
   ->
@@ -841,8 +773,8 @@ $std_types::screen/scroll_left:
     dup
       string
 	' '
-	text_colour_of(screen)
-	background_colour_of(screen)
+	draw_colour_of(screen)
+	clear_colour_of(screen)
       delta
   map &screen.rows_of: (row) append range(row 3*delta+1 -1) pad
   -> screen
@@ -862,8 +794,8 @@ $std_types::screen/scroll_right:
     dup
       string
 	' '
-	text_colour_of(screen)
-	background_colour_of(screen)
+	draw_colour_of(screen)
+	clear_colour_of(screen)
       delta
   map &screen.rows_of: (row) append pad range(row 1 -(3*delta+1))
   -> screen
@@ -982,8 +914,8 @@ $std_types::screen/clear:
     -> self
     :
       $rows rows_of(self)
-      $text_colour text_colour_of(self)
-      $background_colour background_colour_of(self)
+      $text_colour draw_colour_of(self)
+      $background_colour clear_colour_of(self)
       $line_height line_height_of(self)
       if
 	line_height == 1:
@@ -1413,8 +1345,8 @@ $std::update_terminal:
   $current_buffer current_buffer_of(terminal)
   $current_y cursor_y_of(current_buffer)
   $current_x cursor_x_of(current_buffer)
-  $current_text_colour text_colour_of(current_buffer)
-  $current_background_colour background_colour_of(current_buffer)
+  $current_text_colour draw_colour_of(current_buffer)
+  $current_background_colour clear_colour_of(current_buffer)
   $new_rows rows_of(terminal)
   $current_rows rows_of(current_buffer)
   $line_height line_height_of(terminal)
@@ -1603,8 +1535,8 @@ $std::update_terminal:
     $update_current_buffer:
       !current_buffer.cursor_y_of current_y
       !current_buffer.cursor_x_of current_x
-      !current_buffer.text_colour_of current_text_colour
-      !current_buffer.background_colour_of current_background_colour
+      !current_buffer.draw_colour_of current_text_colour
+      !current_buffer.clear_colour_of current_background_colour
       !current_buffer.rows_of new_rows
       -> terminal(.current_buffer_of current_buffer) output
 
@@ -1650,8 +1582,8 @@ $std_types::screen/plot:
     x # the x-cordinate of the *half block*
     y # the y-coordinate of the *half block*
   )
-  abs_x screen &x
-  abs_y screen &y
+  std_private::abs_x screen &x
+  std_private::abs_y screen &y
   $row_no (y+1) .div. 2
   if
     ||
@@ -1677,22 +1609,22 @@ $std_types::screen/plot:
 	  # upper half block
 	  if
 	    chr == '▄':
-	      !row(3*x) text_colour_of(screen)
+	      !row(3*x) draw_colour_of(screen)
 	      -> screen(.rows_of rows(row_no row))
 	    :
 	      !row(3*x-2) '▄'
 	      !row(3*x-1) row(3*x)
-	      !row(3*x) text_colour_of(screen)
+	      !row(3*x) draw_colour_of(screen)
 	      -> screen(.rows_of rows(row_no row))
 	:
 	  # lower half block
 	  if
 	    chr == '▄':
-	      !row(3*x-1) text_colour_of(screen)
+	      !row(3*x-1) draw_colour_of(screen)
 	      -> screen(.rows_of rows(row_no row))
 	    :
 	      !row(3*x-2) '▄'
-	      !row(3*x-1) text_colour_of(screen)
+	      !row(3*x-1) draw_colour_of(screen)
 	      -> screen(.rows_of rows(row_no row))
 
 $std_types::screen/plot_line:
@@ -1724,10 +1656,10 @@ $std_types::screen/plot_line:
     x2 # the x-coordinate of the end point
     y2 # the y-coordinate of the end point
   )
-  abs_x screen &x1
-  abs_y screen &y1
-  abs_x screen &x2
-  abs_y screen &y2
+  std_private::abs_x screen &x1
+  std_private::abs_y screen &y1
+  std_private::abs_x screen &x2
+  std_private::abs_y screen &y2
   $dx x2-x1
   $dy y2-y1
   if
@@ -1783,10 +1715,10 @@ $std_types::screen/fill_trapezoid:
     y2 # the y-coordinate of the bottom left corner
     w2 # the width of the bottom edge
   )
-  abs_x screen &x1
-  abs_y screen &y1
-  abs_x screen &x2
-  abs_y screen &y2
+  std_private::abs_x screen &x1
+  std_private::abs_y screen &y1
+  std_private::abs_x screen &x2
+  std_private::abs_y screen &y2
   if
     ||
       w1 < 0
@@ -1815,7 +1747,7 @@ $std_types::screen/set_text_colour:
     screen # the screen on which to set the colour
     colour # the new text colour
   )
-  -> screen(.text_colour_of colour)
+  -> screen(.draw_colour_of colour)
 
 $std_types::screen/set_draw_colour:
   #
@@ -1826,7 +1758,7 @@ $std_types::screen/set_draw_colour:
     screen # the screen on which to set the colour
     colour # the new text colour
   )
-  -> screen(.text_colour_of colour)
+  -> screen(.draw_colour_of colour)
 
 $std_types::screen/set_background_colour:
   #
@@ -1837,7 +1769,7 @@ $std_types::screen/set_background_colour:
     screen # the screen on which to set the colour
     colour # the new background colour
   )
-  -> screen(.background_colour_of colour)
+  -> screen(.clear_colour_of colour)
 
 $std_types::screen/set_clear_colour:
   #
@@ -1848,7 +1780,7 @@ $std_types::screen/set_clear_colour:
     screen # the screen on which to set the colour
     colour # the new background colour
   )
-  -> screen(.background_colour_of colour)
+  -> screen(.clear_colour_of colour)
 
 #$std::set_character_at:
   #
@@ -1958,8 +1890,8 @@ $std_types::screen/draw_character:
     y # in logical screen coordinates (any coordinate within a row is accepted)
     chr # the character to draw
   )
-  abs_x screen &x
-  abs_y screen &y
+  std_private::abs_x screen &x
+  std_private::abs_y screen &y
   $line_height line_height_of(screen)
   $width width_of(screen)
   $height height_of(screen) .div. line_height
@@ -1970,8 +1902,8 @@ $std_types::screen/draw_character:
     :
       $colour
 	string
-	  text_colour_of(screen)
-	  background_colour_of(screen)
+	  draw_colour_of(screen)
+	  clear_colour_of(screen)
       $row rows_of(screen)(y)
       $buf ""
       $sx 3*x-2
@@ -2056,8 +1988,8 @@ $std_types::screen/draw_text:
     y # in logical screen coordinates (any coordinate within a row is accepted)
     args* # the text to draw
   )
-  abs_x self &x
-  abs_y self &y
+  std_private::abs_x self &x
+  std_private::abs_y self &y
   $text create_string(args)
   if
     text.is_empty
@@ -2077,8 +2009,8 @@ $std_types::screen/draw_text:
 	  -> y+line_height-1 .div. line_height
       $colour
 	string
-	  text_colour_of(self)
-	  background_colour_of(self)
+	  draw_colour_of(self)
+	  clear_colour_of(self)
       without_suffix &text '@nl;'
       split text '@nl;' $lines
       if
@@ -2193,6 +2125,147 @@ $std_types::screen/draw_text:
 		buf
 		range(row max(3*min(cx right_x+1)-2 1) -1)
 
+$std_types::screen/std_private::draw_clipped_text:
+  (
+    self # some kind of screen
+    view # a view that describes the clipping rectangle
+    x # in logical screen coordinates
+    y # in logical screen coordinates
+    text # the text to draw
+  )
+  if
+    text.is_empty
+    -> self
+    :
+      $left_x x_of(view)
+      $top_y y_of(view)
+      $right_x x_of(view)+width_of(view)-1
+      $bottom_y y_of(view)+height_of(view)-1
+      $line_height line_height_of(self)
+      $first_y
+	if
+	  line_height == 1
+	  -> y
+	  -> y+line_height-1 .div. line_height
+      $colour
+	string
+	  draw_colour_of(view)
+	  clear_colour_of(view)
+      without_suffix &text '@nl;'
+      split text '@nl;' $lines
+      if
+	||
+	  x > right_x
+	  first_y > bottom_y
+	  first_y+length_of(lines) <= top_y
+	-> self # text is completely outside the "window"
+	:
+	  update_if first_y < top_y &lines &first_y
+	    -> range(lines top_y+1-first_y -1) top_y
+	  $line_count length_of(lines)
+	  if !lines $last_y
+	    first_y+line_count-1 > bottom_y
+	    -> range(lines 1 bottom_y+1-first_y) bottom_y
+	    -> lines first_y+line_count-1
+	  $rows rows_of(self)
+	  ->
+	    self
+	      .rows_of
+		append
+		  range(rows 1 first_y-1)
+		  map(range(rows first_y last_y) update_row)
+		  range(rows last_y+1 -1)
+
+      $update_row: (no row)
+	$line lines(no)
+	if
+	  line.is_empty
+	  -> row
+	  :
+	    $i 1
+	    $n length_of(line)
+	    $cx x
+	    $cw undefined
+	    $buf ""
+	    skip_clipped_characters
+
+	    $skip_clipped_characters:
+	      if
+		i > n
+		-> row
+		:
+		  cond
+		    -> cx < left_x
+		      skip_one_character
+		    -> i > 1 && cx > left_x:
+		      push_if_wide ' '
+		    -> row(3*cx-2) == INVALID_CHARACTER
+		      update_preceding_wide_character
+		    -> true
+		      update_characters
+
+	    $skip_one_character:
+	      $chr line(i)
+	      inc &i
+	      !cw width_of(chr)
+	      plus &cx cw
+	      skip_clipped_characters
+
+	    $push_if_wide: (chr)
+	      if
+		cw == 1
+		update_characters
+		:
+		  push &buf chr
+		  append &buf colour
+		  update_characters
+
+	    $update_characters:
+	      if
+		i > n:
+		  if
+		    cx <= right_x && row(3*cx-2) == INVALID_CHARACTER
+		    update_following_wide_character
+		    return_updates
+		:
+		  $chr line(i)
+		  inc &i
+		  !cw width_of(chr)
+		  plus &cx cw
+		  cond
+		    -> cx-1 <= right_x:
+		      push &buf chr
+		      append &buf colour
+		      push_if_wide INVALID_CHARACTER
+		    -> cx-cw <= right_x
+		      push_trailing_half_character
+		    -> true
+		      return_updates
+
+	    $update_preceding_wide_character:
+	      dec &x
+	      push &buf ' '
+	      append &buf colour
+	      update_characters
+
+	    $update_following_wide_character:
+	      inc &cx
+	      push &buf ' '
+	      append &buf colour
+	      return_updates
+
+	    $push_trailing_half_character:
+	      push &buf ' '
+	      append &buf colour
+	      return_updates
+
+	    $return_updates:
+	      append
+		range(row 1 3*(max(x left_x)-1))
+		buf
+		range(row max(3*min(cx right_x+1)-2 1) -1)
+
+
 $std_types::screen/draw_attributed_text:
   #
     draw the specified attributed text at the current screen position
@@ -2210,8 +2283,8 @@ $std_types::screen/draw_attributed_text:
     y # in logical screen coordinates (any coordinate within a row is accepted)
     attributed_text # the text to draw
   )
-  abs_x self &x
-  abs_y self &y
+  std_private::abs_x self &x
+  std_private::abs_y self &y
   $n length_of(attributed_text) .div. 3
   $left_x get_left_x_of(self)
   $top_y get_top_y_of(self)
@@ -2219,6 +2292,62 @@ $std_types::screen/draw_attributed_text:
   $bottom_y get_bottom_y_of(self)
   plus &x left_x-1
   plus &y top_y-1
+  if
+    ||
+      x+n-1 < left_x
+      x > right_x
+      y < top_y
+      y > bottom_y
+    -> self # text is completely outside the "window"
+    :
+      $rows rows_of(self)
+      ->
+	self
+	  .rows_of
+	    append
+	      push(range(rows 1 y-1) update_row(rows(y)))
+	      range(rows y+1 -1)
+
+  $update_row: (row)
+    $s max(left_x+1-x 1) # first attributed character to output
+    $e min(right_x+1-x n)
+    max &x left_x
+    $left_text range(row 1 3*(x-1))
+    range &attributed_text 3*s-2 3*e
+    $right_text range(row 3*(x+e-s)+1 -1)
+    update_if left_text.is_not_empty && width_of(left_text(-3)) > 1
+      &left_text -> left_text(-3 ' ')
+    update_if attributed_text(1) == INVALID_CHARACTER
+      &attributed_text -> attributed_text(1 ' ')
+    update_if width_of(attributed_text(-3)) > 1
+      &attributed_text -> attributed_text(-3 ' ')
+    update_if right_text.is_not_empty && right_text(1) == INVALID_CHARACTER
+      &right_text -> right_text(1 ' ')
+    append left_text attributed_text right_text
+
+$std_types::screen/std_private::draw_clipped_attributed_text:
+  #
+    draw the specified attributed text at the current screen position
+
+    The text is clipped on the borders of the specified view.
+
+    The text must not contain any newline characters
+
+    Topic: Terminal
+
+    See also: draw_attributed_text
+  (
+    self
+    view
+    x # in logical screen coordinates
+    y # in logical screen coordinates (any coordinate within a row is accepted)
+    attributed_text # the text to draw
+  )
+  $n length_of(attributed_text) .div. 3
+  $left_x x_of(view)
+  $top_y y_of(view)
+  $right_x x_of(view)+width_of(view)-1
+  $bottom_y y_of(view)+height_of(view)-1
   if
     ||
       x+n-1 < left_x
@@ -2270,10 +2399,10 @@ $std_types::screen/draw_line:
     x2
     y2
   )
-  abs_x self &x1
-  abs_y self &y1
-  abs_x self &x2
-  abs_y self &y2
+  std_private::abs_x self &x1
+  std_private::abs_y self &y1
+  std_private::abs_x self &x2
+  std_private::abs_y self &y2
   $min_x min(x1 x2)
   $max_x max(x1 x2)
   $min_y min(y1 y2)
@@ -2290,8 +2419,8 @@ $std_types::screen/draw_line:
   $horizontal_or_vertical:
     $colour
       string
-	text_colour_of(self)
-	background_colour_of(self)
+	draw_colour_of(self)
+	clear_colour_of(self)
     $rows rows_of(self)
     cond
       -> min_x == max_x vertical
@@ -2568,8 +2697,8 @@ $std::create_terminal:
       .top_y_of 1
       .right_x_of width
       .bottom_y_of height
-      .text_colour_of text_colour
-      .background_colour_of background_colour
+      .draw_colour_of text_colour
+      .clear_colour_of background_colour
       .line_height_of line_height
       .has_a_visible_cursor visible_cursor
       .rows_of rows
@@ -2598,7 +2727,7 @@ $std_types::terminal/resize:
   )
   resize_rows &self
     new_width new_height
-    text_colour_of(self) background_colour_of(self)
+    draw_colour_of(self) clear_colour_of(self)
   resize_rows &self.current_buffer_of
     new_width new_height
     INVALID_COLOUR INVALID_COLOUR

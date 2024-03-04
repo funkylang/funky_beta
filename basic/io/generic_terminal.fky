@@ -20,6 +20,8 @@
   Free Software Foundation, Inc.,
   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
+$std::x_of ()
+$std::y_of ()
 $std::character_width_of ()
 $std::ascent_of ()
 $std::descent_of ()
@@ -27,13 +29,68 @@ $std::character_height_of ()
 $std::line_spacing_of ()
 $std::line_height_of ()
 $std::baseline_of ()
-
+$std::draw_colour_of ()
+$std::clear_colour_of ()
 $std::set_draw_colour ()
 $std::set_clear_colour ()
+
+$std::draw_text ()
+  #
+    draws text at the given position
+
+    Parameters:
+      screen # some kind of screen
+      x # x-coordinate of the first character
+      y # y-coordinate of the first character
+      args* # the text to draw
+
+    Result:
+      screen # the updated screen
+
+    All *args* are converted to strings and concatenated.
+
+    This method uses the current foreground and background colour and obeyes
+    the current window.
+
+    If the text consists of multiple lines, the cursor is moved back to *x*
+    after each line.
+
+    Topic: Terminal
+
+    See also: draw_character, set_text_colour_at, set_background_colour_at
+
+    Example:
+
+      draw_text &screen x y "Hello World!"
+
+$std::draw_attributed_text ()
+  #
+    draws text with given fore- and background colours
+
+    Parameters:
+      screen # some kind of screen
+      x # x-coordinate of the first character
+      y # y-coordinate of the first character
+      attributed_text # the text to draw
+
+    Result:
+      screen # the updated screen
+
+    The *attributed_text* must not contain newline characters. Each character is
+    a triple consisting of *character*, *text colour* and *background colour*.
+
+    The text and background colours are themself character values.
+
+    Topic: Terminal
+
+    See also: draw_text, set_character_at, set_text_colour_at,
+	      set_background_colour_at
 
 $std_types::generic_terminal std_types::object
 
 $std_types::generic_terminal.type_of undefined
+$std_types::generic_terminal.x_of 1
+$std_types::generic_terminal.y_of 1
 $std_types::generic_terminal.width_of undefined
 $std_types::generic_terminal.height_of undefined
 $std_types::generic_terminal.character_width_of undefined
@@ -43,3 +100,231 @@ $std_types::generic_terminal.character_height_of undefined
 $std_types::generic_terminal.line_spacing_of undefined
 $std_types::generic_terminal.line_height_of undefined
 $std_types::generic_terminal.baseline_of undefined
+$std_types::generic_terminal.draw_colour_of undefined
+$std_types::generic_terminal.clear_colour_of undefined
+
+$std_types::view std_types::generic_terminal
+
+$std::create_view:
+  (
+    terminal
+    x
+    y
+    width
+    height
+  )
+  ->
+    std_types::view
+      .x_of
+	if
+	  x < 0
+	  -> width_of(terminal)+1+x
+	  -> x
+      .y_of
+	if
+	  y < 0
+	  -> height_of(terminal)+1+y
+	  -> y
+      .width_of width
+      .height_of height
+      .character_width_of character_width_of(terminal)
+      .ascent_of ascent_of(terminal)
+      .descent_of descent_of(terminal)
+      .character_height_of character_height_of(terminal)
+      .line_spacing_of line_spacing_of(terminal)
+      .line_height_of line_height_of(terminal)
+      .baseline_of baseline_of(terminal)
+      .draw_colour_of draw_colour_of(terminal)
+      .clear_colour_of clear_colour_of(terminal)
+
+$std_private::abs_x: (screen x)
+  if
+    x < 0
+    -> width_of(screen)+x+1
+    -> x
+
+$std_private::abs_y: (screen y)
+  if
+    y < 0
+    -> height_of(screen)+y+1
+    -> y
+
+$std_private::draw_clipped_text ()
+$std_private::draw_clipped_attributed_text ()
+
+$std_types::view/draw_text:
+  (
+    view
+    screen
+    x
+    y
+    args*
+  )
+  std_private::abs_x view &x
+  std_private::abs_y view &y
+  $text create_string(args)
+  std_private::draw_clipped_text
+    screen
+    view
+    x_of(view)+x-1
+    y_of(view)+y-1
+    text
+
+$std_types::view/draw_attributed_text:
+  (
+    view
+    screen
+    x
+    y
+    attributed_text
+  )
+  std_private::abs_x view &x
+  std_private::abs_y view &y
+  std_private::draw_clipped_attributed_text
+    screen
+    view
+    x_of(view)+x-1
+    y_of(view)+y-1
+    attributed_text
+
+$std::create_vertical_panes:
+  (
+    screen
+    pane_description
+  )
+  $rc result_count()
+  $x x_of(screen)
+  $y y_of(screen)
+  $width width_of(screen)
+  $height height_of(screen)
+  $views empty_list
+  cond
+    -> pane_description.is_an_integer:
+      $n pane_description
+      $iter bresenham(n+1 x x+width)
+      next_value &iter !x
+      repeat n
+	:
+	  next_value &iter $next_x
+	  push &views create_view(screen x y next_x-x height)
+	  !x next_x
+	  next
+	return
+    -> pane_description.is_a_list:
+      $fixed_width 0
+      $flex_width_count 0
+      for_each pane_description
+	: (pane_width)
+	  if
+	    pane_width < 1:
+	      inc &flex_width_count
+	      next
+	    :
+	      plus &fixed_width pane_width
+	      next
+	:
+	  if
+	    fixed_width+flex_width_count > width
+	    -> undefined
+	    :
+	      $flex_width width-fixed_width
+	      $remaining_flex_width flex_width
+	      for_each pane_description
+		: (pane_width)
+		  if
+		    pane_width < 1:
+		      dec &flex_width_count
+		      !pane_width
+			min
+			  max(round(pane_width*flex_width).to_integer 1)
+			  remaining_flex_width-flex_width_count #
+			#
+			  all remaining flexible width pains need to have at
+			  least a width of 1
+		      minus &remaining_flex_width pane_width
+		      create_pane_view
+		    create_pane_view
+
+		  $create_pane_view:
+		    push &views create_view(screen x y pane_width height)
+		    plus &x pane_width
+		    next
+		return
+    -> true -> undefined
+
+  $return:
+    if
+      rc == 1
+      -> views
+      : spread views
+
+$std::create_horizontal_panes:
+  (
+    screen
+    pane_description
+  )
+  $rc result_count()
+  $x x_of(screen)
+  $y y_of(screen)
+  $width width_of(screen)
+  $height height_of(screen)
+  $views empty_list
+  cond
+    -> pane_description.is_an_integer:
+      $n pane_description
+      $iter bresenham(n+1 y y+height)
+      next_value &iter !y
+      repeat n
+	:
+	  next_value &iter $next_y
+	  push &views create_view(screen x y width next_y-y)
+	  !y next_y
+	  next
+	return
+    -> pane_description.is_a_list:
+      $fixed_height 0
+      $flex_height_count 0
+      for_each pane_description
+	: (pane_height)
+	  if
+	    pane_height < 1:
+	      inc &flex_height_count
+	      next
+	    :
+	      plus &fixed_height pane_height
+	      next
+	:
+	  if
+	    fixed_height+flex_height_count > height
+	    -> undefined
+	    :
+	      $flex_height height-fixed_height
+	      $remaining_flex_height flex_height
+	      for_each pane_description
+		: (pane_height)
+		  if
+		    pane_height < 1:
+		      dec &flex_height_count
+		      !pane_height
+			min
+			  max(round(pane_height*flex_height).to_integer 1)
+			  remaining_flex_height-flex_height_count #
+			#
+			  all remaining flexible height pains need to have at
+			  least a height of 1
+		      minus &remaining_flex_height pane_height
+		      create_pane_view
+		    create_pane_view
+
+		  $create_pane_view:
+		    push &views create_view(screen x y width pane_height)
+		    plus &y pane_height
+		    next
+		return
+    -> true -> undefined
+
+  $return:
+    if
+      rc == 1
+      -> views
+      : spread views

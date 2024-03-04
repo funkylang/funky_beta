@@ -399,6 +399,7 @@ $search_key_bindings
 
 $redo_key CTRL_Y
 $undo_key CTRL_Z
+$smart_completion_key ALT_SPACE
 
 get_environment $environment
 $configuration_filename append(environment("HOME") "/tedi.cfg")
@@ -731,7 +732,11 @@ $main: (initial_terminal)
 				-> function(.argument_of argument)
 			      !editor_key_bindings(key) function
 			      !class_of(key) class
-			      next!
+			      if
+				value == "smart_completion":
+				  !smart_completion_key key
+				  next!
+				next
 	:
 	  !window.key_bindings_of editor_key_bindings
 	  start_tedi!
@@ -812,7 +817,7 @@ $event_loop:
 			    !window windows_of(state)(cwi())
 			    update_if
 			      &&
-				key != ALT_SPACE
+				key != smart_completion_key
 				completion_prefix_of(state).is_defined
 			      &state
 			      ->

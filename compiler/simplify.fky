@@ -35,8 +35,11 @@ $funky::kind_of ()
 $funky::no_of ()
 $funky::is_an_io_call ()
 $funky::is_a_definition ()
+$funky::is_a_dummy_definition ()
 
 $funky_types::functor.no_of undefined
+$funky_types::definition.is_a_dummy_definition false
+$funky_types::redefinition.is_a_dummy_definition false
 
 $funky_types::node.is_an_io_call false
 $funky_types::functor.kind_of undefined
@@ -64,7 +67,10 @@ $funky_types::attribute_access/simplify: (self temp_no)
   -> self temp_no empty_statements
 
 $funky_types::dummy_definition/simplify: (self temp_no)
-  -> redefine_temporary(temp_no+1 self) temp_no empty_statements
+  ->
+    redefine_temporary(temp_no+1 self)(.is_a_dummy_definition true)
+    temp_no
+    empty_statements
 
 $funky_types::functor/simplify: (self temp_no)
   resolve_identifier &self
