@@ -96,7 +96,8 @@ $windows_of () # a list of all windows
 $current_window_index_of () # the currently active window
 $text_window_index_of () # the text window to work on
 $completion_prefix_of () # used for "smart completion"
-$possible_completions_of () # a list of all possibly matching completions
+$possible_completions_of () # a list of all matching completions
+$completion_index_of () # the index of the current completion
 $action_of () # a deferred I/O-action
 $search_text_of () # used for search (& replace)
 $match_start_boundary_of () # search text must start at a boundary
@@ -161,6 +162,10 @@ $fake_folds_colour_of () # used to highlight folds that fold only whitespace
 $bar_text_colour_of () # used for the title bar
 $bar_background_colour_of () # used for the title bar
 $indentation_patterns_of () # a precomputed pattern to display indents
+
+# Other Settings
+
+$indent_step 2
 
 # Start
 
@@ -237,6 +242,9 @@ $functions
     "delete_to_line_start" = tuple(delete_to_line_start DELETION)
     "delete_to_line_end" = tuple(delete_to_line_end DELETION)
     "smart_completion" = tuple(smart_completion INSERTION)
+    "smart_completion_or_indent" = tuple(smart_completion_or_indent INSERTION)
+    "smart_uncompletion" = tuple(smart_uncompletion DELETION)
+    "smart_uncompletion_or_outdent" = tuple(smart_uncompletion_or_outdent DELETION)
     "ai_completion" = tuple(ai_completion AI)
     "toggle_folding" = tuple(toggle_folding FOLDING)
     "fold_contents" = tuple(fold_contents FOLDING)
@@ -315,16 +323,14 @@ $editor_key_bindings
 
     # insert & delete
 
-    TABULATOR = smart_indent
-    SHIFT_TABULATOR = smart_outdent
+    TABULATOR = smart_completion_or_indent
+    SHIFT_TABULATOR = smart_uncompletion_or_outdent
     RETURN = split_line
     BACKSPACE = delete_left
     DELETE = delete_right
 
     CTRL_BACKSPACE = delete_to_line_start
     CTRL_DELETE = delete_to_line_end
-    ALT_SPACE = smart_completion
-    CTRL_SPACE = ai_completion
     ALT_RETURN = toggle_folding
     ALT_CURSOR_LEFT = fold_contents
     ALT_CURSOR_RIGHT = unfold_contents
@@ -374,7 +380,8 @@ $simple_key_bindings
 
     CTRL_BACKSPACE = delete_to_line_start
     CTRL_DELETE = delete_to_line_end
-    ALT_SPACE = smart_completion
+    TABULATOR = smart_completion
+    SHIFT_TABULATOR = smart_uncompletion
 
     # control commands
 
@@ -399,8 +406,8 @@ $search_key_bindings
 
 $redo_key CTRL_Y
 $undo_key CTRL_Z
-$smart_completion_key ALT_SPACE
-
+$smart_completion_key TABULATOR
+$smart_uncompletion_key SHIFT_TABULATOR
 get_environment $environment
 $configuration_filename append(environment("HOME") "/tedi.cfg")
 
@@ -733,7 +740,10 @@ $main: (initial_terminal)
 			      !editor_key_bindings(key) function
 			      !class_of(key) class
 			      if
-				value == "smart_completion":
+				||
+				  value == "smart_completion"
+				  value == "smart_completion_or_indent"
+				:
 				  !smart_completion_key key
 				  next!
 				next
@@ -817,7 +827,9 @@ $event_loop:
 			    !window windows_of(state)(cwi())
 			    update_if
 			      &&
-				key != smart_completion_key
+				&&
+				  key != smart_completion_key
+				  key != smart_uncompletion_key
 				completion_prefix_of(state).is_defined
 			      &state
 			      ->
@@ -1374,47 +1386,17 @@ $smart_indent:
   !window.do_keep_selection true
   $selection_start_y selection_start_y_of(window)
   $x x_of(window)
+  $y y_of(window)
   if
     selection_start_y.is_undefined:
-      $y y_of(window)
       if
 	y > length_of(lines) || lines(y).is_undefined:
-	  $indent_above find_next_indent_above(x y)
-	  $indent_below find_next_indent_below(x y)
-	  $indent
-	    if
-	      &&
-		indent_above.is_defined
-		||
-		  indent_below.is_undefined
-		  indent_above <= indent_below
-		  indent_below < x
-	      -> indent_above
-	      -> indent_below
-	  if
-	    indent.is_defined && indent+1 > x
-	    : cursor_right indent+1-x
-	    : cursor_right 2
+	  cursor_right indent_step
 	:
 	  lines(y) $indent $text $mark $folds
-	  $indent_above find_next_indent_above(indent+1 y)
-	  if
-	    indent_above.is_defined && indent_above > indent:
-	      !lines(y) tedi_line(indent_above text mark folds)
-	      !window
-		window
-		  .x_of x+indent_above-indent
-		  .was_updated true
-	      return_window_and_lines
-	    :
-	      !lines(y) tedi_line(indent+2 text mark folds)
-	      !window
-		window
-		  .x_of x+2
-		  .was_updated true
-	      return_window_and_lines
+	  !lines(y) tedi_line(indent+indent_step text mark folds)
+	  move_right
     :
-      $y y_of(window)
       min_max !selection_start_y $selection_end_y y selection_start_y
       update_if selection_end_y > selection_start_y &selection_end_y:
 	dec selection_end_y
@@ -1426,53 +1408,26 @@ $smart_indent:
 	  if
 	    line.is_undefined
 	    -> undefined
-	    -> tedi_line(indent+2 text mark folds)
+	    -> tedi_line(indent+indent_step text mark folds)
       !lines
 	append
 	  range(lines 1 selection_start_y-1)
 	  selected_lines
 	  range(lines selection_end_y+1 -1)
-      !window
-	window
-	  .x_of x+2
-	  .was_updated true
-      return_window_and_lines
+      if
+	y > selection_end_y # move cursor only if within the selection
+	return_window_and_lines
+	move_right
 
-$find_next_indent_above: (x y)
-  min &y length_of(lines)+1
-  loop:
-    if
-      y > 1:
-	dec &y
-	$line lines(y)
-	if
-	  line.is_undefined
-	  next
-	  :
-	    line $indent
-	    if
-	      indent+1 > x
-	      -> indent
-	      -> undefined
-      -> undefined
-
-$find_next_indent_below: (x y)
-  $n length_of(lines)
-  loop:
-    if
-      y < n:
-	inc &y
-	$line lines(y)
-	if
-	  line.is_undefined
-	  next
-	  :
-	    line $indent
-	    if
-	      indent+1 > x
-	      -> indent
-	      -> undefined
-      -> undefined
+  $move_right:
+    !window
+      window
+	.x_of x+indent_step
+	.cursor_x_of undefined
+	.cursor_y_of undefined
+	.sub_y_of undefined
+	.was_updated true
+    return_window_and_lines
 
 $smart_outdent:
   !window.do_keep_selection true
@@ -1483,33 +1438,14 @@ $smart_outdent:
     selection_start_y.is_undefined:
       if
 	y > length_of(lines) || lines(y).is_undefined:
-	  $indent_above find_previous_indent_above(x y)
-	  if
-	    indent_above.is_defined && indent_above+1 < x
-	    : cursor_left x-(indent_above+1)
-	    : cursor_left 2
+	  cursor_left indent_step
 	:
 	  lines(y) $indent $text $mark $folds
 	  if
-	    indent == 0
+	    indent >= indent_step:
+	      !lines(y) tedi_line(indent-indent_step text mark folds)
+	      move_left
 	    -> state
-	    :
-	      $indent_above find_previous_indent_above(indent+1 y)
-	      if
-		indent_above.is_defined && indent_above < indent:
-		  !lines(y) tedi_line(indent_above text mark folds)
-		  !window
-		    window
-		      .x_of max(x-(indent-indent_above) 1)
-		      .was_updated true
-		  return_window_and_lines
-		:
-		  !lines(y) tedi_line(max(indent-2 0) text mark folds)
-		  !window
-		    window
-		      .x_of max(x-2 1)
-		      .was_updated true
-		  return_window_and_lines
     :
       min_max !selection_start_y $selection_end_y y selection_start_y
       update_if selection_end_y > selection_start_y &selection_end_y:
@@ -1518,44 +1454,36 @@ $smart_outdent:
       $selected_lines range(lines selection_start_y selection_end_y)
       if
 	all_of
-	  selected_lines: (line) -> line.is_undefined || indent_of(line) >= 2
+	  selected_lines: (line)
+	    -> line.is_undefined || indent_of(line) >= indent_step
 	:
 	  map &selected_lines
 	    : (line)
-	      line $_indent $_text $mark $folds
+	      line $indent $text $mark $folds
 	      if
 		line.is_undefined
 		-> undefined
-		-> tedi_line(indent_of(line)-2 text_of(line) mark folds)
+		-> tedi_line(indent-indent_step text mark folds)
 	  !lines
 	    append
 	      range(lines 1 selection_start_y-1)
 	      selected_lines
 	      range(lines selection_end_y+1 -1)
-	  !window
-	    window
-	      .x_of max(x-2 1)
-	      .was_updated true
-	  return_window_and_lines
-	return_window_and_lines
+	  if
+	    y > selection_end_y # move cursor only if within the selection
+	    return_window_and_lines
+	    move_left
+	-> state
 
-$find_previous_indent_above: (x y)
-  min &y length_of(lines)+1
-  loop:
-    if
-      y > 1:
-	dec &y
-	$line lines(y)
-	if
-	  line.is_undefined
-	  next
-	  :
-	    line $indent
-	    if
-	      indent+1 < x
-	      -> indent
-	      next
-      -> undefined
+  $move_left:
+    !window
+      window
+	.x_of x-indent_step
+	.cursor_x_of undefined
+	.cursor_y_of undefined
+	.sub_y_of undefined
+	.was_updated true
+    return_window_and_lines
 
 $new_line:
   $y y_of(window)
@@ -1992,61 +1920,37 @@ $lines_to_spaced_text: (some_lines)
     ""
 
 $smart_completion:
-  $x x_of(window)
-  $y y_of(window)
+  smart_completion_or -> state
+
+$smart_completion_or_indent:
+  smart_completion_or smart_indent
+
+$smart_completion_or: (handler)
   $completion_prefix completion_prefix_of(state)
   if
     completion_prefix.is_defined:
-      $possible_completions possible_completions_of(state)
-      $line lines(y)
-      line $indent $text $mark $folds
-      $first first_item_of(possible_completions)
-      $left range(text 1 x-(indent+1+length_of(first)))
-      $right range(text x-indent -1)
-      minus &x length_of(first)
-      !possible_completions(first) false
-      !first first_item_of(possible_completions)
-      !window.was_updated true
-      if
-	possible_completions.is_empty:
-	  !lines(y)
-	    tedi_line(indent append(left completion_prefix right) mark folds)
-	  !window
-	    window
-	      .cursor_x_of undefined
-	      .cursor_y_of undefined
-	      .sub_y_of undefined
-	      .x_of x+length_of(completion_prefix)
-	  !state.completion_prefix_of undefined
-	  !state.possible_completions_of undefined
-	  return_window_and_lines
-	:
-	  !lines(y)
-	    tedi_line(indent append(left first right) mark folds)
-	  !window
-	    window
-	      .cursor_x_of undefined
-	      .cursor_y_of undefined
-	      .sub_y_of undefined
-	      .x_of x+length_of(first)
-	  !state.possible_completions_of possible_completions
-	  return_window_and_lines
+      change_completion 1
     :
+      $x x_of(window)
+      $y y_of(window)
       $height length_of(lines)
       if
-	y > height
-	smart_indent
+	y > height:
+	  if
+	    window.is_a_text_window
+	    handler
+	    : complete_prefix ""
 	:
 	  $line lines(y)
 	  if
 	    line.is_undefined
-	    smart_indent
+	    handler
 	    :
 	      line $indent $text
 	      $width indent+length_of(text)
 	      if
 		x <= indent+1
-		smart_indent
+		handler
 		:
 		  if
 		    x > width+1:
@@ -2089,10 +1993,19 @@ $complete_prefix: (prefix)
 	  -> state
 	  :
 	    !state.completion_prefix_of prefix
-	    !state.possible_completions_of words
-	    !window windows_of(state)(cwi())
-	    !lines lines_of(window)
-	    insert range(first_item_of(words) length_of(prefix)+1 -1)
+	    to_list &words
+	    if
+	      length_of(words) == 1
+	      insert_first_completion
+	      :
+		!state.possible_completions_of words
+		!state.completion_index_of 1
+		insert_first_completion
+
+	    $insert_first_completion:
+	      !window windows_of(state)(cwi())
+	      !lines lines_of(window)
+	      insert range(words(1) length_of(prefix)+1 -1)
       :
 	update_if upper_y >= 1 &words: add_words upper_y true
 	update_if lower_y <= height &words: add_words lower_y false
@@ -2210,6 +2123,72 @@ $complete_prefix: (prefix)
 	not(words(word))
       -> words(word true)
       -> words
+
+$smart_uncompletion:
+  smart_uncompletion_or -> state
+
+$smart_uncompletion_or_outdent:
+  smart_uncompletion_or smart_outdent
+
+$smart_uncompletion_or: (handler)
+  $completion_prefix completion_prefix_of(state)
+  if
+    completion_prefix.is_undefined:
+      $x x_of(window)
+      $y y_of(window)
+      if
+	||
+	  y > length_of(lines)
+	  lines(y).is_undefined
+	  x <= indent_of(lines(y))+1
+	handler
+	-> state
+    : change_completion -1
+
+$change_completion: (delta)
+  $x x_of(window)
+  $y y_of(window)
+  $line lines(y)
+  line $indent $text $mark $folds
+  $completion_prefix completion_prefix_of(state)
+  $possible_completions possible_completions_of(state)
+  $completion_index completion_index_of(state)
+  $completion possible_completions(completion_index)
+  $left range(text 1 x-(indent+1+length_of(completion)))
+  $right range(text x-indent -1)
+  minus &x length_of(completion)
+  !window.was_updated true
+  plus &completion_index delta
+  if
+    ||
+      completion_index < 1
+      completion_index > length_of(possible_completions)
+    :
+      !lines(y)
+	tedi_line(indent append(left completion_prefix right) mark folds)
+      !window
+	window
+	  .cursor_x_of undefined
+	  .cursor_y_of undefined
+	  .sub_y_of undefined
+	  .x_of x+length_of(completion_prefix)
+      !state.completion_prefix_of undefined
+      !state.possible_completions_of undefined
+      !state.completion_index_of undefined
+      return_window_and_lines
+    :
+      $new_completion possible_completions(completion_index)
+      !lines(y)
+	tedi_line(indent append(left new_completion right) mark folds)
+      !window
+	window
+	  .cursor_x_of undefined
+	  .cursor_y_of undefined
+	  .sub_y_of undefined
+	  .x_of x+length_of(new_completion)
+      !state.possible_completions_of possible_completions
+      !state.completion_index_of completion_index
+      return_window_and_lines
 
 $is_an_identifier_character: (chr)
   -> chr.is_a_letter_character || chr.is_a_digit || chr == '_' || chr == ':'
