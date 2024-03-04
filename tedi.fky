@@ -2034,29 +2034,33 @@ $smart_completion:
     :
       $height length_of(lines)
       if
-	y > height:
-	  complete_prefix ""
+	y > height
+	smart_indent
 	:
 	  $line lines(y)
 	  if
-	    line.is_undefined:
-	      complete_prefix ""
+	    line.is_undefined
+	    smart_indent
 	    :
 	      line $indent $text
 	      $width indent+length_of(text)
 	      if
-		x <= indent || x > width+1:
-		  complete_prefix ""
+		x <= indent+1
+		smart_indent
 		:
-		  $e x-indent
-		  $s e
-		  loop:
-		    if
-		      s > 1 && text(s-1).is_an_identifier_character:
-			dec &s
-			next
-		      :
-			complete_prefix range(text s e-1)
+		  if
+		    x > width+1:
+		      complete_prefix ""
+		    :
+		      $e x-indent
+		      $s e
+		      loop:
+			if
+			  s > 1 && text(s-1).is_an_identifier_character:
+			    dec &s
+			    next
+			  :
+			    complete_prefix range(text s e-1)
 
 $complete_prefix: (prefix)
   !window windows_of(state)(text_window_index_of(state))
