@@ -100,42 +100,10 @@ $std_types::generic_terminal.character_height_of undefined
 $std_types::generic_terminal.line_spacing_of undefined
 $std_types::generic_terminal.line_height_of undefined
 $std_types::generic_terminal.baseline_of undefined
-$std_types::generic_terminal.draw_colour_of undefined
 $std_types::generic_terminal.clear_colour_of undefined
+$std_types::generic_terminal.draw_colour_of undefined
 
 $std_types::view std_types::generic_terminal
-
-$std::create_view:
-  (
-    terminal
-    x
-    y
-    width
-    height
-  )
-  ->
-    std_types::view
-      .x_of
-	if
-	  x < 0
-	  -> width_of(terminal)+1+x
-	  -> x
-      .y_of
-	if
-	  y < 0
-	  -> height_of(terminal)+1+y
-	  -> y
-      .width_of width
-      .height_of height
-      .character_width_of character_width_of(terminal)
-      .ascent_of ascent_of(terminal)
-      .descent_of descent_of(terminal)
-      .character_height_of character_height_of(terminal)
-      .line_spacing_of line_spacing_of(terminal)
-      .line_height_of line_height_of(terminal)
-      .baseline_of baseline_of(terminal)
-      .draw_colour_of draw_colour_of(terminal)
-      .clear_colour_of clear_colour_of(terminal)
 
 $std_private::abs_x: (screen x)
   if
@@ -148,6 +116,48 @@ $std_private::abs_y: (screen y)
     y < 0
     -> height_of(screen)+y+1
     -> y
+
+$std::create_view:
+  (
+    terminal
+    left_x
+    top_y
+    right_x
+    bottom_y
+  )
+  std_private::abs_x terminal &left_x
+  std_private::abs_y terminal &top_y
+  std_private::abs_x terminal &right_x
+  std_private::abs_y terminal &bottom_y
+  ->
+    std_types::view
+      .x_of left_x
+      .y_of top_y
+      .width_of (right_x-left_x+1)
+      .height_of (bottom_y-top_y+1)
+      .character_width_of character_width_of(terminal)
+      .ascent_of ascent_of(terminal)
+      .descent_of descent_of(terminal)
+      .character_height_of character_height_of(terminal)
+      .line_spacing_of line_spacing_of(terminal)
+      .line_height_of line_height_of(terminal)
+      .baseline_of baseline_of(terminal)
+      .clear_colour_of clear_colour_of(terminal)
+      .draw_colour_of draw_colour_of(terminal)
+
+$std_types::generic_terminal/set_clear_colour:
+  (
+    terminal
+    colour
+  )
+  -> terminal(.clear_colour_of colour)
+
+$std_types::generic_terminal/set_draw_colour:
+  (
+    terminal
+    colour
+  )
+  -> terminal(.draw_colour_of colour)
 
 $std_private::draw_clipped_text ()
 $std_private::draw_clipped_attributed_text ()
@@ -206,7 +216,7 @@ $std::create_vertical_panes:
       repeat n
 	:
 	  next_value &iter $next_x
-	  push &views create_view(screen x y next_x-x height)
+	  push &views create_view(screen x y next_x-1 height)
 	  !x next_x
 	  next
 	return
@@ -246,7 +256,7 @@ $std::create_vertical_panes:
 		    create_pane_view
 
 		  $create_pane_view:
-		    push &views create_view(screen x y pane_width height)
+		    push &views create_view(screen x y x+pane_width-1 height)
 		    plus &x pane_width
 		    next
 		return
@@ -277,7 +287,7 @@ $std::create_horizontal_panes:
       repeat n
 	:
 	  next_value &iter $next_y
-	  push &views create_view(screen x y width next_y-y)
+	  push &views create_view(screen x y width next_y-1)
 	  !y next_y
 	  next
 	return
@@ -306,18 +316,22 @@ $std::create_horizontal_panes:
 		    pane_height < 1:
 		      dec &flex_height_count
 		      !pane_height
-			min
-			  max(round(pane_height*flex_height).to_integer 1)
-			  remaining_flex_height-flex_height_count #
-			#
-			  all remaining flexible height pains need to have at
-			  least a height of 1
+			if
+			  flex_height_count == 0
+			  -> flex_height
+			  ->
+			    min
+			      max(round(pane_height*flex_height).to_integer 1)
+			      remaining_flex_height-flex_height_count #
+			    #
+			      all remaining flexible height pains need to have
+			      at least a height of 1
 		      minus &remaining_flex_height pane_height
 		      create_pane_view
 		    create_pane_view
 
 		  $create_pane_view:
-		    push &views create_view(screen x y width pane_height)
+		    push &views create_view(screen x y width y+pane_height-1)
 		    plus &y pane_height
 		    next
 		return

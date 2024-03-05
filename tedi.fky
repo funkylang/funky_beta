@@ -1404,11 +1404,12 @@ $smart_indent:
       $selected_lines range(lines selection_start_y selection_end_y)
       map &selected_lines
 	: (line)
-	  line $indent $text $mark $folds
 	  if
 	    line.is_undefined
 	    -> undefined
-	    -> tedi_line(indent+indent_step text mark folds)
+	    :
+	      line $indent $text $mark $folds
+	      -> tedi_line(indent+indent_step text mark folds)
       !lines
 	append
 	  range(lines 1 selection_start_y-1)
@@ -1459,11 +1460,12 @@ $smart_outdent:
 	:
 	  map &selected_lines
 	    : (line)
-	      line $indent $text $mark $folds
 	      if
 		line.is_undefined
 		-> undefined
-		-> tedi_line(indent-indent_step text mark folds)
+		:
+		  line $indent $text $mark $folds
+		  -> tedi_line(indent-indent_step text mark folds)
 	  !lines
 	    append
 	      range(lines 1 selection_start_y-1)
@@ -1478,7 +1480,7 @@ $smart_outdent:
   $move_left:
     !window
       window
-	.x_of x-indent_step
+	.x_of max(x-indent_step 1)
 	.cursor_x_of undefined
 	.cursor_y_of undefined
 	.sub_y_of undefined
