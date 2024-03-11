@@ -699,6 +699,8 @@ $funky_types::body/simplify: (self temp_no)
   simplify &self.parameters_of 0 $_parameters_temp_no $_parameters_statements
   $statement statement_of(self)
   $statements statements_of(self)
+  on statement.is_undefined && statements.is_empty:
+    syntax_error "Missing statements" self
   if
     statement.is_defined && node_type_of(statement) != REMARK:
       if
