@@ -627,7 +627,7 @@ $resize_rows: (screen new_width new_height text_colour background_colour)
 	$empty dup(string(' ' text_colour background_colour) new_width-width)
 	map rows: (row) append row empty
   update_if new_height > height &rows:
-    $empty dup(string(' ' text_colour background_colour) width)
+    $empty dup(string(' ' text_colour background_colour) new_width)
     append rows dup(list(empty) new_height-height)
   ->
     screen
@@ -1988,8 +1988,6 @@ $std_types::screen/draw_text:
     y # in logical screen coordinates (any coordinate within a row is accepted)
     args* # the text to draw
   )
-  std_private::abs_x self &x
-  std_private::abs_y self &y
   $text create_string(args)
   if
     text.is_empty
@@ -2283,8 +2281,6 @@ $std_types::screen/draw_attributed_text:
     y # in logical screen coordinates (any coordinate within a row is accepted)
     attributed_text # the text to draw
   )
-  std_private::abs_x self &x
-  std_private::abs_y self &y
   $n length_of(attributed_text) .div. 3
   $left_x get_left_x_of(self)
   $top_y get_top_y_of(self)
@@ -2728,10 +2724,17 @@ $std_types::terminal/resize:
   resize_rows &self
     new_width new_height
     draw_colour_of(self) clear_colour_of(self)
-  resize_rows &self.current_buffer_of
-    new_width new_height
-    INVALID_COLOUR INVALID_COLOUR
-  -> self
+  $buffer # invalidate buffer
+    create_screen
+      new_width new_height
+      TEXT_COLOUR = INVALID_COLOUR
+      BACKGROUND_COLOUR = INVALID_COLOUR
+      LINE_HEIGHT = line_height_of(self)
+  !buffer
+    buffer
+      .cursor_x_of undefined # cursor column
+      .cursor_y_of undefined # cursor row
+  -> self(.current_buffer_of buffer)
 
 $std::cursor_off:
   #

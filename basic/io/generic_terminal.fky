@@ -119,31 +119,31 @@ $std_private::abs_y: (screen y)
 
 $std::create_view:
   (
-    terminal
+    screen
     left_x
     top_y
     right_x
     bottom_y
   )
-  std_private::abs_x terminal &left_x
-  std_private::abs_y terminal &top_y
-  std_private::abs_x terminal &right_x
-  std_private::abs_y terminal &bottom_y
+  std_private::abs_x screen &left_x
+  std_private::abs_y screen &top_y
+  std_private::abs_x screen &right_x
+  std_private::abs_y screen &bottom_y
   ->
     std_types::view
-      .x_of left_x
-      .y_of top_y
+      .x_of x_of(screen)+left_x-1
+      .y_of y_of(screen)+top_y-1
       .width_of (right_x-left_x+1)
       .height_of (bottom_y-top_y+1)
-      .character_width_of character_width_of(terminal)
-      .ascent_of ascent_of(terminal)
-      .descent_of descent_of(terminal)
-      .character_height_of character_height_of(terminal)
-      .line_spacing_of line_spacing_of(terminal)
-      .line_height_of line_height_of(terminal)
-      .baseline_of baseline_of(terminal)
-      .clear_colour_of clear_colour_of(terminal)
-      .draw_colour_of draw_colour_of(terminal)
+      .character_width_of character_width_of(screen)
+      .ascent_of ascent_of(screen)
+      .descent_of descent_of(screen)
+      .character_height_of character_height_of(screen)
+      .line_spacing_of line_spacing_of(screen)
+      .line_height_of line_height_of(screen)
+      .baseline_of baseline_of(screen)
+      .clear_colour_of clear_colour_of(screen)
+      .draw_colour_of draw_colour_of(screen)
 
 $std_types::generic_terminal/set_clear_colour:
   (

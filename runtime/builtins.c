@@ -244,6 +244,7 @@ enum {
   func__std_types___error_number___std___hash,
   func__std___error_number,
   func__std_types___error_number___std___to_integer,
+  func__std___access,
   func__std___chdir,
   func__std___chmod,
   func__std___chown,
@@ -713,6 +714,7 @@ enum {
   var_no__std_types___passwd,
   var_no__std_types___stat,
   var_no__std_types___dirent,
+  var_no__std___access,
   var_no__std___chdir,
   var_no__std___chmod,
   var_no__std___chown,
@@ -17547,6 +17549,86 @@ static void entry__std_types___error_number___std___to_integer (void)
     }
   }
 
+static void entry__std___access (void)
+  {
+    if (TLS_argument_count != 2) {
+      invalid_arguments();
+      return;
+    }
+    if (TLS_deny_io) {
+      missing_io_access_rights();
+      return;
+    }
+    char *filename = NULL;
+    char *mode_str;
+    int mode;
+    int result;
+    if (!to_c_string(TLS_arguments[0], &filename)) goto cleanup;
+    if (!to_c_string(TLS_arguments[1], &mode_str)) goto cleanup;
+    mode = 0;
+    for(int i = 0; mode_str[i]; i++) {
+      switch(mode_str[i]) {
+	case 'r':
+	  mode |= R_OK;
+	  break;
+	case 'w':
+	  mode |= W_OK;
+	  break;
+	case 'x':
+	  mode |= X_OK;
+	  break;
+	default:
+	  create_error_message(
+	    module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+	    "ACCESS: INVALID MODE", 0, 0, NULL);
+	  goto cleanup;
+      }
+    }
+    if (event__mode != EM__REPLAY) {
+      result = access(filename, mode);
+      if (event__mode == EM__RECORD) {
+        if (result == 0) {
+            successful__action("access");
+          } else {
+            failed__action("access");
+            store__integer(result);
+          }
+        }
+      } else {
+        if (replay__action("access")) {
+          retrieve__integer(&result);
+      } else {
+          result = 0;
+      }
+        report__event("access");
+          print__c_string(filename);
+          print__c_string(mode_str);
+          print__integer(result);
+    }
+    if (result == 0) {
+      {
+        NODE *result__node = (NODE *)(&std_types___true);
+        TLS_arguments[0] = result__node;
+        TLS_argument_count = 1;
+      }
+    } else {
+      if (errno == EACCES) {
+	{
+	  NODE *result__node = (NODE *)(&std_types___false);
+	  TLS_arguments[0] = result__node;
+	  TLS_argument_count = 1;
+	}
+      } else {
+	create_error_message(
+	  module__builtin.constants_base[unique__std___IO_ERROR-1],
+	  "ACCESS FAILED", errno, 0, NULL);
+      }
+    }
+    cleanup:
+    deallocate_memory(filename);
+    deallocate_memory(mode_str);
+  }
+
 static void entry__std___chdir (void)
   {
     if (TLS_argument_count != 1) {
@@ -23072,6 +23154,7 @@ static FUNKY_CONSTANT constants_table[] = {
   {FLT_C_FUNCTION, 1, {.func = entry__std_types___error_number___std___hash}},
   {FLT_C_FUNCTION, 1, {.func = entry__std___error_number}},
   {FLT_C_FUNCTION, 1, {.func = entry__std_types___error_number___std___to_integer}},
+  {FLT_C_FUNCTION, 2, {.func = entry__std___access}},
   {FLT_C_FUNCTION, 1, {.func = entry__std___chdir}},
   {FLT_C_FUNCTION, 2, {.func = entry__std___chmod}},
   {FLT_C_FUNCTION, 3, {.func = entry__std___chown}},
@@ -26204,6 +26287,11 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_INITIALIZED, 0, 0,
+    "access\000std", NULL,
+    {.const_idx = func__std___access}
+  },
+  {
+    FOT_INITIALIZED, 0, 0,
     "chdir\000std", NULL,
     {.const_idx = func__std___chdir}
   },
@@ -26727,13 +26815,13 @@ FUNKY_MODULE module__builtin = {
   NULL,
   0, 0,
   4, 0,
-  338, 436,
+  339, 437,
   NULL,
   defined_namespaces, NULL,
   constants_table, variables_table
 };
 
-BUILTIN_FUNCTION_NAME builtin_function_names[388] = {
+BUILTIN_FUNCTION_NAME builtin_function_names[389] = {
   {std_types___generic_array____type, "std_types::generic_array/_type"},
   {std_types___array____type, "std_types::array/_type"},
   {entry__std_types___array___std___length_of, "std_types::array/length_of"},
@@ -26988,6 +27076,7 @@ BUILTIN_FUNCTION_NAME builtin_function_names[388] = {
   {std_types___passwd____type, "std_types::passwd/_type"},
   {std_types___stat____type, "std_types::stat/_type"},
   {std_types___dirent____type, "std_types::dirent/_type"},
+  {entry__std___access, "std::access"},
   {entry__std___chdir, "std::chdir"},
   {entry__std___chmod, "std::chmod"},
   {entry__std___chown, "std::chown"},

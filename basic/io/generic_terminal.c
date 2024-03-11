@@ -255,55 +255,73 @@ static TAB_NUM t_lambda_4[] = {
 };
 
 static TAB_NUM t_func_std__create_view[] = {
-  19, // locals
+  25, // locals
   5, // parameters
-  LOCAL(15), // 122_0_terminal
-  LOCAL(16), // 123_0_left_x
-  LOCAL(17), // 124_0_top_y
-  LOCAL(18), // 125_0_right_x
-  LOCAL(19), // 126_0_bottom_y
-  // std_private::abs_x terminal &left_x
-  var_std_private__abs_x, 2, LOCAL(15), LOCAL(16), 1, LOCAL(16),
-  // std_private::abs_y terminal &top_y
-  var_std_private__abs_y, 2, LOCAL(15), LOCAL(17), 1, LOCAL(17),
-  // std_private::abs_x terminal &right_x
-  var_std_private__abs_x, 2, LOCAL(15), LOCAL(18), 1, LOCAL(18),
-  // std_private::abs_y terminal &bottom_y
-  var_std_private__abs_y, 2, LOCAL(15), LOCAL(19), 1, LOCAL(19),
+  LOCAL(21), // 122_0_screen
+  LOCAL(22), // 123_0_left_x
+  LOCAL(23), // 124_0_top_y
+  LOCAL(24), // 125_0_right_x
+  LOCAL(25), // 126_0_bottom_y
+  // std_private::abs_x screen &left_x
+  var_std_private__abs_x, 2, LOCAL(21), LOCAL(22), 1, LOCAL(22),
+  // std_private::abs_y screen &top_y
+  var_std_private__abs_y, 2, LOCAL(21), LOCAL(23), 1, LOCAL(23),
+  // std_private::abs_x screen &right_x
+  var_std_private__abs_x, 2, LOCAL(21), LOCAL(24), 1, LOCAL(24),
+  // std_private::abs_y screen &bottom_y
+  var_std_private__abs_y, 2, LOCAL(21), LOCAL(25), 1, LOCAL(25),
+  // x_of(screen)+left_x-1
+  var_x_of, 1, LOCAL(21), 1, LOCAL(1),
+  // x_of(screen)+left_x-1
+  var_std__plus, 2, LOCAL(1), LOCAL(22), 1, LOCAL(2),
+  // x_of(screen)+left_x-1
+  var_std__minus, 2, LOCAL(2), num_1, 1, LOCAL(3),
+  // y_of(screen)+top_y-1
+  var_y_of, 1, LOCAL(21), 1, LOCAL(4),
+  // y_of(screen)+top_y-1
+  var_std__plus, 2, LOCAL(4), LOCAL(23), 1, LOCAL(5),
+  // y_of(screen)+top_y-1
+  var_std__minus, 2, LOCAL(5), num_1, 1, LOCAL(6),
   // right_x-left_x+1)
-  var_std__minus, 2, LOCAL(18), LOCAL(16), 1, LOCAL(1),
+  var_std__minus, 2, LOCAL(24), LOCAL(22), 1, LOCAL(7),
   // right_x-left_x+1)
-  var_std__plus, 2, LOCAL(1), num_1, 1, LOCAL(2),
+  var_std__plus, 2, LOCAL(7), num_1, 1, LOCAL(8),
   // bottom_y-top_y+1)
-  var_std__minus, 2, LOCAL(19), LOCAL(17), 1, LOCAL(3),
+  var_std__minus, 2, LOCAL(25), LOCAL(23), 1, LOCAL(9),
   // bottom_y-top_y+1)
-  var_std__plus, 2, LOCAL(3), num_1, 1, LOCAL(4),
-  // character_width_of(terminal)
-  var_character_width_of, 1, LOCAL(15), 1, LOCAL(5),
-  // ascent_of(terminal)
-  var_ascent_of, 1, LOCAL(15), 1, LOCAL(6),
-  // descent_of(terminal)
-  var_descent_of, 1, LOCAL(15), 1, LOCAL(7),
-  // character_height_of(terminal)
-  var_character_height_of, 1, LOCAL(15), 1, LOCAL(8),
-  // line_spacing_of(terminal)
-  var_line_spacing_of, 1, LOCAL(15), 1, LOCAL(9),
-  // line_height_of(terminal)
-  var_line_height_of, 1, LOCAL(15), 1, LOCAL(10),
-  // baseline_of(terminal)
-  var_baseline_of, 1, LOCAL(15), 1, LOCAL(11),
-  // clear_colour_of(terminal)
-  var_clear_colour_of, 1, LOCAL(15), 1, LOCAL(12),
-  // draw_colour_of(terminal)
-  var_draw_colour_of, 1, LOCAL(15), 1, LOCAL(13),
+  var_std__plus, 2, LOCAL(9), num_1, 1, LOCAL(10),
+  // character_width_of(screen)
+  var_character_width_of, 1, LOCAL(21), 1, LOCAL(11),
+  // ascent_of(screen)
+  var_ascent_of, 1, LOCAL(21), 1, LOCAL(12),
+  // descent_of(screen)
+  var_descent_of, 1, LOCAL(21), 1, LOCAL(13),
+  // character_height_of(screen)
+  var_character_height_of, 1, LOCAL(21), 1, LOCAL(14),
+  // line_spacing_of(screen)
+  var_line_spacing_of, 1, LOCAL(21), 1, LOCAL(15),
+  // line_height_of(screen)
+  var_line_height_of, 1, LOCAL(21), 1, LOCAL(16),
+  // baseline_of(screen)
+  var_baseline_of, 1, LOCAL(21), 1, LOCAL(17),
+  // clear_colour_of(screen)
+  var_clear_colour_of, 1, LOCAL(21), 1, LOCAL(18),
+  // draw_colour_of(screen)
+  var_draw_colour_of, 1, LOCAL(21), 1, LOCAL(19),
   // std_types::view
-  LET, -13, var_std_types__view, var_x_of, LOCAL(16), var_y_of, LOCAL(17), var_width_of, LOCAL(2), var_height_of, LOCAL(4), var_character_width_of, LOCAL(5), var_ascent_of, LOCAL(6), var_descent_of, LOCAL(7), var_character_height_of, LOCAL(8), var_line_spacing_of, LOCAL(9), var_line_height_of, LOCAL(10), var_baseline_of, LOCAL(11), var_clear_colour_of, LOCAL(12), var_draw_colour_of, LOCAL(13), LOCAL(14),
+  LET, -13, var_std_types__view, var_x_of, LOCAL(3), var_y_of, LOCAL(6), var_width_of, LOCAL(8), var_height_of, LOCAL(10), var_character_width_of, LOCAL(11), var_ascent_of, LOCAL(12), var_descent_of, LOCAL(13), var_character_height_of, LOCAL(14), var_line_spacing_of, LOCAL(15), var_line_height_of, LOCAL(16), var_baseline_of, LOCAL(17), var_clear_colour_of, LOCAL(18), var_draw_colour_of, LOCAL(19), LOCAL(20),
   // ->
-  LET, 1, LOCAL(14), TAIL_CALL,
+  LET, 1, LOCAL(20), TAIL_CALL,
   POS(128, 3),
   POS(129, 3),
   POS(130, 3),
   POS(131, 3),
+  POS(134, 13),
+  POS(134, 13),
+  POS(134, 13),
+  POS(135, 13),
+  POS(135, 13),
+  POS(135, 13),
   POS(136, 18),
   POS(136, 18),
   POS(137, 19),
@@ -1328,7 +1346,7 @@ static FUNKY_VARIABLE variables_table[] = {
   {
     FOT_UNKNOWN, 0, 0,
     "minus\000std", NULL,
-    {.position = POS(136, 18)}
+    {.position = POS(134, 13)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,

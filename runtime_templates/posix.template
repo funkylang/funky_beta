@@ -3110,6 +3110,86 @@ METHOD std_types::dirent/_type
     RUNTIME_ERROR("Attempt to call a dirent as a function!")
   }
 
+FUNCTION std::access
+  #
+    checks access permissions for a file
+
+    Parameters:
+      filename # the name of the file
+      mode # the access mode
+
+    Result:
+      ok # true, if the access is granted; otherwise false
+
+    The mode is a string containing the following characters:
+
+    'r': check read permission
+    'w': check write permission
+    'x': check execute permission
+
+    This function needs I/O-access rights.
+
+    Topic: POSIX
+
+    See also: chmod, chown
+
+    Example:
+
+      # check if a file is readable
+      access! $ok "myfile.txt" "r"
+  {
+    CHECK_ARGUMENTS(2)
+    CHECK_IO_ACCESS_RIGHTS
+    char *filename = NULL;
+    char *mode_str;
+    int mode;
+    int result;
+    if (!to_c_string(ARGUMENTS(0), &filename)) goto cleanup;
+    if (!to_c_string(ARGUMENTS(1), &mode_str)) goto cleanup;
+    mode = 0;
+    for(int i = 0; mode_str[i]; i++) {
+      switch(mode_str[i]) {
+	case 'r':
+	  mode |= R_OK;
+	  break;
+	case 'w':
+	  mode |= W_OK;
+	  break;
+	case 'x':
+	  mode |= X_OK;
+	  break;
+	default:
+	  create_error_message(
+	    module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+	    "ACCESS: INVALID MODE", 0, 0, NULL);
+	  goto cleanup;
+      }
+    }
+    ACTION(access)
+      result = access(filename, mode);
+    INFO
+      C_STRING(filename)
+      C_STRING(mode_str)
+      INT(result)
+    DATA
+      INT(result)
+    END
+    if (result == 0) {
+      PREPARE_SINGLE_RESULT(&std_types::true)
+    } else {
+      if (errno == EACCES) {
+	PREPARE_SINGLE_RESULT(&std_types::false)
+      } else {
+	create_error_message(
+	  module__builtin.constants_base[unique__std___IO_ERROR-1],
+	  "ACCESS FAILED", errno, 0, NULL);
+      }
+    }
+    cleanup:
+    deallocate_memory(filename);
+    deallocate_memory(mode_str);
+  }
+
 FUNCTION std::chdir
   #
     changes the current working directory

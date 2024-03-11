@@ -280,6 +280,7 @@ $funky_types::update/simplify: (self temp_no)
 		funky_types::redefinition
 		  .identifier_of identifier_of(base)
 		  .kind_of kind_of(base)
+		  .no_of no_of(base)
 		  .source_group_of source_group_of(base)
 		  .source_position_of source_position_of(base)
 	      case node_type_of(extension)
