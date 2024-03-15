@@ -86,6 +86,26 @@ $std::draw_attributed_text ()
     See also: draw_text, set_character_at, set_text_colour_at,
 	      set_background_colour_at
 
+$std::clear ()
+  #
+    clears a rectangular area
+
+    Parameters:
+      screen # some kind of screen
+      x # x-coordinate of the upper left corner
+      y # y-coordinate of the upper left corner
+      width # width of the area
+      height # height of the area
+
+    Result:
+      screen # the updated screen
+
+    The area is cleared using the current clear colour.
+
+    Topic: Terminal
+
+    See also: set_clear_colour
+
 $std_types::generic_terminal std_types::object
 
 $std_types::generic_terminal.type_of undefined
@@ -159,8 +179,9 @@ $std_types::generic_terminal/set_draw_colour:
   )
   -> terminal(.draw_colour_of colour)
 
-$std_private::draw_clipped_text ()
-$std_private::draw_clipped_attributed_text ()
+$std_private::draw_text ()
+$std_private::draw_attributed_text ()
+$std_private::clear ()
 
 $std_types::view/draw_text:
   (
@@ -170,10 +191,8 @@ $std_types::view/draw_text:
     y
     args*
   )
-  std_private::abs_x view &x
-  std_private::abs_y view &y
   $text create_string(args)
-  std_private::draw_clipped_text
+  std_private::draw_text
     screen
     view
     x_of(view)+x-1
@@ -188,14 +207,31 @@ $std_types::view/draw_attributed_text:
     y
     attributed_text
   )
-  std_private::abs_x view &x
-  std_private::abs_y view &y
-  std_private::draw_clipped_attributed_text
+  std_private::draw_attributed_text
     screen
     view
     x_of(view)+x-1
     y_of(view)+y-1
     attributed_text
+
+$std_types::view/clear:
+  (
+    view
+    screen
+    x = 1
+    y = 1
+    width = undefined
+    height = undefined
+  )
+  update_if width.is_undefined &width -> width_of(view)-x+1
+  update_if height.is_undefined &height -> height_of(view)-y+1
+  std_private::clear
+    screen
+    view
+    x_of(view)+x-1
+    y_of(view)+y-1
+    width
+    height
 
 $std::create_vertical_panes:
   (

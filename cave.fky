@@ -198,7 +198,7 @@ $start_game:
 
   # draw the initial view of the cave
 
-  set_background_colour &terminal DARK_GREY
+  set_clear_colour &terminal DARK_GREY
   clear &terminal
 
   draw_cave_columns 1 WIDTH # fill all columns of the screen
@@ -259,7 +259,7 @@ $start_game:
 
     inc &cave_start_x
     $distance_to_exit cave_length-cave_draw_x
-    set_background_colour &terminal
+    set_clear_colour &terminal
       if
 	distance_to_exit >= 0:
 	  if
@@ -312,7 +312,7 @@ $start_game:
 $show_welcome_screen:
   # Draw Welcome Screen
 
-  set_background_colour &terminal WHITE
+  set_clear_colour &terminal WHITE
   clear &terminal
   draw_text &terminal 10 3 "
 			Welcome to the CAVE!
@@ -369,7 +369,7 @@ $draw_vertical_bar:
   $draw_top:
     if
       top_y.is_even:
-	set_text_colour_at &terminal x y BLACK
+	set_draw_colour_at &terminal x y BLACK
 	set_character_at &terminal x y LOWER_HALF_BLOCK
 	inc &y
 	draw_mid
@@ -378,7 +378,7 @@ $draw_vertical_bar:
   $draw_mid:
     repeat (bottom_y >> 1) - (top_y >> 1)
       :
-	set_text_colour_at &terminal x y BLACK
+	set_draw_colour_at &terminal x y BLACK
 	set_character_at &terminal x y FULL_BLOCK
 	inc &y
 	next
@@ -387,13 +387,13 @@ $draw_vertical_bar:
   $draw_bottom:
     if
       bottom_y.is_odd:
-	set_text_colour_at &terminal x y BLACK
+	set_draw_colour_at &terminal x y BLACK
 	set_character_at &terminal x y UPPER_HALF_BLOCK
 	-> terminal
       -> terminal
 
 $draw_next_cave_column:
-  set_background_colour &terminal undefined
+  set_clear_colour &terminal undefined
   if
     cave_draw_x <= cave_length:
       draw_cave_columns 80 80 # draw a new right-most character column
@@ -432,10 +432,10 @@ $draw_cave_columns:
 	    next_value &rng $r 7
 	    if
 	      r == 1:
-		set_text_colour_at &terminal x y1-1 BLACK
+		set_draw_colour_at &terminal x y1-1 BLACK
 		set_character_at &terminal x y1-1 FULL_BLOCK
-		set_background_colour_at &terminal x y1 FUEL_TANK_COLOUR
-		set_text_colour_at &terminal x y1 FUEL_TANK_TEXT_COLOUR
+		set_clear_colour_at &terminal x y1 FUEL_TANK_COLOUR
+		set_draw_colour_at &terminal x y1 FUEL_TANK_TEXT_COLOUR
 		set_character_at &terminal x y1 'F'
 		!next_fuel_tank_x cave_draw_x+20
 		minus &ceiling_y 3
@@ -451,9 +451,9 @@ $draw_cave_columns:
 	    next_value &rng $r 40
 	    if
 	      r == 1:
-		set_text_colour_at &terminal x y1-1 LASER_BEAMER_COLOUR
+		set_draw_colour_at &terminal x y1-1 LASER_BEAMER_COLOUR
 		set_character_at &terminal x y1-1 LASER_BEAMER_SYMBOL
-		set_text_colour_at &terminal x y2+1 LASER_BEAMER_COLOUR
+		set_draw_colour_at &terminal x y2+1 LASER_BEAMER_COLOUR
 		set_character_at &terminal x y2+1 LASER_BEAMER_SYMBOL
 		push &dynamic_items
 		  std_types::object
@@ -471,7 +471,7 @@ $draw_cave_columns:
 	    next_value &rng $r 20
 	    if
 	      r == 14:
-		set_text_colour_at &terminal x y2+1 CANNON_COLOUR
+		set_draw_colour_at &terminal x y2+1 CANNON_COLOUR
 		set_character_at &terminal x y2+1 CANNON_SYMBOL
 		push &dynamic_items
 		  std_types::object
@@ -499,7 +499,7 @@ $draw_cave_columns:
 	    if
 	      r == 1:
 		next_value &rng $mine_y y1 .. y2
-		set_text_colour_at &terminal x mine_y MINE_COLOUR
+		set_draw_colour_at &terminal x mine_y MINE_COLOUR
 		set_character_at &terminal x mine_y MINE_SYMBOL
 		update_floor_and_ceiling
 	      maybe_draw_star
@@ -512,7 +512,7 @@ $draw_cave_columns:
 	    if
 	      r == 1:
 		next_value &rng $star_y y1 .. y2
-		set_text_colour_at &terminal x star_y STAR_COLOUR
+		set_draw_colour_at &terminal x star_y STAR_COLOUR
 		set_character_at &terminal x star_y STAR_SYMBOL
 		update_floor_and_ceiling
 	      update_floor_and_ceiling
@@ -553,13 +553,13 @@ $draw_cave_columns:
       dynamic_items
 
 $draw_fuel:
-  set_background_colour &terminal BLACK
+  set_clear_colour &terminal BLACK
   if
     fuel > 0:
-      set_text_colour &terminal WHITE
+      set_draw_colour &terminal WHITE
       draw_text terminal 1 1 "Fuel: @(pad_left(fuel 4))"
     :
-      set_text_colour &terminal RED
+      set_draw_colour &terminal RED
       draw_text terminal 1 1 "Out of fuel!"
 
 $draw_dynamic_items:
@@ -572,14 +572,14 @@ $draw_dynamic_items:
 	    (cave_start_x .mod. 20) >= 15:
 	      from_to y1_of(item) y2_of(item)
 		: (y)
-		  set_text_colour_at &terminal x y LASER_BEAM_COLOUR
+		  set_draw_colour_at &terminal x y LASER_BEAM_COLOUR
 		  set_character_at &terminal x y LASER_BEAM_SYMBOL
 		  next
 		next
 	    next
 	SHOT:
 	  $y y_of(item)
-	  set_text_colour_at &terminal x y colour_of(item)
+	  set_draw_colour_at &terminal x y colour_of(item)
 	  set_character_at &terminal x y symbol_of(item)
 	  next
 	next
@@ -652,8 +652,8 @@ $draw_spaceship
   #
     draws the spaceship
   :
-    set_text_colour_at &terminal spaceship_x spaceship_y SPACESHIP_COLOUR
-    set_text_colour_at &terminal spaceship_x+1 spaceship_y SPACESHIP_COLOUR
+    set_draw_colour_at &terminal spaceship_x spaceship_y SPACESHIP_COLOUR
+    set_draw_colour_at &terminal spaceship_x+1 spaceship_y SPACESHIP_COLOUR
     set_character_at &terminal spaceship_x spaceship_y SPACESHIP_TAIL
     set_character_at &terminal spaceship_x+1 spaceship_y SPACESHIP_HEAD
 
@@ -687,7 +687,7 @@ $draw_spaceship
 		  colour_mixture
 		    GREY = RX-distance
 		    background_colour = distance
-		set_background_colour_at &terminal x y lighting_colour
+		set_clear_colour_at &terminal x y lighting_colour
 		next
 	      next
 	  :
@@ -715,7 +715,7 @@ $undraw_spaceship:
       $background_colour_line colours_behind_space_ship(y+1-min_y)
       from_to min_x max_x
 	: (x)
-	  set_background_colour_at &terminal
+	  set_clear_colour_at &terminal
 	    x y background_colour_line(x+1-min_x)
 	  next
 	next
@@ -728,8 +728,8 @@ $draw_message
     (
       msg # the message to draw
     )
-    set_text_colour &terminal BLACK
-    set_background_colour &terminal WHITE
+    set_draw_colour &terminal BLACK
+    set_clear_colour &terminal WHITE
     rows_and_columns $rows $_columns msg
     $row 13-div(rows 2)
     for_each split(msg '@nl;')
