@@ -1915,12 +1915,12 @@ $smart_completion_or: (handler)
 		    x <= indent_of(line)+1
 		    handler
 		    :
-		      position_in_text $indent !x $text $i
+		      position_in_text $indent $text !x $i $offset
 		      if
-			i > length_of(text):
+			offset > 1:
 			  complete_prefix ""
 			:
-			  $e i
+			  $e i+offset
 			  $s e
 			  loop:
 			    if
@@ -4168,12 +4168,12 @@ $update_contents: (window view terminal)
 	  cy >= selection_start_y
 	  cy <= selection_end_y
 	:
-	  set_clear_colour &view selection_colour
+	  set_window_colour !view selection_colour
 	  clear view terminal vx vy undefined 1
 	:
-	  set_clear_colour &view background_colour
+	  set_window_colour !view background_colour
 	  clear view &terminal vx vy inbounds_width 1
-	  set_clear_colour &view out_of_bounds_colour
+	  set_window_colour !view out_of_bounds_colour
 	  clear view &terminal vx+inbounds_width vy undefined 1
 	  draw_indent
 
@@ -4186,7 +4186,7 @@ $update_contents: (window view terminal)
 	-> terminal
 
     $show_selection: (start_x end_x)
-      set_clear_colour &view selection_colour
+      set_window_colour !view selection_colour
       clear view terminal vx+start_x-1 vy end_x-start_x 1
 
     $window_colour: (colour)
