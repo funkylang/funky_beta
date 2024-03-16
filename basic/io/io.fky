@@ -254,7 +254,9 @@ $std::print_string_to:
   )
   write_string_to! fd str.to_utf8
 
-$std::print_to:
+$std::print_to ()
+
+$std::file_descriptor/print_to:
   #
     prints its arguments to the specified file descriptor
 

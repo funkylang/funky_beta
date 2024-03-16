@@ -673,11 +673,11 @@ $draw_spaceship
     !colours_behind_space_ship empty_list
     from_to min_y max_y
       : (y)
-	$background_colour_line empty_list
+	$clear_colour_line empty_list
 	from_to min_x max_x
 	  : (x)
-	    $background_colour background_colour_at(terminal x y)
-	    push &background_colour_line background_colour
+	    $clear_colour clear_colour_at(terminal x y)
+	    push &clear_colour_line clear_colour
 	    $dx x-cx
 	    $dy 2*(y-cy)
 	    if
@@ -686,12 +686,12 @@ $draw_spaceship
 		$lighting_colour
 		  colour_mixture
 		    GREY = RX-distance
-		    background_colour = distance
+		    clear_colour = distance
 		set_clear_colour_at &terminal x y lighting_colour
 		next
 	      next
 	  :
-	    push &colours_behind_space_ship background_colour_line
+	    push &colours_behind_space_ship clear_colour_line
 	    next
       -> terminal colours_behind_space_ship
 
@@ -712,11 +712,11 @@ $undraw_spaceship:
 
   from_to min_y max_y
     : (y)
-      $background_colour_line colours_behind_space_ship(y+1-min_y)
+      $clear_colour_line colours_behind_space_ship(y+1-min_y)
       from_to min_x max_x
 	: (x)
 	  set_clear_colour_at &terminal
-	    x y background_colour_line(x+1-min_x)
+	    x y clear_colour_line(x+1-min_x)
 	  next
 	next
     -> terminal

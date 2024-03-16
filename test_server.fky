@@ -403,7 +403,7 @@ $move_left: (vt board)
   !vt.last_x_of last_x
   $field_width 2*character_width_of(vt)
   $field_height line_height_of(vt)
-  copy # scroll right
+  move # scroll right
     &vt sx+field_width sy
     vt sx sy
     (last_x-first_x)*field_width (last_y-first_y+1)*field_height
@@ -430,7 +430,7 @@ $move_right: (vt board)
   !vt.last_x_of last_x
   $field_width 2*character_width_of(vt)
   $field_height line_height_of(vt)
-  copy # scroll left
+  move # scroll left
     &vt sx sy
     vt sx+field_width sy
     (last_x-first_x)*field_width (last_y-first_y+1)*field_height
@@ -457,7 +457,7 @@ $move_up: (vt board)
   !vt.last_y_of last_y
   $field_width 2*character_width_of(vt)
   $field_height line_height_of(vt)
-  copy # scroll down
+  move # scroll down
     &vt sx sy+field_height
     vt sx sy
     (last_x-first_x+1)*field_width (last_y-first_y)*field_height
@@ -483,7 +483,7 @@ $move_down: (vt board)
   !vt.last_y_of last_y
   $field_width 2*character_width_of(vt)
   $field_height line_height_of(vt)
-  copy # scroll up
+  move # scroll up
     &vt sx sy
     vt sx sy+field_height
     (last_x-first_x+1)*field_width (last_y-first_y)*field_height

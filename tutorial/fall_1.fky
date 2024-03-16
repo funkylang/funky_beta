@@ -1,0 +1,48 @@
+#!/usr/bin/env fkyrun
+
+<require basic/stdlib>
+<require terminal/terminal>
+
+$t undefined
+$x 4
+$y 2
+
+$io std_types::io
+
+initialize_terminal CURSOR_OFF: (terminal)
+  $screen create_screen(terminal)
+  clear &screen
+  initialize! &io
+  start_reading_from &io STDIN_FILENO
+  !t current_time_of(io) # immediately
+  loop:
+    set_timeout &io t
+    get_events! &io $events # get all events
+    handle_terminal_events &io &events
+    for_each events
+      : (event)
+	event $type $_fd $key
+	case type
+	  KEY_PRESS:
+	    case key
+	      CURSOR_LEFT:
+		minus &x 1
+		next!
+	      CURSOR_RIGHT:
+		plus &x 1
+		next!
+	      ESCAPE:
+		finalize_terminal!
+		terminate!
+	      next # ignore all other keys
+	  next
+      :
+	if
+	  current_time_of(io) >= t:
+	    copy &terminal screen
+	    draw_character &terminal x y 'o'
+	    update &terminal $output
+	    print_to &io STDOUT_FILENO output
+	    plus &t 0.2
+	    next!
+	  next

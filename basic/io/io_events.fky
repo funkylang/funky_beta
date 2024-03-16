@@ -515,6 +515,14 @@ $std_types::io/stop_reading_from:
 	  -> self
     -> self
 
+$std_types::io/print_to:
+  (
+    self
+    fd
+    args*
+  )
+  write self fd create_string(args).to_utf8
+
 $std_types::io/write:
   #
     writes data to a stream

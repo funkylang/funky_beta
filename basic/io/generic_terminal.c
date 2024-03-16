@@ -7,64 +7,66 @@
 #include "runtime/memory.h"
 
 enum {
-  num_1 = -1,
-  func_std_private__abs_x = -2,
-  num_0 = -3,
-  lambda_1 = -4,
-  lambda_2 = -5,
-  func_std_private__abs_y = -6,
-  lambda_3 = -7,
-  lambda_4 = -8,
-  func_std__create_view = -9,
-  func_std_types__generic_terminal___set_clear_colour = -10,
-  func_std_types__generic_terminal___set_draw_colour = -11,
-  func_std_types__view___draw_text = -12,
-  func_std_types__view___draw_attributed_text = -13,
-  func_std_types__view___clear = -14,
-  lambda_5 = -15,
-  lambda_6 = -16,
-  func_std__create_vertical_panes = -17,
-  lambda_7 = -18,
-  lambda_8 = -19,
-  lambda_9 = -20,
-  lambda_10 = -21,
-  lambda_11 = -22,
-  lambda_12 = -23,
-  lambda_13 = -24,
-  lambda_14 = -25,
-  lambda_15 = -26,
-  lambda_16 = -27,
-  lambda_17 = -28,
-  lambda_18 = -29,
-  lambda_19 = -30,
-  func_create_pane_view = -31,
-  lambda_20 = -32,
-  lambda_21 = -33,
-  func_return = -34,
-  lambda_22 = -35,
-  lambda_23 = -36,
-  func_std__create_horizontal_panes = -37,
-  lambda_24 = -38,
-  lambda_25 = -39,
-  lambda_26 = -40,
-  lambda_27 = -41,
-  lambda_28 = -42,
-  lambda_29 = -43,
-  lambda_30 = -44,
-  lambda_31 = -45,
-  lambda_32 = -46,
-  lambda_33 = -47,
-  lambda_34 = -48,
-  lambda_35 = -49,
-  lambda_36 = -50,
-  lambda_37 = -51,
-  lambda_38 = -52,
-  func_2_create_pane_view = -53,
-  lambda_39 = -54,
-  lambda_40 = -55,
-  func_2_return = -56,
-  lambda_41 = -57,
-  lambda_42 = -58
+  uni_std__KEY_PRESS = -1,
+  uni_std__MOUSE_CLICK = -2,
+  num_1 = -3,
+  func_std_private__abs_x = -4,
+  num_0 = -5,
+  lambda_1 = -6,
+  lambda_2 = -7,
+  func_std_private__abs_y = -8,
+  lambda_3 = -9,
+  lambda_4 = -10,
+  func_std__create_view = -11,
+  func_std_types__generic_terminal___set_clear_colour = -12,
+  func_std_types__generic_terminal___set_draw_colour = -13,
+  func_std_types__view___draw_text = -14,
+  func_std_types__view___draw_attributed_text = -15,
+  func_std_types__view___clear = -16,
+  lambda_5 = -17,
+  lambda_6 = -18,
+  func_std__create_vertical_panes = -19,
+  lambda_7 = -20,
+  lambda_8 = -21,
+  lambda_9 = -22,
+  lambda_10 = -23,
+  lambda_11 = -24,
+  lambda_12 = -25,
+  lambda_13 = -26,
+  lambda_14 = -27,
+  lambda_15 = -28,
+  lambda_16 = -29,
+  lambda_17 = -30,
+  lambda_18 = -31,
+  lambda_19 = -32,
+  func_create_pane_view = -33,
+  lambda_20 = -34,
+  lambda_21 = -35,
+  func_return = -36,
+  lambda_22 = -37,
+  lambda_23 = -38,
+  func_std__create_horizontal_panes = -39,
+  lambda_24 = -40,
+  lambda_25 = -41,
+  lambda_26 = -42,
+  lambda_27 = -43,
+  lambda_28 = -44,
+  lambda_29 = -45,
+  lambda_30 = -46,
+  lambda_31 = -47,
+  lambda_32 = -48,
+  lambda_33 = -49,
+  lambda_34 = -50,
+  lambda_35 = -51,
+  lambda_36 = -52,
+  lambda_37 = -53,
+  lambda_38 = -54,
+  func_2_create_pane_view = -55,
+  lambda_39 = -56,
+  lambda_40 = -57,
+  func_2_return = -58,
+  lambda_41 = -59,
+  lambda_42 = -60
 };
 
 enum {
@@ -83,6 +85,8 @@ enum {
   var_std__clear_colour_of, // attribute
   var_std__set_draw_colour, // attribute
   var_std__set_clear_colour, // attribute
+  var_std__KEY_PRESS, // initialized
+  var_std__MOUSE_CLICK, // initialized
   var_std__draw_text, // attribute
   var_std__draw_attributed_text, // attribute
   var_std__clear, // attribute
@@ -105,14 +109,14 @@ enum {
   var_draw_colour_of, // extern polymorphic
   var_std_types__view, // derived
   var_std_private__abs_x, // initialized
-  var_128_22_screen, // dynamic
-  var_128_29_x, // dynamic
+  var_131_22_screen, // dynamic
+  var_131_29_x, // dynamic
   var_std__less, // extern
   var_std__plus, // extern
   var_if, // extern
   var_std_private__abs_y, // initialized
-  var_134_22_screen, // dynamic
-  var_134_29_y, // dynamic
+  var_137_22_screen, // dynamic
+  var_137_29_y, // dynamic
   var_std__create_view, // initialized
   var_std__minus, // extern
   var_set_clear_colour, // extern polymorphic
@@ -124,24 +128,24 @@ enum {
   var_create_string, // extern
   var_draw_attributed_text, // extern polymorphic
   var_clear, // extern polymorphic
-  var_219_0_view, // dynamic
-  var_221_0_x, // dynamic
-  var_222_0_y, // dynamic
+  var_222_0_view, // dynamic
+  var_224_0_x, // dynamic
+  var_225_0_y, // dynamic
   var_is_undefined, // extern
   var_update_if, // extern
   var_std__create_vertical_panes, // initialized
-  var_238_0_screen, // dynamic
-  var_239_0_pane_description, // dynamic
-  var_241_1_rc, // dynamic
+  var_241_0_screen, // dynamic
+  var_242_0_pane_description, // dynamic
+  var_244_1_rc, // dynamic
   var_result_count, // extern
-  var_242_1_x, // dynamic
-  var_243_1_y, // dynamic
-  var_244_1_width, // dynamic
-  var_245_1_height, // dynamic
-  var_246_1_views, // dynamic
+  var_245_1_x, // dynamic
+  var_246_1_y, // dynamic
+  var_247_1_width, // dynamic
+  var_248_1_height, // dynamic
+  var_249_1_views, // dynamic
   var_empty_list, // extern
   var_is_an_integer, // extern
-  var_250_1_iter, // dynamic
+  var_253_1_iter, // dynamic
   var_bresenham, // extern
   var_next_value, // extern
   var_create_view, // extern
@@ -149,14 +153,14 @@ enum {
   var_next, // extern
   var_repeat, // extern
   var_is_a_list, // extern
-  var_260_1_fixed_width, // dynamic
-  var_261_1_flex_width_count, // dynamic
-  var_263_3_pane_width, // dynamic
+  var_263_1_fixed_width, // dynamic
+  var_264_1_flex_width_count, // dynamic
+  var_266_3_pane_width, // dynamic
   var_inc, // extern
   var_plus, // extern
-  var_276_1_flex_width, // dynamic
-  var_277_1_remaining_flex_width, // dynamic
-  var_279_3_pane_width, // dynamic
+  var_279_1_flex_width, // dynamic
+  var_280_1_remaining_flex_width, // dynamic
+  var_282_3_pane_width, // dynamic
   var_dec, // extern
   var_std__times, // extern
   var_round, // extern
@@ -170,21 +174,21 @@ enum {
   var_std__equal, // extern
   var_spread, // extern
   var_std__create_horizontal_panes, // initialized
-  var_309_0_screen, // dynamic
-  var_310_0_pane_description, // dynamic
-  var_312_1_rc, // dynamic
-  var_313_1_x, // dynamic
-  var_314_1_y, // dynamic
-  var_315_1_width, // dynamic
-  var_316_1_height, // dynamic
-  var_317_1_views, // dynamic
-  var_321_1_iter, // dynamic
-  var_331_1_fixed_height, // dynamic
-  var_332_1_flex_height_count, // dynamic
-  var_334_3_pane_height, // dynamic
-  var_347_1_flex_height, // dynamic
-  var_348_1_remaining_flex_height, // dynamic
-  var_350_3_pane_height, // dynamic
+  var_312_0_screen, // dynamic
+  var_313_0_pane_description, // dynamic
+  var_315_1_rc, // dynamic
+  var_316_1_x, // dynamic
+  var_317_1_y, // dynamic
+  var_318_1_width, // dynamic
+  var_319_1_height, // dynamic
+  var_320_1_views, // dynamic
+  var_324_1_iter, // dynamic
+  var_334_1_fixed_height, // dynamic
+  var_335_1_flex_height_count, // dynamic
+  var_337_3_pane_height, // dynamic
+  var_350_1_flex_height, // dynamic
+  var_351_1_remaining_flex_height, // dynamic
+  var_353_3_pane_height, // dynamic
   var__END
 };
 
@@ -192,87 +196,87 @@ enum {
 static TAB_NUM t_func_std_private__abs_x[] = {
   1, // locals
   2, // parameters
-  var_128_22_screen,
-  var_128_29_x,
+  var_131_22_screen,
+  var_131_29_x,
   // x < 0
-  var_std__less, 2, var_128_29_x, num_0, 1, LOCAL(1),
+  var_std__less, 2, var_131_29_x, num_0, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_1, lambda_2, TAIL_CALL,
-  POS(130, 5),
-  POS(129, 3)
+  POS(133, 5),
+  POS(132, 3)
 };
 
 static TAB_NUM t_lambda_1[] = {
   3, // locals
   0, // parameters
   // width_of(screen)+x+1
-  var_width_of, 1, var_128_22_screen, 1, LOCAL(1),
+  var_width_of, 1, var_131_22_screen, 1, LOCAL(1),
   // width_of(screen)+x+1
-  var_std__plus, 2, LOCAL(1), var_128_29_x, 1, LOCAL(2),
+  var_std__plus, 2, LOCAL(1), var_131_29_x, 1, LOCAL(2),
   // width_of(screen)+x+1
   var_std__plus, 2, LOCAL(2), num_1, 1, LOCAL(3),
   //  width_of(screen)+x+1
   LET, 1, LOCAL(3), TAIL_CALL,
-  POS(131, 8),
-  POS(131, 8),
-  POS(131, 8),
-  POS(131, 7)
+  POS(134, 8),
+  POS(134, 8),
+  POS(134, 8),
+  POS(134, 7)
 };
 
 static TAB_NUM t_lambda_2[] = {
   0, // locals
   0, // parameters
   //  x
-  LET, 1, var_128_29_x, TAIL_CALL,
-  POS(132, 7)
+  LET, 1, var_131_29_x, TAIL_CALL,
+  POS(135, 7)
 };
 
 static TAB_NUM t_func_std_private__abs_y[] = {
   1, // locals
   2, // parameters
-  var_134_22_screen,
-  var_134_29_y,
+  var_137_22_screen,
+  var_137_29_y,
   // y < 0
-  var_std__less, 2, var_134_29_y, num_0, 1, LOCAL(1),
+  var_std__less, 2, var_137_29_y, num_0, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_3, lambda_4, TAIL_CALL,
-  POS(136, 5),
-  POS(135, 3)
+  POS(139, 5),
+  POS(138, 3)
 };
 
 static TAB_NUM t_lambda_3[] = {
   3, // locals
   0, // parameters
   // height_of(screen)+y+1
-  var_height_of, 1, var_134_22_screen, 1, LOCAL(1),
+  var_height_of, 1, var_137_22_screen, 1, LOCAL(1),
   // height_of(screen)+y+1
-  var_std__plus, 2, LOCAL(1), var_134_29_y, 1, LOCAL(2),
+  var_std__plus, 2, LOCAL(1), var_137_29_y, 1, LOCAL(2),
   // height_of(screen)+y+1
   var_std__plus, 2, LOCAL(2), num_1, 1, LOCAL(3),
   //  height_of(screen)+y+1
   LET, 1, LOCAL(3), TAIL_CALL,
-  POS(137, 8),
-  POS(137, 8),
-  POS(137, 8),
-  POS(137, 7)
+  POS(140, 8),
+  POS(140, 8),
+  POS(140, 8),
+  POS(140, 7)
 };
 
 static TAB_NUM t_lambda_4[] = {
   0, // locals
   0, // parameters
   //  y
-  LET, 1, var_134_29_y, TAIL_CALL,
-  POS(138, 7)
+  LET, 1, var_137_29_y, TAIL_CALL,
+  POS(141, 7)
 };
 
 static TAB_NUM t_func_std__create_view[] = {
   25, // locals
   5, // parameters
-  LOCAL(21), // 142_0_screen
-  LOCAL(22), // 143_0_left_x
-  LOCAL(23), // 144_0_top_y
-  LOCAL(24), // 145_0_right_x
-  LOCAL(25), // 146_0_bottom_y
+  LOCAL(21), // 145_0_screen
+  LOCAL(22), // 146_0_left_x
+  LOCAL(23), // 147_0_top_y
+  LOCAL(24), // 148_0_right_x
+  LOCAL(25), // 149_0_bottom_y
   // std_private::abs_x screen &left_x
   var_std_private__abs_x, 2, LOCAL(21), LOCAL(22), 1, LOCAL(22),
   // std_private::abs_y screen &top_y
@@ -323,67 +327,67 @@ static TAB_NUM t_func_std__create_view[] = {
   LET, -13, var_std_types__view, var_x_of, LOCAL(3), var_y_of, LOCAL(6), var_width_of, LOCAL(8), var_height_of, LOCAL(10), var_character_width_of, LOCAL(11), var_ascent_of, LOCAL(12), var_descent_of, LOCAL(13), var_character_height_of, LOCAL(14), var_line_spacing_of, LOCAL(15), var_line_height_of, LOCAL(16), var_baseline_of, LOCAL(17), var_clear_colour_of, LOCAL(18), var_draw_colour_of, LOCAL(19), LOCAL(20),
   // ->
   LET, 1, LOCAL(20), TAIL_CALL,
-  POS(148, 3),
-  POS(149, 3),
-  POS(150, 3),
   POS(151, 3),
-  POS(154, 13),
-  POS(154, 13),
-  POS(154, 13),
-  POS(155, 13),
-  POS(155, 13),
-  POS(155, 13),
-  POS(156, 18),
-  POS(156, 18),
-  POS(157, 19),
-  POS(157, 19),
-  POS(158, 27),
+  POS(152, 3),
+  POS(153, 3),
+  POS(154, 3),
+  POS(157, 13),
+  POS(157, 13),
+  POS(157, 13),
+  POS(158, 13),
+  POS(158, 13),
+  POS(158, 13),
+  POS(159, 18),
   POS(159, 18),
   POS(160, 19),
-  POS(161, 28),
-  POS(162, 24),
-  POS(163, 23),
-  POS(164, 20),
+  POS(160, 19),
+  POS(161, 27),
+  POS(162, 18),
+  POS(163, 19),
+  POS(164, 28),
   POS(165, 24),
   POS(166, 23),
-  POS(153, 5),
-  POS(152, 3)
+  POS(167, 20),
+  POS(168, 24),
+  POS(169, 23),
+  POS(156, 5),
+  POS(155, 3)
 };
 
 static TAB_NUM t_func_std_types__generic_terminal___set_clear_colour[] = {
   3, // locals
   2, // parameters
-  LOCAL(2), // 170_0_terminal
-  LOCAL(3), // 171_0_colour
+  LOCAL(2), // 173_0_terminal
+  LOCAL(3), // 174_0_colour
   // .clear_colour_of colour)
   LET, -1, LOCAL(2), var_clear_colour_of, LOCAL(3), LOCAL(1),
   // -> terminal(.clear_colour_of colour)
   LET, 1, LOCAL(1), TAIL_CALL,
-  POS(173, 15),
-  POS(173, 3)
+  POS(176, 15),
+  POS(176, 3)
 };
 
 static TAB_NUM t_func_std_types__generic_terminal___set_draw_colour[] = {
   3, // locals
   2, // parameters
-  LOCAL(2), // 177_0_terminal
-  LOCAL(3), // 178_0_colour
+  LOCAL(2), // 180_0_terminal
+  LOCAL(3), // 181_0_colour
   // .draw_colour_of colour)
   LET, -1, LOCAL(2), var_draw_colour_of, LOCAL(3), LOCAL(1),
   // -> terminal(.draw_colour_of colour)
   LET, 1, LOCAL(1), TAIL_CALL,
-  POS(180, 15),
-  POS(180, 3)
+  POS(183, 15),
+  POS(183, 3)
 };
 
 static TAB_NUM t_func_std_types__view___draw_text[] = {
   12, // locals
   -5, // parameters
-  MANDATORY_PARAMETER, LOCAL(7), // 188_0_view
-  MANDATORY_PARAMETER, LOCAL(8), // 189_0_screen
-  MANDATORY_PARAMETER, LOCAL(9), // 190_0_x
-  MANDATORY_PARAMETER, LOCAL(10), // 191_0_y
-  REST_PARAMETER, LOCAL(11), // 192_0_args
+  MANDATORY_PARAMETER, LOCAL(7), // 191_0_view
+  MANDATORY_PARAMETER, LOCAL(8), // 192_0_screen
+  MANDATORY_PARAMETER, LOCAL(9), // 193_0_x
+  MANDATORY_PARAMETER, LOCAL(10), // 194_0_y
+  REST_PARAMETER, LOCAL(11), // 195_0_args
   // $text create_string(args)
   var_create_string, 1, LOCAL(11), 1, LOCAL(12),
   // x_of(view)+x-1
@@ -400,24 +404,24 @@ static TAB_NUM t_func_std_types__view___draw_text[] = {
   var_std__minus, 2, LOCAL(5), num_1, 1, LOCAL(6),
   // std_private::draw_text
   var_std_private__draw_text, 5, LOCAL(8), LOCAL(7), LOCAL(3), LOCAL(6), LOCAL(12), TAIL_CALL,
-  POS(194, 3),
-  POS(198, 5),
-  POS(198, 5),
-  POS(198, 5),
-  POS(199, 5),
-  POS(199, 5),
-  POS(199, 5),
-  POS(195, 3)
+  POS(197, 3),
+  POS(201, 5),
+  POS(201, 5),
+  POS(201, 5),
+  POS(202, 5),
+  POS(202, 5),
+  POS(202, 5),
+  POS(198, 3)
 };
 
 static TAB_NUM t_func_std_types__view___draw_attributed_text[] = {
   11, // locals
   5, // parameters
-  LOCAL(7), // 204_0_view
-  LOCAL(8), // 205_0_screen
-  LOCAL(9), // 206_0_x
-  LOCAL(10), // 207_0_y
-  LOCAL(11), // 208_0_attributed_text
+  LOCAL(7), // 207_0_view
+  LOCAL(8), // 208_0_screen
+  LOCAL(9), // 209_0_x
+  LOCAL(10), // 210_0_y
+  LOCAL(11), // 211_0_attributed_text
   // x_of(view)+x-1
   var_x_of, 1, LOCAL(7), 1, LOCAL(1),
   // x_of(view)+x-1
@@ -432,24 +436,24 @@ static TAB_NUM t_func_std_types__view___draw_attributed_text[] = {
   var_std__minus, 2, LOCAL(5), num_1, 1, LOCAL(6),
   // std_private::draw_attributed_text
   var_std_private__draw_attributed_text, 5, LOCAL(8), LOCAL(7), LOCAL(3), LOCAL(6), LOCAL(11), TAIL_CALL,
-  POS(213, 5),
-  POS(213, 5),
-  POS(213, 5),
-  POS(214, 5),
-  POS(214, 5),
-  POS(214, 5),
-  POS(210, 3)
+  POS(216, 5),
+  POS(216, 5),
+  POS(216, 5),
+  POS(217, 5),
+  POS(217, 5),
+  POS(217, 5),
+  POS(213, 3)
 };
 
 static TAB_NUM t_func_std_types__view___clear[] = {
   9, // locals
   -6, // parameters
-  MANDATORY_PARAMETER, var_219_0_view,
-  MANDATORY_PARAMETER, LOCAL(7), // 220_0_screen
-  num_1, var_221_0_x,
-  num_1, var_222_0_y,
-  var_undefined, LOCAL(8), // 223_0_width
-  var_undefined, LOCAL(9), // 224_0_height
+  MANDATORY_PARAMETER, var_222_0_view,
+  MANDATORY_PARAMETER, LOCAL(7), // 223_0_screen
+  num_1, var_224_0_x,
+  num_1, var_225_0_y,
+  var_undefined, LOCAL(8), // 226_0_width
+  var_undefined, LOCAL(9), // 227_0_height
   // is_undefined &width -> width_of(view)-x+1
   var_is_undefined, 1, LOCAL(8), 1, LOCAL(1),
   // update_if width.is_undefined &width -> width_of(view)-x+1
@@ -459,222 +463,222 @@ static TAB_NUM t_func_std_types__view___clear[] = {
   // update_if height.is_undefined &height -> height_of(view)-y+1
   var_update_if, 3, LOCAL(1), LOCAL(9), lambda_6, 1, LOCAL(9),
   // x_of(view)+x-1
-  var_x_of, 1, var_219_0_view, 1, LOCAL(1),
+  var_x_of, 1, var_222_0_view, 1, LOCAL(1),
   // x_of(view)+x-1
-  var_std__plus, 2, LOCAL(1), var_221_0_x, 1, LOCAL(2),
+  var_std__plus, 2, LOCAL(1), var_224_0_x, 1, LOCAL(2),
   // x_of(view)+x-1
   var_std__minus, 2, LOCAL(2), num_1, 1, LOCAL(3),
   // y_of(view)+y-1
-  var_y_of, 1, var_219_0_view, 1, LOCAL(4),
+  var_y_of, 1, var_222_0_view, 1, LOCAL(4),
   // y_of(view)+y-1
-  var_std__plus, 2, LOCAL(4), var_222_0_y, 1, LOCAL(5),
+  var_std__plus, 2, LOCAL(4), var_225_0_y, 1, LOCAL(5),
   // y_of(view)+y-1
   var_std__minus, 2, LOCAL(5), num_1, 1, LOCAL(6),
   // std_private::clear
-  var_std_private__clear, 6, LOCAL(7), var_219_0_view, LOCAL(3), LOCAL(6), LOCAL(8), LOCAL(9), TAIL_CALL,
-  POS(226, 19),
-  POS(226, 3),
-  POS(227, 20),
-  POS(227, 3),
-  POS(231, 5),
-  POS(231, 5),
-  POS(231, 5),
-  POS(232, 5),
-  POS(232, 5),
-  POS(232, 5),
-  POS(228, 3)
+  var_std_private__clear, 6, LOCAL(7), var_222_0_view, LOCAL(3), LOCAL(6), LOCAL(8), LOCAL(9), TAIL_CALL,
+  POS(229, 19),
+  POS(229, 3),
+  POS(230, 20),
+  POS(230, 3),
+  POS(234, 5),
+  POS(234, 5),
+  POS(234, 5),
+  POS(235, 5),
+  POS(235, 5),
+  POS(235, 5),
+  POS(231, 3)
 };
 
 static TAB_NUM t_lambda_5[] = {
   3, // locals
   0, // parameters
   // width_of(view)-x+1
-  var_width_of, 1, var_219_0_view, 1, LOCAL(1),
+  var_width_of, 1, var_222_0_view, 1, LOCAL(1),
   // width_of(view)-x+1
-  var_std__minus, 2, LOCAL(1), var_221_0_x, 1, LOCAL(2),
+  var_std__minus, 2, LOCAL(1), var_224_0_x, 1, LOCAL(2),
   // width_of(view)-x+1
   var_std__plus, 2, LOCAL(2), num_1, 1, LOCAL(3),
   //  width_of(view)-x+1
   LET, 1, LOCAL(3), TAIL_CALL,
-  POS(226, 42),
-  POS(226, 42),
-  POS(226, 42),
-  POS(226, 41)
+  POS(229, 42),
+  POS(229, 42),
+  POS(229, 42),
+  POS(229, 41)
 };
 
 static TAB_NUM t_lambda_6[] = {
   3, // locals
   0, // parameters
   // height_of(view)-y+1
-  var_height_of, 1, var_219_0_view, 1, LOCAL(1),
+  var_height_of, 1, var_222_0_view, 1, LOCAL(1),
   // height_of(view)-y+1
-  var_std__minus, 2, LOCAL(1), var_222_0_y, 1, LOCAL(2),
+  var_std__minus, 2, LOCAL(1), var_225_0_y, 1, LOCAL(2),
   // height_of(view)-y+1
   var_std__plus, 2, LOCAL(2), num_1, 1, LOCAL(3),
   //  height_of(view)-y+1
   LET, 1, LOCAL(3), TAIL_CALL,
-  POS(227, 44),
-  POS(227, 44),
-  POS(227, 44),
-  POS(227, 43)
+  POS(230, 44),
+  POS(230, 44),
+  POS(230, 44),
+  POS(230, 43)
 };
 
 static TAB_NUM t_func_std__create_vertical_panes[] = {
   0, // locals
   2, // parameters
-  var_238_0_screen,
-  var_239_0_pane_description,
+  var_241_0_screen,
+  var_242_0_pane_description,
   // $rc result_count()
-  var_result_count, 0, 1, var_241_1_rc,
+  var_result_count, 0, 1, var_244_1_rc,
   // $x x_of(screen)
-  var_x_of, 1, var_238_0_screen, 1, var_242_1_x,
+  var_x_of, 1, var_241_0_screen, 1, var_245_1_x,
   // $y y_of(screen)
-  var_y_of, 1, var_238_0_screen, 1, var_243_1_y,
+  var_y_of, 1, var_241_0_screen, 1, var_246_1_y,
   // $width width_of(screen)
-  var_width_of, 1, var_238_0_screen, 1, var_244_1_width,
+  var_width_of, 1, var_241_0_screen, 1, var_247_1_width,
   // $height height_of(screen)
-  var_height_of, 1, var_238_0_screen, 1, var_245_1_height,
+  var_height_of, 1, var_241_0_screen, 1, var_248_1_height,
   // $views empty_list
-  LET, 1, var_empty_list, 1, var_246_1_views,
+  LET, 1, var_empty_list, 1, var_249_1_views,
   // cond
   var_cond, 3, lambda_7, lambda_10, lambda_20, TAIL_CALL,
-  POS(241, 3),
-  POS(242, 3),
-  POS(243, 3),
   POS(244, 3),
   POS(245, 3),
   POS(246, 3),
-  POS(247, 3)
+  POS(247, 3),
+  POS(248, 3),
+  POS(249, 3),
+  POS(250, 3)
 };
 
 static TAB_NUM t_lambda_7[] = {
   1, // locals
   0, // parameters
   // is_an_integer:
-  var_is_an_integer, 1, var_239_0_pane_description, 1, LOCAL(1),
+  var_is_an_integer, 1, var_242_0_pane_description, 1, LOCAL(1),
   //  pane_description.is_an_integer:
   LET, 2, LOCAL(1), lambda_8, TAIL_CALL,
-  POS(248, 25),
-  POS(248, 7)
+  POS(251, 25),
+  POS(251, 7)
 };
 
 static TAB_NUM t_lambda_8[] = {
   3, // locals
   0, // parameters
   // $n pane_description
-  LET, 1, var_239_0_pane_description, 1, LOCAL(3),
+  LET, 1, var_242_0_pane_description, 1, LOCAL(3),
   // n+1 x x+width)
   var_std__plus, 2, LOCAL(3), num_1, 1, LOCAL(1),
   // x+width)
-  var_std__plus, 2, var_242_1_x, var_244_1_width, 1, LOCAL(2),
+  var_std__plus, 2, var_245_1_x, var_247_1_width, 1, LOCAL(2),
   // $iter bresenham(n+1 x x+width)
-  var_bresenham, 3, LOCAL(1), var_242_1_x, LOCAL(2), 1, var_250_1_iter,
+  var_bresenham, 3, LOCAL(1), var_245_1_x, LOCAL(2), 1, var_253_1_iter,
   // next_value &iter !x
-  var_next_value, 1, var_250_1_iter, 2, var_250_1_iter, var_242_1_x,
+  var_next_value, 1, var_253_1_iter, 2, var_253_1_iter, var_245_1_x,
   // repeat n
   var_repeat, 3, LOCAL(3), lambda_9, func_return, TAIL_CALL,
-  POS(249, 7),
-  POS(250, 23),
-  POS(250, 29),
-  POS(250, 7),
-  POS(251, 7),
-  POS(252, 7)
+  POS(252, 7),
+  POS(253, 23),
+  POS(253, 29),
+  POS(253, 7),
+  POS(254, 7),
+  POS(255, 7)
 };
 
 static TAB_NUM t_lambda_9[] = {
   3, // locals
   0, // parameters
   // next_value &iter $next_x
-  var_next_value, 1, var_250_1_iter, 2, var_250_1_iter, LOCAL(3),
+  var_next_value, 1, var_253_1_iter, 2, var_253_1_iter, LOCAL(3),
   // next_x-1 height)
   var_std__minus, 2, LOCAL(3), num_1, 1, LOCAL(1),
   // create_view(screen x y next_x-1 height)
-  var_create_view, 5, var_238_0_screen, var_242_1_x, var_243_1_y, LOCAL(1), var_245_1_height, 1, LOCAL(2),
+  var_create_view, 5, var_241_0_screen, var_245_1_x, var_246_1_y, LOCAL(1), var_248_1_height, 1, LOCAL(2),
   // push &views create_view(screen x y next_x-1 height)
-  var_push, 2, var_246_1_views, LOCAL(2), 1, var_246_1_views,
+  var_push, 2, var_249_1_views, LOCAL(2), 1, var_249_1_views,
   // !x next_x
-  LET, 1, LOCAL(3), 1, var_242_1_x,
+  LET, 1, LOCAL(3), 1, var_245_1_x,
   // next
   var_next, 0, TAIL_CALL,
-  POS(254, 11),
-  POS(255, 46),
-  POS(255, 23),
-  POS(255, 11),
-  POS(256, 11),
-  POS(257, 11)
+  POS(257, 11),
+  POS(258, 46),
+  POS(258, 23),
+  POS(258, 11),
+  POS(259, 11),
+  POS(260, 11)
 };
 
 static TAB_NUM t_lambda_10[] = {
   1, // locals
   0, // parameters
   // is_a_list:
-  var_is_a_list, 1, var_239_0_pane_description, 1, LOCAL(1),
+  var_is_a_list, 1, var_242_0_pane_description, 1, LOCAL(1),
   //  pane_description.is_a_list:
   LET, 2, LOCAL(1), lambda_11, TAIL_CALL,
-  POS(259, 25),
-  POS(259, 7)
+  POS(262, 25),
+  POS(262, 7)
 };
 
 static TAB_NUM t_lambda_11[] = {
   0, // locals
   0, // parameters
   // $fixed_width 0
-  LET, 1, num_0, 1, var_260_1_fixed_width,
+  LET, 1, num_0, 1, var_263_1_fixed_width,
   // $flex_width_count 0
-  LET, 1, num_0, 1, var_261_1_flex_width_count,
+  LET, 1, num_0, 1, var_264_1_flex_width_count,
   // for_each pane_description
-  var_for_each, 3, var_239_0_pane_description, lambda_12, lambda_15, TAIL_CALL,
-  POS(260, 7),
-  POS(261, 7),
-  POS(262, 7)
+  var_for_each, 3, var_242_0_pane_description, lambda_12, lambda_15, TAIL_CALL,
+  POS(263, 7),
+  POS(264, 7),
+  POS(265, 7)
 };
 
 static TAB_NUM t_lambda_12[] = {
   1, // locals
   1, // parameters
-  var_263_3_pane_width,
+  var_266_3_pane_width,
   // pane_width < 1:
-  var_std__less, 2, var_263_3_pane_width, num_1, 1, LOCAL(1),
+  var_std__less, 2, var_266_3_pane_width, num_1, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_13, lambda_14, TAIL_CALL,
-  POS(265, 13),
-  POS(264, 11)
+  POS(268, 13),
+  POS(267, 11)
 };
 
 static TAB_NUM t_lambda_13[] = {
   0, // locals
   0, // parameters
   // inc &flex_width_count
-  var_inc, 1, var_261_1_flex_width_count, 1, var_261_1_flex_width_count,
-  // next
-  var_next, 0, TAIL_CALL,
-  POS(266, 15),
-  POS(267, 15)
-};
-
-static TAB_NUM t_lambda_14[] = {
-  0, // locals
-  0, // parameters
-  // plus &fixed_width pane_width
-  var_plus, 2, var_260_1_fixed_width, var_263_3_pane_width, 1, var_260_1_fixed_width,
+  var_inc, 1, var_264_1_flex_width_count, 1, var_264_1_flex_width_count,
   // next
   var_next, 0, TAIL_CALL,
   POS(269, 15),
   POS(270, 15)
 };
 
+static TAB_NUM t_lambda_14[] = {
+  0, // locals
+  0, // parameters
+  // plus &fixed_width pane_width
+  var_plus, 2, var_263_1_fixed_width, var_266_3_pane_width, 1, var_263_1_fixed_width,
+  // next
+  var_next, 0, TAIL_CALL,
+  POS(272, 15),
+  POS(273, 15)
+};
+
 static TAB_NUM t_lambda_15[] = {
   2, // locals
   0, // parameters
   // fixed_width+flex_width_count > width
-  var_std__plus, 2, var_260_1_fixed_width, var_261_1_flex_width_count, 1, LOCAL(1),
+  var_std__plus, 2, var_263_1_fixed_width, var_264_1_flex_width_count, 1, LOCAL(1),
   // width
-  var_std__less, 2, var_244_1_width, LOCAL(1), 1, LOCAL(2),
+  var_std__less, 2, var_247_1_width, LOCAL(1), 1, LOCAL(2),
   // if
   var_if, 3, LOCAL(2), lambda_16, lambda_17, TAIL_CALL,
-  POS(273, 13),
-  POS(273, 44),
-  POS(272, 11)
+  POS(276, 13),
+  POS(276, 44),
+  POS(275, 11)
 };
 
 static TAB_NUM t_lambda_16[] = {
@@ -682,42 +686,42 @@ static TAB_NUM t_lambda_16[] = {
   0, // parameters
   //  undefined
   LET, 1, var_undefined, TAIL_CALL,
-  POS(274, 15)
+  POS(277, 15)
 };
 
 static TAB_NUM t_lambda_17[] = {
   0, // locals
   0, // parameters
   // $flex_width width-fixed_width
-  var_std__minus, 2, var_244_1_width, var_260_1_fixed_width, 1, var_276_1_flex_width,
+  var_std__minus, 2, var_247_1_width, var_263_1_fixed_width, 1, var_279_1_flex_width,
   // $remaining_flex_width flex_width
-  LET, 1, var_276_1_flex_width, 1, var_277_1_remaining_flex_width,
+  LET, 1, var_279_1_flex_width, 1, var_280_1_remaining_flex_width,
   // for_each pane_description
-  var_for_each, 3, var_239_0_pane_description, lambda_18, func_return, TAIL_CALL,
-  POS(276, 15),
-  POS(277, 15),
-  POS(278, 15)
+  var_for_each, 3, var_242_0_pane_description, lambda_18, func_return, TAIL_CALL,
+  POS(279, 15),
+  POS(280, 15),
+  POS(281, 15)
 };
 
 static TAB_NUM t_lambda_18[] = {
   1, // locals
   1, // parameters
-  var_279_3_pane_width,
+  var_282_3_pane_width,
   // pane_width < 1:
-  var_std__less, 2, var_279_3_pane_width, num_1, 1, LOCAL(1),
+  var_std__less, 2, var_282_3_pane_width, num_1, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_19, func_create_pane_view, TAIL_CALL,
-  POS(281, 21),
-  POS(280, 19)
+  POS(284, 21),
+  POS(283, 19)
 };
 
 static TAB_NUM t_lambda_19[] = {
   5, // locals
   0, // parameters
   // dec &flex_width_count
-  var_dec, 1, var_261_1_flex_width_count, 1, var_261_1_flex_width_count,
+  var_dec, 1, var_264_1_flex_width_count, 1, var_264_1_flex_width_count,
   // pane_width*flex_width).to_integer 1)
-  var_std__times, 2, var_279_3_pane_width, var_276_1_flex_width, 1, LOCAL(1),
+  var_std__times, 2, var_282_3_pane_width, var_279_1_flex_width, 1, LOCAL(1),
   // round(pane_width*flex_width).to_integer 1)
   var_round, 1, LOCAL(1), 1, LOCAL(2),
   // to_integer 1)
@@ -725,45 +729,45 @@ static TAB_NUM t_lambda_19[] = {
   // max(round(pane_width*flex_width).to_integer 1)
   var_max, 2, LOCAL(3), num_1, 1, LOCAL(4),
   // remaining_flex_width-flex_width_count #
-  var_std__minus, 2, var_277_1_remaining_flex_width, var_261_1_flex_width_count, 1, LOCAL(5),
+  var_std__minus, 2, var_280_1_remaining_flex_width, var_264_1_flex_width_count, 1, LOCAL(5),
   // !pane_width
-  var_min, 2, LOCAL(4), LOCAL(5), 1, var_279_3_pane_width,
+  var_min, 2, LOCAL(4), LOCAL(5), 1, var_282_3_pane_width,
   // minus &remaining_flex_width pane_width
-  var_minus, 2, var_277_1_remaining_flex_width, var_279_3_pane_width, 1, var_277_1_remaining_flex_width,
+  var_minus, 2, var_280_1_remaining_flex_width, var_282_3_pane_width, 1, var_280_1_remaining_flex_width,
   // create_pane_view
   func_create_pane_view, 0, TAIL_CALL,
-  POS(282, 23),
-  POS(285, 37),
-  POS(285, 31),
-  POS(285, 60),
-  POS(285, 27),
-  POS(286, 27),
-  POS(283, 23),
-  POS(290, 23),
-  POS(291, 23)
+  POS(285, 23),
+  POS(288, 37),
+  POS(288, 31),
+  POS(288, 60),
+  POS(288, 27),
+  POS(289, 27),
+  POS(286, 23),
+  POS(293, 23),
+  POS(294, 23)
 };
 
 static TAB_NUM t_func_create_pane_view[] = {
   3, // locals
   0, // parameters
   // x+pane_width-1 height)
-  var_std__plus, 2, var_242_1_x, var_279_3_pane_width, 1, LOCAL(1),
+  var_std__plus, 2, var_245_1_x, var_282_3_pane_width, 1, LOCAL(1),
   // x+pane_width-1 height)
   var_std__minus, 2, LOCAL(1), num_1, 1, LOCAL(2),
   // create_view(screen x y x+pane_width-1 height)
-  var_create_view, 5, var_238_0_screen, var_242_1_x, var_243_1_y, LOCAL(2), var_245_1_height, 1, LOCAL(3),
+  var_create_view, 5, var_241_0_screen, var_245_1_x, var_246_1_y, LOCAL(2), var_248_1_height, 1, LOCAL(3),
   // push &views create_view(screen x y x+pane_width-1 height)
-  var_push, 2, var_246_1_views, LOCAL(3), 1, var_246_1_views,
+  var_push, 2, var_249_1_views, LOCAL(3), 1, var_249_1_views,
   // plus &x pane_width
-  var_plus, 2, var_242_1_x, var_279_3_pane_width, 1, var_242_1_x,
+  var_plus, 2, var_245_1_x, var_282_3_pane_width, 1, var_245_1_x,
   // next
   var_next, 0, TAIL_CALL,
-  POS(295, 56),
-  POS(295, 56),
-  POS(295, 33),
-  POS(295, 21),
-  POS(296, 21),
-  POS(297, 21)
+  POS(298, 56),
+  POS(298, 56),
+  POS(298, 33),
+  POS(298, 21),
+  POS(299, 21),
+  POS(300, 21)
 };
 
 static TAB_NUM t_lambda_20[] = {
@@ -771,7 +775,7 @@ static TAB_NUM t_lambda_20[] = {
   0, // parameters
   //  true -> undefined
   LET, 2, var_true, lambda_21, TAIL_CALL,
-  POS(299, 7)
+  POS(302, 7)
 };
 
 static TAB_NUM t_lambda_21[] = {
@@ -779,192 +783,192 @@ static TAB_NUM t_lambda_21[] = {
   0, // parameters
   //  undefined
   LET, 1, var_undefined, TAIL_CALL,
-  POS(299, 15)
+  POS(302, 15)
 };
 
 static TAB_NUM t_func_return[] = {
   1, // locals
   0, // parameters
   // rc == 1
-  var_std__equal, 2, var_241_1_rc, num_1, 1, LOCAL(1),
+  var_std__equal, 2, var_244_1_rc, num_1, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_22, lambda_23, TAIL_CALL,
-  POS(303, 7),
-  POS(302, 5)
+  POS(306, 7),
+  POS(305, 5)
 };
 
 static TAB_NUM t_lambda_22[] = {
   0, // locals
   0, // parameters
   //  views
-  LET, 1, var_246_1_views, TAIL_CALL,
-  POS(304, 9)
+  LET, 1, var_249_1_views, TAIL_CALL,
+  POS(307, 9)
 };
 
 static TAB_NUM t_lambda_23[] = {
   0, // locals
   0, // parameters
   // spread views
-  var_spread, 1, var_246_1_views, TAIL_CALL,
-  POS(305, 9)
+  var_spread, 1, var_249_1_views, TAIL_CALL,
+  POS(308, 9)
 };
 
 static TAB_NUM t_func_std__create_horizontal_panes[] = {
   0, // locals
   2, // parameters
-  var_309_0_screen,
-  var_310_0_pane_description,
+  var_312_0_screen,
+  var_313_0_pane_description,
   // $rc result_count()
-  var_result_count, 0, 1, var_312_1_rc,
+  var_result_count, 0, 1, var_315_1_rc,
   // $x x_of(screen)
-  var_x_of, 1, var_309_0_screen, 1, var_313_1_x,
+  var_x_of, 1, var_312_0_screen, 1, var_316_1_x,
   // $y y_of(screen)
-  var_y_of, 1, var_309_0_screen, 1, var_314_1_y,
+  var_y_of, 1, var_312_0_screen, 1, var_317_1_y,
   // $width width_of(screen)
-  var_width_of, 1, var_309_0_screen, 1, var_315_1_width,
+  var_width_of, 1, var_312_0_screen, 1, var_318_1_width,
   // $height height_of(screen)
-  var_height_of, 1, var_309_0_screen, 1, var_316_1_height,
+  var_height_of, 1, var_312_0_screen, 1, var_319_1_height,
   // $views empty_list
-  LET, 1, var_empty_list, 1, var_317_1_views,
+  LET, 1, var_empty_list, 1, var_320_1_views,
   // cond
   var_cond, 3, lambda_24, lambda_27, lambda_39, TAIL_CALL,
-  POS(312, 3),
-  POS(313, 3),
-  POS(314, 3),
   POS(315, 3),
   POS(316, 3),
   POS(317, 3),
-  POS(318, 3)
+  POS(318, 3),
+  POS(319, 3),
+  POS(320, 3),
+  POS(321, 3)
 };
 
 static TAB_NUM t_lambda_24[] = {
   1, // locals
   0, // parameters
   // is_an_integer:
-  var_is_an_integer, 1, var_310_0_pane_description, 1, LOCAL(1),
+  var_is_an_integer, 1, var_313_0_pane_description, 1, LOCAL(1),
   //  pane_description.is_an_integer:
   LET, 2, LOCAL(1), lambda_25, TAIL_CALL,
-  POS(319, 25),
-  POS(319, 7)
+  POS(322, 25),
+  POS(322, 7)
 };
 
 static TAB_NUM t_lambda_25[] = {
   3, // locals
   0, // parameters
   // $n pane_description
-  LET, 1, var_310_0_pane_description, 1, LOCAL(3),
+  LET, 1, var_313_0_pane_description, 1, LOCAL(3),
   // n+1 y y+height)
   var_std__plus, 2, LOCAL(3), num_1, 1, LOCAL(1),
   // y+height)
-  var_std__plus, 2, var_314_1_y, var_316_1_height, 1, LOCAL(2),
+  var_std__plus, 2, var_317_1_y, var_319_1_height, 1, LOCAL(2),
   // $iter bresenham(n+1 y y+height)
-  var_bresenham, 3, LOCAL(1), var_314_1_y, LOCAL(2), 1, var_321_1_iter,
+  var_bresenham, 3, LOCAL(1), var_317_1_y, LOCAL(2), 1, var_324_1_iter,
   // next_value &iter !y
-  var_next_value, 1, var_321_1_iter, 2, var_321_1_iter, var_314_1_y,
+  var_next_value, 1, var_324_1_iter, 2, var_324_1_iter, var_317_1_y,
   // repeat n
   var_repeat, 3, LOCAL(3), lambda_26, func_2_return, TAIL_CALL,
-  POS(320, 7),
-  POS(321, 23),
-  POS(321, 29),
-  POS(321, 7),
-  POS(322, 7),
-  POS(323, 7)
+  POS(323, 7),
+  POS(324, 23),
+  POS(324, 29),
+  POS(324, 7),
+  POS(325, 7),
+  POS(326, 7)
 };
 
 static TAB_NUM t_lambda_26[] = {
   3, // locals
   0, // parameters
   // next_value &iter $next_y
-  var_next_value, 1, var_321_1_iter, 2, var_321_1_iter, LOCAL(3),
+  var_next_value, 1, var_324_1_iter, 2, var_324_1_iter, LOCAL(3),
   // next_y-1)
   var_std__minus, 2, LOCAL(3), num_1, 1, LOCAL(1),
   // create_view(screen x y width next_y-1)
-  var_create_view, 5, var_309_0_screen, var_313_1_x, var_314_1_y, var_315_1_width, LOCAL(1), 1, LOCAL(2),
+  var_create_view, 5, var_312_0_screen, var_316_1_x, var_317_1_y, var_318_1_width, LOCAL(1), 1, LOCAL(2),
   // push &views create_view(screen x y width next_y-1)
-  var_push, 2, var_317_1_views, LOCAL(2), 1, var_317_1_views,
+  var_push, 2, var_320_1_views, LOCAL(2), 1, var_320_1_views,
   // !y next_y
-  LET, 1, LOCAL(3), 1, var_314_1_y,
+  LET, 1, LOCAL(3), 1, var_317_1_y,
   // next
   var_next, 0, TAIL_CALL,
-  POS(325, 11),
-  POS(326, 52),
-  POS(326, 23),
-  POS(326, 11),
-  POS(327, 11),
-  POS(328, 11)
+  POS(328, 11),
+  POS(329, 52),
+  POS(329, 23),
+  POS(329, 11),
+  POS(330, 11),
+  POS(331, 11)
 };
 
 static TAB_NUM t_lambda_27[] = {
   1, // locals
   0, // parameters
   // is_a_list:
-  var_is_a_list, 1, var_310_0_pane_description, 1, LOCAL(1),
+  var_is_a_list, 1, var_313_0_pane_description, 1, LOCAL(1),
   //  pane_description.is_a_list:
   LET, 2, LOCAL(1), lambda_28, TAIL_CALL,
-  POS(330, 25),
-  POS(330, 7)
+  POS(333, 25),
+  POS(333, 7)
 };
 
 static TAB_NUM t_lambda_28[] = {
   0, // locals
   0, // parameters
   // $fixed_height 0
-  LET, 1, num_0, 1, var_331_1_fixed_height,
+  LET, 1, num_0, 1, var_334_1_fixed_height,
   // $flex_height_count 0
-  LET, 1, num_0, 1, var_332_1_flex_height_count,
+  LET, 1, num_0, 1, var_335_1_flex_height_count,
   // for_each pane_description
-  var_for_each, 3, var_310_0_pane_description, lambda_29, lambda_32, TAIL_CALL,
-  POS(331, 7),
-  POS(332, 7),
-  POS(333, 7)
+  var_for_each, 3, var_313_0_pane_description, lambda_29, lambda_32, TAIL_CALL,
+  POS(334, 7),
+  POS(335, 7),
+  POS(336, 7)
 };
 
 static TAB_NUM t_lambda_29[] = {
   1, // locals
   1, // parameters
-  var_334_3_pane_height,
+  var_337_3_pane_height,
   // pane_height < 1:
-  var_std__less, 2, var_334_3_pane_height, num_1, 1, LOCAL(1),
+  var_std__less, 2, var_337_3_pane_height, num_1, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_30, lambda_31, TAIL_CALL,
-  POS(336, 13),
-  POS(335, 11)
+  POS(339, 13),
+  POS(338, 11)
 };
 
 static TAB_NUM t_lambda_30[] = {
   0, // locals
   0, // parameters
   // inc &flex_height_count
-  var_inc, 1, var_332_1_flex_height_count, 1, var_332_1_flex_height_count,
-  // next
-  var_next, 0, TAIL_CALL,
-  POS(337, 15),
-  POS(338, 15)
-};
-
-static TAB_NUM t_lambda_31[] = {
-  0, // locals
-  0, // parameters
-  // plus &fixed_height pane_height
-  var_plus, 2, var_331_1_fixed_height, var_334_3_pane_height, 1, var_331_1_fixed_height,
+  var_inc, 1, var_335_1_flex_height_count, 1, var_335_1_flex_height_count,
   // next
   var_next, 0, TAIL_CALL,
   POS(340, 15),
   POS(341, 15)
 };
 
+static TAB_NUM t_lambda_31[] = {
+  0, // locals
+  0, // parameters
+  // plus &fixed_height pane_height
+  var_plus, 2, var_334_1_fixed_height, var_337_3_pane_height, 1, var_334_1_fixed_height,
+  // next
+  var_next, 0, TAIL_CALL,
+  POS(343, 15),
+  POS(344, 15)
+};
+
 static TAB_NUM t_lambda_32[] = {
   2, // locals
   0, // parameters
   // fixed_height+flex_height_count > height
-  var_std__plus, 2, var_331_1_fixed_height, var_332_1_flex_height_count, 1, LOCAL(1),
+  var_std__plus, 2, var_334_1_fixed_height, var_335_1_flex_height_count, 1, LOCAL(1),
   // height
-  var_std__less, 2, var_316_1_height, LOCAL(1), 1, LOCAL(2),
+  var_std__less, 2, var_319_1_height, LOCAL(1), 1, LOCAL(2),
   // if
   var_if, 3, LOCAL(2), lambda_33, lambda_34, TAIL_CALL,
-  POS(344, 13),
-  POS(344, 46),
-  POS(343, 11)
+  POS(347, 13),
+  POS(347, 46),
+  POS(346, 11)
 };
 
 static TAB_NUM t_lambda_33[] = {
@@ -972,68 +976,68 @@ static TAB_NUM t_lambda_33[] = {
   0, // parameters
   //  undefined
   LET, 1, var_undefined, TAIL_CALL,
-  POS(345, 15)
+  POS(348, 15)
 };
 
 static TAB_NUM t_lambda_34[] = {
   0, // locals
   0, // parameters
   // $flex_height height-fixed_height
-  var_std__minus, 2, var_316_1_height, var_331_1_fixed_height, 1, var_347_1_flex_height,
+  var_std__minus, 2, var_319_1_height, var_334_1_fixed_height, 1, var_350_1_flex_height,
   // $remaining_flex_height flex_height
-  LET, 1, var_347_1_flex_height, 1, var_348_1_remaining_flex_height,
+  LET, 1, var_350_1_flex_height, 1, var_351_1_remaining_flex_height,
   // for_each pane_description
-  var_for_each, 3, var_310_0_pane_description, lambda_35, func_2_return, TAIL_CALL,
-  POS(347, 15),
-  POS(348, 15),
-  POS(349, 15)
+  var_for_each, 3, var_313_0_pane_description, lambda_35, func_2_return, TAIL_CALL,
+  POS(350, 15),
+  POS(351, 15),
+  POS(352, 15)
 };
 
 static TAB_NUM t_lambda_35[] = {
   1, // locals
   1, // parameters
-  var_350_3_pane_height,
+  var_353_3_pane_height,
   // pane_height < 1:
-  var_std__less, 2, var_350_3_pane_height, num_1, 1, LOCAL(1),
+  var_std__less, 2, var_353_3_pane_height, num_1, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_36, func_2_create_pane_view, TAIL_CALL,
-  POS(352, 21),
-  POS(351, 19)
+  POS(355, 21),
+  POS(354, 19)
 };
 
 static TAB_NUM t_lambda_36[] = {
   1, // locals
   0, // parameters
   // dec &flex_height_count
-  var_dec, 1, var_332_1_flex_height_count, 1, var_332_1_flex_height_count,
+  var_dec, 1, var_335_1_flex_height_count, 1, var_335_1_flex_height_count,
   // flex_height_count == 0
-  var_std__equal, 2, var_332_1_flex_height_count, num_0, 1, LOCAL(1),
+  var_std__equal, 2, var_335_1_flex_height_count, num_0, 1, LOCAL(1),
   // !pane_height
-  var_if, 3, LOCAL(1), lambda_37, lambda_38, 1, var_350_3_pane_height,
+  var_if, 3, LOCAL(1), lambda_37, lambda_38, 1, var_353_3_pane_height,
   // minus &remaining_flex_height pane_height
-  var_minus, 2, var_348_1_remaining_flex_height, var_350_3_pane_height, 1, var_348_1_remaining_flex_height,
+  var_minus, 2, var_351_1_remaining_flex_height, var_353_3_pane_height, 1, var_351_1_remaining_flex_height,
   // create_pane_view
   func_2_create_pane_view, 0, TAIL_CALL,
-  POS(353, 23),
-  POS(356, 27),
-  POS(354, 23),
-  POS(365, 23),
-  POS(366, 23)
+  POS(356, 23),
+  POS(359, 27),
+  POS(357, 23),
+  POS(368, 23),
+  POS(369, 23)
 };
 
 static TAB_NUM t_lambda_37[] = {
   0, // locals
   0, // parameters
   //  flex_height
-  LET, 1, var_347_1_flex_height, TAIL_CALL,
-  POS(357, 29)
+  LET, 1, var_350_1_flex_height, TAIL_CALL,
+  POS(360, 29)
 };
 
 static TAB_NUM t_lambda_38[] = {
   6, // locals
   0, // parameters
   // pane_height*flex_height).to_integer 1)
-  var_std__times, 2, var_350_3_pane_height, var_347_1_flex_height, 1, LOCAL(1),
+  var_std__times, 2, var_353_3_pane_height, var_350_1_flex_height, 1, LOCAL(1),
   // round(pane_height*flex_height).to_integer 1)
   var_round, 1, LOCAL(1), 1, LOCAL(2),
   // to_integer 1)
@@ -1041,41 +1045,41 @@ static TAB_NUM t_lambda_38[] = {
   // max(round(pane_height*flex_height).to_integer 1)
   var_max, 2, LOCAL(3), num_1, 1, LOCAL(4),
   // remaining_flex_height-flex_height_count #
-  var_std__minus, 2, var_348_1_remaining_flex_height, var_332_1_flex_height_count, 1, LOCAL(5),
+  var_std__minus, 2, var_351_1_remaining_flex_height, var_335_1_flex_height_count, 1, LOCAL(5),
   // min
   var_min, 2, LOCAL(4), LOCAL(5), 1, LOCAL(6),
   // 
   LET, 1, LOCAL(6), TAIL_CALL,
-  POS(360, 41),
-  POS(360, 35),
-  POS(360, 66),
-  POS(360, 31),
-  POS(361, 31),
-  POS(359, 29),
-  POS(358, 29)
+  POS(363, 41),
+  POS(363, 35),
+  POS(363, 66),
+  POS(363, 31),
+  POS(364, 31),
+  POS(362, 29),
+  POS(361, 29)
 };
 
 static TAB_NUM t_func_2_create_pane_view[] = {
   3, // locals
   0, // parameters
   // y+pane_height-1)
-  var_std__plus, 2, var_314_1_y, var_350_3_pane_height, 1, LOCAL(1),
+  var_std__plus, 2, var_317_1_y, var_353_3_pane_height, 1, LOCAL(1),
   // y+pane_height-1)
   var_std__minus, 2, LOCAL(1), num_1, 1, LOCAL(2),
   // create_view(screen x y width y+pane_height-1)
-  var_create_view, 5, var_309_0_screen, var_313_1_x, var_314_1_y, var_315_1_width, LOCAL(2), 1, LOCAL(3),
+  var_create_view, 5, var_312_0_screen, var_316_1_x, var_317_1_y, var_318_1_width, LOCAL(2), 1, LOCAL(3),
   // push &views create_view(screen x y width y+pane_height-1)
-  var_push, 2, var_317_1_views, LOCAL(3), 1, var_317_1_views,
+  var_push, 2, var_320_1_views, LOCAL(3), 1, var_320_1_views,
   // plus &y pane_height
-  var_plus, 2, var_314_1_y, var_350_3_pane_height, 1, var_314_1_y,
+  var_plus, 2, var_317_1_y, var_353_3_pane_height, 1, var_317_1_y,
   // next
   var_next, 0, TAIL_CALL,
-  POS(370, 62),
-  POS(370, 62),
-  POS(370, 33),
-  POS(370, 21),
-  POS(371, 21),
-  POS(372, 21)
+  POS(373, 62),
+  POS(373, 62),
+  POS(373, 33),
+  POS(373, 21),
+  POS(374, 21),
+  POS(375, 21)
 };
 
 static TAB_NUM t_lambda_39[] = {
@@ -1083,7 +1087,7 @@ static TAB_NUM t_lambda_39[] = {
   0, // parameters
   //  true -> undefined
   LET, 2, var_true, lambda_40, TAIL_CALL,
-  POS(374, 7)
+  POS(377, 7)
 };
 
 static TAB_NUM t_lambda_40[] = {
@@ -1091,37 +1095,39 @@ static TAB_NUM t_lambda_40[] = {
   0, // parameters
   //  undefined
   LET, 1, var_undefined, TAIL_CALL,
-  POS(374, 15)
+  POS(377, 15)
 };
 
 static TAB_NUM t_func_2_return[] = {
   1, // locals
   0, // parameters
   // rc == 1
-  var_std__equal, 2, var_312_1_rc, num_1, 1, LOCAL(1),
+  var_std__equal, 2, var_315_1_rc, num_1, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_41, lambda_42, TAIL_CALL,
-  POS(378, 7),
-  POS(377, 5)
+  POS(381, 7),
+  POS(380, 5)
 };
 
 static TAB_NUM t_lambda_41[] = {
   0, // locals
   0, // parameters
   //  views
-  LET, 1, var_317_1_views, TAIL_CALL,
-  POS(379, 9)
+  LET, 1, var_320_1_views, TAIL_CALL,
+  POS(382, 9)
 };
 
 static TAB_NUM t_lambda_42[] = {
   0, // locals
   0, // parameters
   // spread views
-  var_spread, 1, var_317_1_views, TAIL_CALL,
-  POS(380, 9)
+  var_spread, 1, var_320_1_views, TAIL_CALL,
+  POS(383, 9)
 };
 
 static FUNKY_CONSTANT constants_table[] = {
+  {FLT_UNIQUE, 0, {.str_8 = "std::KEY_PRESS"}},
+  {FLT_UNIQUE, 0, {.str_8 = "std::MOUSE_CLICK"}},
   {FLT_POSITIVE_INT64, 0, {.value = 1}},
   {FLT_FUNCTION, 0, {.tfunc = t_func_std_private__abs_x}},
   {FLT_POSITIVE_INT64, 0, {.value = 0}},
@@ -1279,6 +1285,16 @@ static FUNKY_VARIABLE variables_table[] = {
     {.has_a_setter = false}
   },
   {
+    FOT_INITIALIZED, 0, 0,
+    "KEY_PRESS\000std", NULL,
+    {.const_idx = -uni_std__KEY_PRESS}
+  },
+  {
+    FOT_INITIALIZED, 0, 0,
+    "MOUSE_CLICK\000std", NULL,
+    {.const_idx = -uni_std__MOUSE_CLICK}
+  },
+  {
     FOT_POLYMORPHIC, 0, 0,
     "draw_text\000std", NULL,
     {.has_a_setter = false}
@@ -1301,82 +1317,82 @@ static FUNKY_VARIABLE variables_table[] = {
   {
     FOT_UNKNOWN, 0, 0,
     "object\000std_types", NULL,
-    {.position = POS(109, 30)}
-  },
-  {
-    FOT_UNKNOWN_POLYMORPHIC, 0, 0,
-    "type_of\000", NULL,
-    {.position = POS(111, 30)}
-  },
-  {
-    FOT_UNKNOWN, 0, 0,
-    "undefined\000", NULL,
-    {.position = POS(111, 38)}
-  },
-  {
-    FOT_UNKNOWN_POLYMORPHIC, 0, 0,
-    "x_of\000", NULL,
     {.position = POS(112, 30)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
-    "y_of\000", NULL,
-    {.position = POS(113, 30)}
-  },
-  {
-    FOT_UNKNOWN_POLYMORPHIC, 0, 0,
-    "width_of\000", NULL,
+    "type_of\000", NULL,
     {.position = POS(114, 30)}
   },
   {
+    FOT_UNKNOWN, 0, 0,
+    "undefined\000", NULL,
+    {.position = POS(114, 38)}
+  },
+  {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
-    "height_of\000", NULL,
+    "x_of\000", NULL,
     {.position = POS(115, 30)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
-    "character_width_of\000", NULL,
+    "y_of\000", NULL,
     {.position = POS(116, 30)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
-    "ascent_of\000", NULL,
+    "width_of\000", NULL,
     {.position = POS(117, 30)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
-    "descent_of\000", NULL,
+    "height_of\000", NULL,
     {.position = POS(118, 30)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
-    "character_height_of\000", NULL,
+    "character_width_of\000", NULL,
     {.position = POS(119, 30)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
-    "line_spacing_of\000", NULL,
+    "ascent_of\000", NULL,
     {.position = POS(120, 30)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
-    "line_height_of\000", NULL,
+    "descent_of\000", NULL,
     {.position = POS(121, 30)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
-    "baseline_of\000", NULL,
+    "character_height_of\000", NULL,
     {.position = POS(122, 30)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
-    "clear_colour_of\000", NULL,
+    "line_spacing_of\000", NULL,
     {.position = POS(123, 30)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
-    "draw_colour_of\000", NULL,
+    "line_height_of\000", NULL,
     {.position = POS(124, 30)}
+  },
+  {
+    FOT_UNKNOWN_POLYMORPHIC, 0, 0,
+    "baseline_of\000", NULL,
+    {.position = POS(125, 30)}
+  },
+  {
+    FOT_UNKNOWN_POLYMORPHIC, 0, 0,
+    "clear_colour_of\000", NULL,
+    {.position = POS(126, 30)}
+  },
+  {
+    FOT_UNKNOWN_POLYMORPHIC, 0, 0,
+    "draw_colour_of\000", NULL,
+    {.position = POS(127, 30)}
   },
   {
     FOT_DERIVED, 0, 3,
@@ -1390,26 +1406,26 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "128_22_screen\000", NULL
+    "131_22_screen\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "128_29_x\000", NULL
+    "131_29_x\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
     "less\000std", NULL,
-    {.position = POS(130, 5)}
+    {.position = POS(133, 5)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "plus\000std", NULL,
-    {.position = POS(131, 8)}
+    {.position = POS(134, 8)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "if\000", NULL,
-    {.position = POS(129, 3)}
+    {.position = POS(132, 3)}
   },
   {
     FOT_INITIALIZED, 0, 0,
@@ -1418,11 +1434,11 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "134_22_screen\000", NULL
+    "137_22_screen\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "134_29_y\000", NULL
+    "137_29_y\000", NULL
   },
   {
     FOT_INITIALIZED, 0, 0,
@@ -1432,17 +1448,17 @@ static FUNKY_VARIABLE variables_table[] = {
   {
     FOT_UNKNOWN, 0, 0,
     "minus\000std", NULL,
-    {.position = POS(154, 13)}
+    {.position = POS(157, 13)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
     "set_clear_colour\000", NULL,
-    {.position = POS(168, 30)}
+    {.position = POS(171, 30)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
     "set_draw_colour\000", NULL,
-    {.position = POS(175, 30)}
+    {.position = POS(178, 30)}
   },
   {
     FOT_POLYMORPHIC, 0, 0,
@@ -1462,44 +1478,44 @@ static FUNKY_VARIABLE variables_table[] = {
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
     "draw_text\000", NULL,
-    {.position = POS(186, 18)}
+    {.position = POS(189, 18)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "create_string\000", NULL,
-    {.position = POS(194, 9)}
+    {.position = POS(197, 9)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
     "draw_attributed_text\000", NULL,
-    {.position = POS(202, 18)}
+    {.position = POS(205, 18)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
     "clear\000", NULL,
-    {.position = POS(217, 18)}
+    {.position = POS(220, 18)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "219_0_view\000", NULL
+    "222_0_view\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "221_0_x\000", NULL
+    "224_0_x\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "222_0_y\000", NULL
+    "225_0_y\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
     "is_undefined\000", NULL,
-    {.position = POS(226, 19)}
+    {.position = POS(229, 19)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "update_if\000", NULL,
-    {.position = POS(226, 3)}
+    {.position = POS(229, 3)}
   },
   {
     FOT_INITIALIZED, 0, 0,
@@ -1508,183 +1524,183 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "238_0_screen\000", NULL
+    "241_0_screen\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "239_0_pane_description\000", NULL
+    "242_0_pane_description\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "241_1_rc\000", NULL
+    "244_1_rc\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
     "result_count\000", NULL,
-    {.position = POS(241, 7)}
+    {.position = POS(244, 7)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "242_1_x\000", NULL
+    "245_1_x\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "243_1_y\000", NULL
+    "246_1_y\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "244_1_width\000", NULL
+    "247_1_width\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "245_1_height\000", NULL
+    "248_1_height\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "246_1_views\000", NULL
+    "249_1_views\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
     "empty_list\000", NULL,
-    {.position = POS(246, 10)}
+    {.position = POS(249, 10)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "is_an_integer\000", NULL,
-    {.position = POS(248, 25)}
+    {.position = POS(251, 25)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "250_1_iter\000", NULL
+    "253_1_iter\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
     "bresenham\000", NULL,
-    {.position = POS(250, 13)}
+    {.position = POS(253, 13)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "next_value\000", NULL,
-    {.position = POS(251, 7)}
+    {.position = POS(254, 7)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "create_view\000", NULL,
-    {.position = POS(255, 23)}
+    {.position = POS(258, 23)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "push\000", NULL,
-    {.position = POS(255, 11)}
+    {.position = POS(258, 11)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "next\000", NULL,
-    {.position = POS(257, 11)}
+    {.position = POS(260, 11)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "repeat\000", NULL,
-    {.position = POS(252, 7)}
+    {.position = POS(255, 7)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "is_a_list\000", NULL,
-    {.position = POS(259, 25)}
+    {.position = POS(262, 25)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "260_1_fixed_width\000", NULL
+    "263_1_fixed_width\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "261_1_flex_width_count\000", NULL
+    "264_1_flex_width_count\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "263_3_pane_width\000", NULL
+    "266_3_pane_width\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
     "inc\000", NULL,
-    {.position = POS(266, 15)}
+    {.position = POS(269, 15)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "plus\000", NULL,
-    {.position = POS(269, 15)}
+    {.position = POS(272, 15)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "276_1_flex_width\000", NULL
+    "279_1_flex_width\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "277_1_remaining_flex_width\000", NULL
+    "280_1_remaining_flex_width\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "279_3_pane_width\000", NULL
+    "282_3_pane_width\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
     "dec\000", NULL,
-    {.position = POS(282, 23)}
+    {.position = POS(285, 23)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "times\000std", NULL,
-    {.position = POS(285, 37)}
+    {.position = POS(288, 37)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "round\000", NULL,
-    {.position = POS(285, 31)}
+    {.position = POS(288, 31)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "to_integer\000", NULL,
-    {.position = POS(285, 60)}
+    {.position = POS(288, 60)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "max\000", NULL,
-    {.position = POS(285, 27)}
+    {.position = POS(288, 27)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "min\000", NULL,
-    {.position = POS(284, 25)}
+    {.position = POS(287, 25)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "minus\000", NULL,
-    {.position = POS(290, 23)}
+    {.position = POS(293, 23)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "for_each\000", NULL,
-    {.position = POS(278, 15)}
+    {.position = POS(281, 15)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "true\000", NULL,
-    {.position = POS(299, 8)}
+    {.position = POS(302, 8)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "cond\000", NULL,
-    {.position = POS(247, 3)}
+    {.position = POS(250, 3)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "equal\000std", NULL,
-    {.position = POS(303, 7)}
+    {.position = POS(306, 7)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "spread\000", NULL,
-    {.position = POS(305, 9)}
+    {.position = POS(308, 9)}
   },
   {
     FOT_INITIALIZED, 0, 0,
@@ -1693,63 +1709,63 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "309_0_screen\000", NULL
+    "312_0_screen\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "310_0_pane_description\000", NULL
+    "313_0_pane_description\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "312_1_rc\000", NULL
+    "315_1_rc\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "313_1_x\000", NULL
+    "316_1_x\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "314_1_y\000", NULL
+    "317_1_y\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "315_1_width\000", NULL
+    "318_1_width\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "316_1_height\000", NULL
+    "319_1_height\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "317_1_views\000", NULL
+    "320_1_views\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "321_1_iter\000", NULL
+    "324_1_iter\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "331_1_fixed_height\000", NULL
+    "334_1_fixed_height\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "332_1_flex_height_count\000", NULL
+    "335_1_flex_height_count\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "334_3_pane_height\000", NULL
+    "337_3_pane_height\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "347_1_flex_height\000", NULL
+    "350_1_flex_height\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "348_1_remaining_flex_height\000", NULL
+    "351_1_remaining_flex_height\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "350_3_pane_height\000", NULL
+    "353_3_pane_height\000", NULL
   }
 };
 
@@ -1767,8 +1783,8 @@ FUNKY_MODULE module__basic__io__generic_terminal = {
   0, // number of required modules
   0, // number of defined namespaces
   1, // number of used namespaces
-  58, // number of constants
-  116, // number of variables
+  60, // number of constants
+  118, // number of variables
   NULL, // required modules
   NULL, // defined namespaces
   used_namespaces,

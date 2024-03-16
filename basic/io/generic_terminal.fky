@@ -34,6 +34,9 @@ $std::clear_colour_of ()
 $std::set_draw_colour ()
 $std::set_clear_colour ()
 
+$std::KEY_PRESS .
+$std::MOUSE_CLICK .
+
 $std::draw_text ()
   #
     draws text at the given position

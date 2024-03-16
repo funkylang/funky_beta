@@ -34,8 +34,6 @@
 <using std>
 <using ai>
 
-<allow unused>
-
 $EXIT . # a special "handler"-value to exit the program
 
 $PASTE_THRESHOLD 16 # when pasting text newlines are treated in a special way
@@ -496,6 +494,11 @@ $error_colour_set
     .text_colour_of WHITE
     .background_colour_of RED
 
+$dummy_colour_set
+  std_types::object
+    .text_colour_of WHITE
+    .background_colour_of GREY
+
 map &colour_sets create_indentation_patterns
 
 $tedi_types::window.id_of undefined
@@ -561,21 +564,28 @@ $filter_key_bindings
 
 $INFO_BAR -1
 $ERROR_BAR -2
-$SEARCH_BAR -3
-$GO_TO_BAR -4
-$FILTER_BAR -5
+$DUMMY_BAR -3
+$SEARCH_BAR -4
+$GO_TO_BAR -5
+$FILTER_BAR -6
 
-$info_window
+$info_bar
   tedi_types::window
     .id_of INFO_BAR
     .lines_of list(tedi_line(0 ""))
     .colour_set_of info_colour_set
 
-$error_window
+$error_bar
   tedi_types::window
     .id_of ERROR_BAR
     .lines_of list(tedi_line(0 ""))
     .colour_set_of error_colour_set
+
+$dummy_bar
+  tedi_types::window
+    .id_of DUMMY_BAR
+    .lines_of empty_list
+    .colour_set_of dummy_colour_set
 
 $search_window
   tedi_types::window
@@ -659,11 +669,12 @@ $main: (initial_terminal)
 		  filter_window
 		  go_to_window
 		  search_window
-		  error_window
-		  info_window
+		  dummy_bar
+		  error_bar
+		  info_bar
 	    .text_window_count_of length_of(text_windows)
 	    .current_window_index_of 1
-	    .current_bar_index_of INFO_BAR
+	    .current_bar_index_of DUMMY_BAR
 	    .text_window_index_of 1
 	    .key_of undefined
 	    .completion_prefix_of undefined
@@ -1096,21 +1107,15 @@ $cursor_up: (dy = 1)
   return_window
 
 $cursor_right: (dx = 1)
-  $cursor_x cursor_x_of(window)
-  $y y_of(window)
   if
-    ||
-      y > length_of(lines)
-      lines(y).is_undefined
-      cursor_x < first_position(y) || cursor_x > last_position(y)
-    :
+    cursor_is_not_within_text():
       !window
 	window
 	  .x_of undefined
 	  .cursor_x_of cursor_x_of(window)+dx
       return_window
     :
-      position_in_text $indent $text $x $i $offset
+      position_in_text $_indent $text $x $i $offset
       plus &i offset
       $n length_of(text)
       loop:
@@ -1138,20 +1143,15 @@ $cursor_right: (dx = 1)
 	return_window
 
 $cursor_left: (dx = 1)
-  $y y_of(window)
   if
-    ||
-      y > length_of(lines)
-      lines(y).is_undefined
-      cursor_x_of(window) < first_position(y_of(window))
-    :
+    cursor_is_not_within_text():
       !window
 	window
 	  .x_of undefined
 	  .cursor_x_of max(cursor_x_of(window)-dx 1)
       return_window
     :
-      position_in_text $indent $text $x $i $offset
+      position_in_text $_indent $text $x $i $offset
       plus &i offset
       $n length_of(text)
       loop:
@@ -1184,6 +1184,19 @@ $cursor_left: (dx = 1)
 	    .cursor_x_of undefined
 	    .cursor_y_of undefined
 	return_window
+
+$cursor_is_not_within_text
+  ->
+    ||
+      cursor_is_behind_text()
+      cursor_x_of(window) < first_position(y_of(window))
+
+$cursor_is_behind_text
+  ->
+    ||
+      y_of(window) > length_of(lines)
+      lines(y_of(window)).is_undefined
+      cursor_x_of(window) > last_position(y_of(window))
 
 $cursor_home:
   $pos first_position(y_of(window))
@@ -1232,6 +1245,7 @@ $cursor_bottom:
   return_window
 
 $insert: (str)
+  show_dummy !state
   if
     str.is_empty
     -> state
@@ -1532,99 +1546,66 @@ $split_line:
     return_window_and_lines
 
 $delete_left:
+  show_dummy !state
   $x x_of(window)
-  $y y_of(window)
   if
-    x > 1:
+    x == 1
+    -> state
+    :
       if
-	y > length_of(lines)
+	cursor_is_behind_text()
 	cursor_left
 	:
+	  $y y_of(window)
 	  $line lines(y)
+	  line $indent $text $mark $folds
 	  if
-	    line.is_undefined
+	    sub_y_of(window) > 1 && cursor_x_of(window) <= indent
 	    cursor_left
 	    :
-	      line $indent $text $mark $folds
 	      if
 		x <= indent+1
 		reduce_indent
 		:
-		  $len length_of(text)
-		  $pos indent+1
-		  $i 0
-		  loop:
-		    inc &i
-		    if
-		      i > len
-		      cursor_left
-		      :
-			$new_pos pos+width_of(text(i))
-			if
-			  new_pos < x:
-			    !pos new_pos
-			    next
-			  :
-			    if
-			      new_pos > x:
-				if
-				  i == 1
-				  reduce_indent
-				  :
-				    dec &i
-				    !pos x-width_of(text(i))
-				    do_delete
-			      do_delete
-
-			    $do_delete:
-			      !window.x_of pos
-			      !text
-				append(range(text 1 i-1) range(text i+1 -1))
-			      update_lines_after_deletion
-				y tedi_line(indent text mark folds)
+		  position_in_text $_indent $_text !x $i $offset
+		  plus &i offset
+		  minus &x width_of(text(i-1))
+		  !text append(range(text 1 i-2) range(text i -1))
+		  !window.x_of x
+		  update_lines_after_deletion
+		    y tedi_line(indent text mark folds)
 
 	      $reduce_indent:
 		!window.x_of x-1
 		update_lines_after_deletion
 		  y tedi_line(max(indent-1 0) text mark folds)
-    -> state
 
 $delete_right:
-  $x x_of(window)
-  $y y_of(window)
+  show_dummy !state
   if
-    y > length_of(lines)
+    cursor_is_behind_text()
     -> state
     :
+      $x x_of(window)
+      $y y_of(window)
       $line lines(y)
+      line $indent $text $mark $folds
       if
-	line.is_undefined
+	sub_y_of(window) > 1 && cursor_x_of(window) <= indent
 	-> state
 	:
-	  line $indent $text $mark $folds
 	  if
 	    x <= indent:
 	      update_lines_after_deletion y tedi_line(indent-1 text mark folds)
 	    :
-	      $len length_of(text)
-	      $pos indent+1
-	      $i 0
-	      loop:
-		inc &i
-		if
-		  i > len
-		  -> state
-		  :
-		    $new_pos pos+width_of(text(i))
-		    if
-		      new_pos <= x:
-			!pos new_pos
-			next
-		      :
-			!window.x_of pos
-			!text append(range(text 1 i-1) range(text i+1 -1))
-			update_lines_after_deletion
-			  y tedi_line(indent text mark folds)
+	      position_in_text $_indent $_text !x $i $offset
+	      if
+		offset > 0
+		-> state
+		:
+		  !text append(range(text 1 i-1) range(text i+1 -1))
+		  update_lines_after_deletion
+		    y tedi_line(indent text mark folds)
 
 $delete_line:
   $y y_of(window)
@@ -1915,7 +1896,7 @@ $smart_completion_or: (handler)
 		    x <= indent_of(line)+1
 		    handler
 		    :
-		      position_in_text $indent $text !x $i $offset
+		      position_in_text $_indent $text !x $i $offset
 		      if
 			offset > 1:
 			  complete_prefix ""
@@ -2327,7 +2308,7 @@ $ai_completion_action:
 		      .x_of cx
 		  update_if at_line_start && ai_text(1) == ' '
 		    &ai_text -> range(ai_text 2 -1)
-		  show_info !state ""
+		  show_dummy !state
 		  if
 		    token == newline_token && at_line_start
 		    -> io terminal insert_line(ai_text)
@@ -3561,10 +3542,6 @@ $min_max_minus_1: (v1 v2)
   min_max &v1 &v2
   -> v1 v2-1
 
-$overlap: (s1 e1 s2 e2)
-  # the end positions are *exclusive*!
-  -> e1 > s2 && e2 > s1
-
 $break_into_lines: (text width)
   $text_lines empty_list
   $s 1
@@ -4046,8 +4023,8 @@ $update_contents: (window view terminal)
       draw
       :
 	if
-	  do_highlight_cursor_line && y != y_of(window_before_update):
-	    draw y y_of(window_before_update)
+	  do_highlight_cursor_line && y != y_of(window_before_update)
+	  draw
 	  update_cursor
 
   $update_cursor:
@@ -4060,10 +4037,6 @@ $update_contents: (window view terminal)
     -> window terminal
 
   $draw:
-    (
-      y1 = equals_everything
-      y2 = equals_everything
-    )
     !window
       window
 	.first_visible_y_of first_visible_y
@@ -4365,15 +4338,21 @@ $create_text_window: (filename)
 	  .cursor_movement_of ANYWHERE
 
 $show_info: (message)
-  $info_bar windows_of(state)(INFO_BAR)
-  !info_bar.lines_of(1) tedi_line(0 message)
-  !info_bar.was_updated true
-  !state.windows_of(INFO_BAR) info_bar
+  $bar windows_of(state)(INFO_BAR)
+  !bar.lines_of(1) tedi_line(0 message)
+  !bar.was_updated true
+  !state.windows_of(INFO_BAR) bar
   -> state(.current_bar_index_of INFO_BAR)
 
 $show_error: (message)
-  $error_bar windows_of(state)(ERROR_BAR)
-  !error_bar.lines_of(1) tedi_line(0 message)
-  !error_bar.was_updated true
-  !state.windows_of(ERROR_BAR) error_bar
+  $bar windows_of(state)(ERROR_BAR)
+  !bar.lines_of(1) tedi_line(0 message)
+  !bar.was_updated true
+  !state.windows_of(ERROR_BAR) bar
   -> state(.current_bar_index_of ERROR_BAR)
+
+$show_dummy:
+  $bar windows_of(state)(DUMMY_BAR)
+  !bar.was_updated true
+  !state.windows_of(DUMMY_BAR) bar
+  -> state(.current_bar_index_of DUMMY_BAR)

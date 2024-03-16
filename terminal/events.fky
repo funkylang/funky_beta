@@ -67,16 +67,19 @@ $std::handle_terminal_events: (io events)
       if
 	type == READ && fd == STDIN_FILENO:
 	  $key_press_handler key_press_handler_of(io)
+	  $keys extract_keys(input.from_utf8)
 	  if
-	    key_press_handler.is_undefined:
-	      log &io 2 "No key press handler defined"
-	      next
-	    :
-	      $keys extract_keys(input.from_utf8)
+	    key_press_handler.is_defined:
 	      for_each keys
 		: (key)
 		   key_press_handler &io key
 		   next
+		next
+	    :
+	      for_each keys
+		: (key)
+		  push &remaining_events tuple(KEY_PRESS fd key)
+		  next
 		next
 	:
 	  push &remaining_events event

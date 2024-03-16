@@ -107,9 +107,9 @@ $std_types::web_terminal/copy:
 
   (
     destination
+    source
     x
     y
-    source = destination
     sx
     sy
     width

@@ -22,6 +22,7 @@
 <namespace terminal_private>
 
 <require ./keys>
+<require ./events>
 
 #
   Topic: Terminal
@@ -332,7 +333,7 @@ $std::blue_component_of (!)
     Parameters:
       colour # the colour (character)
 
-$std::TEXT_COLOUR .
+$std::DRAW_COLOUR .
   #
     the text colour option used in <create_screen> and <create_terminal>
 
@@ -340,7 +341,7 @@ $std::TEXT_COLOUR .
 
     See also: create_terminal
 
-$std::BACKGROUND_COLOUR .
+$std::CLEAR_COLOUR .
   #
     the background colour option used in <create_screen> and <create_terminal>
 
@@ -518,7 +519,7 @@ $std_types::terminal.serialization_fields_of
     `has_a_visible_cursor
     `current_buffer_of
 
-$std::create_screen:
+$std::create_screen ()
   #
     creates a logical screen
 
@@ -529,25 +530,51 @@ $std::create_screen:
 
     Available options are:
 
-    * <TEXT_COLOUR> (default: <BLACK>)
+    * <DRAW_COLOUR> (default: <BLACK>)
 
-    * <BACKGROUND_COLOUR> (default: <WHITE>)
+    * <CLEAR_COLOUR> (default: <WHITE>)
 
     * <LINE_HEIGHT> (default: 1)
 
     Topic: Terminal
 
     See also: create_terminal, std_types::screen
+
+$std_types::screen/create_screen:
+  (
+    screen
+    width = undefined
+    height = undefined
+    options*
+  )
+  update_if width.is_undefined &width -> width_of(screen)
+  update_if height.is_undefined &height -> height_of(screen)
+  extract_options options
+    DRAW_COLOUR = draw_colour_of(screen) $draw_colour
+    CLEAR_COLOUR = clear_colour_of(screen) $clear_colour
+    LINE_HEIGHT = line_height_of(screen) $line_height
+  $row dup(string(' ' draw_colour clear_colour) width)
+  $rows dup(list(row) height .div. line_height)
+  ->
+    std_types::screen
+      .width_of width
+      .height_of height
+      .draw_colour_of draw_colour
+      .clear_colour_of clear_colour
+      .line_height_of line_height
+      .rows_of rows
+
+$create_buffer:
   (
     width # the number of columns
     height # the number of rows
     options* # optional screen attributes
   )
   extract_options options
-    TEXT_COLOUR = BLACK $text_colour
-    BACKGROUND_COLOUR = WHITE $background_colour
+    DRAW_COLOUR = BLACK $draw_colour
+    CLEAR_COLOUR = WHITE $clear_colour
     LINE_HEIGHT = 1 $line_height
-  $row dup(string(' ' text_colour background_colour) width)
+  $row dup(string(' ' draw_colour clear_colour) width)
   $rows dup(list(row) height .div. line_height)
   ->
     std_types::screen
@@ -555,8 +582,8 @@ $std::create_screen:
       .cursor_y_of 1
       .width_of width
       .height_of height
-      .draw_colour_of text_colour
-      .clear_colour_of background_colour
+      .draw_colour_of draw_colour
+      .clear_colour_of clear_colour
       .line_height_of line_height
       .rows_of rows
 
@@ -577,7 +604,7 @@ $std_types::screen/resize:
     draw_colour_of(screen) clear_colour_of(screen)
   -> screen
 
-$resize_rows: (screen new_width new_height text_colour background_colour)
+$resize_rows: (screen new_width new_height draw_colour clear_colour)
   $width width_of(screen)
   $height height_of(screen)
   $rows rows_of(screen)
@@ -586,10 +613,10 @@ $resize_rows: (screen new_width new_height text_colour background_colour)
     if
       new_width < width: map rows: (row) range row 1 3*new_width
       :
-	$empty dup(string(' ' text_colour background_colour) new_width-width)
+	$empty dup(string(' ' draw_colour clear_colour) new_width-width)
 	map rows: (row) append row empty
   update_if new_height > height &rows:
-    $empty dup(string(' ' text_colour background_colour) new_width)
+    $empty dup(string(' ' draw_colour clear_colour) new_width)
     append rows dup(list(empty) new_height-height)
   ->
     screen
@@ -608,7 +635,7 @@ $std::character_at:
 
     Topic: Terminal
 
-    See also: text_colour_at, background_colour_at, set_character_at
+    See also: draw_colour_at, clear_colour_at, set_character_at
 
     Example:
 
@@ -620,7 +647,7 @@ $std::character_at:
   )
   -> rows_of(screen)(y)(3*x-2)
 
-$std::text_colour_at:
+$std::draw_colour_at:
   #
     returns the text colour at the specified position of the screen
 
@@ -631,11 +658,11 @@ $std::text_colour_at:
 
     Topic: Terminal
 
-    See also: background_colour_at, character_at, set_draw_colour_at
+    See also: clear_colour_at, character_at, set_draw_colour_at
 
     Example:
 
-      text_colour_at(terminal column row)
+      draw_colour_at(terminal column row)
   (
     screen
     x
@@ -643,7 +670,7 @@ $std::text_colour_at:
   )
   -> rows_of(screen)(y)(3*x-1)
 
-$std::background_colour_at:
+$std::clear_colour_at:
   #
     returns the background colour at the specified position of the screen
 
@@ -654,11 +681,11 @@ $std::background_colour_at:
 
     Topic: Terminal
 
-    See also: text_colour_at, character_at, set_clear_colour_at
+    See also: draw_colour_at, character_at, set_clear_colour_at
 
     Example:
 
-      background_colour_at(terminal column row)
+      clear_colour_at(terminal column row)
   (
     screen
     x
@@ -805,8 +832,8 @@ $std_types::screen/std_private::clear:
     -> self
     :
       $rows rows_of(self)
-      $text_colour draw_colour_of(view)
-      $background_colour clear_colour_of(view)
+      $draw_colour draw_colour_of(view)
+      $clear_colour clear_colour_of(view)
       $line_height line_height_of(self)
       if
 	line_height == 1:
@@ -820,10 +847,10 @@ $std_types::screen/std_private::clear:
 	      $buf ""
 	      from_to x x+width-1
 		: (cx)
-		  $original_background_colour row(3*cx)
+		  $original_clear_colour row(3*cx)
 		  push &buf '▄'
-		  push &buf background_colour
-		  push &buf original_background_colour
+		  push &buf clear_colour
+		  push &buf original_clear_colour
 		  next
 		:
 		  !rows(row_no)
@@ -851,10 +878,10 @@ $std_types::screen/std_private::clear:
 		$buf ""
 		from_to x x+width-1
 		  : (cx)
-		    $original_text_colour row(3*cx)
+		    $original_draw_colour row(3*cx)
 		    push &buf '▄'
-		    push &buf original_text_colour
-		    push &buf background_colour
+		    push &buf original_draw_colour
+		    push &buf clear_colour
 		    next
 		  :
 		    !rows(row_no)
@@ -870,8 +897,8 @@ $std_types::screen/std_private::clear:
 	  dup
 	    string
 	      ' '
-	      text_colour
-	      background_colour
+	      draw_colour
+	      clear_colour
 	    width
 	map $updated_rows range(rows cy cy+ch-1): (row)
 	  ->
@@ -907,6 +934,20 @@ $fix_right: (buf)
 	-> buf(1 ' ')
 	-> buf
 
+$std::move ()
+
+$std_types::screen/move:
+  (
+    screen
+    x
+    y
+    sx
+    sy
+    width
+    height
+  )
+  copy screen screen x y sx sy width height
+
 $std_types::screen/copy:
   #
     copies a rectangular area from one screen to another
@@ -919,96 +960,108 @@ $std_types::screen/copy:
 
   (
     destination
-    x
-    y
-    source = destination
-    sx
-    sy
-    width
-    height
+    source
+    x = 1
+    y = 1
+    sx = 1
+    sy = 1
+    width = undefined
+    height = undefined
   )
-  $source_width width_of(source)
-  $source_height height_of(source)
-  $line_height line_height_of(source)
   if
-    ||
-      sx < 1
-      width < 0
-      (sx+width-1) > source_width
-      sy < 1
-      height < 0
-      sy+height-1 > source_height
-      &&
-	line_height == 2
-	y & 1 == 0 || sy & 1 == 0 || height & 1 == 1
+    &&
+      x == 1
+      y == 1
+      sx == 1
+      sy == 1
+      width_of(source) == width_of(destination)
+      height_of(source) == height_of(destination)
+    -> destination(.rows_of rows_of(source))
     :
-      error
-	"
-	  INVALID ARGUMENTS FOR "std_types::screen/copy"@
-    :
-      $destination_width width_of(destination)
-      $destination_height height_of(destination)
+      update_if width.is_undefined &width -> width_of(source)
+      update_if height.is_undefined &height -> height_of(source)
+      $source_width width_of(source)
+      $source_height height_of(source)
+      $line_height line_height_of(source)
       if
-	x < 1:
-	  $dx 1-x
-	  plus &sx dx
-	  minus &width dx
-	  check_y
-	check_y
+	||
+	  sx < 1
+	  width < 0
+	  (sx+width-1) > source_width
+	  sy < 1
+	  height < 0
+	  sy+height-1 > source_height
+	  &&
+	    line_height == 2
+	    y & 1 == 0 || sy & 1 == 0 || height & 1 == 1
+	:
+	  error
+	    "
+	      INVALID ARGUMENTS FOR "std_types::screen/copy"@
+	:
+	  $destination_width width_of(destination)
+	  $destination_height height_of(destination)
+	  if
+	    x < 1:
+	      $dx 1-x
+	      plus &sx dx
+	      minus &width dx
+	      check_y
+	    check_y
 
-      $check_y:
-	if
-	  y < 1:
-	    $dy 1-y
-	    plus &sy dy
-	    minus height dy
-	    check_width
-	  check_width
+	  $check_y:
+	    if
+	      y < 1:
+		$dy 1-y
+		plus &sy dy
+		minus height dy
+		check_width
+	      check_width
 
-      $check_width:
-	if
-	  x+width-1 > destination_width:
-	    !width destination_width+1-x
-	    check_height
-	  check_height
+	  $check_width:
+	    if
+	      x+width-1 > destination_width:
+		!width destination_width+1-x
+		check_height
+	      check_height
 
-      $check_height:
-	if
-	  y+height-1 > destination_height:
-	    !height destination_height+1-y
-	    copy_rows
-	  copy_rows
+	  $check_height:
+	    if
+	      y+height-1 > destination_height:
+		!height destination_height+1-y
+		copy_rows
+	      copy_rows
 
-      $copy_rows:
-	if
-	  width <= 0 || height <= 0
-	  -> destination
-	  :
-	    update_if line_height == 2 &y &sy &height ->
-	      (y >> 1)+1
-	      (sy >> 1)+1
-	      height >> 1
-	    $dx 3*(sx-x)
-	    $dy sy-y
-	    !x 3*x-2
-	    !width 3*width
-	    $rows rows_of(destination)
-	    $source_rows rows_of(source)
-	    ->
-	      destination
-		.rows_of
+	  $copy_rows:
+	    if
+	      width <= 0 || height <= 0
+	      -> destination
+	      :
+		update_if line_height == 2 &y &sy &height ->
+		  (y >> 1)+1
+		  (sy >> 1)+1
+		  height >> 1
+		$dx 3*(sx-x)
+		$dy sy-y
+		!x 3*x-2
+		!width 3*width
+		$rows rows_of(destination)
+		$source_rows rows_of(source)
+		->
+		  destination
+		    .rows_of
+		      append
+			append
+			  range(rows 1 y-1)
+			  map(range(rows y y+height-1) copy_row)
+			range(rows y+height -1)
+
+		$copy_row: (cy row)
 		  append
 		    append
-		      range(rows 1 y-1)
-		      map(range(rows y y+height-1) copy_row)
-		    range(rows y+height -1)
-
-	    $copy_row: (cy row)
-	      append
-		append
-		  range(row 1 x-1)
-		  range(source_rows(y+cy+dy-1) x+dx x+dx+width-1)
-		range(row x+width -1)
+		      range(row 1 x-1)
+		      range(source_rows(y+cy+dy-1) x+dx x+dx+width-1)
+		    range(row x+width -1)
 
 $std::blit:
   #
@@ -1113,9 +1166,9 @@ $std::initialize_terminal:
 
     Possible options are:
 
-      * TEXT_COLOUR: specify the initial text colour
+      * DRAW_COLOUR: specify the initial text colour
 
-      * BACKGROUND_COLOUR: specify the initial background colour
+      * CLEAR_COLOUR: specify the initial background colour
 
       * FILE_DESCRIPTOR: explicitly specify the file descriptor
 
@@ -1148,8 +1201,8 @@ $std::initialize_terminal:
     Example:
 
       initialize_terminal!
-	TEXT_COLOUR = RED
-	BACKGROUND_COLOUR = BLACK
+	DRAW_COLOUR = RED
+	CLEAR_COLOUR = BLACK
 	TITLE = "My Terminal"
 	: (terminal)
 	  draw_text &terminal 10 5 "Hello, world!"
@@ -1160,18 +1213,18 @@ $std::initialize_terminal:
     body # the function to call
   )
   extract_options options
-    TEXT_COLOUR = BLACK $text_colour
-    BACKGROUND_COLOUR = WHITE $background_colour
+    DRAW_COLOUR = BLACK $draw_colour
+    CLEAR_COLOUR = WHITE $clear_colour
     LINE_HEIGHT = 1 $line_height
-    FILE_DESCRIPTOR = STDIN_FILENO $fd
+    FILE_DESCRIPTOR = STDIN_FILENO !terminal_fd
     RECEIVE_CTRL_C_AND_CTRL_Z = false $do_receive_ctrl_c_and_ctrl_z
     RECEIVE_CTRL_Q_AND_CTRL_S = false $do_receive_ctrl_q_and_ctrl_s
     MAP_CR = false $do_map_cr
     RECEIVE_SIGWINCH = false $_do_receive_sigwinch
-    CURSOR_OFF = false $do_switch_cursor_off
+    CURSOR_OFF = false !do_switch_cursor_off
     TITLE = undefined $title
 
-  get_terminal_attributes! fd $original_attributes
+  get_terminal_attributes! terminal_fd !original_attributes
   $attributes original_attributes
   use_canonical_mode &attributes false #  no line-buffering ...
   echo_characters &attributes false # ... and no echoing of typed in characters
@@ -1192,22 +1245,34 @@ $std::initialize_terminal:
   on do_switch_cursor_off: cursor_off!
   on title.is_defined: print! "@esc;]0;@(title)@7;"
 
-  get_terminal_size! fd $width $height
+  get_terminal_size! terminal_fd $width $height
   create_terminal $terminal width height*line_height
-    TEXT_COLOUR = text_colour
-    BACKGROUND_COLOUR = background_colour
+    DRAW_COLOUR = draw_colour
+    CLEAR_COLOUR = clear_colour
     LINE_HEIGHT = line_height
 
   initialize_terminal_keys:
     try $err: body! terminal
-
-    set_terminal_attributes! $_success fd original_attributes
-    print! "@esc;[u" # restore cursor position
-    print! "@esc;[?47l" # switch to default screen
-    print! "@esc;[0m" # set default colours
-    on do_switch_cursor_off: cursor_on!
-
+    try $_err: finalize_terminal!
     on err.is_an_error: debug::dump_object 50 err
+
+$terminal_fd undefined
+$original_attributes undefined
+$do_switch_cursor_off undefined
+
+$std::finalize_terminal:
+  #
+    undoes all changes made by *initialize_terminal*
+
+    Topic: Terminal
+
+    See also: initialize_terminal
+
+  set_terminal_attributes! $_success terminal_fd original_attributes
+  print! "@esc;[u" # restore cursor position
+  print! "@esc;[?47l" # switch to default screen
+  print! "@esc;[0m" # set default colours
+  on do_switch_cursor_off: cursor_on!
 
 $std_types::terminal/update update_terminal
 
@@ -1235,8 +1300,8 @@ $std::update_terminal:
   $current_buffer current_buffer_of(terminal)
   $current_y cursor_y_of(current_buffer)
   $current_x cursor_x_of(current_buffer)
-  $current_text_colour draw_colour_of(current_buffer)
-  $current_background_colour clear_colour_of(current_buffer)
+  $current_draw_colour draw_colour_of(current_buffer)
+  $current_clear_colour clear_colour_of(current_buffer)
   $new_rows rows_of(terminal)
   $current_rows rows_of(current_buffer)
   $line_height line_height_of(terminal)
@@ -1245,7 +1310,7 @@ $std::update_terminal:
   from_to 1 terminal_height
     !output
     !current_y !current_x
-    !current_background_colour !current_text_colour
+    !current_clear_colour !current_draw_colour
     : (y)
       $new_row new_rows(y)
       $current_row current_rows(y)
@@ -1257,24 +1322,24 @@ $std::update_terminal:
 	    new_chr == INVALID_CHARACTER
 	    next
 	    :
-	      $new_text_colour new_row(3*x-1)
-	      $new_background_colour new_row(3*x)
+	      $new_draw_colour new_row(3*x-1)
+	      $new_clear_colour new_row(3*x)
 	      if
 		||
 		  new_chr != current_row(3*x-2)
-		  new_text_colour != current_row(3*x-1)
-		  new_background_colour != current_row(3*x)
+		  new_draw_colour != current_row(3*x-1)
+		  new_clear_colour != current_row(3*x)
 		:
 		  if
 		    x > last_column:
 		      move_to last_column+1 y:
-			use_background_colour new_row(-1):
+			use_clear_colour new_row(-1):
 			  append &output csi('K') # clear to the end of the line
 			  break
 		    :
 		      move_to x y:
-			use_text_colour new_text_colour:
-			  use_background_colour new_background_colour:
+			use_draw_colour new_draw_colour:
+			  use_clear_colour new_clear_colour:
 			    emit_character new_chr:
 			      next
 		next
@@ -1282,7 +1347,7 @@ $std::update_terminal:
     ->
       output
       current_y current_x
-      current_background_colour current_text_colour
+      current_clear_colour current_draw_colour
 
   if
     current_y.is_undefined:
@@ -1372,10 +1437,10 @@ $std::update_terminal:
 		    cont
 	  cont
 
-  $use_text_colour: (colour cont)
+  $use_draw_colour: (colour cont)
     if
-      colour != current_text_colour:
-	!current_text_colour colour
+      colour != current_draw_colour:
+	!current_draw_colour colour
 	$colour_value colour.to_integer
 	$red colour_value >> 16
 	$green (colour_value >> 8) & 0xff
@@ -1385,10 +1450,10 @@ $std::update_terminal:
 	cont
       cont
 
-  $use_background_colour: (colour cont)
+  $use_clear_colour: (colour cont)
     if
-      colour != current_background_colour:
-	!current_background_colour colour
+      colour != current_clear_colour:
+	!current_clear_colour colour
 	$colour_value colour.to_integer
 	$red colour_value >> 16
 	$green (colour_value >> 8) & 0xff
@@ -1425,17 +1490,17 @@ $std::update_terminal:
     $update_current_buffer:
       !current_buffer.cursor_y_of current_y
       !current_buffer.cursor_x_of current_x
-      !current_buffer.draw_colour_of current_text_colour
-      !current_buffer.clear_colour_of current_background_colour
+      !current_buffer.draw_colour_of current_draw_colour
+      !current_buffer.clear_colour_of current_clear_colour
       !current_buffer.rows_of new_rows
       -> terminal(.current_buffer_of current_buffer) output
 
 $find_last_non_empty_column: (row)
   $i length_of(row)
-  $background_colour row(i)
+  $clear_colour row(i)
   loop:
     if
-      i > 0 && row(i-2) == ' ' && row(i) == background_colour:
+      i > 0 && row(i-2) == ' ' && row(i) == clear_colour:
 	!i i-3
 	next
       -> i .div. 3
@@ -1758,83 +1823,7 @@ $std_types::screen/draw_character:
     y # in logical screen coordinates (any coordinate within a row is accepted)
     chr # the character to draw
   )
-  std_private::abs_x screen &x
-  std_private::abs_y screen &y
-  $line_height line_height_of(screen)
-  $width width_of(screen)
-  $height height_of(screen) .div. line_height
-  update_if line_height > 1 &y -> y+line_height-1 .div. line_height
-  if
-    x < 1 || x > width || y < 1 || y > height
-    -> screen
-    :
-      $colour
-	string
-	  draw_colour_of(screen)
-	  clear_colour_of(screen)
-      $row rows_of(screen)(y)
-      $buf ""
-      $sx 3*x-2
-      $w 3
-      $old_chr row(3*x-2)
-      if
-	old_chr == INVALID_CHARACTER:
-	  push &buf ' '
-	  append &buf colour
-	  !sx sx-3
-	  !w w+3
-	  update_character
-	update_character
-
-      $update_character:
-	push &buf chr
-	append &buf colour
-	if
-	  x == width # no need to check character width
-	  return_update
-	  :
-	    $old_chr_width width_of(old_chr)
-	    if
-	      width_of(chr) == 1:
-		if
-		  old_chr_width == 1
-		  return_update
-		  :
-		    push &buf ' '
-		    append &buf colour
-		    !w w+3
-		    return_update
-	      :
-		if
-		  old_chr_width == 1:
-		    if
-		      x+1 == width || width_of(row(3*x+1)) == 1:
-			push &buf INVALID_CHARACTER
-			append &buf colour
-			!w w+3
-			return_update
-		      :
-			push &buf INVALID_CHARACTER
-			append &buf colour
-			push &buf ' '
-			append &buf colour
-			!w w+6
-			return_update
-
-		  : # wide -> wide
-		    !w w+3
-		    push &buf INVALID_CHARACTER # the character will not change
-		    append &buf colour # but we need to replace the colour
-		    return_update
-
-      $return_update:
-	!screen.rows_of(y)
-	  append
-	    append
-	      range(row 1 sx-1)
-	      buf
-	    range(row sx+w -1)
-	-> screen
+  draw_text screen x y chr.to_string
 
 $std_types::screen/draw_text:
   #
@@ -2357,9 +2346,9 @@ $std::create_terminal:
 
     Available options are:
 
-    * <TEXT_COLOUR> (default: <BLACK>)
+    * <DRAW_COLOUR> (default: <BLACK>)
 
-    * <BACKGROUND_COLOUR> (default: <WHITE>)
+    * <CLEAR_COLOUR> (default: <WHITE>)
 
     * <LINE_HEIGHT> (default: 1)
 
@@ -2376,8 +2365,8 @@ $std::create_terminal:
 
       get_terminal_size! STDIN_FILENO $width $height
       create_terminal $terminal width height
-	TEXT_COLOUR = WHITE
-	BACKGROUND_COLOUR = BLUE
+	DRAW_COLOUR = WHITE
+	CLEAR_COLOUR = BLUE
       draw_text &terminal
 	10 # column
 	5 # row
@@ -2392,11 +2381,11 @@ $std::create_terminal:
     options* # optional terminal attributes
   )
   extract_options options
-    TEXT_COLOUR = BLACK $text_colour
-    BACKGROUND_COLOUR = WHITE $background_colour
+    DRAW_COLOUR = BLACK $draw_colour
+    CLEAR_COLOUR = WHITE $clear_colour
     LINE_HEIGHT = 1 $line_height
     VISIBLE_CURSOR = true $visible_cursor
-  $row dup(string(' ' text_colour background_colour) width)
+  $row dup(string(' ' draw_colour clear_colour) width)
   $rows dup(list(row) height .div. line_height)
   $terminal
     std_types::terminal
@@ -2404,16 +2393,16 @@ $std::create_terminal:
       .cursor_y_of 1
       .width_of width
       .height_of height
-      .draw_colour_of text_colour
-      .clear_colour_of background_colour
+      .draw_colour_of draw_colour
+      .clear_colour_of clear_colour
       .line_height_of line_height
       .has_a_visible_cursor visible_cursor
       .rows_of rows
   $buffer
-    create_screen
+    create_buffer
       width height
-      TEXT_COLOUR = INVALID_COLOUR
-      BACKGROUND_COLOUR = INVALID_COLOUR
+      DRAW_COLOUR = INVALID_COLOUR
+      CLEAR_COLOUR = INVALID_COLOUR
       LINE_HEIGHT = line_height
   ->
     terminal
@@ -2436,10 +2425,10 @@ $std_types::terminal/resize:
     new_width new_height
     draw_colour_of(self) clear_colour_of(self)
   $buffer # invalidate buffer
-    create_screen
+    create_buffer
       new_width new_height
-      TEXT_COLOUR = INVALID_COLOUR
-      BACKGROUND_COLOUR = INVALID_COLOUR
+      DRAW_COLOUR = INVALID_COLOUR
+      CLEAR_COLOUR = INVALID_COLOUR
       LINE_HEIGHT = line_height_of(self)
   !buffer
     buffer
@@ -2692,20 +2681,20 @@ $std::csi: (arguments* command)
 $std::add_attributes:
   (
     text
-    text_colour
-    background_colour
+    draw_colour
+    clear_colour
   )
   $buf ""
   for_each text
     : (chr)
       push &buf chr
-      push &buf text_colour
-      push &buf background_colour
+      push &buf draw_colour
+      push &buf clear_colour
       if
 	chr.is_a_wide_character:
 	  push &buf INVALID_CHARACTER
-	  push &buf text_colour
-	  push &buf background_colour
+	  push &buf draw_colour
+	  push &buf clear_colour
 	  next
 	next
     -> buf
