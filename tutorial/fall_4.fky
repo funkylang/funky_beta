@@ -9,14 +9,14 @@ $y 2
 $dx 0
 $dy 0
 
-$level_map map(split(image '@nl;'): (line) -> pad_right(line 80))
+$level_map map(split(level_image '@nl;'): (line) -> pad_right(line 80))
 
 $io std_types::io
 
 initialize_terminal CURSOR_OFF: (terminal)
   $screen create_screen(terminal)
   clear &screen
-  draw_text &screen 2 1 level_image
+  draw_text &screen 1 1 level_image
   initialize! &io
   start_reading_from &io STDIN_FILENO
   !t current_time_of(io) # immediately
@@ -46,6 +46,11 @@ initialize_terminal CURSOR_OFF: (terminal)
 	  current_time_of(io) >= t:
 	    plus &x dx
 	    plus &y dy
+	    !dy
+	      if
+		level_map(y+1)(x) == ' '
+		-> 1
+		-> 0
 	    copy &terminal screen
 	    draw_character &terminal x y 'o'
 	    update &terminal $output

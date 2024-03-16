@@ -1,0 +1,93 @@
+#!/usr/bin/env fkyrun
+
+<require basic/stdlib>
+<require terminal/terminal>
+
+$t undefined
+
+$level_map map(split(level_image '@nl;'): (line) -> pad_right(line 80))
+
+$io std_types::io
+
+initialize_terminal CURSOR_OFF: (terminal)
+  $screen create_screen(terminal)
+  clear &screen
+  draw_text &screen 1 1 level_image
+  initialize! &io
+  start_reading_from &io STDIN_FILENO
+  !t current_time_of(io) # immediately
+  start_level!
+
+  $start_level:
+    $x 4
+    $y 2
+    $dx 0
+    $dy 0
+    loop:
+      set_timeout &io t
+      get_events! &io $events # get all events
+      handle_terminal_events &io &events
+      for_each events
+	: (event)
+	  event $type $_fd $key
+	  case type
+	    KEY_PRESS:
+	      case key
+		CURSOR_LEFT:
+		  minus &dx 1
+		  next!
+		CURSOR_RIGHT:
+		  plus &dx 1
+		  next!
+		ESCAPE:
+		  finalize_terminal!
+		  terminate!
+		next # ignore all other keys
+	    next
+	:
+	  if
+	    current_time_of(io) >= t:
+	      plus &x dx
+	      plus &y dy
+	      if
+		x < 1 || x > width_of(terminal) || y >= height_of(terminal):
+		  start_level!
+		:
+		  !dy
+		    if
+		      level_map(y+1)(x) == ' '
+		      -> 1
+		      -> 0
+		  copy &terminal screen
+		  draw_character &terminal x y 'o'
+		  update &terminal $output
+		  print_to &io STDOUT_FILENO output
+		  plus &t 0.2
+		  next!
+	    next
+
+$level_image "
+
+
+  ▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+
+
+
+		    ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+
+
+
+
+      ▀▀▀▀▀▀▀▀▀▀
+
+
+
+
+
+		  ▀▀▀▀▀
+
+
+
+
+
+			  ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
