@@ -21,7 +21,7 @@ enum {
   func_std__writeln_to = -12,
   chr_10 = -13,
   func_std__print_string_to = -14,
-  func_std__file_descriptor___print_to = -15,
+  func_std_types__file_descriptor___print_to = -15,
   func_std__println_to = -16,
   func_std__print_string = -17,
   func_std__print = -18,
@@ -216,7 +216,7 @@ enum {
   var_std__print_string_to, // initialized
   var_to_utf8, // extern
   var_std__print_to, // attribute
-  var_std__file_descriptor, // extern
+  var_std_types__file_descriptor, // extern
   var_print_to, // extern polymorphic
   var_std__println_to, // initialized
   var_std__print_string, // initialized
@@ -266,7 +266,6 @@ enum {
   var_load, // extern polymorphic
   var_open, // extern
   var_check, // extern
-  var_std_types__file_descriptor, // extern
   var_read_all_from, // extern
   var_close, // extern
   var_save, // extern polymorphic
@@ -527,7 +526,7 @@ static TAB_NUM t_func_std__print_string_to[] = {
   POS(255, 3)
 };
 
-static TAB_NUM t_func_std__file_descriptor___print_to[] = {
+static TAB_NUM t_func_std_types__file_descriptor___print_to[] = {
   4, // locals
   -2, // parameters
   MANDATORY_PARAMETER, LOCAL(3), // 281_0_fd
@@ -2358,7 +2357,7 @@ static FUNKY_CONSTANT constants_table[] = {
   {FLT_FUNCTION, 0, {.tfunc = t_func_std__writeln_to}},
   {FLT_CHARACTER, 0, {.value = 10}},
   {FLT_FUNCTION, 0, {.tfunc = t_func_std__print_string_to}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std__file_descriptor___print_to}},
+  {FLT_FUNCTION, 0, {.tfunc = t_func_std_types__file_descriptor___print_to}},
   {FLT_FUNCTION, 0, {.tfunc = t_func_std__println_to}},
   {FLT_FUNCTION, 0, {.tfunc = t_func_std__print_string}},
   {FLT_FUNCTION, 0, {.tfunc = t_func_std__print}},
@@ -2513,21 +2512,18 @@ static FUNKY_CONSTANT constants_table[] = {
   {FLT_FUNCTION, 0, {.tfunc = t_func_std__extern}}
 };
 
-static ATTRIBUTE_DEFINITION std__file_descriptor__attributes[] = {
-  {var_print_to, -func_std__file_descriptor___print_to}
-};
-
-static ATTRIBUTE_DEFINITION std_types__string__attributes[] = {
-  {var_load, -func_std_types__string___load},
-  {var_save, -func_std_types__string___save}
-};
-
 static ATTRIBUTE_DEFINITION std_types__file_descriptor__attributes[] = {
+  {var_print_to, -func_std_types__file_descriptor___print_to},
   {var_load, -func_std_types__file_descriptor___load},
   {-var_is_a_file_descriptor, -var_true},
   {-var_serialization_tag_of, -str_file_descriptor},
   {var_serialize, -func_std_types__file_descriptor___serialize},
   {-var_deserializer_of, -func_std_types__file_descriptor___deserializer_of}
+};
+
+static ATTRIBUTE_DEFINITION std_types__string__attributes[] = {
+  {var_load, -func_std_types__string___load},
+  {var_save, -func_std_types__string___save}
 };
 
 static ATTRIBUTE_DEFINITION std_types__stat__attributes[] = {
@@ -2736,14 +2732,14 @@ static FUNKY_VARIABLE variables_table[] = {
     {.has_a_setter = false}
   },
   {
-    FOT_UNKNOWN, 0, 1,
-    "file_descriptor\000std", std__file_descriptor__attributes,
+    FOT_UNKNOWN, 0, 6,
+    "file_descriptor\000std_types", std_types__file_descriptor__attributes,
     {.position = POS(259, 1)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
     "print_to\000", NULL,
-    {.position = POS(259, 23)}
+    {.position = POS(259, 29)}
   },
   {
     FOT_INITIALIZED, 0, 0,
@@ -2972,11 +2968,6 @@ static FUNKY_VARIABLE variables_table[] = {
     FOT_UNKNOWN, 0, 0,
     "check\000", NULL,
     {.position = POS(739, 3)}
-  },
-  {
-    FOT_UNKNOWN, 0, 5,
-    "file_descriptor\000std_types", std_types__file_descriptor__attributes,
-    {.position = POS(742, 1)}
   },
   {
     FOT_UNKNOWN, 0, 0,
@@ -3622,7 +3613,7 @@ FUNKY_MODULE module__basic__io__io = {
   0, // number of defined namespaces
   1, // number of used namespaces
   167, // number of constants
-  225, // number of variables
+  224, // number of variables
   NULL, // required modules
   NULL, // defined namespaces
   used_namespaces,

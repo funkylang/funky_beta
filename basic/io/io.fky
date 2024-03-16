@@ -256,7 +256,7 @@ $std::print_string_to:
 
 $std::print_to ()
 
-$std::file_descriptor/print_to:
+$std_types::file_descriptor/print_to:
   #
     prints its arguments to the specified file descriptor
 
