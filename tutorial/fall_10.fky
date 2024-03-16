@@ -1,0 +1,152 @@
+#!/usr/bin/env fkyrun
+
+<require basic/stdlib>
+<require terminal/terminal>
+
+$t undefined
+$level_no 1
+
+$io std_types::io
+
+initialize_terminal CURSOR_OFF: (terminal)
+  initialize! &io
+  start_reading_from &io STDIN_FILENO
+  !t current_time_of(io) # immediately
+  start_level!
+
+  $start_level:
+    $level_image level_images(level_no)
+    $screen create_screen(terminal)
+    clear &screen
+    draw_text &screen 1 1 level_image
+    $level_map map(split(level_image '@nl;'): (line) -> pad_right(line 80))
+    $x 4
+    $y 2
+    $dx 0
+    $dy 0
+    loop:
+      set_timeout &io t
+      get_events! &io $events # get all events
+      handle_terminal_events &io &events
+      for_each events
+	: (event)
+	  event $type $_fd $key
+	  case type
+	    KEY_PRESS:
+	      case key
+		CURSOR_LEFT:
+		  if
+		    dy == 0:
+		      minus &dx 1/60
+		      next!
+		    next
+		CURSOR_RIGHT:
+		  if
+		    dy == 0:
+		      plus &dx 1/60
+		      next!
+		    next
+		ESCAPE:
+		  finalize_terminal!
+		  terminate!
+		next # ignore all other keys
+	    next
+	:
+	  if
+	    current_time_of(io) >= t:
+	      plus &x dx
+	      plus &y dy
+	      if
+		||
+		  x.to_integer < 1
+		  x.to_integer >= width_of(terminal)
+		  y >= height_of(terminal)
+		  dy > 0.6
+		:
+		  start_level!
+		:
+		  $below_left level_map(y.to_integer+1)(x.to_integer)
+		  $below_right level_map(y.to_integer+1)(x.to_integer+1)
+		  $below
+		    if
+		      below_left == below_right
+		      -> below_left
+		      -> undefined
+		  !dy
+		    if
+		      below == ' '
+		      -> dy+0.02
+		      -> 0
+		  copy &terminal screen
+		  draw_character &terminal x.to_integer y.to_integer '🔴'
+		  if
+		    below == '▒':
+		      if
+			level_no == length_of(level_images):
+			  !dx 0
+			  draw_text &terminal 37 12 "YOU WON!"
+			  update_terminal!
+			:
+			  inc &level_no
+			  start_level!
+		    update_terminal
+
+		  $update_terminal:
+		    update &terminal $output
+		    print_to &io STDOUT_FILENO output
+		    plus &t 1/60
+		    next!
+	    next
+
+
+list $level_images
+  "
+
+
+    ▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+
+
+
+		      ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+
+
+
+
+	▀▀▀▀▀▀▀▀▀▀
+
+
+
+
+
+		    ▀▀▀▀▀
+
+
+
+
+
+			    ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▒▒▒▒▀▀▀
+  "
+
+
+    ▀▀▀▀▀▀▀▀▀▀▀
+
+
+		  ▀▀▀▀▀▀▀▀▀▀▀
+
+
+				       ▀▀▀▀▀▀▀▀▀▀▀▀▀
+
+
+
+
+								▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+
+
+
+
+							▀▀▀▀▀▀▀▀
+
+
+
+
+    ▀▀▀▒▒▒▒▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀

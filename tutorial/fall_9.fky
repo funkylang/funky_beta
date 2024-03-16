@@ -64,19 +64,32 @@ initialize_terminal CURSOR_OFF: (terminal)
 		:
 		  start_level!
 		:
+		  $below_left level_map(y.to_integer+1)(x.to_integer)
+		  $below_right level_map(y.to_integer+1)(x.to_integer+1)
+		  $below
+		    if
+		      below_left == below_right
+		      -> below_left
+		      -> undefined
 		  !dy
 		    if
-		      &&
-			level_map(y.to_integer+1)(x.to_integer) == ' '
-			level_map(y.to_integer+1)(x.to_integer+1) == ' '
+		      below == ' '
 		      -> dy+0.02
 		      -> 0
 		  copy &terminal screen
 		  draw_character &terminal x.to_integer y.to_integer '🔴'
-		  update &terminal $output
-		  print_to &io STDOUT_FILENO output
-		  plus &t 1/60
-		  next!
+		  if
+		    below == '▒':
+		      !dx 0
+		      draw_text &terminal 37 12 "YOU WON!"
+		      update_terminal!
+		    update_terminal
+
+		  $update_terminal:
+		    update &terminal $output
+		    print_to &io STDOUT_FILENO output
+		    plus &t 1/60
+		    next!
 	    next
 
 $level_image "
@@ -103,4 +116,4 @@ $level_image "
 
 
 
-			  ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+			  ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▒▒▒▒▀▀▀

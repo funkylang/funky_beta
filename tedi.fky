@@ -888,7 +888,6 @@ $event_loop:
 			    if
 			      new_terminal.is_an_error:
 				# SHOW ERROR MESSAGE!!!
-				debug::dump 50 `new_io
 				show_error !state error_message_text_of(new_io)
 				check_updates !terminal !state
 				update &terminal !output
