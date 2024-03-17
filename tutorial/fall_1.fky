@@ -31,9 +31,7 @@ initialize_terminal CURSOR_OFF: (terminal)
 	      CURSOR_RIGHT:
 		plus &x 1
 		next!
-	      ESCAPE:
-		finalize_terminal!
-		terminate!
+	      ESCAPE pass
 	      next # ignore all other keys
 	  next
       :

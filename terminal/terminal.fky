@@ -1216,15 +1216,15 @@ $std::initialize_terminal:
     DRAW_COLOUR = BLACK $draw_colour
     CLEAR_COLOUR = WHITE $clear_colour
     LINE_HEIGHT = 1 $line_height
-    FILE_DESCRIPTOR = STDIN_FILENO !terminal_fd
+    FILE_DESCRIPTOR = STDIN_FILENO $fd
     RECEIVE_CTRL_C_AND_CTRL_Z = false $do_receive_ctrl_c_and_ctrl_z
     RECEIVE_CTRL_Q_AND_CTRL_S = false $do_receive_ctrl_q_and_ctrl_s
     MAP_CR = false $do_map_cr
     RECEIVE_SIGWINCH = false $_do_receive_sigwinch
-    CURSOR_OFF = false !do_switch_cursor_off
+    CURSOR_OFF = false $do_switch_cursor_off
     TITLE = undefined $title
 
-  get_terminal_attributes! terminal_fd !original_attributes
+  get_terminal_attributes! fd $original_attributes
   $attributes original_attributes
   use_canonical_mode &attributes false #  no line-buffering ...
   echo_characters &attributes false # ... and no echoing of typed in characters
@@ -1245,7 +1245,7 @@ $std::initialize_terminal:
   on do_switch_cursor_off: cursor_off!
   on title.is_defined: print! "@esc;]0;@(title)@7;"
 
-  get_terminal_size! terminal_fd $width $height
+  get_terminal_size! fd $width $height
   create_terminal $terminal width height*line_height
     DRAW_COLOUR = draw_colour
     CLEAR_COLOUR = clear_colour
@@ -1253,26 +1253,12 @@ $std::initialize_terminal:
 
   initialize_terminal_keys:
     try $err: body! terminal
-    try $_err: finalize_terminal!
+    set_terminal_attributes! $_success fd original_attributes
+    print! "@esc;[u" # restore cursor position
+    print! "@esc;[?47l" # switch to default screen
+    print! "@esc;[0m" # set default colours
+    on do_switch_cursor_off: cursor_on!
     on err.is_an_error: debug::dump_object 50 err
-
-$terminal_fd undefined
-$original_attributes undefined
-$do_switch_cursor_off undefined
-
-$std::finalize_terminal:
-  #
-    undoes all changes made by *initialize_terminal*
-
-    Topic: Terminal
-
-    See also: initialize_terminal
-
-  set_terminal_attributes! $_success terminal_fd original_attributes
-  print! "@esc;[u" # restore cursor position
-  print! "@esc;[?47l" # switch to default screen
-  print! "@esc;[0m" # set default colours
-  on do_switch_cursor_off: cursor_on!
 
 $std_types::terminal/update update_terminal
 

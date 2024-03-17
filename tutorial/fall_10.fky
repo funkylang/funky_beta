@@ -46,9 +46,7 @@ initialize_terminal CURSOR_OFF: (terminal)
 		      plus &dx 1/60
 		      next!
 		    next
-		ESCAPE:
-		  finalize_terminal!
-		  terminate!
+		ESCAPE pass
 		next # ignore all other keys
 	    next
 	:
