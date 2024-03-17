@@ -57,8 +57,8 @@ initialize_terminal CURSOR_OFF: (terminal)
 	      if
 		||
 		  x.to_integer < 1
-		  x.to_integer >= width_of(terminal)
-		  y >= height_of(terminal)
+		  x.to_integer >= 80
+		  y >= 24
 		  dy > 0.6
 		:
 		  start_level!

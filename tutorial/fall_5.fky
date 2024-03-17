@@ -48,7 +48,7 @@ initialize_terminal CURSOR_OFF: (terminal)
 	      plus &x dx
 	      plus &y dy
 	      if
-		x < 1 || x > width_of(terminal) || y >= height_of(terminal):
+		x < 1 || x > 80 || y >= 24:
 		  start_level!
 		:
 		  !dy
