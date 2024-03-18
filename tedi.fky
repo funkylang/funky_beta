@@ -435,7 +435,7 @@ $undo_key CTRL_Z
 $smart_completion_key TABULATOR
 $smart_uncompletion_key SHIFT_TABULATOR
 get_environment $environment
-$configuration_filename append(environment("HOME") "/tedi.cfg")
+$configuration_filename append(environment("HOME") "/.config/tedi/tedi.cfg")
 
 $colour_sets
   list
@@ -644,64 +644,75 @@ $main: (initial_terminal)
   $terminal_height height_of(terminal)
   $window_height terminal_height-2
 
-  load_configuration configuration_filename:
+  load_configuration configuration_filename: (found_configuration)
     for_each text_windows
       : (idx text_window)
 	!text_windows(idx) text_window(.key_bindings_of editor_key_bindings)
 	next!
-      start_tedi
-
-  $start_tedi:
-    $saved_revisions empty_hash_table
-    for_each text_windows
-      : (text_window)
-	!saved_revisions(id_of(text_window)) 0
-	next!
       :
-	!state
-	  std_types::object
-	    .do_exit_of false
-	    .ai_model_of undefined
-	    .windows_of
-	      append
-		text_windows
-		list
-		  filter_window
-		  go_to_window
-		  search_window
-		  dummy_bar
-		  error_bar
-		  info_bar
-	    .text_window_count_of length_of(text_windows)
-	    .current_window_index_of 1
-	    .current_bar_index_of DUMMY_BAR
-	    .text_window_index_of 1
-	    .key_of undefined
-	    .completion_prefix_of undefined
-	    .possible_completions_of undefined
-	    .completion_index_of undefined
-	    .action_of undefined
-	    .clipboard_contents_of undefined
-	    .search_text_of undefined
-	    .replacement_text_of undefined
-	    .saved_revisions_of saved_revisions
-	create_views !state 1
-	!window
-	  windows_of(state)(1)
-	    .id_of 1
-	    .width_of terminal_width
-	    .height_of window_height
-	    .upper_bound_of 1+(window_height .div. 4)
-	    .lower_bound_of window_height-(window_height .div. 4)
-	!lines lines_of(window)
-	update_all_views &terminal &state
-	!window_before_update window
-	update &terminal $initial_output
-	print! initial_output
-	start_injecting_window_change_events &io
-	start_reading_from &io STDIN_FILENO
-	event_loop! !terminal !state
-	on terminal.is_an_error terminal
+	$saved_revisions empty_hash_table
+	for_each text_windows
+	  : (text_window)
+	    !saved_revisions(id_of(text_window)) 0
+	    next!
+	  :
+	    !state
+	      std_types::object
+		.do_exit_of false
+		.ai_model_of undefined
+		.windows_of
+		  append
+		    text_windows
+		    list
+		      filter_window
+		      go_to_window
+		      search_window
+		      dummy_bar
+		      error_bar
+		      info_bar
+		.text_window_count_of length_of(text_windows)
+		.current_window_index_of 1
+		.current_bar_index_of
+		  if
+		    found_configuration
+		    -> DUMMY_BAR
+		    -> ERROR_BAR
+		.text_window_index_of 1
+		.key_of undefined
+		.completion_prefix_of undefined
+		.possible_completions_of undefined
+		.completion_index_of undefined
+		.action_of undefined
+		.clipboard_contents_of undefined
+		.search_text_of undefined
+		.replacement_text_of undefined
+		.saved_revisions_of saved_revisions
+	    create_views !state 1
+	    if
+	      found_configuration
+	      initialize_views
+	      :
+		show_error !state "
+		  Configuration file not found - using default settings
+		initialize_views!
+
+	    $initialize_views:
+	      !window
+		windows_of(state)(1)
+		  .id_of 1
+		  .width_of terminal_width
+		  .height_of window_height
+		  .upper_bound_of 1+(window_height .div. 4)
+		  .lower_bound_of window_height-(window_height .div. 4)
+	      !lines lines_of(window)
+	      update_all_views &terminal &state
+	      !window_before_update window
+	      update &terminal $initial_output
+	      print! initial_output
+	      start_injecting_window_change_events &io
+	      start_reading_from &io STDIN_FILENO
+	      event_loop! !terminal !state
+	      on terminal.is_an_error terminal
 
 $update_all_views: (terminal state)
   $windows windows_of(state)
@@ -4186,7 +4197,7 @@ $load_configuration: (filename continuation)
   from_utf8 &configuration
   if
     configuration.is_an_error
-    continuation
+    : continuation! false
     :
       for_each split(configuration.trim_right '@nl;')
 	: (no line)
@@ -4267,7 +4278,7 @@ $load_configuration: (filename continuation)
 				  !smart_completion_key key
 				  next!
 				next
-	continuation
+	: continuation! true
 
 $create_views: (active_idx)
   $text_window_count text_window_count_of(state)
