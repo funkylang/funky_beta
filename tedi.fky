@@ -346,6 +346,7 @@ $editor_key_bindings
 
     TABULATOR = smart_completion_or_indent
     SHIFT_TABULATOR = smart_uncompletion_or_outdent
+    CTRL_SPACE = ai_completion
     RETURN = split_line
     BACKSPACE = delete_left
     DELETE = delete_right
