@@ -157,10 +157,11 @@ $do_keep_selection () # set by commands that alter the selection
 $selection_start_x_of () # the selection spans the range between selection ...
 $selection_start_y_of () # ... start and the current position
 $cursor_movement_of () # restrictions that apply to the movement of the cursor
-$use_soft_line_break_of () # break long lines at <inbounds_width>
+$use_soft_line_breaks_of () # break long lines at <inbounds_width>
 $is_a_text_window () # is *not* a status window, etc.
 $do_highlight_indentations_of () # show vertical lines at the start of each line
 $do_highlight_cursor_line_of () # highlight the cursor's horizontal line
+$do_show_line_numbers_of () # show line numbers at the start of each line
 $colour_set_of () # the colour set to use for the window
 $colour_set_no_of () # the colour set index of the currently active colour set
 $do_define_mark_of () # expect a letter that defines a "mark"
@@ -177,6 +178,8 @@ $folds_colour_of () # used to highlight "folded" lines
 $fake_folds_colour_of () # used to highlight folds that fold only whitespace
 $bar_text_colour_of () # used for the title bar
 $bar_background_colour_of () # used for the title bar
+$line_number_text_colour_of () # used to display line numbers
+$line_number_background_colour_of () # used to display line numbers
 $indentation_patterns_of () # a precomputed pattern to display indents
 
 # Other Settings
@@ -386,6 +389,7 @@ $editor_key_bindings
     F3 = toggle_indentation_highlighting
     F4 = toggle_cursor_line_highlighting
     F5 = toggle_soft_line_break
+    F6 = toggle_line_numbers
 
 $simple_key_bindings
   hash_table
@@ -451,17 +455,8 @@ $colour_sets
       .fake_folds_colour_of '@0x00c0ff;'
       .bar_text_colour_of BLACK
       .bar_background_colour_of YELLOW
-    std_types::object
-      .text_colour_of WHITE
-      .background_colour_of BLUE
-      .background_colour_2_of '@0x0000f0;'
-      .background_colour_3_of '@0x0000e8;'
-      .out_of_bounds_colour_of '@0x0000c0;'
-      .selection_colour_of '@0x804000;'
-      .folds_colour_of '@0x00a0ff;'
-      .fake_folds_colour_of '@0x00c0ff;'
-      .bar_text_colour_of BLACK
-      .bar_background_colour_of WHITE
+      .line_number_text_colour_of BLACK
+      .line_number_background_colour_of CYAN
     std_types::object
       .text_colour_of BLACK
       .background_colour_of WHITE
@@ -473,6 +468,8 @@ $colour_sets
       .fake_folds_colour_of '@0xe0ffe0;'
       .bar_text_colour_of WHITE
       .bar_background_colour_of BLACK
+      .line_number_text_colour_of WHITE
+      .line_number_background_colour_of GREY
     std_types::object
       .text_colour_of WHITE
       .background_colour_of BLACK
@@ -484,6 +481,8 @@ $colour_sets
       .fake_folds_colour_of '@0x002000;'
       .bar_text_colour_of BLACK
       .bar_background_colour_of WHITE
+      .line_number_text_colour_of BLACK
+      .line_number_background_colour_of '@0x999999;'
 
 $info_colour_set
   std_types::object
@@ -522,10 +521,11 @@ $tedi_types::window.selection_start_y_of undefined
 $tedi_types::window.do_define_mark_of false
 $tedi_types::window.was_updated false
 $tedi_types::window.update_class_of undefined
-$tedi_types::window.use_soft_line_break_of false
+$tedi_types::window.use_soft_line_breaks_of false
 $tedi_types::window.is_a_text_window false
 $tedi_types::window.do_highlight_indentations_of false
 $tedi_types::window.do_highlight_cursor_line_of false
+$tedi_types::window.do_show_line_numbers_of false
 
 $tedi_types::text_window.revision_no_of 0
 $tedi_types::text_window.is_a_text_window true
@@ -594,7 +594,7 @@ $search_window
     .key_bindings_of search_key_bindings
     .key_of undefined
     .lines_of empty_list
-    .colour_set_of colour_sets(3)
+    .colour_set_of colour_sets(2)
     .cursor_movement_of ADD_SINGLE_LINE
 
 $go_to_window
@@ -603,7 +603,7 @@ $go_to_window
     .key_bindings_of go_to_key_bindings
     .key_of undefined
     .lines_of empty_list
-    .colour_set_of colour_sets(4)
+    .colour_set_of colour_sets(3)
     .cursor_movement_of ADD_SINGLE_LINE
 
 $filter_window
@@ -2287,14 +2287,16 @@ $ai_completion_action:
 	  log &io 4 -> "
 	    @(format("%1.3: %5 " t4-t3 token)); "@(escaped_piece(piece))"
 	  $end_of_text_token end_of_text_token_of(ai_model)
+	  $end_of_stream_token end_of_stream_token_of(ai_model)
 	  $period_token period_token_of(ai_model)
-	  $use_soft_line_break use_soft_line_break_of(window)
+	  $use_soft_line_breaks use_soft_line_breaks_of(window)
 	  if!
 	    &&
 	      generated_tokens_count < 50
 	      token != newline_token
 	      token != end_of_text_token
-	      not(use_soft_line_break) || token != period_token
+	      token != end_of_stream_token
+	      not(use_soft_line_breaks) || token != period_token
 	    :
 	      push &tokens token
 	      next!
@@ -2307,9 +2309,12 @@ $ai_completion_action:
 	      if
 		ai_text.is_empty:
 		  if
-		    token == newline_token
-		    -> io terminal split_line()
-		    -> io terminal state
+		    token == newline_token:
+		      show_dummy !state
+		      -> io terminal split_line()
+		    :
+		      show_error !state "No (more) text generated!"
+		      -> io terminal state
 		:
 		  !window.previous_of window
 		  !window
@@ -3519,10 +3524,17 @@ $toggle_cursor_line_highlighting:
 $toggle_soft_line_break:
   !window
     window
-      .use_soft_line_break_of not(use_soft_line_break_of(window))
+      .use_soft_line_breaks_of not(use_soft_line_breaks_of(window))
       .cursor_x_of undefined
       .cursor_y_of undefined
       .sub_y_of undefined
+      .needs_redraw true
+  return_window
+
+$toggle_line_numbers:
+  !window
+    window
+      .do_show_line_numbers_of not(do_show_line_numbers_of(window))
       .needs_redraw true
   return_window
 
@@ -3634,7 +3646,7 @@ $count_lines_from_to: (first_y first_sub_y last_y last_sub_y)
 $move: (y sub_y dy)
   $cursor_movement cursor_movement_of(window)
   if_not
-    use_soft_line_break_of(window):
+    use_soft_line_breaks_of(window):
       plus &y dy
       if
 	y < 1
@@ -3724,7 +3736,7 @@ $last_position: (y)
 	:
 	  line $indent $text
 	  if
-	    use_soft_line_break_of(window):
+	    use_soft_line_breaks_of(window):
 	      $inbounds_width default_value(inbounds_width_of(window) 80)
 	      $text_lines break_into_lines(text inbounds_width-indent)
 	      -> indent+width_of(text_lines(sub_y_of(window)))+1
@@ -3861,7 +3873,7 @@ $tedi_types::text_window/update: (self view terminal)
     $left
       append
 	if
-	  use_soft_line_break_of(self)
+	  use_soft_line_breaks_of(self)
 	  -> "≡"
 	  -> "−"
 	" "
@@ -3895,7 +3907,7 @@ $update_contents: (window view terminal)
     if <x> is undefined then <sub_y> and <cursor_x> must be defined
 
   !lines lines_of(window)
-  $use_soft_line_break use_soft_line_break_of(window)
+  $use_soft_line_breaks use_soft_line_breaks_of(window)
   $width width_of(view)
   $height height_of(view)
   $upper_bound 1+(height-1 .div. 4)
@@ -3908,12 +3920,16 @@ $update_contents: (window view terminal)
   $x x_of(window)
   $y y_of(window)
 
+  $left_view view
+  update_if do_show_line_numbers_of(window) &view
+    -> create_view(view 6 1 -1 -1)
+
   if $cursor_x $cursor_y $sub_y
     cursor_y_of(window).is_defined
     -> cursor_x_of(window) cursor_y_of(window) sub_y_of(window)
     :
       if
-	use_soft_line_break:
+	use_soft_line_breaks:
 	  $dy count_lines_from_to(first_visible_y first_visible_sub_y y 1)
 	  $line
 	    if
@@ -3949,7 +3965,7 @@ $update_contents: (window view terminal)
 
   update_if x.is_undefined &x:
     if
-      use_soft_line_break:
+      use_soft_line_breaks:
 	$line
 	  if
 	    y > line_count
@@ -4045,7 +4061,12 @@ $update_contents: (window view terminal)
 	.cursor_x_of cursor_x
 	.cursor_y_of cursor_y
 	.sub_y_of sub_y
-    set_cursor &terminal cursor_x-first_visible_x+1 y_of(view)+cursor_y-1
+    $dx
+      if
+	do_show_line_numbers_of(window)
+	-> 5
+	-> 0
+    set_cursor &terminal dx+cursor_x-first_visible_x+1 y_of(view)+cursor_y-1
     -> window terminal
 
   $draw:
@@ -4057,9 +4078,11 @@ $update_contents: (window view terminal)
 	.was_updated false
     $colour_set colour_set_of(window)
     $text_colour text_colour_of(colour_set)
-    $background_colour background_colour_of(colour_set)
+    $background_colour undefined
     $out_of_bounds_colour out_of_bounds_colour_of(colour_set)
     $selection_colour selection_colour_of(colour_set)
+    $line_number_text_colour line_number_text_colour_of(colour_set)
+    $line_number_background_colour line_number_background_colour_of(colour_set)
     $indentation_pattern indentation_patterns_of(colour_set)(1)
     set_clear_colour &view undefined
     set_draw_colour &view text_colour
@@ -4079,24 +4102,55 @@ $update_contents: (window view terminal)
       if
 	cy > line_count:
 	  !indent 0
+	  !background_colour background_colour_of(colour_set)
 	  clear_line !terminal
-	  inc &vy
-	  next
-	:
-	  $line lines(cy)
 	  if
-	    line.is_defined:
-	      line !indent $text
-	      if
-		use_soft_line_break && indent+width_of(text) > inbounds_width:
-		  $text_lines break_into_lines(text inbounds_width-indent)
-		  $cx indent+1
-		  for_each text_lines
-		    : (text_line)
-		      !text text_line
+	    do_show_line_numbers_of(window):
+	      set_clear_colour &left_view line_number_background_colour
+	      clear left_view &terminal 1 vy 5 1
+	      inc &vy
+	      next
+	    :
+	      inc &vy
+	      next
+	:
+	  if
+	    do_show_line_numbers_of(window):
+	      set_clear_colour &left_view line_number_background_colour
+	      set_draw_colour &left_view line_number_text_colour
+	      draw_text left_view &terminal 1 vy
+		push(pad_left(cy.to_string 4) ' ')
+	      draw_text_line
+	    draw_text_line
+
+    $draw_text_line:
+      $line lines(cy)
+      if
+	line.is_defined:
+	  line !indent $text $_marks $folds
+	  !background_colour
+	    if
+	      folds.is_defined:
+		if
+		  any_of(folds is_defined)
+		  -> folds_colour_of(colour_set)
+		  -> fake_folds_colour_of(colour_set)
+	      -> background_colour_of(colour_set)
+	  if
+	    use_soft_line_breaks && indent+width_of(text) > inbounds_width:
+	      $text_lines break_into_lines(text inbounds_width-indent)
+	      $cx indent+1
+	      for_each text_lines
+		: (text_line)
+		  !text text_line
+		  $sx cx
+		  plus &cx length_of(text)+1
+		  if
+		    first_visible_sub_y > 1:
+		      dec &first_visible_sub_y
+		      next
+		    :
 		      clear_line !terminal
-		      $sx cx
-		      plus &cx length_of(text)+1
 		      if
 			&&
 			  selection_start_x.is_defined
@@ -4109,24 +4163,25 @@ $update_contents: (window view terminal)
 			  show_selection !terminal indent+1+sx indent+1+ex
 			  draw_line_text
 			draw_line_text
-		    next
-		:
-		  clear_line !terminal
-		  if
-		    selection_start_x.is_defined && cy == selection_start_y:
-		      show_selection !terminal selection_start_x selection_end_x
-		      draw_line_text
-		    draw_line_text
-
-	      $draw_line_text:
-		draw_text view &terminal vx+indent vy text
-		inc &vy
 		next
 	    :
-	      check_indent !indent
 	      clear_line !terminal
-	      inc &vy
-	      next
+	      if
+		selection_start_x.is_defined && cy == selection_start_y:
+		  show_selection !terminal selection_start_x selection_end_x
+		  draw_line_text
+		draw_line_text
+
+	  $draw_line_text:
+	    draw_text view &terminal vx+indent vy text
+	    inc &vy
+	    next
+	:
+	  !background_colour background_colour_of(colour_set)
+	  check_indent !indent
+	  clear_line !terminal
+	  inc &vy
+	  next
 
     $check_indent:
       if
