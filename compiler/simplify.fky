@@ -1,5 +1,5 @@
 #
-  Copyright (C) 2023 by
+  Copyright (C) 2024 by
   Dipl.-Ing. Michael Niederle
 
   This program is free software; you can redistribute it and/or modify
@@ -729,6 +729,7 @@ $check_statements: (body)
   $parameter_state 0
   $parameters undefined
   $new_statements empty_list
+  $n length_of(statements)
   for_each statements
     : (idx statement)
       case node_type_of(statement)
@@ -754,6 +755,9 @@ $check_statements: (body)
 	:
 	  on parameter_state == 1:
 	    syntax_error "Closing parenthesis expected" statement
+	  on node_type_of(head_of(statement)) == RETURN && idx < n:
+	    syntax_error "Return statement not allowed within function body"
+	      statement
 	  !parameter_state 2
 	  if
 	    new_statements.is_not_empty

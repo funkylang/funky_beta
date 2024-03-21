@@ -4718,7 +4718,7 @@ $help_text "
       toggle indentation highlighting
 
     F4
-      toggle cursor line hightlighting
+      toggle cursor line highlighting
 
     F5
       toggle soft-break-mode
