@@ -105,6 +105,7 @@ $ai_model_of () # the ai-model object used for "ai completion"
 $windows_of () # a list of all windows (text windows and status bars)
 $text_window_count_of () # the number of text windows
 $current_window_index_of () # the currently active window
+$previous_window_index_of () # the previously active window
 $text_window_index_of () # the text window to work on
 $previous_text_window_index_of () # the previous text window
 $current_bar_index_of () # the currently active bar
@@ -132,7 +133,9 @@ $saved_revisions_of ()
 
 $id_of () # a unique value (currently an integer) to identify the window
 $filename_of () # the name of the file associated with the window
+$is_new () # the window contains a fresh, yet unsaved text
 $is_read_only () # whether the associated file is read-only
+$do_view_only () # whether the window is a view (i.e. read-only)
 $revision_no_of () # the total number of changes
 $features_of () # a <hash_set> of the window's features
 $key_bindings_of () # a <hash_table> of the window's key bindings
@@ -309,7 +312,7 @@ $functions
 
 $class_of empty_hash_table
 
-$editor_key_bindings
+$viewer_key_bindings
   hash_table
     # cursor movement
 
@@ -345,6 +348,42 @@ $editor_key_bindings
     SHIFT_CTRL_HOME = select_cursor_top
     SHIFT_CTRL_END = select_cursor_bottom
 
+    # folding
+
+    ALT_RETURN = toggle_folding
+    ALT_CURSOR_LEFT = fold_contents
+    ALT_CURSOR_RIGHT = unfold_contents
+    ALT_CURSOR_UP = fold_everything
+    ALT_CURSOR_DOWN = unfold_everything
+
+    # control commands
+
+    CTRL_C = copy
+    CTRL_F = find_text_dialog
+    CTRL_G = go_to_line_dialog
+    CTRL_N = find_next
+    CTRL_P = find_previous
+    CTRL_Q = EXIT
+
+    # window operations
+
+    ALT_N = next_window
+    ALT_P = previous_window
+
+$editor_key_bindings
+  new
+    viewer_key_bindings
+
+    # control commands
+
+    CTRL_D = define_mark
+    CTRL_J = join_lines
+    CTRL_K = delete_line
+    CTRL_S = save_contents
+    CTRL_ALT_S = save_with_leading_spaces
+    CTRL_V = paste
+    CTRL_X = cut
+
     # insert & delete
 
     TABULATOR = smart_completion_or_indent
@@ -356,35 +395,10 @@ $editor_key_bindings
 
     CTRL_BACKSPACE = delete_to_line_start
     CTRL_DELETE = delete_to_line_end
-    ALT_RETURN = toggle_folding
-    ALT_CURSOR_LEFT = fold_contents
-    ALT_CURSOR_RIGHT = unfold_contents
-    ALT_CURSOR_UP = fold_everything
-    ALT_CURSOR_DOWN = unfold_everything
-
-    # control commands
-
-    CTRL_C = copy
-    CTRL_D = define_mark
-    CTRL_F = find_text_dialog
-    CTRL_G = go_to_line_dialog
-    CTRL_J = join_lines
-    CTRL_K = delete_line
-    CTRL_N = find_next
-    CTRL_P = find_previous
-    CTRL_Q = EXIT
-    CTRL_S = save_contents
-    CTRL_ALT_S = save_with_leading_spaces
-    CTRL_V = paste
-    CTRL_X = cut
-
-    # window operations
-
-    ALT_N = next_window
-    ALT_P = previous_window
 
     # function keys
 
+    F1 = show_help
     F2 = change_colour_set
     F3 = toggle_indentation_highlighting
     F4 = toggle_cursor_line_highlighting
@@ -484,6 +498,18 @@ $colour_sets
       .line_number_text_colour_of BLACK
       .line_number_background_colour_of '@0x999999;'
 
+$help_colour_set
+  std_types::object
+    .text_colour_of '@0x003300;'
+    .background_colour_of '@0xccffcc;'
+    .selection_colour_of '@0x804000;'
+    .folds_colour_of '@0x004000;'
+    .fake_folds_colour_of '@0x002000;'
+    .bar_text_colour_of '@0xccffcc;'
+    .bar_background_colour_of '@0x003300;'
+    .line_number_text_colour_of BLACK
+    .line_number_background_colour_of '@0x999999;'
+
 $info_colour_set
   std_types::object
     .text_colour_of BLACK
@@ -496,7 +522,7 @@ $error_colour_set
 
 $dummy_colour_set
   std_types::object
-    .text_colour_of WHITE
+    .text_colour_of BLACK
     .background_colour_of GREY
 
 map &colour_sets create_indentation_patterns
@@ -515,6 +541,7 @@ $tedi_types::window.first_visible_sub_y_of 1
 $tedi_types::window.inbounds_width_of undefined
 $tedi_types::window.upper_bound_of undefined
 $tedi_types::window.lower_bound_of undefined
+$tedi_types::window.do_view_only false
 $tedi_types::window.do_keep_selection false
 $tedi_types::window.selection_start_x_of undefined
 $tedi_types::window.selection_start_y_of undefined
@@ -529,6 +556,8 @@ $tedi_types::window.do_show_line_numbers_of false
 
 $tedi_types::text_window.revision_no_of 0
 $tedi_types::text_window.is_a_text_window true
+$tedi_types::text_window.is_new false
+$tedi_types::text_window.is_read_only false
 $tedi_types::text_window.colour_set_no_of undefined
 
 $go_to_key_bindings
@@ -569,6 +598,7 @@ $DUMMY_BAR -3
 $SEARCH_BAR -4
 $GO_TO_BAR -5
 $FILTER_BAR -6
+$HELP_WINDOW -7
 
 $info_bar
   tedi_types::window
@@ -585,7 +615,7 @@ $error_bar
 $dummy_bar
   tedi_types::window
     .id_of DUMMY_BAR
-    .lines_of empty_list
+    .lines_of list(tedi_line(0 "Press F1 for help"))
     .colour_set_of dummy_colour_set
 
 $search_window
@@ -646,6 +676,17 @@ $main: (initial_terminal)
   $window_height terminal_height-2
 
   load_configuration configuration_filename: (found_configuration)
+    $help_window
+      tedi_types::text_window
+	.id_of HELP_WINDOW
+	.key_bindings_of viewer_key_bindings(ESCAPE close_help)
+	.key_of undefined
+	.filename_of "Help"
+	.lines_of load_text(help_text)
+	.do_view_only true
+	.do_highlight_cursor_line_of true
+	.cursor_movement_of ANYWHERE
+	.colour_set_of help_colour_set
     for_each text_windows
       : (idx text_window)
 	!text_windows(idx) text_window(.key_bindings_of editor_key_bindings)
@@ -665,6 +706,7 @@ $main: (initial_terminal)
 		  append
 		    text_windows
 		    list
+		      help_window
 		      filter_window
 		      go_to_window
 		      search_window
@@ -719,16 +761,21 @@ $update_all_views: (terminal state)
   $windows windows_of(state)
   $views views_of(state)
   update &windows(current_bar_index_of(state)) views(-1) &terminal
-  case mode_of(state)
-    SMALL:
-      update &windows(cwi()) views(1) &terminal
+  if
+    cwi() == HELP_WINDOW:
+      update &windows(HELP_WINDOW) views(-2) &terminal
       -> terminal state(.windows_of windows)
-    NORMAL:
-      from_to 1 text_window_count_of(state)
-	: (idx)
-	  update &windows(idx) views(idx) &terminal
-	  next
-	-> terminal state(.windows_of windows)
+    :
+      case mode_of(state)
+	SMALL:
+	  update &windows(cwi()) views(1) &terminal
+	  -> terminal state(.windows_of windows)
+	NORMAL:
+	  from_to 1 text_window_count_of(state)
+	    : (idx)
+	      update &windows(idx) views(idx) &terminal
+	      next
+	    -> terminal state(.windows_of windows)
 
 $event_loop:
   loop:
@@ -743,10 +790,10 @@ $event_loop:
 		from_utf8 &input
 		$views views_of(state)
 		!current_view
-		  if
-		    cwi() < 0
-		    -> views(-1)
-		    :
+		  cond
+		    -> cwi() == HELP_WINDOW -> views(-2)
+		    -> cwi() < 0 -> views(-1)
+		    -> true:
 		      create_view # remove title bar
 			if
 			  mode_of(state) == SMALL
@@ -759,16 +806,20 @@ $event_loop:
 		    input .contains. '@cr;'
 		  :
 		    extract_window_and_lines:
-		      paste_text input !state
-		      $idx cwi()
-		      !window windows_of(state)(idx)
-		      !lines lines_of(window)
-		      update &window views_of(state)(idx) &terminal
-		      !state.windows_of(idx) window
-		      !window_before_update window
-		      update &terminal $output
-		      print! output
-		      next!
+		      if
+			do_view_only(window)
+			next
+			:
+			  paste_text input !state
+			  $idx cwi()
+			  !window windows_of(state)(idx)
+			  !lines lines_of(window)
+			  update &window views_of(state)(idx) &terminal
+			  !state.windows_of(idx) window
+			  !window_before_update window
+			  update &terminal $output
+			  print! output
+			  next!
 		  :
 		    $keys extract_keys(input).combine_characters
 		    for_each keys
@@ -842,6 +893,7 @@ $event_loop:
       next
 
   $apply_key: (key)
+    !state.previous_window_index_of current_window_index_of(state)
     !state.previous_text_window_index_of text_window_index_of(state)
     !window_before_update windows_of(state)(text_window_index_of(state))
     extract_window_and_lines:
@@ -868,9 +920,13 @@ $event_loop:
 	    insert_key
 
 	  $insert_key:
-	    insert !state key
-	    check_updates !terminal !state
-	    next!
+	    if
+	      do_view_only(window)
+	      next
+	      :
+		insert !state key
+		check_updates !terminal !state
+		next!
 	:
 	  !state.key_of key
 	  !window.do_define_mark_of false
@@ -949,16 +1005,21 @@ $event_loop:
       $mode mode_of(state)
       $idx cwi()
       if
-	idx > 0 && idx != previous_text_window_index_of(state):
+	&&
+	  idx > 0
+	  ||
+	    idx != previous_text_window_index_of(state)
+	    previous_window_index_of(state) < 0
+	:
 	  !state.windows_of(idx).needs_redraw true
 	  create_views !state idx
 	  update_all_views terminal state
 	:
 	  $view_idx
-	    if
-	      idx < 0
-	      -> -1
-	      :
+	    cond
+	      -> idx == HELP_WINDOW -> -2
+	      -> idx < 0 -> -1
+	      -> true:
 		if
 		  mode == SMALL
 		  -> 1
@@ -1832,9 +1893,17 @@ $join_lines:
 $save_contents -> state(.action_of save_contents_action)
 
 $save_contents_action:
-  save! filename_of(window) lines_to_text(lines)
-  !state.saved_revisions_of(id_of(window)) revision_no_of(window)
-  -> io terminal state
+  try $err: save! filename_of(window) lines_to_text(lines)
+  if
+    err.is_an_error:
+      show_error !state error_message_text_of(err)
+      -> io terminal state
+    :
+      $id id_of(window)
+      !window.is_new false
+      !state.windows_of(id) window
+      !state.saved_revisions_of(id) revision_no_of(window)
+      -> io terminal state
 
 $save_with_leading_spaces -> state(.action_of save_with_leading_spaces_action)
 
@@ -2154,7 +2223,7 @@ $change_completion: (delta)
 $is_an_identifier_character: (chr)
   -> chr.is_a_letter_character || chr.is_a_digit || chr == '_' || chr == ':'
 
-$position_in_text:
+$position_in_text: (x = undefined)
   #
     returns the indent, the text, the start x-position, the position within the
     text and an offset; this offset can be negative if the line is indented or
@@ -2165,7 +2234,7 @@ $position_in_text:
     y > length_of(lines)
     -> undefined undefined undefined undefined undefined
     :
-      $x x_of(window)
+      update_if x.is_undefined &x -> x_of(window)
       $line lines_of(window)(y)
       if
 	line.is_undefined
@@ -2622,19 +2691,22 @@ $cut_or_copy: (do_cut)
       $height length_of(lines)
       min_max_minus_1 !selection_start_y $selection_end_y y selection_start_y
       if
-	selection_end_y < selection_start_y:
+	selection_end_y < selection_start_y: # inline selection
 	  if
 	    y > height || lines(y).is_undefined
 	    -> state
 	    :
-	      $line lines(y)
-	      line $indent $text $mark $folds
-	      $width indent+length_of(text)
-	      $x min(x_of(window) width+1)
-	      min_max !selection_start_x $selection_end_x x selection_start_x
-	      $s max(selection_start_x-indent 1)
-	      $e min((selection_end_x-1)-indent length_of(text))
-	      $contents range(text s e)
+	      lines(y) $indent $text $mark $folds
+	      position_in_text $_indent $_text $_x $s $s_offset x_of(window)
+	      position_in_text $_indent $_text $_x $e $e_offset selection_start_x
+	      update_if s+s_offset > e+e_offset &s &s_offset &e &e_offset
+		-> e e_offset s s_offset
+	      if !e !e_offset
+		e_offset > 0
+		-> e e_offset-1
+		-> e-1 0
+	      $contents
+		append(spaces(-s_offset) range(text s e) spaces(e_offset))
 	      if
 		contents.is_empty
 		return_window
@@ -3131,7 +3203,12 @@ $replace_selection:
       .x_of indent+s+length_of(replacement_text)
   return_window_and_lines
 
-$cancel
+$cancel:
+  show_dummy !state
+  -> state(.current_window_index_of text_window_index_of(state))
+
+$close_help:
+  show_dummy !state "Press F1 for help"
   -> state(.current_window_index_of text_window_index_of(state))
 
 $go_to_line_dialog:
@@ -3484,6 +3561,10 @@ $recursively_collect_folded_lines: (line)
 	-> list(line)
     -> list(undefined)
 
+$show_help:
+  show_dummy !state "Press ESCAPE to exit help"
+  -> state(.current_window_index_of HELP_WINDOW)
+
 $change_colour_set:
   $colour_set_no colour_set_no_of(window)
   if
@@ -3543,7 +3624,10 @@ $load_file: (filename)
   from_utf8 &buf
   trim_right &buf
   update_if buf.is_not_empty &buf -> push(buf '@nl;')
-  map split_into_indented_lines(buf): (line)
+  load_text buf
+
+$load_text: (text)
+  map split_into_indented_lines(text): (line)
     if
       line.is_defined
       -> tedi_line(first(line) trim_right(range(second(line) 1 -2)))
@@ -3878,14 +3962,16 @@ $tedi_types::text_window/update: (self view terminal)
 	  -> "−"
 	" "
 	if
-	  revision_no_of(self) != saved_revisions_of(state)(id_of(self))
+	  &&
+	    not(do_view_only(self))
+	    revision_no_of(self) != saved_revisions_of(state)(id_of(self))
 	  -> "*"
 	  -> ""
 	filename_of(self)
-	if
-	  self.is_read_only
-	  -> " (read-only)"
-	  -> ""
+	cond
+	  -> self.is_new -> " (new)"
+	  -> self.is_read_only -> " (read-only)"
+	  -> true -> ""
     $right
       if
 	is_minimized
@@ -4338,12 +4424,14 @@ $load_configuration: (filename continuation)
 
 $create_views: (active_idx)
   $text_window_count text_window_count_of(state)
+  $small_views create_horizontal_panes(terminal list(0.99 1))
+    # help window and status bar
   if
     text_window_count+3 > height_of(terminal)
     ->
       state
 	.mode_of SMALL
-	.views_of create_horizontal_panes(terminal list(0.99 1))
+	.views_of small_views
     :
       $pane_heights empty_list
       from_to !pane_heights 1 text_window_count
@@ -4356,11 +4444,15 @@ $create_views: (active_idx)
 	      push &pane_heights 1
 	      next
 	-> pane_heights
-      push &pane_heights 1 # the status bar
       ->
 	state
 	  .mode_of NORMAL
-	  .views_of create_horizontal_panes(terminal pane_heights)
+	  .views_of
+	    append
+	      create_horizontal_panes
+		create_view(terminal 1 1 -1 -2)
+		pane_heights
+	      small_views
 
 $create_text_windows: (filenames)
   $windows empty_list
@@ -4378,31 +4470,36 @@ $create_text_windows: (filenames)
 $create_text_window: (filename)
   load_file! $text_lines filename
   if
-    text_lines.is_an_error
-    -> undefined
+    text_lines.is_an_error:
+      !text_lines empty_list
+      create true false
     :
       access! $can_write filename "w"
-      ->
-	tedi_types::text_window
-	  .features_of
-	    hash_set
-	      HAS_HISTORY
-	      ALLOW_SEARCH
-	      ALLOW_NEW_LINE
-	  .key_bindings_of editor_key_bindings
-	  .previous_of undefined
-	  .redo_of undefined
-	  .key_of undefined
-	  .filename_of filename
-	  .is_read_only not(can_write)
-	  .lines_of text_lines
-	  .inbounds_width_of 80
-	  .is_a_text_window true
-	  .colour_set_of colour_sets(1)
-	  .colour_set_no_of 1
-	  .do_highlight_indentations_of true
-	  .do_highlight_cursor_line_of true
-	  .cursor_movement_of ANYWHERE
+      create false not(can_write)
+
+  $create: (new read_only)
+    ->
+      tedi_types::text_window
+	.features_of
+	  hash_set
+	    HAS_HISTORY
+	    ALLOW_SEARCH
+	    ALLOW_NEW_LINE
+	.key_bindings_of editor_key_bindings
+	.previous_of undefined
+	.redo_of undefined
+	.key_of undefined
+	.filename_of filename
+	.is_new new
+	.is_read_only read_only
+	.lines_of text_lines
+	.inbounds_width_of 80
+	.is_a_text_window true
+	.colour_set_of colour_sets(1)
+	.colour_set_no_of 1
+	.do_highlight_indentations_of true
+	.do_highlight_cursor_line_of true
+	.cursor_movement_of ANYWHERE
 
 $show_info: (message)
   $bar windows_of(state)(INFO_BAR)
@@ -4418,8 +4515,214 @@ $show_error: (message)
   !state.windows_of(ERROR_BAR) bar
   -> state(.current_bar_index_of ERROR_BAR)
 
-$show_dummy:
+$show_dummy: (message = undefined)
   $bar windows_of(state)(DUMMY_BAR)
+  update_if message.is_defined &bar:
+    !bar.lines_of(1) tedi_line(0 message)
+    -> bar
   !bar.was_updated true
   !state.windows_of(DUMMY_BAR) bar
   -> state(.current_bar_index_of DUMMY_BAR)
+
+$help_text "
+  Cursor Movement
+
+    cursor-left
+      move the cursor one position to the left;
+      if already there then do nothing
+
+    cursor-right
+      move the cursor one position to the right;
+      does not jump to the start of the next line after reaching the line's last
+      character
+
+    cursor-up
+      moves the cursor one line up;
+      if the "line lock" is active and the cursor is already at the "upper bound"
+      then scroll down the window contents instead
+
+    cursor-down
+      moves the cursor one line down;
+      if the "line lock" is active and the cursor is already at the "lower bound"
+      then scroll up the window contents instead
+
+    page-up
+      moves the cursor up as many lines as the window height;
+      if the "line lock" is active and the cursor is already at the "upper bound"
+      then scroll down the window contents instead
+
+    page-down
+      moves the cursor down as many lines as the window height;
+      if the "line lock" is active and the cursor is already at the "lower bound"
+      then scroll up the window contents instead
+
+    ctrl-cursor-up
+      moves the cursor up in a straight line until it "collides with text"
+
+    ctrl-cursor-down
+      moves the cursor down in a straight line until it "collides with text"
+
+    home
+      jump to the first character of the line or if already there then
+      jump to the start of the line
+
+    end
+      jump behind the last character of the line
+
+    ctrl-home
+      jump to the start of the document
+
+    ctrl-end
+      jump behind the last line of the document
+
+    ALL THESE KEYS CAN BE COMBINED WITH <shift> TO SELECT TEXT
+
+    ATTENTION: WHEN SELECTING MULTIPLE LINES THEN THE WHOLE LINES WILL BE SELECTED
+
+  Insertion
+
+    return
+      splits the current line into two;
+      tries to handle spaces in a smart way
+
+  Deletion
+
+    backspace
+      deletes one character to the left;
+      does nothing if already at the start of a line
+
+    delete
+      deletes one character to the right;
+      does nothing if there is no more text to the right
+
+    ctrl-backspace
+      deletes all text to the left of the cursor;
+      the cursor is positioned at the (previous) leftmost character
+
+    ctrl-delete
+      deletes all text to the right of the cursor;
+      the cursor does not move
+
+    ctrl-k
+      deletes the current line
+
+  Completion
+
+    alt-space
+      smart completion;
+      completes identifiers and numbers based on existing (surrounding) text
+
+    ctrl-space
+      AI completion;
+      needs a running AI-server
+
+  Indentation
+
+    tab
+      indents the current line or the current selection
+
+    shift tab
+      unindents the current line or the current selection
+
+  Folding
+
+    alt return
+      toggle folding
+
+    alt cursor left
+      folds the current line
+
+    alt cursor right
+      unfolds the current line
+
+    alt cursor up
+      folds all lines
+
+    alt cursor down
+      unfolds all lines
+
+  Cut & Paste
+
+    ctrl-c
+      copies the current selection into the clipboard;
+      the clipboard is only available within the editor
+
+    ctrl-v
+      pastes the contents of the clipboard a the current position
+
+    ctrl-x
+      cuts the current selection into the clipboard;
+      the clipboard is only available within the editor
+
+  Search & Replace
+
+    ctrl-f
+      starts a search;
+      after entering the search string:
+      * press <return> or <ctrl-n> to search forwards
+      * press <ctrl-p> to search backwards
+
+    ctrl-n
+      searches or replaces the next occurence of the search string;
+      the found string is selected and the cursor is positioned behind the string
+
+    ctrl-p
+      searches or replaces the previous occurence of the search string;
+      the found string is selected and the cursor is positioned at the start of the
+      string
+
+    escape
+      closes the "edit box" and aborts the search/replace
+
+  Marks
+
+    ctrl-d <letter>
+      defines a "mark";
+      marks cannot be defined on empty lines
+
+    ctrl-g
+      jumps to a mark or a specific line;
+      you have to enter the mark letter or the line no. in the "edit box"
+
+    escape
+      closes the "edit box" and does not jump
+
+  Files and Quit
+
+    ctrl-q
+      leaves the editor;
+      THE DOCUMENT WILL **NOT** BE SAVED!
+
+    ctrl-s
+      saves the current contents
+
+    ctrl-alt-s
+      saves the current contents using only leading *spaces* (no tabulators)
+
+  Undo & Redo
+
+    ctrl-y
+      redo
+
+    ctrl-z
+      undo
+
+  Function Keys
+
+    F1
+      show this help
+
+    F2
+      change the colour set
+
+    F3
+      toggle indentation highlighting
+
+    F4
+      toggle cursor line hightlighting
+
+    F5
+      toggle soft-break-mode
+
+    F6
+      toggle display of line numbers
