@@ -26,8 +26,8 @@ enum {
   num_3 = -17,
   num_4 = -18,
   num_8 = -19,
-  num_12 = -20,
-  num_16 = -21,
+  num_0xc = -20,
+  num_0x10 = -21,
   func_std_types__list___collect_variables = -22,
   func_funky_types__body___collect_variables = -23,
   func_funky_types__statement___collect_variables = -24,
@@ -2527,12 +2527,12 @@ static FUNKY_VARIABLE variables_table[] = {
   {
     FOT_INITIALIZED, 0, 0,
     "REDEFINED_ON_TOP_LEVEL\000funky", NULL,
-    {.const_idx = -num_12}
+    {.const_idx = -num_0xc}
   },
   {
     FOT_INITIALIZED, 0, 0,
     "HAS_SLOTS\000funky", NULL,
-    {.const_idx = -num_16}
+    {.const_idx = -num_0x10}
   },
   {
     FOT_UNKNOWN, 0, 1,

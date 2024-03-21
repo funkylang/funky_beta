@@ -685,10 +685,14 @@ $compile: (self is_last)
     if
       node_type_of(head) == FUNCTOR:
 	case identifier_of(head)
-	  "std::assign", "assign" -> "
-	    @
-	      LET, @
-	      @(input_count)@(inputs), @(output_count)@(outputs),
+	  "std::assign", "assign":
+	    on output_count == 0 && not(is_last):
+	      syntax_error "Return statement not allowed within function body"
+		self
+	    -> "
+	      @
+		LET, @
+		@(input_count)@(inputs), @(output_count)@(outputs),
 	  "_assign_attributes" -> "
 	    @
 	      LET, @
