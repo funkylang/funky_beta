@@ -4608,10 +4608,6 @@ $help_text "
 
   Completion
 
-    alt-space
-      smart completion;
-      completes identifiers and numbers based on existing (surrounding) text
-
     ctrl-space
       AI completion;
       needs a running AI-server
@@ -4619,10 +4615,13 @@ $help_text "
   Indentation
 
     tab
-      indents the current line or the current selection
+      if before text: indents the current line or the current selection
+      if behind text: smart completion;
+		      press again to get another possible completion
 
     shift tab
-      unindents the current line or the current selection
+      if before text: unindents the current line or the current selection
+      if behind text: get the previous completion
 
   Folding
 
