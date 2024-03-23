@@ -651,7 +651,7 @@ $terminal undefined
 
 $ai_model_name "sauerkrautlm-una-solar-instruct.Q5_K_M.gguf"
 $ai_server "127.0.0.1:8080"
-$ai_context_size 2560
+$ai_context_size 4096
 
 $next_id 0
 
