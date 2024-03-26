@@ -4377,7 +4377,7 @@ FUNCTION std::opendir
     if (!result) {
       create_error_message(
 	module__builtin.constants_base[unique__std___IO_ERROR-1],
-	"OPENDIR FAILED", errno, 0, NULL);
+	"OPENDIR FAILED", errno, 0, ARGUMENTS(0));
     } else {
       PREPARE_SINGLE_RESULT(directory_from_ptr(result))
     }
@@ -4735,7 +4735,7 @@ FUNCTION std::stat
     if (result == -1) {
       create_error_message(
 	module__builtin.constants_base[unique__std___IO_ERROR-1],
-	"STAT FAILED", errno, 0, NULL);
+	"STAT FAILED", errno, 0, ARGUMENTS(0));
     } else {
       NODE *node__device_of = device_id_from_ulong(statbuf.st_dev);
       NODE *node__inode_number_of = inode_number_from_ulong(statbuf.st_ino);

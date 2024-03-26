@@ -211,7 +211,7 @@ $do_log
 $log_level if(do_log (-> 4) (-> 0))
 enable_logging &io log_level
 
-log &io -> "TEDI: started logging (log-level: log_level)"
+log &io -> "TEDI: started logging (log-level: @(log_level))"
 
 # Optional Function Argument
 
@@ -954,9 +954,9 @@ $event_loop:
 			  extract_window_and_lines:
 			    action! $new_io $new_terminal $new_state
 			    if
-			      new_terminal.is_an_error:
+			      new_io.is_an_error:
 				# SHOW ERROR MESSAGE!!!
-				show_error !state error_message_text_of(new_io)
+				show_error !state new_io.to_error_message_string
 				check_updates !terminal !state
 				update &terminal !output
 				print! output
@@ -1896,7 +1896,7 @@ $save_contents_action:
   try $err: save! filename_of(window) lines_to_text(lines)
   if
     err.is_an_error:
-      show_error !state error_message_text_of(err)
+      show_error !state err.to_error_message_string
       -> io terminal state
     :
       $id id_of(window)

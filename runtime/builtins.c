@@ -18767,7 +18767,7 @@ static void entry__std___opendir (void)
     if (!result) {
       create_error_message(
 	module__builtin.constants_base[unique__std___IO_ERROR-1],
-	"OPENDIR FAILED", errno, 0, NULL);
+	"OPENDIR FAILED", errno, 0, TLS_arguments[0]);
     } else {
       {
         NODE *result__node = (NODE *)(directory_from_ptr(result));
@@ -19101,7 +19101,7 @@ static void entry__std___stat (void)
     if (result == -1) {
       create_error_message(
 	module__builtin.constants_base[unique__std___IO_ERROR-1],
-	"STAT FAILED", errno, 0, NULL);
+	"STAT FAILED", errno, 0, TLS_arguments[0]);
     } else {
       NODE *node__device_of = device_id_from_ulong(statbuf.st_dev);
       NODE *node__inode_number_of = inode_number_from_ulong(statbuf.st_ino);

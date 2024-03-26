@@ -66,3 +66,26 @@ $std::Error:
   )
   eprintln! "ERROR: " create_string(args) .without_suffix. '@nl;'
   exit! EXIT_FAILURE
+
+$std::to_error_message_string:
+  (
+    err # the error object
+  )
+  $str error_message_text_of(err)
+  $errno errno_of(err)
+  $details error_details_of(err)
+  update_if errno.is_defined &str -> append(str " - " strerror(errno))
+  if
+    details.is_undefined
+    -> str
+    :
+      if
+	details.is_a_string
+	-> "
+	  @(str) ("@(details)")@
+	:
+	  to_string &details
+	  if
+	    details.is_an_error
+	    -> str
+	    -> "@(str) (@(details))"

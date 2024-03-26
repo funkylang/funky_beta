@@ -489,6 +489,7 @@ if [ $OS = 'cygwin' ]
 then
   EXE_EXTENSION='.exe'
   DLL_EXTENSION="-$DLL_VERSION.dll"
+  LIB_EXTENSION=".a"
   echo "CC_OPTIONS = $CC_OPTIONS"
   echo "RUNTIME_DLL_OPTIONS = -shared -Wl,-soname,libfky-$DLL_VERSION.dll"
   #echo 'LIBRARIES = -lgmp -l:libsim.so.3 -l:libsim-basic.so.3 -l:libsim-system.so.3'
@@ -502,6 +503,7 @@ then
 else # probably some POSIX conform system
   EXE_EXTENSION=''
   DLL_EXTENSION=".so.$DLL_VERSION"
+  LIB_EXTENSION=".a"
   echo "CC_OPTIONS = -fPIC $CC_OPTIONS"
   echo "RUNTIME_DLL_OPTIONS = -shared -Wl,-soname,libfky.so.$DLL_VERSION"
   #echo 'LIBRARIES = -lrt -lgmp -lm -l:libsim.so.3 -l:libsim-basic.so.3 -l:libsim-system.so.3'
@@ -643,11 +645,13 @@ done
 echo "${TAB}rm -f compiler/funky$EXE_EXTENSION"
 echo "${TAB}rm -f libfky$DLL_EXTENSION"
 echo "${TAB}rm -f libfky-$RUNTIME_VERSION$DLL_EXTENSION"
+echo "${TAB}rm -f libfky$LIB_EXTENSION"
 for LIBNAME in $ALL_LIBRARIES
 do
   VERSION=`cat $LIBNAME/VERSION`
   echo "${TAB}rm -f libfky-$LIBNAME-${VERSION}${DLL_EXTENSION}"
   echo "${TAB}rm -f libfky-${LIBNAME}${DLL_EXTENSION}"
+  echo "${TAB}rm -f libfky-${LIBNAME}${LIB_EXTENSION}"
 done
 for TOOL in $TOOLS
 do
@@ -665,12 +669,16 @@ echo "${TAB}ln -fs funky-$DLL_VERSION \$(DESTDIR)$PREFIX/bin/fkyrun-$DLL_VERSION
 echo "${TAB}ln -fs funky-$DLL_VERSION \$(DESTDIR)$PREFIX/bin/fkyrun"
 echo "${TAB}mkdir -p -- \"\$(DESTDIR)$PREFIX/lib/\""
 echo "${TAB}rm -f  \"\$(DESTDIR)$PREFIX/lib/libfky$DLL_EXTENSION\""
+echo "${TAB}rm -f  \"\$(DESTDIR)$PREFIX/lib/libfky$LIB_EXTENSION\""
 echo "${TAB}cp libfky$DLL_EXTENSION \"\$(DESTDIR)$PREFIX/lib/\""
+echo "${TAB}cp libfky$LIB_EXTENSION \"\$(DESTDIR)$PREFIX/lib/\""
 for LIBNAME in $ALL_LIBRARIES
 do
   VERSION=`cat $LIBNAME/VERSION`
   echo "${TAB}rm -f \"\$(DESTDIR)$PREFIX/lib/libfky-$LIBNAME-$VERSION$DLL_EXTENSION\""
+  echo "${TAB}rm -f \"\$(DESTDIR)$PREFIX/lib/libfky-$LIBNAME$LIB_EXTENSION\""
   echo "${TAB}cp libfky-$LIBNAME-$VERSION$DLL_EXTENSION \"\$(DESTDIR)$PREFIX/lib/\""
+  echo "${TAB}cp libfky-$LIBNAME$LIB_EXTENSION \"\$(DESTDIR)$PREFIX/lib/\""
   echo "${TAB}ln -fs libfky-$LIBNAME-${VERSION}${DLL_EXTENSION}" \
     "\$(DESTDIR)$PREFIX/lib/libfky-${LIBNAME}${DLL_EXTENSION}"
 done
@@ -696,11 +704,13 @@ echo "${TAB}rm -f \"\$(DESTDIR)$PREFIX/bin/funky$EXE_EXTENSION\""
 echo "${TAB}rm -f \"\$(DESTDIR)$PREFIX/bin/funky-${DLL_VERSION}$EXE_EXTENSION\""
 echo "${TAB}rm -f \"\$(DESTDIR)$PREFIX/lib/libfky$DLL_EXTENSION\""
 echo "${TAB}rm -f \"\$(DESTDIR)$PREFIX/lib/libfky-$RUNTIME_VERSION$DLL_EXTENSION\""
+echo "${TAB}rm -f \"\$(DESTDIR)$PREFIX/lib/libfky$LIB_EXTENSION\""
 for LIBNAME in $ALL_LIBRARIES
 do
   VERSION=`cat $LIBNAME/VERSION`
   echo "${TAB}rm -f \"\$(DESTDIR)$PREFIX/lib/libfky-$LIBNAME-${VERSION}${DLL_EXTENSION}\""
   echo "${TAB}rm -f \"\$(DESTDIR)$PREFIX/lib/libfky-${LIBNAME}${DLL_EXTENSION}\""
+  echo "${TAB}rm -f \"\$(DESTDIR)$PREFIX/lib/libfky-${LIBNAME}${LIB_EXTENSION}\""
 done
 echo "${TAB}rm -f \"\$(DESTDIR)$PREFIX/share/funky-$RUNTIME_VERSION/runtime\"/*.h"
 echo "${TAB}rmdir \"\$(DESTDIR)$PREFIX/share/funky-$RUNTIME_VERSION/runtime\" || true"
@@ -732,7 +742,7 @@ echo "${TAB}rm $BASEDIR"
 
 echo
 echo '.PHONY: runtime'
-echo "runtime: libfky$DLL_EXTENSION"
+echo "runtime: libfky$DLL_EXTENSION libfky$LIB_EXTENSION"
 echo
 echo "libfky$DLL_EXTENSION: libfky-$RUNTIME_VERSION$DLL_EXTENSION"
 echo "${TAB}ln -fs libfky-${RUNTIME_VERSION}${DLL_EXTENSION}" \
@@ -741,6 +751,10 @@ echo
 echo "libfky-$RUNTIME_VERSION$DLL_EXTENSION: \$(runtime_OBJECTS)"
 echo "${TAB}\$(CC) \$(RUNTIME_DLL_OPTIONS)" $LDFLAGS "\$(runtime_OBJECTS)" \
   $LIBS "-o libfky-$RUNTIME_VERSION$DLL_EXTENSION"
+
+echo
+echo "libfky$LIB_EXTENSION: \$(runtime_OBJECTS)"
+echo "${TAB}ar rcs libfky$LIB_EXTENSION \$(runtime_OBJECTS)"
 
 echo
 echo '.PHONY: funky'
@@ -763,7 +777,7 @@ do
   VERSION=`cat $LIBNAME/VERSION`
   echo
   echo ".PHONY: $LIBNAME"
-  echo "$LIBNAME: libfky-${LIBNAME}${DLL_EXTENSION}"
+  echo "$LIBNAME: libfky-${LIBNAME}${DLL_EXTENSION} libfky-${LIBNAME}${LIB_EXTENSION}"
   echo
   echo "libfky-${LIBNAME}${DLL_EXTENSION}: libfky-$LIBNAME-${VERSION}${DLL_EXTENSION}"
   echo "${TAB}ln -fs libfky-$LIBNAME-${VERSION}${DLL_EXTENSION}" \
@@ -773,6 +787,9 @@ do
   echo "${TAB}\$(CC) -shared" \
     "-Wl,-soname,libfky-$LIBNAME$DLL_EXTENSION \$(basic_OBJECTS)" \
     "-o libfky-$LIBNAME-$VERSION.so.$DLL_VERSION"
+  echo
+  echo "libfky-$LIBNAME${LIB_EXTENSION}: \${${LIBNAME}_OBJECTS}"
+  echo "${TAB}ar rcs libfky-$LIBNAME${LIB_EXTENSION} \$(basic_OBJECTS)"
 done
 
 for LIBNAME in $INSTALLED_LIBRARIES
@@ -780,7 +797,7 @@ do
   VERSION=`cat $LIBNAME/VERSION`
   echo
   echo ".PHONY: $LIBNAME"
-  echo "$LIBNAME: libfky-${LIBNAME}${DLL_EXTENSION}"
+  echo "$LIBNAME: libfky-${LIBNAME}${DLL_EXTENSION} libfky-${LIBNAME}${LIB_EXTENSION}"
   echo
   echo "libfky-${LIBNAME}${DLL_EXTENSION}: libfky-$LIBNAME-${VERSION}${DLL_EXTENSION}"
   echo "${TAB}ln -fs libfky-$LIBNAME-${VERSION}${DLL_EXTENSION}" \
@@ -788,6 +805,9 @@ do
   echo
   echo "libfky-$LIBNAME-${VERSION}${DLL_EXTENSION}: compiler/funky \${${LIBNAME}_SOURCES}"
   echo "${TAB}LD_LIBRARY_PATH=`pwd` FUNKY_LIBRARY_PATH=. FUNKY_INCLUDE_PATH=. compiler/funky $LIBNAME"
+  echo
+  echo "libfky-$LIBNAME${LIB_EXTENSION}: compiler/funky \${${LIBNAME}_SOURCES}"
+  echo "${TAB}LD_LIBRARY_PATH=`pwd` FUNKY_LIBRARY_PATH=. FUNKY_INCLUDE_PATH=. compiler/funky --static $LIBNAME"
 done
 
 for TOOL in $TOOLS

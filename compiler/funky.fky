@@ -94,10 +94,10 @@ $do_run (truncate_until(program_name '/' -1) .truncate_from. '-') == "fkyrun"
 $funky::base_directory undefined
 $funky::current_module_name undefined
 
-if $input_filename $be_verbose $do_rebuild $do_print_c
+if $input_filename $be_verbose $do_rebuild $do_print_c $do_build_static
   do_run:
     on command_line_arguments.is_empty: Error "Missing command line arguments!"
-    -> command_line_arguments(1) false false false
+    -> command_line_arguments(1) false false false false
   :
     program_parameters!
       list
@@ -133,6 +133,9 @@ if $input_filename $be_verbose $do_rebuild $do_print_c
       list
 	"print-c" "
 	  print C source code for a single module
+      list
+	"static" "
+	  create a statically linked executable
 
 $FUNKY_LIBRARY_PATH environment("FUNKY_LIBRARY_PATH")
 
@@ -155,8 +158,7 @@ $print_c:
   print! c_source
 
 $build_executable:
-  # build a dynamically linked executable
-
+  #on do_build_static: maybe_compile_runtime_library!
   !base_directory until(input_filename '/' -1)
   compile! $modules $libraries input_filename
   c_compile! &modules
@@ -182,15 +184,23 @@ $build_executable:
       update_if FUNKY_LIBRARY_PATH.is_defined &arguments
 	-> append(arguments list("-L" FUNKY_LIBRARY_PATH))
       append &arguments object_files
-      append &arguments libraries
-      push &arguments "-l:libfky.so.@(MAJOR)"
-      push &arguments "-lm"
-      push &arguments "-o"
-      push &arguments exe_filename
-      call! CC arguments $status $_out $err
-      on status != 0:
-	eprint! err.from_utf8
-	exit! EXIT_FAILURE
+      if
+	do_build_static:
+	  push &arguments "-static"
+	  push &arguments "-static-libgcc"
+	  append &arguments libraries
+	  append &arguments map(runtime_objects: (name) append name ".o")
+	  push &arguments "-lm"
+	  push &arguments "-o"
+	  push &arguments exe_filename
+	  cc! arguments
+	:
+	  append &arguments libraries
+	  push &arguments "-l:libfky.so.@(MAJOR)"
+	  push &arguments "-lm"
+	  push &arguments "-o"
+	  push &arguments exe_filename
+	  cc! arguments
   if
     do_run:
       exec! exe_filename range(command_line_arguments 2 -1)
@@ -199,9 +209,16 @@ $build_executable:
 	eprint! "
 	  done
 
-$build_library:
-  # build a dynamic link library
+$runtime_objects
+  list
+    "runtime/builtins"
+    "runtime/debugger"
+    "runtime/interpreter"
+    "runtime/linker"
+    "runtime/memory"
+    "runtime/profiler"
 
+$build_library:
   without_suffix &input_filename '/'
   !base_directory until(input_filename '/' -1)
   collect_entries! $filenames input_filename
@@ -219,37 +236,49 @@ $build_library:
       trim &version
       -> put(version '-')
   $basename truncate_until(input_filename '/' -1)
-  $so_filename "libfky-@(basename)@(version).so.@(MAJOR)"
-  stat! $so_info so_filename
-  on
-    ||
-      do_rebuild
-      newest_timestamp.is_undefined
-      so_info.is_an_error
-      newest_timestamp > modification_time_of(so_info)
+  $object_files
+    map
+      modules: (module)
+	append
+	  first(module) .without_suffix. ".fky"
+	  ".o"
+  if
+    do_build_static:
+      $a_filename "libfky-@(basename).a"
+      stat! $a_info a_filename
+      on
+	||
+	  do_rebuild
+	  newest_timestamp.is_undefined
+	  a_info.is_an_error
+	  newest_timestamp > modification_time_of(a_info)
+	:
+	  on be_verbose: eprint! "
+	    creating static library "@(a_filename)"
+	  ar! append(list("rcs" a_filename) object_files)
     :
-      on be_verbose: eprint! "
-	creating library "@(so_filename)"
-      $object_files
-	map
-	  modules: (module)
-	    append
-	      first(module) .without_suffix. ".fky"
-	      ".o"
-      $arguments empty_list
-      push &arguments "-shared"
-      push &arguments
-	"-Wl,-soname,libfky-@(basename).so.@(MAJOR)"
-      append &arguments object_files
-      push &arguments "-o"
-      push &arguments so_filename
-      call! CC arguments $status $_out $err
-      on status != 0:
-	eprint! err.from_utf8
-	exit! EXIT_FAILURE
-  on be_verbose:
-    eprint! "
-      done
+      $so_filename "libfky-@(basename)@(version).so.@(MAJOR)"
+      stat! $so_info so_filename
+      on
+	||
+	  do_rebuild
+	  newest_timestamp.is_undefined
+	  so_info.is_an_error
+	  newest_timestamp > modification_time_of(so_info)
+	:
+	  on be_verbose: eprint! "
+	    creating dynamic library "@(so_filename)"
+	  $arguments empty_list
+	  push &arguments "-shared"
+	  push &arguments
+	    "-Wl,-soname,libfky-@(basename).so.@(MAJOR)"
+	  append &arguments object_files
+	  push &arguments "-o"
+	  push &arguments so_filename
+	  cc! arguments
+      on be_verbose:
+	eprint! "
+	  done
 
 $find_newest_timestamp: (modules)
   $newest_timestamp undefined
@@ -273,6 +302,9 @@ $find_newest_timestamp: (modules)
 
 $collect_entries: (path)
   directory! $entries path
+  on entries.is_an_error:
+    eprintln! entries.to_error_message_string
+    exit! EXIT_FAILURE
   $filenames empty_list
   for_each entries
     : (entry)
@@ -331,11 +363,12 @@ $compile: (base_filename)
 		    push &fky_filenames "@(filename).fky"
 		    next!
 		  :
-		    $library_name
-		      append
-			"-l:libfky-"
-			filename .truncate_from. '/'
-			".so.0"
+		    $library_name filename .truncate_from. '/'
+		    !library_name
+		      if
+			do_build_static
+			-> "-l:libfky-@(library_name).a"
+			-> "-l:libfky-@(library_name).so.0"
 		    if
 		      libraries_handled(library_name)
 		      next
@@ -405,20 +438,7 @@ $c_compile: (modules)
 	  obj_info.is_an_error
 	  c_timestamp > modification_time_of(obj_info)
 	:
-	  $c_filename "@(basename).c"
-	  on be_verbose: eprint! "
-	    compiling "@(c_filename)"
-	  $arguments cc_options
-	  push &arguments "-I@(include_path)"
-	  push &arguments "-DNDEBUG"
-	  push &arguments "-c"
-	  push &arguments "@(c_filename)"
-	  push &arguments "-o"
-	  push &arguments obj_filename
-	  call! CC arguments $status $_out $err
-	  on status != 0:
-	    eprint! err.from_utf8
-	    exit! EXIT_FAILURE
+	  compile_c_file! "@(basename).c" obj_filename
 	  push &compiled_modules tuple(fky_filename undefined)
 	  next!
 	:
@@ -426,6 +446,55 @@ $c_compile: (modules)
 	    tuple(fky_filename modification_time_of(obj_info))
 	  next!
     -> compiled_modules
+
+
+#$maybe_compile_runtime_library:
+  for_each runtime_objects
+    : (filename)
+      maybe_compile_c_file! filename
+      next!
+    pass
+
+#$maybe_compile_c_file: (filename)
+  $c_filename string(filename ".c")
+  $obj_filename string(filename ".o")
+  stat! $c_info c_filename
+  on c_info.is_an_error:
+    eprintln! c_info.to_error_message_string
+    exit! EXIT_FAILURE
+  stat! $obj_info obj_filename
+  on
+    ||
+      obj_info.is_an_error
+      modification_time_of(c_info) > modification_time_of(obj_info)
+    :
+      on be_verbose: eprint! "
+	compiling runtime module "@(filename)"
+      compile_c_file! c_filename obj_filename
+
+$compile_c_file: (c_filename o_filename)
+  on be_verbose: eprint! "
+    compiling "@(c_filename)"
+  $arguments cc_options
+  push &arguments "-I@(include_path)"
+  push &arguments "-DNDEBUG"
+  push &arguments "-c"
+  push &arguments c_filename
+  push &arguments "-o"
+  push &arguments o_filename
+  cc! arguments
+
+$cc: (arguments)
+  call! CC arguments $status $_out $err
+  on status != 0:
+    eprint! err.from_utf8
+    exit! EXIT_FAILURE
+
+$ar: (arguments)
+  call! "ar" arguments $status $_out $err
+  on status != 0:
+    eprint! err.from_utf8
+    exit! EXIT_FAILURE
 
 $extract_required: (module)
   module $filename $_c_timestamp $c_source
