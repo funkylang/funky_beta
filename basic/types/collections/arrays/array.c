@@ -34,61 +34,83 @@ enum {
   lambda_16 = -25,
   lambda_17 = -26,
   lambda_18 = -27,
-  lambda_19 = -28,
-  str_map_is_not_yet_d = -29,
-  func_std_types__generic_array___reduce = -30,
-  lambda_20 = -31,
-  func_reduce = -32,
-  lambda_21 = -33,
-  lambda_22 = -34,
-  lambda_23 = -35,
-  lambda_24 = -36,
-  lambda_25 = -37,
-  lambda_26 = -38,
-  lambda_27 = -39,
-  str_reduce_is_not_ye = -40,
-  func_std_types__generic_array___map_reduce = -41,
-  lambda_28 = -42,
-  lambda_29 = -43,
-  lambda_30 = -44,
-  lambda_31 = -45,
-  lambda_32 = -46,
-  lambda_33 = -47,
-  lambda_34 = -48,
-  lambda_35 = -49,
-  lambda_36 = -50,
-  lambda_37 = -51,
-  lambda_38 = -52,
-  lambda_39 = -53,
-  lambda_40 = -54,
-  lambda_41 = -55,
-  lambda_42 = -56,
-  lambda_43 = -57,
-  lambda_44 = -58,
-  str_map_reduce_is_no = -59,
-  str_array = -60,
-  str_boolean_array = -61,
-  str_character_array = -62,
-  str_int8_array = -63,
-  str_uint8_array = -64,
-  str_int16_array = -65,
-  str_uint16_array = -66,
-  str_int32_array = -67,
-  str_uint32_array = -68,
-  str_int64_array = -69,
-  str_uint64_array = -70,
-  str_float32_array = -71,
-  str_float64_array = -72,
-  func_std_types__generic_array___serialize = -73,
-  lambda_45 = -74,
-  string_1 = -75,
-  lambda_46 = -76,
-  lambda_47 = -77,
-  string_2 = -78,
-  lambda_48 = -79,
-  lambda_49 = -80,
-  lambda_map_reduceself = -81,
-  string_3 = -82
+  num_3 = -28,
+  lambda_19 = -29,
+  lambda_20 = -30,
+  lambda_21 = -31,
+  lambda_22 = -32,
+  lambda_23 = -33,
+  lambda_24 = -34,
+  lambda_25 = -35,
+  lambda_26 = -36,
+  lambda_27 = -37,
+  str_map_is_not_yet_d = -38,
+  func_std_types__generic_array___reduce = -39,
+  lambda_28 = -40,
+  func_reduce = -41,
+  lambda_29 = -42,
+  lambda_30 = -43,
+  lambda_31 = -44,
+  lambda_32 = -45,
+  lambda_33 = -46,
+  lambda_34 = -47,
+  lambda_35 = -48,
+  lambda_36 = -49,
+  lambda_37 = -50,
+  lambda_38 = -51,
+  lambda_39 = -52,
+  lambda_40 = -53,
+  str_reduce_is_not_ye = -54,
+  func_std_types__generic_array___map_reduce = -55,
+  lambda_41 = -56,
+  lambda_42 = -57,
+  lambda_43 = -58,
+  lambda_44 = -59,
+  lambda_45 = -60,
+  lambda_46 = -61,
+  lambda_47 = -62,
+  lambda_48 = -63,
+  lambda_49 = -64,
+  lambda_50 = -65,
+  lambda_51 = -66,
+  lambda_52 = -67,
+  lambda_53 = -68,
+  lambda_54 = -69,
+  lambda_55 = -70,
+  lambda_56 = -71,
+  lambda_57 = -72,
+  lambda_58 = -73,
+  lambda_59 = -74,
+  lambda_60 = -75,
+  lambda_61 = -76,
+  lambda_62 = -77,
+  lambda_63 = -78,
+  lambda_64 = -79,
+  lambda_65 = -80,
+  str_map_reduce_is_no = -81,
+  str_array = -82,
+  str_boolean_array = -83,
+  str_character_array = -84,
+  str_int8_array = -85,
+  str_uint8_array = -86,
+  str_int16_array = -87,
+  str_uint16_array = -88,
+  str_int32_array = -89,
+  str_uint32_array = -90,
+  str_int64_array = -91,
+  str_uint64_array = -92,
+  str_float32_array = -93,
+  str_float64_array = -94,
+  func_std_types__generic_array___serialize = -95,
+  lambda_66 = -96,
+  string_1 = -97,
+  lambda_67 = -98,
+  lambda_68 = -99,
+  string_2 = -100,
+  lambda_69 = -101,
+  lambda_70 = -102,
+  lambda_map_reduceself = -103,
+  string_3 = -104
 };
 
 enum {
@@ -128,31 +150,46 @@ enum {
   var_145_1_m, // dynamic
   var_146_1_new_array, // dynamic
   var_148_3_i, // dynamic
+  var_165_1_m, // dynamic
+  var_166_1_k, // dynamic
+  var_167_1_new_array, // dynamic
+  var_169_3_i, // dynamic
+  var_171_3_j, // dynamic
   var_Error, // extern
   var_case, // extern
   var_reduce, // extern polymorphic
-  var_175_0_self, // dynamic
-  var_176_0_reduce_function, // dynamic
+  var_199_0_self, // dynamic
+  var_200_0_reduce_function, // dynamic
   var_append, // extern
-  var_182_10_s, // dynamic
-  var_182_12_e, // dynamic
+  var_206_10_s, // dynamic
+  var_206_12_e, // dynamic
   var_std__shift_right, // extern
-  var_193_1_m, // dynamic
-  var_194_1_acc, // dynamic
+  var_217_1_m, // dynamic
+  var_218_1_acc, // dynamic
   var_neutral_element_of, // extern
-  var_196_3_i, // dynamic
+  var_220_3_i, // dynamic
+  var_229_1_m, // dynamic
+  var_230_1_k, // dynamic
+  var_231_1_acc, // dynamic
+  var_233_3_i, // dynamic
+  var_235_3_j, // dynamic
   var_map_reduce, // extern polymorphic
-  var_217_0_self, // dynamic
-  var_218_0_map_function, // dynamic
-  var_219_0_reduce_function, // dynamic
-  var_229_3_s, // dynamic
-  var_229_5_e, // dynamic
-  var_225_1_map_reduce, // dynamic
-  var_238_3_s, // dynamic
-  var_238_5_e, // dynamic
-  var_249_1_m, // dynamic
-  var_250_1_acc, // dynamic
-  var_252_3_i, // dynamic
+  var_257_0_self, // dynamic
+  var_258_0_map_function, // dynamic
+  var_259_0_reduce_function, // dynamic
+  var_269_3_s, // dynamic
+  var_269_5_e, // dynamic
+  var_265_1_map_reduce, // dynamic
+  var_278_3_s, // dynamic
+  var_278_5_e, // dynamic
+  var_289_1_m, // dynamic
+  var_290_1_acc, // dynamic
+  var_292_3_i, // dynamic
+  var_309_1_m, // dynamic
+  var_310_1_k, // dynamic
+  var_311_1_acc, // dynamic
+  var_313_3_i, // dynamic
+  var_315_3_j, // dynamic
   var_std_types__array, // extern
   var_serialization_tag_of, // extern polymorphic
   var_std_types__boolean_array, // extern
@@ -168,14 +205,14 @@ enum {
   var_std_types__float32_array, // extern
   var_std_types__float64_array, // extern
   var_serialize, // extern polymorphic
-  var_290_0_self, // dynamic
-  var_291_0_indent, // dynamic
+  var_354_0_self, // dynamic
+  var_355_0_indent, // dynamic
   var_undefined, // extern
   var_std__value_range, // extern
   var_to_string, // extern
   var_is_defined, // extern
   var_tabs_and_spaces, // extern
-  var_295_1_indentation, // dynamic
+  var_359_1_indentation, // dynamic
   var__END
 };
 
@@ -341,7 +378,7 @@ static TAB_NUM t_func_std_types__generic_array___map[] = {
   // $d dimension_count_of(self)
   var_dimension_count_of, 1, var_123_0_self, 1, LOCAL(1),
   // case d
-  var_case, 6, LOCAL(1), num_1, lambda_5, num_2, lambda_12, lambda_19, TAIL_CALL,
+  var_case, 8, LOCAL(1), num_1, lambda_5, num_2, lambda_12, num_3, lambda_19, lambda_27, TAIL_CALL,
   POS(126, 3),
   POS(127, 3)
 };
@@ -530,511 +567,789 @@ static TAB_NUM t_lambda_18[] = {
 };
 
 static TAB_NUM t_lambda_19[] = {
-  0, // locals
+  1, // locals
   0, // parameters
-  // Error "
-  var_Error, 1, str_map_is_not_yet_d, TAIL_CALL,
-  POS(164, 7)
-};
-
-static TAB_NUM t_func_std_types__generic_array___reduce[] = {
-  2, // locals
-  -3, // parameters
-  MANDATORY_PARAMETER, var_175_0_self,
-  var_append, var_176_0_reduce_function,
-  var_undefined, LOCAL(1),
-  // $d dimension_count_of(self)
-  var_dimension_count_of, 1, var_175_0_self, 1, LOCAL(2),
-  // case d
-  var_case, 6, LOCAL(2), num_1, lambda_20, num_2, lambda_23, lambda_27, TAIL_CALL,
-  POS(179, 3),
-  POS(180, 3)
+  // $n length_of(self 1)
+  var_length_of, 2, var_123_0_self, num_1, 1, LOCAL(1),
+  // $m length_of(self 2)
+  var_length_of, 2, var_123_0_self, num_2, 1, var_165_1_m,
+  // $k length_of(self 3)
+  var_length_of, 2, var_123_0_self, num_3, 1, var_166_1_k,
+  // $new_array new(self)
+  var_new, 1, var_123_0_self, 1, var_167_1_new_array,
+  // from_to 1 n
+  var_from_to, 4, num_1, LOCAL(1), lambda_20, lambda_26, TAIL_CALL,
+  POS(164, 7),
+  POS(165, 7),
+  POS(166, 7),
+  POS(167, 7),
+  POS(168, 7)
 };
 
 static TAB_NUM t_lambda_20[] = {
-  1, // locals
-  0, // parameters
-  // length_of(self)
-  var_length_of, 1, var_175_0_self, 1, LOCAL(1),
-  // reduce 1 length_of(self)
-  func_reduce, 2, num_1, LOCAL(1), TAIL_CALL,
-  POS(190, 16),
-  POS(190, 7)
-};
-
-static TAB_NUM t_func_reduce[] = {
-  1, // locals
-  2, // parameters
-  var_182_10_s,
-  var_182_12_e,
-  // s < e:
-  var_std__less, 2, var_182_10_s, var_182_12_e, 1, LOCAL(1),
-  // if
-  var_if, 3, LOCAL(1), lambda_21, lambda_22, TAIL_CALL,
-  POS(184, 11),
-  POS(183, 9)
+  0, // locals
+  1, // parameters
+  var_169_3_i,
+  // from_to 1 m
+  var_from_to, 4, num_1, var_165_1_m, lambda_21, var_next, TAIL_CALL,
+  POS(170, 11)
 };
 
 static TAB_NUM t_lambda_21[] = {
-  4, // locals
-  0, // parameters
-  // s+e) >> 1
-  var_std__plus, 2, var_182_10_s, var_182_12_e, 1, LOCAL(1),
-  // $m (s+e) >> 1
-  var_std__shift_right, 2, LOCAL(1), num_1, 1, LOCAL(4),
-  // reduce(s m)
-  func_reduce, 2, var_182_10_s, LOCAL(4), 1, LOCAL(1),
-  // m+1 e)
-  var_std__plus, 2, LOCAL(4), num_1, 1, LOCAL(2),
-  // reduce(m+1 e)
-  func_reduce, 2, LOCAL(2), var_182_12_e, 1, LOCAL(3),
-  // reduce_function
-  var_176_0_reduce_function, 2, LOCAL(1), LOCAL(3), TAIL_CALL,
-  POS(185, 17),
-  POS(185, 13),
-  POS(187, 15),
-  POS(188, 22),
-  POS(188, 15),
-  POS(186, 13)
+  2, // locals
+  1, // parameters
+  var_171_3_j,
+  // parameter_count_of(map_function) == 1:
+  var_parameter_count_of, 1, var_124_0_map_function, 1, LOCAL(1),
+  // parameter_count_of(map_function) == 1:
+  var_std__equal, 2, LOCAL(1), num_1, 1, LOCAL(2),
+  // if
+  var_if, 3, LOCAL(2), lambda_22, lambda_24, TAIL_CALL,
+  POS(173, 17),
+  POS(173, 17),
+  POS(172, 15)
 };
 
 static TAB_NUM t_lambda_22[] = {
-  1, // locals
+  0, // locals
   0, // parameters
-  // self(s)
-  var_175_0_self, 1, var_182_10_s, 1, LOCAL(1),
-  //  self(s)
-  LET, 1, LOCAL(1), TAIL_CALL,
-  POS(189, 14),
-  POS(189, 13)
+  // from_to 1 k
+  var_from_to, 4, num_1, var_166_1_k, lambda_23, var_next, TAIL_CALL,
+  POS(174, 19)
 };
 
 static TAB_NUM t_lambda_23[] = {
-  2, // locals
-  0, // parameters
-  // $n length_of(self 1)
-  var_length_of, 2, var_175_0_self, num_1, 1, LOCAL(2),
-  // $m length_of(self 2)
-  var_length_of, 2, var_175_0_self, num_2, 1, var_193_1_m,
-  // self(1 1))
-  var_175_0_self, 2, num_1, num_1, 1, LOCAL(1),
-  // $acc neutral_element_of(self(1 1))
-  var_neutral_element_of, 1, LOCAL(1), 1, var_194_1_acc,
-  // from_to 1 n
-  var_from_to, 4, num_1, LOCAL(2), lambda_24, lambda_26, TAIL_CALL,
-  POS(192, 7),
-  POS(193, 7),
-  POS(194, 31),
-  POS(194, 7),
-  POS(195, 7)
+  4, // locals
+  1, // parameters
+  LOCAL(4), // 175_3_k
+  // self(i j k))
+  var_123_0_self, 3, var_169_3_i, var_171_3_j, LOCAL(4), 1, LOCAL(1),
+  // !new_array(i j k) map_function(self(i j k))
+  var_124_0_map_function, 1, LOCAL(1), 1, LOCAL(3),
+  // new_array(i j k) map_function(self(i j k))
+  var_167_1_new_array, 4, var_169_3_i, var_171_3_j, LOCAL(4), LOCAL(3), 1, var_167_1_new_array,
+  // next
+  var_next, 0, TAIL_CALL,
+  POS(176, 54),
+  POS(176, 23),
+  POS(176, 24),
+  POS(177, 23)
 };
 
 static TAB_NUM t_lambda_24[] = {
   0, // locals
-  1, // parameters
-  var_196_3_i,
-  // from_to 1 m
-  var_from_to, 4, num_1, var_193_1_m, lambda_25, var_next, TAIL_CALL,
-  POS(197, 11)
+  0, // parameters
+  // from_to 1 k
+  var_from_to, 4, num_1, var_166_1_k, lambda_25, var_next, TAIL_CALL,
+  POS(180, 19)
 };
 
 static TAB_NUM t_lambda_25[] = {
-  2, // locals
+  4, // locals
   1, // parameters
-  LOCAL(2), // 198_3_j
-  // self(i j)
-  var_175_0_self, 2, var_196_3_i, LOCAL(2), 1, LOCAL(1),
-  // reduce_function &acc self(i j)
-  var_176_0_reduce_function, 2, var_194_1_acc, LOCAL(1), 1, var_194_1_acc,
+  LOCAL(4), // 181_3_k
+  // self(i j k))
+  var_123_0_self, 3, var_169_3_i, var_171_3_j, LOCAL(4), 1, LOCAL(1),
+  // !new_array(i j k) map_function(i j k self(i j k))
+  var_124_0_map_function, 4, var_169_3_i, var_171_3_j, LOCAL(4), LOCAL(1), 1, LOCAL(3),
+  // new_array(i j k) map_function(i j k self(i j k))
+  var_167_1_new_array, 4, var_169_3_i, var_171_3_j, LOCAL(4), LOCAL(3), 1, var_167_1_new_array,
   // next
   var_next, 0, TAIL_CALL,
-  POS(199, 36),
-  POS(199, 15),
-  POS(200, 15)
+  POS(182, 60),
+  POS(182, 23),
+  POS(182, 24),
+  POS(183, 23)
 };
 
 static TAB_NUM t_lambda_26[] = {
   0, // locals
   0, // parameters
-  //  acc
-  LET, 1, var_194_1_acc, TAIL_CALL,
-  POS(202, 11)
+  //  new_array
+  LET, 1, var_167_1_new_array, TAIL_CALL,
+  POS(186, 11)
 };
 
 static TAB_NUM t_lambda_27[] = {
   0, // locals
   0, // parameters
   // Error "
-  var_Error, 1, str_reduce_is_not_ye, TAIL_CALL,
-  POS(204, 7)
+  var_Error, 1, str_map_is_not_yet_d, TAIL_CALL,
+  POS(188, 7)
 };
 
-static TAB_NUM t_func_std_types__generic_array___map_reduce[] = {
+static TAB_NUM t_func_std_types__generic_array___reduce[] = {
   2, // locals
-  -4, // parameters
-  MANDATORY_PARAMETER, var_217_0_self,
-  MANDATORY_PARAMETER, var_218_0_map_function,
-  var_append, var_219_0_reduce_function,
+  -3, // parameters
+  MANDATORY_PARAMETER, var_199_0_self,
+  var_append, var_200_0_reduce_function,
   var_undefined, LOCAL(1),
   // $d dimension_count_of(self)
-  var_dimension_count_of, 1, var_217_0_self, 1, LOCAL(2),
+  var_dimension_count_of, 1, var_199_0_self, 1, LOCAL(2),
   // case d
-  var_case, 6, LOCAL(2), num_1, lambda_28, num_2, lambda_37, lambda_44, TAIL_CALL,
-  POS(222, 3),
-  POS(223, 3)
+  var_case, 8, LOCAL(2), num_1, lambda_28, num_2, lambda_31, num_3, lambda_35, lambda_40, TAIL_CALL,
+  POS(203, 3),
+  POS(204, 3)
 };
 
 static TAB_NUM t_lambda_28[] = {
-  2, // locals
+  1, // locals
   0, // parameters
-  // parameter_count_of(map_function) == 1
-  var_parameter_count_of, 1, var_218_0_map_function, 1, LOCAL(1),
-  // parameter_count_of(map_function) == 1
-  var_std__equal, 2, LOCAL(1), num_1, 1, LOCAL(2),
-  // $map_reduce
-  var_if, 3, LOCAL(2), lambda_29, lambda_33, 1, var_225_1_map_reduce,
   // length_of(self)
-  var_length_of, 1, var_217_0_self, 1, LOCAL(1),
-  // map_reduce 1 length_of(self)
-  var_225_1_map_reduce, 2, num_1, LOCAL(1), TAIL_CALL,
-  POS(227, 11),
-  POS(227, 11),
-  POS(225, 7),
-  POS(246, 20),
-  POS(246, 7)
+  var_length_of, 1, var_199_0_self, 1, LOCAL(1),
+  // reduce 1 length_of(self)
+  func_reduce, 2, num_1, LOCAL(1), TAIL_CALL,
+  POS(214, 16),
+  POS(214, 7)
+};
+
+static TAB_NUM t_func_reduce[] = {
+  1, // locals
+  2, // parameters
+  var_206_10_s,
+  var_206_12_e,
+  // s < e:
+  var_std__less, 2, var_206_10_s, var_206_12_e, 1, LOCAL(1),
+  // if
+  var_if, 3, LOCAL(1), lambda_29, lambda_30, TAIL_CALL,
+  POS(208, 11),
+  POS(207, 9)
 };
 
 static TAB_NUM t_lambda_29[] = {
-  0, // locals
+  4, // locals
   0, // parameters
-  // 
-  LET, 1, lambda_30, TAIL_CALL,
-  POS(228, 13)
+  // s+e) >> 1
+  var_std__plus, 2, var_206_10_s, var_206_12_e, 1, LOCAL(1),
+  // $m (s+e) >> 1
+  var_std__shift_right, 2, LOCAL(1), num_1, 1, LOCAL(4),
+  // reduce(s m)
+  func_reduce, 2, var_206_10_s, LOCAL(4), 1, LOCAL(1),
+  // m+1 e)
+  var_std__plus, 2, LOCAL(4), num_1, 1, LOCAL(2),
+  // reduce(m+1 e)
+  func_reduce, 2, LOCAL(2), var_206_12_e, 1, LOCAL(3),
+  // reduce_function
+  var_200_0_reduce_function, 2, LOCAL(1), LOCAL(3), TAIL_CALL,
+  POS(209, 17),
+  POS(209, 13),
+  POS(211, 15),
+  POS(212, 22),
+  POS(212, 15),
+  POS(210, 13)
 };
 
 static TAB_NUM t_lambda_30[] = {
   1, // locals
-  2, // parameters
-  var_229_3_s,
-  var_229_5_e,
-  // s < e:
-  var_std__less, 2, var_229_3_s, var_229_5_e, 1, LOCAL(1),
-  // if
-  var_if, 3, LOCAL(1), lambda_31, lambda_32, TAIL_CALL,
-  POS(231, 17),
-  POS(230, 15)
+  0, // parameters
+  // self(s)
+  var_199_0_self, 1, var_206_10_s, 1, LOCAL(1),
+  //  self(s)
+  LET, 1, LOCAL(1), TAIL_CALL,
+  POS(213, 14),
+  POS(213, 13)
 };
 
 static TAB_NUM t_lambda_31[] = {
-  4, // locals
+  2, // locals
   0, // parameters
-  // s+e) >> 1
-  var_std__plus, 2, var_229_3_s, var_229_5_e, 1, LOCAL(1),
-  // $m (s+e) >> 1
-  var_std__shift_right, 2, LOCAL(1), num_1, 1, LOCAL(4),
-  // map_reduce(s m)
-  var_225_1_map_reduce, 2, var_229_3_s, LOCAL(4), 1, LOCAL(1),
-  // m+1 e)
-  var_std__plus, 2, LOCAL(4), num_1, 1, LOCAL(2),
-  // map_reduce(m+1 e)
-  var_225_1_map_reduce, 2, LOCAL(2), var_229_5_e, 1, LOCAL(3),
-  // reduce_function
-  var_219_0_reduce_function, 2, LOCAL(1), LOCAL(3), TAIL_CALL,
-  POS(232, 23),
-  POS(232, 19),
-  POS(234, 21),
-  POS(235, 32),
-  POS(235, 21),
-  POS(233, 19)
+  // $n length_of(self 1)
+  var_length_of, 2, var_199_0_self, num_1, 1, LOCAL(2),
+  // $m length_of(self 2)
+  var_length_of, 2, var_199_0_self, num_2, 1, var_217_1_m,
+  // self(1 1))
+  var_199_0_self, 2, num_1, num_1, 1, LOCAL(1),
+  // $acc neutral_element_of(self(1 1))
+  var_neutral_element_of, 1, LOCAL(1), 1, var_218_1_acc,
+  // from_to 1 n
+  var_from_to, 4, num_1, LOCAL(2), lambda_32, lambda_34, TAIL_CALL,
+  POS(216, 7),
+  POS(217, 7),
+  POS(218, 31),
+  POS(218, 7),
+  POS(219, 7)
 };
 
 static TAB_NUM t_lambda_32[] = {
-  2, // locals
-  0, // parameters
-  // self(s))
-  var_217_0_self, 1, var_229_3_s, 1, LOCAL(1),
-  // map_function(self(s))
-  var_218_0_map_function, 1, LOCAL(1), 1, LOCAL(2),
-  //  map_function(self(s))
-  LET, 1, LOCAL(2), TAIL_CALL,
-  POS(236, 33),
-  POS(236, 20),
-  POS(236, 19)
+  0, // locals
+  1, // parameters
+  var_220_3_i,
+  // from_to 1 m
+  var_from_to, 4, num_1, var_217_1_m, lambda_33, var_next, TAIL_CALL,
+  POS(221, 11)
 };
 
 static TAB_NUM t_lambda_33[] = {
-  0, // locals
-  0, // parameters
-  // 
-  LET, 1, lambda_34, TAIL_CALL,
-  POS(237, 13)
+  2, // locals
+  1, // parameters
+  LOCAL(2), // 222_3_j
+  // self(i j)
+  var_199_0_self, 2, var_220_3_i, LOCAL(2), 1, LOCAL(1),
+  // reduce_function &acc self(i j)
+  var_200_0_reduce_function, 2, var_218_1_acc, LOCAL(1), 1, var_218_1_acc,
+  // next
+  var_next, 0, TAIL_CALL,
+  POS(223, 36),
+  POS(223, 15),
+  POS(224, 15)
 };
 
 static TAB_NUM t_lambda_34[] = {
-  1, // locals
-  2, // parameters
-  var_238_3_s,
-  var_238_5_e,
-  // s < e:
-  var_std__less, 2, var_238_3_s, var_238_5_e, 1, LOCAL(1),
-  // if
-  var_if, 3, LOCAL(1), lambda_35, lambda_36, TAIL_CALL,
-  POS(240, 17),
-  POS(239, 15)
+  0, // locals
+  0, // parameters
+  //  acc
+  LET, 1, var_218_1_acc, TAIL_CALL,
+  POS(226, 11)
 };
 
 static TAB_NUM t_lambda_35[] = {
-  4, // locals
+  2, // locals
   0, // parameters
-  // s+e) >> 1
-  var_std__plus, 2, var_238_3_s, var_238_5_e, 1, LOCAL(1),
-  // $m (s+e) >> 1
-  var_std__shift_right, 2, LOCAL(1), num_1, 1, LOCAL(4),
-  // map_reduce(s m)
-  var_225_1_map_reduce, 2, var_238_3_s, LOCAL(4), 1, LOCAL(1),
-  // m+1 e)
-  var_std__plus, 2, LOCAL(4), num_1, 1, LOCAL(2),
-  // map_reduce(m+1 e)
-  var_225_1_map_reduce, 2, LOCAL(2), var_238_5_e, 1, LOCAL(3),
-  // reduce_function
-  var_219_0_reduce_function, 2, LOCAL(1), LOCAL(3), TAIL_CALL,
-  POS(241, 23),
-  POS(241, 19),
-  POS(243, 21),
-  POS(244, 32),
-  POS(244, 21),
-  POS(242, 19)
+  // $n length_of(self 1)
+  var_length_of, 2, var_199_0_self, num_1, 1, LOCAL(2),
+  // $m length_of(self 2)
+  var_length_of, 2, var_199_0_self, num_2, 1, var_229_1_m,
+  // $k length_of(self 3)
+  var_length_of, 2, var_199_0_self, num_3, 1, var_230_1_k,
+  // self(1 1 1))
+  var_199_0_self, 3, num_1, num_1, num_1, 1, LOCAL(1),
+  // $acc neutral_element_of(self(1 1 1))
+  var_neutral_element_of, 1, LOCAL(1), 1, var_231_1_acc,
+  // from_to 1 n
+  var_from_to, 4, num_1, LOCAL(2), lambda_36, lambda_39, TAIL_CALL,
+  POS(228, 7),
+  POS(229, 7),
+  POS(230, 7),
+  POS(231, 31),
+  POS(231, 7),
+  POS(232, 7)
 };
 
 static TAB_NUM t_lambda_36[] = {
-  2, // locals
-  0, // parameters
-  // self(s))
-  var_217_0_self, 1, var_238_3_s, 1, LOCAL(1),
-  // map_function(s self(s))
-  var_218_0_map_function, 2, var_238_3_s, LOCAL(1), 1, LOCAL(2),
-  //  map_function(s self(s))
-  LET, 1, LOCAL(2), TAIL_CALL,
-  POS(245, 35),
-  POS(245, 20),
-  POS(245, 19)
+  0, // locals
+  1, // parameters
+  var_233_3_i,
+  // from_to 1 m
+  var_from_to, 4, num_1, var_229_1_m, lambda_37, var_next, TAIL_CALL,
+  POS(234, 11)
 };
 
 static TAB_NUM t_lambda_37[] = {
-  3, // locals
-  0, // parameters
-  // $n length_of(self 1)
-  var_length_of, 2, var_217_0_self, num_1, 1, LOCAL(3),
-  // $m length_of(self 2)
-  var_length_of, 2, var_217_0_self, num_2, 1, var_249_1_m,
-  // self(1 1)))
-  var_217_0_self, 2, num_1, num_1, 1, LOCAL(1),
-  // map_function(self(1 1)))
-  var_218_0_map_function, 1, LOCAL(1), 1, LOCAL(2),
-  // $acc neutral_element_of(map_function(self(1 1)))
-  var_neutral_element_of, 1, LOCAL(2), 1, var_250_1_acc,
-  // from_to 1 n
-  var_from_to, 4, num_1, LOCAL(3), lambda_38, lambda_43, TAIL_CALL,
-  POS(248, 7),
-  POS(249, 7),
-  POS(250, 44),
-  POS(250, 31),
-  POS(250, 7),
-  POS(251, 7)
+  0, // locals
+  1, // parameters
+  var_235_3_j,
+  // from_to 1 k
+  var_from_to, 4, num_1, var_230_1_k, lambda_38, var_next, TAIL_CALL,
+  POS(236, 15)
 };
 
 static TAB_NUM t_lambda_38[] = {
   2, // locals
   1, // parameters
-  var_252_3_i,
-  // parameter_count_of(map_function) == 1:
-  var_parameter_count_of, 1, var_218_0_map_function, 1, LOCAL(1),
-  // parameter_count_of(map_function) == 1:
-  var_std__equal, 2, LOCAL(1), num_1, 1, LOCAL(2),
-  // if
-  var_if, 3, LOCAL(2), lambda_39, lambda_41, TAIL_CALL,
-  POS(254, 13),
-  POS(254, 13),
-  POS(253, 11)
+  LOCAL(2), // 237_3_k
+  // self(i j k)
+  var_199_0_self, 3, var_233_3_i, var_235_3_j, LOCAL(2), 1, LOCAL(1),
+  // reduce_function &acc self(i j k)
+  var_200_0_reduce_function, 2, var_231_1_acc, LOCAL(1), 1, var_231_1_acc,
+  // next
+  var_next, 0, TAIL_CALL,
+  POS(238, 40),
+  POS(238, 19),
+  POS(239, 19)
 };
 
 static TAB_NUM t_lambda_39[] = {
   0, // locals
   0, // parameters
-  // from_to 1 m
-  var_from_to, 4, num_1, var_249_1_m, lambda_40, var_next, TAIL_CALL,
-  POS(255, 15)
+  //  acc
+  LET, 1, var_231_1_acc, TAIL_CALL,
+  POS(242, 11)
 };
 
 static TAB_NUM t_lambda_40[] = {
-  3, // locals
-  1, // parameters
-  LOCAL(3), // 256_3_j
-  // self(i j))
-  var_217_0_self, 2, var_252_3_i, LOCAL(3), 1, LOCAL(1),
-  // map_function(self(i j))
-  var_218_0_map_function, 1, LOCAL(1), 1, LOCAL(2),
-  // reduce_function &acc map_function(self(i j))
-  var_219_0_reduce_function, 2, var_250_1_acc, LOCAL(2), 1, var_250_1_acc,
-  // next
-  var_next, 0, TAIL_CALL,
-  POS(257, 53),
-  POS(257, 40),
-  POS(257, 19),
-  POS(258, 19)
+  0, // locals
+  0, // parameters
+  // Error "
+  var_Error, 1, str_reduce_is_not_ye, TAIL_CALL,
+  POS(244, 7)
+};
+
+static TAB_NUM t_func_std_types__generic_array___map_reduce[] = {
+  2, // locals
+  -4, // parameters
+  MANDATORY_PARAMETER, var_257_0_self,
+  MANDATORY_PARAMETER, var_258_0_map_function,
+  var_append, var_259_0_reduce_function,
+  var_undefined, LOCAL(1),
+  // $d dimension_count_of(self)
+  var_dimension_count_of, 1, var_257_0_self, 1, LOCAL(2),
+  // case d
+  var_case, 8, LOCAL(2), num_1, lambda_41, num_2, lambda_50, num_3, lambda_57, lambda_65, TAIL_CALL,
+  POS(262, 3),
+  POS(263, 3)
 };
 
 static TAB_NUM t_lambda_41[] = {
-  0, // locals
+  2, // locals
   0, // parameters
-  // from_to 1 m
-  var_from_to, 4, num_1, var_249_1_m, lambda_42, var_next, TAIL_CALL,
-  POS(261, 15)
+  // parameter_count_of(map_function) == 1
+  var_parameter_count_of, 1, var_258_0_map_function, 1, LOCAL(1),
+  // parameter_count_of(map_function) == 1
+  var_std__equal, 2, LOCAL(1), num_1, 1, LOCAL(2),
+  // $map_reduce
+  var_if, 3, LOCAL(2), lambda_42, lambda_46, 1, var_265_1_map_reduce,
+  // length_of(self)
+  var_length_of, 1, var_257_0_self, 1, LOCAL(1),
+  // map_reduce 1 length_of(self)
+  var_265_1_map_reduce, 2, num_1, LOCAL(1), TAIL_CALL,
+  POS(267, 11),
+  POS(267, 11),
+  POS(265, 7),
+  POS(286, 20),
+  POS(286, 7)
 };
 
 static TAB_NUM t_lambda_42[] = {
-  3, // locals
-  1, // parameters
-  LOCAL(3), // 262_3_j
-  // self(i j))
-  var_217_0_self, 2, var_252_3_i, LOCAL(3), 1, LOCAL(1),
-  // map_function(i j self(i j))
-  var_218_0_map_function, 3, var_252_3_i, LOCAL(3), LOCAL(1), 1, LOCAL(2),
-  // reduce_function &acc map_function(i j self(i j))
-  var_219_0_reduce_function, 2, var_250_1_acc, LOCAL(2), 1, var_250_1_acc,
-  // next
-  var_next, 0, TAIL_CALL,
-  POS(263, 57),
-  POS(263, 40),
-  POS(263, 19),
-  POS(264, 19)
+  0, // locals
+  0, // parameters
+  // 
+  LET, 1, lambda_43, TAIL_CALL,
+  POS(268, 13)
 };
 
 static TAB_NUM t_lambda_43[] = {
-  0, // locals
-  0, // parameters
-  //  acc
-  LET, 1, var_250_1_acc, TAIL_CALL,
-  POS(266, 11)
+  1, // locals
+  2, // parameters
+  var_269_3_s,
+  var_269_5_e,
+  // s < e:
+  var_std__less, 2, var_269_3_s, var_269_5_e, 1, LOCAL(1),
+  // if
+  var_if, 3, LOCAL(1), lambda_44, lambda_45, TAIL_CALL,
+  POS(271, 17),
+  POS(270, 15)
 };
 
 static TAB_NUM t_lambda_44[] = {
+  4, // locals
+  0, // parameters
+  // s+e) >> 1
+  var_std__plus, 2, var_269_3_s, var_269_5_e, 1, LOCAL(1),
+  // $m (s+e) >> 1
+  var_std__shift_right, 2, LOCAL(1), num_1, 1, LOCAL(4),
+  // map_reduce(s m)
+  var_265_1_map_reduce, 2, var_269_3_s, LOCAL(4), 1, LOCAL(1),
+  // m+1 e)
+  var_std__plus, 2, LOCAL(4), num_1, 1, LOCAL(2),
+  // map_reduce(m+1 e)
+  var_265_1_map_reduce, 2, LOCAL(2), var_269_5_e, 1, LOCAL(3),
+  // reduce_function
+  var_259_0_reduce_function, 2, LOCAL(1), LOCAL(3), TAIL_CALL,
+  POS(272, 23),
+  POS(272, 19),
+  POS(274, 21),
+  POS(275, 32),
+  POS(275, 21),
+  POS(273, 19)
+};
+
+static TAB_NUM t_lambda_45[] = {
+  2, // locals
+  0, // parameters
+  // self(s))
+  var_257_0_self, 1, var_269_3_s, 1, LOCAL(1),
+  // map_function(self(s))
+  var_258_0_map_function, 1, LOCAL(1), 1, LOCAL(2),
+  //  map_function(self(s))
+  LET, 1, LOCAL(2), TAIL_CALL,
+  POS(276, 33),
+  POS(276, 20),
+  POS(276, 19)
+};
+
+static TAB_NUM t_lambda_46[] = {
+  0, // locals
+  0, // parameters
+  // 
+  LET, 1, lambda_47, TAIL_CALL,
+  POS(277, 13)
+};
+
+static TAB_NUM t_lambda_47[] = {
+  1, // locals
+  2, // parameters
+  var_278_3_s,
+  var_278_5_e,
+  // s < e:
+  var_std__less, 2, var_278_3_s, var_278_5_e, 1, LOCAL(1),
+  // if
+  var_if, 3, LOCAL(1), lambda_48, lambda_49, TAIL_CALL,
+  POS(280, 17),
+  POS(279, 15)
+};
+
+static TAB_NUM t_lambda_48[] = {
+  4, // locals
+  0, // parameters
+  // s+e) >> 1
+  var_std__plus, 2, var_278_3_s, var_278_5_e, 1, LOCAL(1),
+  // $m (s+e) >> 1
+  var_std__shift_right, 2, LOCAL(1), num_1, 1, LOCAL(4),
+  // map_reduce(s m)
+  var_265_1_map_reduce, 2, var_278_3_s, LOCAL(4), 1, LOCAL(1),
+  // m+1 e)
+  var_std__plus, 2, LOCAL(4), num_1, 1, LOCAL(2),
+  // map_reduce(m+1 e)
+  var_265_1_map_reduce, 2, LOCAL(2), var_278_5_e, 1, LOCAL(3),
+  // reduce_function
+  var_259_0_reduce_function, 2, LOCAL(1), LOCAL(3), TAIL_CALL,
+  POS(281, 23),
+  POS(281, 19),
+  POS(283, 21),
+  POS(284, 32),
+  POS(284, 21),
+  POS(282, 19)
+};
+
+static TAB_NUM t_lambda_49[] = {
+  2, // locals
+  0, // parameters
+  // self(s))
+  var_257_0_self, 1, var_278_3_s, 1, LOCAL(1),
+  // map_function(s self(s))
+  var_258_0_map_function, 2, var_278_3_s, LOCAL(1), 1, LOCAL(2),
+  //  map_function(s self(s))
+  LET, 1, LOCAL(2), TAIL_CALL,
+  POS(285, 35),
+  POS(285, 20),
+  POS(285, 19)
+};
+
+static TAB_NUM t_lambda_50[] = {
+  3, // locals
+  0, // parameters
+  // $n length_of(self 1)
+  var_length_of, 2, var_257_0_self, num_1, 1, LOCAL(3),
+  // $m length_of(self 2)
+  var_length_of, 2, var_257_0_self, num_2, 1, var_289_1_m,
+  // self(1 1)))
+  var_257_0_self, 2, num_1, num_1, 1, LOCAL(1),
+  // map_function(self(1 1)))
+  var_258_0_map_function, 1, LOCAL(1), 1, LOCAL(2),
+  // $acc neutral_element_of(map_function(self(1 1)))
+  var_neutral_element_of, 1, LOCAL(2), 1, var_290_1_acc,
+  // from_to 1 n
+  var_from_to, 4, num_1, LOCAL(3), lambda_51, lambda_56, TAIL_CALL,
+  POS(288, 7),
+  POS(289, 7),
+  POS(290, 44),
+  POS(290, 31),
+  POS(290, 7),
+  POS(291, 7)
+};
+
+static TAB_NUM t_lambda_51[] = {
+  2, // locals
+  1, // parameters
+  var_292_3_i,
+  // parameter_count_of(map_function) == 1:
+  var_parameter_count_of, 1, var_258_0_map_function, 1, LOCAL(1),
+  // parameter_count_of(map_function) == 1:
+  var_std__equal, 2, LOCAL(1), num_1, 1, LOCAL(2),
+  // if
+  var_if, 3, LOCAL(2), lambda_52, lambda_54, TAIL_CALL,
+  POS(294, 13),
+  POS(294, 13),
+  POS(293, 11)
+};
+
+static TAB_NUM t_lambda_52[] = {
+  0, // locals
+  0, // parameters
+  // from_to 1 m
+  var_from_to, 4, num_1, var_289_1_m, lambda_53, var_next, TAIL_CALL,
+  POS(295, 15)
+};
+
+static TAB_NUM t_lambda_53[] = {
+  3, // locals
+  1, // parameters
+  LOCAL(3), // 296_3_j
+  // self(i j))
+  var_257_0_self, 2, var_292_3_i, LOCAL(3), 1, LOCAL(1),
+  // map_function(self(i j))
+  var_258_0_map_function, 1, LOCAL(1), 1, LOCAL(2),
+  // reduce_function &acc map_function(self(i j))
+  var_259_0_reduce_function, 2, var_290_1_acc, LOCAL(2), 1, var_290_1_acc,
+  // next
+  var_next, 0, TAIL_CALL,
+  POS(297, 53),
+  POS(297, 40),
+  POS(297, 19),
+  POS(298, 19)
+};
+
+static TAB_NUM t_lambda_54[] = {
+  0, // locals
+  0, // parameters
+  // from_to 1 m
+  var_from_to, 4, num_1, var_289_1_m, lambda_55, var_next, TAIL_CALL,
+  POS(301, 15)
+};
+
+static TAB_NUM t_lambda_55[] = {
+  3, // locals
+  1, // parameters
+  LOCAL(3), // 302_3_j
+  // self(i j))
+  var_257_0_self, 2, var_292_3_i, LOCAL(3), 1, LOCAL(1),
+  // map_function(i j self(i j))
+  var_258_0_map_function, 3, var_292_3_i, LOCAL(3), LOCAL(1), 1, LOCAL(2),
+  // reduce_function &acc map_function(i j self(i j))
+  var_259_0_reduce_function, 2, var_290_1_acc, LOCAL(2), 1, var_290_1_acc,
+  // next
+  var_next, 0, TAIL_CALL,
+  POS(303, 57),
+  POS(303, 40),
+  POS(303, 19),
+  POS(304, 19)
+};
+
+static TAB_NUM t_lambda_56[] = {
+  0, // locals
+  0, // parameters
+  //  acc
+  LET, 1, var_290_1_acc, TAIL_CALL,
+  POS(306, 11)
+};
+
+static TAB_NUM t_lambda_57[] = {
+  3, // locals
+  0, // parameters
+  // $n length_of(self 1)
+  var_length_of, 2, var_257_0_self, num_1, 1, LOCAL(3),
+  // $m length_of(self 2)
+  var_length_of, 2, var_257_0_self, num_2, 1, var_309_1_m,
+  // $k length_of(self 3)
+  var_length_of, 2, var_257_0_self, num_3, 1, var_310_1_k,
+  // self(1 1 1)))
+  var_257_0_self, 3, num_1, num_1, num_1, 1, LOCAL(1),
+  // map_function(self(1 1 1)))
+  var_258_0_map_function, 1, LOCAL(1), 1, LOCAL(2),
+  // $acc neutral_element_of(map_function(self(1 1 1)))
+  var_neutral_element_of, 1, LOCAL(2), 1, var_311_1_acc,
+  // from_to 1 n
+  var_from_to, 4, num_1, LOCAL(3), lambda_58, lambda_64, TAIL_CALL,
+  POS(308, 7),
+  POS(309, 7),
+  POS(310, 7),
+  POS(311, 44),
+  POS(311, 31),
+  POS(311, 7),
+  POS(312, 7)
+};
+
+static TAB_NUM t_lambda_58[] = {
+  0, // locals
+  1, // parameters
+  var_313_3_i,
+  // from_to 1 m
+  var_from_to, 4, num_1, var_309_1_m, lambda_59, var_next, TAIL_CALL,
+  POS(314, 11)
+};
+
+static TAB_NUM t_lambda_59[] = {
+  2, // locals
+  1, // parameters
+  var_315_3_j,
+  // parameter_count_of(map_function) == 1:
+  var_parameter_count_of, 1, var_258_0_map_function, 1, LOCAL(1),
+  // parameter_count_of(map_function) == 1:
+  var_std__equal, 2, LOCAL(1), num_1, 1, LOCAL(2),
+  // if
+  var_if, 3, LOCAL(2), lambda_60, lambda_62, TAIL_CALL,
+  POS(317, 17),
+  POS(317, 17),
+  POS(316, 15)
+};
+
+static TAB_NUM t_lambda_60[] = {
+  0, // locals
+  0, // parameters
+  // from_to 1 k
+  var_from_to, 4, num_1, var_310_1_k, lambda_61, var_next, TAIL_CALL,
+  POS(318, 19)
+};
+
+static TAB_NUM t_lambda_61[] = {
+  3, // locals
+  1, // parameters
+  LOCAL(3), // 319_3_k
+  // self(i j k))
+  var_257_0_self, 3, var_313_3_i, var_315_3_j, LOCAL(3), 1, LOCAL(1),
+  // map_function(self(i j k))
+  var_258_0_map_function, 1, LOCAL(1), 1, LOCAL(2),
+  // reduce_function &acc map_function(self(i j k))
+  var_259_0_reduce_function, 2, var_311_1_acc, LOCAL(2), 1, var_311_1_acc,
+  // next
+  var_next, 0, TAIL_CALL,
+  POS(320, 57),
+  POS(320, 44),
+  POS(320, 23),
+  POS(321, 23)
+};
+
+static TAB_NUM t_lambda_62[] = {
+  0, // locals
+  0, // parameters
+  // from_to 1 k
+  var_from_to, 4, num_1, var_310_1_k, lambda_63, var_next, TAIL_CALL,
+  POS(324, 19)
+};
+
+static TAB_NUM t_lambda_63[] = {
+  3, // locals
+  1, // parameters
+  LOCAL(3), // 325_3_k
+  // self(i j k))
+  var_257_0_self, 3, var_313_3_i, var_315_3_j, LOCAL(3), 1, LOCAL(1),
+  // map_function(i j k self(i j k))
+  var_258_0_map_function, 4, var_313_3_i, var_315_3_j, LOCAL(3), LOCAL(1), 1, LOCAL(2),
+  // reduce_function &acc map_function(i j k self(i j k))
+  var_259_0_reduce_function, 2, var_311_1_acc, LOCAL(2), 1, var_311_1_acc,
+  // next
+  var_next, 0, TAIL_CALL,
+  POS(326, 63),
+  POS(326, 44),
+  POS(326, 23),
+  POS(327, 23)
+};
+
+static TAB_NUM t_lambda_64[] = {
+  0, // locals
+  0, // parameters
+  //  acc
+  LET, 1, var_311_1_acc, TAIL_CALL,
+  POS(330, 11)
+};
+
+static TAB_NUM t_lambda_65[] = {
   0, // locals
   0, // parameters
   // Error "
   var_Error, 1, str_map_reduce_is_no, TAIL_CALL,
-  POS(268, 7)
+  POS(332, 7)
 };
 
 static TAB_NUM t_func_std_types__generic_array___serialize[] = {
   6, // locals
   -2, // parameters
-  MANDATORY_PARAMETER, var_290_0_self,
-  var_undefined, var_291_0_indent,
+  MANDATORY_PARAMETER, var_354_0_self,
+  var_undefined, var_355_0_indent,
   // $n dimension_count_of(self)
-  var_dimension_count_of, 1, var_290_0_self, 1, LOCAL(5),
+  var_dimension_count_of, 1, var_354_0_self, 1, LOCAL(5),
   // 1..n : (i) -> append(" " length_of(self i).to_string))
   var_std__value_range, 2, num_1, LOCAL(5), 1, LOCAL(1),
   // $dimensions map_reduce(1..n : (i) -> append(" " length_of(self i).to_string))
-  var_map_reduce, 2, LOCAL(1), lambda_45, 1, LOCAL(6),
+  var_map_reduce, 2, LOCAL(1), lambda_66, 1, LOCAL(6),
   // is_defined
-  var_is_defined, 1, var_291_0_indent, 1, LOCAL(1),
+  var_is_defined, 1, var_355_0_indent, 1, LOCAL(1),
   // $indentation
-  var_if, 3, LOCAL(1), lambda_46, lambda_47, 1, var_295_1_indentation,
+  var_if, 3, LOCAL(1), lambda_67, lambda_68, 1, var_359_1_indentation,
   // is_defined
-  var_is_defined, 1, var_291_0_indent, 1, LOCAL(1),
+  var_is_defined, 1, var_355_0_indent, 1, LOCAL(1),
   // if
-  var_if, 3, LOCAL(1), lambda_48, lambda_49, 1, LOCAL(2),
+  var_if, 3, LOCAL(1), lambda_69, lambda_70, 1, LOCAL(2),
   // serialization_tag_of(self)
-  var_serialization_tag_of, 1, var_290_0_self, 1, LOCAL(3),
+  var_serialization_tag_of, 1, var_354_0_self, 1, LOCAL(3),
   // map_reduce(self: (item) -> append(indentation item.to_string "@nl;"))
-  var_map_reduce, 2, var_290_0_self, lambda_map_reduceself, 1, LOCAL(4),
+  var_map_reduce, 2, var_354_0_self, lambda_map_reduceself, 1, LOCAL(4),
   // append
   var_append, 5, LOCAL(2), LOCAL(3), LOCAL(6), string_3, LOCAL(4), TAIL_CALL,
-  POS(293, 3),
-  POS(294, 26),
-  POS(294, 3),
-  POS(297, 14),
-  POS(295, 3),
-  POS(302, 14),
-  POS(301, 5),
-  POS(305, 5),
-  POS(308, 5),
-  POS(300, 3)
+  POS(357, 3),
+  POS(358, 26),
+  POS(358, 3),
+  POS(361, 14),
+  POS(359, 3),
+  POS(366, 14),
+  POS(365, 5),
+  POS(369, 5),
+  POS(372, 5),
+  POS(364, 3)
 };
 
-static TAB_NUM t_lambda_45[] = {
+static TAB_NUM t_lambda_66[] = {
   4, // locals
   1, // parameters
-  LOCAL(4), // 294_31_i
+  LOCAL(4), // 358_31_i
   // length_of(self i).to_string))
-  var_length_of, 2, var_290_0_self, LOCAL(4), 1, LOCAL(1),
+  var_length_of, 2, var_354_0_self, LOCAL(4), 1, LOCAL(1),
   // to_string))
   var_to_string, 1, LOCAL(1), 1, LOCAL(2),
   // append(" " length_of(self i).to_string))
   var_append, 2, string_1, LOCAL(2), 1, LOCAL(3),
   // -> append(" " length_of(self i).to_string))
   LET, 1, LOCAL(3), TAIL_CALL,
-  POS(294, 51),
-  POS(294, 69),
-  POS(294, 40),
-  POS(294, 37)
+  POS(358, 51),
+  POS(358, 69),
+  POS(358, 40),
+  POS(358, 37)
 };
 
-static TAB_NUM t_lambda_46[] = {
+static TAB_NUM t_lambda_67[] = {
   2, // locals
   0, // parameters
   // indent+2)
-  var_std__plus, 2, var_291_0_indent, num_2, 1, LOCAL(1),
+  var_std__plus, 2, var_355_0_indent, num_2, 1, LOCAL(1),
   // tabs_and_spaces(indent+2)
   var_tabs_and_spaces, 1, LOCAL(1), 1, LOCAL(2),
   //  tabs_and_spaces(indent+2)
   LET, 1, LOCAL(2), TAIL_CALL,
-  POS(298, 26),
-  POS(298, 10),
-  POS(298, 9)
+  POS(362, 26),
+  POS(362, 10),
+  POS(362, 9)
 };
 
-static TAB_NUM t_lambda_47[] = {
+static TAB_NUM t_lambda_68[] = {
   0, // locals
   0, // parameters
   //  ""
   LET, 1, string_2, TAIL_CALL,
-  POS(299, 9)
+  POS(363, 9)
 };
 
-static TAB_NUM t_lambda_48[] = {
+static TAB_NUM t_lambda_69[] = {
   1, // locals
   0, // parameters
   // tabs_and_spaces(indent)
-  var_tabs_and_spaces, 1, var_291_0_indent, 1, LOCAL(1),
+  var_tabs_and_spaces, 1, var_355_0_indent, 1, LOCAL(1),
   //  tabs_and_spaces(indent)
   LET, 1, LOCAL(1), TAIL_CALL,
-  POS(303, 10),
-  POS(303, 9)
+  POS(367, 10),
+  POS(367, 9)
 };
 
-static TAB_NUM t_lambda_49[] = {
+static TAB_NUM t_lambda_70[] = {
   0, // locals
   0, // parameters
   //  ""
   LET, 1, string_2, TAIL_CALL,
-  POS(304, 9)
+  POS(368, 9)
 };
 
 static TAB_NUM t_lambda_map_reduceself[] = {
   3, // locals
   1, // parameters
-  LOCAL(3), // 308_18_item
+  LOCAL(3), // 372_18_item
   // to_string "@nl;"))
   var_to_string, 1, LOCAL(3), 1, LOCAL(1),
   // append(indentation item.to_string "@nl;"))
-  var_append, 3, var_295_1_indentation, LOCAL(1), string_3, 1, LOCAL(2),
+  var_append, 3, var_359_1_indentation, LOCAL(1), string_3, 1, LOCAL(2),
   // -> append(indentation item.to_string "@nl;"))
   LET, 1, LOCAL(2), TAIL_CALL,
-  POS(308, 56),
-  POS(308, 32),
-  POS(308, 29)
+  POS(372, 56),
+  POS(372, 32),
+  POS(372, 29)
 };
 
 static FUNKY_CONSTANT constants_table[] = {
@@ -1065,11 +1380,9 @@ static FUNKY_CONSTANT constants_table[] = {
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_16}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_17}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_18}},
+  {FLT_POSITIVE_INT64, 0, {.value = 3}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_19}},
-  {FLT_STRING_8, 66, {.str_8 = "<map> is not yet defined for arrays with more than two dimensions\012"}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std_types__generic_array___reduce}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_20}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_reduce}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_21}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_22}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_23}},
@@ -1077,9 +1390,10 @@ static FUNKY_CONSTANT constants_table[] = {
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_25}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_26}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_27}},
-  {FLT_STRING_8, 69, {.str_8 = "<reduce> is not yet defined for arrays with more than two dimensions\012"}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std_types__generic_array___map_reduce}},
+  {FLT_STRING_8, 68, {.str_8 = "<map> is not yet defined for arrays with more than three dimensions\012"}},
+  {FLT_FUNCTION, 0, {.tfunc = t_func_std_types__generic_array___reduce}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_28}},
+  {FLT_FUNCTION, 0, {.tfunc = t_func_reduce}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_29}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_30}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_31}},
@@ -1092,11 +1406,34 @@ static FUNKY_CONSTANT constants_table[] = {
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_38}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_39}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_40}},
+  {FLT_STRING_8, 71, {.str_8 = "<reduce> is not yet defined for arrays with more than three dimensions\012"}},
+  {FLT_FUNCTION, 0, {.tfunc = t_func_std_types__generic_array___map_reduce}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_41}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_42}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_43}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_44}},
-  {FLT_STRING_8, 73, {.str_8 = "<map_reduce> is not yet defined for arrays with more than two dimensions\012"}},
+  {FLT_FUNCTION, 0, {.tfunc = t_lambda_45}},
+  {FLT_FUNCTION, 0, {.tfunc = t_lambda_46}},
+  {FLT_FUNCTION, 0, {.tfunc = t_lambda_47}},
+  {FLT_FUNCTION, 0, {.tfunc = t_lambda_48}},
+  {FLT_FUNCTION, 0, {.tfunc = t_lambda_49}},
+  {FLT_FUNCTION, 0, {.tfunc = t_lambda_50}},
+  {FLT_FUNCTION, 0, {.tfunc = t_lambda_51}},
+  {FLT_FUNCTION, 0, {.tfunc = t_lambda_52}},
+  {FLT_FUNCTION, 0, {.tfunc = t_lambda_53}},
+  {FLT_FUNCTION, 0, {.tfunc = t_lambda_54}},
+  {FLT_FUNCTION, 0, {.tfunc = t_lambda_55}},
+  {FLT_FUNCTION, 0, {.tfunc = t_lambda_56}},
+  {FLT_FUNCTION, 0, {.tfunc = t_lambda_57}},
+  {FLT_FUNCTION, 0, {.tfunc = t_lambda_58}},
+  {FLT_FUNCTION, 0, {.tfunc = t_lambda_59}},
+  {FLT_FUNCTION, 0, {.tfunc = t_lambda_60}},
+  {FLT_FUNCTION, 0, {.tfunc = t_lambda_61}},
+  {FLT_FUNCTION, 0, {.tfunc = t_lambda_62}},
+  {FLT_FUNCTION, 0, {.tfunc = t_lambda_63}},
+  {FLT_FUNCTION, 0, {.tfunc = t_lambda_64}},
+  {FLT_FUNCTION, 0, {.tfunc = t_lambda_65}},
+  {FLT_STRING_8, 75, {.str_8 = "<map_reduce> is not yet defined for arrays with more than three dimensions\012"}},
   {FLT_STRING_8, 5, {.str_8 = "array"}},
   {FLT_STRING_8, 13, {.str_8 = "boolean_array"}},
   {FLT_STRING_8, 15, {.str_8 = "character_array"}},
@@ -1111,13 +1448,13 @@ static FUNKY_CONSTANT constants_table[] = {
   {FLT_STRING_8, 13, {.str_8 = "float32_array"}},
   {FLT_STRING_8, 13, {.str_8 = "float64_array"}},
   {FLT_FUNCTION, 0, {.tfunc = t_func_std_types__generic_array___serialize}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_45}},
+  {FLT_FUNCTION, 0, {.tfunc = t_lambda_66}},
   {FLT_STRING_8, 1, {.str_8 = " "}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_46}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_47}},
+  {FLT_FUNCTION, 0, {.tfunc = t_lambda_67}},
+  {FLT_FUNCTION, 0, {.tfunc = t_lambda_68}},
   {FLT_STRING_8, 0, {.str_8 = ""}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_48}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_49}},
+  {FLT_FUNCTION, 0, {.tfunc = t_lambda_69}},
+  {FLT_FUNCTION, 0, {.tfunc = t_lambda_70}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_map_reduceself}},
   {FLT_STRING_8, 1, {.str_8 = "\012"}}
 };
@@ -1357,9 +1694,29 @@ static FUNKY_VARIABLE variables_table[] = {
     "148_3_i\000", NULL
   },
   {
+    FOT_UNINITIALIZED, 0, 0,
+    "165_1_m\000", NULL
+  },
+  {
+    FOT_UNINITIALIZED, 0, 0,
+    "166_1_k\000", NULL
+  },
+  {
+    FOT_UNINITIALIZED, 0, 0,
+    "167_1_new_array\000", NULL
+  },
+  {
+    FOT_UNINITIALIZED, 0, 0,
+    "169_3_i\000", NULL
+  },
+  {
+    FOT_UNINITIALIZED, 0, 0,
+    "171_3_j\000", NULL
+  },
+  {
     FOT_UNKNOWN, 0, 0,
     "Error\000", NULL,
-    {.position = POS(164, 7)}
+    {.position = POS(188, 7)}
   },
   {
     FOT_UNKNOWN, 0, 0,
@@ -1369,211 +1726,251 @@ static FUNKY_VARIABLE variables_table[] = {
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
     "reduce\000", NULL,
-    {.position = POS(167, 27)}
+    {.position = POS(191, 27)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "175_0_self\000", NULL
+    "199_0_self\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "176_0_reduce_function\000", NULL
+    "200_0_reduce_function\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
     "append\000", NULL,
-    {.position = POS(176, 23)}
+    {.position = POS(200, 23)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "182_10_s\000", NULL
+    "206_10_s\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "182_12_e\000", NULL
+    "206_12_e\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
     "shift_right\000std", NULL,
-    {.position = POS(185, 17)}
+    {.position = POS(209, 17)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "193_1_m\000", NULL
+    "217_1_m\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "194_1_acc\000", NULL
+    "218_1_acc\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
     "neutral_element_of\000", NULL,
-    {.position = POS(194, 12)}
+    {.position = POS(218, 12)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "196_3_i\000", NULL
+    "220_3_i\000", NULL
+  },
+  {
+    FOT_UNINITIALIZED, 0, 0,
+    "229_1_m\000", NULL
+  },
+  {
+    FOT_UNINITIALIZED, 0, 0,
+    "230_1_k\000", NULL
+  },
+  {
+    FOT_UNINITIALIZED, 0, 0,
+    "231_1_acc\000", NULL
+  },
+  {
+    FOT_UNINITIALIZED, 0, 0,
+    "233_3_i\000", NULL
+  },
+  {
+    FOT_UNINITIALIZED, 0, 0,
+    "235_3_j\000", NULL
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
     "map_reduce\000", NULL,
-    {.position = POS(207, 27)}
+    {.position = POS(247, 27)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "217_0_self\000", NULL
+    "257_0_self\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "218_0_map_function\000", NULL
+    "258_0_map_function\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "219_0_reduce_function\000", NULL
+    "259_0_reduce_function\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "229_3_s\000", NULL
+    "269_3_s\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "229_5_e\000", NULL
+    "269_5_e\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "225_1_map_reduce\000", NULL
+    "265_1_map_reduce\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "238_3_s\000", NULL
+    "278_3_s\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "238_5_e\000", NULL
+    "278_5_e\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "249_1_m\000", NULL
+    "289_1_m\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "250_1_acc\000", NULL
+    "290_1_acc\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "252_3_i\000", NULL
+    "292_3_i\000", NULL
+  },
+  {
+    FOT_UNINITIALIZED, 0, 0,
+    "309_1_m\000", NULL
+  },
+  {
+    FOT_UNINITIALIZED, 0, 0,
+    "310_1_k\000", NULL
+  },
+  {
+    FOT_UNINITIALIZED, 0, 0,
+    "311_1_acc\000", NULL
+  },
+  {
+    FOT_UNINITIALIZED, 0, 0,
+    "313_3_i\000", NULL
+  },
+  {
+    FOT_UNINITIALIZED, 0, 0,
+    "315_3_j\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 1,
     "array\000std_types", std_types__array__attributes,
-    {.position = POS(274, 1)}
+    {.position = POS(338, 1)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
     "serialization_tag_of\000", NULL,
-    {.position = POS(274, 19)}
+    {.position = POS(338, 19)}
   },
   {
     FOT_UNKNOWN, 0, 1,
     "boolean_array\000std_types", std_types__boolean_array__attributes,
-    {.position = POS(275, 1)}
+    {.position = POS(339, 1)}
   },
   {
     FOT_UNKNOWN, 0, 1,
     "character_array\000std_types", std_types__character_array__attributes,
-    {.position = POS(276, 1)}
+    {.position = POS(340, 1)}
   },
   {
     FOT_UNKNOWN, 0, 1,
     "int8_array\000std_types", std_types__int8_array__attributes,
-    {.position = POS(277, 1)}
+    {.position = POS(341, 1)}
   },
   {
     FOT_UNKNOWN, 0, 1,
     "uint8_array\000std_types", std_types__uint8_array__attributes,
-    {.position = POS(278, 1)}
+    {.position = POS(342, 1)}
   },
   {
     FOT_UNKNOWN, 0, 1,
     "int16_array\000std_types", std_types__int16_array__attributes,
-    {.position = POS(279, 1)}
+    {.position = POS(343, 1)}
   },
   {
     FOT_UNKNOWN, 0, 1,
     "uint16_array\000std_types", std_types__uint16_array__attributes,
-    {.position = POS(280, 1)}
+    {.position = POS(344, 1)}
   },
   {
     FOT_UNKNOWN, 0, 1,
     "int32_array\000std_types", std_types__int32_array__attributes,
-    {.position = POS(281, 1)}
+    {.position = POS(345, 1)}
   },
   {
     FOT_UNKNOWN, 0, 1,
     "uint32_array\000std_types", std_types__uint32_array__attributes,
-    {.position = POS(282, 1)}
+    {.position = POS(346, 1)}
   },
   {
     FOT_UNKNOWN, 0, 1,
     "int64_array\000std_types", std_types__int64_array__attributes,
-    {.position = POS(283, 1)}
+    {.position = POS(347, 1)}
   },
   {
     FOT_UNKNOWN, 0, 1,
     "uint64_array\000std_types", std_types__uint64_array__attributes,
-    {.position = POS(284, 1)}
+    {.position = POS(348, 1)}
   },
   {
     FOT_UNKNOWN, 0, 1,
     "float32_array\000std_types", std_types__float32_array__attributes,
-    {.position = POS(285, 1)}
+    {.position = POS(349, 1)}
   },
   {
     FOT_UNKNOWN, 0, 1,
     "float64_array\000std_types", std_types__float64_array__attributes,
-    {.position = POS(286, 1)}
+    {.position = POS(350, 1)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
     "serialize\000", NULL,
-    {.position = POS(288, 27)}
+    {.position = POS(352, 27)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "290_0_self\000", NULL
+    "354_0_self\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "291_0_indent\000", NULL
+    "355_0_indent\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
     "undefined\000", NULL,
-    {.position = POS(291, 14)}
+    {.position = POS(355, 14)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "value_range\000std", NULL,
-    {.position = POS(294, 26)}
+    {.position = POS(358, 26)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "to_string\000", NULL,
-    {.position = POS(294, 69)}
+    {.position = POS(358, 69)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "is_defined\000", NULL,
-    {.position = POS(297, 14)}
+    {.position = POS(361, 14)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "tabs_and_spaces\000", NULL,
-    {.position = POS(298, 10)}
+    {.position = POS(362, 10)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "295_1_indentation\000", NULL
+    "359_1_indentation\000", NULL
   }
 };
 
@@ -1591,8 +1988,8 @@ FUNKY_MODULE module__basic__types__collections__arrays__array = {
   0, // number of required modules
   0, // number of defined namespaces
   1, // number of used namespaces
-  82, // number of constants
-  83, // number of variables
+  104, // number of constants
+  98, // number of variables
   NULL, // required modules
   NULL, // defined namespaces
   used_namespaces,
