@@ -6,7 +6,7 @@ typedef struct {
   const char *name;
 } BUILTIN_FUNCTION_NAME;
 
-extern BUILTIN_FUNCTION_NAME builtin_function_names[425];
+extern BUILTIN_FUNCTION_NAME builtin_function_names[438];
 
 typedef enum {
   FIM_SIZE,
@@ -46,8 +46,8 @@ typedef struct {
 } ARRAY_INFO;
 
 typedef struct {
-  int first_index;
-  int width;
+  long first_index;
+  long width;
 } DIMENSION_INFO;
 
 typedef struct {
@@ -258,6 +258,7 @@ typedef struct {
   ATTRIBUTES *attributes;
   long updates_length;
   ARRAY_DATA *data;
+  ARRAY_VIEW *view;
   ARRAY_UPDATES *updates;
 } ARRAY;
 
@@ -266,6 +267,7 @@ typedef struct {
   ATTRIBUTES *attributes;
   long updates_length;
   BOOLEAN_ARRAY_DATA *data;
+  ARRAY_VIEW *view;
   ARRAY_UPDATES *updates;
 } BOOLEAN_ARRAY;
 
@@ -274,6 +276,7 @@ typedef struct {
   ATTRIBUTES *attributes;
   long updates_length;
   CHARACTER_ARRAY_DATA *data;
+  ARRAY_VIEW *view;
   ARRAY_UPDATES *updates;
 } CHARACTER_ARRAY;
 
@@ -282,6 +285,7 @@ typedef struct {
   ATTRIBUTES *attributes;
   long updates_length;
   INT8_ARRAY_DATA *data;
+  ARRAY_VIEW *view;
   ARRAY_UPDATES *updates;
 } INT8_ARRAY;
 
@@ -290,6 +294,7 @@ typedef struct {
   ATTRIBUTES *attributes;
   long updates_length;
   UINT8_ARRAY_DATA *data;
+  ARRAY_VIEW *view;
   ARRAY_UPDATES *updates;
 } UINT8_ARRAY;
 
@@ -298,6 +303,7 @@ typedef struct {
   ATTRIBUTES *attributes;
   long updates_length;
   INT16_ARRAY_DATA *data;
+  ARRAY_VIEW *view;
   ARRAY_UPDATES *updates;
 } INT16_ARRAY;
 
@@ -306,6 +312,7 @@ typedef struct {
   ATTRIBUTES *attributes;
   long updates_length;
   UINT16_ARRAY_DATA *data;
+  ARRAY_VIEW *view;
   ARRAY_UPDATES *updates;
 } UINT16_ARRAY;
 
@@ -314,6 +321,7 @@ typedef struct {
   ATTRIBUTES *attributes;
   long updates_length;
   INT32_ARRAY_DATA *data;
+  ARRAY_VIEW *view;
   ARRAY_UPDATES *updates;
 } INT32_ARRAY;
 
@@ -322,6 +330,7 @@ typedef struct {
   ATTRIBUTES *attributes;
   long updates_length;
   UINT32_ARRAY_DATA *data;
+  ARRAY_VIEW *view;
   ARRAY_UPDATES *updates;
 } UINT32_ARRAY;
 
@@ -330,6 +339,7 @@ typedef struct {
   ATTRIBUTES *attributes;
   long updates_length;
   INT64_ARRAY_DATA *data;
+  ARRAY_VIEW *view;
   ARRAY_UPDATES *updates;
 } INT64_ARRAY;
 
@@ -338,6 +348,7 @@ typedef struct {
   ATTRIBUTES *attributes;
   long updates_length;
   UINT64_ARRAY_DATA *data;
+  ARRAY_VIEW *view;
   ARRAY_UPDATES *updates;
 } UINT64_ARRAY;
 
@@ -346,6 +357,7 @@ typedef struct {
   ATTRIBUTES *attributes;
   long updates_length;
   FLOAT32_ARRAY_DATA *data;
+  ARRAY_VIEW *view;
   ARRAY_UPDATES *updates;
 } FLOAT32_ARRAY;
 
@@ -354,6 +366,7 @@ typedef struct {
   ATTRIBUTES *attributes;
   long updates_length;
   FLOAT64_ARRAY_DATA *data;
+  ARRAY_VIEW *view;
   ARRAY_UPDATES *updates;
 } FLOAT64_ARRAY;
 

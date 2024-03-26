@@ -35,6 +35,7 @@ enum {
   func__std___array,
   func__std___initialized_array,
   func__std_types___array___std___new,
+  func__std_types___array___std___range,
   func__std_types___boolean_array___std___length_of,
   func__std_types___boolean_array___std___dimension_count_of,
   func__std_types___boolean_array___std___equal,
@@ -44,18 +45,21 @@ enum {
   func__std___boolean_array,
   func__std___initialized_boolean_array,
   func__std_types___boolean_array___std___new,
+  func__std_types___boolean_array___std___range,
   func__std_types___character_array___std___length_of,
   func__std_types___character_array___std___dimension_count_of,
   func__std_types___character_array___std___equal,
   func__std___character_array,
   func__std___initialized_character_array,
   func__std_types___character_array___std___new,
+  func__std_types___character_array___std___range,
   func__std_types___int8_array___std___length_of,
   func__std_types___int8_array___std___dimension_count_of,
   func__std_types___int8_array___std___equal,
   func__std___int8_array,
   func__std___initialized_int8_array,
   func__std_types___int8_array___std___new,
+  func__std_types___int8_array___std___range,
   func__std_types___uint8_array___std___length_of,
   func__std_types___uint8_array___std___dimension_count_of,
   func__std_types___uint8_array___std___equal,
@@ -65,12 +69,14 @@ enum {
   func__std___uint8_array,
   func__std___initialized_uint8_array,
   func__std_types___uint8_array___std___new,
+  func__std_types___uint8_array___std___range,
   func__std_types___int16_array___std___length_of,
   func__std_types___int16_array___std___dimension_count_of,
   func__std_types___int16_array___std___equal,
   func__std___int16_array,
   func__std___initialized_int16_array,
   func__std_types___int16_array___std___new,
+  func__std_types___int16_array___std___range,
   func__std_types___uint16_array___std___length_of,
   func__std_types___uint16_array___std___dimension_count_of,
   func__std_types___uint16_array___std___equal,
@@ -80,12 +86,14 @@ enum {
   func__std___uint16_array,
   func__std___initialized_uint16_array,
   func__std_types___uint16_array___std___new,
+  func__std_types___uint16_array___std___range,
   func__std_types___int32_array___std___length_of,
   func__std_types___int32_array___std___dimension_count_of,
   func__std_types___int32_array___std___equal,
   func__std___int32_array,
   func__std___initialized_int32_array,
   func__std_types___int32_array___std___new,
+  func__std_types___int32_array___std___range,
   func__std_types___uint32_array___std___length_of,
   func__std_types___uint32_array___std___dimension_count_of,
   func__std_types___uint32_array___std___equal,
@@ -95,12 +103,14 @@ enum {
   func__std___uint32_array,
   func__std___initialized_uint32_array,
   func__std_types___uint32_array___std___new,
+  func__std_types___uint32_array___std___range,
   func__std_types___int64_array___std___length_of,
   func__std_types___int64_array___std___dimension_count_of,
   func__std_types___int64_array___std___equal,
   func__std___int64_array,
   func__std___initialized_int64_array,
   func__std_types___int64_array___std___new,
+  func__std_types___int64_array___std___range,
   func__std_types___uint64_array___std___length_of,
   func__std_types___uint64_array___std___dimension_count_of,
   func__std_types___uint64_array___std___equal,
@@ -110,18 +120,21 @@ enum {
   func__std___uint64_array,
   func__std___initialized_uint64_array,
   func__std_types___uint64_array___std___new,
+  func__std_types___uint64_array___std___range,
   func__std_types___float32_array___std___length_of,
   func__std_types___float32_array___std___dimension_count_of,
   func__std_types___float32_array___std___equal,
   func__std___float32_array,
   func__std___initialized_float32_array,
   func__std_types___float32_array___std___new,
+  func__std_types___float32_array___std___range,
   func__std_types___float64_array___std___length_of,
   func__std_types___float64_array___std___dimension_count_of,
   func__std_types___float64_array___std___equal,
   func__std___float64_array,
   func__std___initialized_float64_array,
   func__std_types___float64_array___std___new,
+  func__std_types___float64_array___std___range,
   func__std___pass,
   func__std___result_count,
   func__std_types___true___std___equal,
@@ -1009,6 +1022,7 @@ static void *create__std_types___array
   (
     long updates_length,
     ARRAY_DATA *data,
+    ARRAY_VIEW *view,
     ARRAY_UPDATES *updates
   );
 
@@ -1016,6 +1030,7 @@ static void *create__std_types___boolean_array
   (
     long updates_length,
     BOOLEAN_ARRAY_DATA *data,
+    ARRAY_VIEW *view,
     ARRAY_UPDATES *updates
   );
 
@@ -1023,6 +1038,7 @@ static void *create__std_types___character_array
   (
     long updates_length,
     CHARACTER_ARRAY_DATA *data,
+    ARRAY_VIEW *view,
     ARRAY_UPDATES *updates
   );
 
@@ -1030,6 +1046,7 @@ static void *create__std_types___int8_array
   (
     long updates_length,
     INT8_ARRAY_DATA *data,
+    ARRAY_VIEW *view,
     ARRAY_UPDATES *updates
   );
 
@@ -1037,6 +1054,7 @@ static void *create__std_types___uint8_array
   (
     long updates_length,
     UINT8_ARRAY_DATA *data,
+    ARRAY_VIEW *view,
     ARRAY_UPDATES *updates
   );
 
@@ -1044,6 +1062,7 @@ static void *create__std_types___int16_array
   (
     long updates_length,
     INT16_ARRAY_DATA *data,
+    ARRAY_VIEW *view,
     ARRAY_UPDATES *updates
   );
 
@@ -1051,6 +1070,7 @@ static void *create__std_types___uint16_array
   (
     long updates_length,
     UINT16_ARRAY_DATA *data,
+    ARRAY_VIEW *view,
     ARRAY_UPDATES *updates
   );
 
@@ -1058,6 +1078,7 @@ static void *create__std_types___int32_array
   (
     long updates_length,
     INT32_ARRAY_DATA *data,
+    ARRAY_VIEW *view,
     ARRAY_UPDATES *updates
   );
 
@@ -1065,6 +1086,7 @@ static void *create__std_types___uint32_array
   (
     long updates_length,
     UINT32_ARRAY_DATA *data,
+    ARRAY_VIEW *view,
     ARRAY_UPDATES *updates
   );
 
@@ -1072,6 +1094,7 @@ static void *create__std_types___int64_array
   (
     long updates_length,
     INT64_ARRAY_DATA *data,
+    ARRAY_VIEW *view,
     ARRAY_UPDATES *updates
   );
 
@@ -1079,6 +1102,7 @@ static void *create__std_types___uint64_array
   (
     long updates_length,
     UINT64_ARRAY_DATA *data,
+    ARRAY_VIEW *view,
     ARRAY_UPDATES *updates
   );
 
@@ -1086,6 +1110,7 @@ static void *create__std_types___float32_array
   (
     long updates_length,
     FLOAT32_ARRAY_DATA *data,
+    ARRAY_VIEW *view,
     ARRAY_UPDATES *updates
   );
 
@@ -1093,6 +1118,7 @@ static void *create__std_types___float64_array
   (
     long updates_length,
     FLOAT64_ARRAY_DATA *data,
+    ARRAY_VIEW *view,
     ARRAY_UPDATES *updates
   );
 
@@ -1770,6 +1796,75 @@ static ARRAY_DATA *new_array_data
     return data;
   }
 
+static ARRAY_VIEW *create_array_view
+  (
+    ARRAY_INFO *info
+  )
+  {
+    ARRAY_VIEW *view =
+      allocate(ALLOCATION_SIZE(
+	sizeof(ARRAY_VIEW)+info->dimension_count*sizeof(DIMENSION_INFO)));
+    view->dimension_count = info->dimension_count;
+    int i;
+    for (i = 0; i < info->dimension_count; ++i) {
+      view->dimensions[i].first_index = 0;
+      view->dimensions[i].width = info->dimensions[i];
+    }
+    return view;
+  }
+
+static ARRAY_VIEW *create_sub_view
+  (
+    ARRAY_VIEW *view
+  )
+  {
+    int dimension_count = view->dimension_count;
+    ARRAY_VIEW *sub_view =
+      allocate(ALLOCATION_SIZE(
+	sizeof(ARRAY_VIEW)+dimension_count*sizeof(DIMENSION_INFO)));
+    sub_view->dimension_count = dimension_count;
+    int i;
+    for (i = 0; i < dimension_count; ++i) {
+      NODE *argument = TLS_arguments[1+i];
+      if ((argument)->type != std_types___value_range.type) {
+	invalid_arguments();
+	return NULL;
+      }
+      long first;
+      long last;
+      if (
+	!to_long(argument->tuple2.node_0, &first) ||
+	!to_long(argument->tuple2.node_1, &last)
+      ) {
+	invalid_arguments();
+	return NULL;
+      }
+      if (first < 0) {
+	first += view->dimensions[i].width;
+      } else {
+	--first;
+      }
+
+      if (last < 0) {
+	last += view->dimensions[i].width;
+      } else {
+	--last;
+      }
+      if (
+	first < 0 || first >= view->dimensions[i].width ||
+	last < 0 || last >= view->dimensions[i].width ||
+	first > last
+      ) {
+	invalid_arguments();
+	return NULL;
+      }
+      sub_view->dimensions[i].first_index =
+	view->dimensions[i].first_index+first;
+      sub_view->dimensions[i].width = last-first+1;
+    }
+    return sub_view;
+  }
+
 static void *add_update
   (
     ARRAY *node,
@@ -1798,6 +1893,7 @@ static void *add_update
     new_node->attributes = node->attributes;
     new_node->updates_length = length+item_size;
     new_node->data = node->data;
+    new_node->view = node->view;
     new_node->updates = updates;
     return new_node;
   }
@@ -1805,25 +1901,26 @@ static void *add_update
 static long compute_array_offset
   (
     NODE *array,
-    ARRAY_INFO *info
+    ARRAY_INFO *info,
+    ARRAY_VIEW *view
   )
   {
     int i;
     long offset = 0;
-    i = info->dimension_count-1;
+    i = view->dimension_count-1;
     int idx;
     next:
     if (!to_int(TLS_arguments[i], &idx)) return -1;
     if (idx < 0) {
-      idx += info->dimensions[i];
+      idx += view->dimensions[i].width;
     } else {
       --idx;
     }
-    if (idx < 0 || idx >= info->dimensions[i]) {
+    if (idx < 0 || idx >= view->dimensions[i].width) {
       invalid_index(array);
       return -1;
     }
-    offset += idx;
+    offset += view->dimensions[i].first_index+idx;
     if (--i < 0) return offset;
     offset *= info->dimensions[i];
     goto next;
@@ -1832,6 +1929,7 @@ static long compute_array_offset
 static long array_debug_string
   (
     ARRAY_INFO *info,
+    ARRAY_VIEW *view,
     int indent,
     char *buf,
     const char *typename
@@ -1841,9 +1939,13 @@ static long array_debug_string
     char *p = type;
     print(&p, "<%s_array(", typename);
     int i;
-    for (i = 0; i < info->dimension_count; ++i) {
+    for (i = 0; i < view->dimension_count; ++i) {
       if (i) *p++ = ' ';
-      print(&p, "%d", info->dimensions[i]);
+      print(&p,
+	"%d..%d",
+	view->dimensions[i].first_index+1,
+	view->dimensions[i].first_index+view->dimensions[i].width
+      );
     }
     *p++ = ')';
     *p++ = '>';
@@ -1915,26 +2017,28 @@ static void *std_types___array____collect
     new_node->attributes = collect_attributes(node->attributes);
     new_node->updates_length = node->updates_length;
     new_node->data = collect_array_data(node->data);
+    new_node->view = collect_array_view(node->view);
     new_node->updates = collect_array_updates(node->updates);
     return new_node;
   }
 
-static ARRAY_DATA *apply_array_updates(NODE *node)
+static ARRAY_DATA *apply_array_updates(ARRAY *node)
   {
-    ARRAY_DATA *data = node->array.data;
+    ARRAY_DATA *data = node->data;
     ARRAY_INFO *info = data->info;
+    ARRAY_VIEW *view = node->view;
     long size = data->size;
-    if (node->array.updates_length > 0) {
+    if (node->updates_length > 0) {
       // copy items
       data = allocate_large(
 	ALLOCATION_SIZE(sizeof(ARRAY_DATA)+size*sizeof(NODE *)));
       memcpy(
 	data->items,
-	node->array.data->items,
+	node->data->items,
 	size*sizeof(NODE *));
       // apply updates
-      char *update = node->array.updates->buffer;
-      char *end_p = update+node->array.updates_length;
+      char *update = node->updates->buffer;
+      char *end_p = update+node->updates_length;
       while (update < end_p) {
 	switch (*(TAG *)update) {
 	  case SET_VALUE:;
@@ -1946,9 +2050,10 @@ static ARRAY_DATA *apply_array_updates(NODE *node)
       }
       data->info = info;
       data->size = size;
-      node->array.updates_length = 0;
-      node->array.data = data;
-      node->array.updates = NULL;
+      node->updates_length = 0;
+      node->data = data;
+      node->view = view;
+      node->updates = NULL;
     }
     return data;
   }
@@ -1962,7 +2067,8 @@ static long std_types___array____debug_string
   )
   {
     return array_debug_string(
-      node->array.data->info, indent, buf, "");
+      node->array.data->info, node->array.view,
+      indent, buf, "");
   }
 
 static void *collect_boolean_array_data
@@ -2005,26 +2111,28 @@ static void *std_types___boolean_array____collect
     new_node->attributes = collect_attributes(node->attributes);
     new_node->updates_length = node->updates_length;
     new_node->data = collect_boolean_array_data(node->data);
+    new_node->view = collect_array_view(node->view);
     new_node->updates = collect_array_updates(node->updates);
     return new_node;
   }
 
-static BOOLEAN_ARRAY_DATA *apply_boolean_array_updates(NODE *node)
+static BOOLEAN_ARRAY_DATA *apply_boolean_array_updates(BOOLEAN_ARRAY *node)
   {
-    BOOLEAN_ARRAY_DATA *data = node->boolean_array.data;
+    BOOLEAN_ARRAY_DATA *data = node->data;
     ARRAY_INFO *info = data->info;
+    ARRAY_VIEW *view = node->view;
     long size = data->size;
-    if (node->boolean_array.updates_length > 0) {
+    if (node->updates_length > 0) {
       // copy items
       data = allocate_large(
 	ALLOCATION_SIZE(sizeof(BOOLEAN_ARRAY_DATA)+size*sizeof(int)));
       memcpy(
 	data->items,
-	node->boolean_array.data->items,
+	node->data->items,
 	size*sizeof(int));
       // apply updates
-      char *update = node->boolean_array.updates->buffer;
-      char *end_p = update+node->boolean_array.updates_length;
+      char *update = node->updates->buffer;
+      char *end_p = update+node->updates_length;
       while (update < end_p) {
 	switch (*(TAG *)update) {
 	  case SET_VALUE:;
@@ -2036,9 +2144,10 @@ static BOOLEAN_ARRAY_DATA *apply_boolean_array_updates(NODE *node)
       }
       data->info = info;
       data->size = size;
-      node->boolean_array.updates_length = 0;
-      node->boolean_array.data = data;
-      node->boolean_array.updates = NULL;
+      node->updates_length = 0;
+      node->data = data;
+      node->view = view;
+      node->updates = NULL;
     }
     return data;
   }
@@ -2052,7 +2161,8 @@ static long std_types___boolean_array____debug_string
   )
   {
     return array_debug_string(
-      node->boolean_array.data->info, indent, buf, "boolean");
+      node->boolean_array.data->info, node->boolean_array.view,
+      indent, buf, "boolean");
   }
 
 static void *collect_character_array_data
@@ -2095,26 +2205,28 @@ static void *std_types___character_array____collect
     new_node->attributes = collect_attributes(node->attributes);
     new_node->updates_length = node->updates_length;
     new_node->data = collect_character_array_data(node->data);
+    new_node->view = collect_array_view(node->view);
     new_node->updates = collect_array_updates(node->updates);
     return new_node;
   }
 
-static CHARACTER_ARRAY_DATA *apply_character_array_updates(NODE *node)
+static CHARACTER_ARRAY_DATA *apply_character_array_updates(CHARACTER_ARRAY *node)
   {
-    CHARACTER_ARRAY_DATA *data = node->character_array.data;
+    CHARACTER_ARRAY_DATA *data = node->data;
     ARRAY_INFO *info = data->info;
+    ARRAY_VIEW *view = node->view;
     long size = data->size;
-    if (node->character_array.updates_length > 0) {
+    if (node->updates_length > 0) {
       // copy items
       data = allocate_large(
 	ALLOCATION_SIZE(sizeof(CHARACTER_ARRAY_DATA)+size*sizeof(uint32_t)));
       memcpy(
 	data->items,
-	node->character_array.data->items,
+	node->data->items,
 	size*sizeof(uint32_t));
       // apply updates
-      char *update = node->character_array.updates->buffer;
-      char *end_p = update+node->character_array.updates_length;
+      char *update = node->updates->buffer;
+      char *end_p = update+node->updates_length;
       while (update < end_p) {
 	switch (*(TAG *)update) {
 	  case SET_VALUE:;
@@ -2126,9 +2238,10 @@ static CHARACTER_ARRAY_DATA *apply_character_array_updates(NODE *node)
       }
       data->info = info;
       data->size = size;
-      node->character_array.updates_length = 0;
-      node->character_array.data = data;
-      node->character_array.updates = NULL;
+      node->updates_length = 0;
+      node->data = data;
+      node->view = view;
+      node->updates = NULL;
     }
     return data;
   }
@@ -2142,7 +2255,8 @@ static long std_types___character_array____debug_string
   )
   {
     return array_debug_string(
-      node->character_array.data->info, indent, buf, "uchar32");
+      node->character_array.data->info, node->character_array.view,
+      indent, buf, "uchar32");
   }
 
 static void *collect_int8_array_data
@@ -2185,26 +2299,28 @@ static void *std_types___int8_array____collect
     new_node->attributes = collect_attributes(node->attributes);
     new_node->updates_length = node->updates_length;
     new_node->data = collect_int8_array_data(node->data);
+    new_node->view = collect_array_view(node->view);
     new_node->updates = collect_array_updates(node->updates);
     return new_node;
   }
 
-static INT8_ARRAY_DATA *apply_int8_array_updates(NODE *node)
+static INT8_ARRAY_DATA *apply_int8_array_updates(INT8_ARRAY *node)
   {
-    INT8_ARRAY_DATA *data = node->int8_array.data;
+    INT8_ARRAY_DATA *data = node->data;
     ARRAY_INFO *info = data->info;
+    ARRAY_VIEW *view = node->view;
     long size = data->size;
-    if (node->int8_array.updates_length > 0) {
+    if (node->updates_length > 0) {
       // copy items
       data = allocate_large(
 	ALLOCATION_SIZE(sizeof(INT8_ARRAY_DATA)+size*sizeof(int8_t)));
       memcpy(
 	data->items,
-	node->int8_array.data->items,
+	node->data->items,
 	size*sizeof(int8_t));
       // apply updates
-      char *update = node->int8_array.updates->buffer;
-      char *end_p = update+node->int8_array.updates_length;
+      char *update = node->updates->buffer;
+      char *end_p = update+node->updates_length;
       while (update < end_p) {
 	switch (*(TAG *)update) {
 	  case SET_VALUE:;
@@ -2216,9 +2332,10 @@ static INT8_ARRAY_DATA *apply_int8_array_updates(NODE *node)
       }
       data->info = info;
       data->size = size;
-      node->int8_array.updates_length = 0;
-      node->int8_array.data = data;
-      node->int8_array.updates = NULL;
+      node->updates_length = 0;
+      node->data = data;
+      node->view = view;
+      node->updates = NULL;
     }
     return data;
   }
@@ -2232,7 +2349,8 @@ static long std_types___int8_array____debug_string
   )
   {
     return array_debug_string(
-      node->int8_array.data->info, indent, buf, "int8");
+      node->int8_array.data->info, node->int8_array.view,
+      indent, buf, "int8");
   }
 
 static void *collect_uint8_array_data
@@ -2275,26 +2393,28 @@ static void *std_types___uint8_array____collect
     new_node->attributes = collect_attributes(node->attributes);
     new_node->updates_length = node->updates_length;
     new_node->data = collect_uint8_array_data(node->data);
+    new_node->view = collect_array_view(node->view);
     new_node->updates = collect_array_updates(node->updates);
     return new_node;
   }
 
-static UINT8_ARRAY_DATA *apply_uint8_array_updates(NODE *node)
+static UINT8_ARRAY_DATA *apply_uint8_array_updates(UINT8_ARRAY *node)
   {
-    UINT8_ARRAY_DATA *data = node->uint8_array.data;
+    UINT8_ARRAY_DATA *data = node->data;
     ARRAY_INFO *info = data->info;
+    ARRAY_VIEW *view = node->view;
     long size = data->size;
-    if (node->uint8_array.updates_length > 0) {
+    if (node->updates_length > 0) {
       // copy items
       data = allocate_large(
 	ALLOCATION_SIZE(sizeof(UINT8_ARRAY_DATA)+size*sizeof(uint8_t)));
       memcpy(
 	data->items,
-	node->uint8_array.data->items,
+	node->data->items,
 	size*sizeof(uint8_t));
       // apply updates
-      char *update = node->uint8_array.updates->buffer;
-      char *end_p = update+node->uint8_array.updates_length;
+      char *update = node->updates->buffer;
+      char *end_p = update+node->updates_length;
       while (update < end_p) {
 	switch (*(TAG *)update) {
 	  case SET_VALUE:;
@@ -2306,9 +2426,10 @@ static UINT8_ARRAY_DATA *apply_uint8_array_updates(NODE *node)
       }
       data->info = info;
       data->size = size;
-      node->uint8_array.updates_length = 0;
-      node->uint8_array.data = data;
-      node->uint8_array.updates = NULL;
+      node->updates_length = 0;
+      node->data = data;
+      node->view = view;
+      node->updates = NULL;
     }
     return data;
   }
@@ -2322,7 +2443,8 @@ static long std_types___uint8_array____debug_string
   )
   {
     return array_debug_string(
-      node->uint8_array.data->info, indent, buf, "uint8");
+      node->uint8_array.data->info, node->uint8_array.view,
+      indent, buf, "uint8");
   }
 
 static void *collect_int16_array_data
@@ -2365,26 +2487,28 @@ static void *std_types___int16_array____collect
     new_node->attributes = collect_attributes(node->attributes);
     new_node->updates_length = node->updates_length;
     new_node->data = collect_int16_array_data(node->data);
+    new_node->view = collect_array_view(node->view);
     new_node->updates = collect_array_updates(node->updates);
     return new_node;
   }
 
-static INT16_ARRAY_DATA *apply_int16_array_updates(NODE *node)
+static INT16_ARRAY_DATA *apply_int16_array_updates(INT16_ARRAY *node)
   {
-    INT16_ARRAY_DATA *data = node->int16_array.data;
+    INT16_ARRAY_DATA *data = node->data;
     ARRAY_INFO *info = data->info;
+    ARRAY_VIEW *view = node->view;
     long size = data->size;
-    if (node->int16_array.updates_length > 0) {
+    if (node->updates_length > 0) {
       // copy items
       data = allocate_large(
 	ALLOCATION_SIZE(sizeof(INT16_ARRAY_DATA)+size*sizeof(int16_t)));
       memcpy(
 	data->items,
-	node->int16_array.data->items,
+	node->data->items,
 	size*sizeof(int16_t));
       // apply updates
-      char *update = node->int16_array.updates->buffer;
-      char *end_p = update+node->int16_array.updates_length;
+      char *update = node->updates->buffer;
+      char *end_p = update+node->updates_length;
       while (update < end_p) {
 	switch (*(TAG *)update) {
 	  case SET_VALUE:;
@@ -2396,9 +2520,10 @@ static INT16_ARRAY_DATA *apply_int16_array_updates(NODE *node)
       }
       data->info = info;
       data->size = size;
-      node->int16_array.updates_length = 0;
-      node->int16_array.data = data;
-      node->int16_array.updates = NULL;
+      node->updates_length = 0;
+      node->data = data;
+      node->view = view;
+      node->updates = NULL;
     }
     return data;
   }
@@ -2412,7 +2537,8 @@ static long std_types___int16_array____debug_string
   )
   {
     return array_debug_string(
-      node->int16_array.data->info, indent, buf, "int16");
+      node->int16_array.data->info, node->int16_array.view,
+      indent, buf, "int16");
   }
 
 static void *collect_uint16_array_data
@@ -2455,26 +2581,28 @@ static void *std_types___uint16_array____collect
     new_node->attributes = collect_attributes(node->attributes);
     new_node->updates_length = node->updates_length;
     new_node->data = collect_uint16_array_data(node->data);
+    new_node->view = collect_array_view(node->view);
     new_node->updates = collect_array_updates(node->updates);
     return new_node;
   }
 
-static UINT16_ARRAY_DATA *apply_uint16_array_updates(NODE *node)
+static UINT16_ARRAY_DATA *apply_uint16_array_updates(UINT16_ARRAY *node)
   {
-    UINT16_ARRAY_DATA *data = node->uint16_array.data;
+    UINT16_ARRAY_DATA *data = node->data;
     ARRAY_INFO *info = data->info;
+    ARRAY_VIEW *view = node->view;
     long size = data->size;
-    if (node->uint16_array.updates_length > 0) {
+    if (node->updates_length > 0) {
       // copy items
       data = allocate_large(
 	ALLOCATION_SIZE(sizeof(UINT16_ARRAY_DATA)+size*sizeof(uint16_t)));
       memcpy(
 	data->items,
-	node->uint16_array.data->items,
+	node->data->items,
 	size*sizeof(uint16_t));
       // apply updates
-      char *update = node->uint16_array.updates->buffer;
-      char *end_p = update+node->uint16_array.updates_length;
+      char *update = node->updates->buffer;
+      char *end_p = update+node->updates_length;
       while (update < end_p) {
 	switch (*(TAG *)update) {
 	  case SET_VALUE:;
@@ -2486,9 +2614,10 @@ static UINT16_ARRAY_DATA *apply_uint16_array_updates(NODE *node)
       }
       data->info = info;
       data->size = size;
-      node->uint16_array.updates_length = 0;
-      node->uint16_array.data = data;
-      node->uint16_array.updates = NULL;
+      node->updates_length = 0;
+      node->data = data;
+      node->view = view;
+      node->updates = NULL;
     }
     return data;
   }
@@ -2502,7 +2631,8 @@ static long std_types___uint16_array____debug_string
   )
   {
     return array_debug_string(
-      node->uint16_array.data->info, indent, buf, "uint16");
+      node->uint16_array.data->info, node->uint16_array.view,
+      indent, buf, "uint16");
   }
 
 static void *collect_int32_array_data
@@ -2545,26 +2675,28 @@ static void *std_types___int32_array____collect
     new_node->attributes = collect_attributes(node->attributes);
     new_node->updates_length = node->updates_length;
     new_node->data = collect_int32_array_data(node->data);
+    new_node->view = collect_array_view(node->view);
     new_node->updates = collect_array_updates(node->updates);
     return new_node;
   }
 
-static INT32_ARRAY_DATA *apply_int32_array_updates(NODE *node)
+static INT32_ARRAY_DATA *apply_int32_array_updates(INT32_ARRAY *node)
   {
-    INT32_ARRAY_DATA *data = node->int32_array.data;
+    INT32_ARRAY_DATA *data = node->data;
     ARRAY_INFO *info = data->info;
+    ARRAY_VIEW *view = node->view;
     long size = data->size;
-    if (node->int32_array.updates_length > 0) {
+    if (node->updates_length > 0) {
       // copy items
       data = allocate_large(
 	ALLOCATION_SIZE(sizeof(INT32_ARRAY_DATA)+size*sizeof(int32_t)));
       memcpy(
 	data->items,
-	node->int32_array.data->items,
+	node->data->items,
 	size*sizeof(int32_t));
       // apply updates
-      char *update = node->int32_array.updates->buffer;
-      char *end_p = update+node->int32_array.updates_length;
+      char *update = node->updates->buffer;
+      char *end_p = update+node->updates_length;
       while (update < end_p) {
 	switch (*(TAG *)update) {
 	  case SET_VALUE:;
@@ -2576,9 +2708,10 @@ static INT32_ARRAY_DATA *apply_int32_array_updates(NODE *node)
       }
       data->info = info;
       data->size = size;
-      node->int32_array.updates_length = 0;
-      node->int32_array.data = data;
-      node->int32_array.updates = NULL;
+      node->updates_length = 0;
+      node->data = data;
+      node->view = view;
+      node->updates = NULL;
     }
     return data;
   }
@@ -2592,7 +2725,8 @@ static long std_types___int32_array____debug_string
   )
   {
     return array_debug_string(
-      node->int32_array.data->info, indent, buf, "int32");
+      node->int32_array.data->info, node->int32_array.view,
+      indent, buf, "int32");
   }
 
 static void *collect_uint32_array_data
@@ -2635,26 +2769,28 @@ static void *std_types___uint32_array____collect
     new_node->attributes = collect_attributes(node->attributes);
     new_node->updates_length = node->updates_length;
     new_node->data = collect_uint32_array_data(node->data);
+    new_node->view = collect_array_view(node->view);
     new_node->updates = collect_array_updates(node->updates);
     return new_node;
   }
 
-static UINT32_ARRAY_DATA *apply_uint32_array_updates(NODE *node)
+static UINT32_ARRAY_DATA *apply_uint32_array_updates(UINT32_ARRAY *node)
   {
-    UINT32_ARRAY_DATA *data = node->uint32_array.data;
+    UINT32_ARRAY_DATA *data = node->data;
     ARRAY_INFO *info = data->info;
+    ARRAY_VIEW *view = node->view;
     long size = data->size;
-    if (node->uint32_array.updates_length > 0) {
+    if (node->updates_length > 0) {
       // copy items
       data = allocate_large(
 	ALLOCATION_SIZE(sizeof(UINT32_ARRAY_DATA)+size*sizeof(uint32_t)));
       memcpy(
 	data->items,
-	node->uint32_array.data->items,
+	node->data->items,
 	size*sizeof(uint32_t));
       // apply updates
-      char *update = node->uint32_array.updates->buffer;
-      char *end_p = update+node->uint32_array.updates_length;
+      char *update = node->updates->buffer;
+      char *end_p = update+node->updates_length;
       while (update < end_p) {
 	switch (*(TAG *)update) {
 	  case SET_VALUE:;
@@ -2666,9 +2802,10 @@ static UINT32_ARRAY_DATA *apply_uint32_array_updates(NODE *node)
       }
       data->info = info;
       data->size = size;
-      node->uint32_array.updates_length = 0;
-      node->uint32_array.data = data;
-      node->uint32_array.updates = NULL;
+      node->updates_length = 0;
+      node->data = data;
+      node->view = view;
+      node->updates = NULL;
     }
     return data;
   }
@@ -2682,7 +2819,8 @@ static long std_types___uint32_array____debug_string
   )
   {
     return array_debug_string(
-      node->uint32_array.data->info, indent, buf, "uint32");
+      node->uint32_array.data->info, node->uint32_array.view,
+      indent, buf, "uint32");
   }
 
 static void *collect_int64_array_data
@@ -2725,26 +2863,28 @@ static void *std_types___int64_array____collect
     new_node->attributes = collect_attributes(node->attributes);
     new_node->updates_length = node->updates_length;
     new_node->data = collect_int64_array_data(node->data);
+    new_node->view = collect_array_view(node->view);
     new_node->updates = collect_array_updates(node->updates);
     return new_node;
   }
 
-static INT64_ARRAY_DATA *apply_int64_array_updates(NODE *node)
+static INT64_ARRAY_DATA *apply_int64_array_updates(INT64_ARRAY *node)
   {
-    INT64_ARRAY_DATA *data = node->int64_array.data;
+    INT64_ARRAY_DATA *data = node->data;
     ARRAY_INFO *info = data->info;
+    ARRAY_VIEW *view = node->view;
     long size = data->size;
-    if (node->int64_array.updates_length > 0) {
+    if (node->updates_length > 0) {
       // copy items
       data = allocate_large(
 	ALLOCATION_SIZE(sizeof(INT64_ARRAY_DATA)+size*sizeof(int64_t)));
       memcpy(
 	data->items,
-	node->int64_array.data->items,
+	node->data->items,
 	size*sizeof(int64_t));
       // apply updates
-      char *update = node->int64_array.updates->buffer;
-      char *end_p = update+node->int64_array.updates_length;
+      char *update = node->updates->buffer;
+      char *end_p = update+node->updates_length;
       while (update < end_p) {
 	switch (*(TAG *)update) {
 	  case SET_VALUE:;
@@ -2756,9 +2896,10 @@ static INT64_ARRAY_DATA *apply_int64_array_updates(NODE *node)
       }
       data->info = info;
       data->size = size;
-      node->int64_array.updates_length = 0;
-      node->int64_array.data = data;
-      node->int64_array.updates = NULL;
+      node->updates_length = 0;
+      node->data = data;
+      node->view = view;
+      node->updates = NULL;
     }
     return data;
   }
@@ -2772,7 +2913,8 @@ static long std_types___int64_array____debug_string
   )
   {
     return array_debug_string(
-      node->int64_array.data->info, indent, buf, "int64");
+      node->int64_array.data->info, node->int64_array.view,
+      indent, buf, "int64");
   }
 
 static void *collect_uint64_array_data
@@ -2815,26 +2957,28 @@ static void *std_types___uint64_array____collect
     new_node->attributes = collect_attributes(node->attributes);
     new_node->updates_length = node->updates_length;
     new_node->data = collect_uint64_array_data(node->data);
+    new_node->view = collect_array_view(node->view);
     new_node->updates = collect_array_updates(node->updates);
     return new_node;
   }
 
-static UINT64_ARRAY_DATA *apply_uint64_array_updates(NODE *node)
+static UINT64_ARRAY_DATA *apply_uint64_array_updates(UINT64_ARRAY *node)
   {
-    UINT64_ARRAY_DATA *data = node->uint64_array.data;
+    UINT64_ARRAY_DATA *data = node->data;
     ARRAY_INFO *info = data->info;
+    ARRAY_VIEW *view = node->view;
     long size = data->size;
-    if (node->uint64_array.updates_length > 0) {
+    if (node->updates_length > 0) {
       // copy items
       data = allocate_large(
 	ALLOCATION_SIZE(sizeof(UINT64_ARRAY_DATA)+size*sizeof(uint64_t)));
       memcpy(
 	data->items,
-	node->uint64_array.data->items,
+	node->data->items,
 	size*sizeof(uint64_t));
       // apply updates
-      char *update = node->uint64_array.updates->buffer;
-      char *end_p = update+node->uint64_array.updates_length;
+      char *update = node->updates->buffer;
+      char *end_p = update+node->updates_length;
       while (update < end_p) {
 	switch (*(TAG *)update) {
 	  case SET_VALUE:;
@@ -2846,9 +2990,10 @@ static UINT64_ARRAY_DATA *apply_uint64_array_updates(NODE *node)
       }
       data->info = info;
       data->size = size;
-      node->uint64_array.updates_length = 0;
-      node->uint64_array.data = data;
-      node->uint64_array.updates = NULL;
+      node->updates_length = 0;
+      node->data = data;
+      node->view = view;
+      node->updates = NULL;
     }
     return data;
   }
@@ -2862,7 +3007,8 @@ static long std_types___uint64_array____debug_string
   )
   {
     return array_debug_string(
-      node->uint64_array.data->info, indent, buf, "uint64");
+      node->uint64_array.data->info, node->uint64_array.view,
+      indent, buf, "uint64");
   }
 
 static void *collect_float32_array_data
@@ -2905,26 +3051,28 @@ static void *std_types___float32_array____collect
     new_node->attributes = collect_attributes(node->attributes);
     new_node->updates_length = node->updates_length;
     new_node->data = collect_float32_array_data(node->data);
+    new_node->view = collect_array_view(node->view);
     new_node->updates = collect_array_updates(node->updates);
     return new_node;
   }
 
-static FLOAT32_ARRAY_DATA *apply_float32_array_updates(NODE *node)
+static FLOAT32_ARRAY_DATA *apply_float32_array_updates(FLOAT32_ARRAY *node)
   {
-    FLOAT32_ARRAY_DATA *data = node->float32_array.data;
+    FLOAT32_ARRAY_DATA *data = node->data;
     ARRAY_INFO *info = data->info;
+    ARRAY_VIEW *view = node->view;
     long size = data->size;
-    if (node->float32_array.updates_length > 0) {
+    if (node->updates_length > 0) {
       // copy items
       data = allocate_large(
 	ALLOCATION_SIZE(sizeof(FLOAT32_ARRAY_DATA)+size*sizeof(float)));
       memcpy(
 	data->items,
-	node->float32_array.data->items,
+	node->data->items,
 	size*sizeof(float));
       // apply updates
-      char *update = node->float32_array.updates->buffer;
-      char *end_p = update+node->float32_array.updates_length;
+      char *update = node->updates->buffer;
+      char *end_p = update+node->updates_length;
       while (update < end_p) {
 	switch (*(TAG *)update) {
 	  case SET_VALUE:;
@@ -2936,9 +3084,10 @@ static FLOAT32_ARRAY_DATA *apply_float32_array_updates(NODE *node)
       }
       data->info = info;
       data->size = size;
-      node->float32_array.updates_length = 0;
-      node->float32_array.data = data;
-      node->float32_array.updates = NULL;
+      node->updates_length = 0;
+      node->data = data;
+      node->view = view;
+      node->updates = NULL;
     }
     return data;
   }
@@ -2952,7 +3101,8 @@ static long std_types___float32_array____debug_string
   )
   {
     return array_debug_string(
-      node->float32_array.data->info, indent, buf, "float32");
+      node->float32_array.data->info, node->float32_array.view,
+      indent, buf, "float32");
   }
 
 static void *collect_float64_array_data
@@ -2995,26 +3145,28 @@ static void *std_types___float64_array____collect
     new_node->attributes = collect_attributes(node->attributes);
     new_node->updates_length = node->updates_length;
     new_node->data = collect_float64_array_data(node->data);
+    new_node->view = collect_array_view(node->view);
     new_node->updates = collect_array_updates(node->updates);
     return new_node;
   }
 
-static FLOAT64_ARRAY_DATA *apply_float64_array_updates(NODE *node)
+static FLOAT64_ARRAY_DATA *apply_float64_array_updates(FLOAT64_ARRAY *node)
   {
-    FLOAT64_ARRAY_DATA *data = node->float64_array.data;
+    FLOAT64_ARRAY_DATA *data = node->data;
     ARRAY_INFO *info = data->info;
+    ARRAY_VIEW *view = node->view;
     long size = data->size;
-    if (node->float64_array.updates_length > 0) {
+    if (node->updates_length > 0) {
       // copy items
       data = allocate_large(
 	ALLOCATION_SIZE(sizeof(FLOAT64_ARRAY_DATA)+size*sizeof(double)));
       memcpy(
 	data->items,
-	node->float64_array.data->items,
+	node->data->items,
 	size*sizeof(double));
       // apply updates
-      char *update = node->float64_array.updates->buffer;
-      char *end_p = update+node->float64_array.updates_length;
+      char *update = node->updates->buffer;
+      char *end_p = update+node->updates_length;
       while (update < end_p) {
 	switch (*(TAG *)update) {
 	  case SET_VALUE:;
@@ -3026,9 +3178,10 @@ static FLOAT64_ARRAY_DATA *apply_float64_array_updates(NODE *node)
       }
       data->info = info;
       data->size = size;
-      node->float64_array.updates_length = 0;
-      node->float64_array.data = data;
-      node->float64_array.updates = NULL;
+      node->updates_length = 0;
+      node->data = data;
+      node->view = view;
+      node->updates = NULL;
     }
     return data;
   }
@@ -3042,7 +3195,8 @@ static long std_types___float64_array____debug_string
   )
   {
     return array_debug_string(
-      node->float64_array.data->info, indent, buf, "float64");
+      node->float64_array.data->info, node->float64_array.view,
+      indent, buf, "float64");
   }
 
 static int std_types___true____to_bool
@@ -9537,6 +9691,7 @@ static void std_types___array____type (void)
   {
     ARRAY_DATA *data = TLS_myself->array.data;
     ARRAY_INFO *info = data->info;
+    ARRAY_VIEW *view = TLS_myself->array.view;
     int dimension_count = info->dimension_count;
     if (TLS_argument_count < dimension_count) {
       too_few_arguments();
@@ -9546,11 +9701,11 @@ static void std_types___array____type (void)
       too_many_arguments();
       return;
     }
-    long offset = compute_array_offset(TLS_myself, data->info);
+    long offset = compute_array_offset(TLS_myself, info, view);
     if (offset < 0) return;
     if (TLS_argument_count == dimension_count) {
       // get item
-      data = apply_array_updates(TLS_myself);
+      data = apply_array_updates((ARRAY *)TLS_myself);
       NODE *value;
       value = data->items[offset];
       {
@@ -9586,6 +9741,7 @@ static void std_types___boolean_array____type (void)
   {
     BOOLEAN_ARRAY_DATA *data = TLS_myself->boolean_array.data;
     ARRAY_INFO *info = data->info;
+    ARRAY_VIEW *view = TLS_myself->boolean_array.view;
     int dimension_count = info->dimension_count;
     if (TLS_argument_count < dimension_count) {
       too_few_arguments();
@@ -9595,11 +9751,11 @@ static void std_types___boolean_array____type (void)
       too_many_arguments();
       return;
     }
-    long offset = compute_array_offset(TLS_myself, data->info);
+    long offset = compute_array_offset(TLS_myself, info, view);
     if (offset < 0) return;
     if (TLS_argument_count == dimension_count) {
       // get item
-      data = apply_boolean_array_updates(TLS_myself);
+      data = apply_boolean_array_updates((BOOLEAN_ARRAY *)TLS_myself);
       int value;
       value = data->items[offset];
       {
@@ -9635,6 +9791,7 @@ static void std_types___character_array____type (void)
   {
     CHARACTER_ARRAY_DATA *data = TLS_myself->character_array.data;
     ARRAY_INFO *info = data->info;
+    ARRAY_VIEW *view = TLS_myself->character_array.view;
     int dimension_count = info->dimension_count;
     if (TLS_argument_count < dimension_count) {
       too_few_arguments();
@@ -9644,11 +9801,11 @@ static void std_types___character_array____type (void)
       too_many_arguments();
       return;
     }
-    long offset = compute_array_offset(TLS_myself, data->info);
+    long offset = compute_array_offset(TLS_myself, info, view);
     if (offset < 0) return;
     if (TLS_argument_count == dimension_count) {
       // get item
-      data = apply_character_array_updates(TLS_myself);
+      data = apply_character_array_updates((CHARACTER_ARRAY *)TLS_myself);
       uint32_t value;
       value = data->items[offset];
       {
@@ -9684,6 +9841,7 @@ static void std_types___int8_array____type (void)
   {
     INT8_ARRAY_DATA *data = TLS_myself->int8_array.data;
     ARRAY_INFO *info = data->info;
+    ARRAY_VIEW *view = TLS_myself->int8_array.view;
     int dimension_count = info->dimension_count;
     if (TLS_argument_count < dimension_count) {
       too_few_arguments();
@@ -9693,11 +9851,11 @@ static void std_types___int8_array____type (void)
       too_many_arguments();
       return;
     }
-    long offset = compute_array_offset(TLS_myself, data->info);
+    long offset = compute_array_offset(TLS_myself, info, view);
     if (offset < 0) return;
     if (TLS_argument_count == dimension_count) {
       // get item
-      data = apply_int8_array_updates(TLS_myself);
+      data = apply_int8_array_updates((INT8_ARRAY *)TLS_myself);
       int8_t value;
       value = data->items[offset];
       {
@@ -9733,6 +9891,7 @@ static void std_types___uint8_array____type (void)
   {
     UINT8_ARRAY_DATA *data = TLS_myself->uint8_array.data;
     ARRAY_INFO *info = data->info;
+    ARRAY_VIEW *view = TLS_myself->uint8_array.view;
     int dimension_count = info->dimension_count;
     if (TLS_argument_count < dimension_count) {
       too_few_arguments();
@@ -9742,11 +9901,11 @@ static void std_types___uint8_array____type (void)
       too_many_arguments();
       return;
     }
-    long offset = compute_array_offset(TLS_myself, data->info);
+    long offset = compute_array_offset(TLS_myself, info, view);
     if (offset < 0) return;
     if (TLS_argument_count == dimension_count) {
       // get item
-      data = apply_uint8_array_updates(TLS_myself);
+      data = apply_uint8_array_updates((UINT8_ARRAY *)TLS_myself);
       uint8_t value;
       value = data->items[offset];
       {
@@ -9782,6 +9941,7 @@ static void std_types___int16_array____type (void)
   {
     INT16_ARRAY_DATA *data = TLS_myself->int16_array.data;
     ARRAY_INFO *info = data->info;
+    ARRAY_VIEW *view = TLS_myself->int16_array.view;
     int dimension_count = info->dimension_count;
     if (TLS_argument_count < dimension_count) {
       too_few_arguments();
@@ -9791,11 +9951,11 @@ static void std_types___int16_array____type (void)
       too_many_arguments();
       return;
     }
-    long offset = compute_array_offset(TLS_myself, data->info);
+    long offset = compute_array_offset(TLS_myself, info, view);
     if (offset < 0) return;
     if (TLS_argument_count == dimension_count) {
       // get item
-      data = apply_int16_array_updates(TLS_myself);
+      data = apply_int16_array_updates((INT16_ARRAY *)TLS_myself);
       int16_t value;
       value = data->items[offset];
       {
@@ -9831,6 +9991,7 @@ static void std_types___uint16_array____type (void)
   {
     UINT16_ARRAY_DATA *data = TLS_myself->uint16_array.data;
     ARRAY_INFO *info = data->info;
+    ARRAY_VIEW *view = TLS_myself->uint16_array.view;
     int dimension_count = info->dimension_count;
     if (TLS_argument_count < dimension_count) {
       too_few_arguments();
@@ -9840,11 +10001,11 @@ static void std_types___uint16_array____type (void)
       too_many_arguments();
       return;
     }
-    long offset = compute_array_offset(TLS_myself, data->info);
+    long offset = compute_array_offset(TLS_myself, info, view);
     if (offset < 0) return;
     if (TLS_argument_count == dimension_count) {
       // get item
-      data = apply_uint16_array_updates(TLS_myself);
+      data = apply_uint16_array_updates((UINT16_ARRAY *)TLS_myself);
       uint16_t value;
       value = data->items[offset];
       {
@@ -9880,6 +10041,7 @@ static void std_types___int32_array____type (void)
   {
     INT32_ARRAY_DATA *data = TLS_myself->int32_array.data;
     ARRAY_INFO *info = data->info;
+    ARRAY_VIEW *view = TLS_myself->int32_array.view;
     int dimension_count = info->dimension_count;
     if (TLS_argument_count < dimension_count) {
       too_few_arguments();
@@ -9889,11 +10051,11 @@ static void std_types___int32_array____type (void)
       too_many_arguments();
       return;
     }
-    long offset = compute_array_offset(TLS_myself, data->info);
+    long offset = compute_array_offset(TLS_myself, info, view);
     if (offset < 0) return;
     if (TLS_argument_count == dimension_count) {
       // get item
-      data = apply_int32_array_updates(TLS_myself);
+      data = apply_int32_array_updates((INT32_ARRAY *)TLS_myself);
       int32_t value;
       value = data->items[offset];
       {
@@ -9929,6 +10091,7 @@ static void std_types___uint32_array____type (void)
   {
     UINT32_ARRAY_DATA *data = TLS_myself->uint32_array.data;
     ARRAY_INFO *info = data->info;
+    ARRAY_VIEW *view = TLS_myself->uint32_array.view;
     int dimension_count = info->dimension_count;
     if (TLS_argument_count < dimension_count) {
       too_few_arguments();
@@ -9938,11 +10101,11 @@ static void std_types___uint32_array____type (void)
       too_many_arguments();
       return;
     }
-    long offset = compute_array_offset(TLS_myself, data->info);
+    long offset = compute_array_offset(TLS_myself, info, view);
     if (offset < 0) return;
     if (TLS_argument_count == dimension_count) {
       // get item
-      data = apply_uint32_array_updates(TLS_myself);
+      data = apply_uint32_array_updates((UINT32_ARRAY *)TLS_myself);
       uint32_t value;
       value = data->items[offset];
       {
@@ -9978,6 +10141,7 @@ static void std_types___int64_array____type (void)
   {
     INT64_ARRAY_DATA *data = TLS_myself->int64_array.data;
     ARRAY_INFO *info = data->info;
+    ARRAY_VIEW *view = TLS_myself->int64_array.view;
     int dimension_count = info->dimension_count;
     if (TLS_argument_count < dimension_count) {
       too_few_arguments();
@@ -9987,11 +10151,11 @@ static void std_types___int64_array____type (void)
       too_many_arguments();
       return;
     }
-    long offset = compute_array_offset(TLS_myself, data->info);
+    long offset = compute_array_offset(TLS_myself, info, view);
     if (offset < 0) return;
     if (TLS_argument_count == dimension_count) {
       // get item
-      data = apply_int64_array_updates(TLS_myself);
+      data = apply_int64_array_updates((INT64_ARRAY *)TLS_myself);
       int64_t value;
       value = data->items[offset];
       {
@@ -10027,6 +10191,7 @@ static void std_types___uint64_array____type (void)
   {
     UINT64_ARRAY_DATA *data = TLS_myself->uint64_array.data;
     ARRAY_INFO *info = data->info;
+    ARRAY_VIEW *view = TLS_myself->uint64_array.view;
     int dimension_count = info->dimension_count;
     if (TLS_argument_count < dimension_count) {
       too_few_arguments();
@@ -10036,11 +10201,11 @@ static void std_types___uint64_array____type (void)
       too_many_arguments();
       return;
     }
-    long offset = compute_array_offset(TLS_myself, data->info);
+    long offset = compute_array_offset(TLS_myself, info, view);
     if (offset < 0) return;
     if (TLS_argument_count == dimension_count) {
       // get item
-      data = apply_uint64_array_updates(TLS_myself);
+      data = apply_uint64_array_updates((UINT64_ARRAY *)TLS_myself);
       uint64_t value;
       value = data->items[offset];
       {
@@ -10076,6 +10241,7 @@ static void std_types___float32_array____type (void)
   {
     FLOAT32_ARRAY_DATA *data = TLS_myself->float32_array.data;
     ARRAY_INFO *info = data->info;
+    ARRAY_VIEW *view = TLS_myself->float32_array.view;
     int dimension_count = info->dimension_count;
     if (TLS_argument_count < dimension_count) {
       too_few_arguments();
@@ -10085,11 +10251,11 @@ static void std_types___float32_array____type (void)
       too_many_arguments();
       return;
     }
-    long offset = compute_array_offset(TLS_myself, data->info);
+    long offset = compute_array_offset(TLS_myself, info, view);
     if (offset < 0) return;
     if (TLS_argument_count == dimension_count) {
       // get item
-      data = apply_float32_array_updates(TLS_myself);
+      data = apply_float32_array_updates((FLOAT32_ARRAY *)TLS_myself);
       float value;
       value = data->items[offset];
       {
@@ -10125,6 +10291,7 @@ static void std_types___float64_array____type (void)
   {
     FLOAT64_ARRAY_DATA *data = TLS_myself->float64_array.data;
     ARRAY_INFO *info = data->info;
+    ARRAY_VIEW *view = TLS_myself->float64_array.view;
     int dimension_count = info->dimension_count;
     if (TLS_argument_count < dimension_count) {
       too_few_arguments();
@@ -10134,11 +10301,11 @@ static void std_types___float64_array____type (void)
       too_many_arguments();
       return;
     }
-    long offset = compute_array_offset(TLS_myself, data->info);
+    long offset = compute_array_offset(TLS_myself, info, view);
     if (offset < 0) return;
     if (TLS_argument_count == dimension_count) {
       // get item
-      data = apply_float64_array_updates(TLS_myself);
+      data = apply_float64_array_updates((FLOAT64_ARRAY *)TLS_myself);
       double value;
       value = data->items[offset];
       {
@@ -11757,6 +11924,7 @@ static void *create__std_types___array
   (
     long updates_length,
     ARRAY_DATA *data,
+    ARRAY_VIEW *view,
     ARRAY_UPDATES *updates
   )
   {
@@ -11765,6 +11933,7 @@ static void *create__std_types___array
     node->attributes = std_types___array.attributes;
     node->updates_length = updates_length;
     node->data = data;
+    node->view = view;
     node->updates = updates;
     return node;
   }
@@ -11773,6 +11942,7 @@ static void *create__std_types___boolean_array
   (
     long updates_length,
     BOOLEAN_ARRAY_DATA *data,
+    ARRAY_VIEW *view,
     ARRAY_UPDATES *updates
   )
   {
@@ -11781,6 +11951,7 @@ static void *create__std_types___boolean_array
     node->attributes = std_types___boolean_array.attributes;
     node->updates_length = updates_length;
     node->data = data;
+    node->view = view;
     node->updates = updates;
     return node;
   }
@@ -11789,6 +11960,7 @@ static void *create__std_types___character_array
   (
     long updates_length,
     CHARACTER_ARRAY_DATA *data,
+    ARRAY_VIEW *view,
     ARRAY_UPDATES *updates
   )
   {
@@ -11797,6 +11969,7 @@ static void *create__std_types___character_array
     node->attributes = std_types___character_array.attributes;
     node->updates_length = updates_length;
     node->data = data;
+    node->view = view;
     node->updates = updates;
     return node;
   }
@@ -11805,6 +11978,7 @@ static void *create__std_types___int8_array
   (
     long updates_length,
     INT8_ARRAY_DATA *data,
+    ARRAY_VIEW *view,
     ARRAY_UPDATES *updates
   )
   {
@@ -11813,6 +11987,7 @@ static void *create__std_types___int8_array
     node->attributes = std_types___int8_array.attributes;
     node->updates_length = updates_length;
     node->data = data;
+    node->view = view;
     node->updates = updates;
     return node;
   }
@@ -11821,6 +11996,7 @@ static void *create__std_types___uint8_array
   (
     long updates_length,
     UINT8_ARRAY_DATA *data,
+    ARRAY_VIEW *view,
     ARRAY_UPDATES *updates
   )
   {
@@ -11829,6 +12005,7 @@ static void *create__std_types___uint8_array
     node->attributes = std_types___uint8_array.attributes;
     node->updates_length = updates_length;
     node->data = data;
+    node->view = view;
     node->updates = updates;
     return node;
   }
@@ -11837,6 +12014,7 @@ static void *create__std_types___int16_array
   (
     long updates_length,
     INT16_ARRAY_DATA *data,
+    ARRAY_VIEW *view,
     ARRAY_UPDATES *updates
   )
   {
@@ -11845,6 +12023,7 @@ static void *create__std_types___int16_array
     node->attributes = std_types___int16_array.attributes;
     node->updates_length = updates_length;
     node->data = data;
+    node->view = view;
     node->updates = updates;
     return node;
   }
@@ -11853,6 +12032,7 @@ static void *create__std_types___uint16_array
   (
     long updates_length,
     UINT16_ARRAY_DATA *data,
+    ARRAY_VIEW *view,
     ARRAY_UPDATES *updates
   )
   {
@@ -11861,6 +12041,7 @@ static void *create__std_types___uint16_array
     node->attributes = std_types___uint16_array.attributes;
     node->updates_length = updates_length;
     node->data = data;
+    node->view = view;
     node->updates = updates;
     return node;
   }
@@ -11869,6 +12050,7 @@ static void *create__std_types___int32_array
   (
     long updates_length,
     INT32_ARRAY_DATA *data,
+    ARRAY_VIEW *view,
     ARRAY_UPDATES *updates
   )
   {
@@ -11877,6 +12059,7 @@ static void *create__std_types___int32_array
     node->attributes = std_types___int32_array.attributes;
     node->updates_length = updates_length;
     node->data = data;
+    node->view = view;
     node->updates = updates;
     return node;
   }
@@ -11885,6 +12068,7 @@ static void *create__std_types___uint32_array
   (
     long updates_length,
     UINT32_ARRAY_DATA *data,
+    ARRAY_VIEW *view,
     ARRAY_UPDATES *updates
   )
   {
@@ -11893,6 +12077,7 @@ static void *create__std_types___uint32_array
     node->attributes = std_types___uint32_array.attributes;
     node->updates_length = updates_length;
     node->data = data;
+    node->view = view;
     node->updates = updates;
     return node;
   }
@@ -11901,6 +12086,7 @@ static void *create__std_types___int64_array
   (
     long updates_length,
     INT64_ARRAY_DATA *data,
+    ARRAY_VIEW *view,
     ARRAY_UPDATES *updates
   )
   {
@@ -11909,6 +12095,7 @@ static void *create__std_types___int64_array
     node->attributes = std_types___int64_array.attributes;
     node->updates_length = updates_length;
     node->data = data;
+    node->view = view;
     node->updates = updates;
     return node;
   }
@@ -11917,6 +12104,7 @@ static void *create__std_types___uint64_array
   (
     long updates_length,
     UINT64_ARRAY_DATA *data,
+    ARRAY_VIEW *view,
     ARRAY_UPDATES *updates
   )
   {
@@ -11925,6 +12113,7 @@ static void *create__std_types___uint64_array
     node->attributes = std_types___uint64_array.attributes;
     node->updates_length = updates_length;
     node->data = data;
+    node->view = view;
     node->updates = updates;
     return node;
   }
@@ -11933,6 +12122,7 @@ static void *create__std_types___float32_array
   (
     long updates_length,
     FLOAT32_ARRAY_DATA *data,
+    ARRAY_VIEW *view,
     ARRAY_UPDATES *updates
   )
   {
@@ -11941,6 +12131,7 @@ static void *create__std_types___float32_array
     node->attributes = std_types___float32_array.attributes;
     node->updates_length = updates_length;
     node->data = data;
+    node->view = view;
     node->updates = updates;
     return node;
   }
@@ -11949,6 +12140,7 @@ static void *create__std_types___float64_array
   (
     long updates_length,
     FLOAT64_ARRAY_DATA *data,
+    ARRAY_VIEW *view,
     ARRAY_UPDATES *updates
   )
   {
@@ -11957,6 +12149,7 @@ static void *create__std_types___float64_array
     node->attributes = std_types___float64_array.attributes;
     node->updates_length = updates_length;
     node->data = data;
+    node->view = view;
     node->updates = updates;
     return node;
   }
@@ -12428,18 +12621,17 @@ static void entry__std_types___array___std___length_of (void)
       result_count_mismatch();
       return;
     }
-    ARRAY_DATA *data = TLS_arguments[0]->array.data;
+    ARRAY_VIEW *view = TLS_arguments[0]->array.view;
     int dimension = 1;
     if (TLS_argument_count == 2) {
       if (!to_int(TLS_arguments[1], &dimension)) return;
-      if (dimension < 1 || dimension > data->info->dimension_count) {
+      if (dimension < 1 || dimension > view->dimension_count) {
         invalid_dimension(TLS_arguments[0]);
         return;
       }
     }
-    ARRAY_INFO *info = data->info;
     {
-      NODE *result__node = (NODE *)(from_long(info->dimensions[dimension-1]));
+      NODE *result__node = (NODE *)(from_long(view->dimensions[dimension-1].width));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -12474,12 +12666,13 @@ static void entry__std___array (void)
     ARRAY_DATA *data = (ARRAY_DATA *)
       allocate_array_data(TLS_argument_count, sizeof(NODE *));
     if (!data) return;
+    ARRAY_VIEW *view = create_array_view(data->info);
     int i;
     for (i = 0; i < data->size; ++i) {
       data->items[i] = (NODE *)&std_types___undefined;
     }
     {
-      NODE *result__node = (NODE *)(create__std_types___array(0, data, NULL));
+      NODE *result__node = (NODE *)(create__std_types___array(0, data, view, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -12497,12 +12690,13 @@ static void entry__std___initialized_array (void)
     if (!data) return;
     NODE *initial_value;
     initial_value = TLS_arguments[TLS_argument_count-1];
+    ARRAY_VIEW *view = create_array_view(data->info);
     int i;
     for (i = 0; i < data->size; ++i) {
       data->items[i] = initial_value;
     }
     {
-      NODE *result__node = (NODE *)(create__std_types___array(0, data, NULL));
+      NODE *result__node = (NODE *)(create__std_types___array(0, data, view, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -12527,7 +12721,30 @@ static void entry__std_types___array___std___new (void)
       data->items[i] = (NODE *)&std_types___undefined;
     }
     {
-      NODE *result__node = (NODE *)(create__std_types___array(0, data, NULL));
+      NODE *result__node = (NODE *)(create__std_types___array(0, data, TLS_arguments[0]->array.view, NULL));
+      TLS_arguments[0] = result__node;
+      TLS_argument_count = 1;
+      return;
+    }
+  }
+
+static void entry__std_types___array___std___range (void)
+  {
+    ARRAY *array = (ARRAY *)TLS_arguments[0];
+    int dimension_count = array->view->dimension_count;
+    if (TLS_argument_count < 1) {
+      too_few_arguments();
+      return;
+    }
+    if (TLS_argument_count > 1+dimension_count) {
+      too_many_arguments();
+      return;
+    }
+    ARRAY_VIEW *view = create_sub_view(array->view);
+    if (!view) return;
+    ARRAY_DATA *data = apply_array_updates(array);
+    {
+      NODE *result__node = (NODE *)(create__std_types___array(0, data, view, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -12548,18 +12765,17 @@ static void entry__std_types___boolean_array___std___length_of (void)
       result_count_mismatch();
       return;
     }
-    BOOLEAN_ARRAY_DATA *data = TLS_arguments[0]->boolean_array.data;
+    ARRAY_VIEW *view = TLS_arguments[0]->boolean_array.view;
     int dimension = 1;
     if (TLS_argument_count == 2) {
       if (!to_int(TLS_arguments[1], &dimension)) return;
-      if (dimension < 1 || dimension > data->info->dimension_count) {
+      if (dimension < 1 || dimension > view->dimension_count) {
         invalid_dimension(TLS_arguments[0]);
         return;
       }
     }
-    ARRAY_INFO *info = data->info;
     {
-      NODE *result__node = (NODE *)(from_long(info->dimensions[dimension-1]));
+      NODE *result__node = (NODE *)(from_long(view->dimensions[dimension-1].width));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -12607,8 +12823,8 @@ static void entry__std_types___boolean_array___std___equal (void)
       TLS_argument_count = 1;
       return;
     }
-    BOOLEAN_ARRAY_DATA *left = apply_boolean_array_updates(TLS_arguments[0]);
-    BOOLEAN_ARRAY_DATA *right = apply_boolean_array_updates(TLS_arguments[1]);
+    BOOLEAN_ARRAY_DATA *left = apply_boolean_array_updates((BOOLEAN_ARRAY *)TLS_arguments[0]);
+    BOOLEAN_ARRAY_DATA *right = apply_boolean_array_updates((BOOLEAN_ARRAY *)TLS_arguments[1]);
     {
       NODE *result__node = (NODE *)(from_bool(memcmp(
             left->items, right->items,sizeof(int)*left->size) == 0));
@@ -12639,8 +12855,8 @@ static void entry__std_types___boolean_array___std___bit_and (void)
         invalid_arguments();
         return;
       }
-    BOOLEAN_ARRAY_DATA *left = apply_boolean_array_updates(TLS_arguments[0]);
-    BOOLEAN_ARRAY_DATA *right = apply_boolean_array_updates(TLS_arguments[1]);
+    BOOLEAN_ARRAY_DATA *left = apply_boolean_array_updates((BOOLEAN_ARRAY *)TLS_arguments[0]);
+    BOOLEAN_ARRAY_DATA *right = apply_boolean_array_updates((BOOLEAN_ARRAY *)TLS_arguments[1]);
     long size = left->size;
     BOOLEAN_ARRAY_DATA *data =
       allocate_large(
@@ -12652,7 +12868,7 @@ static void entry__std_types___boolean_array___std___bit_and (void)
     data->info = left->info;
     data->size = size;
     {
-      NODE *result__node = (NODE *)(create__std_types___boolean_array(0, data, NULL));
+      NODE *result__node = (NODE *)(create__std_types___boolean_array(0, data, TLS_arguments[0]->boolean_array.view, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -12680,8 +12896,8 @@ static void entry__std_types___boolean_array___std___bit_or (void)
         invalid_arguments();
         return;
       }
-    BOOLEAN_ARRAY_DATA *left = apply_boolean_array_updates(TLS_arguments[0]);
-    BOOLEAN_ARRAY_DATA *right = apply_boolean_array_updates(TLS_arguments[1]);
+    BOOLEAN_ARRAY_DATA *left = apply_boolean_array_updates((BOOLEAN_ARRAY *)TLS_arguments[0]);
+    BOOLEAN_ARRAY_DATA *right = apply_boolean_array_updates((BOOLEAN_ARRAY *)TLS_arguments[1]);
     long size = left->size;
     BOOLEAN_ARRAY_DATA *data =
       allocate_large(
@@ -12693,7 +12909,7 @@ static void entry__std_types___boolean_array___std___bit_or (void)
     data->info = left->info;
     data->size = size;
     {
-      NODE *result__node = (NODE *)(create__std_types___boolean_array(0, data, NULL));
+      NODE *result__node = (NODE *)(create__std_types___boolean_array(0, data, TLS_arguments[0]->boolean_array.view, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -12715,8 +12931,8 @@ static void entry__std_types___boolean_array___std___bit_xor (void)
         invalid_arguments();
         return;
       }
-    BOOLEAN_ARRAY_DATA *left = apply_boolean_array_updates(TLS_arguments[0]);
-    BOOLEAN_ARRAY_DATA *right = apply_boolean_array_updates(TLS_arguments[1]);
+    BOOLEAN_ARRAY_DATA *left = apply_boolean_array_updates((BOOLEAN_ARRAY *)TLS_arguments[0]);
+    BOOLEAN_ARRAY_DATA *right = apply_boolean_array_updates((BOOLEAN_ARRAY *)TLS_arguments[1]);
     long size = left->size;
     BOOLEAN_ARRAY_DATA *data =
       allocate_large(
@@ -12728,7 +12944,7 @@ static void entry__std_types___boolean_array___std___bit_xor (void)
     data->info = left->info;
     data->size = size;
     {
-      NODE *result__node = (NODE *)(create__std_types___boolean_array(0, data, NULL));
+      NODE *result__node = (NODE *)(create__std_types___boolean_array(0, data, TLS_arguments[0]->boolean_array.view, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -12744,12 +12960,13 @@ static void entry__std___boolean_array (void)
     BOOLEAN_ARRAY_DATA *data = (BOOLEAN_ARRAY_DATA *)
       allocate_array_data(TLS_argument_count, sizeof(int));
     if (!data) return;
+    ARRAY_VIEW *view = create_array_view(data->info);
     int i;
     for (i = 0; i < data->size; ++i) {
       data->items[i] = false;
     }
     {
-      NODE *result__node = (NODE *)(create__std_types___boolean_array(0, data, NULL));
+      NODE *result__node = (NODE *)(create__std_types___boolean_array(0, data, view, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -12767,12 +12984,13 @@ static void entry__std___initialized_boolean_array (void)
     if (!data) return;
     int initial_value;
     if (!to_bool(TLS_arguments[TLS_argument_count-1], &initial_value)) return;
+    ARRAY_VIEW *view = create_array_view(data->info);
     int i;
     for (i = 0; i < data->size; ++i) {
       data->items[i] = initial_value;
     }
     {
-      NODE *result__node = (NODE *)(create__std_types___boolean_array(0, data, NULL));
+      NODE *result__node = (NODE *)(create__std_types___boolean_array(0, data, view, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -12797,7 +13015,30 @@ static void entry__std_types___boolean_array___std___new (void)
       data->items[i] = false;
     }
     {
-      NODE *result__node = (NODE *)(create__std_types___boolean_array(0, data, NULL));
+      NODE *result__node = (NODE *)(create__std_types___boolean_array(0, data, TLS_arguments[0]->boolean_array.view, NULL));
+      TLS_arguments[0] = result__node;
+      TLS_argument_count = 1;
+      return;
+    }
+  }
+
+static void entry__std_types___boolean_array___std___range (void)
+  {
+    BOOLEAN_ARRAY *array = (BOOLEAN_ARRAY *)TLS_arguments[0];
+    int dimension_count = array->view->dimension_count;
+    if (TLS_argument_count < 1) {
+      too_few_arguments();
+      return;
+    }
+    if (TLS_argument_count > 1+dimension_count) {
+      too_many_arguments();
+      return;
+    }
+    ARRAY_VIEW *view = create_sub_view(array->view);
+    if (!view) return;
+    BOOLEAN_ARRAY_DATA *data = apply_boolean_array_updates(array);
+    {
+      NODE *result__node = (NODE *)(create__std_types___boolean_array(0, data, view, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -12818,18 +13059,17 @@ static void entry__std_types___character_array___std___length_of (void)
       result_count_mismatch();
       return;
     }
-    CHARACTER_ARRAY_DATA *data = TLS_arguments[0]->character_array.data;
+    ARRAY_VIEW *view = TLS_arguments[0]->character_array.view;
     int dimension = 1;
     if (TLS_argument_count == 2) {
       if (!to_int(TLS_arguments[1], &dimension)) return;
-      if (dimension < 1 || dimension > data->info->dimension_count) {
+      if (dimension < 1 || dimension > view->dimension_count) {
         invalid_dimension(TLS_arguments[0]);
         return;
       }
     }
-    ARRAY_INFO *info = data->info;
     {
-      NODE *result__node = (NODE *)(from_long(info->dimensions[dimension-1]));
+      NODE *result__node = (NODE *)(from_long(view->dimensions[dimension-1].width));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -12877,8 +13117,8 @@ static void entry__std_types___character_array___std___equal (void)
       TLS_argument_count = 1;
       return;
     }
-    CHARACTER_ARRAY_DATA *left = apply_character_array_updates(TLS_arguments[0]);
-    CHARACTER_ARRAY_DATA *right = apply_character_array_updates(TLS_arguments[1]);
+    CHARACTER_ARRAY_DATA *left = apply_character_array_updates((CHARACTER_ARRAY *)TLS_arguments[0]);
+    CHARACTER_ARRAY_DATA *right = apply_character_array_updates((CHARACTER_ARRAY *)TLS_arguments[1]);
     {
       NODE *result__node = (NODE *)(from_bool(memcmp(
             left->items, right->items,sizeof(uint32_t)*left->size) == 0));
@@ -12897,12 +13137,13 @@ static void entry__std___character_array (void)
     CHARACTER_ARRAY_DATA *data = (CHARACTER_ARRAY_DATA *)
       allocate_array_data(TLS_argument_count, sizeof(uint32_t));
     if (!data) return;
+    ARRAY_VIEW *view = create_array_view(data->info);
     int i;
     for (i = 0; i < data->size; ++i) {
       data->items[i] = 0;
     }
     {
-      NODE *result__node = (NODE *)(create__std_types___character_array(0, data, NULL));
+      NODE *result__node = (NODE *)(create__std_types___character_array(0, data, view, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -12920,12 +13161,13 @@ static void entry__std___initialized_character_array (void)
     if (!data) return;
     uint32_t initial_value;
     if (!to_uchar32(TLS_arguments[TLS_argument_count-1], &initial_value)) return;
+    ARRAY_VIEW *view = create_array_view(data->info);
     int i;
     for (i = 0; i < data->size; ++i) {
       data->items[i] = initial_value;
     }
     {
-      NODE *result__node = (NODE *)(create__std_types___character_array(0, data, NULL));
+      NODE *result__node = (NODE *)(create__std_types___character_array(0, data, view, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -12950,7 +13192,30 @@ static void entry__std_types___character_array___std___new (void)
       data->items[i] = 0;
     }
     {
-      NODE *result__node = (NODE *)(create__std_types___character_array(0, data, NULL));
+      NODE *result__node = (NODE *)(create__std_types___character_array(0, data, TLS_arguments[0]->character_array.view, NULL));
+      TLS_arguments[0] = result__node;
+      TLS_argument_count = 1;
+      return;
+    }
+  }
+
+static void entry__std_types___character_array___std___range (void)
+  {
+    CHARACTER_ARRAY *array = (CHARACTER_ARRAY *)TLS_arguments[0];
+    int dimension_count = array->view->dimension_count;
+    if (TLS_argument_count < 1) {
+      too_few_arguments();
+      return;
+    }
+    if (TLS_argument_count > 1+dimension_count) {
+      too_many_arguments();
+      return;
+    }
+    ARRAY_VIEW *view = create_sub_view(array->view);
+    if (!view) return;
+    CHARACTER_ARRAY_DATA *data = apply_character_array_updates(array);
+    {
+      NODE *result__node = (NODE *)(create__std_types___character_array(0, data, view, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -12971,18 +13236,17 @@ static void entry__std_types___int8_array___std___length_of (void)
       result_count_mismatch();
       return;
     }
-    INT8_ARRAY_DATA *data = TLS_arguments[0]->int8_array.data;
+    ARRAY_VIEW *view = TLS_arguments[0]->int8_array.view;
     int dimension = 1;
     if (TLS_argument_count == 2) {
       if (!to_int(TLS_arguments[1], &dimension)) return;
-      if (dimension < 1 || dimension > data->info->dimension_count) {
+      if (dimension < 1 || dimension > view->dimension_count) {
         invalid_dimension(TLS_arguments[0]);
         return;
       }
     }
-    ARRAY_INFO *info = data->info;
     {
-      NODE *result__node = (NODE *)(from_long(info->dimensions[dimension-1]));
+      NODE *result__node = (NODE *)(from_long(view->dimensions[dimension-1].width));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -13030,8 +13294,8 @@ static void entry__std_types___int8_array___std___equal (void)
       TLS_argument_count = 1;
       return;
     }
-    INT8_ARRAY_DATA *left = apply_int8_array_updates(TLS_arguments[0]);
-    INT8_ARRAY_DATA *right = apply_int8_array_updates(TLS_arguments[1]);
+    INT8_ARRAY_DATA *left = apply_int8_array_updates((INT8_ARRAY *)TLS_arguments[0]);
+    INT8_ARRAY_DATA *right = apply_int8_array_updates((INT8_ARRAY *)TLS_arguments[1]);
     {
       NODE *result__node = (NODE *)(from_bool(memcmp(
             left->items, right->items,sizeof(int8_t)*left->size) == 0));
@@ -13050,12 +13314,13 @@ static void entry__std___int8_array (void)
     INT8_ARRAY_DATA *data = (INT8_ARRAY_DATA *)
       allocate_array_data(TLS_argument_count, sizeof(int8_t));
     if (!data) return;
+    ARRAY_VIEW *view = create_array_view(data->info);
     int i;
     for (i = 0; i < data->size; ++i) {
       data->items[i] = 0;
     }
     {
-      NODE *result__node = (NODE *)(create__std_types___int8_array(0, data, NULL));
+      NODE *result__node = (NODE *)(create__std_types___int8_array(0, data, view, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -13073,12 +13338,13 @@ static void entry__std___initialized_int8_array (void)
     if (!data) return;
     int8_t initial_value;
     if (!to_int8(TLS_arguments[TLS_argument_count-1], &initial_value)) return;
+    ARRAY_VIEW *view = create_array_view(data->info);
     int i;
     for (i = 0; i < data->size; ++i) {
       data->items[i] = initial_value;
     }
     {
-      NODE *result__node = (NODE *)(create__std_types___int8_array(0, data, NULL));
+      NODE *result__node = (NODE *)(create__std_types___int8_array(0, data, view, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -13103,7 +13369,30 @@ static void entry__std_types___int8_array___std___new (void)
       data->items[i] = 0;
     }
     {
-      NODE *result__node = (NODE *)(create__std_types___int8_array(0, data, NULL));
+      NODE *result__node = (NODE *)(create__std_types___int8_array(0, data, TLS_arguments[0]->int8_array.view, NULL));
+      TLS_arguments[0] = result__node;
+      TLS_argument_count = 1;
+      return;
+    }
+  }
+
+static void entry__std_types___int8_array___std___range (void)
+  {
+    INT8_ARRAY *array = (INT8_ARRAY *)TLS_arguments[0];
+    int dimension_count = array->view->dimension_count;
+    if (TLS_argument_count < 1) {
+      too_few_arguments();
+      return;
+    }
+    if (TLS_argument_count > 1+dimension_count) {
+      too_many_arguments();
+      return;
+    }
+    ARRAY_VIEW *view = create_sub_view(array->view);
+    if (!view) return;
+    INT8_ARRAY_DATA *data = apply_int8_array_updates(array);
+    {
+      NODE *result__node = (NODE *)(create__std_types___int8_array(0, data, view, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -13124,18 +13413,17 @@ static void entry__std_types___uint8_array___std___length_of (void)
       result_count_mismatch();
       return;
     }
-    UINT8_ARRAY_DATA *data = TLS_arguments[0]->uint8_array.data;
+    ARRAY_VIEW *view = TLS_arguments[0]->uint8_array.view;
     int dimension = 1;
     if (TLS_argument_count == 2) {
       if (!to_int(TLS_arguments[1], &dimension)) return;
-      if (dimension < 1 || dimension > data->info->dimension_count) {
+      if (dimension < 1 || dimension > view->dimension_count) {
         invalid_dimension(TLS_arguments[0]);
         return;
       }
     }
-    ARRAY_INFO *info = data->info;
     {
-      NODE *result__node = (NODE *)(from_long(info->dimensions[dimension-1]));
+      NODE *result__node = (NODE *)(from_long(view->dimensions[dimension-1].width));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -13183,8 +13471,8 @@ static void entry__std_types___uint8_array___std___equal (void)
       TLS_argument_count = 1;
       return;
     }
-    UINT8_ARRAY_DATA *left = apply_uint8_array_updates(TLS_arguments[0]);
-    UINT8_ARRAY_DATA *right = apply_uint8_array_updates(TLS_arguments[1]);
+    UINT8_ARRAY_DATA *left = apply_uint8_array_updates((UINT8_ARRAY *)TLS_arguments[0]);
+    UINT8_ARRAY_DATA *right = apply_uint8_array_updates((UINT8_ARRAY *)TLS_arguments[1]);
     {
       NODE *result__node = (NODE *)(from_bool(memcmp(
             left->items, right->items,sizeof(uint8_t)*left->size) == 0));
@@ -13215,8 +13503,8 @@ static void entry__std_types___uint8_array___std___bit_and (void)
         invalid_arguments();
         return;
       }
-    UINT8_ARRAY_DATA *left = apply_uint8_array_updates(TLS_arguments[0]);
-    UINT8_ARRAY_DATA *right = apply_uint8_array_updates(TLS_arguments[1]);
+    UINT8_ARRAY_DATA *left = apply_uint8_array_updates((UINT8_ARRAY *)TLS_arguments[0]);
+    UINT8_ARRAY_DATA *right = apply_uint8_array_updates((UINT8_ARRAY *)TLS_arguments[1]);
     long size = left->size;
     UINT8_ARRAY_DATA *data =
       allocate_large(
@@ -13228,7 +13516,7 @@ static void entry__std_types___uint8_array___std___bit_and (void)
     data->info = left->info;
     data->size = size;
     {
-      NODE *result__node = (NODE *)(create__std_types___uint8_array(0, data, NULL));
+      NODE *result__node = (NODE *)(create__std_types___uint8_array(0, data, TLS_arguments[0]->uint8_array.view, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -13256,8 +13544,8 @@ static void entry__std_types___uint8_array___std___bit_or (void)
         invalid_arguments();
         return;
       }
-    UINT8_ARRAY_DATA *left = apply_uint8_array_updates(TLS_arguments[0]);
-    UINT8_ARRAY_DATA *right = apply_uint8_array_updates(TLS_arguments[1]);
+    UINT8_ARRAY_DATA *left = apply_uint8_array_updates((UINT8_ARRAY *)TLS_arguments[0]);
+    UINT8_ARRAY_DATA *right = apply_uint8_array_updates((UINT8_ARRAY *)TLS_arguments[1]);
     long size = left->size;
     UINT8_ARRAY_DATA *data =
       allocate_large(
@@ -13269,7 +13557,7 @@ static void entry__std_types___uint8_array___std___bit_or (void)
     data->info = left->info;
     data->size = size;
     {
-      NODE *result__node = (NODE *)(create__std_types___uint8_array(0, data, NULL));
+      NODE *result__node = (NODE *)(create__std_types___uint8_array(0, data, TLS_arguments[0]->uint8_array.view, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -13291,8 +13579,8 @@ static void entry__std_types___uint8_array___std___bit_xor (void)
         invalid_arguments();
         return;
       }
-    UINT8_ARRAY_DATA *left = apply_uint8_array_updates(TLS_arguments[0]);
-    UINT8_ARRAY_DATA *right = apply_uint8_array_updates(TLS_arguments[1]);
+    UINT8_ARRAY_DATA *left = apply_uint8_array_updates((UINT8_ARRAY *)TLS_arguments[0]);
+    UINT8_ARRAY_DATA *right = apply_uint8_array_updates((UINT8_ARRAY *)TLS_arguments[1]);
     long size = left->size;
     UINT8_ARRAY_DATA *data =
       allocate_large(
@@ -13304,7 +13592,7 @@ static void entry__std_types___uint8_array___std___bit_xor (void)
     data->info = left->info;
     data->size = size;
     {
-      NODE *result__node = (NODE *)(create__std_types___uint8_array(0, data, NULL));
+      NODE *result__node = (NODE *)(create__std_types___uint8_array(0, data, TLS_arguments[0]->uint8_array.view, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -13320,12 +13608,13 @@ static void entry__std___uint8_array (void)
     UINT8_ARRAY_DATA *data = (UINT8_ARRAY_DATA *)
       allocate_array_data(TLS_argument_count, sizeof(uint8_t));
     if (!data) return;
+    ARRAY_VIEW *view = create_array_view(data->info);
     int i;
     for (i = 0; i < data->size; ++i) {
       data->items[i] = 0;
     }
     {
-      NODE *result__node = (NODE *)(create__std_types___uint8_array(0, data, NULL));
+      NODE *result__node = (NODE *)(create__std_types___uint8_array(0, data, view, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -13343,12 +13632,13 @@ static void entry__std___initialized_uint8_array (void)
     if (!data) return;
     uint8_t initial_value;
     if (!to_uint8(TLS_arguments[TLS_argument_count-1], &initial_value)) return;
+    ARRAY_VIEW *view = create_array_view(data->info);
     int i;
     for (i = 0; i < data->size; ++i) {
       data->items[i] = initial_value;
     }
     {
-      NODE *result__node = (NODE *)(create__std_types___uint8_array(0, data, NULL));
+      NODE *result__node = (NODE *)(create__std_types___uint8_array(0, data, view, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -13373,7 +13663,30 @@ static void entry__std_types___uint8_array___std___new (void)
       data->items[i] = 0;
     }
     {
-      NODE *result__node = (NODE *)(create__std_types___uint8_array(0, data, NULL));
+      NODE *result__node = (NODE *)(create__std_types___uint8_array(0, data, TLS_arguments[0]->uint8_array.view, NULL));
+      TLS_arguments[0] = result__node;
+      TLS_argument_count = 1;
+      return;
+    }
+  }
+
+static void entry__std_types___uint8_array___std___range (void)
+  {
+    UINT8_ARRAY *array = (UINT8_ARRAY *)TLS_arguments[0];
+    int dimension_count = array->view->dimension_count;
+    if (TLS_argument_count < 1) {
+      too_few_arguments();
+      return;
+    }
+    if (TLS_argument_count > 1+dimension_count) {
+      too_many_arguments();
+      return;
+    }
+    ARRAY_VIEW *view = create_sub_view(array->view);
+    if (!view) return;
+    UINT8_ARRAY_DATA *data = apply_uint8_array_updates(array);
+    {
+      NODE *result__node = (NODE *)(create__std_types___uint8_array(0, data, view, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -13394,18 +13707,17 @@ static void entry__std_types___int16_array___std___length_of (void)
       result_count_mismatch();
       return;
     }
-    INT16_ARRAY_DATA *data = TLS_arguments[0]->int16_array.data;
+    ARRAY_VIEW *view = TLS_arguments[0]->int16_array.view;
     int dimension = 1;
     if (TLS_argument_count == 2) {
       if (!to_int(TLS_arguments[1], &dimension)) return;
-      if (dimension < 1 || dimension > data->info->dimension_count) {
+      if (dimension < 1 || dimension > view->dimension_count) {
         invalid_dimension(TLS_arguments[0]);
         return;
       }
     }
-    ARRAY_INFO *info = data->info;
     {
-      NODE *result__node = (NODE *)(from_long(info->dimensions[dimension-1]));
+      NODE *result__node = (NODE *)(from_long(view->dimensions[dimension-1].width));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -13453,8 +13765,8 @@ static void entry__std_types___int16_array___std___equal (void)
       TLS_argument_count = 1;
       return;
     }
-    INT16_ARRAY_DATA *left = apply_int16_array_updates(TLS_arguments[0]);
-    INT16_ARRAY_DATA *right = apply_int16_array_updates(TLS_arguments[1]);
+    INT16_ARRAY_DATA *left = apply_int16_array_updates((INT16_ARRAY *)TLS_arguments[0]);
+    INT16_ARRAY_DATA *right = apply_int16_array_updates((INT16_ARRAY *)TLS_arguments[1]);
     {
       NODE *result__node = (NODE *)(from_bool(memcmp(
             left->items, right->items,sizeof(int16_t)*left->size) == 0));
@@ -13473,12 +13785,13 @@ static void entry__std___int16_array (void)
     INT16_ARRAY_DATA *data = (INT16_ARRAY_DATA *)
       allocate_array_data(TLS_argument_count, sizeof(int16_t));
     if (!data) return;
+    ARRAY_VIEW *view = create_array_view(data->info);
     int i;
     for (i = 0; i < data->size; ++i) {
       data->items[i] = 0;
     }
     {
-      NODE *result__node = (NODE *)(create__std_types___int16_array(0, data, NULL));
+      NODE *result__node = (NODE *)(create__std_types___int16_array(0, data, view, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -13496,12 +13809,13 @@ static void entry__std___initialized_int16_array (void)
     if (!data) return;
     int16_t initial_value;
     if (!to_int16(TLS_arguments[TLS_argument_count-1], &initial_value)) return;
+    ARRAY_VIEW *view = create_array_view(data->info);
     int i;
     for (i = 0; i < data->size; ++i) {
       data->items[i] = initial_value;
     }
     {
-      NODE *result__node = (NODE *)(create__std_types___int16_array(0, data, NULL));
+      NODE *result__node = (NODE *)(create__std_types___int16_array(0, data, view, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -13526,7 +13840,30 @@ static void entry__std_types___int16_array___std___new (void)
       data->items[i] = 0;
     }
     {
-      NODE *result__node = (NODE *)(create__std_types___int16_array(0, data, NULL));
+      NODE *result__node = (NODE *)(create__std_types___int16_array(0, data, TLS_arguments[0]->int16_array.view, NULL));
+      TLS_arguments[0] = result__node;
+      TLS_argument_count = 1;
+      return;
+    }
+  }
+
+static void entry__std_types___int16_array___std___range (void)
+  {
+    INT16_ARRAY *array = (INT16_ARRAY *)TLS_arguments[0];
+    int dimension_count = array->view->dimension_count;
+    if (TLS_argument_count < 1) {
+      too_few_arguments();
+      return;
+    }
+    if (TLS_argument_count > 1+dimension_count) {
+      too_many_arguments();
+      return;
+    }
+    ARRAY_VIEW *view = create_sub_view(array->view);
+    if (!view) return;
+    INT16_ARRAY_DATA *data = apply_int16_array_updates(array);
+    {
+      NODE *result__node = (NODE *)(create__std_types___int16_array(0, data, view, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -13547,18 +13884,17 @@ static void entry__std_types___uint16_array___std___length_of (void)
       result_count_mismatch();
       return;
     }
-    UINT16_ARRAY_DATA *data = TLS_arguments[0]->uint16_array.data;
+    ARRAY_VIEW *view = TLS_arguments[0]->uint16_array.view;
     int dimension = 1;
     if (TLS_argument_count == 2) {
       if (!to_int(TLS_arguments[1], &dimension)) return;
-      if (dimension < 1 || dimension > data->info->dimension_count) {
+      if (dimension < 1 || dimension > view->dimension_count) {
         invalid_dimension(TLS_arguments[0]);
         return;
       }
     }
-    ARRAY_INFO *info = data->info;
     {
-      NODE *result__node = (NODE *)(from_long(info->dimensions[dimension-1]));
+      NODE *result__node = (NODE *)(from_long(view->dimensions[dimension-1].width));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -13606,8 +13942,8 @@ static void entry__std_types___uint16_array___std___equal (void)
       TLS_argument_count = 1;
       return;
     }
-    UINT16_ARRAY_DATA *left = apply_uint16_array_updates(TLS_arguments[0]);
-    UINT16_ARRAY_DATA *right = apply_uint16_array_updates(TLS_arguments[1]);
+    UINT16_ARRAY_DATA *left = apply_uint16_array_updates((UINT16_ARRAY *)TLS_arguments[0]);
+    UINT16_ARRAY_DATA *right = apply_uint16_array_updates((UINT16_ARRAY *)TLS_arguments[1]);
     {
       NODE *result__node = (NODE *)(from_bool(memcmp(
             left->items, right->items,sizeof(uint16_t)*left->size) == 0));
@@ -13638,8 +13974,8 @@ static void entry__std_types___uint16_array___std___bit_and (void)
         invalid_arguments();
         return;
       }
-    UINT16_ARRAY_DATA *left = apply_uint16_array_updates(TLS_arguments[0]);
-    UINT16_ARRAY_DATA *right = apply_uint16_array_updates(TLS_arguments[1]);
+    UINT16_ARRAY_DATA *left = apply_uint16_array_updates((UINT16_ARRAY *)TLS_arguments[0]);
+    UINT16_ARRAY_DATA *right = apply_uint16_array_updates((UINT16_ARRAY *)TLS_arguments[1]);
     long size = left->size;
     UINT16_ARRAY_DATA *data =
       allocate_large(
@@ -13651,7 +13987,7 @@ static void entry__std_types___uint16_array___std___bit_and (void)
     data->info = left->info;
     data->size = size;
     {
-      NODE *result__node = (NODE *)(create__std_types___uint16_array(0, data, NULL));
+      NODE *result__node = (NODE *)(create__std_types___uint16_array(0, data, TLS_arguments[0]->uint16_array.view, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -13679,8 +14015,8 @@ static void entry__std_types___uint16_array___std___bit_or (void)
         invalid_arguments();
         return;
       }
-    UINT16_ARRAY_DATA *left = apply_uint16_array_updates(TLS_arguments[0]);
-    UINT16_ARRAY_DATA *right = apply_uint16_array_updates(TLS_arguments[1]);
+    UINT16_ARRAY_DATA *left = apply_uint16_array_updates((UINT16_ARRAY *)TLS_arguments[0]);
+    UINT16_ARRAY_DATA *right = apply_uint16_array_updates((UINT16_ARRAY *)TLS_arguments[1]);
     long size = left->size;
     UINT16_ARRAY_DATA *data =
       allocate_large(
@@ -13692,7 +14028,7 @@ static void entry__std_types___uint16_array___std___bit_or (void)
     data->info = left->info;
     data->size = size;
     {
-      NODE *result__node = (NODE *)(create__std_types___uint16_array(0, data, NULL));
+      NODE *result__node = (NODE *)(create__std_types___uint16_array(0, data, TLS_arguments[0]->uint16_array.view, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -13714,8 +14050,8 @@ static void entry__std_types___uint16_array___std___bit_xor (void)
         invalid_arguments();
         return;
       }
-    UINT16_ARRAY_DATA *left = apply_uint16_array_updates(TLS_arguments[0]);
-    UINT16_ARRAY_DATA *right = apply_uint16_array_updates(TLS_arguments[1]);
+    UINT16_ARRAY_DATA *left = apply_uint16_array_updates((UINT16_ARRAY *)TLS_arguments[0]);
+    UINT16_ARRAY_DATA *right = apply_uint16_array_updates((UINT16_ARRAY *)TLS_arguments[1]);
     long size = left->size;
     UINT16_ARRAY_DATA *data =
       allocate_large(
@@ -13727,7 +14063,7 @@ static void entry__std_types___uint16_array___std___bit_xor (void)
     data->info = left->info;
     data->size = size;
     {
-      NODE *result__node = (NODE *)(create__std_types___uint16_array(0, data, NULL));
+      NODE *result__node = (NODE *)(create__std_types___uint16_array(0, data, TLS_arguments[0]->uint16_array.view, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -13743,12 +14079,13 @@ static void entry__std___uint16_array (void)
     UINT16_ARRAY_DATA *data = (UINT16_ARRAY_DATA *)
       allocate_array_data(TLS_argument_count, sizeof(uint16_t));
     if (!data) return;
+    ARRAY_VIEW *view = create_array_view(data->info);
     int i;
     for (i = 0; i < data->size; ++i) {
       data->items[i] = 0;
     }
     {
-      NODE *result__node = (NODE *)(create__std_types___uint16_array(0, data, NULL));
+      NODE *result__node = (NODE *)(create__std_types___uint16_array(0, data, view, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -13766,12 +14103,13 @@ static void entry__std___initialized_uint16_array (void)
     if (!data) return;
     uint16_t initial_value;
     if (!to_uint16(TLS_arguments[TLS_argument_count-1], &initial_value)) return;
+    ARRAY_VIEW *view = create_array_view(data->info);
     int i;
     for (i = 0; i < data->size; ++i) {
       data->items[i] = initial_value;
     }
     {
-      NODE *result__node = (NODE *)(create__std_types___uint16_array(0, data, NULL));
+      NODE *result__node = (NODE *)(create__std_types___uint16_array(0, data, view, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -13796,7 +14134,30 @@ static void entry__std_types___uint16_array___std___new (void)
       data->items[i] = 0;
     }
     {
-      NODE *result__node = (NODE *)(create__std_types___uint16_array(0, data, NULL));
+      NODE *result__node = (NODE *)(create__std_types___uint16_array(0, data, TLS_arguments[0]->uint16_array.view, NULL));
+      TLS_arguments[0] = result__node;
+      TLS_argument_count = 1;
+      return;
+    }
+  }
+
+static void entry__std_types___uint16_array___std___range (void)
+  {
+    UINT16_ARRAY *array = (UINT16_ARRAY *)TLS_arguments[0];
+    int dimension_count = array->view->dimension_count;
+    if (TLS_argument_count < 1) {
+      too_few_arguments();
+      return;
+    }
+    if (TLS_argument_count > 1+dimension_count) {
+      too_many_arguments();
+      return;
+    }
+    ARRAY_VIEW *view = create_sub_view(array->view);
+    if (!view) return;
+    UINT16_ARRAY_DATA *data = apply_uint16_array_updates(array);
+    {
+      NODE *result__node = (NODE *)(create__std_types___uint16_array(0, data, view, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -13817,18 +14178,17 @@ static void entry__std_types___int32_array___std___length_of (void)
       result_count_mismatch();
       return;
     }
-    INT32_ARRAY_DATA *data = TLS_arguments[0]->int32_array.data;
+    ARRAY_VIEW *view = TLS_arguments[0]->int32_array.view;
     int dimension = 1;
     if (TLS_argument_count == 2) {
       if (!to_int(TLS_arguments[1], &dimension)) return;
-      if (dimension < 1 || dimension > data->info->dimension_count) {
+      if (dimension < 1 || dimension > view->dimension_count) {
         invalid_dimension(TLS_arguments[0]);
         return;
       }
     }
-    ARRAY_INFO *info = data->info;
     {
-      NODE *result__node = (NODE *)(from_long(info->dimensions[dimension-1]));
+      NODE *result__node = (NODE *)(from_long(view->dimensions[dimension-1].width));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -13876,8 +14236,8 @@ static void entry__std_types___int32_array___std___equal (void)
       TLS_argument_count = 1;
       return;
     }
-    INT32_ARRAY_DATA *left = apply_int32_array_updates(TLS_arguments[0]);
-    INT32_ARRAY_DATA *right = apply_int32_array_updates(TLS_arguments[1]);
+    INT32_ARRAY_DATA *left = apply_int32_array_updates((INT32_ARRAY *)TLS_arguments[0]);
+    INT32_ARRAY_DATA *right = apply_int32_array_updates((INT32_ARRAY *)TLS_arguments[1]);
     {
       NODE *result__node = (NODE *)(from_bool(memcmp(
             left->items, right->items,sizeof(int32_t)*left->size) == 0));
@@ -13896,12 +14256,13 @@ static void entry__std___int32_array (void)
     INT32_ARRAY_DATA *data = (INT32_ARRAY_DATA *)
       allocate_array_data(TLS_argument_count, sizeof(int32_t));
     if (!data) return;
+    ARRAY_VIEW *view = create_array_view(data->info);
     int i;
     for (i = 0; i < data->size; ++i) {
       data->items[i] = 0;
     }
     {
-      NODE *result__node = (NODE *)(create__std_types___int32_array(0, data, NULL));
+      NODE *result__node = (NODE *)(create__std_types___int32_array(0, data, view, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -13919,12 +14280,13 @@ static void entry__std___initialized_int32_array (void)
     if (!data) return;
     int32_t initial_value;
     if (!to_int32(TLS_arguments[TLS_argument_count-1], &initial_value)) return;
+    ARRAY_VIEW *view = create_array_view(data->info);
     int i;
     for (i = 0; i < data->size; ++i) {
       data->items[i] = initial_value;
     }
     {
-      NODE *result__node = (NODE *)(create__std_types___int32_array(0, data, NULL));
+      NODE *result__node = (NODE *)(create__std_types___int32_array(0, data, view, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -13949,7 +14311,30 @@ static void entry__std_types___int32_array___std___new (void)
       data->items[i] = 0;
     }
     {
-      NODE *result__node = (NODE *)(create__std_types___int32_array(0, data, NULL));
+      NODE *result__node = (NODE *)(create__std_types___int32_array(0, data, TLS_arguments[0]->int32_array.view, NULL));
+      TLS_arguments[0] = result__node;
+      TLS_argument_count = 1;
+      return;
+    }
+  }
+
+static void entry__std_types___int32_array___std___range (void)
+  {
+    INT32_ARRAY *array = (INT32_ARRAY *)TLS_arguments[0];
+    int dimension_count = array->view->dimension_count;
+    if (TLS_argument_count < 1) {
+      too_few_arguments();
+      return;
+    }
+    if (TLS_argument_count > 1+dimension_count) {
+      too_many_arguments();
+      return;
+    }
+    ARRAY_VIEW *view = create_sub_view(array->view);
+    if (!view) return;
+    INT32_ARRAY_DATA *data = apply_int32_array_updates(array);
+    {
+      NODE *result__node = (NODE *)(create__std_types___int32_array(0, data, view, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -13970,18 +14355,17 @@ static void entry__std_types___uint32_array___std___length_of (void)
       result_count_mismatch();
       return;
     }
-    UINT32_ARRAY_DATA *data = TLS_arguments[0]->uint32_array.data;
+    ARRAY_VIEW *view = TLS_arguments[0]->uint32_array.view;
     int dimension = 1;
     if (TLS_argument_count == 2) {
       if (!to_int(TLS_arguments[1], &dimension)) return;
-      if (dimension < 1 || dimension > data->info->dimension_count) {
+      if (dimension < 1 || dimension > view->dimension_count) {
         invalid_dimension(TLS_arguments[0]);
         return;
       }
     }
-    ARRAY_INFO *info = data->info;
     {
-      NODE *result__node = (NODE *)(from_long(info->dimensions[dimension-1]));
+      NODE *result__node = (NODE *)(from_long(view->dimensions[dimension-1].width));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -14029,8 +14413,8 @@ static void entry__std_types___uint32_array___std___equal (void)
       TLS_argument_count = 1;
       return;
     }
-    UINT32_ARRAY_DATA *left = apply_uint32_array_updates(TLS_arguments[0]);
-    UINT32_ARRAY_DATA *right = apply_uint32_array_updates(TLS_arguments[1]);
+    UINT32_ARRAY_DATA *left = apply_uint32_array_updates((UINT32_ARRAY *)TLS_arguments[0]);
+    UINT32_ARRAY_DATA *right = apply_uint32_array_updates((UINT32_ARRAY *)TLS_arguments[1]);
     {
       NODE *result__node = (NODE *)(from_bool(memcmp(
             left->items, right->items,sizeof(uint32_t)*left->size) == 0));
@@ -14061,8 +14445,8 @@ static void entry__std_types___uint32_array___std___bit_and (void)
         invalid_arguments();
         return;
       }
-    UINT32_ARRAY_DATA *left = apply_uint32_array_updates(TLS_arguments[0]);
-    UINT32_ARRAY_DATA *right = apply_uint32_array_updates(TLS_arguments[1]);
+    UINT32_ARRAY_DATA *left = apply_uint32_array_updates((UINT32_ARRAY *)TLS_arguments[0]);
+    UINT32_ARRAY_DATA *right = apply_uint32_array_updates((UINT32_ARRAY *)TLS_arguments[1]);
     long size = left->size;
     UINT32_ARRAY_DATA *data =
       allocate_large(
@@ -14074,7 +14458,7 @@ static void entry__std_types___uint32_array___std___bit_and (void)
     data->info = left->info;
     data->size = size;
     {
-      NODE *result__node = (NODE *)(create__std_types___uint32_array(0, data, NULL));
+      NODE *result__node = (NODE *)(create__std_types___uint32_array(0, data, TLS_arguments[0]->uint32_array.view, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -14102,8 +14486,8 @@ static void entry__std_types___uint32_array___std___bit_or (void)
         invalid_arguments();
         return;
       }
-    UINT32_ARRAY_DATA *left = apply_uint32_array_updates(TLS_arguments[0]);
-    UINT32_ARRAY_DATA *right = apply_uint32_array_updates(TLS_arguments[1]);
+    UINT32_ARRAY_DATA *left = apply_uint32_array_updates((UINT32_ARRAY *)TLS_arguments[0]);
+    UINT32_ARRAY_DATA *right = apply_uint32_array_updates((UINT32_ARRAY *)TLS_arguments[1]);
     long size = left->size;
     UINT32_ARRAY_DATA *data =
       allocate_large(
@@ -14115,7 +14499,7 @@ static void entry__std_types___uint32_array___std___bit_or (void)
     data->info = left->info;
     data->size = size;
     {
-      NODE *result__node = (NODE *)(create__std_types___uint32_array(0, data, NULL));
+      NODE *result__node = (NODE *)(create__std_types___uint32_array(0, data, TLS_arguments[0]->uint32_array.view, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -14137,8 +14521,8 @@ static void entry__std_types___uint32_array___std___bit_xor (void)
         invalid_arguments();
         return;
       }
-    UINT32_ARRAY_DATA *left = apply_uint32_array_updates(TLS_arguments[0]);
-    UINT32_ARRAY_DATA *right = apply_uint32_array_updates(TLS_arguments[1]);
+    UINT32_ARRAY_DATA *left = apply_uint32_array_updates((UINT32_ARRAY *)TLS_arguments[0]);
+    UINT32_ARRAY_DATA *right = apply_uint32_array_updates((UINT32_ARRAY *)TLS_arguments[1]);
     long size = left->size;
     UINT32_ARRAY_DATA *data =
       allocate_large(
@@ -14150,7 +14534,7 @@ static void entry__std_types___uint32_array___std___bit_xor (void)
     data->info = left->info;
     data->size = size;
     {
-      NODE *result__node = (NODE *)(create__std_types___uint32_array(0, data, NULL));
+      NODE *result__node = (NODE *)(create__std_types___uint32_array(0, data, TLS_arguments[0]->uint32_array.view, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -14166,12 +14550,13 @@ static void entry__std___uint32_array (void)
     UINT32_ARRAY_DATA *data = (UINT32_ARRAY_DATA *)
       allocate_array_data(TLS_argument_count, sizeof(uint32_t));
     if (!data) return;
+    ARRAY_VIEW *view = create_array_view(data->info);
     int i;
     for (i = 0; i < data->size; ++i) {
       data->items[i] = 0;
     }
     {
-      NODE *result__node = (NODE *)(create__std_types___uint32_array(0, data, NULL));
+      NODE *result__node = (NODE *)(create__std_types___uint32_array(0, data, view, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -14189,12 +14574,13 @@ static void entry__std___initialized_uint32_array (void)
     if (!data) return;
     uint32_t initial_value;
     if (!to_uint32(TLS_arguments[TLS_argument_count-1], &initial_value)) return;
+    ARRAY_VIEW *view = create_array_view(data->info);
     int i;
     for (i = 0; i < data->size; ++i) {
       data->items[i] = initial_value;
     }
     {
-      NODE *result__node = (NODE *)(create__std_types___uint32_array(0, data, NULL));
+      NODE *result__node = (NODE *)(create__std_types___uint32_array(0, data, view, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -14219,7 +14605,30 @@ static void entry__std_types___uint32_array___std___new (void)
       data->items[i] = 0;
     }
     {
-      NODE *result__node = (NODE *)(create__std_types___uint32_array(0, data, NULL));
+      NODE *result__node = (NODE *)(create__std_types___uint32_array(0, data, TLS_arguments[0]->uint32_array.view, NULL));
+      TLS_arguments[0] = result__node;
+      TLS_argument_count = 1;
+      return;
+    }
+  }
+
+static void entry__std_types___uint32_array___std___range (void)
+  {
+    UINT32_ARRAY *array = (UINT32_ARRAY *)TLS_arguments[0];
+    int dimension_count = array->view->dimension_count;
+    if (TLS_argument_count < 1) {
+      too_few_arguments();
+      return;
+    }
+    if (TLS_argument_count > 1+dimension_count) {
+      too_many_arguments();
+      return;
+    }
+    ARRAY_VIEW *view = create_sub_view(array->view);
+    if (!view) return;
+    UINT32_ARRAY_DATA *data = apply_uint32_array_updates(array);
+    {
+      NODE *result__node = (NODE *)(create__std_types___uint32_array(0, data, view, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -14240,18 +14649,17 @@ static void entry__std_types___int64_array___std___length_of (void)
       result_count_mismatch();
       return;
     }
-    INT64_ARRAY_DATA *data = TLS_arguments[0]->int64_array.data;
+    ARRAY_VIEW *view = TLS_arguments[0]->int64_array.view;
     int dimension = 1;
     if (TLS_argument_count == 2) {
       if (!to_int(TLS_arguments[1], &dimension)) return;
-      if (dimension < 1 || dimension > data->info->dimension_count) {
+      if (dimension < 1 || dimension > view->dimension_count) {
         invalid_dimension(TLS_arguments[0]);
         return;
       }
     }
-    ARRAY_INFO *info = data->info;
     {
-      NODE *result__node = (NODE *)(from_long(info->dimensions[dimension-1]));
+      NODE *result__node = (NODE *)(from_long(view->dimensions[dimension-1].width));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -14299,8 +14707,8 @@ static void entry__std_types___int64_array___std___equal (void)
       TLS_argument_count = 1;
       return;
     }
-    INT64_ARRAY_DATA *left = apply_int64_array_updates(TLS_arguments[0]);
-    INT64_ARRAY_DATA *right = apply_int64_array_updates(TLS_arguments[1]);
+    INT64_ARRAY_DATA *left = apply_int64_array_updates((INT64_ARRAY *)TLS_arguments[0]);
+    INT64_ARRAY_DATA *right = apply_int64_array_updates((INT64_ARRAY *)TLS_arguments[1]);
     {
       NODE *result__node = (NODE *)(from_bool(memcmp(
             left->items, right->items,sizeof(int64_t)*left->size) == 0));
@@ -14319,12 +14727,13 @@ static void entry__std___int64_array (void)
     INT64_ARRAY_DATA *data = (INT64_ARRAY_DATA *)
       allocate_array_data(TLS_argument_count, sizeof(int64_t));
     if (!data) return;
+    ARRAY_VIEW *view = create_array_view(data->info);
     int i;
     for (i = 0; i < data->size; ++i) {
       data->items[i] = 0;
     }
     {
-      NODE *result__node = (NODE *)(create__std_types___int64_array(0, data, NULL));
+      NODE *result__node = (NODE *)(create__std_types___int64_array(0, data, view, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -14342,12 +14751,13 @@ static void entry__std___initialized_int64_array (void)
     if (!data) return;
     int64_t initial_value;
     if (!to_int64(TLS_arguments[TLS_argument_count-1], &initial_value)) return;
+    ARRAY_VIEW *view = create_array_view(data->info);
     int i;
     for (i = 0; i < data->size; ++i) {
       data->items[i] = initial_value;
     }
     {
-      NODE *result__node = (NODE *)(create__std_types___int64_array(0, data, NULL));
+      NODE *result__node = (NODE *)(create__std_types___int64_array(0, data, view, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -14372,7 +14782,30 @@ static void entry__std_types___int64_array___std___new (void)
       data->items[i] = 0;
     }
     {
-      NODE *result__node = (NODE *)(create__std_types___int64_array(0, data, NULL));
+      NODE *result__node = (NODE *)(create__std_types___int64_array(0, data, TLS_arguments[0]->int64_array.view, NULL));
+      TLS_arguments[0] = result__node;
+      TLS_argument_count = 1;
+      return;
+    }
+  }
+
+static void entry__std_types___int64_array___std___range (void)
+  {
+    INT64_ARRAY *array = (INT64_ARRAY *)TLS_arguments[0];
+    int dimension_count = array->view->dimension_count;
+    if (TLS_argument_count < 1) {
+      too_few_arguments();
+      return;
+    }
+    if (TLS_argument_count > 1+dimension_count) {
+      too_many_arguments();
+      return;
+    }
+    ARRAY_VIEW *view = create_sub_view(array->view);
+    if (!view) return;
+    INT64_ARRAY_DATA *data = apply_int64_array_updates(array);
+    {
+      NODE *result__node = (NODE *)(create__std_types___int64_array(0, data, view, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -14393,18 +14826,17 @@ static void entry__std_types___uint64_array___std___length_of (void)
       result_count_mismatch();
       return;
     }
-    UINT64_ARRAY_DATA *data = TLS_arguments[0]->uint64_array.data;
+    ARRAY_VIEW *view = TLS_arguments[0]->uint64_array.view;
     int dimension = 1;
     if (TLS_argument_count == 2) {
       if (!to_int(TLS_arguments[1], &dimension)) return;
-      if (dimension < 1 || dimension > data->info->dimension_count) {
+      if (dimension < 1 || dimension > view->dimension_count) {
         invalid_dimension(TLS_arguments[0]);
         return;
       }
     }
-    ARRAY_INFO *info = data->info;
     {
-      NODE *result__node = (NODE *)(from_long(info->dimensions[dimension-1]));
+      NODE *result__node = (NODE *)(from_long(view->dimensions[dimension-1].width));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -14452,8 +14884,8 @@ static void entry__std_types___uint64_array___std___equal (void)
       TLS_argument_count = 1;
       return;
     }
-    UINT64_ARRAY_DATA *left = apply_uint64_array_updates(TLS_arguments[0]);
-    UINT64_ARRAY_DATA *right = apply_uint64_array_updates(TLS_arguments[1]);
+    UINT64_ARRAY_DATA *left = apply_uint64_array_updates((UINT64_ARRAY *)TLS_arguments[0]);
+    UINT64_ARRAY_DATA *right = apply_uint64_array_updates((UINT64_ARRAY *)TLS_arguments[1]);
     {
       NODE *result__node = (NODE *)(from_bool(memcmp(
             left->items, right->items,sizeof(uint64_t)*left->size) == 0));
@@ -14484,8 +14916,8 @@ static void entry__std_types___uint64_array___std___bit_and (void)
         invalid_arguments();
         return;
       }
-    UINT64_ARRAY_DATA *left = apply_uint64_array_updates(TLS_arguments[0]);
-    UINT64_ARRAY_DATA *right = apply_uint64_array_updates(TLS_arguments[1]);
+    UINT64_ARRAY_DATA *left = apply_uint64_array_updates((UINT64_ARRAY *)TLS_arguments[0]);
+    UINT64_ARRAY_DATA *right = apply_uint64_array_updates((UINT64_ARRAY *)TLS_arguments[1]);
     long size = left->size;
     UINT64_ARRAY_DATA *data =
       allocate_large(
@@ -14497,7 +14929,7 @@ static void entry__std_types___uint64_array___std___bit_and (void)
     data->info = left->info;
     data->size = size;
     {
-      NODE *result__node = (NODE *)(create__std_types___uint64_array(0, data, NULL));
+      NODE *result__node = (NODE *)(create__std_types___uint64_array(0, data, TLS_arguments[0]->uint64_array.view, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -14525,8 +14957,8 @@ static void entry__std_types___uint64_array___std___bit_or (void)
         invalid_arguments();
         return;
       }
-    UINT64_ARRAY_DATA *left = apply_uint64_array_updates(TLS_arguments[0]);
-    UINT64_ARRAY_DATA *right = apply_uint64_array_updates(TLS_arguments[1]);
+    UINT64_ARRAY_DATA *left = apply_uint64_array_updates((UINT64_ARRAY *)TLS_arguments[0]);
+    UINT64_ARRAY_DATA *right = apply_uint64_array_updates((UINT64_ARRAY *)TLS_arguments[1]);
     long size = left->size;
     UINT64_ARRAY_DATA *data =
       allocate_large(
@@ -14538,7 +14970,7 @@ static void entry__std_types___uint64_array___std___bit_or (void)
     data->info = left->info;
     data->size = size;
     {
-      NODE *result__node = (NODE *)(create__std_types___uint64_array(0, data, NULL));
+      NODE *result__node = (NODE *)(create__std_types___uint64_array(0, data, TLS_arguments[0]->uint64_array.view, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -14560,8 +14992,8 @@ static void entry__std_types___uint64_array___std___bit_xor (void)
         invalid_arguments();
         return;
       }
-    UINT64_ARRAY_DATA *left = apply_uint64_array_updates(TLS_arguments[0]);
-    UINT64_ARRAY_DATA *right = apply_uint64_array_updates(TLS_arguments[1]);
+    UINT64_ARRAY_DATA *left = apply_uint64_array_updates((UINT64_ARRAY *)TLS_arguments[0]);
+    UINT64_ARRAY_DATA *right = apply_uint64_array_updates((UINT64_ARRAY *)TLS_arguments[1]);
     long size = left->size;
     UINT64_ARRAY_DATA *data =
       allocate_large(
@@ -14573,7 +15005,7 @@ static void entry__std_types___uint64_array___std___bit_xor (void)
     data->info = left->info;
     data->size = size;
     {
-      NODE *result__node = (NODE *)(create__std_types___uint64_array(0, data, NULL));
+      NODE *result__node = (NODE *)(create__std_types___uint64_array(0, data, TLS_arguments[0]->uint64_array.view, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -14589,12 +15021,13 @@ static void entry__std___uint64_array (void)
     UINT64_ARRAY_DATA *data = (UINT64_ARRAY_DATA *)
       allocate_array_data(TLS_argument_count, sizeof(uint64_t));
     if (!data) return;
+    ARRAY_VIEW *view = create_array_view(data->info);
     int i;
     for (i = 0; i < data->size; ++i) {
       data->items[i] = 0;
     }
     {
-      NODE *result__node = (NODE *)(create__std_types___uint64_array(0, data, NULL));
+      NODE *result__node = (NODE *)(create__std_types___uint64_array(0, data, view, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -14612,12 +15045,13 @@ static void entry__std___initialized_uint64_array (void)
     if (!data) return;
     uint64_t initial_value;
     if (!to_uint64(TLS_arguments[TLS_argument_count-1], &initial_value)) return;
+    ARRAY_VIEW *view = create_array_view(data->info);
     int i;
     for (i = 0; i < data->size; ++i) {
       data->items[i] = initial_value;
     }
     {
-      NODE *result__node = (NODE *)(create__std_types___uint64_array(0, data, NULL));
+      NODE *result__node = (NODE *)(create__std_types___uint64_array(0, data, view, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -14642,7 +15076,30 @@ static void entry__std_types___uint64_array___std___new (void)
       data->items[i] = 0;
     }
     {
-      NODE *result__node = (NODE *)(create__std_types___uint64_array(0, data, NULL));
+      NODE *result__node = (NODE *)(create__std_types___uint64_array(0, data, TLS_arguments[0]->uint64_array.view, NULL));
+      TLS_arguments[0] = result__node;
+      TLS_argument_count = 1;
+      return;
+    }
+  }
+
+static void entry__std_types___uint64_array___std___range (void)
+  {
+    UINT64_ARRAY *array = (UINT64_ARRAY *)TLS_arguments[0];
+    int dimension_count = array->view->dimension_count;
+    if (TLS_argument_count < 1) {
+      too_few_arguments();
+      return;
+    }
+    if (TLS_argument_count > 1+dimension_count) {
+      too_many_arguments();
+      return;
+    }
+    ARRAY_VIEW *view = create_sub_view(array->view);
+    if (!view) return;
+    UINT64_ARRAY_DATA *data = apply_uint64_array_updates(array);
+    {
+      NODE *result__node = (NODE *)(create__std_types___uint64_array(0, data, view, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -14663,18 +15120,17 @@ static void entry__std_types___float32_array___std___length_of (void)
       result_count_mismatch();
       return;
     }
-    FLOAT32_ARRAY_DATA *data = TLS_arguments[0]->float32_array.data;
+    ARRAY_VIEW *view = TLS_arguments[0]->float32_array.view;
     int dimension = 1;
     if (TLS_argument_count == 2) {
       if (!to_int(TLS_arguments[1], &dimension)) return;
-      if (dimension < 1 || dimension > data->info->dimension_count) {
+      if (dimension < 1 || dimension > view->dimension_count) {
         invalid_dimension(TLS_arguments[0]);
         return;
       }
     }
-    ARRAY_INFO *info = data->info;
     {
-      NODE *result__node = (NODE *)(from_long(info->dimensions[dimension-1]));
+      NODE *result__node = (NODE *)(from_long(view->dimensions[dimension-1].width));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -14722,8 +15178,8 @@ static void entry__std_types___float32_array___std___equal (void)
       TLS_argument_count = 1;
       return;
     }
-    FLOAT32_ARRAY_DATA *left = apply_float32_array_updates(TLS_arguments[0]);
-    FLOAT32_ARRAY_DATA *right = apply_float32_array_updates(TLS_arguments[1]);
+    FLOAT32_ARRAY_DATA *left = apply_float32_array_updates((FLOAT32_ARRAY *)TLS_arguments[0]);
+    FLOAT32_ARRAY_DATA *right = apply_float32_array_updates((FLOAT32_ARRAY *)TLS_arguments[1]);
     {
       NODE *result__node = (NODE *)(from_bool(memcmp(
             left->items, right->items,sizeof(float)*left->size) == 0));
@@ -14742,12 +15198,13 @@ static void entry__std___float32_array (void)
     FLOAT32_ARRAY_DATA *data = (FLOAT32_ARRAY_DATA *)
       allocate_array_data(TLS_argument_count, sizeof(float));
     if (!data) return;
+    ARRAY_VIEW *view = create_array_view(data->info);
     int i;
     for (i = 0; i < data->size; ++i) {
       data->items[i] = 0;
     }
     {
-      NODE *result__node = (NODE *)(create__std_types___float32_array(0, data, NULL));
+      NODE *result__node = (NODE *)(create__std_types___float32_array(0, data, view, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -14765,12 +15222,13 @@ static void entry__std___initialized_float32_array (void)
     if (!data) return;
     float initial_value;
     if (!to_float(TLS_arguments[TLS_argument_count-1], &initial_value)) return;
+    ARRAY_VIEW *view = create_array_view(data->info);
     int i;
     for (i = 0; i < data->size; ++i) {
       data->items[i] = initial_value;
     }
     {
-      NODE *result__node = (NODE *)(create__std_types___float32_array(0, data, NULL));
+      NODE *result__node = (NODE *)(create__std_types___float32_array(0, data, view, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -14795,7 +15253,30 @@ static void entry__std_types___float32_array___std___new (void)
       data->items[i] = 0;
     }
     {
-      NODE *result__node = (NODE *)(create__std_types___float32_array(0, data, NULL));
+      NODE *result__node = (NODE *)(create__std_types___float32_array(0, data, TLS_arguments[0]->float32_array.view, NULL));
+      TLS_arguments[0] = result__node;
+      TLS_argument_count = 1;
+      return;
+    }
+  }
+
+static void entry__std_types___float32_array___std___range (void)
+  {
+    FLOAT32_ARRAY *array = (FLOAT32_ARRAY *)TLS_arguments[0];
+    int dimension_count = array->view->dimension_count;
+    if (TLS_argument_count < 1) {
+      too_few_arguments();
+      return;
+    }
+    if (TLS_argument_count > 1+dimension_count) {
+      too_many_arguments();
+      return;
+    }
+    ARRAY_VIEW *view = create_sub_view(array->view);
+    if (!view) return;
+    FLOAT32_ARRAY_DATA *data = apply_float32_array_updates(array);
+    {
+      NODE *result__node = (NODE *)(create__std_types___float32_array(0, data, view, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -14816,18 +15297,17 @@ static void entry__std_types___float64_array___std___length_of (void)
       result_count_mismatch();
       return;
     }
-    FLOAT64_ARRAY_DATA *data = TLS_arguments[0]->float64_array.data;
+    ARRAY_VIEW *view = TLS_arguments[0]->float64_array.view;
     int dimension = 1;
     if (TLS_argument_count == 2) {
       if (!to_int(TLS_arguments[1], &dimension)) return;
-      if (dimension < 1 || dimension > data->info->dimension_count) {
+      if (dimension < 1 || dimension > view->dimension_count) {
         invalid_dimension(TLS_arguments[0]);
         return;
       }
     }
-    ARRAY_INFO *info = data->info;
     {
-      NODE *result__node = (NODE *)(from_long(info->dimensions[dimension-1]));
+      NODE *result__node = (NODE *)(from_long(view->dimensions[dimension-1].width));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -14875,8 +15355,8 @@ static void entry__std_types___float64_array___std___equal (void)
       TLS_argument_count = 1;
       return;
     }
-    FLOAT64_ARRAY_DATA *left = apply_float64_array_updates(TLS_arguments[0]);
-    FLOAT64_ARRAY_DATA *right = apply_float64_array_updates(TLS_arguments[1]);
+    FLOAT64_ARRAY_DATA *left = apply_float64_array_updates((FLOAT64_ARRAY *)TLS_arguments[0]);
+    FLOAT64_ARRAY_DATA *right = apply_float64_array_updates((FLOAT64_ARRAY *)TLS_arguments[1]);
     {
       NODE *result__node = (NODE *)(from_bool(memcmp(
             left->items, right->items,sizeof(double)*left->size) == 0));
@@ -14895,12 +15375,13 @@ static void entry__std___float64_array (void)
     FLOAT64_ARRAY_DATA *data = (FLOAT64_ARRAY_DATA *)
       allocate_array_data(TLS_argument_count, sizeof(double));
     if (!data) return;
+    ARRAY_VIEW *view = create_array_view(data->info);
     int i;
     for (i = 0; i < data->size; ++i) {
       data->items[i] = 0;
     }
     {
-      NODE *result__node = (NODE *)(create__std_types___float64_array(0, data, NULL));
+      NODE *result__node = (NODE *)(create__std_types___float64_array(0, data, view, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -14918,12 +15399,13 @@ static void entry__std___initialized_float64_array (void)
     if (!data) return;
     double initial_value;
     if (!to_double(TLS_arguments[TLS_argument_count-1], &initial_value)) return;
+    ARRAY_VIEW *view = create_array_view(data->info);
     int i;
     for (i = 0; i < data->size; ++i) {
       data->items[i] = initial_value;
     }
     {
-      NODE *result__node = (NODE *)(create__std_types___float64_array(0, data, NULL));
+      NODE *result__node = (NODE *)(create__std_types___float64_array(0, data, view, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -14948,7 +15430,30 @@ static void entry__std_types___float64_array___std___new (void)
       data->items[i] = 0;
     }
     {
-      NODE *result__node = (NODE *)(create__std_types___float64_array(0, data, NULL));
+      NODE *result__node = (NODE *)(create__std_types___float64_array(0, data, TLS_arguments[0]->float64_array.view, NULL));
+      TLS_arguments[0] = result__node;
+      TLS_argument_count = 1;
+      return;
+    }
+  }
+
+static void entry__std_types___float64_array___std___range (void)
+  {
+    FLOAT64_ARRAY *array = (FLOAT64_ARRAY *)TLS_arguments[0];
+    int dimension_count = array->view->dimension_count;
+    if (TLS_argument_count < 1) {
+      too_few_arguments();
+      return;
+    }
+    if (TLS_argument_count > 1+dimension_count) {
+      too_many_arguments();
+      return;
+    }
+    ARRAY_VIEW *view = create_sub_view(array->view);
+    if (!view) return;
+    FLOAT64_ARRAY_DATA *data = apply_float64_array_updates(array);
+    {
+      NODE *result__node = (NODE *)(create__std_types___float64_array(0, data, view, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -24267,6 +24772,7 @@ static FUNKY_CONSTANT constants_table[] = {
   {FLT_C_FUNCTION, -1, {.func = entry__std___array}},
   {FLT_C_FUNCTION, -1, {.func = entry__std___initialized_array}},
   {FLT_C_FUNCTION, 1, {.func = entry__std_types___array___std___new}},
+  {FLT_C_FUNCTION, -1, {.func = entry__std_types___array___std___range}},
   {FLT_C_FUNCTION, -1, {.func = entry__std_types___boolean_array___std___length_of}},
   {FLT_C_FUNCTION, 1, {.func = entry__std_types___boolean_array___std___dimension_count_of}},
   {FLT_C_FUNCTION, 2, {.func = entry__std_types___boolean_array___std___equal}},
@@ -24276,18 +24782,21 @@ static FUNKY_CONSTANT constants_table[] = {
   {FLT_C_FUNCTION, -1, {.func = entry__std___boolean_array}},
   {FLT_C_FUNCTION, -1, {.func = entry__std___initialized_boolean_array}},
   {FLT_C_FUNCTION, 1, {.func = entry__std_types___boolean_array___std___new}},
+  {FLT_C_FUNCTION, -1, {.func = entry__std_types___boolean_array___std___range}},
   {FLT_C_FUNCTION, -1, {.func = entry__std_types___character_array___std___length_of}},
   {FLT_C_FUNCTION, 1, {.func = entry__std_types___character_array___std___dimension_count_of}},
   {FLT_C_FUNCTION, 2, {.func = entry__std_types___character_array___std___equal}},
   {FLT_C_FUNCTION, -1, {.func = entry__std___character_array}},
   {FLT_C_FUNCTION, -1, {.func = entry__std___initialized_character_array}},
   {FLT_C_FUNCTION, 1, {.func = entry__std_types___character_array___std___new}},
+  {FLT_C_FUNCTION, -1, {.func = entry__std_types___character_array___std___range}},
   {FLT_C_FUNCTION, -1, {.func = entry__std_types___int8_array___std___length_of}},
   {FLT_C_FUNCTION, 1, {.func = entry__std_types___int8_array___std___dimension_count_of}},
   {FLT_C_FUNCTION, 2, {.func = entry__std_types___int8_array___std___equal}},
   {FLT_C_FUNCTION, -1, {.func = entry__std___int8_array}},
   {FLT_C_FUNCTION, -1, {.func = entry__std___initialized_int8_array}},
   {FLT_C_FUNCTION, 1, {.func = entry__std_types___int8_array___std___new}},
+  {FLT_C_FUNCTION, -1, {.func = entry__std_types___int8_array___std___range}},
   {FLT_C_FUNCTION, -1, {.func = entry__std_types___uint8_array___std___length_of}},
   {FLT_C_FUNCTION, 1, {.func = entry__std_types___uint8_array___std___dimension_count_of}},
   {FLT_C_FUNCTION, 2, {.func = entry__std_types___uint8_array___std___equal}},
@@ -24297,12 +24806,14 @@ static FUNKY_CONSTANT constants_table[] = {
   {FLT_C_FUNCTION, -1, {.func = entry__std___uint8_array}},
   {FLT_C_FUNCTION, -1, {.func = entry__std___initialized_uint8_array}},
   {FLT_C_FUNCTION, 1, {.func = entry__std_types___uint8_array___std___new}},
+  {FLT_C_FUNCTION, -1, {.func = entry__std_types___uint8_array___std___range}},
   {FLT_C_FUNCTION, -1, {.func = entry__std_types___int16_array___std___length_of}},
   {FLT_C_FUNCTION, 1, {.func = entry__std_types___int16_array___std___dimension_count_of}},
   {FLT_C_FUNCTION, 2, {.func = entry__std_types___int16_array___std___equal}},
   {FLT_C_FUNCTION, -1, {.func = entry__std___int16_array}},
   {FLT_C_FUNCTION, -1, {.func = entry__std___initialized_int16_array}},
   {FLT_C_FUNCTION, 1, {.func = entry__std_types___int16_array___std___new}},
+  {FLT_C_FUNCTION, -1, {.func = entry__std_types___int16_array___std___range}},
   {FLT_C_FUNCTION, -1, {.func = entry__std_types___uint16_array___std___length_of}},
   {FLT_C_FUNCTION, 1, {.func = entry__std_types___uint16_array___std___dimension_count_of}},
   {FLT_C_FUNCTION, 2, {.func = entry__std_types___uint16_array___std___equal}},
@@ -24312,12 +24823,14 @@ static FUNKY_CONSTANT constants_table[] = {
   {FLT_C_FUNCTION, -1, {.func = entry__std___uint16_array}},
   {FLT_C_FUNCTION, -1, {.func = entry__std___initialized_uint16_array}},
   {FLT_C_FUNCTION, 1, {.func = entry__std_types___uint16_array___std___new}},
+  {FLT_C_FUNCTION, -1, {.func = entry__std_types___uint16_array___std___range}},
   {FLT_C_FUNCTION, -1, {.func = entry__std_types___int32_array___std___length_of}},
   {FLT_C_FUNCTION, 1, {.func = entry__std_types___int32_array___std___dimension_count_of}},
   {FLT_C_FUNCTION, 2, {.func = entry__std_types___int32_array___std___equal}},
   {FLT_C_FUNCTION, -1, {.func = entry__std___int32_array}},
   {FLT_C_FUNCTION, -1, {.func = entry__std___initialized_int32_array}},
   {FLT_C_FUNCTION, 1, {.func = entry__std_types___int32_array___std___new}},
+  {FLT_C_FUNCTION, -1, {.func = entry__std_types___int32_array___std___range}},
   {FLT_C_FUNCTION, -1, {.func = entry__std_types___uint32_array___std___length_of}},
   {FLT_C_FUNCTION, 1, {.func = entry__std_types___uint32_array___std___dimension_count_of}},
   {FLT_C_FUNCTION, 2, {.func = entry__std_types___uint32_array___std___equal}},
@@ -24327,12 +24840,14 @@ static FUNKY_CONSTANT constants_table[] = {
   {FLT_C_FUNCTION, -1, {.func = entry__std___uint32_array}},
   {FLT_C_FUNCTION, -1, {.func = entry__std___initialized_uint32_array}},
   {FLT_C_FUNCTION, 1, {.func = entry__std_types___uint32_array___std___new}},
+  {FLT_C_FUNCTION, -1, {.func = entry__std_types___uint32_array___std___range}},
   {FLT_C_FUNCTION, -1, {.func = entry__std_types___int64_array___std___length_of}},
   {FLT_C_FUNCTION, 1, {.func = entry__std_types___int64_array___std___dimension_count_of}},
   {FLT_C_FUNCTION, 2, {.func = entry__std_types___int64_array___std___equal}},
   {FLT_C_FUNCTION, -1, {.func = entry__std___int64_array}},
   {FLT_C_FUNCTION, -1, {.func = entry__std___initialized_int64_array}},
   {FLT_C_FUNCTION, 1, {.func = entry__std_types___int64_array___std___new}},
+  {FLT_C_FUNCTION, -1, {.func = entry__std_types___int64_array___std___range}},
   {FLT_C_FUNCTION, -1, {.func = entry__std_types___uint64_array___std___length_of}},
   {FLT_C_FUNCTION, 1, {.func = entry__std_types___uint64_array___std___dimension_count_of}},
   {FLT_C_FUNCTION, 2, {.func = entry__std_types___uint64_array___std___equal}},
@@ -24342,18 +24857,21 @@ static FUNKY_CONSTANT constants_table[] = {
   {FLT_C_FUNCTION, -1, {.func = entry__std___uint64_array}},
   {FLT_C_FUNCTION, -1, {.func = entry__std___initialized_uint64_array}},
   {FLT_C_FUNCTION, 1, {.func = entry__std_types___uint64_array___std___new}},
+  {FLT_C_FUNCTION, -1, {.func = entry__std_types___uint64_array___std___range}},
   {FLT_C_FUNCTION, -1, {.func = entry__std_types___float32_array___std___length_of}},
   {FLT_C_FUNCTION, 1, {.func = entry__std_types___float32_array___std___dimension_count_of}},
   {FLT_C_FUNCTION, 2, {.func = entry__std_types___float32_array___std___equal}},
   {FLT_C_FUNCTION, -1, {.func = entry__std___float32_array}},
   {FLT_C_FUNCTION, -1, {.func = entry__std___initialized_float32_array}},
   {FLT_C_FUNCTION, 1, {.func = entry__std_types___float32_array___std___new}},
+  {FLT_C_FUNCTION, -1, {.func = entry__std_types___float32_array___std___range}},
   {FLT_C_FUNCTION, -1, {.func = entry__std_types___float64_array___std___length_of}},
   {FLT_C_FUNCTION, 1, {.func = entry__std_types___float64_array___std___dimension_count_of}},
   {FLT_C_FUNCTION, 2, {.func = entry__std_types___float64_array___std___equal}},
   {FLT_C_FUNCTION, -1, {.func = entry__std___float64_array}},
   {FLT_C_FUNCTION, -1, {.func = entry__std___initialized_float64_array}},
   {FLT_C_FUNCTION, 1, {.func = entry__std_types___float64_array___std___new}},
+  {FLT_C_FUNCTION, -1, {.func = entry__std_types___float64_array___std___range}},
   {FLT_C_FUNCTION, 0, {.func = entry__std___pass}},
   {FLT_C_FUNCTION, 0, {.func = entry__std___result_count}},
   {FLT_C_FUNCTION, 2, {.func = entry__std_types___true___std___equal}},
@@ -24646,7 +25164,8 @@ static INTERNAL_METHOD std_types___array__internal_methods[] = {
 static ATTRIBUTE_DEFINITION std_types___array__attributes[] = {
   {var_no__std___dimension_count_of, func__std_types___array___std___dimension_count_of},
   {var_no__std___length_of, func__std_types___array___std___length_of},
-  {var_no__std___new, func__std_types___array___std___new}
+  {var_no__std___new, func__std_types___array___std___new},
+  {var_no__std___range, func__std_types___array___std___range}
 };
 
 static INTERNAL_METHOD std_types___boolean_array__internal_methods[] = {
@@ -24662,7 +25181,8 @@ static ATTRIBUTE_DEFINITION std_types___boolean_array__attributes[] = {
   {var_no__std___dimension_count_of, func__std_types___boolean_array___std___dimension_count_of},
   {var_no__std___equal, func__std_types___boolean_array___std___equal},
   {var_no__std___length_of, func__std_types___boolean_array___std___length_of},
-  {var_no__std___new, func__std_types___boolean_array___std___new}
+  {var_no__std___new, func__std_types___boolean_array___std___new},
+  {var_no__std___range, func__std_types___boolean_array___std___range}
 };
 
 static INTERNAL_METHOD std_types___character_array__internal_methods[] = {
@@ -24675,7 +25195,8 @@ static ATTRIBUTE_DEFINITION std_types___character_array__attributes[] = {
   {var_no__std___dimension_count_of, func__std_types___character_array___std___dimension_count_of},
   {var_no__std___equal, func__std_types___character_array___std___equal},
   {var_no__std___length_of, func__std_types___character_array___std___length_of},
-  {var_no__std___new, func__std_types___character_array___std___new}
+  {var_no__std___new, func__std_types___character_array___std___new},
+  {var_no__std___range, func__std_types___character_array___std___range}
 };
 
 static INTERNAL_METHOD std_types___int8_array__internal_methods[] = {
@@ -24688,7 +25209,8 @@ static ATTRIBUTE_DEFINITION std_types___int8_array__attributes[] = {
   {var_no__std___dimension_count_of, func__std_types___int8_array___std___dimension_count_of},
   {var_no__std___equal, func__std_types___int8_array___std___equal},
   {var_no__std___length_of, func__std_types___int8_array___std___length_of},
-  {var_no__std___new, func__std_types___int8_array___std___new}
+  {var_no__std___new, func__std_types___int8_array___std___new},
+  {var_no__std___range, func__std_types___int8_array___std___range}
 };
 
 static INTERNAL_METHOD std_types___uint8_array__internal_methods[] = {
@@ -24704,7 +25226,8 @@ static ATTRIBUTE_DEFINITION std_types___uint8_array__attributes[] = {
   {var_no__std___dimension_count_of, func__std_types___uint8_array___std___dimension_count_of},
   {var_no__std___equal, func__std_types___uint8_array___std___equal},
   {var_no__std___length_of, func__std_types___uint8_array___std___length_of},
-  {var_no__std___new, func__std_types___uint8_array___std___new}
+  {var_no__std___new, func__std_types___uint8_array___std___new},
+  {var_no__std___range, func__std_types___uint8_array___std___range}
 };
 
 static INTERNAL_METHOD std_types___int16_array__internal_methods[] = {
@@ -24717,7 +25240,8 @@ static ATTRIBUTE_DEFINITION std_types___int16_array__attributes[] = {
   {var_no__std___dimension_count_of, func__std_types___int16_array___std___dimension_count_of},
   {var_no__std___equal, func__std_types___int16_array___std___equal},
   {var_no__std___length_of, func__std_types___int16_array___std___length_of},
-  {var_no__std___new, func__std_types___int16_array___std___new}
+  {var_no__std___new, func__std_types___int16_array___std___new},
+  {var_no__std___range, func__std_types___int16_array___std___range}
 };
 
 static INTERNAL_METHOD std_types___uint16_array__internal_methods[] = {
@@ -24733,7 +25257,8 @@ static ATTRIBUTE_DEFINITION std_types___uint16_array__attributes[] = {
   {var_no__std___dimension_count_of, func__std_types___uint16_array___std___dimension_count_of},
   {var_no__std___equal, func__std_types___uint16_array___std___equal},
   {var_no__std___length_of, func__std_types___uint16_array___std___length_of},
-  {var_no__std___new, func__std_types___uint16_array___std___new}
+  {var_no__std___new, func__std_types___uint16_array___std___new},
+  {var_no__std___range, func__std_types___uint16_array___std___range}
 };
 
 static INTERNAL_METHOD std_types___int32_array__internal_methods[] = {
@@ -24746,7 +25271,8 @@ static ATTRIBUTE_DEFINITION std_types___int32_array__attributes[] = {
   {var_no__std___dimension_count_of, func__std_types___int32_array___std___dimension_count_of},
   {var_no__std___equal, func__std_types___int32_array___std___equal},
   {var_no__std___length_of, func__std_types___int32_array___std___length_of},
-  {var_no__std___new, func__std_types___int32_array___std___new}
+  {var_no__std___new, func__std_types___int32_array___std___new},
+  {var_no__std___range, func__std_types___int32_array___std___range}
 };
 
 static INTERNAL_METHOD std_types___uint32_array__internal_methods[] = {
@@ -24762,7 +25288,8 @@ static ATTRIBUTE_DEFINITION std_types___uint32_array__attributes[] = {
   {var_no__std___dimension_count_of, func__std_types___uint32_array___std___dimension_count_of},
   {var_no__std___equal, func__std_types___uint32_array___std___equal},
   {var_no__std___length_of, func__std_types___uint32_array___std___length_of},
-  {var_no__std___new, func__std_types___uint32_array___std___new}
+  {var_no__std___new, func__std_types___uint32_array___std___new},
+  {var_no__std___range, func__std_types___uint32_array___std___range}
 };
 
 static INTERNAL_METHOD std_types___int64_array__internal_methods[] = {
@@ -24775,7 +25302,8 @@ static ATTRIBUTE_DEFINITION std_types___int64_array__attributes[] = {
   {var_no__std___dimension_count_of, func__std_types___int64_array___std___dimension_count_of},
   {var_no__std___equal, func__std_types___int64_array___std___equal},
   {var_no__std___length_of, func__std_types___int64_array___std___length_of},
-  {var_no__std___new, func__std_types___int64_array___std___new}
+  {var_no__std___new, func__std_types___int64_array___std___new},
+  {var_no__std___range, func__std_types___int64_array___std___range}
 };
 
 static INTERNAL_METHOD std_types___uint64_array__internal_methods[] = {
@@ -24791,7 +25319,8 @@ static ATTRIBUTE_DEFINITION std_types___uint64_array__attributes[] = {
   {var_no__std___dimension_count_of, func__std_types___uint64_array___std___dimension_count_of},
   {var_no__std___equal, func__std_types___uint64_array___std___equal},
   {var_no__std___length_of, func__std_types___uint64_array___std___length_of},
-  {var_no__std___new, func__std_types___uint64_array___std___new}
+  {var_no__std___new, func__std_types___uint64_array___std___new},
+  {var_no__std___range, func__std_types___uint64_array___std___range}
 };
 
 static INTERNAL_METHOD std_types___float32_array__internal_methods[] = {
@@ -24804,7 +25333,8 @@ static ATTRIBUTE_DEFINITION std_types___float32_array__attributes[] = {
   {var_no__std___dimension_count_of, func__std_types___float32_array___std___dimension_count_of},
   {var_no__std___equal, func__std_types___float32_array___std___equal},
   {var_no__std___length_of, func__std_types___float32_array___std___length_of},
-  {var_no__std___new, func__std_types___float32_array___std___new}
+  {var_no__std___new, func__std_types___float32_array___std___new},
+  {var_no__std___range, func__std_types___float32_array___std___range}
 };
 
 static INTERNAL_METHOD std_types___float64_array__internal_methods[] = {
@@ -24817,7 +25347,8 @@ static ATTRIBUTE_DEFINITION std_types___float64_array__attributes[] = {
   {var_no__std___dimension_count_of, func__std_types___float64_array___std___dimension_count_of},
   {var_no__std___equal, func__std_types___float64_array___std___equal},
   {var_no__std___length_of, func__std_types___float64_array___std___length_of},
-  {var_no__std___new, func__std_types___float64_array___std___new}
+  {var_no__std___new, func__std_types___float64_array___std___new},
+  {var_no__std___range, func__std_types___float64_array___std___range}
 };
 
 static INTERNAL_METHOD std_types___true__internal_methods[] = {
@@ -25661,7 +26192,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {(NODE *)&std_types___generic_array}
   },
   {
-    FOT_TYPE, 0, 3,
+    FOT_TYPE, 0, 4,
     "array\000std_types", std_types___array__attributes,
     {"generic_array\000std_types"},
     {.methods_count = 3}, 0,
@@ -25679,7 +26210,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {.const_idx = func__std___initialized_array}
   },
   {
-    FOT_TYPE, 0, 7,
+    FOT_TYPE, 0, 8,
     "boolean_array\000std_types", std_types___boolean_array__attributes,
     {"generic_array\000std_types"},
     {.methods_count = 3}, 0,
@@ -25697,7 +26228,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {.const_idx = func__std___initialized_boolean_array}
   },
   {
-    FOT_TYPE, 0, 4,
+    FOT_TYPE, 0, 5,
     "character_array\000std_types", std_types___character_array__attributes,
     {"generic_array\000std_types"},
     {.methods_count = 3}, 0,
@@ -25715,7 +26246,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {.const_idx = func__std___initialized_character_array}
   },
   {
-    FOT_TYPE, 0, 4,
+    FOT_TYPE, 0, 5,
     "int8_array\000std_types", std_types___int8_array__attributes,
     {"generic_array\000std_types"},
     {.methods_count = 3}, 0,
@@ -25733,7 +26264,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {.const_idx = func__std___initialized_int8_array}
   },
   {
-    FOT_TYPE, 0, 7,
+    FOT_TYPE, 0, 8,
     "uint8_array\000std_types", std_types___uint8_array__attributes,
     {"generic_array\000std_types"},
     {.methods_count = 3}, 0,
@@ -25751,7 +26282,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {.const_idx = func__std___initialized_uint8_array}
   },
   {
-    FOT_TYPE, 0, 4,
+    FOT_TYPE, 0, 5,
     "int16_array\000std_types", std_types___int16_array__attributes,
     {"generic_array\000std_types"},
     {.methods_count = 3}, 0,
@@ -25769,7 +26300,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {.const_idx = func__std___initialized_int16_array}
   },
   {
-    FOT_TYPE, 0, 7,
+    FOT_TYPE, 0, 8,
     "uint16_array\000std_types", std_types___uint16_array__attributes,
     {"generic_array\000std_types"},
     {.methods_count = 3}, 0,
@@ -25787,7 +26318,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {.const_idx = func__std___initialized_uint16_array}
   },
   {
-    FOT_TYPE, 0, 4,
+    FOT_TYPE, 0, 5,
     "int32_array\000std_types", std_types___int32_array__attributes,
     {"generic_array\000std_types"},
     {.methods_count = 3}, 0,
@@ -25805,7 +26336,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {.const_idx = func__std___initialized_int32_array}
   },
   {
-    FOT_TYPE, 0, 7,
+    FOT_TYPE, 0, 8,
     "uint32_array\000std_types", std_types___uint32_array__attributes,
     {"generic_array\000std_types"},
     {.methods_count = 3}, 0,
@@ -25823,7 +26354,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {.const_idx = func__std___initialized_uint32_array}
   },
   {
-    FOT_TYPE, 0, 4,
+    FOT_TYPE, 0, 5,
     "int64_array\000std_types", std_types___int64_array__attributes,
     {"generic_array\000std_types"},
     {.methods_count = 3}, 0,
@@ -25841,7 +26372,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {.const_idx = func__std___initialized_int64_array}
   },
   {
-    FOT_TYPE, 0, 7,
+    FOT_TYPE, 0, 8,
     "uint64_array\000std_types", std_types___uint64_array__attributes,
     {"generic_array\000std_types"},
     {.methods_count = 3}, 0,
@@ -25859,7 +26390,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {.const_idx = func__std___initialized_uint64_array}
   },
   {
-    FOT_TYPE, 0, 4,
+    FOT_TYPE, 0, 5,
     "float32_array\000std_types", std_types___float32_array__attributes,
     {"generic_array\000std_types"},
     {.methods_count = 3}, 0,
@@ -25877,7 +26408,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {.const_idx = func__std___initialized_float32_array}
   },
   {
-    FOT_TYPE, 0, 4,
+    FOT_TYPE, 0, 5,
     "float64_array\000std_types", std_types___float64_array__attributes,
     {"generic_array\000std_types"},
     {.methods_count = 3}, 0,
@@ -28263,13 +28794,13 @@ FUNKY_MODULE module__builtin = {
   NULL,
   0, 0,
   4, 0,
-  373, 444,
+  386, 444,
   NULL,
   defined_namespaces, NULL,
   constants_table, variables_table
 };
 
-BUILTIN_FUNCTION_NAME builtin_function_names[425] = {
+BUILTIN_FUNCTION_NAME builtin_function_names[438] = {
   {std_types___generic_array____type, "std_types::generic_array/_type"},
   {std_types___array____type, "std_types::array/_type"},
   {entry__std_types___array___std___length_of, "std_types::array/length_of"},
@@ -28277,6 +28808,7 @@ BUILTIN_FUNCTION_NAME builtin_function_names[425] = {
   {entry__std___array, "std::array"},
   {entry__std___initialized_array, "std::initialized_array"},
   {entry__std_types___array___std___new, "std_types::array/new"},
+  {entry__std_types___array___std___range, "std_types::array/range"},
   {std_types___boolean_array____type, "std_types::boolean_array/_type"},
   {entry__std_types___boolean_array___std___length_of, "std_types::boolean_array/length_of"},
   {entry__std_types___boolean_array___std___dimension_count_of, "std_types::boolean_array/dimension_count_of"},
@@ -28287,6 +28819,7 @@ BUILTIN_FUNCTION_NAME builtin_function_names[425] = {
   {entry__std___boolean_array, "std::boolean_array"},
   {entry__std___initialized_boolean_array, "std::initialized_boolean_array"},
   {entry__std_types___boolean_array___std___new, "std_types::boolean_array/new"},
+  {entry__std_types___boolean_array___std___range, "std_types::boolean_array/range"},
   {std_types___character_array____type, "std_types::character_array/_type"},
   {entry__std_types___character_array___std___length_of, "std_types::character_array/length_of"},
   {entry__std_types___character_array___std___dimension_count_of, "std_types::character_array/dimension_count_of"},
@@ -28294,6 +28827,7 @@ BUILTIN_FUNCTION_NAME builtin_function_names[425] = {
   {entry__std___character_array, "std::character_array"},
   {entry__std___initialized_character_array, "std::initialized_character_array"},
   {entry__std_types___character_array___std___new, "std_types::character_array/new"},
+  {entry__std_types___character_array___std___range, "std_types::character_array/range"},
   {std_types___int8_array____type, "std_types::int8_array/_type"},
   {entry__std_types___int8_array___std___length_of, "std_types::int8_array/length_of"},
   {entry__std_types___int8_array___std___dimension_count_of, "std_types::int8_array/dimension_count_of"},
@@ -28301,6 +28835,7 @@ BUILTIN_FUNCTION_NAME builtin_function_names[425] = {
   {entry__std___int8_array, "std::int8_array"},
   {entry__std___initialized_int8_array, "std::initialized_int8_array"},
   {entry__std_types___int8_array___std___new, "std_types::int8_array/new"},
+  {entry__std_types___int8_array___std___range, "std_types::int8_array/range"},
   {std_types___uint8_array____type, "std_types::uint8_array/_type"},
   {entry__std_types___uint8_array___std___length_of, "std_types::uint8_array/length_of"},
   {entry__std_types___uint8_array___std___dimension_count_of, "std_types::uint8_array/dimension_count_of"},
@@ -28311,6 +28846,7 @@ BUILTIN_FUNCTION_NAME builtin_function_names[425] = {
   {entry__std___uint8_array, "std::uint8_array"},
   {entry__std___initialized_uint8_array, "std::initialized_uint8_array"},
   {entry__std_types___uint8_array___std___new, "std_types::uint8_array/new"},
+  {entry__std_types___uint8_array___std___range, "std_types::uint8_array/range"},
   {std_types___int16_array____type, "std_types::int16_array/_type"},
   {entry__std_types___int16_array___std___length_of, "std_types::int16_array/length_of"},
   {entry__std_types___int16_array___std___dimension_count_of, "std_types::int16_array/dimension_count_of"},
@@ -28318,6 +28854,7 @@ BUILTIN_FUNCTION_NAME builtin_function_names[425] = {
   {entry__std___int16_array, "std::int16_array"},
   {entry__std___initialized_int16_array, "std::initialized_int16_array"},
   {entry__std_types___int16_array___std___new, "std_types::int16_array/new"},
+  {entry__std_types___int16_array___std___range, "std_types::int16_array/range"},
   {std_types___uint16_array____type, "std_types::uint16_array/_type"},
   {entry__std_types___uint16_array___std___length_of, "std_types::uint16_array/length_of"},
   {entry__std_types___uint16_array___std___dimension_count_of, "std_types::uint16_array/dimension_count_of"},
@@ -28328,6 +28865,7 @@ BUILTIN_FUNCTION_NAME builtin_function_names[425] = {
   {entry__std___uint16_array, "std::uint16_array"},
   {entry__std___initialized_uint16_array, "std::initialized_uint16_array"},
   {entry__std_types___uint16_array___std___new, "std_types::uint16_array/new"},
+  {entry__std_types___uint16_array___std___range, "std_types::uint16_array/range"},
   {std_types___int32_array____type, "std_types::int32_array/_type"},
   {entry__std_types___int32_array___std___length_of, "std_types::int32_array/length_of"},
   {entry__std_types___int32_array___std___dimension_count_of, "std_types::int32_array/dimension_count_of"},
@@ -28335,6 +28873,7 @@ BUILTIN_FUNCTION_NAME builtin_function_names[425] = {
   {entry__std___int32_array, "std::int32_array"},
   {entry__std___initialized_int32_array, "std::initialized_int32_array"},
   {entry__std_types___int32_array___std___new, "std_types::int32_array/new"},
+  {entry__std_types___int32_array___std___range, "std_types::int32_array/range"},
   {std_types___uint32_array____type, "std_types::uint32_array/_type"},
   {entry__std_types___uint32_array___std___length_of, "std_types::uint32_array/length_of"},
   {entry__std_types___uint32_array___std___dimension_count_of, "std_types::uint32_array/dimension_count_of"},
@@ -28345,6 +28884,7 @@ BUILTIN_FUNCTION_NAME builtin_function_names[425] = {
   {entry__std___uint32_array, "std::uint32_array"},
   {entry__std___initialized_uint32_array, "std::initialized_uint32_array"},
   {entry__std_types___uint32_array___std___new, "std_types::uint32_array/new"},
+  {entry__std_types___uint32_array___std___range, "std_types::uint32_array/range"},
   {std_types___int64_array____type, "std_types::int64_array/_type"},
   {entry__std_types___int64_array___std___length_of, "std_types::int64_array/length_of"},
   {entry__std_types___int64_array___std___dimension_count_of, "std_types::int64_array/dimension_count_of"},
@@ -28352,6 +28892,7 @@ BUILTIN_FUNCTION_NAME builtin_function_names[425] = {
   {entry__std___int64_array, "std::int64_array"},
   {entry__std___initialized_int64_array, "std::initialized_int64_array"},
   {entry__std_types___int64_array___std___new, "std_types::int64_array/new"},
+  {entry__std_types___int64_array___std___range, "std_types::int64_array/range"},
   {std_types___uint64_array____type, "std_types::uint64_array/_type"},
   {entry__std_types___uint64_array___std___length_of, "std_types::uint64_array/length_of"},
   {entry__std_types___uint64_array___std___dimension_count_of, "std_types::uint64_array/dimension_count_of"},
@@ -28362,6 +28903,7 @@ BUILTIN_FUNCTION_NAME builtin_function_names[425] = {
   {entry__std___uint64_array, "std::uint64_array"},
   {entry__std___initialized_uint64_array, "std::initialized_uint64_array"},
   {entry__std_types___uint64_array___std___new, "std_types::uint64_array/new"},
+  {entry__std_types___uint64_array___std___range, "std_types::uint64_array/range"},
   {std_types___float32_array____type, "std_types::float32_array/_type"},
   {entry__std_types___float32_array___std___length_of, "std_types::float32_array/length_of"},
   {entry__std_types___float32_array___std___dimension_count_of, "std_types::float32_array/dimension_count_of"},
@@ -28369,6 +28911,7 @@ BUILTIN_FUNCTION_NAME builtin_function_names[425] = {
   {entry__std___float32_array, "std::float32_array"},
   {entry__std___initialized_float32_array, "std::initialized_float32_array"},
   {entry__std_types___float32_array___std___new, "std_types::float32_array/new"},
+  {entry__std_types___float32_array___std___range, "std_types::float32_array/range"},
   {std_types___float64_array____type, "std_types::float64_array/_type"},
   {entry__std_types___float64_array___std___length_of, "std_types::float64_array/length_of"},
   {entry__std_types___float64_array___std___dimension_count_of, "std_types::float64_array/dimension_count_of"},
@@ -28376,6 +28919,7 @@ BUILTIN_FUNCTION_NAME builtin_function_names[425] = {
   {entry__std___float64_array, "std::float64_array"},
   {entry__std___initialized_float64_array, "std::initialized_float64_array"},
   {entry__std_types___float64_array___std___new, "std_types::float64_array/new"},
+  {entry__std_types___float64_array___std___range, "std_types::float64_array/range"},
   {entry__std___pass, "std::pass"},
   {entry__std___result_count, "std::result_count"},
   {std_types___true____type, "std_types::true/_type"},
