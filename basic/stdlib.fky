@@ -1,5 +1,5 @@
 #
-  Copyright (C) 2023 by
+  Copyright (C) 2024 by
   Dipl.-Ing. Michael Niederle
 
   This program is free software; you can redistribute it and/or modify
@@ -39,6 +39,7 @@
 <require ./parameters>
 <require ./primitives>
 
+<require ./types/meta>
 <require ./types/boolean>
 <require ./types/character>
 <require ./types/date_and_time>

@@ -115,6 +115,14 @@ METHOD long std_types::real/_debug_string
     return debug_print(indent, buf, "%.15g", node->real.value);
   }
 
+FUNCTION NODE *from_float
+  (
+    float value
+  )
+  {
+    return CREATE(std_types::real, value);
+  }
+
 FUNCTION NODE *from_double
   (
     double value
@@ -133,6 +141,16 @@ METHOD int std_types::positive_integer/_to_double
     return true;
   }
 
+METHOD int std_types::positive_integer/_to_float
+  (
+    NODE *node,
+    float *result_p
+  )
+  {
+    *result_p = (float) node->integer.value;
+    return true;
+  }
+
 METHOD int negative_integer/_to_double
   (
     NODE *node,
@@ -143,6 +161,16 @@ METHOD int negative_integer/_to_double
     return true;
   }
 
+METHOD int negative_integer/_to_float
+  (
+    NODE *node,
+    float *result_p
+  )
+  {
+    *result_p = -(float)node->integer.value;
+    return true;
+  }
+
 METHOD int std_types::real/_to_double
   (
     NODE *node,
@@ -150,6 +178,16 @@ METHOD int std_types::real/_to_double
   )
   {
     *result_p = node->real.value;
+    return true;
+  }
+
+METHOD int std_types::real/_to_float
+  (
+    NODE *node,
+    float *result_p
+  )
+  {
+    *result_p = (float) node->real.value;
     return true;
   }
 

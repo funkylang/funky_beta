@@ -565,6 +565,20 @@ ATTR std::length_of
 
     See also: std::is_empty
 
+ATTR std::dimension_count_of
+  #
+    returns the number of dimensions of a multidimensional array
+
+    Parameter:
+      array # the array to be analyzed
+
+    Result:
+      count # the number of dimensions of array
+
+    Topic: Arrays
+
+    See also: std::length_of
+
 ATTR std::width_of
   #
     returns the width of an object in character positions

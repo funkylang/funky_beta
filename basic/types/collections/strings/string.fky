@@ -105,6 +105,8 @@ $std_types::octet_string.is_an_octet_string true
 
     Topic: Strings
 
+$std_types::string.neutral_element_of ""
+
 $std_types::string/to_string:
   #
     returns its argument unaltered

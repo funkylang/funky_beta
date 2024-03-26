@@ -52,6 +52,8 @@ $std_types::integer.is_an_integer true
 
     Topic: Numbers
 
+$std_types::number.neutral_element_of 0
+
 $std_types::number/floor:
   #
     default implementation for all kind of numbers

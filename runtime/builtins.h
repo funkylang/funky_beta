@@ -6,7 +6,7 @@ typedef struct {
   const char *name;
 } BUILTIN_FUNCTION_NAME;
 
-extern BUILTIN_FUNCTION_NAME builtin_function_names[389];
+extern BUILTIN_FUNCTION_NAME builtin_function_names[425];
 
 typedef enum {
   FIM_SIZE,
@@ -25,6 +25,7 @@ typedef enum {
   FIM_TO_UINT,
   FIM_TO_LONG,
   FIM_TO_ULONG,
+  FIM_TO_FLOAT,
   FIM_TO_DOUBLE,
   FIM_TO_C_STRING,
   FIM_TO_OCTETS,
@@ -43,6 +44,16 @@ typedef struct {
   int dimension_count;
   int dimensions[];
 } ARRAY_INFO;
+
+typedef struct {
+  int first_index;
+  int width;
+} DIMENSION_INFO;
+
+typedef struct {
+  int dimension_count;
+  DIMENSION_INFO dimensions[];
+} ARRAY_VIEW;
 
 typedef struct {
   long size;
@@ -116,6 +127,18 @@ typedef struct {
   uint64_t items[];
 } UINT64_ARRAY_DATA;
 
+typedef struct {
+  ARRAY_INFO *info;
+  long size;
+  float items[];
+} FLOAT32_ARRAY_DATA;
+
+typedef struct {
+  ARRAY_INFO *info;
+  long size;
+  double items[];
+} FLOAT64_ARRAY_DATA;
+
   typedef struct {
     long size; // including terminating zero byte
     char text[];
@@ -187,6 +210,18 @@ typedef struct {
   long offset;
   NODE *value;
 } UPDATE_ARRAY_DATA_SET_VALUE;
+
+typedef struct {
+  TAG tag;
+  long offset;
+  double value;
+} UPDATE_FLOAT64_ARRAY_DATA_SET_VALUE;
+
+typedef struct {
+  TAG tag;
+  long offset;
+  float value;
+} UPDATE_FLOAT32_ARRAY_DATA_SET_VALUE;
 
 typedef struct {
   TAG tag;
@@ -305,6 +340,22 @@ typedef struct {
   UINT64_ARRAY_DATA *data;
   ARRAY_UPDATES *updates;
 } UINT64_ARRAY;
+
+typedef struct {
+  void *type;
+  ATTRIBUTES *attributes;
+  long updates_length;
+  FLOAT32_ARRAY_DATA *data;
+  ARRAY_UPDATES *updates;
+} FLOAT32_ARRAY;
+
+typedef struct {
+  void *type;
+  ATTRIBUTES *attributes;
+  long updates_length;
+  FLOAT64_ARRAY_DATA *data;
+  ARRAY_UPDATES *updates;
+} FLOAT64_ARRAY;
 
 typedef struct {
   void *type;
@@ -549,6 +600,8 @@ typedef union NODE {
   UINT32_ARRAY uint32_array;
   INT64_ARRAY int64_array;
   UINT64_ARRAY uint64_array;
+  FLOAT32_ARRAY float32_array;
+  FLOAT64_ARRAY float64_array;
   C_FUNCTION c_function;
   CHARACTER character;
   DATE_AND_TIME date_and_time;
@@ -595,6 +648,7 @@ int to_int(NODE *node, int *result_p);
 int to_uint(NODE *node, unsigned int *result_p);
 int to_long(NODE *node, long *result_p);
 int to_ulong(NODE *node, unsigned long *result_p);
+int to_float(NODE *node, float *result_p);
 int to_double(NODE *node, double *result_p);
 int to_c_string(NODE *node, char **result_p);
 int to_octets(NODE *node, const uint8_t** buf_p, long *size_p);
@@ -618,6 +672,7 @@ void too_few_results(void);
 void too_many_results(void);
 void invalid_results(void);
 void invalid_index(NODE *node);
+void invalid_dimension(NODE *node);
 void divide_by_zero(void);
 void missing_io_access_rights(void);
 void not_yet_implemented(void);
@@ -629,6 +684,7 @@ void flush_failed(void);
 NODE *create_function(const TAB_NUM *code);
 NODE *create_list(long count);
 void set_list_item(NODE *list, long idx, NODE *value);
+NODE *from_float(float value);
 NODE *from_double(double value);
 NODE *from_int(int value);
 NODE *from_long(long value);
@@ -696,6 +752,8 @@ extern INT32_ARRAY std_types___int32_array;
 extern UINT32_ARRAY std_types___uint32_array;
 extern INT64_ARRAY std_types___int64_array;
 extern UINT64_ARRAY std_types___uint64_array;
+extern FLOAT32_ARRAY std_types___float32_array;
+extern FLOAT64_ARRAY std_types___float64_array;
 extern SIMPLE_NODE std_types___true;
 extern SIMPLE_NODE std_types___false;
 extern C_FUNCTION c_function;

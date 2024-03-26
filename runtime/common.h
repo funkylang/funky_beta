@@ -84,6 +84,7 @@ typedef struct VTABLE {
   int (*to_uint)(NODE *node, unsigned int *result_p);
   int (*to_long)(NODE *node, long *result_p);
   int (*to_ulong)(NODE *node, unsigned long *result_p);
+  int (*to_float)(NODE *node, float *result_p);
   int (*to_double)(NODE *node, double *result_p);
   int (*to_c_string)(NODE *node, char **result_p);
   int (*to_octets)(NODE *node, const uint8_t** buf_p, long *size_p);

@@ -1068,6 +1068,17 @@ FUNCTION void invalid_index
       "INVALID INDEX", 0, 0, node);
   }
 
+FUNCTION void invalid_dimension
+  (
+    NODE *node
+  )
+  {
+    create_error_message(
+      module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+      "INVALID DIMENSION", 0, 0, node);
+  }
+
+
 FUNCTION void divide_by_zero
   (
     void

@@ -51,6 +51,8 @@ $std_types::list.is_a_list true
 
     Topic: Lists
 
+$std_types::list.neutral_element_of empty_list
+
 $std_types::generic_list/put:
   #
     adds a single item at the front of the list

@@ -14,6 +14,7 @@
 /// require ./math
 /// require ./parameters
 /// require ./primitives
+/// require ./types/meta
 /// require ./types/boolean
 /// require ./types/character
 /// require ./types/date_and_time
@@ -74,6 +75,7 @@ extern FUNKY_MODULE module__basic__loops;
 extern FUNKY_MODULE module__basic__math;
 extern FUNKY_MODULE module__basic__parameters;
 extern FUNKY_MODULE module__basic__primitives;
+extern FUNKY_MODULE module__basic__types__meta;
 extern FUNKY_MODULE module__basic__types__boolean;
 extern FUNKY_MODULE module__basic__types__character;
 extern FUNKY_MODULE module__basic__types__date_and_time;
@@ -124,6 +126,7 @@ static FUNKY_MODULE *required_modules[] = {
   &module__basic__math,
   &module__basic__parameters,
   &module__basic__primitives,
+  &module__basic__types__meta,
   &module__basic__types__boolean,
   &module__basic__types__character,
   &module__basic__types__date_and_time,
@@ -173,7 +176,7 @@ FUNKY_MODULE module__basic__stdlib = {
   .minor_version = 0,
   .feature_flags = FEAT_POSITIONS,
   .marker = 0,
-  48, // number of required modules
+  49, // number of required modules
   1, // number of defined namespaces
   1, // number of used namespaces
   0, // number of constants

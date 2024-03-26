@@ -21,6 +21,7 @@
   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
 <using std>
+<allow unused>
 
 $std::is_an_array () # obvious
 
@@ -112,13 +113,105 @@ $std_types::generic_array/for_each:
 	iterate_1 # start the next iteration
       iterate_1 # start the first iteration
 
+$std_types::generic_array/map:
+  #
+    applies a function to each element of an array, producing a new array
+
+    Topic: Arrays
+
+    See also: map_reduce, reduce
+  (
+    self # the array to work on
+    map_function # the function to apply to each element of the array
+  )
+  $d dimension_count_of(self)
+  case d
+    1:
+      $new_array new(self)
+      if
+	parameter_count_of(map_function) == 1:
+	  from_to 1 length_of(self)
+	    : (i)
+	      !new_array(i) map_function(self(i))
+	      next
+	    -> new_array
+	:
+	  from_to 1 length_of(self)
+	    : (i)
+	      !new_array(i) map_function(i self(i))
+	      next
+	    -> new_array
+    2:
+      $n length_of(self 1)
+      $m length_of(self 2)
+      $new_array new(self)
+      from_to 1 n
+	: (i)
+	  if
+	    parameter_count_of(map_function) == 1:
+	      from_to 1 m
+		: (j)
+		  !new_array(i j) map_function(self(i j))
+		  next
+		next
+	    :
+	      from_to 1 m
+		: (j)
+		  !new_array(i j) map_function(i j self(i j))
+		  next
+		next
+	-> new_array
+    :
+      Error "
+	<map> is not yet defined for arrays with more than two dimensions
+
+$std_types::generic_array/reduce:
+  #
+    applies a function to the elements of an array, returning a single result
+
+    Topic: Arrays
+
+    See also: map_reduce
+  (
+    self # the array to work on
+    reduce_function = append # the function to apply to pairs of values
+    _unit = undefined # the value to return for empty arrays
+  )
+  $d dimension_count_of(self)
+  case d
+    1:
+      $reduce: (s e)
+	if
+	  s < e:
+	    $m (s+e) >> 1
+	    reduce_function
+	      reduce(s m)
+	      reduce(m+1 e)
+	  -> self(s)
+      reduce 1 length_of(self)
+    2:
+      $n length_of(self 1)
+      $m length_of(self 2)
+      $acc neutral_element_of(self(1 1))
+      from_to 1 n
+	: (i)
+	  from_to 1 m
+	    : (j)
+	      reduce_function &acc self(i j)
+	      next
+	    next
+	-> acc
+    :
+      Error "
+	<reduce> is not yet defined for arrays with more than two dimensions
+
 $std_types::generic_array/map_reduce:
   #
     combines a map and a reduce operation into a single operation
 
     Does not create an intermediate array to hold the "mapped" values.
 
-    Topic: Lists
+    Topic: Arrays
 
     See also: map, reduce
   (
@@ -127,29 +220,54 @@ $std_types::generic_array/map_reduce:
     reduce_function = append # the function to apply to pairs of values
     _unit = undefined # the value to return for empty arrays
   )
-  $map_reduce
-    if
-      parameter_count_of(map_function) == 2
-      ->
-	: (s e)
+  $d dimension_count_of(self)
+  case d
+    1:
+      $map_reduce
+	if
+	  parameter_count_of(map_function) == 1
+	  ->
+	    : (s e)
+	      if
+		s < e:
+		  $m (s+e) >> 1
+		  reduce_function
+		    map_reduce(s m)
+		    map_reduce(m+1 e)
+		-> map_function(self(s))
+	  ->
+	    : (s e)
+	      if
+		s < e:
+		  $m (s+e) >> 1
+		  reduce_function
+		    map_reduce(s m)
+		    map_reduce(m+1 e)
+		-> map_function(s self(s))
+      map_reduce 1 length_of(self)
+    2:
+      $n length_of(self 1)
+      $m length_of(self 2)
+      $acc neutral_element_of(map_function(self(1 1)))
+      from_to 1 n
+	: (i)
 	  if
-	    s < e:
-	      $m (s+e) >> 1
-	      reduce_function
-		map_reduce(s m)
-		map_reduce(m+1 e)
-	    -> map_function(s self(s))
-      ->
-	: (s e)
-	  if
-	    s < e:
-	      $m (s+e) >> 1
-	      reduce_function
-		map_reduce(s m)
-		map_reduce(m+1 e)
-	    -> map_function(self(s))
-
-  map_reduce 1 length_of(self)
+	    parameter_count_of(map_function) == 1:
+	      from_to 1 m
+		: (j)
+		  reduce_function &acc map_function(self(i j))
+		  next
+		next
+	    :
+	      from_to 1 m
+		: (j)
+		  reduce_function &acc map_function(i j self(i j))
+		  next
+		next
+	-> acc
+    :
+      Error "
+	<map_reduce> is not yet defined for arrays with more than two dimensions
 
 ###
 # serialization
@@ -165,23 +283,27 @@ $std_types::int32_array.serialization_tag_of "int32_array"
 $std_types::uint32_array.serialization_tag_of "uint32_array"
 $std_types::int64_array.serialization_tag_of "int64_array"
 $std_types::uint64_array.serialization_tag_of "uint64_array"
+$std_types::float32_array.serialization_tag_of "float32_array"
+$std_types::float64_array.serialization_tag_of "float64_array"
 
 $std_types::generic_array/serialize:
   (
     self
     indent = undefined
   )
-  $new_indent
+  $n dimension_count_of(self)
+  $dimensions map_reduce(1..n : (i) -> append(" " length_of(self i).to_string))
+  $indentation
     if
       indent.is_defined
-      -> indent+2
-      -> undefined
-  map_reduce $contents
-    self: (value) serialize value new_indent
-    append
-    ""
-  $header
-    "
-      @(serialization_tag_of(self)) @(length_of(self))
-  update_if indent.is_defined &header -> append(tabs_and_spaces(indent) header)
-  append header contents
+      -> tabs_and_spaces(indent+2)
+      -> ""
+  append
+    if
+      indent.is_defined
+      -> tabs_and_spaces(indent)
+      -> ""
+    serialization_tag_of(self)
+    dimensions
+    "@nl;"
+    map_reduce(self: (item) -> append(indentation item.to_string "@nl;"))
