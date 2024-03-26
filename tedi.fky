@@ -1011,7 +1011,8 @@ $event_loop:
 	    idx != previous_text_window_index_of(state)
 	    previous_window_index_of(state) < 0
 	:
-	  !state.windows_of(idx).needs_redraw true
+	  !window.needs_redraw true
+	  !state.windows_of(idx) window
 	  create_views !state idx
 	  update_all_views terminal state
 	:
