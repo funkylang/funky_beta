@@ -41,7 +41,7 @@ typedef struct FUNKY_MODULE FUNKY_MODULE;
 extern BUILTIN_FUNCTION_NAME builtin_function_names[];
 
 typedef struct {
-  int dimension_count;
+  long dimension_count;
   int dimensions[];
 } ARRAY_INFO;
 
@@ -51,7 +51,7 @@ typedef struct {
 } DIMENSION_INFO;
 
 typedef struct {
-  int dimension_count;
+  long dimension_count;
   DIMENSION_INFO dimensions[];
 } ARRAY_VIEW;
 
