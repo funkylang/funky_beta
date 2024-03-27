@@ -1021,104 +1021,104 @@ static OCTET_STRING std___empty_string;
 static void *create__std_types___array
   (
     long updates_length,
-    ARRAY_DATA *data,
     ARRAY_VIEW *view,
+    ARRAY_DATA *data,
     ARRAY_UPDATES *updates
   );
 
 static void *create__std_types___boolean_array
   (
     long updates_length,
-    BOOLEAN_ARRAY_DATA *data,
     ARRAY_VIEW *view,
+    BOOLEAN_ARRAY_DATA *data,
     ARRAY_UPDATES *updates
   );
 
 static void *create__std_types___character_array
   (
     long updates_length,
-    CHARACTER_ARRAY_DATA *data,
     ARRAY_VIEW *view,
+    CHARACTER_ARRAY_DATA *data,
     ARRAY_UPDATES *updates
   );
 
 static void *create__std_types___int8_array
   (
     long updates_length,
-    INT8_ARRAY_DATA *data,
     ARRAY_VIEW *view,
+    INT8_ARRAY_DATA *data,
     ARRAY_UPDATES *updates
   );
 
 static void *create__std_types___uint8_array
   (
     long updates_length,
-    UINT8_ARRAY_DATA *data,
     ARRAY_VIEW *view,
+    UINT8_ARRAY_DATA *data,
     ARRAY_UPDATES *updates
   );
 
 static void *create__std_types___int16_array
   (
     long updates_length,
-    INT16_ARRAY_DATA *data,
     ARRAY_VIEW *view,
+    INT16_ARRAY_DATA *data,
     ARRAY_UPDATES *updates
   );
 
 static void *create__std_types___uint16_array
   (
     long updates_length,
-    UINT16_ARRAY_DATA *data,
     ARRAY_VIEW *view,
+    UINT16_ARRAY_DATA *data,
     ARRAY_UPDATES *updates
   );
 
 static void *create__std_types___int32_array
   (
     long updates_length,
-    INT32_ARRAY_DATA *data,
     ARRAY_VIEW *view,
+    INT32_ARRAY_DATA *data,
     ARRAY_UPDATES *updates
   );
 
 static void *create__std_types___uint32_array
   (
     long updates_length,
-    UINT32_ARRAY_DATA *data,
     ARRAY_VIEW *view,
+    UINT32_ARRAY_DATA *data,
     ARRAY_UPDATES *updates
   );
 
 static void *create__std_types___int64_array
   (
     long updates_length,
-    INT64_ARRAY_DATA *data,
     ARRAY_VIEW *view,
+    INT64_ARRAY_DATA *data,
     ARRAY_UPDATES *updates
   );
 
 static void *create__std_types___uint64_array
   (
     long updates_length,
-    UINT64_ARRAY_DATA *data,
     ARRAY_VIEW *view,
+    UINT64_ARRAY_DATA *data,
     ARRAY_UPDATES *updates
   );
 
 static void *create__std_types___float32_array
   (
     long updates_length,
-    FLOAT32_ARRAY_DATA *data,
     ARRAY_VIEW *view,
+    FLOAT32_ARRAY_DATA *data,
     ARRAY_UPDATES *updates
   );
 
 static void *create__std_types___float64_array
   (
     long updates_length,
-    FLOAT64_ARRAY_DATA *data,
     ARRAY_VIEW *view,
+    FLOAT64_ARRAY_DATA *data,
     ARRAY_UPDATES *updates
   );
 
@@ -1747,29 +1747,60 @@ static void *collect_array_updates
     return new_updates;
   }
 
-static ARRAY_DATA *allocate_array_data
+static ARRAY_VIEW *create_array_view
   (
-    int dimension_count,
-    int item_size
+    int dimension_count
   )
   {
-    ARRAY_INFO *info =
-      allocate(
-	ALLOCATION_SIZE(sizeof(ARRAY_INFO)+dimension_count*sizeof(long)));
-    info->dimension_count = dimension_count;
-    int i;
-    for (i = 0; i < dimension_count; ++i) {
+    ARRAY_VIEW *view =
+      allocate(ALLOCATION_SIZE(
+	sizeof(ARRAY_VIEW)+dimension_count*sizeof(DIMENSION_INFO)));
+    view->dimension_count = dimension_count;
+    for (int i = 0; i < dimension_count; ++i) {
       long dimension;
       if (!to_long(TLS_arguments[i], &dimension)) return NULL;
       if (dimension < 1) {
 	invalid_arguments();
 	return NULL;
       }
-      info->dimensions[i] = dimension;
+      view->dimensions[i].first_index = 0;
+      view->dimensions[i].width = dimension;
     }
-    long size = info->dimensions[0];
-    for (i = 1; i < dimension_count; ++i) {
-      size *= info->dimensions[i];
+    return view;
+  }
+
+static ARRAY_VIEW *create_new_array_view
+  (
+    ARRAY_VIEW *view
+  )
+  {
+    int dimension_count = view->dimension_count;
+    ARRAY_VIEW *new_view =
+      allocate(ALLOCATION_SIZE(
+	sizeof(ARRAY_VIEW)+dimension_count*sizeof(DIMENSION_INFO)));
+    new_view->dimension_count = dimension_count;
+    for (int i = 0; i < dimension_count; ++i) {
+      new_view->dimensions[i].first_index = 0;
+      new_view->dimensions[i].width = view->dimensions[i].width;
+    }
+    return new_view;
+  }
+
+static ARRAY_DATA *create_array_info_and_data
+  (
+    ARRAY_VIEW *view,
+    int item_size
+  )
+  {
+    int dimension_count = view->dimension_count;
+    ARRAY_INFO *info =
+      allocate(
+	ALLOCATION_SIZE(sizeof(ARRAY_INFO)+dimension_count*sizeof(long)));
+    info->dimension_count = dimension_count;
+    long size = 1;
+    for (int i = dimension_count-1; i >= 0; --i) {
+      info->dimensions[i] = size;
+      size *= view->dimensions[i].width;
     }
     ARRAY_DATA *data =
       allocate_large(ALLOCATION_SIZE(sizeof(ARRAY_DATA)+size*item_size));
@@ -1778,27 +1809,52 @@ static ARRAY_DATA *allocate_array_data
     return data;
   }
 
-static ARRAY_DATA *allocate_array_data_from_view
+static ARRAY_DATA *create_array_data
   (
-    ARRAY_VIEW *view,
+    ARRAY_INFO *info,
+    long size,
     int item_size
   )
   {
-    ARRAY_INFO *info =
-      allocate(
-	ALLOCATION_SIZE(sizeof(ARRAY_INFO)+view->dimension_count*sizeof(long)));
-    info->dimension_count = view->dimension_count;
-    int i;
-    long size = 1;
-    for (i = 0; i < view->dimension_count; ++i) {
-      info->dimensions[i] = view->dimensions[i].width;
-      size *= info->dimensions[i];
-    }
     ARRAY_DATA *data =
       allocate_large(ALLOCATION_SIZE(sizeof(ARRAY_DATA)+size*item_size));
     data->info = info;
     data->size = size;
     return data;
+  }
+
+static void *copy_array
+  (
+    ARRAY_VIEW *source_view,
+    ARRAY_DATA *source_data,
+    long source_offset,
+    int i,
+    int item_size,
+    void *destination
+  )
+  {
+    int dimension_count = source_view->dimension_count;
+    long first_index = source_view->dimensions[i].first_index;
+    long width = source_view->dimensions[i].width;
+    if (i == source_view->dimension_count-1) {
+      // last dimension
+      source_offset += first_index;
+      memcpy(
+	destination,
+	(char *)source_data->items+source_offset*item_size,
+	width*item_size);
+      return (char *)destination+width*item_size;
+    } else {
+      long dimension = source_data->info->dimensions[i];
+      source_offset += first_index*dimension;
+      while (--width >= 0) {
+	destination = copy_array(
+	  source_view, source_data, source_offset, i+1, item_size,
+	  destination);
+	source_offset += dimension;
+      }
+      return destination;
+    }
   }
 
 static ARRAY_DATA *new_array_data
@@ -1807,10 +1863,9 @@ static ARRAY_DATA *new_array_data
     int item_size
   )
   {
-    int i;
     int dimension_count = info->dimension_count;
     long size = info->dimensions[0];
-    for (i = 1; i < dimension_count; ++i) {
+    for (int i = 1; i < dimension_count; ++i) {
       size *= info->dimensions[i];
     }
     ARRAY_DATA *data =
@@ -1818,24 +1873,6 @@ static ARRAY_DATA *new_array_data
     data->info = info;
     data->size = size;
     return data;
-  }
-
-static ARRAY_VIEW *create_array_view
-  (
-    ARRAY_INFO *info
-  )
-  {
-    ARRAY_VIEW *view =
-      allocate(ALLOCATION_SIZE(
-	sizeof(ARRAY_VIEW)+info->dimension_count*sizeof(DIMENSION_INFO)));
-    view->dimension_count = info->dimension_count;
-    int dimension_count = info->dimension_count;
-    int i;
-    for (i = 0; i < dimension_count; ++i) {
-      view->dimensions[i].first_index = 0;
-      view->dimensions[i].width = info->dimensions[i];
-    }
-    return view;
   }
 
 static ARRAY_VIEW *create_sub_view
@@ -1930,9 +1967,8 @@ static long compute_array_read_offset
     ARRAY_VIEW *view
   )
   {
-    int i;
     long offset = 0;
-    i = view->dimension_count-1;
+    int i = 0;
     long idx;
     next:
     if (!to_long(TLS_arguments[i], &idx)) return -1;
@@ -1945,21 +1981,21 @@ static long compute_array_read_offset
       invalid_index(array);
       return -1;
     }
-    offset += view->dimensions[i].first_index+idx;
-    if (--i < 0) return offset;
-    offset *= info->dimensions[i];
+    idx += view->dimensions[i].first_index;
+    offset += idx*info->dimensions[i];
+    if (++i >= view->dimension_count) return offset;
     goto next;
   }
 
 static long compute_array_write_offset
   (
     NODE *array,
+    ARRAY_INFO *info,
     ARRAY_VIEW *view
   )
   {
-    int i;
     long offset = 0;
-    i = view->dimension_count-1;
+    int i = 0;
     long idx;
     next:
     if (!to_long(TLS_arguments[i], &idx)) return -1;
@@ -1973,7 +2009,7 @@ static long compute_array_write_offset
       return -1;
     }
     offset += idx;
-    if (--i < 0) return offset;
+    if (++i >= view->dimension_count) return offset;
     offset *= view->dimensions[i].width;
     goto next;
   }
@@ -2069,8 +2105,8 @@ static void *std_types___array____collect
     *(void **)node = ENCODE_ADDRESS(new_node);
     new_node->attributes = collect_attributes(node->attributes);
     new_node->updates_length = node->updates_length;
-    new_node->data = collect_array_data(node->data);
     new_node->view = collect_array_view(node->view);
+    new_node->data = collect_array_data(node->data);
     new_node->updates = collect_array_updates(node->updates);
     return new_node;
   }
@@ -2079,15 +2115,13 @@ static ARRAY_DATA *apply_array_updates(ARRAY *node)
   {
     ARRAY_DATA *data = node->data;
     if (node->updates_length > 0) {
-      fprintf(stderr, "shrink\n");
+      ARRAY_VIEW *view = create_new_array_view(node->view);
       data = (ARRAY_DATA *)
-	allocate_array_data_from_view(node->view, sizeof(NODE *));
-      ARRAY_VIEW *view = create_array_view(data->info);
+	create_array_info_and_data(view, sizeof(NODE *));
       // copy items
-      /*memcpy(
-	data->items,
-	node->data->items,
-	size*sizeof(NODE *));*/
+      copy_array(
+	node->view, (ARRAY_DATA *)node->data, 0, 0,
+	sizeof(NODE *), data->items);
       // apply updates
       char *update = node->updates->buffer;
       char *end_p = update+node->updates_length;
@@ -2101,8 +2135,8 @@ static ARRAY_DATA *apply_array_updates(ARRAY *node)
 	}
       }
       node->updates_length = 0;
-      node->data = data;
       node->view = view;
+      node->data = data;
       node->updates = NULL;
     }
     return data;
@@ -2160,8 +2194,8 @@ static void *std_types___boolean_array____collect
     *(void **)node = ENCODE_ADDRESS(new_node);
     new_node->attributes = collect_attributes(node->attributes);
     new_node->updates_length = node->updates_length;
-    new_node->data = collect_boolean_array_data(node->data);
     new_node->view = collect_array_view(node->view);
+    new_node->data = collect_boolean_array_data(node->data);
     new_node->updates = collect_array_updates(node->updates);
     return new_node;
   }
@@ -2170,15 +2204,13 @@ static BOOLEAN_ARRAY_DATA *apply_boolean_array_updates(BOOLEAN_ARRAY *node)
   {
     BOOLEAN_ARRAY_DATA *data = node->data;
     if (node->updates_length > 0) {
-      fprintf(stderr, "shrink\n");
+      ARRAY_VIEW *view = create_new_array_view(node->view);
       data = (BOOLEAN_ARRAY_DATA *)
-	allocate_array_data_from_view(node->view, sizeof(int));
-      ARRAY_VIEW *view = create_array_view(data->info);
+	create_array_info_and_data(view, sizeof(int));
       // copy items
-      /*memcpy(
-	data->items,
-	node->data->items,
-	size*sizeof(int));*/
+      copy_array(
+	node->view, (ARRAY_DATA *)node->data, 0, 0,
+	sizeof(int), data->items);
       // apply updates
       char *update = node->updates->buffer;
       char *end_p = update+node->updates_length;
@@ -2192,8 +2224,8 @@ static BOOLEAN_ARRAY_DATA *apply_boolean_array_updates(BOOLEAN_ARRAY *node)
 	}
       }
       node->updates_length = 0;
-      node->data = data;
       node->view = view;
+      node->data = data;
       node->updates = NULL;
     }
     return data;
@@ -2251,8 +2283,8 @@ static void *std_types___character_array____collect
     *(void **)node = ENCODE_ADDRESS(new_node);
     new_node->attributes = collect_attributes(node->attributes);
     new_node->updates_length = node->updates_length;
-    new_node->data = collect_character_array_data(node->data);
     new_node->view = collect_array_view(node->view);
+    new_node->data = collect_character_array_data(node->data);
     new_node->updates = collect_array_updates(node->updates);
     return new_node;
   }
@@ -2261,15 +2293,13 @@ static CHARACTER_ARRAY_DATA *apply_character_array_updates(CHARACTER_ARRAY *node
   {
     CHARACTER_ARRAY_DATA *data = node->data;
     if (node->updates_length > 0) {
-      fprintf(stderr, "shrink\n");
+      ARRAY_VIEW *view = create_new_array_view(node->view);
       data = (CHARACTER_ARRAY_DATA *)
-	allocate_array_data_from_view(node->view, sizeof(uint32_t));
-      ARRAY_VIEW *view = create_array_view(data->info);
+	create_array_info_and_data(view, sizeof(uint32_t));
       // copy items
-      /*memcpy(
-	data->items,
-	node->data->items,
-	size*sizeof(uint32_t));*/
+      copy_array(
+	node->view, (ARRAY_DATA *)node->data, 0, 0,
+	sizeof(uint32_t), data->items);
       // apply updates
       char *update = node->updates->buffer;
       char *end_p = update+node->updates_length;
@@ -2283,8 +2313,8 @@ static CHARACTER_ARRAY_DATA *apply_character_array_updates(CHARACTER_ARRAY *node
 	}
       }
       node->updates_length = 0;
-      node->data = data;
       node->view = view;
+      node->data = data;
       node->updates = NULL;
     }
     return data;
@@ -2342,8 +2372,8 @@ static void *std_types___int8_array____collect
     *(void **)node = ENCODE_ADDRESS(new_node);
     new_node->attributes = collect_attributes(node->attributes);
     new_node->updates_length = node->updates_length;
-    new_node->data = collect_int8_array_data(node->data);
     new_node->view = collect_array_view(node->view);
+    new_node->data = collect_int8_array_data(node->data);
     new_node->updates = collect_array_updates(node->updates);
     return new_node;
   }
@@ -2352,15 +2382,13 @@ static INT8_ARRAY_DATA *apply_int8_array_updates(INT8_ARRAY *node)
   {
     INT8_ARRAY_DATA *data = node->data;
     if (node->updates_length > 0) {
-      fprintf(stderr, "shrink\n");
+      ARRAY_VIEW *view = create_new_array_view(node->view);
       data = (INT8_ARRAY_DATA *)
-	allocate_array_data_from_view(node->view, sizeof(int8_t));
-      ARRAY_VIEW *view = create_array_view(data->info);
+	create_array_info_and_data(view, sizeof(int8_t));
       // copy items
-      /*memcpy(
-	data->items,
-	node->data->items,
-	size*sizeof(int8_t));*/
+      copy_array(
+	node->view, (ARRAY_DATA *)node->data, 0, 0,
+	sizeof(int8_t), data->items);
       // apply updates
       char *update = node->updates->buffer;
       char *end_p = update+node->updates_length;
@@ -2374,8 +2402,8 @@ static INT8_ARRAY_DATA *apply_int8_array_updates(INT8_ARRAY *node)
 	}
       }
       node->updates_length = 0;
-      node->data = data;
       node->view = view;
+      node->data = data;
       node->updates = NULL;
     }
     return data;
@@ -2433,8 +2461,8 @@ static void *std_types___uint8_array____collect
     *(void **)node = ENCODE_ADDRESS(new_node);
     new_node->attributes = collect_attributes(node->attributes);
     new_node->updates_length = node->updates_length;
-    new_node->data = collect_uint8_array_data(node->data);
     new_node->view = collect_array_view(node->view);
+    new_node->data = collect_uint8_array_data(node->data);
     new_node->updates = collect_array_updates(node->updates);
     return new_node;
   }
@@ -2443,15 +2471,13 @@ static UINT8_ARRAY_DATA *apply_uint8_array_updates(UINT8_ARRAY *node)
   {
     UINT8_ARRAY_DATA *data = node->data;
     if (node->updates_length > 0) {
-      fprintf(stderr, "shrink\n");
+      ARRAY_VIEW *view = create_new_array_view(node->view);
       data = (UINT8_ARRAY_DATA *)
-	allocate_array_data_from_view(node->view, sizeof(uint8_t));
-      ARRAY_VIEW *view = create_array_view(data->info);
+	create_array_info_and_data(view, sizeof(uint8_t));
       // copy items
-      /*memcpy(
-	data->items,
-	node->data->items,
-	size*sizeof(uint8_t));*/
+      copy_array(
+	node->view, (ARRAY_DATA *)node->data, 0, 0,
+	sizeof(uint8_t), data->items);
       // apply updates
       char *update = node->updates->buffer;
       char *end_p = update+node->updates_length;
@@ -2465,8 +2491,8 @@ static UINT8_ARRAY_DATA *apply_uint8_array_updates(UINT8_ARRAY *node)
 	}
       }
       node->updates_length = 0;
-      node->data = data;
       node->view = view;
+      node->data = data;
       node->updates = NULL;
     }
     return data;
@@ -2524,8 +2550,8 @@ static void *std_types___int16_array____collect
     *(void **)node = ENCODE_ADDRESS(new_node);
     new_node->attributes = collect_attributes(node->attributes);
     new_node->updates_length = node->updates_length;
-    new_node->data = collect_int16_array_data(node->data);
     new_node->view = collect_array_view(node->view);
+    new_node->data = collect_int16_array_data(node->data);
     new_node->updates = collect_array_updates(node->updates);
     return new_node;
   }
@@ -2534,15 +2560,13 @@ static INT16_ARRAY_DATA *apply_int16_array_updates(INT16_ARRAY *node)
   {
     INT16_ARRAY_DATA *data = node->data;
     if (node->updates_length > 0) {
-      fprintf(stderr, "shrink\n");
+      ARRAY_VIEW *view = create_new_array_view(node->view);
       data = (INT16_ARRAY_DATA *)
-	allocate_array_data_from_view(node->view, sizeof(int16_t));
-      ARRAY_VIEW *view = create_array_view(data->info);
+	create_array_info_and_data(view, sizeof(int16_t));
       // copy items
-      /*memcpy(
-	data->items,
-	node->data->items,
-	size*sizeof(int16_t));*/
+      copy_array(
+	node->view, (ARRAY_DATA *)node->data, 0, 0,
+	sizeof(int16_t), data->items);
       // apply updates
       char *update = node->updates->buffer;
       char *end_p = update+node->updates_length;
@@ -2556,8 +2580,8 @@ static INT16_ARRAY_DATA *apply_int16_array_updates(INT16_ARRAY *node)
 	}
       }
       node->updates_length = 0;
-      node->data = data;
       node->view = view;
+      node->data = data;
       node->updates = NULL;
     }
     return data;
@@ -2615,8 +2639,8 @@ static void *std_types___uint16_array____collect
     *(void **)node = ENCODE_ADDRESS(new_node);
     new_node->attributes = collect_attributes(node->attributes);
     new_node->updates_length = node->updates_length;
-    new_node->data = collect_uint16_array_data(node->data);
     new_node->view = collect_array_view(node->view);
+    new_node->data = collect_uint16_array_data(node->data);
     new_node->updates = collect_array_updates(node->updates);
     return new_node;
   }
@@ -2625,15 +2649,13 @@ static UINT16_ARRAY_DATA *apply_uint16_array_updates(UINT16_ARRAY *node)
   {
     UINT16_ARRAY_DATA *data = node->data;
     if (node->updates_length > 0) {
-      fprintf(stderr, "shrink\n");
+      ARRAY_VIEW *view = create_new_array_view(node->view);
       data = (UINT16_ARRAY_DATA *)
-	allocate_array_data_from_view(node->view, sizeof(uint16_t));
-      ARRAY_VIEW *view = create_array_view(data->info);
+	create_array_info_and_data(view, sizeof(uint16_t));
       // copy items
-      /*memcpy(
-	data->items,
-	node->data->items,
-	size*sizeof(uint16_t));*/
+      copy_array(
+	node->view, (ARRAY_DATA *)node->data, 0, 0,
+	sizeof(uint16_t), data->items);
       // apply updates
       char *update = node->updates->buffer;
       char *end_p = update+node->updates_length;
@@ -2647,8 +2669,8 @@ static UINT16_ARRAY_DATA *apply_uint16_array_updates(UINT16_ARRAY *node)
 	}
       }
       node->updates_length = 0;
-      node->data = data;
       node->view = view;
+      node->data = data;
       node->updates = NULL;
     }
     return data;
@@ -2706,8 +2728,8 @@ static void *std_types___int32_array____collect
     *(void **)node = ENCODE_ADDRESS(new_node);
     new_node->attributes = collect_attributes(node->attributes);
     new_node->updates_length = node->updates_length;
-    new_node->data = collect_int32_array_data(node->data);
     new_node->view = collect_array_view(node->view);
+    new_node->data = collect_int32_array_data(node->data);
     new_node->updates = collect_array_updates(node->updates);
     return new_node;
   }
@@ -2716,15 +2738,13 @@ static INT32_ARRAY_DATA *apply_int32_array_updates(INT32_ARRAY *node)
   {
     INT32_ARRAY_DATA *data = node->data;
     if (node->updates_length > 0) {
-      fprintf(stderr, "shrink\n");
+      ARRAY_VIEW *view = create_new_array_view(node->view);
       data = (INT32_ARRAY_DATA *)
-	allocate_array_data_from_view(node->view, sizeof(int32_t));
-      ARRAY_VIEW *view = create_array_view(data->info);
+	create_array_info_and_data(view, sizeof(int32_t));
       // copy items
-      /*memcpy(
-	data->items,
-	node->data->items,
-	size*sizeof(int32_t));*/
+      copy_array(
+	node->view, (ARRAY_DATA *)node->data, 0, 0,
+	sizeof(int32_t), data->items);
       // apply updates
       char *update = node->updates->buffer;
       char *end_p = update+node->updates_length;
@@ -2738,8 +2758,8 @@ static INT32_ARRAY_DATA *apply_int32_array_updates(INT32_ARRAY *node)
 	}
       }
       node->updates_length = 0;
-      node->data = data;
       node->view = view;
+      node->data = data;
       node->updates = NULL;
     }
     return data;
@@ -2797,8 +2817,8 @@ static void *std_types___uint32_array____collect
     *(void **)node = ENCODE_ADDRESS(new_node);
     new_node->attributes = collect_attributes(node->attributes);
     new_node->updates_length = node->updates_length;
-    new_node->data = collect_uint32_array_data(node->data);
     new_node->view = collect_array_view(node->view);
+    new_node->data = collect_uint32_array_data(node->data);
     new_node->updates = collect_array_updates(node->updates);
     return new_node;
   }
@@ -2807,15 +2827,13 @@ static UINT32_ARRAY_DATA *apply_uint32_array_updates(UINT32_ARRAY *node)
   {
     UINT32_ARRAY_DATA *data = node->data;
     if (node->updates_length > 0) {
-      fprintf(stderr, "shrink\n");
+      ARRAY_VIEW *view = create_new_array_view(node->view);
       data = (UINT32_ARRAY_DATA *)
-	allocate_array_data_from_view(node->view, sizeof(uint32_t));
-      ARRAY_VIEW *view = create_array_view(data->info);
+	create_array_info_and_data(view, sizeof(uint32_t));
       // copy items
-      /*memcpy(
-	data->items,
-	node->data->items,
-	size*sizeof(uint32_t));*/
+      copy_array(
+	node->view, (ARRAY_DATA *)node->data, 0, 0,
+	sizeof(uint32_t), data->items);
       // apply updates
       char *update = node->updates->buffer;
       char *end_p = update+node->updates_length;
@@ -2829,8 +2847,8 @@ static UINT32_ARRAY_DATA *apply_uint32_array_updates(UINT32_ARRAY *node)
 	}
       }
       node->updates_length = 0;
-      node->data = data;
       node->view = view;
+      node->data = data;
       node->updates = NULL;
     }
     return data;
@@ -2888,8 +2906,8 @@ static void *std_types___int64_array____collect
     *(void **)node = ENCODE_ADDRESS(new_node);
     new_node->attributes = collect_attributes(node->attributes);
     new_node->updates_length = node->updates_length;
-    new_node->data = collect_int64_array_data(node->data);
     new_node->view = collect_array_view(node->view);
+    new_node->data = collect_int64_array_data(node->data);
     new_node->updates = collect_array_updates(node->updates);
     return new_node;
   }
@@ -2898,15 +2916,13 @@ static INT64_ARRAY_DATA *apply_int64_array_updates(INT64_ARRAY *node)
   {
     INT64_ARRAY_DATA *data = node->data;
     if (node->updates_length > 0) {
-      fprintf(stderr, "shrink\n");
+      ARRAY_VIEW *view = create_new_array_view(node->view);
       data = (INT64_ARRAY_DATA *)
-	allocate_array_data_from_view(node->view, sizeof(int64_t));
-      ARRAY_VIEW *view = create_array_view(data->info);
+	create_array_info_and_data(view, sizeof(int64_t));
       // copy items
-      /*memcpy(
-	data->items,
-	node->data->items,
-	size*sizeof(int64_t));*/
+      copy_array(
+	node->view, (ARRAY_DATA *)node->data, 0, 0,
+	sizeof(int64_t), data->items);
       // apply updates
       char *update = node->updates->buffer;
       char *end_p = update+node->updates_length;
@@ -2920,8 +2936,8 @@ static INT64_ARRAY_DATA *apply_int64_array_updates(INT64_ARRAY *node)
 	}
       }
       node->updates_length = 0;
-      node->data = data;
       node->view = view;
+      node->data = data;
       node->updates = NULL;
     }
     return data;
@@ -2979,8 +2995,8 @@ static void *std_types___uint64_array____collect
     *(void **)node = ENCODE_ADDRESS(new_node);
     new_node->attributes = collect_attributes(node->attributes);
     new_node->updates_length = node->updates_length;
-    new_node->data = collect_uint64_array_data(node->data);
     new_node->view = collect_array_view(node->view);
+    new_node->data = collect_uint64_array_data(node->data);
     new_node->updates = collect_array_updates(node->updates);
     return new_node;
   }
@@ -2989,15 +3005,13 @@ static UINT64_ARRAY_DATA *apply_uint64_array_updates(UINT64_ARRAY *node)
   {
     UINT64_ARRAY_DATA *data = node->data;
     if (node->updates_length > 0) {
-      fprintf(stderr, "shrink\n");
+      ARRAY_VIEW *view = create_new_array_view(node->view);
       data = (UINT64_ARRAY_DATA *)
-	allocate_array_data_from_view(node->view, sizeof(uint64_t));
-      ARRAY_VIEW *view = create_array_view(data->info);
+	create_array_info_and_data(view, sizeof(uint64_t));
       // copy items
-      /*memcpy(
-	data->items,
-	node->data->items,
-	size*sizeof(uint64_t));*/
+      copy_array(
+	node->view, (ARRAY_DATA *)node->data, 0, 0,
+	sizeof(uint64_t), data->items);
       // apply updates
       char *update = node->updates->buffer;
       char *end_p = update+node->updates_length;
@@ -3011,8 +3025,8 @@ static UINT64_ARRAY_DATA *apply_uint64_array_updates(UINT64_ARRAY *node)
 	}
       }
       node->updates_length = 0;
-      node->data = data;
       node->view = view;
+      node->data = data;
       node->updates = NULL;
     }
     return data;
@@ -3070,8 +3084,8 @@ static void *std_types___float32_array____collect
     *(void **)node = ENCODE_ADDRESS(new_node);
     new_node->attributes = collect_attributes(node->attributes);
     new_node->updates_length = node->updates_length;
-    new_node->data = collect_float32_array_data(node->data);
     new_node->view = collect_array_view(node->view);
+    new_node->data = collect_float32_array_data(node->data);
     new_node->updates = collect_array_updates(node->updates);
     return new_node;
   }
@@ -3080,15 +3094,13 @@ static FLOAT32_ARRAY_DATA *apply_float32_array_updates(FLOAT32_ARRAY *node)
   {
     FLOAT32_ARRAY_DATA *data = node->data;
     if (node->updates_length > 0) {
-      fprintf(stderr, "shrink\n");
+      ARRAY_VIEW *view = create_new_array_view(node->view);
       data = (FLOAT32_ARRAY_DATA *)
-	allocate_array_data_from_view(node->view, sizeof(float));
-      ARRAY_VIEW *view = create_array_view(data->info);
+	create_array_info_and_data(view, sizeof(float));
       // copy items
-      /*memcpy(
-	data->items,
-	node->data->items,
-	size*sizeof(float));*/
+      copy_array(
+	node->view, (ARRAY_DATA *)node->data, 0, 0,
+	sizeof(float), data->items);
       // apply updates
       char *update = node->updates->buffer;
       char *end_p = update+node->updates_length;
@@ -3102,8 +3114,8 @@ static FLOAT32_ARRAY_DATA *apply_float32_array_updates(FLOAT32_ARRAY *node)
 	}
       }
       node->updates_length = 0;
-      node->data = data;
       node->view = view;
+      node->data = data;
       node->updates = NULL;
     }
     return data;
@@ -3161,8 +3173,8 @@ static void *std_types___float64_array____collect
     *(void **)node = ENCODE_ADDRESS(new_node);
     new_node->attributes = collect_attributes(node->attributes);
     new_node->updates_length = node->updates_length;
-    new_node->data = collect_float64_array_data(node->data);
     new_node->view = collect_array_view(node->view);
+    new_node->data = collect_float64_array_data(node->data);
     new_node->updates = collect_array_updates(node->updates);
     return new_node;
   }
@@ -3171,15 +3183,13 @@ static FLOAT64_ARRAY_DATA *apply_float64_array_updates(FLOAT64_ARRAY *node)
   {
     FLOAT64_ARRAY_DATA *data = node->data;
     if (node->updates_length > 0) {
-      fprintf(stderr, "shrink\n");
+      ARRAY_VIEW *view = create_new_array_view(node->view);
       data = (FLOAT64_ARRAY_DATA *)
-	allocate_array_data_from_view(node->view, sizeof(double));
-      ARRAY_VIEW *view = create_array_view(data->info);
+	create_array_info_and_data(view, sizeof(double));
       // copy items
-      /*memcpy(
-	data->items,
-	node->data->items,
-	size*sizeof(double));*/
+      copy_array(
+	node->view, (ARRAY_DATA *)node->data, 0, 0,
+	sizeof(double), data->items);
       // apply updates
       char *update = node->updates->buffer;
       char *end_p = update+node->updates_length;
@@ -3193,8 +3203,8 @@ static FLOAT64_ARRAY_DATA *apply_float64_array_updates(FLOAT64_ARRAY *node)
 	}
       }
       node->updates_length = 0;
-      node->data = data;
       node->view = view;
+      node->data = data;
       node->updates = NULL;
     }
     return data;
@@ -9704,9 +9714,7 @@ static void std_types___generic_array____type (void)
 static void std_types___array____type (void)
   {
     ARRAY_DATA *data = TLS_myself->array.data;
-    ARRAY_INFO *info = data->info;
-    ARRAY_VIEW *view = TLS_myself->array.view;
-    int dimension_count = info->dimension_count;
+    int dimension_count = data->info->dimension_count;
     if (TLS_argument_count < dimension_count) {
       too_few_arguments();
       return;
@@ -9717,9 +9725,11 @@ static void std_types___array____type (void)
     }
     if (TLS_argument_count == dimension_count) {
       // get item
-      long offset = compute_array_read_offset(TLS_myself, info, view);
-      if (offset < 0) return;
       data = apply_array_updates((ARRAY *)TLS_myself);
+      // info and view could have been updated!
+      long offset = compute_array_read_offset(
+        TLS_myself, data->info, TLS_myself->array.view);
+      if (offset < 0) return;
       NODE *value;
       value = data->items[offset];
       {
@@ -9730,7 +9740,8 @@ static void std_types___array____type (void)
       };
     } else {
       // set item
-      long offset = compute_array_write_offset(TLS_myself, view);
+      long offset = compute_array_write_offset(
+        TLS_myself, data->info, TLS_myself->array.view);
       if (offset < 0) return;
       NODE *value;
       value = TLS_arguments[dimension_count];
@@ -9756,9 +9767,7 @@ static void std_types___array____type (void)
 static void std_types___boolean_array____type (void)
   {
     BOOLEAN_ARRAY_DATA *data = TLS_myself->boolean_array.data;
-    ARRAY_INFO *info = data->info;
-    ARRAY_VIEW *view = TLS_myself->boolean_array.view;
-    int dimension_count = info->dimension_count;
+    int dimension_count = data->info->dimension_count;
     if (TLS_argument_count < dimension_count) {
       too_few_arguments();
       return;
@@ -9769,9 +9778,11 @@ static void std_types___boolean_array____type (void)
     }
     if (TLS_argument_count == dimension_count) {
       // get item
-      long offset = compute_array_read_offset(TLS_myself, info, view);
-      if (offset < 0) return;
       data = apply_boolean_array_updates((BOOLEAN_ARRAY *)TLS_myself);
+      // info and view could have been updated!
+      long offset = compute_array_read_offset(
+        TLS_myself, data->info, TLS_myself->boolean_array.view);
+      if (offset < 0) return;
       int value;
       value = data->items[offset];
       {
@@ -9782,7 +9793,8 @@ static void std_types___boolean_array____type (void)
       };
     } else {
       // set item
-      long offset = compute_array_write_offset(TLS_myself, view);
+      long offset = compute_array_write_offset(
+        TLS_myself, data->info, TLS_myself->boolean_array.view);
       if (offset < 0) return;
       int value;
       if (!to_bool(TLS_arguments[dimension_count], &value)) return;
@@ -9808,9 +9820,7 @@ static void std_types___boolean_array____type (void)
 static void std_types___character_array____type (void)
   {
     CHARACTER_ARRAY_DATA *data = TLS_myself->character_array.data;
-    ARRAY_INFO *info = data->info;
-    ARRAY_VIEW *view = TLS_myself->character_array.view;
-    int dimension_count = info->dimension_count;
+    int dimension_count = data->info->dimension_count;
     if (TLS_argument_count < dimension_count) {
       too_few_arguments();
       return;
@@ -9821,9 +9831,11 @@ static void std_types___character_array____type (void)
     }
     if (TLS_argument_count == dimension_count) {
       // get item
-      long offset = compute_array_read_offset(TLS_myself, info, view);
-      if (offset < 0) return;
       data = apply_character_array_updates((CHARACTER_ARRAY *)TLS_myself);
+      // info and view could have been updated!
+      long offset = compute_array_read_offset(
+        TLS_myself, data->info, TLS_myself->character_array.view);
+      if (offset < 0) return;
       uint32_t value;
       value = data->items[offset];
       {
@@ -9834,7 +9846,8 @@ static void std_types___character_array____type (void)
       };
     } else {
       // set item
-      long offset = compute_array_write_offset(TLS_myself, view);
+      long offset = compute_array_write_offset(
+        TLS_myself, data->info, TLS_myself->character_array.view);
       if (offset < 0) return;
       uint32_t value;
       if (!to_uchar32(TLS_arguments[dimension_count], &value)) return;
@@ -9860,9 +9873,7 @@ static void std_types___character_array____type (void)
 static void std_types___int8_array____type (void)
   {
     INT8_ARRAY_DATA *data = TLS_myself->int8_array.data;
-    ARRAY_INFO *info = data->info;
-    ARRAY_VIEW *view = TLS_myself->int8_array.view;
-    int dimension_count = info->dimension_count;
+    int dimension_count = data->info->dimension_count;
     if (TLS_argument_count < dimension_count) {
       too_few_arguments();
       return;
@@ -9873,9 +9884,11 @@ static void std_types___int8_array____type (void)
     }
     if (TLS_argument_count == dimension_count) {
       // get item
-      long offset = compute_array_read_offset(TLS_myself, info, view);
-      if (offset < 0) return;
       data = apply_int8_array_updates((INT8_ARRAY *)TLS_myself);
+      // info and view could have been updated!
+      long offset = compute_array_read_offset(
+        TLS_myself, data->info, TLS_myself->int8_array.view);
+      if (offset < 0) return;
       int8_t value;
       value = data->items[offset];
       {
@@ -9886,7 +9899,8 @@ static void std_types___int8_array____type (void)
       };
     } else {
       // set item
-      long offset = compute_array_write_offset(TLS_myself, view);
+      long offset = compute_array_write_offset(
+        TLS_myself, data->info, TLS_myself->int8_array.view);
       if (offset < 0) return;
       int8_t value;
       if (!to_int8(TLS_arguments[dimension_count], &value)) return;
@@ -9912,9 +9926,7 @@ static void std_types___int8_array____type (void)
 static void std_types___uint8_array____type (void)
   {
     UINT8_ARRAY_DATA *data = TLS_myself->uint8_array.data;
-    ARRAY_INFO *info = data->info;
-    ARRAY_VIEW *view = TLS_myself->uint8_array.view;
-    int dimension_count = info->dimension_count;
+    int dimension_count = data->info->dimension_count;
     if (TLS_argument_count < dimension_count) {
       too_few_arguments();
       return;
@@ -9925,9 +9937,11 @@ static void std_types___uint8_array____type (void)
     }
     if (TLS_argument_count == dimension_count) {
       // get item
-      long offset = compute_array_read_offset(TLS_myself, info, view);
-      if (offset < 0) return;
       data = apply_uint8_array_updates((UINT8_ARRAY *)TLS_myself);
+      // info and view could have been updated!
+      long offset = compute_array_read_offset(
+        TLS_myself, data->info, TLS_myself->uint8_array.view);
+      if (offset < 0) return;
       uint8_t value;
       value = data->items[offset];
       {
@@ -9938,7 +9952,8 @@ static void std_types___uint8_array____type (void)
       };
     } else {
       // set item
-      long offset = compute_array_write_offset(TLS_myself, view);
+      long offset = compute_array_write_offset(
+        TLS_myself, data->info, TLS_myself->uint8_array.view);
       if (offset < 0) return;
       uint8_t value;
       if (!to_uint8(TLS_arguments[dimension_count], &value)) return;
@@ -9964,9 +9979,7 @@ static void std_types___uint8_array____type (void)
 static void std_types___int16_array____type (void)
   {
     INT16_ARRAY_DATA *data = TLS_myself->int16_array.data;
-    ARRAY_INFO *info = data->info;
-    ARRAY_VIEW *view = TLS_myself->int16_array.view;
-    int dimension_count = info->dimension_count;
+    int dimension_count = data->info->dimension_count;
     if (TLS_argument_count < dimension_count) {
       too_few_arguments();
       return;
@@ -9977,9 +9990,11 @@ static void std_types___int16_array____type (void)
     }
     if (TLS_argument_count == dimension_count) {
       // get item
-      long offset = compute_array_read_offset(TLS_myself, info, view);
-      if (offset < 0) return;
       data = apply_int16_array_updates((INT16_ARRAY *)TLS_myself);
+      // info and view could have been updated!
+      long offset = compute_array_read_offset(
+        TLS_myself, data->info, TLS_myself->int16_array.view);
+      if (offset < 0) return;
       int16_t value;
       value = data->items[offset];
       {
@@ -9990,7 +10005,8 @@ static void std_types___int16_array____type (void)
       };
     } else {
       // set item
-      long offset = compute_array_write_offset(TLS_myself, view);
+      long offset = compute_array_write_offset(
+        TLS_myself, data->info, TLS_myself->int16_array.view);
       if (offset < 0) return;
       int16_t value;
       if (!to_int16(TLS_arguments[dimension_count], &value)) return;
@@ -10016,9 +10032,7 @@ static void std_types___int16_array____type (void)
 static void std_types___uint16_array____type (void)
   {
     UINT16_ARRAY_DATA *data = TLS_myself->uint16_array.data;
-    ARRAY_INFO *info = data->info;
-    ARRAY_VIEW *view = TLS_myself->uint16_array.view;
-    int dimension_count = info->dimension_count;
+    int dimension_count = data->info->dimension_count;
     if (TLS_argument_count < dimension_count) {
       too_few_arguments();
       return;
@@ -10029,9 +10043,11 @@ static void std_types___uint16_array____type (void)
     }
     if (TLS_argument_count == dimension_count) {
       // get item
-      long offset = compute_array_read_offset(TLS_myself, info, view);
-      if (offset < 0) return;
       data = apply_uint16_array_updates((UINT16_ARRAY *)TLS_myself);
+      // info and view could have been updated!
+      long offset = compute_array_read_offset(
+        TLS_myself, data->info, TLS_myself->uint16_array.view);
+      if (offset < 0) return;
       uint16_t value;
       value = data->items[offset];
       {
@@ -10042,7 +10058,8 @@ static void std_types___uint16_array____type (void)
       };
     } else {
       // set item
-      long offset = compute_array_write_offset(TLS_myself, view);
+      long offset = compute_array_write_offset(
+        TLS_myself, data->info, TLS_myself->uint16_array.view);
       if (offset < 0) return;
       uint16_t value;
       if (!to_uint16(TLS_arguments[dimension_count], &value)) return;
@@ -10068,9 +10085,7 @@ static void std_types___uint16_array____type (void)
 static void std_types___int32_array____type (void)
   {
     INT32_ARRAY_DATA *data = TLS_myself->int32_array.data;
-    ARRAY_INFO *info = data->info;
-    ARRAY_VIEW *view = TLS_myself->int32_array.view;
-    int dimension_count = info->dimension_count;
+    int dimension_count = data->info->dimension_count;
     if (TLS_argument_count < dimension_count) {
       too_few_arguments();
       return;
@@ -10081,9 +10096,11 @@ static void std_types___int32_array____type (void)
     }
     if (TLS_argument_count == dimension_count) {
       // get item
-      long offset = compute_array_read_offset(TLS_myself, info, view);
-      if (offset < 0) return;
       data = apply_int32_array_updates((INT32_ARRAY *)TLS_myself);
+      // info and view could have been updated!
+      long offset = compute_array_read_offset(
+        TLS_myself, data->info, TLS_myself->int32_array.view);
+      if (offset < 0) return;
       int32_t value;
       value = data->items[offset];
       {
@@ -10094,7 +10111,8 @@ static void std_types___int32_array____type (void)
       };
     } else {
       // set item
-      long offset = compute_array_write_offset(TLS_myself, view);
+      long offset = compute_array_write_offset(
+        TLS_myself, data->info, TLS_myself->int32_array.view);
       if (offset < 0) return;
       int32_t value;
       if (!to_int32(TLS_arguments[dimension_count], &value)) return;
@@ -10120,9 +10138,7 @@ static void std_types___int32_array____type (void)
 static void std_types___uint32_array____type (void)
   {
     UINT32_ARRAY_DATA *data = TLS_myself->uint32_array.data;
-    ARRAY_INFO *info = data->info;
-    ARRAY_VIEW *view = TLS_myself->uint32_array.view;
-    int dimension_count = info->dimension_count;
+    int dimension_count = data->info->dimension_count;
     if (TLS_argument_count < dimension_count) {
       too_few_arguments();
       return;
@@ -10133,9 +10149,11 @@ static void std_types___uint32_array____type (void)
     }
     if (TLS_argument_count == dimension_count) {
       // get item
-      long offset = compute_array_read_offset(TLS_myself, info, view);
-      if (offset < 0) return;
       data = apply_uint32_array_updates((UINT32_ARRAY *)TLS_myself);
+      // info and view could have been updated!
+      long offset = compute_array_read_offset(
+        TLS_myself, data->info, TLS_myself->uint32_array.view);
+      if (offset < 0) return;
       uint32_t value;
       value = data->items[offset];
       {
@@ -10146,7 +10164,8 @@ static void std_types___uint32_array____type (void)
       };
     } else {
       // set item
-      long offset = compute_array_write_offset(TLS_myself, view);
+      long offset = compute_array_write_offset(
+        TLS_myself, data->info, TLS_myself->uint32_array.view);
       if (offset < 0) return;
       uint32_t value;
       if (!to_uint32(TLS_arguments[dimension_count], &value)) return;
@@ -10172,9 +10191,7 @@ static void std_types___uint32_array____type (void)
 static void std_types___int64_array____type (void)
   {
     INT64_ARRAY_DATA *data = TLS_myself->int64_array.data;
-    ARRAY_INFO *info = data->info;
-    ARRAY_VIEW *view = TLS_myself->int64_array.view;
-    int dimension_count = info->dimension_count;
+    int dimension_count = data->info->dimension_count;
     if (TLS_argument_count < dimension_count) {
       too_few_arguments();
       return;
@@ -10185,9 +10202,11 @@ static void std_types___int64_array____type (void)
     }
     if (TLS_argument_count == dimension_count) {
       // get item
-      long offset = compute_array_read_offset(TLS_myself, info, view);
-      if (offset < 0) return;
       data = apply_int64_array_updates((INT64_ARRAY *)TLS_myself);
+      // info and view could have been updated!
+      long offset = compute_array_read_offset(
+        TLS_myself, data->info, TLS_myself->int64_array.view);
+      if (offset < 0) return;
       int64_t value;
       value = data->items[offset];
       {
@@ -10198,7 +10217,8 @@ static void std_types___int64_array____type (void)
       };
     } else {
       // set item
-      long offset = compute_array_write_offset(TLS_myself, view);
+      long offset = compute_array_write_offset(
+        TLS_myself, data->info, TLS_myself->int64_array.view);
       if (offset < 0) return;
       int64_t value;
       if (!to_int64(TLS_arguments[dimension_count], &value)) return;
@@ -10224,9 +10244,7 @@ static void std_types___int64_array____type (void)
 static void std_types___uint64_array____type (void)
   {
     UINT64_ARRAY_DATA *data = TLS_myself->uint64_array.data;
-    ARRAY_INFO *info = data->info;
-    ARRAY_VIEW *view = TLS_myself->uint64_array.view;
-    int dimension_count = info->dimension_count;
+    int dimension_count = data->info->dimension_count;
     if (TLS_argument_count < dimension_count) {
       too_few_arguments();
       return;
@@ -10237,9 +10255,11 @@ static void std_types___uint64_array____type (void)
     }
     if (TLS_argument_count == dimension_count) {
       // get item
-      long offset = compute_array_read_offset(TLS_myself, info, view);
-      if (offset < 0) return;
       data = apply_uint64_array_updates((UINT64_ARRAY *)TLS_myself);
+      // info and view could have been updated!
+      long offset = compute_array_read_offset(
+        TLS_myself, data->info, TLS_myself->uint64_array.view);
+      if (offset < 0) return;
       uint64_t value;
       value = data->items[offset];
       {
@@ -10250,7 +10270,8 @@ static void std_types___uint64_array____type (void)
       };
     } else {
       // set item
-      long offset = compute_array_write_offset(TLS_myself, view);
+      long offset = compute_array_write_offset(
+        TLS_myself, data->info, TLS_myself->uint64_array.view);
       if (offset < 0) return;
       uint64_t value;
       if (!to_uint64(TLS_arguments[dimension_count], &value)) return;
@@ -10276,9 +10297,7 @@ static void std_types___uint64_array____type (void)
 static void std_types___float32_array____type (void)
   {
     FLOAT32_ARRAY_DATA *data = TLS_myself->float32_array.data;
-    ARRAY_INFO *info = data->info;
-    ARRAY_VIEW *view = TLS_myself->float32_array.view;
-    int dimension_count = info->dimension_count;
+    int dimension_count = data->info->dimension_count;
     if (TLS_argument_count < dimension_count) {
       too_few_arguments();
       return;
@@ -10289,9 +10308,11 @@ static void std_types___float32_array____type (void)
     }
     if (TLS_argument_count == dimension_count) {
       // get item
-      long offset = compute_array_read_offset(TLS_myself, info, view);
-      if (offset < 0) return;
       data = apply_float32_array_updates((FLOAT32_ARRAY *)TLS_myself);
+      // info and view could have been updated!
+      long offset = compute_array_read_offset(
+        TLS_myself, data->info, TLS_myself->float32_array.view);
+      if (offset < 0) return;
       float value;
       value = data->items[offset];
       {
@@ -10302,7 +10323,8 @@ static void std_types___float32_array____type (void)
       };
     } else {
       // set item
-      long offset = compute_array_write_offset(TLS_myself, view);
+      long offset = compute_array_write_offset(
+        TLS_myself, data->info, TLS_myself->float32_array.view);
       if (offset < 0) return;
       float value;
       if (!to_float(TLS_arguments[dimension_count], &value)) return;
@@ -10328,9 +10350,7 @@ static void std_types___float32_array____type (void)
 static void std_types___float64_array____type (void)
   {
     FLOAT64_ARRAY_DATA *data = TLS_myself->float64_array.data;
-    ARRAY_INFO *info = data->info;
-    ARRAY_VIEW *view = TLS_myself->float64_array.view;
-    int dimension_count = info->dimension_count;
+    int dimension_count = data->info->dimension_count;
     if (TLS_argument_count < dimension_count) {
       too_few_arguments();
       return;
@@ -10341,9 +10361,11 @@ static void std_types___float64_array____type (void)
     }
     if (TLS_argument_count == dimension_count) {
       // get item
-      long offset = compute_array_read_offset(TLS_myself, info, view);
-      if (offset < 0) return;
       data = apply_float64_array_updates((FLOAT64_ARRAY *)TLS_myself);
+      // info and view could have been updated!
+      long offset = compute_array_read_offset(
+        TLS_myself, data->info, TLS_myself->float64_array.view);
+      if (offset < 0) return;
       double value;
       value = data->items[offset];
       {
@@ -10354,7 +10376,8 @@ static void std_types___float64_array____type (void)
       };
     } else {
       // set item
-      long offset = compute_array_write_offset(TLS_myself, view);
+      long offset = compute_array_write_offset(
+        TLS_myself, data->info, TLS_myself->float64_array.view);
       if (offset < 0) return;
       double value;
       if (!to_double(TLS_arguments[dimension_count], &value)) return;
@@ -11963,8 +11986,8 @@ TUPLE2 std_types___value_range = {
 static void *create__std_types___array
   (
     long updates_length,
-    ARRAY_DATA *data,
     ARRAY_VIEW *view,
+    ARRAY_DATA *data,
     ARRAY_UPDATES *updates
   )
   {
@@ -11972,8 +11995,8 @@ static void *create__std_types___array
     node->type = std_types___array____type;
     node->attributes = std_types___array.attributes;
     node->updates_length = updates_length;
-    node->data = data;
     node->view = view;
+    node->data = data;
     node->updates = updates;
     return node;
   }
@@ -11981,8 +12004,8 @@ static void *create__std_types___array
 static void *create__std_types___boolean_array
   (
     long updates_length,
-    BOOLEAN_ARRAY_DATA *data,
     ARRAY_VIEW *view,
+    BOOLEAN_ARRAY_DATA *data,
     ARRAY_UPDATES *updates
   )
   {
@@ -11990,8 +12013,8 @@ static void *create__std_types___boolean_array
     node->type = std_types___boolean_array____type;
     node->attributes = std_types___boolean_array.attributes;
     node->updates_length = updates_length;
-    node->data = data;
     node->view = view;
+    node->data = data;
     node->updates = updates;
     return node;
   }
@@ -11999,8 +12022,8 @@ static void *create__std_types___boolean_array
 static void *create__std_types___character_array
   (
     long updates_length,
-    CHARACTER_ARRAY_DATA *data,
     ARRAY_VIEW *view,
+    CHARACTER_ARRAY_DATA *data,
     ARRAY_UPDATES *updates
   )
   {
@@ -12008,8 +12031,8 @@ static void *create__std_types___character_array
     node->type = std_types___character_array____type;
     node->attributes = std_types___character_array.attributes;
     node->updates_length = updates_length;
-    node->data = data;
     node->view = view;
+    node->data = data;
     node->updates = updates;
     return node;
   }
@@ -12017,8 +12040,8 @@ static void *create__std_types___character_array
 static void *create__std_types___int8_array
   (
     long updates_length,
-    INT8_ARRAY_DATA *data,
     ARRAY_VIEW *view,
+    INT8_ARRAY_DATA *data,
     ARRAY_UPDATES *updates
   )
   {
@@ -12026,8 +12049,8 @@ static void *create__std_types___int8_array
     node->type = std_types___int8_array____type;
     node->attributes = std_types___int8_array.attributes;
     node->updates_length = updates_length;
-    node->data = data;
     node->view = view;
+    node->data = data;
     node->updates = updates;
     return node;
   }
@@ -12035,8 +12058,8 @@ static void *create__std_types___int8_array
 static void *create__std_types___uint8_array
   (
     long updates_length,
-    UINT8_ARRAY_DATA *data,
     ARRAY_VIEW *view,
+    UINT8_ARRAY_DATA *data,
     ARRAY_UPDATES *updates
   )
   {
@@ -12044,8 +12067,8 @@ static void *create__std_types___uint8_array
     node->type = std_types___uint8_array____type;
     node->attributes = std_types___uint8_array.attributes;
     node->updates_length = updates_length;
-    node->data = data;
     node->view = view;
+    node->data = data;
     node->updates = updates;
     return node;
   }
@@ -12053,8 +12076,8 @@ static void *create__std_types___uint8_array
 static void *create__std_types___int16_array
   (
     long updates_length,
-    INT16_ARRAY_DATA *data,
     ARRAY_VIEW *view,
+    INT16_ARRAY_DATA *data,
     ARRAY_UPDATES *updates
   )
   {
@@ -12062,8 +12085,8 @@ static void *create__std_types___int16_array
     node->type = std_types___int16_array____type;
     node->attributes = std_types___int16_array.attributes;
     node->updates_length = updates_length;
-    node->data = data;
     node->view = view;
+    node->data = data;
     node->updates = updates;
     return node;
   }
@@ -12071,8 +12094,8 @@ static void *create__std_types___int16_array
 static void *create__std_types___uint16_array
   (
     long updates_length,
-    UINT16_ARRAY_DATA *data,
     ARRAY_VIEW *view,
+    UINT16_ARRAY_DATA *data,
     ARRAY_UPDATES *updates
   )
   {
@@ -12080,8 +12103,8 @@ static void *create__std_types___uint16_array
     node->type = std_types___uint16_array____type;
     node->attributes = std_types___uint16_array.attributes;
     node->updates_length = updates_length;
-    node->data = data;
     node->view = view;
+    node->data = data;
     node->updates = updates;
     return node;
   }
@@ -12089,8 +12112,8 @@ static void *create__std_types___uint16_array
 static void *create__std_types___int32_array
   (
     long updates_length,
-    INT32_ARRAY_DATA *data,
     ARRAY_VIEW *view,
+    INT32_ARRAY_DATA *data,
     ARRAY_UPDATES *updates
   )
   {
@@ -12098,8 +12121,8 @@ static void *create__std_types___int32_array
     node->type = std_types___int32_array____type;
     node->attributes = std_types___int32_array.attributes;
     node->updates_length = updates_length;
-    node->data = data;
     node->view = view;
+    node->data = data;
     node->updates = updates;
     return node;
   }
@@ -12107,8 +12130,8 @@ static void *create__std_types___int32_array
 static void *create__std_types___uint32_array
   (
     long updates_length,
-    UINT32_ARRAY_DATA *data,
     ARRAY_VIEW *view,
+    UINT32_ARRAY_DATA *data,
     ARRAY_UPDATES *updates
   )
   {
@@ -12116,8 +12139,8 @@ static void *create__std_types___uint32_array
     node->type = std_types___uint32_array____type;
     node->attributes = std_types___uint32_array.attributes;
     node->updates_length = updates_length;
-    node->data = data;
     node->view = view;
+    node->data = data;
     node->updates = updates;
     return node;
   }
@@ -12125,8 +12148,8 @@ static void *create__std_types___uint32_array
 static void *create__std_types___int64_array
   (
     long updates_length,
-    INT64_ARRAY_DATA *data,
     ARRAY_VIEW *view,
+    INT64_ARRAY_DATA *data,
     ARRAY_UPDATES *updates
   )
   {
@@ -12134,8 +12157,8 @@ static void *create__std_types___int64_array
     node->type = std_types___int64_array____type;
     node->attributes = std_types___int64_array.attributes;
     node->updates_length = updates_length;
-    node->data = data;
     node->view = view;
+    node->data = data;
     node->updates = updates;
     return node;
   }
@@ -12143,8 +12166,8 @@ static void *create__std_types___int64_array
 static void *create__std_types___uint64_array
   (
     long updates_length,
-    UINT64_ARRAY_DATA *data,
     ARRAY_VIEW *view,
+    UINT64_ARRAY_DATA *data,
     ARRAY_UPDATES *updates
   )
   {
@@ -12152,8 +12175,8 @@ static void *create__std_types___uint64_array
     node->type = std_types___uint64_array____type;
     node->attributes = std_types___uint64_array.attributes;
     node->updates_length = updates_length;
-    node->data = data;
     node->view = view;
+    node->data = data;
     node->updates = updates;
     return node;
   }
@@ -12161,8 +12184,8 @@ static void *create__std_types___uint64_array
 static void *create__std_types___float32_array
   (
     long updates_length,
-    FLOAT32_ARRAY_DATA *data,
     ARRAY_VIEW *view,
+    FLOAT32_ARRAY_DATA *data,
     ARRAY_UPDATES *updates
   )
   {
@@ -12170,8 +12193,8 @@ static void *create__std_types___float32_array
     node->type = std_types___float32_array____type;
     node->attributes = std_types___float32_array.attributes;
     node->updates_length = updates_length;
-    node->data = data;
     node->view = view;
+    node->data = data;
     node->updates = updates;
     return node;
   }
@@ -12179,8 +12202,8 @@ static void *create__std_types___float32_array
 static void *create__std_types___float64_array
   (
     long updates_length,
-    FLOAT64_ARRAY_DATA *data,
     ARRAY_VIEW *view,
+    FLOAT64_ARRAY_DATA *data,
     ARRAY_UPDATES *updates
   )
   {
@@ -12188,8 +12211,8 @@ static void *create__std_types___float64_array
     node->type = std_types___float64_array____type;
     node->attributes = std_types___float64_array.attributes;
     node->updates_length = updates_length;
-    node->data = data;
     node->view = view;
+    node->data = data;
     node->updates = updates;
     return node;
   }
@@ -12703,16 +12726,17 @@ static void entry__std___array (void)
       too_few_arguments();
       return;
     }
+    ARRAY_VIEW *view = create_array_view(TLS_argument_count);
+    if (!view) return;
     ARRAY_DATA *data = (ARRAY_DATA *)
-      allocate_array_data(TLS_argument_count, sizeof(NODE *));
+      create_array_info_and_data(view, sizeof(NODE *));
     if (!data) return;
-    ARRAY_VIEW *view = create_array_view(data->info);
     int i;
     for (i = 0; i < data->size; ++i) {
       data->items[i] = (NODE *)&std_types___undefined;
     }
     {
-      NODE *result__node = (NODE *)(create__std_types___array(0, data, view, NULL));
+      NODE *result__node = (NODE *)(create__std_types___array(0, view, data, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -12725,18 +12749,19 @@ static void entry__std___initialized_array (void)
       too_few_arguments();
       return;
     }
-    ARRAY_DATA *data = (ARRAY_DATA *)
-      allocate_array_data(TLS_argument_count-1, sizeof(NODE *));
-    if (!data) return;
+    ARRAY_VIEW *view = create_array_view(TLS_argument_count-1);
+    if (!view) return;
     NODE *initial_value;
     initial_value = TLS_arguments[TLS_argument_count-1];
-    ARRAY_VIEW *view = create_array_view(data->info);
+    ARRAY_DATA *data = (ARRAY_DATA *)
+      create_array_info_and_data(view, sizeof(NODE *));
+    if (!data) return;
     int i;
     for (i = 0; i < data->size; ++i) {
       data->items[i] = initial_value;
     }
     {
-      NODE *result__node = (NODE *)(create__std_types___array(0, data, view, NULL));
+      NODE *result__node = (NODE *)(create__std_types___array(0, view, data, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -12754,14 +12779,15 @@ static void entry__std_types___array___std___new (void)
       return;
     }
     ARRAY_DATA *data = (ARRAY_DATA *)
-      new_array_data(TLS_arguments[0]->array.data->info, sizeof(NODE *));
+      create_array_data(TLS_arguments[0]->array.data->info,
+        TLS_arguments[0]->array.data->size, sizeof(NODE *));
     if (!data) return;
     int i;
     for (i = 0; i < data->size; ++i) {
       data->items[i] = (NODE *)&std_types___undefined;
     }
     {
-      NODE *result__node = (NODE *)(create__std_types___array(0, data, TLS_arguments[0]->array.view, NULL));
+      NODE *result__node = (NODE *)(create__std_types___array(0, TLS_arguments[0]->array.view, data, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -12784,7 +12810,7 @@ static void entry__std_types___array___std___range (void)
     if (!view) return;
     ARRAY_DATA *data = apply_array_updates(array);
     {
-      NODE *result__node = (NODE *)(create__std_types___array(0, data, view, NULL));
+      NODE *result__node = (NODE *)(create__std_types___array(0, view, data, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -12908,7 +12934,7 @@ static void entry__std_types___boolean_array___std___bit_and (void)
     data->info = left->info;
     data->size = size;
     {
-      NODE *result__node = (NODE *)(create__std_types___boolean_array(0, data, TLS_arguments[0]->boolean_array.view, NULL));
+      NODE *result__node = (NODE *)(create__std_types___boolean_array(0, TLS_arguments[0]->boolean_array.view, data, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -12949,7 +12975,7 @@ static void entry__std_types___boolean_array___std___bit_or (void)
     data->info = left->info;
     data->size = size;
     {
-      NODE *result__node = (NODE *)(create__std_types___boolean_array(0, data, TLS_arguments[0]->boolean_array.view, NULL));
+      NODE *result__node = (NODE *)(create__std_types___boolean_array(0, TLS_arguments[0]->boolean_array.view, data, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -12984,7 +13010,7 @@ static void entry__std_types___boolean_array___std___bit_xor (void)
     data->info = left->info;
     data->size = size;
     {
-      NODE *result__node = (NODE *)(create__std_types___boolean_array(0, data, TLS_arguments[0]->boolean_array.view, NULL));
+      NODE *result__node = (NODE *)(create__std_types___boolean_array(0, TLS_arguments[0]->boolean_array.view, data, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -12997,16 +13023,17 @@ static void entry__std___boolean_array (void)
       too_few_arguments();
       return;
     }
+    ARRAY_VIEW *view = create_array_view(TLS_argument_count);
+    if (!view) return;
     BOOLEAN_ARRAY_DATA *data = (BOOLEAN_ARRAY_DATA *)
-      allocate_array_data(TLS_argument_count, sizeof(int));
+      create_array_info_and_data(view, sizeof(int));
     if (!data) return;
-    ARRAY_VIEW *view = create_array_view(data->info);
     int i;
     for (i = 0; i < data->size; ++i) {
       data->items[i] = false;
     }
     {
-      NODE *result__node = (NODE *)(create__std_types___boolean_array(0, data, view, NULL));
+      NODE *result__node = (NODE *)(create__std_types___boolean_array(0, view, data, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -13019,18 +13046,19 @@ static void entry__std___initialized_boolean_array (void)
       too_few_arguments();
       return;
     }
-    BOOLEAN_ARRAY_DATA *data = (BOOLEAN_ARRAY_DATA *)
-      allocate_array_data(TLS_argument_count-1, sizeof(int));
-    if (!data) return;
+    ARRAY_VIEW *view = create_array_view(TLS_argument_count-1);
+    if (!view) return;
     int initial_value;
     if (!to_bool(TLS_arguments[TLS_argument_count-1], &initial_value)) return;
-    ARRAY_VIEW *view = create_array_view(data->info);
+    BOOLEAN_ARRAY_DATA *data = (BOOLEAN_ARRAY_DATA *)
+      create_array_info_and_data(view, sizeof(int));
+    if (!data) return;
     int i;
     for (i = 0; i < data->size; ++i) {
       data->items[i] = initial_value;
     }
     {
-      NODE *result__node = (NODE *)(create__std_types___boolean_array(0, data, view, NULL));
+      NODE *result__node = (NODE *)(create__std_types___boolean_array(0, view, data, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -13048,14 +13076,15 @@ static void entry__std_types___boolean_array___std___new (void)
       return;
     }
     BOOLEAN_ARRAY_DATA *data = (BOOLEAN_ARRAY_DATA *)
-      new_array_data(TLS_arguments[0]->boolean_array.data->info, sizeof(int));
+      create_array_data(TLS_arguments[0]->boolean_array.data->info,
+        TLS_arguments[0]->boolean_array.data->size, sizeof(int));
     if (!data) return;
     int i;
     for (i = 0; i < data->size; ++i) {
       data->items[i] = false;
     }
     {
-      NODE *result__node = (NODE *)(create__std_types___boolean_array(0, data, TLS_arguments[0]->boolean_array.view, NULL));
+      NODE *result__node = (NODE *)(create__std_types___boolean_array(0, TLS_arguments[0]->boolean_array.view, data, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -13078,7 +13107,7 @@ static void entry__std_types___boolean_array___std___range (void)
     if (!view) return;
     BOOLEAN_ARRAY_DATA *data = apply_boolean_array_updates(array);
     {
-      NODE *result__node = (NODE *)(create__std_types___boolean_array(0, data, view, NULL));
+      NODE *result__node = (NODE *)(create__std_types___boolean_array(0, view, data, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -13174,16 +13203,17 @@ static void entry__std___character_array (void)
       too_few_arguments();
       return;
     }
+    ARRAY_VIEW *view = create_array_view(TLS_argument_count);
+    if (!view) return;
     CHARACTER_ARRAY_DATA *data = (CHARACTER_ARRAY_DATA *)
-      allocate_array_data(TLS_argument_count, sizeof(uint32_t));
+      create_array_info_and_data(view, sizeof(uint32_t));
     if (!data) return;
-    ARRAY_VIEW *view = create_array_view(data->info);
     int i;
     for (i = 0; i < data->size; ++i) {
       data->items[i] = 0;
     }
     {
-      NODE *result__node = (NODE *)(create__std_types___character_array(0, data, view, NULL));
+      NODE *result__node = (NODE *)(create__std_types___character_array(0, view, data, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -13196,18 +13226,19 @@ static void entry__std___initialized_character_array (void)
       too_few_arguments();
       return;
     }
-    CHARACTER_ARRAY_DATA *data = (CHARACTER_ARRAY_DATA *)
-      allocate_array_data(TLS_argument_count-1, sizeof(uint32_t));
-    if (!data) return;
+    ARRAY_VIEW *view = create_array_view(TLS_argument_count-1);
+    if (!view) return;
     uint32_t initial_value;
     if (!to_uchar32(TLS_arguments[TLS_argument_count-1], &initial_value)) return;
-    ARRAY_VIEW *view = create_array_view(data->info);
+    CHARACTER_ARRAY_DATA *data = (CHARACTER_ARRAY_DATA *)
+      create_array_info_and_data(view, sizeof(uint32_t));
+    if (!data) return;
     int i;
     for (i = 0; i < data->size; ++i) {
       data->items[i] = initial_value;
     }
     {
-      NODE *result__node = (NODE *)(create__std_types___character_array(0, data, view, NULL));
+      NODE *result__node = (NODE *)(create__std_types___character_array(0, view, data, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -13225,14 +13256,15 @@ static void entry__std_types___character_array___std___new (void)
       return;
     }
     CHARACTER_ARRAY_DATA *data = (CHARACTER_ARRAY_DATA *)
-      new_array_data(TLS_arguments[0]->character_array.data->info, sizeof(uint32_t));
+      create_array_data(TLS_arguments[0]->character_array.data->info,
+        TLS_arguments[0]->character_array.data->size, sizeof(uint32_t));
     if (!data) return;
     int i;
     for (i = 0; i < data->size; ++i) {
       data->items[i] = 0;
     }
     {
-      NODE *result__node = (NODE *)(create__std_types___character_array(0, data, TLS_arguments[0]->character_array.view, NULL));
+      NODE *result__node = (NODE *)(create__std_types___character_array(0, TLS_arguments[0]->character_array.view, data, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -13255,7 +13287,7 @@ static void entry__std_types___character_array___std___range (void)
     if (!view) return;
     CHARACTER_ARRAY_DATA *data = apply_character_array_updates(array);
     {
-      NODE *result__node = (NODE *)(create__std_types___character_array(0, data, view, NULL));
+      NODE *result__node = (NODE *)(create__std_types___character_array(0, view, data, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -13351,16 +13383,17 @@ static void entry__std___int8_array (void)
       too_few_arguments();
       return;
     }
+    ARRAY_VIEW *view = create_array_view(TLS_argument_count);
+    if (!view) return;
     INT8_ARRAY_DATA *data = (INT8_ARRAY_DATA *)
-      allocate_array_data(TLS_argument_count, sizeof(int8_t));
+      create_array_info_and_data(view, sizeof(int8_t));
     if (!data) return;
-    ARRAY_VIEW *view = create_array_view(data->info);
     int i;
     for (i = 0; i < data->size; ++i) {
       data->items[i] = 0;
     }
     {
-      NODE *result__node = (NODE *)(create__std_types___int8_array(0, data, view, NULL));
+      NODE *result__node = (NODE *)(create__std_types___int8_array(0, view, data, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -13373,18 +13406,19 @@ static void entry__std___initialized_int8_array (void)
       too_few_arguments();
       return;
     }
-    INT8_ARRAY_DATA *data = (INT8_ARRAY_DATA *)
-      allocate_array_data(TLS_argument_count-1, sizeof(int8_t));
-    if (!data) return;
+    ARRAY_VIEW *view = create_array_view(TLS_argument_count-1);
+    if (!view) return;
     int8_t initial_value;
     if (!to_int8(TLS_arguments[TLS_argument_count-1], &initial_value)) return;
-    ARRAY_VIEW *view = create_array_view(data->info);
+    INT8_ARRAY_DATA *data = (INT8_ARRAY_DATA *)
+      create_array_info_and_data(view, sizeof(int8_t));
+    if (!data) return;
     int i;
     for (i = 0; i < data->size; ++i) {
       data->items[i] = initial_value;
     }
     {
-      NODE *result__node = (NODE *)(create__std_types___int8_array(0, data, view, NULL));
+      NODE *result__node = (NODE *)(create__std_types___int8_array(0, view, data, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -13402,14 +13436,15 @@ static void entry__std_types___int8_array___std___new (void)
       return;
     }
     INT8_ARRAY_DATA *data = (INT8_ARRAY_DATA *)
-      new_array_data(TLS_arguments[0]->int8_array.data->info, sizeof(int8_t));
+      create_array_data(TLS_arguments[0]->int8_array.data->info,
+        TLS_arguments[0]->int8_array.data->size, sizeof(int8_t));
     if (!data) return;
     int i;
     for (i = 0; i < data->size; ++i) {
       data->items[i] = 0;
     }
     {
-      NODE *result__node = (NODE *)(create__std_types___int8_array(0, data, TLS_arguments[0]->int8_array.view, NULL));
+      NODE *result__node = (NODE *)(create__std_types___int8_array(0, TLS_arguments[0]->int8_array.view, data, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -13432,7 +13467,7 @@ static void entry__std_types___int8_array___std___range (void)
     if (!view) return;
     INT8_ARRAY_DATA *data = apply_int8_array_updates(array);
     {
-      NODE *result__node = (NODE *)(create__std_types___int8_array(0, data, view, NULL));
+      NODE *result__node = (NODE *)(create__std_types___int8_array(0, view, data, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -13556,7 +13591,7 @@ static void entry__std_types___uint8_array___std___bit_and (void)
     data->info = left->info;
     data->size = size;
     {
-      NODE *result__node = (NODE *)(create__std_types___uint8_array(0, data, TLS_arguments[0]->uint8_array.view, NULL));
+      NODE *result__node = (NODE *)(create__std_types___uint8_array(0, TLS_arguments[0]->uint8_array.view, data, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -13597,7 +13632,7 @@ static void entry__std_types___uint8_array___std___bit_or (void)
     data->info = left->info;
     data->size = size;
     {
-      NODE *result__node = (NODE *)(create__std_types___uint8_array(0, data, TLS_arguments[0]->uint8_array.view, NULL));
+      NODE *result__node = (NODE *)(create__std_types___uint8_array(0, TLS_arguments[0]->uint8_array.view, data, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -13632,7 +13667,7 @@ static void entry__std_types___uint8_array___std___bit_xor (void)
     data->info = left->info;
     data->size = size;
     {
-      NODE *result__node = (NODE *)(create__std_types___uint8_array(0, data, TLS_arguments[0]->uint8_array.view, NULL));
+      NODE *result__node = (NODE *)(create__std_types___uint8_array(0, TLS_arguments[0]->uint8_array.view, data, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -13645,16 +13680,17 @@ static void entry__std___uint8_array (void)
       too_few_arguments();
       return;
     }
+    ARRAY_VIEW *view = create_array_view(TLS_argument_count);
+    if (!view) return;
     UINT8_ARRAY_DATA *data = (UINT8_ARRAY_DATA *)
-      allocate_array_data(TLS_argument_count, sizeof(uint8_t));
+      create_array_info_and_data(view, sizeof(uint8_t));
     if (!data) return;
-    ARRAY_VIEW *view = create_array_view(data->info);
     int i;
     for (i = 0; i < data->size; ++i) {
       data->items[i] = 0;
     }
     {
-      NODE *result__node = (NODE *)(create__std_types___uint8_array(0, data, view, NULL));
+      NODE *result__node = (NODE *)(create__std_types___uint8_array(0, view, data, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -13667,18 +13703,19 @@ static void entry__std___initialized_uint8_array (void)
       too_few_arguments();
       return;
     }
-    UINT8_ARRAY_DATA *data = (UINT8_ARRAY_DATA *)
-      allocate_array_data(TLS_argument_count-1, sizeof(uint8_t));
-    if (!data) return;
+    ARRAY_VIEW *view = create_array_view(TLS_argument_count-1);
+    if (!view) return;
     uint8_t initial_value;
     if (!to_uint8(TLS_arguments[TLS_argument_count-1], &initial_value)) return;
-    ARRAY_VIEW *view = create_array_view(data->info);
+    UINT8_ARRAY_DATA *data = (UINT8_ARRAY_DATA *)
+      create_array_info_and_data(view, sizeof(uint8_t));
+    if (!data) return;
     int i;
     for (i = 0; i < data->size; ++i) {
       data->items[i] = initial_value;
     }
     {
-      NODE *result__node = (NODE *)(create__std_types___uint8_array(0, data, view, NULL));
+      NODE *result__node = (NODE *)(create__std_types___uint8_array(0, view, data, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -13696,14 +13733,15 @@ static void entry__std_types___uint8_array___std___new (void)
       return;
     }
     UINT8_ARRAY_DATA *data = (UINT8_ARRAY_DATA *)
-      new_array_data(TLS_arguments[0]->uint8_array.data->info, sizeof(uint8_t));
+      create_array_data(TLS_arguments[0]->uint8_array.data->info,
+        TLS_arguments[0]->uint8_array.data->size, sizeof(uint8_t));
     if (!data) return;
     int i;
     for (i = 0; i < data->size; ++i) {
       data->items[i] = 0;
     }
     {
-      NODE *result__node = (NODE *)(create__std_types___uint8_array(0, data, TLS_arguments[0]->uint8_array.view, NULL));
+      NODE *result__node = (NODE *)(create__std_types___uint8_array(0, TLS_arguments[0]->uint8_array.view, data, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -13726,7 +13764,7 @@ static void entry__std_types___uint8_array___std___range (void)
     if (!view) return;
     UINT8_ARRAY_DATA *data = apply_uint8_array_updates(array);
     {
-      NODE *result__node = (NODE *)(create__std_types___uint8_array(0, data, view, NULL));
+      NODE *result__node = (NODE *)(create__std_types___uint8_array(0, view, data, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -13822,16 +13860,17 @@ static void entry__std___int16_array (void)
       too_few_arguments();
       return;
     }
+    ARRAY_VIEW *view = create_array_view(TLS_argument_count);
+    if (!view) return;
     INT16_ARRAY_DATA *data = (INT16_ARRAY_DATA *)
-      allocate_array_data(TLS_argument_count, sizeof(int16_t));
+      create_array_info_and_data(view, sizeof(int16_t));
     if (!data) return;
-    ARRAY_VIEW *view = create_array_view(data->info);
     int i;
     for (i = 0; i < data->size; ++i) {
       data->items[i] = 0;
     }
     {
-      NODE *result__node = (NODE *)(create__std_types___int16_array(0, data, view, NULL));
+      NODE *result__node = (NODE *)(create__std_types___int16_array(0, view, data, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -13844,18 +13883,19 @@ static void entry__std___initialized_int16_array (void)
       too_few_arguments();
       return;
     }
-    INT16_ARRAY_DATA *data = (INT16_ARRAY_DATA *)
-      allocate_array_data(TLS_argument_count-1, sizeof(int16_t));
-    if (!data) return;
+    ARRAY_VIEW *view = create_array_view(TLS_argument_count-1);
+    if (!view) return;
     int16_t initial_value;
     if (!to_int16(TLS_arguments[TLS_argument_count-1], &initial_value)) return;
-    ARRAY_VIEW *view = create_array_view(data->info);
+    INT16_ARRAY_DATA *data = (INT16_ARRAY_DATA *)
+      create_array_info_and_data(view, sizeof(int16_t));
+    if (!data) return;
     int i;
     for (i = 0; i < data->size; ++i) {
       data->items[i] = initial_value;
     }
     {
-      NODE *result__node = (NODE *)(create__std_types___int16_array(0, data, view, NULL));
+      NODE *result__node = (NODE *)(create__std_types___int16_array(0, view, data, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -13873,14 +13913,15 @@ static void entry__std_types___int16_array___std___new (void)
       return;
     }
     INT16_ARRAY_DATA *data = (INT16_ARRAY_DATA *)
-      new_array_data(TLS_arguments[0]->int16_array.data->info, sizeof(int16_t));
+      create_array_data(TLS_arguments[0]->int16_array.data->info,
+        TLS_arguments[0]->int16_array.data->size, sizeof(int16_t));
     if (!data) return;
     int i;
     for (i = 0; i < data->size; ++i) {
       data->items[i] = 0;
     }
     {
-      NODE *result__node = (NODE *)(create__std_types___int16_array(0, data, TLS_arguments[0]->int16_array.view, NULL));
+      NODE *result__node = (NODE *)(create__std_types___int16_array(0, TLS_arguments[0]->int16_array.view, data, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -13903,7 +13944,7 @@ static void entry__std_types___int16_array___std___range (void)
     if (!view) return;
     INT16_ARRAY_DATA *data = apply_int16_array_updates(array);
     {
-      NODE *result__node = (NODE *)(create__std_types___int16_array(0, data, view, NULL));
+      NODE *result__node = (NODE *)(create__std_types___int16_array(0, view, data, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -14027,7 +14068,7 @@ static void entry__std_types___uint16_array___std___bit_and (void)
     data->info = left->info;
     data->size = size;
     {
-      NODE *result__node = (NODE *)(create__std_types___uint16_array(0, data, TLS_arguments[0]->uint16_array.view, NULL));
+      NODE *result__node = (NODE *)(create__std_types___uint16_array(0, TLS_arguments[0]->uint16_array.view, data, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -14068,7 +14109,7 @@ static void entry__std_types___uint16_array___std___bit_or (void)
     data->info = left->info;
     data->size = size;
     {
-      NODE *result__node = (NODE *)(create__std_types___uint16_array(0, data, TLS_arguments[0]->uint16_array.view, NULL));
+      NODE *result__node = (NODE *)(create__std_types___uint16_array(0, TLS_arguments[0]->uint16_array.view, data, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -14103,7 +14144,7 @@ static void entry__std_types___uint16_array___std___bit_xor (void)
     data->info = left->info;
     data->size = size;
     {
-      NODE *result__node = (NODE *)(create__std_types___uint16_array(0, data, TLS_arguments[0]->uint16_array.view, NULL));
+      NODE *result__node = (NODE *)(create__std_types___uint16_array(0, TLS_arguments[0]->uint16_array.view, data, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -14116,16 +14157,17 @@ static void entry__std___uint16_array (void)
       too_few_arguments();
       return;
     }
+    ARRAY_VIEW *view = create_array_view(TLS_argument_count);
+    if (!view) return;
     UINT16_ARRAY_DATA *data = (UINT16_ARRAY_DATA *)
-      allocate_array_data(TLS_argument_count, sizeof(uint16_t));
+      create_array_info_and_data(view, sizeof(uint16_t));
     if (!data) return;
-    ARRAY_VIEW *view = create_array_view(data->info);
     int i;
     for (i = 0; i < data->size; ++i) {
       data->items[i] = 0;
     }
     {
-      NODE *result__node = (NODE *)(create__std_types___uint16_array(0, data, view, NULL));
+      NODE *result__node = (NODE *)(create__std_types___uint16_array(0, view, data, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -14138,18 +14180,19 @@ static void entry__std___initialized_uint16_array (void)
       too_few_arguments();
       return;
     }
-    UINT16_ARRAY_DATA *data = (UINT16_ARRAY_DATA *)
-      allocate_array_data(TLS_argument_count-1, sizeof(uint16_t));
-    if (!data) return;
+    ARRAY_VIEW *view = create_array_view(TLS_argument_count-1);
+    if (!view) return;
     uint16_t initial_value;
     if (!to_uint16(TLS_arguments[TLS_argument_count-1], &initial_value)) return;
-    ARRAY_VIEW *view = create_array_view(data->info);
+    UINT16_ARRAY_DATA *data = (UINT16_ARRAY_DATA *)
+      create_array_info_and_data(view, sizeof(uint16_t));
+    if (!data) return;
     int i;
     for (i = 0; i < data->size; ++i) {
       data->items[i] = initial_value;
     }
     {
-      NODE *result__node = (NODE *)(create__std_types___uint16_array(0, data, view, NULL));
+      NODE *result__node = (NODE *)(create__std_types___uint16_array(0, view, data, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -14167,14 +14210,15 @@ static void entry__std_types___uint16_array___std___new (void)
       return;
     }
     UINT16_ARRAY_DATA *data = (UINT16_ARRAY_DATA *)
-      new_array_data(TLS_arguments[0]->uint16_array.data->info, sizeof(uint16_t));
+      create_array_data(TLS_arguments[0]->uint16_array.data->info,
+        TLS_arguments[0]->uint16_array.data->size, sizeof(uint16_t));
     if (!data) return;
     int i;
     for (i = 0; i < data->size; ++i) {
       data->items[i] = 0;
     }
     {
-      NODE *result__node = (NODE *)(create__std_types___uint16_array(0, data, TLS_arguments[0]->uint16_array.view, NULL));
+      NODE *result__node = (NODE *)(create__std_types___uint16_array(0, TLS_arguments[0]->uint16_array.view, data, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -14197,7 +14241,7 @@ static void entry__std_types___uint16_array___std___range (void)
     if (!view) return;
     UINT16_ARRAY_DATA *data = apply_uint16_array_updates(array);
     {
-      NODE *result__node = (NODE *)(create__std_types___uint16_array(0, data, view, NULL));
+      NODE *result__node = (NODE *)(create__std_types___uint16_array(0, view, data, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -14293,16 +14337,17 @@ static void entry__std___int32_array (void)
       too_few_arguments();
       return;
     }
+    ARRAY_VIEW *view = create_array_view(TLS_argument_count);
+    if (!view) return;
     INT32_ARRAY_DATA *data = (INT32_ARRAY_DATA *)
-      allocate_array_data(TLS_argument_count, sizeof(int32_t));
+      create_array_info_and_data(view, sizeof(int32_t));
     if (!data) return;
-    ARRAY_VIEW *view = create_array_view(data->info);
     int i;
     for (i = 0; i < data->size; ++i) {
       data->items[i] = 0;
     }
     {
-      NODE *result__node = (NODE *)(create__std_types___int32_array(0, data, view, NULL));
+      NODE *result__node = (NODE *)(create__std_types___int32_array(0, view, data, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -14315,18 +14360,19 @@ static void entry__std___initialized_int32_array (void)
       too_few_arguments();
       return;
     }
-    INT32_ARRAY_DATA *data = (INT32_ARRAY_DATA *)
-      allocate_array_data(TLS_argument_count-1, sizeof(int32_t));
-    if (!data) return;
+    ARRAY_VIEW *view = create_array_view(TLS_argument_count-1);
+    if (!view) return;
     int32_t initial_value;
     if (!to_int32(TLS_arguments[TLS_argument_count-1], &initial_value)) return;
-    ARRAY_VIEW *view = create_array_view(data->info);
+    INT32_ARRAY_DATA *data = (INT32_ARRAY_DATA *)
+      create_array_info_and_data(view, sizeof(int32_t));
+    if (!data) return;
     int i;
     for (i = 0; i < data->size; ++i) {
       data->items[i] = initial_value;
     }
     {
-      NODE *result__node = (NODE *)(create__std_types___int32_array(0, data, view, NULL));
+      NODE *result__node = (NODE *)(create__std_types___int32_array(0, view, data, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -14344,14 +14390,15 @@ static void entry__std_types___int32_array___std___new (void)
       return;
     }
     INT32_ARRAY_DATA *data = (INT32_ARRAY_DATA *)
-      new_array_data(TLS_arguments[0]->int32_array.data->info, sizeof(int32_t));
+      create_array_data(TLS_arguments[0]->int32_array.data->info,
+        TLS_arguments[0]->int32_array.data->size, sizeof(int32_t));
     if (!data) return;
     int i;
     for (i = 0; i < data->size; ++i) {
       data->items[i] = 0;
     }
     {
-      NODE *result__node = (NODE *)(create__std_types___int32_array(0, data, TLS_arguments[0]->int32_array.view, NULL));
+      NODE *result__node = (NODE *)(create__std_types___int32_array(0, TLS_arguments[0]->int32_array.view, data, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -14374,7 +14421,7 @@ static void entry__std_types___int32_array___std___range (void)
     if (!view) return;
     INT32_ARRAY_DATA *data = apply_int32_array_updates(array);
     {
-      NODE *result__node = (NODE *)(create__std_types___int32_array(0, data, view, NULL));
+      NODE *result__node = (NODE *)(create__std_types___int32_array(0, view, data, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -14498,7 +14545,7 @@ static void entry__std_types___uint32_array___std___bit_and (void)
     data->info = left->info;
     data->size = size;
     {
-      NODE *result__node = (NODE *)(create__std_types___uint32_array(0, data, TLS_arguments[0]->uint32_array.view, NULL));
+      NODE *result__node = (NODE *)(create__std_types___uint32_array(0, TLS_arguments[0]->uint32_array.view, data, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -14539,7 +14586,7 @@ static void entry__std_types___uint32_array___std___bit_or (void)
     data->info = left->info;
     data->size = size;
     {
-      NODE *result__node = (NODE *)(create__std_types___uint32_array(0, data, TLS_arguments[0]->uint32_array.view, NULL));
+      NODE *result__node = (NODE *)(create__std_types___uint32_array(0, TLS_arguments[0]->uint32_array.view, data, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -14574,7 +14621,7 @@ static void entry__std_types___uint32_array___std___bit_xor (void)
     data->info = left->info;
     data->size = size;
     {
-      NODE *result__node = (NODE *)(create__std_types___uint32_array(0, data, TLS_arguments[0]->uint32_array.view, NULL));
+      NODE *result__node = (NODE *)(create__std_types___uint32_array(0, TLS_arguments[0]->uint32_array.view, data, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -14587,16 +14634,17 @@ static void entry__std___uint32_array (void)
       too_few_arguments();
       return;
     }
+    ARRAY_VIEW *view = create_array_view(TLS_argument_count);
+    if (!view) return;
     UINT32_ARRAY_DATA *data = (UINT32_ARRAY_DATA *)
-      allocate_array_data(TLS_argument_count, sizeof(uint32_t));
+      create_array_info_and_data(view, sizeof(uint32_t));
     if (!data) return;
-    ARRAY_VIEW *view = create_array_view(data->info);
     int i;
     for (i = 0; i < data->size; ++i) {
       data->items[i] = 0;
     }
     {
-      NODE *result__node = (NODE *)(create__std_types___uint32_array(0, data, view, NULL));
+      NODE *result__node = (NODE *)(create__std_types___uint32_array(0, view, data, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -14609,18 +14657,19 @@ static void entry__std___initialized_uint32_array (void)
       too_few_arguments();
       return;
     }
-    UINT32_ARRAY_DATA *data = (UINT32_ARRAY_DATA *)
-      allocate_array_data(TLS_argument_count-1, sizeof(uint32_t));
-    if (!data) return;
+    ARRAY_VIEW *view = create_array_view(TLS_argument_count-1);
+    if (!view) return;
     uint32_t initial_value;
     if (!to_uint32(TLS_arguments[TLS_argument_count-1], &initial_value)) return;
-    ARRAY_VIEW *view = create_array_view(data->info);
+    UINT32_ARRAY_DATA *data = (UINT32_ARRAY_DATA *)
+      create_array_info_and_data(view, sizeof(uint32_t));
+    if (!data) return;
     int i;
     for (i = 0; i < data->size; ++i) {
       data->items[i] = initial_value;
     }
     {
-      NODE *result__node = (NODE *)(create__std_types___uint32_array(0, data, view, NULL));
+      NODE *result__node = (NODE *)(create__std_types___uint32_array(0, view, data, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -14638,14 +14687,15 @@ static void entry__std_types___uint32_array___std___new (void)
       return;
     }
     UINT32_ARRAY_DATA *data = (UINT32_ARRAY_DATA *)
-      new_array_data(TLS_arguments[0]->uint32_array.data->info, sizeof(uint32_t));
+      create_array_data(TLS_arguments[0]->uint32_array.data->info,
+        TLS_arguments[0]->uint32_array.data->size, sizeof(uint32_t));
     if (!data) return;
     int i;
     for (i = 0; i < data->size; ++i) {
       data->items[i] = 0;
     }
     {
-      NODE *result__node = (NODE *)(create__std_types___uint32_array(0, data, TLS_arguments[0]->uint32_array.view, NULL));
+      NODE *result__node = (NODE *)(create__std_types___uint32_array(0, TLS_arguments[0]->uint32_array.view, data, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -14668,7 +14718,7 @@ static void entry__std_types___uint32_array___std___range (void)
     if (!view) return;
     UINT32_ARRAY_DATA *data = apply_uint32_array_updates(array);
     {
-      NODE *result__node = (NODE *)(create__std_types___uint32_array(0, data, view, NULL));
+      NODE *result__node = (NODE *)(create__std_types___uint32_array(0, view, data, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -14764,16 +14814,17 @@ static void entry__std___int64_array (void)
       too_few_arguments();
       return;
     }
+    ARRAY_VIEW *view = create_array_view(TLS_argument_count);
+    if (!view) return;
     INT64_ARRAY_DATA *data = (INT64_ARRAY_DATA *)
-      allocate_array_data(TLS_argument_count, sizeof(int64_t));
+      create_array_info_and_data(view, sizeof(int64_t));
     if (!data) return;
-    ARRAY_VIEW *view = create_array_view(data->info);
     int i;
     for (i = 0; i < data->size; ++i) {
       data->items[i] = 0;
     }
     {
-      NODE *result__node = (NODE *)(create__std_types___int64_array(0, data, view, NULL));
+      NODE *result__node = (NODE *)(create__std_types___int64_array(0, view, data, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -14786,18 +14837,19 @@ static void entry__std___initialized_int64_array (void)
       too_few_arguments();
       return;
     }
-    INT64_ARRAY_DATA *data = (INT64_ARRAY_DATA *)
-      allocate_array_data(TLS_argument_count-1, sizeof(int64_t));
-    if (!data) return;
+    ARRAY_VIEW *view = create_array_view(TLS_argument_count-1);
+    if (!view) return;
     int64_t initial_value;
     if (!to_int64(TLS_arguments[TLS_argument_count-1], &initial_value)) return;
-    ARRAY_VIEW *view = create_array_view(data->info);
+    INT64_ARRAY_DATA *data = (INT64_ARRAY_DATA *)
+      create_array_info_and_data(view, sizeof(int64_t));
+    if (!data) return;
     int i;
     for (i = 0; i < data->size; ++i) {
       data->items[i] = initial_value;
     }
     {
-      NODE *result__node = (NODE *)(create__std_types___int64_array(0, data, view, NULL));
+      NODE *result__node = (NODE *)(create__std_types___int64_array(0, view, data, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -14815,14 +14867,15 @@ static void entry__std_types___int64_array___std___new (void)
       return;
     }
     INT64_ARRAY_DATA *data = (INT64_ARRAY_DATA *)
-      new_array_data(TLS_arguments[0]->int64_array.data->info, sizeof(int64_t));
+      create_array_data(TLS_arguments[0]->int64_array.data->info,
+        TLS_arguments[0]->int64_array.data->size, sizeof(int64_t));
     if (!data) return;
     int i;
     for (i = 0; i < data->size; ++i) {
       data->items[i] = 0;
     }
     {
-      NODE *result__node = (NODE *)(create__std_types___int64_array(0, data, TLS_arguments[0]->int64_array.view, NULL));
+      NODE *result__node = (NODE *)(create__std_types___int64_array(0, TLS_arguments[0]->int64_array.view, data, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -14845,7 +14898,7 @@ static void entry__std_types___int64_array___std___range (void)
     if (!view) return;
     INT64_ARRAY_DATA *data = apply_int64_array_updates(array);
     {
-      NODE *result__node = (NODE *)(create__std_types___int64_array(0, data, view, NULL));
+      NODE *result__node = (NODE *)(create__std_types___int64_array(0, view, data, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -14969,7 +15022,7 @@ static void entry__std_types___uint64_array___std___bit_and (void)
     data->info = left->info;
     data->size = size;
     {
-      NODE *result__node = (NODE *)(create__std_types___uint64_array(0, data, TLS_arguments[0]->uint64_array.view, NULL));
+      NODE *result__node = (NODE *)(create__std_types___uint64_array(0, TLS_arguments[0]->uint64_array.view, data, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -15010,7 +15063,7 @@ static void entry__std_types___uint64_array___std___bit_or (void)
     data->info = left->info;
     data->size = size;
     {
-      NODE *result__node = (NODE *)(create__std_types___uint64_array(0, data, TLS_arguments[0]->uint64_array.view, NULL));
+      NODE *result__node = (NODE *)(create__std_types___uint64_array(0, TLS_arguments[0]->uint64_array.view, data, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -15045,7 +15098,7 @@ static void entry__std_types___uint64_array___std___bit_xor (void)
     data->info = left->info;
     data->size = size;
     {
-      NODE *result__node = (NODE *)(create__std_types___uint64_array(0, data, TLS_arguments[0]->uint64_array.view, NULL));
+      NODE *result__node = (NODE *)(create__std_types___uint64_array(0, TLS_arguments[0]->uint64_array.view, data, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -15058,16 +15111,17 @@ static void entry__std___uint64_array (void)
       too_few_arguments();
       return;
     }
+    ARRAY_VIEW *view = create_array_view(TLS_argument_count);
+    if (!view) return;
     UINT64_ARRAY_DATA *data = (UINT64_ARRAY_DATA *)
-      allocate_array_data(TLS_argument_count, sizeof(uint64_t));
+      create_array_info_and_data(view, sizeof(uint64_t));
     if (!data) return;
-    ARRAY_VIEW *view = create_array_view(data->info);
     int i;
     for (i = 0; i < data->size; ++i) {
       data->items[i] = 0;
     }
     {
-      NODE *result__node = (NODE *)(create__std_types___uint64_array(0, data, view, NULL));
+      NODE *result__node = (NODE *)(create__std_types___uint64_array(0, view, data, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -15080,18 +15134,19 @@ static void entry__std___initialized_uint64_array (void)
       too_few_arguments();
       return;
     }
-    UINT64_ARRAY_DATA *data = (UINT64_ARRAY_DATA *)
-      allocate_array_data(TLS_argument_count-1, sizeof(uint64_t));
-    if (!data) return;
+    ARRAY_VIEW *view = create_array_view(TLS_argument_count-1);
+    if (!view) return;
     uint64_t initial_value;
     if (!to_uint64(TLS_arguments[TLS_argument_count-1], &initial_value)) return;
-    ARRAY_VIEW *view = create_array_view(data->info);
+    UINT64_ARRAY_DATA *data = (UINT64_ARRAY_DATA *)
+      create_array_info_and_data(view, sizeof(uint64_t));
+    if (!data) return;
     int i;
     for (i = 0; i < data->size; ++i) {
       data->items[i] = initial_value;
     }
     {
-      NODE *result__node = (NODE *)(create__std_types___uint64_array(0, data, view, NULL));
+      NODE *result__node = (NODE *)(create__std_types___uint64_array(0, view, data, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -15109,14 +15164,15 @@ static void entry__std_types___uint64_array___std___new (void)
       return;
     }
     UINT64_ARRAY_DATA *data = (UINT64_ARRAY_DATA *)
-      new_array_data(TLS_arguments[0]->uint64_array.data->info, sizeof(uint64_t));
+      create_array_data(TLS_arguments[0]->uint64_array.data->info,
+        TLS_arguments[0]->uint64_array.data->size, sizeof(uint64_t));
     if (!data) return;
     int i;
     for (i = 0; i < data->size; ++i) {
       data->items[i] = 0;
     }
     {
-      NODE *result__node = (NODE *)(create__std_types___uint64_array(0, data, TLS_arguments[0]->uint64_array.view, NULL));
+      NODE *result__node = (NODE *)(create__std_types___uint64_array(0, TLS_arguments[0]->uint64_array.view, data, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -15139,7 +15195,7 @@ static void entry__std_types___uint64_array___std___range (void)
     if (!view) return;
     UINT64_ARRAY_DATA *data = apply_uint64_array_updates(array);
     {
-      NODE *result__node = (NODE *)(create__std_types___uint64_array(0, data, view, NULL));
+      NODE *result__node = (NODE *)(create__std_types___uint64_array(0, view, data, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -15235,16 +15291,17 @@ static void entry__std___float32_array (void)
       too_few_arguments();
       return;
     }
+    ARRAY_VIEW *view = create_array_view(TLS_argument_count);
+    if (!view) return;
     FLOAT32_ARRAY_DATA *data = (FLOAT32_ARRAY_DATA *)
-      allocate_array_data(TLS_argument_count, sizeof(float));
+      create_array_info_and_data(view, sizeof(float));
     if (!data) return;
-    ARRAY_VIEW *view = create_array_view(data->info);
     int i;
     for (i = 0; i < data->size; ++i) {
       data->items[i] = 0;
     }
     {
-      NODE *result__node = (NODE *)(create__std_types___float32_array(0, data, view, NULL));
+      NODE *result__node = (NODE *)(create__std_types___float32_array(0, view, data, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -15257,18 +15314,19 @@ static void entry__std___initialized_float32_array (void)
       too_few_arguments();
       return;
     }
-    FLOAT32_ARRAY_DATA *data = (FLOAT32_ARRAY_DATA *)
-      allocate_array_data(TLS_argument_count-1, sizeof(float));
-    if (!data) return;
+    ARRAY_VIEW *view = create_array_view(TLS_argument_count-1);
+    if (!view) return;
     float initial_value;
     if (!to_float(TLS_arguments[TLS_argument_count-1], &initial_value)) return;
-    ARRAY_VIEW *view = create_array_view(data->info);
+    FLOAT32_ARRAY_DATA *data = (FLOAT32_ARRAY_DATA *)
+      create_array_info_and_data(view, sizeof(float));
+    if (!data) return;
     int i;
     for (i = 0; i < data->size; ++i) {
       data->items[i] = initial_value;
     }
     {
-      NODE *result__node = (NODE *)(create__std_types___float32_array(0, data, view, NULL));
+      NODE *result__node = (NODE *)(create__std_types___float32_array(0, view, data, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -15286,14 +15344,15 @@ static void entry__std_types___float32_array___std___new (void)
       return;
     }
     FLOAT32_ARRAY_DATA *data = (FLOAT32_ARRAY_DATA *)
-      new_array_data(TLS_arguments[0]->float32_array.data->info, sizeof(float));
+      create_array_data(TLS_arguments[0]->float32_array.data->info,
+        TLS_arguments[0]->float32_array.data->size, sizeof(float));
     if (!data) return;
     int i;
     for (i = 0; i < data->size; ++i) {
       data->items[i] = 0;
     }
     {
-      NODE *result__node = (NODE *)(create__std_types___float32_array(0, data, TLS_arguments[0]->float32_array.view, NULL));
+      NODE *result__node = (NODE *)(create__std_types___float32_array(0, TLS_arguments[0]->float32_array.view, data, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -15316,7 +15375,7 @@ static void entry__std_types___float32_array___std___range (void)
     if (!view) return;
     FLOAT32_ARRAY_DATA *data = apply_float32_array_updates(array);
     {
-      NODE *result__node = (NODE *)(create__std_types___float32_array(0, data, view, NULL));
+      NODE *result__node = (NODE *)(create__std_types___float32_array(0, view, data, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -15412,16 +15471,17 @@ static void entry__std___float64_array (void)
       too_few_arguments();
       return;
     }
+    ARRAY_VIEW *view = create_array_view(TLS_argument_count);
+    if (!view) return;
     FLOAT64_ARRAY_DATA *data = (FLOAT64_ARRAY_DATA *)
-      allocate_array_data(TLS_argument_count, sizeof(double));
+      create_array_info_and_data(view, sizeof(double));
     if (!data) return;
-    ARRAY_VIEW *view = create_array_view(data->info);
     int i;
     for (i = 0; i < data->size; ++i) {
       data->items[i] = 0;
     }
     {
-      NODE *result__node = (NODE *)(create__std_types___float64_array(0, data, view, NULL));
+      NODE *result__node = (NODE *)(create__std_types___float64_array(0, view, data, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -15434,18 +15494,19 @@ static void entry__std___initialized_float64_array (void)
       too_few_arguments();
       return;
     }
-    FLOAT64_ARRAY_DATA *data = (FLOAT64_ARRAY_DATA *)
-      allocate_array_data(TLS_argument_count-1, sizeof(double));
-    if (!data) return;
+    ARRAY_VIEW *view = create_array_view(TLS_argument_count-1);
+    if (!view) return;
     double initial_value;
     if (!to_double(TLS_arguments[TLS_argument_count-1], &initial_value)) return;
-    ARRAY_VIEW *view = create_array_view(data->info);
+    FLOAT64_ARRAY_DATA *data = (FLOAT64_ARRAY_DATA *)
+      create_array_info_and_data(view, sizeof(double));
+    if (!data) return;
     int i;
     for (i = 0; i < data->size; ++i) {
       data->items[i] = initial_value;
     }
     {
-      NODE *result__node = (NODE *)(create__std_types___float64_array(0, data, view, NULL));
+      NODE *result__node = (NODE *)(create__std_types___float64_array(0, view, data, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -15463,14 +15524,15 @@ static void entry__std_types___float64_array___std___new (void)
       return;
     }
     FLOAT64_ARRAY_DATA *data = (FLOAT64_ARRAY_DATA *)
-      new_array_data(TLS_arguments[0]->float64_array.data->info, sizeof(double));
+      create_array_data(TLS_arguments[0]->float64_array.data->info,
+        TLS_arguments[0]->float64_array.data->size, sizeof(double));
     if (!data) return;
     int i;
     for (i = 0; i < data->size; ++i) {
       data->items[i] = 0;
     }
     {
-      NODE *result__node = (NODE *)(create__std_types___float64_array(0, data, TLS_arguments[0]->float64_array.view, NULL));
+      NODE *result__node = (NODE *)(create__std_types___float64_array(0, TLS_arguments[0]->float64_array.view, data, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -15493,7 +15555,7 @@ static void entry__std_types___float64_array___std___range (void)
     if (!view) return;
     FLOAT64_ARRAY_DATA *data = apply_float64_array_updates(array);
     {
-      NODE *result__node = (NODE *)(create__std_types___float64_array(0, data, view, NULL));
+      NODE *result__node = (NODE *)(create__std_types___float64_array(0, view, data, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
