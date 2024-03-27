@@ -50,7 +50,7 @@ METHOD std_types::generic_array/_type
 
 RECORD ARRAY_INFO
   long dimension_count
-  int dimensions[]
+  long dimensions[]
 
 RECORD DIMENSION_INFO
   long first_index
@@ -74,12 +74,12 @@ CODE
     {
       ARRAY_INFO *info =
         allocate(
-          ALLOCATION_SIZE(sizeof(ARRAY_INFO)+dimension_count*sizeof(int)));
+          ALLOCATION_SIZE(sizeof(ARRAY_INFO)+dimension_count*sizeof(long)));
       info->dimension_count = dimension_count;
       int i;
       for (i = 0; i < dimension_count; ++i) {
-        int dimension;
-        if (!to_int(ARGUMENTS(i), &dimension)) return NULL;
+        long dimension;
+        if (!to_long(ARGUMENTS(i), &dimension)) return NULL;
         if (dimension < 1) {
           invalid_arguments();
           return NULL;
@@ -97,6 +97,29 @@ CODE
       return data;
     }
 
+  static ARRAY_DATA *allocate_array_data_from_view
+    (
+      ARRAY_VIEW *view,
+      int item_size
+    )
+    {
+      ARRAY_INFO *info =
+        allocate(
+          ALLOCATION_SIZE(sizeof(ARRAY_INFO)+view->dimension_count*sizeof(long)));
+      info->dimension_count = view->dimension_count;
+      int i;
+      long size = 1;
+      for (i = 0; i < view->dimension_count; ++i) {
+        info->dimensions[i] = view->dimensions[i].width;
+        size *= info->dimensions[i];
+      }
+      ARRAY_DATA *data =
+        allocate_large(ALLOCATION_SIZE(sizeof(ARRAY_DATA)+size*item_size));
+      data->info = info;
+      data->size = size;
+      return data;
+    }
+
   static ARRAY_DATA *new_array_data
     (
       ARRAY_INFO *info,
@@ -104,8 +127,9 @@ CODE
     )
     {
       int i;
+      int dimension_count = info->dimension_count;
       long size = info->dimensions[0];
-      for (i = 1; i < info->dimension_count; ++i) {
+      for (i = 1; i < dimension_count; ++i) {
         size *= info->dimensions[i];
       }
       ARRAY_DATA *data =
@@ -124,8 +148,9 @@ CODE
         allocate(ALLOCATION_SIZE(
           sizeof(ARRAY_VIEW)+info->dimension_count*sizeof(DIMENSION_INFO)));
       view->dimension_count = info->dimension_count;
+      int dimension_count = info->dimension_count;
       int i;
-      for (i = 0; i < info->dimension_count; ++i) {
+      for (i = 0; i < dimension_count; ++i) {
         view->dimensions[i].first_index = 0;
         view->dimensions[i].width = info->dimensions[i];
       }
@@ -217,7 +242,7 @@ CODE
       return new_node;
     }
 
-  static long compute_array_offset
+  static long compute_array_read_offset
     (
       NODE *array,
       ARRAY_INFO *info,
@@ -227,9 +252,9 @@ CODE
       int i;
       long offset = 0;
       i = view->dimension_count-1;
-      int idx;
+      long idx;
       next:
-      if (!to_int(ARGUMENTS(i), &idx)) return -1;
+      if (!to_long(ARGUMENTS(i), &idx)) return -1;
       if (idx < 0) {
         idx += view->dimensions[i].width;
       } else {
@@ -242,6 +267,33 @@ CODE
       offset += view->dimensions[i].first_index+idx;
       if (--i < 0) return offset;
       offset *= info->dimensions[i];
+      goto next;
+    }
+
+  static long compute_array_write_offset
+    (
+      NODE *array,
+      ARRAY_VIEW *view
+    )
+    {
+      int i;
+      long offset = 0;
+      i = view->dimension_count-1;
+      long idx;
+      next:
+      if (!to_long(ARGUMENTS(i), &idx)) return -1;
+      if (idx < 0) {
+        idx += view->dimensions[i].width;
+      } else {
+        --idx;
+      }
+      if (idx < 0 || idx >= view->dimensions[i].width) {
+        invalid_index(array);
+        return -1;
+      }
+      offset += idx;
+      if (--i < 0) return offset;
+      offset *= view->dimensions[i].width;
       goto next;
     }
 
@@ -258,7 +310,8 @@ CODE
       char *p = type;
       print(&p, "<%s_array(", typename);
       int i;
-      for (i = 0; i < view->dimension_count; ++i) {
+      int dimension_count = view->dimension_count;
+      for (i = 0; i < dimension_count; ++i) {
         if (i) *p++ = ' ';
         print(&p,
           "%d..%d",
@@ -317,17 +370,16 @@ CODE
   static ARRAY_DATA *apply_array_updates(ARRAY *node)
     {
       ARRAY_DATA *data = node->data;
-      ARRAY_INFO *info = data->info;
-      ARRAY_VIEW *view = node->view;
-      long size = data->size;
       if (node->updates_length > 0) {
+        fprintf(stderr, "shrink\n");
+        data = (ARRAY_DATA *)
+          allocate_array_data_from_view(node->view, sizeof(NODE *));
+        ARRAY_VIEW *view = create_array_view(data->info);
         // copy items
-        data = allocate_large(
-          ALLOCATION_SIZE(sizeof(ARRAY_DATA)+size*sizeof(NODE *)));
-        memcpy(
+        /*memcpy(
           data->items,
           node->data->items,
-          size*sizeof(NODE *));
+          size*sizeof(NODE *));*/
         // apply updates
         char *update = node->updates->buffer;
         char *end_p = update+node->updates_length;
@@ -340,8 +392,6 @@ CODE
               break;
           }
         }
-        data->info = info;
-        data->size = size;
         node->updates_length = 0;
         node->data = data;
         node->view = view;
@@ -358,16 +408,18 @@ METHOD std_types::array/_type
     int dimension_count = info->dimension_count;
     MIN_ARGUMENTS(dimension_count)
     MAX_ARGUMENTS(dimension_count+1)
-    long offset = compute_array_offset(MYSELF, info, view);
-    if (offset < 0) return;
     if (ARGUMENT_COUNT == dimension_count) {
       // get item
+      long offset = compute_array_read_offset(MYSELF, info, view);
+      if (offset < 0) return;
       data = apply_array_updates((ARRAY *)MYSELF);
       NODE *value;
       value = data->items[offset];
       RETURN_SINGLE_RESULT(value);
     } else {
       // set item
+      long offset = compute_array_write_offset(MYSELF, view);
+      if (offset < 0) return;
       NODE *value;
       value = ARGUMENTS(dimension_count);
       long length = MYSELF->array.updates_length;
@@ -524,17 +576,16 @@ CODE
   static BOOLEAN_ARRAY_DATA *apply_boolean_array_updates(BOOLEAN_ARRAY *node)
     {
       BOOLEAN_ARRAY_DATA *data = node->data;
-      ARRAY_INFO *info = data->info;
-      ARRAY_VIEW *view = node->view;
-      long size = data->size;
       if (node->updates_length > 0) {
+        fprintf(stderr, "shrink\n");
+        data = (BOOLEAN_ARRAY_DATA *)
+          allocate_array_data_from_view(node->view, sizeof(int));
+        ARRAY_VIEW *view = create_array_view(data->info);
         // copy items
-        data = allocate_large(
-          ALLOCATION_SIZE(sizeof(BOOLEAN_ARRAY_DATA)+size*sizeof(int)));
-        memcpy(
+        /*memcpy(
           data->items,
           node->data->items,
-          size*sizeof(int));
+          size*sizeof(int));*/
         // apply updates
         char *update = node->updates->buffer;
         char *end_p = update+node->updates_length;
@@ -547,8 +598,6 @@ CODE
               break;
           }
         }
-        data->info = info;
-        data->size = size;
         node->updates_length = 0;
         node->data = data;
         node->view = view;
@@ -565,16 +614,18 @@ METHOD std_types::boolean_array/_type
     int dimension_count = info->dimension_count;
     MIN_ARGUMENTS(dimension_count)
     MAX_ARGUMENTS(dimension_count+1)
-    long offset = compute_array_offset(MYSELF, info, view);
-    if (offset < 0) return;
     if (ARGUMENT_COUNT == dimension_count) {
       // get item
+      long offset = compute_array_read_offset(MYSELF, info, view);
+      if (offset < 0) return;
       data = apply_boolean_array_updates((BOOLEAN_ARRAY *)MYSELF);
       int value;
       value = data->items[offset];
       RETURN_SINGLE_RESULT(from_bool(value));
     } else {
       // set item
+      long offset = compute_array_write_offset(MYSELF, view);
+      if (offset < 0) return;
       int value;
       CHECK(to_bool(ARGUMENTS(dimension_count), &value))
       long length = MYSELF->boolean_array.updates_length;
@@ -819,17 +870,16 @@ CODE
   static CHARACTER_ARRAY_DATA *apply_character_array_updates(CHARACTER_ARRAY *node)
     {
       CHARACTER_ARRAY_DATA *data = node->data;
-      ARRAY_INFO *info = data->info;
-      ARRAY_VIEW *view = node->view;
-      long size = data->size;
       if (node->updates_length > 0) {
+        fprintf(stderr, "shrink\n");
+        data = (CHARACTER_ARRAY_DATA *)
+          allocate_array_data_from_view(node->view, sizeof(uint32_t));
+        ARRAY_VIEW *view = create_array_view(data->info);
         // copy items
-        data = allocate_large(
-          ALLOCATION_SIZE(sizeof(CHARACTER_ARRAY_DATA)+size*sizeof(uint32_t)));
-        memcpy(
+        /*memcpy(
           data->items,
           node->data->items,
-          size*sizeof(uint32_t));
+          size*sizeof(uint32_t));*/
         // apply updates
         char *update = node->updates->buffer;
         char *end_p = update+node->updates_length;
@@ -842,8 +892,6 @@ CODE
               break;
           }
         }
-        data->info = info;
-        data->size = size;
         node->updates_length = 0;
         node->data = data;
         node->view = view;
@@ -860,16 +908,18 @@ METHOD std_types::character_array/_type
     int dimension_count = info->dimension_count;
     MIN_ARGUMENTS(dimension_count)
     MAX_ARGUMENTS(dimension_count+1)
-    long offset = compute_array_offset(MYSELF, info, view);
-    if (offset < 0) return;
     if (ARGUMENT_COUNT == dimension_count) {
       // get item
+      long offset = compute_array_read_offset(MYSELF, info, view);
+      if (offset < 0) return;
       data = apply_character_array_updates((CHARACTER_ARRAY *)MYSELF);
       uint32_t value;
       value = data->items[offset];
       RETURN_SINGLE_RESULT(from_uchar32(value));
     } else {
       // set item
+      long offset = compute_array_write_offset(MYSELF, view);
+      if (offset < 0) return;
       uint32_t value;
       CHECK(to_uchar32(ARGUMENTS(dimension_count), &value))
       long length = MYSELF->character_array.updates_length;
@@ -1041,17 +1091,16 @@ CODE
   static INT8_ARRAY_DATA *apply_int8_array_updates(INT8_ARRAY *node)
     {
       INT8_ARRAY_DATA *data = node->data;
-      ARRAY_INFO *info = data->info;
-      ARRAY_VIEW *view = node->view;
-      long size = data->size;
       if (node->updates_length > 0) {
+        fprintf(stderr, "shrink\n");
+        data = (INT8_ARRAY_DATA *)
+          allocate_array_data_from_view(node->view, sizeof(int8_t));
+        ARRAY_VIEW *view = create_array_view(data->info);
         // copy items
-        data = allocate_large(
-          ALLOCATION_SIZE(sizeof(INT8_ARRAY_DATA)+size*sizeof(int8_t)));
-        memcpy(
+        /*memcpy(
           data->items,
           node->data->items,
-          size*sizeof(int8_t));
+          size*sizeof(int8_t));*/
         // apply updates
         char *update = node->updates->buffer;
         char *end_p = update+node->updates_length;
@@ -1064,8 +1113,6 @@ CODE
               break;
           }
         }
-        data->info = info;
-        data->size = size;
         node->updates_length = 0;
         node->data = data;
         node->view = view;
@@ -1082,16 +1129,18 @@ METHOD std_types::int8_array/_type
     int dimension_count = info->dimension_count;
     MIN_ARGUMENTS(dimension_count)
     MAX_ARGUMENTS(dimension_count+1)
-    long offset = compute_array_offset(MYSELF, info, view);
-    if (offset < 0) return;
     if (ARGUMENT_COUNT == dimension_count) {
       // get item
+      long offset = compute_array_read_offset(MYSELF, info, view);
+      if (offset < 0) return;
       data = apply_int8_array_updates((INT8_ARRAY *)MYSELF);
       int8_t value;
       value = data->items[offset];
       RETURN_SINGLE_RESULT(from_int8(value));
     } else {
       // set item
+      long offset = compute_array_write_offset(MYSELF, view);
+      if (offset < 0) return;
       int8_t value;
       CHECK(to_int8(ARGUMENTS(dimension_count), &value))
       long length = MYSELF->int8_array.updates_length;
@@ -1263,17 +1312,16 @@ CODE
   static UINT8_ARRAY_DATA *apply_uint8_array_updates(UINT8_ARRAY *node)
     {
       UINT8_ARRAY_DATA *data = node->data;
-      ARRAY_INFO *info = data->info;
-      ARRAY_VIEW *view = node->view;
-      long size = data->size;
       if (node->updates_length > 0) {
+        fprintf(stderr, "shrink\n");
+        data = (UINT8_ARRAY_DATA *)
+          allocate_array_data_from_view(node->view, sizeof(uint8_t));
+        ARRAY_VIEW *view = create_array_view(data->info);
         // copy items
-        data = allocate_large(
-          ALLOCATION_SIZE(sizeof(UINT8_ARRAY_DATA)+size*sizeof(uint8_t)));
-        memcpy(
+        /*memcpy(
           data->items,
           node->data->items,
-          size*sizeof(uint8_t));
+          size*sizeof(uint8_t));*/
         // apply updates
         char *update = node->updates->buffer;
         char *end_p = update+node->updates_length;
@@ -1286,8 +1334,6 @@ CODE
               break;
           }
         }
-        data->info = info;
-        data->size = size;
         node->updates_length = 0;
         node->data = data;
         node->view = view;
@@ -1304,16 +1350,18 @@ METHOD std_types::uint8_array/_type
     int dimension_count = info->dimension_count;
     MIN_ARGUMENTS(dimension_count)
     MAX_ARGUMENTS(dimension_count+1)
-    long offset = compute_array_offset(MYSELF, info, view);
-    if (offset < 0) return;
     if (ARGUMENT_COUNT == dimension_count) {
       // get item
+      long offset = compute_array_read_offset(MYSELF, info, view);
+      if (offset < 0) return;
       data = apply_uint8_array_updates((UINT8_ARRAY *)MYSELF);
       uint8_t value;
       value = data->items[offset];
       RETURN_SINGLE_RESULT(from_uint8(value));
     } else {
       // set item
+      long offset = compute_array_write_offset(MYSELF, view);
+      if (offset < 0) return;
       uint8_t value;
       CHECK(to_uint8(ARGUMENTS(dimension_count), &value))
       long length = MYSELF->uint8_array.updates_length;
@@ -1558,17 +1606,16 @@ CODE
   static INT16_ARRAY_DATA *apply_int16_array_updates(INT16_ARRAY *node)
     {
       INT16_ARRAY_DATA *data = node->data;
-      ARRAY_INFO *info = data->info;
-      ARRAY_VIEW *view = node->view;
-      long size = data->size;
       if (node->updates_length > 0) {
+        fprintf(stderr, "shrink\n");
+        data = (INT16_ARRAY_DATA *)
+          allocate_array_data_from_view(node->view, sizeof(int16_t));
+        ARRAY_VIEW *view = create_array_view(data->info);
         // copy items
-        data = allocate_large(
-          ALLOCATION_SIZE(sizeof(INT16_ARRAY_DATA)+size*sizeof(int16_t)));
-        memcpy(
+        /*memcpy(
           data->items,
           node->data->items,
-          size*sizeof(int16_t));
+          size*sizeof(int16_t));*/
         // apply updates
         char *update = node->updates->buffer;
         char *end_p = update+node->updates_length;
@@ -1581,8 +1628,6 @@ CODE
               break;
           }
         }
-        data->info = info;
-        data->size = size;
         node->updates_length = 0;
         node->data = data;
         node->view = view;
@@ -1599,16 +1644,18 @@ METHOD std_types::int16_array/_type
     int dimension_count = info->dimension_count;
     MIN_ARGUMENTS(dimension_count)
     MAX_ARGUMENTS(dimension_count+1)
-    long offset = compute_array_offset(MYSELF, info, view);
-    if (offset < 0) return;
     if (ARGUMENT_COUNT == dimension_count) {
       // get item
+      long offset = compute_array_read_offset(MYSELF, info, view);
+      if (offset < 0) return;
       data = apply_int16_array_updates((INT16_ARRAY *)MYSELF);
       int16_t value;
       value = data->items[offset];
       RETURN_SINGLE_RESULT(from_int16(value));
     } else {
       // set item
+      long offset = compute_array_write_offset(MYSELF, view);
+      if (offset < 0) return;
       int16_t value;
       CHECK(to_int16(ARGUMENTS(dimension_count), &value))
       long length = MYSELF->int16_array.updates_length;
@@ -1780,17 +1827,16 @@ CODE
   static UINT16_ARRAY_DATA *apply_uint16_array_updates(UINT16_ARRAY *node)
     {
       UINT16_ARRAY_DATA *data = node->data;
-      ARRAY_INFO *info = data->info;
-      ARRAY_VIEW *view = node->view;
-      long size = data->size;
       if (node->updates_length > 0) {
+        fprintf(stderr, "shrink\n");
+        data = (UINT16_ARRAY_DATA *)
+          allocate_array_data_from_view(node->view, sizeof(uint16_t));
+        ARRAY_VIEW *view = create_array_view(data->info);
         // copy items
-        data = allocate_large(
-          ALLOCATION_SIZE(sizeof(UINT16_ARRAY_DATA)+size*sizeof(uint16_t)));
-        memcpy(
+        /*memcpy(
           data->items,
           node->data->items,
-          size*sizeof(uint16_t));
+          size*sizeof(uint16_t));*/
         // apply updates
         char *update = node->updates->buffer;
         char *end_p = update+node->updates_length;
@@ -1803,8 +1849,6 @@ CODE
               break;
           }
         }
-        data->info = info;
-        data->size = size;
         node->updates_length = 0;
         node->data = data;
         node->view = view;
@@ -1821,16 +1865,18 @@ METHOD std_types::uint16_array/_type
     int dimension_count = info->dimension_count;
     MIN_ARGUMENTS(dimension_count)
     MAX_ARGUMENTS(dimension_count+1)
-    long offset = compute_array_offset(MYSELF, info, view);
-    if (offset < 0) return;
     if (ARGUMENT_COUNT == dimension_count) {
       // get item
+      long offset = compute_array_read_offset(MYSELF, info, view);
+      if (offset < 0) return;
       data = apply_uint16_array_updates((UINT16_ARRAY *)MYSELF);
       uint16_t value;
       value = data->items[offset];
       RETURN_SINGLE_RESULT(from_uint16(value));
     } else {
       // set item
+      long offset = compute_array_write_offset(MYSELF, view);
+      if (offset < 0) return;
       uint16_t value;
       CHECK(to_uint16(ARGUMENTS(dimension_count), &value))
       long length = MYSELF->uint16_array.updates_length;
@@ -2075,17 +2121,16 @@ CODE
   static INT32_ARRAY_DATA *apply_int32_array_updates(INT32_ARRAY *node)
     {
       INT32_ARRAY_DATA *data = node->data;
-      ARRAY_INFO *info = data->info;
-      ARRAY_VIEW *view = node->view;
-      long size = data->size;
       if (node->updates_length > 0) {
+        fprintf(stderr, "shrink\n");
+        data = (INT32_ARRAY_DATA *)
+          allocate_array_data_from_view(node->view, sizeof(int32_t));
+        ARRAY_VIEW *view = create_array_view(data->info);
         // copy items
-        data = allocate_large(
-          ALLOCATION_SIZE(sizeof(INT32_ARRAY_DATA)+size*sizeof(int32_t)));
-        memcpy(
+        /*memcpy(
           data->items,
           node->data->items,
-          size*sizeof(int32_t));
+          size*sizeof(int32_t));*/
         // apply updates
         char *update = node->updates->buffer;
         char *end_p = update+node->updates_length;
@@ -2098,8 +2143,6 @@ CODE
               break;
           }
         }
-        data->info = info;
-        data->size = size;
         node->updates_length = 0;
         node->data = data;
         node->view = view;
@@ -2116,16 +2159,18 @@ METHOD std_types::int32_array/_type
     int dimension_count = info->dimension_count;
     MIN_ARGUMENTS(dimension_count)
     MAX_ARGUMENTS(dimension_count+1)
-    long offset = compute_array_offset(MYSELF, info, view);
-    if (offset < 0) return;
     if (ARGUMENT_COUNT == dimension_count) {
       // get item
+      long offset = compute_array_read_offset(MYSELF, info, view);
+      if (offset < 0) return;
       data = apply_int32_array_updates((INT32_ARRAY *)MYSELF);
       int32_t value;
       value = data->items[offset];
       RETURN_SINGLE_RESULT(from_int32(value));
     } else {
       // set item
+      long offset = compute_array_write_offset(MYSELF, view);
+      if (offset < 0) return;
       int32_t value;
       CHECK(to_int32(ARGUMENTS(dimension_count), &value))
       long length = MYSELF->int32_array.updates_length;
@@ -2297,17 +2342,16 @@ CODE
   static UINT32_ARRAY_DATA *apply_uint32_array_updates(UINT32_ARRAY *node)
     {
       UINT32_ARRAY_DATA *data = node->data;
-      ARRAY_INFO *info = data->info;
-      ARRAY_VIEW *view = node->view;
-      long size = data->size;
       if (node->updates_length > 0) {
+        fprintf(stderr, "shrink\n");
+        data = (UINT32_ARRAY_DATA *)
+          allocate_array_data_from_view(node->view, sizeof(uint32_t));
+        ARRAY_VIEW *view = create_array_view(data->info);
         // copy items
-        data = allocate_large(
-          ALLOCATION_SIZE(sizeof(UINT32_ARRAY_DATA)+size*sizeof(uint32_t)));
-        memcpy(
+        /*memcpy(
           data->items,
           node->data->items,
-          size*sizeof(uint32_t));
+          size*sizeof(uint32_t));*/
         // apply updates
         char *update = node->updates->buffer;
         char *end_p = update+node->updates_length;
@@ -2320,8 +2364,6 @@ CODE
               break;
           }
         }
-        data->info = info;
-        data->size = size;
         node->updates_length = 0;
         node->data = data;
         node->view = view;
@@ -2338,16 +2380,18 @@ METHOD std_types::uint32_array/_type
     int dimension_count = info->dimension_count;
     MIN_ARGUMENTS(dimension_count)
     MAX_ARGUMENTS(dimension_count+1)
-    long offset = compute_array_offset(MYSELF, info, view);
-    if (offset < 0) return;
     if (ARGUMENT_COUNT == dimension_count) {
       // get item
+      long offset = compute_array_read_offset(MYSELF, info, view);
+      if (offset < 0) return;
       data = apply_uint32_array_updates((UINT32_ARRAY *)MYSELF);
       uint32_t value;
       value = data->items[offset];
       RETURN_SINGLE_RESULT(from_uint32(value));
     } else {
       // set item
+      long offset = compute_array_write_offset(MYSELF, view);
+      if (offset < 0) return;
       uint32_t value;
       CHECK(to_uint32(ARGUMENTS(dimension_count), &value))
       long length = MYSELF->uint32_array.updates_length;
@@ -2592,17 +2636,16 @@ CODE
   static INT64_ARRAY_DATA *apply_int64_array_updates(INT64_ARRAY *node)
     {
       INT64_ARRAY_DATA *data = node->data;
-      ARRAY_INFO *info = data->info;
-      ARRAY_VIEW *view = node->view;
-      long size = data->size;
       if (node->updates_length > 0) {
+        fprintf(stderr, "shrink\n");
+        data = (INT64_ARRAY_DATA *)
+          allocate_array_data_from_view(node->view, sizeof(int64_t));
+        ARRAY_VIEW *view = create_array_view(data->info);
         // copy items
-        data = allocate_large(
-          ALLOCATION_SIZE(sizeof(INT64_ARRAY_DATA)+size*sizeof(int64_t)));
-        memcpy(
+        /*memcpy(
           data->items,
           node->data->items,
-          size*sizeof(int64_t));
+          size*sizeof(int64_t));*/
         // apply updates
         char *update = node->updates->buffer;
         char *end_p = update+node->updates_length;
@@ -2615,8 +2658,6 @@ CODE
               break;
           }
         }
-        data->info = info;
-        data->size = size;
         node->updates_length = 0;
         node->data = data;
         node->view = view;
@@ -2633,16 +2674,18 @@ METHOD std_types::int64_array/_type
     int dimension_count = info->dimension_count;
     MIN_ARGUMENTS(dimension_count)
     MAX_ARGUMENTS(dimension_count+1)
-    long offset = compute_array_offset(MYSELF, info, view);
-    if (offset < 0) return;
     if (ARGUMENT_COUNT == dimension_count) {
       // get item
+      long offset = compute_array_read_offset(MYSELF, info, view);
+      if (offset < 0) return;
       data = apply_int64_array_updates((INT64_ARRAY *)MYSELF);
       int64_t value;
       value = data->items[offset];
       RETURN_SINGLE_RESULT(from_int64(value));
     } else {
       // set item
+      long offset = compute_array_write_offset(MYSELF, view);
+      if (offset < 0) return;
       int64_t value;
       CHECK(to_int64(ARGUMENTS(dimension_count), &value))
       long length = MYSELF->int64_array.updates_length;
@@ -2814,17 +2857,16 @@ CODE
   static UINT64_ARRAY_DATA *apply_uint64_array_updates(UINT64_ARRAY *node)
     {
       UINT64_ARRAY_DATA *data = node->data;
-      ARRAY_INFO *info = data->info;
-      ARRAY_VIEW *view = node->view;
-      long size = data->size;
       if (node->updates_length > 0) {
+        fprintf(stderr, "shrink\n");
+        data = (UINT64_ARRAY_DATA *)
+          allocate_array_data_from_view(node->view, sizeof(uint64_t));
+        ARRAY_VIEW *view = create_array_view(data->info);
         // copy items
-        data = allocate_large(
-          ALLOCATION_SIZE(sizeof(UINT64_ARRAY_DATA)+size*sizeof(uint64_t)));
-        memcpy(
+        /*memcpy(
           data->items,
           node->data->items,
-          size*sizeof(uint64_t));
+          size*sizeof(uint64_t));*/
         // apply updates
         char *update = node->updates->buffer;
         char *end_p = update+node->updates_length;
@@ -2837,8 +2879,6 @@ CODE
               break;
           }
         }
-        data->info = info;
-        data->size = size;
         node->updates_length = 0;
         node->data = data;
         node->view = view;
@@ -2855,16 +2895,18 @@ METHOD std_types::uint64_array/_type
     int dimension_count = info->dimension_count;
     MIN_ARGUMENTS(dimension_count)
     MAX_ARGUMENTS(dimension_count+1)
-    long offset = compute_array_offset(MYSELF, info, view);
-    if (offset < 0) return;
     if (ARGUMENT_COUNT == dimension_count) {
       // get item
+      long offset = compute_array_read_offset(MYSELF, info, view);
+      if (offset < 0) return;
       data = apply_uint64_array_updates((UINT64_ARRAY *)MYSELF);
       uint64_t value;
       value = data->items[offset];
       RETURN_SINGLE_RESULT(from_uint64(value));
     } else {
       // set item
+      long offset = compute_array_write_offset(MYSELF, view);
+      if (offset < 0) return;
       uint64_t value;
       CHECK(to_uint64(ARGUMENTS(dimension_count), &value))
       long length = MYSELF->uint64_array.updates_length;
@@ -3109,17 +3151,16 @@ CODE
   static FLOAT32_ARRAY_DATA *apply_float32_array_updates(FLOAT32_ARRAY *node)
     {
       FLOAT32_ARRAY_DATA *data = node->data;
-      ARRAY_INFO *info = data->info;
-      ARRAY_VIEW *view = node->view;
-      long size = data->size;
       if (node->updates_length > 0) {
+        fprintf(stderr, "shrink\n");
+        data = (FLOAT32_ARRAY_DATA *)
+          allocate_array_data_from_view(node->view, sizeof(float));
+        ARRAY_VIEW *view = create_array_view(data->info);
         // copy items
-        data = allocate_large(
-          ALLOCATION_SIZE(sizeof(FLOAT32_ARRAY_DATA)+size*sizeof(float)));
-        memcpy(
+        /*memcpy(
           data->items,
           node->data->items,
-          size*sizeof(float));
+          size*sizeof(float));*/
         // apply updates
         char *update = node->updates->buffer;
         char *end_p = update+node->updates_length;
@@ -3132,8 +3173,6 @@ CODE
               break;
           }
         }
-        data->info = info;
-        data->size = size;
         node->updates_length = 0;
         node->data = data;
         node->view = view;
@@ -3150,16 +3189,18 @@ METHOD std_types::float32_array/_type
     int dimension_count = info->dimension_count;
     MIN_ARGUMENTS(dimension_count)
     MAX_ARGUMENTS(dimension_count+1)
-    long offset = compute_array_offset(MYSELF, info, view);
-    if (offset < 0) return;
     if (ARGUMENT_COUNT == dimension_count) {
       // get item
+      long offset = compute_array_read_offset(MYSELF, info, view);
+      if (offset < 0) return;
       data = apply_float32_array_updates((FLOAT32_ARRAY *)MYSELF);
       float value;
       value = data->items[offset];
       RETURN_SINGLE_RESULT(from_float(value));
     } else {
       // set item
+      long offset = compute_array_write_offset(MYSELF, view);
+      if (offset < 0) return;
       float value;
       CHECK(to_float(ARGUMENTS(dimension_count), &value))
       long length = MYSELF->float32_array.updates_length;
@@ -3331,17 +3372,16 @@ CODE
   static FLOAT64_ARRAY_DATA *apply_float64_array_updates(FLOAT64_ARRAY *node)
     {
       FLOAT64_ARRAY_DATA *data = node->data;
-      ARRAY_INFO *info = data->info;
-      ARRAY_VIEW *view = node->view;
-      long size = data->size;
       if (node->updates_length > 0) {
+        fprintf(stderr, "shrink\n");
+        data = (FLOAT64_ARRAY_DATA *)
+          allocate_array_data_from_view(node->view, sizeof(double));
+        ARRAY_VIEW *view = create_array_view(data->info);
         // copy items
-        data = allocate_large(
-          ALLOCATION_SIZE(sizeof(FLOAT64_ARRAY_DATA)+size*sizeof(double)));
-        memcpy(
+        /*memcpy(
           data->items,
           node->data->items,
-          size*sizeof(double));
+          size*sizeof(double));*/
         // apply updates
         char *update = node->updates->buffer;
         char *end_p = update+node->updates_length;
@@ -3354,8 +3394,6 @@ CODE
               break;
           }
         }
-        data->info = info;
-        data->size = size;
         node->updates_length = 0;
         node->data = data;
         node->view = view;
@@ -3372,16 +3410,18 @@ METHOD std_types::float64_array/_type
     int dimension_count = info->dimension_count;
     MIN_ARGUMENTS(dimension_count)
     MAX_ARGUMENTS(dimension_count+1)
-    long offset = compute_array_offset(MYSELF, info, view);
-    if (offset < 0) return;
     if (ARGUMENT_COUNT == dimension_count) {
       // get item
+      long offset = compute_array_read_offset(MYSELF, info, view);
+      if (offset < 0) return;
       data = apply_float64_array_updates((FLOAT64_ARRAY *)MYSELF);
       double value;
       value = data->items[offset];
       RETURN_SINGLE_RESULT(from_double(value));
     } else {
       // set item
+      long offset = compute_array_write_offset(MYSELF, view);
+      if (offset < 0) return;
       double value;
       CHECK(to_double(ARGUMENTS(dimension_count), &value))
       long length = MYSELF->float64_array.updates_length;

@@ -42,7 +42,7 @@ extern BUILTIN_FUNCTION_NAME builtin_function_names[];
 
 typedef struct {
   long dimension_count;
-  int dimensions[];
+  long dimensions[];
 } ARRAY_INFO;
 
 typedef struct {

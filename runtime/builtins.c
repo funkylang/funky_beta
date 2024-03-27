@@ -1670,9 +1670,9 @@ static void *collect_array_info
       if (IS_AN_INVALID_LENGTH(new_location)) {
 	return DECODE_FROM_LENGTH(new_location);
       }
-      new_info = allocate(ALLOCATION_SIZE(sizeof(ARRAY_INFO)+size*sizeof(int)));
+      new_info = allocate(ALLOCATION_SIZE(sizeof(ARRAY_INFO)+size*sizeof(long)));
       new_info->dimension_count = info->dimension_count;
-      memcpy(new_info->dimensions, info->dimensions, size*sizeof(int));
+      memcpy(new_info->dimensions, info->dimensions, size*sizeof(long));
     }
     if (is_collected) *(void **)info = ENCODE_TO_LENGTH(new_info);
     return new_info;
@@ -1755,12 +1755,12 @@ static ARRAY_DATA *allocate_array_data
   {
     ARRAY_INFO *info =
       allocate(
-	ALLOCATION_SIZE(sizeof(ARRAY_INFO)+dimension_count*sizeof(int)));
+	ALLOCATION_SIZE(sizeof(ARRAY_INFO)+dimension_count*sizeof(long)));
     info->dimension_count = dimension_count;
     int i;
     for (i = 0; i < dimension_count; ++i) {
-      int dimension;
-      if (!to_int(TLS_arguments[i], &dimension)) return NULL;
+      long dimension;
+      if (!to_long(TLS_arguments[i], &dimension)) return NULL;
       if (dimension < 1) {
 	invalid_arguments();
 	return NULL;
@@ -1778,6 +1778,29 @@ static ARRAY_DATA *allocate_array_data
     return data;
   }
 
+static ARRAY_DATA *allocate_array_data_from_view
+  (
+    ARRAY_VIEW *view,
+    int item_size
+  )
+  {
+    ARRAY_INFO *info =
+      allocate(
+	ALLOCATION_SIZE(sizeof(ARRAY_INFO)+view->dimension_count*sizeof(long)));
+    info->dimension_count = view->dimension_count;
+    int i;
+    long size = 1;
+    for (i = 0; i < view->dimension_count; ++i) {
+      info->dimensions[i] = view->dimensions[i].width;
+      size *= info->dimensions[i];
+    }
+    ARRAY_DATA *data =
+      allocate_large(ALLOCATION_SIZE(sizeof(ARRAY_DATA)+size*item_size));
+    data->info = info;
+    data->size = size;
+    return data;
+  }
+
 static ARRAY_DATA *new_array_data
   (
     ARRAY_INFO *info,
@@ -1785,8 +1808,9 @@ static ARRAY_DATA *new_array_data
   )
   {
     int i;
+    int dimension_count = info->dimension_count;
     long size = info->dimensions[0];
-    for (i = 1; i < info->dimension_count; ++i) {
+    for (i = 1; i < dimension_count; ++i) {
       size *= info->dimensions[i];
     }
     ARRAY_DATA *data =
@@ -1805,8 +1829,9 @@ static ARRAY_VIEW *create_array_view
       allocate(ALLOCATION_SIZE(
 	sizeof(ARRAY_VIEW)+info->dimension_count*sizeof(DIMENSION_INFO)));
     view->dimension_count = info->dimension_count;
+    int dimension_count = info->dimension_count;
     int i;
-    for (i = 0; i < info->dimension_count; ++i) {
+    for (i = 0; i < dimension_count; ++i) {
       view->dimensions[i].first_index = 0;
       view->dimensions[i].width = info->dimensions[i];
     }
@@ -1898,7 +1923,7 @@ static void *add_update
     return new_node;
   }
 
-static long compute_array_offset
+static long compute_array_read_offset
   (
     NODE *array,
     ARRAY_INFO *info,
@@ -1908,9 +1933,9 @@ static long compute_array_offset
     int i;
     long offset = 0;
     i = view->dimension_count-1;
-    int idx;
+    long idx;
     next:
-    if (!to_int(TLS_arguments[i], &idx)) return -1;
+    if (!to_long(TLS_arguments[i], &idx)) return -1;
     if (idx < 0) {
       idx += view->dimensions[i].width;
     } else {
@@ -1923,6 +1948,33 @@ static long compute_array_offset
     offset += view->dimensions[i].first_index+idx;
     if (--i < 0) return offset;
     offset *= info->dimensions[i];
+    goto next;
+  }
+
+static long compute_array_write_offset
+  (
+    NODE *array,
+    ARRAY_VIEW *view
+  )
+  {
+    int i;
+    long offset = 0;
+    i = view->dimension_count-1;
+    long idx;
+    next:
+    if (!to_long(TLS_arguments[i], &idx)) return -1;
+    if (idx < 0) {
+      idx += view->dimensions[i].width;
+    } else {
+      --idx;
+    }
+    if (idx < 0 || idx >= view->dimensions[i].width) {
+      invalid_index(array);
+      return -1;
+    }
+    offset += idx;
+    if (--i < 0) return offset;
+    offset *= view->dimensions[i].width;
     goto next;
   }
 
@@ -1939,7 +1991,8 @@ static long array_debug_string
     char *p = type;
     print(&p, "<%s_array(", typename);
     int i;
-    for (i = 0; i < view->dimension_count; ++i) {
+    int dimension_count = view->dimension_count;
+    for (i = 0; i < dimension_count; ++i) {
       if (i) *p++ = ' ';
       print(&p,
 	"%d..%d",
@@ -2025,17 +2078,16 @@ static void *std_types___array____collect
 static ARRAY_DATA *apply_array_updates(ARRAY *node)
   {
     ARRAY_DATA *data = node->data;
-    ARRAY_INFO *info = data->info;
-    ARRAY_VIEW *view = node->view;
-    long size = data->size;
     if (node->updates_length > 0) {
+      fprintf(stderr, "shrink\n");
+      data = (ARRAY_DATA *)
+	allocate_array_data_from_view(node->view, sizeof(NODE *));
+      ARRAY_VIEW *view = create_array_view(data->info);
       // copy items
-      data = allocate_large(
-	ALLOCATION_SIZE(sizeof(ARRAY_DATA)+size*sizeof(NODE *)));
-      memcpy(
+      /*memcpy(
 	data->items,
 	node->data->items,
-	size*sizeof(NODE *));
+	size*sizeof(NODE *));*/
       // apply updates
       char *update = node->updates->buffer;
       char *end_p = update+node->updates_length;
@@ -2048,8 +2100,6 @@ static ARRAY_DATA *apply_array_updates(ARRAY *node)
 	    break;
 	}
       }
-      data->info = info;
-      data->size = size;
       node->updates_length = 0;
       node->data = data;
       node->view = view;
@@ -2119,17 +2169,16 @@ static void *std_types___boolean_array____collect
 static BOOLEAN_ARRAY_DATA *apply_boolean_array_updates(BOOLEAN_ARRAY *node)
   {
     BOOLEAN_ARRAY_DATA *data = node->data;
-    ARRAY_INFO *info = data->info;
-    ARRAY_VIEW *view = node->view;
-    long size = data->size;
     if (node->updates_length > 0) {
+      fprintf(stderr, "shrink\n");
+      data = (BOOLEAN_ARRAY_DATA *)
+	allocate_array_data_from_view(node->view, sizeof(int));
+      ARRAY_VIEW *view = create_array_view(data->info);
       // copy items
-      data = allocate_large(
-	ALLOCATION_SIZE(sizeof(BOOLEAN_ARRAY_DATA)+size*sizeof(int)));
-      memcpy(
+      /*memcpy(
 	data->items,
 	node->data->items,
-	size*sizeof(int));
+	size*sizeof(int));*/
       // apply updates
       char *update = node->updates->buffer;
       char *end_p = update+node->updates_length;
@@ -2142,8 +2191,6 @@ static BOOLEAN_ARRAY_DATA *apply_boolean_array_updates(BOOLEAN_ARRAY *node)
 	    break;
 	}
       }
-      data->info = info;
-      data->size = size;
       node->updates_length = 0;
       node->data = data;
       node->view = view;
@@ -2213,17 +2260,16 @@ static void *std_types___character_array____collect
 static CHARACTER_ARRAY_DATA *apply_character_array_updates(CHARACTER_ARRAY *node)
   {
     CHARACTER_ARRAY_DATA *data = node->data;
-    ARRAY_INFO *info = data->info;
-    ARRAY_VIEW *view = node->view;
-    long size = data->size;
     if (node->updates_length > 0) {
+      fprintf(stderr, "shrink\n");
+      data = (CHARACTER_ARRAY_DATA *)
+	allocate_array_data_from_view(node->view, sizeof(uint32_t));
+      ARRAY_VIEW *view = create_array_view(data->info);
       // copy items
-      data = allocate_large(
-	ALLOCATION_SIZE(sizeof(CHARACTER_ARRAY_DATA)+size*sizeof(uint32_t)));
-      memcpy(
+      /*memcpy(
 	data->items,
 	node->data->items,
-	size*sizeof(uint32_t));
+	size*sizeof(uint32_t));*/
       // apply updates
       char *update = node->updates->buffer;
       char *end_p = update+node->updates_length;
@@ -2236,8 +2282,6 @@ static CHARACTER_ARRAY_DATA *apply_character_array_updates(CHARACTER_ARRAY *node
 	    break;
 	}
       }
-      data->info = info;
-      data->size = size;
       node->updates_length = 0;
       node->data = data;
       node->view = view;
@@ -2307,17 +2351,16 @@ static void *std_types___int8_array____collect
 static INT8_ARRAY_DATA *apply_int8_array_updates(INT8_ARRAY *node)
   {
     INT8_ARRAY_DATA *data = node->data;
-    ARRAY_INFO *info = data->info;
-    ARRAY_VIEW *view = node->view;
-    long size = data->size;
     if (node->updates_length > 0) {
+      fprintf(stderr, "shrink\n");
+      data = (INT8_ARRAY_DATA *)
+	allocate_array_data_from_view(node->view, sizeof(int8_t));
+      ARRAY_VIEW *view = create_array_view(data->info);
       // copy items
-      data = allocate_large(
-	ALLOCATION_SIZE(sizeof(INT8_ARRAY_DATA)+size*sizeof(int8_t)));
-      memcpy(
+      /*memcpy(
 	data->items,
 	node->data->items,
-	size*sizeof(int8_t));
+	size*sizeof(int8_t));*/
       // apply updates
       char *update = node->updates->buffer;
       char *end_p = update+node->updates_length;
@@ -2330,8 +2373,6 @@ static INT8_ARRAY_DATA *apply_int8_array_updates(INT8_ARRAY *node)
 	    break;
 	}
       }
-      data->info = info;
-      data->size = size;
       node->updates_length = 0;
       node->data = data;
       node->view = view;
@@ -2401,17 +2442,16 @@ static void *std_types___uint8_array____collect
 static UINT8_ARRAY_DATA *apply_uint8_array_updates(UINT8_ARRAY *node)
   {
     UINT8_ARRAY_DATA *data = node->data;
-    ARRAY_INFO *info = data->info;
-    ARRAY_VIEW *view = node->view;
-    long size = data->size;
     if (node->updates_length > 0) {
+      fprintf(stderr, "shrink\n");
+      data = (UINT8_ARRAY_DATA *)
+	allocate_array_data_from_view(node->view, sizeof(uint8_t));
+      ARRAY_VIEW *view = create_array_view(data->info);
       // copy items
-      data = allocate_large(
-	ALLOCATION_SIZE(sizeof(UINT8_ARRAY_DATA)+size*sizeof(uint8_t)));
-      memcpy(
+      /*memcpy(
 	data->items,
 	node->data->items,
-	size*sizeof(uint8_t));
+	size*sizeof(uint8_t));*/
       // apply updates
       char *update = node->updates->buffer;
       char *end_p = update+node->updates_length;
@@ -2424,8 +2464,6 @@ static UINT8_ARRAY_DATA *apply_uint8_array_updates(UINT8_ARRAY *node)
 	    break;
 	}
       }
-      data->info = info;
-      data->size = size;
       node->updates_length = 0;
       node->data = data;
       node->view = view;
@@ -2495,17 +2533,16 @@ static void *std_types___int16_array____collect
 static INT16_ARRAY_DATA *apply_int16_array_updates(INT16_ARRAY *node)
   {
     INT16_ARRAY_DATA *data = node->data;
-    ARRAY_INFO *info = data->info;
-    ARRAY_VIEW *view = node->view;
-    long size = data->size;
     if (node->updates_length > 0) {
+      fprintf(stderr, "shrink\n");
+      data = (INT16_ARRAY_DATA *)
+	allocate_array_data_from_view(node->view, sizeof(int16_t));
+      ARRAY_VIEW *view = create_array_view(data->info);
       // copy items
-      data = allocate_large(
-	ALLOCATION_SIZE(sizeof(INT16_ARRAY_DATA)+size*sizeof(int16_t)));
-      memcpy(
+      /*memcpy(
 	data->items,
 	node->data->items,
-	size*sizeof(int16_t));
+	size*sizeof(int16_t));*/
       // apply updates
       char *update = node->updates->buffer;
       char *end_p = update+node->updates_length;
@@ -2518,8 +2555,6 @@ static INT16_ARRAY_DATA *apply_int16_array_updates(INT16_ARRAY *node)
 	    break;
 	}
       }
-      data->info = info;
-      data->size = size;
       node->updates_length = 0;
       node->data = data;
       node->view = view;
@@ -2589,17 +2624,16 @@ static void *std_types___uint16_array____collect
 static UINT16_ARRAY_DATA *apply_uint16_array_updates(UINT16_ARRAY *node)
   {
     UINT16_ARRAY_DATA *data = node->data;
-    ARRAY_INFO *info = data->info;
-    ARRAY_VIEW *view = node->view;
-    long size = data->size;
     if (node->updates_length > 0) {
+      fprintf(stderr, "shrink\n");
+      data = (UINT16_ARRAY_DATA *)
+	allocate_array_data_from_view(node->view, sizeof(uint16_t));
+      ARRAY_VIEW *view = create_array_view(data->info);
       // copy items
-      data = allocate_large(
-	ALLOCATION_SIZE(sizeof(UINT16_ARRAY_DATA)+size*sizeof(uint16_t)));
-      memcpy(
+      /*memcpy(
 	data->items,
 	node->data->items,
-	size*sizeof(uint16_t));
+	size*sizeof(uint16_t));*/
       // apply updates
       char *update = node->updates->buffer;
       char *end_p = update+node->updates_length;
@@ -2612,8 +2646,6 @@ static UINT16_ARRAY_DATA *apply_uint16_array_updates(UINT16_ARRAY *node)
 	    break;
 	}
       }
-      data->info = info;
-      data->size = size;
       node->updates_length = 0;
       node->data = data;
       node->view = view;
@@ -2683,17 +2715,16 @@ static void *std_types___int32_array____collect
 static INT32_ARRAY_DATA *apply_int32_array_updates(INT32_ARRAY *node)
   {
     INT32_ARRAY_DATA *data = node->data;
-    ARRAY_INFO *info = data->info;
-    ARRAY_VIEW *view = node->view;
-    long size = data->size;
     if (node->updates_length > 0) {
+      fprintf(stderr, "shrink\n");
+      data = (INT32_ARRAY_DATA *)
+	allocate_array_data_from_view(node->view, sizeof(int32_t));
+      ARRAY_VIEW *view = create_array_view(data->info);
       // copy items
-      data = allocate_large(
-	ALLOCATION_SIZE(sizeof(INT32_ARRAY_DATA)+size*sizeof(int32_t)));
-      memcpy(
+      /*memcpy(
 	data->items,
 	node->data->items,
-	size*sizeof(int32_t));
+	size*sizeof(int32_t));*/
       // apply updates
       char *update = node->updates->buffer;
       char *end_p = update+node->updates_length;
@@ -2706,8 +2737,6 @@ static INT32_ARRAY_DATA *apply_int32_array_updates(INT32_ARRAY *node)
 	    break;
 	}
       }
-      data->info = info;
-      data->size = size;
       node->updates_length = 0;
       node->data = data;
       node->view = view;
@@ -2777,17 +2806,16 @@ static void *std_types___uint32_array____collect
 static UINT32_ARRAY_DATA *apply_uint32_array_updates(UINT32_ARRAY *node)
   {
     UINT32_ARRAY_DATA *data = node->data;
-    ARRAY_INFO *info = data->info;
-    ARRAY_VIEW *view = node->view;
-    long size = data->size;
     if (node->updates_length > 0) {
+      fprintf(stderr, "shrink\n");
+      data = (UINT32_ARRAY_DATA *)
+	allocate_array_data_from_view(node->view, sizeof(uint32_t));
+      ARRAY_VIEW *view = create_array_view(data->info);
       // copy items
-      data = allocate_large(
-	ALLOCATION_SIZE(sizeof(UINT32_ARRAY_DATA)+size*sizeof(uint32_t)));
-      memcpy(
+      /*memcpy(
 	data->items,
 	node->data->items,
-	size*sizeof(uint32_t));
+	size*sizeof(uint32_t));*/
       // apply updates
       char *update = node->updates->buffer;
       char *end_p = update+node->updates_length;
@@ -2800,8 +2828,6 @@ static UINT32_ARRAY_DATA *apply_uint32_array_updates(UINT32_ARRAY *node)
 	    break;
 	}
       }
-      data->info = info;
-      data->size = size;
       node->updates_length = 0;
       node->data = data;
       node->view = view;
@@ -2871,17 +2897,16 @@ static void *std_types___int64_array____collect
 static INT64_ARRAY_DATA *apply_int64_array_updates(INT64_ARRAY *node)
   {
     INT64_ARRAY_DATA *data = node->data;
-    ARRAY_INFO *info = data->info;
-    ARRAY_VIEW *view = node->view;
-    long size = data->size;
     if (node->updates_length > 0) {
+      fprintf(stderr, "shrink\n");
+      data = (INT64_ARRAY_DATA *)
+	allocate_array_data_from_view(node->view, sizeof(int64_t));
+      ARRAY_VIEW *view = create_array_view(data->info);
       // copy items
-      data = allocate_large(
-	ALLOCATION_SIZE(sizeof(INT64_ARRAY_DATA)+size*sizeof(int64_t)));
-      memcpy(
+      /*memcpy(
 	data->items,
 	node->data->items,
-	size*sizeof(int64_t));
+	size*sizeof(int64_t));*/
       // apply updates
       char *update = node->updates->buffer;
       char *end_p = update+node->updates_length;
@@ -2894,8 +2919,6 @@ static INT64_ARRAY_DATA *apply_int64_array_updates(INT64_ARRAY *node)
 	    break;
 	}
       }
-      data->info = info;
-      data->size = size;
       node->updates_length = 0;
       node->data = data;
       node->view = view;
@@ -2965,17 +2988,16 @@ static void *std_types___uint64_array____collect
 static UINT64_ARRAY_DATA *apply_uint64_array_updates(UINT64_ARRAY *node)
   {
     UINT64_ARRAY_DATA *data = node->data;
-    ARRAY_INFO *info = data->info;
-    ARRAY_VIEW *view = node->view;
-    long size = data->size;
     if (node->updates_length > 0) {
+      fprintf(stderr, "shrink\n");
+      data = (UINT64_ARRAY_DATA *)
+	allocate_array_data_from_view(node->view, sizeof(uint64_t));
+      ARRAY_VIEW *view = create_array_view(data->info);
       // copy items
-      data = allocate_large(
-	ALLOCATION_SIZE(sizeof(UINT64_ARRAY_DATA)+size*sizeof(uint64_t)));
-      memcpy(
+      /*memcpy(
 	data->items,
 	node->data->items,
-	size*sizeof(uint64_t));
+	size*sizeof(uint64_t));*/
       // apply updates
       char *update = node->updates->buffer;
       char *end_p = update+node->updates_length;
@@ -2988,8 +3010,6 @@ static UINT64_ARRAY_DATA *apply_uint64_array_updates(UINT64_ARRAY *node)
 	    break;
 	}
       }
-      data->info = info;
-      data->size = size;
       node->updates_length = 0;
       node->data = data;
       node->view = view;
@@ -3059,17 +3079,16 @@ static void *std_types___float32_array____collect
 static FLOAT32_ARRAY_DATA *apply_float32_array_updates(FLOAT32_ARRAY *node)
   {
     FLOAT32_ARRAY_DATA *data = node->data;
-    ARRAY_INFO *info = data->info;
-    ARRAY_VIEW *view = node->view;
-    long size = data->size;
     if (node->updates_length > 0) {
+      fprintf(stderr, "shrink\n");
+      data = (FLOAT32_ARRAY_DATA *)
+	allocate_array_data_from_view(node->view, sizeof(float));
+      ARRAY_VIEW *view = create_array_view(data->info);
       // copy items
-      data = allocate_large(
-	ALLOCATION_SIZE(sizeof(FLOAT32_ARRAY_DATA)+size*sizeof(float)));
-      memcpy(
+      /*memcpy(
 	data->items,
 	node->data->items,
-	size*sizeof(float));
+	size*sizeof(float));*/
       // apply updates
       char *update = node->updates->buffer;
       char *end_p = update+node->updates_length;
@@ -3082,8 +3101,6 @@ static FLOAT32_ARRAY_DATA *apply_float32_array_updates(FLOAT32_ARRAY *node)
 	    break;
 	}
       }
-      data->info = info;
-      data->size = size;
       node->updates_length = 0;
       node->data = data;
       node->view = view;
@@ -3153,17 +3170,16 @@ static void *std_types___float64_array____collect
 static FLOAT64_ARRAY_DATA *apply_float64_array_updates(FLOAT64_ARRAY *node)
   {
     FLOAT64_ARRAY_DATA *data = node->data;
-    ARRAY_INFO *info = data->info;
-    ARRAY_VIEW *view = node->view;
-    long size = data->size;
     if (node->updates_length > 0) {
+      fprintf(stderr, "shrink\n");
+      data = (FLOAT64_ARRAY_DATA *)
+	allocate_array_data_from_view(node->view, sizeof(double));
+      ARRAY_VIEW *view = create_array_view(data->info);
       // copy items
-      data = allocate_large(
-	ALLOCATION_SIZE(sizeof(FLOAT64_ARRAY_DATA)+size*sizeof(double)));
-      memcpy(
+      /*memcpy(
 	data->items,
 	node->data->items,
-	size*sizeof(double));
+	size*sizeof(double));*/
       // apply updates
       char *update = node->updates->buffer;
       char *end_p = update+node->updates_length;
@@ -3176,8 +3192,6 @@ static FLOAT64_ARRAY_DATA *apply_float64_array_updates(FLOAT64_ARRAY *node)
 	    break;
 	}
       }
-      data->info = info;
-      data->size = size;
       node->updates_length = 0;
       node->data = data;
       node->view = view;
@@ -9701,10 +9715,10 @@ static void std_types___array____type (void)
       too_many_arguments();
       return;
     }
-    long offset = compute_array_offset(TLS_myself, info, view);
-    if (offset < 0) return;
     if (TLS_argument_count == dimension_count) {
       // get item
+      long offset = compute_array_read_offset(TLS_myself, info, view);
+      if (offset < 0) return;
       data = apply_array_updates((ARRAY *)TLS_myself);
       NODE *value;
       value = data->items[offset];
@@ -9716,6 +9730,8 @@ static void std_types___array____type (void)
       };
     } else {
       // set item
+      long offset = compute_array_write_offset(TLS_myself, view);
+      if (offset < 0) return;
       NODE *value;
       value = TLS_arguments[dimension_count];
       long length = TLS_myself->array.updates_length;
@@ -9751,10 +9767,10 @@ static void std_types___boolean_array____type (void)
       too_many_arguments();
       return;
     }
-    long offset = compute_array_offset(TLS_myself, info, view);
-    if (offset < 0) return;
     if (TLS_argument_count == dimension_count) {
       // get item
+      long offset = compute_array_read_offset(TLS_myself, info, view);
+      if (offset < 0) return;
       data = apply_boolean_array_updates((BOOLEAN_ARRAY *)TLS_myself);
       int value;
       value = data->items[offset];
@@ -9766,6 +9782,8 @@ static void std_types___boolean_array____type (void)
       };
     } else {
       // set item
+      long offset = compute_array_write_offset(TLS_myself, view);
+      if (offset < 0) return;
       int value;
       if (!to_bool(TLS_arguments[dimension_count], &value)) return;
       long length = TLS_myself->boolean_array.updates_length;
@@ -9801,10 +9819,10 @@ static void std_types___character_array____type (void)
       too_many_arguments();
       return;
     }
-    long offset = compute_array_offset(TLS_myself, info, view);
-    if (offset < 0) return;
     if (TLS_argument_count == dimension_count) {
       // get item
+      long offset = compute_array_read_offset(TLS_myself, info, view);
+      if (offset < 0) return;
       data = apply_character_array_updates((CHARACTER_ARRAY *)TLS_myself);
       uint32_t value;
       value = data->items[offset];
@@ -9816,6 +9834,8 @@ static void std_types___character_array____type (void)
       };
     } else {
       // set item
+      long offset = compute_array_write_offset(TLS_myself, view);
+      if (offset < 0) return;
       uint32_t value;
       if (!to_uchar32(TLS_arguments[dimension_count], &value)) return;
       long length = TLS_myself->character_array.updates_length;
@@ -9851,10 +9871,10 @@ static void std_types___int8_array____type (void)
       too_many_arguments();
       return;
     }
-    long offset = compute_array_offset(TLS_myself, info, view);
-    if (offset < 0) return;
     if (TLS_argument_count == dimension_count) {
       // get item
+      long offset = compute_array_read_offset(TLS_myself, info, view);
+      if (offset < 0) return;
       data = apply_int8_array_updates((INT8_ARRAY *)TLS_myself);
       int8_t value;
       value = data->items[offset];
@@ -9866,6 +9886,8 @@ static void std_types___int8_array____type (void)
       };
     } else {
       // set item
+      long offset = compute_array_write_offset(TLS_myself, view);
+      if (offset < 0) return;
       int8_t value;
       if (!to_int8(TLS_arguments[dimension_count], &value)) return;
       long length = TLS_myself->int8_array.updates_length;
@@ -9901,10 +9923,10 @@ static void std_types___uint8_array____type (void)
       too_many_arguments();
       return;
     }
-    long offset = compute_array_offset(TLS_myself, info, view);
-    if (offset < 0) return;
     if (TLS_argument_count == dimension_count) {
       // get item
+      long offset = compute_array_read_offset(TLS_myself, info, view);
+      if (offset < 0) return;
       data = apply_uint8_array_updates((UINT8_ARRAY *)TLS_myself);
       uint8_t value;
       value = data->items[offset];
@@ -9916,6 +9938,8 @@ static void std_types___uint8_array____type (void)
       };
     } else {
       // set item
+      long offset = compute_array_write_offset(TLS_myself, view);
+      if (offset < 0) return;
       uint8_t value;
       if (!to_uint8(TLS_arguments[dimension_count], &value)) return;
       long length = TLS_myself->uint8_array.updates_length;
@@ -9951,10 +9975,10 @@ static void std_types___int16_array____type (void)
       too_many_arguments();
       return;
     }
-    long offset = compute_array_offset(TLS_myself, info, view);
-    if (offset < 0) return;
     if (TLS_argument_count == dimension_count) {
       // get item
+      long offset = compute_array_read_offset(TLS_myself, info, view);
+      if (offset < 0) return;
       data = apply_int16_array_updates((INT16_ARRAY *)TLS_myself);
       int16_t value;
       value = data->items[offset];
@@ -9966,6 +9990,8 @@ static void std_types___int16_array____type (void)
       };
     } else {
       // set item
+      long offset = compute_array_write_offset(TLS_myself, view);
+      if (offset < 0) return;
       int16_t value;
       if (!to_int16(TLS_arguments[dimension_count], &value)) return;
       long length = TLS_myself->int16_array.updates_length;
@@ -10001,10 +10027,10 @@ static void std_types___uint16_array____type (void)
       too_many_arguments();
       return;
     }
-    long offset = compute_array_offset(TLS_myself, info, view);
-    if (offset < 0) return;
     if (TLS_argument_count == dimension_count) {
       // get item
+      long offset = compute_array_read_offset(TLS_myself, info, view);
+      if (offset < 0) return;
       data = apply_uint16_array_updates((UINT16_ARRAY *)TLS_myself);
       uint16_t value;
       value = data->items[offset];
@@ -10016,6 +10042,8 @@ static void std_types___uint16_array____type (void)
       };
     } else {
       // set item
+      long offset = compute_array_write_offset(TLS_myself, view);
+      if (offset < 0) return;
       uint16_t value;
       if (!to_uint16(TLS_arguments[dimension_count], &value)) return;
       long length = TLS_myself->uint16_array.updates_length;
@@ -10051,10 +10079,10 @@ static void std_types___int32_array____type (void)
       too_many_arguments();
       return;
     }
-    long offset = compute_array_offset(TLS_myself, info, view);
-    if (offset < 0) return;
     if (TLS_argument_count == dimension_count) {
       // get item
+      long offset = compute_array_read_offset(TLS_myself, info, view);
+      if (offset < 0) return;
       data = apply_int32_array_updates((INT32_ARRAY *)TLS_myself);
       int32_t value;
       value = data->items[offset];
@@ -10066,6 +10094,8 @@ static void std_types___int32_array____type (void)
       };
     } else {
       // set item
+      long offset = compute_array_write_offset(TLS_myself, view);
+      if (offset < 0) return;
       int32_t value;
       if (!to_int32(TLS_arguments[dimension_count], &value)) return;
       long length = TLS_myself->int32_array.updates_length;
@@ -10101,10 +10131,10 @@ static void std_types___uint32_array____type (void)
       too_many_arguments();
       return;
     }
-    long offset = compute_array_offset(TLS_myself, info, view);
-    if (offset < 0) return;
     if (TLS_argument_count == dimension_count) {
       // get item
+      long offset = compute_array_read_offset(TLS_myself, info, view);
+      if (offset < 0) return;
       data = apply_uint32_array_updates((UINT32_ARRAY *)TLS_myself);
       uint32_t value;
       value = data->items[offset];
@@ -10116,6 +10146,8 @@ static void std_types___uint32_array____type (void)
       };
     } else {
       // set item
+      long offset = compute_array_write_offset(TLS_myself, view);
+      if (offset < 0) return;
       uint32_t value;
       if (!to_uint32(TLS_arguments[dimension_count], &value)) return;
       long length = TLS_myself->uint32_array.updates_length;
@@ -10151,10 +10183,10 @@ static void std_types___int64_array____type (void)
       too_many_arguments();
       return;
     }
-    long offset = compute_array_offset(TLS_myself, info, view);
-    if (offset < 0) return;
     if (TLS_argument_count == dimension_count) {
       // get item
+      long offset = compute_array_read_offset(TLS_myself, info, view);
+      if (offset < 0) return;
       data = apply_int64_array_updates((INT64_ARRAY *)TLS_myself);
       int64_t value;
       value = data->items[offset];
@@ -10166,6 +10198,8 @@ static void std_types___int64_array____type (void)
       };
     } else {
       // set item
+      long offset = compute_array_write_offset(TLS_myself, view);
+      if (offset < 0) return;
       int64_t value;
       if (!to_int64(TLS_arguments[dimension_count], &value)) return;
       long length = TLS_myself->int64_array.updates_length;
@@ -10201,10 +10235,10 @@ static void std_types___uint64_array____type (void)
       too_many_arguments();
       return;
     }
-    long offset = compute_array_offset(TLS_myself, info, view);
-    if (offset < 0) return;
     if (TLS_argument_count == dimension_count) {
       // get item
+      long offset = compute_array_read_offset(TLS_myself, info, view);
+      if (offset < 0) return;
       data = apply_uint64_array_updates((UINT64_ARRAY *)TLS_myself);
       uint64_t value;
       value = data->items[offset];
@@ -10216,6 +10250,8 @@ static void std_types___uint64_array____type (void)
       };
     } else {
       // set item
+      long offset = compute_array_write_offset(TLS_myself, view);
+      if (offset < 0) return;
       uint64_t value;
       if (!to_uint64(TLS_arguments[dimension_count], &value)) return;
       long length = TLS_myself->uint64_array.updates_length;
@@ -10251,10 +10287,10 @@ static void std_types___float32_array____type (void)
       too_many_arguments();
       return;
     }
-    long offset = compute_array_offset(TLS_myself, info, view);
-    if (offset < 0) return;
     if (TLS_argument_count == dimension_count) {
       // get item
+      long offset = compute_array_read_offset(TLS_myself, info, view);
+      if (offset < 0) return;
       data = apply_float32_array_updates((FLOAT32_ARRAY *)TLS_myself);
       float value;
       value = data->items[offset];
@@ -10266,6 +10302,8 @@ static void std_types___float32_array____type (void)
       };
     } else {
       // set item
+      long offset = compute_array_write_offset(TLS_myself, view);
+      if (offset < 0) return;
       float value;
       if (!to_float(TLS_arguments[dimension_count], &value)) return;
       long length = TLS_myself->float32_array.updates_length;
@@ -10301,10 +10339,10 @@ static void std_types___float64_array____type (void)
       too_many_arguments();
       return;
     }
-    long offset = compute_array_offset(TLS_myself, info, view);
-    if (offset < 0) return;
     if (TLS_argument_count == dimension_count) {
       // get item
+      long offset = compute_array_read_offset(TLS_myself, info, view);
+      if (offset < 0) return;
       data = apply_float64_array_updates((FLOAT64_ARRAY *)TLS_myself);
       double value;
       value = data->items[offset];
@@ -10316,6 +10354,8 @@ static void std_types___float64_array____type (void)
       };
     } else {
       // set item
+      long offset = compute_array_write_offset(TLS_myself, view);
+      if (offset < 0) return;
       double value;
       if (!to_double(TLS_arguments[dimension_count], &value)) return;
       long length = TLS_myself->float64_array.updates_length;
