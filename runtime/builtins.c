@@ -56,6 +56,7 @@ enum {
   func__std_types___int8_array___std___length_of,
   func__std_types___int8_array___std___dimension_count_of,
   func__std_types___int8_array___std___equal,
+  func__std_types___int8_array___std___times,
   func__std___int8_array,
   func__std___initialized_int8_array,
   func__std_types___int8_array___std___new,
@@ -66,6 +67,7 @@ enum {
   func__std_types___uint8_array___std___bit_and,
   func__std_types___uint8_array___std___bit_or,
   func__std_types___uint8_array___std___bit_xor,
+  func__std_types___uint8_array___std___times,
   func__std___uint8_array,
   func__std___initialized_uint8_array,
   func__std_types___uint8_array___std___new,
@@ -73,6 +75,7 @@ enum {
   func__std_types___int16_array___std___length_of,
   func__std_types___int16_array___std___dimension_count_of,
   func__std_types___int16_array___std___equal,
+  func__std_types___int16_array___std___times,
   func__std___int16_array,
   func__std___initialized_int16_array,
   func__std_types___int16_array___std___new,
@@ -83,6 +86,7 @@ enum {
   func__std_types___uint16_array___std___bit_and,
   func__std_types___uint16_array___std___bit_or,
   func__std_types___uint16_array___std___bit_xor,
+  func__std_types___uint16_array___std___times,
   func__std___uint16_array,
   func__std___initialized_uint16_array,
   func__std_types___uint16_array___std___new,
@@ -90,6 +94,7 @@ enum {
   func__std_types___int32_array___std___length_of,
   func__std_types___int32_array___std___dimension_count_of,
   func__std_types___int32_array___std___equal,
+  func__std_types___int32_array___std___times,
   func__std___int32_array,
   func__std___initialized_int32_array,
   func__std_types___int32_array___std___new,
@@ -100,6 +105,7 @@ enum {
   func__std_types___uint32_array___std___bit_and,
   func__std_types___uint32_array___std___bit_or,
   func__std_types___uint32_array___std___bit_xor,
+  func__std_types___uint32_array___std___times,
   func__std___uint32_array,
   func__std___initialized_uint32_array,
   func__std_types___uint32_array___std___new,
@@ -107,6 +113,7 @@ enum {
   func__std_types___int64_array___std___length_of,
   func__std_types___int64_array___std___dimension_count_of,
   func__std_types___int64_array___std___equal,
+  func__std_types___int64_array___std___times,
   func__std___int64_array,
   func__std___initialized_int64_array,
   func__std_types___int64_array___std___new,
@@ -117,6 +124,7 @@ enum {
   func__std_types___uint64_array___std___bit_and,
   func__std_types___uint64_array___std___bit_or,
   func__std_types___uint64_array___std___bit_xor,
+  func__std_types___uint64_array___std___times,
   func__std___uint64_array,
   func__std___initialized_uint64_array,
   func__std_types___uint64_array___std___new,
@@ -124,6 +132,7 @@ enum {
   func__std_types___float32_array___std___length_of,
   func__std_types___float32_array___std___dimension_count_of,
   func__std_types___float32_array___std___equal,
+  func__std_types___float32_array___std___times,
   func__std___float32_array,
   func__std___initialized_float32_array,
   func__std_types___float32_array___std___new,
@@ -131,6 +140,7 @@ enum {
   func__std_types___float64_array___std___length_of,
   func__std_types___float64_array___std___dimension_count_of,
   func__std_types___float64_array___std___equal,
+  func__std_types___float64_array___std___times,
   func__std___float64_array,
   func__std___initialized_float64_array,
   func__std_types___float64_array___std___new,
@@ -1836,7 +1846,7 @@ static void *copy_array
     int dimension_count = source_view->dimension_count;
     long first_index = source_view->dimensions[i].first_index;
     long width = source_view->dimensions[i].width;
-    if (i == source_view->dimension_count-1) {
+    if (i == dimension_count-1) {
       // last dimension
       source_offset += first_index;
       memcpy(
@@ -2053,12 +2063,16 @@ static int equal_array_type
       invalid_arguments();
       return false;
     }
-    ARRAY_INFO *left_info = left->array.data->info;
-    ARRAY_INFO *right_info = right->array.data->info;
-    if (left_info->dimension_count != right_info->dimension_count) goto error;
+    ARRAY_VIEW *left_view = ((ARRAY *)left)->view;
+    ARRAY_VIEW *right_view = ((ARRAY *)right)->view;
+    if (
+      left_view->dimension_count != right_view->dimension_count
+    ) goto error;
     int i;
-    for (i = 0; i < left_info->dimension_count; ++i) {
-      if (left_info->dimensions[i] != right_info->dimensions[i]) goto error;
+    for (i = 0; i < left_view->dimension_count; ++i) {
+      if (
+	left_view->dimensions[i].width != right_view->dimensions[i].width
+      ) goto error;
     }
     return true;
   }
@@ -2422,6 +2436,47 @@ static long std_types___int8_array____debug_string
       indent, buf, "int8");
   }
 
+static long int8_array_scalar_product
+  (
+    ARRAY_VIEW *left_view,
+    INT8_ARRAY_DATA *left_data,
+    long left_offset,
+    ARRAY_VIEW *right_view,
+    INT8_ARRAY_DATA *right_data,
+    long right_offset,
+    int i
+  )
+  {
+    int dimension_count = left_view->dimension_count;
+    long first_left_index = left_view->dimensions[i].first_index;
+    long first_right_index = right_view->dimensions[i].first_index;
+    long width = left_view->dimensions[i].width;
+    long result = 0;
+    if (i == dimension_count-1) {
+      // last dimension
+      left_offset += first_left_index;
+      right_offset += first_right_index;
+      while (--width >= 0) {
+	result +=
+	  left_data->items[left_offset++] *
+	  right_data->items[right_offset++];
+      }
+    } else {
+      long left_dimension = left_data->info->dimensions[0];
+      long right_dimension = right_data->info->dimensions[0];
+      left_offset += first_left_index*left_dimension;
+      right_offset += first_right_index*right_dimension;
+      while (--width >= 0) {
+	result += int8_array_scalar_product(
+	  left_view, left_data, left_offset,
+	  right_view, right_data, right_offset, i+1);
+	left_offset += left_dimension;
+	right_offset += right_dimension;
+      }
+    }
+    return result;
+  }
+
 static void *collect_uint8_array_data
   (
     UINT8_ARRAY_DATA *data
@@ -2509,6 +2564,47 @@ static long std_types___uint8_array____debug_string
     return array_debug_string(
       node->uint8_array.data->info, node->uint8_array.view,
       indent, buf, "uint8");
+  }
+
+static ulong uint8_array_scalar_product
+  (
+    ARRAY_VIEW *left_view,
+    UINT8_ARRAY_DATA *left_data,
+    long left_offset,
+    ARRAY_VIEW *right_view,
+    UINT8_ARRAY_DATA *right_data,
+    long right_offset,
+    int i
+  )
+  {
+    int dimension_count = left_view->dimension_count;
+    long first_left_index = left_view->dimensions[i].first_index;
+    long first_right_index = right_view->dimensions[i].first_index;
+    long width = left_view->dimensions[i].width;
+    ulong result = 0;
+    if (i == dimension_count-1) {
+      // last dimension
+      left_offset += first_left_index;
+      right_offset += first_right_index;
+      while (--width >= 0) {
+	result +=
+	  left_data->items[left_offset++] *
+	  right_data->items[right_offset++];
+      }
+    } else {
+      long left_dimension = left_data->info->dimensions[0];
+      long right_dimension = right_data->info->dimensions[0];
+      left_offset += first_left_index*left_dimension;
+      right_offset += first_right_index*right_dimension;
+      while (--width >= 0) {
+	result += uint8_array_scalar_product(
+	  left_view, left_data, left_offset,
+	  right_view, right_data, right_offset, i+1);
+	left_offset += left_dimension;
+	right_offset += right_dimension;
+      }
+    }
+    return result;
   }
 
 static void *collect_int16_array_data
@@ -2600,6 +2696,47 @@ static long std_types___int16_array____debug_string
       indent, buf, "int16");
   }
 
+static long int16_array_scalar_product
+  (
+    ARRAY_VIEW *left_view,
+    INT16_ARRAY_DATA *left_data,
+    long left_offset,
+    ARRAY_VIEW *right_view,
+    INT16_ARRAY_DATA *right_data,
+    long right_offset,
+    int i
+  )
+  {
+    int dimension_count = left_view->dimension_count;
+    long first_left_index = left_view->dimensions[i].first_index;
+    long first_right_index = right_view->dimensions[i].first_index;
+    long width = left_view->dimensions[i].width;
+    long result = 0;
+    if (i == dimension_count-1) {
+      // last dimension
+      left_offset += first_left_index;
+      right_offset += first_right_index;
+      while (--width >= 0) {
+	result +=
+	  left_data->items[left_offset++] *
+	  right_data->items[right_offset++];
+      }
+    } else {
+      long left_dimension = left_data->info->dimensions[0];
+      long right_dimension = right_data->info->dimensions[0];
+      left_offset += first_left_index*left_dimension;
+      right_offset += first_right_index*right_dimension;
+      while (--width >= 0) {
+	result += int16_array_scalar_product(
+	  left_view, left_data, left_offset,
+	  right_view, right_data, right_offset, i+1);
+	left_offset += left_dimension;
+	right_offset += right_dimension;
+      }
+    }
+    return result;
+  }
+
 static void *collect_uint16_array_data
   (
     UINT16_ARRAY_DATA *data
@@ -2687,6 +2824,47 @@ static long std_types___uint16_array____debug_string
     return array_debug_string(
       node->uint16_array.data->info, node->uint16_array.view,
       indent, buf, "uint16");
+  }
+
+static ulong uint16_array_scalar_product
+  (
+    ARRAY_VIEW *left_view,
+    UINT16_ARRAY_DATA *left_data,
+    long left_offset,
+    ARRAY_VIEW *right_view,
+    UINT16_ARRAY_DATA *right_data,
+    long right_offset,
+    int i
+  )
+  {
+    int dimension_count = left_view->dimension_count;
+    long first_left_index = left_view->dimensions[i].first_index;
+    long first_right_index = right_view->dimensions[i].first_index;
+    long width = left_view->dimensions[i].width;
+    ulong result = 0;
+    if (i == dimension_count-1) {
+      // last dimension
+      left_offset += first_left_index;
+      right_offset += first_right_index;
+      while (--width >= 0) {
+	result +=
+	  left_data->items[left_offset++] *
+	  right_data->items[right_offset++];
+      }
+    } else {
+      long left_dimension = left_data->info->dimensions[0];
+      long right_dimension = right_data->info->dimensions[0];
+      left_offset += first_left_index*left_dimension;
+      right_offset += first_right_index*right_dimension;
+      while (--width >= 0) {
+	result += uint16_array_scalar_product(
+	  left_view, left_data, left_offset,
+	  right_view, right_data, right_offset, i+1);
+	left_offset += left_dimension;
+	right_offset += right_dimension;
+      }
+    }
+    return result;
   }
 
 static void *collect_int32_array_data
@@ -2778,6 +2956,47 @@ static long std_types___int32_array____debug_string
       indent, buf, "int32");
   }
 
+static long int32_array_scalar_product
+  (
+    ARRAY_VIEW *left_view,
+    INT32_ARRAY_DATA *left_data,
+    long left_offset,
+    ARRAY_VIEW *right_view,
+    INT32_ARRAY_DATA *right_data,
+    long right_offset,
+    int i
+  )
+  {
+    int dimension_count = left_view->dimension_count;
+    long first_left_index = left_view->dimensions[i].first_index;
+    long first_right_index = right_view->dimensions[i].first_index;
+    long width = left_view->dimensions[i].width;
+    long result = 0;
+    if (i == dimension_count-1) {
+      // last dimension
+      left_offset += first_left_index;
+      right_offset += first_right_index;
+      while (--width >= 0) {
+	result +=
+	  left_data->items[left_offset++] *
+	  right_data->items[right_offset++];
+      }
+    } else {
+      long left_dimension = left_data->info->dimensions[0];
+      long right_dimension = right_data->info->dimensions[0];
+      left_offset += first_left_index*left_dimension;
+      right_offset += first_right_index*right_dimension;
+      while (--width >= 0) {
+	result += int32_array_scalar_product(
+	  left_view, left_data, left_offset,
+	  right_view, right_data, right_offset, i+1);
+	left_offset += left_dimension;
+	right_offset += right_dimension;
+      }
+    }
+    return result;
+  }
+
 static void *collect_uint32_array_data
   (
     UINT32_ARRAY_DATA *data
@@ -2865,6 +3084,47 @@ static long std_types___uint32_array____debug_string
     return array_debug_string(
       node->uint32_array.data->info, node->uint32_array.view,
       indent, buf, "uint32");
+  }
+
+static ulong uint32_array_scalar_product
+  (
+    ARRAY_VIEW *left_view,
+    UINT32_ARRAY_DATA *left_data,
+    long left_offset,
+    ARRAY_VIEW *right_view,
+    UINT32_ARRAY_DATA *right_data,
+    long right_offset,
+    int i
+  )
+  {
+    int dimension_count = left_view->dimension_count;
+    long first_left_index = left_view->dimensions[i].first_index;
+    long first_right_index = right_view->dimensions[i].first_index;
+    long width = left_view->dimensions[i].width;
+    ulong result = 0;
+    if (i == dimension_count-1) {
+      // last dimension
+      left_offset += first_left_index;
+      right_offset += first_right_index;
+      while (--width >= 0) {
+	result +=
+	  left_data->items[left_offset++] *
+	  right_data->items[right_offset++];
+      }
+    } else {
+      long left_dimension = left_data->info->dimensions[0];
+      long right_dimension = right_data->info->dimensions[0];
+      left_offset += first_left_index*left_dimension;
+      right_offset += first_right_index*right_dimension;
+      while (--width >= 0) {
+	result += uint32_array_scalar_product(
+	  left_view, left_data, left_offset,
+	  right_view, right_data, right_offset, i+1);
+	left_offset += left_dimension;
+	right_offset += right_dimension;
+      }
+    }
+    return result;
   }
 
 static void *collect_int64_array_data
@@ -2956,6 +3216,47 @@ static long std_types___int64_array____debug_string
       indent, buf, "int64");
   }
 
+static long int64_array_scalar_product
+  (
+    ARRAY_VIEW *left_view,
+    INT64_ARRAY_DATA *left_data,
+    long left_offset,
+    ARRAY_VIEW *right_view,
+    INT64_ARRAY_DATA *right_data,
+    long right_offset,
+    int i
+  )
+  {
+    int dimension_count = left_view->dimension_count;
+    long first_left_index = left_view->dimensions[i].first_index;
+    long first_right_index = right_view->dimensions[i].first_index;
+    long width = left_view->dimensions[i].width;
+    long result = 0;
+    if (i == dimension_count-1) {
+      // last dimension
+      left_offset += first_left_index;
+      right_offset += first_right_index;
+      while (--width >= 0) {
+	result +=
+	  left_data->items[left_offset++] *
+	  right_data->items[right_offset++];
+      }
+    } else {
+      long left_dimension = left_data->info->dimensions[0];
+      long right_dimension = right_data->info->dimensions[0];
+      left_offset += first_left_index*left_dimension;
+      right_offset += first_right_index*right_dimension;
+      while (--width >= 0) {
+	result += int64_array_scalar_product(
+	  left_view, left_data, left_offset,
+	  right_view, right_data, right_offset, i+1);
+	left_offset += left_dimension;
+	right_offset += right_dimension;
+      }
+    }
+    return result;
+  }
+
 static void *collect_uint64_array_data
   (
     UINT64_ARRAY_DATA *data
@@ -3043,6 +3344,47 @@ static long std_types___uint64_array____debug_string
     return array_debug_string(
       node->uint64_array.data->info, node->uint64_array.view,
       indent, buf, "uint64");
+  }
+
+static ulong uint64_array_scalar_product
+  (
+    ARRAY_VIEW *left_view,
+    UINT64_ARRAY_DATA *left_data,
+    long left_offset,
+    ARRAY_VIEW *right_view,
+    UINT64_ARRAY_DATA *right_data,
+    long right_offset,
+    int i
+  )
+  {
+    int dimension_count = left_view->dimension_count;
+    long first_left_index = left_view->dimensions[i].first_index;
+    long first_right_index = right_view->dimensions[i].first_index;
+    long width = left_view->dimensions[i].width;
+    ulong result = 0;
+    if (i == dimension_count-1) {
+      // last dimension
+      left_offset += first_left_index;
+      right_offset += first_right_index;
+      while (--width >= 0) {
+	result +=
+	  left_data->items[left_offset++] *
+	  right_data->items[right_offset++];
+      }
+    } else {
+      long left_dimension = left_data->info->dimensions[0];
+      long right_dimension = right_data->info->dimensions[0];
+      left_offset += first_left_index*left_dimension;
+      right_offset += first_right_index*right_dimension;
+      while (--width >= 0) {
+	result += uint64_array_scalar_product(
+	  left_view, left_data, left_offset,
+	  right_view, right_data, right_offset, i+1);
+	left_offset += left_dimension;
+	right_offset += right_dimension;
+      }
+    }
+    return result;
   }
 
 static void *collect_float32_array_data
@@ -3134,6 +3476,47 @@ static long std_types___float32_array____debug_string
       indent, buf, "float32");
   }
 
+static double float32_array_scalar_product
+  (
+    ARRAY_VIEW *left_view,
+    FLOAT32_ARRAY_DATA *left_data,
+    long left_offset,
+    ARRAY_VIEW *right_view,
+    FLOAT32_ARRAY_DATA *right_data,
+    long right_offset,
+    int i
+  )
+  {
+    int dimension_count = left_view->dimension_count;
+    long first_left_index = left_view->dimensions[i].first_index;
+    long first_right_index = right_view->dimensions[i].first_index;
+    long width = left_view->dimensions[i].width;
+    double result = 0;
+    if (i == dimension_count-1) {
+      // last dimension
+      left_offset += first_left_index;
+      right_offset += first_right_index;
+      while (--width >= 0) {
+	result +=
+	  left_data->items[left_offset++] *
+	  right_data->items[right_offset++];
+      }
+    } else {
+      long left_dimension = left_data->info->dimensions[0];
+      long right_dimension = right_data->info->dimensions[0];
+      left_offset += first_left_index*left_dimension;
+      right_offset += first_right_index*right_dimension;
+      while (--width >= 0) {
+	result += float32_array_scalar_product(
+	  left_view, left_data, left_offset,
+	  right_view, right_data, right_offset, i+1);
+	left_offset += left_dimension;
+	right_offset += right_dimension;
+      }
+    }
+    return result;
+  }
+
 static void *collect_float64_array_data
   (
     FLOAT64_ARRAY_DATA *data
@@ -3221,6 +3604,47 @@ static long std_types___float64_array____debug_string
     return array_debug_string(
       node->float64_array.data->info, node->float64_array.view,
       indent, buf, "float64");
+  }
+
+static double float64_array_scalar_product
+  (
+    ARRAY_VIEW *left_view,
+    FLOAT64_ARRAY_DATA *left_data,
+    long left_offset,
+    ARRAY_VIEW *right_view,
+    FLOAT64_ARRAY_DATA *right_data,
+    long right_offset,
+    int i
+  )
+  {
+    int dimension_count = left_view->dimension_count;
+    long first_left_index = left_view->dimensions[i].first_index;
+    long first_right_index = right_view->dimensions[i].first_index;
+    long width = left_view->dimensions[i].width;
+    double result = 0;
+    if (i == dimension_count-1) {
+      // last dimension
+      left_offset += first_left_index;
+      right_offset += first_right_index;
+      while (--width >= 0) {
+	result +=
+	  left_data->items[left_offset++] *
+	  right_data->items[right_offset++];
+      }
+    } else {
+      long left_dimension = left_data->info->dimensions[0];
+      long right_dimension = right_data->info->dimensions[0];
+      left_offset += first_left_index*left_dimension;
+      right_offset += first_right_index*right_dimension;
+      while (--width >= 0) {
+	result += float64_array_scalar_product(
+	  left_view, left_data, left_offset,
+	  right_view, right_data, right_offset, i+1);
+	left_offset += left_dimension;
+	right_offset += right_dimension;
+      }
+    }
+    return result;
   }
 
 static int std_types___true____to_bool
@@ -12962,8 +13386,10 @@ static void entry__std_types___boolean_array___std___bit_or (void)
         invalid_arguments();
         return;
       }
-    BOOLEAN_ARRAY_DATA *left = apply_boolean_array_updates((BOOLEAN_ARRAY *)TLS_arguments[0]);
-    BOOLEAN_ARRAY_DATA *right = apply_boolean_array_updates((BOOLEAN_ARRAY *)TLS_arguments[1]);
+    BOOLEAN_ARRAY_DATA *left =
+      apply_boolean_array_updates((BOOLEAN_ARRAY *)TLS_arguments[0]);
+    BOOLEAN_ARRAY_DATA *right =
+      apply_boolean_array_updates((BOOLEAN_ARRAY *)TLS_arguments[1]);
     long size = left->size;
     BOOLEAN_ARRAY_DATA *data =
       allocate_large(
@@ -13377,6 +13803,41 @@ static void entry__std_types___int8_array___std___equal (void)
     }
   }
 
+static void entry__std_types___int8_array___std___times (void)
+  {
+    if (TLS_argument_count != 2) {
+      invalid_arguments();
+      return;
+    }
+    if (TLS_result_count != 1) {
+      result_count_mismatch();
+      return;
+    }
+    if (TLS_arguments[1] == TLS_arguments[0]) {
+      NODE *result__node = (NODE *)(TLS_arguments[0]);
+      TLS_arguments[0] = result__node;
+      TLS_argument_count = 1;
+      return;
+    }
+    if (!equal_array_type(TLS_arguments[1], TLS_arguments[0]))
+      {
+        invalid_arguments();
+        return;
+      }
+    INT8_ARRAY_DATA *left = apply_int8_array_updates((INT8_ARRAY *)TLS_arguments[0]);
+    INT8_ARRAY_DATA *right = apply_int8_array_updates((INT8_ARRAY *)TLS_arguments[1]);
+    {
+      NODE *result__node = (NODE *)(from_long(
+            int8_array_scalar_product(
+              TLS_arguments[0]->int8_array.view, left, 0,
+              TLS_arguments[1]->int8_array.view, right, 0,
+              0)));
+      TLS_arguments[0] = result__node;
+      TLS_argument_count = 1;
+      return;
+    }
+  }
+
 static void entry__std___int8_array (void)
   {
     if (TLS_argument_count < 1) {
@@ -13619,8 +14080,10 @@ static void entry__std_types___uint8_array___std___bit_or (void)
         invalid_arguments();
         return;
       }
-    UINT8_ARRAY_DATA *left = apply_uint8_array_updates((UINT8_ARRAY *)TLS_arguments[0]);
-    UINT8_ARRAY_DATA *right = apply_uint8_array_updates((UINT8_ARRAY *)TLS_arguments[1]);
+    UINT8_ARRAY_DATA *left =
+      apply_uint8_array_updates((UINT8_ARRAY *)TLS_arguments[0]);
+    UINT8_ARRAY_DATA *right =
+      apply_uint8_array_updates((UINT8_ARRAY *)TLS_arguments[1]);
     long size = left->size;
     UINT8_ARRAY_DATA *data =
       allocate_large(
@@ -13668,6 +14131,41 @@ static void entry__std_types___uint8_array___std___bit_xor (void)
     data->size = size;
     {
       NODE *result__node = (NODE *)(create__std_types___uint8_array(0, TLS_arguments[0]->uint8_array.view, data, NULL));
+      TLS_arguments[0] = result__node;
+      TLS_argument_count = 1;
+      return;
+    }
+  }
+
+static void entry__std_types___uint8_array___std___times (void)
+  {
+    if (TLS_argument_count != 2) {
+      invalid_arguments();
+      return;
+    }
+    if (TLS_result_count != 1) {
+      result_count_mismatch();
+      return;
+    }
+    if (TLS_arguments[1] == TLS_arguments[0]) {
+      NODE *result__node = (NODE *)(TLS_arguments[0]);
+      TLS_arguments[0] = result__node;
+      TLS_argument_count = 1;
+      return;
+    }
+    if (!equal_array_type(TLS_arguments[1], TLS_arguments[0]))
+      {
+        invalid_arguments();
+        return;
+      }
+    UINT8_ARRAY_DATA *left = apply_uint8_array_updates((UINT8_ARRAY *)TLS_arguments[0]);
+    UINT8_ARRAY_DATA *right = apply_uint8_array_updates((UINT8_ARRAY *)TLS_arguments[1]);
+    {
+      NODE *result__node = (NODE *)(from_ulong(
+            uint8_array_scalar_product(
+              TLS_arguments[0]->uint8_array.view, left, 0,
+              TLS_arguments[1]->uint8_array.view, right, 0,
+              0)));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -13848,6 +14346,41 @@ static void entry__std_types___int16_array___std___equal (void)
     {
       NODE *result__node = (NODE *)(from_bool(memcmp(
             left->items, right->items,sizeof(int16_t)*left->size) == 0));
+      TLS_arguments[0] = result__node;
+      TLS_argument_count = 1;
+      return;
+    }
+  }
+
+static void entry__std_types___int16_array___std___times (void)
+  {
+    if (TLS_argument_count != 2) {
+      invalid_arguments();
+      return;
+    }
+    if (TLS_result_count != 1) {
+      result_count_mismatch();
+      return;
+    }
+    if (TLS_arguments[1] == TLS_arguments[0]) {
+      NODE *result__node = (NODE *)(TLS_arguments[0]);
+      TLS_arguments[0] = result__node;
+      TLS_argument_count = 1;
+      return;
+    }
+    if (!equal_array_type(TLS_arguments[1], TLS_arguments[0]))
+      {
+        invalid_arguments();
+        return;
+      }
+    INT16_ARRAY_DATA *left = apply_int16_array_updates((INT16_ARRAY *)TLS_arguments[0]);
+    INT16_ARRAY_DATA *right = apply_int16_array_updates((INT16_ARRAY *)TLS_arguments[1]);
+    {
+      NODE *result__node = (NODE *)(from_long(
+            int16_array_scalar_product(
+              TLS_arguments[0]->int16_array.view, left, 0,
+              TLS_arguments[1]->int16_array.view, right, 0,
+              0)));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -14096,8 +14629,10 @@ static void entry__std_types___uint16_array___std___bit_or (void)
         invalid_arguments();
         return;
       }
-    UINT16_ARRAY_DATA *left = apply_uint16_array_updates((UINT16_ARRAY *)TLS_arguments[0]);
-    UINT16_ARRAY_DATA *right = apply_uint16_array_updates((UINT16_ARRAY *)TLS_arguments[1]);
+    UINT16_ARRAY_DATA *left =
+      apply_uint16_array_updates((UINT16_ARRAY *)TLS_arguments[0]);
+    UINT16_ARRAY_DATA *right =
+      apply_uint16_array_updates((UINT16_ARRAY *)TLS_arguments[1]);
     long size = left->size;
     UINT16_ARRAY_DATA *data =
       allocate_large(
@@ -14145,6 +14680,41 @@ static void entry__std_types___uint16_array___std___bit_xor (void)
     data->size = size;
     {
       NODE *result__node = (NODE *)(create__std_types___uint16_array(0, TLS_arguments[0]->uint16_array.view, data, NULL));
+      TLS_arguments[0] = result__node;
+      TLS_argument_count = 1;
+      return;
+    }
+  }
+
+static void entry__std_types___uint16_array___std___times (void)
+  {
+    if (TLS_argument_count != 2) {
+      invalid_arguments();
+      return;
+    }
+    if (TLS_result_count != 1) {
+      result_count_mismatch();
+      return;
+    }
+    if (TLS_arguments[1] == TLS_arguments[0]) {
+      NODE *result__node = (NODE *)(TLS_arguments[0]);
+      TLS_arguments[0] = result__node;
+      TLS_argument_count = 1;
+      return;
+    }
+    if (!equal_array_type(TLS_arguments[1], TLS_arguments[0]))
+      {
+        invalid_arguments();
+        return;
+      }
+    UINT16_ARRAY_DATA *left = apply_uint16_array_updates((UINT16_ARRAY *)TLS_arguments[0]);
+    UINT16_ARRAY_DATA *right = apply_uint16_array_updates((UINT16_ARRAY *)TLS_arguments[1]);
+    {
+      NODE *result__node = (NODE *)(from_ulong(
+            uint16_array_scalar_product(
+              TLS_arguments[0]->uint16_array.view, left, 0,
+              TLS_arguments[1]->uint16_array.view, right, 0,
+              0)));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -14325,6 +14895,41 @@ static void entry__std_types___int32_array___std___equal (void)
     {
       NODE *result__node = (NODE *)(from_bool(memcmp(
             left->items, right->items,sizeof(int32_t)*left->size) == 0));
+      TLS_arguments[0] = result__node;
+      TLS_argument_count = 1;
+      return;
+    }
+  }
+
+static void entry__std_types___int32_array___std___times (void)
+  {
+    if (TLS_argument_count != 2) {
+      invalid_arguments();
+      return;
+    }
+    if (TLS_result_count != 1) {
+      result_count_mismatch();
+      return;
+    }
+    if (TLS_arguments[1] == TLS_arguments[0]) {
+      NODE *result__node = (NODE *)(TLS_arguments[0]);
+      TLS_arguments[0] = result__node;
+      TLS_argument_count = 1;
+      return;
+    }
+    if (!equal_array_type(TLS_arguments[1], TLS_arguments[0]))
+      {
+        invalid_arguments();
+        return;
+      }
+    INT32_ARRAY_DATA *left = apply_int32_array_updates((INT32_ARRAY *)TLS_arguments[0]);
+    INT32_ARRAY_DATA *right = apply_int32_array_updates((INT32_ARRAY *)TLS_arguments[1]);
+    {
+      NODE *result__node = (NODE *)(from_long(
+            int32_array_scalar_product(
+              TLS_arguments[0]->int32_array.view, left, 0,
+              TLS_arguments[1]->int32_array.view, right, 0,
+              0)));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -14573,8 +15178,10 @@ static void entry__std_types___uint32_array___std___bit_or (void)
         invalid_arguments();
         return;
       }
-    UINT32_ARRAY_DATA *left = apply_uint32_array_updates((UINT32_ARRAY *)TLS_arguments[0]);
-    UINT32_ARRAY_DATA *right = apply_uint32_array_updates((UINT32_ARRAY *)TLS_arguments[1]);
+    UINT32_ARRAY_DATA *left =
+      apply_uint32_array_updates((UINT32_ARRAY *)TLS_arguments[0]);
+    UINT32_ARRAY_DATA *right =
+      apply_uint32_array_updates((UINT32_ARRAY *)TLS_arguments[1]);
     long size = left->size;
     UINT32_ARRAY_DATA *data =
       allocate_large(
@@ -14622,6 +15229,41 @@ static void entry__std_types___uint32_array___std___bit_xor (void)
     data->size = size;
     {
       NODE *result__node = (NODE *)(create__std_types___uint32_array(0, TLS_arguments[0]->uint32_array.view, data, NULL));
+      TLS_arguments[0] = result__node;
+      TLS_argument_count = 1;
+      return;
+    }
+  }
+
+static void entry__std_types___uint32_array___std___times (void)
+  {
+    if (TLS_argument_count != 2) {
+      invalid_arguments();
+      return;
+    }
+    if (TLS_result_count != 1) {
+      result_count_mismatch();
+      return;
+    }
+    if (TLS_arguments[1] == TLS_arguments[0]) {
+      NODE *result__node = (NODE *)(TLS_arguments[0]);
+      TLS_arguments[0] = result__node;
+      TLS_argument_count = 1;
+      return;
+    }
+    if (!equal_array_type(TLS_arguments[1], TLS_arguments[0]))
+      {
+        invalid_arguments();
+        return;
+      }
+    UINT32_ARRAY_DATA *left = apply_uint32_array_updates((UINT32_ARRAY *)TLS_arguments[0]);
+    UINT32_ARRAY_DATA *right = apply_uint32_array_updates((UINT32_ARRAY *)TLS_arguments[1]);
+    {
+      NODE *result__node = (NODE *)(from_ulong(
+            uint32_array_scalar_product(
+              TLS_arguments[0]->uint32_array.view, left, 0,
+              TLS_arguments[1]->uint32_array.view, right, 0,
+              0)));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -14802,6 +15444,41 @@ static void entry__std_types___int64_array___std___equal (void)
     {
       NODE *result__node = (NODE *)(from_bool(memcmp(
             left->items, right->items,sizeof(int64_t)*left->size) == 0));
+      TLS_arguments[0] = result__node;
+      TLS_argument_count = 1;
+      return;
+    }
+  }
+
+static void entry__std_types___int64_array___std___times (void)
+  {
+    if (TLS_argument_count != 2) {
+      invalid_arguments();
+      return;
+    }
+    if (TLS_result_count != 1) {
+      result_count_mismatch();
+      return;
+    }
+    if (TLS_arguments[1] == TLS_arguments[0]) {
+      NODE *result__node = (NODE *)(TLS_arguments[0]);
+      TLS_arguments[0] = result__node;
+      TLS_argument_count = 1;
+      return;
+    }
+    if (!equal_array_type(TLS_arguments[1], TLS_arguments[0]))
+      {
+        invalid_arguments();
+        return;
+      }
+    INT64_ARRAY_DATA *left = apply_int64_array_updates((INT64_ARRAY *)TLS_arguments[0]);
+    INT64_ARRAY_DATA *right = apply_int64_array_updates((INT64_ARRAY *)TLS_arguments[1]);
+    {
+      NODE *result__node = (NODE *)(from_long(
+            int64_array_scalar_product(
+              TLS_arguments[0]->int64_array.view, left, 0,
+              TLS_arguments[1]->int64_array.view, right, 0,
+              0)));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -15050,8 +15727,10 @@ static void entry__std_types___uint64_array___std___bit_or (void)
         invalid_arguments();
         return;
       }
-    UINT64_ARRAY_DATA *left = apply_uint64_array_updates((UINT64_ARRAY *)TLS_arguments[0]);
-    UINT64_ARRAY_DATA *right = apply_uint64_array_updates((UINT64_ARRAY *)TLS_arguments[1]);
+    UINT64_ARRAY_DATA *left =
+      apply_uint64_array_updates((UINT64_ARRAY *)TLS_arguments[0]);
+    UINT64_ARRAY_DATA *right =
+      apply_uint64_array_updates((UINT64_ARRAY *)TLS_arguments[1]);
     long size = left->size;
     UINT64_ARRAY_DATA *data =
       allocate_large(
@@ -15099,6 +15778,41 @@ static void entry__std_types___uint64_array___std___bit_xor (void)
     data->size = size;
     {
       NODE *result__node = (NODE *)(create__std_types___uint64_array(0, TLS_arguments[0]->uint64_array.view, data, NULL));
+      TLS_arguments[0] = result__node;
+      TLS_argument_count = 1;
+      return;
+    }
+  }
+
+static void entry__std_types___uint64_array___std___times (void)
+  {
+    if (TLS_argument_count != 2) {
+      invalid_arguments();
+      return;
+    }
+    if (TLS_result_count != 1) {
+      result_count_mismatch();
+      return;
+    }
+    if (TLS_arguments[1] == TLS_arguments[0]) {
+      NODE *result__node = (NODE *)(TLS_arguments[0]);
+      TLS_arguments[0] = result__node;
+      TLS_argument_count = 1;
+      return;
+    }
+    if (!equal_array_type(TLS_arguments[1], TLS_arguments[0]))
+      {
+        invalid_arguments();
+        return;
+      }
+    UINT64_ARRAY_DATA *left = apply_uint64_array_updates((UINT64_ARRAY *)TLS_arguments[0]);
+    UINT64_ARRAY_DATA *right = apply_uint64_array_updates((UINT64_ARRAY *)TLS_arguments[1]);
+    {
+      NODE *result__node = (NODE *)(from_ulong(
+            uint64_array_scalar_product(
+              TLS_arguments[0]->uint64_array.view, left, 0,
+              TLS_arguments[1]->uint64_array.view, right, 0,
+              0)));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -15285,6 +15999,41 @@ static void entry__std_types___float32_array___std___equal (void)
     }
   }
 
+static void entry__std_types___float32_array___std___times (void)
+  {
+    if (TLS_argument_count != 2) {
+      invalid_arguments();
+      return;
+    }
+    if (TLS_result_count != 1) {
+      result_count_mismatch();
+      return;
+    }
+    if (TLS_arguments[1] == TLS_arguments[0]) {
+      NODE *result__node = (NODE *)(TLS_arguments[0]);
+      TLS_arguments[0] = result__node;
+      TLS_argument_count = 1;
+      return;
+    }
+    if (!equal_array_type(TLS_arguments[1], TLS_arguments[0]))
+      {
+        invalid_arguments();
+        return;
+      }
+    FLOAT32_ARRAY_DATA *left = apply_float32_array_updates((FLOAT32_ARRAY *)TLS_arguments[0]);
+    FLOAT32_ARRAY_DATA *right = apply_float32_array_updates((FLOAT32_ARRAY *)TLS_arguments[1]);
+    {
+      NODE *result__node = (NODE *)(from_double(
+            float32_array_scalar_product(
+              TLS_arguments[0]->float32_array.view, left, 0,
+              TLS_arguments[1]->float32_array.view, right, 0,
+              0)));
+      TLS_arguments[0] = result__node;
+      TLS_argument_count = 1;
+      return;
+    }
+  }
+
 static void entry__std___float32_array (void)
   {
     if (TLS_argument_count < 1) {
@@ -15459,6 +16208,41 @@ static void entry__std_types___float64_array___std___equal (void)
     {
       NODE *result__node = (NODE *)(from_bool(memcmp(
             left->items, right->items,sizeof(double)*left->size) == 0));
+      TLS_arguments[0] = result__node;
+      TLS_argument_count = 1;
+      return;
+    }
+  }
+
+static void entry__std_types___float64_array___std___times (void)
+  {
+    if (TLS_argument_count != 2) {
+      invalid_arguments();
+      return;
+    }
+    if (TLS_result_count != 1) {
+      result_count_mismatch();
+      return;
+    }
+    if (TLS_arguments[1] == TLS_arguments[0]) {
+      NODE *result__node = (NODE *)(TLS_arguments[0]);
+      TLS_arguments[0] = result__node;
+      TLS_argument_count = 1;
+      return;
+    }
+    if (!equal_array_type(TLS_arguments[1], TLS_arguments[0]))
+      {
+        invalid_arguments();
+        return;
+      }
+    FLOAT64_ARRAY_DATA *left = apply_float64_array_updates((FLOAT64_ARRAY *)TLS_arguments[0]);
+    FLOAT64_ARRAY_DATA *right = apply_float64_array_updates((FLOAT64_ARRAY *)TLS_arguments[1]);
+    {
+      NODE *result__node = (NODE *)(from_double(
+            float64_array_scalar_product(
+              TLS_arguments[0]->float64_array.view, left, 0,
+              TLS_arguments[1]->float64_array.view, right, 0,
+              0)));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -24895,6 +25679,7 @@ static FUNKY_CONSTANT constants_table[] = {
   {FLT_C_FUNCTION, -1, {.func = entry__std_types___int8_array___std___length_of}},
   {FLT_C_FUNCTION, 1, {.func = entry__std_types___int8_array___std___dimension_count_of}},
   {FLT_C_FUNCTION, 2, {.func = entry__std_types___int8_array___std___equal}},
+  {FLT_C_FUNCTION, 2, {.func = entry__std_types___int8_array___std___times}},
   {FLT_C_FUNCTION, -1, {.func = entry__std___int8_array}},
   {FLT_C_FUNCTION, -1, {.func = entry__std___initialized_int8_array}},
   {FLT_C_FUNCTION, 1, {.func = entry__std_types___int8_array___std___new}},
@@ -24905,6 +25690,7 @@ static FUNKY_CONSTANT constants_table[] = {
   {FLT_C_FUNCTION, 2, {.func = entry__std_types___uint8_array___std___bit_and}},
   {FLT_C_FUNCTION, 2, {.func = entry__std_types___uint8_array___std___bit_or}},
   {FLT_C_FUNCTION, 2, {.func = entry__std_types___uint8_array___std___bit_xor}},
+  {FLT_C_FUNCTION, 2, {.func = entry__std_types___uint8_array___std___times}},
   {FLT_C_FUNCTION, -1, {.func = entry__std___uint8_array}},
   {FLT_C_FUNCTION, -1, {.func = entry__std___initialized_uint8_array}},
   {FLT_C_FUNCTION, 1, {.func = entry__std_types___uint8_array___std___new}},
@@ -24912,6 +25698,7 @@ static FUNKY_CONSTANT constants_table[] = {
   {FLT_C_FUNCTION, -1, {.func = entry__std_types___int16_array___std___length_of}},
   {FLT_C_FUNCTION, 1, {.func = entry__std_types___int16_array___std___dimension_count_of}},
   {FLT_C_FUNCTION, 2, {.func = entry__std_types___int16_array___std___equal}},
+  {FLT_C_FUNCTION, 2, {.func = entry__std_types___int16_array___std___times}},
   {FLT_C_FUNCTION, -1, {.func = entry__std___int16_array}},
   {FLT_C_FUNCTION, -1, {.func = entry__std___initialized_int16_array}},
   {FLT_C_FUNCTION, 1, {.func = entry__std_types___int16_array___std___new}},
@@ -24922,6 +25709,7 @@ static FUNKY_CONSTANT constants_table[] = {
   {FLT_C_FUNCTION, 2, {.func = entry__std_types___uint16_array___std___bit_and}},
   {FLT_C_FUNCTION, 2, {.func = entry__std_types___uint16_array___std___bit_or}},
   {FLT_C_FUNCTION, 2, {.func = entry__std_types___uint16_array___std___bit_xor}},
+  {FLT_C_FUNCTION, 2, {.func = entry__std_types___uint16_array___std___times}},
   {FLT_C_FUNCTION, -1, {.func = entry__std___uint16_array}},
   {FLT_C_FUNCTION, -1, {.func = entry__std___initialized_uint16_array}},
   {FLT_C_FUNCTION, 1, {.func = entry__std_types___uint16_array___std___new}},
@@ -24929,6 +25717,7 @@ static FUNKY_CONSTANT constants_table[] = {
   {FLT_C_FUNCTION, -1, {.func = entry__std_types___int32_array___std___length_of}},
   {FLT_C_FUNCTION, 1, {.func = entry__std_types___int32_array___std___dimension_count_of}},
   {FLT_C_FUNCTION, 2, {.func = entry__std_types___int32_array___std___equal}},
+  {FLT_C_FUNCTION, 2, {.func = entry__std_types___int32_array___std___times}},
   {FLT_C_FUNCTION, -1, {.func = entry__std___int32_array}},
   {FLT_C_FUNCTION, -1, {.func = entry__std___initialized_int32_array}},
   {FLT_C_FUNCTION, 1, {.func = entry__std_types___int32_array___std___new}},
@@ -24939,6 +25728,7 @@ static FUNKY_CONSTANT constants_table[] = {
   {FLT_C_FUNCTION, 2, {.func = entry__std_types___uint32_array___std___bit_and}},
   {FLT_C_FUNCTION, 2, {.func = entry__std_types___uint32_array___std___bit_or}},
   {FLT_C_FUNCTION, 2, {.func = entry__std_types___uint32_array___std___bit_xor}},
+  {FLT_C_FUNCTION, 2, {.func = entry__std_types___uint32_array___std___times}},
   {FLT_C_FUNCTION, -1, {.func = entry__std___uint32_array}},
   {FLT_C_FUNCTION, -1, {.func = entry__std___initialized_uint32_array}},
   {FLT_C_FUNCTION, 1, {.func = entry__std_types___uint32_array___std___new}},
@@ -24946,6 +25736,7 @@ static FUNKY_CONSTANT constants_table[] = {
   {FLT_C_FUNCTION, -1, {.func = entry__std_types___int64_array___std___length_of}},
   {FLT_C_FUNCTION, 1, {.func = entry__std_types___int64_array___std___dimension_count_of}},
   {FLT_C_FUNCTION, 2, {.func = entry__std_types___int64_array___std___equal}},
+  {FLT_C_FUNCTION, 2, {.func = entry__std_types___int64_array___std___times}},
   {FLT_C_FUNCTION, -1, {.func = entry__std___int64_array}},
   {FLT_C_FUNCTION, -1, {.func = entry__std___initialized_int64_array}},
   {FLT_C_FUNCTION, 1, {.func = entry__std_types___int64_array___std___new}},
@@ -24956,6 +25747,7 @@ static FUNKY_CONSTANT constants_table[] = {
   {FLT_C_FUNCTION, 2, {.func = entry__std_types___uint64_array___std___bit_and}},
   {FLT_C_FUNCTION, 2, {.func = entry__std_types___uint64_array___std___bit_or}},
   {FLT_C_FUNCTION, 2, {.func = entry__std_types___uint64_array___std___bit_xor}},
+  {FLT_C_FUNCTION, 2, {.func = entry__std_types___uint64_array___std___times}},
   {FLT_C_FUNCTION, -1, {.func = entry__std___uint64_array}},
   {FLT_C_FUNCTION, -1, {.func = entry__std___initialized_uint64_array}},
   {FLT_C_FUNCTION, 1, {.func = entry__std_types___uint64_array___std___new}},
@@ -24963,6 +25755,7 @@ static FUNKY_CONSTANT constants_table[] = {
   {FLT_C_FUNCTION, -1, {.func = entry__std_types___float32_array___std___length_of}},
   {FLT_C_FUNCTION, 1, {.func = entry__std_types___float32_array___std___dimension_count_of}},
   {FLT_C_FUNCTION, 2, {.func = entry__std_types___float32_array___std___equal}},
+  {FLT_C_FUNCTION, 2, {.func = entry__std_types___float32_array___std___times}},
   {FLT_C_FUNCTION, -1, {.func = entry__std___float32_array}},
   {FLT_C_FUNCTION, -1, {.func = entry__std___initialized_float32_array}},
   {FLT_C_FUNCTION, 1, {.func = entry__std_types___float32_array___std___new}},
@@ -24970,6 +25763,7 @@ static FUNKY_CONSTANT constants_table[] = {
   {FLT_C_FUNCTION, -1, {.func = entry__std_types___float64_array___std___length_of}},
   {FLT_C_FUNCTION, 1, {.func = entry__std_types___float64_array___std___dimension_count_of}},
   {FLT_C_FUNCTION, 2, {.func = entry__std_types___float64_array___std___equal}},
+  {FLT_C_FUNCTION, 2, {.func = entry__std_types___float64_array___std___times}},
   {FLT_C_FUNCTION, -1, {.func = entry__std___float64_array}},
   {FLT_C_FUNCTION, -1, {.func = entry__std___initialized_float64_array}},
   {FLT_C_FUNCTION, 1, {.func = entry__std_types___float64_array___std___new}},
@@ -25312,7 +26106,8 @@ static ATTRIBUTE_DEFINITION std_types___int8_array__attributes[] = {
   {var_no__std___equal, func__std_types___int8_array___std___equal},
   {var_no__std___length_of, func__std_types___int8_array___std___length_of},
   {var_no__std___new, func__std_types___int8_array___std___new},
-  {var_no__std___range, func__std_types___int8_array___std___range}
+  {var_no__std___range, func__std_types___int8_array___std___range},
+  {var_no__std___times, func__std_types___int8_array___std___times}
 };
 
 static INTERNAL_METHOD std_types___uint8_array__internal_methods[] = {
@@ -25329,7 +26124,8 @@ static ATTRIBUTE_DEFINITION std_types___uint8_array__attributes[] = {
   {var_no__std___equal, func__std_types___uint8_array___std___equal},
   {var_no__std___length_of, func__std_types___uint8_array___std___length_of},
   {var_no__std___new, func__std_types___uint8_array___std___new},
-  {var_no__std___range, func__std_types___uint8_array___std___range}
+  {var_no__std___range, func__std_types___uint8_array___std___range},
+  {var_no__std___times, func__std_types___uint8_array___std___times}
 };
 
 static INTERNAL_METHOD std_types___int16_array__internal_methods[] = {
@@ -25343,7 +26139,8 @@ static ATTRIBUTE_DEFINITION std_types___int16_array__attributes[] = {
   {var_no__std___equal, func__std_types___int16_array___std___equal},
   {var_no__std___length_of, func__std_types___int16_array___std___length_of},
   {var_no__std___new, func__std_types___int16_array___std___new},
-  {var_no__std___range, func__std_types___int16_array___std___range}
+  {var_no__std___range, func__std_types___int16_array___std___range},
+  {var_no__std___times, func__std_types___int16_array___std___times}
 };
 
 static INTERNAL_METHOD std_types___uint16_array__internal_methods[] = {
@@ -25360,7 +26157,8 @@ static ATTRIBUTE_DEFINITION std_types___uint16_array__attributes[] = {
   {var_no__std___equal, func__std_types___uint16_array___std___equal},
   {var_no__std___length_of, func__std_types___uint16_array___std___length_of},
   {var_no__std___new, func__std_types___uint16_array___std___new},
-  {var_no__std___range, func__std_types___uint16_array___std___range}
+  {var_no__std___range, func__std_types___uint16_array___std___range},
+  {var_no__std___times, func__std_types___uint16_array___std___times}
 };
 
 static INTERNAL_METHOD std_types___int32_array__internal_methods[] = {
@@ -25374,7 +26172,8 @@ static ATTRIBUTE_DEFINITION std_types___int32_array__attributes[] = {
   {var_no__std___equal, func__std_types___int32_array___std___equal},
   {var_no__std___length_of, func__std_types___int32_array___std___length_of},
   {var_no__std___new, func__std_types___int32_array___std___new},
-  {var_no__std___range, func__std_types___int32_array___std___range}
+  {var_no__std___range, func__std_types___int32_array___std___range},
+  {var_no__std___times, func__std_types___int32_array___std___times}
 };
 
 static INTERNAL_METHOD std_types___uint32_array__internal_methods[] = {
@@ -25391,7 +26190,8 @@ static ATTRIBUTE_DEFINITION std_types___uint32_array__attributes[] = {
   {var_no__std___equal, func__std_types___uint32_array___std___equal},
   {var_no__std___length_of, func__std_types___uint32_array___std___length_of},
   {var_no__std___new, func__std_types___uint32_array___std___new},
-  {var_no__std___range, func__std_types___uint32_array___std___range}
+  {var_no__std___range, func__std_types___uint32_array___std___range},
+  {var_no__std___times, func__std_types___uint32_array___std___times}
 };
 
 static INTERNAL_METHOD std_types___int64_array__internal_methods[] = {
@@ -25405,7 +26205,8 @@ static ATTRIBUTE_DEFINITION std_types___int64_array__attributes[] = {
   {var_no__std___equal, func__std_types___int64_array___std___equal},
   {var_no__std___length_of, func__std_types___int64_array___std___length_of},
   {var_no__std___new, func__std_types___int64_array___std___new},
-  {var_no__std___range, func__std_types___int64_array___std___range}
+  {var_no__std___range, func__std_types___int64_array___std___range},
+  {var_no__std___times, func__std_types___int64_array___std___times}
 };
 
 static INTERNAL_METHOD std_types___uint64_array__internal_methods[] = {
@@ -25422,7 +26223,8 @@ static ATTRIBUTE_DEFINITION std_types___uint64_array__attributes[] = {
   {var_no__std___equal, func__std_types___uint64_array___std___equal},
   {var_no__std___length_of, func__std_types___uint64_array___std___length_of},
   {var_no__std___new, func__std_types___uint64_array___std___new},
-  {var_no__std___range, func__std_types___uint64_array___std___range}
+  {var_no__std___range, func__std_types___uint64_array___std___range},
+  {var_no__std___times, func__std_types___uint64_array___std___times}
 };
 
 static INTERNAL_METHOD std_types___float32_array__internal_methods[] = {
@@ -25436,7 +26238,8 @@ static ATTRIBUTE_DEFINITION std_types___float32_array__attributes[] = {
   {var_no__std___equal, func__std_types___float32_array___std___equal},
   {var_no__std___length_of, func__std_types___float32_array___std___length_of},
   {var_no__std___new, func__std_types___float32_array___std___new},
-  {var_no__std___range, func__std_types___float32_array___std___range}
+  {var_no__std___range, func__std_types___float32_array___std___range},
+  {var_no__std___times, func__std_types___float32_array___std___times}
 };
 
 static INTERNAL_METHOD std_types___float64_array__internal_methods[] = {
@@ -25450,7 +26253,8 @@ static ATTRIBUTE_DEFINITION std_types___float64_array__attributes[] = {
   {var_no__std___equal, func__std_types___float64_array___std___equal},
   {var_no__std___length_of, func__std_types___float64_array___std___length_of},
   {var_no__std___new, func__std_types___float64_array___std___new},
-  {var_no__std___range, func__std_types___float64_array___std___range}
+  {var_no__std___range, func__std_types___float64_array___std___range},
+  {var_no__std___times, func__std_types___float64_array___std___times}
 };
 
 static INTERNAL_METHOD std_types___true__internal_methods[] = {
@@ -26348,7 +27152,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {.const_idx = func__std___initialized_character_array}
   },
   {
-    FOT_TYPE, 0, 5,
+    FOT_TYPE, 0, 6,
     "int8_array\000std_types", std_types___int8_array__attributes,
     {"generic_array\000std_types"},
     {.methods_count = 3}, 0,
@@ -26366,7 +27170,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {.const_idx = func__std___initialized_int8_array}
   },
   {
-    FOT_TYPE, 0, 8,
+    FOT_TYPE, 0, 9,
     "uint8_array\000std_types", std_types___uint8_array__attributes,
     {"generic_array\000std_types"},
     {.methods_count = 3}, 0,
@@ -26384,7 +27188,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {.const_idx = func__std___initialized_uint8_array}
   },
   {
-    FOT_TYPE, 0, 5,
+    FOT_TYPE, 0, 6,
     "int16_array\000std_types", std_types___int16_array__attributes,
     {"generic_array\000std_types"},
     {.methods_count = 3}, 0,
@@ -26402,7 +27206,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {.const_idx = func__std___initialized_int16_array}
   },
   {
-    FOT_TYPE, 0, 8,
+    FOT_TYPE, 0, 9,
     "uint16_array\000std_types", std_types___uint16_array__attributes,
     {"generic_array\000std_types"},
     {.methods_count = 3}, 0,
@@ -26420,7 +27224,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {.const_idx = func__std___initialized_uint16_array}
   },
   {
-    FOT_TYPE, 0, 5,
+    FOT_TYPE, 0, 6,
     "int32_array\000std_types", std_types___int32_array__attributes,
     {"generic_array\000std_types"},
     {.methods_count = 3}, 0,
@@ -26438,7 +27242,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {.const_idx = func__std___initialized_int32_array}
   },
   {
-    FOT_TYPE, 0, 8,
+    FOT_TYPE, 0, 9,
     "uint32_array\000std_types", std_types___uint32_array__attributes,
     {"generic_array\000std_types"},
     {.methods_count = 3}, 0,
@@ -26456,7 +27260,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {.const_idx = func__std___initialized_uint32_array}
   },
   {
-    FOT_TYPE, 0, 5,
+    FOT_TYPE, 0, 6,
     "int64_array\000std_types", std_types___int64_array__attributes,
     {"generic_array\000std_types"},
     {.methods_count = 3}, 0,
@@ -26474,7 +27278,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {.const_idx = func__std___initialized_int64_array}
   },
   {
-    FOT_TYPE, 0, 8,
+    FOT_TYPE, 0, 9,
     "uint64_array\000std_types", std_types___uint64_array__attributes,
     {"generic_array\000std_types"},
     {.methods_count = 3}, 0,
@@ -26492,7 +27296,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {.const_idx = func__std___initialized_uint64_array}
   },
   {
-    FOT_TYPE, 0, 5,
+    FOT_TYPE, 0, 6,
     "float32_array\000std_types", std_types___float32_array__attributes,
     {"generic_array\000std_types"},
     {.methods_count = 3}, 0,
@@ -26510,7 +27314,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {.const_idx = func__std___initialized_float32_array}
   },
   {
-    FOT_TYPE, 0, 5,
+    FOT_TYPE, 0, 6,
     "float64_array\000std_types", std_types___float64_array__attributes,
     {"generic_array\000std_types"},
     {.methods_count = 3}, 0,
@@ -28896,13 +29700,13 @@ FUNKY_MODULE module__builtin = {
   NULL,
   0, 0,
   4, 0,
-  386, 444,
+  396, 444,
   NULL,
   defined_namespaces, NULL,
   constants_table, variables_table
 };
 
-BUILTIN_FUNCTION_NAME builtin_function_names[438] = {
+BUILTIN_FUNCTION_NAME builtin_function_names[448] = {
   {std_types___generic_array____type, "std_types::generic_array/_type"},
   {std_types___array____type, "std_types::array/_type"},
   {entry__std_types___array___std___length_of, "std_types::array/length_of"},
@@ -28934,6 +29738,7 @@ BUILTIN_FUNCTION_NAME builtin_function_names[438] = {
   {entry__std_types___int8_array___std___length_of, "std_types::int8_array/length_of"},
   {entry__std_types___int8_array___std___dimension_count_of, "std_types::int8_array/dimension_count_of"},
   {entry__std_types___int8_array___std___equal, "std_types::int8_array/equal"},
+  {entry__std_types___int8_array___std___times, "std_types::int8_array/times"},
   {entry__std___int8_array, "std::int8_array"},
   {entry__std___initialized_int8_array, "std::initialized_int8_array"},
   {entry__std_types___int8_array___std___new, "std_types::int8_array/new"},
@@ -28945,6 +29750,7 @@ BUILTIN_FUNCTION_NAME builtin_function_names[438] = {
   {entry__std_types___uint8_array___std___bit_and, "std_types::uint8_array/bit_and"},
   {entry__std_types___uint8_array___std___bit_or, "std_types::uint8_array/bit_or"},
   {entry__std_types___uint8_array___std___bit_xor, "std_types::uint8_array/bit_xor"},
+  {entry__std_types___uint8_array___std___times, "std_types::uint8_array/times"},
   {entry__std___uint8_array, "std::uint8_array"},
   {entry__std___initialized_uint8_array, "std::initialized_uint8_array"},
   {entry__std_types___uint8_array___std___new, "std_types::uint8_array/new"},
@@ -28953,6 +29759,7 @@ BUILTIN_FUNCTION_NAME builtin_function_names[438] = {
   {entry__std_types___int16_array___std___length_of, "std_types::int16_array/length_of"},
   {entry__std_types___int16_array___std___dimension_count_of, "std_types::int16_array/dimension_count_of"},
   {entry__std_types___int16_array___std___equal, "std_types::int16_array/equal"},
+  {entry__std_types___int16_array___std___times, "std_types::int16_array/times"},
   {entry__std___int16_array, "std::int16_array"},
   {entry__std___initialized_int16_array, "std::initialized_int16_array"},
   {entry__std_types___int16_array___std___new, "std_types::int16_array/new"},
@@ -28964,6 +29771,7 @@ BUILTIN_FUNCTION_NAME builtin_function_names[438] = {
   {entry__std_types___uint16_array___std___bit_and, "std_types::uint16_array/bit_and"},
   {entry__std_types___uint16_array___std___bit_or, "std_types::uint16_array/bit_or"},
   {entry__std_types___uint16_array___std___bit_xor, "std_types::uint16_array/bit_xor"},
+  {entry__std_types___uint16_array___std___times, "std_types::uint16_array/times"},
   {entry__std___uint16_array, "std::uint16_array"},
   {entry__std___initialized_uint16_array, "std::initialized_uint16_array"},
   {entry__std_types___uint16_array___std___new, "std_types::uint16_array/new"},
@@ -28972,6 +29780,7 @@ BUILTIN_FUNCTION_NAME builtin_function_names[438] = {
   {entry__std_types___int32_array___std___length_of, "std_types::int32_array/length_of"},
   {entry__std_types___int32_array___std___dimension_count_of, "std_types::int32_array/dimension_count_of"},
   {entry__std_types___int32_array___std___equal, "std_types::int32_array/equal"},
+  {entry__std_types___int32_array___std___times, "std_types::int32_array/times"},
   {entry__std___int32_array, "std::int32_array"},
   {entry__std___initialized_int32_array, "std::initialized_int32_array"},
   {entry__std_types___int32_array___std___new, "std_types::int32_array/new"},
@@ -28983,6 +29792,7 @@ BUILTIN_FUNCTION_NAME builtin_function_names[438] = {
   {entry__std_types___uint32_array___std___bit_and, "std_types::uint32_array/bit_and"},
   {entry__std_types___uint32_array___std___bit_or, "std_types::uint32_array/bit_or"},
   {entry__std_types___uint32_array___std___bit_xor, "std_types::uint32_array/bit_xor"},
+  {entry__std_types___uint32_array___std___times, "std_types::uint32_array/times"},
   {entry__std___uint32_array, "std::uint32_array"},
   {entry__std___initialized_uint32_array, "std::initialized_uint32_array"},
   {entry__std_types___uint32_array___std___new, "std_types::uint32_array/new"},
@@ -28991,6 +29801,7 @@ BUILTIN_FUNCTION_NAME builtin_function_names[438] = {
   {entry__std_types___int64_array___std___length_of, "std_types::int64_array/length_of"},
   {entry__std_types___int64_array___std___dimension_count_of, "std_types::int64_array/dimension_count_of"},
   {entry__std_types___int64_array___std___equal, "std_types::int64_array/equal"},
+  {entry__std_types___int64_array___std___times, "std_types::int64_array/times"},
   {entry__std___int64_array, "std::int64_array"},
   {entry__std___initialized_int64_array, "std::initialized_int64_array"},
   {entry__std_types___int64_array___std___new, "std_types::int64_array/new"},
@@ -29002,6 +29813,7 @@ BUILTIN_FUNCTION_NAME builtin_function_names[438] = {
   {entry__std_types___uint64_array___std___bit_and, "std_types::uint64_array/bit_and"},
   {entry__std_types___uint64_array___std___bit_or, "std_types::uint64_array/bit_or"},
   {entry__std_types___uint64_array___std___bit_xor, "std_types::uint64_array/bit_xor"},
+  {entry__std_types___uint64_array___std___times, "std_types::uint64_array/times"},
   {entry__std___uint64_array, "std::uint64_array"},
   {entry__std___initialized_uint64_array, "std::initialized_uint64_array"},
   {entry__std_types___uint64_array___std___new, "std_types::uint64_array/new"},
@@ -29010,6 +29822,7 @@ BUILTIN_FUNCTION_NAME builtin_function_names[438] = {
   {entry__std_types___float32_array___std___length_of, "std_types::float32_array/length_of"},
   {entry__std_types___float32_array___std___dimension_count_of, "std_types::float32_array/dimension_count_of"},
   {entry__std_types___float32_array___std___equal, "std_types::float32_array/equal"},
+  {entry__std_types___float32_array___std___times, "std_types::float32_array/times"},
   {entry__std___float32_array, "std::float32_array"},
   {entry__std___initialized_float32_array, "std::initialized_float32_array"},
   {entry__std_types___float32_array___std___new, "std_types::float32_array/new"},
@@ -29018,6 +29831,7 @@ BUILTIN_FUNCTION_NAME builtin_function_names[438] = {
   {entry__std_types___float64_array___std___length_of, "std_types::float64_array/length_of"},
   {entry__std_types___float64_array___std___dimension_count_of, "std_types::float64_array/dimension_count_of"},
   {entry__std_types___float64_array___std___equal, "std_types::float64_array/equal"},
+  {entry__std_types___float64_array___std___times, "std_types::float64_array/times"},
   {entry__std___float64_array, "std::float64_array"},
   {entry__std___initialized_float64_array, "std::initialized_float64_array"},
   {entry__std_types___float64_array___std___new, "std_types::float64_array/new"},

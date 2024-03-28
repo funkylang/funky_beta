@@ -155,7 +155,7 @@ CODE
       int dimension_count = source_view->dimension_count;
       long first_index = source_view->dimensions[i].first_index;
       long width = source_view->dimensions[i].width;
-      if (i == source_view->dimension_count-1) {
+      if (i == dimension_count-1) {
         // last dimension
         source_offset += first_index;
         memcpy(
@@ -372,12 +372,16 @@ CODE
         invalid_arguments();
         return false;
       }
-      ARRAY_INFO *left_info = left->array.data->info;
-      ARRAY_INFO *right_info = right->array.data->info;
-      if (left_info->dimension_count != right_info->dimension_count) goto error;
+      ARRAY_VIEW *left_view = ((ARRAY *)left)->view;
+      ARRAY_VIEW *right_view = ((ARRAY *)right)->view;
+      if (
+        left_view->dimension_count != right_view->dimension_count
+      ) goto error;
       int i;
-      for (i = 0; i < left_info->dimension_count; ++i) {
-        if (left_info->dimensions[i] != right_info->dimensions[i]) goto error;
+      for (i = 0; i < left_view->dimension_count; ++i) {
+        if (
+          left_view->dimensions[i].width != right_view->dimensions[i].width
+        ) goto error;
       }
       return true;
     }
@@ -774,8 +778,10 @@ METHOD std_types::boolean_array/bit_or
     if (ARGUMENTS(1) == ARGUMENTS(0)) RETURN_SINGLE_RESULT(ARGUMENTS(0))
     if (!equal_array_type(ARGUMENTS(1), ARGUMENTS(0)))
       INVALID_ARGUMENTS
-    BOOLEAN_ARRAY_DATA *left = apply_boolean_array_updates((BOOLEAN_ARRAY *)ARGUMENTS(0));
-    BOOLEAN_ARRAY_DATA *right = apply_boolean_array_updates((BOOLEAN_ARRAY *)ARGUMENTS(1));
+    BOOLEAN_ARRAY_DATA *left =
+      apply_boolean_array_updates((BOOLEAN_ARRAY *)ARGUMENTS(0));
+    BOOLEAN_ARRAY_DATA *right =
+      apply_boolean_array_updates((BOOLEAN_ARRAY *)ARGUMENTS(1));
     long size = left->size;
     BOOLEAN_ARRAY_DATA *data =
       allocate_large(
@@ -1262,6 +1268,67 @@ METHOD std_types::int8_array/equal
         left->items, right->items,sizeof(int8_t)*left->size) == 0)
   }
 
+CODE
+  static long int8_array_scalar_product
+    (
+      ARRAY_VIEW *left_view,
+      INT8_ARRAY_DATA *left_data,
+      long left_offset,
+      ARRAY_VIEW *right_view,
+      INT8_ARRAY_DATA *right_data,
+      long right_offset,
+      int i
+    )
+    {
+      int dimension_count = left_view->dimension_count;
+      long first_left_index = left_view->dimensions[i].first_index;
+      long first_right_index = right_view->dimensions[i].first_index;
+      long width = left_view->dimensions[i].width;
+      long result = 0;
+      if (i == dimension_count-1) {
+        // last dimension
+        left_offset += first_left_index;
+        right_offset += first_right_index;
+        while (--width >= 0) {
+          result +=
+            left_data->items[left_offset++] *
+            right_data->items[right_offset++];
+        }
+      } else {
+        long left_dimension = left_data->info->dimensions[0];
+        long right_dimension = right_data->info->dimensions[0];
+        left_offset += first_left_index*left_dimension;
+        right_offset += first_right_index*right_dimension;
+        while (--width >= 0) {
+          result += int8_array_scalar_product(
+            left_view, left_data, left_offset,
+            right_view, right_data, right_offset, i+1);
+          left_offset += left_dimension;
+          right_offset += right_dimension;
+        }
+      }
+      return result;
+    }
+
+METHOD std_types::int8_array/times
+  #
+    implements the *and* operation
+  {
+    CHECK_ARGUMENTS(2)
+    CHECK_RESULTS(1)
+    if (ARGUMENTS(1) == ARGUMENTS(0)) RETURN_SINGLE_RESULT(ARGUMENTS(0))
+    if (!equal_array_type(ARGUMENTS(1), ARGUMENTS(0)))
+      INVALID_ARGUMENTS
+    INT8_ARRAY_DATA *left = apply_int8_array_updates((INT8_ARRAY *)ARGUMENTS(0));
+    INT8_ARRAY_DATA *right = apply_int8_array_updates((INT8_ARRAY *)ARGUMENTS(1));
+    RETURN_SINGLE_RESULT(
+      from_long(
+        int8_array_scalar_product(
+          ARGUMENTS(0)->int8_array.view, left, 0,
+          ARGUMENTS(1)->int8_array.view, right, 0,
+          0)))
+  }
+
 FUNCTION std::int8_array
   #
     constructs an empty array
@@ -1519,8 +1586,10 @@ METHOD std_types::uint8_array/bit_or
     if (ARGUMENTS(1) == ARGUMENTS(0)) RETURN_SINGLE_RESULT(ARGUMENTS(0))
     if (!equal_array_type(ARGUMENTS(1), ARGUMENTS(0)))
       INVALID_ARGUMENTS
-    UINT8_ARRAY_DATA *left = apply_uint8_array_updates((UINT8_ARRAY *)ARGUMENTS(0));
-    UINT8_ARRAY_DATA *right = apply_uint8_array_updates((UINT8_ARRAY *)ARGUMENTS(1));
+    UINT8_ARRAY_DATA *left =
+      apply_uint8_array_updates((UINT8_ARRAY *)ARGUMENTS(0));
+    UINT8_ARRAY_DATA *right =
+      apply_uint8_array_updates((UINT8_ARRAY *)ARGUMENTS(1));
     long size = left->size;
     UINT8_ARRAY_DATA *data =
       allocate_large(
@@ -1557,6 +1626,67 @@ METHOD std_types::uint8_array/bit_xor
     data->size = size;
     RETURN_SINGLE_RESULT(CREATE(std_types::uint8_array, 0,
       ARGUMENTS(0)->uint8_array.view, data, NULL))
+  }
+
+CODE
+  static ulong uint8_array_scalar_product
+    (
+      ARRAY_VIEW *left_view,
+      UINT8_ARRAY_DATA *left_data,
+      long left_offset,
+      ARRAY_VIEW *right_view,
+      UINT8_ARRAY_DATA *right_data,
+      long right_offset,
+      int i
+    )
+    {
+      int dimension_count = left_view->dimension_count;
+      long first_left_index = left_view->dimensions[i].first_index;
+      long first_right_index = right_view->dimensions[i].first_index;
+      long width = left_view->dimensions[i].width;
+      ulong result = 0;
+      if (i == dimension_count-1) {
+        // last dimension
+        left_offset += first_left_index;
+        right_offset += first_right_index;
+        while (--width >= 0) {
+          result +=
+            left_data->items[left_offset++] *
+            right_data->items[right_offset++];
+        }
+      } else {
+        long left_dimension = left_data->info->dimensions[0];
+        long right_dimension = right_data->info->dimensions[0];
+        left_offset += first_left_index*left_dimension;
+        right_offset += first_right_index*right_dimension;
+        while (--width >= 0) {
+          result += uint8_array_scalar_product(
+            left_view, left_data, left_offset,
+            right_view, right_data, right_offset, i+1);
+          left_offset += left_dimension;
+          right_offset += right_dimension;
+        }
+      }
+      return result;
+    }
+
+METHOD std_types::uint8_array/times
+  #
+    implements the *and* operation
+  {
+    CHECK_ARGUMENTS(2)
+    CHECK_RESULTS(1)
+    if (ARGUMENTS(1) == ARGUMENTS(0)) RETURN_SINGLE_RESULT(ARGUMENTS(0))
+    if (!equal_array_type(ARGUMENTS(1), ARGUMENTS(0)))
+      INVALID_ARGUMENTS
+    UINT8_ARRAY_DATA *left = apply_uint8_array_updates((UINT8_ARRAY *)ARGUMENTS(0));
+    UINT8_ARRAY_DATA *right = apply_uint8_array_updates((UINT8_ARRAY *)ARGUMENTS(1));
+    RETURN_SINGLE_RESULT(
+      from_ulong(
+        uint8_array_scalar_product(
+          ARGUMENTS(0)->uint8_array.view, left, 0,
+          ARGUMENTS(1)->uint8_array.view, right, 0,
+          0)))
   }
 
 FUNCTION std::uint8_array
@@ -1781,6 +1911,67 @@ METHOD std_types::int16_array/equal
     RETURN_BOOLEAN(
       memcmp(
         left->items, right->items,sizeof(int16_t)*left->size) == 0)
+  }
+
+CODE
+  static long int16_array_scalar_product
+    (
+      ARRAY_VIEW *left_view,
+      INT16_ARRAY_DATA *left_data,
+      long left_offset,
+      ARRAY_VIEW *right_view,
+      INT16_ARRAY_DATA *right_data,
+      long right_offset,
+      int i
+    )
+    {
+      int dimension_count = left_view->dimension_count;
+      long first_left_index = left_view->dimensions[i].first_index;
+      long first_right_index = right_view->dimensions[i].first_index;
+      long width = left_view->dimensions[i].width;
+      long result = 0;
+      if (i == dimension_count-1) {
+        // last dimension
+        left_offset += first_left_index;
+        right_offset += first_right_index;
+        while (--width >= 0) {
+          result +=
+            left_data->items[left_offset++] *
+            right_data->items[right_offset++];
+        }
+      } else {
+        long left_dimension = left_data->info->dimensions[0];
+        long right_dimension = right_data->info->dimensions[0];
+        left_offset += first_left_index*left_dimension;
+        right_offset += first_right_index*right_dimension;
+        while (--width >= 0) {
+          result += int16_array_scalar_product(
+            left_view, left_data, left_offset,
+            right_view, right_data, right_offset, i+1);
+          left_offset += left_dimension;
+          right_offset += right_dimension;
+        }
+      }
+      return result;
+    }
+
+METHOD std_types::int16_array/times
+  #
+    implements the *and* operation
+  {
+    CHECK_ARGUMENTS(2)
+    CHECK_RESULTS(1)
+    if (ARGUMENTS(1) == ARGUMENTS(0)) RETURN_SINGLE_RESULT(ARGUMENTS(0))
+    if (!equal_array_type(ARGUMENTS(1), ARGUMENTS(0)))
+      INVALID_ARGUMENTS
+    INT16_ARRAY_DATA *left = apply_int16_array_updates((INT16_ARRAY *)ARGUMENTS(0));
+    INT16_ARRAY_DATA *right = apply_int16_array_updates((INT16_ARRAY *)ARGUMENTS(1));
+    RETURN_SINGLE_RESULT(
+      from_long(
+        int16_array_scalar_product(
+          ARGUMENTS(0)->int16_array.view, left, 0,
+          ARGUMENTS(1)->int16_array.view, right, 0,
+          0)))
   }
 
 FUNCTION std::int16_array
@@ -2040,8 +2231,10 @@ METHOD std_types::uint16_array/bit_or
     if (ARGUMENTS(1) == ARGUMENTS(0)) RETURN_SINGLE_RESULT(ARGUMENTS(0))
     if (!equal_array_type(ARGUMENTS(1), ARGUMENTS(0)))
       INVALID_ARGUMENTS
-    UINT16_ARRAY_DATA *left = apply_uint16_array_updates((UINT16_ARRAY *)ARGUMENTS(0));
-    UINT16_ARRAY_DATA *right = apply_uint16_array_updates((UINT16_ARRAY *)ARGUMENTS(1));
+    UINT16_ARRAY_DATA *left =
+      apply_uint16_array_updates((UINT16_ARRAY *)ARGUMENTS(0));
+    UINT16_ARRAY_DATA *right =
+      apply_uint16_array_updates((UINT16_ARRAY *)ARGUMENTS(1));
     long size = left->size;
     UINT16_ARRAY_DATA *data =
       allocate_large(
@@ -2078,6 +2271,67 @@ METHOD std_types::uint16_array/bit_xor
     data->size = size;
     RETURN_SINGLE_RESULT(CREATE(std_types::uint16_array, 0,
       ARGUMENTS(0)->uint16_array.view, data, NULL))
+  }
+
+CODE
+  static ulong uint16_array_scalar_product
+    (
+      ARRAY_VIEW *left_view,
+      UINT16_ARRAY_DATA *left_data,
+      long left_offset,
+      ARRAY_VIEW *right_view,
+      UINT16_ARRAY_DATA *right_data,
+      long right_offset,
+      int i
+    )
+    {
+      int dimension_count = left_view->dimension_count;
+      long first_left_index = left_view->dimensions[i].first_index;
+      long first_right_index = right_view->dimensions[i].first_index;
+      long width = left_view->dimensions[i].width;
+      ulong result = 0;
+      if (i == dimension_count-1) {
+        // last dimension
+        left_offset += first_left_index;
+        right_offset += first_right_index;
+        while (--width >= 0) {
+          result +=
+            left_data->items[left_offset++] *
+            right_data->items[right_offset++];
+        }
+      } else {
+        long left_dimension = left_data->info->dimensions[0];
+        long right_dimension = right_data->info->dimensions[0];
+        left_offset += first_left_index*left_dimension;
+        right_offset += first_right_index*right_dimension;
+        while (--width >= 0) {
+          result += uint16_array_scalar_product(
+            left_view, left_data, left_offset,
+            right_view, right_data, right_offset, i+1);
+          left_offset += left_dimension;
+          right_offset += right_dimension;
+        }
+      }
+      return result;
+    }
+
+METHOD std_types::uint16_array/times
+  #
+    implements the *and* operation
+  {
+    CHECK_ARGUMENTS(2)
+    CHECK_RESULTS(1)
+    if (ARGUMENTS(1) == ARGUMENTS(0)) RETURN_SINGLE_RESULT(ARGUMENTS(0))
+    if (!equal_array_type(ARGUMENTS(1), ARGUMENTS(0)))
+      INVALID_ARGUMENTS
+    UINT16_ARRAY_DATA *left = apply_uint16_array_updates((UINT16_ARRAY *)ARGUMENTS(0));
+    UINT16_ARRAY_DATA *right = apply_uint16_array_updates((UINT16_ARRAY *)ARGUMENTS(1));
+    RETURN_SINGLE_RESULT(
+      from_ulong(
+        uint16_array_scalar_product(
+          ARGUMENTS(0)->uint16_array.view, left, 0,
+          ARGUMENTS(1)->uint16_array.view, right, 0,
+          0)))
   }
 
 FUNCTION std::uint16_array
@@ -2302,6 +2556,67 @@ METHOD std_types::int32_array/equal
     RETURN_BOOLEAN(
       memcmp(
         left->items, right->items,sizeof(int32_t)*left->size) == 0)
+  }
+
+CODE
+  static long int32_array_scalar_product
+    (
+      ARRAY_VIEW *left_view,
+      INT32_ARRAY_DATA *left_data,
+      long left_offset,
+      ARRAY_VIEW *right_view,
+      INT32_ARRAY_DATA *right_data,
+      long right_offset,
+      int i
+    )
+    {
+      int dimension_count = left_view->dimension_count;
+      long first_left_index = left_view->dimensions[i].first_index;
+      long first_right_index = right_view->dimensions[i].first_index;
+      long width = left_view->dimensions[i].width;
+      long result = 0;
+      if (i == dimension_count-1) {
+        // last dimension
+        left_offset += first_left_index;
+        right_offset += first_right_index;
+        while (--width >= 0) {
+          result +=
+            left_data->items[left_offset++] *
+            right_data->items[right_offset++];
+        }
+      } else {
+        long left_dimension = left_data->info->dimensions[0];
+        long right_dimension = right_data->info->dimensions[0];
+        left_offset += first_left_index*left_dimension;
+        right_offset += first_right_index*right_dimension;
+        while (--width >= 0) {
+          result += int32_array_scalar_product(
+            left_view, left_data, left_offset,
+            right_view, right_data, right_offset, i+1);
+          left_offset += left_dimension;
+          right_offset += right_dimension;
+        }
+      }
+      return result;
+    }
+
+METHOD std_types::int32_array/times
+  #
+    implements the *and* operation
+  {
+    CHECK_ARGUMENTS(2)
+    CHECK_RESULTS(1)
+    if (ARGUMENTS(1) == ARGUMENTS(0)) RETURN_SINGLE_RESULT(ARGUMENTS(0))
+    if (!equal_array_type(ARGUMENTS(1), ARGUMENTS(0)))
+      INVALID_ARGUMENTS
+    INT32_ARRAY_DATA *left = apply_int32_array_updates((INT32_ARRAY *)ARGUMENTS(0));
+    INT32_ARRAY_DATA *right = apply_int32_array_updates((INT32_ARRAY *)ARGUMENTS(1));
+    RETURN_SINGLE_RESULT(
+      from_long(
+        int32_array_scalar_product(
+          ARGUMENTS(0)->int32_array.view, left, 0,
+          ARGUMENTS(1)->int32_array.view, right, 0,
+          0)))
   }
 
 FUNCTION std::int32_array
@@ -2561,8 +2876,10 @@ METHOD std_types::uint32_array/bit_or
     if (ARGUMENTS(1) == ARGUMENTS(0)) RETURN_SINGLE_RESULT(ARGUMENTS(0))
     if (!equal_array_type(ARGUMENTS(1), ARGUMENTS(0)))
       INVALID_ARGUMENTS
-    UINT32_ARRAY_DATA *left = apply_uint32_array_updates((UINT32_ARRAY *)ARGUMENTS(0));
-    UINT32_ARRAY_DATA *right = apply_uint32_array_updates((UINT32_ARRAY *)ARGUMENTS(1));
+    UINT32_ARRAY_DATA *left =
+      apply_uint32_array_updates((UINT32_ARRAY *)ARGUMENTS(0));
+    UINT32_ARRAY_DATA *right =
+      apply_uint32_array_updates((UINT32_ARRAY *)ARGUMENTS(1));
     long size = left->size;
     UINT32_ARRAY_DATA *data =
       allocate_large(
@@ -2599,6 +2916,67 @@ METHOD std_types::uint32_array/bit_xor
     data->size = size;
     RETURN_SINGLE_RESULT(CREATE(std_types::uint32_array, 0,
       ARGUMENTS(0)->uint32_array.view, data, NULL))
+  }
+
+CODE
+  static ulong uint32_array_scalar_product
+    (
+      ARRAY_VIEW *left_view,
+      UINT32_ARRAY_DATA *left_data,
+      long left_offset,
+      ARRAY_VIEW *right_view,
+      UINT32_ARRAY_DATA *right_data,
+      long right_offset,
+      int i
+    )
+    {
+      int dimension_count = left_view->dimension_count;
+      long first_left_index = left_view->dimensions[i].first_index;
+      long first_right_index = right_view->dimensions[i].first_index;
+      long width = left_view->dimensions[i].width;
+      ulong result = 0;
+      if (i == dimension_count-1) {
+        // last dimension
+        left_offset += first_left_index;
+        right_offset += first_right_index;
+        while (--width >= 0) {
+          result +=
+            left_data->items[left_offset++] *
+            right_data->items[right_offset++];
+        }
+      } else {
+        long left_dimension = left_data->info->dimensions[0];
+        long right_dimension = right_data->info->dimensions[0];
+        left_offset += first_left_index*left_dimension;
+        right_offset += first_right_index*right_dimension;
+        while (--width >= 0) {
+          result += uint32_array_scalar_product(
+            left_view, left_data, left_offset,
+            right_view, right_data, right_offset, i+1);
+          left_offset += left_dimension;
+          right_offset += right_dimension;
+        }
+      }
+      return result;
+    }
+
+METHOD std_types::uint32_array/times
+  #
+    implements the *and* operation
+  {
+    CHECK_ARGUMENTS(2)
+    CHECK_RESULTS(1)
+    if (ARGUMENTS(1) == ARGUMENTS(0)) RETURN_SINGLE_RESULT(ARGUMENTS(0))
+    if (!equal_array_type(ARGUMENTS(1), ARGUMENTS(0)))
+      INVALID_ARGUMENTS
+    UINT32_ARRAY_DATA *left = apply_uint32_array_updates((UINT32_ARRAY *)ARGUMENTS(0));
+    UINT32_ARRAY_DATA *right = apply_uint32_array_updates((UINT32_ARRAY *)ARGUMENTS(1));
+    RETURN_SINGLE_RESULT(
+      from_ulong(
+        uint32_array_scalar_product(
+          ARGUMENTS(0)->uint32_array.view, left, 0,
+          ARGUMENTS(1)->uint32_array.view, right, 0,
+          0)))
   }
 
 FUNCTION std::uint32_array
@@ -2823,6 +3201,67 @@ METHOD std_types::int64_array/equal
     RETURN_BOOLEAN(
       memcmp(
         left->items, right->items,sizeof(int64_t)*left->size) == 0)
+  }
+
+CODE
+  static long int64_array_scalar_product
+    (
+      ARRAY_VIEW *left_view,
+      INT64_ARRAY_DATA *left_data,
+      long left_offset,
+      ARRAY_VIEW *right_view,
+      INT64_ARRAY_DATA *right_data,
+      long right_offset,
+      int i
+    )
+    {
+      int dimension_count = left_view->dimension_count;
+      long first_left_index = left_view->dimensions[i].first_index;
+      long first_right_index = right_view->dimensions[i].first_index;
+      long width = left_view->dimensions[i].width;
+      long result = 0;
+      if (i == dimension_count-1) {
+        // last dimension
+        left_offset += first_left_index;
+        right_offset += first_right_index;
+        while (--width >= 0) {
+          result +=
+            left_data->items[left_offset++] *
+            right_data->items[right_offset++];
+        }
+      } else {
+        long left_dimension = left_data->info->dimensions[0];
+        long right_dimension = right_data->info->dimensions[0];
+        left_offset += first_left_index*left_dimension;
+        right_offset += first_right_index*right_dimension;
+        while (--width >= 0) {
+          result += int64_array_scalar_product(
+            left_view, left_data, left_offset,
+            right_view, right_data, right_offset, i+1);
+          left_offset += left_dimension;
+          right_offset += right_dimension;
+        }
+      }
+      return result;
+    }
+
+METHOD std_types::int64_array/times
+  #
+    implements the *and* operation
+  {
+    CHECK_ARGUMENTS(2)
+    CHECK_RESULTS(1)
+    if (ARGUMENTS(1) == ARGUMENTS(0)) RETURN_SINGLE_RESULT(ARGUMENTS(0))
+    if (!equal_array_type(ARGUMENTS(1), ARGUMENTS(0)))
+      INVALID_ARGUMENTS
+    INT64_ARRAY_DATA *left = apply_int64_array_updates((INT64_ARRAY *)ARGUMENTS(0));
+    INT64_ARRAY_DATA *right = apply_int64_array_updates((INT64_ARRAY *)ARGUMENTS(1));
+    RETURN_SINGLE_RESULT(
+      from_long(
+        int64_array_scalar_product(
+          ARGUMENTS(0)->int64_array.view, left, 0,
+          ARGUMENTS(1)->int64_array.view, right, 0,
+          0)))
   }
 
 FUNCTION std::int64_array
@@ -3082,8 +3521,10 @@ METHOD std_types::uint64_array/bit_or
     if (ARGUMENTS(1) == ARGUMENTS(0)) RETURN_SINGLE_RESULT(ARGUMENTS(0))
     if (!equal_array_type(ARGUMENTS(1), ARGUMENTS(0)))
       INVALID_ARGUMENTS
-    UINT64_ARRAY_DATA *left = apply_uint64_array_updates((UINT64_ARRAY *)ARGUMENTS(0));
-    UINT64_ARRAY_DATA *right = apply_uint64_array_updates((UINT64_ARRAY *)ARGUMENTS(1));
+    UINT64_ARRAY_DATA *left =
+      apply_uint64_array_updates((UINT64_ARRAY *)ARGUMENTS(0));
+    UINT64_ARRAY_DATA *right =
+      apply_uint64_array_updates((UINT64_ARRAY *)ARGUMENTS(1));
     long size = left->size;
     UINT64_ARRAY_DATA *data =
       allocate_large(
@@ -3120,6 +3561,67 @@ METHOD std_types::uint64_array/bit_xor
     data->size = size;
     RETURN_SINGLE_RESULT(CREATE(std_types::uint64_array, 0,
       ARGUMENTS(0)->uint64_array.view, data, NULL))
+  }
+
+CODE
+  static ulong uint64_array_scalar_product
+    (
+      ARRAY_VIEW *left_view,
+      UINT64_ARRAY_DATA *left_data,
+      long left_offset,
+      ARRAY_VIEW *right_view,
+      UINT64_ARRAY_DATA *right_data,
+      long right_offset,
+      int i
+    )
+    {
+      int dimension_count = left_view->dimension_count;
+      long first_left_index = left_view->dimensions[i].first_index;
+      long first_right_index = right_view->dimensions[i].first_index;
+      long width = left_view->dimensions[i].width;
+      ulong result = 0;
+      if (i == dimension_count-1) {
+        // last dimension
+        left_offset += first_left_index;
+        right_offset += first_right_index;
+        while (--width >= 0) {
+          result +=
+            left_data->items[left_offset++] *
+            right_data->items[right_offset++];
+        }
+      } else {
+        long left_dimension = left_data->info->dimensions[0];
+        long right_dimension = right_data->info->dimensions[0];
+        left_offset += first_left_index*left_dimension;
+        right_offset += first_right_index*right_dimension;
+        while (--width >= 0) {
+          result += uint64_array_scalar_product(
+            left_view, left_data, left_offset,
+            right_view, right_data, right_offset, i+1);
+          left_offset += left_dimension;
+          right_offset += right_dimension;
+        }
+      }
+      return result;
+    }
+
+METHOD std_types::uint64_array/times
+  #
+    implements the *and* operation
+  {
+    CHECK_ARGUMENTS(2)
+    CHECK_RESULTS(1)
+    if (ARGUMENTS(1) == ARGUMENTS(0)) RETURN_SINGLE_RESULT(ARGUMENTS(0))
+    if (!equal_array_type(ARGUMENTS(1), ARGUMENTS(0)))
+      INVALID_ARGUMENTS
+    UINT64_ARRAY_DATA *left = apply_uint64_array_updates((UINT64_ARRAY *)ARGUMENTS(0));
+    UINT64_ARRAY_DATA *right = apply_uint64_array_updates((UINT64_ARRAY *)ARGUMENTS(1));
+    RETURN_SINGLE_RESULT(
+      from_ulong(
+        uint64_array_scalar_product(
+          ARGUMENTS(0)->uint64_array.view, left, 0,
+          ARGUMENTS(1)->uint64_array.view, right, 0,
+          0)))
   }
 
 FUNCTION std::uint64_array
@@ -3346,6 +3848,67 @@ METHOD std_types::float32_array/equal
         left->items, right->items,sizeof(float)*left->size) == 0)
   }
 
+CODE
+  static double float32_array_scalar_product
+    (
+      ARRAY_VIEW *left_view,
+      FLOAT32_ARRAY_DATA *left_data,
+      long left_offset,
+      ARRAY_VIEW *right_view,
+      FLOAT32_ARRAY_DATA *right_data,
+      long right_offset,
+      int i
+    )
+    {
+      int dimension_count = left_view->dimension_count;
+      long first_left_index = left_view->dimensions[i].first_index;
+      long first_right_index = right_view->dimensions[i].first_index;
+      long width = left_view->dimensions[i].width;
+      double result = 0;
+      if (i == dimension_count-1) {
+        // last dimension
+        left_offset += first_left_index;
+        right_offset += first_right_index;
+        while (--width >= 0) {
+          result +=
+            left_data->items[left_offset++] *
+            right_data->items[right_offset++];
+        }
+      } else {
+        long left_dimension = left_data->info->dimensions[0];
+        long right_dimension = right_data->info->dimensions[0];
+        left_offset += first_left_index*left_dimension;
+        right_offset += first_right_index*right_dimension;
+        while (--width >= 0) {
+          result += float32_array_scalar_product(
+            left_view, left_data, left_offset,
+            right_view, right_data, right_offset, i+1);
+          left_offset += left_dimension;
+          right_offset += right_dimension;
+        }
+      }
+      return result;
+    }
+
+METHOD std_types::float32_array/times
+  #
+    implements the *and* operation
+  {
+    CHECK_ARGUMENTS(2)
+    CHECK_RESULTS(1)
+    if (ARGUMENTS(1) == ARGUMENTS(0)) RETURN_SINGLE_RESULT(ARGUMENTS(0))
+    if (!equal_array_type(ARGUMENTS(1), ARGUMENTS(0)))
+      INVALID_ARGUMENTS
+    FLOAT32_ARRAY_DATA *left = apply_float32_array_updates((FLOAT32_ARRAY *)ARGUMENTS(0));
+    FLOAT32_ARRAY_DATA *right = apply_float32_array_updates((FLOAT32_ARRAY *)ARGUMENTS(1));
+    RETURN_SINGLE_RESULT(
+      from_double(
+        float32_array_scalar_product(
+          ARGUMENTS(0)->float32_array.view, left, 0,
+          ARGUMENTS(1)->float32_array.view, right, 0,
+          0)))
+  }
+
 FUNCTION std::float32_array
   #
     constructs an empty array
@@ -3568,6 +4131,67 @@ METHOD std_types::float64_array/equal
     RETURN_BOOLEAN(
       memcmp(
         left->items, right->items,sizeof(double)*left->size) == 0)
+  }
+
+CODE
+  static double float64_array_scalar_product
+    (
+      ARRAY_VIEW *left_view,
+      FLOAT64_ARRAY_DATA *left_data,
+      long left_offset,
+      ARRAY_VIEW *right_view,
+      FLOAT64_ARRAY_DATA *right_data,
+      long right_offset,
+      int i
+    )
+    {
+      int dimension_count = left_view->dimension_count;
+      long first_left_index = left_view->dimensions[i].first_index;
+      long first_right_index = right_view->dimensions[i].first_index;
+      long width = left_view->dimensions[i].width;
+      double result = 0;
+      if (i == dimension_count-1) {
+        // last dimension
+        left_offset += first_left_index;
+        right_offset += first_right_index;
+        while (--width >= 0) {
+          result +=
+            left_data->items[left_offset++] *
+            right_data->items[right_offset++];
+        }
+      } else {
+        long left_dimension = left_data->info->dimensions[0];
+        long right_dimension = right_data->info->dimensions[0];
+        left_offset += first_left_index*left_dimension;
+        right_offset += first_right_index*right_dimension;
+        while (--width >= 0) {
+          result += float64_array_scalar_product(
+            left_view, left_data, left_offset,
+            right_view, right_data, right_offset, i+1);
+          left_offset += left_dimension;
+          right_offset += right_dimension;
+        }
+      }
+      return result;
+    }
+
+METHOD std_types::float64_array/times
+  #
+    implements the *and* operation
+  {
+    CHECK_ARGUMENTS(2)
+    CHECK_RESULTS(1)
+    if (ARGUMENTS(1) == ARGUMENTS(0)) RETURN_SINGLE_RESULT(ARGUMENTS(0))
+    if (!equal_array_type(ARGUMENTS(1), ARGUMENTS(0)))
+      INVALID_ARGUMENTS
+    FLOAT64_ARRAY_DATA *left = apply_float64_array_updates((FLOAT64_ARRAY *)ARGUMENTS(0));
+    FLOAT64_ARRAY_DATA *right = apply_float64_array_updates((FLOAT64_ARRAY *)ARGUMENTS(1));
+    RETURN_SINGLE_RESULT(
+      from_double(
+        float64_array_scalar_product(
+          ARGUMENTS(0)->float64_array.view, left, 0,
+          ARGUMENTS(1)->float64_array.view, right, 0,
+          0)))
   }
 
 FUNCTION std::float64_array
