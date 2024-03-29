@@ -642,6 +642,14 @@ do
     echo "${TAB}rm -f $DIRNAME/*.o"
   done
 done
+for LIBNAME in $INSTALLED_LIBRARIES
+do
+  find $LIBNAME -type d | LC_COLLATE=C sort | \
+  while read DIRNAME
+  do
+    echo "${TAB}rm -f $DIRNAME/*.c"
+  done
+done
 echo "${TAB}rm -f compiler/funky$EXE_EXTENSION"
 echo "${TAB}rm -f libfky$DLL_EXTENSION"
 echo "${TAB}rm -f libfky-$RUNTIME_VERSION$DLL_EXTENSION"
@@ -655,7 +663,9 @@ do
 done
 for TOOL in $TOOLS
 do
-  echo "${TAB}rm -f $TOOL"
+  echo "${TAB}rm -f $TOOL$EXE_EXTENSION"
+  echo "${TAB}rm -f $TOOL.c"
+  echo "${TAB}rm -f $TOOL.o"
 done
 
 echo
