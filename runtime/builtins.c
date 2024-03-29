@@ -168,11 +168,12 @@ enum {
   func__std_types___date_and_time___std___hour_of,
   func__std_types___date_and_time___std___minute_of,
   func__std_types___date_and_time___std___second_of,
+  func__std_types___date_and_time___std___time_shift_of,
+  func__std_types___date_and_time___std___seconds_since_epoch,
   func__std_types___date_and_time___std___plus,
   func__std_types___date_and_time___std___minus,
   func__std_types___date_and_time___std___equal,
   func__std_types___date_and_time___std___less,
-  func__std_types___date_and_time___std___time_shift_of,
   func__std___current_time,
   func__debug___string,
   func__debug___write,
@@ -537,6 +538,7 @@ enum {
   var_no__std___minute_of,
   var_no__std___second_of,
   var_no__std___time_shift_of,
+  var_no__std___seconds_since_epoch,
   var_no__std_types___date_and_time,
   var_no__std___from_unix_time,
   var_no__std___date_and_time,
@@ -16890,6 +16892,42 @@ static void entry__std_types___date_and_time___std___second_of (void)
     }
   }
 
+static void entry__std_types___date_and_time___std___time_shift_of (void)
+  {
+    if (TLS_argument_count != 1) {
+      invalid_arguments();
+      return;
+    }
+    // This insane looking sequence of calls correctly computes the time shift!!!
+    struct tm tm;
+    time_t t1 = TLS_arguments[0]->date_and_time.seconds;
+    localtime_r(&t1, &tm);
+    int isdst = tm.tm_isdst;
+    gmtime_r(&t1, &tm);
+    tm.tm_isdst = isdst;
+    time_t t2 = mktime(&tm);
+    {
+      NODE *result__node = (NODE *)(from_uint64(t1-t2));
+      TLS_arguments[0] = result__node;
+      TLS_argument_count = 1;
+      return;
+    }
+  }
+
+static void entry__std_types___date_and_time___std___seconds_since_epoch (void)
+  {
+    if (TLS_argument_count != 1) {
+      invalid_arguments();
+      return;
+    }
+    {
+      NODE *result__node = (NODE *)(from_uint64(TLS_arguments[0]->date_and_time.seconds));
+      TLS_arguments[0] = result__node;
+      TLS_argument_count = 1;
+      return;
+    }
+  }
+
 static void entry__std_types___date_and_time___std___plus (void)
   {
     if (TLS_argument_count != 2) {
@@ -16995,28 +17033,6 @@ static void entry__std_types___date_and_time___std___less (void)
       NODE *result__node = (NODE *)(from_bool(left->date_and_time.seconds < right->date_and_time.seconds ||
           left->date_and_time.seconds == right->date_and_time.seconds &&
           left->date_and_time.nanoseconds < right->date_and_time.nanoseconds));
-      TLS_arguments[0] = result__node;
-      TLS_argument_count = 1;
-      return;
-    }
-  }
-
-static void entry__std_types___date_and_time___std___time_shift_of (void)
-  {
-    if (TLS_argument_count != 1) {
-      invalid_arguments();
-      return;
-    }
-    // This insane looking sequence of calls correctly computes the time shift!!!
-    struct tm tm;
-    time_t t1 = TLS_arguments[0]->date_and_time.seconds;
-    localtime_r(&t1, &tm);
-    int isdst = tm.tm_isdst;
-    gmtime_r(&t1, &tm);
-    tm.tm_isdst = isdst;
-    time_t t2 = mktime(&tm);
-    {
-      NODE *result__node = (NODE *)(from_uint64(t1-t2));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -25791,11 +25807,12 @@ static FUNKY_CONSTANT constants_table[] = {
   {FLT_C_FUNCTION, 1, {.func = entry__std_types___date_and_time___std___hour_of}},
   {FLT_C_FUNCTION, 1, {.func = entry__std_types___date_and_time___std___minute_of}},
   {FLT_C_FUNCTION, 1, {.func = entry__std_types___date_and_time___std___second_of}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std_types___date_and_time___std___time_shift_of}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std_types___date_and_time___std___seconds_since_epoch}},
   {FLT_C_FUNCTION, 2, {.func = entry__std_types___date_and_time___std___plus}},
   {FLT_C_FUNCTION, 2, {.func = entry__std_types___date_and_time___std___minus}},
   {FLT_C_FUNCTION, 2, {.func = entry__std_types___date_and_time___std___equal}},
   {FLT_C_FUNCTION, 2, {.func = entry__std_types___date_and_time___std___less}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std_types___date_and_time___std___time_shift_of}},
   {FLT_C_FUNCTION, 0, {.func = entry__std___current_time}},
   {FLT_C_FUNCTION, -1, {.func = entry__debug___string}},
   {FLT_C_FUNCTION, 1, {.func = entry__debug___write}},
@@ -26323,6 +26340,7 @@ static ATTRIBUTE_DEFINITION std_types___date_and_time__attributes[] = {
   {var_no__std___month_of, func__std_types___date_and_time___std___month_of},
   {var_no__std___plus, func__std_types___date_and_time___std___plus},
   {var_no__std___second_of, func__std_types___date_and_time___std___second_of},
+  {var_no__std___seconds_since_epoch, func__std_types___date_and_time___std___seconds_since_epoch},
   {var_no__std___time_shift_of, func__std_types___date_and_time___std___time_shift_of},
   {var_no__std___year_of, func__std_types___date_and_time___std___year_of}
 };
@@ -27397,45 +27415,50 @@ static FUNKY_VARIABLE variables_table[] = {
   {
     FOT_POLYMORPHIC, 0, 0,
     "year_of\000std", NULL,
-    {.has_a_setter = true}
+    {.has_a_setter = false}
   },
   {
     FOT_POLYMORPHIC, 0, 0,
     "month_of\000std", NULL,
-    {.has_a_setter = true}
+    {.has_a_setter = false}
   },
   {
     FOT_POLYMORPHIC, 0, 0,
     "day_of\000std", NULL,
-    {.has_a_setter = true}
+    {.has_a_setter = false}
   },
   {
     FOT_POLYMORPHIC, 0, 0,
     "day_of_week_of\000std", NULL,
-    {.has_a_setter = true}
+    {.has_a_setter = false}
   },
   {
     FOT_POLYMORPHIC, 0, 0,
     "hour_of\000std", NULL,
-    {.has_a_setter = true}
+    {.has_a_setter = false}
   },
   {
     FOT_POLYMORPHIC, 0, 0,
     "minute_of\000std", NULL,
-    {.has_a_setter = true}
+    {.has_a_setter = false}
   },
   {
     FOT_POLYMORPHIC, 0, 0,
     "second_of\000std", NULL,
-    {.has_a_setter = true}
+    {.has_a_setter = false}
   },
   {
     FOT_POLYMORPHIC, 0, 0,
     "time_shift_of\000std", NULL,
-    {.has_a_setter = true}
+    {.has_a_setter = false}
   },
   {
-    FOT_TYPE, 0, 12,
+    FOT_POLYMORPHIC, 0, 0,
+    "seconds_since_epoch\000std", NULL,
+    {.has_a_setter = false}
+  },
+  {
+    FOT_TYPE, 0, 13,
     "date_and_time\000std_types", std_types___date_and_time__attributes,
     {"object\000std_types"},
     {.methods_count = 3}, 0,
@@ -29700,13 +29723,13 @@ FUNKY_MODULE module__builtin = {
   NULL,
   0, 0,
   4, 0,
-  396, 444,
+  397, 445,
   NULL,
   defined_namespaces, NULL,
   constants_table, variables_table
 };
 
-BUILTIN_FUNCTION_NAME builtin_function_names[448] = {
+BUILTIN_FUNCTION_NAME builtin_function_names[449] = {
   {std_types___generic_array____type, "std_types::generic_array/_type"},
   {std_types___array____type, "std_types::array/_type"},
   {entry__std_types___array___std___length_of, "std_types::array/length_of"},
@@ -29864,11 +29887,12 @@ BUILTIN_FUNCTION_NAME builtin_function_names[448] = {
   {entry__std_types___date_and_time___std___hour_of, "std_types::date_and_time/hour_of"},
   {entry__std_types___date_and_time___std___minute_of, "std_types::date_and_time/minute_of"},
   {entry__std_types___date_and_time___std___second_of, "std_types::date_and_time/second_of"},
+  {entry__std_types___date_and_time___std___time_shift_of, "std_types::date_and_time/time_shift_of"},
+  {entry__std_types___date_and_time___std___seconds_since_epoch, "std_types::date_and_time/seconds_since_epoch"},
   {entry__std_types___date_and_time___std___plus, "std_types::date_and_time/plus"},
   {entry__std_types___date_and_time___std___minus, "std_types::date_and_time/minus"},
   {entry__std_types___date_and_time___std___equal, "std_types::date_and_time/equal"},
   {entry__std_types___date_and_time___std___less, "std_types::date_and_time/less"},
-  {entry__std_types___date_and_time___std___time_shift_of, "std_types::date_and_time/time_shift_of"},
   {entry__std___current_time, "std::current_time"},
   {entry__debug___string, "debug::string"},
   {entry__debug___write, "debug::write"},

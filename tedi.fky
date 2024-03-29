@@ -940,9 +940,6 @@ $event_loop:
 		-> terminal state(.do_exit_of true)
 		:
 		  handler !state
-		  check_updates !terminal !state
-		  update &terminal $output
-		  print! output
 		  $action action_of(state)
 		  if
 		    action.is_defined:
@@ -958,7 +955,7 @@ $event_loop:
 				# SHOW ERROR MESSAGE!!!
 				show_error !state new_io.to_error_message_string
 				check_updates !terminal !state
-				update &terminal !output
+				update &terminal $output
 				print! output
 				log &io -> error_message_text_of(new_io)
 				next!
@@ -967,10 +964,14 @@ $event_loop:
 				!terminal new_terminal
 				!state new_state
 				check_updates !terminal !state
-				update &terminal !output
+				update &terminal $output
 				print! output
 				next!
-		    next
+		    :
+		      check_updates !terminal !state
+		      update &terminal $output
+		      print! output
+		      next!
 
   $redraw_all:
     !window.needs_redraw true
@@ -2648,7 +2649,7 @@ $get_spaced_selection_text:
   $selection_start_y selection_start_y_of(window)
   $line_count length_of(lines)
   if
-    selection_start_y_of.is_undefined
+    selection_start_y.is_undefined
     -> undefined
     :
       $y y_of(window)

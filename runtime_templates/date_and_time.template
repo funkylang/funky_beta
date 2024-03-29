@@ -18,7 +18,7 @@
   or write to the
   Free Software Foundation, Inc.,
 
-ATTR std::year_of
+POLY std::year_of
   #
     the calendar year of a date-and-time object
 
@@ -42,7 +42,7 @@ ATTR std::year_of
 
       2024
 
-ATTR std::month_of
+POLY std::month_of
   #
     the month of a date-and-time object
 
@@ -69,7 +69,7 @@ ATTR std::month_of
 
       1
 
-ATTR std::day_of
+POLY std::day_of
   #
     the day of a month of a date-and-time object
 
@@ -95,7 +95,7 @@ ATTR std::day_of
 
       14
 
-ATTR std::day_of_week_of
+POLY std::day_of_week_of
   #
     the day of the week of a date-and-time object
 
@@ -122,7 +122,7 @@ ATTR std::day_of_week_of
 
       7
 
-ATTR std::hour_of
+POLY std::hour_of
   #
     the hour of a date-and-time object
 
@@ -148,7 +148,7 @@ ATTR std::hour_of
 
       8
 
-ATTR std::minute_of
+POLY std::minute_of
   #
     the minute of an hour of a date-and-time object
 
@@ -174,7 +174,7 @@ ATTR std::minute_of
 
       18
 
-ATTR std::second_of
+POLY std::second_of
   #
     the second of a minute of a date-and-time object
 
@@ -200,8 +200,7 @@ ATTR std::second_of
 
       33
 
-ATTR std::time_shift_of
-  #
+POLY std::time_shift_of
   #
     the time shift of a date-and-time object
 
@@ -224,6 +223,32 @@ ATTR std::time_shift_of
     Output:
 
       3600
+
+POLY std::seconds_since_epoch
+  #
+    the number of seconds since the epoch
+
+    Parameter:
+      self # the date-and-time object
+
+    Result:
+      seconds_since_epoch # the number of seconds since the epoch
+
+    The returned number is an integer.
+
+    Topic: Date and Time
+
+    See also: year_of, month_of, day_of, day_of_week_of, hour_of, minute_of,
+	      second_of, time_shift_of
+
+    Example:
+
+      current_time! $t
+      println! seconds_since_epoch(t)
+
+    Output:
+
+      1711754036
 
 TYPE std_types::date_and_time -> std_types::object
   #
@@ -554,6 +579,79 @@ METHOD std_types::date_and_time/second_of
 	ARGUMENTS(0)->date_and_time.nanoseconds/1000000000.0))
   }
 
+METHOD std_types::date_and_time/time_shift_of
+  #
+    returns the time shift of a date-and-time object
+
+    Parameter:
+      self # the date-and-time object
+
+    Result:
+      time_shift # the time shift of the date-and-time object in seconds
+
+    Topic: Date and Time
+
+    See also: year_of, month_of, day_of, day_of_week_of, hour_of, minute_of,
+	      second_of
+
+    Example:
+
+      current_time! $t
+      println! t
+      println! time_shift_of(t)
+
+    Output:
+
+      2024-01-14 9:46:17.388 GMT+1
+      3600
+  {
+    CHECK_ARGUMENTS(1)
+    // This insane looking sequence of calls correctly computes the time shift!!!
+    struct tm tm;
+    time_t t1 = ARGUMENTS(0)->date_and_time.seconds;
+    localtime_r(&t1, &tm);
+    int isdst = tm.tm_isdst;
+    gmtime_r(&t1, &tm);
+    tm.tm_isdst = isdst;
+    time_t t2 = mktime(&tm);
+    RETURN_SINGLE_RESULT(from_uint64(t1-t2))
+  }
+
+METHOD std_types::date_and_time/seconds_since_epoch
+  #
+    returns the number of seconds since the epoch
+
+    Parameter:
+      self # the date-and-time object
+
+    Result:
+      seconds_since_epoch # the number of seconds since the epoch
+
+    The UNIX epoch is the moment of 1 January 1970, 00:00:00 UTC.
+
+    The returned value is an integer.
+
+    Topic: Date and Time
+
+    See also: year_of, month_of, day_of, day_of_week_of, hour_of, minute_of,
+	      second_of, time_shift_of
+
+    Example:
+
+      current_time! $t
+      println! t
+      println! seconds_since_epoch(t)
+
+    Output:
+
+      2024-03-30 0:14:29.361 GMT+1
+      1711754069
+  {
+    CHECK_ARGUMENTS(1)
+    RETURN_SINGLE_RESULT(from_uint64(ARGUMENTS(0)->date_and_time.seconds))
+  }
+
+
 METHOD std_types::date_and_time/plus
   #
     adds an arbitrary time delta to a date-and-time object
@@ -716,44 +814,6 @@ METHOD std_types::date_and_time/less
       left->date_and_time.seconds < right->date_and_time.seconds ||
       left->date_and_time.seconds == right->date_and_time.seconds &&
       left->date_and_time.nanoseconds < right->date_and_time.nanoseconds)
-  }
-
-METHOD std_types::date_and_time/time_shift_of
-  #
-    returns the time shift of a date-and-time object
-
-    Parameter:
-      self # the date-and-time object
-
-    Result:
-      time_shift # the time shift of the date-and-time object in seconds
-
-    Topic: Date and Time
-
-    See also: year_of, month_of, day_of, day_of_week_of, hour_of, minute_of,
-	      second_of
-
-    Example:
-
-      current_time! $t
-      println! t
-      println! time_shift_of(t)
-
-    Output:
-
-      2024-01-14 9:46:17.388 GMT+1
-      3600
-  {
-    CHECK_ARGUMENTS(1)
-    // This insane looking sequence of calls correctly computes the time shift!!!
-    struct tm tm;
-    time_t t1 = ARGUMENTS(0)->date_and_time.seconds;
-    localtime_r(&t1, &tm);
-    int isdst = tm.tm_isdst;
-    gmtime_r(&t1, &tm);
-    tm.tm_isdst = isdst;
-    time_t t2 = mktime(&tm);
-    RETURN_SINGLE_RESULT(from_uint64(t1-t2))
   }
 
 FUNCTION std::current_time
