@@ -43,3 +43,11 @@ $std::ENCODING .
     See also: LATIN1, UTF8
 
     Topic: Input-Output
+
+$std::UUID .
+  #
+    used to specify a universally unique identifier
+
+$std::SERVER .
+  #
+    the ip address (and port no.) of a server

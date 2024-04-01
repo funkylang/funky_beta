@@ -99,23 +99,6 @@ $std::cond:
 	    check!
       pass
 
-$does_match ()
-
-$std_types::object/does_match equal
-
-$std_types::value_range/does_match: (self expr)
-  self $lower_bound $upper_bound
-  -> expr >= lower_bound && expr <= upper_bound
-
-$std_types::sequence/does_match: (self expr)
-  for_each self
-    : (item)
-      if
-	does_match(item expr)
-	-> true
-	next
-    -> false
-
 $std::case:
   #
     a multiway conditional expression or statement
@@ -163,27 +146,81 @@ $std::case:
     values_and_bodies*
       # an alternating sequence of case-values and statement sequences
   )
-  check!
+  $n length_of(values_and_bodies)
+  $i 1
+  if
+    values_and_bodies(1).is_a_function:
+      !test_function values_and_bodies(1)
+      inc &i
+      check!
 
-  $check:
-    $n length_of(values_and_bodies)
-    if
-      n == 0
-      pass
-      :
+      $check:
 	if
-	  n == 1:
-	    $body values_and_bodies(1)
-	    body!
+	  i > n
+	  pass
 	  :
-	    $value values_and_bodies(1)
 	    if
-	      ||
-		value.is_defined && does_match(value expr)
-		value.is_undefined && expr.is_undefined
+	      i == n:
+		values_and_bodies(n)!
 	      :
-		$body values_and_bodies(2)
-		body!
+		$value values_and_bodies(i)
+		if
+		  passes_test(value expr):
+		    values_and_bodies(i+1)!
+		  :
+		    plus &i 2
+		    check!
+    :
+      check!
+
+      $check:
+	if
+	  i > n
+	  pass
+	  :
+	    if
+	      i == n:
+		values_and_bodies(n)!
 	      :
-		range &values_and_bodies 3 -1
-		check!
+		$value values_and_bodies(i)
+		if
+		  ||
+		    value.is_defined && does_match(value expr)
+		    value.is_undefined && expr.is_undefined
+		  :
+		    values_and_bodies(i+1)!
+		  :
+		    plus &i 2
+		    check!
+
+$does_match ()
+
+$std_types::object/does_match equal
+
+$std_types::value_range/does_match: (self expr)
+  self $lower_bound $upper_bound
+  -> expr >= lower_bound && expr <= upper_bound
+
+$std_types::sequence/does_match: (self expr)
+  for_each self
+    : (item)
+      if
+	does_match(item expr)
+	-> true
+	next
+    -> false
+
+$test_function undefined
+
+$passes_test ()
+
+$std_types::object/passes_test: (self expr) -> test_function(expr self)
+
+$std_types::sequence/passes_test: (self expr)
+  for_each self
+    : (item)
+      if
+	test_function(expr item)
+	-> true
+	next
+    -> false

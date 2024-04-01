@@ -25,6 +25,7 @@
 <namespace tedi_types>
 
 <require basic/stdlib>
+<require basic/uuid>
 <require basic/export/json>
 <require basic/import/json>
 <require terminal/terminal>
@@ -211,7 +212,11 @@ $do_log
 $log_level if(do_log (-> 4) (-> 0))
 enable_logging &io log_level
 
-log &io -> "TEDI: started logging (log-level: @(log_level))"
+log &io -> "started logging (log-level: @(log_level))"
+
+get_uuid! $uuid
+
+log &io -> "using uuid: @(uuid)"
 
 # Optional Function Argument
 
@@ -2512,52 +2517,55 @@ $indented_tokens: (indent tokens)
 	    -> put(tokens space_token_of(ai_model))
 
 $initialize_ai:
-   load_ai_model! $model ai_model_name ai_server
-   on model.is_an_error:
-      log &io "FAILED TO LOAD AI MODEL!"
-      model # propagate error
-   min &model.context_size_of ai_context_size
-   if
-     model.is_an_error
-     -> model
-     :
-       $space_token empty_list
-       $is_a_space_token empty_hash_set
-       from_to 1 16
-	 : (i)
-	   $token piece_table_of(model)(spaces(i))
-	   push &space_token token
-	   if
-	     token.is_defined:
-	       !is_a_space_token(token) true
-	       next
-	     next
-	 :
-	   !model.period_token_of piece_table_of(model)(".")
-	   $space_tokens empty_list
-	   $tokens empty_list
-	   from_to 1 80
-	     : (i)
-	       $n i .mod. 16
-	       if
-		 n == 0:
-		   push &tokens space_token(16)
-		   push &space_tokens tokens
-		   next
-		 :
-		   $piece space_token(n)
-		   if
-		     piece.is_defined:
-		       push &space_tokens push(tokens piece)
-		       next
-		     : # the desired number of spaces is not a single token
-		       push &space_tokens
-			 push(push(tokens space_token(n-1)) space_token(1))
-		       next
-	     ->
-	       model
-		 .is_a_space_token_of is_a_space_token
-		 .space_tokens_of space_tokens
+  load_ai_model! $model
+    SERVER = ai_server
+    UUID = uuid
+    ai_model_name
+  on model.is_an_error:
+     log &io "FAILED TO LOAD AI MODEL!"
+     model # propagate error
+  min &model.context_size_of ai_context_size
+  if
+    model.is_an_error
+    -> model
+    :
+      $space_token empty_list
+      $is_a_space_token empty_hash_set
+      from_to 1 16
+	: (i)
+	  $token piece_table_of(model)(spaces(i))
+	  push &space_token token
+	  if
+	    token.is_defined:
+	      !is_a_space_token(token) true
+	      next
+	    next
+	:
+	  !model.period_token_of piece_table_of(model)(".")
+	  $space_tokens empty_list
+	  $tokens empty_list
+	  from_to 1 80
+	    : (i)
+	      $n i .mod. 16
+	      if
+		n == 0:
+		  push &tokens space_token(16)
+		  push &space_tokens tokens
+		  next
+		:
+		  $piece space_token(n)
+		  if
+		    piece.is_defined:
+		      push &space_tokens push(tokens piece)
+		      next
+		    : # the desired number of spaces is not a single token
+		      push &space_tokens
+			push(push(tokens space_token(n-1)) space_token(1))
+		      next
+	    ->
+	      model
+		.is_a_space_token_of is_a_space_token
+		.space_tokens_of space_tokens
 
 $filter_selection: (myself^)
   if

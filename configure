@@ -36,7 +36,7 @@ PREFIX='/usr/local'
 
 OPTIONAL_LIBRARIES=''
 ADDITIONAL_LIBRARIES=''
-TOOLS='tedi extract_documentation'
+TOOLS='tedi extract_documentation reformat_c'
 
 show_help() {
   echo "Usage: ./configure [OPTION]... [VAR=VALUE]..."

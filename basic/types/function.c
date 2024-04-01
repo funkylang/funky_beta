@@ -16,6 +16,7 @@ enum {
   var_false, // extern
   var_std_types__function, // extern
   var_true, // extern
+  var_std_types__polymorphic_function, // extern
   var__END
 };
 
@@ -25,6 +26,10 @@ static ATTRIBUTE_DEFINITION std_types__object__attributes[] = {
 };
 
 static ATTRIBUTE_DEFINITION std_types__function__attributes[] = {
+  {-var_is_a_function, -var_true}
+};
+
+static ATTRIBUTE_DEFINITION std_types__polymorphic_function__attributes[] = {
   {-var_is_a_function, -var_true}
 };
 
@@ -63,6 +68,11 @@ static FUNKY_VARIABLE variables_table[] = {
     FOT_UNKNOWN, 0, 0,
     "true\000", NULL,
     {.position = POS(28, 36)}
+  },
+  {
+    FOT_UNKNOWN, 0, 1,
+    "polymorphic_function\000std_types", std_types__polymorphic_function__attributes,
+    {.position = POS(29, 1)}
   }
 };
 
@@ -81,7 +91,7 @@ FUNKY_MODULE module__basic__types__function = {
   0, // number of defined namespaces
   1, // number of used namespaces
   0, // number of constants
-  7, // number of variables
+  8, // number of variables
   NULL, // required modules
   NULL, // defined namespaces
   used_namespaces,

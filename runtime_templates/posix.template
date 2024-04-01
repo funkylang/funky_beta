@@ -1007,15 +1007,6 @@ OBJECT std::ELIBEXEC -> std_types::error_number
 
   {ELIBEXEC}
 
-OBJECT std::ERESTART -> std_types::error_number
-  #
-    restart point is not valid
-
-    Topic: POSIX
-
-    See also: std_types::error_number
-
-  {ERESTART}
 OBJECT std::ESTRPIPE -> std_types::error_number
   #
     stream pipe error
@@ -1025,6 +1016,7 @@ OBJECT std::ESTRPIPE -> std_types::error_number
     See also: std_types::error_number
 
   {ESTRPIPE}
+
 OBJECT std::EUSERS -> std_types::error_number
   #
     too many users
@@ -1325,56 +1317,6 @@ OBJECT std::ESTALE -> std_types::error_number
 
   {ESTALE}
 
-OBJECT std::EUCLEAN -> std_types::error_number
-  #
-    struct member not updated
-
-    Topic: POSIX
-
-    See also: std_types::error_number
-
-  {EUCLEAN}
-
-OBJECT std::ENOTNAM -> std_types::error_number
-  #
-    not a XENIX named type file
-
-    Topic: POSIX
-
-    See also: std_types::error_number
-
-  {ENOTNAM}
-
-OBJECT std::ENAVAIL -> std_types::error_number
-  #
-    no XENIX semaphores available
-
-    Topic: POSIX
-
-    See also: std_types::error_number
-
-  {ENAVAIL}
-
-OBJECT std::EISNAM -> std_types::error_number
-  #
-    is a named type file
-
-    Topic: POSIX
-
-    See also: std_types::error_number
-
-  {EISNAM}
-
-OBJECT std::EREMOTEIO -> std_types::error_number
-  #
-    remote I/O error
-
-    Topic: POSIX
-
-    See also: std_types::error_number
-
-  {EREMOTEIO}
-
 OBJECT std::EDQUOT -> std_types::error_number
   #
     quota exceeded
@@ -1395,16 +1337,6 @@ OBJECT std::ENOMEDIUM -> std_types::error_number
 
   {ENOMEDIUM}
 
-OBJECT std::EMEDIUMTYPE -> std_types::error_number
-  #
-    incorrect medium type
-
-    Topic: POSIX
-
-    See also: std_types::error_number
-
-  {EMEDIUMTYPE}
-
 OBJECT std::ECANCELED -> std_types::error_number
   #
     operation canceled
@@ -1414,46 +1346,6 @@ OBJECT std::ECANCELED -> std_types::error_number
     See also: std_types::error_number
 
   {ECANCELED}
-
-OBJECT std::ENOKEY -> std_types::error_number
-  #
-    key not available
-
-    Topic: POSIX
-
-    See also: std_types::error_number
-
-  {ENOKEY}
-
-OBJECT std::EKEYEXPIRED -> std_types::error_number
-  #
-    key expired
-
-    Topic: POSIX
-
-    See also: std_types::error_number
-
-  {EKEYEXPIRED}
-
-OBJECT std::EKEYREVOKED -> std_types::error_number
-  #
-    key revoked
-
-    Topic: POSIX
-
-    See also: std_types::error_number
-
-  {EKEYREVOKED}
-
-OBJECT std::EKEYREJECTED -> std_types::error_number
-  #
-    key rejected
-
-    Topic: POSIX
-
-    See also: std_types::error_number
-
-  {EKEYREJECTED}
 
 OBJECT std::EOWNERDEAD -> std_types::error_number
   #

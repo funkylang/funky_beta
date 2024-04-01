@@ -75,6 +75,12 @@ $std::is_a_string ()
 
     Topic: Strings
 
+$std::to_uint8_array ()
+  #
+    converts a string to an array of unsigned 8-bit integers
+
+    Topic: Strings
+
 $std_types::object.is_a_string false
   #
     by default, objects are not strings
@@ -2748,6 +2754,29 @@ $std_types::string/serialize:
 	-> append(tabs_and_spaces(indent) str)
 	-> str
 
+$std_types::octet_string/to_uint8_array:
+  #
+    converts a string to an array of unsigned 8-bit integers
+
+    Topic: Strings
+
+    See also: to_string
+
+    Example:
+
+      $str "Hello World"
+      $arr to_uint8_array(str)
+      dump! 2 `arr
+  (
+    self
+  )
+  $arr uint8_array(length_of(self))
+  for_each self
+    : (idx chr)
+      !arr(idx) chr.to_integer
+      next
+    -> arr
+
 $std::indented:
   #
     increases the indent of the specified (multi-line) string
@@ -3022,5 +3051,6 @@ $real_to_string: (num)
 	      '-':
 		-> append("0." append(zeros man))
 	      -> undefined
+
 
 $std_types::string.empty_collection_of ""

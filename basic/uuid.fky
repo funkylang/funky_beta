@@ -1,5 +1,5 @@
-#
-  Copyright (C) 2023 by
+#                                                                               #!/usr/bin/env fkyrun
+  Copyright (C) 2024 by
   Dipl.-Ing. Michael Niederle
 
   This program is free software; you can redistribute it and/or modify
@@ -20,10 +20,43 @@
   Free Software Foundation, Inc.,
   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
-$std::is_a_function ()
-  #
-    succeeds for function objects
-
-$std_types::object.is_a_function false
-$std_types::function.is_a_function true
-$std_types::polymorphic_function.is_a_function true
+$std::get_uuid:
+  open! $fd "/dev/urandom" "r"
+  read! $rnd fd 16
+  close! fd
+  current_time! $t
+  to_uint8_array &rnd
+  !t
+    to_uint8_array
+      range
+	pad_right
+	  append(seconds_since_epoch(t).to_string second_of(t).to_string)
+	  16
+	  "0"
+	-16
+	-1
+  hexdump! rnd
+  hexdump! t
+  $uuid rnd^t
+  ->
+    append
+      hex(uuid(1) 2)
+      hex(uuid(2) 2)
+      hex(uuid(3) 2)
+      hex(uuid(4) 2)
+      "-"
+      hex(uuid(5) 2)
+      hex(uuid(6) 2)
+      "-"
+      hex(uuid(7) 2)
+      hex(uuid(8) 2)
+      "-"
+      hex(uuid(9) 2)
+      hex(uuid(10) 2)
+      "-"
+      hex(uuid(11) 2)
+      hex(uuid(12) 2)
+      hex(uuid(13) 2)
+      hex(uuid(14) 2)
+      hex(uuid(15) 2)
+      hex(uuid(16) 2)

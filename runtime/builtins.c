@@ -688,7 +688,6 @@ enum {
   var_no__std___ELIBSCN,
   var_no__std___ELIBMAX,
   var_no__std___ELIBEXEC,
-  var_no__std___ERESTART,
   var_no__std___ESTRPIPE,
   var_no__std___EUSERS,
   var_no__std___ENOTSOCK,
@@ -720,19 +719,9 @@ enum {
   var_no__std___EALREADY,
   var_no__std___EINPROGRESS,
   var_no__std___ESTALE,
-  var_no__std___EUCLEAN,
-  var_no__std___ENOTNAM,
-  var_no__std___ENAVAIL,
-  var_no__std___EISNAM,
-  var_no__std___EREMOTEIO,
   var_no__std___EDQUOT,
   var_no__std___ENOMEDIUM,
-  var_no__std___EMEDIUMTYPE,
   var_no__std___ECANCELED,
-  var_no__std___ENOKEY,
-  var_no__std___EKEYEXPIRED,
-  var_no__std___EKEYREVOKED,
-  var_no__std___EKEYREJECTED,
   var_no__std___EOWNERDEAD,
   var_no__std___ENOTRECOVERABLE,
   var_no__std___access_time_nanoseconds_of,
@@ -981,7 +970,6 @@ static ERROR_NUMBER std___ELIBBAD;
 static ERROR_NUMBER std___ELIBSCN;
 static ERROR_NUMBER std___ELIBMAX;
 static ERROR_NUMBER std___ELIBEXEC;
-static ERROR_NUMBER std___ERESTART;
 static ERROR_NUMBER std___ESTRPIPE;
 static ERROR_NUMBER std___EUSERS;
 static ERROR_NUMBER std___ENOTSOCK;
@@ -1013,19 +1001,9 @@ static ERROR_NUMBER std___EHOSTUNREACH;
 static ERROR_NUMBER std___EALREADY;
 static ERROR_NUMBER std___EINPROGRESS;
 static ERROR_NUMBER std___ESTALE;
-static ERROR_NUMBER std___EUCLEAN;
-static ERROR_NUMBER std___ENOTNAM;
-static ERROR_NUMBER std___ENAVAIL;
-static ERROR_NUMBER std___EISNAM;
-static ERROR_NUMBER std___EREMOTEIO;
 static ERROR_NUMBER std___EDQUOT;
 static ERROR_NUMBER std___ENOMEDIUM;
-static ERROR_NUMBER std___EMEDIUMTYPE;
 static ERROR_NUMBER std___ECANCELED;
-static ERROR_NUMBER std___ENOKEY;
-static ERROR_NUMBER std___EKEYEXPIRED;
-static ERROR_NUMBER std___EKEYREVOKED;
-static ERROR_NUMBER std___EKEYREJECTED;
 static ERROR_NUMBER std___EOWNERDEAD;
 static ERROR_NUMBER std___ENOTRECOVERABLE;
 static OCTET_STRING std___empty_string;
@@ -12209,10 +12187,6 @@ static ERROR_NUMBER std___ELIBEXEC = {
   std_types___error_number____type, NULL, ELIBEXEC
 };
 
-static ERROR_NUMBER std___ERESTART = {
-  std_types___error_number____type, NULL, ERESTART
-};
-
 static ERROR_NUMBER std___ESTRPIPE = {
   std_types___error_number____type, NULL, ESTRPIPE
 };
@@ -12337,26 +12311,6 @@ static ERROR_NUMBER std___ESTALE = {
   std_types___error_number____type, NULL, ESTALE
 };
 
-static ERROR_NUMBER std___EUCLEAN = {
-  std_types___error_number____type, NULL, EUCLEAN
-};
-
-static ERROR_NUMBER std___ENOTNAM = {
-  std_types___error_number____type, NULL, ENOTNAM
-};
-
-static ERROR_NUMBER std___ENAVAIL = {
-  std_types___error_number____type, NULL, ENAVAIL
-};
-
-static ERROR_NUMBER std___EISNAM = {
-  std_types___error_number____type, NULL, EISNAM
-};
-
-static ERROR_NUMBER std___EREMOTEIO = {
-  std_types___error_number____type, NULL, EREMOTEIO
-};
-
 static ERROR_NUMBER std___EDQUOT = {
   std_types___error_number____type, NULL, EDQUOT
 };
@@ -12365,28 +12319,8 @@ static ERROR_NUMBER std___ENOMEDIUM = {
   std_types___error_number____type, NULL, ENOMEDIUM
 };
 
-static ERROR_NUMBER std___EMEDIUMTYPE = {
-  std_types___error_number____type, NULL, EMEDIUMTYPE
-};
-
 static ERROR_NUMBER std___ECANCELED = {
   std_types___error_number____type, NULL, ECANCELED
-};
-
-static ERROR_NUMBER std___ENOKEY = {
-  std_types___error_number____type, NULL, ENOKEY
-};
-
-static ERROR_NUMBER std___EKEYEXPIRED = {
-  std_types___error_number____type, NULL, EKEYEXPIRED
-};
-
-static ERROR_NUMBER std___EKEYREVOKED = {
-  std_types___error_number____type, NULL, EKEYREVOKED
-};
-
-static ERROR_NUMBER std___EKEYREJECTED = {
-  std_types___error_number____type, NULL, EKEYREJECTED
 };
 
 static ERROR_NUMBER std___EOWNERDEAD = {
@@ -28555,14 +28489,6 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_OBJECT, 0, 0,
-    "ERESTART\000std", NULL,
-    {"error_number\000std_types"},
-    {.methods_count = 0}, 0,
-    NULL,
-    {(NODE *)&std___ERESTART}
-  },
-  {
-    FOT_OBJECT, 0, 0,
     "ESTRPIPE\000std", NULL,
     {"error_number\000std_types"},
     {.methods_count = 0}, 0,
@@ -28811,46 +28737,6 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_OBJECT, 0, 0,
-    "EUCLEAN\000std", NULL,
-    {"error_number\000std_types"},
-    {.methods_count = 0}, 0,
-    NULL,
-    {(NODE *)&std___EUCLEAN}
-  },
-  {
-    FOT_OBJECT, 0, 0,
-    "ENOTNAM\000std", NULL,
-    {"error_number\000std_types"},
-    {.methods_count = 0}, 0,
-    NULL,
-    {(NODE *)&std___ENOTNAM}
-  },
-  {
-    FOT_OBJECT, 0, 0,
-    "ENAVAIL\000std", NULL,
-    {"error_number\000std_types"},
-    {.methods_count = 0}, 0,
-    NULL,
-    {(NODE *)&std___ENAVAIL}
-  },
-  {
-    FOT_OBJECT, 0, 0,
-    "EISNAM\000std", NULL,
-    {"error_number\000std_types"},
-    {.methods_count = 0}, 0,
-    NULL,
-    {(NODE *)&std___EISNAM}
-  },
-  {
-    FOT_OBJECT, 0, 0,
-    "EREMOTEIO\000std", NULL,
-    {"error_number\000std_types"},
-    {.methods_count = 0}, 0,
-    NULL,
-    {(NODE *)&std___EREMOTEIO}
-  },
-  {
-    FOT_OBJECT, 0, 0,
     "EDQUOT\000std", NULL,
     {"error_number\000std_types"},
     {.methods_count = 0}, 0,
@@ -28867,51 +28753,11 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_OBJECT, 0, 0,
-    "EMEDIUMTYPE\000std", NULL,
-    {"error_number\000std_types"},
-    {.methods_count = 0}, 0,
-    NULL,
-    {(NODE *)&std___EMEDIUMTYPE}
-  },
-  {
-    FOT_OBJECT, 0, 0,
     "ECANCELED\000std", NULL,
     {"error_number\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
     {(NODE *)&std___ECANCELED}
-  },
-  {
-    FOT_OBJECT, 0, 0,
-    "ENOKEY\000std", NULL,
-    {"error_number\000std_types"},
-    {.methods_count = 0}, 0,
-    NULL,
-    {(NODE *)&std___ENOKEY}
-  },
-  {
-    FOT_OBJECT, 0, 0,
-    "EKEYEXPIRED\000std", NULL,
-    {"error_number\000std_types"},
-    {.methods_count = 0}, 0,
-    NULL,
-    {(NODE *)&std___EKEYEXPIRED}
-  },
-  {
-    FOT_OBJECT, 0, 0,
-    "EKEYREVOKED\000std", NULL,
-    {"error_number\000std_types"},
-    {.methods_count = 0}, 0,
-    NULL,
-    {(NODE *)&std___EKEYREVOKED}
-  },
-  {
-    FOT_OBJECT, 0, 0,
-    "EKEYREJECTED\000std", NULL,
-    {"error_number\000std_types"},
-    {.methods_count = 0}, 0,
-    NULL,
-    {(NODE *)&std___EKEYREJECTED}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -29723,7 +29569,7 @@ FUNKY_MODULE module__builtin = {
   NULL,
   0, 0,
   4, 0,
-  397, 445,
+  397, 434,
   NULL,
   defined_namespaces, NULL,
   constants_table, variables_table
