@@ -53,8 +53,14 @@ $DLL_VERSION RUNTIME_MAJOR_VERSION
 $DLL_EXTENSION
   if
     OS == "cygwin"
-    -> "-@(DLL_VERSION.dll"
+    -> "-@(DLL_VERSION).dll"
     -> ".so.@(DLL_VERSION)"
+
+$EXE_EXTENSION
+  if
+    OS == "cygwin"
+    -> ".exe"
+    -> ""
 
 $cc_options
   list
@@ -173,7 +179,10 @@ $build_executable:
   compile! $modules $libraries input_filename
   c_compile! &modules
   $newest_timestamp find_newest_timestamp(modules)
-  $exe_filename input_filename .without_suffix. ".fky"
+  $exe_filename
+    append
+      input_filename .without_suffix. ".fky"
+      EXE_EXTENSION
   stat! $exe_info exe_filename
   on
     ||

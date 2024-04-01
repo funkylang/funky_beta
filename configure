@@ -437,7 +437,7 @@ static FUNKY_VARIABLE variables_table[] = {
   {
     FOT_INITIALIZED, 0, 0,
     "OS\000funky", NULL,
-    {.const_idx = -str_oss}
+    {.const_idx = -str_os}
   }
 };
 
