@@ -796,7 +796,7 @@ do
   echo "libfky-$LIBNAME-${VERSION}${DLL_EXTENSION}: \${${LIBNAME}_OBJECTS}"
   echo "${TAB}\$(CC) -shared" \
     "-Wl,-soname,libfky-$LIBNAME$DLL_EXTENSION \$(basic_OBJECTS)" \
-    "-o libfky-$LIBNAME-$VERSION.so.$DLL_VERSION"
+    "-o libfky-$LIBNAME-$VERSION$DLL_EXTENSION"
   echo
   echo "libfky-$LIBNAME${LIB_EXTENSION}: \${${LIBNAME}_OBJECTS}"
   echo "${TAB}ar rcs libfky-$LIBNAME${LIB_EXTENSION} \$(basic_OBJECTS)"
