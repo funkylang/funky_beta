@@ -46,6 +46,16 @@ $MAJOR 0
 #$MINOR 0
 #$PATCH 0
 
+$RUNTIME_MAJOR_VERSION 0
+
+$DLL_VERSION RUNTIME_MAJOR_VERSION
+
+$DLL_EXTENSION
+  if
+    OS == "cygwin"
+    -> "-@(DLL_VERSION.dll"
+    -> ".so.@(DLL_VERSION)"
+
 $cc_options
   list
     "-Wall"
@@ -196,7 +206,7 @@ $build_executable:
 	  cc! arguments
 	:
 	  append &arguments libraries
-	  push &arguments "-l:libfky.so.@(MAJOR)"
+	  push &arguments "-l:libfky@(DLL_EXTENSION)"
 	  push &arguments "-lm"
 	  push &arguments "-o"
 	  push &arguments exe_filename
@@ -257,7 +267,7 @@ $build_library:
 	    creating static library "@(a_filename)"
 	  ar! append(list("rcs" a_filename) object_files)
     :
-      $so_filename "libfky-@(basename)@(version).so.@(MAJOR)"
+      $so_filename "libfky-@(basename)@(version)@(DLL_EXTENSION)"
       stat! $so_info so_filename
       on
 	||
@@ -271,7 +281,7 @@ $build_library:
 	  $arguments empty_list
 	  push &arguments "-shared"
 	  push &arguments
-	    "-Wl,-soname,libfky-@(basename).so.@(MAJOR)"
+	    "-Wl,-soname,libfky-@(basename)@(DLL_EXTENSION)"
 	  append &arguments object_files
 	  push &arguments "-o"
 	  push &arguments so_filename
@@ -368,7 +378,7 @@ $compile: (base_filename)
 		      if
 			do_build_static
 			-> "-l:libfky-@(library_name).a"
-			-> "-l:libfky-@(library_name).so.0"
+			-> "-l:libfky-@(library_name)@(DLL_EXTENSION)"
 		    if
 		      libraries_handled(library_name)
 		      next
