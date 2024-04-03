@@ -149,6 +149,7 @@ $sub_y_of () # the index of the current "sub_line" within its paragraph
 $first_visible_y_of () # the index of the first visible paragraph
 $first_visible_sub_y_of () # the first visible sub_line within this paragraph
 $first_visible_x_of () # the first visible x-coordinate
+$first_column_of () # the first editable column
 $needs_redraw () # the contents were not changed but an update is necessary
 $was_updated () # the window's lines were updated in some way
 $update_class_of () # the type of update (e.g. INSERTION)
@@ -195,7 +196,7 @@ $indent_step 2
 program_parameters!
   $text_filenames
   list
-    MANY_PARAMETERS "filename" "
+    SOME_PARAMETERS "filename" "
       the name(s) of the text file(s) to edit
 
 
@@ -410,7 +411,7 @@ $editor_key_bindings
     F5 = toggle_soft_line_break
     F6 = toggle_line_numbers
 
-$simple_key_bindings
+$single_line_key_bindings
   hash_table
     # cursor movement
 
@@ -421,9 +422,6 @@ $simple_key_bindings
 
     HOME = cursor_home
     END = cursor_end
-
-    CTRL_HOME = cursor_top
-    CTRL_END = cursor_bottom
 
     BACKSPACE = delete_left
     DELETE = delete_right
@@ -436,6 +434,15 @@ $simple_key_bindings
     # control commands
 
     CTRL_Q = EXIT
+
+$simple_key_bindings
+  new
+    single_line_key_bindings
+
+    # cursor movement
+
+    CTRL_HOME = cursor_top
+    CTRL_END = cursor_bottom
 
 $search_key_bindings
   new
@@ -543,6 +550,7 @@ $tedi_types::window.cursor_y_of 1
 $tedi_types::window.first_visible_x_of 1
 $tedi_types::window.first_visible_y_of 1
 $tedi_types::window.first_visible_sub_y_of 1
+$tedi_types::window.first_column_of 1
 $tedi_types::window.inbounds_width_of undefined
 $tedi_types::window.upper_bound_of undefined
 $tedi_types::window.lower_bound_of undefined
@@ -582,7 +590,7 @@ $go_to_key_bindings
 
 $filter_key_bindings
   new
-    simple_key_bindings
+    single_line_key_bindings
 
     # actions
 
@@ -595,6 +603,15 @@ $filter_key_bindings
     CTRL_V = paste
     CTRL_X = cut
 
+$filename_key_bindings
+  new
+    simple_key_bindings
+
+    # actions
+
+    RETURN = save_as
+    ESCAPE = cancel
+
 # Window Ids
 
 $INFO_BAR -1
@@ -603,7 +620,8 @@ $DUMMY_BAR -3
 $SEARCH_BAR -4
 $GO_TO_BAR -5
 $FILTER_BAR -6
-$HELP_WINDOW -7
+$FILENAME_BAR -7
+$HELP_WINDOW -8
 
 $info_bar
   tedi_types::window
@@ -650,6 +668,15 @@ $filter_window
     .colour_set_of colour_sets(2)
     .cursor_movement_of ADD_SINGLE_LINE
 
+$filename_window
+  tedi_types::window
+    .id_of FILENAME_BAR
+    .key_bindings_of filename_key_bindings
+    .key_of undefined
+    .lines_of empty_list
+    .colour_set_of colour_sets(3)
+    .cursor_movement_of ADD_SINGLE_LINE
+
 $state undefined
 
 $terminal undefined
@@ -660,6 +687,7 @@ $ai_context_size 4096
 
 $next_id 0
 
+update_if text_filenames.is_empty &text_filenames -> list("")
 create_text_windows! $text_windows text_filenames !next_id
 
 initialize_terminal!
@@ -712,6 +740,7 @@ $main: (initial_terminal)
 		    text_windows
 		    list
 		      help_window
+		      filename_window
 		      filter_window
 		      go_to_window
 		      search_window
@@ -1228,7 +1257,7 @@ $cursor_left: (dx = 1)
       !window
 	window
 	  .x_of undefined
-	  .cursor_x_of max(cursor_x_of(window)-dx 1)
+	  .cursor_x_of max(cursor_x_of(window)-dx first_column_of(window))
       return_window
     :
       position_in_text $_indent $text $x $i $offset
@@ -1259,7 +1288,7 @@ $cursor_left: (dx = 1)
       $update_x_position:
 	!window
 	  window
-	    .x_of max(x 1)
+	    .x_of max(x first_column_of(window))
 	    .sub_y_of undefined
 	    .cursor_x_of undefined
 	    .cursor_y_of undefined
@@ -1279,24 +1308,33 @@ $cursor_is_behind_text
       cursor_x_of(window) > last_position(y_of(window))
 
 $cursor_home:
-  $pos first_position(y_of(window))
-  !window
-    window
-      .x_of undefined
-      .y_of undefined
-      .sub_y_of undefined
-      .cursor_x_of
-	if
-	  cursor_x_of(window) == pos
-	  -> 1
-	  -> pos
-  return_window
+  $first_column first_column_of(window)
+  if
+    first_column > 1:
+      !window
+	window
+	  .x_of first_column
+	  .cursor_x_of first_column
+      return_window
+    :
+      $pos first_position(y_of(window))
+      !window
+	window
+	  .x_of undefined
+	  .y_of undefined
+	  .sub_y_of undefined
+	  .cursor_x_of
+	    if
+	      cursor_x_of(window) == pos
+	      -> 1
+	      -> pos
+      return_window
 
 $cursor_end:
   !window
     window
       .x_of undefined
-      .cursor_x_of last_position(y_of(window))
+      .cursor_x_of max(last_position(y_of(window)) first_column_of(window))
   return_window
 
 $cursor_top:
@@ -1629,7 +1667,7 @@ $delete_left:
   show_dummy !state
   $x x_of(window)
   if
-    x == 1
+    x <= first_column_of(window)
     -> state
     :
       if
@@ -1726,18 +1764,34 @@ $delete_to_line_start:
 	    :
 	      line $indent $text $mark $folds
 	      $width indent+length_of(text)
-	      cond
-		-> x > width:
-		  !window.x_of indent+1
-		  update_lines_after_deletion y undefined
-		-> x <= indent+1:
-		  !window.x_of 1
-		  update_lines_after_deletion y
-		    tedi_line(indent-(x-1) text mark folds)
-		-> true:
-		  !window.x_of indent+1
-		  update_lines_after_deletion y
-		    tedi_line(indent range(text x-indent -1) mark folds)
+	      $first_column first_column_of(window)
+	      if
+		first_column > 1:
+		  !text
+		    if
+		      length_of(text) >= x
+		      -> append(range(text 1 first_column-1) range(text x -1))
+		      -> range(text 1 min(first_column-1 length_of(text)))
+		  !window
+		    window
+		      .cursor_x_of first_column
+		      .x_of undefined
+		      .was_updated true
+		  !lines(y) tedi_line(0 text mark folds)
+		  return_window_and_lines
+		:
+		  cond
+		    -> x > width:
+		      !window.x_of indent+1
+		      update_lines_after_deletion y undefined
+		    -> x <= indent+1:
+		      !window.x_of 1
+		      update_lines_after_deletion y
+			tedi_line(indent-(x-1) text mark folds)
+		    -> true:
+		      !window.x_of indent+1
+		      update_lines_after_deletion y
+			tedi_line(indent range(text x-indent -1) mark folds)
 
 $delete_to_line_end:
   $y y_of(window)
@@ -1897,7 +1951,46 @@ $join_lines:
 	.sub_y_of undefined
     return_window_and_lines
 
-$save_contents -> state(.action_of save_contents_action)
+$save_contents:
+  if
+    filename_of(window).is_empty:
+      $windows windows_of(state)
+      !window windows(FILENAME_BAR)
+      !window
+	window
+	  .cursor_x_of undefined
+	  .cursor_y_of undefined
+	  .sub_y_of undefined
+	  .x_of 11
+	  .y_of 1
+	  .first_column_of 11
+	  .lines_of list(tedi_line(0 "Filename:"))
+      !windows(FILENAME_BAR) window
+      ->
+	state
+	  .text_window_index_of cwi()
+	  .current_window_index_of FILENAME_BAR
+	  .windows_of windows
+
+    -> state(.action_of save_contents_action)
+
+$save_as:
+  $windows windows_of(state)
+  !window windows(FILENAME_BAR)
+  !lines lines_of(window)
+  lines(1) $_indent $text
+  $filename range(text first_column_of(window) -1)
+  # switch back to text window:
+  !state.current_window_index_of text_window_index_of(state)
+  if
+    filename.is_empty
+    -> state
+    :
+      !windows(cwi()).filename_of filename
+      ->
+	state
+	  .windows_of windows
+	  .action_of save_contents_action
 
 $save_contents_action:
   try $err: save! filename_of(window) lines_to_text(lines)
