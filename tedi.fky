@@ -110,6 +110,7 @@ $previous_window_index_of () # the previously active window
 $text_window_index_of () # the text window to work on
 $previous_text_window_index_of () # the previous text window
 $current_bar_index_of () # the currently active bar
+$window_stack_of () # a stack of window indices
 $views_of () # a list of all views (all status bars share the same view)
 $completion_prefix_of () # used for "smart completion"
 $possible_completions_of () # a list of all matching completions
@@ -376,6 +377,13 @@ $viewer_key_bindings
     ALT_N = next_window
     ALT_P = previous_window
 
+$file_selector_key_bindings
+  new
+    viewer_key_bindings
+    RETURN = load_selected_file
+    ESCAPE = cancel
+    F1 = show_help
+
 $editor_key_bindings
   new
     viewer_key_bindings
@@ -385,6 +393,7 @@ $editor_key_bindings
     CTRL_D = define_mark
     CTRL_J = join_lines
     CTRL_K = delete_line
+    CTRL_L = load_contents
     CTRL_S = save_contents
     CTRL_ALT_S = save_with_leading_spaces
     CTRL_V = paste
@@ -522,6 +531,18 @@ $help_colour_set
     .line_number_text_colour_of BLACK
     .line_number_background_colour_of '@0x999999;'
 
+$file_selector_colour_set
+  std_types::object
+    .text_colour_of '@0x000000;'
+    .background_colour_of '@0x40ffff;'
+    .selection_colour_of '@0x804000;'
+    .folds_colour_of '@0x004000;'
+    .fake_folds_colour_of '@0x002000;'
+    .bar_text_colour_of BLACK
+    .bar_background_colour_of WHITE
+    .line_number_text_colour_of BLACK
+    .line_number_background_colour_of '@0x999999;'
+
 $info_colour_set
   std_types::object
     .text_colour_of BLACK
@@ -622,6 +643,7 @@ $GO_TO_BAR -5
 $FILTER_BAR -6
 $FILENAME_BAR -7
 $HELP_WINDOW -8
+$FILE_SELECTOR_WINDOW -9
 
 $info_bar
   tedi_types::window
@@ -677,6 +699,18 @@ $filename_window
     .colour_set_of colour_sets(3)
     .cursor_movement_of ADD_SINGLE_LINE
 
+$file_selector_window
+  tedi_types::text_window
+    .id_of FILE_SELECTOR_WINDOW
+    .key_bindings_of file_selector_key_bindings
+    .key_of undefined
+    .filename_of "Select file"
+    .lines_of empty_list
+    .do_view_only true
+    .do_highlight_cursor_line_of true
+    .colour_set_of file_selector_colour_set
+    .cursor_movement_of ANYWHERE
+
 $state undefined
 
 $terminal undefined
@@ -712,14 +746,14 @@ $main: (initial_terminal)
     $help_window
       tedi_types::text_window
 	.id_of HELP_WINDOW
-	.key_bindings_of viewer_key_bindings(ESCAPE close_help)
+	.key_bindings_of viewer_key_bindings(ESCAPE cancel)
 	.key_of undefined
 	.filename_of "Help"
 	.lines_of load_text(help_text)
 	.do_view_only true
 	.do_highlight_cursor_line_of true
-	.cursor_movement_of ANYWHERE
 	.colour_set_of help_colour_set
+	.cursor_movement_of ANYWHERE
     for_each text_windows
       : (idx text_window)
 	!text_windows(idx) text_window(.key_bindings_of editor_key_bindings)
@@ -739,6 +773,7 @@ $main: (initial_terminal)
 		  append
 		    text_windows
 		    list
+		      file_selector_window
 		      help_window
 		      filename_window
 		      filter_window
@@ -755,6 +790,7 @@ $main: (initial_terminal)
 		    -> DUMMY_BAR
 		    -> ERROR_BAR
 		.text_window_index_of 1
+		.window_stack_of empty_list
 		.key_of undefined
 		.completion_prefix_of undefined
 		.possible_completions_of undefined
@@ -825,7 +861,7 @@ $event_loop:
 		$views views_of(state)
 		!current_view
 		  cond
-		    -> cwi() == HELP_WINDOW -> views(-2)
+		    -> cwi() <= HELP_WINDOW -> views(-2)
 		    -> cwi() < 0 -> views(-1)
 		    -> true:
 		      create_view # remove title bar
@@ -927,8 +963,9 @@ $event_loop:
       next
 
   $apply_key: (key)
-    !state.previous_window_index_of current_window_index_of(state)
-    !state.previous_text_window_index_of text_window_index_of(state)
+    !state
+      .previous_window_index_of current_window_index_of(state)
+      .previous_text_window_index_of text_window_index_of(state)
     !window_before_update windows_of(state)(text_window_index_of(state))
     extract_window_and_lines:
       $window_idx cwi()
@@ -1012,9 +1049,6 @@ $event_loop:
     $idx cwi()
     !state.windows_of(idx) window
     update &window views_of(state)(idx) &terminal
-    #!lines lines_of(window)
-    #update_display !terminal !state
-    #!window_before_update windows_of(state)(cwi())
     next!
 
   $check_updates:
@@ -1053,7 +1087,7 @@ $event_loop:
 	:
 	  $view_idx
 	    cond
-	      -> idx == HELP_WINDOW -> -2
+	      -> idx <= HELP_WINDOW -> -2
 	      -> idx < 0 -> -1
 	      -> true:
 		if
@@ -1160,12 +1194,11 @@ $smart_cursor_down:
 	  next
 	  :
 	    !window
-	      window
-		.x_of cursor_x
-		.y_of y
-		.sub_y_of 1
-		.cursor_x_of undefined
-		.cursor_y_of undefined
+	      .x_of cursor_x
+	      .y_of y
+	      .sub_y_of 1
+	      .cursor_x_of undefined
+	      .cursor_y_of undefined
 	    return_window
       -> state
 
@@ -1174,11 +1207,10 @@ $page_down:
 
 $cursor_down: (dy = 1)
   !window
-    window
-      .x_of undefined
-      .y_of undefined
-      .sub_y_of undefined
-      .cursor_y_of cursor_y_of(window)+dy
+    .x_of undefined
+    .y_of undefined
+    .sub_y_of undefined
+    .cursor_y_of cursor_y_of(window)+dy
   return_window
 
 $smart_cursor_up:
@@ -1194,12 +1226,11 @@ $smart_cursor_up:
 	  next
 	  :
 	    !window
-	      window
-		.x_of cursor_x
-		.y_of y
-		.sub_y_of 1
-		.cursor_x_of undefined
-		.cursor_y_of undefined
+	      .x_of cursor_x
+	      .y_of y
+	      .sub_y_of 1
+	      .cursor_x_of undefined
+	      .cursor_y_of undefined
 	    return_window
       -> state
 
@@ -1208,20 +1239,18 @@ $page_up:
 
 $cursor_up: (dy = 1)
   !window
-    window
-      .x_of undefined
-      .y_of undefined
-      .sub_y_of undefined
-      .cursor_y_of cursor_y_of(window)-dy
+    .x_of undefined
+    .y_of undefined
+    .sub_y_of undefined
+    .cursor_y_of cursor_y_of(window)-dy
   return_window
 
 $cursor_right: (dx = 1)
   if
     cursor_is_not_within_text():
       !window
-	window
-	  .x_of undefined
-	  .cursor_x_of cursor_x_of(window)+dx
+	.x_of undefined
+	.cursor_x_of cursor_x_of(window)+dx
       return_window
     :
       position_in_text $_indent $text $x $i $offset
@@ -1244,20 +1273,18 @@ $cursor_right: (dx = 1)
 
       $update_x_position:
 	!window
-	  window
-	    .x_of x
-	    .sub_y_of undefined
-	    .cursor_x_of undefined
-	    .cursor_y_of undefined
+	  .x_of x
+	  .sub_y_of undefined
+	  .cursor_x_of undefined
+	  .cursor_y_of undefined
 	return_window
 
 $cursor_left: (dx = 1)
   if
     cursor_is_not_within_text():
       !window
-	window
-	  .x_of undefined
-	  .cursor_x_of max(cursor_x_of(window)-dx first_column_of(window))
+	.x_of undefined
+	.cursor_x_of max(cursor_x_of(window)-dx first_column_of(window))
       return_window
     :
       position_in_text $_indent $text $x $i $offset
@@ -1287,11 +1314,10 @@ $cursor_left: (dx = 1)
 
       $update_x_position:
 	!window
-	  window
-	    .x_of max(x first_column_of(window))
-	    .sub_y_of undefined
-	    .cursor_x_of undefined
-	    .cursor_y_of undefined
+	  .x_of max(x first_column_of(window))
+	  .sub_y_of undefined
+	  .cursor_x_of undefined
+	  .cursor_y_of undefined
 	return_window
 
 $cursor_is_not_within_text
@@ -1312,54 +1338,49 @@ $cursor_home:
   if
     first_column > 1:
       !window
-	window
-	  .x_of first_column
-	  .cursor_x_of first_column
+	.x_of first_column
+	.cursor_x_of first_column
       return_window
     :
       $pos first_position(y_of(window))
       !window
-	window
-	  .x_of undefined
-	  .y_of undefined
-	  .sub_y_of undefined
-	  .cursor_x_of
-	    if
-	      cursor_x_of(window) == pos
-	      -> 1
-	      -> pos
+	.x_of undefined
+	.y_of undefined
+	.sub_y_of undefined
+	.cursor_x_of
+	  if
+	    cursor_x_of(window) == pos
+	    -> 1
+	    -> pos
       return_window
 
 $cursor_end:
   !window
-    window
-      .x_of undefined
-      .cursor_x_of max(last_position(y_of(window)) first_column_of(window))
+    .x_of undefined
+    .cursor_x_of max(last_position(y_of(window)) first_column_of(window))
   return_window
 
 $cursor_top:
   !window
-    window
-      .x_of 1
-      .y_of 1
-      .sub_y_of undefined
-      .cursor_x_of undefined
-      .cursor_y_of undefined
+    .x_of 1
+    .y_of 1
+    .sub_y_of undefined
+    .cursor_x_of undefined
+    .cursor_y_of undefined
   return_window
 
 $cursor_bottom:
   $line_count length_of(lines)
   !window
-    window
-      .x_of 1
-      .y_of
-	if
-	  cursor_movement_of(window) == WITHIN_TEXT
-	  -> line_count
-	  -> line_count+1
-      .sub_y_of 1
-      .cursor_x_of undefined
-      .cursor_y_of undefined
+    .x_of 1
+    .y_of
+      if
+	cursor_movement_of(window) == WITHIN_TEXT
+	-> line_count
+	-> line_count+1
+    .sub_y_of 1
+    .cursor_x_of undefined
+    .cursor_y_of undefined
   return_window
 
 $insert: (str)
@@ -1427,11 +1448,10 @@ $insert: (str)
 
 	$advance_cursor:
 	  !window
-	    window
-	      .cursor_x_of undefined
-	      .cursor_y_of undefined
-	      .sub_y_of undefined
-	      .x_of x+insert_width
+	    .cursor_x_of undefined
+	    .cursor_y_of undefined
+	    .sub_y_of undefined
+	    .x_of x+insert_width
 	  return_window_and_lines
 
 $insert_line: (str)
@@ -1450,13 +1470,12 @@ $insert_line: (str)
 
   $return:
     !window
-      window
-	.cursor_x_of undefined
-	.cursor_y_of undefined
-	.sub_y_of undefined
-	.x_of 1
-	.y_of y+1
-	.was_updated true
+      .cursor_x_of undefined
+      .cursor_y_of undefined
+      .sub_y_of undefined
+      .x_of 1
+      .y_of y+1
+      .was_updated true
     return_window_and_lines
 
 $contains_only_spaces: (str)
@@ -1502,12 +1521,11 @@ $smart_indent:
 
   $move_right:
     !window
-      window
-	.x_of x+indent_step
-	.cursor_x_of undefined
-	.cursor_y_of undefined
-	.sub_y_of undefined
-	.was_updated true
+      .x_of x+indent_step
+      .cursor_x_of undefined
+      .cursor_y_of undefined
+      .sub_y_of undefined
+      .was_updated true
     return_window_and_lines
 
 $smart_outdent:
@@ -1559,12 +1577,11 @@ $smart_outdent:
 
   $move_left:
     !window
-      window
-	.x_of max(x-indent_step 1)
-	.cursor_x_of undefined
-	.cursor_y_of undefined
-	.sub_y_of undefined
-	.was_updated true
+      .x_of max(x-indent_step 1)
+      .cursor_x_of undefined
+      .cursor_y_of undefined
+      .sub_y_of undefined
+      .was_updated true
     return_window_and_lines
 
 $new_line:
@@ -1577,13 +1594,12 @@ $new_line:
     :
       !lines append(push(range(lines 1 y) undefined) range(lines y+1 -1))
       !window
-	window
-	  .cursor_x_of undefined
-	  .cursor_y_of undefined
-	  .sub_y_of undefined
-	  .x_of 1
-	  .y_of y+1
-	  .was_updated true
+	.cursor_x_of undefined
+	.cursor_y_of undefined
+	.sub_y_of undefined
+	.x_of 1
+	.y_of y+1
+	.was_updated true
       return_window_and_lines
 
 $split_line:
@@ -1591,10 +1607,9 @@ $split_line:
   $y y_of(window)
   $height length_of(lines)
   !window
-    window
-      .cursor_x_of undefined
-      .cursor_y_of undefined
-      .sub_y_of undefined
+    .cursor_x_of undefined
+    .cursor_y_of undefined
+    .sub_y_of undefined
   if
     y > length_of(lines):
       !window.y_of y+1
@@ -1610,17 +1625,15 @@ $split_line:
 	      !lines
 		append(push(range(lines 1 y-1) undefined) range(lines y -1))
 	      !window
-		window
-		  .y_of y+1
-		  .was_updated true
+		.y_of y+1
+		.was_updated true
 	      return_window_and_lines
 	    -> x > indent+length_of(text):
 	      if
 		y == height:
 		  !window
-		    window
-		      .x_of indent+1
-		      .y_of y+1
+		    .x_of indent+1
+		    .y_of y+1
 		  return_window
 		:
 		  insert_empty_line indent
@@ -1637,16 +1650,14 @@ $split_line:
 			  indent range(text x-indent -1).trim_left mark folds
 		      range(lines y+1 -1)
 		  !window
-		    window
-		      .x_of indent+1
-		      .y_of y+1
-		      .was_updated true
+		    .x_of indent+1
+		    .y_of y+1
+		    .was_updated true
 		  return_window_and_lines
 		:
 		  !window
-		    window
-		      .x_of indent+1
-		      .y_of y+1
+		    .x_of indent+1
+		    .y_of y+1
 		  return_window_and_lines
 	:
 	  insert_empty_line 0
@@ -1654,13 +1665,12 @@ $split_line:
   $insert_empty_line: (indent)
     !lines append(push(range(lines 1 y) undefined) range(lines y+1 -1))
     !window
-      window
-	.cursor_x_of undefined
-	.cursor_y_of undefined
-	.sub_y_of undefined
-	.x_of indent+1
-	.y_of y+1
-	.was_updated true
+      .cursor_x_of undefined
+      .cursor_y_of undefined
+      .sub_y_of undefined
+      .x_of indent+1
+      .y_of y+1
+      .was_updated true
     return_window_and_lines
 
 $delete_left:
@@ -1737,12 +1747,11 @@ $delete_line:
 	  update_lines_after_deletion y undefined
 	:
 	  !window
-	    window
-	      .was_updated true
-	      .x_of undefined
-	      .y_of undefined
-	      .sub_y_of undefined
-	      .cursor_y_of cursor_y_of(window)-sub_y_of(window)+1
+	    .was_updated true
+	    .x_of undefined
+	    .y_of undefined
+	    .sub_y_of undefined
+	    .cursor_y_of cursor_y_of(window)-sub_y_of(window)+1
 	  !lines append(range(lines 1 y-1) range(lines y+1 height))
 	  return_window_and_lines
 
@@ -1773,10 +1782,9 @@ $delete_to_line_start:
 		      -> append(range(text 1 first_column-1) range(text x -1))
 		      -> range(text 1 min(first_column-1 length_of(text)))
 		  !window
-		    window
-		      .cursor_x_of first_column
-		      .x_of undefined
-		      .was_updated true
+		    .cursor_x_of first_column
+		    .x_of undefined
+		    .was_updated true
 		  !lines(y) tedi_line(0 text mark folds)
 		  return_window_and_lines
 		:
@@ -1818,11 +1826,10 @@ $delete_to_line_end:
 
 $update_lines_after_deletion: (y line)
   !window
-    window
-      .cursor_x_of undefined
-      .cursor_y_of undefined
-      .sub_y_of undefined
-      .was_updated true
+    .cursor_x_of undefined
+    .cursor_y_of undefined
+    .sub_y_of undefined
+    .was_updated true
   $height length_of(lines)
   if
     line.is_undefined && y == height: # removing last line
@@ -1869,9 +1876,8 @@ $join_lines:
 	      if
 		line_above.is_undefined:
 		  !window
-		    window
-		      .cursor_y_of undefined
-		      .y_of y-1
+		    .cursor_y_of undefined
+		    .y_of y-1
 		  return_window_and_lines
 		:
 		  $line_below lines(y)
@@ -1889,11 +1895,10 @@ $join_lines:
 	      if
 		line_above.is_undefined:
 		  !window
-		    window
-		      .cursor_x_of undefined
-		      .cursor_y_of undefined
-		      .sub_y_of undefined
-		      .y_of y-1
+		    .cursor_x_of undefined
+		    .cursor_y_of undefined
+		    .sub_y_of undefined
+		    .y_of y-1
 		  !lines append(range(lines 1 y-2) range(lines y -1))
 		  return_window_and_lines
 		:
@@ -1902,11 +1907,10 @@ $join_lines:
 		  update_if indent >= 1 &text_above: push text_above ' '
 		  append text_above &text
 		  !window
-		    window
-		      .cursor_x_of undefined
-		      .cursor_y_of undefined
-		      .x_of length_above+if(x > 1 (-> 2) (-> 1))
-		      .y_of y-1
+		    .cursor_x_of undefined
+		    .cursor_y_of undefined
+		    .x_of length_above+if(x > 1 (-> 2) (-> 1))
+		    .y_of y-1
 		  !lines
 		    append
 		      push
@@ -1943,21 +1947,49 @@ $join_lines:
     line_above $indent_above $text_above
     $length_above indent_above+length_of(text_above)
     !window
-      window
-	.x_of length_above+if(x == 1 (-> 1) (-> 2))
-	.y_of y-1
-	.cursor_x_of undefined
-	.cursor_y_of undefined
-	.sub_y_of undefined
+      .x_of length_above+if(x == 1 (-> 1) (-> 2))
+      .y_of y-1
+      .cursor_x_of undefined
+      .cursor_y_of undefined
+      .sub_y_of undefined
     return_window_and_lines
+
+$load_contents:
+  -> state(.action_of load_contents_action)
+
+$load_contents_action:
+  directory! $entries SORT "."
+  $text_lines empty_list
+  for_each entries
+    : (entry)
+      push &text_lines tedi_line(0 name_of(entry))
+      next!
+    :
+      !state.windows_of(FILE_SELECTOR_WINDOW).lines_of text_lines
+      open_window !state FILE_SELECTOR_WINDOW
+      -> io terminal state
+
+$load_selected_file:
+  -> state(.action_of load_selected_file_action)
+
+$load_selected_file_action:
+  $line lines(y_of(window))
+  line $_indent $filename
+  load_file! $text_lines filename
+  close_window !state
+  !window
+    windows_of(state)(cwi())
+      .lines_of text_lines
+      .filename_of filename
+      .is_new false
+  !state.windows_of(cwi()) window
+  -> io terminal state
 
 $save_contents:
   if
     filename_of(window).is_empty:
-      $windows windows_of(state)
-      !window windows(FILENAME_BAR)
-      !window
-	window
+      !state.windows_of(FILENAME_BAR)
+	windows_of(state)(FILENAME_BAR)
 	  .cursor_x_of undefined
 	  .cursor_y_of undefined
 	  .sub_y_of undefined
@@ -1965,32 +1997,19 @@ $save_contents:
 	  .y_of 1
 	  .first_column_of 11
 	  .lines_of list(tedi_line(0 "Filename:"))
-      !windows(FILENAME_BAR) window
-      ->
-	state
-	  .text_window_index_of cwi()
-	  .current_window_index_of FILENAME_BAR
-	  .windows_of windows
-
+      open_window FILENAME_BAR
     -> state(.action_of save_contents_action)
 
 $save_as:
-  $windows windows_of(state)
-  !window windows(FILENAME_BAR)
-  !lines lines_of(window)
-  lines(1) $_indent $text
+  $text text_of(lines_of(windows_of(state)(FILENAME_BAR))(1))
   $filename range(text first_column_of(window) -1)
-  # switch back to text window:
-  !state.current_window_index_of text_window_index_of(state)
+  close_window !state
   if
     filename.is_empty
     -> state
     :
-      !windows(cwi()).filename_of filename
-      ->
-	state
-	  .windows_of windows
-	  .action_of save_contents_action
+      !state.windows_of(cwi()).filename_of filename
+      -> state(.action_of save_contents_action)
 
 $save_contents_action:
   try $err: save! filename_of(window) lines_to_text(lines)
@@ -2123,9 +2142,10 @@ $complete_prefix: (prefix)
 	      length_of(words) == 1
 	      insert_first_completion
 	      :
-		!state.completion_prefix_of prefix
-		!state.possible_completions_of words
-		!state.completion_index_of 1
+		!state
+		  .completion_prefix_of prefix
+		  .possible_completions_of words
+		  .completion_index_of 1
 		insert_first_completion
 
 	    $insert_first_completion:
@@ -2297,27 +2317,27 @@ $change_completion: (delta)
       !lines(y)
 	tedi_line(indent append(left completion_prefix right) mark folds)
       !window
-	window
-	  .cursor_x_of undefined
-	  .cursor_y_of undefined
-	  .sub_y_of undefined
-	  .x_of x+length_of(completion_prefix)
-      !state.completion_prefix_of undefined
-      !state.possible_completions_of undefined
-      !state.completion_index_of undefined
+	.cursor_x_of undefined
+	.cursor_y_of undefined
+	.sub_y_of undefined
+	.x_of x+length_of(completion_prefix)
+      !state
+	.completion_prefix_of undefined
+	.possible_completions_of undefined
+	.completion_index_of undefined
       return_window_and_lines
     :
       $new_completion possible_completions(completion_index)
       !lines(y)
 	tedi_line(indent append(left new_completion right) mark folds)
       !window
-	window
-	  .cursor_x_of undefined
-	  .cursor_y_of undefined
-	  .sub_y_of undefined
-	  .x_of x+length_of(new_completion)
-      !state.possible_completions_of possible_completions
-      !state.completion_index_of completion_index
+	.cursor_x_of undefined
+	.cursor_y_of undefined
+	.sub_y_of undefined
+	.x_of x+length_of(new_completion)
+      !state
+	.possible_completions_of possible_completions
+	.completion_index_of completion_index
       return_window_and_lines
 
 $is_an_identifier_character: (chr)
@@ -2485,13 +2505,12 @@ $ai_completion_action:
 		      show_error !state "No (more) text generated!"
 		      -> io terminal state
 		:
-		  !window.previous_of window
 		  !window
-		    window
-		      .cursor_x_of undefined
-		      .cursor_y_of undefined
-		      .sub_y_of undefined
-		      .x_of cx
+		    .previous_of window
+		    .cursor_x_of undefined
+		    .cursor_y_of undefined
+		    .sub_y_of undefined
+		    .x_of cx
 		  update_if at_line_start && ai_text(1) == ' '
 		    &ai_text -> range(ai_text 2 -1)
 		  show_dummy !state
@@ -2819,12 +2838,11 @@ $cut_or_copy: (do_cut)
 		    do_cut
 		    :
 		      !window
-			window
-			  .cursor_x_of undefined
-			  .cursor_y_of undefined
-			  .sub_y_of undefined
-			  .x_of selection_start_x
-			  .was_updated true
+			.cursor_x_of undefined
+			.cursor_y_of undefined
+			.sub_y_of undefined
+			.x_of min(x_of(window) selection_start_x)
+			.was_updated true
 		      !lines(y)
 			tedi_line
 			  indent
@@ -2849,12 +2867,11 @@ $cut_or_copy: (do_cut)
 	  if
 	    do_cut:
 	      !window
-		window
-		  .cursor_x_of undefined
-		  .cursor_y_of undefined
-		  .sub_y_of undefined
-		  .x_of 1
-		  .y_of selection_start_y
+		.cursor_x_of undefined
+		.cursor_y_of undefined
+		.sub_y_of undefined
+		.x_of 1
+		.y_of selection_start_y
 	      !window.was_updated true
 	      if
 		selection_start_y > height
@@ -2898,12 +2915,11 @@ $paste_contents: (contents)
 		  contents
 		  range(lines y -1)
 	    !window
-	      window
-		.cursor_x_of undefined
-		.cursor_y_of undefined
-		.sub_y_of undefined
-		.y_of y+length_of(contents)
-		.was_updated true
+	      .cursor_x_of undefined
+	      .cursor_y_of undefined
+	      .sub_y_of undefined
+	      .y_of y+length_of(contents)
+	      .was_updated true
 	    return_window_and_lines
     -> state
 
@@ -2948,22 +2964,18 @@ $find_text_dialog:
   !window windows(SEARCH_BAR)
   !lines lines_of(window)
   !window
-    window
-      .cursor_x_of undefined
-      .cursor_y_of undefined
-      .sub_y_of undefined
-      .x_of 1
-      .y_of
-	if
-	  lines.is_defined
-	  -> length_of(lines)+1
-	  -> 1
+    .cursor_x_of undefined
+    .cursor_y_of undefined
+    .sub_y_of undefined
+    .x_of 1
+    .y_of
+      if
+	lines.is_defined
+	-> length_of(lines)+1
+	-> 1
   !windows(SEARCH_BAR) window
-  ->
-    state
-      .text_window_index_of cwi()
-      .current_window_index_of SEARCH_BAR
-      .windows_of windows
+  !state.windows_of windows
+  open_window SEARCH_BAR
 
 $start_search:
   # get search string
@@ -2980,7 +2992,7 @@ $start_search:
 	x > 1:
 	  search_for_text dup(" " x-1)
 	:
-	  -> state(.current_window_index_of text_window_index_of(state))
+	  close_window
     :
       line $indent $text
       append spaces(indent) &text
@@ -3049,13 +3061,12 @@ $search_for_text: (text)
 	    push &search_text chr
 	    next
     :
-      # switch back to text window:
-      !state.current_window_index_of text_window_index_of(state)
-
-      !state.search_text_of search_text
-      !state.match_start_boundary_of match_start_boundary
-      !state.match_end_boundary_of match_end_boundary
-      !state.replacement_text_of replacement_text
+      close_window !state
+      !state
+	.search_text_of search_text
+	.match_start_boundary_of match_start_boundary
+	.match_end_boundary_of match_end_boundary
+	.replacement_text_of replacement_text
       !window windows_of(state)(cwi())
       !lines lines_of(window)
       if
@@ -3108,7 +3119,7 @@ $find_next: (x = undefined)
 	      if
 		y > height
 		:
-		  show_error !state "no matching string found"
+		  show_error !state "No matching string found"
 		  -> state
 		:
 		  $line lines(y)
@@ -3212,16 +3223,15 @@ $find_previous: (x = undefined)
 $return_match: (y pos len is_a_backwards_search)
   $right_pos pos+len
   !window
-    window
-      .update_class_of MOVEMENT
-      .x_of if(is_a_backwards_search (-> pos) (-> right_pos))
-      .y_of y
-      .sub_y_of undefined
-      .cursor_x_of undefined
-      .cursor_y_of undefined
-      .selection_start_x_of if(is_a_backwards_search (-> right_pos) (-> pos))
-      .selection_start_y_of y
-      .do_keep_selection true
+    .update_class_of MOVEMENT
+    .x_of if(is_a_backwards_search (-> pos) (-> right_pos))
+    .y_of y
+    .sub_y_of undefined
+    .cursor_x_of undefined
+    .cursor_y_of undefined
+    .selection_start_x_of if(is_a_backwards_search (-> right_pos) (-> pos))
+    .selection_start_y_of y
+    .do_keep_selection true
   return_window
 
 $is_a_valid_match: (text pos len)
@@ -3296,45 +3306,34 @@ $replace_selection:
       range(text e+1 -1)
   !lines(y) tedi_line(indent text mark folds)
   !window
-    window
-      #.previous_of window
-      .cursor_x_of undefined
-      .cursor_y_of undefined
-      .sub_y_of undefined
-      .was_updated true
-      .update_class_of REPLACEMENT
-      .x_of indent+s+length_of(replacement_text)
+    .cursor_x_of undefined
+    .cursor_y_of undefined
+    .sub_y_of undefined
+    .was_updated true
+    .update_class_of REPLACEMENT
+    .x_of indent+s+length_of(replacement_text)
   return_window_and_lines
 
 $cancel:
-  show_dummy !state
-  -> state(.current_window_index_of text_window_index_of(state))
-
-$close_help:
   show_dummy !state "Press F1 for help"
-  -> state(.current_window_index_of text_window_index_of(state))
+  close_window
 
 $go_to_line_dialog:
   $windows windows_of(state)
   !window windows(GO_TO_BAR)
   !lines lines_of(window)
   !window
-    window
-      .cursor_x_of undefined
-      .cursor_y_of undefined
-      .sub_y_of undefined
-      .x_of 1
-      .y_of
-	if
-	  lines.is_defined
-	  -> length_of(lines)+1
-	  -> 1
-  !windows(GO_TO_BAR) window
-  ->
-    state
-      .text_window_index_of cwi()
-      .current_window_index_of GO_TO_BAR
-      .windows_of windows
+    .cursor_x_of undefined
+    .cursor_y_of undefined
+    .sub_y_of undefined
+    .x_of 1
+    .y_of
+      if
+	lines.is_defined
+	-> length_of(lines)+1
+	-> 1
+  !state.windows_of(GO_TO_BAR) window
+  open_window GO_TO_BAR
 
 $go_to_line:
   $y y_of(window)
@@ -3344,8 +3343,8 @@ $go_to_line:
       -> undefined
       -> lines(y)
   if
-    line.is_undefined
-    -> state(.current_window_index_of text_window_index_of(state))
+    line.is_undefined:
+      close_window
     :
       $text text_of(line)
       if
@@ -3354,19 +3353,17 @@ $go_to_line:
 	:
 	  $line_no text.to_integer
 	  if
-	    line_no.is_undefined
-	    -> state(.current_window_index_of text_window_index_of(state))
+	    line_no.is_undefined:
+	      close_window
 	    :
-	      # switch back to text window:
-	      !state.current_window_index_of text_window_index_of(state)
-	      !window windows_of(state)(cwi())
-	      !window
-		window
+	      close_window !state
+	      !state.windows_of(cwi())
+		windows_of(state)(cwi())
 		  .update_class_of MOVEMENT
 		  .x_of 1
 		  .y_of line_no
 		  .cursor_y_of undefined
-	      return_window
+	      -> state
 
 $filter_dialog: (myself^)
   if
@@ -3378,19 +3375,17 @@ $filter_dialog: (myself^)
       !lines lines_of(window)
       $argument argument_of(myself)
       !window
-	window
-	  .cursor_x_of undefined
-	  .cursor_y_of undefined
-	  .sub_y_of undefined
-	  .x_of 1
+	.cursor_x_of undefined
+	.cursor_y_of undefined
+	.sub_y_of undefined
+	.x_of 1
       if
 	argument.is_defined:
 	  push &lines tedi_line(0 argument)
 	  !window
-	    window
-	      .x_of length_of(argument)+2
-	      .y_of length_of(lines)
-	      .lines_of lines
+	    .x_of length_of(argument)+2
+	    .y_of length_of(lines)
+	    .lines_of lines
 	  return
 	:
 	  !window.y_of
@@ -3401,12 +3396,8 @@ $filter_dialog: (myself^)
 	  return
 
       $return:
-	!windows(FILTER_BAR) window
-	->
-	  state
-	    .text_window_index_of cwi()
-	    .current_window_index_of FILTER_BAR
-	    .windows_of windows
+	!state.windows_of(FILTER_BAR) window
+	open_window FILTER_BAR
 
 $filter_selection_with_command:
   $y y_of(window)
@@ -3415,7 +3406,7 @@ $filter_selection_with_command:
       y > length_of(lines)
       -> undefined
       -> lines(y)
-  !state.current_window_index_of text_window_index_of(state)
+  close_window !state
   if
     line.is_undefined
     -> state
@@ -3459,17 +3450,15 @@ $set_mark: (letter)
 	    return_window_and_lines
 
 $go_to_mark: (letter)
-  # switch back to text window:
-  !state.current_window_index_of text_window_index_of(state)
+  close_window !state
   !window windows_of(state)(cwi())
   !lines lines_of(window)
   $y find_mark(letter)
   if
     y.is_defined:
       !window
-	window
-	  .y_of y
-	  .cursor_y_of undefined
+	.y_of y
+	.cursor_y_of undefined
       return_window
     -> state
 
@@ -3498,7 +3487,7 @@ $toggle_folding:
       line $indent $text $mark $folds
       if
 	folds.is_defined:
-	  !window.was_updated true
+	  !window.needs_redraw true
 	  !lines
 	    append
 	      push
@@ -3532,7 +3521,7 @@ $fold_contents:
       $line lines(y)
       line $indent
       collect_indented_lines $e lines y indent
-      !window.was_updated true
+      !window.needs_redraw true
       !lines
 	append
 	  range(lines 1 y-1)
@@ -3548,7 +3537,7 @@ $unfold_contents:
     y > height || lines(y).is_undefined
     -> window lines
     :
-      !window.was_updated true
+      !window.needs_redraw true
       !lines
 	append
 	  range(lines 1 y-1)
@@ -3570,10 +3559,9 @@ $fold_everything:
 	  count(range(lines 1 min(y height)) is_a_top_level_line)
 	  max(y-height 0)
       !window
-	window
-	  .was_updated true
-	  .cursor_x_of undefined
-	  .cursor_y_of undefined
+	.needs_redraw true
+	.cursor_x_of undefined
+	.cursor_y_of undefined
       fold_all &lines
       return_window_and_lines
 
@@ -3589,10 +3577,9 @@ $unfold_everything:
       map_reduce(range(groups 1 min(y-1 height)) length_of plus 0)
       max(y-height 1)
   !window
-    window
-      .was_updated true
-      .cursor_x_of undefined
-      .cursor_y_of undefined
+    .needs_redraw true
+    .cursor_x_of undefined
+    .cursor_y_of undefined
   !lines reduce(groups append empty_list)
   return_window_and_lines
 
@@ -3666,7 +3653,7 @@ $recursively_collect_folded_lines: (line)
 
 $show_help:
   show_dummy !state "Press ESCAPE to exit help"
-  -> state(.current_window_index_of HELP_WINDOW)
+  open_window HELP_WINDOW
 
 $change_colour_set:
   $colour_set_no colour_set_no_of(window)
@@ -3680,46 +3667,41 @@ $change_colour_set:
 	  -> 1
 	  -> colour_set_no+1
       !window
-	window
-	  .colour_set_no_of next_colour_set_no
-	  .colour_set_of colour_sets(next_colour_set_no)
-	  .needs_redraw true
+	.colour_set_no_of next_colour_set_no
+	.colour_set_of colour_sets(next_colour_set_no)
+	.needs_redraw true
       return_window
 
 $toggle_indentation_highlighting:
   !window
-    window
-      .do_highlight_indentations_of not(do_highlight_indentations_of(window))
-      .inbounds_width_of
-	if
-	  inbounds_width_of(window).is_defined
-	  -> undefined
-	  -> 80
-      .needs_redraw true
+    .do_highlight_indentations_of not(do_highlight_indentations_of(window))
+    .inbounds_width_of
+      if
+	inbounds_width_of(window).is_defined
+	-> undefined
+	-> 80
+    .needs_redraw true
   return_window
 
 $toggle_cursor_line_highlighting:
   !window
-    window
-      .do_highlight_cursor_line_of not(do_highlight_cursor_line_of(window))
-      .needs_redraw true
+    .do_highlight_cursor_line_of not(do_highlight_cursor_line_of(window))
+    .needs_redraw true
   return_window
 
 $toggle_soft_line_break:
   !window
-    window
-      .use_soft_line_breaks_of not(use_soft_line_breaks_of(window))
-      .cursor_x_of undefined
-      .cursor_y_of undefined
-      .sub_y_of undefined
-      .needs_redraw true
+    .use_soft_line_breaks_of not(use_soft_line_breaks_of(window))
+    .cursor_x_of undefined
+    .cursor_y_of undefined
+    .sub_y_of undefined
+    .needs_redraw true
   return_window
 
 $toggle_line_numbers:
   !window
-    window
-      .do_show_line_numbers_of not(do_show_line_numbers_of(window))
-      .needs_redraw true
+    .do_show_line_numbers_of not(do_show_line_numbers_of(window))
+    .needs_redraw true
   return_window
 
 $load_file: (filename)
@@ -4208,10 +4190,9 @@ $update_contents: (window view terminal)
 	  min(selection_start_y y) max(selection_start_y y)-1
 
   !window
-    window
-      .first_visible_x_of first_visible_x
-      .x_of x
-      .y_of y
+    .first_visible_x_of first_visible_x
+    .x_of x
+    .y_of y
 
   $do_highlight_cursor_line do_highlight_cursor_line_of(window)
   $do_highlight_indentations do_highlight_indentations_of(window)
@@ -4246,10 +4227,9 @@ $update_contents: (window view terminal)
 
   $update_cursor:
     !window
-      window
-	.cursor_x_of cursor_x
-	.cursor_y_of cursor_y
-	.sub_y_of sub_y
+      .cursor_x_of cursor_x
+      .cursor_y_of cursor_y
+      .sub_y_of sub_y
     $dx
       if
 	do_show_line_numbers_of(window)
@@ -4260,11 +4240,10 @@ $update_contents: (window view terminal)
 
   $draw:
     !window
-      window
-	.first_visible_y_of first_visible_y
-	.first_visible_sub_y_of first_visible_sub_y
-	.needs_redraw false
-	.was_updated false
+      .first_visible_y_of first_visible_y
+      .first_visible_sub_y_of first_visible_sub_y
+      .needs_redraw false
+      .was_updated false
     $colour_set colour_set_of(window)
     $text_colour text_colour_of(colour_set)
     $background_colour undefined
@@ -4604,6 +4583,16 @@ $create_text_window: (filename)
 	.do_highlight_cursor_line_of true
 	.cursor_movement_of ANYWHERE
 
+$open_window: (id)
+  push &state.window_stack_of cwi()
+  !state.windows_of(id).needs_redraw true
+  -> state(.current_window_index_of id)
+
+$close_window:
+  pop &state.window_stack_of $idx
+  !state.windows_of(idx).needs_redraw true
+  -> state(.current_window_index_of idx)
+
 $show_info: (message)
   $bar windows_of(state)(INFO_BAR)
   !bar.lines_of(1) tedi_line(0 message)
@@ -4794,7 +4783,11 @@ $help_text "
 
     ctrl-q
       leaves the editor;
-      THE DOCUMENT WILL **NOT** BE SAVED!
+      THE DOCUMENTS WILL **NOT** BE SAVED!
+
+    ctrl-l
+      load contents from a selected file
+      THE CURRENT CONTENTS WILL **NOT** BE SAVED!
 
     ctrl-s
       saves the current contents

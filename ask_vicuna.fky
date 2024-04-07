@@ -129,5 +129,4 @@ generate! vicuna $response
 	### Instruction: @(question)
 	### Response:@
 
-debug::dump `response
 on not(verbose || use_colours): println! response

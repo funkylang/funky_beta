@@ -10,8 +10,9 @@ enum {
   uni_std__UTF8 = -1,
   uni_std__LATIN1 = -2,
   uni_std__ENCODING = -3,
-  uni_std__UUID = -4,
-  uni_std__SERVER = -5
+  uni_std__SORT = -4,
+  uni_std__UUID = -5,
+  uni_std__SERVER = -6
 };
 
 enum {
@@ -20,6 +21,7 @@ enum {
   var_std__assign, // extern
   var_std__LATIN1, // initialized
   var_std__ENCODING, // initialized
+  var_std__SORT, // initialized
   var_std__UUID, // initialized
   var_std__SERVER, // initialized
   var__END
@@ -30,6 +32,7 @@ static FUNKY_CONSTANT constants_table[] = {
   {FLT_UNIQUE, 0, {.str_8 = "std::UTF8"}},
   {FLT_UNIQUE, 0, {.str_8 = "std::LATIN1"}},
   {FLT_UNIQUE, 0, {.str_8 = "std::ENCODING"}},
+  {FLT_UNIQUE, 0, {.str_8 = "std::SORT"}},
   {FLT_UNIQUE, 0, {.str_8 = "std::UUID"}},
   {FLT_UNIQUE, 0, {.str_8 = "std::SERVER"}}
 };
@@ -57,6 +60,11 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_INITIALIZED, 0, 0,
+    "SORT\000std", NULL,
+    {.const_idx = -uni_std__SORT}
+  },
+  {
+    FOT_INITIALIZED, 0, 0,
     "UUID\000std", NULL,
     {.const_idx = -uni_std__UUID}
   },
@@ -81,8 +89,8 @@ FUNKY_MODULE module__basic__constants = {
   0, // number of required modules
   0, // number of defined namespaces
   1, // number of used namespaces
-  5, // number of constants
-  6, // number of variables
+  6, // number of constants
+  7, // number of variables
   NULL, // required modules
   NULL, // defined namespaces
   used_namespaces,

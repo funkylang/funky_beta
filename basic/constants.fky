@@ -44,6 +44,12 @@ $std::ENCODING .
 
     Topic: Input-Output
 
+$std::SORT .
+  #
+    used as an option key to specify sorting
+
+    Topic: Input-Output
+
 $std::UUID .
   #
     used to specify a universally unique identifier

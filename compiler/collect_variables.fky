@@ -40,7 +40,7 @@ $current_level 0
 
 $funky::BUILTIN .
   #
-    * a special symbol like "assign_attributes"
+    * a special symbol like "_assign_attributes"
 
 $funky::CONSTANT . # (value)
   #

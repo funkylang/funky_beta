@@ -48,6 +48,7 @@ $funky_types::definition.kind_of undefined
 $funky_types::pair.kind_of undefined
 $funky_types::inline_attribute_value_pair.kind_of undefined
 $funky_types::inline_method_value_pair.kind_of undefined
+$funky_types::attribute_access.kind_of undefined
 
 $funky_types::statement.is_a_definition false
 
@@ -351,41 +352,45 @@ $simplify_inline_pair: (self temp_no)
   -> self temp_no result_statements
 
 $resolve_identifier: (node)
-  $identifier identifier_of(node)
-  $namespace identifier .before. ':'
   if
-    namespace.is_not_empty:
-      $true_namespace namespace_aliases(namespace)
+    kind_of(node) == BUILTIN
+    -> node
+    :
+      $identifier identifier_of(node)
+      $namespace identifier .before. ':'
       if
-	true_namespace.is_defined:
-	  !namespace true_namespace
-	  !identifier append(namespace identifier .from. ':')
-	  !node.identifier_of identifier
-	  check
-	check
-    resolve
+	namespace.is_not_empty:
+	  $true_namespace namespace_aliases(namespace)
+	  if
+	    true_namespace.is_defined:
+	      !namespace true_namespace
+	      !identifier append(namespace identifier .from. ':')
+	      !node.identifier_of identifier
+	      check
+	    check
+	resolve
 
-  $check:
-    if
-      namespace.is_defined && node_type_of(node) != DEFINITION:
-	$version namespace_versions(namespace)
+      $check:
 	if
-	  version.is_defined:
-	    !identifier append(namespace "-" version identifier .from. ':')
-	    !node.identifier_of identifier
-	    resolve
+	  namespace.is_defined && node_type_of(node) != DEFINITION:
+	    $version namespace_versions(namespace)
+	    if
+	      version.is_defined:
+		!identifier append(namespace "-" version identifier .from. ':')
+		!node.identifier_of identifier
+		resolve
+	      resolve
 	  resolve
-      resolve
 
-  $resolve:
-    $resolved_identifier resolve_variable(identifier)
-    if
-      resolved_identifier.is_defined
-      ->
-	node
-	  .identifier_of resolved_identifier
-	  .kind_of LOCAL
-      -> node(.kind_of EXTERN)
+      $resolve:
+	$resolved_identifier resolve_variable(identifier)
+	if
+	  resolved_identifier.is_defined
+	  ->
+	    node
+	      .identifier_of resolved_identifier
+	      .kind_of LOCAL
+	  -> node(.kind_of EXTERN)
 
 $funky_types::expression/simplify: (self temp_no)
   $operator operator_of(self)
@@ -774,7 +779,11 @@ $check_statements: (body)
 $funky_types::statement/simplify: (self temp_no)
   $head head_of(self)
   $original_head head
-  $arguments arguments_of(self)
+  $is_a_redefinition node_type_of(original_head) == REDEFINITION
+  $is_a_slot_assigment false
+  $arguments
+    filter
+      arguments_of(self): (argument) -> not(argument.is_a_remark)
   case node_type_of(head)
     FUNCTOR:
       simplify_head_and_arguments false
@@ -782,145 +791,153 @@ $funky_types::statement/simplify: (self temp_no)
       check_that_all_arguments_are_inputs
       simplify_head_and_arguments false
     :
+      $n length_of(arguments)
+      on n < 1: syntax_error "Missing argument in assignment" self
+      !is_a_slot_assigment is_a_pair_or_type_function(arguments(1))
+      on n > 1 && not(is_a_slot_assigment):
+	syntax_error "Too many arguments in assignment" arguments(2)
       check_that_all_arguments_are_inputs
       push &arguments head
-      !head std("assign" self)
+      update_if is_a_slot_assigment && is_a_redefinition &arguments:
+	put arguments create_functor(head)(.extensions_of extensions_of(head))
+      !head
+	if
+	  is_a_slot_assigment && is_a_redefinition
+	  -> assign_attributes(self)
+	  -> std("assign" self)
       simplify_head_and_arguments true
 
   $simplify_head_and_arguments: (is_an_assignment)
-    simplify head !self.head_of &temp_no $result_statements
+    simplify &head &temp_no $result_statements
     $new_arguments empty_list
     for_each arguments !arguments !temp_no !result_statements
       : (item)
+	simplify &item &temp_no $arguments_result_statements
+	append &result_statements arguments_result_statements
 	if
-	  item.is_a_remark
-	  next
+	  node_type_of(item) == BACKQUOTED:
+	    resolve_backquoted &new_arguments item
+	    next
 	  :
-	    simplify &item &temp_no $arguments_result_statements
-	    append &result_statements arguments_result_statements
-	    if
-	      node_type_of(item) == BACKQUOTED:
-		resolve_backquoted &new_arguments item
-		next
-	      :
-		push &new_arguments item
-		next
+	    push &new_arguments item
+	    next
       -> new_arguments temp_no result_statements
-    on is_an_assignment:
-      $n length_of(arguments)
-      on n < 2:
-	syntax_error "Missing argument in assignment" self
-      on n > 2:
-	syntax_error "Too many arguments in assignment" arguments(2)
+    !self.head_of head
     !self.arguments_of arguments
     if
-      is_an_assignment: # we have exactly one result: the last argument
-	result_statements $leading_statements $trailing_statements
-	$node_type_of_first_argument node_type_of(arguments(1))
-	$is_a_slot_definition
-	  &&
-	    node_type_of(original_head) == DEFINITION
-	    ||
-	      node_type_of_first_argument == ATTRIBUTE_VALUE_PAIR
-	      node_type_of_first_argument == METHOD_VALUE_PAIR
-	      node_type_of_first_argument == TYPE_FUNCTION
-	!self.is_a_definition is_a_slot_definition
+      is_a_slot_assigment && is_a_redefinition
+      -> self temp_no result_statements
+      :
 	if
-	  leading_statements.is_empty
-	  check_trailing_statements
-	  :
-	    $last_statement leading_statements(-1)
+	  is_an_assignment:
+	    result_statements $leading_statements $trailing_statements
+	    $is_a_slot_definition
+	      is_a_slot_assigment && node_type_of(original_head) == DEFINITION
+	    !self.is_a_definition is_a_slot_definition
 	    if
-	      is_a_slot_definition:
-		$line_no line_no_of(source_group_of(argument_of(arguments(1))))
-		$const_name "const_@(line_no)"
-		!last_statement.arguments_of(-1)
-		  funky_types::definition
-		    .identifier_of const_name
-		    .kind_of CONSTANT_COMPOUND
-		!leading_statements(-1) last_statement
-		!arguments(1).argument_of.identifier_of const_name
-		!arguments(1).argument_of.kind_of LOCAL
-		!self.arguments_of arguments
-		check_trailing_statements
+	      leading_statements.is_empty
+	      check_trailing_statements
 	      :
-		!self
-		  last_statement
-		    .source_group_of source_group_of(self)
-		    .source_position_of source_position_of(self)
-		    .arguments_of arguments_of(last_statement)(-1 arguments(2))
-		range &leading_statements 1 -2
-		check_trailing_statements
+		$last_statement leading_statements(-1)
+		if
+		  is_a_slot_definition:
+		    $line_no line_no_of(source_group_of(argument_of(arguments(1))))
+		    $const_name "const_@(line_no)"
+		    !last_statement.arguments_of(-1)
+		      funky_types::definition
+			.identifier_of const_name
+			.kind_of CONSTANT_COMPOUND
+		    !leading_statements(-1) last_statement
+		    !arguments(1).argument_of.identifier_of const_name
+		    !arguments(1).argument_of.kind_of LOCAL
+		    !self.arguments_of arguments
+		    check_trailing_statements
+		  :
+		    !self
+		      last_statement
+			.source_group_of source_group_of(self)
+			.source_position_of source_position_of(self)
+			.arguments_of arguments_of(last_statement)(-1 arguments(2))
+		    range &leading_statements 1 -2
+		    check_trailing_statements
 
-	$check_trailing_statements:
-	  if
-	    ||
-	      trailing_statements.is_empty
-	      identifier_of(head_of(self)) != "std::assign"
-	    ->
-	      self
-	      temp_no
-	      new
-		funky_types::statement_list
-		leading_statements
-		trailing_statements
-	    process_trailing_statements
+	    $check_trailing_statements:
+	      if
+		||
+		  trailing_statements.is_empty
+		  identifier_of(head_of(self)) != "std::assign"
+		->
+		  self
+		  temp_no
+		  new
+		    funky_types::statement_list
+		    leading_statements
+		    trailing_statements
+		process_trailing_statements
 
-	$process_trailing_statements:
-	  #
-	    <self> is of the form: assign <input> <temp>;
-	    if we have trailing statements then <temp> gets used somewhere;
-	    we can replace this usage by <input> and delete <self>;
-	    deleting <self> can be done by replacing it with the first
-	    statement of <trailing_statements>
-	  $temp_name identifier_of(arguments(2))
-	  $value arguments(1)
-	  for_each trailing_statements
-	    : (stmt_idx trailing_statement)
-	      for_each arguments_of(trailing_statement)
-		: (arg_idx argument)
-		  case node_type_of(argument)
-		    FUNCTOR:
-		      if
-			identifier_of(argument) == temp_name:
-			  !trailing_statement.arguments_of(arg_idx) value
-			  !trailing_statements(stmt_idx) trailing_statement
-			  return
-			next
-		    INLINE_ATTRIBUTE_VALUE_PAIR:
-		      if
-			identifier_of(expression_of(argument)) == temp_name:
-			  !trailing_statement.arguments_of(arg_idx)
-			    argument(.expression_of value)
-			  !trailing_statements(stmt_idx) trailing_statement
-			  return
+	    $process_trailing_statements:
+	      #
+		<self> is of the form: assign <input> <temp>;
+		if we have trailing statements then <temp> gets used somewhere;
+		we can replace this usage by <input> and delete <self>;
+		deleting <self> can be done by replacing it with the first
+		statement of <trailing_statements>
+	      $temp_name identifier_of(arguments(2))
+	      $value arguments(1)
+	      for_each trailing_statements
+		: (stmt_idx trailing_statement)
+		  for_each arguments_of(trailing_statement)
+		    : (arg_idx argument)
+		      case node_type_of(argument)
+			FUNCTOR:
+			  if
+			    identifier_of(argument) == temp_name:
+			      !trailing_statement.arguments_of(arg_idx) value
+			      !trailing_statements(stmt_idx) trailing_statement
+			      return
+			    next
+			INLINE_ATTRIBUTE_VALUE_PAIR:
+			  if
+			    identifier_of(expression_of(argument)) == temp_name:
+			      !trailing_statement.arguments_of(arg_idx)
+				argument(.expression_of value)
+			      !trailing_statements(stmt_idx) trailing_statement
+			      return
+			    next
 			next
 		    next
-		next
-	    :
-	      debug::print "
-		TEMP NOT FOUND IN TRAILING STATEMENT!
-	      debug::exit
+		:
+		  debug::print "
+		    TEMP NOT FOUND IN TRAILING STATEMENT!
+		  debug::exit
 
-	$return
-	  ->
-	    trailing_statements(1)
-	    temp_no
-	    new
-	      funky_types::statement_list
-	      leading_statements
-	      range(trailing_statements 2 -1)
-      :
-	!self.is_an_io_call
-	  ||
-	    head_of(self).is_an_io_call
-	    any_of(arguments_of(self) is_an_io_call)
-	-> self temp_no result_statements
+	    $return
+	      ->
+		trailing_statements(1)
+		temp_no
+		new
+		  funky_types::statement_list
+		  leading_statements
+		  range(trailing_statements 2 -1)
+	  :
+	    !self.is_an_io_call
+	      ||
+		head_of(self).is_an_io_call
+		any_of(arguments_of(self) is_an_io_call)
+	    -> self temp_no result_statements
 
   $check_that_all_arguments_are_inputs:
     $argument find_first(arguments is_an_output)
     on argument.is_defined:
       syntax_error "Unexpected output argument" argument
+
+$is_a_pair_or_type_function: (node)
+  $node_type node_type_of(node)
+  ->
+    ||
+      node_type == ATTRIBUTE_VALUE_PAIR
+      node_type == METHOD_VALUE_PAIR
+      node_type == TYPE_FUNCTION
 
 $funky_types::numeric_literal/simplify: (self temp_no)
   $digits delete_all(digits_of(self) '@apos;')

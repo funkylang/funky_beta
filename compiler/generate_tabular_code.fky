@@ -197,7 +197,7 @@ $funky::generate_tabular_code: (top_level_statements is_a_main_module)
 	      :
 		$remark
 		  replace_all
-		    (first(info).to_string .truncate_until. "::").to_lower_case
+		    (kind.to_string .truncate_until. "::").to_lower_case
 		    '_' = " "
 		-> "  var_@(name), // @(remark)@nl;"
 	  append
@@ -1100,39 +1100,45 @@ $collect_types: (statements)
     : (statement)
       if
 	node_type_of(statement) == STATEMENT:
-	  $head head_of(statement)
+	  $arguments arguments_of(statement)
+	  $functor_name identifier_of(head_of(statement))
 	  if
-	    identifier_of(head) == "std::assign":
-	      $arguments arguments_of(statement)
-	      $argument arguments(1)
-	      case node_type_of(argument)
-		TYPE_FUNCTION:
-		  add "TYPE_FUNCTION" mangled_literals(argument)
-		ATTRIBUTE_VALUE_PAIR:
-		  add_method "-"
-		METHOD_VALUE_PAIR:
-		  add_method
-		next
+	    &&
+	      arguments.is_not_empty
+	      node_type_of(arguments(-1)) == DEFINITION
+	      functor_name == "std::assign"
+	    :
+	      for_each range(arguments 1 -2)
+		: (argument)
+		  case node_type_of(argument)
+		    TYPE_FUNCTION:
+		      add "TYPE_FUNCTION" mangled_literals(argument)
+		    ATTRIBUTE_VALUE_PAIR:
+		      add_method "-"
+		    METHOD_VALUE_PAIR:
+		      add_method
+		    next
 
-	      $add_method: (prefix = "")
-		$method mangle_identifier(identifier_of(argument))
-		$value argument_of(argument)
-		$value_idx
-		  if
-		    node_type_of(value) == FUNCTOR:
-		      $identifier identifier_of(value)
-		      variables(identifier) $kind $constant_value
-		      case kind
-			CONSTANT, CONSTANT_COMPOUND
-			-> mangled_literals(constant_value)
-			-> append("var_" mangle_identifier(identifier))
-		    -> mangled_literals(value)
-		add append(prefix "var_" method) value_idx
+		  $add_method: (prefix = "")
+		    $method mangle_identifier(identifier_of(argument))
+		    $value argument_of(argument)
+		    $value_idx
+		      if
+			node_type_of(value) == FUNCTOR:
+			  $identifier identifier_of(value)
+			  variables(identifier) $kind $constant_value
+			  case kind
+			    CONSTANT, CONSTANT_COMPOUND
+			    -> mangled_literals(constant_value)
+			    -> append("var_" mangle_identifier(identifier))
+			-> mangled_literals(value)
+		    add append(prefix "var_" method) value_idx
 
-	      $add: (method value_idx)
-		$type mangle_identifier(identifier_of(arguments(2)))
-		$methods default_value(types(type) empty_list)
-		!types(type) push(methods tuple(method value_idx))
+		  $add: (method value_idx)
+		    $type mangle_identifier(identifier_of(arguments(-1)))
+		    $methods default_value(types(type) empty_list)
+		    !types(type) push(methods tuple(method value_idx))
+		    next
 		next
 	    next
 	next

@@ -867,8 +867,11 @@ $std::directory:
     See also: access_time_of, modification_time_of, status_change_time_of,
 	      is_a_directory
   (
+    options*
     pathname
   )
+  extract_options options
+    SORT = false $do_sort
   $entries empty_list
   opendir! $dir pathname
   loop:
@@ -876,7 +879,10 @@ $std::directory:
     if
       entry.is_an_error:
 	closedir! dir
-	-> entries
+	if
+	  do_sort:
+	    sort entries: (left right) -> name_of(left) < name_of(right)
+	  -> entries
       :
 	push &entries entry
 	next!
