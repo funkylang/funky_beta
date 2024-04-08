@@ -35,8 +35,6 @@ $std::get_uuid:
 	  "0"
 	-16
 	-1
-  hexdump! rnd
-  hexdump! t
   $uuid rnd^t
   ->
     append

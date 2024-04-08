@@ -46,7 +46,6 @@ enum {
   var_append, // extern
   var_pad_right, // extern
   var_range, // extern
-  var_hexdump, // extern
   var_std__bit_xor, // extern
   var_hex, // extern
   var_std__assign, // extern
@@ -83,10 +82,6 @@ static TAB_NUM t_func_std__get_uuid[] = {
   var_range, 3, LOCAL(6), minus_num_16, minus_num_1, 1, LOCAL(7),
   // !t
   var_to_uint8_array, 1, LOCAL(7), 1, LOCAL(36),
-  // hexdump! rnd
-  var_hexdump, 1, LOCAL(35), IO_CALL(0),
-  // hexdump! t
-  var_hexdump, 1, LOCAL(36), IO_CALL(0),
   // $uuid rnd^t
   var_std__bit_xor, 2, LOCAL(35), LOCAL(36), 1, LOCAL(37),
   // uuid(1) 2)
@@ -171,28 +166,30 @@ static TAB_NUM t_func_std__get_uuid[] = {
   POS(31, 7),
   POS(29, 3),
   POS(38, 3),
-  POS(39, 3),
-  POS(40, 3),
+  POS(41, 11),
+  POS(41, 7),
+  POS(42, 11),
+  POS(42, 7),
   POS(43, 11),
   POS(43, 7),
   POS(44, 11),
   POS(44, 7),
-  POS(45, 11),
-  POS(45, 7),
   POS(46, 11),
   POS(46, 7),
-  POS(48, 11),
-  POS(48, 7),
+  POS(47, 11),
+  POS(47, 7),
   POS(49, 11),
   POS(49, 7),
-  POS(51, 11),
-  POS(51, 7),
+  POS(50, 11),
+  POS(50, 7),
   POS(52, 11),
   POS(52, 7),
-  POS(54, 11),
-  POS(54, 7),
+  POS(53, 11),
+  POS(53, 7),
   POS(55, 11),
   POS(55, 7),
+  POS(56, 11),
+  POS(56, 7),
   POS(57, 11),
   POS(57, 7),
   POS(58, 11),
@@ -201,12 +198,8 @@ static TAB_NUM t_func_std__get_uuid[] = {
   POS(59, 7),
   POS(60, 11),
   POS(60, 7),
-  POS(61, 11),
-  POS(61, 7),
-  POS(62, 11),
-  POS(62, 7),
-  POS(42, 5),
-  POS(41, 3)
+  POS(40, 5),
+  POS(39, 3)
 };
 
 static FUNKY_CONSTANT constants_table[] = {
@@ -298,23 +291,18 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "hexdump\000", NULL,
-    {.position = POS(38, 3)}
-  },
-  {
-    FOT_UNKNOWN, 0, 0,
     "bit_xor\000std", NULL,
-    {.position = POS(40, 9)}
+    {.position = POS(38, 9)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "hex\000", NULL,
-    {.position = POS(43, 7)}
+    {.position = POS(41, 7)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "assign\000std", NULL,
-    {.position = POS(41, 5)}
+    {.position = POS(39, 5)}
   }
 };
 
@@ -333,7 +321,7 @@ FUNKY_MODULE module__basic__uuid = {
   0, // number of defined namespaces
   1, // number of used namespaces
   23, // number of constants
-  16, // number of variables
+  15, // number of variables
   NULL, // required modules
   NULL, // defined namespaces
   used_namespaces,
