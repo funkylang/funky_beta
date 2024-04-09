@@ -1146,6 +1146,10 @@ $std::RECEIVE_SIGWINCH .
   #
     specify that the terminal should receive SIGWINCH
 
+$std::RECEIVE_MOUSE_CLICKS .
+  #
+    specify that the terminal should receive mouse clicks
+
 $std::CURSOR_OFF .
   #
     specify that the cursor should be turned off
@@ -1184,6 +1188,9 @@ $std::initialize_terminal:
       * RECEIVE_SIGWINCH: specify that the terminal should receive window
 	resize events
 
+      * RECEIVE_MOUSE_CLICKS: specify that the terminal should receive mouse
+	clicks
+
       * CURSOR_OFF: specify that the cursor should be initially turned off
 
       * TITLE: specify the title to use for the terminal window
@@ -1221,6 +1228,7 @@ $std::initialize_terminal:
     RECEIVE_CTRL_Q_AND_CTRL_S = false $do_receive_ctrl_q_and_ctrl_s
     MAP_CR = false $do_map_cr
     RECEIVE_SIGWINCH = false $_do_receive_sigwinch
+    RECEIVE_MOUSE_CLICKS = false $do_receive_mouse_clicks
     CURSOR_OFF = false $do_switch_cursor_off
     TITLE = undefined $title
 
@@ -1243,6 +1251,8 @@ $std::initialize_terminal:
   print! "@esc;[?47h" # switch to alternate screen
   print! "@esc;[33s" # store cursor position
   on do_switch_cursor_off: cursor_off!
+  on do_receive_mouse_clicks:
+    print! "@esc;[?9;1006;1015h" # enable mouse reporting
   on title.is_defined: print! "@esc;]0;@(title)@7;"
 
   get_terminal_size! fd $width $height
@@ -1258,6 +1268,8 @@ $std::initialize_terminal:
     print! "@esc;[?47l" # switch to default screen
     print! "@esc;[0m" # set default colours
     on do_switch_cursor_off: cursor_on!
+    on do_receive_mouse_clicks:
+      print! "@esc;[?9;1006;1015l" # disable mouse reporting
     on err.is_an_error: debug::dump_object 50 err
 
 $std_types::terminal/update update_terminal

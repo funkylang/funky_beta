@@ -66,7 +66,15 @@ enum {
   string_3 = -57,
   string_4 = -58,
   lambda_33 = -59,
-  lambda_34 = -60
+  lambda_34 = -60,
+  func_std_types__character___to_wide = -61,
+  chr_33 = -62,
+  value_range_452_2 = -63,
+  lambda_35 = -64,
+  num_0xfee0 = -65,
+  lambda_36 = -66,
+  chr_12288 = -67,
+  lambda_37 = -68
 };
 
 enum {
@@ -118,6 +126,12 @@ enum {
   var_is_defined, // extern
   var_tabs_and_spaces, // extern
   var_append, // extern
+  var_std__to_wide, // attribute
+  var_to_wide, // extern polymorphic
+  var_450_32_chr, // dynamic
+  var_std__value_range, // extern
+  var_std__plus, // extern
+  var_case, // extern
   var__END
 };
 
@@ -682,6 +696,46 @@ static TAB_NUM t_lambda_34[] = {
   POS(446, 7)
 };
 
+static TAB_NUM t_func_std_types__character___to_wide[] = {
+  0, // locals
+  1, // parameters
+  var_450_32_chr,
+  // case chr
+  var_case, 6, var_450_32_chr, value_range_452_2, lambda_35, chr_32, lambda_36, lambda_37, TAIL_CALL,
+  POS(451, 3)
+};
+
+static TAB_NUM t_lambda_35[] = {
+  1, // locals
+  0, // parameters
+  // chr+0xfee0
+  var_std__plus, 2, var_450_32_chr, num_0xfee0, 1, LOCAL(1),
+  //  chr+0xfee0
+  LET, 1, LOCAL(1), TAIL_CALL,
+  POS(452, 29),
+  POS(452, 28)
+};
+
+static TAB_NUM t_lambda_36[] = {
+  0, // locals
+  0, // parameters
+  //  '@0x3000;'
+  LET, 1, chr_12288, TAIL_CALL,
+  POS(453, 11)
+};
+
+static TAB_NUM t_lambda_37[] = {
+  0, // locals
+  0, // parameters
+  //  chr
+  LET, 1, var_450_32_chr, TAIL_CALL,
+  POS(454, 7)
+};
+
+static int value_range_452_2_arguments[] = {
+  -chr_33, -chr_126
+};
+
 static FUNKY_CONSTANT constants_table[] = {
   {FLT_FUNCTION, 0, {.tfunc = t_func_std_types__character___match}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_1}},
@@ -742,7 +796,15 @@ static FUNKY_CONSTANT constants_table[] = {
   {FLT_STRING_8, 1, {.str_8 = "'"}},
   {FLT_STRING_8, 2, {.str_8 = "'\012"}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_33}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_34}}
+  {FLT_FUNCTION, 0, {.tfunc = t_lambda_34}},
+  {FLT_FUNCTION, 0, {.tfunc = t_func_std_types__character___to_wide}},
+  {FLT_CHARACTER, 0, {.value = 33}},
+  {FLT_VALUE_RANGE, 2, {.arguments = value_range_452_2_arguments}},
+  {FLT_FUNCTION, 0, {.tfunc = t_lambda_35}},
+  {FLT_POSITIVE_INT64, 0, {.value = 0xfee0}},
+  {FLT_FUNCTION, 0, {.tfunc = t_lambda_36}},
+  {FLT_CHARACTER, 0, {.value = 12288}},
+  {FLT_FUNCTION, 0, {.tfunc = t_lambda_37}}
 };
 
 static ATTRIBUTE_DEFINITION std_types__object__attributes[] = {
@@ -754,7 +816,8 @@ static ATTRIBUTE_DEFINITION std_types__character__attributes[] = {
   {var_match, -func_std_types__character___match},
   {var_match_back, -func_std_types__character___match_back},
   {var_search, -func_std_types__character___search},
-  {var_serialize, -func_std_types__character___serialize}
+  {var_serialize, -func_std_types__character___serialize},
+  {var_to_wide, -func_std_types__character___to_wide}
 };
 
 static FUNKY_VARIABLE variables_table[] = {
@@ -784,7 +847,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {.position = POS(28, 35)}
   },
   {
-    FOT_UNKNOWN, 0, 5,
+    FOT_UNKNOWN, 0, 6,
     "character\000std_types", std_types__character__attributes,
     {.position = POS(34, 1)}
   },
@@ -976,6 +1039,35 @@ static FUNKY_VARIABLE variables_table[] = {
     FOT_UNKNOWN, 0, 0,
     "append\000", NULL,
     {.position = POS(445, 8)}
+  },
+  {
+    FOT_POLYMORPHIC, 0, 0,
+    "to_wide\000std", NULL,
+    {.has_a_setter = false}
+  },
+  {
+    FOT_UNKNOWN_POLYMORPHIC, 0, 0,
+    "to_wide\000", NULL,
+    {.position = POS(450, 23)}
+  },
+  {
+    FOT_UNINITIALIZED, 0, 0,
+    "450_32_chr\000", NULL
+  },
+  {
+    FOT_UNKNOWN, 0, 0,
+    "value_range\000std", NULL,
+    {.position = POS(452, 7)}
+  },
+  {
+    FOT_UNKNOWN, 0, 0,
+    "plus\000std", NULL,
+    {.position = POS(452, 29)}
+  },
+  {
+    FOT_UNKNOWN, 0, 0,
+    "case\000", NULL,
+    {.position = POS(451, 3)}
   }
 };
 
@@ -993,8 +1085,8 @@ FUNKY_MODULE module__basic__types__character = {
   0, // number of required modules
   0, // number of defined namespaces
   1, // number of used namespaces
-  60, // number of constants
-  47, // number of variables
+  68, // number of constants
+  53, // number of variables
   NULL, // required modules
   NULL, // defined namespaces
   used_namespaces,

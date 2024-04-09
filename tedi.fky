@@ -2942,10 +2942,9 @@ $next_window:
   if
     idx < n:
       inc &idx
-      ->
-	state
-	  .current_window_index_of idx
-	  .text_window_index_of idx
+      state
+	.current_window_index_of idx
+	.text_window_index_of idx
     -> state
 
 $previous_window:
@@ -2953,10 +2952,9 @@ $previous_window:
   if
     idx > 1:
       dec &idx
-      ->
-	state
-	  .current_window_index_of idx
-	  .text_window_index_of idx
+      state
+	.current_window_index_of idx
+	.text_window_index_of idx
     -> state
 
 $find_text_dialog:

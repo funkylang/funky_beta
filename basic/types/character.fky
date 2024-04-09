@@ -444,3 +444,11 @@ $std_types::character/serialize:
     indent.is_defined
     -> append(tabs_and_spaces(indent) str)
     -> str
+
+$std::to_wide ()
+
+$std_types::character/to_wide: (chr)
+  case chr
+    '@0x21;' .. '@0x7e;' -> chr+0xfee0
+    ' ' -> '@0x3000;'
+    -> chr

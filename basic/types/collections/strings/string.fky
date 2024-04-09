@@ -2007,7 +2007,7 @@ $std::map_characters:
 	      if
 		s > e
 		-> ""
-		-> string(function(s self(s)))
+		-> function(s self(s)).to_string
       ->
 	: (s e)
 	  if
@@ -2020,7 +2020,7 @@ $std::map_characters:
 	      if
 		s > e
 		-> ""
-		-> string(function(self(s)))
+		-> function(self(s)).to_string
 
   map 1 length_of(self)
 
@@ -2119,6 +2119,9 @@ $std_types::string/to_sentence_case:
       idx == 1 && self(idx).is_a_letter_character
       -> chr.to_title_case
       -> chr.to_lower_case
+
+$std_types::string/to_wide: (str)
+  map_characters str to_wide
 
 $std::delete_all:
   #

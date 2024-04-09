@@ -2470,9 +2470,7 @@ FUNCTION int is_a_wide_character
     if (chr >= 0x2e80 && chr <= 0x2e99) return true;
     if (chr >= 0x2e9b && chr <= 0x2ef3) return true;
     if (chr >= 0x2f00 && chr <= 0x2fd5) return true;
-    if (chr >= 0x2ff0 && chr <= 0x2fff) return true;
-    if (chr == 0x3000) return false;
-    if (chr >= 0x3001 && chr <= 0x303e) return true;
+    if (chr >= 0x2ff0 && chr <= 0x303e) return true;
     if (chr == 0x303f) return false;
     if (chr >= 0x3041 && chr <= 0x3096) return true;
     if (chr >= 0x3099 && chr <= 0x30ff) return true;
@@ -2498,7 +2496,11 @@ FUNCTION int is_a_wide_character
     if (chr >= 0xfe30 && chr <= 0xfe52) return true;
     if (chr >= 0xfe54 && chr <= 0xfe66) return true;
     if (chr >= 0xfe68 && chr <= 0xfe6b) return true;
-    if (chr >= 0xfe70 && chr <= 0x16f9f) return false;
+    if (chr >= 0xfe70 && chr <= 0xfeff) return false;
+    if (chr >= 0xff01 && chr <= 0xff60) return true;
+    if (chr >= 0xff61 && chr <= 0xffdc) return false;
+    if (chr >= 0xffe0 && chr <= 0xffe6) return true;
+    if (chr >= 0xffe8 && chr <= 0x16f9f) return false;
     if (chr >= 0x16fe0 && chr <= 0x16fe4) return true;
     if (chr >= 0x16ff0 && chr <= 0x16ff1) return true;
     if (chr >= 0x17000 && chr <= 0x187f7) return true;

@@ -385,7 +385,7 @@ for_each !character_categories(-1)
 	$new_width
 	  case
 	    trim_left(line .behind. ';') .truncate_from. WHITESPACE
-	    "W"
+	    "W", "F"
 	    -> "true"
 	    -> "false"
 	parse_hex &codes $new_first

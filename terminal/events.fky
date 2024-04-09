@@ -67,20 +67,36 @@ $std::handle_terminal_events: (io events)
       if
 	type == READ && fd == STDIN_FILENO:
 	  $key_press_handler key_press_handler_of(io)
+	  $mouse_click_handler mouse_click_handler_of(io)
 	  $keys extract_keys(input.from_utf8)
-	  if
-	    key_press_handler.is_defined:
-	      for_each keys
-		: (key)
-		   key_press_handler &io key
-		   next
-		next
-	    :
-	      for_each keys
-		: (key)
-		  push &remaining_events tuple(KEY_PRESS fd key)
-		  next
-		next
+	  for_each keys
+	    : (key)
+	      if
+		key.is_a_tuple:
+		  key $t $x $y $button
+		  case t
+		    MOUSE_CLICK:
+		      if
+			mouse_click_handler.is_defined:
+			  mouse_click_handler &io x y button
+			  next
+			:
+			  push &remaining_events
+			    tuple(MOUSE_CLICK fd tuple(x y button))
+			  next
+		    NEW_WINDOW_SIZE:
+		      push &remaining_events
+			tuple(NEW_WINDOW_SIZE fd tuple(x y))
+		      next
+		    next # ignore unknown event
+		:
+		  if
+		    key_press_handler.is_defined:
+		      key_press_handler &io key
+		      next
+		    :
+		      push &remaining_events tuple(KEY_PRESS fd key)
+		      next
 	:
 	  push &remaining_events event
 	  next

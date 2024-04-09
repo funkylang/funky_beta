@@ -780,23 +780,27 @@ $funky_types::statement/simplify: (self temp_no)
   $head head_of(self)
   $original_head head
   $is_a_redefinition node_type_of(original_head) == REDEFINITION
-  $is_a_slot_assigment false
   $arguments
     filter
       arguments_of(self): (argument) -> not(argument.is_a_remark)
+  $is_a_slot_assigment any_of(arguments is_a_pair_or_type_function)
   case node_type_of(head)
     FUNCTOR:
       simplify_head_and_arguments false
     RETURN:
+      on is_a_slot_assigment:
+	syntax_error "Slot assignment in return statement" self
       check_that_all_arguments_are_inputs
       simplify_head_and_arguments false
     :
       $n length_of(arguments)
       on n < 1: syntax_error "Missing argument in assignment" self
-      !is_a_slot_assigment is_a_pair_or_type_function(arguments(1))
       on n > 1 && not(is_a_slot_assigment):
 	syntax_error "Too many arguments in assignment" arguments(2)
-      check_that_all_arguments_are_inputs
+      if
+	is_a_slot_assigment
+	check_that_all_arguments_are_slot_assignments
+	check_that_all_arguments_are_inputs
       push &arguments head
       update_if is_a_slot_assigment && is_a_redefinition &arguments:
 	put arguments create_functor(head)(.extensions_of extensions_of(head))
@@ -920,16 +924,48 @@ $funky_types::statement/simplify: (self temp_no)
 		  leading_statements
 		  range(trailing_statements 2 -1)
 	  :
-	    !self.is_an_io_call
-	      ||
-		head_of(self).is_an_io_call
-		any_of(arguments_of(self) is_an_io_call)
-	    -> self temp_no result_statements
+	    if
+	      is_a_slot_assigment:
+		filter $outputs &arguments is_an_output
+		check_that_all_arguments_are_slot_assignments
+		!self.arguments_of put(arguments head)
+		!self.head_of assign_attributes(self)
+		case length_of(outputs)
+		  0:
+		    inc &temp_no
+		    push &self.arguments_of redefine_temporary(temp_no self)
+		    push_trailing_statement &result_statements
+		      create_statement
+			std("assign" self)
+			list(temporary(temp_no self))
+		    -> self temp_no result_statements
+		  1:
+		    append &self.arguments_of outputs
+		    -> self temp_no result_statements
+		  :
+		    syntax_error
+		      "More than one destination in slot assignment"
+		      self
+	      ->
+		self
+		  .is_an_io_call
+		    ||
+		      head_of(self).is_an_io_call
+		      any_of(arguments_of(self) is_an_io_call)
+		temp_no
+		result_statements
 
   $check_that_all_arguments_are_inputs:
     $argument find_first(arguments is_an_output)
     on argument.is_defined:
       syntax_error "Unexpected output argument" argument
+
+  $check_that_all_arguments_are_slot_assignments:
+    $argument find_first(arguments is_not_a_slot_assigment)
+    on argument.is_defined:
+      syntax_error "Argument should be a slot assignment" argument
+
+    $is_not_a_slot_assigment: (node) -> not(is_a_pair_or_type_function(node))
 
 $is_a_pair_or_type_function: (node)
   $node_type node_type_of(node)
