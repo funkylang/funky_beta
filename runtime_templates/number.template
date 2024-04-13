@@ -791,6 +791,8 @@ FUNCTION std::integer
     if (*str == '-') {
       sign = -1;
       ++str;
+    } else if (*str == '+') {
+      ++str;
     }
     if (*str < '0' || *str > '9') {
       invalid_arguments();

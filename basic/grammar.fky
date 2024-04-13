@@ -565,4 +565,231 @@ $std_types::WHITESPACE/search:
 		-> i+1 e-i
 		search_for_whitespace
 
+$expression_of ()
+
+$std_types::many std_types::object
+
+$std::many:
+  #
+    creates a grammar object that matches one or more occurrences of the
+    specified expression
+  (
+    expr # the expression to match multiple times
+  )
+  -> std_types::many(.expression_of expr)
+
+$std_types::many/match:
+  #
+    checks whether the specified string starts with one or more occurrences
+    of the specified expression
+
+    Result:
+      len # the number of matched characters or <undefined> if the match is
+	    unsuccessful
+
+    Topic: Grammar Objects, Strings
+
+    See also: std_types::many, std_types::many/match_back,
+	      std_types::many/search
+
+    Example:
+
+      $str "12345abcdef"
+      match many(DIGIT) str $len
+      dump! `len
+
+    Output:
+
+      len: 5
+  (
+    self # many
+    str # the string to match with
+  )
+  $expr expression_of(self)
+  match $i expr str
+  if
+    i.is_undefined || i == 0
+    -> i
+    :
+      !i i+1
+      $n length_of(str)
+      loop:
+	if
+	  i > n
+	  -> n
+	  :
+	    match $len expr range(str i n)
+	    if
+	      len.is_undefined || len == 0
+	      -> i-1
+	      :
+		plus &i len
+		next
+
+$std_types::many/match_back:
+  #
+    checks whether the specified string ends with one or more occurrences
+    of the specified expression
+
+    Result:
+      len # the number of matched characters or <undefined> if the match is
+	    unsuccessful
+
+    Topic: Grammar Objects, Strings
+
+    See also: std_types::many, std_types::many/match, std_types::many/search
+
+    Example:
+
+      $str "12345abcdef"
+      match_back many('a'..'z') str $len
+      dump! `len
+
+    Output:
+
+      len: 6
+  (
+    self # many
+    str # the string to match with
+  )
+  $expr expression_of(self)
+  match_back $i expr str
+  if
+    i.is_undefined || i == 0
+    -> i
+    :
+      $n length_of(str)
+      !i n-i
+      loop:
+	if
+	  i < 1
+	  -> n
+	  :
+	    match_back $len expr range(str 1 i)
+	    if
+	      len.is_undefined || len == 0
+	      -> n-i
+	      :
+		minus &i len
+		next
+
+$std_types::many/search:
+  #
+    searches for the nth occurrence of the specified expression
+
+    Result:
+      pos # the position of the match measured from the start of the string
+      len # the number of matched characters
+
+    Negative values of *nth* search from the end of the string.
+
+    Topic: Grammar Objects, Strings
+
+    See also: std_types::many, many/match, many/match_back
+
+    Example:
+
+      $str "ab12cde345fgh"
+      search many(DIGIT) str 2 $pos $len
+      dump! `pos `len
+
+    Output:
+
+      pos: 8
+      len: 3
+  (
+    self # many
+    str # the string to search
+    nth = 1 # the nth occurrence to search for
+  )
+  $expr expression_of(self)
+  $n length_of(str)
+  if
+    nth < 0
+    search_backwards
+    search_forwards
+
+  $search_forwards:
+    $i 1
+    search_next
+
+    $search_next:
+      if
+	i > n+1
+	-> undefined undefined
+	:
+	  search expr range(str i n) 1 $pos $len
+	  !i i+pos-1
+	  if
+	    i.is_undefined
+	    -> undefined undefined
+	    :
+	      dec &nth
+	      if
+		len == 0:
+		  if
+		    nth < 1
+		    -> i 0
+		    :
+		      inc &i
+		      search_next
+		:
+		  $s i
+		  loop:
+		    plus &i len
+		    match expr range(str i n) !len
+		    if
+		      len.is_undefined || len == 0:
+			if
+			  nth < 1
+			  -> s i-s
+			  :
+			    inc &i
+			    search_next
+		      next
+
+  $search_backwards:
+    $i n
+    search_next
+
+    $search_next:
+      if
+	i < 1
+	-> undefined undefined
+	:
+	  search expr range(str 1 i) -1 !i $len
+	  if
+	    i.is_undefined
+	    -> undefined undefined
+	    :
+	      inc &nth
+	      if
+		len == 0:
+		  if
+		    nth >= 0
+		    -> i n-i+1
+		    :
+		      dec &i
+		      search_next
+		:
+		  dec &i
+		  $e i+len
+		  loop:
+		    match_back expr range(str 1 i) !len
+		    if
+		      len.is_undefined || len == 0:
+			if
+			  nth >= 0
+			  -> i+1 e-i
+			  :
+			    dec &i
+			    search_next
+		      :
+			minus &i len
+			next
+
+$std::DIGIT '0'..'9'
+$std::LETTER 'a'..'z', 'A'..'Z'
+#$std::ALPHANUMERIC alt(std::LETTER std::DIGIT)
+
 $std::alt std::hash_set

@@ -394,6 +394,8 @@ $std_types::string/match:
   #
     matches the start of the stream with the string
 
+    Result: the number of matched characters or <undefined> if the match fails
+
     Attempts to match the start of the stream with the specified string.
     If the match is successful the stream the length of the string is returned.
     Otherwise <undefined> is returned.
@@ -414,6 +416,19 @@ $std_types::string/match:
 	-> len
 	-> undefined
     -> undefined
+
+$std_types::string/matches:
+  #
+    checks whether the string matches the specified expression
+
+    Topic: Strings
+
+    See also: std_types::string/match
+  (
+    self # the string to check
+    expr # the expression to match
+  )
+  -> match(self expr) == length_of(self)
 
 $std_types::string/search:
   #
@@ -1707,12 +1722,17 @@ $std::parse_number:
     :
       $sign_chr self(1)
       update_if sign_chr == '-' || sign_chr == '+' &i -> i+1
+      $sign
+	if
+	  sign_chr == '-'
+	  -> -1
+	  -> 1
       if
 	self(i) == '0' && i+1 < n:
 	  case self(i+1)
-	    'b': parse_binary self i+2
-	    'o': parse_octal self i+2
-	    'x': parse_hex self i+2
+	    'b': parse_binary self i+2 sign
+	    'o': parse_octal self i+2 sign
+	    'x': parse_hex self i+2 sign
 	    parse
 	parse
 
@@ -1771,7 +1791,7 @@ $std::parse_number:
 
     $return_real -> range(self i -1) real(range(self 1 i-1))
 
-$parse_binary: (str i)
+$parse_binary: (str i sign)
   $n length_of(str)
   if
     i > n -> str undefined
@@ -1786,16 +1806,16 @@ $parse_binary: (str i)
 	    !i i+1
 	    if
 	      i > n
-	      -> "" value
+	      -> "" value*sign
 	      :
 		$next_digit str(i)
 		if
 		  next_digit >= '0' && next_digit <= '1':
 		    !value (value << 1)+(next_digit-'0')
 		    next
-		  -> range(str i -1) value
+		  -> range(str i -1) value*sign
 
-$parse_octal: (str i)
+$parse_octal: (str i sign)
   $n length_of(str)
   if
     i > n -> str undefined
@@ -1810,14 +1830,14 @@ $parse_octal: (str i)
 	    !i i+1
 	    if
 	      i > n
-	      -> "" value
+	      -> "" value*sign
 	      :
 		$next_digit str(i)
 		if
 		  next_digit >= '0' && next_digit <= '7':
 		    !value (value << 3)+(next_digit-'0')
 		    next
-		  -> range(str i -1) value
+		  -> range(str i -1) value*sign
 
 $std::parse_hex:
   #
@@ -1849,6 +1869,7 @@ $std::parse_hex:
   (
     str # the string to parse
     i = 1 # the start index
+    sign = 1
   )
   $n length_of(str)
   if
@@ -1869,7 +1890,7 @@ $std::parse_hex:
 	  !i i+1
 	  if
 	    i > n
-	    -> "" value
+	    -> "" value*sign
 	    :
 	      $next_digit str(i)
 	      cond
@@ -1882,7 +1903,7 @@ $std::parse_hex:
 		-> next_digit >= 'A' && next_digit <= 'F':
 		  !value (value << 4)+(next_digit-'A')+10
 		  next
-		-> true -> range(str i -1) value
+		-> true -> range(str i -1) value*sign
 
 $std_types::string/to_integer:
   #

@@ -4035,6 +4035,39 @@ FUNCTION std::getuid
     PREPARE_SINGLE_RESULT(user_id_from_int(result))
   }
 
+FUNCTION std::isatty
+  #
+    checks whether the file descriptor refers to an interactive terminal
+
+    Parameter:
+      fd # the file descriptor
+
+    Result:
+      bool: a boolean describing whether the file descriptor refers to an
+	    interactive terminal or not
+
+    This function needs I/O-access rights.
+
+    Topic: POSIX
+
+    See also: std_types::file_descriptor
+  {
+    CHECK_ARGUMENTS(1)
+    CHECK_IO_ACCESS_RIGHTS
+    int fd;
+    if (!file_descriptor_to_int(ARGUMENTS(0), &fd)) return;
+    int result;
+    EVENT(isatty)
+      result = isatty(fd);
+    INFO
+      INT(fd)
+      INT(result)
+    DATA
+      INT(result)
+    END
+    PREPARE_SINGLE_RESULT(from_bool(result))
+  }
+
 FUNCTION std::mkdir
   #
     creates a directory

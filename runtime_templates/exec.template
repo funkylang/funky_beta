@@ -124,12 +124,14 @@ FUNCTION std::create_process
       arguments # a list of arguments to supply to the new process
       environment? # a list of environment variables or <undefined>
       stdin? # a file-descriptor to be used as the process' stdin
+      stdout? # a file-descriptor to be used as the process' stdout
+      stderr? # a file-descriptor to be used as the process' stderr
 
     Results:
       child_pid # the process id of the new process
       child_stdin? # the file-descriptor to write to the child process' stdin
-      child_stdout # the file-descriptor to read from the child process' stdout
-      child_stderr # the file-descriptor to read from the child process' stderr
+      child_stdout? # the file-descriptor to read from the child process' stdout
+      child_stderr? # the file-descriptor to read from the child process' stderr
 
     *child_stdin* is returned only if no value was supplied for *stdin*.
 
@@ -169,7 +171,7 @@ FUNCTION std::create_process
       -rw-r--r-- 1 root root  1299 17. Jän 17:59 profiler.h
   {
     MIN_ARGUMENTS(2)
-    MAX_ARGUMENTS(4)
+    MAX_ARGUMENTS(6)
     if (TYPEOF(ARGUMENTS(1)) != TYPE(std_types::list)) INVALID_ARGUMENTS
     NODE *environment = VAR(std_types::undefined);
     if (ARGUMENT_COUNT >= 3) {
@@ -180,9 +182,18 @@ FUNCTION std::create_process
       ) INVALID_ARGUMENTS
     }
     if (
-      ARGUMENT_COUNT == 4 &&
+      ARGUMENT_COUNT >= 4 &&
       TYPEOF(ARGUMENTS(3)) != TYPE(std_types::file_descriptor)
     ) INVALID_ARGUMENTS
+    if (
+      ARGUMENT_COUNT >= 5 &&
+      TYPEOF(ARGUMENTS(4)) != TYPE(std_types::file_descriptor)
+    ) INVALID_ARGUMENTS
+    if (
+      ARGUMENT_COUNT >= 6 &&
+      TYPEOF(ARGUMENTS(5)) != TYPE(std_types::file_descriptor)
+    ) INVALID_ARGUMENTS
+
     CHECK_IO_ACCESS_RIGHTS
 
     char **envp = NULL;
@@ -217,13 +228,17 @@ FUNCTION std::create_process
 	goto cleanup;
       }
     }
-    if (pipe((int *)&out_pipe) != 0) goto pipe_creation_failed;
-    if (pipe((int *)&err_pipe) != 0) goto pipe_creation_failed;
+    if (ARGUMENT_COUNT < 5) {
+      if (pipe((int *)&out_pipe) != 0) goto pipe_creation_failed;
+    }
+    if (ARGUMENT_COUNT < 6) {
+      if (pipe((int *)&err_pipe) != 0) goto pipe_creation_failed;
+    }
 
-    int pid = fork();
+    pid_t pid = fork();
     if (pid == 0) {
       // child process
-      if (ARGUMENT_COUNT == 4) {
+      if (ARGUMENT_COUNT >= 4) {
 	dup2_fd(ARGUMENTS(3)->file_descriptor.value, STDIN_FILENO);
 	close(ARGUMENTS(3)->file_descriptor.value);
       } else {
@@ -231,14 +246,26 @@ FUNCTION std::create_process
 	dup2_fd(in_pipe.read_fd, STDIN_FILENO);
 	close(in_pipe.read_fd);
       }
-
-      close(out_pipe.read_fd);
-      dup2_fd(out_pipe.write_fd, STDOUT_FILENO);
-      close(out_pipe.write_fd);
-
-      close(err_pipe.read_fd);
-      dup2_fd(err_pipe.write_fd, STDERR_FILENO);
-      close(err_pipe.write_fd);
+      if (ARGUMENT_COUNT >= 5) {
+	dup2_fd(ARGUMENTS(4)->file_descriptor.value, STDOUT_FILENO);
+      }
+      if (ARGUMENT_COUNT >= 6) {
+	dup2_fd(ARGUMENTS(5)->file_descriptor.value, STDERR_FILENO);
+      }
+      if (ARGUMENT_COUNT >= 5) {
+	close(ARGUMENTS(4)->file_descriptor.value);
+      } else {
+	close(out_pipe.read_fd);
+	dup2_fd(out_pipe.write_fd, STDOUT_FILENO);
+	close(out_pipe.write_fd);
+      }
+      if (ARGUMENT_COUNT >= 6) {
+	close(ARGUMENTS(5)->file_descriptor.value);
+      } else {
+	close(err_pipe.read_fd);
+	dup2_fd(err_pipe.write_fd, STDERR_FILENO);
+	close(err_pipe.write_fd);
+      }
 
       if (TYPEOF(environment) == TYPE(std_types::list)) {
 	envp = allocate_memory((environment->list.length+1)*sizeof(char *));
@@ -280,11 +307,23 @@ FUNCTION std::create_process
     child_stderr = file_descriptor_from_int(err_pipe.read_fd);
 
 
-    if (ARGUMENT_COUNT == 4) { // we got *stdin* from the caller
+    if (ARGUMENT_COUNT == 4) {
+      // we got *stdin* from the caller
       START_ARGUMENTS(3)
       ARGUMENTS(0) = child_pid;
       ARGUMENTS(1) = child_stdout;
       ARGUMENTS(2) = child_stderr;
+      goto cleanup_2;
+    } else if (ARGUMENT_COUNT == 5) {
+      // we got *stdin* and *stdout* from the caller
+      START_ARGUMENTS(2)
+      ARGUMENTS(0) = child_pid;
+      ARGUMENTS(1) = child_stderr;
+      goto cleanup_2;
+    } else if (ARGUMENT_COUNT == 6) {
+      // we got *stdin*, *stdout* and *stderr* from the caller
+      START_ARGUMENTS(1)
+      ARGUMENTS(0) = child_pid;
       goto cleanup_2;
     } else {
       START_ARGUMENTS(4)

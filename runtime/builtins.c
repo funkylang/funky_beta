@@ -324,6 +324,7 @@ enum {
   func__std___getpwuid,
   func__std___getsid,
   func__std___getuid,
+  func__std___isatty,
   func__std___mkdir,
   func__std___mkfifo,
   func__std___open,
@@ -790,6 +791,7 @@ enum {
   var_no__std___getpwuid,
   var_no__std___getsid,
   var_no__std___getuid,
+  var_no__std___isatty,
   var_no__std___mkdir,
   var_no__std___mkfifo,
   var_no__std___open,
@@ -17306,7 +17308,7 @@ static void entry__std___create_process (void)
       too_few_arguments();
       return;
     }
-    if (TLS_argument_count > 4) {
+    if (TLS_argument_count > 6) {
       too_many_arguments();
       return;
     }
@@ -17326,12 +17328,27 @@ static void entry__std___create_process (void)
       }
     }
     if (
-      TLS_argument_count == 4 &&
+      TLS_argument_count >= 4 &&
       (TLS_arguments[3])->type != std_types___file_descriptor.type
     ) {
       invalid_arguments();
       return;
     }
+    if (
+      TLS_argument_count >= 5 &&
+      (TLS_arguments[4])->type != std_types___file_descriptor.type
+    ) {
+      invalid_arguments();
+      return;
+    }
+    if (
+      TLS_argument_count >= 6 &&
+      (TLS_arguments[5])->type != std_types___file_descriptor.type
+    ) {
+      invalid_arguments();
+      return;
+    }
+
     if (TLS_deny_io) {
       missing_io_access_rights();
       return;
@@ -17369,13 +17386,17 @@ static void entry__std___create_process (void)
 	goto cleanup;
       }
     }
-    if (pipe((int *)&out_pipe) != 0) goto pipe_creation_failed;
-    if (pipe((int *)&err_pipe) != 0) goto pipe_creation_failed;
+    if (TLS_argument_count < 5) {
+      if (pipe((int *)&out_pipe) != 0) goto pipe_creation_failed;
+    }
+    if (TLS_argument_count < 6) {
+      if (pipe((int *)&err_pipe) != 0) goto pipe_creation_failed;
+    }
 
-    int pid = fork();
+    pid_t pid = fork();
     if (pid == 0) {
       // child process
-      if (TLS_argument_count == 4) {
+      if (TLS_argument_count >= 4) {
 	dup2_fd(TLS_arguments[3]->file_descriptor.value, STDIN_FILENO);
 	close(TLS_arguments[3]->file_descriptor.value);
       } else {
@@ -17383,14 +17404,26 @@ static void entry__std___create_process (void)
 	dup2_fd(in_pipe.read_fd, STDIN_FILENO);
 	close(in_pipe.read_fd);
       }
-
-      close(out_pipe.read_fd);
-      dup2_fd(out_pipe.write_fd, STDOUT_FILENO);
-      close(out_pipe.write_fd);
-
-      close(err_pipe.read_fd);
-      dup2_fd(err_pipe.write_fd, STDERR_FILENO);
-      close(err_pipe.write_fd);
+      if (TLS_argument_count >= 5) {
+	dup2_fd(TLS_arguments[4]->file_descriptor.value, STDOUT_FILENO);
+      }
+      if (TLS_argument_count >= 6) {
+	dup2_fd(TLS_arguments[5]->file_descriptor.value, STDERR_FILENO);
+      }
+      if (TLS_argument_count >= 5) {
+	close(TLS_arguments[4]->file_descriptor.value);
+      } else {
+	close(out_pipe.read_fd);
+	dup2_fd(out_pipe.write_fd, STDOUT_FILENO);
+	close(out_pipe.write_fd);
+      }
+      if (TLS_argument_count >= 6) {
+	close(TLS_arguments[5]->file_descriptor.value);
+      } else {
+	close(err_pipe.read_fd);
+	dup2_fd(err_pipe.write_fd, STDERR_FILENO);
+	close(err_pipe.write_fd);
+      }
 
       if ((environment)->type == std_types___list.type) {
 	envp = allocate_memory((environment->list.length+1)*sizeof(char *));
@@ -17432,11 +17465,23 @@ static void entry__std___create_process (void)
     child_stderr = file_descriptor_from_int(err_pipe.read_fd);
 
 
-    if (TLS_argument_count == 4) { // we got *stdin* from the caller
+    if (TLS_argument_count == 4) {
+      // we got *stdin* from the caller
       TLS_argument_count = 3;
       TLS_arguments[0] = child_pid;
       TLS_arguments[1] = child_stdout;
       TLS_arguments[2] = child_stderr;
+      goto cleanup_2;
+    } else if (TLS_argument_count == 5) {
+      // we got *stdin* and *stdout* from the caller
+      TLS_argument_count = 2;
+      TLS_arguments[0] = child_pid;
+      TLS_arguments[1] = child_stderr;
+      goto cleanup_2;
+    } else if (TLS_argument_count == 6) {
+      // we got *stdin*, *stdout* and *stderr* from the caller
+      TLS_argument_count = 1;
+      TLS_arguments[0] = child_pid;
       goto cleanup_2;
     } else {
       TLS_argument_count = 4;
@@ -18621,6 +18666,8 @@ static void entry__std___integer (void)
     char *str = buf;
     if (*str == '-') {
       sign = -1;
+      ++str;
+    } else if (*str == '+') {
       ++str;
     }
     if (*str < '0' || *str > '9') {
@@ -21243,6 +21290,39 @@ static void entry__std___getuid (void)
     }
     {
       NODE *result__node = (NODE *)(user_id_from_int(result));
+      TLS_arguments[0] = result__node;
+      TLS_argument_count = 1;
+    }
+  }
+
+static void entry__std___isatty (void)
+  {
+    if (TLS_argument_count != 1) {
+      invalid_arguments();
+      return;
+    }
+    if (TLS_deny_io) {
+      missing_io_access_rights();
+      return;
+    }
+    int fd;
+    if (!file_descriptor_to_int(TLS_arguments[0], &fd)) return;
+    int result;
+    if (event__mode != EM__REPLAY) {
+      result = isatty(fd);
+      if (event__mode == EM__RECORD) {
+        record__event("isatty");
+        store__integer(result);
+      }
+    } else {
+      replay__event("isatty");
+      retrieve__integer(&result);
+      report__event("isatty");
+      print__integer(fd);
+      print__integer(result);
+    }
+    {
+      NODE *result__node = (NODE *)(from_bool(result));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
     }
@@ -25899,6 +25979,7 @@ static FUNKY_CONSTANT constants_table[] = {
   {FLT_C_FUNCTION, 1, {.func = entry__std___getpwuid}},
   {FLT_C_FUNCTION, 1, {.func = entry__std___getsid}},
   {FLT_C_FUNCTION, 0, {.func = entry__std___getuid}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std___isatty}},
   {FLT_C_FUNCTION, -1, {.func = entry__std___mkdir}},
   {FLT_C_FUNCTION, -1, {.func = entry__std___mkfifo}},
   {FLT_C_FUNCTION, -1, {.func = entry__std___open}},
@@ -29148,6 +29229,11 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_INITIALIZED, 0, 0,
+    "isatty\000std", NULL,
+    {.const_idx = func__std___isatty}
+  },
+  {
+    FOT_INITIALIZED, 0, 0,
     "mkdir\000std", NULL,
     {.const_idx = func__std___mkdir}
   },
@@ -29571,13 +29657,13 @@ FUNKY_MODULE module__builtin = {
   NULL,
   0, 0,
   4, 0,
-  397, 434,
+  398, 435,
   NULL,
   defined_namespaces, NULL,
   constants_table, variables_table
 };
 
-BUILTIN_FUNCTION_NAME builtin_function_names[449] = {
+BUILTIN_FUNCTION_NAME builtin_function_names[450] = {
   {std_types___generic_array____type, "std_types::generic_array/_type"},
   {std_types___array____type, "std_types::array/_type"},
   {entry__std_types___array___std___length_of, "std_types::array/length_of"},
@@ -29914,6 +30000,7 @@ BUILTIN_FUNCTION_NAME builtin_function_names[449] = {
   {entry__std___getpwuid, "std::getpwuid"},
   {entry__std___getsid, "std::getsid"},
   {entry__std___getuid, "std::getuid"},
+  {entry__std___isatty, "std::isatty"},
   {entry__std___mkdir, "std::mkdir"},
   {entry__std___mkfifo, "std::mkfifo"},
   {entry__std___open, "std::open"},

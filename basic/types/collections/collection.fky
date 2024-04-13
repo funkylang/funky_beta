@@ -411,11 +411,19 @@ $std::between ()
 
 $std::contains ()
   #
-    checks whether a string contains a specific expression
+    checks whether a string contains the specified expression
 
     Topic: Strings
 
-    #See also: std::matches, std::has_prefix, std::has_suffix
+    See also: std::matches, std::has_prefix, std::has_suffix
+
+$std::matches ()
+  #
+    checks whether a string matches the specified expression
+
+    Topic: Strings
+
+    See also: std::contains, std::has_prefix, std::has_suffix
 
 $std::dup ()
   #

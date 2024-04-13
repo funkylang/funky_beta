@@ -76,6 +76,173 @@ $std_types::value_range/length_of:
   self $lower_bound $upper_bound
   -> upper_bound+1-lower_bound
 
+$std_types::value_range/match:
+  #
+    checks whether the specified string starts with a character in the given
+    range
+
+    Result:
+      len # the number of matched characters or <undefined> if the match is
+	    unsuccessful
+
+    Topic: Grammar Objects, Strings
+
+    See also: std_types::value_range, std_types::value_range/match_back,
+	      std_types::value_range/search
+
+    Example:
+
+      $range 'a'..'z'
+      match range "@" $len
+      dump! `len
+
+    Output:
+
+      len: <undefined>
+
+    Example:
+
+      $range 'a'..'z'
+      match range "xyz" $len
+      dump! `len
+
+    Output:
+
+      len: 1
+  (
+    expr # the grammar object
+    str # the string to match with
+  )
+  if
+    str.is_empty
+    -> undefined
+    :
+      $chr str(1)
+      if
+	chr >= lower_bound_of(expr) && chr <= upper_bound_of(expr)
+	-> 1
+	-> undefined
+
+$std_types::value_range/match_back:
+  #
+    checks whether the specified string ends with a character in the given
+    range
+
+    Result:
+      len # the number of matched characters or <undefined> if the match is
+	    unsuccessful
+
+    Topic: Grammar Objects, Strings
+
+    See also: std_types::value_range, std_types::value_range/match,
+	      std_types::value_range/search
+
+    Example:
+
+      $range 'a'..'z'
+      match_back range "@" $len
+      dump! `len
+
+    Output:
+
+      len: <undefined>
+
+    Example:
+
+      $range 'a'..'z'
+      match_back range "xyz" $len
+      dump! `len
+
+    Output:
+
+      len: 1
+  (
+    expr # the grammar object
+    str # the string to match with
+  )
+  if
+    str.is_empty
+    -> undefined
+    :
+      $chr str(-1)
+      if
+	chr >= lower_bound_of(expr) && chr <= upper_bound_of(expr)
+	-> 1
+	-> undefined
+
+$std_types::value_range/search:
+  #
+    searches for the nth occurrence of a character in the given range
+
+    Results:
+      pos # the position of the match measured from the start of the string
+      len # the number of matched characters
+
+    Negative values of *nth* search from the end of the string.
+
+    Topic: Grammar Objects, Strings
+
+    See also: std_types::value_range, value_range/match, value_range/match_back
+
+    Example:
+
+      $range 'a'..'z'
+      search range "123xyz" 2 $pos $len
+      dump! `pos `len
+
+    Output:
+
+      pos: 5
+      len: 1
+  (
+    expr # the grammar object
+    str # the string to search
+    nth = 1 # the nth occurrence to search for
+  )
+  $low lower_bound_of(expr)
+  $high upper_bound_of(expr)
+  $len length_of(str)
+  if
+    nth < 0
+    search_backwards
+    search_forwards
+
+  $search_forwards:
+    $i 0
+    loop:
+      inc &i
+      if
+	i > len
+	-> undefined undefined
+	:
+	  $chr str(i)
+	  if
+	    chr >= low && chr <= high:
+	      if
+		nth > 1:
+		  dec &nth
+		  next
+		-> i 1
+	    next
+
+  $search_backwards:
+    $i len+1
+    loop:
+      dec &i
+      if
+	i < 1
+	-> undefined undefined
+	:
+	  $chr str(i)
+	  if
+	    chr >= low && chr <= high:
+	      if
+		nth < -1:
+		  inc &nth
+		  next
+		-> i 1
+	    next
+
 $std_types::value_range/for_each:
   #
     iterates over all values within the range
