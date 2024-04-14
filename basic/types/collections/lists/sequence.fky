@@ -35,6 +35,28 @@ $std_types::object.is_a_sequence false
 $std_types::sequence.is_a_sequence true # obvious
 
 $std_types::sequence/match:
+  #
+    checks whether the specified string starts with the specified sequence
+    of expressions
+
+    Result:
+      len # the number of matched characters or <undefined> if the match is
+	    unsuccessful
+
+    Topic: Grammar Objects, Strings
+
+    See also: std_types::sequence, std_types::sequence/match_back,
+	      std_types::sequence/search
+
+    Example:
+
+      $str "123abc---"
+      match many(DIGIT), many(CHARACTER) str $len
+      dump! `len
+
+    Output:
+
+      len: 6
   (
     self
     str

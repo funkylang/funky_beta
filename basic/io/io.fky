@@ -1291,6 +1291,85 @@ $run_pipe:
 			-> ret out err
 			next
 
+$std::which:
+  (
+    name
+  )
+  if
+    environment.is_undefined:
+      get_environment !environment
+      search!
+    search
+
+  $search:
+    for_each split(environment("PATH") ':')
+      : (pathname)
+	$filename append(pathname "/" name)
+	file_exists! filename $does_exist
+	if! does_exist
+	  -> filename
+	  next
+      -> undefined
+
+$std::find_first_process: (name)
+  opendir! $dir "/proc"
+  loop:
+    readdir! $entry dir
+    if
+      entry.is_an_error:
+	closedir! dir
+	-> undefined
+      :
+	$proc_num name_of(entry)
+	if
+	  proc_num .matches. many(DIGIT):
+	    load! $buf "/proc/@(proc_num)/cmdline"
+	    if
+	      buf.is_empty
+	      next
+	      :
+		$proc_name buf .truncate_from. '@0;'
+		truncate_until &proc_name '/' -1
+		if!
+		  proc_name .matches. name
+		  -> proc_num.to_integer
+		  next
+	  next
+
+$std::find_processes: (name)
+  opendir! $dir "/proc"
+  $pids empty_list
+  loop:
+    readdir! $entry dir
+    if
+      entry.is_an_error:
+	closedir! dir
+	-> pids
+      :
+	$proc_num name_of(entry)
+	if
+	  proc_num .matches. many(DIGIT):
+	    load! $buf "/proc/@(proc_num)/cmdline"
+	    if
+	      buf.is_empty
+	      next
+	      :
+		$proc_name buf .truncate_from. '@0;'
+		truncate_until &proc_name '/' -1
+		if
+		  proc_name .matches. name:
+		    push &pids proc_num.to_integer
+		    next!
+		  next
+	  next
+
+$std::get_process_name: (pid)
+  load! $buf "/proc/@(pid)/cmdline"
+  if
+    buf.is_an_error
+    -> undefined
+    -> buf .truncate_from. '@0;'
+
 $std::extern:
   #
     allows calling an external command like a builtin function

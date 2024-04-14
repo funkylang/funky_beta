@@ -718,6 +718,8 @@ $terminal undefined
 $ai_model_name "sauerkrautlm-una-solar-instruct.Q5_K_M.gguf"
 $ai_server "127.0.0.1:8080"
 $ai_context_size 4096
+$ai_server_name "funky_server"
+$do_start_ai_server false
 
 $next_id 0
 
@@ -743,6 +745,7 @@ $main: (initial_terminal)
   $window_height terminal_height-2
 
   load_configuration configuration_filename: (found_configuration)
+    start_ai_server! !io
     $help_window
       tedi_types::text_window
 	.id_of HELP_WINDOW
@@ -2679,6 +2682,47 @@ $initialize_ai:
 		.is_a_space_token_of is_a_space_token
 		.space_tokens_of space_tokens
 
+$start_ai_server:
+  if
+    do_start_ai_server:
+      find_first_process! $pid ai_server_name, ANYTHING
+      if
+	pid.is_defined:
+	  get_process_name! $real_server_name pid
+	  if
+	    real_server_name.is_defined:
+	      log io "
+		found already running ai-server: "@(real_server_name)"
+	    :
+	      log io "
+		an ai-server seems to be running - failed to determine its name!
+	:
+	  which! $cmd ai_server_name
+	  if
+	    cmd.is_defined:
+	      log &io "
+		starting ai-server "@(cmd)"
+	      log &io 2 "with a maximum context size of @(ai_context_size)"
+	      open! $fd_null "/dev/null" "r"
+	      open! $fd_log "/tmp/funky_server_log" "w+"
+	      create_process! !pid
+		cmd list("-c" ai_context_size.to_string) undefined
+		fd_null fd_log fd_log
+	      close! fd_null
+	      close! fd_log
+	      if
+		pid.is_an_error:
+		  log io "
+		    failed to start ai-server: @(pid.to_error_message_string)
+		:
+		  log io "
+		    started ai-server with pid @(pid.to_integer)
+	    :
+	      log io "
+		could not find the ai-server executable "@(ai_server_name)"
+
+    -> io
+
 $filter_selection: (myself^)
   if
     selection_start_y_of(window).is_undefined
@@ -4443,12 +4487,27 @@ $load_configuration: (filename continuation)
 		"ai-context-size":
 		  !ai_context_size value.to_integer
 		  next!
+		"ai-server-name":
+		  !ai_server_name value
+		  next!
+		"start-ai-server":
+		  case value
+		    "yes", "on", "true":
+		      !do_start_ai_server true
+		      next!
+		    "no", "off", "false":
+		      !do_start_ai_server false
+		      next!
+		    :
+		      log &io -> "
+			Invalid value for start-ai-server: "@(value)" in@
+			line @(no)!
+		      next!
 		:
 		  $key name_to_key(name)
 		  if
 		    key.is_undefined:
-		      eprint! "
-			Invalid key name "@(name)" in line @(no)!
+		      log &io -> "Unknown configuration key: '@(name)'"
 		      next!
 		    :
 		      case value
@@ -4483,8 +4542,9 @@ $load_configuration: (filename continuation)
 			  $info functions(value)
 			  if
 			    info.is_undefined:
-			      eprint! "
-				Invalid function name "@(value)" in line @(no)!
+			      log &io -> "
+				Invalid Invalid function name "@(value)" in @
+				line @(no)!
 			      next!
 			    :
 			      info $function $class

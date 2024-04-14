@@ -176,7 +176,38 @@ enum {
   lambda_79 = -167,
   lambda_80 = -168,
   lambda_81 = -169,
-  func_std__extern = -170
+  func_std__which = -170,
+  lambda_environment_is_undefined = -171,
+  func_search = -172,
+  str_PATH = -173,
+  chr_58 = -174,
+  lambda_82 = -175,
+  string_4 = -176,
+  lambda_83 = -177,
+  lambda_84 = -178,
+  func_std__find_first_process = -179,
+  str_proc = -180,
+  lambda_7_loop = -181,
+  lambda_2_entry_is_an_error = -182,
+  lambda_85 = -183,
+  lambda_86 = -184,
+  str_proc_2 = -185,
+  str_cmdline = -186,
+  lambda_87 = -187,
+  chr_0 = -188,
+  chr_47 = -189,
+  lambda_88 = -190,
+  func_std__find_processes = -191,
+  lambda_8_loop = -192,
+  lambda_3_entry_is_an_error = -193,
+  lambda_89 = -194,
+  lambda_90 = -195,
+  lambda_91 = -196,
+  lambda_92 = -197,
+  func_std__get_process_name = -198,
+  lambda_93 = -199,
+  lambda_94 = -200,
+  func_std__extern = -201
 };
 
 enum {
@@ -410,6 +441,32 @@ enum {
   var_wait, // extern
   var_1268_3_read_descriptor, // dynamic
   var_1269_7_buf, // dynamic
+  var_std__which, // initialized
+  var_1296_0_name, // dynamic
+  var_get_environment, // extern
+  var_split, // extern
+  var_1307_1_filename, // dynamic
+  var_file_exists, // extern
+  var_std__find_first_process, // initialized
+  var_1314_27_name, // dynamic
+  var_1315_10_dir, // dynamic
+  var_1317_10_entry, // dynamic
+  var_1323_1_proc_num, // dynamic
+  var_DIGIT, // extern
+  var_many, // extern
+  var_matches, // extern
+  var_1326_7_buf, // dynamic
+  var_truncate_from, // extern
+  var_truncate_until, // extern
+  var_std__find_processes, // initialized
+  var_1339_23_name, // dynamic
+  var_1340_10_dir, // dynamic
+  var_1341_1_pids, // dynamic
+  var_1343_10_entry, // dynamic
+  var_1349_1_proc_num, // dynamic
+  var_1352_7_buf, // dynamic
+  var_std__get_process_name, // initialized
+  var_1367_7_buf, // dynamic
   var_std__extern, // initialized
   var__END
 };
@@ -2377,16 +2434,325 @@ static TAB_NUM t_lambda_81[] = {
   POS(1291, 27)
 };
 
+static TAB_NUM t_func_std__which[] = {
+  1, // locals
+  1, // parameters
+  var_1296_0_name,
+  // is_undefined:
+  var_is_undefined, 1, var_environment, 1, LOCAL(1),
+  // if
+  var_if, 3, LOCAL(1), lambda_environment_is_undefined, func_search, IO_TAIL_CALL,
+  POS(1299, 17),
+  POS(1298, 3)
+};
+
+static TAB_NUM t_lambda_environment_is_undefined[] = {
+  0, // locals
+  0, // parameters
+  // get_environment !environment
+  var_get_environment, 0, 1, var_environment,
+  // search!
+  func_search, 0, IO_TAIL_CALL,
+  POS(1300, 7),
+  POS(1301, 7)
+};
+
+static TAB_NUM t_func_search[] = {
+  2, // locals
+  0, // parameters
+  // environment("PATH") ':')
+  var_environment, 1, str_PATH, 1, LOCAL(1),
+  // split(environment("PATH") ':')
+  var_split, 2, LOCAL(1), chr_58, 1, LOCAL(2),
+  // for_each split(environment("PATH") ':')
+  var_for_each, 3, LOCAL(2), lambda_82, lambda_84, IO_TAIL_CALL,
+  POS(1305, 20),
+  POS(1305, 14),
+  POS(1305, 5)
+};
+
+static TAB_NUM t_lambda_82[] = {
+  2, // locals
+  1, // parameters
+  LOCAL(1), // 1306_3_pathname
+  // $filename append(pathname "/" name)
+  var_append, 3, LOCAL(1), string_4, var_1296_0_name, 1, var_1307_1_filename,
+  // file_exists! filename $does_exist
+  var_file_exists, 1, var_1307_1_filename, IO_CALL(1), LOCAL(2),
+  // if! does_exist
+  var_if, 3, LOCAL(2), lambda_83, var_next, IO_TAIL_CALL,
+  POS(1307, 9),
+  POS(1308, 9),
+  POS(1309, 9)
+};
+
+static TAB_NUM t_lambda_83[] = {
+  0, // locals
+  0, // parameters
+  //  filename
+  LET, 1, var_1307_1_filename, TAIL_CALL,
+  POS(1310, 13)
+};
+
+static TAB_NUM t_lambda_84[] = {
+  0, // locals
+  0, // parameters
+  //  undefined
+  LET, 1, var_undefined, TAIL_CALL,
+  POS(1312, 9)
+};
+
+static TAB_NUM t_func_std__find_first_process[] = {
+  0, // locals
+  1, // parameters
+  var_1314_27_name,
+  // opendir! $dir "/proc"
+  var_opendir, 1, str_proc, IO_CALL(1), var_1315_10_dir,
+  // loop:
+  var_loop, 1, lambda_7_loop, IO_TAIL_CALL,
+  POS(1315, 3),
+  POS(1316, 3)
+};
+
+static TAB_NUM t_lambda_7_loop[] = {
+  1, // locals
+  0, // parameters
+  // readdir! $entry dir
+  var_readdir, 1, var_1315_10_dir, IO_CALL(1), var_1317_10_entry,
+  // is_an_error:
+  var_is_an_error, 1, var_1317_10_entry, 1, LOCAL(1),
+  // if
+  var_if, 3, LOCAL(1), lambda_2_entry_is_an_error, lambda_85, IO_TAIL_CALL,
+  POS(1317, 5),
+  POS(1319, 13),
+  POS(1318, 5)
+};
+
+static TAB_NUM t_lambda_2_entry_is_an_error[] = {
+  0, // locals
+  0, // parameters
+  // closedir! dir
+  var_closedir, 1, var_1315_10_dir, IO_CALL(0),
+  // -> undefined
+  LET, 1, var_undefined, TAIL_CALL,
+  POS(1320, 9),
+  POS(1321, 9)
+};
+
+static TAB_NUM t_lambda_85[] = {
+  2, // locals
+  0, // parameters
+  // $proc_num name_of(entry)
+  var_name_of, 1, var_1317_10_entry, 1, var_1323_1_proc_num,
+  // many(DIGIT):
+  var_many, 1, var_DIGIT, 1, LOCAL(1),
+  // proc_num .matches. many(DIGIT):
+  var_matches, 2, var_1323_1_proc_num, LOCAL(1), 1, LOCAL(2),
+  // if
+  var_if, 3, LOCAL(2), lambda_86, var_next, IO_TAIL_CALL,
+  POS(1323, 9),
+  POS(1325, 30),
+  POS(1325, 11),
+  POS(1324, 9)
+};
+
+static TAB_NUM t_lambda_86[] = {
+  1, // locals
+  0, // parameters
+  // "/proc/@(proc_num)/cmdline"
+  var_std__string, 3, str_proc_2, var_1323_1_proc_num, str_cmdline, 1, LOCAL(1),
+  // load! $buf "/proc/@(proc_num)/cmdline"
+  var_load, 1, LOCAL(1), IO_CALL(1), var_1326_7_buf,
+  // is_empty
+  var_is_empty, 1, var_1326_7_buf, 1, LOCAL(1),
+  // if
+  var_if, 3, LOCAL(1), var_next, lambda_87, IO_TAIL_CALL,
+  POS(1326, 24),
+  POS(1326, 13),
+  POS(1328, 19),
+  POS(1327, 13)
+};
+
+static TAB_NUM t_lambda_87[] = {
+  2, // locals
+  0, // parameters
+  // $proc_name buf .truncate_from. '@0;'
+  var_truncate_from, 2, var_1326_7_buf, chr_0, 1, LOCAL(2),
+  // truncate_until &proc_name '/' -1
+  var_truncate_until, 3, LOCAL(2), chr_47, minus_num_1, 1, LOCAL(2),
+  // proc_name .matches. name
+  var_matches, 2, LOCAL(2), var_1314_27_name, 1, LOCAL(1),
+  // if!
+  var_if, 3, LOCAL(1), lambda_88, var_next, IO_TAIL_CALL,
+  POS(1331, 17),
+  POS(1332, 17),
+  POS(1334, 19),
+  POS(1333, 17)
+};
+
+static TAB_NUM t_lambda_88[] = {
+  1, // locals
+  0, // parameters
+  // to_integer
+  var_to_integer, 1, var_1323_1_proc_num, 1, LOCAL(1),
+  //  proc_num.to_integer
+  LET, 1, LOCAL(1), TAIL_CALL,
+  POS(1335, 31),
+  POS(1335, 21)
+};
+
+static TAB_NUM t_func_std__find_processes[] = {
+  0, // locals
+  1, // parameters
+  var_1339_23_name,
+  // opendir! $dir "/proc"
+  var_opendir, 1, str_proc, IO_CALL(1), var_1340_10_dir,
+  // $pids empty_list
+  LET, 1, var_empty_list, 1, var_1341_1_pids,
+  // loop:
+  var_loop, 1, lambda_8_loop, IO_TAIL_CALL,
+  POS(1340, 3),
+  POS(1341, 3),
+  POS(1342, 3)
+};
+
+static TAB_NUM t_lambda_8_loop[] = {
+  1, // locals
+  0, // parameters
+  // readdir! $entry dir
+  var_readdir, 1, var_1340_10_dir, IO_CALL(1), var_1343_10_entry,
+  // is_an_error:
+  var_is_an_error, 1, var_1343_10_entry, 1, LOCAL(1),
+  // if
+  var_if, 3, LOCAL(1), lambda_3_entry_is_an_error, lambda_89, IO_TAIL_CALL,
+  POS(1343, 5),
+  POS(1345, 13),
+  POS(1344, 5)
+};
+
+static TAB_NUM t_lambda_3_entry_is_an_error[] = {
+  0, // locals
+  0, // parameters
+  // closedir! dir
+  var_closedir, 1, var_1340_10_dir, IO_CALL(0),
+  // -> pids
+  LET, 1, var_1341_1_pids, TAIL_CALL,
+  POS(1346, 9),
+  POS(1347, 9)
+};
+
+static TAB_NUM t_lambda_89[] = {
+  2, // locals
+  0, // parameters
+  // $proc_num name_of(entry)
+  var_name_of, 1, var_1343_10_entry, 1, var_1349_1_proc_num,
+  // many(DIGIT):
+  var_many, 1, var_DIGIT, 1, LOCAL(1),
+  // proc_num .matches. many(DIGIT):
+  var_matches, 2, var_1349_1_proc_num, LOCAL(1), 1, LOCAL(2),
+  // if
+  var_if, 3, LOCAL(2), lambda_90, var_next, IO_TAIL_CALL,
+  POS(1349, 9),
+  POS(1351, 30),
+  POS(1351, 11),
+  POS(1350, 9)
+};
+
+static TAB_NUM t_lambda_90[] = {
+  1, // locals
+  0, // parameters
+  // "/proc/@(proc_num)/cmdline"
+  var_std__string, 3, str_proc_2, var_1349_1_proc_num, str_cmdline, 1, LOCAL(1),
+  // load! $buf "/proc/@(proc_num)/cmdline"
+  var_load, 1, LOCAL(1), IO_CALL(1), var_1352_7_buf,
+  // is_empty
+  var_is_empty, 1, var_1352_7_buf, 1, LOCAL(1),
+  // if
+  var_if, 3, LOCAL(1), var_next, lambda_91, IO_TAIL_CALL,
+  POS(1352, 24),
+  POS(1352, 13),
+  POS(1354, 19),
+  POS(1353, 13)
+};
+
+static TAB_NUM t_lambda_91[] = {
+  2, // locals
+  0, // parameters
+  // $proc_name buf .truncate_from. '@0;'
+  var_truncate_from, 2, var_1352_7_buf, chr_0, 1, LOCAL(2),
+  // truncate_until &proc_name '/' -1
+  var_truncate_until, 3, LOCAL(2), chr_47, minus_num_1, 1, LOCAL(2),
+  // proc_name .matches. name:
+  var_matches, 2, LOCAL(2), var_1339_23_name, 1, LOCAL(1),
+  // if
+  var_if, 3, LOCAL(1), lambda_92, var_next, IO_TAIL_CALL,
+  POS(1357, 17),
+  POS(1358, 17),
+  POS(1360, 19),
+  POS(1359, 17)
+};
+
+static TAB_NUM t_lambda_92[] = {
+  1, // locals
+  0, // parameters
+  // to_integer
+  var_to_integer, 1, var_1349_1_proc_num, 1, LOCAL(1),
+  // push &pids proc_num.to_integer
+  var_push, 2, var_1341_1_pids, LOCAL(1), 1, var_1341_1_pids,
+  // next!
+  var_next, 0, IO_TAIL_CALL,
+  POS(1361, 41),
+  POS(1361, 21),
+  POS(1362, 21)
+};
+
+static TAB_NUM t_func_std__get_process_name[] = {
+  2, // locals
+  1, // parameters
+  LOCAL(2), // 1366_25_pid
+  // "/proc/@(pid)/cmdline"
+  var_std__string, 3, str_proc_2, LOCAL(2), str_cmdline, 1, LOCAL(1),
+  // load! $buf "/proc/@(pid)/cmdline"
+  var_load, 1, LOCAL(1), IO_CALL(1), var_1367_7_buf,
+  // is_an_error
+  var_is_an_error, 1, var_1367_7_buf, 1, LOCAL(1),
+  // if
+  var_if, 3, LOCAL(1), lambda_93, lambda_94, TAIL_CALL,
+  POS(1367, 14),
+  POS(1367, 3),
+  POS(1369, 9),
+  POS(1368, 3)
+};
+
+static TAB_NUM t_lambda_93[] = {
+  0, // locals
+  0, // parameters
+  //  undefined
+  LET, 1, var_undefined, TAIL_CALL,
+  POS(1370, 7)
+};
+
+static TAB_NUM t_lambda_94[] = {
+  1, // locals
+  0, // parameters
+  // buf .truncate_from. '@0;'
+  var_truncate_from, 2, var_1367_7_buf, chr_0, 1, LOCAL(1),
+  //  buf .truncate_from. '@0;'
+  LET, 1, LOCAL(1), TAIL_CALL,
+  POS(1371, 8),
+  POS(1371, 7)
+};
+
 static TAB_NUM t_func_std__extern[] = {
   2, // locals
   1, // parameters
-  LOCAL(2), // 1298_0_command
+  LOCAL(2), // 1377_0_command
   // .command_of command)
   LET, -1, func_extern_call, var_command_of, LOCAL(2), LOCAL(1),
   // -> extern_call(.command_of command)
   LET, 1, LOCAL(1), TAIL_CALL,
-  POS(1300, 18),
-  POS(1300, 3)
+  POS(1379, 18),
+  POS(1379, 3)
 };
 
 static int list_1213_9_arguments[] = {
@@ -2563,6 +2929,37 @@ static FUNKY_CONSTANT constants_table[] = {
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_79}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_80}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_81}},
+  {FLT_FUNCTION, 0, {.tfunc = t_func_std__which}},
+  {FLT_FUNCTION, 0, {.tfunc = t_lambda_environment_is_undefined}},
+  {FLT_FUNCTION, 0, {.tfunc = t_func_search}},
+  {FLT_STRING_8, 4, {.str_8 = "PATH"}},
+  {FLT_CHARACTER, 0, {.value = 58}},
+  {FLT_FUNCTION, 0, {.tfunc = t_lambda_82}},
+  {FLT_STRING_8, 1, {.str_8 = "/"}},
+  {FLT_FUNCTION, 0, {.tfunc = t_lambda_83}},
+  {FLT_FUNCTION, 0, {.tfunc = t_lambda_84}},
+  {FLT_FUNCTION, 0, {.tfunc = t_func_std__find_first_process}},
+  {FLT_STRING_8, 5, {.str_8 = "/proc"}},
+  {FLT_FUNCTION, 0, {.tfunc = t_lambda_7_loop}},
+  {FLT_FUNCTION, 0, {.tfunc = t_lambda_2_entry_is_an_error}},
+  {FLT_FUNCTION, 0, {.tfunc = t_lambda_85}},
+  {FLT_FUNCTION, 0, {.tfunc = t_lambda_86}},
+  {FLT_STRING_8, 6, {.str_8 = "/proc/"}},
+  {FLT_STRING_8, 8, {.str_8 = "/cmdline"}},
+  {FLT_FUNCTION, 0, {.tfunc = t_lambda_87}},
+  {FLT_CHARACTER, 0, {.value = 0}},
+  {FLT_CHARACTER, 0, {.value = 47}},
+  {FLT_FUNCTION, 0, {.tfunc = t_lambda_88}},
+  {FLT_FUNCTION, 0, {.tfunc = t_func_std__find_processes}},
+  {FLT_FUNCTION, 0, {.tfunc = t_lambda_8_loop}},
+  {FLT_FUNCTION, 0, {.tfunc = t_lambda_3_entry_is_an_error}},
+  {FLT_FUNCTION, 0, {.tfunc = t_lambda_89}},
+  {FLT_FUNCTION, 0, {.tfunc = t_lambda_90}},
+  {FLT_FUNCTION, 0, {.tfunc = t_lambda_91}},
+  {FLT_FUNCTION, 0, {.tfunc = t_lambda_92}},
+  {FLT_FUNCTION, 0, {.tfunc = t_func_std__get_process_name}},
+  {FLT_FUNCTION, 0, {.tfunc = t_lambda_93}},
+  {FLT_FUNCTION, 0, {.tfunc = t_lambda_94}},
   {FLT_FUNCTION, 0, {.tfunc = t_func_std__extern}}
 };
 
@@ -3676,6 +4073,122 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_INITIALIZED, 0, 0,
+    "which\000std", NULL,
+    {.const_idx = -func_std__which}
+  },
+  {
+    FOT_UNINITIALIZED, 0, 0,
+    "1296_0_name\000", NULL
+  },
+  {
+    FOT_UNKNOWN, 0, 0,
+    "get_environment\000", NULL,
+    {.position = POS(1300, 7)}
+  },
+  {
+    FOT_UNKNOWN, 0, 0,
+    "split\000", NULL,
+    {.position = POS(1305, 14)}
+  },
+  {
+    FOT_UNINITIALIZED, 0, 0,
+    "1307_1_filename\000", NULL
+  },
+  {
+    FOT_UNKNOWN, 0, 0,
+    "file_exists\000", NULL,
+    {.position = POS(1308, 9)}
+  },
+  {
+    FOT_INITIALIZED, 0, 0,
+    "find_first_process\000std", NULL,
+    {.const_idx = -func_std__find_first_process}
+  },
+  {
+    FOT_UNINITIALIZED, 0, 0,
+    "1314_27_name\000", NULL
+  },
+  {
+    FOT_UNINITIALIZED, 0, 0,
+    "1315_10_dir\000", NULL
+  },
+  {
+    FOT_UNINITIALIZED, 0, 0,
+    "1317_10_entry\000", NULL
+  },
+  {
+    FOT_UNINITIALIZED, 0, 0,
+    "1323_1_proc_num\000", NULL
+  },
+  {
+    FOT_UNKNOWN, 0, 0,
+    "DIGIT\000", NULL,
+    {.position = POS(1325, 35)}
+  },
+  {
+    FOT_UNKNOWN, 0, 0,
+    "many\000", NULL,
+    {.position = POS(1325, 30)}
+  },
+  {
+    FOT_UNKNOWN, 0, 0,
+    "matches\000", NULL,
+    {.position = POS(1325, 11)}
+  },
+  {
+    FOT_UNINITIALIZED, 0, 0,
+    "1326_7_buf\000", NULL
+  },
+  {
+    FOT_UNKNOWN, 0, 0,
+    "truncate_from\000", NULL,
+    {.position = POS(1331, 28)}
+  },
+  {
+    FOT_UNKNOWN, 0, 0,
+    "truncate_until\000", NULL,
+    {.position = POS(1332, 17)}
+  },
+  {
+    FOT_INITIALIZED, 0, 0,
+    "find_processes\000std", NULL,
+    {.const_idx = -func_std__find_processes}
+  },
+  {
+    FOT_UNINITIALIZED, 0, 0,
+    "1339_23_name\000", NULL
+  },
+  {
+    FOT_UNINITIALIZED, 0, 0,
+    "1340_10_dir\000", NULL
+  },
+  {
+    FOT_UNINITIALIZED, 0, 0,
+    "1341_1_pids\000", NULL
+  },
+  {
+    FOT_UNINITIALIZED, 0, 0,
+    "1343_10_entry\000", NULL
+  },
+  {
+    FOT_UNINITIALIZED, 0, 0,
+    "1349_1_proc_num\000", NULL
+  },
+  {
+    FOT_UNINITIALIZED, 0, 0,
+    "1352_7_buf\000", NULL
+  },
+  {
+    FOT_INITIALIZED, 0, 0,
+    "get_process_name\000std", NULL,
+    {.const_idx = -func_std__get_process_name}
+  },
+  {
+    FOT_UNINITIALIZED, 0, 0,
+    "1367_7_buf\000", NULL
+  },
+  {
+    FOT_INITIALIZED, 0, 0,
     "extern\000std", NULL,
     {.const_idx = -func_std__extern}
   }
@@ -3695,8 +4208,8 @@ FUNKY_MODULE module__basic__io__io = {
   0, // number of required modules
   0, // number of defined namespaces
   1, // number of used namespaces
-  170, // number of constants
-  230, // number of variables
+  201, // number of constants
+  256, // number of variables
   NULL, // required modules
   NULL, // defined namespaces
   used_namespaces,

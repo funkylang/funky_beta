@@ -1761,13 +1761,13 @@ static TAB_NUM t_func_std_types__string___matches[] = {
   2, // parameters
   LOCAL(4), // 428_0_self
   LOCAL(5), // 429_0_expr
-  // match(self expr) == length_of(self)
-  var_match, 2, LOCAL(4), LOCAL(5), 1, LOCAL(1),
+  // match(expr self) == length_of(self)
+  var_match, 2, LOCAL(5), LOCAL(4), 1, LOCAL(1),
   // length_of(self)
   var_length_of, 1, LOCAL(4), 1, LOCAL(2),
-  // match(self expr) == length_of(self)
+  // match(expr self) == length_of(self)
   var_std__equal, 2, LOCAL(1), LOCAL(2), 1, LOCAL(3),
-  // -> match(self expr) == length_of(self)
+  // -> match(expr self) == length_of(self)
   LET, 1, LOCAL(3), TAIL_CALL,
   POS(431, 6),
   POS(431, 26),

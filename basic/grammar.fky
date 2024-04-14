@@ -573,6 +573,16 @@ $std::many:
   #
     creates a grammar object that matches one or more occurrences of the
     specified expression
+
+    Parameters:
+      expression # the expression to match
+
+    Result:
+      object # the grammar object
+
+    Topic: Grammar Objects
+
+    See also: std_types::some
   (
     expr # the expression to match multiple times
   )
@@ -787,6 +797,113 @@ $std_types::many/search:
 		      :
 			minus &i len
 			next
+
+$std_types::some std_types::object
+
+$std::some:
+  #
+    creates a grammar object that matches zero or more occurrences of the
+    specified expression
+
+    Parameters:
+      expr # the expression to match zero or more times
+
+    Result:
+      object # the grammar object
+
+    Topic: Grammar Objects
+
+    See also: std_types::many
+  (
+    expr # the expression to match zero or more times
+  )
+  -> std_types::some(.expression_of expr)
+
+#$std_types::some/match:
+  #
+    checks whether the specified string starts with zero or more occurrences
+    of the specified expression
+
+    Result:
+      len # the number of matched characters or <undefined> if the match is
+	    unsuccessful
+
+    Topic: Grammar Objects, Strings
+
+    See also: std_types::some, std_types::some/match_back,
+	      std_types::some/search
+
+    Example:
+
+      $str "abcdef"
+      match some(DIGIT) str $len
+      dump! `len
+
+    Output:
+
+      len: 0
+  (
+    self # some
+    str # the string to match with
+  )
+  $expr expression_of(self)
+  match $i expr str
+
+$std_types::anything std_types::object
+
+$std::ANYTHING std_types::anything
+
+$std_types::anything/match:
+  #
+    always matches the whole string
+
+    Result:
+      len # the length of the string
+
+    Topic: Grammar Objects, Strings
+
+    See also: std_types::anything, std_types::anything/match_back
+
+    Example:
+
+      $str "abcdef"
+      match ANYTHING str $len
+      dump! `len
+
+    Output:
+
+      len: 6
+  (
+    _self # anything
+    str # the string to match with
+  )
+  -> length_of(str)
+
+$std_types::anything/match_back:
+  #
+    always matches the whole string
+
+    Result:
+      len # the length of the string
+
+    Topic: Grammar Objects, Strings
+
+    See also: std_types::anything, std_types::anything/match
+
+    Example:
+
+      $str "abcdef"
+      match_back ANYTHING str $len
+      dump! `len
+
+    Output:
+
+      len: 6
+  (
+    _self # anything
+    str # the string to match with
+  )
+  -> length_of(str)
 
 $std::DIGIT '0'..'9'
 $std::LETTER 'a'..'z', 'A'..'Z'

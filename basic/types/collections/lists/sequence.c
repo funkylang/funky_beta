@@ -29,10 +29,10 @@ enum {
   var_false, // extern
   var_true, // extern
   var_match, // extern polymorphic
-  var_40_0_str, // dynamic
-  var_42_1_pos, // dynamic
+  var_62_0_str, // dynamic
+  var_64_1_pos, // dynamic
   var_range, // extern
-  var_45_1_len, // dynamic
+  var_67_1_len, // dynamic
   var_is_undefined, // extern
   var_undefined, // extern
   var_plus, // extern
@@ -49,32 +49,32 @@ enum {
 static TAB_NUM t_func_std_types__sequence___match[] = {
   1, // locals
   2, // parameters
-  LOCAL(1), // 39_0_self
-  var_40_0_str,
+  LOCAL(1), // 61_0_self
+  var_62_0_str,
   // $pos 1
-  LET, 1, num_1, 1, var_42_1_pos,
+  LET, 1, num_1, 1, var_64_1_pos,
   // for_each self
   var_for_each, 3, LOCAL(1), lambda_1, lambda_4, TAIL_CALL,
-  POS(42, 3),
-  POS(43, 3)
+  POS(64, 3),
+  POS(65, 3)
 };
 
 static TAB_NUM t_lambda_1[] = {
   2, // locals
   1, // parameters
-  LOCAL(2), // 44_3_item
+  LOCAL(2), // 66_3_item
   // range(str pos -1))
-  var_range, 3, var_40_0_str, var_42_1_pos, minus_num_1, 1, LOCAL(1),
+  var_range, 3, var_62_0_str, var_64_1_pos, minus_num_1, 1, LOCAL(1),
   // $len match(item range(str pos -1))
-  var_match, 2, LOCAL(2), LOCAL(1), 1, var_45_1_len,
+  var_match, 2, LOCAL(2), LOCAL(1), 1, var_67_1_len,
   // is_undefined
-  var_is_undefined, 1, var_45_1_len, 1, LOCAL(1),
+  var_is_undefined, 1, var_67_1_len, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_2, lambda_3, TAIL_CALL,
-  POS(45, 23),
-  POS(45, 7),
-  POS(47, 13),
-  POS(46, 7)
+  POS(67, 23),
+  POS(67, 7),
+  POS(69, 13),
+  POS(68, 7)
 };
 
 static TAB_NUM t_lambda_2[] = {
@@ -82,38 +82,38 @@ static TAB_NUM t_lambda_2[] = {
   0, // parameters
   //  undefined
   LET, 1, var_undefined, TAIL_CALL,
-  POS(48, 11)
+  POS(70, 11)
 };
 
 static TAB_NUM t_lambda_3[] = {
   0, // locals
   0, // parameters
   // plus &pos len
-  var_plus, 2, var_42_1_pos, var_45_1_len, 1, var_42_1_pos,
+  var_plus, 2, var_64_1_pos, var_67_1_len, 1, var_64_1_pos,
   // next
   var_next, 0, TAIL_CALL,
-  POS(50, 11),
-  POS(51, 11)
+  POS(72, 11),
+  POS(73, 11)
 };
 
 static TAB_NUM t_lambda_4[] = {
   1, // locals
   0, // parameters
   // pos-1
-  var_std__minus, 2, var_42_1_pos, num_1, 1, LOCAL(1),
+  var_std__minus, 2, var_64_1_pos, num_1, 1, LOCAL(1),
   //  pos-1
   LET, 1, LOCAL(1), TAIL_CALL,
-  POS(52, 8),
-  POS(52, 7)
+  POS(74, 8),
+  POS(74, 7)
 };
 
 static TAB_NUM t_func_std__sequence[] = {
   1, // locals
   -1, // parameters
-  REST_PARAMETER, LOCAL(1), // 62_0_args
+  REST_PARAMETER, LOCAL(1), // 84_0_args
   // new std_types::sequence args
   var_new, 2, var_std_types__sequence, LOCAL(1), TAIL_CALL,
-  POS(64, 3)
+  POS(86, 3)
 };
 
 static FUNKY_CONSTANT constants_table[] = {
@@ -186,55 +186,55 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "40_0_str\000", NULL
+    "62_0_str\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "42_1_pos\000", NULL
+    "64_1_pos\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
     "range\000", NULL,
-    {.position = POS(45, 23)}
+    {.position = POS(67, 23)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "45_1_len\000", NULL
+    "67_1_len\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
     "is_undefined\000", NULL,
-    {.position = POS(47, 13)}
+    {.position = POS(69, 13)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "undefined\000", NULL,
-    {.position = POS(48, 12)}
+    {.position = POS(70, 12)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "plus\000", NULL,
-    {.position = POS(50, 11)}
+    {.position = POS(72, 11)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "next\000", NULL,
-    {.position = POS(51, 11)}
+    {.position = POS(73, 11)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "if\000", NULL,
-    {.position = POS(46, 7)}
+    {.position = POS(68, 7)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "minus\000std", NULL,
-    {.position = POS(52, 8)}
+    {.position = POS(74, 8)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "for_each\000", NULL,
-    {.position = POS(43, 3)}
+    {.position = POS(65, 3)}
   },
   {
     FOT_INITIALIZED, 0, 0,
@@ -244,7 +244,7 @@ static FUNKY_VARIABLE variables_table[] = {
   {
     FOT_UNKNOWN, 0, 0,
     "new\000", NULL,
-    {.position = POS(64, 3)}
+    {.position = POS(86, 3)}
   }
 };
 

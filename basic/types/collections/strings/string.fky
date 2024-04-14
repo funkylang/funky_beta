@@ -428,7 +428,7 @@ $std_types::string/matches:
     self # the string to check
     expr # the expression to match
   )
-  -> match(self expr) == length_of(self)
+  -> match(expr self) == length_of(self)
 
 $std_types::string/search:
   #
