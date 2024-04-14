@@ -22,6 +22,8 @@
 
 # Funky is a one-based language
 
+<allow unused>
+
 <namespace tedi_types>
 
 <require basic/stdlib>
@@ -745,7 +747,7 @@ $main: (initial_terminal)
   $window_height terminal_height-2
 
   load_configuration configuration_filename: (found_configuration)
-    start_ai_server! !io
+    start_ai_server! !io $ai_model
     $help_window
       tedi_types::text_window
 	.id_of HELP_WINDOW
@@ -771,7 +773,7 @@ $main: (initial_terminal)
 	    !state
 	      std_types::object
 		.do_exit_of false
-		.ai_model_of undefined
+		.ai_model_of ai_model
 		.windows_of
 		  append
 		    text_windows
@@ -2685,43 +2687,48 @@ $initialize_ai:
 $start_ai_server:
   if
     do_start_ai_server:
-      find_first_process! $pid ai_server_name, ANYTHING
+      initialize_ai! $model
       if
-	pid.is_defined:
-	  get_process_name! $real_server_name pid
+	model.is_an_error:
+	  getcwd! $working_directory
+	  $cmd append(working_directory "/" ai_server_name)
+	  stat! $info cmd
 	  if
-	    real_server_name.is_defined:
-	      log io "
-		found already running ai-server: "@(real_server_name)"
-	    :
-	      log io "
-		an ai-server seems to be running - failed to determine its name!
-	:
-	  which! $cmd ai_server_name
-	  if
-	    cmd.is_defined:
-	      log &io "
-		starting ai-server "@(cmd)"
-	      log &io 2 "with a maximum context size of @(ai_context_size)"
-	      open! $fd_null "/dev/null" "r"
-	      open! $fd_log "/tmp/funky_server_log" "w+"
-	      create_process! !pid
-		cmd list("-c" ai_context_size.to_string) undefined
-		fd_null fd_log fd_log
-	      close! fd_null
-	      close! fd_log
-	      if
-		pid.is_an_error:
-		  log io "
-		    failed to start ai-server: @(pid.to_error_message_string)
-		:
-		  log io "
-		    started ai-server with pid @(pid.to_integer)
-	    :
-	      log io "
-		could not find the ai-server executable "@(ai_server_name)"
+	    info.is_an_error:
+	      which! !cmd ai_server_name
+	      start_server!
+	    start_server
 
-    -> io
+	  $start_server:
+	    if
+	      cmd.is_defined:
+		log &io "
+		  starting ai-server "@(cmd)"
+		log &io 2 "with a maximum context size of @(ai_context_size)"
+		open! $fd_null "/dev/null" "r"
+		open! $fd_log "/tmp/funky_server_log" "w+"
+		create_process! $pid
+		  cmd list("-c" ai_context_size.to_string) undefined
+		  fd_null fd_log fd_log
+		close! fd_null
+		close! fd_log
+		if
+		  pid.is_an_error:
+		    log &io "
+		      failed to start ai-server: @(pid.to_error_message_string)
+		    -> io undefined
+		  :
+		    log &io "
+		      started ai-server with pid @(pid.to_integer)
+		    -> io undefined
+	      :
+		log &io "
+		  could not find the ai-server executable "@(ai_server_name)"
+		-> io undefined
+	:
+	  log &io "ai server is already running"
+	  -> io model
+    -> io undefined
 
 $filter_selection: (myself^)
   if
