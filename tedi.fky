@@ -197,6 +197,10 @@ $indent_step 2
 # Start
 
 program_parameters!
+  $config_path
+  list
+    VALUED_OPTION "config-path" "
+      the path where to look for "tedi.cfg"
   $text_filenames
   list
     SOME_PARAMETERS "filename" "
@@ -477,7 +481,11 @@ $undo_key CTRL_Z
 $smart_completion_key TABULATOR
 $smart_uncompletion_key SHIFT_TABULATOR
 get_environment $environment
-$configuration_filename append(environment("HOME") "/.config/tedi/tedi.cfg")
+$configuration_filename
+  if
+    config_path.is_defined
+    -> append(config_path "/tedi.cfg")
+    -> append(environment("HOME") "/.config/tedi/tedi.cfg")
 
 $colour_sets
   list
@@ -721,6 +729,7 @@ $ai_model_name "sauerkrautlm-una-solar-instruct.Q5_K_M.gguf"
 $ai_server "127.0.0.1:8080"
 $ai_context_size 4096
 $ai_server_name "funky_server"
+$ai_model_path "/var/models"
 $do_start_ai_server false
 
 $next_id 0
@@ -2708,8 +2717,13 @@ $start_ai_server:
 		open! $fd_null "/dev/null" "r"
 		open! $fd_log "/tmp/funky_server_log" "w+"
 		create_process! $pid
-		  cmd list("-c" ai_context_size.to_string) undefined
+		  cmd
+		  list
+		    "-c" ai_context_size.to_string
+		    "--model-path" ai_model_path
+		  undefined
 		  fd_null fd_log fd_log
+		debug::dump 50 `pid
 		close! fd_null
 		close! fd_log
 		if
@@ -4496,6 +4510,9 @@ $load_configuration: (filename continuation)
 		  next!
 		"ai-server-name":
 		  !ai_server_name value
+		  next!
+		"ai-model-path":
+		  !ai_model_path value
 		  next!
 		"start-ai-server":
 		  case value
