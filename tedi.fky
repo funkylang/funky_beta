@@ -730,6 +730,7 @@ $ai_server "127.0.0.1:8080"
 $ai_context_size 4096
 $ai_server_name "funky_server"
 $ai_model_path "/var/models"
+$ai_log_file "/tmp/funky_server.log"
 $do_start_ai_server false
 
 $next_id 0
@@ -2715,7 +2716,7 @@ $start_ai_server:
 		  starting ai-server "@(cmd)"
 		log &io 2 "with a maximum context size of @(ai_context_size)"
 		open! $fd_null "/dev/null" "r"
-		open! $fd_log "/tmp/funky_server_log" "w+"
+		open! $fd_log ai_log_file "w+"
 		create_process! $pid
 		  cmd
 		  list
@@ -4513,6 +4514,9 @@ $load_configuration: (filename continuation)
 		  next!
 		"ai-model-path":
 		  !ai_model_path value
+		  next!
+		"ai-log-file":
+		  !ai_log_file value
 		  next!
 		"start-ai-server":
 		  case value
