@@ -847,6 +847,7 @@ $main: (initial_terminal)
 	      start_injecting_window_change_events &io
 	      start_reading_from &io STDIN_FILENO
 	      event_loop! !terminal !state
+	      deregister! uuid ai_server
 	      on terminal.is_an_error terminal
 
 $update_all_views: (terminal state)
@@ -2729,11 +2730,11 @@ $start_ai_server:
 		  cmd
 		  list
 		    "-c" ai_context_size.to_string
+		    "--uuid" uuid
 		    "--model-path" ai_model_path
 		    "-ngl" "99"
 		  undefined
 		  fd_null fd_log fd_log
-		debug::dump 50 `pid
 		close! fd_null
 		close! fd_log
 		if
@@ -4737,9 +4738,7 @@ $show_dummy: (message = undefined)
     $version_info "TEDI - Version @(version)"
     $version_info_length length_of(version)
     $n width-(length_of(message)+length_of(version_info))
-    debug::dump `n
     update_if n > 0 &message -> append(message spaces(n) version_info)
-    debug::dump `message
     !bar.lines_of list(tedi_line(0 message))
     -> bar
   !bar.was_updated true
