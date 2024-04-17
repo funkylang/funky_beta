@@ -1044,3 +1044,28 @@ FUNCTION std::is_listening
       RETURN_BOOLEAN(does_listen ? true : false)
     }
   }
+
+FUNCTION std::get_first_mac_address
+  #
+    returns the first available MAC address of the system
+
+    Returns:
+      string # the MAC address as a 6-byte binary string
+  {
+    CHECK_ARGUMENTS(0)
+    CHECK_IO_ACCESS_RIGHTS
+    struct ifaddrs *addrs, *ifa;
+    getifaddrs(&addrs);
+    for (ifa = addrs; ifa != NULL; ifa = ifa->ifa_next) {
+      if (ifa->ifa_addr == NULL) continue;
+      if (ifa->ifa_addr->sa_family != AF_PACKET) continue;
+      if (ifa->ifa_name[0] == 'l' && ifa->ifa_name[1] == 'o') continue;
+      struct sockaddr_ll *sdl = (struct sockaddr_ll *)ifa->ifa_addr;
+      NODE *result = from_latin_1_string(
+	((struct sockaddr_ll *)ifa->ifa_addr)->sll_addr, 6);
+      freeifaddrs(addrs);
+      RETURN_SINGLE_RESULT(result)
+    }
+    freeifaddrs(addrs);
+    RETURN_UNDEFINED
+  }

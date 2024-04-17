@@ -13,12 +13,15 @@
 #include <pwd.h>
 #include <time.h>
 #include <fcntl.h>
+#include <ifaddrs.h>
+#include <arpa/inet.h>
 #include <sys/ioctl.h>
 #include <sys/socket.h>
 #include <sys/un.h>
 #include <sys/stat.h>
 #include <sys/wait.h>
 #include <netinet/in.h>
+#include <netpacket/packet.h>
 #include <netdb.h>
 #include <dirent.h>
 
@@ -427,7 +430,8 @@ enum {
   func__std___open_tcp_client_socket,
   func__std___open_tcp_server_socket,
   func__std___accept,
-  func__std___is_listening
+  func__std___is_listening,
+  func__std___get_first_mac_address
 };
 
 enum {
@@ -865,7 +869,8 @@ enum {
   var_no__std___open_tcp_client_socket,
   var_no__std___open_tcp_server_socket,
   var_no__std___accept,
-  var_no__std___is_listening
+  var_no__std___is_listening,
+  var_no__std___get_first_mac_address
 };
 
 static FUNKY_VARIABLE variables_table[];
@@ -25677,6 +25682,42 @@ static void entry__std___is_listening (void)
     }
   }
 
+static void entry__std___get_first_mac_address (void)
+  {
+    if (TLS_argument_count != 0) {
+      invalid_arguments();
+      return;
+    }
+    if (TLS_deny_io) {
+      missing_io_access_rights();
+      return;
+    }
+    struct ifaddrs *addrs, *ifa;
+    getifaddrs(&addrs);
+    for (ifa = addrs; ifa != NULL; ifa = ifa->ifa_next) {
+      if (ifa->ifa_addr == NULL) continue;
+      if (ifa->ifa_addr->sa_family != AF_PACKET) continue;
+      if (ifa->ifa_name[0] == 'l' && ifa->ifa_name[1] == 'o') continue;
+      struct sockaddr_ll *sdl = (struct sockaddr_ll *)ifa->ifa_addr;
+      NODE *result = from_latin_1_string(
+	((struct sockaddr_ll *)ifa->ifa_addr)->sll_addr, 6);
+      freeifaddrs(addrs);
+      {
+        NODE *result__node = (NODE *)(result);
+        TLS_arguments[0] = result__node;
+        TLS_argument_count = 1;
+        return;
+      }
+    }
+    freeifaddrs(addrs);
+    {
+      NODE *result__node = (NODE *)(&std_types___undefined);
+      TLS_arguments[0] = result__node;
+      TLS_argument_count = 1;
+      return;
+    }
+  }
+
 static FUNKY_NAMESPACE defined_namespaces[] = {
   {"builtin", 1, 0},
   {"debug", 1, 0},
@@ -26082,7 +26123,8 @@ static FUNKY_CONSTANT constants_table[] = {
   {FLT_C_FUNCTION, 2, {.func = entry__std___open_tcp_client_socket}},
   {FLT_C_FUNCTION, -1, {.func = entry__std___open_tcp_server_socket}},
   {FLT_C_FUNCTION, 1, {.func = entry__std___accept}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std___is_listening}}
+  {FLT_C_FUNCTION, 1, {.func = entry__std___is_listening}},
+  {FLT_C_FUNCTION, 0, {.func = entry__std___get_first_mac_address}}
 };
 
 static INTERNAL_METHOD std_types___array__internal_methods[] = {
@@ -29649,6 +29691,11 @@ static FUNKY_VARIABLE variables_table[] = {
     FOT_INITIALIZED, 0, 0,
     "is_listening\000std", NULL,
     {.const_idx = func__std___is_listening}
+  },
+  {
+    FOT_INITIALIZED, 0, 0,
+    "get_first_mac_address\000std", NULL,
+    {.const_idx = func__std___get_first_mac_address}
   }
 };
 
@@ -29657,13 +29704,13 @@ FUNKY_MODULE module__builtin = {
   NULL,
   0, 0,
   4, 0,
-  398, 435,
+  399, 436,
   NULL,
   defined_namespaces, NULL,
   constants_table, variables_table
 };
 
-BUILTIN_FUNCTION_NAME builtin_function_names[450] = {
+BUILTIN_FUNCTION_NAME builtin_function_names[451] = {
   {std_types___generic_array____type, "std_types::generic_array/_type"},
   {std_types___array____type, "std_types::array/_type"},
   {entry__std_types___array___std___length_of, "std_types::array/length_of"},
@@ -30113,7 +30160,8 @@ BUILTIN_FUNCTION_NAME builtin_function_names[450] = {
   {entry__std___open_tcp_client_socket, "std::open_tcp_client_socket"},
   {entry__std___open_tcp_server_socket, "std::open_tcp_server_socket"},
   {entry__std___accept, "std::accept"},
-  {entry__std___is_listening, "std::is_listening"}
+  {entry__std___is_listening, "std::is_listening"},
+  {entry__std___get_first_mac_address, "std::get_first_mac_address"}
 };
 
 const char *internal_method_names[] = {

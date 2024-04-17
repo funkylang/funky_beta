@@ -37,6 +37,8 @@
 <using std>
 <using ai>
 
+$version "0.1"
+
 $EXIT . # a special "handler"-value to exit the program
 
 $PASTE_THRESHOLD 16 # when pasting text newlines are treated in a special way
@@ -173,6 +175,9 @@ $do_show_line_numbers_of () # show line numbers at the start of each line
 $colour_set_of () # the colour set to use for the window
 $colour_set_no_of () # the colour set index of the currently active colour set
 $do_define_mark_of () # expect a letter that defines a "mark"
+
+$previous_message_of () # for dummy bar only
+
 
 # Colour Set
 
@@ -484,8 +489,8 @@ get_environment $environment
 $configuration_filename
   if
     config_path.is_defined
-    -> append(config_path "/tedi.cfg")
-    -> append(environment("HOME") "/.config/tedi/tedi.cfg")
+    -> append(config_path "/tedi")
+    -> append(environment("HOME") "/.config/tedi/tedi")
 
 $colour_sets
   list
@@ -670,7 +675,8 @@ $error_bar
 $dummy_bar
   tedi_types::window
     .id_of DUMMY_BAR
-    .lines_of list(tedi_line(0 "Press F1 for help"))
+    .lines_of empty_list
+    .previous_message_of undefined
     .colour_set_of dummy_colour_set
 
 $search_window
@@ -825,6 +831,7 @@ $main: (initial_terminal)
 		initialize_views!
 
 	    $initialize_views:
+	      show_dummy !state "Press F1 for help"
 	      !window
 		windows_of(state)(1)
 		  .id_of 1
@@ -920,6 +927,7 @@ $event_loop:
 				!state.windows_of(window_idx).needs_redraw true
 				!state.windows_of(bar_idx).needs_redraw true
 				create_views !state window_idx
+				show_dummy !state
 				update_all_views &terminal &state
 				update &terminal $output
 				print! output
@@ -2722,6 +2730,7 @@ $start_ai_server:
 		  list
 		    "-c" ai_context_size.to_string
 		    "--model-path" ai_model_path
+		    "-ngl" "99"
 		  undefined
 		  fd_null fd_log fd_log
 		debug::dump 50 `pid
@@ -4481,114 +4490,138 @@ $highlight_colour: (colour)
       if(blue < 0xe0 (-> blue+0x20) (-> blue-0x20))
 
 $load_configuration: (filename continuation)
-  load! $configuration filename
-  from_utf8 &configuration
+  get_mac_address! $mac
   if
-    configuration.is_an_error
-    : continuation! false
-    :
-      for_each split(configuration.trim_right '@nl;')
-	: (no line)
-	  truncate_from &line '#'
-	  normalize &line
-	  if
-	    line.is_empty
-	    next
-	    :
-	      $name line .truncate_from. ' '
-	      behind &line ' '
-	      $value line .truncate_from. ' '
-	      $argument line .behind. ' '
-	      case name
-		"ai-model":
-		  !ai_model_name value
+    mac.is_defined:
+      $mac_filename append(filename "_" mac ".cfg")
+      load! $configuration mac_filename
+      if
+	configuration.is_an_error
+	load_standard_configuration
+	:
+	  log &io "
+	    using configuration file "@(mac_filename)"
+	  handle_configuration! configuration continuation
+    load_standard_configuration
+
+  $load_standard_configuration:
+    append &filename ".cfg"
+    load! $configuration filename
+    on configuration.is_an_error: continuation! false
+    log &io "
+      using configuration file "@(filename)"
+    handle_configuration! configuration continuation
+
+$handle_configuration: (configuration continuation)
+  from_utf8 &configuration
+  for_each split(configuration.trim_right '@nl;')
+    : (no line)
+      truncate_from &line '#'
+      normalize &line
+      if
+	line.is_empty
+	next
+	:
+	  $name line .truncate_from. ' '
+	  behind &line ' '
+	  $value line .truncate_from. ' '
+	  $argument line .behind. ' '
+	  case name
+	    "ai-model":
+	      !ai_model_name value
+	      next!
+	    "ai-server":
+	      !ai_server value
+	      next!
+	    "ai-context-size":
+	      !ai_context_size value.to_integer
+	      next!
+	    "ai-server-name":
+	      !ai_server_name value
+	      next!
+	    "ai-model-path":
+	      !ai_model_path value
+	      next!
+	    "ai-log-file":
+	      !ai_log_file value
+	      next!
+	    "start-ai-server":
+	      case value
+		"yes", "on", "true":
+		  !do_start_ai_server true
 		  next!
-		"ai-server":
-		  !ai_server value
+		"no", "off", "false":
+		  !do_start_ai_server false
 		  next!
-		"ai-context-size":
-		  !ai_context_size value.to_integer
-		  next!
-		"ai-server-name":
-		  !ai_server_name value
-		  next!
-		"ai-model-path":
-		  !ai_model_path value
-		  next!
-		"ai-log-file":
-		  !ai_log_file value
-		  next!
-		"start-ai-server":
-		  case value
-		    "yes", "on", "true":
-		      !do_start_ai_server true
-		      next!
-		    "no", "off", "false":
-		      !do_start_ai_server false
-		      next!
-		    :
-		      log &io -> "
-			Invalid value for start-ai-server: "@(value)" in@
-			line @(no)!
-		      next!
 		:
-		  $key name_to_key(name)
-		  if
-		    key.is_undefined:
-		      log &io -> "Unknown configuration key: '@(name)'"
-		      next!
+		  log &io -> "
+		    Invalid value for start-ai-server: "@(value)" in@
+		    line @(no)!
+		  next!
+	    :
+	      $key name_to_key(name)
+	      if
+		key.is_undefined:
+		  log &io -> "Unknown configuration key: '@(name)'"
+		  next!
+		:
+		  case value
+		    "undefined":
+		      if
+			key.is_defined:
+			  !editor_key_bindings(key) undefined
+			  next!
+			next
+		    "quit":
+		      if
+			key.is_defined:
+			  !editor_key_bindings(key) EXIT
+			  !class_of(key) OTHER
+			  next!
+			next
+		    "redo":
+		      if
+			key.is_defined:
+			  !redo_key key
+			  !class_of(key) OTHER
+			  next!
+			next
+		    "undo":
+		      if
+			key.is_defined:
+			  !undo_key key
+			  !class_of(key) OTHER
+			  next!
+			next
 		    :
-		      case value
-			"undefined":
-			  if
-			    key.is_defined:
-			      !editor_key_bindings(key) undefined
-			      next!
-			    next
-			"quit":
-			  if
-			    key.is_defined:
-			      !editor_key_bindings(key) EXIT
-			      !class_of(key) OTHER
-			      next!
-			    next
-			"redo":
-			  if
-			    key.is_defined:
-			      !redo_key key
-			      !class_of(key) OTHER
-			      next!
-			    next
-			"undo":
-			  if
-			    key.is_defined:
-			      !undo_key key
-			      !class_of(key) OTHER
-			      next!
-			    next
+		      $info functions(value)
+		      if
+			info.is_undefined:
+			  log &io -> "
+			    Invalid Invalid function name "@(value)" in @
+			    line @(no)!
+			  next!
 			:
-			  $info functions(value)
+			  info $function $class
+			  update_if argument.is_not_empty &function
+			    -> function(.argument_of argument)
+			  !editor_key_bindings(key) function
+			  !class_of(key) class
 			  if
-			    info.is_undefined:
-			      log &io -> "
-				Invalid Invalid function name "@(value)" in @
-				line @(no)!
-			      next!
+			    ||
+			      value == "smart_completion"
+			      value == "smart_completion_or_indent"
 			    :
-			      info $function $class
-			      update_if argument.is_not_empty &function
-				-> function(.argument_of argument)
-			      !editor_key_bindings(key) function
-			      !class_of(key) class
-			      if
-				||
-				  value == "smart_completion"
-				  value == "smart_completion_or_indent"
-				:
-				  !smart_completion_key key
-				  next!
-				next
-	: continuation! true
+			      !smart_completion_key key
+			      next!
+			    next
+    : continuation! true
+
+$get_mac_address:
+  get_first_mac_address! $mac
+  if
+    mac.is_defined: map_reduce mac: (chr) -> hex(chr.to_integer 2)
+    -> undefined
 
 $create_views: (active_idx)
   $text_window_count text_window_count_of(state)
@@ -4695,8 +4728,19 @@ $show_error: (message)
 
 $show_dummy: (message = undefined)
   $bar windows_of(state)(DUMMY_BAR)
+  if !message !bar
+    message.is_undefined
+    -> previous_message_of(bar) bar
+    -> message bar(.previous_message_of message)
   update_if message.is_defined &bar:
-    !bar.lines_of(1) tedi_line(0 message)
+    $width width_of(views_of(state)(-1))
+    $version_info "TEDI - Version @(version)"
+    $version_info_length length_of(version)
+    $n width-(length_of(message)+length_of(version_info))
+    debug::dump `n
+    update_if n > 0 &message -> append(message spaces(n) version_info)
+    debug::dump `message
+    !bar.lines_of list(tedi_line(0 message))
     -> bar
   !bar.was_updated true
   !state.windows_of(DUMMY_BAR) bar

@@ -1001,7 +1001,7 @@ $link_to: (item mode = FUNCTION)
 
 $maybe_add_namespace: (name)
   if
-    name(1) == '@@'
+    name .has_prefix. '@@'
     -> range(name 2 -1)
     :
       cond
