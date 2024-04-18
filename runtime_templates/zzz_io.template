@@ -1054,7 +1054,7 @@ FUNCTION std::get_first_mac_address
   {
     CHECK_ARGUMENTS(0)
     CHECK_IO_ACCESS_RIGHTS
-    #ifndef _WIN32
+    #ifndef __CYGWIN__
       struct ifaddrs *addrs, *ifa;
       getifaddrs(&addrs);
       for (ifa = addrs; ifa != NULL; ifa = ifa->ifa_next) {

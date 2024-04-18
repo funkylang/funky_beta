@@ -19,7 +19,7 @@
 #include <sys/stat.h>
 #include <sys/wait.h>
 #include <netinet/in.h>
-#ifndef _WIN32
+#ifndef __CYGWIN__
   #include <ifaddrs.h>
   #include <arpa/inet.h>
   #include <netpacket/packet.h>
@@ -25694,7 +25694,7 @@ static void entry__std___get_first_mac_address (void)
       missing_io_access_rights();
       return;
     }
-    #ifndef _WIN32
+    #ifndef __CYGWIN__
       struct ifaddrs *addrs, *ifa;
       getifaddrs(&addrs);
       for (ifa = addrs; ifa != NULL; ifa = ifa->ifa_next) {
