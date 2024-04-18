@@ -824,10 +824,10 @@ do
     "libfky-${LIBNAME}${DLL_EXTENSION}"
   echo
   echo "libfky-$LIBNAME-${VERSION}${DLL_EXTENSION}: compiler/funky \${${LIBNAME}_SOURCES}"
-  echo "${TAB}LD_LIBRARY_PATH=`pwd` FUNKY_LIBRARY_PATH=. FUNKY_INCLUDE_PATH=. compiler/funky $LIBNAME"
+  echo "${TAB}LD_LIBRARY_PATH=\"`pwd`\" FUNKY_LIBRARY_PATH=. FUNKY_INCLUDE_PATH=. compiler/funky $LIBNAME"
   echo
   echo "libfky-$LIBNAME${LIB_EXTENSION}: compiler/funky \${${LIBNAME}_SOURCES}"
-  echo "${TAB}LD_LIBRARY_PATH=`pwd` FUNKY_LIBRARY_PATH=. FUNKY_INCLUDE_PATH=. compiler/funky --static $LIBNAME"
+  echo "${TAB}LD_LIBRARY_PATH=\"`pwd`\" FUNKY_LIBRARY_PATH=. FUNKY_INCLUDE_PATH=. compiler/funky --static $LIBNAME"
 done
 
 for TOOL in $TOOLS
@@ -839,7 +839,7 @@ do
     echo -n " libfky-${LIBNAME}${DLL_EXTENSION}"
   done
   echo
-  echo "${TAB}LD_LIBRARY_PATH=`pwd` FUNKY_LIBRARY_PATH=. FUNKY_INCLUDE_PATH=. compiler/funky $TOOL.fky"
+  echo "${TAB}LD_LIBRARY_PATH=\"`pwd`\" FUNKY_LIBRARY_PATH=. FUNKY_INCLUDE_PATH=. compiler/funky $TOOL.fky"
 done
 echo
 
