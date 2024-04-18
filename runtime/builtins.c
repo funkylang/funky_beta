@@ -13,15 +13,17 @@
 #include <pwd.h>
 #include <time.h>
 #include <fcntl.h>
-#include <ifaddrs.h>
-#include <arpa/inet.h>
 #include <sys/ioctl.h>
 #include <sys/socket.h>
 #include <sys/un.h>
 #include <sys/stat.h>
 #include <sys/wait.h>
 #include <netinet/in.h>
-#include <netpacket/packet.h>
+#ifndef _WIN32
+  #include <ifaddrs.h>
+  #include <arpa/inet.h>
+  #include <netpacket/packet.h>
+#endif
 #include <netdb.h>
 #include <dirent.h>
 
@@ -25692,24 +25694,26 @@ static void entry__std___get_first_mac_address (void)
       missing_io_access_rights();
       return;
     }
-    struct ifaddrs *addrs, *ifa;
-    getifaddrs(&addrs);
-    for (ifa = addrs; ifa != NULL; ifa = ifa->ifa_next) {
-      if (ifa->ifa_addr == NULL) continue;
-      if (ifa->ifa_addr->sa_family != AF_PACKET) continue;
-      if (ifa->ifa_name[0] == 'l' && ifa->ifa_name[1] == 'o') continue;
-      struct sockaddr_ll *sdl = (struct sockaddr_ll *)ifa->ifa_addr;
-      NODE *result = from_latin_1_string(
-	((struct sockaddr_ll *)ifa->ifa_addr)->sll_addr, 6);
-      freeifaddrs(addrs);
-      {
-        NODE *result__node = (NODE *)(result);
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+    #ifndef _WIN32
+      struct ifaddrs *addrs, *ifa;
+      getifaddrs(&addrs);
+      for (ifa = addrs; ifa != NULL; ifa = ifa->ifa_next) {
+	if (ifa->ifa_addr == NULL) continue;
+	if (ifa->ifa_addr->sa_family != AF_PACKET) continue;
+	if (ifa->ifa_name[0] == 'l' && ifa->ifa_name[1] == 'o') continue;
+	struct sockaddr_ll *sdl = (struct sockaddr_ll *)ifa->ifa_addr;
+	NODE *result = from_latin_1_string(
+	  ((struct sockaddr_ll *)ifa->ifa_addr)->sll_addr, 6);
+	freeifaddrs(addrs);
+	{
+	  NODE *result__node = (NODE *)(result);
+	  TLS_arguments[0] = result__node;
+	  TLS_argument_count = 1;
+	  return;
+	}
       }
-    }
-    freeifaddrs(addrs);
+      freeifaddrs(addrs);
+    #endif
     {
       NODE *result__node = (NODE *)(&std_types___undefined);
       TLS_arguments[0] = result__node;
