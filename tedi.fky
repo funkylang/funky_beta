@@ -125,6 +125,7 @@ $match_start_boundary_of () # search text must start at a boundary
 $match_end_boundary_of () # search text must end at a boundary
 $replacement_text_of () # used for search & replace
 $clipboard_contents_of () # an internal clipboard used for all windows
+$directory_of () # the current directory
 $saved_revisions_of ()
   #
     a table containing the most recently saved revisions of each text window;
@@ -720,7 +721,6 @@ $file_selector_window
     .id_of FILE_SELECTOR_WINDOW
     .key_bindings_of file_selector_key_bindings
     .key_of undefined
-    .filename_of "Select file"
     .lines_of empty_list
     .do_view_only true
     .do_highlight_cursor_line_of true
@@ -786,6 +786,7 @@ $main: (initial_terminal)
 	    !saved_revisions(id_of(text_window)) 0
 	    next!
 	  :
+	    getcwd! $current_directory
 	    !state
 	      std_types::object
 		.do_exit_of false
@@ -820,6 +821,7 @@ $main: (initial_terminal)
 		.clipboard_contents_of undefined
 		.search_text_of undefined
 		.replacement_text_of undefined
+		.directory_of current_directory
 		.saved_revisions_of saved_revisions
 	    create_views !state 1
 	    if
@@ -1981,17 +1983,41 @@ $join_lines:
 $load_contents:
   -> state(.action_of load_contents_action)
 
-$load_contents_action:
-  directory! $entries SORT "."
+$load_contents_action: (do_open_new_window = true)
+  directory! $entries SORT directory_of(state)
   $text_lines empty_list
   for_each entries
     : (entry)
-      push &text_lines tedi_line(0 name_of(entry))
-      next!
+      if
+	type_of(entry) == DIRECTORY:
+	  push &text_lines tedi_line(0 name_of(entry))
+	  next!
+	next!
     :
-      !state.windows_of(FILE_SELECTOR_WINDOW).lines_of text_lines
-      open_window !state FILE_SELECTOR_WINDOW
-      -> io terminal state
+      push &text_lines tedi_line(0 dup("―" 40))
+      for_each entries
+	: (entry)
+	  if
+	    type_of(entry) != DIRECTORY:
+	      push &text_lines tedi_line(0 name_of(entry))
+	      next!
+	    next
+	:
+	  !window windows_of(state)(FILE_SELECTOR_WINDOW)
+	  !window
+	    .filename_of directory_of(state)
+	    .lines_of text_lines
+	  update_if_not do_open_new_window &window:
+	    window
+	      .y_of 1
+	      .cursor_y_of undefined
+	      .needs_redraw true
+	  !state.windows_of(FILE_SELECTOR_WINDOW) window
+	  if
+	    do_open_new_window:
+	      open_window !state FILE_SELECTOR_WINDOW
+	      -> io terminal state
+	    -> io terminal state
 
 $load_selected_file:
   -> state(.action_of load_selected_file_action)
@@ -1999,15 +2025,26 @@ $load_selected_file:
 $load_selected_file_action:
   $line lines(y_of(window))
   line $_indent $filename
-  load_file! $text_lines filename
-  close_window !state
-  !window
-    windows_of(state)(cwi())
-      .lines_of text_lines
-      .filename_of filename
-      .is_new false
-  !state.windows_of(cwi()) window
-  -> io terminal state
+  if
+    filename .has_prefix. "―":
+      load_contents_action! false
+    :
+      realpath! append(directory_of(state) "/" filename) !filename
+      stat! $info filename
+      if
+	info.is_a_directory:
+	  !state.directory_of filename
+	  load_contents_action! false
+	:
+	  load_file! $text_lines filename
+	  close_window !state
+	  !window
+	    windows_of(state)(cwi())
+	      .lines_of text_lines
+	      .filename_of filename
+	      .is_new false
+	  !state.windows_of(cwi()) window
+	  -> io terminal state
 
 $save_contents:
   if
