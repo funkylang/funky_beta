@@ -160,13 +160,48 @@ $ai_types::model std_types::object
 
 # Implementation
 
+$ai::list_ai_models:
+  #
+    returns a list of available models
+  (
+     options* # connection options
+  )
+  extract_options options
+    SERVER = "127.0.0.1:@(PORT_NO)" $server
+    UUID = undefined $uuid
+  $address server .truncate_from. ':'
+  $port_no server .behind. ':'
+  !port_no
+    if
+      port_no.is_empty
+      -> PORT_NO
+      -> port_no.to_integer
+  $json
+    to_json
+      insert_order_table
+	"uuid" = uuid
+  to_utf8 &json
+  open_tcp_client_socket! $fd address port_no
+  write_to! fd "
+    POST /list_models HTTP/1.1@cr;
+    Content-Type: application/json@cr;
+    Content-Length: @(length_of(json))@cr;
+    Connection: close@cr;
+    @cr;
+    @(json)
+  load! $result fd
+  on result.is_an_error result
+  behind &result "@cr;@nl;@cr;@nl;"
+  $info result.from_json
+  -> info("models")
+
 $ai::load_ai_model:
   #
     load an AI model
 
     Topic: AI
   (
-    options* # the options to used with the model
+    options* # connection options
     name # the name of the model
   )
   extract_options options

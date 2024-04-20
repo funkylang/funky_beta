@@ -763,7 +763,7 @@ $main: (initial_terminal)
   $window_height terminal_height-2
 
   load_configuration configuration_filename: (found_configuration)
-    start_ai_server! !io $ai_model
+    start_ai_server! !io
     $help_window
       tedi_types::text_window
 	.id_of HELP_WINDOW
@@ -789,7 +789,7 @@ $main: (initial_terminal)
 	    !state
 	      std_types::object
 		.do_exit_of false
-		.ai_model_of ai_model
+		.ai_model_of undefined
 		.windows_of
 		  append
 		    text_windows
@@ -2706,16 +2706,20 @@ $initialize_ai:
 $start_ai_server:
   if
     do_start_ai_server:
-      initialize_ai! $model
+      list_ai_models! $models UUID = uuid
       if
-	model.is_an_error:
-	  getcwd! $working_directory
-	  $cmd append(working_directory "/" ai_server_name)
-	  stat! $info cmd
+	models.is_an_error:
+	  which! $cmd ai_server_name
 	  if
-	    info.is_an_error:
-	      which! !cmd ai_server_name
-	      start_server!
+	    cmd.is_undefined:
+	      getcwd! $working_directory
+	      !cmd append(working_directory "/" ai_server_name)
+	      stat! $info cmd
+	      if
+		info.is_an_error:
+		  !cmd undefined
+		  start_server!
+		start_server
 	    start_server
 
 	  $start_server:
@@ -2739,21 +2743,17 @@ $start_ai_server:
 		close! fd_log
 		if
 		  pid.is_an_error:
-		    log &io "
+		    log io "
 		      failed to start ai-server: @(pid.to_error_message_string)
-		    -> io undefined
 		  :
-		    log &io "
+		    log io "
 		      started ai-server with pid @(pid.to_integer)
-		    -> io undefined
 	      :
-		log &io "
+		log io "
 		  could not find the ai-server executable "@(ai_server_name)"
-		-> io undefined
 	:
-	  log &io "ai server is already running"
-	  -> io model
-    -> io undefined
+	  log io "ai server is already running"
+    -> io
 
 $filter_selection: (myself^)
   if

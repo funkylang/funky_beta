@@ -96,19 +96,19 @@ enum {
   var_dec, // extern
   var_inc, // extern
   var_serialize, // extern polymorphic
-  var_236_0_indent, // dynamic
+  var_235_0_indent, // dynamic
   var_is_defined, // extern
   var_std__plus, // extern
-  var_238_1_new_indent, // dynamic
+  var_237_1_new_indent, // dynamic
   var_append, // extern
   var_map_reduce, // extern
   var_serialization_tag_of, // extern
-  var_247_1_header, // dynamic
+  var_246_1_header, // dynamic
   var_std__string, // extern
   var_tabs_and_spaces, // extern
   var_update_if, // extern
   var_deserializer_of, // extern polymorphic
-  var_258_1_obj, // dynamic
+  var_257_1_obj, // dynamic
   var_empty_collection_of, // extern
   var__END
 };
@@ -323,9 +323,9 @@ static TAB_NUM t_lambda_14[] = {
 static TAB_NUM t_func_search_forwards[] = {
   2, // locals
   0, // parameters
-  // n
+  // n:
   var_std__less, 2, var_188_1_n, var_187_1_i, 1, LOCAL(1),
-  // n
+  // n:
   var_std__not, 1, LOCAL(1), 1, LOCAL(2),
   // if
   var_if, 3, LOCAL(2), lambda_15, lambda_19, TAIL_CALL,
@@ -343,9 +343,9 @@ static TAB_NUM t_lambda_15[] = {
   var_183_0_self, 1, LOCAL(1), 1, LOCAL(2),
   // if
   var_if, 3, LOCAL(2), lambda_selfstreami, lambda_18, TAIL_CALL,
-  POS(202, 16),
-  POS(202, 11),
-  POS(201, 9)
+  POS(201, 16),
+  POS(201, 11),
+  POS(200, 9)
 };
 
 static TAB_NUM t_lambda_selfstreami[] = {
@@ -355,8 +355,8 @@ static TAB_NUM t_lambda_selfstreami[] = {
   var_std__less, 2, num_1, var_185_0_nth, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_16, lambda_17, TAIL_CALL,
-  POS(204, 21),
-  POS(203, 13)
+  POS(203, 21),
+  POS(202, 13)
 };
 
 static TAB_NUM t_lambda_16[] = {
@@ -368,9 +368,9 @@ static TAB_NUM t_lambda_16[] = {
   var_inc, 1, var_187_1_i, 1, var_187_1_i,
   // search_forwards
   func_search_forwards, 0, TAIL_CALL,
+  POS(204, 17),
   POS(205, 17),
-  POS(206, 17),
-  POS(207, 17)
+  POS(206, 17)
 };
 
 static TAB_NUM t_lambda_17[] = {
@@ -378,7 +378,7 @@ static TAB_NUM t_lambda_17[] = {
   0, // parameters
   //  i 1
   LET, 2, var_187_1_i, num_1, TAIL_CALL,
-  POS(208, 17)
+  POS(207, 17)
 };
 
 static TAB_NUM t_lambda_18[] = {
@@ -388,8 +388,8 @@ static TAB_NUM t_lambda_18[] = {
   var_inc, 1, var_187_1_i, 1, var_187_1_i,
   // search_forwards
   func_search_forwards, 0, TAIL_CALL,
-  POS(210, 13),
-  POS(211, 13)
+  POS(209, 13),
+  POS(210, 13)
 };
 
 static TAB_NUM t_lambda_19[] = {
@@ -397,7 +397,7 @@ static TAB_NUM t_lambda_19[] = {
   0, // parameters
   //  undefined undefined
   LET, 2, var_undefined, var_undefined, TAIL_CALL,
-  POS(212, 9)
+  POS(211, 9)
 };
 
 static TAB_NUM t_func_search_backwards[] = {
@@ -409,9 +409,9 @@ static TAB_NUM t_func_search_backwards[] = {
   var_std__not, 1, LOCAL(1), 1, LOCAL(2),
   // if
   var_if, 3, LOCAL(2), lambda_20, lambda_24, TAIL_CALL,
-  POS(216, 7),
-  POS(216, 7),
-  POS(215, 5)
+  POS(215, 7),
+  POS(215, 7),
+  POS(214, 5)
 };
 
 static TAB_NUM t_lambda_20[] = {
@@ -423,9 +423,9 @@ static TAB_NUM t_lambda_20[] = {
   var_183_0_self, 1, LOCAL(1), 1, LOCAL(2),
   // if
   var_if, 3, LOCAL(2), lambda_2_selfstreami, lambda_23, TAIL_CALL,
-  POS(219, 16),
-  POS(219, 11),
-  POS(218, 9)
+  POS(218, 16),
+  POS(218, 11),
+  POS(217, 9)
 };
 
 static TAB_NUM t_lambda_2_selfstreami[] = {
@@ -435,8 +435,8 @@ static TAB_NUM t_lambda_2_selfstreami[] = {
   var_std__less, 2, var_185_0_nth, minus_num_1, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_21, lambda_22, TAIL_CALL,
-  POS(221, 15),
-  POS(220, 13)
+  POS(220, 15),
+  POS(219, 13)
 };
 
 static TAB_NUM t_lambda_21[] = {
@@ -448,9 +448,9 @@ static TAB_NUM t_lambda_21[] = {
   var_dec, 1, var_187_1_i, 1, var_187_1_i,
   // search_backwards
   func_search_backwards, 0, TAIL_CALL,
+  POS(221, 17),
   POS(222, 17),
-  POS(223, 17),
-  POS(224, 17)
+  POS(223, 17)
 };
 
 static TAB_NUM t_lambda_22[] = {
@@ -458,7 +458,7 @@ static TAB_NUM t_lambda_22[] = {
   0, // parameters
   //  i 1
   LET, 2, var_187_1_i, num_1, TAIL_CALL,
-  POS(225, 17)
+  POS(224, 17)
 };
 
 static TAB_NUM t_lambda_23[] = {
@@ -468,8 +468,8 @@ static TAB_NUM t_lambda_23[] = {
   var_dec, 1, var_187_1_i, 1, var_187_1_i,
   // search_backwards
   func_search_backwards, 0, TAIL_CALL,
-  POS(227, 13),
-  POS(228, 13)
+  POS(226, 13),
+  POS(227, 13)
 };
 
 static TAB_NUM t_lambda_24[] = {
@@ -477,18 +477,18 @@ static TAB_NUM t_lambda_24[] = {
   0, // parameters
   //  undefined undefined
   LET, 2, var_undefined, var_undefined, TAIL_CALL,
-  POS(229, 9)
+  POS(228, 9)
 };
 
 static TAB_NUM t_func_std_types__set___serialize[] = {
   4, // locals
   -2, // parameters
-  MANDATORY_PARAMETER, LOCAL(3), // 235_0_self
-  var_undefined, var_236_0_indent,
+  MANDATORY_PARAMETER, LOCAL(3), // 234_0_self
+  var_undefined, var_235_0_indent,
   // is_defined
-  var_is_defined, 1, var_236_0_indent, 1, LOCAL(1),
+  var_is_defined, 1, var_235_0_indent, 1, LOCAL(1),
   // $new_indent
-  var_if, 3, LOCAL(1), lambda_25, lambda_26, 1, var_238_1_new_indent,
+  var_if, 3, LOCAL(1), lambda_25, lambda_26, 1, var_237_1_new_indent,
   // map_reduce $contents
   var_map_reduce, 4, LOCAL(3), lambda_self, var_append, string_1, 1, LOCAL(4),
   // serialization_tag_of(self)) <@(length_of(self))>
@@ -496,33 +496,33 @@ static TAB_NUM t_func_std_types__set___serialize[] = {
   // length_of(self))>
   var_length_of, 1, LOCAL(3), 1, LOCAL(2),
   // $header
-  var_std__string, 4, LOCAL(1), string_2, LOCAL(2), string_3, 1, var_247_1_header,
+  var_std__string, 4, LOCAL(1), string_2, LOCAL(2), string_3, 1, var_246_1_header,
   // is_defined &header -> append(tabs_and_spaces(indent) header)
-  var_is_defined, 1, var_236_0_indent, 1, LOCAL(1),
+  var_is_defined, 1, var_235_0_indent, 1, LOCAL(1),
   // update_if indent.is_defined &header -> append(tabs_and_spaces(indent) header)
-  var_update_if, 3, LOCAL(1), var_247_1_header, lambda_27, 1, var_247_1_header,
+  var_update_if, 3, LOCAL(1), var_246_1_header, lambda_27, 1, var_246_1_header,
   // append header contents
-  var_append, 2, var_247_1_header, LOCAL(4), TAIL_CALL,
-  POS(240, 14),
-  POS(238, 3),
-  POS(243, 3),
-  POS(249, 9),
-  POS(249, 40),
-  POS(247, 3),
-  POS(250, 20),
-  POS(250, 3),
-  POS(251, 3)
+  var_append, 2, var_246_1_header, LOCAL(4), TAIL_CALL,
+  POS(239, 14),
+  POS(237, 3),
+  POS(242, 3),
+  POS(248, 9),
+  POS(248, 40),
+  POS(246, 3),
+  POS(249, 20),
+  POS(249, 3),
+  POS(250, 3)
 };
 
 static TAB_NUM t_lambda_25[] = {
   1, // locals
   0, // parameters
   // indent+2
-  var_std__plus, 2, var_236_0_indent, num_2, 1, LOCAL(1),
+  var_std__plus, 2, var_235_0_indent, num_2, 1, LOCAL(1),
   //  indent+2
   LET, 1, LOCAL(1), TAIL_CALL,
-  POS(241, 10),
-  POS(241, 9)
+  POS(240, 10),
+  POS(240, 9)
 };
 
 static TAB_NUM t_lambda_26[] = {
@@ -530,66 +530,66 @@ static TAB_NUM t_lambda_26[] = {
   0, // parameters
   //  undefined
   LET, 1, var_undefined, TAIL_CALL,
-  POS(242, 9)
+  POS(241, 9)
 };
 
 static TAB_NUM t_lambda_self[] = {
   2, // locals
   1, // parameters
-  LOCAL(2), // 244_7_value
+  LOCAL(2), // 243_7_value
   // serialize(value new_indent)
-  var_serialize, 2, LOCAL(2), var_238_1_new_indent, 1, LOCAL(1),
+  var_serialize, 2, LOCAL(2), var_237_1_new_indent, 1, LOCAL(1),
   // -> serialize(value new_indent)
   LET, 1, LOCAL(1), TAIL_CALL,
-  POS(244, 22),
-  POS(244, 19)
+  POS(243, 22),
+  POS(243, 19)
 };
 
 static TAB_NUM t_lambda_27[] = {
   2, // locals
   0, // parameters
   // tabs_and_spaces(indent) header)
-  var_tabs_and_spaces, 1, var_236_0_indent, 1, LOCAL(1),
+  var_tabs_and_spaces, 1, var_235_0_indent, 1, LOCAL(1),
   // append(tabs_and_spaces(indent) header)
-  var_append, 2, LOCAL(1), var_247_1_header, 1, LOCAL(2),
+  var_append, 2, LOCAL(1), var_246_1_header, 1, LOCAL(2),
   //  append(tabs_and_spaces(indent) header)
   LET, 1, LOCAL(2), TAIL_CALL,
-  POS(250, 49),
-  POS(250, 42),
-  POS(250, 41)
+  POS(249, 49),
+  POS(249, 42),
+  POS(249, 41)
 };
 
 static TAB_NUM t_func_std_types__set___deserializer_of[] = {
   2, // locals
   2, // parameters
-  LOCAL(1), // 255_0_type
-  LOCAL(2), // 256_0_items
+  LOCAL(1), // 254_0_type
+  LOCAL(2), // 255_0_items
   // $obj empty_collection_of(type)
-  var_empty_collection_of, 1, LOCAL(1), 1, var_258_1_obj,
+  var_empty_collection_of, 1, LOCAL(1), 1, var_257_1_obj,
   // for_each items
   var_for_each, 3, LOCAL(2), lambda_28, lambda_29, TAIL_CALL,
-  POS(258, 3),
-  POS(259, 3)
+  POS(257, 3),
+  POS(258, 3)
 };
 
 static TAB_NUM t_lambda_28[] = {
   1, // locals
   1, // parameters
-  LOCAL(1), // 260_3_item
+  LOCAL(1), // 259_3_item
   // obj(item) true
-  var_258_1_obj, 2, LOCAL(1), var_true, 1, var_258_1_obj,
+  var_257_1_obj, 2, LOCAL(1), var_true, 1, var_257_1_obj,
   // next
   var_next, 0, TAIL_CALL,
-  POS(261, 8),
-  POS(262, 7)
+  POS(260, 8),
+  POS(261, 7)
 };
 
 static TAB_NUM t_lambda_29[] = {
   0, // locals
   0, // parameters
   //  obj
-  LET, 1, var_258_1_obj, TAIL_CALL,
-  POS(263, 7)
+  LET, 1, var_257_1_obj, TAIL_CALL,
+  POS(262, 7)
 };
 
 static FUNKY_CONSTANT constants_table[] = {
@@ -821,83 +821,83 @@ static FUNKY_VARIABLE variables_table[] = {
   {
     FOT_UNKNOWN, 0, 0,
     "dec\000", NULL,
-    {.position = POS(205, 17)}
+    {.position = POS(204, 17)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "inc\000", NULL,
-    {.position = POS(206, 17)}
+    {.position = POS(205, 17)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
     "serialize\000", NULL,
-    {.position = POS(233, 17)}
+    {.position = POS(232, 17)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "236_0_indent\000", NULL
+    "235_0_indent\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
     "is_defined\000", NULL,
-    {.position = POS(240, 14)}
+    {.position = POS(239, 14)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "plus\000std", NULL,
-    {.position = POS(241, 10)}
+    {.position = POS(240, 10)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "238_1_new_indent\000", NULL
+    "237_1_new_indent\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
     "append\000", NULL,
-    {.position = POS(245, 5)}
+    {.position = POS(244, 5)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "map_reduce\000", NULL,
-    {.position = POS(243, 3)}
+    {.position = POS(242, 3)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "serialization_tag_of\000", NULL,
-    {.position = POS(249, 9)}
+    {.position = POS(248, 9)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "247_1_header\000", NULL
+    "246_1_header\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
     "string\000std", NULL,
-    {.position = POS(248, 5)}
+    {.position = POS(247, 5)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "tabs_and_spaces\000", NULL,
-    {.position = POS(250, 49)}
+    {.position = POS(249, 49)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "update_if\000", NULL,
-    {.position = POS(250, 3)}
+    {.position = POS(249, 3)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
     "deserializer_of\000", NULL,
-    {.position = POS(253, 17)}
+    {.position = POS(252, 17)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "258_1_obj\000", NULL
+    "257_1_obj\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
     "empty_collection_of\000", NULL,
-    {.position = POS(258, 8)}
+    {.position = POS(257, 8)}
   }
 };
 
