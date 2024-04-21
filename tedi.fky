@@ -126,6 +126,7 @@ $match_end_boundary_of () # search text must end at a boundary
 $replacement_text_of () # used for search & replace
 $clipboard_contents_of () # an internal clipboard used for all windows
 $directory_of () # the current directory
+$uuid_is_registered_of () # we need to deregister from the AI server
 $saved_revisions_of ()
   #
     a table containing the most recently saved revisions of each text window;
@@ -763,7 +764,7 @@ $main: (initial_terminal)
   $window_height terminal_height-2
 
   load_configuration configuration_filename: (found_configuration)
-    start_ai_server! !io
+    start_ai_server! !io $is_registered
     $help_window
       tedi_types::text_window
 	.id_of HELP_WINDOW
@@ -822,8 +823,10 @@ $main: (initial_terminal)
 		.search_text_of undefined
 		.replacement_text_of undefined
 		.directory_of current_directory
+		.uuid_is_registered_of is_registered
 		.saved_revisions_of saved_revisions
 	    create_views !state 1
+	    show_dummy !state "Press F1 for help"
 	    if
 	      found_configuration
 	      initialize_views
@@ -833,7 +836,6 @@ $main: (initial_terminal)
 		initialize_views!
 
 	    $initialize_views:
-	      show_dummy !state "Press F1 for help"
 	      !window
 		windows_of(state)(1)
 		  .id_of 1
@@ -849,9 +851,12 @@ $main: (initial_terminal)
 	      start_injecting_window_change_events &io
 	      start_reading_from &io STDIN_FILENO
 	      event_loop! !terminal !state
-	      deregister! uuid ai_server
-	      on terminal.is_an_error terminal
-
+	      if
+		uuid_is_registered_of(state):
+		  deregister! uuid ai_server
+		  on terminal.is_an_error terminal
+		:
+		  on terminal.is_an_error terminal
 $update_all_views: (terminal state)
   $windows windows_of(state)
   $views views_of(state)
@@ -2466,6 +2471,7 @@ $ai_completion_action:
 	load time: @(format("%1.3 s" t2-t1))
       !t1 t2
       !state.ai_model_of ai_model
+      !state.uuid_is_registered_of true
       check_tokens!
 
   $check_tokens:
@@ -2773,24 +2779,27 @@ $start_ai_server:
 		    "-c" ai_context_size.to_string
 		    "--uuid" uuid
 		    "--model-path" ai_model_path
-		    "-ngl" "99"
 		  undefined
 		  fd_null fd_log fd_log
 		close! fd_null
 		close! fd_log
 		if
 		  pid.is_an_error:
-		    log io "
+		    log &io "
 		      failed to start ai-server: @(pid.to_error_message_string)
+		    -> false
 		  :
-		    log io "
+		    log &io "
 		      started ai-server with pid @(pid.to_integer)
+		    -> io true
 	      :
-		log io "
+		log &io "
 		  could not find the ai-server executable "@(ai_server_name)"
+		-> io false
 	:
-	  log io "ai server is already running"
-    -> io
+	  log &io "ai server is already running"
+	  -> io true
+    -> io false
 
 $filter_selection: (myself^)
   if
@@ -4545,10 +4554,13 @@ $load_configuration: (filename continuation)
   $load_standard_configuration:
     append &filename ".cfg"
     load! $configuration filename
-    on configuration.is_an_error: continuation! false
-    log &io "
-      using configuration file "@(filename)"
-    handle_configuration! configuration continuation
+    if
+      configuration.is_an_error:
+	continuation! false
+      :
+	log &io "
+	  using configuration file "@(filename)"
+	handle_configuration! configuration continuation
 
 $handle_configuration: (configuration continuation)
   from_utf8 &configuration
