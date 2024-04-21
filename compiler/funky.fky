@@ -153,7 +153,10 @@ if $input_filename $be_verbose $do_rebuild $do_print_c $do_build_static
 	"static" "
 	  create a statically linked executable
 
-$FUNKY_LIBRARY_PATH environment("FUNKY_LIBRARY_PATH")
+$library_path
+  default_value
+    environment("FUNKY_LIBRARY_PATH")
+    "@(PREFIX)/lib"
 
 update_if input_filename(1) != '/'
   &input_filename -> append("./" input_filename)
@@ -200,8 +203,8 @@ $build_executable:
 	      first(module) .without_suffix. ".fky"
 	      ".o"
       $arguments cc_options
-      update_if FUNKY_LIBRARY_PATH.is_defined &arguments
-	-> append(arguments list("-L" FUNKY_LIBRARY_PATH))
+      push &arguments "-L"
+      push &arguments library_path
       append &arguments object_files
       if
 	do_build_static:

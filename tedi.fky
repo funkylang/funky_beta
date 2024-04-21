@@ -1989,7 +1989,7 @@ $load_contents_action: (do_open_new_window = true)
   for_each entries
     : (entry)
       if
-	type_of(entry) == DIRECTORY:
+	type_of(entry) == DIRECTORY && name_of(entry) != ".":
 	  push &text_lines tedi_line(0 name_of(entry))
 	  next!
 	next!
@@ -4866,9 +4866,12 @@ $help_text "
 
   Completion
 
-    alt-space
+    tab (if behind some text)
       smart completion;
       completes identifiers and numbers based on existing (surrounding) text
+
+    shift tab (if behind some text)
+      restores the previous smart completion
 
     ctrl-space
       AI completion;
@@ -4876,10 +4879,10 @@ $help_text "
 
   Indentation
 
-    tab
+    tab (if not behind some text)
       indents the current line or the current selection
 
-    shift tab
+    shift tab (if not behind some text)
       unindents the current line or the current selection
 
   Folding
