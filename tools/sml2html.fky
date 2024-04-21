@@ -1,6 +1,6 @@
 #!/usr/bin/env fkyrun
 
-  Copyright (C) 2021 by
+  Copyright (C) 2024 by
   Dipl.-Ing. Michael Niederle
 
   This program is free software; you can redistribute it and/or modify
@@ -20,10 +20,52 @@
   Free Software Foundation, Inc.,
   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
-<allow unused>
+program_parameters!
+  $filename
+  list
+    MANDATORY_PARAMETER "filename" "
+      the name of the source (.sml) file
 
-$title_of (!)
-$links_of (!)
+$title_of ()
+$links_of ()
+
+do:
+  load! $text filename
+  from_utf8 &text
+  text_to_indented_lines text $indented_lines
+
+  print! "
+    <html>
+    <head>
+    <meta charset="utf-8">
+
+  on title_of(indented_lines).is_defined:
+    print! "
+      <title>@(title_of(indented_lines))</title>
+
+  for_each links_of(indented_lines)
+    : (link)
+      if
+	link .has_suffix. ".css":
+	  print! "
+	    <link rel="stylesheet" href="@(link)">
+	  next
+	next
+    pass
+
+  print! "
+    </head>
+    <body>
+
+  on title_of(indented_lines).is_defined:
+    print! "
+      <h1>@(title_of(indented_lines))</h1>
+
+  print! indented_lines_to_index(indented_lines)
+  print! indented_lines_to_html(indented_lines 2)
+
+  print! "
+    </body>
 
 $text_to_indented_lines: (text)
   $i 1
@@ -245,7 +287,7 @@ $lines_to_text: (lines)
     : (line)
       if
 	line.is_a_key_value_pair:
-	  line $offset $contents
+	  line $_offset $contents
 	  append &buf lines_to_text(contents)
 	  next
 	:
@@ -512,42 +554,3 @@ $indented_lines_to_html:
   $total length_of(lines)
 
   map_reduce lines map_line append
-
-########################################
-
-do:
-  load! $text command_line_arguments(1)
-  from_utf8 &text
-  text_to_indented_lines text $indented_lines
-
-  print! "
-    <html>
-    <head>
-    <meta charset="utf-8">
-
-  if title_of(indented_lines).is_defined:
-    print! "
-      <title>@(title_of(indented_lines))</title>
-
-  for_each links_of(indented_lines): (link)
-    if
-      link .has_suffix. ".css":
-	print! "
-	  <link rel="stylesheet" href="@(link)">
-	next
-      :
-	next
-
-  print! "
-    </head>
-    <body>
-
-  if title_of(indented_lines).is_defined:
-    print! "
-      <h1>@(title_of(indented_lines))</h1>
-
-  print! indented_lines_to_index(indented_lines)
-  print! indented_lines_to_html(indented_lines 2)
-
-  print! "
-    </body>
