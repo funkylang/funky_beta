@@ -805,6 +805,7 @@ $main: (initial_terminal)
 	    next!
 	  :
 	    getcwd! $current_directory
+	    log &io 3 -> "current directory: @(current_directory)"
 	    !state
 	      std_types::object
 		.do_exit_of false
@@ -2056,6 +2057,7 @@ $load_selected_file_action:
       load_contents_action! false
     :
       realpath! append(directory_of(state) "/" filename) !filename
+      log &io 4 -> "selected file: @(filename)"
       stat! $info filename
       if
 	info.is_a_directory:
