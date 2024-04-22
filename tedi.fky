@@ -208,30 +208,14 @@ program_parameters!
   list
     VALUED_OPTION "config-path" "
       the path where to look for "tedi.cfg"
+  $log_filename
+  list
+    VALUED_OPTION "log-file" "
+      the name of the log file
   $text_filenames
   list
     SOME_PARAMETERS "filename" "
       the name(s) of the text file(s) to edit
-
-
-$io std_types::io
-
-# initialize error logging
-
-fstat! $stdout_info STDOUT_FILENO
-fstat! $stderr_info STDERR_FILENO
-$do_log
-  ||
-    inode_number_of(stderr_info) != inode_number_of(stdout_info)
-    device_of(stderr_info) != device_of(stdout_info)
-$log_level if(do_log (-> 4) (-> 0))
-enable_logging &io log_level
-
-log &io -> "started logging (log-level: @(log_level))"
-
-get_uuid! $uuid
-
-log &io -> "using uuid: @(uuid)"
 
 # Optional Function Argument
 
@@ -483,17 +467,6 @@ $search_key_bindings
     CTRL_N = start_search
     CTRL_P = start_search
 
-$redo_key CTRL_Y
-$undo_key CTRL_Z
-$smart_completion_key TABULATOR
-$smart_uncompletion_key SHIFT_TABULATOR
-get_environment $environment
-$configuration_filename
-  if
-    config_path.is_defined
-    -> append(config_path "/tedi")
-    -> append(environment("HOME") "/.config/tedi/tedi")
-
 $colour_sets
   list
     std_types::object
@@ -728,7 +701,13 @@ $file_selector_window
     .colour_set_of file_selector_colour_set
     .cursor_movement_of ANYWHERE
 
+$redo_key CTRL_Y
+$undo_key CTRL_Z
+$smart_completion_key TABULATOR
+$smart_uncompletion_key SHIFT_TABULATOR
+
 $state undefined
+$text_windows undefined
 
 $terminal undefined
 
@@ -742,15 +721,53 @@ $do_start_ai_server false
 
 $next_id 0
 
-update_if text_filenames.is_empty &text_filenames -> list("")
-create_text_windows! $text_windows text_filenames !next_id
+$io std_types::io
+$do_log undefined
+$log_level undefined
+$uuid undefined
+$configuration_filename undefined
 
-initialize_terminal!
-  RECEIVE_CTRL_C_AND_CTRL_Z = true
-  RECEIVE_CTRL_Q_AND_CTRL_S = true
-  MAP_CR = true
-  TITLE = text_filenames(1)
-  main
+# initialize error logging
+
+if
+  log_filename.is_defined:
+    open! $log_fd log_filename "w+"
+    dup2! log_fd STDERR_FILENO
+    close! log_fd
+    start_logging!
+  start_logging
+
+$start_logging:
+  fstat! $stdout_info STDOUT_FILENO
+  fstat! $stderr_info STDERR_FILENO
+  !do_log
+    ||
+      inode_number_of(stderr_info) != inode_number_of(stdout_info)
+      device_of(stderr_info) != device_of(stdout_info)
+
+  !log_level if(do_log (-> 4) (-> 0))
+  enable_logging &io log_level
+  log &io -> "started logging (log-level: @(log_level))"
+
+  get_uuid! !uuid
+  log &io -> "using uuid: @(uuid)"
+
+  get_environment $environment
+  !configuration_filename
+    if
+      config_path.is_defined
+      -> append(config_path "/tedi")
+      -> append(environment("HOME") "/.config/tedi/tedi")
+
+  update_if text_filenames.is_empty &text_filenames -> list("")
+  create_text_windows! !text_windows text_filenames !next_id
+
+  initialize_terminal!
+    RECEIVE_CTRL_C_AND_CTRL_Z = true
+    RECEIVE_CTRL_Q_AND_CTRL_S = true
+    MAP_CR = true
+    TITLE = text_filenames(1)
+    main
 
 $window undefined
 $lines undefined
