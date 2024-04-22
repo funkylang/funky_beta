@@ -40,7 +40,13 @@ DATA
   } LIST_DATA;
 
 PUBLIC TYPE std_types::list -> std_types::generic_list
-  # an ordered, enumerated sequence of items
+  #
+    an ordered, enumerated sequence of items
+
+    Topic: Collections
+
+    See also: std_types::generic_list, std_types::string
+
   long offset # usually zero
   long length
   LIST_DATA *data

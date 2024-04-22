@@ -20,6 +20,8 @@
   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
 TYPE std_types::polymorphic_function -> std_types::object
+  #
+    the prototype object for all polymorphic functions
 
 TYPE std_types::polymorphic_function_with_setter -> std_types::polymorphic_function
   #
