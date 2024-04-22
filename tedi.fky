@@ -1883,9 +1883,13 @@ $join_lines:
   if
     y > height:
       if
-	y == height+1
-	go_to_end_of_previous_line
-	cursor_up
+	y == 1
+	-> state
+	:
+	  if
+	    y == height+1
+	    go_to_end_of_previous_line
+	    cursor_up
     :
       $line lines(y)
       if
