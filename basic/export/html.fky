@@ -254,6 +254,12 @@ $html::B:
   )
   emit_inline "b" items
 
+$html::SPAN:
+  (
+    items*
+  )
+  emit_inline "span" items
+
 $html::GROUP:
   (
     items*

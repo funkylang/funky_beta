@@ -959,9 +959,13 @@ $create_html_page: (title info)
 $header:
   P
     : A "class" = "Button" "href" = "index.html" "Home"
+    -> " "
     : A "class" = "Button" "href" = "manual.html" "Manual"
+    -> " "
     : A "class" = "Button" "href" = "topics.html" "Topics"
+    -> " "
     : A "class" = "Button" "href" = "types.html" "Types"
+    -> " "
     : A "class" = "Button" "href" = "symbols.html" "Symbols"
 
 $identifier_description: (identifier do_hide_namespace = false)
