@@ -2011,28 +2011,33 @@ $load_contents:
   -> state(.action_of load_contents_action)
 
 $load_contents_action: (do_open_new_window = true)
-  directory! $entries SORT directory_of(state)
+  $directory_name directory_of(state)
+  directory! $entries SORT directory_name
   $text_lines empty_list
   for_each entries
     : (entry)
       if
-	type_of(entry) == DIRECTORY && name_of(entry) != ".":
+	||
+	  type_of(entry) != DIRECTORY
+	  name_of(entry) == "."
+	  name_of(entry) == ".." && directory_name == "/" # for Cygwin
+	next
+	:
 	  push &text_lines tedi_line(0 name_of(entry))
 	  next!
-	next!
     :
       push &text_lines tedi_line(0 dup("―" 40))
       for_each entries
 	: (entry)
-	  if
-	    type_of(entry) != DIRECTORY:
+	  case type_of(entry)
+	    REGULAR_FILE, SYMBOLIC_LINK:
 	      push &text_lines tedi_line(0 name_of(entry))
 	      next!
 	    next
 	:
 	  !window windows_of(state)(FILE_SELECTOR_WINDOW)
 	  !window
-	    .filename_of directory_of(state)
+	    .filename_of directory_name
 	    .lines_of text_lines
 	  update_if_not do_open_new_window &window:
 	    window
@@ -2056,7 +2061,11 @@ $load_selected_file_action:
     filename .has_prefix. "―":
       load_contents_action! false
     :
-      realpath! append(directory_of(state) "/" filename) !filename
+      $directory_name directory_of(state)
+      if !filename
+	directory_name == "/"
+	-> append("/" filename)
+	: realpath! append(directory_name "/" filename)
       log &io 4 -> "selected file: @(filename)"
       stat! $info filename
       if
