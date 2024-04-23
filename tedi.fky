@@ -2808,7 +2808,7 @@ $start_ai_server:
 		create_process! $pid
 		  cmd
 		  list
-		    "-c" ai_context_size.to_string
+		    "--context-size" ai_context_size.to_string
 		    "--uuid" uuid
 		    "--model-path" ai_model_path
 		  undefined

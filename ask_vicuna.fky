@@ -94,10 +94,6 @@ program_parameters!
   list
     VALUED_OPTION "model-path" "/var/models" "
       the directory where the model is located
-  $context_size
-  list
-    VALUED_OPTION "context-size" 4096 to_integer "
-      the size of the context window
   $question
   list
     OPTIONAL_PARAMETER "question" "
@@ -159,10 +155,8 @@ if
 	      create_process! $pid
 		cmd
 		list
-		  "-c" context_size.to_string
 		  "--uuid" uuid
 		  "--model-path" model_path
-		  "-ngl" "99"
 		undefined
 		fd_null fd_log fd_log
 	      close! fd_null
