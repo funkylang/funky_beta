@@ -3890,9 +3890,33 @@ $load_file: (filename)
 $load_text: (text)
   map split_into_indented_lines(text): (line)
     if
-      line.is_defined
-      -> tedi_line(first(line) trim_right(range(second(line) 1 -2)))
+      line.is_defined:
+	line $indent $line_text
+	range &line_text 1 -2
+	trim_right &line_text
+	update_if line_text .contains. '@ht;' &line_text:
+	  convert_inline_tabs indent line_text
+	-> tedi_line(indent line_text)
       -> undefined
+
+$convert_inline_tabs: (indent text)
+  $buf ""
+  $s 1
+  for_each text
+    : (i chr)
+      if
+	chr == '@ht;':
+	  append &buf range(text s i-1)
+	  $new_indent 8*((indent .div. 8)+1)
+	  append &buf spaces(new_indent-indent)
+	  !indent new_indent
+	  !s i+1
+	  next
+	:
+	  inc &indent
+	  next
+    :
+      append buf range(text s -1)
 
 $return_window_and_lines:
   !window.lines_of lines
