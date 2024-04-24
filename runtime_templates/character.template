@@ -108,7 +108,7 @@ METHOD std_types::character/plus
     CHECK_RESULTS(1)
     long offset;
     CHECK(to_long(ARGUMENTS(1), &offset))
-    long code = (long)ARGUMENTS(0)->character.code+offset;
+    int64_t code = (int64_t)ARGUMENTS(0)->character.code+offset;
     if (code >= 0x100000000LL || code < 0) INVALID_ARGUMENTS
     RETURN_SINGLE_RESULT(CREATE(std_types::character, (uint32_t)code))
   }

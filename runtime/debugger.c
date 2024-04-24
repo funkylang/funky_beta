@@ -42,7 +42,7 @@
   #define MAP_ANONYMOUS MAP_ANON
 #endif
 
-extern uint64_t instruction_counter;
+extern size_t instruction_counter;
 extern jmp_buf main_loop_start;
 
 static int is_identifier_start_character(char chr) {

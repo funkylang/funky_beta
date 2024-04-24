@@ -121,7 +121,7 @@ extern void *coll_node_buf_end;
 
 extern long current_mark;
 
-extern uint64_t instruction_counter;
+extern size_t instruction_counter;
 
 extern int caught_sighup;
 extern int caught_sigkill;

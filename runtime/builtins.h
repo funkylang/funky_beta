@@ -397,7 +397,7 @@ typedef struct {
   int err_no;
   int attr_idx;
   NODE *object;
-  long instruction_counter;
+  size_t instruction_counter;
   FUNC_DATA *data;
 } ERROR;
 
@@ -734,7 +734,7 @@ void *create__std_types___error
     int err_no,
     int attr_idx,
     NODE *object,
-    long instruction_counter,
+    size_t instruction_counter,
     FUNC_DATA *data
   );
 

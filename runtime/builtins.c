@@ -12635,7 +12635,7 @@ void *create__std_types___error
     int err_no,
     int attr_idx,
     NODE *object,
-    long instruction_counter,
+    size_t instruction_counter,
     FUNC_DATA *data
   )
   {
@@ -16450,7 +16450,7 @@ static void entry__std_types___character___std___plus (void)
     }
     long offset;
     if (!to_long(TLS_arguments[1], &offset)) return;
-    long code = (long)TLS_arguments[0]->character.code+offset;
+    int64_t code = (int64_t)TLS_arguments[0]->character.code+offset;
     if (code >= 0x100000000LL || code < 0) {
       invalid_arguments();
       return;
@@ -21547,7 +21547,7 @@ static void entry__std_types___file_descriptor___std___read (void)
     uint8_t *buf = NULL;
     size_t size;
     ssize_t result;
-    if (!to_ulong(TLS_arguments[1], &size)) goto cleanup;
+    if (!to_ulong(TLS_arguments[1], (unsigned long *)&size)) goto cleanup;
     buf = allocate_memory(size);
     if (event__mode != EM__REPLAY) {
       do {

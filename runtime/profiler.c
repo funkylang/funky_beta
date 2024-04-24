@@ -171,7 +171,7 @@ static NODE *my_get_attr(TREE *tree, int idx) {
       print_node(result, attr);
     }
     fprintf(stderr,
-      "%ld: get_attr(%s) %c> %s\n",
+      "%zu: get_attr(%s) %c> %s\n",
       instruction_counter, poly_name(idx), attr_or_method, result);
   }
   return attr;
@@ -189,7 +189,7 @@ static void my_set_attribute(ATTRIBUTES *attributes, int idx, void *attr) {
       print_node(attribute, attr);
     }
     fprintf(stderr,
-      "%ld: set_%s(%s, %s)\n",
+      "%zu: set_%s(%s, %s)\n",
       instruction_counter, attr_or_method, polymorphic_function_names[idx],
       attribute);
   }
@@ -203,7 +203,7 @@ static NODE *get_functor(TAB_NUM idx) {
     print_var_or_const(index, abs(idx));
     print_node(result, node);
     fprintf(stderr,
-     "%ld: [frame =  %ld] <%d> call%s %s (%s)\n",
+     "%zu: [frame =  %zd] <%d> call%s %s (%s)\n",
       instruction_counter, (char *)TLS_frame-(stack+STACK_SIZE), TLS_deny_io,
       idx < 0 ? "!" : "", index, result);
   }
@@ -219,7 +219,7 @@ static NODE *get_argument(FRAME *frame, TAB_NUM idx) {
     print_var_or_const(index, idx);
     print_node(result, node);
     fprintf(stderr,
-     "%ld: [frame =  %ld] get_argument(%s) -> %s\n",
+     "%zu: [frame =  %zd] get_argument(%s) -> %s\n",
       instruction_counter, (char *)frame-(stack+STACK_SIZE), index, result);
   }
   return node;
@@ -232,7 +232,7 @@ static void set_argument(TAB_NUM idx, NODE *value) {
     char index[256], result[BUF_SIZE];
     print_var_or_const(index, idx);
     print_node(result, value);
-    fprintf(stderr, "%ld: [frame =  %ld] set_argument(%s, %s)\n",
+    fprintf(stderr, "%zu: [frame =  %zd] set_argument(%s, %s)\n",
       instruction_counter, (char *)TLS_frame-(stack+STACK_SIZE), index, result);
   }
   my_set(&TLS_frame->tree, idx, value);

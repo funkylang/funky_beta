@@ -92,7 +92,7 @@ EXPORT void *coll_node_buf_end;
 
 EXPORT NODE *undefined;
 
-EXPORT uint64_t instruction_counter = 0;
+EXPORT size_t instruction_counter = 0;
 
 // "no_attributes" is used for <types::undefined>
 
@@ -199,6 +199,7 @@ static long types__uninitialized___debug_string(
 static VTABLE vtable__types__uninitialized = {
   sizeof(SIMPLE_NODE),
   (COLLECTOR *)&collect_simple_node,
+  (void *)no_such_function,
   (void *)no_such_function,
   (void *)no_such_function,
   (void *)no_such_function,
@@ -341,7 +342,7 @@ static void *allocate_pool() {
   if (addr) return addr;
   if (runtime_debug_level > 0) {
     fprintf(
-      stderr, "%" PRIu64 ": malloc pool of size %ld for process %d\n",
+      stderr, "%zu: malloc pool of size %zu for process %d\n",
       instruction_counter, pool_size, getpid());
   }
   addr = malloc(pool_size);
@@ -365,7 +366,7 @@ static void deallocate_pool(void *pool) {
   } else {
     if (runtime_debug_level > 0) {
       fprintf(
-	stderr, "%" PRIu64 ": free pool of size %ld for process %d\n",
+	stderr, "%zu: free pool of size %zu for process %d\n",
 	instruction_counter, size_of_current_pool, getpid());
     }
     free(pool);
@@ -814,7 +815,7 @@ EXPORT void end_garbage_collection() {
   update_start_p = node_p;
   if (runtime_debug_level > 1) {
     fprintf(
-      stderr, "%" PRIu64 ": memory usage %ld / %ld\n",
+      stderr, "%zu: memory usage %zd / %zu\n",
       instruction_counter, node_p-node_buf, pool_size);
   }
 }
@@ -1297,7 +1298,7 @@ EXPORT void retrieve__fixed_memory(uint8_t *buf, long size) {
 static void print_c_string(FILE *fp, const char *buf) {
   if (buf) {
     uint8_t chr;
-    fprintf(fp, "  %ld \"", strlen(buf));
+    fprintf(fp, "  %zu \"", strlen(buf));
     while (chr = (uint8_t)*buf++) {
       if (chr >= 0x20 && chr < 0x7f && chr != '%') {
 	fputc((char)chr, fp);

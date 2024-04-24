@@ -4340,7 +4340,7 @@ METHOD std_types::file_descriptor/read
     uint8_t *buf = NULL;
     size_t size;
     ssize_t result;
-    if (!to_ulong(ARGUMENTS(1), &size)) goto cleanup;
+    if (!to_ulong(ARGUMENTS(1), (unsigned long *)&size)) goto cleanup;
     buf = allocate_memory(size);
     EVENT(read)
       do {

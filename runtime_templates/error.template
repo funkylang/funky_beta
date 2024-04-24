@@ -78,7 +78,7 @@ PUBLIC TYPE std_types::error
   int err_no
   int attr_idx
   NODE *object
-  long instruction_counter
+  size_t instruction_counter
   FUNC_DATA *data
 
 METHOD std_types::error/_type
