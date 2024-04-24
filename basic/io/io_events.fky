@@ -336,6 +336,7 @@ $std::start_catching_signals ()
 
     Parameters:
       io # an input-output object
+      signals* # a list of signals to catch
 
     Topic: Input-Output Events
 
@@ -347,6 +348,7 @@ $std::stop_catching_signals ()
 
     Parameters:
       io # an input-output object
+      signals* # the signals to stop catching
 
     Topic: Input-Output Events
 
@@ -435,7 +437,7 @@ $close_jobs_of ()
 $watched_pids_of ()
 $exit_codes_of ()
 $do_inject_window_change_events ()
-$do_catch_signals ()
+$catched_signals_of ()
 $window_change_event_occurred ()
 $log_level_of ()
 $exit_code_of ()
@@ -455,6 +457,7 @@ $std_types::io.watched_pids_of empty_hash_set
 $std_types::io.exit_codes_of empty_hash_table
 $std_types::io.do_inject_window_change_events false
 $std_types::io.window_change_event_occurred false
+$std_types::io.catched_signals_of empty_hash_set
 $std_types::io.log_level_of 0
 $std_types::io.exit_code_of undefined
 $std_types::io.timeout_of undefined
@@ -625,8 +628,14 @@ $std_types::io/start_catching_signals:
     See also: @Input-Output Events, stop_catching_signals
   (
     self # the input-output object
+    signals* # a list of signal names
   )
-  -> self(.do_catch_signals true)
+  $catched_signals catched_signals_of(self)
+  for_each signals
+    : (signal)
+      !catched_signals(signal) true
+      next
+    -> self(.catched_signals_of catched_signals)
 
 $std_types::io/stop_catching_signals:
   #
@@ -637,8 +646,14 @@ $std_types::io/stop_catching_signals:
     See also: @Input-Output Events, start_catching_signals
   (
     self # the input-output object
+    signals* # a list of signal names
   )
-  -> self(.do_catch_signals false)
+  $catched_signals catched_signals_of(self)
+  for_each signals
+    : (signal)
+      !catched_signals(signal) false
+      next
+    -> self(.catched_signals_of catched_signals)
 
 $std_types::io/set_timeout:
   #
@@ -859,9 +874,9 @@ $std_types::io/get_events:
 	    WINDOW_CHANGED_SIZE:
 	      !self.window_change_event_occurred true
 	      next!
-	    SIGUSR1, SIGUSR2:
+	    :
 	      if
-		self.do_catch_signals:
+		catched_signals_of(self)(signal):
 		  push &events new(std_types::event SIGNAL undefined signal)
 		  next!
 		next

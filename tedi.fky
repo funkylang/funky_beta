@@ -867,6 +867,7 @@ $main: (initial_terminal)
 	      update &terminal $initial_output
 	      print! initial_output
 	      start_injecting_window_change_events &io
+	      start_catching_signals &io SIGHUP
 	      start_reading_from &io STDIN_FILENO
 	      event_loop! !terminal !state
 	      if
@@ -1008,6 +1009,16 @@ $event_loop:
 			print! output
 			next!
 	      next
+	  SIGNAL:
+	    case input
+	      SIGHUP:
+		if
+		  uuid_is_registered_of(state):
+		    deregister! uuid ai_server
+		    exit! EXIT_FAILURE
+		  :
+		    exit! EXIT_FAILURE
+	      next # unexpected signal
 	  next
       next
 
@@ -1077,7 +1088,7 @@ $event_loop:
 				check_updates !terminal !state
 				update &terminal $output
 				print! output
-				log &io -> error_message_text_of(new_io)
+				log &io -> new_io.to_error_message_string
 				next!
 			      :
 				!io new_io
@@ -2074,14 +2085,19 @@ $load_selected_file_action:
 	  load_contents_action! false
 	:
 	  load_file! $text_lines filename
-	  close_window !state
-	  !window
-	    windows_of(state)(cwi())
-	      .lines_of text_lines
-	      .filename_of filename
-	      .is_new false
-	  !state.windows_of(cwi()) window
-	  -> io terminal state
+	  if
+	    text_lines.is_a_string:
+	      show_error !state text_lines
+	      -> io terminal state
+	    :
+	      close_window !state
+	      !window
+		windows_of(state)(cwi())
+		  .lines_of text_lines
+		  .filename_of filename
+		  .is_new false
+	      !state.windows_of(cwi()) window
+	      -> io terminal state
 
 $save_contents:
   if
@@ -3858,10 +3874,18 @@ $toggle_line_numbers:
 
 $load_file: (filename)
   load! $buf filename
-  from_utf8 &buf
-  trim_right &buf
-  update_if buf.is_not_empty &buf -> push(buf '@nl;')
-  load_text buf
+  if
+    buf.is_an_error
+    -> buf.to_error_message_string
+    :
+      from_utf8 &buf
+      if
+	buf.is_an_error
+	-> "The file does not contain valid UTF-8 content!"
+	:
+	  trim_right &buf
+	  update_if buf.is_not_empty &buf -> push(buf '@nl;')
+	  load_text buf
 
 $load_text: (text)
   map split_into_indented_lines(text): (line)
@@ -4753,7 +4777,7 @@ $create_text_windows: (filenames)
 $create_text_window: (filename)
   load_file! $text_lines filename
   if
-    text_lines.is_an_error:
+    text_lines.is_a_string:
       !text_lines empty_list
       create true false
     :

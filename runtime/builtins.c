@@ -420,10 +420,11 @@ enum {
   func__std_types___unique_item___std___equal,
   func__std_types___unique_item___std___hash,
   func__std___unique_item,
-  unique__std___WINDOW_CHANGED_SIZE,
-  unique__std___CHILD_CHANGED_STATE,
+  unique__std___SIGHUP,
   unique__std___SIGUSR1,
   unique__std___SIGUSR2,
+  unique__std___CHILD_CHANGED_STATE,
+  unique__std___WINDOW_CHANGED_SIZE,
   func__std_types___file_descriptor___std___get_terminal_size,
   func__std___exitstatus,
   func__std___pselect,
@@ -859,10 +860,11 @@ enum {
   var_no__std_types___unique_item,
   var_no__std___unique_item,
   var_no__std_types___value_range,
-  var_no__std___WINDOW_CHANGED_SIZE,
-  var_no__std___CHILD_CHANGED_STATE,
+  var_no__std___SIGHUP,
   var_no__std___SIGUSR1,
   var_no__std___SIGUSR2,
+  var_no__std___CHILD_CHANGED_STATE,
+  var_no__std___WINDOW_CHANGED_SIZE,
   var_no__std___get_terminal_size,
   var_no__std___exitstatus,
   var_no__std___pselect,
@@ -25255,32 +25257,38 @@ static void entry__std___pselect (void)
     if (!initialize_fd_set(
     	&except_set, except_descriptors, &except_descriptor_count, &last_fd)) return;
     int ret;
-    int chld_changed_state = false;
-    int win_changed_size = false;
+    int caught_hup = false;
+    int caught_kill = false;
     int caught_usr1 = false;
     int caught_usr2 = false;
+    int chld_changed_state = false;
+    int win_changed_size = false;
     if (event__mode != EM__REPLAY) {
       sigset_t set;
       sigprocmask(0, NULL, &set);
-      sigdelset(&set, SIGCHLD);
-      sigdelset(&set, SIGWINCH);
+      sigdelset(&set, SIGHUP);
       sigdelset(&set, SIGUSR1);
       sigdelset(&set, SIGUSR2);
+      sigdelset(&set, SIGCHLD);
+      sigdelset(&set, SIGWINCH);
       retry:;
       ret = pselect(last_fd+1, &read_set, &write_set, &except_set, timeout_ptr, &set);
       if (ret < 0 && errno == EINTR) {
-	if (child_changed_state) {
-	  child_changed_state = false;
-	  chld_changed_state = true;
-	} else if (window_changed_size) {
-	  window_changed_size = false;
-	  win_changed_size = true;
+	if (caught_sighup) {
+	  caught_sighup = false;
+	  caught_hup = true;
 	} else if (caught_sigusr1) {
 	  caught_sigusr1 = false;
 	  caught_usr1 = true;
 	} else if (caught_sigusr2) {
 	  caught_sigusr2 = false;
 	  caught_usr2 = true;
+	} else if (child_changed_state) {
+	  child_changed_state = false;
+	  chld_changed_state = true;
+	} else if (window_changed_size) {
+	  window_changed_size = false;
+	  win_changed_size = true;
 	} else {
 	  goto retry;
 	}
@@ -25288,18 +25296,22 @@ static void entry__std___pselect (void)
       if (event__mode == EM__RECORD) {
         record__event("pselect");
         store__integer(ret);
-        store__integer(chld_changed_state);
-        store__integer(win_changed_size);
+        store__integer(caught_hup);
+        store__integer(caught_kill);
         store__integer(caught_usr1);
         store__integer(caught_usr2);
+        store__integer(chld_changed_state);
+        store__integer(win_changed_size);
       }
     } else {
       replay__event("pselect");
       retrieve__integer(&ret);
-      retrieve__integer(&chld_changed_state);
-      retrieve__integer(&win_changed_size);
+      retrieve__integer(&caught_hup);
+      retrieve__integer(&caught_kill);
       retrieve__integer(&caught_usr1);
       retrieve__integer(&caught_usr2);
+      retrieve__integer(&chld_changed_state);
+      retrieve__integer(&win_changed_size);
     }
     //   store__integer(read_count);
     //   store__integer(write_count);
@@ -25358,20 +25370,17 @@ static void entry__std___pselect (void)
       except_descriptors = (NODE *)&std___empty_list;
     }
     int signal_count =
-      chld_changed_state+win_changed_size+caught_usr1+caught_usr2;
+      caught_hup+caught_kill+caught_usr1+caught_usr2+
+      chld_changed_state+win_changed_size;
     if (signal_count > 0) {
       LIST_DATA *data =
 	allocate_large(sizeof(LIST_DATA)+signal_count*sizeof(NODE *));
       data->size = signal_count;
       data->length = signal_count;
       int n = 0;
-      if (chld_changed_state) {
+      if (caught_hup) {
 	data->items[n++] =
-	  module__builtin.constants_base[unique__std___CHILD_CHANGED_STATE-1];
-      }
-      if (win_changed_size) {
-	data->items[n++] =
-	  module__builtin.constants_base[unique__std___WINDOW_CHANGED_SIZE-1];
+	  module__builtin.constants_base[unique__std___SIGHUP-1];
       }
       if (caught_usr1) {
 	data->items[n++] =
@@ -25381,6 +25390,14 @@ static void entry__std___pselect (void)
       if (caught_usr2) {
 	data->items[n++] =
 	  module__builtin.constants_base[unique__std___SIGUSR2-1];
+      }
+      if (chld_changed_state) {
+	data->items[n++] =
+	  module__builtin.constants_base[unique__std___CHILD_CHANGED_STATE-1];
+      }
+      if (win_changed_size) {
+	data->items[n++] =
+	  module__builtin.constants_base[unique__std___WINDOW_CHANGED_SIZE-1];
       }
       signals = create__std_types___list(0, signal_count, data);
     }
@@ -26115,10 +26132,11 @@ static FUNKY_CONSTANT constants_table[] = {
   {FLT_C_FUNCTION, 2, {.func = entry__std_types___unique_item___std___equal}},
   {FLT_C_FUNCTION, 1, {.func = entry__std_types___unique_item___std___hash}},
   {FLT_C_FUNCTION, 1, {.func = entry__std___unique_item}},
-  {FLT_UNIQUE, 0, {.str_8 = "std::WINDOW_CHANGED_SIZE"}},
-  {FLT_UNIQUE, 0, {.str_8 = "std::CHILD_CHANGED_STATE"}},
+  {FLT_UNIQUE, 0, {.str_8 = "std::SIGHUP"}},
   {FLT_UNIQUE, 0, {.str_8 = "std::SIGUSR1"}},
   {FLT_UNIQUE, 0, {.str_8 = "std::SIGUSR2"}},
+  {FLT_UNIQUE, 0, {.str_8 = "std::CHILD_CHANGED_STATE"}},
+  {FLT_UNIQUE, 0, {.str_8 = "std::WINDOW_CHANGED_SIZE"}},
   {FLT_C_FUNCTION, 1, {.func = entry__std_types___file_descriptor___std___get_terminal_size}},
   {FLT_C_FUNCTION, 1, {.func = entry__std___exitstatus}},
   {FLT_C_FUNCTION, -1, {.func = entry__std___pselect}},
@@ -29633,13 +29651,8 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_INITIALIZED, 0, 0,
-    "WINDOW_CHANGED_SIZE\000std", NULL,
-    {.const_idx = unique__std___WINDOW_CHANGED_SIZE}
-  },
-  {
-    FOT_INITIALIZED, 0, 0,
-    "CHILD_CHANGED_STATE\000std", NULL,
-    {.const_idx = unique__std___CHILD_CHANGED_STATE}
+    "SIGHUP\000std", NULL,
+    {.const_idx = unique__std___SIGHUP}
   },
   {
     FOT_INITIALIZED, 0, 0,
@@ -29650,6 +29663,16 @@ static FUNKY_VARIABLE variables_table[] = {
     FOT_INITIALIZED, 0, 0,
     "SIGUSR2\000std", NULL,
     {.const_idx = unique__std___SIGUSR2}
+  },
+  {
+    FOT_INITIALIZED, 0, 0,
+    "CHILD_CHANGED_STATE\000std", NULL,
+    {.const_idx = unique__std___CHILD_CHANGED_STATE}
+  },
+  {
+    FOT_INITIALIZED, 0, 0,
+    "WINDOW_CHANGED_SIZE\000std", NULL,
+    {.const_idx = unique__std___WINDOW_CHANGED_SIZE}
   },
   {
     FOT_POLYMORPHIC, 0, 0,
@@ -29708,7 +29731,7 @@ FUNKY_MODULE module__builtin = {
   NULL,
   0, 0,
   4, 0,
-  399, 436,
+  400, 437,
   NULL,
   defined_namespaces, NULL,
   constants_table, variables_table

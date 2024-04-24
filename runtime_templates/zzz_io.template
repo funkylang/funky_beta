@@ -53,13 +53,16 @@
     See also: open_file, close_file
   {STDERR_FILENO}
 
-UNIQUE WINDOW_CHANGED_SIZE
-
-UNIQUE CHILD_CHANGED_STATE
+UNIQUE SIGHUP
 
 UNIQUE SIGUSR1
 
 UNIQUE SIGUSR2
+
+UNIQUE CHILD_CHANGED_STATE
+
+UNIQUE WINDOW_CHANGED_SIZE
+
 
 CODE
   static int flags_to_int
@@ -499,42 +502,50 @@ FUNCTION std::pselect
       initialize_fd_set(
 	&except_set, except_descriptors, &except_descriptor_count, &last_fd))
     int ret;
-    int chld_changed_state = false;
-    int win_changed_size = false;
+    int caught_hup = false;
+    int caught_kill = false;
     int caught_usr1 = false;
     int caught_usr2 = false;
+    int chld_changed_state = false;
+    int win_changed_size = false;
     EVENT(pselect)
       sigset_t set;
       sigprocmask(0, NULL, &set);
-      sigdelset(&set, SIGCHLD);
-      sigdelset(&set, SIGWINCH);
+      sigdelset(&set, SIGHUP);
       sigdelset(&set, SIGUSR1);
       sigdelset(&set, SIGUSR2);
+      sigdelset(&set, SIGCHLD);
+      sigdelset(&set, SIGWINCH);
       retry:;
       ret = pselect(last_fd+1, &read_set, &write_set, &except_set, timeout_ptr, &set);
       if (ret < 0 && errno == EINTR) {
-	if (child_changed_state) {
-	  child_changed_state = false;
-	  chld_changed_state = true;
-	} else if (window_changed_size) {
-	  window_changed_size = false;
-	  win_changed_size = true;
+	if (caught_sighup) {
+	  caught_sighup = false;
+	  caught_hup = true;
 	} else if (caught_sigusr1) {
 	  caught_sigusr1 = false;
 	  caught_usr1 = true;
 	} else if (caught_sigusr2) {
 	  caught_sigusr2 = false;
 	  caught_usr2 = true;
+	} else if (child_changed_state) {
+	  child_changed_state = false;
+	  chld_changed_state = true;
+	} else if (window_changed_size) {
+	  window_changed_size = false;
+	  win_changed_size = true;
 	} else {
 	  goto retry;
 	}
       }
     DATA
       INT(ret)
-      INT(chld_changed_state)
-      INT(win_changed_size)
+      INT(caught_hup)
+      INT(caught_kill)
       INT(caught_usr1)
       INT(caught_usr2)
+      INT(chld_changed_state)
+      INT(win_changed_size)
     END
     // INT(read_count)
     // INT(write_count)
@@ -593,20 +604,17 @@ FUNCTION std::pselect
       except_descriptors = VAR(std::empty_list);
     }
     int signal_count =
-      chld_changed_state+win_changed_size+caught_usr1+caught_usr2;
+      caught_hup+caught_kill+caught_usr1+caught_usr2+
+      chld_changed_state+win_changed_size;
     if (signal_count > 0) {
       LIST_DATA *data =
 	allocate_large(sizeof(LIST_DATA)+signal_count*sizeof(NODE *));
       data->size = signal_count;
       data->length = signal_count;
       int n = 0;
-      if (chld_changed_state) {
+      if (caught_hup) {
 	data->items[n++] =
-	  module__builtin.constants_base[unique__std___CHILD_CHANGED_STATE-1];
-      }
-      if (win_changed_size) {
-	data->items[n++] =
-	  module__builtin.constants_base[unique__std___WINDOW_CHANGED_SIZE-1];
+	  module__builtin.constants_base[unique__std___SIGHUP-1];
       }
       if (caught_usr1) {
 	data->items[n++] =
@@ -616,6 +624,14 @@ FUNCTION std::pselect
       if (caught_usr2) {
 	data->items[n++] =
 	  module__builtin.constants_base[unique__std___SIGUSR2-1];
+      }
+      if (chld_changed_state) {
+	data->items[n++] =
+	  module__builtin.constants_base[unique__std___CHILD_CHANGED_STATE-1];
+      }
+      if (win_changed_size) {
+	data->items[n++] =
+	  module__builtin.constants_base[unique__std___WINDOW_CHANGED_SIZE-1];
       }
       signals = CREATE(std_types::list, 0, signal_count, data);
     }

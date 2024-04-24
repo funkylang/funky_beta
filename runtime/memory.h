@@ -123,10 +123,12 @@ extern long current_mark;
 
 extern uint64_t instruction_counter;
 
-extern int child_changed_state;
-extern int window_changed_size;
+extern int caught_sighup;
+extern int caught_sigkill;
 extern int caught_sigusr1;
 extern int caught_sigusr2;
+extern int child_changed_state;
+extern int window_changed_size;
 
 typedef struct MEMORY_BLOCK {
   struct MEMORY_BLOCK *link;

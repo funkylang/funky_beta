@@ -436,28 +436,30 @@ void segfault_sigaction(int signal, siginfo_t *si, void *arg)
   unrecoverable_error("Caught segfault at address %p", si->si_addr);
 }
 
-EXPORT int child_changed_state = false;
-EXPORT int window_changed_size = false;
+EXPORT int caught_sighup = false;
 EXPORT int caught_sigusr1 = false;
 EXPORT int caught_sigusr2 = false;
+EXPORT int child_changed_state = false;
+EXPORT int window_changed_size = false;
+
+void sighup_handler(int signal) {
+  caught_sighup = true;
+}
+
+void sigusr1_handler(int signal) {
+  caught_sigusr1 = true;
+}
+
+void sigusr2_handler(int signal) {
+  caught_sigusr2 = true;
+}
 
 void child_handler(int signal) {
   child_changed_state = true;
 }
 
-void winch_handler(int signal)
-{
+void winch_handler(int signal) {
   window_changed_size = true;
-}
-
-void sigusr1_handler(int signal)
-{
-  caught_sigusr1 = true;
-}
-
-void sigusr2_handler(int signal)
-{
-  caught_sigusr2 = true;
 }
 
 extern NODE *from_c_string(const char *str);
@@ -563,16 +565,18 @@ static void initialize_runtime(void) {
   sa.sa_flags   = SA_SIGINFO;
   sigaction(SIGSEGV, &sa, NULL);
 
-  signal(SIGCHLD, child_handler);
-  signal(SIGWINCH, winch_handler);
+  signal(SIGHUP, sighup_handler);
   signal(SIGUSR1, sigusr1_handler);
   signal(SIGUSR2, sigusr2_handler);
+  signal(SIGCHLD, child_handler);
+  signal(SIGWINCH, winch_handler);
 
   sigemptyset(&set);
-  sigaddset(&set, SIGCHLD); // block SIGCHLD until unblocked
-  sigaddset(&set, SIGWINCH); // block SIGWINCH until unblocked
+  sigaddset(&set, SIGHUP); // block SIGHUP until unblocked
   sigaddset(&set, SIGUSR1); // block SIGUSR1 until unblocked
   sigaddset(&set, SIGUSR2); // block SIGUSR2 until unblocked
+  sigaddset(&set, SIGCHLD); // block SIGCHLD until unblocked
+  sigaddset(&set, SIGWINCH); // block SIGWINCH until unblocked
   sigprocmask(SIG_BLOCK, &set, NULL);
 
   signal(SIGPIPE, SIG_IGN);
