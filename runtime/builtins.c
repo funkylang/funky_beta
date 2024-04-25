@@ -1379,6 +1379,8 @@ static int std_types___object____to_long(NODE *node);
 static int std_types___undefined____to_long(NODE *node);
 static int std_types___object____to_ulong(NODE *node);
 static int std_types___undefined____to_ulong(NODE *node);
+static int std_types___object____to_float(NODE *node);
+static int std_types___undefined____to_float(NODE *node);
 static int std_types___object____to_double(NODE *node);
 static int std_types___undefined____to_double(NODE *node);
 static int std_types___object____to_c_string(NODE *node);
@@ -4090,6 +4092,11 @@ int propagate_error
     NODE *node
   )
   {
+    if (TLS_result_count < 1) TLS_result_count = 1;
+    TLS_argument_count = TLS_result_count;
+    for (int i = 0; i < TLS_result_count; ++i) {
+      TLS_arguments[i] = node;
+    }
     {
       NODE *result__node = (NODE *)(node);
       TLS_arguments[0] = result__node;
@@ -4490,6 +4497,28 @@ static int std_types___undefined____to_ulong
     create_error_message(
       module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
       "ARGUMENT IS NOT AN INTEGER", 0, 0, node);
+    return false;
+  }
+
+static int std_types___object____to_float
+  (
+    NODE *node
+  )
+  {
+    create_error_message(
+      module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+      "ARGUMENT IS NOT A NUMBER", 0, 0, node);
+    return false;
+  }
+
+static int std_types___undefined____to_float
+  (
+    NODE *node
+  )
+  {
+    create_error_message(
+      module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+      "ARGUMENT IS NOT A NUMBER", 0, 0, node);
     return false;
   }
 
@@ -26444,6 +26473,7 @@ static INTERNAL_METHOD std_types___error__internal_methods[] = {
   {FIM_TO_UINT, {propagate_error}},
   {FIM_TO_LONG, {propagate_error}},
   {FIM_TO_ULONG, {propagate_error}},
+  {FIM_TO_FLOAT, {propagate_error}},
   {FIM_TO_DOUBLE, {propagate_error}},
   {FIM_TO_C_STRING, {propagate_error}},
   {FIM_TO_OCTETS, {propagate_error}},
@@ -26475,6 +26505,7 @@ static INTERNAL_METHOD std_types___object__internal_methods[] = {
   {FIM_TO_UINT, {std_types___object____to_uint}},
   {FIM_TO_LONG, {std_types___object____to_long}},
   {FIM_TO_ULONG, {std_types___object____to_ulong}},
+  {FIM_TO_FLOAT, {std_types___object____to_float}},
   {FIM_TO_DOUBLE, {std_types___object____to_double}},
   {FIM_TO_C_STRING, {std_types___object____to_c_string}},
   {FIM_TO_OCTETS, {std_types___object____to_octets}},
@@ -26500,6 +26531,7 @@ static INTERNAL_METHOD std_types___undefined__internal_methods[] = {
   {FIM_TO_UINT, {std_types___undefined____to_uint}},
   {FIM_TO_LONG, {std_types___undefined____to_long}},
   {FIM_TO_ULONG, {std_types___undefined____to_ulong}},
+  {FIM_TO_FLOAT, {std_types___undefined____to_float}},
   {FIM_TO_DOUBLE, {std_types___undefined____to_double}},
   {FIM_TO_C_STRING, {std_types___undefined____to_c_string}},
   {FIM_TO_OCTETS, {std_types___undefined____to_octets}},
@@ -27634,7 +27666,7 @@ static FUNKY_VARIABLE variables_table[] = {
     FOT_TYPE, 0, 5,
     "error\000std_types", std_types___error__attributes,
     {NULL},
-    {.methods_count = 23}, 0,
+    {.methods_count = 24}, 0,
     std_types___error__internal_methods,
     {(NODE *)&std_types___error}
   },
@@ -27672,7 +27704,7 @@ static FUNKY_VARIABLE variables_table[] = {
     FOT_TYPE, 0, 0,
     "object\000std_types", NULL,
     {NULL},
-    {.methods_count = 22}, 0,
+    {.methods_count = 23}, 0,
     std_types___object__internal_methods,
     {(NODE *)&std_types___object}
   },
@@ -27680,7 +27712,7 @@ static FUNKY_VARIABLE variables_table[] = {
     FOT_TYPE, 0, 0,
     "undefined\000std_types", NULL,
     {NULL},
-    {.methods_count = 22}, 0,
+    {.methods_count = 23}, 0,
     std_types___undefined__internal_methods,
     {(NODE *)&std_types___undefined}
   },

@@ -400,6 +400,11 @@ FUNCTION int propagate_error
     NODE *node
   )
   {
+    if (RESULT_COUNT < 1) RESULT_COUNT = 1;
+    START_ARGUMENTS(RESULT_COUNT)
+    for (int i = 0; i < RESULT_COUNT; ++i) {
+      ARGUMENTS(i) = node;
+    }
     PREPARE_SINGLE_RESULT(node)
     return false;
   }
@@ -418,6 +423,7 @@ METHOD int std_types::error/_to_int propagate_error
 METHOD int std_types::error/_to_uint propagate_error
 METHOD int std_types::error/_to_long propagate_error
 METHOD int std_types::error/_to_ulong propagate_error
+METHOD int std_types::error/_to_float propagate_error
 METHOD int std_types::error/_to_double propagate_error
 METHOD int std_types::error/_to_c_string propagate_error
 METHOD int std_types::error/_to_octets propagate_error
@@ -839,6 +845,28 @@ METHOD int std_types::undefined/_to_ulong
     create_error_message(
       module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
       "ARGUMENT IS NOT AN INTEGER", 0, 0, node);
+    return false;
+  }
+
+METHOD int std_types::object/_to_float
+  (
+    NODE *node
+  )
+  {
+    create_error_message(
+      module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+      "ARGUMENT IS NOT A NUMBER", 0, 0, node);
+    return false;
+  }
+
+METHOD int std_types::undefined/_to_float
+  (
+    NODE *node
+  )
+  {
+    create_error_message(
+      module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+      "ARGUMENT IS NOT A NUMBER", 0, 0, node);
     return false;
   }
 
