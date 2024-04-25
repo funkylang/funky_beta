@@ -231,7 +231,7 @@ Semantics
 
     When a function is called, an exact copy of the caller's environment is created and becomes the *active* environment. At any time only the active enviroment is accessed (read or modified). Non-active environments are never accessed!
 
-    Before the function's statements are executed all the caller's arguments are copied into the appropriate parameters of the callee (in the now active environment). (For more details see the section <<Functions>>).
+    Before the function's statements are executed all the caller's arguments are copied into the appropriate parameters of the callee (in the now active environment). (For more details see the section <#functions#:Functions>).
 
     Then the function's statements are executed one after the other.
 
@@ -381,7 +381,7 @@ Objects
 
     Numbers, booleans, unique items and characters are scalar values. Tuples, lists and arrays are compound values; strings are a bit of both. Functions contain no data but are called to execute their embedded statement sequences.
 
-    These value types will be described in the following sections. <<Functions>> play such an important part that the whole next chapter is dedicated to this topic.
+    These value types will be described in the following sections. <#functions#:Functions> play such an important part that the whole next chapter is dedicated to this topic.
 
     Numbers
 
@@ -516,7 +516,7 @@ Objects
 
       Numeric Character Literals
 
-	To create a character literal with a specific numeric code one can specify this code between an opening at-sign ("@") and a terminating semicolon (";"). The numeric code is an <<Integers,*integer literal*>>.
+	To create a character literal with a specific numeric code one can specify this code between an opening at-sign ("@") and a terminating semicolon (";"). The numeric code is an <#integers#:*integer literal*>.
 
 	Valid examples:
 
@@ -552,7 +552,7 @@ Objects
 	  '@alpha;'
 	  '@Omega;'
 
-	See appendix <<Named Characters>>.
+	See appendix <#named_characters#:Named Characters>.
 
     Strings
 
@@ -1155,7 +1155,7 @@ Functions
 
 	`a && (b && c)`
 
-	If the association is *undefined* then the compiler can decide 	whether to use left or right association. Only operations where association does not matter (e.g. addition) have undefined association.
+	If the association is *undefined* then the compiler can decide  whether to use left or right association. Only operations where association does not matter (e.g. addition) have undefined association.
 
 	If the association is *none* then you must explicitely use parentheses when combining multiple operators.
 

@@ -198,6 +198,9 @@ $insert_tags: (str)
     str.is_empty
     -> str
     :
+      $len length_of(str)
+      map_reduce str convert append
+
       $convert: (idx chr)
 	$before_letter ->
 	  idx < len && str(idx+1).is_a_word_character
@@ -238,17 +241,24 @@ $insert_tags: (str)
 		  -> true -> "*"
 	      '<':
 		if
-		  before_letter()
+		  (idx < len && str(idx+1) == '#') || before_letter()
 		  -> "<a href=@quot;"
 		  -> "&lt;"
+	      '#':
+		if
+		  idx < len && str(idx+1) == ':'
+		  -> ""
+		  -> "#"
 	      ':':
 		if
-		  idx > 5 && range(str idx-5 idx-1) == ".html"
+		  ||
+		    idx > 1 && str(idx-1) == '#'
+		    idx > 5 && range(str idx-5 idx-1) == ".html"
 		  -> "@quot;>"
 		  -> ":"
 	      '>':
 		if
-		  behind_letter()
+		  behind_letter() || (idx > 1 && str(idx-1) == '*')
 		  -> "</a>"
 		  -> "&gt;"
 	      '&':
@@ -276,10 +286,6 @@ $insert_tags: (str)
 		  -> "</sub>"
 		  -> ")"
 	      -> chr.to_string
-
-      $len length_of(str)
-
-      map_reduce str convert append
 
 $lines_to_text: (lines)
   $buf ""
@@ -341,15 +347,15 @@ $indented_lines_to_index: (lines)
 	    cond $class $title
 	      -> line == "PREFACE" || line == "GLOSSARY"
 		-> "" line
-	      -> line .has_prefix. "APPENDIX"
-		-> " class=@quot;appendix@quot;" range(line 9 -1).trim
+	      -> line .has_prefix. "APPENDIX:"
+		-> " class=@quot;appendix@quot;" range(line 10 -1).trim
 	      -> true
 		-> " class=@quot;enum@quot;" line
 	    $sublist indented_lines_to_index(contents)
 	    $link
 	      string
 		"<a href=@quot;#"
-		title.to_lower_case
+		replace_all(title.to_lower_case ' ' = "_")
 		"@quot;>"
 		title.to_title_case
 		"</a>"
@@ -531,14 +537,14 @@ $indented_lines_to_html:
 	    cond $class $title
 	      -> line == "PREFACE" || line == "GLOSSARY"
 		-> "" line
-	      -> line .has_prefix. "APPENDIX"
-		-> " class=@quot;appendix@quot;" range(line 9 -1).trim
+	      -> line .has_prefix. "APPENDIX:"
+		-> " class=@quot;appendix@quot;" range(line 10 -1).trim
 	      -> true
 		-> " class=@quot;chapter@quot;" line
 	    $anchor
 	      string
 		"<a name=@quot;"
-		title.to_lower_case
+		replace_all(title.to_lower_case ' ' = "_")
 		"@quot;>"
 		title.to_title_case
 		"</a>"
