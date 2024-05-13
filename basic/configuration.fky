@@ -1,0 +1,136 @@
+#
+  Copyright (C) 2024 by
+  Dipl.-Ing. Michael Niederle
+
+  This program is free software; you can redistribute it and/or modify
+  it under the terms of the GNU Library General Public License, version 2, or
+  (at your option) under the terms of the GNU Lesser General Public License,
+  version 3.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  GNU Lesser (Library) General Public License for more details.
+
+  For details of the GNU General Public License see the accompanying
+  files LGPLv2.txt and LGLPv3.txt or
+  http://www.gnu.org/licenses/lgpl-2.0.html
+  http://www.gnu.org/licenses/lgpl-3.0.html
+  or write to the
+  Free Software Foundation, Inc.,
+  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+
+$std::load_configuration ()
+  #
+    loads the configuration from the given file
+
+$std_types::object/load_configuration:
+  #
+    loads the configuration from the given file
+
+    In addition to the configuration object, a string containing a list of
+    errors is returned. If this list is empty, then the configuration was
+    successfully loaded and contained no errors.
+
+    If only some lines could not be parsed, then the configuration items of
+    the remaining lines are still obeyed.
+
+    The *fields* parameters can either contains multiple key-value-pairs or a
+    a single list of key-value-pairs.
+  (
+    configuration # the configuration object
+    filename # the filename of the configuration file
+    fields* # the fields and their names
+  )
+  load! $buf filename
+  if
+    buf.is_an_error
+    -> configuration buf
+    :
+      extract_configuration configuration buf fields
+
+$configuration_info_of ()
+$std_types::io.configuration_info_of empty_hash_table
+
+$std_types::io/load_configuration:
+  #
+    loads the configuration from the given file
+  (
+    io # the io object
+    id # the job id
+    configuration # the configuration object
+    filename # the filename of the configuration file
+    fields* # the fields and their names
+  )
+  !io.configuration_info_of(id) tuple(configuration fields)
+  tuple &id 1
+  load &io id filename
+  register_handlers io id
+    JOB_COMPLETED = load_completed
+    JOB_FAILED = load_failed
+
+$load_completed: (io id buf)
+  deregister_all_handlers &io id
+  id !id
+  $configuration_info configuration_info_of(io)(id)
+  !io.configuration_info_of(id) undefined
+  configuration_info $configuration $fields
+  extract_configuration &configuration $errors buf fields
+  -> io tuple(JOB_COMPLETED id tuple(configuration errors))
+
+$load_failed: (io id err)
+  deregister_all_handlers &io id
+  id !id
+  -> io tuple(JOB_FAILED id err)
+
+$extract_configuration: (configuration buf fields)
+  $errors empty_list
+  update_if length_of(fields) == 1 && fields(1).is_a_list &fields -> fields(1)
+  to_hash_table &fields
+  from_utf8 &buf
+  for_each split(buf.trim_right '@nl;')
+    : (no line)
+      truncate_from &line '#'
+      normalize &line
+      if
+	line.is_empty
+	next
+	:
+	  $name line .truncate_from. ' '
+	  $value line .behind. ' '
+	  $attribute_of fields(name)
+	  if
+	    attribute_of.is_defined:
+	      $default_value attribute_of(configuration)
+	      cond
+		-> default_value.is_a_number:
+		  to_number &value
+		  if
+		    value.is_defined:
+		      attribute_of &configuration value
+		      next
+		    :
+		      push &errors "
+			Attribute "@(name)" should be a number (line @(no))
+		      next
+		-> default_value.is_a_boolean:
+		  case value
+		    "yes", "on", "true":
+		      attribute_of &configuration true
+		      next
+		    "no", "off", "false":
+		      attribute_of &configuration false
+		      next
+		    :
+		      push &errors "
+			Attribute "@(name)" should be either "yes" or "no" @
+			(line @(no))
+		      next
+		-> true:
+		  attribute_of &configuration value
+		  next
+	    :
+	      push &errors "
+		Invalid attribute "@(name)" in line @(no).
+	      next
+    -> configuration errors
