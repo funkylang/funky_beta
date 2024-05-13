@@ -20,11 +20,52 @@
   Free Software Foundation, Inc.,
   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
-$std::get_uuid:
-  open! $fd "/dev/urandom" "r"
-  read! $rnd fd 16
-  close! fd
+# Kinds
+
+$std::RANDOM_BASED_UUID .
+$std::TIME_BASED_UUID .
+$std::NAME_BASED_UUID .
+
+$std::generate_uuid ()
+
+$std_types::object/generate_uuid generate_id
+$std_types::undefined/generate_uuid generate_id
+
+$generate_id:
+  #
+    generates and returns a Universally Unique Identifier (UUID)
+  (
+    _kind # how to create the UUID
+  )
+  load! $rnd "/dev/urandom" 16
   current_time! $t
+  -> compute_uuid(t rnd)
+
+$std_types::io/generate_uuid:
+  #
+    creates and returs a Universally Unique Identifier (UUID)
+  (
+    io
+    id
+    _kind # how to create the UUID
+  )
+  tuple &id 1
+  load &io id "/dev/urandom" 16
+  register_handlers io id
+    JOB_COMPLETED = load_completed
+    JOB_FAILED = load_failed
+
+$load_completed: (io id rnd)
+  deregister_all_handlers &io id
+  id !id
+  -> io tuple(JOB_COMPLETED id compute_uuid(current_time_of(io) rnd))
+
+$load_failed: (io id err)
+  deregister_all_handlers &io id
+  id !id
+  -> io tuple(JOB_FAILED id err)
+
+$compute_uuid: (t rnd)
   to_uint8_array &rnd
   !t
     to_uint8_array

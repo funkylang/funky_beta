@@ -39,6 +39,8 @@ $std_types::object.is_an_empty_entry false
 $empty_hash_table_entry.is_an_empty_entry true
 $empty_collision_list_entry.is_an_empty_entry true
 
+$std::to_hash_table ()
+
 $std_types::hash_table std_types::table
   #
     a table for fast random access of items
@@ -779,10 +781,22 @@ $std::hash_table:
   (
     pairs*
   )
+  to_hash_table pairs
+
+$std_types::list/to_hash_table:
+  #
+    converts a list containing key-value-pairs into a hash table
+
+    Topic: Tables
+
+    See also: hash_table
+  (
+    items # the list to convert
+  )
   $table empty_hash_table
-  for_each pairs
-    : (pair)
-      pair $key $value
+  for_each items
+    : (item)
+      item $key $value
       !table(key) value
       next
     -> table

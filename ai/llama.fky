@@ -23,10 +23,17 @@
 <namespace ai>
 <namespace ai_types>
 
+<allow unused>
+
 #
   Topic: AI
 
   Funky currently supports large language models based on the llama.cpp project.
+
+# Events
+
+$ai::AI_GOT_TOKENS .
+$ai::AI_GET_TOKENS_ERROR .
 
 # Modes
 
@@ -34,7 +41,7 @@ $ai::EXACT .
 $ai::SHIFT .
 $ai::SMART .
 
-$PORT_NO 8080
+$DEFAULT_PORT_NO 8080
 
 # Attributes
 
@@ -124,6 +131,18 @@ $ai::deregister ()
 
 # Options
 
+$ai::SERVER_NAME .
+  #
+    the name of the server's executable
+
+$ai::CONTEXT_SIZE .
+  #
+    the maxium size of the context (number of tokens)
+
+$ai::MODEL_PATH .
+  #
+    the path where models are stored
+
 $ai::MINIMUM_CONFIDENCE .
   #
     the minimum confidence level to continue generation
@@ -154,6 +173,10 @@ $ai::USE_COLOURS .
 
 # Prototype Objects
 
+$ai_types::connection std_types::object
+  #
+    a connection to an AI server
+
 $ai_types::model std_types::object
   #
     the base object for all AI models
@@ -167,15 +190,9 @@ $ai::list_ai_models:
      options* # connection options
   )
   extract_options options
-    SERVER = "127.0.0.1:@(PORT_NO)" $server
+    ADDRESS = "127.0.0.1" $address
+    PORT_NO = DEFAULT_PORT_NO $port_no
     UUID = undefined $uuid
-  $address server .truncate_from. ':'
-  $port_no server .behind. ':'
-  !port_no
-    if
-      port_no.is_empty
-      -> PORT_NO
-      -> port_no.to_integer
   $json
     to_json
       insert_order_table
@@ -192,34 +209,22 @@ $ai::list_ai_models:
   load! $result fd
   on result.is_an_error result
   behind &result "@cr;@nl;@cr;@nl;"
+  from_utf8 &result
   $info result.from_json
   -> info("models")
 
-$ai::load_ai_model:
+$ai::load_ai_model ()
+
+$std_types::string/ai::load_ai_model:
   #
     load an AI model
 
     Topic: AI
   (
-    options* # connection options
     name # the name of the model
+    options* # connection options
   )
-  extract_options options
-    SERVER = "127.0.0.1:@(PORT_NO)" $server
-    UUID = undefined $uuid
-  $address server .truncate_from. ':'
-  $port_no server .behind. ':'
-  !port_no
-    if
-      port_no.is_empty
-      -> PORT_NO
-      -> port_no.to_integer
-  $model
-    ai_types::model
-      .name_of name
-      .address_of address
-      .port_no_of port_no
-      .uuid_of uuid
+  initialize_model $model name options
   get_tokens! model
     !model.ai::pieces_of
     !model.ai::begin_of_stream_token_of
@@ -280,6 +285,73 @@ $ai::load_ai_model:
 		next
 	    next
 	-> model
+
+$model_of ()
+
+$std_types::io.model_of empty_hash_table
+
+$std_types::io/ai::load_ai_model:
+  #
+    load an AI model
+
+    Topic: AI
+  (
+    io # the input/output object
+    id # the id to use for tagging the reply event
+    name # the name of the model
+    options* # connection options
+  )
+  update_if length_of(options) == 1 && options(1).is_a_list
+    &options -> options(1)
+  initialize_model $model name options
+  tuple &id 1
+  run &io http_request id
+    address_of(model) port_no_of(model) get_tokens_request(model)
+  !io.model_of(id) model
+  register_handlers io id
+    JOB_COMPLETED = load_ai_model_completed
+    JOB_FAILED = load_ai_model_failed
+
+$load_ai_model_completed: (io id data)
+  $model model_of(io)(id)
+  !io.model_of(id) undefined
+  deregister_all_handlers &io id
+  id !id
+  from_utf8 &data
+  from_json &data
+  if
+    data.is_an_error || data.is_undefined
+    -> io tuple(JOB_FAILED id error(IO_ERROR "INVALID JSON"))
+    :
+      !model
+	.ai::pieces_of data("tokens")
+	.ai::begin_of_stream_token_of data("begin_of_stream")
+	.ai::end_of_stream_token_of data("end_of_stream")
+	.ai::newline_token_of data("newline")
+	.ai::end_of_text_token_of data("end_of_text")
+	.ai::prefix_token_of data("prefix")
+	.ai::suffix_token_of data("suffix")
+	.ai::middle_token_of data("middle")
+	.ai::context_size_of data("context_size")
+      -> io tuple(JOB_COMPLETED id model)
+
+$load_ai_model_failed: (io id err)
+  !io.model_of(id) undefined
+  deregister_all_handlers &io id
+  id !id
+  -> io tuple(JOB_FAILED id err)
+
+$initialize_model: (name options)
+  extract_options options
+    ADDRESS = "127.0.0.1" $address
+    PORT_NO = DEFAULT_PORT_NO $port_no
+    UUID = undefined $uuid
+  ->
+    ai_types::model
+      .name_of name
+      .address_of address
+      .port_no_of port_no
+      .uuid_of uuid
 
 $ai_types::model/ai::generate:
   (
@@ -408,25 +480,10 @@ $ai_types::model/ai::generate:
     on be_verbose: print! piece
 
 $get_tokens: (model)
-  #debug::print "
-
-    ai_types::model/ai::get_tokens
-  $json
-    to_json
-      insert_order_table
-	"model" = name_of(model)
-	"uuid" = uuid_of(model)
+  $request get_tokens_request(model)
   open_tcp_client_socket! $fd address_of(model) port_no_of(model)
-  print_to! fd "
-    POST /get_tokens HTTP/1.1@cr;
-    Content-Type: application/json@cr;
-    Content-Length: @(length_of(json))@cr;
-    Connection: close@cr;
-    @cr;
-    @(json)
+  print_to! fd request
   load! $result fd
-  #debug::print "
-    @(result)
   $error_code between(result ' ' ' ').to_integer
   if
     error_code >= 300:
@@ -446,6 +503,21 @@ $get_tokens: (model)
 	info("middle")
 	info("context_size")
 
+$get_tokens_request: (model)
+  $json
+    to_json
+      insert_order_table
+	"model" = name_of(model)
+	"uuid" = uuid_of(model)
+  to_utf8 &json
+  -> "
+    POST /get_tokens HTTP/1.1@cr;
+    Content-Type: application/json@cr;
+    Content-Length: @(length_of(json))@cr;
+    Connection: close@cr;
+    @cr;
+    @(json)
+
 $ai_types::model/ai::tokenize:
   #
     tokenizes the specified (list of) text(s)
@@ -457,9 +529,51 @@ $ai_types::model/ai::tokenize:
     model # the model to query for tokens
     text # the text(s) to tokenize
   )
-  #debug::print "
+  $request tokenize_request(model text)
+  open_tcp_client_socket! $fd address_of(model) port_no_of(model)
+  write_to! fd request
+  load! $result fd
+  behind &result "@cr;@nl;@cr;@nl;"
+  from_utf8 &result
+  $info result.from_json
+  -> info("tokens")
 
-    ai_types::model/ai::tokenize
+$std_types::io/ai::tokenize:
+  #
+    tokenizes the specified (list of) text(s)
+
+    *text* can be a single text or a list of several text lines
+
+    The result is delivered via an AI_GOT_TOKENS event.
+  (
+    io # the IO object to handle the request
+    id
+    model # the model to query for tokens
+    text # the text(s) to tokenize
+  )
+  tuple &id 1
+  run &io http_request id
+    address_of(model) port_no_of(model) tokenize_request(model text)
+  register_handlers io id
+    JOB_COMPLETED = tokenize_completed
+    JOB_FAILED = tokenize_failed
+
+$tokenize_completed: (io id data)
+  deregister_all_handlers &io id
+  id !id
+  from_utf8 &data
+  from_json &data
+  if
+    data.is_an_error || data.is_undefined
+    -> io tuple(JOB_FAILED id error(IO_ERROR "INVALID JSON"))
+    -> io tuple(JOB_COMPLETED id data("tokens"))
+
+$tokenize_failed: (io id err)
+  deregister_all_handlers &io id
+  id !id
+  -> io tuple(JOB_FAILED id err)
+
+$tokenize_request: (model text)
   $CONTENT
     if
       text.is_a_string
@@ -472,20 +586,13 @@ $ai_types::model/ai::tokenize:
 	"uuid" = uuid_of(model)
 	CONTENT = text
   to_utf8 &json
-  open_tcp_client_socket! $fd address_of(model) port_no_of(model)
-  write_to! fd "
+  -> "
     POST /tokenize HTTP/1.1@cr;
     Content-Type: application/json@cr;
     Content-Length: @(length_of(json))@cr;
     Connection: close@cr;
     @cr;
     @(json)
-  load! $result fd
-  #debug::print "
-    @(result)
-  behind &result "@cr;@nl;@cr;@nl;"
-  $info result.from_json
-  -> info("tokens")
 
 $ai_types::model/ai::evaluate:
   #
@@ -505,10 +612,66 @@ $ai_types::model/ai::evaluate:
     mode = ai::SMART # how to handle context change
     start = 0 # the number of fixed start tokens
   )
-  #debug::print "
-
-    ai_types::model/ai::evaluate
   $do_return_confidence_values result_count() == 2
+  $use_tokens not(prompt.is_a_string)
+  $request evaluate_request(model prompt mode start)
+  open_tcp_client_socket! $fd address_of(model) port_no_of(model)
+  write_to! fd request
+  load! $result fd
+  behind &result "@cr;@nl;@cr;@nl;"
+  from_utf8 &result
+  $info result.from_json
+  if
+    do_return_confidence_values:
+      $logits info("logits")
+      map &logits: (logit) tuple logit(1) logit(2)
+      if
+	use_tokens
+	-> info("token") logits
+	-> info("content") logits
+    :
+      if
+	use_tokens
+	-> info("token")
+	-> info("content")
+
+$std_types::io/ai::evaluate:
+  #
+    evaluate a prompt and return confidence values
+
+    The prompt must be a list of tokens.
+
+    The result is delivered via a JOB_COMPLETED event.
+  (
+    io # the IO object to handle the request
+    id
+    model # the model on which to evaluate the prompt
+    prompt # the prompt to evaluate
+    mode = ai::SMART # how to handle context change
+  )
+  tuple &id 1
+  run &io http_request id
+    address_of(model) port_no_of(model) evaluate_request(model prompt mode)
+  register_handlers io id
+    JOB_COMPLETED = evaluate_completed
+    JOB_FAILED = evaluate_failed
+
+$evaluate_completed: (io id data)
+  deregister_all_handlers &io id
+  id !id
+  from_utf8 &data
+  from_json &data
+  if
+    data.is_an_error || data.is_undefined
+    -> io tuple(JOB_FAILED id error(IO_ERROR "INVALID JSON"))
+    -> io tuple(JOB_COMPLETED id data("logits"))
+
+$evaluate_failed: (io id err)
+  deregister_all_handlers &io id
+  id !id
+  -> io tuple(JOB_FAILED id err)
+
+$evaluate_request: (model prompt mode start = 0)
   $use_tokens not(prompt.is_a_string)
   $PROMPT
     if
@@ -533,32 +696,13 @@ $ai_types::model/ai::evaluate:
 	"n_probs" = 10
 	"n_predict" = 1
   to_utf8 &json
-  open_tcp_client_socket! $fd address_of(model) port_no_of(model)
-  write_to! fd "
+  -> "
     POST /completion HTTP/1.1@cr;
     Content-Type: application/json@cr;
     Content-Length: @(length_of(json))@cr;
     Connection: close@cr;
     @cr;
     @(json)
-  load! $result fd
-  #debug::print "
-    @(result)
-  behind &result "@cr;@nl;@cr;@nl;"
-  $info result.from_json
-  if
-    do_return_confidence_values:
-      $logits info("logits")
-      map &logits: (logit) tuple logit(1) logit(2)
-      if
-	use_tokens
-	-> info("token") logits
-	-> info("content") logits
-    :
-      if
-	use_tokens
-	-> info("token")
-	-> info("content")
 
 $ai_types::model/ai::detokenize:
   (
@@ -627,39 +771,98 @@ $ai_types::model/ai::detokenize:
 	  # 'ł' cannot be printed - why?
 	-> piece empty_list
 
-$std_types::string/ai::deregister:
+$ai::connect_to_ai_server:
+  #
+    register at an AI server
+
+    The server can be specified with the options
+
+    <ADDRESS> and <PORT_NO>
+
+    If the server is not specified then the default server is used.
+
+    Topic: AI
+
+    See also: ai::deregister
   (
-    uuid
-    server = undefined
+    io
+    id
+    options* # connection options
   )
-  default_value &server "127.0.0.1:@(PORT_NO)"
-  $address server .truncate_from. ':'
-  $port_no server .behind. ':'
-  !port_no
-    if
-      port_no.is_empty
-      -> PORT_NO
-      -> port_no.to_integer
+  update_if length_of(options) == 1 && options(1).is_a_list
+    &options -> options(1)
+  extract_options options
+    ADDRESS = "127.0.0.1" $address
+    PORT_NO = DEFAULT_PORT_NO $port_no
+    UUID = undefined $uuid
+  run io http_request id address port_no register_request(uuid)
+
+$register_request: (uuid)
   $json
     to_json
       insert_order_table
 	"uuid" = uuid
   to_utf8 &json
-  open_tcp_client_socket! $fd address port_no
-  write_to! fd "
-    POST /deregister HTTP/1.1@cr;
+  -> "
+    POST /register HTTP/1.1@cr;
     Content-Type: application/json@cr;
     Content-Length: @(length_of(json))@cr;
     Connection: close@cr;
     @cr;
     @(json)
-  load! $_result fd
+
+$std_types::string/ai::deregister:
+  (
+    uuid
+    address = "127.0.0.1"
+    port_no = DEFAULT_PORT_NO
+  )
+  sync_deregister! address port_no uuid
 
 $ai_types::model/ai::deregister:
   (
     model
   )
   ai::deregister! uuid_of(model) "@(address_of(model)):@(port_no_of(model))"
+
+$std_types::io/ai::deregister:
+  (
+    io
+    id
+    uuid_or_model
+    address = "127.0.0.1"
+    port_no = DEFAULT_PORT_NO
+  )
+  if
+    uuid_or_model.is_a_string:
+      async_deregister io id address port_no uuid_or_model
+    :
+      async_deregister io id
+	address_of(uuid_or_model)
+	port_no_of(uuid_or_model)
+	uuid_of(uuid_or_model)
+
+$sync_deregister: (address port_no uuid)
+  open_tcp_client_socket! $fd address port_no
+  write_to! fd deregister_request(uuid)
+  load! $_result fd
+
+$async_deregister: (io id address port_no uuid)
+  run io http_request id address port_no deregister_request(uuid)
+
+$deregister_request: (uuid)
+  $json
+    to_json
+      insert_order_table
+	"uuid" = uuid
+  to_utf8 &json
+  -> "
+    POST /deregister HTTP/1.1@cr;
+    Content-Type: application/json@cr;
+    Content-Length: @(length_of(json))@cr;
+    Connection: close@cr;
+    @cr;
+    @(json)
 
 $build_piece_table: (model)
   $pieces ai::pieces_of(model)
@@ -708,3 +911,80 @@ $ai::escaped_piece: (piece)
 	    !s i+1
 	    next
 	  next
+
+$ai::start_ai_server: (io id options*)
+  flatten &options
+  run io start_ai_server_action id options
+
+$start_ai_server_action: (io id options)
+  extract_options options
+    ai::SERVER_NAME = "funky_server" $cmd
+    UUID = undefined $uuid
+    LOG_FILE = undefined $log_file
+    ADDRESS = undefined $address
+    PORT_NO = undefined $port_no
+    ai::CONTEXT_SIZE = undefined $context_size
+    ai::MODEL_PATH = undefined $model_path
+  $server_options empty_list
+  update_if uuid.is_defined &server_options:
+    append server_options list("--uuid" uuid)
+  update_if address.is_defined &server_options:
+    append server_options list("--host" address)
+  update_if port_no.is_defined &server_options:
+    append server_options list("--port" port_no.to_string)
+  update_if context_size.is_defined &server_options:
+    append server_options list("--context-size" context_size.to_string)
+  update_if model_path.is_defined &server_options:
+    append server_options list("--model-path" model_path)
+  if
+    log_file.is_defined:
+      open! $fd_log log_file "w+"
+      open! $fd_null "/dev/null" "r"
+      create_process! $pid cmd server_options undefined fd_null fd_log fd_log
+      close! fd_null
+      close! fd_log
+      list_models!
+    :
+      open! $fd_null "/dev/null" "r"
+      create_process! $pid cmd server_options undefined fd_null
+      close! fd_null
+      list_models!
+
+  $list_models:
+    log &io "list models"
+    default_value &address "127.0.0.1"
+    default_value &port_no DEFAULT_PORT_NO
+    tuple &id 1
+    register_handlers &io id
+      JOB_COMPLETED = list_models_completed
+      JOB_FAILED = list_models_failed
+    run_at &io 2 http_request id address port_no list_models_request(uuid)
+    -> io undefined
+
+$list_models_completed: (io id data)
+  deregister_all_handlers &io id
+  id !id
+  behind &data "@cr;@nl;@cr;@nl;"
+  from_utf8 &data
+  $info data.from_json
+  -> io tuple(JOB_COMPLETED id info)
+
+$list_models_failed: (io id err)
+  debug::dump 50 `err
+  deregister_all_handlers &io id
+  id !id
+  -> io tuple(JOB_FAILED id err)
+
+$list_models_request: (uuid)
+  $json
+    to_json
+      insert_order_table
+	"uuid" = uuid
+  to_utf8 &json
+  -> "
+    POST /list_models HTTP/1.1@cr;
+    Content-Type: application/json@cr;
+    Content-Length: @(length_of(json))@cr;
+    Connection: close@cr;
+    @cr;
+    @(json)

@@ -24,6 +24,7 @@
 
 <require ./branches>
 <require ./constants>
+<require ./configuration>
 <require ./debug>
 <require ./environment>
 <require ./error>

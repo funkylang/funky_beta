@@ -105,13 +105,13 @@ initialize_terminal CURSOR_OFF: (terminal)
   start_reading_from &io STDIN_FILENO
     # we want an event when the user presses a key
 
-  on_key_press &io handle_key_press
+  register_handlers &io STDIN_FILENO READ = create_terminal_events
+  register_handlers &io STDIN_FILENO KEY_PRESS = handle_key_press
     # define the callback function for key presses
 
   loop: # the event loop
     get_events! &io $events # get all events
-    handle_terminal_events &io &events
-      # let the terminal module handle the terminal events
+    handle_events! &io &events
     if
       do_exit_of(io) # if the game should exit
       break # exit the loop
@@ -119,12 +119,13 @@ initialize_terminal CURSOR_OFF: (terminal)
 	handle_jobs &io # handle any pending jobs
 	next! # continue with the next iteration of the event loop
 
-$handle_key_press: (io key) # the callback function for key presses
-  case key
+$handle_key_press: (io _fd key) # the callback function for key presses
+  case !io key
     ESCAPE -> io(.do_exit_of true) # if the user presses ESCAPE, exit the game
     CURSOR_LEFT, CURSOR_RIGHT -> io(.action_of key)
       # if the user presses the left or right cursor key, remember it
     -> io # otherwise, simply return the unaltered I/O-object
+  -> io undefined
 
 $next_frame: (io)
   # the function to update the game state and draw the next frame

@@ -183,6 +183,7 @@ enum {
   func__debug___string,
   func__debug___write,
   func__debug___dump_object,
+  func__debug___has_io_access_rights,
   func__debug___exit,
   func__std___error_check,
   func__debug___total_garbage_collections,
@@ -554,6 +555,7 @@ enum {
   var_no__debug___string,
   var_no__debug___write,
   var_no__debug___dump_object,
+  var_no__debug___has_io_access_rights,
   var_no__debug___exit,
   var_no__std___error_check,
   var_no__debug___total_garbage_collections,
@@ -17131,6 +17133,24 @@ static void entry__debug___dump_object (void)
     }
   }
 
+static void entry__debug___has_io_access_rights (void)
+  {
+    if (TLS_argument_count != 0) {
+      invalid_arguments();
+      return;
+    }
+    if (TLS_result_count != 1) {
+      result_count_mismatch();
+      return;
+    }
+    {
+      NODE *result__node = (NODE *)(from_bool(!TLS_deny_io));
+      TLS_arguments[0] = result__node;
+      TLS_argument_count = 1;
+      return;
+    }
+  }
+
 static void entry__debug___exit (void)
   {
     // ignore all arguments
@@ -25553,6 +25573,9 @@ static void entry__std___open_tcp_client_socket (void)
     if (event__mode != EM__REPLAY) {
       sock = socket(AF_INET, SOCK_STREAM, 0);
       if (sock == -1) goto error;
+      int flags = fcntl(sock, F_GETFL, 0);
+      if (flags == -1) goto error;
+      if (fcntl(sock, F_SETFL, flags|O_NONBLOCK) == -1) goto error;
       server = gethostbyname(uri);
       if (!server) goto error;
       memset(&addr, 0, sizeof(addr));
@@ -25562,6 +25585,10 @@ static void entry__std___open_tcp_client_socket (void)
       do {
 	result = connect(sock, (const struct sockaddr *)&addr, sizeof(addr));
       } while (result == -1 && errno == EINTR);
+      if (result == -1 && errno == EINPROGRESS) result = 0;
+      if (result == 0) {
+	result = fcntl(sock, F_SETFL, flags);
+      }
       if (event__mode == EM__RECORD) {
         record__event("open_tcp_client_socket");
         store__integer(sock);
@@ -25924,6 +25951,7 @@ static FUNKY_CONSTANT constants_table[] = {
   {FLT_C_FUNCTION, -1, {.func = entry__debug___string}},
   {FLT_C_FUNCTION, 1, {.func = entry__debug___write}},
   {FLT_C_FUNCTION, -1, {.func = entry__debug___dump_object}},
+  {FLT_C_FUNCTION, 0, {.func = entry__debug___has_io_access_rights}},
   {FLT_C_FUNCTION, -1, {.func = entry__debug___exit}},
   {FLT_C_FUNCTION, -1, {.func = entry__std___error_check}},
   {FLT_C_FUNCTION, 0, {.func = entry__debug___total_garbage_collections}},
@@ -27607,6 +27635,11 @@ static FUNKY_VARIABLE variables_table[] = {
     FOT_INITIALIZED, 0, 0,
     "dump_object\000debug", NULL,
     {.const_idx = func__debug___dump_object}
+  },
+  {
+    FOT_INITIALIZED, 0, 0,
+    "has_io_access_rights\000debug", NULL,
+    {.const_idx = func__debug___has_io_access_rights}
   },
   {
     FOT_INITIALIZED, 0, 0,
@@ -29763,13 +29796,13 @@ FUNKY_MODULE module__builtin = {
   NULL,
   0, 0,
   4, 0,
-  400, 437,
+  401, 438,
   NULL,
   defined_namespaces, NULL,
   constants_table, variables_table
 };
 
-BUILTIN_FUNCTION_NAME builtin_function_names[451] = {
+BUILTIN_FUNCTION_NAME builtin_function_names[452] = {
   {std_types___generic_array____type, "std_types::generic_array/_type"},
   {std_types___array____type, "std_types::array/_type"},
   {entry__std_types___array___std___length_of, "std_types::array/length_of"},
@@ -29937,6 +29970,7 @@ BUILTIN_FUNCTION_NAME builtin_function_names[451] = {
   {entry__debug___string, "debug::string"},
   {entry__debug___write, "debug::write"},
   {entry__debug___dump_object, "debug::dump_object"},
+  {entry__debug___has_io_access_rights, "debug::has_io_access_rights"},
   {entry__debug___exit, "debug::exit"},
   {entry__std___error_check, "std::error_check"},
   {entry__debug___total_garbage_collections, "debug::total_garbage_collections"},

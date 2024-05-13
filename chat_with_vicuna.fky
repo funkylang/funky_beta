@@ -1,0 +1,794 @@
+#!/usr/bin/env fkyrun
+
+  Copyright (C) 2024 by
+  Dipl.-Ing. Michael Niederle
+
+  This program is free software; you can redistribute it and/or modify
+  it under the terms of the GNU Library General Public License, version 2, or
+  (at your option) under the terms of the GNU Lesser General Public License,
+  version 3.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  GNU Lesser (Library) General Public License for more details.
+
+  For details of the GNU General Public License see the accompanying
+  files LGPLv2.txt and LGLPv3.txt or
+  http://www.gnu.org/licenses/lgpl-2.0.html
+  http://www.gnu.org/licenses/lgpl-3.0.html
+  or print to the
+  Free Software Foundation, Inc.,
+  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+
+<require basic/stdlib>
+<require basic/uuid>
+<require basic/export/json>
+<require basic/import/json>
+<require terminal/terminal>
+<require ai/llama>
+<require web/server>
+
+<using std>
+<using ai>
+
+# Resources
+
+$TERMINAL .
+#$MODEL .
+
+# Jobs
+
+$GENERATE_UUID .
+$LOAD_CONFIGURATION .
+$LOAD_MODEL .
+$CONNECT .
+$START_SERVER .
+$TOKENIZE .
+$EVALUATE .
+$DEREGISTER .
+
+$GENERATE_UUID.to_string "GENERATE UUID"
+$LOAD_CONFIGURATION.to_string "LOAD CONFIGURATION"
+$LOAD_MODEL.to_string "LOAD MODEL"
+$TOKENIZE.to_string "TOKENIZE"
+$DEREGISTER.to_string "DEREGISTER"
+
+$BATCH_SIZE 16
+
+program_parameters!
+  $config_path
+  list
+    VALUED_OPTION "config-path" "
+      the path where to look for "vicuna.cfg"
+  $log_filename
+  list
+    VALUED_OPTION "log-file" "
+      the name of the log file
+  $log_level
+  list
+    VALUED_OPTION "log" 3 to_integer "
+      specify the log level
+
+$model_name_of (!)
+$minimum_confidence_of (!)
+$prompt_style_of (!)
+$backtrack_of (!)
+$context_size_of (!)
+$model_path_of (!)
+$server_address_of (!)
+$server_port_no_of (!)
+$server_name_of (!)
+$server_log_file_of (!)
+$do_start_server_of (!)
+
+std_types::object $default_configuration
+  .model_name_of "sauerkrautlm-una-solar-instruct.Q5_K_M.gguf"
+  .minimum_confidence_of 15
+  .prompt_style_of "Question"
+  .backtrack_of 0
+  .context_size_of 4096
+  .model_path_of "/var/models"
+  .server_address_of "127.0.0.1"
+  .server_port_no_of 8080
+  .server_name_of "funky_server"
+  .server_log_file_of "/tmp/funky_server.log"
+  .do_start_server_of false
+
+$io std_types::io
+get_environment !environment
+
+$configuration_filename
+  if
+    config_path.is_defined
+    -> append(config_path "/vicuna.cfg")
+    -> append(environment("HOME") "/.config/vicuna/vicuna.cfg")
+
+initialize_logging! &io log_level log_filename
+log &io "
+  start logging (log-level @(log_level))
+initialize_terminal! &io $terminal
+  RECEIVE_CTRL_Q_AND_CTRL_S = true
+  MAP_CR = true
+  CLEAR_COLOUR = WHITE
+  DRAW_COLOUR = BLACK
+
+register_resource &io TERMINAL terminal
+
+$USER .
+$AI .
+
+$configuration_of ()
+$uuid_of ()
+$connection_of ()
+$model_of ()
+$turn_of ()
+$messages_of () # tuple(attributed_text width tokens confidences)
+$input_text_of ()
+$tokens_of ()
+$confidences_of ()
+$message_colour_of ()
+$message_text_of ()
+$input_window_of ()
+$help_bar_of ()
+$message_bar_of ()
+$already_evaluated_of () # number of already evaluated tokens
+$current_batch_of () # number of currently evaluted tokens
+$was_updated_of ()
+$do_break_of ()
+$did_start_server_of ()
+
+$evaluation_start_time_of ()
+$std_types::io.evaluation_start_time_of undefined
+
+initialize_terminal_keys! main
+
+$main:
+  try $err:
+    std_types::object $state
+      .configuration_of undefined
+      .uuid_of undefined
+      .connection_of undefined
+      .model_of undefined
+      .turn_of USER
+      .messages_of empty_list
+      .input_text_of ""
+      .tokens_of empty_list
+      .confidences_of empty_list
+      .message_colour_of DARK_GREY
+      .message_text_of "no model loaded"
+      .input_window_of undefined
+      .message_bar_of undefined
+      .already_evaluated_of 0
+      .current_batch_of 0
+      .was_updated_of false
+      .do_break_of false
+      .did_start_server_of false
+
+    log &io "generating UUID"
+    generate_uuid &io GENERATE_UUID undefined
+
+    log &io "
+      loading configuration from "@(configuration_filename)"
+    load_configuration &io
+      LOAD_CONFIGURATION default_configuration configuration_filename
+      "model" = model_name_of
+      "minimum-confidence" = minimum_confidence_of
+      "prompt-style" = prompt_style_of
+      "backtrack" = backtrack_of
+      "context-size" = context_size_of
+      "model-path" = model_path_of
+      "server-address" = server_address_of
+      "server-port" = server_port_no_of
+      "server-name" = server_name_of
+      "server-log-file" = server_log_file_of
+      "start-server" = do_start_server_of
+
+    create_horizontal_panes terminal list(0.999 1 1)
+      !state.input_window_of !state.help_bar_of !state.message_bar_of
+
+    clear input_window_of(state) &terminal
+    set_draw_colour &state.message_bar_of WHITE
+    set_clear_colour &state.help_bar_of LIGHT_GREY
+    set_draw_colour &state.help_bar_of BLACK
+    draw_help_bar &terminal state
+    draw_message_bar &terminal state
+    update &terminal $output
+    print_to &io STDOUT_FILENO output
+
+    start_reading_from &io STDIN_FILENO
+    register_handlers &io STDIN_FILENO READ = create_terminal_events
+
+    loop:
+      get_events! &io $events
+      handle_events &io &events
+      $previous_input_text input_text_of(state)
+      $previous_message_text message_text_of(state)
+      process_events &io &state events
+      $text_has_changed
+	was_updated_of(state) || input_text_of(state) != previous_input_text
+      $message_has_changed message_text_of(state) != previous_message_text
+      !state.was_updated_of false
+      if !terminal
+	text_has_changed:
+	  draw_contents terminal state
+	-> terminal
+      if !terminal
+	message_has_changed:
+	  draw_message_bar terminal state
+	-> terminal
+      if
+	text_has_changed || message_has_changed:
+	  update &terminal !output
+	  print_to &io STDOUT_FILENO output
+	  next!
+	next
+
+  debug::dump 50 `err
+  log &io "crashed: @(err.to_error_message_string) - exiting"
+  exit &io EXIT_FAILURE
+  loop:
+    get_events! &io $_events
+    next!
+
+$process_events: (io state events)
+  for_each events
+    : (event)
+      event $type $id $argument
+      case type
+	KEY_PRESS:
+	  $input_text input_text_of(state)
+	  case argument
+	    CTRL_Q:
+	      $model model_of(state)
+	      if
+		model.is_defined:
+		  log &io "deregistering from AI server"
+		  deregister &io DEREGISTER model
+		  next
+		:
+		  log &io "exiting"
+		  exit &io EXIT_SUCCESS
+		  next
+	    ESCAPE:
+	      !state.do_break_of true
+	      next
+	    :
+	      if
+		input_text.is_undefined
+		next
+		:
+		  case argument
+		    BACKSPACE:
+		      if
+			input_text.is_empty
+			next
+			:
+			  !state.input_text_of range(input_text 1 -2)
+			  next
+		    RETURN:
+		      !state.input_text_of push(input_text '@nl;')
+		      next
+		    ALT_RETURN:
+		      if
+			input_text.is_empty
+			next
+			:
+			  update_if input_text(-1) != '@nl;'
+			    &input_text: push input_text '@nl;'
+			  case prompt_style_of(configuration_of(state))
+			    "Question":
+			      append "[Question] " &input_text "[Answer]"
+			      tokenize_prompt
+			    tokenize_prompt
+
+			  $tokenize_prompt:
+			    $model model_of(state)
+			    if
+			      model.is_defined:
+				!state.input_text_of undefined
+				tokenize &io TOKENIZE model input_text
+				next
+			      next
+		    :
+		      if
+			argument.is_a_character:
+			  !state.input_text_of push(input_text argument)
+			  next
+			next
+	JOB_COMPLETED:
+	  case id
+	    GENERATE_UUID:
+	      !state.uuid_of argument
+	      log &io "generated UUID @(argument)"
+	      maybe_register_at_ai_server !io !state
+	      next
+	    LOAD_CONFIGURATION:
+	      argument !state.configuration_of $errors
+	      for_each errors
+		: (err)
+		  log &io err
+		  next!
+		:
+		  log_completed &io &state "
+		    loaded configuration from "@(configuration_filename)"@
+		  maybe_register_at_ai_server !io !state
+		  next
+	    CONNECT:
+	      log &io "connected to AI server"
+	      $configuration configuration_of(state)
+	      log_message &io &state "
+		loading model "@(model_name_of(configuration))"
+	      load_ai_model &io LOAD_MODEL model_name_of(configuration)
+		UUID = uuid_of(state)
+	      -> io state
+	    LOAD_MODEL:
+	      !state.model_of argument
+	      log_completed &io &state "
+		loaded model "@(name_of(argument))"
+	      next
+	    START_SERVER:
+	      log_completed &io &state "
+		started server
+	      load_ai_model &io LOAD_MODEL
+		model_name_of(configuration_of(state)) UUID = uuid_of(state)
+	      next
+	    TOKENIZE:
+	      !state.tokens_of argument
+	      !state.already_evaluated_of 0
+	      !state.current_batch_of 0
+	      log_completed &io &state "
+		tokenized input - got @(length_of(argument)) tokens
+	      evaluate_tokens
+	    EVALUATE:
+	      $dt current_time_of(io)-evaluation_start_time_of(io)
+	      log &io 4 "evaluation took @(dt) seconds"
+	      evaluate_tokens
+	    DEREGISTER:
+	      log &io "deregistered from AI server - exiting"
+	      exit &io EXIT_SUCCESS
+	      next
+	    :
+	      debug::println "JOB_COMPLETED"
+	      debug::dump `id
+	      next
+
+	  $evaluate_tokens:
+	    $model model_of(state)
+	    if
+	      do_break_of(state):
+		!state.do_break_of false
+		next
+	      :
+		!state.was_updated_of true
+		$tokens tokens_of(state)
+		if
+		  turn_of(state) == USER:
+		    $token_count length_of(tokens)
+		    $already_evaluated current_batch_of(state)
+		    !state.already_evaluated_of already_evaluated
+		    if
+		      already_evaluated < token_count:
+			$current_batch
+			  if
+			    already_evaluated+1.5*BATCH_SIZE >= token_count
+			    -> token_count
+			    -> min(already_evaluated+BATCH_SIZE token_count)
+			!state.current_batch_of current_batch
+			!io.evaluation_start_time_of current_time_of(io)
+			start_evaluation range(tokens 1 current_batch)
+		      :
+			!state.turn_of AI
+			push &state.messages_of
+			  tuple(undefined undefined tokens undefined)
+			!state.tokens_of empty_list
+			add_token
+		  add_token
+
+	    $add_token:
+	      $tokens tokens_of(state)
+	      $token argument(1)(1)
+	      $piece detokenize(model token)
+	      $previous_piece
+		if
+		  tokens.is_empty
+		  -> undefined
+		  -> detokenize(model tokens(-1))
+	      if
+		&&
+		  piece == "[" || piece == " ["
+		  previous_piece == "@nl;"
+		:
+		  log &io "
+		    got opening bracket - stopping evaluation
+		  stop_evaluation tokens_of(state) confidences_of(state)
+		:
+		  $confidence argument(1)(2)
+		  $confidences confidences_of(state)
+		  push &tokens token
+		  push &confidences confidence
+		  if
+		    token == end_of_stream_token_of(model):
+		      log &io "
+			got end of stream - stopping evaluation
+		      stop_evaluation tokens confidences
+		    :
+		      if
+			do_break_of(state):
+			  !state.do_break_of false
+			  next
+			:
+			  !state.tokens_of tokens
+			  !state.confidences_of confidences
+			  !io.evaluation_start_time_of current_time_of(io)
+			  start_evaluation tokens
+
+	    $start_evaluation: (tokens)
+	      $context_size ai::context_size_of(model)
+	      $messages messages_of(state)
+	      $i length_of(messages)
+	      loop
+		:
+		  if
+		    i < 1
+		    break
+		    :
+		      messages(i) $_attributed_text $_width $message_tokens
+		      if
+			>
+			  length_of(message_tokens)+length_of(tokens)+5
+			  context_size
+			break
+			:
+			  append message_tokens &tokens
+			  dec &i
+			  next
+		:
+		  evaluate &io EVALUATE model tokens
+		  next
+
+	    $stop_evaluation: (tokens confidences)
+	      push &state.messages_of
+		tuple(undefined undefined tokens confidences)
+	      !state.tokens_of empty_list
+	      !state.input_text_of ""
+	      !state.turn_of USER
+	      next
+	JOB_FAILED:
+	  case id
+	    LOAD_CONFIGURATION:
+	      !state.configuration_of default_configuration
+	      log_failed &io &state
+		"NO CONFIGURATION FOUND - using default configuration"
+	      next!
+	    CONNECT:
+	      $configuration configuration_of(state)
+	      $err_msg "
+		failed to connect (@(argument.to_error_message_string))@
+	      if
+		&&
+		  do_start_server_of(configuration)
+		  not(did_start_server_of(state))
+		:
+		  !state.did_start_server_of true
+		  log &io err_msg
+		  log_message &io &state "
+		    starting server
+		  $options list(UUID = uuid_of(state))
+		  $server_name server_name_of(configuration)
+		  update_if server_name.is_defined &options:
+		    push options SERVER_NAME = server_name
+		  $server_log_file server_log_file_of(configuration)
+		  update_if server_log_file.is_defined &options:
+		    push options LOG_FILE = server_log_file
+		  $model_path model_path_of(configuration)
+		  update_if model_path.is_defined &options:
+		    push options MODEL_PATH = model_path
+		  $context_size context_size_of(configuration)
+		  update_if context_size.is_defined &options:
+		    push options CONTEXT_SIZE = context_size
+		  $address server_address_of(configuration)
+		  update_if address.is_defined &options:
+		    push options ADDRESS = address
+		  $port_no server_port_no_of(configuration)
+		  update_if port_no.is_defined &options:
+		    push options PORT_NO = port_no
+		  start_ai_server &io START_SERVER options
+		  next
+		:
+		  log &io "@(err_msg) - exiting"
+		  exit &io EXIT_SUCCESS
+		  next
+	    START_SERVER:
+	      log &io "failed to start server - exiting"
+	      exit &io EXIT_SUCCESS
+	      next
+	    DEREGISTER:
+	      log &io "failed to deregister from AI server - exiting"
+	      exit &io EXIT_SUCCESS
+	      next
+	    :
+	      log_failed &io &state "
+		@(id):  @(argument.to_error_message_string)
+	      next
+	WRITE_COMPLETED next
+	:
+	  debug::dump `type
+	  debug::dump `id
+	  next
+    -> io state
+
+  $maybe_register_at_ai_server:
+    $configuration configuration_of(state)
+    $uuid uuid_of(state)
+    if
+      &&
+	uuid.is_defined
+	configuration.is_defined
+	connection_of(state).is_undefined
+      :
+	$address server_address_of(configuration)
+	$port_no server_port_no_of(configuration)
+	log_message &io &state "connecting to AI server @(address):@(port_no)"
+	connect_to_ai_server &io CONNECT
+	  ADDRESS = address
+	  PORT_NO = port_no
+	  UUID = uuid
+	-> io state
+      -> io state
+
+  $log_message: (io state colour = DARK_GREY message)
+    trim &message
+    !state
+      .message_colour_of colour
+      .message_text_of message
+    log &io message
+    -> io state
+
+  $log_completed: (io state message)
+    log_message io state DARK_GREEN message
+
+  $log_failed: (io state message)
+    log_message io state DARK_RED message
+
+$draw_contents: (terminal state)
+  $configuration configuration_of(state)
+  $view input_window_of(state)
+  clear view &terminal
+  $width width_of(view)
+  $height height_of(view)
+  update_attributed_text_cache &state
+  $messages messages_of(state)
+  $input_text input_text_of(state)
+  $input_lines
+    if
+      input_text.is_defined:
+	if
+	  input_text.is_empty
+	  -> list("")
+	  -> wrap_words(input_text_of(state) width)
+      -> undefined
+  $lines
+    if
+      input_lines.is_defined
+      -> create_attributed_text_lines(input_lines width BLACK WHITE)
+      :
+	if
+	  tokens_of(state).is_empty
+	  -> empty_list
+	  :
+	    $pieces tokens_to_pieces(model_of(state) tokens_of(state))
+	    $confidences confidences_of(state)
+	    if
+	      confidences.is_empty
+	      ->
+		pieces_to_attributed_text_lines
+		  pieces
+		  width
+		  get_input_piece_colour
+		  tuple
+		    already_evaluated_of(state)
+		    current_batch_of(state)
+	      ->
+		pieces_to_attributed_text_lines
+		  pieces
+		  width
+		  get_output_piece_colour
+		  tuple
+		    minimum_confidence_of(configuration)
+		    confidences_of(state)
+  $i length_of(messages)
+  loop
+    :
+      if
+	i == 0 || length_of(lines) >= height
+	break
+	:
+	  messages(i) $attributed_text_lines
+	  append attributed_text_lines &lines
+	  dec &i
+	  next
+    :
+      update_if length_of(lines) > height &lines -> range(lines -height -1)
+      $y 0
+      for_each lines
+	: (line)
+	  inc &y
+	  draw_attributed_text view &terminal 1 y line
+	  next
+	:
+	  if
+	    input_lines.is_defined:
+	      set_cursor terminal length_of(input_lines(-1))+1 y
+	    -> terminal
+
+$create_attributed_text_lines: (lines width draw_colour clear_colour)
+  map lines
+    : (line)
+      add_attributes pad_right(line width) draw_colour clear_colour
+
+$update_attributed_text_cache: (state)
+  $model model_of(state)
+  $width width_of(input_window_of(state))
+  $minimum_confidence minimum_confidence_of(configuration_of(state))
+  $messages empty_list
+  for_each messages_of(state)
+    : (message)
+      message $_attributed_text $cached_width $tokens $confidences
+      if
+	cached_width == width:
+	  push &messages message
+	  next
+	:
+	  $pieces tokens_to_pieces(model tokens)
+	  push &messages
+	    if
+	      confidences.is_undefined
+	      ->
+		tuple
+		  pieces_to_attributed_text_lines
+		    pieces
+		    width
+		    -> WHITE
+		    undefined
+		  width
+		  tokens
+		  undefined
+	      ->
+		tuple
+		  pieces_to_attributed_text_lines
+		    pieces
+		    width
+		    get_output_piece_colour
+		    tuple(minimum_confidence confidences)
+		  width
+		  tokens
+		  confidences
+	  next
+    -> state(.messages_of messages)
+
+$tokens_to_pieces: (model tokens)
+  $pieces empty_list
+  $prefix empty_list
+  for_each tokens
+    : (token)
+      detokenize model $piece token &prefix
+      push &pieces piece
+      next
+    -> pieces
+
+$pieces_to_attributed_text_lines:
+  (
+    pieces # a list of strings
+    width # the width of the input window
+    get_piece_colour
+    info
+  )
+  $text_lines empty_list
+  $line_start 1
+  $idx 1
+  $n length_of(pieces)
+  $line_width 0
+  $b undefined
+  $current_line ""
+  loop:
+    if
+      idx > n:
+	if
+	  pieces(-1) == "@nl;"
+	  -> text_lines
+	  -> add_pieces(n)
+      :
+	$piece pieces(idx)
+	cond
+	  -> piece.is_empty:
+	    inc &idx
+	    next
+	  -> piece == "@nl;":
+	    add_pieces !text_lines idx-1
+	    !line_start idx+1
+	    !line_width 0
+	    !b undefined
+	    !current_line ""
+	    inc &idx
+	    next
+	  -> true:
+	    $piece_width width_of(piece)
+	    update_if idx == line_start && piece(1) == ' '
+	      &piece_width -> piece_width-1
+	    update_if idx > line_start && piece(1) == ' ' &b -> idx
+	    if
+	      line_width+piece_width > width:
+		if
+		  b.is_defined:
+		    add_pieces !text_lines b-1
+		    !line_start b
+		    !idx b
+		    !line_width 0
+		    !b undefined
+		    !current_line ""
+		    next
+		  :
+		    add_pieces !text_lines idx-1
+		    !line_start idx
+		    inc &idx
+		    !line_width piece_width
+		    !b undefined
+		    next
+	      :
+		plus &line_width piece_width
+		inc &idx
+		next
+
+  $add_pieces: (e)
+    from_to line_start e
+      : (i)
+	$piece pieces(i)
+	update_if i == line_start && piece .has_prefix. ' '
+	  &piece -> range(piece 2 -1)
+	$clear_colour get_piece_colour(i info)
+	append &current_line add_attributes(piece BLACK clear_colour)
+	next
+      :
+	$pad_width width-(length_of(current_line) .div. 3)
+	push
+	  text_lines
+	  append(current_line add_attributes(spaces(pad_width) BLACK WHITE))
+
+$get_input_piece_colour: (i info)
+  info $currently_evaluated $current_batch
+  cond
+    -> i < currently_evaluated -> '@0xc0c0e0;'
+    -> i <= current_batch -> CYAN
+    -> true -> WHITE
+
+$get_output_piece_colour: (i info)
+  info $minimum_confidence $confidences
+  $confidence confidences(i)
+  $confidence_delta confidence-minimum_confidence
+  cond
+    -> confidence_delta < 0 ->
+      colour_mixture
+	GREY = -confidence_delta
+	LIGHT_RED = minimum_confidence+confidence_delta
+    -> confidence_delta > 10 ->
+      colour_mixture
+	LIGHT_GREEN = 10
+	WHITE = confidence_delta-10
+    -> true ->
+      colour_mixture
+	LIGHT_RED = 10-confidence_delta
+	LIGHT_GREEN = confidence_delta
+
+$draw_help_bar: (terminal state)
+  $help_bar help_bar_of(state)
+  clear help_bar &terminal
+  draw_text help_bar terminal 1 1 "
+    press <alt-return> to send your request and <ctrl-q> to exit@
+
+$draw_message_bar: (terminal state)
+  $message_bar message_bar_of(state)
+  $message message_text_of(state)
+  set_clear_colour &message_bar message_colour_of(state)
+  clear message_bar &terminal
+  draw_text message_bar terminal 1 1 message

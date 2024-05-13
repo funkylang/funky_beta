@@ -27,6 +27,7 @@
 <require basic/import/json>
 <require terminal/terminal>
 <require ai/llama>
+<require web/server>
 
 <using std>
 <using ai>
@@ -101,7 +102,7 @@ program_parameters!
 
 $do_log log_level > 0
 
-get_uuid! $uuid
+generate_uuid! $uuid undefined
 
 on do_log:
   eprint! "
@@ -128,9 +129,8 @@ $DETAILIERT
 
 update_if stop.is_defined &stop -> replace_all(stop "\n" = "@nl;")
 
-load_ai_model! $vicuna
+load_ai_model! $vicuna model_name
   UUID = uuid
-  model_name
 
 if
   vicuna.is_an_error:

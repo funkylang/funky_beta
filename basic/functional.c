@@ -41,7 +41,23 @@ enum {
   lambda_26 = -32,
   lambda_27 = -33,
   lambda_28 = -34,
-  lambda_29 = -35
+  lambda_29 = -35,
+  func_std__apply = -36,
+  lambda_arguments_is_empty = -37,
+  lambda_30 = -38,
+  minus_num_2 = -39,
+  minus_num_1 = -40,
+  lambda_31 = -41,
+  num_2 = -42,
+  lambda_32 = -43,
+  num_3 = -44,
+  lambda_33 = -45,
+  num_4 = -46,
+  lambda_34 = -47,
+  num_5 = -48,
+  lambda_35 = -49,
+  lambda_36 = -50,
+  str_TOO_MANY_ARGUMEN = -51
 };
 
 enum {
@@ -67,6 +83,15 @@ enum {
   var_176_0_collection, // dynamic
   var_177_0_test, // dynamic
   var_178_0_argument, // dynamic
+  var_std__apply, // initialized
+  var_200_0_function, // dynamic
+  var_201_0_arguments, // dynamic
+  var_is_empty, // extern
+  var_range, // extern
+  var_append, // extern
+  var_length_of, // extern
+  var_error, // extern
+  var_case, // extern
   var__END
 };
 
@@ -373,6 +398,140 @@ static TAB_NUM t_lambda_29[] = {
   POS(196, 11)
 };
 
+static TAB_NUM t_func_std__apply[] = {
+  1, // locals
+  -2, // parameters
+  MANDATORY_PARAMETER, var_200_0_function,
+  REST_PARAMETER, var_201_0_arguments,
+  // is_empty:
+  var_is_empty, 1, var_201_0_arguments, 1, LOCAL(1),
+  // if
+  var_if, 3, LOCAL(1), lambda_arguments_is_empty, lambda_30, IO_TAIL_CALL,
+  POS(204, 15),
+  POS(203, 3)
+};
+
+static TAB_NUM t_lambda_arguments_is_empty[] = {
+  0, // locals
+  0, // parameters
+  // function!
+  var_200_0_function, 0, IO_TAIL_CALL,
+  POS(205, 7)
+};
+
+static TAB_NUM t_lambda_30[] = {
+  2, // locals
+  0, // parameters
+  // range(arguments 1 -2) arguments(-1))
+  var_range, 3, var_201_0_arguments, num_1, minus_num_2, 1, LOCAL(1),
+  // arguments(-1))
+  var_201_0_arguments, 1, minus_num_1, 1, LOCAL(2),
+  // !arguments append(range(arguments 1 -2) arguments(-1))
+  var_append, 2, LOCAL(1), LOCAL(2), 1, var_201_0_arguments,
+  // length_of(arguments)
+  var_length_of, 1, var_201_0_arguments, 1, LOCAL(1),
+  // case length_of(arguments)
+  var_case, 12, LOCAL(1), num_1, lambda_31, num_2, lambda_32, num_3, lambda_33, num_4, lambda_34, num_5, lambda_35, lambda_36, IO_TAIL_CALL,
+  POS(207, 25),
+  POS(207, 47),
+  POS(207, 7),
+  POS(208, 12),
+  POS(208, 7)
+};
+
+static TAB_NUM t_lambda_31[] = {
+  1, // locals
+  0, // parameters
+  // arguments(1)
+  var_201_0_arguments, 1, num_1, 1, LOCAL(1),
+  // function! arguments(1)
+  var_200_0_function, 1, LOCAL(1), IO_TAIL_CALL,
+  POS(209, 22),
+  POS(209, 12)
+};
+
+static TAB_NUM t_lambda_32[] = {
+  2, // locals
+  0, // parameters
+  // arguments(1) arguments(2)
+  var_201_0_arguments, 1, num_1, 1, LOCAL(1),
+  // arguments(2)
+  var_201_0_arguments, 1, num_2, 1, LOCAL(2),
+  // function! arguments(1) arguments(2)
+  var_200_0_function, 2, LOCAL(1), LOCAL(2), IO_TAIL_CALL,
+  POS(210, 22),
+  POS(210, 35),
+  POS(210, 12)
+};
+
+static TAB_NUM t_lambda_33[] = {
+  3, // locals
+  0, // parameters
+  // arguments(1) arguments(2) arguments(3)
+  var_201_0_arguments, 1, num_1, 1, LOCAL(1),
+  // arguments(2) arguments(3)
+  var_201_0_arguments, 1, num_2, 1, LOCAL(2),
+  // arguments(3)
+  var_201_0_arguments, 1, num_3, 1, LOCAL(3),
+  // function! arguments(1) arguments(2) arguments(3)
+  var_200_0_function, 3, LOCAL(1), LOCAL(2), LOCAL(3), IO_TAIL_CALL,
+  POS(211, 22),
+  POS(211, 35),
+  POS(211, 48),
+  POS(211, 12)
+};
+
+static TAB_NUM t_lambda_34[] = {
+  4, // locals
+  0, // parameters
+  // arguments(1) arguments(2) arguments(3) arguments(4)
+  var_201_0_arguments, 1, num_1, 1, LOCAL(1),
+  // arguments(2) arguments(3) arguments(4)
+  var_201_0_arguments, 1, num_2, 1, LOCAL(2),
+  // arguments(3) arguments(4)
+  var_201_0_arguments, 1, num_3, 1, LOCAL(3),
+  // arguments(4)
+  var_201_0_arguments, 1, num_4, 1, LOCAL(4),
+  // function! arguments(1) arguments(2) arguments(3) arguments(4)
+  var_200_0_function, 4, LOCAL(1), LOCAL(2), LOCAL(3), LOCAL(4), IO_TAIL_CALL,
+  POS(212, 22),
+  POS(212, 35),
+  POS(212, 48),
+  POS(212, 61),
+  POS(212, 12)
+};
+
+static TAB_NUM t_lambda_35[] = {
+  5, // locals
+  0, // parameters
+  // arguments(1) arguments(2) arguments(3) arguments(4) arguments(5)
+  var_201_0_arguments, 1, num_1, 1, LOCAL(1),
+  // arguments(2) arguments(3) arguments(4) arguments(5)
+  var_201_0_arguments, 1, num_2, 1, LOCAL(2),
+  // arguments(3) arguments(4) arguments(5)
+  var_201_0_arguments, 1, num_3, 1, LOCAL(3),
+  // arguments(4) arguments(5)
+  var_201_0_arguments, 1, num_4, 1, LOCAL(4),
+  // arguments(5)
+  var_201_0_arguments, 1, num_5, 1, LOCAL(5),
+  // function!
+  var_200_0_function, 5, LOCAL(1), LOCAL(2), LOCAL(3), LOCAL(4), LOCAL(5), IO_TAIL_CALL,
+  POS(215, 13),
+  POS(215, 26),
+  POS(215, 39),
+  POS(215, 52),
+  POS(215, 65),
+  POS(214, 11)
+};
+
+static TAB_NUM t_lambda_36[] = {
+  0, // locals
+  0, // parameters
+  // error "TOO MANY ARGUMENTS FOR APPLY"
+  var_error, 1, str_TOO_MANY_ARGUMEN, TAIL_CALL,
+  POS(217, 11)
+};
+
 static FUNKY_CONSTANT constants_table[] = {
   {FLT_UNIQUE, 0, {.str_8 = "NONE"}},
   {FLT_FUNCTION, 0, {.tfunc = t_func_std__count}},
@@ -408,7 +567,23 @@ static FUNKY_CONSTANT constants_table[] = {
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_26}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_27}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_28}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_29}}
+  {FLT_FUNCTION, 0, {.tfunc = t_lambda_29}},
+  {FLT_FUNCTION, 0, {.tfunc = t_func_std__apply}},
+  {FLT_FUNCTION, 0, {.tfunc = t_lambda_arguments_is_empty}},
+  {FLT_FUNCTION, 0, {.tfunc = t_lambda_30}},
+  {FLT_NEGATIVE_INT64, 0, {.value = 2}},
+  {FLT_NEGATIVE_INT64, 0, {.value = 1}},
+  {FLT_FUNCTION, 0, {.tfunc = t_lambda_31}},
+  {FLT_POSITIVE_INT64, 0, {.value = 2}},
+  {FLT_FUNCTION, 0, {.tfunc = t_lambda_32}},
+  {FLT_POSITIVE_INT64, 0, {.value = 3}},
+  {FLT_FUNCTION, 0, {.tfunc = t_lambda_33}},
+  {FLT_POSITIVE_INT64, 0, {.value = 4}},
+  {FLT_FUNCTION, 0, {.tfunc = t_lambda_34}},
+  {FLT_POSITIVE_INT64, 0, {.value = 5}},
+  {FLT_FUNCTION, 0, {.tfunc = t_lambda_35}},
+  {FLT_FUNCTION, 0, {.tfunc = t_lambda_36}},
+  {FLT_STRING_8, 28, {.str_8 = "TOO MANY ARGUMENTS FOR APPLY"}}
 };
 
 static FUNKY_VARIABLE variables_table[] = {
@@ -507,6 +682,49 @@ static FUNKY_VARIABLE variables_table[] = {
   {
     FOT_UNINITIALIZED, 0, 0,
     "178_0_argument\000", NULL
+  },
+  {
+    FOT_INITIALIZED, 0, 0,
+    "apply\000std", NULL,
+    {.const_idx = -func_std__apply}
+  },
+  {
+    FOT_UNINITIALIZED, 0, 0,
+    "200_0_function\000", NULL
+  },
+  {
+    FOT_UNINITIALIZED, 0, 0,
+    "201_0_arguments\000", NULL
+  },
+  {
+    FOT_UNKNOWN, 0, 0,
+    "is_empty\000", NULL,
+    {.position = POS(204, 15)}
+  },
+  {
+    FOT_UNKNOWN, 0, 0,
+    "range\000", NULL,
+    {.position = POS(207, 25)}
+  },
+  {
+    FOT_UNKNOWN, 0, 0,
+    "append\000", NULL,
+    {.position = POS(207, 18)}
+  },
+  {
+    FOT_UNKNOWN, 0, 0,
+    "length_of\000", NULL,
+    {.position = POS(208, 12)}
+  },
+  {
+    FOT_UNKNOWN, 0, 0,
+    "error\000", NULL,
+    {.position = POS(217, 11)}
+  },
+  {
+    FOT_UNKNOWN, 0, 0,
+    "case\000", NULL,
+    {.position = POS(208, 7)}
   }
 };
 
@@ -524,8 +742,8 @@ FUNKY_MODULE module__basic__functional = {
   0, // number of required modules
   0, // number of defined namespaces
   1, // number of used namespaces
-  35, // number of constants
-  21, // number of variables
+  51, // number of constants
+  30, // number of variables
   NULL, // required modules
   NULL, // defined namespaces
   used_namespaces,

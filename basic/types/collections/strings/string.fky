@@ -2682,60 +2682,55 @@ $std::wrap_words:
   (
     text # the string to wrap
     width # the desired line width
+    _do_use_character_width = false
   )
-  $wrapped_text ""
+  $lines empty_list
   $n length_of(text)
-  $s 1 # start of not yet copied text
-  $l s # line start position
+  $s 1 # start of line
   $b undefined # possible break position
-  $i 1
+  $i 0
   loop:
+    inc &i
     if
-      i > n
-      -> append(wrapped_text range(text s n))
+      i > n:
+	if
+	  s > n
+	  -> lines
+	  -> push(lines range(text s n))
       :
 	$chr text(i)
-	if
-	  chr == '@nl;':
-	    !i i+1
-	    !l i
+	case chr
+	  '@nl;':
+	    push &lines range(text s i-1)
+	    !s i+1
 	    !b undefined
 	    next
 	  :
 	    if
 	      chr == ' ':
 		if
-		  i-l == width: # break
-		    append &wrapped_text range(text s i-1)
-		    push &wrapped_text '@nl;'
-		    !i i+1
-		    !s i
-		    !l s
+		  i-s == width: # break
+		    push &lines range(text s i-1)
+		    !s i+1
 		    !b undefined
 		    next
 		  :
 		    !b i
-		    !i i+1
 		    next
 	      :
-		!i i+1
 		if
-		  i-l <= width
+		  i-s < width
 		  next
 		  :
 		    if
 		      b.is_defined: # wrap
-			append &wrapped_text range(text s b-1)
-			push &wrapped_text '@nl;'
+			push &lines range(text s b-1)
 			!s b+1
-			!l s
 			!b undefined
 			next
 		      : # hard break
-			append &wrapped_text range(text s i-2)
-			push &wrapped_text '@nl;'
-			!s i-1
-			!l s
+			push &lines range(text s i-1)
+			!s i
 			next
 
 $std_types::string/serialize:

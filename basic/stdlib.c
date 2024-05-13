@@ -1,5 +1,6 @@
 /// require ./branches
 /// require ./constants
+/// require ./configuration
 /// require ./debug
 /// require ./environment
 /// require ./error
@@ -62,6 +63,7 @@
 
 extern FUNKY_MODULE module__basic__branches;
 extern FUNKY_MODULE module__basic__constants;
+extern FUNKY_MODULE module__basic__configuration;
 extern FUNKY_MODULE module__basic__debug;
 extern FUNKY_MODULE module__basic__environment;
 extern FUNKY_MODULE module__basic__error;
@@ -114,6 +116,7 @@ extern FUNKY_MODULE module__basic__types__iterators__random__random;
 static FUNKY_MODULE *required_modules[] = {
   &module__basic__branches,
   &module__basic__constants,
+  &module__basic__configuration,
   &module__basic__debug,
   &module__basic__environment,
   &module__basic__error,
@@ -179,7 +182,7 @@ FUNKY_MODULE module__basic__stdlib = {
   .minor_version = 0,
   .feature_flags = FEAT_POSITIONS,
   .marker = 0,
-  50, // number of required modules
+  51, // number of required modules
   1, // number of defined namespaces
   1, // number of used namespaces
   0, // number of constants

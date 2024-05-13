@@ -124,14 +124,14 @@ $std::handle_web_server_events: (io events)
 	    :
 	      closed_connection &io fd
 	      next
-	READ_ERROR:
+	READ_FAILED:
 	  if
 	    protocols_of(io)(fd).is_defined:
 	      log &io -> "READ ERROR - @(serialize(fd))"
 	      close_connection &io fd
 	      next
 	    next
-	WRITE_ERROR:
+	WRITE_FAILED:
 	  if
 	    protocols_of(io)(fd).is_defined:
 	      log &io -> "WRITE ERROR - @(serialize(fd))"
@@ -408,8 +408,6 @@ $std::close_connection: (io fd)
   log &io 4 -> "close connection @(serialize(fd))"
   close io fd
 
-# Web Client
-
 $std::upgrade_to_websocket: (io fd)
   # generate random key
   $key
@@ -462,3 +460,100 @@ $std::handle_web_client_events: (io events conn_fd)
 	  push &new_events event
 	  next
     -> io new_events
+
+$std::parse_http_reply: (buf)
+  search $pos $_len "@cr;@nl;@cr;@nl;" buf
+  if
+    pos.is_undefined
+    -> buf undefined undefined undefined
+    :
+      $header_lines range(buf 1 pos-1)
+      if
+	header_lines .has_prefix. "HTTP/":
+	  $status (header_lines .behind. ' ') .truncate_from. ' '
+	  to_integer &status
+	  if
+	    status.is_an_error || status.is_undefined:
+	      error IO_ERROR "INVALID HTTP HEADER"
+	    :
+	      $data range(buf pos+4 -1)
+	      $header empty_insert_order_table
+	      for_each split(header_lines "@cr;@nl;")
+		: (line)
+		  $key line .truncate_from. ':'
+		  $value (line .behind. ':').trim
+		  !header(key) value
+		  next
+		:
+		  $len header("Content-Length")
+		  if
+		    len.is_undefined
+		    -> "" status header buf
+		    :
+		      to_integer &len
+		      if
+			len > length_of(data)
+			-> buf undefined undefined undefined
+			-> range(data len+1 -1) status header data
+	:
+	  error IO_ERROR "INVALID HTTP HEADER"
+
+$std::http_request ()
+
+$id_of ()
+$buffer_of ()
+
+$std_types::io.id_of empty_hash_table
+$std_types::io.buffer_of empty_hash_table
+
+$std_types::io/http_request: (io id address port_no request)
+  open_tcp_client_socket! $fd address port_no
+  !io.id_of(fd) id
+  write &io fd request
+  register_handlers &io fd
+    WRITE_COMPLETED = http_request_sent
+    WRITE_FAILED = http_request_send_failed
+  -> io undefined
+
+$http_request_sent: (io fd _argument)
+  deregister_all_handlers &io fd
+  start_reading_from &io fd
+  register_handlers &io fd
+    READ = http_request_received_data
+    READ_FAILED = http_request_receive_failed
+    CLOSED = http_request_closed
+  !io.buffer_of(fd) ""
+  -> io undefined
+
+$http_request_send_failed: (io fd err)
+  deregister_all_handlers &io fd
+  $id id_of(io)(fd)
+  !io.id_of(fd) undefined
+  !io.buffer_of(fd) undefined
+  -> io tuple(JOB_FAILED id err)
+
+$http_request_received_data: (io fd data)
+  append &io.buffer_of(fd) data
+  -> io undefined
+
+$http_request_receive_failed: (io fd err)
+  deregister_all_handlers &io fd
+  $id id_of(io)(fd)
+  !io.id_of(fd) undefined
+  !io.buffer_of(fd) undefined
+  -> io tuple(JOB_FAILED id err)
+
+$http_request_closed: (io fd _argument)
+  deregister_all_handlers &io fd
+  $id id_of(io)(fd)
+  $buf buffer_of(io)(fd)
+  !io.id_of(fd) undefined
+  !io.buffer_of(fd) undefined
+  parse_http_reply &buf $status $_header $data
+  if
+    status.is_defined && status == 200:
+      if
+	data.is_an_error || data.is_undefined
+	-> io tuple(JOB_FAILED id data)
+	-> io tuple(JOB_COMPLETED id data)
+    -> io tuple(JOB_FAILED id error(IO_ERROR "INVALID HTTP REPLY"))

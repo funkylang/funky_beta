@@ -734,10 +734,17 @@ $std_types::string/load:
     load! $buf "data.txt"
   (
     filename # the name of the file to load
+    max_length = undefined
   )
   open! $fd filename "r"
   check fd
-  load! fd
+  if
+    max_length.is_defined:
+      read_from! $data fd max_length
+      close! fd
+      -> data
+    :
+      load! fd
 
 $std_types::file_descriptor/load:
   #
@@ -761,6 +768,71 @@ $std_types::file_descriptor/load:
   check data
   close! fd
   -> data
+
+$load_buffer_of ()
+$max_length_of ()
+$id_of ()
+
+$std_types::io.load_buffer_of empty_hash_table
+$std_types::io.max_length_of empty_hash_table
+$std_types::io.id_of empty_hash_table
+
+$std_types::io/load:
+  (
+    io
+    id
+    filename
+    max_length = undefined
+  )
+  run io load_file id filename max_length
+
+$load_file: (io id filename max_length)
+  open! $fd filename "r"
+  if
+    fd.is_an_error
+    -> io tuple(JOB_FAILED id fd)
+    :
+      start_reading_from &io fd true max_length
+      !io.load_buffer_of(fd) ""
+      !io.max_length_of(fd) max_length
+      !io.id_of(fd) id
+      register_handlers &io fd
+	READ = read_data
+	CLOSED = file_closed
+	READ_FAILED = read_failed
+      -> io undefined
+
+$read_data: (io fd data)
+  $buf load_buffer_of(io)(fd)
+  $max_length max_length_of(io)(fd)
+  append &buf data
+  if
+    max_length.is_defined && length_of(buf) >= max_length:
+      deregister_all_handlers &io fd
+      $id id_of(io)(fd)
+      !io.load_buffer_of(fd) undefined
+      !io.max_length_of(fd) undefined
+      !io.id_of(fd) undefined
+      -> io tuple(JOB_COMPLETED id buf)
+    :
+      !io.load_buffer_of(fd) buf
+      -> io undefined
+
+$file_closed: (io fd _dummy)
+  deregister_all_handlers &io fd
+  $buf load_buffer_of(io)(fd)
+  $id id_of(io)(fd)
+  !io.load_buffer_of(fd) undefined
+  !io.max_length_of(fd) undefined
+  !io.id_of(fd) undefined
+  -> io tuple(JOB_COMPLETED id buf)
+
+$read_failed: (io fd err)
+  deregister_all_handlers &io fd
+  !io.load_buffer_of(fd) undefined
+  !io.max_length_of(fd) undefined
+  !io.id_of(fd) undefined
+  -> io tuple(JOB_FAILED fd err)
 
 $std_types::string/save:
   #

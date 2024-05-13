@@ -73,7 +73,7 @@ enum {
   lambda_21 = -64,
   lambda_22 = -65,
   lambda_23 = -66,
-  lambda_READ_ERROR = -67,
+  lambda_READ_FAILED = -67,
   lambda_24 = -68,
   lambda_25 = -69,
   func_complete_load_request = -70,
@@ -95,7 +95,7 @@ enum {
   lambda_32 = -86,
   lambda_WRITE_COMPLETED = -87,
   lambda_33 = -88,
-  lambda_WRITE_ERROR = -89,
+  lambda_WRITE_FAILED = -89,
   lambda_34 = -90,
   lambda_35 = -91,
   func_complete_save_request = -92,
@@ -397,7 +397,7 @@ enum {
   var_390_18_data, // dynamic
   var_READ, // extern
   var_next, // extern
-  var_READ_ERROR, // extern
+  var_READ_FAILED, // extern
   var_case, // extern
   var_for_each, // extern
   var_412_10_fd, // dynamic
@@ -416,7 +416,7 @@ enum {
   var_452_13_efd, // dynamic
   var_452_18_data, // dynamic
   var_WRITE_COMPLETED, // extern
-  var_WRITE_ERROR, // extern
+  var_WRITE_FAILED, // extern
   var_468_33_fd, // dynamic
   var_473_10_fd, // dynamic
   var_read, // extern polymorphic
@@ -1178,7 +1178,7 @@ static TAB_NUM t_lambda_20[] = {
   // event $type $efd $data
   LOCAL(1), 0, 3, LOCAL(2), var_390_13_efd, var_390_18_data,
   // case type
-  var_case, 6, LOCAL(2), var_READ, lambda_READ, var_READ_ERROR, lambda_READ_ERROR, var_next, TAIL_CALL,
+  var_case, 6, LOCAL(2), var_READ, lambda_READ, var_READ_FAILED, lambda_READ_FAILED, var_next, TAIL_CALL,
   POS(390, 13),
   POS(391, 13)
 };
@@ -1227,7 +1227,7 @@ static TAB_NUM t_lambda_23[] = {
   POS(399, 25)
 };
 
-static TAB_NUM t_lambda_READ_ERROR[] = {
+static TAB_NUM t_lambda_READ_FAILED[] = {
   1, // locals
   0, // parameters
   // efd == fd:
@@ -1291,13 +1291,13 @@ static TAB_NUM t_func_try_close_file[] = {
   LOCAL(2), // 417_18_task
   LOCAL(3), // 417_23_io
   LOCAL(4), // 417_26_argument
-  // argument $fd $read_error
+  // argument $fd $READ_FAILED
   LOCAL(4), 0, 2, var_418_10_fd, LOCAL(5),
   // stop_reading_from &io fd
   var_stop_reading_from, 2, LOCAL(3), var_418_10_fd, 1, LOCAL(3),
   // try $_ignore_error: close! fd
   var_try, 1, lambda_27, IO_CALL(1), LOCAL(1),
-  // performed_io task io read_error # return the error returned from <read>
+  // performed_io task io READ_FAILED # return the error returned from <read>
   var_performed_io, 3, LOCAL(2), LOCAL(3), LOCAL(5), TAIL_CALL,
   POS(418, 5),
   POS(419, 5),
@@ -1446,7 +1446,7 @@ static TAB_NUM t_lambda_32[] = {
   // event $type $efd $data
   LOCAL(1), 0, 3, LOCAL(2), var_452_13_efd, var_452_18_data,
   // case type
-  var_case, 6, LOCAL(2), var_WRITE_COMPLETED, lambda_WRITE_COMPLETED, var_WRITE_ERROR, lambda_WRITE_ERROR, var_next, TAIL_CALL,
+  var_case, 6, LOCAL(2), var_WRITE_COMPLETED, lambda_WRITE_COMPLETED, var_WRITE_FAILED, lambda_WRITE_FAILED, var_next, TAIL_CALL,
   POS(452, 13),
   POS(453, 13)
 };
@@ -1470,7 +1470,7 @@ static TAB_NUM t_lambda_33[] = {
   POS(457, 21)
 };
 
-static TAB_NUM t_lambda_WRITE_ERROR[] = {
+static TAB_NUM t_lambda_WRITE_FAILED[] = {
   1, // locals
   0, // parameters
   // efd == fd:
@@ -1528,11 +1528,11 @@ static TAB_NUM t_func_2_try_close_file[] = {
   LOCAL(2), // 472_18_task
   LOCAL(3), // 472_23_io
   LOCAL(4), // 472_26_argument
-  // argument $fd $write_error
+  // argument $fd $WRITE_FAILED
   LOCAL(4), 0, 2, var_473_10_fd, LOCAL(5),
   // try $_ignore_error: close! fd
   var_try, 1, lambda_37, IO_CALL(1), LOCAL(1),
-  // performed_io task io write_error # return the error returned from <write>
+  // performed_io task io WRITE_FAILED # return the error returned from <write>
   var_performed_io, 3, LOCAL(2), LOCAL(3), LOCAL(5), TAIL_CALL,
   POS(473, 5),
   POS(474, 5),
@@ -3850,7 +3850,7 @@ static FUNKY_CONSTANT constants_table[] = {
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_21}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_22}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_23}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_READ_ERROR}},
+  {FLT_FUNCTION, 0, {.tfunc = t_lambda_READ_FAILED}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_24}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_25}},
   {FLT_FUNCTION, 0, {.tfunc = t_func_complete_load_request}},
@@ -3872,7 +3872,7 @@ static FUNKY_CONSTANT constants_table[] = {
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_32}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_WRITE_COMPLETED}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_33}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_WRITE_ERROR}},
+  {FLT_FUNCTION, 0, {.tfunc = t_lambda_WRITE_FAILED}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_34}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_35}},
   {FLT_FUNCTION, 0, {.tfunc = t_func_complete_save_request}},
@@ -4659,7 +4659,7 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "READ_ERROR\000", NULL,
+    "READ_FAILED\000", NULL,
     {.position = POS(402, 15)}
   },
   {
@@ -4742,7 +4742,7 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "WRITE_ERROR\000", NULL,
+    "WRITE_FAILED\000", NULL,
     {.position = POS(459, 15)}
   },
   {

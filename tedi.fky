@@ -33,11 +33,12 @@
 <require terminal/terminal>
 
 <require ai/llama>
+<require web/server>
 
 <using std>
 <using ai>
 
-$version "0.1"
+$version "0.2"
 
 $EXIT . # a special "handler"-value to exit the program
 
@@ -712,7 +713,8 @@ $text_windows undefined
 $terminal undefined
 
 $ai_model_name "sauerkrautlm-una-solar-instruct.Q5_K_M.gguf"
-$ai_server "127.0.0.1:8080"
+$ai_server_address "127.0.0.1"
+$ai_server_port_no 8080
 $ai_context_size 4096
 $ai_server_name "funky_server"
 $ai_model_path "/var/models"
@@ -723,7 +725,6 @@ $next_id 0
 
 $io std_types::io
 $do_log undefined
-$log_level undefined
 $uuid undefined
 $configuration_filename undefined
 
@@ -745,11 +746,11 @@ $start_logging:
       inode_number_of(stderr_info) != inode_number_of(stdout_info)
       device_of(stderr_info) != device_of(stdout_info)
 
-  !log_level if(do_log (-> 4) (-> 0))
+  $log_level if(do_log (-> 4) (-> 0))
   enable_logging &io log_level
   log &io -> "started logging (log-level: @(log_level))"
 
-  get_uuid! !uuid
+  generate_uuid! !uuid undefined
   log &io -> "using uuid: @(uuid)"
 
   get_environment $environment
@@ -872,7 +873,7 @@ $main: (initial_terminal)
 	      event_loop! !terminal !state
 	      if
 		uuid_is_registered_of(state):
-		  deregister! uuid ai_server
+		  deregister! uuid ai_server_address ai_server_port_no
 		  on terminal.is_an_error terminal
 		:
 		  on terminal.is_an_error terminal
@@ -940,7 +941,7 @@ $event_loop:
 			  print! output
 			  next!
 		  :
-		    $keys extract_keys(input).combine_characters
+		    $keys extract_keys(input true)
 		    for_each keys
 		      : (key)
 			if
@@ -1014,7 +1015,7 @@ $event_loop:
 	      SIGHUP:
 		if
 		  uuid_is_registered_of(state):
-		    deregister! uuid ai_server
+		    deregister! uuid ai_server_address ai_server_port_no
 		    exit! EXIT_FAILURE
 		  :
 		    exit! EXIT_FAILURE
@@ -1166,35 +1167,6 @@ $event_loop:
 	    update &window views(view_idx) &terminal
 	    !state.windows_of(idx) window
 	    -> terminal state
-
-  $combine_characters: (keys)
-    $combined empty_list
-    $str ""
-    for_each keys
-      : (key)
-	if
-	  key.is_undefined
-	  next
-	  :
-	    if
-	      key.is_a_character:
-		push &str key
-		next
-	      :
-		if
-		  str.is_empty:
-		    push &combined key
-		    next
-		  :
-		    push &combined str
-		    push &combined key
-		    !str ""
-		    next
-      :
-	if
-	  str.is_empty
-	  -> combined
-	  -> push(combined str)
 
 $paste_text: (input)
   replace_all &input '@ht;' = "        "
@@ -2744,10 +2716,10 @@ $indented_tokens: (indent tokens)
 	    -> put(tokens space_token_of(ai_model))
 
 $initialize_ai:
-  load_ai_model! $model
-    SERVER = ai_server
+  load_ai_model! $model ai_model_name
+    ADDRESS = ai_server_address
+    PORT_NO = ai_server_port_no
     UUID = uuid
-    ai_model_name
   on model.is_an_error:
      log &io "FAILED TO LOAD AI MODEL!"
      model # propagate error
@@ -2795,6 +2767,7 @@ $initialize_ai:
 		.space_tokens_of space_tokens
 
 $start_ai_server:
+  debug::dump `do_start_ai_server
   if
     do_start_ai_server:
       list_ai_models! $models UUID = uuid
@@ -4660,8 +4633,11 @@ $handle_configuration: (configuration continuation)
 	    "ai-model":
 	      !ai_model_name value
 	      next!
-	    "ai-server":
-	      !ai_server value
+	    "ai-server-address":
+	      !ai_server_address value
+	      next!
+	    "ai-server-port":
+	      !ai_server_port_no value
 	      next!
 	    "ai-context-size":
 	      !ai_context_size value.to_integer

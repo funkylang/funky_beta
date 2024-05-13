@@ -54,6 +54,14 @@ $std::UUID .
   #
     used to specify a universally unique identifier
 
-$std::SERVER .
+$std::ADDRESS .
   #
-    the ip address (and port no.) of a server
+    used to specify an IP-address
+
+$std::PORT_NO .
+  #
+    used to specify a port number
+
+$std::LOG_FILE .
+  #
+    used to specify the name of a log file

@@ -399,7 +399,7 @@ $std_types::io_task/load: (self my_filename continuation)
 			recheck_io
 			  task check_load_request tuple(fd append(buf data))
 		  next
-	      READ_ERROR:
+	      READ_FAILED:
 		if
 		  efd == fd:
 		    complete_io task try_close_file tuple(fd data)
@@ -415,10 +415,10 @@ $std_types::io_task/load: (self my_filename continuation)
     performed_io task io buf
 
   $try_close_file: (task io argument)
-    argument $fd $read_error
+    argument $fd $READ_FAILED
     stop_reading_from &io fd
     try $_ignore_error: close! fd
-    performed_io task io read_error # return the error returned from <read>
+    performed_io task io READ_FAILED # return the error returned from <read>
 
 $std_types::io_task/save: (self my_filename my_data continuation)
   perform_io self save_request tuple(my_filename my_data) continuation
@@ -456,7 +456,7 @@ $std_types::io_task/save: (self my_filename my_data continuation)
 		  efd == fd:
 		    complete_io task complete_save_request fd
 		  next
-	      WRITE_ERROR:
+	      WRITE_FAILED:
 		if
 		  efd == fd:
 		    complete_io task try_close_file tuple(fd data)
@@ -470,9 +470,9 @@ $std_types::io_task/save: (self my_filename my_data continuation)
     performed_io task io undefined
 
   $try_close_file: (task io argument)
-    argument $fd $write_error
+    argument $fd $WRITE_FAILED
     try $_ignore_error: close! fd
-    performed_io task io write_error # return the error returned from <write>
+    performed_io task io WRITE_FAILED # return the error returned from <write>
 
 $std_types::io_task/read:
   #

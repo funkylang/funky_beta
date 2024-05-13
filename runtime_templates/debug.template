@@ -158,6 +158,17 @@ FUNCTION debug::dump_object
     RETURN_NOTHING
   }
 
+FUNCTION debug::has_io_access_rights
+  #
+    returns true if the current process has I/O-access rights
+
+    Topic: Debug
+  {
+    CHECK_ARGUMENTS(0)
+    CHECK_RESULTS(1)
+    RETURN_BOOLEAN(!TLS_deny_io)
+  }
+
 FUNCTION debug::exit
   #
     terminates the program

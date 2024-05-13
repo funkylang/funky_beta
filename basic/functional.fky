@@ -194,3 +194,24 @@ $std::all_of:
 	    next
 	    -> false
 	-> true
+
+$std::apply:
+  (
+    function
+    arguments*
+  )
+  if
+    arguments.is_empty:
+      function!
+    :
+      !arguments append(range(arguments 1 -2) arguments(-1))
+      case length_of(arguments)
+	1: function! arguments(1)
+	2: function! arguments(1) arguments(2)
+	3: function! arguments(1) arguments(2) arguments(3)
+	4: function! arguments(1) arguments(2) arguments(3) arguments(4)
+	5:
+	  function!
+	    arguments(1) arguments(2) arguments(3) arguments(4) arguments(5)
+	:
+	  error "TOO MANY ARGUMENTS FOR APPLY"

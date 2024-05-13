@@ -142,11 +142,31 @@ $std::set_character_at ()
 
     Topic: Terminal
 
-    See also: set_draw_colour_at, set_clear_colour_at, draw_character
+    See also: get_character_at, set_draw_colour_at, set_clear_colour_at,
+	      draw_character
 
     Example:
 
       set_character_at &screen x y '+'
+
+$std::get_character_at ()
+  #
+    gets the character at the given position
+
+    Parameters:
+      screen # some kind of screen
+      x # x-coordinate of the character
+      y # y-coordinate of the character
+
+    Result:
+      character # the character at the given position
+
+    This is a low-level method. It ignores the current window and does not
+    change the fore- and background color.
+
+    Topic: Terminal
+
+    See also: set_character_at, get_draw_colour_at, get_clear_colour_at
 
 $std::set_draw_colour_at ()
   #
@@ -166,11 +186,28 @@ $std::set_draw_colour_at ()
 
     Topic: Terminal
 
-    See also: set_character_at, set_clear_colour_at, draw_character
+    See also: get_draw_colour_at, set_character_at, set_clear_colour_at,
+	      draw_character
 
     Example:
 
       set_draw_colour_at &screen x y RED
+
+$std::get_draw_colour_at ()
+  #
+    returns the foreground colour at the given position
+
+    Parameters:
+      screen # some kind of screen
+      x # x-coordinate of the character
+      y # y-coordinate of the character
+
+    Result:
+      colour # the foreground colour at the given position
+
+    Topic: Terminal
+
+    See also: set_draw_colour_at, get_character_at, get_clear_colour_at
 
 $std::set_clear_colour_at ()
   #
@@ -190,11 +227,28 @@ $std::set_clear_colour_at ()
 
     Topic: Terminal
 
-    See also: set_character_at, set_draw_colour_at, draw_character
+    See also: get_clear_colour_at, set_character_at, set_draw_colour_at,
+	      draw_character
 
     Example:
 
       set_clear_colour_at &screen x y YELLOW
+
+$std::get_clear_colour_at ()
+  #
+    returns the background colour at the given position
+
+    Parameters:
+      screen # some kind of screen
+      x # x-coordinate of the character
+      y # y-coordinate of the character
+
+    Result:
+      colour # the background colour at the given position
+
+    Topic: Terminal
+
+    See also: set_clear_colour_at, get_character_at, get_draw_colour_at
 
 $std::draw_character ()
   #
@@ -387,6 +441,22 @@ $std::RED '@0xff0000;'
 
     See also: BLACK, WHITE, GREEN, BLUE, CYAN, MAGENTA, YELLOW, GREY
 
+$std::LIGHT_RED '@0xff8080;'
+  #
+    the colour light red as used by the terminal library
+
+    Topic: Colours
+
+    See also: RED, DARK_RED
+
+$std::DARK_RED '@0x800000;'
+  #
+    the colour dark red as used by the terminal library
+
+    Topic: Colours
+
+    See also: RED, LIGHT_RED
+
 $std::GREEN '@0x00ff00;'
   #
     the colour green as used by the terminal library
@@ -394,6 +464,22 @@ $std::GREEN '@0x00ff00;'
     Topic: Colours
 
     See also: BLACK, WHITE, RED, BLUE, CYAN, MAGENTA, YELLOW, GREY
+
+$std::LIGHT_GREEN '@0x80ff80;'
+  #
+    the colour light green as used by the terminal library
+
+    Topic: Colours
+
+    See also: GREEN, DARK_GREEN
+
+$std::DARK_GREEN '@0x008000;'
+  #
+    the colour dark green as used by the terminal library
+
+    Topic: Colours
+
+    See also: GREEN, LIGHT_GREEN
 
 $std::BLUE '@0x0000ff;'
   #
@@ -403,6 +489,21 @@ $std::BLUE '@0x0000ff;'
 
     See also: BLACK, WHITE, RED, GREEN, CYAN, MAGENTA, YELLOW, GREY
 
+$std::LIGHT_BLUE '@0x8080ff;'
+  #
+    the colour light blue as used by the terminal library
+
+    Topic: Colours
+
+    See also: BLUE, DARK_BLUE
+
+$std::DARK_BLUE '@0x000080;'
+  #
+    the colour dark blue as used by the terminal library
+
+    Topic: Colours
+
+    See also: BLUE, LIGHT_BLUE
 $std::CYAN '@0x00ffff;'
   #
     the colour cyan as used by the terminal library
@@ -410,6 +511,22 @@ $std::CYAN '@0x00ffff;'
     Topic: Colours
 
     See also: BLACK, WHITE, RED, GREEN, BLUE, MAGENTA, YELLOW, GREY
+
+$std::LIGHT_CYAN '@0x80ffff;'
+  #
+    the colour light cyan as used by the terminal library
+
+    Topic: Colours
+
+    See also: CYAN, DARK_CYAN
+
+$std::DARK_CYAN '@0x008080;'
+  #
+    the colour dark cyan as used by the terminal library
+
+    Topic: Colours
+
+    See also: CYAN, LIGHT_CYAN
 
 $std::MAGENTA '@0xff00ff;'
   #
@@ -419,6 +536,20 @@ $std::MAGENTA '@0xff00ff;'
 
     See also: BLACK, WHITE, RED, GREEN, BLUE, CYAN, YELLOW, GREY
 
+$std::LIGHT_MAGENTA '@0xff8080;'
+  #
+    the colour light magenta as used by the terminal library
+
+    Topic: Colours
+
+    See also: MAGENTA, DARK_MAGENTA
+
+$std::DARK_MAGENTA '@0x800080;'
+  #
+    the colour dark magenta as used by the terminal library
+
+    Topic: Colours
+
 $std::YELLOW '@0xffff00;'
   #
     the colour yellow as used by the terminal library
@@ -427,6 +558,22 @@ $std::YELLOW '@0xffff00;'
 
     See also: BLACK, WHITE, RED, GREEN, BLUE, CYAN, MAGENTA, GREY
 
+$std::LIGHT_YELLOW '@0xffff80;'
+  #
+    the colour light yellow as used by the terminal library
+
+    Topic: Colours
+
+    See also: YELLOW, DARK_YELLOW
+
+$std::DARK_YELLOW '@0x808000;'
+  #
+    the colour dark yellow as used by the terminal library
+
+    Topic: Colours
+
+    See also: YELLOW, LIGHT_YELLOW
+
 $std::GREY '@0x808080;'
   #
     the colour grey as used by the terminal library
@@ -434,6 +581,22 @@ $std::GREY '@0x808080;'
     Topic: Colours
 
     See also: BLACK, WHITE, RED, GREEN, BLUE, CYAN, MAGENTA, YELLOW
+
+$std::LIGHT_GREY '@0xc0c0c0;'
+  #
+    the colour light grey as used by the terminal library
+
+    Topic: Colours
+
+    See also: GREY, DARK_GREY
+
+$std::DARK_GREY '@0x404040;'
+  #
+    the colour dark grey as used by the terminal library
+
+    Topic: Colours
+
+    See also: GREY, LIGHT_GREY
 
 $INVALID_COLOUR '@0xffffffff;'
 
@@ -1160,7 +1323,9 @@ $std::TITLE .
 
 $terminal_private::backspace_character '@del;'
 
-$std::initialize_terminal:
+$std::initialize_terminal ()
+
+$std_types::object/initialize_terminal:
   #
     creates a terminal object for the given input file descriptor
 
@@ -1267,10 +1432,97 @@ $std::initialize_terminal:
     print! "@esc;[u" # restore cursor position
     print! "@esc;[?47l" # switch to default screen
     print! "@esc;[0m" # set default colours
+    print! "@esc;]112;@bel;" # restore default cursor colour
     on do_switch_cursor_off: cursor_on!
     on do_receive_mouse_clicks:
       print! "@esc;[?9;1006;1015l" # disable mouse reporting
-    on err.is_an_error: debug::dump_object 50 err
+    on err.is_an_error err
+
+$std_types::io/initialize_terminal:
+  (
+    io
+    options*
+  )
+  extract_options options
+    DRAW_COLOUR = BLACK $draw_colour
+    CLEAR_COLOUR = WHITE $clear_colour
+    LINE_HEIGHT = 1 $line_height
+    FILE_DESCRIPTOR = STDIN_FILENO $fd
+    RECEIVE_CTRL_C_AND_CTRL_Z = false $do_receive_ctrl_c_and_ctrl_z
+    RECEIVE_CTRL_Q_AND_CTRL_S = false $do_receive_ctrl_q_and_ctrl_s
+    MAP_CR = false $do_map_cr
+    RECEIVE_SIGWINCH = false $_do_receive_sigwinch
+    RECEIVE_MOUSE_CLICKS = false $do_receive_mouse_clicks
+    CURSOR_OFF = false $do_switch_cursor_off
+    TITLE = undefined $title
+  get_terminal_attributes! fd $original_attributes
+  $attributes original_attributes
+  use_canonical_mode &attributes false #  no line-buffering ...
+  echo_characters &attributes false # ... and no echoing of typed in characters
+  update_if do_receive_ctrl_c_and_ctrl_z &attributes:
+    generate_signals attributes false
+  update_if do_receive_ctrl_q_and_ctrl_s &attributes:
+    enable_xon_xoff_for_output attributes false
+  update_if do_map_cr &attributes:
+    map_cr_to_lf_on_input attributes false
+  set_terminal_attributes! $err STDIN_FILENO attributes
+  if
+    err.is_an_error
+    -> io err
+    :
+      #!terminal_private::backspace_character backspace_character_of(attributes)
+      $buf ""
+      append &buf "@esc;[?47h" # switch to alternate screen
+      append &buf "@esc;[33s" # store cursor position
+      append &buf "@esc;]112;@bel;" # restore default cursor colour
+      update_if do_switch_cursor_off &buf: append buf "@esc;[?25l"
+      update_if do_receive_mouse_clicks &buf: append buf "@esc;[?9;1006;1015h"
+      update_if title.is_defined &buf: append buf "@esc;]0;@(title)@7;"
+      write &io STDOUT_FILENO buf
+      get_terminal_size! fd $width $height
+      create_terminal $terminal
+	width height*line_height
+	DRAW_COLOUR = draw_colour
+	CLEAR_COLOUR = clear_colour
+	LINE_HEIGHT = line_height
+      !terminal
+	.original_attributes_of original_attributes
+	.fd_of fd
+	.do_switch_cursor_on_of do_switch_cursor_off
+	.do_cancel_mouse_clicks_of do_receive_mouse_clicks
+      -> io terminal
+
+$original_attributes_of ()
+$fd_of ()
+$do_switch_cursor_on_of ()
+$do_cancel_mouse_clicks_of ()
+
+$std_types::terminal.original_attributes_of undefined
+$std_types::terminal.fd_of undefined
+$std_types::terminal.do_switch_cursor_on_of undefined
+$std_types::terminal.do_cancel_mouse_clicks_of undefined
+
+$std_types::terminal/finalize:
+  (
+    self
+    io
+  )
+  $buf ""
+  append &buf "@esc;[u" # restore cursor position
+  append &buf "@esc;[?47l" # switch to default screen
+  append &buf "@esc;[0m" # set default colours
+  append &buf "@esc;]112;@bel;" # restore default cursor colour
+  update_if do_switch_cursor_on_of(self) &buf: append buf "@esc;[?25h"
+  update_if do_cancel_mouse_clicks_of(self) &buf:
+    append buf "@esc;[?9;1006;1015l"
+  write &io STDOUT_FILENO buf
+  run io reset_attributes self
+
+$reset_attributes: (io terminal)
+  set_terminal_attributes! $_success
+    fd_of(terminal)
+    original_attributes_of(terminal)
+  -> io undefined
 
 $std_types::terminal/update update_terminal
 
@@ -1368,6 +1620,9 @@ $std::update_terminal:
   $csi: (arguments* command)
     -> string("@esc;[" join(arguments ';') command)
 
+  $osc: (arguments* command)
+    -> string("@esc;]" join(arguments ';') command)
+
   $move_to: (x y cont)
     if
       y != current_y:
@@ -1461,6 +1716,48 @@ $std::update_terminal:
 	cont
       cont
 
+  # set cursor style
+
+    CSI <value> SPC q
+
+      value:
+	0  -> blinking block.
+	1  -> blinking block (default).
+	2  -> steady block.
+	3  -> blinking underline.
+	4  -> steady underline.
+	5  -> blinking bar (xterm).
+	6  -> steady bar (xterm).
+
+  # set cursor colour
+
+    OSC 12 ; rgb:xxxx/xxxx/xxxx BEL
+
+    or
+
+    OSC 12 ; #xxxxxx BEL
+
+  # get cursor colour
+
+    OSC 12 ; ? BEL
+
+    reply:
+
+    12;rgb:xxxx/xxxx/xxxx
+
+  $set_cursor_colour: (colour cont)
+    $colour_value colour.to_integer
+    $red hex(colour_value >> 16 2)
+    $green hex((colour_value >> 8) & 0xff 2)
+    $blue hex(colour_value & 0xff 2)
+    log "set cursor colour to @(red), @(green), @(blue)"
+    append &output osc(12 "#@(red)@(green)@(blue)" "@bel;")
+    cont
+
+  $auto_cursor_colour: (cont)
+    append &output "@esc;]112;@bel;"
+    cont
+
   $emit_character: (chr cont)
     log "print " debug::string(chr).trim
     $chr_width width_of(chr)
@@ -1482,7 +1779,15 @@ $std::update_terminal:
   $finish:
     if
       terminal.has_a_visible_cursor:
-	move_to cursor_x_of(terminal) cursor_y_of(terminal) update_current_buffer
+	$cursor_x cursor_x_of(terminal)
+	$cursor_y cursor_y_of(terminal)
+	move_to cursor_x cursor_y:
+	  $row new_rows(current_y)
+	  if
+	    row(3*current_x-2) == ' ':
+	      set_cursor_colour row(3*current_x-1) update_current_buffer
+	    :
+	      auto_cursor_colour update_current_buffer
       update_current_buffer
 
     $update_current_buffer:
@@ -1759,7 +2064,7 @@ $std_types::screen/set_character_at:
   (
     screen # the terminal on which to draw
     x # in logical screen coordinates
-    y # in logical screen coordinates (any coordinate within a row is accepted)
+    y # in logical screen coordinates
     chr # the character to set
   )
   $rows rows_of(screen)
@@ -1767,6 +2072,63 @@ $std_types::screen/set_character_at:
   !row(3*x-2) chr
   !rows(y) row
   -> screen(.rows_of rows)
+
+$std_types::view/set_character_at:
+  #
+    changes the character at the specified screen position
+
+    The arguments are *not* validated!
+
+    See also: set_draw_colour_at, set_clear_colour_at
+  (
+    view # the view within the screen
+    screen # the screen on which to draw
+    x # in logical view coordinates
+    y # in logical view coordinates
+    chr # the character to set
+  )
+  plus &x x_of(view)-1
+  plus &y y_of(view)-1
+  $rows rows_of(screen)
+  $row rows(y)
+  !row(3*x-2) chr
+  !rows(y) row
+  -> screen(.rows_of rows)
+
+$std_types::screen/get_character_at:
+  #
+    returns the character at the specified screen position
+
+    The arguments are *not* validated!
+
+    See also: set_character_at, get_draw_colour_at, get_clear_colour_at
+  (
+    screen # the terminal from which to read
+    x # in logical screen coordinates
+    y # in logical screen coordinates
+  )
+  $rows rows_of(screen)
+  $row rows(y)
+  -> row(3*x-2)
+
+$std_types::view/get_character_at:
+  #
+    returns the character at the specified screen position
+
+    The arguments are *not* validated!
+
+    See also: set_character_at, get_draw_colour_at, get_clear_colour_at
+  (
+    view # the view within the screen
+    screen # the screen from which to read
+    x # in logical view coordinates
+    y # in logical view coordinates
+  )
+  plus &x x_of(view)-1
+  plus &y y_of(view)-1
+  $rows rows_of(screen)
+  $row rows(y)
+  -> row(3*x-2)
 
 $std_types::screen/set_draw_colour_at:
   #
@@ -1778,7 +2140,7 @@ $std_types::screen/set_draw_colour_at:
   (
     screen # the terminal on which to draw
     x # in logical screen coordinates
-    y # in logical screen coordinates (any coordinate within a row is accepted)
+    y # in logical screen coordinates
     colour # the new text colour
   )
   $rows rows_of(screen)
@@ -1786,6 +2148,63 @@ $std_types::screen/set_draw_colour_at:
   !row(3*x-1) colour
   !rows(y) row
   -> screen(.rows_of rows)
+
+$std_types::view/set_draw_colour_at:
+  #
+    changes the text colour at the specified screen position
+
+    The arguments are *not* validated!
+
+    See also: set_clear_colour_at, set_character_at
+  (
+    view # the view within the screen
+    screen # the terminal on which to draw
+    x # in logical view coordinates
+    y # in logical view coordinates
+    colour # the new text colour
+  )
+  plus &x x_of(view)-1
+  plus &y y_of(view)-1
+  $rows rows_of(screen)
+  $row rows(y)
+  !row(3*x-1) colour
+  !rows(y) row
+  -> screen(.rows_of rows)
+
+$std_types::screen/get_draw_colour_at:
+  #
+    returns the text colour at the specified screen position
+
+    The arguments are *not* validated!
+
+    See also: set_draw_colour_at, get_character_at, get_clear_colour_at
+  (
+    screen # the terminal from which to read
+    x # in logical screen coordinates
+    y # in logical screen coordinates (any coordinate within a row is accepted)
+  )
+  $rows rows_of(screen)
+  $row rows(y)
+  -> row(3*x-1)
+
+$std_types::view/get_draw_colour_at:
+  #
+    returns the text colour at the specified screen position
+
+    The arguments are *not* validated!
+
+    See also: set_draw_colour_at, get_character_at, get_clear_colour_at
+  (
+    view # the view within the screen
+    screen # the terminal from which to read
+    x # in logical view coordinates
+    y # in logical view coordinates (any coordinate within a row is accepted)
+  )
+  plus &x x_of(view)-1
+  plus &y y_of(view)-1
+  $rows rows_of(screen)
+  $row rows(y)
+  -> row(3*x-1)
 
 $std_types::screen/set_clear_colour_at:
   #
@@ -1805,6 +2224,63 @@ $std_types::screen/set_clear_colour_at:
   !row(3*x) colour
   !rows(y) row
   -> screen(.rows_of rows)
+
+$std_types::view/set_clear_colour_at:
+  #
+    changes the background colour at the specified screen position
+
+    The arguments are *not* validated!
+
+    See also: set_draw_colour_at, set_character_at
+  (
+    view # the view within the screen
+    screen # the terminal on which to draw
+    x # in logical view coordinates
+    y # in logical view coordinates (any coordinate within a row is accepted)
+    colour # the new background colour
+  )
+  plus &x x_of(view)-1
+  plus &y y_of(view)-1
+  $rows rows_of(screen)
+  $row rows(y)
+  !row(3*x) colour
+  !rows(y) row
+  -> screen(.rows_of rows)
+
+$std_types::screen/get_clear_colour_at:
+  #
+    returns the background colour at the specified screen position
+
+    The arguments are *not* validated!
+
+    See also: set_clear_colour_at, get_character_at, get_draw_colour_at
+  (
+    screen # the terminal from which to read
+    x # in logical screen coordinates
+    y # in logical screen coordinates (any coordinate within a row is accepted)
+  )
+  $rows rows_of(screen)
+  $row rows(y)
+  -> row(3*x)
+
+$std_types::view/get_clear_colour_at:
+  #
+    returns the background colour at the specified screen position
+
+    The arguments are *not* validated!
+
+    See also: set_clear_colour_at, get_character_at, get_draw_colour_at
+  (
+    view # the view within the screen
+    screen # the terminal from which to read
+    x # in logical view coordinates
+    y # in logical view coordinates (any coordinate within a row is accepted)
+  )
+  plus &x x_of(view)-1
+  plus &y y_of(view)-1
+  $rows rows_of(screen)
+  $row rows(y)
+  -> row(3*x)
 
 $std_types::screen/draw_character:
   #

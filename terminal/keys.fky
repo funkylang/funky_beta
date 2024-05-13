@@ -346,27 +346,41 @@ $std::get_key:
 $std::extract_keys:
   #
     converts an input character stream into a list of keys
+
+    Optionally consecutive characters can be combined into a single string.
+
+    See also: get_events
+
+    Topics: Terminal, Events
   (
     input
+    do_append_characters = false
   )
   $keys empty_list
+  $buf ""
   loop:
     if
       input.is_empty
-      -> keys
+      maybe_push_string
       :
 	$chr input(1)
 	case chr
 	  '@cr;': # RETURN or ENTER
 	    range &input 2 -1
+	    maybe_push_string !keys
+	    !buf ""
 	    push &keys RETURN
 	    next
 	  terminal_private::backspace_character:
 	    range &input 2 -1
+	    maybe_push_string !keys
+	    !buf ""
 	    push &keys BACKSPACE
 	    next
 	  '@del;': # for terminals that switch BACKSPACE and CTRL_BACKSPACE
 	    range &input 2 -1
+	    maybe_push_string !keys
+	    !buf ""
 	    push &keys CTRL_BACKSPACE
 	    next
 	  '@esc;': # ignore "special" keys
@@ -408,12 +422,16 @@ $std::extract_keys:
 			break
 		      next
 		  :
+		    maybe_push_string !keys
+		    !buf ""
 		    push &keys default_value(found ESCAPE)
 		    next
 	  :
 	    range &input 2 -1
 	    if
 	      chr <= '@26;':
+		maybe_push_string !keys
+		!buf ""
 		push &keys ctrl_key(chr+1-'@nul;')
 		next
 	      :
@@ -425,8 +443,13 @@ $std::extract_keys:
 		      chr.is_a_zero_width_character
 		      next
 		      :
-			push &keys chr
-			next
+			if
+			  do_append_characters:
+			    push &buf chr
+			    next
+			  :
+			    push &keys chr
+			    next
 
   $add_csi_key: (i)
     $sequence range(input 2 i)
@@ -435,17 +458,29 @@ $std::extract_keys:
       '8': # window size change
 	$height between(sequence ';' ';').to_integer
 	$width between(sequence ';' 't' 2).to_integer
+	maybe_push_string !keys
+	!buf ""
 	push &keys tuple(NEW_WINDOW_SIZE width height undefined)
 	-> input keys
       '<': # mouse click
 	$button between(sequence '<' ';').to_integer
 	$x between(sequence ';' ';').to_integer
 	$y between(sequence ';' 'M' 2).to_integer
+	maybe_push_string !keys
+	!buf ""
 	push &keys tuple(MOUSE_CLICK x y button)
 	-> input keys
       :
+	maybe_push_string !keys
+	!buf ""
 	push &keys csi_table(sequence)
 	-> input keys
+
+  $maybe_push_string:
+    if
+      buf.is_empty
+      -> keys
+      -> push(keys buf)
 
 $escape_sequences
   list
