@@ -674,7 +674,8 @@ $draw_contents: (terminal state)
 	:
 	  if
 	    input_lines.is_defined:
-	      set_cursor terminal length_of(input_lines(-1))+1 y
+	      $x min(length_of(input_lines(-1))+1 width)
+	      set_cursor terminal x y
 	    -> terminal
 
 $create_attributed_text_lines: (lines width draw_colour clear_colour)
