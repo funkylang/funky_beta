@@ -23,8 +23,6 @@
 <namespace ai>
 <namespace ai_types>
 
-<allow unused>
-
 #
   Topic: AI
 
@@ -173,9 +171,48 @@ $ai::USE_COLOURS .
 
 # Prototype Objects
 
-$ai_types::connection std_types::object
+$ai_types::connection std_types::resource
   #
     a connection to an AI server
+
+$is_a_connection ()
+
+$std_types::object.is_a_connection false
+$ai_types::connection.is_a_connection true
+
+$ai_types::connection.address_of undefined
+$ai_types::connection.port_no_of undefined
+$ai_types::connection.uuid_of undefined
+$ai_types::connection.name_of "connection"
+
+$DEREGISTER .
+
+$ai_types::connection/finalize:
+  #
+    deregisters from AI server
+  (
+    self
+    io
+  )
+  $address address_of(self)
+  $port_no port_no_of(self)
+  $uuid uuid_of(self)
+  $id tuple(DEREGISTER uuid)
+  log &io 3 "deregistering from AI server at address @(address):@(port_no)"
+  http_request! &io $_events id address port_no deregister_request(uuid)
+  register_handlers io id
+    JOB_COMPLETED = deregister_completed
+    JOB_FAILED = deregister_failed
+
+$deregister_completed: (io id _data)
+  log &io 3 "successfully deregistered from AI server"
+  deregister_all_handlers &io id
+  -> io undefined
+
+$deregister_failed: (io id _data)
+  log &io "failed to deregister from AI server"
+  deregister_all_handlers &io id
+  -> io undefined
 
 $ai_types::model std_types::object
   #
@@ -294,6 +331,9 @@ $std_types::io/ai::load_ai_model:
   #
     load an AI model
 
+    <options> can be several separate options or a list of options or a
+    connection object
+
     Topic: AI
   (
     io # the input/output object
@@ -301,7 +341,12 @@ $std_types::io/ai::load_ai_model:
     name # the name of the model
     options* # connection options
   )
-  update_if length_of(options) == 1 && options(1).is_a_list
+  update_if
+    &&
+      length_of(options) == 1
+      ||
+	options(1).is_a_list
+	options(1).is_a_connection
     &options -> options(1)
   initialize_model $model name options
   tuple &id 1
@@ -342,16 +387,25 @@ $load_ai_model_failed: (io id err)
   -> io tuple(JOB_FAILED id err)
 
 $initialize_model: (name options)
-  extract_options options
-    ADDRESS = "127.0.0.1" $address
-    PORT_NO = DEFAULT_PORT_NO $port_no
-    UUID = undefined $uuid
-  ->
-    ai_types::model
-      .name_of name
-      .address_of address
-      .port_no_of port_no
-      .uuid_of uuid
+  if
+    options.is_a_connection
+    ->
+      ai_types::model
+	.name_of name
+	.address_of address_of(options)
+	.port_no_of port_no_of(options)
+	.uuid_of uuid_of(options)
+    :
+      extract_options options
+	ADDRESS = "127.0.0.1" $address
+	PORT_NO = DEFAULT_PORT_NO $port_no
+	UUID = undefined $uuid
+      ->
+	ai_types::model
+	  .name_of name
+	  .address_of address
+	  .port_no_of port_no
+	  .uuid_of uuid
 
 $ai_types::model/ai::generate:
   (
@@ -795,7 +849,33 @@ $ai::connect_to_ai_server:
     ADDRESS = "127.0.0.1" $address
     PORT_NO = DEFAULT_PORT_NO $port_no
     UUID = undefined $uuid
-  run io http_request id address port_no register_request(uuid)
+  tuple &id 1
+  run &io http_request id address port_no register_request(uuid)
+  !io.connection_of(id)
+    ai_types::connection
+      .address_of address
+      .port_no_of port_no
+      .uuid_of uuid
+  register_handlers io id
+    JOB_COMPLETED = connect_completed
+    JOB_FAILED = connect_failed
+
+$connection_of ()
+
+$std_types::io.connection_of empty_hash_table
+
+$connect_completed: (io id _data)
+  $connection connection_of(io)(id)
+  !io.connection_of(id) undefined
+  deregister_all_handlers &io id
+  id !id
+  -> io tuple(JOB_COMPLETED id connection)
+
+$connect_failed: (io id err)
+  !io.connection_of(id) undefined
+  deregister_all_handlers &io id
+  id !id
+  -> io tuple(JOB_FAILED id err)
 
 $register_request: (uuid)
   $json
@@ -936,55 +1016,59 @@ $start_ai_server_action: (io id options)
     append server_options list("--context-size" context_size.to_string)
   update_if model_path.is_defined &server_options:
     append server_options list("--model-path" model_path)
+  open! $fd_null "/dev/null" "r"
+  $fd_log fd_null
   if
     log_file.is_defined:
-      open! $fd_log log_file "w+"
-      open! $fd_null "/dev/null" "r"
-      create_process! $pid cmd server_options undefined fd_null fd_log fd_log
-      close! fd_null
-      close! fd_log
-      list_models!
-    :
-      open! $fd_null "/dev/null" "r"
-      create_process! $pid cmd server_options undefined fd_null
-      close! fd_null
-      list_models!
+      open! !fd_log log_file "w+"
+      start_server!
+    start_server
 
-  $list_models:
-    log &io "list models"
-    default_value &address "127.0.0.1"
-    default_value &port_no DEFAULT_PORT_NO
-    tuple &id 1
-    register_handlers &io id
-      JOB_COMPLETED = list_models_completed
-      JOB_FAILED = list_models_failed
-    run_at &io 2 http_request id address port_no list_models_request(uuid)
-    -> io undefined
+  $start_server:
+    create_process! $pid cmd server_options undefined fd_null fd_log fd_log
+    on fd_log != fd_null: close! fd_log
+    close! fd_null
+    if
+      pid.is_an_error
+      -> io tuple(JOB_FAILED id pid)
+      :
+	tuple &id 1
+	run_at &io 2 http_request id address port_no register_request(uuid)
+	!io.connection_of(id)
+	  ai_types::connection
+	    .address_of address
+	    .port_no_of port_no
+	    .uuid_of uuid
+	register_handlers &io id
+	  JOB_COMPLETED = connect_completed
+	  JOB_FAILED = connect_failed
+	-> io undefined
 
-$list_models_completed: (io id data)
-  deregister_all_handlers &io id
-  id !id
-  behind &data "@cr;@nl;@cr;@nl;"
-  from_utf8 &data
-  $info data.from_json
-  -> io tuple(JOB_COMPLETED id info)
+#
+  $list_models_completed: (io id data)
+    deregister_all_handlers &io id
+    id !id
+    behind &data "@cr;@nl;@cr;@nl;"
+    from_utf8 &data
+    $info data.from_json
+    -> io tuple(JOB_COMPLETED id info)
 
-$list_models_failed: (io id err)
-  debug::dump 50 `err
-  deregister_all_handlers &io id
-  id !id
-  -> io tuple(JOB_FAILED id err)
+  $list_models_failed: (io id err)
+    debug::dump 50 `err
+    deregister_all_handlers &io id
+    id !id
+    -> io tuple(JOB_FAILED id err)
 
-$list_models_request: (uuid)
-  $json
-    to_json
-      insert_order_table
-	"uuid" = uuid
-  to_utf8 &json
-  -> "
-    POST /list_models HTTP/1.1@cr;
-    Content-Type: application/json@cr;
-    Content-Length: @(length_of(json))@cr;
-    Connection: close@cr;
-    @cr;
-    @(json)
+  $list_models_request: (uuid)
+    $json
+      to_json
+	insert_order_table
+	  "uuid" = uuid
+    to_utf8 &json
+    -> "
+      POST /list_models HTTP/1.1@cr;
+      Content-Type: application/json@cr;
+      Content-Length: @(length_of(json))@cr;
+      Connection: close@cr;
+      @cr;
+      @(json)

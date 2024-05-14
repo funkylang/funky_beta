@@ -35,7 +35,7 @@
 # Resources
 
 $TERMINAL .
-#$MODEL .
+$CONNECTION .
 
 # Jobs
 
@@ -46,13 +46,11 @@ $CONNECT .
 $START_SERVER .
 $TOKENIZE .
 $EVALUATE .
-$DEREGISTER .
 
 $GENERATE_UUID.to_string "GENERATE UUID"
 $LOAD_CONFIGURATION.to_string "LOAD CONFIGURATION"
 $LOAD_MODEL.to_string "LOAD MODEL"
 $TOKENIZE.to_string "TOKENIZE"
-$DEREGISTER.to_string "DEREGISTER"
 
 $BATCH_SIZE 16
 
@@ -113,6 +111,7 @@ initialize_terminal! &io $terminal
   CLEAR_COLOUR = WHITE
   DRAW_COLOUR = BLACK
 
+enable_logging &terminal
 register_resource &io TERMINAL terminal
 
 $USER .
@@ -125,6 +124,7 @@ $model_of ()
 $turn_of ()
 $messages_of () # tuple(attributed_text width tokens confidences)
 $input_text_of ()
+$previous_input_text_of ()
 $tokens_of ()
 $confidences_of ()
 $message_colour_of ()
@@ -134,7 +134,10 @@ $help_bar_of ()
 $message_bar_of ()
 $already_evaluated_of () # number of already evaluated tokens
 $current_batch_of () # number of currently evaluted tokens
-$was_updated_of ()
+$input_was_updated_of ()
+$output_was_updated_of ()
+$message_bar_was_updated_of ()
+$everything_was_updated_of ()
 $do_break_of ()
 $did_start_server_of ()
 
@@ -153,6 +156,7 @@ $main:
       .turn_of USER
       .messages_of empty_list
       .input_text_of ""
+      .previous_input_text_of undefined
       .tokens_of empty_list
       .confidences_of empty_list
       .message_colour_of DARK_GREY
@@ -161,7 +165,10 @@ $main:
       .message_bar_of undefined
       .already_evaluated_of 0
       .current_batch_of 0
-      .was_updated_of false
+      .input_was_updated_of false
+      .output_was_updated_of false
+      .message_bar_was_updated_of false
+      .everything_was_updated_of false
       .do_break_of false
       .did_start_server_of false
 
@@ -186,43 +193,18 @@ $main:
 
     create_horizontal_panes terminal list(0.999 1 1)
       !state.input_window_of !state.help_bar_of !state.message_bar_of
-
-    clear input_window_of(state) &terminal
-    set_draw_colour &state.message_bar_of WHITE
-    set_clear_colour &state.help_bar_of LIGHT_GREY
-    set_draw_colour &state.help_bar_of BLACK
-    draw_help_bar &terminal state
-    draw_message_bar &terminal state
-    update &terminal $output
-    print_to &io STDOUT_FILENO output
+    !state.everything_was_updated_of true
 
     start_reading_from &io STDIN_FILENO
+    start_injecting_window_change_events &io
     register_handlers &io STDIN_FILENO READ = create_terminal_events
 
     loop:
       get_events! &io $events
       handle_events &io &events
-      $previous_input_text input_text_of(state)
-      $previous_message_text message_text_of(state)
-      process_events &io &state events
-      $text_has_changed
-	was_updated_of(state) || input_text_of(state) != previous_input_text
-      $message_has_changed message_text_of(state) != previous_message_text
-      !state.was_updated_of false
-      if !terminal
-	text_has_changed:
-	  draw_contents terminal state
-	-> terminal
-      if !terminal
-	message_has_changed:
-	  draw_message_bar terminal state
-	-> terminal
-      if
-	text_has_changed || message_has_changed:
-	  update &terminal !output
-	  print_to &io STDOUT_FILENO output
-	  next!
-	next
+      process_events &io &state &events
+      process_terminal_events &io &terminal &state events
+      next!
 
   debug::dump 50 `err
   log &io "crashed: @(err.to_error_message_string) - exiting"
@@ -232,28 +214,27 @@ $main:
     next!
 
 $process_events: (io state events)
+  $remaining_events empty_list
   for_each events
     : (event)
       event $type $id $argument
       case type
 	KEY_PRESS:
-	  $input_text input_text_of(state)
 	  case argument
 	    CTRL_Q:
-	      $model model_of(state)
+	      log &io "exiting"
+	      exit &io EXIT_SUCCESS
+	      next
+	    ESCAPE:
 	      if
-		model.is_defined:
-		  log &io "deregistering from AI server"
-		  deregister &io DEREGISTER model
+		tokens_of(state).is_empty:
+		  !state.everything_was_updated_of true
 		  next
 		:
-		  log &io "exiting"
-		  exit &io EXIT_SUCCESS
+		  !state.do_break_of true
 		  next
-	    ESCAPE:
-	      !state.do_break_of true
-	      next
 	    :
+	      $input_text input_text_of(state)
 	      if
 		input_text.is_undefined
 		next
@@ -265,37 +246,57 @@ $process_events: (io state events)
 			next
 			:
 			  !state.input_text_of range(input_text 1 -2)
-			  next
+			  updated_input
 		    RETURN:
 		      !state.input_text_of push(input_text '@nl;')
-		      next
+		      updated_input
 		    ALT_RETURN:
+		      $model model_of(state)
 		      if
-			input_text.is_empty
+			input_text.is_empty || model.is_undefined
 			next
 			:
-			  update_if input_text(-1) != '@nl;'
-			    &input_text: push input_text '@nl;'
-			  case prompt_style_of(configuration_of(state))
-			    "Question":
-			      append "[Question] " &input_text "[Answer]"
-			      tokenize_prompt
-			    tokenize_prompt
-
-			  $tokenize_prompt:
-			    $model model_of(state)
-			    if
-			      model.is_defined:
-				!state.input_text_of undefined
-				tokenize &io TOKENIZE model input_text
-				next
+			  case input_text
+			    "quit":
+			      log &io "exiting"
+			      exit &io EXIT_SUCCESS
 			      next
+			    :
+			      $previous_input_text input_text
+			      update_if input_text(-1) != '@nl;'
+				&input_text: push input_text '@nl;'
+			      case prompt_style_of(configuration_of(state))
+				"Question":
+				  append "[Question] " &input_text "[Answer]"
+				  tokenize_prompt
+				tokenize_prompt
+
+			      $tokenize_prompt:
+				log &io 2 "
+				  tokenizing input text - @
+				  @(length_of(input_text)) characters@
+				tokenize &io TOKENIZE model input_text
+				!state
+				  .previous_input_text_of previous_input_text
+				  .input_text_of undefined
+				  .input_was_updated_of true
+				  .output_was_updated_of true
+				next
 		    :
 		      if
 			argument.is_a_character:
 			  !state.input_text_of push(input_text argument)
-			  next
-			next
+			  updated_input
+			:
+			  case argument
+			    CTRL_BACKSPACE:
+			      !state.input_text_of ""
+			      updated_input
+			    next
+
+		  $updated_input:
+		    !state.input_was_updated_of true
+		    next
 	JOB_COMPLETED:
 	  case id
 	    GENERATE_UUID:
@@ -314,29 +315,33 @@ $process_events: (io state events)
 		    loaded configuration from "@(configuration_filename)"@
 		  maybe_register_at_ai_server !io !state
 		  next
-	    CONNECT:
-	      log &io "connected to AI server"
+	    START_SERVER, CONNECT:
+	      $connection argument
+	      enable_logging &connection
+	      !state.connection_of connection
+	      register_resource &io CONNECTION connection
+	      log_completed &io &state
+		if
+		  id == START_SERVER
+		  -> "started AI server"
+		  -> "connected to AI server"
 	      $configuration configuration_of(state)
 	      log_message &io &state "
 		loading model "@(model_name_of(configuration))"
-	      load_ai_model &io LOAD_MODEL model_name_of(configuration)
-		UUID = uuid_of(state)
-	      -> io state
+	      load_ai_model &io LOAD_MODEL
+		model_name_of(configuration) connection
+	      next
 	    LOAD_MODEL:
 	      !state.model_of argument
 	      log_completed &io &state "
 		loaded model "@(name_of(argument))"
 	      next
-	    START_SERVER:
-	      log_completed &io &state "
-		started server
-	      load_ai_model &io LOAD_MODEL
-		model_name_of(configuration_of(state)) UUID = uuid_of(state)
-	      next
 	    TOKENIZE:
-	      !state.tokens_of argument
-	      !state.already_evaluated_of 0
-	      !state.current_batch_of 0
+	      !state
+		.tokens_of argument
+		.confidences_of empty_list
+		.already_evaluated_of 0
+		.current_batch_of 0
 	      log_completed &io &state "
 		tokenized input - got @(length_of(argument)) tokens
 	      evaluate_tokens
@@ -344,10 +349,6 @@ $process_events: (io state events)
 	      $dt current_time_of(io)-evaluation_start_time_of(io)
 	      log &io 4 "evaluation took @(dt) seconds"
 	      evaluate_tokens
-	    DEREGISTER:
-	      log &io "deregistered from AI server - exiting"
-	      exit &io EXIT_SUCCESS
-	      next
 	    :
 	      debug::println "JOB_COMPLETED"
 	      debug::dump `id
@@ -357,10 +358,19 @@ $process_events: (io state events)
 	    $model model_of(state)
 	    if
 	      do_break_of(state):
+		$messages messages_of(state)
+		update_if # remove "archived" input
+		  &&
+		    length_of(messages) >= 1
+		    fourth(messages(-1)).is_undefined
+		  &state.messages_of -> range(messages 1 -2)
 		!state.do_break_of false
+		!state.input_text_of previous_input_text_of(state)
+		!state.tokens_of empty_list
+		!state.turn_of USER
 		next
 	      :
-		!state.was_updated_of true
+		!state.output_was_updated_of true
 		$tokens tokens_of(state)
 		if
 		  turn_of(state) == USER:
@@ -413,15 +423,10 @@ $process_events: (io state events)
 			got end of stream - stopping evaluation
 		      stop_evaluation tokens confidences
 		    :
-		      if
-			do_break_of(state):
-			  !state.do_break_of false
-			  next
-			:
-			  !state.tokens_of tokens
-			  !state.confidences_of confidences
-			  !io.evaluation_start_time_of current_time_of(io)
-			  start_evaluation tokens
+		      !state.tokens_of tokens
+		      !state.confidences_of confidences
+		      !io.evaluation_start_time_of current_time_of(io)
+		      start_evaluation tokens
 
 	    $start_evaluation: (tokens)
 	      $context_size ai::context_size_of(model)
@@ -503,20 +508,16 @@ $process_events: (io state events)
 	      log &io "failed to start server - exiting"
 	      exit &io EXIT_SUCCESS
 	      next
-	    DEREGISTER:
-	      log &io "failed to deregister from AI server - exiting"
-	      exit &io EXIT_SUCCESS
-	      next
 	    :
 	      log_failed &io &state "
 		@(id):  @(argument.to_error_message_string)
 	      next
-	WRITE_COMPLETED next
-	:
-	  debug::dump `type
-	  debug::dump `id
+	WRITE_COMPLETED:
 	  next
-    -> io state
+	:
+	  push &remaining_events event
+	  next
+    -> io state remaining_events
 
   $maybe_register_at_ai_server:
     $configuration configuration_of(state)
@@ -537,19 +538,75 @@ $process_events: (io state events)
 	-> io state
       -> io state
 
-  $log_message: (io state colour = DARK_GREY message)
-    trim &message
-    !state
-      .message_colour_of colour
-      .message_text_of message
-    log &io message
-    -> io state
+$process_terminal_events: (io terminal state events)
+  for_each events
+    : (event)
+      event $type $id $argument
+      case type
+	NEW_WINDOW_SIZE:
+	  argument $width $height
+	  log &io 4 "new window size: @(width)x@(height)"
+	  resize &terminal width height
+	  create_horizontal_panes terminal list(0.999 1 1)
+	    !state.input_window_of !state.help_bar_of !state.message_bar_of
+	  !state.everything_was_updated_of true
+	  next
+	:
+	  debug::dump `type
+	  debug::dump `id
+	  next
+    :
+      if !terminal
+	||
+	  input_was_updated_of(state)
+	  output_was_updated_of(state)
+	  everything_was_updated_of(state)
+	:
+	  draw_contents terminal state
+	-> terminal
+      if !terminal
+	message_bar_was_updated_of(state) || everything_was_updated_of(state):
+	  draw_message_bar terminal state
+	-> terminal
+      if !terminal
+	everything_was_updated_of(state):
+	  draw_help_bar terminal state
+	-> terminal
+      if
+	||
+	  input_was_updated_of(state)
+	  output_was_updated_of(state)
+	  message_bar_was_updated_of(state)
+	  everything_was_updated_of(state)
+	:
+	  update &terminal $output
+	  print_to &io STDOUT_FILENO output
+	  return
+	return
 
-  $log_completed: (io state message)
-    log_message io state DARK_GREEN message
+      $return ->
+	io
+	terminal
+	state
+	  .input_was_updated_of false
+	  .output_was_updated_of false
+	  .message_bar_was_updated_of false
+	  .everything_was_updated_of false
 
-  $log_failed: (io state message)
-    log_message io state DARK_RED message
+$log_message: (io state colour = DARK_GREY message)
+  trim &message
+  !state
+    .message_colour_of colour
+    .message_text_of message
+    .message_bar_was_updated_of true
+  log &io message
+  -> io state
+
+$log_completed: (io state message)
+  log_message io state DARK_GREEN message
+
+$log_failed: (io state message)
+  log_message io state DARK_RED message
 
 $draw_contents: (terminal state)
   $configuration configuration_of(state)
@@ -563,10 +620,8 @@ $draw_contents: (terminal state)
   $input_lines
     if
       input_text.is_defined:
-	if
-	  input_text.is_empty
-	  -> list("")
-	  -> wrap_words(input_text_of(state) width)
+	append "[Question] " &input_text "@nl;"
+	-> wrap_words(input_text width)
       -> undefined
   $lines
     if
@@ -770,25 +825,28 @@ $get_output_piece_colour: (i info)
     -> confidence_delta < 0 ->
       colour_mixture
 	GREY = -confidence_delta
-	LIGHT_RED = minimum_confidence+confidence_delta
+	VERY_LIGHT_RED = minimum_confidence+confidence_delta
     -> confidence_delta > 10 ->
       colour_mixture
-	LIGHT_GREEN = 10
+	VERY_LIGHT_GREEN = 10
 	WHITE = confidence_delta-10
     -> true ->
       colour_mixture
-	LIGHT_RED = 10-confidence_delta
-	LIGHT_GREEN = confidence_delta
+	VERY_LIGHT_RED = 10-confidence_delta
+	VERY_LIGHT_GREEN = confidence_delta
 
 $draw_help_bar: (terminal state)
   $help_bar help_bar_of(state)
+  set_clear_colour &help_bar LIGHT_GREY
+  set_draw_colour &help_bar BLACK
   clear help_bar &terminal
   draw_text help_bar terminal 1 1 "
-    press <alt-return> to send your request and <ctrl-q> to exit@
+    press <alt-return> to send your request; enter "quit" to exit@
 
 $draw_message_bar: (terminal state)
   $message_bar message_bar_of(state)
   $message message_text_of(state)
   set_clear_colour &message_bar message_colour_of(state)
+  set_draw_colour &message_bar WHITE
   clear message_bar &terminal
   draw_text message_bar terminal 1 1 message

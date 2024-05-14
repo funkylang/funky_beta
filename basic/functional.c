@@ -56,8 +56,14 @@ enum {
   lambda_34 = -47,
   num_5 = -48,
   lambda_35 = -49,
-  lambda_36 = -50,
-  str_TOO_MANY_ARGUMEN = -51
+  num_6 = -50,
+  lambda_36 = -51,
+  num_7 = -52,
+  lambda_37 = -53,
+  num_8 = -54,
+  lambda_38 = -55,
+  lambda_39 = -56,
+  str_TOO_MANY_ARGUMEN = -57
 };
 
 enum {
@@ -431,7 +437,7 @@ static TAB_NUM t_lambda_30[] = {
   // length_of(arguments)
   var_length_of, 1, var_201_0_arguments, 1, LOCAL(1),
   // case length_of(arguments)
-  var_case, 12, LOCAL(1), num_1, lambda_31, num_2, lambda_32, num_3, lambda_33, num_4, lambda_34, num_5, lambda_35, lambda_36, IO_TAIL_CALL,
+  var_case, 18, LOCAL(1), num_1, lambda_31, num_2, lambda_32, num_3, lambda_33, num_4, lambda_34, num_5, lambda_35, num_6, lambda_36, num_7, lambda_37, num_8, lambda_38, lambda_39, IO_TAIL_CALL,
   POS(207, 25),
   POS(207, 47),
   POS(207, 7),
@@ -525,11 +531,98 @@ static TAB_NUM t_lambda_35[] = {
 };
 
 static TAB_NUM t_lambda_36[] = {
+  6, // locals
+  0, // parameters
+  // arguments(1) arguments(2) arguments(3) arguments(4) arguments(5)
+  var_201_0_arguments, 1, num_1, 1, LOCAL(1),
+  // arguments(2) arguments(3) arguments(4) arguments(5)
+  var_201_0_arguments, 1, num_2, 1, LOCAL(2),
+  // arguments(3) arguments(4) arguments(5)
+  var_201_0_arguments, 1, num_3, 1, LOCAL(3),
+  // arguments(4) arguments(5)
+  var_201_0_arguments, 1, num_4, 1, LOCAL(4),
+  // arguments(5)
+  var_201_0_arguments, 1, num_5, 1, LOCAL(5),
+  // arguments(6)
+  var_201_0_arguments, 1, num_6, 1, LOCAL(6),
+  // function!
+  var_200_0_function, 6, LOCAL(1), LOCAL(2), LOCAL(3), LOCAL(4), LOCAL(5), LOCAL(6), IO_TAIL_CALL,
+  POS(218, 13),
+  POS(218, 26),
+  POS(218, 39),
+  POS(218, 52),
+  POS(218, 65),
+  POS(219, 13),
+  POS(217, 11)
+};
+
+static TAB_NUM t_lambda_37[] = {
+  7, // locals
+  0, // parameters
+  // arguments(1) arguments(2) arguments(3) arguments(4) arguments(5)
+  var_201_0_arguments, 1, num_1, 1, LOCAL(1),
+  // arguments(2) arguments(3) arguments(4) arguments(5)
+  var_201_0_arguments, 1, num_2, 1, LOCAL(2),
+  // arguments(3) arguments(4) arguments(5)
+  var_201_0_arguments, 1, num_3, 1, LOCAL(3),
+  // arguments(4) arguments(5)
+  var_201_0_arguments, 1, num_4, 1, LOCAL(4),
+  // arguments(5)
+  var_201_0_arguments, 1, num_5, 1, LOCAL(5),
+  // arguments(6) arguments(7)
+  var_201_0_arguments, 1, num_6, 1, LOCAL(6),
+  // arguments(7)
+  var_201_0_arguments, 1, num_7, 1, LOCAL(7),
+  // function!
+  var_200_0_function, 7, LOCAL(1), LOCAL(2), LOCAL(3), LOCAL(4), LOCAL(5), LOCAL(6), LOCAL(7), IO_TAIL_CALL,
+  POS(222, 13),
+  POS(222, 26),
+  POS(222, 39),
+  POS(222, 52),
+  POS(222, 65),
+  POS(223, 13),
+  POS(223, 26),
+  POS(221, 11)
+};
+
+static TAB_NUM t_lambda_38[] = {
+  8, // locals
+  0, // parameters
+  // arguments(1) arguments(2) arguments(3) arguments(4) arguments(5)
+  var_201_0_arguments, 1, num_1, 1, LOCAL(1),
+  // arguments(2) arguments(3) arguments(4) arguments(5)
+  var_201_0_arguments, 1, num_2, 1, LOCAL(2),
+  // arguments(3) arguments(4) arguments(5)
+  var_201_0_arguments, 1, num_3, 1, LOCAL(3),
+  // arguments(4) arguments(5)
+  var_201_0_arguments, 1, num_4, 1, LOCAL(4),
+  // arguments(5)
+  var_201_0_arguments, 1, num_5, 1, LOCAL(5),
+  // arguments(6) arguments(7) arguments(8)
+  var_201_0_arguments, 1, num_6, 1, LOCAL(6),
+  // arguments(7) arguments(8)
+  var_201_0_arguments, 1, num_7, 1, LOCAL(7),
+  // arguments(8)
+  var_201_0_arguments, 1, num_8, 1, LOCAL(8),
+  // function!
+  var_200_0_function, 8, LOCAL(1), LOCAL(2), LOCAL(3), LOCAL(4), LOCAL(5), LOCAL(6), LOCAL(7), LOCAL(8), IO_TAIL_CALL,
+  POS(226, 13),
+  POS(226, 26),
+  POS(226, 39),
+  POS(226, 52),
+  POS(226, 65),
+  POS(227, 13),
+  POS(227, 26),
+  POS(227, 39),
+  POS(225, 11)
+};
+
+static TAB_NUM t_lambda_39[] = {
   0, // locals
   0, // parameters
   // error "TOO MANY ARGUMENTS FOR APPLY"
   var_error, 1, str_TOO_MANY_ARGUMEN, TAIL_CALL,
-  POS(217, 11)
+  POS(229, 11)
 };
 
 static FUNKY_CONSTANT constants_table[] = {
@@ -582,7 +675,13 @@ static FUNKY_CONSTANT constants_table[] = {
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_34}},
   {FLT_POSITIVE_INT64, 0, {.value = 5}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_35}},
+  {FLT_POSITIVE_INT64, 0, {.value = 6}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_36}},
+  {FLT_POSITIVE_INT64, 0, {.value = 7}},
+  {FLT_FUNCTION, 0, {.tfunc = t_lambda_37}},
+  {FLT_POSITIVE_INT64, 0, {.value = 8}},
+  {FLT_FUNCTION, 0, {.tfunc = t_lambda_38}},
+  {FLT_FUNCTION, 0, {.tfunc = t_lambda_39}},
   {FLT_STRING_8, 28, {.str_8 = "TOO MANY ARGUMENTS FOR APPLY"}}
 };
 
@@ -719,7 +818,7 @@ static FUNKY_VARIABLE variables_table[] = {
   {
     FOT_UNKNOWN, 0, 0,
     "error\000", NULL,
-    {.position = POS(217, 11)}
+    {.position = POS(229, 11)}
   },
   {
     FOT_UNKNOWN, 0, 0,
@@ -742,7 +841,7 @@ FUNKY_MODULE module__basic__functional = {
   0, // number of required modules
   0, // number of defined namespaces
   1, // number of used namespaces
-  51, // number of constants
+  57, // number of constants
   30, // number of variables
   NULL, // required modules
   NULL, // defined namespaces

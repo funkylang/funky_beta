@@ -91,7 +91,7 @@ enum {
   var_std__draw_attributed_text, // attribute
   var_std__clear, // attribute
   var_std_types__generic_terminal, // derived
-  var_std_types__object, // extern
+  var_std_types__resource, // extern
   var_type_of, // extern polymorphic
   var_undefined, // extern
   var_x_of, // extern polymorphic
@@ -1312,11 +1312,11 @@ static FUNKY_VARIABLE variables_table[] = {
   {
     FOT_DERIVED, 0, 16,
     "generic_terminal\000std_types", std_types__generic_terminal__attributes,
-    {"object\000std_types"}
+    {"resource\000std_types"}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "object\000std_types", NULL,
+    "resource\000std_types", NULL,
     {.position = POS(112, 30)}
   },
   {

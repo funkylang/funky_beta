@@ -447,7 +447,15 @@ $std::LIGHT_RED '@0xff8080;'
 
     Topic: Colours
 
-    See also: RED, DARK_RED
+    See also: RED, DARK_RED, VERY_LIGHT_RED
+
+$std::VERY_LIGHT_RED '@0xffc0c0;'
+  #
+    a very light variation of the colour red as used by the terminal library
+
+    Topic: Colours
+
+    See also: RED, LIGHT_RED, DARK_RED
 
 $std::DARK_RED '@0x800000;'
   #
@@ -455,7 +463,16 @@ $std::DARK_RED '@0x800000;'
 
     Topic: Colours
 
-    See also: RED, LIGHT_RED
+    See also: RED, LIGHT_RED, VERY_DARK_RED
+
+$std::VERY_DARK_RED '@0x400000;'
+  #
+    a very dark variation of the colour red as used by the terminal library
+
+    Topic: Colours
+
+    See also: RED, DARK_RED, LIGHT_RED
+
 
 $std::GREEN '@0x00ff00;'
   #
@@ -463,7 +480,8 @@ $std::GREEN '@0x00ff00;'
 
     Topic: Colours
 
-    See also: BLACK, WHITE, RED, BLUE, CYAN, MAGENTA, YELLOW, GREY
+    See also: BLACK, WHITE, RED, BLUE, CYAN, MAGENTA, YELLOW, GREY,
+	      LIGHT_GREEN, DARK_GREEN, VERY_LIGHT_GREEN, VERY_DARK_GREEN
 
 $std::LIGHT_GREEN '@0x80ff80;'
   #
@@ -471,7 +489,15 @@ $std::LIGHT_GREEN '@0x80ff80;'
 
     Topic: Colours
 
-    See also: GREEN, DARK_GREEN
+    See also: GREEN, DARK_GREEN, VERY_LIGHT_GREEN
+
+$std::VERY_LIGHT_GREEN '@0xc0ffc0;'
+  #
+    a very light variation of the colour green as used by the terminal library
+
+    Topic: Colours
+
+    See also: LIGHT_GREEN, GREEN, DARK_GREEN
 
 $std::DARK_GREEN '@0x008000;'
   #
@@ -479,7 +505,15 @@ $std::DARK_GREEN '@0x008000;'
 
     Topic: Colours
 
-    See also: GREEN, LIGHT_GREEN
+    See also: GREEN, LIGHT_GREEN, VERY_DARK_GREEN
+
+$std::VERY_DARK_GREEN '@0x004000;'
+  #
+    a very dark variation of the colour green as used by the terminal library
+
+    Topic: Colours
+
+    See also: DARK_GREEN, GREEN, LIGHT_GREEN
 
 $std::BLUE '@0x0000ff;'
   #
@@ -487,7 +521,8 @@ $std::BLUE '@0x0000ff;'
 
     Topic: Colours
 
-    See also: BLACK, WHITE, RED, GREEN, CYAN, MAGENTA, YELLOW, GREY
+    See also: BLACK, WHITE, RED, GREEN, CYAN, MAGENTA, YELLOW, GREY,
+	      LIGHT_BLUE, DARK_BLUE, VERY_LIGHT_BLUE, VERY_DARK_BLUE
 
 $std::LIGHT_BLUE '@0x8080ff;'
   #
@@ -495,7 +530,15 @@ $std::LIGHT_BLUE '@0x8080ff;'
 
     Topic: Colours
 
-    See also: BLUE, DARK_BLUE
+    See also: BLUE, DARK_BLUE, VERY_LIGHT_BLUE
+
+$std::VERY_LIGHT_BLUE '@0xc0c0ff;'
+  #
+    a very light variation of the colour blue as used by the terminal library
+
+    Topic: Colours
+
+    See also: LIGHT_BLUE, BLUE, DARK_BLUE
 
 $std::DARK_BLUE '@0x000080;'
   #
@@ -503,14 +546,24 @@ $std::DARK_BLUE '@0x000080;'
 
     Topic: Colours
 
-    See also: BLUE, LIGHT_BLUE
+    See also: BLUE, LIGHT_BLUE, VERY_DARK_BLUE
+
+$std::VERY_DARK_BLUE '@0x000040;'
+  #
+    a very dark variation of the colour blue as used by the terminal library
+
+    Topic: Colours
+
+    See also: DARK_BLUE, BLUE, LIGHT_BLUE
+
 $std::CYAN '@0x00ffff;'
   #
     the colour cyan as used by the terminal library
 
     Topic: Colours
 
-    See also: BLACK, WHITE, RED, GREEN, BLUE, MAGENTA, YELLOW, GREY
+    See also: BLACK, WHITE, RED, GREEN, BLUE, MAGENTA, YELLOW, GREY,
+	      LIGHT_CYAN, DARK_CYAN, VERY_LIGHT_CYAN, VERY_DARK_CYAN
 
 $std::LIGHT_CYAN '@0x80ffff;'
   #
@@ -518,7 +571,15 @@ $std::LIGHT_CYAN '@0x80ffff;'
 
     Topic: Colours
 
-    See also: CYAN, DARK_CYAN
+    See also: CYAN, DARK_CYAN, VERY_LIGHT_CYAN
+
+$std::VERY_LIGHT_CYAN '@0xc0ffff;'
+  #
+    a very light variation of the colour cyan as used by the terminal library
+
+    Topic: Colours
+
+    See also: LIGHT_CYAN, CYAN, DARK_CYAN
 
 $std::DARK_CYAN '@0x008080;'
   #
@@ -526,7 +587,15 @@ $std::DARK_CYAN '@0x008080;'
 
     Topic: Colours
 
-    See also: CYAN, LIGHT_CYAN
+    See also: CYAN, LIGHT_CYAN, VERY_DARK_CYAN
+
+$std::VERY_DARK_CYAN '@0x000080;'
+  #
+    a very dark variation of the colour cyan as used by the terminal library
+
+    Topic: Colours
+
+    See also: DARK_CYAN, CYAN, LIGHT_CYAN
 
 $std::MAGENTA '@0xff00ff;'
   #
@@ -534,7 +603,8 @@ $std::MAGENTA '@0xff00ff;'
 
     Topic: Colours
 
-    See also: BLACK, WHITE, RED, GREEN, BLUE, CYAN, YELLOW, GREY
+    See also: BLACK, WHITE, RED, GREEN, BLUE, CYAN, YELLOW, GREY,
+	      LIGHT_MAGENTA, DARK_MAGENTA, VERY_LIGHT_MAGENTA,
 
 $std::LIGHT_MAGENTA '@0xff8080;'
   #
@@ -542,7 +612,15 @@ $std::LIGHT_MAGENTA '@0xff8080;'
 
     Topic: Colours
 
-    See also: MAGENTA, DARK_MAGENTA
+    See also: MAGENTA, DARK_MAGENTA, VERY_LIGHT_MAGENTA
+
+$std::VERY_LIGHT_MAGENTA '@0xffc0c0;'
+  #
+    a very light variation of the colour magenta as used by the terminal library
+
+    Topic: Colours
+
+    See also: MAGENTA, LIGHT_MAGENTA, DARK_MAGENTA
 
 $std::DARK_MAGENTA '@0x800080;'
   #
@@ -550,13 +628,24 @@ $std::DARK_MAGENTA '@0x800080;'
 
     Topic: Colours
 
+    See also: MAGENTA, LIGHT_MAGENTA, VERY_DARK_MAGENTA
+
+$std::VERY_DARK_MAGENTA '@0x400040;'
+  #
+    a very dark variation of the colour magenta as used by the terminal library
+
+    Topic: Colours
+
+    See also: MAGENTA, DARK_MAGENTA, LIGHT_MAGENTA
+
 $std::YELLOW '@0xffff00;'
   #
     the colour yellow as used by the terminal library
 
     Topic: Colours
 
-    See also: BLACK, WHITE, RED, GREEN, BLUE, CYAN, MAGENTA, GREY
+    See also: BLACK, WHITE, RED, GREEN, BLUE, CYAN, MAGENTA, GREY,
+	      LIGHT_YELLOW, DARK_YELLOW, VERY_LIGHT_YELLOW,
 
 $std::LIGHT_YELLOW '@0xffff80;'
   #
@@ -564,7 +653,15 @@ $std::LIGHT_YELLOW '@0xffff80;'
 
     Topic: Colours
 
-    See also: YELLOW, DARK_YELLOW
+    See also: YELLOW, DARK_YELLOW, VERY_LIGHT_YELLOW
+
+$std::VERY_LIGHT_YELLOW '@0xffffc0;'
+  #
+    a very light variation of the colour yellow as used by the terminal library
+
+    Topic: Colours
+
+    See also: YELLOW, LIGHT_YELLOW, DARK_YELLOW
 
 $std::DARK_YELLOW '@0x808000;'
   #
@@ -572,7 +669,7 @@ $std::DARK_YELLOW '@0x808000;'
 
     Topic: Colours
 
-    See also: YELLOW, LIGHT_YELLOW
+    See also: YELLOW, LIGHT_YELLOW, VERY_DARK_YELLOW
 
 $std::GREY '@0x808080;'
   #
@@ -580,7 +677,8 @@ $std::GREY '@0x808080;'
 
     Topic: Colours
 
-    See also: BLACK, WHITE, RED, GREEN, BLUE, CYAN, MAGENTA, YELLOW
+    See also: BLACK, WHITE, RED, GREEN, BLUE, CYAN, MAGENTA, YELLOW,
+	      LIGHT_GREY, DARK_GREY, VERY_LIGHT_GREY, VERY_DARK_GREY
 
 $std::LIGHT_GREY '@0xc0c0c0;'
   #
@@ -588,7 +686,16 @@ $std::LIGHT_GREY '@0xc0c0c0;'
 
     Topic: Colours
 
-    See also: GREY, DARK_GREY
+    See also: GREY, DARK_GREY, VERY_LIGHT_GREY
+
+
+$std::VERY_LIGHT_GREY '@0xe0e0e0;'
+  #
+    a very light variation of the colour grey as used by the terminal library
+
+    Topic: Colours
+
+    See also: GREY, LIGHT_GREY, DARK_GREY
 
 $std::DARK_GREY '@0x404040;'
   #
@@ -596,7 +703,15 @@ $std::DARK_GREY '@0x404040;'
 
     Topic: Colours
 
-    See also: GREY, LIGHT_GREY
+    See also: GREY, LIGHT_GREY, VERY_DARK_GREY
+
+$std::VERY_DARK_GREY '@0x202020;'
+  #
+    a very dark variation of the colour grey as used by the terminal library
+
+    Topic: Colours
+
+    See also: GREY, DARK_GREY, LIGHT_GREY
 
 $INVALID_COLOUR '@0xffffffff;'
 
@@ -650,6 +765,8 @@ $std_types::terminal std_types::screen
     Topic: Terminal
 
     See also: create_terminal
+
+$std_types::terminal.name_of "terminal"
 
 $std_types::terminal.serialization_tag_of "terminal"
   #

@@ -109,7 +109,7 @@ $std::clear ()
 
     See also: set_clear_colour
 
-$std_types::generic_terminal std_types::object
+$std_types::generic_terminal std_types::resource
 
 $std_types::generic_terminal.type_of undefined
 $std_types::generic_terminal.x_of 1

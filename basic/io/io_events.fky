@@ -560,6 +560,36 @@ $std_types::io.handlers_of empty_hash_table
 $std_types::io.random_seed_of undefined
 $std_types::io.step_no_of 0
 
+$std::do_log_of ()
+
+$std_types::resource std_types::object
+$std_types::resource.name_of "anonymous resource"
+$std_types::io.do_log_of false
+
+$std_types::resource/enable_logging:
+  #
+    enables logging
+
+    Topic: Input-Output Events
+
+    See also: @Input-Output Events, disable_logging
+  (
+    self # the resource
+  )
+  -> self(.do_log_of true)
+
+$std_types::resource/disable_logging:
+  #
+    disables logging
+
+    Topic: Input-Output Events
+
+    See also: @Input-Output Events, enable_logging
+  (
+    self # the resource
+  )
+  -> self(.do_log_of false)
+
 $std_types::event tuple(undefined undefined undefined)
   #
     the prototype for all events
@@ -1273,8 +1303,15 @@ $attempt_exit: (io)
     exit_code_of(io).is_defined:
       for_each resources_of(io)
 	: (resource)
-	  finalize! resource &io
-	  next
+	  if
+	    do_log_of(resource):
+	      log &io 3 "finalizing @(name_of(resource))"
+	      finalize_resource!
+	    finalize_resource
+
+	  $finalize_resource:
+	    finalize! resource &io
+	    next!
 	:
 	  !io.resources_of empty_list
 	  if
