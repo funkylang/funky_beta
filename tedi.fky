@@ -38,7 +38,7 @@
 <using std>
 <using ai>
 
-$version "0.2"
+$version "0.3"
 
 $EXIT . # a special "handler"-value to exit the program
 
@@ -4637,7 +4637,7 @@ $handle_configuration: (configuration continuation)
 	      !ai_server_address value
 	      next!
 	    "ai-server-port":
-	      !ai_server_port_no value
+	      !ai_server_port_no value.to_integer
 	      next!
 	    "ai-context-size":
 	      !ai_context_size value.to_integer
