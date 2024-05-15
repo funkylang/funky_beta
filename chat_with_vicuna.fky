@@ -32,6 +32,8 @@
 <using std>
 <using ai>
 
+$version "0.1"
+
 # Resources
 
 $TERMINAL .
@@ -250,7 +252,7 @@ $process_events: (io state events)
 		    RETURN:
 		      !state.input_text_of push(input_text '@nl;')
 		      updated_input
-		    ALT_RETURN:
+		    ALT_RETURN, F12:
 		      $model model_of(state)
 		      if
 			input_text.is_empty || model.is_undefined
@@ -841,8 +843,11 @@ $draw_help_bar: (terminal state)
   set_clear_colour &help_bar LIGHT_GREY
   set_draw_colour &help_bar BLACK
   clear help_bar &terminal
+  $width width_of(help_bar)
+  $version_info "CwV - V@(version)"
+  draw_text help_bar &terminal width-length_of(version_info)+1 1 version_info
   draw_text help_bar terminal 1 1 "
-    press <alt-return> to send your request; enter "quit" to exit@
+    Press <F12> to send your request; enter <ctrl-q> to exit@
 
 $draw_message_bar: (terminal state)
   $message_bar message_bar_of(state)
