@@ -26,6 +26,7 @@
 <require basic/export/json>
 <require basic/import/json>
 <require terminal/terminal>
+<require terminal/edit>
 <require ai/llama>
 <require web/server>
 
@@ -126,6 +127,7 @@ $model_of ()
 $turn_of ()
 $messages_of () # tuple(attributed_text width tokens confidences)
 $input_text_of ()
+$cursor_position_of ()
 $previous_input_text_of ()
 $tokens_of ()
 $confidences_of ()
@@ -158,6 +160,7 @@ $main:
       .turn_of USER
       .messages_of empty_list
       .input_text_of ""
+      .cursor_position_of 1
       .previous_input_text_of undefined
       .tokens_of empty_list
       .confidences_of empty_list
@@ -242,16 +245,6 @@ $process_events: (io state events)
 		next
 		:
 		  case argument
-		    BACKSPACE:
-		      if
-			input_text.is_empty
-			next
-			:
-			  !state.input_text_of range(input_text 1 -2)
-			  updated_input
-		    RETURN:
-		      !state.input_text_of push(input_text '@nl;')
-		      updated_input
 		    ALT_RETURN, F12:
 		      $model model_of(state)
 		      if
@@ -285,20 +278,19 @@ $process_events: (io state events)
 				  .output_was_updated_of true
 				next
 		    :
+		      $cursor_position cursor_position_of(state)
+		      edit $new_input_text $new_cursor_position
+			input_text cursor_position argument
 		      if
-			argument.is_a_character:
-			  !state.input_text_of push(input_text argument)
-			  updated_input
+			||
+			  new_input_text != input_text
+			  new_cursor_position != cursor_position
 			:
-			  case argument
-			    CTRL_BACKSPACE:
-			      !state.input_text_of ""
-			      updated_input
-			    next
-
-		  $updated_input:
-		    !state.input_was_updated_of true
-		    next
+			  !state.input_text_of new_input_text
+			  !state.cursor_position_of new_cursor_position
+			  !state.input_was_updated_of true
+			  next
+			next
 	JOB_COMPLETED:
 	  case id
 	    GENERATE_UUID:
@@ -366,10 +358,13 @@ $process_events: (io state events)
 		    length_of(messages) >= 1
 		    fourth(messages(-1)).is_undefined
 		  &state.messages_of -> range(messages 1 -2)
-		!state.do_break_of false
-		!state.input_text_of previous_input_text_of(state)
-		!state.tokens_of empty_list
-		!state.turn_of USER
+		$input_text previous_input_text_of(state)
+		!state
+		  .do_break_of false
+		  .input_text_of input_text
+		  .cursor_position_of length_of(input_text)+1
+		  .tokens_of empty_list
+		  .turn_of USER
 		next
 	      :
 		!state.output_was_updated_of true
@@ -457,9 +452,11 @@ $process_events: (io state events)
 	    $stop_evaluation: (tokens confidences)
 	      push &state.messages_of
 		tuple(undefined undefined tokens confidences)
-	      !state.tokens_of empty_list
-	      !state.input_text_of ""
-	      !state.turn_of USER
+	      !state
+		.tokens_of empty_list
+		.input_text_of ""
+		.cursor_position_of 1
+		.turn_of USER
 	      next
 	JOB_FAILED:
 	  case id
@@ -619,12 +616,23 @@ $draw_contents: (terminal state)
   update_attributed_text_cache &state
   $messages messages_of(state)
   $input_text input_text_of(state)
-  $input_lines
-    if
-      input_text.is_defined:
-	append "[Question] " &input_text "@nl;"
-	-> wrap_words(input_text width)
-      -> undefined
+  if $input_lines $cursor_y $cursor_x
+    input_text.is_defined:
+      append "[Question] " &input_text "@nl;"
+      $wrapped_lines wrap_words(input_text width)
+      $x cursor_position_of(state)+11 # length_of("[Question] ")
+      $y 1
+      for_each wrapped_lines
+	: (line)
+	  $line_length length_of(line)+1
+	  if
+	    x <= line_length
+	    -> wrapped_lines y min(x width)
+	    :
+	      minus &x line_length
+	      inc &y
+	      next
+    -> undefined undefined undefined
   $lines
     if
       input_lines.is_defined
@@ -675,9 +683,9 @@ $draw_contents: (terminal state)
 	  next
 	:
 	  if
-	    input_lines.is_defined:
-	      $x min(length_of(input_lines(-1))+1 width)
-	      set_cursor terminal x y
+	    cursor_y.is_defined:
+	      plus &cursor_y length_of(lines)-length_of(input_lines)
+	      set_cursor terminal cursor_x cursor_y
 	    -> terminal
 
 $create_attributed_text_lines: (lines width draw_colour clear_colour)

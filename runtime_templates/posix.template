@@ -177,6 +177,36 @@ OBJECT std::SHUT_RDWR -> std_types::shutdown_type
 
   {SHUT_RDWR}
 
+OBJECT std::SEEK_SET -> std_types::seek_type
+  #
+    seek from the beginning of the file
+
+    Topic: POSIX
+
+    See also: std_types::seek_type
+
+  {SEEK_SET}
+
+OBJECT std::SEEK_CUR -> std_types::seek_type
+  #
+    seek from the current position in the file
+
+    Topic: POSIX
+
+    See also: std_types::seek_type
+
+  {SEEK_CUR}
+
+OBJECT std::SEEK_END -> std_types::seek_type
+  #
+    seek from the end of the file
+
+    Topic: POSIX
+
+    See also: std_types::seek_type
+
+  {SEEK_END}
+
 OBJECT std::ENOERR -> std_types::error_number
   #
     no error
@@ -1997,6 +2027,145 @@ METHOD std_types::shutdown_type/to_integer
     RETURN_SINGLE_RESULT(from_int(value))
   }
 
+TYPE std_types::seek_type -> std_types::object
+  #
+    a POSIX seek type
+
+    Topic: POSIX
+
+    See also: lseek
+
+  int value
+
+METHOD std_types::seek_type/_type
+  {
+    RUNTIME_ERROR("Attempt to call a seek type as a function!")
+  }
+
+METHOD long std_types::seek_type/_debug_string
+  (
+    NODE *node,
+    int indent,
+    int max_depth,
+    char *buf
+  )
+  {
+    return debug_print(
+      indent, buf, "<seek_type %d>", node->seek_type.value);
+  }
+
+CODE
+  static int seek_type_to_int
+    (
+      NODE *node,
+      int *result_p
+    )
+    {
+      if (TYPEOF(node) != TYPE(std_types::seek_type)) {
+	invalid_arguments();
+	return false;
+      } else {
+	*result_p = node->seek_type.value;
+	return true;
+      }
+    }
+
+CODE
+  static NODE *seek_type_from_int
+    (
+      int value
+    )
+    {
+      return create__std_types___seek_type(value);
+    }
+
+METHOD std_types::seek_type/equal
+  #
+    compares two seek types for equality
+
+    Parameters:
+      left # a seek type
+      right # a seek type
+
+    Result:
+      success  # true if the two seek types are equal
+
+    Topic: POSIX
+
+    See also: std_types::seek_type, std_types::seek_type/hash
+  {
+    CHECK_ARGUMENTS(2)
+    if (TYPEOF(ARGUMENTS(1)) == TYPE(std_types::seek_type))
+      RETURN_SINGLE_RESULT(
+	from_bool(
+	  ARGUMENTS(0)->seek_type.value == ARGUMENTS(1)->seek_type.value))
+    RETURN_FALSE
+  }
+
+METHOD std_types::seek_type/hash
+  #
+    returns an integer hash value for a seek type
+
+    Parameter:
+      type # a seek type
+
+    Result:
+      value # the hash value
+
+    Topic: POSIX
+
+    See also: std_types::seek_type, std_types::seek_type/equal
+  {
+    CHECK_ARGUMENTS(1)
+    uint32_t hash = ARGUMENTS(0)->seek_type.value;
+    hash += 49284017u;
+    hash *= 783461037;
+    hash ^= hash >> 21 | hash << 11;
+    RETURN_SINGLE_RESULT(from_uint32(hash));
+  }
+
+FUNCTION std::seek_type
+  #
+    constructs a seek type from an integer value
+
+    Parameter:
+      value # an integer value
+
+    Result:
+      type # a seek type
+
+    This function is for internal use mainly.
+
+    Topic: POSIX
+
+    See also: std_types::seek_type
+  {
+    CHECK_ARGUMENTS(1)
+    int value;
+    if (!(to_int(ARGUMENTS(0), &value))) return;
+    RETURN_SINGLE_RESULT(create__std_types___seek_type(value))
+  }
+
+METHOD std_types::seek_type/to_integer
+  #
+    returns an integer value representing the seek type
+
+    Parameter:
+      type # a seek type
+
+    Result:
+      value # an integer value
+
+    This function returns the internal (POSIX) representation of the seek type.
+
+    Topic: POSIX
+
+    See also: std_types::seek_type, std::seek_type
+  {
+    CHECK_ARGUMENTS(1)
+    int value = ARGUMENTS(0)->seek_type.value;
+    RETURN_SINGLE_RESULT(from_int(value))
+  }
 
 TYPE std_types::device_id -> std_types::object
   #
@@ -4066,6 +4235,97 @@ FUNCTION std::isatty
       INT(result)
     END
     PREPARE_SINGLE_RESULT(from_bool(result))
+  }
+
+FUNCTION std::link
+  #
+    creates a hard link to a file
+
+    Parameters:
+      old_path # the path of the file to be linked
+      new_path # the path of the new link
+
+    This function needs I/O-access rights.
+
+    Topic: POSIX
+
+    See also: unlink
+  {
+    CHECK_ARGUMENTS(2)
+    CHECK_IO_ACCESS_RIGHTS
+    char *old_path;
+    char *new_path;
+    if (!to_c_string(ARGUMENTS(0), &old_path)) return;
+    if (!to_c_string(ARGUMENTS(1), &new_path)) {
+      deallocate_memory(old_path);
+      return;
+    }
+    EVENT(link)
+      if (link(old_path, new_path) == -1) {
+	create_error_message(
+	  module__builtin.constants_base[unique__std___IO_ERROR-1],
+	  "LINK FAILED", errno, 0, NULL);
+      } else {
+	PREPARE_NO_RESULT
+      }
+    INFO
+      C_STRING(old_path)
+      C_STRING(new_path)
+    DATA
+      C_STRING(old_path)
+      C_STRING(new_path)
+    END
+    deallocate_memory(old_path);
+    deallocate_memory(new_path);
+  }
+
+FUNCTION std::lseek
+  #
+    changes the file position of a file descriptor
+
+    Parameters:
+      fd # the file descriptor
+      offset # the offset
+      whence # the point of reference
+
+    Results:
+      position: an integer describing the new file position
+
+    This function needs I/O-access rights.
+
+    Topic: POSIX
+
+    See also: std_types::seek_type
+  {
+    CHECK_ARGUMENTS(3)
+    CHECK_IO_ACCESS_RIGHTS
+    int fd;
+    long offset;
+    int whence;
+    if (!file_descriptor_to_int(ARGUMENTS(0), &fd)) return;
+    if (!to_long(ARGUMENTS(1), &offset)) return;
+    if (!seek_type_to_int(ARGUMENTS(2), &whence)) return;
+    off_t result;
+    EVENT(lseek)
+      result = lseek(fd, offset, whence);
+    INFO
+      INT(fd)
+      LONG(offset)
+      INT(whence)
+      LONG(result)
+    DATA
+      INT(fd)
+      LONG(offset)
+      INT(whence)
+      LONG(result)
+    END
+    if (result == -1) {
+      create_error_message(
+	module__builtin.constants_base[unique__std___IO_ERROR-1],
+	"LSEEK FAILED", errno, 0, NULL);
+    } else {
+      PREPARE_SINGLE_RESULT(from_long(result))
+    }
   }
 
 FUNCTION std::mkdir

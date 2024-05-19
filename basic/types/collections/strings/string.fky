@@ -447,8 +447,8 @@ $std_types::string/search:
 
     See also: std_types::string/match
   (
-    self
-    stream
+    self # the string to search for
+    stream # the stream to search in
     nth = 1 # search for the nth occurrence of *self* instead for the first one
   )
   $i undefined
@@ -937,7 +937,7 @@ $std_types::string/has_prefix:
 	:
 	  println! "path does not start with /home/"
   (
-    self
+    self # the string to check
     prefix # the prefix to check for
   )
   -> match(prefix self).is_defined
@@ -959,7 +959,7 @@ $std_types::string/has_suffix:
 	:
 	  println! "path does not end with a slash"
   (
-    self
+    self # the string to check
     suffix # the suffix to check for
   )
   if
@@ -990,8 +990,8 @@ $std_types::string/without_prefix:
 
       user
   (
-    self
-    prefix
+    self # the string to process
+    prefix # the prefix to remove
   )
   $n match(prefix self)
   if
@@ -1020,8 +1020,8 @@ $std_types::string/without_suffix:
 
       /home
   (
-    self
-    suffix
+    self # the string to process
+    suffix # the suffix to remove
   )
   $len length_of(self)
   if

@@ -282,6 +282,10 @@ enum {
   func__std_types___shutdown_type___std___hash,
   func__std___shutdown_type,
   func__std_types___shutdown_type___std___to_integer,
+  func__std_types___seek_type___std___equal,
+  func__std_types___seek_type___std___hash,
+  func__std___seek_type,
+  func__std_types___seek_type___std___to_integer,
   func__std_types___device_id___std___equal,
   func__std_types___device_id___std___hash,
   func__std___device_id,
@@ -331,6 +335,8 @@ enum {
   func__std___getsid,
   func__std___getuid,
   func__std___isatty,
+  func__std___link,
+  func__std___lseek,
   func__std___mkdir,
   func__std___mkfifo,
   func__std___open,
@@ -615,6 +621,9 @@ enum {
   var_no__std___SHUT_RD,
   var_no__std___SHUT_WR,
   var_no__std___SHUT_RDWR,
+  var_no__std___SEEK_SET,
+  var_no__std___SEEK_CUR,
+  var_no__std___SEEK_END,
   var_no__std___ENOERR,
   var_no__std___EPERM,
   var_no__std___ENOENT,
@@ -763,6 +772,8 @@ enum {
   var_no__std___file_descriptor,
   var_no__std_types___shutdown_type,
   var_no__std___shutdown_type,
+  var_no__std_types___seek_type,
+  var_no__std___seek_type,
   var_no__std_types___device_id,
   var_no__std___device_id,
   var_no__std_types___directory,
@@ -801,6 +812,8 @@ enum {
   var_no__std___getsid,
   var_no__std___getuid,
   var_no__std___isatty,
+  var_no__std___link,
+  var_no__std___lseek,
   var_no__std___mkdir,
   var_no__std___mkfifo,
   var_no__std___open,
@@ -900,6 +913,9 @@ static FILE_DESCRIPTOR std___STDERR_FILENO;
 static SHUTDOWN_TYPE std___SHUT_RD;
 static SHUTDOWN_TYPE std___SHUT_WR;
 static SHUTDOWN_TYPE std___SHUT_RDWR;
+static SEEK_TYPE std___SEEK_SET;
+static SEEK_TYPE std___SEEK_CUR;
+static SEEK_TYPE std___SEEK_END;
 static ERROR_NUMBER std___ENOERR;
 static ERROR_NUMBER std___EPERM;
 static ERROR_NUMBER std___ENOENT;
@@ -1176,6 +1192,11 @@ static void *create__std_types___shutdown_type
     int value
   );
 
+static void *create__std_types___seek_type
+  (
+    int value
+  );
+
 static void *create__std_types___device_id
   (
     unsigned long value
@@ -1438,6 +1459,8 @@ static void *std_types___file_descriptor____collect(FILE_DESCRIPTOR *node);
 static long std_types___file_descriptor____debug_string(NODE *node, int indent, int max_depth, char *buf);
 static void *std_types___shutdown_type____collect(SHUTDOWN_TYPE *node);
 static long std_types___shutdown_type____debug_string(NODE *node, int indent, int max_depth, char *buf);
+static void *std_types___seek_type____collect(SEEK_TYPE *node);
+static long std_types___seek_type____debug_string(NODE *node, int indent, int max_depth, char *buf);
 static void *std_types___device_id____collect(DEVICE_ID *node);
 static long std_types___device_id____debug_string(NODE *node, int indent, int max_depth, char *buf);
 static void *std_types___directory____collect(DIRECTORY *node);
@@ -5893,6 +5916,55 @@ static NODE *shutdown_type_from_int
   )
   {
     return create__std_types___shutdown_type(value);
+  }
+
+static void *std_types___seek_type____collect
+  (
+    SEEK_TYPE *node
+  )
+  {
+    SEEK_TYPE *new_node;
+    new_node = allocate(sizeof(SEEK_TYPE));
+    new_node->type = node->type;
+    *(void **)node = ENCODE_ADDRESS(new_node);
+    new_node->attributes = collect_attributes(node->attributes);
+    new_node->value = node->value;
+    return new_node;
+  }
+
+static long std_types___seek_type____debug_string
+  (
+    NODE *node,
+    int indent,
+    int max_depth,
+    char *buf
+  )
+  {
+    return debug_print(
+      indent, buf, "<seek_type %d>", node->seek_type.value);
+  }
+
+static int seek_type_to_int
+  (
+    NODE *node,
+    int *result_p
+  )
+  {
+    if ((node)->type != std_types___seek_type.type) {
+      invalid_arguments();
+      return false;
+    } else {
+      *result_p = node->seek_type.value;
+      return true;
+    }
+  }
+
+static NODE *seek_type_from_int
+  (
+    int value
+  )
+  {
+    return create__std_types___seek_type(value);
   }
 
 static void *std_types___device_id____collect
@@ -11105,6 +11177,16 @@ static void std_types___shutdown_type____type (void)
     }
   }
 
+static void std_types___seek_type____type (void)
+  {
+    {
+      create_error_message(
+        module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+        "Attempt to call a seek type as a function!", 0, 0, NULL);
+      return;
+    }
+  }
+
 static void std_types___device_id____type (void)
   {
     {
@@ -11723,6 +11805,10 @@ SHUTDOWN_TYPE std_types___shutdown_type = {
   std_types___shutdown_type____type, NULL
 };
 
+SEEK_TYPE std_types___seek_type = {
+  std_types___seek_type____type, NULL
+};
+
 DEVICE_ID std_types___device_id = {
   std_types___device_id____type, NULL
 };
@@ -11897,6 +11983,18 @@ static SHUTDOWN_TYPE std___SHUT_WR = {
 
 static SHUTDOWN_TYPE std___SHUT_RDWR = {
   std_types___shutdown_type____type, NULL, SHUT_RDWR
+};
+
+static SEEK_TYPE std___SEEK_SET = {
+  std_types___seek_type____type, NULL, SEEK_SET
+};
+
+static SEEK_TYPE std___SEEK_CUR = {
+  std_types___seek_type____type, NULL, SEEK_CUR
+};
+
+static SEEK_TYPE std___SEEK_END = {
+  std_types___seek_type____type, NULL, SEEK_END
 };
 
 static ERROR_NUMBER std___ENOERR = {
@@ -12790,6 +12888,18 @@ static void *create__std_types___shutdown_type
     SHUTDOWN_TYPE *node = allocate(sizeof(SHUTDOWN_TYPE));
     node->type = std_types___shutdown_type____type;
     node->attributes = std_types___shutdown_type.attributes;
+    node->value = value;
+    return node;
+  }
+
+static void *create__std_types___seek_type
+  (
+    int value
+  )
+  {
+    SEEK_TYPE *node = allocate(sizeof(SEEK_TYPE));
+    node->type = std_types___seek_type____type;
+    node->attributes = std_types___seek_type.attributes;
     node->value = value;
     return node;
   }
@@ -19846,6 +19956,77 @@ static void entry__std_types___shutdown_type___std___to_integer (void)
     }
   }
 
+static void entry__std_types___seek_type___std___equal (void)
+  {
+    if (TLS_argument_count != 2) {
+      invalid_arguments();
+      return;
+    }
+    if ((TLS_arguments[1])->type == std_types___seek_type.type)
+      {
+        NODE *result__node = (NODE *)(from_bool(
+      	  TLS_arguments[0]->seek_type.value == TLS_arguments[1]->seek_type.value));
+        TLS_arguments[0] = result__node;
+        TLS_argument_count = 1;
+        return;
+      }
+    {
+      NODE *result__node = (NODE *)(&std_types___false);
+      TLS_arguments[0] = result__node;
+      TLS_argument_count = 1;
+      return;
+    }
+  }
+
+static void entry__std_types___seek_type___std___hash (void)
+  {
+    if (TLS_argument_count != 1) {
+      invalid_arguments();
+      return;
+    }
+    uint32_t hash = TLS_arguments[0]->seek_type.value;
+    hash += 49284017u;
+    hash *= 783461037;
+    hash ^= hash >> 21 | hash << 11;
+    {
+      NODE *result__node = (NODE *)(from_uint32(hash));
+      TLS_arguments[0] = result__node;
+      TLS_argument_count = 1;
+      return;
+    };
+  }
+
+static void entry__std___seek_type (void)
+  {
+    if (TLS_argument_count != 1) {
+      invalid_arguments();
+      return;
+    }
+    int value;
+    if (!(to_int(TLS_arguments[0], &value))) return;
+    {
+      NODE *result__node = (NODE *)(create__std_types___seek_type(value));
+      TLS_arguments[0] = result__node;
+      TLS_argument_count = 1;
+      return;
+    }
+  }
+
+static void entry__std_types___seek_type___std___to_integer (void)
+  {
+    if (TLS_argument_count != 1) {
+      invalid_arguments();
+      return;
+    }
+    int value = TLS_arguments[0]->seek_type.value;
+    {
+      NODE *result__node = (NODE *)(from_int(value));
+      TLS_arguments[0] = result__node;
+      TLS_argument_count = 1;
+      return;
+    }
+  }
+
 static void entry__std_types___device_id___std___equal (void)
   {
     if (TLS_argument_count != 2) {
@@ -21383,6 +21564,99 @@ static void entry__std___isatty (void)
       NODE *result__node = (NODE *)(from_bool(result));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
+    }
+  }
+
+static void entry__std___link (void)
+  {
+    if (TLS_argument_count != 2) {
+      invalid_arguments();
+      return;
+    }
+    if (TLS_deny_io) {
+      missing_io_access_rights();
+      return;
+    }
+    char *old_path;
+    char *new_path;
+    if (!to_c_string(TLS_arguments[0], &old_path)) return;
+    if (!to_c_string(TLS_arguments[1], &new_path)) {
+      deallocate_memory(old_path);
+      return;
+    }
+    if (event__mode != EM__REPLAY) {
+      if (link(old_path, new_path) == -1) {
+	create_error_message(
+	  module__builtin.constants_base[unique__std___IO_ERROR-1],
+	  "LINK FAILED", errno, 0, NULL);
+      } else {
+	TLS_argument_count = 0;
+      }
+      if (event__mode == EM__RECORD) {
+        record__event("link");
+        store__c_string(old_path);
+        store__c_string(new_path);
+      }
+    } else {
+      replay__event("link");
+      retrieve__c_string(&old_path);
+      retrieve__c_string(&new_path);
+      report__event("link");
+      print__c_string(old_path);
+      print__c_string(new_path);
+    }
+    deallocate_memory(old_path);
+    deallocate_memory(new_path);
+  }
+
+static void entry__std___lseek (void)
+  {
+    if (TLS_argument_count != 3) {
+      invalid_arguments();
+      return;
+    }
+    if (TLS_deny_io) {
+      missing_io_access_rights();
+      return;
+    }
+    int fd;
+    long offset;
+    int whence;
+    if (!file_descriptor_to_int(TLS_arguments[0], &fd)) return;
+    if (!to_long(TLS_arguments[1], &offset)) return;
+    if (!seek_type_to_int(TLS_arguments[2], &whence)) return;
+    off_t result;
+    if (event__mode != EM__REPLAY) {
+      result = lseek(fd, offset, whence);
+      if (event__mode == EM__RECORD) {
+        record__event("lseek");
+        store__integer(fd);
+        store__long_integer(offset);
+        store__integer(whence);
+        store__long_integer(result);
+      }
+    } else {
+      replay__event("lseek");
+      retrieve__integer(&fd);
+      retrieve__long_integer(&offset);
+      retrieve__integer(&whence);
+      retrieve__long_integer(&result);
+      report__event("lseek");
+      print__integer(fd);
+      print__long_integer(offset);
+      print__integer(whence);
+      print__long_integer(result);
+    }
+    if (result == -1) {
+      create_error_message(
+	module__builtin.constants_base[unique__std___IO_ERROR-1],
+	"LSEEK FAILED", errno, 0, NULL);
+    } else {
+      {
+        NODE *result__node = (NODE *)(from_long(result));
+        TLS_arguments[0] = result__node;
+        TLS_argument_count = 1;
+      }
     }
   }
 
@@ -26050,6 +26324,10 @@ static FUNKY_CONSTANT constants_table[] = {
   {FLT_C_FUNCTION, 1, {.func = entry__std_types___shutdown_type___std___hash}},
   {FLT_C_FUNCTION, 1, {.func = entry__std___shutdown_type}},
   {FLT_C_FUNCTION, 1, {.func = entry__std_types___shutdown_type___std___to_integer}},
+  {FLT_C_FUNCTION, 2, {.func = entry__std_types___seek_type___std___equal}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std_types___seek_type___std___hash}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std___seek_type}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std_types___seek_type___std___to_integer}},
   {FLT_C_FUNCTION, 2, {.func = entry__std_types___device_id___std___equal}},
   {FLT_C_FUNCTION, 1, {.func = entry__std_types___device_id___std___hash}},
   {FLT_C_FUNCTION, 1, {.func = entry__std___device_id}},
@@ -26099,6 +26377,8 @@ static FUNKY_CONSTANT constants_table[] = {
   {FLT_C_FUNCTION, 1, {.func = entry__std___getsid}},
   {FLT_C_FUNCTION, 0, {.func = entry__std___getuid}},
   {FLT_C_FUNCTION, 1, {.func = entry__std___isatty}},
+  {FLT_C_FUNCTION, 2, {.func = entry__std___link}},
+  {FLT_C_FUNCTION, 3, {.func = entry__std___lseek}},
   {FLT_C_FUNCTION, -1, {.func = entry__std___mkdir}},
   {FLT_C_FUNCTION, -1, {.func = entry__std___mkfifo}},
   {FLT_C_FUNCTION, -1, {.func = entry__std___open}},
@@ -26742,6 +27022,18 @@ static ATTRIBUTE_DEFINITION std_types___shutdown_type__attributes[] = {
   {var_no__std___equal, func__std_types___shutdown_type___std___equal},
   {var_no__std___hash, func__std_types___shutdown_type___std___hash},
   {var_no__std___to_integer, func__std_types___shutdown_type___std___to_integer}
+};
+
+static INTERNAL_METHOD std_types___seek_type__internal_methods[] = {
+  {FIM_SIZE, {.size = sizeof(SEEK_TYPE)}},
+  {FIM_COLLECT, {std_types___seek_type____collect}},
+  {FIM_DEBUG_STRING, {std_types___seek_type____debug_string}}
+};
+
+static ATTRIBUTE_DEFINITION std_types___seek_type__attributes[] = {
+  {var_no__std___equal, func__std_types___seek_type___std___equal},
+  {var_no__std___hash, func__std_types___seek_type___std___hash},
+  {var_no__std___to_integer, func__std_types___seek_type___std___to_integer}
 };
 
 static INTERNAL_METHOD std_types___device_id__internal_methods[] = {
@@ -28037,6 +28329,30 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_OBJECT, 0, 0,
+    "SEEK_SET\000std", NULL,
+    {"seek_type\000std_types"},
+    {.methods_count = 0}, 0,
+    NULL,
+    {(NODE *)&std___SEEK_SET}
+  },
+  {
+    FOT_OBJECT, 0, 0,
+    "SEEK_CUR\000std", NULL,
+    {"seek_type\000std_types"},
+    {.methods_count = 0}, 0,
+    NULL,
+    {(NODE *)&std___SEEK_CUR}
+  },
+  {
+    FOT_OBJECT, 0, 0,
+    "SEEK_END\000std", NULL,
+    {"seek_type\000std_types"},
+    {.methods_count = 0}, 0,
+    NULL,
+    {(NODE *)&std___SEEK_END}
+  },
+  {
+    FOT_OBJECT, 0, 0,
     "ENOERR\000std", NULL,
     {"error_number\000std_types"},
     {.methods_count = 0}, 0,
@@ -29143,6 +29459,19 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_TYPE, 0, 3,
+    "seek_type\000std_types", std_types___seek_type__attributes,
+    {"object\000std_types"},
+    {.methods_count = 3}, 0,
+    std_types___seek_type__internal_methods,
+    {(NODE *)&std_types___seek_type}
+  },
+  {
+    FOT_INITIALIZED, 0, 0,
+    "seek_type\000std", NULL,
+    {.const_idx = func__std___seek_type}
+  },
+  {
+    FOT_TYPE, 0, 3,
     "device_id\000std_types", std_types___device_id__attributes,
     {"object\000std_types"},
     {.methods_count = 3}, 0,
@@ -29360,6 +29689,16 @@ static FUNKY_VARIABLE variables_table[] = {
     FOT_INITIALIZED, 0, 0,
     "isatty\000std", NULL,
     {.const_idx = func__std___isatty}
+  },
+  {
+    FOT_INITIALIZED, 0, 0,
+    "link\000std", NULL,
+    {.const_idx = func__std___link}
+  },
+  {
+    FOT_INITIALIZED, 0, 0,
+    "lseek\000std", NULL,
+    {.const_idx = func__std___lseek}
   },
   {
     FOT_INITIALIZED, 0, 0,
@@ -29796,13 +30135,13 @@ FUNKY_MODULE module__builtin = {
   NULL,
   0, 0,
   4, 0,
-  401, 438,
+  407, 445,
   NULL,
   defined_namespaces, NULL,
   constants_table, variables_table
 };
 
-BUILTIN_FUNCTION_NAME builtin_function_names[452] = {
+BUILTIN_FUNCTION_NAME builtin_function_names[459] = {
   {std_types___generic_array____type, "std_types::generic_array/_type"},
   {std_types___array____type, "std_types::array/_type"},
   {entry__std_types___array___std___length_of, "std_types::array/length_of"},
@@ -30082,6 +30421,11 @@ BUILTIN_FUNCTION_NAME builtin_function_names[452] = {
   {entry__std_types___shutdown_type___std___hash, "std_types::shutdown_type/hash"},
   {entry__std___shutdown_type, "std::shutdown_type"},
   {entry__std_types___shutdown_type___std___to_integer, "std_types::shutdown_type/to_integer"},
+  {std_types___seek_type____type, "std_types::seek_type/_type"},
+  {entry__std_types___seek_type___std___equal, "std_types::seek_type/equal"},
+  {entry__std_types___seek_type___std___hash, "std_types::seek_type/hash"},
+  {entry__std___seek_type, "std::seek_type"},
+  {entry__std_types___seek_type___std___to_integer, "std_types::seek_type/to_integer"},
   {std_types___device_id____type, "std_types::device_id/_type"},
   {entry__std_types___device_id___std___equal, "std_types::device_id/equal"},
   {entry__std_types___device_id___std___hash, "std_types::device_id/hash"},
@@ -30141,6 +30485,8 @@ BUILTIN_FUNCTION_NAME builtin_function_names[452] = {
   {entry__std___getsid, "std::getsid"},
   {entry__std___getuid, "std::getuid"},
   {entry__std___isatty, "std::isatty"},
+  {entry__std___link, "std::link"},
+  {entry__std___lseek, "std::lseek"},
   {entry__std___mkdir, "std::mkdir"},
   {entry__std___mkfifo, "std::mkfifo"},
   {entry__std___open, "std::open"},

@@ -6,7 +6,7 @@ typedef struct {
   const char *name;
 } BUILTIN_FUNCTION_NAME;
 
-extern BUILTIN_FUNCTION_NAME builtin_function_names[452];
+extern BUILTIN_FUNCTION_NAME builtin_function_names[459];
 
 typedef enum {
   FIM_SIZE,
@@ -459,6 +459,12 @@ typedef struct {
 typedef struct {
   void *type;
   ATTRIBUTES *attributes;
+  int value;
+} SEEK_TYPE;
+
+typedef struct {
+  void *type;
+  ATTRIBUTES *attributes;
   unsigned long value;
 } DEVICE_ID;
 
@@ -628,6 +634,7 @@ typedef union NODE {
   FILE_TYPE file_type;
   FILE_DESCRIPTOR file_descriptor;
   SHUTDOWN_TYPE shutdown_type;
+  SEEK_TYPE seek_type;
   DEVICE_ID device_id;
   DIRECTORY directory;
   GROUP_ID group_id;
@@ -789,6 +796,7 @@ extern SIMPLE_NODE std_types___polymorphic_function_with_setter;
 extern FILE_TYPE std_types___file_type;
 extern FILE_DESCRIPTOR std_types___file_descriptor;
 extern SHUTDOWN_TYPE std_types___shutdown_type;
+extern SEEK_TYPE std_types___seek_type;
 extern DEVICE_ID std_types___device_id;
 extern DIRECTORY std_types___directory;
 extern GROUP_ID std_types___group_id;
