@@ -1,6 +1,12 @@
 *
 !*.*
+!ai
+!basic
+!compiler
+compiler/configuration.fky
 !new_tedi
+!terminal
+!web
 .*
 *.o
 *.c
