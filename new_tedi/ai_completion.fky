@@ -66,6 +66,8 @@ $window_id_of ()
 $at_line_start_of ()
 $at_line_end_of ()
 $tokenized_line_numbers_of ()
+$start_tokens_of ()
+$additional_tokens_of ()
 $start_length_of ()
 $already_evaluated_prefix_length_of ()
 $already_evaluated_count_of ()
@@ -78,6 +80,8 @@ $tedi_types::completion_job std_types::object
   .x_of undefined
   .y_of undefined
   .tokenized_line_numbers_of undefined
+  .start_tokens_of undefined
+  .additional_tokens_of undefined
   .tokens_of undefined
   .start_length_of undefined
   .already_evaluated_prefix_length_of undefined
@@ -273,10 +277,14 @@ $evaluate_text_lines: (io state)
   get_line_start_tokens $_cx $tokens $suffix x y lines ai_model
   $at_line_start tokens.is_empty
   $at_line_end suffix.is_empty
-  $start_tokens empty_list
   $sy 0
   $cy y
-  $half_context_size (context_size_of(ai_model) .div. 2)-256
+  $context_size context_size_of(ai_model)
+  $delta max(context_size .div. 16 256)
+  $start_size (context_size .div. 2)-delta
+  $before_size start_size
+  $additional_size context_size-start_size-before_size-256
+  $start_tokens empty_list
   loop !sy !start_tokens:
     inc &sy
     if
@@ -285,23 +293,37 @@ $evaluate_text_lines: (io state)
       :
 	line_to_tokens $line_tokens sy lines ai_model
 	if
-	  length_of(start_tokens)+length_of(line_tokens) > half_context_size
+	  length_of(start_tokens)+length_of(line_tokens) > start_size
 	  -> sy-1 start_tokens
 	  :
 	    append &start_tokens line_tokens
 	    next
-  loop !tokens:
+  loop !cy !tokens:
     dec &cy
     if
       cy <= sy
-      -> tokens
+      -> cy+1 tokens
       :
 	line_to_tokens $line_tokens cy lines ai_model
 	if
-	  length_of(line_tokens)+length_of(tokens) > half_context_size
-	  -> tokens
+	  length_of(line_tokens)+length_of(tokens) > before_size
+	  -> cy+1 tokens
 	  :
 	    append line_tokens &tokens
+	    next
+  $additional_tokens empty_list
+  loop !additional_tokens:
+    dec &cy
+    if
+      cy <= sy
+      -> additional_tokens
+      :
+	line_to_tokens $line_tokens cy lines ai_model
+	if
+	  length_of(line_tokens)+length_of(additional_tokens) > additional_size
+	  -> additional_tokens
+	  :
+	    append line_tokens &additional_tokens
 	    next
   update_if
     ||
@@ -310,11 +332,10 @@ $evaluate_text_lines: (io state)
 	not(is_a_space_token_of(ai_model)(start_tokens(1)))
 	start_tokens(1) != newline_token_of(ai_model)
     &start_tokens -> put(start_tokens space_token_of(ai_model))
-  append start_tokens &tokens
-  $start_length length_of(start_tokens)
   !completion_job
+    .start_tokens_of start_tokens
+    .additional_tokens_of additional_tokens
     .tokens_of tokens
-    .start_length_of start_length
     .at_line_start_of at_line_start
     .at_line_end_of at_line_end
     .generated_token_count_of 0
@@ -322,7 +343,9 @@ $evaluate_text_lines: (io state)
   show_status_message &state AI message
   log &io 4 message
   !state.current_action_of completion_job
-  cached_prefix &io CACHED_PREFIX ai_model tokens SMART start_length
+  cached_prefix &io CACHED_PREFIX ai_model
+    append(start_tokens additional_tokens tokens)
+    SMART length_of(start_tokens) length_of(additional_tokens)
   -> io state
 
 $CACHED_PREFIX/job_failed: (_id io state err _context)
@@ -331,7 +354,7 @@ $CACHED_PREFIX/job_failed: (_id io state err _context)
   log &io message
   current_action_completed io state
 
-$CACHED_PREFIX/job_completed: (_id io state prefix_length _context)
+$CACHED_PREFIX/job_completed: (_id io state prefix_length additional_length)
   if
     current_action_state_of(state) == CANCELLED:
       remove_message &state.window_manager_of AI
@@ -341,13 +364,24 @@ $CACHED_PREFIX/job_completed: (_id io state prefix_length _context)
       $ai_model ai_model_of(state)
       $batch_size ai_batch_size_of(configuration)
       $completion_job current_action_of(state)
-      $tokens tokens_of(completion_job)
-      $start_length start_length_of(completion_job)
+      $start_tokens start_tokens_of(completion_job)
+      $start_length length_of(start_tokens)
+      update_if additional_length > 0 &start_tokens:
+	append
+	  start_tokens
+	  range(additional_tokens_of(completion_job) -additional_length -1)
+      $tokens append(start_tokens tokens_of(completion_job))
       $evaluation_count length_of(tokens)-prefix_length
       $message "evaluating @(evaluation_count) tokens"
       show_status_message &state AI message
+      log &io 3 "
+	@(prefix_length) valid prefix tokens @
+	(additional tokens used: @(additional_length))
       log &io 3 message
-      !completion_job.already_evaluated_prefix_length_of prefix_length
+      !completion_job
+	.tokens_of tokens
+	.start_length_of start_length
+	.already_evaluated_prefix_length_of prefix_length
       if
 	evaluation_count <= 1.5*batch_size:
 	  !completion_job.already_evaluated_count_of length_of(tokens)
@@ -378,7 +412,7 @@ $EVALUATE/job_completed: (_id io state logits _context)
       $ai_model ai_model_of(state)
       $completion_job current_action_of(state)
       $tokens tokens_of(completion_job)
-      $start_length start_length_of(completion_job)
+      $start_length length_of(start_tokens_of(completion_job))
       $batch_size ai_batch_size_of(configuration)
       $already_evaluated_count already_evaluated_count_of(completion_job)
       $generated_token_count generated_token_count_of(completion_job)
@@ -414,7 +448,7 @@ $EVALUATE/job_completed: (_id io state logits _context)
 	    newline_token_of(ai_model):
 	      remove_message &state.window_manager_of AI
 	      if
-		at_line_end:
+		at_line_end || generated_token_count == 0:
 		  change_text &state window_id split_line INSERTION undefined
 		  current_action_completed io state
 		:

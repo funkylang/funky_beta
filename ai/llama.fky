@@ -605,10 +605,11 @@ $ai_types::model/ai::evaluate:
     prompt
     mode = ai::SMART
     start = 0
+    additional = 0
   )
   $do_return_confidence_values result_count() == 2
   $use_tokens not(prompt.is_a_string)
-  $request evaluate_request(model prompt mode start)
+  $request evaluate_request(model prompt mode start additional)
   open_tcp_client_socket! $fd address_of(model) port_no_of(model)
   write_to! fd request
   load! $result fd
@@ -637,11 +638,12 @@ $std_types::io/ai::evaluate:
     prompt
     mode = ai::SMART
     start = 0
+    additional = 0
   )
   tuple &id 1
   run &io http_request id
     address_of(model) port_no_of(model)
-    evaluate_request(model prompt mode start)
+    evaluate_request(model prompt mode start additional)
   register_handlers io id
     JOB_COMPLETED = evaluate_completed
     JOB_FAILED = evaluate_failed
@@ -661,7 +663,7 @@ $evaluate_failed: (io id err)
   id !id
   -> io tuple(JOB_FAILED id err)
 
-$evaluate_request: (model prompt mode start)
+$evaluate_request: (model prompt mode start additional)
   $use_tokens not(prompt.is_a_string)
   $PROMPT
     if
@@ -680,6 +682,7 @@ $evaluate_request: (model prompt mode start)
 	"uuid" = uuid_of(model)
 	"mode" = mode
 	"start" = start
+	"additional" = additional
 	"logits" = true # also disables server side token selection
 	"brief" = true
 	"n_probs" = 10
@@ -701,11 +704,12 @@ $std_types::io/ai::cached_prefix:
     prompt
     mode = ai::SMART
     start = 0
+    additional = 0
   )
   tuple &id 1
   run &io http_request id
     address_of(model) port_no_of(model)
-    cached_prefix_request(model prompt mode start)
+    cached_prefix_request(model prompt mode start additional)
   register_handlers io id
     JOB_COMPLETED = cached_prefix_completed
     JOB_FAILED = cached_prefix_failed
@@ -718,14 +722,20 @@ $cached_prefix_completed: (io id data)
   if
     data.is_an_error || data.is_undefined
     -> io tuple(JOB_FAILED id error(IO_ERROR "INVALID JSON"))
-    -> io tuple(JOB_COMPLETED id data("cached_prefix_length").to_integer)
+    ->
+      io
+      tuple
+	JOB_COMPLETED
+	id
+	data("cached_prefix_length").to_integer
+	data("additional_length").to_integer
 
 $cached_prefix_failed: (io id err)
   deregister_all_handlers &io id
   id !id
   -> io tuple(JOB_FAILED id err)
 
-$cached_prefix_request: (model prompt mode start)
+$cached_prefix_request: (model prompt mode start additional)
   $use_tokens not(prompt.is_a_string)
   $PROMPT
     if
@@ -744,6 +754,7 @@ $cached_prefix_request: (model prompt mode start)
 	"uuid" = uuid_of(model)
 	"mode" = mode
 	"start" = start
+	"additional" = additional
   to_utf8 &json
   -> "
     POST /cached_prefix HTTP/1.1@cr;

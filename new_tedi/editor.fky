@@ -398,7 +398,7 @@ $tedi_types::page/handle_mouse_click: (page io state x y _button)
     cx == x && cy == y:
       if
 	double_click_action.is_defined:
-	  double_click_action io state x y lines_of(page)
+	  double_click_action io state x y lines_of(page) info_of(page)
 	-> io state
     :
       add_history_entry &page.info_of cx cy
@@ -703,6 +703,7 @@ $tedi::functions
     "toggle_cursor_line_highlighting" =
       tuple(toggle_cursor_line_highlighting OTHER)
     "toggle_soft_line_break" = tuple(toggle_soft_line_break UPDATE_STATE)
+    "show_help" = tuple(show_help DIALOG)
 
     # filter & action
 
@@ -2531,6 +2532,13 @@ $break_into_lines: (text width)
 $filter_selection: (x y _lines info)
   -> undefined undefined x y info
 
+$show_help: (state _x _y _lines _info)
+  $page create_page_from_html(help_text.from_html template_screen_of(state))
+  create_window &state.window_manager_of
+    TITLE = "Help"
+    CONTENT = page
+  -> state
+
 $tedi::double_click_action undefined
 
 # Types
@@ -2732,3 +2740,257 @@ $tedi::get_position: (str x)
 	minus &x width
 	inc &i
 	next
+
+$help_text "
+  <html>
+  <h1>Cursor Movement</h1>
+    <dl>
+    <dt><br>cursor-left</dt>
+      <dd><br>move the cursor one position to the left;<br>
+      if already at the start of the line then do nothing</dd>
+    <dt><br>cursor-right</dt>
+      <dd><br>move the cursor one position to the right;<br>
+      does not jump to the start of the next line after reaching the line's last
+      character</dd>
+    </dl>
+  </html>
+
+#
+  Cursor Movement
+
+    cursor-left
+      move the cursor one position to the left;
+      if already there then do nothing
+
+    cursor-right
+      move the cursor one position to the right;
+      does not jump to the start of the next line after reaching the line's last
+      character
+
+    cursor-up
+      moves the cursor one line up;
+      if the "line lock" is active and the cursor is already at the "upper bound"
+      then scroll down the window contents instead
+
+    cursor-down
+      moves the cursor one line down;
+      if the "line lock" is active and the cursor is already at the "lower bound"
+      then scroll up the window contents instead
+
+    page-up
+      moves the cursor up as many lines as the window height;
+      if the "line lock" is active and the cursor is already at the "upper bound"
+      then scroll down the window contents instead
+
+    page-down
+      moves the cursor down as many lines as the window height;
+      if the "line lock" is active and the cursor is already at the "lower bound"
+      then scroll up the window contents instead
+
+    ctrl-cursor-up
+      moves the cursor up in a straight line until it "collides with text"
+
+    ctrl-cursor-down
+      moves the cursor down in a straight line until it "collides with text"
+
+    home
+      jump to the first character of the line or if already there then
+      jump to the start of the line
+
+    end
+      jump behind the last character of the line
+
+    ctrl-home
+      jump to the start of the document
+
+    ctrl-end
+      jump behind the last line of the document
+
+    ALL THESE KEYS CAN BE COMBINED WITH <shift> TO SELECT TEXT
+
+    ATTENTION: WHEN SELECTING MULTIPLE LINES THEN THE WHOLE LINES WILL BE SELECTED
+
+  Insertion
+
+    return
+      splits the current line into two;
+      tries to handle spaces in a smart way
+
+  Deletion
+
+    backspace
+      deletes one character to the left;
+      does nothing if already at the start of a line
+
+    delete
+      deletes one character to the right;
+      does nothing if there is no more text to the right
+
+    ctrl-backspace
+      deletes all text to the left of the cursor;
+      the cursor is positioned at the (previous) leftmost character
+
+    ctrl-delete
+      deletes all text to the right of the cursor;
+      the cursor does not move
+
+    ctrl-k
+      deletes the current line
+
+  Completion
+
+    tab (if behind some text)
+      smart completion;
+      completes identifiers and numbers based on existing (surrounding) text
+
+    shift tab (if behind some text)
+      restores the previous smart completion
+
+    ctrl-space
+      AI completion;
+      needs a running AI-server
+
+  Indentation
+
+    tab (if not behind some text)
+      indents the current line or the current selection
+
+    shift tab (if not behind some text)
+      unindents the current line or the current selection
+
+  Folding
+
+    alt-return
+      toggle folding
+
+    alt-cursor-left
+      folds the current line
+
+    alt-cursor-right
+      unfolds the current line
+
+    alt-cursor-up
+      folds all lines
+
+    alt-cursor-down
+      unfolds all lines
+
+  Cut & Paste
+
+    ctrl-c
+      copies the current selection into the clipboard;
+      the clipboard is only available within the editor
+
+    ctrl-v
+      pastes the contents of the clipboard a the current position
+
+    ctrl-x
+      cuts the current selection into the clipboard;
+      the clipboard is only available within the editor
+
+  Search & Replace
+
+    ctrl-f
+      starts a search;
+      after entering the search string:
+      * press <return> or <ctrl-n> to search forwards
+      * press <ctrl-p> to search backwards
+
+    ctrl-n
+      searches or replaces the next occurence of the search string;
+      the found string is selected and the cursor is positioned behind the string
+
+    ctrl-p
+      searches or replaces the previous occurence of the search string;
+      the found string is selected and the cursor is positioned at the start of the
+      string
+
+    escape
+      closes the "edit box" and aborts the search/replace
+
+  Marks
+
+    ctrl-d <letter>
+      defines a "mark";
+      marks cannot be defined on empty lines
+
+    ctrl-g
+      jumps to a mark or a specific line;
+      you have to enter the mark letter or the line no. in the "edit box"
+
+    escape
+      closes the "edit box" and does not jump
+
+  Files and Quit
+
+    ctrl-q
+      leaves the editor;
+      THE DOCUMENTS WILL **NOT** BE SAVED!
+
+    ctrl-l
+      load contents from a selected file
+      THE CURRENT CONTENTS WILL **NOT** BE SAVED!
+
+    ctrl-s
+      saves the current contents
+
+    ctrl-alt-s
+      saves the current contents using only leading *spaces* (no tabulators)
+
+  Undo & Redo
+
+    ctrl-y
+      redo
+
+    ctrl-z
+      undo
+
+  Windows
+
+    ctrl-cursor-right
+      goto next window
+
+    ctrl-cursor-left
+      goto previous window
+
+  Function Keys
+
+    F1
+      show this help
+
+    F2
+      change the colour set
+
+    F3
+      toggle indentation highlighting
+
+    F4
+      toggle cursor line highlighting
+
+    F5
+      toggle soft-break-mode
+
+    F6
+      toggle display of line numbers
+
+$_action_descriptions
+  list
+    "cursor_left" =
+      "
+	move the cursor one position to the left;
+	if already at the start of the line then do nothing
+    "cursor_right" =
+      "
+	move the cursor one position to the right;
+	does not jump to the start of the next line after reaching the line's last
+	character
+    "cursor_up" =
+      "
+	moves the cursor one line up;
+	if the cursor is already at the "upper bound" then scroll down the window
+	contents instead
+    "cursor_down" =
+      "
+	moves the cursor down as many lines as the window height;
+	if the cursor is already at the "lower bound" then scroll up the window
+	contents instead

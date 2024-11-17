@@ -42,15 +42,20 @@ $window_width 80
 $style undefined
 $template_screen undefined
 
-$fde::create_html_page: (filename buf screen)
+$tedi::create_html_page: (filename buf screen)
   !template_screen screen
   initialize_html_styles:
     $html buf.from_html
-    $history list(fde_types::history(.filename_of filename))
-    new(fde_types::html_page render_block(html window_width))
+    $history list(tedi_types::history(.filename_of filename))
+    new(tedi_types::html_page render_block(html window_width))
       .current_rectangle_of undefined
       .history_of history
       .history_index_of 1
+
+$tedi::create_page_from_html: (html screen)
+  !template_screen screen
+  initialize_html_styles:
+    new tedi_types::html_page render_block(html 80)
 
 $render_blocks: (blocks width)
   filter &blocks: (item)
@@ -280,6 +285,7 @@ $render_inline: (element)
     "em":
       add_text_attributes &style BOLD
       render_items contents
+    "br" -> list(NEWLINE)
     :
       debug::dump `tag
       debug::exit
@@ -287,7 +293,7 @@ $render_inline: (element)
 $italic undefined
 $Example undefined
 $space undefined
-$fde::no_line undefined
+$tedi::no_line undefined
 $empty_line undefined
 $header undefined
 $footer undefined
@@ -309,28 +315,28 @@ $create_style: (draw_colour clear_colour text_attributes = NORMAL)
     CLEAR_COLOUR = clear_colour
     TEXT_ATTRIBUTES = text_attributes
 
-$fde::current_rectangle_of ()
-$fde::history_of ()
-$fde::history_index_of ()
+$tedi::current_rectangle_of ()
+$tedi::history_of ()
+$tedi::history_index_of ()
 
-$fde_types::html_page std_types::screen
+$tedi_types::html_page std_types::screen
 
-$fde_types::html_page
+$tedi_types::html_page
   .current_rectangle_of undefined
   .history_of undefined
   .history_index_of undefined
 
-$fde_types::html_page/prepare: (self _state _range) -> self
+$tedi_types::html_page/prepare: (self _state _range) -> self
 
-$fde::filename_of ()
+$tedi::filename_of ()
 
-$fde_types::history std_types::object
+$tedi_types::history std_types::object
 
-$fde_types::history
+$tedi_types::history
   .filename_of undefined
   .current_rectangle_of undefined
 
-$fde_types::html_page/handle_key_press: (page io state key)
+$tedi_types::html_page/handle_key_press: (page io state key)
   case key
     TABULATOR:
       update_selection &state page
@@ -354,7 +360,7 @@ $fde_types::html_page/handle_key_press: (page io state key)
       -> io state
     -> undefined undefined
 
-$fde_types::html_page/handle_mouse_click: (page io state x y _button)
+$tedi_types::html_page/handle_mouse_click: (page io state x y _button)
   $current_rectangle get_rectangle_at(page x y)
   if
     current_rectangle.is_defined:
@@ -376,35 +382,6 @@ $update_selection: (state page current_rectangle)
     :
       unset_selection &state.window_manager_of
       -> state
-
-$fde::context_help: (io state x y lines)
-  $symbols symbols_of(state)
-  if
-    symbols.is_defined:
-      $identifier get_identifier_at_xy(x y lines)
-      if
-	identifier.is_defined:
-	  $used_namespaces list("std")
-	  for_each used_namespaces
-	    : (namespace)
-	      $symbol append(namespace "::" identifier)
-	      if
-		symbols(symbol).is_undefined
-		next
-		:
-		  $filename "html/symbols/@(namespace)__@(identifier).html"
-		  load &io LOAD_HELP filename undefined tuple(filename undefined)
-		    # tuple(filename id): id == undefined -> open in new window
-		  -> io state
-	    :
-	      show_error_message &state "
-		No help available for "@(identifier)"!
-	      -> io state
-	-> io state
-    :
-      show_error_message &state "
-	No symbol information available!
-      -> io state
 
 $load_linked_page:
   (
@@ -454,7 +431,7 @@ $get_page_from_history: (io state delta)
       $filename filename_of(history(new_index))
       load io LOAD_HELP filename undefined tuple(filename id new_index)
 
-$LOAD_HELP .
+$tedi::LOAD_HELP .
 
 $LOAD_HELP/job_completed: (_self io state buf info)
   info $filename $id $history_index
@@ -503,49 +480,3 @@ $LOAD_HELP/job_completed: (_self io state buf info)
 	TITLE = filename
 	CONTENT = page
       -> io state(.window_manager_of window_manager)
-
-# Helpers
-
-$get_identifier_at_xy: (x y lines)
-  $line lines(y)
-  if
-    line.is_undefined
-    -> undefined
-    :
-      $text text_of(line)
-      $indent indent_of(line)
-      if
-	x <= indent || x > indent+width_of(text)
-	-> undefined
-	:
-	  $pos get_position(text x-indent)
-	  $chr text(pos)
-	  if
-	    chr.is_a_letter || chr.is_a_digit || chr == '_':
-	      $start pos
-	      $end pos
-	      loop:
-		if
-		  &&
-		    start > 1
-		    ||
-		      text(start-1).is_a_letter
-		      text(start-1).is_a_digit
-		      text(start-1) == '_'
-		  :
-		    dec &start
-		    next
-		  :
-		    loop:
-		      if
-			&&
-			  end < length_of(text)
-			  ||
-			    text(end+1).is_a_letter
-			    text(end+1).is_a_digit
-			    text(end+1) == '_'
-			:
-			  inc &end
-			  next
-			-> range(text start end)
-	    -> undefined

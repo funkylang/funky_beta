@@ -34,6 +34,7 @@
 <require web/server>
 
 <require ./editor>
+<require ./html_page>
 
 <using std>
 <using ai>

@@ -51,3 +51,78 @@ $tedi_types::state.symbols_of undefined
 !double_click_action context_help
 
 push &plugins symbol_plugin
+
+$fde::context_help: (io state x y lines _info)
+  $symbols symbols_of(state)
+  if
+    symbols.is_defined:
+      $identifier get_identifier_at_xy(x y lines)
+      if
+	identifier.is_defined:
+	  $used_namespaces list("std")
+	  for_each used_namespaces
+	    : (namespace)
+	      $symbol append(namespace "::" identifier)
+	      if
+		symbols(symbol).is_undefined
+		next
+		:
+		  $filename "html/symbols/@(namespace)__@(identifier).html"
+		  load &io LOAD_HELP filename undefined tuple(filename undefined)
+		    # tuple(filename id): id == undefined -> open in new window
+		  -> io state
+	    :
+	      show_error_message &state "
+		No help available for "@(identifier)"!
+	      -> io state
+	-> io state
+    :
+      show_error_message &state "
+	No symbol information available!
+      -> io state
+
+# Helpers
+
+$get_identifier_at_xy: (x y lines)
+  $line lines(y)
+  if
+    line.is_undefined
+    -> undefined
+    :
+      $text text_of(line)
+      $indent indent_of(line)
+      if
+	x <= indent || x > indent+width_of(text)
+	-> undefined
+	:
+	  $pos get_position(text x-indent)
+	  $chr text(pos)
+	  if
+	    chr.is_a_letter || chr.is_a_digit || chr == '_':
+	      $start pos
+	      $end pos
+	      loop:
+		if
+		  &&
+		    start > 1
+		    ||
+		      text(start-1).is_a_letter
+		      text(start-1).is_a_digit
+		      text(start-1) == '_'
+		  :
+		    dec &start
+		    next
+		  :
+		    loop:
+		      if
+			&&
+			  end < length_of(text)
+			  ||
+			    text(end+1).is_a_letter
+			    text(end+1).is_a_digit
+			    text(end+1) == '_'
+			:
+			  inc &end
+			  next
+			-> range(text start end)
+	    -> undefined
