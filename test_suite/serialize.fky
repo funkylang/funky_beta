@@ -1,19 +1,12 @@
 #!/usr/bin/env fkyrun
 
-<allow unused>
+<namespace test>
 
-$std::RED .
-$std::GREEN .
-$std::BLUE .
-$std::YELLOW .
+$test::RED .
+$test::GREEN .
+$test::BLUE .
 
-register_type &deserializers std_types::list
-register_type &deserializers std_types::tuple
-register_type &deserializers std_types::key_value_pair
-register_type &deserializers std_types::value_range
-register_type &deserializers std_types::hash_table
-register_type &deserializers std_types::key_order_table
-register_type &deserializers std_types::key_order_set
+#<allow unused>
 
 $htab empty_hash_table
 !htab("Abel") 99
@@ -21,9 +14,9 @@ $htab empty_hash_table
 !htab("Cara") 33
 
 $ko_tab empty_key_order_table
-!ko_tab("red") RED
-!ko_tab("green") GREEN
-!ko_tab("blue") BLUE
+!ko_tab("red") test::RED
+!ko_tab("green") test::GREEN
+!ko_tab("blue") test::BLUE
 !ko_tab("yellow") htab
 
 $ko_set empty_key_order_set

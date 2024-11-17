@@ -1,5 +1,5 @@
 #
-  Copyright (C) 2023 by
+  Copyright (C) 2024 by
   Dipl.-Ing. Michael Niederle
 
   This program is free software; you can redistribute it and/or modify
@@ -19,8 +19,6 @@
   or write to the
   Free Software Foundation, Inc.,
   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
-
-<allow unused>
 
 #
   Topic: Strings
@@ -44,7 +42,7 @@
 
   Strings have a lot in common with <std_types::list>.
 
-  See also: @Lists
+  Related topics: Lists
 
 $std::to_sentence_case ()
   #
@@ -218,7 +216,7 @@ $std_types::string/dup:
 	:
 	  string str str self
 
-$std::pad_left:
+$std_types::object/pad_left:
   #
     extends a string to the specified width
 
@@ -254,7 +252,7 @@ $std::pad_left:
       string range(dup(pad (n-len)+(pad_len-1) .div. pad_len) 1 n-len) text
     -> text
 
-$std::pad_right:
+$std_types::object/pad_right:
   #
     extends a string to the specified width
 
@@ -397,7 +395,9 @@ $std_types::string/match:
     Result: the number of matched characters or <undefined> if the match fails
 
     Attempts to match the start of the stream with the specified string.
-    If the match is successful the stream the length of the string is returned.
+
+    If the match is successful the length of the string is returned.
+
     Otherwise <undefined> is returned.
 
     Topic: Strings
@@ -407,14 +407,34 @@ $std_types::string/match:
     self # the string to match
     stream # the stream to match against
   )
+  $rc result_count()
   $len length_of(self)
   if
-    length_of(stream) >= len
-    :
+    length_of(stream) >= len:
       if
-	range(stream 1 len) == self
-	-> len
-	-> undefined
+	range(stream 1 len) == self:
+	  if
+	    rc == 1
+	    -> len
+	    -> len undefined
+	fail
+    fail
+
+  $fail:
+    if
+      rc == 1
+      -> undefined
+      -> undefined undefined
+
+$std_types::string/match_back:
+  (
+    self
+    stream
+  )
+  $len length_of(self)
+  if
+    length_of(stream) >= len && range(stream -len -1) == self
+    -> len
     -> undefined
 
 $std_types::string/matches:
@@ -962,12 +982,7 @@ $std_types::string/has_suffix:
     self # the string to check
     suffix # the suffix to check for
   )
-  if
-    suffix.is_a_character
-    -> length_of(self) >= 1 && self(-1) == suffix
-    :
-      $len length_of(suffix)
-      -> length_of(self) >= len && range(self -len -1) == suffix
+  -> match_back(suffix self).is_defined
 
 $std_types::string/without_prefix:
   #
@@ -1023,19 +1038,11 @@ $std_types::string/without_suffix:
     self # the string to process
     suffix # the suffix to remove
   )
-  $len length_of(self)
+  $n match_back(suffix self)
   if
-    suffix.is_a_character:
-      if
-	len >= 1 && self(-1) == suffix
-	-> range(self 1 -2)
-	-> self
-    : # assume the suffix is a string
-      $slen length_of(suffix)
-      if
-	len >= slen && range(self -slen -1) == suffix
-	-> range(self 1 -slen-1)
-	-> self
+    n.is_defined
+    -> range(self 1 -(n+1))
+    -> self
 
 $std_types::string/contains:
   #
@@ -1103,6 +1110,7 @@ $std::split:
     self
     separator = ' '
   )
+  $rc result_count()
   if
     self.is_empty
     -> empty_list
@@ -1115,7 +1123,13 @@ $std::split:
 	    push &items range(self 1 pos-1)
 	    range &self pos+len -1
 	    next
-	  -> push(items self)
+	  :
+	    push &items self
+	    if
+	      rc == 1
+	      -> items
+	      :
+		spread items
 
 $std::join:
   #
@@ -2499,14 +2513,15 @@ $std::split_into_indented_lines:
 	      if
 		line_text == "@nl;"
 		-> undefined
-		-> tuple(indent line_text)
+		-> typed_tuple(std_types::line indent line_text)
 
 $FORK_LINES_THRESHOLD 20
 $VERY_LARGE_INDENT 9999
 
-$std::subgroups_of (!)
+$std_types::line tuple(undefined undefined)
+$std_types::line.subgroups_of undefined
 
-$indent_of: (line)
+$line_indent_of: (line)
   if
     line.is_defined
     -> first(line)
@@ -2564,81 +2579,86 @@ $std::split_into_groups:
 	    "3@0xa;"
   (
     lines # the indented lines
+    keep_empty_lines = false
   )
   $n length_of(lines)
   $fv 1 # first valid line
   loop:
     if
       fv <= n:
-	$indent indent_of(lines(fv))
+	$indent line_indent_of(lines(fv))
 	if
 	  indent.is_defined:
-	    split fv n indent undefined
+	    if
+	      keep_empty_lines && fv > 1
+	      -> append(dup(list(undefined) fv-1) split(fv n indent))
+	      -> split(fv n indent)
 	  :
 	    !fv fv+1
 	    next
       -> empty_list
 
-  $split: (s e indent gs)
+  $split: (s e indent)
     if
       e+1-s > FORK_LINES_THRESHOLD: # recurse to exploit parallel execution
 	$m (s+e) .div. 2
-	append split(s m indent gs) split(m+1 e indent undefined)
+	append split(s m indent) split(m+1 e indent)
       :
 	$groups empty_list
 	$minimum_indent VERY_LARGE_INDENT
-	$ge gs
+	$group_start undefined
+	$group_end undefined
 	from_to s e
 	  : (i)
-	    $current_indent indent_of(lines(i))
+	    $current_indent line_indent_of(lines(i))
 	    if
 	      current_indent == indent:
 		if
-		  gs.is_defined && gs < i:
-		    add_groups !groups ge
+		  group_start.is_defined && group_start < i:
+		    add_groups !groups group_end i
 		    start_new_fragment_and_next i
 		  :
 		    start_new_fragment_and_next i
 	      :
-		!ge
-		  if
-		    current_indent.is_defined
-		    -> i
-		    -> ge
+		update_if current_indent.is_defined &group_end -> i
 		reduce_minimum_indent_and_next current_indent
 	  :
 	    if
-	      gs.is_defined:
+	      group_start.is_defined:
 		loop: # the last group extends into the next block
 		  !e e+1
 		  if
 		    e > n
-		    -> add_groups(ge)
+		    -> add_groups(group_end e)
 		    :
-		      $current_indent indent_of(lines(e))
+		      $current_indent line_indent_of(lines(e))
 		      if
 			current_indent.is_defined && current_indent <= indent
-			-> add_groups(ge)
+			-> add_groups(group_end e)
 			:
-			  !ge
-			    if
-			      current_indent.is_defined
-			      -> e
-			      -> ge
+			  update_if current_indent.is_defined &group_end -> e
 			  reduce_minimum_indent_and_next current_indent
 	      -> groups
 
-	$add_groups: (l)
+	$add_groups: (last curr_idx)
 	  if
-	    gs == l
-	    -> push(groups lines(gs))
-	    :
-	      if
-		minimum_indent == VERY_LARGE_INDENT
-		-> append(groups range(lines gs l))
-		:
-		  $headline lines(gs)
-		  push groups headline(.subgroups_of range(lines gs+1 l))
+	    keep_empty_lines && curr_idx > last+1:
+	      add !groups
+	      append groups dup(list(undefined) curr_idx-last-1)
+	    add
+
+	  $add:
+	    if
+	      group_start == last
+	      -> push(groups lines(group_start))
+	      :
+		if
+		  minimum_indent == VERY_LARGE_INDENT
+		  -> append(groups range(lines group_start last))
+		  :
+		    $head lines(group_start)
+		    $subgroups range(lines group_start+1 last)
+		    push groups head(.subgroups_of subgroups)
 
 	$reduce_minimum_indent_and_next: (current_indent)
 	  if
@@ -2649,8 +2669,8 @@ $std::split_into_groups:
 
 	$start_new_fragment_and_next: (i)
 	  !minimum_indent VERY_LARGE_INDENT
-	  !gs i
-	  !ge i
+	  !group_start i
+	  !group_end i
 	  next
 
 $std::wrap_words:
@@ -2886,6 +2906,7 @@ $std::indented:
 $LEFT .
 $RIGHT .
 $CENTER .
+$ZEROS .
 
 $std::format:
   #
@@ -2936,6 +2957,7 @@ $std::format:
 	      -> undefined
 	      :
 		case template(i) $alignment !i
+		  '0' -> ZEROS i+1
 		  'l' -> LEFT i+1
 		  'r' -> RIGHT i+1
 		  'c' -> CENTER i+1
@@ -2963,7 +2985,7 @@ $std::format:
 		      :
 			if
 			  i > n:
-			    add_argument width
+			    add_argument alignment width
 			  :
 			    if
 			      template(i) == '.':
@@ -3008,7 +3030,7 @@ $std::format:
 	    push &output chr
 	    next
 
-  $add_argument:
+  #$add_argument:
     (
       alignment
       width
@@ -3020,21 +3042,62 @@ $std::format:
       if
 	decimal_width.is_defined:
 	  real_to_string &argument
+	  $value argument .truncate_from. '.'
+	  $decimals argument .behind. '.'
 	  if
-	    argument.is_undefined
-	    -> undefined
-	    :
-	      $value argument .truncate_from. '.'
-	      $decimals argument .behind. '.'
-	      string
+	    decimal_width > 0:
+	      append
 		pad_left(value width)
 		"."
 		truncate(pad_right(decimals decimal_width "0") decimal_width)
+	    -> pad_left(value width)
 	:
 	  case alignment
-	    LEFT -> pad_right(argument width)
 	    RIGHT -> pad_left(argument width)
+	    ZEROS -> pad_left(argument width "0")
+	    -> pad_right(argument width)
     next
+
+  $add_argument:
+    (
+      alignment
+      width
+      decimal_width = undefined
+    )
+    $argument arguments(arg_idx)
+    !arg_idx arg_idx+1
+    if
+      decimal_width.is_defined:
+	real_to_string &argument
+	$value argument .truncate_from. '.'
+	if
+	  decimal_width > 0:
+	    $decimals argument .behind. '.'
+	    pad_right &decimals decimal_width "0"
+	    range &decimals 1 decimal_width
+	    if
+	      alignment == ZEROS:
+		append &output pad_left(value width "0") "." decimals
+		next
+	      :
+		append &output pad_left(value width) "." decimals
+		next
+	  :
+	    append &output
+	      case
+		alignment
+		LEFT -> pad_right(value width)
+		ZEROS -> pad_left(value width "0")
+		-> pad_left(argument value)
+	    next
+      :
+	append &output
+	  case
+	    alignment
+	    LEFT -> pad_right(argument width)
+	    ZEROS -> pad_left(argument width "0")
+	    -> pad_left(argument width)
+	next
 
 $real_to_string: (num)
   $str num.to_string

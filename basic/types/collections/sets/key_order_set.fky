@@ -20,6 +20,8 @@
   Free Software Foundation, Inc.,
   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
+# Topics: Sets, Collections
+
 # internal attributes:
 
 $contents_of ()
@@ -122,7 +124,7 @@ $binary_node/retrieve: (self key)
 # insert
 
 $empty_node/insert: (_self key)
-  -> new(binary_node key empty_node empty_node) true
+  -> typed_tuple(binary_node key empty_node empty_node) true
 
 $binary_node/insert: (self key)
   self $my_key $my_left $my_right
@@ -136,13 +138,13 @@ $binary_node/insert: (self key)
 	  insert &my_left $success key
 	  if
 	    success
-	    -> new(self my_key my_left my_right) true
+	    -> typed_tuple(self my_key my_left my_right) true
 	    -> self false
 	:
 	  insert &my_right $success key
 	  if
 	    success
-	    -> new(self my_key my_left my_right) true
+	    -> typed_tuple(self my_key my_left my_right) true
 	    -> self false
 
 ###
@@ -155,7 +157,7 @@ $fetch_first: (self)
     -> my_right my_key
     :
       fetch_first &my_left $first_key
-      -> new(self my_key my_left my_right) first_key
+      -> typed_tuple(self my_key my_left my_right) first_key
 
 $empty_node/delete: (self _key) -> self false
 
@@ -173,7 +175,7 @@ $binary_node/delete: (self key)
 	    -> my_left true
 	    :
 	      fetch_first &my_right $first_key
-	      -> new(self first_key my_left my_right)
+	      -> typed_tuple(self first_key my_left my_right)
     :
       if
 	key < my_key
@@ -181,13 +183,13 @@ $binary_node/delete: (self key)
 	  delete &my_left $success key
 	  if
 	    success
-	    -> new(self my_key my_left my_right) true
+	    -> typed_tuple(self my_key my_left my_right) true
 	    -> self false
 	:
 	  delete &my_right $success key
 	  if
 	    success
-	    -> new(self my_key my_left my_right) true
+	    -> typed_tuple(self my_key my_left my_right) true
 	    -> self false
 
 ###
@@ -288,7 +290,7 @@ $std_types::key_order_set/for_each:
   !basic_loops::finally finally
   !basic_loops::todo list(finish)
 
-  !break: (myself^)
+  new !break basic_types::break_function: (myself^)
     !finally basic_loops::finally
     basic_loops::saved_context_of(myself)
       !next !break
@@ -367,3 +369,5 @@ $std::key_order_set: (keys*)
 
 $std_types::key_order_set.serialization_tag_of "key_order_set"
 $std_types::key_order_set.empty_collection_of empty_key_order_set
+
+register_type &deserializers std_types::key_order_set

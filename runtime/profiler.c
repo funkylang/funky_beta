@@ -50,7 +50,7 @@ EXPORT const char *count_names[] = {
   "get (constant):",
   "get (dynamic):",
   "get_attr:",
-  "set_attribute:"
+  "redefine_attribute:"
 };
 
 EXPORT PROFILE profile;
@@ -97,13 +97,8 @@ static void print_var_or_const(char *buf, TAB_NUM idx) {
   }
 }
 
-EXPORT const char *poly_name(TAB_NUM idx) {
-  int poly_idx = 0;
-  do {
-    poly_idx = (poly_idx<<3) | (idx & 7);
-    idx >>= 3;
-  } while (idx);
-  return polymorphic_function_names[poly_idx];
+static const char *poly_name(TAB_NUM idx) {
+  return polymorphic_function_names[decode_attribute_index(idx)];
 }
 
 static void print_node(char *buf, NODE *node) {
@@ -177,8 +172,8 @@ static NODE *my_get_attr(TREE *tree, int idx) {
   return attr;
 }
 
-static void my_set_attribute(ATTRIBUTES *attributes, int idx, void *attr) {
-  ++profile.counts[COUNT_set_attribute];
+static int my_redefine_attribute(ATTRIBUTES *attributes, int idx, void *attr) {
+  ++profile.counts[COUNT_redefine_attribute];
   if (do_trace) {
     char attribute[BUF_SIZE];
     char *attr_or_method = "attribute";
@@ -193,7 +188,7 @@ static void my_set_attribute(ATTRIBUTES *attributes, int idx, void *attr) {
       instruction_counter, attr_or_method, polymorphic_function_names[idx],
       attribute);
   }
-  set_attribute(attributes, idx, attr);
+  return redefine_attribute(attributes, idx, attr);
 }
 
 static NODE *get_functor(TAB_NUM idx) {
@@ -303,6 +298,8 @@ static void allocate_frame_and_initialize_locals(
 extern const TAB_NUM *tail_call_stack[256];
 extern const TAB_NUM **tail_call_sp;
 
+static TAB_NUM expect_no_results[1] = {0};
+
 void profiler(void) {
   // initialize stack
   TREE *initial_dynamics = TLS_frame->dynamics;
@@ -310,7 +307,7 @@ void profiler(void) {
   TLS_frame->link = NULL;
   TLS_frame->dynamics = initial_dynamics;
   TLS_frame->constants = TLS_constants;
-  TLS_frame->code = NULL;
+  TLS_frame->code = expect_no_results;
   TLS_argument_count = 0;
 
   TLS_code = NULL;
@@ -420,12 +417,17 @@ void profiler(void) {
       while (++TLS_argument_count <= 0) {
 	TAB_NUM attr_idx = *TLS_code++;
 	NODE *value = get_argument(TLS_frame, *TLS_code++);
-	if (attr_idx > 0) {
-	  my_set_attribute(obj->attributes, attr_idx, MAKE_ATTRIBUTE_VALUE(value));
-	} else if (attr_idx < 0){
-	  my_set_attribute(obj->attributes, -attr_idx, value); // set method
-	} else {
-	  obj->type = value->type;
+	if (
+	 !my_redefine_attribute(
+	   obj->attributes, attr_idx, MAKE_ATTRIBUTE_VALUE(value))
+	) {
+	  TLS_code -= 2*TLS_argument_count; // skip any more arguments
+	  TLS_argument_count = 1;
+	  TLS_arguments[0] = obj; // to propagate an existing error
+	  TLS_result_count = 1;
+	  invalid_attribute_redefinition(obj, attr_idx);
+	  obj = TLS_arguments[0];
+	  break;
 	}
       }
       set_argument(*TLS_code++, obj);
@@ -445,6 +447,10 @@ void profiler(void) {
 	  if (TLS_argument_count < TLS_result_count) {
 	    func = too_few_results;
 	  } else {
+	    if (!TLS_frame->link) {
+	      TLS_frame->dynamics = callee_frame->dynamics;
+	      return; // return from initializer
+	    }
 	    func = too_many_results;
 	  }
 	  TLS_frame = callee_frame;
@@ -617,19 +623,40 @@ void profiler(void) {
 	    ++TLS_code;
 	    set_argument(*TLS_code++, result);
 	    goto execute_statements;
-	  } else {
-	    --TLS_code; // before argument
-	    if (TLS_result_count > 1) {
-	      func = too_few_results;
-	    } else {
-	      func = too_many_results;
+	  } else if (TLS_result_count < 0) {
+	    tail_call_sp = tail_call_stack;
+	    const TAB_NUM *callee_code = TLS_code;
+	    FRAME *callee_frame = TLS_frame;
+	    TLS_frame = TLS_frame->link;
+	    if (TLS_deny_io) --TLS_deny_io;
+	      // if we do not have I/O-access then remove one level
+	    TLS_code = TLS_frame->code;
+	    TLS_result_count = *TLS_code;
+	    if (TLS_argument_count == 1) {
+	      ++TLS_code;
+	      set_argument(*TLS_code++, result);
+	      goto execute_statements;
 	    }
-	    goto call_c_function;
+	    TLS_frame = callee_frame;
+	    TLS_code = callee_code;
 	  }
+	  --TLS_code; // before argument
+	  if (TLS_result_count > 1) {
+	    func = too_few_results;
+	  } else {
+	    func = too_many_results;
+	  }
+	  goto call_c_function;
 	}
 
-	if (TLS_argument_count == 2 && ((long)func & 4)) {
+	//if (TLS_argument_count == 2 && ((long)func & 4)) {
+	if (TLS_argument_count == 2) {
 	  // polymorphic setter
+	  int idx = decode_attribute_index(last_attr_idx);
+	  if (!has_a_setter[idx]) {
+	    func = attribute_has_no_setter;
+	    goto call_c_function;
+	  }
 	  NODE *attr = get_argument(TLS_frame, TLS_code[1]);
 	  result = clone_object_and_attributes(self);
 	  update_start_p = node_p;

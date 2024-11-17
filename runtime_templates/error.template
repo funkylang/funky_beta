@@ -19,6 +19,8 @@
   Free Software Foundation, Inc.,
   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
+# Topic: Errors
+
 UNIQUE IO_ERROR
   #
     the error category for input/output errors
@@ -68,10 +70,11 @@ PUBLIC TYPE std_types::error
     supported methods: <is_an_error>, <error_message_text_of>,
     <error_category_of>, <error_details_of>, <errno_of>, <failed_attribute_of>
 
-    Topics: Errors, Objects
+    Topics: Errors, Objects, Basics
 
-    See also: std_types::object, std_types::undefined, error_category,
-	      error_message_text, error_details, errno, failed_attribute_of
+    See also: std::error, std_types::object, std_types::undefined,
+	      std::error_category_of, std::error_message_text_of,
+	      std::error_details_of, std::errno_of, std::failed_attribute_of
 
   NODE *category
   MESSAGE_TEXT *message
@@ -110,7 +113,8 @@ METHOD long std_types::error/_debug_string
       } else if (node->error.attr_idx) {
 	return debug_print(
 	  indent, buf, "<%s - %s>",
-	  node->error.message->text, poly_name(node->error.attr_idx));
+	  node->error.message->text,
+	  polymorphic_function_names[node->error.attr_idx]);
       } else {
 	return debug_print(indent, buf, "<%s>", node->error.message->text);
       }
@@ -135,13 +139,13 @@ METHOD long std_types::error/_debug_string
 	  n += print(
 	    &buf, "%s (%s)! (instruction counter: %ld)\n",
 	    node->error.message->text,
-	    poly_name(node->error.attr_idx),
+	    polymorphic_function_names[node->error.attr_idx],
 	    node->error.instruction_counter);
 	} else {
 	  n += print(
 	    &buf, "%s (%s)!\n",
 	    node->error.message->text,
-	    poly_name(node->error.attr_idx));
+	    polymorphic_function_names[node->error.attr_idx]);
 	}
       } else {
 	if (node->error.instruction_counter) {
@@ -188,14 +192,9 @@ METHOD long std_types::error/_debug_string
   }
 
 POLY std::error_category_of
+
+METHOD std_types::error/error_category_of
   #
-    retrieves the error category of the error object
-
-    Topic: Errors
-
-    See also: std_types::error, error_message_text_of, error_details_of,
-	      errno_of, failed_attribute_of
-
     Example:
 
       load! $buf "some-non-existing-file"
@@ -205,28 +204,15 @@ POLY std::error_category_of
     Output:
 
       error_category_of(buf): <std::IO_ERROR>
-
-METHOD std_types::error/error_category_of
-  #
-    returns the error category of the error object
-
-    Topic: Errors
-
-    See also: error_category_of, std_types::error
   {
     CHECK_ARGUMENTS(1)
     RETURN_SINGLE_RESULT(ARGUMENTS(0)->error.category)
   }
 
 POLY std::error_message_text_of
+
+METHOD std_types::error/error_message_text_of
   #
-    retrieves the error message text of the error object
-
-    Topic: Errors
-
-    See also: std_types::error, error_category_of, error_details_of,
-	      errno_of, failed_attribute_of
-
     Example:
 
       load! $buf "some-non-existing-file"
@@ -236,14 +222,6 @@ POLY std::error_message_text_of
     Output:
 
       OPEN FAILED
-
-METHOD std_types::error/error_message_text_of
-  #
-    returns the error message text of the error object
-
-    Topic: Errors
-
-    See also: error_message_text_of, std_types::error
   {
     CHECK_ARGUMENTS(1)
     RETURN_SINGLE_RESULT(from_c_string(ARGUMENTS(0)->error.message->text))
@@ -251,13 +229,6 @@ METHOD std_types::error/error_message_text_of
 
 POLY std::error_details_of
   #
-    retrieves the error details of the error object
-
-    Topic: Errors
-
-    See also: std_types::error, error_category_of, error_message_text_of,
-	      errno_of, failed_attribute_of
-
     Example:
 
       load! $buf "some-non-existing-file"
@@ -280,12 +251,6 @@ POLY std::error_details_of
       error_details_of(a): "abc"
 
 METHOD std_types::error/error_details_of
-  #
-    returns the error details of the error object
-
-    Topic: Errors
-
-    See also: error_details_of, std_types::error
   {
     CHECK_ARGUMENTS(1)
     NODE *details = ARGUMENTS(0)->error.object;
@@ -294,32 +259,9 @@ METHOD std_types::error/error_details_of
   }
 
 POLY std::errno_of
-  #
-    retrieves the errno value of the error object
-
-    Topic: Errors
-
-    See also: std_types::error, error_category_of, error_message_text_of,
-	      error_details_of, failed_attribute_of
-
-    Example:
-
-      load! $buf "some-non-existing-file"
-      on buf.is_an_error:
-	dump! `errno_of(buf)
-
-    Output:
-
-      errno_of(buf): object <0>
 
 METHOD std_types::error/errno_of
   #
-    returns the errno value of the error object
-
-    Topic: Errors
-
-    See also: errno_of, std_types::error
-
     Example:
 
       load! $buf "some-non-existing-file"
@@ -339,28 +281,6 @@ METHOD std_types::error/errno_of
   }
 
 POLY std::failed_attribute_of
-  #
-    retrieves the attribute associated with the error object
-
-    This field is used in conjunctions with the "NO SUCH ATTRIBUTE" error.
-
-    Topic: Errors
-
-    See also: std_types::error, error_category_of, error_message_text_of,
-	      error_details_of, errno_of
-
-    Example:
-
-      $my_attr_of ()
-      $attr my_attr_of("abc")
-      on attr.is_an_error:
-	dump! `error_message_text_of(attr)
-	dump! `failed_attribute_of(attr)
-
-    Output:
-
-      error_message_text_of(attr): "NO SUCH ATTRIBUTE"
-      failed_attribute_of(attr): "my_attr_of"
 
 METHOD std_types::error/failed_attribute_of
   #
@@ -370,8 +290,8 @@ METHOD std_types::error/failed_attribute_of
 
     Topic: Errors
 
-    See also: std_types::error, error_category_of, error_message_text_of,
-	      error_details_of, errno_of
+    See also: std_types::error, std::error_category_of,
+	      std::error_message_text_of, std::error_details_of, std::errno_of
 
     Example:
 
@@ -389,7 +309,7 @@ METHOD std_types::error/failed_attribute_of
     CHECK_ARGUMENTS(1)
     if (ARGUMENTS(0)->error.attr_idx) {
       RETURN_SINGLE_RESULT(
-	from_c_string(poly_name(ARGUMENTS(0)->error.attr_idx)))
+	from_c_string(polymorphic_function_names[ARGUMENTS(0)->error.attr_idx]))
     } else {
       RETURN_UNDEFINED
     }
@@ -1014,6 +934,28 @@ FUNCTION void no_such_function
     create_error_message(
       module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
       "NO SUCH FUNCTION", 0, 0, NULL);
+  }
+
+FUNCTION void invalid_attribute_redefinition
+  (
+    NODE *node,
+    int attr_idx
+  )
+  {
+    create_error_message(
+      module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+      "INVALID ATTRIBUTE REDEFINITION", 0, attr_idx, node);
+  }
+
+FUNCTION void attribute_has_no_setter
+  (
+    void
+  )
+  {
+    create_error_message(
+      module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+      "ATTRIBUTE HAS NO SETTER",
+      0, decode_attribute_index(last_attr_idx), ARGUMENTS(0));
   }
 
 FUNCTION void too_few_arguments

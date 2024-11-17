@@ -19,6 +19,8 @@
   Free Software Foundation, Inc.,
   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
+# Topics: Boolean
+
 TYPE std_types::true -> std_types::object
   #
     the *type* of the boolean value **true**

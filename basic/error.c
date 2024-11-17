@@ -22,7 +22,9 @@ enum {
   lambda_6 = -13,
   lambda_7 = -14,
   string_4 = -15,
-  string_5 = -16
+  string_5 = -16,
+  func_std__unreachable = -17,
+  str_control_flow_rea = -18
 };
 
 enum {
@@ -51,6 +53,8 @@ enum {
   var_to_string, // extern
   var_is_an_error, // extern
   var_if, // extern
+  var_std__unreachable, // initialized
+  var_error, // extern
   var__END
 };
 
@@ -177,6 +181,14 @@ static TAB_NUM t_lambda_7[] = {
   POS(91, 15)
 };
 
+static TAB_NUM t_func_std__unreachable[] = {
+  0, // locals
+  0, // parameters
+  // error "
+  var_error, 1, str_control_flow_rea, TAIL_CALL,
+  POS(97, 3)
+};
+
 static FUNKY_CONSTANT constants_table[] = {
   {FLT_FUNCTION, 0, {.tfunc = t_func_std__Error}},
   {FLT_CHARACTER, 0, {.value = 10}},
@@ -193,7 +205,9 @@ static FUNKY_CONSTANT constants_table[] = {
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_6}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_7}},
   {FLT_STRING_8, 2, {.str_8 = " ("}},
-  {FLT_STRING_8, 1, {.str_8 = ")"}}
+  {FLT_STRING_8, 1, {.str_8 = ")"}},
+  {FLT_FUNCTION, 0, {.tfunc = t_func_std__unreachable}},
+  {FLT_STRING_8, 41, {.str_8 = "control flow reached \042unreachable\042 point\012"}}
 };
 
 static FUNKY_VARIABLE variables_table[] = {
@@ -313,6 +327,16 @@ static FUNKY_VARIABLE variables_table[] = {
     FOT_UNKNOWN, 0, 0,
     "if\000", NULL,
     {.position = POS(88, 11)}
+  },
+  {
+    FOT_INITIALIZED, 0, 0,
+    "unreachable\000std", NULL,
+    {.const_idx = -func_std__unreachable}
+  },
+  {
+    FOT_UNKNOWN, 0, 0,
+    "error\000", NULL,
+    {.position = POS(97, 3)}
   }
 };
 
@@ -330,8 +354,8 @@ FUNKY_MODULE module__basic__error = {
   0, // number of required modules
   0, // number of defined namespaces
   1, // number of used namespaces
-  16, // number of constants
-  24, // number of variables
+  18, // number of constants
+  26, // number of variables
   NULL, // required modules
   NULL, // defined namespaces
   used_namespaces,

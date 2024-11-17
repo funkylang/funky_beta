@@ -37,8 +37,7 @@ $groups split_into_groups(indented_lines)
 println! map_reduce(groups reformat).trim_right
 
 $reformat: (idx group)
-  group $indent $text
-  $subgroups subgroups_of(group)
+  group $indent $text $subgroups
   cond
     -> subgroups.is_defined:
       cond

@@ -1,0 +1,7 @@
+my_types::name
+  first_name_of: "Joe"
+  last_name_of: "Smith"
+my_types::person
+  first_name_of: "Joe"
+  last_name_of: "Smith"
+  profession_of: "teacher"

@@ -16,7 +16,6 @@ $cc_options
     "-Werror"
     "-I."
 
-!environment get_environment()
 $ld_library_path environment("LD_LIBRARY_PATH")
 getcwd! $current_directory
 !environment("LD_LIBRARY_PATH")

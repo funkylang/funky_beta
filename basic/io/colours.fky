@@ -1,0 +1,167 @@
+#
+  Copyright (C) 2024 by
+  Dipl.-Ing. Michael Niederle
+
+  This program is free software; you can redistribute it and/or modify
+  it under the terms of the GNU Library General Public License, version 2, or
+  (at your option) under the terms of the GNU Lesser General Public License,
+  version 3.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  GNU Lesser (Library) General Public License for more details.
+
+  For details of the GNU General Public License see the accompanying
+  files LGPLv2.txt and LGLPv3.txt or
+  http://www.gnu.org/licenses/lgpl-2.0.html
+  http://www.gnu.org/licenses/lgpl-3.0.html
+  or write to the
+  Free Software Foundation, Inc.,
+  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+
+#
+  Topic: Colours
+
+$std::text_attributes_of ()
+$std::red_component_of ()
+$std::green_component_of ()
+$std::blue_component_of ()
+
+$std::BLACK '@0x000000;'
+$std::WHITE '@0xffffff;'
+$std::RED '@0xff0000;'
+$std::LIGHT_RED '@0xff8080;'
+$std::VERY_LIGHT_RED '@0xffc0c0;'
+$std::DARK_RED '@0x800000;'
+$std::VERY_DARK_RED '@0x400000;'
+$std::GREEN '@0x00ff00;'
+$std::LIGHT_GREEN '@0x80ff80;'
+$std::VERY_LIGHT_GREEN '@0xc0ffc0;'
+$std::DARK_GREEN '@0x008000;'
+$std::VERY_DARK_GREEN '@0x004000;'
+$std::BLUE '@0x0000ff;'
+$std::LIGHT_BLUE '@0x8080ff;'
+$std::VERY_LIGHT_BLUE '@0xc0c0ff;'
+$std::DARK_BLUE '@0x000080;'
+$std::VERY_DARK_BLUE '@0x000040;'
+$std::CYAN '@0x00ffff;'
+$std::LIGHT_CYAN '@0x80ffff;'
+$std::VERY_LIGHT_CYAN '@0xc0ffff;'
+$std::DARK_CYAN '@0x008080;'
+$std::VERY_DARK_CYAN '@0x000080;'
+$std::MAGENTA '@0xff00ff;'
+$std::LIGHT_MAGENTA '@0xff8080;'
+$std::VERY_LIGHT_MAGENTA '@0xffc0c0;'
+$std::DARK_MAGENTA '@0x800080;'
+$std::VERY_DARK_MAGENTA '@0x400040;'
+$std::YELLOW '@0xffff00;'
+$std::LIGHT_YELLOW '@0xffff80;'
+$std::VERY_LIGHT_YELLOW '@0xffffc0;'
+$std::DARK_YELLOW '@0x808000;'
+$std::VERY_DARK_YELLOW '@0x404000;'
+$std::GREY '@0x808080;'
+$std::LIGHT_GREY '@0xc0c0c0;'
+$std::VERY_LIGHT_GREY '@0xe0e0e0;'
+$std::DARK_GREY '@0x404040;'
+$std::VERY_DARK_GREY '@0x202020;'
+
+$std::rgb_character:
+  (
+    text_attributes = 0
+    red
+    green
+    blue
+  )
+  -> character((text_attributes << 24) | (red << 16) | (green << 8) | blue)
+
+$std_types::character/text_attributes_of:
+  (
+    chr
+  )
+  -> (chr.to_integer >> 24) & 0xff
+
+$std_types::character/red_component_of:
+  (
+    chr
+  )
+  -> (chr.to_integer >> 16) & 0xff
+
+$std_types::character/green_component_of:
+  (
+    chr
+  )
+  -> (chr.to_integer >> 8) & 0xff
+
+$std_types::character/blue_component_of:
+  (
+    chr
+  )
+  -> chr.to_integer & 0xff
+
+$std::colour_mixture:
+  #
+    Example:
+
+      $RED rgb_character(0xff 0 0)
+      $BLUE rgb_character(0 0 0xff)
+
+      $VIOLET colour_mixture(RED BLUE = 2) # one part red, two parts blue
+  (
+    args*
+  )
+  $total_parts 0
+  $red 0
+  $green 0
+  $blue 0
+  for_each args
+    : (arg)
+      if
+	arg.is_a_key_value_pair:
+	  $colour key_of(arg)
+	  $parts value_of(arg)
+	  plus &red parts*red_component_of(colour)
+	  plus &green parts*green_component_of(colour)
+	  plus &blue parts*blue_component_of(colour)
+	  plus &total_parts parts
+	  next
+	:
+	  plus &red red_component_of(arg)
+	  plus &green green_component_of(arg)
+	  plus &blue blue_component_of(arg)
+	  inc &total_parts
+	  next
+    ->
+      rgb_character
+	round(red/total_parts).to_integer
+	round(green/total_parts).to_integer
+	round(blue/total_parts).to_integer
+
+$std::ansi_text_colour:
+  (
+    colour
+  )
+  $colour_value colour.to_integer
+  $red colour_value >> 16
+  $green (colour_value >> 8) & 0xff
+  $blue colour_value & 0xff
+  -> csi(38 2 red green blue 'm')
+
+$std::ansi_background_colour:
+  (
+    colour
+  )
+  $colour_value colour.to_integer
+  $red colour_value >> 16
+  $green (colour_value >> 8) & 0xff
+  $blue colour_value & 0xff
+  -> csi(48 2 red green blue 'm')
+
+$std::ansi_reset_colour:
+  -> csi("0m")
+
+$std::restore_colours:
+  print! "@esc;[39m@esc;[49m"
+
+$std::csi: (arguments* command)
+  -> string("@esc;[" join(arguments ';') command)

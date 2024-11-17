@@ -19,8 +19,9 @@
   Free Software Foundation, Inc.,
   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
+# Topic: Tuples
 
-PUBLIC OBJECT std_types::key_value_pair -> builtin::tuple2
+PUBLIC OBJECT std_types::key_value_pair -> builtin_types::tuple2
   #
     the prototype object for all key-value-pair-objects
 

@@ -20,6 +20,8 @@
   Free Software Foundation, Inc.,
   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
+# Topic: Network Clients and Servers
+
 $std_types::web_terminal std_types::generic_terminal
 
 $std::WEB .
@@ -191,7 +193,7 @@ $std::create_web_terminal: (io fd message)
     -> message .has_prefix. "VT@nl;":
       $client std_types::generic_terminal
       extract_parameters &io &client message
-      !vt create_terminal(width_of(client) height_of(client) LINE_HEIGHT = 2)
+      !vt create_terminal(width_of(client) height_of(client))
       !vt.character_width_of character_width_of(client)
       !vt.ascent_of ascent_of(client)
       !vt.descent_of descent_of(client)

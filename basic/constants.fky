@@ -20,6 +20,8 @@
   Free Software Foundation, Inc.,
   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
+# Topics: Input-Output, Strings
+
 $std::UTF8 .
   #
     used as a value for specifying a text encoding
@@ -65,3 +67,5 @@ $std::PORT_NO .
 $std::LOG_FILE .
   #
     used to specify the name of a log file
+
+$std::PARSE_ERROR .

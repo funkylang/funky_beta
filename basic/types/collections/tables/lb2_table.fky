@@ -23,6 +23,8 @@
 <using std>
 <using basic_collections>
 
+# Topics: Tables, Collections
+
 # internal methods:
 
 $insert ()
@@ -94,14 +96,14 @@ $node/retrieve retrieve_method
 # insert
 
 $empty_node/insert: (_self key value)
-  -> new(node empty_node empty_node key value 1) true 1
+  -> typed_tuple(node empty_node empty_node key value 1) true 1
 
 $node/insert: (self key value)
   self $left $right $my_key $my_value $my_length
   $did_insert undefined
   if
     key == my_key
-    -> new(self left right key value my_length) false my_length
+    -> typed_tuple(self left right key value my_length) false my_length
     :
       if
 	key < my_key
@@ -126,10 +128,10 @@ $node/insert: (self key value)
 		  if_not
 		    left_right_length+right_length > 2*left_left_length
 		    ->
-		      new
+		      typed_tuple
 			node
 			left_left
-			new
+			typed_tuple
 			  node
 			  left_right
 			  right
@@ -148,16 +150,16 @@ $node/insert: (self key value)
 			$left_right_key
 			$left_right_value
 		      ->
-			new
+			typed_tuple
 			  node
-			  new
+			  typed_tuple
 			    node
 			    left_left
 			    left_right_left
 			    left_key
 			    left_value
 			    length_of(left_left)+length_of(left_right_left)+1
-			  new
+			  typed_tuple
 			    node
 			    left_right_right
 			    right
@@ -190,9 +192,9 @@ $node/insert: (self key value)
 		  if_not
 		    right_left_length+left_length > 2*right_right_length
 		    ->
-		      new
+		      typed_tuple
 			node
-			new
+			typed_tuple
 			  node
 			  left
 			  right_left
@@ -212,16 +214,16 @@ $node/insert: (self key value)
 			$right_left_key
 			$right_left_value
 		      ->
-			new
+			typed_tuple
 			  node
-			  new
+			  typed_tuple
 			    node
 			    left
 			    right_left_left
 			    my_key
 			    my_value
 			    left_length+length_of(right_left_left)+1
-			  new
+			  typed_tuple
 			    node
 			    right_left_right
 			    right_right
@@ -239,7 +241,7 @@ $node/insert: (self key value)
     return
 
   $return
-    -> new(self left right my_key my_value my_length) did_insert my_length
+    -> typed_tuple(self left right my_key my_value my_length) did_insert my_length
 
 ###
 # delete
@@ -251,7 +253,7 @@ $fetch_first: (self)
     -> right my_key my_value my_length
     :
       fetch_first &left $first_key $first_value
-      -> new(self left right my_key my_value my_length) first_key first_value
+      -> typed_tuple(self left right my_key my_value my_length) first_key first_value
 
 $empty_node/delete: (self _key) -> self false 0
 
@@ -269,7 +271,7 @@ $node/delete: (self key)
 	    -> left true my_length-1
 	    :
 	      fetch_first &right $first_key $first_value
-	      -> new(self left right first_key first_value my_length)
+	      -> typed_tuple(self left right first_key first_value my_length)
     :
       if
 	key < my_key
@@ -278,13 +280,13 @@ $node/delete: (self key)
 	  if_not
 	    did_delete
 	    -> self false my_length
-	    -> new(self left right my_key my_value my_length) true
+	    -> typed_tuple(self left right my_key my_value my_length) true
 	:
 	  delete &right $did_delete $_new_length key
 	  if_not
 	    did_delete
 	    -> self false my_length
-	    -> new(self left right my_key my_value my_length) true
+	    -> typed_tuple(self left right my_key my_value my_length) true
 
 ###
 # for_each

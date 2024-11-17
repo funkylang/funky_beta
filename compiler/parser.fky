@@ -1,7 +1,7 @@
 #
   This parser was automatically derived from the file "compiler/funky.nlb".
 
-<allow unused>
+#<allow unused>
 
 ###
 # "Global" Variables
@@ -13,6 +13,8 @@ $str undefined
 $subgroups undefined
 $expected undefined
 $at undefined
+
+$std_types::line.funky::line_no_of undefined
 
 ###
 # Constants
@@ -46,10 +48,7 @@ $funky::split_source_into_lines: (source)
 	  dec &prev_line_no
 	  if
 	    prev_line_no < 1 || lines(prev_line_no).is_defined
-	    ->
-	      line
-		.funky::line_no_of line_no
-		.funky::skip_of line_no-prev_line_no
+	    -> line(.funky::line_no_of line_no)
 	    next
       -> undefined
 
@@ -74,7 +73,7 @@ $convert_to_text_lines: (groups)
       group.is_defined:
 	group $indent $line_text
 	->
-	  tuple(min_indent append(spaces(indent-min_indent) line_text))
+	  typed_tuple(std_types::line min_indent append(spaces(indent-min_indent) line_text))
 	    .funky::line_no_of funky::line_no_of(group)
       -> tuple(min_indent "@nl;")
 
@@ -122,7 +121,7 @@ $parse_groups: (parse_function)
 	  :
 	    !text funky::line_text_of(head)
 	    !subgroups subgroups_of(head)
-	    $node parse_function()(.funky::skip_of funky::skip_of(head))
+	    $node parse_function()
 	    if
 	      node.is_a_list
 	      -> node
@@ -136,7 +135,7 @@ $parse_lines: (parse_function)
 	!current_group head
 	!text funky::line_text_of(head)
 	!subgroups subgroups_of(head)
-	$node parse_function()(.funky::skip_of 1)
+	$node parse_function()
 	if
 	  node.is_a_list
 	  -> node
@@ -576,15 +575,12 @@ $parse_some_inline_arguments:
       -> text undefined
 
 $parse_attribute_value_pair_without_prefix:
-  $position text
   parse_pair funky_types::attribute_value_pair
 
 $parse_type_function_without_prefix:
-  $position text
   parse_body funky_types::type_function
 
 $parse_method_value_pair_without_prefix:
-  $position text
   parse_pair funky_types::method_value_pair
 
 $parse_pair:
@@ -946,7 +942,6 @@ $parse_more_filename_words:
       syntax_error "more filename words"
 
 $parse_alias:
-  $position text
   !str text
   parse_name !text $name
   if
@@ -1194,7 +1189,6 @@ $parse_extensions:
       -> true -> list(expr)
 
 $parse_function_call_extension_without_prefix:
-  $position text
   parse_function_call_without_prefix !text $function_call
   if
     text.is_defined:
@@ -1214,7 +1208,6 @@ $parse_function_call_extension_without_prefix:
     -> undefined function_call
 
 $parse_attribute_access_extension_without_prefix:
-  $position text
   parse_attribute_access_without_prefix !text $attribute_access
   if
     text.is_defined:
@@ -1302,7 +1295,6 @@ $parse_inline_calls:
       -> true -> list(expr)
 
 $parse_inline_function_call_extension_without_prefix:
-  $position text
   parse_function_call_without_prefix !text $function_call
   if
     text.is_defined:
@@ -1322,7 +1314,6 @@ $parse_inline_function_call_extension_without_prefix:
     -> undefined function_call
 
 $parse_inline_attribute_access_extension_without_prefix:
-  $position text
   parse_attribute_access_without_prefix !text $attribute_access
   if
     text.is_defined:
@@ -1381,7 +1372,6 @@ $parse_optional_inline_arguments:
       -> true -> list(expr)
 
 $parse_function_call_arguments:
-  $position text
   parse_inline_arguments !text $inline_arguments
   if
     text.is_defined:
@@ -1505,7 +1495,6 @@ $parse_some_statement_arguments:
       -> true -> list(expr)
 
 $parse_spaced_arguments_without_prefix:
-  $position text
   parse_more_arguments !text $more_arguments
   if
     text.is_defined
@@ -1515,7 +1504,6 @@ $parse_spaced_arguments_without_prefix:
     -> undefined more_arguments
 
 $parse_spaced_statement_arguments_without_prefix:
-  $position text
   parse_more_statement_arguments !text $more_statement_arguments
   if
     text.is_defined
@@ -1577,7 +1565,6 @@ $parse_more_statement_arguments:
 	parse_even_more_statement_arguments
 
 $parse_arguments:
-  $position text
   parse_argument !text $argument
   if
     text.is_defined:
@@ -1597,7 +1584,6 @@ $parse_arguments:
     -> undefined argument
 
 $parse_even_more_statement_arguments:
-  $position text
   parse_argument !text $argument
   if
     text.is_defined:
@@ -1617,7 +1603,6 @@ $parse_even_more_statement_arguments:
     -> undefined argument
 
 $parse_multiline_arguments:
-  $position text
   if
     text == "@nl;" && subgroups.is_defined:
       $line_start_arguments parse_groups(funky::parse_line_start_arguments_group)
@@ -1631,7 +1616,6 @@ $parse_multiline_arguments:
       syntax_error "valid input characters or line end"
 
 $parse_multiline_arguments_without_prefix:
-  $position text
   $line_start_arguments parse_groups(funky::parse_line_start_arguments_group)
   $error find_first(line_start_arguments is_an_error)
   if error.is_an_error
@@ -2027,11 +2011,32 @@ $parse_key_value_operator:
 	range &text 2 -1
 	parse_key_value
     ->
+      &&
+	text(1) == ' '
+	text(2) == '='
+	text(3) == '@nl;'
+      :
+	$position text
+	$line_start_arguments
+	  parse_groups(funky::parse_line_start_arguments_group)
+	$error find_first(line_start_arguments is_an_error)
+	if error.is_an_error
+	  -> undefined error
+	  :
+	    if
+	      length_of(line_start_arguments) == 1
+	      ->
+		sentinel
+		funky_types::key_value
+		  .funky::source_group_of current_group
+		  .funky::source_position_of position
+		  .funky::expression_of line_start_arguments(1)
+	      -> undefined syntax_error("a single value expected")
+    ->
       true
       -> text undefined
 
 $parse_key_value:
-  $position text
   parse_sequence_expression funky_types::key_value
 
 $parse_sequence_expression:
@@ -2086,7 +2091,6 @@ $parse_comma_operator:
       -> text undefined
 
 $parse_comma:
-  $position text
   parse_comma_expression funky_types::comma
 
 $parse_comma_expression:
@@ -2161,7 +2165,6 @@ $parse_logical_operator:
       -> text undefined
 
 $parse_and:
-  $position text
   parse_and_expression funky_types::and
 
 $parse_and_expression:
@@ -2205,7 +2208,6 @@ $parse_and_operator:
       -> text undefined
 
 $parse_or:
-  $position text
   parse_or_expression funky_types::or
 
 $parse_or_expression:
@@ -2365,7 +2367,6 @@ $parse_range_operator:
       -> text undefined
 
 $parse_range:
-  $position text
   parse_relational_expression funky_types::range
 
 $parse_relational_expression:
@@ -2490,27 +2491,21 @@ $parse_comparison_operator:
       -> text undefined
 
 $parse_equal:
-  $position text
   parse_tagged_bit_expression funky_types::equal
 
 $parse_not_equal:
-  $position text
   parse_tagged_bit_expression funky_types::not_equal
 
 $parse_less_equal:
-  $position text
   parse_tagged_bit_expression funky_types::less_equal
 
 $parse_less_than:
-  $position text
   parse_tagged_bit_expression funky_types::less_than
 
 $parse_greater_equal:
-  $position text
   parse_tagged_bit_expression funky_types::greater_equal
 
 $parse_greater_than:
-  $position text
   parse_tagged_bit_expression funky_types::greater_than
 
 $parse_tagged_bit_expression:
@@ -2638,15 +2633,12 @@ $parse_bit_operator:
       -> text undefined
 
 $parse_shift_left:
-  $position text
   parse_tagged_additive_expression funky_types::shift_left
 
 $parse_shift_right:
-  $position text
   parse_tagged_additive_expression funky_types::shift_right
 
 $parse_bit_and:
-  $position text
   parse_bit_and2 funky_types::bit_and
 
 $parse_bit_and2:
@@ -2694,7 +2686,6 @@ $parse_bit_and_operator:
       -> text undefined
 
 $parse_bit_or:
-  $position text
   parse_bit_or2 funky_types::bit_or
 
 $parse_bit_or2:
@@ -2742,7 +2733,6 @@ $parse_bit_or_operator:
       -> text undefined
 
 $parse_bit_xor:
-  $position text
   parse_bit_xor2 funky_types::bit_xor
 
 $parse_bit_xor2:
@@ -2869,7 +2859,6 @@ $parse_additive_operator:
       -> text undefined
 
 $parse_plus:
-  $position text
   parse_plus2 funky_types::plus
 
 $parse_plus2:
@@ -2898,7 +2887,6 @@ $parse_plus2:
     -> undefined multiplicative_expression
 
 $parse_minus:
-  $position text
   parse_minus2 funky_types::minus
 
 $parse_minus2:
@@ -2981,7 +2969,6 @@ $parse_multiplicative_operator:
       -> text undefined
 
 $parse_times:
-  $position text
   parse_times2 funky_types::times
 
 $parse_times2:
@@ -3010,7 +2997,6 @@ $parse_times2:
     -> undefined an_expression
 
 $parse_over:
-  $position text
   parse_over2 funky_types::over
 
 $parse_over2:
@@ -3181,7 +3167,6 @@ $parse_multiline_operator:
     -> undefined trailing_remark
 
 $parse_multiline_plus_without_prefix:
-  $position text
   parse_multiline_operator funky_types::multiline_plus
 
 $parse_multiline_minus_without_prefix:
@@ -3229,7 +3214,6 @@ $parse_multiline_minus_with_remark_without_prefix:
     -> undefined remark
 
 $parse_multiline_times_without_prefix:
-  $position text
   parse_multiline_operator funky_types::multiline_times
 
 $parse_multiline_over_without_prefix:
@@ -3268,43 +3252,33 @@ $parse_multiline_over_with_remark_without_prefix:
     -> undefined remark
 
 $parse_multiline_shift_left_without_prefix:
-  $position text
   parse_multiline_operator funky_types::multiline_shift_left
 
 $parse_multiline_shift_right_without_prefix:
-  $position text
   parse_multiline_operator funky_types::multiline_shift_right
 
 $parse_multiline_equal_without_prefix:
-  $position text
   parse_multiline_operator funky_types::multiline_equal
 
 $parse_multiline_not_equal_without_prefix:
-  $position text
   parse_multiline_operator funky_types::multiline_not_equal
 
 $parse_multiline_less_equal_without_prefix:
-  $position text
   parse_multiline_operator funky_types::multiline_less_equal
 
 $parse_multiline_less_than_without_prefix:
-  $position text
   parse_multiline_operator funky_types::multiline_less_than
 
 $parse_multiline_greater_equal_without_prefix:
-  $position text
   parse_multiline_operator funky_types::multiline_greater_equal
 
 $parse_multiline_greater_than_without_prefix:
-  $position text
   parse_multiline_operator funky_types::multiline_greater_than
 
 $parse_multiline_and_without_prefix:
-  $position text
   parse_multiline_operator funky_types::multiline_and
 
 $parse_multiline_or_without_prefix:
-  $position text
   parse_multiline_operator funky_types::multiline_or
 
 $parse_multiline_bit_and_without_prefix:
@@ -3352,15 +3326,12 @@ $parse_multiline_bit_and_with_remark_without_prefix:
     -> undefined remark
 
 $parse_multiline_bit_or_without_prefix:
-  $position text
   parse_multiline_operator funky_types::multiline_bit_or
 
 $parse_multiline_bit_xor_without_prefix:
-  $position text
   parse_multiline_operator funky_types::multiline_bit_xor
 
 $parse_multiline_assign_without_prefix:
-  $position text
   parse_multiline_operator funky_types::multiline_assign
 
 $parse_inline_arguments:
@@ -3449,7 +3420,6 @@ $parse_inline_method_value_pair_without_prefix:
     -> undefined identifier
 
 $parse_expression_and_inline_arguments:
-  $position text
   parse_expression !text $expression
   if
     text.is_defined:
@@ -3469,7 +3439,6 @@ $parse_expression_and_inline_arguments:
     -> undefined expression
 
 $parse_spaced_inline_arguments:
-  $position text
   if
     text(1) == ' ':
       range &text 2 -1
@@ -3484,7 +3453,6 @@ $parse_spaced_inline_arguments:
       syntax_error "space character"
 
 $parse_spaced_inline_arguments_without_prefix:
-  $position text
   parse_inline_arguments !text $inline_arguments
   if
     text.is_defined
@@ -3885,7 +3853,6 @@ $parse_string_components:
       -> true -> list(expr)
 
 $parse_some_string_components:
-  $position text
   parse_string_component !text $string_component
   if
     text.is_defined:
@@ -4022,7 +3989,6 @@ $parse_newline_without_prefix:
       .funky::source_position_of position
 
 $parse_some_string_line_components:
-  $position text
   parse_string_line_component !text $string_line_component
   if
     text.is_defined:
@@ -4077,7 +4043,6 @@ $parse_string_line_component:
 	parse_string_line_character_sequence
 
 $parse_string_line_end_without_prefix:
-  $position text
   ->
     text
     undefined
@@ -4104,13 +4069,11 @@ $parse_tagged_empty_character_without_prefix:
     -> undefined empty_character
 
 $parse_empty_character_without_prefix:
-  $position text
   ->
     text
     undefined
 
 $parse_escape_expression_without_prefix:
-  $position text
   parse_expression funky_types::escape_expression !text $expression
   if
     text.is_defined:
@@ -4305,7 +4268,6 @@ $parse_body_statements:
       -> true -> list(expr)
 
 $parse_line_end_statement_without_prefix:
-  $position text
   parse_statement
 
 $parse_inline_body_without_prefix:
@@ -4332,7 +4294,6 @@ $parse_inline_body_without_prefix:
     -> undefined inline_parameters
 
 $parse_statements:
-  $position text
   if
     text == "@nl;" && subgroups.is_defined:
       $parameters_or_statement parse_groups(funky::parse_parameters_or_statement_group)
@@ -4377,7 +4338,6 @@ $parse_some_inline_parameters:
 	parse_one_or_more_inline_parameters
 
 $parse_one_or_more_inline_parameters:
-  $position text
   parse_inline_parameter !text $inline_parameter
   if
     text.is_defined:
@@ -4707,7 +4667,6 @@ $parse_trailing_remark:
 	syntax_error "trailing remark"
 
 $parse_line_remarks:
-  $position text
   if
     text == "@nl;":
       $multiline_remark parse_groups(funky::parse_multiline_remark_group)
@@ -4721,7 +4680,6 @@ $parse_line_remarks:
       syntax_error "valid input characters or line end"
 
 $parse_line_remarks_without_prefix:
-  $position text
   $multiline_remark parse_groups(funky::parse_multiline_remark_group)
   $error find_first(multiline_remark is_an_error)
   if error.is_an_error

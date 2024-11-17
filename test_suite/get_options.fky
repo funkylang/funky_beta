@@ -10,16 +10,26 @@ $text_colour_of ()
 $background_colour_of ()
 $line_height_of ()
 
+$proto_screen std_types::object
+$proto_screen.width_of undefined
+$proto_screen.height_of undefined
+$proto_screen.text_colour_of undefined
+$proto_screen.background_colour_of undefined
+$proto_screen.line_height_of undefined
+
 $BLACK '@0x000000;'
 $WHITE '@0xffffff;'
 $YELLOW '@0xffff00;'
 
 $create_screen: (width height options*)
   $screen
-    std_types::object
+    proto_screen
       .width_of width
       .height_of height
-  extract_options options
+      .text_colour_of undefined
+      .background_colour_of undefined
+      .line_height_of undefined
+  get_options options
     TEXT_COLOUR = BLACK !screen.text_colour_of
     BACKGROUND_COLOUR = WHITE !screen.background_colour_of
     LINE_HEIGHT = 1 !screen.line_height_of

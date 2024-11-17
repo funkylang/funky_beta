@@ -20,6 +20,8 @@
   Free Software Foundation, Inc.,
   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
+# Topics: Tables, Collections
+
 # internal attributes:
 
 $contents_of ()
@@ -142,12 +144,12 @@ $association_list_entry/retrieve: (self key)
 
 $empty_association_list_entry/insert: (_self key value)
   ->
-    new(association_list_entry key value empty_association_list_entry)
+    typed_tuple(association_list_entry key value empty_association_list_entry)
     true
 
 $association_list_entry/insert: (self key value)
   delete &self $did_delete key
-  -> new(association_list_entry key value self) not(did_delete)
+  -> typed_tuple(association_list_entry key value self) not(did_delete)
 
 ###
 # delete
@@ -161,7 +163,7 @@ $association_list_entry/delete: (self key)
     -> my_link true
     :
       delete &my_link key $did_delete
-      -> new(association_list_entry my_key my_value my_link) did_delete
+      -> typed_tuple(association_list_entry my_key my_value my_link) did_delete
 
 ###
 # for_each
@@ -252,7 +254,7 @@ $empty_association_list_entry/map: (self _function) -> self
 
 $association_list_entry/map: (self function)
   self $my_key $my_value $my_link
-  new self my_key function(my_value) map(my_link function)
+  typed_tuple self my_key function(my_value) map(my_link function)
 
 $std_types::association_list/map:
   #

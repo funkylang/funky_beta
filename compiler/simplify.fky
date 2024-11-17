@@ -166,7 +166,7 @@ $funky_types::redefinition/simplify: (self temp_no)
       $base create_functor(self)
       $bases list(base)
       simplify &extensions &temp_no $statements
-      !statements new(funky_types::statement_list empty_list first(statements))
+      !statements typed_tuple(funky_types::statement_list empty_list first(statements))
       for_each range(extensions 1 -2)
 	: (extension)
 	  case node_type_of(extension)
@@ -798,8 +798,11 @@ $funky_types::statement/simplify: (self temp_no)
       on n > 1 && not(is_a_slot_assigment):
 	syntax_error "Too many arguments in assignment" arguments(2)
       if
-	is_a_slot_assigment
-	check_that_all_arguments_are_slot_assignments
+	is_a_slot_assigment:
+	  if
+	    is_a_redefinition
+	    : check_that_all_arguments_are_slot_assignments
+	    : check_that_all_arguments_are_slot_definitions
 	check_that_all_arguments_are_inputs
       push &arguments head
       update_if is_a_slot_assigment && is_a_redefinition &arguments:
@@ -873,7 +876,7 @@ $funky_types::statement/simplify: (self temp_no)
 		->
 		  self
 		  temp_no
-		  new
+		  typed_tuple
 		    funky_types::statement_list
 		    leading_statements
 		    trailing_statements
@@ -919,7 +922,7 @@ $funky_types::statement/simplify: (self temp_no)
 	      ->
 		trailing_statements(1)
 		temp_no
-		new
+		typed_tuple
 		  funky_types::statement_list
 		  leading_statements
 		  range(trailing_statements 2 -1)
@@ -960,12 +963,20 @@ $funky_types::statement/simplify: (self temp_no)
     on argument.is_defined:
       syntax_error "Unexpected output argument" argument
 
-  $check_that_all_arguments_are_slot_assignments:
-    $argument find_first(arguments is_not_a_slot_assigment)
+  $check_that_all_arguments_are_slot_definitions:
+    # do not check the first argument
+    $argument find_first(range(arguments 2 -1) is_not_a_slot_assigment)
     on argument.is_defined:
-      syntax_error "Argument should be a slot assignment" argument
+      syntax_error "Argument should be a slot definition" argument
 
     $is_not_a_slot_assigment: (node) -> not(is_a_pair_or_type_function(node))
+
+  $check_that_all_arguments_are_slot_assignments:
+    $argument
+      find_first
+	arguments: (argument) -> node_type_of(argument) != ATTRIBUTE_VALUE_PAIR
+    on argument.is_defined:
+      syntax_error "Argument should be a slot assignment" argument
 
 $is_a_pair_or_type_function: (node)
   $node_type node_type_of(node)
@@ -1208,17 +1219,20 @@ $create_statement: (head arguments)
     arguments.is_not_empty:
       $node_type node_type_of(arguments(1))
       if
-	||
-	  node_type == ATTRIBUTE_VALUE_PAIR
-	  node_type == METHOD_VALUE_PAIR
-	  node_type == TYPE_FUNCTION
+	node_type == ATTRIBUTE_VALUE_PAIR
 	->
 	  funky_types::statement
 	    .head_of assign_attributes(head)
 	    .arguments_of put(arguments head)
 	    .source_group_of source_group_of(head)
 	    .source_position_of source_position_of(head)
-	return_statement
+	:
+	  if
+	    node_type == METHOD_VALUE_PAIR || node_type == TYPE_FUNCTION:
+	      syntax_error
+		"assigning methods or type functions is no longer supported"
+		arguments(1)
+	    return_statement
     return_statement
 
   $return_statement
@@ -1255,41 +1269,43 @@ $resolve_backquoted: (arguments node) # already simplified
   $exctract_characters: (str)
     $level 0
     $within_string false
-    for_each str: (idx chr)
-      case chr
-	'@nl;' -> range(str 1 -2)
-	' ':
-	  if
-	    level == 0 && not(within_string)
-	    -> range(str 1 idx-1)
+    for_each str
+      : (idx chr)
+	case chr
+	  '@nl;' -> range(str 1 -2)
+	  ' ':
+	    if
+	      level == 0 && not(within_string)
+	      -> range(str 1 idx-1)
+	      next
+	  '@quot;':
+	    not &within_string
 	    next
-	'@quot;':
-	  not &within_string
+	  '(':
+	    inc &level
+	    next
+	  ')':
+	    dec &level
+	    next
 	  next
-	'(':
-	  inc &level
-	  next
-	')':
-	  dec &level
-	  next
-	next
+      next
 
 $funky_types::statement_list/append: (self right)
   self $leading_statements $trailing_statements
   right $right_leading_statements $right_trailing_statements
   append &leading_statements right_leading_statements
   append &trailing_statements right_trailing_statements
-  new self leading_statements trailing_statements
+  typed_tuple self leading_statements trailing_statements
 
 $funky_types::statement_list/push_leading_statement: (self statement)
   self $leading_statements $trailing_statements
   push &leading_statements statement
-  new self leading_statements trailing_statements
+  typed_tuple self leading_statements trailing_statements
 
 $funky_types::statement_list/push_trailing_statement: (self statement)
   self $leading_statements $trailing_statements
   push &trailing_statements statement
-  new self leading_statements trailing_statements
+  typed_tuple self leading_statements trailing_statements
 
 ### Handle Local Variables
 
@@ -1305,8 +1321,18 @@ $funky_types::node/add_definitions: (_self)
   next
 
 $funky_types::statement/add_definitions: (self)
-  for_each
-    push(arguments_of(self) head_of(self)) add_definition
+  $head head_of(self)
+  $arguments arguments_of(self)
+  !arguments
+    if
+      node_type_of(head) == DEFINITION:
+	case node_type_of(arguments(1))
+	  ATTRIBUTE_VALUE_PAIR, METHOD_VALUE_PAIR, TYPE_FUNCTION
+	  -> arguments
+	  -> push(arguments head)
+      -> arguments
+  for_each arguments
+    add_definition
     next
 
 $add_definition ()
@@ -1316,10 +1342,14 @@ $funky_types::node/add_definition: (_self)
 
 $funky_types::definition/add_definition: (self)
   $identifier identifier_of(self)
-  on not(allow_hidden) && resolve_variable(identifier).is_defined:
-    syntax_error "Variable is already defined" self
-  !resolve_variable(identifier) mangle_local_definition(identifier self)
-  next
+  if
+    identifier .contains. "::"
+    next
+    :
+      on not(allow_hidden) && resolve_variable(identifier).is_defined:
+	syntax_error "Variable is already defined" self
+      !resolve_variable(identifier) mangle_local_definition(identifier self)
+      next
 
 $funky_types::parameter/add_definition add_parameter_definition
 $funky_types::inline_parameter/add_definition add_parameter_definition

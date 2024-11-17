@@ -20,7 +20,7 @@
   Free Software Foundation, Inc.,
   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
-<using std>
+# Topic: Random Numbers, Iterators
 
 $index_of ()
 $state_of ()
@@ -33,6 +33,8 @@ $TEMPERING_MASK_B 0x9d2c5680
 $TEMPERING_MASK_C 0xefc60000
 
 $std_types::mersenne_twister std_types::random_number_generator
+$std_types::mersenne_twister.index_of undefined
+$std_types::mersenne_twister.state_of undefined
 
 $std_types::mersenne_twister.modulus_of 0x100000000
 

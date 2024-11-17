@@ -20,6 +20,9 @@
   Free Software Foundation, Inc.,
   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
+#
+  Topic: Configuration
+
 $std::load_configuration ()
   #
     loads the configuration from the given file
@@ -39,18 +42,21 @@ $std_types::object/load_configuration:
     a single list of key-value-pairs.
   (
     configuration # the configuration object
-    filename # the filename of the configuration file
+    base_filename # the base filename of the configuration file
     fields* # the fields and their names
   )
-  load! $buf filename
-  if
-    buf.is_an_error
-    -> configuration buf
-    :
-      extract_configuration configuration buf fields
-
-$configuration_info_of ()
-$std_types::io.configuration_info_of empty_hash_table
+  get_configuration_filenames! $filenames base_filename
+  $errors empty_list
+  for_each filenames
+    : (filename)
+      load! $buf filename
+      if
+	buf.is_an_error:
+	  push &errors buf
+	  next!
+	:
+	  extract_configuration configuration buf fields
+    -> configuration errors
 
 $std_types::io/load_configuration:
   #
@@ -59,33 +65,49 @@ $std_types::io/load_configuration:
     io # the io object
     id # the job id
     configuration # the configuration object
-    filename # the filename of the configuration file
+    base_filename # the base filename of the configuration file
     fields* # the fields and their names
   )
-  !io.configuration_info_of(id) tuple(configuration fields)
-  tuple &id 1
-  load &io id filename
-  register_handlers io id
-    JOB_COMPLETED = load_completed
-    JOB_FAILED = load_failed
+  run io load_configuration_action id configuration base_filename fields
 
-$load_completed: (io id buf)
+$load_configuration_action: (io id configuration base_filename fields)
+  get_configuration_filenames! $filenames base_filename
+  tuple &id 1
+  $filename filenames(1)
+  log &io 4 -> "
+    try to load configuration from "@(filename)"
+  load &io id filename
+  register_handlers &io id
+    JOB_COMPLETED = tuple(load_completed tuple(configuration fields))
+    JOB_FAILED = tuple(load_failed range(filenames 2 -1))
+  -> io undefined
+
+$load_completed: (io id buf configuration_info)
   deregister_all_handlers &io id
   id !id
-  $configuration_info configuration_info_of(io)(id)
-  !io.configuration_info_of(id) undefined
   configuration_info $configuration $fields
   extract_configuration &configuration $errors buf fields
   -> io tuple(JOB_COMPLETED id tuple(configuration errors))
 
-$load_failed: (io id err)
-  deregister_all_handlers &io id
-  id !id
-  -> io tuple(JOB_FAILED id err)
+$load_failed: (io id err more_filenames)
+  if
+    more_filenames.is_empty:
+      deregister_all_handlers &io id
+      id !id
+      -> io tuple(JOB_FAILED id err)
+    :
+      $filename more_filenames(1)
+      log &io 4 -> "
+	try to load configuration from "@(filename)"
+      load &io id filename
+      register_handlers &io id # replace "failed"-handler
+	JOB_FAILED = tuple(load_failed range(more_filenames 2 -1))
+      -> io undefined
 
 $extract_configuration: (configuration buf fields)
   $errors empty_list
   update_if length_of(fields) == 1 && fields(1).is_a_list &fields -> fields(1)
+  filter &fields $tables: (field) -> first(field).is_a_string
   to_hash_table &fields
   from_utf8 &buf
   for_each split(buf.trim_right '@nl;')
@@ -130,7 +152,36 @@ $extract_configuration: (configuration buf fields)
 		  attribute_of &configuration value
 		  next
 	    :
-	      push &errors "
-		Invalid attribute "@(name)" in line @(no).
-	      next
+	      $found false
+	      for_each tables
+		: (table)
+		  table !table !attribute_of
+		  $key table(name)
+		  if
+		    key.is_defined:
+		      $values attribute_of(configuration)
+		      !values(key) value
+		      attribute_of &configuration values
+		      !found true
+		      break
+		    next
+		:
+		  if
+		    found
+		    next
+		    :
+		      push &errors "
+			Invalid attribute "@(name)" in line @(no).
+		      next
     -> configuration errors
+
+$get_configuration_filenames: (base_filename)
+  $default_filename append(base_filename ".cfg")
+  get_mac_address! $mac_address
+  $filenames
+    if
+      mac_address.is_defined
+      -> list(append(base_filename "_" mac_address ".cfg"))
+      -> empty_list
+  push &filenames default_filename
+  -> filenames

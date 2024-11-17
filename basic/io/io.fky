@@ -35,7 +35,7 @@
 
   To hand on *I/O-access rights* a function is called with a "!"-suffix.
 
-  See also: @Input-Output Events, @POSIX, @Input-Output Task Manager
+  Related topics: Input-Output Events, POSIX, Input-Output Task Manager
 
   Example:
 
@@ -52,106 +52,36 @@
 
   The are wrapped in a Funky-style API.
 
-  Funky supports non-blocking I/O to allow for asynchronous programming
-  without the need of concurrency.
+  Funky uses mainly blocking I/O but makes heavy use of the <std::pselect>
+  function to make I/O-calls only when non-blocking behaviour is guaranteed.
 
-  See also: @Input-Output
+  In most cases it will be more appropriate to use the <@Input-Output>-API than
+  the POSIX-API.
 
-$std::update ()
+  Related topics: Input-Output
 
 # File Operations
 
-$std::load ()
-  #
-    load data
+$std::load () # loads a file in some way; returns a string
 
-    Topic: Input-Output
+$std::save () # saves a file in some way
 
-    See also: save
-
-$std::save ()
-  #
-    save data
-
-    Topic: Input-Output
-
-    See also: load
+$std::update ()
 
 # Directory Entry Attributes
 
-$std::access_time_of ()
-  #
-    timestamp of last file access
-
-    Topic: Input-Output
-
-    See also: stat, fstat,
-	      modification_time_of, status_change_time_of, is_a_directory
-
-$std::modification_time_of ()
-  #
-    timestamp of last file modification
-
-    Topic: Input-Output
-
-    See also: stat, fstat,
-	      access_time_of, status_change_time_of, is_a_directory
-
-$std::status_change_time_of ()
-  #
-    timestamp of last file status change
-
-    Topic: Input-Output
-
-    See also: stat, fstat,
-	      access_time_of, modification_time_of, is_a_directory
-
 $std::is_a_directory ()
-  #
-    returns true if the file is a directory
-
-    Topic: Input-Output
-
-    See also: stat, fstat,
-	      access_time_of, modification_time_of, status_change_time_of
 
 $std::sleep:
-  #
-    sleeps for the specified number of seconds
-
-    If duration is a negative value then the function returns immediately.
-
-    Topic: Input-Output
   (
     duration # sleep time in seconds
   )
   on duration > 0: usleep! (1'000'000*duration).to_integer
 
 $std::write_string_to:
-  #
-    writes its argument (a single string) to the specified output channel
-
-    The argument is **not** converted into utf-8.
-
-    The function might block until the output channel is ready to accept more
-    data.
-
-    This function needs I/O-access rights.
-
-    Topic: Input-Output
-
-    See also: write_to, print_to, print, eprint
-
-    Example:
-
-      write_string_to! STDOUT_FILENO "Hello, world!@nl;"
-
-    Output:
-
-      Hello, world!
   (
-    fd # the output channel
-    str # the string argument to print
+    fd
+    str
   )
   $len length_of(str)
   loop
@@ -169,324 +99,82 @@ $std::write_string_to:
     pass
 
 $std::write_to:
-  #
-    writes its arguments to the specified output channel
-
-    The arguments are converted into a single string but are **not** converted
-    into utf-8.
-
-    This function always writes the whole string and may therefor block.
-
-    This function needs I/O-access rights.
-
-    Topic: Input-Output
-
-    See also: writeln_to, write_string_to, print_to, print, eprint
-
-    Example:
-
-      $name "Joe"
-      write_to! STDOUT_FILENO "Hello, " name "!@nl;"
-
-    Output:
-
-      Hello, Joe!
   (
-    fd # the output channel
-    args* # the arguments to concatenate and print
+    fd
+    args*
   )
   write_string_to! fd create_string(args)
 
 $std::writeln_to:
-  #
-    writes its arguments to the specified output channel and adds a newline
-
-    The arguments are converted into a single string but are **not** converted
-    into utf-8.
-
-    This function always writes the whole string and may therefor block.
-
-    This function needs I/O-access rights.
-
-    Topic: Input-Output
-
-    See also: write_to, println_to, write_string_to, print_to
-
-    Example:
-
-      $name "Joe"
-      writeln_to! STDOUT_FILENO "Hello, " name "!"
-
-    Output:
-
-      Hello, Joe!
   (
-    fd # the output channel
-    args* # the arguments to concatenate and print
+    fd
+    args*
   )
   write_string_to! fd push(create_string(args) '@nl;')
 
 $std::print_string_to:
-  #
-    writes its argument (a single string) to the specified output channel
-
-    The argument is converted into utf-8.
-
-    The function might block until the output channel is ready to accept more
-    data.
-
-    This function needs I/O-access rights.
-
-    Topic: Input-Output
-
-    See also: print_to, print, eprint, write_string_to
-
-    Example:
-
-      print_string_to! STDOUT_FILENO "Hello, world!@nl;"
-
-    Output:
-
-      Hello, world!
   (
-    fd # the output channel
-    str # the string argument to print
+    fd
+    str
   )
   write_string_to! fd str.to_utf8
 
 $std::print_to ()
 
 $std_types::file_descriptor/print_to:
-  #
-    prints its arguments to the specified file descriptor
-
-    The arguments are converted into a single string which is then converted
-    into utf-8.
-
-    This function needs I/O-access rights.
-
-    Topic: Input-Output
-
-    See also: write_to, write_string_to, print, eprint
-
-    Example:
-
-      $name "Chloé"
-      print_to! STDOUT_FILENO "Bonjour, " name "!@nl;"
-
-    Output:
-
-      Bonjour, Chloé!
   (
-    fd # the output channel
-    args* # the arguments to concatenate and print
+    fd
+    args*
   )
   write_string_to! fd create_string(args).to_utf8
 
 $std::println_to:
-  #
-    prints its arguments to the specified output channel and adds a newline
-
-    The arguments are converted into a single string which is then converted
-    into utf-8.
-
-    This function needs I/O-access rights.
-
-    Topic: Input-Output
-
-    See also: print_to, write_string_to, print, eprint
-
-    Example:
-
-      $name "Chloé"
-      println_to! STDOUT_FILENO "Bonjour, " name "!"
-
-    Output:
-
-      Bonjour, Chloé!
   (
-    fd # the output channel
-    args* # the arguments to concatenate and print
+    fd
+    args*
   )
   write_string_to! fd push(create_string(args).to_utf8 '@nl;')
 
 $std::print_string:
-  #
-    writes its argument (a single string) to the standard output channel
-
-    The argument is converted into utf-8.
-
-    This function needs I/O-access rights.
-
-    Topic: Input-Output
-
-    See also: print, println, eprint_string
-
-    Example:
-
-      print_string! "Bonjour, Chloé!@nl;"
-
-    Output:
-
-      Bonjour, Chloé!
   (
-    str # the string to print
+    str
   )
   write_string_to! STDOUT_FILENO str.to_utf8
 
 $std::print:
-  #
-    writes its arguments (as a single string) to the standard output channel
-
-    The arguments are converted into a single string which is then converted
-    into utf-8.
-
-    This function needs I/O-access rights.
-
-    Topic: Input-Output
-
-    See also: println, print_string, eprint
-
-    Example:
-
-      $name "Chloé"
-      print! "Bonjour, " name "!@nl;"
-
-    Output:
-
-      Bonjour, Chloé!
   (
-    args* # the arguments to concatenate and print
+    args*
   )
   print_string! create_string(args)
 
 $std::println:
-  #
-    writes its arguments and a trailing newline to the standard output channel
-
-    The arguments are converted into a single string which is then converted
-    into utf-8.
-
-    This function needs I/O-access rights.
-
-    Topic: Input-Output
-
-    See also: print, print_string, eprint
-
-    Example:
-
-      $name "Chloé"
-      println! "Bonjour, " name "!"
-
-    Output:
-
-      Bonjour, Chloé!
   (
-    args* # the arguments to print
+    args*
   )
   print_string! push(create_string(args) '@nl;')
 
 $std::eprint_string:
-  #
-    writes its argument (a single string) to the error output channel
-
-    The argument is converted into utf-8.
-
-    This function needs I/O-access rights.
-
-    Topic: Input-Output
-
-    See also: eprint, eprintln, print_string
-
-    Example:
-
-      eprint_string! "Bonjour, Chloé!@nl;"
-
-    Example:
-
-      eprint_string! "Bonjour, Chloé!@nl;"
-
-    Error output:
-
-      Bonjour, Chloé!
   (
-    str # the string to print
+    str
   )
   write_string_to! STDERR_FILENO str.to_utf8
 
 $std::eprint:
-  #
-    writes its arguments (as a single string) to the error output channel
-
-    The arguments are converted into a single string which is then converted
-    into utf-8.
-
-    This function needs I/O-access rights.
-
-    Topic: Input-Output
-
-    See also: eprintln, eprint_string, print
-
-    Example:
-
-      $name "Chloé"
-      eprint! "Bonjour, " name "!@nl;"
-
-    Error output:
-
-      Bonjour, Chloé!
   (
-    args* # the arguments to concatenate and print
+    args*
   )
   eprint_string! create_string(args)
 
 $std::eprintln:
-  #
-    writes its arguments and a trailing newline to the error output channel
-
-    The arguments are converted into a single string which is then converted
-    into utf-8.
-
-    This function needs I/O-access rights.
-
-    Topic: Input-Output
-
-    See also: eprint, eprint_string, println
-
-    Example:
-
-      $name "Chloé"
-      eprintln! "Bonjour, " name "!"
-
-    Error output:
-
-      Bonjour, Chloé!
   (
-    args* # the arguments to print
+    args*
   )
   eprint_string! push(create_string(args) '@nl;')
 
 $std::read_from:
-  #
-    reads data from the specified input channel
-
-    The function might block until the input channel is ready to deliver more
-    data.
-
-    The read data is treated as binary bytes.
-
-    This function needs I/O-access rights.
-
-    Topic: Input-Output
-
-    See also: read, readln_from, read_from_until
-
-    Example:
-
-      read_from! $buf STDIN_FILENO 10
   (
-    fd # the input channel
-    length # the number of bytes to read
+    fd
+    length
   )
   $data ""
   loop:
@@ -500,36 +188,10 @@ $std::read_from:
 	next!
 
 $std::read_from_until:
-  #
-    reads data from the specified input channel until a specific sentinel is
-    encountered
-
-    The sentinel must consist of octets.
-
-    If *nth* is given then the sentinel must occur exactly *nth* times.
-
-    Sentinels should *not* overlap!
-
-    The function might block until the input channel is ready to deliver more
-    data.
-
-    The read data is treated as binary bytes.
-
-    The sentinel is included in the returned octet string.
-
-    This function needs I/O-access rights.
-
-    Topic: Input-Output
-
-    See also: readln_from, read_from
-
-    Example:
-
-      read_from_until! $data fd STDIN_FILENO '@nl;'
   (
-    fd # the input channel
-    sentinel # the sentinel to look for
-    nth = 1 #
+    fd
+    sentinel
+    nth = 1
   )
   $data ""
   loop:
@@ -549,50 +211,14 @@ $std::read_from_until:
 	  next
 
 $std::readln_from:
-  #
-    reads a line from the specified input channel
-
-    The function might block until the input channel is ready to deliver more
-    data.
-
-    The read data is treated as binary bytes.
-
-    The newline character is included in the returned string.
-
-    This function needs I/O-access rights.
-
-    Topic: Input-Output
-
-    See also: read_from_until, read_from
-
-    Example:
-
-      readln_from! $line STDIN_FILENO
   (
-    fd # the input channel
+    fd
   )
   read_from_until! fd '@nl;'
 
 $std::read_all_from:
-  #
-    reads all data from the specified input channel
-
-    The function might block until the input channel is ready to deliver more
-    data.
-
-    The read data is treated as binary bytes.
-
-    This function needs I/O-access rights.
-
-    Topic: Input-Output
-
-    See also: read_from, readln_from, read_from_until
-
-    Example:
-
-      read_all_from! $data STDIN_FILENO
   (
-    fd # the input channel
+    fd
   )
   $data ""
   loop:
@@ -605,135 +231,40 @@ $std::read_all_from:
 	next!
 
 $std::get_from_until:
-  #
-    reads text from the specified input channel until a specific sentinel is
-    encountered
-
-    **Attention**: The sentinel must consist of **ASCII** characters.
-
-    If *nth* is given then the sentinel must occur exactly *nth* times.
-
-    Sentinels should *not* overlap!
-
-    The function might block until the input channel is ready to deliver more
-    data.
-
-    The read data must be in utf8 encoding. The data is converted before
-    returning.
-
-    The sentinel is included in the returned string.
-
-    This function needs I/O-access rights.
-
-    Topic: Input-Output
-
-    See also: getln_from, get_until
-
-    Example:
-
-      get_from_until! $data STDIN_FILENO '@nl;'
   (
-    fd # the input channel
-    sentinel # the sentinel to look for
+    fd
+    sentinel
     nth = 1
   )
   read_from_until! $data fd sentinel nth
   -> data.from_utf8
 
 $std::getln_from:
-  #
-    reads a text line from the specified input channel
-
-    The function might block until the input channel is ready to deliver more
-    data.
-
-    The read data must be in utf8 encoding. The data is converted before
-    returning.
-
-    The newline character is included in the returned string.
-
-    This function needs I/O-access rights.
-
-    Topic: Input-Output
-
-    See also: get_from_until, getln
-
-    Example:
-
-      getln_from! $line STDIN_FILENO
   (
-    fd # the input channel
+    fd
   )
   get_from_until! fd '@nl;'
 
 $std::get_until:
-  #
-    reads text from the standard input channel until a specific sentinel is
-    encountered
-
-    **Attention**: The sentinel must consist of **ASCII** characters.
-
-    The function might block until the input channel is ready to deliver more
-    data.
-
-    The read data must be in utf8 encoding. The data is converted before
-    returning.
-
-    The sentinel is included in the returned string.
-
-    This function needs I/O-access rights.
-
-    Topic: Input-Output
-
-    See also: getln, get_from_until
-
-    Example:
-
-      get_until! $data '@nl;'
   (
-    sentinel # the sentinel to look for
+    sentinel
   )
   get_from_until! STDIN_FILENO sentinel
 
 $std::getln:
-  #
-    reads a text line from the standard input channel
-
-    The function might block until the input channel is ready to deliver more
-    data.
-
-    The read data must be in utf8 encoding. The data is converted before
-    returning.
-
-    The newline character is included in the returned string.
-
-    Topic: Input-Output
-
-    See also: get_until, getln_from
-
-    Example:
-
-      getln! $line
-
   getln_from! STDIN_FILENO
 
 $std_types::string/load:
   #
-    loads data from a file
+    Example:
 
-    The read data is not converted from utf-8.
-
-    This function needs I/O-access rights.
-
-    Topic: Input-Output
-
-    See also: std_types::string/save
+      load! $buf "test.dat"
 
     Example:
 
-    load! $buf "data.txt"
+      load! $buf "/dev/sda" 512 # load first sector of /dev/sda
   (
-    filename # the name of the file to load
+    filename
     max_length = undefined
   )
   open! $fd filename "r"
@@ -746,23 +277,19 @@ $std_types::string/load:
     :
       load! fd
 
-$std_types::file_descriptor/load:
-  #
-    loads data from a *file descriptor*
-
-    The read data is not converted from utf-8.
-
-    This function needs I/O-access rights.
-
-    Topic: Input-Output
-
-    See also: std_types::string/load
-
-    Example:
-
-    load! $buf STDIN_FILENO
+$std_types::string/save:
   (
-    fd # the file descriptor
+    filename
+    data
+  )
+  open! $fh filename "w+"
+  check fh
+  write_to! fh data
+  close! fh
+
+$std_types::file_descriptor/load:
+  (
+    fd
   )
   read_all_from! $data fd
   check data
@@ -783,14 +310,15 @@ $std_types::io/load:
     id
     filename
     max_length = undefined
+    data = filename # the default data to return
   )
-  run io load_file id filename max_length
+  run io load_file id filename max_length data
 
-$load_file: (io id filename max_length)
+$load_file: (io id filename max_length data)
   open! $fd filename "r"
   if
     fd.is_an_error
-    -> io tuple(JOB_FAILED id fd)
+    -> io tuple(JOB_FAILED id fd data)
     :
       start_reading_from &io fd true max_length
       !io.load_buffer_of(fd) ""
@@ -798,8 +326,8 @@ $load_file: (io id filename max_length)
       !io.id_of(fd) id
       register_handlers &io fd
 	READ = read_data
-	CLOSED = file_closed
-	READ_FAILED = read_failed
+	CLOSED = tuple(file_closed_after_reading data)
+	READ_FAILED = tuple(read_failed data)
       -> io undefined
 
 $read_data: (io fd data)
@@ -818,81 +346,84 @@ $read_data: (io fd data)
       !io.load_buffer_of(fd) buf
       -> io undefined
 
-$file_closed: (io fd _dummy)
+$file_closed_after_reading: (io fd _dummy data)
   deregister_all_handlers &io fd
   $buf load_buffer_of(io)(fd)
   $id id_of(io)(fd)
   !io.load_buffer_of(fd) undefined
   !io.max_length_of(fd) undefined
   !io.id_of(fd) undefined
-  -> io tuple(JOB_COMPLETED id buf)
+  -> io tuple(JOB_COMPLETED id buf data)
 
-$read_failed: (io fd err)
+$read_failed: (io fd err data)
   deregister_all_handlers &io fd
   !io.load_buffer_of(fd) undefined
   !io.max_length_of(fd) undefined
   !io.id_of(fd) undefined
-  -> io tuple(JOB_FAILED fd err)
+  -> io tuple(JOB_FAILED fd err data)
 
-$std_types::string/save:
-  #
-    saves data to the specified file
+$NONE .
 
-    The data written is not converted to utf-8.
-
-    This function needs I/O-access rights.
-
-    Topic: Input-Output
-
-    See also: std_types::string/load
-
-    Example:
-
-    $text "
-      ...
-      This is some text.
-      ...
-    save! "data.txt" data
+$std_types::io/save:
   (
-    filename # the name of the file to save
-    data # an octet string containing the data
+    io
+    id
+    filename
+    data
+    context = NONE
   )
-  open! $fh filename "w+"
-  check fh
-  write_to! fh data
-  close! fh
+  run io save_file id filename data context
+
+$save_file: (io id filename data context)
+  open! $fd filename "w"
+  if
+    fd.is_an_error
+    -> io tuple(JOB_FAILED id fd filename)
+    :
+      write &io fd data
+      !io.id_of(fd) id
+      update_if NONE == context &context -> filename
+      register_handlers &io fd
+	WRITE_COMPLETED = tuple(write_completed context)
+	WRITE_FAILED = tuple(write_failed context)
+      -> io undefined
+
+$write_completed: (io fd _dummy context)
+  run &io close_file_after_writing fd context
+  -> io undefined
+
+$close_file_after_writing: (io fd context)
+  close! fd
+  deregister_all_handlers &io fd
+  $id id_of(io)(fd)
+  !io.id_of(fd) undefined
+  -> io tuple(JOB_COMPLETED id undefined context)
+
+$write_failed: (io fd err context)
+  deregister_all_handlers &io fd
+  $id id_of(io)(fd)
+  !io.id_of(fd) undefined
+  -> io tuple(JOB_FAILED id err context)
 
 $std::try:
   #
-    recover an error object
+    Example:
 
-    If the execution of *body* fails then the error-object is returned. If the
-    execution of *body* succeeds then <undefined> is returned.
-
-    *body* must not return any results.
-
-    Topic: Errors
-
-    See also: error_check
+      $buf undefined
+      try $success: load! !buf "test.dat"
+      if
+	buf.is_an_error:
+	  println! "Failed to load test.dat"
+	:
+	  # successfully loaded "test.dat"
+	  ...
   (
-    body # the statements to execute
+    body
   )
   body!
   -> undefined
 
 $std::check:
-  #
-    checks its argument
-
-    If the supplied argument is an error object then the error object is
-    returned. Otherwise nothing is returned.
-
-    Topic: Errors
-
-    Example:
-
-    load! $buf filename
-    check buf
   (
     argument
   )
@@ -903,17 +434,14 @@ $std::check:
 
 $std::file_exists:
   #
-    checks if the specified file exists
-
-    Returns <true> if the file exists and <false> otherwise.
-
-    This function needs I/O-access rights.
-
-    Topic: Input-Output
-
     Example:
 
-    file_exists! $does_exist"data.txt"
+      file_exists! $does_exist "test.dat"
+      if
+	does_exist:
+	  println! "test.dat exists"
+	:
+	  println! "test.dat does not exist"
   (
     filename
   )
@@ -922,27 +450,19 @@ $std::file_exists:
 
 $std::directory:
   #
-    returns a list of directory entries
+    Example:
 
-    Each directory entry contains the following attributes:
-
-    <name_of>
-
-    <type_of>
-
-    <inode_number_of>
-
-    This function needs I/O-access rights.
-
-    Topic: Input-Output
-
-    See also: access_time_of, modification_time_of, status_change_time_of,
-	      is_a_directory
+      directory! $entries "/usr/bin"
+      for_each entries
+	: (entry)
+	  println! name_of(entry)
+	  next!
+	pass
   (
     options*
     pathname
   )
-  extract_options options
+  get_options options
     SORT = false $do_sort
   $entries empty_list
   opendir! $dir pathname
@@ -959,66 +479,13 @@ $std::directory:
 	push &entries entry
 	next!
 
-$std_types::stat/access_time_of:
-  #
-    returns the access time of the specified file
-
-    Topic: Input-Output
-
-    See also: modification_time_of, status_change_time_of, is_a_directory
-  (
-    self
-  )
-  ->
-    +
-      access_time_seconds_of(self)
-      access_time_nanoseconds_of(self)/1'000'000'000
-
-$std_types::stat/modification_time_of: (self)
-  #
-    returns the modification time of the specified file
-
-    Topic: Input-Output
-
-    See also: access_time_of, status_change_time_of, is_a_directory
-  ->
-    +
-      modification_time_seconds_of(self)
-      modification_time_nanoseconds_of(self)/1'000'000'000
-
-$std_types::stat/status_change_time_of: (self)
-  #
-    returns the status change time of the specified file
-
-    Topic: Input-Output
-
-    See also: access_time_of, modification_time_of, is_a_directory
-  ->
-    +
-      status_change_time_seconds_of(self)
-      status_change_time_nanoseconds_of(self)/1'000'000'000
-
 $std_types::stat/is_a_directory: (self)
-  #
-    returns true if the file is a directory
-
-    Topic: Input-Output
-
-    See also: access_time_of, modification_time_of, status_change_time_of
   -> mode_of(self)(1) == 'd'
 
 $std::call:
-  #
-    calls an external program
-
-    Topic: Input-Output
-
-    Example:
-
-    call! "ls" list("-l") $status $out $err
   (
-    cmd # the command to execute
-    args # the arguments list to pass to the command
+    cmd
+    args
   )
   $do_collect_output (result_count() >= 2)
   $do_collect_error_output (result_count() == 3)
@@ -1042,79 +509,60 @@ $std::call:
   $err ""
   loop:
     get_events! &io $events
-    for_each events: (event)
-      event $type $fd $data
-      case type
-	READ:
-	  if
-	    data == ""
-	    next
-	    :
-	      case fd
-		out_fd:
-		  if
-		    do_collect_output:
-		      append &out data
-		      next!
-		    :
-		      write_to! STDOUT_FILENO data
-		      next!
-		err_fd:
-		  if
-		    do_collect_error_output:
-		      append &err data
-		      next!
-		    :
-		      write_to! STDERR_FILENO data
-		      next!
-		:
-		  next!
-	PROCESS_JOINED:
-	  $ret data
-	  if
-	    do_collect_output:
-	      if
-		do_collect_error_output
-		-> ret out err
-		-> ret out
-	    -> ret
-	: # ignore all other signals
-	  next!
+    for_each events
+      : (event)
+	event $type $fd $data
+	case type
+	  READ:
+	    if
+	      data == ""
+	      next
+	      :
+		case fd
+		  out_fd:
+		    if
+		      do_collect_output:
+			append &out data
+			next!
+		      :
+			write_to! STDOUT_FILENO data
+			next!
+		  err_fd:
+		    if
+		      do_collect_error_output:
+			append &err data
+			next!
+		      :
+			write_to! STDERR_FILENO data
+			next!
+		  :
+		    next!
+	  PROCESS_JOINED:
+	    $ret data
+	    if
+	      do_collect_output:
+		if
+		  do_collect_error_output
+		  -> ret out err
+		  -> ret out
+	      -> ret
+	  : # ignore all other signals
+	    next!
+      next
 
 $std::terminate:
-  #
-    terminates the current process
-
-    Topic: Input-Output
-
-    Example:
-
-    terminate!
-
   exit! EXIT_SUCCESS
 
 $std::is_a_file_descriptor ()
-  #
-    returns true if the argument is a file descriptor
-
 $std_types::object.is_a_file_descriptor false
-  #
-    objects aren't file descriptors per default
-
 $std_types::file_descriptor.is_a_file_descriptor true
-  #
-    file descriptors are file descriptors
 
 $std_types::file_descriptor.serialization_tag_of "file_descriptor"
-  #
-    the serialization tag for file descriptors
 
 $std_types::file_descriptor/serialize:
-  #
-    serializes a file descriptor
   (
-    self # the file descriptor to serialize
-    indent = undefined # the indentation level
+    self
+    indent = undefined
   )
   $str "
     file_descriptor @(self.to_integer)
@@ -1124,36 +572,24 @@ $std_types::file_descriptor/serialize:
     -> str
 
 $std_types::file_descriptor.deserializer_of:
-  #
-    constructs a file descriptor from a serialization string
   (
-    _type # type ...
-    argument # ... and argument of the serialization string
+    _type
+    argument
   )
   -> file_descriptor(integer(argument))
 
+register_type &deserializers std_types::file_descriptor
+
 $std::is_a_process_id ()
-  #
-    returns true if the argument is a process id
-
 $std_types::object/is_a_process_id false
-  #
-    objects aren't process ids per default
-
 $std_types::process_id/is_a_process_id true
-  #
-    process ids are process ids
 
 $std_types::process_id.serialization_tag_of "process_id"
-  #
-    the serialization tag for process ids
 
 $std_types::process_id/serialize:
-  #
-    serializes a process id
   (
-    self # the process id to serialize
-    indent = undefined # the indentation level
+    self
+    indent = undefined
   )
   $str "
     process_id @(self.to_integer)
@@ -1163,22 +599,24 @@ $std_types::process_id/serialize:
     -> str
 
 $std_types::process_id.deserializer_of:
-  #
-    constructs a process id from a serialization string
   (
-    _type # type ...
-    argument # ... and argument of the serialization string
+    _type
+    argument
   )
   -> process_id(integer(argument))
+
+register_type &deserializers std_types::process_id
 
 $command_of ()
 
 $extern_call:
   (
-    myself^ # the call object
-    arguments* # the associated arguments
+    myself^
+    arguments*
   )
   call! command_of(myself) map(flatten(arguments) to_string)
+
+$extern_call.command_of undefined
 
 $std::pipe:
   (
@@ -1367,21 +805,14 @@ $std::which:
   (
     name
   )
-  if
-    environment.is_undefined:
-      get_environment !environment
-      search!
-    search
-
-  $search:
-    for_each split(environment("PATH") ':')
-      : (pathname)
-	$filename append(pathname "/" name)
-	file_exists! filename $does_exist
-	if! does_exist
-	  -> filename
-	  next
-      -> undefined
+  for_each split(environment("PATH") ':')
+    : (pathname)
+      $filename append(pathname "/" name)
+      file_exists! filename $does_exist
+      if! does_exist
+	-> filename
+	next
+    -> undefined
 
 $std::find_first_process: (name)
   opendir! $dir "/proc"
@@ -1442,9 +873,13 @@ $std::get_process_name: (pid)
     -> undefined
     -> buf .truncate_from. '@0;'
 
+$std::get_mac_address:
+  get_first_mac_address! $mac
+  if
+    mac.is_defined: map_reduce mac: (chr) -> hex(chr.to_integer 2)
+    -> undefined
+
 $std::extern:
-  #
-    allows calling an external command like a builtin function
   (
     command
   )

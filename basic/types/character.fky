@@ -19,6 +19,16 @@
   or write to the
   Free Software Foundation, Inc.,
 
+#
+  Topic: Characters
+
+  Characters are unicode code points in Funky. But they can hold any positive
+  32-bit integer value.
+
+  Characters are the building blocks of strings.
+
+  See also: Strings
+
 $std::is_a_character ()
   #
     tests if an object is a character
@@ -73,14 +83,24 @@ $std_types::character/match:
     self # the character to match with
     str # the string which's start is matched
   )
+  $rc result_count()
   if
     str.is_empty
-    -> undefined
+    fail
     :
       if
-	str(1) == self
-	-> 1
-	-> undefined
+	str(1) == self:
+	  if
+	    rc == 1
+	    -> 1
+	    -> 1 undefined
+	fail
+
+  $fail:
+    if
+      rc == 1
+      -> undefined
+      -> undefined undefined
 
 $std_types::character/match_back:
   #

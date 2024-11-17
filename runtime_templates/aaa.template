@@ -18,12 +18,14 @@
   or write to the
   Free Software Foundation, Inc.,
 
+# Topics: Objects, Numbers, Collections, Arrays, Lists, Strings, Input-Output
+
 #
   define polymorphic functions before any other template is initialized
 
 POLY std::new
   #
-    creates a new collection with inherited attributes
+    creates a new object with inherited attributes
 
     Topic: Collections, Lists
 
@@ -156,7 +158,7 @@ POLY std::floor
     Result:
       floor # the greatest integral number smaller or equal than number
 
-    Topic: Math
+    Topic: Numbers
 
     See also: ceil, round
 
@@ -170,7 +172,7 @@ POLY std::ceil
     Result:
       ceiling # the smallest integral number greater or equal than number
 
-    Topic: Math
+    Topic: Numbers
 
     See also: ceil, round
 
@@ -184,7 +186,7 @@ POLY std::round
     Result:
       round # the nearest integral number for number
 
-    Topic: Math
+    Topic: Numbers
 
     See also: floor, ceil
 
@@ -198,7 +200,7 @@ POLY std::ln
     Result:
       log # the logarithm of number to the base e
 
-    Topic: Math
+    Topic: Numbers
 
     See also: exp
 
@@ -212,7 +214,7 @@ POLY std::exp
     Result:
       exp # the exponential function of number
 
-    Topic: Math
+    Topic: Numbers
 
     See also: ln
 
@@ -386,7 +388,7 @@ POLY std::bit_xor
 
     See also: std::bit_and, std::bit_or, std::shift_left, std::shift_right
 
-ATTR std::parameter_count_of
+POLY std::parameter_count_of
   #
     number of wanted arguments
 
@@ -545,7 +547,7 @@ POLY std::is_not_empty
 
     See also: is_empty, length_of
 
-ATTR std::length_of
+POLY std::length_of
   #
     returns the number of items within a collection
 
@@ -565,7 +567,7 @@ ATTR std::length_of
 
     See also: std::is_empty
 
-ATTR std::dimension_count_of
+POLY std::dimension_count_of
   #
     returns the number of dimensions of a multidimensional array
 
@@ -579,7 +581,7 @@ ATTR std::dimension_count_of
 
     See also: std::length_of
 
-ATTR std::width_of
+POLY std::width_of
   #
     returns the width of an object in character positions
 
@@ -596,7 +598,7 @@ ATTR std::width_of
 
     See also: std::length_of
 
-ATTR std::height_of
+POLY std::height_of
   #
     returns the height of an object
 
@@ -621,7 +623,7 @@ POLY std::hash
 
     It must be computed from the object's contents solely!
 
-    Topics: Math, Objects, Strings
+    Topics: Numbers, Objects, Strings
 
     See also: std::equal
 

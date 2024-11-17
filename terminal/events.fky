@@ -19,6 +19,8 @@
   Free Software Foundation, Inc.,
   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
+# Topic: Input-Output Events, Terminal
+
 $std::create_terminal_events:
   (
     io
@@ -34,7 +36,18 @@ $std::create_terminal_events:
 	  key $t $x $y $button
 	  case t
 	    MOUSE_CLICK:
-	      push &events tuple(MOUSE_CLICK fd tuple(x y button))
+	      case button
+		64: # mouse wheel up
+		  push &events tuple(KEY_PRESS fd CURSOR_UP)
+		  next
+		65: # mouse wheel down
+		  push &events tuple(KEY_PRESS fd CURSOR_DOWN)
+		  next
+		:
+		  push &events tuple(MOUSE_CLICK fd tuple(x y button))
+		  next
+	    MOUSE_RELEASE:
+	      push &events tuple(MOUSE_RELEASE fd tuple(x y button))
 	      next
 	    NEW_WINDOW_SIZE:
 	      push &events tuple(NEW_WINDOW_SIZE fd tuple(x y))

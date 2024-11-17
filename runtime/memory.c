@@ -141,49 +141,6 @@ static OCTREE no_attributes_level_5 = {{
   &no_attributes_level_4, &no_attributes_level_4
 }};
 
-// "undefined_attributes" is used for all other objects
-
-// all even IDs are by default undefined methods
-// all odd IDs are by default attributes initialized to <undefined>
-
-// the missing subtrees are initialized in phase 4
-
-static OCTREE undefined_attributes_level_1 = {{
-  NULL, (OCTREE *)&no_such_attribute_node,
-  NULL, (OCTREE *)&no_such_attribute_node,
-  NULL, (OCTREE *)&no_such_attribute_node,
-  NULL, (OCTREE *)&no_such_attribute_node
-}};
-
-static  OCTREE undefined_attributes_level_2 = {{
-  &undefined_attributes_level_1, &undefined_attributes_level_1,
-  &undefined_attributes_level_1, &undefined_attributes_level_1,
-  &undefined_attributes_level_1, &undefined_attributes_level_1,
-  &undefined_attributes_level_1, &undefined_attributes_level_1
-}};
-
-static  OCTREE undefined_attributes_level_3 = {{
-  &undefined_attributes_level_2, &undefined_attributes_level_2,
-  &undefined_attributes_level_2, &undefined_attributes_level_2,
-  &undefined_attributes_level_2, &undefined_attributes_level_2,
-  &undefined_attributes_level_2, &undefined_attributes_level_2
-}};
-
-static OCTREE undefined_attributes_level_4 = {{
-  &undefined_attributes_level_3, &undefined_attributes_level_3,
-  &undefined_attributes_level_3, &undefined_attributes_level_3,
-  &undefined_attributes_level_3, &undefined_attributes_level_3,
-  &undefined_attributes_level_3, &undefined_attributes_level_3
-}};
-
-static OCTREE undefined_attributes_level_5 = {{
-  &undefined_attributes_level_4, &undefined_attributes_level_4,
-  &undefined_attributes_level_4, &undefined_attributes_level_4,
-  &undefined_attributes_level_4, &undefined_attributes_level_4,
-  &undefined_attributes_level_4, &undefined_attributes_level_4
-}};
-
-EXPORT OCTREE *undefined_attributes;
 EXPORT OCTREE *no_attributes;
 
 static void *collect_simple_node(SIMPLE_NODE *node);
@@ -198,6 +155,7 @@ static long types__uninitialized___debug_string(
 
 static VTABLE vtable__types__uninitialized = {
   sizeof(SIMPLE_NODE),
+  0,
   (COLLECTOR *)&collect_simple_node,
   (void *)no_such_function,
   (void *)no_such_function,
@@ -648,14 +606,6 @@ static void make_existing_objects_static(void) {
   node_p = node_buf;
 }
 
-static void initialize_undefined_attributes(void) {
-  // set the "object"-bit for "undefined_attributes"
-  int i;
-  for (i = 0; i < 8; i += 2) {
-    undefined_attributes_level_1.nodes[i] = (OCTREE *)((long)undefined|1);
-  }
-}
-
 // declare as "void *" to avoid silly compiler warnings
 // prefer static nodes to prevent that static nodes point to dynamic nodes
 EXPORT void join_nodes(void *left_node_pp, void *right_node_pp) {
@@ -942,10 +892,21 @@ EXPORT int debug_print_head(int *indent_p, char **buf_p, const char *format, ...
   return len+1;
 }
 
+EXPORT int decode_attribute_index(TAB_NUM idx) {
+  int poly_idx = 0;
+  do {
+    poly_idx = (poly_idx<<3) | (idx & 7);
+    idx >>= 3;
+  } while (idx);
+  return poly_idx;
+}
+
 void no_such_attribute (void) {
   TLS_frame->code = TLS_code-1;
   // the code pointer points *behind* the <result count>; so we correct it
-  create_error_message(undefined, "NO SUCH ATTRIBUTE", 0, last_attr_idx, last_node);
+  create_error_message(
+    undefined, "NO SUCH ATTRIBUTE",
+    0, decode_attribute_index(last_attr_idx), last_node);
 }
 
 EXPORT void set_attr(TREE *tree, int idx, NODE *node) {
@@ -972,7 +933,7 @@ EXPORT NODE *get_attr(TREE *tree, int idx) {
   return (NODE *)tree;
 }
 
-EXPORT void set_attribute(ATTRIBUTES *attributes, int idx, void *attr) {
+EXPORT void define_attribute(ATTRIBUTES *attributes, int idx, void *attr) {
   // works with "encoded" attribute index numbers (idx)
   // use the function <encode_attr_idx> to encode attribute index numbers
   OCTREE *interior_p, **interior_pp;
@@ -986,6 +947,27 @@ EXPORT void set_attribute(ATTRIBUTES *attributes, int idx, void *attr) {
   interior_p = copy(*interior_pp, sizeof(OCTREE));
   *interior_pp = interior_p;
   interior_p->nodes[idx & 7] = attr;
+}
+
+EXPORT int redefine_attribute(ATTRIBUTES *attributes, int idx, void *attr) {
+  // works with "encoded" attribute index numbers (idx)
+  // use the function <encode_attr_idx> to encode attribute index numbers
+  OCTREE *interior_p, **interior_pp;
+  int i = attributes_level-1;
+  interior_pp = &attributes->nodes[idx >> 3*i];
+  while (--i > 0) {
+    interior_p = copy(*interior_pp, sizeof(OCTREE));
+    *interior_pp = interior_p;
+    interior_pp = &interior_p->nodes[(idx >> 3*i) & 7];
+  }
+  interior_p = copy(*interior_pp, sizeof(OCTREE));
+  *interior_pp = interior_p;
+  if (CONTAINS_AN_ATTRIBUTE_VALUE(interior_p->nodes[idx & 7])) {
+    interior_p->nodes[idx & 7] = attr;
+    return true;
+  } else {
+    return false;
+  }
 }
 
 EXPORT NODE *get_attribute(NODE *node, int idx) {
@@ -1402,30 +1384,22 @@ EXPORT void initialize_memory(void) {
     dynamics_level = 3;
     TLS_frame->dynamics = (TREE *)&empty_dynamics_level_3;
   }
-  int attributes_count =
-    next_polymorphic_function > next_polymorphic_function_with_setter
-    ? next_polymorphic_function
-    : next_polymorphic_function_with_setter;
-
+  int attributes_count = next_polymorphic_function;
   OCTREE *uninitialized_attributes;
   if (attributes_count > 28672) {
     attributes_level = 6;
-    undefined_attributes = &undefined_attributes_level_5;
     no_attributes = &no_attributes_level_5;
     uninitialized_attributes = &no_attributes_level_5;
   } else if (attributes_count > 3584) {
     attributes_level = 5;
-    undefined_attributes = &undefined_attributes_level_4;
-    no_attributes = &no_attributes_level_3;
+    no_attributes = &no_attributes_level_4;
     uninitialized_attributes = &no_attributes_level_4;
   } else if (attributes_count > 448) {
     attributes_level = 4;
-    undefined_attributes = &undefined_attributes_level_3;
     no_attributes = &no_attributes_level_3;
     uninitialized_attributes = &no_attributes_level_3;
   } else {
     attributes_level = 3;
-    undefined_attributes = &undefined_attributes_level_2;
     no_attributes = &no_attributes_level_2;
     uninitialized_attributes = &no_attributes_level_2;
   }
@@ -1552,6 +1526,7 @@ static void open_log_file(void) {
 
 EXPORT int be_verbose = false;
 static int do_dump = false;
+static int do_dump_types = false;
 int do_dump_errors = false;
 
 #define WRAPPER 0
@@ -1609,6 +1584,11 @@ EXPORT __attribute__ ((noreturn)) void run(FUNKY_MODULE *module) {
       ++i;
       goto check_option;
     }
+    if (strcmp(main_argv[i], "++DUMP_TYPES++") == 0) {
+      do_dump_types = true;
+      ++i;
+      goto check_option;
+    }
     if (strcmp(main_argv[i], "++DUMP_ERRORS++") == 0) {
       do_dump_errors = true;
       ++i;
@@ -1637,9 +1617,12 @@ EXPORT __attribute__ ((noreturn)) void run(FUNKY_MODULE *module) {
     dump_all();
   } else {
     initialize_runtime();
-    undefined = (NODE *)&std_types___undefined;
-    initialize_undefined_attributes();
     initialize_all();
+    if (do_dump_types) {
+      dump_types();
+      exit(EXIT_SUCCESS);
+    }
+    undefined = (NODE *)&std_types___undefined;
     no_such_attribute_node.attributes = c_function.attributes;
 
     FUNKY_VARIABLE *undefined = resolve_symbol("undefined\000std_types");
@@ -1653,6 +1636,27 @@ EXPORT __attribute__ ((noreturn)) void run(FUNKY_MODULE *module) {
 
     initialize_environment();
     make_existing_objects_static();
+
+    for (i = 0; i < funky_module_count; ++i) {
+      FUNKY_MODULE *module = funky_modules[i];
+      if (module->feature_flags & FEAT_INITIALIZER) {
+	FUNKY_CONSTANT *initializer =
+	  &module->constants[module->constants_count-1];
+	if (initializer->type == FLT_FUNCTION) {
+	  TLS_myself = module->constants_base[module->constants_count-1];
+	  TLS_deny_io = 1;
+	  if (do_profile || do_trace) {
+	    profiler();
+	  } else {
+	    interpreter();
+	  }
+	} else {
+	  unrecoverable_error(
+	    "The initializer of module \"%s\" is not a function!",
+	    module->name);
+	}
+      }
+    }
 
     FUNKY_CONSTANT *entry =
       &main_module->constants[main_module->constants_count-1];
@@ -1676,7 +1680,6 @@ EXPORT void initialize_funky_runtime(FUNKY_MODULE *module) {
   main_module = module;
   initialize_runtime();
   undefined = (NODE *)&std_types___undefined;
-  initialize_undefined_attributes();
   initialize_all();
   no_such_attribute_node.attributes = c_function.attributes;
   initialize_environment();

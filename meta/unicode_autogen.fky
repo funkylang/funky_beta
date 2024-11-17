@@ -109,12 +109,12 @@ $last_conversion_code_of ()
 $conversion_step_of ()
 $diff_of ()
 
-$is_a_character_function (!)
+$is_a_character_function ()
   #
     generates a function that checks if a given codepoint is in the given
     category
 
-$to_case_function (!)
+$to_case_function ()
   #
     generates a function that converts a given codepoint based on the category
 

@@ -3,4 +3,5 @@ desired version in any module!
 
 Available versions are:
 
+std-2.0 (defined in module "_basic__stdlib")
 std-1.0 (defined in module "_builtin")

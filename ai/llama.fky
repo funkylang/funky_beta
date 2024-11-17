@@ -28,15 +28,43 @@
 
   Funky currently supports large language models based on the llama.cpp project.
 
-# Events
+  A "piece" is the string associated with a token.
 
-$ai::AI_GOT_TOKENS .
-$ai::AI_GET_TOKENS_ERROR .
+  Example:
+
+    <require basic/stdlib>
+    <require basic/uuid>
+    <require basic/export/json>
+    <require basic/import/json>
+    <require ai/llama>
+    <require web/server>
+
+    generate_uuid! $uuid undefined
+    ai::load_ai_model! $model modelname # assumes an already running AI-server
+      UUID = uuid
+      ai::CONTEXT_SIZE = 4096
+    print! prompt
+    ai::tokenize! $tokens model prompt
+    repeat 10 # generate 10 tokens
+      :
+	ai::evaluate! $token model tokens
+	$piece ai::detokenize(model token)
+	print! piece
+	push &tokens token
+	next!
+      :
+	ai::deregister! uuid # deregister from the AI-server
+
+    $modelname "sauerkrautlm-una-solar-instruct.Q5_K_M.gguf"
+    $prompt "Once upon a time"
+
+  Output:
+
+    Once upon a time, there was a beautiful princess named Aurora.
 
 # Modes
 
-$ai::EXACT .
-$ai::SHIFT .
+$ai::EXACT . # evaluate the result using the full context size (slow)
 $ai::SMART .
 
 $DEFAULT_PORT_NO 8080
@@ -44,136 +72,57 @@ $DEFAULT_PORT_NO 8080
 # Attributes
 
 $ai::pieces_of ()
-  #
-    a list of pieces (token texts)
-
 $ai::piece_table_of ()
-  #
-    a hash table that maps all valid pieces to tokens
-
 $ai::maximum_piece_length_of ()
-  #
-    the length of the longest piece (token string)
-
 $ai::begin_of_stream_token_of ()
-  #
-    the token no. used to denote the begin of a stream
-
 $ai::end_of_stream_token_of ()
-  #
-    the token no. used to denote the end of a stream
-
+$ai::classsification_token_of ()
+$ai::separator_token_of ()
 $ai::newline_token_of ()
-  #
-    the token no. used to denote a newline character
-
 $ai::space_token_of ()
-  #
-    the token no. used to denote a space character
-
 $ai::end_of_text_token_of ()
-  #
-    the token no. used to denote the end of a text
-
 $ai::prefix_token_of ()
-  #
-    the token no. used to denote a prefix
-
 $ai::suffix_token_of ()
-  #
-    the token no. used to denote a suffix
-
 $ai::middle_token_of ()
-  #
-    the token no. used to denote the "middle"
-
 $ai::question_token_of ()
-
 $ai::answer_token_of ()
-
 $ai::context_size_of ()
+$ai::effective_context_size_of ()
   #
-    the size of the context (number of tokens)
+    the context size to effectively use with the model
+
+    must be less or equal to <ai::context_size_of> (or <std::undefined>)
 
 $std::address_of ()
-  #
-    the (IP) address of the server
-
 $std::port_no_of ()
-  #
-    the port no. of the server
 
 $uuid_of ()
 
 # Methods
 
+$ai::cached_prefix ()
 $ai::evaluate ()
-  #
-    evaluate a prompt string or list of tokens
-
 $ai::tokenize ()
-  #
-    convert a string into a list of tokens
-
 $ai::detokenize ()
-  #
-    convert a single token or a list of tokens into a string
-
 $ai::generate ()
-  #
-    generate a response for the specified prompt
-
 $ai::deregister ()
-  #
-    deregister from the server
 
 # Options
 
 $ai::SERVER_NAME .
-  #
-    the name of the server's executable
-
 $ai::CONTEXT_SIZE .
-  #
-    the maxium size of the context (number of tokens)
-
 $ai::MODEL_PATH .
-  #
-    the path where models are stored
-
 $ai::MINIMUM_CONFIDENCE .
-  #
-    the minimum confidence level to continue generation
-
 $ai::MAXIMUM_LENGTH .
-  #
-    the maximum number of tokens to generate
-
 $ai::STOP .
-  #
-    a stop text
-
 $ai::BACKTRACK .
-  #
-    specfies the maximum number of backtracking steps
-
 $ai::LOG_LEVEL .
-  #
-    specifies the log level
-
 $ai::VERBOSE .
-  #
-    if set the response text will be displayed during generation
-
 $ai::USE_COLOURS .
-  #
-    use colours to display the response text
 
 # Prototype Objects
 
 $ai_types::connection std_types::resource
-  #
-    a connection to an AI server
 
 $is_a_connection ()
 
@@ -188,8 +137,6 @@ $ai_types::connection.name_of "connection"
 $DEREGISTER .
 
 $ai_types::connection/finalize:
-  #
-    deregisters from AI server
   (
     self
     io
@@ -215,18 +162,36 @@ $deregister_failed: (io id _data)
   -> io undefined
 
 $ai_types::model std_types::object
-  #
-    the base object for all AI models
+
+$ai_types::model.name_of undefined
+$ai_types::model.address_of undefined
+$ai_types::model.port_no_of undefined
+$ai_types::model.uuid_of undefined
+$ai_types::model.ai::pieces_of undefined
+$ai_types::model.ai::piece_table_of undefined
+$ai_types::model.ai::maximum_piece_length_of undefined
+$ai_types::model.ai::begin_of_stream_token_of undefined
+$ai_types::model.ai::end_of_stream_token_of undefined
+$ai_types::model.ai::classsification_token_of undefined
+$ai_types::model.ai::separator_token_of undefined
+$ai_types::model.ai::newline_token_of undefined
+$ai_types::model.ai::space_token_of undefined
+$ai_types::model.ai::end_of_text_token_of undefined
+$ai_types::model.ai::prefix_token_of undefined
+$ai_types::model.ai::suffix_token_of undefined
+$ai_types::model.ai::middle_token_of undefined
+$ai_types::model.ai::question_token_of undefined
+$ai_types::model.ai::answer_token_of undefined
+$ai_types::model.ai::context_size_of undefined
+$ai_types::model.ai::effective_context_size_of undefined
 
 # Implementation
 
 $ai::list_ai_models:
-  #
-    returns a list of available models
   (
-     options* # connection options
+     options*
   )
-  extract_options options
+  get_options options
     ADDRESS = "127.0.0.1" $address
     PORT_NO = DEFAULT_PORT_NO $port_no
     UUID = undefined $uuid
@@ -253,29 +218,23 @@ $ai::list_ai_models:
 $ai::load_ai_model ()
 
 $std_types::string/ai::load_ai_model:
-  #
-    load an AI model
-
-    Topic: AI
   (
-    name # the name of the model
-    options* # connection options
+    name
+    options*
   )
   initialize_model $model name options
   get_tokens! model
     !model.ai::pieces_of
     !model.ai::begin_of_stream_token_of
     !model.ai::end_of_stream_token_of
+    !model.ai::classsification_token_of
+    !model.ai::separator_token_of
     !model.ai::newline_token_of
     !model.ai::end_of_text_token_of
     !model.ai::prefix_token_of
     !model.ai::suffix_token_of
     !model.ai::middle_token_of
     !model.ai::context_size_of
-  !model
-    model
-      .ai::question_token_of undefined
-      .ai::answer_token_of undefined
   if
     ai::pieces_of(model).is_an_error
     -> ai::pieces_of(model)
@@ -328,18 +287,11 @@ $model_of ()
 $std_types::io.model_of empty_hash_table
 
 $std_types::io/ai::load_ai_model:
-  #
-    load an AI model
-
-    <options> can be several separate options or a list of options or a
-    connection object
-
-    Topic: AI
   (
-    io # the input/output object
-    id # the id to use for tagging the reply event
-    name # the name of the model
-    options* # connection options
+    io
+    id
+    name
+    options*
   )
   update_if
     &&
@@ -372,12 +324,16 @@ $load_ai_model_completed: (io id data)
 	.ai::pieces_of data("tokens")
 	.ai::begin_of_stream_token_of data("begin_of_stream")
 	.ai::end_of_stream_token_of data("end_of_stream")
+	.ai::classsification_token_of data("classification")
+	.ai::separator_token_of data("separator")
 	.ai::newline_token_of data("newline")
 	.ai::end_of_text_token_of data("end_of_text")
 	.ai::prefix_token_of data("prefix")
 	.ai::suffix_token_of data("suffix")
 	.ai::middle_token_of data("middle")
 	.ai::context_size_of data("context_size")
+      build_piece_table &model
+      !model.ai::space_token_of ai::piece_table_of(model)(" ")
       -> io tuple(JOB_COMPLETED id model)
 
 $load_ai_model_failed: (io id err)
@@ -395,17 +351,20 @@ $initialize_model: (name options)
 	.address_of address_of(options)
 	.port_no_of port_no_of(options)
 	.uuid_of uuid_of(options)
+	.ai::effective_context_size_of undefined
     :
-      extract_options options
+      get_options options
 	ADDRESS = "127.0.0.1" $address
 	PORT_NO = DEFAULT_PORT_NO $port_no
 	UUID = undefined $uuid
+	ai::CONTEXT_SIZE = undefined $context_size
       ->
 	ai_types::model
 	  .name_of name
 	  .address_of address
 	  .port_no_of port_no
 	  .uuid_of uuid
+	  .ai::effective_context_size_of context_size
 
 $ai_types::model/ai::generate:
   (
@@ -413,7 +372,7 @@ $ai_types::model/ai::generate:
     options*
     prompt
   )
-  extract_options options
+  get_options options
     ai::MINIMUM_CONFIDENCE = 15 $minimum_confidence
     ai::MAXIMUM_LENGTH = 1024 $maximum_length
     ai::STOP = undefined $stop_text
@@ -550,6 +509,8 @@ $get_tokens: (model)
 	info("tokens")
 	info("begin_of_stream")
 	info("end_of_stream")
+	info("classification")
+	info("separator")
 	info("newline")
 	info("end_of_text")
 	info("prefix")
@@ -558,11 +519,13 @@ $get_tokens: (model)
 	info("context_size")
 
 $get_tokens_request: (model)
-  $json
-    to_json
-      insert_order_table
-	"model" = name_of(model)
-	"uuid" = uuid_of(model)
+  $options
+    insert_order_table
+      "model" = name_of(model)
+      "uuid" = uuid_of(model)
+  update_if ai::effective_context_size_of(model).is_defined &options
+    -> options("context_size" ai::effective_context_size_of(model))
+  $json options.to_json
   to_utf8 &json
   -> "
     POST /get_tokens HTTP/1.1@cr;
@@ -570,18 +533,12 @@ $get_tokens_request: (model)
     Content-Length: @(length_of(json))@cr;
     Connection: close@cr;
     @cr;
-    @(json)
+    @(json)@
 
 $ai_types::model/ai::tokenize:
-  #
-    tokenizes the specified (list of) text(s)
-
-    *text* can be a single text or a list of several text lines
-
-    The result is a list of tokens or a list of list of tokens.
   (
-    model # the model to query for tokens
-    text # the text(s) to tokenize
+    model
+    text
   )
   $request tokenize_request(model text)
   open_tcp_client_socket! $fd address_of(model) port_no_of(model)
@@ -593,17 +550,11 @@ $ai_types::model/ai::tokenize:
   -> info("tokens")
 
 $std_types::io/ai::tokenize:
-  #
-    tokenizes the specified (list of) text(s)
-
-    *text* can be a single text or a list of several text lines
-
-    The result is delivered via an AI_GOT_TOKENS event.
   (
-    io # the IO object to handle the request
+    io
     id
-    model # the model to query for tokens
-    text # the text(s) to tokenize
+    model
+    text
   )
   tuple &id 1
   run &io http_request id
@@ -646,25 +597,14 @@ $tokenize_request: (model text)
     Content-Length: @(length_of(json))@cr;
     Connection: close@cr;
     @cr;
-    @(json)
+    @(json)@
 
 $ai_types::model/ai::evaluate:
-  #
-    evaluate a prompt and return a token string or confidence values
-
-    If the *prompt* is a string then the returned value is a the string
-    corresponding to the generated token.
-
-    If the prompt is a list of tokens then the returned value is a list of
-    10 tuples <*token_id*, *confidence*>.
-
-    Attention: In the case the prompt is a list of tokens a
-    "*begin of stream*"-token will **not** be added automatically!
   (
-    model # the model on which to evaluate the prompt
-    prompt # the prompt to evaluate
-    mode = ai::SMART # how to handle context change
-    start = 0 # the number of fixed start tokens
+    model
+    prompt
+    mode = ai::SMART
+    start = 0
   )
   $do_return_confidence_values result_count() == 2
   $use_tokens not(prompt.is_a_string)
@@ -690,22 +630,18 @@ $ai_types::model/ai::evaluate:
 	-> info("content")
 
 $std_types::io/ai::evaluate:
-  #
-    evaluate a prompt and return confidence values
-
-    The prompt must be a list of tokens.
-
-    The result is delivered via a JOB_COMPLETED event.
   (
-    io # the IO object to handle the request
+    io
     id
-    model # the model on which to evaluate the prompt
-    prompt # the prompt to evaluate
-    mode = ai::SMART # how to handle context change
+    model
+    prompt
+    mode = ai::SMART
+    start = 0
   )
   tuple &id 1
   run &io http_request id
-    address_of(model) port_no_of(model) evaluate_request(model prompt mode)
+    address_of(model) port_no_of(model)
+    evaluate_request(model prompt mode start)
   register_handlers io id
     JOB_COMPLETED = evaluate_completed
     JOB_FAILED = evaluate_failed
@@ -725,7 +661,7 @@ $evaluate_failed: (io id err)
   id !id
   -> io tuple(JOB_FAILED id err)
 
-$evaluate_request: (model prompt mode start = 0)
+$evaluate_request: (model prompt mode start)
   $use_tokens not(prompt.is_a_string)
   $PROMPT
     if
@@ -734,17 +670,16 @@ $evaluate_request: (model prompt mode start = 0)
       -> "prompt"
   case &mode
     ai::EXACT -> "exact"
-    ai::SHIFT -> "shift"
     ai::SMART -> "smart"
     -> "exact"
   $json
     to_json
       insert_order_table
 	PROMPT = prompt
-	"start" = start
 	"model" = name_of(model)
 	"uuid" = uuid_of(model)
 	"mode" = mode
+	"start" = start
 	"logits" = true # also disables server side token selection
 	"brief" = true
 	"n_probs" = 10
@@ -752,6 +687,66 @@ $evaluate_request: (model prompt mode start = 0)
   to_utf8 &json
   -> "
     POST /completion HTTP/1.1@cr;
+    Content-Type: application/json@cr;
+    Content-Length: @(length_of(json))@cr;
+    Connection: close@cr;
+    @cr;
+    @(json)
+
+$std_types::io/ai::cached_prefix:
+  (
+    io
+    id
+    model
+    prompt
+    mode = ai::SMART
+    start = 0
+  )
+  tuple &id 1
+  run &io http_request id
+    address_of(model) port_no_of(model)
+    cached_prefix_request(model prompt mode start)
+  register_handlers io id
+    JOB_COMPLETED = cached_prefix_completed
+    JOB_FAILED = cached_prefix_failed
+
+$cached_prefix_completed: (io id data)
+  deregister_all_handlers &io id
+  id !id
+  from_utf8 &data
+  from_json &data
+  if
+    data.is_an_error || data.is_undefined
+    -> io tuple(JOB_FAILED id error(IO_ERROR "INVALID JSON"))
+    -> io tuple(JOB_COMPLETED id data("cached_prefix_length").to_integer)
+
+$cached_prefix_failed: (io id err)
+  deregister_all_handlers &io id
+  id !id
+  -> io tuple(JOB_FAILED id err)
+
+$cached_prefix_request: (model prompt mode start)
+  $use_tokens not(prompt.is_a_string)
+  $PROMPT
+    if
+      use_tokens
+      -> "tokens"
+      -> "prompt"
+  case &mode
+    ai::EXACT -> "exact"
+    ai::SMART -> "smart"
+    -> "exact"
+  $json
+    to_json
+      insert_order_table
+	PROMPT = prompt
+	"model" = name_of(model)
+	"uuid" = uuid_of(model)
+	"mode" = mode
+	"start" = start
+  to_utf8 &json
+  -> "
+    POST /cached_prefix HTTP/1.1@cr;
     Content-Type: application/json@cr;
     Content-Length: @(length_of(json))@cr;
     Connection: close@cr;
@@ -826,26 +821,14 @@ $ai_types::model/ai::detokenize:
 	-> piece empty_list
 
 $ai::connect_to_ai_server:
-  #
-    register at an AI server
-
-    The server can be specified with the options
-
-    <ADDRESS> and <PORT_NO>
-
-    If the server is not specified then the default server is used.
-
-    Topic: AI
-
-    See also: ai::deregister
   (
     io
     id
-    options* # connection options
+    options*
   )
   update_if length_of(options) == 1 && options(1).is_a_list
     &options -> options(1)
-  extract_options options
+  get_options options
     ADDRESS = "127.0.0.1" $address
     PORT_NO = DEFAULT_PORT_NO $port_no
     UUID = undefined $uuid
@@ -889,7 +872,7 @@ $register_request: (uuid)
     Content-Length: @(length_of(json))@cr;
     Connection: close@cr;
     @cr;
-    @(json)
+    @(json)@
 
 $std_types::string/ai::deregister:
   (
@@ -942,7 +925,7 @@ $deregister_request: (uuid)
     Content-Length: @(length_of(json))@cr;
     Connection: close@cr;
     @cr;
-    @(json)
+    @(json)@
 
 $build_piece_table: (model)
   $pieces ai::pieces_of(model)
@@ -997,7 +980,7 @@ $ai::start_ai_server: (io id options*)
   run io start_ai_server_action id options
 
 $start_ai_server_action: (io id options)
-  extract_options options
+  get_options options
     ai::SERVER_NAME = "funky_server" $cmd
     UUID = undefined $uuid
     LOG_FILE = undefined $log_file
@@ -1071,4 +1054,4 @@ $start_ai_server_action: (io id options)
       Content-Length: @(length_of(json))@cr;
       Connection: close@cr;
       @cr;
-      @(json)
+      @(json)@

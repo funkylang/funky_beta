@@ -5,7 +5,7 @@ $std-1.2::eval_poly: (x coefficients)
     : (idx value) -> value*pow(x 3-idx)
     plus
 
-$std-2.0::eval_poly: (coefficients x)
+$std-9.0::eval_poly: (coefficients x)
   map_reduce coefficients
     : (idx value) -> value*pow(x 3-idx)
     plus

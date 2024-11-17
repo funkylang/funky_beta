@@ -20,7 +20,10 @@
   Free Software Foundation, Inc.,
   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
-$std::environment undefined
+#
+  Topic: Environment
+
+$std::environment get_environment()
   #
     a table holding all environment variables
 
@@ -39,32 +42,13 @@ $std::environment undefined
 
       /home/funky
 
-$std::get_environment:
-  #
-    constructs a table holding all environment variables
-
-    Result:
-      environment: a table holding all environment variables
-
-    Topics: Input-Output
-
-    See also: environment, environment_variables
-
-    Example:
-
-      get_environment !environment
-      println! environment("HOME")
-
-    Output:
-
-      /home/funky
-
-  $environment empty_key_order_table
+$get_environment:
+  $env empty_key_order_table
   for_each environment_variables
     : (key_and_value)
       from_utf8 &key_and_value
       $key key_and_value .before. '='
       $value key_and_value .behind. '='
-      !environment(key) value
+      !env(key) value
       next
-    -> environment
+    -> env

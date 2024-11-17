@@ -1,5 +1,5 @@
 #
-  Copyright (C) 2023 by
+  Copyright (C) 2024 by
   Dipl.-Ing. Michael Niederle
 
   This program is free software; you can redistribute it and/or modify
@@ -20,6 +20,11 @@
   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
 <require ./tuple_autogen>
+
+#
+  Topic: Tuples
+
+# Topic: Collections
 
 $std::is_a_tuple () # obvious
 
@@ -48,6 +53,37 @@ $std::fifth: (t)
   t $_first $_second $_third $_fourth $fifth
   -> fifth
 
+# Debugging
+
+$std_types::tuple/debug::to_string:
+  (
+    self
+    indent = 0
+    depth = 1
+  )
+  to_list &self
+  if
+    depth <= 1:
+      $len length_of(self)
+      if
+	len == 1
+	-> "tuple of 1 item>@nl;"
+	-> "tuple of @(len) items>@nl;"
+    :
+      $new_indent indent+2
+      map_reduce $contents
+	self: (value)
+	  $text debug::to_string(value new_indent depth-1)
+	  if
+	    text(1) == '@nl;'
+	    -> range(text 2 -1)
+	    -> append(tabs_and_spaces(new_indent) text)
+	append
+	""
+      append append("@nl;" tabs_and_spaces(indent) "tuple@nl;") contents
+
+# Serialization
+
 $std_types::tuple/serialize:
   (
     self
@@ -75,3 +111,5 @@ $std_types::tuple.deserializer_of:
     items
   )
   -> new_tuple(type items)
+
+register_type &deserializers std_types::tuple

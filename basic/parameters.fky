@@ -33,12 +33,6 @@ $BOOLEAN_OPTION . # used internly
 
 $std::COPYRIGHT .
   #
-    adds a copyright message
-
-    Topic: Parameters
-
-    See also: program_parameters, VERSION
-
     Example:
 
       program_parameters!
@@ -54,12 +48,6 @@ $std::COPYRIGHT .
 
 $std::VERSION .
   #
-    defines the version of the application program
-
-    Topic: Parameters
-
-    See also: program_parameters, COPYRIGHT
-
     Example:
 
       program_parameters!
@@ -70,15 +58,6 @@ $std::VERSION .
 
 $std::VALUED_OPTION .
   #
-    describes an option with an associated value
-
-    This option must not appear more than once in the options list.
-
-    Topic: Parameters
-
-    See also: MULTI_VALUED_OPTION, MANDATORY_PARAMETER, OPTIONAL_PARAMETER,
-	      SOME_PARAMETERS, MANY_PARAMETERS
-
     Example:
 
       program_parameters!
@@ -89,15 +68,6 @@ $std::VALUED_OPTION .
 
 $std::MULTI_VALUED_OPTION .
   #
-    describes an option with an associated list of values
-
-    This option may appear many times in the options list.
-
-    Topic: Parameters
-
-    See also: VALUED_OPTION, MANDATORY_PARAMETER, OPTIONAL_PARAMETER,
-	      SOME_PARAMETERS, MANY_PARAMETERS
-
     Example:
 
       program_parameters!
@@ -108,15 +78,6 @@ $std::MULTI_VALUED_OPTION .
 
 $std::MANDATORY_PARAMETER .
   #
-    describes a mandatory parameter
-
-    This parameter must appear exactly once in the parameter list.
-
-    Topic: Parameters
-
-    See also: OPTIONAL_PARAMETER, SOME_PARAMETERS, MANY_PARAMETERS,
-	      VALUED_OPTION, MULTI_VALUED_OPTION
-
     Example:
 
       program_parameters!
@@ -127,15 +88,6 @@ $std::MANDATORY_PARAMETER .
 
 $std::OPTIONAL_PARAMETER .
   #
-    describes an optional parameter
-
-    This parameter may appear zero or once in the parameter list.
-
-    Topic: Parameters
-
-    See also: MANDATORY_PARAMETER, SOME_PARAMETERS, MANY_PARAMETERS,
-	      VALUED_OPTION, MULTI_VALUED_OPTION
-
     Example:
 
       program_parameters!
@@ -146,15 +98,6 @@ $std::OPTIONAL_PARAMETER .
 
 $std::SOME_PARAMETERS .
   #
-    describes list of zero or more parameters
-
-    This parameters may appear zero or more times in the parameter list.
-
-    Topic: Parameters
-
-    See also: MANY_PARAMETERS, MANDATORY_PARAMETER, OPTIONAL_PARAMETER,
-	      VALUED_OPTION, MULTI_VALUED_OPTION
-
     Example:
 
       program_parameters!
@@ -165,15 +108,6 @@ $std::SOME_PARAMETERS .
 
 $std::MANY_PARAMETERS .
   #
-    describes list of one or more parameters
-
-    This parameters must appear at least once in the parameter list.
-
-    Topic: Parameters
-
-    See also: SOME_PARAMETERS, MANDATORY_PARAMETER, OPTIONAL_PARAMETER,
-	      VALUED_OPTION, MULTI_VALUED_OPTION
-
     Example:
 
       program_parameters!
@@ -182,9 +116,9 @@ $std::MANY_PARAMETERS .
 	  MANY_PARAMETERS "input" "
 	    the input files to use; at least one must be specified
 
-$std::extract_options:
+$std::get_options:
   #
-    extracts the options of a function call
+    fetches the options of a function call
 
     This function returns a variable number of results - one for each option
     template.
@@ -203,7 +137,7 @@ $std::extract_options:
     Example:
 
       $std::load_csv: (options\* filename)
-	extract_options options
+	get_options options
 	  ENCODING = UTF8 $encoding
 	  SEPARATOR = ';' $separator
 	load $buf filename
@@ -238,25 +172,61 @@ $std::extract_options:
     :
       spread results
 
+$std::extract_options:
+  #
+    extracts options from a list
+
+    This function returns a variable number of results - a list containing the
+    remaining arguemnts and one for each option template.
+  (
+    arguments
+    templates*
+  )
+  $results empty_list
+  $argument_used empty_hash_set
+  for_each templates
+    : (template)
+      template $name $result
+      for_each arguments
+	: (idx argument)
+	  if
+	    argument.is_a_unique_item:
+	      if
+		argument == name:
+		  !result true
+		  !argument_used(idx) true
+		  break
+		next
+	    :
+	      if
+		argument.is_a_tuple:
+		  argument $key $value
+		  if
+		    key == name:
+		      !result value
+		      !argument_used(idx) true
+		      break
+		    next
+		next
+	:
+	  push &results result
+	  next
+    :
+      $remaining_arguments empty_list
+      for_each arguments
+	: (idx argument)
+	  if
+	    argument_used(idx)
+	    next
+	    :
+	      push &remaining_arguments argument
+	      next
+	:
+	  put &results remaining_arguments
+	  spread results
+
 $std::program_parameters:
   #
-    defines the application's options and parameters
-
-    The specified information is used to parse the application's input arguments
-    as well as to print a brief help message.
-
-    Options to print the program's version and the copyright notice are added
-    automatically if you specify <VERSION> and <COPYRIGHT>.
-
-    The syntax is quite complicated. The example shows the complete list of
-    options and parameters of the Funky compiler.
-
-    Topic: Parameters
-
-    See also: COPYRIGHT, VERSION, VALUED_OPTION, MULTI_VALUED_OPTION,
-	      MANDATORY_PARAMETER, OPTIONAL_PARAMETER, SOME_PARAMETERS,
-	      MANY_PARAMETERS, extract_options
-
     Example:
 
       program_parameters!
@@ -309,20 +279,22 @@ $display_table: (table)
   for_each table
     : (entries)
       eprint! "  " pad_right(entries(1) first_column_width)
-      for_each split(entries(2) '@nl;'): (no line)
-	eprintln!
-	  if
-	    no == 1
-	    -> ""
-	    -> " " .dup. 2+first_column_width
-	  line
-	next!
+      for_each split(entries(2) '@nl;')
+	: (no line)
+	  eprintln!
+	    if
+	      no == 1
+	      -> ""
+	      -> " " .dup. 2+first_column_width
+	    line
+	  next!
+	next
     pass
 
 $check_arguments: (arguments templates)
   $results empty_list
   $options empty_key_order_table
-  $parameters empty_key_order_table
+  $parameters empty_insert_order_table
   $names empty_list
   $kinds empty_list
   $possible_values empty_list
@@ -338,6 +310,7 @@ $check_arguments: (arguments templates)
     : (idx template)
       extract_from_template template
 	$option $name $default_value $conversion $help
+      trim &help
       push &possible_values
 	if
 	  option.is_a_key_value_pair

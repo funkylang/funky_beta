@@ -26,132 +26,71 @@
   Grammar objects support methods for matching and searching.
 
 $std::match ()
-  #
-    match the grammar object with the start of the specified string
-
-    Parameters:
-      object # the grammar object
-      string # the string to match
-
-    Result:
-      n # the number of matched characters
-
-    If the match is unsuccessful, then *n* is <undefined>.
-
-    Topic: Grammar Objects, Strings
-
-    See also: match_back, search
-
 $std::match_back ()
-  #
-    match the grammar object with the end of the specified string
-
-    Parameters:
-      object # the grammar object
-      string # the string to match
-
-    Result:
-      n # the number of matched characters
-
-    If the match is unsuccessful, then *n* is <undefined>.
-
-    Topic: Grammar Objects, Strings
-
-    See also: match, search
-
 $std::search ()
-  #
-    search from the grammar object from the start or end of the specified string
-
-    Parameters:
-      object # the grammar object
-      string # the string to search
-      nth # search for the nth occurrence of the grammar object
-
-    Results:
-      pos # the position of the match measured from the start of the string
-      len # the number of matched characters
-
-    Negative values of *nth* search from the end of the string.
-
-    Topic: Grammar Objects, Strings
-
-    See also: match, match_back
 
 $std_types::FUNKY_IDENTIFIER std_types::object
-  #
-    a grammar object type for matching Funky identifiers
-
-    Topic: Grammar Objects
-
-    See also: std_types::match, std_types::search
 
 $std::FUNKY_IDENTIFIER std_types::FUNKY_IDENTIFIER
-  #
-    the single instance of the Funky identifier grammar object type
-
-    Topic: Grammar Objects
-
-    See also: std_types::match, std_types::search
 
 $std_types::FUNKY_IDENTIFIER/match:
-  #
-    checks whether the specified string starts with a Funky identifier
-
-    Result:
-      len # the number of matched characters or <undefined> if the match is
-	    unsuccessful
-
-    Topic: Grammar Objects, Strings
-
-    See also: std_types::FUNKY_IDENTIFIER, std_types::match_back,
-	      std_types::search
   (
-    _self # FUNKY_IDENTIFIER
-    str # the string to match with
+    _self
+    str
   )
+  $rc result_count()
   $i 1
   $n length_of(str)
 
   if
     n == 0
-    -> undefined
+    fail
     :
       case str(1)
 	'a' .. 'z', 'A' .. 'Z' within_word
-	-> undefined
+	fail
 
   $within_word:
     inc &i
     if
-      i > n
-      -> n
+      i > n:
+	if
+	  rc == 1
+	  -> n
+	  -> n range(str 1 n)
       :
 	case str(i)
 	  'a' .. 'z', 'A' .. 'Z', '0' .. '9' within_word
 	  '_' word_start
-	  -> i-1
+	  :
+	    if
+	      rc == 1
+	      -> i-1
+	      -> i-1 range(str 1 i-1)
 
   $word_start:
     inc &i
-    case str(i)
-      'a' .. 'z', 'A' .. 'Z', '0' .. '9' within_word
+    if
+      i > n:
+	if
+	  rc == 1
+	  -> n
+	  -> n range(str 1 n)
+      :
+	case str(i)
+	  'a' .. 'z', 'A' .. 'Z', '0' .. '9' within_word
+	  fail
+
+  $fail:
+    if
+      rc == 1
       -> undefined
+      -> undefined undefined
 
 $std_types::FUNKY_IDENTIFIER/match_back:
-  #
-    checks whether the specified string ends with a Funky identifier
-
-    Result:
-      len # the number of matched characters or <undefined> if the match is
-	    unsuccessful
-
-    Topic: Grammar Objects, Strings
-
-    See also: std_types::FUNKY_IDENTIFIER, std_types::match, std_types::search
   (
-    _self # FUNKY_IDENTIFIER
-    str # the string to match with
+    _self
+    str
   )
   $n length_of(str)
   $i n+1
@@ -185,23 +124,10 @@ $std_types::FUNKY_IDENTIFIER/match_back:
       -> n-i
 
 $std_types::FUNKY_IDENTIFIER/search:
-  #
-    searches for the nth occurrence of a Funky identifier
-
-    Result:
-      pos # the position of the match measured from the start of the string
-      len # the number of matched characters
-
-    Negative values of *nth* search from the end of the string.
-
-    Topic: Grammar Objects, Strings
-
-    See also: std_types::FUNKY_IDENTIFIER, FUNKY_IDENTIFIER/match,
-	      FUNKY_IDENTIFIER/match_back
   (
-    _self # FUNKY_IDENTIFIER
-    str # the string to search
-    nth = 1 # the nth occurrence to search for
+    _self
+    str
+    nth = 1
   )
   $n length_of(str)
   if
@@ -316,34 +242,11 @@ $std_types::FUNKY_IDENTIFIER/search:
 	    continuation
 
 $std_types::WHITESPACE std_types::object
-  #
-    a grammar object type for matching whitespace characters
-
-    Topic: Grammar Objects
-
-    See also: std_types::match, std_types::search
 
 $std::WHITESPACE std_types::WHITESPACE
-  #
-    the single instance of the whitespace grammar object type
-
-    Topic: Grammar Objects
-
-    See also: std_types::match, std_types::search
 
 $std_types::WHITESPACE/match:
   #
-    checks whether the specified string starts with whitespace characters
-
-    Result:
-      len # the number of matched characters or <undefined> if the match is
-	    unsuccessful
-
-    Topic: Grammar Objects, Strings
-
-    See also: std_types::WHITESPACE, std_types::match_back,
-	      std_types::search
-
     Example:
 
       $str "@ht;  This is a text."
@@ -364,8 +267,8 @@ $std_types::WHITESPACE/match:
 
       len: <undefined>
   (
-    _self # WHITESPACE
-    str # the string to match with
+    _self
+    str
   )
   $i 0
   $n length_of(str)
@@ -389,39 +292,9 @@ $std_types::WHITESPACE/match:
 		  -> undefined
 
 $std_types::WHITESPACE/match_back:
-  #
-    checks whether the specified string ends with whitespace characters
-
-    Result:
-      len # the number of matched characters or <undefined> if the match is
-	    unsuccessful
-
-    Topic: Grammar Objects, Strings
-
-    See also: std_types::WHITESPACE, std_types::match, std_types::search
-
-    Example:
-
-      $str "This is a text."
-      match_back WHITESPACE str $len
-      dump! `len
-
-    Output:
-
-      len: <undefined>
-
-    Example:
-
-      $str "This is a text.@nl;"
-      match_back WHITESPACE str $len
-      dump! `len
-
-    Output:
-
-      len: 1
   (
-    _self # WHITESPACE
-    str # the string to match with
+    _self
+    str
   )
   $n length_of(str)
   if
@@ -446,18 +319,6 @@ $std_types::WHITESPACE/match_back:
 
 $std_types::WHITESPACE/search:
   #
-    searches for the nth occurrence of whitespace characters
-
-    Result:
-      pos # the position of the match measured from the start of the string
-      len # the number of matched characters
-
-    Negative values of *nth* search from the end of the string.
-
-    Topic: Grammar Objects, Strings
-
-    See also: std_types::WHITESPACE, WHITESPACE/match, WHITESPACE/match_back
-
     Example:
 
       $str "This is a text."
@@ -480,9 +341,9 @@ $std_types::WHITESPACE/search:
       pos: 10
       len: 1
   (
-    _self # WHITESPACE
-    str # the string to search
-    nth = 1 # the nth occurrence to search for
+    _self
+    str
+    nth = 1
   )
   $n length_of(str)
   if
@@ -566,23 +427,12 @@ $std_types::WHITESPACE/search:
 		search_for_whitespace
 
 $expression_of ()
+$expressions_of ()
 
-$std_types::many std_types::object
+$std_types::many std_types::object # "many" means "one or more"
+$std_types::many.expression_of undefined
 
 $std::many:
-  #
-    creates a grammar object that matches one or more occurrences of the
-    specified expression
-
-    Parameters:
-      expression # the expression to match
-
-    Result:
-      object # the grammar object
-
-    Topic: Grammar Objects
-
-    See also: std_types::some
   (
     expr # the expression to match multiple times
   )
@@ -590,18 +440,6 @@ $std::many:
 
 $std_types::many/match:
   #
-    checks whether the specified string starts with one or more occurrences
-    of the specified expression
-
-    Result:
-      len # the number of matched characters or <undefined> if the match is
-	    unsuccessful
-
-    Topic: Grammar Objects, Strings
-
-    See also: std_types::many, std_types::many/match_back,
-	      std_types::many/search
-
     Example:
 
       $str "12345abcdef"
@@ -612,43 +450,70 @@ $std_types::many/match:
 
       len: 5
   (
-    self # many
-    str # the string to match with
+    self
+    str
   )
+  $rc result_count()
   $expr expression_of(self)
-  match $i expr str
   if
-    i.is_undefined || i == 0
-    -> i
+    rc == 1:
+      match $i expr str
+      if
+	i.is_undefined
+	-> undefined
+	:
+	  if
+	    i == 0
+	    -> 0
+	    :
+	      !i i+1
+	      $n length_of(str)
+	      loop:
+		if
+		  i > n
+		  -> n
+		  :
+		    match $len expr range(str i n)
+		    if
+		      len.is_undefined || len == 0
+		      -> i-1
+		      :
+			plus &i len
+			next
     :
-      !i i+1
-      $n length_of(str)
-      loop:
-	if
-	  i > n
-	  -> n
-	  :
-	    match $len expr range(str i n)
-	    if
-	      len.is_undefined || len == 0
-	      -> i-1
-	      :
-		plus &i len
-		next
+      $captured_items empty_list
+      match $i expr str $captured_item
+      if
+	i.is_undefined
+	-> undefined undefined
+	:
+	  if
+	    i == 0
+	    -> 0 undefined
+	    :
+	      update_if captured_item.is_defined &captured_items
+		-> list(captured_item)
+	      !i i+1
+	      $n length_of(str)
+	      loop:
+		if
+		  i > n
+		  -> n captured_items
+		  :
+		    match $len expr range(str i n) !captured_item
+		    if
+		      len.is_undefined || len == 0
+		      -> i-1 captured_items
+		      :
+			plus &i len
+			if
+			  captured_item.is_defined:
+			    push &captured_items captured_item
+			    next
+			  next
 
 $std_types::many/match_back:
   #
-    checks whether the specified string ends with one or more occurrences
-    of the specified expression
-
-    Result:
-      len # the number of matched characters or <undefined> if the match is
-	    unsuccessful
-
-    Topic: Grammar Objects, Strings
-
-    See also: std_types::many, std_types::many/match, std_types::many/search
-
     Example:
 
       $str "12345abcdef"
@@ -659,8 +524,8 @@ $std_types::many/match_back:
 
       len: 6
   (
-    self # many
-    str # the string to match with
+    self
+    str
   )
   $expr expression_of(self)
   match_back $i expr str
@@ -685,18 +550,6 @@ $std_types::many/match_back:
 
 $std_types::many/search:
   #
-    searches for the nth occurrence of the specified expression
-
-    Result:
-      pos # the position of the match measured from the start of the string
-      len # the number of matched characters
-
-    Negative values of *nth* search from the end of the string.
-
-    Topic: Grammar Objects, Strings
-
-    See also: std_types::many, many/match, many/match_back
-
     Example:
 
       $str "ab12cde345fgh"
@@ -729,11 +582,11 @@ $std_types::many/search:
 	-> undefined undefined
 	:
 	  search expr range(str i n) 1 $pos $len
-	  !i i+pos-1
 	  if
-	    i.is_undefined
+	    pos.is_undefined
 	    -> undefined undefined
 	    :
+	      !i i+pos-1
 	      dec &nth
 	      if
 		len == 0:
@@ -798,28 +651,16 @@ $std_types::many/search:
 			minus &i len
 			next
 
-$std_types::some std_types::object
+$std_types::some std_types::object # "some" means "zero or more"
+$std_types::some.expression_of undefined
 
 $std::some:
-  #
-    creates a grammar object that matches zero or more occurrences of the
-    specified expression
-
-    Parameters:
-      expr # the expression to match zero or more times
-
-    Result:
-      object # the grammar object
-
-    Topic: Grammar Objects
-
-    See also: std_types::many
   (
-    expr # the expression to match zero or more times
+    expr
   )
   -> std_types::some(.expression_of expr)
 
-#$std_types::some/match:
+$std_types::some/match:
   #
     checks whether the specified string starts with zero or more occurrences
     of the specified expression
@@ -830,8 +671,8 @@ $std::some:
 
     Topic: Grammar Objects, Strings
 
-    See also: std_types::some, std_types::some/match_back,
-	      std_types::some/search
+    See also: std_types::some, std_types::some/std::match_back,
+	      std_types::some/std::search
 
     Example:
 
@@ -843,27 +684,105 @@ $std::some:
 
       len: 0
   (
-    self # some
-    str # the string to match with
+    self
+    str
   )
+  $rc result_count()
   $expr expression_of(self)
-  match $i expr str
+  $i 1
+  if
+    rc == 1:
+      loop:
+	match $len expr range(str i -1)
+	if
+	  len.is_undefined || len == 0
+	  -> i-1
+	  :
+	    plus &i len
+	    next
+    :
+      $captured_items empty_list
+      loop:
+	match $len $captured_item expr range(str i -1)
+	if
+	  len.is_undefined || len == 0
+	  -> i-1 captured_items
+	  :
+	    plus &i len
+	    if
+	      captured_item.is_defined:
+		push &captured_items captured_item
+		next
+	    next
+
+$std_types::some/match_back:
+  (
+    self
+    str
+  )
+  $rc result_count()
+  $expr expression_of(self)
+  $n length_of(str)
+  $i n
+  if
+    rc == 1:
+      loop:
+	match_back $len expr range(str 1 i)
+	if
+	  len.is_undefined || len == 0
+	  -> n-i
+	  :
+	    minus &i len
+	    next
+    :
+      $captured_items empty_list
+      loop:
+	match_back $len $captured_item expr range(str 1 i)
+	if
+	  len.is_undefined || len == 0
+	  -> n-i captured_items
+	  :
+	    minus &i len
+	    if
+	      captured_item.is_defined:
+		put &captured_items captured_item
+		next
+	      next
+
+$std_types::optional std_types::object
+  .expression_of undefined
+
+$std::optional:
+  (
+    expr
+  )
+  -> std_types::optional(.expression_of expr)
+
+$std_types::optional/match:
+  (
+    self
+    str
+  )
+  $rc result_count()
+  $expr expression_of(self)
+  if
+    rc == 1:
+      match $i expr str
+      if
+	i.is_undefined
+	-> 0
+	-> i
+    :
+      match $i expr str $captured_item
+      if
+	i.is_undefined
+	-> 0 undefined
+	-> i captured_item
 
 $std_types::anything std_types::object
 
 $std::ANYTHING std_types::anything
-
-$std_types::anything/match:
   #
-    always matches the whole string
-
-    Result:
-      len # the length of the string
-
-    Topic: Grammar Objects, Strings
-
-    See also: std_types::anything, std_types::anything/match_back
-
     Example:
 
       $str "abcdef"
@@ -873,40 +792,118 @@ $std_types::anything/match:
     Output:
 
       len: 6
+
+$std_types::anything/match:
   (
-    _self # anything
-    str # the string to match with
+    _self
+    str
   )
   -> length_of(str)
 
 $std_types::anything/match_back:
-  #
-    always matches the whole string
-
-    Result:
-      len # the length of the string
-
-    Topic: Grammar Objects, Strings
-
-    See also: std_types::anything, std_types::anything/match
-
-    Example:
-
-      $str "abcdef"
-      match_back ANYTHING str $len
-      dump! `len
-
-    Output:
-
-      len: 6
   (
     _self # anything
     str # the string to match with
   )
   -> length_of(str)
 
+$std_types::anything/search:
+  (
+    _self # anything
+    str # the string to search
+    _nth = 1 # the nth occurrence to search for
+  )
+  -> 1 length_of(str)
+
+$std_types::any_character_but std_types::object
+  .expression_of undefined
+
+$std::any_character_but:
+  (
+    expr
+  )
+  -> std_types::any_character_but(.expression_of expr)
+
+$std_types::any_character_but/match:
+  (
+    self
+    str
+  )
+  $expr expression_of(self)
+  match $i expr str
+  if
+    i.is_undefined
+    -> 1
+    -> undefined
+
+$std_types::capture std_types::object
+$std_types::capture.expression_of undefined
+
+$std::capture:
+  (
+    expr
+  )
+  -> std_types::capture(.expression_of expr)
+
+$std_types::capture/match:
+  (
+    self
+    str
+  )
+  $rc result_count()
+  $expr expression_of(self)
+  match $len expr str
+  if
+    rc == 1
+    -> len
+    :
+      if
+	len.is_undefined
+	-> len undefined
+	-> len range(str 1 len)
+
+$std_types::capture/match_back:
+  (
+    self
+    str
+  )
+  $rc result_count()
+  $expr expression_of(self)
+  match_back $len expr str
+  if
+    rc == 1
+    -> len
+    :
+      if
+	len.is_undefined
+	-> len undefined
+	-> len range(str -len -1)
+
+$std_types::alt std_types::object
+$std_types::alt.expressions_of undefined
+
+$std::alt:
+  (
+    expressions*
+  )
+  -> std_types::alt(.expressions_of expressions)
+
+$std_types::alt/match:
+  (
+    self
+    str
+  )
+  for_each expressions_of(self)
+    : (expr)
+      match $len expr str
+      if
+	len.is_defined
+	-> len
+	next
+    -> undefined
+
 $std::DIGIT '0'..'9'
 $std::LETTER 'a'..'z', 'A'..'Z'
-#$std::ALPHANUMERIC alt(std::LETTER std::DIGIT)
+#$std::ALPHANUMERIC set(std::LETTER std::DIGIT)
 
-$std::alt std::hash_set
+$std::set std::hash_set

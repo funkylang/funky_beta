@@ -20,6 +20,8 @@
   Free Software Foundation, Inc.,
   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
+# Topic: Lists
+
 $std_types::sequence.subtype_of "sequence"
   #
     the list subtype for sequences
@@ -61,17 +63,36 @@ $std_types::sequence/match:
     self
     str
   )
+  $rc result_count()
   $pos 1
-  for_each self
-    : (item)
-      $len match(item range(str pos -1))
-      if
-	len.is_undefined
-	-> undefined
-	:
-	  plus &pos len
-	  next
-    -> pos-1
+  if
+    rc == 1:
+      for_each self
+	: (item)
+	  match item range(str pos -1) $len
+	  if
+	    len.is_undefined
+	    -> undefined
+	    :
+	      plus &pos len
+	      next
+	-> pos-1
+    :
+      $captured_items empty_list
+      for_each self
+	: (item)
+	  match item range(str pos -1) $len $captured_item
+	  if
+	    len.is_undefined
+	    -> undefined undefined
+	    :
+	      plus &pos len
+	      if
+		captured_item.is_defined:
+		  push &captured_items captured_item
+		  next
+		next
+	-> pos-1 captured_items
 
 $std::sequence:
   #

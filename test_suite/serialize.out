@@ -11,18 +11,18 @@ list <15>
   'a'
   '@228;'
   tuple <3>
-    <std::RED>
-    <std::GREEN>
-    <std::BLUE>
+    '@16711680;'
+    '@65280;'
+    '@255;'
   "abc@228;@246;@252;"
   <undefined>
   key_order_table <8>
     "blue"
-    <std::BLUE>
+    <test::BLUE>
     "green"
-    <std::GREEN>
+    <test::GREEN>
     "red"
-    <std::RED>
+    <test::RED>
     "yellow"
     hash_table <6>
       "Beluga"
@@ -38,7 +38,7 @@ list <15>
     "peaches"
     "pears"
     "pineapples"
-  <std::RED>
+  '@16711680;'
 _________________________________________
 list <15>
 5.3
@@ -53,18 +53,18 @@ value_range <2>
 'a'
 '@228;'
 tuple <3>
-<std::RED>
-<std::GREEN>
-<std::BLUE>
+'@16711680;'
+'@65280;'
+'@255;'
 "abc@228;@246;@252;"
 <undefined>
 key_order_table <8>
 "blue"
-<std::BLUE>
+<test::BLUE>
 "green"
-<std::GREEN>
+<test::GREEN>
 "red"
-<std::RED>
+<test::RED>
 "yellow"
 hash_table <6>
 "Beluga"
@@ -80,4 +80,4 @@ key_order_set <4>
 "peaches"
 "pears"
 "pineapples"
-<std::RED>
+'@16711680;'

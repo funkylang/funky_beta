@@ -22,6 +22,19 @@
 
 <using std>
 
+#
+  Topic: Lists
+
+  A list is a variable sized collection of elements.
+
+  The elements are accessed using a one-based index.
+
+  Negative indices are supported and count from the end of the list.
+
+  Lists are one of the basic data types in Funky.
+
+  They are used to hold the values of so-called "rest parameters".
+
 $basic_loops::self undefined
 
 $std::is_a_generic_list () # obvious
@@ -103,8 +116,12 @@ $std_types::generic_list/append_or_error: (left right)
 
 $separator_of ()
 
+$concatenation_function std_types::function
+$concatenation_function.separator_of undefined
+
 $std::concatenate: (separator)
-  $func: (myself^ left right) append append(left separator_of(myself)) right
+  new $func concatenation_function: (myself^ left right)
+    append append(left separator_of(myself)) right
   -> func(.separator_of separator)
 
 $std::concatenate_non_empty: (separator)
@@ -116,7 +133,7 @@ $std::concatenate_non_empty: (separator)
 	if
 	  right.is_empty
 	  -> left
-	  -> append(append(left separator_of(myself)) right)
+	  -> append(left separator_of(myself) right)
   -> func(.separator_of separator)
 
 $std_types::generic_list/reverse:
@@ -193,7 +210,7 @@ $std_types::generic_list/for_each:
   (
     self # the list to iterate over
     body # the statement sequence to execute for each item
-    finally = next # called after all items have been iterated over
+    finally # called after all items have been iterated over
   )
   $saved_context
     tuple
@@ -229,7 +246,7 @@ $std_types::generic_list/for_each:
       :
 	break!
 
-  !break: (myself^)
+  new !break basic_types::break_function: (myself^)
     !finally basic_loops::finally
     basic_loops::saved_context_of(myself)
       !next !break
@@ -378,6 +395,21 @@ $std_types::generic_list/std::reduce:
 
       reduce self
 
+$std_types::list/reduce_columns:
+  (
+    self
+    reduction
+  )
+  map self: (item) reduce item reduction
+
+$std_types::list/reduce_rows:
+  (
+    self
+    reduction
+  )
+  reduce self: (left right)
+    map left: (idx item) -> reduction(item right(idx))
+
 $std_types::generic_list/map_reduce:
   #
     combines a map and a reduce operation into a single operation
@@ -457,6 +489,26 @@ $std_types::generic_list/map_reduce:
 		    -> map_function(self(s))
 
 	  map_reduce 1 length_of(self)
+
+$std_types::generic_list/map_reduce_rows:
+  (
+    self
+    map_function
+    reduce_function
+  )
+  map_reduce self
+    : (items)
+      map items map_function
+    : (left right)
+      map left: (idx item) -> reduce_function(item right(idx))
+
+$std_types::generic_list/map_reduce_columns:
+  (
+    self
+    map_function
+    reduce_function
+  )
+  map self: (item) map_reduce item map_function reduce_function
 
 $std_types::generic_list/sort:
   (
@@ -700,8 +752,36 @@ $std::levenshtein_distance:
 	  next
     -> v0(n+1)
 
-###
-# serialization
+# Debugging
+
+$std_types::list/debug::to_string:
+  (
+    self
+    indent = 0
+    depth = 1
+  )
+  cond
+    -> self.is_empty -> "empty_list@nl;"
+    -> depth <= 1:
+      $len length_of(self)
+      if
+	len == 1
+	-> "<list of 1 item>@nl;"
+	-> "<list of @(len) items>@nl;"
+    -> true:
+      $new_indent indent+2
+      map_reduce $contents
+	self: (value)
+	  $text debug::to_string(value new_indent depth-1)
+	  if
+	    text(1) == '@nl;'
+	    -> range(text 2 -1)
+	    -> append(tabs_and_spaces(new_indent) text)
+	append
+	""
+      append append("@nl;" tabs_and_spaces(indent) "list@nl;") contents
+
+# Serialization
 
 $std_types::list/to_list: (self) -> self
 
@@ -735,3 +815,5 @@ $std_types::list.deserializer_of:
   -> items
 
 $std_types::list.empty_collection_of empty_list
+
+register_type &deserializers std_types::list

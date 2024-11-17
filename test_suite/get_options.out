@@ -1,16 +1,16 @@
-object
+proto_screen
   width_of: 80
   height_of: 25
   text_colour_of: '@0x0;'
   background_colour_of: '@0xffff00;'
   line_height_of: 1
-object
+proto_screen
   width_of: 100
   height_of: 40
   text_colour_of: '@0x0;'
   background_colour_of: '@0xffffff;'
   line_height_of: 2
-object
+proto_screen
   width_of: 120
   height_of: 30
   text_colour_of: '@0x0;'

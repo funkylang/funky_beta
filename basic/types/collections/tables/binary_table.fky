@@ -23,6 +23,8 @@
 <using std>
 <using basic_collections>
 
+# Topics: Tables, Collections
+
 $std::validate ()
 
 # shared attributes:
@@ -158,7 +160,7 @@ $node/retrieve retrieve_method
 
 $basic_collections::empty_binary_node/insert: (_self key value)
   ->
-    new
+    typed_tuple
       node basic_collections::empty_binary_node
       basic_collections::empty_binary_node
       key
@@ -170,7 +172,7 @@ $node/insert: (self key value)
   $did_insert undefined
   if
     key == my_key
-    -> new(self left right key value) false
+    -> typed_tuple(self left right key value) false
     :
       if
 	key < my_key
@@ -182,7 +184,7 @@ $node/insert: (self key value)
 	  return
 
   $return
-    -> new(self left right my_key my_value) did_insert
+    -> typed_tuple(self left right my_key my_value) did_insert
 
 ###
 # delete
@@ -194,7 +196,7 @@ $fetch_first: (self)
     -> right my_key my_value
     :
       fetch_first &left $first_key $first_value
-      -> new(self left right my_key my_value) first_key first_value
+      -> typed_tuple(self left right my_key my_value) first_key first_value
 
 $basic_collections::empty_binary_node/delete: (self _key) -> self false
 
@@ -212,7 +214,7 @@ $node/delete: (self key)
 	    -> left true
 	    :
 	      fetch_first &right $first_key $first_value
-	      -> new(self left right first_key first_value) true
+	      -> typed_tuple(self left right first_key first_value) true
     :
       if
 	key < my_key
@@ -221,13 +223,13 @@ $node/delete: (self key)
 	  if_not
 	    did_delete
 	    -> self false
-	    -> new(self left right my_key my_value) true
+	    -> typed_tuple(self left right my_key my_value) true
 	:
 	  delete &right $did_delete key
 	  if_not
 	    did_delete
 	    -> self false
-	    -> new(self left right my_key my_value) true
+	    -> typed_tuple(self left right my_key my_value) true
 
 ###
 # for_each
@@ -324,7 +326,7 @@ $std_types::binary_table/for_each:
   !basic_loops::body body
   !basic_loops::finally finally
 
-  !break: (myself^)
+  new !break basic_types::break_function: (myself^)
     !finally basic_loops::finally
     basic_loops::saved_context_of(myself)
       !next !break
@@ -358,11 +360,11 @@ $basic_collections::empty_binary_node/map_2: (self) -> self
 
 $basic_collections::map_1_method: (self)
   self $left $right $my_key $my_value
-  new self my_key mapping_function(my_value) map_1(left) map_1(right)
+  typed_tuple self my_key mapping_function(my_value) map_1(left) map_1(right)
 
 $basic_collections::map_2_method: (self)
   self $left $right $my_key $my_value
-  new self my_key mapping_function(my_key my_value) map_2(left) map_2(right)
+  typed_tuple self my_key mapping_function(my_key my_value) map_2(left) map_2(right)
 
 $node/map_1 map_1_method
 $node/map_2 map_2_method

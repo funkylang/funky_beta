@@ -20,8 +20,6 @@
   Free Software Foundation, Inc.,
   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
-# Funky is a one based language
-
 <require basic/stdlib>
 <require basic/export/html>
 
@@ -130,7 +128,7 @@ for_each libraries
 	for_each definitions
 	  : (definition info)
 	    save! "html/@(definition.to_filename)"
-	      create_html_page(definition info)
+	      create_html_page(definition info).to_utf8
 	    next!
 	  :
 	    save! "html/topics.html" create_topics_page()
@@ -336,7 +334,7 @@ $handle_definition: (group)
 	    :
 	      handle_slot_definition METHOD
 	'.': handle_slot_definition ATTRIBUTE
-	: handle undefined
+	: handle OBJECT
 
   $handle_slot_definition: (kind)
     $separator range(rest 1 1)
@@ -368,7 +366,6 @@ $handle_definition: (group)
       -> (identifier .before. "::").is_a_private_namespace
 	-> definitions
       -> kind.is_undefined:
-	debug::dump `identifier
 	debug::print "
 	  CANNOT DETERMINE TYPE: @(identifier)
 	-> definitions
@@ -868,7 +865,7 @@ $create_html_page: (title info)
 		      : TABLE: link_to extra_info
 		  -> ""
 	      :
-		$method title .behind. alt('/' '.')
+		$method title .behind. set('/' '.')
 		if
 		  method.is_empty
 		  -> ""
@@ -907,6 +904,7 @@ $create_html_page: (title info)
 				    next
 				  next
 			      next
+			  next
 		      :
 			sort &names
 			GROUP
@@ -918,7 +916,7 @@ $create_html_page: (title info)
 		    for_each definitions
 		      : (name definition)
 			if
-			  (name .before. alt('/' '.')) == title:
+			  (name .before. set('/' '.')) == title:
 			    push &names name
 			    next
 			  next
@@ -938,7 +936,7 @@ $create_html_page: (title info)
 		    for_each definitions
 		      : (name definition)
 			if
-			  (name .behind. alt('/' '.')) == title:
+			  (name .behind. set('/' '.')) == title:
 			    push &names name
 			    next
 			  next
@@ -989,8 +987,8 @@ $link_to: (item mode = FUNCTION)
   $name
     case
       mode
-      METHOD -> item .behind. alt('/' '.')
-      TYPE -> item .before. alt('/' '.')
+      METHOD -> item .behind. set('/' '.')
+      TYPE -> item .before. set('/' '.')
       -> item
   TR
     : TD : A "href" = to_filename(item) name

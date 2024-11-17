@@ -6,10 +6,11 @@ typedef struct {
   const char *name;
 } BUILTIN_FUNCTION_NAME;
 
-extern BUILTIN_FUNCTION_NAME builtin_function_names[459];
+extern BUILTIN_FUNCTION_NAME builtin_function_names[462];
 
 typedef enum {
   FIM_SIZE,
+  FIM_TYPE_NO,
   FIM_COLLECT,
   FIM_TO_INT8,
   FIM_TO_INT16,
@@ -165,7 +166,7 @@ typedef struct {
     long size; // in bytes
     long length;  // in (32-bit) characters
     uint32_t buffer[];
-  } QUAD_OCTET_DATA;
+  } WIDE_DATA;
 
   typedef struct {
     struct termios termios;
@@ -517,8 +518,8 @@ typedef struct {
   ATTRIBUTES *attributes;
   long offset;
   long length;
-  QUAD_OCTET_DATA *data;
-} QUAD_OCTET_STRING;
+  WIDE_DATA *data;
+} WIDE_STRING;
 
 typedef struct {
   void *type;
@@ -643,7 +644,7 @@ typedef union NODE {
   USER_ID user_id;
   ERROR_NUMBER error_number;
   OCTET_STRING octet_string;
-  QUAD_OCTET_STRING quad_octet_string;
+  WIDE_STRING wide_string;
   TERMINAL_ATTRIBUTES terminal_attributes;
   TUPLE2 tuple2;
   TUPLE3 tuple3;
@@ -684,6 +685,8 @@ int propagate_error(NODE *node);
 void print_code_reference(const TAB_NUM *code);
 void create_error_message(NODE *category, const char *msg, int err_no, int attr_idx, NODE *node);
 void no_such_function(void);
+void invalid_attribute_redefinition(NODE *node, int attr_idx);
+void attribute_has_no_setter(void);
 void too_few_arguments(void);
 void too_many_arguments(void);
 void invalid_arguments(void);
@@ -752,14 +755,20 @@ void *create__std_types___list
     LIST_DATA *data
   );
 
-void *create__negative_integer
+void *create__builtin_types___positive_integer
+  (
+    uint64_t value
+  );
+
+void *create__builtin_types___negative_integer
   (
     uint64_t value
   );
 void std_types___error____type (void);
 void std_types___undefined____type (void);
 void std_types___list____type (void);
-void negative_integer____type (void);
+void builtin_types___positive_integer____type (void);
+void builtin_types___negative_integer____type (void);
 extern SIMPLE_NODE std_types___generic_array;
 extern ARRAY std_types___array;
 extern BOOLEAN_ARRAY std_types___boolean_array;
@@ -788,8 +797,8 @@ extern SIMPLE_NODE std_types___generic_list;
 extern LIST std_types___list;
 extern SIMPLE_NODE std_types___number;
 extern INTEGER std_types___integer;
-extern POSITIVE_INTEGER std_types___positive_integer;
-extern NEGATIVE_INTEGER negative_integer;
+extern POSITIVE_INTEGER builtin_types___positive_integer;
+extern NEGATIVE_INTEGER builtin_types___negative_integer;
 extern REAL std_types___real;
 extern SIMPLE_NODE std_types___polymorphic_function;
 extern SIMPLE_NODE std_types___polymorphic_function_with_setter;
@@ -809,16 +818,16 @@ extern SIMPLE_NODE std_types___stat;
 extern SIMPLE_NODE std_types___dirent;
 extern SIMPLE_NODE std_types___string;
 extern OCTET_STRING std_types___octet_string;
-extern QUAD_OCTET_STRING quad_octet_string;
+extern WIDE_STRING std_types___wide_string;
 extern TERMINAL_ATTRIBUTES std_types___terminal_attributes;
 extern SIMPLE_NODE std_types___tuple;
-extern TUPLE2 builtin___tuple2;
-extern TUPLE3 builtin___tuple3;
-extern TUPLE4 builtin___tuple4;
-extern TUPLE5 builtin___tuple5;
-extern TUPLE6 builtin___tuple6;
-extern TUPLE7 builtin___tuple7;
-extern TUPLE8 builtin___tuple8;
+extern TUPLE2 builtin_types___tuple2;
+extern TUPLE3 builtin_types___tuple3;
+extern TUPLE4 builtin_types___tuple4;
+extern TUPLE5 builtin_types___tuple5;
+extern TUPLE6 builtin_types___tuple6;
+extern TUPLE7 builtin_types___tuple7;
+extern TUPLE8 builtin_types___tuple8;
 extern UNIQUE_ITEM std_types___unique_item;
 extern TUPLE2 std_types___key_value_pair;
 extern LIST std___empty_list;

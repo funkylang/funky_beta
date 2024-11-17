@@ -23,18 +23,20 @@
   Free Software Foundation, Inc.,
   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
+# Topics: Tuples, Collections
+
 $std::to_binop ()
 
 $operators_of ()
 
 $equal2 ()
 
-$builtin::tuple2/equal: (left right)
+$builtin_types::tuple2/equal: (left right)
   equal2 right left
 
 $std_types::object/equal2: (_left _right) -> false
 
-$builtin::tuple2/equal2: (right left)
+$builtin_types::tuple2/equal2: (right left)
   left $lv1 $lv2
   right $rv1 $rv2
   ->
@@ -42,7 +44,7 @@ $builtin::tuple2/equal2: (right left)
       lv1 == rv1
       lv2 == rv2
 
-$builtin::tuple2/less: (left right)
+$builtin_types::tuple2/less: (left right)
   left $lv1 $lv2
   right $rv1 $rv2
   ->
@@ -52,14 +54,14 @@ $builtin::tuple2/less: (left right)
 	lv1 == rv1
 	lv2 < rv2
 
-$builtin::tuple2/hash: (self)
+$builtin_types::tuple2/hash: (self)
   self $v1 $v2
   ->
     ^
       hash(v1)
       hash(v2)
 
-$builtin::tuple2/to_binop: (self) -> binop2(.operators_of self)
+$builtin_types::tuple2/to_binop: (self) -> binop2(.operators_of self)
 
 $binop2: (myself^ left right)
   operators_of(myself) $op1 $op2
@@ -69,14 +71,16 @@ $binop2: (myself^ left right)
     op1(lv1 rv1)
     op2(lv2 rv2)
 
+$binop2.operators_of undefined
+
 $equal3 ()
 
-$builtin::tuple3/equal: (left right)
+$builtin_types::tuple3/equal: (left right)
   equal3 right left
 
 $std_types::object/equal3: (_left _right) -> false
 
-$builtin::tuple3/equal3: (right left)
+$builtin_types::tuple3/equal3: (right left)
   left $lv1 $lv2 $lv3
   right $rv1 $rv2 $rv3
   ->
@@ -85,7 +89,7 @@ $builtin::tuple3/equal3: (right left)
       lv2 == rv2
       lv3 == rv3
 
-$builtin::tuple3/less: (left right)
+$builtin_types::tuple3/less: (left right)
   left $lv1 $lv2 $lv3
   right $rv1 $rv2 $rv3
   ->
@@ -99,7 +103,7 @@ $builtin::tuple3/less: (left right)
 	    lv2 == rv2
 	    lv3 < rv3
 
-$builtin::tuple3/hash: (self)
+$builtin_types::tuple3/hash: (self)
   self $v1 $v2 $v3
   ->
     ^
@@ -107,7 +111,7 @@ $builtin::tuple3/hash: (self)
       hash(v2)
       hash(v3)
 
-$builtin::tuple3/to_binop: (self) -> binop3(.operators_of self)
+$builtin_types::tuple3/to_binop: (self) -> binop3(.operators_of self)
 
 $binop3: (myself^ left right)
   operators_of(myself) $op1 $op2 $op3
@@ -118,14 +122,16 @@ $binop3: (myself^ left right)
     op2(lv2 rv2)
     op3(lv3 rv3)
 
+$binop3.operators_of undefined
+
 $equal4 ()
 
-$builtin::tuple4/equal: (left right)
+$builtin_types::tuple4/equal: (left right)
   equal4 right left
 
 $std_types::object/equal4: (_left _right) -> false
 
-$builtin::tuple4/equal4: (right left)
+$builtin_types::tuple4/equal4: (right left)
   left $lv1 $lv2 $lv3 $lv4
   right $rv1 $rv2 $rv3 $rv4
   ->
@@ -135,7 +141,7 @@ $builtin::tuple4/equal4: (right left)
       lv3 == rv3
       lv4 == rv4
 
-$builtin::tuple4/less: (left right)
+$builtin_types::tuple4/less: (left right)
   left $lv1 $lv2 $lv3 $lv4
   right $rv1 $rv2 $rv3 $rv4
   ->
@@ -153,7 +159,7 @@ $builtin::tuple4/less: (left right)
 		lv3 == rv3
 		lv4 < rv4
 
-$builtin::tuple4/hash: (self)
+$builtin_types::tuple4/hash: (self)
   self $v1 $v2 $v3 $v4
   ->
     ^
@@ -162,7 +168,7 @@ $builtin::tuple4/hash: (self)
       hash(v3)
       hash(v4)
 
-$builtin::tuple4/to_binop: (self) -> binop4(.operators_of self)
+$builtin_types::tuple4/to_binop: (self) -> binop4(.operators_of self)
 
 $binop4: (myself^ left right)
   operators_of(myself) $op1 $op2 $op3 $op4
@@ -174,14 +180,16 @@ $binop4: (myself^ left right)
     op3(lv3 rv3)
     op4(lv4 rv4)
 
+$binop4.operators_of undefined
+
 $equal5 ()
 
-$builtin::tuple5/equal: (left right)
+$builtin_types::tuple5/equal: (left right)
   equal5 right left
 
 $std_types::object/equal5: (_left _right) -> false
 
-$builtin::tuple5/equal5: (right left)
+$builtin_types::tuple5/equal5: (right left)
   left $lv1 $lv2 $lv3 $lv4 $lv5
   right $rv1 $rv2 $rv3 $rv4 $rv5
   ->
@@ -192,7 +200,7 @@ $builtin::tuple5/equal5: (right left)
       lv4 == rv4
       lv5 == rv5
 
-$builtin::tuple5/less: (left right)
+$builtin_types::tuple5/less: (left right)
   left $lv1 $lv2 $lv3 $lv4 $lv5
   right $rv1 $rv2 $rv3 $rv4 $rv5
   ->
@@ -214,7 +222,7 @@ $builtin::tuple5/less: (left right)
 		    lv4 == rv4
 		    lv5 < rv5
 
-$builtin::tuple5/hash: (self)
+$builtin_types::tuple5/hash: (self)
   self $v1 $v2 $v3 $v4 $v5
   ->
     ^
@@ -224,7 +232,7 @@ $builtin::tuple5/hash: (self)
       hash(v4)
       hash(v5)
 
-$builtin::tuple5/to_binop: (self) -> binop5(.operators_of self)
+$builtin_types::tuple5/to_binop: (self) -> binop5(.operators_of self)
 
 $binop5: (myself^ left right)
   operators_of(myself) $op1 $op2 $op3 $op4 $op5
@@ -237,14 +245,16 @@ $binop5: (myself^ left right)
     op4(lv4 rv4)
     op5(lv5 rv5)
 
+$binop5.operators_of undefined
+
 $equal6 ()
 
-$builtin::tuple6/equal: (left right)
+$builtin_types::tuple6/equal: (left right)
   equal6 right left
 
 $std_types::object/equal6: (_left _right) -> false
 
-$builtin::tuple6/equal6: (right left)
+$builtin_types::tuple6/equal6: (right left)
   left $lv1 $lv2 $lv3 $lv4 $lv5 $lv6
   right $rv1 $rv2 $rv3 $rv4 $rv5 $rv6
   ->
@@ -256,7 +266,7 @@ $builtin::tuple6/equal6: (right left)
       lv5 == rv5
       lv6 == rv6
 
-$builtin::tuple6/less: (left right)
+$builtin_types::tuple6/less: (left right)
   left $lv1 $lv2 $lv3 $lv4 $lv5 $lv6
   right $rv1 $rv2 $rv3 $rv4 $rv5 $rv6
   ->
@@ -282,7 +292,7 @@ $builtin::tuple6/less: (left right)
 			lv5 == rv5
 			lv6 < rv6
 
-$builtin::tuple6/hash: (self)
+$builtin_types::tuple6/hash: (self)
   self $v1 $v2 $v3 $v4 $v5 $v6
   ->
     ^
@@ -293,7 +303,7 @@ $builtin::tuple6/hash: (self)
       hash(v5)
       hash(v6)
 
-$builtin::tuple6/to_binop: (self) -> binop6(.operators_of self)
+$builtin_types::tuple6/to_binop: (self) -> binop6(.operators_of self)
 
 $binop6: (myself^ left right)
   operators_of(myself) $op1 $op2 $op3 $op4 $op5 $op6
@@ -307,14 +317,16 @@ $binop6: (myself^ left right)
     op5(lv5 rv5)
     op6(lv6 rv6)
 
+$binop6.operators_of undefined
+
 $equal7 ()
 
-$builtin::tuple7/equal: (left right)
+$builtin_types::tuple7/equal: (left right)
   equal7 right left
 
 $std_types::object/equal7: (_left _right) -> false
 
-$builtin::tuple7/equal7: (right left)
+$builtin_types::tuple7/equal7: (right left)
   left $lv1 $lv2 $lv3 $lv4 $lv5 $lv6 $lv7
   right $rv1 $rv2 $rv3 $rv4 $rv5 $rv6 $rv7
   ->
@@ -327,7 +339,7 @@ $builtin::tuple7/equal7: (right left)
       lv6 == rv6
       lv7 == rv7
 
-$builtin::tuple7/less: (left right)
+$builtin_types::tuple7/less: (left right)
   left $lv1 $lv2 $lv3 $lv4 $lv5 $lv6 $lv7
   right $rv1 $rv2 $rv3 $rv4 $rv5 $rv6 $rv7
   ->
@@ -357,7 +369,7 @@ $builtin::tuple7/less: (left right)
 			    lv6 == rv6
 			    lv7 < rv7
 
-$builtin::tuple7/hash: (self)
+$builtin_types::tuple7/hash: (self)
   self $v1 $v2 $v3 $v4 $v5 $v6 $v7
   ->
     ^
@@ -369,7 +381,7 @@ $builtin::tuple7/hash: (self)
       hash(v6)
       hash(v7)
 
-$builtin::tuple7/to_binop: (self) -> binop7(.operators_of self)
+$builtin_types::tuple7/to_binop: (self) -> binop7(.operators_of self)
 
 $binop7: (myself^ left right)
   operators_of(myself) $op1 $op2 $op3 $op4 $op5 $op6 $op7
@@ -384,14 +396,16 @@ $binop7: (myself^ left right)
     op6(lv6 rv6)
     op7(lv7 rv7)
 
+$binop7.operators_of undefined
+
 $equal8 ()
 
-$builtin::tuple8/equal: (left right)
+$builtin_types::tuple8/equal: (left right)
   equal8 right left
 
 $std_types::object/equal8: (_left _right) -> false
 
-$builtin::tuple8/equal8: (right left)
+$builtin_types::tuple8/equal8: (right left)
   left $lv1 $lv2 $lv3 $lv4 $lv5 $lv6 $lv7 $lv8
   right $rv1 $rv2 $rv3 $rv4 $rv5 $rv6 $rv7 $rv8
   ->
@@ -405,7 +419,7 @@ $builtin::tuple8/equal8: (right left)
       lv7 == rv7
       lv8 == rv8
 
-$builtin::tuple8/less: (left right)
+$builtin_types::tuple8/less: (left right)
   left $lv1 $lv2 $lv3 $lv4 $lv5 $lv6 $lv7 $lv8
   right $rv1 $rv2 $rv3 $rv4 $rv5 $rv6 $rv7 $rv8
   ->
@@ -439,7 +453,7 @@ $builtin::tuple8/less: (left right)
 				lv7 == rv7
 				lv8 < rv8
 
-$builtin::tuple8/hash: (self)
+$builtin_types::tuple8/hash: (self)
   self $v1 $v2 $v3 $v4 $v5 $v6 $v7 $v8
   ->
     ^
@@ -452,7 +466,7 @@ $builtin::tuple8/hash: (self)
       hash(v7)
       hash(v8)
 
-$builtin::tuple8/to_binop: (self) -> binop8(.operators_of self)
+$builtin_types::tuple8/to_binop: (self) -> binop8(.operators_of self)
 
 $binop8: (myself^ left right)
   operators_of(myself) $op1 $op2 $op3 $op4 $op5 $op6 $op7 $op8
@@ -467,3 +481,5 @@ $binop8: (myself^ left right)
     op6(lv6 rv6)
     op7(lv7 rv7)
     op8(lv8 rv8)
+
+$binop8.operators_of undefined

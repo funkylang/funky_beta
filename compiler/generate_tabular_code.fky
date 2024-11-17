@@ -22,33 +22,40 @@
 <using std>
 <using funky>
 
-$add_literal ()
-
 $mangled_literals empty_hash_table
 $mangling_counter empty_hash_table
 
 $funky::generate_tabular_code: (top_level_statements is_a_main_module)
   #!variables("std::assign") undefined
   #!variables("assign") undefined
+  to_list &literals
+  filter &literals: (literal)
+    not
+      &&
+	node_type_of(literal) == TYPE_FUNCTION
+	parameters_of(literal).is_empty
+	length_of(statements_of(literal)) == 1
+	arguments_of(statements_of(literal)(1)).is_empty
+
   for_each literals
     : (literal)
       add_literal !mangled_literals !mangling_counter literal
       next!
     :
-      $types collect_types(top_level_statements)
+      $types collect_types(empty_insert_order_table top_level_statements)
       filter &top_level_statements is_a_valid_statement
       on is_a_main_module && top_level_statements.is_empty:
 	syntax_error "Main module does not contain any statements"
-      on not(is_a_main_module) && top_level_statements.is_not_empty:
+      #on not(is_a_main_module) && top_level_statements.is_not_empty:
 	syntax_error "Module should only contain definitions"
 	  top_level_statements(1)
       $constant_count
 	+
 	  length_of(literals)
 	  if
-	    is_a_main_module
-	    -> 1
+	    top_level_statements.is_empty
 	    -> 0
+	    -> 1
       $variable_count
 	count(variables: (info) -> not(first(info).is_local_or_constant))
       $ref_constants_table
@@ -61,6 +68,9 @@ $funky::generate_tabular_code: (top_level_statements is_a_main_module)
 	  variable_count > 0
 	  -> "  variables_table,"
 	  -> "  NULL, // no variables"
+      $feature_flags "FEAT_POSITIONS"
+      update_if top_level_statements.is_not_empty && not(is_a_main_module)
+	&feature_flags: append feature_flags "|FEAT_INITIALIZER"
       append
 	"
 	  @(require())@
@@ -90,7 +100,7 @@ $funky::generate_tabular_code: (top_level_statements is_a_main_module)
 	    "@(current_filename)", // module filename
 	    .major_version = 0,
 	    .minor_version = 0,
-	    .feature_flags = FEAT_POSITIONS,
+	    .feature_flags = @(feature_flags),
 	    .marker = 0,
 	    @(length_of(required_modules)), // number of required modules
 	    @(length_of(defined_namespaces)), // number of defined namespaces
@@ -107,6 +117,7 @@ $funky::generate_tabular_code: (top_level_statements is_a_main_module)
 	if
 	  is_a_main_module
 	  -> "
+
 	    int main(int argc, char **argv) {
 	      main_argc = argc;
 	      main_argv = argv;
@@ -386,11 +397,18 @@ $funky::generate_tabular_code: (top_level_statements is_a_main_module)
 	  : (body)
 	    case node_type_of(body)
 	      BODY, TYPE_FUNCTION:
-		$mangled_name mangled_literals(body)
-		$statements filter(statements_of(body) is_a_valid_statement)
-		->
-		  tabular_function
-		    mangled_name parameters_of(body) statements
+		if
+		  &&
+		    node_type_of(body) == TYPE_FUNCTION
+		    parameters_of(body).is_empty
+		    length_of(statements_of(body)) == 1
+		    arguments_of(statements_of(body)(1)).is_empty
+		  -> ""
+		  :
+		    $mangled_name mangled_literals(body)
+		    $statements filter(statements_of(body) is_a_valid_statement)
+		    tabular_function
+		      mangled_name parameters_of(body) statements
 	      -> ""
 	  append ""
 
@@ -429,6 +447,7 @@ $funky::generate_tabular_code: (top_level_statements is_a_main_module)
 		  : (argument)
 		    check_for_locals !local_mapping !temp_count argument
 		    next
+		  next
 
 		$check_for_locals: (node)
 		  cond
@@ -497,6 +516,311 @@ $funky::generate_tabular_code: (top_level_statements is_a_main_module)
 		-> "LOCAL(@(temp_count+idx)), // @(parameter_name)@nl;"
 		-> "var_@(parameter_name),@nl;"
 
+    $compile: (self is_last)
+      $head head_of(self)
+      $arguments arguments_of(self)
+      $input_arguments filter(arguments is_an_input)
+      $output_arguments filter(arguments is_an_output)
+      $invalid_last_statement
+	is_last && not(all_of(output_arguments is_a_dummy_definition))
+      on invalid_last_statement && name != "module_entry":
+	syntax_error "Last statement is not a tail call" self
+      $input_count length_of(input_arguments)
+      $output_count length_of(output_arguments)
+      $is_a_tail_call (is_last && output_arguments.is_empty)
+      !output_count
+	if
+	  self.is_an_io_call:
+	    if
+	      is_a_tail_call
+	      -> "IO_TAIL_CALL"
+	      -> "IO_CALL(@(output_count))"
+	  :
+	    if
+	      is_a_tail_call
+	      -> "TAIL_CALL"
+	      -> output_count
+      $inputs map_reduce(input_arguments to_separated_index append "")
+      $outputs map_reduce(output_arguments to_separated_index append "")
+      append
+	"
+	  @
+	    // @(source_position_of(self))@
+	if
+	  node_type_of(head) == FUNCTOR:
+	    case identifier_of(head)
+	      "std::assign", "assign":
+		on output_count == 0 && not(is_last):
+		  syntax_error "Return statement not allowed within function body"
+		    self
+		-> "
+		  @
+		    LET, @
+		    @(input_count)@(inputs), @(output_count)@(outputs),
+	      "_assign_attributes" -> "
+		@
+		  LET, @
+		  -@(input_count-1)@(inputs)@(outputs),
+	      :
+		$statement "
+		  @
+		    @(head.to_index), @
+		    @(input_count)@(inputs), @(output_count)@(outputs),
+		if
+		  is_last && not(is_a_tail_call):
+		    if
+		      invalid_last_statement # "return" from initializer
+		      -> "
+			@(statement)@
+			  LET, 1, 0, TAIL_CALL,
+		      -> "
+			@(statement)@
+			  LET, 0, TAIL_CALL,
+		  -> statement
+	  -> "
+	    @
+	      LET, 1@(inputs), 1, @(head.to_index),
+
+      $to_separated_index ()
+
+      $funky_types::node/to_separated_index: (self) -> append(", " self.to_index)
+
+      $funky_types::inline_attribute_value_pair/to_separated_index: (self)
+	-> ", @(retrieve_name(self)), @(expression_of(self).to_index)"
+
+      $funky_types::inline_method_value_pair/to_separated_index: (self)
+	-> ", -@(retrieve_name(self)), @(expression_of(self).to_index)"
+
+      $funky_types::attribute_value_pair/to_separated_index: (self)
+	-> ", @(retrieve_name(self)), @(argument_of(self).to_index)"
+
+      $funky_types::method_value_pair/to_separated_index: (self)
+	-> ", -@(retrieve_name(self)), @(argument_of(self).to_index)"
+
+      $funky_types::type_function/to_separated_index: (self)
+	-> ", 0, @(mangled_literals(self))"
+
+  $add_literal ()
+
+  $funky_types::numeric_literal/add_literal: (self)
+    !mangled_literals(self) funky::key_of(self)
+    -> mangled_literals mangling_counter
+
+  $funky_types::character_sequence/add_literal: (self)
+    $mangled ""
+    for_each characters_of(self)
+      : (chr)
+	cond
+	  -> length_of(mangled) >= 16 break
+	  -> chr.is_a_letter || chr.is_a_digit || chr == '_':
+	    push &mangled chr
+	    next
+	  -> chr == ' ':
+	    push &mangled '_'
+	    next
+	  -> true next
+      :
+	remove_trailing_underscores_and_digits &mangled
+	if
+	  mangled.is_empty:
+	    check_mangling $n !mangling_counter "string"
+	    add_mangled "string_@(n)"
+	  :
+	    append "str_" &mangled
+	    check_mangling $n !mangling_counter mangled
+	    if
+	      n > 1:
+		add_mangled "@(mangled)_@(n)"
+	      :
+		add_mangled mangled
+
+    $add_mangled: (mangled_name)
+      #debug::print "
+	@(mangled_name): @(debug::string(characters_of(self)))@
+      !mangled_literals(self) mangled_name
+      -> mangled_literals mangling_counter
+
+  $funky_types::unique/add_literal: (self)
+    !mangled_literals(self) funky::key_of(self)
+    -> mangled_literals mangling_counter
+
+  $funky_types::statement/add_literal: (self)
+    $type identifier_of(head_of(self)) .truncate_until. "::"
+    $mangled_name append(type "_" mangle_position(self))
+    -> mangled_literals(self mangled_name) mangling_counter
+
+  $funky_types::body/add_literal: (self)
+    $source_group source_group_of(self)
+    $line_text second(source_group)
+    $column_no length_of(line_text)-length_of(source_position_of(self))
+    $text range(line_text 1 column_no)
+    without_suffix &text ':'
+    without_suffix &text "->"
+    trim_right &text
+    if
+      text.is_empty || text .contains. ' ':
+	add_lambda ""
+      :
+	if
+	  text(1) == '$':
+	    add_function
+	      append
+		"func_"
+		mangle_versioned_identifier(range(text 2 -1))
+	  :
+	    replace_all &text '.' = "_"
+	    remove_non_identifier_characters &text
+	    add_lambda text
+
+    $add_lambda: (name)
+      if
+	name.is_empty:
+	  check_mangling $n !mangling_counter "lambda"
+	  add_mangled "lambda_@(n)"
+	:
+	  add_function append("lambda_" name)
+
+    $add_function: (name)
+      check_mangling $n !mangling_counter name
+      if
+	n > 1:
+	  add_mangled
+	    string
+	      name .until. '_'
+	      n
+	      name .from. '_'
+	:
+	  add_mangled name
+
+    $add_mangled: (name)
+      -> mangled_literals(self name) mangling_counter
+
+    $mangle_versioned_identifier: (name)
+      $rest name .behind. "-"
+      if
+	rest.is_empty
+	-> replace(name)
+	:
+	  if
+	    rest(1).is_a_digit
+	    -> append(replace(name .before. '.') "__" replace(name .behind. '.'))
+	    -> replace(name)
+
+      $replace: (part)
+	replace_all
+	  part .without_suffix. '/'
+	  '.' = "___"
+	  '/' = "___"
+	  "::" = "__"
+	  '-' = "__"
+
+  $to_option ()
+
+  $std_types::undefined.to_option "MANDATORY_PARAMETER"
+  $funky_types::myself.to_option "MYSELF_PARAMETER"
+  $funky_types::rest.to_option "REST_PARAMETER"
+  $funky_types::initial_value/to_option: (self) -> operand_of(self).to_index
+
+  $add_source_positions ()
+
+  $funky_types::node/add_source_positions: (_self) -> ""
+
+  $funky_types::statement/add_source_positions: (self)
+    -> "  @(get_source_position(self)),@nl;"
+
+  $get_source_position: (node)
+    $source_group source_group_of(node)
+    # ATTENTION: Why can <source_group> be undefined?
+    if
+      source_group.is_defined:
+	source_group $indent $text
+	$line_no line_no_of(source_group)
+	$column_no indent+length_of(text)+1-length_of(source_position_of(node))
+	-> "POS(@(line_no), @(column_no))"
+      -> "POS(0, 0)"
+
+  $to_compound ()
+
+  $funky_types::node.to_compound ""
+
+  $funky_types::statement/to_compound: (self)
+    $mangled_name mangled_literals(self)
+    map_reduce $indices
+      filter(arguments_of(self) is_an_input)
+      to_negative_index
+      concatenate(", ")
+      ""
+    -> "
+
+      static int @(mangled_name)_arguments[] = {
+	@(indices)
+      };
+
+    $to_negative_index: (node) -> "-@(to_index(node))"
+
+  $to_table_entry ()
+
+  $funky_types::node.to_table_entry "???"
+
+  $funky_types::numeric_literal/to_table_entry: (self)
+    $digits digits_of(self)
+    if
+      digits .contains. '.'
+      -> "
+	@
+	  {FLT_REAL, 0, {.real_value = @(digits)}},
+      :
+	if $sign !digits
+	  digits(1) == '-'
+	  -> "NEGA" range(digits 2 -1)
+	  -> "POSI" digits
+	update_if digits .has_prefix. "0b" || digits .has_prefix. "0o"
+	  &digits -> digits.to_integer
+	-> "
+	  @
+	    {FLT_@(sign)TIVE_INT64, 0, {.value = @(digits)}},
+
+  $funky_types::numeric_character_literal/to_table_entry: (self)
+    -> "
+      @
+	{FLT_CHARACTER, 0, {.value = @(digits_of(self))}},
+
+  $funky_types::character_sequence/to_table_entry: (self)
+    $characters characters_of(self)
+    $length length_of(characters)
+    if
+      characters.is_an_octet_string:
+	$text characters.to_c_string
+	-> "
+	  @
+	    {FLT_STRING_8, @(length), {.str_8 = "@(text)"}},
+      :
+	$text characters.to_c_string_32
+	-> "
+	  @
+	    {FLT_STRING_32, @(length), {.str_32 = U"@(text)"}},
+
+  $funky_types::statement/to_table_entry: (self)
+    $head head_of(self)
+    $kind (identifier_of(head) .truncate_until. "::").to_upper_case
+    $count length_of(arguments_of(self))-1
+    $mangled_name mangled_literals(self)
+    -> "
+      @
+	{FLT_@(kind), @(count), {.arguments = @(mangled_name)_arguments}},
+
+  $funky_types::unique/to_table_entry: (self)
+    $identifier replace_first(identifier_of(self) "__" = "::")
+    -> "
+      @
+	{FLT_UNIQUE, 0, {.str_8 = "@(identifier)"}},
+
+  $funky_types::body/to_table_entry: (self)
+    $mangled_name mangled_literals(self)
+    -> "
+      @
+	{FLT_FUNCTION, 0, {.tfunc = t_@(mangled_name)}},
+
 $is_a_valid_statement: (statement)
   if
     node_type_of(statement) == STATEMENT && not(statement.is_a_definition)
@@ -533,221 +857,6 @@ $is_a_valid_statement: (statement)
 	  ATTRIBUTE_WITH_SETTER
 	-> false
 	-> true
-
-$variable_kind ()
-
-$funky_types::node/variable_kind: (node _level _flags)
-  debug::dump `node
-  debug::exit
-
-$std_types::undefined/variable_kind: (_node _level flags)
-  if
-    flags & POLYMORPHIC != 0
-    -> "extern polymorphic"
-    -> "extern"
-
-$funky_types::definition/variable_kind definition_variable_kind
-$funky_types::parameter/variable_kind definition_variable_kind
-$funky_types::inline_parameter/variable_kind definition_variable_kind
-
-$definition_variable_kind: (_node level flags)
-  if
-    flags & HAS_SLOTS != 0
-    -> "extern"
-    :
-      if
-	level.is_an_integer
-	-> undefined # local
-	-> "dynamic"
-
-$funky_types::statement/variable_kind: (node level flags)
-  if
-    ||
-      flags & (REDEFINED | HAS_SLOTS) != 0
-      identifier_of(head_of(node)) .contains. ':'
-    :
-      $argument arguments_of(node)(1)
-      if
-	node_type_of(argument) == FUNCTOR
-	-> "derived"
-	:
-	  if
-	    level == TOP_LEVEL || level == 0
-	    -> "initialized"
-	    -> "dynamic"
-    :
-      if
-	flags & POLYMORPHIC != 0
-	-> "polymorphic"
-	-> undefined # constant
-
-$variable_type_and_initialization ()
-
-$funky_types::node/variable_type_and_initialization: (_node _level _flags)
-  -> undefined undefined
-
-$std_types::undefined/variable_type_and_initialization: (_node _level flags)
-  if
-    flags & POLYMORPHIC != 0
-    -> "UNKNOWN_POLYMORPHIC" ""
-    -> "UNKNOWN" ""
-
-$funky_types::definition/variable_type_and_initialization
-  definition_variable_type_and_initialization
-$funky_types::parameter/variable_type_and_initialization
-  definition_variable_type_and_initialization
-$funky_types::inline_parameter/variable_type_and_initialization
-  definition_variable_type_and_initialization
-
-$definition_variable_type_and_initialization: (_node level flags)
-  if
-    flags & HAS_SLOTS != 0
-    -> "UNKNOWN" ""
-    :
-      if
-	level.is_an_integer
-	-> undefined undefined # local
-	-> "UNINITIALIZED" ""
-
-$funky_types::statement/variable_type_and_initialization: (node level flags)
-  $argument arguments_of(node)(1)
-  if
-    flags & POLYMORPHIC != 0
-    ->
-      "POLYMORPHIC"
-      if
-	node_type_of(argument) == ATTRIBUTE_WITH_SETTER
-	-> "
-	  ,
-	      {.has_a_setter = true}@
-	-> "
-	  ,
-	      {.has_a_setter = false}@
-    :
-      if
-	||
-	  flags & (REDEFINED | HAS_SLOTS) != 0
-	  identifier_of(head_of(node)) .contains. ':'
-	:
-	  if
-	    node_type_of(argument) == FUNCTOR:
-	      $identifier identifier_of(argument)
-	      $name identifier .truncate_until. "::"
-	      $namespace identifier .before. "::"
-	      -> "DERIVED" "
-		,
-		    {"@(name)\000@(namespace)"}@
-	    :
-	      if
-		level == TOP_LEVEL || level == 0:
-		  $idx mangled_literals(argument)
-		  -> "INITIALIZED" "
-		    ,
-			{.const_idx = -@(idx)}@
-		-> "UNINITIALIZED" ""
-	-> undefined undefined # constant
-
-$to_option ()
-
-$std_types::undefined.to_option "MANDATORY_PARAMETER"
-$funky_types::myself.to_option "MYSELF_PARAMETER"
-$funky_types::rest.to_option "REST_PARAMETER"
-$funky_types::initial_value/to_option: (self) -> operand_of(self).to_index
-
-$compile: (self is_last)
-  $head head_of(self)
-  $arguments arguments_of(self)
-  $input_arguments filter(arguments is_an_input)
-  $output_arguments filter(arguments is_an_output)
-  on is_last && not(all_of(output_arguments is_a_dummy_definition)):
-    syntax_error "Last statement is not a tail call" self
-  $input_count length_of(input_arguments)
-  $output_count length_of(output_arguments)
-  $is_a_tail_call (is_last && output_arguments.is_empty)
-  !output_count
-    if
-      self.is_an_io_call:
-	if
-	  is_a_tail_call
-	  -> "IO_TAIL_CALL"
-	  -> "IO_CALL(@(output_count))"
-      :
-	if
-	  is_a_tail_call
-	  -> "TAIL_CALL"
-	  -> output_count
-  $inputs map_reduce(input_arguments to_separated_index append "")
-  $outputs map_reduce(output_arguments to_separated_index append "")
-  append
-    "
-      @
-	// @(source_position_of(self))@
-    if
-      node_type_of(head) == FUNCTOR:
-	case identifier_of(head)
-	  "std::assign", "assign":
-	    on output_count == 0 && not(is_last):
-	      syntax_error "Return statement not allowed within function body"
-		self
-	    -> "
-	      @
-		LET, @
-		@(input_count)@(inputs), @(output_count)@(outputs),
-	  "_assign_attributes" -> "
-	    @
-	      LET, @
-	      -@(input_count-1)@(inputs)@(outputs),
-	  :
-	    $statement "
-	      @
-		@(head.to_index), @
-		@(input_count)@(inputs), @(output_count)@(outputs),
-	    if
-	      is_last && not(is_a_tail_call)
-	      -> "
-		@(statement)@
-		  LET, 0, TAIL_CALL,
-	      -> statement
-      -> "
-	@
-	  LET, 1@(inputs), 1, @(head.to_index),
-
-$add_source_positions ()
-
-$funky_types::node/add_source_positions: (_self) -> ""
-
-$funky_types::statement/add_source_positions: (self)
-  -> "  @(get_source_position(self)),@nl;"
-
-$get_source_position: (node)
-  $source_group source_group_of(node)
-  # ATTENTION: Why can <source_group> be undefined?
-  if
-    source_group.is_defined:
-      source_group $indent $text
-      $line_no line_no_of(source_group)
-      $column_no indent+length_of(text)+1-length_of(source_position_of(node))
-      -> "POS(@(line_no), @(column_no))"
-    -> "POS(0, 0)"
-
-$to_separated_index ()
-
-$funky_types::node/to_separated_index: (self) -> append(", " self.to_index)
-
-$funky_types::inline_attribute_value_pair/to_separated_index: (self)
-  -> ", @(retrieve_name(self)), @(expression_of(self).to_index)"
-
-$funky_types::inline_method_value_pair/to_separated_index: (self)
-  -> ", -@(retrieve_name(self)), @(expression_of(self).to_index)"
-
-$funky_types::attribute_value_pair/to_separated_index: (self)
-  -> ", @(retrieve_name(self)), @(argument_of(self).to_index)"
-
-$funky_types::method_value_pair/to_separated_index: (self)
-  -> ", -@(retrieve_name(self)), @(argument_of(self).to_index)"
-
-$funky_types::type_function/to_separated_index: (self)
-  -> ", 0, @(mangled_literals(self))"
 
 $temp_count undefined
   #
@@ -814,155 +923,6 @@ $funky_types::body/to_index get_literal
 $get_literal: (self)
   -> mangled_literals(self)
 
-$get_index ()
-
-$funky_types::node/get_index: (node _level _flags)
-  debug::dump `node
-  -> "???"
-
-$funky_types::definition/get_index: (node level _flags)
-  $identifier identifier_of(node)
-  if
-    level.is_an_integer
-    -> "LOCAL(@(temp_count+local_mapping(identifier)))"
-    -> append("var_" mangle_identifier(identifier))
-
-$funky_types::parameter/get_index parameter_get_index
-$funky_types::inline_parameter/get_index parameter_get_index
-
-$parameter_get_index: (node level _flags)
-  $name funky::name_of(node)
-  if
-    level.is_an_integer
-    -> "LOCAL(@(temp_count+local_mapping(name)))"
-    -> "var_@(name)"
-
-$funky_types::statement/get_index: (node _level flags)
-  $identifier identifier_of(head_of(node))
-  if
-    flags & (REDEFINED | POLYMORPHIC) != 0 || identifier .contains. ':'
-    -> append("var_" mangle_identifier(identifier))
-    :
-      $argument arguments_of(node)(1)
-      if
-	node_type_of(argument) == FUNCTOR
-	-> argument.to_index
-	-> mangled_literals(argument)
-
-### Literals
-
-$funky_types::numeric_literal/add_literal: (self)
-  !mangled_literals(self) funky::key_of(self)
-  -> mangled_literals mangling_counter
-
-$funky_types::character_sequence/add_literal: (self)
-  $mangled ""
-  for_each characters_of(self)
-    : (chr)
-      cond
-	-> length_of(mangled) >= 16 break
-	-> chr.is_a_letter || chr.is_a_digit || chr == '_':
-	  push &mangled chr
-	  next
-	-> chr == ' ':
-	  push &mangled '_'
-	  next
-	-> true next
-    :
-      remove_trailing_underscores_and_digits &mangled
-      if
-	mangled.is_empty:
-	  check_mangling $n !mangling_counter "string"
-	  add_mangled "string_@(n)"
-	:
-	  append "str_" &mangled
-	  check_mangling $n !mangling_counter mangled
-	  if
-	    n > 1:
-	      add_mangled "@(mangled)_@(n)"
-	    :
-	      add_mangled mangled
-
-  $add_mangled: (mangled_name)
-    #debug::print "
-      @(mangled_name): @(debug::string(characters_of(self)))@
-    !mangled_literals(self) mangled_name
-    -> mangled_literals mangling_counter
-
-$funky_types::unique/add_literal: (self)
-  !mangled_literals(self) funky::key_of(self)
-  -> mangled_literals mangling_counter
-
-$funky_types::statement/add_literal: (self)
-  $type identifier_of(head_of(self)) .truncate_until. "::"
-  $mangled_name append(type "_" mangle_position(self))
-  -> mangled_literals(self mangled_name) mangling_counter
-
-$funky_types::body/add_literal: (self)
-  $source_group source_group_of(self)
-  $line_text second(source_group)
-  $column_no length_of(line_text)-length_of(source_position_of(self))
-  $text range(line_text 1 column_no)
-  without_suffix &text ':'
-  without_suffix &text "->"
-  trim_right &text
-  if
-    text.is_empty || text .contains. ' ':
-      add_lambda ""
-    :
-      if
-	text(1) == '$':
-	  add_function
-	    append
-	      "func_"
-	      mangle_versioned_identifier(range(text 2 -1))
-	:
-	  replace_all &text '.' = "_"
-	  remove_non_identifier_characters &text
-	  add_lambda text
-
-  $add_lambda: (name)
-    if
-      name.is_empty:
-	check_mangling $n !mangling_counter "lambda"
-	add_mangled "lambda_@(n)"
-      :
-	add_function append("lambda_" name)
-
-  $add_function: (name)
-    check_mangling $n !mangling_counter name
-    if
-      n > 1:
-	add_mangled
-	  string
-	    name .until. '_'
-	    n
-	    name .from. '_'
-      :
-	add_mangled name
-
-  $add_mangled: (name)
-    -> mangled_literals(self name) mangling_counter
-
-  $mangle_versioned_identifier: (name)
-    $rest name .behind. "-"
-    if
-      rest.is_empty
-      -> replace(name)
-      :
-	if
-	  rest(1).is_a_digit
-	  -> append(replace(name .before. '.') "__" replace(name .behind. '.'))
-	  -> replace(name)
-
-    $replace: (part)
-      replace_all
-	part .without_suffix. '/'
-	'.' = "___"
-	'/' = "___"
-	"::" = "__"
-	'-' = "__"
-
 $check_mangling: (name)
   $n mangling_counter(name)
   !n
@@ -1003,148 +963,90 @@ $remove_non_identifier_characters: (str)
 	-> true next
     -> buf
 
-### Compound Constants
-
-$to_compound ()
-
-$funky_types::node.to_compound ""
-
-$funky_types::statement/to_compound: (self)
-  $mangled_name mangled_literals(self)
-  map_reduce $indices
-    filter(arguments_of(self) is_an_input)
-    to_negative_index
-    concatenate(", ")
-    ""
-  -> "
-
-    static int @(mangled_name)_arguments[] = {
-      @(indices)
-    };
-
-  $to_negative_index: (node) -> "-@(to_index(node))"
-
-### Constant Table Entries
-
-$to_table_entry ()
-
-$funky_types::node.to_table_entry "???"
-
-$funky_types::numeric_literal/to_table_entry: (self)
-  $digits digits_of(self)
-  if
-    digits .contains. '.'
-    -> "
-      @
-	{FLT_REAL, 0, {.real_value = @(digits)}},
-    :
-      if $sign !digits
-	digits(1) == '-'
-	-> "NEGA" range(digits 2 -1)
-	-> "POSI" digits
-      update_if digits .has_prefix. "0b" || digits .has_prefix. "0o"
-	&digits -> digits.to_integer
-      -> "
-	@
-	  {FLT_@(sign)TIVE_INT64, 0, {.value = @(digits)}},
-
-$funky_types::numeric_character_literal/to_table_entry: (self)
-  -> "
-    @
-      {FLT_CHARACTER, 0, {.value = @(digits_of(self))}},
-
-$funky_types::character_sequence/to_table_entry: (self)
-  $characters characters_of(self)
-  $length length_of(characters)
-  if
-    characters.is_an_octet_string:
-      $text characters.to_c_string
-      -> "
-	@
-	  {FLT_STRING_8, @(length), {.str_8 = "@(text)"}},
-    :
-      $text characters.to_c_string_32
-      -> "
-	@
-	  {FLT_STRING_32, @(length), {.str_32 = U"@(text)"}},
-
-$funky_types::statement/to_table_entry: (self)
-  $head head_of(self)
-  $kind (identifier_of(head) .truncate_until. "::").to_upper_case
-  $count length_of(arguments_of(self))-1
-  $mangled_name mangled_literals(self)
-  -> "
-    @
-      {FLT_@(kind), @(count), {.arguments = @(mangled_name)_arguments}},
-
-$funky_types::unique/to_table_entry: (self)
-  $identifier replace_first(identifier_of(self) "__" = "::")
-  -> "
-    @
-      {FLT_UNIQUE, 0, {.str_8 = "@(identifier)"}},
-
-$funky_types::body/to_table_entry: (self)
-  $mangled_name mangled_literals(self)
-  -> "
-    @
-      {FLT_FUNCTION, 0, {.tfunc = t_@(mangled_name)}},
-
 ### Types
 
 $is_local_or_constant: (kind)
   -> kind == LOCAL || kind == CONSTANT || kind == CONSTANT_COMPOUND
 
-$collect_types: (statements)
-  $types empty_insert_order_table
+$collect_types: (types statements)
   for_each statements
     : (statement)
       if
 	node_type_of(statement) == STATEMENT:
-	  $arguments arguments_of(statement)
-	  $functor_name identifier_of(head_of(statement))
-	  if
-	    &&
-	      arguments.is_not_empty
-	      node_type_of(arguments(-1)) == DEFINITION
-	      functor_name == "std::assign"
-	    :
-	      for_each range(arguments 1 -2)
-		: (argument)
-		  case node_type_of(argument)
-		    TYPE_FUNCTION:
-		      add "TYPE_FUNCTION" mangled_literals(argument)
-		    ATTRIBUTE_VALUE_PAIR:
-		      add_method "-"
-		    METHOD_VALUE_PAIR:
-		      add_method
+	  for_each arguments_of(statement)
+	    : (argument)
+	      case node_type_of(argument)
+		BODY:
+		  collect_types &types statements_of(argument)
+		  next
+		METHOD_VALUE_PAIR, ATTRIBUTE_VALUE_PAIR:
+		  if
+		    node_type_of(argument_of(argument)) == BODY:
+		      collect_types &types statements_of(argument_of(argument))
+		      next
 		    next
+		next
+	    check_types
+	next
 
-		  $add_method: (prefix = "")
-		    $method mangle_identifier(identifier_of(argument))
-		    $value argument_of(argument)
+      $check_types:
+	$arguments arguments_of(statement)
+	$functor_name identifier_of(head_of(statement))
+	if
+	  &&
+	    arguments.is_not_empty
+	    node_type_of(arguments(-1)) == DEFINITION
+	    functor_name == "std::assign"
+	  :
+	    for_each range(arguments 1 -2)
+	      : (argument)
+		case node_type_of(argument)
+		  TYPE_FUNCTION:
 		    $value_idx
 		      if
-			node_type_of(value) == FUNCTOR:
-			  $identifier identifier_of(value)
+			&&
+			  parameters_of(argument).is_empty
+			  length_of(statements_of(argument)) == 1
+			  arguments_of(statements_of(argument)(1)).is_empty
+			:
+			  $reference head_of(statements_of(argument)(1))
+			  $identifier identifier_of(reference)
 			  variables(identifier) $kind $constant_value
 			  case kind
 			    CONSTANT, CONSTANT_COMPOUND
 			    -> mangled_literals(constant_value)
 			    -> append("var_" mangle_identifier(identifier))
-			-> mangled_literals(value)
-		    add append(prefix "var_" method) value_idx
+			-> mangled_literals(argument)
+		    add "TYPE_FUNCTION" value_idx
+		  ATTRIBUTE_VALUE_PAIR:
+		    add_method "-"
+		  METHOD_VALUE_PAIR:
+		    add_method
+		  next
 
-		  $add: (method value_idx)
-		    $type mangle_identifier(identifier_of(arguments(-1)))
-		    $methods default_value(types(type) empty_list)
-		    !types(type) push(methods tuple(method value_idx))
-		    next
-		next
-	    next
-	next
+		$add_method: (prefix = "")
+		  $method mangle_identifier(identifier_of(argument))
+		  $value argument_of(argument)
+		  $value_idx
+		    if
+		      node_type_of(value) == FUNCTOR:
+			$identifier identifier_of(value)
+			variables(identifier) $kind $constant_value
+			case kind
+			  CONSTANT, CONSTANT_COMPOUND
+			  -> mangled_literals(constant_value)
+			  -> append("var_" mangle_identifier(identifier))
+		      -> mangled_literals(value)
+		  add append(prefix "var_" method) value_idx
+
+		$add: (method value_idx)
+		  $type mangle_identifier(identifier_of(arguments(-1)))
+		  $methods default_value(types(type) empty_list)
+		  !types(type) push(methods tuple(method value_idx))
+		  next
+	      next
+	  next
     -> types
-
-
 
 ### Generate C code
 

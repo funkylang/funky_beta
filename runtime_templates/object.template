@@ -19,9 +19,11 @@
   Free Software Foundation, Inc.,
   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
+# Topic: Basics
+
 TYPE std_types::object
   #
-    the prototype object for all "normal" objects
+    the prototype object for all regular objects
 
     This is one of the three Funky root objects.
 
@@ -42,56 +44,211 @@ METHOD long std_types::object/_debug_string
     char *buf
   )
   {
+    int type_no = node->attributes->vtable->type_no;
     if (max_depth == 0) {
-      return debug_print(indent, buf, "<object>");
+      if (type_no) {
+	const char *name = type_names[type_no];
+	const char *namespace = name+strlen(name)+1;
+	if (*namespace) {
+	  return debug_print(indent, buf, "<%s::%s>", namespace, name);
+	} else {
+	  return debug_print(indent, buf, "<%s>", name);
+	}
+      } else {
+	return debug_print(indent, buf, "<object>");
+      }
     } else {
       int i, n, len;
-      n = debug_print_head(&indent, &buf, "object");
+      if (type_no) {
+	const char *name = type_names[type_no];
+	const char *namespace = name+strlen(name)+1;
+	if (*namespace) {
+	  n = debug_print_head(&indent, &buf, "%s::%s", namespace, name);
+	} else {
+	  n = debug_print_head(&indent, &buf, "%s", name);
+	}
+      } else {
+	n = debug_print_head(&indent, &buf, "object");
+      }
       const char *contents_indent = indent_to_string(indent);
-      int count =
-	next_polymorphic_function > next_polymorphic_function_with_setter
-	? next_polymorphic_function
-	: next_polymorphic_function_with_setter;
-      for (i = 1; i < count; ++i) { // 0 is no valid attribute id
-	if (
-	  (i & 7) != 0 &&
-	  (
-	    (i & 1) != 0 && i < next_polymorphic_function ||
-	    (i & 1) == 0 && i < next_polymorphic_function_with_setter
-	  )
-	) {
-	  NODE *attr = get_attribute(node, i);
-	  NODE *attr_addr = (NODE *)((long)attr-1);
-	  const char *poly_name = polymorphic_function_names[i];
-	  const char *poly_namespace = poly_name;
-	  while (*poly_namespace++);
-	  if (
-	    (long)attr & 1 &&
-	    attr_addr != VAR(std_types::undefined) &&
-	    (
-	      attr_addr == VAR(std_types::true) ||
-	      strncmp(poly_name, "is_", 3) != 0
-	    ) &&
-	    (
-	      strcmp(poly_namespace, "std") != 0 ||
-	      (
-		strcmp(poly_name, "is_defined") != 0 &&
-		strncmp(poly_name, "serialization_", 14) != 0 &&
-		strcmp(poly_name, "deserializer_of") != 0
-	      )
-	    )
-	  ) {
-	    n += print(&buf, contents_indent);
-	    if (*poly_namespace) {
-	      n += print(&buf, "%s::", poly_namespace);
+      for (i = 1; i < next_polymorphic_function; ++i) {
+	if ((i & 7) != 0) {
+	  if (attribute_is_redefined[i]) {
+	    NODE *attr = get_attribute(node, i);
+	    if (CONTAINS_AN_ATTRIBUTE_VALUE(attr)) {
+	      attr = RETRIEVE_ATTRIBUTE_VALUE(attr);
+	      const char *poly_name = polymorphic_function_names[i];
+	      const char *poly_namespace = poly_name;
+	      while (*poly_namespace++);
+	      n += print(&buf, contents_indent);
+	      if (*poly_namespace) {
+		n += print(&buf, "%s::", poly_namespace);
+	      }
+	      n += print(&buf, "%s:", poly_name);
+	      len = debug_string(attr, -indent-2, max_depth-1, buf);
+	      if (buf) buf += len;
+	      n += len;
 	    }
-	    n += print(&buf, "%s:", poly_name);
-	    len = debug_string(attr_addr, -indent-2, max_depth-1, buf);
-	    if (buf) buf += len;
-	    n += len;
 	  }
 	}
       }
       return n;
+    }
+  }
+
+FUNCTION debug::object_type
+  {
+    CHECK_ARGUMENTS(1)
+    NODE *node = ARGUMENTS(0);
+    int type_no = node->attributes->vtable->type_no;
+    if (type_no) {
+      const char *name = type_names[type_no];
+      const char *namespace = name+strlen(name)+1;
+      if (*namespace) {
+	char buf[256];
+	sprintf(buf, "%s::%s", namespace, name);
+	RETURN_SINGLE_RESULT(from_c_string(buf))
+      } else {
+	RETURN_SINGLE_RESULT(from_c_string(name))
+      }
+    } else {
+      RETURN_SINGLE_RESULT(from_c_string("object"))
+    }
+  }
+
+FUNCTION debug::object_attributes
+  {
+    CHECK_ARGUMENTS(1)
+    NODE *node = ARGUMENTS(0);
+    int n = 0;
+    for (int i = 1; i < next_polymorphic_function; ++i) {
+      if ((i & 7) != 0) {
+	if (attribute_is_redefined[i]) {
+	  NODE *attr = get_attribute(node, i);
+	  if (CONTAINS_AN_ATTRIBUTE_VALUE(attr)) {
+	    ++n;
+	  }
+	}
+      }
+    }
+    LIST_DATA *data = allocate_large(sizeof(LIST_DATA)+2*n*sizeof(NODE *));
+    data->size = 2*n;
+    data->length = 2*n;
+    n = 0;
+    for (int i = 1; i < next_polymorphic_function; ++i) {
+      if ((i & 7) != 0) {
+	if (attribute_is_redefined[i]) {
+	  NODE *attr = get_attribute(node, i);
+	  if (CONTAINS_AN_ATTRIBUTE_VALUE(attr)) {
+	    attr = RETRIEVE_ATTRIBUTE_VALUE(attr);
+	    const char *poly_name = polymorphic_function_names[i];
+	    const char *poly_namespace = poly_name;
+	    while (*poly_namespace++);
+	    if (*poly_namespace) {
+	      char buf[256];
+	      sprintf(buf, "%s::%s", poly_namespace, poly_name);
+	      poly_name = buf;
+	    }
+	    data->items[n++] = from_c_string(poly_name);
+	    data->items[n++] = attr;
+	  }
+	}
+      }
+    }
+    RETURN_SINGLE_RESULT(CREATE(std_types::list, 0, n, data))
+    RETURN_NOTHING
+  }
+
+CODE
+  extern int attributes_level;
+  extern int8_t *attribute_is_redefined;
+
+  static void *copy_attributes(
+    OCTREE *to_attributes,
+    OCTREE *from_attributes,
+    int level,
+    int idx
+  ) {
+    int i;
+    if (level == 1) {
+      NODE **to = (NODE **)to_attributes;
+      NODE **from = (NODE **)from_attributes;
+      NODE **new_node = NULL;
+      for (i = 0; i < 8; ++i) {
+	if (from[i] != to[i]) {
+	  if (
+	    attribute_is_redefined[idx] &&
+	    CONTAINS_AN_ATTRIBUTE_VALUE(from[i])
+	  ) {
+	    if (CONTAINS_AN_ATTRIBUTE_VALUE(to[i])) {
+	      if (!new_node) {
+		new_node = (NODE **)allocate(sizeof(OCTREE));
+		memcpy(new_node, to, sizeof(OCTREE));
+	      }
+	      new_node[i] = from[i];
+	    } else {
+	      return (void *)(intptr_t)-idx; // 0 is not a valid attribute ID
+	    }
+	  }
+	}
+	++idx;
+      }
+      return new_node;
+    } else {
+      int n = (level == attributes_level ? 7 : 8);
+      OCTREE *new_tree = NULL;
+      for (i = 0; i < n; ++i) {
+	if (from_attributes->nodes[i] != to_attributes->nodes[i]) {
+	  OCTREE *new_branch =
+	    copy_attributes(
+	      to_attributes->nodes[i],
+	      from_attributes->nodes[i],
+	      level-1,
+	      idx);
+	  if (new_branch) {
+	    if ((intptr_t)new_branch < 0) return new_branch;
+	    if (!new_tree) {
+	      new_tree = (OCTREE *)allocate(sizeof(OCTREE));
+	      memcpy(new_tree, to_attributes, sizeof(OCTREE));
+	    }
+	    new_tree->nodes[i] = new_branch;
+	  }
+	}
+	idx += 1 << 3*(level-1);
+      }
+      return new_tree;
+    }
+  }
+
+METHOD std_types::object/new
+  {
+    CHECK_ARGUMENTS(2)
+    NODE *to = ARGUMENTS(0);
+    NODE *from = ARGUMENTS(1);
+    if (
+      from->type == TYPE(std_types::undefined) ||
+      from->type == TYPE(std_types::error)
+    ) RETURN_SINGLE_RESULT(from)
+    if (from->type != to->type) RUNTIME_ERROR("TYPE MISMATCH")
+    ATTRIBUTES *attributes =
+      copy_attributes(
+	(OCTREE *)to->attributes,
+	(OCTREE *)from->attributes,
+	attributes_level,
+	0);
+    if (attributes) {
+      if ((intptr_t)attributes < 0) {
+	invalid_attribute_redefinition(to, -(intptr_t)attributes);
+      } else {
+	NODE *node = copy(from, from->attributes->vtable->size);
+	node->attributes = attributes;
+	RETURN_SINGLE_RESULT(node)
+      }
+    } else if (to->attributes != from->attributes) {
+      NODE *node = copy(from, from->attributes->vtable->size);
+      node->attributes = to->attributes;
+      RETURN_SINGLE_RESULT(node)
+    } else {
+      RETURN_SINGLE_RESULT(from)
     }
   }

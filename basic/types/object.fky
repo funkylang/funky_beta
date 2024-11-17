@@ -27,12 +27,16 @@
   types in Funky, but it is common to abbreviate *prototype objects* as
   *types*.
 
-  The standard library uses the namespace "std_types" for prototype objects.
+  The standard libraries use the namespace "std_types" for prototype objects.
 
-  It is definitely *not* recommended to *use* this namespace.
+  The namespace "std_types" is reserved for definitions by the standard
+  libraries.
 
   For most "types" there is a constructor function, or, if the type describes
   a *singleton*, a single object with the same name, but in the namespace "std".
+
+  The namespace "std" is also reserved for definitions by the standard
+  libraries.
 
   An example:
 
@@ -42,7 +46,7 @@
 
   and
 
-  <list>
+  <std::list>
 
   is the constructor function for lists.
 
@@ -52,28 +56,51 @@
 
   is the type of the boolean value "true" and
 
-  <true>
+  <std::true>
 
   *is* the boolean value "true".
 
   There are three root objects. All other objects are derived from one of these
   objects.
 
+  These root objects are:
+
 $std::is_defined ()
-  #
-    returns true for all "normal" objects"
-
-    Topic: Objects
-
-    See also: is_undefined
+  # true for all "normal" objects" and false for <undefined>
 
 $std_types::object.is_defined true
+
+$std::is_a_plain_object ()
   #
-    true for all objects that are not <undefined>
+    a plain object is a object without any "builtin" attributes;
+    numbers, characters, strings, etc. are *no* plain objects
 
-    Topic: Objects
+$std_types::object.is_a_plain_object true
 
-###
+$std_types::number.is_a_plain_object false
+$std_types::true.is_a_plain_object false
+$std_types::false.is_a_plain_object false
+$std_types::string.is_a_plain_object false
+$std_types::tuple.is_a_plain_object false
+$std_types::generic_array.is_a_plain_object false
+$std_types::unique_item.is_a_plain_object false
+$std_types::function.is_a_plain_object false
+$std_types::polymorphic_function.is_a_plain_object false
+$std_types::character.is_a_plain_object false
+$std_types::date_and_time.is_a_plain_object false
+$std_types::terminal_attributes.is_a_plain_object false
+$std_types::file_type.is_a_plain_object false
+$std_types::file_descriptor.is_a_plain_object false
+$std_types::shutdown_type.is_a_plain_object false
+$std_types::seek_type.is_a_plain_object false
+$std_types::device_id.is_a_plain_object false
+$std_types::directory.is_a_plain_object false
+$std_types::group_id.is_a_plain_object false
+$std_types::inode_number.is_a_plain_object false
+$std_types::process_id.is_a_plain_object false
+$std_types::user_id.is_a_plain_object false
+$std_types::error_number.is_a_plain_object false
+
 # Serialization
 
 $std::serialization_fields_of ()
@@ -135,6 +162,9 @@ $std_types::object.deserializer_of:
 	    next
 	  next
       -> prototype
+
+register_type &deserializers std_types::object
+
 
 $to_table: (fields)
   $i 1

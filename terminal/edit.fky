@@ -19,6 +19,8 @@
   Free Software Foundation, Inc.,
   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
+# Topic: Terminal
+
 $std::edit ()
 
 $std_types::string/edit:

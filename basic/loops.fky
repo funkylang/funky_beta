@@ -22,6 +22,9 @@
 
 <namespace basic_loops>
 
+$basic_types::break_function std_types::function
+$basic_types::break_function.basic_loops::saved_context_of undefined
+
 $basic_loops::saved_context_of ()
 
 $basic_loops::body undefined
@@ -65,7 +68,7 @@ $basic_loops::finally undefined
 
   The most basic "loop" is <loop>.
 
-  Practically all <collections> support <for_each>.
+  Practically all <@Collections> support <for_each>.
 
 $std::next pass
   #
@@ -77,7 +80,7 @@ $std::next pass
 
     Topic: Loops
 
-    See also: break, loop
+    See also: std::break, std::loop
 
 $std::break undefined
   #
@@ -87,7 +90,7 @@ $std::break undefined
 
     Topic: Loops
 
-    See also: next, loop
+    See also: std::next, std::loop
 
 $std::loop:
   #
@@ -103,7 +106,7 @@ $std::loop:
 
     Topic: Loops
 
-    See also: repeat, from_to, from_to_by, next, break
+    See also: std::repeat, std::from_to, std::from_to_by, std::next, std::break
 
     Example:
 
@@ -167,7 +170,7 @@ $std::loop:
 
   !next body
 
-  !break: (myself^)
+  new !break basic_types::break_function: (myself^)
     !finally basic_loops::finally
     basic_loops::saved_context_of(myself) !next !break !basic_loops::finally
     finally!
@@ -189,7 +192,8 @@ $std::while:
 
     Topic: Loops
 
-    See also: while_not, loop, repeat, from_to, from_to_by
+    See also: std::while_not, std::loop, std::repeat, std::from_to,
+	      std::from_to_by
   (
     condition # the condition to check for each "iteration"
     body # the function to execute for each "iteration"
@@ -210,7 +214,8 @@ $std::while_not:
 
     Topic: Loops
 
-    See also: while, loop, repeat, from_to, from_to_by
+    See also: std::while, std::loop, std::repeat, std::from_to,
+	      std::from_to_by
   (
     condition # the condition to check for each "iteration"
     body # the function to execute for each "iteration"
@@ -236,7 +241,8 @@ $std::repeat:
 
     Topic: Loops
 
-    See also: loop, while, while_not, from_to, from_to_by
+    See also: std::loop, std::while, std::while_not, std::from_to,
+	      std::from_to_by
 
     Example:
 
@@ -318,7 +324,7 @@ $std::repeat:
     !basic_loops::from basic_loops::from-1
     iterate!
 
-  !break: (myself^)
+  new !break basic_types::break_function: (myself^)
     !finally basic_loops::finally
     basic_loops::saved_context_of(myself)
       !next !break
@@ -355,7 +361,8 @@ $std::from_to:
 
     Topic: Loops
 
-    See also: loop, while, while_not, repeat, from_to_by
+    See also: std::loop, std::while, std::while_not, std::repeat,
+	      std::from_to_by
 
     Example:
 
@@ -434,7 +441,7 @@ $std::from_to:
     !basic_loops::from basic_loops::from+1
     iterate!
 
-  !break: (myself^)
+  new !break basic_types::break_function: (myself^)
     !finally basic_loops::finally
     basic_loops::saved_context_of(myself)
       !next !break
@@ -472,7 +479,7 @@ $std::from_to_by:
 
     Topic: Loops
 
-    See also: loop, while, while_not, repeat, from_to
+    See also: std::loop, std::while, std::while_not, std::repeat, std::from_to
 
     Example:
 
@@ -530,7 +537,7 @@ $std::from_to_by:
     !basic_loops::from basic_loops::from+basic_loops::by
     iterate!
 
-  !break: (myself^)
+  new !break basic_types::break_function: (myself^)
     !finally basic_loops::finally
     basic_loops::saved_context_of(myself)
       !next !break

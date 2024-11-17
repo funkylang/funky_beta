@@ -172,48 +172,48 @@ $funky::DUMMY_REMARK .
 
 $funky::source_group_of ()
 $funky::source_position_of ()
-$funky::access_of (!)
-$funky::alias_of (!)
-$funky::and2_of (!)
-$funky::argument_of (!)
-$funky::arguments_of (!)
-$funky::body_of (!)
-$funky::call_of (!)
-$funky::calls_of (!)
-$funky::character_of (!)
-$funky::characters_of (!)
-$funky::component_of (!)
-$funky::components_of (!)
-$funky::digits_of (!)
-$funky::expression_of (!)
-$funky::extensions_of (!)
-$funky::filename_of (!)
-$funky::head_of (!)
-$funky::identifier_of (!)
-$funky::lines_of (!)
-$funky::major_of (!)
-$funky::minor_of (!)
-$funky::minus2_of (!)
-$funky::name_of (!)
-$funky::operand_of (!)
-$funky::operator_of (!)
-$funky::option_of (!)
-$funky::or2_of (!)
-$funky::over2_of (!)
-$funky::pair_of (!)
-$funky::parameter_of (!)
-$funky::parameters_of (!)
-$funky::plus2_of (!)
-$funky::pragma_of (!)
-$funky::remark_of (!)
-$funky::remarks_of (!)
-$funky::sign_of (!)
-$funky::statement_of (!)
-$funky::statements_of (!)
-$funky::text_of (!)
-$funky::times2_of (!)
-$funky::version_of (!)
-$funky::xor2_of (!)
+$funky::access_of ()
+$funky::alias_of ()
+$funky::and2_of ()
+$funky::argument_of ()
+$funky::arguments_of ()
+$funky::body_of ()
+$funky::call_of ()
+$funky::calls_of ()
+$funky::character_of ()
+$funky::characters_of ()
+$funky::component_of ()
+$funky::components_of ()
+$funky::digits_of ()
+$funky::expression_of ()
+$funky::extensions_of ()
+$funky::filename_of ()
+$funky::head_of ()
+$funky::identifier_of ()
+$funky::lines_of ()
+$funky::major_of ()
+$funky::minor_of ()
+$funky::minus2_of ()
+$funky::name_of ()
+$funky::operand_of ()
+$funky::operator_of ()
+$funky::option_of ()
+$funky::or2_of ()
+$funky::over2_of ()
+$funky::pair_of ()
+$funky::parameter_of ()
+$funky::parameters_of ()
+$funky::plus2_of ()
+$funky::pragma_of ()
+$funky::remark_of ()
+$funky::remarks_of ()
+$funky::sign_of ()
+$funky::statement_of ()
+$funky::statements_of ()
+$funky::text_of ()
+$funky::times2_of ()
+$funky::version_of ()
+$funky::xor2_of ()
 
 ###
 # Node Definitions
@@ -221,6 +221,7 @@ $funky::xor2_of (!)
 $funky_types::node std_types::object
 $funky_types::node.funky::source_group_of undefined
 $funky_types::node.funky::source_position_of undefined
+$funky_types::node.funky::key_of undefined
 
 $funky_types::fieldless_node funky_types::node
 
@@ -391,6 +392,7 @@ $funky_types::definition.funky::node_type_of funky::DEFINITION
 
 $funky_types::redefinition funky_types::functor
 $funky_types::redefinition.funky::node_type_of funky::REDEFINITION
+$funky_types::redefinition.funky::option_of undefined
 
 $funky_types::update funky_types::functor
 $funky_types::update.funky::node_type_of funky::UPDATE
@@ -684,6 +686,7 @@ $funky_types::string_line_character_sequence.funky::node_type_of funky::STRING_L
 $funky_types::unique funky_types::node
 $funky_types::unique.funky::node_type_of funky::UNIQUE
 $funky_types::unique.funky::remarks_of undefined
+$funky_types::unique.funky::identifier_of undefined
 
 $funky_types::attribute funky_types::unique
 $funky_types::attribute.funky::node_type_of funky::ATTRIBUTE
@@ -696,6 +699,7 @@ $funky_types::body.funky::node_type_of funky::BODY
 $funky_types::body.funky::parameters_of empty_list
 $funky_types::body.funky::remark_of undefined
 $funky_types::body.funky::statements_of empty_list
+$funky_types::body.funky::statement_of undefined
 
 $funky_types::line_end_statement funky_types::statement
 $funky_types::line_end_statement.funky::node_type_of funky::LINE_END_STATEMENT

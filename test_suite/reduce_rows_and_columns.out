@@ -1,0 +1,25 @@
+matrix: list <3>
+  list <4>
+    2
+    5
+    9
+    5
+  list <4>
+    1
+    4
+    7
+    4
+  list <4>
+    8
+    3
+    2
+    5
+reduce_columns(matrix plus): list <3>
+  21
+  16
+  18
+reduce_rows(matrix plus): list <4>
+  11
+  12
+  18
+  14

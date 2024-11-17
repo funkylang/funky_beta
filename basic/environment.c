@@ -7,7 +7,7 @@
 #include "runtime/memory.h"
 
 enum {
-  func_std__get_environment = -1,
+  func_get_environment = -1,
   lambda_1 = -2,
   chr_61 = -3,
   lambda_2 = -4
@@ -15,12 +15,10 @@ enum {
 
 enum {
   var__START = FIRST_VAR-1,
-  var_std__environment, // derived
-  var_undefined, // extern
-  var_std__assign, // extern
-  var_std__get_environment, // initialized
-  var_62_1_environment, // dynamic
+  var_std__environment, // dynamic
+  var_46_1_env, // dynamic
   var_empty_key_order_table, // extern
+  var_std__assign, // extern
   var_environment_variables, // extern
   var_from_utf8, // extern
   var_before, // extern
@@ -31,112 +29,111 @@ enum {
 };
 
 
-static TAB_NUM t_func_std__get_environment[] = {
+static TAB_NUM t_func_get_environment[] = {
   0, // locals
   0, // parameters
-  // $environment empty_key_order_table
-  LET, 1, var_empty_key_order_table, 1, var_62_1_environment,
+  // $env empty_key_order_table
+  LET, 1, var_empty_key_order_table, 1, var_46_1_env,
   // for_each environment_variables
   var_for_each, 3, var_environment_variables, lambda_1, lambda_2, TAIL_CALL,
-  POS(62, 3),
-  POS(63, 3)
+  POS(46, 3),
+  POS(47, 3)
 };
 
 static TAB_NUM t_lambda_1[] = {
   3, // locals
   1, // parameters
-  LOCAL(1), // 64_3_key_and_value
+  LOCAL(1), // 48_3_key_and_value
   // from_utf8 &key_and_value
   var_from_utf8, 1, LOCAL(1), 1, LOCAL(1),
   // $key key_and_value .before. '='
   var_before, 2, LOCAL(1), chr_61, 1, LOCAL(2),
   // $value key_and_value .behind. '='
   var_behind, 2, LOCAL(1), chr_61, 1, LOCAL(3),
-  // environment(key) value
-  var_62_1_environment, 2, LOCAL(2), LOCAL(3), 1, var_62_1_environment,
+  // env(key) value
+  var_46_1_env, 2, LOCAL(2), LOCAL(3), 1, var_46_1_env,
   // next
   var_next, 0, TAIL_CALL,
-  POS(65, 7),
-  POS(66, 7),
-  POS(67, 7),
-  POS(68, 8),
-  POS(69, 7)
+  POS(49, 7),
+  POS(50, 7),
+  POS(51, 7),
+  POS(52, 8),
+  POS(53, 7)
 };
 
 static TAB_NUM t_lambda_2[] = {
   0, // locals
   0, // parameters
-  //  environment
-  LET, 1, var_62_1_environment, TAIL_CALL,
-  POS(70, 7)
+  //  env
+  LET, 1, var_46_1_env, TAIL_CALL,
+  POS(54, 7)
+};
+
+static TAB_NUM t_module_entry[] = {
+  0, // locals
+  0, // parameters
+  // $std::environment get_environment()
+  func_get_environment, 0, 1, var_std__environment,
+  LET, 1, 0, TAIL_CALL,
+  POS(26, 1)
 };
 
 static FUNKY_CONSTANT constants_table[] = {
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std__get_environment}},
+  {FLT_FUNCTION, 0, {.tfunc = t_func_get_environment}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_1}},
   {FLT_CHARACTER, 0, {.value = 61}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_2}}
+  {FLT_FUNCTION, 0, {.tfunc = t_lambda_2}},
+  {FLT_FUNCTION, 0, {.tfunc = t_module_entry}}
 };
 
 static FUNKY_VARIABLE variables_table[] = {
   {
-    FOT_DERIVED, 0, 0,
-    "environment\000std", NULL,
-    {"undefined\000"}
-  },
-  {
-    FOT_UNKNOWN, 0, 0,
-    "undefined\000", NULL,
-    {.position = POS(23, 19)}
-  },
-  {
-    FOT_UNKNOWN, 0, 0,
-    "assign\000std", NULL,
-    {.position = POS(23, 1)}
-  },
-  {
-    FOT_INITIALIZED, 0, 0,
-    "get_environment\000std", NULL,
-    {.const_idx = -func_std__get_environment}
+    FOT_UNINITIALIZED, 0, 0,
+    "environment\000std", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "62_1_environment\000", NULL
+    "46_1_env\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
     "empty_key_order_table\000", NULL,
-    {.position = POS(62, 16)}
+    {.position = POS(46, 8)}
+  },
+  {
+    FOT_UNKNOWN, 0, 0,
+    "assign\000std", NULL,
+    {.position = POS(46, 3)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "environment_variables\000", NULL,
-    {.position = POS(63, 12)}
+    {.position = POS(47, 12)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "from_utf8\000", NULL,
-    {.position = POS(65, 7)}
+    {.position = POS(49, 7)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "before\000", NULL,
-    {.position = POS(66, 12)}
+    {.position = POS(50, 12)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "behind\000", NULL,
-    {.position = POS(67, 14)}
+    {.position = POS(51, 14)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "next\000", NULL,
-    {.position = POS(69, 7)}
+    {.position = POS(53, 7)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "for_each\000", NULL,
-    {.position = POS(63, 3)}
+    {.position = POS(47, 3)}
   }
 };
 
@@ -149,13 +146,13 @@ FUNKY_MODULE module__basic__environment = {
   "basic/environment.fky", // module filename
   .major_version = 0,
   .minor_version = 0,
-  .feature_flags = FEAT_POSITIONS,
+  .feature_flags = FEAT_POSITIONS|FEAT_INITIALIZER,
   .marker = 0,
   0, // number of required modules
   0, // number of defined namespaces
   1, // number of used namespaces
-  4, // number of constants
-  12, // number of variables
+  5, // number of constants
+  10, // number of variables
   NULL, // required modules
   NULL, // defined namespaces
   used_namespaces,

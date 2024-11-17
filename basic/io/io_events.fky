@@ -35,13 +35,9 @@
 
   To create an input-output object, simply clone the object <std_types::io>.
 
-  The event loop then waits for an event to occur. When an event occurs, the
-  event loop calls the event handler function associated with the event.
-
-  The event handler function can then process the event and return to the
-  event loop.
-
-  The event loop continues to wait for the next event.
+  The event loop then waits for an event to occur (using <std::get_events>.
+  When one or more events occurs, the event loop processes them and then
+  continues to wait for the next event(s).
 
   Possible events can be registered or unregistered at any time.
 
@@ -61,14 +57,10 @@
 
   <stop_injecting_window_change_events> - to stop injecting window change events
 
-  In the event loop call
-
-  <get_events> - to get one or more events
-
   Actual input operations are performed by <get_events>. Write operations are
   initiated by the application program and performed by <get_events>.
 
-  See also: @Input-Output, @Input-Output Task Manager
+  Related topics: Input-Output, Input-Output Task Manager
 
   Example:
 
@@ -130,183 +122,29 @@
 	  -> io buffer
 	    # return the (maybe) modified input-output object and buffer
 
+# Event Types
+
 $std::READ .
-  #
-    used to tag "read" events
-
-    Topic: Input-Output Events
-
-    See also: CONNECT, CLOSED, READ_FAILED, WRITE_PENDING, WRITE_COMPLETED,
-	      WRITE_FAILED, PROCESS_JOINED, SIGNAL
-
 $std::CLOSED .
-  #
-    used to tag "closed" events
-
-    Topic: Input-Output Events
-
-    See also: READ, READ_FAILED
-
 $std::READ_FAILED .
-  #
-    used to tag "read error" events
-
-    Topic: Input-Output Events
-
-    See also: READ, CLOSED, CONNECT, WRITE_PENDING, WRITE_COMPLETED,
-	      WRITE_FAILED, PROCESS_JOINED, SIGNAL
-
 $std::CONNECT .
-  #
-    used to tag "connected" socket events
-
-    Topic: Input-Output Events
-
-    See also: READ, READ_FAILED, WRITE_PENDING, WRITE_COMPLETED,
-	      WRITE_FAILED, PROCESS_JOINED, SIGNAL
-
 $std::WRITE_PENDING .
-  #
-    used to tag "write pending" events
-
-    Topic: Input-Output Events
-
-    See also: READ, CONNECT, READ_FAILED, WRITE_COMPLETED,
-	      WRITE_FAILED, PROCESS_JOINED, SIGNAL
-
 $std::WRITE_COMPLETED .
-  #
-    used to tag "write completed" events
-
-    Topic: Input-Output Events
-
-    See also: READ, CONNECT, READ_FAILED, WRITE_PENDING,
-	      WRITE_FAILED, PROCESS_JOINED, SIGNAL
-
 $std::WRITE_FAILED .
-  #
-    used to tag "write error" events
-
-    Topic: Input-Output Events
-
-    See also: READ, CONNECT, READ_FAILED, WRITE_PENDING,
-	      WRITE_COMPLETED, PROCESS_JOINED, SIGNAL
-
 $std::PROCESS_JOINED .
-  #
-    used to tag "process joined" events
-
-    Topic: Input-Output Events
-
-    See also: READ, CONNECT, READ_FAILED, WRITE_PENDING,
-	      WRITE_COMPLETED, WRITE_FAILED, SIGNAL
-
 $std::SIGNAL .
-  #
-    used to tag "signal" events
-
-    Topic: Input-Output Events
-
-    See also: READ, CONNECT, READ_FAILED, WRITE_PENDING,
-	      WRITE_COMPLETED, WRITE_FAILED, PROCESS_JOINED
-
 $std::JOB_COMPLETED .
-  #
-    used to tag "job completed" events
-
-    Topic: Input-Output Events
-
-    See also: JOB_FAILED
-
 $std::JOB_FAILED .
-  #
-    used to tag "job failed" events
-
-    Topic: Input-Output Events
-
-    See also: JOB_COMPLETED
+# Methods
 
 $std::initialize ()
 
 $std::get_events ()
-  #
-    gets one or more events
-
-    Result:
-
-      events # a list of events
-
-    Each event is a tuple with the following components:
-
-    *  type - the event type
-
-    *  fd - the file descriptor associated with the event
-
-    *  argument - an argument associated with the event
-
-    This function needs I/O-access rights.
-
-    For a detailed example see <@Input-Output Events>.
-
-    Topic: Input-Output Events
-
-    See also: READ, READ_FAILED, WRITE_PENDING, WRITE_COMPLETED,
-	      WRITE_FAILED, PROCESS_JOINED, SIGNAL
-
 $std::start_reading_from ()
-  #
-    registers a read request for a file descriptor
-
-    Parameters:
-      io # an input-output object
-      fd # the file descriptor of the stream
-
-    For a detailed example see <@Input-Output Events>.
-
-    Topic: Input-Output Events
-
-    See also: stop_reading_from, get_events
-
 $std::stop_reading_from ()
-  #
-    unregisters a read request for a file descriptor
-
-    Parameters:
-      io # an input-output object
-      fd # the file descriptor of the stream
-
-    For a detailed example see <@Input-Output Events>.
-
-    Topic: Input-Output Events
-
-    See also: start_reading_from, get_events
-
 $std::cancel_write ()
-  #
-    cancels a write operation
-
-    Parameters:
-      io # an input-output object
-      fd # the file descriptor of the stream
-
-    For a detailed example see <@Input-Output Events>.
-
-    Topic: Input-Output Events
-
-    See also: write, get_events
-
 $std::join_process ()
   #
-    joins a process
-
-    Parameters:
-      io # an input-output object
-      pid # the process ID
-
-    Topic: Input-Output Events
-
-    See also: get_events, PROCESS_JOINED
-
     Example:
 
       create_process! $pid $in_fd $out_fd $err_fd command arguments
@@ -325,201 +163,26 @@ $std::join_process ()
 		      ...
 
 $std::start_injecting_window_change_events ()
-  #
-    starts receiving window change events
-
-    Parameters:
-      io # an input-output object
-
-    Topic: Input-Output Events
-
-    See also: stop_injecting_window_change_events, get_events
-
 $std::stop_injecting_window_change_events ()
-  #
-    stops receiving window change events
-
-    Parameters:
-      io # an input-output object
-
-    Topic: Input-Output Events
-
-    See also: start_injecting_window_change_events, get_events
-
 $std::start_catching_signals ()
-  #
-    starts catching signals
-
-    Parameters:
-      io # an input-output object
-      signals* # a list of signals to catch
-
-    Topic: Input-Output Events
-
-    See also: stop_catching_signals, get_events
-
 $std::stop_catching_signals ()
-  #
-    stops catching signals
-
-    Parameters:
-      io # an input-output object
-      signals* # the signals to stop catching
-
-    Topic: Input-Output Events
-
-    See also: start_catching_signals, get_events
-
 $std::set_timeout ()
-  #
-    sets a timeout for getting events
-
-    Parameters:
-      io # an input-output object
-      timeout # a timeout or point in time
-
-    Topic: Input-Output Events
-
-    See also: get_events
-
 $std::enable_logging ()
-  #
-    enables logging
-
-    Parameters:
-      io # an input-output object
-      level = 1 # the log level
-
-    level:
-
-    0: no logging (the same as <disable_logging>)
-    1: minimum logging
-    ...
-
-    Topic: Input-Output Events
-
-    See also: log, get_events
-
 $std::disable_logging ()
-  #
-    disables logging
-
-    Parameters:
-      io # an input-output object
-
-    Sets the log level to 0.
-
-    Topic: Input-Output Events
-
-    See also: log, get_events
-
 $std::log ()
-  #
-    logs a message
-
-    Parameters:
-      io # an input-output object
-      level = 1 # the log level
-      message # the log message
-
-    Topic: Input-Output Events
-
-    See also: enable_logging, disable_logging, get_events
-
 $std::register_handlers ()
-  #
-    registers an event handler function
-
-    Parameters:
-      io # an input-output object
-      id # the id (file descriptor, job) associated with the event
-      type_handlers* # the event handlers
-
-    Topic: Input-Output Events
-
 $std::deregister_handlers ()
-  #
-    deregisters an event handler function
-
-    Parameters:
-      io # the input-output object
-      id # the id (file descriptor, job) associated with the event
-      types* # the handler types to deregister
-
-    Topic: Input-Output Events
-
 $std::deregister_all_handlers ()
-  #
-    deregisters all event handler functions for the given id
-
-    Parameters:
-      io # the input-output object
-      id # the id (file descriptor, job) associated with the event
-
-    Topic: Input-Output Events
-
 $std::register_resource ()
-  #
-    registers a resource
-
-    Parameters:
-      io # an input-output object
-      key # the resource key
-      resource # the resource
-
-    Topic: Input-Output Events
-
 $std::run ()
-  #
-    runs a job on the next call to <get_events>
-
-    Parameters:
-      io # an input-output object
-      command # the command to execute
-      arguments* # the arguments to the command
-
-    Topic: Input-Output Events
-
 $std::run_at ()
-  #
-    runs a job at a given point in time
-
-    Parameters:
-      io # an input-output object
-      time # a point in time
-      command # the command to execute
-      arguments* # the arguments to the command
-
 $std::finalize ()
-  #
-    finalizes some kind of resource
 
-    Parameters:
-      resource # the resource to finalize
-      io # an input-output object
-
-    Topic: Input-Output Events
+# Attributes
 
 $std::random_seed_of ()
-  #
-    sets or gets the random seed associated with an input-output object
-
-    Topic: Input-Output Events
-
 $std::step_no_of ()
-  #
-    gets the "step number" associated with an input-output object
-
-    The "step number" is incremented after each call to <get_events>.
-
-    Topic: Input-Output Events
-
 $std::current_time_of ()
-  #
-    gets the current time associated with an input-output object
-
-    Topic: Input-Output Events
-
 $start_jobs_of ()
 $timed_jobs_of ()
 $read_jobs_of ()
@@ -537,11 +200,8 @@ $timeout_of () # a <date_and_time> object not a number!
 $handlers_of ()
 
 $std_types::io std_types::object
-  #
-    the prototype for all input-output objects
 
-    Topic: Input-Output Events
-
+$std_types::io.current_time_of undefined
 $std_types::io.read_jobs_of empty_hash_table
 $std_types::io.write_jobs_of empty_hash_table
 $std_types::io.close_jobs_of empty_hash_set
@@ -564,48 +224,26 @@ $std::do_log_of ()
 
 $std_types::resource std_types::object
 $std_types::resource.name_of "anonymous resource"
-$std_types::io.do_log_of false
+$std_types::resource.do_log_of false
 
 $std_types::resource/enable_logging:
-  #
-    enables logging
-
-    Topic: Input-Output Events
-
-    See also: @Input-Output Events, disable_logging
   (
-    self # the resource
+    self
   )
   -> self(.do_log_of true)
 
 $std_types::resource/disable_logging:
-  #
-    disables logging
-
-    Topic: Input-Output Events
-
-    See also: @Input-Output Events, enable_logging
   (
-    self # the resource
+    self
   )
   -> self(.do_log_of false)
 
 $std_types::event tuple(undefined undefined undefined)
-  #
-    the prototype for all events
-
-    Topic: Input-Output Events
 
 $std_types::io/start_reading_from:
-  #
-    registers a read reqest for a file descriptor
-
-    Topic: Input-Output Events
-
-    See also: @Input-Output Events, stop_reading_from
   (
-    self # the input-output object
-    fd # the file descriptor of the stream
+    self
+    fd
     do_close = true
     max_length = undefined
   )
@@ -613,15 +251,9 @@ $std_types::io/start_reading_from:
   -> self
 
 $std_types::io/stop_reading_from:
-  #
-    unregisters a read request for a file descriptor
-
-    Topic: Input-Output Events
-
-    See also: @Input-Output Events, start_reading_from
   (
-    self # the input-output object
-    fd # the file descriptor of the stream
+    self
+    fd
   )
   !self.read_jobs_of(fd) undefined
   -> self
@@ -635,16 +267,10 @@ $std_types::io/print_to:
   write self fd create_string(args).to_utf8
 
 $std_types::io/write:
-  #
-    writes data to a stream
-
-    Topic: Input-Output Events
-
-    See also: @Input-Output Events, cancel_write
   (
-    self # the input-output object
-    fd # the file descriptor of the stream
-    data # the data to write
+    self
+    fd
+    data
   )
   $job write_jobs_of(self)(fd)
   !job
@@ -656,87 +282,47 @@ $std_types::io/write:
   -> self
 
 $std_types::io/cancel_write:
-  #
-    cancels a write operation
-
-    Topic: Input-Output Events
-
-    See also: @Input-Output Events, write
   (
-    self # the input-output object
-    fd # the file descriptor of the stream
+    self
+    fd
   )
   $unwritten_text write_jobs_of(self)(fd)
   !self.write_jobs_of(fd) undefined
   -> self unwritten_text
 
 $std_types::io/close:
-  #
-    closes a stream
-
-    This also stops reading from the stream. If there are pending write
-    operations, the close operation is delayed until all write operations
-    have been completed.
-
-    Topic: Input-Output Events
-
-    See also: @Input-Output Events, stop_reading_from, cancel_write
   (
-    self # the input-output object
-    fd # the file descriptor of the stream to close
+    self
+    fd
   )
   stop_reading_from &self fd
   !self.close_jobs_of(fd) true
   -> self
 
 $std_types::io/join_process:
-  #
-    joins a process
-
-    Topic: Input-Output Events
-
-    See also: @Input-Output Events, get_events
   (
-    self # the input-output object
-    pid # the process ID
+    self
+    pid
   )
   !self.watched_pids_of(pid) true
   -> self
 
 $std_types::io/start_injecting_window_change_events:
-  #
-    starts receiving window change events
-
-    Topic: Input-Output Events
-
-    See also: @Input-Output Events, stop_injecting_window_change_events
   (
-    self # the input-output object
+    self
   )
   -> self(.do_inject_window_change_events true)
 
 $std_types::io/stop_injecting_window_change_events:
-  #
-    stops receiving window change events
-
-    Topic: Input-Output Events
-
-    See also: @Input-Output Events, start_injecting_window_change_events
   (
-    self # the input-output object
+    self
   )
   -> self(.do_inject_window_change_events false)
 
 $std_types::io/start_catching_signals:
-  #
-    starts catching signals
-
-    Topic: Input-Output Events
-
-    See also: @Input-Output Events, stop_catching_signals
   (
-    self # the input-output object
-    signals* # a list of signal names
+    self
+    signals*
   )
   $catched_signals catched_signals_of(self)
   for_each signals
@@ -746,15 +332,9 @@ $std_types::io/start_catching_signals:
     -> self(.catched_signals_of catched_signals)
 
 $std_types::io/stop_catching_signals:
-  #
-    stops catching signals
-
-    Topic: Input-Output Events
-
-    See also: @Input-Output Events, start_catching_signals
   (
-    self # the input-output object
-    signals* # a list of signal names
+    self
+    signals*
   )
   $catched_signals catched_signals_of(self)
   for_each signals
@@ -764,17 +344,9 @@ $std_types::io/stop_catching_signals:
     -> self(.catched_signals_of catched_signals)
 
 $std_types::io/set_timeout:
-  #
-    sets the timeout for getting events
-
-    Must be called after the input-output object's current time has been set.
-
-    Topic: Input-Output Events
-
-    See also: @Input-Output Events, get_events
   (
-    self # the input-output object
-    timeout # a timeout or point in time
+    self
+    timeout
   )
   update_if timeout.is_a_number &timeout -> current_time_of(self)+timeout
   $current_timeout timeout_of(self)
@@ -807,41 +379,23 @@ $std::initialize_logging:
 	-> io
 
 $std_types::io/enable_logging:
-  #
-    enables logging
-
-    Topic: Input-Output Events
-
-    See also: @Input-Output Events, disable_logging
   (
-    self # the input-output object
-    level = 1 # the log level
+    self
+    level = 1
   )
   -> self(.log_level_of level)
 
 $std_types::io/disable_logging:
-  #
-    disables logging
-
-    Topic: Input-Output Events
-
-    See also: @Input-Output Events, enable_logging
   (
-    self # the input-output object
+    self
   )
   -> self(.log_level_of 0)
 
 $std_types::io/log:
-  #
-    logs a message
-
-    Topic: Input-Output Events
-
-    See also: @Input-Output Events, enable_logging, disable_logging
   (
-    self # the input-output object
-    level = 1 # the log level
-    message # the log message
+    self
+    level = 1
+    message
   )
   if
     level <= log_level_of(self):
@@ -860,16 +414,10 @@ $std_types::io/log:
     -> self
 
 $std_types::io/register_handlers:
-  #
-    registers event handlers for the given file descriptor
-
-    Topic: Input-Output Events
-
-    See also: @Input-Output Events, deregister_handlers, deregister_all_handlers
   (
-    self # the input-output object
-    id # the id (file descriptor, job) associated with the event
-    type_handlers* # the event handlers
+    self
+    id
+    type_handlers*
   )
   $handlers default_value(handlers_of(self)(id) empty_hash_table)
   for_each type_handlers
@@ -882,16 +430,10 @@ $std_types::io/register_handlers:
       -> self
 
 $std_types::io/deregister_handlers:
-  #
-    deregisters event handlers for the given id
-
-    Topic: Input-Output Events
-
-    See also: @Input-Output Events, deregister_all_handlers, register_handlers
   (
-    self # the input-output object
-    id # the id (file descriptor, job) associated with the event
-    types* # the handler types to deregister
+    self
+    id
+    types*
   )
   $handlers handlers_of(self)(id)
   if
@@ -907,76 +449,46 @@ $std_types::io/deregister_handlers:
 	  -> self
 
 $std_types::io/deregister_all_handlers:
-  #
-    deregisters all event handlers for the given id
-
-    Topic: Input-Output Events
-
-    See also: @Input-Output Events, deregister_handlers, register_handlers
   (
-    self # the input-output object
-    id # the id (file descriptor, job) associated with the event
+    self
+    id
   )
   !self.handlers_of(id) empty_hash_table
   -> self
 
 $std_types::io/register_resource:
-  #
-    registers a resource
-
-    Topic: Input-Output Events
-
-    See also: @Input-Output Events
   (
-    self # the input-output object
-    key # the resource key
-    resource # the resource to register
+    self
+    key
+    resource
   )
   !self.resources_of(key) resource
   -> self
 
 $std_types::io/run:
-  #
-    runs a job on the next call to <get_events>
-
-    Topic: Input-Output Events
-
-    See also: @Input-Output Events, run_at
   (
-    self # the input-output object
-    command # the job to run
-    arguments* # the arguments for the job
+    self
+    command
+    arguments*
   )
   push &self.start_jobs_of tuple(command arguments)
   -> self
 
 $std_types::io/run_at:
-  #
-    runs a job at the given time
-
-    Topic: Input-Output Events
-
-    See also: @Input-Output Events, run
   (
-    self # the input-output object
-    time # the time to run the job
-    command # the job to run
-    arguments* # the arguments for the job
+    self
+    time
+    command
+    arguments*
   )
   update_if time.is_a_number &time -> current_time_of(self)+time
   push &self.timed_jobs_of tuple(command arguments time)
   -> self
 
 $std_types::io/exit:
-  #
-    exits the program
-
-    Topic: Input-Output Events
-
-    See also: @Input-Output Events
   (
-    self # the input-output object
-    exit_code # the exit code
+    self
+    exit_code
   )
   ->
     self
@@ -984,14 +496,8 @@ $std_types::io/exit:
       .read_jobs_of empty_hash_table
 
 $std_types::io/is_empty:
-  #
-    checks if the input-output object contains any event registrations
-
-    Topic: Input-Output Events
-
-    See also: @Input-Output Events
   (
-    self # the input-output object
+    self
   )
   ->
     &&
@@ -1004,47 +510,31 @@ $std::log_unhandled_event: (io event)
   event $type $fd $_argument
   if
     &&
+      fd == STDERR_FILENO
       ||
 	type == WRITE_FAILED
 	type == WRITE_PENDING
 	type == WRITE_COMPLETED
-      fd == STDERR_FILENO
     -> io # prevent recursive logging
     :
       $log_level
 	case
 	  type
-	  WRITE_PENDING,WRITE_COMPLETED -> 4
+	  WRITE_PENDING, WRITE_COMPLETED -> 5
 	  -> 2
       log io log_level -> "
 	unhandled event @(serialize(type).trim_right) - @(serialize(fd))@
 
 $std_types::io/initialize:
-  #
-    initializes the input-output object
-
-    This function needs I/O-access rights.
-
-    Topic: Input-Output Events
-
-    See also: @Input-Output Events
   (
-    self # the input-output object
+    self
   )
   current_time! $t
   -> self(.current_time_of t)
 
 $std_types::io/get_events:
-  #
-    gets one or more events
-
-    For an example see <@Input-Output Events>.
-
-    Topic: Input-Output Events
-
-    See also: @Input-Output Events, read, read_error, write_pending,
   (
-    self # the input-output object
+    self
   )
   #
     <pselect> does not check for interrupts if a file descriptor is available
@@ -1119,7 +609,14 @@ $std_types::io/get_events:
 		push &events new_event
 		next!
 	  next
-      handle_write_jobs
+      :
+	# mayby some new start jobs were scheduled
+	!start_jobs start_jobs_of(self)
+	!self.start_jobs_of empty_list
+	if!
+	  start_jobs.is_empty
+	  handle_write_jobs
+	  handle_start_jobs
 
   $handle_write_jobs:
     for_each write_jobs_of(self)
@@ -1135,6 +632,7 @@ $std_types::io/get_events:
 	  push &read_descriptor_list fd
 	  next!
 	-> read_descriptor_list
+      update_if events.is_not_empty &timeout -> 0
       pselect!
 	$signals
 	$can_read read_descriptor_list
@@ -1153,7 +651,7 @@ $std_types::io/get_events:
 	      if
 		watched_pids_of(self)(pid):
 		  !self.watched_pids_of(pid) false
-		  push &events new(std_types::event PROCESS_JOINED pid status)
+		  push &events typed_tuple(std_types::event PROCESS_JOINED pid status)
 		  next!
 		:
 		  !self.exit_codes_of(pid) status
@@ -1164,7 +662,7 @@ $std_types::io/get_events:
 	    :
 	      if
 		catched_signals_of(self)(signal):
-		  push &events new(std_types::event SIGNAL undefined signal)
+		  push &events typed_tuple(std_types::event SIGNAL undefined signal)
 		  next!
 		next
 	handle_write_requests
@@ -1179,7 +677,7 @@ $std_types::io/get_events:
 	    get_terminal_size! STDIN_FILENO $width $height
 	    !self.window_change_event_occurred false
 	    $buf "@esc;[8;@(height);@(width)t"
-	    push &events new(std_types::event READ STDIN_FILENO buf)
+	    push &events typed_tuple(std_types::event READ STDIN_FILENO buf)
 	    !injected_into_stdin true
 	    check_file_descriptors!
 	  :
@@ -1194,7 +692,7 @@ $std_types::io/get_events:
 	      bytes_written.is_an_error:
 		!self.write_jobs_of(fd) undefined
 		push &events
-		  new
+		  typed_tuple
 		    std_types::event WRITE_FAILED
 		    fd
 		    bytes_written #tuple(bytes_written job)
@@ -1204,12 +702,12 @@ $std_types::io/get_events:
 		  bytes_written < length_of(job):
 		    range &job bytes_written+1 -1
 		    !self.write_jobs_of(fd) job # remaining text to write
-		    push &events new(std_types::event WRITE_PENDING fd job)
+		    push &events typed_tuple(std_types::event WRITE_PENDING fd job)
 		    next!
 		  :
 		    !self.write_jobs_of(fd) undefined
 		    push &events
-		      new(std_types::event WRITE_COMPLETED fd undefined)
+		      typed_tuple(std_types::event WRITE_COMPLETED fd undefined)
 		    next!
 	  attempt_reads
 
@@ -1227,11 +725,11 @@ $std_types::io/get_events:
 		      if
 			conn.is_an_error:
 			  push &events
-			    new(std_types::event READ_FAILED fd conn)
+			    typed_tuple(std_types::event READ_FAILED fd conn)
 			  next!
 			:
 			  push &events
-			    new(std_types::event CONNECT fd conn)
+			    typed_tuple(std_types::event CONNECT fd conn)
 			  next!
 		    do_read
 		do_read
@@ -1247,7 +745,7 @@ $std_types::io/get_events:
 		read! $buf fd length
 		if
 		  buf.is_an_error:
-		    push &events new(std_types::event READ_FAILED fd buf)
+		    push &events typed_tuple(std_types::event READ_FAILED fd buf)
 		    if
 		      do_close:
 			close &self fd
@@ -1257,14 +755,14 @@ $std_types::io/get_events:
 		    if
 		      buf.is_empty:
 			stop_reading_from &self fd
-			push &events new(std_types::event CLOSED fd undefined)
+			push &events typed_tuple(std_types::event CLOSED fd undefined)
 			if
 			  do_close:
 			    close &self fd
 			    next!
 			  next
 		      :
-			push &events new(std_types::event READ fd buf)
+			push &events typed_tuple(std_types::event READ fd buf)
 			if
 			  max_length.is_defined:
 			    if
@@ -1320,12 +818,15 @@ $attempt_exit: (io)
 	    -> io
     -> io
 
-$std::handle_events: (io events)
+$std::handle_events ()
+$std::handle_event ()
+
+$std_types::io/handle_events: (io events)
   $new_events empty_list
   $handlers handlers_of(io)
   for_each events
     : (event)
-      event $type $id $argument
+      event $type $id $data
       $id_handlers handlers(id)
       if
 	id_handlers.is_undefined
@@ -1336,17 +837,24 @@ $std::handle_events: (io events)
 	    handler.is_undefined
 	    keep_event
 	    :
-	      handler &io $new_event id argument
+	      $context undefined
+	      update_if handler.is_a_tuple &handler &context
+		-> first(handler) second(handler)
+	      if !io $new_event
+		parameter_count_of(handler) == 3:
+		  handler io id data
+		:
+		  handler io id data context
 	      if
 		new_event.is_defined:
 		  update_if_not new_event.is_a_list
 		    &new_event -> list(new_event)
 		  handle_events &io &new_event
 		  append &new_events new_event
-		  next!
+		  next
 		next
 
       $keep_event:
 	push &new_events event
-	next!
+	next
     -> io new_events

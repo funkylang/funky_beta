@@ -53,6 +53,10 @@ $std_types::collection/is_not_empty:
   )
   -> not(self.is_empty)
 
+$std::add ()
+  #
+    add some items to a collection
+
 $std::first_key_of ()
   #
     returns the first key of a non-empty collection
@@ -95,7 +99,7 @@ $std::for_each ()
 
     Topic: Loops
 
-    See also: next, break, reverse
+    See also: std::next, std::break
 
 $std::map ()
   #
@@ -146,6 +150,14 @@ $std::map_reduce ()
 
     See also: map, reduce
 
+$std::reduce_columns ()
+
+$std::reduce_rows ()
+
+$std::map_reduce_columns ()
+
+$std::map_reduce_rows ()
+
 $std::find_first ()
   #
     returns the first item of a collection that fullfills the condition
@@ -176,6 +188,10 @@ $std::merge ()
   #
     merge two collections in a collection specific way
 
+$std::difference ()
+  #
+    computes the difference of two collections
+
 $std::zip ()
   #
     zip (merge) two collections
@@ -193,6 +209,11 @@ $std::flatten ()
 $std::truncate ()
   #
     truncates a collection to the specified number of items
+
+$std::pad_left ()
+$std::pad_right ()
+$std::pad_top ()
+$std::pad_bottom ()
 
 $std::has_prefix ()
   #

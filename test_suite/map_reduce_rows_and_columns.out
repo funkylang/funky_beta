@@ -1,0 +1,25 @@
+matrix: list <3>
+  list <4>
+    2
+    5
+    9
+    5
+  list <4>
+    1
+    4
+    7
+    4
+  list <4>
+    8
+    3
+    2
+    5
+map_reduce_columns(matrix double min): list <3>
+  4
+  2
+  4
+map_reduce_rows(matrix square max): list <4>
+  64
+  25
+  81
+  25

@@ -98,8 +98,6 @@ $funky::is_a_builtin_function_name: (identifier)
 
 $funky::character_from_name get_character_names()
 
-get_environment $environment
-
 $include_path
   default_value
     environment("FUNKY_INCLUDE_PATH")

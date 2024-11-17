@@ -19,6 +19,8 @@
   Free Software Foundation, Inc.,
   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
+# Topic: Functions
+
 TYPE std_types::function -> std_types::object
   #
     the prototype object for all functions
@@ -58,6 +60,16 @@ METHOD long std_types::function/_debug_string
   )
   {
     return debug_print(indent, buf, "<tabular function>");
+  }
+
+METHOD std_types::function/new
+  {
+    CHECK_ARGUMENTS(2)
+    if (((long)ARGUMENTS(1)->type & 3)!= TABULAR_FUNCTION_TAG) INVALID_ARGUMENTS
+    NODE *node = CREATE(tabular_function);
+    node->type = ARGUMENTS(1)->type;
+    node->attributes = ARGUMENTS(0)->attributes;
+    RETURN_SINGLE_RESULT(node)
   }
 
 FUNCTION NODE *create_function

@@ -1,0 +1,12 @@
+this is a sentence containing some 48 characters
+match letter: 1
+search ' ': 5/1
+search digit: 36/1
+match many letters: 4
+match_back many letters: 10
+search many digits: 36/2
+search many letters (4th): 11/8
+search many digits (last): 36/2
+search many letters (2nd last): 31/4
+no eighth word found
+no ninth word found

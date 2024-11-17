@@ -6,6 +6,8 @@ $value_of ()
 $delta_of ()
 
 $my_types::counter std_types::object
+$my_types::counter.value_of undefined
+$my_types::counter.delta_of undefined
 
 $my_types::counter/:
   (

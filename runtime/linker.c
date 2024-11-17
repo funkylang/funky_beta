@@ -65,33 +65,32 @@ HASH_ENTRY *hash_table[HASH_TABLE_SIZE];
 
 // all even IDs are polymorphic functions without a setter
 
-EXPORT int next_polymorphic_function_with_setter = 0;
+EXPORT int next_polymorphic_function = 0;
+  // this variable denotes the first *unused* value
   // ids with a value of 0 mod 8 are skipped
-  // is incremented in steps of 2
-  // all even IDs are polymorphic functions with a setter
-  // this variable denotes the first *unused* value
-
-EXPORT int next_polymorphic_function = 1;
-  // is incremented in steps of 2
-  // all odd IDs are polymorphic functions without a setter
-  // this variable denotes the first *unused* value
 
 EXPORT int constants_count = 3; // the first 3 are for internal use
 EXPORT NODE **constants_base;
-int polymorphic_function_table_size = 0;
+static int polymorphic_function_table_size = 0;
 static int dyna_idx = 0;
-int *poly_marker_table;
-FUNKY_VARIABLE **poly_marker_info;
-int poly_marker = 0;
+static int *poly_marker_table;
+static FUNKY_VARIABLE **poly_marker_info;
+static int poly_marker = 0;
 
 EXPORT const char **var_names;
 EXPORT const char **const_names;
 
+EXPORT int8_t *attribute_is_redefined;
+EXPORT int8_t *has_a_setter;
 EXPORT const char **polymorphic_function_names;
 
 EXPORT FUNKY_MODULE *current_module;
 EXPORT FUNKY_MODULE **funky_modules = NULL;
 EXPORT int funky_module_count;
+
+static int next_type_no = 1;
+static int type_table_size = 0;
+EXPORT const char **type_names;
 
 EXPORT __attribute__ ((noreturn)) void unrecoverable_error(const char *msg, ...);
 
@@ -116,36 +115,44 @@ static void do_register_polymorphic_function(const char *name, int id) {
     polymorphic_function_table_size = id+1;
     polymorphic_function_names =
       allocate_memory(polymorphic_function_table_size*sizeof(const char *));
+    has_a_setter =
+      allocate_memory(polymorphic_function_table_size*sizeof(int8_t));
+    attribute_is_redefined =
+      allocate_memory(polymorphic_function_table_size*sizeof(int8_t));
   } else if (id >= polymorphic_function_table_size) {
     polymorphic_function_table_size = 2*(id+1);
     polymorphic_function_names =
       reallocate_memory(
 	polymorphic_function_names,
 	polymorphic_function_table_size*sizeof(const char *));
+    has_a_setter =
+      reallocate_memory(
+	has_a_setter,
+	polymorphic_function_table_size*sizeof(int8_t));
+    attribute_is_redefined =
+      reallocate_memory(
+	attribute_is_redefined,
+	polymorphic_function_table_size*sizeof(int8_t));
   }
   polymorphic_function_names[id] = name;
+  has_a_setter[id] = false;
+  attribute_is_redefined[id] = false;
 }
 
-// by default this slot is set to a method that raises an error
 static int register_polymorphic_function(const char *name) {
+  if ((next_polymorphic_function & 0x07) == 0) {
+    ++next_polymorphic_function;
+  }
   int id = next_polymorphic_function;
-  next_polymorphic_function += 2;
+  ++next_polymorphic_function;
   do_register_polymorphic_function(name, id);
   return id;
 }
 
-// by default this slot is set to an attribute with the value <undefined>
-// (this is done for all objects but the <undefined> object)
-//
-// in addition the polymorphic function acts as a setter if called with two
-// arguments on an object that has not set this slot to a method
 static int register_polymorphic_function_with_setter(const char *name) {
-  if ((next_polymorphic_function_with_setter & 0x07) == 0) {
-    next_polymorphic_function_with_setter += 2;
-  }
-  int id = next_polymorphic_function_with_setter;
-  next_polymorphic_function_with_setter += 2;
-  do_register_polymorphic_function(name, id);
+  int id = register_polymorphic_function(name);
+  has_a_setter[id] = true;
+  attribute_is_redefined[id] = true;
   return id;
 }
 
@@ -591,6 +598,11 @@ static void print_name(const char *name) {
   printf("%s", name);
 };
 
+static int is_namespaced(const char *name) {
+  while (*name++);
+  return *name != 0;
+}
+
 static void dump_string_8(FILE *fh, int size, const char *buf) {
   int i;
   for (i = 0; i < size; ++i) {
@@ -901,6 +913,108 @@ static void dump_module(void) {
   }
 }
 
+static void dump_attributes(FUNKY_VARIABLE *variable, int inherited) {
+  if (
+    variable->type == FOT_DERIVED ||
+    variable->type == FOT_TYPE && is_namespaced(variable->name)
+  ) {
+    FUNKY_VARIABLE *defined_variable = get_defined_variable(variable->name);
+    if (defined_variable->parent) {
+      dump_attributes(resolve_symbol(defined_variable->parent), true);
+    }
+  }
+  int printed_from = false;
+  do {
+    int attributes_count = variable->attributes_count;
+    if (attributes_count < 0) attributes_count = -variable->attributes_count-1;
+    int i;
+    for (i = 0; i < attributes_count; ++i) {
+      ATTRIBUTE_DEFINITION *attribute = &variable->attributes[i];
+      if (attribute->attribute < 0) {
+	FUNKY_VARIABLE *attr_var =
+	  &variable->module->variables[abs(attribute->attribute)-FIRST_VAR];
+	int is_redefined = attribute_is_redefined[attr_var->poly_idx];
+	int has_setter = has_a_setter[attr_var->poly_idx];
+	if (is_redefined || has_setter) {
+	  if (!printed_from) {
+	    if (inherited) {
+	      printf("  // from %s\n", variable->name);
+	    } else {
+	      printf("  // own attributes\n");
+	    }
+	    printed_from = true;
+	  }
+	  printf("  ");
+	  print_name(attr_var->name);
+	  if (has_setter) {
+	    printf(" (!)");
+	  }
+	  printf(" = ");
+	  if (attribute->value > 0) {
+	    putchar('<');
+	    print_constant(
+	      stdout, &variable->module->constants[attribute->value-1]);
+	    putchar('>');
+	  } else {
+	    print_name(
+	      variable->module->variables[-attribute->value-FIRST_VAR].name);
+	  }
+	  putchar('\n');
+	}
+      }
+    }
+  } while (
+    (
+      variable->type == FOT_UNKNOWN ||
+      variable->type == FOT_UNKNOWN_POLYMORPHIC
+    ) && (variable = variable->link)
+  );
+}
+
+static int type_no = 0;
+
+static void dump_type(FUNKY_VARIABLE *variable) {
+  int attributes_count = variable->attributes_count;
+  if (attributes_count < 0) attributes_count = -variable->attributes_count-1;
+  if (variable->type == FOT_TYPE || attributes_count > 0) {
+    printf("%d: ", ++type_no);
+    print_name(variable->name);
+    FUNKY_VARIABLE *base = variable;
+    while (
+      (base->type == FOT_UNKNOWN || base->type == FOT_UNKNOWN_POLYMORPHIC) &&
+      base->link
+    ) base = base->link;
+    while (
+      (base->type == FOT_TYPE || base->type == FOT_DERIVED) && base->parent
+    ) {
+      base = get_defined_variable(base->parent);
+      printf(" -> ");
+      print_name(base->name);
+    }
+    putchar('\n');
+    dump_attributes(variable, false);
+  }
+}
+
+static void dump_module_types(void) {
+  if (current_module->variables_count == 0) return;
+  int i;
+  for (i = 0; i < current_module->variables_count; ++i) {
+    FUNKY_VARIABLE *variable = &current_module->variables[i];
+    if (
+      variable->type != FOT_UNKNOWN &&
+      variable->type != FOT_UNKNOWN_POLYMORPHIC
+    ) {
+      if (is_namespaced(variable->name)) {
+	dump_type(resolve_symbol(variable->name));
+	  // include extern attribute definitions
+      } else {
+	dump_type(variable);
+      }
+    }
+  }
+}
+
 static void define_namespaces(void) {
   int i;
   if (current_module->defined_namespaces_count > 0) {
@@ -1044,7 +1158,7 @@ static void mark_variables(const TAB_NUM *code) {
 }
 
 static void mark_redefined_variables(void) {
-  int i, j;
+  int i;
   if (current_module->constants_count > 0) {
     for (i = 0; i < current_module->constants_count; ++i) {
       FUNKY_CONSTANT *constant = &current_module->constants[i];
@@ -1345,7 +1459,9 @@ static void relocate_function(TAB_NUM *code) {
 	if (attr_var < 0) { // method
 	  *code = -current_module->variables[-attr_var-FIRST_VAR].poly_idx;
 	} else if (attr_var > 0) { // attribute
-	  *code = current_module->variables[attr_var-FIRST_VAR].poly_idx;
+	  int poly_idx = current_module->variables[attr_var-FIRST_VAR].poly_idx;
+	  attribute_is_redefined[poly_idx] = true;
+	  *code = poly_idx;
 	} // otherwise it's a type function
 	++code;
 	*code = relocate_argument(*code); // relocate value
@@ -1386,7 +1502,7 @@ static NODE *create_constant(FUNKY_CONSTANT *constant) {
     case FLT_POSITIVE_INT64:
       return from_uint64(constant->value);
     case FLT_NEGATIVE_INT64:
-      return create__negative_integer(constant->value);
+      return create__builtin_types___negative_integer(constant->value);
     case FLT_REAL:
       return from_double(constant->real_value);
     case FLT_STRING_8:
@@ -1421,7 +1537,7 @@ static void initialize_constants(void) {
 	  " as const_%d\n", current_module->constants_base-TLS_constants+i+1);
       END
       current_module->constants_base[i] =
-        create_constant(&current_module->constants[i]);
+	create_constant(&current_module->constants[i]);
     }
   }
 }
@@ -1459,10 +1575,10 @@ static void initialize_variable(FUNKY_VARIABLE *variable) {
     variable->is_initialized = true;
     switch (variable->type) {
       case FOT_INITIALIZED:;
-        int const_offset = variable->module->constants_base-TLS_constants;
-        int const_idx = variable->const_idx-1;
+	int const_offset = variable->module->constants_base-TLS_constants;
+	int const_idx = variable->const_idx-1;
 	if (variable->var_idx == 0) {
-          variable->var_idx = -(const_offset+const_idx);
+	  variable->var_idx = -(const_offset+const_idx);
 	}
 	DEBUG
 	  err_write("  create variable ");
@@ -1489,17 +1605,17 @@ static void initialize_variable(FUNKY_VARIABLE *variable) {
 	  break;
 	}
 	node = get_var_or_const(parent->var_idx);
-        maybe_clone_node:
+	maybe_clone_node:
 	// we can reach this point
 	// * if the variable is reassigned
 	// * or there are attribute definitions
-        if ( // check for local or external attribute definitions
-          variable->attributes_count > 0 ||
-          (
-            *namespace_of(variable->name) &&
-            resolve_symbol(variable->name) != variable
-          )
-        ) {
+	if ( // check for local or external attribute definitions
+	  variable->attributes_count > 0 ||
+	  (
+	    *namespace_of(variable->name) &&
+	    resolve_symbol(variable->name) != variable
+	  )
+	) {
 	  DEBUG
 	    err_write("    clone its node (it has attribute definitions)\n");
 	  END
@@ -1590,7 +1706,6 @@ static void resolve_external_references(void) {
   }
 }
 
-extern OCTREE *undefined_attributes;
 extern OCTREE *no_attributes;
 
 static void initialize_attributes(FUNKY_VARIABLE *defined_variable) {
@@ -1624,14 +1739,8 @@ static void initialize_attributes(FUNKY_VARIABLE *defined_variable) {
       err_print_name(defined_variable->name);
       err_write(" to <undefined>\n");
     END
-    if (strcmp(defined_variable->name, "object") == 0) {
-      for (i = 0; i < 7; ++i) {
-	node->attributes->nodes[i] = undefined_attributes;
-      }
-    } else {
-      for (i = 0; i < 7; ++i) {
-	node->attributes->nodes[i] = no_attributes;
-      }
+    for (i = 0; i < 7; ++i) {
+      node->attributes->nodes[i] = no_attributes;
     }
   } else {
     switch (defined_variable->type) {
@@ -1642,11 +1751,39 @@ static void initialize_attributes(FUNKY_VARIABLE *defined_variable) {
 	initialize_attributes(parent);
 	int parent_var_idx = parent->var_idx;
 	NODE *parent_node = get_var_or_const(parent_var_idx);
+	int type_no;
+	if (has_attribute_definitions) {
+	  type_no = next_type_no++;
+	  DEBUG
+	    err_write("  create new type ");
+	    err_print_name(defined_variable->name);
+	    err_write(" (type no. %d)\n", type_no);
+	  END
+	  if (type_table_size == 0) {
+	    type_table_size = type_no+1;
+	    type_names =
+	      allocate_memory(type_table_size*sizeof(const char *));
+	  } else if (type_no >= type_table_size) {
+	    type_table_size = 2*(type_no+1);
+	    type_names = reallocate_memory(
+	      type_names, type_table_size*sizeof(const char *));
+	  }
+	  type_names[type_no] = defined_variable->name;
+	  if (defined_variable->type == FOT_TYPE) {
+	    node->attributes->vtable->type_no = type_no;
+	  }
+	}
 	if (defined_variable->type == FOT_DERIVED) {
 	  if (has_attribute_definitions) {
 	    // allocate fresh attributes
 	    node->attributes = allocate(sizeof(ATTRIBUTES));
-	    node->attributes->vtable = parent_node->attributes->vtable;
+	    // allocate fresh vtable
+	    node->attributes->vtable = allocate_memory(sizeof(VTABLE));
+	    memcpy(
+	      node->attributes->vtable,
+	      parent_node->attributes->vtable,
+	      sizeof(VTABLE));
+	    node->attributes->vtable->type_no = type_no;
 	  } else { // simply use parent's attributes
 	    node->attributes = parent_node->attributes;
 	    defined_variable->attributes_count = -1; // mark as initialized
@@ -1703,6 +1840,7 @@ static void initialize_attributes(FUNKY_VARIABLE *defined_variable) {
       DEBUG
 	err_write("    from module %s\n", module->name+1);
       END
+      int from_builtin = (strcmp(module->name+1, "builtin") == 0);
       ATTRIBUTE_DEFINITION *attributes = variable->attributes;
       for (i = 0; i < variable->attributes_count; ++i) {
 	ATTRIBUTE_DEFINITION *attribute = &attributes[i];
@@ -1714,6 +1852,10 @@ static void initialize_attributes(FUNKY_VARIABLE *defined_variable) {
 	  END
 	} else {
 	  poly_idx = module->variables[abs(attr_id)-FIRST_VAR].poly_idx;
+	  if (from_builtin && attr_id < 0) {
+	    // builtin attributes are always real attributes
+	    attribute_is_redefined[poly_idx] = true;
+	  }
 	  DEBUG
 	    err_write("      add ");
 	    err_print_name(module->variables[abs(attr_id)-FIRST_VAR].name);
@@ -1763,9 +1905,9 @@ static void initialize_attributes(FUNKY_VARIABLE *defined_variable) {
 	  poly_marker_table[poly_idx] = poly_marker;
 	  poly_marker_info[poly_idx] = variable;
 	  if (attr_id > 0) {
-	    set_attribute(node->attributes, poly_idx, value_node);
+	    define_attribute(node->attributes, poly_idx, value_node);
 	  } else {
-	    set_attribute(
+	    define_attribute(
 	      node->attributes, poly_idx, MAKE_ATTRIBUTE_VALUE(value_node));
 	  }
 	}
@@ -1775,7 +1917,8 @@ static void initialize_attributes(FUNKY_VARIABLE *defined_variable) {
     };
   }
 
-  defined_variable->attributes_count = -1; // mark as initialized
+  defined_variable->attributes_count = -1-defined_variable->attributes_count;
+    // mark as initialized
 }
 
 static void initialize_all_attributes(void) {
@@ -1934,6 +2077,11 @@ EXPORT void dump_all() {
   traverse(dump_module, "dump modules");
 }
 
+EXPORT void dump_types() {
+  printf("%d slots per type\n\n", next_polymorphic_function);
+  traverse(dump_module_types, "dump module types");
+}
+
 // define namespaces
 
 // register all symbols and polymorphic functions
@@ -1953,10 +2101,7 @@ EXPORT void dump_all() {
 // FOT_DERIVED
 
 static void allocate_polymarker_tables(void) {
-  size_t poly_marker_size =
-    next_polymorphic_function > next_polymorphic_function_with_setter ?
-    next_polymorphic_function :
-    next_polymorphic_function_with_setter;
+  size_t poly_marker_size = next_polymorphic_function;
   size_t poly_marker_table_size = poly_marker_size*sizeof(int);
   size_t poly_marker_info_size = poly_marker_size*sizeof(FUNKY_VARIABLE *);
   poly_marker_table = allocate_linktime(poly_marker_table_size);

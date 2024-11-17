@@ -30,9 +30,9 @@
 
 #define ALLOCATION_SIZE(size) (((size)+sizeof(void *)-1)&-sizeof(void *))
 
-#define MAKE_ATTRIBUTE_VALUE(node) ((NODE *)(((uintptr_t)node)+1))
-#define RETRIEVE_ATTRIBUTE_VALUE(node) ((NODE *)(((uintptr_t)node)-1))
-#define CONTAINS_AN_ATTRIBUTE_VALUE(node) (((uintptr_t)node)&1)
+#define MAKE_ATTRIBUTE_VALUE(node) ((NODE *)(((uintptr_t)(node))+1))
+#define RETRIEVE_ATTRIBUTE_VALUE(node) ((NODE *)(((uintptr_t)(node))-1))
+#define CONTAINS_AN_ATTRIBUTE_VALUE(node) (((uintptr_t)(node))&1)
 
 #define ENCODE_ADDRESS(addr) ((void *)((uintptr_t)addr | 2))
 #define DECODE_ADDRESS(addr) ((void *)((uintptr_t)addr & -3))
@@ -69,6 +69,7 @@ typedef void (*DESTRUCTOR)(void *);
 
 typedef struct VTABLE {
   size_t size;
+  int type_no;
   COLLECTOR *collect;
   int (*to_int8)(NODE *node, int8_t *result_p);
   int (*to_int16)(NODE *node, int16_t *result_p);

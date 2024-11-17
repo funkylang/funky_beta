@@ -38,22 +38,22 @@ static FUNKY_VARIABLE variables_table[] = {
   {
     FOT_UNKNOWN, 0, 0,
     "assign\000std", NULL,
-    {.position = POS(22, 1)}
+    {.position = POS(25, 1)}
   },
   {
     FOT_UNKNOWN, 0, 1,
     "object\000std_types", std_types__object__attributes,
-    {.position = POS(26, 1)}
+    {.position = POS(29, 1)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
     "is_an_iterator\000", NULL,
-    {.position = POS(26, 20)}
+    {.position = POS(29, 20)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "false\000", NULL,
-    {.position = POS(26, 35)}
+    {.position = POS(29, 35)}
   },
   {
     FOT_DERIVED, 0, 1,
@@ -63,7 +63,7 @@ static FUNKY_VARIABLE variables_table[] = {
   {
     FOT_UNKNOWN, 0, 0,
     "true\000", NULL,
-    {.position = POS(27, 37)}
+    {.position = POS(30, 37)}
   },
   {
     FOT_POLYMORPHIC, 0, 0,

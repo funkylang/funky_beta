@@ -14,7 +14,8 @@ enum {
   uni_std__UUID = -5,
   uni_std__ADDRESS = -6,
   uni_std__PORT_NO = -7,
-  uni_std__LOG_FILE = -8
+  uni_std__LOG_FILE = -8,
+  uni_std__PARSE_ERROR = -9
 };
 
 enum {
@@ -28,6 +29,7 @@ enum {
   var_std__ADDRESS, // initialized
   var_std__PORT_NO, // initialized
   var_std__LOG_FILE, // initialized
+  var_std__PARSE_ERROR, // initialized
   var__END
 };
 
@@ -40,7 +42,8 @@ static FUNKY_CONSTANT constants_table[] = {
   {FLT_UNIQUE, 0, {.str_8 = "std::UUID"}},
   {FLT_UNIQUE, 0, {.str_8 = "std::ADDRESS"}},
   {FLT_UNIQUE, 0, {.str_8 = "std::PORT_NO"}},
-  {FLT_UNIQUE, 0, {.str_8 = "std::LOG_FILE"}}
+  {FLT_UNIQUE, 0, {.str_8 = "std::LOG_FILE"}},
+  {FLT_UNIQUE, 0, {.str_8 = "std::PARSE_ERROR"}}
 };
 
 static FUNKY_VARIABLE variables_table[] = {
@@ -52,7 +55,7 @@ static FUNKY_VARIABLE variables_table[] = {
   {
     FOT_UNKNOWN, 0, 0,
     "assign\000std", NULL,
-    {.position = POS(23, 1)}
+    {.position = POS(25, 1)}
   },
   {
     FOT_INITIALIZED, 0, 0,
@@ -88,6 +91,11 @@ static FUNKY_VARIABLE variables_table[] = {
     FOT_INITIALIZED, 0, 0,
     "LOG_FILE\000std", NULL,
     {.const_idx = -uni_std__LOG_FILE}
+  },
+  {
+    FOT_INITIALIZED, 0, 0,
+    "PARSE_ERROR\000std", NULL,
+    {.const_idx = -uni_std__PARSE_ERROR}
   }
 };
 
@@ -105,8 +113,8 @@ FUNKY_MODULE module__basic__constants = {
   0, // number of required modules
   0, // number of defined namespaces
   1, // number of used namespaces
-  8, // number of constants
-  9, // number of variables
+  9, // number of constants
+  10, // number of variables
   NULL, // required modules
   NULL, // defined namespaces
   used_namespaces,

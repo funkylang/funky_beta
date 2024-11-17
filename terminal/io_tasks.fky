@@ -19,6 +19,8 @@
   Free Software Foundation, Inc.,
   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
+# Topic: Input-Output Task Manager
+
 $std::TRACK_MOUSE_MOVEMENT .
 $std::TRACK_WINDOW_SIZE .
 $std::ENABLE_ALL_CTRL_KEYS .
@@ -42,9 +44,9 @@ $std_types::io_task/prepare_event_channel:
     echo_characters &attributes false # ... and no echoing of typed in characters
     update_if options .contains. ENABLE_ALL_CTRL_KEYS
       &attributes:
-	generate_signals &attributes false # we want to receive ctrl-c & ctrl-z
-	enable_xon_xoff_for_output &attributes false # we want to receive ctrl-q & ctrl-s
-	map_cr_to_lf_on_input &attributes false # we want to receive ctrl-m
+	generate_signals &attributes false # we want tctrl-c & ctrl-z
+	enable_xon_xoff_for_output &attributes false # we want ctrl-q & ctrl-s
+	map_cr_to_lf_on_input &attributes false # we want ctrl-m
 	-> attributes
     set_terminal_attributes! $success fd attributes
     if

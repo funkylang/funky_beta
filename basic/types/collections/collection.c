@@ -22,6 +22,7 @@ enum {
   var_std__equal, // extern
   var_is_not_empty, // extern polymorphic
   var_not, // extern
+  var_std__add, // attribute
   var_std__first_key_of, // attribute
   var_std__first_item_of, // attribute
   var_std__last_key_of, // attribute
@@ -37,14 +38,23 @@ enum {
   var_std__map_or_error, // attribute
   var_std__reduce, // attribute
   var_std__map_reduce, // attribute
+  var_std__reduce_columns, // attribute
+  var_std__reduce_rows, // attribute
+  var_std__map_reduce_columns, // attribute
+  var_std__map_reduce_rows, // attribute
   var_std__find_first, // attribute
   var_std__filter, // attribute
   var_std__sort, // attribute
   var_std__intersection, // attribute
   var_std__merge, // attribute
+  var_std__difference, // attribute
   var_std__zip, // attribute
   var_std__flatten, // attribute
   var_std__truncate, // attribute
+  var_std__pad_left, // attribute
+  var_std__pad_right, // attribute
+  var_std__pad_top, // attribute
+  var_std__pad_bottom, // attribute
   var_std__has_prefix, // attribute
   var_std__has_suffix, // attribute
   var_std__without_prefix, // attribute
@@ -153,6 +163,11 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_POLYMORPHIC, 0, 0,
+    "add\000std", NULL,
+    {.has_a_setter = false}
+  },
+  {
+    FOT_POLYMORPHIC, 0, 0,
     "first_key_of\000std", NULL,
     {.has_a_setter = false}
   },
@@ -228,6 +243,26 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_POLYMORPHIC, 0, 0,
+    "reduce_columns\000std", NULL,
+    {.has_a_setter = false}
+  },
+  {
+    FOT_POLYMORPHIC, 0, 0,
+    "reduce_rows\000std", NULL,
+    {.has_a_setter = false}
+  },
+  {
+    FOT_POLYMORPHIC, 0, 0,
+    "map_reduce_columns\000std", NULL,
+    {.has_a_setter = false}
+  },
+  {
+    FOT_POLYMORPHIC, 0, 0,
+    "map_reduce_rows\000std", NULL,
+    {.has_a_setter = false}
+  },
+  {
+    FOT_POLYMORPHIC, 0, 0,
     "find_first\000std", NULL,
     {.has_a_setter = false}
   },
@@ -253,6 +288,11 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_POLYMORPHIC, 0, 0,
+    "difference\000std", NULL,
+    {.has_a_setter = false}
+  },
+  {
+    FOT_POLYMORPHIC, 0, 0,
     "zip\000std", NULL,
     {.has_a_setter = false}
   },
@@ -264,6 +304,26 @@ static FUNKY_VARIABLE variables_table[] = {
   {
     FOT_POLYMORPHIC, 0, 0,
     "truncate\000std", NULL,
+    {.has_a_setter = false}
+  },
+  {
+    FOT_POLYMORPHIC, 0, 0,
+    "pad_left\000std", NULL,
+    {.has_a_setter = false}
+  },
+  {
+    FOT_POLYMORPHIC, 0, 0,
+    "pad_right\000std", NULL,
+    {.has_a_setter = false}
+  },
+  {
+    FOT_POLYMORPHIC, 0, 0,
+    "pad_top\000std", NULL,
+    {.has_a_setter = false}
+  },
+  {
+    FOT_POLYMORPHIC, 0, 0,
+    "pad_bottom\000std", NULL,
     {.has_a_setter = false}
   },
   {
@@ -387,7 +447,7 @@ FUNKY_MODULE module__basic__types__collections__collection = {
   1, // number of defined namespaces
   1, // number of used namespaces
   3, // number of constants
-  51, // number of variables
+  61, // number of variables
   NULL, // required modules
   defined_namespaces,
   used_namespaces,

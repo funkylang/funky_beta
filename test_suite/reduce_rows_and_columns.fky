@@ -1,0 +1,11 @@
+#!/usr/bin/env fkyrun
+
+$matrix
+  list
+    list(2 5 9 5)
+    list(1 4 7 4)
+    list(8 3 2 5)
+
+dump! `matrix
+dump! `reduce_columns(matrix plus)
+dump! `reduce_rows(matrix plus)

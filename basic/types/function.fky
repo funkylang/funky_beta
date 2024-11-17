@@ -20,6 +20,11 @@
   Free Software Foundation, Inc.,
   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
+#
+  Topic: Functions
+
+  Every object in Funky is a function.
+
 $std::is_a_function ()
   #
     succeeds for function objects
@@ -27,3 +32,5 @@ $std::is_a_function ()
 $std_types::object.is_a_function false
 $std_types::function.is_a_function true
 $std_types::polymorphic_function.is_a_function true
+
+$std_types::polymorphic_function.parameter_count_of undefined

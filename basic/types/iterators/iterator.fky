@@ -19,6 +19,9 @@
   Free Software Foundation, Inc.,
   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
+#
+  Topic: Iterators
+
 $std::is_an_iterator ()
   #
     checks whether an object is an iterator or not

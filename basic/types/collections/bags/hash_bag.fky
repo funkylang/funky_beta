@@ -1,0 +1,116 @@
+#
+  Copyright (C) 2024 by
+  Dipl.-Ing. Michael Niederle
+
+  This program is free software; you can redistribute it and/or modify
+  it under the terms of the GNU Library General Public License, version 2, or
+  (at your option) under the terms of the GNU Lesser General Public License,
+  version 3.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  GNU Lesser (Library) General Public License for more details.
+
+  For details of the GNU General Public License see the accompanying
+  files LGPLv2.txt and LGLPv3.txt or
+  http://www.gnu.org/licenses/lgpl-2.0.html
+  http://www.gnu.org/licenses/lgpl-3.0.html
+  or write to the
+  Free Software Foundation, Inc.,
+  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+
+# Topic: Collections
+
+#
+  Topic: Bags
+
+  Bags are "multi-sets". A bag keeps a record of how many of each elements
+  are stored.
+
+  A bag can contain a negative number of elements!
+
+$std::to_hash_bag ()
+
+$std_types::hash_bag std_types::hash_table
+
+$std::empty_hash_bag std_types::hash_bag
+
+$std_types::hash_bag/add:
+  (
+    self
+    pairs*
+  )
+  for_each pairs
+    : (pair)
+      if
+	$key $count
+	pair.is_a_key_value_pair
+	pair
+	-> pair 1
+      $value self(key)
+      if
+	value.is_undefined:
+	  !self(key) count
+	  next
+	:
+	  plus &value count
+	  update_if value == 0 &value -> undefined
+	  !self(key) value
+	  next
+    -> self
+
+$std_types::hash_bag/merge:
+  (
+    self # the base bag
+    other # the bag to merge
+  )
+  for_each other
+    : (key value)
+      add &self key = value
+      next
+    -> self
+
+$std_types::hash_bag/difference:
+  (
+    self # the base bag
+    other # the bag to merge
+  )
+  for_each other
+    : (key value)
+      add &self key = -value
+      next
+    -> self
+
+# Constructor
+
+$std::hash_bag:
+  (
+    pairs*
+  )
+  to_hash_bag pairs
+
+$std_types::list/to_hash_bag:
+  #
+    converts a list containing key-value-pairs into a hash table
+
+    Topic: Tables
+
+    See also: hash_table
+  (
+    items # the list to convert
+  )
+  $table empty_hash_bag
+  for_each items
+    : (item)
+      item $key $value
+      !table(key) value
+      next
+    -> table
+
+# Serialization
+
+$std_types::hash_bag.serialization_tag_of "hash_bag"
+$std_types::hash_bag.empty_collection_of empty_hash_bag
+
+register_type &deserializers std_types::hash_bag

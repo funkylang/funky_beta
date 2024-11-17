@@ -319,17 +319,17 @@ enum {
   var_undefined, // extern
   var_std__generate_error_message, // attribute
   var_generate_error_message, // extern polymorphic
-  var_226_1_message, // dynamic
+  var_228_1_message, // dynamic
   var_error_message_text_of, // extern
-  var_227_1_errno, // dynamic
+  var_229_1_errno, // dynamic
   var_errno_of, // extern
   var_is_defined, // extern
   var_append, // extern
   var_strerror, // extern
   var_update_if, // extern
-  var_231_1_failed_attribute, // dynamic
+  var_233_1_failed_attribute, // dynamic
   var_failed_attribute_of, // extern
-  var_235_1_additional_information, // dynamic
+  var_237_1_additional_information, // dynamic
   var_push, // extern
   var_std_types__io_task, // derived
   var_std_types__object, // extern
@@ -337,7 +337,7 @@ enum {
   var_false, // extern
   var_task_id_of, // extern polymorphic
   var_parent_of, // extern polymorphic
-  var_257_1_id, // dynamic
+  var_259_1_id, // dynamic
   var_std__equal, // extern
   var_std__not, // extern
   var_if, // extern
@@ -346,8 +346,8 @@ enum {
   var_tuple, // extern
   var_pause, // extern polymorphic
   var_wait_for_message, // extern polymorphic
-  var_277_39_self, // dynamic
-  var_277_44_continuation, // dynamic
+  var_279_39_self, // dynamic
+  var_279_44_continuation, // dynamic
   var_is_empty, // extern
   var_check_io, // extern polymorphic
   var_performed_io, // extern polymorphic
@@ -355,21 +355,21 @@ enum {
   var_complete_io, // extern polymorphic
   var_checked_io, // extern polymorphic
   var_log, // extern polymorphic
-  var_304_1_str, // dynamic
+  var_306_1_str, // dynamic
   var_create_string, // extern
   var_has_suffix, // extern
   var_send, // extern polymorphic
-  var_313_27_self, // dynamic
-  var_313_32_receiver, // dynamic
-  var_313_41_message, // dynamic
+  var_315_27_self, // dynamic
+  var_315_32_receiver, // dynamic
+  var_315_41_message, // dynamic
   var_is_a_list, // extern
   var_std__and, // extern
   var_receive, // extern polymorphic
-  var_321_30_self, // dynamic
+  var_323_30_self, // dynamic
   var_get, // extern
   var_cancel, // extern polymorphic
-  var_331_0_self, // dynamic
-  var_332_0_task_id, // dynamic
+  var_333_0_self, // dynamic
+  var_334_0_task_id, // dynamic
   var_is_an_integer, // extern
   var_to_list, // extern
   var_on_exit, // extern polymorphic
@@ -377,181 +377,181 @@ enum {
   var_on_error, // extern polymorphic
   var_on_cancel, // extern polymorphic
   var_load, // extern polymorphic
-  var_364_16_task, // dynamic
-  var_364_21_io, // dynamic
-  var_364_24_filename, // dynamic
-  var_369_7_fd, // dynamic
+  var_366_16_task, // dynamic
+  var_366_21_io, // dynamic
+  var_366_24_filename, // dynamic
+  var_371_7_fd, // dynamic
   var_open, // extern
   var_is_an_error, // extern
   var_std__string, // extern
   var_start_reading_from, // extern
-  var_379_22_task, // dynamic
-  var_379_27_events, // dynamic
-  var_379_34_argument, // dynamic
-  var_380_10_fd, // dynamic
-  var_380_14_buf, // dynamic
+  var_381_22_task, // dynamic
+  var_381_27_events, // dynamic
+  var_381_34_argument, // dynamic
+  var_382_10_fd, // dynamic
+  var_382_14_buf, // dynamic
   var_stop_reading_from, // extern
   var_close, // extern
   var_try, // extern
-  var_390_13_efd, // dynamic
-  var_390_18_data, // dynamic
+  var_392_13_efd, // dynamic
+  var_392_18_data, // dynamic
   var_READ, // extern
   var_next, // extern
   var_READ_FAILED, // extern
   var_case, // extern
   var_for_each, // extern
-  var_412_10_fd, // dynamic
-  var_418_10_fd, // dynamic
+  var_414_10_fd, // dynamic
+  var_420_10_fd, // dynamic
   var_save, // extern polymorphic
-  var_426_16_task, // dynamic
-  var_426_21_io, // dynamic
-  var_427_10_filename, // dynamic
-  var_427_20_data, // dynamic
-  var_432_7_fd, // dynamic
+  var_428_16_task, // dynamic
+  var_428_21_io, // dynamic
+  var_429_10_filename, // dynamic
+  var_429_20_data, // dynamic
+  var_434_7_fd, // dynamic
   var_write, // extern polymorphic
-  var_442_22_task, // dynamic
-  var_442_27_events, // dynamic
-  var_442_34_fd, // dynamic
+  var_444_22_task, // dynamic
+  var_444_27_events, // dynamic
+  var_444_34_fd, // dynamic
   var_cancel_write, // extern
-  var_452_13_efd, // dynamic
-  var_452_18_data, // dynamic
+  var_454_13_efd, // dynamic
+  var_454_18_data, // dynamic
   var_WRITE_COMPLETED, // extern
   var_WRITE_FAILED, // extern
-  var_468_33_fd, // dynamic
-  var_473_10_fd, // dynamic
+  var_470_33_fd, // dynamic
+  var_475_10_fd, // dynamic
   var_read, // extern polymorphic
-  var_488_22_task, // dynamic
-  var_488_27_io, // dynamic
-  var_488_30_argument, // dynamic
-  var_497_22_task, // dynamic
-  var_497_27_events, // dynamic
-  var_497_34_argument, // dynamic
-  var_498_10_fd, // dynamic
-  var_498_14_length, // dynamic
-  var_498_22_buf, // dynamic
-  var_507_13_efd, // dynamic
-  var_507_18_data, // dynamic
+  var_490_22_task, // dynamic
+  var_490_27_io, // dynamic
+  var_490_30_argument, // dynamic
+  var_499_22_task, // dynamic
+  var_499_27_events, // dynamic
+  var_499_34_argument, // dynamic
+  var_500_10_fd, // dynamic
+  var_500_14_length, // dynamic
+  var_500_22_buf, // dynamic
+  var_509_13_efd, // dynamic
+  var_509_18_data, // dynamic
   var_length_of, // extern
   var_std__less, // extern
   var_if_not, // extern
-  var_531_17_task, // dynamic
-  var_531_22_io, // dynamic
-  var_532_10_fd, // dynamic
-  var_532_14_text, // dynamic
-  var_540_23_task, // dynamic
-  var_540_28_events, // dynamic
-  var_540_35_fd, // dynamic
-  var_549_13_efd, // dynamic
+  var_533_17_task, // dynamic
+  var_533_22_io, // dynamic
+  var_534_10_fd, // dynamic
+  var_534_14_text, // dynamic
+  var_542_23_task, // dynamic
+  var_542_28_events, // dynamic
+  var_542_35_fd, // dynamic
+  var_551_13_efd, // dynamic
   var_join_process, // extern polymorphic
-  var_564_32_task, // dynamic
-  var_564_44_pid, // dynamic
-  var_567_13_epid, // dynamic
-  var_567_19_status, // dynamic
+  var_566_32_task, // dynamic
+  var_566_44_pid, // dynamic
+  var_569_13_epid, // dynamic
+  var_569_19_status, // dynamic
   var_PROCESS_JOINED, // extern
   var_catch_signal, // extern polymorphic
   var_start_catching_signals, // extern
-  var_582_32_task, // dynamic
-  var_582_37_events, // dynamic
-  var_587_1_signals, // dynamic
-  var_590_21_signal, // dynamic
+  var_584_32_task, // dynamic
+  var_584_37_events, // dynamic
+  var_589_1_signals, // dynamic
+  var_592_21_signal, // dynamic
   var_SIGNAL, // extern
   var_stop_catching_signals, // extern
   var_fork, // extern polymorphic
   var_exit, // extern polymorphic
   var_EXIT_SUCCESS, // extern
   var_std__io_task_manager, // initialized
-  var_637_1_exit_status, // dynamic
-  var_638_1_io, // dynamic
+  var_639_1_exit_status, // dynamic
+  var_640_1_io, // dynamic
   var_std_types__io, // extern
-  var_639_1_updated_requests, // dynamic
-  var_640_1_new_requests, // dynamic
-  var_641_1_cancellations, // dynamic
+  var_641_1_updated_requests, // dynamic
+  var_642_1_new_requests, // dynamic
+  var_643_1_cancellations, // dynamic
   var_empty_key_order_set, // extern
-  var_642_1_sent_messages, // dynamic
+  var_644_1_sent_messages, // dynamic
   var_empty_key_order_table, // extern
-  var_643_1_removed_children, // dynamic
-  var_644_1_log_message, // dynamic
-  var_645_1_events, // dynamic
-  var_646_1_requests, // dynamic
+  var_645_1_removed_children, // dynamic
+  var_646_1_log_message, // dynamic
+  var_647_1_events, // dynamic
+  var_648_1_requests, // dynamic
   var_list, // extern
-  var_648_1_current_task_id, // dynamic
-  var_649_1_iteration_no, // dynamic
+  var_650_1_current_task_id, // dynamic
+  var_651_1_iteration_no, // dynamic
   var_inc, // extern
   var_map, // extern
   var_log_level, // extern
   var_is_not_empty, // extern
-  var_660_3_parent_id, // dynamic
-  var_698_1_do_receive_messages, // dynamic
+  var_662_3_parent_id, // dynamic
+  var_700_1_do_receive_messages, // dynamic
   var_not, // extern
-  var_699_1_do_cancel_tasks, // dynamic
-  var_700_16_request, // dynamic
+  var_701_1_do_cancel_tasks, // dynamic
+  var_702_16_request, // dynamic
   var_any_of, // extern
   var_std__or, // extern
-  var_731_3_request, // dynamic
-  var_732_9_task, // dynamic
-  var_732_15_mode, // dynamic
-  var_732_21_body, // dynamic
-  var_732_27_argument, // dynamic
-  var_732_37_continuation, // dynamic
+  var_733_3_request, // dynamic
+  var_734_9_task, // dynamic
+  var_734_15_mode, // dynamic
+  var_734_21_body, // dynamic
+  var_734_27_argument, // dynamic
+  var_734_37_continuation, // dynamic
   var_EXIT_FAILURE, // extern
   var_parameter_count_of, // extern
-  var_767_1_error_handler, // dynamic
-  var_783_1_cancel_handler, // dynamic
+  var_769_1_error_handler, // dynamic
+  var_785_1_cancel_handler, // dynamic
   var_loop, // extern
-  var_810_11_request, // dynamic
-  var_811_9_task, // dynamic
-  var_811_15_mode, // dynamic
-  var_811_21_body, // dynamic
-  var_811_27_argument, // dynamic
-  var_811_37_continuation, // dynamic
-  var_812_1_removed, // dynamic
+  var_812_11_request, // dynamic
+  var_813_9_task, // dynamic
+  var_813_15_mode, // dynamic
+  var_813_21_body, // dynamic
+  var_813_27_argument, // dynamic
+  var_813_37_continuation, // dynamic
+  var_814_1_removed, // dynamic
   var_filter, // extern
-  var_836_20_task, // dynamic
-  var_839_7_receiver, // dynamic
-  var_839_17_message, // dynamic
+  var_838_20_task, // dynamic
+  var_841_7_receiver, // dynamic
+  var_841_17_message, // dynamic
   var_default_value, // extern
-  var_855_27_task, // dynamic
+  var_857_27_task, // dynamic
   var_true, // extern
-  var_864_24_task, // dynamic
-  var_876_20_task, // dynamic
-  var_876_25_message, // dynamic
+  var_866_24_task, // dynamic
+  var_878_20_task, // dynamic
+  var_878_25_message, // dynamic
   var_string, // extern
-  var_883_20_task, // dynamic
-  var_926_20_request, // dynamic
-  var_927_9_task, // dynamic
-  var_927_15_mode, // dynamic
-  var_927_21_body, // dynamic
-  var_927_27_argument, // dynamic
-  var_927_37_continuation, // dynamic
-  var_928_1_messages, // dynamic
-  var_936_27_request, // dynamic
-  var_937_9_task, // dynamic
-  var_937_15_mode, // dynamic
-  var_937_21_body, // dynamic
-  var_937_27_argument, // dynamic
-  var_937_37_continuation, // dynamic
+  var_885_20_task, // dynamic
+  var_928_20_request, // dynamic
+  var_929_9_task, // dynamic
+  var_929_15_mode, // dynamic
+  var_929_21_body, // dynamic
+  var_929_27_argument, // dynamic
+  var_929_37_continuation, // dynamic
+  var_930_1_messages, // dynamic
+  var_938_27_request, // dynamic
+  var_939_9_task, // dynamic
+  var_939_15_mode, // dynamic
+  var_939_21_body, // dynamic
+  var_939_27_argument, // dynamic
+  var_939_37_continuation, // dynamic
   var_STDERR_FILENO, // extern
   var_to_utf8, // extern
-  var_965_22_request, // dynamic
-  var_966_9_task, // dynamic
-  var_966_15_mode, // dynamic
-  var_966_21_body, // dynamic
-  var_966_27_argument, // dynamic
-  var_966_37_continuation, // dynamic
-  var_984_16_mode, // dynamic
-  var_987_14_something_to_do, // dynamic
+  var_967_22_request, // dynamic
+  var_968_9_task, // dynamic
+  var_968_15_mode, // dynamic
+  var_968_21_body, // dynamic
+  var_968_27_argument, // dynamic
+  var_968_37_continuation, // dynamic
+  var_986_16_mode, // dynamic
+  var_989_14_something_to_do, // dynamic
   var_pass, // extern
-  var_1003_24_something_to_do, // dynamic
+  var_1005_24_something_to_do, // dynamic
   var_get_events, // extern
-  var_1018_16_request, // dynamic
-  var_1019_9_task, // dynamic
-  var_1019_15_mode, // dynamic
-  var_1019_21_body, // dynamic
-  var_1019_27_argument, // dynamic
-  var_1019_37_continuation, // dynamic
-  var_1028_13_task, // dynamic
-  var_1035_6_handler, // dynamic
-  var_1035_15_handler_arguments, // dynamic
+  var_1020_16_request, // dynamic
+  var_1021_9_task, // dynamic
+  var_1021_15_mode, // dynamic
+  var_1021_21_body, // dynamic
+  var_1021_27_argument, // dynamic
+  var_1021_37_continuation, // dynamic
+  var_1030_13_task, // dynamic
+  var_1037_6_handler, // dynamic
+  var_1037_15_handler_arguments, // dynamic
   var__END
 };
 
@@ -559,114 +559,114 @@ enum {
 static TAB_NUM t_func_std_types__error___generate_error_message[] = {
   2, // locals
   1, // parameters
-  LOCAL(2), // 225_43_self
+  LOCAL(2), // 227_43_self
   // $message error_message_text_of(self)
-  var_error_message_text_of, 1, LOCAL(2), 1, var_226_1_message,
+  var_error_message_text_of, 1, LOCAL(2), 1, var_228_1_message,
   // $errno errno_of(self)
-  var_errno_of, 1, LOCAL(2), 1, var_227_1_errno,
+  var_errno_of, 1, LOCAL(2), 1, var_229_1_errno,
   // is_defined &message:
-  var_is_defined, 1, var_227_1_errno, 1, LOCAL(1),
+  var_is_defined, 1, var_229_1_errno, 1, LOCAL(1),
   // update_if errno.is_defined &message:
-  var_update_if, 3, LOCAL(1), var_226_1_message, lambda_1, 1, var_226_1_message,
+  var_update_if, 3, LOCAL(1), var_228_1_message, lambda_1, 1, var_228_1_message,
   // $failed_attribute failed_attribute_of(self)
-  var_failed_attribute_of, 1, LOCAL(2), 1, var_231_1_failed_attribute,
+  var_failed_attribute_of, 1, LOCAL(2), 1, var_233_1_failed_attribute,
   // is_defined &message:
-  var_is_defined, 1, var_231_1_failed_attribute, 1, LOCAL(1),
+  var_is_defined, 1, var_233_1_failed_attribute, 1, LOCAL(1),
   // update_if failed_attribute.is_defined &message:
-  var_update_if, 3, LOCAL(1), var_226_1_message, lambda_2, 1, var_226_1_message,
+  var_update_if, 3, LOCAL(1), var_228_1_message, lambda_2, 1, var_228_1_message,
   // $additional_information additional_error_information_of(self)
-  var_additional_error_information_of, 1, LOCAL(2), 1, var_235_1_additional_information,
+  var_additional_error_information_of, 1, LOCAL(2), 1, var_237_1_additional_information,
   // is_defined message:
-  var_is_defined, 1, var_235_1_additional_information, 1, LOCAL(1),
+  var_is_defined, 1, var_237_1_additional_information, 1, LOCAL(1),
   // update_if additional_information.is_defined message:
-  var_update_if, 3, LOCAL(1), var_226_1_message, lambda_3, TAIL_CALL,
-  POS(226, 3),
-  POS(227, 3),
-  POS(228, 19),
+  var_update_if, 3, LOCAL(1), var_228_1_message, lambda_3, TAIL_CALL,
   POS(228, 3),
-  POS(231, 3),
-  POS(232, 30),
-  POS(232, 3),
-  POS(235, 3),
-  POS(236, 36),
-  POS(236, 3)
+  POS(229, 3),
+  POS(230, 19),
+  POS(230, 3),
+  POS(233, 3),
+  POS(234, 30),
+  POS(234, 3),
+  POS(237, 3),
+  POS(238, 36),
+  POS(238, 3)
 };
 
 static TAB_NUM t_lambda_1[] = {
   1, // locals
   0, // parameters
   // append &message " - "
-  var_append, 2, var_226_1_message, string_1, 1, var_226_1_message,
+  var_append, 2, var_228_1_message, string_1, 1, var_228_1_message,
   // strerror(errno)
-  var_strerror, 1, var_227_1_errno, 1, LOCAL(1),
+  var_strerror, 1, var_229_1_errno, 1, LOCAL(1),
   // append message strerror(errno)
-  var_append, 2, var_226_1_message, LOCAL(1), TAIL_CALL,
-  POS(229, 5),
-  POS(230, 20),
-  POS(230, 5)
+  var_append, 2, var_228_1_message, LOCAL(1), TAIL_CALL,
+  POS(231, 5),
+  POS(232, 20),
+  POS(232, 5)
 };
 
 static TAB_NUM t_lambda_2[] = {
   0, // locals
   0, // parameters
   // append &message " - "
-  var_append, 2, var_226_1_message, string_1, 1, var_226_1_message,
+  var_append, 2, var_228_1_message, string_1, 1, var_228_1_message,
   // append message failed_attribute
-  var_append, 2, var_226_1_message, var_231_1_failed_attribute, TAIL_CALL,
-  POS(233, 5),
-  POS(234, 5)
+  var_append, 2, var_228_1_message, var_233_1_failed_attribute, TAIL_CALL,
+  POS(235, 5),
+  POS(236, 5)
 };
 
 static TAB_NUM t_lambda_3[] = {
   0, // locals
   0, // parameters
   // append &message " ("
-  var_append, 2, var_226_1_message, string_2, 1, var_226_1_message,
+  var_append, 2, var_228_1_message, string_2, 1, var_228_1_message,
   // append &message additional_information
-  var_append, 2, var_226_1_message, var_235_1_additional_information, 1, var_226_1_message,
+  var_append, 2, var_228_1_message, var_237_1_additional_information, 1, var_228_1_message,
   // push message ')'
-  var_push, 2, var_226_1_message, chr_41, TAIL_CALL,
-  POS(237, 5),
-  POS(238, 5),
-  POS(239, 5)
+  var_push, 2, var_228_1_message, chr_41, TAIL_CALL,
+  POS(239, 5),
+  POS(240, 5),
+  POS(241, 5)
 };
 
 static TAB_NUM t_func_std_types__io_task___task_id_of[] = {
   2, // locals
   1, // parameters
-  LOCAL(2), // 255_33_self
+  LOCAL(2), // 257_33_self
   // id_of(self)
   var_id_of, 1, LOCAL(2), 1, LOCAL(1),
   // -> id_of(self)
   LET, 1, LOCAL(1), TAIL_CALL,
-  POS(255, 43),
-  POS(255, 40)
+  POS(257, 43),
+  POS(257, 40)
 };
 
 static TAB_NUM t_func_std_types__io_task___parent_of[] = {
   3, // locals
   1, // parameters
-  LOCAL(3), // 256_32_self
+  LOCAL(3), // 258_32_self
   // $id parent_id_of(self)
-  var_parent_id_of, 1, LOCAL(3), 1, var_257_1_id,
+  var_parent_id_of, 1, LOCAL(3), 1, var_259_1_id,
   // id != 0
-  var_std__equal, 2, var_257_1_id, num_0, 1, LOCAL(1),
+  var_std__equal, 2, var_259_1_id, num_0, 1, LOCAL(1),
   // id != 0
   var_std__not, 1, LOCAL(1), 1, LOCAL(2),
   // if
   var_if, 3, LOCAL(2), lambda_4, lambda_5, TAIL_CALL,
-  POS(257, 3),
-  POS(259, 5),
-  POS(259, 5),
-  POS(258, 3)
+  POS(259, 3),
+  POS(261, 5),
+  POS(261, 5),
+  POS(260, 3)
 };
 
 static TAB_NUM t_lambda_4[] = {
   0, // locals
   0, // parameters
   //  id
-  LET, 1, var_257_1_id, TAIL_CALL,
-  POS(260, 7)
+  LET, 1, var_259_1_id, TAIL_CALL,
+  POS(262, 7)
 };
 
 static TAB_NUM t_lambda_5[] = {
@@ -674,335 +674,335 @@ static TAB_NUM t_lambda_5[] = {
   0, // parameters
   //  undefined
   LET, 1, var_undefined, TAIL_CALL,
-  POS(261, 7)
+  POS(263, 7)
 };
 
 static TAB_NUM t_func_std_types__io_task___children_of[] = {
   2, // locals
   1, // parameters
-  LOCAL(2), // 263_34_self
+  LOCAL(2), // 265_34_self
   // child_ids_of(self)
   var_child_ids_of, 1, LOCAL(2), 1, LOCAL(1),
   // -> child_ids_of(self)
   LET, 1, LOCAL(1), TAIL_CALL,
-  POS(263, 44),
-  POS(263, 41)
+  POS(265, 44),
+  POS(265, 41)
 };
 
 static TAB_NUM t_func_std_types__io_task___perform_io[] = {
   4, // locals
   -4, // parameters
-  MANDATORY_PARAMETER, LOCAL(1), // 267_0_self
-  MANDATORY_PARAMETER, LOCAL(2), // 268_0_body
-  var_undefined, LOCAL(3), // 269_0_argument
-  MANDATORY_PARAMETER, LOCAL(4), // 270_0_continuation
+  MANDATORY_PARAMETER, LOCAL(1), // 269_0_self
+  MANDATORY_PARAMETER, LOCAL(2), // 270_0_body
+  var_undefined, LOCAL(3), // 271_0_argument
+  MANDATORY_PARAMETER, LOCAL(4), // 272_0_continuation
   // tuple self START_IO body argument continuation
   var_tuple, 5, LOCAL(1), uni_START_IO, LOCAL(2), LOCAL(3), LOCAL(4), TAIL_CALL,
-  POS(272, 3)
+  POS(274, 3)
 };
 
 static TAB_NUM t_func_std_types__io_task___pause[] = {
   2, // locals
   2, // parameters
-  LOCAL(1), // 274_28_self
-  LOCAL(2), // 274_33_continuation
+  LOCAL(1), // 276_28_self
+  LOCAL(2), // 276_33_continuation
   // tuple self COMPUTE undefined undefined continuation
   var_tuple, 5, LOCAL(1), uni_COMPUTE, var_undefined, var_undefined, LOCAL(2), TAIL_CALL,
-  POS(275, 3)
+  POS(277, 3)
 };
 
 static TAB_NUM t_func_std_types__io_task___wait_for_message[] = {
   2, // locals
   2, // parameters
-  var_277_39_self,
-  var_277_44_continuation,
+  var_279_39_self,
+  var_279_44_continuation,
   // inbound_messages_of(self).is_empty
-  var_inbound_messages_of, 1, var_277_39_self, 1, LOCAL(1),
+  var_inbound_messages_of, 1, var_279_39_self, 1, LOCAL(1),
   // is_empty
   var_is_empty, 1, LOCAL(1), 1, LOCAL(2),
   // if
   var_if, 3, LOCAL(2), lambda_6, lambda_7, TAIL_CALL,
-  POS(279, 5),
-  POS(279, 31),
-  POS(278, 3)
+  POS(281, 5),
+  POS(281, 31),
+  POS(280, 3)
 };
 
 static TAB_NUM t_lambda_6[] = {
   1, // locals
   0, // parameters
   // tuple(self WAIT undefined undefined continuation)
-  var_tuple, 5, var_277_39_self, uni_WAIT, var_undefined, var_undefined, var_277_44_continuation, 1, LOCAL(1),
+  var_tuple, 5, var_279_39_self, uni_WAIT, var_undefined, var_undefined, var_279_44_continuation, 1, LOCAL(1),
   //  tuple(self WAIT undefined undefined continuation)
   LET, 1, LOCAL(1), TAIL_CALL,
-  POS(280, 8),
-  POS(280, 7)
+  POS(282, 8),
+  POS(282, 7)
 };
 
 static TAB_NUM t_lambda_7[] = {
   1, // locals
   0, // parameters
   // tuple(self COMPUTE undefined undefined continuation)
-  var_tuple, 5, var_277_39_self, uni_COMPUTE, var_undefined, var_undefined, var_277_44_continuation, 1, LOCAL(1),
+  var_tuple, 5, var_279_39_self, uni_COMPUTE, var_undefined, var_undefined, var_279_44_continuation, 1, LOCAL(1),
   //  tuple(self COMPUTE undefined undefined continuation)
   LET, 1, LOCAL(1), TAIL_CALL,
-  POS(281, 8),
-  POS(281, 7)
+  POS(283, 8),
+  POS(283, 7)
 };
 
 static TAB_NUM t_func_std_types__io_task___check_io[] = {
   4, // locals
   4, // parameters
-  LOCAL(1), // 283_31_self
-  LOCAL(2), // 283_36_io
-  LOCAL(3), // 283_39_body
-  LOCAL(4), // 283_44_argument
+  LOCAL(1), // 285_31_self
+  LOCAL(2), // 285_36_io
+  LOCAL(3), // 285_39_body
+  LOCAL(4), // 285_44_argument
   // -> CHECK_IO self io body argument
   LET, 5, uni_CHECK_IO, LOCAL(1), LOCAL(2), LOCAL(3), LOCAL(4), TAIL_CALL,
-  POS(284, 3)
+  POS(286, 3)
 };
 
 static TAB_NUM t_func_std_types__io_task___performed_io[] = {
   3, // locals
   -3, // parameters
-  MANDATORY_PARAMETER, LOCAL(1), // 288_0_self
-  MANDATORY_PARAMETER, LOCAL(2), // 289_0_io
-  var_undefined, LOCAL(3), // 290_0_argument
+  MANDATORY_PARAMETER, LOCAL(1), // 290_0_self
+  MANDATORY_PARAMETER, LOCAL(2), // 291_0_io
+  var_undefined, LOCAL(3), // 292_0_argument
   // -> COMPUTE self io undefined argument
   LET, 5, uni_COMPUTE, LOCAL(1), LOCAL(2), var_undefined, LOCAL(3), TAIL_CALL,
-  POS(292, 3)
+  POS(294, 3)
 };
 
 static TAB_NUM t_func_std_types__io_task___recheck_io[] = {
   3, // locals
   3, // parameters
-  LOCAL(1), // 294_33_self
-  LOCAL(2), // 294_38_body
-  LOCAL(3), // 294_43_argument
+  LOCAL(1), // 296_33_self
+  LOCAL(2), // 296_38_body
+  LOCAL(3), // 296_43_argument
   // -> CHECK_IO self body argument
   LET, 4, uni_CHECK_IO, LOCAL(1), LOCAL(2), LOCAL(3), TAIL_CALL,
-  POS(295, 3)
+  POS(297, 3)
 };
 
 static TAB_NUM t_func_std_types__io_task___complete_io[] = {
   3, // locals
   3, // parameters
-  LOCAL(1), // 297_34_self
-  LOCAL(2), // 297_39_body
-  LOCAL(3), // 297_44_argument
+  LOCAL(1), // 299_34_self
+  LOCAL(2), // 299_39_body
+  LOCAL(3), // 299_44_argument
   // -> COMPLETE_IO self body argument
   LET, 4, uni_COMPLETE_IO, LOCAL(1), LOCAL(2), LOCAL(3), TAIL_CALL,
-  POS(298, 3)
+  POS(300, 3)
 };
 
 static TAB_NUM t_func_std_types__io_task___checked_io[] = {
   2, // locals
   2, // parameters
-  LOCAL(1), // 300_33_self
-  LOCAL(2), // 300_38_argument
+  LOCAL(1), // 302_33_self
+  LOCAL(2), // 302_38_argument
   // -> COMPUTE self undefined argument
   LET, 4, uni_COMPUTE, LOCAL(1), var_undefined, LOCAL(2), TAIL_CALL,
-  POS(301, 3)
+  POS(303, 3)
 };
 
 static TAB_NUM t_func_std_types__io_task___log[] = {
   3, // locals
   -2, // parameters
-  MANDATORY_PARAMETER, LOCAL(2), // 303_26_self
-  REST_PARAMETER, LOCAL(3), // 303_31_argument
+  MANDATORY_PARAMETER, LOCAL(2), // 305_26_self
+  REST_PARAMETER, LOCAL(3), // 305_31_argument
   // $str create_string(argument)
-  var_create_string, 1, LOCAL(3), 1, var_304_1_str,
+  var_create_string, 1, LOCAL(3), 1, var_306_1_str,
   // str .has_suffix. '@nl;'
-  var_has_suffix, 2, var_304_1_str, chr_10, 1, LOCAL(1),
+  var_has_suffix, 2, var_306_1_str, chr_10, 1, LOCAL(1),
   // !str
-  var_if, 3, LOCAL(1), lambda_8, lambda_9, 1, var_304_1_str,
+  var_if, 3, LOCAL(1), lambda_8, lambda_9, 1, var_306_1_str,
   // log_messages_of str
   var_log_messages_of, 1, LOCAL(2), 1, LOCAL(1),
   // push &self.log_messages_of str
-  var_push, 2, LOCAL(1), var_304_1_str, 1, LOCAL(1),
+  var_push, 2, LOCAL(1), var_306_1_str, 1, LOCAL(1),
   // self.log_messages_of str
   LET, -1, LOCAL(2), var_log_messages_of, LOCAL(1), LOCAL(2),
   // -> self
   LET, 1, LOCAL(2), TAIL_CALL,
-  POS(304, 3),
-  POS(307, 7),
-  POS(305, 3),
-  POS(310, 14),
-  POS(310, 3),
-  POS(310, 9),
-  POS(311, 3)
+  POS(306, 3),
+  POS(309, 7),
+  POS(307, 3),
+  POS(312, 14),
+  POS(312, 3),
+  POS(312, 9),
+  POS(313, 3)
 };
 
 static TAB_NUM t_lambda_8[] = {
   0, // locals
   0, // parameters
   //  str
-  LET, 1, var_304_1_str, TAIL_CALL,
-  POS(308, 9)
+  LET, 1, var_306_1_str, TAIL_CALL,
+  POS(310, 9)
 };
 
 static TAB_NUM t_lambda_9[] = {
   1, // locals
   0, // parameters
   // push(str '@nl;')
-  var_push, 2, var_304_1_str, chr_10, 1, LOCAL(1),
+  var_push, 2, var_306_1_str, chr_10, 1, LOCAL(1),
   //  push(str '@nl;')
   LET, 1, LOCAL(1), TAIL_CALL,
-  POS(309, 10),
-  POS(309, 9)
+  POS(311, 10),
+  POS(311, 9)
 };
 
 static TAB_NUM t_func_std_types__io_task___send[] = {
   2, // locals
   3, // parameters
-  var_313_27_self,
-  var_313_32_receiver,
-  var_313_41_message,
+  var_315_27_self,
+  var_315_32_receiver,
+  var_315_41_message,
   // is_a_list && receiver.is_empty
-  var_is_a_list, 1, var_313_32_receiver, 1, LOCAL(1),
+  var_is_a_list, 1, var_315_32_receiver, 1, LOCAL(1),
   // is_a_list && receiver.is_empty
   var_std__and, 2, LOCAL(1), lambda_10, 1, LOCAL(2),
   // if
   var_if, 3, LOCAL(2), lambda_11, lambda_12, TAIL_CALL,
-  POS(315, 14),
-  POS(315, 14),
-  POS(314, 3)
+  POS(317, 14),
+  POS(317, 14),
+  POS(316, 3)
 };
 
 static TAB_NUM t_lambda_10[] = {
   1, // locals
   0, // parameters
   // is_empty
-  var_is_empty, 1, var_313_32_receiver, 1, LOCAL(1),
+  var_is_empty, 1, var_315_32_receiver, 1, LOCAL(1),
   // receiver.is_empty
   LET, 1, LOCAL(1), TAIL_CALL,
-  POS(315, 36),
-  POS(315, 27)
+  POS(317, 36),
+  POS(317, 27)
 };
 
 static TAB_NUM t_lambda_11[] = {
   0, // locals
   0, // parameters
   //  self
-  LET, 1, var_313_27_self, TAIL_CALL,
-  POS(316, 7)
+  LET, 1, var_315_27_self, TAIL_CALL,
+  POS(318, 7)
 };
 
 static TAB_NUM t_lambda_12[] = {
   2, // locals
   0, // parameters
   // outbound_messages_of tuple(receiver message)
-  var_outbound_messages_of, 1, var_313_27_self, 1, LOCAL(1),
+  var_outbound_messages_of, 1, var_315_27_self, 1, LOCAL(1),
   // tuple(receiver message)
-  var_tuple, 2, var_313_32_receiver, var_313_41_message, 1, LOCAL(2),
+  var_tuple, 2, var_315_32_receiver, var_315_41_message, 1, LOCAL(2),
   // push &self.outbound_messages_of tuple(receiver message)
   var_push, 2, LOCAL(1), LOCAL(2), 1, LOCAL(1),
   // self.outbound_messages_of tuple(receiver message)
-  LET, -1, var_313_27_self, var_outbound_messages_of, LOCAL(1), var_313_27_self,
+  LET, -1, var_315_27_self, var_outbound_messages_of, LOCAL(1), var_315_27_self,
   // -> self
-  LET, 1, var_313_27_self, TAIL_CALL,
-  POS(318, 18),
-  POS(318, 39),
-  POS(318, 7),
-  POS(318, 13),
-  POS(319, 7)
+  LET, 1, var_315_27_self, TAIL_CALL,
+  POS(320, 18),
+  POS(320, 39),
+  POS(320, 7),
+  POS(320, 13),
+  POS(321, 7)
 };
 
 static TAB_NUM t_func_std_types__io_task___receive[] = {
   2, // locals
   1, // parameters
-  var_321_30_self,
+  var_323_30_self,
   // inbound_messages_of(self).is_empty
-  var_inbound_messages_of, 1, var_321_30_self, 1, LOCAL(1),
+  var_inbound_messages_of, 1, var_323_30_self, 1, LOCAL(1),
   // is_empty
   var_is_empty, 1, LOCAL(1), 1, LOCAL(2),
   // if
   var_if, 3, LOCAL(2), lambda_13, lambda_14, TAIL_CALL,
-  POS(323, 5),
-  POS(323, 31),
-  POS(322, 3)
+  POS(325, 5),
+  POS(325, 31),
+  POS(324, 3)
 };
 
 static TAB_NUM t_lambda_13[] = {
   0, // locals
   0, // parameters
   //  self undefined
-  LET, 2, var_321_30_self, var_undefined, TAIL_CALL,
-  POS(324, 7)
+  LET, 2, var_323_30_self, var_undefined, TAIL_CALL,
+  POS(326, 7)
 };
 
 static TAB_NUM t_lambda_14[] = {
   2, // locals
   0, // parameters
   // inbound_messages_of $message
-  var_inbound_messages_of, 1, var_321_30_self, 1, LOCAL(1),
+  var_inbound_messages_of, 1, var_323_30_self, 1, LOCAL(1),
   // get &self.inbound_messages_of $message
   var_get, 1, LOCAL(1), 2, LOCAL(1), LOCAL(2),
   // self.inbound_messages_of $message
-  LET, -1, var_321_30_self, var_inbound_messages_of, LOCAL(1), var_321_30_self,
+  LET, -1, var_323_30_self, var_inbound_messages_of, LOCAL(1), var_323_30_self,
   // -> self message
-  LET, 2, var_321_30_self, LOCAL(2), TAIL_CALL,
-  POS(326, 17),
-  POS(326, 7),
-  POS(326, 12),
-  POS(327, 7)
+  LET, 2, var_323_30_self, LOCAL(2), TAIL_CALL,
+  POS(328, 17),
+  POS(328, 7),
+  POS(328, 12),
+  POS(329, 7)
 };
 
 static TAB_NUM t_func_std_types__io_task___cancel[] = {
   1, // locals
   2, // parameters
-  var_331_0_self,
-  var_332_0_task_id,
+  var_333_0_self,
+  var_334_0_task_id,
   // is_an_integer:
-  var_is_an_integer, 1, var_332_0_task_id, 1, LOCAL(1),
+  var_is_an_integer, 1, var_334_0_task_id, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_task_id_is_an_integer, lambda_15, TAIL_CALL,
-  POS(335, 13),
-  POS(334, 3)
+  POS(337, 13),
+  POS(336, 3)
 };
 
 static TAB_NUM t_lambda_task_id_is_an_integer[] = {
   1, // locals
   0, // parameters
   // cancel_requests_of task_id
-  var_cancel_requests_of, 1, var_331_0_self, 1, LOCAL(1),
+  var_cancel_requests_of, 1, var_333_0_self, 1, LOCAL(1),
   // push &self.cancel_requests_of task_id
-  var_push, 2, LOCAL(1), var_332_0_task_id, 1, LOCAL(1),
+  var_push, 2, LOCAL(1), var_334_0_task_id, 1, LOCAL(1),
   // self.cancel_requests_of task_id
-  LET, -1, var_331_0_self, var_cancel_requests_of, LOCAL(1), var_331_0_self,
+  LET, -1, var_333_0_self, var_cancel_requests_of, LOCAL(1), var_333_0_self,
   // -> self
-  LET, 1, var_331_0_self, TAIL_CALL,
-  POS(336, 18),
-  POS(336, 7),
-  POS(336, 13),
-  POS(337, 7)
+  LET, 1, var_333_0_self, TAIL_CALL,
+  POS(338, 18),
+  POS(338, 7),
+  POS(338, 13),
+  POS(339, 7)
 };
 
 static TAB_NUM t_lambda_15[] = {
   2, // locals
   0, // parameters
   // cancel_requests_of task_id.to_list
-  var_cancel_requests_of, 1, var_331_0_self, 1, LOCAL(1),
+  var_cancel_requests_of, 1, var_333_0_self, 1, LOCAL(1),
   // to_list
-  var_to_list, 1, var_332_0_task_id, 1, LOCAL(2),
+  var_to_list, 1, var_334_0_task_id, 1, LOCAL(2),
   // append &self.cancel_requests_of task_id.to_list
   var_append, 2, LOCAL(1), LOCAL(2), 1, LOCAL(1),
   // self.cancel_requests_of task_id.to_list
-  LET, -1, var_331_0_self, var_cancel_requests_of, LOCAL(1), var_331_0_self,
+  LET, -1, var_333_0_self, var_cancel_requests_of, LOCAL(1), var_333_0_self,
   // -> self
-  LET, 1, var_331_0_self, TAIL_CALL,
-  POS(339, 20),
-  POS(339, 47),
-  POS(339, 7),
-  POS(339, 15),
-  POS(340, 7)
+  LET, 1, var_333_0_self, TAIL_CALL,
+  POS(341, 20),
+  POS(341, 47),
+  POS(341, 7),
+  POS(341, 15),
+  POS(342, 7)
 };
 
 static TAB_NUM t_func_std_types__io_task___on_exit[] = {
   5, // locals
   -3, // parameters
-  MANDATORY_PARAMETER, LOCAL(3), // 344_0_self
-  MANDATORY_PARAMETER, LOCAL(4), // 345_0_handler
-  var_undefined, LOCAL(5), // 346_0_argument
+  MANDATORY_PARAMETER, LOCAL(3), // 346_0_self
+  MANDATORY_PARAMETER, LOCAL(4), // 347_0_handler
+  var_undefined, LOCAL(5), // 348_0_argument
   // exit_handlers_of tuple(handler argument)
   var_exit_handlers_of, 1, LOCAL(3), 1, LOCAL(1),
   // tuple(handler argument)
@@ -1013,1109 +1013,1109 @@ static TAB_NUM t_func_std_types__io_task___on_exit[] = {
   LET, -1, LOCAL(3), var_exit_handlers_of, LOCAL(1), LOCAL(3),
   // -> self
   LET, 1, LOCAL(3), TAIL_CALL,
-  POS(348, 13),
-  POS(348, 30),
-  POS(348, 3),
-  POS(348, 8),
-  POS(349, 3)
+  POS(350, 13),
+  POS(350, 30),
+  POS(350, 3),
+  POS(350, 8),
+  POS(351, 3)
 };
 
 static TAB_NUM t_func_std_types__io_task___on_error[] = {
   2, // locals
   2, // parameters
-  LOCAL(1), // 351_31_self
-  LOCAL(2), // 351_36_handler
+  LOCAL(1), // 353_31_self
+  LOCAL(2), // 353_36_handler
   // self.error_handler_of handler
   LET, -1, LOCAL(1), var_error_handler_of, LOCAL(2), LOCAL(1),
   // -> self
   LET, 1, LOCAL(1), TAIL_CALL,
-  POS(352, 4),
-  POS(353, 3)
+  POS(354, 4),
+  POS(355, 3)
 };
 
 static TAB_NUM t_func_std_types__io_task___on_cancel[] = {
   2, // locals
   2, // parameters
-  LOCAL(1), // 355_32_self
-  LOCAL(2), // 355_37_handler
+  LOCAL(1), // 357_32_self
+  LOCAL(2), // 357_37_handler
   // self.cancel_handler_of handler
   LET, -1, LOCAL(1), var_cancel_handler_of, LOCAL(2), LOCAL(1),
   // -> self
   LET, 1, LOCAL(1), TAIL_CALL,
-  POS(356, 4),
-  POS(357, 3)
+  POS(358, 4),
+  POS(359, 3)
 };
 
 static TAB_NUM t_func_std_types__io_task___load[] = {
   3, // locals
   3, // parameters
-  LOCAL(1), // 361_27_self
-  LOCAL(2), // 361_32_my_filename
-  LOCAL(3), // 361_44_continuation
+  LOCAL(1), // 363_27_self
+  LOCAL(2), // 363_32_my_filename
+  LOCAL(3), // 363_44_continuation
   // perform_io self load_request my_filename continuation
   var_perform_io, 4, LOCAL(1), func_load_request, LOCAL(2), LOCAL(3), TAIL_CALL,
-  POS(362, 3)
+  POS(364, 3)
 };
 
 static TAB_NUM t_func_load_request[] = {
   1, // locals
   3, // parameters
-  var_364_16_task,
-  var_364_21_io,
-  var_364_24_filename,
+  var_366_16_task,
+  var_366_21_io,
+  var_366_24_filename,
   // is_cancelled: # we must not start an I/O operation!
-  var_is_cancelled, 1, var_364_16_task, 1, LOCAL(1),
+  var_is_cancelled, 1, var_366_16_task, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_task_is_cancelled, lambda_16, IO_TAIL_CALL,
-  POS(366, 12),
-  POS(365, 5)
+  POS(368, 12),
+  POS(367, 5)
 };
 
 static TAB_NUM t_lambda_task_is_cancelled[] = {
   0, // locals
   0, // parameters
   // performed_io task io "" # we didn't read a single byte ...
-  var_performed_io, 3, var_364_16_task, var_364_21_io, string_3, TAIL_CALL,
-  POS(367, 9)
+  var_performed_io, 3, var_366_16_task, var_366_21_io, string_3, TAIL_CALL,
+  POS(369, 9)
 };
 
 static TAB_NUM t_lambda_16[] = {
   1, // locals
   0, // parameters
   // open! $fd filename "r"
-  var_open, 2, var_364_24_filename, str_r, IO_CALL(1), var_369_7_fd,
+  var_open, 2, var_366_24_filename, str_r, IO_CALL(1), var_371_7_fd,
   // is_an_error:
-  var_is_an_error, 1, var_369_7_fd, 1, LOCAL(1),
+  var_is_an_error, 1, var_371_7_fd, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_fd_is_an_error, lambda_17, TAIL_CALL,
-  POS(369, 9),
-  POS(371, 14),
-  POS(370, 9)
+  POS(371, 9),
+  POS(373, 14),
+  POS(372, 9)
 };
 
 static TAB_NUM t_lambda_fd_is_an_error[] = {
   2, // locals
   0, // parameters
   // !fd.additional_error_information_of "
-  var_std__string, 3, str_load, var_364_24_filename, string_4, 1, LOCAL(2),
+  var_std__string, 3, str_load, var_366_24_filename, string_4, 1, LOCAL(2),
   // fd.additional_error_information_of "
-  LET, -1, var_369_7_fd, var_additional_error_information_of, LOCAL(2), var_369_7_fd,
+  LET, -1, var_371_7_fd, var_additional_error_information_of, LOCAL(2), var_371_7_fd,
   // performed_io task io fd
-  var_performed_io, 3, var_364_16_task, var_364_21_io, var_369_7_fd, TAIL_CALL,
-  POS(372, 13),
-  POS(372, 14),
-  POS(374, 13)
+  var_performed_io, 3, var_366_16_task, var_366_21_io, var_371_7_fd, TAIL_CALL,
+  POS(374, 13),
+  POS(374, 14),
+  POS(376, 13)
 };
 
 static TAB_NUM t_lambda_17[] = {
   1, // locals
   0, // parameters
   // start_reading_from &io fd
-  var_start_reading_from, 2, var_364_21_io, var_369_7_fd, 1, var_364_21_io,
+  var_start_reading_from, 2, var_366_21_io, var_371_7_fd, 1, var_366_21_io,
   // tuple(fd "")
-  var_tuple, 2, var_369_7_fd, string_3, 1, LOCAL(1),
+  var_tuple, 2, var_371_7_fd, string_3, 1, LOCAL(1),
   // check_io task io check_load_request tuple(fd "")
-  var_check_io, 4, var_364_16_task, var_364_21_io, func_check_load_request, LOCAL(1), TAIL_CALL,
-  POS(376, 13),
-  POS(377, 49),
-  POS(377, 13)
+  var_check_io, 4, var_366_16_task, var_366_21_io, func_check_load_request, LOCAL(1), TAIL_CALL,
+  POS(378, 13),
+  POS(379, 49),
+  POS(379, 13)
 };
 
 static TAB_NUM t_func_check_load_request[] = {
   1, // locals
   3, // parameters
-  var_379_22_task,
-  var_379_27_events,
-  var_379_34_argument,
+  var_381_22_task,
+  var_381_27_events,
+  var_381_34_argument,
   // argument $fd $buf
-  var_379_34_argument, 0, 2, var_380_10_fd, var_380_14_buf,
+  var_381_34_argument, 0, 2, var_382_10_fd, var_382_14_buf,
   // is_cancelled: # we are called as a start-I/O-handler!
-  var_is_cancelled, 1, var_379_22_task, 1, LOCAL(1),
+  var_is_cancelled, 1, var_381_22_task, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_2_task_is_cancelled, lambda_19, IO_TAIL_CALL,
-  POS(380, 5),
-  POS(382, 12),
-  POS(381, 5)
+  POS(382, 5),
+  POS(384, 12),
+  POS(383, 5)
 };
 
 static TAB_NUM t_lambda_2_task_is_cancelled[] = {
   2, // locals
   0, // parameters
   // $io events
-  LET, 1, var_379_27_events, 1, LOCAL(2),
+  LET, 1, var_381_27_events, 1, LOCAL(2),
   // stop_reading_from &io fd
-  var_stop_reading_from, 2, LOCAL(2), var_380_10_fd, 1, LOCAL(2),
+  var_stop_reading_from, 2, LOCAL(2), var_382_10_fd, 1, LOCAL(2),
   // try $_ignore_error: close! fd
   var_try, 1, lambda_18, IO_CALL(1), LOCAL(1),
   // performed_io task io buf # return the partial read data
-  var_performed_io, 3, var_379_22_task, LOCAL(2), var_380_14_buf, TAIL_CALL,
-  POS(383, 9),
-  POS(384, 9),
+  var_performed_io, 3, var_381_22_task, LOCAL(2), var_382_14_buf, TAIL_CALL,
   POS(385, 9),
-  POS(386, 9)
+  POS(386, 9),
+  POS(387, 9),
+  POS(388, 9)
 };
 
 static TAB_NUM t_lambda_18[] = {
   0, // locals
   0, // parameters
   // close! fd
-  var_close, 1, var_380_10_fd, IO_TAIL_CALL,
-  POS(385, 29)
+  var_close, 1, var_382_10_fd, IO_TAIL_CALL,
+  POS(387, 29)
 };
 
 static TAB_NUM t_lambda_19[] = {
   0, // locals
   0, // parameters
   // for_each events
-  var_for_each, 3, var_379_27_events, lambda_20, lambda_25, TAIL_CALL,
-  POS(388, 9)
+  var_for_each, 3, var_381_27_events, lambda_20, lambda_25, TAIL_CALL,
+  POS(390, 9)
 };
 
 static TAB_NUM t_lambda_20[] = {
   2, // locals
   1, // parameters
-  LOCAL(1), // 389_3_event
+  LOCAL(1), // 391_3_event
   // event $type $efd $data
-  LOCAL(1), 0, 3, LOCAL(2), var_390_13_efd, var_390_18_data,
+  LOCAL(1), 0, 3, LOCAL(2), var_392_13_efd, var_392_18_data,
   // case type
   var_case, 6, LOCAL(2), var_READ, lambda_READ, var_READ_FAILED, lambda_READ_FAILED, var_next, TAIL_CALL,
-  POS(390, 13),
-  POS(391, 13)
+  POS(392, 13),
+  POS(393, 13)
 };
 
 static TAB_NUM t_lambda_READ[] = {
   1, // locals
   0, // parameters
   // efd == fd:
-  var_std__equal, 2, var_390_13_efd, var_380_10_fd, 1, LOCAL(1),
+  var_std__equal, 2, var_392_13_efd, var_382_10_fd, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_21, var_next, TAIL_CALL,
-  POS(394, 19),
-  POS(393, 17)
+  POS(396, 19),
+  POS(395, 17)
 };
 
 static TAB_NUM t_lambda_21[] = {
   1, // locals
   0, // parameters
   // data == "":
-  var_std__equal, 2, var_390_18_data, string_3, 1, LOCAL(1),
+  var_std__equal, 2, var_392_18_data, string_3, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_22, lambda_23, TAIL_CALL,
-  POS(396, 23),
-  POS(395, 21)
+  POS(398, 23),
+  POS(397, 21)
 };
 
 static TAB_NUM t_lambda_22[] = {
   0, // locals
   0, // parameters
   // complete_io task complete_load_request argument
-  var_complete_io, 3, var_379_22_task, func_complete_load_request, var_379_34_argument, TAIL_CALL,
-  POS(397, 25)
+  var_complete_io, 3, var_381_22_task, func_complete_load_request, var_381_34_argument, TAIL_CALL,
+  POS(399, 25)
 };
 
 static TAB_NUM t_lambda_23[] = {
   2, // locals
   0, // parameters
   // append(buf data))
-  var_append, 2, var_380_14_buf, var_390_18_data, 1, LOCAL(1),
+  var_append, 2, var_382_14_buf, var_392_18_data, 1, LOCAL(1),
   // tuple(fd append(buf data))
-  var_tuple, 2, var_380_10_fd, LOCAL(1), 1, LOCAL(2),
+  var_tuple, 2, var_382_10_fd, LOCAL(1), 1, LOCAL(2),
   // recheck_io
-  var_recheck_io, 3, var_379_22_task, func_check_load_request, LOCAL(2), TAIL_CALL,
-  POS(400, 60),
-  POS(400, 51),
-  POS(399, 25)
+  var_recheck_io, 3, var_381_22_task, func_check_load_request, LOCAL(2), TAIL_CALL,
+  POS(402, 60),
+  POS(402, 51),
+  POS(401, 25)
 };
 
 static TAB_NUM t_lambda_READ_FAILED[] = {
   1, // locals
   0, // parameters
   // efd == fd:
-  var_std__equal, 2, var_390_13_efd, var_380_10_fd, 1, LOCAL(1),
+  var_std__equal, 2, var_392_13_efd, var_382_10_fd, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_24, var_next, TAIL_CALL,
-  POS(404, 19),
-  POS(403, 17)
+  POS(406, 19),
+  POS(405, 17)
 };
 
 static TAB_NUM t_lambda_24[] = {
   1, // locals
   0, // parameters
   // tuple(fd data)
-  var_tuple, 2, var_380_10_fd, var_390_18_data, 1, LOCAL(1),
+  var_tuple, 2, var_382_10_fd, var_392_18_data, 1, LOCAL(1),
   // complete_io task try_close_file tuple(fd data)
-  var_complete_io, 3, var_379_22_task, func_try_close_file, LOCAL(1), TAIL_CALL,
-  POS(405, 53),
-  POS(405, 21)
+  var_complete_io, 3, var_381_22_task, func_try_close_file, LOCAL(1), TAIL_CALL,
+  POS(407, 53),
+  POS(407, 21)
 };
 
 static TAB_NUM t_lambda_25[] = {
   0, // locals
   0, // parameters
   // recheck_io task check_load_request argument
-  var_recheck_io, 3, var_379_22_task, func_check_load_request, var_379_34_argument, TAIL_CALL,
-  POS(409, 13)
+  var_recheck_io, 3, var_381_22_task, func_check_load_request, var_381_34_argument, TAIL_CALL,
+  POS(411, 13)
 };
 
 static TAB_NUM t_func_complete_load_request[] = {
   5, // locals
   3, // parameters
-  LOCAL(2), // 411_25_task
-  LOCAL(3), // 411_30_io
-  LOCAL(4), // 411_33_argument
+  LOCAL(2), // 413_25_task
+  LOCAL(3), // 413_30_io
+  LOCAL(4), // 413_33_argument
   // argument $fd $buf
-  LOCAL(4), 0, 2, var_412_10_fd, LOCAL(5),
+  LOCAL(4), 0, 2, var_414_10_fd, LOCAL(5),
   // stop_reading_from &io fd
-  var_stop_reading_from, 2, LOCAL(3), var_412_10_fd, 1, LOCAL(3),
+  var_stop_reading_from, 2, LOCAL(3), var_414_10_fd, 1, LOCAL(3),
   // try $_ignore_error: close! fd
   var_try, 1, lambda_26, IO_CALL(1), LOCAL(1),
   // performed_io task io buf
   var_performed_io, 3, LOCAL(2), LOCAL(3), LOCAL(5), TAIL_CALL,
-  POS(412, 5),
-  POS(413, 5),
   POS(414, 5),
-  POS(415, 5)
+  POS(415, 5),
+  POS(416, 5),
+  POS(417, 5)
 };
 
 static TAB_NUM t_lambda_26[] = {
   0, // locals
   0, // parameters
   // close! fd
-  var_close, 1, var_412_10_fd, IO_TAIL_CALL,
-  POS(414, 25)
+  var_close, 1, var_414_10_fd, IO_TAIL_CALL,
+  POS(416, 25)
 };
 
 static TAB_NUM t_func_try_close_file[] = {
   5, // locals
   3, // parameters
-  LOCAL(2), // 417_18_task
-  LOCAL(3), // 417_23_io
-  LOCAL(4), // 417_26_argument
+  LOCAL(2), // 419_18_task
+  LOCAL(3), // 419_23_io
+  LOCAL(4), // 419_26_argument
   // argument $fd $READ_FAILED
-  LOCAL(4), 0, 2, var_418_10_fd, LOCAL(5),
+  LOCAL(4), 0, 2, var_420_10_fd, LOCAL(5),
   // stop_reading_from &io fd
-  var_stop_reading_from, 2, LOCAL(3), var_418_10_fd, 1, LOCAL(3),
+  var_stop_reading_from, 2, LOCAL(3), var_420_10_fd, 1, LOCAL(3),
   // try $_ignore_error: close! fd
   var_try, 1, lambda_27, IO_CALL(1), LOCAL(1),
   // performed_io task io READ_FAILED # return the error returned from <read>
   var_performed_io, 3, LOCAL(2), LOCAL(3), LOCAL(5), TAIL_CALL,
-  POS(418, 5),
-  POS(419, 5),
   POS(420, 5),
-  POS(421, 5)
+  POS(421, 5),
+  POS(422, 5),
+  POS(423, 5)
 };
 
 static TAB_NUM t_lambda_27[] = {
   0, // locals
   0, // parameters
   // close! fd
-  var_close, 1, var_418_10_fd, IO_TAIL_CALL,
-  POS(420, 25)
+  var_close, 1, var_420_10_fd, IO_TAIL_CALL,
+  POS(422, 25)
 };
 
 static TAB_NUM t_func_std_types__io_task___save[] = {
   5, // locals
   4, // parameters
-  LOCAL(2), // 423_27_self
-  LOCAL(3), // 423_32_my_filename
-  LOCAL(4), // 423_44_my_data
-  LOCAL(5), // 423_52_continuation
+  LOCAL(2), // 425_27_self
+  LOCAL(3), // 425_32_my_filename
+  LOCAL(4), // 425_44_my_data
+  LOCAL(5), // 425_52_continuation
   // tuple(my_filename my_data) continuation
   var_tuple, 2, LOCAL(3), LOCAL(4), 1, LOCAL(1),
   // perform_io self save_request tuple(my_filename my_data) continuation
   var_perform_io, 4, LOCAL(2), func_save_request, LOCAL(1), LOCAL(5), TAIL_CALL,
-  POS(424, 32),
-  POS(424, 3)
+  POS(426, 32),
+  POS(426, 3)
 };
 
 static TAB_NUM t_func_save_request[] = {
   2, // locals
   3, // parameters
-  var_426_16_task,
-  var_426_21_io,
-  LOCAL(2), // 426_24_argument
+  var_428_16_task,
+  var_428_21_io,
+  LOCAL(2), // 428_24_argument
   // argument $filename $data
-  LOCAL(2), 0, 2, var_427_10_filename, var_427_20_data,
+  LOCAL(2), 0, 2, var_429_10_filename, var_429_20_data,
   // is_cancelled: # we must not start an I/O operation!
-  var_is_cancelled, 1, var_426_16_task, 1, LOCAL(1),
+  var_is_cancelled, 1, var_428_16_task, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_3_task_is_cancelled, lambda_28, IO_TAIL_CALL,
-  POS(427, 5),
-  POS(429, 12),
-  POS(428, 5)
+  POS(429, 5),
+  POS(431, 12),
+  POS(430, 5)
 };
 
 static TAB_NUM t_lambda_3_task_is_cancelled[] = {
   0, // locals
   0, // parameters
   // performed_io task io data # we didn't write a single byte ...
-  var_performed_io, 3, var_426_16_task, var_426_21_io, var_427_20_data, TAIL_CALL,
-  POS(430, 9)
+  var_performed_io, 3, var_428_16_task, var_428_21_io, var_429_20_data, TAIL_CALL,
+  POS(432, 9)
 };
 
 static TAB_NUM t_lambda_28[] = {
   1, // locals
   0, // parameters
   // open! $fd filename "w"
-  var_open, 2, var_427_10_filename, str_w, IO_CALL(1), var_432_7_fd,
+  var_open, 2, var_429_10_filename, str_w, IO_CALL(1), var_434_7_fd,
   // is_an_error:
-  var_is_an_error, 1, var_432_7_fd, 1, LOCAL(1),
+  var_is_an_error, 1, var_434_7_fd, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_2_fd_is_an_error, lambda_29, TAIL_CALL,
-  POS(432, 9),
-  POS(434, 14),
-  POS(433, 9)
+  POS(434, 9),
+  POS(436, 14),
+  POS(435, 9)
 };
 
 static TAB_NUM t_lambda_2_fd_is_an_error[] = {
   2, // locals
   0, // parameters
   // !fd.additional_error_information_of "
-  var_std__string, 3, str_save, var_427_10_filename, string_4, 1, LOCAL(2),
+  var_std__string, 3, str_save, var_429_10_filename, string_4, 1, LOCAL(2),
   // fd.additional_error_information_of "
-  LET, -1, var_432_7_fd, var_additional_error_information_of, LOCAL(2), var_432_7_fd,
+  LET, -1, var_434_7_fd, var_additional_error_information_of, LOCAL(2), var_434_7_fd,
   // performed_io task io fd
-  var_performed_io, 3, var_426_16_task, var_426_21_io, var_432_7_fd, TAIL_CALL,
-  POS(435, 13),
-  POS(435, 14),
-  POS(437, 13)
+  var_performed_io, 3, var_428_16_task, var_428_21_io, var_434_7_fd, TAIL_CALL,
+  POS(437, 13),
+  POS(437, 14),
+  POS(439, 13)
 };
 
 static TAB_NUM t_lambda_29[] = {
   0, // locals
   0, // parameters
   // write &io fd data
-  var_write, 3, var_426_21_io, var_432_7_fd, var_427_20_data, 1, var_426_21_io,
+  var_write, 3, var_428_21_io, var_434_7_fd, var_429_20_data, 1, var_428_21_io,
   // check_io task io check_save_request fd
-  var_check_io, 4, var_426_16_task, var_426_21_io, func_check_save_request, var_432_7_fd, TAIL_CALL,
-  POS(439, 13),
-  POS(440, 13)
+  var_check_io, 4, var_428_16_task, var_428_21_io, func_check_save_request, var_434_7_fd, TAIL_CALL,
+  POS(441, 13),
+  POS(442, 13)
 };
 
 static TAB_NUM t_func_check_save_request[] = {
   1, // locals
   3, // parameters
-  var_442_22_task,
-  var_442_27_events,
-  var_442_34_fd,
+  var_444_22_task,
+  var_444_27_events,
+  var_444_34_fd,
   // is_cancelled: # we are called as a start-I/O-handler!
-  var_is_cancelled, 1, var_442_22_task, 1, LOCAL(1),
+  var_is_cancelled, 1, var_444_22_task, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_4_task_is_cancelled, lambda_31, IO_TAIL_CALL,
-  POS(444, 12),
-  POS(443, 5)
+  POS(446, 12),
+  POS(445, 5)
 };
 
 static TAB_NUM t_lambda_4_task_is_cancelled[] = {
   3, // locals
   0, // parameters
   // $io events
-  LET, 1, var_442_27_events, 1, LOCAL(2),
+  LET, 1, var_444_27_events, 1, LOCAL(2),
   // cancel_write &io $unwritten_text fd
-  var_cancel_write, 2, LOCAL(2), var_442_34_fd, 2, LOCAL(2), LOCAL(3),
+  var_cancel_write, 2, LOCAL(2), var_444_34_fd, 2, LOCAL(2), LOCAL(3),
   // try $_ignore_error: close! fd
   var_try, 1, lambda_30, IO_CALL(1), LOCAL(1),
   // performed_io task io unwritten_text # return the not yet written text
-  var_performed_io, 3, var_442_22_task, LOCAL(2), LOCAL(3), TAIL_CALL,
-  POS(445, 9),
-  POS(446, 9),
+  var_performed_io, 3, var_444_22_task, LOCAL(2), LOCAL(3), TAIL_CALL,
   POS(447, 9),
-  POS(448, 9)
+  POS(448, 9),
+  POS(449, 9),
+  POS(450, 9)
 };
 
 static TAB_NUM t_lambda_30[] = {
   0, // locals
   0, // parameters
   // close! fd
-  var_close, 1, var_442_34_fd, IO_TAIL_CALL,
-  POS(447, 29)
+  var_close, 1, var_444_34_fd, IO_TAIL_CALL,
+  POS(449, 29)
 };
 
 static TAB_NUM t_lambda_31[] = {
   0, // locals
   0, // parameters
   // for_each events
-  var_for_each, 3, var_442_27_events, lambda_32, lambda_35, TAIL_CALL,
-  POS(450, 9)
+  var_for_each, 3, var_444_27_events, lambda_32, lambda_35, TAIL_CALL,
+  POS(452, 9)
 };
 
 static TAB_NUM t_lambda_32[] = {
   2, // locals
   1, // parameters
-  LOCAL(1), // 451_3_event
+  LOCAL(1), // 453_3_event
   // event $type $efd $data
-  LOCAL(1), 0, 3, LOCAL(2), var_452_13_efd, var_452_18_data,
+  LOCAL(1), 0, 3, LOCAL(2), var_454_13_efd, var_454_18_data,
   // case type
   var_case, 6, LOCAL(2), var_WRITE_COMPLETED, lambda_WRITE_COMPLETED, var_WRITE_FAILED, lambda_WRITE_FAILED, var_next, TAIL_CALL,
-  POS(452, 13),
-  POS(453, 13)
+  POS(454, 13),
+  POS(455, 13)
 };
 
 static TAB_NUM t_lambda_WRITE_COMPLETED[] = {
   1, // locals
   0, // parameters
   // efd == fd:
-  var_std__equal, 2, var_452_13_efd, var_442_34_fd, 1, LOCAL(1),
+  var_std__equal, 2, var_454_13_efd, var_444_34_fd, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_33, var_next, TAIL_CALL,
-  POS(456, 19),
-  POS(455, 17)
+  POS(458, 19),
+  POS(457, 17)
 };
 
 static TAB_NUM t_lambda_33[] = {
   0, // locals
   0, // parameters
   // complete_io task complete_save_request fd
-  var_complete_io, 3, var_442_22_task, func_complete_save_request, var_442_34_fd, TAIL_CALL,
-  POS(457, 21)
+  var_complete_io, 3, var_444_22_task, func_complete_save_request, var_444_34_fd, TAIL_CALL,
+  POS(459, 21)
 };
 
 static TAB_NUM t_lambda_WRITE_FAILED[] = {
   1, // locals
   0, // parameters
   // efd == fd:
-  var_std__equal, 2, var_452_13_efd, var_442_34_fd, 1, LOCAL(1),
+  var_std__equal, 2, var_454_13_efd, var_444_34_fd, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_34, var_next, TAIL_CALL,
-  POS(461, 19),
-  POS(460, 17)
+  POS(463, 19),
+  POS(462, 17)
 };
 
 static TAB_NUM t_lambda_34[] = {
   1, // locals
   0, // parameters
   // tuple(fd data)
-  var_tuple, 2, var_442_34_fd, var_452_18_data, 1, LOCAL(1),
+  var_tuple, 2, var_444_34_fd, var_454_18_data, 1, LOCAL(1),
   // complete_io task try_close_file tuple(fd data)
-  var_complete_io, 3, var_442_22_task, func_2_try_close_file, LOCAL(1), TAIL_CALL,
-  POS(462, 53),
-  POS(462, 21)
+  var_complete_io, 3, var_444_22_task, func_2_try_close_file, LOCAL(1), TAIL_CALL,
+  POS(464, 53),
+  POS(464, 21)
 };
 
 static TAB_NUM t_lambda_35[] = {
   0, // locals
   0, // parameters
   // recheck_io task check_save_request fd
-  var_recheck_io, 3, var_442_22_task, func_check_save_request, var_442_34_fd, TAIL_CALL,
-  POS(466, 13)
+  var_recheck_io, 3, var_444_22_task, func_check_save_request, var_444_34_fd, TAIL_CALL,
+  POS(468, 13)
 };
 
 static TAB_NUM t_func_complete_save_request[] = {
   3, // locals
   3, // parameters
-  LOCAL(2), // 468_25_task
-  LOCAL(3), // 468_30_io
-  var_468_33_fd,
+  LOCAL(2), // 470_25_task
+  LOCAL(3), // 470_30_io
+  var_470_33_fd,
   // try $_ignore_error: close! fd
   var_try, 1, lambda_36, IO_CALL(1), LOCAL(1),
   // performed_io task io undefined
   var_performed_io, 3, LOCAL(2), LOCAL(3), var_undefined, TAIL_CALL,
-  POS(469, 5),
-  POS(470, 5)
+  POS(471, 5),
+  POS(472, 5)
 };
 
 static TAB_NUM t_lambda_36[] = {
   0, // locals
   0, // parameters
   // close! fd
-  var_close, 1, var_468_33_fd, IO_TAIL_CALL,
-  POS(469, 25)
+  var_close, 1, var_470_33_fd, IO_TAIL_CALL,
+  POS(471, 25)
 };
 
 static TAB_NUM t_func_2_try_close_file[] = {
   5, // locals
   3, // parameters
-  LOCAL(2), // 472_18_task
-  LOCAL(3), // 472_23_io
-  LOCAL(4), // 472_26_argument
+  LOCAL(2), // 474_18_task
+  LOCAL(3), // 474_23_io
+  LOCAL(4), // 474_26_argument
   // argument $fd $WRITE_FAILED
-  LOCAL(4), 0, 2, var_473_10_fd, LOCAL(5),
+  LOCAL(4), 0, 2, var_475_10_fd, LOCAL(5),
   // try $_ignore_error: close! fd
   var_try, 1, lambda_37, IO_CALL(1), LOCAL(1),
   // performed_io task io WRITE_FAILED # return the error returned from <write>
   var_performed_io, 3, LOCAL(2), LOCAL(3), LOCAL(5), TAIL_CALL,
-  POS(473, 5),
-  POS(474, 5),
-  POS(475, 5)
+  POS(475, 5),
+  POS(476, 5),
+  POS(477, 5)
 };
 
 static TAB_NUM t_lambda_37[] = {
   0, // locals
   0, // parameters
   // close! fd
-  var_close, 1, var_473_10_fd, IO_TAIL_CALL,
-  POS(474, 25)
+  var_close, 1, var_475_10_fd, IO_TAIL_CALL,
+  POS(476, 25)
 };
 
 static TAB_NUM t_func_std_types__io_task___read[] = {
   5, // locals
   4, // parameters
-  LOCAL(2), // 481_0_self
-  LOCAL(3), // 482_0_my_fd
-  LOCAL(4), // 483_0_my_length
-  LOCAL(5), // 484_0_continuation
+  LOCAL(2), // 483_0_self
+  LOCAL(3), // 484_0_my_fd
+  LOCAL(4), // 485_0_my_length
+  LOCAL(5), // 486_0_continuation
   // tuple(my_fd my_length) continuation
   var_tuple, 2, LOCAL(3), LOCAL(4), 1, LOCAL(1),
   // perform_io self start_read_request tuple(my_fd my_length) continuation
   var_perform_io, 4, LOCAL(2), func_start_read_request, LOCAL(1), LOCAL(5), TAIL_CALL,
-  POS(486, 38),
-  POS(486, 3)
+  POS(488, 38),
+  POS(488, 3)
 };
 
 static TAB_NUM t_func_start_read_request[] = {
   1, // locals
   3, // parameters
-  var_488_22_task,
-  var_488_27_io,
-  var_488_30_argument,
+  var_490_22_task,
+  var_490_27_io,
+  var_490_30_argument,
   // is_cancelled: # we must not start an I/O operation!
-  var_is_cancelled, 1, var_488_22_task, 1, LOCAL(1),
+  var_is_cancelled, 1, var_490_22_task, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_5_task_is_cancelled, lambda_38, TAIL_CALL,
-  POS(490, 12),
-  POS(489, 5)
+  POS(492, 12),
+  POS(491, 5)
 };
 
 static TAB_NUM t_lambda_5_task_is_cancelled[] = {
   0, // locals
   0, // parameters
   // performed_io task io "" # we didn't read a single byte ...
-  var_performed_io, 3, var_488_22_task, var_488_27_io, string_3, TAIL_CALL,
-  POS(491, 9)
+  var_performed_io, 3, var_490_22_task, var_490_27_io, string_3, TAIL_CALL,
+  POS(493, 9)
 };
 
 static TAB_NUM t_lambda_38[] = {
   3, // locals
   0, // parameters
   // argument $fd $length
-  var_488_30_argument, 0, 2, LOCAL(2), LOCAL(3),
+  var_490_30_argument, 0, 2, LOCAL(2), LOCAL(3),
   // start_reading_from &io fd
-  var_start_reading_from, 2, var_488_27_io, LOCAL(2), 1, var_488_27_io,
+  var_start_reading_from, 2, var_490_27_io, LOCAL(2), 1, var_490_27_io,
   // tuple(fd length "")
   var_tuple, 3, LOCAL(2), LOCAL(3), string_3, 1, LOCAL(1),
   // check_io task io check_read_request tuple(fd length "")
-  var_check_io, 4, var_488_22_task, var_488_27_io, func_check_read_request, LOCAL(1), TAIL_CALL,
-  POS(493, 9),
-  POS(494, 9),
-  POS(495, 45),
-  POS(495, 9)
+  var_check_io, 4, var_490_22_task, var_490_27_io, func_check_read_request, LOCAL(1), TAIL_CALL,
+  POS(495, 9),
+  POS(496, 9),
+  POS(497, 45),
+  POS(497, 9)
 };
 
 static TAB_NUM t_func_check_read_request[] = {
   1, // locals
   3, // parameters
-  var_497_22_task,
-  var_497_27_events,
-  var_497_34_argument,
+  var_499_22_task,
+  var_499_27_events,
+  var_499_34_argument,
   // argument $fd $length $buf
-  var_497_34_argument, 0, 3, var_498_10_fd, var_498_14_length, var_498_22_buf,
+  var_499_34_argument, 0, 3, var_500_10_fd, var_500_14_length, var_500_22_buf,
   // is_cancelled: # we are called as a start-I/O-handler!
-  var_is_cancelled, 1, var_497_22_task, 1, LOCAL(1),
+  var_is_cancelled, 1, var_499_22_task, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_6_task_is_cancelled, lambda_39, TAIL_CALL,
-  POS(498, 5),
-  POS(500, 12),
-  POS(499, 5)
+  POS(500, 5),
+  POS(502, 12),
+  POS(501, 5)
 };
 
 static TAB_NUM t_lambda_6_task_is_cancelled[] = {
   1, // locals
   0, // parameters
   // $io events
-  LET, 1, var_497_27_events, 1, LOCAL(1),
+  LET, 1, var_499_27_events, 1, LOCAL(1),
   // stop_reading_from &io fd
-  var_stop_reading_from, 2, LOCAL(1), var_498_10_fd, 1, LOCAL(1),
+  var_stop_reading_from, 2, LOCAL(1), var_500_10_fd, 1, LOCAL(1),
   // performed_io task io buf # return the partial read data
-  var_performed_io, 3, var_497_22_task, LOCAL(1), var_498_22_buf, TAIL_CALL,
-  POS(501, 9),
-  POS(502, 9),
-  POS(503, 9)
+  var_performed_io, 3, var_499_22_task, LOCAL(1), var_500_22_buf, TAIL_CALL,
+  POS(503, 9),
+  POS(504, 9),
+  POS(505, 9)
 };
 
 static TAB_NUM t_lambda_39[] = {
   0, // locals
   0, // parameters
   // for_each events
-  var_for_each, 3, var_497_27_events, lambda_40, lambda_47, TAIL_CALL,
-  POS(505, 9)
+  var_for_each, 3, var_499_27_events, lambda_40, lambda_47, TAIL_CALL,
+  POS(507, 9)
 };
 
 static TAB_NUM t_lambda_40[] = {
   4, // locals
   1, // parameters
-  LOCAL(3), // 506_3_event
+  LOCAL(3), // 508_3_event
   // event $type $efd $data
-  LOCAL(3), 0, 3, LOCAL(4), var_507_13_efd, var_507_18_data,
+  LOCAL(3), 0, 3, LOCAL(4), var_509_13_efd, var_509_18_data,
   // type == READ && efd == fd next:
   var_std__equal, 2, LOCAL(4), var_READ, 1, LOCAL(1),
   // type == READ && efd == fd next:
   var_std__and, 2, LOCAL(1), lambda_41, 1, LOCAL(2),
   // if_not
   var_if_not, 3, LOCAL(2), var_next, lambda_42, TAIL_CALL,
-  POS(507, 13),
-  POS(509, 15),
-  POS(509, 15),
-  POS(508, 13)
+  POS(509, 13),
+  POS(511, 15),
+  POS(511, 15),
+  POS(510, 13)
 };
 
 static TAB_NUM t_lambda_41[] = {
   1, // locals
   0, // parameters
   // efd == fd next:
-  var_std__equal, 2, var_507_13_efd, var_498_10_fd, 1, LOCAL(1),
+  var_std__equal, 2, var_509_13_efd, var_500_10_fd, 1, LOCAL(1),
   // efd == fd next:
   LET, 1, LOCAL(1), TAIL_CALL,
-  POS(509, 31),
-  POS(509, 31)
+  POS(511, 31),
+  POS(511, 31)
 };
 
 static TAB_NUM t_lambda_42[] = {
   1, // locals
   0, // parameters
   // data == "":
-  var_std__equal, 2, var_507_18_data, string_3, 1, LOCAL(1),
+  var_std__equal, 2, var_509_18_data, string_3, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_43, lambda_44, TAIL_CALL,
-  POS(511, 19),
-  POS(510, 17)
+  POS(513, 19),
+  POS(512, 17)
 };
 
 static TAB_NUM t_lambda_43[] = {
   1, // locals
   0, // parameters
   // tuple(fd buf)
-  var_tuple, 2, var_498_10_fd, var_498_22_buf, 1, LOCAL(1),
+  var_tuple, 2, var_500_10_fd, var_500_22_buf, 1, LOCAL(1),
   // complete_io task complete_read_request tuple(fd buf)
-  var_complete_io, 3, var_497_22_task, func_complete_read_request, LOCAL(1), TAIL_CALL,
-  POS(512, 60),
-  POS(512, 21)
+  var_complete_io, 3, var_499_22_task, func_complete_read_request, LOCAL(1), TAIL_CALL,
+  POS(514, 60),
+  POS(514, 21)
 };
 
 static TAB_NUM t_lambda_44[] = {
   3, // locals
   0, // parameters
   // append &buf data
-  var_append, 2, var_498_22_buf, var_507_18_data, 1, var_498_22_buf,
+  var_append, 2, var_500_22_buf, var_509_18_data, 1, var_500_22_buf,
   // length_of(buf) >= length:
-  var_length_of, 1, var_498_22_buf, 1, LOCAL(1),
+  var_length_of, 1, var_500_22_buf, 1, LOCAL(1),
   // length_of(buf) >= length:
-  var_std__less, 2, LOCAL(1), var_498_14_length, 1, LOCAL(2),
+  var_std__less, 2, LOCAL(1), var_500_14_length, 1, LOCAL(2),
   // length_of(buf) >= length:
   var_std__not, 1, LOCAL(2), 1, LOCAL(3),
   // if
   var_if, 3, LOCAL(3), lambda_45, lambda_46, TAIL_CALL,
-  POS(514, 21),
-  POS(516, 23),
-  POS(516, 23),
-  POS(516, 23),
-  POS(515, 21)
+  POS(516, 21),
+  POS(518, 23),
+  POS(518, 23),
+  POS(518, 23),
+  POS(517, 21)
 };
 
 static TAB_NUM t_lambda_45[] = {
   1, // locals
   0, // parameters
   // tuple(fd buf)
-  var_tuple, 2, var_498_10_fd, var_498_22_buf, 1, LOCAL(1),
+  var_tuple, 2, var_500_10_fd, var_500_22_buf, 1, LOCAL(1),
   // complete_io task complete_read_request tuple(fd buf)
-  var_complete_io, 3, var_497_22_task, func_complete_read_request, LOCAL(1), TAIL_CALL,
-  POS(517, 64),
-  POS(517, 25)
+  var_complete_io, 3, var_499_22_task, func_complete_read_request, LOCAL(1), TAIL_CALL,
+  POS(519, 64),
+  POS(519, 25)
 };
 
 static TAB_NUM t_lambda_46[] = {
   1, // locals
   0, // parameters
   // tuple(fd length buf)
-  var_tuple, 3, var_498_10_fd, var_498_14_length, var_498_22_buf, 1, LOCAL(1),
+  var_tuple, 3, var_500_10_fd, var_500_14_length, var_500_22_buf, 1, LOCAL(1),
   // recheck_io task check_read_request tuple(fd length buf)
-  var_recheck_io, 3, var_497_22_task, func_check_read_request, LOCAL(1), TAIL_CALL,
-  POS(519, 60),
-  POS(519, 25)
+  var_recheck_io, 3, var_499_22_task, func_check_read_request, LOCAL(1), TAIL_CALL,
+  POS(521, 60),
+  POS(521, 25)
 };
 
 static TAB_NUM t_lambda_47[] = {
   0, // locals
   0, // parameters
   // recheck_io task check_read_request argument
-  var_recheck_io, 3, var_497_22_task, func_check_read_request, var_497_34_argument, TAIL_CALL,
-  POS(521, 13)
+  var_recheck_io, 3, var_499_22_task, func_check_read_request, var_499_34_argument, TAIL_CALL,
+  POS(523, 13)
 };
 
 static TAB_NUM t_func_complete_read_request[] = {
   5, // locals
   3, // parameters
-  LOCAL(1), // 523_25_task
-  LOCAL(2), // 523_30_io
-  LOCAL(3), // 523_33_argument
+  LOCAL(1), // 525_25_task
+  LOCAL(2), // 525_30_io
+  LOCAL(3), // 525_33_argument
   // argument $fd $buf
   LOCAL(3), 0, 2, LOCAL(4), LOCAL(5),
   // stop_reading_from &io fd
   var_stop_reading_from, 2, LOCAL(2), LOCAL(4), 1, LOCAL(2),
   // performed_io task io buf
   var_performed_io, 3, LOCAL(1), LOCAL(2), LOCAL(5), TAIL_CALL,
-  POS(524, 5),
-  POS(525, 5),
-  POS(526, 5)
+  POS(526, 5),
+  POS(527, 5),
+  POS(528, 5)
 };
 
 static TAB_NUM t_func_std_types__io_task___write[] = {
   5, // locals
   4, // parameters
-  LOCAL(2), // 528_28_self
-  LOCAL(3), // 528_33_my_fd
-  LOCAL(4), // 528_39_my_text
-  LOCAL(5), // 528_47_continuation
+  LOCAL(2), // 530_28_self
+  LOCAL(3), // 530_33_my_fd
+  LOCAL(4), // 530_39_my_text
+  LOCAL(5), // 530_47_continuation
   // tuple(my_fd my_text) continuation
   var_tuple, 2, LOCAL(3), LOCAL(4), 1, LOCAL(1),
   // perform_io self write_request tuple(my_fd my_text) continuation
   var_perform_io, 4, LOCAL(2), func_write_request, LOCAL(1), LOCAL(5), TAIL_CALL,
-  POS(529, 33),
-  POS(529, 3)
+  POS(531, 33),
+  POS(531, 3)
 };
 
 static TAB_NUM t_func_write_request[] = {
   2, // locals
   3, // parameters
-  var_531_17_task,
-  var_531_22_io,
-  LOCAL(2), // 531_25_argument
+  var_533_17_task,
+  var_533_22_io,
+  LOCAL(2), // 533_25_argument
   // argument $fd $text
-  LOCAL(2), 0, 2, var_532_10_fd, var_532_14_text,
+  LOCAL(2), 0, 2, var_534_10_fd, var_534_14_text,
   // is_cancelled: # we must not start an I/O operation!
-  var_is_cancelled, 1, var_531_17_task, 1, LOCAL(1),
+  var_is_cancelled, 1, var_533_17_task, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_7_task_is_cancelled, lambda_48, TAIL_CALL,
-  POS(532, 5),
-  POS(534, 12),
-  POS(533, 5)
+  POS(534, 5),
+  POS(536, 12),
+  POS(535, 5)
 };
 
 static TAB_NUM t_lambda_7_task_is_cancelled[] = {
   0, // locals
   0, // parameters
   // performed_io task io text # we didn't write a single byte ...
-  var_performed_io, 3, var_531_17_task, var_531_22_io, var_532_14_text, TAIL_CALL,
-  POS(535, 9)
+  var_performed_io, 3, var_533_17_task, var_533_22_io, var_534_14_text, TAIL_CALL,
+  POS(537, 9)
 };
 
 static TAB_NUM t_lambda_48[] = {
   0, // locals
   0, // parameters
   // write &io fd text
-  var_write, 3, var_531_22_io, var_532_10_fd, var_532_14_text, 1, var_531_22_io,
+  var_write, 3, var_533_22_io, var_534_10_fd, var_534_14_text, 1, var_533_22_io,
   // check_io task io check_write_request fd
-  var_check_io, 4, var_531_17_task, var_531_22_io, func_check_write_request, var_532_10_fd, TAIL_CALL,
-  POS(537, 9),
-  POS(538, 9)
+  var_check_io, 4, var_533_17_task, var_533_22_io, func_check_write_request, var_534_10_fd, TAIL_CALL,
+  POS(539, 9),
+  POS(540, 9)
 };
 
 static TAB_NUM t_func_check_write_request[] = {
   1, // locals
   3, // parameters
-  var_540_23_task,
-  var_540_28_events,
-  var_540_35_fd,
+  var_542_23_task,
+  var_542_28_events,
+  var_542_35_fd,
   // is_cancelled: # we are called as a start-I/O-handler!
-  var_is_cancelled, 1, var_540_23_task, 1, LOCAL(1),
+  var_is_cancelled, 1, var_542_23_task, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_8_task_is_cancelled, lambda_49, TAIL_CALL,
-  POS(542, 12),
-  POS(541, 5)
+  POS(544, 12),
+  POS(543, 5)
 };
 
 static TAB_NUM t_lambda_8_task_is_cancelled[] = {
   2, // locals
   0, // parameters
   // $io events
-  LET, 1, var_540_28_events, 1, LOCAL(1),
+  LET, 1, var_542_28_events, 1, LOCAL(1),
   // cancel_write &io $unwritten_text fd
-  var_cancel_write, 2, LOCAL(1), var_540_35_fd, 2, LOCAL(1), LOCAL(2),
+  var_cancel_write, 2, LOCAL(1), var_542_35_fd, 2, LOCAL(1), LOCAL(2),
   // performed_io task io unwritten_text # return the not yet written text
-  var_performed_io, 3, var_540_23_task, LOCAL(1), LOCAL(2), TAIL_CALL,
-  POS(543, 9),
-  POS(544, 9),
-  POS(545, 9)
+  var_performed_io, 3, var_542_23_task, LOCAL(1), LOCAL(2), TAIL_CALL,
+  POS(545, 9),
+  POS(546, 9),
+  POS(547, 9)
 };
 
 static TAB_NUM t_lambda_49[] = {
   0, // locals
   0, // parameters
   // for_each events
-  var_for_each, 3, var_540_28_events, lambda_50, lambda_53, TAIL_CALL,
-  POS(547, 9)
+  var_for_each, 3, var_542_28_events, lambda_50, lambda_53, TAIL_CALL,
+  POS(549, 9)
 };
 
 static TAB_NUM t_lambda_50[] = {
   4, // locals
   1, // parameters
-  LOCAL(3), // 548_3_event
+  LOCAL(3), // 550_3_event
   // event $type $efd $_data
-  LOCAL(3), 0, 3, LOCAL(4), var_549_13_efd, LOCAL(1),
+  LOCAL(3), 0, 3, LOCAL(4), var_551_13_efd, LOCAL(1),
   // type == WRITE_COMPLETED && efd == fd:
   var_std__equal, 2, LOCAL(4), var_WRITE_COMPLETED, 1, LOCAL(1),
   // type == WRITE_COMPLETED && efd == fd:
   var_std__and, 2, LOCAL(1), lambda_51, 1, LOCAL(2),
   // if
   var_if, 3, LOCAL(2), lambda_52, var_next, TAIL_CALL,
-  POS(549, 13),
-  POS(551, 15),
-  POS(551, 15),
-  POS(550, 13)
+  POS(551, 13),
+  POS(553, 15),
+  POS(553, 15),
+  POS(552, 13)
 };
 
 static TAB_NUM t_lambda_51[] = {
   1, // locals
   0, // parameters
   // efd == fd:
-  var_std__equal, 2, var_549_13_efd, var_540_35_fd, 1, LOCAL(1),
+  var_std__equal, 2, var_551_13_efd, var_542_35_fd, 1, LOCAL(1),
   // efd == fd:
   LET, 1, LOCAL(1), TAIL_CALL,
-  POS(551, 42),
-  POS(551, 42)
+  POS(553, 42),
+  POS(553, 42)
 };
 
 static TAB_NUM t_lambda_52[] = {
   0, // locals
   0, // parameters
   // checked_io task undefined
-  var_checked_io, 2, var_540_23_task, var_undefined, TAIL_CALL,
-  POS(552, 17)
+  var_checked_io, 2, var_542_23_task, var_undefined, TAIL_CALL,
+  POS(554, 17)
 };
 
 static TAB_NUM t_lambda_53[] = {
   0, // locals
   0, // parameters
   // recheck_io task check_write_request fd
-  var_recheck_io, 3, var_540_23_task, func_check_write_request, var_540_35_fd, TAIL_CALL,
-  POS(555, 13)
+  var_recheck_io, 3, var_542_23_task, func_check_write_request, var_542_35_fd, TAIL_CALL,
+  POS(557, 13)
 };
 
 static TAB_NUM t_func_std_types__io_task___join_process[] = {
   3, // locals
   3, // parameters
-  LOCAL(1), // 557_35_self
-  LOCAL(2), // 557_40_my_pid
-  LOCAL(3), // 557_47_continuation
+  LOCAL(1), // 559_35_self
+  LOCAL(2), // 559_40_my_pid
+  LOCAL(3), // 559_47_continuation
   // perform_io self join_process_request my_pid continuation
   var_perform_io, 4, LOCAL(1), func_join_process_request, LOCAL(2), LOCAL(3), TAIL_CALL,
-  POS(558, 3)
+  POS(560, 3)
 };
 
 static TAB_NUM t_func_join_process_request[] = {
   3, // locals
   3, // parameters
-  LOCAL(1), // 560_24_task
-  LOCAL(2), // 560_29_io
-  LOCAL(3), // 560_32_pid
+  LOCAL(1), // 562_24_task
+  LOCAL(2), // 562_29_io
+  LOCAL(3), // 562_32_pid
   // join_process &io pid
   var_join_process, 2, LOCAL(2), LOCAL(3), 1, LOCAL(2),
   // check_io task io join_process_request_pending pid
   var_check_io, 4, LOCAL(1), LOCAL(2), func_join_process_request_pending, LOCAL(3), TAIL_CALL,
-  POS(561, 5),
-  POS(562, 5)
+  POS(563, 5),
+  POS(564, 5)
 };
 
 static TAB_NUM t_func_join_process_request_pending[] = {
   1, // locals
   3, // parameters
-  var_564_32_task,
-  LOCAL(1), // 564_37_events
-  var_564_44_pid,
+  var_566_32_task,
+  LOCAL(1), // 566_37_events
+  var_566_44_pid,
   // for_each events
   var_for_each, 3, LOCAL(1), lambda_54, lambda_57, TAIL_CALL,
-  POS(565, 5)
+  POS(567, 5)
 };
 
 static TAB_NUM t_lambda_54[] = {
   4, // locals
   1, // parameters
-  LOCAL(3), // 566_3_event
+  LOCAL(3), // 568_3_event
   // event $type $epid $status
-  LOCAL(3), 0, 3, LOCAL(4), var_567_13_epid, var_567_19_status,
+  LOCAL(3), 0, 3, LOCAL(4), var_569_13_epid, var_569_19_status,
   // type == PROCESS_JOINED && epid == pid:
   var_std__equal, 2, LOCAL(4), var_PROCESS_JOINED, 1, LOCAL(1),
   // type == PROCESS_JOINED && epid == pid:
   var_std__and, 2, LOCAL(1), lambda_55, 1, LOCAL(2),
   // if
   var_if, 3, LOCAL(2), lambda_56, var_next, TAIL_CALL,
-  POS(567, 9),
-  POS(569, 11),
-  POS(569, 11),
-  POS(568, 9)
+  POS(569, 9),
+  POS(571, 11),
+  POS(571, 11),
+  POS(570, 9)
 };
 
 static TAB_NUM t_lambda_55[] = {
   1, // locals
   0, // parameters
   // epid == pid:
-  var_std__equal, 2, var_567_13_epid, var_564_44_pid, 1, LOCAL(1),
+  var_std__equal, 2, var_569_13_epid, var_566_44_pid, 1, LOCAL(1),
   // epid == pid:
   LET, 1, LOCAL(1), TAIL_CALL,
-  POS(569, 37),
-  POS(569, 37)
+  POS(571, 37),
+  POS(571, 37)
 };
 
 static TAB_NUM t_lambda_56[] = {
   0, // locals
   0, // parameters
   // checked_io task status
-  var_checked_io, 2, var_564_32_task, var_567_19_status, TAIL_CALL,
-  POS(570, 13)
+  var_checked_io, 2, var_566_32_task, var_569_19_status, TAIL_CALL,
+  POS(572, 13)
 };
 
 static TAB_NUM t_lambda_57[] = {
   0, // locals
   0, // parameters
   // recheck_io task join_process_request_pending pid
-  var_recheck_io, 3, var_564_32_task, func_join_process_request_pending, var_564_44_pid, TAIL_CALL,
-  POS(573, 9)
+  var_recheck_io, 3, var_566_32_task, func_join_process_request_pending, var_566_44_pid, TAIL_CALL,
+  POS(575, 9)
 };
 
 static TAB_NUM t_func_std_types__io_task___catch_signal[] = {
   2, // locals
   2, // parameters
-  LOCAL(1), // 575_35_self
-  LOCAL(2), // 575_40_continuation
+  LOCAL(1), // 577_35_self
+  LOCAL(2), // 577_40_continuation
   // perform_io self catch_signal_request undefined continuation
   var_perform_io, 4, LOCAL(1), func_catch_signal_request, var_undefined, LOCAL(2), TAIL_CALL,
-  POS(576, 3)
+  POS(578, 3)
 };
 
 static TAB_NUM t_func_catch_signal_request[] = {
   3, // locals
   3, // parameters
-  LOCAL(2), // 578_24_task
-  LOCAL(3), // 578_29_io
+  LOCAL(2), // 580_24_task
+  LOCAL(3), // 580_29_io
   LOCAL(1),
   // start_catching_signals &io
   var_start_catching_signals, 1, LOCAL(3), 1, LOCAL(3),
   // check_io task io catch_signal_request_pending undefined
   var_check_io, 4, LOCAL(2), LOCAL(3), func_catch_signal_request_pending, var_undefined, TAIL_CALL,
-  POS(579, 5),
-  POS(580, 5)
+  POS(581, 5),
+  POS(582, 5)
 };
 
 static TAB_NUM t_func_catch_signal_request_pending[] = {
   1, // locals
   3, // parameters
-  var_582_32_task,
-  var_582_37_events,
+  var_584_32_task,
+  var_584_37_events,
   LOCAL(1),
   // is_cancelled:
-  var_is_cancelled, 1, var_582_32_task, 1, LOCAL(1),
+  var_is_cancelled, 1, var_584_32_task, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_9_task_is_cancelled, lambda_58, TAIL_CALL,
-  POS(584, 12),
-  POS(583, 5)
+  POS(586, 12),
+  POS(585, 5)
 };
 
 static TAB_NUM t_lambda_9_task_is_cancelled[] = {
   0, // locals
   0, // parameters
   // complete_io task cancel_catch_signal_request undefined
-  var_complete_io, 3, var_582_32_task, func_cancel_catch_signal_request, var_undefined, TAIL_CALL,
-  POS(585, 9)
+  var_complete_io, 3, var_584_32_task, func_cancel_catch_signal_request, var_undefined, TAIL_CALL,
+  POS(587, 9)
 };
 
 static TAB_NUM t_lambda_58[] = {
   0, // locals
   0, // parameters
   // $signals empty_list
-  LET, 1, var_empty_list, 1, var_587_1_signals,
+  LET, 1, var_empty_list, 1, var_589_1_signals,
   // for_each events
-  var_for_each, 3, var_582_37_events, lambda_59, lambda_61, TAIL_CALL,
-  POS(587, 9),
-  POS(588, 9)
+  var_for_each, 3, var_584_37_events, lambda_59, lambda_61, TAIL_CALL,
+  POS(589, 9),
+  POS(590, 9)
 };
 
 static TAB_NUM t_lambda_59[] = {
   3, // locals
   1, // parameters
-  LOCAL(2), // 589_3_event
+  LOCAL(2), // 591_3_event
   // event $type $_dummy $signal
-  LOCAL(2), 0, 3, LOCAL(3), LOCAL(1), var_590_21_signal,
+  LOCAL(2), 0, 3, LOCAL(3), LOCAL(1), var_592_21_signal,
   // type == SIGNAL:
   var_std__equal, 2, LOCAL(3), var_SIGNAL, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_60, var_next, TAIL_CALL,
-  POS(590, 13),
-  POS(592, 15),
-  POS(591, 13)
+  POS(592, 13),
+  POS(594, 15),
+  POS(593, 13)
 };
 
 static TAB_NUM t_lambda_60[] = {
   0, // locals
   0, // parameters
   // push &signals signal
-  var_push, 2, var_587_1_signals, var_590_21_signal, 1, var_587_1_signals,
+  var_push, 2, var_589_1_signals, var_592_21_signal, 1, var_589_1_signals,
   // next
   var_next, 0, TAIL_CALL,
-  POS(593, 17),
-  POS(594, 17)
+  POS(595, 17),
+  POS(596, 17)
 };
 
 static TAB_NUM t_lambda_61[] = {
   1, // locals
   0, // parameters
   // is_empty:
-  var_is_empty, 1, var_587_1_signals, 1, LOCAL(1),
+  var_is_empty, 1, var_589_1_signals, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_signals_is_empty, lambda_62, TAIL_CALL,
-  POS(598, 23),
-  POS(597, 13)
+  POS(600, 23),
+  POS(599, 13)
 };
 
 static TAB_NUM t_lambda_signals_is_empty[] = {
   0, // locals
   0, // parameters
   // recheck_io task catch_signal_request_pending undefined
-  var_recheck_io, 3, var_582_32_task, func_catch_signal_request_pending, var_undefined, TAIL_CALL,
-  POS(599, 17)
+  var_recheck_io, 3, var_584_32_task, func_catch_signal_request_pending, var_undefined, TAIL_CALL,
+  POS(601, 17)
 };
 
 static TAB_NUM t_lambda_62[] = {
   0, // locals
   0, // parameters
   // complete_io task catch_signal_request_completed signals
-  var_complete_io, 3, var_582_32_task, func_catch_signal_request_completed, var_587_1_signals, TAIL_CALL,
-  POS(601, 17)
+  var_complete_io, 3, var_584_32_task, func_catch_signal_request_completed, var_589_1_signals, TAIL_CALL,
+  POS(603, 17)
 };
 
 static TAB_NUM t_func_cancel_catch_signal_request[] = {
   3, // locals
   3, // parameters
-  LOCAL(2), // 603_31_task
-  LOCAL(3), // 603_36_io
+  LOCAL(2), // 605_31_task
+  LOCAL(3), // 605_36_io
   LOCAL(1),
   // stop_catching_signals &io
   var_stop_catching_signals, 1, LOCAL(3), 1, LOCAL(3),
   // performed_io task io
   var_performed_io, 2, LOCAL(2), LOCAL(3), TAIL_CALL,
-  POS(604, 5),
-  POS(605, 5)
+  POS(606, 5),
+  POS(607, 5)
 };
 
 static TAB_NUM t_func_catch_signal_request_completed[] = {
   3, // locals
   3, // parameters
-  LOCAL(1), // 607_34_task
-  LOCAL(2), // 607_39_io
-  LOCAL(3), // 607_42_signals
+  LOCAL(1), // 609_34_task
+  LOCAL(2), // 609_39_io
+  LOCAL(3), // 609_42_signals
   // stop_catching_signals &io
   var_stop_catching_signals, 1, LOCAL(2), 1, LOCAL(2),
   // performed_io task io signals
   var_performed_io, 3, LOCAL(1), LOCAL(2), LOCAL(3), TAIL_CALL,
-  POS(608, 5),
-  POS(609, 5)
+  POS(610, 5),
+  POS(611, 5)
 };
 
 static TAB_NUM t_func_std_types__io_task___fork[] = {
   6, // locals
   -4, // parameters
-  MANDATORY_PARAMETER, LOCAL(3), // 613_0_self
-  MANDATORY_PARAMETER, LOCAL(4), // 614_0_task
-  MANDATORY_PARAMETER, LOCAL(5), // 615_0_continuation
-  var_undefined, LOCAL(6), // 616_0_argument
+  MANDATORY_PARAMETER, LOCAL(3), // 615_0_self
+  MANDATORY_PARAMETER, LOCAL(4), // 616_0_task
+  MANDATORY_PARAMETER, LOCAL(5), // 617_0_continuation
+  var_undefined, LOCAL(6), // 618_0_argument
   // fork_requests_of tuple(task continuation argument)
   var_fork_requests_of, 1, LOCAL(3), 1, LOCAL(1),
   // tuple(task continuation argument)
@@ -2126,61 +2126,59 @@ static TAB_NUM t_func_std_types__io_task___fork[] = {
   LET, -1, LOCAL(3), var_fork_requests_of, LOCAL(1), LOCAL(3),
   // -> self
   LET, 1, LOCAL(3), TAIL_CALL,
-  POS(618, 14),
-  POS(618, 31),
-  POS(618, 3),
-  POS(618, 9),
-  POS(619, 3)
+  POS(620, 14),
+  POS(620, 31),
+  POS(620, 3),
+  POS(620, 9),
+  POS(621, 3)
 };
 
 static TAB_NUM t_func_std_types__io_task___exit[] = {
   2, // locals
   -2, // parameters
-  MANDATORY_PARAMETER, LOCAL(1), // 623_0_self
-  var_EXIT_SUCCESS, LOCAL(2), // 624_0_status
+  MANDATORY_PARAMETER, LOCAL(1), // 625_0_self
+  var_EXIT_SUCCESS, LOCAL(2), // 626_0_status
   // tuple self EXIT undefined status undefined
   var_tuple, 5, LOCAL(1), uni_EXIT, var_undefined, LOCAL(2), var_undefined, TAIL_CALL,
-  POS(626, 3)
+  POS(628, 3)
 };
 
 static TAB_NUM t_func_std__io_task_manager[] = {
   5, // locals
   -3, // parameters
-  MANDATORY_PARAMETER, LOCAL(3), // 633_0_first_task
-  MANDATORY_PARAMETER, LOCAL(4), // 634_0_start
-  var_undefined, LOCAL(5), // 635_0_start_arguments
+  MANDATORY_PARAMETER, LOCAL(3), // 635_0_first_task
+  MANDATORY_PARAMETER, LOCAL(4), // 636_0_start
+  var_undefined, LOCAL(5), // 637_0_start_arguments
   // $exit_status EXIT_SUCCESS
-  LET, 1, var_EXIT_SUCCESS, 1, var_637_1_exit_status,
+  LET, 1, var_EXIT_SUCCESS, 1, var_639_1_exit_status,
   // $io std_types::io
-  LET, 1, var_std_types__io, 1, var_638_1_io,
+  LET, 1, var_std_types__io, 1, var_640_1_io,
   // $updated_requests empty_list
-  LET, 1, var_empty_list, 1, var_639_1_updated_requests,
+  LET, 1, var_empty_list, 1, var_641_1_updated_requests,
   // $new_requests empty_list
-  LET, 1, var_empty_list, 1, var_640_1_new_requests,
+  LET, 1, var_empty_list, 1, var_642_1_new_requests,
   // $cancellations empty_key_order_set
-  LET, 1, var_empty_key_order_set, 1, var_641_1_cancellations,
+  LET, 1, var_empty_key_order_set, 1, var_643_1_cancellations,
   // $sent_messages empty_key_order_table
-  LET, 1, var_empty_key_order_table, 1, var_642_1_sent_messages,
+  LET, 1, var_empty_key_order_table, 1, var_644_1_sent_messages,
   // $removed_children empty_key_order_table
-  LET, 1, var_empty_key_order_table, 1, var_643_1_removed_children,
+  LET, 1, var_empty_key_order_table, 1, var_645_1_removed_children,
   // $log_message ""
-  LET, 1, string_3, 1, var_644_1_log_message,
+  LET, 1, string_3, 1, var_646_1_log_message,
   // $events empty_list
-  LET, 1, var_empty_list, 1, var_645_1_events,
+  LET, 1, var_empty_list, 1, var_647_1_events,
   // .id_of 1) COMPUTE undefined start_arguments start))
   LET, -1, LOCAL(3), var_id_of, num_1, LOCAL(1),
   // tuple(first_task(.id_of 1) COMPUTE undefined start_arguments start))
   var_tuple, 5, LOCAL(1), uni_COMPUTE, var_undefined, LOCAL(5), LOCAL(4), 1, LOCAL(2),
   // $requests
-  var_list, 1, LOCAL(2), 1, var_646_1_requests,
+  var_list, 1, LOCAL(2), 1, var_648_1_requests,
   // $current_task_id 1
-  LET, 1, num_1, 1, var_648_1_current_task_id,
+  LET, 1, num_1, 1, var_650_1_current_task_id,
   // $iteration_no 0
-  LET, 1, num_0, 1, var_649_1_iteration_no,
+  LET, 1, num_0, 1, var_651_1_iteration_no,
   // loop:
   var_loop, 1, lambda_loop, IO_TAIL_CALL,
-  POS(637, 3),
-  POS(638, 3),
   POS(639, 3),
   POS(640, 3),
   POS(641, 3),
@@ -2188,21 +2186,23 @@ static TAB_NUM t_func_std__io_task_manager[] = {
   POS(643, 3),
   POS(644, 3),
   POS(645, 3),
-  POS(647, 27),
-  POS(647, 10),
   POS(646, 3),
+  POS(647, 3),
+  POS(649, 27),
+  POS(649, 10),
   POS(648, 3),
-  POS(649, 3),
-  POS(653, 3)
+  POS(650, 3),
+  POS(651, 3),
+  POS(655, 3)
 };
 
 static TAB_NUM t_lambda_loop[] = {
   4, // locals
   0, // parameters
   // inc &iteration_no
-  var_inc, 1, var_649_1_iteration_no, 1, var_649_1_iteration_no,
+  var_inc, 1, var_651_1_iteration_no, 1, var_651_1_iteration_no,
   // map &requests compute
-  var_map, 2, var_646_1_requests, func_compute, 1, var_646_1_requests,
+  var_map, 2, var_648_1_requests, func_compute, 1, var_648_1_requests,
   // log_level >= 4 && removed_children.is_not_empty &log_message:
   var_std__less, 2, var_log_level, num_4, 1, LOCAL(1),
   // log_level >= 4 && removed_children.is_not_empty &log_message:
@@ -2210,113 +2210,113 @@ static TAB_NUM t_lambda_loop[] = {
   // log_level >= 4 && removed_children.is_not_empty &log_message:
   var_std__and, 2, LOCAL(2), lambda_63, 1, LOCAL(3),
   // update_if log_level >= 4 && removed_children.is_not_empty &log_message:
-  var_update_if, 3, LOCAL(3), var_644_1_log_message, lambda_64, 1, var_644_1_log_message,
+  var_update_if, 3, LOCAL(3), var_646_1_log_message, lambda_64, 1, var_646_1_log_message,
   // !removed_children empty_key_order_table
-  LET, 1, var_empty_key_order_table, 1, var_643_1_removed_children,
+  LET, 1, var_empty_key_order_table, 1, var_645_1_removed_children,
   // for_each &requests
-  var_for_each, 3, var_646_1_requests, lambda_70, lambda_71, 6, var_646_1_requests, var_648_1_current_task_id, var_640_1_new_requests, var_642_1_sent_messages, var_641_1_cancellations, var_644_1_log_message,
+  var_for_each, 3, var_648_1_requests, lambda_70, lambda_71, 6, var_648_1_requests, var_650_1_current_task_id, var_642_1_new_requests, var_644_1_sent_messages, var_643_1_cancellations, var_646_1_log_message,
   // is_empty)
-  var_is_empty, 1, var_642_1_sent_messages, 1, LOCAL(1),
+  var_is_empty, 1, var_644_1_sent_messages, 1, LOCAL(1),
   // $do_receive_messages not(sent_messages.is_empty)
-  var_not, 1, LOCAL(1), 1, var_698_1_do_receive_messages,
+  var_not, 1, LOCAL(1), 1, var_700_1_do_receive_messages,
   // is_empty)
-  var_is_empty, 1, var_641_1_cancellations, 1, LOCAL(1),
+  var_is_empty, 1, var_643_1_cancellations, 1, LOCAL(1),
   // $do_cancel_tasks not(cancellations.is_empty)
-  var_not, 1, LOCAL(1), 1, var_699_1_do_cancel_tasks,
+  var_not, 1, LOCAL(1), 1, var_701_1_do_cancel_tasks,
   // map &requests: (request)
-  var_map, 2, var_646_1_requests, lambda_72, 1, var_646_1_requests,
+  var_map, 2, var_648_1_requests, lambda_72, 1, var_648_1_requests,
   // !sent_messages empty_key_order_table
-  LET, 1, var_empty_key_order_table, 1, var_642_1_sent_messages,
+  LET, 1, var_empty_key_order_table, 1, var_644_1_sent_messages,
   // !cancellations empty_key_order_set
-  LET, 1, var_empty_key_order_set, 1, var_641_1_cancellations,
+  LET, 1, var_empty_key_order_set, 1, var_643_1_cancellations,
   // queue_log_message_write !io
-  func_queue_log_message_write, 0, 1, var_638_1_io,
+  func_queue_log_message_write, 0, 1, var_640_1_io,
   // !log_message ""
-  LET, 1, string_3, 1, var_644_1_log_message,
+  LET, 1, string_3, 1, var_646_1_log_message,
   // for_each &requests !io
-  var_for_each, 3, var_646_1_requests, lambda_75, lambda_76, IO_CALL(2), var_646_1_requests, var_638_1_io,
+  var_for_each, 3, var_648_1_requests, lambda_75, lambda_76, IO_CALL(2), var_648_1_requests, var_640_1_io,
   // !updated_requests empty_list
-  LET, 1, var_empty_list, 1, var_639_1_updated_requests,
+  LET, 1, var_empty_list, 1, var_641_1_updated_requests,
   // is_not_empty
-  var_is_not_empty, 1, var_640_1_new_requests, 1, LOCAL(1),
+  var_is_not_empty, 1, var_642_1_new_requests, 1, LOCAL(1),
   // $something_to_do
   var_std__or, 2, LOCAL(1), lambda_77, 1, LOCAL(4),
   // maybe_exit! something_to_do
   func_maybe_exit, 1, LOCAL(4), IO_CALL(0),
   // get_and_check_events! !requests !io something_to_do
-  func_get_and_check_events, 1, LOCAL(4), IO_CALL(2), var_646_1_requests, var_638_1_io,
+  func_get_and_check_events, 1, LOCAL(4), IO_CALL(2), var_648_1_requests, var_640_1_io,
   // for_each &requests !io !removed_children !log_message !exit_status
-  var_for_each, 3, var_646_1_requests, lambda_78, lambda_88, IO_CALL(5), var_646_1_requests, var_638_1_io, var_643_1_removed_children, var_644_1_log_message, var_637_1_exit_status,
+  var_for_each, 3, var_648_1_requests, lambda_78, lambda_88, IO_CALL(5), var_648_1_requests, var_640_1_io, var_645_1_removed_children, var_646_1_log_message, var_639_1_exit_status,
   // append &requests new_requests
-  var_append, 2, var_646_1_requests, var_640_1_new_requests, 1, var_646_1_requests,
+  var_append, 2, var_648_1_requests, var_642_1_new_requests, 1, var_648_1_requests,
   // !new_requests empty_list
-  LET, 1, var_empty_list, 1, var_640_1_new_requests,
+  LET, 1, var_empty_list, 1, var_642_1_new_requests,
   // next!
   var_next, 0, IO_TAIL_CALL,
-  POS(656, 5),
-  POS(657, 5),
-  POS(658, 15),
-  POS(658, 15),
-  POS(658, 15),
   POS(658, 5),
-  POS(670, 5),
-  POS(674, 5),
-  POS(698, 44),
-  POS(698, 5),
-  POS(699, 40),
-  POS(699, 5),
+  POS(659, 5),
+  POS(660, 15),
+  POS(660, 15),
+  POS(660, 15),
+  POS(660, 5),
+  POS(672, 5),
+  POS(676, 5),
+  POS(700, 44),
   POS(700, 5),
-  POS(704, 5),
-  POS(705, 5),
-  POS(709, 5),
-  POS(710, 5),
+  POS(701, 40),
+  POS(701, 5),
+  POS(702, 5),
+  POS(706, 5),
+  POS(707, 5),
   POS(711, 5),
-  POS(717, 5),
-  POS(723, 22),
-  POS(721, 5),
-  POS(725, 5),
-  POS(726, 5),
-  POS(730, 5),
-  POS(799, 5),
-  POS(800, 5),
-  POS(804, 5)
+  POS(712, 5),
+  POS(713, 5),
+  POS(719, 5),
+  POS(725, 22),
+  POS(723, 5),
+  POS(727, 5),
+  POS(728, 5),
+  POS(732, 5),
+  POS(801, 5),
+  POS(802, 5),
+  POS(806, 5)
 };
 
 static TAB_NUM t_lambda_63[] = {
   1, // locals
   0, // parameters
   // is_not_empty &log_message:
-  var_is_not_empty, 1, var_643_1_removed_children, 1, LOCAL(1),
+  var_is_not_empty, 1, var_645_1_removed_children, 1, LOCAL(1),
   // removed_children.is_not_empty &log_message:
   LET, 1, LOCAL(1), TAIL_CALL,
-  POS(658, 50),
-  POS(658, 33)
+  POS(660, 50),
+  POS(660, 33)
 };
 
 static TAB_NUM t_lambda_64[] = {
   0, // locals
   0, // parameters
   // for_each removed_children
-  var_for_each, 3, var_643_1_removed_children, lambda_65, lambda_69, TAIL_CALL,
-  POS(659, 7)
+  var_for_each, 3, var_645_1_removed_children, lambda_65, lambda_69, TAIL_CALL,
+  POS(661, 7)
 };
 
 static TAB_NUM t_lambda_65[] = {
   1, // locals
   2, // parameters
-  var_660_3_parent_id,
-  LOCAL(1), // 660_13_children
+  var_662_3_parent_id,
+  LOCAL(1), // 662_13_children
   // for_each children: (child_id)
   var_for_each, 2, LOCAL(1), lambda_66, TAIL_CALL,
-  POS(661, 11)
+  POS(663, 11)
 };
 
 static TAB_NUM t_lambda_66[] = {
   4, // locals
   1, // parameters
-  LOCAL(3), // 661_20_child_id
+  LOCAL(3), // 663_20_child_id
   // parent_id != 0
-  var_std__equal, 2, var_660_3_parent_id, num_0, 1, LOCAL(1),
+  var_std__equal, 2, var_662_3_parent_id, num_0, 1, LOCAL(1),
   // parent_id != 0
   var_std__not, 1, LOCAL(1), 1, LOCAL(2),
   // $parent
@@ -2324,26 +2324,26 @@ static TAB_NUM t_lambda_66[] = {
   // "REMOVED TASK @(child_id)@(parent)"
   var_std__string, 3, str_REMOVED_TASK, LOCAL(3), LOCAL(4), 1, LOCAL(1),
   // append &log_message "REMOVED TASK @(child_id)@(parent)"
-  var_append, 2, var_644_1_log_message, LOCAL(1), 1, var_644_1_log_message,
+  var_append, 2, var_646_1_log_message, LOCAL(1), 1, var_646_1_log_message,
   // next
   var_next, 0, TAIL_CALL,
-  POS(664, 17),
-  POS(664, 17),
-  POS(662, 13),
-  POS(667, 33),
-  POS(667, 13),
-  POS(668, 13)
+  POS(666, 17),
+  POS(666, 17),
+  POS(664, 13),
+  POS(669, 33),
+  POS(669, 13),
+  POS(670, 13)
 };
 
 static TAB_NUM t_lambda_67[] = {
   1, // locals
   0, // parameters
   // " (parent: @(parent_id))@nl;"
-  var_std__string, 3, str__parent, var_660_3_parent_id, string_5, 1, LOCAL(1),
+  var_std__string, 3, str__parent, var_662_3_parent_id, string_5, 1, LOCAL(1),
   //  " (parent: @(parent_id))@nl;"
   LET, 1, LOCAL(1), TAIL_CALL,
-  POS(665, 20),
-  POS(665, 19)
+  POS(667, 20),
+  POS(667, 19)
 };
 
 static TAB_NUM t_lambda_68[] = {
@@ -2351,136 +2351,136 @@ static TAB_NUM t_lambda_68[] = {
   0, // parameters
   //  "@nl;"
   LET, 1, string_6, TAIL_CALL,
-  POS(666, 19)
+  POS(668, 19)
 };
 
 static TAB_NUM t_lambda_69[] = {
   0, // locals
   0, // parameters
   //  log_message
-  LET, 1, var_644_1_log_message, TAIL_CALL,
-  POS(669, 11)
+  LET, 1, var_646_1_log_message, TAIL_CALL,
+  POS(671, 11)
 };
 
 static TAB_NUM t_lambda_70[] = {
   7, // locals
   1, // parameters
-  LOCAL(2), // 680_3_request
+  LOCAL(2), // 682_3_request
   // request $task $mode $body $argument $continuation
   LOCAL(2), 0, 5, LOCAL(3), LOCAL(4), LOCAL(5), LOCAL(6), LOCAL(7),
   // collect_messages &task !sent_messages
-  func_collect_messages, 1, LOCAL(3), 2, LOCAL(3), var_642_1_sent_messages,
+  func_collect_messages, 1, LOCAL(3), 2, LOCAL(3), var_644_1_sent_messages,
   // collect_cancel_requests &task !cancellations
-  func_collect_cancel_requests, 1, LOCAL(3), 2, LOCAL(3), var_641_1_cancellations,
+  func_collect_cancel_requests, 1, LOCAL(3), 2, LOCAL(3), var_643_1_cancellations,
   // collect_log_messages &task !log_message
-  func_collect_log_messages, 1, LOCAL(3), 2, LOCAL(3), var_644_1_log_message,
+  func_collect_log_messages, 1, LOCAL(3), 2, LOCAL(3), var_646_1_log_message,
   // create_new_tasks &task !current_task_id !new_requests
-  func_create_new_tasks, 1, LOCAL(3), 3, LOCAL(3), var_648_1_current_task_id, var_640_1_new_requests,
+  func_create_new_tasks, 1, LOCAL(3), 3, LOCAL(3), var_650_1_current_task_id, var_642_1_new_requests,
   // tuple(task mode body argument continuation)
   var_tuple, 5, LOCAL(3), LOCAL(4), LOCAL(5), LOCAL(6), LOCAL(7), 1, LOCAL(1),
   // push &updated_requests tuple(task mode body argument continuation)
-  var_push, 2, var_639_1_updated_requests, LOCAL(1), 1, var_639_1_updated_requests,
+  var_push, 2, var_641_1_updated_requests, LOCAL(1), 1, var_641_1_updated_requests,
   // next
   var_next, 0, TAIL_CALL,
-  POS(681, 9),
-  POS(682, 9),
   POS(683, 9),
   POS(684, 9),
   POS(685, 9),
-  POS(686, 32),
   POS(686, 9),
-  POS(687, 9)
+  POS(687, 9),
+  POS(688, 32),
+  POS(688, 9),
+  POS(689, 9)
 };
 
 static TAB_NUM t_lambda_71[] = {
   0, // locals
   0, // parameters
   // 
-  LET, 6, var_639_1_updated_requests, var_648_1_current_task_id, var_640_1_new_requests, var_642_1_sent_messages, var_641_1_cancellations, var_644_1_log_message, TAIL_CALL,
-  POS(688, 9)
+  LET, 6, var_641_1_updated_requests, var_650_1_current_task_id, var_642_1_new_requests, var_644_1_sent_messages, var_643_1_cancellations, var_646_1_log_message, TAIL_CALL,
+  POS(690, 9)
 };
 
 static TAB_NUM t_lambda_72[] = {
   0, // locals
   1, // parameters
-  var_700_16_request,
+  var_702_16_request,
   // update_if do_receive_messages &request -> receive_messages(request)
-  var_update_if, 3, var_698_1_do_receive_messages, var_700_16_request, lambda_73, 1, var_700_16_request,
+  var_update_if, 3, var_700_1_do_receive_messages, var_702_16_request, lambda_73, 1, var_702_16_request,
   // update_if do_cancel_tasks &request -> maybe_mark_as_cancelled(request)
-  var_update_if, 3, var_699_1_do_cancel_tasks, var_700_16_request, lambda_74, 1, var_700_16_request,
+  var_update_if, 3, var_701_1_do_cancel_tasks, var_702_16_request, lambda_74, 1, var_702_16_request,
   // -> request
-  LET, 1, var_700_16_request, TAIL_CALL,
-  POS(701, 7),
-  POS(702, 7),
-  POS(703, 7)
+  LET, 1, var_702_16_request, TAIL_CALL,
+  POS(703, 7),
+  POS(704, 7),
+  POS(705, 7)
 };
 
 static TAB_NUM t_lambda_73[] = {
   1, // locals
   0, // parameters
   // receive_messages(request)
-  func_receive_messages, 1, var_700_16_request, 1, LOCAL(1),
+  func_receive_messages, 1, var_702_16_request, 1, LOCAL(1),
   //  receive_messages(request)
   LET, 1, LOCAL(1), TAIL_CALL,
-  POS(701, 49),
-  POS(701, 48)
+  POS(703, 49),
+  POS(703, 48)
 };
 
 static TAB_NUM t_lambda_74[] = {
   1, // locals
   0, // parameters
   // maybe_mark_as_cancelled(request)
-  func_maybe_mark_as_cancelled, 1, var_700_16_request, 1, LOCAL(1),
+  func_maybe_mark_as_cancelled, 1, var_702_16_request, 1, LOCAL(1),
   //  maybe_mark_as_cancelled(request)
   LET, 1, LOCAL(1), TAIL_CALL,
-  POS(702, 45),
-  POS(702, 44)
+  POS(704, 45),
+  POS(704, 44)
 };
 
 static TAB_NUM t_lambda_75[] = {
   1, // locals
   1, // parameters
-  LOCAL(1), // 712_3_request
+  LOCAL(1), // 714_3_request
   // start_io_operation! &request !io
-  func_start_io_operation, 1, LOCAL(1), IO_CALL(2), LOCAL(1), var_638_1_io,
+  func_start_io_operation, 1, LOCAL(1), IO_CALL(2), LOCAL(1), var_640_1_io,
   // push &updated_requests request
-  var_push, 2, var_639_1_updated_requests, LOCAL(1), 1, var_639_1_updated_requests,
+  var_push, 2, var_641_1_updated_requests, LOCAL(1), 1, var_641_1_updated_requests,
   // next!
   var_next, 0, IO_TAIL_CALL,
-  POS(713, 9),
-  POS(714, 9),
-  POS(715, 9)
+  POS(715, 9),
+  POS(716, 9),
+  POS(717, 9)
 };
 
 static TAB_NUM t_lambda_76[] = {
   0, // locals
   0, // parameters
   //  updated_requests io
-  LET, 2, var_639_1_updated_requests, var_638_1_io, TAIL_CALL,
-  POS(716, 9)
+  LET, 2, var_641_1_updated_requests, var_640_1_io, TAIL_CALL,
+  POS(718, 9)
 };
 
 static TAB_NUM t_lambda_77[] = {
   1, // locals
   0, // parameters
   // any_of(requests has_something_to_do)
-  var_any_of, 2, var_646_1_requests, func_has_something_to_do, 1, LOCAL(1),
+  var_any_of, 2, var_648_1_requests, func_has_something_to_do, 1, LOCAL(1),
   // any_of(requests has_something_to_do)
   LET, 1, LOCAL(1), TAIL_CALL,
-  POS(724, 9),
-  POS(724, 9)
+  POS(726, 9),
+  POS(726, 9)
 };
 
 static TAB_NUM t_lambda_78[] = {
   0, // locals
   1, // parameters
-  var_731_3_request,
+  var_733_3_request,
   // request $task $mode $body $argument $continuation
-  var_731_3_request, 0, 5, var_732_9_task, var_732_15_mode, var_732_21_body, var_732_27_argument, var_732_37_continuation,
+  var_733_3_request, 0, 5, var_734_9_task, var_734_15_mode, var_734_21_body, var_734_27_argument, var_734_37_continuation,
   // case mode
-  var_case, 8, var_732_15_mode, uni_COMPLETE_IO, lambda_COMPLETE_IO, uni_EXIT, lambda_EXIT, uni_COMPUTE, lambda_COMPUTE, lambda_81, IO_TAIL_CALL,
-  POS(732, 9),
-  POS(733, 9)
+  var_case, 8, var_734_15_mode, uni_COMPLETE_IO, lambda_COMPLETE_IO, uni_EXIT, lambda_EXIT, uni_COMPUTE, lambda_COMPUTE, lambda_81, IO_TAIL_CALL,
+  POS(734, 9),
+  POS(735, 9)
 };
 
 static TAB_NUM t_lambda_COMPLETE_IO[] = {
@@ -2488,24 +2488,24 @@ static TAB_NUM t_lambda_COMPLETE_IO[] = {
   0, // parameters
   // complete_io_operation!
   func_complete_io_operation, 0, IO_TAIL_CALL,
-  POS(735, 13)
+  POS(737, 13)
 };
 
 static TAB_NUM t_lambda_EXIT[] = {
   1, // locals
   0, // parameters
   // argument == EXIT_FAILURE &exit_status -> EXIT_FAILURE
-  var_std__equal, 2, var_732_27_argument, var_EXIT_FAILURE, 1, LOCAL(1),
+  var_std__equal, 2, var_734_27_argument, var_EXIT_FAILURE, 1, LOCAL(1),
   // update_if argument == EXIT_FAILURE &exit_status -> EXIT_FAILURE
-  var_update_if, 3, LOCAL(1), var_637_1_exit_status, lambda_79, 1, var_637_1_exit_status,
+  var_update_if, 3, LOCAL(1), var_639_1_exit_status, lambda_79, 1, var_639_1_exit_status,
   // exit_task! task !io !exit_status !removed_children
-  func_exit_task, 1, var_732_9_task, IO_CALL(3), var_638_1_io, var_637_1_exit_status, var_643_1_removed_children,
+  func_exit_task, 1, var_734_9_task, IO_CALL(3), var_640_1_io, var_639_1_exit_status, var_645_1_removed_children,
   // next!
   var_next, 0, IO_TAIL_CALL,
-  POS(737, 23),
-  POS(737, 13),
-  POS(738, 13),
-  POS(739, 13)
+  POS(739, 23),
+  POS(739, 13),
+  POS(740, 13),
+  POS(741, 13)
 };
 
 static TAB_NUM t_lambda_79[] = {
@@ -2513,18 +2513,18 @@ static TAB_NUM t_lambda_79[] = {
   0, // parameters
   //  EXIT_FAILURE
   LET, 1, var_EXIT_FAILURE, TAIL_CALL,
-  POS(737, 63)
+  POS(739, 63)
 };
 
 static TAB_NUM t_lambda_COMPUTE[] = {
   1, // locals
   0, // parameters
   // is_an_error:
-  var_is_an_error, 1, var_732_27_argument, 1, LOCAL(1),
+  var_is_an_error, 1, var_734_27_argument, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_argument_is_an_error, lambda_80, IO_TAIL_CALL,
-  POS(742, 24),
-  POS(741, 13)
+  POS(744, 24),
+  POS(743, 13)
 };
 
 static TAB_NUM t_lambda_argument_is_an_error[] = {
@@ -2532,7 +2532,7 @@ static TAB_NUM t_lambda_argument_is_an_error[] = {
   0, // parameters
   // handle_error!
   func_handle_error, 0, IO_TAIL_CALL,
-  POS(743, 17)
+  POS(745, 17)
 };
 
 static TAB_NUM t_lambda_80[] = {
@@ -2540,7 +2540,7 @@ static TAB_NUM t_lambda_80[] = {
   0, // parameters
   // maybe_cancel_task!
   func_maybe_cancel_task, 0, IO_TAIL_CALL,
-  POS(745, 17)
+  POS(747, 17)
 };
 
 static TAB_NUM t_lambda_81[] = {
@@ -2548,54 +2548,54 @@ static TAB_NUM t_lambda_81[] = {
   0, // parameters
   // maybe_cancel_task!
   func_maybe_cancel_task, 0, IO_TAIL_CALL,
-  POS(747, 13)
+  POS(749, 13)
 };
 
 static TAB_NUM t_func_complete_io_operation[] = {
   2, // locals
   0, // parameters
   // parameter_count_of(body) == 3:
-  var_parameter_count_of, 1, var_732_21_body, 1, LOCAL(1),
+  var_parameter_count_of, 1, var_734_21_body, 1, LOCAL(1),
   // parameter_count_of(body) == 3:
   var_std__equal, 2, LOCAL(1), num_3, 1, LOCAL(2),
   // if
   var_if, 3, LOCAL(2), lambda_82, lambda_83, IO_TAIL_CALL,
-  POS(751, 13),
-  POS(751, 13),
-  POS(750, 11)
+  POS(753, 13),
+  POS(753, 13),
+  POS(752, 11)
 };
 
 static TAB_NUM t_lambda_82[] = {
   0, // locals
   0, // parameters
   // body! !mode &task &io !body &argument
-  var_732_21_body, 3, var_732_9_task, var_638_1_io, var_732_27_argument, IO_CALL(5), var_732_15_mode, var_732_9_task, var_638_1_io, var_732_21_body, var_732_27_argument,
+  var_734_21_body, 3, var_734_9_task, var_640_1_io, var_734_27_argument, IO_CALL(5), var_734_15_mode, var_734_9_task, var_640_1_io, var_734_21_body, var_734_27_argument,
   // check_for_error!
   func_check_for_error, 0, IO_TAIL_CALL,
-  POS(752, 15),
-  POS(753, 15)
+  POS(754, 15),
+  POS(755, 15)
 };
 
 static TAB_NUM t_lambda_83[] = {
   0, // locals
   0, // parameters
   // body! !mode &task &io !body !argument
-  var_732_21_body, 2, var_732_9_task, var_638_1_io, IO_CALL(5), var_732_15_mode, var_732_9_task, var_638_1_io, var_732_21_body, var_732_27_argument,
+  var_734_21_body, 2, var_734_9_task, var_640_1_io, IO_CALL(5), var_734_15_mode, var_734_9_task, var_640_1_io, var_734_21_body, var_734_27_argument,
   // check_for_error!
   func_check_for_error, 0, IO_TAIL_CALL,
-  POS(755, 15),
-  POS(756, 15)
+  POS(757, 15),
+  POS(758, 15)
 };
 
 static TAB_NUM t_func_check_for_error[] = {
   1, // locals
   0, // parameters
   // is_an_error:
-  var_is_an_error, 1, var_732_27_argument, 1, LOCAL(1),
+  var_is_an_error, 1, var_734_27_argument, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_2_argument_is_an_error, lambda_84, IO_TAIL_CALL,
-  POS(760, 22),
-  POS(759, 11)
+  POS(762, 22),
+  POS(761, 11)
 };
 
 static TAB_NUM t_lambda_2_argument_is_an_error[] = {
@@ -2603,460 +2603,460 @@ static TAB_NUM t_lambda_2_argument_is_an_error[] = {
   0, // parameters
   // handle_error!
   func_handle_error, 0, IO_TAIL_CALL,
-  POS(761, 15)
+  POS(763, 15)
 };
 
 static TAB_NUM t_lambda_84[] = {
   1, // locals
   0, // parameters
   // tuple(task mode body argument continuation)
-  var_tuple, 5, var_732_9_task, var_732_15_mode, var_732_21_body, var_732_27_argument, var_732_37_continuation, 1, LOCAL(1),
+  var_tuple, 5, var_734_9_task, var_734_15_mode, var_734_21_body, var_734_27_argument, var_734_37_continuation, 1, LOCAL(1),
   // push &updated_requests tuple(task mode body argument continuation)
-  var_push, 2, var_639_1_updated_requests, LOCAL(1), 1, var_639_1_updated_requests,
+  var_push, 2, var_641_1_updated_requests, LOCAL(1), 1, var_641_1_updated_requests,
   // next!
   var_next, 0, IO_TAIL_CALL,
-  POS(763, 38),
-  POS(763, 15),
-  POS(764, 15)
+  POS(765, 38),
+  POS(765, 15),
+  POS(766, 15)
 };
 
 static TAB_NUM t_func_handle_error[] = {
   1, // locals
   0, // parameters
   // $error_handler error_handler_of(task)
-  var_error_handler_of, 1, var_732_9_task, 1, var_767_1_error_handler,
+  var_error_handler_of, 1, var_734_9_task, 1, var_769_1_error_handler,
   // is_defined:
-  var_is_defined, 1, var_767_1_error_handler, 1, LOCAL(1),
+  var_is_defined, 1, var_769_1_error_handler, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_error_handler_is_defined, lambda_85, IO_TAIL_CALL,
-  POS(767, 11),
-  POS(769, 27),
-  POS(768, 11)
+  POS(769, 11),
+  POS(771, 27),
+  POS(770, 11)
 };
 
 static TAB_NUM t_lambda_error_handler_is_defined[] = {
   1, // locals
   0, // parameters
   // tuple(task COMPUTE undefined argument error_handler)
-  var_tuple, 5, var_732_9_task, uni_COMPUTE, var_undefined, var_732_27_argument, var_767_1_error_handler, 1, LOCAL(1),
+  var_tuple, 5, var_734_9_task, uni_COMPUTE, var_undefined, var_734_27_argument, var_769_1_error_handler, 1, LOCAL(1),
   // push &updated_requests
-  var_push, 2, var_639_1_updated_requests, LOCAL(1), 1, var_639_1_updated_requests,
+  var_push, 2, var_641_1_updated_requests, LOCAL(1), 1, var_641_1_updated_requests,
   // next!
   var_next, 0, IO_TAIL_CALL,
-  POS(771, 17),
-  POS(770, 15),
-  POS(772, 15)
+  POS(773, 17),
+  POS(772, 15),
+  POS(774, 15)
 };
 
 static TAB_NUM t_lambda_85[] = {
   2, // locals
   0, // parameters
   // !exit_status EXIT_FAILURE
-  LET, 1, var_EXIT_FAILURE, 1, var_637_1_exit_status,
+  LET, 1, var_EXIT_FAILURE, 1, var_639_1_exit_status,
   // $message generate_error_message(argument)
-  var_generate_error_message, 1, var_732_27_argument, 1, LOCAL(2),
+  var_generate_error_message, 1, var_734_27_argument, 1, LOCAL(2),
   // push(message '@nl;')
   var_push, 2, LOCAL(2), chr_10, 1, LOCAL(1),
   // append_log_entry !log_message task push(message '@nl;')
-  func_append_log_entry, 2, var_732_9_task, LOCAL(1), 1, var_644_1_log_message,
+  func_append_log_entry, 2, var_734_9_task, LOCAL(1), 1, var_646_1_log_message,
   // exit_task! task !io !exit_status !removed_children
-  func_exit_task, 1, var_732_9_task, IO_CALL(3), var_638_1_io, var_637_1_exit_status, var_643_1_removed_children,
+  func_exit_task, 1, var_734_9_task, IO_CALL(3), var_640_1_io, var_639_1_exit_status, var_645_1_removed_children,
   // next!
   var_next, 0, IO_TAIL_CALL,
-  POS(774, 15),
-  POS(775, 15),
-  POS(776, 50),
   POS(776, 15),
   POS(777, 15),
-  POS(778, 15)
+  POS(778, 50),
+  POS(778, 15),
+  POS(779, 15),
+  POS(780, 15)
 };
 
 static TAB_NUM t_func_maybe_cancel_task[] = {
   1, // locals
   0, // parameters
   // is_cancelled:
-  var_is_cancelled, 1, var_732_9_task, 1, LOCAL(1),
+  var_is_cancelled, 1, var_734_9_task, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_10_task_is_cancelled, lambda_87, IO_TAIL_CALL,
-  POS(782, 18),
-  POS(781, 11)
+  POS(784, 18),
+  POS(783, 11)
 };
 
 static TAB_NUM t_lambda_10_task_is_cancelled[] = {
   1, // locals
   0, // parameters
   // $cancel_handler cancel_handler_of(task)
-  var_cancel_handler_of, 1, var_732_9_task, 1, var_783_1_cancel_handler,
+  var_cancel_handler_of, 1, var_734_9_task, 1, var_785_1_cancel_handler,
   // is_defined:
-  var_is_defined, 1, var_783_1_cancel_handler, 1, LOCAL(1),
+  var_is_defined, 1, var_785_1_cancel_handler, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_cancel_handler_is_defined, lambda_86, IO_TAIL_CALL,
-  POS(783, 15),
-  POS(785, 32),
-  POS(784, 15)
+  POS(785, 15),
+  POS(787, 32),
+  POS(786, 15)
 };
 
 static TAB_NUM t_lambda_cancel_handler_is_defined[] = {
   1, // locals
   0, // parameters
   // request !task !mode !body !argument !continuation
-  var_731_3_request, 0, 5, var_732_9_task, var_732_15_mode, var_732_21_body, var_732_27_argument, var_732_37_continuation,
+  var_733_3_request, 0, 5, var_734_9_task, var_734_15_mode, var_734_21_body, var_734_27_argument, var_734_37_continuation,
   // task.is_cancelled false
-  LET, -1, var_732_9_task, var_is_cancelled, var_false, var_732_9_task,
+  LET, -1, var_734_9_task, var_is_cancelled, var_false, var_734_9_task,
   // tuple(task COMPUTE undefined argument cancel_handler)
-  var_tuple, 5, var_732_9_task, uni_COMPUTE, var_undefined, var_732_27_argument, var_783_1_cancel_handler, 1, LOCAL(1),
+  var_tuple, 5, var_734_9_task, uni_COMPUTE, var_undefined, var_734_27_argument, var_785_1_cancel_handler, 1, LOCAL(1),
   // push &updated_requests
-  var_push, 2, var_639_1_updated_requests, LOCAL(1), 1, var_639_1_updated_requests,
+  var_push, 2, var_641_1_updated_requests, LOCAL(1), 1, var_641_1_updated_requests,
   // next!
   var_next, 0, IO_TAIL_CALL,
-  POS(786, 19),
-  POS(787, 20),
-  POS(789, 21),
   POS(788, 19),
-  POS(790, 19)
+  POS(789, 20),
+  POS(791, 21),
+  POS(790, 19),
+  POS(792, 19)
 };
 
 static TAB_NUM t_lambda_86[] = {
   0, // locals
   0, // parameters
   // exit_task! task !io !exit_status !removed_children
-  func_exit_task, 1, var_732_9_task, IO_CALL(3), var_638_1_io, var_637_1_exit_status, var_643_1_removed_children,
+  func_exit_task, 1, var_734_9_task, IO_CALL(3), var_640_1_io, var_639_1_exit_status, var_645_1_removed_children,
   // next!
   var_next, 0, IO_TAIL_CALL,
-  POS(792, 19),
-  POS(793, 19)
+  POS(794, 19),
+  POS(795, 19)
 };
 
 static TAB_NUM t_lambda_87[] = {
   0, // locals
   0, // parameters
   // push &updated_requests request
-  var_push, 2, var_639_1_updated_requests, var_731_3_request, 1, var_639_1_updated_requests,
+  var_push, 2, var_641_1_updated_requests, var_733_3_request, 1, var_641_1_updated_requests,
   // next!
   var_next, 0, IO_TAIL_CALL,
-  POS(795, 15),
-  POS(796, 15)
+  POS(797, 15),
+  POS(798, 15)
 };
 
 static TAB_NUM t_lambda_88[] = {
   0, // locals
   0, // parameters
   //  updated_requests io removed_children log_message exit_status
-  LET, 5, var_639_1_updated_requests, var_638_1_io, var_643_1_removed_children, var_644_1_log_message, var_637_1_exit_status, TAIL_CALL,
-  POS(798, 9)
+  LET, 5, var_641_1_updated_requests, var_640_1_io, var_645_1_removed_children, var_646_1_log_message, var_639_1_exit_status, TAIL_CALL,
+  POS(800, 9)
 };
 
 static TAB_NUM t_func_compute[] = {
   1, // locals
   1, // parameters
-  var_810_11_request,
+  var_812_11_request,
   // request $task $mode $body $argument $continuation
-  var_810_11_request, 0, 5, var_811_9_task, var_811_15_mode, var_811_21_body, var_811_27_argument, var_811_37_continuation,
+  var_812_11_request, 0, 5, var_813_9_task, var_813_15_mode, var_813_21_body, var_813_27_argument, var_813_37_continuation,
   // id_of(task))
-  var_id_of, 1, var_811_9_task, 1, LOCAL(1),
+  var_id_of, 1, var_813_9_task, 1, LOCAL(1),
   // $removed removed_children(id_of(task))
-  var_643_1_removed_children, 1, LOCAL(1), 1, var_812_1_removed,
+  var_645_1_removed_children, 1, LOCAL(1), 1, var_814_1_removed,
   // is_defined &request &task:
-  var_is_defined, 1, var_812_1_removed, 1, LOCAL(1),
+  var_is_defined, 1, var_814_1_removed, 1, LOCAL(1),
   // update_if removed.is_defined &request &task:
-  var_update_if, 4, LOCAL(1), var_810_11_request, var_811_9_task, lambda_89, 2, var_810_11_request, var_811_9_task,
+  var_update_if, 4, LOCAL(1), var_812_11_request, var_813_9_task, lambda_89, 2, var_812_11_request, var_813_9_task,
   // mode == COMPUTE:
-  var_std__equal, 2, var_811_15_mode, uni_COMPUTE, 1, LOCAL(1),
+  var_std__equal, 2, var_813_15_mode, uni_COMPUTE, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_91, lambda_95, TAIL_CALL,
-  POS(811, 5),
-  POS(812, 31),
-  POS(812, 5),
-  POS(813, 23),
   POS(813, 5),
-  POS(817, 7),
-  POS(816, 5)
+  POS(814, 31),
+  POS(814, 5),
+  POS(815, 23),
+  POS(815, 5),
+  POS(819, 7),
+  POS(818, 5)
 };
 
 static TAB_NUM t_lambda_89[] = {
   1, // locals
   0, // parameters
   // child_ids_of: (id) -> not(removed(id))
-  var_child_ids_of, 1, var_811_9_task, 1, LOCAL(1),
+  var_child_ids_of, 1, var_813_9_task, 1, LOCAL(1),
   // filter &task.child_ids_of: (id) -> not(removed(id))
   var_filter, 2, LOCAL(1), lambda_90, 1, LOCAL(1),
   // task.child_ids_of: (id) -> not(removed(id))
-  LET, -1, var_811_9_task, var_child_ids_of, LOCAL(1), var_811_9_task,
+  LET, -1, var_813_9_task, var_child_ids_of, LOCAL(1), var_813_9_task,
   // tuple(task mode body argument continuation) task
-  var_tuple, 5, var_811_9_task, var_811_15_mode, var_811_21_body, var_811_27_argument, var_811_37_continuation, 1, LOCAL(1),
+  var_tuple, 5, var_813_9_task, var_813_15_mode, var_813_21_body, var_813_27_argument, var_813_37_continuation, 1, LOCAL(1),
   // -> tuple(task mode body argument continuation) task
-  LET, 2, LOCAL(1), var_811_9_task, TAIL_CALL,
-  POS(814, 20),
-  POS(814, 7),
-  POS(814, 15),
-  POS(815, 10),
-  POS(815, 7)
+  LET, 2, LOCAL(1), var_813_9_task, TAIL_CALL,
+  POS(816, 20),
+  POS(816, 7),
+  POS(816, 15),
+  POS(817, 10),
+  POS(817, 7)
 };
 
 static TAB_NUM t_lambda_90[] = {
   3, // locals
   1, // parameters
-  LOCAL(3), // 814_28_id
+  LOCAL(3), // 816_28_id
   // removed(id))
-  var_812_1_removed, 1, LOCAL(3), 1, LOCAL(1),
+  var_814_1_removed, 1, LOCAL(3), 1, LOCAL(1),
   // not(removed(id))
   var_not, 1, LOCAL(1), 1, LOCAL(2),
   // -> not(removed(id))
   LET, 1, LOCAL(2), TAIL_CALL,
-  POS(814, 46),
-  POS(814, 42),
-  POS(814, 39)
+  POS(816, 46),
+  POS(816, 42),
+  POS(816, 39)
 };
 
 static TAB_NUM t_lambda_91[] = {
   2, // locals
   0, // parameters
   // parameter_count_of(continuation) == 2:
-  var_parameter_count_of, 1, var_811_37_continuation, 1, LOCAL(1),
+  var_parameter_count_of, 1, var_813_37_continuation, 1, LOCAL(1),
   // parameter_count_of(continuation) == 2:
   var_std__equal, 2, LOCAL(1), num_2, 1, LOCAL(2),
   // if
   var_if, 3, LOCAL(2), lambda_92, lambda_93, TAIL_CALL,
-  POS(819, 11),
-  POS(819, 11),
-  POS(818, 9)
+  POS(821, 11),
+  POS(821, 11),
+  POS(820, 9)
 };
 
 static TAB_NUM t_lambda_92[] = {
   0, // locals
   0, // parameters
   // !request continuation(task argument)
-  var_811_37_continuation, 2, var_811_9_task, var_811_27_argument, 1, var_810_11_request,
+  var_813_37_continuation, 2, var_813_9_task, var_813_27_argument, 1, var_812_11_request,
   // check_request
   func_check_request, 0, TAIL_CALL,
-  POS(820, 13),
-  POS(821, 13)
+  POS(822, 13),
+  POS(823, 13)
 };
 
 static TAB_NUM t_lambda_93[] = {
   0, // locals
   0, // parameters
   // !request continuation(task)
-  var_811_37_continuation, 1, var_811_9_task, 1, var_810_11_request,
+  var_813_37_continuation, 1, var_813_9_task, 1, var_812_11_request,
   // check_request
   func_check_request, 0, TAIL_CALL,
-  POS(823, 13),
-  POS(824, 13)
+  POS(825, 13),
+  POS(826, 13)
 };
 
 static TAB_NUM t_func_check_request[] = {
   1, // locals
   0, // parameters
   // is_an_error:
-  var_is_an_error, 1, var_810_11_request, 1, LOCAL(1),
+  var_is_an_error, 1, var_812_11_request, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_request_is_an_error, lambda_94, TAIL_CALL,
-  POS(828, 21),
-  POS(827, 11)
+  POS(830, 21),
+  POS(829, 11)
 };
 
 static TAB_NUM t_lambda_request_is_an_error[] = {
   1, // locals
   0, // parameters
   // generate_error_message(request)
-  var_generate_error_message, 1, var_810_11_request, 1, LOCAL(1),
+  var_generate_error_message, 1, var_812_11_request, 1, LOCAL(1),
   // log &task generate_error_message(request)
-  var_log, 2, var_811_9_task, LOCAL(1), 1, var_811_9_task,
+  var_log, 2, var_813_9_task, LOCAL(1), 1, var_813_9_task,
   // tuple(task EXIT undefined EXIT_FAILURE undefined)
-  var_tuple, 5, var_811_9_task, uni_EXIT, var_undefined, var_EXIT_FAILURE, var_undefined, 1, LOCAL(1),
+  var_tuple, 5, var_813_9_task, uni_EXIT, var_undefined, var_EXIT_FAILURE, var_undefined, 1, LOCAL(1),
   // -> tuple(task EXIT undefined EXIT_FAILURE undefined)
   LET, 1, LOCAL(1), TAIL_CALL,
-  POS(829, 25),
-  POS(829, 15),
-  POS(830, 18),
-  POS(830, 15)
+  POS(831, 25),
+  POS(831, 15),
+  POS(832, 18),
+  POS(832, 15)
 };
 
 static TAB_NUM t_lambda_94[] = {
   0, // locals
   0, // parameters
   //  request
-  LET, 1, var_810_11_request, TAIL_CALL,
-  POS(831, 15)
+  LET, 1, var_812_11_request, TAIL_CALL,
+  POS(833, 15)
 };
 
 static TAB_NUM t_lambda_95[] = {
   0, // locals
   0, // parameters
   //  request
-  LET, 1, var_810_11_request, TAIL_CALL,
-  POS(832, 9)
+  LET, 1, var_812_11_request, TAIL_CALL,
+  POS(834, 9)
 };
 
 static TAB_NUM t_func_collect_messages[] = {
   1, // locals
   1, // parameters
-  var_836_20_task,
+  var_838_20_task,
   // outbound_messages_of(task)
-  var_outbound_messages_of, 1, var_836_20_task, 1, LOCAL(1),
+  var_outbound_messages_of, 1, var_838_20_task, 1, LOCAL(1),
   // for_each outbound_messages_of(task)
   var_for_each, 3, LOCAL(1), lambda_96, lambda_98, IO_TAIL_CALL,
-  POS(837, 14),
-  POS(837, 5)
+  POS(839, 14),
+  POS(839, 5)
 };
 
 static TAB_NUM t_lambda_96[] = {
   2, // locals
   1, // parameters
-  LOCAL(2), // 838_3_entry
+  LOCAL(2), // 840_3_entry
   // entry $receiver $message
-  LOCAL(2), 0, 2, var_839_7_receiver, var_839_17_message,
+  LOCAL(2), 0, 2, var_841_7_receiver, var_841_17_message,
   // is_an_integer:
-  var_is_an_integer, 1, var_839_7_receiver, 1, LOCAL(1),
+  var_is_an_integer, 1, var_841_7_receiver, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_receiver_is_an_integer, lambda_97, IO_TAIL_CALL,
-  POS(839, 9),
-  POS(841, 20),
-  POS(840, 9)
+  POS(841, 9),
+  POS(843, 20),
+  POS(842, 9)
 };
 
 static TAB_NUM t_lambda_receiver_is_an_integer[] = {
   0, // locals
   0, // parameters
   // send_message! receiver
-  func_send_message, 1, var_839_7_receiver, IO_TAIL_CALL,
-  POS(842, 13)
+  func_send_message, 1, var_841_7_receiver, IO_TAIL_CALL,
+  POS(844, 13)
 };
 
 static TAB_NUM t_lambda_97[] = {
   0, // locals
   0, // parameters
   // for_each! receiver send_message
-  var_for_each, 2, var_839_7_receiver, func_send_message, IO_TAIL_CALL,
-  POS(844, 13)
+  var_for_each, 2, var_841_7_receiver, func_send_message, IO_TAIL_CALL,
+  POS(846, 13)
 };
 
 static TAB_NUM t_func_send_message[] = {
   3, // locals
   1, // parameters
-  LOCAL(2), // 846_16_the_receiver
+  LOCAL(2), // 848_16_the_receiver
   // sent_messages(the_receiver) empty_list)
-  var_642_1_sent_messages, 1, LOCAL(2), 1, LOCAL(1),
+  var_644_1_sent_messages, 1, LOCAL(2), 1, LOCAL(1),
   // $messages default_value(sent_messages(the_receiver) empty_list)
   var_default_value, 2, LOCAL(1), var_empty_list, 1, LOCAL(3),
   // push &messages message
-  var_push, 2, LOCAL(3), var_839_17_message, 1, LOCAL(3),
+  var_push, 2, LOCAL(3), var_841_17_message, 1, LOCAL(3),
   // sent_messages(the_receiver) messages
-  var_642_1_sent_messages, 2, LOCAL(2), LOCAL(3), 1, var_642_1_sent_messages,
+  var_644_1_sent_messages, 2, LOCAL(2), LOCAL(3), 1, var_644_1_sent_messages,
   // next!
   var_next, 0, IO_TAIL_CALL,
-  POS(847, 35),
-  POS(847, 11),
-  POS(848, 11),
-  POS(849, 12),
-  POS(850, 11)
+  POS(849, 35),
+  POS(849, 11),
+  POS(850, 11),
+  POS(851, 12),
+  POS(852, 11)
 };
 
 static TAB_NUM t_lambda_98[] = {
   0, // locals
   0, // parameters
   // task.outbound_messages_of empty_list
-  LET, -1, var_836_20_task, var_outbound_messages_of, var_empty_list, var_836_20_task,
+  LET, -1, var_838_20_task, var_outbound_messages_of, var_empty_list, var_838_20_task,
   // -> task sent_messages
-  LET, 2, var_836_20_task, var_642_1_sent_messages, TAIL_CALL,
-  POS(852, 10),
-  POS(853, 9)
+  LET, 2, var_838_20_task, var_644_1_sent_messages, TAIL_CALL,
+  POS(854, 10),
+  POS(855, 9)
 };
 
 static TAB_NUM t_func_collect_cancel_requests[] = {
   1, // locals
   1, // parameters
-  var_855_27_task,
+  var_857_27_task,
   // cancel_requests_of(task)
-  var_cancel_requests_of, 1, var_855_27_task, 1, LOCAL(1),
+  var_cancel_requests_of, 1, var_857_27_task, 1, LOCAL(1),
   // for_each cancel_requests_of(task)
   var_for_each, 3, LOCAL(1), lambda_99, lambda_100, IO_TAIL_CALL,
-  POS(856, 14),
-  POS(856, 5)
+  POS(858, 14),
+  POS(858, 5)
 };
 
 static TAB_NUM t_lambda_99[] = {
   1, // locals
   1, // parameters
-  LOCAL(1), // 857_3_id
+  LOCAL(1), // 859_3_id
   // cancellations(id) true
-  var_641_1_cancellations, 2, LOCAL(1), var_true, 1, var_641_1_cancellations,
+  var_643_1_cancellations, 2, LOCAL(1), var_true, 1, var_643_1_cancellations,
   // next!
   var_next, 0, IO_TAIL_CALL,
-  POS(858, 10),
-  POS(859, 9)
+  POS(860, 10),
+  POS(861, 9)
 };
 
 static TAB_NUM t_lambda_100[] = {
   0, // locals
   0, // parameters
   // task.cancel_requests_of empty_list
-  LET, -1, var_855_27_task, var_cancel_requests_of, var_empty_list, var_855_27_task,
+  LET, -1, var_857_27_task, var_cancel_requests_of, var_empty_list, var_857_27_task,
   // -> task cancellations
-  LET, 2, var_855_27_task, var_641_1_cancellations, TAIL_CALL,
-  POS(861, 10),
-  POS(862, 9)
+  LET, 2, var_857_27_task, var_643_1_cancellations, TAIL_CALL,
+  POS(863, 10),
+  POS(864, 9)
 };
 
 static TAB_NUM t_func_collect_log_messages[] = {
   1, // locals
   1, // parameters
-  var_864_24_task,
+  var_866_24_task,
   // log_level == 0
   var_std__equal, 2, var_log_level, num_0, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_101, lambda_102, IO_TAIL_CALL,
-  POS(866, 7),
-  POS(865, 5)
+  POS(868, 7),
+  POS(867, 5)
 };
 
 static TAB_NUM t_lambda_101[] = {
   0, // locals
   0, // parameters
   //  task log_message
-  LET, 2, var_864_24_task, var_644_1_log_message, TAIL_CALL,
-  POS(867, 9)
+  LET, 2, var_866_24_task, var_646_1_log_message, TAIL_CALL,
+  POS(869, 9)
 };
 
 static TAB_NUM t_lambda_102[] = {
   1, // locals
   0, // parameters
   // log_messages_of(task)
-  var_log_messages_of, 1, var_864_24_task, 1, LOCAL(1),
+  var_log_messages_of, 1, var_866_24_task, 1, LOCAL(1),
   // for_each log_messages_of(task)
   var_for_each, 3, LOCAL(1), lambda_103, lambda_104, IO_TAIL_CALL,
-  POS(869, 18),
-  POS(869, 9)
+  POS(871, 18),
+  POS(871, 9)
 };
 
 static TAB_NUM t_lambda_103[] = {
   1, // locals
   1, // parameters
-  LOCAL(1), // 870_3_message
+  LOCAL(1), // 872_3_message
   // append_log_entry !log_message task message
-  func_append_log_entry, 2, var_864_24_task, LOCAL(1), 1, var_644_1_log_message,
+  func_append_log_entry, 2, var_866_24_task, LOCAL(1), 1, var_646_1_log_message,
   // task.log_messages_of empty_list
-  LET, -1, var_864_24_task, var_log_messages_of, var_empty_list, var_864_24_task,
+  LET, -1, var_866_24_task, var_log_messages_of, var_empty_list, var_866_24_task,
   // next!
   var_next, 0, IO_TAIL_CALL,
-  POS(871, 13),
-  POS(872, 14),
-  POS(873, 13)
+  POS(873, 13),
+  POS(874, 14),
+  POS(875, 13)
 };
 
 static TAB_NUM t_lambda_104[] = {
   0, // locals
   0, // parameters
   //  task log_message
-  LET, 2, var_864_24_task, var_644_1_log_message, TAIL_CALL,
-  POS(874, 13)
+  LET, 2, var_866_24_task, var_646_1_log_message, TAIL_CALL,
+  POS(876, 13)
 };
 
 static TAB_NUM t_func_append_log_entry[] = {
   3, // locals
   2, // parameters
-  var_876_20_task,
-  var_876_25_message,
+  var_878_20_task,
+  var_878_25_message,
   // log_level >= 2
   var_std__less, 2, var_log_level, num_2, 1, LOCAL(1),
   // log_level >= 2
@@ -3064,73 +3064,73 @@ static TAB_NUM t_func_append_log_entry[] = {
   // if
   var_if, 3, LOCAL(2), lambda_105, lambda_106, 1, LOCAL(3),
   // append log_message
-  var_append, 2, var_644_1_log_message, LOCAL(3), TAIL_CALL,
-  POS(879, 9),
-  POS(879, 9),
-  POS(878, 7),
-  POS(877, 5)
+  var_append, 2, var_646_1_log_message, LOCAL(3), TAIL_CALL,
+  POS(881, 9),
+  POS(881, 9),
+  POS(880, 7),
+  POS(879, 5)
 };
 
 static TAB_NUM t_lambda_105[] = {
   2, // locals
   0, // parameters
   // id_of(task) ": " message)
-  var_id_of, 1, var_876_20_task, 1, LOCAL(1),
+  var_id_of, 1, var_878_20_task, 1, LOCAL(1),
   // string(id_of(task) ": " message)
-  var_string, 3, LOCAL(1), string_7, var_876_25_message, 1, LOCAL(2),
+  var_string, 3, LOCAL(1), string_7, var_878_25_message, 1, LOCAL(2),
   //  string(id_of(task) ": " message)
   LET, 1, LOCAL(2), TAIL_CALL,
-  POS(880, 19),
-  POS(880, 12),
-  POS(880, 11)
+  POS(882, 19),
+  POS(882, 12),
+  POS(882, 11)
 };
 
 static TAB_NUM t_lambda_106[] = {
   0, // locals
   0, // parameters
   //  message
-  LET, 1, var_876_25_message, TAIL_CALL,
-  POS(881, 11)
+  LET, 1, var_878_25_message, TAIL_CALL,
+  POS(883, 11)
 };
 
 static TAB_NUM t_func_create_new_tasks[] = {
   2, // locals
   1, // parameters
-  var_883_20_task,
+  var_885_20_task,
   // fork_requests_of(task).is_empty
-  var_fork_requests_of, 1, var_883_20_task, 1, LOCAL(1),
+  var_fork_requests_of, 1, var_885_20_task, 1, LOCAL(1),
   // is_empty
   var_is_empty, 1, LOCAL(1), 1, LOCAL(2),
   // if
   var_if, 3, LOCAL(2), lambda_107, lambda_108, TAIL_CALL,
-  POS(885, 7),
-  POS(885, 30),
-  POS(884, 5)
+  POS(887, 7),
+  POS(887, 30),
+  POS(886, 5)
 };
 
 static TAB_NUM t_lambda_107[] = {
   0, // locals
   0, // parameters
   //  task current_task_id new_requests
-  LET, 3, var_883_20_task, var_648_1_current_task_id, var_640_1_new_requests, TAIL_CALL,
-  POS(886, 9)
+  LET, 3, var_885_20_task, var_650_1_current_task_id, var_642_1_new_requests, TAIL_CALL,
+  POS(888, 9)
 };
 
 static TAB_NUM t_lambda_108[] = {
   1, // locals
   0, // parameters
   // fork_requests_of(task)
-  var_fork_requests_of, 1, var_883_20_task, 1, LOCAL(1),
+  var_fork_requests_of, 1, var_885_20_task, 1, LOCAL(1),
   // for_each fork_requests_of(task)
   var_for_each, 3, LOCAL(1), lambda_109, lambda_110, TAIL_CALL,
-  POS(888, 18),
-  POS(888, 9)
+  POS(890, 18),
+  POS(890, 9)
 };
 
 static TAB_NUM t_lambda_109[] = {
   6, // locals
   1, // parameters
-  LOCAL(3), // 889_3_fork_request
+  LOCAL(3), // 891_3_fork_request
   // fork_request $new_task $continuation $argument
   LOCAL(3), 0, 3, LOCAL(4), LOCAL(5), LOCAL(6),
   // new_task.log_messages_of empty_list
@@ -3154,28 +3154,26 @@ static TAB_NUM t_lambda_109[] = {
   // new_task.is_cancelled false
   LET, -1, LOCAL(4), var_is_cancelled, var_false, LOCAL(4),
   // inc &current_task_id
-  var_inc, 1, var_648_1_current_task_id, 1, var_648_1_current_task_id,
+  var_inc, 1, var_650_1_current_task_id, 1, var_650_1_current_task_id,
   // new_task.id_of current_task_id
-  LET, -1, LOCAL(4), var_id_of, var_648_1_current_task_id, LOCAL(4),
+  LET, -1, LOCAL(4), var_id_of, var_650_1_current_task_id, LOCAL(4),
   // !new_task.parent_id_of id_of(task)
-  var_id_of, 1, var_883_20_task, 1, LOCAL(2),
+  var_id_of, 1, var_885_20_task, 1, LOCAL(2),
   // new_task.parent_id_of id_of(task)
   LET, -1, LOCAL(4), var_parent_id_of, LOCAL(2), LOCAL(4),
   // child_ids_of current_task_id
-  var_child_ids_of, 1, var_883_20_task, 1, LOCAL(1),
+  var_child_ids_of, 1, var_885_20_task, 1, LOCAL(1),
   // push &task.child_ids_of current_task_id
-  var_push, 2, LOCAL(1), var_648_1_current_task_id, 1, LOCAL(1),
+  var_push, 2, LOCAL(1), var_650_1_current_task_id, 1, LOCAL(1),
   // task.child_ids_of current_task_id
-  LET, -1, var_883_20_task, var_child_ids_of, LOCAL(1), var_883_20_task,
+  LET, -1, var_885_20_task, var_child_ids_of, LOCAL(1), var_885_20_task,
   // tuple(new_task COMPUTE undefined argument continuation)
   var_tuple, 5, LOCAL(4), uni_COMPUTE, var_undefined, LOCAL(6), LOCAL(5), 1, LOCAL(1),
   // push &new_requests
-  var_push, 2, var_640_1_new_requests, LOCAL(1), 1, var_640_1_new_requests,
+  var_push, 2, var_642_1_new_requests, LOCAL(1), 1, var_642_1_new_requests,
   // next
   var_next, 0, TAIL_CALL,
-  POS(890, 13),
-  POS(894, 14),
-  POS(895, 14),
+  POS(892, 13),
   POS(896, 14),
   POS(897, 14),
   POS(898, 14),
@@ -3184,74 +3182,76 @@ static TAB_NUM t_lambda_109[] = {
   POS(901, 14),
   POS(902, 14),
   POS(903, 14),
-  POS(907, 13),
-  POS(908, 14),
+  POS(904, 14),
+  POS(905, 14),
   POS(909, 13),
-  POS(909, 14),
-  POS(913, 24),
-  POS(913, 13),
-  POS(913, 19),
-  POS(918, 15),
-  POS(917, 13),
-  POS(919, 13)
+  POS(910, 14),
+  POS(911, 13),
+  POS(911, 14),
+  POS(915, 24),
+  POS(915, 13),
+  POS(915, 19),
+  POS(920, 15),
+  POS(919, 13),
+  POS(921, 13)
 };
 
 static TAB_NUM t_lambda_110[] = {
   0, // locals
   0, // parameters
   // task.fork_requests_of empty_list
-  LET, -1, var_883_20_task, var_fork_requests_of, var_empty_list, var_883_20_task,
+  LET, -1, var_885_20_task, var_fork_requests_of, var_empty_list, var_885_20_task,
   // -> task current_task_id new_requests
-  LET, 3, var_883_20_task, var_648_1_current_task_id, var_640_1_new_requests, TAIL_CALL,
-  POS(921, 14),
-  POS(922, 13)
+  LET, 3, var_885_20_task, var_650_1_current_task_id, var_642_1_new_requests, TAIL_CALL,
+  POS(923, 14),
+  POS(924, 13)
 };
 
 static TAB_NUM t_func_receive_messages[] = {
   1, // locals
   1, // parameters
-  var_926_20_request,
+  var_928_20_request,
   // request $task $mode $body $argument $continuation
-  var_926_20_request, 0, 5, var_927_9_task, var_927_15_mode, var_927_21_body, var_927_27_argument, var_927_37_continuation,
+  var_928_20_request, 0, 5, var_929_9_task, var_929_15_mode, var_929_21_body, var_929_27_argument, var_929_37_continuation,
   // id_of(task))
-  var_id_of, 1, var_927_9_task, 1, LOCAL(1),
+  var_id_of, 1, var_929_9_task, 1, LOCAL(1),
   // $messages sent_messages(id_of(task))
-  var_642_1_sent_messages, 1, LOCAL(1), 1, var_928_1_messages,
+  var_644_1_sent_messages, 1, LOCAL(1), 1, var_930_1_messages,
   // is_defined:
-  var_is_defined, 1, var_928_1_messages, 1, LOCAL(1),
+  var_is_defined, 1, var_930_1_messages, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_messages_is_defined, lambda_112, TAIL_CALL,
-  POS(927, 5),
-  POS(928, 29),
-  POS(928, 5),
-  POS(930, 16),
-  POS(929, 5)
+  POS(929, 5),
+  POS(930, 29),
+  POS(930, 5),
+  POS(932, 16),
+  POS(931, 5)
 };
 
 static TAB_NUM t_lambda_messages_is_defined[] = {
   1, // locals
   0, // parameters
   // inbound_messages_of messages
-  var_inbound_messages_of, 1, var_927_9_task, 1, LOCAL(1),
+  var_inbound_messages_of, 1, var_929_9_task, 1, LOCAL(1),
   // append &task.inbound_messages_of messages
-  var_append, 2, LOCAL(1), var_928_1_messages, 1, LOCAL(1),
+  var_append, 2, LOCAL(1), var_930_1_messages, 1, LOCAL(1),
   // task.inbound_messages_of messages
-  LET, -1, var_927_9_task, var_inbound_messages_of, LOCAL(1), var_927_9_task,
+  LET, -1, var_929_9_task, var_inbound_messages_of, LOCAL(1), var_929_9_task,
   // mode == WAIT &mode -> COMPUTE
-  var_std__equal, 2, var_927_15_mode, uni_WAIT, 1, LOCAL(1),
+  var_std__equal, 2, var_929_15_mode, uni_WAIT, 1, LOCAL(1),
   // update_if mode == WAIT &mode -> COMPUTE
-  var_update_if, 3, LOCAL(1), var_927_15_mode, lambda_111, 1, var_927_15_mode,
+  var_update_if, 3, LOCAL(1), var_929_15_mode, lambda_111, 1, var_929_15_mode,
   // tuple(task mode body argument continuation)
-  var_tuple, 5, var_927_9_task, var_927_15_mode, var_927_21_body, var_927_27_argument, var_927_37_continuation, 1, LOCAL(1),
+  var_tuple, 5, var_929_9_task, var_929_15_mode, var_929_21_body, var_929_27_argument, var_929_37_continuation, 1, LOCAL(1),
   // -> tuple(task mode body argument continuation)
   LET, 1, LOCAL(1), TAIL_CALL,
-  POS(931, 22),
-  POS(931, 9),
-  POS(931, 17),
-  POS(932, 19),
-  POS(932, 9),
-  POS(933, 12),
-  POS(933, 9)
+  POS(933, 22),
+  POS(933, 9),
+  POS(933, 17),
+  POS(934, 19),
+  POS(934, 9),
+  POS(935, 12),
+  POS(935, 9)
 };
 
 static TAB_NUM t_lambda_111[] = {
@@ -3259,55 +3259,55 @@ static TAB_NUM t_lambda_111[] = {
   0, // parameters
   //  COMPUTE
   LET, 1, uni_COMPUTE, TAIL_CALL,
-  POS(932, 40)
+  POS(934, 40)
 };
 
 static TAB_NUM t_lambda_112[] = {
   0, // locals
   0, // parameters
   //  request
-  LET, 1, var_926_20_request, TAIL_CALL,
-  POS(934, 9)
+  LET, 1, var_928_20_request, TAIL_CALL,
+  POS(936, 9)
 };
 
 static TAB_NUM t_func_maybe_mark_as_cancelled[] = {
   2, // locals
   1, // parameters
-  var_936_27_request,
+  var_938_27_request,
   // request $task $mode $body $argument $continuation
-  var_936_27_request, 0, 5, var_937_9_task, var_937_15_mode, var_937_21_body, var_937_27_argument, var_937_37_continuation,
+  var_938_27_request, 0, 5, var_939_9_task, var_939_15_mode, var_939_21_body, var_939_27_argument, var_939_37_continuation,
   // id_of(task)):
-  var_id_of, 1, var_937_9_task, 1, LOCAL(1),
+  var_id_of, 1, var_939_9_task, 1, LOCAL(1),
   // cancellations(id_of(task)):
-  var_641_1_cancellations, 1, LOCAL(1), 1, LOCAL(2),
+  var_643_1_cancellations, 1, LOCAL(1), 1, LOCAL(2),
   // if
   var_if, 3, LOCAL(2), lambda_cancellationsid_oftask, lambda_113, TAIL_CALL,
-  POS(937, 5),
-  POS(939, 21),
-  POS(939, 7),
-  POS(938, 5)
+  POS(939, 5),
+  POS(941, 21),
+  POS(941, 7),
+  POS(940, 5)
 };
 
 static TAB_NUM t_lambda_cancellationsid_oftask[] = {
   1, // locals
   0, // parameters
   // task.is_cancelled true
-  LET, -1, var_937_9_task, var_is_cancelled, var_true, var_937_9_task,
+  LET, -1, var_939_9_task, var_is_cancelled, var_true, var_939_9_task,
   // tuple(task mode body argument continuation)
-  var_tuple, 5, var_937_9_task, var_937_15_mode, var_937_21_body, var_937_27_argument, var_937_37_continuation, 1, LOCAL(1),
+  var_tuple, 5, var_939_9_task, var_939_15_mode, var_939_21_body, var_939_27_argument, var_939_37_continuation, 1, LOCAL(1),
   // -> tuple(task mode body argument continuation)
   LET, 1, LOCAL(1), TAIL_CALL,
-  POS(940, 10),
-  POS(941, 12),
-  POS(941, 9)
+  POS(942, 10),
+  POS(943, 12),
+  POS(943, 9)
 };
 
 static TAB_NUM t_lambda_113[] = {
   0, // locals
   0, // parameters
   //  request
-  LET, 1, var_936_27_request, TAIL_CALL,
-  POS(942, 9)
+  LET, 1, var_938_27_request, TAIL_CALL,
+  POS(944, 9)
 };
 
 static TAB_NUM t_func_queue_log_message_write[] = {
@@ -3318,30 +3318,30 @@ static TAB_NUM t_func_queue_log_message_write[] = {
   // log_level >= 4 &log_message:
   var_std__not, 1, LOCAL(1), 1, LOCAL(2),
   // update_if log_level >= 4 &log_message:
-  var_update_if, 3, LOCAL(2), var_644_1_log_message, lambda_114, 1, var_644_1_log_message,
+  var_update_if, 3, LOCAL(2), var_646_1_log_message, lambda_114, 1, var_646_1_log_message,
   // is_empty
-  var_is_empty, 1, var_644_1_log_message, 1, LOCAL(1),
+  var_is_empty, 1, var_646_1_log_message, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_117, lambda_118, TAIL_CALL,
-  POS(947, 15),
-  POS(947, 15),
-  POS(947, 5),
-  POS(956, 19),
-  POS(955, 5)
+  POS(949, 15),
+  POS(949, 15),
+  POS(949, 5),
+  POS(958, 19),
+  POS(957, 5)
 };
 
 static TAB_NUM t_lambda_114[] = {
   0, // locals
   0, // parameters
   // for_each new_requests
-  var_for_each, 3, var_640_1_new_requests, lambda_115, lambda_116, TAIL_CALL,
-  POS(948, 7)
+  var_for_each, 3, var_642_1_new_requests, lambda_115, lambda_116, TAIL_CALL,
+  POS(950, 7)
 };
 
 static TAB_NUM t_lambda_115[] = {
   5, // locals
   1, // parameters
-  LOCAL(4), // 949_3_request
+  LOCAL(4), // 951_3_request
   // request $task $_mode $_body $_arguments $_continuation
   LOCAL(4), 0, 5, LOCAL(5), LOCAL(1), LOCAL(1), LOCAL(1), LOCAL(1),
   // id_of(task)) (parent: @(parent_id_of(task)))
@@ -3351,31 +3351,31 @@ static TAB_NUM t_lambda_115[] = {
   // "
   var_std__string, 5, str_CREATED_TASK, LOCAL(1), str__parent, LOCAL(2), string_5, 1, LOCAL(3),
   // append &log_message "
-  var_append, 2, var_644_1_log_message, LOCAL(3), 1, var_644_1_log_message,
+  var_append, 2, var_646_1_log_message, LOCAL(3), 1, var_646_1_log_message,
   // next
   var_next, 0, TAIL_CALL,
-  POS(950, 11),
-  POS(952, 28),
-  POS(952, 52),
-  POS(951, 31),
-  POS(951, 11),
-  POS(953, 11)
+  POS(952, 11),
+  POS(954, 28),
+  POS(954, 52),
+  POS(953, 31),
+  POS(953, 11),
+  POS(955, 11)
 };
 
 static TAB_NUM t_lambda_116[] = {
   0, // locals
   0, // parameters
   //  log_message
-  LET, 1, var_644_1_log_message, TAIL_CALL,
-  POS(954, 11)
+  LET, 1, var_646_1_log_message, TAIL_CALL,
+  POS(956, 11)
 };
 
 static TAB_NUM t_lambda_117[] = {
   0, // locals
   0, // parameters
   //  io
-  LET, 1, var_638_1_io, TAIL_CALL,
-  POS(957, 9)
+  LET, 1, var_640_1_io, TAIL_CALL,
+  POS(959, 9)
 };
 
 static TAB_NUM t_lambda_118[] = {
@@ -3386,191 +3386,191 @@ static TAB_NUM t_lambda_118[] = {
   // log_level >= 3 &io:
   var_std__not, 1, LOCAL(1), 1, LOCAL(2),
   // update_if log_level >= 3 &io:
-  var_update_if, 3, LOCAL(2), var_638_1_io, lambda_119, 1, var_638_1_io,
+  var_update_if, 3, LOCAL(2), var_640_1_io, lambda_119, 1, var_640_1_io,
   // to_utf8
-  var_to_utf8, 1, var_644_1_log_message, 1, LOCAL(1),
+  var_to_utf8, 1, var_646_1_log_message, 1, LOCAL(1),
   // write &io STDERR_FILENO log_message.to_utf8
-  var_write, 3, var_638_1_io, var_STDERR_FILENO, LOCAL(1), 1, var_638_1_io,
+  var_write, 3, var_640_1_io, var_STDERR_FILENO, LOCAL(1), 1, var_640_1_io,
   // -> io
-  LET, 1, var_638_1_io, TAIL_CALL,
-  POS(959, 19),
-  POS(959, 19),
-  POS(959, 9),
-  POS(962, 45),
-  POS(962, 9),
-  POS(963, 9)
+  LET, 1, var_640_1_io, TAIL_CALL,
+  POS(961, 19),
+  POS(961, 19),
+  POS(961, 9),
+  POS(964, 45),
+  POS(964, 9),
+  POS(965, 9)
 };
 
 static TAB_NUM t_lambda_119[] = {
   1, // locals
   0, // parameters
   // "
-  var_std__string, 3, string_8, var_649_1_iteration_no, string_9, 1, LOCAL(1),
+  var_std__string, 3, string_8, var_651_1_iteration_no, string_9, 1, LOCAL(1),
   // write io STDERR_FILENO "
-  var_write, 3, var_638_1_io, var_STDERR_FILENO, LOCAL(1), TAIL_CALL,
-  POS(960, 34),
-  POS(960, 11)
+  var_write, 3, var_640_1_io, var_STDERR_FILENO, LOCAL(1), TAIL_CALL,
+  POS(962, 34),
+  POS(962, 11)
 };
 
 static TAB_NUM t_func_start_io_operation[] = {
   2, // locals
   1, // parameters
-  var_965_22_request,
+  var_967_22_request,
   // request $task $mode $body $argument $continuation
-  var_965_22_request, 0, 5, var_966_9_task, var_966_15_mode, var_966_21_body, var_966_27_argument, var_966_37_continuation,
+  var_967_22_request, 0, 5, var_968_9_task, var_968_15_mode, var_968_21_body, var_968_27_argument, var_968_37_continuation,
   // mode == START_IO
-  var_std__equal, 2, var_966_15_mode, uni_START_IO, 1, LOCAL(1),
+  var_std__equal, 2, var_968_15_mode, uni_START_IO, 1, LOCAL(1),
   // 
   var_std__or, 2, LOCAL(1), lambda_120, 1, LOCAL(2),
   // if
   var_if, 3, LOCAL(2), lambda_122, lambda_125, IO_TAIL_CALL,
-  POS(966, 5),
-  POS(969, 9),
-  POS(968, 9),
-  POS(967, 5)
+  POS(968, 5),
+  POS(971, 9),
+  POS(970, 9),
+  POS(969, 5)
 };
 
 static TAB_NUM t_lambda_120[] = {
   2, // locals
   0, // parameters
   // is_cancelled && mode == CHECK_IO
-  var_is_cancelled, 1, var_966_9_task, 1, LOCAL(1),
+  var_is_cancelled, 1, var_968_9_task, 1, LOCAL(1),
   // is_cancelled && mode == CHECK_IO
   var_std__and, 2, LOCAL(1), lambda_121, 1, LOCAL(2),
   // task.is_cancelled && mode == CHECK_IO
   LET, 1, LOCAL(2), TAIL_CALL,
-  POS(970, 14),
-  POS(970, 14),
-  POS(970, 9)
+  POS(972, 14),
+  POS(972, 14),
+  POS(972, 9)
 };
 
 static TAB_NUM t_lambda_121[] = {
   1, // locals
   0, // parameters
   // mode == CHECK_IO
-  var_std__equal, 2, var_966_15_mode, uni_CHECK_IO, 1, LOCAL(1),
+  var_std__equal, 2, var_968_15_mode, uni_CHECK_IO, 1, LOCAL(1),
   // mode == CHECK_IO
   LET, 1, LOCAL(1), TAIL_CALL,
-  POS(970, 30),
-  POS(970, 30)
+  POS(972, 30),
+  POS(972, 30)
 };
 
 static TAB_NUM t_lambda_122[] = {
   2, // locals
   0, // parameters
   // parameter_count_of(body) == 3:
-  var_parameter_count_of, 1, var_966_21_body, 1, LOCAL(1),
+  var_parameter_count_of, 1, var_968_21_body, 1, LOCAL(1),
   // parameter_count_of(body) == 3:
   var_std__equal, 2, LOCAL(1), num_3, 1, LOCAL(2),
   // if
   var_if, 3, LOCAL(2), lambda_123, lambda_124, IO_TAIL_CALL,
-  POS(973, 11),
-  POS(973, 11),
-  POS(972, 9)
+  POS(975, 11),
+  POS(975, 11),
+  POS(974, 9)
 };
 
 static TAB_NUM t_lambda_123[] = {
   1, // locals
   0, // parameters
   // body! !mode &task &io !body &argument
-  var_966_21_body, 3, var_966_9_task, var_638_1_io, var_966_27_argument, IO_CALL(5), var_966_15_mode, var_966_9_task, var_638_1_io, var_966_21_body, var_966_27_argument,
+  var_968_21_body, 3, var_968_9_task, var_640_1_io, var_968_27_argument, IO_CALL(5), var_968_15_mode, var_968_9_task, var_640_1_io, var_968_21_body, var_968_27_argument,
   // tuple(task mode body argument continuation) io
-  var_tuple, 5, var_966_9_task, var_966_15_mode, var_966_21_body, var_966_27_argument, var_966_37_continuation, 1, LOCAL(1),
+  var_tuple, 5, var_968_9_task, var_968_15_mode, var_968_21_body, var_968_27_argument, var_968_37_continuation, 1, LOCAL(1),
   // -> tuple(task mode body argument continuation) io
-  LET, 2, LOCAL(1), var_638_1_io, TAIL_CALL,
-  POS(974, 13),
-  POS(975, 16),
-  POS(975, 13)
+  LET, 2, LOCAL(1), var_640_1_io, TAIL_CALL,
+  POS(976, 13),
+  POS(977, 16),
+  POS(977, 13)
 };
 
 static TAB_NUM t_lambda_124[] = {
   1, // locals
   0, // parameters
   // body! !mode &task &io !body !argument
-  var_966_21_body, 2, var_966_9_task, var_638_1_io, IO_CALL(5), var_966_15_mode, var_966_9_task, var_638_1_io, var_966_21_body, var_966_27_argument,
+  var_968_21_body, 2, var_968_9_task, var_640_1_io, IO_CALL(5), var_968_15_mode, var_968_9_task, var_640_1_io, var_968_21_body, var_968_27_argument,
   // tuple(task mode body argument continuation) io
-  var_tuple, 5, var_966_9_task, var_966_15_mode, var_966_21_body, var_966_27_argument, var_966_37_continuation, 1, LOCAL(1),
+  var_tuple, 5, var_968_9_task, var_968_15_mode, var_968_21_body, var_968_27_argument, var_968_37_continuation, 1, LOCAL(1),
   // -> tuple(task mode body argument continuation) io
-  LET, 2, LOCAL(1), var_638_1_io, TAIL_CALL,
-  POS(977, 13),
-  POS(978, 16),
-  POS(978, 13)
+  LET, 2, LOCAL(1), var_640_1_io, TAIL_CALL,
+  POS(979, 13),
+  POS(980, 16),
+  POS(980, 13)
 };
 
 static TAB_NUM t_lambda_125[] = {
   0, // locals
   0, // parameters
   //  request io
-  LET, 2, var_965_22_request, var_638_1_io, TAIL_CALL,
-  POS(979, 9)
+  LET, 2, var_967_22_request, var_640_1_io, TAIL_CALL,
+  POS(981, 9)
 };
 
 static TAB_NUM t_func_has_something_to_do[] = {
   3, // locals
   1, // parameters
-  LOCAL(3), // 983_23_request
+  LOCAL(3), // 985_23_request
   // request $_task $mode $_body $_arguments $_continuation
-  LOCAL(3), 0, 5, LOCAL(1), var_984_16_mode, LOCAL(1), LOCAL(1), LOCAL(1),
+  LOCAL(3), 0, 5, LOCAL(1), var_986_16_mode, LOCAL(1), LOCAL(1), LOCAL(1),
   // mode == COMPUTE || mode == EXIT
-  var_std__equal, 2, var_984_16_mode, uni_COMPUTE, 1, LOCAL(1),
+  var_std__equal, 2, var_986_16_mode, uni_COMPUTE, 1, LOCAL(1),
   // mode == COMPUTE || mode == EXIT
   var_std__or, 2, LOCAL(1), lambda_126, 1, LOCAL(2),
   // -> mode == COMPUTE || mode == EXIT
   LET, 1, LOCAL(2), TAIL_CALL,
-  POS(984, 5),
-  POS(985, 8),
-  POS(985, 8),
-  POS(985, 5)
+  POS(986, 5),
+  POS(987, 8),
+  POS(987, 8),
+  POS(987, 5)
 };
 
 static TAB_NUM t_lambda_126[] = {
   1, // locals
   0, // parameters
   // mode == EXIT
-  var_std__equal, 2, var_984_16_mode, uni_EXIT, 1, LOCAL(1),
+  var_std__equal, 2, var_986_16_mode, uni_EXIT, 1, LOCAL(1),
   // mode == EXIT
   LET, 1, LOCAL(1), TAIL_CALL,
-  POS(985, 27),
-  POS(985, 27)
+  POS(987, 27),
+  POS(987, 27)
 };
 
 static TAB_NUM t_func_maybe_exit[] = {
   1, // locals
   1, // parameters
-  var_987_14_something_to_do,
+  var_989_14_something_to_do,
   // is_empty:
-  var_is_empty, 1, var_638_1_io, 1, LOCAL(1),
+  var_is_empty, 1, var_640_1_io, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_io_is_empty, var_pass, IO_TAIL_CALL,
-  POS(989, 10),
-  POS(988, 5)
+  POS(991, 10),
+  POS(990, 5)
 };
 
 static TAB_NUM t_lambda_io_is_empty[] = {
   1, // locals
   0, // parameters
   // is_empty:
-  var_is_empty, 1, var_646_1_requests, 1, LOCAL(1),
+  var_is_empty, 1, var_648_1_requests, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_requests_is_empty, lambda_127, IO_TAIL_CALL,
-  POS(991, 20),
-  POS(990, 9)
+  POS(993, 20),
+  POS(992, 9)
 };
 
 static TAB_NUM t_lambda_requests_is_empty[] = {
   0, // locals
   0, // parameters
   // exit! exit_status # no more requests and no more pending log-writes
-  var_exit, 1, var_637_1_exit_status, IO_TAIL_CALL,
-  POS(992, 13)
+  var_exit, 1, var_639_1_exit_status, IO_TAIL_CALL,
+  POS(994, 13)
 };
 
 static TAB_NUM t_lambda_127[] = {
   0, // locals
   0, // parameters
   // if
-  var_if, 3, var_987_14_something_to_do, var_pass, lambda_128, IO_TAIL_CALL,
-  POS(994, 13)
+  var_if, 3, var_989_14_something_to_do, var_pass, lambda_128, IO_TAIL_CALL,
+  POS(996, 13)
 };
 
 static TAB_NUM t_lambda_128[] = {
@@ -3580,48 +3580,48 @@ static TAB_NUM t_lambda_128[] = {
   var_write, 2, var_STDERR_FILENO, str_NO_TASK_IS_READY, IO_CALL(1), LOCAL(1),
   // exit! EXIT_FAILURE
   var_exit, 1, var_EXIT_FAILURE, IO_TAIL_CALL,
-  POS(998, 17),
-  POS(1000, 17)
+  POS(1000, 17),
+  POS(1002, 17)
 };
 
 static TAB_NUM t_func_get_and_check_events[] = {
   1, // locals
   1, // parameters
-  var_1003_24_something_to_do,
+  var_1005_24_something_to_do,
   // is_empty
-  var_is_empty, 1, var_638_1_io, 1, LOCAL(1),
+  var_is_empty, 1, var_640_1_io, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_129, lambda_130, IO_TAIL_CALL,
-  POS(1005, 10),
-  POS(1004, 5)
+  POS(1007, 10),
+  POS(1006, 5)
 };
 
 static TAB_NUM t_lambda_129[] = {
   0, // locals
   0, // parameters
   //  requests io
-  LET, 2, var_646_1_requests, var_638_1_io, TAIL_CALL,
-  POS(1006, 9)
+  LET, 2, var_648_1_requests, var_640_1_io, TAIL_CALL,
+  POS(1008, 9)
 };
 
 static TAB_NUM t_lambda_130[] = {
   1, // locals
   0, // parameters
   // $timeout
-  var_if, 3, var_1003_24_something_to_do, lambda_131, lambda_132, 1, LOCAL(1),
+  var_if, 3, var_1005_24_something_to_do, lambda_131, lambda_132, 1, LOCAL(1),
   // get_events! &io !events timeout
-  var_get_events, 2, var_638_1_io, LOCAL(1), IO_CALL(2), var_638_1_io, var_645_1_events,
+  var_get_events, 2, var_640_1_io, LOCAL(1), IO_CALL(2), var_640_1_io, var_647_1_events,
   // map &requests check_events
-  var_map, 2, var_646_1_requests, func_check_events, 1, var_646_1_requests,
+  var_map, 2, var_648_1_requests, func_check_events, 1, var_648_1_requests,
   // !events empty_list
-  LET, 1, var_empty_list, 1, var_645_1_events,
+  LET, 1, var_empty_list, 1, var_647_1_events,
   // -> requests io
-  LET, 2, var_646_1_requests, var_638_1_io, TAIL_CALL,
-  POS(1008, 9),
-  POS(1013, 9),
-  POS(1014, 9),
+  LET, 2, var_648_1_requests, var_640_1_io, TAIL_CALL,
+  POS(1010, 9),
   POS(1015, 9),
-  POS(1016, 9)
+  POS(1016, 9),
+  POS(1017, 9),
+  POS(1018, 9)
 };
 
 static TAB_NUM t_lambda_131[] = {
@@ -3629,7 +3629,7 @@ static TAB_NUM t_lambda_131[] = {
   0, // parameters
   //  0 # poll
   LET, 1, num_0, TAIL_CALL,
-  POS(1011, 15)
+  POS(1013, 15)
 };
 
 static TAB_NUM t_lambda_132[] = {
@@ -3637,109 +3637,109 @@ static TAB_NUM t_lambda_132[] = {
   0, // parameters
   //  undefined # wait "forever"
   LET, 1, var_undefined, TAIL_CALL,
-  POS(1012, 15)
+  POS(1014, 15)
 };
 
 static TAB_NUM t_func_check_events[] = {
   1, // locals
   1, // parameters
-  var_1018_16_request,
+  var_1020_16_request,
   // request $task $mode $body $argument $continuation
-  var_1018_16_request, 0, 5, var_1019_9_task, var_1019_15_mode, var_1019_21_body, var_1019_27_argument, var_1019_37_continuation,
+  var_1020_16_request, 0, 5, var_1021_9_task, var_1021_15_mode, var_1021_21_body, var_1021_27_argument, var_1021_37_continuation,
   // mode == CHECK_IO:
-  var_std__equal, 2, var_1019_15_mode, uni_CHECK_IO, 1, LOCAL(1),
+  var_std__equal, 2, var_1021_15_mode, uni_CHECK_IO, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_133, lambda_134, TAIL_CALL,
-  POS(1019, 5),
-  POS(1021, 7),
-  POS(1020, 5)
+  POS(1021, 5),
+  POS(1023, 7),
+  POS(1022, 5)
 };
 
 static TAB_NUM t_lambda_133[] = {
   1, // locals
   0, // parameters
   // body !mode &task events !body &argument
-  var_1019_21_body, 3, var_1019_9_task, var_645_1_events, var_1019_27_argument, 4, var_1019_15_mode, var_1019_9_task, var_1019_21_body, var_1019_27_argument,
+  var_1021_21_body, 3, var_1021_9_task, var_647_1_events, var_1021_27_argument, 4, var_1021_15_mode, var_1021_9_task, var_1021_21_body, var_1021_27_argument,
   // tuple(task mode body argument continuation)
-  var_tuple, 5, var_1019_9_task, var_1019_15_mode, var_1019_21_body, var_1019_27_argument, var_1019_37_continuation, 1, LOCAL(1),
+  var_tuple, 5, var_1021_9_task, var_1021_15_mode, var_1021_21_body, var_1021_27_argument, var_1021_37_continuation, 1, LOCAL(1),
   // -> tuple(task mode body argument continuation)
   LET, 1, LOCAL(1), TAIL_CALL,
-  POS(1022, 9),
-  POS(1023, 12),
-  POS(1023, 9)
+  POS(1024, 9),
+  POS(1025, 12),
+  POS(1025, 9)
 };
 
 static TAB_NUM t_lambda_134[] = {
   0, // locals
   0, // parameters
   //  request
-  LET, 1, var_1018_16_request, TAIL_CALL,
-  POS(1024, 9)
+  LET, 1, var_1020_16_request, TAIL_CALL,
+  POS(1026, 9)
 };
 
 static TAB_NUM t_func_exit_task[] = {
   4, // locals
   1, // parameters
-  var_1028_13_task,
+  var_1030_13_task,
   // $parent_id parent_id_of(task)
-  var_parent_id_of, 1, var_1028_13_task, 1, LOCAL(3),
+  var_parent_id_of, 1, var_1030_13_task, 1, LOCAL(3),
   // removed_children(parent_id) empty_key_order_set)
-  var_643_1_removed_children, 1, LOCAL(3), 1, LOCAL(1),
+  var_645_1_removed_children, 1, LOCAL(3), 1, LOCAL(1),
   // $removed default_value(removed_children(parent_id) empty_key_order_set)
   var_default_value, 2, LOCAL(1), var_empty_key_order_set, 1, LOCAL(4),
   // id_of(task)) true
-  var_id_of, 1, var_1028_13_task, 1, LOCAL(2),
+  var_id_of, 1, var_1030_13_task, 1, LOCAL(2),
   // removed(id_of(task)) true
   LOCAL(4), 2, LOCAL(2), var_true, 1, LOCAL(4),
   // removed_children(parent_id) removed
-  var_643_1_removed_children, 2, LOCAL(3), LOCAL(4), 1, var_643_1_removed_children,
+  var_645_1_removed_children, 2, LOCAL(3), LOCAL(4), 1, var_645_1_removed_children,
   // exit_handlers_of(task)
-  var_exit_handlers_of, 1, var_1028_13_task, 1, LOCAL(1),
+  var_exit_handlers_of, 1, var_1030_13_task, 1, LOCAL(1),
   // for_each exit_handlers_of(task)
   var_for_each, 3, LOCAL(1), lambda_135, lambda_140, IO_TAIL_CALL,
-  POS(1029, 5),
-  POS(1030, 28),
-  POS(1030, 5),
-  POS(1031, 14),
-  POS(1031, 6),
-  POS(1032, 6),
+  POS(1031, 5),
+  POS(1032, 28),
+  POS(1032, 5),
   POS(1033, 14),
-  POS(1033, 5)
+  POS(1033, 6),
+  POS(1034, 6),
+  POS(1035, 14),
+  POS(1035, 5)
 };
 
 static TAB_NUM t_lambda_135[] = {
   3, // locals
   1, // parameters
-  LOCAL(3), // 1034_3_item
+  LOCAL(3), // 1036_3_item
   // item $handler $handler_arguments
-  LOCAL(3), 0, 2, var_1035_6_handler, var_1035_15_handler_arguments,
+  LOCAL(3), 0, 2, var_1037_6_handler, var_1037_15_handler_arguments,
   // parameter_count_of(handler) == 3:
-  var_parameter_count_of, 1, var_1035_6_handler, 1, LOCAL(1),
+  var_parameter_count_of, 1, var_1037_6_handler, 1, LOCAL(1),
   // parameter_count_of(handler) == 3:
   var_std__equal, 2, LOCAL(1), num_3, 1, LOCAL(2),
   // if
   var_if, 3, LOCAL(2), lambda_136, lambda_138, IO_TAIL_CALL,
-  POS(1035, 9),
-  POS(1037, 11),
-  POS(1037, 11),
-  POS(1036, 9)
+  POS(1037, 9),
+  POS(1039, 11),
+  POS(1039, 11),
+  POS(1038, 9)
 };
 
 static TAB_NUM t_lambda_136[] = {
   2, // locals
   0, // parameters
   // handler! task &io $success handler_arguments
-  var_1035_6_handler, 3, var_1028_13_task, var_638_1_io, var_1035_15_handler_arguments, IO_CALL(2), var_638_1_io, LOCAL(2),
+  var_1037_6_handler, 3, var_1030_13_task, var_640_1_io, var_1037_15_handler_arguments, IO_CALL(2), var_640_1_io, LOCAL(2),
   // is_an_error &exit_status -> EXIT_FAILURE
   var_is_an_error, 1, LOCAL(2), 1, LOCAL(1),
   // update_if success.is_an_error &exit_status -> EXIT_FAILURE
-  var_update_if, 3, LOCAL(1), var_637_1_exit_status, lambda_137, 1, var_637_1_exit_status,
+  var_update_if, 3, LOCAL(1), var_639_1_exit_status, lambda_137, 1, var_639_1_exit_status,
   // next!
   var_next, 0, IO_TAIL_CALL,
-  POS(1038, 13),
-  POS(1039, 31),
-  POS(1039, 13),
-  POS(1040, 13)
+  POS(1040, 13),
+  POS(1041, 31),
+  POS(1041, 13),
+  POS(1042, 13)
 };
 
 static TAB_NUM t_lambda_137[] = {
@@ -3747,24 +3747,24 @@ static TAB_NUM t_lambda_137[] = {
   0, // parameters
   //  EXIT_FAILURE
   LET, 1, var_EXIT_FAILURE, TAIL_CALL,
-  POS(1039, 58)
+  POS(1041, 58)
 };
 
 static TAB_NUM t_lambda_138[] = {
   2, // locals
   0, // parameters
   // handler! task &io $success
-  var_1035_6_handler, 2, var_1028_13_task, var_638_1_io, IO_CALL(2), var_638_1_io, LOCAL(2),
+  var_1037_6_handler, 2, var_1030_13_task, var_640_1_io, IO_CALL(2), var_640_1_io, LOCAL(2),
   // is_an_error &exit_status -> EXIT_FAILURE
   var_is_an_error, 1, LOCAL(2), 1, LOCAL(1),
   // update_if success.is_an_error &exit_status -> EXIT_FAILURE
-  var_update_if, 3, LOCAL(1), var_637_1_exit_status, lambda_139, 1, var_637_1_exit_status,
+  var_update_if, 3, LOCAL(1), var_639_1_exit_status, lambda_139, 1, var_639_1_exit_status,
   // next!
   var_next, 0, IO_TAIL_CALL,
-  POS(1042, 13),
-  POS(1043, 31),
-  POS(1043, 13),
-  POS(1044, 13)
+  POS(1044, 13),
+  POS(1045, 31),
+  POS(1045, 13),
+  POS(1046, 13)
 };
 
 static TAB_NUM t_lambda_139[] = {
@@ -3772,15 +3772,15 @@ static TAB_NUM t_lambda_139[] = {
   0, // parameters
   //  EXIT_FAILURE
   LET, 1, var_EXIT_FAILURE, TAIL_CALL,
-  POS(1043, 58)
+  POS(1045, 58)
 };
 
 static TAB_NUM t_lambda_140[] = {
   0, // locals
   0, // parameters
   //  io exit_status removed_children
-  LET, 3, var_638_1_io, var_637_1_exit_status, var_643_1_removed_children, TAIL_CALL,
-  POS(1045, 9)
+  LET, 3, var_640_1_io, var_639_1_exit_status, var_645_1_removed_children, TAIL_CALL,
+  POS(1047, 9)
 };
 
 static FUNKY_CONSTANT constants_table[] = {
@@ -4110,7 +4110,7 @@ static FUNKY_VARIABLE variables_table[] = {
   {
     FOT_UNKNOWN, 0, 0,
     "assign\000std", NULL,
-    {.position = POS(89, 1)}
+    {.position = POS(91, 1)}
   },
   {
     FOT_POLYMORPHIC, 0, 0,
@@ -4270,17 +4270,17 @@ static FUNKY_VARIABLE variables_table[] = {
   {
     FOT_UNKNOWN, 0, 2,
     "error\000std_types", std_types__error__attributes,
-    {.position = POS(221, 1)}
+    {.position = POS(223, 1)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
     "additional_error_information_of\000", NULL,
-    {.position = POS(221, 19)}
+    {.position = POS(223, 19)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "undefined\000", NULL,
-    {.position = POS(221, 51)}
+    {.position = POS(223, 51)}
   },
   {
     FOT_POLYMORPHIC, 0, 0,
@@ -4290,63 +4290,63 @@ static FUNKY_VARIABLE variables_table[] = {
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
     "generate_error_message\000", NULL,
-    {.position = POS(225, 19)}
+    {.position = POS(227, 19)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "226_1_message\000", NULL
+    "228_1_message\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
     "error_message_text_of\000", NULL,
-    {.position = POS(226, 12)}
+    {.position = POS(228, 12)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "227_1_errno\000", NULL
+    "229_1_errno\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
     "errno_of\000", NULL,
-    {.position = POS(227, 10)}
+    {.position = POS(229, 10)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "is_defined\000", NULL,
-    {.position = POS(228, 19)}
+    {.position = POS(230, 19)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "append\000", NULL,
-    {.position = POS(229, 5)}
+    {.position = POS(231, 5)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "strerror\000", NULL,
-    {.position = POS(230, 20)}
+    {.position = POS(232, 20)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "update_if\000", NULL,
-    {.position = POS(228, 3)}
+    {.position = POS(230, 3)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "231_1_failed_attribute\000", NULL
+    "233_1_failed_attribute\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
     "failed_attribute_of\000", NULL,
-    {.position = POS(231, 21)}
+    {.position = POS(233, 21)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "235_1_additional_information\000", NULL
+    "237_1_additional_information\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
     "push\000", NULL,
-    {.position = POS(239, 5)}
+    {.position = POS(241, 5)}
   },
   {
     FOT_DERIVED, 0, 37,
@@ -4356,575 +4356,575 @@ static FUNKY_VARIABLE variables_table[] = {
   {
     FOT_UNKNOWN, 0, 0,
     "object\000std_types", NULL,
-    {.position = POS(241, 21)}
+    {.position = POS(243, 21)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "empty_list\000", NULL,
-    {.position = POS(243, 37)}
+    {.position = POS(245, 37)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "false\000", NULL,
-    {.position = POS(253, 34)}
+    {.position = POS(255, 34)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
     "task_id_of\000", NULL,
-    {.position = POS(255, 21)}
+    {.position = POS(257, 21)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
     "parent_of\000", NULL,
-    {.position = POS(256, 21)}
+    {.position = POS(258, 21)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "257_1_id\000", NULL
+    "259_1_id\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
     "equal\000std", NULL,
-    {.position = POS(259, 5)}
+    {.position = POS(261, 5)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "not\000std", NULL,
-    {.position = POS(259, 5)}
+    {.position = POS(261, 5)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "if\000", NULL,
-    {.position = POS(258, 3)}
+    {.position = POS(260, 3)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
     "children_of\000", NULL,
-    {.position = POS(263, 21)}
+    {.position = POS(265, 21)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
     "perform_io\000", NULL,
-    {.position = POS(265, 21)}
+    {.position = POS(267, 21)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "tuple\000", NULL,
-    {.position = POS(272, 3)}
+    {.position = POS(274, 3)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
     "pause\000", NULL,
-    {.position = POS(274, 21)}
+    {.position = POS(276, 21)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
     "wait_for_message\000", NULL,
-    {.position = POS(277, 21)}
+    {.position = POS(279, 21)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "277_39_self\000", NULL
+    "279_39_self\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "277_44_continuation\000", NULL
+    "279_44_continuation\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
     "is_empty\000", NULL,
-    {.position = POS(279, 31)}
+    {.position = POS(281, 31)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
     "check_io\000", NULL,
-    {.position = POS(283, 21)}
+    {.position = POS(285, 21)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
     "performed_io\000", NULL,
-    {.position = POS(286, 21)}
+    {.position = POS(288, 21)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
     "recheck_io\000", NULL,
-    {.position = POS(294, 21)}
+    {.position = POS(296, 21)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
     "complete_io\000", NULL,
-    {.position = POS(297, 21)}
+    {.position = POS(299, 21)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
     "checked_io\000", NULL,
-    {.position = POS(300, 21)}
+    {.position = POS(302, 21)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
     "log\000", NULL,
-    {.position = POS(303, 21)}
+    {.position = POS(305, 21)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "304_1_str\000", NULL
+    "306_1_str\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
     "create_string\000", NULL,
-    {.position = POS(304, 8)}
+    {.position = POS(306, 8)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "has_suffix\000", NULL,
-    {.position = POS(307, 7)}
+    {.position = POS(309, 7)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
     "send\000", NULL,
-    {.position = POS(313, 21)}
+    {.position = POS(315, 21)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "313_27_self\000", NULL
+    "315_27_self\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "313_32_receiver\000", NULL
+    "315_32_receiver\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "313_41_message\000", NULL
+    "315_41_message\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
     "is_a_list\000", NULL,
-    {.position = POS(315, 14)}
+    {.position = POS(317, 14)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "and\000std", NULL,
-    {.position = POS(315, 14)}
+    {.position = POS(317, 14)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
     "receive\000", NULL,
-    {.position = POS(321, 21)}
+    {.position = POS(323, 21)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "321_30_self\000", NULL
+    "323_30_self\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
     "get\000", NULL,
-    {.position = POS(326, 7)}
+    {.position = POS(328, 7)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
     "cancel\000", NULL,
-    {.position = POS(329, 21)}
+    {.position = POS(331, 21)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "331_0_self\000", NULL
+    "333_0_self\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "332_0_task_id\000", NULL
+    "334_0_task_id\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
     "is_an_integer\000", NULL,
-    {.position = POS(335, 13)}
+    {.position = POS(337, 13)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "to_list\000", NULL,
-    {.position = POS(339, 47)}
+    {.position = POS(341, 47)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
     "on_exit\000", NULL,
-    {.position = POS(342, 21)}
+    {.position = POS(344, 21)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "put\000", NULL,
-    {.position = POS(348, 3)}
+    {.position = POS(350, 3)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
     "on_error\000", NULL,
-    {.position = POS(351, 21)}
+    {.position = POS(353, 21)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
     "on_cancel\000", NULL,
-    {.position = POS(355, 21)}
+    {.position = POS(357, 21)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
     "load\000", NULL,
-    {.position = POS(361, 21)}
+    {.position = POS(363, 21)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "364_16_task\000", NULL
+    "366_16_task\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "364_21_io\000", NULL
+    "366_21_io\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "364_24_filename\000", NULL
+    "366_24_filename\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "369_7_fd\000", NULL
+    "371_7_fd\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
     "open\000", NULL,
-    {.position = POS(369, 9)}
+    {.position = POS(371, 9)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "is_an_error\000", NULL,
-    {.position = POS(371, 14)}
+    {.position = POS(373, 14)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "string\000std", NULL,
-    {.position = POS(372, 49)}
+    {.position = POS(374, 49)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "start_reading_from\000", NULL,
-    {.position = POS(376, 13)}
+    {.position = POS(378, 13)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "379_22_task\000", NULL
+    "381_22_task\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "379_27_events\000", NULL
+    "381_27_events\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "379_34_argument\000", NULL
+    "381_34_argument\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "380_10_fd\000", NULL
+    "382_10_fd\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "380_14_buf\000", NULL
+    "382_14_buf\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
     "stop_reading_from\000", NULL,
-    {.position = POS(384, 9)}
+    {.position = POS(386, 9)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "close\000", NULL,
-    {.position = POS(385, 29)}
+    {.position = POS(387, 29)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "try\000", NULL,
-    {.position = POS(385, 9)}
+    {.position = POS(387, 9)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "390_13_efd\000", NULL
+    "392_13_efd\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "390_18_data\000", NULL
+    "392_18_data\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
     "READ\000", NULL,
-    {.position = POS(392, 15)}
+    {.position = POS(394, 15)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "next\000", NULL,
-    {.position = POS(401, 19)}
+    {.position = POS(403, 19)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "READ_FAILED\000", NULL,
-    {.position = POS(402, 15)}
+    {.position = POS(404, 15)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "case\000", NULL,
-    {.position = POS(391, 13)}
+    {.position = POS(393, 13)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "for_each\000", NULL,
-    {.position = POS(388, 9)}
+    {.position = POS(390, 9)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "412_10_fd\000", NULL
+    "414_10_fd\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "418_10_fd\000", NULL
+    "420_10_fd\000", NULL
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
     "save\000", NULL,
-    {.position = POS(423, 21)}
+    {.position = POS(425, 21)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "426_16_task\000", NULL
+    "428_16_task\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "426_21_io\000", NULL
+    "428_21_io\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "427_10_filename\000", NULL
+    "429_10_filename\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "427_20_data\000", NULL
+    "429_20_data\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "432_7_fd\000", NULL
+    "434_7_fd\000", NULL
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
     "write\000", NULL,
-    {.position = POS(439, 13)}
+    {.position = POS(441, 13)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "442_22_task\000", NULL
+    "444_22_task\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "442_27_events\000", NULL
+    "444_27_events\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "442_34_fd\000", NULL
+    "444_34_fd\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
     "cancel_write\000", NULL,
-    {.position = POS(446, 9)}
+    {.position = POS(448, 9)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "452_13_efd\000", NULL
+    "454_13_efd\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "452_18_data\000", NULL
+    "454_18_data\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
     "WRITE_COMPLETED\000", NULL,
-    {.position = POS(454, 15)}
+    {.position = POS(456, 15)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "WRITE_FAILED\000", NULL,
-    {.position = POS(459, 15)}
+    {.position = POS(461, 15)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "468_33_fd\000", NULL
+    "470_33_fd\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "473_10_fd\000", NULL
+    "475_10_fd\000", NULL
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
     "read\000", NULL,
-    {.position = POS(477, 21)}
+    {.position = POS(479, 21)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "488_22_task\000", NULL
+    "490_22_task\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "488_27_io\000", NULL
+    "490_27_io\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "488_30_argument\000", NULL
+    "490_30_argument\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "497_22_task\000", NULL
+    "499_22_task\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "497_27_events\000", NULL
+    "499_27_events\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "497_34_argument\000", NULL
+    "499_34_argument\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "498_10_fd\000", NULL
+    "500_10_fd\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "498_14_length\000", NULL
+    "500_14_length\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "498_22_buf\000", NULL
+    "500_22_buf\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "507_13_efd\000", NULL
+    "509_13_efd\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "507_18_data\000", NULL
+    "509_18_data\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
     "length_of\000", NULL,
-    {.position = POS(516, 23)}
+    {.position = POS(518, 23)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "less\000std", NULL,
-    {.position = POS(516, 23)}
+    {.position = POS(518, 23)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "if_not\000", NULL,
-    {.position = POS(508, 13)}
+    {.position = POS(510, 13)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "531_17_task\000", NULL
+    "533_17_task\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "531_22_io\000", NULL
+    "533_22_io\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "532_10_fd\000", NULL
+    "534_10_fd\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "532_14_text\000", NULL
+    "534_14_text\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "540_23_task\000", NULL
+    "542_23_task\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "540_28_events\000", NULL
+    "542_28_events\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "540_35_fd\000", NULL
+    "542_35_fd\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "549_13_efd\000", NULL
+    "551_13_efd\000", NULL
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
     "join_process\000", NULL,
-    {.position = POS(557, 21)}
+    {.position = POS(559, 21)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "564_32_task\000", NULL
+    "566_32_task\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "564_44_pid\000", NULL
+    "566_44_pid\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "567_13_epid\000", NULL
+    "569_13_epid\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "567_19_status\000", NULL
+    "569_19_status\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
     "PROCESS_JOINED\000", NULL,
-    {.position = POS(569, 19)}
+    {.position = POS(571, 19)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
     "catch_signal\000", NULL,
-    {.position = POS(575, 21)}
+    {.position = POS(577, 21)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "start_catching_signals\000", NULL,
-    {.position = POS(579, 5)}
+    {.position = POS(581, 5)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "582_32_task\000", NULL
+    "584_32_task\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "582_37_events\000", NULL
+    "584_37_events\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "587_1_signals\000", NULL
+    "589_1_signals\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "590_21_signal\000", NULL
+    "592_21_signal\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
     "SIGNAL\000", NULL,
-    {.position = POS(592, 23)}
+    {.position = POS(594, 23)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "stop_catching_signals\000", NULL,
-    {.position = POS(604, 5)}
+    {.position = POS(606, 5)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
     "fork\000", NULL,
-    {.position = POS(611, 21)}
+    {.position = POS(613, 21)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
     "exit\000", NULL,
-    {.position = POS(621, 21)}
+    {.position = POS(623, 21)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "EXIT_SUCCESS\000", NULL,
-    {.position = POS(624, 14)}
+    {.position = POS(626, 14)}
   },
   {
     FOT_INITIALIZED, 0, 0,
@@ -4933,393 +4933,393 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "637_1_exit_status\000", NULL
+    "639_1_exit_status\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "638_1_io\000", NULL
+    "640_1_io\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
     "io\000std_types", NULL,
-    {.position = POS(638, 7)}
+    {.position = POS(640, 7)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "639_1_updated_requests\000", NULL
+    "641_1_updated_requests\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "640_1_new_requests\000", NULL
+    "642_1_new_requests\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "641_1_cancellations\000", NULL
+    "643_1_cancellations\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
     "empty_key_order_set\000", NULL,
-    {.position = POS(641, 18)}
+    {.position = POS(643, 18)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "642_1_sent_messages\000", NULL
+    "644_1_sent_messages\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
     "empty_key_order_table\000", NULL,
-    {.position = POS(642, 18)}
+    {.position = POS(644, 18)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "643_1_removed_children\000", NULL
+    "645_1_removed_children\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "644_1_log_message\000", NULL
+    "646_1_log_message\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "645_1_events\000", NULL
+    "647_1_events\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "646_1_requests\000", NULL
+    "648_1_requests\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
     "list\000", NULL,
-    {.position = POS(647, 5)}
+    {.position = POS(649, 5)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "648_1_current_task_id\000", NULL
+    "650_1_current_task_id\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "649_1_iteration_no\000", NULL
+    "651_1_iteration_no\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
     "inc\000", NULL,
-    {.position = POS(656, 5)}
+    {.position = POS(658, 5)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "map\000", NULL,
-    {.position = POS(657, 5)}
+    {.position = POS(659, 5)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "log_level\000", NULL,
-    {.position = POS(658, 15)}
+    {.position = POS(660, 15)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "is_not_empty\000", NULL,
-    {.position = POS(658, 50)}
+    {.position = POS(660, 50)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "660_3_parent_id\000", NULL
+    "662_3_parent_id\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "698_1_do_receive_messages\000", NULL
+    "700_1_do_receive_messages\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
     "not\000", NULL,
-    {.position = POS(698, 26)}
+    {.position = POS(700, 26)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "699_1_do_cancel_tasks\000", NULL
+    "701_1_do_cancel_tasks\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "700_16_request\000", NULL
+    "702_16_request\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
     "any_of\000", NULL,
-    {.position = POS(724, 9)}
+    {.position = POS(726, 9)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "or\000std", NULL,
-    {.position = POS(722, 9)}
+    {.position = POS(724, 9)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "731_3_request\000", NULL
+    "733_3_request\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "732_9_task\000", NULL
+    "734_9_task\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "732_15_mode\000", NULL
+    "734_15_mode\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "732_21_body\000", NULL
+    "734_21_body\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "732_27_argument\000", NULL
+    "734_27_argument\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "732_37_continuation\000", NULL
+    "734_37_continuation\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
     "EXIT_FAILURE\000", NULL,
-    {.position = POS(737, 35)}
+    {.position = POS(739, 35)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "parameter_count_of\000", NULL,
-    {.position = POS(751, 13)}
+    {.position = POS(753, 13)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "767_1_error_handler\000", NULL
+    "769_1_error_handler\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "783_1_cancel_handler\000", NULL
+    "785_1_cancel_handler\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
     "loop\000", NULL,
-    {.position = POS(653, 3)}
+    {.position = POS(655, 3)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "810_11_request\000", NULL
+    "812_11_request\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "811_9_task\000", NULL
+    "813_9_task\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "811_15_mode\000", NULL
+    "813_15_mode\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "811_21_body\000", NULL
+    "813_21_body\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "811_27_argument\000", NULL
+    "813_27_argument\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "811_37_continuation\000", NULL
+    "813_37_continuation\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "812_1_removed\000", NULL
+    "814_1_removed\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
     "filter\000", NULL,
-    {.position = POS(814, 7)}
+    {.position = POS(816, 7)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "836_20_task\000", NULL
+    "838_20_task\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "839_7_receiver\000", NULL
+    "841_7_receiver\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "839_17_message\000", NULL
+    "841_17_message\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
     "default_value\000", NULL,
-    {.position = POS(847, 21)}
+    {.position = POS(849, 21)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "855_27_task\000", NULL
+    "857_27_task\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
     "true\000", NULL,
-    {.position = POS(858, 28)}
+    {.position = POS(860, 28)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "864_24_task\000", NULL
+    "866_24_task\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "876_20_task\000", NULL
+    "878_20_task\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "876_25_message\000", NULL
+    "878_25_message\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
     "string\000", NULL,
-    {.position = POS(880, 12)}
+    {.position = POS(882, 12)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "883_20_task\000", NULL
+    "885_20_task\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "926_20_request\000", NULL
+    "928_20_request\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "927_9_task\000", NULL
+    "929_9_task\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "927_15_mode\000", NULL
+    "929_15_mode\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "927_21_body\000", NULL
+    "929_21_body\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "927_27_argument\000", NULL
+    "929_27_argument\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "927_37_continuation\000", NULL
+    "929_37_continuation\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "928_1_messages\000", NULL
+    "930_1_messages\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "936_27_request\000", NULL
+    "938_27_request\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "937_9_task\000", NULL
+    "939_9_task\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "937_15_mode\000", NULL
+    "939_15_mode\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "937_21_body\000", NULL
+    "939_21_body\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "937_27_argument\000", NULL
+    "939_27_argument\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "937_37_continuation\000", NULL
+    "939_37_continuation\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
     "STDERR_FILENO\000", NULL,
-    {.position = POS(960, 20)}
+    {.position = POS(962, 20)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "to_utf8\000", NULL,
-    {.position = POS(962, 45)}
+    {.position = POS(964, 45)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "965_22_request\000", NULL
+    "967_22_request\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "966_9_task\000", NULL
+    "968_9_task\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "966_15_mode\000", NULL
+    "968_15_mode\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "966_21_body\000", NULL
+    "968_21_body\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "966_27_argument\000", NULL
+    "968_27_argument\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "966_37_continuation\000", NULL
+    "968_37_continuation\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "984_16_mode\000", NULL
+    "986_16_mode\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "987_14_something_to_do\000", NULL
+    "989_14_something_to_do\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
     "pass\000", NULL,
-    {.position = POS(996, 15)}
+    {.position = POS(998, 15)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "1003_24_something_to_do\000", NULL
+    "1005_24_something_to_do\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
     "get_events\000", NULL,
-    {.position = POS(1013, 9)}
+    {.position = POS(1015, 9)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "1018_16_request\000", NULL
+    "1020_16_request\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "1019_9_task\000", NULL
+    "1021_9_task\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "1019_15_mode\000", NULL
+    "1021_15_mode\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "1019_21_body\000", NULL
+    "1021_21_body\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "1019_27_argument\000", NULL
+    "1021_27_argument\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "1019_37_continuation\000", NULL
+    "1021_37_continuation\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "1028_13_task\000", NULL
+    "1030_13_task\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "1035_6_handler\000", NULL
+    "1037_6_handler\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "1035_15_handler_arguments\000", NULL
+    "1037_15_handler_arguments\000", NULL
   }
 };
 

@@ -19,6 +19,8 @@
   Free Software Foundation, Inc.,
   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
+# Topic: Environment
+
 OBJECT std::program_name -> std_types::octet_string
   #
     the name of the current process

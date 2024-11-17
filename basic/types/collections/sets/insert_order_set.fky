@@ -20,6 +20,8 @@
   Free Software Foundation, Inc.,
   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
+# Topics: Sets, Collections
+
 $std::is_an_insert_order_set () # obvious
 
 $std_types::object.is_an_insert_order_set false # obvious
@@ -180,3 +182,5 @@ $std::insert_order_set:
 
 $std_types::insert_order_set.serialization_tag_of "insert_order_set"
 $std_types::insert_order_set.empty_collection_of empty_insert_order_set
+
+register_type &deserializers std_types::insert_order_set

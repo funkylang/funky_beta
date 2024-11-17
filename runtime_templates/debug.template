@@ -19,6 +19,8 @@
   Free Software Foundation, Inc.,
   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
+# Topic: Debugging
+
 FUNCTION debug::string
   #
     returns a string representation of the given object
@@ -56,7 +58,9 @@ FUNCTION debug::string
     int indent = 0;
     int depth = 1;
     if (ARGUMENT_COUNT >= 2) {
-      CHECK(to_int(ARGUMENTS(1), &indent))
+      if (TYPEOF(ARGUMENTS(1)) != TYPE(std_types::undefined)) {
+	CHECK(to_int(ARGUMENTS(1), &indent))
+      }
     }
     if (ARGUMENT_COUNT >= 3) {
       CHECK(to_int(ARGUMENTS(2), &depth))

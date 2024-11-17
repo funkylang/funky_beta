@@ -19,6 +19,8 @@
   Free Software Foundation, Inc.,
   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
+# Topic: Functions
+
 TYPE std_types::polymorphic_function -> std_types::object
   #
     the prototype object for all polymorphic functions

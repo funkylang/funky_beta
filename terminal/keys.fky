@@ -19,14 +19,10 @@
   Free Software Foundation, Inc.,
   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
-$csi_table undefined
-$std::name_to_key undefined
-$std::key_to_name undefined
+# Topic: Terminals
 
-$std::NEW_WINDOW_SIZE .
-
-$std::initialize_terminal_keys: (body)
-  hash_table !csi_table
+$csi_table
+  hash_table
     "A" = CURSOR_UP
     "B" = CURSOR_DOWN
     "C" = CURSOR_RIGHT
@@ -122,7 +118,8 @@ $std::initialize_terminal_keys: (body)
     "23;5~" = CTRL_F11
     "24;5~" = CTRL_F12
 
-  hash_table !name_to_key
+$std::name_to_key
+  hash_table
     "return" = RETURN
     "backspace" = BACKSPACE
     "tabulator" = TABULATOR
@@ -305,17 +302,9 @@ $std::initialize_terminal_keys: (body)
     "ctrl-alt-y" = CTRL_ALT_Y
     "ctrl-alt-z" = CTRL_ALT_Z
 
-  !key_to_name empty_hash_table
-  for_each name_to_key
-    : (name key)
-      !key_to_name(key) name
-      next!
-    :
-      if
-	terminal_private::backspace_character == '@bs;':
-	  !ctrl_key(9) BACKSPACE
-	  body!
-	body
+$std::key_to_name swap_key_and_value(name_to_key)
+
+$std::NEW_WINDOW_SIZE .
 
 $std::get_key:
   #
@@ -432,7 +421,11 @@ $std::extract_keys:
 	      chr <= '@26;':
 		maybe_push_string !keys
 		!buf ""
-		push &keys ctrl_key(chr+1-'@nul;')
+		push &keys
+		  if
+		    chr == terminal_private::backspace_character
+		    -> BACKSPACE
+		    -> ctrl_key(chr+1-'@nul;')
 		next
 	      :
 		if
@@ -465,10 +458,16 @@ $std::extract_keys:
       '<': # mouse click
 	$button between(sequence '<' ';').to_integer
 	$x between(sequence ';' ';').to_integer
-	$y between(sequence ';' 'M' 2).to_integer
+	$y range(behind(sequence ';' -1) 1 -2).to_integer
 	maybe_push_string !keys
 	!buf ""
-	push &keys tuple(MOUSE_CLICK x y button)
+	push &keys
+	  tuple
+	    if
+	      sequence(-1) == 'M'
+	      -> MOUSE_CLICK
+	      -> MOUSE_RELEASE
+	    x y button
 	-> input keys
       :
 	maybe_push_string !keys
@@ -776,3 +775,32 @@ $ctrl_key
     CTRL_X
     CTRL_Y
     CTRL_Z
+
+$std::alt_key
+  hash_table
+    'a' = ALT_A
+    'b' = ALT_B
+    'c' = ALT_C
+    'd' = ALT_D
+    'e' = ALT_E
+    'f' = ALT_F
+    'g' = ALT_G
+    'h' = ALT_H
+    'i' = ALT_I
+    'j' = ALT_J
+    'k' = ALT_K
+    'l' = ALT_L
+    'm' = ALT_M
+    'n' = ALT_N
+    'o' = ALT_O
+    'p' = ALT_P
+    'q' = ALT_Q
+    'r' = ALT_R
+    's' = ALT_S
+    't' = ALT_T
+    'u' = ALT_U
+    'v' = ALT_V
+    'w' = ALT_W
+    'x' = ALT_X
+    'y' = ALT_Y
+    'z' = ALT_Z

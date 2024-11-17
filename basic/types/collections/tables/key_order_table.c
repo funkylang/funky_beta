@@ -8,7 +8,7 @@
 
 enum {
   num_0 = -1,
-  tuple_71_0 = -2,
+  tuple_73_0 = -2,
   uni_NONE = -3,
   func_std_types__key_order_table = -4,
   lambda_1 = -5,
@@ -61,86 +61,67 @@ enum {
   func_binary_node___for_each_1_right = -52,
   func_binary_node___for_each_2_right = -53,
   func_std_types__key_order_table___for_each = -54,
-  lambda_break = -55,
+  lambda_30 = -55,
   num_2 = -56,
-  lambda_30 = -57,
+  lambda_31 = -57,
   lambda_next = -58,
-  lambda_31 = -59,
+  lambda_32 = -59,
   lambda_2_next = -60,
   func_empty_node___map_1 = -61,
   func_empty_node___map_2 = -62,
   func_binary_node___map_1 = -63,
   func_binary_node___map_2 = -64,
   func_std_types__key_order_table___map = -65,
-  lambda_32 = -66,
-  lambda_33 = -67,
+  lambda_33 = -66,
+  lambda_34 = -67,
   func_std_types__key_order_table___reduce = -68,
-  lambda_34 = -69,
-  lambda_35 = -70,
+  lambda_35 = -69,
+  lambda_36 = -70,
   func_reduce = -71,
-  lambda_36 = -72,
+  lambda_37 = -72,
   func_check_right = -73,
-  lambda_37 = -74,
-  lambda_38 = -75,
+  lambda_38 = -74,
+  lambda_39 = -75,
   func_std_types__key_order_table___map_reduce = -76,
-  lambda_39 = -77,
-  lambda_40 = -78,
-  lambda_41 = -79,
-  lambda_42 = -80,
+  lambda_40 = -77,
+  lambda_41 = -78,
+  lambda_42 = -79,
+  lambda_43 = -80,
   func_map_reduce_1 = -81,
-  lambda_43 = -82,
+  lambda_44 = -82,
   func_2_check_right = -83,
-  lambda_44 = -84,
-  lambda_45 = -85,
+  lambda_45 = -84,
+  lambda_46 = -85,
   func_map_reduce_2 = -86,
-  lambda_46 = -87,
+  lambda_47 = -87,
   func_3_check_right = -88,
-  lambda_47 = -89,
-  lambda_48 = -90,
-  func_empty_node___dump_string = -91,
-  string_1 = -92,
-  func_binary_node___dump_string = -93,
-  lambda_49 = -94,
-  lambda_50 = -95,
-  minus_num_2 = -96,
-  chr_124 = -97,
-  chr_47 = -98,
-  lambda_51 = -99,
-  lambda_52 = -100,
-  chr_92 = -101,
-  lambda_53 = -102,
-  lambda_54 = -103,
-  lambda_55 = -104,
-  lambda_56 = -105,
-  chr_40 = -106,
-  string_2 = -107,
-  func_std_types__key_order_table___dump_string = -108,
-  func_empty_node___merge = -109,
-  func_binary_node___merge = -110,
-  lambda_57 = -111,
-  lambda_58 = -112,
-  lambda_loop = -113,
-  lambda_59 = -114,
-  lambda_update_removed = -115,
-  lambda_60 = -116,
-  lambda_61 = -117,
-  lambda_2_update_removed = -118,
-  lambda_62 = -119,
-  func_update_removed = -120,
-  lambda_63 = -121,
-  lambda_64 = -122,
-  func_std_types__key_order_table___merge = -123,
-  func_std__key_order_table = -124,
-  lambda_65 = -125,
-  lambda_66 = -126,
-  str_key_order_table = -127
+  lambda_48 = -89,
+  lambda_49 = -90,
+  func_empty_node___merge = -91,
+  func_binary_node___merge = -92,
+  lambda_50 = -93,
+  lambda_51 = -94,
+  lambda_loop = -95,
+  lambda_52 = -96,
+  lambda_update_removed = -97,
+  lambda_53 = -98,
+  lambda_54 = -99,
+  lambda_2_update_removed = -100,
+  lambda_55 = -101,
+  func_update_removed = -102,
+  lambda_56 = -103,
+  lambda_57 = -104,
+  func_std_types__key_order_table___merge = -105,
+  func_std__key_order_table = -106,
+  lambda_58 = -107,
+  lambda_59 = -108,
+  str_key_order_table = -109
 };
 
 enum {
   var__START = FIRST_VAR-1,
-  var_std__dump_string, // attribute
-  var_std__assign, // extern
   var_contents_of, // attribute
+  var_std__assign, // extern
   var_retrieve, // attribute
   var_insert, // attribute
   var_delete, // attribute
@@ -158,40 +139,40 @@ enum {
   var_binary_node, // initialized compound
   var_undefined, // extern
   var_tuple, // extern
-  var_78_0_myself, // dynamic
-  var_79_0_key, // dynamic
-  var_80_0_value, // dynamic
-  var_82_1_contents, // dynamic
+  var_80_0_myself, // dynamic
+  var_81_0_key, // dynamic
+  var_82_0_value, // dynamic
+  var_84_1_contents, // dynamic
   var_std__equal, // extern
   var_is_defined, // extern
   var_std__plus, // extern
   var_if, // extern
   var_std__minus, // extern
-  var_112_29_key, // dynamic
-  var_113_6_my_key, // dynamic
-  var_113_14_my_value, // dynamic
-  var_113_24_my_left, // dynamic
-  var_113_33_my_right, // dynamic
+  var_114_29_key, // dynamic
+  var_115_6_my_key, // dynamic
+  var_115_14_my_value, // dynamic
+  var_115_24_my_left, // dynamic
+  var_115_33_my_right, // dynamic
   var_std__less, // extern
-  var_new, // extern
-  var_129_22_self, // dynamic
-  var_129_27_key, // dynamic
-  var_129_31_value, // dynamic
-  var_130_6_my_key, // dynamic
-  var_130_14_my_value, // dynamic
-  var_130_24_my_left, // dynamic
-  var_130_33_my_right, // dynamic
-  var_147_15_self, // dynamic
-  var_148_6_my_key, // dynamic
-  var_148_14_my_value, // dynamic
-  var_148_24_my_left, // dynamic
-  var_148_33_my_right, // dynamic
-  var_158_22_self, // dynamic
-  var_158_27_key, // dynamic
-  var_159_6_my_key, // dynamic
-  var_159_14_my_value, // dynamic
-  var_159_24_my_left, // dynamic
-  var_159_33_my_right, // dynamic
+  var_typed_tuple, // extern
+  var_131_22_self, // dynamic
+  var_131_27_key, // dynamic
+  var_131_31_value, // dynamic
+  var_132_6_my_key, // dynamic
+  var_132_14_my_value, // dynamic
+  var_132_24_my_left, // dynamic
+  var_132_33_my_right, // dynamic
+  var_149_15_self, // dynamic
+  var_150_6_my_key, // dynamic
+  var_150_14_my_value, // dynamic
+  var_150_24_my_left, // dynamic
+  var_150_33_my_right, // dynamic
+  var_160_22_self, // dynamic
+  var_160_27_key, // dynamic
+  var_161_6_my_key, // dynamic
+  var_161_14_my_value, // dynamic
+  var_161_24_my_left, // dynamic
+  var_161_33_my_right, // dynamic
   var_for_each_1_left, // attribute
   var_for_each_1_call, // attribute
   var_for_each_1_right, // attribute
@@ -204,69 +185,64 @@ enum {
   var_push, // extern
   var_basic_loops__body, // extern
   var_for_each, // extern polymorphic
-  var_270_0_self, // dynamic
-  var_272_0_finally, // dynamic
+  var_272_0_self, // dynamic
+  var_274_0_finally, // dynamic
   var_next, // extern
   var_basic_loops__finally, // extern
   var_list, // extern
+  var_basic_types__break_function, // extern
   var_basic_loops__saved_context_of, // extern polymorphic
+  var_new, // extern
   var_parameter_count_of, // extern
   var_pop, // extern
   var_map_1, // attribute
   var_map_2, // attribute
   var_mapping_function, // derived
   var_map, // extern polymorphic
-  var_339_0_self, // dynamic
+  var_341_0_self, // dynamic
   var_reduce, // extern polymorphic
-  var_367_0_function, // dynamic
-  var_368_0_unit, // dynamic
-  var_370_1_contents, // dynamic
-  var_377_12_value, // dynamic
-  var_377_19_left, // dynamic
-  var_377_25_right, // dynamic
+  var_369_0_function, // dynamic
+  var_370_0_unit, // dynamic
+  var_372_1_contents, // dynamic
+  var_379_12_value, // dynamic
+  var_379_19_left, // dynamic
+  var_379_25_right, // dynamic
   var_map_reduce, // extern polymorphic
-  var_405_0_map_function, // dynamic
-  var_406_0_reduce_function, // dynamic
+  var_407_0_map_function, // dynamic
+  var_408_0_reduce_function, // dynamic
   var_append, // extern
-  var_407_0_unit, // dynamic
-  var_409_1_contents, // dynamic
-  var_420_12_value, // dynamic
-  var_420_19_left, // dynamic
-  var_420_25_right, // dynamic
-  var_436_11_value, // dynamic
-  var_436_18_left, // dynamic
-  var_436_24_right, // dynamic
-  var_dump_string, // extern polymorphic
-  var_456_32_prefix, // dynamic
-  var_457_6_key, // dynamic
-  var_spaces, // extern
-  var_458_1_new_prefix, // dynamic
-  var_is_empty, // extern
-  var_range, // extern
-  var_459_1_empty_prefix, // dynamic
-  var_string, // extern
+  var_409_0_unit, // dynamic
+  var_411_1_contents, // dynamic
+  var_422_12_value, // dynamic
+  var_422_19_left, // dynamic
+  var_422_25_right, // dynamic
+  var_438_11_value, // dynamic
+  var_438_18_left, // dynamic
+  var_438_24_right, // dynamic
   var_merge, // extern polymorphic
-  var_505_21_left, // dynamic
-  var_505_26_right, // dynamic
-  var_512_6_left_key, // dynamic
-  var_512_16_left_value, // dynamic
-  var_512_28_left_left, // dynamic
-  var_512_39_left_right, // dynamic
-  var_513_7_right_key, // dynamic
-  var_513_18_right_value, // dynamic
-  var_513_31_right_left, // dynamic
-  var_513_43_right_right, // dynamic
-  var_514_1_total_removed, // dynamic
-  var_515_1_removed, // dynamic
-  var_516_1_did_insert, // dynamic
+  var_507_21_left, // dynamic
+  var_507_26_right, // dynamic
+  var_514_6_left_key, // dynamic
+  var_514_16_left_value, // dynamic
+  var_514_28_left_left, // dynamic
+  var_514_39_left_right, // dynamic
+  var_515_7_right_key, // dynamic
+  var_515_18_right_value, // dynamic
+  var_515_31_right_left, // dynamic
+  var_515_43_right_right, // dynamic
+  var_516_1_total_removed, // dynamic
+  var_517_1_removed, // dynamic
+  var_518_1_did_insert, // dynamic
   var_loop, // extern
-  var_540_18_cont, // dynamic
+  var_542_18_cont, // dynamic
   var_plus, // extern
   var_std__key_order_table, // initialized
-  var_576_1_table, // dynamic
+  var_578_1_table, // dynamic
   var_empty_key_order_table, // extern
   var_serialization_tag_of, // extern polymorphic
   var_empty_collection_of, // extern polymorphic
+  var_deserializers, // extern
+  var_register_type, // extern
   var__END
 };
 
@@ -274,115 +250,115 @@ enum {
 static TAB_NUM t_func_std_types__key_order_table[] = {
   1, // locals
   -3, // parameters
-  MYSELF_PARAMETER, var_78_0_myself,
-  MANDATORY_PARAMETER, var_79_0_key,
-  uni_NONE, var_80_0_value,
+  MYSELF_PARAMETER, var_80_0_myself,
+  MANDATORY_PARAMETER, var_81_0_key,
+  uni_NONE, var_82_0_value,
   // $contents contents_of(myself)
-  var_contents_of, 1, var_78_0_myself, 1, var_82_1_contents,
+  var_contents_of, 1, var_80_0_myself, 1, var_84_1_contents,
   // NONE == value
-  var_std__equal, 2, uni_NONE, var_80_0_value, 1, LOCAL(1),
+  var_std__equal, 2, uni_NONE, var_82_0_value, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_1, lambda_2, TAIL_CALL,
-  POS(82, 3),
-  POS(84, 5),
-  POS(83, 3)
+  POS(84, 3),
+  POS(86, 5),
+  POS(85, 3)
 };
 
 static TAB_NUM t_lambda_1[] = {
   1, // locals
   0, // parameters
   // retrieve(contents key)
-  var_retrieve, 2, var_82_1_contents, var_79_0_key, 1, LOCAL(1),
+  var_retrieve, 2, var_84_1_contents, var_81_0_key, 1, LOCAL(1),
   //  retrieve(contents key)
   LET, 1, LOCAL(1), TAIL_CALL,
-  POS(85, 8),
-  POS(85, 7)
+  POS(87, 8),
+  POS(87, 7)
 };
 
 static TAB_NUM t_lambda_2[] = {
   1, // locals
   0, // parameters
   // is_defined:
-  var_is_defined, 1, var_80_0_value, 1, LOCAL(1),
+  var_is_defined, 1, var_82_0_value, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_value_is_defined, lambda_5, TAIL_CALL,
-  POS(88, 15),
-  POS(87, 7)
+  POS(90, 15),
+  POS(89, 7)
 };
 
 static TAB_NUM t_lambda_value_is_defined[] = {
   1, // locals
   0, // parameters
   // insert &contents $success key value
-  var_insert, 3, var_82_1_contents, var_79_0_key, var_80_0_value, 2, var_82_1_contents, LOCAL(1),
+  var_insert, 3, var_84_1_contents, var_81_0_key, var_82_0_value, 2, var_84_1_contents, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_3, lambda_4, TAIL_CALL,
-  POS(89, 11),
-  POS(90, 11)
+  POS(91, 11),
+  POS(92, 11)
 };
 
 static TAB_NUM t_lambda_3[] = {
   3, // locals
   0, // parameters
   // length_of(myself)+1
-  var_length_of, 1, var_78_0_myself, 1, LOCAL(1),
+  var_length_of, 1, var_80_0_myself, 1, LOCAL(1),
   // length_of(myself)+1
   var_std__plus, 2, LOCAL(1), num_1, 1, LOCAL(2),
   // myself
-  LET, -2, var_78_0_myself, var_contents_of, var_82_1_contents, var_length_of, LOCAL(2), LOCAL(3),
+  LET, -2, var_80_0_myself, var_contents_of, var_84_1_contents, var_length_of, LOCAL(2), LOCAL(3),
   // 
   LET, 1, LOCAL(3), TAIL_CALL,
-  POS(95, 28),
-  POS(95, 28),
-  POS(93, 15),
-  POS(92, 15)
+  POS(97, 28),
+  POS(97, 28),
+  POS(95, 15),
+  POS(94, 15)
 };
 
 static TAB_NUM t_lambda_4[] = {
   1, // locals
   0, // parameters
   // .contents_of contents)
-  LET, -1, var_78_0_myself, var_contents_of, var_82_1_contents, LOCAL(1),
+  LET, -1, var_80_0_myself, var_contents_of, var_84_1_contents, LOCAL(1),
   //  myself(.contents_of contents)
   LET, 1, LOCAL(1), TAIL_CALL,
-  POS(96, 23),
-  POS(96, 15)
+  POS(98, 23),
+  POS(98, 15)
 };
 
 static TAB_NUM t_lambda_5[] = {
   1, // locals
   0, // parameters
   // delete &contents $success key
-  var_delete, 2, var_82_1_contents, var_79_0_key, 2, var_82_1_contents, LOCAL(1),
+  var_delete, 2, var_84_1_contents, var_81_0_key, 2, var_84_1_contents, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_6, lambda_7, TAIL_CALL,
-  POS(98, 11),
-  POS(99, 11)
+  POS(100, 11),
+  POS(101, 11)
 };
 
 static TAB_NUM t_lambda_6[] = {
   3, // locals
   0, // parameters
   // length_of(myself)-1
-  var_length_of, 1, var_78_0_myself, 1, LOCAL(1),
+  var_length_of, 1, var_80_0_myself, 1, LOCAL(1),
   // length_of(myself)-1
   var_std__minus, 2, LOCAL(1), num_1, 1, LOCAL(2),
   // myself
-  LET, -2, var_78_0_myself, var_contents_of, var_82_1_contents, var_length_of, LOCAL(2), LOCAL(3),
+  LET, -2, var_80_0_myself, var_contents_of, var_84_1_contents, var_length_of, LOCAL(2), LOCAL(3),
   // 
   LET, 1, LOCAL(3), TAIL_CALL,
-  POS(104, 28),
-  POS(104, 28),
-  POS(102, 15),
-  POS(101, 15)
+  POS(106, 28),
+  POS(106, 28),
+  POS(104, 15),
+  POS(103, 15)
 };
 
 static TAB_NUM t_lambda_7[] = {
   0, // locals
   0, // parameters
   //  myself
-  LET, 1, var_78_0_myself, TAIL_CALL,
-  POS(105, 15)
+  LET, 1, var_80_0_myself, TAIL_CALL,
+  POS(107, 15)
 };
 
 static TAB_NUM t_func_empty_node___retrieve[] = {
@@ -392,325 +368,325 @@ static TAB_NUM t_func_empty_node___retrieve[] = {
   LOCAL(1),
   // -> undefined
   LET, 1, var_undefined, TAIL_CALL,
-  POS(110, 36)
+  POS(112, 36)
 };
 
 static TAB_NUM t_func_binary_node___retrieve[] = {
   2, // locals
   2, // parameters
-  LOCAL(2), // 112_24_self
-  var_112_29_key,
+  LOCAL(2), // 114_24_self
+  var_114_29_key,
   // self $my_key $my_value $my_left $my_right
-  LOCAL(2), 0, 4, var_113_6_my_key, var_113_14_my_value, var_113_24_my_left, var_113_33_my_right,
+  LOCAL(2), 0, 4, var_115_6_my_key, var_115_14_my_value, var_115_24_my_left, var_115_33_my_right,
   // key == my_key
-  var_std__equal, 2, var_112_29_key, var_113_6_my_key, 1, LOCAL(1),
+  var_std__equal, 2, var_114_29_key, var_115_6_my_key, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_8, lambda_9, TAIL_CALL,
-  POS(113, 3),
-  POS(115, 5),
-  POS(114, 3)
+  POS(115, 3),
+  POS(117, 5),
+  POS(116, 3)
 };
 
 static TAB_NUM t_lambda_8[] = {
   0, // locals
   0, // parameters
   //  my_value
-  LET, 1, var_113_14_my_value, TAIL_CALL,
-  POS(116, 7)
+  LET, 1, var_115_14_my_value, TAIL_CALL,
+  POS(118, 7)
 };
 
 static TAB_NUM t_lambda_9[] = {
   1, // locals
   0, // parameters
   // key < my_key
-  var_std__less, 2, var_112_29_key, var_113_6_my_key, 1, LOCAL(1),
+  var_std__less, 2, var_114_29_key, var_115_6_my_key, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_10, lambda_11, TAIL_CALL,
-  POS(119, 9),
-  POS(118, 7)
+  POS(121, 9),
+  POS(120, 7)
 };
 
 static TAB_NUM t_lambda_10[] = {
   0, // locals
   0, // parameters
   // retrieve my_left key
-  var_retrieve, 2, var_113_24_my_left, var_112_29_key, TAIL_CALL,
-  POS(120, 11)
+  var_retrieve, 2, var_115_24_my_left, var_114_29_key, TAIL_CALL,
+  POS(122, 11)
 };
 
 static TAB_NUM t_lambda_11[] = {
   0, // locals
   0, // parameters
   // retrieve my_right key
-  var_retrieve, 2, var_113_33_my_right, var_112_29_key, TAIL_CALL,
-  POS(121, 11)
+  var_retrieve, 2, var_115_33_my_right, var_114_29_key, TAIL_CALL,
+  POS(123, 11)
 };
 
 static TAB_NUM t_func_empty_node___insert[] = {
   3, // locals
   3, // parameters
   LOCAL(1),
-  LOCAL(2), // 126_27_key
-  LOCAL(3), // 126_31_value
-  // new(binary_node key value empty_node empty_node) true
-  var_new, 5, var_binary_node, LOCAL(2), LOCAL(3), var_empty_node, var_empty_node, 1, LOCAL(1),
-  // -> new(binary_node key value empty_node empty_node) true
+  LOCAL(2), // 128_27_key
+  LOCAL(3), // 128_31_value
+  // typed_tuple(binary_node key value empty_node empty_node) true
+  var_typed_tuple, 5, var_binary_node, LOCAL(2), LOCAL(3), var_empty_node, var_empty_node, 1, LOCAL(1),
+  // -> typed_tuple(binary_node key value empty_node empty_node) true
   LET, 2, LOCAL(1), var_true, TAIL_CALL,
-  POS(127, 6),
-  POS(127, 3)
+  POS(129, 6),
+  POS(129, 3)
 };
 
 static TAB_NUM t_func_binary_node___insert[] = {
   1, // locals
   3, // parameters
-  var_129_22_self,
-  var_129_27_key,
-  var_129_31_value,
+  var_131_22_self,
+  var_131_27_key,
+  var_131_31_value,
   // self $my_key $my_value $my_left $my_right
-  var_129_22_self, 0, 4, var_130_6_my_key, var_130_14_my_value, var_130_24_my_left, var_130_33_my_right,
+  var_131_22_self, 0, 4, var_132_6_my_key, var_132_14_my_value, var_132_24_my_left, var_132_33_my_right,
   // key == my_key
-  var_std__equal, 2, var_129_27_key, var_130_6_my_key, 1, LOCAL(1),
+  var_std__equal, 2, var_131_27_key, var_132_6_my_key, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_12, lambda_13, TAIL_CALL,
-  POS(130, 3),
-  POS(132, 5),
-  POS(131, 3)
+  POS(132, 3),
+  POS(134, 5),
+  POS(133, 3)
 };
 
 static TAB_NUM t_lambda_12[] = {
   1, // locals
   0, // parameters
-  // new(self key value my_left my_right) false
-  var_new, 5, var_129_22_self, var_129_27_key, var_129_31_value, var_130_24_my_left, var_130_33_my_right, 1, LOCAL(1),
-  //  new(self key value my_left my_right) false
+  // typed_tuple(self key value my_left my_right) false
+  var_typed_tuple, 5, var_131_22_self, var_131_27_key, var_131_31_value, var_132_24_my_left, var_132_33_my_right, 1, LOCAL(1),
+  //  typed_tuple(self key value my_left my_right) false
   LET, 2, LOCAL(1), var_false, TAIL_CALL,
-  POS(133, 8),
-  POS(133, 7)
+  POS(135, 8),
+  POS(135, 7)
 };
 
 static TAB_NUM t_lambda_13[] = {
   1, // locals
   0, // parameters
   // key < my_key
-  var_std__less, 2, var_129_27_key, var_130_6_my_key, 1, LOCAL(1),
+  var_std__less, 2, var_131_27_key, var_132_6_my_key, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_14, lambda_15, TAIL_CALL,
-  POS(136, 9),
-  POS(135, 7)
+  POS(138, 9),
+  POS(137, 7)
 };
 
 static TAB_NUM t_lambda_14[] = {
   2, // locals
   0, // parameters
   // insert &my_left $did_insert key value
-  var_insert, 3, var_130_24_my_left, var_129_27_key, var_129_31_value, 2, var_130_24_my_left, LOCAL(2),
-  // new(self my_key my_value my_left my_right) did_insert
-  var_new, 5, var_129_22_self, var_130_6_my_key, var_130_14_my_value, var_130_24_my_left, var_130_33_my_right, 1, LOCAL(1),
-  // -> new(self my_key my_value my_left my_right) did_insert
+  var_insert, 3, var_132_24_my_left, var_131_27_key, var_131_31_value, 2, var_132_24_my_left, LOCAL(2),
+  // typed_tuple(self my_key my_value my_left my_right) did_insert
+  var_typed_tuple, 5, var_131_22_self, var_132_6_my_key, var_132_14_my_value, var_132_24_my_left, var_132_33_my_right, 1, LOCAL(1),
+  // -> typed_tuple(self my_key my_value my_left my_right) did_insert
   LET, 2, LOCAL(1), LOCAL(2), TAIL_CALL,
-  POS(138, 11),
-  POS(139, 14),
-  POS(139, 11)
+  POS(140, 11),
+  POS(141, 14),
+  POS(141, 11)
 };
 
 static TAB_NUM t_lambda_15[] = {
   2, // locals
   0, // parameters
   // insert &my_right $did_insert key value
-  var_insert, 3, var_130_33_my_right, var_129_27_key, var_129_31_value, 2, var_130_33_my_right, LOCAL(2),
-  // new(self my_key my_value my_left my_right) did_insert
-  var_new, 5, var_129_22_self, var_130_6_my_key, var_130_14_my_value, var_130_24_my_left, var_130_33_my_right, 1, LOCAL(1),
-  // -> new(self my_key my_value my_left my_right) did_insert
+  var_insert, 3, var_132_33_my_right, var_131_27_key, var_131_31_value, 2, var_132_33_my_right, LOCAL(2),
+  // typed_tuple(self my_key my_value my_left my_right) did_insert
+  var_typed_tuple, 5, var_131_22_self, var_132_6_my_key, var_132_14_my_value, var_132_24_my_left, var_132_33_my_right, 1, LOCAL(1),
+  // -> typed_tuple(self my_key my_value my_left my_right) did_insert
   LET, 2, LOCAL(1), LOCAL(2), TAIL_CALL,
-  POS(141, 11),
-  POS(142, 14),
-  POS(142, 11)
+  POS(143, 11),
+  POS(144, 14),
+  POS(144, 11)
 };
 
 static TAB_NUM t_func_fetch_first[] = {
   1, // locals
   1, // parameters
-  var_147_15_self,
+  var_149_15_self,
   // self $my_key $my_value $my_left $my_right
-  var_147_15_self, 0, 4, var_148_6_my_key, var_148_14_my_value, var_148_24_my_left, var_148_33_my_right,
+  var_149_15_self, 0, 4, var_150_6_my_key, var_150_14_my_value, var_150_24_my_left, var_150_33_my_right,
   // is_an_empty_node
-  var_is_an_empty_node, 1, var_148_24_my_left, 1, LOCAL(1),
+  var_is_an_empty_node, 1, var_150_24_my_left, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_16, lambda_17, TAIL_CALL,
-  POS(148, 3),
-  POS(150, 13),
-  POS(149, 3)
+  POS(150, 3),
+  POS(152, 13),
+  POS(151, 3)
 };
 
 static TAB_NUM t_lambda_16[] = {
   0, // locals
   0, // parameters
   //  my_right my_key my_value
-  LET, 3, var_148_33_my_right, var_148_6_my_key, var_148_14_my_value, TAIL_CALL,
-  POS(151, 7)
+  LET, 3, var_150_33_my_right, var_150_6_my_key, var_150_14_my_value, TAIL_CALL,
+  POS(153, 7)
 };
 
 static TAB_NUM t_lambda_17[] = {
   3, // locals
   0, // parameters
   // fetch_first &my_left $first_key $first_value
-  func_fetch_first, 1, var_148_24_my_left, 3, var_148_24_my_left, LOCAL(2), LOCAL(3),
-  // new(self my_key my_value my_left my_right) first_key first_value
-  var_new, 5, var_147_15_self, var_148_6_my_key, var_148_14_my_value, var_148_24_my_left, var_148_33_my_right, 1, LOCAL(1),
-  // -> new(self my_key my_value my_left my_right) first_key first_value
+  func_fetch_first, 1, var_150_24_my_left, 3, var_150_24_my_left, LOCAL(2), LOCAL(3),
+  // typed_tuple(self my_key my_value my_left my_right) first_key first_value
+  var_typed_tuple, 5, var_149_15_self, var_150_6_my_key, var_150_14_my_value, var_150_24_my_left, var_150_33_my_right, 1, LOCAL(1),
+  // -> typed_tuple(self my_key my_value my_left my_right) first_key first_value
   LET, 3, LOCAL(1), LOCAL(2), LOCAL(3), TAIL_CALL,
-  POS(153, 7),
-  POS(154, 10),
-  POS(154, 7)
+  POS(155, 7),
+  POS(156, 10),
+  POS(156, 7)
 };
 
 static TAB_NUM t_func_empty_node___delete[] = {
   2, // locals
   2, // parameters
-  LOCAL(2), // 156_21_self
+  LOCAL(2), // 158_21_self
   LOCAL(1),
   // -> self false
   LET, 2, LOCAL(2), var_false, TAIL_CALL,
-  POS(156, 33)
+  POS(158, 33)
 };
 
 static TAB_NUM t_func_binary_node___delete[] = {
   1, // locals
   2, // parameters
-  var_158_22_self,
-  var_158_27_key,
+  var_160_22_self,
+  var_160_27_key,
   // self $my_key $my_value $my_left $my_right
-  var_158_22_self, 0, 4, var_159_6_my_key, var_159_14_my_value, var_159_24_my_left, var_159_33_my_right,
+  var_160_22_self, 0, 4, var_161_6_my_key, var_161_14_my_value, var_161_24_my_left, var_161_33_my_right,
   // key == my_key
-  var_std__equal, 2, var_158_27_key, var_159_6_my_key, 1, LOCAL(1),
+  var_std__equal, 2, var_160_27_key, var_161_6_my_key, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_18, lambda_23, TAIL_CALL,
-  POS(159, 3),
-  POS(161, 5),
-  POS(160, 3)
+  POS(161, 3),
+  POS(163, 5),
+  POS(162, 3)
 };
 
 static TAB_NUM t_lambda_18[] = {
   1, // locals
   0, // parameters
   // is_an_empty_node
-  var_is_an_empty_node, 1, var_159_24_my_left, 1, LOCAL(1),
+  var_is_an_empty_node, 1, var_161_24_my_left, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_19, lambda_20, TAIL_CALL,
-  POS(164, 17),
-  POS(163, 7)
+  POS(166, 17),
+  POS(165, 7)
 };
 
 static TAB_NUM t_lambda_19[] = {
   0, // locals
   0, // parameters
   //  my_right true
-  LET, 2, var_159_33_my_right, var_true, TAIL_CALL,
-  POS(165, 11)
+  LET, 2, var_161_33_my_right, var_true, TAIL_CALL,
+  POS(167, 11)
 };
 
 static TAB_NUM t_lambda_20[] = {
   1, // locals
   0, // parameters
   // is_an_empty_node
-  var_is_an_empty_node, 1, var_159_33_my_right, 1, LOCAL(1),
+  var_is_an_empty_node, 1, var_161_33_my_right, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_21, lambda_22, TAIL_CALL,
-  POS(168, 22),
-  POS(167, 11)
+  POS(170, 22),
+  POS(169, 11)
 };
 
 static TAB_NUM t_lambda_21[] = {
   0, // locals
   0, // parameters
   //  my_left true
-  LET, 2, var_159_24_my_left, var_true, TAIL_CALL,
-  POS(169, 15)
+  LET, 2, var_161_24_my_left, var_true, TAIL_CALL,
+  POS(171, 15)
 };
 
 static TAB_NUM t_lambda_22[] = {
   3, // locals
   0, // parameters
   // fetch_first &my_right $first_key $first_value
-  func_fetch_first, 1, var_159_33_my_right, 3, var_159_33_my_right, LOCAL(2), LOCAL(3),
-  // new(self first_key first_value my_left my_right)
-  var_new, 5, var_158_22_self, LOCAL(2), LOCAL(3), var_159_24_my_left, var_159_33_my_right, 1, LOCAL(1),
-  // -> new(self first_key first_value my_left my_right)
+  func_fetch_first, 1, var_161_33_my_right, 3, var_161_33_my_right, LOCAL(2), LOCAL(3),
+  // typed_tuple(self first_key first_value my_left my_right)
+  var_typed_tuple, 5, var_160_22_self, LOCAL(2), LOCAL(3), var_161_24_my_left, var_161_33_my_right, 1, LOCAL(1),
+  // -> typed_tuple(self first_key first_value my_left my_right)
   LET, 1, LOCAL(1), TAIL_CALL,
-  POS(171, 15),
-  POS(172, 18),
-  POS(172, 15)
+  POS(173, 15),
+  POS(174, 18),
+  POS(174, 15)
 };
 
 static TAB_NUM t_lambda_23[] = {
   1, // locals
   0, // parameters
   // key < my_key
-  var_std__less, 2, var_158_27_key, var_159_6_my_key, 1, LOCAL(1),
+  var_std__less, 2, var_160_27_key, var_161_6_my_key, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_24, lambda_27, TAIL_CALL,
-  POS(175, 9),
-  POS(174, 7)
+  POS(177, 9),
+  POS(176, 7)
 };
 
 static TAB_NUM t_lambda_24[] = {
   1, // locals
   0, // parameters
   // delete &my_left $success key
-  var_delete, 2, var_159_24_my_left, var_158_27_key, 2, var_159_24_my_left, LOCAL(1),
+  var_delete, 2, var_161_24_my_left, var_160_27_key, 2, var_161_24_my_left, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_25, lambda_26, TAIL_CALL,
-  POS(177, 11),
-  POS(178, 11)
+  POS(179, 11),
+  POS(180, 11)
 };
 
 static TAB_NUM t_lambda_25[] = {
   1, // locals
   0, // parameters
-  // new(self my_key my_value my_left my_right) true
-  var_new, 5, var_158_22_self, var_159_6_my_key, var_159_14_my_value, var_159_24_my_left, var_159_33_my_right, 1, LOCAL(1),
-  //  new(self my_key my_value my_left my_right) true
+  // typed_tuple(self my_key my_value my_left my_right) true
+  var_typed_tuple, 5, var_160_22_self, var_161_6_my_key, var_161_14_my_value, var_161_24_my_left, var_161_33_my_right, 1, LOCAL(1),
+  //  typed_tuple(self my_key my_value my_left my_right) true
   LET, 2, LOCAL(1), var_true, TAIL_CALL,
-  POS(180, 16),
-  POS(180, 15)
+  POS(182, 16),
+  POS(182, 15)
 };
 
 static TAB_NUM t_lambda_26[] = {
   0, // locals
   0, // parameters
   //  self false
-  LET, 2, var_158_22_self, var_false, TAIL_CALL,
-  POS(181, 15)
+  LET, 2, var_160_22_self, var_false, TAIL_CALL,
+  POS(183, 15)
 };
 
 static TAB_NUM t_lambda_27[] = {
   1, // locals
   0, // parameters
   // delete &my_right $success key
-  var_delete, 2, var_159_33_my_right, var_158_27_key, 2, var_159_33_my_right, LOCAL(1),
+  var_delete, 2, var_161_33_my_right, var_160_27_key, 2, var_161_33_my_right, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_28, lambda_29, TAIL_CALL,
-  POS(183, 11),
-  POS(184, 11)
+  POS(185, 11),
+  POS(186, 11)
 };
 
 static TAB_NUM t_lambda_28[] = {
   1, // locals
   0, // parameters
-  // new(self my_key my_value my_left my_right) true
-  var_new, 5, var_158_22_self, var_159_6_my_key, var_159_14_my_value, var_159_24_my_left, var_159_33_my_right, 1, LOCAL(1),
-  //  new(self my_key my_value my_left my_right) true
+  // typed_tuple(self my_key my_value my_left my_right) true
+  var_typed_tuple, 5, var_160_22_self, var_161_6_my_key, var_161_14_my_value, var_161_24_my_left, var_161_33_my_right, 1, LOCAL(1),
+  //  typed_tuple(self my_key my_value my_left my_right) true
   LET, 2, LOCAL(1), var_true, TAIL_CALL,
-  POS(186, 16),
-  POS(186, 15)
+  POS(188, 16),
+  POS(188, 15)
 };
 
 static TAB_NUM t_lambda_29[] = {
   0, // locals
   0, // parameters
   //  self false
-  LET, 2, var_158_22_self, var_false, TAIL_CALL,
-  POS(187, 15)
+  LET, 2, var_160_22_self, var_false, TAIL_CALL,
+  POS(189, 15)
 };
 
 static TAB_NUM t_func_finish___for_each_1_call[] = {
@@ -719,7 +695,7 @@ static TAB_NUM t_func_finish___for_each_1_call[] = {
   LOCAL(1),
   // break!
   var_break, 0, IO_TAIL_CALL,
-  POS(203, 34)
+  POS(205, 34)
 };
 
 static TAB_NUM t_func_finish___for_each_2_call[] = {
@@ -728,7 +704,7 @@ static TAB_NUM t_func_finish___for_each_2_call[] = {
   LOCAL(1),
   // break!
   var_break, 0, IO_TAIL_CALL,
-  POS(204, 34)
+  POS(206, 34)
 };
 
 static TAB_NUM t_func_empty_node___for_each_1_left[] = {
@@ -739,8 +715,8 @@ static TAB_NUM t_func_empty_node___for_each_1_left[] = {
   var_basic_loops__todo, 1, minus_num_1, 1, LOCAL(1),
   // for_each_1_call! basic_loops::todo(-1) # peek
   var_for_each_1_call, 1, LOCAL(1), IO_TAIL_CALL,
-  POS(207, 20),
-  POS(207, 3)
+  POS(209, 20),
+  POS(209, 3)
 };
 
 static TAB_NUM t_func_empty_node___for_each_2_left[] = {
@@ -751,94 +727,94 @@ static TAB_NUM t_func_empty_node___for_each_2_left[] = {
   var_basic_loops__todo, 1, minus_num_1, 1, LOCAL(1),
   // for_each_2_call! basic_loops::todo(-1) # peek
   var_for_each_2_call, 1, LOCAL(1), IO_TAIL_CALL,
-  POS(210, 20),
-  POS(210, 3)
+  POS(212, 20),
+  POS(212, 3)
 };
 
 static TAB_NUM t_func_binary_node___for_each_1_left[] = {
   3, // locals
   1, // parameters
-  LOCAL(2), // 212_31_self
+  LOCAL(2), // 214_31_self
   // self $_my_key $_my_value $my_left $_my_right
   LOCAL(2), 0, 4, LOCAL(1), LOCAL(1), LOCAL(3), LOCAL(1),
   // push &basic_loops::todo self
   var_push, 2, var_basic_loops__todo, LOCAL(2), 1, var_basic_loops__todo,
   // for_each_1_left! my_left
   var_for_each_1_left, 1, LOCAL(3), IO_TAIL_CALL,
-  POS(213, 3),
-  POS(214, 3),
-  POS(215, 3)
+  POS(215, 3),
+  POS(216, 3),
+  POS(217, 3)
 };
 
 static TAB_NUM t_func_binary_node___for_each_2_left[] = {
   3, // locals
   1, // parameters
-  LOCAL(2), // 217_31_self
+  LOCAL(2), // 219_31_self
   // self $_my_key $_my_value $my_left $_my_right
   LOCAL(2), 0, 4, LOCAL(1), LOCAL(1), LOCAL(3), LOCAL(1),
   // push &basic_loops::todo self
   var_push, 2, var_basic_loops__todo, LOCAL(2), 1, var_basic_loops__todo,
   // for_each_2_left! my_left
   var_for_each_2_left, 1, LOCAL(3), IO_TAIL_CALL,
-  POS(218, 3),
-  POS(219, 3),
-  POS(220, 3)
+  POS(220, 3),
+  POS(221, 3),
+  POS(222, 3)
 };
 
 static TAB_NUM t_func_binary_node___for_each_1_call[] = {
   3, // locals
   1, // parameters
-  LOCAL(2), // 222_31_self
+  LOCAL(2), // 224_31_self
   // self $_my_key $my_value $_my_left $_my_right
   LOCAL(2), 0, 4, LOCAL(1), LOCAL(3), LOCAL(1), LOCAL(1),
   // basic_loops::body! my_value
   var_basic_loops__body, 1, LOCAL(3), IO_TAIL_CALL,
-  POS(223, 3),
-  POS(224, 3)
+  POS(225, 3),
+  POS(226, 3)
 };
 
 static TAB_NUM t_func_binary_node___for_each_2_call[] = {
   4, // locals
   1, // parameters
-  LOCAL(2), // 226_31_self
+  LOCAL(2), // 228_31_self
   // self $my_key $my_value $_my_left $_my_right
   LOCAL(2), 0, 4, LOCAL(3), LOCAL(4), LOCAL(1), LOCAL(1),
   // basic_loops::body! my_key my_value
   var_basic_loops__body, 2, LOCAL(3), LOCAL(4), IO_TAIL_CALL,
-  POS(227, 3),
-  POS(228, 3)
+  POS(229, 3),
+  POS(230, 3)
 };
 
 static TAB_NUM t_func_binary_node___for_each_1_right[] = {
   3, // locals
   1, // parameters
-  LOCAL(2), // 230_32_self
+  LOCAL(2), // 232_32_self
   // self $_my_key $_my_value $_my_left $my_right
   LOCAL(2), 0, 4, LOCAL(1), LOCAL(1), LOCAL(1), LOCAL(3),
   // for_each_1_left! my_right
   var_for_each_1_left, 1, LOCAL(3), IO_TAIL_CALL,
-  POS(231, 3),
-  POS(232, 3)
+  POS(233, 3),
+  POS(234, 3)
 };
 
 static TAB_NUM t_func_binary_node___for_each_2_right[] = {
   3, // locals
   1, // parameters
-  LOCAL(2), // 234_32_self
+  LOCAL(2), // 236_32_self
   // self $_my_key $_my_value $_my_left $my_right
   LOCAL(2), 0, 4, LOCAL(1), LOCAL(1), LOCAL(1), LOCAL(3),
   // for_each_2_left! my_right
   var_for_each_2_left, 1, LOCAL(3), IO_TAIL_CALL,
-  POS(235, 3),
-  POS(236, 3)
+  POS(237, 3),
+  POS(238, 3)
 };
 
 static TAB_NUM t_func_std_types__key_order_table___for_each[] = {
   4, // locals
   -3, // parameters
-  MANDATORY_PARAMETER, var_270_0_self,
-  MANDATORY_PARAMETER, LOCAL(3), // 271_0_body
-  var_next, var_272_0_finally,
+  MANDATORY_PARAMETER, var_272_0_self,
+  MANDATORY_PARAMETER, LOCAL(3), // 273_0_body
+  var_next, var_274_0_finally,
   // $saved_context
   var_tuple, 5, var_next, var_break, var_basic_loops__todo, var_basic_loops__body, var_basic_loops__finally, 1, LOCAL(4),
   // !basic_loops::todo list(finish)
@@ -846,9 +822,9 @@ static TAB_NUM t_func_std_types__key_order_table___for_each[] = {
   // !basic_loops::body body
   LET, 1, LOCAL(3), 1, var_basic_loops__body,
   // !basic_loops::finally finally
-  LET, 1, var_272_0_finally, 1, var_basic_loops__finally,
-  // !break: (myself^)
-  LET, 1, lambda_break, 1, var_break,
+  LET, 1, var_274_0_finally, 1, var_basic_loops__finally,
+  // new !break basic_types::break_function: (myself^)
+  var_new, 2, var_basic_types__break_function, lambda_30, IO_CALL(1), var_break,
   // break.basic_loops::saved_context_of saved_context
   LET, -1, var_break, var_basic_loops__saved_context_of, LOCAL(4), var_break,
   // parameter_count_of(body) == 2:
@@ -856,48 +832,48 @@ static TAB_NUM t_func_std_types__key_order_table___for_each[] = {
   // parameter_count_of(body) == 2:
   var_std__equal, 2, LOCAL(1), num_2, 1, LOCAL(2),
   // if
-  var_if, 3, LOCAL(2), lambda_30, lambda_31, IO_TAIL_CALL,
-  POS(274, 3),
-  POS(282, 3),
-  POS(283, 3),
+  var_if, 3, LOCAL(2), lambda_31, lambda_32, IO_TAIL_CALL,
+  POS(276, 3),
   POS(284, 3),
+  POS(285, 3),
   POS(286, 3),
-  POS(293, 4),
-  POS(296, 5),
-  POS(296, 5),
-  POS(295, 3)
+  POS(288, 3),
+  POS(295, 4),
+  POS(298, 5),
+  POS(298, 5),
+  POS(297, 3)
 };
 
-static TAB_NUM t_lambda_break[] = {
+static TAB_NUM t_lambda_30[] = {
   2, // locals
   -1, // parameters
-  MYSELF_PARAMETER, LOCAL(2), // 286_9_myself
+  MYSELF_PARAMETER, LOCAL(2), // 288_41_myself
   // !finally basic_loops::finally
-  LET, 1, var_basic_loops__finally, 1, var_272_0_finally,
+  LET, 1, var_basic_loops__finally, 1, var_274_0_finally,
   // basic_loops::saved_context_of(myself)
   var_basic_loops__saved_context_of, 1, LOCAL(2), 1, LOCAL(1),
   // basic_loops::saved_context_of(myself)
   LOCAL(1), 0, 5, var_next, var_break, var_basic_loops__todo, var_basic_loops__body, var_basic_loops__finally,
   // finally!
-  var_272_0_finally, 0, IO_TAIL_CALL,
-  POS(287, 5),
-  POS(288, 5),
-  POS(288, 5),
-  POS(291, 5)
+  var_274_0_finally, 0, IO_TAIL_CALL,
+  POS(289, 5),
+  POS(290, 5),
+  POS(290, 5),
+  POS(293, 5)
 };
 
-static TAB_NUM t_lambda_30[] = {
+static TAB_NUM t_lambda_31[] = {
   1, // locals
   0, // parameters
   // !next:
   LET, 1, lambda_next, 1, var_next,
   // contents_of(self)
-  var_contents_of, 1, var_270_0_self, 1, LOCAL(1),
+  var_contents_of, 1, var_272_0_self, 1, LOCAL(1),
   // for_each_2_left! contents_of(self)
   var_for_each_2_left, 1, LOCAL(1), IO_TAIL_CALL,
-  POS(297, 7),
-  POS(301, 24),
-  POS(301, 7)
+  POS(299, 7),
+  POS(303, 24),
+  POS(303, 7)
 };
 
 static TAB_NUM t_lambda_next[] = {
@@ -907,22 +883,22 @@ static TAB_NUM t_lambda_next[] = {
   var_pop, 1, var_basic_loops__todo, 2, var_basic_loops__todo, LOCAL(1),
   // for_each_2_right! node
   var_for_each_2_right, 1, LOCAL(1), IO_TAIL_CALL,
-  POS(298, 9),
-  POS(299, 9)
+  POS(300, 9),
+  POS(301, 9)
 };
 
-static TAB_NUM t_lambda_31[] = {
+static TAB_NUM t_lambda_32[] = {
   1, // locals
   0, // parameters
   // !next:
   LET, 1, lambda_2_next, 1, var_next,
   // contents_of(self)
-  var_contents_of, 1, var_270_0_self, 1, LOCAL(1),
+  var_contents_of, 1, var_272_0_self, 1, LOCAL(1),
   // for_each_1_left! contents_of(self)
   var_for_each_1_left, 1, LOCAL(1), IO_TAIL_CALL,
-  POS(303, 7),
-  POS(307, 24),
-  POS(307, 7)
+  POS(305, 7),
+  POS(309, 24),
+  POS(309, 7)
 };
 
 static TAB_NUM t_lambda_2_next[] = {
@@ -932,20 +908,11 @@ static TAB_NUM t_lambda_2_next[] = {
   var_pop, 1, var_basic_loops__todo, 2, var_basic_loops__todo, LOCAL(1),
   // for_each_1_right! node
   var_for_each_1_right, 1, LOCAL(1), IO_TAIL_CALL,
-  POS(304, 9),
-  POS(305, 9)
+  POS(306, 9),
+  POS(307, 9)
 };
 
 static TAB_NUM t_func_empty_node___map_1[] = {
-  1, // locals
-  1, // parameters
-  LOCAL(1), // 317_20_self
-  // -> self
-  LET, 1, LOCAL(1), TAIL_CALL,
-  POS(317, 27)
-};
-
-static TAB_NUM t_func_empty_node___map_2[] = {
   1, // locals
   1, // parameters
   LOCAL(1), // 319_20_self
@@ -954,10 +921,19 @@ static TAB_NUM t_func_empty_node___map_2[] = {
   POS(319, 27)
 };
 
+static TAB_NUM t_func_empty_node___map_2[] = {
+  1, // locals
+  1, // parameters
+  LOCAL(1), // 321_20_self
+  // -> self
+  LET, 1, LOCAL(1), TAIL_CALL,
+  POS(321, 27)
+};
+
 static TAB_NUM t_func_binary_node___map_1[] = {
   8, // locals
   1, // parameters
-  LOCAL(4), // 321_21_self
+  LOCAL(4), // 323_21_self
   // self $my_key $my_value $my_left $my_right
   LOCAL(4), 0, 4, LOCAL(5), LOCAL(6), LOCAL(7), LOCAL(8),
   // mapping_function(my_value) map_1(my_left) map_1(my_right)
@@ -966,19 +942,19 @@ static TAB_NUM t_func_binary_node___map_1[] = {
   var_map_1, 1, LOCAL(7), 1, LOCAL(2),
   // map_1(my_right)
   var_map_1, 1, LOCAL(8), 1, LOCAL(3),
-  // new self my_key mapping_function(my_value) map_1(my_left) map_1(my_right)
-  var_new, 5, LOCAL(4), LOCAL(5), LOCAL(1), LOCAL(2), LOCAL(3), TAIL_CALL,
-  POS(322, 3),
-  POS(323, 19),
-  POS(323, 46),
-  POS(323, 61),
-  POS(323, 3)
+  // typed_tuple self my_key mapping_function(my_value) map_1(my_left) map_1(my_right)
+  var_typed_tuple, 5, LOCAL(4), LOCAL(5), LOCAL(1), LOCAL(2), LOCAL(3), TAIL_CALL,
+  POS(324, 3),
+  POS(325, 27),
+  POS(325, 54),
+  POS(325, 69),
+  POS(325, 3)
 };
 
 static TAB_NUM t_func_binary_node___map_2[] = {
   8, // locals
   1, // parameters
-  LOCAL(4), // 325_21_self
+  LOCAL(4), // 327_21_self
   // self $my_key $my_value $my_left $my_right
   LOCAL(4), 0, 4, LOCAL(5), LOCAL(6), LOCAL(7), LOCAL(8),
   // mapping_function(my_key my_value) map_2(my_left) map_2(my_right)
@@ -987,20 +963,20 @@ static TAB_NUM t_func_binary_node___map_2[] = {
   var_map_2, 1, LOCAL(7), 1, LOCAL(2),
   // map_2(my_right)
   var_map_2, 1, LOCAL(8), 1, LOCAL(3),
-  // new self my_key mapping_function(my_key my_value) map_2(my_left) map_2(my_right)
-  var_new, 5, LOCAL(4), LOCAL(5), LOCAL(1), LOCAL(2), LOCAL(3), TAIL_CALL,
-  POS(326, 3),
-  POS(327, 19),
-  POS(327, 53),
-  POS(327, 68),
-  POS(327, 3)
+  // typed_tuple self my_key mapping_function(my_key my_value) map_2(my_left) map_2(my_right)
+  var_typed_tuple, 5, LOCAL(4), LOCAL(5), LOCAL(1), LOCAL(2), LOCAL(3), TAIL_CALL,
+  POS(328, 3),
+  POS(329, 27),
+  POS(329, 61),
+  POS(329, 76),
+  POS(329, 3)
 };
 
 static TAB_NUM t_func_std_types__key_order_table___map[] = {
   3, // locals
   2, // parameters
-  var_339_0_self,
-  LOCAL(3), // 340_0_function
+  var_341_0_self,
+  LOCAL(3), // 342_0_function
   // !mapping_function function
   LET, 1, LOCAL(3), 1, var_mapping_function,
   // parameter_count_of(function) == 2:
@@ -1008,687 +984,513 @@ static TAB_NUM t_func_std_types__key_order_table___map[] = {
   // parameter_count_of(function) == 2:
   var_std__equal, 2, LOCAL(1), num_2, 1, LOCAL(2),
   // if
-  var_if, 3, LOCAL(2), lambda_32, lambda_33, TAIL_CALL,
-  POS(342, 3),
-  POS(344, 5),
-  POS(344, 5),
-  POS(343, 3)
-};
-
-static TAB_NUM t_lambda_32[] = {
-  1, // locals
-  0, // parameters
-  // contents_of
-  var_contents_of, 1, var_339_0_self, 1, LOCAL(1),
-  // map_2 &self.contents_of
-  var_map_2, 1, LOCAL(1), 1, LOCAL(1),
-  // self.contents_of
-  LET, -1, var_339_0_self, var_contents_of, LOCAL(1), var_339_0_self,
-  // -> self
-  LET, 1, var_339_0_self, TAIL_CALL,
-  POS(345, 19),
-  POS(345, 7),
-  POS(345, 14),
-  POS(346, 7)
+  var_if, 3, LOCAL(2), lambda_33, lambda_34, TAIL_CALL,
+  POS(344, 3),
+  POS(346, 5),
+  POS(346, 5),
+  POS(345, 3)
 };
 
 static TAB_NUM t_lambda_33[] = {
   1, // locals
   0, // parameters
   // contents_of
-  var_contents_of, 1, var_339_0_self, 1, LOCAL(1),
+  var_contents_of, 1, var_341_0_self, 1, LOCAL(1),
+  // map_2 &self.contents_of
+  var_map_2, 1, LOCAL(1), 1, LOCAL(1),
+  // self.contents_of
+  LET, -1, var_341_0_self, var_contents_of, LOCAL(1), var_341_0_self,
+  // -> self
+  LET, 1, var_341_0_self, TAIL_CALL,
+  POS(347, 19),
+  POS(347, 7),
+  POS(347, 14),
+  POS(348, 7)
+};
+
+static TAB_NUM t_lambda_34[] = {
+  1, // locals
+  0, // parameters
+  // contents_of
+  var_contents_of, 1, var_341_0_self, 1, LOCAL(1),
   // map_1 &self.contents_of
   var_map_1, 1, LOCAL(1), 1, LOCAL(1),
   // self.contents_of
-  LET, -1, var_339_0_self, var_contents_of, LOCAL(1), var_339_0_self,
+  LET, -1, var_341_0_self, var_contents_of, LOCAL(1), var_341_0_self,
   // -> self
-  LET, 1, var_339_0_self, TAIL_CALL,
-  POS(348, 19),
-  POS(348, 7),
-  POS(348, 14),
-  POS(349, 7)
+  LET, 1, var_341_0_self, TAIL_CALL,
+  POS(350, 19),
+  POS(350, 7),
+  POS(350, 14),
+  POS(351, 7)
 };
 
 static TAB_NUM t_func_std_types__key_order_table___reduce[] = {
   2, // locals
   -3, // parameters
-  MANDATORY_PARAMETER, LOCAL(2), // 366_0_self
-  MANDATORY_PARAMETER, var_367_0_function,
-  var_undefined, var_368_0_unit,
+  MANDATORY_PARAMETER, LOCAL(2), // 368_0_self
+  MANDATORY_PARAMETER, var_369_0_function,
+  var_undefined, var_370_0_unit,
   // $contents contents_of(self)
-  var_contents_of, 1, LOCAL(2), 1, var_370_1_contents,
+  var_contents_of, 1, LOCAL(2), 1, var_372_1_contents,
   // is_an_empty_node
-  var_is_an_empty_node, 1, var_370_1_contents, 1, LOCAL(1),
+  var_is_an_empty_node, 1, var_372_1_contents, 1, LOCAL(1),
   // if
-  var_if, 3, LOCAL(1), lambda_34, lambda_35, TAIL_CALL,
-  POS(370, 3),
-  POS(372, 14),
-  POS(371, 3)
-};
-
-static TAB_NUM t_lambda_34[] = {
-  0, // locals
-  0, // parameters
-  //  unit
-  LET, 1, var_368_0_unit, TAIL_CALL,
-  POS(373, 7)
+  var_if, 3, LOCAL(1), lambda_35, lambda_36, TAIL_CALL,
+  POS(372, 3),
+  POS(374, 14),
+  POS(373, 3)
 };
 
 static TAB_NUM t_lambda_35[] = {
-  1, // locals
+  0, // locals
   0, // parameters
-  // reduce(contents)
-  func_reduce, 1, var_370_1_contents, 1, LOCAL(1),
-  //  reduce(contents)
-  LET, 1, LOCAL(1), TAIL_CALL,
-  POS(374, 8),
-  POS(374, 7)
-};
-
-static TAB_NUM t_func_reduce[] = {
-  2, // locals
-  1, // parameters
-  LOCAL(2), // 376_10_node
-  // node $_key $value $left $right
-  LOCAL(2), 0, 4, LOCAL(1), var_377_12_value, var_377_19_left, var_377_25_right,
-  // is_an_empty_node
-  var_is_an_empty_node, 1, var_377_19_left, 1, LOCAL(1),
-  // if
-  var_if, 3, LOCAL(1), func_check_right, lambda_36, TAIL_CALL,
-  POS(377, 5),
-  POS(379, 12),
-  POS(378, 5)
+  //  unit
+  LET, 1, var_370_0_unit, TAIL_CALL,
+  POS(375, 7)
 };
 
 static TAB_NUM t_lambda_36[] = {
   1, // locals
   0, // parameters
+  // reduce(contents)
+  func_reduce, 1, var_372_1_contents, 1, LOCAL(1),
+  //  reduce(contents)
+  LET, 1, LOCAL(1), TAIL_CALL,
+  POS(376, 8),
+  POS(376, 7)
+};
+
+static TAB_NUM t_func_reduce[] = {
+  2, // locals
+  1, // parameters
+  LOCAL(2), // 378_10_node
+  // node $_key $value $left $right
+  LOCAL(2), 0, 4, LOCAL(1), var_379_12_value, var_379_19_left, var_379_25_right,
+  // is_an_empty_node
+  var_is_an_empty_node, 1, var_379_19_left, 1, LOCAL(1),
+  // if
+  var_if, 3, LOCAL(1), func_check_right, lambda_37, TAIL_CALL,
+  POS(379, 5),
+  POS(381, 12),
+  POS(380, 5)
+};
+
+static TAB_NUM t_lambda_37[] = {
+  1, // locals
+  0, // parameters
   // reduce(left) value)
-  func_reduce, 1, var_377_19_left, 1, LOCAL(1),
+  func_reduce, 1, var_379_19_left, 1, LOCAL(1),
   // !value function(reduce(left) value)
-  var_367_0_function, 2, LOCAL(1), var_377_12_value, 1, var_377_12_value,
+  var_369_0_function, 2, LOCAL(1), var_379_12_value, 1, var_379_12_value,
   // check_right
   func_check_right, 0, TAIL_CALL,
-  POS(382, 25),
-  POS(382, 9),
-  POS(383, 9)
+  POS(384, 25),
+  POS(384, 9),
+  POS(385, 9)
 };
 
 static TAB_NUM t_func_check_right[] = {
   1, // locals
   0, // parameters
   // is_an_empty_node
-  var_is_an_empty_node, 1, var_377_25_right, 1, LOCAL(1),
+  var_is_an_empty_node, 1, var_379_25_right, 1, LOCAL(1),
   // if
-  var_if, 3, LOCAL(1), lambda_37, lambda_38, TAIL_CALL,
-  POS(387, 15),
-  POS(386, 7)
-};
-
-static TAB_NUM t_lambda_37[] = {
-  0, // locals
-  0, // parameters
-  //  value
-  LET, 1, var_377_12_value, TAIL_CALL,
-  POS(388, 11)
+  var_if, 3, LOCAL(1), lambda_38, lambda_39, TAIL_CALL,
+  POS(389, 15),
+  POS(388, 7)
 };
 
 static TAB_NUM t_lambda_38[] = {
+  0, // locals
+  0, // parameters
+  //  value
+  LET, 1, var_379_12_value, TAIL_CALL,
+  POS(390, 11)
+};
+
+static TAB_NUM t_lambda_39[] = {
   2, // locals
   0, // parameters
   // reduce(right))
-  func_reduce, 1, var_377_25_right, 1, LOCAL(1),
+  func_reduce, 1, var_379_25_right, 1, LOCAL(1),
   // function(value reduce(right))
-  var_367_0_function, 2, var_377_12_value, LOCAL(1), 1, LOCAL(2),
+  var_369_0_function, 2, var_379_12_value, LOCAL(1), 1, LOCAL(2),
   //  function(value reduce(right))
   LET, 1, LOCAL(2), TAIL_CALL,
-  POS(389, 27),
-  POS(389, 12),
-  POS(389, 11)
+  POS(391, 27),
+  POS(391, 12),
+  POS(391, 11)
 };
 
 static TAB_NUM t_func_std_types__key_order_table___map_reduce[] = {
   2, // locals
   -4, // parameters
-  MANDATORY_PARAMETER, LOCAL(2), // 404_0_self
-  MANDATORY_PARAMETER, var_405_0_map_function,
-  var_append, var_406_0_reduce_function,
-  var_undefined, var_407_0_unit,
+  MANDATORY_PARAMETER, LOCAL(2), // 406_0_self
+  MANDATORY_PARAMETER, var_407_0_map_function,
+  var_append, var_408_0_reduce_function,
+  var_undefined, var_409_0_unit,
   // $contents contents_of(self)
-  var_contents_of, 1, LOCAL(2), 1, var_409_1_contents,
+  var_contents_of, 1, LOCAL(2), 1, var_411_1_contents,
   // is_an_empty_node
-  var_is_an_empty_node, 1, var_409_1_contents, 1, LOCAL(1),
+  var_is_an_empty_node, 1, var_411_1_contents, 1, LOCAL(1),
   // if
-  var_if, 3, LOCAL(1), lambda_39, lambda_40, TAIL_CALL,
-  POS(409, 3),
-  POS(411, 14),
-  POS(410, 3)
-};
-
-static TAB_NUM t_lambda_39[] = {
-  0, // locals
-  0, // parameters
-  //  unit
-  LET, 1, var_407_0_unit, TAIL_CALL,
-  POS(412, 7)
+  var_if, 3, LOCAL(1), lambda_40, lambda_41, TAIL_CALL,
+  POS(411, 3),
+  POS(413, 14),
+  POS(412, 3)
 };
 
 static TAB_NUM t_lambda_40[] = {
-  2, // locals
+  0, // locals
   0, // parameters
-  // parameter_count_of(map_function) == 2
-  var_parameter_count_of, 1, var_405_0_map_function, 1, LOCAL(1),
-  // parameter_count_of(map_function) == 2
-  var_std__equal, 2, LOCAL(1), num_2, 1, LOCAL(2),
-  // if
-  var_if, 3, LOCAL(2), lambda_41, lambda_42, TAIL_CALL,
-  POS(415, 9),
-  POS(415, 9),
+  //  unit
+  LET, 1, var_409_0_unit, TAIL_CALL,
   POS(414, 7)
 };
 
 static TAB_NUM t_lambda_41[] = {
-  1, // locals
+  2, // locals
   0, // parameters
-  // map_reduce_2(contents)
-  func_map_reduce_2, 1, var_409_1_contents, 1, LOCAL(1),
-  //  map_reduce_2(contents)
-  LET, 1, LOCAL(1), TAIL_CALL,
-  POS(416, 12),
-  POS(416, 11)
+  // parameter_count_of(map_function) == 2
+  var_parameter_count_of, 1, var_407_0_map_function, 1, LOCAL(1),
+  // parameter_count_of(map_function) == 2
+  var_std__equal, 2, LOCAL(1), num_2, 1, LOCAL(2),
+  // if
+  var_if, 3, LOCAL(2), lambda_42, lambda_43, TAIL_CALL,
+  POS(417, 9),
+  POS(417, 9),
+  POS(416, 7)
 };
 
 static TAB_NUM t_lambda_42[] = {
   1, // locals
   0, // parameters
-  // map_reduce_1(contents)
-  func_map_reduce_1, 1, var_409_1_contents, 1, LOCAL(1),
-  //  map_reduce_1(contents)
+  // map_reduce_2(contents)
+  func_map_reduce_2, 1, var_411_1_contents, 1, LOCAL(1),
+  //  map_reduce_2(contents)
   LET, 1, LOCAL(1), TAIL_CALL,
-  POS(417, 12),
-  POS(417, 11)
-};
-
-static TAB_NUM t_func_map_reduce_1[] = {
-  2, // locals
-  1, // parameters
-  LOCAL(2), // 419_16_node
-  // node $_key $value $left $right
-  LOCAL(2), 0, 4, LOCAL(1), var_420_12_value, var_420_19_left, var_420_25_right,
-  // map_function &value
-  var_405_0_map_function, 1, var_420_12_value, 1, var_420_12_value,
-  // is_an_empty_node
-  var_is_an_empty_node, 1, var_420_19_left, 1, LOCAL(1),
-  // if
-  var_if, 3, LOCAL(1), func_2_check_right, lambda_43, TAIL_CALL,
-  POS(420, 5),
-  POS(421, 5),
-  POS(423, 12),
-  POS(422, 5)
+  POS(418, 12),
+  POS(418, 11)
 };
 
 static TAB_NUM t_lambda_43[] = {
   1, // locals
   0, // parameters
+  // map_reduce_1(contents)
+  func_map_reduce_1, 1, var_411_1_contents, 1, LOCAL(1),
+  //  map_reduce_1(contents)
+  LET, 1, LOCAL(1), TAIL_CALL,
+  POS(419, 12),
+  POS(419, 11)
+};
+
+static TAB_NUM t_func_map_reduce_1[] = {
+  2, // locals
+  1, // parameters
+  LOCAL(2), // 421_16_node
+  // node $_key $value $left $right
+  LOCAL(2), 0, 4, LOCAL(1), var_422_12_value, var_422_19_left, var_422_25_right,
+  // map_function &value
+  var_407_0_map_function, 1, var_422_12_value, 1, var_422_12_value,
+  // is_an_empty_node
+  var_is_an_empty_node, 1, var_422_19_left, 1, LOCAL(1),
+  // if
+  var_if, 3, LOCAL(1), func_2_check_right, lambda_44, TAIL_CALL,
+  POS(422, 5),
+  POS(423, 5),
+  POS(425, 12),
+  POS(424, 5)
+};
+
+static TAB_NUM t_lambda_44[] = {
+  1, // locals
+  0, // parameters
   // map_reduce_1(left) value)
-  func_map_reduce_1, 1, var_420_19_left, 1, LOCAL(1),
+  func_map_reduce_1, 1, var_422_19_left, 1, LOCAL(1),
   // !value reduce_function(map_reduce_1(left) value)
-  var_406_0_reduce_function, 2, LOCAL(1), var_420_12_value, 1, var_420_12_value,
+  var_408_0_reduce_function, 2, LOCAL(1), var_422_12_value, 1, var_422_12_value,
   // check_right
   func_2_check_right, 0, TAIL_CALL,
-  POS(426, 32),
-  POS(426, 9),
-  POS(427, 9)
+  POS(428, 32),
+  POS(428, 9),
+  POS(429, 9)
 };
 
 static TAB_NUM t_func_2_check_right[] = {
   1, // locals
   0, // parameters
   // is_an_empty_node
-  var_is_an_empty_node, 1, var_420_25_right, 1, LOCAL(1),
+  var_is_an_empty_node, 1, var_422_25_right, 1, LOCAL(1),
   // if
-  var_if, 3, LOCAL(1), lambda_44, lambda_45, TAIL_CALL,
-  POS(431, 15),
-  POS(430, 7)
-};
-
-static TAB_NUM t_lambda_44[] = {
-  0, // locals
-  0, // parameters
-  //  value
-  LET, 1, var_420_12_value, TAIL_CALL,
-  POS(432, 11)
+  var_if, 3, LOCAL(1), lambda_45, lambda_46, TAIL_CALL,
+  POS(433, 15),
+  POS(432, 7)
 };
 
 static TAB_NUM t_lambda_45[] = {
+  0, // locals
+  0, // parameters
+  //  value
+  LET, 1, var_422_12_value, TAIL_CALL,
+  POS(434, 11)
+};
+
+static TAB_NUM t_lambda_46[] = {
   2, // locals
   0, // parameters
   // map_reduce_1(right))
-  func_map_reduce_1, 1, var_420_25_right, 1, LOCAL(1),
+  func_map_reduce_1, 1, var_422_25_right, 1, LOCAL(1),
   // reduce_function(value map_reduce_1(right))
-  var_406_0_reduce_function, 2, var_420_12_value, LOCAL(1), 1, LOCAL(2),
+  var_408_0_reduce_function, 2, var_422_12_value, LOCAL(1), 1, LOCAL(2),
   //  reduce_function(value map_reduce_1(right))
   LET, 1, LOCAL(2), TAIL_CALL,
-  POS(433, 34),
-  POS(433, 12),
-  POS(433, 11)
+  POS(435, 34),
+  POS(435, 12),
+  POS(435, 11)
 };
 
 static TAB_NUM t_func_map_reduce_2[] = {
   3, // locals
   1, // parameters
-  LOCAL(2), // 435_16_node
+  LOCAL(2), // 437_16_node
   // node $key $value $left $right
-  LOCAL(2), 0, 4, LOCAL(3), var_436_11_value, var_436_18_left, var_436_24_right,
+  LOCAL(2), 0, 4, LOCAL(3), var_438_11_value, var_438_18_left, var_438_24_right,
   // map_function key &value
-  var_405_0_map_function, 2, LOCAL(3), var_436_11_value, 1, var_436_11_value,
+  var_407_0_map_function, 2, LOCAL(3), var_438_11_value, 1, var_438_11_value,
   // is_an_empty_node
-  var_is_an_empty_node, 1, var_436_18_left, 1, LOCAL(1),
+  var_is_an_empty_node, 1, var_438_18_left, 1, LOCAL(1),
   // if
-  var_if, 3, LOCAL(1), func_3_check_right, lambda_46, TAIL_CALL,
-  POS(436, 5),
-  POS(437, 5),
-  POS(439, 12),
-  POS(438, 5)
+  var_if, 3, LOCAL(1), func_3_check_right, lambda_47, TAIL_CALL,
+  POS(438, 5),
+  POS(439, 5),
+  POS(441, 12),
+  POS(440, 5)
 };
 
-static TAB_NUM t_lambda_46[] = {
+static TAB_NUM t_lambda_47[] = {
   1, // locals
   0, // parameters
   // map_reduce_2(left) value)
-  func_map_reduce_2, 1, var_436_18_left, 1, LOCAL(1),
+  func_map_reduce_2, 1, var_438_18_left, 1, LOCAL(1),
   // !value reduce_function(map_reduce_2(left) value)
-  var_406_0_reduce_function, 2, LOCAL(1), var_436_11_value, 1, var_436_11_value,
+  var_408_0_reduce_function, 2, LOCAL(1), var_438_11_value, 1, var_438_11_value,
   // check_right
   func_3_check_right, 0, TAIL_CALL,
-  POS(442, 32),
-  POS(442, 9),
-  POS(443, 9)
+  POS(444, 32),
+  POS(444, 9),
+  POS(445, 9)
 };
 
 static TAB_NUM t_func_3_check_right[] = {
   1, // locals
   0, // parameters
   // is_an_empty_node
-  var_is_an_empty_node, 1, var_436_24_right, 1, LOCAL(1),
+  var_is_an_empty_node, 1, var_438_24_right, 1, LOCAL(1),
   // if
-  var_if, 3, LOCAL(1), lambda_47, lambda_48, TAIL_CALL,
-  POS(447, 15),
-  POS(446, 7)
-};
-
-static TAB_NUM t_lambda_47[] = {
-  0, // locals
-  0, // parameters
-  //  value
-  LET, 1, var_436_11_value, TAIL_CALL,
-  POS(448, 11)
+  var_if, 3, LOCAL(1), lambda_48, lambda_49, TAIL_CALL,
+  POS(449, 15),
+  POS(448, 7)
 };
 
 static TAB_NUM t_lambda_48[] = {
-  2, // locals
+  0, // locals
   0, // parameters
-  // map_reduce_2(right))
-  func_map_reduce_2, 1, var_436_24_right, 1, LOCAL(1),
-  // reduce_function(value map_reduce_2(right))
-  var_406_0_reduce_function, 2, var_436_11_value, LOCAL(1), 1, LOCAL(2),
-  //  reduce_function(value map_reduce_2(right))
-  LET, 1, LOCAL(2), TAIL_CALL,
-  POS(449, 34),
-  POS(449, 12),
-  POS(449, 11)
-};
-
-static TAB_NUM t_func_empty_node___dump_string[] = {
-  1, // locals
-  3, // parameters
-  LOCAL(1),
-  LOCAL(1),
-  LOCAL(1),
-  // -> ""
-  LET, 1, string_1, TAIL_CALL,
-  POS(454, 50)
-};
-
-static TAB_NUM t_func_binary_node___dump_string[] = {
-  9, // locals
-  3, // parameters
-  LOCAL(3), // 456_27_self
-  var_456_32_prefix,
-  LOCAL(4), // 456_39_marker
-  // self $key $value $left $right
-  LOCAL(3), 0, 4, var_457_6_key, LOCAL(5), LOCAL(6), LOCAL(7),
-  // length_of(key)))
-  var_length_of, 1, var_457_6_key, 1, LOCAL(1),
-  // spaces(length_of(key)))
-  var_spaces, 1, LOCAL(1), 1, LOCAL(2),
-  // $new_prefix append(prefix spaces(length_of(key)))
-  var_append, 2, var_456_32_prefix, LOCAL(2), 1, var_458_1_new_prefix,
-  // is_empty
-  var_is_empty, 1, var_456_32_prefix, 1, LOCAL(1),
-  // $empty_prefix
-  var_if, 3, LOCAL(1), lambda_49, lambda_50, 1, var_459_1_empty_prefix,
-  // push &new_prefix '|'
-  var_push, 2, var_458_1_new_prefix, chr_124, 1, var_458_1_new_prefix,
-  // push &empty_prefix '|'
-  var_push, 2, var_459_1_empty_prefix, chr_124, 1, var_459_1_empty_prefix,
-  // marker == '/'
-  var_std__equal, 2, LOCAL(4), chr_47, 1, LOCAL(1),
-  // if
-  var_if, 3, LOCAL(1), lambda_51, lambda_52, 1, LOCAL(2),
-  // $top
-  var_dump_string, 3, LOCAL(6), LOCAL(2), chr_47, 1, LOCAL(8),
-  // marker == '\'
-  var_std__equal, 2, LOCAL(4), chr_92, 1, LOCAL(1),
-  // if
-  var_if, 3, LOCAL(1), lambda_53, lambda_54, 1, LOCAL(2),
-  // $bottom
-  var_dump_string, 3, LOCAL(7), LOCAL(2), chr_92, 1, LOCAL(9),
-  // is_empty
-  var_is_empty, 1, var_456_32_prefix, 1, LOCAL(1),
-  // if
-  var_if, 3, LOCAL(1), lambda_55, lambda_56, 1, LOCAL(2),
-  // string
-  var_string, 8, LOCAL(8), LOCAL(2), LOCAL(4), var_457_6_key, chr_40, LOCAL(5), string_2, LOCAL(9), TAIL_CALL,
-  POS(457, 3),
-  POS(458, 36),
-  POS(458, 29),
-  POS(458, 3),
-  POS(461, 14),
-  POS(459, 3),
-  POS(464, 3),
-  POS(465, 3),
-  POS(470, 9),
-  POS(469, 7),
-  POS(466, 3),
-  POS(478, 9),
-  POS(477, 7),
-  POS(474, 3),
-  POS(485, 14),
-  POS(484, 5),
-  POS(482, 3)
+  //  value
+  LET, 1, var_438_11_value, TAIL_CALL,
+  POS(450, 11)
 };
 
 static TAB_NUM t_lambda_49[] = {
   2, // locals
   0, // parameters
-  // length_of(key))
-  var_length_of, 1, var_457_6_key, 1, LOCAL(1),
-  // spaces(length_of(key))
-  var_spaces, 1, LOCAL(1), 1, LOCAL(2),
-  //  spaces(length_of(key))
+  // map_reduce_2(right))
+  func_map_reduce_2, 1, var_438_24_right, 1, LOCAL(1),
+  // reduce_function(value map_reduce_2(right))
+  var_408_0_reduce_function, 2, var_438_11_value, LOCAL(1), 1, LOCAL(2),
+  //  reduce_function(value map_reduce_2(right))
   LET, 1, LOCAL(2), TAIL_CALL,
-  POS(462, 17),
-  POS(462, 10),
-  POS(462, 9)
-};
-
-static TAB_NUM t_lambda_50[] = {
-  5, // locals
-  0, // parameters
-  // range(prefix 1 -2) spaces(length_of(key)+1))
-  var_range, 3, var_456_32_prefix, num_1, minus_num_2, 1, LOCAL(1),
-  // length_of(key)+1))
-  var_length_of, 1, var_457_6_key, 1, LOCAL(2),
-  // length_of(key)+1))
-  var_std__plus, 2, LOCAL(2), num_1, 1, LOCAL(3),
-  // spaces(length_of(key)+1))
-  var_spaces, 1, LOCAL(3), 1, LOCAL(4),
-  // append(range(prefix 1 -2) spaces(length_of(key)+1))
-  var_append, 2, LOCAL(1), LOCAL(4), 1, LOCAL(5),
-  //  append(range(prefix 1 -2) spaces(length_of(key)+1))
-  LET, 1, LOCAL(5), TAIL_CALL,
-  POS(463, 17),
-  POS(463, 43),
-  POS(463, 43),
-  POS(463, 36),
-  POS(463, 10),
-  POS(463, 9)
-};
-
-static TAB_NUM t_lambda_51[] = {
-  0, // locals
-  0, // parameters
-  //  empty_prefix
-  LET, 1, var_459_1_empty_prefix, TAIL_CALL,
-  POS(471, 11)
-};
-
-static TAB_NUM t_lambda_52[] = {
-  0, // locals
-  0, // parameters
-  //  new_prefix
-  LET, 1, var_458_1_new_prefix, TAIL_CALL,
-  POS(472, 11)
-};
-
-static TAB_NUM t_lambda_53[] = {
-  0, // locals
-  0, // parameters
-  //  empty_prefix
-  LET, 1, var_459_1_empty_prefix, TAIL_CALL,
-  POS(479, 11)
-};
-
-static TAB_NUM t_lambda_54[] = {
-  0, // locals
-  0, // parameters
-  //  new_prefix
-  LET, 1, var_458_1_new_prefix, TAIL_CALL,
-  POS(480, 11)
-};
-
-static TAB_NUM t_lambda_55[] = {
-  0, // locals
-  0, // parameters
-  //  ""
-  LET, 1, string_1, TAIL_CALL,
-  POS(486, 9)
-};
-
-static TAB_NUM t_lambda_56[] = {
-  1, // locals
-  0, // parameters
-  // range(prefix 1 -2)
-  var_range, 3, var_456_32_prefix, num_1, minus_num_2, 1, LOCAL(1),
-  //  range(prefix 1 -2)
-  LET, 1, LOCAL(1), TAIL_CALL,
-  POS(487, 10),
-  POS(487, 9)
-};
-
-static TAB_NUM t_func_std_types__key_order_table___dump_string[] = {
-  4, // locals
-  -2, // parameters
-  MANDATORY_PARAMETER, LOCAL(3), // 493_0_self
-  string_1, LOCAL(4), // 494_0_prefix
-  // contents_of(self) prefix "")
-  var_contents_of, 1, LOCAL(3), 1, LOCAL(1),
-  // dump_string(contents_of(self) prefix "")
-  var_dump_string, 3, LOCAL(1), LOCAL(4), string_1, 1, LOCAL(2),
-  // -> dump_string(contents_of(self) prefix "")
-  LET, 1, LOCAL(2), TAIL_CALL,
-  POS(496, 18),
-  POS(496, 6),
-  POS(496, 3)
+  POS(451, 34),
+  POS(451, 12),
+  POS(451, 11)
 };
 
 static TAB_NUM t_func_empty_node___merge[] = {
   2, // locals
   2, // parameters
   LOCAL(1),
-  LOCAL(2), // 501_26_right
+  LOCAL(2), // 503_26_right
   // -> right 0
   LET, 2, LOCAL(2), num_0, TAIL_CALL,
-  POS(503, 3)
+  POS(505, 3)
 };
 
 static TAB_NUM t_func_binary_node___merge[] = {
   1, // locals
   2, // parameters
-  var_505_21_left,
-  var_505_26_right,
+  var_507_21_left,
+  var_507_26_right,
   // is_an_empty_node
-  var_is_an_empty_node, 1, var_505_26_right, 1, LOCAL(1),
+  var_is_an_empty_node, 1, var_507_26_right, 1, LOCAL(1),
   // if
-  var_if, 3, LOCAL(1), lambda_57, lambda_58, TAIL_CALL,
-  POS(509, 11),
-  POS(508, 3)
+  var_if, 3, LOCAL(1), lambda_50, lambda_51, TAIL_CALL,
+  POS(511, 11),
+  POS(510, 3)
 };
 
-static TAB_NUM t_lambda_57[] = {
+static TAB_NUM t_lambda_50[] = {
   0, // locals
   0, // parameters
   //  left 0
-  LET, 2, var_505_21_left, num_0, TAIL_CALL,
-  POS(510, 7)
+  LET, 2, var_507_21_left, num_0, TAIL_CALL,
+  POS(512, 7)
 };
 
-static TAB_NUM t_lambda_58[] = {
+static TAB_NUM t_lambda_51[] = {
   0, // locals
   0, // parameters
   // left $left_key $left_value $left_left $left_right
-  var_505_21_left, 0, 4, var_512_6_left_key, var_512_16_left_value, var_512_28_left_left, var_512_39_left_right,
+  var_507_21_left, 0, 4, var_514_6_left_key, var_514_16_left_value, var_514_28_left_left, var_514_39_left_right,
   // right $right_key $right_value $right_left $right_right
-  var_505_26_right, 0, 4, var_513_7_right_key, var_513_18_right_value, var_513_31_right_left, var_513_43_right_right,
+  var_507_26_right, 0, 4, var_515_7_right_key, var_515_18_right_value, var_515_31_right_left, var_515_43_right_right,
   // $total_removed 0
-  LET, 1, num_0, 1, var_514_1_total_removed,
+  LET, 1, num_0, 1, var_516_1_total_removed,
   // $removed undefined
-  LET, 1, var_undefined, 1, var_515_1_removed,
+  LET, 1, var_undefined, 1, var_517_1_removed,
   // $did_insert undefined
-  LET, 1, var_undefined, 1, var_516_1_did_insert,
+  LET, 1, var_undefined, 1, var_518_1_did_insert,
   // loop:
   var_loop, 1, lambda_loop, TAIL_CALL,
-  POS(512, 7),
-  POS(513, 7),
   POS(514, 7),
   POS(515, 7),
   POS(516, 7),
-  POS(517, 7)
+  POS(517, 7),
+  POS(518, 7),
+  POS(519, 7)
 };
 
 static TAB_NUM t_lambda_loop[] = {
   1, // locals
   0, // parameters
   // right_key < left_key:
-  var_std__less, 2, var_513_7_right_key, var_512_6_left_key, 1, LOCAL(1),
+  var_std__less, 2, var_515_7_right_key, var_514_6_left_key, 1, LOCAL(1),
   // if
-  var_if, 3, LOCAL(1), lambda_59, lambda_61, TAIL_CALL,
-  POS(519, 11),
-  POS(518, 9)
+  var_if, 3, LOCAL(1), lambda_52, lambda_54, TAIL_CALL,
+  POS(521, 11),
+  POS(520, 9)
 };
 
-static TAB_NUM t_lambda_59[] = {
+static TAB_NUM t_lambda_52[] = {
   0, // locals
   0, // parameters
   // merge &left_left right_left !removed
-  var_merge, 2, var_512_28_left_left, var_513_31_right_left, 2, var_512_28_left_left, var_515_1_removed,
+  var_merge, 2, var_514_28_left_left, var_515_31_right_left, 2, var_514_28_left_left, var_517_1_removed,
   // insert &left_left right_key right_value !did_insert
-  var_insert, 3, var_512_28_left_left, var_513_7_right_key, var_513_18_right_value, 2, var_512_28_left_left, var_516_1_did_insert,
+  var_insert, 3, var_514_28_left_left, var_515_7_right_key, var_515_18_right_value, 2, var_514_28_left_left, var_518_1_did_insert,
   // update_removed:
   func_update_removed, 1, lambda_update_removed, TAIL_CALL,
-  POS(520, 13),
-  POS(521, 13),
-  POS(522, 13)
+  POS(522, 13),
+  POS(523, 13),
+  POS(524, 13)
 };
 
 static TAB_NUM t_lambda_update_removed[] = {
   1, // locals
   0, // parameters
   // is_an_empty_node
-  var_is_an_empty_node, 1, var_513_43_right_right, 1, LOCAL(1),
+  var_is_an_empty_node, 1, var_515_43_right_right, 1, LOCAL(1),
   // if
-  var_if, 3, LOCAL(1), lambda_64, lambda_60, TAIL_CALL,
-  POS(524, 29),
-  POS(523, 15)
+  var_if, 3, LOCAL(1), lambda_57, lambda_53, TAIL_CALL,
+  POS(526, 29),
+  POS(525, 15)
 };
 
-static TAB_NUM t_lambda_60[] = {
+static TAB_NUM t_lambda_53[] = {
   0, // locals
   0, // parameters
   // right_right !right_key !right_value !right_left !right_right
-  var_513_43_right_right, 0, 4, var_513_7_right_key, var_513_18_right_value, var_513_31_right_left, var_513_43_right_right,
+  var_515_43_right_right, 0, 4, var_515_7_right_key, var_515_18_right_value, var_515_31_right_left, var_515_43_right_right,
   // next
   var_next, 0, TAIL_CALL,
-  POS(527, 19),
-  POS(528, 19)
+  POS(529, 19),
+  POS(530, 19)
 };
 
-static TAB_NUM t_lambda_61[] = {
+static TAB_NUM t_lambda_54[] = {
   0, // locals
   0, // parameters
   // merge &left_right right_right !removed
-  var_merge, 2, var_512_39_left_right, var_513_43_right_right, 2, var_512_39_left_right, var_515_1_removed,
+  var_merge, 2, var_514_39_left_right, var_515_43_right_right, 2, var_514_39_left_right, var_517_1_removed,
   // insert &left_right right_key right_value !did_insert
-  var_insert, 3, var_512_39_left_right, var_513_7_right_key, var_513_18_right_value, 2, var_512_39_left_right, var_516_1_did_insert,
+  var_insert, 3, var_514_39_left_right, var_515_7_right_key, var_515_18_right_value, 2, var_514_39_left_right, var_518_1_did_insert,
   // update_removed:
   func_update_removed, 1, lambda_2_update_removed, TAIL_CALL,
-  POS(530, 13),
-  POS(531, 13),
-  POS(532, 13)
+  POS(532, 13),
+  POS(533, 13),
+  POS(534, 13)
 };
 
 static TAB_NUM t_lambda_2_update_removed[] = {
   1, // locals
   0, // parameters
   // is_an_empty_node
-  var_is_an_empty_node, 1, var_513_31_right_left, 1, LOCAL(1),
+  var_is_an_empty_node, 1, var_515_31_right_left, 1, LOCAL(1),
   // if
-  var_if, 3, LOCAL(1), lambda_64, lambda_62, TAIL_CALL,
-  POS(534, 28),
-  POS(533, 15)
+  var_if, 3, LOCAL(1), lambda_57, lambda_55, TAIL_CALL,
+  POS(536, 28),
+  POS(535, 15)
 };
 
-static TAB_NUM t_lambda_62[] = {
+static TAB_NUM t_lambda_55[] = {
   0, // locals
   0, // parameters
   // right_left !right_key !right_value !right_left !right_right
-  var_513_31_right_left, 0, 4, var_513_7_right_key, var_513_18_right_value, var_513_31_right_left, var_513_43_right_right,
+  var_515_31_right_left, 0, 4, var_515_7_right_key, var_515_18_right_value, var_515_31_right_left, var_515_43_right_right,
   // next
   var_next, 0, TAIL_CALL,
-  POS(537, 19),
-  POS(538, 19)
+  POS(539, 19),
+  POS(540, 19)
 };
 
 static TAB_NUM t_func_update_removed[] = {
   0, // locals
   1, // parameters
-  var_540_18_cont,
+  var_542_18_cont,
   // plus &total_removed removed
-  var_plus, 2, var_514_1_total_removed, var_515_1_removed, 1, var_514_1_total_removed,
+  var_plus, 2, var_516_1_total_removed, var_517_1_removed, 1, var_516_1_total_removed,
   // if
-  var_if, 3, var_516_1_did_insert, var_540_18_cont, lambda_63, TAIL_CALL,
-  POS(541, 9),
-  POS(542, 9)
+  var_if, 3, var_518_1_did_insert, var_542_18_cont, lambda_56, TAIL_CALL,
+  POS(543, 9),
+  POS(544, 9)
 };
 
-static TAB_NUM t_lambda_63[] = {
+static TAB_NUM t_lambda_56[] = {
   0, // locals
   0, // parameters
   // plus &total_removed 1
-  var_plus, 2, var_514_1_total_removed, num_1, 1, var_514_1_total_removed,
+  var_plus, 2, var_516_1_total_removed, num_1, 1, var_516_1_total_removed,
   // cont
-  var_540_18_cont, 0, TAIL_CALL,
-  POS(546, 13),
-  POS(547, 13)
+  var_542_18_cont, 0, TAIL_CALL,
+  POS(548, 13),
+  POS(549, 13)
 };
 
-static TAB_NUM t_lambda_64[] = {
+static TAB_NUM t_lambda_57[] = {
   1, // locals
   0, // parameters
-  // new(binary_node left_key left_value left_left left_right)
-  var_new, 5, var_binary_node, var_512_6_left_key, var_512_16_left_value, var_512_28_left_left, var_512_39_left_right, 1, LOCAL(1),
+  // typed_tuple(binary_node left_key left_value left_left left_right)
+  var_typed_tuple, 5, var_binary_node, var_514_6_left_key, var_514_16_left_value, var_514_28_left_left, var_514_39_left_right, 1, LOCAL(1),
   // 
-  LET, 2, LOCAL(1), var_514_1_total_removed, TAIL_CALL,
-  POS(551, 11),
-  POS(550, 11)
+  LET, 2, LOCAL(1), var_516_1_total_removed, TAIL_CALL,
+  POS(553, 11),
+  POS(552, 11)
 };
 
 static TAB_NUM t_func_std_types__key_order_table___merge[] = {
   9, // locals
   2, // parameters
-  LOCAL(6), // 561_0_self
-  LOCAL(7), // 562_0_other
+  LOCAL(6), // 563_0_self
+  LOCAL(7), // 564_0_other
   // contents_of(self) contents_of(other)
   var_contents_of, 1, LOCAL(6), 1, LOCAL(1),
   // contents_of(other)
@@ -1707,59 +1509,68 @@ static TAB_NUM t_func_std_types__key_order_table___merge[] = {
   LET, -2, LOCAL(6), var_length_of, LOCAL(4), var_contents_of, LOCAL(8), LOCAL(5),
   // ->
   LET, 1, LOCAL(5), TAIL_CALL,
-  POS(564, 34),
-  POS(564, 52),
-  POS(564, 3),
-  POS(567, 18),
-  POS(567, 34),
-  POS(567, 18),
-  POS(567, 18),
-  POS(566, 5),
-  POS(565, 3)
+  POS(566, 34),
+  POS(566, 52),
+  POS(566, 3),
+  POS(569, 18),
+  POS(569, 34),
+  POS(569, 18),
+  POS(569, 18),
+  POS(568, 5),
+  POS(567, 3)
 };
 
 static TAB_NUM t_func_std__key_order_table[] = {
   1, // locals
   -1, // parameters
-  REST_PARAMETER, LOCAL(1), // 574_0_pairs
+  REST_PARAMETER, LOCAL(1), // 576_0_pairs
   // $table empty_key_order_table
-  LET, 1, var_empty_key_order_table, 1, var_576_1_table,
+  LET, 1, var_empty_key_order_table, 1, var_578_1_table,
   // for_each pairs
-  var_for_each, 3, LOCAL(1), lambda_65, lambda_66, TAIL_CALL,
-  POS(576, 3),
-  POS(577, 3)
+  var_for_each, 3, LOCAL(1), lambda_58, lambda_59, TAIL_CALL,
+  POS(578, 3),
+  POS(579, 3)
 };
 
-static TAB_NUM t_lambda_65[] = {
+static TAB_NUM t_lambda_58[] = {
   3, // locals
   1, // parameters
-  LOCAL(1), // 578_3_pair
+  LOCAL(1), // 580_3_pair
   // pair $key $value
   LOCAL(1), 0, 2, LOCAL(2), LOCAL(3),
   // table(key) value
-  var_576_1_table, 2, LOCAL(2), LOCAL(3), 1, var_576_1_table,
+  var_578_1_table, 2, LOCAL(2), LOCAL(3), 1, var_578_1_table,
   // next
   var_next, 0, TAIL_CALL,
-  POS(579, 7),
-  POS(580, 8),
-  POS(581, 7)
+  POS(581, 7),
+  POS(582, 8),
+  POS(583, 7)
 };
 
-static TAB_NUM t_lambda_66[] = {
+static TAB_NUM t_lambda_59[] = {
   0, // locals
   0, // parameters
   //  table
-  LET, 1, var_576_1_table, TAIL_CALL,
-  POS(582, 7)
+  LET, 1, var_578_1_table, TAIL_CALL,
+  POS(584, 7)
 };
 
-static int tuple_71_0_arguments[] = {
+static TAB_NUM t_module_entry[] = {
+  0, // locals
+  0, // parameters
+  // register_type &deserializers std_types::key_order_table
+  var_register_type, 2, var_deserializers, var_std_types__key_order_table, 1, var_deserializers,
+  LET, 1, 0, TAIL_CALL,
+  POS(591, 1)
+};
+
+static int tuple_73_0_arguments[] = {
   -var_undefined, -var_undefined, -var_undefined, -var_undefined
 };
 
 static FUNKY_CONSTANT constants_table[] = {
   {FLT_POSITIVE_INT64, 0, {.value = 0}},
-  {FLT_TUPLE, 4, {.arguments = tuple_71_0_arguments}},
+  {FLT_TUPLE, 4, {.arguments = tuple_73_0_arguments}},
   {FLT_UNIQUE, 0, {.str_8 = "NONE"}},
   {FLT_FUNCTION, 0, {.tfunc = t_func_std_types__key_order_table}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_1}},
@@ -1812,79 +1623,62 @@ static FUNKY_CONSTANT constants_table[] = {
   {FLT_FUNCTION, 0, {.tfunc = t_func_binary_node___for_each_1_right}},
   {FLT_FUNCTION, 0, {.tfunc = t_func_binary_node___for_each_2_right}},
   {FLT_FUNCTION, 0, {.tfunc = t_func_std_types__key_order_table___for_each}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_break}},
-  {FLT_POSITIVE_INT64, 0, {.value = 2}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_30}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_next}},
+  {FLT_POSITIVE_INT64, 0, {.value = 2}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_31}},
+  {FLT_FUNCTION, 0, {.tfunc = t_lambda_next}},
+  {FLT_FUNCTION, 0, {.tfunc = t_lambda_32}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_2_next}},
   {FLT_FUNCTION, 0, {.tfunc = t_func_empty_node___map_1}},
   {FLT_FUNCTION, 0, {.tfunc = t_func_empty_node___map_2}},
   {FLT_FUNCTION, 0, {.tfunc = t_func_binary_node___map_1}},
   {FLT_FUNCTION, 0, {.tfunc = t_func_binary_node___map_2}},
   {FLT_FUNCTION, 0, {.tfunc = t_func_std_types__key_order_table___map}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_32}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_33}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std_types__key_order_table___reduce}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_34}},
+  {FLT_FUNCTION, 0, {.tfunc = t_func_std_types__key_order_table___reduce}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_35}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_reduce}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_36}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_check_right}},
+  {FLT_FUNCTION, 0, {.tfunc = t_func_reduce}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_37}},
+  {FLT_FUNCTION, 0, {.tfunc = t_func_check_right}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_38}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std_types__key_order_table___map_reduce}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_39}},
+  {FLT_FUNCTION, 0, {.tfunc = t_func_std_types__key_order_table___map_reduce}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_40}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_41}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_42}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_map_reduce_1}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_43}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_2_check_right}},
+  {FLT_FUNCTION, 0, {.tfunc = t_func_map_reduce_1}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_44}},
+  {FLT_FUNCTION, 0, {.tfunc = t_func_2_check_right}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_45}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_map_reduce_2}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_46}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_3_check_right}},
+  {FLT_FUNCTION, 0, {.tfunc = t_func_map_reduce_2}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_47}},
+  {FLT_FUNCTION, 0, {.tfunc = t_func_3_check_right}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_48}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_empty_node___dump_string}},
-  {FLT_STRING_8, 0, {.str_8 = ""}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_binary_node___dump_string}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_49}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_50}},
-  {FLT_NEGATIVE_INT64, 0, {.value = 2}},
-  {FLT_CHARACTER, 0, {.value = 124}},
-  {FLT_CHARACTER, 0, {.value = 47}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_51}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_52}},
-  {FLT_CHARACTER, 0, {.value = 92}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_53}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_54}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_55}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_56}},
-  {FLT_CHARACTER, 0, {.value = 40}},
-  {FLT_STRING_8, 2, {.str_8 = ")\012"}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std_types__key_order_table___dump_string}},
   {FLT_FUNCTION, 0, {.tfunc = t_func_empty_node___merge}},
   {FLT_FUNCTION, 0, {.tfunc = t_func_binary_node___merge}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_57}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_58}},
+  {FLT_FUNCTION, 0, {.tfunc = t_lambda_50}},
+  {FLT_FUNCTION, 0, {.tfunc = t_lambda_51}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_loop}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_59}},
+  {FLT_FUNCTION, 0, {.tfunc = t_lambda_52}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_update_removed}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_60}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_61}},
+  {FLT_FUNCTION, 0, {.tfunc = t_lambda_53}},
+  {FLT_FUNCTION, 0, {.tfunc = t_lambda_54}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_2_update_removed}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_62}},
+  {FLT_FUNCTION, 0, {.tfunc = t_lambda_55}},
   {FLT_FUNCTION, 0, {.tfunc = t_func_update_removed}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_63}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_64}},
+  {FLT_FUNCTION, 0, {.tfunc = t_lambda_56}},
+  {FLT_FUNCTION, 0, {.tfunc = t_lambda_57}},
   {FLT_FUNCTION, 0, {.tfunc = t_func_std_types__key_order_table___merge}},
   {FLT_FUNCTION, 0, {.tfunc = t_func_std__key_order_table}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_65}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_66}},
-  {FLT_STRING_8, 15, {.str_8 = "key_order_table"}}
+  {FLT_FUNCTION, 0, {.tfunc = t_lambda_58}},
+  {FLT_FUNCTION, 0, {.tfunc = t_lambda_59}},
+  {FLT_STRING_8, 15, {.str_8 = "key_order_table"}},
+  {FLT_FUNCTION, 0, {.tfunc = t_module_entry}}
 };
 
 static ATTRIBUTE_DEFINITION std_types__object__attributes[] = {
@@ -1901,7 +1695,6 @@ static ATTRIBUTE_DEFINITION std_types__key_order_table__attributes[] = {
   {var_map, -func_std_types__key_order_table___map},
   {var_reduce, -func_std_types__key_order_table___reduce},
   {var_map_reduce, -func_std_types__key_order_table___map_reduce},
-  {var_dump_string, -func_std_types__key_order_table___dump_string},
   {var_merge, -func_std_types__key_order_table___merge},
   {-var_serialization_tag_of, -str_key_order_table},
   {-var_empty_collection_of, -var_empty_key_order_table}
@@ -1916,7 +1709,6 @@ static ATTRIBUTE_DEFINITION empty_node__attributes[] = {
   {var_for_each_2_left, -func_empty_node___for_each_2_left},
   {var_map_1, -func_empty_node___map_1},
   {var_map_2, -func_empty_node___map_2},
-  {var_dump_string, -func_empty_node___dump_string},
   {var_merge, -func_empty_node___merge}
 };
 
@@ -1932,7 +1724,6 @@ static ATTRIBUTE_DEFINITION binary_node__attributes[] = {
   {var_for_each_2_right, -func_binary_node___for_each_2_right},
   {var_map_1, -func_binary_node___map_1},
   {var_map_2, -func_binary_node___map_2},
-  {var_dump_string, -func_binary_node___dump_string},
   {var_merge, -func_binary_node___merge}
 };
 
@@ -1944,18 +1735,13 @@ static ATTRIBUTE_DEFINITION finish__attributes[] = {
 static FUNKY_VARIABLE variables_table[] = {
   {
     FOT_POLYMORPHIC, 0, 0,
-    "dump_string\000std", NULL,
+    "contents_of\000", NULL,
     {.has_a_setter = false}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "assign\000std", NULL,
-    {.position = POS(23, 1)}
-  },
-  {
-    FOT_POLYMORPHIC, 0, 0,
-    "contents_of\000", NULL,
-    {.has_a_setter = false}
+    {.position = POS(29, 1)}
   },
   {
     FOT_POLYMORPHIC, 0, 0,
@@ -1980,42 +1766,42 @@ static FUNKY_VARIABLE variables_table[] = {
   {
     FOT_UNKNOWN, 0, 2,
     "object\000std_types", std_types__object__attributes,
-    {.position = POS(36, 1)}
+    {.position = POS(38, 1)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
     "is_a_key_order_table\000", NULL,
-    {.position = POS(36, 20)}
+    {.position = POS(38, 20)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "false\000", NULL,
-    {.position = POS(36, 41)}
+    {.position = POS(38, 41)}
   },
   {
-    FOT_DERIVED, 0, 12,
+    FOT_DERIVED, 0, 11,
     "key_order_table\000std_types", std_types__key_order_table__attributes,
     {"table\000std_types"}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "true\000", NULL,
-    {.position = POS(37, 50)}
+    {.position = POS(39, 50)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "table\000std_types", NULL,
-    {.position = POS(39, 29)}
+    {.position = POS(41, 29)}
   },
   {
-    FOT_DERIVED, 0, 10,
+    FOT_DERIVED, 0, 9,
     "empty_node\000", empty_node__attributes,
     {"object\000std_types"}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
     "length_of\000", NULL,
-    {.position = POS(55, 29)}
+    {.position = POS(57, 29)}
   },
   {
     FOT_DERIVED, 0, 0,
@@ -2028,162 +1814,162 @@ static FUNKY_VARIABLE variables_table[] = {
     {.has_a_setter = false}
   },
   {
-    FOT_INITIALIZED, 0, 13,
+    FOT_INITIALIZED, 0, 12,
     "binary_node\000", binary_node__attributes,
-    {.const_idx = -tuple_71_0}
+    {.const_idx = -tuple_73_0}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "undefined\000", NULL,
-    {.position = POS(71, 20)}
+    {.position = POS(73, 20)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "tuple\000", NULL,
-    {.position = POS(71, 14)}
+    {.position = POS(73, 14)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "78_0_myself\000", NULL
+    "80_0_myself\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "79_0_key\000", NULL
+    "81_0_key\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "80_0_value\000", NULL
+    "82_0_value\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "82_1_contents\000", NULL
+    "84_1_contents\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
     "equal\000std", NULL,
-    {.position = POS(84, 5)}
+    {.position = POS(86, 5)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "is_defined\000", NULL,
-    {.position = POS(88, 15)}
+    {.position = POS(90, 15)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "plus\000std", NULL,
-    {.position = POS(95, 28)}
+    {.position = POS(97, 28)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "if\000", NULL,
-    {.position = POS(90, 11)}
+    {.position = POS(92, 11)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "minus\000std", NULL,
-    {.position = POS(104, 28)}
+    {.position = POS(106, 28)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "112_29_key\000", NULL
+    "114_29_key\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "113_6_my_key\000", NULL
+    "115_6_my_key\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "113_14_my_value\000", NULL
+    "115_14_my_value\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "113_24_my_left\000", NULL
+    "115_24_my_left\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "113_33_my_right\000", NULL
+    "115_33_my_right\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
     "less\000std", NULL,
-    {.position = POS(119, 9)}
+    {.position = POS(121, 9)}
   },
   {
     FOT_UNKNOWN, 0, 0,
-    "new\000", NULL,
-    {.position = POS(127, 6)}
+    "typed_tuple\000", NULL,
+    {.position = POS(129, 6)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "129_22_self\000", NULL
+    "131_22_self\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "129_27_key\000", NULL
+    "131_27_key\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "129_31_value\000", NULL
+    "131_31_value\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "130_6_my_key\000", NULL
+    "132_6_my_key\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "130_14_my_value\000", NULL
+    "132_14_my_value\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "130_24_my_left\000", NULL
+    "132_24_my_left\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "130_33_my_right\000", NULL
+    "132_33_my_right\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "147_15_self\000", NULL
+    "149_15_self\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "148_6_my_key\000", NULL
+    "150_6_my_key\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "148_14_my_value\000", NULL
+    "150_14_my_value\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "148_24_my_left\000", NULL
+    "150_24_my_left\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "148_33_my_right\000", NULL
+    "150_33_my_right\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "158_22_self\000", NULL
+    "160_22_self\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "158_27_key\000", NULL
+    "160_27_key\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "159_6_my_key\000", NULL
+    "161_6_my_key\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "159_14_my_value\000", NULL
+    "161_14_my_value\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "159_24_my_left\000", NULL
+    "161_24_my_left\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "159_33_my_right\000", NULL
+    "161_33_my_right\000", NULL
   },
   {
     FOT_POLYMORPHIC, 0, 0,
@@ -2228,60 +2014,70 @@ static FUNKY_VARIABLE variables_table[] = {
   {
     FOT_UNKNOWN, 0, 0,
     "break\000", NULL,
-    {.position = POS(203, 34)}
+    {.position = POS(205, 34)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "push\000", NULL,
-    {.position = POS(214, 3)}
+    {.position = POS(216, 3)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "body\000basic_loops", NULL,
-    {.position = POS(224, 3)}
+    {.position = POS(226, 3)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
     "for_each\000", NULL,
-    {.position = POS(238, 29)}
+    {.position = POS(240, 29)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "270_0_self\000", NULL
+    "272_0_self\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "272_0_finally\000", NULL
+    "274_0_finally\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
     "next\000", NULL,
-    {.position = POS(272, 15)}
+    {.position = POS(274, 15)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "finally\000basic_loops", NULL,
-    {.position = POS(280, 7)}
+    {.position = POS(282, 7)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "list\000", NULL,
-    {.position = POS(282, 22)}
+    {.position = POS(284, 22)}
+  },
+  {
+    FOT_UNKNOWN, 0, 0,
+    "break_function\000basic_types", NULL,
+    {.position = POS(288, 14)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
     "saved_context_of\000basic_loops", NULL,
-    {.position = POS(288, 5)}
+    {.position = POS(290, 5)}
+  },
+  {
+    FOT_UNKNOWN, 0, 0,
+    "new\000", NULL,
+    {.position = POS(288, 3)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "parameter_count_of\000", NULL,
-    {.position = POS(296, 5)}
+    {.position = POS(298, 5)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "pop\000", NULL,
-    {.position = POS(298, 9)}
+    {.position = POS(300, 9)}
   },
   {
     FOT_POLYMORPHIC, 0, 0,
@@ -2301,202 +2097,161 @@ static FUNKY_VARIABLE variables_table[] = {
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
     "map\000", NULL,
-    {.position = POS(329, 29)}
+    {.position = POS(331, 29)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "339_0_self\000", NULL
+    "341_0_self\000", NULL
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
     "reduce\000", NULL,
-    {.position = POS(354, 29)}
+    {.position = POS(356, 29)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "367_0_function\000", NULL
+    "369_0_function\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "368_0_unit\000", NULL
+    "370_0_unit\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "370_1_contents\000", NULL
+    "372_1_contents\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "377_12_value\000", NULL
+    "379_12_value\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "377_19_left\000", NULL
+    "379_19_left\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "377_25_right\000", NULL
+    "379_25_right\000", NULL
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
     "map_reduce\000", NULL,
-    {.position = POS(394, 29)}
+    {.position = POS(396, 29)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "405_0_map_function\000", NULL
+    "407_0_map_function\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "406_0_reduce_function\000", NULL
+    "408_0_reduce_function\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
     "append\000", NULL,
-    {.position = POS(406, 23)}
+    {.position = POS(408, 23)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "407_0_unit\000", NULL
+    "409_0_unit\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "409_1_contents\000", NULL
+    "411_1_contents\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "420_12_value\000", NULL
+    "422_12_value\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "420_19_left\000", NULL
+    "422_19_left\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "420_25_right\000", NULL
+    "422_25_right\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "436_11_value\000", NULL
+    "438_11_value\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "436_18_left\000", NULL
+    "438_18_left\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "436_24_right\000", NULL
-  },
-  {
-    FOT_UNKNOWN_POLYMORPHIC, 0, 0,
-    "dump_string\000", NULL,
-    {.position = POS(454, 13)}
-  },
-  {
-    FOT_UNINITIALIZED, 0, 0,
-    "456_32_prefix\000", NULL
-  },
-  {
-    FOT_UNINITIALIZED, 0, 0,
-    "457_6_key\000", NULL
-  },
-  {
-    FOT_UNKNOWN, 0, 0,
-    "spaces\000", NULL,
-    {.position = POS(458, 29)}
-  },
-  {
-    FOT_UNINITIALIZED, 0, 0,
-    "458_1_new_prefix\000", NULL
-  },
-  {
-    FOT_UNKNOWN, 0, 0,
-    "is_empty\000", NULL,
-    {.position = POS(461, 14)}
-  },
-  {
-    FOT_UNKNOWN, 0, 0,
-    "range\000", NULL,
-    {.position = POS(463, 17)}
-  },
-  {
-    FOT_UNINITIALIZED, 0, 0,
-    "459_1_empty_prefix\000", NULL
-  },
-  {
-    FOT_UNKNOWN, 0, 0,
-    "string\000", NULL,
-    {.position = POS(482, 3)}
+    "438_24_right\000", NULL
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
     "merge\000", NULL,
-    {.position = POS(501, 13)}
+    {.position = POS(503, 13)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "505_21_left\000", NULL
+    "507_21_left\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "505_26_right\000", NULL
+    "507_26_right\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "512_6_left_key\000", NULL
+    "514_6_left_key\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "512_16_left_value\000", NULL
+    "514_16_left_value\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "512_28_left_left\000", NULL
+    "514_28_left_left\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "512_39_left_right\000", NULL
+    "514_39_left_right\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "513_7_right_key\000", NULL
+    "515_7_right_key\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "513_18_right_value\000", NULL
+    "515_18_right_value\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "513_31_right_left\000", NULL
+    "515_31_right_left\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "513_43_right_right\000", NULL
+    "515_43_right_right\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "514_1_total_removed\000", NULL
+    "516_1_total_removed\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "515_1_removed\000", NULL
+    "517_1_removed\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "516_1_did_insert\000", NULL
+    "518_1_did_insert\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
     "loop\000", NULL,
-    {.position = POS(517, 7)}
+    {.position = POS(519, 7)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "540_18_cont\000", NULL
+    "542_18_cont\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
     "plus\000", NULL,
-    {.position = POS(541, 9)}
+    {.position = POS(543, 9)}
   },
   {
     FOT_INITIALIZED, 0, 0,
@@ -2505,22 +2260,32 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "576_1_table\000", NULL
+    "578_1_table\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
     "empty_key_order_table\000", NULL,
-    {.position = POS(576, 10)}
+    {.position = POS(578, 10)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
     "serialization_tag_of\000", NULL,
-    {.position = POS(586, 29)}
+    {.position = POS(588, 29)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
     "empty_collection_of\000", NULL,
-    {.position = POS(587, 29)}
+    {.position = POS(589, 29)}
+  },
+  {
+    FOT_UNKNOWN, 0, 0,
+    "deserializers\000", NULL,
+    {.position = POS(591, 16)}
+  },
+  {
+    FOT_UNKNOWN, 0, 0,
+    "register_type\000", NULL,
+    {.position = POS(591, 1)}
   }
 };
 
@@ -2533,13 +2298,13 @@ FUNKY_MODULE module__basic__types__collections__tables__key_order_table = {
   "basic/types/collections/tables/key_order_table.fky", // module filename
   .major_version = 0,
   .minor_version = 0,
-  .feature_flags = FEAT_POSITIONS,
+  .feature_flags = FEAT_POSITIONS|FEAT_INITIALIZER,
   .marker = 0,
   0, // number of required modules
   0, // number of defined namespaces
   1, // number of used namespaces
-  127, // number of constants
-  129, // number of variables
+  110, // number of constants
+  123, // number of variables
   NULL, // required modules
   NULL, // defined namespaces
   used_namespaces,

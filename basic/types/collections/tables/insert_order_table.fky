@@ -20,6 +20,8 @@
   Free Software Foundation, Inc.,
   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
+# Topics: Tables, Collections
+
 $std::is_an_insert_order_table () # obvious
 
 $std_types::object.is_an_insert_order_table false # obvious
@@ -241,3 +243,5 @@ $std::insert_order_table:
 
 $std_types::insert_order_table.serialization_tag_of "insert_order_table"
 $std_types::insert_order_table.empty_collection_of empty_insert_order_table
+
+register_type &deserializers std_types::insert_order_table

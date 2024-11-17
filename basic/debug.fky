@@ -21,7 +21,7 @@
   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
 #
-  Topic: Debug
+  Topic: Debugging
 
   **Attention**: Functions in the namespace "debug" are not available in
   production code.
@@ -32,7 +32,56 @@
   These functions can also write to stderr without needing I/O-acccess rights!
   To do so they prevent parallel code execution.
 
-  See also: @Errors, @Input-Output
+  Related topics: Errors, Input-Output
+
+$debug::to_string ()
+
+$std_types::object/debug::to_string:
+  (
+    self
+    indent = 0
+    depth = 1
+  )
+  if
+    is_a_plain_object(self):
+      $typename debug::object_type(self)
+      if
+	depth == 0
+	-> "
+	  <@(typename)>
+	:
+	  $attr_indent indent+2
+	  $value_indent indent+4
+	  $attributes debug::object_attributes(self)
+	  $buf append("@nl;" tabs_and_spaces(indent) typename "@nl;")
+	  from_to_by 1 length_of(attributes) 2
+	    : (i)
+	      $attr_text append(tabs_and_spaces(attr_indent) attributes(i))
+	      $value_text debug::to_string(attributes(i+1) value_indent depth-1)
+	      append &buf
+		if
+		  value_text(1) == '@nl;'
+		  -> "@(attr_text) =@(value_text)"
+		  -> "@(attr_text) = @(value_text)"
+	      next
+	    -> buf
+    -> debug::string(self indent depth)
+
+$std_types::undefined/debug::to_string:
+  (
+    _self
+    _indent = 0
+    _depth = 1
+  )
+  -> "undefined@nl;"
+
+$std_types::error/debug::to_string:
+  (
+    self
+    _indent = 0
+    _depth = 1
+  )
+  -> "@(self.to_error_message_string)@nl;"
 
 $debug::print:
   (
@@ -51,7 +100,7 @@ $debug::println:
 
     The supplied string is converted to utf-8 before beeing written.
 
-    Topic: Debug
+    Topic: Debugging
 
     See also: debug::print, debug::dump, debug::dump_object, debug::hexdump
 
@@ -68,7 +117,7 @@ $debug::println:
   debug::print str
   debug::print "@nl;"
 
-$debug::dump:
+#$debug::dump:
   #
     writes a string representation of an object to stderr
 
@@ -81,7 +130,7 @@ $debug::dump:
     The optional *depth* argument specifies the maximum recursion depth used to
     display the object's attributes.
 
-    Topic: Debug
+    Topic: Debugging
 
     See also: debug::dump_object, debug::println, debug::print
 
@@ -94,6 +143,69 @@ $debug::dump:
 	  .name_of "Albert"
 	  .age_of 42
       debug::dump 2 `obj
+
+    Error output:
+
+      obj: object
+	name_of: "Albert"
+	age_of: 42
+  (
+    depth = 1 # the desired level of detail (recursion depth)
+    label # the label to use for the expression
+    expr # the expression
+  )
+  debug::print label
+  debug::print ": "
+  debug::dump_object depth expr
+
+$debug::dump: (args*)
+  $depth 1
+  update_if args(1).is_an_integer &depth &args
+    -> args(1) range(args 2 -1)
+  $i 1
+  $n length_of(args)
+  loop:
+    if
+      i < n:
+	$label args(i)
+	$expr args(i+1)
+	!i i+2
+	$text debug::to_string(expr 2 depth)
+	if
+	  text(1) == '@nl;':
+	    debug::print "@(label):@(text)"
+	    next
+	  :
+	    debug::print "@(label): @(text)"
+	    next
+      break
+
+$debug::dump_one:
+  #
+    writes a string representation of an object to stderr
+
+    The function displays a label and the object's attribute via introspection.
+
+    The function can be called without I/O-access rights.
+
+    The string representation is converted to utf-8 before beeing written.
+
+    The optional *depth* argument specifies the maximum recursion depth used to
+    display the object's attributes.
+
+    Topic: Debugging
+
+    See also: debug::dump_object, debug::println, debug::print
+
+    Example:
+
+      $name_of ()
+      $age_of ()
+      $obj
+	std_types::object
+	  .name_of "Albert"
+	  .age_of 42
+      debug::dump_one 2 `obj
 
     Error output:
 
@@ -140,9 +252,9 @@ $std::dump_to:
 
     The string representation is converted to utf-8 before beeing written.
 
-    Topic: Debug
+    Topic: Debugging
 
-    See also: dump, edump, debug::dump, debug::dump_object
+    See also: std::dump, std::edump, debug::dump, debug::dump_object
 
     Example:
 
@@ -173,9 +285,9 @@ $std::dump:
 
     The string representation is converted to utf-8 before beeing written.
 
-    Topic: Debug
+    Topic: Debugging
 
-    See also: edump, dump_to, debug::dump, debug::dump_object
+    See also: std::edump, std::dump_to, debug::dump, debug::dump_object
 
     Example:
 
@@ -206,7 +318,7 @@ $std::dump:
 	  11
       (2*sqrt(9)): 6.0
   (
-    args* # an alternating sequence of names and values
+    args* # an alternating sequence of labels and values
   )
   dump_args_to! STDOUT_FILENO args
 
@@ -215,13 +327,13 @@ $std::edump:
     print an object dump to stderr
 
     Dumps its arguments consisting of an alternating sequence of
-    expression names and expression values using <print>. The expression values
+    expression labels and expression values using <print>. The expression values
     are converted into strings using <debug::string>.
 
     The depth to which debug strings shall be generated can be provided as an
     optional first argument; the default depth is 1.
 
-    Topic: Input-Output, Debug
+    Topic: Input-Output, Debugging
 
     See also: debug::dump, debug::string
 
@@ -242,7 +354,7 @@ $std::edump:
 	  11
       (2*sqrt(9)): 6.0
   (
-    args* # an alternating sequence of names and values
+    args* # an alternating sequence of labels and values
   )
   dump_args_to! STDERR_FILENO args
 
@@ -254,9 +366,9 @@ $std::hexdump_to:
 
     The function displays the string's hexadecimal representation.
 
-    Topic: Debug
+    Topic: Debugging
 
-    See also: hexdump, ehexdump, debug::hexdump, dump_to
+    See also: std::hexdump, std::ehexdump, debug::hexdump, std::dump_to
 
     Example:
 
@@ -294,9 +406,9 @@ $std::hexdump:
 
     The function displays the string's hexadecimal representation.
 
-    Topic: Debug
+    Topic: Debugging
 
-    See also: ehexdump, hexdump_to, dump, debug::hexdump
+    See also: std::ehexdump, std::hexdump_to, std::dump, debug::hexdump
 
     Example:
 
@@ -319,9 +431,9 @@ $std::ehexdump:
 
     The function displays the string's hexadecimal representation.
 
-    Topic: Debug
+    Topic: Debugging
 
-    See also: hexdump, hexdump_to, debug::hexdump
+    See also: std::hexdump, std::hexdump_to, debug::hexdump
 
     Example:
 
@@ -344,9 +456,9 @@ $debug::hexdump:
 
     The function can be called without I/O-access rights.
 
-    Topic: Debug
+    Topic: Debugging
 
-    See also: hexdump, ehexdump, hexdump_to, debug::dump
+    See also: std::hexdump, std::ehexdump, std::hexdump_to, debug::dump
 
     Example:
 

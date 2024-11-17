@@ -19,7 +19,9 @@
   Free Software Foundation, Inc.,
   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
-OBJECT std::EXIT_SUCCESS -> std_types::positive_integer
+# Topic: Basics
+
+OBJECT std::EXIT_SUCCESS -> builtin_types::positive_integer
   #
     status code for successful termination
 
@@ -29,7 +31,7 @@ OBJECT std::EXIT_SUCCESS -> std_types::positive_integer
 
   EXIT_SUCCESS
 
-OBJECT std::EXIT_FAILURE -> std_types::positive_integer
+OBJECT std::EXIT_FAILURE -> builtin_types::positive_integer
   #
     status code for unsuccessful termination
 

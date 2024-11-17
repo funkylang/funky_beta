@@ -18,20 +18,22 @@
   or write to the
   Free Software Foundation, Inc.,
 
+# Topic: Date and Time
+
 POLY std::year_of
   #
     the calendar year of a date-and-time object
 
     Parameter:
-      self # the date-and-time object
+      self: the date-and-time object
 
     Result:
-      year # the calendar year of the date-and-time object
+      year: the calendar year of the date-and-time object
 
     Topic: Date and Time
 
-    See also: month_of, day_of, day_of_week_of, hour_of, minute_of, second_of,
-	      time_shift_of
+    See also: std::month_of, std::day_of, std::day_of_week_of, std::hour_of,
+	      std::minute_of, std::second_of, std::time_shift_of
 
     Example:
 
@@ -43,222 +45,15 @@ POLY std::year_of
       2024
 
 POLY std::month_of
-  #
-    the month of a date-and-time object
-
-    Parameter:
-      self # the date-and-time object
-
-    Result:
-      month # the month of the date-and-time object
-
-    Returned values are in the range 1 to 12 where 1 is January and 12 is
-    December.
-
-    Topic: Date and Time
-
-    See also: year_of, day_of, day_of_week_of, hour_of, minute_of, second_of,
-	      time_shift_of
-
-    Example:
-
-      current_time! $t
-      println! month_of(t)
-
-    Output:
-
-      1
-
 POLY std::day_of
-  #
-    the day of a month of a date-and-time object
-
-    Parameter:
-      self # the date-and-time object
-
-    Result:
-      day # the day of the month of the date-and-time object
-
-    Returned values are in the range 1 to 31.
-
-    Topic: Date and Time
-
-    See also: year_of, month_of, day_of_week_of, hour_of, minute_of, second_of,
-	      time_shift_of
-
-    Example:
-
-      current_time! $t
-      println! day_of(t)
-
-    Output:
-
-      14
-
 POLY std::day_of_week_of
-  #
-    the day of the week of a date-and-time object
-
-    Parameter:
-      self # the date-and-time object
-
-    Result:
-      day_of_week # the day of the week of the date-and-time object
-
-    Returned values are in the range 1 to 7 where 1 is Monday and 7 is
-    Sunday.
-
-    Topic: Date and Time
-
-    See also: year_of, month_of, day_of, hour_of, minute_of, second_of,
-	      time_shift_of
-
-    Example:
-
-      current_time! $t
-      println! day_of_week_of(t)
-
-    Output:
-
-      7
-
 POLY std::hour_of
-  #
-    the hour of a date-and-time object
-
-    Parameter:
-      self # the date-and-time object
-
-    Result:
-      hour # the hour of the date-and-time object
-
-    Returned values are in the range 0 to 23.
-
-    Topic: Date and Time
-
-    See also: year_of, month_of, day_of, day_of_week_of, minute_of, second_of,
-	      time_shift_of
-
-    Example:
-
-      current_time! $t
-      println! hour_of(t)
-
-    Output:
-
-      8
-
 POLY std::minute_of
-  #
-    the minute of an hour of a date-and-time object
-
-    Parameter:
-      self # the date-and-time object
-
-    Result:
-      minute # the minute of the hour of the date-and-time object
-
-    Returned values are in the range 0 to 59.
-
-    Topic: Date and Time
-
-    See also: year_of, month_of, day_of, day_of_week_of, hour_of, second_of,
-	      time_shift_of
-
-    Example:
-
-      current_time! $t
-      println! minute_of(t)
-
-    Output:
-
-      18
-
 POLY std::second_of
-  #
-    the second of a minute of a date-and-time object
-
-    Parameter:
-      self # the date-and-time object
-
-    Result:
-      second # the second of the minute of the date-and-time object
-
-    Returned values are in the range 0 to 59.
-
-    Topic: Date and Time
-
-    See also: year_of, month_of, day_of, day_of_week_of, hour_of, minute_of,
-	      time_shift_of
-
-    Example:
-
-      current_time! $t
-      println! second_of(t)
-
-    Output:
-
-      33
-
 POLY std::time_shift_of
-  #
-    the time shift of a date-and-time object
-
-    Parameter:
-      self # the date-and-time object
-
-    Result:
-      time_shift # the time shift of the date-and-time object in seconds
-
-    Topic: Date and Time
-
-    See also: year_of, month_of, day_of, day_of_week_of, hour_of, minute_of,
-	      second_of
-
-    Example:
-
-      current_time! $t
-      println! time_shift_of(t)
-
-    Output:
-
-      3600
-
 POLY std::seconds_since_epoch
-  #
-    the number of seconds since the epoch
-
-    Parameter:
-      self # the date-and-time object
-
-    Result:
-      seconds_since_epoch # the number of seconds since the epoch
-
-    The returned number is an integer.
-
-    Topic: Date and Time
-
-    See also: year_of, month_of, day_of, day_of_week_of, hour_of, minute_of,
-	      second_of, time_shift_of
-
-    Example:
-
-      current_time! $t
-      println! seconds_since_epoch(t)
-
-    Output:
-
-      1711754036
 
 TYPE std_types::date_and_time -> std_types::object
-  #
-    the prototype object for date-and-time objects
-
-    Topic: Date and Time
-
-    See also: year_of, month_of, day_of, day_of_week_of, hour_of, minute_of,
-	      second_of, time_shift_of
-
   int64_t seconds
   int32_t nanoseconds
 
@@ -280,30 +75,6 @@ METHOD long std_types::date_and_time/_debug_string
   }
 
 FUNCTION std::from_unix_time
-  #
-    constructs a date-and-time object from the number of seconds since the
-    UNIX epoch
-
-    Parameter:
-      seconds # the number of seconds since the UNIX epoch
-
-    Result:
-      date_and_time # the date-and-time object
-
-    The UNIX epoch is the moment of 1 January 1970, 00:00:00 UTC.
-
-    Topic: Date and Time
-
-    See also: current_time
-
-    Example:
-
-      $t from_unix_time(0)
-      println! t
-
-    Output:
-
-      1970-01-01 1:00:00.000 GMT+1
   {
     CHECK_ARGUMENTS(1)
     int64_t sec;
@@ -312,29 +83,6 @@ FUNCTION std::from_unix_time
   }
 
 FUNCTION std::date_and_time
-  #
-    constructs a date-and-time object
-
-    Parameters:
-      year # the year
-      month # the month of the year
-      day # the day of the month
-      hour # the hour of the day
-      minute # the minute of the hour
-      second # the second of the minute
-
-    Topic: Date and Time
-
-    See also: current_time, from_unix_time
-
-    Example:
-
-      $t date_and_time(1993 7 14 12 34 56)
-      println! t
-
-    Output:
-
-      1993-07-14 14:34:56.000 GMT+2
   {
     CHECK_ARGUMENTS(6)
     int year, month, day, hour, minute;
@@ -475,14 +223,6 @@ CODE
     }
 
 METHOD std_types::date_and_time/year_of
-  #
-    returns the calendar year
-
-    Topic: Date and Time
-
-    See also: month_of, day_of, day_of_week_of, hour_of, minute_of,
-	      second_of, time_shift_of
-
   {
     CHECK_ARGUMENTS(1)
     int year;
@@ -491,13 +231,6 @@ METHOD std_types::date_and_time/year_of
   }
 
 METHOD std_types::date_and_time/month_of
-  #
-    returns the month of the year
-
-    Topic: Date and Time
-
-    See also: year_of, day_of, day_of_week_of, hour_of, minute_of,
-	      second_of, time_shift_of
   {
     CHECK_ARGUMENTS(1)
     int month;
@@ -506,13 +239,6 @@ METHOD std_types::date_and_time/month_of
   }
 
 METHOD std_types::date_and_time/day_of
-  #
-    returns the day of the month
-
-    Topic: Date and Time
-
-    See also: year_of, month_of, day_of_week_of, hour_of, minute_of,
-	      second_of, time_shift_of
   {
     CHECK_ARGUMENTS(1)
     int day;
@@ -521,13 +247,6 @@ METHOD std_types::date_and_time/day_of
   }
 
 METHOD std_types::date_and_time/day_of_week_of
-  #
-    returns the month of the year
-
-    Topic: Date and Time
-
-    See also: year_of, month_of, day_of, hour_of, minute_of,
-	      second_of, time_shift_of
   {
     CHECK_ARGUMENTS(1)
     RETURN_SINGLE_RESULT(
@@ -536,13 +255,6 @@ METHOD std_types::date_and_time/day_of_week_of
   }
 
 METHOD std_types::date_and_time/hour_of
-  #
-    returns the hour of the day
-
-    Topic: Date and Time
-
-    See also: year_of, month_of, day_of, day_of_week_of, minute_of,
-	      second_of, time_shift_of
   {
     CHECK_ARGUMENTS(1)
     int seconds = ARGUMENTS(0)->date_and_time.seconds%86400;
@@ -550,13 +262,6 @@ METHOD std_types::date_and_time/hour_of
   }
 
 METHOD std_types::date_and_time/minute_of
-  #
-    returns the minute of the hour
-
-    Topic: Date and Time
-
-    See also: year_of, month_of, day_of, day_of_week_of, hour_of,
-	      second_of, time_shift_of
   {
     CHECK_ARGUMENTS(1)
     int seconds = ARGUMENTS(0)->date_and_time.seconds%3600;
@@ -564,13 +269,6 @@ METHOD std_types::date_and_time/minute_of
   }
 
 METHOD std_types::date_and_time/second_of
-  #
-    returns the second of the minute
-
-    Topic: Date and Time
-
-    See also: year_of, month_of, day_of, day_of_week_of, hour_of,
-	      minute_of, time_shift_of
   {
     CHECK_ARGUMENTS(1)
     RETURN_SINGLE_RESULT(
@@ -580,30 +278,6 @@ METHOD std_types::date_and_time/second_of
   }
 
 METHOD std_types::date_and_time/time_shift_of
-  #
-    returns the time shift of a date-and-time object
-
-    Parameter:
-      self # the date-and-time object
-
-    Result:
-      time_shift # the time shift of the date-and-time object in seconds
-
-    Topic: Date and Time
-
-    See also: year_of, month_of, day_of, day_of_week_of, hour_of, minute_of,
-	      second_of
-
-    Example:
-
-      current_time! $t
-      println! t
-      println! time_shift_of(t)
-
-    Output:
-
-      2024-01-14 9:46:17.388 GMT+1
-      3600
   {
     CHECK_ARGUMENTS(1)
     // This insane looking sequence of calls correctly computes the time shift!!!
@@ -618,34 +292,6 @@ METHOD std_types::date_and_time/time_shift_of
   }
 
 METHOD std_types::date_and_time/seconds_since_epoch
-  #
-    returns the number of seconds since the epoch
-
-    Parameter:
-      self # the date-and-time object
-
-    Result:
-      seconds_since_epoch # the number of seconds since the epoch
-
-    The UNIX epoch is the moment of 1 January 1970, 00:00:00 UTC.
-
-    The returned value is an integer.
-
-    Topic: Date and Time
-
-    See also: year_of, month_of, day_of, day_of_week_of, hour_of, minute_of,
-	      second_of, time_shift_of
-
-    Example:
-
-      current_time! $t
-      println! t
-      println! seconds_since_epoch(t)
-
-    Output:
-
-      2024-03-30 0:14:29.361 GMT+1
-      1711754069
   {
     CHECK_ARGUMENTS(1)
     RETURN_SINGLE_RESULT(from_uint64(ARGUMENTS(0)->date_and_time.seconds))
@@ -653,38 +299,6 @@ METHOD std_types::date_and_time/seconds_since_epoch
 
 
 METHOD std_types::date_and_time/plus
-  #
-    adds an arbitrary time delta to a date-and-time object
-
-    Parameters:
-      self # the date-and-time object
-      seconds # the number of seconds to add
-
-    Result:
-      date_and_time # the date-and-time object with the seconds added
-
-    Topic: Date and Time
-
-    See also: from_unix_time, date_and_time/minus
-
-    Example:
-
-      current_time! $t
-      println! t
-      println! t+24*60*60
-
-    Output:
-
-      2024-01-14 9:32:08.188 GMT+1
-      2024-01-15 9:32:08.188 GMT+1
-
-    Example:
-
-      println! from_unix_time(0x7fff'ffff)
-
-    Output:
-
-      2038-01-19 4:14:07.000 GMT+1
   {
     CHECK_ARGUMENTS(2)
     int64_t seconds = ARGUMENTS(0)->date_and_time.seconds;
@@ -703,43 +317,6 @@ METHOD std_types::date_and_time/plus
   }
 
 METHOD std_types::date_and_time/minus
-  #
-    subtracts a time delta or another date-and-time object from a date-and-time
-    object
-
-    Parameters:
-      self # the date-and-time object
-      seconds_or_date_and_time # the number of seconds or another date-and-time
-				 object
-
-    Result:
-      date_and_time_or_seconds # the date-and-time object with the seconds
-				 subtracted or the time difference in seconds
-
-    Topic: Date and Time
-
-    See also: from_unix_time, date_and_time/plus
-
-    Example:
-
-      current_time! $t
-      println! t
-      println! t-24*60*60
-
-    Output:
-
-      2024-01-14 9:35:31.845 GMT+1
-      2024-01-13 9:35:31.845 GMT+1
-
-    Example:
-
-      current_time! $t1
-      $t2 date_and_time(2024 1 1 0 0 0)
-      println! t1-t2
-
-    Output:
-
-      1705221411.28341
   {
     CHECK_ARGUMENTS(2)
     int64_t seconds = ARGUMENTS(0)->date_and_time.seconds;
@@ -756,7 +333,7 @@ METHOD std_types::date_and_time/minus
       int32_t delta_nanoseconds = 1000000000*(delta-delta_seconds);
       seconds -= delta_seconds;
       nanoseconds -= delta_nanoseconds;
-      if (nanoseconds < 00) {
+      if (nanoseconds < 0) {
 	nanoseconds += 1000000000;
 	--seconds;
       }
@@ -765,19 +342,6 @@ METHOD std_types::date_and_time/minus
   }
 
 METHOD std_types::date_and_time/equal
-  #
-    compares two date-and-time objects for equality
-
-    Parameters:
-      left # the first date-and-time object
-      right # the second date-and-time object
-
-    Result:
-      success # true if the date-and-time objects are equal, false otherwise
-
-    Topic: Date and Time
-
-    See also: date_and_time/less, date_and_time/plus, date_and_time/minus
   {
     CHECK_ARGUMENTS(2)
     NODE *left, *right;
@@ -790,20 +354,6 @@ METHOD std_types::date_and_time/equal
   }
 
 METHOD std_types::date_and_time/less
-  #
-    compares two date-and-time objects
-
-    Parameters:
-      left # the first date-and-time object
-      right # the second date-and-time object
-
-    Result:
-      success # true if the first date-and-time object is earlier than the
-	       second
-
-    Topic: Date and Time
-
-    See also: date_and_time/equal, date_and_time/plus, date_and_time/minus
   {
     CHECK_ARGUMENTS(2)
     NODE *left, *right;
@@ -817,24 +367,6 @@ METHOD std_types::date_and_time/less
   }
 
 FUNCTION std::current_time
-  #
-    returns the current date and time
-
-    Result:
-      date_and_time # the current date and time
-
-    Topic: Date and Time
-
-    See also: from_unix_time, data_and_time
-
-    Example:
-
-      current_time! $t
-      println! t
-
-    Output:
-
-      2024-01-14 9:47:43.224 GMT+1
   {
     CHECK_ARGUMENTS(0)
     CHECK_IO_ACCESS_RIGHTS

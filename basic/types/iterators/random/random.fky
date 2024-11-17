@@ -20,6 +20,11 @@
   Free Software Foundation, Inc.,
   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
+# Topic: Iterators
+
+#
+  Topic: Random Numbers
+
 $std::is_a_random_number_generator ()
   #
     obvious
@@ -28,9 +33,9 @@ $std_types::object.is_a_random_number_generator false # obvious
 $std_types::random_number_generator.is_a_random_number_generator true # obvious
 
 $std::next_raw_value ()
-$std::modulus_of (!)
-$residual_random_of (!)
-$residual_modulus_of (!)
+$std::modulus_of ()
+$residual_random_of ()
+$residual_modulus_of ()
 
 $std_types::random_number_generator std_types::iterator
   #

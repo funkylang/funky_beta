@@ -11,6 +11,7 @@
 /// require ./io/jobs
 /// require ./io/io_task_manager
 /// require ./io/generic_terminal
+/// require ./io/colours
 /// require ./logical
 /// require ./loops
 /// require ./math
@@ -34,6 +35,7 @@
 /// require ./types/collections/lists/list
 /// require ./types/collections/lists/sequence
 /// require ./types/collections/strings/string
+/// require ./types/collections/strings/string_2
 /// require ./types/collections/arrays/array
 /// require ./types/collections/sets/set
 /// require ./types/collections/sets/hash_set
@@ -44,6 +46,7 @@
 /// require ./types/collections/tables/hash_table
 /// require ./types/collections/tables/insert_order_table
 /// require ./types/collections/tables/key_order_table
+/// require ./types/collections/bags/hash_bag
 /// require ./types/iterators/iterator
 /// require ./types/iterators/bresenham
 /// require ./types/iterators/random/lcg
@@ -74,6 +77,7 @@ extern FUNKY_MODULE module__basic__io__io_events;
 extern FUNKY_MODULE module__basic__io__jobs;
 extern FUNKY_MODULE module__basic__io__io_task_manager;
 extern FUNKY_MODULE module__basic__io__generic_terminal;
+extern FUNKY_MODULE module__basic__io__colours;
 extern FUNKY_MODULE module__basic__logical;
 extern FUNKY_MODULE module__basic__loops;
 extern FUNKY_MODULE module__basic__math;
@@ -97,6 +101,7 @@ extern FUNKY_MODULE module__basic__types__collections__tuples__value_range;
 extern FUNKY_MODULE module__basic__types__collections__lists__list;
 extern FUNKY_MODULE module__basic__types__collections__lists__sequence;
 extern FUNKY_MODULE module__basic__types__collections__strings__string;
+extern FUNKY_MODULE module__basic__types__collections__strings__string_2;
 extern FUNKY_MODULE module__basic__types__collections__arrays__array;
 extern FUNKY_MODULE module__basic__types__collections__sets__set;
 extern FUNKY_MODULE module__basic__types__collections__sets__hash_set;
@@ -107,6 +112,7 @@ extern FUNKY_MODULE module__basic__types__collections__tables__association_list;
 extern FUNKY_MODULE module__basic__types__collections__tables__hash_table;
 extern FUNKY_MODULE module__basic__types__collections__tables__insert_order_table;
 extern FUNKY_MODULE module__basic__types__collections__tables__key_order_table;
+extern FUNKY_MODULE module__basic__types__collections__bags__hash_bag;
 extern FUNKY_MODULE module__basic__types__iterators__iterator;
 extern FUNKY_MODULE module__basic__types__iterators__bresenham;
 extern FUNKY_MODULE module__basic__types__iterators__random__lcg;
@@ -127,6 +133,7 @@ static FUNKY_MODULE *required_modules[] = {
   &module__basic__io__jobs,
   &module__basic__io__io_task_manager,
   &module__basic__io__generic_terminal,
+  &module__basic__io__colours,
   &module__basic__logical,
   &module__basic__loops,
   &module__basic__math,
@@ -150,6 +157,7 @@ static FUNKY_MODULE *required_modules[] = {
   &module__basic__types__collections__lists__list,
   &module__basic__types__collections__lists__sequence,
   &module__basic__types__collections__strings__string,
+  &module__basic__types__collections__strings__string_2,
   &module__basic__types__collections__arrays__array,
   &module__basic__types__collections__sets__set,
   &module__basic__types__collections__sets__hash_set,
@@ -160,6 +168,7 @@ static FUNKY_MODULE *required_modules[] = {
   &module__basic__types__collections__tables__hash_table,
   &module__basic__types__collections__tables__insert_order_table,
   &module__basic__types__collections__tables__key_order_table,
+  &module__basic__types__collections__bags__hash_bag,
   &module__basic__types__iterators__iterator,
   &module__basic__types__iterators__bresenham,
   &module__basic__types__iterators__random__lcg,
@@ -168,7 +177,10 @@ static FUNKY_MODULE *required_modules[] = {
 };
 
 static FUNKY_NAMESPACE defined_namespaces[] = {
-  {"std_private", 1, 0}
+  {"std", 2, 0},
+  {"std_types", 2, 0},
+  {"basic_private", 1, 0},
+  {"basic_types", 1, 0}
 };
 
 static FUNKY_NAMESPACE used_namespaces[] = {
@@ -182,8 +194,8 @@ FUNKY_MODULE module__basic__stdlib = {
   .minor_version = 0,
   .feature_flags = FEAT_POSITIONS,
   .marker = 0,
-  51, // number of required modules
-  1, // number of defined namespaces
+  54, // number of required modules
+  4, // number of defined namespaces
   1, // number of used namespaces
   0, // number of constants
   0, // number of variables

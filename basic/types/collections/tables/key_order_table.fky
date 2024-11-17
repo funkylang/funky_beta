@@ -20,7 +20,9 @@
   Free Software Foundation, Inc.,
   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
-$std::dump_string ()
+# Topic: Tables, Collections
+
+#$std::dump_string ()
 
 # internal attributes:
 
@@ -124,22 +126,22 @@ $binary_node/retrieve: (self key)
 # insert
 
 $empty_node/insert: (_self key value)
-  -> new(binary_node key value empty_node empty_node) true
+  -> typed_tuple(binary_node key value empty_node empty_node) true
 
 $binary_node/insert: (self key value)
   self $my_key $my_value $my_left $my_right
   if
     key == my_key
-    -> new(self key value my_left my_right) false
+    -> typed_tuple(self key value my_left my_right) false
     :
       if
 	key < my_key
 	:
 	  insert &my_left $did_insert key value
-	  -> new(self my_key my_value my_left my_right) did_insert
+	  -> typed_tuple(self my_key my_value my_left my_right) did_insert
 	:
 	  insert &my_right $did_insert key value
-	  -> new(self my_key my_value my_left my_right) did_insert
+	  -> typed_tuple(self my_key my_value my_left my_right) did_insert
 
 ###
 # delete
@@ -151,7 +153,7 @@ $fetch_first: (self)
     -> my_right my_key my_value
     :
       fetch_first &my_left $first_key $first_value
-      -> new(self my_key my_value my_left my_right) first_key first_value
+      -> typed_tuple(self my_key my_value my_left my_right) first_key first_value
 
 $empty_node/delete: (self _key) -> self false
 
@@ -169,7 +171,7 @@ $binary_node/delete: (self key)
 	    -> my_left true
 	    :
 	      fetch_first &my_right $first_key $first_value
-	      -> new(self first_key first_value my_left my_right)
+	      -> typed_tuple(self first_key first_value my_left my_right)
     :
       if
 	key < my_key
@@ -177,13 +179,13 @@ $binary_node/delete: (self key)
 	  delete &my_left $success key
 	  if
 	    success
-	    -> new(self my_key my_value my_left my_right) true
+	    -> typed_tuple(self my_key my_value my_left my_right) true
 	    -> self false
 	:
 	  delete &my_right $success key
 	  if
 	    success
-	    -> new(self my_key my_value my_left my_right) true
+	    -> typed_tuple(self my_key my_value my_left my_right) true
 	    -> self false
 
 ###
@@ -283,7 +285,7 @@ $std_types::key_order_table/for_each:
   !basic_loops::body body
   !basic_loops::finally finally
 
-  !break: (myself^)
+  new !break basic_types::break_function: (myself^)
     !finally basic_loops::finally
     basic_loops::saved_context_of(myself)
       !next !break
@@ -320,11 +322,11 @@ $empty_node/map_2: (self) -> self
 
 $binary_node/map_1: (self)
   self $my_key $my_value $my_left $my_right
-  new self my_key mapping_function(my_value) map_1(my_left) map_1(my_right)
+  typed_tuple self my_key mapping_function(my_value) map_1(my_left) map_1(my_right)
 
 $binary_node/map_2: (self)
   self $my_key $my_value $my_left $my_right
-  new self my_key mapping_function(my_key my_value) map_2(my_left) map_2(my_right)
+  typed_tuple self my_key mapping_function(my_key my_value) map_2(my_left) map_2(my_right)
 
 $std_types::key_order_table/map:
   #
@@ -451,9 +453,9 @@ $std_types::key_order_table/map_reduce:
 ###
 # dump_string
 
-$empty_node/dump_string: (_self _prefix _marker) -> ""
+#$empty_node/dump_string: (_self _prefix _marker) -> ""
 
-$binary_node/dump_string: (self prefix marker)
+#$binary_node/dump_string: (self prefix marker)
   self $key $value $left $right
   $new_prefix append(prefix spaces(length_of(key)))
   $empty_prefix
@@ -488,7 +490,7 @@ $binary_node/dump_string: (self prefix marker)
     marker key '(' value ")@nl;"
     bottom
 
-$std_types::key_order_table/dump_string:
+#$std_types::key_order_table/dump_string:
   (
     self
     prefix = ""
@@ -548,7 +550,7 @@ $binary_node/merge: (left right)
 
       $return
 	->
-	  new(binary_node left_key left_value left_left left_right)
+	  typed_tuple(binary_node left_key left_value left_left left_right)
 	  total_removed
 
 $std_types::key_order_table/merge:
@@ -585,3 +587,5 @@ $std::key_order_table:
 
 $std_types::key_order_table.serialization_tag_of "key_order_table"
 $std_types::key_order_table.empty_collection_of empty_key_order_table
+
+register_type &deserializers std_types::key_order_table

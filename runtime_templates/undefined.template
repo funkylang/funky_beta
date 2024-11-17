@@ -19,9 +19,11 @@
   Free Software Foundation, Inc.,
   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
+# Topic: Basics
+
 PUBLIC TYPE std_types::undefined
   #
-    the undefined object
+    the prototype for the singleton undefined object
 
     This is one of the three Funky root objects.
 

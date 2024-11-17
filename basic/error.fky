@@ -37,10 +37,10 @@
     error object to its caller, which results in an error in the caller and
     leads to propagation of the error
 
-  Error objects can contain only very few and special methods. Any attempt to
+  Error objects contain only very few and special methods. Any attempt to
   access other methods will propagate the error.
 
-  To check whether a value is an error object or not, use <is_an_error>.
+  To check whether a value is an error object or not, use <std::is_an_error>.
 
   Example:
 
@@ -89,3 +89,10 @@ $std::to_error_message_string:
 	    details.is_an_error
 	    -> str
 	    -> "@(str) (@(details))"
+
+$std::unreachable:
+  #
+    This function is called if the program flow reaches a point that should
+    never be reached.
+  error "
+    control flow reached "unreachable" point

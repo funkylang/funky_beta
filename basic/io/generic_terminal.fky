@@ -20,8 +20,12 @@
   Free Software Foundation, Inc.,
   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
+# Topic: Terminal
+
 $std::x_of ()
 $std::y_of ()
+$std::plot_x_resolution_of ()
+$std::plot_y_resolution_of ()
 $std::character_width_of ()
 $std::ascent_of ()
 $std::descent_of ()
@@ -31,89 +35,53 @@ $std::line_height_of ()
 $std::baseline_of ()
 $std::draw_colour_of ()
 $std::clear_colour_of ()
+
 $std::set_draw_colour ()
 $std::set_clear_colour ()
+$std::set_text_attributes ()
+$std::add_text_attributes ()
+$std::remove_text_attributes ()
+
+$std::DRAW_COLOUR .
+$std::CLEAR_COLOUR .
+$std::TEXT_ATTRIBUTES .
+
+$std::NORMAL 0
+$std::BOLD 1
+$std::ITALIC 2
+$std::UNDERLINE 4
+$std::STRIKETHROUGH 8
 
 $std::KEY_PRESS .
 $std::MOUSE_CLICK .
+$std::MOUSE_RELEASE .
 
 $std::draw_text ()
   #
-    draws text at the given position
-
-    Parameters:
-      screen # some kind of screen
-      x # x-coordinate of the first character
-      y # y-coordinate of the first character
-      args* # the text to draw
-
-    Result:
-      screen # the updated screen
-
-    All *args* are converted to strings and concatenated.
-
-    This method uses the current foreground and background colour and obeyes
-    the current window.
-
-    If the text consists of multiple lines, the cursor is moved back to *x*
-    after each line.
-
-    Topic: Terminal
-
-    See also: draw_character, set_text_colour_at, set_background_colour_at
-
     Example:
 
       draw_text &screen x y "Hello World!"
 
 $std::draw_attributed_text ()
-  #
-    draws text with given fore- and background colours
-
-    Parameters:
-      screen # some kind of screen
-      x # x-coordinate of the first character
-      y # y-coordinate of the first character
-      attributed_text # the text to draw
-
-    Result:
-      screen # the updated screen
-
-    The *attributed_text* must not contain newline characters. Each character is
-    a triple consisting of *character*, *text colour* and *background colour*.
-
-    The text and background colours are themself character values.
-
-    Topic: Terminal
-
-    See also: draw_text, set_character_at, set_text_colour_at,
-	      set_background_colour_at
 
 $std::clear ()
   #
-    clears a rectangular area
+    Example:
 
-    Parameters:
-      screen # some kind of screen
-      x # x-coordinate of the upper left corner
-      y # y-coordinate of the upper left corner
-      width # width of the area
-      height # height of the area
+      clear &screen 2 2 width-2 height-2
 
-    Result:
-      screen # the updated screen
-
-    The area is cleared using the current clear colour.
-
-    Topic: Terminal
-
-    See also: set_clear_colour
+$std::invert ()
+$std::draw_shadow ()
+$std::copy ()
+$std::adjoin ()
 
 $std_types::generic_terminal std_types::resource
 
 $std_types::generic_terminal.type_of undefined
 $std_types::generic_terminal.x_of 1
 $std_types::generic_terminal.y_of 1
+$std_types::generic_terminal.plot_x_resolution_of 1
+$std_types::generic_terminal.plot_y_resolution_of 1
 $std_types::generic_terminal.width_of undefined
 $std_types::generic_terminal.height_of undefined
 $std_types::generic_terminal.character_width_of undefined
@@ -125,16 +93,17 @@ $std_types::generic_terminal.line_height_of undefined
 $std_types::generic_terminal.baseline_of undefined
 $std_types::generic_terminal.clear_colour_of undefined
 $std_types::generic_terminal.draw_colour_of undefined
+$std_types::generic_terminal.text_attributes_of 0
 
 $std_types::view std_types::generic_terminal
 
-$std_private::abs_x: (screen x)
+$basic_private::abs_x: (screen x)
   if
     x < 0
     -> width_of(screen)+x+1
     -> x
 
-$std_private::abs_y: (screen y)
+$basic_private::abs_y: (screen y)
   if
     y < 0
     -> height_of(screen)+y+1
@@ -148,10 +117,10 @@ $std::create_view:
     right_x
     bottom_y
   )
-  std_private::abs_x screen &left_x
-  std_private::abs_y screen &top_y
-  std_private::abs_x screen &right_x
-  std_private::abs_y screen &bottom_y
+  basic_private::abs_x screen &left_x
+  basic_private::abs_y screen &top_y
+  basic_private::abs_x screen &right_x
+  basic_private::abs_y screen &bottom_y
   ->
     std_types::view
       .x_of x_of(screen)+left_x-1
@@ -182,9 +151,32 @@ $std_types::generic_terminal/set_draw_colour:
   )
   -> terminal(.draw_colour_of colour)
 
-$std_private::draw_text ()
-$std_private::draw_attributed_text ()
-$std_private::clear ()
+$std_types::generic_terminal/set_text_attributes:
+  (
+    terminal
+    attributes
+  )
+  -> terminal(.text_attributes_of attributes)
+
+$std_types::generic_terminal/add_text_attributes:
+  (
+    terminal
+    attributes
+  )
+  -> terminal(.text_attributes_of text_attributes_of(terminal) | attributes)
+
+$std_types::generic_terminal/remove_text_attributes:
+  (
+    terminal
+    attributes
+  )
+  ->
+    terminal
+      .text_attributes_of text_attributes_of(terminal) & not(attributes)
+
+$basic_private::draw_text ()
+$basic_private::draw_attributed_text ()
+$basic_private::clear ()
 
 $std_types::view/draw_text:
   (
@@ -195,7 +187,7 @@ $std_types::view/draw_text:
     args*
   )
   $text create_string(args)
-  std_private::draw_text
+  basic_private::draw_text
     screen
     view
     x_of(view)+x-1
@@ -210,7 +202,7 @@ $std_types::view/draw_attributed_text:
     y
     attributed_text
   )
-  std_private::draw_attributed_text
+  basic_private::draw_attributed_text
     screen
     view
     x_of(view)+x-1
@@ -228,13 +220,100 @@ $std_types::view/clear:
   )
   update_if width.is_undefined &width -> width_of(view)-x+1
   update_if height.is_undefined &height -> height_of(view)-y+1
-  std_private::clear
+  basic_private::clear
     screen
     view
     x_of(view)+x-1
     y_of(view)+y-1
     width
     height
+
+$std_types::view/invert:
+  (
+    view
+    screen
+    x = 1
+    y = 1
+    width = undefined
+    height = undefined
+  )
+  clip_rectangle view &x &y &width &height
+  invert screen x y width height
+
+$std_types::view/draw_shadow:
+  (
+    view
+    screen
+    x = 1
+    y = 1
+    width = undefined
+    height = undefined
+  )
+  clip_rectangle view &x &y &width &height
+  draw_shadow screen x y width height
+
+$clip_rectangle: (view x y width height)
+  $view_x x_of(view)
+  $view_y y_of(view)
+  $view_width width_of(view)
+  $view_height height_of(view)
+
+  update_if width.is_undefined &width -> view_width-x+1
+  update_if height.is_undefined &height -> view_height-y+1
+
+  $left_x view_x+x-1
+  $top_y view_y+y-1
+  $right_x left_x+width # exclusive
+  $bottom_y top_y+height # exclusive
+
+  # clip at the view's borders
+
+  update_if left_x < view_x &left_x &width -> view_x width-(view_x-left_x)
+  update_if top_y < view_y &top_y &height -> view_y height-(view_y-top_y)
+  update_if right_x > view_x+view_width &right_x -> view_x+view_width
+  update_if bottom_y > view_y+view_height &bottom_y -> view_y+view_height
+
+  -> left_x top_y right_x-left_x bottom_y-top_y
+
+$std_types::view/copy:
+  (
+    view
+    destination
+    source
+    x = 1
+    y = 1
+    sx = 1
+    sy = 1
+    width = undefined
+    height = undefined
+  )
+  update_if width.is_undefined &width -> width_of(source)-sx+1
+  update_if height.is_undefined &height -> height_of(source)-sy+1
+  $view_x x_of(view)
+  $view_y y_of(view)
+  $view_width width_of(view)
+  $view_height height_of(view)
+  !x x+view_x-1
+  !y y+view_y-1
+  $dx view_x-x
+  $dy view_y-y
+  update_if dx > 0 &x &sx &width -> view_x sx+dx width-dx
+  update_if dy > 0 &y &sy &height -> view_y sy+dy height-dy
+  update_if x-view_x+width > view_width &width -> view_width-(x-view_x)
+  update_if y-view_y+height > view_height &height -> view_height-(y-view_y)
+  if
+    width <= 0 || height <= 0
+    -> destination
+    :
+      copy
+	destination
+	source
+	x
+	y
+	sx
+	sy
+	width
+	height
 
 $std::create_vertical_panes:
   (

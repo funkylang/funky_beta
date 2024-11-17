@@ -19,6 +19,8 @@
   Free Software Foundation, Inc.,
   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
+# Topic: Basics
+
 CODE
   static long unique_idx = 1;
   static const char **my_unique_item_names;
@@ -37,9 +39,9 @@ FUNCTION NODE *register_unique_item
       my_unique_item_names = allocate_memory(sizeof(const char *));
     } else if (is_a_power_of_two(unique_idx)) {
       my_unique_item_names =
-        reallocate_memory(
-          my_unique_item_names,
-          2*unique_idx*sizeof(const char *));
+	reallocate_memory(
+	  my_unique_item_names,
+	  2*unique_idx*sizeof(const char *));
     }
     my_unique_item_names[unique_idx] = name;
     return CREATE(std_types::unique_item, unique_idx++);

@@ -21,6 +21,9 @@
 
 <namespace html>
 
+#
+  Topic: HTML
+
 $inline_tag: (tag options contents)
   -> "<@(tag)@(options)>@(contents)</@(tag)>"
 
@@ -98,6 +101,30 @@ $emit_multi_line: (tag items)
   multi_line_tag tag options buf
 
 $html::HTML:
+  #
+    Example:
+
+      printnln!
+	HTML
+	  : HEAD
+	    : TITLE "My great Homepage"
+	    : LINK "rel" = "stylesheet" "href" = "style.css"
+	  : BODY
+	    : H1 "My great Homepage"
+	    : P "This is my great homepage."
+
+    Output:
+
+      <html>
+      <head>
+      <title>My great Homepage</title>
+      <link rel="stylesheet" href="style.css"/>
+      </head>
+      <body>
+      <h1>My great Homepage</h1>
+      <p>This is my great homepage.</p>
+      </body>
+      </html>
   (
     items*
   )

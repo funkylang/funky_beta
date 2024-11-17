@@ -1,0 +1,329 @@
+#
+  Copyright (C) 2024 by
+  Dipl.-Ing. Michael Niederle
+
+  This program is free software; you can redistribute it and/or modify
+  it under the terms of the GNU Library General Public License, version 2, or
+  (at your option) under the terms of the GNU Lesser General Public License,
+  version 3.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  GNU Lesser (Library) General Public License for more details.
+
+  For details of the GNU General Public License see the accompanying
+  files LGPLv2.txt and LGLPv3.txt or
+  http://www.gnu.org/licenses/lgpl-2.0.html
+  http://www.gnu.org/licenses/lgpl-3.0.html
+  or write to the
+  Free Software Foundation, Inc.,
+  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+
+<using std-2.0>
+<resolve std_types-2.0>
+
+$std-2.0::indent_of ()
+$std-2.0::text_of ()
+$std::subgroups_of () # define it here to have a "natural" attribute order
+
+$std_types-2.0::line std_types::object
+$std_types-2.0::line.indent_of undefined
+$std_types-2.0::line.text_of undefined
+$std_types-2.0::line/subgroups_of: (_self) -> empty_list # enforced constant
+
+$FORK_TEXT_THRESHOLD 300
+
+$std-2.0::split_into_indented_lines:
+  (
+    text # the string to process
+    keep_lineends = false
+    proto_line = std_types::line
+  )
+  $n length_of(text)
+  split 1 n
+
+  $split: (s e)
+    if
+      e+1-s > FORK_TEXT_THRESHOLD: # recurse to exploit parallel execution
+	$m (s+e) .div. 2
+	append split(s m) split(m+1 e)
+      :
+	$lines empty_list
+	$ls
+	  if
+	    s == 1 || text(s-1) == '@nl;'
+	    -> s # the current block starts at a line start
+	    -> undefined # just skip the characters until the next line start
+	from_to s e
+	  : (i)
+	    if
+	      text(i) == '@nl;':
+		if
+		  ls.is_defined:
+		    push &lines create_line(ls i)
+		    !ls i+1
+		    next
+		  :
+		    !ls i+1
+		    next
+	      next
+	  :
+	    if
+	      ls.is_defined && ls <= e:
+		loop: # the last line extends into the next block
+		  !e e+1
+		  if
+		    text(e) == '@nl;'
+		    -> push(lines create_line(ls e))
+		    next
+	      -> lines
+
+  $create_line: (s e)
+    $indent 0
+    loop:
+      if
+	text(s) == '@ht;':
+	  !indent indent+8
+	  !s s+1
+	  next
+	:
+	  if
+	    text(s) == ' ':
+	      !indent indent+1
+	      !s s+1
+	      next
+	    :
+	      $line_text
+		range
+		  text
+		  s
+		  if
+		    keep_lineends
+		    -> e
+		    -> e-1
+	      if
+		s == e # only a newline character
+		-> undefined
+		->
+		  proto_line
+		    .indent_of indent
+		    .text_of line_text
+
+
+
+$std_types-2.0::group std_types::line
+
+$std_types-2.0::group.subgroups_of empty_list
+
+$VERY_LARGE_INDENT 9999
+
+$std-2.0::split_into_groups:
+  (
+    lines
+    keep_empty_lines = false
+    split_recursively = false
+    proto_group = std_types::group
+  )
+  $n length_of(lines)
+  if
+    split_recursively:
+      if
+	keep_empty_lines:
+	  get_group_kel_rec 1 1 $_idx $last $groups -1
+	  append groups range(lines last+1 -1)
+	:
+	  get_group_rec 1 $_idx $groups -1
+	  -> groups
+    :
+      if
+	keep_empty_lines:
+	  get_group_kel 1 1 $_idx $last $groups -1
+	  append groups range(lines last+1 -1)
+	:
+	  get_group 1 $_idx $groups -1
+	  -> groups
+
+  $get_group_kel_rec: (s i group_indent)
+    $last_indent VERY_LARGE_INDENT
+    $nodes empty_list
+    $e s-1
+    loop:
+      if
+	i > n
+	-> i e append(nodes range(lines s e))
+	:
+	  $line lines(i)
+	  if
+	    line.is_undefined:
+	      inc &i
+	      next
+	    :
+	      $indent indent_of(line)
+	      if
+		indent <= group_indent
+		-> i e append(nodes range(lines s e))
+		:
+		  if
+		    indent > last_indent:
+		      append &nodes range(lines s e-1)
+		      $head lines(e)
+		      get_group_kel_rec e+1 &i !e $subgroups last_indent
+		      push &nodes new(proto_group head)(.subgroups_of subgroups)
+		      !s e+1
+		      next
+		    :
+		      !last_indent indent
+		      !e i
+		      inc &i
+		      next
+
+  $get_group_rec: (i group_indent)
+    $last_indent VERY_LARGE_INDENT
+    $nodes empty_list
+    $last_node undefined
+    loop:
+      if
+	i > n:
+	  update_if last_node.is_defined &nodes: push nodes last_node
+	  -> i nodes
+	:
+	  $line lines(i)
+	  if
+	    line.is_undefined:
+	      inc &i
+	      next
+	    :
+	      $indent indent_of(line)
+	      if
+		indent <= group_indent:
+		  update_if last_node.is_defined &nodes: push nodes last_node
+		  -> i nodes
+		:
+		  if
+		    indent > last_indent:
+		      get_group_rec &i $subgroups last_indent
+		      !last_node
+			new(proto_group last_node)(.subgroups_of subgroups)
+		      next
+		    :
+		      update_if last_node.is_defined &nodes:
+			push nodes last_node
+		      !last_node line
+		      !last_indent indent
+		      inc &i
+		      next
+
+  $get_group_kel: (s i group_indent)
+    $last_indent VERY_LARGE_INDENT
+    $nodes empty_list
+    $e s-1
+    loop:
+      if
+	i > n
+	-> i e append(nodes range(lines s e))
+	:
+	  $line lines(i)
+	  if
+	    line.is_undefined:
+	      inc &i
+	      next
+	    :
+	      $indent indent_of(line)
+	      if
+		indent <= group_indent
+		-> i e append(nodes range(lines s e))
+		:
+		  if
+		    indent > last_indent:
+		      append &nodes range(lines s e-1)
+		      $head lines(e)
+		      !s e+1
+		      !e i
+		      loop
+			:
+			  inc &i
+			  if
+			    i > n
+			    break
+			    :
+			      $subline lines(i)
+			      if
+				subline.is_undefined
+				next
+				:
+				  $subindent indent_of(subline)
+				  if
+				    subindent > last_indent:
+				      !e i
+				      next
+				    break
+			:
+			  push &nodes
+			    new(proto_group head)
+			      .subgroups_of range(lines s e)
+			  !s e+1
+			  next
+		    :
+		      !last_indent indent
+		      !e i
+		      inc &i
+		      next
+
+  $get_group: (i group_indent)
+    $last_indent VERY_LARGE_INDENT
+    $nodes empty_list
+    $last_node undefined
+    $s undefined
+    loop:
+      if
+	i > n:
+	  update_if last_node.is_defined &nodes: push nodes last_node
+	  -> i nodes
+	:
+	  $line lines(i)
+	  if
+	    line.is_undefined:
+	      inc &i
+	      next
+	    :
+	      $indent indent_of(line)
+	      if
+		indent <= group_indent:
+		  update_if last_node.is_defined &nodes: push nodes last_node
+		  -> i nodes
+		:
+		  if
+		    indent > last_indent:
+		      $e i
+		      loop
+			:
+			  inc &i
+			  if
+			    i > n
+			    break
+			    :
+			      $subline lines(i)
+			      if
+				subline.is_undefined
+				next
+				:
+				  $subindent indent_of(subline)
+				  if
+				    subindent > last_indent:
+				      !e i
+				      next
+				    break
+			:
+			  !last_node
+			    new(proto_group last_node)
+			      .subgroups_of range(lines s e)
+			  next
+		    :
+		      update_if last_node.is_defined &nodes:
+			push nodes last_node
+		      !last_node line
+		      !last_indent indent
+		      inc &i
+		      !s i
+		      next

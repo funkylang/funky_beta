@@ -1,0 +1,15 @@
+#!/usr/bin/env fkyrun
+
+$buf "$std::println 'z'"
+
+$GLOBAL_DEFINITION
+  '$', capture(FUNKY_IDENTIFIER), "::", capture(FUNKY_IDENTIFIER)
+
+do:
+  match GLOBAL_DEFINITION buf $len
+  dump! `len
+
+do:
+  match GLOBAL_DEFINITION buf $len $captured
+  dump! `len
+  dump! `captured

@@ -19,6 +19,8 @@
   Free Software Foundation, Inc.,
   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
+# Topics: POSIX, Input-Output
+
 #TYPE std_types::file_descriptor -> std_types::object
   #
     a POSIX file descriptor
@@ -369,7 +371,7 @@ POLY std::get_terminal_size
 
       get_terminal_size! STDIN_FILENO $width $height
 
-METHOD std_types::file_descriptor/std::get_terminal_size
+METHOD std_types::file_descriptor/get_terminal_size
   #
     retrieves the current width and height of the terminal
 
@@ -466,7 +468,7 @@ CODE
 
 FUNCTION std::pselect
   #
-    waits for one or more file descriptors to become ready for some
+    waits for one or more file descriptors to become ready
   {
     MIN_ARGUMENTS(3)
     MAX_ARGUMENTS(4)

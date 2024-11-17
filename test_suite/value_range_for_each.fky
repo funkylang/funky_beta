@@ -6,4 +6,5 @@ for_each 1..6
       : (j)
 	println! i " + " j " = " i+j
 	next!
+      next
   pass

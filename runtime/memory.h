@@ -75,7 +75,7 @@ typedef struct {
   NODE **constants;
     // a pointer to a table of constants
 
-  NODE *arguments[16];
+  NODE *arguments[64];
     // the input arguments or results of the current C call
 } THREAD_LOCAL_STORAGE;
 
@@ -163,7 +163,8 @@ extern void set_attr(TREE *tree, int idx, NODE *node);
 extern NODE *get_attr(TREE *tree, int idx);
 
 extern NODE *get_attribute(NODE *node, int idx);
-extern void set_attribute(ATTRIBUTES *attributes, int idx, void *attr);
+extern void define_attribute(ATTRIBUTES *attributes, int idx, void *attr);
+extern int redefine_attribute(ATTRIBUTES *attributes, int idx, void *attr);
 
 extern const char *indent_to_string(int indent);
 extern int print(char **buf_p, const char *format, ...);
@@ -244,7 +245,7 @@ extern NODE *last_node;
 extern int last_attr_idx;
 
 extern const char *get_func_name(FUNC func);
-extern const char *poly_name(TAB_NUM idx);
+extern int decode_attribute_index(TAB_NUM idx);
 extern int main_argc;
 extern char **main_argv;
 

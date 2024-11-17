@@ -1,0 +1,273 @@
+#
+  Copyright (C) 2024 by
+  Dipl.-Ing. Michael Niederle
+
+  This program is free software; you can redistribute it and/or modify
+  it under the terms of the GNU Library General Public License, version 2, or
+  (at your option) under the terms of the GNU Lesser General Public License,
+  version 3.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  GNU Lesser (Library) General Public License for more details.
+
+  For details of the GNU General Public License see the accompanying
+  files LGPLv2.txt and LGLPv3.txt or
+  http://www.gnu.org/licenses/lgpl-2.0.html
+  http://www.gnu.org/licenses/lgpl-3.0.html
+  or write to the
+  Free Software Foundation, Inc.,
+  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+
+# Topic: HTML
+
+$std_types::html_element tuple(undefined undefined undefined)
+  #
+    tag (string)
+    attributes (insert order table)
+    contents (list)
+
+$std::is_an_html_element ()
+
+$std_types::html_element.is_an_html_element true
+$std_types::object.is_an_html_element false
+
+$is_a_void_element undefined
+
+$std::from_html: (text)
+  !is_a_void_element
+    hash_set
+      "area"
+      "base"
+      "br"
+      "col"
+      "embed"
+      "hr"
+      "img"
+      "input"
+      "keygen"
+      "link"
+      "meta"
+      "param"
+      "source"
+      "track"
+      "wbr"
+  parse_html &text $element
+  if
+    element.is_defined && text .matches. some(WHITESPACE)
+    -> element
+    :
+      error PARSE_ERROR "Unexpected input" text
+
+$parse_html: (text)
+  $i 1
+  $n length_of(text)
+  parse_element !i $top_level_element
+  -> range(text i n) top_level_element
+
+  $parse_element:
+    loop:
+      if
+	i > n
+	: error PARSE_ERROR "Unexpected end of input" ""
+	:
+	  $chr text(i)
+	  if
+	    chr <= ' ':
+	      inc &i
+	      next
+	    :
+	      if
+		chr == '<':
+		  inc &i
+		  parse_tag !i $tag
+		  parse_attributes text !i $attributes
+		  if
+		    i > n || text(i) != '>'
+		    :
+		      error PARSE_ERROR "Expected '>'" range(text i -1)
+		    :
+		      inc &i
+		      if
+			is_a_void_element(tag)
+			-> i typed_tuple(std_types::html_element tag attributes undefined)
+			:
+			  parse_contents !i $contents
+			  if
+			    i+1 > n || text(i) != '<' || text(i+1) != '/':
+			      error PARSE_ERROR
+				"Expected closing tag"
+				range(text i -1)
+			    :
+			      $element
+				typed_tuple
+				  std_types::html_element
+				  tag attributes contents
+			      $bti i # backtrack position
+			      plus &i 2
+			      parse_tag !i $end_tag
+			      if
+				end_tag != tag
+				-> bti element
+				#:
+				  error PARSE_ERROR
+				    "
+				      Expected "</@(tag)>"
+				    range(text i -1)
+
+				:
+				  if
+				    text(i) != '>'
+				    :
+				      error PARSE_ERROR
+					"Expected '>'"
+					range(text i -1)
+				    -> i+1 element
+		:
+		  if
+		    chr <= ' ':
+		      inc &i
+		      next
+		    :
+		      error PARSE_ERROR "Expected '<'" range(text i -1)
+
+  $parse_tag:
+    $s i
+    loop:
+      if
+	i > n:
+	  error PARSE_ERROR "Expected '>'" range(text s -1)
+	:
+	  $chr text(i)
+	  if
+	    chr <= ' ' || chr == '>'
+	    -> i range(text s i-1)
+	    :
+	      inc &i
+	      next
+
+  $parse_attributes:
+    $attributes empty_insert_order_table
+    loop:
+      if
+	i > n
+	-> i attributes
+	:
+	  $chr text(i)
+	  if
+	    chr == '>'
+	    -> i attributes
+	    :
+	      if
+		chr <= ' ':
+		  inc &i
+		  next
+		:
+		  parse_attribute_name !i $name
+		  if
+		    i > n || text(i) != '='
+		    -> i undefined
+		    :
+		      inc &i
+		      parse_attribute_value !i $value
+		      !attributes(name) value
+		      next
+
+  $parse_attribute_name:
+    $s i
+    loop:
+      if
+	i > n:
+	  error PARSE_ERROR "Unexpected end of input" range(text s -1)
+	:
+	  $chr text(i)
+	  if
+	    chr <= ' ' || chr == '=' || chr == '>'
+	    -> i range(text s i-1)
+	    :
+	      inc &i
+	      next
+
+  $parse_attribute_value:
+    loop:
+      if
+	i > n:
+	  error PARSE_ERROR "Unexpected end of input" range(text i -1)
+	:
+	  $chr text(i)
+	  if
+	    chr == '@quot;':
+	      inc &i
+	      $s i
+	      loop:
+		if
+		  i > n:
+		    error PARSE_ERROR "Unexpected end of input" range(text i -1)
+		  :
+		    !chr text(i)
+		    if
+		      chr == '@quot;'
+		      -> i+1 range(text s i-1)
+		      :
+			inc &i
+			next
+	    :
+	      case chr
+		' ':
+		  inc &i
+		  next
+		'>':
+		  error PARSE_ERROR "Expected attribute value" range(text i -1)
+		:
+		  $s i
+		  inc &i
+		  loop:
+		    if
+		      i > n
+		      -> i range(text s i-1)
+		      :
+			!chr text(i)
+			if
+			  chr <= ' ' || chr == '>'
+			  -> i range(text s i-1)
+			  :
+			    inc &i
+			    next
+
+  $parse_contents:
+    $contents empty_list
+    loop:
+      if
+	i > n
+	-> i contents
+	:
+	  $chr text(i)
+	  if
+	    chr == '<':
+	      if
+		i+1 < n && text(i+1) == '/'
+		-> i contents
+		:
+		  parse_element !i $element
+		  push &contents element
+		  next
+	    :
+	      parse_simple_text !i $simple_text
+	      push &contents simple_text
+	      next
+
+  $parse_simple_text:
+    $s i
+    loop:
+      if
+	i > n
+	-> i range(text s i-1)
+	:
+	  $chr text(i)
+	  if
+	    chr == '<':
+	      -> i range(text s i-1)
+	    :
+	      inc &i
+	      next

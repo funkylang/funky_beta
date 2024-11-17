@@ -1,5 +1,5 @@
 #
-  Copyright (C) 2023 by
+  Copyright (C) 2024 by
   Dipl.-Ing. Michael Niederle
 
   This program is free software; you can redistribute it and/or modify
@@ -23,6 +23,8 @@
 ##########
 # table
 ##########
+
+# Topic: Collections
 
 #
   Topic: Tables
@@ -92,9 +94,21 @@ $std_types::table/merge:
 	  next
 	-> self
 
+$std_types::table/difference:
+  (
+    self # the base table
+    other # the table of entries to remove
+    difference_function
+  )
+  for_each other
+    : (key value)
+      !self(key) difference_function(self(key) value)
+      next
+    -> self
+
 # Constructor
 
-$std_types::table/new:
+$std_types::table/add:
   (
     self
     pairs*
@@ -105,6 +119,40 @@ $std_types::table/new:
       !self(key) value
       next
     -> self
+
+# Debugging
+
+$std_types::table/debug::to_string:
+  (
+    self
+    indent = 0
+    depth = 1
+  )
+  $tag serialization_tag_of(self)
+  cond
+    -> self.is_empty -> "empty_@(tag)@nl;"
+    -> depth <= 1:
+      $len length_of(self)
+      if
+	len == 1
+	-> "<@(tag) with 1 item>@nl;"
+	-> "<@(tag) with @(len) items>@nl;"
+    -> true:
+      $key_indent indent+2
+      $value_indent indent+4
+      map_reduce $contents
+	self: (key value)
+	  $key_text debug::to_string(key key_indent)
+	  $value_text debug::to_string(value value_indent depth-1)
+	  trim &key_text
+	  append tabs_and_spaces(key_indent) &key_text
+	  if
+	    value_text(1) == '@nl;'
+	    -> "@(key_text) =@(value_text)"
+	    -> "@(key_text) = @(value_text)"
+	append
+	""
+      append append("@nl;" tabs_and_spaces(indent) tag "@nl;") contents
 
 # Serialization
 
@@ -152,6 +200,14 @@ $std_types::table/to_list:
     : (item) -> list(item)
     append
     empty_list
+
+$std::swap_key_and_value: (table)
+  $reverse_table empty_hash_table
+  for_each table
+    : (key value)
+      !reverse_table(value) key
+      next!
+    -> reverse_table
 
 $std_types::table.deserializer_of:
   (

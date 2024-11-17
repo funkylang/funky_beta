@@ -325,51 +325,52 @@ enum {
   var_funky__DUMMY_REMARK, // initialized
   var_funky__source_group_of, // attribute
   var_funky__source_position_of, // attribute
-  var_funky__access_of, // attribute with setter
-  var_funky__alias_of, // attribute with setter
-  var_funky__and2_of, // attribute with setter
-  var_funky__argument_of, // attribute with setter
-  var_funky__arguments_of, // attribute with setter
-  var_funky__body_of, // attribute with setter
-  var_funky__call_of, // attribute with setter
-  var_funky__calls_of, // attribute with setter
-  var_funky__character_of, // attribute with setter
-  var_funky__characters_of, // attribute with setter
-  var_funky__component_of, // attribute with setter
-  var_funky__components_of, // attribute with setter
-  var_funky__digits_of, // attribute with setter
-  var_funky__expression_of, // attribute with setter
-  var_funky__extensions_of, // attribute with setter
-  var_funky__filename_of, // attribute with setter
-  var_funky__head_of, // attribute with setter
-  var_funky__identifier_of, // attribute with setter
-  var_funky__lines_of, // attribute with setter
-  var_funky__major_of, // attribute with setter
-  var_funky__minor_of, // attribute with setter
-  var_funky__minus2_of, // attribute with setter
-  var_funky__name_of, // attribute with setter
-  var_funky__operand_of, // attribute with setter
-  var_funky__operator_of, // attribute with setter
-  var_funky__option_of, // attribute with setter
-  var_funky__or2_of, // attribute with setter
-  var_funky__over2_of, // attribute with setter
-  var_funky__pair_of, // attribute with setter
-  var_funky__parameter_of, // attribute with setter
-  var_funky__parameters_of, // attribute with setter
-  var_funky__plus2_of, // attribute with setter
-  var_funky__pragma_of, // attribute with setter
-  var_funky__remark_of, // attribute with setter
-  var_funky__remarks_of, // attribute with setter
-  var_funky__sign_of, // attribute with setter
-  var_funky__statement_of, // attribute with setter
-  var_funky__statements_of, // attribute with setter
-  var_funky__text_of, // attribute with setter
-  var_funky__times2_of, // attribute with setter
-  var_funky__version_of, // attribute with setter
-  var_funky__xor2_of, // attribute with setter
+  var_funky__access_of, // attribute
+  var_funky__alias_of, // attribute
+  var_funky__and2_of, // attribute
+  var_funky__argument_of, // attribute
+  var_funky__arguments_of, // attribute
+  var_funky__body_of, // attribute
+  var_funky__call_of, // attribute
+  var_funky__calls_of, // attribute
+  var_funky__character_of, // attribute
+  var_funky__characters_of, // attribute
+  var_funky__component_of, // attribute
+  var_funky__components_of, // attribute
+  var_funky__digits_of, // attribute
+  var_funky__expression_of, // attribute
+  var_funky__extensions_of, // attribute
+  var_funky__filename_of, // attribute
+  var_funky__head_of, // attribute
+  var_funky__identifier_of, // attribute
+  var_funky__lines_of, // attribute
+  var_funky__major_of, // attribute
+  var_funky__minor_of, // attribute
+  var_funky__minus2_of, // attribute
+  var_funky__name_of, // attribute
+  var_funky__operand_of, // attribute
+  var_funky__operator_of, // attribute
+  var_funky__option_of, // attribute
+  var_funky__or2_of, // attribute
+  var_funky__over2_of, // attribute
+  var_funky__pair_of, // attribute
+  var_funky__parameter_of, // attribute
+  var_funky__parameters_of, // attribute
+  var_funky__plus2_of, // attribute
+  var_funky__pragma_of, // attribute
+  var_funky__remark_of, // attribute
+  var_funky__remarks_of, // attribute
+  var_funky__sign_of, // attribute
+  var_funky__statement_of, // attribute
+  var_funky__statements_of, // attribute
+  var_funky__text_of, // attribute
+  var_funky__times2_of, // attribute
+  var_funky__version_of, // attribute
+  var_funky__xor2_of, // attribute
   var_funky_types__node, // derived
   var_std_types__object, // extern
   var_undefined, // extern
+  var_funky__key_of, // extern polymorphic
   var_funky_types__fieldless_node, // derived
   var_funky_types__simple_name, // derived
   var_funky_types__identifier_and_expression, // derived
@@ -693,7 +694,8 @@ static FUNKY_CONSTANT constants_table[] = {
 
 static ATTRIBUTE_DEFINITION funky_types__node__attributes[] = {
   {-var_funky__source_group_of, -var_undefined},
-  {-var_funky__source_position_of, -var_undefined}
+  {-var_funky__source_position_of, -var_undefined},
+  {-var_funky__key_of, -var_undefined}
 };
 
 static ATTRIBUTE_DEFINITION funky_types__simple_name__attributes[] = {
@@ -904,7 +906,8 @@ static ATTRIBUTE_DEFINITION funky_types__definition__attributes[] = {
 };
 
 static ATTRIBUTE_DEFINITION funky_types__redefinition__attributes[] = {
-  {-var_funky__node_type_of, -var_funky__REDEFINITION}
+  {-var_funky__node_type_of, -var_funky__REDEFINITION},
+  {-var_funky__option_of, -var_undefined}
 };
 
 static ATTRIBUTE_DEFINITION funky_types__update__attributes[] = {
@@ -1289,7 +1292,8 @@ static ATTRIBUTE_DEFINITION funky_types__string_line_character_sequence__attribu
 
 static ATTRIBUTE_DEFINITION funky_types__unique__attributes[] = {
   {-var_funky__node_type_of, -var_funky__UNIQUE},
-  {-var_funky__remarks_of, -var_undefined}
+  {-var_funky__remarks_of, -var_undefined},
+  {-var_funky__identifier_of, -var_undefined}
 };
 
 static ATTRIBUTE_DEFINITION funky_types__attribute__attributes[] = {
@@ -1304,7 +1308,8 @@ static ATTRIBUTE_DEFINITION funky_types__body__attributes[] = {
   {-var_funky__node_type_of, -var_funky__BODY},
   {-var_funky__parameters_of, -var_empty_list},
   {-var_funky__remark_of, -var_undefined},
-  {-var_funky__statements_of, -var_empty_list}
+  {-var_funky__statements_of, -var_empty_list},
+  {-var_funky__statement_of, -var_undefined}
 };
 
 static ATTRIBUTE_DEFINITION funky_types__line_end_statement__attributes[] = {
@@ -2211,215 +2216,215 @@ static FUNKY_VARIABLE variables_table[] = {
   {
     FOT_POLYMORPHIC, 0, 0,
     "access_of\000funky", NULL,
-    {.has_a_setter = true}
+    {.has_a_setter = false}
   },
   {
     FOT_POLYMORPHIC, 0, 0,
     "alias_of\000funky", NULL,
-    {.has_a_setter = true}
+    {.has_a_setter = false}
   },
   {
     FOT_POLYMORPHIC, 0, 0,
     "and2_of\000funky", NULL,
-    {.has_a_setter = true}
+    {.has_a_setter = false}
   },
   {
     FOT_POLYMORPHIC, 0, 0,
     "argument_of\000funky", NULL,
-    {.has_a_setter = true}
+    {.has_a_setter = false}
   },
   {
     FOT_POLYMORPHIC, 0, 0,
     "arguments_of\000funky", NULL,
-    {.has_a_setter = true}
+    {.has_a_setter = false}
   },
   {
     FOT_POLYMORPHIC, 0, 0,
     "body_of\000funky", NULL,
-    {.has_a_setter = true}
+    {.has_a_setter = false}
   },
   {
     FOT_POLYMORPHIC, 0, 0,
     "call_of\000funky", NULL,
-    {.has_a_setter = true}
+    {.has_a_setter = false}
   },
   {
     FOT_POLYMORPHIC, 0, 0,
     "calls_of\000funky", NULL,
-    {.has_a_setter = true}
+    {.has_a_setter = false}
   },
   {
     FOT_POLYMORPHIC, 0, 0,
     "character_of\000funky", NULL,
-    {.has_a_setter = true}
+    {.has_a_setter = false}
   },
   {
     FOT_POLYMORPHIC, 0, 0,
     "characters_of\000funky", NULL,
-    {.has_a_setter = true}
+    {.has_a_setter = false}
   },
   {
     FOT_POLYMORPHIC, 0, 0,
     "component_of\000funky", NULL,
-    {.has_a_setter = true}
+    {.has_a_setter = false}
   },
   {
     FOT_POLYMORPHIC, 0, 0,
     "components_of\000funky", NULL,
-    {.has_a_setter = true}
+    {.has_a_setter = false}
   },
   {
     FOT_POLYMORPHIC, 0, 0,
     "digits_of\000funky", NULL,
-    {.has_a_setter = true}
+    {.has_a_setter = false}
   },
   {
     FOT_POLYMORPHIC, 0, 0,
     "expression_of\000funky", NULL,
-    {.has_a_setter = true}
+    {.has_a_setter = false}
   },
   {
     FOT_POLYMORPHIC, 0, 0,
     "extensions_of\000funky", NULL,
-    {.has_a_setter = true}
+    {.has_a_setter = false}
   },
   {
     FOT_POLYMORPHIC, 0, 0,
     "filename_of\000funky", NULL,
-    {.has_a_setter = true}
+    {.has_a_setter = false}
   },
   {
     FOT_POLYMORPHIC, 0, 0,
     "head_of\000funky", NULL,
-    {.has_a_setter = true}
+    {.has_a_setter = false}
   },
   {
     FOT_POLYMORPHIC, 0, 0,
     "identifier_of\000funky", NULL,
-    {.has_a_setter = true}
+    {.has_a_setter = false}
   },
   {
     FOT_POLYMORPHIC, 0, 0,
     "lines_of\000funky", NULL,
-    {.has_a_setter = true}
+    {.has_a_setter = false}
   },
   {
     FOT_POLYMORPHIC, 0, 0,
     "major_of\000funky", NULL,
-    {.has_a_setter = true}
+    {.has_a_setter = false}
   },
   {
     FOT_POLYMORPHIC, 0, 0,
     "minor_of\000funky", NULL,
-    {.has_a_setter = true}
+    {.has_a_setter = false}
   },
   {
     FOT_POLYMORPHIC, 0, 0,
     "minus2_of\000funky", NULL,
-    {.has_a_setter = true}
+    {.has_a_setter = false}
   },
   {
     FOT_POLYMORPHIC, 0, 0,
     "name_of\000funky", NULL,
-    {.has_a_setter = true}
+    {.has_a_setter = false}
   },
   {
     FOT_POLYMORPHIC, 0, 0,
     "operand_of\000funky", NULL,
-    {.has_a_setter = true}
+    {.has_a_setter = false}
   },
   {
     FOT_POLYMORPHIC, 0, 0,
     "operator_of\000funky", NULL,
-    {.has_a_setter = true}
+    {.has_a_setter = false}
   },
   {
     FOT_POLYMORPHIC, 0, 0,
     "option_of\000funky", NULL,
-    {.has_a_setter = true}
+    {.has_a_setter = false}
   },
   {
     FOT_POLYMORPHIC, 0, 0,
     "or2_of\000funky", NULL,
-    {.has_a_setter = true}
+    {.has_a_setter = false}
   },
   {
     FOT_POLYMORPHIC, 0, 0,
     "over2_of\000funky", NULL,
-    {.has_a_setter = true}
+    {.has_a_setter = false}
   },
   {
     FOT_POLYMORPHIC, 0, 0,
     "pair_of\000funky", NULL,
-    {.has_a_setter = true}
+    {.has_a_setter = false}
   },
   {
     FOT_POLYMORPHIC, 0, 0,
     "parameter_of\000funky", NULL,
-    {.has_a_setter = true}
+    {.has_a_setter = false}
   },
   {
     FOT_POLYMORPHIC, 0, 0,
     "parameters_of\000funky", NULL,
-    {.has_a_setter = true}
+    {.has_a_setter = false}
   },
   {
     FOT_POLYMORPHIC, 0, 0,
     "plus2_of\000funky", NULL,
-    {.has_a_setter = true}
+    {.has_a_setter = false}
   },
   {
     FOT_POLYMORPHIC, 0, 0,
     "pragma_of\000funky", NULL,
-    {.has_a_setter = true}
+    {.has_a_setter = false}
   },
   {
     FOT_POLYMORPHIC, 0, 0,
     "remark_of\000funky", NULL,
-    {.has_a_setter = true}
+    {.has_a_setter = false}
   },
   {
     FOT_POLYMORPHIC, 0, 0,
     "remarks_of\000funky", NULL,
-    {.has_a_setter = true}
+    {.has_a_setter = false}
   },
   {
     FOT_POLYMORPHIC, 0, 0,
     "sign_of\000funky", NULL,
-    {.has_a_setter = true}
+    {.has_a_setter = false}
   },
   {
     FOT_POLYMORPHIC, 0, 0,
     "statement_of\000funky", NULL,
-    {.has_a_setter = true}
+    {.has_a_setter = false}
   },
   {
     FOT_POLYMORPHIC, 0, 0,
     "statements_of\000funky", NULL,
-    {.has_a_setter = true}
+    {.has_a_setter = false}
   },
   {
     FOT_POLYMORPHIC, 0, 0,
     "text_of\000funky", NULL,
-    {.has_a_setter = true}
+    {.has_a_setter = false}
   },
   {
     FOT_POLYMORPHIC, 0, 0,
     "times2_of\000funky", NULL,
-    {.has_a_setter = true}
+    {.has_a_setter = false}
   },
   {
     FOT_POLYMORPHIC, 0, 0,
     "version_of\000funky", NULL,
-    {.has_a_setter = true}
+    {.has_a_setter = false}
   },
   {
     FOT_POLYMORPHIC, 0, 0,
     "xor2_of\000funky", NULL,
-    {.has_a_setter = true}
+    {.has_a_setter = false}
   },
   {
-    FOT_DERIVED, 0, 2,
+    FOT_DERIVED, 0, 3,
     "node\000funky_types", funky_types__node__attributes,
     {"object\000std_types"}
   },
@@ -2432,6 +2437,11 @@ static FUNKY_VARIABLE variables_table[] = {
     FOT_UNKNOWN, 0, 0,
     "undefined\000", NULL,
     {.position = POS(222, 43)}
+  },
+  {
+    FOT_UNKNOWN_POLYMORPHIC, 0, 0,
+    "key_of\000funky", NULL,
+    {.position = POS(224, 20)}
   },
   {
     FOT_DERIVED, 0, 0,
@@ -2466,7 +2476,7 @@ static FUNKY_VARIABLE variables_table[] = {
   {
     FOT_UNKNOWN, 0, 0,
     "empty_list\000", NULL,
-    {.position = POS(245, 45)}
+    {.position = POS(246, 45)}
   },
   {
     FOT_DERIVED, 0, 3,
@@ -2484,7 +2494,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"pair\000funky_types"}
   },
   {
-    FOT_DERIVED, 0, 4,
+    FOT_DERIVED, 0, 5,
     "body\000funky_types", funky_types__body__attributes,
     {"node\000funky_types"}
   },
@@ -2659,7 +2669,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"attribute_access\000funky_types"}
   },
   {
-    FOT_DERIVED, 0, 1,
+    FOT_DERIVED, 0, 2,
     "redefinition\000funky_types", funky_types__redefinition__attributes,
     {"functor\000funky_types"}
   },
@@ -3119,7 +3129,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"character_sequence\000funky_types"}
   },
   {
-    FOT_DERIVED, 0, 2,
+    FOT_DERIVED, 0, 3,
     "unique\000funky_types", funky_types__unique__attributes,
     {"node\000funky_types"}
   },
@@ -3250,7 +3260,7 @@ FUNKY_MODULE module__nodes = {
   0, // number of defined namespaces
   1, // number of used namespaces
   154, // number of constants
-  365, // number of variables
+  366, // number of variables
   NULL, // required modules
   NULL, // defined namespaces
   used_namespaces,

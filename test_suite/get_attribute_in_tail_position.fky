@@ -1,0 +1,6 @@
+#!/usr/bin/env fkyrun
+
+$p: (f)
+  not f
+
+dump! `p(true)

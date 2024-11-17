@@ -20,7 +20,7 @@
   Free Software Foundation, Inc.,
   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
-<using std>
+# Topic: Numbers
 
 $std::bin:
   #
@@ -518,5 +518,3 @@ $std::PI 3.1415926535897932846
     Topic: Math
 
     See also: cos, sin, tan, asin, acos, atan
-
-

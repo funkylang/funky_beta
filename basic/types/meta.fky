@@ -20,6 +20,8 @@
   Free Software Foundation, Inc.,
   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
+# Topics: Collections
+
 $std::neutral_element_of ()
   #
     returns the neutral element for the type of its argument

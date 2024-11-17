@@ -35,7 +35,7 @@ enum {
   COUNT_get_constant,
   COUNT_get_dynamic,
   COUNT_get_attr,
-  COUNT_set_attribute,
+  COUNT_redefine_attribute,
   TOTAL_COUNTS
 };
 

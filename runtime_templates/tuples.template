@@ -23,6 +23,8 @@
   Free Software Foundation, Inc.,
   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
+# Topic: Tuples, Collections
+
 TYPE std_types::tuple -> std_types::object
   #
     the prototype object for all tuples
@@ -34,7 +36,9 @@ METHOD std_types::tuple/_type
     RUNTIME_ERROR("Attempt to call the tuple prototype object as a function!")
   }
 
-METHOD std_types::tuple/new
+POLY std::typed_tuple
+
+METHOD std_types::tuple/typed_tuple
   #
     clones the specified tuple and replace its contents
 
@@ -65,21 +69,21 @@ FUNCTION NODE *create_tuple
   {
     switch (count) {
       case 2:
-        return CREATE(builtin::tuple2, NULL, NULL);
+	return CREATE(builtin_types::tuple2, NULL, NULL);
       case 3:
-        return CREATE(builtin::tuple3, NULL, NULL, NULL);
+	return CREATE(builtin_types::tuple3, NULL, NULL, NULL);
       case 4:
-        return CREATE(builtin::tuple4, NULL, NULL, NULL, NULL);
+	return CREATE(builtin_types::tuple4, NULL, NULL, NULL, NULL);
       case 5:
-        return CREATE(builtin::tuple5, NULL, NULL, NULL, NULL, NULL);
+	return CREATE(builtin_types::tuple5, NULL, NULL, NULL, NULL, NULL);
       case 6:
-        return CREATE(builtin::tuple6, NULL, NULL, NULL, NULL, NULL, NULL);
+	return CREATE(builtin_types::tuple6, NULL, NULL, NULL, NULL, NULL, NULL);
       case 7:
-        return CREATE(builtin::tuple7, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+	return CREATE(builtin_types::tuple7, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
       case 8:
-        return CREATE(builtin::tuple8, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+	return CREATE(builtin_types::tuple8, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
       default:
-        unrecoverable_error("Invalid tuple element count!");
+	unrecoverable_error("Invalid tuple element count!");
     }
   }
 
@@ -99,24 +103,30 @@ FUNCTION void set_tuple_item
     ((NODE **)((SIMPLE_NODE *)tuple+1))[idx] = value;
   }
 
-TYPE builtin::tuple2 -> std_types::tuple
+TYPE builtin_types::tuple2 -> std_types::tuple
   NODE *node_0
   NODE *node_1
 
-METHOD builtin::tuple2/_type
+METHOD builtin_types::tuple2/_type
   {
     CHECK_ARGUMENTS(0)
     MIN_RESULTS(1)
-    MAX_RESULTS(2)
+    MAX_RESULTS(8)
     START_ARGUMENTS(RESULT_COUNT)
     switch (RESULT_COUNT) {
+      case 8: ARGUMENTS(7) = (NODE *)&std_types::undefined;
+      case 7: ARGUMENTS(6) = (NODE *)&std_types::undefined;
+      case 6: ARGUMENTS(5) = (NODE *)&std_types::undefined;
+      case 5: ARGUMENTS(4) = (NODE *)&std_types::undefined;
+      case 4: ARGUMENTS(3) = (NODE *)&std_types::undefined;
+      case 3: ARGUMENTS(2) = (NODE *)&std_types::undefined;
       case 2: ARGUMENTS(1) = MYSELF->tuple2.node_1;
       case 1: ARGUMENTS(0) = MYSELF->tuple2.node_0;
     }
     RETURN
   }
 
-METHOD long builtin::tuple2/_debug_string
+METHOD long builtin_types::tuple2/_debug_string
   (
     NODE *node,
     int indent,
@@ -128,7 +138,7 @@ METHOD long builtin::tuple2/_debug_string
     if (CONTAINS_AN_ATTRIBUTE_VALUE(subtype)) {
       subtype = RETRIEVE_ATTRIBUTE_VALUE(subtype);
       if (TYPEOF(subtype) == TYPE(std_types::undefined)) {
-        subtype = NULL;
+	subtype = NULL;
       }
     } else {
       subtype = NULL;
@@ -136,44 +146,44 @@ METHOD long builtin::tuple2/_debug_string
     long n, len;
     if (max_depth <= 1) {
       /*if (subtype) {
-        n = 0;
-        if (indent < 0) {
-          if (buf) *buf++ = ' ';
-          ++n;
-        }
-        n += print(&buf, "<tuple-");
-        len = debug_string(subtype, 0, max_depth, buf);
-        --len; // remove trailing newline
-        if (buf) buf += len;
-        n += len;
-        n += print(&buf, ">\n");
-        return n;
+	n = 0;
+	if (indent < 0) {
+	  if (buf) *buf++ = ' ';
+	  ++n;
+	}
+	n += print(&buf, "<tuple-");
+	len = debug_string(subtype, 0, max_depth, buf);
+	--len; // remove trailing newline
+	if (buf) buf += len;
+	n += len;
+	n += print(&buf, ">\n");
+	return n;
       } else {*/
-        return debug_print(indent, buf, "<tuple of 2 items>");
+	return debug_print(indent, buf, "<tuple of 2 items>");
       /*}*/
     } else {
       long i;
       n = debug_print_head(&indent, &buf, "tuple");
       /*if (subtype) {
-        // replace the trailing newline with a hyphen
-        if (buf) buf[-1] = '-';
-        len = debug_string(subtype, 0, max_depth, buf);
-        if (buf) buf += len;
-        n += len;
+	// replace the trailing newline with a hyphen
+	if (buf) buf[-1] = '-';
+	len = debug_string(subtype, 0, max_depth, buf);
+	if (buf) buf += len;
+	n += len;
       }*/
       const char *contents_indent = indent_to_string(indent);
       NODE **node_p = &node->tuple2.node_0;
       for (i = 0; i < 2; ++i) {
-        n += print(&buf, contents_indent);
-        len = debug_string(node_p[i], indent, max_depth-1, buf);
-        if (buf) buf += len;
-        n += len;
+	n += print(&buf, contents_indent);
+	len = debug_string(node_p[i], indent, max_depth-1, buf);
+	if (buf) buf += len;
+	n += len;
       }
       return n;
     }
   }
 
-METHOD builtin::tuple2/to_list
+METHOD builtin_types::tuple2/to_list
   {
     CHECK_ARGUMENTS(1)
     NODE *self = ARGUMENTS(0);
@@ -185,32 +195,37 @@ METHOD builtin::tuple2/to_list
     RETURN_SINGLE_RESULT(CREATE(std_types::list, 0, 2, data))
   }
 
-METHOD builtin::tuple2/new
+METHOD builtin_types::tuple2/typed_tuple
   {
     CHECK_ARGUMENTS(3)
     NODE *prototype = ARGUMENTS(0);
     NODE *clone =
       CREATE(
-        builtin::tuple2,
-        ARGUMENTS(1),
-        ARGUMENTS(2)
+	builtin_types::tuple2,
+	ARGUMENTS(1),
+	ARGUMENTS(2)
       );
     clone->attributes = prototype->attributes;
     RETURN_SINGLE_RESULT(clone)
   }
 
-TYPE builtin::tuple3 -> std_types::tuple
+TYPE builtin_types::tuple3 -> std_types::tuple
   NODE *node_0
   NODE *node_1
   NODE *node_2
 
-METHOD builtin::tuple3/_type
+METHOD builtin_types::tuple3/_type
   {
     CHECK_ARGUMENTS(0)
     MIN_RESULTS(1)
-    MAX_RESULTS(3)
+    MAX_RESULTS(8)
     START_ARGUMENTS(RESULT_COUNT)
     switch (RESULT_COUNT) {
+      case 8: ARGUMENTS(7) = (NODE *)&std_types::undefined;
+      case 7: ARGUMENTS(6) = (NODE *)&std_types::undefined;
+      case 6: ARGUMENTS(5) = (NODE *)&std_types::undefined;
+      case 5: ARGUMENTS(4) = (NODE *)&std_types::undefined;
+      case 4: ARGUMENTS(3) = (NODE *)&std_types::undefined;
       case 3: ARGUMENTS(2) = MYSELF->tuple3.node_2;
       case 2: ARGUMENTS(1) = MYSELF->tuple3.node_1;
       case 1: ARGUMENTS(0) = MYSELF->tuple3.node_0;
@@ -218,7 +233,7 @@ METHOD builtin::tuple3/_type
     RETURN
   }
 
-METHOD long builtin::tuple3/_debug_string
+METHOD long builtin_types::tuple3/_debug_string
   (
     NODE *node,
     int indent,
@@ -230,7 +245,7 @@ METHOD long builtin::tuple3/_debug_string
     if (CONTAINS_AN_ATTRIBUTE_VALUE(subtype)) {
       subtype = RETRIEVE_ATTRIBUTE_VALUE(subtype);
       if (TYPEOF(subtype) == TYPE(std_types::undefined)) {
-        subtype = NULL;
+	subtype = NULL;
       }
     } else {
       subtype = NULL;
@@ -238,44 +253,44 @@ METHOD long builtin::tuple3/_debug_string
     long n, len;
     if (max_depth <= 1) {
       /*if (subtype) {
-        n = 0;
-        if (indent < 0) {
-          if (buf) *buf++ = ' ';
-          ++n;
-        }
-        n += print(&buf, "<tuple-");
-        len = debug_string(subtype, 0, max_depth, buf);
-        --len; // remove trailing newline
-        if (buf) buf += len;
-        n += len;
-        n += print(&buf, ">\n");
-        return n;
+	n = 0;
+	if (indent < 0) {
+	  if (buf) *buf++ = ' ';
+	  ++n;
+	}
+	n += print(&buf, "<tuple-");
+	len = debug_string(subtype, 0, max_depth, buf);
+	--len; // remove trailing newline
+	if (buf) buf += len;
+	n += len;
+	n += print(&buf, ">\n");
+	return n;
       } else {*/
-        return debug_print(indent, buf, "<tuple of 3 items>");
+	return debug_print(indent, buf, "<tuple of 3 items>");
       /*}*/
     } else {
       long i;
       n = debug_print_head(&indent, &buf, "tuple");
       /*if (subtype) {
-        // replace the trailing newline with a hyphen
-        if (buf) buf[-1] = '-';
-        len = debug_string(subtype, 0, max_depth, buf);
-        if (buf) buf += len;
-        n += len;
+	// replace the trailing newline with a hyphen
+	if (buf) buf[-1] = '-';
+	len = debug_string(subtype, 0, max_depth, buf);
+	if (buf) buf += len;
+	n += len;
       }*/
       const char *contents_indent = indent_to_string(indent);
       NODE **node_p = &node->tuple3.node_0;
       for (i = 0; i < 3; ++i) {
-        n += print(&buf, contents_indent);
-        len = debug_string(node_p[i], indent, max_depth-1, buf);
-        if (buf) buf += len;
-        n += len;
+	n += print(&buf, contents_indent);
+	len = debug_string(node_p[i], indent, max_depth-1, buf);
+	if (buf) buf += len;
+	n += len;
       }
       return n;
     }
   }
 
-METHOD builtin::tuple3/to_list
+METHOD builtin_types::tuple3/to_list
   {
     CHECK_ARGUMENTS(1)
     NODE *self = ARGUMENTS(0);
@@ -288,34 +303,38 @@ METHOD builtin::tuple3/to_list
     RETURN_SINGLE_RESULT(CREATE(std_types::list, 0, 3, data))
   }
 
-METHOD builtin::tuple3/new
+METHOD builtin_types::tuple3/typed_tuple
   {
     CHECK_ARGUMENTS(4)
     NODE *prototype = ARGUMENTS(0);
     NODE *clone =
       CREATE(
-        builtin::tuple3,
-        ARGUMENTS(1),
-        ARGUMENTS(2),
-        ARGUMENTS(3)
+	builtin_types::tuple3,
+	ARGUMENTS(1),
+	ARGUMENTS(2),
+	ARGUMENTS(3)
       );
     clone->attributes = prototype->attributes;
     RETURN_SINGLE_RESULT(clone)
   }
 
-TYPE builtin::tuple4 -> std_types::tuple
+TYPE builtin_types::tuple4 -> std_types::tuple
   NODE *node_0
   NODE *node_1
   NODE *node_2
   NODE *node_3
 
-METHOD builtin::tuple4/_type
+METHOD builtin_types::tuple4/_type
   {
     CHECK_ARGUMENTS(0)
     MIN_RESULTS(1)
-    MAX_RESULTS(4)
+    MAX_RESULTS(8)
     START_ARGUMENTS(RESULT_COUNT)
     switch (RESULT_COUNT) {
+      case 8: ARGUMENTS(7) = (NODE *)&std_types::undefined;
+      case 7: ARGUMENTS(6) = (NODE *)&std_types::undefined;
+      case 6: ARGUMENTS(5) = (NODE *)&std_types::undefined;
+      case 5: ARGUMENTS(4) = MYSELF->tuple4.node_3;
       case 4: ARGUMENTS(3) = MYSELF->tuple4.node_3;
       case 3: ARGUMENTS(2) = MYSELF->tuple4.node_2;
       case 2: ARGUMENTS(1) = MYSELF->tuple4.node_1;
@@ -324,7 +343,7 @@ METHOD builtin::tuple4/_type
     RETURN
   }
 
-METHOD long builtin::tuple4/_debug_string
+METHOD long builtin_types::tuple4/_debug_string
   (
     NODE *node,
     int indent,
@@ -336,7 +355,7 @@ METHOD long builtin::tuple4/_debug_string
     if (CONTAINS_AN_ATTRIBUTE_VALUE(subtype)) {
       subtype = RETRIEVE_ATTRIBUTE_VALUE(subtype);
       if (TYPEOF(subtype) == TYPE(std_types::undefined)) {
-        subtype = NULL;
+	subtype = NULL;
       }
     } else {
       subtype = NULL;
@@ -344,44 +363,44 @@ METHOD long builtin::tuple4/_debug_string
     long n, len;
     if (max_depth <= 1) {
       /*if (subtype) {
-        n = 0;
-        if (indent < 0) {
-          if (buf) *buf++ = ' ';
-          ++n;
-        }
-        n += print(&buf, "<tuple-");
-        len = debug_string(subtype, 0, max_depth, buf);
-        --len; // remove trailing newline
-        if (buf) buf += len;
-        n += len;
-        n += print(&buf, ">\n");
-        return n;
+	n = 0;
+	if (indent < 0) {
+	  if (buf) *buf++ = ' ';
+	  ++n;
+	}
+	n += print(&buf, "<tuple-");
+	len = debug_string(subtype, 0, max_depth, buf);
+	--len; // remove trailing newline
+	if (buf) buf += len;
+	n += len;
+	n += print(&buf, ">\n");
+	return n;
       } else {*/
-        return debug_print(indent, buf, "<tuple of 4 items>");
+	return debug_print(indent, buf, "<tuple of 4 items>");
       /*}*/
     } else {
       long i;
       n = debug_print_head(&indent, &buf, "tuple");
       /*if (subtype) {
-        // replace the trailing newline with a hyphen
-        if (buf) buf[-1] = '-';
-        len = debug_string(subtype, 0, max_depth, buf);
-        if (buf) buf += len;
-        n += len;
+	// replace the trailing newline with a hyphen
+	if (buf) buf[-1] = '-';
+	len = debug_string(subtype, 0, max_depth, buf);
+	if (buf) buf += len;
+	n += len;
       }*/
       const char *contents_indent = indent_to_string(indent);
       NODE **node_p = &node->tuple4.node_0;
       for (i = 0; i < 4; ++i) {
-        n += print(&buf, contents_indent);
-        len = debug_string(node_p[i], indent, max_depth-1, buf);
-        if (buf) buf += len;
-        n += len;
+	n += print(&buf, contents_indent);
+	len = debug_string(node_p[i], indent, max_depth-1, buf);
+	if (buf) buf += len;
+	n += len;
       }
       return n;
     }
   }
 
-METHOD builtin::tuple4/to_list
+METHOD builtin_types::tuple4/to_list
   {
     CHECK_ARGUMENTS(1)
     NODE *self = ARGUMENTS(0);
@@ -395,36 +414,39 @@ METHOD builtin::tuple4/to_list
     RETURN_SINGLE_RESULT(CREATE(std_types::list, 0, 4, data))
   }
 
-METHOD builtin::tuple4/new
+METHOD builtin_types::tuple4/typed_tuple
   {
     CHECK_ARGUMENTS(5)
     NODE *prototype = ARGUMENTS(0);
     NODE *clone =
       CREATE(
-        builtin::tuple4,
-        ARGUMENTS(1),
-        ARGUMENTS(2),
-        ARGUMENTS(3),
-        ARGUMENTS(4)
+	builtin_types::tuple4,
+	ARGUMENTS(1),
+	ARGUMENTS(2),
+	ARGUMENTS(3),
+	ARGUMENTS(4)
       );
     clone->attributes = prototype->attributes;
     RETURN_SINGLE_RESULT(clone)
   }
 
-TYPE builtin::tuple5 -> std_types::tuple
+TYPE builtin_types::tuple5 -> std_types::tuple
   NODE *node_0
   NODE *node_1
   NODE *node_2
   NODE *node_3
   NODE *node_4
 
-METHOD builtin::tuple5/_type
+METHOD builtin_types::tuple5/_type
   {
     CHECK_ARGUMENTS(0)
     MIN_RESULTS(1)
-    MAX_RESULTS(5)
+    MAX_RESULTS(8)
     START_ARGUMENTS(RESULT_COUNT)
     switch (RESULT_COUNT) {
+      case 8: ARGUMENTS(7) = (NODE *)&std_types::undefined;
+      case 7: ARGUMENTS(6) = (NODE *)&std_types::undefined;
+      case 6: ARGUMENTS(5) = MYSELF->tuple5.node_4;
       case 5: ARGUMENTS(4) = MYSELF->tuple5.node_4;
       case 4: ARGUMENTS(3) = MYSELF->tuple5.node_3;
       case 3: ARGUMENTS(2) = MYSELF->tuple5.node_2;
@@ -434,7 +456,7 @@ METHOD builtin::tuple5/_type
     RETURN
   }
 
-METHOD long builtin::tuple5/_debug_string
+METHOD long builtin_types::tuple5/_debug_string
   (
     NODE *node,
     int indent,
@@ -446,7 +468,7 @@ METHOD long builtin::tuple5/_debug_string
     if (CONTAINS_AN_ATTRIBUTE_VALUE(subtype)) {
       subtype = RETRIEVE_ATTRIBUTE_VALUE(subtype);
       if (TYPEOF(subtype) == TYPE(std_types::undefined)) {
-        subtype = NULL;
+	subtype = NULL;
       }
     } else {
       subtype = NULL;
@@ -454,44 +476,44 @@ METHOD long builtin::tuple5/_debug_string
     long n, len;
     if (max_depth <= 1) {
       /*if (subtype) {
-        n = 0;
-        if (indent < 0) {
-          if (buf) *buf++ = ' ';
-          ++n;
-        }
-        n += print(&buf, "<tuple-");
-        len = debug_string(subtype, 0, max_depth, buf);
-        --len; // remove trailing newline
-        if (buf) buf += len;
-        n += len;
-        n += print(&buf, ">\n");
-        return n;
+	n = 0;
+	if (indent < 0) {
+	  if (buf) *buf++ = ' ';
+	  ++n;
+	}
+	n += print(&buf, "<tuple-");
+	len = debug_string(subtype, 0, max_depth, buf);
+	--len; // remove trailing newline
+	if (buf) buf += len;
+	n += len;
+	n += print(&buf, ">\n");
+	return n;
       } else {*/
-        return debug_print(indent, buf, "<tuple of 5 items>");
+	return debug_print(indent, buf, "<tuple of 5 items>");
       /*}*/
     } else {
       long i;
       n = debug_print_head(&indent, &buf, "tuple");
       /*if (subtype) {
-        // replace the trailing newline with a hyphen
-        if (buf) buf[-1] = '-';
-        len = debug_string(subtype, 0, max_depth, buf);
-        if (buf) buf += len;
-        n += len;
+	// replace the trailing newline with a hyphen
+	if (buf) buf[-1] = '-';
+	len = debug_string(subtype, 0, max_depth, buf);
+	if (buf) buf += len;
+	n += len;
       }*/
       const char *contents_indent = indent_to_string(indent);
       NODE **node_p = &node->tuple5.node_0;
       for (i = 0; i < 5; ++i) {
-        n += print(&buf, contents_indent);
-        len = debug_string(node_p[i], indent, max_depth-1, buf);
-        if (buf) buf += len;
-        n += len;
+	n += print(&buf, contents_indent);
+	len = debug_string(node_p[i], indent, max_depth-1, buf);
+	if (buf) buf += len;
+	n += len;
       }
       return n;
     }
   }
 
-METHOD builtin::tuple5/to_list
+METHOD builtin_types::tuple5/to_list
   {
     CHECK_ARGUMENTS(1)
     NODE *self = ARGUMENTS(0);
@@ -506,24 +528,24 @@ METHOD builtin::tuple5/to_list
     RETURN_SINGLE_RESULT(CREATE(std_types::list, 0, 5, data))
   }
 
-METHOD builtin::tuple5/new
+METHOD builtin_types::tuple5/typed_tuple
   {
     CHECK_ARGUMENTS(6)
     NODE *prototype = ARGUMENTS(0);
     NODE *clone =
       CREATE(
-        builtin::tuple5,
-        ARGUMENTS(1),
-        ARGUMENTS(2),
-        ARGUMENTS(3),
-        ARGUMENTS(4),
-        ARGUMENTS(5)
+	builtin_types::tuple5,
+	ARGUMENTS(1),
+	ARGUMENTS(2),
+	ARGUMENTS(3),
+	ARGUMENTS(4),
+	ARGUMENTS(5)
       );
     clone->attributes = prototype->attributes;
     RETURN_SINGLE_RESULT(clone)
   }
 
-TYPE builtin::tuple6 -> std_types::tuple
+TYPE builtin_types::tuple6 -> std_types::tuple
   NODE *node_0
   NODE *node_1
   NODE *node_2
@@ -531,13 +553,15 @@ TYPE builtin::tuple6 -> std_types::tuple
   NODE *node_4
   NODE *node_5
 
-METHOD builtin::tuple6/_type
+METHOD builtin_types::tuple6/_type
   {
     CHECK_ARGUMENTS(0)
     MIN_RESULTS(1)
-    MAX_RESULTS(6)
+    MAX_RESULTS(8)
     START_ARGUMENTS(RESULT_COUNT)
     switch (RESULT_COUNT) {
+      case 8: ARGUMENTS(7) = (NODE *)&std_types::undefined;
+      case 7: ARGUMENTS(6) = (NODE *)&std_types::undefined;
       case 6: ARGUMENTS(5) = MYSELF->tuple6.node_5;
       case 5: ARGUMENTS(4) = MYSELF->tuple6.node_4;
       case 4: ARGUMENTS(3) = MYSELF->tuple6.node_3;
@@ -548,7 +572,7 @@ METHOD builtin::tuple6/_type
     RETURN
   }
 
-METHOD long builtin::tuple6/_debug_string
+METHOD long builtin_types::tuple6/_debug_string
   (
     NODE *node,
     int indent,
@@ -560,7 +584,7 @@ METHOD long builtin::tuple6/_debug_string
     if (CONTAINS_AN_ATTRIBUTE_VALUE(subtype)) {
       subtype = RETRIEVE_ATTRIBUTE_VALUE(subtype);
       if (TYPEOF(subtype) == TYPE(std_types::undefined)) {
-        subtype = NULL;
+	subtype = NULL;
       }
     } else {
       subtype = NULL;
@@ -568,44 +592,44 @@ METHOD long builtin::tuple6/_debug_string
     long n, len;
     if (max_depth <= 1) {
       /*if (subtype) {
-        n = 0;
-        if (indent < 0) {
-          if (buf) *buf++ = ' ';
-          ++n;
-        }
-        n += print(&buf, "<tuple-");
-        len = debug_string(subtype, 0, max_depth, buf);
-        --len; // remove trailing newline
-        if (buf) buf += len;
-        n += len;
-        n += print(&buf, ">\n");
-        return n;
+	n = 0;
+	if (indent < 0) {
+	  if (buf) *buf++ = ' ';
+	  ++n;
+	}
+	n += print(&buf, "<tuple-");
+	len = debug_string(subtype, 0, max_depth, buf);
+	--len; // remove trailing newline
+	if (buf) buf += len;
+	n += len;
+	n += print(&buf, ">\n");
+	return n;
       } else {*/
-        return debug_print(indent, buf, "<tuple of 6 items>");
+	return debug_print(indent, buf, "<tuple of 6 items>");
       /*}*/
     } else {
       long i;
       n = debug_print_head(&indent, &buf, "tuple");
       /*if (subtype) {
-        // replace the trailing newline with a hyphen
-        if (buf) buf[-1] = '-';
-        len = debug_string(subtype, 0, max_depth, buf);
-        if (buf) buf += len;
-        n += len;
+	// replace the trailing newline with a hyphen
+	if (buf) buf[-1] = '-';
+	len = debug_string(subtype, 0, max_depth, buf);
+	if (buf) buf += len;
+	n += len;
       }*/
       const char *contents_indent = indent_to_string(indent);
       NODE **node_p = &node->tuple6.node_0;
       for (i = 0; i < 6; ++i) {
-        n += print(&buf, contents_indent);
-        len = debug_string(node_p[i], indent, max_depth-1, buf);
-        if (buf) buf += len;
-        n += len;
+	n += print(&buf, contents_indent);
+	len = debug_string(node_p[i], indent, max_depth-1, buf);
+	if (buf) buf += len;
+	n += len;
       }
       return n;
     }
   }
 
-METHOD builtin::tuple6/to_list
+METHOD builtin_types::tuple6/to_list
   {
     CHECK_ARGUMENTS(1)
     NODE *self = ARGUMENTS(0);
@@ -621,25 +645,25 @@ METHOD builtin::tuple6/to_list
     RETURN_SINGLE_RESULT(CREATE(std_types::list, 0, 6, data))
   }
 
-METHOD builtin::tuple6/new
+METHOD builtin_types::tuple6/typed_tuple
   {
     CHECK_ARGUMENTS(7)
     NODE *prototype = ARGUMENTS(0);
     NODE *clone =
       CREATE(
-        builtin::tuple6,
-        ARGUMENTS(1),
-        ARGUMENTS(2),
-        ARGUMENTS(3),
-        ARGUMENTS(4),
-        ARGUMENTS(5),
-        ARGUMENTS(6)
+	builtin_types::tuple6,
+	ARGUMENTS(1),
+	ARGUMENTS(2),
+	ARGUMENTS(3),
+	ARGUMENTS(4),
+	ARGUMENTS(5),
+	ARGUMENTS(6)
       );
     clone->attributes = prototype->attributes;
     RETURN_SINGLE_RESULT(clone)
   }
 
-TYPE builtin::tuple7 -> std_types::tuple
+TYPE builtin_types::tuple7 -> std_types::tuple
   NODE *node_0
   NODE *node_1
   NODE *node_2
@@ -648,13 +672,14 @@ TYPE builtin::tuple7 -> std_types::tuple
   NODE *node_5
   NODE *node_6
 
-METHOD builtin::tuple7/_type
+METHOD builtin_types::tuple7/_type
   {
     CHECK_ARGUMENTS(0)
     MIN_RESULTS(1)
-    MAX_RESULTS(7)
+    MAX_RESULTS(8)
     START_ARGUMENTS(RESULT_COUNT)
     switch (RESULT_COUNT) {
+      case 8: ARGUMENTS(7) = (NODE *)&std_types::undefined;
       case 7: ARGUMENTS(6) = MYSELF->tuple7.node_6;
       case 6: ARGUMENTS(5) = MYSELF->tuple7.node_5;
       case 5: ARGUMENTS(4) = MYSELF->tuple7.node_4;
@@ -666,7 +691,7 @@ METHOD builtin::tuple7/_type
     RETURN
   }
 
-METHOD long builtin::tuple7/_debug_string
+METHOD long builtin_types::tuple7/_debug_string
   (
     NODE *node,
     int indent,
@@ -678,7 +703,7 @@ METHOD long builtin::tuple7/_debug_string
     if (CONTAINS_AN_ATTRIBUTE_VALUE(subtype)) {
       subtype = RETRIEVE_ATTRIBUTE_VALUE(subtype);
       if (TYPEOF(subtype) == TYPE(std_types::undefined)) {
-        subtype = NULL;
+	subtype = NULL;
       }
     } else {
       subtype = NULL;
@@ -686,44 +711,44 @@ METHOD long builtin::tuple7/_debug_string
     long n, len;
     if (max_depth <= 1) {
       /*if (subtype) {
-        n = 0;
-        if (indent < 0) {
-          if (buf) *buf++ = ' ';
-          ++n;
-        }
-        n += print(&buf, "<tuple-");
-        len = debug_string(subtype, 0, max_depth, buf);
-        --len; // remove trailing newline
-        if (buf) buf += len;
-        n += len;
-        n += print(&buf, ">\n");
-        return n;
+	n = 0;
+	if (indent < 0) {
+	  if (buf) *buf++ = ' ';
+	  ++n;
+	}
+	n += print(&buf, "<tuple-");
+	len = debug_string(subtype, 0, max_depth, buf);
+	--len; // remove trailing newline
+	if (buf) buf += len;
+	n += len;
+	n += print(&buf, ">\n");
+	return n;
       } else {*/
-        return debug_print(indent, buf, "<tuple of 7 items>");
+	return debug_print(indent, buf, "<tuple of 7 items>");
       /*}*/
     } else {
       long i;
       n = debug_print_head(&indent, &buf, "tuple");
       /*if (subtype) {
-        // replace the trailing newline with a hyphen
-        if (buf) buf[-1] = '-';
-        len = debug_string(subtype, 0, max_depth, buf);
-        if (buf) buf += len;
-        n += len;
+	// replace the trailing newline with a hyphen
+	if (buf) buf[-1] = '-';
+	len = debug_string(subtype, 0, max_depth, buf);
+	if (buf) buf += len;
+	n += len;
       }*/
       const char *contents_indent = indent_to_string(indent);
       NODE **node_p = &node->tuple7.node_0;
       for (i = 0; i < 7; ++i) {
-        n += print(&buf, contents_indent);
-        len = debug_string(node_p[i], indent, max_depth-1, buf);
-        if (buf) buf += len;
-        n += len;
+	n += print(&buf, contents_indent);
+	len = debug_string(node_p[i], indent, max_depth-1, buf);
+	if (buf) buf += len;
+	n += len;
       }
       return n;
     }
   }
 
-METHOD builtin::tuple7/to_list
+METHOD builtin_types::tuple7/to_list
   {
     CHECK_ARGUMENTS(1)
     NODE *self = ARGUMENTS(0);
@@ -740,26 +765,26 @@ METHOD builtin::tuple7/to_list
     RETURN_SINGLE_RESULT(CREATE(std_types::list, 0, 7, data))
   }
 
-METHOD builtin::tuple7/new
+METHOD builtin_types::tuple7/typed_tuple
   {
     CHECK_ARGUMENTS(8)
     NODE *prototype = ARGUMENTS(0);
     NODE *clone =
       CREATE(
-        builtin::tuple7,
-        ARGUMENTS(1),
-        ARGUMENTS(2),
-        ARGUMENTS(3),
-        ARGUMENTS(4),
-        ARGUMENTS(5),
-        ARGUMENTS(6),
-        ARGUMENTS(7)
+	builtin_types::tuple7,
+	ARGUMENTS(1),
+	ARGUMENTS(2),
+	ARGUMENTS(3),
+	ARGUMENTS(4),
+	ARGUMENTS(5),
+	ARGUMENTS(6),
+	ARGUMENTS(7)
       );
     clone->attributes = prototype->attributes;
     RETURN_SINGLE_RESULT(clone)
   }
 
-TYPE builtin::tuple8 -> std_types::tuple
+TYPE builtin_types::tuple8 -> std_types::tuple
   NODE *node_0
   NODE *node_1
   NODE *node_2
@@ -769,7 +794,7 @@ TYPE builtin::tuple8 -> std_types::tuple
   NODE *node_6
   NODE *node_7
 
-METHOD builtin::tuple8/_type
+METHOD builtin_types::tuple8/_type
   {
     CHECK_ARGUMENTS(0)
     MIN_RESULTS(1)
@@ -788,7 +813,7 @@ METHOD builtin::tuple8/_type
     RETURN
   }
 
-METHOD long builtin::tuple8/_debug_string
+METHOD long builtin_types::tuple8/_debug_string
   (
     NODE *node,
     int indent,
@@ -800,7 +825,7 @@ METHOD long builtin::tuple8/_debug_string
     if (CONTAINS_AN_ATTRIBUTE_VALUE(subtype)) {
       subtype = RETRIEVE_ATTRIBUTE_VALUE(subtype);
       if (TYPEOF(subtype) == TYPE(std_types::undefined)) {
-        subtype = NULL;
+	subtype = NULL;
       }
     } else {
       subtype = NULL;
@@ -808,44 +833,44 @@ METHOD long builtin::tuple8/_debug_string
     long n, len;
     if (max_depth <= 1) {
       /*if (subtype) {
-        n = 0;
-        if (indent < 0) {
-          if (buf) *buf++ = ' ';
-          ++n;
-        }
-        n += print(&buf, "<tuple-");
-        len = debug_string(subtype, 0, max_depth, buf);
-        --len; // remove trailing newline
-        if (buf) buf += len;
-        n += len;
-        n += print(&buf, ">\n");
-        return n;
+	n = 0;
+	if (indent < 0) {
+	  if (buf) *buf++ = ' ';
+	  ++n;
+	}
+	n += print(&buf, "<tuple-");
+	len = debug_string(subtype, 0, max_depth, buf);
+	--len; // remove trailing newline
+	if (buf) buf += len;
+	n += len;
+	n += print(&buf, ">\n");
+	return n;
       } else {*/
-        return debug_print(indent, buf, "<tuple of 8 items>");
+	return debug_print(indent, buf, "<tuple of 8 items>");
       /*}*/
     } else {
       long i;
       n = debug_print_head(&indent, &buf, "tuple");
       /*if (subtype) {
-        // replace the trailing newline with a hyphen
-        if (buf) buf[-1] = '-';
-        len = debug_string(subtype, 0, max_depth, buf);
-        if (buf) buf += len;
-        n += len;
+	// replace the trailing newline with a hyphen
+	if (buf) buf[-1] = '-';
+	len = debug_string(subtype, 0, max_depth, buf);
+	if (buf) buf += len;
+	n += len;
       }*/
       const char *contents_indent = indent_to_string(indent);
       NODE **node_p = &node->tuple8.node_0;
       for (i = 0; i < 8; ++i) {
-        n += print(&buf, contents_indent);
-        len = debug_string(node_p[i], indent, max_depth-1, buf);
-        if (buf) buf += len;
-        n += len;
+	n += print(&buf, contents_indent);
+	len = debug_string(node_p[i], indent, max_depth-1, buf);
+	if (buf) buf += len;
+	n += len;
       }
       return n;
     }
   }
 
-METHOD builtin::tuple8/to_list
+METHOD builtin_types::tuple8/to_list
   {
     CHECK_ARGUMENTS(1)
     NODE *self = ARGUMENTS(0);
@@ -863,21 +888,21 @@ METHOD builtin::tuple8/to_list
     RETURN_SINGLE_RESULT(CREATE(std_types::list, 0, 8, data))
   }
 
-METHOD builtin::tuple8/new
+METHOD builtin_types::tuple8/typed_tuple
   {
     CHECK_ARGUMENTS(9)
     NODE *prototype = ARGUMENTS(0);
     NODE *clone =
       CREATE(
-        builtin::tuple8,
-        ARGUMENTS(1),
-        ARGUMENTS(2),
-        ARGUMENTS(3),
-        ARGUMENTS(4),
-        ARGUMENTS(5),
-        ARGUMENTS(6),
-        ARGUMENTS(7),
-        ARGUMENTS(8)
+	builtin_types::tuple8,
+	ARGUMENTS(1),
+	ARGUMENTS(2),
+	ARGUMENTS(3),
+	ARGUMENTS(4),
+	ARGUMENTS(5),
+	ARGUMENTS(6),
+	ARGUMENTS(7),
+	ARGUMENTS(8)
       );
     clone->attributes = prototype->attributes;
     RETURN_SINGLE_RESULT(clone)
@@ -891,75 +916,75 @@ FUNCTION std::tuple
     MAX_ARGUMENTS(8)
     switch (ARGUMENT_COUNT) {
       case 2:
-        RETURN_SINGLE_RESULT(
-          CREATE(builtin::tuple2, 
-            ARGUMENTS(0),
-            ARGUMENTS(1)
-          )
-        )
+	RETURN_SINGLE_RESULT(
+	  CREATE(builtin_types::tuple2,
+	    ARGUMENTS(0),
+	    ARGUMENTS(1)
+	  )
+	)
       case 3:
-        RETURN_SINGLE_RESULT(
-          CREATE(builtin::tuple3, 
-            ARGUMENTS(0),
-            ARGUMENTS(1),
-            ARGUMENTS(2)
-          )
-        )
+	RETURN_SINGLE_RESULT(
+	  CREATE(builtin_types::tuple3,
+	    ARGUMENTS(0),
+	    ARGUMENTS(1),
+	    ARGUMENTS(2)
+	  )
+	)
       case 4:
-        RETURN_SINGLE_RESULT(
-          CREATE(builtin::tuple4, 
-            ARGUMENTS(0),
-            ARGUMENTS(1),
-            ARGUMENTS(2),
-            ARGUMENTS(3)
-          )
-        )
+	RETURN_SINGLE_RESULT(
+	  CREATE(builtin_types::tuple4,
+	    ARGUMENTS(0),
+	    ARGUMENTS(1),
+	    ARGUMENTS(2),
+	    ARGUMENTS(3)
+	  )
+	)
       case 5:
-        RETURN_SINGLE_RESULT(
-          CREATE(builtin::tuple5, 
-            ARGUMENTS(0),
-            ARGUMENTS(1),
-            ARGUMENTS(2),
-            ARGUMENTS(3),
-            ARGUMENTS(4)
-          )
-        )
+	RETURN_SINGLE_RESULT(
+	  CREATE(builtin_types::tuple5,
+	    ARGUMENTS(0),
+	    ARGUMENTS(1),
+	    ARGUMENTS(2),
+	    ARGUMENTS(3),
+	    ARGUMENTS(4)
+	  )
+	)
       case 6:
-        RETURN_SINGLE_RESULT(
-          CREATE(builtin::tuple6, 
-            ARGUMENTS(0),
-            ARGUMENTS(1),
-            ARGUMENTS(2),
-            ARGUMENTS(3),
-            ARGUMENTS(4),
-            ARGUMENTS(5)
-          )
-        )
+	RETURN_SINGLE_RESULT(
+	  CREATE(builtin_types::tuple6,
+	    ARGUMENTS(0),
+	    ARGUMENTS(1),
+	    ARGUMENTS(2),
+	    ARGUMENTS(3),
+	    ARGUMENTS(4),
+	    ARGUMENTS(5)
+	  )
+	)
       case 7:
-        RETURN_SINGLE_RESULT(
-          CREATE(builtin::tuple7, 
-            ARGUMENTS(0),
-            ARGUMENTS(1),
-            ARGUMENTS(2),
-            ARGUMENTS(3),
-            ARGUMENTS(4),
-            ARGUMENTS(5),
-            ARGUMENTS(6)
-          )
-        )
+	RETURN_SINGLE_RESULT(
+	  CREATE(builtin_types::tuple7,
+	    ARGUMENTS(0),
+	    ARGUMENTS(1),
+	    ARGUMENTS(2),
+	    ARGUMENTS(3),
+	    ARGUMENTS(4),
+	    ARGUMENTS(5),
+	    ARGUMENTS(6)
+	  )
+	)
       case 8:
-        RETURN_SINGLE_RESULT(
-          CREATE(builtin::tuple8, 
-            ARGUMENTS(0),
-            ARGUMENTS(1),
-            ARGUMENTS(2),
-            ARGUMENTS(3),
-            ARGUMENTS(4),
-            ARGUMENTS(5),
-            ARGUMENTS(6),
-            ARGUMENTS(7)
-          )
-        )
+	RETURN_SINGLE_RESULT(
+	  CREATE(builtin_types::tuple8,
+	    ARGUMENTS(0),
+	    ARGUMENTS(1),
+	    ARGUMENTS(2),
+	    ARGUMENTS(3),
+	    ARGUMENTS(4),
+	    ARGUMENTS(5),
+	    ARGUMENTS(6),
+	    ARGUMENTS(7)
+	  )
+	)
     }
   }
 
@@ -976,79 +1001,79 @@ FUNCTION std::tuple_or_error
     int i;
     for (i = 0; i < ARGUMENT_COUNT; ++i) {
       if (TYPEOF(ARGUMENTS(i)) == TYPE(std_types::error))
-        RETURN_SINGLE_RESULT(ARGUMENTS(i))
+	RETURN_SINGLE_RESULT(ARGUMENTS(i))
     }
     switch (ARGUMENT_COUNT) {
       case 2:
-        RETURN_SINGLE_RESULT(
-          CREATE(builtin::tuple2, 
-            ARGUMENTS(0),
-            ARGUMENTS(1)
-          )
-        )
+	RETURN_SINGLE_RESULT(
+	  CREATE(builtin_types::tuple2,
+	    ARGUMENTS(0),
+	    ARGUMENTS(1)
+	  )
+	)
       case 3:
-        RETURN_SINGLE_RESULT(
-          CREATE(builtin::tuple3, 
-            ARGUMENTS(0),
-            ARGUMENTS(1),
-            ARGUMENTS(2)
-          )
-        )
+	RETURN_SINGLE_RESULT(
+	  CREATE(builtin_types::tuple3,
+	    ARGUMENTS(0),
+	    ARGUMENTS(1),
+	    ARGUMENTS(2)
+	  )
+	)
       case 4:
-        RETURN_SINGLE_RESULT(
-          CREATE(builtin::tuple4, 
-            ARGUMENTS(0),
-            ARGUMENTS(1),
-            ARGUMENTS(2),
-            ARGUMENTS(3)
-          )
-        )
+	RETURN_SINGLE_RESULT(
+	  CREATE(builtin_types::tuple4,
+	    ARGUMENTS(0),
+	    ARGUMENTS(1),
+	    ARGUMENTS(2),
+	    ARGUMENTS(3)
+	  )
+	)
       case 5:
-        RETURN_SINGLE_RESULT(
-          CREATE(builtin::tuple5, 
-            ARGUMENTS(0),
-            ARGUMENTS(1),
-            ARGUMENTS(2),
-            ARGUMENTS(3),
-            ARGUMENTS(4)
-          )
-        )
+	RETURN_SINGLE_RESULT(
+	  CREATE(builtin_types::tuple5,
+	    ARGUMENTS(0),
+	    ARGUMENTS(1),
+	    ARGUMENTS(2),
+	    ARGUMENTS(3),
+	    ARGUMENTS(4)
+	  )
+	)
       case 6:
-        RETURN_SINGLE_RESULT(
-          CREATE(builtin::tuple6, 
-            ARGUMENTS(0),
-            ARGUMENTS(1),
-            ARGUMENTS(2),
-            ARGUMENTS(3),
-            ARGUMENTS(4),
-            ARGUMENTS(5)
-          )
-        )
+	RETURN_SINGLE_RESULT(
+	  CREATE(builtin_types::tuple6,
+	    ARGUMENTS(0),
+	    ARGUMENTS(1),
+	    ARGUMENTS(2),
+	    ARGUMENTS(3),
+	    ARGUMENTS(4),
+	    ARGUMENTS(5)
+	  )
+	)
       case 7:
-        RETURN_SINGLE_RESULT(
-          CREATE(builtin::tuple7, 
-            ARGUMENTS(0),
-            ARGUMENTS(1),
-            ARGUMENTS(2),
-            ARGUMENTS(3),
-            ARGUMENTS(4),
-            ARGUMENTS(5),
-            ARGUMENTS(6)
-          )
-        )
+	RETURN_SINGLE_RESULT(
+	  CREATE(builtin_types::tuple7,
+	    ARGUMENTS(0),
+	    ARGUMENTS(1),
+	    ARGUMENTS(2),
+	    ARGUMENTS(3),
+	    ARGUMENTS(4),
+	    ARGUMENTS(5),
+	    ARGUMENTS(6)
+	  )
+	)
       case 8:
-        RETURN_SINGLE_RESULT(
-          CREATE(builtin::tuple8, 
-            ARGUMENTS(0),
-            ARGUMENTS(1),
-            ARGUMENTS(2),
-            ARGUMENTS(3),
-            ARGUMENTS(4),
-            ARGUMENTS(5),
-            ARGUMENTS(6),
-            ARGUMENTS(7)
-          )
-        )
+	RETURN_SINGLE_RESULT(
+	  CREATE(builtin_types::tuple8,
+	    ARGUMENTS(0),
+	    ARGUMENTS(1),
+	    ARGUMENTS(2),
+	    ARGUMENTS(3),
+	    ARGUMENTS(4),
+	    ARGUMENTS(5),
+	    ARGUMENTS(6),
+	    ARGUMENTS(7)
+	  )
+	)
     }
   }
 
@@ -1075,75 +1100,75 @@ FUNCTION std::new_tuple
     NODE *tuple;
     switch (length) {
       case 2:
-        tuple =
-          CREATE(builtin::tuple2, 
-            data->items[offset+0],
-            data->items[offset+1]
-          );
-        break;
+	tuple =
+	  CREATE(builtin_types::tuple2,
+	    data->items[offset+0],
+	    data->items[offset+1]
+	  );
+	break;
       case 3:
-        tuple =
-          CREATE(builtin::tuple3, 
-            data->items[offset+0],
-            data->items[offset+1],
-            data->items[offset+2]
-          );
-        break;
+	tuple =
+	  CREATE(builtin_types::tuple3,
+	    data->items[offset+0],
+	    data->items[offset+1],
+	    data->items[offset+2]
+	  );
+	break;
       case 4:
-        tuple =
-          CREATE(builtin::tuple4, 
-            data->items[offset+0],
-            data->items[offset+1],
-            data->items[offset+2],
-            data->items[offset+3]
-          );
-        break;
+	tuple =
+	  CREATE(builtin_types::tuple4,
+	    data->items[offset+0],
+	    data->items[offset+1],
+	    data->items[offset+2],
+	    data->items[offset+3]
+	  );
+	break;
       case 5:
-        tuple =
-          CREATE(builtin::tuple5, 
-            data->items[offset+0],
-            data->items[offset+1],
-            data->items[offset+2],
-            data->items[offset+3],
-            data->items[offset+4]
-          );
-        break;
+	tuple =
+	  CREATE(builtin_types::tuple5,
+	    data->items[offset+0],
+	    data->items[offset+1],
+	    data->items[offset+2],
+	    data->items[offset+3],
+	    data->items[offset+4]
+	  );
+	break;
       case 6:
-        tuple =
-          CREATE(builtin::tuple6, 
-            data->items[offset+0],
-            data->items[offset+1],
-            data->items[offset+2],
-            data->items[offset+3],
-            data->items[offset+4],
-            data->items[offset+5]
-          );
-        break;
+	tuple =
+	  CREATE(builtin_types::tuple6,
+	    data->items[offset+0],
+	    data->items[offset+1],
+	    data->items[offset+2],
+	    data->items[offset+3],
+	    data->items[offset+4],
+	    data->items[offset+5]
+	  );
+	break;
       case 7:
-        tuple =
-          CREATE(builtin::tuple7, 
-            data->items[offset+0],
-            data->items[offset+1],
-            data->items[offset+2],
-            data->items[offset+3],
-            data->items[offset+4],
-            data->items[offset+5],
-            data->items[offset+6]
-          );
-        break;
+	tuple =
+	  CREATE(builtin_types::tuple7,
+	    data->items[offset+0],
+	    data->items[offset+1],
+	    data->items[offset+2],
+	    data->items[offset+3],
+	    data->items[offset+4],
+	    data->items[offset+5],
+	    data->items[offset+6]
+	  );
+	break;
       case 8:
-        tuple =
-          CREATE(builtin::tuple8, 
-            data->items[offset+0],
-            data->items[offset+1],
-            data->items[offset+2],
-            data->items[offset+3],
-            data->items[offset+4],
-            data->items[offset+5],
-            data->items[offset+6],
-            data->items[offset+7]
-          );
-        break;
+	tuple =
+	  CREATE(builtin_types::tuple8,
+	    data->items[offset+0],
+	    data->items[offset+1],
+	    data->items[offset+2],
+	    data->items[offset+3],
+	    data->items[offset+4],
+	    data->items[offset+5],
+	    data->items[offset+6],
+	    data->items[offset+7]
+	  );
+	break;
     }
     if (TYPEOF(prototype) != TYPE(std_types::tuple)) {
       // std_types::tuple is generic and cannot be used!

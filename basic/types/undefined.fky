@@ -20,6 +20,8 @@
   Free Software Foundation, Inc.,
   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
+# Topic: Basics
+
 $std::undefined std_types::undefined
   #
     a one-of-kind object to represent *undefined* values

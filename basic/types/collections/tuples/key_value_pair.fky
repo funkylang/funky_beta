@@ -1,5 +1,5 @@
 #
-  Copyright (C) 2021 by
+  Copyright (C) 2024 by
   Dipl.-Ing. Michael Niederle
 
   This program is free software; you can redistribute it and/or modify
@@ -20,21 +20,13 @@
   Free Software Foundation, Inc.,
   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
-$std::key_of (!)
-  #
-    the key of a key-value-pair
+# Topics: Tuples, Collections
 
-    See also: std::value_of
+$std::key_of () # the key of a key-value-pair
 
-$std::value_of (!)
-  #
-    the value of a key-value-pair
-
-    See also: std::key_of
+$std::value_of () # the value of a key-value-pair
 
 $std_types::key_value_pair.subtype_of "key_value_pair"
-  #
-    the tuple subtype for key-value-pairs
 
 $std::is_a_key_value_pair () # obvious
 
@@ -42,8 +34,6 @@ $std_types::object.is_a_key_value_pair false # obvious
 $std_types::key_value_pair.is_a_key_value_pair true # obvious
 
 $std_types::key_value_pair/key_of:
-  #
-    returns the key of a key-value-pair
   (
     self
   )
@@ -51,8 +41,6 @@ $std_types::key_value_pair/key_of:
   -> key
 
 $std_types::key_value_pair/value_of:
-  #
-    returns the value of a key-value-pair
   (
     self
   )
@@ -60,12 +48,12 @@ $std_types::key_value_pair/value_of:
   -> value
 
 $std::key_value_pair:
-  #
-    constructs a key-value-pair
   (
     key
     value
   )
-  new std_types::key_value_pair key value
+  typed_tuple std_types::key_value_pair key value
 
 $std_types::key_value_pair.serialization_tag_of "key_value_pair"
+
+register_type &deserializers std_types::key_value_pair

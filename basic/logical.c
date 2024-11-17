@@ -22,14 +22,14 @@ enum {
 static TAB_NUM t_func_std__in[] = {
   3, // locals
   2, // parameters
-  LOCAL(2), // 29_0_element
-  LOCAL(3), // 30_0_collection
+  LOCAL(2), // 31_0_element
+  LOCAL(3), // 32_0_collection
   // contains(collection element)
   var_contains, 2, LOCAL(3), LOCAL(2), 1, LOCAL(1),
   // -> contains(collection element)
   LET, 1, LOCAL(1), TAIL_CALL,
-  POS(32, 6),
-  POS(32, 3)
+  POS(34, 6),
+  POS(34, 3)
 };
 
 static FUNKY_CONSTANT constants_table[] = {
@@ -45,12 +45,12 @@ static FUNKY_VARIABLE variables_table[] = {
   {
     FOT_UNKNOWN, 0, 0,
     "contains\000", NULL,
-    {.position = POS(32, 6)}
+    {.position = POS(34, 6)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "assign\000std", NULL,
-    {.position = POS(32, 5)}
+    {.position = POS(34, 5)}
   }
 };
 

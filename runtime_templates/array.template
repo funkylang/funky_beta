@@ -20,27 +20,21 @@
   Free Software Foundation, Inc.,
   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
+# Topics: Arrays, Collections
+
 TYPE std_types::generic_array -> std_types::object
   #
     the prototype object for all kind of arrays
 
     Topic: Collections
 
-    See also:
-
-    std_types::array,
-    std_types::boolean_array,
-    std_types::character_array,
-    std_types::int8_array,
-    std_types::uint8_array,
-    std_types::int16_array,
-    std_types::uint16_array,
-    std_types::int32_array,
-    std_types::uint32_array,
-    std_types::int64_array,
-    std_types::uint64_array,
-    std_types::float32_array,
-    std_types::float64_array
+    See also: std_types::array, std_types::boolean_array,
+	      std_types::character_array, std_types::int8_array,
+	      std_types::uint8_array, std_types::int16_array,
+	      std_types::uint16_array, std_types::int32_array,
+	      std_types::uint32_array, std_types::int64_array,
+	      std_types::uint64_array, std_types::float32_array,
+	      std_types::float64_array
 
 METHOD std_types::generic_array/_type
   {
@@ -64,6 +58,8 @@ RECORD ARRAY_UPDATES
   long size
   long length
   char buffer[]
+
+ATTR std::create_empty_array
 
 CODE
   static ARRAY_VIEW *create_array_view
@@ -405,20 +401,12 @@ TYPE std_types::array -> std_types::generic_array
 
     Topic: Collections
 
-    See also:
-
-    std_types::boolean_array,
-    std_types::character_array,
-    std_types::int8_array,
-    std_types::uint8_array,
-    std_types::int16_array,
-    std_types::uint16_array,
-    std_types::int32_array,
-    std_types::uint32_array,
-    std_types::int64_array,
-    std_types::uint64_array,
-    std_types::float32_array,
-    std_types::float64_array
+    See also: std_types::boolean_array, std_types::character_array,
+	      std_types::int8_array, std_types::uint8_array,
+	      std_types::int16_array, std_types::uint16_array,
+	      std_types::int32_array, std_types::uint32_array,
+	      std_types::int64_array, std_types::uint64_array,
+	      std_types::float32_array, std_types::float64_array
 
   long updates_length
   ARRAY_VIEW *view
@@ -544,7 +532,7 @@ FUNCTION std::array
   #
     constructs an empty array
 
-    See also: std_types::array/new, std::initialized_array
+    See also: std_types::array/create_empty_array, std::initialized_array
   {
     MIN_ARGUMENTS(1)
     ARRAY_VIEW *view = create_array_view(ARGUMENT_COUNT);
@@ -565,7 +553,7 @@ FUNCTION std::initialized_array
 
     The last argument specifies the initial value for all array items.
 
-    See also: std::array, std_types::array/new
+    See also: std::array, std_types::array/create_empty_array
   {
     MIN_ARGUMENTS(2)
     ARRAY_VIEW *view = create_array_view(ARGUMENT_COUNT-1);
@@ -582,7 +570,7 @@ FUNCTION std::initialized_array
     RETURN_SINGLE_RESULT(CREATE(std_types::array, 0, view, data, NULL))
   }
 
-METHOD std_types::array/new
+METHOD std_types::array/create_empty_array
   #
     creates an empty new array based on the given template array
   {
@@ -843,7 +831,8 @@ FUNCTION std::boolean_array
   #
     constructs an empty array
 
-    See also: std_types::boolean_array/new, std::initialized_boolean_array
+    See also: std_types::boolean_array/create_empty_array,
+	      std::initialized_boolean_array
   {
     MIN_ARGUMENTS(1)
     ARRAY_VIEW *view = create_array_view(ARGUMENT_COUNT);
@@ -864,7 +853,7 @@ FUNCTION std::initialized_boolean_array
 
     The last argument specifies the initial value for all array items.
 
-    See also: std::boolean_array, std_types::boolean_array/new
+    See also: std::boolean_array, std_types::boolean_array/create_empty_array
   {
     MIN_ARGUMENTS(2)
     ARRAY_VIEW *view = create_array_view(ARGUMENT_COUNT-1);
@@ -881,7 +870,7 @@ FUNCTION std::initialized_boolean_array
     RETURN_SINGLE_RESULT(CREATE(std_types::boolean_array, 0, view, data, NULL))
   }
 
-METHOD std_types::boolean_array/new
+METHOD std_types::boolean_array/create_empty_array
   #
     creates an empty new array based on the given template array
   {
@@ -1067,7 +1056,8 @@ FUNCTION std::character_array
   #
     constructs an empty array
 
-    See also: std_types::character_array/new, std::initialized_character_array
+    See also: std_types::character_array/create_empty_array,
+	      std::initialized_character_array
   {
     MIN_ARGUMENTS(1)
     ARRAY_VIEW *view = create_array_view(ARGUMENT_COUNT);
@@ -1088,7 +1078,7 @@ FUNCTION std::initialized_character_array
 
     The last argument specifies the initial value for all array items.
 
-    See also: std::character_array, std_types::character_array/new
+    See also: std::character_array, std_types::character_array/create_empty_array
   {
     MIN_ARGUMENTS(2)
     ARRAY_VIEW *view = create_array_view(ARGUMENT_COUNT-1);
@@ -1105,7 +1095,7 @@ FUNCTION std::initialized_character_array
     RETURN_SINGLE_RESULT(CREATE(std_types::character_array, 0, view, data, NULL))
   }
 
-METHOD std_types::character_array/new
+METHOD std_types::character_array/create_empty_array
   #
     creates an empty new array based on the given template array
   {
@@ -1352,7 +1342,8 @@ FUNCTION std::int8_array
   #
     constructs an empty array
 
-    See also: std_types::int8_array/new, std::initialized_int8_array
+    See also: std_types::int8_array/create_empty_array,
+	      std::initialized_int8_array
   {
     MIN_ARGUMENTS(1)
     ARRAY_VIEW *view = create_array_view(ARGUMENT_COUNT);
@@ -1373,7 +1364,7 @@ FUNCTION std::initialized_int8_array
 
     The last argument specifies the initial value for all array items.
 
-    See also: std::int8_array, std_types::int8_array/new
+    See also: std::int8_array, std_types::int8_array/create_empty_array
   {
     MIN_ARGUMENTS(2)
     ARRAY_VIEW *view = create_array_view(ARGUMENT_COUNT-1);
@@ -1390,7 +1381,7 @@ FUNCTION std::initialized_int8_array
     RETURN_SINGLE_RESULT(CREATE(std_types::int8_array, 0, view, data, NULL))
   }
 
-METHOD std_types::int8_array/new
+METHOD std_types::int8_array/create_empty_array
   #
     creates an empty new array based on the given template array
   {
@@ -1712,7 +1703,8 @@ FUNCTION std::uint8_array
   #
     constructs an empty array
 
-    See also: std_types::uint8_array/new, std::initialized_uint8_array
+    See also: std_types::uint8_array/create_empty_array,
+	      std::initialized_uint8_array
   {
     MIN_ARGUMENTS(1)
     ARRAY_VIEW *view = create_array_view(ARGUMENT_COUNT);
@@ -1733,7 +1725,7 @@ FUNCTION std::initialized_uint8_array
 
     The last argument specifies the initial value for all array items.
 
-    See also: std::uint8_array, std_types::uint8_array/new
+    See also: std::uint8_array, std_types::uint8_array/create_empty_array
   {
     MIN_ARGUMENTS(2)
     ARRAY_VIEW *view = create_array_view(ARGUMENT_COUNT-1);
@@ -1750,7 +1742,7 @@ FUNCTION std::initialized_uint8_array
     RETURN_SINGLE_RESULT(CREATE(std_types::uint8_array, 0, view, data, NULL))
   }
 
-METHOD std_types::uint8_array/new
+METHOD std_types::uint8_array/create_empty_array
   #
     creates an empty new array based on the given template array
   {
@@ -1997,7 +1989,8 @@ FUNCTION std::int16_array
   #
     constructs an empty array
 
-    See also: std_types::int16_array/new, std::initialized_int16_array
+    See also: std_types::int16_array/create_empty_array,
+	      std::initialized_int16_array
   {
     MIN_ARGUMENTS(1)
     ARRAY_VIEW *view = create_array_view(ARGUMENT_COUNT);
@@ -2018,7 +2011,7 @@ FUNCTION std::initialized_int16_array
 
     The last argument specifies the initial value for all array items.
 
-    See also: std::int16_array, std_types::int16_array/new
+    See also: std::int16_array, std_types::int16_array/create_empty_array
   {
     MIN_ARGUMENTS(2)
     ARRAY_VIEW *view = create_array_view(ARGUMENT_COUNT-1);
@@ -2035,7 +2028,7 @@ FUNCTION std::initialized_int16_array
     RETURN_SINGLE_RESULT(CREATE(std_types::int16_array, 0, view, data, NULL))
   }
 
-METHOD std_types::int16_array/new
+METHOD std_types::int16_array/create_empty_array
   #
     creates an empty new array based on the given template array
   {
@@ -2357,7 +2350,8 @@ FUNCTION std::uint16_array
   #
     constructs an empty array
 
-    See also: std_types::uint16_array/new, std::initialized_uint16_array
+    See also: std_types::uint16_array/create_empty_array,
+	      std::initialized_uint16_array
   {
     MIN_ARGUMENTS(1)
     ARRAY_VIEW *view = create_array_view(ARGUMENT_COUNT);
@@ -2378,7 +2372,7 @@ FUNCTION std::initialized_uint16_array
 
     The last argument specifies the initial value for all array items.
 
-    See also: std::uint16_array, std_types::uint16_array/new
+    See also: std::uint16_array, std_types::uint16_array/create_empty_array
   {
     MIN_ARGUMENTS(2)
     ARRAY_VIEW *view = create_array_view(ARGUMENT_COUNT-1);
@@ -2395,7 +2389,7 @@ FUNCTION std::initialized_uint16_array
     RETURN_SINGLE_RESULT(CREATE(std_types::uint16_array, 0, view, data, NULL))
   }
 
-METHOD std_types::uint16_array/new
+METHOD std_types::uint16_array/create_empty_array
   #
     creates an empty new array based on the given template array
   {
@@ -2642,7 +2636,8 @@ FUNCTION std::int32_array
   #
     constructs an empty array
 
-    See also: std_types::int32_array/new, std::initialized_int32_array
+    See also: std_types::int32_array/create_empty_array,
+	      std::initialized_int32_array
   {
     MIN_ARGUMENTS(1)
     ARRAY_VIEW *view = create_array_view(ARGUMENT_COUNT);
@@ -2663,7 +2658,7 @@ FUNCTION std::initialized_int32_array
 
     The last argument specifies the initial value for all array items.
 
-    See also: std::int32_array, std_types::int32_array/new
+    See also: std::int32_array, std_types::int32_array/create_empty_array
   {
     MIN_ARGUMENTS(2)
     ARRAY_VIEW *view = create_array_view(ARGUMENT_COUNT-1);
@@ -2680,7 +2675,7 @@ FUNCTION std::initialized_int32_array
     RETURN_SINGLE_RESULT(CREATE(std_types::int32_array, 0, view, data, NULL))
   }
 
-METHOD std_types::int32_array/new
+METHOD std_types::int32_array/create_empty_array
   #
     creates an empty new array based on the given template array
   {
@@ -3002,7 +2997,8 @@ FUNCTION std::uint32_array
   #
     constructs an empty array
 
-    See also: std_types::uint32_array/new, std::initialized_uint32_array
+    See also: std_types::uint32_array/create_empty_array,
+	      std::initialized_uint32_array
   {
     MIN_ARGUMENTS(1)
     ARRAY_VIEW *view = create_array_view(ARGUMENT_COUNT);
@@ -3023,7 +3019,7 @@ FUNCTION std::initialized_uint32_array
 
     The last argument specifies the initial value for all array items.
 
-    See also: std::uint32_array, std_types::uint32_array/new
+    See also: std::uint32_array, std_types::uint32_array/create_empty_array
   {
     MIN_ARGUMENTS(2)
     ARRAY_VIEW *view = create_array_view(ARGUMENT_COUNT-1);
@@ -3040,7 +3036,7 @@ FUNCTION std::initialized_uint32_array
     RETURN_SINGLE_RESULT(CREATE(std_types::uint32_array, 0, view, data, NULL))
   }
 
-METHOD std_types::uint32_array/new
+METHOD std_types::uint32_array/create_empty_array
   #
     creates an empty new array based on the given template array
   {
@@ -3287,7 +3283,8 @@ FUNCTION std::int64_array
   #
     constructs an empty array
 
-    See also: std_types::int64_array/new, std::initialized_int64_array
+    See also: std_types::int64_array/create_empty_array,
+	      std::initialized_int64_array
   {
     MIN_ARGUMENTS(1)
     ARRAY_VIEW *view = create_array_view(ARGUMENT_COUNT);
@@ -3308,7 +3305,7 @@ FUNCTION std::initialized_int64_array
 
     The last argument specifies the initial value for all array items.
 
-    See also: std::int64_array, std_types::int64_array/new
+    See also: std::int64_array, std_types::int64_array/create_empty_array
   {
     MIN_ARGUMENTS(2)
     ARRAY_VIEW *view = create_array_view(ARGUMENT_COUNT-1);
@@ -3325,7 +3322,7 @@ FUNCTION std::initialized_int64_array
     RETURN_SINGLE_RESULT(CREATE(std_types::int64_array, 0, view, data, NULL))
   }
 
-METHOD std_types::int64_array/new
+METHOD std_types::int64_array/create_empty_array
   #
     creates an empty new array based on the given template array
   {
@@ -3647,7 +3644,8 @@ FUNCTION std::uint64_array
   #
     constructs an empty array
 
-    See also: std_types::uint64_array/new, std::initialized_uint64_array
+    See also: std_types::uint64_array/create_empty_array,
+	      std::initialized_uint64_array
   {
     MIN_ARGUMENTS(1)
     ARRAY_VIEW *view = create_array_view(ARGUMENT_COUNT);
@@ -3668,7 +3666,7 @@ FUNCTION std::initialized_uint64_array
 
     The last argument specifies the initial value for all array items.
 
-    See also: std::uint64_array, std_types::uint64_array/new
+    See also: std::uint64_array, std_types::uint64_array/create_empty_array
   {
     MIN_ARGUMENTS(2)
     ARRAY_VIEW *view = create_array_view(ARGUMENT_COUNT-1);
@@ -3685,7 +3683,7 @@ FUNCTION std::initialized_uint64_array
     RETURN_SINGLE_RESULT(CREATE(std_types::uint64_array, 0, view, data, NULL))
   }
 
-METHOD std_types::uint64_array/new
+METHOD std_types::uint64_array/create_empty_array
   #
     creates an empty new array based on the given template array
   {
@@ -3932,7 +3930,8 @@ FUNCTION std::float32_array
   #
     constructs an empty array
 
-    See also: std_types::float32_array/new, std::initialized_float32_array
+    See also: std_types::float32_array/create_empty_array,
+	      std::initialized_float32_array
   {
     MIN_ARGUMENTS(1)
     ARRAY_VIEW *view = create_array_view(ARGUMENT_COUNT);
@@ -3953,7 +3952,7 @@ FUNCTION std::initialized_float32_array
 
     The last argument specifies the initial value for all array items.
 
-    See also: std::float32_array, std_types::float32_array/new
+    See also: std::float32_array, std_types::float32_array/create_empty_array
   {
     MIN_ARGUMENTS(2)
     ARRAY_VIEW *view = create_array_view(ARGUMENT_COUNT-1);
@@ -3970,7 +3969,7 @@ FUNCTION std::initialized_float32_array
     RETURN_SINGLE_RESULT(CREATE(std_types::float32_array, 0, view, data, NULL))
   }
 
-METHOD std_types::float32_array/new
+METHOD std_types::float32_array/create_empty_array
   #
     creates an empty new array based on the given template array
   {
@@ -4217,7 +4216,8 @@ FUNCTION std::float64_array
   #
     constructs an empty array
 
-    See also: std_types::float64_array/new, std::initialized_float64_array
+    See also: std_types::float64_array/create_empty_array,
+	      std::initialized_float64_array
   {
     MIN_ARGUMENTS(1)
     ARRAY_VIEW *view = create_array_view(ARGUMENT_COUNT);
@@ -4238,7 +4238,7 @@ FUNCTION std::initialized_float64_array
 
     The last argument specifies the initial value for all array items.
 
-    See also: std::float64_array, std_types::float64_array/new
+    See also: std::float64_array, std_types::float64_array/create_empty_array
   {
     MIN_ARGUMENTS(2)
     ARRAY_VIEW *view = create_array_view(ARGUMENT_COUNT-1);
@@ -4255,7 +4255,7 @@ FUNCTION std::initialized_float64_array
     RETURN_SINGLE_RESULT(CREATE(std_types::float64_array, 0, view, data, NULL))
   }
 
-METHOD std_types::float64_array/new
+METHOD std_types::float64_array/create_empty_array
   #
     creates an empty new array based on the given template array
   {

@@ -1,0 +1,15 @@
+#!/usr/bin/env fkyrun
+
+$matrix
+  list
+    list(2 5 9 5)
+    list(1 4 7 4)
+    list(8 3 2 5)
+
+dump! `matrix
+
+dump! `map_reduce_columns(matrix double min)
+dump! `map_reduce_rows(matrix square max)
+
+$double: (x) -> 2*x
+$square: (x) -> x*x

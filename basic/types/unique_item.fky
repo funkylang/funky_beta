@@ -20,6 +20,8 @@
   Free Software Foundation, Inc.,
   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
+# Topic: Basics
+
 $std::is_a_unique_item () # obvious
 
 $std_types::object.is_a_unique_item false

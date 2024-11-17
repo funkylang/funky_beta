@@ -36,7 +36,9 @@ PREFIX='/usr/local'
 
 OPTIONAL_LIBRARIES=''
 ADDITIONAL_LIBRARIES=''
-TOOLS='tedi chat_with_vicuna extract_documentation reformat_c'
+TOOLS='otedi chat_with_vicuna extract_documentation reformat_c'
+DIRECTORIES='new_tedi'
+COMMANDS='new_tedi/tedi new_tedi/fde new_tedi/tedi_light'
 
 show_help() {
   echo "Usage: ./configure [OPTION]... [VAR=VALUE]..."
@@ -628,14 +630,23 @@ echo
 # generate make-targets
 echo
 echo '.PHONY: all'
-printf 'all: runtime funky'
+printf "all: \\
+  runtime \\
+  funky"
 for LIBNAME in $ALL_LIBRARIES
 do
-  printf " $LIBNAME"
+  printf " \\
+  $LIBNAME"
 done
 for TOOL in $TOOLS
 do
-  printf " $TOOL"
+  printf " \\
+  $TOOL"
+done
+for COMMAND in $COMMANDS
+do
+  printf " \\
+  $COMMAND"
 done
 echo
 
@@ -677,6 +688,15 @@ do
   echo "${TAB}rm -f $TOOL.c"
   echo "${TAB}rm -f $TOOL.o"
 done
+for COMMAND in $COMMANDS
+do
+  echo "${TAB}rm -f $COMMAND$EXE_EXTENSION"
+done
+for DIRECTORY in $DIRECTORIES
+do
+  echo "${TAB}rm -f $DIRECTORY/*.c"
+  echo "${TAB}rm -f $DIRECTORY/*.o"
+done
 
 echo
 echo '.PHONY: install'
@@ -706,6 +726,12 @@ for TOOL in $TOOLS
 do
   echo "${TAB}rm -f \"\$(DESTDIR)$PREFIX/bin/$TOOL$EXE_EXTENSION\""
   echo "${TAB}cp $TOOL$EXE_EXTENSION \"\$(DESTDIR)$PREFIX/bin/$TOOL$EXE_EXTENSION\""
+done
+for COMMAND in $COMMANDS
+do
+  CMD_NAME=`basename $COMMAND`
+  echo "${TAB}rm -f \"\$(DESTDIR)$PREFIX/bin/$CMD_NAME$EXE_EXTENSION\""
+  echo "${TAB}cp $COMMAND$EXE_EXTENSION \"\$(DESTDIR)$PREFIX/bin/$CMD_NAME$EXE_EXTENSION\""
 done
 echo "${TAB}mkdir -p -- \$(DESTDIR)$PREFIX/share/funky-$RUNTIME_VERSION/runtime"
 echo "${TAB}cp runtime/*.h \"\$(DESTDIR)$PREFIX/share/funky-$RUNTIME_VERSION/runtime/\""
@@ -751,6 +777,11 @@ echo "${TAB}rm -f \"\$(DESTDIR)$PREFIX/share/funky-$DLL_VERSION\""
 for TOOL in $TOOLS
 do
   echo "${TAB}rm -f \"\$(DESTDIR)$PREFIX/bin/$TOOL$EXE_EXTENSION\""
+done
+for COMMAND in $COMMANDS
+do
+  CMD_NAME=`basename $COMMAND`
+  echo "${TAB}rm -f \"\$(DESTDIR)$PREFIX/bin/$CMD_NAME$EXE_EXTENSION\""
 done
 
 echo
@@ -840,6 +871,18 @@ do
   done
   echo
   echo "${TAB}LD_LIBRARY_PATH=\"`pwd`\" FUNKY_LIBRARY_PATH=. FUNKY_INCLUDE_PATH=. compiler/funky $TOOL.fky"
+done
+
+for COMMAND in $COMMANDS
+do
+  echo
+  echo -n "$COMMAND: compiler/funky $COMMAND.fky"
+  for LIBNAME in $ADDITIONAL_LIBRARIES
+  do
+    echo -n " libfky-${LIBNAME}${DLL_EXTENSION}"
+  done
+  echo
+  echo "${TAB}LD_LIBRARY_PATH=\"`pwd`\" FUNKY_LIBRARY_PATH=. FUNKY_INCLUDE_PATH=. compiler/funky $COMMAND.fky"
 done
 echo
 

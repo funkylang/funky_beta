@@ -83,17 +83,17 @@ static TAB_NUM t_func_generate_id[] = {
   func_compute_uuid, 2, LOCAL(3), LOCAL(2), 1, LOCAL(1),
   // -> compute_uuid(t rnd)
   LET, 1, LOCAL(1), TAIL_CALL,
-  POS(40, 3),
-  POS(41, 3),
-  POS(42, 6),
-  POS(42, 3)
+  POS(43, 3),
+  POS(44, 3),
+  POS(45, 6),
+  POS(45, 3)
 };
 
 static TAB_NUM t_func_std_types__io___generate_uuid[] = {
   4, // locals
   3, // parameters
-  LOCAL(3), // 48_0_io
-  LOCAL(4), // 49_0_id
+  LOCAL(3), // 51_0_io
+  LOCAL(4), // 52_0_id
   LOCAL(1),
   // tuple &id 1
   var_tuple, 2, LOCAL(4), num_1, 1, LOCAL(4),
@@ -105,19 +105,19 @@ static TAB_NUM t_func_std_types__io___generate_uuid[] = {
   var_std__key_value_pair, 2, var_JOB_FAILED, func_load_failed, 1, LOCAL(2),
   // register_handlers io id
   var_register_handlers, 4, LOCAL(3), LOCAL(4), LOCAL(1), LOCAL(2), TAIL_CALL,
-  POS(52, 3),
-  POS(53, 3),
-  POS(55, 5),
-  POS(56, 5),
-  POS(54, 3)
+  POS(55, 3),
+  POS(56, 3),
+  POS(58, 5),
+  POS(59, 5),
+  POS(57, 3)
 };
 
 static TAB_NUM t_func_load_completed[] = {
   6, // locals
   3, // parameters
-  LOCAL(4), // 58_18_io
-  LOCAL(5), // 58_21_id
-  LOCAL(6), // 58_24_rnd
+  LOCAL(4), // 61_18_io
+  LOCAL(5), // 61_21_id
+  LOCAL(6), // 61_24_rnd
   // deregister_all_handlers &io id
   var_deregister_all_handlers, 2, LOCAL(4), LOCAL(5), 1, LOCAL(4),
   // id !id
@@ -130,20 +130,20 @@ static TAB_NUM t_func_load_completed[] = {
   var_tuple, 3, var_JOB_COMPLETED, LOCAL(5), LOCAL(2), 1, LOCAL(3),
   // -> io tuple(JOB_COMPLETED id compute_uuid(current_time_of(io) rnd))
   LET, 2, LOCAL(4), LOCAL(3), TAIL_CALL,
-  POS(59, 3),
-  POS(60, 3),
-  POS(61, 45),
-  POS(61, 32),
-  POS(61, 9),
-  POS(61, 3)
+  POS(62, 3),
+  POS(63, 3),
+  POS(64, 45),
+  POS(64, 32),
+  POS(64, 9),
+  POS(64, 3)
 };
 
 static TAB_NUM t_func_load_failed[] = {
   4, // locals
   3, // parameters
-  LOCAL(2), // 63_15_io
-  LOCAL(3), // 63_18_id
-  LOCAL(4), // 63_21_err
+  LOCAL(2), // 66_15_io
+  LOCAL(3), // 66_18_id
+  LOCAL(4), // 66_21_err
   // deregister_all_handlers &io id
   var_deregister_all_handlers, 2, LOCAL(2), LOCAL(3), 1, LOCAL(2),
   // id !id
@@ -152,17 +152,17 @@ static TAB_NUM t_func_load_failed[] = {
   var_tuple, 3, var_JOB_FAILED, LOCAL(3), LOCAL(4), 1, LOCAL(1),
   // -> io tuple(JOB_FAILED id err)
   LET, 2, LOCAL(2), LOCAL(1), TAIL_CALL,
-  POS(64, 3),
-  POS(65, 3),
-  POS(66, 9),
-  POS(66, 3)
+  POS(67, 3),
+  POS(68, 3),
+  POS(69, 9),
+  POS(69, 3)
 };
 
 static TAB_NUM t_func_compute_uuid[] = {
   36, // locals
   2, // parameters
-  LOCAL(34), // 68_16_t
-  LOCAL(35), // 68_18_rnd
+  LOCAL(34), // 71_16_t
+  LOCAL(35), // 71_18_rnd
   // to_uint8_array &rnd
   var_to_uint8_array, 1, LOCAL(35), 1, LOCAL(35),
   // seconds_since_epoch(t).to_string second_of(t).to_string)
@@ -251,24 +251,20 @@ static TAB_NUM t_func_compute_uuid[] = {
   var_append, 20, LOCAL(2), LOCAL(4), LOCAL(6), LOCAL(8), string_2, LOCAL(10), LOCAL(12), string_2, LOCAL(14), LOCAL(16), string_2, LOCAL(18), LOCAL(20), string_2, LOCAL(22), LOCAL(24), LOCAL(26), LOCAL(28), LOCAL(30), LOCAL(32), 1, LOCAL(33),
   // ->
   LET, 1, LOCAL(33), TAIL_CALL,
-  POS(69, 3),
-  POS(74, 18),
-  POS(74, 41),
-  POS(74, 51),
-  POS(74, 64),
-  POS(74, 11),
-  POS(73, 9),
-  POS(72, 7),
-  POS(70, 3),
-  POS(79, 3),
-  POS(82, 11),
-  POS(82, 7),
-  POS(83, 11),
-  POS(83, 7),
-  POS(84, 11),
-  POS(84, 7),
+  POS(72, 3),
+  POS(77, 18),
+  POS(77, 41),
+  POS(77, 51),
+  POS(77, 64),
+  POS(77, 11),
+  POS(76, 9),
+  POS(75, 7),
+  POS(73, 3),
+  POS(82, 3),
   POS(85, 11),
   POS(85, 7),
+  POS(86, 11),
+  POS(86, 7),
   POS(87, 11),
   POS(87, 7),
   POS(88, 11),
@@ -285,16 +281,20 @@ static TAB_NUM t_func_compute_uuid[] = {
   POS(96, 7),
   POS(97, 11),
   POS(97, 7),
-  POS(98, 11),
-  POS(98, 7),
   POS(99, 11),
   POS(99, 7),
   POS(100, 11),
   POS(100, 7),
   POS(101, 11),
   POS(101, 7),
-  POS(81, 5),
-  POS(80, 3)
+  POS(102, 11),
+  POS(102, 7),
+  POS(103, 11),
+  POS(103, 7),
+  POS(104, 11),
+  POS(104, 7),
+  POS(84, 5),
+  POS(83, 3)
 };
 
 static FUNKY_CONSTANT constants_table[] = {
@@ -350,7 +350,7 @@ static FUNKY_VARIABLE variables_table[] = {
   {
     FOT_UNKNOWN, 0, 0,
     "assign\000std", NULL,
-    {.position = POS(25, 1)}
+    {.position = POS(28, 1)}
   },
   {
     FOT_INITIALIZED, 0, 0,
@@ -370,112 +370,112 @@ static FUNKY_VARIABLE variables_table[] = {
   {
     FOT_UNKNOWN, 0, 1,
     "object\000std_types", std_types__object__attributes,
-    {.position = POS(31, 1)}
+    {.position = POS(34, 1)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
     "generate_uuid\000", NULL,
-    {.position = POS(31, 20)}
+    {.position = POS(34, 20)}
   },
   {
     FOT_UNKNOWN, 0, 1,
     "undefined\000std_types", std_types__undefined__attributes,
-    {.position = POS(32, 1)}
+    {.position = POS(35, 1)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "load\000", NULL,
-    {.position = POS(40, 3)}
+    {.position = POS(43, 3)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "current_time\000", NULL,
-    {.position = POS(41, 3)}
+    {.position = POS(44, 3)}
   },
   {
     FOT_UNKNOWN, 0, 1,
     "io\000std_types", std_types__io__attributes,
-    {.position = POS(44, 1)}
+    {.position = POS(47, 1)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "tuple\000", NULL,
-    {.position = POS(52, 3)}
+    {.position = POS(55, 3)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "JOB_COMPLETED\000", NULL,
-    {.position = POS(55, 5)}
+    {.position = POS(58, 5)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "key_value_pair\000std", NULL,
-    {.position = POS(55, 5)}
+    {.position = POS(58, 5)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "JOB_FAILED\000", NULL,
-    {.position = POS(56, 5)}
+    {.position = POS(59, 5)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "register_handlers\000", NULL,
-    {.position = POS(54, 3)}
+    {.position = POS(57, 3)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "deregister_all_handlers\000", NULL,
-    {.position = POS(59, 3)}
+    {.position = POS(62, 3)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "current_time_of\000", NULL,
-    {.position = POS(61, 45)}
+    {.position = POS(64, 45)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "to_uint8_array\000", NULL,
-    {.position = POS(69, 3)}
+    {.position = POS(72, 3)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "seconds_since_epoch\000", NULL,
-    {.position = POS(74, 18)}
+    {.position = POS(77, 18)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "to_string\000", NULL,
-    {.position = POS(74, 41)}
+    {.position = POS(77, 41)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "second_of\000", NULL,
-    {.position = POS(74, 51)}
+    {.position = POS(77, 51)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "append\000", NULL,
-    {.position = POS(74, 11)}
+    {.position = POS(77, 11)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "pad_right\000", NULL,
-    {.position = POS(73, 9)}
+    {.position = POS(76, 9)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "range\000", NULL,
-    {.position = POS(72, 7)}
+    {.position = POS(75, 7)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "bit_xor\000std", NULL,
-    {.position = POS(79, 9)}
+    {.position = POS(82, 9)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "hex\000", NULL,
-    {.position = POS(82, 7)}
+    {.position = POS(85, 7)}
   }
 };
 

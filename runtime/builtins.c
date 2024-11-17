@@ -39,7 +39,7 @@ enum {
   func__std_types___array___std___dimension_count_of,
   func__std___array,
   func__std___initialized_array,
-  func__std_types___array___std___new,
+  func__std_types___array___std___create_empty_array,
   func__std_types___array___std___range,
   func__std_types___boolean_array___std___length_of,
   func__std_types___boolean_array___std___dimension_count_of,
@@ -49,14 +49,14 @@ enum {
   func__std_types___boolean_array___std___bit_xor,
   func__std___boolean_array,
   func__std___initialized_boolean_array,
-  func__std_types___boolean_array___std___new,
+  func__std_types___boolean_array___std___create_empty_array,
   func__std_types___boolean_array___std___range,
   func__std_types___character_array___std___length_of,
   func__std_types___character_array___std___dimension_count_of,
   func__std_types___character_array___std___equal,
   func__std___character_array,
   func__std___initialized_character_array,
-  func__std_types___character_array___std___new,
+  func__std_types___character_array___std___create_empty_array,
   func__std_types___character_array___std___range,
   func__std_types___int8_array___std___length_of,
   func__std_types___int8_array___std___dimension_count_of,
@@ -64,7 +64,7 @@ enum {
   func__std_types___int8_array___std___times,
   func__std___int8_array,
   func__std___initialized_int8_array,
-  func__std_types___int8_array___std___new,
+  func__std_types___int8_array___std___create_empty_array,
   func__std_types___int8_array___std___range,
   func__std_types___uint8_array___std___length_of,
   func__std_types___uint8_array___std___dimension_count_of,
@@ -75,7 +75,7 @@ enum {
   func__std_types___uint8_array___std___times,
   func__std___uint8_array,
   func__std___initialized_uint8_array,
-  func__std_types___uint8_array___std___new,
+  func__std_types___uint8_array___std___create_empty_array,
   func__std_types___uint8_array___std___range,
   func__std_types___int16_array___std___length_of,
   func__std_types___int16_array___std___dimension_count_of,
@@ -83,7 +83,7 @@ enum {
   func__std_types___int16_array___std___times,
   func__std___int16_array,
   func__std___initialized_int16_array,
-  func__std_types___int16_array___std___new,
+  func__std_types___int16_array___std___create_empty_array,
   func__std_types___int16_array___std___range,
   func__std_types___uint16_array___std___length_of,
   func__std_types___uint16_array___std___dimension_count_of,
@@ -94,7 +94,7 @@ enum {
   func__std_types___uint16_array___std___times,
   func__std___uint16_array,
   func__std___initialized_uint16_array,
-  func__std_types___uint16_array___std___new,
+  func__std_types___uint16_array___std___create_empty_array,
   func__std_types___uint16_array___std___range,
   func__std_types___int32_array___std___length_of,
   func__std_types___int32_array___std___dimension_count_of,
@@ -102,7 +102,7 @@ enum {
   func__std_types___int32_array___std___times,
   func__std___int32_array,
   func__std___initialized_int32_array,
-  func__std_types___int32_array___std___new,
+  func__std_types___int32_array___std___create_empty_array,
   func__std_types___int32_array___std___range,
   func__std_types___uint32_array___std___length_of,
   func__std_types___uint32_array___std___dimension_count_of,
@@ -113,7 +113,7 @@ enum {
   func__std_types___uint32_array___std___times,
   func__std___uint32_array,
   func__std___initialized_uint32_array,
-  func__std_types___uint32_array___std___new,
+  func__std_types___uint32_array___std___create_empty_array,
   func__std_types___uint32_array___std___range,
   func__std_types___int64_array___std___length_of,
   func__std_types___int64_array___std___dimension_count_of,
@@ -121,7 +121,7 @@ enum {
   func__std_types___int64_array___std___times,
   func__std___int64_array,
   func__std___initialized_int64_array,
-  func__std_types___int64_array___std___new,
+  func__std_types___int64_array___std___create_empty_array,
   func__std_types___int64_array___std___range,
   func__std_types___uint64_array___std___length_of,
   func__std_types___uint64_array___std___dimension_count_of,
@@ -132,7 +132,7 @@ enum {
   func__std_types___uint64_array___std___times,
   func__std___uint64_array,
   func__std___initialized_uint64_array,
-  func__std_types___uint64_array___std___new,
+  func__std_types___uint64_array___std___create_empty_array,
   func__std_types___uint64_array___std___range,
   func__std_types___float32_array___std___length_of,
   func__std_types___float32_array___std___dimension_count_of,
@@ -140,7 +140,7 @@ enum {
   func__std_types___float32_array___std___times,
   func__std___float32_array,
   func__std___initialized_float32_array,
-  func__std_types___float32_array___std___new,
+  func__std_types___float32_array___std___create_empty_array,
   func__std_types___float32_array___std___range,
   func__std_types___float64_array___std___length_of,
   func__std_types___float64_array___std___dimension_count_of,
@@ -148,7 +148,7 @@ enum {
   func__std_types___float64_array___std___times,
   func__std___float64_array,
   func__std___initialized_float64_array,
-  func__std_types___float64_array___std___new,
+  func__std_types___float64_array___std___create_empty_array,
   func__std_types___float64_array___std___range,
   func__std___pass,
   func__std___result_count,
@@ -199,7 +199,7 @@ enum {
   func__std___exec,
   func__std___create_process,
   func__std_types___function___std___parameter_count_of,
-  func__std_types___list___std___new,
+  func__std_types___function___std___new,
   func__std___list,
   func__std_types___list___std___length_of,
   func__std_types___list___std___is_empty,
@@ -211,65 +211,68 @@ enum {
   func__std_types___list___std___append,
   func__std_types___list___std___range,
   func__std_types___list___std___spread,
-  func__std_types___positive_integer___std___negate,
-  func__negative_integer___std___negate,
+  func__builtin_types___positive_integer___std___negate,
+  func__builtin_types___negative_integer___std___negate,
   func__std_types___real___std___negate,
-  func__std_types___positive_integer___std___times,
-  func__negative_integer___std___times,
-  func__std_types___positive_integer___std___to_integer,
-  func__negative_integer___std___to_integer,
+  func__builtin_types___positive_integer___std___times,
+  func__builtin_types___negative_integer___std___times,
+  func__builtin_types___positive_integer___std___to_integer,
+  func__builtin_types___negative_integer___std___to_integer,
   func__std_types___real___std___to_integer,
   func__std_types___real___std___floor,
   func__std_types___real___std___ceil,
   func__std_types___real___std___round,
-  func__negative_integer___std___to_string,
-  func__std_types___positive_integer___std___to_string,
+  func__builtin_types___negative_integer___std___to_string,
+  func__builtin_types___positive_integer___std___to_string,
   func__std_types___real___std___to_string,
-  func__std_types___positive_integer___std___over,
-  func__negative_integer___std___over,
-  func__std_types___positive_integer___std___div,
-  func__negative_integer___std___div,
-  func__std_types___positive_integer___std___mod,
-  func__negative_integer___std___mod,
-  func__std_types___positive_integer___std___hash,
-  func__negative_integer___std___hash,
+  func__builtin_types___positive_integer___std___over,
+  func__builtin_types___negative_integer___std___over,
+  func__builtin_types___positive_integer___std___div,
+  func__builtin_types___negative_integer___std___div,
+  func__builtin_types___positive_integer___std___mod,
+  func__builtin_types___negative_integer___std___mod,
+  func__builtin_types___positive_integer___std___hash,
+  func__builtin_types___negative_integer___std___hash,
   func__std_types___real___std___hash,
-  func__std_types___positive_integer___std___ln,
-  func__negative_integer___std___ln,
+  func__builtin_types___positive_integer___std___ln,
+  func__builtin_types___negative_integer___std___ln,
   func__std_types___real___std___ln,
-  func__std_types___positive_integer___std___exp,
-  func__negative_integer___std___exp,
+  func__builtin_types___positive_integer___std___exp,
+  func__builtin_types___negative_integer___std___exp,
   func__std_types___real___std___exp,
   func__std___real,
   func__std___integer,
   func__std___sqrt,
   func__std___pow,
-  func__std_types___positive_integer___std___exit,
-  func__std_types___positive_integer___std___plus,
-  func__negative_integer___std___plus,
+  func__builtin_types___positive_integer___std___exit,
+  func__builtin_types___positive_integer___std___plus,
+  func__builtin_types___negative_integer___std___plus,
   func__std_types___real___std___plus,
-  func__std_types___positive_integer___std___minus,
-  func__negative_integer___std___minus,
+  func__builtin_types___positive_integer___std___minus,
+  func__builtin_types___negative_integer___std___minus,
   func__std_types___real___std___minus,
   func__std_types___real___std___times,
   func__std_types___real___std___over,
-  func__std_types___positive_integer___std___equal,
-  func__negative_integer___std___equal,
+  func__builtin_types___positive_integer___std___equal,
+  func__builtin_types___negative_integer___std___equal,
   func__std_types___real___std___equal,
-  func__std_types___positive_integer___std___less,
-  func__negative_integer___std___less,
+  func__builtin_types___positive_integer___std___less,
+  func__builtin_types___negative_integer___std___less,
   func__std_types___real___std___less,
-  func__std_types___positive_integer___std___shift_left,
-  func__std_types___positive_integer___std___shift_right,
-  func__std_types___positive_integer___std___bit_and,
-  func__std_types___positive_integer___std___bit_or,
-  func__std_types___positive_integer___std___bit_xor,
+  func__builtin_types___positive_integer___std___shift_left,
+  func__builtin_types___positive_integer___std___shift_right,
+  func__builtin_types___positive_integer___std___bit_and,
+  func__builtin_types___positive_integer___std___bit_or,
+  func__builtin_types___positive_integer___std___bit_xor,
   func__std___sin,
   func__std___cos,
   func__std___tan,
   func__std___asin,
   func__std___acos,
   func__std___atan,
+  func__debug___object_type,
+  func__debug___object_attributes,
+  func__std_types___object___std___new,
   func__std_types___file_type___std___equal,
   func__std_types___file_type___std___hash,
   func__std___file_type,
@@ -355,28 +358,28 @@ enum {
   func__std___unlink,
   func__std___usleep,
   func__std_types___octet_string___std___length_of,
-  func__quad_octet_string___std___length_of,
+  func__std_types___wide_string___std___length_of,
   func__std_types___octet_string___std___is_empty,
   func__std_types___octet_string___std___is_not_empty,
-  func__quad_octet_string___std___is_empty,
-  func__quad_octet_string___std___is_not_empty,
+  func__std_types___wide_string___std___is_empty,
+  func__std_types___wide_string___std___is_not_empty,
   func__std_types___octet_string___std___push,
-  func__quad_octet_string___std___push,
+  func__std_types___wide_string___std___push,
   func__std_types___octet_string___std___append,
-  func__quad_octet_string___std___append,
+  func__std_types___wide_string___std___append,
   func__std_types___octet_string___std___range,
-  func__quad_octet_string___std___range,
+  func__std_types___wide_string___std___range,
   func__std_types___octet_string___std___hash,
-  func__quad_octet_string___std___hash,
+  func__std_types___wide_string___std___hash,
   func__std_types___octet_string___std___equal,
-  func__quad_octet_string___std___equal,
+  func__std_types___wide_string___std___equal,
   func__std_types___octet_string___std___less,
-  func__quad_octet_string___std___less,
+  func__std_types___wide_string___std___less,
   func__std_types___octet_string___std___width_of,
-  func__quad_octet_string___std___width_of,
+  func__std_types___wide_string___std___width_of,
   func__std_types___octet_string___std___from_utf8,
   func__std_types___octet_string___std___to_utf8,
-  func__quad_octet_string___std___to_utf8,
+  func__std_types___wide_string___std___to_utf8,
   func__std_types___file_descriptor___std___get_terminal_attributes,
   func__std_types___file_descriptor___std___set_terminal_attributes,
   func__std_types___terminal_attributes___std___backspace_character_of,
@@ -395,21 +398,21 @@ enum {
   func__std_types___terminal_attributes___std___timeout_for_reads,
   func__std_types___terminal_attributes___std___input_speed,
   func__std_types___terminal_attributes___std___output_speed,
-  func__std_types___tuple___std___new,
-  func__builtin___tuple2___std___to_list,
-  func__builtin___tuple2___std___new,
-  func__builtin___tuple3___std___to_list,
-  func__builtin___tuple3___std___new,
-  func__builtin___tuple4___std___to_list,
-  func__builtin___tuple4___std___new,
-  func__builtin___tuple5___std___to_list,
-  func__builtin___tuple5___std___new,
-  func__builtin___tuple6___std___to_list,
-  func__builtin___tuple6___std___new,
-  func__builtin___tuple7___std___to_list,
-  func__builtin___tuple7___std___new,
-  func__builtin___tuple8___std___to_list,
-  func__builtin___tuple8___std___new,
+  func__std_types___tuple___std___typed_tuple,
+  func__builtin_types___tuple2___std___to_list,
+  func__builtin_types___tuple2___std___typed_tuple,
+  func__builtin_types___tuple3___std___to_list,
+  func__builtin_types___tuple3___std___typed_tuple,
+  func__builtin_types___tuple4___std___to_list,
+  func__builtin_types___tuple4___std___typed_tuple,
+  func__builtin_types___tuple5___std___to_list,
+  func__builtin_types___tuple5___std___typed_tuple,
+  func__builtin_types___tuple6___std___to_list,
+  func__builtin_types___tuple6___std___typed_tuple,
+  func__builtin_types___tuple7___std___to_list,
+  func__builtin_types___tuple7___std___typed_tuple,
+  func__builtin_types___tuple8___std___to_list,
+  func__builtin_types___tuple8___std___typed_tuple,
   func__std___tuple,
   func__std___tuple_or_error,
   func__std___new_tuple,
@@ -497,6 +500,7 @@ enum {
   var_no__std___close,
   var_no__std___flush,
   var_no__std_types___generic_array,
+  var_no__std___create_empty_array,
   var_no__std_types___array,
   var_no__std___array,
   var_no__std___initialized_array,
@@ -591,8 +595,8 @@ enum {
   var_no__std___list,
   var_no__std_types___number,
   var_no__std_types___integer,
-  var_no__std_types___positive_integer,
-  var_no__negative_integer,
+  var_no__builtin_types___positive_integer,
+  var_no__builtin_types___negative_integer,
   var_no__std_types___real,
   var_no__std___real,
   var_no__std___integer,
@@ -604,6 +608,8 @@ enum {
   var_no__std___asin,
   var_no__std___acos,
   var_no__std___atan,
+  var_no__debug___object_type,
+  var_no__debug___object_attributes,
   var_no__std_types___polymorphic_function,
   var_no__std_types___polymorphic_function_with_setter,
   var_no__std___subtype_of,
@@ -743,8 +749,7 @@ enum {
   var_no__std___ECANCELED,
   var_no__std___EOWNERDEAD,
   var_no__std___ENOTRECOVERABLE,
-  var_no__std___access_time_nanoseconds_of,
-  var_no__std___access_time_seconds_of,
+  var_no__std___access_time_of,
   var_no__std___block_count_of,
   var_no__std___block_size_of,
   var_no__std___device_of,
@@ -753,19 +758,17 @@ enum {
   var_no__std___inode_number_of,
   var_no__std___link_count_of,
   var_no__std___mode_of,
-  var_no__std___modification_time_nanoseconds_of,
-  var_no__std___modification_time_seconds_of,
+  var_no__std___modification_time_of,
+  var_no__std___name_of,
   var_no__std___password_of,
   var_no__std___root_device_of,
   var_no__std___shell_of,
   var_no__std___size_of,
-  var_no__std___status_change_time_nanoseconds_of,
-  var_no__std___status_change_time_seconds_of,
+  var_no__std___status_change_time_of,
   var_no__std___type_of,
   var_no__std___user_id_of,
   var_no__std___user_information_of,
   var_no__std___username_of,
-  var_no__std___name_of,
   var_no__std_types___file_type,
   var_no__std___file_type,
   var_no__std_types___file_descriptor,
@@ -833,7 +836,7 @@ enum {
   var_no__std___to_utf8,
   var_no__std_types___string,
   var_no__std_types___octet_string,
-  var_no__quad_octet_string,
+  var_no__std_types___wide_string,
   var_no__std___empty_string,
   var_no__std___get_terminal_attributes,
   var_no__std___set_terminal_attributes,
@@ -855,13 +858,14 @@ enum {
   var_no__std___output_speed,
   var_no__std_types___terminal_attributes,
   var_no__std_types___tuple,
-  var_no__builtin___tuple2,
-  var_no__builtin___tuple3,
-  var_no__builtin___tuple4,
-  var_no__builtin___tuple5,
-  var_no__builtin___tuple6,
-  var_no__builtin___tuple7,
-  var_no__builtin___tuple8,
+  var_no__std___typed_tuple,
+  var_no__builtin_types___tuple2,
+  var_no__builtin_types___tuple3,
+  var_no__builtin_types___tuple4,
+  var_no__builtin_types___tuple5,
+  var_no__builtin_types___tuple6,
+  var_no__builtin_types___tuple7,
+  var_no__builtin_types___tuple8,
   var_no__std___tuple,
   var_no__std___tuple_or_error,
   var_no__std___new_tuple,
@@ -1167,11 +1171,6 @@ static void *create__std_types___integer
     uint64_t value
   );
 
-static void *create__std_types___positive_integer
-  (
-    uint64_t value
-  );
-
 static void *create__std_types___real
   (
     double value
@@ -1239,11 +1238,11 @@ static void *create__std_types___octet_string
     OCTET_DATA *data
   );
 
-static void *create__quad_octet_string
+static void *create__std_types___wide_string
   (
     long offset,
     long length,
-    QUAD_OCTET_DATA *data
+    WIDE_DATA *data
   );
 
 static void *create__std_types___terminal_attributes
@@ -1251,20 +1250,20 @@ static void *create__std_types___terminal_attributes
     TERMIO_DATA *data
   );
 
-static void *create__builtin___tuple2
+static void *create__builtin_types___tuple2
   (
     NODE *node_0,
     NODE *node_1
   );
 
-static void *create__builtin___tuple3
+static void *create__builtin_types___tuple3
   (
     NODE *node_0,
     NODE *node_1,
     NODE *node_2
   );
 
-static void *create__builtin___tuple4
+static void *create__builtin_types___tuple4
   (
     NODE *node_0,
     NODE *node_1,
@@ -1272,7 +1271,7 @@ static void *create__builtin___tuple4
     NODE *node_3
   );
 
-static void *create__builtin___tuple5
+static void *create__builtin_types___tuple5
   (
     NODE *node_0,
     NODE *node_1,
@@ -1281,7 +1280,7 @@ static void *create__builtin___tuple5
     NODE *node_4
   );
 
-static void *create__builtin___tuple6
+static void *create__builtin_types___tuple6
   (
     NODE *node_0,
     NODE *node_1,
@@ -1291,7 +1290,7 @@ static void *create__builtin___tuple6
     NODE *node_5
   );
 
-static void *create__builtin___tuple7
+static void *create__builtin_types___tuple7
   (
     NODE *node_0,
     NODE *node_1,
@@ -1302,7 +1301,7 @@ static void *create__builtin___tuple7
     NODE *node_6
   );
 
-static void *create__builtin___tuple8
+static void *create__builtin_types___tuple8
   (
     NODE *node_0,
     NODE *node_1,
@@ -1424,33 +1423,33 @@ static int std_types___list____unfold(NODE *list);
 static int std_types___list____length_of(NODE *node, long *result_p);
 static void *std_types___integer____collect(INTEGER *node);
 static void *std_types___real____collect(REAL *node);
-static long std_types___positive_integer____debug_string(NODE *node, int indent, int max_depth, char *buf);
-static long negative_integer____debug_string(NODE *node, int indent, int max_depth, char *buf);
+static long builtin_types___positive_integer____debug_string(NODE *node, int indent, int max_depth, char *buf);
+static long builtin_types___negative_integer____debug_string(NODE *node, int indent, int max_depth, char *buf);
 static long std_types___real____debug_string(NODE *node, int indent, int max_depth, char *buf);
-static int std_types___positive_integer____to_double(NODE *node, double *result_p);
-static int std_types___positive_integer____to_float(NODE *node, float *result_p);
-static int negative_integer____to_double(NODE *node, double *result_p);
-static int negative_integer____to_float(NODE *node, float *result_p);
+static int builtin_types___positive_integer____to_double(NODE *node, double *result_p);
+static int builtin_types___positive_integer____to_float(NODE *node, float *result_p);
+static int builtin_types___negative_integer____to_double(NODE *node, double *result_p);
+static int builtin_types___negative_integer____to_float(NODE *node, float *result_p);
 static int std_types___real____to_double(NODE *node, double *result_p);
 static int std_types___real____to_float(NODE *node, float *result_p);
-static int std_types___positive_integer____to_int(NODE *node, int *result_p);
-static int negative_integer____to_int(NODE *node, int *result_p);
-static int std_types___positive_integer____to_long(NODE *node, long *result_p);
-static int negative_integer____to_long(NODE *node, long *result_p);
-static int std_types___positive_integer____to_uint(NODE *node, uint *result_p);
-static int std_types___positive_integer____to_ulong(NODE *node, unsigned long *result_p);
-static int std_types___positive_integer____to_int8(NODE *node, int8_t *result_p);
-static int negative_integer____to_int8(NODE *node, int8_t *result_p);
-static int std_types___positive_integer____to_int16(NODE *node, int16_t *result_p);
-static int negative_integer____to_int16(NODE *node, int16_t *result_p);
-static int std_types___positive_integer____to_int32(NODE *node, int32_t *result_p);
-static int negative_integer____to_int32(NODE *node, int32_t *result_p);
-static int std_types___positive_integer____to_int64(NODE *node, int64_t *result_p);
-static int negative_integer____to_int64(NODE *node, int64_t *result_p);
-static int std_types___positive_integer____to_uint8(NODE *node, uint8_t *result_p);
-static int std_types___positive_integer____to_uint16(NODE *node, uint16_t *result_p);
-static int std_types___positive_integer____to_uint32(NODE *node, uint32_t *result_p);
-static int std_types___positive_integer____to_uint64(NODE *node, uint64_t *result_p);
+static int builtin_types___positive_integer____to_int(NODE *node, int *result_p);
+static int builtin_types___negative_integer____to_int(NODE *node, int *result_p);
+static int builtin_types___positive_integer____to_long(NODE *node, long *result_p);
+static int builtin_types___negative_integer____to_long(NODE *node, long *result_p);
+static int builtin_types___positive_integer____to_uint(NODE *node, uint *result_p);
+static int builtin_types___positive_integer____to_ulong(NODE *node, unsigned long *result_p);
+static int builtin_types___positive_integer____to_int8(NODE *node, int8_t *result_p);
+static int builtin_types___negative_integer____to_int8(NODE *node, int8_t *result_p);
+static int builtin_types___positive_integer____to_int16(NODE *node, int16_t *result_p);
+static int builtin_types___negative_integer____to_int16(NODE *node, int16_t *result_p);
+static int builtin_types___positive_integer____to_int32(NODE *node, int32_t *result_p);
+static int builtin_types___negative_integer____to_int32(NODE *node, int32_t *result_p);
+static int builtin_types___positive_integer____to_int64(NODE *node, int64_t *result_p);
+static int builtin_types___negative_integer____to_int64(NODE *node, int64_t *result_p);
+static int builtin_types___positive_integer____to_uint8(NODE *node, uint8_t *result_p);
+static int builtin_types___positive_integer____to_uint16(NODE *node, uint16_t *result_p);
+static int builtin_types___positive_integer____to_uint32(NODE *node, uint32_t *result_p);
+static int builtin_types___positive_integer____to_uint64(NODE *node, uint64_t *result_p);
 static void *std_types___object____collect(SIMPLE_NODE *node);
 static long std_types___object____debug_string(NODE *node, int indent, int max_depth, char *buf);
 static void *std_types___file_type____collect(FILE_TYPE *node);
@@ -1476,31 +1475,31 @@ static long std_types___user_id____debug_string(NODE *node, int indent, int max_
 static void *std_types___error_number____collect(ERROR_NUMBER *node);
 static long std_types___error_number____debug_string(NODE *node, int indent, int max_depth, char *buf);
 static void *std_types___octet_string____collect(OCTET_STRING *node);
-static void *quad_octet_string____collect(QUAD_OCTET_STRING *node);
+static void *std_types___wide_string____collect(WIDE_STRING *node);
 static long std_types___octet_string____debug_string(NODE *node, int indent, int max_depth, char *buf);
-static long quad_octet_string____debug_string(NODE *node, int indent, int max_depth, char *buf);
+static long std_types___wide_string____debug_string(NODE *node, int indent, int max_depth, char *buf);
 static int std_types___octet_string____get_item_of(NODE *node, long idx, NODE **result_p);
-static int quad_octet_string____get_item_of(NODE *node, long idx, NODE **result_p);
+static int std_types___wide_string____get_item_of(NODE *node, long idx, NODE **result_p);
 static int std_types___octet_string____to_c_string(NODE *node, char **result_p);
 static int std_types___octet_string____to_octets(NODE *node, const uint8_t **buf_p, long *size_p);
 static int std_types___octet_string____length_of(NODE *node, long *result_p);
-static int quad_octet_string____length_of(NODE *node, long *result_p);
+static int std_types___wide_string____length_of(NODE *node, long *result_p);
 static void *std_types___terminal_attributes____collect(TERMINAL_ATTRIBUTES *node);
 static long std_types___terminal_attributes____debug_string(NODE *node, int indent, int max_depth, char *buf);
-static void *builtin___tuple2____collect(TUPLE2 *node);
-static long builtin___tuple2____debug_string(NODE *node, int indent, int max_depth, char *buf);
-static void *builtin___tuple3____collect(TUPLE3 *node);
-static long builtin___tuple3____debug_string(NODE *node, int indent, int max_depth, char *buf);
-static void *builtin___tuple4____collect(TUPLE4 *node);
-static long builtin___tuple4____debug_string(NODE *node, int indent, int max_depth, char *buf);
-static void *builtin___tuple5____collect(TUPLE5 *node);
-static long builtin___tuple5____debug_string(NODE *node, int indent, int max_depth, char *buf);
-static void *builtin___tuple6____collect(TUPLE6 *node);
-static long builtin___tuple6____debug_string(NODE *node, int indent, int max_depth, char *buf);
-static void *builtin___tuple7____collect(TUPLE7 *node);
-static long builtin___tuple7____debug_string(NODE *node, int indent, int max_depth, char *buf);
-static void *builtin___tuple8____collect(TUPLE8 *node);
-static long builtin___tuple8____debug_string(NODE *node, int indent, int max_depth, char *buf);
+static void *builtin_types___tuple2____collect(TUPLE2 *node);
+static long builtin_types___tuple2____debug_string(NODE *node, int indent, int max_depth, char *buf);
+static void *builtin_types___tuple3____collect(TUPLE3 *node);
+static long builtin_types___tuple3____debug_string(NODE *node, int indent, int max_depth, char *buf);
+static void *builtin_types___tuple4____collect(TUPLE4 *node);
+static long builtin_types___tuple4____debug_string(NODE *node, int indent, int max_depth, char *buf);
+static void *builtin_types___tuple5____collect(TUPLE5 *node);
+static long builtin_types___tuple5____debug_string(NODE *node, int indent, int max_depth, char *buf);
+static void *builtin_types___tuple6____collect(TUPLE6 *node);
+static long builtin_types___tuple6____debug_string(NODE *node, int indent, int max_depth, char *buf);
+static void *builtin_types___tuple7____collect(TUPLE7 *node);
+static long builtin_types___tuple7____debug_string(NODE *node, int indent, int max_depth, char *buf);
+static void *builtin_types___tuple8____collect(TUPLE8 *node);
+static long builtin_types___tuple8____debug_string(NODE *node, int indent, int max_depth, char *buf);
 static void *std_types___undefined____collect(SIMPLE_NODE *node);
 static long std_types___undefined____debug_string(NODE *node, int indent, int max_depth, char *buf);
 static uint32_t to_upper_case(uint32_t chr);
@@ -4035,7 +4034,8 @@ static long std_types___error____debug_string
       } else if (node->error.attr_idx) {
 	return debug_print(
 	  indent, buf, "<%s - %s>",
-	  node->error.message->text, poly_name(node->error.attr_idx));
+	  node->error.message->text,
+	  polymorphic_function_names[node->error.attr_idx]);
       } else {
 	return debug_print(indent, buf, "<%s>", node->error.message->text);
       }
@@ -4060,13 +4060,13 @@ static long std_types___error____debug_string
 	  n += print(
 	    &buf, "%s (%s)! (instruction counter: %ld)\n",
 	    node->error.message->text,
-	    poly_name(node->error.attr_idx),
+	    polymorphic_function_names[node->error.attr_idx],
 	    node->error.instruction_counter);
 	} else {
 	  n += print(
 	    &buf, "%s (%s)!\n",
 	    node->error.message->text,
-	    poly_name(node->error.attr_idx));
+	    polymorphic_function_names[node->error.attr_idx]);
 	}
       } else {
 	if (node->error.instruction_counter) {
@@ -4692,6 +4692,28 @@ void no_such_function
       "NO SUCH FUNCTION", 0, 0, NULL);
   }
 
+void invalid_attribute_redefinition
+  (
+    NODE *node,
+    int attr_idx
+  )
+  {
+    create_error_message(
+      module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+      "INVALID ATTRIBUTE REDEFINITION", 0, attr_idx, node);
+  }
+
+void attribute_has_no_setter
+  (
+    void
+  )
+  {
+    create_error_message(
+      module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+      "ATTRIBUTE HAS NO SETTER",
+      0, decode_attribute_index(last_attr_idx), TLS_arguments[0]);
+  }
+
 void too_few_arguments
   (
     void
@@ -5126,7 +5148,7 @@ static void *std_types___real____collect
     return new_node;
   }
 
-static long std_types___positive_integer____debug_string
+static long builtin_types___positive_integer____debug_string
   (
     NODE *node,
     int indent,
@@ -5137,7 +5159,7 @@ static long std_types___positive_integer____debug_string
     return debug_print(indent, buf, "%" PRIu64, node->integer.value);
   }
 
-static long negative_integer____debug_string
+static long builtin_types___negative_integer____debug_string
   (
     NODE *node,
     int indent,
@@ -5175,7 +5197,7 @@ NODE *from_double
     return create__std_types___real(value);
   }
 
-static int std_types___positive_integer____to_double
+static int builtin_types___positive_integer____to_double
   (
     NODE *node,
     double *result_p
@@ -5185,7 +5207,7 @@ static int std_types___positive_integer____to_double
     return true;
   }
 
-static int std_types___positive_integer____to_float
+static int builtin_types___positive_integer____to_float
   (
     NODE *node,
     float *result_p
@@ -5195,7 +5217,7 @@ static int std_types___positive_integer____to_float
     return true;
   }
 
-static int negative_integer____to_double
+static int builtin_types___negative_integer____to_double
   (
     NODE *node,
     double *result_p
@@ -5205,7 +5227,7 @@ static int negative_integer____to_double
     return true;
   }
 
-static int negative_integer____to_float
+static int builtin_types___negative_integer____to_float
   (
     NODE *node,
     float *result_p
@@ -5286,9 +5308,9 @@ NODE *from_int
   )
   {
     if (value >= 0)
-      return create__std_types___positive_integer(value);
+      return create__builtin_types___positive_integer(value);
     else
-      return create__negative_integer(-value);
+      return create__builtin_types___negative_integer(-value);
   }
 
 NODE *from_long
@@ -5297,9 +5319,9 @@ NODE *from_long
   )
   {
     if (value >= 0)
-      return create__std_types___positive_integer(value);
+      return create__builtin_types___positive_integer(value);
     else
-      return create__negative_integer(-value);
+      return create__builtin_types___negative_integer(-value);
   }
 
 NODE *from_uint
@@ -5307,7 +5329,7 @@ NODE *from_uint
     unsigned int value
   )
   {
-    return create__std_types___positive_integer(value);
+    return create__builtin_types___positive_integer(value);
   }
 
 NODE *from_ulong
@@ -5315,7 +5337,7 @@ NODE *from_ulong
     unsigned long value
   )
   {
-    return create__std_types___positive_integer(value);
+    return create__builtin_types___positive_integer(value);
   }
 
 NODE *from_int8
@@ -5324,9 +5346,9 @@ NODE *from_int8
   )
   {
     if (value >= 0)
-      return create__std_types___positive_integer(value);
+      return create__builtin_types___positive_integer(value);
     else
-      return create__negative_integer(-value);
+      return create__builtin_types___negative_integer(-value);
   }
 
 NODE *from_int16
@@ -5335,9 +5357,9 @@ NODE *from_int16
   )
   {
     if (value >= 0)
-      return create__std_types___positive_integer(value);
+      return create__builtin_types___positive_integer(value);
     else
-      return create__negative_integer(-value);
+      return create__builtin_types___negative_integer(-value);
   }
 
 NODE *from_int32
@@ -5346,9 +5368,9 @@ NODE *from_int32
   )
   {
     if (value >= 0)
-      return create__std_types___positive_integer(value);
+      return create__builtin_types___positive_integer(value);
     else
-      return create__negative_integer(-value);
+      return create__builtin_types___negative_integer(-value);
   }
 
 NODE *from_int64
@@ -5357,9 +5379,9 @@ NODE *from_int64
   )
   {
     if (value >= 0)
-      return create__std_types___positive_integer(value);
+      return create__builtin_types___positive_integer(value);
     else
-      return create__negative_integer(-value);
+      return create__builtin_types___negative_integer(-value);
   }
 
 NODE *from_uint8
@@ -5367,7 +5389,7 @@ NODE *from_uint8
     uint8_t value
   )
   {
-    return create__std_types___positive_integer(value);
+    return create__builtin_types___positive_integer(value);
   }
 
 NODE *from_uint16
@@ -5375,7 +5397,7 @@ NODE *from_uint16
     uint16_t value
   )
   {
-    return create__std_types___positive_integer(value);
+    return create__builtin_types___positive_integer(value);
   }
 
 NODE *from_uint32
@@ -5383,7 +5405,7 @@ NODE *from_uint32
     uint32_t value
   )
   {
-    return create__std_types___positive_integer(value);
+    return create__builtin_types___positive_integer(value);
   }
 
 NODE *from_uint64
@@ -5391,10 +5413,10 @@ NODE *from_uint64
     uint64_t value
   )
   {
-    return create__std_types___positive_integer(value);
+    return create__builtin_types___positive_integer(value);
   }
 
-static int std_types___positive_integer____to_int
+static int builtin_types___positive_integer____to_int
   (
     NODE *node,
     int *result_p
@@ -5410,7 +5432,7 @@ static int std_types___positive_integer____to_int
     return true;
   }
 
-static int negative_integer____to_int
+static int builtin_types___negative_integer____to_int
   (
     NODE *node,
     int *result_p
@@ -5426,7 +5448,7 @@ static int negative_integer____to_int
     return true;
   }
 
-static int std_types___positive_integer____to_long
+static int builtin_types___positive_integer____to_long
   (
     NODE *node,
     long *result_p
@@ -5442,7 +5464,7 @@ static int std_types___positive_integer____to_long
     return true;
   }
 
-static int negative_integer____to_long
+static int builtin_types___negative_integer____to_long
   (
     NODE *node,
     long *result_p
@@ -5458,7 +5480,7 @@ static int negative_integer____to_long
     return true;
   }
 
-static int std_types___positive_integer____to_uint
+static int builtin_types___positive_integer____to_uint
   (
     NODE *node,
     uint *result_p
@@ -5474,7 +5496,7 @@ static int std_types___positive_integer____to_uint
     return true;
   }
 
-static int std_types___positive_integer____to_ulong
+static int builtin_types___positive_integer____to_ulong
   (
     NODE *node,
     unsigned long *result_p
@@ -5483,7 +5505,7 @@ static int std_types___positive_integer____to_ulong
     return true;
   }
 
-static int std_types___positive_integer____to_int8
+static int builtin_types___positive_integer____to_int8
   (
     NODE *node,
     int8_t *result_p
@@ -5499,7 +5521,7 @@ static int std_types___positive_integer____to_int8
     return true;
   }
 
-static int negative_integer____to_int8
+static int builtin_types___negative_integer____to_int8
   (
     NODE *node,
     int8_t *result_p
@@ -5515,7 +5537,7 @@ static int negative_integer____to_int8
     return true;
   }
 
-static int std_types___positive_integer____to_int16
+static int builtin_types___positive_integer____to_int16
   (
     NODE *node,
     int16_t *result_p
@@ -5531,7 +5553,7 @@ static int std_types___positive_integer____to_int16
     return true;
   }
 
-static int negative_integer____to_int16
+static int builtin_types___negative_integer____to_int16
   (
     NODE *node,
     int16_t *result_p
@@ -5547,7 +5569,7 @@ static int negative_integer____to_int16
     return true;
   }
 
-static int std_types___positive_integer____to_int32
+static int builtin_types___positive_integer____to_int32
   (
     NODE *node,
     int32_t *result_p
@@ -5563,7 +5585,7 @@ static int std_types___positive_integer____to_int32
     return true;
   }
 
-static int negative_integer____to_int32
+static int builtin_types___negative_integer____to_int32
   (
     NODE *node,
     int32_t *result_p
@@ -5579,7 +5601,7 @@ static int negative_integer____to_int32
     return true;
   }
 
-static int std_types___positive_integer____to_int64
+static int builtin_types___positive_integer____to_int64
   (
     NODE *node,
     int64_t *result_p
@@ -5595,7 +5617,7 @@ static int std_types___positive_integer____to_int64
     return true;
   }
 
-static int negative_integer____to_int64
+static int builtin_types___negative_integer____to_int64
   (
     NODE *node,
     int64_t *result_p
@@ -5611,7 +5633,7 @@ static int negative_integer____to_int64
     return true;
   }
 
-static int std_types___positive_integer____to_uint8
+static int builtin_types___positive_integer____to_uint8
   (
     NODE *node,
     uint8_t *result_p
@@ -5627,7 +5649,7 @@ static int std_types___positive_integer____to_uint8
     return true;
   }
 
-static int std_types___positive_integer____to_uint16
+static int builtin_types___positive_integer____to_uint16
   (
     NODE *node,
     uint16_t *result_p
@@ -5643,7 +5665,7 @@ static int std_types___positive_integer____to_uint16
     return true;
   }
 
-static int std_types___positive_integer____to_uint32
+static int builtin_types___positive_integer____to_uint32
   (
     NODE *node,
     uint32_t *result_p
@@ -5659,7 +5681,7 @@ static int std_types___positive_integer____to_uint32
     return true;
   }
 
-static int std_types___positive_integer____to_uint64
+static int builtin_types___positive_integer____to_uint64
   (
     NODE *node,
     uint64_t *result_p
@@ -5689,59 +5711,117 @@ static long std_types___object____debug_string
     char *buf
   )
   {
+    int type_no = node->attributes->vtable->type_no;
     if (max_depth == 0) {
-      return debug_print(indent, buf, "<object>");
+      if (type_no) {
+	const char *name = type_names[type_no];
+	const char *namespace = name+strlen(name)+1;
+	if (*namespace) {
+	  return debug_print(indent, buf, "<%s::%s>", namespace, name);
+	} else {
+	  return debug_print(indent, buf, "<%s>", name);
+	}
+      } else {
+	return debug_print(indent, buf, "<object>");
+      }
     } else {
       int i, n, len;
-      n = debug_print_head(&indent, &buf, "object");
+      if (type_no) {
+	const char *name = type_names[type_no];
+	const char *namespace = name+strlen(name)+1;
+	if (*namespace) {
+	  n = debug_print_head(&indent, &buf, "%s::%s", namespace, name);
+	} else {
+	  n = debug_print_head(&indent, &buf, "%s", name);
+	}
+      } else {
+	n = debug_print_head(&indent, &buf, "object");
+      }
       const char *contents_indent = indent_to_string(indent);
-      int count =
-	next_polymorphic_function > next_polymorphic_function_with_setter
-	? next_polymorphic_function
-	: next_polymorphic_function_with_setter;
-      for (i = 1; i < count; ++i) { // 0 is no valid attribute id
-	if (
-	  (i & 7) != 0 &&
-	  (
-	    (i & 1) != 0 && i < next_polymorphic_function ||
-	    (i & 1) == 0 && i < next_polymorphic_function_with_setter
-	  )
-	) {
-	  NODE *attr = get_attribute(node, i);
-	  NODE *attr_addr = (NODE *)((long)attr-1);
-	  const char *poly_name = polymorphic_function_names[i];
-	  const char *poly_namespace = poly_name;
-	  while (*poly_namespace++);
-	  if (
-	    (long)attr & 1 &&
-	    attr_addr != (NODE *)&std_types___undefined &&
-	    (
-	      attr_addr == (NODE *)&std_types___true ||
-	      strncmp(poly_name, "is_", 3) != 0
-	    ) &&
-	    (
-	      strcmp(poly_namespace, "std") != 0 ||
-	      (
-		strcmp(poly_name, "is_defined") != 0 &&
-		strncmp(poly_name, "serialization_", 14) != 0 &&
-		strcmp(poly_name, "deserializer_of") != 0
-	      )
-	    )
-	  ) {
-	    n += print(&buf, contents_indent);
-	    if (*poly_namespace) {
-	      n += print(&buf, "%s::", poly_namespace);
+      for (i = 1; i < next_polymorphic_function; ++i) {
+	if ((i & 7) != 0) {
+	  if (attribute_is_redefined[i]) {
+	    NODE *attr = get_attribute(node, i);
+	    if (CONTAINS_AN_ATTRIBUTE_VALUE(attr)) {
+	      attr = RETRIEVE_ATTRIBUTE_VALUE(attr);
+	      const char *poly_name = polymorphic_function_names[i];
+	      const char *poly_namespace = poly_name;
+	      while (*poly_namespace++);
+	      n += print(&buf, contents_indent);
+	      if (*poly_namespace) {
+		n += print(&buf, "%s::", poly_namespace);
+	      }
+	      n += print(&buf, "%s:", poly_name);
+	      len = debug_string(attr, -indent-2, max_depth-1, buf);
+	      if (buf) buf += len;
+	      n += len;
 	    }
-	    n += print(&buf, "%s:", poly_name);
-	    len = debug_string(attr_addr, -indent-2, max_depth-1, buf);
-	    if (buf) buf += len;
-	    n += len;
 	  }
 	}
       }
       return n;
     }
   }
+
+extern int attributes_level;
+extern int8_t *attribute_is_redefined;
+
+static void *copy_attributes(
+  OCTREE *to_attributes,
+  OCTREE *from_attributes,
+  int level,
+  int idx
+) {
+  int i;
+  if (level == 1) {
+    NODE **to = (NODE **)to_attributes;
+    NODE **from = (NODE **)from_attributes;
+    NODE **new_node = NULL;
+    for (i = 0; i < 8; ++i) {
+      if (from[i] != to[i]) {
+	if (
+	  attribute_is_redefined[idx] &&
+	  CONTAINS_AN_ATTRIBUTE_VALUE(from[i])
+	) {
+	  if (CONTAINS_AN_ATTRIBUTE_VALUE(to[i])) {
+	    if (!new_node) {
+	      new_node = (NODE **)allocate(sizeof(OCTREE));
+	      memcpy(new_node, to, sizeof(OCTREE));
+	    }
+	    new_node[i] = from[i];
+	  } else {
+	    return (void *)(intptr_t)-idx; // 0 is not a valid attribute ID
+	  }
+	}
+      }
+      ++idx;
+    }
+    return new_node;
+  } else {
+    int n = (level == attributes_level ? 7 : 8);
+    OCTREE *new_tree = NULL;
+    for (i = 0; i < n; ++i) {
+      if (from_attributes->nodes[i] != to_attributes->nodes[i]) {
+	OCTREE *new_branch =
+	  copy_attributes(
+	    to_attributes->nodes[i],
+	    from_attributes->nodes[i],
+	    level-1,
+	    idx);
+	if (new_branch) {
+	  if ((intptr_t)new_branch < 0) return new_branch;
+	  if (!new_tree) {
+	    new_tree = (OCTREE *)allocate(sizeof(OCTREE));
+	    memcpy(new_tree, to_attributes, sizeof(OCTREE));
+	  }
+	  new_tree->nodes[i] = new_branch;
+	}
+      }
+      idx += 1 << 3*(level-1);
+    }
+    return new_tree;
+  }
+}
 
 NODE *create_polymorphic_function
   (
@@ -6356,13 +6436,13 @@ static void *std_types___octet_string____collect
     return new_node;
   }
 
-static QUAD_OCTET_DATA *collect_quad_octet_data
+static WIDE_DATA *collect_wide_data
   (
-    QUAD_OCTET_DATA *data
+    WIDE_DATA *data
   )
   {
     if (!data) return data;
-    QUAD_OCTET_DATA *new_data = data;
+    WIDE_DATA *new_data = data;
     long size = data->length; // might be garbage if already collected
     int is_collected = IS_COLLECTED(data);
     if (is_collected) {
@@ -6370,7 +6450,7 @@ static QUAD_OCTET_DATA *collect_quad_octet_data
       if (IS_AN_INVALID_LENGTH(new_location)) {
 	return DECODE_FROM_LENGTH(new_location);
       }
-      new_data = allocate(ALLOCATION_SIZE(sizeof(QUAD_OCTET_DATA)+size*sizeof(uint32_t)));
+      new_data = allocate(ALLOCATION_SIZE(sizeof(WIDE_DATA)+size*sizeof(uint32_t)));
       new_data->size = size;
       new_data->length = size;
       memcpy(new_data->buffer, data->buffer, size*sizeof(uint32_t));
@@ -6384,21 +6464,21 @@ static QUAD_OCTET_DATA *collect_quad_octet_data
     return new_data;
   }
 
-static void *quad_octet_string____collect
+static void *std_types___wide_string____collect
   (
-    QUAD_OCTET_STRING *node
+    WIDE_STRING *node
   )
   {
     if (!node) return node;
-    QUAD_OCTET_STRING *new_node;
+    WIDE_STRING *new_node;
     long size = node->length; // might be garbage if already collected
-    new_node = allocate(sizeof(QUAD_OCTET_STRING));
+    new_node = allocate(sizeof(WIDE_STRING));
     new_node->type = node->type;
     *(void **)node = ENCODE_ADDRESS(new_node);
     new_node->attributes = collect_attributes(node->attributes);
     new_node->offset = node->offset;
     new_node->length = size;
-    new_node->data = collect_quad_octet_data(node->data);
+    new_node->data = collect_wide_data(node->data);
     return new_node;
   }
 
@@ -6439,7 +6519,7 @@ static long std_types___octet_string____debug_string
     return len;
   }
 
-static long quad_octet_string____debug_string
+static long std_types___wide_string____debug_string
   (
     NODE *node,
     int indent,
@@ -6455,10 +6535,10 @@ static long quad_octet_string____debug_string
     if (buf) *buf++ = '\"';
     ++len;
     long i;
-    long s = node->quad_octet_string.offset;
-    long e = s+node->quad_octet_string.length;
+    long s = node->wide_string.offset;
+    long e = s+node->wide_string.length;
     for (i = s; i < e; ++i) {
-      uint32_t chr = node->quad_octet_string.data->buffer[i];
+      uint32_t chr = node->wide_string.data->buffer[i];
       if (chr >= 0x20 && chr <= 0x7e) {
 	if (chr == '\"') {
 	  len += print(&buf, "@quot;");
@@ -6494,21 +6574,21 @@ static int std_types___octet_string____get_item_of
     return true;
   }
 
-static int quad_octet_string____get_item_of
+static int std_types___wide_string____get_item_of
   (
     NODE *node,
     long idx,
     NODE **result_p
   )
   {
-    long length = node->quad_octet_string.length;
+    long length = node->wide_string.length;
     if (idx < 0 || idx >= length) {
       invalid_index(node);
       return false;
     }
     *result_p =
       from_uchar32(
-	node->quad_octet_string.data->buffer[node->quad_octet_string.offset+idx]);
+	node->wide_string.data->buffer[node->wide_string.offset+idx]);
     return true;
   }
 
@@ -6565,11 +6645,11 @@ NODE *from_uint32_string
   )
   {
     long size = ALLOCATION_SIZE(4*len);
-    QUAD_OCTET_DATA *data = allocate_large(sizeof(QUAD_OCTET_DATA)+size);
+    WIDE_DATA *data = allocate_large(sizeof(WIDE_DATA)+size);
     data->size = size;
     data->length = len;
     memcpy(data->buffer, str, 4*len);
-    return create__quad_octet_string(0, len, data);
+    return create__std_types___wide_string(0, len, data);
   }
 
 NODE *from_c_string
@@ -6590,13 +6670,13 @@ static int std_types___octet_string____length_of
     return true;
   }
 
-static int quad_octet_string____length_of
+static int std_types___wide_string____length_of
   (
     NODE *node,
     long *result_p
   )
   {
-    *result_p = node->quad_octet_string.length;
+    *result_p = node->wide_string.length;
     return true;
   }
 
@@ -6651,19 +6731,19 @@ NODE *create_tuple
   {
     switch (count) {
       case 2:
-	return create__builtin___tuple2(NULL, NULL);
+	return create__builtin_types___tuple2(NULL, NULL);
       case 3:
-	return create__builtin___tuple3(NULL, NULL, NULL);
+	return create__builtin_types___tuple3(NULL, NULL, NULL);
       case 4:
-	return create__builtin___tuple4(NULL, NULL, NULL, NULL);
+	return create__builtin_types___tuple4(NULL, NULL, NULL, NULL);
       case 5:
-	return create__builtin___tuple5(NULL, NULL, NULL, NULL, NULL);
+	return create__builtin_types___tuple5(NULL, NULL, NULL, NULL, NULL);
       case 6:
-	return create__builtin___tuple6(NULL, NULL, NULL, NULL, NULL, NULL);
+	return create__builtin_types___tuple6(NULL, NULL, NULL, NULL, NULL, NULL);
       case 7:
-	return create__builtin___tuple7(NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+	return create__builtin_types___tuple7(NULL, NULL, NULL, NULL, NULL, NULL, NULL);
       case 8:
-	return create__builtin___tuple8(NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+	return create__builtin_types___tuple8(NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
       default:
 	unrecoverable_error("Invalid tuple element count!");
     }
@@ -6679,7 +6759,7 @@ void set_tuple_item
     ((NODE **)((SIMPLE_NODE *)tuple+1))[idx] = value;
   }
 
-static void *builtin___tuple2____collect
+static void *builtin_types___tuple2____collect
   (
     TUPLE2 *node
   )
@@ -6694,7 +6774,7 @@ static void *builtin___tuple2____collect
     return new_node;
   }
 
-static long builtin___tuple2____debug_string
+static long builtin_types___tuple2____debug_string
   (
     NODE *node,
     int indent,
@@ -6751,7 +6831,7 @@ static long builtin___tuple2____debug_string
     }
   }
 
-static void *builtin___tuple3____collect
+static void *builtin_types___tuple3____collect
   (
     TUPLE3 *node
   )
@@ -6767,7 +6847,7 @@ static void *builtin___tuple3____collect
     return new_node;
   }
 
-static long builtin___tuple3____debug_string
+static long builtin_types___tuple3____debug_string
   (
     NODE *node,
     int indent,
@@ -6824,7 +6904,7 @@ static long builtin___tuple3____debug_string
     }
   }
 
-static void *builtin___tuple4____collect
+static void *builtin_types___tuple4____collect
   (
     TUPLE4 *node
   )
@@ -6841,7 +6921,7 @@ static void *builtin___tuple4____collect
     return new_node;
   }
 
-static long builtin___tuple4____debug_string
+static long builtin_types___tuple4____debug_string
   (
     NODE *node,
     int indent,
@@ -6898,7 +6978,7 @@ static long builtin___tuple4____debug_string
     }
   }
 
-static void *builtin___tuple5____collect
+static void *builtin_types___tuple5____collect
   (
     TUPLE5 *node
   )
@@ -6916,7 +6996,7 @@ static void *builtin___tuple5____collect
     return new_node;
   }
 
-static long builtin___tuple5____debug_string
+static long builtin_types___tuple5____debug_string
   (
     NODE *node,
     int indent,
@@ -6973,7 +7053,7 @@ static long builtin___tuple5____debug_string
     }
   }
 
-static void *builtin___tuple6____collect
+static void *builtin_types___tuple6____collect
   (
     TUPLE6 *node
   )
@@ -6992,7 +7072,7 @@ static void *builtin___tuple6____collect
     return new_node;
   }
 
-static long builtin___tuple6____debug_string
+static long builtin_types___tuple6____debug_string
   (
     NODE *node,
     int indent,
@@ -7049,7 +7129,7 @@ static long builtin___tuple6____debug_string
     }
   }
 
-static void *builtin___tuple7____collect
+static void *builtin_types___tuple7____collect
   (
     TUPLE7 *node
   )
@@ -7069,7 +7149,7 @@ static void *builtin___tuple7____collect
     return new_node;
   }
 
-static long builtin___tuple7____debug_string
+static long builtin_types___tuple7____debug_string
   (
     NODE *node,
     int indent,
@@ -7126,7 +7206,7 @@ static long builtin___tuple7____debug_string
     }
   }
 
-static void *builtin___tuple8____collect
+static void *builtin_types___tuple8____collect
   (
     TUPLE8 *node
   )
@@ -7147,7 +7227,7 @@ static void *builtin___tuple8____collect
     return new_node;
   }
 
-static long builtin___tuple8____debug_string
+static long builtin_types___tuple8____debug_string
   (
     NODE *node,
     int indent,
@@ -11097,7 +11177,7 @@ static void std_types___integer____type (void)
     }
   }
 
-static void std_types___positive_integer____type (void)
+void builtin_types___positive_integer____type (void)
   {
     {
       create_error_message(
@@ -11107,7 +11187,7 @@ static void std_types___positive_integer____type (void)
     }
   }
 
-void negative_integer____type (void)
+void builtin_types___negative_integer____type (void)
   {
     {
       create_error_message(
@@ -11338,7 +11418,7 @@ static void std_types___octet_string____type (void)
     }
     if (chr > 0xff) {
       long size = ALLOCATION_SIZE(4*length);
-      QUAD_OCTET_DATA *new_data = allocate_large(sizeof(QUAD_OCTET_DATA)+size);
+      WIDE_DATA *new_data = allocate_large(sizeof(WIDE_DATA)+size);
       long i;
       for (i = 0; i < length; ++i) {
 	new_data->buffer[i] = data->buffer[offset+i];
@@ -11347,7 +11427,7 @@ static void std_types___octet_string____type (void)
       new_data->length = length;
       new_data->buffer[idx-1] = chr;
       {
-        NODE *result__node = (NODE *)(create__quad_octet_string(0, length, new_data));
+        NODE *result__node = (NODE *)(create__std_types___wide_string(0, length, new_data));
         TLS_arguments[0] = result__node;
         TLS_argument_count = 1;
         return;
@@ -11368,7 +11448,7 @@ static void std_types___octet_string____type (void)
     }
   }
 
-static void quad_octet_string____type (void)
+static void std_types___wide_string____type (void)
   {
     if (TLS_argument_count < 1) {
       too_few_arguments();
@@ -11384,23 +11464,23 @@ static void quad_octet_string____type (void)
     }
     long idx;
     if (!to_long(TLS_arguments[0], &idx)) return;
-    long length = TLS_myself->quad_octet_string.length;
+    long length = TLS_myself->wide_string.length;
     if (idx < 0) idx = length+idx+1;
     if (idx < 1 || idx > length) {
       invalid_index(TLS_myself);
       return;
     };
-    long offset = TLS_myself->quad_octet_string.offset;
+    long offset = TLS_myself->wide_string.offset;
     if (TLS_argument_count == 1)
       {
-        NODE *result__node = (NODE *)(from_uchar32(TLS_myself->quad_octet_string.data->buffer[offset+idx-1]));
+        NODE *result__node = (NODE *)(from_uchar32(TLS_myself->wide_string.data->buffer[offset+idx-1]));
         TLS_arguments[0] = result__node;
         TLS_argument_count = 1;
         return;
       }
     uint32_t chr;
     if (!to_uchar32(TLS_arguments[1], &chr)) return;;
-    QUAD_OCTET_DATA *data = TLS_myself->quad_octet_string.data;
+    WIDE_DATA *data = TLS_myself->wide_string.data;
     if (data->buffer[idx-1] == chr) {
       NODE *result__node = (NODE *)(TLS_myself);
       TLS_arguments[0] = result__node;
@@ -11429,13 +11509,13 @@ static void quad_octet_string____type (void)
     }
     quad:;
     long size = ALLOCATION_SIZE(4*length);
-    QUAD_OCTET_DATA *new_data = allocate_large(sizeof(QUAD_OCTET_DATA)+size);
+    WIDE_DATA *new_data = allocate_large(sizeof(WIDE_DATA)+size);
     memcpy(new_data->buffer, data->buffer+offset, 4*length);
     new_data->size = size;
     new_data->length = length;
     new_data->buffer[idx-1] = chr;
     {
-      NODE *result__node = (NODE *)(create__quad_octet_string(0, length, new_data));
+      NODE *result__node = (NODE *)(create__std_types___wide_string(0, length, new_data));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -11462,7 +11542,7 @@ static void std_types___tuple____type (void)
     }
   }
 
-static void builtin___tuple2____type (void)
+static void builtin_types___tuple2____type (void)
   {
     if (TLS_argument_count != 0) {
       invalid_arguments();
@@ -11472,12 +11552,18 @@ static void builtin___tuple2____type (void)
       too_few_results();
       return;
     }
-    if (TLS_result_count > 2) {
+    if (TLS_result_count > 8) {
       too_many_results();
       return;
     }
     TLS_argument_count = TLS_result_count;
     switch (TLS_result_count) {
+      case 8: TLS_arguments[7] = (NODE *)&std_types___undefined;
+      case 7: TLS_arguments[6] = (NODE *)&std_types___undefined;
+      case 6: TLS_arguments[5] = (NODE *)&std_types___undefined;
+      case 5: TLS_arguments[4] = (NODE *)&std_types___undefined;
+      case 4: TLS_arguments[3] = (NODE *)&std_types___undefined;
+      case 3: TLS_arguments[2] = (NODE *)&std_types___undefined;
       case 2: TLS_arguments[1] = TLS_myself->tuple2.node_1;
       case 1: TLS_arguments[0] = TLS_myself->tuple2.node_0;
     }
@@ -11486,7 +11572,7 @@ static void builtin___tuple2____type (void)
     }
   }
 
-static void builtin___tuple3____type (void)
+static void builtin_types___tuple3____type (void)
   {
     if (TLS_argument_count != 0) {
       invalid_arguments();
@@ -11496,12 +11582,17 @@ static void builtin___tuple3____type (void)
       too_few_results();
       return;
     }
-    if (TLS_result_count > 3) {
+    if (TLS_result_count > 8) {
       too_many_results();
       return;
     }
     TLS_argument_count = TLS_result_count;
     switch (TLS_result_count) {
+      case 8: TLS_arguments[7] = (NODE *)&std_types___undefined;
+      case 7: TLS_arguments[6] = (NODE *)&std_types___undefined;
+      case 6: TLS_arguments[5] = (NODE *)&std_types___undefined;
+      case 5: TLS_arguments[4] = (NODE *)&std_types___undefined;
+      case 4: TLS_arguments[3] = (NODE *)&std_types___undefined;
       case 3: TLS_arguments[2] = TLS_myself->tuple3.node_2;
       case 2: TLS_arguments[1] = TLS_myself->tuple3.node_1;
       case 1: TLS_arguments[0] = TLS_myself->tuple3.node_0;
@@ -11511,7 +11602,7 @@ static void builtin___tuple3____type (void)
     }
   }
 
-static void builtin___tuple4____type (void)
+static void builtin_types___tuple4____type (void)
   {
     if (TLS_argument_count != 0) {
       invalid_arguments();
@@ -11521,12 +11612,16 @@ static void builtin___tuple4____type (void)
       too_few_results();
       return;
     }
-    if (TLS_result_count > 4) {
+    if (TLS_result_count > 8) {
       too_many_results();
       return;
     }
     TLS_argument_count = TLS_result_count;
     switch (TLS_result_count) {
+      case 8: TLS_arguments[7] = (NODE *)&std_types___undefined;
+      case 7: TLS_arguments[6] = (NODE *)&std_types___undefined;
+      case 6: TLS_arguments[5] = (NODE *)&std_types___undefined;
+      case 5: TLS_arguments[4] = TLS_myself->tuple4.node_3;
       case 4: TLS_arguments[3] = TLS_myself->tuple4.node_3;
       case 3: TLS_arguments[2] = TLS_myself->tuple4.node_2;
       case 2: TLS_arguments[1] = TLS_myself->tuple4.node_1;
@@ -11537,7 +11632,7 @@ static void builtin___tuple4____type (void)
     }
   }
 
-static void builtin___tuple5____type (void)
+static void builtin_types___tuple5____type (void)
   {
     if (TLS_argument_count != 0) {
       invalid_arguments();
@@ -11547,12 +11642,15 @@ static void builtin___tuple5____type (void)
       too_few_results();
       return;
     }
-    if (TLS_result_count > 5) {
+    if (TLS_result_count > 8) {
       too_many_results();
       return;
     }
     TLS_argument_count = TLS_result_count;
     switch (TLS_result_count) {
+      case 8: TLS_arguments[7] = (NODE *)&std_types___undefined;
+      case 7: TLS_arguments[6] = (NODE *)&std_types___undefined;
+      case 6: TLS_arguments[5] = TLS_myself->tuple5.node_4;
       case 5: TLS_arguments[4] = TLS_myself->tuple5.node_4;
       case 4: TLS_arguments[3] = TLS_myself->tuple5.node_3;
       case 3: TLS_arguments[2] = TLS_myself->tuple5.node_2;
@@ -11564,7 +11662,7 @@ static void builtin___tuple5____type (void)
     }
   }
 
-static void builtin___tuple6____type (void)
+static void builtin_types___tuple6____type (void)
   {
     if (TLS_argument_count != 0) {
       invalid_arguments();
@@ -11574,12 +11672,14 @@ static void builtin___tuple6____type (void)
       too_few_results();
       return;
     }
-    if (TLS_result_count > 6) {
+    if (TLS_result_count > 8) {
       too_many_results();
       return;
     }
     TLS_argument_count = TLS_result_count;
     switch (TLS_result_count) {
+      case 8: TLS_arguments[7] = (NODE *)&std_types___undefined;
+      case 7: TLS_arguments[6] = (NODE *)&std_types___undefined;
       case 6: TLS_arguments[5] = TLS_myself->tuple6.node_5;
       case 5: TLS_arguments[4] = TLS_myself->tuple6.node_4;
       case 4: TLS_arguments[3] = TLS_myself->tuple6.node_3;
@@ -11592,7 +11692,7 @@ static void builtin___tuple6____type (void)
     }
   }
 
-static void builtin___tuple7____type (void)
+static void builtin_types___tuple7____type (void)
   {
     if (TLS_argument_count != 0) {
       invalid_arguments();
@@ -11602,12 +11702,13 @@ static void builtin___tuple7____type (void)
       too_few_results();
       return;
     }
-    if (TLS_result_count > 7) {
+    if (TLS_result_count > 8) {
       too_many_results();
       return;
     }
     TLS_argument_count = TLS_result_count;
     switch (TLS_result_count) {
+      case 8: TLS_arguments[7] = (NODE *)&std_types___undefined;
       case 7: TLS_arguments[6] = TLS_myself->tuple7.node_6;
       case 6: TLS_arguments[5] = TLS_myself->tuple7.node_5;
       case 5: TLS_arguments[4] = TLS_myself->tuple7.node_4;
@@ -11621,7 +11722,7 @@ static void builtin___tuple7____type (void)
     }
   }
 
-static void builtin___tuple8____type (void)
+static void builtin_types___tuple8____type (void)
   {
     if (TLS_argument_count != 0) {
       invalid_arguments();
@@ -11773,12 +11874,12 @@ INTEGER std_types___integer = {
   std_types___integer____type, NULL
 };
 
-POSITIVE_INTEGER std_types___positive_integer = {
-  std_types___positive_integer____type, NULL
+POSITIVE_INTEGER builtin_types___positive_integer = {
+  builtin_types___positive_integer____type, NULL
 };
 
-NEGATIVE_INTEGER negative_integer = {
-  negative_integer____type, NULL
+NEGATIVE_INTEGER builtin_types___negative_integer = {
+  builtin_types___negative_integer____type, NULL
 };
 
 REAL std_types___real = {
@@ -11857,8 +11958,8 @@ OCTET_STRING std_types___octet_string = {
   std_types___octet_string____type, NULL
 };
 
-QUAD_OCTET_STRING quad_octet_string = {
-  quad_octet_string____type, NULL
+WIDE_STRING std_types___wide_string = {
+  std_types___wide_string____type, NULL
 };
 
 TERMINAL_ATTRIBUTES std_types___terminal_attributes = {
@@ -11869,32 +11970,32 @@ SIMPLE_NODE std_types___tuple = {
   std_types___tuple____type, NULL
 };
 
-TUPLE2 builtin___tuple2 = {
-  builtin___tuple2____type, NULL
+TUPLE2 builtin_types___tuple2 = {
+  builtin_types___tuple2____type, NULL
 };
 
-TUPLE3 builtin___tuple3 = {
-  builtin___tuple3____type, NULL
+TUPLE3 builtin_types___tuple3 = {
+  builtin_types___tuple3____type, NULL
 };
 
-TUPLE4 builtin___tuple4 = {
-  builtin___tuple4____type, NULL
+TUPLE4 builtin_types___tuple4 = {
+  builtin_types___tuple4____type, NULL
 };
 
-TUPLE5 builtin___tuple5 = {
-  builtin___tuple5____type, NULL
+TUPLE5 builtin_types___tuple5 = {
+  builtin_types___tuple5____type, NULL
 };
 
-TUPLE6 builtin___tuple6 = {
-  builtin___tuple6____type, NULL
+TUPLE6 builtin_types___tuple6 = {
+  builtin_types___tuple6____type, NULL
 };
 
-TUPLE7 builtin___tuple7 = {
-  builtin___tuple7____type, NULL
+TUPLE7 builtin_types___tuple7 = {
+  builtin_types___tuple7____type, NULL
 };
 
-TUPLE8 builtin___tuple8 = {
-  builtin___tuple8____type, NULL
+TUPLE8 builtin_types___tuple8 = {
+  builtin_types___tuple8____type, NULL
 };
 
 UNIQUE_ITEM std_types___unique_item = {
@@ -11902,11 +12003,11 @@ UNIQUE_ITEM std_types___unique_item = {
 };
 
 static POSITIVE_INTEGER std___EXIT_SUCCESS = {
-  std_types___positive_integer____type, NULL, EXIT_SUCCESS
+  builtin_types___positive_integer____type, NULL, EXIT_SUCCESS
 };
 
 static POSITIVE_INTEGER std___EXIT_FAILURE = {
-  std_types___positive_integer____type, NULL, EXIT_FAILURE
+  builtin_types___positive_integer____type, NULL, EXIT_FAILURE
 };
 
 static OCTET_STRING std___program_name = {
@@ -11922,7 +12023,7 @@ static LIST std___environment_variables = {
 };
 
 TUPLE2 std_types___key_value_pair = {
-  builtin___tuple2____type, NULL, (NODE *)&std_types___undefined, (NODE *)&std_types___undefined
+  builtin_types___tuple2____type, NULL, (NODE *)&std_types___undefined, (NODE *)&std_types___undefined
 };
 
 LIST std___empty_list = {
@@ -12482,7 +12583,7 @@ static OCTET_STRING std___empty_string = {
 };
 
 TUPLE2 std_types___value_range = {
-  builtin___tuple2____type, NULL, (NODE *)&std_types___undefined, (NODE *)&std_types___undefined
+  builtin_types___tuple2____type, NULL, (NODE *)&std_types___undefined, (NODE *)&std_types___undefined
 };
 
 static void *create__std_types___array
@@ -12820,26 +12921,26 @@ static void *create__std_types___integer
     return node;
   }
 
-static void *create__std_types___positive_integer
+void *create__builtin_types___positive_integer
   (
     uint64_t value
   )
   {
     POSITIVE_INTEGER *node = allocate(sizeof(POSITIVE_INTEGER));
-    node->type = std_types___positive_integer____type;
-    node->attributes = std_types___positive_integer.attributes;
+    node->type = builtin_types___positive_integer____type;
+    node->attributes = builtin_types___positive_integer.attributes;
     node->value = value;
     return node;
   }
 
-void *create__negative_integer
+void *create__builtin_types___negative_integer
   (
     uint64_t value
   )
   {
     NEGATIVE_INTEGER *node = allocate(sizeof(NEGATIVE_INTEGER));
-    node->type = negative_integer____type;
-    node->attributes = negative_integer.attributes;
+    node->type = builtin_types___negative_integer____type;
+    node->attributes = builtin_types___negative_integer.attributes;
     node->value = value;
     return node;
   }
@@ -13004,16 +13105,16 @@ static void *create__std_types___octet_string
     return node;
   }
 
-static void *create__quad_octet_string
+static void *create__std_types___wide_string
   (
     long offset,
     long length,
-    QUAD_OCTET_DATA *data
+    WIDE_DATA *data
   )
   {
-    QUAD_OCTET_STRING *node = allocate(sizeof(QUAD_OCTET_STRING));
-    node->type = quad_octet_string____type;
-    node->attributes = quad_octet_string.attributes;
+    WIDE_STRING *node = allocate(sizeof(WIDE_STRING));
+    node->type = std_types___wide_string____type;
+    node->attributes = std_types___wide_string.attributes;
     node->offset = offset;
     node->length = length;
     node->data = data;
@@ -13032,21 +13133,21 @@ static void *create__std_types___terminal_attributes
     return node;
   }
 
-static void *create__builtin___tuple2
+static void *create__builtin_types___tuple2
   (
     NODE *node_0,
     NODE *node_1
   )
   {
     TUPLE2 *node = allocate(sizeof(TUPLE2));
-    node->type = builtin___tuple2____type;
-    node->attributes = builtin___tuple2.attributes;
+    node->type = builtin_types___tuple2____type;
+    node->attributes = builtin_types___tuple2.attributes;
     node->node_0 = node_0;
     node->node_1 = node_1;
     return node;
   }
 
-static void *create__builtin___tuple3
+static void *create__builtin_types___tuple3
   (
     NODE *node_0,
     NODE *node_1,
@@ -13054,15 +13155,15 @@ static void *create__builtin___tuple3
   )
   {
     TUPLE3 *node = allocate(sizeof(TUPLE3));
-    node->type = builtin___tuple3____type;
-    node->attributes = builtin___tuple3.attributes;
+    node->type = builtin_types___tuple3____type;
+    node->attributes = builtin_types___tuple3.attributes;
     node->node_0 = node_0;
     node->node_1 = node_1;
     node->node_2 = node_2;
     return node;
   }
 
-static void *create__builtin___tuple4
+static void *create__builtin_types___tuple4
   (
     NODE *node_0,
     NODE *node_1,
@@ -13071,8 +13172,8 @@ static void *create__builtin___tuple4
   )
   {
     TUPLE4 *node = allocate(sizeof(TUPLE4));
-    node->type = builtin___tuple4____type;
-    node->attributes = builtin___tuple4.attributes;
+    node->type = builtin_types___tuple4____type;
+    node->attributes = builtin_types___tuple4.attributes;
     node->node_0 = node_0;
     node->node_1 = node_1;
     node->node_2 = node_2;
@@ -13080,7 +13181,7 @@ static void *create__builtin___tuple4
     return node;
   }
 
-static void *create__builtin___tuple5
+static void *create__builtin_types___tuple5
   (
     NODE *node_0,
     NODE *node_1,
@@ -13090,8 +13191,8 @@ static void *create__builtin___tuple5
   )
   {
     TUPLE5 *node = allocate(sizeof(TUPLE5));
-    node->type = builtin___tuple5____type;
-    node->attributes = builtin___tuple5.attributes;
+    node->type = builtin_types___tuple5____type;
+    node->attributes = builtin_types___tuple5.attributes;
     node->node_0 = node_0;
     node->node_1 = node_1;
     node->node_2 = node_2;
@@ -13100,7 +13201,7 @@ static void *create__builtin___tuple5
     return node;
   }
 
-static void *create__builtin___tuple6
+static void *create__builtin_types___tuple6
   (
     NODE *node_0,
     NODE *node_1,
@@ -13111,8 +13212,8 @@ static void *create__builtin___tuple6
   )
   {
     TUPLE6 *node = allocate(sizeof(TUPLE6));
-    node->type = builtin___tuple6____type;
-    node->attributes = builtin___tuple6.attributes;
+    node->type = builtin_types___tuple6____type;
+    node->attributes = builtin_types___tuple6.attributes;
     node->node_0 = node_0;
     node->node_1 = node_1;
     node->node_2 = node_2;
@@ -13122,7 +13223,7 @@ static void *create__builtin___tuple6
     return node;
   }
 
-static void *create__builtin___tuple7
+static void *create__builtin_types___tuple7
   (
     NODE *node_0,
     NODE *node_1,
@@ -13134,8 +13235,8 @@ static void *create__builtin___tuple7
   )
   {
     TUPLE7 *node = allocate(sizeof(TUPLE7));
-    node->type = builtin___tuple7____type;
-    node->attributes = builtin___tuple7.attributes;
+    node->type = builtin_types___tuple7____type;
+    node->attributes = builtin_types___tuple7.attributes;
     node->node_0 = node_0;
     node->node_1 = node_1;
     node->node_2 = node_2;
@@ -13146,7 +13247,7 @@ static void *create__builtin___tuple7
     return node;
   }
 
-static void *create__builtin___tuple8
+static void *create__builtin_types___tuple8
   (
     NODE *node_0,
     NODE *node_1,
@@ -13159,8 +13260,8 @@ static void *create__builtin___tuple8
   )
   {
     TUPLE8 *node = allocate(sizeof(TUPLE8));
-    node->type = builtin___tuple8____type;
-    node->attributes = builtin___tuple8.attributes;
+    node->type = builtin_types___tuple8____type;
+    node->attributes = builtin_types___tuple8.attributes;
     node->node_0 = node_0;
     node->node_1 = node_1;
     node->node_2 = node_2;
@@ -13282,7 +13383,7 @@ static void entry__std___initialized_array (void)
     }
   }
 
-static void entry__std_types___array___std___new (void)
+static void entry__std_types___array___std___create_empty_array (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -13581,7 +13682,7 @@ static void entry__std___initialized_boolean_array (void)
     }
   }
 
-static void entry__std_types___boolean_array___std___new (void)
+static void entry__std_types___boolean_array___std___create_empty_array (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -13761,7 +13862,7 @@ static void entry__std___initialized_character_array (void)
     }
   }
 
-static void entry__std_types___character_array___std___new (void)
+static void entry__std_types___character_array___std___create_empty_array (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -13976,7 +14077,7 @@ static void entry__std___initialized_int8_array (void)
     }
   }
 
-static void entry__std_types___int8_array___std___new (void)
+static void entry__std_types___int8_array___std___create_empty_array (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -14310,7 +14411,7 @@ static void entry__std___initialized_uint8_array (void)
     }
   }
 
-static void entry__std_types___uint8_array___std___new (void)
+static void entry__std_types___uint8_array___std___create_empty_array (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -14525,7 +14626,7 @@ static void entry__std___initialized_int16_array (void)
     }
   }
 
-static void entry__std_types___int16_array___std___new (void)
+static void entry__std_types___int16_array___std___create_empty_array (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -14859,7 +14960,7 @@ static void entry__std___initialized_uint16_array (void)
     }
   }
 
-static void entry__std_types___uint16_array___std___new (void)
+static void entry__std_types___uint16_array___std___create_empty_array (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -15074,7 +15175,7 @@ static void entry__std___initialized_int32_array (void)
     }
   }
 
-static void entry__std_types___int32_array___std___new (void)
+static void entry__std_types___int32_array___std___create_empty_array (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -15408,7 +15509,7 @@ static void entry__std___initialized_uint32_array (void)
     }
   }
 
-static void entry__std_types___uint32_array___std___new (void)
+static void entry__std_types___uint32_array___std___create_empty_array (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -15623,7 +15724,7 @@ static void entry__std___initialized_int64_array (void)
     }
   }
 
-static void entry__std_types___int64_array___std___new (void)
+static void entry__std_types___int64_array___std___create_empty_array (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -15957,7 +16058,7 @@ static void entry__std___initialized_uint64_array (void)
     }
   }
 
-static void entry__std_types___uint64_array___std___new (void)
+static void entry__std_types___uint64_array___std___create_empty_array (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -16172,7 +16273,7 @@ static void entry__std___initialized_float32_array (void)
     }
   }
 
-static void entry__std_types___float32_array___std___new (void)
+static void entry__std_types___float32_array___std___create_empty_array (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -16387,7 +16488,7 @@ static void entry__std___initialized_float64_array (void)
     }
   }
 
-static void entry__std_types___float64_array___std___new (void)
+static void entry__std_types___float64_array___std___create_empty_array (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -17067,7 +17168,7 @@ static void entry__std_types___date_and_time___std___minus (void)
       int32_t delta_nanoseconds = 1000000000*(delta-delta_seconds);
       seconds -= delta_seconds;
       nanoseconds -= delta_nanoseconds;
-      if (nanoseconds < 00) {
+      if (nanoseconds < 0) {
 	nanoseconds += 1000000000;
 	--seconds;
       }
@@ -17162,7 +17263,9 @@ static void entry__debug___string (void)
     int indent = 0;
     int depth = 1;
     if (TLS_argument_count >= 2) {
-      if (!to_int(TLS_arguments[1], &indent)) return;
+      if ((TLS_arguments[1])->type != std_types___undefined.type) {
+	if (!to_int(TLS_arguments[1], &indent)) return;
+      }
     }
     if (TLS_argument_count >= 3) {
       if (!to_int(TLS_arguments[2], &depth)) return;
@@ -17379,7 +17482,7 @@ static void entry__std_types___error___std___failed_attribute_of (void)
     }
     if (TLS_arguments[0]->error.attr_idx) {
       {
-        NODE *result__node = (NODE *)(from_c_string(poly_name(TLS_arguments[0]->error.attr_idx)));
+        NODE *result__node = (NODE *)(from_c_string(polymorphic_function_names[TLS_arguments[0]->error.attr_idx]));
         TLS_arguments[0] = result__node;
         TLS_argument_count = 1;
         return;
@@ -17714,22 +17817,21 @@ static void entry__std_types___function___std___parameter_count_of (void)
       }
   }
 
-static void entry__std_types___list___std___new (void)
+static void entry__std_types___function___std___new (void)
   {
     if (TLS_argument_count != 2) {
       invalid_arguments();
       return;
     }
-    if ((TLS_arguments[1])->type != std_types___list.type) {
+    if (((long)TLS_arguments[1]->type & 3)!= TABULAR_FUNCTION_TAG) {
       invalid_arguments();
       return;
     }
-    NODE *prototype = TLS_arguments[0];
-    NODE *clone =
-      create__std_types___list(TLS_arguments[1]->list.offset, TLS_arguments[1]->list.length, TLS_arguments[1]->list.data);
-    clone->attributes = prototype->attributes;
+    NODE *node = create__tabular_function();
+    node->type = TLS_arguments[1]->type;
+    node->attributes = TLS_arguments[0]->attributes;
     {
-      NODE *result__node = (NODE *)(clone);
+      NODE *result__node = (NODE *)(node);
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -18099,7 +18201,7 @@ static void entry__std_types___list___std___spread (void)
     }
   }
 
-static void entry__std_types___positive_integer___std___negate (void)
+static void entry__builtin_types___positive_integer___std___negate (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -18113,14 +18215,14 @@ static void entry__std_types___positive_integer___std___negate (void)
       return;
     }
     {
-      NODE *result__node = (NODE *)(create__negative_integer(TLS_arguments[0]->integer.value));
+      NODE *result__node = (NODE *)(create__builtin_types___negative_integer(TLS_arguments[0]->integer.value));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
   }
 
-static void entry__negative_integer___std___negate (void)
+static void entry__builtin_types___negative_integer___std___negate (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -18131,7 +18233,7 @@ static void entry__negative_integer___std___negate (void)
       return;
     }
     {
-      NODE *result__node = (NODE *)(create__std_types___positive_integer(TLS_arguments[0]->integer.value));
+      NODE *result__node = (NODE *)(create__builtin_types___positive_integer(TLS_arguments[0]->integer.value));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -18156,7 +18258,7 @@ static void entry__std_types___real___std___negate (void)
     }
   }
 
-static void entry__std_types___positive_integer___std___times (void)
+static void entry__builtin_types___positive_integer___std___times (void)
   {
     if (TLS_argument_count != 2) {
       invalid_arguments();
@@ -18167,23 +18269,23 @@ static void entry__std_types___positive_integer___std___times (void)
       return;
     }
     uint64_t low, high;
-    if ((TLS_arguments[1])->type == std_types___positive_integer.type) {
+    if ((TLS_arguments[1])->type == builtin_types___positive_integer.type) {
       high =
 	umul64(TLS_arguments[0]->integer.value, TLS_arguments[1]->integer.value, &low);
       if (high == 0) {
 	{
-	  NODE *result__node = (NODE *)(create__std_types___positive_integer(low));
+	  NODE *result__node = (NODE *)(create__builtin_types___positive_integer(low));
 	  TLS_arguments[0] = result__node;
 	  TLS_argument_count = 1;
 	  return;
 	}
       }
-    } else if ((TLS_arguments[1])->type == negative_integer.type) {
+    } else if ((TLS_arguments[1])->type == builtin_types___negative_integer.type) {
       high =
 	umul64(TLS_arguments[0]->integer.value, TLS_arguments[1]->integer.value, &low);
       if (high == 0) {
 	{
-	  NODE *result__node = (NODE *)(create__negative_integer(low));
+	  NODE *result__node = (NODE *)(create__builtin_types___negative_integer(low));
 	  TLS_arguments[0] = result__node;
 	  TLS_argument_count = 1;
 	  return;
@@ -18203,7 +18305,7 @@ static void entry__std_types___positive_integer___std___times (void)
     }
   }
 
-static void entry__negative_integer___std___times (void)
+static void entry__builtin_types___negative_integer___std___times (void)
   {
     if (TLS_argument_count != 2) {
       invalid_arguments();
@@ -18214,23 +18316,23 @@ static void entry__negative_integer___std___times (void)
       return;
     }
     uint64_t low, high;
-    if ((TLS_arguments[1])->type == std_types___positive_integer.type) {
+    if ((TLS_arguments[1])->type == builtin_types___positive_integer.type) {
       high =
 	umul64(TLS_arguments[0]->integer.value, TLS_arguments[1]->integer.value, &low);
       if (high == 0) {
 	{
-	  NODE *result__node = (NODE *)(create__negative_integer(low));
+	  NODE *result__node = (NODE *)(create__builtin_types___negative_integer(low));
 	  TLS_arguments[0] = result__node;
 	  TLS_argument_count = 1;
 	  return;
 	}
       }
-    } else if ((TLS_arguments[1])->type == negative_integer.type) {
+    } else if ((TLS_arguments[1])->type == builtin_types___negative_integer.type) {
       high =
 	umul64(TLS_arguments[0]->integer.value, TLS_arguments[1]->integer.value, &low);
       if (high == 0) {
 	{
-	  NODE *result__node = (NODE *)(create__std_types___positive_integer(low));
+	  NODE *result__node = (NODE *)(create__builtin_types___positive_integer(low));
 	  TLS_arguments[0] = result__node;
 	  TLS_argument_count = 1;
 	  return;
@@ -18250,7 +18352,7 @@ static void entry__negative_integer___std___times (void)
     }
   }
 
-static void entry__std_types___positive_integer___std___to_integer (void)
+static void entry__builtin_types___positive_integer___std___to_integer (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -18264,7 +18366,7 @@ static void entry__std_types___positive_integer___std___to_integer (void)
     }
   }
 
-static void entry__negative_integer___std___to_integer (void)
+static void entry__builtin_types___negative_integer___std___to_integer (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -18335,7 +18437,7 @@ static void entry__std_types___real___std___round (void)
     }
   }
 
-static void entry__negative_integer___std___to_string (void)
+static void entry__builtin_types___negative_integer___std___to_string (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -18355,7 +18457,7 @@ static void entry__negative_integer___std___to_string (void)
     }
   }
 
-static void entry__std_types___positive_integer___std___to_string (void)
+static void entry__builtin_types___positive_integer___std___to_string (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -18395,7 +18497,7 @@ static void entry__std_types___real___std___to_string (void)
     }
   }
 
-static void entry__std_types___positive_integer___std___over (void)
+static void entry__builtin_types___positive_integer___std___over (void)
   {
     if (TLS_argument_count != 2) {
       invalid_arguments();
@@ -18405,11 +18507,11 @@ static void entry__std_types___positive_integer___std___over (void)
       result_count_mismatch();
       return;
     }
-    if ((TLS_arguments[1])->type == std_types___positive_integer.type) {
+    if ((TLS_arguments[1])->type == builtin_types___positive_integer.type) {
       if (TLS_arguments[1]->integer.value == 0) goto invalid_arguments;
       if (TLS_arguments[0]->integer.value % TLS_arguments[1]->integer.value == 0) {
 	{
-	  NODE *result__node = (NODE *)(create__std_types___positive_integer(TLS_arguments[0]->integer.value / TLS_arguments[1]->integer.value));
+	  NODE *result__node = (NODE *)(create__builtin_types___positive_integer(TLS_arguments[0]->integer.value / TLS_arguments[1]->integer.value));
 	  TLS_arguments[0] = result__node;
 	  TLS_argument_count = 1;
 	  return;
@@ -18422,10 +18524,10 @@ static void entry__std_types___positive_integer___std___over (void)
 	  return;
 	}
       }
-    } else if ((TLS_arguments[1])->type == negative_integer.type) {
+    } else if ((TLS_arguments[1])->type == builtin_types___negative_integer.type) {
       if (TLS_arguments[0]->integer.value % TLS_arguments[1]->integer.value == 0) {
 	{
-	  NODE *result__node = (NODE *)(create__negative_integer(TLS_arguments[0]->integer.value / TLS_arguments[1]->integer.value));
+	  NODE *result__node = (NODE *)(create__builtin_types___negative_integer(TLS_arguments[0]->integer.value / TLS_arguments[1]->integer.value));
 	  TLS_arguments[0] = result__node;
 	  TLS_argument_count = 1;
 	  return;
@@ -18454,7 +18556,7 @@ static void entry__std_types___positive_integer___std___over (void)
     }
   }
 
-static void entry__negative_integer___std___over (void)
+static void entry__builtin_types___negative_integer___std___over (void)
   {
     if (TLS_argument_count != 2) {
       invalid_arguments();
@@ -18464,10 +18566,10 @@ static void entry__negative_integer___std___over (void)
       result_count_mismatch();
       return;
     }
-    if ((TLS_arguments[1])->type == negative_integer.type) {
+    if ((TLS_arguments[1])->type == builtin_types___negative_integer.type) {
       if (TLS_arguments[0]->integer.value % TLS_arguments[1]->integer.value == 0) {
 	{
-	  NODE *result__node = (NODE *)(create__std_types___positive_integer(TLS_arguments[0]->integer.value / TLS_arguments[1]->integer.value));
+	  NODE *result__node = (NODE *)(create__builtin_types___positive_integer(TLS_arguments[0]->integer.value / TLS_arguments[1]->integer.value));
 	  TLS_arguments[0] = result__node;
 	  TLS_argument_count = 1;
 	  return;
@@ -18481,11 +18583,11 @@ static void entry__negative_integer___std___over (void)
 	  return;
 	}
       }
-    } else if ((TLS_arguments[1])->type == std_types___positive_integer.type) {
+    } else if ((TLS_arguments[1])->type == builtin_types___positive_integer.type) {
       if (TLS_arguments[1]->integer.value == 0) goto invalid_arguments;
       if (TLS_arguments[0]->integer.value % TLS_arguments[1]->integer.value == 0) {
 	{
-	  NODE *result__node = (NODE *)(create__negative_integer(TLS_arguments[0]->integer.value / TLS_arguments[1]->integer.value));
+	  NODE *result__node = (NODE *)(create__builtin_types___negative_integer(TLS_arguments[0]->integer.value / TLS_arguments[1]->integer.value));
 	  TLS_arguments[0] = result__node;
 	  TLS_argument_count = 1;
 	  return;
@@ -18514,7 +18616,7 @@ static void entry__negative_integer___std___over (void)
     }
   }
 
-static void entry__std_types___positive_integer___std___div (void)
+static void entry__builtin_types___positive_integer___std___div (void)
   {
     if (TLS_argument_count != 2) {
       invalid_arguments();
@@ -18524,10 +18626,10 @@ static void entry__std_types___positive_integer___std___div (void)
       result_count_mismatch();
       return;
     }
-    if ((TLS_arguments[1])->type == std_types___positive_integer.type) {
+    if ((TLS_arguments[1])->type == builtin_types___positive_integer.type) {
       if (TLS_arguments[1]->integer.value) {
 	{
-	  NODE *result__node = (NODE *)(create__std_types___positive_integer(TLS_arguments[0]->integer.value / TLS_arguments[1]->integer.value));
+	  NODE *result__node = (NODE *)(create__builtin_types___positive_integer(TLS_arguments[0]->integer.value / TLS_arguments[1]->integer.value));
 	  TLS_arguments[0] = result__node;
 	  TLS_argument_count = 1;
 	  return;
@@ -18536,9 +18638,9 @@ static void entry__std_types___positive_integer___std___div (void)
         divide_by_zero();
         return;
       }
-    } else if ((TLS_arguments[1])->type == negative_integer.type) {
+    } else if ((TLS_arguments[1])->type == builtin_types___negative_integer.type) {
       {
-        NODE *result__node = (NODE *)(create__negative_integer((TLS_arguments[0]->integer.value+TLS_arguments[1]->integer.value-1) /
+        NODE *result__node = (NODE *)(create__builtin_types___negative_integer((TLS_arguments[0]->integer.value+TLS_arguments[1]->integer.value-1) /
         	  TLS_arguments[1]->integer.value));
         TLS_arguments[0] = result__node;
         TLS_argument_count = 1;
@@ -18551,7 +18653,7 @@ static void entry__std_types___positive_integer___std___div (void)
     }
   }
 
-static void entry__negative_integer___std___div (void)
+static void entry__builtin_types___negative_integer___std___div (void)
   {
     if (TLS_argument_count != 2) {
       invalid_arguments();
@@ -18561,10 +18663,10 @@ static void entry__negative_integer___std___div (void)
       result_count_mismatch();
       return;
     }
-    if ((TLS_arguments[1])->type == std_types___positive_integer.type) {
+    if ((TLS_arguments[1])->type == builtin_types___positive_integer.type) {
       if (TLS_arguments[1]->integer.value) {
 	{
-	  NODE *result__node = (NODE *)(create__negative_integer((TLS_arguments[0]->integer.value+TLS_arguments[1]->integer.value-1) /
+	  NODE *result__node = (NODE *)(create__builtin_types___negative_integer((TLS_arguments[0]->integer.value+TLS_arguments[1]->integer.value-1) /
 	  	    TLS_arguments[1]->integer.value));
 	  TLS_arguments[0] = result__node;
 	  TLS_argument_count = 1;
@@ -18574,9 +18676,9 @@ static void entry__negative_integer___std___div (void)
         divide_by_zero();
         return;
       }
-    } else if ((TLS_arguments[1])->type == negative_integer.type) {
+    } else if ((TLS_arguments[1])->type == builtin_types___negative_integer.type) {
       {
-        NODE *result__node = (NODE *)(create__std_types___positive_integer(TLS_arguments[0]->integer.value / TLS_arguments[1]->integer.value));
+        NODE *result__node = (NODE *)(create__builtin_types___positive_integer(TLS_arguments[0]->integer.value / TLS_arguments[1]->integer.value));
         TLS_arguments[0] = result__node;
         TLS_argument_count = 1;
         return;
@@ -18588,7 +18690,7 @@ static void entry__negative_integer___std___div (void)
     }
   }
 
-static void entry__std_types___positive_integer___std___mod (void)
+static void entry__builtin_types___positive_integer___std___mod (void)
   {
     if (TLS_argument_count != 2) {
       invalid_arguments();
@@ -18598,10 +18700,10 @@ static void entry__std_types___positive_integer___std___mod (void)
       result_count_mismatch();
       return;
     }
-    if ((TLS_arguments[1])->type == std_types___positive_integer.type) {
+    if ((TLS_arguments[1])->type == builtin_types___positive_integer.type) {
       if (TLS_arguments[1]->integer.value) {
 	{
-	  NODE *result__node = (NODE *)(create__std_types___positive_integer(TLS_arguments[0]->integer.value % TLS_arguments[1]->integer.value));
+	  NODE *result__node = (NODE *)(create__builtin_types___positive_integer(TLS_arguments[0]->integer.value % TLS_arguments[1]->integer.value));
 	  TLS_arguments[0] = result__node;
 	  TLS_argument_count = 1;
 	  return;
@@ -18610,10 +18712,10 @@ static void entry__std_types___positive_integer___std___mod (void)
         divide_by_zero();
         return;
       }
-    } else if ((TLS_arguments[1])->type == negative_integer.type) {
+    } else if ((TLS_arguments[1])->type == builtin_types___negative_integer.type) {
       long result = TLS_arguments[0]->integer.value % TLS_arguments[1]->integer.value;
       {
-        NODE *result__node = (NODE *)(create__negative_integer(result ? TLS_arguments[1]->integer.value-result : 0));
+        NODE *result__node = (NODE *)(create__builtin_types___negative_integer(result ? TLS_arguments[1]->integer.value-result : 0));
         TLS_arguments[0] = result__node;
         TLS_argument_count = 1;
         return;
@@ -18625,7 +18727,7 @@ static void entry__std_types___positive_integer___std___mod (void)
     }
   }
 
-static void entry__negative_integer___std___mod (void)
+static void entry__builtin_types___negative_integer___std___mod (void)
   {
     if (TLS_argument_count != 2) {
       invalid_arguments();
@@ -18635,11 +18737,11 @@ static void entry__negative_integer___std___mod (void)
       result_count_mismatch();
       return;
     }
-    if ((TLS_arguments[1])->type == std_types___positive_integer.type) {
+    if ((TLS_arguments[1])->type == builtin_types___positive_integer.type) {
       if (TLS_arguments[1]->integer.value) {
 	long result = TLS_arguments[0]->integer.value % TLS_arguments[1]->integer.value;
 	{
-	  NODE *result__node = (NODE *)(create__std_types___positive_integer(result ? TLS_arguments[1]->integer.value-result : 0));
+	  NODE *result__node = (NODE *)(create__builtin_types___positive_integer(result ? TLS_arguments[1]->integer.value-result : 0));
 	  TLS_arguments[0] = result__node;
 	  TLS_argument_count = 1;
 	  return;
@@ -18648,9 +18750,9 @@ static void entry__negative_integer___std___mod (void)
         divide_by_zero();
         return;
       }
-    } else if ((TLS_arguments[1])->type == negative_integer.type) {
+    } else if ((TLS_arguments[1])->type == builtin_types___negative_integer.type) {
       {
-        NODE *result__node = (NODE *)(create__negative_integer(TLS_arguments[0]->integer.value % TLS_arguments[1]->integer.value));
+        NODE *result__node = (NODE *)(create__builtin_types___negative_integer(TLS_arguments[0]->integer.value % TLS_arguments[1]->integer.value));
         TLS_arguments[0] = result__node;
         TLS_argument_count = 1;
         return;
@@ -18662,7 +18764,7 @@ static void entry__negative_integer___std___mod (void)
     }
   }
 
-static void entry__std_types___positive_integer___std___hash (void)
+static void entry__builtin_types___positive_integer___std___hash (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -18682,7 +18784,7 @@ static void entry__std_types___positive_integer___std___hash (void)
     }
   }
 
-static void entry__negative_integer___std___hash (void)
+static void entry__builtin_types___negative_integer___std___hash (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -18719,7 +18821,7 @@ static void entry__std_types___real___std___hash (void)
     }
   }
 
-static void entry__std_types___positive_integer___std___ln (void)
+static void entry__builtin_types___positive_integer___std___ln (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -18733,7 +18835,7 @@ static void entry__std_types___positive_integer___std___ln (void)
     }
   }
 
-static void entry__negative_integer___std___ln (void)
+static void entry__builtin_types___negative_integer___std___ln (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -18761,7 +18863,7 @@ static void entry__std_types___real___std___ln (void)
     }
   }
 
-static void entry__std_types___positive_integer___std___exp (void)
+static void entry__builtin_types___positive_integer___std___exp (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -18775,7 +18877,7 @@ static void entry__std_types___positive_integer___std___exp (void)
     }
   }
 
-static void entry__negative_integer___std___exp (void)
+static void entry__builtin_types___negative_integer___std___exp (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -18848,9 +18950,9 @@ static void entry__std___integer (void)
     if (c < '0' || c > '9') {
       NODE *result;
       if (sign < 0 && value != 0) {
-	result = create__negative_integer(value);
+	result = create__builtin_types___negative_integer(value);
       } else {
-	result = create__std_types___positive_integer(value);
+	result = create__builtin_types___positive_integer(value);
       }
       {
         NODE *result__node = (NODE *)(result);
@@ -18923,7 +19025,7 @@ static void entry__std___pow (void)
     }
   }
 
-static void entry__std_types___positive_integer___std___exit (void)
+static void entry__builtin_types___positive_integer___std___exit (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -18938,7 +19040,7 @@ static void entry__std_types___positive_integer___std___exit (void)
     exit(status);
   }
 
-static void entry__std_types___positive_integer___std___plus (void)
+static void entry__builtin_types___positive_integer___std___plus (void)
   {
     if (TLS_argument_count != 2) {
       invalid_arguments();
@@ -18948,26 +19050,26 @@ static void entry__std_types___positive_integer___std___plus (void)
       result_count_mismatch();
       return;
     }
-    if ((TLS_arguments[1])->type == std_types___positive_integer.type) {
+    if ((TLS_arguments[1])->type == builtin_types___positive_integer.type) {
       if (TLS_arguments[0]->integer.value+TLS_arguments[1]->integer.value >= TLS_arguments[0]->integer.value) {
 	{
-	  NODE *result__node = (NODE *)(create__std_types___positive_integer(TLS_arguments[0]->integer.value+TLS_arguments[1]->integer.value));
+	  NODE *result__node = (NODE *)(create__builtin_types___positive_integer(TLS_arguments[0]->integer.value+TLS_arguments[1]->integer.value));
 	  TLS_arguments[0] = result__node;
 	  TLS_argument_count = 1;
 	  return;
 	}
       }
-    } else if ((TLS_arguments[1])->type == negative_integer.type) {
+    } else if ((TLS_arguments[1])->type == builtin_types___negative_integer.type) {
       if (TLS_arguments[0]->integer.value >= TLS_arguments[1]->integer.value) {
 	{
-	  NODE *result__node = (NODE *)(create__std_types___positive_integer(TLS_arguments[0]->integer.value-TLS_arguments[1]->integer.value));
+	  NODE *result__node = (NODE *)(create__builtin_types___positive_integer(TLS_arguments[0]->integer.value-TLS_arguments[1]->integer.value));
 	  TLS_arguments[0] = result__node;
 	  TLS_argument_count = 1;
 	  return;
 	}
       } else {
 	{
-	  NODE *result__node = (NODE *)(create__negative_integer(TLS_arguments[1]->integer.value-TLS_arguments[0]->integer.value));
+	  NODE *result__node = (NODE *)(create__builtin_types___negative_integer(TLS_arguments[1]->integer.value-TLS_arguments[0]->integer.value));
 	  TLS_arguments[0] = result__node;
 	  TLS_argument_count = 1;
 	  return;
@@ -18987,7 +19089,7 @@ static void entry__std_types___positive_integer___std___plus (void)
     }
   }
 
-static void entry__negative_integer___std___plus (void)
+static void entry__builtin_types___negative_integer___std___plus (void)
   {
     if (TLS_argument_count != 2) {
       invalid_arguments();
@@ -18997,26 +19099,26 @@ static void entry__negative_integer___std___plus (void)
       result_count_mismatch();
       return;
     }
-    if ((TLS_arguments[1])->type == negative_integer.type) {
+    if ((TLS_arguments[1])->type == builtin_types___negative_integer.type) {
       if (TLS_arguments[0]->integer.value+TLS_arguments[1]->integer.value >= TLS_arguments[0]->integer.value) {
 	{
-	  NODE *result__node = (NODE *)(create__negative_integer(TLS_arguments[0]->integer.value+TLS_arguments[1]->integer.value));
+	  NODE *result__node = (NODE *)(create__builtin_types___negative_integer(TLS_arguments[0]->integer.value+TLS_arguments[1]->integer.value));
 	  TLS_arguments[0] = result__node;
 	  TLS_argument_count = 1;
 	  return;
 	}
       }
-    } else if ((TLS_arguments[1])->type == std_types___positive_integer.type) {
+    } else if ((TLS_arguments[1])->type == builtin_types___positive_integer.type) {
       if (TLS_arguments[0]->integer.value > TLS_arguments[1]->integer.value) {
 	{
-	  NODE *result__node = (NODE *)(create__negative_integer(TLS_arguments[0]->integer.value-TLS_arguments[1]->integer.value));
+	  NODE *result__node = (NODE *)(create__builtin_types___negative_integer(TLS_arguments[0]->integer.value-TLS_arguments[1]->integer.value));
 	  TLS_arguments[0] = result__node;
 	  TLS_argument_count = 1;
 	  return;
 	}
       } else {
 	{
-	  NODE *result__node = (NODE *)(create__std_types___positive_integer(TLS_arguments[1]->integer.value-TLS_arguments[0]->integer.value));
+	  NODE *result__node = (NODE *)(create__builtin_types___positive_integer(TLS_arguments[1]->integer.value-TLS_arguments[0]->integer.value));
 	  TLS_arguments[0] = result__node;
 	  TLS_argument_count = 1;
 	  return;
@@ -19053,14 +19155,14 @@ static void entry__std_types___real___std___plus (void)
         TLS_argument_count = 1;
         return;
       }
-    } else if ((TLS_arguments[1])->type == std_types___positive_integer.type) {
+    } else if ((TLS_arguments[1])->type == builtin_types___positive_integer.type) {
       {
         NODE *result__node = (NODE *)(create__std_types___real(TLS_arguments[0]->real.value+TLS_arguments[1]->integer.value));
         TLS_arguments[0] = result__node;
         TLS_argument_count = 1;
         return;
       }
-    } else if ((TLS_arguments[1])->type == negative_integer.type) {
+    } else if ((TLS_arguments[1])->type == builtin_types___negative_integer.type) {
       {
         NODE *result__node = (NODE *)(create__std_types___real(TLS_arguments[0]->real.value-TLS_arguments[1]->integer.value));
         TLS_arguments[0] = result__node;
@@ -19074,7 +19176,7 @@ static void entry__std_types___real___std___plus (void)
     }
   }
 
-static void entry__std_types___positive_integer___std___minus (void)
+static void entry__builtin_types___positive_integer___std___minus (void)
   {
     if (TLS_argument_count != 2) {
       invalid_arguments();
@@ -19084,26 +19186,26 @@ static void entry__std_types___positive_integer___std___minus (void)
       result_count_mismatch();
       return;
     }
-    if ((TLS_arguments[1])->type == std_types___positive_integer.type) {
+    if ((TLS_arguments[1])->type == builtin_types___positive_integer.type) {
       if (TLS_arguments[0]->integer.value >= TLS_arguments[1]->integer.value) {
 	{
-	  NODE *result__node = (NODE *)(create__std_types___positive_integer(TLS_arguments[0]->integer.value-TLS_arguments[1]->integer.value));
+	  NODE *result__node = (NODE *)(create__builtin_types___positive_integer(TLS_arguments[0]->integer.value-TLS_arguments[1]->integer.value));
 	  TLS_arguments[0] = result__node;
 	  TLS_argument_count = 1;
 	  return;
 	}
       } else {
 	{
-	  NODE *result__node = (NODE *)(create__negative_integer(TLS_arguments[1]->integer.value-TLS_arguments[0]->integer.value));
+	  NODE *result__node = (NODE *)(create__builtin_types___negative_integer(TLS_arguments[1]->integer.value-TLS_arguments[0]->integer.value));
 	  TLS_arguments[0] = result__node;
 	  TLS_argument_count = 1;
 	  return;
 	}
       }
-    } else if ((TLS_arguments[1])->type == negative_integer.type) {
+    } else if ((TLS_arguments[1])->type == builtin_types___negative_integer.type) {
       if (TLS_arguments[0]->integer.value+TLS_arguments[1]->integer.value >= TLS_arguments[0]->integer.value) {
 	{
-	  NODE *result__node = (NODE *)(create__std_types___positive_integer(TLS_arguments[0]->integer.value+TLS_arguments[1]->integer.value));
+	  NODE *result__node = (NODE *)(create__builtin_types___positive_integer(TLS_arguments[0]->integer.value+TLS_arguments[1]->integer.value));
 	  TLS_arguments[0] = result__node;
 	  TLS_argument_count = 1;
 	  return;
@@ -19123,7 +19225,7 @@ static void entry__std_types___positive_integer___std___minus (void)
     }
   }
 
-static void entry__negative_integer___std___minus (void)
+static void entry__builtin_types___negative_integer___std___minus (void)
   {
     if (TLS_argument_count != 2) {
       invalid_arguments();
@@ -19133,26 +19235,26 @@ static void entry__negative_integer___std___minus (void)
       result_count_mismatch();
       return;
     }
-    if ((TLS_arguments[1])->type == negative_integer.type) {
+    if ((TLS_arguments[1])->type == builtin_types___negative_integer.type) {
       if (TLS_arguments[0]->integer.value > TLS_arguments[1]->integer.value) {
 	{
-	  NODE *result__node = (NODE *)(create__negative_integer(TLS_arguments[0]->integer.value-TLS_arguments[1]->integer.value));
+	  NODE *result__node = (NODE *)(create__builtin_types___negative_integer(TLS_arguments[0]->integer.value-TLS_arguments[1]->integer.value));
 	  TLS_arguments[0] = result__node;
 	  TLS_argument_count = 1;
 	  return;
 	}
       } else {
 	{
-	  NODE *result__node = (NODE *)(create__std_types___positive_integer(TLS_arguments[1]->integer.value-TLS_arguments[0]->integer.value));
+	  NODE *result__node = (NODE *)(create__builtin_types___positive_integer(TLS_arguments[1]->integer.value-TLS_arguments[0]->integer.value));
 	  TLS_arguments[0] = result__node;
 	  TLS_argument_count = 1;
 	  return;
 	}
       }
-    } else if ((TLS_arguments[1])->type == std_types___positive_integer.type) {
+    } else if ((TLS_arguments[1])->type == builtin_types___positive_integer.type) {
       if (TLS_arguments[0]->integer.value+TLS_arguments[1]->integer.value >= TLS_arguments[0]->integer.value) {
 	{
-	  NODE *result__node = (NODE *)(create__negative_integer(TLS_arguments[0]->integer.value+TLS_arguments[1]->integer.value));
+	  NODE *result__node = (NODE *)(create__builtin_types___negative_integer(TLS_arguments[0]->integer.value+TLS_arguments[1]->integer.value));
 	  TLS_arguments[0] = result__node;
 	  TLS_argument_count = 1;
 	  return;
@@ -19189,14 +19291,14 @@ static void entry__std_types___real___std___minus (void)
         TLS_argument_count = 1;
         return;
       }
-    } else if ((TLS_arguments[1])->type == std_types___positive_integer.type) {
+    } else if ((TLS_arguments[1])->type == builtin_types___positive_integer.type) {
       {
         NODE *result__node = (NODE *)(create__std_types___real(TLS_arguments[0]->real.value-TLS_arguments[1]->integer.value));
         TLS_arguments[0] = result__node;
         TLS_argument_count = 1;
         return;
       }
-    } else if ((TLS_arguments[1])->type == negative_integer.type) {
+    } else if ((TLS_arguments[1])->type == builtin_types___negative_integer.type) {
       {
         NODE *result__node = (NODE *)(create__std_types___real(TLS_arguments[0]->real.value+TLS_arguments[1]->integer.value));
         TLS_arguments[0] = result__node;
@@ -19227,14 +19329,14 @@ static void entry__std_types___real___std___times (void)
         TLS_argument_count = 1;
         return;
       }
-    } else if ((TLS_arguments[1])->type == std_types___positive_integer.type) {
+    } else if ((TLS_arguments[1])->type == builtin_types___positive_integer.type) {
       {
         NODE *result__node = (NODE *)(create__std_types___real(TLS_arguments[0]->real.value*TLS_arguments[1]->integer.value));
         TLS_arguments[0] = result__node;
         TLS_argument_count = 1;
         return;
       }
-    } else if ((TLS_arguments[1])->type == negative_integer.type) {
+    } else if ((TLS_arguments[1])->type == builtin_types___negative_integer.type) {
       {
         NODE *result__node = (NODE *)(create__std_types___real(-(TLS_arguments[0]->real.value*TLS_arguments[1]->integer.value)));
         TLS_arguments[0] = result__node;
@@ -19265,14 +19367,14 @@ static void entry__std_types___real___std___over (void)
         TLS_argument_count = 1;
         return;
       }
-    } else if ((TLS_arguments[1])->type == std_types___positive_integer.type) {
+    } else if ((TLS_arguments[1])->type == builtin_types___positive_integer.type) {
       {
         NODE *result__node = (NODE *)(create__std_types___real(TLS_arguments[0]->real.value/TLS_arguments[1]->integer.value));
         TLS_arguments[0] = result__node;
         TLS_argument_count = 1;
         return;
       }
-    } else if ((TLS_arguments[1])->type == negative_integer.type) {
+    } else if ((TLS_arguments[1])->type == builtin_types___negative_integer.type) {
       {
         NODE *result__node = (NODE *)(create__std_types___real(-(TLS_arguments[0]->real.value/TLS_arguments[1]->integer.value)));
         TLS_arguments[0] = result__node;
@@ -19286,7 +19388,7 @@ static void entry__std_types___real___std___over (void)
     }
   }
 
-static void entry__std_types___positive_integer___std___equal (void)
+static void entry__builtin_types___positive_integer___std___equal (void)
   {
     if (TLS_argument_count != 2) {
       invalid_arguments();
@@ -19296,7 +19398,7 @@ static void entry__std_types___positive_integer___std___equal (void)
       result_count_mismatch();
       return;
     }
-    if ((TLS_arguments[1])->type == std_types___positive_integer.type) {
+    if ((TLS_arguments[1])->type == builtin_types___positive_integer.type) {
       {
         NODE *result__node = (NODE *)(from_bool(TLS_arguments[0]->integer.value == TLS_arguments[1]->integer.value));
         TLS_arguments[0] = result__node;
@@ -19325,7 +19427,7 @@ static void entry__std_types___positive_integer___std___equal (void)
     }
   }
 
-static void entry__negative_integer___std___equal (void)
+static void entry__builtin_types___negative_integer___std___equal (void)
   {
     if (TLS_argument_count != 2) {
       invalid_arguments();
@@ -19335,7 +19437,7 @@ static void entry__negative_integer___std___equal (void)
       result_count_mismatch();
       return;
     }
-    if ((TLS_arguments[1])->type == negative_integer.type) {
+    if ((TLS_arguments[1])->type == builtin_types___negative_integer.type) {
       {
         NODE *result__node = (NODE *)(from_bool(TLS_arguments[0]->integer.value == TLS_arguments[1]->integer.value));
         TLS_arguments[0] = result__node;
@@ -19381,14 +19483,14 @@ static void entry__std_types___real___std___equal (void)
         TLS_argument_count = 1;
         return;
       }
-    } else if ((TLS_arguments[1])->type == std_types___positive_integer.type) {
+    } else if ((TLS_arguments[1])->type == builtin_types___positive_integer.type) {
       {
         NODE *result__node = (NODE *)(from_bool(TLS_arguments[0]->real.value == TLS_arguments[1]->integer.value));
         TLS_arguments[0] = result__node;
         TLS_argument_count = 1;
         return;
       }
-    } else if ((TLS_arguments[1])->type == negative_integer.type) {
+    } else if ((TLS_arguments[1])->type == builtin_types___negative_integer.type) {
       {
         NODE *result__node = (NODE *)(from_bool(-TLS_arguments[0]->real.value == TLS_arguments[1]->integer.value));
         TLS_arguments[0] = result__node;
@@ -19410,7 +19512,7 @@ static void entry__std_types___real___std___equal (void)
     }
   }
 
-static void entry__std_types___positive_integer___std___less (void)
+static void entry__builtin_types___positive_integer___std___less (void)
   {
     if (TLS_argument_count != 2) {
       invalid_arguments();
@@ -19420,14 +19522,14 @@ static void entry__std_types___positive_integer___std___less (void)
       result_count_mismatch();
       return;
     }
-    if ((TLS_arguments[1])->type == std_types___positive_integer.type) {
+    if ((TLS_arguments[1])->type == builtin_types___positive_integer.type) {
       {
         NODE *result__node = (NODE *)(from_bool(TLS_arguments[0]->integer.value < TLS_arguments[1]->integer.value));
         TLS_arguments[0] = result__node;
         TLS_argument_count = 1;
         return;
       }
-    } else if ((TLS_arguments[1])->type == negative_integer.type) {
+    } else if ((TLS_arguments[1])->type == builtin_types___negative_integer.type) {
       {
         NODE *result__node = (NODE *)(&std_types___false);
         TLS_arguments[0] = result__node;
@@ -19448,7 +19550,7 @@ static void entry__std_types___positive_integer___std___less (void)
     }
   }
 
-static void entry__negative_integer___std___less (void)
+static void entry__builtin_types___negative_integer___std___less (void)
   {
     if (TLS_argument_count != 2) {
       invalid_arguments();
@@ -19458,14 +19560,14 @@ static void entry__negative_integer___std___less (void)
       result_count_mismatch();
       return;
     }
-    if ((TLS_arguments[1])->type == negative_integer.type) {
+    if ((TLS_arguments[1])->type == builtin_types___negative_integer.type) {
       {
         NODE *result__node = (NODE *)(from_bool(TLS_arguments[0]->integer.value > TLS_arguments[1]->integer.value));
         TLS_arguments[0] = result__node;
         TLS_argument_count = 1;
         return;
       }
-    } else if ((TLS_arguments[1])->type == std_types___positive_integer.type) {
+    } else if ((TLS_arguments[1])->type == builtin_types___positive_integer.type) {
       {
         NODE *result__node = (NODE *)(&std_types___true);
         TLS_arguments[0] = result__node;
@@ -19503,14 +19605,14 @@ static void entry__std_types___real___std___less (void)
         TLS_argument_count = 1;
         return;
       }
-    } else if ((TLS_arguments[1])->type == std_types___positive_integer.type) {
+    } else if ((TLS_arguments[1])->type == builtin_types___positive_integer.type) {
       {
         NODE *result__node = (NODE *)(from_bool(TLS_arguments[0]->real.value < TLS_arguments[1]->integer.value));
         TLS_arguments[0] = result__node;
         TLS_argument_count = 1;
         return;
       }
-    } else if ((TLS_arguments[1])->type == negative_integer.type) {
+    } else if ((TLS_arguments[1])->type == builtin_types___negative_integer.type) {
       {
         NODE *result__node = (NODE *)(from_bool(-TLS_arguments[0]->real.value > TLS_arguments[1]->integer.value));
         TLS_arguments[0] = result__node;
@@ -19524,7 +19626,7 @@ static void entry__std_types___real___std___less (void)
     }
   }
 
-static void entry__std_types___positive_integer___std___shift_left (void)
+static void entry__builtin_types___positive_integer___std___shift_left (void)
   {
     if (TLS_argument_count != 2) {
       invalid_arguments();
@@ -19534,9 +19636,9 @@ static void entry__std_types___positive_integer___std___shift_left (void)
       result_count_mismatch();
       return;
     }
-    if ((TLS_arguments[1])->type == std_types___positive_integer.type) {
+    if ((TLS_arguments[1])->type == builtin_types___positive_integer.type) {
       {
-        NODE *result__node = (NODE *)(create__std_types___positive_integer(TLS_arguments[0]->integer.value << TLS_arguments[1]->integer.value));
+        NODE *result__node = (NODE *)(create__builtin_types___positive_integer(TLS_arguments[0]->integer.value << TLS_arguments[1]->integer.value));
         TLS_arguments[0] = result__node;
         TLS_argument_count = 1;
         return;
@@ -19548,7 +19650,7 @@ static void entry__std_types___positive_integer___std___shift_left (void)
     }
   }
 
-static void entry__std_types___positive_integer___std___shift_right (void)
+static void entry__builtin_types___positive_integer___std___shift_right (void)
   {
     if (TLS_argument_count != 2) {
       invalid_arguments();
@@ -19558,9 +19660,9 @@ static void entry__std_types___positive_integer___std___shift_right (void)
       result_count_mismatch();
       return;
     }
-    if ((TLS_arguments[1])->type == std_types___positive_integer.type) {
+    if ((TLS_arguments[1])->type == builtin_types___positive_integer.type) {
       {
-        NODE *result__node = (NODE *)(create__std_types___positive_integer(TLS_arguments[0]->integer.value >> TLS_arguments[1]->integer.value));
+        NODE *result__node = (NODE *)(create__builtin_types___positive_integer(TLS_arguments[0]->integer.value >> TLS_arguments[1]->integer.value));
         TLS_arguments[0] = result__node;
         TLS_argument_count = 1;
         return;
@@ -19572,7 +19674,7 @@ static void entry__std_types___positive_integer___std___shift_right (void)
     }
   }
 
-static void entry__std_types___positive_integer___std___bit_and (void)
+static void entry__builtin_types___positive_integer___std___bit_and (void)
   {
     if (TLS_argument_count != 2) {
       invalid_arguments();
@@ -19582,9 +19684,9 @@ static void entry__std_types___positive_integer___std___bit_and (void)
       result_count_mismatch();
       return;
     }
-    if ((TLS_arguments[1])->type == std_types___positive_integer.type) {
+    if ((TLS_arguments[1])->type == builtin_types___positive_integer.type) {
       {
-        NODE *result__node = (NODE *)(create__std_types___positive_integer(TLS_arguments[0]->integer.value & TLS_arguments[1]->integer.value));
+        NODE *result__node = (NODE *)(create__builtin_types___positive_integer(TLS_arguments[0]->integer.value & TLS_arguments[1]->integer.value));
         TLS_arguments[0] = result__node;
         TLS_argument_count = 1;
         return;
@@ -19596,7 +19698,7 @@ static void entry__std_types___positive_integer___std___bit_and (void)
     }
   }
 
-static void entry__std_types___positive_integer___std___bit_or (void)
+static void entry__builtin_types___positive_integer___std___bit_or (void)
   {
     if (TLS_argument_count != 2) {
       invalid_arguments();
@@ -19606,9 +19708,9 @@ static void entry__std_types___positive_integer___std___bit_or (void)
       result_count_mismatch();
       return;
     }
-    if ((TLS_arguments[1])->type == std_types___positive_integer.type) {
+    if ((TLS_arguments[1])->type == builtin_types___positive_integer.type) {
       {
-        NODE *result__node = (NODE *)(create__std_types___positive_integer(TLS_arguments[0]->integer.value | TLS_arguments[1]->integer.value));
+        NODE *result__node = (NODE *)(create__builtin_types___positive_integer(TLS_arguments[0]->integer.value | TLS_arguments[1]->integer.value));
         TLS_arguments[0] = result__node;
         TLS_argument_count = 1;
         return;
@@ -19620,7 +19722,7 @@ static void entry__std_types___positive_integer___std___bit_or (void)
     }
   }
 
-static void entry__std_types___positive_integer___std___bit_xor (void)
+static void entry__builtin_types___positive_integer___std___bit_xor (void)
   {
     if (TLS_argument_count != 2) {
       invalid_arguments();
@@ -19630,9 +19732,9 @@ static void entry__std_types___positive_integer___std___bit_xor (void)
       result_count_mismatch();
       return;
     }
-    if ((TLS_arguments[1])->type == std_types___positive_integer.type) {
+    if ((TLS_arguments[1])->type == builtin_types___positive_integer.type) {
       {
-        NODE *result__node = (NODE *)(create__std_types___positive_integer(TLS_arguments[0]->integer.value ^ TLS_arguments[1]->integer.value));
+        NODE *result__node = (NODE *)(create__builtin_types___positive_integer(TLS_arguments[0]->integer.value ^ TLS_arguments[1]->integer.value));
         TLS_arguments[0] = result__node;
         TLS_argument_count = 1;
         return;
@@ -19737,6 +19839,159 @@ static void entry__std___atan (void)
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
+    }
+  }
+
+static void entry__debug___object_type (void)
+  {
+    if (TLS_argument_count != 1) {
+      invalid_arguments();
+      return;
+    }
+    NODE *node = TLS_arguments[0];
+    int type_no = node->attributes->vtable->type_no;
+    if (type_no) {
+      const char *name = type_names[type_no];
+      const char *namespace = name+strlen(name)+1;
+      if (*namespace) {
+	char buf[256];
+	sprintf(buf, "%s::%s", namespace, name);
+	{
+	  NODE *result__node = (NODE *)(from_c_string(buf));
+	  TLS_arguments[0] = result__node;
+	  TLS_argument_count = 1;
+	  return;
+	}
+      } else {
+	{
+	  NODE *result__node = (NODE *)(from_c_string(name));
+	  TLS_arguments[0] = result__node;
+	  TLS_argument_count = 1;
+	  return;
+	}
+      }
+    } else {
+      {
+        NODE *result__node = (NODE *)(from_c_string("object"));
+        TLS_arguments[0] = result__node;
+        TLS_argument_count = 1;
+        return;
+      }
+    }
+  }
+
+static void entry__debug___object_attributes (void)
+  {
+    if (TLS_argument_count != 1) {
+      invalid_arguments();
+      return;
+    }
+    NODE *node = TLS_arguments[0];
+    int n = 0;
+    for (int i = 1; i < next_polymorphic_function; ++i) {
+      if ((i & 7) != 0) {
+	if (attribute_is_redefined[i]) {
+	  NODE *attr = get_attribute(node, i);
+	  if (CONTAINS_AN_ATTRIBUTE_VALUE(attr)) {
+	    ++n;
+	  }
+	}
+      }
+    }
+    LIST_DATA *data = allocate_large(sizeof(LIST_DATA)+2*n*sizeof(NODE *));
+    data->size = 2*n;
+    data->length = 2*n;
+    n = 0;
+    for (int i = 1; i < next_polymorphic_function; ++i) {
+      if ((i & 7) != 0) {
+	if (attribute_is_redefined[i]) {
+	  NODE *attr = get_attribute(node, i);
+	  if (CONTAINS_AN_ATTRIBUTE_VALUE(attr)) {
+	    attr = RETRIEVE_ATTRIBUTE_VALUE(attr);
+	    const char *poly_name = polymorphic_function_names[i];
+	    const char *poly_namespace = poly_name;
+	    while (*poly_namespace++);
+	    if (*poly_namespace) {
+	      char buf[256];
+	      sprintf(buf, "%s::%s", poly_namespace, poly_name);
+	      poly_name = buf;
+	    }
+	    data->items[n++] = from_c_string(poly_name);
+	    data->items[n++] = attr;
+	  }
+	}
+      }
+    }
+    {
+      NODE *result__node = (NODE *)(create__std_types___list(0, n, data));
+      TLS_arguments[0] = result__node;
+      TLS_argument_count = 1;
+      return;
+    }
+    {
+      TLS_argument_count = 0;
+      return;
+    }
+  }
+
+static void entry__std_types___object___std___new (void)
+  {
+    if (TLS_argument_count != 2) {
+      invalid_arguments();
+      return;
+    }
+    NODE *to = TLS_arguments[0];
+    NODE *from = TLS_arguments[1];
+    if (
+      from->type == std_types___undefined.type ||
+      from->type == std_types___error.type
+    ) {
+      NODE *result__node = (NODE *)(from);
+      TLS_arguments[0] = result__node;
+      TLS_argument_count = 1;
+      return;
+    }
+    if (from->type != to->type) {
+      create_error_message(
+        module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+        "TYPE MISMATCH", 0, 0, NULL);
+      return;
+    }
+    ATTRIBUTES *attributes =
+      copy_attributes(
+	(OCTREE *)to->attributes,
+	(OCTREE *)from->attributes,
+	attributes_level,
+	0);
+    if (attributes) {
+      if ((intptr_t)attributes < 0) {
+	invalid_attribute_redefinition(to, -(intptr_t)attributes);
+      } else {
+	NODE *node = copy(from, from->attributes->vtable->size);
+	node->attributes = attributes;
+	{
+	  NODE *result__node = (NODE *)(node);
+	  TLS_arguments[0] = result__node;
+	  TLS_argument_count = 1;
+	  return;
+	}
+      }
+    } else if (to->attributes != from->attributes) {
+      NODE *node = copy(from, from->attributes->vtable->size);
+      node->attributes = to->attributes;
+      {
+        NODE *result__node = (NODE *)(node);
+        TLS_arguments[0] = result__node;
+        TLS_argument_count = 1;
+        return;
+      }
+    } else {
+      {
+        NODE *result__node = (NODE *)(from);
+        TLS_arguments[0] = result__node;
+        TLS_argument_count = 1;
+        return;
+      }
     }
   }
 
@@ -20943,87 +21198,70 @@ static void entry__std___fstat (void)
       NODE *node__size_of = from_long(statbuf.st_size);
       NODE *node__block_size_of = from_long(statbuf.st_blksize);
       NODE *node__block_count_of = from_long(statbuf.st_blocks);
-      NODE *node__access_time_seconds_of = from_long(statbuf.st_atim.tv_sec);
-      NODE *node__access_time_nanoseconds_of =
-	from_long(statbuf.st_atim.tv_nsec);
-      NODE *node__modification_time_seconds_of =
-	from_long(statbuf.st_mtim.tv_sec);
-      NODE *node__modification_time_nanoseconds_of =
-	from_long(statbuf.st_mtim.tv_nsec);
-      NODE *node__status_change_time_seconds_of =
-	from_long(statbuf.st_ctim.tv_sec);
-      NODE *node__status_change_time_nanoseconds_of =
-	from_long(statbuf.st_ctim.tv_nsec);
+      NODE *node_access_time_of =
+	create__std_types___date_and_time(statbuf.st_atim.tv_sec, statbuf.st_atim.tv_nsec);
+      NODE *node_modification_time_of =
+	create__std_types___date_and_time(statbuf.st_mtim.tv_sec, statbuf.st_mtim.tv_nsec);
+      NODE *node_status_change_time_of =
+	create__std_types___date_and_time(statbuf.st_ctim.tv_sec, statbuf.st_ctim.tv_nsec);
       NODE *node = clone_object_and_attributes((NODE *)&std_types___stat);
       update_start_p = node_p;
-      set_attribute(
+      redefine_attribute(
 	node->attributes,
 	variables_table[var_no__std___device_of-FIRST_VAR].poly_idx,
 	MAKE_ATTRIBUTE_VALUE(node__device_of));
-      set_attribute(
+      redefine_attribute(
 	node->attributes,
 	variables_table[var_no__std___inode_number_of-FIRST_VAR].poly_idx,
 	MAKE_ATTRIBUTE_VALUE(node__inode_number_of));
-      set_attribute(
+      redefine_attribute(
 	node->attributes,
 	variables_table[var_no__std___type_of-FIRST_VAR].poly_idx,
 	MAKE_ATTRIBUTE_VALUE(node__type_of));
-      set_attribute(
+      redefine_attribute(
 	node->attributes,
 	variables_table[var_no__std___mode_of-FIRST_VAR].poly_idx,
 	MAKE_ATTRIBUTE_VALUE(node__mode_of));
-      set_attribute(
+      redefine_attribute(
 	node->attributes,
 	variables_table[var_no__std___link_count_of-FIRST_VAR].poly_idx,
 	MAKE_ATTRIBUTE_VALUE(node__link_count_of));
-      set_attribute(
+      redefine_attribute(
 	node->attributes,
 	variables_table[var_no__std___user_id_of-FIRST_VAR].poly_idx,
 	MAKE_ATTRIBUTE_VALUE(node__user_id_of));
-      set_attribute(
+      redefine_attribute(
 	node->attributes,
 	variables_table[var_no__std___group_id_of-FIRST_VAR].poly_idx,
 	MAKE_ATTRIBUTE_VALUE(node__group_id_of));
-      set_attribute(
+      redefine_attribute(
 	node->attributes,
 	variables_table[var_no__std___root_device_of-FIRST_VAR].poly_idx,
 	MAKE_ATTRIBUTE_VALUE(node__root_device_of));
-      set_attribute(
+      redefine_attribute(
 	node->attributes,
 	variables_table[var_no__std___size_of-FIRST_VAR].poly_idx,
 	MAKE_ATTRIBUTE_VALUE(node__size_of));
-      set_attribute(
+      redefine_attribute(
 	node->attributes,
 	variables_table[var_no__std___block_size_of-FIRST_VAR].poly_idx,
 	MAKE_ATTRIBUTE_VALUE(node__block_size_of));
-      set_attribute(
+      redefine_attribute(
 	node->attributes,
 	variables_table[var_no__std___block_count_of-FIRST_VAR].poly_idx,
 	MAKE_ATTRIBUTE_VALUE(node__block_count_of));
-      set_attribute(
+      redefine_attribute(
 	node->attributes,
-	variables_table[var_no__std___access_time_seconds_of-FIRST_VAR].poly_idx,
-	MAKE_ATTRIBUTE_VALUE(node__access_time_seconds_of));
-      set_attribute(
+	variables_table[var_no__std___access_time_of-FIRST_VAR].poly_idx,
+	MAKE_ATTRIBUTE_VALUE(node_access_time_of));
+      redefine_attribute(
 	node->attributes,
-	variables_table[var_no__std___access_time_nanoseconds_of-FIRST_VAR].poly_idx,
-	MAKE_ATTRIBUTE_VALUE(node__access_time_nanoseconds_of));
-      set_attribute(
+	variables_table[var_no__std___modification_time_of-FIRST_VAR].poly_idx,
+	MAKE_ATTRIBUTE_VALUE(node_modification_time_of));
+      redefine_attribute(
 	node->attributes,
-	variables_table[var_no__std___modification_time_seconds_of-FIRST_VAR].poly_idx,
-	MAKE_ATTRIBUTE_VALUE(node__modification_time_seconds_of));
-      set_attribute(
-	node->attributes,
-	variables_table[var_no__std___modification_time_nanoseconds_of-FIRST_VAR].poly_idx,
-	MAKE_ATTRIBUTE_VALUE(node__modification_time_nanoseconds_of));
-      set_attribute(
-	node->attributes,
-	variables_table[var_no__std___status_change_time_seconds_of-FIRST_VAR].poly_idx,
-	MAKE_ATTRIBUTE_VALUE(node__status_change_time_seconds_of));
-      set_attribute(
-	node->attributes,
-	variables_table[var_no__std___status_change_time_nanoseconds_of-FIRST_VAR].poly_idx,
-	MAKE_ATTRIBUTE_VALUE(node__status_change_time_nanoseconds_of));
+	variables_table[var_no__std___status_change_time_of-FIRST_VAR].poly_idx,
+	MAKE_ATTRIBUTE_VALUE(node_status_change_time_of));
       {
         NODE *result__node = (NODE *)(node);
         TLS_arguments[0] = result__node;
@@ -21429,31 +21667,31 @@ static void entry__std___getpwuid (void)
       NODE *node__shell_of = from_c_string(result->pw_shell);
       NODE *node = clone_object_and_attributes((NODE *)&std_types___passwd);
       update_start_p = node_p;
-      set_attribute(
+      redefine_attribute(
 	node->attributes,
 	variables_table[var_no__std___username_of-FIRST_VAR].poly_idx,
 	MAKE_ATTRIBUTE_VALUE(node__username_of));
-      set_attribute(
+      redefine_attribute(
 	node->attributes,
 	variables_table[var_no__std___password_of-FIRST_VAR].poly_idx,
 	MAKE_ATTRIBUTE_VALUE(node__password_of));
-      set_attribute(
+      redefine_attribute(
 	node->attributes,
 	variables_table[var_no__std___user_id_of-FIRST_VAR].poly_idx,
 	MAKE_ATTRIBUTE_VALUE(node__user_id_of));
-      set_attribute(
+      redefine_attribute(
 	node->attributes,
 	variables_table[var_no__std___group_id_of-FIRST_VAR].poly_idx,
 	MAKE_ATTRIBUTE_VALUE(node__group_id_of));
-      set_attribute(
+      redefine_attribute(
 	node->attributes,
 	variables_table[var_no__std___user_information_of-FIRST_VAR].poly_idx,
 	MAKE_ATTRIBUTE_VALUE(node__user_information_of));
-      set_attribute(
+      redefine_attribute(
 	node->attributes,
 	variables_table[var_no__std___home_directory_of-FIRST_VAR].poly_idx,
 	MAKE_ATTRIBUTE_VALUE(node__home_directory_of));
-      set_attribute(
+      redefine_attribute(
 	node->attributes,
 	variables_table[var_no__std___shell_of-FIRST_VAR].poly_idx,
 	MAKE_ATTRIBUTE_VALUE(node__shell_of));
@@ -21803,7 +22041,7 @@ static void entry__std___open (void)
     if (result == -1) {
       create_error_message(
 	module__builtin.constants_base[unique__std___IO_ERROR-1],
-	"OPEN FAILED", errno, 0, NULL);
+	"OPEN FAILED", errno, 0, TLS_arguments[0]);
     } else {
       {
         NODE *result__node = (NODE *)(file_descriptor_from_int(result));
@@ -21939,15 +22177,15 @@ static void entry__std___readdir (void)
       NODE *node__name_of = from_c_string(result->d_name);
       NODE *node = clone_object_and_attributes((NODE *)&std_types___dirent);
       update_start_p = node_p;
-      set_attribute(
+      redefine_attribute(
 	node->attributes,
 	variables_table[var_no__std___inode_number_of-FIRST_VAR].poly_idx,
 	MAKE_ATTRIBUTE_VALUE(node__inode_number_of));
-      set_attribute(
+      redefine_attribute(
 	node->attributes,
 	variables_table[var_no__std___type_of-FIRST_VAR].poly_idx,
 	MAKE_ATTRIBUTE_VALUE(node__type_of));
-      set_attribute(
+      redefine_attribute(
 	node->attributes,
 	variables_table[var_no__std___name_of-FIRST_VAR].poly_idx,
 	MAKE_ATTRIBUTE_VALUE(node__name_of));
@@ -22191,87 +22429,74 @@ static void entry__std___stat (void)
       NODE *node__size_of = from_long(statbuf.st_size);
       NODE *node__block_size_of = from_long(statbuf.st_blksize);
       NODE *node__block_count_of = from_long(statbuf.st_blocks);
-      NODE *node__access_time_seconds_of = from_long(statbuf.st_atim.tv_sec);
-      NODE *node__access_time_nanoseconds_of =
-	from_long(statbuf.st_atim.tv_nsec);
-      NODE *node__modification_time_seconds_of =
-	from_long(statbuf.st_mtim.tv_sec);
-      NODE *node__modification_time_nanoseconds_of =
-	from_long(statbuf.st_mtim.tv_nsec);
-      NODE *node__status_change_time_seconds_of =
-	from_long(statbuf.st_ctim.tv_sec);
-      NODE *node__status_change_time_nanoseconds_of =
-	from_long(statbuf.st_ctim.tv_nsec);
+      NODE *node_access_time_of =
+	create__std_types___date_and_time(statbuf.st_atim.tv_sec, statbuf.st_atim.tv_nsec);
+      NODE *node_modification_time_of =
+	create__std_types___date_and_time(statbuf.st_mtim.tv_sec, statbuf.st_mtim.tv_nsec);
+      NODE *node_status_change_time_of =
+	create__std_types___date_and_time(statbuf.st_ctim.tv_sec, statbuf.st_ctim.tv_nsec);
       NODE *node = clone_object_and_attributes((NODE *)&std_types___stat);
       update_start_p = node_p;
-      set_attribute(
+      redefine_attribute(
 	node->attributes,
 	variables_table[var_no__std___device_of-FIRST_VAR].poly_idx,
 	MAKE_ATTRIBUTE_VALUE(node__device_of));
-      set_attribute(
+      redefine_attribute(
 	node->attributes,
 	variables_table[var_no__std___inode_number_of-FIRST_VAR].poly_idx,
 	MAKE_ATTRIBUTE_VALUE(node__inode_number_of));
-      set_attribute(
+      redefine_attribute(
 	node->attributes,
 	variables_table[var_no__std___type_of-FIRST_VAR].poly_idx,
 	MAKE_ATTRIBUTE_VALUE(node__type_of));
-      set_attribute(
+      redefine_attribute(
 	node->attributes,
 	variables_table[var_no__std___mode_of-FIRST_VAR].poly_idx,
 	MAKE_ATTRIBUTE_VALUE(node__mode_of));
-      set_attribute(
+      redefine_attribute(
 	node->attributes,
 	variables_table[var_no__std___link_count_of-FIRST_VAR].poly_idx,
 	MAKE_ATTRIBUTE_VALUE(node__link_count_of));
-      set_attribute(
+      redefine_attribute(
 	node->attributes,
 	variables_table[var_no__std___user_id_of-FIRST_VAR].poly_idx,
 	MAKE_ATTRIBUTE_VALUE(node__user_id_of));
-      set_attribute(
+      redefine_attribute(
 	node->attributes,
 	variables_table[var_no__std___group_id_of-FIRST_VAR].poly_idx,
 	MAKE_ATTRIBUTE_VALUE(node__group_id_of));
-      set_attribute(
+      redefine_attribute(
 	node->attributes,
 	variables_table[var_no__std___root_device_of-FIRST_VAR].poly_idx,
 	MAKE_ATTRIBUTE_VALUE(node__root_device_of));
-      set_attribute(
+      redefine_attribute(
 	node->attributes,
 	variables_table[var_no__std___size_of-FIRST_VAR].poly_idx,
 	MAKE_ATTRIBUTE_VALUE(node__size_of));
-      set_attribute(
+      redefine_attribute(
 	node->attributes,
 	variables_table[var_no__std___block_size_of-FIRST_VAR].poly_idx,
 	MAKE_ATTRIBUTE_VALUE(node__block_size_of));
-      set_attribute(
+      redefine_attribute(
 	node->attributes,
 	variables_table[var_no__std___block_count_of-FIRST_VAR].poly_idx,
 	MAKE_ATTRIBUTE_VALUE(node__block_count_of));
-      set_attribute(
+      redefine_attribute(
 	node->attributes,
-	variables_table[var_no__std___access_time_seconds_of-FIRST_VAR].poly_idx,
-	MAKE_ATTRIBUTE_VALUE(node__access_time_seconds_of));
-      set_attribute(
+	variables_table[var_no__std___block_count_of-FIRST_VAR].poly_idx,
+	MAKE_ATTRIBUTE_VALUE(node__block_count_of));
+      redefine_attribute(
 	node->attributes,
-	variables_table[var_no__std___access_time_nanoseconds_of-FIRST_VAR].poly_idx,
-	MAKE_ATTRIBUTE_VALUE(node__access_time_nanoseconds_of));
-      set_attribute(
+	variables_table[var_no__std___access_time_of-FIRST_VAR].poly_idx,
+	MAKE_ATTRIBUTE_VALUE(node_access_time_of));
+      redefine_attribute(
 	node->attributes,
-	variables_table[var_no__std___modification_time_seconds_of-FIRST_VAR].poly_idx,
-	MAKE_ATTRIBUTE_VALUE(node__modification_time_seconds_of));
-      set_attribute(
+	variables_table[var_no__std___modification_time_of-FIRST_VAR].poly_idx,
+	MAKE_ATTRIBUTE_VALUE(node_modification_time_of));
+      redefine_attribute(
 	node->attributes,
-	variables_table[var_no__std___modification_time_nanoseconds_of-FIRST_VAR].poly_idx,
-	MAKE_ATTRIBUTE_VALUE(node__modification_time_nanoseconds_of));
-      set_attribute(
-	node->attributes,
-	variables_table[var_no__std___status_change_time_seconds_of-FIRST_VAR].poly_idx,
-	MAKE_ATTRIBUTE_VALUE(node__status_change_time_seconds_of));
-      set_attribute(
-	node->attributes,
-	variables_table[var_no__std___status_change_time_nanoseconds_of-FIRST_VAR].poly_idx,
-	MAKE_ATTRIBUTE_VALUE(node__status_change_time_nanoseconds_of));
+	variables_table[var_no__std___status_change_time_of-FIRST_VAR].poly_idx,
+	MAKE_ATTRIBUTE_VALUE(node_status_change_time_of));
       {
         NODE *result__node = (NODE *)(node);
         TLS_arguments[0] = result__node;
@@ -22535,7 +22760,7 @@ static void entry__std_types___octet_string___std___length_of (void)
     }
   }
 
-static void entry__quad_octet_string___std___length_of (void)
+static void entry__std_types___wide_string___std___length_of (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -22546,7 +22771,7 @@ static void entry__quad_octet_string___std___length_of (void)
       return;
     }
     {
-      NODE *result__node = (NODE *)(from_long(TLS_arguments[0]->quad_octet_string.length));
+      NODE *result__node = (NODE *)(from_long(TLS_arguments[0]->wide_string.length));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -22589,7 +22814,7 @@ static void entry__std_types___octet_string___std___is_not_empty (void)
     }
   }
 
-static void entry__quad_octet_string___std___is_empty (void)
+static void entry__std_types___wide_string___std___is_empty (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -22600,14 +22825,14 @@ static void entry__quad_octet_string___std___is_empty (void)
       return;
     }
     {
-      NODE *result__node = (NODE *)(from_bool(TLS_arguments[0]->quad_octet_string.length == 0));
+      NODE *result__node = (NODE *)(from_bool(TLS_arguments[0]->wide_string.length == 0));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
   }
 
-static void entry__quad_octet_string___std___is_not_empty (void)
+static void entry__std_types___wide_string___std___is_not_empty (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -22618,7 +22843,7 @@ static void entry__quad_octet_string___std___is_not_empty (void)
       return;
     }
     {
-      NODE *result__node = (NODE *)(from_bool(TLS_arguments[0]->quad_octet_string.length > 0));
+      NODE *result__node = (NODE *)(from_bool(TLS_arguments[0]->wide_string.length > 0));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -22668,7 +22893,7 @@ static void entry__std_types___octet_string___std___push (void)
       }
     } else {
       long new_size = ALLOCATION_SIZE(4*2*new_length);
-      QUAD_OCTET_DATA *new_data = allocate_large(sizeof(QUAD_OCTET_DATA)+new_size);
+      WIDE_DATA *new_data = allocate_large(sizeof(WIDE_DATA)+new_size);
       new_data->size = new_size;
       new_data->length = new_length;
       if (data) {
@@ -22679,7 +22904,7 @@ static void entry__std_types___octet_string___std___push (void)
       }
       new_data->buffer[length] = chr_code;
       {
-        NODE *result__node = (NODE *)(create__quad_octet_string(0, new_length, new_data));
+        NODE *result__node = (NODE *)(create__std_types___wide_string(0, new_length, new_data));
         TLS_arguments[0] = result__node;
         TLS_argument_count = 1;
         return;
@@ -22687,7 +22912,7 @@ static void entry__std_types___octet_string___std___push (void)
     }
   }
 
-static void entry__quad_octet_string___std___push (void)
+static void entry__std_types___wide_string___std___push (void)
   {
     if (TLS_argument_count != 2) {
       invalid_arguments();
@@ -22700,14 +22925,14 @@ static void entry__quad_octet_string___std___push (void)
     uint32_t chr_code;
     if (!to_uchar32(TLS_arguments[1], &chr_code)) return;;
     NODE *self = TLS_arguments[0];
-    long start_offset = self->quad_octet_string.offset;
-    long length = self->quad_octet_string.length;
+    long start_offset = self->wide_string.offset;
+    long length = self->wide_string.length;
     long end_offset = start_offset+length;
     long new_length = length+1;
-    QUAD_OCTET_DATA *data = self->quad_octet_string.data;
+    WIDE_DATA *data = self->wide_string.data;
     if (!data || data->size < 4*(end_offset+1) || data->length != end_offset) {
       long new_size = ALLOCATION_SIZE(4*2*new_length);
-      QUAD_OCTET_DATA *new_data = allocate_large(sizeof(QUAD_OCTET_DATA)+new_size);
+      WIDE_DATA *new_data = allocate_large(sizeof(WIDE_DATA)+new_size);
       if (data) {
 	memcpy(
 	  new_data->buffer,
@@ -22722,7 +22947,7 @@ static void entry__quad_octet_string___std___push (void)
     data->buffer[end_offset] = chr_code;
     data->length = end_offset+1;
     {
-      NODE *result__node = (NODE *)(create__quad_octet_string(start_offset, new_length, data));
+      NODE *result__node = (NODE *)(create__std_types___wide_string(start_offset, new_length, data));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -22742,12 +22967,12 @@ static void entry__std_types___octet_string___std___append (void)
     NODE *left = TLS_arguments[0];
     long left_length = left->octet_string.length;
     long new_length = left_length;
-    int is_a_quad_octet_string = false;
+    int is_a_std_types___wide_string = false;
     int i;
     for (i = 1; i < TLS_argument_count; ++i) {
       NODE *right = TLS_arguments[i];
-      if ((right)->type == quad_octet_string.type) {
-	is_a_quad_octet_string = true;
+      if ((right)->type == std_types___wide_string.type) {
+	is_a_std_types___wide_string = true;
       } else if ((right)->type != std_types___octet_string.type) {
 	{
 	  invalid_arguments();
@@ -22772,10 +22997,10 @@ static void entry__std_types___octet_string___std___append (void)
     }
     long left_offset = left->octet_string.offset;
     OCTET_DATA *data = left->octet_string.data;
-    if (is_a_quad_octet_string) {
+    if (is_a_std_types___wide_string) {
       long new_size = ALLOCATION_SIZE(4*2*new_length);
-      QUAD_OCTET_DATA *new_data =
-	allocate_large(sizeof(QUAD_OCTET_DATA)+new_size);
+      WIDE_DATA *new_data =
+	allocate_large(sizeof(WIDE_DATA)+new_size);
       new_data->size = new_size;
       new_data->length = new_length;
       long idx;
@@ -22787,10 +23012,10 @@ static void entry__std_types___octet_string___std___append (void)
 	NODE *right = TLS_arguments[i];
 	long right_offset = right->octet_string.offset;
 	long right_length = right->octet_string.length;
-	if ((right)->type == quad_octet_string.type) {
+	if ((right)->type == std_types___wide_string.type) {
 	  memcpy(
 	    new_data->buffer+offset,
-	    right->quad_octet_string.data->buffer+right_offset,
+	    right->wide_string.data->buffer+right_offset,
 	    4*right_length);
 	} else {
 	  for (idx = 0; idx < right_length; ++idx) {
@@ -22801,7 +23026,7 @@ static void entry__std_types___octet_string___std___append (void)
 	offset += right_length;
       }
       {
-        NODE *result__node = (NODE *)(create__quad_octet_string(0, new_length, new_data));
+        NODE *result__node = (NODE *)(create__std_types___wide_string(0, new_length, new_data));
         TLS_arguments[0] = result__node;
         TLS_argument_count = 1;
         return;
@@ -22840,7 +23065,7 @@ static void entry__std_types___octet_string___std___append (void)
     }
   }
 
-static void entry__quad_octet_string___std___append (void)
+static void entry__std_types___wide_string___std___append (void)
   {
     if (TLS_argument_count < 2) {
       too_few_arguments();
@@ -22851,14 +23076,14 @@ static void entry__quad_octet_string___std___append (void)
       return;
     }
     NODE *left = TLS_arguments[0];
-    long left_length = left->quad_octet_string.length;
+    long left_length = left->wide_string.length;
     long new_length = left_length;
     int i;
     for (i = 1; i < TLS_argument_count; ++i) {
       NODE *right = TLS_arguments[i];
       if (
 	(right)->type == std_types___octet_string.type ||
-	(right)->type == quad_octet_string.type
+	(right)->type == std_types___wide_string.type
       ) {
 	new_length += right->octet_string.length;
       } else {
@@ -22882,15 +23107,15 @@ static void entry__quad_octet_string___std___append (void)
         return;
       }
     }
-    long left_offset = left->quad_octet_string.offset;
-    QUAD_OCTET_DATA *data = left->quad_octet_string.data;
+    long left_offset = left->wide_string.offset;
+    WIDE_DATA *data = left->wide_string.data;
     if (
       data->size < 4*(left_offset+new_length) ||
       data->length != left_offset+left_length
     ) {
       long new_size = ALLOCATION_SIZE(4*2*new_length);
-      QUAD_OCTET_DATA *new_data =
-	allocate_large(sizeof(QUAD_OCTET_DATA)+new_size);
+      WIDE_DATA *new_data =
+	allocate_large(sizeof(WIDE_DATA)+new_size);
       memcpy(new_data->buffer, data->buffer+left_offset, 4*left_length);
       left_offset = 0;
       new_data->size = new_size;
@@ -22901,10 +23126,10 @@ static void entry__quad_octet_string___std___append (void)
       NODE *right = TLS_arguments[i];
       long right_offset = right->octet_string.offset;
       long right_length = right->octet_string.length;
-      if ((right)->type == quad_octet_string.type) {
+      if ((right)->type == std_types___wide_string.type) {
 	memcpy(
 	  data->buffer+offset,
-	  right->quad_octet_string.data->buffer+right_offset,
+	  right->wide_string.data->buffer+right_offset,
 	  4*right_length);
       } else {
 	long idx;
@@ -22917,7 +23142,7 @@ static void entry__quad_octet_string___std___append (void)
     }
     data->length = left_offset+new_length;
     {
-      NODE *result__node = (NODE *)(create__quad_octet_string(left_offset, new_length, data));
+      NODE *result__node = (NODE *)(create__std_types___wide_string(left_offset, new_length, data));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -22974,7 +23199,7 @@ static void entry__std_types___octet_string___std___range (void)
     }
   }
 
-static void entry__quad_octet_string___std___range (void)
+static void entry__std_types___wide_string___std___range (void)
   {
     if (TLS_argument_count != 3) {
       invalid_arguments();
@@ -23017,12 +23242,12 @@ static void entry__quad_octet_string___std___range (void)
       return;
     }
     long idx;
-    long offset = self->quad_octet_string.offset;
-    QUAD_OCTET_DATA *data = self->quad_octet_string.data;
+    long offset = self->wide_string.offset;
+    WIDE_DATA *data = self->wide_string.data;
     for (idx = first_idx-1; idx < last_idx; ++idx) {
       if (data->buffer[offset+idx] > 0xff) {
 	{
-	  NODE *result__node = (NODE *)(create__quad_octet_string(offset+first_idx-1, new_len, data));
+	  NODE *result__node = (NODE *)(create__std_types___wide_string(offset+first_idx-1, new_len, data));
 	  TLS_arguments[0] = result__node;
 	  TLS_argument_count = 1;
 	  return;
@@ -23081,7 +23306,7 @@ static void entry__std_types___octet_string___std___hash (void)
     }
   }
 
-static void entry__quad_octet_string___std___hash (void)
+static void entry__std_types___wide_string___std___hash (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -23093,8 +23318,8 @@ static void entry__quad_octet_string___std___hash (void)
     }
     NODE *self = TLS_arguments[0];
     uint32_t *buf =
-      self->quad_octet_string.data->buffer+self->quad_octet_string.offset;
-    long length = self->quad_octet_string.length;
+      self->wide_string.data->buffer+self->wide_string.offset;
+    long length = self->wide_string.length;
     uint32_t hash = 0x3456789a;
     long i;
     if (length > 16) {
@@ -23189,7 +23414,7 @@ static void entry__std_types___octet_string___std___equal (void)
     }
   }
 
-static void entry__quad_octet_string___std___equal (void)
+static void entry__std_types___wide_string___std___equal (void)
   {
     if (TLS_argument_count != 2) {
       invalid_arguments();
@@ -23207,18 +23432,18 @@ static void entry__quad_octet_string___std___equal (void)
       TLS_argument_count = 1;
       return;
     }
-    if ((right)->type != quad_octet_string.type) {
+    if ((right)->type != std_types___wide_string.type) {
       NODE *result__node = (NODE *)(&std_types___false);
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
-    QUAD_OCTET_DATA *left_data = left->quad_octet_string.data;
-    QUAD_OCTET_DATA *right_data = right->quad_octet_string.data;
-    long left_offset = left->quad_octet_string.offset;
-    long right_offset = right->quad_octet_string.offset;
-    long length = left->quad_octet_string.length;
-    if (length != right->quad_octet_string.length) {
+    WIDE_DATA *left_data = left->wide_string.data;
+    WIDE_DATA *right_data = right->wide_string.data;
+    long left_offset = left->wide_string.offset;
+    long right_offset = right->wide_string.offset;
+    long length = left->wide_string.length;
+    if (length != right->wide_string.length) {
       NODE *result__node = (NODE *)(&std_types___false);
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
@@ -23241,7 +23466,7 @@ static void entry__quad_octet_string___std___equal (void)
     }
     if (left_offset == right_offset) {
       // join the two versions of the string data to simplify future comparisons
-      join_nodes(&left->quad_octet_string.data, &right->quad_octet_string.data);
+      join_nodes(&left->wide_string.data, &right->wide_string.data);
     }
     {
       NODE *result__node = (NODE *)(&std_types___true);
@@ -23318,13 +23543,13 @@ static void entry__std_types___octet_string___std___less (void)
         TLS_argument_count = 1;
         return;
       }
-    } else if ((right)->type == quad_octet_string.type) {
+    } else if ((right)->type == std_types___wide_string.type) {
       OCTET_DATA *left_data = left->octet_string.data;
-      QUAD_OCTET_DATA *right_data = right->quad_octet_string.data;
+      WIDE_DATA *right_data = right->wide_string.data;
       long left_offset = left->octet_string.offset;
-      long right_offset = right->quad_octet_string.offset;
+      long right_offset = right->wide_string.offset;
       long left_length = left->octet_string.length;
-      long right_length = right->quad_octet_string.length;
+      long right_length = right->wide_string.length;
       long length = left_length;
       if (right_length < length) length = right_length;
       long i;
@@ -23364,7 +23589,7 @@ static void entry__std_types___octet_string___std___less (void)
     }
   }
 
-static void entry__quad_octet_string___std___less (void)
+static void entry__std_types___wide_string___std___less (void)
   {
     if (TLS_argument_count != 2) {
       invalid_arguments();
@@ -23383,11 +23608,11 @@ static void entry__quad_octet_string___std___less (void)
       return;
     }
     if ((right)->type == std_types___octet_string.type) {
-      QUAD_OCTET_DATA *left_data = left->quad_octet_string.data;
+      WIDE_DATA *left_data = left->wide_string.data;
       OCTET_DATA *right_data = right->octet_string.data;
-      long left_offset = left->quad_octet_string.offset;
+      long left_offset = left->wide_string.offset;
       long right_offset = right->octet_string.offset;
-      long left_length = left->quad_octet_string.length;
+      long left_length = left->wide_string.length;
       long right_length = right->octet_string.length;
       long length = left_length;
       if (right_length < length) length = right_length;
@@ -23420,13 +23645,13 @@ static void entry__quad_octet_string___std___less (void)
         TLS_argument_count = 1;
         return;
       }
-    } else if ((right)->type == quad_octet_string.type) {
-      QUAD_OCTET_DATA *left_data = left->quad_octet_string.data;
-      QUAD_OCTET_DATA *right_data = right->quad_octet_string.data;
-      long left_offset = left->quad_octet_string.offset;
-      long right_offset = right->quad_octet_string.offset;
-      long left_length = left->quad_octet_string.length;
-      long right_length = right->quad_octet_string.length;
+    } else if ((right)->type == std_types___wide_string.type) {
+      WIDE_DATA *left_data = left->wide_string.data;
+      WIDE_DATA *right_data = right->wide_string.data;
+      long left_offset = left->wide_string.offset;
+      long right_offset = right->wide_string.offset;
+      long left_length = left->wide_string.length;
+      long right_length = right->wide_string.length;
       if (left_offset == right_offset && left_length == right_length && left_data == right_data)
 	{
 	  NODE *result__node = (NODE *)(&std_types___false);
@@ -23495,7 +23720,7 @@ static void entry__std_types___octet_string___std___width_of (void)
     }
   }
 
-static void entry__quad_octet_string___std___width_of (void)
+static void entry__std_types___wide_string___std___width_of (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -23507,9 +23732,9 @@ static void entry__quad_octet_string___std___width_of (void)
     }
     long width = 0;
     NODE *string = TLS_arguments[0];
-    QUAD_OCTET_DATA *data = string->quad_octet_string.data;
-    long offset = string->quad_octet_string.offset;
-    long length = string->quad_octet_string.length;
+    WIDE_DATA *data = string->wide_string.data;
+    long offset = string->wide_string.offset;
+    long length = string->wide_string.length;
     for (long i = 0; i < length; ++i) {
       uint32_t chr = data->buffer[offset+i];
       if (is_a_wide_character(chr)) {
@@ -23609,7 +23834,7 @@ static void entry__std_types___octet_string___std___from_utf8 (void)
       }
     } else {
       long new_size = ALLOCATION_SIZE(4*new_length);
-      QUAD_OCTET_DATA *data = allocate_large(sizeof(QUAD_OCTET_DATA)+new_size);
+      WIDE_DATA *data = allocate_large(sizeof(WIDE_DATA)+new_size);
       data->size = new_size;
       data->length = new_length;
       src_idx = 0;
@@ -23644,7 +23869,7 @@ static void entry__std_types___octet_string___std___from_utf8 (void)
 	data->buffer[dest_idx] = chr;
       }
       {
-        NODE *result__node = (NODE *)(create__quad_octet_string(0, new_length, data));
+        NODE *result__node = (NODE *)(create__std_types___wide_string(0, new_length, data));
         TLS_arguments[0] = result__node;
         TLS_argument_count = 1;
         return;
@@ -23692,17 +23917,17 @@ static void entry__std_types___octet_string___std___to_utf8 (void)
     }
   }
 
-static void entry__quad_octet_string___std___to_utf8 (void)
+static void entry__std_types___wide_string___std___to_utf8 (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
       return;
     }
     NODE *self = TLS_arguments[0];
-    long offset = self->quad_octet_string.offset;
-    long length = self->quad_octet_string.length;
+    long offset = self->wide_string.offset;
+    long length = self->wide_string.length;
     long new_len = length;
-    uint32_t *src = self->quad_octet_string.data->buffer+offset;
+    uint32_t *src = self->wide_string.data->buffer+offset;
     long i;
     for(i = 0; i < length; ++i) {
       uint32_t chr = src[i];
@@ -24682,7 +24907,7 @@ static void entry__std_types___terminal_attributes___std___output_speed (void)
     }
   }
 
-static void entry__std_types___tuple___std___new (void)
+static void entry__std_types___tuple___std___typed_tuple (void)
   {
     {
       create_error_message(
@@ -24692,7 +24917,7 @@ static void entry__std_types___tuple___std___new (void)
     }
   }
 
-static void entry__builtin___tuple2___std___to_list (void)
+static void entry__builtin_types___tuple2___std___to_list (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -24712,7 +24937,7 @@ static void entry__builtin___tuple2___std___to_list (void)
     }
   }
 
-static void entry__builtin___tuple2___std___new (void)
+static void entry__builtin_types___tuple2___std___typed_tuple (void)
   {
     if (TLS_argument_count != 3) {
       invalid_arguments();
@@ -24720,7 +24945,7 @@ static void entry__builtin___tuple2___std___new (void)
     }
     NODE *prototype = TLS_arguments[0];
     NODE *clone =
-      create__builtin___tuple2(TLS_arguments[1], TLS_arguments[2]);
+      create__builtin_types___tuple2(TLS_arguments[1], TLS_arguments[2]);
     clone->attributes = prototype->attributes;
     {
       NODE *result__node = (NODE *)(clone);
@@ -24730,7 +24955,7 @@ static void entry__builtin___tuple2___std___new (void)
     }
   }
 
-static void entry__builtin___tuple3___std___to_list (void)
+static void entry__builtin_types___tuple3___std___to_list (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -24751,7 +24976,7 @@ static void entry__builtin___tuple3___std___to_list (void)
     }
   }
 
-static void entry__builtin___tuple3___std___new (void)
+static void entry__builtin_types___tuple3___std___typed_tuple (void)
   {
     if (TLS_argument_count != 4) {
       invalid_arguments();
@@ -24759,7 +24984,7 @@ static void entry__builtin___tuple3___std___new (void)
     }
     NODE *prototype = TLS_arguments[0];
     NODE *clone =
-      create__builtin___tuple3(TLS_arguments[1], TLS_arguments[2], TLS_arguments[3]);
+      create__builtin_types___tuple3(TLS_arguments[1], TLS_arguments[2], TLS_arguments[3]);
     clone->attributes = prototype->attributes;
     {
       NODE *result__node = (NODE *)(clone);
@@ -24769,7 +24994,7 @@ static void entry__builtin___tuple3___std___new (void)
     }
   }
 
-static void entry__builtin___tuple4___std___to_list (void)
+static void entry__builtin_types___tuple4___std___to_list (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -24791,7 +25016,7 @@ static void entry__builtin___tuple4___std___to_list (void)
     }
   }
 
-static void entry__builtin___tuple4___std___new (void)
+static void entry__builtin_types___tuple4___std___typed_tuple (void)
   {
     if (TLS_argument_count != 5) {
       invalid_arguments();
@@ -24799,7 +25024,7 @@ static void entry__builtin___tuple4___std___new (void)
     }
     NODE *prototype = TLS_arguments[0];
     NODE *clone =
-      create__builtin___tuple4(TLS_arguments[1], TLS_arguments[2], TLS_arguments[3], TLS_arguments[4]);
+      create__builtin_types___tuple4(TLS_arguments[1], TLS_arguments[2], TLS_arguments[3], TLS_arguments[4]);
     clone->attributes = prototype->attributes;
     {
       NODE *result__node = (NODE *)(clone);
@@ -24809,7 +25034,7 @@ static void entry__builtin___tuple4___std___new (void)
     }
   }
 
-static void entry__builtin___tuple5___std___to_list (void)
+static void entry__builtin_types___tuple5___std___to_list (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -24832,7 +25057,7 @@ static void entry__builtin___tuple5___std___to_list (void)
     }
   }
 
-static void entry__builtin___tuple5___std___new (void)
+static void entry__builtin_types___tuple5___std___typed_tuple (void)
   {
     if (TLS_argument_count != 6) {
       invalid_arguments();
@@ -24840,7 +25065,7 @@ static void entry__builtin___tuple5___std___new (void)
     }
     NODE *prototype = TLS_arguments[0];
     NODE *clone =
-      create__builtin___tuple5(TLS_arguments[1], TLS_arguments[2], TLS_arguments[3], TLS_arguments[4], TLS_arguments[5]);
+      create__builtin_types___tuple5(TLS_arguments[1], TLS_arguments[2], TLS_arguments[3], TLS_arguments[4], TLS_arguments[5]);
     clone->attributes = prototype->attributes;
     {
       NODE *result__node = (NODE *)(clone);
@@ -24850,7 +25075,7 @@ static void entry__builtin___tuple5___std___new (void)
     }
   }
 
-static void entry__builtin___tuple6___std___to_list (void)
+static void entry__builtin_types___tuple6___std___to_list (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -24874,7 +25099,7 @@ static void entry__builtin___tuple6___std___to_list (void)
     }
   }
 
-static void entry__builtin___tuple6___std___new (void)
+static void entry__builtin_types___tuple6___std___typed_tuple (void)
   {
     if (TLS_argument_count != 7) {
       invalid_arguments();
@@ -24882,7 +25107,7 @@ static void entry__builtin___tuple6___std___new (void)
     }
     NODE *prototype = TLS_arguments[0];
     NODE *clone =
-      create__builtin___tuple6(TLS_arguments[1], TLS_arguments[2], TLS_arguments[3], TLS_arguments[4], TLS_arguments[5], TLS_arguments[6]);
+      create__builtin_types___tuple6(TLS_arguments[1], TLS_arguments[2], TLS_arguments[3], TLS_arguments[4], TLS_arguments[5], TLS_arguments[6]);
     clone->attributes = prototype->attributes;
     {
       NODE *result__node = (NODE *)(clone);
@@ -24892,7 +25117,7 @@ static void entry__builtin___tuple6___std___new (void)
     }
   }
 
-static void entry__builtin___tuple7___std___to_list (void)
+static void entry__builtin_types___tuple7___std___to_list (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -24917,7 +25142,7 @@ static void entry__builtin___tuple7___std___to_list (void)
     }
   }
 
-static void entry__builtin___tuple7___std___new (void)
+static void entry__builtin_types___tuple7___std___typed_tuple (void)
   {
     if (TLS_argument_count != 8) {
       invalid_arguments();
@@ -24925,7 +25150,7 @@ static void entry__builtin___tuple7___std___new (void)
     }
     NODE *prototype = TLS_arguments[0];
     NODE *clone =
-      create__builtin___tuple7(TLS_arguments[1], TLS_arguments[2], TLS_arguments[3], TLS_arguments[4], TLS_arguments[5], TLS_arguments[6], TLS_arguments[7]);
+      create__builtin_types___tuple7(TLS_arguments[1], TLS_arguments[2], TLS_arguments[3], TLS_arguments[4], TLS_arguments[5], TLS_arguments[6], TLS_arguments[7]);
     clone->attributes = prototype->attributes;
     {
       NODE *result__node = (NODE *)(clone);
@@ -24935,7 +25160,7 @@ static void entry__builtin___tuple7___std___new (void)
     }
   }
 
-static void entry__builtin___tuple8___std___to_list (void)
+static void entry__builtin_types___tuple8___std___to_list (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -24961,7 +25186,7 @@ static void entry__builtin___tuple8___std___to_list (void)
     }
   }
 
-static void entry__builtin___tuple8___std___new (void)
+static void entry__builtin_types___tuple8___std___typed_tuple (void)
   {
     if (TLS_argument_count != 9) {
       invalid_arguments();
@@ -24969,7 +25194,7 @@ static void entry__builtin___tuple8___std___new (void)
     }
     NODE *prototype = TLS_arguments[0];
     NODE *clone =
-      create__builtin___tuple8(TLS_arguments[1], TLS_arguments[2], TLS_arguments[3], TLS_arguments[4], TLS_arguments[5], TLS_arguments[6], TLS_arguments[7], TLS_arguments[8]);
+      create__builtin_types___tuple8(TLS_arguments[1], TLS_arguments[2], TLS_arguments[3], TLS_arguments[4], TLS_arguments[5], TLS_arguments[6], TLS_arguments[7], TLS_arguments[8]);
     clone->attributes = prototype->attributes;
     {
       NODE *result__node = (NODE *)(clone);
@@ -24991,50 +25216,50 @@ static void entry__std___tuple (void)
     }
     switch (TLS_argument_count) {
       case 2:
-        {
-	  NODE *result__node = (NODE *)(create__builtin___tuple2(TLS_arguments[0], TLS_arguments[1]));
+	{
+	  NODE *result__node = (NODE *)(create__builtin_types___tuple2(TLS_arguments[0], TLS_arguments[1]));
 	  TLS_arguments[0] = result__node;
 	  TLS_argument_count = 1;
 	  return;
 	}
       case 3:
-        {
-	  NODE *result__node = (NODE *)(create__builtin___tuple3(TLS_arguments[0], TLS_arguments[1], TLS_arguments[2]));
+	{
+	  NODE *result__node = (NODE *)(create__builtin_types___tuple3(TLS_arguments[0], TLS_arguments[1], TLS_arguments[2]));
 	  TLS_arguments[0] = result__node;
 	  TLS_argument_count = 1;
 	  return;
 	}
       case 4:
-        {
-	  NODE *result__node = (NODE *)(create__builtin___tuple4(TLS_arguments[0], TLS_arguments[1], TLS_arguments[2], TLS_arguments[3]));
+	{
+	  NODE *result__node = (NODE *)(create__builtin_types___tuple4(TLS_arguments[0], TLS_arguments[1], TLS_arguments[2], TLS_arguments[3]));
 	  TLS_arguments[0] = result__node;
 	  TLS_argument_count = 1;
 	  return;
 	}
       case 5:
-        {
-	  NODE *result__node = (NODE *)(create__builtin___tuple5(TLS_arguments[0], TLS_arguments[1], TLS_arguments[2], TLS_arguments[3], TLS_arguments[4]));
+	{
+	  NODE *result__node = (NODE *)(create__builtin_types___tuple5(TLS_arguments[0], TLS_arguments[1], TLS_arguments[2], TLS_arguments[3], TLS_arguments[4]));
 	  TLS_arguments[0] = result__node;
 	  TLS_argument_count = 1;
 	  return;
 	}
       case 6:
-        {
-	  NODE *result__node = (NODE *)(create__builtin___tuple6(TLS_arguments[0], TLS_arguments[1], TLS_arguments[2], TLS_arguments[3], TLS_arguments[4], TLS_arguments[5]));
+	{
+	  NODE *result__node = (NODE *)(create__builtin_types___tuple6(TLS_arguments[0], TLS_arguments[1], TLS_arguments[2], TLS_arguments[3], TLS_arguments[4], TLS_arguments[5]));
 	  TLS_arguments[0] = result__node;
 	  TLS_argument_count = 1;
 	  return;
 	}
       case 7:
-        {
-	  NODE *result__node = (NODE *)(create__builtin___tuple7(TLS_arguments[0], TLS_arguments[1], TLS_arguments[2], TLS_arguments[3], TLS_arguments[4], TLS_arguments[5], TLS_arguments[6]));
+	{
+	  NODE *result__node = (NODE *)(create__builtin_types___tuple7(TLS_arguments[0], TLS_arguments[1], TLS_arguments[2], TLS_arguments[3], TLS_arguments[4], TLS_arguments[5], TLS_arguments[6]));
 	  TLS_arguments[0] = result__node;
 	  TLS_argument_count = 1;
 	  return;
 	}
       case 8:
-        {
-	  NODE *result__node = (NODE *)(create__builtin___tuple8(TLS_arguments[0], TLS_arguments[1], TLS_arguments[2], TLS_arguments[3], TLS_arguments[4], TLS_arguments[5], TLS_arguments[6], TLS_arguments[7]));
+	{
+	  NODE *result__node = (NODE *)(create__builtin_types___tuple8(TLS_arguments[0], TLS_arguments[1], TLS_arguments[2], TLS_arguments[3], TLS_arguments[4], TLS_arguments[5], TLS_arguments[6], TLS_arguments[7]));
 	  TLS_arguments[0] = result__node;
 	  TLS_argument_count = 1;
 	  return;
@@ -25055,7 +25280,7 @@ static void entry__std___tuple_or_error (void)
     int i;
     for (i = 0; i < TLS_argument_count; ++i) {
       if ((TLS_arguments[i])->type == std_types___error.type)
-        {
+	{
 	  NODE *result__node = (NODE *)(TLS_arguments[i]);
 	  TLS_arguments[0] = result__node;
 	  TLS_argument_count = 1;
@@ -25064,50 +25289,50 @@ static void entry__std___tuple_or_error (void)
     }
     switch (TLS_argument_count) {
       case 2:
-        {
-	  NODE *result__node = (NODE *)(create__builtin___tuple2(TLS_arguments[0], TLS_arguments[1]));
+	{
+	  NODE *result__node = (NODE *)(create__builtin_types___tuple2(TLS_arguments[0], TLS_arguments[1]));
 	  TLS_arguments[0] = result__node;
 	  TLS_argument_count = 1;
 	  return;
 	}
       case 3:
-        {
-	  NODE *result__node = (NODE *)(create__builtin___tuple3(TLS_arguments[0], TLS_arguments[1], TLS_arguments[2]));
+	{
+	  NODE *result__node = (NODE *)(create__builtin_types___tuple3(TLS_arguments[0], TLS_arguments[1], TLS_arguments[2]));
 	  TLS_arguments[0] = result__node;
 	  TLS_argument_count = 1;
 	  return;
 	}
       case 4:
-        {
-	  NODE *result__node = (NODE *)(create__builtin___tuple4(TLS_arguments[0], TLS_arguments[1], TLS_arguments[2], TLS_arguments[3]));
+	{
+	  NODE *result__node = (NODE *)(create__builtin_types___tuple4(TLS_arguments[0], TLS_arguments[1], TLS_arguments[2], TLS_arguments[3]));
 	  TLS_arguments[0] = result__node;
 	  TLS_argument_count = 1;
 	  return;
 	}
       case 5:
-        {
-	  NODE *result__node = (NODE *)(create__builtin___tuple5(TLS_arguments[0], TLS_arguments[1], TLS_arguments[2], TLS_arguments[3], TLS_arguments[4]));
+	{
+	  NODE *result__node = (NODE *)(create__builtin_types___tuple5(TLS_arguments[0], TLS_arguments[1], TLS_arguments[2], TLS_arguments[3], TLS_arguments[4]));
 	  TLS_arguments[0] = result__node;
 	  TLS_argument_count = 1;
 	  return;
 	}
       case 6:
-        {
-	  NODE *result__node = (NODE *)(create__builtin___tuple6(TLS_arguments[0], TLS_arguments[1], TLS_arguments[2], TLS_arguments[3], TLS_arguments[4], TLS_arguments[5]));
+	{
+	  NODE *result__node = (NODE *)(create__builtin_types___tuple6(TLS_arguments[0], TLS_arguments[1], TLS_arguments[2], TLS_arguments[3], TLS_arguments[4], TLS_arguments[5]));
 	  TLS_arguments[0] = result__node;
 	  TLS_argument_count = 1;
 	  return;
 	}
       case 7:
-        {
-	  NODE *result__node = (NODE *)(create__builtin___tuple7(TLS_arguments[0], TLS_arguments[1], TLS_arguments[2], TLS_arguments[3], TLS_arguments[4], TLS_arguments[5], TLS_arguments[6]));
+	{
+	  NODE *result__node = (NODE *)(create__builtin_types___tuple7(TLS_arguments[0], TLS_arguments[1], TLS_arguments[2], TLS_arguments[3], TLS_arguments[4], TLS_arguments[5], TLS_arguments[6]));
 	  TLS_arguments[0] = result__node;
 	  TLS_argument_count = 1;
 	  return;
 	}
       case 8:
-        {
-	  NODE *result__node = (NODE *)(create__builtin___tuple8(TLS_arguments[0], TLS_arguments[1], TLS_arguments[2], TLS_arguments[3], TLS_arguments[4], TLS_arguments[5], TLS_arguments[6], TLS_arguments[7]));
+	{
+	  NODE *result__node = (NODE *)(create__builtin_types___tuple8(TLS_arguments[0], TLS_arguments[1], TLS_arguments[2], TLS_arguments[3], TLS_arguments[4], TLS_arguments[5], TLS_arguments[6], TLS_arguments[7]));
 	  TLS_arguments[0] = result__node;
 	  TLS_argument_count = 1;
 	  return;
@@ -25150,33 +25375,33 @@ static void entry__std___new_tuple (void)
     NODE *tuple;
     switch (length) {
       case 2:
-        tuple =
-          create__builtin___tuple2(data->items[offset+0], data->items[offset+1]);
-        break;
+	tuple =
+	  create__builtin_types___tuple2(data->items[offset+0], data->items[offset+1]);
+	break;
       case 3:
-        tuple =
-          create__builtin___tuple3(data->items[offset+0], data->items[offset+1], data->items[offset+2]);
-        break;
+	tuple =
+	  create__builtin_types___tuple3(data->items[offset+0], data->items[offset+1], data->items[offset+2]);
+	break;
       case 4:
-        tuple =
-          create__builtin___tuple4(data->items[offset+0], data->items[offset+1], data->items[offset+2], data->items[offset+3]);
-        break;
+	tuple =
+	  create__builtin_types___tuple4(data->items[offset+0], data->items[offset+1], data->items[offset+2], data->items[offset+3]);
+	break;
       case 5:
-        tuple =
-          create__builtin___tuple5(data->items[offset+0], data->items[offset+1], data->items[offset+2], data->items[offset+3], data->items[offset+4]);
-        break;
+	tuple =
+	  create__builtin_types___tuple5(data->items[offset+0], data->items[offset+1], data->items[offset+2], data->items[offset+3], data->items[offset+4]);
+	break;
       case 6:
-        tuple =
-          create__builtin___tuple6(data->items[offset+0], data->items[offset+1], data->items[offset+2], data->items[offset+3], data->items[offset+4], data->items[offset+5]);
-        break;
+	tuple =
+	  create__builtin_types___tuple6(data->items[offset+0], data->items[offset+1], data->items[offset+2], data->items[offset+3], data->items[offset+4], data->items[offset+5]);
+	break;
       case 7:
-        tuple =
-          create__builtin___tuple7(data->items[offset+0], data->items[offset+1], data->items[offset+2], data->items[offset+3], data->items[offset+4], data->items[offset+5], data->items[offset+6]);
-        break;
+	tuple =
+	  create__builtin_types___tuple7(data->items[offset+0], data->items[offset+1], data->items[offset+2], data->items[offset+3], data->items[offset+4], data->items[offset+5], data->items[offset+6]);
+	break;
       case 8:
-        tuple =
-          create__builtin___tuple8(data->items[offset+0], data->items[offset+1], data->items[offset+2], data->items[offset+3], data->items[offset+4], data->items[offset+5], data->items[offset+6], data->items[offset+7]);
-        break;
+	tuple =
+	  create__builtin_types___tuple8(data->items[offset+0], data->items[offset+1], data->items[offset+2], data->items[offset+3], data->items[offset+4], data->items[offset+5], data->items[offset+6], data->items[offset+7]);
+	break;
     }
     if ((prototype)->type != std_types___tuple.type) {
       // std_types___tuple is generic and cannot be used!
@@ -26070,7 +26295,7 @@ static void entry__std___get_first_mac_address (void)
   }
 
 static FUNKY_NAMESPACE defined_namespaces[] = {
-  {"builtin", 1, 0},
+  {"builtin_types", 1, 0},
   {"debug", 1, 0},
   {"std", 1, 0},
   {"std_types", 1, 0}
@@ -26081,7 +26306,7 @@ static FUNKY_CONSTANT constants_table[] = {
   {FLT_C_FUNCTION, 1, {.func = entry__std_types___array___std___dimension_count_of}},
   {FLT_C_FUNCTION, -1, {.func = entry__std___array}},
   {FLT_C_FUNCTION, -1, {.func = entry__std___initialized_array}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std_types___array___std___new}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std_types___array___std___create_empty_array}},
   {FLT_C_FUNCTION, -1, {.func = entry__std_types___array___std___range}},
   {FLT_C_FUNCTION, -1, {.func = entry__std_types___boolean_array___std___length_of}},
   {FLT_C_FUNCTION, 1, {.func = entry__std_types___boolean_array___std___dimension_count_of}},
@@ -26091,14 +26316,14 @@ static FUNKY_CONSTANT constants_table[] = {
   {FLT_C_FUNCTION, 2, {.func = entry__std_types___boolean_array___std___bit_xor}},
   {FLT_C_FUNCTION, -1, {.func = entry__std___boolean_array}},
   {FLT_C_FUNCTION, -1, {.func = entry__std___initialized_boolean_array}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std_types___boolean_array___std___new}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std_types___boolean_array___std___create_empty_array}},
   {FLT_C_FUNCTION, -1, {.func = entry__std_types___boolean_array___std___range}},
   {FLT_C_FUNCTION, -1, {.func = entry__std_types___character_array___std___length_of}},
   {FLT_C_FUNCTION, 1, {.func = entry__std_types___character_array___std___dimension_count_of}},
   {FLT_C_FUNCTION, 2, {.func = entry__std_types___character_array___std___equal}},
   {FLT_C_FUNCTION, -1, {.func = entry__std___character_array}},
   {FLT_C_FUNCTION, -1, {.func = entry__std___initialized_character_array}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std_types___character_array___std___new}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std_types___character_array___std___create_empty_array}},
   {FLT_C_FUNCTION, -1, {.func = entry__std_types___character_array___std___range}},
   {FLT_C_FUNCTION, -1, {.func = entry__std_types___int8_array___std___length_of}},
   {FLT_C_FUNCTION, 1, {.func = entry__std_types___int8_array___std___dimension_count_of}},
@@ -26106,7 +26331,7 @@ static FUNKY_CONSTANT constants_table[] = {
   {FLT_C_FUNCTION, 2, {.func = entry__std_types___int8_array___std___times}},
   {FLT_C_FUNCTION, -1, {.func = entry__std___int8_array}},
   {FLT_C_FUNCTION, -1, {.func = entry__std___initialized_int8_array}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std_types___int8_array___std___new}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std_types___int8_array___std___create_empty_array}},
   {FLT_C_FUNCTION, -1, {.func = entry__std_types___int8_array___std___range}},
   {FLT_C_FUNCTION, -1, {.func = entry__std_types___uint8_array___std___length_of}},
   {FLT_C_FUNCTION, 1, {.func = entry__std_types___uint8_array___std___dimension_count_of}},
@@ -26117,7 +26342,7 @@ static FUNKY_CONSTANT constants_table[] = {
   {FLT_C_FUNCTION, 2, {.func = entry__std_types___uint8_array___std___times}},
   {FLT_C_FUNCTION, -1, {.func = entry__std___uint8_array}},
   {FLT_C_FUNCTION, -1, {.func = entry__std___initialized_uint8_array}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std_types___uint8_array___std___new}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std_types___uint8_array___std___create_empty_array}},
   {FLT_C_FUNCTION, -1, {.func = entry__std_types___uint8_array___std___range}},
   {FLT_C_FUNCTION, -1, {.func = entry__std_types___int16_array___std___length_of}},
   {FLT_C_FUNCTION, 1, {.func = entry__std_types___int16_array___std___dimension_count_of}},
@@ -26125,7 +26350,7 @@ static FUNKY_CONSTANT constants_table[] = {
   {FLT_C_FUNCTION, 2, {.func = entry__std_types___int16_array___std___times}},
   {FLT_C_FUNCTION, -1, {.func = entry__std___int16_array}},
   {FLT_C_FUNCTION, -1, {.func = entry__std___initialized_int16_array}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std_types___int16_array___std___new}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std_types___int16_array___std___create_empty_array}},
   {FLT_C_FUNCTION, -1, {.func = entry__std_types___int16_array___std___range}},
   {FLT_C_FUNCTION, -1, {.func = entry__std_types___uint16_array___std___length_of}},
   {FLT_C_FUNCTION, 1, {.func = entry__std_types___uint16_array___std___dimension_count_of}},
@@ -26136,7 +26361,7 @@ static FUNKY_CONSTANT constants_table[] = {
   {FLT_C_FUNCTION, 2, {.func = entry__std_types___uint16_array___std___times}},
   {FLT_C_FUNCTION, -1, {.func = entry__std___uint16_array}},
   {FLT_C_FUNCTION, -1, {.func = entry__std___initialized_uint16_array}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std_types___uint16_array___std___new}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std_types___uint16_array___std___create_empty_array}},
   {FLT_C_FUNCTION, -1, {.func = entry__std_types___uint16_array___std___range}},
   {FLT_C_FUNCTION, -1, {.func = entry__std_types___int32_array___std___length_of}},
   {FLT_C_FUNCTION, 1, {.func = entry__std_types___int32_array___std___dimension_count_of}},
@@ -26144,7 +26369,7 @@ static FUNKY_CONSTANT constants_table[] = {
   {FLT_C_FUNCTION, 2, {.func = entry__std_types___int32_array___std___times}},
   {FLT_C_FUNCTION, -1, {.func = entry__std___int32_array}},
   {FLT_C_FUNCTION, -1, {.func = entry__std___initialized_int32_array}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std_types___int32_array___std___new}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std_types___int32_array___std___create_empty_array}},
   {FLT_C_FUNCTION, -1, {.func = entry__std_types___int32_array___std___range}},
   {FLT_C_FUNCTION, -1, {.func = entry__std_types___uint32_array___std___length_of}},
   {FLT_C_FUNCTION, 1, {.func = entry__std_types___uint32_array___std___dimension_count_of}},
@@ -26155,7 +26380,7 @@ static FUNKY_CONSTANT constants_table[] = {
   {FLT_C_FUNCTION, 2, {.func = entry__std_types___uint32_array___std___times}},
   {FLT_C_FUNCTION, -1, {.func = entry__std___uint32_array}},
   {FLT_C_FUNCTION, -1, {.func = entry__std___initialized_uint32_array}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std_types___uint32_array___std___new}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std_types___uint32_array___std___create_empty_array}},
   {FLT_C_FUNCTION, -1, {.func = entry__std_types___uint32_array___std___range}},
   {FLT_C_FUNCTION, -1, {.func = entry__std_types___int64_array___std___length_of}},
   {FLT_C_FUNCTION, 1, {.func = entry__std_types___int64_array___std___dimension_count_of}},
@@ -26163,7 +26388,7 @@ static FUNKY_CONSTANT constants_table[] = {
   {FLT_C_FUNCTION, 2, {.func = entry__std_types___int64_array___std___times}},
   {FLT_C_FUNCTION, -1, {.func = entry__std___int64_array}},
   {FLT_C_FUNCTION, -1, {.func = entry__std___initialized_int64_array}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std_types___int64_array___std___new}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std_types___int64_array___std___create_empty_array}},
   {FLT_C_FUNCTION, -1, {.func = entry__std_types___int64_array___std___range}},
   {FLT_C_FUNCTION, -1, {.func = entry__std_types___uint64_array___std___length_of}},
   {FLT_C_FUNCTION, 1, {.func = entry__std_types___uint64_array___std___dimension_count_of}},
@@ -26174,7 +26399,7 @@ static FUNKY_CONSTANT constants_table[] = {
   {FLT_C_FUNCTION, 2, {.func = entry__std_types___uint64_array___std___times}},
   {FLT_C_FUNCTION, -1, {.func = entry__std___uint64_array}},
   {FLT_C_FUNCTION, -1, {.func = entry__std___initialized_uint64_array}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std_types___uint64_array___std___new}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std_types___uint64_array___std___create_empty_array}},
   {FLT_C_FUNCTION, -1, {.func = entry__std_types___uint64_array___std___range}},
   {FLT_C_FUNCTION, -1, {.func = entry__std_types___float32_array___std___length_of}},
   {FLT_C_FUNCTION, 1, {.func = entry__std_types___float32_array___std___dimension_count_of}},
@@ -26182,7 +26407,7 @@ static FUNKY_CONSTANT constants_table[] = {
   {FLT_C_FUNCTION, 2, {.func = entry__std_types___float32_array___std___times}},
   {FLT_C_FUNCTION, -1, {.func = entry__std___float32_array}},
   {FLT_C_FUNCTION, -1, {.func = entry__std___initialized_float32_array}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std_types___float32_array___std___new}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std_types___float32_array___std___create_empty_array}},
   {FLT_C_FUNCTION, -1, {.func = entry__std_types___float32_array___std___range}},
   {FLT_C_FUNCTION, -1, {.func = entry__std_types___float64_array___std___length_of}},
   {FLT_C_FUNCTION, 1, {.func = entry__std_types___float64_array___std___dimension_count_of}},
@@ -26190,7 +26415,7 @@ static FUNKY_CONSTANT constants_table[] = {
   {FLT_C_FUNCTION, 2, {.func = entry__std_types___float64_array___std___times}},
   {FLT_C_FUNCTION, -1, {.func = entry__std___float64_array}},
   {FLT_C_FUNCTION, -1, {.func = entry__std___initialized_float64_array}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std_types___float64_array___std___new}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std_types___float64_array___std___create_empty_array}},
   {FLT_C_FUNCTION, -1, {.func = entry__std_types___float64_array___std___range}},
   {FLT_C_FUNCTION, 0, {.func = entry__std___pass}},
   {FLT_C_FUNCTION, 0, {.func = entry__std___result_count}},
@@ -26241,7 +26466,7 @@ static FUNKY_CONSTANT constants_table[] = {
   {FLT_C_FUNCTION, 2, {.func = entry__std___exec}},
   {FLT_C_FUNCTION, -1, {.func = entry__std___create_process}},
   {FLT_C_FUNCTION, 1, {.func = entry__std_types___function___std___parameter_count_of}},
-  {FLT_C_FUNCTION, 2, {.func = entry__std_types___list___std___new}},
+  {FLT_C_FUNCTION, 2, {.func = entry__std_types___function___std___new}},
   {FLT_C_FUNCTION, -1, {.func = entry__std___list}},
   {FLT_C_FUNCTION, 1, {.func = entry__std_types___list___std___length_of}},
   {FLT_C_FUNCTION, 1, {.func = entry__std_types___list___std___is_empty}},
@@ -26253,65 +26478,68 @@ static FUNKY_CONSTANT constants_table[] = {
   {FLT_C_FUNCTION, -1, {.func = entry__std_types___list___std___append}},
   {FLT_C_FUNCTION, 3, {.func = entry__std_types___list___std___range}},
   {FLT_C_FUNCTION, 1, {.func = entry__std_types___list___std___spread}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std_types___positive_integer___std___negate}},
-  {FLT_C_FUNCTION, 1, {.func = entry__negative_integer___std___negate}},
+  {FLT_C_FUNCTION, 1, {.func = entry__builtin_types___positive_integer___std___negate}},
+  {FLT_C_FUNCTION, 1, {.func = entry__builtin_types___negative_integer___std___negate}},
   {FLT_C_FUNCTION, 1, {.func = entry__std_types___real___std___negate}},
-  {FLT_C_FUNCTION, 2, {.func = entry__std_types___positive_integer___std___times}},
-  {FLT_C_FUNCTION, 2, {.func = entry__negative_integer___std___times}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std_types___positive_integer___std___to_integer}},
-  {FLT_C_FUNCTION, 1, {.func = entry__negative_integer___std___to_integer}},
+  {FLT_C_FUNCTION, 2, {.func = entry__builtin_types___positive_integer___std___times}},
+  {FLT_C_FUNCTION, 2, {.func = entry__builtin_types___negative_integer___std___times}},
+  {FLT_C_FUNCTION, 1, {.func = entry__builtin_types___positive_integer___std___to_integer}},
+  {FLT_C_FUNCTION, 1, {.func = entry__builtin_types___negative_integer___std___to_integer}},
   {FLT_C_FUNCTION, 1, {.func = entry__std_types___real___std___to_integer}},
   {FLT_C_FUNCTION, 1, {.func = entry__std_types___real___std___floor}},
   {FLT_C_FUNCTION, 1, {.func = entry__std_types___real___std___ceil}},
   {FLT_C_FUNCTION, 1, {.func = entry__std_types___real___std___round}},
-  {FLT_C_FUNCTION, 1, {.func = entry__negative_integer___std___to_string}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std_types___positive_integer___std___to_string}},
+  {FLT_C_FUNCTION, 1, {.func = entry__builtin_types___negative_integer___std___to_string}},
+  {FLT_C_FUNCTION, 1, {.func = entry__builtin_types___positive_integer___std___to_string}},
   {FLT_C_FUNCTION, 1, {.func = entry__std_types___real___std___to_string}},
-  {FLT_C_FUNCTION, 2, {.func = entry__std_types___positive_integer___std___over}},
-  {FLT_C_FUNCTION, 2, {.func = entry__negative_integer___std___over}},
-  {FLT_C_FUNCTION, 2, {.func = entry__std_types___positive_integer___std___div}},
-  {FLT_C_FUNCTION, 2, {.func = entry__negative_integer___std___div}},
-  {FLT_C_FUNCTION, 2, {.func = entry__std_types___positive_integer___std___mod}},
-  {FLT_C_FUNCTION, 2, {.func = entry__negative_integer___std___mod}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std_types___positive_integer___std___hash}},
-  {FLT_C_FUNCTION, 1, {.func = entry__negative_integer___std___hash}},
+  {FLT_C_FUNCTION, 2, {.func = entry__builtin_types___positive_integer___std___over}},
+  {FLT_C_FUNCTION, 2, {.func = entry__builtin_types___negative_integer___std___over}},
+  {FLT_C_FUNCTION, 2, {.func = entry__builtin_types___positive_integer___std___div}},
+  {FLT_C_FUNCTION, 2, {.func = entry__builtin_types___negative_integer___std___div}},
+  {FLT_C_FUNCTION, 2, {.func = entry__builtin_types___positive_integer___std___mod}},
+  {FLT_C_FUNCTION, 2, {.func = entry__builtin_types___negative_integer___std___mod}},
+  {FLT_C_FUNCTION, 1, {.func = entry__builtin_types___positive_integer___std___hash}},
+  {FLT_C_FUNCTION, 1, {.func = entry__builtin_types___negative_integer___std___hash}},
   {FLT_C_FUNCTION, 1, {.func = entry__std_types___real___std___hash}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std_types___positive_integer___std___ln}},
-  {FLT_C_FUNCTION, 1, {.func = entry__negative_integer___std___ln}},
+  {FLT_C_FUNCTION, 1, {.func = entry__builtin_types___positive_integer___std___ln}},
+  {FLT_C_FUNCTION, 1, {.func = entry__builtin_types___negative_integer___std___ln}},
   {FLT_C_FUNCTION, 1, {.func = entry__std_types___real___std___ln}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std_types___positive_integer___std___exp}},
-  {FLT_C_FUNCTION, 1, {.func = entry__negative_integer___std___exp}},
+  {FLT_C_FUNCTION, 1, {.func = entry__builtin_types___positive_integer___std___exp}},
+  {FLT_C_FUNCTION, 1, {.func = entry__builtin_types___negative_integer___std___exp}},
   {FLT_C_FUNCTION, 1, {.func = entry__std_types___real___std___exp}},
   {FLT_C_FUNCTION, 1, {.func = entry__std___real}},
   {FLT_C_FUNCTION, 1, {.func = entry__std___integer}},
   {FLT_C_FUNCTION, 1, {.func = entry__std___sqrt}},
   {FLT_C_FUNCTION, 2, {.func = entry__std___pow}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std_types___positive_integer___std___exit}},
-  {FLT_C_FUNCTION, 2, {.func = entry__std_types___positive_integer___std___plus}},
-  {FLT_C_FUNCTION, 2, {.func = entry__negative_integer___std___plus}},
+  {FLT_C_FUNCTION, 1, {.func = entry__builtin_types___positive_integer___std___exit}},
+  {FLT_C_FUNCTION, 2, {.func = entry__builtin_types___positive_integer___std___plus}},
+  {FLT_C_FUNCTION, 2, {.func = entry__builtin_types___negative_integer___std___plus}},
   {FLT_C_FUNCTION, 2, {.func = entry__std_types___real___std___plus}},
-  {FLT_C_FUNCTION, 2, {.func = entry__std_types___positive_integer___std___minus}},
-  {FLT_C_FUNCTION, 2, {.func = entry__negative_integer___std___minus}},
+  {FLT_C_FUNCTION, 2, {.func = entry__builtin_types___positive_integer___std___minus}},
+  {FLT_C_FUNCTION, 2, {.func = entry__builtin_types___negative_integer___std___minus}},
   {FLT_C_FUNCTION, 2, {.func = entry__std_types___real___std___minus}},
   {FLT_C_FUNCTION, 2, {.func = entry__std_types___real___std___times}},
   {FLT_C_FUNCTION, 2, {.func = entry__std_types___real___std___over}},
-  {FLT_C_FUNCTION, 2, {.func = entry__std_types___positive_integer___std___equal}},
-  {FLT_C_FUNCTION, 2, {.func = entry__negative_integer___std___equal}},
+  {FLT_C_FUNCTION, 2, {.func = entry__builtin_types___positive_integer___std___equal}},
+  {FLT_C_FUNCTION, 2, {.func = entry__builtin_types___negative_integer___std___equal}},
   {FLT_C_FUNCTION, 2, {.func = entry__std_types___real___std___equal}},
-  {FLT_C_FUNCTION, 2, {.func = entry__std_types___positive_integer___std___less}},
-  {FLT_C_FUNCTION, 2, {.func = entry__negative_integer___std___less}},
+  {FLT_C_FUNCTION, 2, {.func = entry__builtin_types___positive_integer___std___less}},
+  {FLT_C_FUNCTION, 2, {.func = entry__builtin_types___negative_integer___std___less}},
   {FLT_C_FUNCTION, 2, {.func = entry__std_types___real___std___less}},
-  {FLT_C_FUNCTION, 2, {.func = entry__std_types___positive_integer___std___shift_left}},
-  {FLT_C_FUNCTION, 2, {.func = entry__std_types___positive_integer___std___shift_right}},
-  {FLT_C_FUNCTION, 2, {.func = entry__std_types___positive_integer___std___bit_and}},
-  {FLT_C_FUNCTION, 2, {.func = entry__std_types___positive_integer___std___bit_or}},
-  {FLT_C_FUNCTION, 2, {.func = entry__std_types___positive_integer___std___bit_xor}},
+  {FLT_C_FUNCTION, 2, {.func = entry__builtin_types___positive_integer___std___shift_left}},
+  {FLT_C_FUNCTION, 2, {.func = entry__builtin_types___positive_integer___std___shift_right}},
+  {FLT_C_FUNCTION, 2, {.func = entry__builtin_types___positive_integer___std___bit_and}},
+  {FLT_C_FUNCTION, 2, {.func = entry__builtin_types___positive_integer___std___bit_or}},
+  {FLT_C_FUNCTION, 2, {.func = entry__builtin_types___positive_integer___std___bit_xor}},
   {FLT_C_FUNCTION, 1, {.func = entry__std___sin}},
   {FLT_C_FUNCTION, 1, {.func = entry__std___cos}},
   {FLT_C_FUNCTION, 1, {.func = entry__std___tan}},
   {FLT_C_FUNCTION, 1, {.func = entry__std___asin}},
   {FLT_C_FUNCTION, 1, {.func = entry__std___acos}},
   {FLT_C_FUNCTION, 1, {.func = entry__std___atan}},
+  {FLT_C_FUNCTION, 1, {.func = entry__debug___object_type}},
+  {FLT_C_FUNCTION, 1, {.func = entry__debug___object_attributes}},
+  {FLT_C_FUNCTION, 2, {.func = entry__std_types___object___std___new}},
   {FLT_C_FUNCTION, 2, {.func = entry__std_types___file_type___std___equal}},
   {FLT_C_FUNCTION, 1, {.func = entry__std_types___file_type___std___hash}},
   {FLT_C_FUNCTION, 1, {.func = entry__std___file_type}},
@@ -26397,28 +26625,28 @@ static FUNKY_CONSTANT constants_table[] = {
   {FLT_C_FUNCTION, 1, {.func = entry__std___unlink}},
   {FLT_C_FUNCTION, 1, {.func = entry__std___usleep}},
   {FLT_C_FUNCTION, 1, {.func = entry__std_types___octet_string___std___length_of}},
-  {FLT_C_FUNCTION, 1, {.func = entry__quad_octet_string___std___length_of}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std_types___wide_string___std___length_of}},
   {FLT_C_FUNCTION, 1, {.func = entry__std_types___octet_string___std___is_empty}},
   {FLT_C_FUNCTION, 1, {.func = entry__std_types___octet_string___std___is_not_empty}},
-  {FLT_C_FUNCTION, 1, {.func = entry__quad_octet_string___std___is_empty}},
-  {FLT_C_FUNCTION, 1, {.func = entry__quad_octet_string___std___is_not_empty}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std_types___wide_string___std___is_empty}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std_types___wide_string___std___is_not_empty}},
   {FLT_C_FUNCTION, 2, {.func = entry__std_types___octet_string___std___push}},
-  {FLT_C_FUNCTION, 2, {.func = entry__quad_octet_string___std___push}},
+  {FLT_C_FUNCTION, 2, {.func = entry__std_types___wide_string___std___push}},
   {FLT_C_FUNCTION, -1, {.func = entry__std_types___octet_string___std___append}},
-  {FLT_C_FUNCTION, -1, {.func = entry__quad_octet_string___std___append}},
+  {FLT_C_FUNCTION, -1, {.func = entry__std_types___wide_string___std___append}},
   {FLT_C_FUNCTION, 3, {.func = entry__std_types___octet_string___std___range}},
-  {FLT_C_FUNCTION, 3, {.func = entry__quad_octet_string___std___range}},
+  {FLT_C_FUNCTION, 3, {.func = entry__std_types___wide_string___std___range}},
   {FLT_C_FUNCTION, 1, {.func = entry__std_types___octet_string___std___hash}},
-  {FLT_C_FUNCTION, 1, {.func = entry__quad_octet_string___std___hash}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std_types___wide_string___std___hash}},
   {FLT_C_FUNCTION, 2, {.func = entry__std_types___octet_string___std___equal}},
-  {FLT_C_FUNCTION, 2, {.func = entry__quad_octet_string___std___equal}},
+  {FLT_C_FUNCTION, 2, {.func = entry__std_types___wide_string___std___equal}},
   {FLT_C_FUNCTION, 2, {.func = entry__std_types___octet_string___std___less}},
-  {FLT_C_FUNCTION, 2, {.func = entry__quad_octet_string___std___less}},
+  {FLT_C_FUNCTION, 2, {.func = entry__std_types___wide_string___std___less}},
   {FLT_C_FUNCTION, 1, {.func = entry__std_types___octet_string___std___width_of}},
-  {FLT_C_FUNCTION, 1, {.func = entry__quad_octet_string___std___width_of}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std_types___wide_string___std___width_of}},
   {FLT_C_FUNCTION, 1, {.func = entry__std_types___octet_string___std___from_utf8}},
   {FLT_C_FUNCTION, 1, {.func = entry__std_types___octet_string___std___to_utf8}},
-  {FLT_C_FUNCTION, 1, {.func = entry__quad_octet_string___std___to_utf8}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std_types___wide_string___std___to_utf8}},
   {FLT_C_FUNCTION, 1, {.func = entry__std_types___file_descriptor___std___get_terminal_attributes}},
   {FLT_C_FUNCTION, 2, {.func = entry__std_types___file_descriptor___std___set_terminal_attributes}},
   {FLT_C_FUNCTION, 1, {.func = entry__std_types___terminal_attributes___std___backspace_character_of}},
@@ -26437,21 +26665,21 @@ static FUNKY_CONSTANT constants_table[] = {
   {FLT_C_FUNCTION, -1, {.func = entry__std_types___terminal_attributes___std___timeout_for_reads}},
   {FLT_C_FUNCTION, -1, {.func = entry__std_types___terminal_attributes___std___input_speed}},
   {FLT_C_FUNCTION, -1, {.func = entry__std_types___terminal_attributes___std___output_speed}},
-  {FLT_C_FUNCTION, -1, {.func = entry__std_types___tuple___std___new}},
-  {FLT_C_FUNCTION, 1, {.func = entry__builtin___tuple2___std___to_list}},
-  {FLT_C_FUNCTION, 3, {.func = entry__builtin___tuple2___std___new}},
-  {FLT_C_FUNCTION, 1, {.func = entry__builtin___tuple3___std___to_list}},
-  {FLT_C_FUNCTION, 4, {.func = entry__builtin___tuple3___std___new}},
-  {FLT_C_FUNCTION, 1, {.func = entry__builtin___tuple4___std___to_list}},
-  {FLT_C_FUNCTION, 5, {.func = entry__builtin___tuple4___std___new}},
-  {FLT_C_FUNCTION, 1, {.func = entry__builtin___tuple5___std___to_list}},
-  {FLT_C_FUNCTION, 6, {.func = entry__builtin___tuple5___std___new}},
-  {FLT_C_FUNCTION, 1, {.func = entry__builtin___tuple6___std___to_list}},
-  {FLT_C_FUNCTION, 7, {.func = entry__builtin___tuple6___std___new}},
-  {FLT_C_FUNCTION, 1, {.func = entry__builtin___tuple7___std___to_list}},
-  {FLT_C_FUNCTION, 8, {.func = entry__builtin___tuple7___std___new}},
-  {FLT_C_FUNCTION, 1, {.func = entry__builtin___tuple8___std___to_list}},
-  {FLT_C_FUNCTION, 9, {.func = entry__builtin___tuple8___std___new}},
+  {FLT_C_FUNCTION, -1, {.func = entry__std_types___tuple___std___typed_tuple}},
+  {FLT_C_FUNCTION, 1, {.func = entry__builtin_types___tuple2___std___to_list}},
+  {FLT_C_FUNCTION, 3, {.func = entry__builtin_types___tuple2___std___typed_tuple}},
+  {FLT_C_FUNCTION, 1, {.func = entry__builtin_types___tuple3___std___to_list}},
+  {FLT_C_FUNCTION, 4, {.func = entry__builtin_types___tuple3___std___typed_tuple}},
+  {FLT_C_FUNCTION, 1, {.func = entry__builtin_types___tuple4___std___to_list}},
+  {FLT_C_FUNCTION, 5, {.func = entry__builtin_types___tuple4___std___typed_tuple}},
+  {FLT_C_FUNCTION, 1, {.func = entry__builtin_types___tuple5___std___to_list}},
+  {FLT_C_FUNCTION, 6, {.func = entry__builtin_types___tuple5___std___typed_tuple}},
+  {FLT_C_FUNCTION, 1, {.func = entry__builtin_types___tuple6___std___to_list}},
+  {FLT_C_FUNCTION, 7, {.func = entry__builtin_types___tuple6___std___typed_tuple}},
+  {FLT_C_FUNCTION, 1, {.func = entry__builtin_types___tuple7___std___to_list}},
+  {FLT_C_FUNCTION, 8, {.func = entry__builtin_types___tuple7___std___typed_tuple}},
+  {FLT_C_FUNCTION, 1, {.func = entry__builtin_types___tuple8___std___to_list}},
+  {FLT_C_FUNCTION, 9, {.func = entry__builtin_types___tuple8___std___typed_tuple}},
   {FLT_C_FUNCTION, -1, {.func = entry__std___tuple}},
   {FLT_C_FUNCTION, -1, {.func = entry__std___tuple_or_error}},
   {FLT_C_FUNCTION, 2, {.func = entry__std___new_tuple}},
@@ -26493,9 +26721,9 @@ static INTERNAL_METHOD std_types___array__internal_methods[] = {
 };
 
 static ATTRIBUTE_DEFINITION std_types___array__attributes[] = {
+  {var_no__std___create_empty_array, func__std_types___array___std___create_empty_array},
   {var_no__std___dimension_count_of, func__std_types___array___std___dimension_count_of},
   {var_no__std___length_of, func__std_types___array___std___length_of},
-  {var_no__std___new, func__std_types___array___std___new},
   {var_no__std___range, func__std_types___array___std___range}
 };
 
@@ -26509,10 +26737,10 @@ static ATTRIBUTE_DEFINITION std_types___boolean_array__attributes[] = {
   {var_no__std___bit_and, func__std_types___boolean_array___std___bit_and},
   {var_no__std___bit_or, func__std_types___boolean_array___std___bit_or},
   {var_no__std___bit_xor, func__std_types___boolean_array___std___bit_xor},
+  {var_no__std___create_empty_array, func__std_types___boolean_array___std___create_empty_array},
   {var_no__std___dimension_count_of, func__std_types___boolean_array___std___dimension_count_of},
   {var_no__std___equal, func__std_types___boolean_array___std___equal},
   {var_no__std___length_of, func__std_types___boolean_array___std___length_of},
-  {var_no__std___new, func__std_types___boolean_array___std___new},
   {var_no__std___range, func__std_types___boolean_array___std___range}
 };
 
@@ -26523,10 +26751,10 @@ static INTERNAL_METHOD std_types___character_array__internal_methods[] = {
 };
 
 static ATTRIBUTE_DEFINITION std_types___character_array__attributes[] = {
+  {var_no__std___create_empty_array, func__std_types___character_array___std___create_empty_array},
   {var_no__std___dimension_count_of, func__std_types___character_array___std___dimension_count_of},
   {var_no__std___equal, func__std_types___character_array___std___equal},
   {var_no__std___length_of, func__std_types___character_array___std___length_of},
-  {var_no__std___new, func__std_types___character_array___std___new},
   {var_no__std___range, func__std_types___character_array___std___range}
 };
 
@@ -26537,10 +26765,10 @@ static INTERNAL_METHOD std_types___int8_array__internal_methods[] = {
 };
 
 static ATTRIBUTE_DEFINITION std_types___int8_array__attributes[] = {
+  {var_no__std___create_empty_array, func__std_types___int8_array___std___create_empty_array},
   {var_no__std___dimension_count_of, func__std_types___int8_array___std___dimension_count_of},
   {var_no__std___equal, func__std_types___int8_array___std___equal},
   {var_no__std___length_of, func__std_types___int8_array___std___length_of},
-  {var_no__std___new, func__std_types___int8_array___std___new},
   {var_no__std___range, func__std_types___int8_array___std___range},
   {var_no__std___times, func__std_types___int8_array___std___times}
 };
@@ -26555,10 +26783,10 @@ static ATTRIBUTE_DEFINITION std_types___uint8_array__attributes[] = {
   {var_no__std___bit_and, func__std_types___uint8_array___std___bit_and},
   {var_no__std___bit_or, func__std_types___uint8_array___std___bit_or},
   {var_no__std___bit_xor, func__std_types___uint8_array___std___bit_xor},
+  {var_no__std___create_empty_array, func__std_types___uint8_array___std___create_empty_array},
   {var_no__std___dimension_count_of, func__std_types___uint8_array___std___dimension_count_of},
   {var_no__std___equal, func__std_types___uint8_array___std___equal},
   {var_no__std___length_of, func__std_types___uint8_array___std___length_of},
-  {var_no__std___new, func__std_types___uint8_array___std___new},
   {var_no__std___range, func__std_types___uint8_array___std___range},
   {var_no__std___times, func__std_types___uint8_array___std___times}
 };
@@ -26570,10 +26798,10 @@ static INTERNAL_METHOD std_types___int16_array__internal_methods[] = {
 };
 
 static ATTRIBUTE_DEFINITION std_types___int16_array__attributes[] = {
+  {var_no__std___create_empty_array, func__std_types___int16_array___std___create_empty_array},
   {var_no__std___dimension_count_of, func__std_types___int16_array___std___dimension_count_of},
   {var_no__std___equal, func__std_types___int16_array___std___equal},
   {var_no__std___length_of, func__std_types___int16_array___std___length_of},
-  {var_no__std___new, func__std_types___int16_array___std___new},
   {var_no__std___range, func__std_types___int16_array___std___range},
   {var_no__std___times, func__std_types___int16_array___std___times}
 };
@@ -26588,10 +26816,10 @@ static ATTRIBUTE_DEFINITION std_types___uint16_array__attributes[] = {
   {var_no__std___bit_and, func__std_types___uint16_array___std___bit_and},
   {var_no__std___bit_or, func__std_types___uint16_array___std___bit_or},
   {var_no__std___bit_xor, func__std_types___uint16_array___std___bit_xor},
+  {var_no__std___create_empty_array, func__std_types___uint16_array___std___create_empty_array},
   {var_no__std___dimension_count_of, func__std_types___uint16_array___std___dimension_count_of},
   {var_no__std___equal, func__std_types___uint16_array___std___equal},
   {var_no__std___length_of, func__std_types___uint16_array___std___length_of},
-  {var_no__std___new, func__std_types___uint16_array___std___new},
   {var_no__std___range, func__std_types___uint16_array___std___range},
   {var_no__std___times, func__std_types___uint16_array___std___times}
 };
@@ -26603,10 +26831,10 @@ static INTERNAL_METHOD std_types___int32_array__internal_methods[] = {
 };
 
 static ATTRIBUTE_DEFINITION std_types___int32_array__attributes[] = {
+  {var_no__std___create_empty_array, func__std_types___int32_array___std___create_empty_array},
   {var_no__std___dimension_count_of, func__std_types___int32_array___std___dimension_count_of},
   {var_no__std___equal, func__std_types___int32_array___std___equal},
   {var_no__std___length_of, func__std_types___int32_array___std___length_of},
-  {var_no__std___new, func__std_types___int32_array___std___new},
   {var_no__std___range, func__std_types___int32_array___std___range},
   {var_no__std___times, func__std_types___int32_array___std___times}
 };
@@ -26621,10 +26849,10 @@ static ATTRIBUTE_DEFINITION std_types___uint32_array__attributes[] = {
   {var_no__std___bit_and, func__std_types___uint32_array___std___bit_and},
   {var_no__std___bit_or, func__std_types___uint32_array___std___bit_or},
   {var_no__std___bit_xor, func__std_types___uint32_array___std___bit_xor},
+  {var_no__std___create_empty_array, func__std_types___uint32_array___std___create_empty_array},
   {var_no__std___dimension_count_of, func__std_types___uint32_array___std___dimension_count_of},
   {var_no__std___equal, func__std_types___uint32_array___std___equal},
   {var_no__std___length_of, func__std_types___uint32_array___std___length_of},
-  {var_no__std___new, func__std_types___uint32_array___std___new},
   {var_no__std___range, func__std_types___uint32_array___std___range},
   {var_no__std___times, func__std_types___uint32_array___std___times}
 };
@@ -26636,10 +26864,10 @@ static INTERNAL_METHOD std_types___int64_array__internal_methods[] = {
 };
 
 static ATTRIBUTE_DEFINITION std_types___int64_array__attributes[] = {
+  {var_no__std___create_empty_array, func__std_types___int64_array___std___create_empty_array},
   {var_no__std___dimension_count_of, func__std_types___int64_array___std___dimension_count_of},
   {var_no__std___equal, func__std_types___int64_array___std___equal},
   {var_no__std___length_of, func__std_types___int64_array___std___length_of},
-  {var_no__std___new, func__std_types___int64_array___std___new},
   {var_no__std___range, func__std_types___int64_array___std___range},
   {var_no__std___times, func__std_types___int64_array___std___times}
 };
@@ -26654,10 +26882,10 @@ static ATTRIBUTE_DEFINITION std_types___uint64_array__attributes[] = {
   {var_no__std___bit_and, func__std_types___uint64_array___std___bit_and},
   {var_no__std___bit_or, func__std_types___uint64_array___std___bit_or},
   {var_no__std___bit_xor, func__std_types___uint64_array___std___bit_xor},
+  {var_no__std___create_empty_array, func__std_types___uint64_array___std___create_empty_array},
   {var_no__std___dimension_count_of, func__std_types___uint64_array___std___dimension_count_of},
   {var_no__std___equal, func__std_types___uint64_array___std___equal},
   {var_no__std___length_of, func__std_types___uint64_array___std___length_of},
-  {var_no__std___new, func__std_types___uint64_array___std___new},
   {var_no__std___range, func__std_types___uint64_array___std___range},
   {var_no__std___times, func__std_types___uint64_array___std___times}
 };
@@ -26669,10 +26897,10 @@ static INTERNAL_METHOD std_types___float32_array__internal_methods[] = {
 };
 
 static ATTRIBUTE_DEFINITION std_types___float32_array__attributes[] = {
+  {var_no__std___create_empty_array, func__std_types___float32_array___std___create_empty_array},
   {var_no__std___dimension_count_of, func__std_types___float32_array___std___dimension_count_of},
   {var_no__std___equal, func__std_types___float32_array___std___equal},
   {var_no__std___length_of, func__std_types___float32_array___std___length_of},
-  {var_no__std___new, func__std_types___float32_array___std___new},
   {var_no__std___range, func__std_types___float32_array___std___range},
   {var_no__std___times, func__std_types___float32_array___std___times}
 };
@@ -26684,10 +26912,10 @@ static INTERNAL_METHOD std_types___float64_array__internal_methods[] = {
 };
 
 static ATTRIBUTE_DEFINITION std_types___float64_array__attributes[] = {
+  {var_no__std___create_empty_array, func__std_types___float64_array___std___create_empty_array},
   {var_no__std___dimension_count_of, func__std_types___float64_array___std___dimension_count_of},
   {var_no__std___equal, func__std_types___float64_array___std___equal},
   {var_no__std___length_of, func__std_types___float64_array___std___length_of},
-  {var_no__std___new, func__std_types___float64_array___std___new},
   {var_no__std___range, func__std_types___float64_array___std___range},
   {var_no__std___times, func__std_types___float64_array___std___times}
 };
@@ -26824,6 +27052,10 @@ static INTERNAL_METHOD std_types___object__internal_methods[] = {
   {FIM_DEBUG_STRING, {std_types___object____debug_string}}
 };
 
+static ATTRIBUTE_DEFINITION std_types___object__attributes[] = {
+  {var_no__std___new, func__std_types___object___std___new}
+};
+
 static INTERNAL_METHOD std_types___undefined__internal_methods[] = {
   {FIM_TO_INT8, {std_types___undefined____to_int8}},
   {FIM_TO_INT16, {std_types___undefined____to_int16}},
@@ -26855,6 +27087,7 @@ static INTERNAL_METHOD std_types___function__internal_methods[] = {
 };
 
 static ATTRIBUTE_DEFINITION std_types___function__attributes[] = {
+  {var_no__std___new, func__std_types___function___std___new},
   {var_no__std___parameter_count_of, func__std_types___function___std___parameter_count_of}
 };
 
@@ -26873,7 +27106,6 @@ static ATTRIBUTE_DEFINITION std_types___list__attributes[] = {
   {var_no__std___is_empty, func__std_types___list___std___is_empty},
   {var_no__std___is_not_empty, func__std_types___list___std___is_not_empty},
   {var_no__std___length_of, func__std_types___list___std___length_of},
-  {var_no__std___new, func__std_types___list___std___new},
   {var_no__std___peek, func__std_types___list___std___peek},
   {var_no__std___pop, func__std_types___list___std___pop},
   {var_no__std___push, func__std_types___list___std___push},
@@ -26886,74 +27118,74 @@ static INTERNAL_METHOD std_types___integer__internal_methods[] = {
   {FIM_COLLECT, {std_types___integer____collect}}
 };
 
-static INTERNAL_METHOD std_types___positive_integer__internal_methods[] = {
-  {FIM_DEBUG_STRING, {std_types___positive_integer____debug_string}},
-  {FIM_TO_DOUBLE, {std_types___positive_integer____to_double}},
-  {FIM_TO_FLOAT, {std_types___positive_integer____to_float}},
-  {FIM_TO_INT, {std_types___positive_integer____to_int}},
-  {FIM_TO_LONG, {std_types___positive_integer____to_long}},
-  {FIM_TO_UINT, {std_types___positive_integer____to_uint}},
-  {FIM_TO_ULONG, {std_types___positive_integer____to_ulong}},
-  {FIM_TO_INT8, {std_types___positive_integer____to_int8}},
-  {FIM_TO_INT16, {std_types___positive_integer____to_int16}},
-  {FIM_TO_INT32, {std_types___positive_integer____to_int32}},
-  {FIM_TO_INT64, {std_types___positive_integer____to_int64}},
-  {FIM_TO_UINT8, {std_types___positive_integer____to_uint8}},
-  {FIM_TO_UINT16, {std_types___positive_integer____to_uint16}},
-  {FIM_TO_UINT32, {std_types___positive_integer____to_uint32}},
-  {FIM_TO_UINT64, {std_types___positive_integer____to_uint64}}
+static INTERNAL_METHOD builtin_types___positive_integer__internal_methods[] = {
+  {FIM_DEBUG_STRING, {builtin_types___positive_integer____debug_string}},
+  {FIM_TO_DOUBLE, {builtin_types___positive_integer____to_double}},
+  {FIM_TO_FLOAT, {builtin_types___positive_integer____to_float}},
+  {FIM_TO_INT, {builtin_types___positive_integer____to_int}},
+  {FIM_TO_LONG, {builtin_types___positive_integer____to_long}},
+  {FIM_TO_UINT, {builtin_types___positive_integer____to_uint}},
+  {FIM_TO_ULONG, {builtin_types___positive_integer____to_ulong}},
+  {FIM_TO_INT8, {builtin_types___positive_integer____to_int8}},
+  {FIM_TO_INT16, {builtin_types___positive_integer____to_int16}},
+  {FIM_TO_INT32, {builtin_types___positive_integer____to_int32}},
+  {FIM_TO_INT64, {builtin_types___positive_integer____to_int64}},
+  {FIM_TO_UINT8, {builtin_types___positive_integer____to_uint8}},
+  {FIM_TO_UINT16, {builtin_types___positive_integer____to_uint16}},
+  {FIM_TO_UINT32, {builtin_types___positive_integer____to_uint32}},
+  {FIM_TO_UINT64, {builtin_types___positive_integer____to_uint64}}
 };
 
-static ATTRIBUTE_DEFINITION std_types___positive_integer__attributes[] = {
-  {var_no__std___bit_and, func__std_types___positive_integer___std___bit_and},
-  {var_no__std___bit_or, func__std_types___positive_integer___std___bit_or},
-  {var_no__std___bit_xor, func__std_types___positive_integer___std___bit_xor},
-  {var_no__std___div, func__std_types___positive_integer___std___div},
-  {var_no__std___equal, func__std_types___positive_integer___std___equal},
-  {var_no__std___exit, func__std_types___positive_integer___std___exit},
-  {var_no__std___exp, func__std_types___positive_integer___std___exp},
-  {var_no__std___hash, func__std_types___positive_integer___std___hash},
-  {var_no__std___less, func__std_types___positive_integer___std___less},
-  {var_no__std___ln, func__std_types___positive_integer___std___ln},
-  {var_no__std___minus, func__std_types___positive_integer___std___minus},
-  {var_no__std___mod, func__std_types___positive_integer___std___mod},
-  {var_no__std___negate, func__std_types___positive_integer___std___negate},
-  {var_no__std___over, func__std_types___positive_integer___std___over},
-  {var_no__std___plus, func__std_types___positive_integer___std___plus},
-  {var_no__std___shift_left, func__std_types___positive_integer___std___shift_left},
-  {var_no__std___shift_right, func__std_types___positive_integer___std___shift_right},
-  {var_no__std___times, func__std_types___positive_integer___std___times},
-  {var_no__std___to_integer, func__std_types___positive_integer___std___to_integer},
-  {var_no__std___to_string, func__std_types___positive_integer___std___to_string}
+static ATTRIBUTE_DEFINITION builtin_types___positive_integer__attributes[] = {
+  {var_no__std___bit_and, func__builtin_types___positive_integer___std___bit_and},
+  {var_no__std___bit_or, func__builtin_types___positive_integer___std___bit_or},
+  {var_no__std___bit_xor, func__builtin_types___positive_integer___std___bit_xor},
+  {var_no__std___div, func__builtin_types___positive_integer___std___div},
+  {var_no__std___equal, func__builtin_types___positive_integer___std___equal},
+  {var_no__std___exit, func__builtin_types___positive_integer___std___exit},
+  {var_no__std___exp, func__builtin_types___positive_integer___std___exp},
+  {var_no__std___hash, func__builtin_types___positive_integer___std___hash},
+  {var_no__std___less, func__builtin_types___positive_integer___std___less},
+  {var_no__std___ln, func__builtin_types___positive_integer___std___ln},
+  {var_no__std___minus, func__builtin_types___positive_integer___std___minus},
+  {var_no__std___mod, func__builtin_types___positive_integer___std___mod},
+  {var_no__std___negate, func__builtin_types___positive_integer___std___negate},
+  {var_no__std___over, func__builtin_types___positive_integer___std___over},
+  {var_no__std___plus, func__builtin_types___positive_integer___std___plus},
+  {var_no__std___shift_left, func__builtin_types___positive_integer___std___shift_left},
+  {var_no__std___shift_right, func__builtin_types___positive_integer___std___shift_right},
+  {var_no__std___times, func__builtin_types___positive_integer___std___times},
+  {var_no__std___to_integer, func__builtin_types___positive_integer___std___to_integer},
+  {var_no__std___to_string, func__builtin_types___positive_integer___std___to_string}
 };
 
-static INTERNAL_METHOD negative_integer__internal_methods[] = {
-  {FIM_DEBUG_STRING, {negative_integer____debug_string}},
-  {FIM_TO_DOUBLE, {negative_integer____to_double}},
-  {FIM_TO_FLOAT, {negative_integer____to_float}},
-  {FIM_TO_INT, {negative_integer____to_int}},
-  {FIM_TO_LONG, {negative_integer____to_long}},
-  {FIM_TO_INT8, {negative_integer____to_int8}},
-  {FIM_TO_INT16, {negative_integer____to_int16}},
-  {FIM_TO_INT32, {negative_integer____to_int32}},
-  {FIM_TO_INT64, {negative_integer____to_int64}}
+static INTERNAL_METHOD builtin_types___negative_integer__internal_methods[] = {
+  {FIM_DEBUG_STRING, {builtin_types___negative_integer____debug_string}},
+  {FIM_TO_DOUBLE, {builtin_types___negative_integer____to_double}},
+  {FIM_TO_FLOAT, {builtin_types___negative_integer____to_float}},
+  {FIM_TO_INT, {builtin_types___negative_integer____to_int}},
+  {FIM_TO_LONG, {builtin_types___negative_integer____to_long}},
+  {FIM_TO_INT8, {builtin_types___negative_integer____to_int8}},
+  {FIM_TO_INT16, {builtin_types___negative_integer____to_int16}},
+  {FIM_TO_INT32, {builtin_types___negative_integer____to_int32}},
+  {FIM_TO_INT64, {builtin_types___negative_integer____to_int64}}
 };
 
-static ATTRIBUTE_DEFINITION negative_integer__attributes[] = {
-  {var_no__std___div, func__negative_integer___std___div},
-  {var_no__std___equal, func__negative_integer___std___equal},
-  {var_no__std___exp, func__negative_integer___std___exp},
-  {var_no__std___hash, func__negative_integer___std___hash},
-  {var_no__std___less, func__negative_integer___std___less},
-  {var_no__std___ln, func__negative_integer___std___ln},
-  {var_no__std___minus, func__negative_integer___std___minus},
-  {var_no__std___mod, func__negative_integer___std___mod},
-  {var_no__std___negate, func__negative_integer___std___negate},
-  {var_no__std___over, func__negative_integer___std___over},
-  {var_no__std___plus, func__negative_integer___std___plus},
-  {var_no__std___times, func__negative_integer___std___times},
-  {var_no__std___to_integer, func__negative_integer___std___to_integer},
-  {var_no__std___to_string, func__negative_integer___std___to_string}
+static ATTRIBUTE_DEFINITION builtin_types___negative_integer__attributes[] = {
+  {var_no__std___div, func__builtin_types___negative_integer___std___div},
+  {var_no__std___equal, func__builtin_types___negative_integer___std___equal},
+  {var_no__std___exp, func__builtin_types___negative_integer___std___exp},
+  {var_no__std___hash, func__builtin_types___negative_integer___std___hash},
+  {var_no__std___less, func__builtin_types___negative_integer___std___less},
+  {var_no__std___ln, func__builtin_types___negative_integer___std___ln},
+  {var_no__std___minus, func__builtin_types___negative_integer___std___minus},
+  {var_no__std___mod, func__builtin_types___negative_integer___std___mod},
+  {var_no__std___negate, func__builtin_types___negative_integer___std___negate},
+  {var_no__std___over, func__builtin_types___negative_integer___std___over},
+  {var_no__std___plus, func__builtin_types___negative_integer___std___plus},
+  {var_no__std___times, func__builtin_types___negative_integer___std___times},
+  {var_no__std___to_integer, func__builtin_types___negative_integer___std___to_integer},
+  {var_no__std___to_string, func__builtin_types___negative_integer___std___to_string}
 };
 
 static INTERNAL_METHOD std_types___real__internal_methods[] = {
@@ -27119,6 +27351,39 @@ static ATTRIBUTE_DEFINITION std_types___error_number__attributes[] = {
   {var_no__std___to_integer, func__std_types___error_number___std___to_integer}
 };
 
+static ATTRIBUTE_DEFINITION std_types___passwd__attributes[] = {
+  {-var_no__std___group_id_of, -var_no__std_types___undefined},
+  {-var_no__std___home_directory_of, -var_no__std_types___undefined},
+  {-var_no__std___password_of, -var_no__std_types___undefined},
+  {-var_no__std___shell_of, -var_no__std_types___undefined},
+  {-var_no__std___user_id_of, -var_no__std_types___undefined},
+  {-var_no__std___user_information_of, -var_no__std_types___undefined},
+  {-var_no__std___username_of, -var_no__std_types___undefined}
+};
+
+static ATTRIBUTE_DEFINITION std_types___stat__attributes[] = {
+  {-var_no__std___access_time_of, -var_no__std_types___undefined},
+  {-var_no__std___block_count_of, -var_no__std_types___undefined},
+  {-var_no__std___block_size_of, -var_no__std_types___undefined},
+  {-var_no__std___device_of, -var_no__std_types___undefined},
+  {-var_no__std___group_id_of, -var_no__std_types___undefined},
+  {-var_no__std___inode_number_of, -var_no__std_types___undefined},
+  {-var_no__std___link_count_of, -var_no__std_types___undefined},
+  {-var_no__std___mode_of, -var_no__std_types___undefined},
+  {-var_no__std___modification_time_of, -var_no__std_types___undefined},
+  {-var_no__std___root_device_of, -var_no__std_types___undefined},
+  {-var_no__std___size_of, -var_no__std_types___undefined},
+  {-var_no__std___status_change_time_of, -var_no__std_types___undefined},
+  {-var_no__std___type_of, -var_no__std_types___undefined},
+  {-var_no__std___user_id_of, -var_no__std_types___undefined}
+};
+
+static ATTRIBUTE_DEFINITION std_types___dirent__attributes[] = {
+  {-var_no__std___inode_number_of, -var_no__std_types___undefined},
+  {-var_no__std___name_of, -var_no__std_types___undefined},
+  {-var_no__std___type_of, -var_no__std_types___undefined}
+};
+
 static INTERNAL_METHOD std_types___octet_string__internal_methods[] = {
   {FIM_SIZE, {.size = sizeof(OCTET_STRING)}},
   {FIM_COLLECT, {std_types___octet_string____collect}},
@@ -27144,26 +27409,26 @@ static ATTRIBUTE_DEFINITION std_types___octet_string__attributes[] = {
   {var_no__std___width_of, func__std_types___octet_string___std___width_of}
 };
 
-static INTERNAL_METHOD quad_octet_string__internal_methods[] = {
-  {FIM_SIZE, {.size = sizeof(QUAD_OCTET_STRING)}},
-  {FIM_COLLECT, {quad_octet_string____collect}},
-  {FIM_DEBUG_STRING, {quad_octet_string____debug_string}},
-  {FIM_GET_ITEM_OF, {quad_octet_string____get_item_of}},
-  {FIM_LENGTH_OF, {quad_octet_string____length_of}}
+static INTERNAL_METHOD std_types___wide_string__internal_methods[] = {
+  {FIM_SIZE, {.size = sizeof(WIDE_STRING)}},
+  {FIM_COLLECT, {std_types___wide_string____collect}},
+  {FIM_DEBUG_STRING, {std_types___wide_string____debug_string}},
+  {FIM_GET_ITEM_OF, {std_types___wide_string____get_item_of}},
+  {FIM_LENGTH_OF, {std_types___wide_string____length_of}}
 };
 
-static ATTRIBUTE_DEFINITION quad_octet_string__attributes[] = {
-  {var_no__std___append, func__quad_octet_string___std___append},
-  {var_no__std___equal, func__quad_octet_string___std___equal},
-  {var_no__std___hash, func__quad_octet_string___std___hash},
-  {var_no__std___is_empty, func__quad_octet_string___std___is_empty},
-  {var_no__std___is_not_empty, func__quad_octet_string___std___is_not_empty},
-  {var_no__std___length_of, func__quad_octet_string___std___length_of},
-  {var_no__std___less, func__quad_octet_string___std___less},
-  {var_no__std___push, func__quad_octet_string___std___push},
-  {var_no__std___range, func__quad_octet_string___std___range},
-  {var_no__std___to_utf8, func__quad_octet_string___std___to_utf8},
-  {var_no__std___width_of, func__quad_octet_string___std___width_of}
+static ATTRIBUTE_DEFINITION std_types___wide_string__attributes[] = {
+  {var_no__std___append, func__std_types___wide_string___std___append},
+  {var_no__std___equal, func__std_types___wide_string___std___equal},
+  {var_no__std___hash, func__std_types___wide_string___std___hash},
+  {var_no__std___is_empty, func__std_types___wide_string___std___is_empty},
+  {var_no__std___is_not_empty, func__std_types___wide_string___std___is_not_empty},
+  {var_no__std___length_of, func__std_types___wide_string___std___length_of},
+  {var_no__std___less, func__std_types___wide_string___std___less},
+  {var_no__std___push, func__std_types___wide_string___std___push},
+  {var_no__std___range, func__std_types___wide_string___std___range},
+  {var_no__std___to_utf8, func__std_types___wide_string___std___to_utf8},
+  {var_no__std___width_of, func__std_types___wide_string___std___width_of}
 };
 
 static INTERNAL_METHOD std_types___terminal_attributes__internal_methods[] = {
@@ -27192,84 +27457,84 @@ static ATTRIBUTE_DEFINITION std_types___terminal_attributes__attributes[] = {
 };
 
 static ATTRIBUTE_DEFINITION std_types___tuple__attributes[] = {
-  {var_no__std___new, func__std_types___tuple___std___new}
+  {var_no__std___typed_tuple, func__std_types___tuple___std___typed_tuple}
 };
 
-static INTERNAL_METHOD builtin___tuple2__internal_methods[] = {
+static INTERNAL_METHOD builtin_types___tuple2__internal_methods[] = {
   {FIM_SIZE, {.size = sizeof(TUPLE2)}},
-  {FIM_COLLECT, {builtin___tuple2____collect}},
-  {FIM_DEBUG_STRING, {builtin___tuple2____debug_string}}
+  {FIM_COLLECT, {builtin_types___tuple2____collect}},
+  {FIM_DEBUG_STRING, {builtin_types___tuple2____debug_string}}
 };
 
-static ATTRIBUTE_DEFINITION builtin___tuple2__attributes[] = {
-  {var_no__std___new, func__builtin___tuple2___std___new},
-  {var_no__std___to_list, func__builtin___tuple2___std___to_list}
+static ATTRIBUTE_DEFINITION builtin_types___tuple2__attributes[] = {
+  {var_no__std___to_list, func__builtin_types___tuple2___std___to_list},
+  {var_no__std___typed_tuple, func__builtin_types___tuple2___std___typed_tuple}
 };
 
-static INTERNAL_METHOD builtin___tuple3__internal_methods[] = {
+static INTERNAL_METHOD builtin_types___tuple3__internal_methods[] = {
   {FIM_SIZE, {.size = sizeof(TUPLE3)}},
-  {FIM_COLLECT, {builtin___tuple3____collect}},
-  {FIM_DEBUG_STRING, {builtin___tuple3____debug_string}}
+  {FIM_COLLECT, {builtin_types___tuple3____collect}},
+  {FIM_DEBUG_STRING, {builtin_types___tuple3____debug_string}}
 };
 
-static ATTRIBUTE_DEFINITION builtin___tuple3__attributes[] = {
-  {var_no__std___new, func__builtin___tuple3___std___new},
-  {var_no__std___to_list, func__builtin___tuple3___std___to_list}
+static ATTRIBUTE_DEFINITION builtin_types___tuple3__attributes[] = {
+  {var_no__std___to_list, func__builtin_types___tuple3___std___to_list},
+  {var_no__std___typed_tuple, func__builtin_types___tuple3___std___typed_tuple}
 };
 
-static INTERNAL_METHOD builtin___tuple4__internal_methods[] = {
+static INTERNAL_METHOD builtin_types___tuple4__internal_methods[] = {
   {FIM_SIZE, {.size = sizeof(TUPLE4)}},
-  {FIM_COLLECT, {builtin___tuple4____collect}},
-  {FIM_DEBUG_STRING, {builtin___tuple4____debug_string}}
+  {FIM_COLLECT, {builtin_types___tuple4____collect}},
+  {FIM_DEBUG_STRING, {builtin_types___tuple4____debug_string}}
 };
 
-static ATTRIBUTE_DEFINITION builtin___tuple4__attributes[] = {
-  {var_no__std___new, func__builtin___tuple4___std___new},
-  {var_no__std___to_list, func__builtin___tuple4___std___to_list}
+static ATTRIBUTE_DEFINITION builtin_types___tuple4__attributes[] = {
+  {var_no__std___to_list, func__builtin_types___tuple4___std___to_list},
+  {var_no__std___typed_tuple, func__builtin_types___tuple4___std___typed_tuple}
 };
 
-static INTERNAL_METHOD builtin___tuple5__internal_methods[] = {
+static INTERNAL_METHOD builtin_types___tuple5__internal_methods[] = {
   {FIM_SIZE, {.size = sizeof(TUPLE5)}},
-  {FIM_COLLECT, {builtin___tuple5____collect}},
-  {FIM_DEBUG_STRING, {builtin___tuple5____debug_string}}
+  {FIM_COLLECT, {builtin_types___tuple5____collect}},
+  {FIM_DEBUG_STRING, {builtin_types___tuple5____debug_string}}
 };
 
-static ATTRIBUTE_DEFINITION builtin___tuple5__attributes[] = {
-  {var_no__std___new, func__builtin___tuple5___std___new},
-  {var_no__std___to_list, func__builtin___tuple5___std___to_list}
+static ATTRIBUTE_DEFINITION builtin_types___tuple5__attributes[] = {
+  {var_no__std___to_list, func__builtin_types___tuple5___std___to_list},
+  {var_no__std___typed_tuple, func__builtin_types___tuple5___std___typed_tuple}
 };
 
-static INTERNAL_METHOD builtin___tuple6__internal_methods[] = {
+static INTERNAL_METHOD builtin_types___tuple6__internal_methods[] = {
   {FIM_SIZE, {.size = sizeof(TUPLE6)}},
-  {FIM_COLLECT, {builtin___tuple6____collect}},
-  {FIM_DEBUG_STRING, {builtin___tuple6____debug_string}}
+  {FIM_COLLECT, {builtin_types___tuple6____collect}},
+  {FIM_DEBUG_STRING, {builtin_types___tuple6____debug_string}}
 };
 
-static ATTRIBUTE_DEFINITION builtin___tuple6__attributes[] = {
-  {var_no__std___new, func__builtin___tuple6___std___new},
-  {var_no__std___to_list, func__builtin___tuple6___std___to_list}
+static ATTRIBUTE_DEFINITION builtin_types___tuple6__attributes[] = {
+  {var_no__std___to_list, func__builtin_types___tuple6___std___to_list},
+  {var_no__std___typed_tuple, func__builtin_types___tuple6___std___typed_tuple}
 };
 
-static INTERNAL_METHOD builtin___tuple7__internal_methods[] = {
+static INTERNAL_METHOD builtin_types___tuple7__internal_methods[] = {
   {FIM_SIZE, {.size = sizeof(TUPLE7)}},
-  {FIM_COLLECT, {builtin___tuple7____collect}},
-  {FIM_DEBUG_STRING, {builtin___tuple7____debug_string}}
+  {FIM_COLLECT, {builtin_types___tuple7____collect}},
+  {FIM_DEBUG_STRING, {builtin_types___tuple7____debug_string}}
 };
 
-static ATTRIBUTE_DEFINITION builtin___tuple7__attributes[] = {
-  {var_no__std___new, func__builtin___tuple7___std___new},
-  {var_no__std___to_list, func__builtin___tuple7___std___to_list}
+static ATTRIBUTE_DEFINITION builtin_types___tuple7__attributes[] = {
+  {var_no__std___to_list, func__builtin_types___tuple7___std___to_list},
+  {var_no__std___typed_tuple, func__builtin_types___tuple7___std___typed_tuple}
 };
 
-static INTERNAL_METHOD builtin___tuple8__internal_methods[] = {
+static INTERNAL_METHOD builtin_types___tuple8__internal_methods[] = {
   {FIM_SIZE, {.size = sizeof(TUPLE8)}},
-  {FIM_COLLECT, {builtin___tuple8____collect}},
-  {FIM_DEBUG_STRING, {builtin___tuple8____debug_string}}
+  {FIM_COLLECT, {builtin_types___tuple8____collect}},
+  {FIM_DEBUG_STRING, {builtin_types___tuple8____debug_string}}
 };
 
-static ATTRIBUTE_DEFINITION builtin___tuple8__attributes[] = {
-  {var_no__std___new, func__builtin___tuple8___std___new},
-  {var_no__std___to_list, func__builtin___tuple8___std___to_list}
+static ATTRIBUTE_DEFINITION builtin_types___tuple8__attributes[] = {
+  {var_no__std___to_list, func__builtin_types___tuple8___std___to_list},
+  {var_no__std___typed_tuple, func__builtin_types___tuple8___std___typed_tuple}
 };
 
 static INTERNAL_METHOD std_types___unique_item__internal_methods[] = {
@@ -27388,7 +27653,7 @@ static FUNKY_VARIABLE variables_table[] = {
   {
     FOT_POLYMORPHIC, 0, 0,
     "parameter_count_of\000std", NULL,
-    {.has_a_setter = true}
+    {.has_a_setter = false}
   },
   {
     FOT_POLYMORPHIC, 0, 0,
@@ -27438,22 +27703,22 @@ static FUNKY_VARIABLE variables_table[] = {
   {
     FOT_POLYMORPHIC, 0, 0,
     "length_of\000std", NULL,
-    {.has_a_setter = true}
+    {.has_a_setter = false}
   },
   {
     FOT_POLYMORPHIC, 0, 0,
     "dimension_count_of\000std", NULL,
-    {.has_a_setter = true}
+    {.has_a_setter = false}
   },
   {
     FOT_POLYMORPHIC, 0, 0,
     "width_of\000std", NULL,
-    {.has_a_setter = true}
+    {.has_a_setter = false}
   },
   {
     FOT_POLYMORPHIC, 0, 0,
     "height_of\000std", NULL,
-    {.has_a_setter = true}
+    {.has_a_setter = false}
   },
   {
     FOT_POLYMORPHIC, 0, 0,
@@ -27547,6 +27812,11 @@ static FUNKY_VARIABLE variables_table[] = {
     {.methods_count = 0}, 0,
     NULL,
     {(NODE *)&std_types___generic_array}
+  },
+  {
+    FOT_POLYMORPHIC, 0, 0,
+    "create_empty_array\000std", NULL,
+    {.has_a_setter = true}
   },
   {
     FOT_TYPE, 0, 4,
@@ -27785,7 +28055,7 @@ static FUNKY_VARIABLE variables_table[] = {
   {
     FOT_OBJECT, 0, 0,
     "EXIT_SUCCESS\000std", NULL,
-    {"positive_integer\000std_types"},
+    {"positive_integer\000builtin_types"},
     {.methods_count = 0}, 0,
     NULL,
     {(NODE *)&std___EXIT_SUCCESS}
@@ -27793,7 +28063,7 @@ static FUNKY_VARIABLE variables_table[] = {
   {
     FOT_OBJECT, 0, 0,
     "EXIT_FAILURE\000std", NULL,
-    {"positive_integer\000std_types"},
+    {"positive_integer\000builtin_types"},
     {.methods_count = 0}, 0,
     NULL,
     {(NODE *)&std___EXIT_FAILURE}
@@ -28026,8 +28296,8 @@ static FUNKY_VARIABLE variables_table[] = {
     {.const_idx = func__std___error}
   },
   {
-    FOT_TYPE, 0, 0,
-    "object\000std_types", NULL,
+    FOT_TYPE, 0, 1,
+    "object\000std_types", std_types___object__attributes,
     {NULL},
     {.methods_count = 23}, 0,
     std_types___object__internal_methods,
@@ -28052,7 +28322,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {.const_idx = func__std___create_process}
   },
   {
-    FOT_TYPE, 0, 1,
+    FOT_TYPE, 0, 2,
     "function\000std_types", std_types___function__attributes,
     {"object\000std_types"},
     {.methods_count = 1}, 0,
@@ -28070,7 +28340,7 @@ static FUNKY_VARIABLE variables_table[] = {
   {
     FOT_OBJECT, 0, 0,
     "key_value_pair\000std_types", NULL,
-    {"tuple2\000builtin"},
+    {"tuple2\000builtin_types"},
     {.methods_count = 0}, 0,
     NULL,
     {(NODE *)&std_types___key_value_pair}
@@ -28084,7 +28354,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {(NODE *)&std_types___generic_list}
   },
   {
-    FOT_TYPE, 0, 11,
+    FOT_TYPE, 0, 10,
     "list\000std_types", std_types___list__attributes,
     {"generic_list\000std_types"},
     {.methods_count = 6}, 0,
@@ -28122,19 +28392,19 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_TYPE, 0, 20,
-    "positive_integer\000std_types", std_types___positive_integer__attributes,
+    "positive_integer\000builtin_types", builtin_types___positive_integer__attributes,
     {"integer\000std_types"},
     {.methods_count = 15}, 0,
-    std_types___positive_integer__internal_methods,
-    {(NODE *)&std_types___positive_integer}
+    builtin_types___positive_integer__internal_methods,
+    {(NODE *)&builtin_types___positive_integer}
   },
   {
     FOT_TYPE, 0, 14,
-    "negative_integer\000", negative_integer__attributes,
+    "negative_integer\000builtin_types", builtin_types___negative_integer__attributes,
     {"integer\000std_types"},
     {.methods_count = 9}, 0,
-    negative_integer__internal_methods,
-    {(NODE *)&negative_integer}
+    builtin_types___negative_integer__internal_methods,
+    {(NODE *)&builtin_types___negative_integer}
   },
   {
     FOT_TYPE, 0, 15,
@@ -28193,6 +28463,16 @@ static FUNKY_VARIABLE variables_table[] = {
     FOT_INITIALIZED, 0, 0,
     "atan\000std", NULL,
     {.const_idx = func__std___atan}
+  },
+  {
+    FOT_INITIALIZED, 0, 0,
+    "object_type\000debug", NULL,
+    {.const_idx = func__debug___object_type}
+  },
+  {
+    FOT_INITIALIZED, 0, 0,
+    "object_attributes\000debug", NULL,
+    {.const_idx = func__debug___object_attributes}
   },
   {
     FOT_TYPE, 0, 0,
@@ -29305,118 +29585,103 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_POLYMORPHIC, 0, 0,
-    "access_time_nanoseconds_of\000std", NULL,
-    {.has_a_setter = true}
-  },
-  {
-    FOT_POLYMORPHIC, 0, 0,
-    "access_time_seconds_of\000std", NULL,
-    {.has_a_setter = true}
+    "access_time_of\000std", NULL,
+    {.has_a_setter = false}
   },
   {
     FOT_POLYMORPHIC, 0, 0,
     "block_count_of\000std", NULL,
-    {.has_a_setter = true}
+    {.has_a_setter = false}
   },
   {
     FOT_POLYMORPHIC, 0, 0,
     "block_size_of\000std", NULL,
-    {.has_a_setter = true}
+    {.has_a_setter = false}
   },
   {
     FOT_POLYMORPHIC, 0, 0,
     "device_of\000std", NULL,
-    {.has_a_setter = true}
+    {.has_a_setter = false}
   },
   {
     FOT_POLYMORPHIC, 0, 0,
     "group_id_of\000std", NULL,
-    {.has_a_setter = true}
+    {.has_a_setter = false}
   },
   {
     FOT_POLYMORPHIC, 0, 0,
     "home_directory_of\000std", NULL,
-    {.has_a_setter = true}
+    {.has_a_setter = false}
   },
   {
     FOT_POLYMORPHIC, 0, 0,
     "inode_number_of\000std", NULL,
-    {.has_a_setter = true}
+    {.has_a_setter = false}
   },
   {
     FOT_POLYMORPHIC, 0, 0,
     "link_count_of\000std", NULL,
-    {.has_a_setter = true}
+    {.has_a_setter = false}
   },
   {
     FOT_POLYMORPHIC, 0, 0,
     "mode_of\000std", NULL,
-    {.has_a_setter = true}
+    {.has_a_setter = false}
   },
   {
     FOT_POLYMORPHIC, 0, 0,
-    "modification_time_nanoseconds_of\000std", NULL,
-    {.has_a_setter = true}
-  },
-  {
-    FOT_POLYMORPHIC, 0, 0,
-    "modification_time_seconds_of\000std", NULL,
-    {.has_a_setter = true}
-  },
-  {
-    FOT_POLYMORPHIC, 0, 0,
-    "password_of\000std", NULL,
-    {.has_a_setter = true}
-  },
-  {
-    FOT_POLYMORPHIC, 0, 0,
-    "root_device_of\000std", NULL,
-    {.has_a_setter = true}
-  },
-  {
-    FOT_POLYMORPHIC, 0, 0,
-    "shell_of\000std", NULL,
-    {.has_a_setter = true}
-  },
-  {
-    FOT_POLYMORPHIC, 0, 0,
-    "size_of\000std", NULL,
-    {.has_a_setter = true}
-  },
-  {
-    FOT_POLYMORPHIC, 0, 0,
-    "status_change_time_nanoseconds_of\000std", NULL,
-    {.has_a_setter = true}
-  },
-  {
-    FOT_POLYMORPHIC, 0, 0,
-    "status_change_time_seconds_of\000std", NULL,
-    {.has_a_setter = true}
-  },
-  {
-    FOT_POLYMORPHIC, 0, 0,
-    "type_of\000std", NULL,
-    {.has_a_setter = true}
-  },
-  {
-    FOT_POLYMORPHIC, 0, 0,
-    "user_id_of\000std", NULL,
-    {.has_a_setter = true}
-  },
-  {
-    FOT_POLYMORPHIC, 0, 0,
-    "user_information_of\000std", NULL,
-    {.has_a_setter = true}
-  },
-  {
-    FOT_POLYMORPHIC, 0, 0,
-    "username_of\000std", NULL,
-    {.has_a_setter = true}
+    "modification_time_of\000std", NULL,
+    {.has_a_setter = false}
   },
   {
     FOT_POLYMORPHIC, 0, 0,
     "name_of\000std", NULL,
-    {.has_a_setter = true}
+    {.has_a_setter = false}
+  },
+  {
+    FOT_POLYMORPHIC, 0, 0,
+    "password_of\000std", NULL,
+    {.has_a_setter = false}
+  },
+  {
+    FOT_POLYMORPHIC, 0, 0,
+    "root_device_of\000std", NULL,
+    {.has_a_setter = false}
+  },
+  {
+    FOT_POLYMORPHIC, 0, 0,
+    "shell_of\000std", NULL,
+    {.has_a_setter = false}
+  },
+  {
+    FOT_POLYMORPHIC, 0, 0,
+    "size_of\000std", NULL,
+    {.has_a_setter = false}
+  },
+  {
+    FOT_POLYMORPHIC, 0, 0,
+    "status_change_time_of\000std", NULL,
+    {.has_a_setter = false}
+  },
+  {
+    FOT_POLYMORPHIC, 0, 0,
+    "type_of\000std", NULL,
+    {.has_a_setter = false}
+  },
+  {
+    FOT_POLYMORPHIC, 0, 0,
+    "user_id_of\000std", NULL,
+    {.has_a_setter = false}
+  },
+  {
+    FOT_POLYMORPHIC, 0, 0,
+    "user_information_of\000std", NULL,
+    {.has_a_setter = false}
+  },
+  {
+    FOT_POLYMORPHIC, 0, 0,
+    "username_of\000std", NULL,
+    {.has_a_setter = false}
   },
   {
     FOT_TYPE, 0, 3,
@@ -29557,24 +29822,24 @@ static FUNKY_VARIABLE variables_table[] = {
     {.const_idx = func__std___error_number}
   },
   {
-    FOT_TYPE, 0, 0,
-    "passwd\000std_types", NULL,
+    FOT_TYPE, 0, 7,
+    "passwd\000std_types", std_types___passwd__attributes,
     {"object\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
     {(NODE *)&std_types___passwd}
   },
   {
-    FOT_TYPE, 0, 0,
-    "stat\000std_types", NULL,
+    FOT_TYPE, 0, 14,
+    "stat\000std_types", std_types___stat__attributes,
     {"object\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
     {(NODE *)&std_types___stat}
   },
   {
-    FOT_TYPE, 0, 0,
-    "dirent\000std_types", NULL,
+    FOT_TYPE, 0, 3,
+    "dirent\000std_types", std_types___dirent__attributes,
     {"object\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
@@ -29806,11 +30071,11 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_TYPE, 0, 11,
-    "quad_octet_string\000", quad_octet_string__attributes,
+    "wide_string\000std_types", std_types___wide_string__attributes,
     {"string\000std_types"},
     {.methods_count = 5}, 0,
-    quad_octet_string__internal_methods,
-    {(NODE *)&quad_octet_string}
+    std_types___wide_string__internal_methods,
+    {(NODE *)&std_types___wide_string}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -29927,60 +30192,65 @@ static FUNKY_VARIABLE variables_table[] = {
     {(NODE *)&std_types___tuple}
   },
   {
-    FOT_TYPE, 0, 2,
-    "tuple2\000builtin", builtin___tuple2__attributes,
-    {"tuple\000std_types"},
-    {.methods_count = 3}, 0,
-    builtin___tuple2__internal_methods,
-    {(NODE *)&builtin___tuple2}
+    FOT_POLYMORPHIC, 0, 0,
+    "typed_tuple\000std", NULL,
+    {.has_a_setter = false}
   },
   {
     FOT_TYPE, 0, 2,
-    "tuple3\000builtin", builtin___tuple3__attributes,
+    "tuple2\000builtin_types", builtin_types___tuple2__attributes,
     {"tuple\000std_types"},
     {.methods_count = 3}, 0,
-    builtin___tuple3__internal_methods,
-    {(NODE *)&builtin___tuple3}
+    builtin_types___tuple2__internal_methods,
+    {(NODE *)&builtin_types___tuple2}
   },
   {
     FOT_TYPE, 0, 2,
-    "tuple4\000builtin", builtin___tuple4__attributes,
+    "tuple3\000builtin_types", builtin_types___tuple3__attributes,
     {"tuple\000std_types"},
     {.methods_count = 3}, 0,
-    builtin___tuple4__internal_methods,
-    {(NODE *)&builtin___tuple4}
+    builtin_types___tuple3__internal_methods,
+    {(NODE *)&builtin_types___tuple3}
   },
   {
     FOT_TYPE, 0, 2,
-    "tuple5\000builtin", builtin___tuple5__attributes,
+    "tuple4\000builtin_types", builtin_types___tuple4__attributes,
     {"tuple\000std_types"},
     {.methods_count = 3}, 0,
-    builtin___tuple5__internal_methods,
-    {(NODE *)&builtin___tuple5}
+    builtin_types___tuple4__internal_methods,
+    {(NODE *)&builtin_types___tuple4}
   },
   {
     FOT_TYPE, 0, 2,
-    "tuple6\000builtin", builtin___tuple6__attributes,
+    "tuple5\000builtin_types", builtin_types___tuple5__attributes,
     {"tuple\000std_types"},
     {.methods_count = 3}, 0,
-    builtin___tuple6__internal_methods,
-    {(NODE *)&builtin___tuple6}
+    builtin_types___tuple5__internal_methods,
+    {(NODE *)&builtin_types___tuple5}
   },
   {
     FOT_TYPE, 0, 2,
-    "tuple7\000builtin", builtin___tuple7__attributes,
+    "tuple6\000builtin_types", builtin_types___tuple6__attributes,
     {"tuple\000std_types"},
     {.methods_count = 3}, 0,
-    builtin___tuple7__internal_methods,
-    {(NODE *)&builtin___tuple7}
+    builtin_types___tuple6__internal_methods,
+    {(NODE *)&builtin_types___tuple6}
   },
   {
     FOT_TYPE, 0, 2,
-    "tuple8\000builtin", builtin___tuple8__attributes,
+    "tuple7\000builtin_types", builtin_types___tuple7__attributes,
     {"tuple\000std_types"},
     {.methods_count = 3}, 0,
-    builtin___tuple8__internal_methods,
-    {(NODE *)&builtin___tuple8}
+    builtin_types___tuple7__internal_methods,
+    {(NODE *)&builtin_types___tuple7}
+  },
+  {
+    FOT_TYPE, 0, 2,
+    "tuple8\000builtin_types", builtin_types___tuple8__attributes,
+    {"tuple\000std_types"},
+    {.methods_count = 3}, 0,
+    builtin_types___tuple8__internal_methods,
+    {(NODE *)&builtin_types___tuple8}
   },
   {
     FOT_INITIALIZED, 0, 0,
@@ -30048,7 +30318,7 @@ static FUNKY_VARIABLE variables_table[] = {
   {
     FOT_OBJECT, 0, 0,
     "value_range\000std_types", NULL,
-    {"tuple2\000builtin"},
+    {"tuple2\000builtin_types"},
     {.methods_count = 0}, 0,
     NULL,
     {(NODE *)&std_types___value_range}
@@ -30135,20 +30405,20 @@ FUNKY_MODULE module__builtin = {
   NULL,
   0, 0,
   4, 0,
-  407, 445,
+  410, 446,
   NULL,
   defined_namespaces, NULL,
   constants_table, variables_table
 };
 
-BUILTIN_FUNCTION_NAME builtin_function_names[459] = {
+BUILTIN_FUNCTION_NAME builtin_function_names[462] = {
   {std_types___generic_array____type, "std_types::generic_array/_type"},
   {std_types___array____type, "std_types::array/_type"},
   {entry__std_types___array___std___length_of, "std_types::array/length_of"},
   {entry__std_types___array___std___dimension_count_of, "std_types::array/dimension_count_of"},
   {entry__std___array, "std::array"},
   {entry__std___initialized_array, "std::initialized_array"},
-  {entry__std_types___array___std___new, "std_types::array/new"},
+  {entry__std_types___array___std___create_empty_array, "std_types::array/create_empty_array"},
   {entry__std_types___array___std___range, "std_types::array/range"},
   {std_types___boolean_array____type, "std_types::boolean_array/_type"},
   {entry__std_types___boolean_array___std___length_of, "std_types::boolean_array/length_of"},
@@ -30159,7 +30429,7 @@ BUILTIN_FUNCTION_NAME builtin_function_names[459] = {
   {entry__std_types___boolean_array___std___bit_xor, "std_types::boolean_array/bit_xor"},
   {entry__std___boolean_array, "std::boolean_array"},
   {entry__std___initialized_boolean_array, "std::initialized_boolean_array"},
-  {entry__std_types___boolean_array___std___new, "std_types::boolean_array/new"},
+  {entry__std_types___boolean_array___std___create_empty_array, "std_types::boolean_array/create_empty_array"},
   {entry__std_types___boolean_array___std___range, "std_types::boolean_array/range"},
   {std_types___character_array____type, "std_types::character_array/_type"},
   {entry__std_types___character_array___std___length_of, "std_types::character_array/length_of"},
@@ -30167,7 +30437,7 @@ BUILTIN_FUNCTION_NAME builtin_function_names[459] = {
   {entry__std_types___character_array___std___equal, "std_types::character_array/equal"},
   {entry__std___character_array, "std::character_array"},
   {entry__std___initialized_character_array, "std::initialized_character_array"},
-  {entry__std_types___character_array___std___new, "std_types::character_array/new"},
+  {entry__std_types___character_array___std___create_empty_array, "std_types::character_array/create_empty_array"},
   {entry__std_types___character_array___std___range, "std_types::character_array/range"},
   {std_types___int8_array____type, "std_types::int8_array/_type"},
   {entry__std_types___int8_array___std___length_of, "std_types::int8_array/length_of"},
@@ -30176,7 +30446,7 @@ BUILTIN_FUNCTION_NAME builtin_function_names[459] = {
   {entry__std_types___int8_array___std___times, "std_types::int8_array/times"},
   {entry__std___int8_array, "std::int8_array"},
   {entry__std___initialized_int8_array, "std::initialized_int8_array"},
-  {entry__std_types___int8_array___std___new, "std_types::int8_array/new"},
+  {entry__std_types___int8_array___std___create_empty_array, "std_types::int8_array/create_empty_array"},
   {entry__std_types___int8_array___std___range, "std_types::int8_array/range"},
   {std_types___uint8_array____type, "std_types::uint8_array/_type"},
   {entry__std_types___uint8_array___std___length_of, "std_types::uint8_array/length_of"},
@@ -30188,7 +30458,7 @@ BUILTIN_FUNCTION_NAME builtin_function_names[459] = {
   {entry__std_types___uint8_array___std___times, "std_types::uint8_array/times"},
   {entry__std___uint8_array, "std::uint8_array"},
   {entry__std___initialized_uint8_array, "std::initialized_uint8_array"},
-  {entry__std_types___uint8_array___std___new, "std_types::uint8_array/new"},
+  {entry__std_types___uint8_array___std___create_empty_array, "std_types::uint8_array/create_empty_array"},
   {entry__std_types___uint8_array___std___range, "std_types::uint8_array/range"},
   {std_types___int16_array____type, "std_types::int16_array/_type"},
   {entry__std_types___int16_array___std___length_of, "std_types::int16_array/length_of"},
@@ -30197,7 +30467,7 @@ BUILTIN_FUNCTION_NAME builtin_function_names[459] = {
   {entry__std_types___int16_array___std___times, "std_types::int16_array/times"},
   {entry__std___int16_array, "std::int16_array"},
   {entry__std___initialized_int16_array, "std::initialized_int16_array"},
-  {entry__std_types___int16_array___std___new, "std_types::int16_array/new"},
+  {entry__std_types___int16_array___std___create_empty_array, "std_types::int16_array/create_empty_array"},
   {entry__std_types___int16_array___std___range, "std_types::int16_array/range"},
   {std_types___uint16_array____type, "std_types::uint16_array/_type"},
   {entry__std_types___uint16_array___std___length_of, "std_types::uint16_array/length_of"},
@@ -30209,7 +30479,7 @@ BUILTIN_FUNCTION_NAME builtin_function_names[459] = {
   {entry__std_types___uint16_array___std___times, "std_types::uint16_array/times"},
   {entry__std___uint16_array, "std::uint16_array"},
   {entry__std___initialized_uint16_array, "std::initialized_uint16_array"},
-  {entry__std_types___uint16_array___std___new, "std_types::uint16_array/new"},
+  {entry__std_types___uint16_array___std___create_empty_array, "std_types::uint16_array/create_empty_array"},
   {entry__std_types___uint16_array___std___range, "std_types::uint16_array/range"},
   {std_types___int32_array____type, "std_types::int32_array/_type"},
   {entry__std_types___int32_array___std___length_of, "std_types::int32_array/length_of"},
@@ -30218,7 +30488,7 @@ BUILTIN_FUNCTION_NAME builtin_function_names[459] = {
   {entry__std_types___int32_array___std___times, "std_types::int32_array/times"},
   {entry__std___int32_array, "std::int32_array"},
   {entry__std___initialized_int32_array, "std::initialized_int32_array"},
-  {entry__std_types___int32_array___std___new, "std_types::int32_array/new"},
+  {entry__std_types___int32_array___std___create_empty_array, "std_types::int32_array/create_empty_array"},
   {entry__std_types___int32_array___std___range, "std_types::int32_array/range"},
   {std_types___uint32_array____type, "std_types::uint32_array/_type"},
   {entry__std_types___uint32_array___std___length_of, "std_types::uint32_array/length_of"},
@@ -30230,7 +30500,7 @@ BUILTIN_FUNCTION_NAME builtin_function_names[459] = {
   {entry__std_types___uint32_array___std___times, "std_types::uint32_array/times"},
   {entry__std___uint32_array, "std::uint32_array"},
   {entry__std___initialized_uint32_array, "std::initialized_uint32_array"},
-  {entry__std_types___uint32_array___std___new, "std_types::uint32_array/new"},
+  {entry__std_types___uint32_array___std___create_empty_array, "std_types::uint32_array/create_empty_array"},
   {entry__std_types___uint32_array___std___range, "std_types::uint32_array/range"},
   {std_types___int64_array____type, "std_types::int64_array/_type"},
   {entry__std_types___int64_array___std___length_of, "std_types::int64_array/length_of"},
@@ -30239,7 +30509,7 @@ BUILTIN_FUNCTION_NAME builtin_function_names[459] = {
   {entry__std_types___int64_array___std___times, "std_types::int64_array/times"},
   {entry__std___int64_array, "std::int64_array"},
   {entry__std___initialized_int64_array, "std::initialized_int64_array"},
-  {entry__std_types___int64_array___std___new, "std_types::int64_array/new"},
+  {entry__std_types___int64_array___std___create_empty_array, "std_types::int64_array/create_empty_array"},
   {entry__std_types___int64_array___std___range, "std_types::int64_array/range"},
   {std_types___uint64_array____type, "std_types::uint64_array/_type"},
   {entry__std_types___uint64_array___std___length_of, "std_types::uint64_array/length_of"},
@@ -30251,7 +30521,7 @@ BUILTIN_FUNCTION_NAME builtin_function_names[459] = {
   {entry__std_types___uint64_array___std___times, "std_types::uint64_array/times"},
   {entry__std___uint64_array, "std::uint64_array"},
   {entry__std___initialized_uint64_array, "std::initialized_uint64_array"},
-  {entry__std_types___uint64_array___std___new, "std_types::uint64_array/new"},
+  {entry__std_types___uint64_array___std___create_empty_array, "std_types::uint64_array/create_empty_array"},
   {entry__std_types___uint64_array___std___range, "std_types::uint64_array/range"},
   {std_types___float32_array____type, "std_types::float32_array/_type"},
   {entry__std_types___float32_array___std___length_of, "std_types::float32_array/length_of"},
@@ -30260,7 +30530,7 @@ BUILTIN_FUNCTION_NAME builtin_function_names[459] = {
   {entry__std_types___float32_array___std___times, "std_types::float32_array/times"},
   {entry__std___float32_array, "std::float32_array"},
   {entry__std___initialized_float32_array, "std::initialized_float32_array"},
-  {entry__std_types___float32_array___std___new, "std_types::float32_array/new"},
+  {entry__std_types___float32_array___std___create_empty_array, "std_types::float32_array/create_empty_array"},
   {entry__std_types___float32_array___std___range, "std_types::float32_array/range"},
   {std_types___float64_array____type, "std_types::float64_array/_type"},
   {entry__std_types___float64_array___std___length_of, "std_types::float64_array/length_of"},
@@ -30269,7 +30539,7 @@ BUILTIN_FUNCTION_NAME builtin_function_names[459] = {
   {entry__std_types___float64_array___std___times, "std_types::float64_array/times"},
   {entry__std___float64_array, "std::float64_array"},
   {entry__std___initialized_float64_array, "std::initialized_float64_array"},
-  {entry__std_types___float64_array___std___new, "std_types::float64_array/new"},
+  {entry__std_types___float64_array___std___create_empty_array, "std_types::float64_array/create_empty_array"},
   {entry__std_types___float64_array___std___range, "std_types::float64_array/range"},
   {entry__std___pass, "std::pass"},
   {entry__std___result_count, "std::result_count"},
@@ -30325,9 +30595,9 @@ BUILTIN_FUNCTION_NAME builtin_function_names[459] = {
   {std_types___function____type, "std_types::function/_type"},
   {tabular_function____type, "tabular_function/_type"},
   {entry__std_types___function___std___parameter_count_of, "std_types::function/parameter_count_of"},
+  {entry__std_types___function___std___new, "std_types::function/new"},
   {std_types___generic_list____type, "std_types::generic_list/_type"},
   {std_types___list____type, "std_types::list/_type"},
-  {entry__std_types___list___std___new, "std_types::list/new"},
   {entry__std___list, "std::list"},
   {entry__std_types___list___std___length_of, "std_types::list/length_of"},
   {entry__std_types___list___std___is_empty, "std_types::list/is_empty"},
@@ -30341,62 +30611,62 @@ BUILTIN_FUNCTION_NAME builtin_function_names[459] = {
   {entry__std_types___list___std___spread, "std_types::list/spread"},
   {std_types___number____type, "std_types::number/_type"},
   {std_types___integer____type, "std_types::integer/_type"},
-  {std_types___positive_integer____type, "std_types::positive_integer/_type"},
-  {negative_integer____type, "negative_integer/_type"},
+  {builtin_types___positive_integer____type, "builtin_types::positive_integer/_type"},
+  {builtin_types___negative_integer____type, "builtin_types::negative_integer/_type"},
   {std_types___real____type, "std_types::real/_type"},
-  {entry__std_types___positive_integer___std___negate, "std_types::positive_integer/negate"},
-  {entry__negative_integer___std___negate, "negative_integer/negate"},
+  {entry__builtin_types___positive_integer___std___negate, "builtin_types::positive_integer/negate"},
+  {entry__builtin_types___negative_integer___std___negate, "builtin_types::negative_integer/negate"},
   {entry__std_types___real___std___negate, "std_types::real/negate"},
-  {entry__std_types___positive_integer___std___times, "std_types::positive_integer/times"},
-  {entry__negative_integer___std___times, "negative_integer/times"},
-  {entry__std_types___positive_integer___std___to_integer, "std_types::positive_integer/to_integer"},
-  {entry__negative_integer___std___to_integer, "negative_integer/to_integer"},
+  {entry__builtin_types___positive_integer___std___times, "builtin_types::positive_integer/times"},
+  {entry__builtin_types___negative_integer___std___times, "builtin_types::negative_integer/times"},
+  {entry__builtin_types___positive_integer___std___to_integer, "builtin_types::positive_integer/to_integer"},
+  {entry__builtin_types___negative_integer___std___to_integer, "builtin_types::negative_integer/to_integer"},
   {entry__std_types___real___std___to_integer, "std_types::real/to_integer"},
   {entry__std_types___real___std___floor, "std_types::real/floor"},
   {entry__std_types___real___std___ceil, "std_types::real/ceil"},
   {entry__std_types___real___std___round, "std_types::real/round"},
-  {entry__negative_integer___std___to_string, "negative_integer/to_string"},
-  {entry__std_types___positive_integer___std___to_string, "std_types::positive_integer/to_string"},
+  {entry__builtin_types___negative_integer___std___to_string, "builtin_types::negative_integer/to_string"},
+  {entry__builtin_types___positive_integer___std___to_string, "builtin_types::positive_integer/to_string"},
   {entry__std_types___real___std___to_string, "std_types::real/to_string"},
-  {entry__std_types___positive_integer___std___over, "std_types::positive_integer/over"},
-  {entry__negative_integer___std___over, "negative_integer/over"},
-  {entry__std_types___positive_integer___std___div, "std_types::positive_integer/div"},
-  {entry__negative_integer___std___div, "negative_integer/div"},
-  {entry__std_types___positive_integer___std___mod, "std_types::positive_integer/mod"},
-  {entry__negative_integer___std___mod, "negative_integer/mod"},
-  {entry__std_types___positive_integer___std___hash, "std_types::positive_integer/hash"},
-  {entry__negative_integer___std___hash, "negative_integer/hash"},
+  {entry__builtin_types___positive_integer___std___over, "builtin_types::positive_integer/over"},
+  {entry__builtin_types___negative_integer___std___over, "builtin_types::negative_integer/over"},
+  {entry__builtin_types___positive_integer___std___div, "builtin_types::positive_integer/div"},
+  {entry__builtin_types___negative_integer___std___div, "builtin_types::negative_integer/div"},
+  {entry__builtin_types___positive_integer___std___mod, "builtin_types::positive_integer/mod"},
+  {entry__builtin_types___negative_integer___std___mod, "builtin_types::negative_integer/mod"},
+  {entry__builtin_types___positive_integer___std___hash, "builtin_types::positive_integer/hash"},
+  {entry__builtin_types___negative_integer___std___hash, "builtin_types::negative_integer/hash"},
   {entry__std_types___real___std___hash, "std_types::real/hash"},
-  {entry__std_types___positive_integer___std___ln, "std_types::positive_integer/ln"},
-  {entry__negative_integer___std___ln, "negative_integer/ln"},
+  {entry__builtin_types___positive_integer___std___ln, "builtin_types::positive_integer/ln"},
+  {entry__builtin_types___negative_integer___std___ln, "builtin_types::negative_integer/ln"},
   {entry__std_types___real___std___ln, "std_types::real/ln"},
-  {entry__std_types___positive_integer___std___exp, "std_types::positive_integer/exp"},
-  {entry__negative_integer___std___exp, "negative_integer/exp"},
+  {entry__builtin_types___positive_integer___std___exp, "builtin_types::positive_integer/exp"},
+  {entry__builtin_types___negative_integer___std___exp, "builtin_types::negative_integer/exp"},
   {entry__std_types___real___std___exp, "std_types::real/exp"},
   {entry__std___real, "std::real"},
   {entry__std___integer, "std::integer"},
   {entry__std___sqrt, "std::sqrt"},
   {entry__std___pow, "std::pow"},
-  {entry__std_types___positive_integer___std___exit, "std_types::positive_integer/exit"},
-  {entry__std_types___positive_integer___std___plus, "std_types::positive_integer/plus"},
-  {entry__negative_integer___std___plus, "negative_integer/plus"},
+  {entry__builtin_types___positive_integer___std___exit, "builtin_types::positive_integer/exit"},
+  {entry__builtin_types___positive_integer___std___plus, "builtin_types::positive_integer/plus"},
+  {entry__builtin_types___negative_integer___std___plus, "builtin_types::negative_integer/plus"},
   {entry__std_types___real___std___plus, "std_types::real/plus"},
-  {entry__std_types___positive_integer___std___minus, "std_types::positive_integer/minus"},
-  {entry__negative_integer___std___minus, "negative_integer/minus"},
+  {entry__builtin_types___positive_integer___std___minus, "builtin_types::positive_integer/minus"},
+  {entry__builtin_types___negative_integer___std___minus, "builtin_types::negative_integer/minus"},
   {entry__std_types___real___std___minus, "std_types::real/minus"},
   {entry__std_types___real___std___times, "std_types::real/times"},
   {entry__std_types___real___std___over, "std_types::real/over"},
-  {entry__std_types___positive_integer___std___equal, "std_types::positive_integer/equal"},
-  {entry__negative_integer___std___equal, "negative_integer/equal"},
+  {entry__builtin_types___positive_integer___std___equal, "builtin_types::positive_integer/equal"},
+  {entry__builtin_types___negative_integer___std___equal, "builtin_types::negative_integer/equal"},
   {entry__std_types___real___std___equal, "std_types::real/equal"},
-  {entry__std_types___positive_integer___std___less, "std_types::positive_integer/less"},
-  {entry__negative_integer___std___less, "negative_integer/less"},
+  {entry__builtin_types___positive_integer___std___less, "builtin_types::positive_integer/less"},
+  {entry__builtin_types___negative_integer___std___less, "builtin_types::negative_integer/less"},
   {entry__std_types___real___std___less, "std_types::real/less"},
-  {entry__std_types___positive_integer___std___shift_left, "std_types::positive_integer/shift_left"},
-  {entry__std_types___positive_integer___std___shift_right, "std_types::positive_integer/shift_right"},
-  {entry__std_types___positive_integer___std___bit_and, "std_types::positive_integer/bit_and"},
-  {entry__std_types___positive_integer___std___bit_or, "std_types::positive_integer/bit_or"},
-  {entry__std_types___positive_integer___std___bit_xor, "std_types::positive_integer/bit_xor"},
+  {entry__builtin_types___positive_integer___std___shift_left, "builtin_types::positive_integer/shift_left"},
+  {entry__builtin_types___positive_integer___std___shift_right, "builtin_types::positive_integer/shift_right"},
+  {entry__builtin_types___positive_integer___std___bit_and, "builtin_types::positive_integer/bit_and"},
+  {entry__builtin_types___positive_integer___std___bit_or, "builtin_types::positive_integer/bit_or"},
+  {entry__builtin_types___positive_integer___std___bit_xor, "builtin_types::positive_integer/bit_xor"},
   {entry__std___sin, "std::sin"},
   {entry__std___cos, "std::cos"},
   {entry__std___tan, "std::tan"},
@@ -30404,6 +30674,9 @@ BUILTIN_FUNCTION_NAME builtin_function_names[459] = {
   {entry__std___acos, "std::acos"},
   {entry__std___atan, "std::atan"},
   {std_types___object____type, "std_types::object/_type"},
+  {entry__debug___object_type, "debug::object_type"},
+  {entry__debug___object_attributes, "debug::object_attributes"},
+  {entry__std_types___object___std___new, "std_types::object/new"},
   {std_types___polymorphic_function____type, "std_types::polymorphic_function/_type"},
   {std_types___polymorphic_function_with_setter____type, "std_types::polymorphic_function_with_setter/_type"},
   {std_types___file_type____type, "std_types::file_type/_type"},
@@ -30506,30 +30779,30 @@ BUILTIN_FUNCTION_NAME builtin_function_names[459] = {
   {entry__std___usleep, "std::usleep"},
   {std_types___string____type, "std_types::string/_type"},
   {std_types___octet_string____type, "std_types::octet_string/_type"},
-  {quad_octet_string____type, "quad_octet_string/_type"},
+  {std_types___wide_string____type, "std_types::wide_string/_type"},
   {entry__std_types___octet_string___std___length_of, "std_types::octet_string/length_of"},
-  {entry__quad_octet_string___std___length_of, "quad_octet_string/length_of"},
+  {entry__std_types___wide_string___std___length_of, "std_types::wide_string/length_of"},
   {entry__std_types___octet_string___std___is_empty, "std_types::octet_string/is_empty"},
   {entry__std_types___octet_string___std___is_not_empty, "std_types::octet_string/is_not_empty"},
-  {entry__quad_octet_string___std___is_empty, "quad_octet_string/is_empty"},
-  {entry__quad_octet_string___std___is_not_empty, "quad_octet_string/is_not_empty"},
+  {entry__std_types___wide_string___std___is_empty, "std_types::wide_string/is_empty"},
+  {entry__std_types___wide_string___std___is_not_empty, "std_types::wide_string/is_not_empty"},
   {entry__std_types___octet_string___std___push, "std_types::octet_string/push"},
-  {entry__quad_octet_string___std___push, "quad_octet_string/push"},
+  {entry__std_types___wide_string___std___push, "std_types::wide_string/push"},
   {entry__std_types___octet_string___std___append, "std_types::octet_string/append"},
-  {entry__quad_octet_string___std___append, "quad_octet_string/append"},
+  {entry__std_types___wide_string___std___append, "std_types::wide_string/append"},
   {entry__std_types___octet_string___std___range, "std_types::octet_string/range"},
-  {entry__quad_octet_string___std___range, "quad_octet_string/range"},
+  {entry__std_types___wide_string___std___range, "std_types::wide_string/range"},
   {entry__std_types___octet_string___std___hash, "std_types::octet_string/hash"},
-  {entry__quad_octet_string___std___hash, "quad_octet_string/hash"},
+  {entry__std_types___wide_string___std___hash, "std_types::wide_string/hash"},
   {entry__std_types___octet_string___std___equal, "std_types::octet_string/equal"},
-  {entry__quad_octet_string___std___equal, "quad_octet_string/equal"},
+  {entry__std_types___wide_string___std___equal, "std_types::wide_string/equal"},
   {entry__std_types___octet_string___std___less, "std_types::octet_string/less"},
-  {entry__quad_octet_string___std___less, "quad_octet_string/less"},
+  {entry__std_types___wide_string___std___less, "std_types::wide_string/less"},
   {entry__std_types___octet_string___std___width_of, "std_types::octet_string/width_of"},
-  {entry__quad_octet_string___std___width_of, "quad_octet_string/width_of"},
+  {entry__std_types___wide_string___std___width_of, "std_types::wide_string/width_of"},
   {entry__std_types___octet_string___std___from_utf8, "std_types::octet_string/from_utf8"},
   {entry__std_types___octet_string___std___to_utf8, "std_types::octet_string/to_utf8"},
-  {entry__quad_octet_string___std___to_utf8, "quad_octet_string/to_utf8"},
+  {entry__std_types___wide_string___std___to_utf8, "std_types::wide_string/to_utf8"},
   {std_types___terminal_attributes____type, "std_types::terminal_attributes/_type"},
   {entry__std_types___file_descriptor___std___get_terminal_attributes, "std_types::file_descriptor/get_terminal_attributes"},
   {entry__std_types___file_descriptor___std___set_terminal_attributes, "std_types::file_descriptor/set_terminal_attributes"},
@@ -30550,28 +30823,28 @@ BUILTIN_FUNCTION_NAME builtin_function_names[459] = {
   {entry__std_types___terminal_attributes___std___input_speed, "std_types::terminal_attributes/input_speed"},
   {entry__std_types___terminal_attributes___std___output_speed, "std_types::terminal_attributes/output_speed"},
   {std_types___tuple____type, "std_types::tuple/_type"},
-  {entry__std_types___tuple___std___new, "std_types::tuple/new"},
-  {builtin___tuple2____type, "builtin::tuple2/_type"},
-  {entry__builtin___tuple2___std___to_list, "builtin::tuple2/to_list"},
-  {entry__builtin___tuple2___std___new, "builtin::tuple2/new"},
-  {builtin___tuple3____type, "builtin::tuple3/_type"},
-  {entry__builtin___tuple3___std___to_list, "builtin::tuple3/to_list"},
-  {entry__builtin___tuple3___std___new, "builtin::tuple3/new"},
-  {builtin___tuple4____type, "builtin::tuple4/_type"},
-  {entry__builtin___tuple4___std___to_list, "builtin::tuple4/to_list"},
-  {entry__builtin___tuple4___std___new, "builtin::tuple4/new"},
-  {builtin___tuple5____type, "builtin::tuple5/_type"},
-  {entry__builtin___tuple5___std___to_list, "builtin::tuple5/to_list"},
-  {entry__builtin___tuple5___std___new, "builtin::tuple5/new"},
-  {builtin___tuple6____type, "builtin::tuple6/_type"},
-  {entry__builtin___tuple6___std___to_list, "builtin::tuple6/to_list"},
-  {entry__builtin___tuple6___std___new, "builtin::tuple6/new"},
-  {builtin___tuple7____type, "builtin::tuple7/_type"},
-  {entry__builtin___tuple7___std___to_list, "builtin::tuple7/to_list"},
-  {entry__builtin___tuple7___std___new, "builtin::tuple7/new"},
-  {builtin___tuple8____type, "builtin::tuple8/_type"},
-  {entry__builtin___tuple8___std___to_list, "builtin::tuple8/to_list"},
-  {entry__builtin___tuple8___std___new, "builtin::tuple8/new"},
+  {entry__std_types___tuple___std___typed_tuple, "std_types::tuple/typed_tuple"},
+  {builtin_types___tuple2____type, "builtin_types::tuple2/_type"},
+  {entry__builtin_types___tuple2___std___to_list, "builtin_types::tuple2/to_list"},
+  {entry__builtin_types___tuple2___std___typed_tuple, "builtin_types::tuple2/typed_tuple"},
+  {builtin_types___tuple3____type, "builtin_types::tuple3/_type"},
+  {entry__builtin_types___tuple3___std___to_list, "builtin_types::tuple3/to_list"},
+  {entry__builtin_types___tuple3___std___typed_tuple, "builtin_types::tuple3/typed_tuple"},
+  {builtin_types___tuple4____type, "builtin_types::tuple4/_type"},
+  {entry__builtin_types___tuple4___std___to_list, "builtin_types::tuple4/to_list"},
+  {entry__builtin_types___tuple4___std___typed_tuple, "builtin_types::tuple4/typed_tuple"},
+  {builtin_types___tuple5____type, "builtin_types::tuple5/_type"},
+  {entry__builtin_types___tuple5___std___to_list, "builtin_types::tuple5/to_list"},
+  {entry__builtin_types___tuple5___std___typed_tuple, "builtin_types::tuple5/typed_tuple"},
+  {builtin_types___tuple6____type, "builtin_types::tuple6/_type"},
+  {entry__builtin_types___tuple6___std___to_list, "builtin_types::tuple6/to_list"},
+  {entry__builtin_types___tuple6___std___typed_tuple, "builtin_types::tuple6/typed_tuple"},
+  {builtin_types___tuple7____type, "builtin_types::tuple7/_type"},
+  {entry__builtin_types___tuple7___std___to_list, "builtin_types::tuple7/to_list"},
+  {entry__builtin_types___tuple7___std___typed_tuple, "builtin_types::tuple7/typed_tuple"},
+  {builtin_types___tuple8____type, "builtin_types::tuple8/_type"},
+  {entry__builtin_types___tuple8___std___to_list, "builtin_types::tuple8/to_list"},
+  {entry__builtin_types___tuple8___std___typed_tuple, "builtin_types::tuple8/typed_tuple"},
   {entry__std___tuple, "std::tuple"},
   {entry__std___tuple_or_error, "std::tuple_or_error"},
   {entry__std___new_tuple, "std::new_tuple"},
@@ -30591,7 +30864,7 @@ BUILTIN_FUNCTION_NAME builtin_function_names[459] = {
   {entry__std_types___unique_item___std___equal, "std_types::unique_item/equal"},
   {entry__std_types___unique_item___std___hash, "std_types::unique_item/hash"},
   {entry__std___unique_item, "std::unique_item"},
-  {entry__std_types___file_descriptor___std___get_terminal_size, "std_types::file_descriptor/std::get_terminal_size"},
+  {entry__std_types___file_descriptor___std___get_terminal_size, "std_types::file_descriptor/get_terminal_size"},
   {entry__std___exitstatus, "std::exitstatus"},
   {entry__std___pselect, "std::pselect"},
   {entry__std___do_not_close, "std::do_not_close"},
@@ -30605,6 +30878,7 @@ BUILTIN_FUNCTION_NAME builtin_function_names[459] = {
 
 const char *internal_method_names[] = {
   "size",
+  "type_no",
   "collect",
   "to_int8",
   "to_int16",

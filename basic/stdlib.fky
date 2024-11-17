@@ -20,7 +20,10 @@
   Free Software Foundation, Inc.,
   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
-<namespace std_private>
+<namespace std-2.0>
+<namespace std_types-2.0>
+<namespace basic_private>
+<namespace basic_types>
 
 <require ./branches>
 <require ./constants>
@@ -35,6 +38,7 @@
 <require ./io/jobs>
 <require ./io/io_task_manager>
 <require ./io/generic_terminal>
+<require ./io/colours>
 <require ./logical>
 <require ./loops>
 <require ./math>
@@ -60,6 +64,7 @@
 <require ./types/collections/lists/list>
 <require ./types/collections/lists/sequence>
 <require ./types/collections/strings/string>
+<require ./types/collections/strings/string_2>
 <require ./types/collections/arrays/array>
 <require ./types/collections/sets/set>
 <require ./types/collections/sets/hash_set>
@@ -70,6 +75,7 @@
 <require ./types/collections/tables/hash_table>
 <require ./types/collections/tables/insert_order_table>
 <require ./types/collections/tables/key_order_table>
+<require ./types/collections/bags/hash_bag>
 <require ./types/iterators/iterator>
 <require ./types/iterators/bresenham>
 <require ./types/iterators/random/lcg>

@@ -31,22 +31,22 @@ static FUNKY_VARIABLE variables_table[] = {
   {
     FOT_UNKNOWN, 0, 0,
     "assign\000std", NULL,
-    {.position = POS(23, 1)}
+    {.position = POS(25, 1)}
   },
   {
     FOT_UNKNOWN, 0, 1,
     "object\000std_types", std_types__object__attributes,
-    {.position = POS(27, 1)}
+    {.position = POS(29, 1)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
     "neutral_element_of\000", NULL,
-    {.position = POS(27, 20)}
+    {.position = POS(29, 20)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "undefined\000", NULL,
-    {.position = POS(27, 39)}
+    {.position = POS(29, 39)}
   }
 };
 

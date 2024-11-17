@@ -2,6 +2,8 @@
 
 $indent_of ()
 
+$std_types::string.indent_of undefined
+
 $build_tree: (lines)
   $first_line (lines(1))
   $first_indent indent_of(first_line)
@@ -178,7 +180,7 @@ do:
     loop:
       if
 	line.is_empty
-	-> line(.indent_of undefined)
+	-> line
 	:
 	  case line(1)
 	    ' ':

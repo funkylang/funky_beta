@@ -35,7 +35,7 @@
   More complex branches like <cond> or <case> use <if> to check their
   conditions.
 
-  See also: @Loops
+  Related topics: Loops
 
 $std::cond:
   #
@@ -57,7 +57,7 @@ $std::cond:
 
     If none of the arguments returns <true> no function is called.
 
-    Topic: Branches
+    Topic: Branches, Input-Output
 
     See also: if, case
 

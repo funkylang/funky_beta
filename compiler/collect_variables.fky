@@ -312,6 +312,9 @@ $funky::categorize_variables: (variables)
 	HAS_SLOTS | REDEFINED_ON_TOP_LEVEL
       :
 	syntax_error "Object with slots redefined on top-level" definition
+	#
+	  objects with slots cannot be turned into local variables, so
+	  assigning on top-level is forbidden
     on
       &&
 	not(allow_unused)
@@ -371,17 +374,21 @@ $funky::categorize_variables: (variables)
 					  -> tuple(INITIALIZED second(new_info))
 				  local_or_dynamic
 			  :
-			    if
-			      flags & REDEFINED == 0:
-				if
-				  name .contains. ':' || flags & HAS_SLOTS != 0
-				  -> new_variables(name tuple(INITIALIZED value))
-				  -> new_variables(name tuple(CONSTANT value))
+			    case node_type_of(value)
+			      METHOD_VALUE_PAIR, ATTRIBUTE_VALUE_PAIR, TYPE_FUNCTION
+			      -> new_variables(name tuple(EXTERN use))
 			      :
 				if
-				  level == 0 || level == TOP_LEVEL
-				  -> new_variables(name tuple(INITIALIZED value))
-				  local_or_dynamic
+				  flags & REDEFINED == 0:
+				    if
+				      name .contains. ':' || flags & HAS_SLOTS != 0
+				      -> new_variables(name tuple(INITIALIZED value))
+				      -> new_variables(name tuple(CONSTANT value))
+				  :
+				    if
+				      level == 0 || level == TOP_LEVEL
+				      -> new_variables(name tuple(INITIALIZED value))
+				      local_or_dynamic
 		      :
 			$n length_of(arguments)-1
 			!definition.funky::key_of

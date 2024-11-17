@@ -69,6 +69,7 @@ typedef enum {
 #define POS(line_no, column_no) line_no<<16|column_no
 
 #define FEAT_POSITIONS 0x01
+#define FEAT_INITIALIZER 0x02
 
 typedef struct {
   int attribute;

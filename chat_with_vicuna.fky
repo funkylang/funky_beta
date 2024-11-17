@@ -50,11 +50,6 @@ $START_SERVER .
 $TOKENIZE .
 $EVALUATE .
 
-$GENERATE_UUID.to_string "GENERATE UUID"
-$LOAD_CONFIGURATION.to_string "LOAD CONFIGURATION"
-$LOAD_MODEL.to_string "LOAD MODEL"
-$TOKENIZE.to_string "TOKENIZE"
-
 $BATCH_SIZE 16
 
 program_parameters!
@@ -83,7 +78,8 @@ $server_name_of (!)
 $server_log_file_of (!)
 $do_start_server_of (!)
 
-std_types::object $default_configuration
+$default_configuration std_types::object
+$default_configuration
   .model_name_of "sauerkrautlm-una-solar-instruct.Q5_K_M.gguf"
   .minimum_confidence_of 15
   .prompt_style_of "Question"
@@ -97,24 +93,24 @@ std_types::object $default_configuration
   .do_start_server_of false
 
 $io std_types::io
-get_environment !environment
 
-$configuration_filename
-  if
-    config_path.is_defined
-    -> append(config_path "/vicuna.cfg")
-    -> append(environment("HOME") "/.config/vicuna/vicuna.cfg")
-
-initialize_logging! &io log_level log_filename
-log &io "
-  start logging (log-level @(log_level))
-initialize_terminal! &io $terminal
+initialize_terminal &io TERMINAL
   RECEIVE_CTRL_Q_AND_CTRL_S = true
   MAP_CR = true
   CLEAR_COLOUR = WHITE
   DRAW_COLOUR = BLACK
+get_terminal! &io $terminal
 
-enable_logging &terminal
+$configuration_filename
+  if
+    config_path.is_defined
+    -> append(config_path "/vicuna")
+    -> append(environment("HOME") "/.config/vicuna/vicuna")
+
+initialize_logging! &io log_level log_filename
+log &io "
+  start logging (log-level @(log_level))
+
 register_resource &io TERMINAL terminal
 
 $USER .
@@ -148,42 +144,50 @@ $did_start_server_of ()
 $evaluation_start_time_of ()
 $std_types::io.evaluation_start_time_of undefined
 
-initialize_terminal_keys! main
+$state std_types::object
+$state.configuration_of undefined
+$state.uuid_of undefined
+$state.connection_of undefined
+$state.model_of undefined
+$state.turn_of USER
+$state.messages_of empty_list
+$state.input_text_of ""
+$state.cursor_position_of 1
+$state.previous_input_text_of undefined
+$state.tokens_of empty_list
+$state.confidences_of empty_list
+$state.message_colour_of DARK_GREY
+$state.message_text_of "no model loaded"
+$state.input_window_of undefined
+$state.message_bar_of undefined
+$state.already_evaluated_of 0
+$state.current_batch_of 0
+$state.input_was_updated_of false
+$state.output_was_updated_of false
+$state.message_bar_was_updated_of false
+$state.everything_was_updated_of false
+$state.do_break_of false
+$state.did_start_server_of false
+$state.help_bar_of undefined
+
+main!
+
+$get_terminal: (io)
+  get_events! &io $events
+  $event events(1)
+  event $type $_id $data
+  case type
+    JOB_COMPLETED -> io data # the terminal
+    JOB_FAILED -> io data # the error
+    -> io undefined # should not happen
 
 $main:
   try $err:
-    std_types::object $state
-      .configuration_of undefined
-      .uuid_of undefined
-      .connection_of undefined
-      .model_of undefined
-      .turn_of USER
-      .messages_of empty_list
-      .input_text_of ""
-      .cursor_position_of 1
-      .previous_input_text_of undefined
-      .tokens_of empty_list
-      .confidences_of empty_list
-      .message_colour_of DARK_GREY
-      .message_text_of "no model loaded"
-      .input_window_of undefined
-      .message_bar_of undefined
-      .already_evaluated_of 0
-      .current_batch_of 0
-      .input_was_updated_of false
-      .output_was_updated_of false
-      .message_bar_was_updated_of false
-      .everything_was_updated_of false
-      .do_break_of false
-      .did_start_server_of false
-
     log &io "generating UUID"
     generate_uuid &io GENERATE_UUID undefined
 
-    log &io "
-      loading configuration from "@(configuration_filename)"
-    load_configuration &io
-      LOAD_CONFIGURATION default_configuration configuration_filename
+    load_configuration &io LOAD_CONFIGURATION
+      default_configuration configuration_filename
       "model" = model_name_of
       "minimum-confidence" = minimum_confidence_of
       "prompt-style" = prompt_style_of
@@ -205,7 +209,13 @@ $main:
     register_handlers &io STDIN_FILENO READ = create_terminal_events
 
     loop:
+      on io.is_an_error:
+	debug::dump 50 `io
+	debug::exit
       get_events! &io $events
+      on events.is_an_error:
+	debug::dump 50 `events
+	debug::exit
       handle_events &io &events
       process_events &io &state &events
       process_terminal_events &io &terminal &state events
@@ -404,7 +414,10 @@ $process_events: (io state events)
 	      if
 		&&
 		  piece == "[" || piece == " ["
-		  previous_piece == "@nl;"
+		  ||
+		    previous_piece == "@nl;"
+		    previous_piece == "@nl;@nl;"
+		    previous_piece == "@nl;@nl;@nl;"
 		:
 		  log &io "
 		    got opening bracket - stopping evaluation
@@ -412,14 +425,14 @@ $process_events: (io state events)
 		:
 		  $confidence argument(1)(2)
 		  $confidences confidences_of(state)
-		  push &tokens token
-		  push &confidences confidence
 		  if
 		    token == end_of_stream_token_of(model):
 		      log &io "
 			got end of stream - stopping evaluation
 		      stop_evaluation tokens confidences
 		    :
+		      push &tokens token
+		      push &confidences confidence
 		      !state.tokens_of tokens
 		      !state.confidences_of confidences
 		      !io.evaluation_start_time_of current_time_of(io)
@@ -632,6 +645,7 @@ $draw_contents: (terminal state)
 	      minus &x line_length
 	      inc &y
 	      next
+	-> wrapped_lines y min(x width)
     -> undefined undefined undefined
   $lines
     if
@@ -772,6 +786,25 @@ $pieces_to_attributed_text_lines:
 	    next
 	  -> piece == "@nl;":
 	    add_pieces !text_lines idx-1
+	    !line_start idx+1
+	    !line_width 0
+	    !b undefined
+	    !current_line ""
+	    inc &idx
+	    next
+	  -> piece == "@nl;@nl;":
+	    add_pieces !text_lines idx-1
+	    push &text_lines add_attributes(spaces(width) BLACK WHITE)
+	    !line_start idx+1
+	    !line_width 0
+	    !b undefined
+	    !current_line ""
+	    inc &idx
+	    next
+	  -> piece == "@nl;@nl;@nl;":
+	    add_pieces !text_lines idx-1
+	    push &text_lines add_attributes(spaces(width) BLACK WHITE)
+	    push &text_lines add_attributes(spaces(width) BLACK WHITE)
 	    !line_start idx+1
 	    !line_width 0
 	    !b undefined

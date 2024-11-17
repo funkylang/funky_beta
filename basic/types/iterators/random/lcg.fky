@@ -20,11 +20,17 @@
   Free Software Foundation, Inc.,
   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
+# Topic: Random Numbers, Iterators
+
 $std::seed_of ()
 $multiplier_of ()
 $increment_of ()
 
 $std_types::lcg std_types::random_number_generator
+$std_types::lcg.seed_of undefined
+$std_types::lcg.modulus_of undefined
+$std_types::lcg.multiplier_of undefined
+$std_types::lcg.increment_of undefined
 
 $std_types::lcg/next_raw_value: (self)
   $new_seed

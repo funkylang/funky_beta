@@ -89,20 +89,17 @@ extern NODE *from_uint32_string(const uint32_t *str, long len);
 
 extern int next_polymorphic_function;
   // no id may equal 0 mod 8
-  // is incremented in steps of 2
-  // all even IDs are polymorphic functions with a setter
-  // this variable denotes the first *unused* value
-
-extern int next_polymorphic_function_with_setter;
-  // is incremented in steps of 2
-  // all odd IDs are polymorphic functions without a setter
   // this variable denotes the first *unused* value
 
 extern int constants_count;
 extern NODE **all_constants;
 extern NODE **constants_base;
 
+
+extern int8_t *attribute_is_redefined;
+extern int8_t *has_a_setter;
 extern const char **polymorphic_function_names;
+extern const char **type_names;
 
 SYMBOL_ENTRY *maybe_find_symbol(const char *namespace, const char *name);
 extern HASH_ENTRY *hash_table[HASH_TABLE_SIZE];
@@ -116,7 +113,7 @@ extern FUNKY_MODULE *current_module;
 extern const char *current_module_name;
 extern void pass(FUNC action, const char *msg);
 extern void dump_all();
+extern void dump_types();
 extern void initialize_all();
 
 extern TAB_NUM encode_attr_idx(TAB_NUM attr_idx);
-

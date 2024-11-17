@@ -1,0 +1,57 @@
+#!/usr/bin/env fkyrun
+
+$str "this is a sentence containing some 48 characters"
+
+println! str
+
+do:
+  match 'a'..'z' str $len
+  println! "match letter: " len
+
+do:
+  search ' ' str $pos $len
+  println! "search ' ': " pos '/' len
+
+do:
+  search DIGIT str $pos $len
+  println! "search digit: " pos '/' len
+
+do:
+  match many('a'..'z') str $len
+  println! "match many letters: " len
+
+do:
+  match_back many('a'..'z') str $len
+  println! "match_back many letters: " len
+
+do:
+  search many(DIGIT) str $pos $len
+  println! "search many digits: " pos '/' len
+
+do:
+  search many('a'..'z') str 4 $pos $len
+  println! "search many letters (4th): " pos '/' len
+
+do:
+  search many(DIGIT) str -1 $pos $len
+  println! "search many digits (last): " pos '/' len
+
+do:
+  search many('a'..'z') str -2 $pos $len
+  println! "search many letters (2nd last): " pos '/' len
+
+do:
+  search many('a'..'z') str 8 $pos $_len
+  if
+    pos.is_defined:
+      println! "found an eighth word - um ..."
+    :
+      println! "no eighth word found"
+
+do:
+  search many('a'..'z') str -9 $pos $_len
+  if
+    pos.is_defined:
+      println! "found a ninth word - um ..."
+    :
+      println! "no ninth word found"

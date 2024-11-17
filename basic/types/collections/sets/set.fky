@@ -20,6 +20,11 @@
   Free Software Foundation, Inc.,
   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
+# Topic: Collections
+
+#
+  Topics: Sets
+
 ##########
 # set
 ##########
@@ -73,16 +78,16 @@ $std_types::set/match:
 
     If the match is unsuccessful, then *len* is <undefined>.
 
-    Use the <alt>-function to construct a set of characters.
+    Use the <std::set>-function to construct a set of characters.
 
     Topic: Strings
 
-    See also: alt, match_back, search
+    See also: std::set, std::match_back, std::search
 
     Example:
 
       $str "[abc]"
-      $len match(alt('(' '[' '{') str)
+      $len match(set('(' '[' '{') str)
       dump! `len
 
     Output:
@@ -92,7 +97,7 @@ $std_types::set/match:
     Example:
 
       $str "abc"
-      $len match(alt('(' ']' '}') str)
+      $len match(set('(' ']' '}') str)
       dump! `len
 
     Output:
@@ -102,14 +107,24 @@ $std_types::set/match:
     self # a set of characters
     str # the string which's start is matched
   )
+  $rc result_count
   if
     str.is_empty
-    -> undefined
+    fail
     :
       if
-	self(str(1))
-	-> 1
-	-> undefined
+	self(str(1)):
+	  if
+	    rc == 1
+	    -> 1
+	    -> 1 undefined
+	fail
+
+  $fail:
+    if
+      rc == 1
+      -> undefined
+      -> undefined undefined
 
 $std_types::set/match_back:
   #
@@ -120,16 +135,16 @@ $std_types::set/match_back:
 
     If the match is unsuccessful, then *len* is <undefined>.
 
-    Use the <alt>-function to construct a set of characters.
+    Use the <std::set>-function to construct a set of characters.
 
     Topic: Strings
 
-    See also: alt, match, search
+    See also: std::set, setd::match, std::search
 
     Example:
 
       $str "[abc]"
-      $len match_back(alt(')' ']' '}') str)
+      $len match_back(set(')' ']' '}') str)
       dump! `len
 
     Output:
@@ -139,7 +154,7 @@ $std_types::set/match_back:
     Example:
 
       $str "abc"
-      $len match_back(alt(')' ']' '}') str)
+      $len match_back(set(')' ']' '}') str)
       dump! `len
 
     Output:
@@ -174,11 +189,11 @@ $std_types::set/search:
 
     Example:
 
-      println! "std_types::positive_integer/std::minus" .before. alt('.' '/')
+      println! "std_types::integer/std::minus" .before. set('.' '/')
 
     Output:
 
-      std_types::positive_integer
+      std_types::integer
   (
     self # a set of characters
     stream # the string to search in
@@ -227,7 +242,35 @@ $std_types::set/search:
 	    search_backwards
       -> undefined undefined
 
-# serialization
+# Debugging
+
+$std_types::set/debug::to_string:
+  (
+    self
+    indent = 0
+    depth = 1
+  )
+  $tag serialization_tag_of(self)
+  cond
+    -> self.is_empty -> "empty_@(tag)@nl;"
+    -> depth <= 1:
+      $len length_of(self)
+      if
+	len == 1
+	-> "<@(tag) with 1 item>@nl;"
+	-> "<@(tag) with @(len) items>@nl;"
+    -> true:
+      $new_indent indent+2
+      map_reduce $contents
+	self: (value)
+	  append
+	    tabs_and_spaces(new_indent)
+	    debug::to_string(value new_indent depth-1)
+	append
+	""
+      append append("@nl;" tabs_and_spaces(indent) tag "@nl;") contents
+
+# Serialization
 
 $std_types::set/serialize:
   (

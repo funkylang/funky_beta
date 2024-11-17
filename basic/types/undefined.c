@@ -31,7 +31,7 @@ enum {
   var_true, // extern
   var_equal, // extern polymorphic
   var_serialize, // extern polymorphic
-  var_81_0_indent, // dynamic
+  var_83_0_indent, // dynamic
   var_undefined, // extern
   var_tabs_and_spaces, // extern
   var_append, // extern
@@ -43,61 +43,61 @@ enum {
 static TAB_NUM t_func_std_types__object___default_value[] = {
   2, // locals
   2, // parameters
-  LOCAL(2), // 51_0_self
+  LOCAL(2), // 53_0_self
   LOCAL(1),
   // -> self
   LET, 1, LOCAL(2), TAIL_CALL,
-  POS(54, 3)
+  POS(56, 3)
 };
 
 static TAB_NUM t_func_std_types__undefined___default_value[] = {
   2, // locals
   2, // parameters
   LOCAL(1),
-  LOCAL(2), // 65_0_default
+  LOCAL(2), // 67_0_default
   // -> default
   LET, 1, LOCAL(2), TAIL_CALL,
-  POS(67, 3)
+  POS(69, 3)
 };
 
 static TAB_NUM t_func_std_types__undefined___equal[] = {
   2, // locals
   2, // parameters
   LOCAL(1),
-  LOCAL(2), // 74_0_right
+  LOCAL(2), // 76_0_right
   // is_undefined
   var_is_undefined, 1, LOCAL(2), 1, LOCAL(1),
   // -> right.is_undefined
   LET, 1, LOCAL(1), TAIL_CALL,
-  POS(76, 12),
-  POS(76, 3)
+  POS(78, 12),
+  POS(78, 3)
 };
 
 static TAB_NUM t_func_std_types__undefined___serialize[] = {
   1, // locals
   -2, // parameters
   MANDATORY_PARAMETER, LOCAL(1),
-  var_undefined, var_81_0_indent,
+  var_undefined, var_83_0_indent,
   // is_defined
-  var_is_defined, 1, var_81_0_indent, 1, LOCAL(1),
+  var_is_defined, 1, var_83_0_indent, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_1, lambda_2, TAIL_CALL,
-  POS(85, 12),
-  POS(84, 3)
+  POS(87, 12),
+  POS(86, 3)
 };
 
 static TAB_NUM t_lambda_1[] = {
   2, // locals
   0, // parameters
   // tabs_and_spaces(indent) str)
-  var_tabs_and_spaces, 1, var_81_0_indent, 1, LOCAL(1),
+  var_tabs_and_spaces, 1, var_83_0_indent, 1, LOCAL(1),
   // append(tabs_and_spaces(indent) str)
   var_append, 2, LOCAL(1), str_undefined, 1, LOCAL(2),
   //  append(tabs_and_spaces(indent) str)
   LET, 1, LOCAL(2), TAIL_CALL,
-  POS(86, 15),
-  POS(86, 8),
-  POS(86, 7)
+  POS(88, 15),
+  POS(88, 8),
+  POS(88, 7)
 };
 
 static TAB_NUM t_lambda_2[] = {
@@ -105,7 +105,7 @@ static TAB_NUM t_lambda_2[] = {
   0, // parameters
   //  str
   LET, 1, str_undefined, TAIL_CALL,
-  POS(87, 7)
+  POS(89, 7)
 };
 
 static FUNKY_CONSTANT constants_table[] = {
@@ -140,12 +140,12 @@ static FUNKY_VARIABLE variables_table[] = {
   {
     FOT_UNKNOWN, 0, 5,
     "undefined\000std_types", std_types__undefined__attributes,
-    {.position = POS(23, 17)}
+    {.position = POS(25, 17)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "assign\000std", NULL,
-    {.position = POS(23, 1)}
+    {.position = POS(25, 1)}
   },
   {
     FOT_POLYMORPHIC, 0, 0,
@@ -160,66 +160,66 @@ static FUNKY_VARIABLE variables_table[] = {
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
     "is_defined\000", NULL,
-    {.position = POS(37, 23)}
+    {.position = POS(39, 23)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "false\000", NULL,
-    {.position = POS(37, 34)}
+    {.position = POS(39, 34)}
   },
   {
     FOT_UNKNOWN, 0, 2,
     "object\000std_types", std_types__object__attributes,
-    {.position = POS(39, 1)}
+    {.position = POS(41, 1)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
     "is_undefined\000", NULL,
-    {.position = POS(39, 20)}
+    {.position = POS(41, 20)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
     "default_value\000", NULL,
-    {.position = POS(45, 20)}
+    {.position = POS(47, 20)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "true\000", NULL,
-    {.position = POS(56, 36)}
+    {.position = POS(58, 36)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
     "equal\000", NULL,
-    {.position = POS(69, 23)}
+    {.position = POS(71, 23)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
     "serialize\000", NULL,
-    {.position = POS(78, 23)}
+    {.position = POS(80, 23)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "81_0_indent\000", NULL
+    "83_0_indent\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
     "undefined\000", NULL,
-    {.position = POS(81, 14)}
+    {.position = POS(83, 14)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "tabs_and_spaces\000", NULL,
-    {.position = POS(86, 15)}
+    {.position = POS(88, 15)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "append\000", NULL,
-    {.position = POS(86, 8)}
+    {.position = POS(88, 8)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "if\000", NULL,
-    {.position = POS(84, 3)}
+    {.position = POS(86, 3)}
   }
 };
 

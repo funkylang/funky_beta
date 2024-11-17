@@ -19,6 +19,8 @@
   Free Software Foundation, Inc.,
   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
+# Topic: Lists
+
 TYPE std_types::generic_list -> std_types::object
   #
     the prototype object for all kind of lists (including strings)
@@ -228,7 +230,7 @@ METHOD int std_types::list/_unfold
     return true;
   }
 
-METHOD std_types::list/new
+#METHOD std_types::list/new
   #
     clones the specified list and replace its contents
 
@@ -260,8 +262,6 @@ METHOD std_types::list/new
 FUNCTION std::list
   #
     constructs a list from its arguments
-
-    See also: std_types::list/new
   {
     MIN_ARGUMENTS(0)
     if (ARGUMENT_COUNT == 0) RETURN_SINGLE_RESULT(VAR(std::empty_list))

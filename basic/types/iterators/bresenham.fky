@@ -19,12 +19,41 @@
   Free Software Foundation, Inc.,
   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
+# Topic: Iterators
+
 $delta_of ()
-$additional_increment_of ()
 $base_increment_of ()
+$additional_increment_of ()
 $steps_of ()
 $value_of ()
 $error_of ()
+
+$std_types::bresenham_iterator std_types::iterator
+  .length_of undefined
+  .delta_of undefined
+  .base_increment_of undefined
+  .additional_increment_of undefined
+  .steps_of undefined
+  .value_of undefined
+  .error_of undefined
+
+$std_types::bresenham_iterator/next_value: (self)
+  $error error_of(self)-delta_of(self)
+  $value value_of(self)
+  $new_value value
+  plus &new_value base_increment_of(self)
+  #debug::dump `error
+  if
+    error < 0:
+      plus &error steps_of(self)
+      plus &new_value additional_increment_of(self)
+      return
+    return
+
+  $return:
+    !self.error_of error
+    !self.value_of new_value
+    -> self value
 
 $std::bresenham:
   #
@@ -40,29 +69,13 @@ $std::bresenham:
   $delta abs(last-first)
   $sign sgn(last-first)
   $steps count-1
+  $d delta .mod. steps
   ->
-    std_types::iterator
+    std_types::bresenham_iterator
       .length_of count
-      .delta_of delta .mod. steps
+      .delta_of d
       .base_increment_of sign*div(delta steps)
       .additional_increment_of sign
       .steps_of steps
       .value_of first
       .error_of steps >> 1
-      /next_value: (self)
-	$return:
-	  !self.error_of error
-	  !self.value_of new_value
-	  -> self value
-
-	$error error_of(self)
-	$value value_of(self)
-	$new_value value
-	minus &error delta_of(self)
-	plus &new_value base_increment_of(self)
-	if
-	  error < 0:
-	    plus &error steps_of(self)
-	    plus &new_value additional_increment_of(self)
-	    return
-	  return

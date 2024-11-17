@@ -23,6 +23,8 @@
 <using std>
 <using basic_collections>
 
+# Topic: Tables, Collections
+
 # internal methods:
 
 $insert ()
@@ -142,31 +144,31 @@ $fetch_first_key: (node)
 # insert
 
 $empty_node/insert: (_self key value)
-  -> new(avl_node empty_node empty_node key value 1) 1
+  -> typed_tuple(avl_node empty_node empty_node key value 1) 1
 
 $avl_node/insert: (self key value)
   self $left $right $my_key $my_value $my_height
   if
     key == my_key
-    -> new(self left right key value my_height) undefined
+    -> typed_tuple(self left right key value my_height) undefined
     :
       if
 	key < my_key:
 	  insert &left $new_height key value
 	  if
 	    new_height.is_undefined
-	    -> new(avl_node left right my_key my_value my_height) undefined
+	    -> typed_tuple(avl_node left right my_key my_value my_height) undefined
 	    :
 	      if
 		new_height == UNCHANGED || new_height < my_height
-		-> new(avl_node left right my_key my_value my_height) UNCHANGED
+		-> typed_tuple(avl_node left right my_key my_value my_height) UNCHANGED
 		:
 		  right $_right_left $_right_right $_right_key $_right_value
 		    $right_height
 		  if_not
 		    my_height == right_height+2:
 		      !my_height my_height+1
-		      -> new(avl_node left right my_key my_value my_height) my_height
+		      -> typed_tuple(avl_node left right my_key my_value my_height) my_height
 		    :
 		      balance_left_to_right $new_node $new_node_height left right my_key my_value
 		      ->
@@ -179,18 +181,18 @@ $avl_node/insert: (self key value)
 	  insert &right $new_height key value
 	  if
 	    new_height.is_undefined
-	    -> new(avl_node left right my_key my_value my_height) undefined
+	    -> typed_tuple(avl_node left right my_key my_value my_height) undefined
 	    :
 	      if
 		new_height == UNCHANGED || new_height < my_height
-		-> new(avl_node left right my_key my_value my_height) UNCHANGED
+		-> typed_tuple(avl_node left right my_key my_value my_height) UNCHANGED
 		:
 		  left $_left_left $_left_right $_left_key $_left_value
 		    $left_height
 		  if_not
 		    my_height == left_height+2:
 		      !my_height my_height+1
-		      -> new(avl_node left right my_key my_value my_height) my_height
+		      -> typed_tuple(avl_node left right my_key my_value my_height) my_height
 		    :
 		      balance_right_to_left $new_node $new_node_height left right my_key my_value
 		      ->
@@ -221,24 +223,24 @@ $balance_left_to_right: (left right key value)
   if
     left_right_height > left_left_height: # double rotation
       $new_left
-	new
+	typed_tuple
 	  avl_node
 	  left_left left_right_left left_key left_value left_right_height
       $new_right
-	new
+	typed_tuple
 	  avl_node
 	  left_right_right right key value left_right_height
       ->
-	new
+	typed_tuple
 	  avl_node new_left new_right left_right_key left_right_value left_height
 	left_height
     : # single rotation
       $new_right
-	new
+	typed_tuple
 	  avl_node
 	  left_right right key value left_right_height+1
       ->
-	new
+	typed_tuple
 	  avl_node left_left new_right left_key left_value left_right_height+2
 	if
 	  left_right_height+1 == left_height
@@ -266,24 +268,24 @@ $balance_right_to_left: (left right key value)
   if
     right_left_height > right_right_height: # double rotation
       $new_left
-	new
+	typed_tuple
 	  avl_node
 	  left right_left_left key value right_left_height
       $new_right
-	new
+	typed_tuple
 	  avl_node
 	  right_left_right right_right right_key right_value right_left_height
       ->
-	new
+	typed_tuple
 	  avl_node new_left new_right right_left_key right_left_value right_height
 	right_height
     : # single rotation
       $new_left
-	new
+	typed_tuple
 	  avl_node
 	  left right_left key value right_left_height+1
       ->
-	new
+	typed_tuple
 	  avl_node new_left right_right right_key right_value right_left_height+2
 	if
 	  right_left_height+1 == right_height
@@ -309,20 +311,20 @@ $fetch_first: (self)
       fetch_first &left $key $value $left_height
       if
 	left_height == UNCHANGED
-	-> new(avl_node left right my_key my_value my_height) key value UNCHANGED
+	-> typed_tuple(avl_node left right my_key my_value my_height) key value UNCHANGED
 	:
 	  right $_right_left $_right_right $_right_key $_right_value $right_height
 	  $height_minus_2 my_height-2
 	  if
 	    right_height == height_minus_2 # => left_height == height_minus_2
 	    ->
-	      new(avl_node left right my_key my_value my_height-1)
+	      typed_tuple(avl_node left right my_key my_value my_height-1)
 	      key value my_height-1
 	    : # right_height == my_height-1
 	      if
 		left_height == height_minus_2
 		->
-		  new(avl_node left right my_key my_value my_height)
+		  typed_tuple(avl_node left right my_key my_value my_height)
 		  key value UNCHANGED
 		: # left_height == my_height-3
 		  balance_right_to_left $new_node $new_height
@@ -346,20 +348,20 @@ $fetch_last: (self)
       fetch_last &right $key $value $right_height
       if
 	right_height == UNCHANGED
-	-> new(avl_node left right my_key my_value my_height) key value UNCHANGED
+	-> typed_tuple(avl_node left right my_key my_value my_height) key value UNCHANGED
 	:
 	  left $_left_left $_left_right $_left_key $_left_value $left_height
 	  $height_minus_2 my_height-2
 	  if
 	    left_height == height_minus_2 # => right_height == height_minus_2
 	    ->
-	      new(avl_node left right my_key my_value my_height-1)
+	      typed_tuple(avl_node left right my_key my_value my_height-1)
 	      key value my_height-1
 	    : # left_height == my_height-1
 	      if
 		right_height == height_minus_2
 		->
-		  new(avl_node left right my_key my_value my_height)
+		  typed_tuple(avl_node left right my_key my_value my_height)
 		  key value UNCHANGED
 		: # right_height == my_height-3
 		  balance_left_to_right $new_node $new_height
@@ -398,25 +400,25 @@ $avl_node/delete: (self key)
 		  if
 		    new_left_height == UNCHANGED
 		    ->
-		      new(avl_node left right last_key last_value my_height)
+		      typed_tuple(avl_node left right last_key last_value my_height)
 		      UNCHANGED
 		    ->
-		      new(avl_node left right last_key last_value my_height-1)
+		      typed_tuple(avl_node left right last_key last_value my_height-1)
 		      my_height-1
 		-> right_height > left_height:
 		  fetch_first &right $first_key $first_value $new_right_height
 		  if
 		    new_right_height == UNCHANGED
 		    ->
-		      new(avl_node left right first_key first_value my_height)
+		      typed_tuple(avl_node left right first_key first_value my_height)
 		      UNCHANGED
 		    ->
-		      new(avl_node left right first_key first_value my_height-1)
+		      typed_tuple(avl_node left right first_key first_value my_height-1)
 		      my_height-1
 		-> true:
 		  fetch_last &left $last_key $last_value !left_height
 		  ->
-		    new(avl_node left right last_key last_value my_height)
+		    typed_tuple(avl_node left right last_key last_value my_height)
 		    UNCHANGED
     :
       if
@@ -429,7 +431,7 @@ $avl_node/delete: (self key)
 	    :
 	      if
 		left_height == UNCHANGED
-		-> new(avl_node left right my_key my_value my_height) UNCHANGED
+		-> typed_tuple(avl_node left right my_key my_value my_height) UNCHANGED
 		:
 		  if
 		    left_height == my_height-3:
@@ -442,10 +444,10 @@ $avl_node/delete: (self key)
 		      if
 			left_height == right_height
 			->
-			  new(avl_node left right my_key my_value left_height+1)
+			  typed_tuple(avl_node left right my_key my_value left_height+1)
 			  left_height+1
 			->
-			  new(avl_node left right my_key my_value my_height)
+			  typed_tuple(avl_node left right my_key my_value my_height)
 			  UNCHANGED
 	:
 	  delete &right $right_height key
@@ -455,7 +457,7 @@ $avl_node/delete: (self key)
 	    :
 	      if
 		right_height == UNCHANGED
-		-> new(avl_node left right my_key my_value my_height) UNCHANGED
+		-> typed_tuple(avl_node left right my_key my_value my_height) UNCHANGED
 		:
 		  if
 		    right_height == my_height-3:
@@ -468,10 +470,10 @@ $avl_node/delete: (self key)
 		      if
 			left_height == right_height
 			->
-			  new(avl_node left right my_key my_value left_height+1)
+			  typed_tuple(avl_node left right my_key my_value left_height+1)
 			  left_height+1
 			->
-			  new(avl_node left right my_key my_value my_height)
+			  typed_tuple(avl_node left right my_key my_value my_height)
 			  UNCHANGED
 
 ###
