@@ -1,0 +1,551 @@
+#
+
+  Copyright (C) 2024 by
+  Dipl.-Ing. Michael Niederle
+
+  This program is free software; you can redistribute it and/or modify
+  it under the terms of the GNU General Public License, version 2, or
+  (at your option) version 3.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  GNU General Public License for more details.
+
+  For details of the GNU General Public License see the accompanying
+  files GPLv2.txt and GLPv3.txt or
+  http://www.gnu.org/licenses/gpl-2.0.html
+  http://www.gnu.org/licenses/gpl-3.0.html
+  or write to the
+  Free Software Foundation, Inc.,
+  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+
+<require basic/import/html>
+
+<using std-2.0>
+<using tedi>
+<using fde>
+
+$std::BACK .
+$std::FORWARD .
+
+$BACK.to_string "＜"
+$FORWARD.to_string "＞"
+
+$NEWLINE .
+
+$is_preformatted false
+$rendering_indent 0
+$href undefined
+
+$window_width 80
+$style undefined
+$template_screen undefined
+
+$fde::create_html_page: (filename buf screen)
+  !template_screen screen
+  initialize_html_styles:
+    $html buf.from_html
+    $history list(fde_types::history(.filename_of filename))
+    new(fde_types::html_page render_block(html window_width))
+      .current_rectangle_of undefined
+      .history_of history
+      .history_index_of 1
+
+$render_blocks: (blocks width)
+  filter &blocks: (item)
+    -> not(item.is_a_string && item .matches. some(WHITESPACE))
+  map_reduce blocks: (block) render_block block width
+
+$render_block: (element width)
+  element $tag $attributes $contents
+  get_style attributes !style !is_preformatted !rendering_indent
+  case tag
+    "html":
+      render_blocks contents width
+    "head" -> no_line
+    "body":
+      filter &contents: (item)
+	-> not(item.is_a_string && item .matches. some(WHITESPACE))
+      map_reduce contents
+	: (block) render_block block width
+	concatenate(empty_line)
+    "h1", "h2", "h3", "h4", "h5", "h6":
+      !style header
+      render_contents contents width
+    "p":
+      plus &rendering_indent 2
+      render_contents contents width
+    "div":
+      render_contents contents width
+    "dt":
+      render_contents contents width
+    "dd":
+      !style italic
+      plus &rendering_indent 2
+      render_contents contents width
+    "dl":
+      plus &rendering_indent 2
+      render_blocks contents width
+    "ul":
+      plus &rendering_indent 2
+      render_blocks contents width
+    "li":
+      !rendering_indent 0
+      render_contents $item contents width-rendering_indent-6
+      pad_left
+	adjoin
+	  pad_bottom
+	    create_text_screen(style "• ")
+	    height_of(item)
+	  item
+	width
+    "table":
+      filter &contents is_an_html_element
+      $table_rows collect_table_rows(contents)
+      $column_count length_of(table_rows(1))
+      $min_width
+	map
+	  table_rows: (table_row)
+	    map table_row: (cell)
+	      map_reduce cell width_of max
+      $max_width
+	map
+	  table_rows: (table_row)
+	    map table_row: (cell)
+	      map_reduce cell width_of: (left right) -> left+1+right
+      $min_column_widths reduce_rows(min_width max)
+      $max_column_widths reduce_rows(max_width max)
+      $column_widths min_column_widths
+      $available_width width-rendering_indent-2*column_count
+      !column_widths
+	if
+	  available_width >= reduce(max_column_widths plus)
+	  -> max_column_widths
+	  :
+	    $remaining_width available_width-reduce(column_widths plus)
+	    for_each column_widths
+	      : (idx column_width)
+		if
+		  remaining_width <= 0
+		  -> column_widths
+		  :
+		    $additional_width
+		      min
+			max_column_widths(idx)-column_width
+			remaining_width
+		    plus &column_widths(idx) additional_width
+		    minus &remaining_width additional_width
+		    next
+	      -> column_widths
+      map &table_rows: (row)
+	map row: (column_no column)
+	  render_paragraph column
+	    column_widths(column_no)
+      pad_right
+	map_reduce
+	  table_rows
+	  : (row)
+	    $max_height map_reduce(row height_of max)
+	    adjoin
+	      create_screen(style 2 max_height)
+	      reduce
+		row: (left right)
+		  adjoin
+		    pad_bottom(left max_height)
+		    create_screen(style 2 max_height)
+		    pad_bottom(right max_height)
+	  append
+	width
+    :
+      debug::dump `tag
+      debug::exit
+
+$collect_table_rows: (table_contents)
+  map table_contents collect_table_cells
+
+$collect_table_cells: (row_element)
+  row_element $_tag $_attributes $cells
+  filter &cells is_an_html_element
+  map cells: (cell)
+    cell $_tag $attributes $contents
+    get_style attributes !style !is_preformatted !rendering_indent
+    render_items contents
+
+$get_style: (attributes)
+  $class attributes("class")
+  case class
+    "footer" -> footer false rendering_indent
+    "description" -> italic false rendering_indent
+    "Example", "Output" -> Example true rendering_indent+2
+    -> style false rendering_indent
+
+$render_contents: (contents width)
+  if
+    contents.is_empty
+    -> create_screen(style width 0)
+    :
+      render_paragraph render_items(contents) width
+
+$render_paragraph: (items width)
+  $indent create_text_screen(style spaces(rendering_indent))
+  $rows create_screen(style width 0)
+  $row indent
+  $current_width width_of(row)
+  $is_first true
+  for_each items
+    : (item)
+      if
+	NEWLINE == item:
+	  append_row !rows
+	  !row indent
+	  !current_width width_of(row)
+	  !is_first true
+	  next
+	:
+	  $spacing
+	    if
+	      is_first || is_preformatted
+	      -> 0
+	      -> 1
+	  $item_width width_of(item)
+	  if
+	    current_width+spacing+item_width > width:
+	      append_row !rows
+	      !row adjoin(indent item)
+	      !current_width width_of(row)
+	      next
+	    :
+	      update_if spacing > 0 &row: adjoin row space
+	      adjoin &row item
+	      plus &current_width spacing+item_width
+	      !is_first false
+	      next
+    append_row
+
+  $append_row:
+    pad_right &row width
+    append rows row
+
+$render_items: (contents)
+  $items empty_list
+  for_each contents
+    : (idx content)
+      if
+	content.is_an_html_element:
+	  append &items render_inline(content)
+	  next
+	:
+	  if
+	    is_preformatted:
+	      split_into_lines &content
+	      for_each content
+		: (no line)
+		  push &items
+		    create_text_screen(style line .without_suffix. '@nl;' href)
+		  if
+		    ||
+		      line(-1) != '@nl;'
+		      &&
+			no == length_of(content)
+			idx == length_of(contents)
+		    next
+		    :
+		      push &items NEWLINE
+		      next
+		next
+	    :
+	      trim &content
+	      if
+		content.is_empty
+		next
+		:
+		  split &content many(WHITESPACE)
+		  append &items
+		    map
+		      content: (word) create_text_screen style word href
+		  next
+    -> items
+
+$render_inline: (element)
+  element $tag $attributes $contents
+  case tag
+    "a":
+      !href attributes("href")
+      set_draw_colour &style BLUE
+      render_items contents
+    "i":
+      add_text_attributes &style ITALIC
+      render_items contents
+    "em":
+      add_text_attributes &style BOLD
+      render_items contents
+    :
+      debug::dump `tag
+      debug::exit
+
+$italic undefined
+$Example undefined
+$space undefined
+$fde::no_line undefined
+$empty_line undefined
+$header undefined
+$footer undefined
+
+$initialize_html_styles: (continuation)
+  !style create_style(BLACK WHITE)
+  !header create_style(BLACK WHITE BOLD)
+  !footer create_style(GREY WHITE)
+  !italic create_style(BLACK WHITE ITALIC)
+  !Example create_style(BLACK '@0xffff80;')
+  !space create_text_screen(template_screen " ")
+  !no_line create_screen(style window_width 0)
+  !empty_line create_screen(style window_width 1)
+  continuation!
+
+$create_style: (draw_colour clear_colour text_attributes = NORMAL)
+  create_screen template_screen 0 0
+    DRAW_COLOUR = draw_colour
+    CLEAR_COLOUR = clear_colour
+    TEXT_ATTRIBUTES = text_attributes
+
+$fde::current_rectangle_of ()
+$fde::history_of ()
+$fde::history_index_of ()
+
+$fde_types::html_page std_types::screen
+
+$fde_types::html_page
+  .current_rectangle_of undefined
+  .history_of undefined
+  .history_index_of undefined
+
+$fde_types::html_page/prepare: (self _state _range) -> self
+
+$fde::filename_of ()
+
+$fde_types::history std_types::object
+
+$fde_types::history
+  .filename_of undefined
+  .current_rectangle_of undefined
+
+$fde_types::html_page/handle_key_press: (page io state key)
+  case key
+    TABULATOR:
+      update_selection &state page
+	get_next_rectangle(page current_rectangle_of(page))
+      -> io state
+    SHIFT_TABULATOR:
+      update_selection &state page
+	get_previous_rectangle(page current_rectangle_of(page))
+      -> io state
+    RETURN:
+      load_linked_page &io state page
+      -> io state
+    ALT_RETURN:
+      load_linked_page &io state page true
+      -> io state
+    CTRL_B, BACK:
+      get_page_from_history &io state -1
+      -> io state
+    CTRL_F, FORWARD:
+      get_page_from_history &io state 1
+      -> io state
+    -> undefined undefined
+
+$fde_types::html_page/handle_mouse_click: (page io state x y _button)
+  $current_rectangle get_rectangle_at(page x y)
+  if
+    current_rectangle.is_defined:
+      !page.current_rectangle_of current_rectangle
+      set_content &state.window_manager_of page
+      load_linked_page &io state page
+      -> io state
+    -> io state
+
+
+$update_selection: (state page current_rectangle)
+  set_content &state.window_manager_of
+    page(.current_rectangle_of current_rectangle)
+  if
+    current_rectangle.is_defined:
+      current_rectangle $_filename $x $y $w $h
+      set_selection &state.window_manager_of x y w h
+      -> state
+    :
+      unset_selection &state.window_manager_of
+      -> state
+
+$fde::context_help: (io state x y lines)
+  $symbols symbols_of(state)
+  if
+    symbols.is_defined:
+      $identifier get_identifier_at_xy(x y lines)
+      if
+	identifier.is_defined:
+	  $used_namespaces list("std")
+	  for_each used_namespaces
+	    : (namespace)
+	      $symbol append(namespace "::" identifier)
+	      if
+		symbols(symbol).is_undefined
+		next
+		:
+		  $filename "html/symbols/@(namespace)__@(identifier).html"
+		  load &io LOAD_HELP filename undefined tuple(filename undefined)
+		    # tuple(filename id): id == undefined -> open in new window
+		  -> io state
+	    :
+	      show_error_message &state "
+		No help available for "@(identifier)"!
+	      -> io state
+	-> io state
+    :
+      show_error_message &state "
+	No symbol information available!
+      -> io state
+
+$load_linked_page:
+  (
+    io
+    state
+    page
+    do_open_in_new_window = false
+  )
+  $window_manager window_manager_of(state)
+  get_focused_window window_manager $id $_page
+  $current_rectangle current_rectangle_of(page)
+  if
+    current_rectangle.is_defined:
+      $filename get_title(window_manager)
+      current_rectangle $new_filename
+      until &filename '/' -1
+      loop
+	:
+	  if
+	    new_filename .has_prefix. "../":
+	      until &filename '/' -2
+	      range &new_filename 4 -1
+	      next!
+	    break!
+	:
+	  append &filename new_filename
+	  load io LOAD_HELP filename undefined
+	    tuple
+	      filename
+	      if
+		do_open_in_new_window
+		-> undefined
+		-> id
+	      undefined
+    -> io
+
+$get_page_from_history: (io state delta)
+  $window_manager window_manager_of(state)
+  get_focused_window window_manager $id $page
+  $index history_index_of(page)
+  $history history_of(page)
+  $new_index index+delta
+  if
+    new_index < 1 || new_index > length_of(history)
+    -> io
+    :
+      $filename filename_of(history(new_index))
+      load io LOAD_HELP filename undefined tuple(filename id new_index)
+
+$LOAD_HELP .
+
+$LOAD_HELP/job_completed: (_self io state buf info)
+  info $filename $id $history_index
+  $page create_html_page(filename buf template_screen_of(state))
+  $window_manager window_manager_of(state)
+  if
+    id.is_defined:
+      $previous_page get_content(window_manager id)
+      $history history_of(previous_page)
+      $previous_history_index history_index_of(previous_page)
+      !history(previous_history_index).current_rectangle_of
+	current_rectangle_of(previous_page)
+      set_title &window_manager id filename
+      move_top &window_manager id
+      move_home &window_manager id
+      if
+	history_index.is_defined:
+	  $buttons empty_list
+	  update_if history_index > 1 &buttons: push buttons BACK
+	  update_if history_index < length_of(history) &buttons:
+	    push buttons FORWARD
+	  set_buttons &window_manager id buttons
+	  $current_rectangle current_rectangle_of(history(history_index))
+	  !page
+	    .current_rectangle_of current_rectangle
+	    .history_of history
+	    .history_index_of history_index
+	  set_content &window_manager id page
+	  if
+	    current_rectangle.is_defined:
+	      current_rectangle $_filename $x $y $w $h
+	      set_selection &window_manager x y w h
+	      -> io state(.window_manager_of window_manager)
+	    :
+	      unset_selection &window_manager
+	      -> io state(.window_manager_of window_manager)
+	:
+	  set_buttons &window_manager id list(BACK)
+	  append range(history 1 previous_history_index) &page.history_of
+	  !page.history_index_of length_of(history_of(page))
+	  set_content &window_manager id page
+	  unset_selection &window_manager id
+	  -> io state(.window_manager_of window_manager)
+    :
+      create_window &window_manager
+	TITLE = filename
+	CONTENT = page
+      -> io state(.window_manager_of window_manager)
+
+# Helpers
+
+$get_identifier_at_xy: (x y lines)
+  $line lines(y)
+  if
+    line.is_undefined
+    -> undefined
+    :
+      $text text_of(line)
+      $indent indent_of(line)
+      if
+	x <= indent || x > indent+width_of(text)
+	-> undefined
+	:
+	  $pos get_position(text x-indent)
+	  $chr text(pos)
+	  if
+	    chr.is_a_letter || chr.is_a_digit || chr == '_':
+	      $start pos
+	      $end pos
+	      loop:
+		if
+		  &&
+		    start > 1
+		    ||
+		      text(start-1).is_a_letter
+		      text(start-1).is_a_digit
+		      text(start-1) == '_'
+		  :
+		    dec &start
+		    next
+		  :
+		    loop:
+		      if
+			&&
+			  end < length_of(text)
+			  ||
+			    text(end+1).is_a_letter
+			    text(end+1).is_a_digit
+			    text(end+1) == '_'
+			:
+			  inc &end
+			  next
+			-> range(text start end)
+	    -> undefined

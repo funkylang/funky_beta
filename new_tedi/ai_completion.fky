@@ -1,0 +1,626 @@
+#
+  Copyright (C) 2024 by
+  Dipl.-Ing. Michael Niederle
+
+  This program is free software; you can redistribute it and/or modify
+  it under the terms of the GNU General Public License, version 2, or
+  (at your option) version 3.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  GNU General Public License for more details.
+
+  For details of the GNU General Public License see the accompanying
+  files GPLv2.txt and GLPv3.txt or
+  http://www.gnu.org/licenses/gpl-2.0.html
+  http://www.gnu.org/licenses/gpl-3.0.html
+  or write to the
+  Free Software Foundation, Inc.,
+  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+
+<using std-2.0>
+<using ai>
+<using tedi>
+
+<resolve std_types-2.0>
+
+$CONNECT .
+$LOAD_MODEL .
+$START_SERVER .
+$TOKENIZE .
+$CACHED_PREFIX .
+$EVALUATE .
+$AI .
+
+!tedi::functions("ai_completion") tuple(ai_completion IO)
+
+# Extending Existing Types
+
+$is_a_space_token_of ()
+$space_tokens_of ()
+$period_token_of ()
+
+$ai_types::model
+  .period_token_of undefined
+  .space_tokens_of undefined
+  .is_a_space_token_of undefined
+
+$ai_model_of ()
+$initializing_ai_of ()
+$ai_server_already_started_of ()
+
+$tedi_types::state
+  .ai_model_of undefined
+  .initializing_ai_of false
+  .ai_server_already_started_of false
+
+$tedi::tokens_of ()
+
+$tedi_types::line
+  .tokens_of undefined
+
+# Defining New Types
+
+$window_id_of ()
+$at_line_start_of ()
+$at_line_end_of ()
+$tokenized_line_numbers_of ()
+$start_length_of ()
+$already_evaluated_prefix_length_of ()
+$already_evaluated_count_of ()
+$generated_token_count_of ()
+
+$tedi_types::completion_job std_types::object
+  .window_id_of undefined
+  .at_line_start_of undefined
+  .at_line_end_of undefined
+  .x_of undefined
+  .y_of undefined
+  .tokenized_line_numbers_of undefined
+  .tokens_of undefined
+  .start_length_of undefined
+  .already_evaluated_prefix_length_of undefined
+  .already_evaluated_count_of undefined
+  .generated_token_count_of undefined
+
+# Editor Actions
+
+$tedi::ai_completion: (io state x y _lines _info)
+  if
+    initializing_ai_of(state)
+    -> io state
+    :
+      $uuid uuid_of(state)
+      $configuration configuration_of(state)
+      if
+	uuid.is_undefined || configuration.is_undefined:
+	  show_error_message &state CONNECT "initialization is not yet complete"
+	  -> io state
+	:
+	  !state
+	    .current_action_state_of RUNNING
+	    .current_action_of
+	      tedi_types::completion_job
+		.window_id_of get_id(window_manager_of(state))
+		.x_of x
+		.y_of y
+	  if
+	    ai_model_of(state).is_undefined:
+	      connect_to_server io state
+	    :
+	      start_completion io state
+
+# AI Server Communication
+
+$connect_to_server: (io state)
+  $uuid uuid_of(state)
+  $configuration configuration_of(state)
+  $address ai_server_address_of(configuration)
+  $port_no ai_server_port_no_of(configuration)
+  $message "connecting to AI server at @(address):@(port_no)"
+  show_status_message &state CONNECT message
+  log &io 2 message
+  !state.initializing_ai_of true
+  connect_to_ai_server &io CONNECT
+    ADDRESS = address
+    PORT_NO = port_no
+    UUID = uuid
+  -> io state
+
+$CONNECT/job_failed: (_id io state _data _context)
+  $configuration configuration_of(state)
+  $address ai_server_address_of(configuration)
+  $port_no ai_server_port_no_of(configuration)
+  if
+    &&
+      current_action_state_of(state) != CANCELLED
+      do_start_ai_server_of(configuration)
+      not(ai_server_already_started_of(state))
+    :
+      $server_name ai_server_name_of(configuration)
+      $server_log_file ai_server_log_file_of(configuration)
+      $model_path ai_model_path_of(configuration)
+      $context_size ai_context_size_of(configuration)
+      $message "
+	attempting to start AI server "@(server_name)" at port @(port_no)
+      show_status_message &state CONNECT message
+      log &io 2 message
+      $options list(UUID = uuid_of(state))
+      update_if server_name.is_defined &options:
+	push options SERVER_NAME = server_name
+      update_if server_log_file.is_defined &options:
+	push options LOG_FILE = server_log_file
+      update_if model_path.is_defined &options:
+	push options MODEL_PATH = model_path
+      update_if context_size.is_defined &options:
+	push options CONTEXT_SIZE = context_size
+      update_if address.is_defined &options:
+	push options ADDRESS = address
+      update_if port_no.is_defined &options:
+	push options PORT_NO = port_no
+      !state.ai_server_already_started_of true
+      start_ai_server &io START_SERVER options
+      -> io state
+    :
+      $message "failed to connect to CONNECT server at @(address):@(port_no)"
+      show_error_message &state CONNECT message
+      log &io message
+      current_action_completed io state
+
+$CONNECT/job_completed: (_id io state connection _context)
+  $address address_of(connection)
+  $port_no port_no_of(connection)
+  $connected_message "
+    connected to AI server at @(address):@(port_no)"
+  show_success_message &state CONNECT connected_message
+  log &io connected_message
+  if
+    current_action_state_of(state) == CANCELLED:
+      current_action_completed io state
+    :
+      $configuration configuration_of(state)
+      $name ai_model_name_of(configuration)
+      $loading_message "
+	loading AI model "@(name)"
+      show_status_message &state LOAD_MODEL loading_message
+      log &io 2 loading_message
+      load_ai_model &io LOAD_MODEL name connection
+      -> io state
+
+$START_SERVER/job_failed: (_id io state data _context)
+  debug::println "START_SERVER/job_failed"
+  debug::dump `data
+  current_action_completed io state
+
+$START_SERVER/job_completed: (_id io state _connection _context)
+  if
+    current_action_state_of(state) == CANCELLED:
+      $configuration configuration_of(state)
+      $server_name ai_server_name_of(configuration)
+      $port_no ai_server_port_no_of(configuration)
+      $message "
+	started AI server "@(server_name)" at port @(port_no)
+      show_status_message &state CONNECT message
+      log &io 2 message
+      current_action_completed io state
+    :
+      connect_to_server io state
+
+$LOAD_MODEL/job_failed: (_id io state data _context)
+  debug::println "LOAD_MODEL/job_failed"
+  debug::dump `data
+  current_action_completed io state
+
+$LOAD_MODEL/job_completed: (_id io state model _context)
+  !state.ai_model_of add_token_infos(model)
+  $message "
+    loaded AI model "@(name_of(model))"
+  show_success_message &state LOAD_MODEL message
+  log &io message
+  !state.initializing_ai_of false
+  if
+    current_action_state_of(state) == CANCELLED:
+      current_action_completed io state
+    :
+      start_completion io state
+
+$start_completion: (io state)
+  $completion_job current_action_of(state)
+  $window_id window_id_of(completion_job)
+  $model ai_model_of(state)
+  $lines range(lines_of(get_content(window_manager_of(state) window_id)) 1 -1)
+  get_not_tokenized_lines $line_numbers $line_texts lines
+  if
+    line_numbers.is_not_empty:
+      !state.current_action_of
+	completion_job(.tokenized_line_numbers_of line_numbers)
+      $message "tokenizing @(length_of(line_numbers)) lines"
+      show_status_message &state AI message
+      log &io 2 message
+      tokenize &io TOKENIZE model line_texts
+      -> io state
+    :
+      evaluate_text_lines io state
+
+$TOKENIZE/job_failed: (_id io state data _context)
+  debug::println "TOKENIZE/job_failed"
+  debug::dump `data
+  current_action_completed io state
+
+$TOKENIZE/job_completed: (_id io state token_lines _context)
+  if
+    current_action_state_of(state) == CANCELLED:
+      remove_message &state.window_manager_of AI
+      current_action_completed io state
+    :
+      $completion_job current_action_of(state)
+      $window_id window_id_of(completion_job)
+      $page get_content(window_manager_of(state) window_id)
+      update_lines &page.lines_of tokenized_line_numbers_of(completion_job)
+	: (idx line) -> line(.tokens_of token_lines(idx))
+      set_content &state.window_manager_of window_id page
+      evaluate_text_lines io state
+
+$evaluate_text_lines: (io state)
+  $ai_model ai_model_of(state)
+  $completion_job current_action_of(state)
+  $window_id window_id_of(completion_job)
+  $page get_content(window_manager_of(state) window_id)
+  $x x_of(completion_job)
+  $y y_of(completion_job)
+  $lines range(lines_of(page) 1 min(y height_of(page)))
+  get_line_start_tokens $_cx $tokens $suffix x y lines ai_model
+  $at_line_start tokens.is_empty
+  $at_line_end suffix.is_empty
+  $start_tokens empty_list
+  $sy 0
+  $cy y
+  $half_context_size (context_size_of(ai_model) .div. 2)-256
+  loop !sy !start_tokens:
+    inc &sy
+    if
+      sy >= cy
+      -> sy-1 start_tokens
+      :
+	line_to_tokens $line_tokens sy lines ai_model
+	if
+	  length_of(start_tokens)+length_of(line_tokens) > half_context_size
+	  -> sy-1 start_tokens
+	  :
+	    append &start_tokens line_tokens
+	    next
+  loop !tokens:
+    dec &cy
+    if
+      cy <= sy
+      -> tokens
+      :
+	line_to_tokens $line_tokens cy lines ai_model
+	if
+	  length_of(line_tokens)+length_of(tokens) > half_context_size
+	  -> tokens
+	  :
+	    append line_tokens &tokens
+	    next
+  update_if
+    ||
+      start_tokens.is_empty
+      &&
+	not(is_a_space_token_of(ai_model)(start_tokens(1)))
+	start_tokens(1) != newline_token_of(ai_model)
+    &start_tokens -> put(start_tokens space_token_of(ai_model))
+  append start_tokens &tokens
+  $start_length length_of(start_tokens)
+  !completion_job
+    .tokens_of tokens
+    .start_length_of start_length
+    .at_line_start_of at_line_start
+    .at_line_end_of at_line_end
+    .generated_token_count_of 0
+  $message "checking already computed prefix"
+  show_status_message &state AI message
+  log &io 4 message
+  !state.current_action_of completion_job
+  cached_prefix &io CACHED_PREFIX ai_model tokens SMART start_length
+  -> io state
+
+$CACHED_PREFIX/job_failed: (_id io state err _context)
+  $message "token evaluation failed: @(err.to_error_message_string)"
+  show_error_message &state AI message
+  log &io message
+  current_action_completed io state
+
+$CACHED_PREFIX/job_completed: (_id io state prefix_length _context)
+  if
+    current_action_state_of(state) == CANCELLED:
+      remove_message &state.window_manager_of AI
+      current_action_completed io state
+    :
+      $configuration configuration_of(state)
+      $ai_model ai_model_of(state)
+      $batch_size ai_batch_size_of(configuration)
+      $completion_job current_action_of(state)
+      $tokens tokens_of(completion_job)
+      $start_length start_length_of(completion_job)
+      $evaluation_count length_of(tokens)-prefix_length
+      $message "evaluating @(evaluation_count) tokens"
+      show_status_message &state AI message
+      log &io 3 message
+      !completion_job.already_evaluated_prefix_length_of prefix_length
+      if
+	evaluation_count <= 1.5*batch_size:
+	  !completion_job.already_evaluated_count_of length_of(tokens)
+	  !state.current_action_of completion_job
+	  evaluate &io EVALUATE ai_model tokens SMART start_length
+	  -> io state
+	:
+	  $already_evaluated_count prefix_length+batch_size
+	  !completion_job.already_evaluated_count_of already_evaluated_count
+	  !state.current_action_of completion_job
+	  evaluate &io EVALUATE ai_model range(tokens 1 already_evaluated_count)
+	    SMART start_length
+	  -> io state
+
+$EVALUATE/job_failed: (_id io state err _context)
+  $message "token evaluation failed: @(err.to_error_message_string)"
+  show_error_message &state AI message
+  log &io message
+  current_action_completed io state
+
+$EVALUATE/job_completed: (_id io state logits _context)
+  if
+    current_action_state_of(state) == CANCELLED:
+      remove_message &state.window_manager_of AI
+      current_action_completed io state
+    :
+      $configuration configuration_of(state)
+      $ai_model ai_model_of(state)
+      $completion_job current_action_of(state)
+      $tokens tokens_of(completion_job)
+      $start_length start_length_of(completion_job)
+      $batch_size ai_batch_size_of(configuration)
+      $already_evaluated_count already_evaluated_count_of(completion_job)
+      $generated_token_count generated_token_count_of(completion_job)
+      if
+	generated_token_count == 0 && already_evaluated_count < length_of(tokens):
+	  $prefix_length already_evaluated_prefix_length_of(completion_job)
+	  $already_done already_evaluated_count-prefix_length
+	  $total length_of(tokens)-prefix_length
+	  show_progress_message &state AI already_done total
+	    "evaluating @(total) tokens"
+	  log &io 4 "evaluated @(already_done) of @(total) tokens"
+	  if
+	    already_evaluated_count+1.5*batch_size >= length_of(tokens):
+	      !completion_job.already_evaluated_count_of length_of(tokens)
+	      !state.current_action_of completion_job
+	      evaluate &io EVALUATE ai_model tokens SMART start_length
+	      -> io state
+	    :
+	      plus &already_evaluated_count batch_size
+	      !completion_job.already_evaluated_count_of already_evaluated_count
+	      !state.current_action_of completion_job
+	      evaluate &io EVALUATE ai_model range(tokens 1 already_evaluated_count)
+		SMART start_length
+	      -> io state
+	:
+	  $window_id window_id_of(completion_job)
+	  $new_token logits(1)(1)
+	  $x x_of(completion_job)
+	  $y y_of(completion_job)
+	  $at_line_start at_line_start_of(completion_job)
+	  $at_line_end at_line_end_of(completion_job)
+	  case new_token
+	    newline_token_of(ai_model):
+	      remove_message &state.window_manager_of AI
+	      if
+		at_line_end:
+		  change_text &state window_id split_line INSERTION undefined
+		  current_action_completed io state
+		:
+		  if
+		    at_line_start:
+		      goto_xy &state.window_manager_of x y+1
+		      current_action_completed io state
+		    :
+		      current_action_completed io state
+	    end_of_stream_token_of(ai_model), end_of_text_token_of(ai_model):
+	      remove_message &state.window_manager_of AI
+	      current_action_completed io state
+	    :
+	      $new_piece detokenize(ai_model new_token)
+	      update_if
+		&&
+		  at_line_start
+		  generated_token_count == 0
+		  new_piece(1) == ' '
+		&new_piece -> range(new_piece 2 -1)
+	      if
+		at_line_start && generated_token_count == 0:
+		  goto_xy &state.window_manager_of 1 y
+		  if
+		    at_line_end
+		    insert_text
+		    :
+		      change_text &state window_id
+			split_line INSERTION undefined
+		      change_text &state window_id
+			cursor_up MOVEMENT undefined
+		      insert_text
+		insert_text
+
+	      $insert_text:
+		change_text &state window_id insert INSERTION new_piece
+		push &tokens new_token
+		inc &generated_token_count
+		!completion_job
+		  .tokens_of tokens
+		  .generated_token_count_of generated_token_count
+		!state.current_action_of completion_job
+		show_status_message &state AI "
+		  generated @(generated_token_count) tokens
+		evaluate &io EVALUATE ai_model tokens SMART start_length
+		-> io state
+
+$line_to_tokens: (y lines ai_model)
+  if
+    y > length_of(lines)
+    -> list(newline_token_of(ai_model))
+    :
+      $line lines(y)
+      if
+	line.is_defined:
+	  $indent indent_of(line)
+	  $tokens tokens_of(line)
+	  $has_a_continuation_line
+	    &&
+	      y < length_of(lines)
+	      lines(y+1).is_defined
+	      lines(y+1).is_a_continuation_line
+	  !tokens
+	    if
+	      line.is_a_continuation_line
+	      -> tokens
+	      -> indented_tokens(indent tokens ai_model)
+	  if
+	    has_a_continuation_line
+	    -> tokens
+	    -> push(tokens newline_token_of(ai_model))
+	-> list(newline_token_of(ai_model))
+
+$get_not_tokenized_lines: (lines)
+  $line_numbers empty_list
+  $line_texts empty_list
+  for_each lines
+    : (no line)
+      if
+	line.is_undefined
+	next
+	:
+	  if
+	    tokens_of(line).is_defined
+	    next
+	    :
+	      push &line_numbers no
+	      push &line_texts text_of(line)
+	      next
+    -> line_numbers line_texts
+
+$get_line_start_tokens: (x y lines ai_model)
+  #
+    return a list of tokens corresponding to the text from the line start
+    (including indent) to the current cursor position;
+    a trailing space is ignored, because this would harm the tokenization
+  if
+    y > length_of(lines)
+    -> 1 empty_list empty_list
+    :
+      $line lines(y)
+      if
+	line.is_undefined
+	-> 1 empty_list empty_list
+	:
+	  $indent indent_of(line)
+	  $tokens tokens_of(line)
+	  $cx indent+1
+	  if
+	    x <= cx
+	    -> 1 empty_list tokens
+	    :
+	      $rest empty_list
+	      for_each tokens
+		: (i token)
+		  detokenize ai_model token $piece &rest
+		  $len length_of(piece)
+		  plus &cx
+		    if
+		      i == 1 && piece(1) == ' '
+		      -> len-1
+		      -> len
+		  if
+		    cx <= x
+		    next
+		    :
+		      if
+			i == 1
+			-> 1 empty_list tokens
+			:
+			  return
+			    range(tokens 1 i)
+			    range(tokens i+1 -1)
+		:
+		  return tokens empty_list
+
+	      $return: (prefix suffix)
+		-> cx indented_tokens(indent prefix ai_model) suffix
+
+$indented_tokens: (indent tokens ai_model)
+  if
+    tokens.is_empty
+    -> empty_list
+    :
+      $first_token tokens(1)
+      $first_piece detokenize(ai_model first_token)
+      $is_spaced first_piece(1) == ' '
+      if
+	indent > 0:
+	  update_if_not is_spaced &indent -> indent+1
+	  -> append(space_tokens_of(ai_model)(indent) tokens)
+	:
+	  if
+	    is_spaced
+	    -> tokens
+	    -> put(tokens space_token_of(ai_model))
+
+$add_token_infos: (model)
+  $space_token empty_list
+  $is_a_space_token empty_hash_set
+  from_to 1 16
+    : (i)
+      $token piece_table_of(model)(spaces(i))
+      push &space_token token
+      if
+	token.is_defined:
+	  !is_a_space_token(token) true
+	  next
+	next
+    :
+      !model.period_token_of piece_table_of(model)(".")
+      $space_tokens empty_list
+      $tokens empty_list
+      from_to 1 80
+	: (i)
+	  $n i .mod. 16
+	  if
+	    n == 0:
+	      push &tokens space_token(16)
+	      push &space_tokens tokens
+	      next
+	    :
+	      $piece space_token(n)
+	      if
+		piece.is_defined:
+		  push &space_tokens push(tokens piece)
+		  next
+		: # the desired number of spaces is not a single token
+		  push &space_tokens
+		    push(push(tokens space_token(n-1)) space_token(1))
+		  next
+	->
+	  model
+	    .is_a_space_token_of is_a_space_token
+	    .space_tokens_of space_tokens
+
+$tedi::update_lines ()
+
+$std_types::list/update_lines: (self line_numbers function)
+  $updated_lines empty_list
+  $last_updated_line_no 0
+  for_each line_numbers
+    : (idx line_no)
+      $line self(line_no)
+      append &updated_lines range(self last_updated_line_no+1 line_no-1)
+      push &updated_lines function(idx line)
+      !last_updated_line_no line_no
+      next
+    -> append(updated_lines range(self last_updated_line_no+1 -1))

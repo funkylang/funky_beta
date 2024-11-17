@@ -1,0 +1,546 @@
+#
+  Copyright (C) 2024 by
+  Dipl.-Ing. Michael Niederle
+
+  This program is free software; you can redistribute it and/or modify
+  it under the terms of the GNU General Public License, version 2, or
+  (at your option) version 3.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  GNU General Public License for more details.
+
+  For details of the GNU General Public License see the accompanying
+  files GPLv2.txt and GLPv3.txt or
+  http://www.gnu.org/licenses/gpl-2.0.html
+  http://www.gnu.org/licenses/gpl-3.0.html
+  or write to the
+  Free Software Foundation, Inc.,
+  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+
+<namespace tedi>
+<namespace tedi_types>
+
+<require basic/stdlib>
+<require basic/uuid>
+<require basic/export/json>
+<require basic/import/json>
+<require terminal/terminal>
+<require terminal/widgets>
+<require terminal/window_manager>
+
+<require ai/llama>
+<require web/server>
+
+<require ./editor>
+
+<using std>
+<using ai>
+<using tedi>
+
+$tedi::application_name "TEDI"
+$tedi::version "0.1"
+$tedi::author "Michael Niederle"
+
+$tedi::main:
+  $io std_types::io
+  program_parameters!
+    $config_path
+    list
+      VALUED_OPTION "config-path" "
+	the path where to look for "tedi.cfg"
+    $log_filename
+    list
+      VALUED_OPTION "log-file" "
+	the name of the log file
+    $text_filenames
+    list
+      SOME_PARAMETERS "filename" "
+	the name(s) of the text file(s) to edit
+
+  !default_configuration.commands_of
+    hash_table
+      CURSOR_UP = "cursor_up"
+      CURSOR_DOWN = "cursor_down"
+      CURSOR_LEFT = "cursor_left"
+      CURSOR_RIGHT = "cursor_right"
+
+  tedi_types::state $state
+    .files_to_load_of text_filenames
+
+  # Initialize Logging
+
+  on log_filename.is_defined:
+    open! $log_fd log_filename "w+"
+    dup2! log_fd STDERR_FILENO
+    close! log_fd
+
+  fstat! $stdout_info STDOUT_FILENO
+  fstat! $stderr_info STDERR_FILENO
+  $do_log
+    ||
+      inode_number_of(stderr_info) != inode_number_of(stdout_info)
+      device_of(stderr_info) != device_of(stdout_info)
+  $log_level if(do_log (-> 4) (-> 0))
+
+  enable_logging &io log_level
+  log &io -> "started logging (log-level: @(log_level))"
+
+  generate_uuid &io UUID RANDOM_BASED_UUID
+
+  $configuration_filename
+    if
+      config_path.is_defined
+      -> append(config_path "/tedi")
+      -> append(environment("HOME") "/.config/tedi/tedi")
+
+  !default_configuration.commands_of(ACTIVATE_SOFT_BREAKS)
+    tuple(toggle_soft_line_break UPDATE_STATE)
+  !default_configuration.commands_of(DEACTIVATE_SOFT_BREAKS)
+    tuple(toggle_soft_line_break UPDATE_STATE)
+
+  load_configuration &io LOAD_CONFIGURATION
+    default_configuration configuration_filename
+    "ai-model" = ai_model_name_of
+    "ai-batch-size" = ai_batch_size_of
+    "ai-context-size" = ai_context_size_of
+    "ai-model-path" = ai_model_path_of
+    "ai-server-address" = ai_server_address_of
+    "ai-server-port" = ai_server_port_no_of
+    "ai-server-name" = ai_server_name_of
+    "ai-log-file" = ai_server_log_file_of
+    "start-ai-server" = do_start_ai_server_of
+    name_to_key = commands_of
+
+  initialize_plugins &io
+
+  initialize_terminal &io TERMINAL
+    RECEIVE_CTRL_C_AND_CTRL_Z
+    RECEIVE_CTRL_Q_AND_CTRL_S
+    MAP_CR
+    MOUSE_REPORTING = CLICKS
+
+  # Main Loop
+
+  loop:
+    get_events! &io $events
+    do:
+      handle_everything $new_io !state
+      cond
+	-> new_io.is_an_error:
+	  shutdown! new_io
+	-> state.is_an_error:
+	  shutdown! state
+	-> true:
+	  !io new_io
+	  next!
+
+    $shutdown: (err)
+      debug::dump_object 50 err
+      log &io "crashed: @(err.to_error_message_string) - exiting"
+      exit &io EXIT_FAILURE
+      loop:
+	get_events! &io $_events
+	next!
+
+    $handle_everything:
+      handle_events &io &events # preprocess events
+      if
+	window_manager_of(state).is_defined:
+	  set_time &state.window_manager_of current_time_of(io)
+	  for_each events
+	    : (event)
+	      handle_event &state.window_manager_of &event STDIN_FILENO
+	      if
+		event.is_defined:
+		  handle_tedi_event $updated_io $updated_state event
+		  if
+		    updated_io.is_defined:
+		      !io updated_io
+		      !state updated_state
+		      next
+		    :
+		      handle_window_event &state.window_manager_of &event
+			STDIN_FILENO
+		      if
+			event.is_defined:
+			  log_unhandled_event &io event
+			  next
+			next
+		next
+	    update_terminal
+	:
+	  for_each events
+	    : (event)
+	      handle_tedi_event $updated_io $updated_state event
+	      if
+		updated_io.is_defined:
+		  !io updated_io
+		  !state updated_state
+		  next
+		:
+		  log_unhandled_event &io event
+		  next
+	    update_terminal
+
+    $handle_tedi_event: (event)
+      event $type $id $data $context
+      case type
+	JOB_COMPLETED:
+	  job_completed id io state data context
+	JOB_FAILED:
+	  job_failed id io state data context
+	KEY_PRESS, MOUSE_CLICK:
+	  $window_manager window_manager_of(state)
+	  if
+	    id == STDIN_FILENO && window_manager.is_defined:
+	      case type
+		KEY_PRESS:
+		  $key data
+		  case key
+		    CTRL_Q, QUIT:
+		      log &io "exiting"
+		      exit &io EXIT_SUCCESS
+		      -> io state
+		    CTRL_D:
+		      move_window_down &window_manager
+		      !state.window_manager_of window_manager
+		      -> io state
+		    CTRL_U:
+		      move_window_up &window_manager
+		      !state.window_manager_of window_manager
+		      -> io state
+		    CTRL_W, CLOSE:
+		      close &window_manager
+		      !state.window_manager_of window_manager
+		      -> io state
+		    ABOUT:
+		      initialize_rendering template_screen_of(state):
+			create_dialog &window_manager undefined
+			  vertical_group
+			    CENTER
+			    text_box(application_name)
+			    table_group
+			      list
+				text_box("Version:")
+				text_box(version)
+			      list
+				text_box("Author:")
+				text_box(author)
+			    push_button
+			      "Okay" = OKAY
+			!state.window_manager_of window_manager
+			-> io state
+		    HELP:
+		      initialize_rendering template_screen_of(state):
+			okay_dialog &window_manager undefined "
+			  This text will be replaced by
+			  the help text for the current
+			  window.
+			!state.window_manager_of window_manager
+			-> io state
+		    :
+		      $page get_content(window_manager)
+		      if
+			page.is_defined:
+			  handle_key_press page io state key
+			-> io state
+		MOUSE_CLICK:
+		  data $mouse_x $mouse_y $button
+		  get_window_at window_manager $window_id $page &mouse_x &mouse_y
+		  if
+		    window_id.is_defined:
+		      handle_mouse_click page io state mouse_x mouse_y button
+		    -> undefined undefined
+	    -> undefined undefined
+	FOCUS_CHANGED:
+	  handle_changed_focus get_content(window_manager_of(state)) &state
+	  -> io state
+	-> undefined undefined
+
+    $update_terminal:
+      if
+	window_manager_of(state).needs_updating:
+	  prepare_update &state.window_manager_of &state.terminal_of $update_ranges
+	  map $updates update_ranges: (update_range)
+	    update_range $range $id $content
+	    tuple id prepare(content state range)
+	  for_each updates
+	    : (update)
+	      update $id $content
+	      set_content &state.window_manager_of id content
+	      next
+	    :
+	      update &state.window_manager_of &state.terminal_of
+	      update &state.terminal_of $output
+	      if
+		output.is_empty
+		-> io state
+		:
+		  print_to &io STDOUT_FILENO output
+		  -> io state
+	-> io state
+
+$tedi::plugins empty_list
+
+$initialize_plugins: (io)
+  for_each plugins
+    : (plugin)
+      initialize plugin &io
+      next
+    -> io
+
+$tedi::uuid_of ()
+$config_path_of ()
+$tedi::configuration_of ()
+$terminal_of ()
+$tedi::template_screen_of ()
+$tedi::window_manager_of ()
+$files_to_load_of ()
+$tedi::text_window_id_of ()
+$tedi::clipboard_contents_of ()
+
+$tedi::handle_key_press ()
+$tedi::handle_mouse_click ()
+$tedi::handle_changed_focus ()
+$tedi::prepare ()
+$tedi::replace ()
+
+$tedi_types::state std_types::object
+  .uuid_of undefined
+  .config_path_of undefined
+  .configuration_of undefined
+  .terminal_of undefined
+  .template_screen_of undefined
+  .window_manager_of undefined
+  .files_to_load_of undefined
+  .text_window_id_of undefined # the target window of the current command box
+  .clipboard_contents_of undefined
+
+# Job Methods
+
+$tedi::job_completed ()
+$tedi::job_failed ()
+
+$std_types::object/job_completed: (id _io _state data context)
+  debug::dump `id
+  debug::dump 3 `data
+  debug::dump `context
+  debug::exit
+
+$std_types::object/job_failed: (id io state err _context)
+  debug::dump `id
+  debug::dump 99 `err
+  log &io "exiting"
+  exit &io EXIT_SUCCESS
+  -> io state
+
+$UUID/job_completed: (_id io state uuid _context)
+  !state.uuid_of uuid
+  log &io -> "got uuid: @(uuid)"
+  -> io state
+
+$TERMINAL/job_completed: (_id io state terminal _context)
+  log &io 4 -> "initialized terminal"
+  register_resource &io TERMINAL terminal
+  start_reading_from &io STDIN_FILENO
+  register_handlers &io STDIN_FILENO READ = create_terminal_events
+  start_injecting_window_change_events &io
+  $window_manager create_window_manager(terminal)
+  set_menu &window_manager
+    "File" =
+      list
+	"Load" = LOAD
+	"Save" = SAVE
+	"Save as" = SAVE_AS
+	"Quit application" = QUIT
+    "Help" =
+      list
+	"About" = ABOUT
+	"Help" = HELP
+  ->
+    io
+    state
+      .terminal_of terminal
+      .template_screen_of create_screen(terminal 0 0)
+      .window_manager_of window_manager
+
+$LOAD_CONFIGURATION .
+
+$LOAD_CONFIGURATION/job_completed: (_id io state data _context)
+  data $configuration $_errors
+  !state.configuration_of configuration
+  log &io 4 -> "successfully loaded configuration"
+  if
+    files_to_load_of(state).is_empty
+    -> io state
+    :
+      load_files io state
+
+$load_files: (io state)
+  # only called if there is at least one file to load
+  $files_to_load files_to_load_of(state)
+  $filename files_to_load(1)
+  range &state.files_to_load_of 2 -1
+  log &io 4 -> "
+    load file "@(filename)"
+  load &io LOAD_FILE filename
+  -> io state
+
+$LOAD_FILE .
+
+$LOAD_FILE/job_completed: (_self io state text filename)
+  log &io 4 -> "
+    loaded file "@(filename)" with @(length_of(text)) bytes
+  create_new_page io state text.from_utf8 filename
+
+$LOAD_FILE/job_failed: (_self io state err filename)
+  log &io 2 -> "
+    failed to load file "@(filename)": @(err.to_error_message_string)
+  show_error_message &state "
+    could not load file "@(filename)"
+  create_new_page io state "" filename
+
+$create_new_page: (io state text filename)
+  $page create_page_from_text(text state)
+  $is_first_window get_id(window_manager_of(state)).is_undefined
+  $buttons
+    case
+      kind_of(page)
+      TEDI -> list(ACTIVATE_SOFT_BREAKS)
+      -> empty_list
+  create_window &state.window_manager_of
+    TITLE = filename
+    CONTENT = page
+    USE_CURSOR
+    SIZE = MINIMIZED
+    BUTTONS = buttons
+    DO_NOT_FOCUS
+  if
+    is_first_window:
+      set_status_line &state.window_manager_of
+      load_more_files
+    load_more_files
+
+  $load_more_files:
+    if
+      files_to_load_of(state).is_empty
+      -> io state
+      :
+	load_files io state
+
+$tedi::show_status_message:
+  (
+    state
+    msg_id = undefined
+    message
+  )
+  show_message &state.window_manager_of msg_id
+    create_text_screen
+      create_screen
+	template_screen_of(state) 0 0
+	DRAW_COLOUR = WHITE
+	CLEAR_COLOUR = DARK_GREY
+      message
+  -> state
+
+$tedi::show_progress_message:
+  (
+    state
+    msg_id = undefined
+    current
+    total
+    message
+  )
+  $width width_of(window_manager_of(state))
+  !current (current*width/total).to_integer
+  pad_right &message width
+  create_screen $screen
+    template_screen_of(state) width 1
+    DRAW_COLOUR = WHITE
+    CLEAR_COLOUR = DARK_GREY
+  set_clear_colour &screen DARK_GREEN
+  draw_text &screen 1 1 range(message 1 current)
+  set_clear_colour &screen DARK_GREY
+  draw_text &screen current+1 1 range(message current+1 -1)
+  show_message &state.window_manager_of msg_id screen
+  -> state
+
+$tedi::show_error_message:
+  (
+    state
+    msg_id = undefined
+    message
+  )
+  show_message &state.window_manager_of msg_id
+    create_text_screen
+      create_screen
+	template_screen_of(state) 0 0
+	DRAW_COLOUR = WHITE
+	CLEAR_COLOUR = RED
+      message
+  -> state
+
+$tedi::show_success_message:
+  (
+    state
+    msg_id = undefined
+    message
+  )
+  show_message &state.window_manager_of msg_id
+    create_text_screen
+      create_screen
+	template_screen_of(state) 0 0
+	DRAW_COLOUR = WHITE
+	CLEAR_COLOUR = DARK_GREEN
+      message
+  -> state
+
+$tedi::LOAD .
+$tedi::SAVE .
+$tedi::SAVE_AS .
+$tedi::QUIT .
+$tedi::ABOUT .
+$tedi::HELP .
+
+$tedi::ai_model_name_of (!)
+$tedi::ai_batch_size_of (!)
+$tedi::ai_context_size_of (!)
+$tedi::ai_model_path_of (!)
+$tedi::ai_server_address_of (!)
+$tedi::ai_server_port_no_of (!)
+$tedi::ai_server_name_of (!)
+$tedi::ai_server_log_file_of (!)
+$tedi::do_start_ai_server_of (!)
+$tedi::commands_of (!)
+
+$default_configuration std_types::object
+  .ai_model_name_of "sauerkrautlm-una-solar-instruct.Q5_K_M.gguf"
+  .ai_batch_size_of 16
+  .ai_context_size_of 4096
+  .ai_model_path_of "/var/models"
+  .ai_server_address_of "127.0.0.1"
+  .ai_server_port_no_of 8080
+  .ai_server_name_of "funky_server"
+  .ai_server_log_file_of "/tmp/funky_server.log"
+  .do_start_ai_server_of false
+  .commands_of empty_hash_table
+
+# Resources
+
+$TERMINAL .
+
+$tedi::ACTIVATE_SOFT_BREAKS .
+$tedi::DEACTIVATE_SOFT_BREAKS .
+
+$tedi::ACTIVATE_SOFT_BREAKS.to_string "-"
+$tedi::DEACTIVATE_SOFT_BREAKS.to_string "≡"
+
+# TEDI Functions
+
+$argument_of ()
+
+$tedi_types::function std_types::function
+
+$tedi_types::function.argument_of undefined

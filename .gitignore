@@ -1,11 +1,13 @@
 *
 !*.*
+!new_tedi
 .*
 *.o
 *.c
 *.a
 *.so.*
 *.bak
+*~*
 s[0-9]*
 !basic/**/*.c
 examples
@@ -65,7 +67,6 @@ nlb2serialization.fky
 nlb2source.fky
 nlbinfo.fky
 once.txt
-otedi.fky
 queries.txt
 questions.txt
 sieve.codeblocks/

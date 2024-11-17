@@ -1,0 +1,1988 @@
+#
+  Copyright (C) 2024 by
+  Dipl.-Ing. Michael Niederle
+
+  This program is free software; you can redistribute it and/or modify
+  it under the terms of the GNU General Public License, version 2, or
+  (at your option) version 3.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  GNU General Public License for more details.
+
+  For details of the GNU General Public License see the accompanying
+  files GPLv2.txt and GLPv3.txt or
+  http://www.gnu.org/licenses/gpl-2.0.html
+  http://www.gnu.org/licenses/gpl-3.0.html
+  or write to the
+  Free Software Foundation, Inc.,
+  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+
+<using std-2.0>
+<using tedi>
+<using fde>
+
+<resolve std_types-2.0>
+
+$FDE .
+$DO_VALIDATE false
+
+# New Types
+
+$fde_types::tree std_types::object
+  .nodes_of undefined
+  .length_of undefined
+  .defined_namespaces_of undefined
+  .used_namespaces_of undefined
+  .local_definitions_of empty_hash_table # each entry is a hash_bag
+  .local_redefinitions_of empty_hash_bag
+  .local_usages_of empty_hash_bag
+  /: get_tree_item
+  /range range_of_tree
+  /map_reduce map_reduce_tree
+  /line_width_of line_width_of_tree
+  /update_lines update_tree_lines
+
+$fde_types::node tedi_types::line
+  .subgroups_of empty_list
+  .total_line_count_of 1
+  .kind_of undefined
+  .local_definitions_of undefined
+  .local_redefinitions_of undefined
+  .local_usages_of undefined
+  .definitions_of empty_hash_table # each entry is a hash_bag
+  .redefinitions_of empty_hash_bag
+  .usages_of empty_hash_bag
+  /map_reduce map_reduce_node
+  /line_width_of line_width_of_node
+
+# Extensions For Existing Types
+
+$tedi_types::text_page
+  .first_screen_line_of undefined
+  .kind_of FDE
+  /: get_text_page_item
+  /prepare prepare_text_page
+  /replace replace_in_text_page
+
+$std_types::undefined
+  /total_line_count_of: (_self) -> 1
+  /line_width_of: (_self) -> 0
+
+$std_types::list
+  /total_line_count_of total_line_count_of_list
+  /line_width_of line_width_of_list
+
+# Attributes
+
+$nodes_of ()
+$defined_namespaces_of ()
+$used_namespaces_of ()
+
+$total_line_count_of ()
+$local_definitions_of ()
+$local_redefinitions_of ()
+$local_usages_of ()
+$definitions_of ()
+$redefinitions_of ()
+$usages_of ()
+
+$first_screen_line_of ()
+
+# Methods
+
+$line_width_of ()
+
+# Uniques
+
+$STATEMENT .
+$ARGUMENTS .
+$REMARK .
+$STRING .
+$PARAMETERS .
+$DUMMY .
+
+$META .
+
+$IDENTIFIER .
+
+$PARAMETER .
+$LOCAL_IO_CALL .
+$LIBRARY_IO_CALL .
+$LOCAL_CONSTANT .
+$LIBRARY_CONSTANT .
+$LOCAL_VARIABLE .
+
+$LOCAL_FUNCTION .
+$LIBRARY_FUNCTION .
+$IO_FUNCTION .
+$OBJECT .
+$TYPE .
+$LITERAL .
+$LOCAL_UNIQUE_ITEM .
+$LIBRARY_UNIQUE_ITEM .
+$LIBRARY_VARIABLE .
+$UNSPECIFIC .
+$MULTIPLE_DEFINITIONS .
+$HIDING_DEFINITION .
+
+$LOCAL BLACK #'@0x384838;'
+$LIBRARY '@0x703000;' #'@0x905000;'
+
+# Tables
+
+$kind_to_colour
+  hash_table
+    REMARK = DARK_GREEN
+    STRING = BLUE
+    META = '@0x006060;'
+    LITERAL = BLUE
+    IDENTIFIER = RED
+    DUMMY = DARK_GREY
+    LOCAL_IO_CALL = LOCAL
+    LIBRARY_IO_CALL = LIBRARY
+    LOCAL_FUNCTION = LOCAL
+    LIBRARY_FUNCTION = LIBRARY
+    IO_FUNCTION = VERY_DARK_CYAN
+    OBJECT = LIBRARY
+    TYPE = LIBRARY
+    LOCAL_UNIQUE_ITEM = '@0xc000c0;'
+    LIBRARY_UNIQUE_ITEM = '@0xc000c0;'
+    LOCAL_CONSTANT = LOCAL
+    LIBRARY_CONSTANT = BLUE
+    LIBRARY_VARIABLE = LIBRARY
+    LOCAL_VARIABLE = LOCAL
+    MULTIPLE_DEFINITIONS = RED
+    HIDING_DEFINITION = MAGENTA
+
+$kind_to_text_attributes
+  hash_table
+    REMARK = ITALIC
+    STRING = NORMAL
+    META = BOLD|ITALIC
+    LITERAL = NORMAL
+    IDENTIFIER = NORMAL
+    DUMMY = NORMAL
+    LOCAL_IO_CALL = BOLD|ITALIC
+    LIBRARY_IO_CALL = BOLD|ITALIC
+    LOCAL_FUNCTION = BOLD
+    LIBRARY_FUNCTION = BOLD
+    IO_FUNCTION = BOLD
+    OBJECT = NORMAL
+    TYPE = NORMAL
+    LOCAL_UNIQUE_ITEM = ITALIC
+    LIBRARY_UNIQUE_ITEM = BOLD|ITALIC
+    LOCAL_CONSTANT = NORMAL
+    LIBRARY_CONSTANT = BOLD
+    LIBRARY_VARIABLE = ITALIC
+    LOCAL_VARIABLE = ITALIC
+    MULTIPLE_DEFINITIONS = BOLD
+    HIDING_DEFINITION = BOLD
+
+$kind_from_string
+  hash_table
+    "POLYMORPHIC_FUNCTION" = LIBRARY_FUNCTION
+    "FUNCTION" = LIBRARY_FUNCTION
+    "BUILTIN_FUNCTION" = LIBRARY_FUNCTION
+    "IO_FUNCTION" = IO_FUNCTION
+    "BUILTIN_IO_FUNCTION" = IO_FUNCTION
+    "OBJECT" = OBJECT
+    "BUILTIN_OBJECT" = OBJECT
+    "TYPE" = TYPE
+    "BUILTIN_TYPE" = TYPE
+    "CONSTANT" = LIBRARY_CONSTANT
+    "UNIQUE_ITEM" = LIBRARY_UNIQUE_ITEM
+    "VARIABLE" = LIBRARY_VARIABLE
+
+#$indent_colours
+  list
+    '@0xe4f4ff;'
+    '@0xe8ffe8;'
+    '@0xffffe0;'
+
+$indent_colours
+  list
+    '@0xecf7ff;'
+    '@0xeeffee;'
+    '@0xffffec;'
+
+# Text Page
+
+$get_text_page_item: (myself^ idx)
+  -> screens_of(myself)(idx-first_screen_line_of(myself)+1)
+
+$prepare_text_page: (page state line_range)
+  if
+    line_range.is_undefined:
+      $lines create_tree(lines_of(page))
+      #debug::dump 9 `lines
+      page
+	.lines_of lines
+	.width_of line_width_of(lines)
+	.template_screen_of template_screen_of(state)
+    :
+      $symbols symbols_of(state)
+      line_range $from $to
+      min &to height_of(page)
+      $screens screens_of(page)
+      $first first_screen_line_of(page)
+      $last
+	if
+	  first.is_defined
+	  -> first+length_of(screens)-1
+	  -> undefined
+      if
+	first.is_undefined || from > last || to < first:
+	  # recreate all
+	  $new_screens create_screens(page symbols from to)
+	  cond
+	    -> last == from-1: # last could be undefined
+	      # append
+	      append screens &new_screens
+	      page
+		.screens_of new_screens
+	    -> first == to+1: # first could be undefined
+	      # prepend
+	      append &new_screens screens
+	      page
+		.first_screen_line_of from
+		.screens_of new_screens
+	    -> true:
+	      # replace
+	      page
+		.first_screen_line_of from
+		.screens_of new_screens
+	:
+	  if
+	    from >= first && to <= last
+	    -> page
+	    :
+	      if
+		from < first:
+		  # prepend
+		  $new_screens create_screens(page symbols from first-1)
+		  append &new_screens screens
+		  page
+		    .first_screen_line_of from
+		    .screens_of new_screens
+		:
+		  # append
+		  $new_screens create_screens(page symbols last+1 to)
+		  append screens &new_screens
+		  page
+		    .screens_of new_screens
+
+$replace_in_text_page: (page from to inserted)
+  $inserted_count length_of(inserted)
+  map &inserted: (line)
+    if
+      line.is_undefined
+      -> undefined
+      -> new(fde_types::node line)
+  $inserted_width line_width_of(inserted)
+  $page_width width_of(page)
+  $tree lines_of(page)
+  $removed_width line_width_of(range(tree from to))
+  $nodes nodes_of(tree)
+  if
+    from <= length_of(tree):
+      if
+	&&
+	  from == to
+	  tree(from).is_defined
+	  length_of(inserted) == 1
+	  inserted(1).is_defined
+	  indent_of(inserted(1)) == indent_of(tree(from))
+	:
+	  replace_line &nodes from inserted(1)
+	    $definition_changes
+	    $redefinition_changes
+	    $usage_changes
+	  return
+	    definition_changes
+	    redefinition_changes
+	    usage_changes
+	:
+	  $all_definition_changes empty_hash_table
+	  $all_redefinition_changes empty_hash_bag
+	  $all_usage_changes empty_hash_bag
+	  for_each inserted
+	    : (no line)
+	      insert_line &nodes from+no-1 line
+		$definition_changes
+		$redefinition_changes
+		$usage_changes
+	      merge &all_definition_changes definition_changes
+		merge_symbol_kinds
+	      merge &all_redefinition_changes redefinition_changes
+	      merge &all_usage_changes usage_changes
+	      next
+	    :
+	      repeat to-from+1
+		:
+		  delete_line &nodes from+length_of(inserted)
+		    $definition_changes
+		    $redefinition_changes
+		    $usage_changes
+		  merge &all_definition_changes definition_changes
+		    merge_symbol_kinds
+		  merge &all_redefinition_changes redefinition_changes
+		  merge &all_usage_changes usage_changes
+		  next
+		:
+		  $n index_of_last_non_empty_group(nodes)
+		  minus &inserted_count length_of(nodes)-n
+		  range &nodes 1 n
+		  return
+		    all_definition_changes
+		    all_redefinition_changes
+		    all_usage_changes
+    :
+      append_lines &nodes inserted
+	$definition_changes $redefinition_changes $usage_changes
+      return definition_changes redefinition_changes usage_changes
+
+  $return:
+    (
+      definition_changes
+      redefinition_changes
+      usage_changes
+    )
+    !tree.nodes_of nodes
+    plus &tree.length_of inserted_count+from-to-1
+    on DO_VALIDATE && not(validate_tree(tree)): dump_tree tree
+    merge &tree.local_definitions_of definition_changes merge_symbol_kinds
+    merge &tree.local_redefinitions_of redefinition_changes
+    merge &tree.local_usages_of usage_changes
+    #debug::dump 99 `tree
+    #debug::println "___________________________"
+    #debug::dump 3
+      `local_definitions_of(tree)
+      `local_redefinitions_of(tree)
+      `local_usages_of(tree)
+    $new_width
+      if
+	inserted_width >= page_width
+	-> inserted_width
+	:
+	  if
+	    removed_width == page_width
+	    -> line_width_of(nodes_of(tree))
+	    -> page_width
+    page
+      .screens_of undefined
+      .first_screen_line_of undefined
+      .lines_of tree
+      .width_of new_width
+
+$delete_line:
+  (
+    nodes
+    line_no
+    kind = STATEMENT
+  )
+  get_index_and_offset $idx $offset nodes line_no
+  $node nodes(idx)
+  if
+    node.is_defined:
+      if
+	offset == 0:
+	  $subgroups subgroups_of(node)
+	  if
+	    subgroups.is_empty
+	    ->
+	      append(range(nodes 1 idx-1) range(nodes idx+1 -1))
+	      difference
+		empty_hash_table definitions_of(node) symbol_kind_difference
+	      difference(empty_hash_bag redefinitions_of(node))
+	      difference(empty_hash_bag usages_of(node))
+	    :
+	      $parent_idx get_index_of_line_above(nodes idx)
+	      if
+		parent_idx.is_defined:
+		  $parent nodes(parent_idx)
+		  $old_parent parent
+		  $n length_of(subgroups)
+		  loop:
+		    $subgroup subgroups(n)
+		    if
+		      ||
+			subgroup.is_undefined
+			indent_of(subgroup) <= indent_of(parent)
+		      :
+			if
+			  n > 1:
+			    dec &n
+			    next
+			  :
+			    annotate_nodes &subgroups kind
+			      $definitions $redefinitions $usages
+			    ->
+			      append
+				range(nodes 1 idx-1)
+				subgroups
+				range(nodes idx+1 -1)
+			      difference
+				definitions
+				definitions_of(node)
+				symbol_kind_difference
+			      difference(redefinitions redefinitions_of(node))
+			      difference(usages usages_of(node))
+		      :
+			$new_subgroups range(subgroups 1 n)
+			$remaining_groups range(subgroups n+1 -1)
+			append range(nodes parent_idx+1 idx-1) &new_subgroups
+			append_subgroups &parent new_subgroups
+			plus &parent.total_line_count_of
+			  total_line_count_of(new_subgroups)
+			annotate_node &parent
+			annotate_nodes &remaining_groups kind
+			  $definitions $redefinitions $usages
+			->
+			  append
+			    range(nodes 1 parent_idx-1)
+			    list(parent)
+			    remaining_groups
+			    range(nodes idx+1 -1)
+			  difference
+			    merge
+			      definitions_of(parent)
+			      definitions
+			      merge_symbol_kinds
+			    merge
+			      definitions_of(old_parent)
+			      definitions_of(node)
+			      merge_symbol_kinds
+			    symbol_kind_difference
+			  difference
+			    merge
+			      redefinitions_of(parent)
+			      redefinitions
+			    merge
+			      redefinitions_of(old_parent)
+			      redefinitions_of(node)
+			  difference
+			    merge
+			      usages_of(parent)
+			      usages
+			    merge
+			      usages_of(old_parent)
+			      usages_of(node)
+		:
+		  annotate_nodes &subgroups kind_of(node)
+		    $definitions $redefinitions $usages
+		  ->
+		    append
+		      range(nodes 1 idx-1)
+		      subgroups
+		      range(nodes idx+1 -1)
+		    difference
+		      definitions definitions_of(node) symbol_kind_difference
+		    difference(redefinitions redefinitions_of(node))
+		    difference(usages usages_of(node))
+	:
+	  delete_line &node.subgroups_of offset kind_of(node)
+	    $definition_changes
+	    $redefinition_changes
+	    $usage_changes
+	  !node.total_line_count_of total_line_count_of(node)-1
+	  # check for empty trailing lines in subgroups
+	  $subgroups subgroups_of(node)
+	  $n length_of(subgroups)
+	  $i n
+	  loop
+	    :
+	      if
+		i == 0
+		break
+		:
+		  if
+		    subgroups(i).is_undefined:
+		      dec &i
+		      next
+		    break
+	    :
+	      if
+		i < n:
+		  # move trailing empty lines
+		  !nodes
+		    append
+		      range(nodes 1 idx)
+		      range(subgroups i+1 -1)
+		      range(nodes idx+1 -1)
+		  minus &node.total_line_count_of n-i
+		  range &node.subgroups_of 1 i
+		  update_node
+		    nodes idx node
+		    definition_changes redefinition_changes usage_changes
+		:
+		  update_node
+		    nodes idx node
+		    definition_changes redefinition_changes usage_changes
+    ->
+      append(range(nodes 1 idx-1) range(nodes idx+1 -1))
+      empty_hash_table
+      empty_hash_bag
+      empty_hash_bag
+
+$index_of_last_non_empty_group: (nodes)
+  $n length_of(nodes)
+  loop:
+    if
+      n == 0 || nodes(n).is_defined
+      -> n
+      :
+	dec &n
+	next
+
+$append_subgroups: (node subgroups)
+  $s 1
+  for_each subgroups
+    : (idx subgroup)
+      if
+	subgroup.is_defined:
+	  append_subgroup &node range(subgroups s idx-1) subgroup
+	  !s idx+1
+	  next
+	next
+    -> node
+
+$append_subgroup: (node empty_subgroups subgroup)
+  plus &node.total_line_count_of
+    length_of(empty_subgroups)+total_line_count_of(subgroup)
+  $subgroups subgroups_of(node)
+  if
+    subgroups.is_empty
+    -> node(.subgroups_of append(empty_subgroups list(subgroup)))
+    :
+      $last_subgroup subgroups(-1)
+      if
+	indent_of(subgroup) > indent_of(last_subgroup):
+	  append_subgroup &last_subgroup empty_subgroups subgroup
+	  !node.subgroups_of(-1) last_subgroup
+	  -> node
+	:
+	  append &subgroups empty_subgroups list(subgroup)
+	  -> node(.subgroups_of subgroups)
+
+$insert_line:
+  (
+    nodes
+    line_no
+    line
+    kind = STATEMENT
+  )
+  get_index_and_offset $idx $offset nodes line_no
+  if
+    offset == 0:
+      if
+	line.is_undefined
+	->
+	  append(range(nodes 1 idx-1) list(undefined) range(nodes idx -1))
+	  empty_hash_table
+	  empty_hash_bag
+	  empty_hash_bag
+	:
+	  $parent_idx get_index_of_line_above(nodes idx)
+	  if
+	    &&
+	      parent_idx.is_defined
+	      indent_of(line) > indent_of(nodes(parent_idx))
+	    :
+	      $parent nodes(parent_idx)
+	      annotate_single_node parent $_dummy $subkind $_parameters
+	      append_line &parent.subgroups_of
+		range(nodes parent_idx+1 idx-1) line subkind
+		$definition_changes
+		$redefinition_changes
+		$usage_changes
+	      !parent.total_line_count_of
+		total_line_count_of(parent)+idx-parent_idx
+	      ->
+		append
+		  range(nodes 1 parent_idx-1)
+		  list(parent)
+		  range(nodes idx -1)
+		definition_changes
+		redefinition_changes
+		usage_changes
+	    :
+	      !line.kind_of kind
+	      $i idx
+	      $n length_of(nodes)
+	      $e undefined
+	      loop
+		:
+		  if
+		    i > n
+		    break
+		    :
+		      if
+			nodes(i).is_undefined:
+			  inc &i
+			  next
+			:
+			  if
+			    indent_of(nodes(i)) > indent_of(line):
+			      !e i
+			      inc &i
+			      next
+			    break
+		:
+		  if
+		    e.is_defined:
+		      $subgroups range(nodes idx e)
+		      collect_symbol_informations subgroups
+			$removed_definitions
+			$removed_redefinitions
+			$removed_usages
+		      !line
+			.subgroups_of subgroups
+			.total_line_count_of 1+total_line_count_of(subgroups)
+		      annotate_node &line
+		      ->
+			append
+			  range(nodes 1 idx-1)
+			  list(line)
+			  range(nodes e+1 -1)
+			difference
+			  definitions_of(line) removed_definitions
+			  symbol_kind_difference
+			difference(redefinitions_of(line) removed_redefinitions)
+			difference(usages_of(line) removed_usages)
+		    :
+		      annotate_node &line
+		      ->
+			append
+			  range(nodes 1 idx-1)
+			  list(line)
+			  range(nodes idx -1)
+			definitions_of(line)
+			redefinitions_of(line)
+			usages_of(line)
+    :
+      $node nodes(idx)
+      if
+	line.is_undefined || indent_of(line) > indent_of(node):
+	  annotate_single_node node $_dummy $subkind $_parameters
+	  insert_line &node.subgroups_of offset line subkind
+	    $definition_changes
+	    $redefinition_changes
+	    $usage_changes
+	  !node.total_line_count_of total_line_count_of(node)+1
+	  update_node
+	    nodes idx node
+	    definition_changes redefinition_changes usage_changes
+	:
+	  $subgroups subgroups_of(node)
+	  split &subgroups $empty_lines $rest offset
+	  $old_node node
+	  !node
+	    .subgroups_of subgroups
+	    .total_line_count_of 1+total_line_count_of(subgroups)
+	  !line
+	    .kind_of kind_of(node)
+	    .subgroups_of rest
+	    .total_line_count_of 1+total_line_count_of(rest)
+	  annotate_node &node
+	  annotate_node &line
+	  $definition_changes
+	    difference
+	      merge
+		definitions_of(node)
+		definitions_of(line)
+		merge_symbol_kinds
+	      definitions_of(old_node)
+	      symbol_kind_difference
+	  $redefinition_changes
+	    difference
+	      merge
+		redefinitions_of(node)
+		redefinitions_of(line)
+	      redefinitions_of(old_node)
+	  $usage_changes
+	    difference
+	      merge
+		usages_of(node)
+		usages_of(line)
+	      usages_of(old_node)
+	  ->
+	    append
+	      range(nodes 1 idx-1)
+	      list(node)
+	      empty_lines
+	      list(line)
+	      range(nodes idx+1 -1)
+	    definition_changes
+	    redefinition_changes
+	    usage_changes
+
+$append_lines:
+  (
+    nodes
+    lines
+    kind = STATEMENT
+  )
+  $all_definition_changes empty_hash_table
+  $all_redefinition_changes empty_hash_bag
+  $all_usage_changes empty_hash_bag
+  $empty_lines empty_list
+  for_each lines
+    : (line)
+      if
+	line.is_undefined:
+	  push &empty_lines line
+	  next
+	:
+	  append_line &nodes empty_lines line kind
+	    $definition_changes
+	    $redefinition_changes
+	    $usage_changes
+	  merge &all_definition_changes definition_changes merge_symbol_kinds
+	  merge &all_redefinition_changes redefinition_changes
+	  merge &all_usage_changes usage_changes
+	  !empty_lines empty_list
+	  next
+    -> nodes all_definition_changes all_redefinition_changes all_usage_changes
+
+$append_line: (nodes empty_lines line kind)
+  if
+    nodes.is_empty:
+      !line.kind_of kind
+      annotate_node &line
+      ->
+	push(empty_lines line)
+	definitions_of(line)
+	redefinitions_of(line)
+	usages_of(line)
+    :
+      $parent nodes(-1)
+      if
+	indent_of(line) > indent_of(parent):
+	  annotate_single_node parent $_dummy $subkind $_parameters
+	  append_line &parent.subgroups_of empty_lines line subkind
+	    $definition_changes $redefinition_changes $usage_changes
+	  !parent.total_line_count_of
+	    total_line_count_of(parent)+length_of(empty_lines)+1
+	  ->
+	    push(range(nodes 1 -2) parent)
+	    definition_changes redefinition_changes usage_changes
+	:
+	  !line.kind_of kind
+	  annotate_node &line
+	  ->
+	    append(nodes empty_lines list(line))
+	    definitions_of(line)
+	    redefinitions_of(line)
+	    usages_of(line)
+
+$collect_symbol_informations: (nodes)
+  $all_definitions empty_hash_table
+  $all_redefinitions empty_hash_bag
+  $all_usages empty_hash_bag
+  for_each nodes
+    : (node)
+      if
+	node.is_undefined
+	next
+	:
+	  merge &all_definitions definitions_of(node) merge_symbol_kinds
+	  merge &all_redefinitions redefinitions_of(node)
+	  merge &all_usages usages_of(node)
+	  next
+    -> all_definitions all_redefinitions all_usages
+
+$get_index_of_line_above: (nodes idx)
+  loop:
+    dec &idx
+    if
+      idx < 1
+      -> undefined
+      :
+	if
+	  nodes(idx).is_defined
+	  -> idx
+	  next
+
+$split: (nodes line_no)
+  get_index_and_offset $idx $offset nodes line_no
+  if
+    offset == 0:
+      $leading_groups range(nodes 1 idx-1)
+      $n index_of_last_non_empty_group(leading_groups)
+      ->
+	range(leading_groups 1 n)
+	range(leading_groups n+1 -1)
+	range(nodes idx -1)
+    :
+      $node nodes(idx)
+      $subgroups subgroups_of(node)
+      split &subgroups $empty_lines $rest offset
+      !node
+	.subgroups_of subgroups
+	.total_line_count_of 1+total_line_count_of(subgroups)
+      ->
+	push(range(nodes 1 idx-1) node)
+	empty_lines
+	append(rest range(nodes idx+1 -1))
+
+$replace_line: (nodes line_no new_line)
+  get_index_and_offset $idx $offset nodes line_no
+  $node nodes(idx)
+  if
+    offset == 0:
+      annotate_single_node $old_node $old_subkind $old_parameters node
+      !node
+	.text_of text_of(new_line)
+	.tokens_of undefined
+      annotate_single_node $new_node $new_subkind $new_parameters node
+      if
+	new_subkind != old_subkind && subgroups_of(node).is_not_empty:
+	  !old_node nodes(idx)
+	  annotate_node &new_node
+	  !node new_node
+	  update_definitions
+	:
+	  if
+	    local_definitions_of(node).is_defined:
+	      default_value &old_parameters empty_hash_table
+	      default_value &new_parameters empty_hash_table
+	      merge &node.local_definitions_of
+		difference(new_parameters old_parameters symbol_kind_difference)
+		merge_symbol_kinds
+	      update_definitions
+	    update_definitions
+
+      $update_definitions
+	->
+	  nodes(idx new_node)
+	  difference
+	    definitions_of(new_node) definitions_of(old_node)
+	    symbol_kind_difference
+	  difference(redefinitions_of(new_node) redefinitions_of(old_node))
+	  difference(usages_of(new_node) usages_of(old_node))
+    :
+      replace_line &node.subgroups_of offset new_line
+	$definition_changes $redefinition_changes $usage_changes
+      update_node
+	nodes idx node
+	definition_changes redefinition_changes usage_changes
+
+$update_node:
+  (
+    nodes
+    idx
+    node
+    definition_changes
+    redefinition_changes
+    usage_changes
+  )
+  $local_definitions local_definitions_of(node)
+  if
+    local_definitions.is_defined:
+      $local_redefinitions local_redefinitions_of(node)
+      $local_usages local_usages_of(node)
+      merge &local_definitions definition_changes merge_symbol_kinds
+      for_each redefinition_changes
+	: (symbol count)
+	  if
+	    local_definitions(symbol).is_defined:
+	      add &local_redefinitions symbol = count
+	      !redefinition_changes(symbol) undefined
+	      next
+	    next
+	:
+	  for_each usage_changes
+	    : (symbol count)
+	      if
+		local_definitions(symbol).is_defined:
+		  add &local_usages symbol = count
+		  !usage_changes(symbol) undefined
+		  next
+		next
+	    :
+	      #
+		debug::println "---"
+		debug::dump 2 `local_definitions
+		debug::dump 2 `local_redefinitions
+		debug::dump 2 `local_usages
+		debug::dump 3 `redefinition_changes
+		debug::dump 3 `usage_changes
+	      !node
+		.local_definitions_of local_definitions
+		.local_redefinitions_of local_redefinitions
+		.local_usages_of local_usages
+		.redefinitions_of
+		  merge(redefinitions_of(node) redefinition_changes)
+		.usages_of
+		  merge(usages_of(node) usage_changes)
+	      ->
+		nodes(idx node)
+		empty_hash_table
+		redefinition_changes
+		usage_changes
+    :
+      merge &node.definitions_of definition_changes merge_symbol_kinds
+      merge &node.redefinitions_of redefinition_changes
+      merge &node.usages_of usage_changes
+      ->
+	nodes(idx node)
+	definition_changes
+	redefinition_changes
+	usage_changes
+
+$get_index_and_offset: (nodes line_no)
+  $current_line_no 1
+  $idx 1
+  loop:
+    $next_line_no current_line_no+total_line_count_of(nodes(idx))
+    if
+      line_no < next_line_no
+      -> idx line_no-current_line_no
+      :
+	!current_line_no next_line_no
+	inc &idx
+	next
+
+$dump_tree: (tree)
+  debug::println "__________________________________________________"
+  dump_nodes nodes_of(tree)
+
+$dump_nodes: (nodes prefix = "")
+  for_each nodes
+    : (node)
+      if
+	node.is_defined:
+	  $subgroups subgroups_of(node)
+	  on subgroups.is_not_empty:
+	    debug::print prefix
+	    debug::println "[ @(total_line_count_of(node))"
+	  debug::print prefix
+	  debug::println text_of(node)
+	  dump_nodes subgroups append(prefix "  ")
+	  on subgroups.is_not_empty:
+	    debug::print prefix
+	    debug::println "]"
+	:
+	  debug::print "@nl;"
+      next
+    pass
+
+$validate_tree: (tree)
+  $nodes nodes_of(tree)
+  if
+    nodes.is_not_empty && nodes(-1).is_undefined:
+      debug::print "
+	EMPTY LINE AT END OF TEXT
+      -> false
+    :
+      validate_nodes nodes -1
+
+$validate_nodes: (nodes parent_indent)
+  $indent_above 9999
+  for_each nodes
+    : (node)
+      if
+	node.is_undefined
+	next
+	:
+	  $indent indent_of(node)
+	  cond
+	    -> indent <= parent_indent:
+	      debug::print "
+		NODE HAS INDENT LESS OR EQUAL TO PARENT: @
+		  @(indent) <= @(parent_indent)
+	      -> false
+	    -> indent > indent_above:
+	      debug::print "
+		NODE HAS INDENT GREATER THAN PREVIOUS: @
+		  @(indent) > @(indent_above)
+	      -> false
+	    -> true:
+	      !indent_above indent
+	      $subgroups subgroups_of(node)
+	      if
+		subgroups.is_empty
+		next
+		:
+		  if
+		    subgroups(-1).is_undefined:
+		      debug::print "
+			SUBGROUP ENDS WITH EMPTY LINE
+		      -> false
+		    :
+		      if
+			validate_nodes(subgroups indent)
+			next
+			-> false
+    -> true
+
+# Tree
+
+$create_tree: (lines)
+  $length length_of(lines)
+  split_into_groups &lines true true fde_types::node
+  collect_metadata lines $defined_namespaces $used_namespaces
+  update_if used_namespaces.is_empty
+    &used_namespaces -> used_namespaces("std" true)
+  annotate_nodes &lines
+    $local_definitions $local_redefinitions $local_usages
+  fde_types::tree
+    .nodes_of lines
+    .length_of length
+    .defined_namespaces_of defined_namespaces
+    .used_namespaces_of used_namespaces
+    .local_definitions_of local_definitions
+    .local_redefinitions_of local_redefinitions
+    .local_usages_of local_usages
+
+$get_tree_item: (myself^ index)
+  update_if index < 0 &index -> length_of(myself)+1+index
+  get nodes_of(myself) index
+
+  $get: (lines no)
+    $idx 1
+    for_each lines
+      : (line)
+	if
+	  idx == no:
+	    if
+	      line.is_defined:
+		line
+		  .subgroups_of empty_list
+		  .total_line_count_of 1
+	      -> undefined
+	  :
+	    $next_idx idx+total_line_count_of(line)
+	    if
+	      no < next_idx:
+		get subgroups_of(line) no-idx
+	      :
+		!idx next_idx
+		next
+      -> std::error(RUNTIME_ERROR "INVALID_INDEX")
+
+$range_of_tree: (self first last)
+  update_if first < 0 &first -> length_of(self)+1+first
+  update_if last < 0 &last -> length_of(self)+1+last
+  get_range nodes_of(self) first last
+
+  $get_range: (nodes from to)
+    $lines empty_list
+    $line_no 1
+    for_each nodes
+      : (node)
+	if
+	  line_no > to
+	  -> lines
+	  :
+	    $item_count total_line_count_of(node)
+	    $next_line_no line_no+item_count
+	    if
+	      from < next_line_no:
+		update_if from <= line_no &lines:
+		  push lines
+		    if
+		      node.is_defined:
+			node
+			  .subgroups_of empty_list
+			  .total_line_count_of 1
+		      -> undefined
+		update_if item_count > 1 && to > line_no &lines:
+		  append lines
+		    get_range(subgroups_of(node) max(from-line_no 1) to-line_no)
+		!line_no next_line_no
+		next
+	      :
+		!line_no next_line_no
+		next
+      -> lines
+
+$map_reduce_tree: (self map_function reduce_function unit)
+  map_reduce nodes_of(self)
+    : (node)
+      if
+	node.is_undefined
+	-> unit
+	-> map_reduce(node map_function reduce_function unit)
+    reduce_function
+    unit
+
+$line_width_of_tree: (self)
+  map_reduce nodes_of(self)
+    : (node)
+      if
+	node.is_undefined
+	-> 0
+	-> line_width_of(node)
+    max
+    0
+
+$update_tree_lines: (self line_numbers function)
+  push &line_numbers undefined # sentinel
+  $line_idx 1
+  update_tree &self.nodes_of &line_idx 1
+  -> self
+
+  $update_tree: (nodes idx no)
+    $new_nodes empty_list
+    for_each nodes
+      : (node)
+	if
+	  node.is_undefined:
+	    push &new_nodes undefined
+	    inc &no
+	    next
+	  :
+	    if
+	      no == line_numbers(idx):
+		function idx &node
+		inc &idx
+		update_subgroups
+	      update_subgroups
+
+	    $update_subgroups:
+	      if
+		subgroups_of(node).is_defined:
+		  update_tree &node.subgroups_of &idx no+1
+		  push &new_nodes node
+		  plus &no total_line_count_of(node)
+		  next
+		:
+		  plus &no total_line_count_of(node)
+		  next
+      -> new_nodes idx
+
+# Node
+
+$map_reduce_node: (self map_function reduce_function unit)
+  $head map_function(self)
+  $items map_reduce(subgroups_of(self) map_function reduce_function unit)
+  -> reduce_function(head items)
+
+$line_width_of_node: (self)
+  $my_width indent_of(self)+width_of(text_of(self))
+  $subgroups_width map_reduce(subgroups_of(self) line_width_of max 0)
+  max my_width subgroups_width
+
+# Screens
+
+$create_screens: (page symbols from to)
+  $template_screen template_screen_of(page)
+  $empty_line create_text_screen(template_screen "")
+  $tree lines_of(page)
+  $module_global_definitions local_definitions_of(tree)
+  $module_global_redefinitions local_redefinitions_of(tree)
+  #$defined_namespaces defined_namespaces_of(tree)
+  $used_namespaces used_namespaces_of(tree)
+  create nodes_of(tree) from min(to height_of(page)) undefined empty_line 1 2
+
+  $create: (lines from to local_symbols indent_screen colour_1 colour_2)
+    $screens empty_list
+    $idx 1
+    for_each lines
+      : (no line)
+	if
+	  idx > to
+	  -> screens
+	  :
+	    $n total_line_count_of(line)
+	    $next_idx idx+n
+	    if
+	      from < next_idx:
+		$inner_local_symbols
+		  if
+		    line.is_defined && local_definitions_of(line).is_defined
+		    -> tuple(line local_symbols)
+		    -> local_symbols
+		$colour
+		  if
+		    no.is_odd
+		    -> colour_1
+		    -> colour_2
+		if
+		  n == 1: # no subgroups
+		    push &screens
+		      create_screen_for_line(line indent_screen colour)
+		    !idx next_idx
+		    next
+		  :
+		    $subgroups subgroups_of(line)
+		    $indent indent_of(subgroups(-1))
+		    $width indent-width_of(indent_screen)
+		    $line_kind kind_of(line)
+		    $subgroup_kind kind_of(subgroups(-1))
+		    $new_colour_1 6-colour_1-colour_2
+		    $new_colour_2 colour_1+colour_2-colour
+		    if !new_colour_1 !new_colour_2
+		      line_kind == REMARK || line_kind == STRING
+		      -> colour_1 colour_2
+		      :
+			if
+			  subgroup_kind == REMARK || subgroup_kind == STRING
+			  -> new_colour_1 new_colour_1
+			  -> new_colour_1 new_colour_2
+		    update_if length_of(subgroups).is_even
+		      &new_colour_1 &new_colour_2 -> new_colour_2 new_colour_1
+		    $additional_indent_screeen
+		      create_screen(template_screen width 1)
+		    # ATTENTION!
+		    set_clear_colour &additional_indent_screeen
+		      if
+			colour == 0
+			-> RED
+			-> indent_colours(colour)
+		    draw_text &additional_indent_screeen 1 1 spaces(width)
+		    $new_indent_screen
+		      adjoin(indent_screen additional_indent_screeen)
+		    if
+		      idx >= from:
+			push &screens
+			  create_screen_for_line(line indent_screen colour)
+			append &screens
+			  create
+			    subgroups
+			    1
+			    min(to-idx n-1)
+			    inner_local_symbols
+			    new_indent_screen
+			    new_colour_1
+			    new_colour_2
+			!idx next_idx
+			next
+		      :
+			append &screens
+			  create
+			    subgroups
+			    from-idx
+			    min(to-idx n-1)
+			    inner_local_symbols
+			    new_indent_screen
+			    new_colour_1
+			    new_colour_2
+			!idx next_idx
+			next
+	      :
+		!idx next_idx
+		next
+      -> screens
+
+    $create_screen_for_line ()
+
+    $std_types::undefined/create_screen_for_line: (_self indent_screen colour)
+      set_clear_colour indent_screen indent_colours(colour)
+
+    $fde_types::node/create_screen_for_line: (line screen colour)
+      $indent indent_of(line)
+      $text text_of(line)
+      $kind kind_of(line)
+      $width indent+width_of(text)
+      resize &screen width 1
+      $x indent_of(line)+1
+      set_draw_colour &screen kind_to_colour(kind)
+      # ATTENTION!
+      set_clear_colour &screen
+	if
+	  colour == 0
+	  -> RED
+	  -> indent_colours(colour)
+      set_text_attributes &screen kind_to_text_attributes(kind)
+      draw_line kind
+
+      $draw_line ()
+
+      $std_types::object/draw_line: (_kind)
+	draw_text screen x 1 text
+
+      $STATEMENT/draw_line draw_line_with_syntax_highlighting
+      $ARGUMENTS/draw_line draw_line_with_syntax_highlighting
+      $PARAMETERS/draw_line draw_line_with_syntax_highlighting
+
+      $draw_line_with_syntax_highlighting: (_kind)
+	$n length_of(text)
+	$i 1
+	$s 1
+	$style DUMMY
+	#$within_lambda false
+
+	if
+	  text(1) == '<':
+	    !style META
+	    loop:
+	      inc &i
+	      if
+		i > n
+		add_part
+		:
+		  if
+		    text(i) == '>':
+		      inc &i
+		      add_part DUMMY check
+		    next
+	  check
+
+	$check:
+	  if
+	    i > n
+	    add_part
+	    :
+	      case text(i)
+		'#':
+		  add_part REMARK:
+		    !i n+1
+		    add_part
+		'"':
+		  add_part STRING handle_string
+		'@apos;':
+		  if
+		    i == 1 || not(is_a_digit(text(i-1))):
+		      add_part STRING skip_character
+		    :
+		      inc &i
+		      check
+		'a'..'z', 'A'..'Z', '_':
+		  add_part IDENTIFIER skip_identifier
+		'0'..'9':
+		  add_part LITERAL skip_number
+		':':
+		  #!within_lambda true
+		  inc &i
+		  check
+		:
+		  inc &i
+		  check
+
+	$handle_string:
+	  loop:
+	    inc &i
+	    if
+	      i > n
+	      add_part
+	      :
+		case text(i)
+		  '"':
+		    inc &i
+		    add_part DUMMY check
+		  '@@':
+		    if
+		      i < n && text(i+1) == '(':
+			plus &i 2
+			add_part IDENTIFIER:
+			  loop
+			    :
+			      if
+				i > n
+				add_part
+				:
+				  if
+				    text(i) == ')'
+				    break
+				    :
+				      inc &i
+				      next
+			    :
+			      add_part STRING handle_string
+		      handle_string
+		  handle_string
+
+	$skip_identifier:
+	  if
+	    i > n
+	    add_part
+	    :
+	      case text(i)
+		'a'..'z', 'A'..'Z', '0'..'9', '_':
+		  inc &i
+		  skip_identifier
+		':':
+		  if
+		    i < n && text(i+1) == ':':
+		      plus &i 2
+		      skip_identifier
+		    :
+		      add_part DUMMY check
+		:
+		  add_part DUMMY check
+
+	$skip_number:
+	  inc &i
+	  if
+	    i > n
+	    add_part
+	    :
+	      case text(i)
+		'0'..'9', '.'
+		skip_number
+		:
+		  add_part DUMMY check
+
+	$skip_character:
+	  inc &i
+	  if
+	    i > n
+	    add_part
+	    :
+	      case text(i)
+		'@apos;':
+		  inc &i
+		  add_part DUMMY check
+		:
+		  skip_character
+
+	$add_part:
+	  (
+	    new_style = DUMMY
+	    continuation = return
+	  )
+	  $part range(text s i-1)
+	  if
+	    part.is_empty:
+	      !style new_style
+	      continuation
+	    :
+	      update_if style == IDENTIFIER &style:
+		$is_an_io_call i <= n && text(i) == '!'
+		cond
+		  -> part(1) == '_' -> DUMMY
+		  -> part .contains. ':':
+		    $var_kind module_global_definitions(part)
+		    if
+		      var_kind.is_defined:
+			if
+			  module_global_redefinitions(part).is_defined
+			  -> LOCAL_VARIABLE
+			  :
+			    if
+			      is_an_io_call
+			      -> LOCAL_IO_CALL
+			      :
+				if
+				  length_of(var_kind) > 1
+				  -> MULTIPLE_DEFINITIONS
+				  :
+				    get_first_key_and_value &var_kind $count
+				    if
+				      count > 1
+				      -> MULTIPLE_DEFINITIONS
+				      :
+					case var_kind
+					  sequence
+					    LOCAL_FUNCTION
+					    LOCAL_UNIQUE_ITEM
+					    MULTIPLE_DEFINITIONS
+					  -> var_kind
+					  -> LOCAL_CONSTANT
+		      :
+			$kind_string symbols(part)
+			if
+			  kind_string.is_defined
+			  -> kind_from_string(kind_string)
+			  -> IDENTIFIER
+		  -> true:
+		    $found_node undefined
+		    update_if
+		      &&
+			local_definitions_of(line).is_defined
+			local_definitions_of(line)(part).is_defined
+		      &found_node -> line
+		    loop:
+		      if
+			local_symbols.is_defined:
+			  local_symbols $node !local_symbols
+			  $definition local_definitions_of(node)(part)
+			  if
+			    definition.is_defined:
+			      if
+				found_node.is_defined
+				-> HIDING_DEFINITION
+				:
+				  !found_node node
+				  next
+			    next
+			check_top_level_symbols
+
+		    $check_top_level_symbols:
+		      $definition local_definitions_of(tree)(part)
+		      if
+			definition.is_defined:
+			  if
+			    found_node.is_defined
+			    -> HIDING_DEFINITION
+			    :
+			      return_variable_kind tree part
+			:
+			  if
+			    found_node.is_defined:
+			      return_variable_kind found_node part
+			    check_global_symbols
+
+		    $check_global_symbols:
+		      for_each used_namespaces
+			: (namespace)
+			  $identifier append(namespace "::" part)
+			  $kind_string symbols(identifier)
+			  if
+			    kind_string.is_defined:
+			      if
+				is_an_io_call
+				-> LIBRARY_IO_CALL
+				-> kind_from_string(kind_string)
+			    next
+			-> IDENTIFIER
+
+		    $return_variable_kind: (obj symbol)
+		      if
+			local_redefinitions_of(obj)(symbol).is_defined
+			-> LOCAL_VARIABLE
+			:
+			  if
+			    is_an_io_call
+			    -> LOCAL_IO_CALL
+			    :
+			      $var_kind local_definitions_of(obj)(symbol)
+			      if
+				length_of(var_kind) > 1
+				-> MULTIPLE_DEFINITIONS
+				:
+				  get_first_key_and_value &var_kind $count
+				  if
+				    count > 1
+				    -> MULTIPLE_DEFINITIONS
+				    :
+				      case var_kind
+					sequence
+					  LOCAL_FUNCTION
+					  LOCAL_UNIQUE_ITEM
+					  MULTIPLE_DEFINITIONS
+					-> var_kind
+					-> LOCAL_CONSTANT
+	      set_draw_colour &screen kind_to_colour(style)
+	      set_text_attributes &screen kind_to_text_attributes(style)
+	      draw_text &screen x 1 part
+	      plus &x width_of(range(text s i-1))
+	      !s i
+	      !style new_style
+	      continuation
+
+	$return -> screen
+
+$get_first_key_and_value: (self)
+  for_each self
+    : (key value) -> key value
+    pass
+
+# Metadata
+
+$collect_metadata: (lines)
+  $defined empty_hash_set
+  $used empty_hash_set
+  for_each lines
+    : (line)
+      if
+	line.is_undefined
+	next
+	:
+	  $text text_of(line)
+	  case text(1)
+	    '#' next
+	    '<':
+	      range &text 2 -1
+	      case text has_prefix
+		"namespace":
+		  range &text 10 -1
+		  skip_whitespace &text
+		  get_name &text $name
+		  if
+		    name.is_defined:
+		      !defined(name) true
+		      next
+		    next
+		"using":
+		  range &text 6 -1
+		  skip_whitespace &text
+		  get_name &text $name
+		  if
+		    name.is_defined:
+		      !used(name) true
+		      next
+		    next
+		next
+	    -> defined used
+    -> defined used
+
+$skip_whitespace: (text)
+  $n length_of(text)
+  $i 1
+  while
+    -> i <= n && text(i) == ' '
+    :
+      inc &i
+      next
+    -> range(text i -1)
+
+$get_name: (text)
+  match $len FUNKY_IDENTIFIER text
+  if
+    len.is_defined
+    -> range(text len+1 -1) range(text 1 len)
+    -> text undefined
+
+$annotate_nodes:
+  (
+    lines
+    kind = STATEMENT
+  )
+  $annotated_lines empty_list
+  $definitions empty_hash_table
+  $redefinitions empty_hash_bag
+  $usages empty_hash_bag
+  for_each lines
+    : (line)
+      if
+	line.is_defined:
+	  new fde_types::node &line
+	  !line.kind_of kind
+	  annotate_node &line
+	  merge &definitions definitions_of(line) merge_symbol_kinds
+	  merge &redefinitions redefinitions_of(line)
+	  merge &usages usages_of(line)
+	  push &annotated_lines line
+	  next
+	:
+	  push &annotated_lines undefined
+	  next
+    -> annotated_lines definitions redefinitions usages
+
+$annotate_node: (node)
+  annotate_single_node &node $subkind $parameters
+  $subgroups subgroups_of(node)
+  if
+    subgroups.is_empty
+    -> node
+    :
+      if
+	parameters.is_defined:
+	  annotate_nodes &subgroups subkind
+	    $local_definitions $local_redefinitions $local_usages
+	  merge &local_definitions parameters merge_symbol_kinds
+	  $redefinitions redefinitions_of(node)
+	  for_each local_redefinitions
+	    : (symbol count)
+	      if
+		local_definitions(symbol).is_defined
+		next
+		:
+		  !local_redefinitions(symbol) undefined
+		  add &redefinitions symbol = count
+		  next
+	    :
+	      $usages usages_of(node)
+	      for_each local_usages
+		: (symbol count)
+		  if
+		    local_definitions(symbol).is_defined
+		    next
+		    :
+		      !local_usages(symbol) undefined
+		      add &usages symbol = count
+		      next
+		->
+		  node
+		    .subgroups_of subgroups
+		    .total_line_count_of 1+total_line_count_of(subgroups)
+		    .local_definitions_of local_definitions
+		    .local_redefinitions_of local_redefinitions
+		    .local_usages_of local_usages
+		    .redefinitions_of redefinitions
+		    .usages_of usages
+	:
+	  annotate_nodes &subgroups subkind $definitions $redefinitions $usages
+	  node
+	    .subgroups_of subgroups
+	    .total_line_count_of 1+total_line_count_of(subgroups)
+	    .definitions_of
+	      merge(definitions_of(node) definitions merge_symbol_kinds)
+	    .redefinitions_of merge(redefinitions_of(node) redefinitions)
+	    .usages_of merge(usages_of(node) usages)
+
+$merge_symbol_kinds: (left right)
+  $result merge(left right)
+  if
+    result.is_empty
+    -> undefined
+    -> result
+
+$symbol_kind_difference: (left right)
+  $result difference(default_value(left empty_hash_bag) right)
+  if
+    result.is_empty
+    -> undefined
+    -> result
+
+$annotate_single_node: (node)
+  $text text_of(node)
+  $definitions empty_hash_table
+  $redefinitions empty_hash_bag
+  $usages empty_hash_bag
+  $within_parameters false
+  $parameters undefined
+  $n length_of(text)
+  $i 0
+  $first_chr text(1)
+  if
+    first_chr == '#':
+      return_subkind REMARK
+    :
+      case kind_of(node)
+	STATEMENT:
+	  case text(1)
+	    '(': return_subkind PARAMETERS
+	    ')': return_subkind DUMMY
+	    check_statement_node
+	ARGUMENTS check_statement_node
+	PARAMETERS check_parameter_node
+	: return_subkind kind_of(node)
+
+  $return_subkind: (subkind)
+    ->
+      node
+	.definitions_of definitions
+	.redefinitions_of redefinitions
+	.usages_of usages
+      subkind
+      parameters
+
+  $check_parameter_node:
+    $do_parse_initializer false
+    loop:
+      inc &i
+      if
+	i > n
+	return
+	:
+	  case text(i)
+	    'a'..'z', 'A'..'Z', '_':
+	      get_identifier !i $identifier
+	      dec &i
+	      if
+		do_parse_initializer:
+		  add &usages identifier
+		  next
+		:
+		  add_symbol_kind identifier PARAMETER next
+	    '=':
+	      !do_parse_initializer true
+	      next
+	    '#' return
+	    next
+
+    $return:
+      return_subkind PARAMETERS
+
+  $check_statement_node:
+    $stack "-" # sentinel
+    loop:
+      inc &i
+      if
+	i > n
+	return
+	:
+	  $chr text(i)
+	  case stack(-1)
+	    '"':
+	      if
+		chr == '"':
+		  range &stack 1 -2
+		  next
+		next
+	    '@apos;':
+	      if
+		chr == '@apos;':
+		  range &stack 1 -2
+		  next
+		next
+	    :
+	      case chr
+		'"':
+		  push &stack '"'
+		  next
+		'@apos;':
+		  push &stack '@apos;'
+		  next
+		'(':
+		  push &stack '('
+		  next
+		')':
+		  !within_parameters false
+		  if
+		    stack(-1) == '(':
+		      range &stack 1 -2
+		      next
+		    next # some kind of error
+		'#':
+		  if
+		    parameters.is_defined:
+		      return_subkind STATEMENT
+		    :
+		      return_subkind ARGUMENTS
+		'$':
+		  $s i
+		  inc &i
+		  get_identifier !i $identifier
+		  if
+		    i < n && (text(i) == '.' || text(i) == '/'):
+		      add_usage identifier next_iteration
+		    :
+		      add_definition identifier next_iteration
+
+		  $add_definition: (identifier continuation)
+		    if
+		      identifier.is_empty || identifier(1) == '_'
+		      continuation
+		      :
+			if
+			  s == 1:
+			    skip_spaces !i
+			    determine_symbol_kind
+			  :
+			    add_symbol_kind identifier UNSPECIFIC continuation
+
+		    $determine_symbol_kind:
+		      $rest range(text i -1)
+		      on rest.is_an_error:
+			debug::dump `i
+			debug::dump `n
+			debug::dump `rest
+		      if
+			rest .has_prefix. ':':
+			  add_symbol_kind identifier LOCAL_FUNCTION continuation
+			:
+			  cond
+			    -> rest .has_prefix. '.':
+			      add_symbol_kind
+				identifier LOCAL_UNIQUE_ITEM continuation
+			    ->
+			      ||
+				rest .has_prefix. "()"
+				rest .has_prefix. "(!)"
+			      :
+				add_symbol_kind
+				  identifier LOCAL_FUNCTION continuation
+			    -> true:
+			      add_symbol_kind identifier UNSPECIFIC continuation
+		'!':
+		  inc &i
+		  get_identifier !i $identifier
+		  add_redefinition identifier next_iteration
+
+		  $add_redefinition: (identifier continuation)
+		    if
+		      identifier.is_empty || identifier(1) == '_'
+		      continuation
+		      :
+			add &redefinitions identifier
+			continuation
+		'a'..'z', 'A'..'Z', '_':
+		  get_identifier !i $identifier
+		  add_usage identifier next_iteration
+		':':
+		  !parameters empty_hash_table
+		  inc &i
+		  skip_spaces !i
+		  if
+		    i <= n:
+		      if
+			text(i) == '(':
+			  !within_parameters true
+			  next
+			next
+		    :
+		      dec &i
+		      next
+		next
+
+    $add_usage: (identifier continuation)
+      if
+	identifier(1) == '_'
+	continuation
+	:
+	  if
+	    within_parameters:
+	      $parameter
+		default_value
+		  parameters(identifier)
+		  empty_hash_bag
+	      add &parameter PARAMETER
+	      !parameters(identifier) parameter
+	      continuation
+	    :
+	      add &usages identifier
+	      continuation
+
+    $next_iteration:
+      if
+	i > n
+	return
+	:
+	  dec &i
+	  next
+
+
+    $return:
+      if
+	stack(-1) == '"':
+	  return_subkind STRING
+	:
+	  if
+	    parameters.is_defined:
+	      return_subkind STATEMENT
+	    :
+	      return_subkind ARGUMENTS
+
+  $skip_spaces:
+    loop:
+      if
+	i > n
+	-> i
+	:
+	  if
+	    text(i) == ' ':
+	      inc &i
+	      next
+	    -> i
+
+  $get_identifier:
+    $s i
+    loop:
+      if
+	i > n
+	-> i range(text s n)
+	:
+	  case text(i)
+	    'a'..'z', 'A'..'Z', '0'..'9', '_':
+	      inc &i
+	      next
+	    ':':
+	      if
+		i < n && text(i+1) == ':':
+		  plus &i 2
+		  next
+		-> i range(text s i-1)
+	    -> i range(text s i-1)
+
+  $add_symbol_kind: (identifier kind continuation)
+    $symbol_kind
+      default_value
+	definitions(identifier) empty_hash_bag
+    add &symbol_kind kind
+    !definitions(identifier) symbol_kind
+    continuation
+
+# List
+
+$total_line_count_of_list: (self)
+  map_reduce self total_line_count_of plus 0
+
+$line_width_of_list: (self)
+  map_reduce self line_width_of max 0
