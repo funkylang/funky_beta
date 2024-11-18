@@ -1020,68 +1020,74 @@ $tedi::split_line: (x y lines info)
 		info
 
 $delete_left: (x y lines info)
-  $line lines(y)
   if
-    line.is_undefined:
-      cursor_left x y lines info
-    :
-      $indent indent_of(line)
-      $text text_of(line)
-      $text_width width_of(text)
-      cond
-	-> x == 1
-	  -> undefined undefined x y info
-	-> x <= indent+1:
-	  ->
-	    y
-	    tedi_line(indent-1 text)
-	    x-1
-	    y
-	    info
-	-> x > indent+text_width+1
-	  -> undefined undefined x-1 y info
-	-> true:
-	  $pos get_position(text x-1-indent)
-	  ->
-	    y
-	    list
-	      tedi_line
-		indent
-		append(range(text 1 pos-1) range(text pos+1 -1))
-	    x-width_of(text(pos))
-	    y
-	    info
+    y <= length_of(lines):
+      $line lines(y)
+      if
+	line.is_undefined:
+	  cursor_left x y lines info
+	:
+	  $indent indent_of(line)
+	  $text text_of(line)
+	  $text_width width_of(text)
+	  cond
+	    -> x == 1
+	      -> undefined undefined x y info
+	    -> x <= indent+1:
+	      ->
+		y
+		tedi_line(indent-1 text)
+		x-1
+		y
+		info
+	    -> x > indent+text_width+1
+	      -> undefined undefined x-1 y info
+	    -> true:
+	      $pos get_position(text x-1-indent)
+	      ->
+		y
+		list
+		  tedi_line
+		    indent
+		    append(range(text 1 pos-1) range(text pos+1 -1))
+		x-width_of(text(pos))
+		y
+		info
+    -> undefined undefined x y info
 
 $delete_right: (x y lines info)
-  $line lines(y)
   if
-    line.is_undefined
+    y <= length_of(lines):
+      $line lines(y)
+      if
+	line.is_undefined
+	-> undefined undefined x y info
+	:
+	  $indent indent_of(line)
+	  $text text_of(line)
+	  $text_width width_of(text)
+	  cond
+	    -> x > indent+text_width
+	      -> undefined undefined x y info
+	    -> x <= indent
+	      ->
+		y
+		tedi_line(indent-1 text)
+		x
+		y
+		info
+	    -> true:
+	      $pos get_position(text x-indent)
+	      ->
+		y
+		list
+		  tedi_line
+		    indent
+		    append(range(text 1 pos-1) range(text pos+1 -1))
+		x
+		y
+		info
     -> undefined undefined x y info
-    :
-      $indent indent_of(line)
-      $text text_of(line)
-      $text_width width_of(text)
-      cond
-	-> x > indent+text_width
-	  -> undefined undefined x y info
-	-> x <= indent
-	  ->
-	    y
-	    tedi_line(indent-1 text)
-	    x
-	    y
-	    info
-	-> true:
-	  $pos get_position(text x-indent)
-	  ->
-	    y
-	    list
-	      tedi_line
-		indent
-		append(range(text 1 pos-1) range(text pos+1 -1))
-	    x
-	    y
-	    info
 
 $delete_to_line_start: (x y lines info)
   $new_x get_x(y-1 lines) # previous line
@@ -1120,37 +1126,40 @@ $delete_to_line_start: (x y lines info)
 	    info
 
 $delete_to_line_end: (x y lines info)
-  $line lines(y)
   if
-    line.is_undefined
-    -> undefined undefined 1 y info
-    :
-      $indent indent_of(line)
-      $text text_of(line)
-      $text_width width_of(text)
-      cond
-	-> x <= indent+1
-	  ->
-	    y
-	    list(undefined)
-	    x
-	    y
-	    info
-	-> x > indent+text_width
-	  ->
-	    undefined
-	    undefined
-	    x
-	    y
-	    info
-	-> true:
-	  $pos get_position(text x-indent)
-	  ->
-	    y
-	    list(tedi_line(indent range(text 1 pos-1)))
-	    x
-	    y
-	    info
+    y < length_of(lines):
+      $line lines(y)
+      if
+	line.is_undefined
+	-> undefined undefined 1 y info
+	:
+	  $indent indent_of(line)
+	  $text text_of(line)
+	  $text_width width_of(text)
+	  cond
+	    -> x <= indent+1
+	      ->
+		y
+		list(undefined)
+		x
+		y
+		info
+	    -> x > indent+text_width
+	      ->
+		undefined
+		undefined
+		x
+		y
+		info
+	    -> true:
+	      $pos get_position(text x-indent)
+	      ->
+		y
+		list(tedi_line(indent range(text 1 pos-1)))
+		x
+		y
+		info
+    -> undefined undefined x y info
 
 $smart_completion: (state x y lines info)
   $completion_prefix completion_prefix_of(info)
@@ -2354,7 +2363,7 @@ $toggle_cursor_line_highlighting: (x y _lines info)
 $tedi::toggle_soft_line_break: (state x y lines info)
   $page get_content(window_manager_of(state))
   if
-    kind_of(page) == TEDI:
+    kind_of(page) == TEDI && lines_of(page).is_not_empty:
       if
 	use_soft_line_breaks_of(info):
 	  !info.use_soft_line_breaks_of false
