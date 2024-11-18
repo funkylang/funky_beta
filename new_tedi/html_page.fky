@@ -282,7 +282,7 @@ $render_inline: (element)
     "i":
       add_text_attributes &style ITALIC
       render_items contents
-    "em":
+    "b", "em":
       add_text_attributes &style BOLD
       render_items contents
     "br" -> list(NEWLINE)

@@ -470,17 +470,27 @@ $EVALUATE/job_completed: (_id io state logits _context)
 		  new_piece(1) == ' '
 		&new_piece -> range(new_piece 2 -1)
 	      if
-		at_line_start && generated_token_count == 0:
-		  goto_xy &state.window_manager_of 1 y
+		generated_token_count == 0:
 		  if
-		    at_line_end
-		    insert_text
+		    at_line_start:
+		      goto_xy &state.window_manager_of 1 y
+		      if
+			at_line_end
+			insert_text
+			:
+			  change_text &state window_id
+			    split_line INSERTION undefined
+			  change_text &state window_id
+			    cursor_up MOVEMENT undefined
+			  insert_text
 		    :
-		      change_text &state window_id
-			split_line INSERTION undefined
-		      change_text &state window_id
-			cursor_up MOVEMENT undefined
-		      insert_text
+		      if
+			at_line_end:
+			  $page get_content(window_manager_of(state))
+			  $lines lines_of(page)
+			  goto_xy &state.window_manager_of width_of(lines(y))+1 y
+			  insert_text
+			insert_text
 		insert_text
 
 	      $insert_text:

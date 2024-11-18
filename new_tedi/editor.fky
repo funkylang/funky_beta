@@ -2542,10 +2542,50 @@ $filter_selection: (x y _lines info)
   -> undefined undefined x y info
 
 $show_help: (state _x _y _lines _info)
+  $configuration configuration_of(state)
+  $commands commands_of(configuration)
+  $action_name_to_key empty_hash_table
+  for_each !action_name_to_key commands
+    : (key action_name)
+      to_string &key
+      truncate_until &key "::"
+      to_lower_case &key
+      replace_all &key '_' = "-"
+      if
+	action_name.is_a_string:
+	  !action_name_to_key(action_name) key
+	  next
+	next
+    -> action_name_to_key
+  map_reduce $help_text help_sections
+    : (section)
+      section $title $action_descriptions
+      map_reduce $section_text action_descriptions
+	: (entry)
+	  entry $action $text
+	  $key action_name_to_key(action)
+	  update_if key.is_defined &action -> key
+	  replace_all &text ';' = "<br>"
+	  -> "
+	    <dt>@(action)</dt>
+	      <dd>@(text)</dd>
+      append
+	"
+	  <h1>@(title)</h1>
+	section_text
+  append
+    "
+      <html>
+      <body>
+    &help_text
+    "
+      </body>
+      </html>
   $page create_page_from_html(help_text.from_html template_screen_of(state))
   create_window &state.window_manager_of
     TITLE = "Help"
     CONTENT = page
+    SIZE = MAXIMIZED
   -> state
 
 $tedi::double_click_action undefined
@@ -2750,256 +2790,175 @@ $tedi::get_position: (str x)
 	inc &i
 	next
 
-$help_text "
-  <html>
-  <h1>Cursor Movement</h1>
-    <dl>
-    <dt><br>cursor-left</dt>
-      <dd><br>move the cursor one position to the left;<br>
-      if already at the start of the line then do nothing</dd>
-    <dt><br>cursor-right</dt>
-      <dd><br>move the cursor one position to the right;<br>
-      does not jump to the start of the next line after reaching the line's last
-      character</dd>
-    </dl>
-  </html>
-
-#
-  Cursor Movement
-
-    cursor-left
-      move the cursor one position to the left;
-      if already there then do nothing
-
-    cursor-right
-      move the cursor one position to the right;
-      does not jump to the start of the next line after reaching the line's last
-      character
-
-    cursor-up
-      moves the cursor one line up;
-      if the "line lock" is active and the cursor is already at the "upper bound"
-      then scroll down the window contents instead
-
-    cursor-down
-      moves the cursor one line down;
-      if the "line lock" is active and the cursor is already at the "lower bound"
-      then scroll up the window contents instead
-
-    page-up
-      moves the cursor up as many lines as the window height;
-      if the "line lock" is active and the cursor is already at the "upper bound"
-      then scroll down the window contents instead
-
-    page-down
-      moves the cursor down as many lines as the window height;
-      if the "line lock" is active and the cursor is already at the "lower bound"
-      then scroll up the window contents instead
-
-    ctrl-cursor-up
-      moves the cursor up in a straight line until it "collides with text"
-
-    ctrl-cursor-down
-      moves the cursor down in a straight line until it "collides with text"
-
-    home
-      jump to the first character of the line or if already there then
-      jump to the start of the line
-
-    end
-      jump behind the last character of the line
-
-    ctrl-home
-      jump to the start of the document
-
-    ctrl-end
-      jump behind the last line of the document
-
-    ALL THESE KEYS CAN BE COMBINED WITH <shift> TO SELECT TEXT
-
-    ATTENTION: WHEN SELECTING MULTIPLE LINES THEN THE WHOLE LINES WILL BE SELECTED
-
-  Insertion
-
-    return
-      splits the current line into two;
-      tries to handle spaces in a smart way
-
-  Deletion
-
-    backspace
-      deletes one character to the left;
-      does nothing if already at the start of a line
-
-    delete
-      deletes one character to the right;
-      does nothing if there is no more text to the right
-
-    ctrl-backspace
-      deletes all text to the left of the cursor;
-      the cursor is positioned at the (previous) leftmost character
-
-    ctrl-delete
-      deletes all text to the right of the cursor;
-      the cursor does not move
-
-    ctrl-k
-      deletes the current line
-
-  Completion
-
-    tab (if behind some text)
-      smart completion;
-      completes identifiers and numbers based on existing (surrounding) text
-
-    shift tab (if behind some text)
-      restores the previous smart completion
-
-    ctrl-space
-      AI completion;
-      needs a running AI-server
-
-  Indentation
-
-    tab (if not behind some text)
-      indents the current line or the current selection
-
-    shift tab (if not behind some text)
-      unindents the current line or the current selection
-
-  Folding
-
-    alt-return
-      toggle folding
-
-    alt-cursor-left
-      folds the current line
-
-    alt-cursor-right
-      unfolds the current line
-
-    alt-cursor-up
-      folds all lines
-
-    alt-cursor-down
-      unfolds all lines
-
-  Cut & Paste
-
-    ctrl-c
-      copies the current selection into the clipboard;
-      the clipboard is only available within the editor
-
-    ctrl-v
-      pastes the contents of the clipboard a the current position
-
-    ctrl-x
-      cuts the current selection into the clipboard;
-      the clipboard is only available within the editor
-
-  Search & Replace
-
-    ctrl-f
-      starts a search;
-      after entering the search string:
-      * press <return> or <ctrl-n> to search forwards
-      * press <ctrl-p> to search backwards
-
-    ctrl-n
-      searches or replaces the next occurence of the search string;
-      the found string is selected and the cursor is positioned behind the string
-
-    ctrl-p
-      searches or replaces the previous occurence of the search string;
-      the found string is selected and the cursor is positioned at the start of the
-      string
-
-    escape
-      closes the "edit box" and aborts the search/replace
-
-  Marks
-
-    ctrl-d <letter>
-      defines a "mark";
-      marks cannot be defined on empty lines
-
-    ctrl-g
-      jumps to a mark or a specific line;
-      you have to enter the mark letter or the line no. in the "edit box"
-
-    escape
-      closes the "edit box" and does not jump
-
-  Files and Quit
-
-    ctrl-q
-      leaves the editor;
-      THE DOCUMENTS WILL **NOT** BE SAVED!
-
-    ctrl-l
-      load contents from a selected file
-      THE CURRENT CONTENTS WILL **NOT** BE SAVED!
-
-    ctrl-s
-      saves the current contents
-
-    ctrl-alt-s
-      saves the current contents using only leading *spaces* (no tabulators)
-
-  Undo & Redo
-
-    ctrl-y
-      redo
-
-    ctrl-z
-      undo
-
-  Windows
-
-    ctrl-cursor-right
-      goto next window
-
-    ctrl-cursor-left
-      goto previous window
-
-  Function Keys
-
-    F1
-      show this help
-
-    F2
-      change the colour set
-
-    F3
-      toggle indentation highlighting
-
-    F4
-      toggle cursor line highlighting
-
-    F5
-      toggle soft-break-mode
-
-    F6
-      toggle display of line numbers
-
-$_action_descriptions
-  list
-    "cursor_left" =
-      "
-	move the cursor one position to the left;
-	if already at the start of the line then do nothing
-    "cursor_right" =
-      "
-	move the cursor one position to the right;
-	does not jump to the start of the next line after reaching the line's last
-	character
-    "cursor_up" =
-      "
-	moves the cursor one line up;
-	if the cursor is already at the "upper bound" then scroll down the window
-	contents instead
-    "cursor_down" =
-      "
-	moves the cursor down as many lines as the window height;
-	if the cursor is already at the "lower bound" then scroll up the window
-	contents instead
+list $help_sections
+  "Cursor Movement" =
+    list
+      "cursor_left" =
+	"
+	  move the cursor position to the left;
+	  if already at the start of the line then do nothing
+      "cursor_right" =
+	"
+	  move the cursor one position to the right;
+	  does not jump to the start of the next line after reaching the line's
+	  last character
+      "cursor_up" =
+	"
+	  moves the cursor one line up;
+	  if the "line lock" is active and the cursor already at the "upper bound"
+	  then scroll down the window contents instead
+      "cursor_down" =
+	"
+	  moves the cursor one line down;
+	  if the "line lock" is active and the cursor is already at the "lower
+	  bound" then scroll up the window contents instead
+      "page_up" =
+	"
+	  moves the cursor up as many lines as the window height;
+	  if the "line lock" is active and the cursor is at the "upper bound"
+	  then scroll down the window contents instead
+      "page_down" =
+	"
+	  moves the cursor down as many lines as window height;
+	  if the "line lock" is active and the cursor is already at the "lower
+	  bound" then scroll up the window contents instead
+      "smart_cursor_up" =
+	"
+	  moves the cursor up as many lines as the window height;
+	  if the "line lock" is active and the cursor is already at the "upper
+	  bound" then scroll down the window contents instead
+      "smart_cursor_down" =
+	"
+	  moves the cursor down as many lines as the window height;
+	  if the "line lock" is active and the cursor is already at the "lower
+	  bound" then scroll up the window contents instead
+      "cursor_home" =
+	"
+	  jump to the first character of the line or if already there then
+	  jump to the start of the line
+      "cursor_end" =
+	"
+	  jump behind the last character of the line
+      "cursor_home" =
+	"
+	  jump to the start of the document
+      "cursor_end" =
+	"
+	  jump behind the last line of the document
+      "go_to_line_dialog" =
+	"
+	  go to line; enter the line no. and press "return"
+  "Deletion" =
+    list
+      "delete_left" =
+	"
+	  deletes one character to the left;
+	  does nothing if already at the start of a line
+      "delete_right" =
+	"
+	  deletes one character to the right;
+	  does nothing if there is no more text to the right
+      "delete_to_line_start" =
+	"
+	  deletes all text to the left of the cursor;
+	  the cursor is positioned at the (previous) leftmost character
+      "delete_to_line_end" =
+	"
+	  deletes all text to the right of the cursor;
+	  the cursor does not move
+      "delete_line" =
+	 "
+	  deletes the current line
+  "Insertion" =
+    list
+      "split_line" =
+	"
+	  splits the current line into two;
+	  tries to handle spaces in a smart way
+  "Completion" =
+    list
+      "smart_completion_or_indent" =
+	"
+	  smart completion (if behind some text);
+	  completes identifiers and numbers based on existing (surrounding) text
+      "smart_uncompletion_or_outdent" =
+	"
+	  restores the previous smart completion
+      "ai_completion" =
+	"
+	  AI completion;
+	  needs a running AI-server
+      "escape" =
+	"
+	  cancel AI-completion
+  "Indentation" =
+    list
+      "smart_completion_or_indent" =
+	"
+	  indents the current line or the current selection
+      "smart_uncompletion_or_outdent" =
+	"
+	  unindents the current line or the current selection
+  "Clipboard" =
+    list
+      "copy" =
+	"
+	  copies the current selection into the clipboard;
+	  the clipboard is only available within the editor
+      "cut" =
+	"
+	  pastes the contents of the clipboard a the current position
+      "paste" =
+	"
+	  cuts the current selection into the clipboard;
+	  the clipboard is only available within the editor
+  "Search & Replace" =
+    list
+      "find_text_dialog" =
+	"
+	  starts a search;
+	  after entering the search string:
+	  * press "return" or "ctrl-n" to search forwards
+	  * press "ctrl-p" to search backwards
+      "find_next" =
+	"
+	  searches or replaces the next occurence of the search string;
+	  the found string is selected and the cursor is positioned behind the string
+      "find_previous" =
+	"
+	  searches or replaces the previous occurence of the search string;
+	  the found string is selected and the cursor is at the start of the
+	  string
+  "Files & Quit" =
+    list
+      "ctrl-q" =
+	"
+	  leaves the editor;
+	  the documents will <b>NOT</b> be saved!
+      "save_contents" =
+	"
+	  saves the current contents
+  "Undo & Redo" =
+    list
+      "undo" =
+	"
+	  undo
+      "redo" =
+	"
+	  redo
+  "Windows" =
+    list
+      "ctrl-page-down" =
+	"
+	  goto next window
+      "ctrl-page-up" =
+	"
+	  goto previous window
+  "Function Keys" =
+    list
+      "show_help" =
+	"
+	  show this help
+      "toggle_soft_line_break" =
+	"
+	  toggle soft-break-mode
