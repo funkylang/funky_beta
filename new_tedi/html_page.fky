@@ -360,6 +360,9 @@ $tedi_types::html_page/handle_key_press: (page io state key)
       -> io state
     -> undefined undefined
 
+$tedi_types::html_page/handle_paste_string: (_page io state _text)
+  -> io state
+
 $tedi_types::html_page/handle_mouse_click: (page io state x y _button)
   $current_rectangle get_rectangle_at(page x y)
   if

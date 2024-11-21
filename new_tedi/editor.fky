@@ -86,6 +86,21 @@ $tedi_types::page/handle_key_press: (page io state key)
     get_xy window_manager $x $y
     action! io state x y lines info
 
+$tedi_types::page/handle_paste_string: (page io state text)
+  $window_manager window_manager_of(state)
+  get_xy window_manager $x $y
+  $info info_of(page)
+  $insertions map(split_into_lines(text): (line) -> tedi_line(trim_right(line)))
+  update_text
+    &state
+    y .. y-1
+    insertions
+    x
+    y+length_of(insertions)
+    info
+    INSERTION
+  -> io state
+
 $tedi::change_text:
   (
     state
@@ -109,23 +124,29 @@ $tedi::change_text:
     argument.is_defined:
       action $line_no $inserted $new_x $new_y $new_info
 	x y lines info argument
-      update_text line_no inserted new_x new_y new_info
+      update_text
+	state window_id line_no inserted new_x new_y new_info action_class
     :
       case action_class
 	USE_STATE:
 	  action state $line_no $inserted $new_x $new_y $new_info
 	    x y lines info
-	  update_text line_no inserted new_x new_y new_info
+	  update_text
+	    state window_id line_no inserted new_x new_y new_info action_class
 	UPDATE_STATE:
 	  action &state $line_no $inserted $new_x $new_y $new_info
 	    x y lines info
 	  !window_manager window_manager_of(state) # reload
 	  !page get_content(window_manager window_id)
-	  update_text line_no inserted new_x new_y new_info
+	  update_text
+	    state window_id
+	    line_no inserted new_x new_y new_info action_class
 	:
 	  action $line_no $inserted $new_x $new_y $new_info
 	    x y lines info
-	  update_text line_no inserted new_x new_y new_info
+	  update_text
+	    state window_id
+	    line_no inserted new_x new_y new_info action_class
   #
     line_no:
       undefined -> no update
@@ -136,232 +157,250 @@ $tedi::change_text:
       single line -> replace with this line
       list of lines -> replace with these lines
 
-  $update_text: (line_no inserted new_x new_y new_info)
-    if
-      line_no.is_defined:
-	if $first $last
-	  line_no.is_a_value_range
-	  -> lower_bound_of(line_no) upper_bound_of(line_no)
-	  -> line_no line_no
-	!inserted
-	  if
-	    inserted.is_defined:
-	      if
-		inserted.is_a_list
-		-> inserted
-		-> list(inserted)
-	    -> empty_list
+$update_text:
+  (
+    state
+    window_id = undefined
+    line_no
+    inserted
+    new_x
+    new_y
+    new_info
+    action_class
+  )
+  $window_manager window_manager_of(state)
+  $page get_content(window_manager window_id)
+  get_xy window_manager window_id $x $y
+  $lines lines_of(page)
+  $info info_of(page)
+  if
+    line_no.is_defined:
+      if $first $last
+	line_no.is_a_value_range
+	-> lower_bound_of(line_no) upper_bound_of(line_no)
+	-> line_no line_no
+      !inserted
 	if
-	  &&
-	    use_soft_line_breaks_of(new_info)
-	    first == last
-	    length_of(inserted) == 1
-	    lines(first).is_defined
-	    inserted(1).is_defined
-	  :
-	    # replace a single line
-	    !line_no first
-	    $old_line lines(line_no)
-	    $new_line inserted(1)
-	    $text text_of(new_line)
-	    $inbounds_width inbounds_width_of(new_info)
-	    $indent indent_of(old_line)
-	    $max_width inbounds_width-indent
-	    $insertions empty_list
-	    $text_width width_of(text)
-	    cond
-	      -> text_width > max_width:
-		loop:
-		  split_text_into_two &text $overflow max_width
+	  inserted.is_defined:
+	    if
+	      inserted.is_a_list
+	      -> inserted
+	      -> list(inserted)
+	  -> empty_list
+      $n length_of(lines)
+      update_if first > n &first &last &inserted
+	-> n+1 n append(dup(list(undefined) first-n-1) inserted)
+      if
+	&&
+	  use_soft_line_breaks_of(new_info)
+	  first == last
+	  length_of(inserted) == 1
+	  lines(first).is_defined
+	  inserted(1).is_defined
+	:
+	  # replace a single line
+	  !line_no first
+	  $old_line lines(line_no)
+	  $new_line inserted(1)
+	  $text text_of(new_line)
+	  $inbounds_width inbounds_width_of(new_info)
+	  $indent indent_of(old_line)
+	  $max_width inbounds_width-indent
+	  $insertions empty_list
+	  $text_width width_of(text)
+	  cond
+	    -> text_width > max_width:
+	      loop:
+		split_text_into_two &text $overflow max_width
+		if
+		  overflow.is_empty:
+		    debug::println "cannot fix overflow"
+		    debug::dump 3 `insertions
+		    check_for_append
+		  :
+		    push &insertions
+		      old_line
+			.text_of text
+			.tokens_of undefined
+		    !text_width width_of(text)
+		    update_if new_y == line_no && new_x > indent+text_width
+		      &new_x &new_y
+		      -> new_x-text_width-1 new_y+1
+		    inc &line_no
+		    !old_line
+		      if
+			line_no > length_of(lines)
+			-> undefined
+			-> lines(line_no)
+		    if
+		      old_line.is_defined && old_line.is_a_continuation_line:
+			inc &last
+			!text append(overflow " " text_of(old_line))
+			if
+			  width_of(text) > max_width
+			  next
+			  :
+			    push &insertions
+			      old_line
+				.text_of text
+				.tokens_of undefined
+			    !inserted insertions
+			    check_for_append
+		      :
+			push &insertions
+			  tedi_line(indent overflow)
+			    .is_a_continuation_line true
+			!inserted insertions
+			check_for_append
+	    -> text_width < width_of(text_of(old_line)):
+	      loop:
+		inc &line_no
+		$next_line
 		  if
-		    overflow.is_empty:
-		      debug::println "cannot fix overflow"
-		      debug::dump 3 `insertions
-		      check_for_append
+		    line_no > length_of(lines)
+		    -> undefined
+		    -> lines(line_no)
+		if
+		  next_line.is_defined && next_line.is_a_continuation_line:
+		    $available_width max_width-text_width-1
+		    $next_text text_of(next_line)
+		    split_text_into_two $word &next_text available_width
+		    if
+		      length_of(word) <= available_width:
+			inc &last
+			push &insertions
+			  old_line
+			    .text_of append(text " " word)
+			    .tokens_of undefined
+			!old_line next_line
+			!text next_text
+			!text_width width_of(text)
+			next
+		      fix_underflow
+		  fix_underflow
+
+		$fix_underflow:
+		  if
+		    insertions.is_empty:
+		      if
+			old_line.is_a_continuation_line:
+			  !inserted(1).is_a_continuation_line true
+			  check_for_append
+			check_for_append
 		    :
 		      push &insertions
 			old_line
 			  .text_of text
 			  .tokens_of undefined
-		      !text_width width_of(text)
-		      update_if new_y == line_no && new_x > indent+text_width
-			&new_x &new_y
-			-> new_x-text_width-1 new_y+1
-		      inc &line_no
-		      !old_line
-			if
-			  line_no > length_of(lines)
-			  -> undefined
-			  -> lines(line_no)
-		      if
-			old_line.is_defined && old_line.is_a_continuation_line:
-			  inc &last
-			  !text append(overflow " " text_of(old_line))
-			  if
-			    width_of(text) > max_width
-			    next
-			    :
-			      push &insertions
-				old_line
-				  .text_of text
-				  .tokens_of undefined
-			      !inserted insertions
-			      check_for_append
-			:
-			  push &insertions
-			    tedi_line(indent overflow)
-			      .is_a_continuation_line true
-			  !inserted insertions
-			  check_for_append
-	      -> text_width < width_of(text_of(old_line)):
-		loop:
-		  inc &line_no
-		  $next_line
-		    if
-		      line_no > length_of(lines)
-		      -> undefined
-		      -> lines(line_no)
-		  if
-		    next_line.is_defined && next_line.is_a_continuation_line:
-		      $available_width max_width-text_width-1
-		      $next_text text_of(next_line)
-		      split_text_into_two $word &next_text available_width
-		      if
-			length_of(word) <= available_width:
-			  inc &last
-			  push &insertions
-			    old_line
-			      .text_of append(text " " word)
-			      .tokens_of undefined
-			  !old_line next_line
-			  !text next_text
-			  !text_width width_of(text)
-			  next
-			fix_underflow
-		    fix_underflow
-
-		  $fix_underflow:
-		    if
-		      insertions.is_empty:
-			if
-			  old_line.is_a_continuation_line:
-			    !inserted(1).is_a_continuation_line true
-			    check_for_append
-			  check_for_append
-		      :
-			push &insertions
-			  old_line
-			    .text_of text
-			    .tokens_of undefined
-			!inserted insertions
-			check_for_append
-	      -> true:
-		if
-		  old_line.is_a_continuation_line:
-		    !inserted(1).is_a_continuation_line true
-		    check_for_append
+		      !inserted insertions
+		      check_for_append
+	    -> true:
+	      if
+		old_line.is_a_continuation_line:
+		  !inserted(1).is_a_continuation_line true
 		  check_for_append
-	  check_for_append
+		check_for_append
+	check_for_append
 
-	$check_for_append:
-	  if
-	    first > length_of(lines):
-	      # truncate trailing empty lines
-	      $len length_of(inserted)
-	      loop:
-		if
-		  len > 0 && inserted(len).is_undefined:
-		    dec &len
-		    next
-		  :
-		    range &inserted 1 len
-		    if
-		      inserted.is_empty # e.g. pasting empty lines
-		      update_cursor_position
-		      insert_lines
-	    insert_lines
+      $check_for_append:
+	if
+	  first > length_of(lines):
+	    # truncate trailing empty lines
+	    $len length_of(inserted)
+	    loop:
+	      if
+		len > 0 && inserted(len).is_undefined:
+		  dec &len
+		  next
+		:
+		  range &inserted 1 len
+		  if
+		    inserted.is_empty # e.g. pasting empty lines
+		    update_cursor_position
+		    insert_lines
+	  insert_lines
 
-	$insert_lines:
-	  replace &page first last inserted
-	  if
-	    action_class == UNDO
-	    update_title
-	    :
-	      $len height_of(page)
-	      $reinserted range(lines first last)
-	      update_if first > len+1 &first &reinserted
-		-> len+1 append(dup(list(undefined) first-(len+1)) reinserted)
-	      add_history_entry &new_info action_class == REDO
-		first length_of(inserted) reinserted version_of(info) x y
-	      update_title
-      :
+      $insert_lines:
+	replace &page first last inserted
 	if
 	  action_class == UNDO
-	  update_cursor_position
+	  update_title
 	  :
-	    add_history_entry &new_info action_class == REDO x y
-	    update_cursor_position
-
-    $update_title:
+	    $len height_of(page)
+	    $reinserted range(lines first last)
+	    update_if first > len+1 &first &reinserted
+	      -> len+1 append(dup(list(undefined) first-(len+1)) reinserted)
+	    add_history_entry &new_info action_class == REDO
+	      first length_of(inserted) reinserted version_of(info) x y
+	    update_title
+    :
       if
-	version_of(new_info) != version_of(info):
-	  cond
-	    -> version_of(new_info) == saved_version_of(new_info):
-	      $title get_title(window_manager)
-	      set_title &window_manager range(title 2 -1)
-	      update_cursor_position
-	    -> version_of(info) == saved_version_of(info):
-	      $title get_title(window_manager)
-	      set_title &window_manager append("*" title)
-	      update_cursor_position
-	    -> true update_cursor_position
+	action_class == UNDO
 	update_cursor_position
+	:
+	  add_history_entry &new_info action_class == REDO x y
+	  update_cursor_position
 
-    $update_cursor_position:
-      !page.info_of new_info
-      set_content &window_manager window_id page
-      if
-	x != new_x || y != new_y:
-	  goto_xy &window_manager window_id new_x new_y
-	  update_selection
+  $update_title:
+    if
+      version_of(new_info) != version_of(info):
+	cond
+	  -> version_of(new_info) == saved_version_of(new_info):
+	    $title get_title(window_manager)
+	    set_title &window_manager range(title 2 -1)
+	    update_cursor_position
+	  -> version_of(info) == saved_version_of(info):
+	    $title get_title(window_manager)
+	    set_title &window_manager append("*" title)
+	    update_cursor_position
+	  -> true update_cursor_position
+      update_cursor_position
+
+  $update_cursor_position:
+    !page.info_of new_info
+    set_content &window_manager window_id page
+    if
+      x != new_x || y != new_y:
+	goto_xy &window_manager window_id new_x new_y
 	update_selection
+      update_selection
 
-    $update_selection:
-      $start_x selection_x_of(new_info)
-      if
-	start_x.is_defined:
-	  $start_y selection_y_of(new_info)
-	  if
-	    start_y == new_y: # inline selection
-	      min_max &start_x &new_x
-	      set_selection &window_manager window_id
-		start_x start_y new_x-start_x 1
-	      update_completion
-	    : # multi-line selection
-	      min_max &start_y &new_y
-	      set_selection &window_manager window_id
-		1 start_y width_of(page) new_y-start_y
-	      update_completion
-	:
-	  unset_selection &window_manager window_id
-	  update_completion
+  $update_selection:
+    $start_x selection_x_of(new_info)
+    if
+      start_x.is_defined:
+	$start_y selection_y_of(new_info)
+	if
+	  start_y == new_y: # inline selection
+	    min_max &start_x &new_x
+	    set_selection &window_manager window_id
+	      start_x start_y new_x-start_x 1
+	    update_completion
+	  : # multi-line selection
+	    min_max &start_y &new_y
+	    set_selection &window_manager window_id
+	      1 start_y width_of(page) new_y-start_y
+	    update_completion
+      :
+	unset_selection &window_manager window_id
+	update_completion
 
-    $update_completion:
-      if
-	do_keep_completions_of(new_info)
+  $update_completion:
+    if
+      do_keep_completions_of(new_info)
+      return
+      :
+	!new_info
+	  .possible_completions_of undefined
+	  .completion_index_of undefined
+	  .completion_prefix_of undefined
+	!page.info_of new_info
+	set_status_line &window_manager
+	set_content &window_manager window_id page
 	return
-	:
-	  !new_info
-	    .possible_completions_of undefined
-	    .completion_index_of undefined
-	    .completion_prefix_of undefined
-	  !page.info_of new_info
-	  set_status_line &window_manager
-	  set_content &window_manager window_id page
-	  return
 
-    $return:
-      -> state(.window_manager_of window_manager)
+  $return:
+    -> state(.window_manager_of window_manager)
 
 $split_text_into_two: (text max_width)
   $width 0
@@ -593,12 +632,7 @@ $tedi::insert: (x y lines info str)
 	  if
 	    y <= n
 	    -> y inserted new_x y info
-	    ->
-	      n+1 .. n
-	      push(dup(list(undefined) y-n-1) inserted)
-	      new_x
-	      y
-	      info
+	    -> y .. y-1 inserted new_x y info
 
 # Key Classes (used to decide which information to supply to handlers)
 
@@ -2705,7 +2739,11 @@ $tedi_types::line std_types::line
   .is_a_continuation_line false
   /width_of: (self) -> indent_of(self)+width_of(text_of(self))
 
-$tedi_line: (indent text)
+$tedi_line:
+  (
+    indent = 0
+    text
+  )
   $leading_spaces count_leading_spaces(text)
   $trailing_spaces count_trailing_spaces(text)
   $spaces_only leading_spaces == length_of(text)

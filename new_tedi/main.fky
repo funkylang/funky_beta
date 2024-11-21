@@ -41,7 +41,7 @@
 <using tedi>
 
 $tedi::application_name "TEDI"
-$tedi::version "0.1"
+$tedi::version "0.2"
 $tedi::author "Michael Niederle"
 
 $tedi::main:
@@ -192,7 +192,7 @@ $tedi::main:
 	  job_completed id io state data context
 	JOB_FAILED:
 	  job_failed id io state data context
-	KEY_PRESS, MOUSE_CLICK:
+	KEY_PRESS, PASTE_STRING, MOUSE_CLICK:
 	  $window_manager window_manager_of(state)
 	  if
 	    id == STDIN_FILENO && window_manager.is_defined:
@@ -247,6 +247,12 @@ $tedi::main:
 			page.is_defined:
 			  handle_key_press page io state key
 			-> io state
+		PASTE_STRING:
+		  $page get_content(window_manager)
+		  if
+		    page.is_defined:
+		      handle_paste_string page io state data
+		    -> io state
 		MOUSE_CLICK:
 		  data $mouse_x $mouse_y $button
 		  get_window_at window_manager $window_id $page &mouse_x &mouse_y
@@ -303,6 +309,7 @@ $tedi::text_window_id_of ()
 $tedi::clipboard_contents_of ()
 
 $tedi::handle_key_press ()
+$tedi::handle_paste_string ()
 $tedi::handle_mouse_click ()
 $tedi::handle_changed_focus ()
 $tedi::prepare ()

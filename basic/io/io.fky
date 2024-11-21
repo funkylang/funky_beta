@@ -487,6 +487,7 @@ $std::call:
     cmd
     args
   )
+  $do_return_error_code (result_count() >= 1)
   $do_collect_output (result_count() >= 2)
   $do_collect_error_output (result_count() == 3)
   $env_vars undefined
@@ -540,12 +541,20 @@ $std::call:
 	  PROCESS_JOINED:
 	    $ret data
 	    if
-	      do_collect_output:
+	      do_return_error_code:
 		if
-		  do_collect_error_output
-		  -> ret out err
-		  -> ret out
-	      -> ret
+		  do_collect_output:
+		    if
+		      do_collect_error_output
+		      -> ret out err
+		      -> ret out
+		  -> ret
+	      :
+		if
+		  ret == 0
+		  pass
+		  :
+		    error "CALLING PROCESS FAILED" ret
 	  : # ignore all other signals
 	    next!
       next

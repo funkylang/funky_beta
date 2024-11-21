@@ -20,6 +20,8 @@
   Free Software Foundation, Inc.,
   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
+<allow unused>
+
 program_parameters!
   $filename
   list
@@ -29,15 +31,122 @@ program_parameters!
 $title_of ()
 $links_of ()
 
+$std_types::list
+  .title_of undefined
+  .links_of undefined
+
+$image_data empty_hash_table
+
 do:
   load! $text filename
   from_utf8 &text
+
   text_to_indented_lines text $indented_lines
 
+  load_image_data! !image_data indented_lines
+
   print! "
+    <!doctype html>
     <html>
     <head>
     <meta charset="utf-8">
+    <style>
+      body {
+	font-family: Palatino, Times New Roman, Times;
+	font-size: 13pt;
+	color: #222;
+	background-color: white;
+	padding-left: 3pt;
+	padding-right: 3pt;
+      }
+      h1 {
+	font-family: Arial, Helvetica;
+	font-size: 20pt;
+	color: #333;
+	margin-top: 6pt;
+	margin-bottom: 8pt;
+      }
+      h2 {
+	font-family: Arial, Helvetica;
+	font-size: 16pt;
+	color: #222;
+	margin-top: 12pt;
+	margin-bottom: 7pt;
+      }
+      h3 {
+	font-family: Arial, Helvetica;
+	font-size: 14pt;
+	color: #222;
+	margin-top: 10pt;
+	margin-bottom: 6pt;
+      }
+      h4 {
+	font-family: Arial, Helvetica;
+	font-size: 13pt;
+	color: #222;
+	margin-top: 9pt;
+	margin-bottom: 5pt;
+      }
+      h1.index {
+	font-size: 16pt;
+	font-weight: normal;
+	margin-top: 2pt;
+	margin-bottom: 3pt;
+      }
+      h2.index {
+	font-size: 14pt;
+	font-weight: normal;
+	margin-top: 2pt;
+	margin-bottom: 3pt;
+	margin-left: 12pt;
+      }
+      h3.index {
+	font-size: 12pt;
+	font-weight: normal;
+	margin-top: 2pt;
+	margin-bottom: 3pt;
+	margin-left: 36pt;
+      }
+      h4.index {
+	font-size: 12pt;
+	font-weight: normal;
+	margin-top: 2pt;
+	margin-bottom: 3pt;
+	margin-left: 60pt;
+      }
+      dt {
+	font-size: 14pt;
+	margin-bottom: 2pt;
+      }
+      dd {
+	font-style: italic;
+	font-size: 11pt;
+	padding-left: 0pt;
+	margin-left: 16pt;
+	margin-top: 0pt;
+	margin-bottom: 4pt;
+      }
+      p {
+	margin-top: 0pt;
+	margin-bottom: 8pt;
+	text-align: justify;
+      }
+      pre {
+	font-size: 12pt;
+      }
+      figure {
+	text-align: center;
+      }
+      a {
+	text-decoration: none;
+      }
+      a:visited {
+	color: #80f;
+      }
+      grey {
+       color: #555;
+      }
+    </style>
 
   on title_of(indented_lines).is_defined:
     print! "
@@ -62,10 +171,47 @@ do:
       <h1>@(title_of(indented_lines))</h1>
 
   print! indented_lines_to_index(indented_lines)
-  print! indented_lines_to_html(indented_lines 2)
+  println! "<br>"
+  print! indented_lines_to_html(indented_lines)
 
   print! "
     </body>
+
+$load_image_data: (indented_lines)
+  for_each indented_lines
+    : (line)
+      if
+	line.is_a_tuple:
+	  line $_indent $lines
+	  load_image_data! !image_data lines
+	  next!
+	:
+	  if
+	    line .has_prefix. "IMAGE:":
+	      $image_name between(line ' ' ' ')
+	      if
+		image_data(image_name).is_defined
+		next
+		:
+		  load! $buf "images/@(image_name)"
+		  !image_data(image_name) split_into_lines(buf.to_base64 72)
+		  next!
+	    next
+    -> image_data
+
+$split_into_lines: (text line_size)
+  $lines ""
+  $s 1
+  $n length_of(text)
+  loop:
+    $e s+line_size-1
+    if
+      e >= n
+      -> append(lines "  " range(text s n))
+      :
+	append &lines "  " range(text s e) "@nl;"
+	plus &s line_size
+	next
 
 $text_to_indented_lines: (text)
   $i 1
@@ -190,102 +336,121 @@ $text_to_indented_lines: (text)
 			  $line range(text s i-1)
 			  add line
 
-$is_a_word_character: (chr)
-  -> chr.is_a_letter_character || chr.is_a_digit || chr == '_'
-
-$insert_tags: (str)
-  if
-    str.is_empty
-    -> str
-    :
-      $len length_of(str)
-      map_reduce str convert append
-
-      $convert: (idx chr)
-	$before_letter ->
-	  idx < len && str(idx+1).is_a_word_character
-
-	$behind_letter ->
-	  idx > 1 && str(idx-1).is_a_word_character
-
-	$before_text ->
-	  ||
-	    idx == 1
-	    not(str(idx-1).is_a_word_character)
-	    idx < len && str(idx+1).is_a_word_character
-
-	$behind_text ->
-	  ||
-	    idx == len
-	    not(str(idx+1).is_a_word_character)
-	    idx > 1 && str(idx-1).is_a_word_character
-
-	if
-	  idx > 1 && str(idx-1) == '\'
-	  :
+$insert_tags: (text)
+  $tagged ""
+  $n length_of(text)
+  $i 0
+  $within_bold false
+  $within_italic false
+  $within_preformatted false
+  $in_math_mode false
+  loop:
+    inc &i
+    if
+      i > n
+      -> tagged
+      :
+	$chr text(i)
+	case chr
+	  '*':
 	    if
-	      chr == '<'
-	      -> "&lt;"
-	      -> chr.to_string
+	      i < n && text(i+1) == '*': # bold
+		inc &i
+		if
+		  within_bold:
+		    !within_bold false
+		    append &tagged "</b>"
+		    next
+		  :
+		    !within_bold true
+		    append &tagged "<b>"
+		    next
+	      : # italics
+		if
+		  within_italic:
+		    !within_italic false
+		    append &tagged "</i>"
+		    next
+		  :
+		    !within_italic true
+		    append &tagged "<i>"
+		    next
+	  '`':
+	    if
+	      within_preformatted:
+		!within_preformatted false
+		append &tagged "</code>"
+		next
+	      :
+		!within_preformatted true
+		append &tagged "<code>"
+		next
+	  '$':
+	    not &in_math_mode
+	    next
+	  '_': # subscript
+	    if
+	      in_math_mode:
+		append &tagged "<sub>"
+		loop
+		  :
+		    inc &i
+		    if
+		      i > n
+		      -> tagged
+		      :
+			$subscripted_chr text(i)
+			if
+			  subscripted_chr == ' ' || subscripted_chr == '$'
+			  break
+			  :
+			    push &tagged subscripted_chr
+			    next
+		  :
+		    dec &i
+		    append &tagged "</sub>"
+		    next
+	      :
+		put &tagged '_'
+		next
+	  '^': # superscript
+	    if
+	      in_math_mode:
+		append &tagged "<sup>"
+		loop
+		  :
+		    inc &i
+		    if
+		      i > n
+		      -> tagged
+		      :
+			$superscripted_chr text(i)
+			if
+			  superscripted_chr == ' ' || superscripted_chr == '$'
+			  break
+			  :
+			    push &tagged superscripted_chr
+			    next
+		  :
+		    dec &i
+		    append &tagged "</sup>"
+		    next
+	      :
+		put &tagged '^'
+		next
+	  '\': # escape next character
+	    if
+	      i < n:
+		inc &i
+		push &tagged text(i)
+		next
+	      next
+	  '<':
+	    append &tagged "&lt;"
+	    next
 	  :
-	    case chr
-	      '\':
-		if
-		  idx > 1 && str(idx-1) == '\'
-		  -> "\"
-		  -> ""
-	      '*':
-		cond
-		  -> behind_text() -> "</i>"
-		  -> before_text() -> "<i>"
-		  -> true -> "*"
-	      '<':
-		if
-		  (idx < len && str(idx+1) == '#') || before_letter()
-		  -> "<a href=@quot;"
-		  -> "&lt;"
-	      '#':
-		if
-		  idx < len && str(idx+1) == ':'
-		  -> ""
-		  -> "#"
-	      ':':
-		if
-		  ||
-		    idx > 1 && str(idx-1) == '#'
-		    idx > 5 && range(str idx-5 idx-1) == ".html"
-		  -> "@quot;>"
-		  -> ":"
-	      '>':
-		if
-		  behind_letter() || (idx > 1 && str(idx-1) == '*')
-		  -> "</a>"
-		  -> "&gt;"
-	      '&':
-		-> "&amp;"
-	      '`':
-		cond
-		  -> behind_text() -> "</tt>"
-		  -> before_text() -> "<tt>"
-		  -> true -> "`"
-	      '_':
-		if
-		  ||
-		    idx < len && str(idx+1) == '('
-		    idx > 1 && str(idx-1) == ')'
-		  -> ""
-		  -> "_"
-	      '(':
-		if
-		  idx > 1 && str(idx-1) == '_'
-		  -> "<sub>"
-		  -> "("
-	      ')':
-		if
-		  idx < len && str(idx+1) == '_'
-		  -> "</sub>"
-		  -> ")"
-	      -> chr.to_string
+	    push &tagged chr
+	    next
 
 $lines_to_text: (lines)
   $buf ""
@@ -325,238 +490,211 @@ $indented_lines_to_text:
 
 $std_types::key_value_pair.is_empty true
 
-$indented_lines_to_index: (lines)
-  $map_line: (no line)
-    if
-      line.is_a_key_value_pair || line.is_empty
-      -> ""
-      :
-	$contents
-	  if
-	    no < total && lines(no+1).is_a_key_value_pair
-	    -> value_of(lines(no+1))
-	    -> undefined
-	if
-	  &&
-	    contents.is_defined
-	    line != "`"
-	    line(1) != '*'
-	    line(1) != '['
-	    line(-1) != '='
-	  :
-	    cond $class $title
-	      -> line == "PREFACE" || line == "GLOSSARY"
-		-> "" line
-	      -> line .has_prefix. "APPENDIX:"
-		-> " class=@quot;appendix@quot;" range(line 10 -1).trim
-	      -> true
-		-> " class=@quot;enum@quot;" line
-	    $sublist indented_lines_to_index(contents)
-	    $link
-	      string
-		"<a href=@quot;#"
-		replace_all(title.to_lower_case ' ' = "_")
-		"@quot;>"
-		title.to_title_case
-		"</a>"
+$indented_lines_to_index: (lines section = "")
+  $buf ""
+  $no 0
+  $total length_of(lines)
+  for_each lines
+    : (idx line)
+      if
+	line.is_a_key_value_pair || line.is_empty
+	next
+	:
+	  $contents
 	    if
-	      sublist.is_empty:
-		string
-		  "<li" class '>' link "</li>@nl;"
-	      :
-		string
-		  "<li" class ">@nl;"
-		  link '@nl;'
-		  sublist
+	      idx < total && lines(idx+1).is_a_key_value_pair
+	      -> value_of(lines(idx+1))
+	      -> undefined
+	  if
+	    contents.is_defined && line != "`" && line(1) != '*':
+	      cond
+		-> line == "PREFACE" || line == "GLOSSARY":
+		  next
+		-> line .has_prefix. "APPENDIX:":
+		  next
+		-> true:
+		  inc &no
+		  $subsection
+		    if
+		      section.is_empty
+		      -> no.to_string
+		      -> append(section "." no.to_string)
+		  $title line
+		  $ref replace_all(title.to_lower_case ' ' = "_")
+		  $level count_occurrences(subsection ".")+1
+		  $tag "h@(level)"
+		  append &buf "
+		    <@(tag) class="index">@
+		      <a href="#@(ref)">@(subsection) @(title)</a></@(tag)>
+		  append &buf indented_lines_to_index(contents subsection)
+		  next
+	    next
+    -> buf
+
+$indented_lines_to_html: (lines section = "")
+  $buf ""
+  $no 0
+  $total length_of(lines)
+  for_each lines
+    : (idx line)
+      $contents
+	if
+	  idx < total && lines(idx+1).is_a_key_value_pair
+	  -> value_of(lines(idx+1))
+	  -> undefined
+      cond
+	-> line.is_empty
+	  next
+	-> line.is_a_key_value_pair
+	  next
+	-> line .has_prefix. "* ":
+	  range &line 3 -1
+	  append &buf
+	    if
+	      contents.is_defined
+	      ->
+		append
+		  maybe_start_unordered_list()
+		  "<li>@nl;"
+		  insert_tags(line) "@nl;"
+		  lines_to_text(contents)
 		  "</li>@nl;"
-	  -> ""
-
-  $total length_of(lines)
-
-  $subsections map_reduce(lines map_line append)
-  if
-    subsections.is_empty
-    -> ""
-    :
-      string
-	"<ol>@nl;"
-	subsections
-	"</ol>@nl;"
-
-$indented_lines_to_html:
-  (
-    lines
-    level = 1
-  )
-  $map_line: (no line)
-
-    $behind_empty_line -> no == 1 || lines(no-1).is_empty
-
-    $before_empty_line -> no == total || lines(no+1).is_empty
-
-    $previous_line:
-      #
-	the previous none-empty line or "" if no such line exists
-	subtrees are ignored
-
-      $idx no
-      loop:
-	if
-	  idx == 1
-	  -> ""
-	  :
-	    dec &idx
-	    $current_line lines(idx)
+		  maybe_end_unordered_list()
+	      ->
+		append
+		  maybe_start_unordered_list()
+		  "<li>" insert_tags(line) "</li>@nl;"
+		  maybe_end_unordered_list()
+	  next
+	-> line == "`":
+	  append &buf
+	    "<pre>@nl;"
+	    indented_lines_to_text(contents)
+	    "</pre>@nl;"
+	  next
+	#-> line(-1) == '=':
+	  append &buf
+	    maybe_start_definition_list()
+	    "<dt>"
+	    range(line 1 -2).trim
+	    "</dt>@nl;<dd>@nl;"
+	    lines_to_text(contents)
+	    "</dd>@nl;"
+	    maybe_end_definition_list()
+	  next
+	-> length_of(line) >= 2 && line(1) == '[' && line(-1) == ']':
+	  $replace_bars: (idx chr)
 	    if
-	      current_line.is_empty
-	      next
-	      -> current_line
-
-    $next_line:
-      #
-	the next none-empty line or "" if no such line exists
-	subtrees are ignored
-
-      $idx no
-      loop:
-	if
-	  idx == total
-	  -> ""
-	  :
-	    inc &idx
-	    $current_line lines(idx)
-	    if
-	      current_line.is_empty
-	      next
-	      -> current_line
-
-    $maybe_start_paragraph:
-      if
-	behind_empty_line()
-	-> "<p>@nl;"
-	-> ""
-
-    $maybe_end_paragraph:
-      if
-	before_empty_line()
-	-> "</p>@nl;"
-	-> ""
-
-    $maybe_start_unordered_list:
-      if
-	previous_line() .has_prefix. "* "
-	-> ""
-	-> "<ul>@nl;"
-
-    $maybe_end_unordered_list:
-      if
-	next_line() .has_prefix. "* "
-	-> ""
-	-> "</ul>@nl;"
-
-    $maybe_start_definition_list:
-      if
-	previous_line() .has_suffix. '='
-	-> ""
-	-> "<dl>@nl;"
-
-    $maybe_end_definition_list:
-      if
-	next_line() .has_suffix. '='
-	-> ""
-	-> "</dl>@nl;"
-
-    $maybe_start_table:
-      if
-	previous_line() .has_prefix. '['
-	-> ""
-	-> "<table>@nl;"
-
-    $maybe_end_table:
-      if
-	next_line() .has_prefix. '['
-	-> ""
-	-> "</table>@nl;"
-
-    $contents
-      if
-	no < total && lines(no+1).is_a_key_value_pair
-	-> value_of(lines(no+1))
-	-> undefined
-
-    cond
-      -> line.is_a_key_value_pair || line.is_empty
-	-> ""
-      -> line .has_prefix. "* ":
-	range &line 3 -1
-	if
-	  contents.is_defined:
-	    string
-	      maybe_start_unordered_list()
-	      "<li>@nl;"
-	      insert_tags(line) '@nl;'
-	      lines_to_text(contents)
-	      "</li>@nl;"
-	      maybe_end_unordered_list()
-	  :
-	    string
-	      maybe_start_unordered_list()
-	      "<li>" insert_tags(line) "</li>@nl;"
-	      maybe_end_unordered_list()
-      -> line == "`":
-	string
-	  "<pre>@nl;"
-	  indented_lines_to_text(contents 0)
-	  "</pre>@nl;"
-      -> line(-1) == '=':
-	string
-	  maybe_start_definition_list()
-	  "<dt>"
-	  range(line 1 -2).trim
-	  "</dt>@nl;<dd>@nl;"
-	  lines_to_text(contents)
-	  "</dd>@nl;"
-	  maybe_end_definition_list()
-      -> length_of(line) >= 2 && line(1) == '[' && line(-1) == ']':
-	$replace_bars: (idx chr)
+	      chr == '|' && (idx == 1 || line(idx-1) != '\')
+	      -> "</td><td>"
+	      -> chr.to_string
+	  range &line 2 -2
+	  append &buf
+	    maybe_start_table()
+	    "<tr><td>"
+	    map_reduce(line replace_bars append)
+	    "</td></tr>@nl;"
+	    maybe_end_table()
+	  next
+	-> line .has_prefix. "IMAGE:":
+	  $image_name between(line ' ' ' ')
+	  $extension image_name .behind. '.'
+	  $image_description behind(line ' ' 2)
+	  $data image_data(image_name)
+	  append &buf "
+	    <figure>
+	    <img src="data:image/@(extension);base64,
+	    @(data)">
+	    <figcaption>@(image_description)</figcaption>
+	    </figure>
+	  next
+	-> true:
 	  if
-	    chr == '|' && (idx == 1 || line(idx-1) != '\')
-	    -> "</td><td>"
-	    -> chr.to_string
+	    contents.is_defined:
+	      cond
+		-> line == "PREFACE" || line == "GLOSSARY":
+		  next
+		-> line .has_prefix. "APPENDIX:":
+		  next
+		-> true:
+		  inc &no
+		  $subsection
+		    if
+		      section.is_empty
+		      -> no.to_string
+		      -> append(section "." no.to_string)
+		  $title line
+		  $ref replace_all(title.to_lower_case ' ' = "_")
+		  $level count_occurrences(subsection ".")+1
+		  $tag "h@(level)"
+		  $anchor
+		    string
+		      "<a name=@quot;"
+		      ref
+		      "@quot;>"
+		      "<grey>" subsection "</grey> " title
+		      "</a>"
+		  append &buf
+		    "<@(tag)>@(anchor)</@(tag)>@nl;"
+		    indented_lines_to_html(contents subsection)
+		  next
+	    :
+	      append &buf
+		maybe_start_paragraph()
+		insert_tags(line) "@nl;"
+		maybe_end_paragraph()
+	      next
 
-	range &line 2 -2
-	string
-	  maybe_start_table()
-	  "<tr><td>"
-	  map_reduce(line replace_bars append)
-	  "</td></tr>@nl;"
-	  maybe_end_table()
-      -> true:
+      $behind_empty_line -> idx == 1 || lines(idx-1).is_empty
+
+      $before_empty_line -> idx == total || lines(idx+1).is_empty
+
+      $maybe_start_paragraph:
 	if
-	  contents.is_defined:
-	    cond $class $title
-	      -> line == "PREFACE" || line == "GLOSSARY"
-		-> "" line
-	      -> line .has_prefix. "APPENDIX:"
-		-> " class=@quot;appendix@quot;" range(line 10 -1).trim
-	      -> true
-		-> " class=@quot;chapter@quot;" line
-	    $anchor
-	      string
-		"<a name=@quot;"
-		replace_all(title.to_lower_case ' ' = "_")
-		"@quot;>"
-		title.to_title_case
-		"</a>"
-	    string
-	      "<h@(level)@(class)>@(anchor)</h@(level)>@nl;"
-	      indented_lines_to_html(contents level+1)
-	  :
-	    string
-	      maybe_start_paragraph()
-	      insert_tags(line) '@nl;'
-	      maybe_end_paragraph()
+	  behind_empty_line()
+	  -> "<p>@nl;"
+	  -> ""
 
-  $total length_of(lines)
+      $maybe_end_paragraph:
+	if
+	  before_empty_line()
+	  -> "</p>@nl;"
+	  -> ""
 
-  map_reduce lines map_line append
+      $maybe_start_unordered_list:
+	if
+	  idx > 1 && lines(idx-1) .has_prefix. "* "
+	  -> ""
+	  -> "<ul>@nl;"
+
+      $maybe_end_unordered_list:
+	if
+	  idx < total && lines(idx+1) .has_prefix. "* "
+	  -> ""
+	  -> "</ul>@nl;"
+
+      $maybe_start_definition_list:
+	if
+	  idx > 1 && lines(idx-1) .has_suffix. '='
+	  -> ""
+	  -> "<dl>@nl;"
+
+      $maybe_end_definition_list:
+	if
+	  idx < total && lines(idx+1) .has_suffix. '='
+	  -> ""
+	  -> "</dl>@nl;"
+
+      $maybe_start_table:
+	if
+	  idx > 1 && lines(idx-1) .has_prefix. '['
+	  -> ""
+	  -> "<table>@nl;"
+
+      $maybe_end_table:
+	if
+	  idx < total && lines(idx+1) .has_prefix. '['
+	  -> ""
+	  -> "</table>@nl;"
+
+    -> buf

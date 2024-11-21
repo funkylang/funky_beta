@@ -67,8 +67,8 @@ $std_types::tuple/debug::to_string:
       $len length_of(self)
       if
 	len == 1
-	-> "tuple of 1 item>@nl;"
-	-> "tuple of @(len) items>@nl;"
+	-> "<tuple of 1 item>@nl;"
+	-> "<tuple of @(len) items>@nl;"
     :
       $new_indent indent+2
       map_reduce $contents

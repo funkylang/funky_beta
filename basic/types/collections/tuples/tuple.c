@@ -191,7 +191,7 @@ static TAB_NUM t_lambda_1[] = {
 static TAB_NUM t_lambda_2[] = {
   0, // locals
   0, // parameters
-  //  "tuple of 1 item>@nl;"
+  //  "<tuple of 1 item>@nl;"
   LET, 1, str_tuple_of_1_item, TAIL_CALL,
   POS(70, 11)
 };
@@ -199,9 +199,9 @@ static TAB_NUM t_lambda_2[] = {
 static TAB_NUM t_lambda_3[] = {
   1, // locals
   0, // parameters
-  // "tuple of @(len) items>@nl;"
+  // "<tuple of @(len) items>@nl;"
   var_std__string, 3, str_tuple_of, var_67_1_len, str__items, 1, LOCAL(1),
-  //  "tuple of @(len) items>@nl;"
+  //  "<tuple of @(len) items>@nl;"
   LET, 1, LOCAL(1), TAIL_CALL,
   POS(71, 12),
   POS(71, 11)
@@ -389,9 +389,9 @@ static FUNKY_CONSTANT constants_table[] = {
   {FLT_POSITIVE_INT64, 0, {.value = 1}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_1}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_2}},
-  {FLT_STRING_8, 17, {.str_8 = "tuple of 1 item>\012"}},
+  {FLT_STRING_8, 18, {.str_8 = "<tuple of 1 item>\012"}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_3}},
-  {FLT_STRING_8, 9, {.str_8 = "tuple of "}},
+  {FLT_STRING_8, 10, {.str_8 = "<tuple of "}},
   {FLT_STRING_8, 8, {.str_8 = " items>\012"}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_4}},
   {FLT_POSITIVE_INT64, 0, {.value = 2}},
