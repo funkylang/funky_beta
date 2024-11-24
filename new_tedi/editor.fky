@@ -1161,39 +1161,36 @@ $delete_to_line_start: (x y lines info)
 
 $delete_to_line_end: (x y lines info)
   if
-    y < length_of(lines):
-      $line lines(y)
-      if
-	line.is_undefined
-	-> undefined undefined 1 y info
-	:
-	  $indent indent_of(line)
-	  $text text_of(line)
-	  $text_width width_of(text)
-	  cond
-	    -> x <= indent+1
-	      ->
-		y
-		list(undefined)
-		x
-		y
-		info
-	    -> x > indent+text_width
-	      ->
-		undefined
-		undefined
-		x
-		y
-		info
-	    -> true:
-	      $pos get_position(text x-indent)
-	      ->
-		y
-		list(tedi_line(indent range(text 1 pos-1)))
-		x
-		y
-		info
+    y > length_of(lines) || lines(y).is_undefined
     -> undefined undefined x y info
+    :
+      $line lines(y)
+      $indent indent_of(line)
+      $text text_of(line)
+      $text_width width_of(text)
+      cond
+	-> x <= indent+1
+	  ->
+	    y
+	    list(undefined)
+	    x
+	    y
+	    info
+	-> x > indent+text_width
+	  ->
+	    undefined
+	    undefined
+	    x
+	    y
+	    info
+	-> true:
+	  $pos get_position(text x-indent)
+	  ->
+	    y
+	    list(tedi_line(indent range(text 1 pos-1)))
+	    x
+	    y
+	    info
 
 $smart_completion: (state x y lines info)
   $completion_prefix completion_prefix_of(info)
@@ -1424,8 +1421,9 @@ $match_back_identifier: (text)
 	  i < 1
 	  -> n-i
 	  :
-	    case text(i)
-	      'a' .. 'z', 'A' .. 'Z', '0' .. '9', '_':
+	    $chr text(i)
+	    if
+	      chr.is_a_letter_character || chr.is_a_digit || chr == '_':
 		dec &i
 		next
 	      :

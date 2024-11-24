@@ -172,7 +172,7 @@ enum {
   lambda_71 = -163,
   func_store_pid_and_err_fd = -164,
   lambda_72 = -165,
-  list_732_9 = -166,
+  list_733_9 = -166,
   lambda_73 = -167,
   func_manage_io = -168,
   lambda_6_loop = -169,
@@ -392,28 +392,28 @@ enum {
   var_mode_of, // extern
   var_std__call, // initialized
   var_result_count, // extern
-  var_490_1_do_return_error_code, // dynamic
-  var_491_1_do_collect_output, // dynamic
-  var_492_1_do_collect_error_output, // dynamic
-  var_493_1_env_vars, // dynamic
+  var_491_1_do_return_error_code, // dynamic
+  var_492_1_do_collect_output, // dynamic
+  var_493_1_do_collect_error_output, // dynamic
+  var_494_1_env_vars, // dynamic
   var_to_string, // extern
   var_map, // extern
   var_environment, // extern
   var_std__string, // extern
   var_for_each, // extern
-  var_502_29_out_fd, // dynamic
-  var_502_37_err_fd, // dynamic
+  var_503_29_out_fd, // dynamic
+  var_503_37_err_fd, // dynamic
   var_create_process, // extern
-  var_504_1_io, // dynamic
+  var_505_1_io, // dynamic
   var_join_process, // extern
-  var_509_1_out, // dynamic
-  var_510_1_err, // dynamic
+  var_510_1_out, // dynamic
+  var_511_1_err, // dynamic
   var_get_events, // extern
-  var_515_13_fd, // dynamic
-  var_515_17_data, // dynamic
+  var_516_13_fd, // dynamic
+  var_516_17_data, // dynamic
   var_case, // extern
   var_PROCESS_JOINED, // extern
-  var_542_1_ret, // dynamic
+  var_543_1_ret, // dynamic
   var_error, // extern
   var_std__terminate, // initialized
   var_EXIT_SUCCESS, // extern
@@ -423,8 +423,8 @@ enum {
   var_is_a_file_descriptor, // extern polymorphic
   var_serialization_tag_of, // extern polymorphic
   var_serialize, // extern polymorphic
-  var_574_0_indent, // dynamic
-  var_576_1_str, // dynamic
+  var_575_0_indent, // dynamic
+  var_577_1_str, // dynamic
   var_tabs_and_spaces, // extern
   var_deserializer_of, // extern polymorphic
   var_integer, // extern
@@ -434,86 +434,86 @@ enum {
   var_std__is_a_process_id, // attribute
   var_is_a_process_id, // extern polymorphic
   var_std_types__process_id, // extern
-  var_601_0_indent, // dynamic
-  var_603_1_str, // dynamic
+  var_602_0_indent, // dynamic
+  var_604_1_str, // dynamic
   var_process_id, // extern
   var_command_of, // attribute
   var_extern_call, // initialized
   var_flatten, // extern
   var_call, // extern
   var_std__pipe, // initialized
-  var_632_0_args, // dynamic
-  var_634_1_i, // dynamic
-  var_635_1_n, // dynamic
-  var_636_1_in_fd, // dynamic
-  var_637_1_feed, // dynamic
-  var_638_1_commands, // dynamic
-  var_639_1_head, // dynamic
-  var_640_1_arguments, // dynamic
-  var_641_1_first_arg, // dynamic
+  var_633_0_args, // dynamic
+  var_635_1_i, // dynamic
+  var_636_1_n, // dynamic
+  var_637_1_in_fd, // dynamic
+  var_638_1_feed, // dynamic
+  var_639_1_commands, // dynamic
+  var_640_1_head, // dynamic
+  var_641_1_arguments, // dynamic
+  var_642_1_first_arg, // dynamic
   var_is_a_string, // extern
-  var_661_1_arg, // dynamic
+  var_662_1_arg, // dynamic
   var_is_a_function, // extern
   var_inc, // extern
   var_std__pipe_commands, // initialized
-  var_681_0_feed_or_fd, // dynamic
-  var_682_0_commands, // dynamic
-  var_696_0_in_fd, // dynamic
-  var_697_0_feed, // dynamic
-  var_698_0_commands, // dynamic
-  var_700_1_pids, // dynamic
-  var_701_1_err_fds, // dynamic
-  var_702_1_out_fd, // dynamic
-  var_703_1_env_vars, // dynamic
-  var_712_3_idx, // dynamic
-  var_713_9_head, // dynamic
-  var_713_15_arguments, // dynamic
-  var_715_1_pid, // dynamic
-  var_716_1_err_fd, // dynamic
+  var_682_0_feed_or_fd, // dynamic
+  var_683_0_commands, // dynamic
+  var_697_0_in_fd, // dynamic
+  var_698_0_feed, // dynamic
+  var_699_0_commands, // dynamic
+  var_701_1_pids, // dynamic
+  var_702_1_err_fds, // dynamic
+  var_703_1_out_fd, // dynamic
+  var_704_1_env_vars, // dynamic
+  var_713_3_idx, // dynamic
+  var_714_9_head, // dynamic
+  var_714_15_arguments, // dynamic
+  var_716_1_pid, // dynamic
+  var_717_1_err_fd, // dynamic
   var_is_undefined, // extern
   var_list, // extern
-  var_730_1_ret, // dynamic
+  var_731_1_ret, // dynamic
   var_dup, // extern
-  var_731_1_out, // dynamic
-  var_732_1_err, // dynamic
-  var_743_1_read_descriptor_list, // dynamic
+  var_732_1_out, // dynamic
+  var_733_1_err, // dynamic
+  var_744_1_read_descriptor_list, // dynamic
   var_keys_of, // extern
-  var_753_1_read_descriptors, // dynamic
-  var_754_1_write_descriptors, // dynamic
+  var_754_1_read_descriptors, // dynamic
+  var_755_1_write_descriptors, // dynamic
   var_pselect, // extern
   var_CHILD_CHANGED_STATE, // extern
-  var_762_7_rpid, // dynamic
-  var_762_13_status, // dynamic
+  var_763_7_rpid, // dynamic
+  var_763_13_status, // dynamic
   var_wait, // extern
-  var_787_3_read_descriptor, // dynamic
-  var_788_7_buf, // dynamic
+  var_788_3_read_descriptor, // dynamic
+  var_789_7_buf, // dynamic
   var_std__which, // initialized
-  var_815_0_name, // dynamic
+  var_816_0_name, // dynamic
   var_split, // extern
-  var_819_1_filename, // dynamic
+  var_820_1_filename, // dynamic
   var_file_exists, // extern
   var_std__find_first_process, // initialized
-  var_826_27_name, // dynamic
-  var_827_10_dir, // dynamic
-  var_829_10_entry, // dynamic
-  var_835_1_proc_num, // dynamic
+  var_827_27_name, // dynamic
+  var_828_10_dir, // dynamic
+  var_830_10_entry, // dynamic
+  var_836_1_proc_num, // dynamic
   var_DIGIT, // extern
   var_many, // extern
   var_matches, // extern
-  var_838_7_buf, // dynamic
+  var_839_7_buf, // dynamic
   var_truncate_from, // extern
   var_truncate_until, // extern
   var_std__find_processes, // initialized
-  var_851_23_name, // dynamic
-  var_852_10_dir, // dynamic
-  var_853_1_pids, // dynamic
-  var_855_10_entry, // dynamic
-  var_861_1_proc_num, // dynamic
-  var_864_7_buf, // dynamic
+  var_852_23_name, // dynamic
+  var_853_10_dir, // dynamic
+  var_854_1_pids, // dynamic
+  var_856_10_entry, // dynamic
+  var_862_1_proc_num, // dynamic
+  var_865_7_buf, // dynamic
   var_std__get_process_name, // initialized
-  var_879_7_buf, // dynamic
+  var_880_7_buf, // dynamic
   var_std__get_mac_address, // initialized
-  var_886_24_mac, // dynamic
+  var_887_24_mac, // dynamic
   var_get_first_mac_address, // extern
   var_hex, // extern
   var_map_reduce, // extern
@@ -1812,208 +1812,202 @@ static TAB_NUM t_func_std_types__stat___is_a_directory[] = {
 static TAB_NUM t_func_std__call[] = {
   6, // locals
   2, // parameters
-  LOCAL(3), // 487_0_cmd
-  LOCAL(4), // 488_0_args
-  // result_count() >= 1)
-  var_result_count, 0, 1, LOCAL(1),
-  // result_count() >= 1)
-  var_std__less, 2, LOCAL(1), num_1, 1, LOCAL(2),
-  // $do_return_error_code (result_count() >= 1)
-  var_std__not, 1, LOCAL(2), 1, var_490_1_do_return_error_code,
-  // result_count() >= 2)
-  var_result_count, 0, 1, LOCAL(1),
-  // result_count() >= 2)
-  var_std__less, 2, LOCAL(1), num_2, 1, LOCAL(2),
-  // $do_collect_output (result_count() >= 2)
-  var_std__not, 1, LOCAL(2), 1, var_491_1_do_collect_output,
-  // result_count() == 3)
-  var_result_count, 0, 1, LOCAL(1),
-  // $do_collect_error_output (result_count() == 3)
-  var_std__equal, 2, LOCAL(1), num_3, 1, var_492_1_do_collect_error_output,
+  LOCAL(2), // 487_0_cmd
+  LOCAL(3), // 488_0_args
+  // $rc result_count()
+  var_result_count, 0, 1, LOCAL(4),
+  // rc >= 1)
+  var_std__less, 2, LOCAL(4), num_1, 1, LOCAL(1),
+  // $do_return_error_code (rc >= 1)
+  var_std__not, 1, LOCAL(1), 1, var_491_1_do_return_error_code,
+  // rc >= 2)
+  var_std__less, 2, LOCAL(4), num_2, 1, LOCAL(1),
+  // $do_collect_output (rc >= 2)
+  var_std__not, 1, LOCAL(1), 1, var_492_1_do_collect_output,
+  // $do_collect_error_output (rc == 3)
+  var_std__equal, 2, LOCAL(4), num_3, 1, var_493_1_do_collect_error_output,
   // $env_vars undefined
-  LET, 1, var_undefined, 1, var_493_1_env_vars,
+  LET, 1, var_undefined, 1, var_494_1_env_vars,
   // map &args to_string
-  var_map, 2, LOCAL(4), var_to_string, 1, LOCAL(4),
+  var_map, 2, LOCAL(3), var_to_string, 1, LOCAL(3),
   // is_defined &env_vars:
   var_is_defined, 1, var_environment, 1, LOCAL(1),
   // update_if environment.is_defined &env_vars:
-  var_update_if, 3, LOCAL(1), var_493_1_env_vars, lambda_38, 1, var_493_1_env_vars,
+  var_update_if, 3, LOCAL(1), var_494_1_env_vars, lambda_38, 1, var_494_1_env_vars,
   // create_process! $pid $in_fd $out_fd $err_fd cmd args env_vars
-  var_create_process, 3, LOCAL(3), LOCAL(4), var_493_1_env_vars, IO_CALL(4), LOCAL(5), LOCAL(6), var_502_29_out_fd, var_502_37_err_fd,
+  var_create_process, 3, LOCAL(2), LOCAL(3), var_494_1_env_vars, IO_CALL(4), LOCAL(5), LOCAL(6), var_503_29_out_fd, var_503_37_err_fd,
   // close! in_fd
   var_close, 1, LOCAL(6), IO_CALL(0),
   // $io std_types::io
-  LET, 1, var_std_types__io, 1, var_504_1_io,
+  LET, 1, var_std_types__io, 1, var_505_1_io,
   // join_process &io pid
-  var_join_process, 2, var_504_1_io, LOCAL(5), 1, var_504_1_io,
+  var_join_process, 2, var_505_1_io, LOCAL(5), 1, var_505_1_io,
   // start_reading_from &io out_fd
-  var_start_reading_from, 2, var_504_1_io, var_502_29_out_fd, 1, var_504_1_io,
+  var_start_reading_from, 2, var_505_1_io, var_503_29_out_fd, 1, var_505_1_io,
   // start_reading_from &io err_fd
-  var_start_reading_from, 2, var_504_1_io, var_502_37_err_fd, 1, var_504_1_io,
+  var_start_reading_from, 2, var_505_1_io, var_503_37_err_fd, 1, var_505_1_io,
   // $out ""
-  LET, 1, string_1, 1, var_509_1_out,
+  LET, 1, string_1, 1, var_510_1_out,
   // $err ""
-  LET, 1, string_1, 1, var_510_1_err,
+  LET, 1, string_1, 1, var_511_1_err,
   // loop:
   var_loop, 1, lambda_5_loop, IO_TAIL_CALL,
-  POS(490, 26),
-  POS(490, 26),
   POS(490, 3),
-  POS(491, 23),
-  POS(491, 23),
+  POS(491, 26),
   POS(491, 3),
-  POS(492, 29),
+  POS(492, 23),
   POS(492, 3),
   POS(493, 3),
   POS(494, 3),
-  POS(495, 25),
   POS(495, 3),
-  POS(502, 3),
+  POS(496, 25),
+  POS(496, 3),
   POS(503, 3),
   POS(504, 3),
   POS(505, 3),
   POS(506, 3),
   POS(507, 3),
-  POS(509, 3),
+  POS(508, 3),
   POS(510, 3),
-  POS(511, 3)
+  POS(511, 3),
+  POS(512, 3)
 };
 
 static TAB_NUM t_lambda_38[] = {
   0, // locals
   0, // parameters
   // !env_vars empty_list
-  LET, 1, var_empty_list, 1, var_493_1_env_vars,
+  LET, 1, var_empty_list, 1, var_494_1_env_vars,
   // for_each environment
   var_for_each, 3, var_environment, lambda_39, lambda_40, TAIL_CALL,
-  POS(496, 5),
-  POS(497, 5)
+  POS(497, 5),
+  POS(498, 5)
 };
 
 static TAB_NUM t_lambda_39[] = {
   3, // locals
   2, // parameters
-  LOCAL(2), // 498_3_key
-  LOCAL(3), // 498_7_value
+  LOCAL(2), // 499_3_key
+  LOCAL(3), // 499_7_value
   // "@(key)=@(value)"
   var_std__string, 3, LOCAL(2), string_2, LOCAL(3), 1, LOCAL(1),
   // push &env_vars "@(key)=@(value)"
-  var_push, 2, var_493_1_env_vars, LOCAL(1), 1, var_493_1_env_vars,
+  var_push, 2, var_494_1_env_vars, LOCAL(1), 1, var_494_1_env_vars,
   // next
   var_next, 0, TAIL_CALL,
-  POS(499, 24),
-  POS(499, 9),
-  POS(500, 9)
+  POS(500, 24),
+  POS(500, 9),
+  POS(501, 9)
 };
 
 static TAB_NUM t_lambda_40[] = {
   0, // locals
   0, // parameters
   //  env_vars
-  LET, 1, var_493_1_env_vars, TAIL_CALL,
-  POS(501, 9)
+  LET, 1, var_494_1_env_vars, TAIL_CALL,
+  POS(502, 9)
 };
 
 static TAB_NUM t_lambda_5_loop[] = {
   1, // locals
   0, // parameters
   // get_events! &io $events
-  var_get_events, 1, var_504_1_io, IO_CALL(2), var_504_1_io, LOCAL(1),
+  var_get_events, 1, var_505_1_io, IO_CALL(2), var_505_1_io, LOCAL(1),
   // for_each events
   var_for_each, 3, LOCAL(1), lambda_41, var_next, IO_TAIL_CALL,
-  POS(512, 5),
-  POS(513, 5)
+  POS(513, 5),
+  POS(514, 5)
 };
 
 static TAB_NUM t_lambda_41[] = {
   2, // locals
   1, // parameters
-  LOCAL(1), // 514_3_event
+  LOCAL(1), // 515_3_event
   // event $type $fd $data
-  LOCAL(1), 0, 3, LOCAL(2), var_515_13_fd, var_515_17_data,
+  LOCAL(1), 0, 3, LOCAL(2), var_516_13_fd, var_516_17_data,
   // case type
   var_case, 6, LOCAL(2), var_READ, lambda_READ, var_PROCESS_JOINED, lambda_PROCESS_JOINED, lambda_51, IO_TAIL_CALL,
-  POS(515, 9),
-  POS(516, 9)
+  POS(516, 9),
+  POS(517, 9)
 };
 
 static TAB_NUM t_lambda_READ[] = {
   1, // locals
   0, // parameters
   // data == ""
-  var_std__equal, 2, var_515_17_data, string_1, 1, LOCAL(1),
+  var_std__equal, 2, var_516_17_data, string_1, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), var_next, lambda_42, IO_TAIL_CALL,
-  POS(519, 15),
-  POS(518, 13)
+  POS(520, 15),
+  POS(519, 13)
 };
 
 static TAB_NUM t_lambda_42[] = {
   0, // locals
   0, // parameters
   // case fd
-  var_case, 6, var_515_13_fd, var_502_29_out_fd, lambda_out_fd, var_502_37_err_fd, lambda_err_fd, lambda_45, IO_TAIL_CALL,
-  POS(522, 17)
+  var_case, 6, var_516_13_fd, var_503_29_out_fd, lambda_out_fd, var_503_37_err_fd, lambda_err_fd, lambda_45, IO_TAIL_CALL,
+  POS(523, 17)
 };
 
 static TAB_NUM t_lambda_out_fd[] = {
   0, // locals
   0, // parameters
   // if
-  var_if, 3, var_491_1_do_collect_output, lambda_do_collect_output, lambda_43, IO_TAIL_CALL,
-  POS(524, 21)
+  var_if, 3, var_492_1_do_collect_output, lambda_do_collect_output, lambda_43, IO_TAIL_CALL,
+  POS(525, 21)
 };
 
 static TAB_NUM t_lambda_do_collect_output[] = {
   0, // locals
   0, // parameters
   // append &out data
-  var_append, 2, var_509_1_out, var_515_17_data, 1, var_509_1_out,
+  var_append, 2, var_510_1_out, var_516_17_data, 1, var_510_1_out,
   // next!
   var_next, 0, IO_TAIL_CALL,
-  POS(526, 25),
-  POS(527, 25)
+  POS(527, 25),
+  POS(528, 25)
 };
 
 static TAB_NUM t_lambda_43[] = {
   0, // locals
   0, // parameters
   // write_to! STDOUT_FILENO data
-  var_write_to, 2, var_STDOUT_FILENO, var_515_17_data, IO_CALL(0),
+  var_write_to, 2, var_STDOUT_FILENO, var_516_17_data, IO_CALL(0),
   // next!
   var_next, 0, IO_TAIL_CALL,
-  POS(529, 25),
-  POS(530, 25)
+  POS(530, 25),
+  POS(531, 25)
 };
 
 static TAB_NUM t_lambda_err_fd[] = {
   0, // locals
   0, // parameters
   // if
-  var_if, 3, var_492_1_do_collect_error_output, lambda_do_collect_error_output, lambda_44, IO_TAIL_CALL,
-  POS(532, 21)
+  var_if, 3, var_493_1_do_collect_error_output, lambda_do_collect_error_output, lambda_44, IO_TAIL_CALL,
+  POS(533, 21)
 };
 
 static TAB_NUM t_lambda_do_collect_error_output[] = {
   0, // locals
   0, // parameters
   // append &err data
-  var_append, 2, var_510_1_err, var_515_17_data, 1, var_510_1_err,
+  var_append, 2, var_511_1_err, var_516_17_data, 1, var_511_1_err,
   // next!
   var_next, 0, IO_TAIL_CALL,
-  POS(534, 25),
-  POS(535, 25)
+  POS(535, 25),
+  POS(536, 25)
 };
 
 static TAB_NUM t_lambda_44[] = {
   0, // locals
   0, // parameters
   // write_to! STDERR_FILENO data
-  var_write_to, 2, var_STDERR_FILENO, var_515_17_data, IO_CALL(0),
+  var_write_to, 2, var_STDERR_FILENO, var_516_17_data, IO_CALL(0),
   // next!
   var_next, 0, IO_TAIL_CALL,
-  POS(537, 25),
-  POS(538, 25)
+  POS(538, 25),
+  POS(539, 25)
 };
 
 static TAB_NUM t_lambda_45[] = {
@@ -2021,77 +2015,77 @@ static TAB_NUM t_lambda_45[] = {
   0, // parameters
   // next!
   var_next, 0, IO_TAIL_CALL,
-  POS(540, 21)
+  POS(541, 21)
 };
 
 static TAB_NUM t_lambda_PROCESS_JOINED[] = {
   0, // locals
   0, // parameters
   // $ret data
-  LET, 1, var_515_17_data, 1, var_542_1_ret,
+  LET, 1, var_516_17_data, 1, var_543_1_ret,
   // if
-  var_if, 3, var_490_1_do_return_error_code, lambda_do_return_error_code, lambda_49, TAIL_CALL,
-  POS(542, 13),
-  POS(543, 13)
+  var_if, 3, var_491_1_do_return_error_code, lambda_do_return_error_code, lambda_49, TAIL_CALL,
+  POS(543, 13),
+  POS(544, 13)
 };
 
 static TAB_NUM t_lambda_do_return_error_code[] = {
   0, // locals
   0, // parameters
   // if
-  var_if, 3, var_491_1_do_collect_output, lambda_2_do_collect_output, lambda_48, TAIL_CALL,
-  POS(545, 17)
+  var_if, 3, var_492_1_do_collect_output, lambda_2_do_collect_output, lambda_48, TAIL_CALL,
+  POS(546, 17)
 };
 
 static TAB_NUM t_lambda_2_do_collect_output[] = {
   0, // locals
   0, // parameters
   // if
-  var_if, 3, var_492_1_do_collect_error_output, lambda_46, lambda_47, TAIL_CALL,
-  POS(547, 21)
+  var_if, 3, var_493_1_do_collect_error_output, lambda_46, lambda_47, TAIL_CALL,
+  POS(548, 21)
 };
 
 static TAB_NUM t_lambda_46[] = {
   0, // locals
   0, // parameters
   //  ret out err
-  LET, 3, var_542_1_ret, var_509_1_out, var_510_1_err, TAIL_CALL,
-  POS(549, 25)
+  LET, 3, var_543_1_ret, var_510_1_out, var_511_1_err, TAIL_CALL,
+  POS(550, 25)
 };
 
 static TAB_NUM t_lambda_47[] = {
   0, // locals
   0, // parameters
   //  ret out
-  LET, 2, var_542_1_ret, var_509_1_out, TAIL_CALL,
-  POS(550, 25)
+  LET, 2, var_543_1_ret, var_510_1_out, TAIL_CALL,
+  POS(551, 25)
 };
 
 static TAB_NUM t_lambda_48[] = {
   0, // locals
   0, // parameters
   //  ret
-  LET, 1, var_542_1_ret, TAIL_CALL,
-  POS(551, 21)
+  LET, 1, var_543_1_ret, TAIL_CALL,
+  POS(552, 21)
 };
 
 static TAB_NUM t_lambda_49[] = {
   1, // locals
   0, // parameters
   // ret == 0
-  var_std__equal, 2, var_542_1_ret, num_0, 1, LOCAL(1),
+  var_std__equal, 2, var_543_1_ret, num_0, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), var_pass, lambda_50, TAIL_CALL,
-  POS(554, 19),
-  POS(553, 17)
+  POS(555, 19),
+  POS(554, 17)
 };
 
 static TAB_NUM t_lambda_50[] = {
   0, // locals
   0, // parameters
-  // error "CALLING PROCESS FAILED" ret
-  var_error, 2, str_CALLING_PROCESS, var_542_1_ret, TAIL_CALL,
-  POS(557, 21)
+  // error "CALLING PROCESS FAILED"
+  var_error, 1, str_CALLING_PROCESS, TAIL_CALL,
+  POS(558, 21)
 };
 
 static TAB_NUM t_lambda_51[] = {
@@ -2099,7 +2093,7 @@ static TAB_NUM t_lambda_51[] = {
   0, // parameters
   // next!
   var_next, 0, IO_TAIL_CALL,
-  POS(559, 13)
+  POS(560, 13)
 };
 
 static TAB_NUM t_func_std__terminate[] = {
@@ -2107,128 +2101,128 @@ static TAB_NUM t_func_std__terminate[] = {
   0, // parameters
   // exit! EXIT_SUCCESS
   var_exit, 1, var_EXIT_SUCCESS, IO_TAIL_CALL,
-  POS(563, 3)
+  POS(564, 3)
 };
 
 static TAB_NUM t_func_std_types__file_descriptor___serialize[] = {
   2, // locals
   -2, // parameters
-  MANDATORY_PARAMETER, LOCAL(2), // 573_0_self
-  var_undefined, var_574_0_indent,
+  MANDATORY_PARAMETER, LOCAL(2), // 574_0_self
+  var_undefined, var_575_0_indent,
   // to_integer)
   var_to_integer, 1, LOCAL(2), 1, LOCAL(1),
   // $str "
-  var_std__string, 3, str_file_descriptor_2, LOCAL(1), string_3, 1, var_576_1_str,
+  var_std__string, 3, str_file_descriptor_2, LOCAL(1), string_3, 1, var_577_1_str,
   // is_defined
-  var_is_defined, 1, var_574_0_indent, 1, LOCAL(1),
+  var_is_defined, 1, var_575_0_indent, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_52, lambda_53, TAIL_CALL,
-  POS(577, 28),
-  POS(576, 3),
-  POS(579, 12),
-  POS(578, 3)
+  POS(578, 28),
+  POS(577, 3),
+  POS(580, 12),
+  POS(579, 3)
 };
 
 static TAB_NUM t_lambda_52[] = {
   2, // locals
   0, // parameters
   // tabs_and_spaces(indent) str)
-  var_tabs_and_spaces, 1, var_574_0_indent, 1, LOCAL(1),
+  var_tabs_and_spaces, 1, var_575_0_indent, 1, LOCAL(1),
   // append(tabs_and_spaces(indent) str)
-  var_append, 2, LOCAL(1), var_576_1_str, 1, LOCAL(2),
+  var_append, 2, LOCAL(1), var_577_1_str, 1, LOCAL(2),
   //  append(tabs_and_spaces(indent) str)
   LET, 1, LOCAL(2), TAIL_CALL,
-  POS(580, 15),
-  POS(580, 8),
-  POS(580, 7)
+  POS(581, 15),
+  POS(581, 8),
+  POS(581, 7)
 };
 
 static TAB_NUM t_lambda_53[] = {
   0, // locals
   0, // parameters
   //  str
-  LET, 1, var_576_1_str, TAIL_CALL,
-  POS(581, 7)
+  LET, 1, var_577_1_str, TAIL_CALL,
+  POS(582, 7)
 };
 
 static TAB_NUM t_func_std_types__file_descriptor___deserializer_of[] = {
   3, // locals
   2, // parameters
   LOCAL(1),
-  LOCAL(3), // 586_0_argument
+  LOCAL(3), // 587_0_argument
   // integer(argument))
   var_integer, 1, LOCAL(3), 1, LOCAL(1),
   // file_descriptor(integer(argument))
   var_file_descriptor, 1, LOCAL(1), 1, LOCAL(2),
   // -> file_descriptor(integer(argument))
   LET, 1, LOCAL(2), TAIL_CALL,
-  POS(588, 22),
-  POS(588, 6),
-  POS(588, 3)
+  POS(589, 22),
+  POS(589, 6),
+  POS(589, 3)
 };
 
 static TAB_NUM t_func_std_types__process_id___serialize[] = {
   2, // locals
   -2, // parameters
-  MANDATORY_PARAMETER, LOCAL(2), // 600_0_self
-  var_undefined, var_601_0_indent,
+  MANDATORY_PARAMETER, LOCAL(2), // 601_0_self
+  var_undefined, var_602_0_indent,
   // to_integer)
   var_to_integer, 1, LOCAL(2), 1, LOCAL(1),
   // $str "
-  var_std__string, 3, str_process_id_2, LOCAL(1), string_3, 1, var_603_1_str,
+  var_std__string, 3, str_process_id_2, LOCAL(1), string_3, 1, var_604_1_str,
   // is_defined
-  var_is_defined, 1, var_601_0_indent, 1, LOCAL(1),
+  var_is_defined, 1, var_602_0_indent, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_54, lambda_55, TAIL_CALL,
-  POS(604, 23),
-  POS(603, 3),
-  POS(606, 12),
-  POS(605, 3)
+  POS(605, 23),
+  POS(604, 3),
+  POS(607, 12),
+  POS(606, 3)
 };
 
 static TAB_NUM t_lambda_54[] = {
   2, // locals
   0, // parameters
   // tabs_and_spaces(indent) str)
-  var_tabs_and_spaces, 1, var_601_0_indent, 1, LOCAL(1),
+  var_tabs_and_spaces, 1, var_602_0_indent, 1, LOCAL(1),
   // append(tabs_and_spaces(indent) str)
-  var_append, 2, LOCAL(1), var_603_1_str, 1, LOCAL(2),
+  var_append, 2, LOCAL(1), var_604_1_str, 1, LOCAL(2),
   //  append(tabs_and_spaces(indent) str)
   LET, 1, LOCAL(2), TAIL_CALL,
-  POS(607, 15),
-  POS(607, 8),
-  POS(607, 7)
+  POS(608, 15),
+  POS(608, 8),
+  POS(608, 7)
 };
 
 static TAB_NUM t_lambda_55[] = {
   0, // locals
   0, // parameters
   //  str
-  LET, 1, var_603_1_str, TAIL_CALL,
-  POS(608, 7)
+  LET, 1, var_604_1_str, TAIL_CALL,
+  POS(609, 7)
 };
 
 static TAB_NUM t_func_std_types__process_id___deserializer_of[] = {
   3, // locals
   2, // parameters
   LOCAL(1),
-  LOCAL(3), // 613_0_argument
+  LOCAL(3), // 614_0_argument
   // integer(argument))
   var_integer, 1, LOCAL(3), 1, LOCAL(1),
   // process_id(integer(argument))
   var_process_id, 1, LOCAL(1), 1, LOCAL(2),
   // -> process_id(integer(argument))
   LET, 1, LOCAL(2), TAIL_CALL,
-  POS(615, 17),
-  POS(615, 6),
-  POS(615, 3)
+  POS(616, 17),
+  POS(616, 6),
+  POS(616, 3)
 };
 
 static TAB_NUM t_func_extern_call[] = {
   5, // locals
   -2, // parameters
-  MYSELF_PARAMETER, LOCAL(4), // 623_0_myself
-  REST_PARAMETER, LOCAL(5), // 624_0_arguments
+  MYSELF_PARAMETER, LOCAL(4), // 624_0_myself
+  REST_PARAMETER, LOCAL(5), // 625_0_arguments
   // command_of(myself) map(flatten(arguments) to_string)
   var_command_of, 1, LOCAL(4), 1, LOCAL(1),
   // flatten(arguments) to_string)
@@ -2237,37 +2231,36 @@ static TAB_NUM t_func_extern_call[] = {
   var_map, 2, LOCAL(2), var_to_string, 1, LOCAL(3),
   // call! command_of(myself) map(flatten(arguments) to_string)
   var_call, 2, LOCAL(1), LOCAL(3), IO_TAIL_CALL,
-  POS(626, 9),
-  POS(626, 32),
-  POS(626, 28),
-  POS(626, 3)
+  POS(627, 9),
+  POS(627, 32),
+  POS(627, 28),
+  POS(627, 3)
 };
 
 static TAB_NUM t_func_std__pipe[] = {
   1, // locals
   -1, // parameters
-  REST_PARAMETER, var_632_0_args,
+  REST_PARAMETER, var_633_0_args,
   // $i 1
-  LET, 1, num_1, 1, var_634_1_i,
+  LET, 1, num_1, 1, var_635_1_i,
   // $n length_of(args)
-  var_length_of, 1, var_632_0_args, 1, var_635_1_n,
+  var_length_of, 1, var_633_0_args, 1, var_636_1_n,
   // $in_fd undefined
-  LET, 1, var_undefined, 1, var_636_1_in_fd,
+  LET, 1, var_undefined, 1, var_637_1_in_fd,
   // $feed undefined
-  LET, 1, var_undefined, 1, var_637_1_feed,
+  LET, 1, var_undefined, 1, var_638_1_feed,
   // $commands empty_list
-  LET, 1, var_empty_list, 1, var_638_1_commands,
+  LET, 1, var_empty_list, 1, var_639_1_commands,
   // $head undefined
-  LET, 1, var_undefined, 1, var_639_1_head,
+  LET, 1, var_undefined, 1, var_640_1_head,
   // $arguments undefined
-  LET, 1, var_undefined, 1, var_640_1_arguments,
+  LET, 1, var_undefined, 1, var_641_1_arguments,
   // $first_arg args(1)
-  var_632_0_args, 1, num_1, 1, var_641_1_first_arg,
+  var_633_0_args, 1, num_1, 1, var_642_1_first_arg,
   // is_a_string:
-  var_is_a_string, 1, var_641_1_first_arg, 1, LOCAL(1),
+  var_is_a_string, 1, var_642_1_first_arg, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_first_arg_is_a_string, lambda_56, IO_TAIL_CALL,
-  POS(634, 3),
   POS(635, 3),
   POS(636, 3),
   POS(637, 3),
@@ -2275,47 +2268,48 @@ static TAB_NUM t_func_std__pipe[] = {
   POS(639, 3),
   POS(640, 3),
   POS(641, 3),
-  POS(643, 15),
-  POS(642, 3)
+  POS(642, 3),
+  POS(644, 15),
+  POS(643, 3)
 };
 
 static TAB_NUM t_lambda_first_arg_is_a_string[] = {
   0, // locals
   0, // parameters
   // !feed first_arg
-  LET, 1, var_641_1_first_arg, 1, var_637_1_feed,
+  LET, 1, var_642_1_first_arg, 1, var_638_1_feed,
   // !i 2
-  LET, 1, num_2, 1, var_634_1_i,
+  LET, 1, num_2, 1, var_635_1_i,
   // build_commands!
   func_build_commands, 0, IO_TAIL_CALL,
-  POS(644, 7),
   POS(645, 7),
-  POS(646, 7)
+  POS(646, 7),
+  POS(647, 7)
 };
 
 static TAB_NUM t_lambda_56[] = {
   1, // locals
   0, // parameters
   // is_a_file_descriptor:
-  var_is_a_file_descriptor, 1, var_641_1_first_arg, 1, LOCAL(1),
+  var_is_a_file_descriptor, 1, var_642_1_first_arg, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_first_arg_is_a_file_descriptor, func_build_commands, IO_TAIL_CALL,
-  POS(649, 19),
-  POS(648, 7)
+  POS(650, 19),
+  POS(649, 7)
 };
 
 static TAB_NUM t_lambda_first_arg_is_a_file_descriptor[] = {
   0, // locals
   0, // parameters
   // !in_fd first_arg
-  LET, 1, var_641_1_first_arg, 1, var_636_1_in_fd,
+  LET, 1, var_642_1_first_arg, 1, var_637_1_in_fd,
   // !i 2
-  LET, 1, num_2, 1, var_634_1_i,
+  LET, 1, num_2, 1, var_635_1_i,
   // build_commands!
   func_build_commands, 0, IO_TAIL_CALL,
-  POS(650, 11),
   POS(651, 11),
-  POS(652, 11)
+  POS(652, 11),
+  POS(653, 11)
 };
 
 static TAB_NUM t_func_build_commands[] = {
@@ -2323,304 +2317,304 @@ static TAB_NUM t_func_build_commands[] = {
   0, // parameters
   // loop
   var_loop, 2, lambda_57, lambda_61, IO_TAIL_CALL,
-  POS(656, 5)
+  POS(657, 5)
 };
 
 static TAB_NUM t_lambda_57[] = {
   1, // locals
   0, // parameters
   // n break
-  var_std__less, 2, var_635_1_n, var_634_1_i, 1, LOCAL(1),
+  var_std__less, 2, var_636_1_n, var_635_1_i, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), var_break, lambda_58, IO_TAIL_CALL,
-  POS(659, 15),
-  POS(658, 9)
+  POS(660, 15),
+  POS(659, 9)
 };
 
 static TAB_NUM t_lambda_58[] = {
   1, // locals
   0, // parameters
   // $arg args(i)
-  var_632_0_args, 1, var_634_1_i, 1, var_661_1_arg,
+  var_633_0_args, 1, var_635_1_i, 1, var_662_1_arg,
   // is_a_function:
-  var_is_a_function, 1, var_661_1_arg, 1, LOCAL(1),
+  var_is_a_function, 1, var_662_1_arg, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_arg_is_a_function, lambda_60, IO_TAIL_CALL,
-  POS(661, 13),
-  POS(663, 19),
-  POS(662, 13)
+  POS(662, 13),
+  POS(664, 19),
+  POS(663, 13)
 };
 
 static TAB_NUM t_lambda_arg_is_a_function[] = {
   1, // locals
   0, // parameters
   // is_defined &commands:
-  var_is_defined, 1, var_639_1_head, 1, LOCAL(1),
+  var_is_defined, 1, var_640_1_head, 1, LOCAL(1),
   // update_if head.is_defined &commands:
-  var_update_if, 3, LOCAL(1), var_638_1_commands, lambda_59, 1, var_638_1_commands,
+  var_update_if, 3, LOCAL(1), var_639_1_commands, lambda_59, 1, var_639_1_commands,
   // !head command_of(arg)
-  var_command_of, 1, var_661_1_arg, 1, var_639_1_head,
+  var_command_of, 1, var_662_1_arg, 1, var_640_1_head,
   // !arguments empty_list
-  LET, 1, var_empty_list, 1, var_640_1_arguments,
+  LET, 1, var_empty_list, 1, var_641_1_arguments,
   // inc &i
-  var_inc, 1, var_634_1_i, 1, var_634_1_i,
+  var_inc, 1, var_635_1_i, 1, var_635_1_i,
   // next!
   var_next, 0, IO_TAIL_CALL,
-  POS(664, 32),
-  POS(664, 17),
-  POS(666, 17),
+  POS(665, 32),
+  POS(665, 17),
   POS(667, 17),
   POS(668, 17),
-  POS(669, 17)
+  POS(669, 17),
+  POS(670, 17)
 };
 
 static TAB_NUM t_lambda_59[] = {
   3, // locals
   0, // parameters
   // flatten(arguments) to_string))
-  var_flatten, 1, var_640_1_arguments, 1, LOCAL(1),
+  var_flatten, 1, var_641_1_arguments, 1, LOCAL(1),
   // map(flatten(arguments) to_string))
   var_map, 2, LOCAL(1), var_to_string, 1, LOCAL(2),
   // tuple(head map(flatten(arguments) to_string))
-  var_tuple, 2, var_639_1_head, LOCAL(2), 1, LOCAL(3),
+  var_tuple, 2, var_640_1_head, LOCAL(2), 1, LOCAL(3),
   // push commands tuple(head map(flatten(arguments) to_string))
-  var_push, 2, var_638_1_commands, LOCAL(3), TAIL_CALL,
-  POS(665, 48),
-  POS(665, 44),
-  POS(665, 33),
-  POS(665, 19)
+  var_push, 2, var_639_1_commands, LOCAL(3), TAIL_CALL,
+  POS(666, 48),
+  POS(666, 44),
+  POS(666, 33),
+  POS(666, 19)
 };
 
 static TAB_NUM t_lambda_60[] = {
   0, // locals
   0, // parameters
   // push &arguments arg
-  var_push, 2, var_640_1_arguments, var_661_1_arg, 1, var_640_1_arguments,
+  var_push, 2, var_641_1_arguments, var_662_1_arg, 1, var_641_1_arguments,
   // inc &i
-  var_inc, 1, var_634_1_i, 1, var_634_1_i,
+  var_inc, 1, var_635_1_i, 1, var_635_1_i,
   // next!
   var_next, 0, IO_TAIL_CALL,
-  POS(671, 17),
   POS(672, 17),
-  POS(673, 17)
+  POS(673, 17),
+  POS(674, 17)
 };
 
 static TAB_NUM t_lambda_61[] = {
   1, // locals
   0, // parameters
   // is_defined &commands:
-  var_is_defined, 1, var_639_1_head, 1, LOCAL(1),
+  var_is_defined, 1, var_640_1_head, 1, LOCAL(1),
   // update_if head.is_defined &commands:
-  var_update_if, 3, LOCAL(1), var_638_1_commands, lambda_62, 1, var_638_1_commands,
+  var_update_if, 3, LOCAL(1), var_639_1_commands, lambda_62, 1, var_639_1_commands,
   // run_pipe! in_fd feed commands
-  func_run_pipe, 3, var_636_1_in_fd, var_637_1_feed, var_638_1_commands, IO_TAIL_CALL,
-  POS(675, 24),
-  POS(675, 9),
-  POS(677, 9)
+  func_run_pipe, 3, var_637_1_in_fd, var_638_1_feed, var_639_1_commands, IO_TAIL_CALL,
+  POS(676, 24),
+  POS(676, 9),
+  POS(678, 9)
 };
 
 static TAB_NUM t_lambda_62[] = {
   3, // locals
   0, // parameters
   // flatten(arguments) to_string))
-  var_flatten, 1, var_640_1_arguments, 1, LOCAL(1),
+  var_flatten, 1, var_641_1_arguments, 1, LOCAL(1),
   // map(flatten(arguments) to_string))
   var_map, 2, LOCAL(1), var_to_string, 1, LOCAL(2),
   // tuple(head map(flatten(arguments) to_string))
-  var_tuple, 2, var_639_1_head, LOCAL(2), 1, LOCAL(3),
+  var_tuple, 2, var_640_1_head, LOCAL(2), 1, LOCAL(3),
   // push commands tuple(head map(flatten(arguments) to_string))
-  var_push, 2, var_638_1_commands, LOCAL(3), TAIL_CALL,
-  POS(676, 40),
-  POS(676, 36),
-  POS(676, 25),
-  POS(676, 11)
+  var_push, 2, var_639_1_commands, LOCAL(3), TAIL_CALL,
+  POS(677, 40),
+  POS(677, 36),
+  POS(677, 25),
+  POS(677, 11)
 };
 
 static TAB_NUM t_func_std__pipe_commands[] = {
   1, // locals
   -2, // parameters
-  var_undefined, var_681_0_feed_or_fd,
-  MANDATORY_PARAMETER, var_682_0_commands,
+  var_undefined, var_682_0_feed_or_fd,
+  MANDATORY_PARAMETER, var_683_0_commands,
   // is_defined:
-  var_is_defined, 1, var_681_0_feed_or_fd, 1, LOCAL(1),
+  var_is_defined, 1, var_682_0_feed_or_fd, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_feed_or_fd_is_defined, lambda_64, IO_TAIL_CALL,
-  POS(685, 16),
-  POS(684, 3)
+  POS(686, 16),
+  POS(685, 3)
 };
 
 static TAB_NUM t_lambda_feed_or_fd_is_defined[] = {
   1, // locals
   0, // parameters
   // is_a_file_descriptor:
-  var_is_a_file_descriptor, 1, var_681_0_feed_or_fd, 1, LOCAL(1),
+  var_is_a_file_descriptor, 1, var_682_0_feed_or_fd, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_feed_or_fd_is_a_file_descriptor, lambda_63, IO_TAIL_CALL,
-  POS(687, 20),
-  POS(686, 7)
+  POS(688, 20),
+  POS(687, 7)
 };
 
 static TAB_NUM t_lambda_feed_or_fd_is_a_file_descriptor[] = {
   0, // locals
   0, // parameters
   // run_pipe! feed_or_fd undefined commands
-  func_run_pipe, 3, var_681_0_feed_or_fd, var_undefined, var_682_0_commands, IO_TAIL_CALL,
-  POS(688, 11)
+  func_run_pipe, 3, var_682_0_feed_or_fd, var_undefined, var_683_0_commands, IO_TAIL_CALL,
+  POS(689, 11)
 };
 
 static TAB_NUM t_lambda_63[] = {
   0, // locals
   0, // parameters
   // run_pipe! undefined feed_or_fd commands
-  func_run_pipe, 3, var_undefined, var_681_0_feed_or_fd, var_682_0_commands, IO_TAIL_CALL,
-  POS(690, 11)
+  func_run_pipe, 3, var_undefined, var_682_0_feed_or_fd, var_683_0_commands, IO_TAIL_CALL,
+  POS(691, 11)
 };
 
 static TAB_NUM t_lambda_64[] = {
   0, // locals
   0, // parameters
   // run_pipe! undefined undefined commands
-  func_run_pipe, 3, var_undefined, var_undefined, var_682_0_commands, IO_TAIL_CALL,
-  POS(692, 7)
+  func_run_pipe, 3, var_undefined, var_undefined, var_683_0_commands, IO_TAIL_CALL,
+  POS(693, 7)
 };
 
 static TAB_NUM t_func_run_pipe[] = {
   1, // locals
   3, // parameters
-  var_696_0_in_fd,
-  var_697_0_feed,
-  var_698_0_commands,
+  var_697_0_in_fd,
+  var_698_0_feed,
+  var_699_0_commands,
   // $pids empty_hash_table
-  LET, 1, var_empty_hash_table, 1, var_700_1_pids,
+  LET, 1, var_empty_hash_table, 1, var_701_1_pids,
   // $err_fds empty_hash_table
-  LET, 1, var_empty_hash_table, 1, var_701_1_err_fds,
+  LET, 1, var_empty_hash_table, 1, var_702_1_err_fds,
   // $out_fd in_fd
-  LET, 1, var_696_0_in_fd, 1, var_702_1_out_fd,
+  LET, 1, var_697_0_in_fd, 1, var_703_1_out_fd,
   // $env_vars undefined
-  LET, 1, var_undefined, 1, var_703_1_env_vars,
+  LET, 1, var_undefined, 1, var_704_1_env_vars,
   // is_defined &env_vars:
   var_is_defined, 1, var_environment, 1, LOCAL(1),
   // update_if environment.is_defined &env_vars:
-  var_update_if, 3, LOCAL(1), var_703_1_env_vars, lambda_65, 1, var_703_1_env_vars,
+  var_update_if, 3, LOCAL(1), var_704_1_env_vars, lambda_65, 1, var_704_1_env_vars,
   // for_each commands
-  var_for_each, 3, var_698_0_commands, lambda_68, lambda_72, IO_TAIL_CALL,
-  POS(700, 3),
+  var_for_each, 3, var_699_0_commands, lambda_68, lambda_72, IO_TAIL_CALL,
   POS(701, 3),
   POS(702, 3),
   POS(703, 3),
-  POS(704, 25),
   POS(704, 3),
-  POS(711, 3)
+  POS(705, 25),
+  POS(705, 3),
+  POS(712, 3)
 };
 
 static TAB_NUM t_lambda_65[] = {
   0, // locals
   0, // parameters
   // !env_vars empty_list
-  LET, 1, var_empty_list, 1, var_703_1_env_vars,
+  LET, 1, var_empty_list, 1, var_704_1_env_vars,
   // for_each environment
   var_for_each, 3, var_environment, lambda_66, lambda_67, TAIL_CALL,
-  POS(705, 5),
-  POS(706, 5)
+  POS(706, 5),
+  POS(707, 5)
 };
 
 static TAB_NUM t_lambda_66[] = {
   3, // locals
   2, // parameters
-  LOCAL(2), // 707_3_key
-  LOCAL(3), // 707_7_value
+  LOCAL(2), // 708_3_key
+  LOCAL(3), // 708_7_value
   // "@(key)=@(value)"
   var_std__string, 3, LOCAL(2), string_2, LOCAL(3), 1, LOCAL(1),
   // push &env_vars "@(key)=@(value)"
-  var_push, 2, var_703_1_env_vars, LOCAL(1), 1, var_703_1_env_vars,
+  var_push, 2, var_704_1_env_vars, LOCAL(1), 1, var_704_1_env_vars,
   // next
   var_next, 0, TAIL_CALL,
-  POS(708, 24),
-  POS(708, 9),
-  POS(709, 9)
+  POS(709, 24),
+  POS(709, 9),
+  POS(710, 9)
 };
 
 static TAB_NUM t_lambda_67[] = {
   0, // locals
   0, // parameters
   //  env_vars
-  LET, 1, var_703_1_env_vars, TAIL_CALL,
-  POS(710, 9)
+  LET, 1, var_704_1_env_vars, TAIL_CALL,
+  POS(711, 9)
 };
 
 static TAB_NUM t_lambda_68[] = {
   3, // locals
   2, // parameters
-  var_712_3_idx,
-  LOCAL(3), // 712_7_command
+  var_713_3_idx,
+  LOCAL(3), // 713_7_command
   // command $head $arguments
-  LOCAL(3), 0, 2, var_713_9_head, var_713_15_arguments,
+  LOCAL(3), 0, 2, var_714_9_head, var_714_15_arguments,
   // map &arguments to_utf8
-  var_map, 2, var_713_15_arguments, var_to_utf8, 1, var_713_15_arguments,
+  var_map, 2, var_714_15_arguments, var_to_utf8, 1, var_714_15_arguments,
   // $pid undefined
-  LET, 1, var_undefined, 1, var_715_1_pid,
+  LET, 1, var_undefined, 1, var_716_1_pid,
   // $err_fd undefined
-  LET, 1, var_undefined, 1, var_716_1_err_fd,
+  LET, 1, var_undefined, 1, var_717_1_err_fd,
   // idx == 1 && in_fd.is_undefined:
-  var_std__equal, 2, var_712_3_idx, num_1, 1, LOCAL(1),
+  var_std__equal, 2, var_713_3_idx, num_1, 1, LOCAL(1),
   // idx == 1 && in_fd.is_undefined:
   var_std__and, 2, LOCAL(1), lambda_69, 1, LOCAL(2),
   // if
   var_if, 3, LOCAL(2), lambda_70, lambda_71, IO_TAIL_CALL,
-  POS(713, 7),
   POS(714, 7),
   POS(715, 7),
   POS(716, 7),
-  POS(718, 9),
-  POS(718, 9),
-  POS(717, 7)
+  POS(717, 7),
+  POS(719, 9),
+  POS(719, 9),
+  POS(718, 7)
 };
 
 static TAB_NUM t_lambda_69[] = {
   1, // locals
   0, // parameters
   // is_undefined:
-  var_is_undefined, 1, var_696_0_in_fd, 1, LOCAL(1),
+  var_is_undefined, 1, var_697_0_in_fd, 1, LOCAL(1),
   // in_fd.is_undefined:
   LET, 1, LOCAL(1), TAIL_CALL,
-  POS(718, 27),
-  POS(718, 21)
+  POS(719, 27),
+  POS(719, 21)
 };
 
 static TAB_NUM t_lambda_70[] = {
   0, // locals
   0, // parameters
   // create_process! !pid !in_fd !out_fd !err_fd head arguments env_vars
-  var_create_process, 3, var_713_9_head, var_713_15_arguments, var_703_1_env_vars, IO_CALL(4), var_715_1_pid, var_696_0_in_fd, var_702_1_out_fd, var_716_1_err_fd,
+  var_create_process, 3, var_714_9_head, var_714_15_arguments, var_704_1_env_vars, IO_CALL(4), var_716_1_pid, var_697_0_in_fd, var_703_1_out_fd, var_717_1_err_fd,
   // store_pid_and_err_fd!
   func_store_pid_and_err_fd, 0, IO_TAIL_CALL,
-  POS(719, 11),
-  POS(720, 11)
+  POS(720, 11),
+  POS(721, 11)
 };
 
 static TAB_NUM t_lambda_71[] = {
   0, // locals
   0, // parameters
   // create_process! !pid !out_fd !err_fd head arguments env_vars out_fd
-  var_create_process, 4, var_713_9_head, var_713_15_arguments, var_703_1_env_vars, var_702_1_out_fd, IO_CALL(3), var_715_1_pid, var_702_1_out_fd, var_716_1_err_fd,
+  var_create_process, 4, var_714_9_head, var_714_15_arguments, var_704_1_env_vars, var_703_1_out_fd, IO_CALL(3), var_716_1_pid, var_703_1_out_fd, var_717_1_err_fd,
   // store_pid_and_err_fd!
   func_store_pid_and_err_fd, 0, IO_TAIL_CALL,
-  POS(722, 11),
-  POS(723, 11)
+  POS(723, 11),
+  POS(724, 11)
 };
 
 static TAB_NUM t_func_store_pid_and_err_fd[] = {
   0, // locals
   0, // parameters
   // pids(pid) idx
-  var_700_1_pids, 2, var_715_1_pid, var_712_3_idx, 1, var_700_1_pids,
+  var_701_1_pids, 2, var_716_1_pid, var_713_3_idx, 1, var_701_1_pids,
   // err_fds(err_fd) idx
-  var_701_1_err_fds, 2, var_716_1_err_fd, var_712_3_idx, 1, var_701_1_err_fds,
+  var_702_1_err_fds, 2, var_717_1_err_fd, var_713_3_idx, 1, var_702_1_err_fds,
   // next!
   var_next, 0, IO_TAIL_CALL,
-  POS(726, 10),
   POS(727, 10),
-  POS(728, 9)
+  POS(728, 10),
+  POS(729, 9)
 };
 
 static TAB_NUM t_lambda_72[] = {
@@ -2629,41 +2623,41 @@ static TAB_NUM t_lambda_72[] = {
   // list(undefined) length_of(commands))
   var_list, 1, var_undefined, 1, LOCAL(1),
   // length_of(commands))
-  var_length_of, 1, var_698_0_commands, 1, LOCAL(2),
+  var_length_of, 1, var_699_0_commands, 1, LOCAL(2),
   // $ret dup(list(undefined) length_of(commands))
-  var_dup, 2, LOCAL(1), LOCAL(2), 1, var_730_1_ret,
+  var_dup, 2, LOCAL(1), LOCAL(2), 1, var_731_1_ret,
   // $out ""
-  LET, 1, string_1, 1, var_731_1_out,
+  LET, 1, string_1, 1, var_732_1_out,
   // length_of(commands))
-  var_length_of, 1, var_698_0_commands, 1, LOCAL(2),
+  var_length_of, 1, var_699_0_commands, 1, LOCAL(2),
   // $err dup(list("") length_of(commands))
-  var_dup, 2, list_732_9, LOCAL(2), 1, var_732_1_err,
+  var_dup, 2, list_733_9, LOCAL(2), 1, var_733_1_err,
   // is_defined
-  var_is_defined, 1, var_697_0_feed, 1, LOCAL(1),
+  var_is_defined, 1, var_698_0_feed, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), func_manage_io, lambda_73, IO_TAIL_CALL,
-  POS(730, 16),
-  POS(730, 32),
-  POS(730, 7),
+  POS(731, 16),
+  POS(731, 32),
   POS(731, 7),
-  POS(732, 25),
   POS(732, 7),
-  POS(734, 14),
-  POS(733, 7)
+  POS(733, 25),
+  POS(733, 7),
+  POS(735, 14),
+  POS(734, 7)
 };
 
 static TAB_NUM t_lambda_73[] = {
   0, // locals
   0, // parameters
   // close! in_fd
-  var_close, 1, var_696_0_in_fd, IO_CALL(0),
+  var_close, 1, var_697_0_in_fd, IO_CALL(0),
   // !in_fd undefined
-  LET, 1, var_undefined, 1, var_696_0_in_fd,
+  LET, 1, var_undefined, 1, var_697_0_in_fd,
   // manage_io!
   func_manage_io, 0, IO_TAIL_CALL,
-  POS(737, 11),
   POS(738, 11),
-  POS(739, 11)
+  POS(739, 11),
+  POS(740, 11)
 };
 
 static TAB_NUM t_func_manage_io[] = {
@@ -2671,44 +2665,44 @@ static TAB_NUM t_func_manage_io[] = {
   0, // parameters
   // loop:
   var_loop, 1, lambda_6_loop, IO_TAIL_CALL,
-  POS(742, 9)
+  POS(743, 9)
 };
 
 static TAB_NUM t_lambda_6_loop[] = {
   3, // locals
   0, // parameters
   // $read_descriptor_list keys_of(err_fds)
-  var_keys_of, 1, var_701_1_err_fds, 1, var_743_1_read_descriptor_list,
+  var_keys_of, 1, var_702_1_err_fds, 1, var_744_1_read_descriptor_list,
   // is_defined
-  var_is_defined, 1, var_696_0_in_fd, 1, LOCAL(1),
+  var_is_defined, 1, var_697_0_in_fd, 1, LOCAL(1),
   // $write_descriptor_list
   var_if, 3, LOCAL(1), lambda_74, lambda_75, 1, LOCAL(2),
   // is_defined &read_descriptor_list:
-  var_is_defined, 1, var_702_1_out_fd, 1, LOCAL(1),
+  var_is_defined, 1, var_703_1_out_fd, 1, LOCAL(1),
   // update_if out_fd.is_defined &read_descriptor_list:
-  var_update_if, 3, LOCAL(1), var_743_1_read_descriptor_list, lambda_76, 1, var_743_1_read_descriptor_list,
+  var_update_if, 3, LOCAL(1), var_744_1_read_descriptor_list, lambda_76, 1, var_744_1_read_descriptor_list,
   // pselect!
-  var_pselect, 3, var_743_1_read_descriptor_list, LOCAL(2), var_empty_list, IO_CALL(4), LOCAL(3), var_753_1_read_descriptors, var_754_1_write_descriptors, LOCAL(1),
+  var_pselect, 3, var_744_1_read_descriptor_list, LOCAL(2), var_empty_list, IO_CALL(4), LOCAL(3), var_754_1_read_descriptors, var_755_1_write_descriptors, LOCAL(1),
   // for_each signals
   var_for_each, 3, LOCAL(3), lambda_77, lambda_80, IO_TAIL_CALL,
-  POS(743, 11),
-  POS(746, 21),
   POS(744, 11),
-  POS(749, 28),
-  POS(749, 11),
-  POS(751, 11),
-  POS(756, 11)
+  POS(747, 21),
+  POS(745, 11),
+  POS(750, 28),
+  POS(750, 11),
+  POS(752, 11),
+  POS(757, 11)
 };
 
 static TAB_NUM t_lambda_74[] = {
   1, // locals
   0, // parameters
   // list(in_fd)
-  var_list, 1, var_696_0_in_fd, 1, LOCAL(1),
+  var_list, 1, var_697_0_in_fd, 1, LOCAL(1),
   //  list(in_fd)
   LET, 1, LOCAL(1), TAIL_CALL,
-  POS(747, 18),
-  POS(747, 17)
+  POS(748, 18),
+  POS(748, 17)
 };
 
 static TAB_NUM t_lambda_75[] = {
@@ -2716,27 +2710,27 @@ static TAB_NUM t_lambda_75[] = {
   0, // parameters
   //  empty_list
   LET, 1, var_empty_list, TAIL_CALL,
-  POS(748, 17)
+  POS(749, 17)
 };
 
 static TAB_NUM t_lambda_76[] = {
   0, // locals
   0, // parameters
   // push read_descriptor_list out_fd
-  var_push, 2, var_743_1_read_descriptor_list, var_702_1_out_fd, TAIL_CALL,
-  POS(750, 13)
+  var_push, 2, var_744_1_read_descriptor_list, var_703_1_out_fd, TAIL_CALL,
+  POS(751, 13)
 };
 
 static TAB_NUM t_lambda_77[] = {
   2, // locals
   1, // parameters
-  LOCAL(2), // 757_3_signal
+  LOCAL(2), // 758_3_signal
   // signal == CHILD_CHANGED_STATE:
   var_std__equal, 2, LOCAL(2), var_CHILD_CHANGED_STATE, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_78, var_next, IO_TAIL_CALL,
-  POS(759, 17),
-  POS(758, 15)
+  POS(760, 17),
+  POS(759, 15)
 };
 
 static TAB_NUM t_lambda_78[] = {
@@ -2744,270 +2738,270 @@ static TAB_NUM t_lambda_78[] = {
   0, // parameters
   // loop
   var_loop, 2, lambda_79, var_next, IO_TAIL_CALL,
-  POS(760, 19)
+  POS(761, 19)
 };
 
 static TAB_NUM t_lambda_79[] = {
   1, // locals
   0, // parameters
   // wait! $rpid $status
-  var_wait, 0, IO_CALL(2), var_762_7_rpid, var_762_13_status,
+  var_wait, 0, IO_CALL(2), var_763_7_rpid, var_763_13_status,
   // is_defined:
-  var_is_defined, 1, var_762_7_rpid, 1, LOCAL(1),
+  var_is_defined, 1, var_763_7_rpid, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_rpid_is_defined, var_break, IO_TAIL_CALL,
-  POS(762, 23),
-  POS(764, 30),
-  POS(763, 23)
+  POS(763, 23),
+  POS(765, 30),
+  POS(764, 23)
 };
 
 static TAB_NUM t_lambda_rpid_is_defined[] = {
   2, // locals
   0, // parameters
   // pids(rpid)) status
-  var_700_1_pids, 1, var_762_7_rpid, 1, LOCAL(2),
+  var_701_1_pids, 1, var_763_7_rpid, 1, LOCAL(2),
   // ret(pids(rpid)) status
-  var_730_1_ret, 2, LOCAL(2), var_762_13_status, 1, var_730_1_ret,
+  var_731_1_ret, 2, LOCAL(2), var_763_13_status, 1, var_731_1_ret,
   // pids(rpid) undefined
-  var_700_1_pids, 2, var_762_7_rpid, var_undefined, 1, var_700_1_pids,
+  var_701_1_pids, 2, var_763_7_rpid, var_undefined, 1, var_701_1_pids,
   // is_empty
-  var_is_empty, 1, var_700_1_pids, 1, LOCAL(1),
+  var_is_empty, 1, var_701_1_pids, 1, LOCAL(1),
   // if!
   var_if, 3, LOCAL(1), var_break, var_next, IO_TAIL_CALL,
-  POS(765, 32),
-  POS(765, 28),
+  POS(766, 32),
   POS(766, 28),
-  POS(768, 34),
-  POS(767, 27)
+  POS(767, 28),
+  POS(769, 34),
+  POS(768, 27)
 };
 
 static TAB_NUM t_lambda_80[] = {
   0, // locals
   0, // parameters
   // for_each write_descriptors
-  var_for_each, 3, var_754_1_write_descriptors, lambda_81, lambda_82, IO_TAIL_CALL,
-  POS(775, 15)
+  var_for_each, 3, var_755_1_write_descriptors, lambda_81, lambda_82, IO_TAIL_CALL,
+  POS(776, 15)
 };
 
 static TAB_NUM t_lambda_81[] = {
   3, // locals
   1, // parameters
-  LOCAL(2), // 776_3_write_descriptor
+  LOCAL(2), // 777_3_write_descriptor
   // write! $bytes_written write_descriptor feed
-  var_write, 2, LOCAL(2), var_697_0_feed, IO_CALL(1), LOCAL(3),
+  var_write, 2, LOCAL(2), var_698_0_feed, IO_CALL(1), LOCAL(3),
   // bytes_written+1 -1
   var_std__plus, 2, LOCAL(3), num_1, 1, LOCAL(1),
   // range &feed bytes_written+1 -1
-  var_range, 3, var_697_0_feed, LOCAL(1), minus_num_1, 1, var_697_0_feed,
+  var_range, 3, var_698_0_feed, LOCAL(1), minus_num_1, 1, var_698_0_feed,
   // is_empty:
-  var_is_empty, 1, var_697_0_feed, 1, LOCAL(1),
+  var_is_empty, 1, var_698_0_feed, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_feed_is_empty, var_next, IO_TAIL_CALL,
-  POS(777, 19),
-  POS(778, 31),
   POS(778, 19),
-  POS(780, 26),
-  POS(779, 19)
+  POS(779, 31),
+  POS(779, 19),
+  POS(781, 26),
+  POS(780, 19)
 };
 
 static TAB_NUM t_lambda_feed_is_empty[] = {
   0, // locals
   0, // parameters
   // close! in_fd
-  var_close, 1, var_696_0_in_fd, IO_CALL(0),
+  var_close, 1, var_697_0_in_fd, IO_CALL(0),
   // !in_fd undefined
-  LET, 1, var_undefined, 1, var_696_0_in_fd,
+  LET, 1, var_undefined, 1, var_697_0_in_fd,
   // next!
   var_next, 0, IO_TAIL_CALL,
-  POS(781, 23),
   POS(782, 23),
-  POS(783, 23)
+  POS(783, 23),
+  POS(784, 23)
 };
 
 static TAB_NUM t_lambda_82[] = {
   0, // locals
   0, // parameters
   // for_each read_descriptors
-  var_for_each, 3, var_753_1_read_descriptors, lambda_83, lambda_89, IO_TAIL_CALL,
-  POS(786, 19)
+  var_for_each, 3, var_754_1_read_descriptors, lambda_83, lambda_89, IO_TAIL_CALL,
+  POS(787, 19)
 };
 
 static TAB_NUM t_lambda_83[] = {
   1, // locals
   1, // parameters
-  var_787_3_read_descriptor,
+  var_788_3_read_descriptor,
   // read! $buf read_descriptor 0x100000
-  var_read, 2, var_787_3_read_descriptor, num_0x100000, IO_CALL(1), var_788_7_buf,
+  var_read, 2, var_788_3_read_descriptor, num_0x100000, IO_CALL(1), var_789_7_buf,
   // is_empty: # closed from the other side
-  var_is_empty, 1, var_788_7_buf, 1, LOCAL(1),
+  var_is_empty, 1, var_789_7_buf, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_buf_is_empty, lambda_86, IO_TAIL_CALL,
-  POS(788, 23),
-  POS(790, 29),
-  POS(789, 23)
+  POS(789, 23),
+  POS(791, 29),
+  POS(790, 23)
 };
 
 static TAB_NUM t_lambda_buf_is_empty[] = {
   1, // locals
   0, // parameters
   // close! read_descriptor
-  var_close, 1, var_787_3_read_descriptor, IO_CALL(0),
+  var_close, 1, var_788_3_read_descriptor, IO_CALL(0),
   // read_descriptor == out_fd:
-  var_std__equal, 2, var_787_3_read_descriptor, var_702_1_out_fd, 1, LOCAL(1),
+  var_std__equal, 2, var_788_3_read_descriptor, var_703_1_out_fd, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_84, lambda_85, IO_TAIL_CALL,
-  POS(791, 27),
-  POS(793, 29),
-  POS(792, 27)
+  POS(792, 27),
+  POS(794, 29),
+  POS(793, 27)
 };
 
 static TAB_NUM t_lambda_84[] = {
   0, // locals
   0, // parameters
   // !out_fd undefined
-  LET, 1, var_undefined, 1, var_702_1_out_fd,
+  LET, 1, var_undefined, 1, var_703_1_out_fd,
   // next!
   var_next, 0, IO_TAIL_CALL,
-  POS(794, 31),
-  POS(795, 31)
+  POS(795, 31),
+  POS(796, 31)
 };
 
 static TAB_NUM t_lambda_85[] = {
   0, // locals
   0, // parameters
   // err_fds(read_descriptor) undefined
-  var_701_1_err_fds, 2, var_787_3_read_descriptor, var_undefined, 1, var_701_1_err_fds,
+  var_702_1_err_fds, 2, var_788_3_read_descriptor, var_undefined, 1, var_702_1_err_fds,
   // next!
   var_next, 0, IO_TAIL_CALL,
-  POS(797, 32),
-  POS(798, 31)
+  POS(798, 32),
+  POS(799, 31)
 };
 
 static TAB_NUM t_lambda_86[] = {
   1, // locals
   0, // parameters
   // read_descriptor == out_fd:
-  var_std__equal, 2, var_787_3_read_descriptor, var_702_1_out_fd, 1, LOCAL(1),
+  var_std__equal, 2, var_788_3_read_descriptor, var_703_1_out_fd, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_87, lambda_88, IO_TAIL_CALL,
-  POS(801, 29),
-  POS(800, 27)
+  POS(802, 29),
+  POS(801, 27)
 };
 
 static TAB_NUM t_lambda_87[] = {
   0, // locals
   0, // parameters
   // append &out buf
-  var_append, 2, var_731_1_out, var_788_7_buf, 1, var_731_1_out,
+  var_append, 2, var_732_1_out, var_789_7_buf, 1, var_732_1_out,
   // next!
   var_next, 0, IO_TAIL_CALL,
-  POS(802, 31),
-  POS(803, 31)
+  POS(803, 31),
+  POS(804, 31)
 };
 
 static TAB_NUM t_lambda_88[] = {
   2, // locals
   0, // parameters
   // err_fds(read_descriptor)) buf
-  var_701_1_err_fds, 1, var_787_3_read_descriptor, 1, LOCAL(1),
+  var_702_1_err_fds, 1, var_788_3_read_descriptor, 1, LOCAL(1),
   // err(err_fds(read_descriptor)) buf
-  var_732_1_err, 1, LOCAL(1), 1, LOCAL(2),
+  var_733_1_err, 1, LOCAL(1), 1, LOCAL(2),
   // append &err(err_fds(read_descriptor)) buf
-  var_append, 2, LOCAL(2), var_788_7_buf, 1, LOCAL(2),
+  var_append, 2, LOCAL(2), var_789_7_buf, 1, LOCAL(2),
   // err(err_fds(read_descriptor)) buf
-  var_732_1_err, 2, LOCAL(1), LOCAL(2), 1, var_732_1_err,
+  var_733_1_err, 2, LOCAL(1), LOCAL(2), 1, var_733_1_err,
   // next!
   var_next, 0, IO_TAIL_CALL,
-  POS(805, 43),
-  POS(805, 39),
-  POS(805, 31),
-  POS(805, 39),
-  POS(806, 31)
+  POS(806, 43),
+  POS(806, 39),
+  POS(806, 31),
+  POS(806, 39),
+  POS(807, 31)
 };
 
 static TAB_NUM t_lambda_89[] = {
   2, // locals
   0, // parameters
   // is_empty && out_fd.is_undefined && err_fds.is_empty
-  var_is_empty, 1, var_700_1_pids, 1, LOCAL(1),
+  var_is_empty, 1, var_701_1_pids, 1, LOCAL(1),
   // is_empty && out_fd.is_undefined && err_fds.is_empty
   var_std__and, 2, LOCAL(1), lambda_90, 1, LOCAL(2),
   // if!
   var_if, 3, LOCAL(2), lambda_92, var_next, IO_TAIL_CALL,
-  POS(809, 30),
-  POS(809, 30),
-  POS(808, 23)
+  POS(810, 30),
+  POS(810, 30),
+  POS(809, 23)
 };
 
 static TAB_NUM t_lambda_90[] = {
   2, // locals
   0, // parameters
   // is_undefined && err_fds.is_empty
-  var_is_undefined, 1, var_702_1_out_fd, 1, LOCAL(1),
+  var_is_undefined, 1, var_703_1_out_fd, 1, LOCAL(1),
   // is_undefined && err_fds.is_empty
   var_std__and, 2, LOCAL(1), lambda_91, 1, LOCAL(2),
   // out_fd.is_undefined && err_fds.is_empty
   LET, 1, LOCAL(2), TAIL_CALL,
-  POS(809, 49),
-  POS(809, 49),
-  POS(809, 42)
+  POS(810, 49),
+  POS(810, 49),
+  POS(810, 42)
 };
 
 static TAB_NUM t_lambda_91[] = {
   1, // locals
   0, // parameters
   // is_empty
-  var_is_empty, 1, var_701_1_err_fds, 1, LOCAL(1),
+  var_is_empty, 1, var_702_1_err_fds, 1, LOCAL(1),
   // err_fds.is_empty
   LET, 1, LOCAL(1), TAIL_CALL,
-  POS(809, 73),
-  POS(809, 65)
+  POS(810, 73),
+  POS(810, 65)
 };
 
 static TAB_NUM t_lambda_92[] = {
   0, // locals
   0, // parameters
   //  ret out err
-  LET, 3, var_730_1_ret, var_731_1_out, var_732_1_err, TAIL_CALL,
-  POS(810, 27)
+  LET, 3, var_731_1_ret, var_732_1_out, var_733_1_err, TAIL_CALL,
+  POS(811, 27)
 };
 
 static TAB_NUM t_func_std__which[] = {
   2, // locals
   1, // parameters
-  var_815_0_name,
+  var_816_0_name,
   // environment("PATH") ':')
   var_environment, 1, str_PATH, 1, LOCAL(1),
   // split(environment("PATH") ':')
   var_split, 2, LOCAL(1), chr_58, 1, LOCAL(2),
   // for_each split(environment("PATH") ':')
   var_for_each, 3, LOCAL(2), lambda_93, lambda_95, IO_TAIL_CALL,
-  POS(817, 18),
-  POS(817, 12),
-  POS(817, 3)
+  POS(818, 18),
+  POS(818, 12),
+  POS(818, 3)
 };
 
 static TAB_NUM t_lambda_93[] = {
   2, // locals
   1, // parameters
-  LOCAL(1), // 818_3_pathname
+  LOCAL(1), // 819_3_pathname
   // $filename append(pathname "/" name)
-  var_append, 3, LOCAL(1), string_4, var_815_0_name, 1, var_819_1_filename,
+  var_append, 3, LOCAL(1), string_4, var_816_0_name, 1, var_820_1_filename,
   // file_exists! filename $does_exist
-  var_file_exists, 1, var_819_1_filename, IO_CALL(1), LOCAL(2),
+  var_file_exists, 1, var_820_1_filename, IO_CALL(1), LOCAL(2),
   // if! does_exist
   var_if, 3, LOCAL(2), lambda_94, var_next, IO_TAIL_CALL,
-  POS(819, 7),
   POS(820, 7),
-  POS(821, 7)
+  POS(821, 7),
+  POS(822, 7)
 };
 
 static TAB_NUM t_lambda_94[] = {
   0, // locals
   0, // parameters
   //  filename
-  LET, 1, var_819_1_filename, TAIL_CALL,
-  POS(822, 11)
+  LET, 1, var_820_1_filename, TAIL_CALL,
+  POS(823, 11)
 };
 
 static TAB_NUM t_lambda_95[] = {
@@ -3015,229 +3009,229 @@ static TAB_NUM t_lambda_95[] = {
   0, // parameters
   //  undefined
   LET, 1, var_undefined, TAIL_CALL,
-  POS(824, 7)
+  POS(825, 7)
 };
 
 static TAB_NUM t_func_std__find_first_process[] = {
   0, // locals
   1, // parameters
-  var_826_27_name,
+  var_827_27_name,
   // opendir! $dir "/proc"
-  var_opendir, 1, str_proc, IO_CALL(1), var_827_10_dir,
+  var_opendir, 1, str_proc, IO_CALL(1), var_828_10_dir,
   // loop:
   var_loop, 1, lambda_7_loop, IO_TAIL_CALL,
-  POS(827, 3),
-  POS(828, 3)
+  POS(828, 3),
+  POS(829, 3)
 };
 
 static TAB_NUM t_lambda_7_loop[] = {
   1, // locals
   0, // parameters
   // readdir! $entry dir
-  var_readdir, 1, var_827_10_dir, IO_CALL(1), var_829_10_entry,
+  var_readdir, 1, var_828_10_dir, IO_CALL(1), var_830_10_entry,
   // is_an_error:
-  var_is_an_error, 1, var_829_10_entry, 1, LOCAL(1),
+  var_is_an_error, 1, var_830_10_entry, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_2_entry_is_an_error, lambda_96, IO_TAIL_CALL,
-  POS(829, 5),
-  POS(831, 13),
-  POS(830, 5)
+  POS(830, 5),
+  POS(832, 13),
+  POS(831, 5)
 };
 
 static TAB_NUM t_lambda_2_entry_is_an_error[] = {
   0, // locals
   0, // parameters
   // closedir! dir
-  var_closedir, 1, var_827_10_dir, IO_CALL(0),
+  var_closedir, 1, var_828_10_dir, IO_CALL(0),
   // -> undefined
   LET, 1, var_undefined, TAIL_CALL,
-  POS(832, 9),
-  POS(833, 9)
+  POS(833, 9),
+  POS(834, 9)
 };
 
 static TAB_NUM t_lambda_96[] = {
   2, // locals
   0, // parameters
   // $proc_num name_of(entry)
-  var_name_of, 1, var_829_10_entry, 1, var_835_1_proc_num,
+  var_name_of, 1, var_830_10_entry, 1, var_836_1_proc_num,
   // many(DIGIT):
   var_many, 1, var_DIGIT, 1, LOCAL(1),
   // proc_num .matches. many(DIGIT):
-  var_matches, 2, var_835_1_proc_num, LOCAL(1), 1, LOCAL(2),
+  var_matches, 2, var_836_1_proc_num, LOCAL(1), 1, LOCAL(2),
   // if
   var_if, 3, LOCAL(2), lambda_97, var_next, IO_TAIL_CALL,
-  POS(835, 9),
-  POS(837, 30),
-  POS(837, 11),
-  POS(836, 9)
+  POS(836, 9),
+  POS(838, 30),
+  POS(838, 11),
+  POS(837, 9)
 };
 
 static TAB_NUM t_lambda_97[] = {
   1, // locals
   0, // parameters
   // "/proc/@(proc_num)/cmdline"
-  var_std__string, 3, str_proc_2, var_835_1_proc_num, str_cmdline, 1, LOCAL(1),
+  var_std__string, 3, str_proc_2, var_836_1_proc_num, str_cmdline, 1, LOCAL(1),
   // load! $buf "/proc/@(proc_num)/cmdline"
-  var_load, 1, LOCAL(1), IO_CALL(1), var_838_7_buf,
+  var_load, 1, LOCAL(1), IO_CALL(1), var_839_7_buf,
   // is_empty
-  var_is_empty, 1, var_838_7_buf, 1, LOCAL(1),
+  var_is_empty, 1, var_839_7_buf, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), var_next, lambda_98, IO_TAIL_CALL,
-  POS(838, 24),
-  POS(838, 13),
-  POS(840, 19),
-  POS(839, 13)
+  POS(839, 24),
+  POS(839, 13),
+  POS(841, 19),
+  POS(840, 13)
 };
 
 static TAB_NUM t_lambda_98[] = {
   2, // locals
   0, // parameters
   // $proc_name buf .truncate_from. '@0;'
-  var_truncate_from, 2, var_838_7_buf, chr_0, 1, LOCAL(2),
+  var_truncate_from, 2, var_839_7_buf, chr_0, 1, LOCAL(2),
   // truncate_until &proc_name '/' -1
   var_truncate_until, 3, LOCAL(2), chr_47, minus_num_1, 1, LOCAL(2),
   // proc_name .matches. name
-  var_matches, 2, LOCAL(2), var_826_27_name, 1, LOCAL(1),
+  var_matches, 2, LOCAL(2), var_827_27_name, 1, LOCAL(1),
   // if!
   var_if, 3, LOCAL(1), lambda_99, var_next, IO_TAIL_CALL,
-  POS(843, 17),
   POS(844, 17),
-  POS(846, 19),
-  POS(845, 17)
+  POS(845, 17),
+  POS(847, 19),
+  POS(846, 17)
 };
 
 static TAB_NUM t_lambda_99[] = {
   1, // locals
   0, // parameters
   // to_integer
-  var_to_integer, 1, var_835_1_proc_num, 1, LOCAL(1),
+  var_to_integer, 1, var_836_1_proc_num, 1, LOCAL(1),
   //  proc_num.to_integer
   LET, 1, LOCAL(1), TAIL_CALL,
-  POS(847, 31),
-  POS(847, 21)
+  POS(848, 31),
+  POS(848, 21)
 };
 
 static TAB_NUM t_func_std__find_processes[] = {
   0, // locals
   1, // parameters
-  var_851_23_name,
+  var_852_23_name,
   // opendir! $dir "/proc"
-  var_opendir, 1, str_proc, IO_CALL(1), var_852_10_dir,
+  var_opendir, 1, str_proc, IO_CALL(1), var_853_10_dir,
   // $pids empty_list
-  LET, 1, var_empty_list, 1, var_853_1_pids,
+  LET, 1, var_empty_list, 1, var_854_1_pids,
   // loop:
   var_loop, 1, lambda_8_loop, IO_TAIL_CALL,
-  POS(852, 3),
   POS(853, 3),
-  POS(854, 3)
+  POS(854, 3),
+  POS(855, 3)
 };
 
 static TAB_NUM t_lambda_8_loop[] = {
   1, // locals
   0, // parameters
   // readdir! $entry dir
-  var_readdir, 1, var_852_10_dir, IO_CALL(1), var_855_10_entry,
+  var_readdir, 1, var_853_10_dir, IO_CALL(1), var_856_10_entry,
   // is_an_error:
-  var_is_an_error, 1, var_855_10_entry, 1, LOCAL(1),
+  var_is_an_error, 1, var_856_10_entry, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_3_entry_is_an_error, lambda_100, IO_TAIL_CALL,
-  POS(855, 5),
-  POS(857, 13),
-  POS(856, 5)
+  POS(856, 5),
+  POS(858, 13),
+  POS(857, 5)
 };
 
 static TAB_NUM t_lambda_3_entry_is_an_error[] = {
   0, // locals
   0, // parameters
   // closedir! dir
-  var_closedir, 1, var_852_10_dir, IO_CALL(0),
+  var_closedir, 1, var_853_10_dir, IO_CALL(0),
   // -> pids
-  LET, 1, var_853_1_pids, TAIL_CALL,
-  POS(858, 9),
-  POS(859, 9)
+  LET, 1, var_854_1_pids, TAIL_CALL,
+  POS(859, 9),
+  POS(860, 9)
 };
 
 static TAB_NUM t_lambda_100[] = {
   2, // locals
   0, // parameters
   // $proc_num name_of(entry)
-  var_name_of, 1, var_855_10_entry, 1, var_861_1_proc_num,
+  var_name_of, 1, var_856_10_entry, 1, var_862_1_proc_num,
   // many(DIGIT):
   var_many, 1, var_DIGIT, 1, LOCAL(1),
   // proc_num .matches. many(DIGIT):
-  var_matches, 2, var_861_1_proc_num, LOCAL(1), 1, LOCAL(2),
+  var_matches, 2, var_862_1_proc_num, LOCAL(1), 1, LOCAL(2),
   // if
   var_if, 3, LOCAL(2), lambda_101, var_next, IO_TAIL_CALL,
-  POS(861, 9),
-  POS(863, 30),
-  POS(863, 11),
-  POS(862, 9)
+  POS(862, 9),
+  POS(864, 30),
+  POS(864, 11),
+  POS(863, 9)
 };
 
 static TAB_NUM t_lambda_101[] = {
   1, // locals
   0, // parameters
   // "/proc/@(proc_num)/cmdline"
-  var_std__string, 3, str_proc_2, var_861_1_proc_num, str_cmdline, 1, LOCAL(1),
+  var_std__string, 3, str_proc_2, var_862_1_proc_num, str_cmdline, 1, LOCAL(1),
   // load! $buf "/proc/@(proc_num)/cmdline"
-  var_load, 1, LOCAL(1), IO_CALL(1), var_864_7_buf,
+  var_load, 1, LOCAL(1), IO_CALL(1), var_865_7_buf,
   // is_empty
-  var_is_empty, 1, var_864_7_buf, 1, LOCAL(1),
+  var_is_empty, 1, var_865_7_buf, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), var_next, lambda_102, IO_TAIL_CALL,
-  POS(864, 24),
-  POS(864, 13),
-  POS(866, 19),
-  POS(865, 13)
+  POS(865, 24),
+  POS(865, 13),
+  POS(867, 19),
+  POS(866, 13)
 };
 
 static TAB_NUM t_lambda_102[] = {
   2, // locals
   0, // parameters
   // $proc_name buf .truncate_from. '@0;'
-  var_truncate_from, 2, var_864_7_buf, chr_0, 1, LOCAL(2),
+  var_truncate_from, 2, var_865_7_buf, chr_0, 1, LOCAL(2),
   // truncate_until &proc_name '/' -1
   var_truncate_until, 3, LOCAL(2), chr_47, minus_num_1, 1, LOCAL(2),
   // proc_name .matches. name:
-  var_matches, 2, LOCAL(2), var_851_23_name, 1, LOCAL(1),
+  var_matches, 2, LOCAL(2), var_852_23_name, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_103, var_next, IO_TAIL_CALL,
-  POS(869, 17),
   POS(870, 17),
-  POS(872, 19),
-  POS(871, 17)
+  POS(871, 17),
+  POS(873, 19),
+  POS(872, 17)
 };
 
 static TAB_NUM t_lambda_103[] = {
   1, // locals
   0, // parameters
   // to_integer
-  var_to_integer, 1, var_861_1_proc_num, 1, LOCAL(1),
+  var_to_integer, 1, var_862_1_proc_num, 1, LOCAL(1),
   // push &pids proc_num.to_integer
-  var_push, 2, var_853_1_pids, LOCAL(1), 1, var_853_1_pids,
+  var_push, 2, var_854_1_pids, LOCAL(1), 1, var_854_1_pids,
   // next!
   var_next, 0, IO_TAIL_CALL,
-  POS(873, 41),
-  POS(873, 21),
-  POS(874, 21)
+  POS(874, 41),
+  POS(874, 21),
+  POS(875, 21)
 };
 
 static TAB_NUM t_func_std__get_process_name[] = {
   2, // locals
   1, // parameters
-  LOCAL(2), // 878_25_pid
+  LOCAL(2), // 879_25_pid
   // "/proc/@(pid)/cmdline"
   var_std__string, 3, str_proc_2, LOCAL(2), str_cmdline, 1, LOCAL(1),
   // load! $buf "/proc/@(pid)/cmdline"
-  var_load, 1, LOCAL(1), IO_CALL(1), var_879_7_buf,
+  var_load, 1, LOCAL(1), IO_CALL(1), var_880_7_buf,
   // is_an_error
-  var_is_an_error, 1, var_879_7_buf, 1, LOCAL(1),
+  var_is_an_error, 1, var_880_7_buf, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_104, lambda_105, TAIL_CALL,
-  POS(879, 14),
-  POS(879, 3),
-  POS(881, 9),
-  POS(880, 3)
+  POS(880, 14),
+  POS(880, 3),
+  POS(882, 9),
+  POS(881, 3)
 };
 
 static TAB_NUM t_lambda_104[] = {
@@ -3245,55 +3239,55 @@ static TAB_NUM t_lambda_104[] = {
   0, // parameters
   //  undefined
   LET, 1, var_undefined, TAIL_CALL,
-  POS(882, 7)
+  POS(883, 7)
 };
 
 static TAB_NUM t_lambda_105[] = {
   1, // locals
   0, // parameters
   // buf .truncate_from. '@0;'
-  var_truncate_from, 2, var_879_7_buf, chr_0, 1, LOCAL(1),
+  var_truncate_from, 2, var_880_7_buf, chr_0, 1, LOCAL(1),
   //  buf .truncate_from. '@0;'
   LET, 1, LOCAL(1), TAIL_CALL,
-  POS(883, 8),
-  POS(883, 7)
+  POS(884, 8),
+  POS(884, 7)
 };
 
 static TAB_NUM t_func_std__get_mac_address[] = {
   1, // locals
   0, // parameters
   // get_first_mac_address! $mac
-  var_get_first_mac_address, 0, IO_CALL(1), var_886_24_mac,
+  var_get_first_mac_address, 0, IO_CALL(1), var_887_24_mac,
   // is_defined: map_reduce mac: (chr) -> hex(chr.to_integer 2)
-  var_is_defined, 1, var_886_24_mac, 1, LOCAL(1),
+  var_is_defined, 1, var_887_24_mac, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_mac_is_defined, lambda_107, TAIL_CALL,
-  POS(886, 3),
-  POS(888, 9),
-  POS(887, 3)
+  POS(887, 3),
+  POS(889, 9),
+  POS(888, 3)
 };
 
 static TAB_NUM t_lambda_mac_is_defined[] = {
   0, // locals
   0, // parameters
   // map_reduce mac: (chr) -> hex(chr.to_integer 2)
-  var_map_reduce, 2, var_886_24_mac, lambda_106, TAIL_CALL,
-  POS(888, 21)
+  var_map_reduce, 2, var_887_24_mac, lambda_106, TAIL_CALL,
+  POS(889, 21)
 };
 
 static TAB_NUM t_lambda_106[] = {
   3, // locals
   1, // parameters
-  LOCAL(3), // 888_33_chr
+  LOCAL(3), // 889_33_chr
   // to_integer 2)
   var_to_integer, 1, LOCAL(3), 1, LOCAL(1),
   // hex(chr.to_integer 2)
   var_hex, 2, LOCAL(1), num_2, 1, LOCAL(2),
   // -> hex(chr.to_integer 2)
   LET, 1, LOCAL(2), TAIL_CALL,
-  POS(888, 54),
-  POS(888, 46),
-  POS(888, 43)
+  POS(889, 54),
+  POS(889, 46),
+  POS(889, 43)
 };
 
 static TAB_NUM t_lambda_107[] = {
@@ -3301,19 +3295,19 @@ static TAB_NUM t_lambda_107[] = {
   0, // parameters
   //  undefined
   LET, 1, var_undefined, TAIL_CALL,
-  POS(889, 7)
+  POS(890, 7)
 };
 
 static TAB_NUM t_func_std__extern[] = {
   2, // locals
   1, // parameters
-  LOCAL(2), // 893_0_command
+  LOCAL(2), // 894_0_command
   // .command_of command)
   LET, -1, var_extern_call, var_command_of, LOCAL(2), LOCAL(1),
   // -> extern_call(.command_of command)
   LET, 1, LOCAL(1), TAIL_CALL,
-  POS(895, 18),
-  POS(895, 3)
+  POS(896, 18),
+  POS(896, 3)
 };
 
 static TAB_NUM t_module_entry[] = {
@@ -3324,11 +3318,11 @@ static TAB_NUM t_module_entry[] = {
   // register_type &deserializers std_types::process_id
   var_register_type, 2, var_deserializers, var_std_types__process_id, 1, var_deserializers,
   LET, 1, 0, TAIL_CALL,
-  POS(590, 1),
-  POS(617, 1)
+  POS(591, 1),
+  POS(618, 1)
 };
 
-static int list_732_9_arguments[] = {
+static int list_733_9_arguments[] = {
   -string_1
 };
 
@@ -3498,7 +3492,7 @@ static FUNKY_CONSTANT constants_table[] = {
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_71}},
   {FLT_FUNCTION, 0, {.tfunc = t_func_store_pid_and_err_fd}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_72}},
-  {FLT_LIST, 1, {.arguments = list_732_9_arguments}},
+  {FLT_LIST, 1, {.arguments = list_733_9_arguments}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_73}},
   {FLT_FUNCTION, 0, {.tfunc = t_func_manage_io}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_6_loop}},
@@ -4343,110 +4337,110 @@ static FUNKY_VARIABLE variables_table[] = {
   {
     FOT_UNKNOWN, 0, 0,
     "result_count\000", NULL,
-    {.position = POS(490, 26)}
+    {.position = POS(490, 7)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "490_1_do_return_error_code\000", NULL
+    "491_1_do_return_error_code\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "491_1_do_collect_output\000", NULL
+    "492_1_do_collect_output\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "492_1_do_collect_error_output\000", NULL
+    "493_1_do_collect_error_output\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "493_1_env_vars\000", NULL
+    "494_1_env_vars\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
     "to_string\000", NULL,
-    {.position = POS(494, 13)}
-  },
-  {
-    FOT_UNKNOWN, 0, 0,
-    "map\000", NULL,
-    {.position = POS(494, 3)}
-  },
-  {
-    FOT_UNKNOWN, 0, 0,
-    "environment\000", NULL,
     {.position = POS(495, 13)}
   },
   {
     FOT_UNKNOWN, 0, 0,
+    "map\000", NULL,
+    {.position = POS(495, 3)}
+  },
+  {
+    FOT_UNKNOWN, 0, 0,
+    "environment\000", NULL,
+    {.position = POS(496, 13)}
+  },
+  {
+    FOT_UNKNOWN, 0, 0,
     "string\000std", NULL,
-    {.position = POS(499, 24)}
+    {.position = POS(500, 24)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "for_each\000", NULL,
-    {.position = POS(497, 5)}
+    {.position = POS(498, 5)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "502_29_out_fd\000", NULL
+    "503_29_out_fd\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "502_37_err_fd\000", NULL
+    "503_37_err_fd\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
     "create_process\000", NULL,
-    {.position = POS(502, 3)}
+    {.position = POS(503, 3)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "504_1_io\000", NULL
+    "505_1_io\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
     "join_process\000", NULL,
-    {.position = POS(505, 3)}
+    {.position = POS(506, 3)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "509_1_out\000", NULL
+    "510_1_out\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "510_1_err\000", NULL
+    "511_1_err\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
     "get_events\000", NULL,
-    {.position = POS(512, 5)}
+    {.position = POS(513, 5)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "515_13_fd\000", NULL
+    "516_13_fd\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "515_17_data\000", NULL
+    "516_17_data\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
     "case\000", NULL,
-    {.position = POS(522, 17)}
+    {.position = POS(523, 17)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "PROCESS_JOINED\000", NULL,
-    {.position = POS(541, 11)}
+    {.position = POS(542, 11)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "542_1_ret\000", NULL
+    "543_1_ret\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
     "error\000", NULL,
-    {.position = POS(557, 21)}
+    {.position = POS(558, 21)}
   },
   {
     FOT_INITIALIZED, 0, 0,
@@ -4456,12 +4450,12 @@ static FUNKY_VARIABLE variables_table[] = {
   {
     FOT_UNKNOWN, 0, 0,
     "EXIT_SUCCESS\000", NULL,
-    {.position = POS(563, 9)}
+    {.position = POS(564, 9)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "exit\000", NULL,
-    {.position = POS(563, 3)}
+    {.position = POS(564, 3)}
   },
   {
     FOT_POLYMORPHIC, 0, 0,
@@ -4471,60 +4465,60 @@ static FUNKY_VARIABLE variables_table[] = {
   {
     FOT_UNKNOWN, 0, 2,
     "object\000std_types", std_types__object__attributes,
-    {.position = POS(566, 1)}
+    {.position = POS(567, 1)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
     "is_a_file_descriptor\000", NULL,
-    {.position = POS(566, 20)}
+    {.position = POS(567, 20)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
     "serialization_tag_of\000", NULL,
-    {.position = POS(569, 29)}
+    {.position = POS(570, 29)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
     "serialize\000", NULL,
-    {.position = POS(571, 29)}
+    {.position = POS(572, 29)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "574_0_indent\000", NULL
+    "575_0_indent\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "576_1_str\000", NULL
+    "577_1_str\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
     "tabs_and_spaces\000", NULL,
-    {.position = POS(580, 15)}
+    {.position = POS(581, 15)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
     "deserializer_of\000", NULL,
-    {.position = POS(583, 29)}
+    {.position = POS(584, 29)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "integer\000", NULL,
-    {.position = POS(588, 22)}
+    {.position = POS(589, 22)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "file_descriptor\000", NULL,
-    {.position = POS(588, 6)}
+    {.position = POS(589, 6)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "deserializers\000", NULL,
-    {.position = POS(590, 16)}
+    {.position = POS(591, 16)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "register_type\000", NULL,
-    {.position = POS(590, 1)}
+    {.position = POS(591, 1)}
   },
   {
     FOT_POLYMORPHIC, 0, 0,
@@ -4534,25 +4528,25 @@ static FUNKY_VARIABLE variables_table[] = {
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
     "is_a_process_id\000", NULL,
-    {.position = POS(593, 20)}
+    {.position = POS(594, 20)}
   },
   {
     FOT_UNKNOWN, 0, 4,
     "process_id\000std_types", std_types__process_id__attributes,
-    {.position = POS(594, 1)}
+    {.position = POS(595, 1)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "601_0_indent\000", NULL
+    "602_0_indent\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "603_1_str\000", NULL
+    "604_1_str\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
     "process_id\000", NULL,
-    {.position = POS(615, 6)}
+    {.position = POS(616, 6)}
   },
   {
     FOT_POLYMORPHIC, 0, 0,
@@ -4567,12 +4561,12 @@ static FUNKY_VARIABLE variables_table[] = {
   {
     FOT_UNKNOWN, 0, 0,
     "flatten\000", NULL,
-    {.position = POS(626, 32)}
+    {.position = POS(627, 32)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "call\000", NULL,
-    {.position = POS(626, 3)}
+    {.position = POS(627, 3)}
   },
   {
     FOT_INITIALIZED, 0, 0,
@@ -4581,58 +4575,58 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "632_0_args\000", NULL
+    "633_0_args\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "634_1_i\000", NULL
+    "635_1_i\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "635_1_n\000", NULL
+    "636_1_n\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "636_1_in_fd\000", NULL
+    "637_1_in_fd\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "637_1_feed\000", NULL
+    "638_1_feed\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "638_1_commands\000", NULL
+    "639_1_commands\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "639_1_head\000", NULL
+    "640_1_head\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "640_1_arguments\000", NULL
+    "641_1_arguments\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "641_1_first_arg\000", NULL
+    "642_1_first_arg\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
     "is_a_string\000", NULL,
-    {.position = POS(643, 15)}
+    {.position = POS(644, 15)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "661_1_arg\000", NULL
+    "662_1_arg\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
     "is_a_function\000", NULL,
-    {.position = POS(663, 19)}
+    {.position = POS(664, 19)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "inc\000", NULL,
-    {.position = POS(668, 17)}
+    {.position = POS(669, 17)}
   },
   {
     FOT_INITIALIZED, 0, 0,
@@ -4641,134 +4635,134 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "681_0_feed_or_fd\000", NULL
+    "682_0_feed_or_fd\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "682_0_commands\000", NULL
+    "683_0_commands\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "696_0_in_fd\000", NULL
+    "697_0_in_fd\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "697_0_feed\000", NULL
+    "698_0_feed\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "698_0_commands\000", NULL
+    "699_0_commands\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "700_1_pids\000", NULL
+    "701_1_pids\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "701_1_err_fds\000", NULL
+    "702_1_err_fds\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "702_1_out_fd\000", NULL
+    "703_1_out_fd\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "703_1_env_vars\000", NULL
+    "704_1_env_vars\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "712_3_idx\000", NULL
+    "713_3_idx\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "713_9_head\000", NULL
+    "714_9_head\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "713_15_arguments\000", NULL
+    "714_15_arguments\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "715_1_pid\000", NULL
+    "716_1_pid\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "716_1_err_fd\000", NULL
+    "717_1_err_fd\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
     "is_undefined\000", NULL,
-    {.position = POS(718, 27)}
+    {.position = POS(719, 27)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "list\000", NULL,
-    {.position = POS(730, 16)}
+    {.position = POS(731, 16)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "730_1_ret\000", NULL
+    "731_1_ret\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
     "dup\000", NULL,
-    {.position = POS(730, 12)}
+    {.position = POS(731, 12)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "731_1_out\000", NULL
+    "732_1_out\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "732_1_err\000", NULL
+    "733_1_err\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "743_1_read_descriptor_list\000", NULL
+    "744_1_read_descriptor_list\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
     "keys_of\000", NULL,
-    {.position = POS(743, 33)}
+    {.position = POS(744, 33)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "753_1_read_descriptors\000", NULL
+    "754_1_read_descriptors\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "754_1_write_descriptors\000", NULL
+    "755_1_write_descriptors\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
     "pselect\000", NULL,
-    {.position = POS(751, 11)}
+    {.position = POS(752, 11)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "CHILD_CHANGED_STATE\000", NULL,
-    {.position = POS(759, 27)}
+    {.position = POS(760, 27)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "762_7_rpid\000", NULL
+    "763_7_rpid\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "762_13_status\000", NULL
+    "763_13_status\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
     "wait\000", NULL,
-    {.position = POS(762, 23)}
+    {.position = POS(763, 23)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "787_3_read_descriptor\000", NULL
+    "788_3_read_descriptor\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "788_7_buf\000", NULL
+    "789_7_buf\000", NULL
   },
   {
     FOT_INITIALIZED, 0, 0,
@@ -4777,21 +4771,21 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "815_0_name\000", NULL
+    "816_0_name\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
     "split\000", NULL,
-    {.position = POS(817, 12)}
+    {.position = POS(818, 12)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "819_1_filename\000", NULL
+    "820_1_filename\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
     "file_exists\000", NULL,
-    {.position = POS(820, 7)}
+    {.position = POS(821, 7)}
   },
   {
     FOT_INITIALIZED, 0, 0,
@@ -4800,48 +4794,48 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "826_27_name\000", NULL
+    "827_27_name\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "827_10_dir\000", NULL
+    "828_10_dir\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "829_10_entry\000", NULL
+    "830_10_entry\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "835_1_proc_num\000", NULL
+    "836_1_proc_num\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
     "DIGIT\000", NULL,
-    {.position = POS(837, 35)}
+    {.position = POS(838, 35)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "many\000", NULL,
-    {.position = POS(837, 30)}
+    {.position = POS(838, 30)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "matches\000", NULL,
-    {.position = POS(837, 11)}
+    {.position = POS(838, 11)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "838_7_buf\000", NULL
+    "839_7_buf\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
     "truncate_from\000", NULL,
-    {.position = POS(843, 28)}
+    {.position = POS(844, 28)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "truncate_until\000", NULL,
-    {.position = POS(844, 17)}
+    {.position = POS(845, 17)}
   },
   {
     FOT_INITIALIZED, 0, 0,
@@ -4850,27 +4844,27 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "851_23_name\000", NULL
+    "852_23_name\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "852_10_dir\000", NULL
+    "853_10_dir\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "853_1_pids\000", NULL
+    "854_1_pids\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "855_10_entry\000", NULL
+    "856_10_entry\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "861_1_proc_num\000", NULL
+    "862_1_proc_num\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "864_7_buf\000", NULL
+    "865_7_buf\000", NULL
   },
   {
     FOT_INITIALIZED, 0, 0,
@@ -4879,7 +4873,7 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "879_7_buf\000", NULL
+    "880_7_buf\000", NULL
   },
   {
     FOT_INITIALIZED, 0, 0,
@@ -4888,22 +4882,22 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "886_24_mac\000", NULL
+    "887_24_mac\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
     "get_first_mac_address\000", NULL,
-    {.position = POS(886, 3)}
+    {.position = POS(887, 3)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "hex\000", NULL,
-    {.position = POS(888, 46)}
+    {.position = POS(889, 46)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "map_reduce\000", NULL,
-    {.position = POS(888, 21)}
+    {.position = POS(889, 21)}
   },
   {
     FOT_INITIALIZED, 0, 0,

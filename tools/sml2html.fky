@@ -131,6 +131,17 @@ do:
 	margin-bottom: 8pt;
 	text-align: justify;
       }
+      p.source {
+	font-style: italic;
+	text-align: right;
+      }
+      p.remark {
+	font-style: italic;
+      }
+      p.created {
+	font-style: italic;
+	float: right;
+      }
       pre {
 	font-size: 12pt;
       }
@@ -165,6 +176,11 @@ do:
   print! "
     </head>
     <body>
+
+  current_time! $t
+  $created "@(day_of(t)).@(month_of(t)).@(year_of(t))"
+  print! "
+    <p class="created">(letzte Änderung: @(created))</p>
 
   on title_of(indented_lines).is_defined:
     print! "
@@ -386,8 +402,15 @@ $insert_tags: (text)
 		append &tagged "<code>"
 		next
 	  '$':
-	    not &in_math_mode
-	    next
+	    if
+	      in_math_mode:
+		!in_math_mode false
+		append &tagged "</i>"
+		next
+	      :
+		!in_math_mode true
+		append &tagged "<i>"
+		next
 	  '_': # subscript
 	    if
 	      in_math_mode:
@@ -411,7 +434,7 @@ $insert_tags: (text)
 		    append &tagged "</sub>"
 		    next
 	      :
-		put &tagged '_'
+		push &tagged '_'
 		next
 	  '^': # superscript
 	    if
@@ -436,7 +459,7 @@ $insert_tags: (text)
 		    append &tagged "</sup>"
 		    next
 	      :
-		put &tagged '^'
+		push &tagged '^'
 		next
 	  '\': # escape next character
 	    if
@@ -598,15 +621,31 @@ $indented_lines_to_html: (lines section = "")
 	  next
 	-> line .has_prefix. "IMAGE:":
 	  $image_name between(line ' ' ' ')
-	  $extension image_name .behind. '.'
+	  $mime_type image_name .behind. '.'
+	  update_if mime_type == "svg" &mime_type -> "svg+xml"
+
 	  $image_description behind(line ' ' 2)
 	  $data image_data(image_name)
 	  append &buf "
 	    <figure>
-	    <img src="data:image/@(extension);base64,
+	    <img src="data:image/@(mime_type);base64,
 	    @(data)">
 	    <figcaption>@(image_description)</figcaption>
 	    </figure>
+	  next
+	-> line .has_prefix. "SOURCE:":
+	  $source trim(line .behind. ':')
+	  append &buf "
+	    <p class="source">
+	    (Quelle: @(source))
+	    </p>
+	  next
+	-> line .has_prefix. "REMARK:":
+	  $remark trim(line .behind. ':')
+	  append &buf "
+	    <p class="remark">
+	    (Anmerkung: @(remark))
+	    </p>
 	  next
 	-> true:
 	  if

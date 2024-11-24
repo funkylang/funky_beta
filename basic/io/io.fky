@@ -487,9 +487,10 @@ $std::call:
     cmd
     args
   )
-  $do_return_error_code (result_count() >= 1)
-  $do_collect_output (result_count() >= 2)
-  $do_collect_error_output (result_count() == 3)
+  $rc result_count()
+  $do_return_error_code (rc >= 1)
+  $do_collect_output (rc >= 2)
+  $do_collect_error_output (rc == 3)
   $env_vars undefined
   map &args to_string
   update_if environment.is_defined &env_vars:
@@ -554,7 +555,7 @@ $std::call:
 		  ret == 0
 		  pass
 		  :
-		    error "CALLING PROCESS FAILED" ret
+		    error "CALLING PROCESS FAILED"
 	  : # ignore all other signals
 	    next!
       next
