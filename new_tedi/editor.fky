@@ -1087,7 +1087,8 @@ $delete_left: (x y lines info)
 		x-width_of(text(pos))
 		y
 		info
-    -> undefined undefined x y info
+    :
+      cursor_left x y lines info
 
 $delete_right: (x y lines info)
   if
