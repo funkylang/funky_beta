@@ -108,10 +108,12 @@ $do_run (truncate_until(program_name '/' -1) .truncate_from. '-') == "fkyrun"
 $funky::base_directory undefined
 $funky::current_module_name undefined
 
-if $input_filename $be_verbose $do_rebuild $do_print_c $do_build_static
+if
+  $input_filename
+  $be_verbose $do_rebuild $do_print_c $funky::module_prefix $do_build_static
   do_run:
     on command_line_arguments.is_empty: Error "Missing command line arguments!"
-    -> command_line_arguments(1) false false false false
+    -> command_line_arguments(1) false false false undefined false
   :
     program_parameters!
       list
@@ -147,6 +149,9 @@ if $input_filename $be_verbose $do_rebuild $do_print_c $do_build_static
       list
 	"print-c" "
 	  print C source code for a single module
+      list
+	VALUED_OPTION "module-prefix" "
+	  needed to compile a single file within a subdirectory
       list
 	"static" "
 	  create a statically linked executable

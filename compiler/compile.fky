@@ -61,6 +61,8 @@ $funky::compile_module: (filename lines)
   # load and parse the module
 
   without_prefix &filename base_directory
+  update_if module_prefix.is_defined &filename
+    -> append(module_prefix "/" filename)
   !current_filename filename
   !current_module_name
     replace_all

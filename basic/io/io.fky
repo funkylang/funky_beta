@@ -27,13 +27,15 @@
 
   I/O-functions must be called with so-called *I/O-access rights*.
 
-  To call a function with I/O-access rights you
+  To call a function with I/O-access rights one
 
-  * must have *I/O-access rights* yourself
+  * must already have *I/O-access rights*
 
-  * hand them on to the called function
+  and
 
-  To hand on *I/O-access rights* a function is called with a "!"-suffix.
+  * give them to the called function
+
+  To give *I/O-access rights* to a function it is called with a "!"-suffix.
 
   Related topics: Input-Output Events, POSIX, Input-Output Task Manager
 

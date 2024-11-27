@@ -1578,7 +1578,7 @@ $cut: (state x y lines info)
 	  min_max &start_y &end_y
 	  ->
 	    state
-	    start_y .. end_y-1
+	    start_y .. min(end_y-1 length_of(lines))
 	    undefined
 	    x
 	    start_y
@@ -1627,7 +1627,10 @@ $get_selection: (x y lines _info)
       $start_y selection_y
       $end_y y
       min_max &start_y &end_y
-      -> range(lines start_y end_y-1)
+      $n length_of(lines)
+      append
+	range(lines min(start_y n+1) min(end_y-1 n))
+	dup(list(undefined) max(end_y-max(start_y n+1) 0))
 
 $paste: (state x y lines info)
   $clipboard_contents clipboard_contents_of(state)
@@ -2171,119 +2174,156 @@ $filter_dialog: (x y _lines info)
 $join_lines: (x y lines info)
   $height length_of(lines)
   if
-    y > height:
-      if
-	y == 1
-	-> undefined undefined x y info
-	:
+    selection_y.is_defined:
+      min_max &selection_y &y
+      debug::dump `selection_y `y
+      range &lines selection_y y-1
+      $new_lines empty_list
+      $current_indent undefined
+      $current_text undefined
+      for_each lines
+	: (line)
 	  if
-	    y == height+1:
-	      $line_above lines(y-1)
-	      ->
-		undefined
-		undefined
-		indent_of(line_above)+width_of(text_of(line_above))+1
-		y-1
-		info
-	    -> undefined undefined x y-1 info
+	    line.is_undefined:
+	      update_if current_indent.is_defined &new_lines:
+		push new_lines tedi_line(current_indent current_text)
+	      !current_indent undefined
+	      push &new_lines undefined
+	      next
+	    :
+	      $text text_of(line)
+	      if
+		current_indent.is_defined:
+		  append &current_text " " text
+		  next
+		:
+		  !current_indent indent_of(line)
+		  !current_text text
+		  next
+	:
+	  update_if current_indent.is_defined &new_lines:
+	    push new_lines tedi_line(current_indent current_text)
+	  ->
+	    selection_y .. y-1
+	    new_lines
+	    x
+	    selection_y
+	    info
     :
-      $line lines(y)
       if
-	line.is_defined:
-	  $indent indent_of(line)
-	  $text text_of(line)
-	  $text_width width_of(text)
-	  cond
-	    -> x <= indent+1 && y > 1: # before text
-	      $line_above lines(y-1)
-	      if
-		line_above.is_defined:
-		  $indent_above indent_of(line_above)
-		  $text_above text_of(line_above)
-		  $width_above indent_above+width_of(text_above)
-		  if
-		    indent > 0
-		    ->
-		      y-1 .. y
-		      tedi_line
-			indent_above
-			append(text_above " " text)
-		      if
-			x > 1
-			-> width_above+2
-			-> width_above+1
-		      y-1
-		      info
-		    ->
-		      y-1 .. y
-		      tedi_line
-			indent_above
-			append(text_above text)
-		      width_above+1
-		      y-1
-		      info
-		->
-		  y-1
-		  undefined
-		  x
-		  y-1
-		  info
-	    -> x > indent+text_width && y < height: # behind text
-	      $line_below lines(y+1)
-	      if
-		line_below.is_defined:
-		  $indent_below indent_of(line_below)
-		  $text_below text_of(line_below)
-		  if
-		    indent_below > 0
-		    ->
-		      y .. y+1
-		      tedi_line
-			indent
-			append(text " " text_below)
-		      x
-		      y
-		      info
-		    ->
-		      y .. y+1
-		      tedi_line
-			indent
-			append(text text_below)
-		      x
-		      y
-		      info
-		->
-		  y+1
-		  undefined
-		  x
-		  y
-		  info
-	    -> true # within text
-	      -> undefined undefined x y info
-	:
+	y > height:
 	  if
-	    y > 1:
-	      $line_above lines(y-1)
+	    y == 1
+	    -> undefined undefined x y info
+	    :
 	      if
-		line_above.is_defined
-		->
-		  y
-		  undefined
-		  indent_of(line_above)+width_of(text_of(line_above))+1
-		  y-1
-		  info
+		y == height+1:
+		  $line_above lines(y-1)
+		  ->
+		    undefined
+		    undefined
+		    indent_of(line_above)+width_of(text_of(line_above))+1
+		    y-1
+		    info
+		-> undefined undefined x y-1 info
+	:
+	  $line lines(y)
+	  if
+	    line.is_defined:
+	      $indent indent_of(line)
+	      $text text_of(line)
+	      $text_width width_of(text)
+	      cond
+		-> x <= indent+1 && y > 1: # before text
+		  $line_above lines(y-1)
+		  if
+		    line_above.is_defined:
+		      $indent_above indent_of(line_above)
+		      $text_above text_of(line_above)
+		      $width_above indent_above+width_of(text_above)
+		      if
+			indent > 0
+			->
+			  y-1 .. y
+			  tedi_line
+			    indent_above
+			    append(text_above " " text)
+			  if
+			    x > 1
+			    -> width_above+2
+			    -> width_above+1
+			  y-1
+			  info
+			->
+			  y-1 .. y
+			  tedi_line
+			    indent_above
+			    append(text_above text)
+			  width_above+1
+			  y-1
+			  info
+		    ->
+		      y-1
+		      undefined
+		      x
+		      y-1
+		      info
+		-> x > indent+text_width && y < height: # behind text
+		  $line_below lines(y+1)
+		  if
+		    line_below.is_defined:
+		      $indent_below indent_of(line_below)
+		      $text_below text_of(line_below)
+		      if
+			indent_below > 0
+			->
+			  y .. y+1
+			  tedi_line
+			    indent
+			    append(text " " text_below)
+			  x
+			  y
+			  info
+			->
+			  y .. y+1
+			  tedi_line
+			    indent
+			    append(text text_below)
+			  x
+			  y
+			  info
+		    ->
+		      y+1
+		      undefined
+		      x
+		      y
+		      info
+		-> true # within text
+		  -> undefined undefined x y info
+	    :
+	      if
+		y > 1:
+		  $line_above lines(y-1)
+		  if
+		    line_above.is_defined
+		    ->
+		      y
+		      undefined
+		      indent_of(line_above)+width_of(text_of(line_above))+1
+		      y-1
+		      info
+		    ->
+		      y
+		      undefined
+		      x
+		      y-1
+		      info
 		->
 		  y
 		  undefined
 		  x
-		  y-1
+		  y
 		  info
-	    ->
-	      y
-	      undefined
-	      x
-	      y
-	      info
 
 $delete_line: (x y _lines info)
   -> y undefined x y info
@@ -2906,6 +2946,10 @@ list $help_sections
       "delete_line" =
 	 "
 	  deletes the current line
+      "join_lines" =
+	"
+	  joins the current line with the next line;
+	  if multiple lines are selected then all selected lines are joined
   "Insertion" =
     list
       "split_line" =

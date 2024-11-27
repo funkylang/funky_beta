@@ -145,6 +145,9 @@ do:
       pre {
 	font-size: 12pt;
       }
+      code {
+	font-size: 12pt;
+      }
       figure {
 	text-align: center;
       }
@@ -153,6 +156,20 @@ do:
       }
       a:visited {
 	color: #80f;
+      }
+      table {
+	border: solid;
+	border-collapse: collapse;
+	border-spacing: 0;
+	margin-top: 4pt;
+	margin-bottom: 8pt;
+      }
+      td {
+	border: solid;
+	padding-left: 3pt;
+	padding-right: 3pt;
+	padding-top: 2pt;
+	padding-bottom: 2pt;
       }
       grey {
        color: #555;
@@ -401,6 +418,14 @@ $insert_tags: (text)
 		!within_preformatted true
 		append &tagged "<code>"
 		next
+	  '-':
+	    if
+	      i > 1 && i < n && text(i-1) == ' ' && text(i+1) == ' ':
+		push &tagged '‒'
+		next
+	      :
+		push &tagged '-'
+		next
 	  '$':
 	    if
 	      in_math_mode:
@@ -606,19 +631,63 @@ $indented_lines_to_html: (lines section = "")
 	    maybe_end_definition_list()
 	  next
 	-> length_of(line) >= 2 && line(1) == '[' && line(-1) == ']':
-	  $replace_bars: (idx chr)
-	    if
-	      chr == '|' && (idx == 1 || line(idx-1) != '\')
-	      -> "</td><td>"
-	      -> chr.to_string
 	  range &line 2 -2
-	  append &buf
-	    maybe_start_table()
-	    "<tr><td>"
-	    map_reduce(line replace_bars append)
-	    "</td></tr>@nl;"
-	    maybe_end_table()
+	  append &buf maybe_start_table()
+	  append &buf "<tr>"
+	  add_column !buf
+	  append &buf "</tr>"
+	  append &buf maybe_end_table()
 	  next
+
+	  $add_column:
+	    $colspan 1
+	    $left_aligned false
+	    $right_aligned false
+	    loop:
+	      cond
+		-> line .has_prefix. '¦':
+		  inc &colspan
+		  range &line 2 -1
+		  next
+		-> line .has_prefix. '<':
+		  !left_aligned true
+		  range &line 2 -1
+		  next
+		-> line .has_prefix. '>':
+		  !right_aligned true
+		  range &line 2 -1
+		  next
+		-> true:
+		  append &buf "<td"
+		  update_if right_aligned &buf:
+		    if
+		      left_aligned:
+			append buf " align=@quot;center@quot;"
+		      :
+			append buf " align=@quot;right@quot;"
+		  update_if colspan > 1 &buf:
+		    append buf "colspan=" colspan.to_string
+		  push &buf '>'
+		  skip_column
+
+	    $skip_column:
+	      loop:
+		if
+		  line.is_empty
+		  -> append(buf "</td>")
+		  :
+		    $chr line(1)
+		    range &line 2 -1
+		    case chr
+		      ' ':
+			append &buf "&nbsp;"
+			next
+		      '|':
+			append &buf "</td>"
+			add_column
+		      :
+			push &buf chr
+			next
 	-> line .has_prefix. "IMAGE:":
 	  $image_name between(line ' ' ' ')
 	  $mime_type image_name .behind. '.'
