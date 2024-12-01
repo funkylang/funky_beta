@@ -14,6 +14,7 @@
 #include <time.h>
 #include <fcntl.h>
 #include <sys/ioctl.h>
+#include <sys/mman.h>
 #include <sys/socket.h>
 #include <sys/un.h>
 #include <sys/stat.h>
@@ -440,11 +441,16 @@ enum {
   func__std___pselect,
   func__std___do_not_close,
   func__std___waitpid,
+  func__std___open_unix_socket,
+  func__std___send_file_descriptor,
   func__std___open_tcp_client_socket,
   func__std___open_tcp_server_socket,
   func__std___accept,
   func__std___is_listening,
-  func__std___get_first_mac_address
+  func__std___get_first_mac_address,
+  func__std_types___shared_memory___std___size_of,
+  func__std_types___shared_memory___std___file_descriptor_of,
+  func__std___create_shared_memory
 };
 
 enum {
@@ -889,11 +895,16 @@ enum {
   var_no__std___pselect,
   var_no__std___do_not_close,
   var_no__std___waitpid,
+  var_no__std___open_unix_socket,
+  var_no__std___send_file_descriptor,
   var_no__std___open_tcp_client_socket,
   var_no__std___open_tcp_server_socket,
   var_no__std___accept,
   var_no__std___is_listening,
-  var_no__std___get_first_mac_address
+  var_no__std___get_first_mac_address,
+  var_no__std_types___shared_memory,
+  var_no__std___file_descriptor_of,
+  var_no__std___create_shared_memory
 };
 
 static FUNKY_VARIABLE variables_table[];
@@ -1317,6 +1328,13 @@ static void *create__std_types___unique_item
   (
     long id
   );
+
+static void *create__std_types___shared_memory
+  (
+    int fd,
+    long size,
+    void *buf
+  );
 static void *collect_array_info(ARRAY_INFO *info);
 static void *collect_dimension_info(DIMENSION_INFO *info);
 static void *collect_array_view(ARRAY_VIEW *view);
@@ -1507,6 +1525,8 @@ static uint32_t to_lower_case(uint32_t chr);
 static uint32_t to_title_case(uint32_t chr);
 static void *std_types___unique_item____collect(UNIQUE_ITEM *node);
 static long std_types___unique_item____debug_string(NODE *node, int indent, int max_depth, char *buf);
+static void *std_types___shared_memory____collect(SHARED_MEMORY *node);
+static long std_types___shared_memory____debug_string(NODE *node, int indent, int max_depth, char *buf);
 
 int to_int8
   (
@@ -10301,6 +10321,37 @@ static NODE *create_descriptor_list
     return create__std_types___list(0, fd_count, data);
   }
 
+static void *std_types___shared_memory____collect
+  (
+    SHARED_MEMORY *node
+  )
+  {
+    if (!node) return node;
+    SHARED_MEMORY *new_node;
+    long size = node->size; // might be garbage if already collected
+    new_node = allocate(sizeof(SHARED_MEMORY));
+    new_node->type = node->type;
+    *(void **)node = ENCODE_ADDRESS(new_node);
+    new_node->attributes = collect_attributes(node->attributes);
+    new_node->fd = node->fd;
+    new_node->size = size;
+    new_node->buf = node->buf;
+    return new_node;
+  }
+
+static long std_types___shared_memory____debug_string
+  (
+    NODE *node,
+    int indent,
+    int max_depth,
+    char *buf
+  )
+  {
+    return debug_print(
+      indent, buf, "<shared_memory %d: %ld>",
+      node->shared_memory.fd, node->shared_memory.size);
+  }
+
 static void std_types___generic_array____type (void)
   {
     {
@@ -11762,6 +11813,16 @@ static void std_types___unique_item____type (void)
     }
   }
 
+static void std_types___shared_memory____type (void)
+  {
+    {
+      create_error_message(
+        module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+        "Attempt to call a shared memory object as a function!", 0, 0, NULL);
+      return;
+    }
+  }
+
 SIMPLE_NODE std_types___generic_array = {
   std_types___generic_array____type, NULL
 };
@@ -12000,6 +12061,10 @@ TUPLE8 builtin_types___tuple8 = {
 
 UNIQUE_ITEM std_types___unique_item = {
   std_types___unique_item____type, NULL
+};
+
+SHARED_MEMORY std_types___shared_memory = {
+  std_types___shared_memory____type, NULL
 };
 
 static POSITIVE_INTEGER std___EXIT_SUCCESS = {
@@ -13282,6 +13347,22 @@ static void *create__std_types___unique_item
     node->type = std_types___unique_item____type;
     node->attributes = std_types___unique_item.attributes;
     node->id = id;
+    return node;
+  }
+
+static void *create__std_types___shared_memory
+  (
+    int fd,
+    long size,
+    void *buf
+  )
+  {
+    SHARED_MEMORY *node = allocate(sizeof(SHARED_MEMORY));
+    node->type = std_types___shared_memory____type;
+    node->attributes = std_types___shared_memory.attributes;
+    node->fd = fd;
+    node->size = size;
+    node->buf = buf;
     return node;
   }
 
@@ -26051,6 +26132,120 @@ static void entry__std___waitpid (void)
     }
   }
 
+static void entry__std___open_unix_socket (void)
+  {
+    if (TLS_argument_count != 1) {
+      invalid_arguments();
+      return;
+    }
+    if (TLS_deny_io) {
+      missing_io_access_rights();
+      return;
+    }
+    char *filename = NULL;
+    int result;
+    int sock;
+    struct sockaddr_un addr;
+    if (!to_c_string(TLS_arguments[0], &filename)) goto cleanup;
+    if (event__mode != EM__REPLAY) {
+      sock = socket(AF_UNIX, SOCK_STREAM, 0);
+      if (sock == -1) goto error;
+      memset(&addr, 0, sizeof(struct sockaddr_un));
+      addr.sun_family = AF_UNIX;
+      strcpy(addr.sun_path, filename);
+      do {
+	result = connect(sock, (const struct sockaddr *)&addr, sizeof(addr));
+      } while (result == -1 && errno == EINTR);
+      if (event__mode == EM__RECORD) {
+        record__event("open_tcp_socket");
+        store__integer(sock);
+      }
+    } else {
+      replay__event("open_tcp_socket");
+      retrieve__integer(&sock);
+      report__event("open_tcp_socket");
+      print__c_string(filename);
+      print__integer(sock);
+    }
+    if (result == -1) {
+      error:
+      create_error_message(
+	module__builtin.constants_base[unique__std___IO_ERROR-1],
+	"OPEN SOCKET FAILED", errno, 0, NULL);
+    } else {
+      {
+        NODE *result__node = (NODE *)(file_descriptor_from_int(sock));
+        TLS_arguments[0] = result__node;
+        TLS_argument_count = 1;
+      }
+    }
+    cleanup:
+    deallocate_memory(filename);
+  }
+
+static void entry__std___send_file_descriptor (void)
+  {
+    if (TLS_argument_count != 3) {
+      invalid_arguments();
+      return;
+    }
+    if (TLS_deny_io) {
+      missing_io_access_rights();
+      return;
+    }
+    int sock;
+    int fd;
+    char *message = NULL;
+    int result;
+    if (!file_descriptor_to_int(TLS_arguments[0], &sock)) return;
+    if ((TLS_arguments[1])->type != std_types___octet_string.type) {
+      invalid_arguments();
+      return;
+    }
+    if (!file_descriptor_to_int(TLS_arguments[2], &fd)) return;
+    struct iovec iov;
+    struct msghdr msg;
+    struct cmsghdr *cmsg;
+    char cmsgbuf[CMSG_SPACE(sizeof(int))];
+    iov.iov_base =
+      TLS_arguments[1]->octet_string.data->buffer+TLS_arguments[1]->octet_string.offset;
+    iov.iov_len = TLS_arguments[1]->octet_string.length;
+    memset(&msg, 0, sizeof(struct msghdr));
+    msg.msg_iov = &iov;
+    msg.msg_iovlen = 1;
+    msg.msg_control = cmsgbuf;
+    msg.msg_controllen = sizeof(cmsgbuf);
+    cmsg = CMSG_FIRSTHDR(&msg);
+    cmsg->cmsg_level = SOL_SOCKET;
+    cmsg->cmsg_type = SCM_RIGHTS;
+    cmsg->cmsg_len = CMSG_LEN(sizeof(int));
+    *((int *)CMSG_DATA(cmsg)) = fd;
+    if (event__mode != EM__REPLAY) {
+      do {
+	result = sendmsg(sock, &msg, 0);
+      } while (result == -1 && errno == EINTR);
+      if (event__mode == EM__RECORD) {
+        record__event("send_file_descriptor");
+        store__integer(result);
+      }
+    } else {
+      replay__event("send_file_descriptor");
+      retrieve__integer(&result);
+      report__event("send_file_descriptor");
+      print__integer(sock);
+      print__c_string(message);
+      print__integer(fd);
+      print__integer(result);
+    }
+    if (result == -1) {
+      create_error_message(
+	module__builtin.constants_base[unique__std___IO_ERROR-1],
+	"SEND FILE DESCRIPTOR FAILED", errno, 0, NULL);
+    } else {
+      TLS_argument_count = 0;
+    }
+  }
+
 static void entry__std___open_tcp_client_socket (void)
   {
     if (TLS_argument_count != 2) {
@@ -26292,6 +26487,78 @@ static void entry__std___get_first_mac_address (void)
       TLS_argument_count = 1;
       return;
     }
+  }
+
+static void entry__std_types___shared_memory___std___size_of (void)
+  {
+    if (TLS_argument_count != 1) {
+      invalid_arguments();
+      return;
+    }
+    {
+      NODE *result__node = (NODE *)(from_long(TLS_arguments[0]->shared_memory.size));
+      TLS_arguments[0] = result__node;
+      TLS_argument_count = 1;
+      return;
+    }
+  }
+
+static void entry__std_types___shared_memory___std___file_descriptor_of (void)
+  {
+    if (TLS_argument_count != 1) {
+      invalid_arguments();
+      return;
+    }
+    {
+      NODE *result__node = (NODE *)(file_descriptor_from_int(TLS_arguments[0]->shared_memory.fd));
+      TLS_arguments[0] = result__node;
+      TLS_argument_count = 1;
+      return;
+    }
+  }
+
+static void entry__std___create_shared_memory (void)
+  {
+    if (TLS_argument_count != 2) {
+      invalid_arguments();
+      return;
+    }
+    if (TLS_deny_io) {
+      missing_io_access_rights();
+      return;
+    }
+    char *filename = NULL;
+    long size;
+    int fd;
+    if (!to_c_string(TLS_arguments[0], &filename)) goto cleanup;
+    if (!to_long(TLS_arguments[1], &size)) goto cleanup;
+    fd = shm_open(filename, O_RDWR|O_CREAT|O_TRUNC|O_EXCL, 0600);
+    if (fd == -1) {
+      create_error_message(
+	module__builtin.constants_base[unique__std___IO_ERROR-1],
+	"SHM_OPEN FAILED", errno, 0, NULL);
+      goto cleanup;
+    }
+    if (ftruncate(fd, size) == -1) {
+      create_error_message(
+	module__builtin.constants_base[unique__std___IO_ERROR-1],
+	"FTRUNCATE FAILED", errno, 0, NULL);
+      goto cleanup;
+    }
+    void *buf = mmap(NULL, size, PROT_READ|PROT_WRITE, MAP_SHARED, fd, 0);
+    if (buf == MAP_FAILED) {
+      create_error_message(
+	module__builtin.constants_base[unique__std___IO_ERROR-1],
+	"MMAP FAILED", errno, 0, NULL);
+      goto cleanup;
+    }
+    {
+      NODE *result__node = (NODE *)(create__std_types___shared_memory(fd, size, buf));
+      TLS_arguments[0] = result__node;
+      TLS_argument_count = 1;
+    }
+    cleanup:
+    deallocate_memory(filename);
   }
 
 static FUNKY_NAMESPACE defined_namespaces[] = {
@@ -26707,11 +26974,16 @@ static FUNKY_CONSTANT constants_table[] = {
   {FLT_C_FUNCTION, -1, {.func = entry__std___pselect}},
   {FLT_C_FUNCTION, 1, {.func = entry__std___do_not_close}},
   {FLT_C_FUNCTION, 1, {.func = entry__std___waitpid}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std___open_unix_socket}},
+  {FLT_C_FUNCTION, 3, {.func = entry__std___send_file_descriptor}},
   {FLT_C_FUNCTION, 2, {.func = entry__std___open_tcp_client_socket}},
   {FLT_C_FUNCTION, -1, {.func = entry__std___open_tcp_server_socket}},
   {FLT_C_FUNCTION, 1, {.func = entry__std___accept}},
   {FLT_C_FUNCTION, 1, {.func = entry__std___is_listening}},
-  {FLT_C_FUNCTION, 0, {.func = entry__std___get_first_mac_address}}
+  {FLT_C_FUNCTION, 0, {.func = entry__std___get_first_mac_address}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std_types___shared_memory___std___size_of}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std_types___shared_memory___std___file_descriptor_of}},
+  {FLT_C_FUNCTION, 2, {.func = entry__std___create_shared_memory}}
 };
 
 static INTERNAL_METHOD std_types___array__internal_methods[] = {
@@ -27547,6 +27819,17 @@ static ATTRIBUTE_DEFINITION std_types___unique_item__attributes[] = {
   {var_no__std___equal, func__std_types___unique_item___std___equal},
   {var_no__std___hash, func__std_types___unique_item___std___hash},
   {var_no__std___to_string, func__std_types___unique_item___std___to_string}
+};
+
+static INTERNAL_METHOD std_types___shared_memory__internal_methods[] = {
+  {FIM_SIZE, {.size = sizeof(SHARED_MEMORY)}},
+  {FIM_COLLECT, {std_types___shared_memory____collect}},
+  {FIM_DEBUG_STRING, {std_types___shared_memory____debug_string}}
+};
+
+static ATTRIBUTE_DEFINITION std_types___shared_memory__attributes[] = {
+  {var_no__std___file_descriptor_of, func__std_types___shared_memory___std___file_descriptor_of},
+  {var_no__std___size_of, func__std_types___shared_memory___std___size_of}
 };
 
 static FUNKY_VARIABLE variables_table[] = {
@@ -30375,6 +30658,16 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_INITIALIZED, 0, 0,
+    "open_unix_socket\000std", NULL,
+    {.const_idx = func__std___open_unix_socket}
+  },
+  {
+    FOT_INITIALIZED, 0, 0,
+    "send_file_descriptor\000std", NULL,
+    {.const_idx = func__std___send_file_descriptor}
+  },
+  {
+    FOT_INITIALIZED, 0, 0,
     "open_tcp_client_socket\000std", NULL,
     {.const_idx = func__std___open_tcp_client_socket}
   },
@@ -30397,6 +30690,24 @@ static FUNKY_VARIABLE variables_table[] = {
     FOT_INITIALIZED, 0, 0,
     "get_first_mac_address\000std", NULL,
     {.const_idx = func__std___get_first_mac_address}
+  },
+  {
+    FOT_TYPE, 0, 2,
+    "shared_memory\000std_types", std_types___shared_memory__attributes,
+    {"object\000std_types"},
+    {.methods_count = 3}, 0,
+    std_types___shared_memory__internal_methods,
+    {(NODE *)&std_types___shared_memory}
+  },
+  {
+    FOT_POLYMORPHIC, 0, 0,
+    "file_descriptor_of\000std", NULL,
+    {.has_a_setter = false}
+  },
+  {
+    FOT_INITIALIZED, 0, 0,
+    "create_shared_memory\000std", NULL,
+    {.const_idx = func__std___create_shared_memory}
   }
 };
 
@@ -30405,13 +30716,13 @@ FUNKY_MODULE module__builtin = {
   NULL,
   0, 0,
   4, 0,
-  410, 446,
+  415, 451,
   NULL,
   defined_namespaces, NULL,
   constants_table, variables_table
 };
 
-BUILTIN_FUNCTION_NAME builtin_function_names[462] = {
+BUILTIN_FUNCTION_NAME builtin_function_names[468] = {
   {std_types___generic_array____type, "std_types::generic_array/_type"},
   {std_types___array____type, "std_types::array/_type"},
   {entry__std_types___array___std___length_of, "std_types::array/length_of"},
@@ -30869,11 +31180,17 @@ BUILTIN_FUNCTION_NAME builtin_function_names[462] = {
   {entry__std___pselect, "std::pselect"},
   {entry__std___do_not_close, "std::do_not_close"},
   {entry__std___waitpid, "std::waitpid"},
+  {entry__std___open_unix_socket, "std::open_unix_socket"},
+  {entry__std___send_file_descriptor, "std::send_file_descriptor"},
   {entry__std___open_tcp_client_socket, "std::open_tcp_client_socket"},
   {entry__std___open_tcp_server_socket, "std::open_tcp_server_socket"},
   {entry__std___accept, "std::accept"},
   {entry__std___is_listening, "std::is_listening"},
-  {entry__std___get_first_mac_address, "std::get_first_mac_address"}
+  {entry__std___get_first_mac_address, "std::get_first_mac_address"},
+  {std_types___shared_memory____type, "std_types::shared_memory/_type"},
+  {entry__std_types___shared_memory___std___size_of, "std_types::shared_memory/size_of"},
+  {entry__std_types___shared_memory___std___file_descriptor_of, "std_types::shared_memory/file_descriptor_of"},
+  {entry__std___create_shared_memory, "std::create_shared_memory"}
 };
 
 const char *internal_method_names[] = {

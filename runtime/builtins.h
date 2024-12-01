@@ -6,7 +6,7 @@ typedef struct {
   const char *name;
 } BUILTIN_FUNCTION_NAME;
 
-extern BUILTIN_FUNCTION_NAME builtin_function_names[462];
+extern BUILTIN_FUNCTION_NAME builtin_function_names[468];
 
 typedef enum {
   FIM_SIZE,
@@ -603,6 +603,14 @@ typedef struct {
   long id;
 } UNIQUE_ITEM;
 
+typedef struct {
+  void *type;
+  ATTRIBUTES *attributes;
+  int fd;
+  long size;
+  void *buf;
+} SHARED_MEMORY;
+
 typedef union NODE {
   struct {
     FUNC type;
@@ -654,6 +662,7 @@ typedef union NODE {
   TUPLE7 tuple7;
   TUPLE8 tuple8;
   UNIQUE_ITEM unique_item;
+  SHARED_MEMORY shared_memory;
 } NODE;
 int to_int8(NODE *node, int8_t *result_p);
 int to_int16(NODE *node, int16_t *result_p);
@@ -829,6 +838,7 @@ extern TUPLE6 builtin_types___tuple6;
 extern TUPLE7 builtin_types___tuple7;
 extern TUPLE8 builtin_types___tuple8;
 extern UNIQUE_ITEM std_types___unique_item;
+extern SHARED_MEMORY std_types___shared_memory;
 extern TUPLE2 std_types___key_value_pair;
 extern LIST std___empty_list;
 extern LIST std_types___sequence;

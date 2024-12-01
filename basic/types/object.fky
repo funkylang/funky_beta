@@ -100,6 +100,7 @@ $std_types::inode_number.is_a_plain_object false
 $std_types::process_id.is_a_plain_object false
 $std_types::user_id.is_a_plain_object false
 $std_types::error_number.is_a_plain_object false
+$std_types::shared_memory.is_a_plain_object false
 
 # Serialization
 

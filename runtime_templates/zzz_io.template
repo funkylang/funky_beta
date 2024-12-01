@@ -812,6 +812,109 @@ FUNCTION std::waitpid
     }
   }
 
+FUNCTION std::open_unix_socket
+  #
+    opens a UNIX domain socket
+
+    The optional mode parameter is a string of the form "rwxrwxrwx". The
+    default value is "rw-r--r--".
+
+    Parameters:
+      filename # the path and name of the socket
+
+    Topic: POSIX
+
+    See also: open_tcp_client_socket, open_tcp_server_socket, open, close,
+	      read, write
+  {
+    CHECK_ARGUMENTS(1)
+    CHECK_IO_ACCESS_RIGHTS
+    char *filename = NULL;
+    int result;
+    int sock;
+    struct sockaddr_un addr;
+    if (!to_c_string(ARGUMENTS(0), &filename)) goto cleanup;
+    EVENT(open_tcp_socket)
+      sock = socket(AF_UNIX, SOCK_STREAM, 0);
+      if (sock == -1) goto error;
+      memset(&addr, 0, sizeof(struct sockaddr_un));
+      addr.sun_family = AF_UNIX;
+      strcpy(addr.sun_path, filename);
+      do {
+	result = connect(sock, (const struct sockaddr *)&addr, sizeof(addr));
+      } while (result == -1 && errno == EINTR);
+    INFO
+      C_STRING(filename)
+      INT(sock)
+    DATA
+      INT(sock)
+    END
+    if (result == -1) {
+      error:
+      create_error_message(
+	module__builtin.constants_base[unique__std___IO_ERROR-1],
+	"OPEN SOCKET FAILED", errno, 0, NULL);
+    } else {
+      PREPARE_SINGLE_RESULT(file_descriptor_from_int(sock))
+    }
+    cleanup:
+    deallocate_memory(filename);
+  }
+
+FUNCTION std::send_file_descriptor
+  #
+    sends a message and a file descriptor over a socket
+  {
+    CHECK_ARGUMENTS(3)
+    CHECK_IO_ACCESS_RIGHTS
+    int sock;
+    int fd;
+    char *message = NULL;
+    int result;
+    if (!file_descriptor_to_int(ARGUMENTS(0), &sock)) return;
+    if (TYPEOF(ARGUMENTS(1)) != TYPE(std_types::octet_string)) {
+      invalid_arguments();
+      return;
+    }
+    if (!file_descriptor_to_int(ARGUMENTS(2), &fd)) return;
+    struct iovec iov;
+    struct msghdr msg;
+    struct cmsghdr *cmsg;
+    char cmsgbuf[CMSG_SPACE(sizeof(int))];
+    iov.iov_base =
+      ARGUMENTS(1)->octet_string.data->buffer+ARGUMENTS(1)->octet_string.offset;
+    iov.iov_len = ARGUMENTS(1)->octet_string.length;
+    memset(&msg, 0, sizeof(struct msghdr));
+    msg.msg_iov = &iov;
+    msg.msg_iovlen = 1;
+    msg.msg_control = cmsgbuf;
+    msg.msg_controllen = sizeof(cmsgbuf);
+    cmsg = CMSG_FIRSTHDR(&msg);
+    cmsg->cmsg_level = SOL_SOCKET;
+    cmsg->cmsg_type = SCM_RIGHTS;
+    cmsg->cmsg_len = CMSG_LEN(sizeof(int));
+    *((int *)CMSG_DATA(cmsg)) = fd;
+    EVENT(send_file_descriptor)
+      do {
+	result = sendmsg(sock, &msg, 0);
+      } while (result == -1 && errno == EINTR);
+    INFO
+      INT(sock)
+      C_STRING(message)
+      INT(fd)
+      INT(result)
+    DATA
+      INT(result)
+    END
+    if (result == -1) {
+      create_error_message(
+	module__builtin.constants_base[unique__std___IO_ERROR-1],
+	"SEND FILE DESCRIPTOR FAILED", errno, 0, NULL);
+    } else {
+      PREPARE_NO_RESULT
+    }
+  }
+
 FUNCTION std::open_tcp_client_socket
   #
     opens a TCP socket and connects to the given host and port
@@ -1096,3 +1199,87 @@ FUNCTION std::get_first_mac_address
     #endif
     RETURN_UNDEFINED
   }
+
+TYPE std_types::shared_memory -> std_types::object
+  int fd
+  long size
+  void *buf
+
+METHOD std_types::shared_memory/_type
+  {
+    RUNTIME_ERROR("Attempt to call a shared memory object as a function!")
+  }
+
+METHOD long std_types::shared_memory/_debug_string
+  (
+    NODE *node,
+    int indent,
+    int max_depth,
+    char *buf
+  )
+  {
+    return debug_print(
+      indent, buf, "<shared_memory %d: %ld>",
+      node->shared_memory.fd, node->shared_memory.size);
+  }
+
+METHOD std_types::shared_memory/size_of
+  {
+    CHECK_ARGUMENTS(1)
+    RETURN_SINGLE_RESULT(from_long(ARGUMENTS(0)->shared_memory.size))
+  }
+
+POLY std::file_descriptor_of
+
+METHOD std_types::shared_memory/file_descriptor_of
+  {
+    CHECK_ARGUMENTS(1)
+    RETURN_SINGLE_RESULT(
+      file_descriptor_from_int(ARGUMENTS(0)->shared_memory.fd))
+  }
+
+FUNCTION std::create_shared_memory
+  #
+    creates a block of shared memory
+
+    Parameters:
+      filename # the name of the shared memory block
+      size # the size of the shared memory block
+
+    Returns:
+      shm # the shared memory block
+  {
+    CHECK_ARGUMENTS(2)
+    CHECK_IO_ACCESS_RIGHTS
+    char *filename = NULL;
+    long size;
+    int fd;
+    if (!to_c_string(ARGUMENTS(0), &filename)) goto cleanup;
+    if (!to_long(ARGUMENTS(1), &size)) goto cleanup;
+    fd = shm_open(filename, O_RDWR|O_CREAT|O_TRUNC|O_EXCL, 0600);
+    if (fd == -1) {
+      create_error_message(
+	module__builtin.constants_base[unique__std___IO_ERROR-1],
+	"SHM_OPEN FAILED", errno, 0, NULL);
+      goto cleanup;
+    }
+    if (ftruncate(fd, size) == -1) {
+      create_error_message(
+	module__builtin.constants_base[unique__std___IO_ERROR-1],
+	"FTRUNCATE FAILED", errno, 0, NULL);
+      goto cleanup;
+    }
+    void *buf = mmap(NULL, size, PROT_READ|PROT_WRITE, MAP_SHARED, fd, 0);
+    if (buf == MAP_FAILED) {
+      create_error_message(
+	module__builtin.constants_base[unique__std___IO_ERROR-1],
+	"MMAP FAILED", errno, 0, NULL);
+      goto cleanup;
+    }
+    PREPARE_SINGLE_RESULT(CREATE(std_types::shared_memory, fd, size, buf))
+    cleanup:
+    deallocate_memory(filename);
+  }
+
+
+

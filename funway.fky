@@ -1,0 +1,405 @@
+#!/usr/bin/env fkyrun
+
+<allow unused>
+
+$DISPLAY_OBJECT_ID 1
+$GLOBAL_REGISTRY_EVENT 0
+$SHARED_MEMORY_POOL_FORMAT_EVENT 0
+$RELEASE_BUFFER_EVENT 0
+$wayland_xdg_wm_base_event_ping 0
+$XDG_TOPLEVEL_CONFIGURE_EVENT 0
+$wayland_xdg_toplevel_event_close 1
+$XDG_SURFACE_CONFIGURE_EVENT 0
+$GET_DISPLAY_REGISTRY 1
+$BIND_REGISTRY 0
+$CREATE_SURFACE 0
+$wayland_xdg_wm_base_pong_opcode 3
+$XDG_SURFACE_ACKNOWLEDGE_CONFIGURATION 4
+$SHM_CREATE_POOL_ID 0
+$GET_XDG_SURFACE 2
+$CREATE_SHARED_MEMORY_POOL_BUFFER 0
+$ATTACH_SURFACE 1
+$GET_XDG_TOPLEVEL 1
+$COMMIT_SURFACE 6
+$DISPLAY_ERROR_EVENT 0
+$XRGB_8888 1
+
+$REGISTRY_ID 2
+$COMPOSITOR_ID 3
+$SHARED_MEMORY_ID 4
+$WINDOW_MANAGER_BASE_ID 5
+$SURFACE_ID 6
+$XDG_SURFACE_ID 7
+$XDG_TOPLEVEL_ID 8
+$SHARED_MEMORY_POOL_ID 9
+$SHARED_MEMORY_BUFFER_ID 10
+
+$xdg_runtime_dir environment("XDG_RUNTIME_DIR")
+$wayland_display default_value(environment("WAYLAND_DISPLAY") "wayland-0")
+open_unix_socket! $sock append(xdg_runtime_dir "/" wayland_display)
+check sock
+get_registry! sock REGISTRY_ID
+
+$interfaces empty_hash_table
+$configuration undefined
+
+handle_incoming_messages! !interfaces !configuration
+#debug::dump 3 `interfaces
+bind_registry! sock COMPOSITOR_ID "wl_compositor"
+bind_registry! sock SHARED_MEMORY_ID "wl_shm"
+bind_registry! sock WINDOW_MANAGER_BASE_ID "xdg_wm_base"
+handle_incoming_messages! !interfaces !configuration
+create_surface! sock SURFACE_ID
+get_xdg_surface! sock XDG_SURFACE_ID
+get_xdg_toplevel! sock XDG_TOPLEVEL_ID
+commit_surface! sock
+handle_incoming_messages! !interfaces !configuration
+acknowledge_xdg_surface_configuration! sock configuration
+create_shared_memory! $shm "/funway" 320*200*4
+check shm
+create_shared_memory_pool! sock SHARED_MEMORY_POOL_ID shm
+create_shared_memory_buffer! sock SHARED_MEMORY_BUFFER_ID
+  0 320 200 800 XRGB_8888
+attach_surface! sock
+commit_surface! sock
+handle_incoming_messages! !interfaces !configuration
+handle_incoming_messages! !interfaces !configuration
+acknowledge_xdg_surface_configuration! sock configuration
+attach_surface! sock
+commit_surface! sock
+handle_incoming_messages! !interfaces !configuration
+sleep! 5
+
+$handle_incoming_messages:
+  loop:
+    debug::println "waiting for incoming messages"
+    read! $buffer sock 4096
+    check buffer
+    loop:
+      if
+	buffer.is_empty
+	-> interfaces configuration
+	:
+	  on length_of(buffer) < 8:
+	    debug::println "received message is too short"
+	    debug::exit
+	  fetch_uint32 &buffer $id
+	  fetch_uint16 &buffer $opcode
+	  fetch_uint16 &buffer $size
+	  case id
+	    DISPLAY_OBJECT_ID:
+	      case opcode
+		DISPLAY_ERROR_EVENT:
+		  fetch_uint32 &buffer $target_id
+		  fetch_uint32 &buffer $code
+		  debug::dump `target_id
+		  debug::dump `code
+		  fetch_string &buffer $error_message
+		  debug::dump `error_message
+		  debug::exit
+		:
+		  debug::println "unhandled message for display"
+		  debug::dump `id `opcode `size
+		  debug::exit
+	    REGISTRY_ID:
+	      case opcode
+		GLOBAL_REGISTRY_EVENT:
+		  fetch_uint32 &buffer $name
+		  fetch_string &buffer $interface
+		  fetch_uint32 &buffer $version
+		  #debug::print "
+		    name: @(name)
+		      version: @(version)
+		      interface: @(interface)
+		  !interfaces(interface) tuple(name version)
+		  next
+		:
+		  debug::println "unhandled message for registry"
+		  debug::dump `id `opcode `size
+		  debug::exit
+	    SHARED_MEMORY_ID:
+	      case opcode
+		SHARED_MEMORY_POOL_FORMAT_EVENT:
+		  fetch_uint32 &buffer $format
+		  debug::print "
+		    shared memory
+		      format: @(format)
+		  next
+		:
+		  debug::println "unhandled message for shared memory"
+		  debug::dump `id `opcode `size
+		  debug::exit
+	    XDG_SURFACE_ID:
+	      case opcode
+		XDG_SURFACE_CONFIGURE_EVENT:
+		  fetch_uint32 &buffer !configuration
+		  debug::print "
+		    xdg-surface configure
+		      configuration: @(configuration)
+		  next
+		:
+		  debug::println "unhandled message for xdg-surface"
+		  debug::dump `id `opcode `size
+		  debug::exit
+	    XDG_TOPLEVEL_ID:
+	      case opcode
+		XDG_TOPLEVEL_CONFIGURE_EVENT:
+		  fetch_uint32 &buffer $width
+		  fetch_uint32 &buffer $height
+		  fetch_string &buffer $message
+		  debug::print "
+		    xdg-toplevel configure
+		      width: @(width)
+		      height: @(height)
+		      message: "@(message)"
+		  next
+		:
+		  debug::println "unhandled message for xdg-toplevel"
+		  debug::dump `id `opcode `size
+		  debug::exit
+	    SHARED_MEMORY_BUFFER_ID:
+	      case opcode
+		RELEASE_BUFFER_EVENT:
+		  debug::println "release buffer"
+		  next
+		:
+		  debug::println "unhandled message for shared memory buffer"
+		  debug::dump `id `opcode `size
+		  debug::exit
+	    :
+	      debug::println "unhandled object"
+	      debug::dump `id `opcode `size
+	      debug::exit
+
+$get_registry:
+  #
+    request GLOBAL_REGISTRY_EVENT events - one for each interface
+  (
+    sock
+    id
+  )
+  $msg ""
+  push_uint32 &msg DISPLAY_OBJECT_ID
+  push_uint16 &msg GET_DISPLAY_REGISTRY
+  push_uint16 &msg 12 # message length
+  push_uint32 &msg id
+  write! $bytes_written sock msg
+  check bytes_written
+
+$bind_registry:
+  (
+    sock
+    id
+    interface_name
+  )
+  $interface interfaces(interface_name)
+  on interface.is_undefined:
+    debug::print "
+      no interface "@(interface_name)" found
+    debug::exit
+  interface $name $version
+  $msg ""
+  push_uint32 &msg REGISTRY_ID
+  push_uint16 &msg BIND_REGISTRY
+  push_uint16 &msg 24+string_size_of(interface_name) # message length
+  push_uint32 &msg name
+  push_string &msg interface_name
+  push_uint32 &msg version
+  push_uint32 &msg id
+  debug::println "bind_registry"
+  debug::hexdump msg
+  write! $bytes_written sock msg
+  check bytes_written
+
+$create_surface:
+  (
+    sock
+    id
+  )
+  $msg ""
+  push_uint32 &msg COMPOSITOR_ID
+  push_uint16 &msg CREATE_SURFACE
+  push_uint16 &msg 12 # message length
+  push_uint32 &msg id
+  debug::println "create_surface"
+  debug::hexdump msg
+  write! $bytes_written sock msg
+  check bytes_written
+
+$get_xdg_surface:
+  (
+    sock
+    id
+  )
+  $msg ""
+  push_uint32 &msg WINDOW_MANAGER_BASE_ID
+  push_uint16 &msg GET_XDG_SURFACE
+  push_uint16 &msg 16 # message length
+  push_uint32 &msg id
+  push_uint32 &msg SURFACE_ID
+  debug::println "get_xdg_surface"
+  debug::hexdump msg
+  write! $bytes_written sock msg
+  check bytes_written
+
+$get_xdg_toplevel:
+  (
+    sock
+    id
+  )
+  $msg ""
+  push_uint32 &msg XDG_SURFACE_ID
+  push_uint16 &msg GET_XDG_TOPLEVEL
+  push_uint16 &msg 12 # message length
+  push_uint32 &msg id
+  debug::println "get_xdg_toplevel"
+  debug::hexdump msg
+  write! $bytes_written sock msg
+  check bytes_written
+
+$commit_surface:
+  (
+    sock
+  )
+  $msg ""
+  push_uint32 &msg SURFACE_ID
+  push_uint16 &msg COMMIT_SURFACE
+  push_uint16 &msg 8 # message length
+  debug::println "commit_surface"
+  debug::hexdump msg
+  write! $bytes_written sock msg
+  check bytes_written
+
+$attach_surface:
+  (
+    sock
+  )
+  $msg ""
+  push_uint32 &msg SURFACE_ID
+  push_uint16 &msg ATTACH_SURFACE
+  push_uint16 &msg 20 # message length
+  push_uint32 &msg SHARED_MEMORY_BUFFER_ID
+  push_uint32 &msg 0 # x
+  push_uint32 &msg 0 # y
+  debug::println "attach_surface"
+  debug::hexdump msg
+  write! $bytes_written sock msg
+  check bytes_written
+
+$acknowledge_xdg_surface_configuration:
+  (
+    sock
+    configuration
+  )
+  $msg ""
+  push_uint32 &msg XDG_SURFACE_ID
+  push_uint16 &msg XDG_SURFACE_ACKNOWLEDGE_CONFIGURATION
+  push_uint16 &msg 12 # message length
+  push_uint32 &msg configuration
+  debug::println "acknowledge_xdg_surface_configuration"
+  debug::hexdump msg
+  write! $bytes_written sock msg
+  check bytes_written
+
+$create_shared_memory_pool:
+  (
+    sock
+    id
+    shm
+  )
+  $msg ""
+  push_uint32 &msg SHARED_MEMORY_ID
+  push_uint16 &msg SHM_CREATE_POOL_ID
+  push_uint16 &msg 16 # message length
+  push_uint32 &msg id
+  push_uint32 &msg size_of(shm)
+  debug::println "create_shared_memory_pool"
+  debug::hexdump msg
+  send_file_descriptor! sock msg file_descriptor_of(shm)
+
+$create_shared_memory_buffer:
+  (
+    sock
+    id
+    offset
+    width
+    height
+    stride
+    format
+  )
+  $msg ""
+  push_uint32 &msg SHARED_MEMORY_POOL_ID
+  push_uint16 &msg CREATE_SHARED_MEMORY_POOL_BUFFER
+  push_uint16 &msg 32 # message length
+  push_uint32 &msg id
+  push_uint32 &msg offset
+  push_uint32 &msg width
+  push_uint32 &msg height
+  push_uint32 &msg stride
+  push_uint32 &msg format
+  debug::println "create_shared_memory_buffer"
+  debug::hexdump msg
+  write! $bytes_written sock msg
+  check bytes_written
+
+$string_size_of: (str)
+  -> (length_of(str)+4) & 0xfffffffc # add 1 for NULL byte (4 = 1+3)
+
+$push_uint16: (buffer value)
+  append buffer
+    string
+      character(value & 0xff)
+      character(value >> 8)
+
+$push_uint32: (buffer value)
+  append buffer
+    string
+      character(value & 0xff)
+      character((value >> 8) & 0xff)
+      character((value >> 16) & 0xff)
+      character(value >> 24)
+
+$push_string: (buffer str)
+  push_uint32 &buffer length_of(str)+1
+  append buffer str dup("@nul;" string_size_of(str)-length_of(str))
+
+$fetch_uint16: (buffer)
+  on length_of(buffer) < 2:
+    debug::println "not enough bytes left to fetch a uint16"
+    debug::exit
+  ->
+    range(buffer 3 -1)
+    buffer(1).to_integer | (buffer(2).to_integer << 8)
+
+$fetch_uint32: (buffer)
+  on length_of(buffer) < 4:
+    debug::println "not enough bytes left to fetch a uint32"
+    debug::exit
+  ->
+    range(buffer 5 -1)
+    |
+      buffer(1).to_integer
+      buffer(2).to_integer << 8
+      buffer(3).to_integer << 16
+      buffer(4).to_integer << 24
+
+$fetch_string: (buffer)
+  fetch_uint32 &buffer $length
+  if
+    length == 0
+    -> buffer ""
+    :
+      $size (length+3) & 0xfffffffc
+      on length_of(buffer) < size:
+	debug::print "
+	  not enough bytes left to fetch a string of @(length_of) bytes
+	debug::exit
+      on buffer(length) != '@nul;':
+	debug::println "missing NULL byte when fetching string"
+	debug::exit
+      -> range(buffer size+1 -1) range(buffer 1 length-1)
+
+$check: (obj)
+  on obj.is_an_error:
+    debug::dump `obj
+    debug::exit
