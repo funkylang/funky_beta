@@ -26,6 +26,7 @@
 <resolve std_types-2.0>
 
 $tedi::create_page_from_text: (text state)
+  update_if_not text .has_suffix. '@nl;' &text -> push(text '@nl;')
   $lines split_into_indented_lines(text false tedi_types::line)
   prepare
     tedi_types::text_page
