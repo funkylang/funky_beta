@@ -43,6 +43,9 @@ $YELLOW "@0;@255;@255;@0;"
 $BLACK "@0;@0;@0;@0;"
 $WHITE "@255;@255;@255;@0;"
 
+$WIDTH 320
+$HEIGHT 200
+
 $xdg_runtime_dir environment("XDG_RUNTIME_DIR")
 $wayland_display default_value(environment("WAYLAND_DISPLAY") "wayland-0")
 open_unix_socket! $sock append(xdg_runtime_dir "/" wayland_display)
@@ -64,28 +67,80 @@ get_xdg_toplevel! sock XDG_TOPLEVEL_ID
 commit_surface! sock
 handle_incoming_messages! !interfaces !configuration
 acknowledge_xdg_surface_configuration! sock configuration
-create_shared_memory! $shm "/funway" 320*200*4
+create_shared_memory! $shm "/funway" WIDTH*HEIGHT*4
 shm_unlink! "/funway"
 check shm
 create_shared_memory_pool! sock SHARED_MEMORY_POOL_ID shm
 create_shared_memory_buffer! sock SHARED_MEMORY_BUFFER_ID
-  0 320 200 1280 XRGB_8888
-create_pixel_map $pixmap 320 200
-draw_rectangle &pixmap RED 20 30 80 50
-draw_rectangle &pixmap BLUE 220 100 60 50
-draw_rectangle &pixmap GREEN 70 60 200 60
-draw_rectangle &pixmap CYAN 200 15 50 70
-debug::dump `length_of(pixels_of(pixmap))
-write_at! shm 1 pixels_of(pixmap)
+  0 WIDTH HEIGHT WIDTH*4 XRGB_8888
 attach_surface! sock
 commit_surface! sock
 handle_incoming_messages! !interfaces !configuration
 handle_incoming_messages! !interfaces !configuration
 acknowledge_xdg_surface_configuration! sock configuration
-attach_surface! sock
-commit_surface! sock
-handle_incoming_messages! !interfaces !configuration
-sleep! 5
+do:
+  $rectangles
+    list
+      tuple(RED 20 30 80 50 -2 1)
+      tuple(BLUE 220 100 60 50 3 2)
+      tuple(GREEN 70 60 200 60 4 -5)
+      tuple(CYAN 200 15 50 70 6 2)
+  repeat 250:
+    draw_rectangles $pixmap rectangles
+    write_at! shm 1 pixels_of(pixmap)
+    attach_surface! sock
+    commit_surface! sock
+    handle_incoming_messages! !interfaces !configuration
+    move_rectangles &rectangles
+    sleep! $_dummy 0.03
+    next!
+
+$draw_rectangles: (rectangles)
+  create_pixel_map $pixmap WIDTH HEIGHT
+  for_each rectangles
+    : (rectangle)
+      rectangle $colour $x $y $width $height
+      draw_rectangle &pixmap colour x y width height
+      next
+    -> pixmap
+
+$move_rectangles: (rectangles)
+  $moved_rectangles empty_list
+  for_each rectangles
+    : (rectangle)
+      rectangle $colour $x $y $width $height $dx $dy
+      plus &x dx
+      plus &y dy
+      cond
+	-> x < 1:
+	  !dx -dx
+	  !x 1-x
+	  check_y
+	-> x+width-1 > WIDTH:
+	  !dx -dx
+	  !x 2*(WIDTH-width+1)-x
+	  check_y
+	-> true:
+	  check_y
+
+      $check_y:
+	cond
+	  -> y < 1:
+	    !dy -dy
+	    !y 1-y
+	    push_rectangle
+	  -> y+height-1 > HEIGHT:
+	    !dy -dy
+	    !y 2*(HEIGHT-height+1)-y
+	    push_rectangle
+	  -> true:
+	    push_rectangle
+
+      $push_rectangle:
+	push &moved_rectangles tuple(colour x y width height dx dy)
+	next
+
+    -> moved_rectangles
 
 $handle_incoming_messages:
   loop:
