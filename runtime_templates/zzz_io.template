@@ -1238,6 +1238,30 @@ METHOD std_types::shared_memory/file_descriptor_of
       file_descriptor_from_int(ARGUMENTS(0)->shared_memory.fd))
   }
 
+POLY std::write_at
+
+METHOD std_types::shared_memory/write_at
+  {
+    CHECK_ARGUMENTS(3)
+    CHECK_IO_ACCESS_RIGHTS
+    long position;
+    if (!to_long(ARGUMENTS(1), &position)) return;
+    if (TYPEOF(ARGUMENTS(2)) != TYPE(std_types::octet_string)) {
+      invalid_arguments();
+      return;
+    }
+    long length = ARGUMENTS(2)->octet_string.length;
+    if (position < 1 || position+length-1 > ARGUMENTS(0)->shared_memory.size) {
+      RUNTIME_ERROR("Invalid offset or length!")
+      return;
+    }
+    memcpy(
+      ARGUMENTS(0)->shared_memory.buf+position-1,
+      ARGUMENTS(2)->octet_string.data->buffer+ARGUMENTS(2)->octet_string.offset,
+      length);
+    RETURN_NOTHING
+  }
+
 FUNCTION std::create_shared_memory
   #
     creates a block of shared memory
@@ -1280,6 +1304,4 @@ FUNCTION std::create_shared_memory
     cleanup:
     deallocate_memory(filename);
   }
-
-
 

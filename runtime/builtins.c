@@ -357,6 +357,7 @@ enum {
   func__std_types___file_descriptor___std___write,
   func__std___umask,
   func__std___unlink,
+  func__std___shm_unlink,
   func__std___usleep,
   func__std_types___octet_string___std___length_of,
   func__std_types___wide_string___std___length_of,
@@ -450,6 +451,7 @@ enum {
   func__std___get_first_mac_address,
   func__std_types___shared_memory___std___size_of,
   func__std_types___shared_memory___std___file_descriptor_of,
+  func__std_types___shared_memory___std___write_at,
   func__std___create_shared_memory
 };
 
@@ -837,6 +839,7 @@ enum {
   var_no__std___wait,
   var_no__std___umask,
   var_no__std___unlink,
+  var_no__std___shm_unlink,
   var_no__std___usleep,
   var_no__std_types___sequence,
   var_no__std___to_utf8,
@@ -904,6 +907,7 @@ enum {
   var_no__std___get_first_mac_address,
   var_no__std_types___shared_memory,
   var_no__std___file_descriptor_of,
+  var_no__std___write_at,
   var_no__std___create_shared_memory
 };
 
@@ -22788,6 +22792,50 @@ static void entry__std___unlink (void)
     deallocate_memory(filename);
   }
 
+static void entry__std___shm_unlink (void)
+  {
+    if (TLS_argument_count != 1) {
+      invalid_arguments();
+      return;
+    }
+    if (TLS_deny_io) {
+      missing_io_access_rights();
+      return;
+    }
+    char *filename = NULL;
+    int result;
+    if (!to_c_string(TLS_arguments[0], &filename)) goto cleanup;
+    if (event__mode != EM__REPLAY) {
+      result = shm_unlink(filename);
+      if (event__mode == EM__RECORD) {
+        if (result == 0) {
+            successful__action("shm_unlink");
+          } else {
+            failed__action("shm_unlink");
+            store__integer(result);
+          }
+        }
+      } else {
+        if (replay__action("shm_unlink")) {
+          retrieve__integer(&result);
+      } else {
+          result = 0;
+      }
+        report__event("shm_unlink");
+          print__c_string(filename);
+          print__integer(result);
+    }
+    if (result == -1) {
+      create_error_message(
+	module__builtin.constants_base[unique__std___IO_ERROR-1],
+	"SHM_UNLINK FAILED", errno, 0, NULL);
+    } else {
+      TLS_argument_count = 0;
+    }
+    cleanup:
+    deallocate_memory(filename);
+  }
+
 static void entry__std___usleep (void)
   {
     if (TLS_argument_count != 1) {
@@ -26517,6 +26565,42 @@ static void entry__std_types___shared_memory___std___file_descriptor_of (void)
     }
   }
 
+static void entry__std_types___shared_memory___std___write_at (void)
+  {
+    if (TLS_argument_count != 3) {
+      invalid_arguments();
+      return;
+    }
+    if (TLS_deny_io) {
+      missing_io_access_rights();
+      return;
+    }
+    long position;
+    if (!to_long(TLS_arguments[1], &position)) return;
+    if ((TLS_arguments[2])->type != std_types___octet_string.type) {
+      invalid_arguments();
+      return;
+    }
+    long length = TLS_arguments[2]->octet_string.length;
+    if (position < 1 || position+length-1 > TLS_arguments[0]->shared_memory.size) {
+      {
+        create_error_message(
+          module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+          "Invalid offset or length!", 0, 0, NULL);
+        return;
+      }
+      return;
+    }
+    memcpy(
+      TLS_arguments[0]->shared_memory.buf+position-1,
+      TLS_arguments[2]->octet_string.data->buffer+TLS_arguments[2]->octet_string.offset,
+      length);
+    {
+      TLS_argument_count = 0;
+      return;
+    }
+  }
+
 static void entry__std___create_shared_memory (void)
   {
     if (TLS_argument_count != 2) {
@@ -26890,6 +26974,7 @@ static FUNKY_CONSTANT constants_table[] = {
   {FLT_C_FUNCTION, 2, {.func = entry__std_types___file_descriptor___std___write}},
   {FLT_C_FUNCTION, 1, {.func = entry__std___umask}},
   {FLT_C_FUNCTION, 1, {.func = entry__std___unlink}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std___shm_unlink}},
   {FLT_C_FUNCTION, 1, {.func = entry__std___usleep}},
   {FLT_C_FUNCTION, 1, {.func = entry__std_types___octet_string___std___length_of}},
   {FLT_C_FUNCTION, 1, {.func = entry__std_types___wide_string___std___length_of}},
@@ -26983,6 +27068,7 @@ static FUNKY_CONSTANT constants_table[] = {
   {FLT_C_FUNCTION, 0, {.func = entry__std___get_first_mac_address}},
   {FLT_C_FUNCTION, 1, {.func = entry__std_types___shared_memory___std___size_of}},
   {FLT_C_FUNCTION, 1, {.func = entry__std_types___shared_memory___std___file_descriptor_of}},
+  {FLT_C_FUNCTION, 3, {.func = entry__std_types___shared_memory___std___write_at}},
   {FLT_C_FUNCTION, 2, {.func = entry__std___create_shared_memory}}
 };
 
@@ -27829,7 +27915,8 @@ static INTERNAL_METHOD std_types___shared_memory__internal_methods[] = {
 
 static ATTRIBUTE_DEFINITION std_types___shared_memory__attributes[] = {
   {var_no__std___file_descriptor_of, func__std_types___shared_memory___std___file_descriptor_of},
-  {var_no__std___size_of, func__std_types___shared_memory___std___size_of}
+  {var_no__std___size_of, func__std_types___shared_memory___std___size_of},
+  {var_no__std___write_at, func__std_types___shared_memory___std___write_at}
 };
 
 static FUNKY_VARIABLE variables_table[] = {
@@ -30320,6 +30407,11 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_INITIALIZED, 0, 0,
+    "shm_unlink\000std", NULL,
+    {.const_idx = func__std___shm_unlink}
+  },
+  {
+    FOT_INITIALIZED, 0, 0,
     "usleep\000std", NULL,
     {.const_idx = func__std___usleep}
   },
@@ -30692,7 +30784,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {.const_idx = func__std___get_first_mac_address}
   },
   {
-    FOT_TYPE, 0, 2,
+    FOT_TYPE, 0, 3,
     "shared_memory\000std_types", std_types___shared_memory__attributes,
     {"object\000std_types"},
     {.methods_count = 3}, 0,
@@ -30702,6 +30794,11 @@ static FUNKY_VARIABLE variables_table[] = {
   {
     FOT_POLYMORPHIC, 0, 0,
     "file_descriptor_of\000std", NULL,
+    {.has_a_setter = false}
+  },
+  {
+    FOT_POLYMORPHIC, 0, 0,
+    "write_at\000std", NULL,
     {.has_a_setter = false}
   },
   {
@@ -30716,13 +30813,13 @@ FUNKY_MODULE module__builtin = {
   NULL,
   0, 0,
   4, 0,
-  415, 451,
+  417, 453,
   NULL,
   defined_namespaces, NULL,
   constants_table, variables_table
 };
 
-BUILTIN_FUNCTION_NAME builtin_function_names[468] = {
+BUILTIN_FUNCTION_NAME builtin_function_names[470] = {
   {std_types___generic_array____type, "std_types::generic_array/_type"},
   {std_types___array____type, "std_types::array/_type"},
   {entry__std_types___array___std___length_of, "std_types::array/length_of"},
@@ -31087,6 +31184,7 @@ BUILTIN_FUNCTION_NAME builtin_function_names[468] = {
   {entry__std_types___file_descriptor___std___write, "std_types::file_descriptor/write"},
   {entry__std___umask, "std::umask"},
   {entry__std___unlink, "std::unlink"},
+  {entry__std___shm_unlink, "std::shm_unlink"},
   {entry__std___usleep, "std::usleep"},
   {std_types___string____type, "std_types::string/_type"},
   {std_types___octet_string____type, "std_types::octet_string/_type"},
@@ -31190,6 +31288,7 @@ BUILTIN_FUNCTION_NAME builtin_function_names[468] = {
   {std_types___shared_memory____type, "std_types::shared_memory/_type"},
   {entry__std_types___shared_memory___std___size_of, "std_types::shared_memory/size_of"},
   {entry__std_types___shared_memory___std___file_descriptor_of, "std_types::shared_memory/file_descriptor_of"},
+  {entry__std_types___shared_memory___std___write_at, "std_types::shared_memory/write_at"},
   {entry__std___create_shared_memory, "std::create_shared_memory"}
 };
 

@@ -34,6 +34,15 @@ $XDG_TOPLEVEL_ID 8
 $SHARED_MEMORY_POOL_ID 9
 $SHARED_MEMORY_BUFFER_ID 10
 
+$RED "@0;@0;@255;@0;"
+$GREEN "@0;@255;@0;@0;"
+$BLUE "@255;@0;@0;@0;"
+$CYAN "@255;@255;@0;@0;"
+$MAGENTA "@255;@0;@255;@0;"
+$YELLOW "@0;@255;@255;@0;"
+$BLACK "@0;@0;@0;@0;"
+$WHITE "@255;@255;@255;@0;"
+
 $xdg_runtime_dir environment("XDG_RUNTIME_DIR")
 $wayland_display default_value(environment("WAYLAND_DISPLAY") "wayland-0")
 open_unix_socket! $sock append(xdg_runtime_dir "/" wayland_display)
@@ -56,10 +65,18 @@ commit_surface! sock
 handle_incoming_messages! !interfaces !configuration
 acknowledge_xdg_surface_configuration! sock configuration
 create_shared_memory! $shm "/funway" 320*200*4
+shm_unlink! "/funway"
 check shm
 create_shared_memory_pool! sock SHARED_MEMORY_POOL_ID shm
 create_shared_memory_buffer! sock SHARED_MEMORY_BUFFER_ID
-  0 320 200 800 XRGB_8888
+  0 320 200 1280 XRGB_8888
+create_pixel_map $pixmap 320 200
+draw_rectangle &pixmap RED 20 30 80 50
+draw_rectangle &pixmap BLUE 220 100 60 50
+draw_rectangle &pixmap GREEN 70 60 200 60
+draw_rectangle &pixmap CYAN 200 15 50 70
+debug::dump `length_of(pixels_of(pixmap))
+write_at! shm 1 pixels_of(pixmap)
 attach_surface! sock
 commit_surface! sock
 handle_incoming_messages! !interfaces !configuration
@@ -403,3 +420,36 @@ $check: (obj)
   on obj.is_an_error:
     debug::dump `obj
     debug::exit
+
+$pixels_of ()
+
+$std_types::pixel_map std_types::object
+  .pixels_of undefined
+  .width_of undefined
+  .height_of undefined
+
+$create_pixel_map: (width height)
+  std_types::pixel_map
+    .width_of width
+    .height_of height
+    .pixels_of dup(WHITE width*height)
+
+$draw_rectangle: (pixmap colour x y w h)
+  $width width_of(pixmap)
+  $height height_of(pixmap)
+  $pixels pixels_of(pixmap)
+  $stride 4*width
+  $new_pixels range(pixels 1 (y-1)*stride)
+  from_to y y+h-1
+    : (cy)
+      append &new_pixels
+	range(pixels (cy-1)*stride+1 (cy-1)*stride+(x-1)*4)
+	dup(colour w)
+	range(pixels (cy-1)*stride+(x+w-1)*4+1 cy*stride)
+      next
+    :
+      append &new_pixels range(pixels (y+h-1)*stride+1 -1)
+      std_types::pixel_map
+	.width_of width
+	.height_of height
+	.pixels_of new_pixels
