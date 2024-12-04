@@ -1,0 +1,153 @@
+<html>
+<head>
+<title>std_types::screen/std::draw_shadow</title>
+<link rel="stylesheet" href="../../style.css">
+</head>
+<body>
+<div>
+<a class="Button" href="../../index.html">Home</a> <a class="Button" href="../../manual.html">Manual</a> <a class="Button" href="../../topics/index.html">Topics</a> <a class="Button" href="../type_index.html">Types</a> <a class="Button" href="../function_index.html">Functions</a> <a class="Button" href="../objects_index.html">Objects</a> <a class="Button" href="../constants_index.html">Constants</a> <a class="Button" href="../index.html">All</a>
+</div>
+<h1 class="pre">std_types::screen/std::draw_shadow</h1>
+<p class="short">draws a shadow around a rectangular area</p>
+<h2>Parameters</h2>
+<dl>
+<dt>self</dt>
+<dd>the screen to draw on</dd>
+<dt>x</dt>
+<dd>x-coordinate of the upper left corner</dd>
+<dt>y</dt>
+<dd>y-coordinate of the upper left corner</dd>
+<dt>width</dt>
+<dd>width of the area</dd>
+<dt>height</dt>
+<dd>height of the area</dd>
+<dt>draw_colour</dt>
+<dd>the colour to use for drawing</dd>
+<dt>clear_colour</dt>
+<dd>the colour to use for clearing</dd>
+</dl>
+<h2>Result</h2>
+<dl>
+<dt>screen</dt>
+<dd>the updated screen</dd>
+</dl>
+<h2>Description</h2>
+<p>The shadow is drawn using the specified draw- and clear colour.</p>
+<p>The shadow is clipped at the screen's borders.</p>
+<p>This function also works for "graphical screens" (line_height != 1).</p>
+<h2>Topic</h2>
+<table><tr><td><a href="../../topics/Terminal.html">Terminal</a></td></tr></table>
+<h2>See also</h2>
+<table>
+<tr>
+  <td><a href="std__set_draw_colour.html">std_types::screen/std::set_draw_colour</a></td>
+  <td class="description">sets the draw colour of the screen</td>
+</tr>
+<tr>
+  <td><a href="std__set_clear_colour.html">std_types::screen/std::set_clear_colour</a></td>
+  <td class="description">sets the clear colour of the screen</td>
+</tr>
+</table>
+<h2>Example</h2>
+<div class="Example">$screen <a href="../std__create_screen.html">std::create_screen</a>()
+$screen <a href="../std__draw_shadow.html">draw_shadow</a>(screen 1 1 10 5)
+$screen <a href="../std__draw_shadow.html">draw_shadow</a>(screen 10 10 10 5)
+$screen <a href="../std__draw_shadow.html">draw_shadow</a>(screen 20 1 10 5)
+$screen <a href="../std__draw_shadow.html">draw_shadow</a>(screen 30 10 10 5)
+$screen <a href="../std__draw_shadow.html">draw_shadow</a>(screen 40 1 10 5)
+$screen <a href="../std__draw_shadow.html">draw_shadow</a>(screen 50 10 10 5)
+$screen <a href="../std__draw_shadow.html">draw_shadow</a>(screen 60 1 10 5)
+$screen <a href="../std__draw_shadow.html">draw_shadow</a>(screen 70 10 10 5)
+$screen <a href="../std__draw_shadow.html">draw_shadow</a>(screen 80 1 10 5)
+$screen <a href="../std__draw_shadow.html">draw_shadow</a>(screen 90 10 10 5)
+$screen <a href="../std__draw_shadow.html">draw_shadow</a>(screen 100 1 10 5)
+$screen <a href="../std__draw_shadow.html">draw_shadow</a>(screen 110 10 10 5)
+$screen <a href="../std__draw_shadow.html">draw_shadow</a>(screen 120 1 10 5)
+$screen <a href="../std__draw_shadow.html">draw_shadow</a>(screen 130 10 10 5)
+$screen <a href="../std__draw_shadow.html">draw_shadow</a>(screen 140 1 10 5)
+$screen <a href="../std__draw_shadow.html">draw_shadow</a>(screen 150 10 10 5)
+$screen <a href="../std__draw_shadow.html">draw_shadow</a>(screen 160 1 10 5)
+$screen <a href="../std__draw_shadow.html">draw_shadow</a>(screen 170 10 10 5)
+$screen <a href="../std__draw_shadow.html">draw_shadow</a>(screen 180 1 10 5)
+$screen <a href="../std__draw_shadow.html">draw_shadow</a>(screen 190 10 10 5)
+$screen <a href="../std__draw_shadow.html">draw_shadow</a>(screen 200 1 10 5)
+$screen <a href="../std__draw_shadow.html">draw_shadow</a>(screen 210 10 10 5)
+$screen <a href="../std__draw_shadow.html">draw_shadow</a>(screen 220 1 10 5)
+$screen <a href="../std__draw_shadow.html">draw_shadow</a>(screen 230 10 10 5)
+$screen <a href="../std__draw_shadow.html">draw_shadow</a>(screen 240 1 10 5)
+$screen <a href="../std__draw_shadow.html">draw_shadow</a>(screen 250 10 10 5)
+$screen <a href="../std__draw_shadow.html">draw_shadow</a>(screen 260 1 10 5)
+$screen <a href="../std__draw_shadow.html">draw_shadow</a>(screen 270 10 10 5)
+$screen <a href="../std__draw_shadow.html">draw_shadow</a>(screen 280 1 10 5)
+$screen <a href="../std__draw_shadow.html">draw_shadow</a>(screen 290 10 10 5)
+$screen <a href="../std__draw_shadow.html">draw_shadow</a>(screen 300 1 10 5)
+$screen <a href="../std__draw_shadow.html">draw_shadow</a>(screen 310 10 10 5)
+$screen <a href="../std__draw_shadow.html">draw_shadow</a>(screen 320 1 10 5)
+$screen <a href="../std__draw_shadow.html">draw_shadow</a>(screen 330 10 10 5)
+$screen <a href="../std__draw_shadow.html">draw_shadow</a>(screen 340 1 10 5)
+$screen <a href="../std__draw_shadow.html">draw_shadow</a>(screen 350 10 10 5)
+$screen <a href="../std__draw_shadow.html">draw_shadow</a>(screen 360 1 10 5)
+$screen <a href="../std__draw_shadow.html">draw_shadow</a>(screen 370 10 10 5)
+$screen <a href="../std__draw_shadow.html">draw_shadow</a>(screen 380 1 10 5)
+$screen <a href="../std__draw_shadow.html">draw_shadow</a>(screen 390 10 10 5)
+$screen <a href="../std__draw_shadow.html">draw_shadow</a>(screen 400 1 10 5)
+$screen <a href="../std__draw_shadow.html">draw_shadow</a>(screen 410 10 10 5)
+$screen <a href="../std__draw_shadow.html">draw_shadow</a>(screen 420 1 10 5)
+$screen <a href="../std__draw_shadow.html">draw_shadow</a>(screen 430 10 10 5)
+$screen <a href="../std__draw_shadow.html">draw_shadow</a>(screen 440 1 10 5)
+$screen <a href="../std__draw_shadow.html">draw_shadow</a>(screen 450 10 10 5)
+$screen <a href="../std__draw_shadow.html">draw_shadow</a>(screen 460 1 10 5)
+$screen <a href="../std__draw_shadow.html">draw_shadow</a>(screen 470 10 10 5)
+$screen <a href="../std__draw_shadow.html">draw_shadow</a>(screen 480 1 10 5)
+$screen <a href="../std__draw_shadow.html">draw_shadow</a>(screen 490 10 10 5)
+$screen <a href="../std__draw_shadow.html">draw_shadow</a>(screen 500 1 10 5)
+$screen <a href="../std__draw_shadow.html">draw_shadow</a>(screen 510 10 10 5)
+$screen <a href="../std__draw_shadow.html">draw_shadow</a>(screen 520 1 10 5)
+$screen <a href="../std__draw_shadow.html">draw_shadow</a>(screen 530 10 10 5)
+$screen <a href="../std__draw_shadow.html">draw_shadow</a>(screen 540 1 10 5)
+$screen <a href="../std__draw_shadow.html">draw_shadow</a>(screen 550 10 10 5)
+$screen <a href="../std__draw_shadow.html">draw_shadow</a>(screen 560 1 10 5)
+$screen <a href="../std__draw_shadow.html">draw_shadow</a>(screen 570 10 10 5)
+$screen <a href="../std__draw_shadow.html">draw_shadow</a>(screen 580 1 10 5)
+$screen <a href="../std__draw_shadow.html">draw_shadow</a>(screen 590 10 10 5)
+$screen <a href="../std__draw_shadow.html">draw_shadow</a>(screen 600 1 10 5)
+$screen <a href="../std__draw_shadow.html">draw_shadow</a>(screen 610 10 10 5)
+$screen <a href="../std__draw_shadow.html">draw_shadow</a>(screen 620 1 10 5)
+$screen <a href="../std__draw_shadow.html">draw_shadow</a>(screen 630 10 10 5)
+$screen <a href="../std__draw_shadow.html">draw_shadow</a>(screen 640 1 10 5)
+$screen <a href="../std__draw_shadow.html">draw_shadow</a>(screen 650 10 10 5)
+$screen <a href="../std__draw_shadow.html">draw_shadow</a>(screen 660 1 10 5)
+$screen <a href="../std__draw_shadow.html">draw_shadow</a>(screen 670 10 10 5)
+$screen <a href="../std__draw_shadow.html">draw_shadow</a>(screen 680 1 10 5)
+$screen <a href="../std__draw_shadow.html">draw_shadow</a>(screen 690 10 10 5)
+$screen <a href="../std__draw_shadow.html">draw_shadow</a>(screen 700 1 10 5)
+$screen <a href="../std__draw_shadow.html">draw_shadow</a>(screen 710 10 10 5)
+$screen <a href="../std__draw_shadow.html">draw_shadow</a>(screen 720 1 10 5)
+$screen <a href="../std__draw_shadow.html">draw_shadow</a>(screen 730 10 10 5)
+$screen <a href="../std__draw_shadow.html">draw_shadow</a>(screen 740 1 10 5)
+$screen <a href="../std__draw_shadow.html">draw_shadow</a>(screen 750 10 10 5)
+$screen <a href="../std__draw_shadow.html">draw_shadow</a>(screen 760 1 10 5)
+$screen <a href="../std__draw_shadow.html">draw_shadow</a>(screen 770 10 10 5)
+$screen <a href="../std__draw_shadow.html">draw_shadow</a>(screen
+</div>
+<p>CONTEXT EXCEEDED</p>
+<h2>Base Object</h2>
+<table>
+<tr>
+<td><a href="../std_types__screen.html">std_types::screen</a></td>
+<td class="description">the prototype object for all screens</td>
+</tr>
+</table>
+<h2>Implements</h2>
+<table>
+<tr>
+<td><a href="../std__draw_shadow.html">std::draw_shadow</a></td>
+<td class="description">draws a shadow</td>
+</tr>
+</table>
+<div class="footer">(defined in <a href="../../source/terminal/terminal.fky">terminal/terminal.fky</a>)</div>
+<div class="footer">(generated by Codestral-22B-v0.1-Q5_K_M.gguf)</div>
+<div class="footer">(2024-08-04 9:27:04)</div>
+<div class="footer">(<a href="../../prompts/symbols/std_types__screen/std__draw_shadow.prompt">prompt</a>)</div>
+</body>
+</html>

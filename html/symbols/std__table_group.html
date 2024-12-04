@@ -1,0 +1,136 @@
+<html>
+<head>
+<title>std::table_group</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<div>
+<a class="Button" href="../index.html">Home</a> <a class="Button" href="../manual.html">Manual</a> <a class="Button" href="../topics/index.html">Topics</a> <a class="Button" href="type_index.html">Types</a> <a class="Button" href="function_index.html">Functions</a> <a class="Button" href="objects_index.html">Objects</a> <a class="Button" href="constants_index.html">Constants</a> <a class="Button" href="index.html">All</a>
+</div>
+<h1 class="pre">std::table_group</h1>
+<p class="short">creates a table group</p>
+<h2>Parameters</h2>
+<dl>
+<dt>rows</dt>
+<dd>the number of rows</dd>
+<dt>columns</dt>
+<dd>the number of columns</dd>
+<dt>spacing</dt>
+<dd>the spacing between the cells</dd>
+<dt>alignment</dt>
+<dd>the alignment of the cells</dd>
+<dt>widgets</dt>
+<dd>the widgets to add to the table</dd>
+</dl>
+<h2>Result</h2>
+<dl>
+<dt>group</dt>
+<dd>the table group</dd>
+</dl>
+<h2>Description</h2>
+<p>The table group is a widget group that arranges its widgets in a table.</p>
+<h2>Topic</h2>
+<table><tr><td><a href="../topics/Widgets.html">Widgets</a></td></tr></table>
+<h2>See also</h2>
+<table>
+<tr>
+  <td><a href="std__horizontal_group.html">std::horizontal_group</a></td>
+  <td class="description">creates a horizontal group of widgets</td>
+</tr>
+<tr>
+  <td><a href="std__vertical_group.html">std::vertical_group</a></td>
+  <td class="description">creates a vertical group of widgets</td>
+</tr>
+</table>
+<h2>Example</h2>
+<div class="Example">$group <a href="std__table_group.html">table_group</a>(2 3 2 <a href="std__CENTER.html">CENTER</a>)
+$group.add_widget <a href="std__text_box.html">text_box</a>("First name")
+$group.add_widget <a href="std__text_box.html">text_box</a>("Last name")
+$group.add_widget <a href="std__text_box.html">text_box</a>("Age")
+$group.add_widget <a href="std__text_box.html">text_box</a>("John")
+$group.add_widget <a href="std__text_box.html">text_box</a>("Doe")
+$group.add_widget <a href="std__text_box.html">text_box</a>("42")
+$group.add_widget <a href="std__text_box.html">text_box</a>("Mary")
+$group.add_widget <a href="std__text_box.html">text_box</a>("Smith")
+$group.add_widget <a href="std__text_box.html">text_box</a>("25")
+$dialog <a href="std__okay_dialog.html">okay_dialog</a>(group)
+$dialog.<a href="std__run.html">run</a>
+</div>
+<h2>Output</h2>
+<div class="Output">+--------------------------------------------------------------------+
+|                           First name                 Last name   Age|
++--------------------------------------------------------------------+
+|                              John                     Doe         42|
+|                              Mary                   Smith         25|
++--------------------------------------------------------------------+
+|                                                                    |
+|                                                                    |
+|                                                                    |
+|                                                                    |
+|                                                                    |
+|                                                                    |
+|                                                                    |
+|                                                                    |
+|                                                                    |
+|                                                                    |
+|                                                                    |
+|                                                                    |
+|                                                                    |
+|                                                                    |
+|                                                                    |
+|                                                                    |
+|                                                                    |
+|                                                                    |
+|                                                                    |
+|                                                                    |
+|                                                                    |
+|                                                                    |
+|                                                                    |
+|                                                                    |
+|                                                                    |
+|                                                                    |
+|                                                                    |
+|                                                                    |
+|                                                                    |
+|                                                                    |
+|                                                                    |
+|                                                                    |
+|                                                                    |
+|                                                                    |
+|                                                                    |
+|                                                                    |
+|                                                                    |
+|                                                                    |
+|                                                                    |
+|                                                                    |
+|                                                                    |
+|                                                                    |
+|                                                                    |
+|                                                                    |
+|                                                                    |
+|                                                                    |
+|                                                                    |
+|                                                                    |
+|                                                                    |
+|                                                                    |
+|                                                                    |
+|                                                                    |
+|                                                                    |
+|                                                                    |
+|                                                                    |
+|                                                                    |
+|                                                                    |
+|                                                                    |
+|                                                                    |
+|                                                                    |
+|                                                                    |
+|                                                                    |
+|                
+</div>
+<p>STOPPED</p>
+<div class="footer">(defined in <a href="../source/terminal/widgets.fky">terminal/widgets.fky</a>)</div>
+<div class="footer">(generated by Codestral-22B-v0.1-Q5_K_M.gguf)</div>
+<div class="footer">(2024-10-01 19:33:47)</div>
+<div class="footer">(<a href="../prompts/symbols/std__table_group.prompt">prompt</a>)</div>
+</body>
+</html>

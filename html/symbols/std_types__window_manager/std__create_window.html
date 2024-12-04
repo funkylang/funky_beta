@@ -1,0 +1,142 @@
+<html>
+<head>
+<title>std_types::window_manager/std::create_window</title>
+<link rel="stylesheet" href="../../style.css">
+</head>
+<body>
+<div>
+<a class="Button" href="../../index.html">Home</a> <a class="Button" href="../../manual.html">Manual</a> <a class="Button" href="../../topics/index.html">Topics</a> <a class="Button" href="../type_index.html">Types</a> <a class="Button" href="../function_index.html">Functions</a> <a class="Button" href="../objects_index.html">Objects</a> <a class="Button" href="../constants_index.html">Constants</a> <a class="Button" href="../index.html">All</a>
+</div>
+<h1 class="pre">std_types::window_manager/std::create_window</h1>
+<p class="short">creates a new window</p>
+<h2>Parameters</h2>
+<dl>
+<dt>self</dt>
+<dd>the window manager</dd>
+<dt>title</dt>
+<dd>the window's title</dd>
+<dt>options</dt>
+<dd>a list of key-value-pairs</dd>
+</dl>
+<h2>Results</h2>
+<dl>
+<dt>window_manager</dt>
+<dd>the updated window manager</dd>
+<dt>window_id</dt>
+<dd>the id of the created window</dd>
+</dl>
+<h2>Description</h2>
+<p>Creates a new window and adds it to the window manager.</p>
+<p>The window is initially focused.</p>
+<p>If the caller requests two result values then the window id is also returned.</p>
+<p>The following options are supported:</p>
+<p>CONTENT: the window's content CLEAR_COLOUR: the window's clear colour HORIZONTAL_SCROLLBAR: true if the window should have a horizontal scrollbar VERTICAL_SCROLLBAR: true if the window should have a vertical scrollbar FIRST_VISIBLE_COLUMN: the index of the first visible column FIRST_VISIBLE_ROW: the index of the first visible row</p>
+<h2>Topic</h2>
+<table><tr><td><a href="../../topics/Window_Manager.html">Window Manager</a></td></tr></table>
+<h2>See also</h2>
+<table>
+<tr>
+  <td><a href="std__move_left.html">std_types::window_manager/std::move_left</a></td>
+  <td class="description">moves the leftmost visible column of the specified window one column to the</td>
+</tr>
+<tr>
+  <td><a href="std__move_right.html">std_types::window_manager/std::move_right</a></td>
+  <td class="description">moves the content of the specified window to the right</td>
+</tr>
+<tr>
+  <td><a href="std__move_up.html">std_types::window_manager/std::move_up</a></td>
+  <td class="description">moves the window up</td>
+</tr>
+<tr>
+  <td><a href="std__move_down.html">std_types::window_manager/std::move_down</a></td>
+  <td class="description">moves the window down</td>
+</tr>
+<tr>
+  <td><a href="std__move_page_up.html">std_types::window_manager/std::move_page_up</a></td>
+  <td class="description">moves the content of the specified window one page up</td>
+</tr>
+<tr>
+  <td><a href="std__move_page_down.html">std_types::window_manager/std::move_page_down</a></td>
+  <td class="description">moves the content of the window down by one page</td>
+</tr>
+<tr>
+  <td><a href="std__move_home.html">std_types::window_manager/std::move_home</a></td>
+  <td class="description">moves the first visible column to the leftmost column</td>
+</tr>
+<tr>
+  <td><a href="std__move_end.html">std_types::window_manager/std::move_end</a></td>
+  <td class="description">moves the content of the window to the right end</td>
+</tr>
+<tr>
+  <td><a href="std__move_top.html">std_types::window_manager/std::move_top</a></td>
+  <td class="description">moves the content of the window to the top</td>
+</tr>
+<tr>
+  <td><a href="std__move_bottom.html">std_types::window_manager/std::move_bottom</a></td>
+  <td class="description">moves the content of the window to the bottom</td>
+</tr>
+<tr>
+  <td><a href="std__window_count_of.html">std_types::window_manager/std::window_count_of</a></td>
+  <td class="description">returns the number of windows</td>
+</tr>
+<tr>
+  <td><a href="std__set_title.html">std_types::window_manager/std::set_title</a></td>
+  <td class="description">sets the title of the specified window</td>
+</tr>
+<tr>
+  <td><a href="std__get_title.html">std_types::window_manager/std::get_title</a></td>
+  <td class="description">returns the title of the specified window</td>
+</tr>
+<tr>
+  <td><a href="std__set_content.html">std_types::window_manager/std::set_content</a></td>
+  <td class="description">sets the content of the specified window</td>
+</tr>
+<tr>
+  <td><a href="std__get_content.html">std_types::window_manager/std::get_content</a></td>
+  <td class="description">returns the content of the specified window</td>
+</tr>
+<tr>
+  <td><a href="std__get_window_at.html">std_types::window_manager/std::get_window_at</a></td>
+  <td class="description">returns the window at the specified position</td>
+</tr>
+<tr>
+  <td><a href="std__focus_next_window.html">std_types::window_manager/std::focus_next_window</a></td>
+  <td class="description">focuses the next window</td>
+</tr>
+<tr>
+  <td><a href="std__focus_previous_window.html">std_types::window_manager/std::focus_previous_window</a></td>
+  <td class="description">focuses the previous window</td>
+</tr>
+<tr>
+  <td><a href="std__focus_window.html">std_types::window_manager/std::focus_window</a></td>
+  <td class="description">sets the focus to the specified window</td>
+</tr>
+<tr>
+  <td><a href="std__set_selection.html">std_types::window_manager/std::set_selection</a></td>
+  <td class="description">sets the selection of the specified window</td>
+</tr>
+<tr>
+  <td><a href="std__unset_selection.html">std_types::window_manager/std::unset_selection</a></td>
+  <td class="description">unsets the selection of the specified window</td>
+</tr>
+</table>
+<h2>Base Object</h2>
+<table>
+<tr>
+<td><a href="../std_types__window_manager.html">std_types::window_manager</a></td>
+<td class="description">the prototype object for window managers</td>
+</tr>
+</table>
+<h2>Implements</h2>
+<table>
+<tr>
+<td><a href="../std__create_window.html">std::create_window</a></td>
+<td class="description">creates a new window</td>
+</tr>
+</table>
+<div class="footer">(defined in <a href="../../source/terminal/window_manager.fky">terminal/window_manager.fky</a>)</div>
+<div class="footer">(generated by Codestral-22B-v0.1-Q5_K_M.gguf)</div>
+<div class="footer">(2024-07-15 18:22:04)</div>
+<div class="footer">(<a href="../../prompts/symbols/std_types__window_manager/std__create_window.prompt">prompt</a>)</div>
+</body>
+</html>

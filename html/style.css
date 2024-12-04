@@ -1,0 +1,143 @@
+body {
+  font-family: Arial, Helvetica;;
+  font-size: 12pt;
+  color: #222;
+  background-color: white;
+}
+h1 {
+  font-family: Arial, Helvetica;
+  font-size: 20pt;
+  color: #333;
+  margin-top: 0pt;
+  margin-bottom: 8pt;
+}
+h2 {
+  font-family: Arial, Helvetica;
+  font-size: 16pt;
+  color: #222;
+  margin-top: 6pt;
+  margin-bottom: 7pt;
+}
+h1.pre {
+  font-family: Courier New, Courier; Typewriter;
+  font-size: 22pt;
+  color: black;
+  margin-top: 5pt;
+  margin-bottom: 11pt;
+}
+dt {
+  font-size: 14pt;
+  margin-bottom: 2pt;
+}
+dd {
+  font-style: italic;
+  font-size: 11pt;
+  padding-left: 0pt;
+  margin-left: 16pt;
+  margin-top: 0pt;
+  margin-bottom: 4pt;
+}
+p {
+  margin-top: 0pt;
+  margin-bottom: 8pt;
+}
+p.short {
+  font-style: italic;
+  font-size: 14pt;
+}
+a {
+  font-family: Times New Roman, Times;
+  font-size: 13pt;
+  text-decoration: none;
+}
+a:visited {
+  color: #80f;
+}
+i {
+  font-family: Times New Roman, Times;
+  font-size: 14pt;
+}
+a.Button {
+  display: inline-block;
+  padding-top: 2pt;
+  padding-bottom: 3pt;
+  padding-left: 3pt;
+  padding-right: 3pt;
+  margin-right: 5pt;
+  border-radius: 8pt;
+  border-width: 2pt;
+  border-style: solid;
+}
+div.Example {
+  font-family: Courier New, Courier, Typewriter;
+  font-size: 13pt;
+  background-color: #ffc;
+  border: solid 1pt;
+  margin-top: 6pt;
+  margin-bottom: 8pt;
+  padding: 2pt;
+  white-space: pre;
+  border-radius: 6pt;
+}
+div.Output {
+  font-family: Courier New, Courier, Typewriter;
+  font-size: 13pt;
+  background-color: #dfd;
+  border: solid 1pt;
+  margin-top: 6pt;
+  margin-bottom: 8pt;
+  padding: 2pt;
+  white-space: pre;
+  border-radius: 6pt;
+}
+div.Error_output {
+  font-family: Courier New, Courier, Typewriter;
+  font-size: 13pt;
+  background-color: #fdd;
+  border: solid 1pt;
+  margin-top: 6pt;
+  margin-bottom: 8pt;
+  padding: 2pt;
+  white-space: pre;
+  border-radius: 6pt;
+}
+div.footer {
+  padding-top: 10pt;
+  font-size: 10pt;
+}
+pre {
+  font-family: Courier New, Courier, Typewriter;
+  font-size: 13pt;
+  padding-top: 0pt;
+  padding-bottom: 0pt;
+  margin-top: 2pt;
+  margin-bottom: 2pt;
+}
+td.description {
+  padding-left: 10pt;
+}
+
+@media (prefers-color-scheme: dark) {
+  body {
+    color: #eee;
+    background-color: #222;
+  }
+  h1 {
+    color: #ddd;
+  }
+  h1.pre {
+    color: white;
+  }
+  h2 {
+    color: #ccc;
+  }
+  a {
+    color: #aaf;
+  }
+  a:visited {
+    color: #faf;
+  }
+  div.Example, div.Output {
+    color: #222;
+  }
+}

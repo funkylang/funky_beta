@@ -1,0 +1,49 @@
+<html>
+<head>
+<title>Debugging</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<div>
+<a class="Button" href="../index.html">Home</a> <a class="Button" href="../manual.html">Manual</a> <a class="Button" href="index.html">Topics</a> <a class="Button" href="../symbols/type_index.html">Types</a> <a class="Button" href="../symbols/function_index.html">Functions</a> <a class="Button" href="../symbols/objects_index.html">Objects</a> <a class="Button" href="../symbols/constants_index.html">Constants</a> <a class="Button" href="../symbols/index.html">All</a>
+</div>
+<h1>Debugging</h1>
+<h2>Description</h2>
+<p><em>Attention</em>: Functions in the namespace "debug" are not available in production code.</p>
+<p>They can access object details via introspection which is not available in production code.</p>
+<p>These functions can also write to stderr without needing I/O-acccess rights! To do so they prevent parallel code execution.</p>
+<h2>Related topics</h2>
+<table>
+<tr>
+  <td><a href="Errors.html">Errors</a></td>
+</tr>
+<tr>
+  <td><a href="Input-Output.html">Input-Output</a></td>
+</tr>
+</table>
+<h2>Functions</h2>
+<table>
+<tr>
+  <td><a href="../symbols/debug__dump.html">debug::dump</a></td>
+  <td class="description">writes a string representation of an object to stderr</td>
+</tr>
+<tr>
+  <td><a href="../symbols/debug__dump_one.html">debug::dump_one</a></td>
+  <td class="description">dumps the contents of a single object</td>
+</tr>
+<tr>
+  <td><a href="../symbols/debug__print.html">debug::print</a></td>
+  <td class="description">writes the given string to stderr</td>
+</tr>
+<tr>
+  <td><a href="../symbols/debug__println.html">debug::println</a></td>
+  <td class="description">writes the given string and a newline character to stderr</td>
+</tr>
+<tr>
+  <td><a href="../symbols/debug__to_string.html">debug::to_string</a></td>
+  <td class="description">converts an object to a string</td>
+</tr>
+</table>
+<div class="footer">(defined in <a href="../source/basic/debug.fky">basic/debug.fky</a>)</div>
+</body>
+</html>

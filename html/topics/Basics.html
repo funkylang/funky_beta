@@ -1,0 +1,77 @@
+<html>
+<head>
+<title>Basics</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<div>
+<a class="Button" href="../index.html">Home</a> <a class="Button" href="../manual.html">Manual</a> <a class="Button" href="index.html">Topics</a> <a class="Button" href="../symbols/type_index.html">Types</a> <a class="Button" href="../symbols/function_index.html">Functions</a> <a class="Button" href="../symbols/objects_index.html">Objects</a> <a class="Button" href="../symbols/constants_index.html">Constants</a> <a class="Button" href="../symbols/index.html">All</a>
+</div>
+<h1>Basics</h1>
+<h2>Description</h2>
+<p>The standard library provides many functions and "types". There are no types in Funky, but it is common to abbreviate <i>prototype objects</i> as <i>types</i>.</p>
+<p>The standard libraries use the namespace "std_types" for prototype objects.</p>
+<p>The namespace "std_types" is reserved for definitions by the standard libraries.</p>
+<p>For most "types" there is a constructor function, or, if the type describes a <i>singleton</i>, a single object with the same name, but in the namespace "std".</p>
+<p>The namespace "std" is also reserved for definitions by the standard libraries.</p>
+<p>An example:</p>
+<p><a href="../symbols/std_types__list.html">std_types::list</a></p>
+<p>is the prototype for lists.</p>
+<p>and</p>
+<p><a href="../symbols/std__list.html">std::list</a></p>
+<p>is the constructor function for lists.</p>
+<p>Another example:</p>
+<p><a href="../symbols/std_types__true.html">std_types::true</a></p>
+<p>is the type of the boolean value "true" and</p>
+<p><a href="../symbols/std__true.html">std::true</a></p>
+<p><i>is</i> the boolean value "true".</p>
+<p>There are three root objects. All other objects are derived from one of these objects.</p>
+<p>These root objects are:</p>
+<h2>Types</h2>
+<table>
+<tr>
+  <td><a href="../symbols/std_types__error.html">std_types::error</a></td>
+  <td class="description">the prototype object for all error objects</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std_types__object.html">std_types::object</a></td>
+  <td class="description">the prototype object for all regular objects</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std_types__undefined.html">std_types::undefined</a></td>
+  <td class="description">the prototype for the singleton undefined object</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std_types__unique_item.html">std_types::unique_item</a></td>
+  <td class="description">this is the prototype object for all unique items</td>
+</tr>
+</table>
+<h2>Functions</h2>
+<table>
+<tr>
+  <td><a href="../symbols/std__default_value.html">std::default_value</a></td>
+  <td class="description">returns the first argument if it is defined or else the second argument</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__is_a_plain_object.html">std::is_a_plain_object</a></td>
+  <td class="description">checks if an object is a plain object</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__is_a_unique_item.html">std::is_a_unique_item</a></td>
+  <td class="description">checks if an object is a unique item</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__is_undefined.html">std::is_undefined</a></td>
+  <td class="description">checks if a value is undefined</td>
+</tr>
+</table>
+<h2>Objects</h2>
+<table>
+<tr>
+  <td><a href="../symbols/std__undefined.html">std::undefined</a></td>
+  <td class="description">a one-of-kind object to represent <i>undefined</i> values</td>
+</tr>
+</table>
+<div class="footer">(defined in <a href="../source/basic/types/object.fky">basic/types/object.fky</a>)</div>
+</body>
+</html>

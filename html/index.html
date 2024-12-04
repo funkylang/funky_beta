@@ -1,0 +1,78 @@
+<html>
+<head>
+<title>Funky</title>
+<link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+<p><a class="Button" href="index.html">Home</a> <a class="Button" href="manual.html">Manual</a> <a class="Button" href="topics.html">Topics</a> <a class="Button" href="types.html">Types</a> <a class="Button" href="symbols.html">Symbols</a></p>
+<h1>Funky</h1>
+<p>Funky is an all-purpose (pure) functional and object oriented programming
+language. It can be used to write small scripts, application programs and just
+about any software that does not rely on direct access to hardware.
+</p>
+<p>One of the design goals was to create a language suited to create large
+software projects in the realm of classical artificial intelligence (e.g.
+"expert systems").
+</p>
+<p>But meanwhile AI systems based on neural networks had an unimaginable boost.
+To accomodate this new development an interface to use LLMs (Large Language
+Models) is planned for the near future.
+</p>
+<p>Funky makes it easy to write comprehensible software and at the same time
+allows the utilization of the vast amount of execution units of modern
+computers. The logical flow of control is always sequential. The functional
+design of the language makes it easy for the compiler and runtime system to
+exploit the lack of side effects to compute function results in parallel at
+a very fine grained level.
+</p>
+<p>Funky uses an indentation based syntax for <i>all</i> multi-line language
+constructs including string literals and remarks.
+</p>
+<p>It has a very simple syntax for defining anonymous functions which are widely
+used. There are no keywords and no "special forms".
+</p>
+<p>Function calls (the only kind of "statement" in Funky) can be written in
+several ways that make their semantic intention more clear.
+</p>
+<p>There are no loop- or branch-statements; they are replaced by recursion and
+polymorphic function calls.
+</p>
+<p>Variables have lexical scope but dynamic lifetime.
+</p>
+<p>To ease arithmetic and logic operations, C-style operators (+, -, &&, >>, etc.)
+are supported as <i>syntactic sugar</i>.
+</p>
+<p>Funky supports completely separate compilation of source code modules. To
+compile a module no other file than the module's source code file has to be
+consulted.
+</p>
+<p>As a functional language Funky uses value semantics. So no object can ever be
+modified, but new objects can be derived from existing ones. This prevents problems
+like deep vs. shallow copies, equality vs. identity and offers uniform semantics
+for copying and updating.
+</p>
+<p>The typing discipline of Funky is dynamic but it does not support duck typing and
+arguments are not converted automatically (so Funky uses strong typing). Funky
+compilers should test for potential runtime errors at compile time wherever possible.
+</p>
+<p>The use of dynamic variables makes Funky well suited for parallel execution.
+</p>
+<p>Funky offers uniform access to functions, data structures, methods and attributes -
+they are all function calls in Funky. So the implementation can be changed later on
+without the need to change the interface.
+</p>
+<p>The definitions of methods and attributes for any specific object can be distributed
+over several source code modules. An application program can add (private or global)
+methods and attributes to a prototype object defined in a library.
+</p>
+<p>Funky guarantees determinism: a program run on the same stream of input data will
+always produce the same stream of output data. This makes debugging Funky programs
+quite easy. All input events can be logged and a post mortem debugger can replay
+these events and allow the user to run his program forwards and backwards in small
+or large steps.
+</p>
+<p>Funky allows defining objects and their parts in any order. Everything that can be
+resolved will be resolved!
+</p>
+</body>
+</html>

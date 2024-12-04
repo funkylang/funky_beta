@@ -1,0 +1,231 @@
+<html>
+<head>
+<title>AI</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<div>
+<a class="Button" href="../index.html">Home</a> <a class="Button" href="../manual.html">Manual</a> <a class="Button" href="index.html">Topics</a> <a class="Button" href="../symbols/type_index.html">Types</a> <a class="Button" href="../symbols/function_index.html">Functions</a> <a class="Button" href="../symbols/objects_index.html">Objects</a> <a class="Button" href="../symbols/constants_index.html">Constants</a> <a class="Button" href="../symbols/index.html">All</a>
+</div>
+<h1>AI</h1>
+<h2>Description</h2>
+<p>Funky currently supports large language models based on the llama.cpp project.</p>
+<p>A "piece" is the string associated with a token.</p>
+<h2>Example</h2>
+<div class="Example">&lt;require basic/stdlib&gt;
+&lt;require basic/uuid&gt;
+&lt;require basic/export/json&gt;
+&lt;require basic/import/json&gt;
+&lt;require ai/llama&gt;
+&lt;require web/server&gt;
+
+<a href="../symbols/std__generate_uuid.html">generate_uuid</a>! $uuid <a href="../symbols/std__undefined.html">undefined</a>
+<a href="../symbols/ai__load_ai_model.html">ai::load_ai_model</a>! $model modelname # assumes an already running AI-server
+  <a href="../symbols/std__UUID.html">UUID</a> = uuid
+  <a href="../symbols/ai__CONTEXT_SIZE.html">ai::CONTEXT_SIZE</a> = 4096
+<a href="../symbols/std__print.html">print</a>! prompt
+<a href="../symbols/ai__tokenize.html">ai::tokenize</a>! $tokens model prompt
+<a href="../symbols/std__repeat.html">repeat</a> 10 # generate 10 tokens
+  :
+    <a href="../symbols/ai__evaluate.html">ai::evaluate</a>! $token model tokens
+    $piece <a href="../symbols/ai__detokenize.html">ai::detokenize</a>(model token)
+    <a href="../symbols/std__print.html">print</a>! piece
+    <a href="../symbols/std__push.html">push</a> &tokens token
+    <a href="../symbols/std__next.html">next</a>!
+  :
+    <a href="../symbols/ai__deregister.html">ai::deregister</a>! uuid # deregister from the AI-server
+
+$modelname "sauerkrautlm-una-solar-instruct.Q5_K_M.gguf"
+$prompt "Once upon a time"
+</div>
+<h2>Output</h2>
+<div class="Output">Once upon a time, there was a beautiful princess named Aurora.
+</div>
+<h2>Types</h2>
+<table>
+<tr>
+  <td><a href="../symbols/ai_types__connection.html">ai_types::connection</a></td>
+  <td class="description">the prototype object for connections to AI servers</td>
+</tr>
+<tr>
+  <td><a href="../symbols/ai_types__model.html">ai_types::model</a></td>
+  <td class="description">the prototype object for all AI models</td>
+</tr>
+</table>
+<h2>Functions</h2>
+<table>
+<tr>
+  <td><a href="../symbols/ai__answer_token_of.html">ai::answer_token_of</a></td>
+  <td class="description">returns the answer token of the model</td>
+</tr>
+<tr>
+  <td><a href="../symbols/ai__begin_of_stream_token_of.html">ai::begin_of_stream_token_of</a></td>
+  <td class="description">returns the begin-of-stream token of the model</td>
+</tr>
+<tr>
+  <td><a href="../symbols/ai__cached_prefix.html">ai::cached_prefix</a></td>
+  <td class="description">returns the cached prefix of a text</td>
+</tr>
+<tr>
+  <td><a href="../symbols/ai__classsification_token_of.html">ai::classsification_token_of</a></td>
+  <td class="description">returns the classification token of the model</td>
+</tr>
+<tr>
+  <td><a href="../symbols/ai__connect_to_ai_server.html">ai::connect_to_ai_server</a></td>
+  <td class="description">connects to an AI-server</td>
+</tr>
+<tr>
+  <td><a href="../symbols/ai__context_size_of.html">ai::context_size_of</a></td>
+  <td class="description">the context size to effectively use with the model</td>
+</tr>
+<tr>
+  <td><a href="../symbols/ai__deregister.html">ai::deregister</a></td>
+  <td class="description">deregisters from an AI server</td>
+</tr>
+<tr>
+  <td><a href="../symbols/ai__detokenize.html">ai::detokenize</a></td>
+  <td class="description">detokenizes a token or a list of tokens</td>
+</tr>
+<tr>
+  <td><a href="../symbols/ai__effective_context_size_of.html">ai::effective_context_size_of</a></td>
+  <td class="description">Returns the effective context size to use with the model.</td>
+</tr>
+<tr>
+  <td><a href="../symbols/ai__end_of_stream_token_of.html">ai::end_of_stream_token_of</a></td>
+  <td class="description">returns the token that marks the end of a stream</td>
+</tr>
+<tr>
+  <td><a href="../symbols/ai__end_of_text_token_of.html">ai::end_of_text_token_of</a></td>
+  <td class="description">returns the token that marks the end of text</td>
+</tr>
+<tr>
+  <td><a href="../symbols/ai__escaped_piece.html">ai::escaped_piece</a></td>
+  <td class="description">escapes a piece</td>
+</tr>
+<tr>
+  <td><a href="../symbols/ai__escaped_token.html">ai::escaped_token</a></td>
+  <td class="description">escapes a token</td>
+</tr>
+<tr>
+  <td><a href="../symbols/ai__evaluate.html">ai::evaluate</a></td>
+  <td class="description">evaluates a prompt using a loaded AI model</td>
+</tr>
+<tr>
+  <td><a href="../symbols/ai__generate.html">ai::generate</a></td>
+  <td class="description">generates text from a prompt</td>
+</tr>
+<tr>
+  <td><a href="../symbols/ai__load_ai_model.html">ai::load_ai_model</a></td>
+  <td class="description">loads an AI model</td>
+</tr>
+<tr>
+  <td><a href="../symbols/ai__maximum_piece_length_of.html">ai::maximum_piece_length_of</a></td>
+  <td class="description">returns the maximum length of a piece</td>
+</tr>
+<tr>
+  <td><a href="../symbols/ai__middle_token_of.html">ai::middle_token_of</a></td>
+  <td class="description">returns the middle token of the model</td>
+</tr>
+<tr>
+  <td><a href="../symbols/ai__newline_token_of.html">ai::newline_token_of</a></td>
+  <td class="description">returns the token representing a newline character</td>
+</tr>
+<tr>
+  <td><a href="../symbols/ai__piece_table_of.html">ai::piece_table_of</a></td>
+  <td class="description">returns a hash table containing the mapping between pieces and tokens</td>
+</tr>
+<tr>
+  <td><a href="../symbols/ai__pieces_of.html">ai::pieces_of</a></td>
+  <td class="description">returns a list of all pieces (tokens) known to the AI model.</td>
+</tr>
+<tr>
+  <td><a href="../symbols/ai__prefix_token_of.html">ai::prefix_token_of</a></td>
+  <td class="description">returns the prefix token of the model</td>
+</tr>
+<tr>
+  <td><a href="../symbols/ai__question_token_of.html">ai::question_token_of</a></td>
+  <td class="description">returns the question token of the model</td>
+</tr>
+<tr>
+  <td><a href="../symbols/ai__separator_token_of.html">ai::separator_token_of</a></td>
+  <td class="description">returns the separator token of the model</td>
+</tr>
+<tr>
+  <td><a href="../symbols/ai__space_token_of.html">ai::space_token_of</a></td>
+  <td class="description">returns the token representing a space character</td>
+</tr>
+<tr>
+  <td><a href="../symbols/ai__start_ai_server.html">ai::start_ai_server</a></td>
+  <td class="description">starts an AI-server</td>
+</tr>
+<tr>
+  <td><a href="../symbols/ai__suffix_token_of.html">ai::suffix_token_of</a></td>
+  <td class="description">returns the suffix token of the model</td>
+</tr>
+<tr>
+  <td><a href="../symbols/ai__tokenize.html">ai::tokenize</a></td>
+  <td class="description">tokenizes a text string</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__address_of.html">std::address_of</a></td>
+  <td class="description">returns the address of the object</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__port_no_of.html">std::port_no_of</a></td>
+  <td class="description">returns the port number of a connection</td>
+</tr>
+</table>
+<h2>Constants</h2>
+<table>
+<tr>
+  <td><a href="../symbols/ai__BACKTRACK.html">ai::BACKTRACK</a></td>
+  <td class="description">the number of tokens to backtrack when generating text</td>
+</tr>
+<tr>
+  <td><a href="../symbols/ai__CONTEXT_SIZE.html">ai::CONTEXT_SIZE</a></td>
+  <td class="description">the context size to use with the model</td>
+</tr>
+<tr>
+  <td><a href="../symbols/ai__EXACT.html">ai::EXACT</a></td>
+  <td class="description">evaluate the result using the full context size (slow)</td>
+</tr>
+<tr>
+  <td><a href="../symbols/ai__LOG_LEVEL.html">ai::LOG_LEVEL</a></td>
+  <td class="description">the log level to use for the AI-server</td>
+</tr>
+<tr>
+  <td><a href="../symbols/ai__MAXIMUM_LENGTH.html">ai::MAXIMUM_LENGTH</a></td>
+  <td class="description">the maximum length of the generated text</td>
+</tr>
+<tr>
+  <td><a href="../symbols/ai__MINIMUM_CONFIDENCE.html">ai::MINIMUM_CONFIDENCE</a></td>
+  <td class="description">the minimum confidence for a token to be accepted</td>
+</tr>
+<tr>
+  <td><a href="../symbols/ai__MODEL_PATH.html">ai::MODEL_PATH</a></td>
+  <td class="description">the path to the model file</td>
+</tr>
+<tr>
+  <td><a href="../symbols/ai__SERVER_NAME.html">ai::SERVER_NAME</a></td>
+  <td class="description">the name of the AI-server</td>
+</tr>
+<tr>
+  <td><a href="../symbols/ai__SMART.html">ai::SMART</a></td>
+  <td class="description">evaluate the result using a context size that is as large as possible</td>
+</tr>
+<tr>
+  <td><a href="../symbols/ai__STOP.html">ai::STOP</a></td>
+  <td class="description">used to specify a stop text</td>
+</tr>
+<tr>
+  <td><a href="../symbols/ai__USE_COLOURS.html">ai::USE_COLOURS</a></td>
+  <td class="description">if true then use colours to display the confidence of the generated tokens</td>
+</tr>
+<tr>
+  <td><a href="../symbols/ai__VERBOSE.html">ai::VERBOSE</a></td>
+  <td class="description">if true then the text is printed to the console while generating</td>
+</tr>
+</table>
+<div class="footer">(defined in <a href="../source/ai/llama.fky">ai/llama.fky</a>)</div>
+</body>
+</html>

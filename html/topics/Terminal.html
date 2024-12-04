@@ -1,0 +1,419 @@
+<html>
+<head>
+<title>Terminal</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<div>
+<a class="Button" href="../index.html">Home</a> <a class="Button" href="../manual.html">Manual</a> <a class="Button" href="index.html">Topics</a> <a class="Button" href="../symbols/type_index.html">Types</a> <a class="Button" href="../symbols/function_index.html">Functions</a> <a class="Button" href="../symbols/objects_index.html">Objects</a> <a class="Button" href="../symbols/constants_index.html">Constants</a> <a class="Button" href="../symbols/index.html">All</a>
+</div>
+<h1>Terminal</h1>
+<h2>Description</h2>
+<p>The terminal library offers an interface for using text-terminals in a comfortable way.</p>
+<p>The base data type is the <a href="../symbols/std_types__screen.html">std_types::screen</a>, a rectangular array of characters and associated draw and clear colors.</p>
+<p>All coordinates are one-based.</p>
+<p>Each colour supports 256 shades of red, green and blue.</p>
+<p>To update the state of a <a href="../symbols/std_types__screen.html">std_types::screen</a> or std_types::terminal) no I/O-acccess rights are necessary.</p>
+<p>There are methods to set draw and clear colors, to draw text, lines or more complex shapes, to clear the screen or parts of it, to scroll the screen or copy arbitrary rectangular areas between screens ("blitting").</p>
+<p>Horizontal and vertical lines are drawn using the appropriate unicode graphics characters.</p>
+<p>Screens and terminals also support Unicode Emojis.</p>
+<p>The terminal library is somewhat similar to the curses library. It tries to update the contents of a terminal in a smart way.</p>
+<p>To start using the functions of this library one must first create a <a href="../symbols/std_types__terminal.html">std_types::terminal</a> object (see <a href="../symbols/std__create_terminal.html">std::create_terminal</a>) supplying the terminal's width and height. The current terminal size can be retrieved via the I/O-function <a href="../symbols/std__get_terminal_size.html">std::get_terminal_size</a>.</p>
+<p>As an alternative one can use the high-level function <a href="../symbols/std__initialize_terminal.html">std::initialize_terminal</a>. When using this function one gets automatic cleanup "for free".</p>
+<p><a href="../symbols/std_types__terminal.html">std_types::terminal</a> objects are an in-memory representation of the terminal's contents. To update the terminal's contents one must call the method <a href="../symbols/std_types__terminal/std__update.html">std_types::terminal/std::update</a> to create a character string representing the changes to the terminal's contents and then write this string to the terminal.</p>
+<h2>Related topics</h2>
+<table>
+<tr>
+  <td><a href="Input-Output.html">Input-Output</a></td>
+</tr>
+<tr>
+  <td><a href="Colours.html">Colours</a></td>
+</tr>
+</table>
+<h2>Example</h2>
+<div class="Example">&lt;require basic/stdlib&gt;
+&lt;require terminal/terminal&gt;
+
+<a href="../symbols/std__get_terminal_size.html">get_terminal_size</a>! <a href="../symbols/std__STDIN_FILENO.html">STDIN_FILENO</a> $width $height
+<a href="../symbols/std__create_terminal.html">create_terminal</a> $terminal width height
+<a href="../symbols/std__draw_text.html">draw_text</a> &terminal 10 5 "Hello, world!"
+<a href="../symbols/std__update_terminal.html">update_terminal</a> &terminal $output # create output character stream
+<a href="../symbols/std__print.html">print</a>! output # print the generated character stream
+</div>
+<h2>Example</h2>
+<div class="Example">&lt;require basic/stdlib&gt;
+&lt;require terminal/terminal&gt;
+
+<a href="../symbols/std__initialize_terminal.html">initialize_terminal</a>!: (terminal)
+  <a href="../symbols/std__draw_text.html">draw_text</a> &terminal 10 5 "Hello, world!"
+  <a href="../symbols/std__update_terminal.html">update_terminal</a> &terminal $output # create output character stream
+  <a href="../symbols/std__print.html">print</a>! output # print the generated character stream
+</div>
+<h2>Types</h2>
+<table>
+<tr>
+  <td><a href="../symbols/std_types__generic_terminal.html">std_types::generic_terminal</a></td>
+  <td class="description">the prototype object for all terminal types</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std_types__screen.html">std_types::screen</a></td>
+  <td class="description">the prototype object for all screens</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std_types__terminal.html">std_types::terminal</a></td>
+  <td class="description">the prototype object for terminals</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std_types__view.html">std_types::view</a></td>
+  <td class="description">the prototype object for views</td>
+</tr>
+</table>
+<h2>Functions</h2>
+<table>
+<tr>
+  <td><a href="../symbols/std__add_attributes.html">std::add_attributes</a></td>
+  <td class="description">adds draw and clear colours to a string</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__add_text_attributes.html">std::add_text_attributes</a></td>
+  <td class="description">adds text attributes</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__adjoin.html">std::adjoin</a></td>
+  <td class="description">joins screens horizontally</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__ascent_of.html">std::ascent_of</a></td>
+  <td class="description">the ascent of the font</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__baseline_of.html">std::baseline_of</a></td>
+  <td class="description">the baseline of the font</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__character_at.html">std::character_at</a></td>
+  <td class="description">returns the character at the specified position</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__character_height_of.html">std::character_height_of</a></td>
+  <td class="description">the character height</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__character_width_of.html">std::character_width_of</a></td>
+  <td class="description">the width of a character in pixels</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__clear.html">std::clear</a></td>
+  <td class="description">clears a rectangular area</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__clear_colour_at.html">std::clear_colour_at</a></td>
+  <td class="description">returns the clear colour of the character at the specified position</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__clear_colour_of.html">std::clear_colour_of</a></td>
+  <td class="description">the clear colour to use</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__copy.html">std::copy</a></td>
+  <td class="description">copies a rectangulay area from one screen to another</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__create_horizontal_panes.html">std::create_horizontal_panes</a></td>
+  <td class="description">creates a number of horizontal panes</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__create_screen.html">std::create_screen</a></td>
+  <td class="description">creates a new screen object.</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__create_terminal.html">std::create_terminal</a></td>
+  <td class="description">creates a new terminal object</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__create_text_screen.html">std::create_text_screen</a></td>
+  <td class="description">creates a new screen object from a string.</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__create_vertical_panes.html">std::create_vertical_panes</a></td>
+  <td class="description">creates a list of views that are arranged vertically</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__create_view.html">std::create_view</a></td>
+  <td class="description">creates a view on a terminal</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__cursor_x_of.html">std::cursor_x_of</a></td>
+  <td class="description">the x-coordinate of the cursor</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__cursor_y_of.html">std::cursor_y_of</a></td>
+  <td class="description">the y-coordinate of the cursor</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__descent_of.html">std::descent_of</a></td>
+  <td class="description">the descent of the font</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__draw_attributed_text.html">std::draw_attributed_text</a></td>
+  <td class="description">draws attributed text on a screen</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__draw_border.html">std::draw_border</a></td>
+  <td class="description">draws a border around a rectangular area</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__draw_character.html">std::draw_character</a></td>
+  <td class="description">draws a single character at the specified position on the screen.</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__draw_colour_at.html">std::draw_colour_at</a></td>
+  <td class="description">returns the draw colour of the character at the specified position</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__draw_colour_of.html">std::draw_colour_of</a></td>
+  <td class="description">the current draw colour</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__draw_line.html">std::draw_line</a></td>
+  <td class="description">draws a line on a screen</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__draw_shadow.html">std::draw_shadow</a></td>
+  <td class="description">draws a shadow</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__draw_text.html">std::draw_text</a></td>
+  <td class="description">draws text on a screen</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__draw_thick_border.html">std::draw_thick_border</a></td>
+  <td class="description">draws a thick border around a rectangular area</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__draw_thick_line.html">std::draw_thick_line</a></td>
+  <td class="description">draws a thick line</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__edit.html">std::edit</a></td>
+  <td class="description">edits a string</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__fill_trapezoid.html">std::fill_trapezoid</a></td>
+  <td class="description">draws a filled trapezoid (without borders)</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__get_character_at.html">std::get_character_at</a></td>
+  <td class="description">returns the character at the given coordinates.</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__get_mouse_reporting.html">std::get_mouse_reporting</a></td>
+  <td class="description">returns the current mouse reporting mode</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__get_next_rectangle.html">std::get_next_rectangle</a></td>
+  <td class="description">returns the next rectangle</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__get_previous_rectangle.html">std::get_previous_rectangle</a></td>
+  <td class="description">returns the previous rectangle</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__get_rectangle_at.html">std::get_rectangle_at</a></td>
+  <td class="description">returns the rectangle at the given position</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__get_rectangle_by_key.html">std::get_rectangle_by_key</a></td>
+  <td class="description">returns a rectangle by its key</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__has_a_visible_cursor.html">std::has_a_visible_cursor</a></td>
+  <td class="description">checks if the cursor is visible</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__initialize_terminal.html">std::initialize_terminal</a></td>
+  <td class="description">initializes a terminal</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__invert.html">std::invert</a></td>
+  <td class="description">inverts a rectangular area</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__line_height_of.html">std::line_height_of</a></td>
+  <td class="description">the line height of the terminal</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__line_spacing_of.html">std::line_spacing_of</a></td>
+  <td class="description">the line spacing of the object</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__move.html">std::move</a></td>
+  <td class="description">moves a rectangular area from one position to another within a screen</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__pad_bottom.html">std::pad_bottom</a></td>
+  <td class="description">pads a screen to the specified height</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__plot.html">std::plot</a></td>
+  <td class="description">plots a character at the given coordinates</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__plot_line.html">std::plot_line</a></td>
+  <td class="description">draws a line from a point to another point</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__plot_x_resolution_of.html">std::plot_x_resolution_of</a></td>
+  <td class="description">the plot resolution in the x-direction</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__plot_y_resolution_of.html">std::plot_y_resolution_of</a></td>
+  <td class="description">the plot y resolution</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__remove_text_attributes.html">std::remove_text_attributes</a></td>
+  <td class="description">removes text attributes</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__resize.html">std::resize</a></td>
+  <td class="description">resizes a terminal or screen object</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__scroll_down.html">std::scroll_down</a></td>
+  <td class="description">Scrolls the contents of a screen downwards.</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__scroll_left.html">std::scroll_left</a></td>
+  <td class="description">scrolls the contents of a screen to the left by a given number of</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__scroll_right.html">std::scroll_right</a></td>
+  <td class="description">Scrolls the contents of a screen to the right.</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__scroll_up.html">std::scroll_up</a></td>
+  <td class="description">Scrolls the contents of a screen upwards.</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__set_character_at.html">std::set_character_at</a></td>
+  <td class="description">sets the character at the given coordinates</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__set_clear_colour.html">std::set_clear_colour</a></td>
+  <td class="description">sets the clear colour of a terminal</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__set_clear_colour_at.html">std::set_clear_colour_at</a></td>
+  <td class="description">sets the clear colour of a character at a given position in a screen</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__set_draw_colour.html">std::set_draw_colour</a></td>
+  <td class="description">sets the draw colour</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__set_mouse_reporting.html">std::set_mouse_reporting</a></td>
+  <td class="description">sets the mouse reporting mode</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__set_text_attributes.html">std::set_text_attributes</a></td>
+  <td class="description">sets the text attributes of a terminal</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__switch_cursor_off.html">std::switch_cursor_off</a></td>
+  <td class="description">switches the cursor off</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__switch_cursor_on.html">std::switch_cursor_on</a></td>
+  <td class="description">switches the cursor on</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__text_attributes_of.html">std::text_attributes_of</a></td>
+  <td class="description">the text attributes to use</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__x_of.html">std::x_of</a></td>
+  <td class="description">the x-coordinate of the upper left corner</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__y_of.html">std::y_of</a></td>
+  <td class="description">the y-coordinate of the upper left corner</td>
+</tr>
+</table>
+<h2>Constants</h2>
+<table>
+<tr>
+  <td><a href="../symbols/std__CLICKS.html">std::CLICKS</a></td>
+  <td class="description">used to enable mouse reporting for clicks</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__CURSOR_OFF.html">std::CURSOR_OFF</a></td>
+  <td class="description">used to switch the cursor off</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__DISABLED.html">std::DISABLED</a></td>
+  <td class="description">disable mouse reporting</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__DRAG.html">std::DRAG</a></td>
+  <td class="description">used to enable mouse drag reporting</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__FILE_DESCRIPTOR.html">std::FILE_DESCRIPTOR</a></td>
+  <td class="description">used to specify a file descriptor</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__KEY_PRESS.html">std::KEY_PRESS</a></td>
+  <td class="description">used to identify a key press event</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__MAP_CR.html">std::MAP_CR</a></td>
+  <td class="description">used to specify that carriage returns should be mapped to line feeds</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__MOUSE_CLICK.html">std::MOUSE_CLICK</a></td>
+  <td class="description">the mouse click event</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__MOUSE_RELEASE.html">std::MOUSE_RELEASE</a></td>
+  <td class="description">the mouse release event</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__MOUSE_REPORTING.html">std::MOUSE_REPORTING</a></td>
+  <td class="description">used to specify mouse reporting</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__MOVE.html">std::MOVE</a></td>
+  <td class="description">the move mouse event</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__PASTE_STRING.html">std::PASTE_STRING</a></td>
+  <td class="description">the paste string event</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__RECEIVE_CTRL_C_AND_CTRL_Z.html">std::RECEIVE_CTRL_C_AND_CTRL_Z</a></td>
+  <td class="description">used to enable the generation of SIGINT and SIGTSTP signals</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__RECEIVE_CTRL_Q_AND_CTRL_S.html">std::RECEIVE_CTRL_Q_AND_CTRL_S</a></td>
+  <td class="description">used to enable the reception of CTRL-Q and CTRL-S</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__RECEIVE_SIGWINCH.html">std::RECEIVE_SIGWINCH</a></td>
+  <td class="description">used to enable the reception of the SIGWINCH signal</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__TEXT.html">std::TEXT</a></td>
+  <td class="description">used to specify a text screen</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__TEXT_ATTRIBUTES.html">std::TEXT_ATTRIBUTES</a></td>
+  <td class="description">text attributes used by the terminal library</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__TITLE.html">std::TITLE</a></td>
+  <td class="description">used to specify a title for a terminal</td>
+</tr>
+</table>
+<div class="footer">(defined in <a href="../source/terminal/terminal.fky">terminal/terminal.fky</a>)</div>
+</body>
+</html>

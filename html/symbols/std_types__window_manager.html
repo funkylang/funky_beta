@@ -1,0 +1,260 @@
+<html>
+<head>
+<title>std_types::window_manager</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<div>
+<a class="Button" href="../index.html">Home</a> <a class="Button" href="../manual.html">Manual</a> <a class="Button" href="../topics/index.html">Topics</a> <a class="Button" href="type_index.html">Types</a> <a class="Button" href="function_index.html">Functions</a> <a class="Button" href="objects_index.html">Objects</a> <a class="Button" href="constants_index.html">Constants</a> <a class="Button" href="index.html">All</a>
+</div>
+<h1 class="pre">std_types::window_manager</h1>
+<p class="short">the prototype object for window managers</p>
+<h2>Parameters</h2>
+<dl>
+<dt>terminal</dt>
+<dd>the terminal to use for the window manager</dd>
+</dl>
+<h2>Result</h2>
+<dl>
+<dt>window_manager</dt>
+<dd>the newly created window manager</dd>
+</dl>
+<h2>Topics</h2>
+<table>
+<tr><td><a href="../topics/Window_Manager.html">Window Manager</a></td></tr>
+</table>
+<h2>See also</h2>
+<table>
+<tr>
+  <td><a href="std__create_window_manager.html">std::create_window_manager</a></td>
+  <td class="description">creates a window manager</td>
+</tr>
+<tr>
+  <td><a href="std_types__window_manager/create_window.html">std_types::window_manager/create_window</a></td>
+  <td class="description">[missing]</td>
+</tr>
+</table>
+<h2>Example</h2>
+<div class="Example">$terminal <a href="std__create_terminal.html">std::create_terminal</a>
+$window_manager <a href="std__create_window_manager.html">std::create_window_manager</a> terminal
+<a href="std__println.html">println</a>! window_manager
+</div>
+<h2>Output</h2>
+<div class="Output">std_types::window_manager
+  .terminal_of terminal
+  .windows_of empty_list
+  .next_window_id_of 1
+</div>
+<h2>Methods</h2>
+<table>
+<tr>
+<td><a href="std_types__window_manager/std__close.html">std::close</a></td>
+<td class="description">closes a window</td>
+</tr>
+<tr>
+<td><a href="std_types__window_manager/std__create_dialog.html">std::create_dialog</a></td>
+<td class="description">creates a dialog window</td>
+</tr>
+<tr>
+<td><a href="std_types__window_manager/std__create_window.html">std::create_window</a></td>
+<td class="description">creates a new window</td>
+</tr>
+<tr>
+<td><a href="std_types__window_manager/std__enlarge.html">std::enlarge</a></td>
+<td class="description">enlarges the specified window</td>
+</tr>
+<tr>
+<td><a href="std_types__window_manager/std__focus_next_window.html">std::focus_next_window</a></td>
+<td class="description">focuses the next window</td>
+</tr>
+<tr>
+<td><a href="std_types__window_manager/std__focus_previous_window.html">std::focus_previous_window</a></td>
+<td class="description">focuses the previous window</td>
+</tr>
+<tr>
+<td><a href="std_types__window_manager/std__focus_window.html">std::focus_window</a></td>
+<td class="description">sets the focus to the specified window</td>
+</tr>
+<tr>
+<td><a href="std_types__window_manager/std__get_buttons.html">std::get_buttons</a></td>
+<td class="description">returns the additional buttons of the specified window</td>
+</tr>
+<tr>
+<td><a href="std_types__window_manager/std__get_content.html">std::get_content</a></td>
+<td class="description">returns the content of the specified window</td>
+</tr>
+<tr>
+<td><a href="std_types__window_manager/std__get_focused_window.html">std::get_focused_window</a></td>
+<td class="description">returns the currently focused window</td>
+</tr>
+<tr>
+<td><a href="std_types__window_manager/std__get_id.html">std::get_id</a></td>
+<td class="description">returns the id of the window manager</td>
+</tr>
+<tr>
+<td><a href="std_types__window_manager/std__get_inbounds_width.html">std::get_inbounds_width</a></td>
+<td class="description">returns the inbounds width of the window</td>
+</tr>
+<tr>
+<td><a href="std_types__window_manager/std__get_size.html">std::get_size</a></td>
+<td class="description">returns the size of the window manager</td>
+</tr>
+<tr>
+<td><a href="std_types__window_manager/std__get_title.html">std::get_title</a></td>
+<td class="description">returns the title of the specified window</td>
+</tr>
+<tr>
+<td><a href="std_types__window_manager/std__get_window_at.html">std::get_window_at</a></td>
+<td class="description">returns the window at the specified position</td>
+</tr>
+<tr>
+<td><a href="std_types__window_manager/std__get_xy.html">std::get_xy</a></td>
+<td class="description">returns the current cursor position</td>
+</tr>
+<tr>
+<td><a href="std_types__window_manager/std__goto_xy.html">std::goto_xy</a></td>
+<td class="description">moves the cursor to the specified position</td>
+</tr>
+<tr>
+<td><a href="std_types__window_manager/std__handle_event.html">std::handle_event</a></td>
+<td class="description">handles an event</td>
+</tr>
+<tr>
+<td><a href="std_types__window_manager/std__handle_window_event.html">std::handle_window_event</a></td>
+<td class="description">handles a window event</td>
+</tr>
+<tr>
+<td><a href="std_types__window_manager/std__height_of.html">std::height_of</a></td>
+<td class="description">the height of the window manager</td>
+</tr>
+<tr>
+<td><a href="std_types__window_manager/std__move_bottom.html">std::move_bottom</a></td>
+<td class="description">moves the content of the window to the bottom</td>
+</tr>
+<tr>
+<td><a href="std_types__window_manager/std__move_down.html">std::move_down</a></td>
+<td class="description">moves the window down</td>
+</tr>
+<tr>
+<td><a href="std_types__window_manager/std__move_end.html">std::move_end</a></td>
+<td class="description">moves the content of the window to the right end</td>
+</tr>
+<tr>
+<td><a href="std_types__window_manager/std__move_home.html">std::move_home</a></td>
+<td class="description">moves the first visible column to the leftmost column</td>
+</tr>
+<tr>
+<td><a href="std_types__window_manager/std__move_left.html">std::move_left</a></td>
+<td class="description">moves the leftmost visible column of the specified window one column to the</td>
+</tr>
+<tr>
+<td><a href="std_types__window_manager/std__move_page_down.html">std::move_page_down</a></td>
+<td class="description">moves the content of the window down by one page</td>
+</tr>
+<tr>
+<td><a href="std_types__window_manager/std__move_page_up.html">std::move_page_up</a></td>
+<td class="description">moves the content of the specified window one page up</td>
+</tr>
+<tr>
+<td><a href="std_types__window_manager/std__move_right.html">std::move_right</a></td>
+<td class="description">moves the content of the specified window to the right</td>
+</tr>
+<tr>
+<td><a href="std_types__window_manager/std__move_top.html">std::move_top</a></td>
+<td class="description">moves the content of the window to the top</td>
+</tr>
+<tr>
+<td><a href="std_types__window_manager/std__move_up.html">std::move_up</a></td>
+<td class="description">moves the window up</td>
+</tr>
+<tr>
+<td><a href="std_types__window_manager/std__move_window_down.html">std::move_window_down</a></td>
+<td class="description">moves the specified window down</td>
+</tr>
+<tr>
+<td><a href="std_types__window_manager/std__move_window_up.html">std::move_window_up</a></td>
+<td class="description">moves the specified window one position up</td>
+</tr>
+<tr>
+<td><a href="std_types__window_manager/std__needs_updating.html">std::needs_updating</a></td>
+<td class="description">checks if the window manager needs an update</td>
+</tr>
+<tr>
+<td><a href="std_types__window_manager/std__prepare_update.html">std::prepare_update</a></td>
+<td class="description">prepares the window manager for an update</td>
+</tr>
+<tr>
+<td><a href="std_types__window_manager/std__remove_message.html">std::remove_message</a></td>
+<td class="description">removes a message from the window manager</td>
+</tr>
+<tr>
+<td><a href="std_types__window_manager/std__resize.html">std::resize</a></td>
+<td class="description">resizes the window manager</td>
+</tr>
+<tr>
+<td><a href="std_types__window_manager/std__set_buttons.html">std::set_buttons</a></td>
+<td class="description">sets the buttons of a window</td>
+</tr>
+<tr>
+<td><a href="std_types__window_manager/std__set_content.html">std::set_content</a></td>
+<td class="description">sets the content of the specified window</td>
+</tr>
+<tr>
+<td><a href="std_types__window_manager/std__set_default_message.html">std::set_default_message</a></td>
+<td class="description">sets the default message</td>
+</tr>
+<tr>
+<td><a href="std_types__window_manager/std__set_inbounds_width.html">std::set_inbounds_width</a></td>
+<td class="description">sets the inbounds width of the window</td>
+</tr>
+<tr>
+<td><a href="std_types__window_manager/std__set_menu.html">std::set_menu</a></td>
+<td class="description">sets the menu bar</td>
+</tr>
+<tr>
+<td><a href="std_types__window_manager/std__set_selection.html">std::set_selection</a></td>
+<td class="description">sets the selection of the specified window</td>
+</tr>
+<tr>
+<td><a href="std_types__window_manager/std__set_status.html">std::set_status</a></td>
+<td class="description">sets the status line</td>
+</tr>
+<tr>
+<td><a href="std_types__window_manager/std__set_time.html">std::set_time</a></td>
+<td class="description">sets the current time</td>
+</tr>
+<tr>
+<td><a href="std_types__window_manager/std__set_title.html">std::set_title</a></td>
+<td class="description">sets the title of the specified window</td>
+</tr>
+<tr>
+<td><a href="std_types__window_manager/std__show_message.html">std::show_message</a></td>
+<td class="description">shows a message in the window manager's message area</td>
+</tr>
+<tr>
+<td><a href="std_types__window_manager/std__shrink.html">std::shrink</a></td>
+<td class="description">shrinks the specified window</td>
+</tr>
+<tr>
+<td><a href="std_types__window_manager/std__unset_selection.html">std::unset_selection</a></td>
+<td class="description">unsets the selection of the specified window</td>
+</tr>
+<tr>
+<td><a href="std_types__window_manager/std__update.html">std::update</a></td>
+<td class="description">updates the window manager</td>
+</tr>
+<tr>
+<td><a href="std_types__window_manager/std__width_of.html">std::width_of</a></td>
+<td class="description">the width of the window manager</td>
+</tr>
+<tr>
+<td><a href="std_types__window_manager/std__window_count_of.html">std::window_count_of</a></td>
+<td class="description">returns the number of windows</td>
+</tr>
+</table>
+<div class="footer">(defined in <a href="../source/terminal/window_manager.fky">terminal/window_manager.fky</a>)</div>
+<div class="footer">(generated by gemma-2-27b-it-Q5_K_M.gguf)</div>
+<div class="footer">(2024-07-08 18:15:24)</div>
+<div class="footer">(<a href="../prompts/symbols/std_types__window_manager.prompt">prompt</a>)</div>
+</body>
+</html>

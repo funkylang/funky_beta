@@ -1,0 +1,144 @@
+<html>
+<head>
+<title>std_types::screen/std::draw_character</title>
+<link rel="stylesheet" href="../../style.css">
+</head>
+<body>
+<div>
+<a class="Button" href="../../index.html">Home</a> <a class="Button" href="../../manual.html">Manual</a> <a class="Button" href="../../topics/index.html">Topics</a> <a class="Button" href="../type_index.html">Types</a> <a class="Button" href="../function_index.html">Functions</a> <a class="Button" href="../objects_index.html">Objects</a> <a class="Button" href="../constants_index.html">Constants</a> <a class="Button" href="../index.html">All</a>
+</div>
+<h1 class="pre">std_types::screen/std::draw_character</h1>
+<p class="short">draws a single character at the specified position</p>
+<h2>Parameters</h2>
+<dl>
+<dt>screen</dt>
+<dd>the screen to draw on</dd>
+<dt>x</dt>
+<dd>x-coordinate of the character</dd>
+<dt>y</dt>
+<dd>y-coordinate of the character</dd>
+<dt>chr</dt>
+<dd>the character to draw</dd>
+</dl>
+<h2>Result</h2>
+<dl>
+<dt>screen</dt>
+<dd>the updated screen</dd>
+</dl>
+<h2>Description</h2>
+<p>The character is drawn using the current draw colour.</p>
+<p>If the character is a wide character then the character is drawn using the wide character's first code point and the second code point is drawn using the current clear colour.</p>
+<p>If the character is outside the screen's borders then it is clipped.</p>
+<h2>Topic</h2>
+<table><tr><td><a href="../../topics/Terminal.html">Terminal</a></td></tr></table>
+<h2>See also</h2>
+<table>
+<tr>
+  <td><a href="std__draw_text.html">std_types::screen/std::draw_text</a></td>
+  <td class="description">draws text on the screen</td>
+</tr>
+<tr>
+  <td><a href="std__draw_attributed_text.html">std_types::screen/std::draw_attributed_text</a></td>
+  <td class="description">draws attributed text on the screen</td>
+</tr>
+<tr>
+  <td><a href="std__draw_line.html">std_types::screen/std::draw_line</a></td>
+  <td class="description">draws a line between two points</td>
+</tr>
+<tr>
+  <td><a href="std__draw_rectangle.html">std_types::screen/std::draw_rectangle</a></td>
+  <td class="description">[missing]</td>
+</tr>
+<tr>
+  <td><a href="std__plot.html">std_types::screen/std::plot</a></td>
+  <td class="description">plots a single character at the specified coordinates</td>
+</tr>
+<tr>
+  <td><a href="std__plot_line.html">std_types::screen/std::plot_line</a></td>
+  <td class="description">draws a line from a point to another point</td>
+</tr>
+<tr>
+  <td><a href="std__fill_trapezoid.html">std_types::screen/std::fill_trapezoid</a></td>
+  <td class="description">draws a filled trapezoid (without borders)</td>
+</tr>
+<tr>
+  <td><a href="std__set_draw_colour.html">std_types::screen/std::set_draw_colour</a></td>
+  <td class="description">sets the draw colour of the screen</td>
+</tr>
+<tr>
+  <td><a href="std__set_clear_colour.html">std_types::screen/std::set_clear_colour</a></td>
+  <td class="description">sets the clear colour of the screen</td>
+</tr>
+<tr>
+  <td><a href="std__set_cursor.html">std_types::screen/std::set_cursor</a></td>
+  <td class="description">sets the cursor position</td>
+</tr>
+<tr>
+  <td><a href="std__set_character_at.html">std_types::screen/std::set_character_at</a></td>
+  <td class="description">sets the character at the specified position</td>
+</tr>
+<tr>
+  <td><a href="std__get_character_at.html">std_types::screen/std::get_character_at</a></td>
+  <td class="description">returns the character at the specified position</td>
+</tr>
+<tr>
+  <td><a href="std__set_draw_colour_at.html">std_types::screen/std::set_draw_colour_at</a></td>
+  <td class="description">sets the draw colour at the specified position</td>
+</tr>
+<tr>
+  <td><a href="std__get_draw_colour_at.html">std_types::screen/std::get_draw_colour_at</a></td>
+  <td class="description">returns the draw colour at the specified position</td>
+</tr>
+<tr>
+  <td><a href="std__set_clear_colour_at.html">std_types::screen/std::set_clear_colour_at</a></td>
+  <td class="description">sets the clear colour at the specified position</td>
+</tr>
+<tr>
+  <td><a href="std__get_clear_colour_at.html">std_types::screen/std::get_clear_colour_at</a></td>
+  <td class="description">returns the clear colour at the specified position</td>
+</tr>
+<tr>
+  <td><a href="std__clear.html">std_types::screen/std::clear</a></td>
+  <td class="description">clears the specified rectangular area</td>
+</tr>
+<tr>
+  <td><a href="std__copy.html">std_types::screen/std::copy</a></td>
+  <td class="description">copies a rectangular area from one screen to another</td>
+</tr>
+<tr>
+  <td><a href="std__scroll_left.html">std_types::screen/std::scroll_left</a></td>
+  <td class="description">scrolls the screen to the left</td>
+</tr>
+<tr>
+  <td><a href="std__scroll_right.html">std_types::screen/std::scroll_right</a></td>
+  <td class="description">scrolls the screen to the right</td>
+</tr>
+<tr>
+  <td><a href="std__scroll_up.html">std_types::screen/std::scroll_up</a></td>
+  <td class="description">scrolls the screen up</td>
+</tr>
+<tr>
+  <td><a href="std__scroll_down.html">std_types::screen/std::scroll_down</a></td>
+  <td class="description">scrolls the screen down</td>
+</tr>
+</table>
+<h2>Base Object</h2>
+<table>
+<tr>
+<td><a href="../std_types__screen.html">std_types::screen</a></td>
+<td class="description">the prototype object for all screens</td>
+</tr>
+</table>
+<h2>Implements</h2>
+<table>
+<tr>
+<td><a href="../std__draw_character.html">std::draw_character</a></td>
+<td class="description">draws a single character at the specified position on the screen.</td>
+</tr>
+</table>
+<div class="footer">(defined in <a href="../../source/terminal/terminal.fky">terminal/terminal.fky</a>)</div>
+<div class="footer">(generated by Codestral-22B-v0.1-Q5_K_M.gguf)</div>
+<div class="footer">(2024-07-03 9:32:40)</div>
+<div class="footer">(<a href="../../prompts/symbols/std_types__screen/std__draw_character.prompt">prompt</a>)</div>
+</body>
+</html>

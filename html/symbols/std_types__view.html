@@ -1,0 +1,220 @@
+<html>
+<head>
+<title>std_types::view</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<div>
+<a class="Button" href="../index.html">Home</a> <a class="Button" href="../manual.html">Manual</a> <a class="Button" href="../topics/index.html">Topics</a> <a class="Button" href="type_index.html">Types</a> <a class="Button" href="function_index.html">Functions</a> <a class="Button" href="objects_index.html">Objects</a> <a class="Button" href="constants_index.html">Constants</a> <a class="Button" href="index.html">All</a>
+</div>
+<h1 class="pre">std_types::view</h1>
+<p class="short">the prototype object for views</p>
+<h2>Parameters</h2>
+<dl>
+<dt>screen</dt>
+<dd>the screen to use for drawing</dd>
+<dt>x</dt>
+<dd>the x-coordinate of the upper left corner of the view</dd>
+<dt>y</dt>
+<dd>the y-coordinate of the upper left corner of the view</dd>
+<dt>width</dt>
+<dd>the width of the view</dd>
+<dt>height</dt>
+<dd>the height of the view</dd>
+</dl>
+<h2>Result</h2>
+<dl>
+<dt>view</dt>
+<dd>the created view</dd>
+</dl>
+<h2>Description</h2>
+<p>This object is never used directly but cloned to create a new view.</p>
+<h2>Topics</h2>
+<table>
+<tr><td><a href="../topics/Terminal.html">Terminal</a></td></tr>
+</table>
+<h2>See also</h2>
+<table>
+<tr>
+  <td><a href="std__create_view.html">std::create_view</a></td>
+  <td class="description">creates a view on a terminal</td>
+</tr>
+</table>
+<h2>Example</h2>
+<div class="Example">$screen <a href="std__create_terminal.html">create_terminal</a>
+$view <a href="std__create_view.html">create_view</a>(&screen 2 2 10 5)
+<a href="std__draw_text.html">draw_text</a> &view 2 2 "Hello World!"
+</div>
+<h2>Output</h2>
+<div class="Output">+----------+
+|          |
+|  Hello   |
+|  World!  |
+|          |
++----------+
+</div>
+<h2>Methods</h2>
+<table>
+<tr>
+<td><a href="std_types__generic_terminal/std__add_text_attributes.html">std::add_text_attributes</a></td>
+<td class="description">Adds the specified attributes to the current text attributes of the</td>
+</tr>
+<tr>
+<td><a href="std_types__generic_terminal/std__ascent_of.html">std::ascent_of</a></td>
+<td class="description">the ascent of the terminal</td>
+</tr>
+<tr>
+<td><a href="std_types__generic_terminal/std__baseline_of.html">std::baseline_of</a></td>
+<td class="description">the baseline of the terminal</td>
+</tr>
+<tr>
+<td><a href="std_types__generic_terminal/std__character_height_of.html">std::character_height_of</a></td>
+<td class="description">the character height of the terminal</td>
+</tr>
+<tr>
+<td><a href="std_types__generic_terminal/std__character_width_of.html">std::character_width_of</a></td>
+<td class="description">the width of a character in pixels</td>
+</tr>
+<tr>
+<td><a href="std_types__view/std__clear.html">std::clear</a></td>
+<td class="description">clears the specified rectangular area</td>
+</tr>
+<tr>
+<td><a href="std_types__generic_terminal/std__clear_colour_of.html">std::clear_colour_of</a></td>
+<td class="description">returns the clear colour of the specified object</td>
+</tr>
+<tr>
+<td><a href="std_types__view/std__copy.html">std::copy</a></td>
+<td class="description">Copies a rectangular area from one screen to another.</td>
+</tr>
+<tr>
+<td><a href="std_types__generic_terminal/std__descent_of.html">std::descent_of</a></td>
+<td class="description">the descent of the terminal</td>
+</tr>
+<tr>
+<td><a href="std_types__resource/std__disable_logging.html">std::disable_logging</a></td>
+<td class="description">disables logging for the resource</td>
+</tr>
+<tr>
+<td><a href="std_types__resource/std__do_log_of.html">std::do_log_of</a></td>
+<td class="description">if true then the resource logs all events</td>
+</tr>
+<tr>
+<td><a href="std_types__view/std__draw_attributed_text.html">std::draw_attributed_text</a></td>
+<td class="description">draws attributed text at the specified position</td>
+</tr>
+<tr>
+<td><a href="std_types__generic_terminal/std__draw_colour_of.html">std::draw_colour_of</a></td>
+<td class="description">returns the draw colour of the specified object</td>
+</tr>
+<tr>
+<td><a href="std_types__view/std__draw_shadow.html">std::draw_shadow</a></td>
+<td class="description">draws a shadow around the specified rectangular area</td>
+</tr>
+<tr>
+<td><a href="std_types__view/std__draw_text.html">std::draw_text</a></td>
+<td class="description">draws text at the specified position</td>
+</tr>
+<tr>
+<td><a href="std_types__resource/std__enable_logging.html">std::enable_logging</a></td>
+<td class="description">enables logging for the resource</td>
+</tr>
+<tr>
+<td><a href="std_types__view/std__get_character_at.html">std::get_character_at</a></td>
+<td class="description">returns the character at the specified position</td>
+</tr>
+<tr>
+<td><a href="std_types__view/std__get_clear_colour_at.html">std::get_clear_colour_at</a></td>
+<td class="description">returns the clear colour of the specified character</td>
+</tr>
+<tr>
+<td><a href="std_types__view/std__get_draw_colour_at.html">std::get_draw_colour_at</a></td>
+<td class="description">returns the draw colour at the specified position</td>
+</tr>
+<tr>
+<td><a href="std_types__generic_terminal/std__height_of.html">std::height_of</a></td>
+<td class="description">the height of the terminal</td>
+</tr>
+<tr>
+<td><a href="std_types__view/std__invert.html">std::invert</a></td>
+<td class="description">inverts the colours of the specified rectangular area within the view</td>
+</tr>
+<tr>
+<td><a href="std_types__generic_terminal/std__line_height_of.html">std::line_height_of</a></td>
+<td class="description">the line height of the terminal</td>
+</tr>
+<tr>
+<td><a href="std_types__generic_terminal/std__line_spacing_of.html">std::line_spacing_of</a></td>
+<td class="description">the line spacing of the terminal</td>
+</tr>
+<tr>
+<td><a href="std_types__resource/std__name_of.html">std::name_of</a></td>
+<td class="description">the name of the resource</td>
+</tr>
+<tr>
+<td><a href="std_types__generic_terminal/std__plot_x_resolution_of.html">std::plot_x_resolution_of</a></td>
+<td class="description">the plot x-resolution of the terminal</td>
+</tr>
+<tr>
+<td><a href="std_types__generic_terminal/std__plot_y_resolution_of.html">std::plot_y_resolution_of</a></td>
+<td class="description">the number of plot units per screen unit in y-direction</td>
+</tr>
+<tr>
+<td><a href="std_types__generic_terminal/std__remove_text_attributes.html">std::remove_text_attributes</a></td>
+<td class="description">removes text attributes from the terminal</td>
+</tr>
+<tr>
+<td><a href="std_types__view/std__set_character_at.html">std::set_character_at</a></td>
+<td class="description">sets the character at the specified position</td>
+</tr>
+<tr>
+<td><a href="std_types__generic_terminal/std__set_clear_colour.html">std::set_clear_colour</a></td>
+<td class="description">sets the clear colour of the terminal</td>
+</tr>
+<tr>
+<td><a href="std_types__view/std__set_clear_colour_at.html">std::set_clear_colour_at</a></td>
+<td class="description">sets the clear colour of the specified character</td>
+</tr>
+<tr>
+<td><a href="std_types__view/std__set_cursor.html">std::set_cursor</a></td>
+<td class="description">sets the cursor position</td>
+</tr>
+<tr>
+<td><a href="std_types__generic_terminal/std__set_draw_colour.html">std::set_draw_colour</a></td>
+<td class="description">sets the draw colour of the terminal</td>
+</tr>
+<tr>
+<td><a href="std_types__view/std__set_draw_colour_at.html">std::set_draw_colour_at</a></td>
+<td class="description">sets the draw colour at the specified position</td>
+</tr>
+<tr>
+<td><a href="std_types__generic_terminal/std__set_text_attributes.html">std::set_text_attributes</a></td>
+<td class="description">sets the text attributes for the terminal</td>
+</tr>
+<tr>
+<td><a href="std_types__generic_terminal/std__text_attributes_of.html">std::text_attributes_of</a></td>
+<td class="description">returns the text attributes of the specified object</td>
+</tr>
+<tr>
+<td><a href="std_types__generic_terminal/std__type_of.html">std::type_of</a></td>
+<td class="description">returns the type of the terminal</td>
+</tr>
+<tr>
+<td><a href="std_types__generic_terminal/std__width_of.html">std::width_of</a></td>
+<td class="description">the width of the terminal in characters</td>
+</tr>
+<tr>
+<td><a href="std_types__generic_terminal/std__x_of.html">std::x_of</a></td>
+<td class="description">the x-coordinate of the top-left corner of the terminal</td>
+</tr>
+<tr>
+<td><a href="std_types__generic_terminal/std__y_of.html">std::y_of</a></td>
+<td class="description">the y-coordinate of the terminal</td>
+</tr>
+</table>
+<div class="footer">(defined in <a href="../source/basic/io/generic_terminal.fky">basic/io/generic_terminal.fky</a>)</div>
+<div class="footer">(generated by Codestral-22B-v0.1-Q5_K_M.gguf)</div>
+<div class="footer">(2024-07-02 20:12:32)</div>
+<div class="footer">(<a href="../prompts/symbols/std_types__view.prompt">prompt</a>)</div>
+</body>
+</html>

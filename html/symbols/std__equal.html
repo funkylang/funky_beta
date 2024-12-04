@@ -1,0 +1,189 @@
+<html>
+<head>
+<title>std::equal</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<div>
+<a class="Button" href="../index.html">Home</a> <a class="Button" href="../manual.html">Manual</a> <a class="Button" href="../topics/index.html">Topics</a> <a class="Button" href="type_index.html">Types</a> <a class="Button" href="function_index.html">Functions</a> <a class="Button" href="objects_index.html">Objects</a> <a class="Button" href="constants_index.html">Constants</a> <a class="Button" href="index.html">All</a>
+</div>
+<h1 class="pre">std::equal</h1>
+<p class="short">compares two objects for equality</p>
+<h2>Parameters</h2>
+<dl>
+<dt>left</dt>
+<dd>the left operand</dd>
+<dt>right</dt>
+<dd>the right operand</dd>
+</dl>
+<h2>Result</h2>
+<dl>
+<dt>equal</dt>
+<dd>true if left and right are equal, false otherwise</dd>
+</dl>
+<h2>Description</h2>
+<p>Two objects are equal if the equal function says so ... ^^</p>
+<p>Two identical objects should always be equal.</p>
+<p><a href="std__undefined.html">std::undefined</a> should only be equal to itself and to no other object.</p>
+<p>There is no separate function to test non-equality.</p>
+<p><i>a</i> != <i>b</i></p>
+<p>is converted by the compiler to</p>
+<p><a href="std__not.html">std::not</a>(<a href="std__equal.html">std::equal</a>(<i>a</i> <i>b</i>))</p>
+<h2>Topic</h2>
+<table><tr><td><a href="../topics/Objects.html">Objects</a></td></tr></table>
+<h2>See also</h2>
+<table>
+<tr>
+  <td><a href="std__less.html">std::less</a></td>
+  <td class="description">compares two objects in an object specific way</td>
+</tr>
+</table>
+<h2>Example</h2>
+<div class="Example"><a href="std__dump.html">dump</a>! `(4.0 == 4.0)
+</div>
+<h2>Output</h2>
+<div class="Output">(4.0 == 4.0): &lt;true&gt;
+</div>
+<h2>Example</h2>
+<div class="Example"><a href="std__dump.html">dump</a>! `(4.0 == 4)
+</div>
+<h2>Output</h2>
+<div class="Output">(4.0 == 4): &lt;true&gt;
+</div>
+<h2>Implementations</h2>
+<table>
+<tr>
+<td><a href="std_types__boolean_array/std__equal.html">std_types::boolean_array</a></td>
+<td class="description">implements the <i>equal</i> operation</td>
+</tr>
+<tr>
+<td><a href="std_types__character/std__equal.html">std_types::character</a></td>
+<td class="description">compares two characters for equality</td>
+</tr>
+<tr>
+<td><a href="std_types__character_array/std__equal.html">std_types::character_array</a></td>
+<td class="description">implements the <i>equal</i> operation</td>
+</tr>
+<tr>
+<td><a href="std_types__date_and_time/std__equal.html">std_types::date_and_time</a></td>
+<td class="description">compares two date-and-time objects for equality</td>
+</tr>
+<tr>
+<td><a href="std_types__device_id/std__equal.html">std_types::device_id</a></td>
+<td class="description">implements the equal operation for device ids</td>
+</tr>
+<tr>
+<td><a href="std_types__directory/std__equal.html">std_types::directory</a></td>
+<td class="description">compares two directories for equality</td>
+</tr>
+<tr>
+<td><a href="std_types__error_number/std__equal.html">std_types::error_number</a></td>
+<td class="description">implements the equal operation for error numbers</td>
+</tr>
+<tr>
+<td><a href="std_types__false/std__equal.html">std_types::false</a></td>
+<td class="description">is only equal to itself</td>
+</tr>
+<tr>
+<td><a href="std_types__file_descriptor/std__equal.html">std_types::file_descriptor</a></td>
+<td class="description">compares two file descriptors for equality</td>
+</tr>
+<tr>
+<td><a href="std_types__file_type/std__equal.html">std_types::file_type</a></td>
+<td class="description">compares two file types for equality</td>
+</tr>
+<tr>
+<td><a href="std_types__float32_array/std__equal.html">std_types::float32_array</a></td>
+<td class="description">implements the <i>equal</i> operation for float32 arrays</td>
+</tr>
+<tr>
+<td><a href="std_types__float64_array/std__equal.html">std_types::float64_array</a></td>
+<td class="description">implements the <i>equal</i> operation</td>
+</tr>
+<tr>
+<td><a href="std_types__group_id/std__equal.html">std_types::group_id</a></td>
+<td class="description">compares two group ids for equality</td>
+</tr>
+<tr>
+<td><a href="std_types__inode_number/std__equal.html">std_types::inode_number</a></td>
+<td class="description">implements the equal operation for inode numbers</td>
+</tr>
+<tr>
+<td><a href="std_types__int16_array/std__equal.html">std_types::int16_array</a></td>
+<td class="description">implements the <i>equal</i> operation</td>
+</tr>
+<tr>
+<td><a href="std_types__int32_array/std__equal.html">std_types::int32_array</a></td>
+<td class="description">implements the <i>equal</i> operation</td>
+</tr>
+<tr>
+<td><a href="std_types__int64_array/std__equal.html">std_types::int64_array</a></td>
+<td class="description">implements the <i>equal</i> operation</td>
+</tr>
+<tr>
+<td><a href="std_types__int8_array/std__equal.html">std_types::int8_array</a></td>
+<td class="description">implements the <i>equal</i> operation</td>
+</tr>
+<tr>
+<td><a href="std_types__octet_string/std__equal.html">std_types::octet_string</a></td>
+<td class="description">returns <a href="std__true.html">std::true</a> if both strings have the same contents</td>
+</tr>
+<tr>
+<td><a href="std_types__process_id/std__equal.html">std_types::process_id</a></td>
+<td class="description">compares two process ids for equality</td>
+</tr>
+<tr>
+<td><a href="std_types__real/std__equal.html">std_types::real</a></td>
+<td class="description">implements the <i>equal</i> operation for real numbers</td>
+</tr>
+<tr>
+<td><a href="std_types__seek_type/std__equal.html">std_types::seek_type</a></td>
+<td class="description">implements the equal operation for seek types</td>
+</tr>
+<tr>
+<td><a href="std_types__shutdown_type/std__equal.html">std_types::shutdown_type</a></td>
+<td class="description">implements the equal operation for shutdown types</td>
+</tr>
+<tr>
+<td><a href="std_types__true/std__equal.html">std_types::true</a></td>
+<td class="description">is only equal to itself</td>
+</tr>
+<tr>
+<td><a href="std_types__uint16_array/std__equal.html">std_types::uint16_array</a></td>
+<td class="description">implements the <i>equal</i> operation</td>
+</tr>
+<tr>
+<td><a href="std_types__uint32_array/std__equal.html">std_types::uint32_array</a></td>
+<td class="description">implements the <i>equal</i> operation for unsigned 32-bit arrays</td>
+</tr>
+<tr>
+<td><a href="std_types__uint64_array/std__equal.html">std_types::uint64_array</a></td>
+<td class="description">implements the <i>equal</i> operation for unsigned 64-bit arrays</td>
+</tr>
+<tr>
+<td><a href="std_types__uint8_array/std__equal.html">std_types::uint8_array</a></td>
+<td class="description">implements the <i>equal</i> operation</td>
+</tr>
+<tr>
+<td><a href="std_types__undefined/std__equal.html">std_types::undefined</a></td>
+<td class="description">is only equal to itself</td>
+</tr>
+<tr>
+<td><a href="std_types__unique_item/std__equal.html">std_types::unique_item</a></td>
+<td class="description">compares two unique items for equality</td>
+</tr>
+<tr>
+<td><a href="std_types__user_id/std__equal.html">std_types::user_id</a></td>
+<td class="description">implements the equal operation for user ids</td>
+</tr>
+<tr>
+<td><a href="std_types__wide_string/std__equal.html">std_types::wide_string</a></td>
+<td class="description">returns <a href="std__true.html">std::true</a> if both strings have the same contents</td>
+</tr>
+</table>
+<div class="footer">(defined in <a href="../source/runtime_templates/aaa.template">runtime_templates/aaa.template</a>)</div>
+<div class="footer">(generated by Codestral-22B-v0.1-Q5_K_M.gguf)</div>
+<div class="footer">(2024-07-03 17:09:37)</div>
+<div class="footer">(<a href="../prompts/symbols/std__equal.prompt">prompt</a>)</div>
+</body>
+</html>

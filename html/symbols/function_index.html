@@ -1,0 +1,2458 @@
+<html>
+<head>
+<title>Functions</title>
+<link rel="stylesheet" href="../style.css"/>
+</head>
+<body>
+<div>
+<a class="Button" href="../index.html">Home</a> <a class="Button" href="../manual.html">Manual</a> <a class="Button" href="../topics/index.html">Topics</a> <a class="Button" href="type_index.html">Types</a> <a class="Button" href="function_index.html">Functions</a> <a class="Button" href="objects_index.html">Objects</a> <a class="Button" href="constants_index.html">Constants</a> <a class="Button" href="index.html">All</a>
+</div>
+<h1>Functions</h1>
+<table>
+<tr>
+<td><a href="ai__answer_token_of.html">ai::answer_token_of</a></td>
+<td class="description">returns the answer token of the model</td>
+</tr>
+<tr>
+<td><a href="ai__begin_of_stream_token_of.html">ai::begin_of_stream_token_of</a></td>
+<td class="description">returns the begin-of-stream token of the model</td>
+</tr>
+<tr>
+<td><a href="ai__cached_prefix.html">ai::cached_prefix</a></td>
+<td class="description">returns the cached prefix of a text</td>
+</tr>
+<tr>
+<td><a href="ai__classsification_token_of.html">ai::classsification_token_of</a></td>
+<td class="description">returns the classification token of the model</td>
+</tr>
+<tr>
+<td><a href="ai__connect_to_ai_server.html">ai::connect_to_ai_server</a></td>
+<td class="description">connects to an AI-server</td>
+</tr>
+<tr>
+<td><a href="ai__context_size_of.html">ai::context_size_of</a></td>
+<td class="description">the context size to effectively use with the model</td>
+</tr>
+<tr>
+<td><a href="ai__deregister.html">ai::deregister</a></td>
+<td class="description">deregisters from an AI server</td>
+</tr>
+<tr>
+<td><a href="ai__detokenize.html">ai::detokenize</a></td>
+<td class="description">detokenizes a token or a list of tokens</td>
+</tr>
+<tr>
+<td><a href="ai__effective_context_size_of.html">ai::effective_context_size_of</a></td>
+<td class="description">Returns the effective context size to use with the model.</td>
+</tr>
+<tr>
+<td><a href="ai__end_of_stream_token_of.html">ai::end_of_stream_token_of</a></td>
+<td class="description">returns the token that marks the end of a stream</td>
+</tr>
+<tr>
+<td><a href="ai__end_of_text_token_of.html">ai::end_of_text_token_of</a></td>
+<td class="description">returns the token that marks the end of text</td>
+</tr>
+<tr>
+<td><a href="ai__escaped_piece.html">ai::escaped_piece</a></td>
+<td class="description">escapes a piece</td>
+</tr>
+<tr>
+<td><a href="ai__escaped_token.html">ai::escaped_token</a></td>
+<td class="description">escapes a token</td>
+</tr>
+<tr>
+<td><a href="ai__evaluate.html">ai::evaluate</a></td>
+<td class="description">evaluates a prompt using a loaded AI model</td>
+</tr>
+<tr>
+<td><a href="ai__generate.html">ai::generate</a></td>
+<td class="description">generates text from a prompt</td>
+</tr>
+<tr>
+<td><a href="ai__load_ai_model.html">ai::load_ai_model</a></td>
+<td class="description">loads an AI model</td>
+</tr>
+<tr>
+<td><a href="ai__maximum_piece_length_of.html">ai::maximum_piece_length_of</a></td>
+<td class="description">returns the maximum length of a piece</td>
+</tr>
+<tr>
+<td><a href="ai__middle_token_of.html">ai::middle_token_of</a></td>
+<td class="description">returns the middle token of the model</td>
+</tr>
+<tr>
+<td><a href="ai__newline_token_of.html">ai::newline_token_of</a></td>
+<td class="description">returns the token representing a newline character</td>
+</tr>
+<tr>
+<td><a href="ai__piece_table_of.html">ai::piece_table_of</a></td>
+<td class="description">returns a hash table containing the mapping between pieces and tokens</td>
+</tr>
+<tr>
+<td><a href="ai__pieces_of.html">ai::pieces_of</a></td>
+<td class="description">returns a list of all pieces (tokens) known to the AI model.</td>
+</tr>
+<tr>
+<td><a href="ai__prefix_token_of.html">ai::prefix_token_of</a></td>
+<td class="description">returns the prefix token of the model</td>
+</tr>
+<tr>
+<td><a href="ai__question_token_of.html">ai::question_token_of</a></td>
+<td class="description">returns the question token of the model</td>
+</tr>
+<tr>
+<td><a href="ai__separator_token_of.html">ai::separator_token_of</a></td>
+<td class="description">returns the separator token of the model</td>
+</tr>
+<tr>
+<td><a href="ai__space_token_of.html">ai::space_token_of</a></td>
+<td class="description">returns the token representing a space character</td>
+</tr>
+<tr>
+<td><a href="ai__start_ai_server.html">ai::start_ai_server</a></td>
+<td class="description">starts an AI-server</td>
+</tr>
+<tr>
+<td><a href="ai__suffix_token_of.html">ai::suffix_token_of</a></td>
+<td class="description">returns the suffix token of the model</td>
+</tr>
+<tr>
+<td><a href="ai__tokenize.html">ai::tokenize</a></td>
+<td class="description">tokenizes a text string</td>
+</tr>
+<tr>
+<td><a href="debug__dump.html">debug::dump</a></td>
+<td class="description">writes a string representation of an object to stderr</td>
+</tr>
+<tr>
+<td><a href="debug__dump_one.html">debug::dump_one</a></td>
+<td class="description">dumps the contents of a single object</td>
+</tr>
+<tr>
+<td><a href="debug__print.html">debug::print</a></td>
+<td class="description">writes the given string to stderr</td>
+</tr>
+<tr>
+<td><a href="debug__println.html">debug::println</a></td>
+<td class="description">writes the given string and a newline character to stderr</td>
+</tr>
+<tr>
+<td><a href="debug__to_string.html">debug::to_string</a></td>
+<td class="description">converts an object to a string</td>
+</tr>
+<tr>
+<td><a href="html__A.html">html::A</a></td>
+<td class="description">creates an HTML "a"-tag</td>
+</tr>
+<tr>
+<td><a href="html__B.html">html::B</a></td>
+<td class="description">creates a bold HTML tag</td>
+</tr>
+<tr>
+<td><a href="html__BODY.html">html::BODY</a></td>
+<td class="description">creates a HTML body</td>
+</tr>
+<tr>
+<td><a href="html__DD.html">html::DD</a></td>
+<td class="description">creates a <a href="std__dd.html">std::dd</a>-tag</td>
+</tr>
+<tr>
+<td><a href="html__DIV.html">html::DIV</a></td>
+<td class="description">creates a DIV-tag</td>
+</tr>
+<tr>
+<td><a href="html__DL.html">html::DL</a></td>
+<td class="description">creates a HTML description list</td>
+</tr>
+<tr>
+<td><a href="html__DT.html">html::DT</a></td>
+<td class="description">creates a definition term</td>
+</tr>
+<tr>
+<td><a href="html__FOR_EACH.html">html::FOR_EACH</a></td>
+<td class="description">iterates over a collection and calls a function for each item</td>
+</tr>
+<tr>
+<td><a href="html__FROM_TO.html">html::FROM_TO</a></td>
+<td class="description">generates a string by calling a function for each index in a range</td>
+</tr>
+<tr>
+<td><a href="html__GROUP.html">html::GROUP</a></td>
+<td class="description">groups multiple items into a single item</td>
+</tr>
+<tr>
+<td><a href="html__H1.html">html::H1</a></td>
+<td class="description">creates a HTML H1-tag</td>
+</tr>
+<tr>
+<td><a href="html__H2.html">html::H2</a></td>
+<td class="description">creates an HTML "h2"-tag</td>
+</tr>
+<tr>
+<td><a href="html__H3.html">html::H3</a></td>
+<td class="description">creates an HTML h3-tag</td>
+</tr>
+<tr>
+<td><a href="html__H4.html">html::H4</a></td>
+<td class="description">creates a HTML-H4-tag</td>
+</tr>
+<tr>
+<td><a href="html__H5.html">html::H5</a></td>
+<td class="description">creates an HTML "h5"-tag</td>
+</tr>
+<tr>
+<td><a href="html__H6.html">html::H6</a></td>
+<td class="description">creates a HTML-H6-tag</td>
+</tr>
+<tr>
+<td><a href="html__HEAD.html">html::HEAD</a></td>
+<td class="description">creates a HTML head</td>
+</tr>
+<tr>
+<td><a href="html__HTML.html">html::HTML</a></td>
+<td class="description">generates an HTML document</td>
+</tr>
+<tr>
+<td><a href="html__I.html">html::I</a></td>
+<td class="description">creates an HTML "i"-tag</td>
+</tr>
+<tr>
+<td><a href="html__LINK.html">html::LINK</a></td>
+<td class="description">creates a link element</td>
+</tr>
+<tr>
+<td><a href="html__P.html">html::P</a></td>
+<td class="description">creates a paragraph</td>
+</tr>
+<tr>
+<td><a href="html__PRE.html">html::PRE</a></td>
+<td class="description">creates a <a href="std__pre.html">std::pre</a>-tag</td>
+</tr>
+<tr>
+<td><a href="html__SPAN.html">html::SPAN</a></td>
+<td class="description">creates a span-element</td>
+</tr>
+<tr>
+<td><a href="html__STYLE.html">html::STYLE</a></td>
+<td class="description">creates a style-tag</td>
+</tr>
+<tr>
+<td><a href="html__TABLE.html">html::TABLE</a></td>
+<td class="description">creates a HTML table</td>
+</tr>
+<tr>
+<td><a href="html__TBODY.html">html::TBODY</a></td>
+<td class="description">creates a "tbody"-tag</td>
+</tr>
+<tr>
+<td><a href="html__TD.html">html::TD</a></td>
+<td class="description">creates a table data cell</td>
+</tr>
+<tr>
+<td><a href="html__TH.html">html::TH</a></td>
+<td class="description">creates a table header cell</td>
+</tr>
+<tr>
+<td><a href="html__TITLE.html">html::TITLE</a></td>
+<td class="description">creates a HTML title tag</td>
+</tr>
+<tr>
+<td><a href="html__TR.html">html::TR</a></td>
+<td class="description">creates a table row</td>
+</tr>
+<tr>
+<td><a href="std__abs.html">std::abs</a></td>
+<td class="description">returns the absolute value of its (numerical) argument</td>
+</tr>
+<tr>
+<td><a href="std__accept_upgrade_to_websocket.html">std::accept_upgrade_to_websocket</a></td>
+<td class="description">accepts an upgrade to a websocket connection</td>
+</tr>
+<tr>
+<td><a href="std__access_time_of.html">std::access_time_of</a></td>
+<td class="description">returns the access time of a file</td>
+</tr>
+<tr>
+<td><a href="std__add.html">std::add</a></td>
+<td class="description">adds an item to a collection</td>
+</tr>
+<tr>
+<td><a href="std__add_attributes.html">std::add_attributes</a></td>
+<td class="description">adds draw and clear colours to a string</td>
+</tr>
+<tr>
+<td><a href="std__add_text_attributes.html">std::add_text_attributes</a></td>
+<td class="description">adds text attributes</td>
+</tr>
+<tr>
+<td><a href="std__additional_error_information_of.html">std::additional_error_information_of</a></td>
+<td class="description">returns the additional error information of an error object</td>
+</tr>
+<tr>
+<td><a href="std__address_of.html">std::address_of</a></td>
+<td class="description">returns the address of the object</td>
+</tr>
+<tr>
+<td><a href="std__adjoin.html">std::adjoin</a></td>
+<td class="description">joins screens horizontally</td>
+</tr>
+<tr>
+<td><a href="std__all_of.html">std::all_of</a></td>
+<td class="description">tests all items of a collection</td>
+</tr>
+<tr>
+<td><a href="std__and.html">std::and</a></td>
+<td class="description">performs a "short cut" and-operation</td>
+</tr>
+<tr>
+<td><a href="std__ansi_background_colour.html">std::ansi_background_colour</a></td>
+<td class="description">returns an ANSI escape sequence that sets the background colour</td>
+</tr>
+<tr>
+<td><a href="std__ansi_reset_colour.html">std::ansi_reset_colour</a></td>
+<td class="description">resets the text and background colour to the default</td>
+</tr>
+<tr>
+<td><a href="std__ansi_text_colour.html">std::ansi_text_colour</a></td>
+<td class="description">returns an ANSI escape sequence that sets the text colour</td>
+</tr>
+<tr>
+<td><a href="std__any_character_but.html">std::any_character_but</a></td>
+<td class="description">creates a grammar object that matches any character but the specified</td>
+</tr>
+<tr>
+<td><a href="std__any_of.html">std::any_of</a></td>
+<td class="description">tests all items of a collection</td>
+</tr>
+<tr>
+<td><a href="std__append.html">std::append</a></td>
+<td class="description">appends two or more collections to form a single collection</td>
+</tr>
+<tr>
+<td><a href="std__append_or_error.html">std::append_or_error</a></td>
+<td class="description">append two collections</td>
+</tr>
+<tr>
+<td><a href="std__ascent_of.html">std::ascent_of</a></td>
+<td class="description">the ascent of the font</td>
+</tr>
+<tr>
+<td><a href="std__assign.html">std::assign</a></td>
+<td class="description">returns all its arguments unaltered</td>
+</tr>
+<tr>
+<td><a href="std__backspace_character_of.html">std::backspace_character_of</a></td>
+<td class="description">retrieve the character sent by the backspace key</td>
+</tr>
+<tr>
+<td><a href="std__baseline_of.html">std::baseline_of</a></td>
+<td class="description">the baseline of the font</td>
+</tr>
+<tr>
+<td><a href="std__before.html">std::before</a></td>
+<td class="description">returns the substring before the specified expression</td>
+</tr>
+<tr>
+<td><a href="std__behind.html">std::behind</a></td>
+<td class="description">returns the substring behind the specified expression</td>
+</tr>
+<tr>
+<td><a href="std__between.html">std::between</a></td>
+<td class="description">returns the substring between two expressions</td>
+</tr>
+<tr>
+<td><a href="std__bin.html">std::bin</a></td>
+<td class="description">converts a positive integer value into a string consisting of binary digits</td>
+</tr>
+<tr>
+<td><a href="std__bit_and.html">std::bit_and</a></td>
+<td class="description">bitwise and operation</td>
+</tr>
+<tr>
+<td><a href="std__bit_or.html">std::bit_or</a></td>
+<td class="description">bitwise inclusive or operation</td>
+</tr>
+<tr>
+<td><a href="std__bit_xor.html">std::bit_xor</a></td>
+<td class="description">bitwise exclusive or operation</td>
+</tr>
+<tr>
+<td><a href="std__block_count_of.html">std::block_count_of</a></td>
+<td class="description">returns the number of blocks allocated for the file</td>
+</tr>
+<tr>
+<td><a href="std__block_size_of.html">std::block_size_of</a></td>
+<td class="description">returns the block size of a file</td>
+</tr>
+<tr>
+<td><a href="std__blue_component_of.html">std::blue_component_of</a></td>
+<td class="description">extracts the blue component of a character</td>
+</tr>
+<tr>
+<td><a href="std__bresenham.html">std::bresenham</a></td>
+<td class="description">returns an iterator</td>
+</tr>
+<tr>
+<td><a href="std__cancel.html">std::cancel</a></td>
+<td class="description">cancels a scheduled I/O job</td>
+</tr>
+<tr>
+<td><a href="std__cancel_write.html">std::cancel_write</a></td>
+<td class="description">cancels a pending write operation</td>
+</tr>
+<tr>
+<td><a href="std__capture.html">std::capture</a></td>
+<td class="description">captures the result of a match</td>
+</tr>
+<tr>
+<td><a href="std__catch_signal.html">std::catch_signal</a></td>
+<td class="description">catches signals</td>
+</tr>
+<tr>
+<td><a href="std__ceil.html">std::ceil</a></td>
+<td class="description">computes the smallest integral number greater or equal than its argument</td>
+</tr>
+<tr>
+<td><a href="std__character_at.html">std::character_at</a></td>
+<td class="description">returns the character at the specified position</td>
+</tr>
+<tr>
+<td><a href="std__character_height_of.html">std::character_height_of</a></td>
+<td class="description">the character height</td>
+</tr>
+<tr>
+<td><a href="std__character_width_of.html">std::character_width_of</a></td>
+<td class="description">the width of a character in pixels</td>
+</tr>
+<tr>
+<td><a href="std__check.html">std::check</a></td>
+<td class="description">checks if a value is an error</td>
+</tr>
+<tr>
+<td><a href="std__check_io.html">std::check_io</a></td>
+<td class="description">checks the result of an I/O operation</td>
+</tr>
+<tr>
+<td><a href="std__checked_io.html">std::checked_io</a></td>
+<td class="description">the I/O-operation has been completed</td>
+</tr>
+<tr>
+<td><a href="std__children_of.html">std::children_of</a></td>
+<td class="description">returns the list of child tasks of the current task</td>
+</tr>
+<tr>
+<td><a href="std__clear.html">std::clear</a></td>
+<td class="description">clears a rectangular area</td>
+</tr>
+<tr>
+<td><a href="std__clear_colour_at.html">std::clear_colour_at</a></td>
+<td class="description">returns the clear colour of the character at the specified position</td>
+</tr>
+<tr>
+<td><a href="std__clear_colour_of.html">std::clear_colour_of</a></td>
+<td class="description">the clear colour to use</td>
+</tr>
+<tr>
+<td><a href="std__close.html">std::close</a></td>
+<td class="description">closes a resource</td>
+</tr>
+<tr>
+<td><a href="std__close_connection.html">std::close_connection</a></td>
+<td class="description">closes a connection</td>
+</tr>
+<tr>
+<td><a href="std__closed_connection.html">std::closed_connection</a></td>
+<td class="description">closes a connection</td>
+</tr>
+<tr>
+<td><a href="std__colour_mixture.html">std::colour_mixture</a></td>
+<td class="description">mixes colours</td>
+</tr>
+<tr>
+<td><a href="std__complete_io.html">std::complete_io</a></td>
+<td class="description">completes an I/O operation</td>
+</tr>
+<tr>
+<td><a href="std__concatenate.html">std::concatenate</a></td>
+<td class="description">concatenates two or more lists</td>
+</tr>
+<tr>
+<td><a href="std__concatenate_non_empty.html">std::concatenate_non_empty</a></td>
+<td class="description">concatenates two or more collections</td>
+</tr>
+<tr>
+<td><a href="std__contains.html">std::contains</a></td>
+<td class="description">checks whether a collection contains the specified item or not</td>
+</tr>
+<tr>
+<td><a href="std__copy.html">std::copy</a></td>
+<td class="description">copies a rectangulay area from one screen to another</td>
+</tr>
+<tr>
+<td><a href="std__count.html">std::count</a></td>
+<td class="description">counts items in a collection</td>
+</tr>
+<tr>
+<td><a href="std__count_occurrences.html">std::count_occurrences</a></td>
+<td class="description">returns the number of occurences of the specified expression</td>
+</tr>
+<tr>
+<td><a href="std__create_dialog.html">std::create_dialog</a></td>
+<td class="description">creates a dialog</td>
+</tr>
+<tr>
+<td><a href="std__create_empty_array.html">std::create_empty_array</a></td>
+<td class="description">creates an empty array of a given type</td>
+</tr>
+<tr>
+<td><a href="std__create_horizontal_panes.html">std::create_horizontal_panes</a></td>
+<td class="description">creates a number of horizontal panes</td>
+</tr>
+<tr>
+<td><a href="std__create_index_table.html">std::create_index_table</a></td>
+<td class="description">creates an index table for the specified collection</td>
+</tr>
+<tr>
+<td><a href="std__create_screen.html">std::create_screen</a></td>
+<td class="description">creates a new screen object.</td>
+</tr>
+<tr>
+<td><a href="std__create_string.html">std::create_string</a></td>
+<td class="description">returns the concatenation of all of the list's items converted to strings</td>
+</tr>
+<tr>
+<td><a href="std__create_terminal.html">std::create_terminal</a></td>
+<td class="description">creates a new terminal object</td>
+</tr>
+<tr>
+<td><a href="std__create_terminal_events.html">std::create_terminal_events</a></td>
+<td class="description">creates a list of input events from the input of a terminal</td>
+</tr>
+<tr>
+<td><a href="std__create_text_screen.html">std::create_text_screen</a></td>
+<td class="description">creates a new screen object from a string.</td>
+</tr>
+<tr>
+<td><a href="std__create_vertical_panes.html">std::create_vertical_panes</a></td>
+<td class="description">creates a list of views that are arranged vertically</td>
+</tr>
+<tr>
+<td><a href="std__create_view.html">std::create_view</a></td>
+<td class="description">creates a view on a terminal</td>
+</tr>
+<tr>
+<td><a href="std__create_web_terminal.html">std::create_web_terminal</a></td>
+<td class="description">creates a web terminal</td>
+</tr>
+<tr>
+<td><a href="std__create_window.html">std::create_window</a></td>
+<td class="description">creates a new window</td>
+</tr>
+<tr>
+<td><a href="std__create_window_manager.html">std::create_window_manager</a></td>
+<td class="description">creates a window manager</td>
+</tr>
+<tr>
+<td><a href="std__csi.html">std::csi</a></td>
+<td class="description">generates an ANSI escape sequence</td>
+</tr>
+<tr>
+<td><a href="std__current_time_of.html">std::current_time_of</a></td>
+<td class="description">returns the current time</td>
+</tr>
+<tr>
+<td><a href="std__cursor_x_of.html">std::cursor_x_of</a></td>
+<td class="description">the x-coordinate of the cursor</td>
+</tr>
+<tr>
+<td><a href="std__cursor_y_of.html">std::cursor_y_of</a></td>
+<td class="description">the y-coordinate of the cursor</td>
+</tr>
+<tr>
+<td><a href="std__day_of.html">std::day_of</a></td>
+<td class="description">the day of the month of a date-and-time object</td>
+</tr>
+<tr>
+<td><a href="std__day_of_week_of.html">std::day_of_week_of</a></td>
+<td class="description">the day of the week of a date-and-time object</td>
+</tr>
+<tr>
+<td><a href="std__dec.html">std::dec</a></td>
+<td class="description">subtracts the number 1 from the specified value</td>
+</tr>
+<tr>
+<td><a href="std__default_value.html">std::default_value</a></td>
+<td class="description">returns the first argument if it is defined or else the second argument</td>
+</tr>
+<tr>
+<td><a href="std__delete_all.html">std::delete_all</a></td>
+<td class="description">deletes all occurences of the specfified expressions</td>
+</tr>
+<tr>
+<td><a href="std__deregister_all_handlers.html">std::deregister_all_handlers</a></td>
+<td class="description">removes all handlers associated with a given id from the input-output object.</td>
+</tr>
+<tr>
+<td><a href="std__deregister_handlers.html">std::deregister_handlers</a></td>
+<td class="description">deregisters handlers for specific event types.</td>
+</tr>
+<tr>
+<td><a href="std__descent_of.html">std::descent_of</a></td>
+<td class="description">the descent of the font</td>
+</tr>
+<tr>
+<td><a href="std__deserialize.html">std::deserialize</a></td>
+<td class="description">deserializes a machine readable string representation of an object</td>
+</tr>
+<tr>
+<td><a href="std__deserializer_of.html">std::deserializer_of</a></td>
+<td class="description">returns a function that can deserialize an object of the given type</td>
+</tr>
+<tr>
+<td><a href="std__device_of.html">std::device_of</a></td>
+<td class="description">returns the device of a file</td>
+</tr>
+<tr>
+<td><a href="std__dialog_clear_colour_of.html">std::dialog_clear_colour_of</a></td>
+<td class="description">returns the clear colour of a dialog</td>
+</tr>
+<tr>
+<td><a href="std__difference.html">std::difference</a></td>
+<td class="description">computes the difference of two hash bags</td>
+</tr>
+<tr>
+<td><a href="std__dimension_count_of.html">std::dimension_count_of</a></td>
+<td class="description">returns the number of dimensions of a multidimensional array</td>
+</tr>
+<tr>
+<td><a href="std__disable_logging.html">std::disable_logging</a></td>
+<td class="description">disables logging for the given input-output object.</td>
+</tr>
+<tr>
+<td><a href="std__div.html">std::div</a></td>
+<td class="description">divide two integer numbers</td>
+</tr>
+<tr>
+<td><a href="std__do_log_of.html">std::do_log_of</a></td>
+<td class="description">the do_log_of function is used to determine if logging is enabled for a</td>
+</tr>
+<tr>
+<td><a href="std__draw_attributed_text.html">std::draw_attributed_text</a></td>
+<td class="description">draws attributed text on a screen</td>
+</tr>
+<tr>
+<td><a href="std__draw_border.html">std::draw_border</a></td>
+<td class="description">draws a border around a rectangular area</td>
+</tr>
+<tr>
+<td><a href="std__draw_character.html">std::draw_character</a></td>
+<td class="description">draws a single character at the specified position on the screen.</td>
+</tr>
+<tr>
+<td><a href="std__draw_colour_at.html">std::draw_colour_at</a></td>
+<td class="description">returns the draw colour of the character at the specified position</td>
+</tr>
+<tr>
+<td><a href="std__draw_colour_of.html">std::draw_colour_of</a></td>
+<td class="description">the current draw colour</td>
+</tr>
+<tr>
+<td><a href="std__draw_horizontal_slider.html">std::draw_horizontal_slider</a></td>
+<td class="description">draws a horizontal slider</td>
+</tr>
+<tr>
+<td><a href="std__draw_line.html">std::draw_line</a></td>
+<td class="description">draws a line on a screen</td>
+</tr>
+<tr>
+<td><a href="std__draw_shadow.html">std::draw_shadow</a></td>
+<td class="description">draws a shadow</td>
+</tr>
+<tr>
+<td><a href="std__draw_text.html">std::draw_text</a></td>
+<td class="description">draws text on a screen</td>
+</tr>
+<tr>
+<td><a href="std__draw_thick_border.html">std::draw_thick_border</a></td>
+<td class="description">draws a thick border around a rectangular area</td>
+</tr>
+<tr>
+<td><a href="std__draw_thick_line.html">std::draw_thick_line</a></td>
+<td class="description">draws a thick line</td>
+</tr>
+<tr>
+<td><a href="std__draw_vertical_slider.html">std::draw_vertical_slider</a></td>
+<td class="description">draws a vertical slider</td>
+</tr>
+<tr>
+<td><a href="std__drop.html">std::drop</a></td>
+<td class="description">remove the last item of a collection without returning it</td>
+</tr>
+<tr>
+<td><a href="std__dup.html">std::dup</a></td>
+<td class="description">creates a concatenation of <i>n</i> copies of the specified collection</td>
+</tr>
+<tr>
+<td><a href="std__echo_characters.html">std::echo_characters</a></td>
+<td class="description">set or clear ECHO in c_lflag</td>
+</tr>
+<tr>
+<td><a href="std__echo_new_lines.html">std::echo_new_lines</a></td>
+<td class="description">set or clear ECHONL in c_lflag</td>
+</tr>
+<tr>
+<td><a href="std__edit.html">std::edit</a></td>
+<td class="description">edits a string</td>
+</tr>
+<tr>
+<td><a href="std__empty_collection_of.html">std::empty_collection_of</a></td>
+<td class="description">returns an empty collection of the appropriate type</td>
+</tr>
+<tr>
+<td><a href="std__enable_logging.html">std::enable_logging</a></td>
+<td class="description">Enables logging for the given input-output object.</td>
+</tr>
+<tr>
+<td><a href="std__enable_xon_xoff_for_input.html">std::enable_xon_xoff_for_input</a></td>
+<td class="description">set or clear IXOFF in c_iflag</td>
+</tr>
+<tr>
+<td><a href="std__enable_xon_xoff_for_output.html">std::enable_xon_xoff_for_output</a></td>
+<td class="description">set or clear IXON in c_iflag</td>
+</tr>
+<tr>
+<td><a href="std__enlarge.html">std::enlarge</a></td>
+<td class="description">enlarges a window</td>
+</tr>
+<tr>
+<td><a href="std__equal.html">std::equal</a></td>
+<td class="description">compares two objects for equality</td>
+</tr>
+<tr>
+<td><a href="std__errno_of.html">std::errno_of</a></td>
+<td class="description">retrieves the errno associated with the error object</td>
+</tr>
+<tr>
+<td><a href="std__error_category_of.html">std::error_category_of</a></td>
+<td class="description">retrieves the error category of an error object</td>
+</tr>
+<tr>
+<td><a href="std__error_details_of.html">std::error_details_of</a></td>
+<td class="description">retrieves the details associated with the error object</td>
+</tr>
+<tr>
+<td><a href="std__error_message_text_of.html">std::error_message_text_of</a></td>
+<td class="description">retrieves the error message text of an error object</td>
+</tr>
+<tr>
+<td><a href="std__exit.html">std::exit</a></td>
+<td class="description">terminates the current program or task</td>
+</tr>
+<tr>
+<td><a href="std__exp.html">std::exp</a></td>
+<td class="description">computes the exponential function of its argument</td>
+</tr>
+<tr>
+<td><a href="std__extern.html">std::extern</a></td>
+<td class="description">executes an external command</td>
+</tr>
+<tr>
+<td><a href="std__extract_keys.html">std::extract_keys</a></td>
+<td class="description">converts an input character stream into a list of keys</td>
+</tr>
+<tr>
+<td><a href="std__extract_options.html">std::extract_options</a></td>
+<td class="description">extracts the options of a function call</td>
+</tr>
+<tr>
+<td><a href="std__failed_attribute_of.html">std::failed_attribute_of</a></td>
+<td class="description">retrieves the attribute associated with the error object</td>
+</tr>
+<tr>
+<td><a href="std__fifth.html">std::fifth</a></td>
+<td class="description">returns the fifth element of a tuple</td>
+</tr>
+<tr>
+<td><a href="std__file_descriptor_of.html">std::file_descriptor_of</a></td>
+<td class="description">returns the file descriptor of an object</td>
+</tr>
+<tr>
+<td><a href="std__fill_trapezoid.html">std::fill_trapezoid</a></td>
+<td class="description">draws a filled trapezoid (without borders)</td>
+</tr>
+<tr>
+<td><a href="std__filter.html">std::filter</a></td>
+<td class="description">returns a collection containing all the items that fullfill the</td>
+</tr>
+<tr>
+<td><a href="std__finalize.html">std::finalize</a></td>
+<td class="description">This function is called when the program terminates.</td>
+</tr>
+<tr>
+<td><a href="std__find_first.html">std::find_first</a></td>
+<td class="description">returns the first item of a collection that fullfills the condition</td>
+</tr>
+<tr>
+<td><a href="std__first.html">std::first</a></td>
+<td class="description">returns the first element of a tuple</td>
+</tr>
+<tr>
+<td><a href="std__first_item_of.html">std::first_item_of</a></td>
+<td class="description">returns the first item of a non-empty collection</td>
+</tr>
+<tr>
+<td><a href="std__first_key_of.html">std::first_key_of</a></td>
+<td class="description">returns the first key of a non-empty collection</td>
+</tr>
+<tr>
+<td><a href="std__flatten.html">std::flatten</a></td>
+<td class="description">flattens a collection (probably a list)</td>
+</tr>
+<tr>
+<td><a href="std__floor.html">std::floor</a></td>
+<td class="description">computes the greatest integral number smaller or equal than its argument</td>
+</tr>
+<tr>
+<td><a href="std__flush.html">std::flush</a></td>
+<td class="description">flushes all buffers associated with the resource</td>
+</tr>
+<tr>
+<td><a href="std__focus_next_window.html">std::focus_next_window</a></td>
+<td class="description">focuses the next window</td>
+</tr>
+<tr>
+<td><a href="std__focus_previous_window.html">std::focus_previous_window</a></td>
+<td class="description">focuses the previous window</td>
+</tr>
+<tr>
+<td><a href="std__focus_window.html">std::focus_window</a></td>
+<td class="description">focuses a window</td>
+</tr>
+<tr>
+<td><a href="std__for_each.html">std::for_each</a></td>
+<td class="description">iterate over all items of a collection</td>
+</tr>
+<tr>
+<td><a href="std__fork.html">std::fork</a></td>
+<td class="description">creates a new task</td>
+</tr>
+<tr>
+<td><a href="std__format.html">std::format</a></td>
+<td class="description">formats its arguments using the specified template string</td>
+</tr>
+<tr>
+<td><a href="std__fourth.html">std::fourth</a></td>
+<td class="description">returns the fourth element of a tuple</td>
+</tr>
+<tr>
+<td><a href="std__from.html">std::from</a></td>
+<td class="description">returns the substring starting with the specified expression</td>
+</tr>
+<tr>
+<td><a href="std__from_base64.html">std::from_base64</a></td>
+<td class="description">converts a base64 string to a string</td>
+</tr>
+<tr>
+<td><a href="std__from_html.html">std::from_html</a></td>
+<td class="description">parses a string containing HTML code</td>
+</tr>
+<tr>
+<td><a href="std__from_json.html">std::from_json</a></td>
+<td class="description">parses a JSON-formatted string</td>
+</tr>
+<tr>
+<td><a href="std__from_utf8.html">std::from_utf8</a></td>
+<td class="description">converts a string from utf-8 encoding to code points</td>
+</tr>
+<tr>
+<td><a href="std__generate_error_message.html">std::generate_error_message</a></td>
+<td class="description">generates a human-readable error message</td>
+</tr>
+<tr>
+<td><a href="std__generate_signals.html">std::generate_signals</a></td>
+<td class="description">set or clear ISIG in c_lflag</td>
+</tr>
+<tr>
+<td><a href="std__generate_uuid.html">std::generate_uuid</a></td>
+<td class="description">generates a Universally Unique Identifier (UUID)</td>
+</tr>
+<tr>
+<td><a href="std__get.html">std::get</a></td>
+<td class="description">removes and returns the first element of a list</td>
+</tr>
+<tr>
+<td><a href="std__get_buttons.html">std::get_buttons</a></td>
+<td class="description">returns the additional buttons of a window</td>
+</tr>
+<tr>
+<td><a href="std__get_character_at.html">std::get_character_at</a></td>
+<td class="description">returns the character at the given coordinates.</td>
+</tr>
+<tr>
+<td><a href="std__get_clear_colour_at.html">std::get_clear_colour_at</a></td>
+<td class="description">returns the clear colour of a character at a given position in a screen</td>
+</tr>
+<tr>
+<td><a href="std__get_content.html">std::get_content</a></td>
+<td class="description">returns the content of a window</td>
+</tr>
+<tr>
+<td><a href="std__get_draw_colour_at.html">std::get_draw_colour_at</a></td>
+<td class="description">returns the draw colour of the character at the given coordinates.</td>
+</tr>
+<tr>
+<td><a href="std__get_events.html">std::get_events</a></td>
+<td class="description">retrieves events from the input-output object.</td>
+</tr>
+<tr>
+<td><a href="std__get_focused_window.html">std::get_focused_window</a></td>
+<td class="description">returns the currently focused window</td>
+</tr>
+<tr>
+<td><a href="std__get_id.html">std::get_id</a></td>
+<td class="description">returns the id of the object</td>
+</tr>
+<tr>
+<td><a href="std__get_inbounds_width.html">std::get_inbounds_width</a></td>
+<td class="description">returns the inbounds width of a window</td>
+</tr>
+<tr>
+<td><a href="std__get_mouse_reporting.html">std::get_mouse_reporting</a></td>
+<td class="description">returns the current mouse reporting mode</td>
+</tr>
+<tr>
+<td><a href="std__get_next_rectangle.html">std::get_next_rectangle</a></td>
+<td class="description">returns the next rectangle</td>
+</tr>
+<tr>
+<td><a href="std__get_options.html">std::get_options</a></td>
+<td class="description">parses command line options</td>
+</tr>
+<tr>
+<td><a href="std__get_previous_rectangle.html">std::get_previous_rectangle</a></td>
+<td class="description">returns the previous rectangle</td>
+</tr>
+<tr>
+<td><a href="std__get_rectangle_at.html">std::get_rectangle_at</a></td>
+<td class="description">returns the rectangle at the given position</td>
+</tr>
+<tr>
+<td><a href="std__get_rectangle_by_key.html">std::get_rectangle_by_key</a></td>
+<td class="description">returns a rectangle by its key</td>
+</tr>
+<tr>
+<td><a href="std__get_size.html">std::get_size</a></td>
+<td class="description">returns the size of a window</td>
+</tr>
+<tr>
+<td><a href="std__get_terminal_attributes.html">std::get_terminal_attributes</a></td>
+<td class="description">retrieve the current terminal attributes</td>
+</tr>
+<tr>
+<td><a href="std__get_terminal_size.html">std::get_terminal_size</a></td>
+<td class="description">retrieves the current width and height of the specified terminal</td>
+</tr>
+<tr>
+<td><a href="std__get_title.html">std::get_title</a></td>
+<td class="description">returns the title of a window</td>
+</tr>
+<tr>
+<td><a href="std__get_window_at.html">std::get_window_at</a></td>
+<td class="description">returns the window at the given position</td>
+</tr>
+<tr>
+<td><a href="std__get_xy.html">std::get_xy</a></td>
+<td class="description">returns the cursor position</td>
+</tr>
+<tr>
+<td><a href="std__goto_xy.html">std::goto_xy</a></td>
+<td class="description">moves the cursor to a specific position</td>
+</tr>
+<tr>
+<td><a href="std__green_component_of.html">std::green_component_of</a></td>
+<td class="description">extracts the green component of a character</td>
+</tr>
+<tr>
+<td><a href="std__group_id_of.html">std::group_id_of</a></td>
+<td class="description">returns the group id of a file</td>
+</tr>
+<tr>
+<td><a href="std__handle_dom_input_event.html">std::handle_dom_input_event</a></td>
+<td class="description">handles a DOM input event</td>
+</tr>
+<tr>
+<td><a href="std__handle_event.html">std::handle_event</a></td>
+<td class="description">handles an event</td>
+</tr>
+<tr>
+<td><a href="std__handle_events.html">std::handle_events</a></td>
+<td class="description">handles a list of events</td>
+</tr>
+<tr>
+<td><a href="std__handle_jobs.html">std::handle_jobs</a></td>
+<td class="description">handles all jobs that are due</td>
+</tr>
+<tr>
+<td><a href="std__handle_web_client_events.html">std::handle_web_client_events</a></td>
+<td class="description">handles events for a web client</td>
+</tr>
+<tr>
+<td><a href="std__handle_web_server_events.html">std::handle_web_server_events</a></td>
+<td class="description">handles events from a web server</td>
+</tr>
+<tr>
+<td><a href="std__handle_window_event.html">std::handle_window_event</a></td>
+<td class="description">handles a window event</td>
+</tr>
+<tr>
+<td><a href="std__hangup_on_close.html">std::hangup_on_close</a></td>
+<td class="description">set or clear HUPCL in c_oflag</td>
+</tr>
+<tr>
+<td><a href="std__has_a_visible_cursor.html">std::has_a_visible_cursor</a></td>
+<td class="description">checks if the cursor is visible</td>
+</tr>
+<tr>
+<td><a href="std__has_prefix.html">std::has_prefix</a></td>
+<td class="description">checks whether the first argument has the second argument as a prefix</td>
+</tr>
+<tr>
+<td><a href="std__has_suffix.html">std::has_suffix</a></td>
+<td class="description">checks whether the string has the specified suffix</td>
+</tr>
+<tr>
+<td><a href="std__hash.html">std::hash</a></td>
+<td class="description">returns a hash value</td>
+</tr>
+<tr>
+<td><a href="std__hash_bag.html">std::hash_bag</a></td>
+<td class="description">creates a hash bag from a list of key-value-pairs</td>
+</tr>
+<tr>
+<td><a href="std__hash_set.html">std::hash_set</a></td>
+<td class="description">creates a hash set from a list of keys</td>
+</tr>
+<tr>
+<td><a href="std__hash_table.html">std::hash_table</a></td>
+<td class="description">creates a hash table from a list of key-value-pairs</td>
+</tr>
+<tr>
+<td><a href="std__height_of.html">std::height_of</a></td>
+<td class="description">returns the height of an object</td>
+</tr>
+<tr>
+<td><a href="std__hex.html">std::hex</a></td>
+<td class="description">converts a positive integer value into a string consisting of hexadecimal</td>
+</tr>
+<tr>
+<td><a href="std__home_directory_of.html">std::home_directory_of</a></td>
+<td class="description">returns the home directory of a user</td>
+</tr>
+<tr>
+<td><a href="std__horizontal_group.html">std::horizontal_group</a></td>
+<td class="description">creates a horizontal group of widgets</td>
+</tr>
+<tr>
+<td><a href="std__hour_of.html">std::hour_of</a></td>
+<td class="description">the hour of a date-and-time object</td>
+</tr>
+<tr>
+<td><a href="std__http_request.html">std::http_request</a></td>
+<td class="description">sends an HTTP request</td>
+</tr>
+<tr>
+<td><a href="std__http_resource_not_found.html">std::http_resource_not_found</a></td>
+<td class="description">sends a "404 Not Found" reply to a client</td>
+</tr>
+<tr>
+<td><a href="std__if.html">std::if</a></td>
+<td class="description">the classic if-statement</td>
+</tr>
+<tr>
+<td><a href="std__if_not.html">std::if_not</a></td>
+<td class="description">can be used as a function or a procedure</td>
+</tr>
+<tr>
+<td><a href="std__ignore.html">std::ignore</a></td>
+<td class="description">accepts a single argument and returns nothing</td>
+</tr>
+<tr>
+<td><a href="std__ignore_cr_on_input.html">std::ignore_cr_on_input</a></td>
+<td class="description">set or clear IGNCR in c_iflag</td>
+</tr>
+<tr>
+<td><a href="std__in.html">std::in</a></td>
+<td class="description">checks whether an element is contained in a collection</td>
+</tr>
+<tr>
+<td><a href="std__inc.html">std::inc</a></td>
+<td class="description">adds the number 1 to the specified value</td>
+</tr>
+<tr>
+<td><a href="std__indented.html">std::indented</a></td>
+<td class="description">increases the indent of the specified (multi-line) string</td>
+</tr>
+<tr>
+<td><a href="std__initialize.html">std::initialize</a></td>
+<td class="description">initializes the input-output system</td>
+</tr>
+<tr>
+<td><a href="std__initialize_rendering.html">std::initialize_rendering</a></td>
+<td class="description">initializes the rendering of widgets</td>
+</tr>
+<tr>
+<td><a href="std__initialize_terminal.html">std::initialize_terminal</a></td>
+<td class="description">initializes a terminal</td>
+</tr>
+<tr>
+<td><a href="std__inode_number_of.html">std::inode_number_of</a></td>
+<td class="description">returns the inode number of a file</td>
+</tr>
+<tr>
+<td><a href="std__input_speed.html">std::input_speed</a></td>
+<td class="description">set or get the input speed</td>
+</tr>
+<tr>
+<td><a href="std__insert_order_set.html">std::insert_order_set</a></td>
+<td class="description">creates an insert-order set from a list of keys</td>
+</tr>
+<tr>
+<td><a href="std__insert_order_table.html">std::insert_order_table</a></td>
+<td class="description">creates an insert-order table from a list of key-value-pairs</td>
+</tr>
+<tr>
+<td><a href="std__intersection.html">std::intersection</a></td>
+<td class="description">compute the intersection of two collections</td>
+</tr>
+<tr>
+<td><a href="std__invert.html">std::invert</a></td>
+<td class="description">inverts a rectangular area</td>
+</tr>
+<tr>
+<td><a href="std__is_a_binary_table.html">std::is_a_binary_table</a></td>
+<td class="description">checks if an object is a binary table</td>
+</tr>
+<tr>
+<td><a href="std__is_a_boolean.html">std::is_a_boolean</a></td>
+<td class="description">determines whether a value is a boolean</td>
+</tr>
+<tr>
+<td><a href="std__is_a_character.html">std::is_a_character</a></td>
+<td class="description">tests if an object is a character</td>
+</tr>
+<tr>
+<td><a href="std__is_a_digit.html">std::is_a_digit</a></td>
+<td class="description">checks wheter its argument is a digit</td>
+</tr>
+<tr>
+<td><a href="std__is_a_directory.html">std::is_a_directory</a></td>
+<td class="description">checks if a file is a directory</td>
+</tr>
+<tr>
+<td><a href="std__is_a_file_descriptor.html">std::is_a_file_descriptor</a></td>
+<td class="description">checks if an object is a file descriptor</td>
+</tr>
+<tr>
+<td><a href="std__is_a_function.html">std::is_a_function</a></td>
+<td class="description">checks if an object is a function</td>
+</tr>
+<tr>
+<td><a href="std__is_a_generic_list.html">std::is_a_generic_list</a></td>
+<td class="description">checks whether the given object is a generic list</td>
+</tr>
+<tr>
+<td><a href="std__is_a_hash_set.html">std::is_a_hash_set</a></td>
+<td class="description">checks if an object is a hash set</td>
+</tr>
+<tr>
+<td><a href="std__is_a_hash_table.html">std::is_a_hash_table</a></td>
+<td class="description">checks if an object is a hash table</td>
+</tr>
+<tr>
+<td><a href="std__is_a_key_order_set.html">std::is_a_key_order_set</a></td>
+<td class="description">checks if an object is a key-order set</td>
+</tr>
+<tr>
+<td><a href="std__is_a_key_order_table.html">std::is_a_key_order_table</a></td>
+<td class="description">checks if an object is a key-order table</td>
+</tr>
+<tr>
+<td><a href="std__is_a_key_value_pair.html">std::is_a_key_value_pair</a></td>
+<td class="description">checks if an object is a key-value-pair</td>
+</tr>
+<tr>
+<td><a href="std__is_a_lb2_table.html">std::is_a_lb2_table</a></td>
+<td class="description">checks if an object is a lb2_table</td>
+</tr>
+<tr>
+<td><a href="std__is_a_letter.html">std::is_a_letter</a></td>
+<td class="description">checks wheter its argument is a letter (upper or lower case)</td>
+</tr>
+<tr>
+<td><a href="std__is_a_list.html">std::is_a_list</a></td>
+<td class="description">checks whether the given object is a list</td>
+</tr>
+<tr>
+<td><a href="std__is_a_lowercase_letter.html">std::is_a_lowercase_letter</a></td>
+<td class="description">checks wheter its argument is a lowercase letter</td>
+</tr>
+<tr>
+<td><a href="std__is_a_number.html">std::is_a_number</a></td>
+<td class="description">checks if an object is a number</td>
+</tr>
+<tr>
+<td><a href="std__is_a_plain_object.html">std::is_a_plain_object</a></td>
+<td class="description">checks if an object is a plain object</td>
+</tr>
+<tr>
+<td><a href="std__is_a_process_id.html">std::is_a_process_id</a></td>
+<td class="description">checks if a value is a process id</td>
+</tr>
+<tr>
+<td><a href="std__is_a_random_number_generator.html">std::is_a_random_number_generator</a></td>
+<td class="description">checks if an object is a random number generator</td>
+</tr>
+<tr>
+<td><a href="std__is_a_screen.html">std::is_a_screen</a></td>
+<td class="description">checks if a given object is a screen</td>
+</tr>
+<tr>
+<td><a href="std__is_a_sequence.html">std::is_a_sequence</a></td>
+<td class="description">checks whether the specified object is a sequence</td>
+</tr>
+<tr>
+<td><a href="std__is_a_set.html">std::is_a_set</a></td>
+<td class="description">checks if an object is a set</td>
+</tr>
+<tr>
+<td><a href="std__is_a_string.html">std::is_a_string</a></td>
+<td class="description">tests if an object is a string</td>
+</tr>
+<tr>
+<td><a href="std__is_a_table.html">std::is_a_table</a></td>
+<td class="description">checks if an object is a table</td>
+</tr>
+<tr>
+<td><a href="std__is_a_tuple.html">std::is_a_tuple</a></td>
+<td class="description">checks if an object is a tuple</td>
+</tr>
+<tr>
+<td><a href="std__is_a_unique_item.html">std::is_a_unique_item</a></td>
+<td class="description">checks if an object is a unique item</td>
+</tr>
+<tr>
+<td><a href="std__is_a_value_range.html">std::is_a_value_range</a></td>
+<td class="description">checks if an object is a value range</td>
+</tr>
+<tr>
+<td><a href="std__is_an_array.html">std::is_an_array</a></td>
+<td class="description">determines whether a value is an array</td>
+</tr>
+<tr>
+<td><a href="std__is_an_association_list.html">std::is_an_association_list</a></td>
+<td class="description">checks if an object is an association list</td>
+</tr>
+<tr>
+<td><a href="std__is_an_avl_table.html">std::is_an_avl_table</a></td>
+<td class="description">checks if a given object is an AVL-table</td>
+</tr>
+<tr>
+<td><a href="std__is_an_error.html">std::is_an_error</a></td>
+<td class="description">returns true if the argument denotes an error-object</td>
+</tr>
+<tr>
+<td><a href="std__is_an_html_element.html">std::is_an_html_element</a></td>
+<td class="description">checks if an object is an html element</td>
+</tr>
+<tr>
+<td><a href="std__is_an_insert_order_set.html">std::is_an_insert_order_set</a></td>
+<td class="description">checks if a given object is an insert-order set</td>
+</tr>
+<tr>
+<td><a href="std__is_an_insert_order_table.html">std::is_an_insert_order_table</a></td>
+<td class="description">checks if an object is an insert-order table</td>
+</tr>
+<tr>
+<td><a href="std__is_an_integer.html">std::is_an_integer</a></td>
+<td class="description">checks if an object is an integer</td>
+</tr>
+<tr>
+<td><a href="std__is_an_iterator.html">std::is_an_iterator</a></td>
+<td class="description">checks whether an object is an iterator or not</td>
+</tr>
+<tr>
+<td><a href="std__is_an_octet_string.html">std::is_an_octet_string</a></td>
+<td class="description">tests if an object is an octet string</td>
+</tr>
+<tr>
+<td><a href="std__is_an_uppercase_letter.html">std::is_an_uppercase_letter</a></td>
+<td class="description">checks wheter its argument is an uppercase letter</td>
+</tr>
+<tr>
+<td><a href="std__is_defined.html">std::is_defined</a></td>
+<td class="description">returns true for all "normal" objects"</td>
+</tr>
+<tr>
+<td><a href="std__is_empty.html">std::is_empty</a></td>
+<td class="description">checks whether a collection contains any items</td>
+</tr>
+<tr>
+<td><a href="std__is_even.html">std::is_even</a></td>
+<td class="description">returns true if the specified value is even, false otherwise</td>
+</tr>
+<tr>
+<td><a href="std__is_not_empty.html">std::is_not_empty</a></td>
+<td class="description">checks whether a collection contains at least one item</td>
+</tr>
+<tr>
+<td><a href="std__is_odd.html">std::is_odd</a></td>
+<td class="description">returns true if the specified value is odd, false otherwise</td>
+</tr>
+<tr>
+<td><a href="std__is_undefined.html">std::is_undefined</a></td>
+<td class="description">checks if a value is undefined</td>
+</tr>
+<tr>
+<td><a href="std__isqrt.html">std::isqrt</a></td>
+<td class="description">returns the integer square root of its argument</td>
+</tr>
+<tr>
+<td><a href="std__join.html">std::join</a></td>
+<td class="description">concatenates the list items using the specified separator</td>
+</tr>
+<tr>
+<td><a href="std__join_process.html">std::join_process</a></td>
+<td class="description">waits for a process to finish</td>
+</tr>
+<tr>
+<td><a href="std__key_of.html">std::key_of</a></td>
+<td class="description">the key of a key-value-pair</td>
+</tr>
+<tr>
+<td><a href="std__key_order_set.html">std::key_order_set</a></td>
+<td class="description">creates a key-order set from a list of keys</td>
+</tr>
+<tr>
+<td><a href="std__key_order_table.html">std::key_order_table</a></td>
+<td class="description">creates a key-order table from a list of key-value-pairs</td>
+</tr>
+<tr>
+<td><a href="std__key_value_pair.html">std::key_value_pair</a></td>
+<td class="description">creates a key-value-pair</td>
+</tr>
+<tr>
+<td><a href="std__keys_of.html">std::keys_of</a></td>
+<td class="description">returns a list of all keys of the specified collection</td>
+</tr>
+<tr>
+<td><a href="std__last_item_of.html">std::last_item_of</a></td>
+<td class="description">returns the last item of a non-empty collection</td>
+</tr>
+<tr>
+<td><a href="std__last_key_of.html">std::last_key_of</a></td>
+<td class="description">returns the last key of a non-empty collection</td>
+</tr>
+<tr>
+<td><a href="std__lcg.html">std::lcg</a></td>
+<td class="description">creates a pseudo random number generator</td>
+</tr>
+<tr>
+<td><a href="std__length_of.html">std::length_of</a></td>
+<td class="description">returns the number of items within a collection</td>
+</tr>
+<tr>
+<td><a href="std__less.html">std::less</a></td>
+<td class="description">compares two objects in an object specific way</td>
+</tr>
+<tr>
+<td><a href="std__levenshtein_distance.html">std::levenshtein_distance</a></td>
+<td class="description">computes the Levenshtein distance between two strings</td>
+</tr>
+<tr>
+<td><a href="std__line_height_of.html">std::line_height_of</a></td>
+<td class="description">the line height of the terminal</td>
+</tr>
+<tr>
+<td><a href="std__line_spacing_of.html">std::line_spacing_of</a></td>
+<td class="description">the line spacing of the object</td>
+</tr>
+<tr>
+<td><a href="std__link_count_of.html">std::link_count_of</a></td>
+<td class="description">returns the number of links to a file</td>
+</tr>
+<tr>
+<td><a href="std__ln.html">std::ln</a></td>
+<td class="description">computes the logarithm to the base e</td>
+</tr>
+<tr>
+<td><a href="std__load.html">std::load</a></td>
+<td class="description">loads a file in some way; returns a string</td>
+</tr>
+<tr>
+<td><a href="std__load_configuration.html">std::load_configuration</a></td>
+<td class="description">loads the configuration from the given file</td>
+</tr>
+<tr>
+<td><a href="std__log.html">std::log</a></td>
+<td class="description">logs a message to the standard error stream.</td>
+</tr>
+<tr>
+<td><a href="std__log_unhandled_event.html">std::log_unhandled_event</a></td>
+<td class="description">logs an unhandled event</td>
+</tr>
+<tr>
+<td><a href="std__lower_bound_of.html">std::lower_bound_of</a></td>
+<td class="description">returns the lower bound of a value range</td>
+</tr>
+<tr>
+<td><a href="std__many.html">std::many</a></td>
+<td class="description">creates a grammar object that matches multiple occurrences of the specified</td>
+</tr>
+<tr>
+<td><a href="std__map.html">std::map</a></td>
+<td class="description">appliies a function to all items of a collection</td>
+</tr>
+<tr>
+<td><a href="std__map_characters.html">std::map_characters</a></td>
+<td class="description">applies a function to each character of the string</td>
+</tr>
+<tr>
+<td><a href="std__map_cr_to_lf_on_input.html">std::map_cr_to_lf_on_input</a></td>
+<td class="description">set or clear ICRNL in c_iflag</td>
+</tr>
+<tr>
+<td><a href="std__map_lf_to_crlf_on_output.html">std::map_lf_to_crlf_on_output</a></td>
+<td class="description">set or clear ONLCR in c_oflag</td>
+</tr>
+<tr>
+<td><a href="std__map_or_error.html">std::map_or_error</a></td>
+<td class="description">appliies a function to all items of a collection</td>
+</tr>
+<tr>
+<td><a href="std__map_reduce.html">std::map_reduce</a></td>
+<td class="description">combines a map and a reduce operation into a single operation</td>
+</tr>
+<tr>
+<td><a href="std__map_reduce_columns.html">std::map_reduce_columns</a></td>
+<td class="description">applies a map and a reduce function to each column of a table</td>
+</tr>
+<tr>
+<td><a href="std__map_reduce_rows.html">std::map_reduce_rows</a></td>
+<td class="description">applies a map and a reduce function to each row of a table</td>
+</tr>
+<tr>
+<td><a href="std__match.html">std::match</a></td>
+<td class="description">matches the start of a string with the specified expression</td>
+</tr>
+<tr>
+<td><a href="std__match_back.html">std::match_back</a></td>
+<td class="description">matches the end of a string with the expression</td>
+</tr>
+<tr>
+<td><a href="std__matches.html">std::matches</a></td>
+<td class="description">checks whether a string matches the specified expression</td>
+</tr>
+<tr>
+<td><a href="std__max.html">std::max</a></td>
+<td class="description">returns the largest of its (potentially) many arguments</td>
+</tr>
+<tr>
+<td><a href="std__merge.html">std::merge</a></td>
+<td class="description">merges two collections</td>
+</tr>
+<tr>
+<td><a href="std__mersenne_twister.html">std::mersenne_twister</a></td>
+<td class="description">creates a pseudo random number generator</td>
+</tr>
+<tr>
+<td><a href="std__min.html">std::min</a></td>
+<td class="description">returns the smallest of its (potentially) many arguments</td>
+</tr>
+<tr>
+<td><a href="std__min_max.html">std::min_max</a></td>
+<td class="description">returns the smaller and the larger of its two arguments</td>
+</tr>
+<tr>
+<td><a href="std__minimum_characters_for_canoncial_read.html">std::minimum_characters_for_canoncial_read</a></td>
+<td class="description">set or get the value of VMIN in c_cc</td>
+</tr>
+<tr>
+<td><a href="std__minus.html">std::minus</a></td>
+<td class="description">subtract two numbers of any kind</td>
+</tr>
+<tr>
+<td><a href="std__minute_of.html">std::minute_of</a></td>
+<td class="description">the minute of a date-and-time object</td>
+</tr>
+<tr>
+<td><a href="std__mod.html">std::mod</a></td>
+<td class="description">computes the remainder of two integer numbers</td>
+</tr>
+<tr>
+<td><a href="std__mode_of.html">std::mode_of</a></td>
+<td class="description">returns the mode of a file</td>
+</tr>
+<tr>
+<td><a href="std__modification_time_of.html">std::modification_time_of</a></td>
+<td class="description">returns the modification time of a file</td>
+</tr>
+<tr>
+<td><a href="std__modulus_of.html">std::modulus_of</a></td>
+<td class="description">returns the modulus of a random number generator</td>
+</tr>
+<tr>
+<td><a href="std__month_of.html">std::month_of</a></td>
+<td class="description">the calendar month of a date-and-time object</td>
+</tr>
+<tr>
+<td><a href="std__move.html">std::move</a></td>
+<td class="description">moves a rectangular area from one position to another within a screen</td>
+</tr>
+<tr>
+<td><a href="std__move_bottom.html">std::move_bottom</a></td>
+<td class="description">moves the content of a window to the bottom</td>
+</tr>
+<tr>
+<td><a href="std__move_down.html">std::move_down</a></td>
+<td class="description">moves the content of a window down</td>
+</tr>
+<tr>
+<td><a href="std__move_end.html">std::move_end</a></td>
+<td class="description">moves the first visible column to the end</td>
+</tr>
+<tr>
+<td><a href="std__move_home.html">std::move_home</a></td>
+<td class="description">moves the first visible column to the leftmost column</td>
+</tr>
+<tr>
+<td><a href="std__move_left.html">std::move_left</a></td>
+<td class="description">moves the content of a window to the left</td>
+</tr>
+<tr>
+<td><a href="std__move_page_down.html">std::move_page_down</a></td>
+<td class="description">moves the content of a window down by one page</td>
+</tr>
+<tr>
+<td><a href="std__move_page_up.html">std::move_page_up</a></td>
+<td class="description">moves the first visible row of a window up by one page</td>
+</tr>
+<tr>
+<td><a href="std__move_right.html">std::move_right</a></td>
+<td class="description">moves the content of a window to the right</td>
+</tr>
+<tr>
+<td><a href="std__move_top.html">std::move_top</a></td>
+<td class="description">moves a window to the top</td>
+</tr>
+<tr>
+<td><a href="std__move_up.html">std::move_up</a></td>
+<td class="description">moves the content of a window up</td>
+</tr>
+<tr>
+<td><a href="std__move_window_down.html">std::move_window_down</a></td>
+<td class="description">moves a window down</td>
+</tr>
+<tr>
+<td><a href="std__move_window_up.html">std::move_window_up</a></td>
+<td class="description">moves a window up</td>
+</tr>
+<tr>
+<td><a href="std__name_of.html">std::name_of</a></td>
+<td class="description">returns the name of an object</td>
+</tr>
+<tr>
+<td><a href="std__needs_updating.html">std::needs_updating</a></td>
+<td class="description">checks if a window manager needs an update</td>
+</tr>
+<tr>
+<td><a href="std__negate.html">std::negate</a></td>
+<td class="description">negate the numeric argument</td>
+</tr>
+<tr>
+<td><a href="std__neutral_element_of.html">std::neutral_element_of</a></td>
+<td class="description">returns the neutral element for the type of its argument</td>
+</tr>
+<tr>
+<td><a href="std__new.html">std::new</a></td>
+<td class="description">creates a new collection with inherited attributes</td>
+</tr>
+<tr>
+<td><a href="std__next_key_of.html">std::next_key_of</a></td>
+<td class="description">returns the key after the specified key</td>
+</tr>
+<tr>
+<td><a href="std__next_raw_value.html">std::next_raw_value</a></td>
+<td class="description">returns the next raw value of a random number generator</td>
+</tr>
+<tr>
+<td><a href="std__next_value.html">std::next_value</a></td>
+<td class="description">returns the next value of an iterator</td>
+</tr>
+<tr>
+<td><a href="std__normalize.html">std::normalize</a></td>
+<td class="description">trims the string and replaces whitespace by a single space</td>
+</tr>
+<tr>
+<td><a href="std__not.html">std::not</a></td>
+<td class="description">negate its boolean argument</td>
+</tr>
+<tr>
+<td><a href="std__oct.html">std::oct</a></td>
+<td class="description">converts a positive integer value into a string consisting of octal digits</td>
+</tr>
+<tr>
+<td><a href="std__okay_cancel_dialog.html">std::okay_cancel_dialog</a></td>
+<td class="description">displays a dialog with a message and an "Okay" and a "Cancel" button</td>
+</tr>
+<tr>
+<td><a href="std__okay_dialog.html">std::okay_dialog</a></td>
+<td class="description">displays a dialog with a message and an "Okay"-button</td>
+</tr>
+<tr>
+<td><a href="std__on.html">std::on</a></td>
+<td class="description">if the specified condition is true then perform the specified action</td>
+</tr>
+<tr>
+<td><a href="std__on_cancel.html">std::on_cancel</a></td>
+<td class="description">sets the cancel handler for the task</td>
+</tr>
+<tr>
+<td><a href="std__on_error.html">std::on_error</a></td>
+<td class="description">sets the error handler for the task</td>
+</tr>
+<tr>
+<td><a href="std__on_exit.html">std::on_exit</a></td>
+<td class="description">registers a function to be called when the task exits</td>
+</tr>
+<tr>
+<td><a href="std__on_not.html">std::on_not</a></td>
+<td class="description">if the specified condition is false then perform the specified action</td>
+</tr>
+<tr>
+<td><a href="std__on_websocket_message.html">std::on_websocket_message</a></td>
+<td class="description">sets the websocket message handler for a websocket connection</td>
+</tr>
+<tr>
+<td><a href="std__optional.html">std::optional</a></td>
+<td class="description">creates an optional expression</td>
+</tr>
+<tr>
+<td><a href="std__or.html">std::or</a></td>
+<td class="description">performs a "short cut" or-operation</td>
+</tr>
+<tr>
+<td><a href="std__output_speed.html">std::output_speed</a></td>
+<td class="description">set or get the output speed of a terminal</td>
+</tr>
+<tr>
+<td><a href="std__over.html">std::over</a></td>
+<td class="description">divides two numbers of any kind</td>
+</tr>
+<tr>
+<td><a href="std__pad_bottom.html">std::pad_bottom</a></td>
+<td class="description">pads a screen to the specified height</td>
+</tr>
+<tr>
+<td><a href="std__pad_left.html">std::pad_left</a></td>
+<td class="description">extends a string to the specified width</td>
+</tr>
+<tr>
+<td><a href="std__pad_right.html">std::pad_right</a></td>
+<td class="description">extends a string to the specified width</td>
+</tr>
+<tr>
+<td><a href="std__pad_top.html">std::pad_top</a></td>
+<td class="description">pads a collection with a specified value</td>
+</tr>
+<tr>
+<td><a href="std__parameter_count_of.html">std::parameter_count_of</a></td>
+<td class="description">returns the number of arguments to use when calling its function</td>
+</tr>
+<tr>
+<td><a href="std__parent_of.html">std::parent_of</a></td>
+<td class="description">returns the parent task id</td>
+</tr>
+<tr>
+<td><a href="std__parse_hex.html">std::parse_hex</a></td>
+<td class="description">extracts a hexadecimal value from the start of the string</td>
+</tr>
+<tr>
+<td><a href="std__parse_http_reply.html">std::parse_http_reply</a></td>
+<td class="description">parses a HTTP reply</td>
+</tr>
+<tr>
+<td><a href="std__parse_integer.html">std::parse_integer</a></td>
+<td class="description">extracts an integer value from the start of the string</td>
+</tr>
+<tr>
+<td><a href="std__parse_number.html">std::parse_number</a></td>
+<td class="description">extracts a numeric value from the start of the string</td>
+</tr>
+<tr>
+<td><a href="std__password_of.html">std::password_of</a></td>
+<td class="description">returns the password of a user</td>
+</tr>
+<tr>
+<td><a href="std__pause.html">std::pause</a></td>
+<td class="description">pauses the current task to give other tasks the opportunity for I/O</td>
+</tr>
+<tr>
+<td><a href="std__peek.html">std::peek</a></td>
+<td class="description">returns the last item of a collection without removing it</td>
+</tr>
+<tr>
+<td><a href="std__perform_io.html">std::perform_io</a></td>
+<td class="description">starts an I/O operation</td>
+</tr>
+<tr>
+<td><a href="std__performed_io.html">std::performed_io</a></td>
+<td class="description">the I/O-operation has been completed</td>
+</tr>
+<tr>
+<td><a href="std__plot.html">std::plot</a></td>
+<td class="description">plots a character at the given coordinates</td>
+</tr>
+<tr>
+<td><a href="std__plot_line.html">std::plot_line</a></td>
+<td class="description">draws a line from a point to another point</td>
+</tr>
+<tr>
+<td><a href="std__plot_x_resolution_of.html">std::plot_x_resolution_of</a></td>
+<td class="description">the plot resolution in the x-direction</td>
+</tr>
+<tr>
+<td><a href="std__plot_y_resolution_of.html">std::plot_y_resolution_of</a></td>
+<td class="description">the plot y resolution</td>
+</tr>
+<tr>
+<td><a href="std__plus.html">std::plus</a></td>
+<td class="description">adds two numbers of any kind</td>
+</tr>
+<tr>
+<td><a href="std__pop.html">std::pop</a></td>
+<td class="description">removes and returns the last item of a collection</td>
+</tr>
+<tr>
+<td><a href="std__port_no_of.html">std::port_no_of</a></td>
+<td class="description">returns the port number of a connection</td>
+</tr>
+<tr>
+<td><a href="std__prepare_event_channel.html">std::prepare_event_channel</a></td>
+<td class="description">prepares an event channel</td>
+</tr>
+<tr>
+<td><a href="std__prepare_update.html">std::prepare_update</a></td>
+<td class="description">prepares the window manager for an update</td>
+</tr>
+<tr>
+<td><a href="std__previous_key_of.html">std::previous_key_of</a></td>
+<td class="description">returns the key before the specified key</td>
+</tr>
+<tr>
+<td><a href="std__print_to.html">std::print_to</a></td>
+<td class="description">prints a string to a file descriptor</td>
+</tr>
+<tr>
+<td><a href="std__push.html">std::push</a></td>
+<td class="description">adds a single item at the end of a collection</td>
+</tr>
+<tr>
+<td><a href="std__push_button.html">std::push_button</a></td>
+<td class="description">creates a push button</td>
+</tr>
+<tr>
+<td><a href="std__push_button_clear_colour_of.html">std::push_button_clear_colour_of</a></td>
+<td class="description">the clear colour to use for push buttons</td>
+</tr>
+<tr>
+<td><a href="std__push_button_draw_colour_of.html">std::push_button_draw_colour_of</a></td>
+<td class="description">the draw colour to use</td>
+</tr>
+<tr>
+<td><a href="std__push_button_shortcut_colour_of.html">std::push_button_shortcut_colour_of</a></td>
+<td class="description">the shortcut colour to use</td>
+</tr>
+<tr>
+<td><a href="std__put.html">std::put</a></td>
+<td class="description">adds a single item at the front of a collection</td>
+</tr>
+<tr>
+<td><a href="std__random_seed_of.html">std::random_seed_of</a></td>
+<td class="description">returns the current random seed</td>
+</tr>
+<tr>
+<td><a href="std__range.html">std::range</a></td>
+<td class="description">returns a subrange of a collection</td>
+</tr>
+<tr>
+<td><a href="std__read.html">std::read</a></td>
+<td class="description">a low level read function</td>
+</tr>
+<tr>
+<td><a href="std__receive.html">std::receive</a></td>
+<td class="description">receives a message</td>
+</tr>
+<tr>
+<td><a href="std__recheck_io.html">std::recheck_io</a></td>
+<td class="description">the check must be repeated</td>
+</tr>
+<tr>
+<td><a href="std__red_component_of.html">std::red_component_of</a></td>
+<td class="description">returns the red component of a character</td>
+</tr>
+<tr>
+<td><a href="std__reduce.html">std::reduce</a></td>
+<td class="description">compute a kind of sum from the items of a collection</td>
+</tr>
+<tr>
+<td><a href="std__reduce_columns.html">std::reduce_columns</a></td>
+<td class="description">reduces the columns of a table</td>
+</tr>
+<tr>
+<td><a href="std__reduce_rows.html">std::reduce_rows</a></td>
+<td class="description">reduces a list of lists (a table) row-wise</td>
+</tr>
+<tr>
+<td><a href="std__register_handlers.html">std::register_handlers</a></td>
+<td class="description">registers event handlers for a given id</td>
+</tr>
+<tr>
+<td><a href="std__register_resource.html">std::register_resource</a></td>
+<td class="description">registers a resoource with the input-output object.</td>
+</tr>
+<tr>
+<td><a href="std__register_type.html">std::register_type</a></td>
+<td class="description">registers a type for deserialization</td>
+</tr>
+<tr>
+<td><a href="std__register_types.html">std::register_types</a></td>
+<td class="description">registers a list of types for deserialization</td>
+</tr>
+<tr>
+<td><a href="std__remove_message.html">std::remove_message</a></td>
+<td class="description">removes a message</td>
+</tr>
+<tr>
+<td><a href="std__remove_text_attributes.html">std::remove_text_attributes</a></td>
+<td class="description">removes text attributes</td>
+</tr>
+<tr>
+<td><a href="std__replace_all.html">std::replace_all</a></td>
+<td class="description">replaces all occurences of the specified expressions</td>
+</tr>
+<tr>
+<td><a href="std__replace_first.html">std::replace_first</a></td>
+<td class="description">replaces the first occurence of the specified expressions</td>
+</tr>
+<tr>
+<td><a href="std__resize.html">std::resize</a></td>
+<td class="description">resizes a terminal or screen object</td>
+</tr>
+<tr>
+<td><a href="std__restart_output_on_any_character.html">std::restart_output_on_any_character</a></td>
+<td class="description">set or clear IXANY in c_iflag</td>
+</tr>
+<tr>
+<td><a href="std__retrieve_first_item.html">std::retrieve_first_item</a></td>
+<td class="description">removes and returns the first item of a non-empty collection</td>
+</tr>
+<tr>
+<td><a href="std__retrieve_last_item.html">std::retrieve_last_item</a></td>
+<td class="description">returns and removes the last item of a non-empty collection</td>
+</tr>
+<tr>
+<td><a href="std__return_http_resource.html">std::return_http_resource</a></td>
+<td class="description">returns an HTTP resource to a client</td>
+</tr>
+<tr>
+<td><a href="std__reverse.html">std::reverse</a></td>
+<td class="description">reverses the order of all items of a collection</td>
+</tr>
+<tr>
+<td><a href="std__rgb_character.html">std::rgb_character</a></td>
+<td class="description">creates a character that represents a colour</td>
+</tr>
+<tr>
+<td><a href="std__root_device_of.html">std::root_device_of</a></td>
+<td class="description">returns the root device of a stat object</td>
+</tr>
+<tr>
+<td><a href="std__round.html">std::round</a></td>
+<td class="description">computes the nearest integral number for its argument</td>
+</tr>
+<tr>
+<td><a href="std__rows_and_columns.html">std::rows_and_columns</a></td>
+<td class="description">computes the number of rows and the length of the longest row of a</td>
+</tr>
+<tr>
+<td><a href="std__run.html">std::run</a></td>
+<td class="description">starts a new process</td>
+</tr>
+<tr>
+<td><a href="std__run_at.html">std::run_at</a></td>
+<td class="description">schedules a command to be executed at a specific time</td>
+</tr>
+<tr>
+<td><a href="std__save.html">std::save</a></td>
+<td class="description">saves a file in some way</td>
+</tr>
+<tr>
+<td><a href="std__schedule.html">std::schedule</a></td>
+<td class="description">schedules a function to be executed later</td>
+</tr>
+<tr>
+<td><a href="std__scroll_down.html">std::scroll_down</a></td>
+<td class="description">Scrolls the contents of a screen downwards.</td>
+</tr>
+<tr>
+<td><a href="std__scroll_left.html">std::scroll_left</a></td>
+<td class="description">scrolls the contents of a screen to the left by a given number of</td>
+</tr>
+<tr>
+<td><a href="std__scroll_right.html">std::scroll_right</a></td>
+<td class="description">Scrolls the contents of a screen to the right.</td>
+</tr>
+<tr>
+<td><a href="std__scroll_up.html">std::scroll_up</a></td>
+<td class="description">Scrolls the contents of a screen upwards.</td>
+</tr>
+<tr>
+<td><a href="std__search.html">std::search</a></td>
+<td class="description">searches for the first occurrence of a grammar object within a string</td>
+</tr>
+<tr>
+<td><a href="std__second.html">std::second</a></td>
+<td class="description">returns the second element of a tuple</td>
+</tr>
+<tr>
+<td><a href="std__second_of.html">std::second_of</a></td>
+<td class="description">the second of a date-and-time object</td>
+</tr>
+<tr>
+<td><a href="std__seconds_since_epoch.html">std::seconds_since_epoch</a></td>
+<td class="description">the number of seconds since the epoch</td>
+</tr>
+<tr>
+<td><a href="std__seed_of.html">std::seed_of</a></td>
+<td class="description">returns the current seed of a random number generator</td>
+</tr>
+<tr>
+<td><a href="std__send.html">std::send</a></td>
+<td class="description">sends a message to one or more tasks</td>
+</tr>
+<tr>
+<td><a href="std__send_websocket_text_message.html">std::send_websocket_text_message</a></td>
+<td class="description">sends a text message to a websocket client</td>
+</tr>
+<tr>
+<td><a href="std__sequence.html">std::sequence</a></td>
+<td class="description">constructs a sequence</td>
+</tr>
+<tr>
+<td><a href="std__serialization_fields_of.html">std::serialization_fields_of</a></td>
+<td class="description">returns a list of field names and getter functions for serialization</td>
+</tr>
+<tr>
+<td><a href="std__serialization_tag_of.html">std::serialization_tag_of</a></td>
+<td class="description">returns the serialization tag of the object</td>
+</tr>
+<tr>
+<td><a href="std__serialize.html">std::serialize</a></td>
+<td class="description">returns a machine readable string representation of the object</td>
+</tr>
+<tr>
+<td><a href="std__set_buttons.html">std::set_buttons</a></td>
+<td class="description">sets the buttons of a window</td>
+</tr>
+<tr>
+<td><a href="std__set_character_at.html">std::set_character_at</a></td>
+<td class="description">sets the character at the given coordinates</td>
+</tr>
+<tr>
+<td><a href="std__set_clear_colour.html">std::set_clear_colour</a></td>
+<td class="description">sets the clear colour of a terminal</td>
+</tr>
+<tr>
+<td><a href="std__set_clear_colour_at.html">std::set_clear_colour_at</a></td>
+<td class="description">sets the clear colour of a character at a given position in a screen</td>
+</tr>
+<tr>
+<td><a href="std__set_content.html">std::set_content</a></td>
+<td class="description">sets the content of a window</td>
+</tr>
+<tr>
+<td><a href="std__set_cursor.html">std::set_cursor</a></td>
+<td class="description">sets the cursor position on a screen</td>
+</tr>
+<tr>
+<td><a href="std__set_default_message.html">std::set_default_message</a></td>
+<td class="description">sets the default message</td>
+</tr>
+<tr>
+<td><a href="std__set_draw_colour.html">std::set_draw_colour</a></td>
+<td class="description">sets the draw colour</td>
+</tr>
+<tr>
+<td><a href="std__set_draw_colour_at.html">std::set_draw_colour_at</a></td>
+<td class="description">sets the draw colour of a character at a given position</td>
+</tr>
+<tr>
+<td><a href="std__set_inbounds_width.html">std::set_inbounds_width</a></td>
+<td class="description">sets the inbounds width of a window</td>
+</tr>
+<tr>
+<td><a href="std__set_menu.html">std::set_menu</a></td>
+<td class="description">sets the menu</td>
+</tr>
+<tr>
+<td><a href="std__set_mouse_reporting.html">std::set_mouse_reporting</a></td>
+<td class="description">sets the mouse reporting mode</td>
+</tr>
+<tr>
+<td><a href="std__set_selection.html">std::set_selection</a></td>
+<td class="description">sets the selection of a window</td>
+</tr>
+<tr>
+<td><a href="std__set_status.html">std::set_status</a></td>
+<td class="description">sets the status line</td>
+</tr>
+<tr>
+<td><a href="std__set_terminal_attributes.html">std::set_terminal_attributes</a></td>
+<td class="description">update the current terminal attributes</td>
+</tr>
+<tr>
+<td><a href="std__set_text_attributes.html">std::set_text_attributes</a></td>
+<td class="description">sets the text attributes of a terminal</td>
+</tr>
+<tr>
+<td><a href="std__set_time.html">std::set_time</a></td>
+<td class="description">sets the current time</td>
+</tr>
+<tr>
+<td><a href="std__set_timeout.html">std::set_timeout</a></td>
+<td class="description">sets a timeout for the event loop.</td>
+</tr>
+<tr>
+<td><a href="std__set_title.html">std::set_title</a></td>
+<td class="description">sets the title of a window</td>
+</tr>
+<tr>
+<td><a href="std__sgn.html">std::sgn</a></td>
+<td class="description">returns the sign of its (numerical) argument</td>
+</tr>
+<tr>
+<td><a href="std__sha1.html">std::sha1</a></td>
+<td class="description">computes the sha1 hash of a string</td>
+</tr>
+<tr>
+<td><a href="std__shell_of.html">std::shell_of</a></td>
+<td class="description">returns the shell of a user</td>
+</tr>
+<tr>
+<td><a href="std__shift_left.html">std::shift_left</a></td>
+<td class="description">bitwise shift-left operation</td>
+</tr>
+<tr>
+<td><a href="std__shift_right.html">std::shift_right</a></td>
+<td class="description">bitwise shift-right operation</td>
+</tr>
+<tr>
+<td><a href="std__show_message.html">std::show_message</a></td>
+<td class="description">shows a message</td>
+</tr>
+<tr>
+<td><a href="std__shrink.html">std::shrink</a></td>
+<td class="description">shrinks a window</td>
+</tr>
+<tr>
+<td><a href="std__size_of.html">std::size_of</a></td>
+<td class="description">returns the size of a file</td>
+</tr>
+<tr>
+<td><a href="std__some.html">std::some</a></td>
+<td class="description">creates a "some"-object</td>
+</tr>
+<tr>
+<td><a href="std__sort.html">std::sort</a></td>
+<td class="description">sorts a collection</td>
+</tr>
+<tr>
+<td><a href="std__spaces.html">std::spaces</a></td>
+<td class="description">returns a string consisting of the specified number of spaces</td>
+</tr>
+<tr>
+<td><a href="std__split.html">std::split</a></td>
+<td class="description">splits a string into several parts and returns a list of these parts</td>
+</tr>
+<tr>
+<td><a href="std__split_into_groups.html">std::split_into_groups</a></td>
+<td class="description">splits already indented lines into groups</td>
+</tr>
+<tr>
+<td><a href="std__split_into_indented_lines.html">std::split_into_indented_lines</a></td>
+<td class="description">splits a text into indented lines</td>
+</tr>
+<tr>
+<td><a href="std__split_into_lines.html">std::split_into_lines</a></td>
+<td class="description">splits a string into lines</td>
+</tr>
+<tr>
+<td><a href="std__spread.html">std::spread</a></td>
+<td class="description">returns the items of a collection as separate results</td>
+</tr>
+<tr>
+<td><a href="std__sqr.html">std::sqr</a></td>
+<td class="description">returns the square of its (numerical) argument</td>
+</tr>
+<tr>
+<td><a href="std__start_catching_signals.html">std::start_catching_signals</a></td>
+<td class="description">starts catching signals</td>
+</tr>
+<tr>
+<td><a href="std__start_injecting_window_change_events.html">std::start_injecting_window_change_events</a></td>
+<td class="description">starts injecting window change events into the event loop.</td>
+</tr>
+<tr>
+<td><a href="std__start_reading_from.html">std::start_reading_from</a></td>
+<td class="description">starts reading from a file descriptor</td>
+</tr>
+<tr>
+<td><a href="std__start_web_server.html">std::start_web_server</a></td>
+<td class="description">starts a web server</td>
+</tr>
+<tr>
+<td><a href="std__status_change_time_of.html">std::status_change_time_of</a></td>
+<td class="description">returns the last status change time of a file</td>
+</tr>
+<tr>
+<td><a href="std__step_no_of.html">std::step_no_of</a></td>
+<td class="description">returns the current step number of the event loop</td>
+</tr>
+<tr>
+<td><a href="std__stop_catching_signals.html">std::stop_catching_signals</a></td>
+<td class="description">stops catching the specified signals.</td>
+</tr>
+<tr>
+<td><a href="std__stop_injecting_window_change_events.html">std::stop_injecting_window_change_events</a></td>
+<td class="description">stops injecting window change events</td>
+</tr>
+<tr>
+<td><a href="std__stop_reading_from.html">std::stop_reading_from</a></td>
+<td class="description">stops reading from a file descriptor</td>
+</tr>
+<tr>
+<td><a href="std__stop_web_server.html">std::stop_web_server</a></td>
+<td class="description">stops a running web server</td>
+</tr>
+<tr>
+<td><a href="std__string.html">std::string</a></td>
+<td class="description">returns the concatenation of all its arguments converted to strings</td>
+</tr>
+<tr>
+<td><a href="std__subgroups_of.html">std::subgroups_of</a></td>
+<td class="description">returns a list of subgroups of the specified list</td>
+</tr>
+<tr>
+<td><a href="std__subtype_of.html">std::subtype_of</a></td>
+<td class="description">defines a subtype of a tuple or a list</td>
+</tr>
+<tr>
+<td><a href="std__switch_cursor_off.html">std::switch_cursor_off</a></td>
+<td class="description">switches the cursor off</td>
+</tr>
+<tr>
+<td><a href="std__switch_cursor_on.html">std::switch_cursor_on</a></td>
+<td class="description">switches the cursor on</td>
+</tr>
+<tr>
+<td><a href="std__table_group.html">std::table_group</a></td>
+<td class="description">creates a table group</td>
+</tr>
+<tr>
+<td><a href="std__tabs_and_spaces.html">std::tabs_and_spaces</a></td>
+<td class="description">returns a sequence of tabulator- and space-characters</td>
+</tr>
+<tr>
+<td><a href="std__task_id_of.html">std::task_id_of</a></td>
+<td class="description">returns the task id of the object</td>
+</tr>
+<tr>
+<td><a href="std__text_attributes_of.html">std::text_attributes_of</a></td>
+<td class="description">the text attributes to use</td>
+</tr>
+<tr>
+<td><a href="std__text_box.html">std::text_box</a></td>
+<td class="description">creates a text box widget</td>
+</tr>
+<tr>
+<td><a href="std__text_box_clear_colour_of.html">std::text_box_clear_colour_of</a></td>
+<td class="description">the clear colour to use</td>
+</tr>
+<tr>
+<td><a href="std__text_box_draw_colour_of.html">std::text_box_draw_colour_of</a></td>
+<td class="description">the draw colour to use</td>
+</tr>
+<tr>
+<td><a href="std__third.html">std::third</a></td>
+<td class="description">returns the third element of a tuple</td>
+</tr>
+<tr>
+<td><a href="std__time_shift_of.html">std::time_shift_of</a></td>
+<td class="description">the time shift of a date-and-time object</td>
+</tr>
+<tr>
+<td><a href="std__timeout_for_reads.html">std::timeout_for_reads</a></td>
+<td class="description">set or get the value of VTIME in c_cc; timeout is converted to/from seconds!</td>
+</tr>
+<tr>
+<td><a href="std__times.html">std::times</a></td>
+<td class="description">multiplies two numbers of any kind</td>
+</tr>
+<tr>
+<td><a href="std__to_base64.html">std::to_base64</a></td>
+<td class="description">converts a string to base64</td>
+</tr>
+<tr>
+<td><a href="std__to_binop.html">std::to_binop</a></td>
+<td class="description">Converts a tuple to a binary operation.</td>
+</tr>
+<tr>
+<td><a href="std__to_error_message_string.html">std::to_error_message_string</a></td>
+<td class="description">converts an error object to a string</td>
+</tr>
+<tr>
+<td><a href="std__to_hash_bag.html">std::to_hash_bag</a></td>
+<td class="description">converts a list to a hash bag</td>
+</tr>
+<tr>
+<td><a href="std__to_hash_table.html">std::to_hash_table</a></td>
+<td class="description">converts a list containing key-value-pairs into a hash table</td>
+</tr>
+<tr>
+<td><a href="std__to_integer.html">std::to_integer</a></td>
+<td class="description">converts its argument into an integer number</td>
+</tr>
+<tr>
+<td><a href="std__to_json.html">std::to_json</a></td>
+<td class="description">converts a value to a JSON string</td>
+</tr>
+<tr>
+<td><a href="std__to_list.html">std::to_list</a></td>
+<td class="description">creates a list representing the collection</td>
+</tr>
+<tr>
+<td><a href="std__to_lower_case.html">std::to_lower_case</a></td>
+<td class="description">converts all upper case characters to lower case</td>
+</tr>
+<tr>
+<td><a href="std__to_number.html">std::to_number</a></td>
+<td class="description">converts its argument into a number</td>
+</tr>
+<tr>
+<td><a href="std__to_real.html">std::to_real</a></td>
+<td class="description">converts its argument into a real (floating point) number</td>
+</tr>
+<tr>
+<td><a href="std__to_sentence_case.html">std::to_sentence_case</a></td>
+<td class="description">converts a string to "Sentence case"</td>
+</tr>
+<tr>
+<td><a href="std__to_string.html">std::to_string</a></td>
+<td class="description">returns a human readable presentation of the object</td>
+</tr>
+<tr>
+<td><a href="std__to_title_case.html">std::to_title_case</a></td>
+<td class="description">converts the contents to Title Case</td>
+</tr>
+<tr>
+<td><a href="std__to_uint8_array.html">std::to_uint8_array</a></td>
+<td class="description">converts a string to an array of unsigned 8-bit integers</td>
+</tr>
+<tr>
+<td><a href="std__to_upper_case.html">std::to_upper_case</a></td>
+<td class="description">converts all lower case characters to UPPER CASE</td>
+</tr>
+<tr>
+<td><a href="std__to_utf8.html">std::to_utf8</a></td>
+<td class="description">converts a string from code points to utf-8 encoding</td>
+</tr>
+<tr>
+<td><a href="std__to_wide.html">std::to_wide</a></td>
+<td class="description">converts a character or a string to its wide character representation</td>
+</tr>
+<tr>
+<td><a href="std__trim.html">std::trim</a></td>
+<td class="description">removes leading and trailing whitespace</td>
+</tr>
+<tr>
+<td><a href="std__trim_left.html">std::trim_left</a></td>
+<td class="description">removes leading whitespace</td>
+</tr>
+<tr>
+<td><a href="std__trim_right.html">std::trim_right</a></td>
+<td class="description">removes trailing whitespace</td>
+</tr>
+<tr>
+<td><a href="std__truncate.html">std::truncate</a></td>
+<td class="description">truncates a collection to the specified number of items</td>
+</tr>
+<tr>
+<td><a href="std__truncate_before.html">std::truncate_before</a></td>
+<td class="description">returns the substring starting with the specified expression</td>
+</tr>
+<tr>
+<td><a href="std__truncate_behind.html">std::truncate_behind</a></td>
+<td class="description">returns the substring ending with the specified expression</td>
+</tr>
+<tr>
+<td><a href="std__truncate_from.html">std::truncate_from</a></td>
+<td class="description">returns the substring before the specified expression</td>
+</tr>
+<tr>
+<td><a href="std__truncate_until.html">std::truncate_until</a></td>
+<td class="description">returns the substring behind the specified expression</td>
+</tr>
+<tr>
+<td><a href="std__type_of.html">std::type_of</a></td>
+<td class="description">returns the type of a terminal</td>
+</tr>
+<tr>
+<td><a href="std__typed_tuple.html">std::typed_tuple</a></td>
+<td class="description">creates a typed tuple</td>
+</tr>
+<tr>
+<td><a href="std__unreachable.html">std::unreachable</a></td>
+<td class="description">raises an error</td>
+</tr>
+<tr>
+<td><a href="std__unset_selection.html">std::unset_selection</a></td>
+<td class="description">unsets the selection of a window</td>
+</tr>
+<tr>
+<td><a href="std__until.html">std::until</a></td>
+<td class="description">returns the substring until (including) the specified expression</td>
+</tr>
+<tr>
+<td><a href="std__update.html">std::update</a></td>
+<td class="description">updates the state of an object</td>
+</tr>
+<tr>
+<td><a href="std__update_if.html">std::update_if</a></td>
+<td class="description">updates one or more variables depending on a condition</td>
+</tr>
+<tr>
+<td><a href="std__update_if_not.html">std::update_if_not</a></td>
+<td class="description">updates one or more variables depending on a condition</td>
+</tr>
+<tr>
+<td><a href="std__upgrade_to_websocket.html">std::upgrade_to_websocket</a></td>
+<td class="description">Upgrades a TCP connection to a WebSocket connection.</td>
+</tr>
+<tr>
+<td><a href="std__upper_bound_of.html">std::upper_bound_of</a></td>
+<td class="description">returns the upper bound of a value range</td>
+</tr>
+<tr>
+<td><a href="std__use_canonical_mode.html">std::use_canonical_mode</a></td>
+<td class="description">set or clear ICANON in c_lflag</td>
+</tr>
+<tr>
+<td><a href="std__user_id_of.html">std::user_id_of</a></td>
+<td class="description">returns the user id of a user information</td>
+</tr>
+<tr>
+<td><a href="std__user_information_of.html">std::user_information_of</a></td>
+<td class="description">returns the user information of a user id</td>
+</tr>
+<tr>
+<td><a href="std__username_of.html">std::username_of</a></td>
+<td class="description">returns the username of a user id</td>
+</tr>
+<tr>
+<td><a href="std__validate.html">std::validate</a></td>
+<td class="description">validates the internal structure of a binary table</td>
+</tr>
+<tr>
+<td><a href="std__value_of.html">std::value_of</a></td>
+<td class="description">returns the value of a key-value-pair</td>
+</tr>
+<tr>
+<td><a href="std__value_range.html">std::value_range</a></td>
+<td class="description">creates a value-range object</td>
+</tr>
+<tr>
+<td><a href="std__values_of.html">std::values_of</a></td>
+<td class="description">returns a list of all values of the specified collection</td>
+</tr>
+<tr>
+<td><a href="std__vertical_group.html">std::vertical_group</a></td>
+<td class="description">creates a vertical group of widgets</td>
+</tr>
+<tr>
+<td><a href="std__wait_for_message.html">std::wait_for_message</a></td>
+<td class="description">waits until at least one message is ready to be received</td>
+</tr>
+<tr>
+<td><a href="std__while.html">std::while</a></td>
+<td class="description">a "while" loop</td>
+</tr>
+<tr>
+<td><a href="std__while_not.html">std::while_not</a></td>
+<td class="description">a "while" loop</td>
+</tr>
+<tr>
+<td><a href="std__width_of.html">std::width_of</a></td>
+<td class="description">returns the width of an object in character positions</td>
+</tr>
+<tr>
+<td><a href="std__window_count_of.html">std::window_count_of</a></td>
+<td class="description">returns the number of windows</td>
+</tr>
+<tr>
+<td><a href="std__with_tabs.html">std::with_tabs</a></td>
+<td class="description">replaces leading spaces with tab-characters</td>
+</tr>
+<tr>
+<td><a href="std__without_prefix.html">std::without_prefix</a></td>
+<td class="description">remove a prefix from a string</td>
+</tr>
+<tr>
+<td><a href="std__without_suffix.html">std::without_suffix</a></td>
+<td class="description">remove a specific expression at the end of a string</td>
+</tr>
+<tr>
+<td><a href="std__wrap_words.html">std::wrap_words</a></td>
+<td class="description">wraps a string consisting of words onto multiple lines</td>
+</tr>
+<tr>
+<td><a href="std__write.html">std::write</a></td>
+<td class="description">writes data to a stream</td>
+</tr>
+<tr>
+<td><a href="std__write_at.html">std::write_at</a></td>
+<td class="description">writes a sequence of bytes to a shared memory object at a given position</td>
+</tr>
+<tr>
+<td><a href="std__x_of.html">std::x_of</a></td>
+<td class="description">the x-coordinate of the upper left corner</td>
+</tr>
+<tr>
+<td><a href="std__y_of.html">std::y_of</a></td>
+<td class="description">the y-coordinate of the upper left corner</td>
+</tr>
+<tr>
+<td><a href="std__year_of.html">std::year_of</a></td>
+<td class="description">the calendar year of a date-and-time object</td>
+</tr>
+<tr>
+<td><a href="std__yes_no_dialog.html">std::yes_no_dialog</a></td>
+<td class="description">displays a dialog with a question and two buttons "Yes" and "No"</td>
+</tr>
+<tr>
+<td><a href="std__zip.html">std::zip</a></td>
+<td class="description">merges two collections</td>
+</tr>
+</table>
+</body>
+</html>

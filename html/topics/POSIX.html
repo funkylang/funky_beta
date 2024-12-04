@@ -1,0 +1,221 @@
+<html>
+<head>
+<title>POSIX</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<div>
+<a class="Button" href="../index.html">Home</a> <a class="Button" href="../manual.html">Manual</a> <a class="Button" href="index.html">Topics</a> <a class="Button" href="../symbols/type_index.html">Types</a> <a class="Button" href="../symbols/function_index.html">Functions</a> <a class="Button" href="../symbols/objects_index.html">Objects</a> <a class="Button" href="../symbols/constants_index.html">Constants</a> <a class="Button" href="../symbols/index.html">All</a>
+</div>
+<h1>POSIX</h1>
+<h2>Description</h2>
+<p>The Funky-API includes most POSIX-function calls.</p>
+<p>The are wrapped in a Funky-style API.</p>
+<p>Funky uses mainly blocking I/O but makes heavy use of the <a href="../symbols/std__pselect.html">std::pselect</a> function to make I/O-calls only when non-blocking behaviour is guaranteed.</p>
+<p>In most cases it will be more appropriate to use the <a href="Input-Output.html">Input-Output</a>-API than the POSIX-API.</p>
+<h2>Related topics</h2>
+<table>
+<tr>
+  <td><a href="Input-Output.html">Input-Output</a></td>
+</tr>
+</table>
+<h2>Types</h2>
+<table>
+<tr>
+  <td><a href="../symbols/std_types__device_id.html">std_types::device_id</a></td>
+  <td class="description">a device id</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std_types__directory.html">std_types::directory</a></td>
+  <td class="description">a directory</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std_types__error_number.html">std_types::error_number</a></td>
+  <td class="description">a POSIX error number</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std_types__file_descriptor.html">std_types::file_descriptor</a></td>
+  <td class="description">a file descriptor</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std_types__file_type.html">std_types::file_type</a></td>
+  <td class="description">a file type</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std_types__group_id.html">std_types::group_id</a></td>
+  <td class="description">a group id</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std_types__inode_number.html">std_types::inode_number</a></td>
+  <td class="description">the prototype object for all inode numbers</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std_types__process_id.html">std_types::process_id</a></td>
+  <td class="description">a process id</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std_types__seek_type.html">std_types::seek_type</a></td>
+  <td class="description">the prototype object for all seek types</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std_types__shared_memory.html">std_types::shared_memory</a></td>
+  <td class="description">the prototype object for all shared memory objects</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std_types__shutdown_type.html">std_types::shutdown_type</a></td>
+  <td class="description">a shutdown type</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std_types__stat.html">std_types::stat</a></td>
+  <td class="description">the prototype object for all stat objects</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std_types__terminal_attributes.html">std_types::terminal_attributes</a></td>
+  <td class="description">a structure that stores the terminal attributes</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std_types__user_id.html">std_types::user_id</a></td>
+  <td class="description">a user id</td>
+</tr>
+</table>
+<h2>Functions</h2>
+<table>
+<tr>
+  <td><a href="../symbols/std__backspace_character_of.html">std::backspace_character_of</a></td>
+  <td class="description">retrieve the character sent by the backspace key</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__block_count_of.html">std::block_count_of</a></td>
+  <td class="description">returns the number of blocks allocated for the file</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__block_size_of.html">std::block_size_of</a></td>
+  <td class="description">returns the block size of a file</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__device_of.html">std::device_of</a></td>
+  <td class="description">returns the device of a file</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__enable_xon_xoff_for_input.html">std::enable_xon_xoff_for_input</a></td>
+  <td class="description">set or clear IXOFF in c_iflag</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__extern.html">std::extern</a></td>
+  <td class="description">executes an external command</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__file_descriptor_of.html">std::file_descriptor_of</a></td>
+  <td class="description">returns the file descriptor of an object</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__group_id_of.html">std::group_id_of</a></td>
+  <td class="description">returns the group id of a file</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__hangup_on_close.html">std::hangup_on_close</a></td>
+  <td class="description">set or clear HUPCL in c_oflag</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__home_directory_of.html">std::home_directory_of</a></td>
+  <td class="description">returns the home directory of a user</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__inode_number_of.html">std::inode_number_of</a></td>
+  <td class="description">returns the inode number of a file</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__input_speed.html">std::input_speed</a></td>
+  <td class="description">set or get the input speed</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__link_count_of.html">std::link_count_of</a></td>
+  <td class="description">returns the number of links to a file</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__map_cr_to_lf_on_input.html">std::map_cr_to_lf_on_input</a></td>
+  <td class="description">set or clear ICRNL in c_iflag</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__map_lf_to_crlf_on_output.html">std::map_lf_to_crlf_on_output</a></td>
+  <td class="description">set or clear ONLCR in c_oflag</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__minimum_characters_for_canoncial_read.html">std::minimum_characters_for_canoncial_read</a></td>
+  <td class="description">set or get the value of VMIN in c_cc</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__mode_of.html">std::mode_of</a></td>
+  <td class="description">returns the mode of a file</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__name_of.html">std::name_of</a></td>
+  <td class="description">returns the name of an object</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__output_speed.html">std::output_speed</a></td>
+  <td class="description">set or get the output speed of a terminal</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__password_of.html">std::password_of</a></td>
+  <td class="description">returns the password of a user</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__root_device_of.html">std::root_device_of</a></td>
+  <td class="description">returns the root device of a stat object</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__shell_of.html">std::shell_of</a></td>
+  <td class="description">returns the shell of a user</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__size_of.html">std::size_of</a></td>
+  <td class="description">returns the size of a file</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__type_of.html">std::type_of</a></td>
+  <td class="description">returns the type of a terminal</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__use_canonical_mode.html">std::use_canonical_mode</a></td>
+  <td class="description">set or clear ICANON in c_lflag</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__user_id_of.html">std::user_id_of</a></td>
+  <td class="description">returns the user id of a user information</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__user_information_of.html">std::user_information_of</a></td>
+  <td class="description">returns the user information of a user id</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__username_of.html">std::username_of</a></td>
+  <td class="description">returns the username of a user id</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__write_at.html">std::write_at</a></td>
+  <td class="description">writes a sequence of bytes to a shared memory object at a given position</td>
+</tr>
+</table>
+<h2>Constants</h2>
+<table>
+<tr>
+  <td><a href="../symbols/std__CHILD_CHANGED_STATE.html">std::CHILD_CHANGED_STATE</a></td>
+  <td class="description">the signal that is sent to the parent process if the state of a child</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__SIGHUP.html">std::SIGHUP</a></td>
+  <td class="description">the hangup signal</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__SIGUSR1.html">std::SIGUSR1</a></td>
+  <td class="description">the POSIX signal number for SIGUSR1</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__SIGUSR2.html">std::SIGUSR2</a></td>
+  <td class="description">the signal number for SIGUSR2</td>
+</tr>
+</table>
+<div class="footer">(defined in <a href="../source/basic/io/io.fky">basic/io/io.fky</a>)</div>
+</body>
+</html>
