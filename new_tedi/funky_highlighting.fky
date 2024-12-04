@@ -113,6 +113,8 @@ $LIBRARY_IO_CALL .
 $LOCAL_CONSTANT .
 $LIBRARY_CONSTANT .
 $LOCAL_VARIABLE .
+$NAMESPACED_CONSTANT .
+$NAMESPACED_VARIABLE .
 
 $LOCAL_FUNCTION .
 $LIBRARY_FUNCTION .
@@ -126,8 +128,10 @@ $LIBRARY_VARIABLE .
 $UNSPECIFIC .
 $MULTIPLE_DEFINITIONS .
 $HIDING_DEFINITION .
+$SYNTAX_ERROR .
 
-$LOCAL BLACK #'@0x384838;'
+$LOCAL BLACK
+$NAMESPACED '@0x004838;'
 $LIBRARY '@0x703000;' #'@0x905000;'
 
 # Tables
@@ -153,8 +157,11 @@ $kind_to_colour
     LIBRARY_CONSTANT = BLUE
     LIBRARY_VARIABLE = LIBRARY
     LOCAL_VARIABLE = LOCAL
-    MULTIPLE_DEFINITIONS = RED
+    NAMESPACED_CONSTANT = NAMESPACED
+    NAMESPACED_VARIABLE = NAMESPACED
+    MULTIPLE_DEFINITIONS = '@0xff4000;'
     HIDING_DEFINITION = MAGENTA
+    SYNTAX_ERROR = RED
 
 $kind_to_text_attributes
   hash_table
@@ -177,8 +184,11 @@ $kind_to_text_attributes
     LIBRARY_CONSTANT = BOLD
     LIBRARY_VARIABLE = ITALIC
     LOCAL_VARIABLE = ITALIC
+    NAMESPACED_CONSTANT = NORMAL
+    NAMESPACED_VARIABLE = ITALIC
     MULTIPLE_DEFINITIONS = BOLD
     HIDING_DEFINITION = BOLD
+    SYNTAX_ERROR = NORMAL
 
 $kind_from_string
   hash_table
@@ -350,6 +360,7 @@ $replace_in_text_page: (page from to inserted)
       usage_changes
     )
     !tree.nodes_of nodes
+    #debug::dump 3 `redefinition_changes
     plus &tree.length_of inserted_count+from-to-1
     on DO_VALIDATE && not(validate_tree(tree)): dump_tree tree
     merge &tree.local_definitions_of definition_changes merge_symbol_kinds
@@ -599,14 +610,10 @@ $insert_line:
 		$usage_changes
 	      !parent.total_line_count_of
 		total_line_count_of(parent)+idx-parent_idx
-	      ->
-		append
-		  range(nodes 1 parent_idx-1)
-		  list(parent)
-		  range(nodes idx -1)
-		definition_changes
-		redefinition_changes
-		usage_changes
+	      update_node
+		append(range(nodes 1 parent_idx) range(nodes idx -1))
+		parent_idx parent
+		definition_changes redefinition_changes usage_changes
 	    :
 	      !line.kind_of kind
 	      $i idx
@@ -765,8 +772,8 @@ $append_line: (nodes empty_lines line kind)
 	    $definition_changes $redefinition_changes $usage_changes
 	  !parent.total_line_count_of
 	    total_line_count_of(parent)+length_of(empty_lines)+1
-	  ->
-	    push(range(nodes 1 -2) parent)
+	  update_node
+	    nodes length_of(nodes) parent
 	    definition_changes redefinition_changes usage_changes
 	:
 	  !line.kind_of kind
@@ -1406,6 +1413,7 @@ $create_screens: (page symbols from to)
 		  add_part DUMMY check
 
 	$skip_number:
+	  $has_a_leading_zero text(i) == '0'
 	  inc &i
 	  if
 	    i > n
@@ -1413,7 +1421,52 @@ $create_screens: (page symbols from to)
 	    :
 	      case text(i)
 		'0'..'9', '.'
-		skip_number
+		skip_digits
+		'x':
+		  if
+		    has_a_leading_zero
+		    skip_hex_number
+		    :
+		      !style SYNTAX_ERROR
+		      add_part SYNTAX_ERROR check
+		:
+		  add_part DUMMY check
+
+	$skip_digits:
+	  inc &i
+	  if
+	    i > n
+	    add_part
+	    :
+	      case text(i)
+		'0'..'9', '.'
+		skip_digits
+		:
+		  add_part DUMMY check
+
+	$skip_hex_number:
+	  inc &i
+	  if
+	    i > n:
+	      !style SYNTAX_ERROR
+	      add_part
+	    :
+	      case text(i)
+		'0'..'9', 'a'..'f', 'A'..'F'
+		skip_hex_digits
+		:
+		  !style SYNTAX_ERROR
+		  add_part SYNTAX_ERROR check
+
+	$skip_hex_digits:
+	  inc &i
+	  if
+	    i > n
+	    add_part
+	    :
+	      case text(i)
+		'0'..'9', 'a'..'f', 'A'..'F'
+		skip_hex_digits
 		:
 		  add_part DUMMY check
 
@@ -1451,7 +1504,7 @@ $create_screens: (page symbols from to)
 		      var_kind.is_defined:
 			if
 			  module_global_redefinitions(part).is_defined
-			  -> LOCAL_VARIABLE
+			  -> NAMESPACED_VARIABLE
 			  :
 			    if
 			      is_an_io_call
@@ -1472,7 +1525,7 @@ $create_screens: (page symbols from to)
 					    LOCAL_UNIQUE_ITEM
 					    MULTIPLE_DEFINITIONS
 					  -> var_kind
-					  -> LOCAL_CONSTANT
+					  -> NAMESPACED_CONSTANT
 		      :
 			$kind_string symbols(part)
 			if

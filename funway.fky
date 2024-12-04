@@ -46,39 +46,39 @@ $WHITE "@255;@255;@255;@0;"
 $WIDTH 320
 $HEIGHT 200
 
-$xdg_runtime_dir environment("XDG_RUNTIME_DIR")
-$wayland_display default_value(environment("WAYLAND_DISPLAY") "wayland-0")
-open_unix_socket! $sock append(xdg_runtime_dir "/" wayland_display)
-check sock
-get_registry! sock REGISTRY_ID
-
 $interfaces empty_hash_table
 $configuration undefined
 
-handle_incoming_messages! !interfaces !configuration
-#debug::dump 3 `interfaces
-bind_registry! sock COMPOSITOR_ID "wl_compositor"
-bind_registry! sock SHARED_MEMORY_ID "wl_shm"
-bind_registry! sock WINDOW_MANAGER_BASE_ID "xdg_wm_base"
-handle_incoming_messages! !interfaces !configuration
-create_surface! sock SURFACE_ID
-get_xdg_surface! sock XDG_SURFACE_ID
-get_xdg_toplevel! sock XDG_TOPLEVEL_ID
-commit_surface! sock
-handle_incoming_messages! !interfaces !configuration
-acknowledge_xdg_surface_configuration! sock configuration
-create_shared_memory! $shm "/funway" WIDTH*HEIGHT*4
-shm_unlink! "/funway"
-check shm
-create_shared_memory_pool! sock SHARED_MEMORY_POOL_ID shm
-create_shared_memory_buffer! sock SHARED_MEMORY_BUFFER_ID
-  0 WIDTH HEIGHT WIDTH*4 XRGB_8888
-attach_surface! sock
-commit_surface! sock
-handle_incoming_messages! !interfaces !configuration
-handle_incoming_messages! !interfaces !configuration
-acknowledge_xdg_surface_configuration! sock configuration
 do:
+  $xdg_runtime_dir environment("XDG_RUNTIME_DIR")
+  $wayland_display default_value(environment("WAYLAND_DISPLAY") "wayland-0")
+  open_unix_socket! $sock append(xdg_runtime_dir "/" wayland_display)
+  check sock
+  get_registry! sock REGISTRY_ID
+
+  handle_incoming_messages! !interfaces !configuration sock
+  #debug::dump 3 `interfaces
+  bind_registry! sock COMPOSITOR_ID "wl_compositor"
+  bind_registry! sock SHARED_MEMORY_ID "wl_shm"
+  bind_registry! sock WINDOW_MANAGER_BASE_ID "xdg_wm_base"
+  handle_incoming_messages! !interfaces !configuration sock
+  create_surface! sock SURFACE_ID
+  get_xdg_surface! sock XDG_SURFACE_ID
+  get_xdg_toplevel! sock XDG_TOPLEVEL_ID
+  commit_surface! sock
+  handle_incoming_messages! !interfaces !configuration sock
+  acknowledge_xdg_surface_configuration! sock configuration
+  create_shared_memory! $shm "/funway" WIDTH*HEIGHT*4
+  shm_unlink! "/funway"
+  check shm
+  create_shared_memory_pool! sock SHARED_MEMORY_POOL_ID shm
+  create_shared_memory_buffer! sock SHARED_MEMORY_BUFFER_ID
+    0 WIDTH HEIGHT WIDTH*4 XRGB_8888
+  attach_surface! sock
+  commit_surface! sock
+  handle_incoming_messages! !interfaces !configuration sock
+  handle_incoming_messages! !interfaces !configuration sock
+  acknowledge_xdg_surface_configuration! sock configuration
   $rectangles
     list
       tuple(RED 20 30 80 50 -2 1)
@@ -90,7 +90,7 @@ do:
     write_at! shm 1 pixels_of(pixmap)
     attach_surface! sock
     commit_surface! sock
-    handle_incoming_messages! !interfaces !configuration
+    handle_incoming_messages! !interfaces !configuration sock
     move_rectangles &rectangles
     sleep! $_dummy 0.03
     next!
@@ -142,7 +142,7 @@ $move_rectangles: (rectangles)
 
     -> moved_rectangles
 
-$handle_incoming_messages:
+$handle_incoming_messages: (sock)
   loop:
     debug::println "waiting for incoming messages"
     read! $buffer sock 4096
@@ -361,13 +361,13 @@ $attach_surface:
 $acknowledge_xdg_surface_configuration:
   (
     sock
-    configuration
+    conf
   )
   $msg ""
   push_uint32 &msg XDG_SURFACE_ID
   push_uint16 &msg XDG_SURFACE_ACKNOWLEDGE_CONFIGURATION
   push_uint16 &msg 12 # message length
-  push_uint32 &msg configuration
+  push_uint32 &msg conf
   debug::println "acknowledge_xdg_surface_configuration"
   debug::hexdump msg
   write! $bytes_written sock msg
