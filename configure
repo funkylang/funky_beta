@@ -733,6 +733,7 @@ done
 echo "${TAB}mkdir -p -- \$(DESTDIR)$PREFIX/share/funky-$RUNTIME_VERSION/runtime"
 echo "${TAB}cp runtime/*.h \
   \"\$(DESTDIR)$PREFIX/share/funky-$RUNTIME_VERSION/runtime/\""
+echo "${TAB}cp -r html \"\$(DESTDIR)$PREFIX/share/funky-$RUNTIME_VERSION\""
 echo "${TAB}ln -fs funky-$RUNTIME_VERSION \
   \$(DESTDIR)$PREFIX/share/funky-$DLL_VERSION"
 if [ $OS = 'linux' ]
@@ -765,6 +766,7 @@ do
 done
 echo "${TAB}rm \
   -f \"\$(DESTDIR)$PREFIX/share/funky-$RUNTIME_VERSION/runtime\"/*.h"
+echo "${TAB}rm -rf \"\$(DESTDIR)$PREFIX/share/funky-$RUNTIME_VERSION/html\""
 echo "${TAB}rmdir \
   \"\$(DESTDIR)$PREFIX/share/funky-$RUNTIME_VERSION/runtime\" || true"
 echo "${TAB}rmdir \"\$(DESTDIR)$PREFIX/share/funky-$RUNTIME_VERSION\" || true"

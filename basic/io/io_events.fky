@@ -247,8 +247,12 @@ $std_types::io/start_reading_from:
     do_close = true
     max_length = undefined
   )
-  !self.read_jobs_of(fd) tuple(do_close max_length)
-  -> self
+  if
+    exit_code_of(self).is_defined
+    -> self
+    :
+      !self.read_jobs_of(fd) tuple(do_close max_length)
+      -> self
 
 $std_types::io/stop_reading_from:
   (

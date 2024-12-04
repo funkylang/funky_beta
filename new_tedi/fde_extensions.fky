@@ -26,7 +26,14 @@
 $symbol_plugin std_types::object
 
 $symbol_plugin/initialize: (_id io)
-  load io LOAD_SYMBOLS "html/all_symbols.txt"
+  $filename
+    append
+      installation_prefix()
+      "/share/funky-" package_version()
+      "/html/all_symbols.txt"
+  log &io "
+    loading symbols from "@(filename)"
+  load io LOAD_SYMBOLS filename
 
 $LOAD_SYMBOLS .
 
@@ -40,6 +47,12 @@ $LOAD_SYMBOLS/job_completed: (_self io state buf _context)
       !symbols(name) kind
       next
     -> io state(.symbols_of symbols)
+
+$LOAD_SYMBOLS/job_failed: (_self io state _buf _context)
+  log &io "failed to load symbols"
+  log &io "exiting"
+  exit &io EXIT_FAILURE
+  -> io state
 
 $fde::symbols_of ()
 

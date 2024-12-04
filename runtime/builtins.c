@@ -28,6 +28,7 @@
 #include <netdb.h>
 #include <dirent.h>
 
+#include "platform.h"
 #include "common.h"
 #include "builtins.h"
 #include "fko.h"
@@ -188,6 +189,8 @@ enum {
   func__debug___exit,
   func__std___error_check,
   func__debug___total_garbage_collections,
+  func__std___installation_prefix,
+  func__std___package_version,
   unique__std___IO_ERROR,
   unique__std___RUNTIME_ERROR,
   unique__std___APPLICATION_ERROR,
@@ -580,6 +583,8 @@ enum {
   var_no__std___program_name,
   var_no__std___command_line_arguments,
   var_no__std___environment_variables,
+  var_no__std___installation_prefix,
+  var_no__std___package_version,
   var_no__std___IO_ERROR,
   var_no__std___RUNTIME_ERROR,
   var_no__std___APPLICATION_ERROR,
@@ -17492,6 +17497,34 @@ static void entry__debug___total_garbage_collections (void)
     }
   }
 
+static void entry__std___installation_prefix (void)
+  {
+    if (TLS_argument_count != 0) {
+      invalid_arguments();
+      return;
+    }
+    {
+      NODE *result__node = (NODE *)(from_c_string(PREFIX));
+      TLS_arguments[0] = result__node;
+      TLS_argument_count = 1;
+      return;
+    }
+  }
+
+static void entry__std___package_version (void)
+  {
+    if (TLS_argument_count != 0) {
+      invalid_arguments();
+      return;
+    }
+    {
+      NODE *result__node = (NODE *)(from_c_string(PACKAGE_VERSION));
+      TLS_arguments[0] = result__node;
+      TLS_argument_count = 1;
+      return;
+    }
+  }
+
 static void entry__std_types___error___std___error_category_of (void)
   {
     if (TLS_argument_count != 1) {
@@ -26805,6 +26838,8 @@ static FUNKY_CONSTANT constants_table[] = {
   {FLT_C_FUNCTION, -1, {.func = entry__debug___exit}},
   {FLT_C_FUNCTION, -1, {.func = entry__std___error_check}},
   {FLT_C_FUNCTION, 0, {.func = entry__debug___total_garbage_collections}},
+  {FLT_C_FUNCTION, 0, {.func = entry__std___installation_prefix}},
+  {FLT_C_FUNCTION, 0, {.func = entry__std___package_version}},
   {FLT_UNIQUE, 0, {.str_8 = "std::IO_ERROR"}},
   {FLT_UNIQUE, 0, {.str_8 = "std::RUNTIME_ERROR"}},
   {FLT_UNIQUE, 0, {.str_8 = "std::APPLICATION_ERROR"}},
@@ -28611,6 +28646,16 @@ static FUNKY_VARIABLE variables_table[] = {
     {.methods_count = 0}, 0,
     NULL,
     {(NODE *)&std___environment_variables}
+  },
+  {
+    FOT_INITIALIZED, 0, 0,
+    "installation_prefix\000std", NULL,
+    {.const_idx = func__std___installation_prefix}
+  },
+  {
+    FOT_INITIALIZED, 0, 0,
+    "package_version\000std", NULL,
+    {.const_idx = func__std___package_version}
   },
   {
     FOT_INITIALIZED, 0, 0,
@@ -30813,13 +30858,13 @@ FUNKY_MODULE module__builtin = {
   NULL,
   0, 0,
   4, 0,
-  417, 453,
+  419, 455,
   NULL,
   defined_namespaces, NULL,
   constants_table, variables_table
 };
 
-BUILTIN_FUNCTION_NAME builtin_function_names[470] = {
+BUILTIN_FUNCTION_NAME builtin_function_names[472] = {
   {std_types___generic_array____type, "std_types::generic_array/_type"},
   {std_types___array____type, "std_types::array/_type"},
   {entry__std_types___array___std___length_of, "std_types::array/length_of"},
@@ -30991,6 +31036,8 @@ BUILTIN_FUNCTION_NAME builtin_function_names[470] = {
   {entry__debug___exit, "debug::exit"},
   {entry__std___error_check, "std::error_check"},
   {entry__debug___total_garbage_collections, "debug::total_garbage_collections"},
+  {entry__std___installation_prefix, "std::installation_prefix"},
+  {entry__std___package_version, "std::package_version"},
   {std_types___error____type, "std_types::error/_type"},
   {entry__std_types___error___std___error_category_of, "std_types::error/error_category_of"},
   {entry__std_types___error___std___error_message_text_of, "std_types::error/error_message_text_of"},

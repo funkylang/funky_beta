@@ -115,3 +115,15 @@ FUNCTION void initialize_environment
       VAR(std::environment_variables), env_vars,
       sizeof(std::environment_variables));
   }
+
+FUNCTION std::installation_prefix
+  {
+    CHECK_ARGUMENTS(0)
+    RETURN_SINGLE_RESULT(from_c_string(PREFIX))
+  }
+
+FUNCTION std::package_version
+  {
+    CHECK_ARGUMENTS(0)
+    RETURN_SINGLE_RESULT(from_c_string(PACKAGE_VERSION))
+  }
