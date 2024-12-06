@@ -76,7 +76,7 @@ $tedi_types::page/handle_key_press: (page io state key)
     $window_manager window_manager_of(state)
     $lines lines_of(page)
     $info info_of(page)
-    get_xy window_manager $x $y
+    get_xy page window_manager $x $y
     action! &state x y lines info
     -> io state
 
@@ -84,12 +84,42 @@ $tedi_types::page/handle_key_press: (page io state key)
     $window_manager window_manager_of(state)
     $lines lines_of(page)
     $info info_of(page)
-    get_xy window_manager $x $y
+    get_xy page window_manager $x $y
     action! io state x y lines info
+
+$tedi_types::page/get_xy:
+  (
+    page
+    window_manager
+    window_id = undefined
+  )
+  get_xy window_manager window_id $x $y
+  if
+    do_show_line_numbers_of(info_of(page))
+    -> x-length_of(length_of(lines_of(page)).to_string)-1 y
+    -> x y
+
+$tedi_types::page/goto_xy:
+  (
+    page
+    window_manager
+    window_id = undefined
+    x
+    y
+  )
+  if
+    do_show_line_numbers_of(info_of(page)):
+      goto_xy
+	window_manager
+	window_id
+	x+length_of(length_of(lines_of(page)).to_string)+1
+	y
+    :
+      goto_xy window_manager window_id x y
 
 $tedi_types::page/handle_paste_string: (page io state text)
   $window_manager window_manager_of(state)
-  get_xy window_manager $x $y
+  get_xy page window_manager $x $y
   $info info_of(page)
   $insertions map(split_into_lines(text): (line) -> tedi_line(trim_right(line)))
   update_text
@@ -116,12 +146,13 @@ $tedi::change_text:
   $info info_of(page)
   !selection_x selection_x_of(info)
   !selection_y selection_y_of(info)
-  get_xy window_manager window_id $x $y
+  get_xy page window_manager window_id $x $y
   get_size window_manager window_id $_window_width !window_height
-  !info.selection_x_of undefined
-  !info.selection_y_of undefined
-  !info.do_keep_completions_of false
-  !info.display_mode_has_changed_of false
+  !info
+    .selection_x_of undefined
+    .selection_y_of undefined
+    .do_keep_completions_of false
+    .display_mode_has_changed_of false
   if
     argument.is_defined:
       action $line_no $inserted $new_x $new_y $new_info
@@ -172,7 +203,7 @@ $update_text:
   )
   $window_manager window_manager_of(state)
   $page get_content(window_manager window_id)
-  get_xy window_manager window_id $x $y
+  get_xy page window_manager window_id $x $y
   $lines lines_of(page)
   $info info_of(page)
   if
@@ -361,13 +392,7 @@ $update_text:
   $update_cursor_position:
     !page.info_of new_info
     set_content &window_manager window_id page
-    if
-      x != new_x || y != new_y:
-	goto_xy &window_manager window_id new_x new_y
-	update_selection
-      update_selection
-
-  $update_selection:
+    goto_xy page &window_manager window_id new_x new_y
     $start_x selection_x_of(new_info)
     if
       start_x.is_defined:
@@ -434,7 +459,7 @@ $split_text_into_two: (text max_width)
 		next
 
 $tedi_types::page/handle_mouse_click: (page io state x y _button)
-  get_xy window_manager_of(state) $cx $cy
+  get_xy page window_manager_of(state) $cx $cy
   if
     cx == x && cy == y:
       if
@@ -444,7 +469,7 @@ $tedi_types::page/handle_mouse_click: (page io state x y _button)
     :
       add_history_entry &page.info_of cx cy
       set_content &state.window_manager_of page
-      goto_xy &state.window_manager_of x y
+      goto_xy page &state.window_manager_of x y
       set_status_line &state.window_manager_of
       -> io state
 
@@ -527,8 +552,8 @@ $add_history_entry:
 		  -> info
 
 $tedi::set_status_line: (window_manager)
-  get_xy window_manager $x $y
   $page get_content(window_manager)
+  get_xy page window_manager $x $y
   set_status window_manager "@(y):@(x) (@(height_of(page)):@(width_of(page)))"
 
 $tedi::current_action_completed: (io state)
@@ -1220,8 +1245,8 @@ $start_completion: (state x y lines info direction)
   $text_window_id text_window_id_of(state)
   update_if text_window_id.is_defined &lines &x &y:
     $window_manager window_manager_of(state)
-    get_content window_manager text_window_id $page
-    get_xy window_manager text_window_id $tw_x $tw_y
+    $page get_content(window_manager text_window_id)
+    get_xy page window_manager text_window_id $tw_x $tw_y
     -> lines_of(page) tw_x tw_y
   range &lines 1 -1 # cache all lines!
   if
@@ -1788,7 +1813,7 @@ $start_search: (state x y lines do_a_backwards_search)
 	$page get_content(window_manager_of(state))
 	$ew_lines lines_of(page)
 	$ew_info info_of(page)
-	get_xy window_manager_of(state) $ew_x $ew_y
+	get_xy page window_manager_of(state) $ew_x $ew_y
 	$find if(do_a_backwards_search (-> find_previous) (-> find_next))
 	$old_x ew_x
 	$old_y ew_y
@@ -1796,7 +1821,7 @@ $start_search: (state x y lines do_a_backwards_search)
 	if
 	  ew_x != old_x || ew_y != old_y:
 	    add_history_entry &ew_info old_x old_y
-	    goto_xy &state.window_manager_of ew_x ew_y
+	    goto_xy page &state.window_manager_of ew_x ew_y
 	    set_status_line &state.window_manager_of
 	    !page.info_of ew_info
 	    set_content &state.window_manager_of page
@@ -2115,10 +2140,10 @@ $go_to_line: (state _x y lines _info)
   !page.info_of.go_to_history_of lines
   if
     line_no.is_defined:
-      get_xy window_manager_of(state) $old_x $old_y
+      get_xy page window_manager_of(state) $old_x $old_y
       add_history_entry &page.info_of old_x old_y
       set_content &state.window_manager_of page
-      goto_xy &state.window_manager_of 1 line_no
+      goto_xy page &state.window_manager_of 1 line_no
       set_status_line &state.window_manager_of
       -> state
     :
@@ -2679,6 +2704,7 @@ $tedi::screens_of ()
 $tedi::lines_of ()
 $tedi::kind_of ()
 $tedi::info_of ()
+$tedi::first_screen_line_of ()
 
 $tedi_types::page std_types::object
   .width_of undefined
@@ -2688,6 +2714,7 @@ $tedi_types::page std_types::object
   .kind_of TEDI
   .info_of tedi_types::info
   .commands_of undefined
+  .first_screen_line_of undefined
 
 $tedi_types::text_page tedi_types::page
 
@@ -2698,46 +2725,100 @@ $FIND_TEXT .
 
 $tedi_types::page/height_of: (page) -> length_of(lines_of(page))
 
-$tedi_types::page/prepare: (page state _line_range)
-  $display_mode_has_changed display_mode_has_changed_of(info_of(page))
+$tedi_types::page/prepare: (page state line_range)
   if
-    screens_of(page).is_defined && not(display_mode_has_changed)
-    -> page
-    :
-      !page.template_screen_of template_screen_of(state)
-      $screens create_screens(page 1 lines_of(page))
+    line_range.is_undefined:
       page
-	.screens_of screens
-	.width_of map_reduce(screens width_of max 0)
+       .width_of map_reduce(lines_of(page) line_width_of max 0)
+       .template_screen_of template_screen_of(state)
+    :
+      $info info_of(page)
+      line_range $from $to
+      min &to height_of(page)
+      $screens screens_of(page)
+      $first
+	if
+	  display_mode_has_changed_of(info)
+	  -> undefined
+	  -> first_screen_line_of(page)
+      $last
+	if
+	  first.is_defined
+	  -> first+length_of(screens)-1
+	  -> undefined
+      if
+	first.is_undefined || from > last || to < first:
+	  # recreate all
+	  $new_screens create_screens(page from to)
+	  cond
+	    -> last == from-1: # last could be undefined
+	      # append
+	      append screens &new_screens
+	      page
+		.screens_of new_screens
+	    -> first == to+1: # first could be undefined
+	      # prepend
+	      append &new_screens screens
+	      page
+		.first_screen_line_of from
+		.screens_of new_screens
+	    -> true:
+	      # replace
+	      page
+		.first_screen_line_of from
+		.screens_of new_screens
+	:
+	  if
+	    from >= first && to <= last
+	    -> page
+	    :
+	      if
+		from < first:
+		  # prepend
+		  $new_screens create_screens(page from first-1)
+		  append &new_screens screens
+		  page
+		    .first_screen_line_of from
+		    .screens_of new_screens
+		:
+		  # append
+		  $new_screens create_screens(page last+1 to)
+		  append screens &new_screens
+		  page
+		    .screens_of new_screens
+
+$line_width_of ()
+
+$std_types::undefined/line_width_of: (_self) -> 0
+
+$tedi_types::line/line_width_of: (self)
+  -> indent_of(self)+width_of(text_of(self))
 
 $tedi_types::page/replace: (page first last inserted)
   $lines lines_of(page)
-  $screens screens_of(page)
   $till first-1
   $from last+1
-  $top_screens range(screens 1 till)
-  $bottom_screens range(screens from -1)
-  $inserted_screens create_screens(page first inserted)
   $updated_lines append(range(lines 1 till) inserted range(lines from -1))
-  $updated_screens append(top_screens inserted_screens bottom_screens)
-  $max_width map_reduce(inserted_screens width_of max 0)
+  $max_width map_reduce(inserted line_width_of max 0)
   $page_width width_of(page)
   !page_width
     if
       max_width >= page_width
       -> max_width
       :
-	$removed_screens range(screens first last)
+	$removed_lines range(lines first last)
 	if
-	  map_reduce(removed_screens width_of max 0) == page_width
-	  -> map_reduce(updated_screens width_of max 0)
+	  map_reduce(removed_lines line_width_of max 0) == page_width
+	  -> map_reduce(updated_lines line_width_of max 0)
 	  -> page_width
   page
-    .screens_of updated_screens
+    .screens_of undefined
+    .first_screen_line_of undefined
     .lines_of updated_lines
     .width_of page_width
 
-$create_screens: (page first lines)
+$create_screens: (page first last)
+  $lines range(lines_of(page) first last)
   $info info_of(page)
   $template_screen template_screen_of(page)
   $empty_line create_text_screen(template_screen "")
@@ -2802,8 +2883,8 @@ $create_screens: (page first lines)
 	create_text_screen
 	  template_screen append(spaces(indent_of(line)) text_of(line))
 
-$tedi_types::page/: (page^ index)
-  -> screens_of(page)(index)
+$tedi_types::page/: (page^ idx)
+  -> screens_of(page)(idx-first_screen_line_of(page)+1)
 
 $tedi::is_a_continuation_line ()
 

@@ -60,7 +60,6 @@ $fde_types::node tedi_types::line
 # Extensions For Existing Types
 
 $tedi_types::text_page
-  .first_screen_line_of undefined
   .kind_of FDE
   /: get_text_page_item
   /prepare prepare_text_page
@@ -87,8 +86,6 @@ $local_usages_of ()
 $definitions_of ()
 $redefinitions_of ()
 $usages_of ()
-
-$first_screen_line_of ()
 
 # Methods
 
