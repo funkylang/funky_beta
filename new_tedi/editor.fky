@@ -121,6 +121,7 @@ $tedi::change_text:
   !info.selection_x_of undefined
   !info.selection_y_of undefined
   !info.do_keep_completions_of false
+  !info.display_mode_has_changed_of false
   if
     argument.is_defined:
       action $line_no $inserted $new_x $new_y $new_info
@@ -738,6 +739,7 @@ $tedi::functions
     "toggle_cursor_line_highlighting" =
       tuple(toggle_cursor_line_highlighting OTHER)
     "toggle_soft_line_break" = tuple(toggle_soft_line_break UPDATE_STATE)
+    "toggle_line_numbers" = tuple(toggle_line_numbers OTHER)
     "show_help" = tuple(show_help DIALOG)
 
     # filter & action
@@ -2540,6 +2542,13 @@ $tedi::toggle_soft_line_break: (state x y lines info)
 		  info
     -> state undefined undefined x y info
 
+$toggle_line_numbers: (x y _lines info)
+  ->
+    undefined undefined x y
+    info
+      .do_show_line_numbers_of not(do_show_line_numbers_of(info))
+      .display_mode_has_changed_of true
+
 $remove_all_soft_breaks: (lines)
   $len length_of(lines)
   map_reduce lines remove_soft_breaks append empty_list
@@ -2690,12 +2699,13 @@ $FIND_TEXT .
 $tedi_types::page/height_of: (page) -> length_of(lines_of(page))
 
 $tedi_types::page/prepare: (page state _line_range)
+  $display_mode_has_changed display_mode_has_changed_of(info_of(page))
   if
-    screens_of(page).is_defined
+    screens_of(page).is_defined && not(display_mode_has_changed)
     -> page
     :
       !page.template_screen_of template_screen_of(state)
-      $screens create_screens(page lines_of(page))
+      $screens create_screens(page 1 lines_of(page))
       page
 	.screens_of screens
 	.width_of map_reduce(screens width_of max 0)
@@ -2707,7 +2717,7 @@ $tedi_types::page/replace: (page first last inserted)
   $from last+1
   $top_screens range(screens 1 till)
   $bottom_screens range(screens from -1)
-  $inserted_screens create_screens(page inserted)
+  $inserted_screens create_screens(page first inserted)
   $updated_lines append(range(lines 1 till) inserted range(lines from -1))
   $updated_screens append(top_screens inserted_screens bottom_screens)
   $max_width map_reduce(inserted_screens width_of max 0)
@@ -2727,10 +2737,32 @@ $tedi_types::page/replace: (page first last inserted)
     .lines_of updated_lines
     .width_of page_width
 
-$tedi::create_screens: (page lines)
+$create_screens: (page first lines)
+  $info info_of(page)
   $template_screen template_screen_of(page)
   $empty_line create_text_screen(template_screen "")
-  map lines create_screen_for_line
+  $line_number_column_width length_of(length_of(lines_of(page)).to_string)+1
+  $line_number_screen
+    create_screen
+      template_screen
+      line_number_column_width
+      1
+      DRAW_COLOUR = WHITE
+      CLEAR_COLOUR = GREY
+  if
+    do_show_line_numbers_of(info):
+      map lines create_screen_for_line_with_line_number
+    :
+      map lines create_screen_for_line
+
+  $create_screen_for_line_with_line_number: (line_no line)
+    plus &line_no first-1
+    to_string &line_no
+    draw_text &line_number_screen
+      line_number_column_width-length_of(line_no)
+      1
+      line_no
+    adjoin line_number_screen create_screen_for_line(line)
 
   $create_screen_for_line ()
 
@@ -2766,9 +2798,9 @@ $tedi::create_screens: (page lines)
 	      plus &x width_of(chr)
 	      next
 	  -> screen
-      :
-	create_text_screen template_screen
-	  append(spaces(indent_of(line)) text_of(line))
+      ->
+	create_text_screen
+	  template_screen append(spaces(indent_of(line)) text_of(line))
 
 $tedi_types::page/: (page^ index)
   -> screens_of(page)(index)
@@ -2808,6 +2840,8 @@ $undo_stack_of () # a list of undo entries (tuples)
 $redo_stack_of () # a list of redo entries (tuples)
 $go_to_history_of () # per document
 $use_soft_line_breaks_of ()
+$do_show_line_numbers_of ()
+$display_mode_has_changed_of ()
 $inbounds_width_of ()
 
 $tedi_types::info std_types::object
@@ -2824,6 +2858,8 @@ $tedi_types::info std_types::object
   .redo_stack_of empty_list
   .go_to_history_of empty_list
   .use_soft_line_breaks_of false
+  .do_show_line_numbers_of false
+  .display_mode_has_changed_of false
   .inbounds_width_of 80
 
 # Helpers
@@ -3044,3 +3080,6 @@ list $help_sections
       "toggle_soft_line_break" =
 	"
 	  toggle soft-break-mode
+      "toggle_line_numbers" =
+	"
+	  show/hide line numbers

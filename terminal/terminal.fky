@@ -2545,8 +2545,11 @@ $std_types::screen/adjoin:
   )
   $non_empty_screens filter(screens: (screen) -> width_of(screen) > 0)
   case length_of(non_empty_screens)
-    0 -> screens(1)
-    1 -> non_empty_screens(1)
+    0 -> screens(-1)
+    1 ->
+      non_empty_screens(1)
+	.clear_colour_of clear_colour_of(screens(-1))
+	.draw_colour_of draw_colour_of(screens(-1))
     :
       adjoin_screens non_empty_screens(1) range(non_empty_screens 2 -1)
 
@@ -2559,6 +2562,8 @@ $adjoin_screens:
   $height height_of(left)
   $rows rows_of(left)
   $rectangles rectangles_of(left)
+  $clear_colour clear_colour_of(left)
+  $draw_colour draw_colour_of(left)
   !rectangles
     if
       rectangles.is_defined:
@@ -2584,11 +2589,15 @@ $adjoin_screens:
 		push rectangles tuple(kind info x+width y w h)
 	  plus &width width_of(screen)
 	  map &rows: (idx row) append row rows_of(screen)(idx)
+	  !clear_colour clear_colour_of(screen)
+	  !draw_colour draw_colour_of(screen)
 	  next
     ->
       left
 	.width_of width
 	.rows_of rows
+	.clear_colour_of clear_colour
+	.draw_colour_of draw_colour
 	.rectangles_of
 	  if
 	    rectangles.is_empty

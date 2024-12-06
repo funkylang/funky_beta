@@ -718,6 +718,7 @@ NODE *create_list(long count);
 void set_list_item(NODE *list, long idx, NODE *value);
 NODE *from_float(float value);
 NODE *from_double(double value);
+NODE *create_negative_integer(uint64_t value);
 NODE *from_int(int value);
 NODE *from_long(long value);
 NODE *from_uint(unsigned int value);

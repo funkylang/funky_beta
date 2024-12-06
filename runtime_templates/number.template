@@ -193,6 +193,18 @@ METHOD int std_types::real/_to_float
     return true;
   }
 
+FUNCTION NODE *create_negative_integer
+  (
+    uint64_t value
+  )
+  {
+    if (value == 0) {
+      return CREATE(builtin_types::positive_integer, 0);
+    } else {
+      return CREATE(builtin_types::negative_integer, value);
+    }
+  }
+
 METHOD builtin_types::positive_integer/negate
   #
     returns a builtin_types::negative_integer or 0
@@ -209,9 +221,7 @@ METHOD builtin_types::positive_integer/negate
   {
     CHECK_ARGUMENTS(1)
     CHECK_RESULTS(1)
-    if (ARGUMENTS(0)->integer.value == 0) RETURN
-    RETURN_SINGLE_RESULT(
-      CREATE(builtin_types::negative_integer, ARGUMENTS(0)->integer.value))
+    RETURN_SINGLE_RESULT(create_negative_integer(ARGUMENTS(0)->integer.value))
   }
 
 METHOD builtin_types::negative_integer/negate
@@ -317,7 +327,7 @@ METHOD builtin_types::positive_integer/times
       high =
 	umul64(ARGUMENTS(0)->integer.value, ARGUMENTS(1)->integer.value, &low);
       if (high == 0) {
-	RETURN_SINGLE_RESULT(CREATE(builtin_types::negative_integer, low))
+	RETURN_SINGLE_RESULT(create_negative_integer(low))
       }
     } else if (TYPEOF(ARGUMENTS(1)) == TYPE(std_types::real)) {
       RETURN_SINGLE_RESULT(CREATE(std_types::real,
@@ -335,7 +345,11 @@ METHOD builtin_types::negative_integer/times
       high =
 	umul64(ARGUMENTS(0)->integer.value, ARGUMENTS(1)->integer.value, &low);
       if (high == 0) {
-	RETURN_SINGLE_RESULT(CREATE(builtin_types::negative_integer, low))
+	if (low == 0) {
+	  RETURN_SINGLE_RESULT(CREATE(builtin_types::positive_integer, 0))
+	} else {
+	  RETURN_SINGLE_RESULT(create_negative_integer(low))
+	}
       }
     } else if (TYPEOF(ARGUMENTS(1)) == TYPE(builtin_types::negative_integer)) {
       high =
@@ -515,7 +529,7 @@ METHOD builtin_types::positive_integer/over
     CHECK_ARGUMENTS(2)
     CHECK_RESULTS(1)
     if (TYPEOF(ARGUMENTS(1)) == TYPE(builtin_types::positive_integer)) {
-      if (ARGUMENTS(1)->integer.value == 0) goto invalid_arguments;
+      if (ARGUMENTS(1)->integer.value == 0) DIVIDE_BY_ZERO
       if (ARGUMENTS(0)->integer.value % ARGUMENTS(1)->integer.value == 0) {
 	RETURN_SINGLE_RESULT(
 	  CREATE(
@@ -530,8 +544,7 @@ METHOD builtin_types::positive_integer/over
     } else if (TYPEOF(ARGUMENTS(1)) == TYPE(builtin_types::negative_integer)) {
       if (ARGUMENTS(0)->integer.value % ARGUMENTS(1)->integer.value == 0) {
 	RETURN_SINGLE_RESULT(
-	  CREATE(
-	    builtin_types::negative_integer,
+	  create_negative_integer(
 	    ARGUMENTS(0)->integer.value / ARGUMENTS(1)->integer.value))
       } else {
 	RETURN_SINGLE_RESULT(
@@ -541,12 +554,12 @@ METHOD builtin_types::positive_integer/over
 	    ARGUMENTS(1)->integer.value)))
       }
     } else if (TYPEOF(ARGUMENTS(1)) == TYPE(std_types::real)) {
+      if (ARGUMENTS(1)->real.value == 0.0) DIVIDE_BY_ZERO
       RETURN_SINGLE_RESULT(
 	CREATE(
 	  std_types::real,
 	  ARGUMENTS(0)->integer.value/ARGUMENTS(1)->real.value))
     }
-    invalid_arguments:
     INVALID_ARGUMENTS
   }
 
@@ -570,11 +583,10 @@ METHOD builtin_types::negative_integer/over
 	    ARGUMENTS(1)->integer.value))
       }
     } else if (TYPEOF(ARGUMENTS(1)) == TYPE(builtin_types::positive_integer)) {
-      if (ARGUMENTS(1)->integer.value == 0) goto invalid_arguments;
+      if (ARGUMENTS(1)->integer.value == 0) DIVIDE_BY_ZERO
       if (ARGUMENTS(0)->integer.value % ARGUMENTS(1)->integer.value == 0) {
 	RETURN_SINGLE_RESULT(
-	  CREATE(
-	    builtin_types::negative_integer,
+	  create_negative_integer(
 	    ARGUMENTS(0)->integer.value / ARGUMENTS(1)->integer.value))
       } else {
 	RETURN_SINGLE_RESULT(
@@ -584,12 +596,12 @@ METHOD builtin_types::negative_integer/over
 	    ARGUMENTS(1)->integer.value)))
       }
     } else if (TYPEOF(ARGUMENTS(1)) == TYPE(std_types::real)) {
+      if (ARGUMENTS(1)->real.value == 0.0) DIVIDE_BY_ZERO
       RETURN_SINGLE_RESULT(
 	CREATE(
 	  std_types::real,
 	  -(ARGUMENTS(0)->integer.value/ARGUMENTS(1)->real.value)))
     }
-    invalid_arguments:
     INVALID_ARGUMENTS
   }
 
@@ -606,10 +618,10 @@ METHOD builtin_types::positive_integer/div
 	    ARGUMENTS(0)->integer.value / ARGUMENTS(1)->integer.value))
       } else DIVIDE_BY_ZERO
     } else if (TYPEOF(ARGUMENTS(1)) == TYPE(builtin_types::negative_integer)) {
-      RETURN_SINGLE_RESULT(
-	CREATE(builtin_types::negative_integer,
-	  (ARGUMENTS(0)->integer.value+ARGUMENTS(1)->integer.value-1) /
-	  ARGUMENTS(1)->integer.value))
+      uint64_t value =
+	(ARGUMENTS(0)->integer.value+ARGUMENTS(1)->integer.value-1) /
+	ARGUMENTS(1)->integer.value;
+      RETURN_SINGLE_RESULT(create_negative_integer(value))
     }
     INVALID_ARGUMENTS
   }
@@ -622,10 +634,10 @@ METHOD builtin_types::negative_integer/div
     CHECK_RESULTS(1)
     if (TYPEOF(ARGUMENTS(1)) == TYPE(builtin_types::positive_integer)) {
       if (ARGUMENTS(1)->integer.value) {
-	RETURN_SINGLE_RESULT(
-	  CREATE(builtin_types::negative_integer,
-	    (ARGUMENTS(0)->integer.value+ARGUMENTS(1)->integer.value-1) /
-	    ARGUMENTS(1)->integer.value))
+	uint64_t value =
+	  (ARGUMENTS(0)->integer.value+ARGUMENTS(1)->integer.value-1) /
+	  ARGUMENTS(1)->integer.value;
+	RETURN_SINGLE_RESULT(create_negative_integer(value))
       } else DIVIDE_BY_ZERO
     } else if (TYPEOF(ARGUMENTS(1)) == TYPE(builtin_types::negative_integer)) {
       RETURN_SINGLE_RESULT(
@@ -650,10 +662,8 @@ METHOD builtin_types::positive_integer/mod
       } else DIVIDE_BY_ZERO
     } else if (TYPEOF(ARGUMENTS(1)) == TYPE(builtin_types::negative_integer)) {
       long result = ARGUMENTS(0)->integer.value % ARGUMENTS(1)->integer.value;
-      RETURN_SINGLE_RESULT(
-	CREATE(
-	  builtin_types::negative_integer,
-	  result ? ARGUMENTS(1)->integer.value-result : 0))
+      if (result != 0) result = ARGUMENTS(1)->integer.value-result;
+      RETURN_SINGLE_RESULT(create_negative_integer(result))
     }
     INVALID_ARGUMENTS
   }
@@ -667,15 +677,12 @@ METHOD builtin_types::negative_integer/mod
     if (TYPEOF(ARGUMENTS(1)) == TYPE(builtin_types::positive_integer)) {
       if (ARGUMENTS(1)->integer.value) {
 	long result = ARGUMENTS(0)->integer.value % ARGUMENTS(1)->integer.value;
-	RETURN_SINGLE_RESULT(
-	  CREATE(
-	    builtin_types::positive_integer,
-	    result ? ARGUMENTS(1)->integer.value-result : 0))
+	if (result != 0) result = ARGUMENTS(1)->integer.value-result;
+	RETURN_SINGLE_RESULT(create_negative_integer(result))
       } else DIVIDE_BY_ZERO
     } else if (TYPEOF(ARGUMENTS(1)) == TYPE(builtin_types::negative_integer)) {
       RETURN_SINGLE_RESULT(
-	CREATE(
-	  builtin_types::negative_integer,
+	create_negative_integer(
 	  ARGUMENTS(0)->integer.value % ARGUMENTS(1)->integer.value))
     }
     INVALID_ARGUMENTS
@@ -1325,16 +1332,26 @@ METHOD builtin_types::positive_integer/plus
     CHECK_RESULTS(1)
     if (TYPEOF(ARGUMENTS(1)) == TYPE(builtin_types::positive_integer)) {
       if (ARGUMENTS(0)->integer.value+ARGUMENTS(1)->integer.value >= ARGUMENTS(0)->integer.value) {
-	RETURN_SINGLE_RESULT(CREATE(builtin_types::positive_integer, ARGUMENTS(0)->integer.value+ARGUMENTS(1)->integer.value))
+	RETURN_SINGLE_RESULT(
+	  CREATE(
+	    builtin_types::positive_integer,
+	    ARGUMENTS(0)->integer.value+ARGUMENTS(1)->integer.value))
       }
     } else if (TYPEOF(ARGUMENTS(1)) == TYPE(builtin_types::negative_integer)) {
       if (ARGUMENTS(0)->integer.value >= ARGUMENTS(1)->integer.value) {
-	RETURN_SINGLE_RESULT(CREATE(builtin_types::positive_integer, ARGUMENTS(0)->integer.value-ARGUMENTS(1)->integer.value))
+	RETURN_SINGLE_RESULT(
+	  CREATE(
+	    builtin_types::positive_integer,
+	    ARGUMENTS(0)->integer.value-ARGUMENTS(1)->integer.value))
       } else {
-	RETURN_SINGLE_RESULT(CREATE(builtin_types::negative_integer, ARGUMENTS(1)->integer.value-ARGUMENTS(0)->integer.value))
+	RETURN_SINGLE_RESULT(
+	  create_negative_integer(
+	    ARGUMENTS(1)->integer.value-ARGUMENTS(0)->integer.value))
       }
     } else if (TYPEOF(ARGUMENTS(1)) == TYPE(std_types::real)) {
-      RETURN_SINGLE_RESULT(CREATE(std_types::real, ARGUMENTS(0)->integer.value+ARGUMENTS(1)->real.value))
+      RETURN_SINGLE_RESULT(
+	CREATE(std_types::real,
+	ARGUMENTS(0)->integer.value+ARGUMENTS(1)->real.value))
     }
     INVALID_ARGUMENTS
   }
@@ -1344,17 +1361,30 @@ METHOD builtin_types::negative_integer/plus
     CHECK_ARGUMENTS(2)
     CHECK_RESULTS(1)
     if (TYPEOF(ARGUMENTS(1)) == TYPE(builtin_types::negative_integer)) {
-      if (ARGUMENTS(0)->integer.value+ARGUMENTS(1)->integer.value >= ARGUMENTS(0)->integer.value) {
-	RETURN_SINGLE_RESULT(CREATE(builtin_types::negative_integer, ARGUMENTS(0)->integer.value+ARGUMENTS(1)->integer.value))
+      if (
+	ARGUMENTS(0)->integer.value+ARGUMENTS(1)->integer.value >=
+	ARGUMENTS(0)->integer.value
+      ) {
+	RETURN_SINGLE_RESULT(
+	  create_negative_integer(
+	    ARGUMENTS(0)->integer.value+ARGUMENTS(1)->integer.value))
       }
     } else if (TYPEOF(ARGUMENTS(1)) == TYPE(builtin_types::positive_integer)) {
       if (ARGUMENTS(0)->integer.value > ARGUMENTS(1)->integer.value) {
-	RETURN_SINGLE_RESULT(CREATE(builtin_types::negative_integer, ARGUMENTS(0)->integer.value-ARGUMENTS(1)->integer.value))
+	RETURN_SINGLE_RESULT(
+	  create_negative_integer(
+	    ARGUMENTS(0)->integer.value-ARGUMENTS(1)->integer.value))
       } else {
-	RETURN_SINGLE_RESULT(CREATE(builtin_types::positive_integer, ARGUMENTS(1)->integer.value-ARGUMENTS(0)->integer.value))
+	RETURN_SINGLE_RESULT(
+	  CREATE(
+	    builtin_types::positive_integer,
+	    ARGUMENTS(1)->integer.value-ARGUMENTS(0)->integer.value))
       }
     } else if (TYPEOF(ARGUMENTS(1)) == TYPE(std_types::real)) {
-      RETURN_SINGLE_RESULT(CREATE(std_types::real, ARGUMENTS(1)->real.value-ARGUMENTS(0)->integer.value))
+      RETURN_SINGLE_RESULT(
+	CREATE(
+	  std_types::real,
+	  ARGUMENTS(1)->real.value-ARGUMENTS(0)->integer.value))
     }
     INVALID_ARGUMENTS
   }
@@ -1405,9 +1435,14 @@ METHOD builtin_types::positive_integer/minus
     CHECK_RESULTS(1)
     if (TYPEOF(ARGUMENTS(1)) == TYPE(builtin_types::positive_integer)) {
       if (ARGUMENTS(0)->integer.value >= ARGUMENTS(1)->integer.value) {
-	RETURN_SINGLE_RESULT(CREATE(builtin_types::positive_integer, ARGUMENTS(0)->integer.value-ARGUMENTS(1)->integer.value))
+	RETURN_SINGLE_RESULT(
+	  CREATE(
+	    builtin_types::positive_integer,
+	    ARGUMENTS(0)->integer.value-ARGUMENTS(1)->integer.value))
       } else {
-	RETURN_SINGLE_RESULT(CREATE(builtin_types::negative_integer, ARGUMENTS(1)->integer.value-ARGUMENTS(0)->integer.value))
+	RETURN_SINGLE_RESULT(
+	  create_negative_integer(
+	    ARGUMENTS(1)->integer.value-ARGUMENTS(0)->integer.value))
       }
     } else if (TYPEOF(ARGUMENTS(1)) == TYPE(builtin_types::negative_integer)) {
       if (ARGUMENTS(0)->integer.value+ARGUMENTS(1)->integer.value >= ARGUMENTS(0)->integer.value) {
@@ -1438,16 +1473,29 @@ METHOD builtin_types::negative_integer/minus
     CHECK_RESULTS(1)
     if (TYPEOF(ARGUMENTS(1)) == TYPE(builtin_types::negative_integer)) {
       if (ARGUMENTS(0)->integer.value > ARGUMENTS(1)->integer.value) {
-	RETURN_SINGLE_RESULT(CREATE(builtin_types::negative_integer, ARGUMENTS(0)->integer.value-ARGUMENTS(1)->integer.value))
+	RETURN_SINGLE_RESULT(
+	  create_negative_integer(
+	    ARGUMENTS(0)->integer.value-ARGUMENTS(1)->integer.value))
       } else {
-	RETURN_SINGLE_RESULT(CREATE(builtin_types::positive_integer, ARGUMENTS(1)->integer.value-ARGUMENTS(0)->integer.value))
+	RETURN_SINGLE_RESULT(
+	  CREATE(
+	    builtin_types::positive_integer,
+	    ARGUMENTS(1)->integer.value-ARGUMENTS(0)->integer.value))
       }
     } else if (TYPEOF(ARGUMENTS(1)) == TYPE(builtin_types::positive_integer)) {
-      if (ARGUMENTS(0)->integer.value+ARGUMENTS(1)->integer.value >= ARGUMENTS(0)->integer.value) {
-	RETURN_SINGLE_RESULT(CREATE(builtin_types::negative_integer, ARGUMENTS(0)->integer.value+ARGUMENTS(1)->integer.value))
+      if (
+	ARGUMENTS(0)->integer.value+ARGUMENTS(1)->integer.value >=
+	ARGUMENTS(0)->integer.value
+      ) {
+	RETURN_SINGLE_RESULT(
+	  create_negative_integer(
+	    ARGUMENTS(0)->integer.value+ARGUMENTS(1)->integer.value))
       }
     } else if (TYPEOF(ARGUMENTS(1)) == TYPE(std_types::real)) {
-      RETURN_SINGLE_RESULT(CREATE(std_types::real, -(ARGUMENTS(0)->integer.value+ARGUMENTS(1)->real.value)))
+      RETURN_SINGLE_RESULT(
+	CREATE(
+	  std_types::real,
+	  -(ARGUMENTS(0)->integer.value+ARGUMENTS(1)->real.value)))
     }
     INVALID_ARGUMENTS
   }
@@ -1524,11 +1572,20 @@ METHOD std_types::real/over
     CHECK_ARGUMENTS(2)
     CHECK_RESULTS(1)
     if (TYPEOF(ARGUMENTS(1)) == TYPE(std_types::real)) {
-      RETURN_SINGLE_RESULT(CREATE(std_types::real, ARGUMENTS(0)->real.value/ARGUMENTS(1)->real.value))
+      if (ARGUMENTS(1)->real.value == 0.0) DIVIDE_BY_ZERO
+      RETURN_SINGLE_RESULT(
+	CREATE(
+	  std_types::real, ARGUMENTS(0)->real.value/ARGUMENTS(1)->real.value))
     } else if (TYPEOF(ARGUMENTS(1)) == TYPE(builtin_types::positive_integer)) {
-      RETURN_SINGLE_RESULT(CREATE(std_types::real, ARGUMENTS(0)->real.value/ARGUMENTS(1)->integer.value))
+      if (ARGUMENTS(1)->integer.value == 0) DIVIDE_BY_ZERO
+      RETURN_SINGLE_RESULT(
+	CREATE(
+	  std_types::real, ARGUMENTS(0)->real.value/ARGUMENTS(1)->integer.value))
     } else if (TYPEOF(ARGUMENTS(1)) == TYPE(builtin_types::negative_integer)) {
-      RETURN_SINGLE_RESULT(CREATE(std_types::real, -(ARGUMENTS(0)->real.value/ARGUMENTS(1)->integer.value)))
+      RETURN_SINGLE_RESULT(
+	CREATE(
+	  std_types::real,
+	  -(ARGUMENTS(0)->real.value/ARGUMENTS(1)->integer.value)))
     }
     INVALID_ARGUMENTS
   }

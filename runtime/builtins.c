@@ -5286,6 +5286,18 @@ static int std_types___real____to_float
     return true;
   }
 
+NODE *create_negative_integer
+  (
+    uint64_t value
+  )
+  {
+    if (value == 0) {
+      return create__builtin_types___positive_integer(0);
+    } else {
+      return create__builtin_types___negative_integer(value);
+    }
+  }
+
 #if TARGET_64
   static inline uint64_t umul64
     (
@@ -18329,11 +18341,8 @@ static void entry__builtin_types___positive_integer___std___negate (void)
       result_count_mismatch();
       return;
     }
-    if (TLS_arguments[0]->integer.value == 0) {
-      return;
-    }
     {
-      NODE *result__node = (NODE *)(create__builtin_types___negative_integer(TLS_arguments[0]->integer.value));
+      NODE *result__node = (NODE *)(create_negative_integer(TLS_arguments[0]->integer.value));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -18403,7 +18412,7 @@ static void entry__builtin_types___positive_integer___std___times (void)
 	umul64(TLS_arguments[0]->integer.value, TLS_arguments[1]->integer.value, &low);
       if (high == 0) {
 	{
-	  NODE *result__node = (NODE *)(create__builtin_types___negative_integer(low));
+	  NODE *result__node = (NODE *)(create_negative_integer(low));
 	  TLS_arguments[0] = result__node;
 	  TLS_argument_count = 1;
 	  return;
@@ -18438,11 +18447,20 @@ static void entry__builtin_types___negative_integer___std___times (void)
       high =
 	umul64(TLS_arguments[0]->integer.value, TLS_arguments[1]->integer.value, &low);
       if (high == 0) {
-	{
-	  NODE *result__node = (NODE *)(create__builtin_types___negative_integer(low));
-	  TLS_arguments[0] = result__node;
-	  TLS_argument_count = 1;
-	  return;
+	if (low == 0) {
+	  {
+	    NODE *result__node = (NODE *)(create__builtin_types___positive_integer(0));
+	    TLS_arguments[0] = result__node;
+	    TLS_argument_count = 1;
+	    return;
+	  }
+	} else {
+	  {
+	    NODE *result__node = (NODE *)(create_negative_integer(low));
+	    TLS_arguments[0] = result__node;
+	    TLS_argument_count = 1;
+	    return;
+	  }
 	}
       }
     } else if ((TLS_arguments[1])->type == builtin_types___negative_integer.type) {
@@ -18626,7 +18644,10 @@ static void entry__builtin_types___positive_integer___std___over (void)
       return;
     }
     if ((TLS_arguments[1])->type == builtin_types___positive_integer.type) {
-      if (TLS_arguments[1]->integer.value == 0) goto invalid_arguments;
+      if (TLS_arguments[1]->integer.value == 0) {
+        divide_by_zero();
+        return;
+      }
       if (TLS_arguments[0]->integer.value % TLS_arguments[1]->integer.value == 0) {
 	{
 	  NODE *result__node = (NODE *)(create__builtin_types___positive_integer(TLS_arguments[0]->integer.value / TLS_arguments[1]->integer.value));
@@ -18645,7 +18666,8 @@ static void entry__builtin_types___positive_integer___std___over (void)
     } else if ((TLS_arguments[1])->type == builtin_types___negative_integer.type) {
       if (TLS_arguments[0]->integer.value % TLS_arguments[1]->integer.value == 0) {
 	{
-	  NODE *result__node = (NODE *)(create__builtin_types___negative_integer(TLS_arguments[0]->integer.value / TLS_arguments[1]->integer.value));
+	  NODE *result__node = (NODE *)(create_negative_integer(
+		    TLS_arguments[0]->integer.value / TLS_arguments[1]->integer.value));
 	  TLS_arguments[0] = result__node;
 	  TLS_argument_count = 1;
 	  return;
@@ -18660,6 +18682,10 @@ static void entry__builtin_types___positive_integer___std___over (void)
 	}
       }
     } else if ((TLS_arguments[1])->type == std_types___real.type) {
+      if (TLS_arguments[1]->real.value == 0.0) {
+        divide_by_zero();
+        return;
+      }
       {
         NODE *result__node = (NODE *)(create__std_types___real(TLS_arguments[0]->integer.value/TLS_arguments[1]->real.value));
         TLS_arguments[0] = result__node;
@@ -18667,7 +18693,6 @@ static void entry__builtin_types___positive_integer___std___over (void)
         return;
       }
     }
-    invalid_arguments:
     {
       invalid_arguments();
       return;
@@ -18702,10 +18727,14 @@ static void entry__builtin_types___negative_integer___std___over (void)
 	}
       }
     } else if ((TLS_arguments[1])->type == builtin_types___positive_integer.type) {
-      if (TLS_arguments[1]->integer.value == 0) goto invalid_arguments;
+      if (TLS_arguments[1]->integer.value == 0) {
+        divide_by_zero();
+        return;
+      }
       if (TLS_arguments[0]->integer.value % TLS_arguments[1]->integer.value == 0) {
 	{
-	  NODE *result__node = (NODE *)(create__builtin_types___negative_integer(TLS_arguments[0]->integer.value / TLS_arguments[1]->integer.value));
+	  NODE *result__node = (NODE *)(create_negative_integer(
+		    TLS_arguments[0]->integer.value / TLS_arguments[1]->integer.value));
 	  TLS_arguments[0] = result__node;
 	  TLS_argument_count = 1;
 	  return;
@@ -18720,6 +18749,10 @@ static void entry__builtin_types___negative_integer___std___over (void)
 	}
       }
     } else if ((TLS_arguments[1])->type == std_types___real.type) {
+      if (TLS_arguments[1]->real.value == 0.0) {
+        divide_by_zero();
+        return;
+      }
       {
         NODE *result__node = (NODE *)(create__std_types___real(-(TLS_arguments[0]->integer.value/TLS_arguments[1]->real.value)));
         TLS_arguments[0] = result__node;
@@ -18727,7 +18760,6 @@ static void entry__builtin_types___negative_integer___std___over (void)
         return;
       }
     }
-    invalid_arguments:
     {
       invalid_arguments();
       return;
@@ -18757,9 +18789,11 @@ static void entry__builtin_types___positive_integer___std___div (void)
         return;
       }
     } else if ((TLS_arguments[1])->type == builtin_types___negative_integer.type) {
+      uint64_t value =
+	(TLS_arguments[0]->integer.value+TLS_arguments[1]->integer.value-1) /
+	TLS_arguments[1]->integer.value;
       {
-        NODE *result__node = (NODE *)(create__builtin_types___negative_integer((TLS_arguments[0]->integer.value+TLS_arguments[1]->integer.value-1) /
-        	  TLS_arguments[1]->integer.value));
+        NODE *result__node = (NODE *)(create_negative_integer(value));
         TLS_arguments[0] = result__node;
         TLS_argument_count = 1;
         return;
@@ -18783,9 +18817,11 @@ static void entry__builtin_types___negative_integer___std___div (void)
     }
     if ((TLS_arguments[1])->type == builtin_types___positive_integer.type) {
       if (TLS_arguments[1]->integer.value) {
+	uint64_t value =
+	  (TLS_arguments[0]->integer.value+TLS_arguments[1]->integer.value-1) /
+	  TLS_arguments[1]->integer.value;
 	{
-	  NODE *result__node = (NODE *)(create__builtin_types___negative_integer((TLS_arguments[0]->integer.value+TLS_arguments[1]->integer.value-1) /
-	  	    TLS_arguments[1]->integer.value));
+	  NODE *result__node = (NODE *)(create_negative_integer(value));
 	  TLS_arguments[0] = result__node;
 	  TLS_argument_count = 1;
 	  return;
@@ -18832,8 +18868,9 @@ static void entry__builtin_types___positive_integer___std___mod (void)
       }
     } else if ((TLS_arguments[1])->type == builtin_types___negative_integer.type) {
       long result = TLS_arguments[0]->integer.value % TLS_arguments[1]->integer.value;
+      if (result != 0) result = TLS_arguments[1]->integer.value-result;
       {
-        NODE *result__node = (NODE *)(create__builtin_types___negative_integer(result ? TLS_arguments[1]->integer.value-result : 0));
+        NODE *result__node = (NODE *)(create_negative_integer(result));
         TLS_arguments[0] = result__node;
         TLS_argument_count = 1;
         return;
@@ -18858,8 +18895,9 @@ static void entry__builtin_types___negative_integer___std___mod (void)
     if ((TLS_arguments[1])->type == builtin_types___positive_integer.type) {
       if (TLS_arguments[1]->integer.value) {
 	long result = TLS_arguments[0]->integer.value % TLS_arguments[1]->integer.value;
+	if (result != 0) result = TLS_arguments[1]->integer.value-result;
 	{
-	  NODE *result__node = (NODE *)(create__builtin_types___positive_integer(result ? TLS_arguments[1]->integer.value-result : 0));
+	  NODE *result__node = (NODE *)(create_negative_integer(result));
 	  TLS_arguments[0] = result__node;
 	  TLS_argument_count = 1;
 	  return;
@@ -18870,7 +18908,8 @@ static void entry__builtin_types___negative_integer___std___mod (void)
       }
     } else if ((TLS_arguments[1])->type == builtin_types___negative_integer.type) {
       {
-        NODE *result__node = (NODE *)(create__builtin_types___negative_integer(TLS_arguments[0]->integer.value % TLS_arguments[1]->integer.value));
+        NODE *result__node = (NODE *)(create_negative_integer(
+      	  TLS_arguments[0]->integer.value % TLS_arguments[1]->integer.value));
         TLS_arguments[0] = result__node;
         TLS_argument_count = 1;
         return;
@@ -19187,7 +19226,8 @@ static void entry__builtin_types___positive_integer___std___plus (void)
 	}
       } else {
 	{
-	  NODE *result__node = (NODE *)(create__builtin_types___negative_integer(TLS_arguments[1]->integer.value-TLS_arguments[0]->integer.value));
+	  NODE *result__node = (NODE *)(create_negative_integer(
+		    TLS_arguments[1]->integer.value-TLS_arguments[0]->integer.value));
 	  TLS_arguments[0] = result__node;
 	  TLS_argument_count = 1;
 	  return;
@@ -19218,9 +19258,13 @@ static void entry__builtin_types___negative_integer___std___plus (void)
       return;
     }
     if ((TLS_arguments[1])->type == builtin_types___negative_integer.type) {
-      if (TLS_arguments[0]->integer.value+TLS_arguments[1]->integer.value >= TLS_arguments[0]->integer.value) {
+      if (
+	TLS_arguments[0]->integer.value+TLS_arguments[1]->integer.value >=
+	TLS_arguments[0]->integer.value
+      ) {
 	{
-	  NODE *result__node = (NODE *)(create__builtin_types___negative_integer(TLS_arguments[0]->integer.value+TLS_arguments[1]->integer.value));
+	  NODE *result__node = (NODE *)(create_negative_integer(
+		    TLS_arguments[0]->integer.value+TLS_arguments[1]->integer.value));
 	  TLS_arguments[0] = result__node;
 	  TLS_argument_count = 1;
 	  return;
@@ -19229,7 +19273,8 @@ static void entry__builtin_types___negative_integer___std___plus (void)
     } else if ((TLS_arguments[1])->type == builtin_types___positive_integer.type) {
       if (TLS_arguments[0]->integer.value > TLS_arguments[1]->integer.value) {
 	{
-	  NODE *result__node = (NODE *)(create__builtin_types___negative_integer(TLS_arguments[0]->integer.value-TLS_arguments[1]->integer.value));
+	  NODE *result__node = (NODE *)(create_negative_integer(
+		    TLS_arguments[0]->integer.value-TLS_arguments[1]->integer.value));
 	  TLS_arguments[0] = result__node;
 	  TLS_argument_count = 1;
 	  return;
@@ -19314,7 +19359,8 @@ static void entry__builtin_types___positive_integer___std___minus (void)
 	}
       } else {
 	{
-	  NODE *result__node = (NODE *)(create__builtin_types___negative_integer(TLS_arguments[1]->integer.value-TLS_arguments[0]->integer.value));
+	  NODE *result__node = (NODE *)(create_negative_integer(
+		    TLS_arguments[1]->integer.value-TLS_arguments[0]->integer.value));
 	  TLS_arguments[0] = result__node;
 	  TLS_argument_count = 1;
 	  return;
@@ -19356,7 +19402,8 @@ static void entry__builtin_types___negative_integer___std___minus (void)
     if ((TLS_arguments[1])->type == builtin_types___negative_integer.type) {
       if (TLS_arguments[0]->integer.value > TLS_arguments[1]->integer.value) {
 	{
-	  NODE *result__node = (NODE *)(create__builtin_types___negative_integer(TLS_arguments[0]->integer.value-TLS_arguments[1]->integer.value));
+	  NODE *result__node = (NODE *)(create_negative_integer(
+		    TLS_arguments[0]->integer.value-TLS_arguments[1]->integer.value));
 	  TLS_arguments[0] = result__node;
 	  TLS_argument_count = 1;
 	  return;
@@ -19370,9 +19417,13 @@ static void entry__builtin_types___negative_integer___std___minus (void)
 	}
       }
     } else if ((TLS_arguments[1])->type == builtin_types___positive_integer.type) {
-      if (TLS_arguments[0]->integer.value+TLS_arguments[1]->integer.value >= TLS_arguments[0]->integer.value) {
+      if (
+	TLS_arguments[0]->integer.value+TLS_arguments[1]->integer.value >=
+	TLS_arguments[0]->integer.value
+      ) {
 	{
-	  NODE *result__node = (NODE *)(create__builtin_types___negative_integer(TLS_arguments[0]->integer.value+TLS_arguments[1]->integer.value));
+	  NODE *result__node = (NODE *)(create_negative_integer(
+		    TLS_arguments[0]->integer.value+TLS_arguments[1]->integer.value));
 	  TLS_arguments[0] = result__node;
 	  TLS_argument_count = 1;
 	  return;
@@ -19479,6 +19530,10 @@ static void entry__std_types___real___std___over (void)
       return;
     }
     if ((TLS_arguments[1])->type == std_types___real.type) {
+      if (TLS_arguments[1]->real.value == 0.0) {
+        divide_by_zero();
+        return;
+      }
       {
         NODE *result__node = (NODE *)(create__std_types___real(TLS_arguments[0]->real.value/TLS_arguments[1]->real.value));
         TLS_arguments[0] = result__node;
@@ -19486,6 +19541,10 @@ static void entry__std_types___real___std___over (void)
         return;
       }
     } else if ((TLS_arguments[1])->type == builtin_types___positive_integer.type) {
+      if (TLS_arguments[1]->integer.value == 0) {
+        divide_by_zero();
+        return;
+      }
       {
         NODE *result__node = (NODE *)(create__std_types___real(TLS_arguments[0]->real.value/TLS_arguments[1]->integer.value));
         TLS_arguments[0] = result__node;
