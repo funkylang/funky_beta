@@ -678,7 +678,7 @@ METHOD builtin_types::negative_integer/mod
       if (ARGUMENTS(1)->integer.value) {
 	long result = ARGUMENTS(0)->integer.value % ARGUMENTS(1)->integer.value;
 	if (result != 0) result = ARGUMENTS(1)->integer.value-result;
-	RETURN_SINGLE_RESULT(create_negative_integer(result))
+	RETURN_SINGLE_RESULT(CREATE(builtin_types::positive_integer, result))
       } else DIVIDE_BY_ZERO
     } else if (TYPEOF(ARGUMENTS(1)) == TYPE(builtin_types::negative_integer)) {
       RETURN_SINGLE_RESULT(

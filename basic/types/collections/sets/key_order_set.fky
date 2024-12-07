@@ -195,6 +195,8 @@ $binary_node/delete: (self key)
 ###
 # first_item_of
 
+$empty_node/first_item_of: (_self) -> undefined
+
 $binary_node/first_item_of: (self)
   self $my_key $my_left $_my_right
   if
@@ -208,6 +210,8 @@ $std_types::key_order_set/first_item_of: (self)
 ###
 # last_item_of
 
+$empty_node/last_item_of: (_self) -> undefined
+
 $binary_node/last_item_of: (self)
   self $my_key $_my_left $my_right
   if
@@ -217,6 +221,54 @@ $binary_node/last_item_of: (self)
 
 $std_types::key_order_set/last_item_of: (self)
   -> last_item_of(contents_of(self))
+
+###
+# next_item_of
+
+$empty_node/next_item_of: (_self _key) -> undefined
+
+$binary_node/next_item_of: (self key)
+  # return the smallest node with a key greater than the specified one
+  self $my_key $my_left $my_right
+  if
+    key == my_key
+    -> first_item_of(my_right)
+    :
+      if
+	key < my_key:
+	  $next_key next_item_of(my_left key)
+	  if
+	    next_key.is_defined
+	    -> next_key
+	    -> my_key
+	-> next_item_of(my_right key)
+
+$std_types::key_order_set/next_item_of: (self key)
+  -> next_item_of(contents_of(self) key)
+
+###
+# previous_item_of
+
+$empty_node/previous_item_of: (_self _key) -> undefined
+
+$binary_node/previous_item_of: (self key)
+  # return the largest node with a key smaller than the specified one
+  self $my_key $my_left $my_right
+  if
+    key == my_key
+    -> last_item_of(my_left)
+    :
+      if
+	key > my_key:
+	  $previous_key previous_item_of(my_right key)
+	  if
+	    previous_key.is_defined
+	    -> previous_key
+	    -> my_key
+	-> previous_item_of(my_left key)
+
+$std_types::key_order_set/previous_item_of: (self key)
+  -> previous_item_of(contents_of(self) key)
 
 ###
 # for_each

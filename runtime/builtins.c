@@ -18897,7 +18897,7 @@ static void entry__builtin_types___negative_integer___std___mod (void)
 	long result = TLS_arguments[0]->integer.value % TLS_arguments[1]->integer.value;
 	if (result != 0) result = TLS_arguments[1]->integer.value-result;
 	{
-	  NODE *result__node = (NODE *)(create_negative_integer(result));
+	  NODE *result__node = (NODE *)(create__builtin_types___positive_integer(result));
 	  TLS_arguments[0] = result__node;
 	  TLS_argument_count = 1;
 	  return;

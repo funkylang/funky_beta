@@ -736,6 +736,11 @@ $tedi::functions
     "fold_everything" = tuple(fold_everything FOLDING)
     "unfold_everything" = tuple(unfold_everything FOLDING)
 
+    # bookmarks
+
+    "toggle_bookmark" = tuple(toggle_bookmark OTHER)
+    "jump_to_next_bookmark" = tuple(jump_to_next_bookmark OTHER)
+
     # control commands
 
     "copy" = tuple(copy UPDATE_STATE)
@@ -2154,6 +2159,13 @@ $go_to_line: (state _x y lines _info)
       set_content &state.window_manager_of page
       show_error_message state "Invalid line no.!"
 
+$toggle_bookmark: (x y _lines _info)
+  -> undefined undefined x y undefined
+
+
+$jump_to_next_bookmark: (x y _lines _info)
+  -> undefined undefined x y undefined
+
 $cancel: (state _x _y _lines _info)
   close &state.window_manager_of
   focus_window &state.window_manager_of text_window_id_of(state)
@@ -3116,6 +3128,17 @@ list $help_sections
 	  searches or replaces the previous occurence of the search string;
 	  the found string is selected and the cursor is at the start of the
 	  string
+  "Bookmarks" =
+    list
+      "toggle_bookmark" =
+	"
+	  toggles a bookmark at the current line;
+	  if a bookmark already exists then it is removed
+      "jump_to_next_bookmark" =
+	"
+	  jumps to the next bookmark;
+	  if the cursor is already behind the last bookmark then it jumps to the
+	  first bookmark
   "Files & Quit" =
     list
       "ctrl-q" =

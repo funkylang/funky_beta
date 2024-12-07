@@ -12,17 +12,17 @@
 ((attr = 47) == 1): <false>
 ((1, 2, 3) == 1): NO SUCH ATTRIBUTE
 
-(3 == 1/0): INVALID ARGUMENTS
-(1.5 == 1/0): INVALID ARGUMENTS
-(-2 == 1/0): INVALID ARGUMENTS
-('a' == 1/0): INVALID ARGUMENTS
-("text" == 1/0): INVALID ARGUMENTS
-(false == 1/0): INVALID ARGUMENTS
-(true == 1/0): INVALID ARGUMENTS
-(unique == 1/0): INVALID ARGUMENTS
-(attr == 1/0): INVALID ARGUMENTS
-(func == 1/0): INVALID ARGUMENTS
-((1..10) == 1/0): INVALID ARGUMENTS
-((attr = 47) == 1/0): INVALID ARGUMENTS
-((1, 2, 3) == 1/0): INVALID ARGUMENTS
-(1/0 == 1/0): INVALID ARGUMENTS
+(3 == 1/0): DIVIDE BY ZERO
+(1.5 == 1/0): DIVIDE BY ZERO
+(-2 == 1/0): DIVIDE BY ZERO
+('a' == 1/0): DIVIDE BY ZERO
+("text" == 1/0): DIVIDE BY ZERO
+(false == 1/0): DIVIDE BY ZERO
+(true == 1/0): DIVIDE BY ZERO
+(unique == 1/0): DIVIDE BY ZERO
+(attr == 1/0): DIVIDE BY ZERO
+(func == 1/0): DIVIDE BY ZERO
+((1..10) == 1/0): DIVIDE BY ZERO
+((attr = 47) == 1/0): DIVIDE BY ZERO
+((1, 2, 3) == 1/0): DIVIDE BY ZERO
+(1/0 == 1/0): DIVIDE BY ZERO

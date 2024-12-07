@@ -89,6 +89,14 @@ $std::retrieve_last_item ()
   #
     returns and removes the last item of a non-empty collection
 
+$std::next_item_of ()
+  #
+    returns the next item after the specified item
+
+$std::previous_item_of ()
+  #
+    returns the previous item before the specified item
+
 $std::reverse ()
   #
     reverse the order of all items of a collection
