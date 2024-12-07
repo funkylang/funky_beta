@@ -94,10 +94,7 @@ $tedi_types::page/get_xy:
     window_id = undefined
   )
   get_xy window_manager window_id $x $y
-  if
-    do_show_line_numbers_of(info_of(page))
-    -> x-length_of(length_of(lines_of(page)).to_string)-1 y
-    -> x y
+  -> x-get_decoration_width(page) y
 
 $tedi_types::page/goto_xy:
   (
@@ -107,15 +104,7 @@ $tedi_types::page/goto_xy:
     x
     y
   )
-  if
-    do_show_line_numbers_of(info_of(page)):
-      goto_xy
-	window_manager
-	window_id
-	x+length_of(length_of(lines_of(page)).to_string)+1
-	y
-    :
-      goto_xy window_manager window_id x y
+  goto_xy window_manager window_id get_decoration_width(page)+x y
 
 $tedi_types::page/handle_paste_string: (page io state text)
   $window_manager window_manager_of(state)
@@ -220,6 +209,9 @@ $update_text:
 	      -> list(inserted)
 	  -> empty_list
       $n length_of(lines)
+      $delta length_of(inserted)-last+first-1
+      update_if delta != 0 &new_info.bookmarks_of:
+	update_bookmarks bookmarks_of(new_info) first delta
       update_if first > n &first &last &inserted
 	-> n+1 n append(dup(list(undefined) first-n-1) inserted)
       if
@@ -396,11 +388,7 @@ $update_text:
     if
       start_x.is_defined:
 	$start_y selection_y_of(new_info)
-	$decoration_width
-	  if
-	    do_show_line_numbers_of(new_info)
-	    -> length_of(length_of(lines_of(page)).to_string)+1
-	    -> 0
+	$decoration_width get_decoration_width(page)
 	if
 	  start_y == new_y: # inline selection
 	    min_max &start_x &new_x
@@ -1572,7 +1560,7 @@ $copy: (state x y lines info)
 $cut: (state x y lines info)
   if
     selection_x.is_undefined
-    -> undefined undefined x y info
+    -> state undefined undefined x y info
     :
       !state.clipboard_contents_of get_selection(x y lines info)
       if
@@ -2159,12 +2147,88 @@ $go_to_line: (state _x y lines _info)
       set_content &state.window_manager_of page
       show_error_message state "Invalid line no.!"
 
-$toggle_bookmark: (x y _lines _info)
-  -> undefined undefined x y undefined
+$toggle_bookmark: (x y lines info)
+  if
+    y <= length_of(lines):
+      $bookmarks bookmarks_of(info)
+      $idx get_item_index(bookmarks y)
+      if
+	idx <= length_of(bookmarks) && bookmarks(idx) == y:
+	  # remove bookmark
+	  !info.bookmarks_of
+	    append
+	      range(bookmarks 1 idx-1)
+	      range(bookmarks idx+1 -1)
+	  -> undefined undefined x y info
+	:
+	  # add bookmark
+	  !info.bookmarks_of
+	    append
+	      range(bookmarks 1 idx-1)
+	      list(y)
+	      range(bookmarks idx -1)
+	  -> undefined undefined x y info
+    -> undefined undefined x y info
 
+$jump_to_next_bookmark: (x y _lines info)
+  $bookmarks bookmarks_of(info)
+  if
+    bookmarks.is_empty
+    -> undefined undefined x y info
+    :
+      $idx get_item_index(bookmarks y+1)
+      update_if idx > length_of(bookmarks) &idx -> 1
+      -> undefined undefined 1 bookmarks(idx) info
 
-$jump_to_next_bookmark: (x y _lines _info)
-  -> undefined undefined x y undefined
+$update_bookmarks: (bookmarks first delta)
+  $idx get_item_index(bookmarks first)
+  if
+    idx > length_of(bookmarks)
+    -> bookmarks
+    :
+      $new_bookmarks range(bookmarks 1 idx-1)
+      if
+	delta > 0:
+	  for_each range(bookmarks idx -1)
+	    : (line_no)
+	      push &new_bookmarks line_no+delta
+	      next
+	    -> new_bookmarks
+	:
+	  for_each range(bookmarks idx -1)
+	    : (line_no)
+	      if
+		line_no+delta >= first:
+		  push &new_bookmarks line_no+delta
+		  next
+		next
+	    -> new_bookmarks
+
+$get_item_index: (items item)
+  #
+    the items form a sorted list
+    if the item is not found the index of the next item is returned
+  $n length_of(items)
+  $s 1
+  $e n
+  loop:
+    if
+      s > e
+      -> s
+      :
+	$m (s+e) .div. 2
+	$mid_item items(m)
+	if
+	  item == mid_item
+	  -> m
+	  :
+	    if
+	      item < mid_item:
+		!e m-1
+		next
+	      :
+		!s m+1
+		next
 
 $cancel: (state _x _y _lines _info)
   close &state.window_manager_of
@@ -2876,17 +2940,42 @@ $create_screens: (page first last)
 $tedi_types::page/: (page^ idx)
   decorate page idx screens_of(page)(idx-first_screen_line_of(page)+1)
 
-$tedi::decorate: (page line_no line_screen)
+$get_decoration_width: (page)
   $info info_of(page)
   if
+    do_show_line_numbers_of(info)
+    -> length_of(length_of(lines_of(page)).to_string)+1
+    :
+      if
+	bookmarks_of(info).is_empty
+	-> 0
+	-> 1
+
+$tedi::decorate: (page line_no line_screen)
+  $info info_of(page)
+  $decoration_width get_decoration_width(page)
+  $bookmarks bookmarks_of(info)
+  $idx get_item_index(bookmarks line_no)
+  $is_bookmarked idx <= length_of(bookmarks) && bookmarks(idx) == line_no
+  if
     do_show_line_numbers_of(info):
-      $column_width length_of(length_of(lines_of(page)).to_string)
-      $decoration
-	create_screen(template_screen_of(page) column_width+1 1)
+      $decoration create_screen(template_screen_of(page) decoration_width 1)
       set_draw_colour &decoration GREY
-      draw_text &decoration 1 1 pad_left(line_no column_width)
+
+      update_if is_bookmarked &decoration:
+	set_clear_colour decoration '@0xffc000;'
+      draw_text &decoration 1 1 push(pad_left(line_no decoration_width-1) ' ')
       adjoin decoration line_screen
-    -> line_screen
+    :
+      if
+	bookmarks_of(info).is_empty
+	-> line_screen
+	:
+	  $decoration create_screen(template_screen_of(page) decoration_width 1)
+	  update_if is_bookmarked &decoration:
+	    set_clear_colour &decoration '@0xffc000;'
+	    draw_text decoration 1 1 " "
+	  adjoin decoration line_screen
 
 $tedi::is_a_continuation_line ()
 
@@ -2915,6 +3004,7 @@ $next_version_of ()
 $saved_version_of ()
 $selection_x_of ()
 $selection_y_of ()
+$bookmarks_of ()
 $completion_prefix_of () # used for "smart completion"
 $possible_completions_of () # a list of all matching completions
 $completion_index_of () # the index of the current completion
@@ -2923,7 +3013,7 @@ $undo_stack_of () # a list of undo entries (tuples)
 $redo_stack_of () # a list of redo entries (tuples)
 $go_to_history_of () # per document
 $use_soft_line_breaks_of ()
-$tedi::do_show_line_numbers_of ()
+$do_show_line_numbers_of ()
 $inbounds_width_of ()
 
 $tedi_types::info std_types::object
@@ -2932,6 +3022,7 @@ $tedi_types::info std_types::object
   .saved_version_of 0
   .selection_x_of undefined
   .selection_y_of undefined
+  .bookmarks_of empty_list
   .completion_prefix_of undefined
   .possible_completions_of undefined
   .completion_index_of undefined
