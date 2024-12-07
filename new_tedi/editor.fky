@@ -152,7 +152,6 @@ $tedi::change_text:
     .selection_x_of undefined
     .selection_y_of undefined
     .do_keep_completions_of false
-    .display_mode_has_changed_of false
   if
     argument.is_defined:
       action $line_no $inserted $new_x $new_y $new_info
@@ -397,16 +396,21 @@ $update_text:
     if
       start_x.is_defined:
 	$start_y selection_y_of(new_info)
+	$decoration_width
+	  if
+	    do_show_line_numbers_of(new_info)
+	    -> length_of(length_of(lines_of(page)).to_string)+1
+	    -> 0
 	if
 	  start_y == new_y: # inline selection
 	    min_max &start_x &new_x
 	    set_selection &window_manager window_id
-	      start_x start_y new_x-start_x 1
+	      start_x+decoration_width start_y new_x-start_x 1
 	    update_completion
 	  : # multi-line selection
 	    min_max &start_y &new_y
 	    set_selection &window_manager window_id
-	      1 start_y width_of(page) new_y-start_y
+	      1+decoration_width start_y width_of(page) new_y-start_y
 	    update_completion
       :
 	unset_selection &window_manager window_id
@@ -2572,7 +2576,8 @@ $toggle_line_numbers: (x y _lines info)
     undefined undefined x y
     info
       .do_show_line_numbers_of not(do_show_line_numbers_of(info))
-      .display_mode_has_changed_of true
+      .selection_x_of selection_x
+      .selection_y_of selection_y
 
 $remove_all_soft_breaks: (lines)
   $len length_of(lines)
@@ -2732,15 +2737,10 @@ $tedi_types::page/prepare: (page state line_range)
        .width_of map_reduce(lines_of(page) line_width_of max 0)
        .template_screen_of template_screen_of(state)
     :
-      $info info_of(page)
       line_range $from $to
       min &to height_of(page)
       $screens screens_of(page)
-      $first
-	if
-	  display_mode_has_changed_of(info)
-	  -> undefined
-	  -> first_screen_line_of(page)
+      $first first_screen_line_of(page)
       $last
 	if
 	  first.is_defined
@@ -2819,31 +2819,9 @@ $tedi_types::page/replace: (page first last inserted)
 
 $create_screens: (page first last)
   $lines range(lines_of(page) first last)
-  $info info_of(page)
   $template_screen template_screen_of(page)
   $empty_line create_text_screen(template_screen "")
-  $line_number_column_width length_of(length_of(lines_of(page)).to_string)+1
-  $line_number_screen
-    create_screen
-      template_screen
-      line_number_column_width
-      1
-      DRAW_COLOUR = WHITE
-      CLEAR_COLOUR = GREY
-  if
-    do_show_line_numbers_of(info):
-      map lines create_screen_for_line_with_line_number
-    :
-      map lines create_screen_for_line
-
-  $create_screen_for_line_with_line_number: (line_no line)
-    plus &line_no first-1
-    to_string &line_no
-    draw_text &line_number_screen
-      line_number_column_width-length_of(line_no)
-      1
-      line_no
-    adjoin line_number_screen create_screen_for_line(line)
+  map lines create_screen_for_line
 
   $create_screen_for_line ()
 
@@ -2884,7 +2862,19 @@ $create_screens: (page first last)
 	  template_screen append(spaces(indent_of(line)) text_of(line))
 
 $tedi_types::page/: (page^ idx)
-  -> screens_of(page)(idx-first_screen_line_of(page)+1)
+  decorate page idx screens_of(page)(idx-first_screen_line_of(page)+1)
+
+$tedi::decorate: (page line_no line_screen)
+  $info info_of(page)
+  if
+    do_show_line_numbers_of(info):
+      $column_width length_of(length_of(lines_of(page)).to_string)
+      $decoration
+	create_screen(template_screen_of(page) column_width+1 1)
+      set_draw_colour &decoration GREY
+      draw_text &decoration 1 1 pad_left(line_no column_width)
+      adjoin decoration line_screen
+    -> line_screen
 
 $tedi::is_a_continuation_line ()
 
@@ -2921,8 +2911,7 @@ $undo_stack_of () # a list of undo entries (tuples)
 $redo_stack_of () # a list of redo entries (tuples)
 $go_to_history_of () # per document
 $use_soft_line_breaks_of ()
-$do_show_line_numbers_of ()
-$display_mode_has_changed_of ()
+$tedi::do_show_line_numbers_of ()
 $inbounds_width_of ()
 
 $tedi_types::info std_types::object
@@ -2940,7 +2929,6 @@ $tedi_types::info std_types::object
   .go_to_history_of empty_list
   .use_soft_line_breaks_of false
   .do_show_line_numbers_of false
-  .display_mode_has_changed_of false
   .inbounds_width_of 80
 
 # Helpers

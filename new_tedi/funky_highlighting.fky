@@ -217,7 +217,7 @@ $indent_colours
 # Text Page
 
 $get_text_page_item: (myself^ idx)
-  -> screens_of(myself)(idx-first_screen_line_of(myself)+1)
+  decorate myself idx screens_of(myself)(idx-first_screen_line_of(myself)+1)
 
 $prepare_text_page: (page state line_range)
   if
