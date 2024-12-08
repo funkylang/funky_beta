@@ -1565,7 +1565,22 @@ $create_screens: (page symbols from to)
 			  if
 			    found_node.is_defined:
 			      return_variable_kind found_node part
-			    check_global_symbols
+			    check_namespaced_symbols
+
+		    $check_namespaced_symbols:
+		      for_each used_namespaces
+			: (namespace)
+			  $identifier append(namespace "::" part)
+			  $definition local_definitions_of(tree)(identifier)
+			  if
+			    definition.is_defined:
+			      if
+				found_node.is_defined
+				-> HIDING_DEFINITION
+				:
+				  return_variable_kind tree identifier
+			    next
+			check_global_symbols
 
 		    $check_global_symbols:
 		      for_each used_namespaces

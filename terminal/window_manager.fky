@@ -97,6 +97,7 @@ $std::CURSOR_Y .
 $std::FIRST_VISIBLE_COLUMN .
 $std::FIRST_VISIBLE_ROW .
 $std::MODAL .
+$std::PARENT_ID .
 
 $std::SIZE .
 
@@ -146,6 +147,7 @@ $std_types::window_manager std_types::object
 # Window Prototype
 
 $id_of ()
+$parent_id_of () # the id of the window that opened this window (optional)
 $size_of () # DEFAULT, MINIMIZED, MAXIMIZED or line count
 $desired_size_of () # DEFAULT or MINIMIZED
 $focused_of ()
@@ -167,6 +169,7 @@ $is_modal ()
 
 $proto_window std_types::object
   .id_of undefined
+  .parent_id_of undefined
   .size_of DEFAULT
   .desired_size_of DEFAULT
   .focused_of undefined
@@ -230,6 +233,7 @@ $std_types::window_manager/create_window:
     FIRST_VISIBLE_COLUMN = 1 $first_visible_column
     FIRST_VISIBLE_ROW = 1 $first_visible_row
     MODAL = false $modal
+    PARENT_ID = undefined $parent_id
   if
     size == MAXIMIZED:
       for_each windows_of(wm)
@@ -250,6 +254,7 @@ $std_types::window_manager/create_window:
     push &wm.windows_of
       proto_window
 	.id_of window_id
+	.parent_id_of parent_id
 	.size_of size
 	.desired_size_of desired_size
 	.cursor_x_of if(use_cursor (-> cursor_x) (-> undefined))
@@ -1535,6 +1540,7 @@ $std_types::window_manager/close:
   $index find_index(windows id)
   if
     index.is_defined:
+      $parent_id parent_id_of(windows(index))
       !windows append(range(windows 1 index-1) range(windows index+1 -1))
       !wm.has_a_valid_layout false
       if
@@ -1548,7 +1554,14 @@ $std_types::window_manager/close:
 	  min &index length_of(windows)
 	  update_if all_of(windows: (window) -> size_of(window) == MINIMIZED)
 	    &windows(index).size_of -> DEFAULT
-	  update_if id == focused &wm.focused_of -> id_of(windows(index))
+	  update_if id == focused &wm.focused_of:
+	    if
+	      &&
+		parent_id.is_defined
+		any_of
+		  windows: (window) -> id_of(window) == parent_id
+	      -> parent_id
+	      -> id_of(windows(index))
 	  wm
 	    .windows_of windows
 	    .is_up_to_date false

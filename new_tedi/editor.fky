@@ -2775,6 +2775,7 @@ $show_help: (state _x _y _lines _info)
     TITLE = "Help"
     CONTENT = page
     SIZE = MAXIMIZED
+    PARENT_ID = get_id(window_manager_of(state))
   -> state
 
 $tedi::double_click_action undefined

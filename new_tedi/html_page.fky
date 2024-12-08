@@ -376,6 +376,8 @@ $tedi_types::html_page/handle_mouse_click: (page io state x y _button)
       -> io state
     -> io state
 
+$tedi_types::html_page/handle_changed_focus: (_page state)
+  -> state
 
 $update_selection: (state page current_rectangle)
   set_content &state.window_manager_of
@@ -485,4 +487,5 @@ $LOAD_HELP/job_completed: (_self io state buf info)
       create_window &window_manager
 	TITLE = filename
 	CONTENT = page
+	PARENT_ID = get_id(window_manager)
       -> io state(.window_manager_of window_manager)
