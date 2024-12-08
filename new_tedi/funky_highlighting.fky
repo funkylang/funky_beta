@@ -1525,8 +1525,6 @@ $create_screens: (page symbols from to)
 					  -> NAMESPACED_CONSTANT
 		      :
 			$kind_string symbols(part)
-			debug::dump `kind_string
-			debug::dump `kind_from_string(kind_string)
 			if
 			  kind_string.is_defined
 			  -> kind_from_string(kind_string)
