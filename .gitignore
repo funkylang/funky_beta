@@ -7,6 +7,9 @@ compiler/configuration.fky
 !new_tedi
 !terminal
 !web
+!html
+!html/symbols
+!html/topics
 .*
 *.o
 *.c

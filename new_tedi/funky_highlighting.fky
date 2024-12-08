@@ -105,8 +105,8 @@ $META .
 $IDENTIFIER .
 
 $PARAMETER .
-$LOCAL_IO_CALL .
-$LIBRARY_IO_CALL .
+$LOCAL_IO_FUNCTION .
+$LIBRARY_IO_FUNCTION .
 $LOCAL_CONSTANT .
 $LIBRARY_CONSTANT .
 $LOCAL_VARIABLE .
@@ -141,8 +141,8 @@ $kind_to_colour
     LITERAL = BLUE
     IDENTIFIER = RED
     DUMMY = DARK_GREY
-    LOCAL_IO_CALL = LOCAL
-    LIBRARY_IO_CALL = LIBRARY
+    LOCAL_IO_FUNCTION = LOCAL
+    LIBRARY_IO_FUNCTION = LIBRARY
     LOCAL_FUNCTION = LOCAL
     LIBRARY_FUNCTION = LIBRARY
     IO_FUNCTION = VERY_DARK_CYAN
@@ -168,8 +168,8 @@ $kind_to_text_attributes
     LITERAL = NORMAL
     IDENTIFIER = NORMAL
     DUMMY = NORMAL
-    LOCAL_IO_CALL = BOLD|ITALIC
-    LIBRARY_IO_CALL = BOLD|ITALIC
+    LOCAL_IO_FUNCTION = BOLD|ITALIC
+    LIBRARY_IO_FUNCTION = BOLD|ITALIC
     LOCAL_FUNCTION = BOLD
     LIBRARY_FUNCTION = BOLD
     IO_FUNCTION = BOLD
@@ -192,7 +192,7 @@ $kind_from_string
     "POLYMORPHIC_FUNCTION" = LIBRARY_FUNCTION
     "FUNCTION" = LIBRARY_FUNCTION
     "BUILTIN_FUNCTION" = LIBRARY_FUNCTION
-    "IO_FUNCTION" = IO_FUNCTION
+    "IO_FUNCTION" = LIBRARY_IO_FUNCTION
     "BUILTIN_IO_FUNCTION" = IO_FUNCTION
     "OBJECT" = OBJECT
     "BUILTIN_OBJECT" = OBJECT
@@ -1505,7 +1505,7 @@ $create_screens: (page symbols from to)
 			  :
 			    if
 			      is_an_io_call
-			      -> LOCAL_IO_CALL
+			      -> LOCAL_IO_FUNCTION
 			      :
 				if
 				  length_of(var_kind) > 1
@@ -1525,6 +1525,8 @@ $create_screens: (page symbols from to)
 					  -> NAMESPACED_CONSTANT
 		      :
 			$kind_string symbols(part)
+			debug::dump `kind_string
+			debug::dump `kind_from_string(kind_string)
 			if
 			  kind_string.is_defined
 			  -> kind_from_string(kind_string)
@@ -1576,7 +1578,7 @@ $create_screens: (page symbols from to)
 			    kind_string.is_defined:
 			      if
 				is_an_io_call
-				-> LIBRARY_IO_CALL
+				-> LIBRARY_IO_FUNCTION
 				-> kind_from_string(kind_string)
 			    next
 			-> IDENTIFIER
@@ -1588,7 +1590,7 @@ $create_screens: (page symbols from to)
 			:
 			  if
 			    is_an_io_call
-			    -> LOCAL_IO_CALL
+			    -> LOCAL_IO_FUNCTION
 			    :
 			      $var_kind local_definitions_of(obj)(symbol)
 			      if

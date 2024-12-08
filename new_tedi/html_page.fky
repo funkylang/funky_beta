@@ -358,6 +358,9 @@ $tedi_types::html_page/handle_key_press: (page io state key)
     CTRL_F, FORWARD:
       get_page_from_history &io state 1
       -> io state
+    ESCAPE:
+      close &state.window_manager_of
+      -> io state
     -> undefined undefined
 
 $tedi_types::html_page/handle_paste_string: (_page io state _text)

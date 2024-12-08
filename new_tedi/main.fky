@@ -230,7 +230,7 @@ $tedi::main:
 				text_box("Author:")
 				text_box(author)
 			    push_button
-			      "Okay" = OKAY
+			      "Ok" = OKAY
 			!state.window_manager_of window_manager
 			-> io state
 		    HELP:

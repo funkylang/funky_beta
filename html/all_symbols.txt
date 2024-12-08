@@ -1032,6 +1032,7 @@ std::neutral_element_of POLYMORPHIC_FUNCTION
 std::new POLYMORPHIC_FUNCTION
 std::new_tuple BUILTIN_FUNCTION
 std::next OBJECT
+std::next_item_of POLYMORPHIC_FUNCTION
 std::next_key_of POLYMORPHIC_FUNCTION
 std::next_raw_value POLYMORPHIC_FUNCTION
 std::next_value POLYMORPHIC_FUNCTION
@@ -1055,6 +1056,7 @@ std::optional FUNCTION
 std::or POLYMORPHIC_FUNCTION
 std::output_speed POLYMORPHIC_FUNCTION
 std::over POLYMORPHIC_FUNCTION
+std::package_version BUILTIN_FUNCTION
 std::pad_bottom POLYMORPHIC_FUNCTION
 std::pad_left POLYMORPHIC_FUNCTION
 std::pad_right POLYMORPHIC_FUNCTION
@@ -1083,6 +1085,7 @@ std::port_no_of POLYMORPHIC_FUNCTION
 std::pow BUILTIN_FUNCTION
 std::prepare_event_channel POLYMORPHIC_FUNCTION
 std::prepare_update POLYMORPHIC_FUNCTION
+std::previous_item_of POLYMORPHIC_FUNCTION
 std::previous_key_of POLYMORPHIC_FUNCTION
 std::print IO_FUNCTION
 std::print_string IO_FUNCTION

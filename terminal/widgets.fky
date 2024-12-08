@@ -316,7 +316,7 @@ $std::okay_dialog:
       CENTER
       text_box(message)
       push_button
-	"Okay" = OKAY
+	"Ok" = OKAY
 
 $std::okay_cancel_dialog:
   (
@@ -330,6 +330,6 @@ $std::okay_cancel_dialog:
       text_box(message)
       horizontal_group
 	push_button
-	  "Okay" = OKAY
+	  "Ok" = OKAY
 	push_button
 	  "Cancel" = CANCEL
