@@ -852,7 +852,7 @@ $replace_line: (nodes line_no new_line)
 	    local_definitions_of(node).is_defined:
 	      default_value &old_parameters empty_hash_table
 	      default_value &new_parameters empty_hash_table
-	      merge &node.local_definitions_of
+	      merge &new_node.local_definitions_of
 		difference(new_parameters old_parameters symbol_kind_difference)
 		merge_symbol_kinds
 	      update_definitions
@@ -1172,7 +1172,7 @@ $line_width_of_node: (self)
 
 # Screens
 
-$create_screens: (page symbols from to)
+$create_screens: (page symbols from_line to_line)
   $template_screen template_screen_of(page)
   $empty_line create_text_screen(template_screen "")
   $tree lines_of(page)
@@ -1180,7 +1180,8 @@ $create_screens: (page symbols from to)
   $module_global_redefinitions local_redefinitions_of(tree)
   #$defined_namespaces defined_namespaces_of(tree)
   $used_namespaces used_namespaces_of(tree)
-  create nodes_of(tree) from min(to height_of(page)) undefined empty_line 1 2
+  create nodes_of(tree)
+    from_line min(to_line height_of(page)) undefined empty_line 1 2
 
   $create: (lines from to local_symbols indent_screen colour_1 colour_2)
     $screens empty_list
@@ -1723,8 +1724,14 @@ $annotate_node: (node)
   annotate_single_node &node $subkind $parameters
   $subgroups subgroups_of(node)
   if
-    subgroups.is_empty
-    -> node
+    subgroups.is_empty:
+      if
+	parameters.is_defined:
+	  node
+	   .local_definitions_of parameters
+	   .local_redefinitions_of empty_hash_bag
+	   .local_usages_of empty_hash_bag
+	-> node
     :
       if
 	parameters.is_defined:
@@ -1899,9 +1906,9 @@ $annotate_single_node: (node)
 		    i < n && (text(i) == '.' || text(i) == '/'):
 		      add_usage identifier next_iteration
 		    :
-		      add_definition identifier next_iteration
+		      add_definition next_iteration
 
-		  $add_definition: (identifier continuation)
+		  $add_definition: (continuation)
 		    if
 		      identifier.is_empty || identifier(1) == '_'
 		      continuation
@@ -1939,9 +1946,9 @@ $annotate_single_node: (node)
 		'!':
 		  inc &i
 		  get_identifier !i $identifier
-		  add_redefinition identifier next_iteration
+		  add_redefinition next_iteration
 
-		  $add_redefinition: (identifier continuation)
+		  $add_redefinition: (continuation)
 		    if
 		      identifier.is_empty || identifier(1) == '_'
 		      continuation
