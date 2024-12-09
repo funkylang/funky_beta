@@ -1829,6 +1829,7 @@ $start_search: (state x y lines do_a_backwards_search)
 	    if
 	      end_x.is_defined:
 		min_max &ew_x &end_x
+		plus &ew_x get_decoration_width(page)
 		set_selection &state.window_manager_of ew_x ew_y end_x-ew_x 1
 		-> state
 	      -> state

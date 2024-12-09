@@ -1805,19 +1805,24 @@ $annotate_single_node: (node)
   $n length_of(text)
   $i 0
   $first_chr text(1)
-  if
-    first_chr == '#':
-      return_subkind REMARK
+  $kind kind_of(node)
+  case kind
+    REMARK, STRING:
+      return_subkind kind
     :
-      case kind_of(node)
-	STATEMENT:
-	  case text(1)
-	    '(': return_subkind PARAMETERS
-	    ')': return_subkind DUMMY
-	    check_statement_node
-	ARGUMENTS check_statement_node
-	PARAMETERS check_parameter_node
-	: return_subkind kind_of(node)
+      if
+	first_chr == '#':
+	  return_subkind REMARK
+	:
+	  case kind
+	    STATEMENT:
+	      case text(1)
+		'(': return_subkind PARAMETERS
+		')': return_subkind DUMMY
+		check_statement_node
+	    ARGUMENTS check_statement_node
+	    PARAMETERS check_parameter_node
+	    : return_subkind kind
 
   $return_subkind: (subkind)
     ->

@@ -19,7 +19,7 @@
 </tr>
 <tr>
 <td><a href="ai__cached_prefix.html">ai::cached_prefix</a></td>
-<td class="description">returns the cached prefix of a text</td>
+<td class="description">caches a prefix for a prompt</td>
 </tr>
 <tr>
 <td><a href="ai__classsification_token_of.html">ai::classsification_token_of</a></td>
@@ -127,7 +127,7 @@
 </tr>
 <tr>
 <td><a href="debug__dump_one.html">debug::dump_one</a></td>
-<td class="description">dumps the contents of a single object</td>
+<td class="description">writes a string representation of an object to stderr</td>
 </tr>
 <tr>
 <td><a href="debug__print.html">debug::print</a></td>
@@ -275,7 +275,7 @@
 </tr>
 <tr>
 <td><a href="std__add.html">std::add</a></td>
-<td class="description">adds an item to a collection</td>
+<td class="description">add some items to a collection</td>
 </tr>
 <tr>
 <td><a href="std__add_attributes.html">std::add_attributes</a></td>
@@ -503,7 +503,7 @@
 </tr>
 <tr>
 <td><a href="std__create_empty_array.html">std::create_empty_array</a></td>
-<td class="description">creates an empty array of a given type</td>
+<td class="description">creates an empty new array based on the given template array</td>
 </tr>
 <tr>
 <td><a href="std__create_horizontal_panes.html">std::create_horizontal_panes</a></td>
@@ -615,11 +615,11 @@
 </tr>
 <tr>
 <td><a href="std__dialog_clear_colour_of.html">std::dialog_clear_colour_of</a></td>
-<td class="description">returns the clear colour of a dialog</td>
+<td class="description">Returns the clear colour of a dialog.</td>
 </tr>
 <tr>
 <td><a href="std__difference.html">std::difference</a></td>
-<td class="description">computes the difference of two hash bags</td>
+<td class="description">computes the difference of two collections</td>
 </tr>
 <tr>
 <td><a href="std__dimension_count_of.html">std::dimension_count_of</a></td>
@@ -775,7 +775,7 @@
 </tr>
 <tr>
 <td><a href="std__file_descriptor_of.html">std::file_descriptor_of</a></td>
-<td class="description">returns the file descriptor of an object</td>
+<td class="description">returns the file descriptor of an I/O-object</td>
 </tr>
 <tr>
 <td><a href="std__fill_trapezoid.html">std::fill_trapezoid</a></td>
@@ -907,11 +907,11 @@
 </tr>
 <tr>
 <td><a href="std__get_focused_window.html">std::get_focused_window</a></td>
-<td class="description">returns the currently focused window</td>
+<td class="description">returns the content of the focused window</td>
 </tr>
 <tr>
 <td><a href="std__get_id.html">std::get_id</a></td>
-<td class="description">returns the id of the object</td>
+<td class="description">returns the id of the focused window</td>
 </tr>
 <tr>
 <td><a href="std__get_inbounds_width.html">std::get_inbounds_width</a></td>
@@ -927,7 +927,7 @@
 </tr>
 <tr>
 <td><a href="std__get_options.html">std::get_options</a></td>
-<td class="description">parses command line options</td>
+<td class="description">fetches the options of a function call</td>
 </tr>
 <tr>
 <td><a href="std__get_previous_rectangle.html">std::get_previous_rectangle</a></td>
@@ -1563,7 +1563,7 @@
 </tr>
 <tr>
 <td><a href="std__needs_updating.html">std::needs_updating</a></td>
-<td class="description">checks if a window manager needs an update</td>
+<td class="description">checks if a window manager needs updating</td>
 </tr>
 <tr>
 <td><a href="std__negate.html">std::negate</a></td>
@@ -1579,7 +1579,7 @@
 </tr>
 <tr>
 <td><a href="std__next_item_of.html">std::next_item_of</a></td>
-<td class="description">returns the next item of a key</td>
+<td class="description">returns the next item after the specified item</td>
 </tr>
 <tr>
 <td><a href="std__next_key_of.html">std::next_key_of</a></td>
@@ -1607,11 +1607,11 @@
 </tr>
 <tr>
 <td><a href="std__okay_cancel_dialog.html">std::okay_cancel_dialog</a></td>
-<td class="description">displays a dialog with a message and an "Okay" and a "Cancel" button</td>
+<td class="description">creates a dialog with an "Ok" and a "Cancel" button</td>
 </tr>
 <tr>
 <td><a href="std__okay_dialog.html">std::okay_dialog</a></td>
-<td class="description">displays a dialog with a message and an "Okay"-button</td>
+<td class="description">displays a dialog with a message and an "Ok" button</td>
 </tr>
 <tr>
 <td><a href="std__on.html">std::on</a></td>
@@ -1747,11 +1747,11 @@
 </tr>
 <tr>
 <td><a href="std__prepare_update.html">std::prepare_update</a></td>
-<td class="description">prepares the window manager for an update</td>
+<td class="description">prepares the update of a window manager</td>
 </tr>
 <tr>
 <td><a href="std__previous_item_of.html">std::previous_item_of</a></td>
-<td class="description">returns the item before the given key</td>
+<td class="description">returns the previous item before the specified item</td>
 </tr>
 <tr>
 <td><a href="std__previous_key_of.html">std::previous_key_of</a></td>
@@ -1839,7 +1839,7 @@
 </tr>
 <tr>
 <td><a href="std__remove_message.html">std::remove_message</a></td>
-<td class="description">removes a message</td>
+<td class="description">removes a message from the window manager</td>
 </tr>
 <tr>
 <td><a href="std__remove_text_attributes.html">std::remove_text_attributes</a></td>
@@ -2195,7 +2195,7 @@
 </tr>
 <tr>
 <td><a href="std__text_box_clear_colour_of.html">std::text_box_clear_colour_of</a></td>
-<td class="description">the clear colour to use</td>
+<td class="description">Returns the clear colour of a text box.</td>
 </tr>
 <tr>
 <td><a href="std__text_box_draw_colour_of.html">std::text_box_draw_colour_of</a></td>
@@ -2231,7 +2231,7 @@
 </tr>
 <tr>
 <td><a href="std__to_hash_bag.html">std::to_hash_bag</a></td>
-<td class="description">converts a list to a hash bag</td>
+<td class="description">converts a collection into a hash bag</td>
 </tr>
 <tr>
 <td><a href="std__to_hash_table.html">std::to_hash_table</a></td>
@@ -2327,11 +2327,11 @@
 </tr>
 <tr>
 <td><a href="std__typed_tuple.html">std::typed_tuple</a></td>
-<td class="description">creates a typed tuple</td>
+<td class="description">clones the specified tuple and replace its contents</td>
 </tr>
 <tr>
 <td><a href="std__unreachable.html">std::unreachable</a></td>
-<td class="description">raises an error</td>
+<td class="description">This function is called if the program flow reaches a point that should</td>
 </tr>
 <tr>
 <td><a href="std__unset_selection.html">std::unset_selection</a></td>
@@ -2439,7 +2439,7 @@
 </tr>
 <tr>
 <td><a href="std__write_at.html">std::write_at</a></td>
-<td class="description">writes a sequence of bytes to a shared memory object at a given position</td>
+<td class="description">writes a byte string to a shared memory block at a given position</td>
 </tr>
 <tr>
 <td><a href="std__x_of.html">std::x_of</a></td>
@@ -2455,7 +2455,7 @@
 </tr>
 <tr>
 <td><a href="std__yes_no_dialog.html">std::yes_no_dialog</a></td>
-<td class="description">displays a dialog with a question and two buttons "Yes" and "No"</td>
+<td class="description">creates a dialog with a question and two buttons "Yes" and "No"</td>
 </tr>
 <tr>
 <td><a href="std__zip.html">std::zip</a></td>

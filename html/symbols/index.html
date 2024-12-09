@@ -67,7 +67,7 @@
 </tr>
 <tr>
 <td><a href="ai__cached_prefix.html">ai::cached_prefix</a></td>
-<td class="description">returns the cached prefix of a text</td>
+<td class="description">caches a prefix for a prompt</td>
 </tr>
 <tr>
 <td><a href="ai__classsification_token_of.html">ai::classsification_token_of</a></td>
@@ -191,7 +191,7 @@
 </tr>
 <tr>
 <td><a href="debug__dump_one.html">debug::dump_one</a></td>
-<td class="description">dumps the contents of a single object</td>
+<td class="description">writes a string representation of an object to stderr</td>
 </tr>
 <tr>
 <td><a href="debug__exit.html">debug::exit</a></td>
@@ -207,7 +207,7 @@
 </tr>
 <tr>
 <td><a href="debug__object_attributes.html">debug::object_attributes</a></td>
-<td class="description">returns the attributes of an object</td>
+<td class="description">returns a list of all attributes of an object</td>
 </tr>
 <tr>
 <td><a href="debug__object_type.html">debug::object_type</a></td>
@@ -595,11 +595,11 @@
 </tr>
 <tr>
 <td><a href="std__BOTTOM.html">std::BOTTOM</a></td>
-<td class="description">the bottom alignment</td>
+<td class="description">used to specify a bottom alignment</td>
 </tr>
 <tr>
 <td><a href="std__BUTTONS.html">std::BUTTONS</a></td>
-<td class="description">used to specify a button bar</td>
+<td class="description">used to specify a list of buttons</td>
 </tr>
 <tr>
 <td><a href="std__CANCEL.html">std::CANCEL</a></td>
@@ -607,7 +607,7 @@
 </tr>
 <tr>
 <td><a href="std__CENTER.html">std::CENTER</a></td>
-<td class="description">the center alignment</td>
+<td class="description">used to center a widget</td>
 </tr>
 <tr>
 <td><a href="std__CHARACTER_DEVICE.html">std::CHARACTER_DEVICE</a></td>
@@ -971,11 +971,11 @@
 </tr>
 <tr>
 <td><a href="std__CURSOR_X.html">std::CURSOR_X</a></td>
-<td class="description">used to specify a cursor x-position</td>
+<td class="description">used to specify the initial cursor x-position</td>
 </tr>
 <tr>
 <td><a href="std__CURSOR_Y.html">std::CURSOR_Y</a></td>
-<td class="description">used to specify a cursor y-coordinate</td>
+<td class="description">the y-coordinate of the cursor</td>
 </tr>
 <tr>
 <td><a href="std__CYAN.html">std::CYAN</a></td>
@@ -1611,7 +1611,7 @@
 </tr>
 <tr>
 <td><a href="std__FOCUS_CHANGED.html">std::FOCUS_CHANGED</a></td>
-<td class="description">the focus changed event</td>
+<td class="description">the focus changed event type</td>
 </tr>
 <tr>
 <td><a href="std__FUNKY_IDENTIFIER.html">std::FUNKY_IDENTIFIER</a></td>
@@ -1727,7 +1727,7 @@
 </tr>
 <tr>
 <td><a href="std__MIDDLE.html">std::MIDDLE</a></td>
-<td class="description">used to specify the middle of a widget</td>
+<td class="description">used to specify a middle alignment</td>
 </tr>
 <tr>
 <td><a href="std__MINIMIZED.html">std::MINIMIZED</a></td>
@@ -1735,7 +1735,7 @@
 </tr>
 <tr>
 <td><a href="std__MODAL.html">std::MODAL</a></td>
-<td class="description">used to create a modal dialog</td>
+<td class="description">used to create a modal window</td>
 </tr>
 <tr>
 <td><a href="std__MOUSE_CLICK.html">std::MOUSE_CLICK</a></td>
@@ -1771,7 +1771,7 @@
 </tr>
 <tr>
 <td><a href="std__NO.html">std::NO</a></td>
-<td class="description">the NO button</td>
+<td class="description">the "No" button</td>
 </tr>
 <tr>
 <td><a href="std__NORMAL.html">std::NORMAL</a></td>
@@ -1779,7 +1779,7 @@
 </tr>
 <tr>
 <td><a href="std__OKAY.html">std::OKAY</a></td>
-<td class="description">the OKAY button</td>
+<td class="description">the okay button</td>
 </tr>
 <tr>
 <td><a href="std__OPTIONAL_PARAMETER.html">std::OPTIONAL_PARAMETER</a></td>
@@ -1795,7 +1795,7 @@
 </tr>
 <tr>
 <td><a href="std__PARENT_ID.html">std::PARENT_ID</a></td>
-<td class="description">used to specify the parent id of a window</td>
+<td class="description">the id of the window that opened this window (optional)</td>
 </tr>
 <tr>
 <td><a href="std__PARSE_ERROR.html">std::PARSE_ERROR</a></td>
@@ -1855,7 +1855,7 @@
 </tr>
 <tr>
 <td><a href="std__RIGHT.html">std::RIGHT</a></td>
-<td class="description">the right alignment</td>
+<td class="description">right alignment</td>
 </tr>
 <tr>
 <td><a href="std__RUNTIME_ERROR.html">std::RUNTIME_ERROR</a></td>
@@ -1999,7 +1999,7 @@
 </tr>
 <tr>
 <td><a href="std__SHRINK.html">std::SHRINK</a></td>
-<td class="description">a button to shrink a window</td>
+<td class="description">the shrink button</td>
 </tr>
 <tr>
 <td><a href="std__SHUT_RD.html">std::SHUT_RD</a></td>
@@ -2031,7 +2031,7 @@
 </tr>
 <tr>
 <td><a href="std__SIZE.html">std::SIZE</a></td>
-<td class="description">used to specify the size of a window</td>
+<td class="description">used to specify a window size</td>
 </tr>
 <tr>
 <td><a href="std__SOCKET.html">std::SOCKET</a></td>
@@ -2087,7 +2087,7 @@
 </tr>
 <tr>
 <td><a href="std__TOP.html">std::TOP</a></td>
-<td class="description">the top alignment</td>
+<td class="description">used to align a widget at the top</td>
 </tr>
 <tr>
 <td><a href="std__TRACK_MOUSE_MOVEMENT.html">std::TRACK_MOUSE_MOVEMENT</a></td>
@@ -2115,7 +2115,7 @@
 </tr>
 <tr>
 <td><a href="std__USE_CURSOR.html">std::USE_CURSOR</a></td>
-<td class="description">used to specify that a window should use a cursor</td>
+<td class="description">if set then the cursor is visible in the window</td>
 </tr>
 <tr>
 <td><a href="std__UTF8.html">std::UTF8</a></td>
@@ -2263,7 +2263,7 @@
 </tr>
 <tr>
 <td><a href="std__add.html">std::add</a></td>
-<td class="description">adds an item to a collection</td>
+<td class="description">add some items to a collection</td>
 </tr>
 <tr>
 <td><a href="std__add_attributes.html">std::add_attributes</a></td>
@@ -2295,7 +2295,7 @@
 </tr>
 <tr>
 <td><a href="std__alt_key.html">std::alt_key</a></td>
-<td class="description">a value used to match an alt-key</td>
+<td class="description">a hash table that maps a character to the corresponding ALT-key</td>
 </tr>
 <tr>
 <td><a href="std__and.html">std::and</a></td>
@@ -2583,7 +2583,7 @@
 </tr>
 <tr>
 <td><a href="std__create_empty_array.html">std::create_empty_array</a></td>
-<td class="description">creates an empty array of a given type</td>
+<td class="description">creates an empty new array based on the given template array</td>
 </tr>
 <tr>
 <td><a href="std__create_horizontal_panes.html">std::create_horizontal_panes</a></td>
@@ -2603,7 +2603,7 @@
 </tr>
 <tr>
 <td><a href="std__create_shared_memory.html">std::create_shared_memory</a></td>
-<td class="description">creates a shared memory object</td>
+<td class="description">creates a block of shared memory</td>
 </tr>
 <tr>
 <td><a href="std__create_string.html">std::create_string</a></td>
@@ -2731,11 +2731,11 @@
 </tr>
 <tr>
 <td><a href="std__dialog_clear_colour_of.html">std::dialog_clear_colour_of</a></td>
-<td class="description">returns the clear colour of a dialog</td>
+<td class="description">Returns the clear colour of a dialog.</td>
 </tr>
 <tr>
 <td><a href="std__difference.html">std::difference</a></td>
-<td class="description">computes the difference of two hash bags</td>
+<td class="description">computes the difference of two collections</td>
 </tr>
 <tr>
 <td><a href="std__dimension_count_of.html">std::dimension_count_of</a></td>
@@ -2871,7 +2871,7 @@
 </tr>
 <tr>
 <td><a href="std__empty_hash_bag.html">std::empty_hash_bag</a></td>
-<td class="description">an empty hash_bag</td>
+<td class="description">an empty hash bag</td>
 </tr>
 <tr>
 <td><a href="std__empty_hash_set.html">std::empty_hash_set</a></td>
@@ -3023,7 +3023,7 @@
 </tr>
 <tr>
 <td><a href="std__file_descriptor_of.html">std::file_descriptor_of</a></td>
-<td class="description">returns the file descriptor of an object</td>
+<td class="description">returns the file descriptor of an I/O-object</td>
 </tr>
 <tr>
 <td><a href="std__file_exists.html">std::file_exists</a></td>
@@ -3203,7 +3203,7 @@
 </tr>
 <tr>
 <td><a href="std__get_focused_window.html">std::get_focused_window</a></td>
-<td class="description">returns the currently focused window</td>
+<td class="description">returns the content of the focused window</td>
 </tr>
 <tr>
 <td><a href="std__get_from_until.html">std::get_from_until</a></td>
@@ -3211,7 +3211,7 @@
 </tr>
 <tr>
 <td><a href="std__get_id.html">std::get_id</a></td>
-<td class="description">returns the id of the object</td>
+<td class="description">returns the id of the focused window</td>
 </tr>
 <tr>
 <td><a href="std__get_inbounds_width.html">std::get_inbounds_width</a></td>
@@ -3223,7 +3223,7 @@
 </tr>
 <tr>
 <td><a href="std__get_mac_address.html">std::get_mac_address</a></td>
-<td class="description">returns the MAC-address of the current machine</td>
+<td class="description">returns the MAC-address of the first network interface</td>
 </tr>
 <tr>
 <td><a href="std__get_mouse_reporting.html">std::get_mouse_reporting</a></td>
@@ -3235,7 +3235,7 @@
 </tr>
 <tr>
 <td><a href="std__get_options.html">std::get_options</a></td>
-<td class="description">parses command line options</td>
+<td class="description">fetches the options of a function call</td>
 </tr>
 <tr>
 <td><a href="std__get_previous_rectangle.html">std::get_previous_rectangle</a></td>
@@ -3571,7 +3571,7 @@
 </tr>
 <tr>
 <td><a href="std__installation_prefix.html">std::installation_prefix</a></td>
-<td class="description">returns the installation prefix of the Funky system</td>
+<td class="description">returns the installation prefix of the current package</td>
 </tr>
 <tr>
 <td><a href="std__int16_array.html">std::int16_array</a></td>
@@ -4111,7 +4111,7 @@
 </tr>
 <tr>
 <td><a href="std__needs_updating.html">std::needs_updating</a></td>
-<td class="description">checks if a window manager needs an update</td>
+<td class="description">checks if a window manager needs updating</td>
 </tr>
 <tr>
 <td><a href="std__negate.html">std::negate</a></td>
@@ -4135,7 +4135,7 @@
 </tr>
 <tr>
 <td><a href="std__next_item_of.html">std::next_item_of</a></td>
-<td class="description">returns the next item of a key</td>
+<td class="description">returns the next item after the specified item</td>
 </tr>
 <tr>
 <td><a href="std__next_key_of.html">std::next_key_of</a></td>
@@ -4163,11 +4163,11 @@
 </tr>
 <tr>
 <td><a href="std__okay_cancel_dialog.html">std::okay_cancel_dialog</a></td>
-<td class="description">displays a dialog with a message and an "Okay" and a "Cancel" button</td>
+<td class="description">creates a dialog with an "Ok" and a "Cancel" button</td>
 </tr>
 <tr>
 <td><a href="std__okay_dialog.html">std::okay_dialog</a></td>
-<td class="description">displays a dialog with a message and an "Okay"-button</td>
+<td class="description">displays a dialog with a message and an "Ok" button</td>
 </tr>
 <tr>
 <td><a href="std__on.html">std::on</a></td>
@@ -4207,7 +4207,7 @@
 </tr>
 <tr>
 <td><a href="std__open_unix_socket.html">std::open_unix_socket</a></td>
-<td class="description">opens a new unix socket</td>
+<td class="description">opens a UNIX domain socket</td>
 </tr>
 <tr>
 <td><a href="std__opendir.html">std::opendir</a></td>
@@ -4231,7 +4231,7 @@
 </tr>
 <tr>
 <td><a href="std__package_version.html">std::package_version</a></td>
-<td class="description">returns the version of the package</td>
+<td class="description">returns the version of the current package</td>
 </tr>
 <tr>
 <td><a href="std__pad_bottom.html">std::pad_bottom</a></td>
@@ -4343,11 +4343,11 @@
 </tr>
 <tr>
 <td><a href="std__prepare_update.html">std::prepare_update</a></td>
-<td class="description">prepares the window manager for an update</td>
+<td class="description">prepares the update of a window manager</td>
 </tr>
 <tr>
 <td><a href="std__previous_item_of.html">std::previous_item_of</a></td>
-<td class="description">returns the item before the given key</td>
+<td class="description">returns the previous item before the specified item</td>
 </tr>
 <tr>
 <td><a href="std__previous_key_of.html">std::previous_key_of</a></td>
@@ -4499,7 +4499,7 @@
 </tr>
 <tr>
 <td><a href="std__remove_message.html">std::remove_message</a></td>
-<td class="description">removes a message</td>
+<td class="description">removes a message from the window manager</td>
 </tr>
 <tr>
 <td><a href="std__remove_text_attributes.html">std::remove_text_attributes</a></td>
@@ -4631,7 +4631,7 @@
 </tr>
 <tr>
 <td><a href="std__send_file_descriptor.html">std::send_file_descriptor</a></td>
-<td class="description">sends a file descriptor over a socket</td>
+<td class="description">sends a message and a file descriptor over a socket</td>
 </tr>
 <tr>
 <td><a href="std__send_websocket_text_message.html">std::send_websocket_text_message</a></td>
@@ -4931,7 +4931,7 @@
 </tr>
 <tr>
 <td><a href="std__text_box_clear_colour_of.html">std::text_box_clear_colour_of</a></td>
-<td class="description">the clear colour to use</td>
+<td class="description">Returns the clear colour of a text box.</td>
 </tr>
 <tr>
 <td><a href="std__text_box_draw_colour_of.html">std::text_box_draw_colour_of</a></td>
@@ -4967,7 +4967,7 @@
 </tr>
 <tr>
 <td><a href="std__to_hash_bag.html">std::to_hash_bag</a></td>
-<td class="description">converts a list to a hash bag</td>
+<td class="description">converts a collection into a hash bag</td>
 </tr>
 <tr>
 <td><a href="std__to_hash_table.html">std::to_hash_table</a></td>
@@ -5079,7 +5079,7 @@
 </tr>
 <tr>
 <td><a href="std__typed_tuple.html">std::typed_tuple</a></td>
-<td class="description">creates a typed tuple</td>
+<td class="description">clones the specified tuple and replace its contents</td>
 </tr>
 <tr>
 <td><a href="std__uint16_array.html">std::uint16_array</a></td>
@@ -5115,7 +5115,7 @@
 </tr>
 <tr>
 <td><a href="std__unreachable.html">std::unreachable</a></td>
-<td class="description">raises an error</td>
+<td class="description">This function is called if the program flow reaches a point that should</td>
 </tr>
 <tr>
 <td><a href="std__unset_selection.html">std::unset_selection</a></td>
@@ -5251,7 +5251,7 @@
 </tr>
 <tr>
 <td><a href="std__write_at.html">std::write_at</a></td>
-<td class="description">writes a sequence of bytes to a shared memory object at a given position</td>
+<td class="description">writes a byte string to a shared memory block at a given position</td>
 </tr>
 <tr>
 <td><a href="std__write_string_to.html">std::write_string_to</a></td>
@@ -5279,7 +5279,7 @@
 </tr>
 <tr>
 <td><a href="std__yes_no_dialog.html">std::yes_no_dialog</a></td>
-<td class="description">displays a dialog with a question and two buttons "Yes" and "No"</td>
+<td class="description">creates a dialog with a question and two buttons "Yes" and "No"</td>
 </tr>
 <tr>
 <td><a href="std__zip.html">std::zip</a></td>
@@ -5495,7 +5495,7 @@
 </tr>
 <tr>
 <td><a href="std_types__line.html">std_types::line</a></td>
-<td class="description">the prototype object for lines</td>
+<td class="description">a tuple with two fields:</td>
 </tr>
 <tr>
 <td><a href="std_types__list.html">std_types::list</a></td>
@@ -5571,7 +5571,7 @@
 </tr>
 <tr>
 <td><a href="std_types__shared_memory.html">std_types::shared_memory</a></td>
-<td class="description">the prototype object for all shared memory objects</td>
+<td class="description">a block of shared memory</td>
 </tr>
 <tr>
 <td><a href="std_types__shutdown_type.html">std_types::shutdown_type</a></td>

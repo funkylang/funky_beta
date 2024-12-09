@@ -12,23 +12,15 @@
 <h2>Parameters</h2>
 <dl>
 <dt>rows</dt>
-<dd>the number of rows</dd>
-<dt>columns</dt>
-<dd>the number of columns</dd>
-<dt>spacing</dt>
-<dd>the spacing between the cells</dd>
-<dt>alignment</dt>
-<dd>the alignment of the cells</dd>
-<dt>widgets</dt>
-<dd>the widgets to add to the table</dd>
+<dd>a list of lists of widgets</dd>
 </dl>
 <h2>Result</h2>
 <dl>
 <dt>group</dt>
-<dd>the table group</dd>
+<dd>a table group</dd>
 </dl>
 <h2>Description</h2>
-<p>The table group is a widget group that arranges its widgets in a table.</p>
+<p>The table group is a widget group that arranges the widgets in a table.</p>
 <h2>Topic</h2>
 <table><tr><td><a href="../topics/Widgets.html">Widgets</a></td></tr></table>
 <h2>See also</h2>
@@ -43,94 +35,42 @@
 </tr>
 </table>
 <h2>Example</h2>
-<div class="Example">$group <a href="std__table_group.html">table_group</a>(2 3 2 <a href="std__CENTER.html">CENTER</a>)
-$group.add_widget <a href="std__text_box.html">text_box</a>("First name")
-$group.add_widget <a href="std__text_box.html">text_box</a>("Last name")
-$group.add_widget <a href="std__text_box.html">text_box</a>("Age")
-$group.add_widget <a href="std__text_box.html">text_box</a>("John")
-$group.add_widget <a href="std__text_box.html">text_box</a>("Doe")
-$group.add_widget <a href="std__text_box.html">text_box</a>("42")
-$group.add_widget <a href="std__text_box.html">text_box</a>("Mary")
-$group.add_widget <a href="std__text_box.html">text_box</a>("Smith")
-$group.add_widget <a href="std__text_box.html">text_box</a>("25")
-$dialog <a href="std__okay_dialog.html">okay_dialog</a>(group)
-$dialog.<a href="std__run.html">run</a>
+<div class="Example">$dialog <a href="std__create_dialog.html">create_dialog</a>(wm "Table Group")
+  <a href="std__table_group.html">table_group</a>
+    <a href="std__list.html">list</a>
+      <a href="std__list.html">list</a>
+        <a href="std__text_box.html">text_box</a>("Name")
+        <a href="std__text_box.html">text_box</a>("Age")
+      <a href="std__list.html">list</a>
+        <a href="std__text_box.html">text_box</a>("John")
+        <a href="std__text_box.html">text_box</a>("42")
+      <a href="std__list.html">list</a>
+        <a href="std__text_box.html">text_box</a>("Mary")
+        <a href="std__text_box.html">text_box</a>("25")
+      <a href="std__list.html">list</a>
+        <a href="std__text_box.html">text_box</a>("Irene")
+        <a href="std__text_box.html">text_box</a>("49")
+    <a href="std__horizontal_group.html">horizontal_group</a>
+      <a href="std__push_button.html">push_button</a>
+        "Ok" = <a href="std__OKAY.html">OKAY</a>
+      <a href="std__push_button.html">push_button</a>
+        "Cancel" = <a href="std__CANCEL.html">CANCEL</a>
+$result show_dialog(dialog)
 </div>
 <h2>Output</h2>
-<div class="Output">+--------------------------------------------------------------------+
-|                           First name                 Last name   Age|
-+--------------------------------------------------------------------+
-|                              John                     Doe         42|
-|                              Mary                   Smith         25|
-+--------------------------------------------------------------------+
-|                                                                    |
-|                                                                    |
-|                                                                    |
-|                                                                    |
-|                                                                    |
-|                                                                    |
-|                                                                    |
-|                                                                    |
-|                                                                    |
-|                                                                    |
-|                                                                    |
-|                                                                    |
-|                                                                    |
-|                                                                    |
-|                                                                    |
-|                                                                    |
-|                                                                    |
-|                                                                    |
-|                                                                    |
-|                                                                    |
-|                                                                    |
-|                                                                    |
-|                                                                    |
-|                                                                    |
-|                                                                    |
-|                                                                    |
-|                                                                    |
-|                                                                    |
-|                                                                    |
-|                                                                    |
-|                                                                    |
-|                                                                    |
-|                                                                    |
-|                                                                    |
-|                                                                    |
-|                                                                    |
-|                                                                    |
-|                                                                    |
-|                                                                    |
-|                                                                    |
-|                                                                    |
-|                                                                    |
-|                                                                    |
-|                                                                    |
-|                                                                    |
-|                                                                    |
-|                                                                    |
-|                                                                    |
-|                                                                    |
-|                                                                    |
-|                                                                    |
-|                                                                    |
-|                                                                    |
-|                                                                    |
-|                                                                    |
-|                                                                    |
-|                                                                    |
-|                                                                    |
-|                                                                    |
-|                                                                    |
-|                                                                    |
-|                                                                    |
-|                
+<div class="Output">+-----------------+
+| Name   | Age    |
+|-----------------|
+| John   | 42     |
+| Mary   | 25     |
+| Irene  | 49     |
+|-----------------|
+| Ok      Cancel  |
++-----------------+
 </div>
-<p>STOPPED</p>
 <div class="footer">(defined in <a href="../source/terminal/widgets.fky">terminal/widgets.fky</a>)</div>
 <div class="footer">(generated by Codestral-22B-v0.1-Q5_K_M.gguf)</div>
-<div class="footer">(2024-10-01 19:33:47)</div>
+<div class="footer">(2024-12-09 20:58:17)</div>
 <div class="footer">(<a href="../prompts/symbols/std__table_group.prompt">prompt</a>)</div>
 </body>
 </html>

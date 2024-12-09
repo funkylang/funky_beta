@@ -2658,6 +2658,7 @@ $std::split_into_groups:
 		  :
 		    $head lines(group_start)
 		    $subgroups range(lines group_start+1 last)
+		    debug::dump `subgroups
 		    push groups head(.subgroups_of subgroups)
 
 	$reduce_minimum_indent_and_next: (current_indent)

@@ -11,11 +11,22 @@
 <p class="short">handles an event</p>
 <h2>Parameters</h2>
 <dl>
+<dt>object</dt>
+<dd>some object</dd>
 <dt>event</dt>
-<dd>the event to handle</dd>
+<dd>the event</dd>
+<dt>id</dt>
+<dd>the event's id</dd>
+</dl>
+<h2>Result</h2>
+<dl>
+<dt>object</dt>
+<dd>the updated object</dd>
+<dt>new_event</dt>
+<dd>a new event or undefined</dd>
 </dl>
 <h2>Description</h2>
-<p>The event is handled by the appropriate handler.</p>
+<p>The event is handled by the object. If the event is consumed by the object then undefined is returned. If the event is not consumed by the object then the event is returned. If the event is changed by the object then the changed event is returned.</p>
 <h2>Topic</h2>
 <table><tr><td><a href="../topics/Input-Output_Events.html">Input-Output Events</a></td></tr></table>
 <h2>See also</h2>
@@ -28,15 +39,65 @@
   <td><a href="std__get_events.html">std::get_events</a></td>
   <td class="description">retrieves events from the input-output object.</td>
 </tr>
-<tr>
-  <td><a href="std__run.html">std::run</a></td>
-  <td class="description">starts a new process</td>
-</tr>
 </table>
 <h2>Example</h2>
-<div class="Example">$event <a href="std__get_events.html">get_events</a>()
-<a href="std__if.html">if</a> event.<a href="std__is_defined.html">is_defined</a>
-  <a href="std__handle_event.html">handle_event</a> &event
+<div class="Example">$io <a href="std_types__io.html">std_types::io</a> # create an input-output object
+<a href="std__start_reading_from.html">start_reading_from</a> &io <a href="std__STDIN_FILENO.html">STDIN_FILENO</a> # register reading from STDIN
+<a href="std__write.html">write</a> &io <a href="std__STDOUT_FILENO.html">STDOUT_FILENO</a> "Please enter some text:@nl;"
+  # write a prompt text to STDOUT
+$input_buffer "" # create an initially empty input buffer
+
+<a href="std__loop.html">loop</a>: # the event loop
+  <a href="std__get_events.html">get_events</a>! &io $events # get one or more events
+  <a href="std__for_each.html">for_each</a> events # handle all received events
+    : (event)
+      event $type $fd $argument # destructure the event
+      <a href="std__case.html">case</a> type # check the event type
+        <a href="std__READ.html">READ</a>: # event is a read event
+          <a href="std__case.html">case</a> fd # check the file descriptor
+            <a href="std__STDIN_FILENO.html">STDIN_FILENO</a>: # it was a read event from STDIN
+              <a href="std__append.html">append</a> &input_buffer argument
+                # append the received data to the input buffer
+              handle_input !io &input_buffer # call the input handler
+              <a href="std__if.html">if</a>
+                io.<a href="std__is_undefined.html">is_undefined</a>:
+                  #
+                    the input handler returned <a href="std__undefined.html">undefined</a> to indicate
+                    that the input processing is finished
+                  <a href="std__terminate.html">terminate</a>! # terminate the program
+                <a href="std__next.html">next</a> # otherwise continue processing the events
+            <a href="std__next.html">next</a> # ignore read events for other file descriptors
+        <a href="std__READ_FAILED.html">READ_FAILED</a>: # event is a read error
+          <a href="std__Error.html">Error</a>! "Error reading from standard input!"
+        <a href="std__WRITE_PENDING.html">WRITE_PENDING</a>: # event is a write pending event
+          # ignore
+          <a href="std__next.html">next</a>! # continue processing the events
+        <a href="std__WRITE_COMPLETED.html">WRITE_COMPLETED</a>: # event is a write completed event
+          # ignore
+          <a href="std__next.html">next</a>! # continue processing the events
+        <a href="std__next.html">next</a> # ignore all other events
+    <a href="std__next.html">next</a> # check for more events
+
+$handle_input: (buffer)
+  <a href="std__loop.html">loop</a>:
+    <a href="std__if.html">if</a>
+      buffer .<a href="std__contains.html">contains</a>. '@nl;':
+        # the input buffer contains at least one complete line
+        $line buffer .<a href="std__before.html">before</a>. '@nl;' # extract the line
+        <a href="std__if.html">if</a>
+          line == "quit" # the user entered "quit"
+          -&gt; <a href="std__undefined.html">undefined</a> <a href="std__undefined.html">undefined</a>
+            #
+              return <a href="std__undefined.html">undefined</a> to indicate that the input processing is
+              finished
+          : # Output the line
+            <a href="std__write.html">write</a> &io <a href="std__STDOUT_FILENO.html">STDOUT_FILENO</a> "
+              You entered: "@(line)"
+            <a href="std__behind.html">behind</a> &buffer '@nl;'
+              # remove the processed line from the input buffer
+            <a href="std__next.html">next</a> # continue processing the buffer
+      -&gt; io buffer
+        # return the (maybe) modified input-output object and buffer
 </div>
 <h2>Implementations</h2>
 <table>
@@ -47,7 +108,7 @@
 </table>
 <div class="footer">(defined in <a href="../source/basic/io/io_events.fky">basic/io/io_events.fky</a>)</div>
 <div class="footer">(generated by Codestral-22B-v0.1-Q5_K_M.gguf)</div>
-<div class="footer">(2024-10-01 18:46:42)</div>
+<div class="footer">(2024-12-09 20:42:08)</div>
 <div class="footer">(<a href="../prompts/symbols/std__handle_event.prompt">prompt</a>)</div>
 </body>
 </html>

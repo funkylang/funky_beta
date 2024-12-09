@@ -17,10 +17,10 @@
 <h2>Result</h2>
 <dl>
 <dt>is_a_plain_object</dt>
-<dd>true if the object is a plain object, false otherwise</dd>
+<dd>true if the object is a plain object</dd>
 </dl>
 <h2>Description</h2>
-<p>A plain object is an object that does not have any fields.</p>
+<p>A plain object is an object without any "builtin" attributes; numbers, characters, strings, etc. are <i>no</i> plain objects.</p>
 <h2>Topic</h2>
 <table><tr><td><a href="../topics/Basics.html">Basics</a></td></tr></table>
 <h2>See also</h2>
@@ -29,21 +29,106 @@
   <td><a href="std__is_defined.html">std::is_defined</a></td>
   <td class="description">returns true for all "normal" objects"</td>
 </tr>
+<tr>
+  <td><a href="std__is_a_number.html">std::is_a_number</a></td>
+  <td class="description">checks if an object is a number</td>
+</tr>
+<tr>
+  <td><a href="std__is_a_string.html">std::is_a_string</a></td>
+  <td class="description">tests if an object is a string</td>
+</tr>
+<tr>
+  <td><a href="std__is_a_character.html">std::is_a_character</a></td>
+  <td class="description">tests if an object is a character</td>
+</tr>
+<tr>
+  <td><a href="std__is_a_tuple.html">std::is_a_tuple</a></td>
+  <td class="description">checks if an object is a tuple</td>
+</tr>
+<tr>
+  <td><a href="std__is_a_list.html">std::is_a_list</a></td>
+  <td class="description">checks whether the given object is a list</td>
+</tr>
+<tr>
+  <td><a href="std__is_a_hash_table.html">std::is_a_hash_table</a></td>
+  <td class="description">checks if an object is a hash table</td>
+</tr>
+<tr>
+  <td><a href="std__is_a_function.html">std::is_a_function</a></td>
+  <td class="description">checks if an object is a function</td>
+</tr>
+<tr>
+  <td><a href="std__is_a_polymorphic_function.html">std::is_a_polymorphic_function</a></td>
+  <td class="description">[missing]</td>
+</tr>
+<tr>
+  <td><a href="std__is_a_date_and_time.html">std::is_a_date_and_time</a></td>
+  <td class="description">[missing]</td>
+</tr>
+<tr>
+  <td><a href="std__is_a_terminal_attributes.html">std::is_a_terminal_attributes</a></td>
+  <td class="description">[missing]</td>
+</tr>
+<tr>
+  <td><a href="std__is_a_file_type.html">std::is_a_file_type</a></td>
+  <td class="description">[missing]</td>
+</tr>
+<tr>
+  <td><a href="std__is_a_file_descriptor.html">std::is_a_file_descriptor</a></td>
+  <td class="description">checks if an object is a file descriptor</td>
+</tr>
+<tr>
+  <td><a href="std__is_a_shutdown_type.html">std::is_a_shutdown_type</a></td>
+  <td class="description">[missing]</td>
+</tr>
+<tr>
+  <td><a href="std__is_a_seek_type.html">std::is_a_seek_type</a></td>
+  <td class="description">[missing]</td>
+</tr>
+<tr>
+  <td><a href="std__is_a_device_id.html">std::is_a_device_id</a></td>
+  <td class="description">[missing]</td>
+</tr>
+<tr>
+  <td><a href="std__is_a_directory.html">std::is_a_directory</a></td>
+  <td class="description">checks if a file is a directory</td>
+</tr>
+<tr>
+  <td><a href="std__is_a_group_id.html">std::is_a_group_id</a></td>
+  <td class="description">[missing]</td>
+</tr>
+<tr>
+  <td><a href="std__is_a_inode_number.html">std::is_a_inode_number</a></td>
+  <td class="description">[missing]</td>
+</tr>
+<tr>
+  <td><a href="std__is_a_process_id.html">std::is_a_process_id</a></td>
+  <td class="description">checks if a value is a process id</td>
+</tr>
+<tr>
+  <td><a href="std__is_a_user_id.html">std::is_a_user_id</a></td>
+  <td class="description">[missing]</td>
+</tr>
+<tr>
+  <td><a href="std__is_a_error_number.html">std::is_a_error_number</a></td>
+  <td class="description">[missing]</td>
+</tr>
+<tr>
+  <td><a href="std__is_a_shared_memory.html">std::is_a_shared_memory</a></td>
+  <td class="description">[missing]</td>
+</tr>
 </table>
 <h2>Example</h2>
-<div class="Example"><a href="std__is_a_plain_object.html">is_a_plain_object</a> 123
-<a href="std__is_a_plain_object.html">is_a_plain_object</a> "Hello, World!"
-<a href="std__is_a_plain_object.html">is_a_plain_object</a> <a href="std__true.html">true</a>
-<a href="std__is_a_plain_object.html">is_a_plain_object</a> <a href="std__false.html">false</a>
-<a href="std__is_a_plain_object.html">is_a_plain_object</a> <a href="std__empty_list.html">empty_list</a>
-<a href="std__is_a_plain_object.html">is_a_plain_object</a> empty_tuple
-<a href="std__is_a_plain_object.html">is_a_plain_object</a> <a href="std__empty_hash_table.html">empty_hash_table</a>
-<a href="std__is_a_plain_object.html">is_a_plain_object</a> empty_set
-<a href="std__is_a_plain_object.html">is_a_plain_object</a> empty_array
-<a href="std__is_a_plain_object.html">is_a_plain_object</a> <a href="std__empty_string.html">empty_string</a>
-<a href="std__is_a_plain_object.html">is_a_plain_object</a> empty_character
-<a href="std__is_a_plain_object.html">is_a_plain_object</a> empty_date_and_time
-<a href="std__is_a_plain_object.html">is_a_plain_object</a> empty_terminal_attributes
+<div class="Example"><a href="std__is_a_plain_object.html">is_a_plain_object</a>(123) -&gt; <a href="std__false.html">false</a>
+<a href="std__is_a_plain_object.html">is_a_plain_object</a>("abc") -&gt; <a href="std__false.html">false</a>
+<a href="std__is_a_plain_object.html">is_a_plain_object</a>(<a href="std__true.html">true</a>) -&gt; <a href="std__false.html">false</a>
+<a href="std__is_a_plain_object.html">is_a_plain_object</a>(<a href="std__false.html">false</a>) -&gt; <a href="std__false.html">false</a>
+<a href="std__is_a_plain_object.html">is_a_plain_object</a>(<a href="std__list.html">list</a>(1 2 3)) -&gt; <a href="std__false.html">false</a>
+<a href="std__is_a_plain_object.html">is_a_plain_object</a>(<a href="std__tuple.html">tuple</a>(1 2 3)) -&gt; <a href="std__false.html">false</a>
+<a href="std__is_a_plain_object.html">is_a_plain_object</a>(<a href="std__hash_table.html">hash_table</a>("a" 1 "b" 2 "c" 3)) -&gt; <a href="std__false.html">false</a>
+<a href="std__is_a_plain_object.html">is_a_plain_object</a>(function(x y) x+y) -&gt; <a href="std__false.html">false</a>
+<a href="std__is_a_plain_object.html">is_a_plain_object</a>(polymorphic_function(x y) x+y) -&gt; <a href="std__false.html">false</a>
+<a href="std__is_a_plain_object.html">is_a_plain_object</a>(object()) -&gt; <a href="std__true.html">true</a>
 </div>
 <h2>Implementations</h2>
 <table>
@@ -150,7 +235,7 @@
 </table>
 <div class="footer">(defined in <a href="../source/basic/types/object.fky">basic/types/object.fky</a>)</div>
 <div class="footer">(generated by Codestral-22B-v0.1-Q5_K_M.gguf)</div>
-<div class="footer">(2024-10-01 18:47:45)</div>
+<div class="footer">(2024-12-09 20:47:21)</div>
 <div class="footer">(<a href="../prompts/symbols/std__is_a_plain_object.prompt">prompt</a>)</div>
 </body>
 </html>

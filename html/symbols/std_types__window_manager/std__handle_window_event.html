@@ -11,43 +11,59 @@
 <p class="short">handles a window event</p>
 <h2>Parameters</h2>
 <dl>
-<dt>self</dt>
+<dt>wm</dt>
 <dd>the window manager</dd>
-<dt>fd</dt>
-<dd>the file descriptor of the terminal</dd>
 <dt>event</dt>
 <dd>the event to handle</dd>
+<dt>wm_fd</dt>
+<dd>the file descriptor of the window manager</dd>
 </dl>
 <h2>Result</h2>
 <dl>
-<dt>window_manager</dt>
-<dd>the updated window manager</dd>
+<dt>event</dt>
+<dd>the event to be handled by the caller</dd>
 </dl>
 <h2>Description</h2>
-<p>This function handles a window event.</p>
+<p>This method handles the following events:</p>
+<ul>
+<li>CURSOR_LEFT
+</ul>
+<ul>
+<li>CURSOR_RIGHT
+</ul>
+<ul>
+<li>CURSOR_UP
+</ul>
+<ul>
+<li>CURSOR_DOWN
+</ul>
+<ul>
+<li>PAGE_UP
+</ul>
+<ul>
+<li>PAGE_DOWN
+</ul>
+<ul>
+<li>HOME
+</ul>
+<ul>
+<li>END
+</ul>
+<ul>
+<li>CTRL_HOME
+</ul>
+<ul>
+<li>CTRL_END
+</ul>
+<p>If the event is handled by this method then <a href="../std__undefined.html">std::undefined</a> is returned.</p>
+<p>If the event is not handled by this method then the event is returned unchanged.</p>
 <h2>Topic</h2>
 <table><tr><td><a href="../../topics/Window_Manager.html">Window Manager</a></td></tr></table>
 <h2>See also</h2>
 <table>
 <tr>
-  <td><a href="std__create_window.html">std_types::window_manager/std::create_window</a></td>
-  <td class="description">creates a new window</td>
-</tr>
-<tr>
-  <td><a href="std__create_dialog.html">std_types::window_manager/std::create_dialog</a></td>
-  <td class="description">creates a dialog window</td>
-</tr>
-<tr>
-  <td><a href="std__set_menu.html">std_types::window_manager/std::set_menu</a></td>
-  <td class="description">sets the menu bar</td>
-</tr>
-<tr>
-  <td><a href="std__shrink.html">std_types::window_manager/std::shrink</a></td>
-  <td class="description">shrinks the specified window</td>
-</tr>
-<tr>
-  <td><a href="std__enlarge.html">std_types::window_manager/std::enlarge</a></td>
-  <td class="description">enlarges the specified window</td>
+  <td><a href="std__handle_event.html">std_types::window_manager/std::handle_event</a></td>
+  <td class="description">handles an event</td>
 </tr>
 <tr>
   <td><a href="std__move_left.html">std_types::window_manager/std::move_left</a></td>
@@ -89,90 +105,6 @@
   <td><a href="std__move_bottom.html">std_types::window_manager/std::move_bottom</a></td>
   <td class="description">moves the content of the window to the bottom</td>
 </tr>
-<tr>
-  <td><a href="std__goto_xy.html">std_types::window_manager/std::goto_xy</a></td>
-  <td class="description">moves the cursor to the specified position</td>
-</tr>
-<tr>
-  <td><a href="std__get_xy.html">std_types::window_manager/std::get_xy</a></td>
-  <td class="description">returns the current cursor position</td>
-</tr>
-<tr>
-  <td><a href="std__get_size.html">std_types::window_manager/std::get_size</a></td>
-  <td class="description">returns the size of the window manager</td>
-</tr>
-<tr>
-  <td><a href="std__window_count_of.html">std_types::window_manager/std::window_count_of</a></td>
-  <td class="description">returns the number of windows</td>
-</tr>
-<tr>
-  <td><a href="std__set_title.html">std_types::window_manager/std::set_title</a></td>
-  <td class="description">sets the title of the specified window</td>
-</tr>
-<tr>
-  <td><a href="std__get_title.html">std_types::window_manager/std::get_title</a></td>
-  <td class="description">returns the title of the specified window</td>
-</tr>
-<tr>
-  <td><a href="std__set_buttons.html">std_types::window_manager/std::set_buttons</a></td>
-  <td class="description">sets the buttons of a window</td>
-</tr>
-<tr>
-  <td><a href="std__get_buttons.html">std_types::window_manager/std::get_buttons</a></td>
-  <td class="description">returns the additional buttons of the specified window</td>
-</tr>
-<tr>
-  <td><a href="std__set_content.html">std_types::window_manager/std::set_content</a></td>
-  <td class="description">sets the content of the specified window</td>
-</tr>
-<tr>
-  <td><a href="std__get_content.html">std_types::window_manager/std::get_content</a></td>
-  <td class="description">returns the content of the specified window</td>
-</tr>
-<tr>
-  <td><a href="std__set_inbounds_width.html">std_types::window_manager/std::set_inbounds_width</a></td>
-  <td class="description">sets the inbounds width of the window</td>
-</tr>
-<tr>
-  <td><a href="std__get_inbounds_width.html">std_types::window_manager/std::get_inbounds_width</a></td>
-  <td class="description">returns the inbounds width of the window</td>
-</tr>
-<tr>
-  <td><a href="std__get_focused_window.html">std_types::window_manager/std::get_focused_window</a></td>
-  <td class="description">returns the currently focused window</td>
-</tr>
-<tr>
-  <td><a href="std__get_window_at.html">std_types::window_manager/std::get_window_at</a></td>
-  <td class="description">returns the window at the specified position</td>
-</tr>
-<tr>
-  <td><a href="std__set_default_message.html">std_types::window_manager/std::set_default_message</a></td>
-  <td class="description">sets the default message</td>
-</tr>
-<tr>
-  <td><a href="std__show_message.html">std_types::window_manager/std::show_message</a></td>
-  <td class="description">shows a message in the window manager's message area</td>
-</tr>
-<tr>
-  <td><a href="std__focus_next_window.html">std_types::window_manager/std::focus_next_window</a></td>
-  <td class="description">focuses the next window</td>
-</tr>
-<tr>
-  <td><a href="std__focus_previous_window.html">std_types::window_manager/std::focus_previous_window</a></td>
-  <td class="description">focuses the previous window</td>
-</tr>
-<tr>
-  <td><a href="std__focus_window.html">std_types::window_manager/std::focus_window</a></td>
-  <td class="description">sets the focus to the specified window</td>
-</tr>
-<tr>
-  <td><a href="std__set_selection.html">std_types::window_manager/std::set_selection</a></td>
-  <td class="description">sets the selection of the specified window</td>
-</tr>
-<tr>
-  <td><a href="std__unset_selection.html">std_types::window_manager/std::unset_selection</a></td>
-  <td class="description">unsets the selection of the specified window</td>
-</tr>
 </table>
 <h2>Base Object</h2>
 <table>
@@ -190,7 +122,7 @@
 </table>
 <div class="footer">(defined in <a href="../../source/terminal/window_manager.fky">terminal/window_manager.fky</a>)</div>
 <div class="footer">(generated by Codestral-22B-v0.1-Q5_K_M.gguf)</div>
-<div class="footer">(2024-10-01 19:38:27)</div>
+<div class="footer">(2024-12-09 21:12:02)</div>
 <div class="footer">(<a href="../../prompts/symbols/std_types__window_manager/std__handle_window_event.prompt">prompt</a>)</div>
 </body>
 </html>
