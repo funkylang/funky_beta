@@ -2758,11 +2758,14 @@ $show_help: (state _x _y _lines _info)
 	  replace_all &text ';' = "<br>"
 	  -> "
 	    <dt>@(action)</dt>
-	      <dd>@(text)</dd>
+	      <dd>@(text)<br></dd>
       append
 	"
 	  <h1>@(title)</h1>
+	  <dl>
 	section_text
+	"
+	  </dl>
   append
     "
       <html>
