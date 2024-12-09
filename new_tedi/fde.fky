@@ -33,6 +33,6 @@
 <using tedi>
 
 !tedi::application_name "Funky Development Environment"
-!tedi::version "0.6.3"
+!tedi::version "0.7.0"
 
 tedi::main!

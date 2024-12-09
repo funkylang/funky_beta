@@ -320,6 +320,16 @@ $std_types::window_manager/set_time:
   )
   -> wm(.current_time_of time)
 
+$std_types::window_manager/for_each:
+  (
+    wm
+    body
+    continuation
+  )
+  for_each windows_of(wm)
+    : (window) body id_of(window) content_of(window)
+    continuation
+
 $std_types::window_manager/needs_updating:
   (
     wm

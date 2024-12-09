@@ -2110,6 +2110,7 @@ $go_to_line_dialog: (state _x _y _lines _info)
       $dialog_page
 	tedi_types::page
 	  .commands_of commands
+	  .kind_of GO_TO_LINE
 	  .lines_of go_to_history
       prepare &dialog_page state undefined
       create_window &window_manager
@@ -2804,6 +2805,7 @@ $tedi_types::text_page tedi_types::page
 
 $tedi::TEDI .
 $FIND_TEXT .
+$GO_TO_LINE .
 
 $tedi_types::page/height_of: (page) -> length_of(lines_of(page))
 
@@ -3000,9 +3002,9 @@ $tedi_line:
 	.indent_of indent+leading_spaces
 	.text_of range(text leading_spaces+1 -1-trailing_spaces)
 
-$version_of ()
+$tedi::version_of ()
 $next_version_of ()
-$saved_version_of ()
+$tedi::saved_version_of ()
 $selection_x_of ()
 $selection_y_of ()
 $bookmarks_of ()

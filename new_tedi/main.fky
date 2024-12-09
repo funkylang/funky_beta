@@ -41,7 +41,7 @@
 <using tedi>
 
 $tedi::application_name "TEDI"
-$tedi::version "0.6.1"
+$tedi::version "0.7.0"
 $tedi::author "Michael Niederle"
 
 $tedi::main:
@@ -66,6 +66,8 @@ $tedi::main:
       CURSOR_DOWN = "cursor_down"
       CURSOR_LEFT = "cursor_left"
       CURSOR_RIGHT = "cursor_right"
+      HELP = "show_help"
+      SAVE = "save_contents"
 
   tedi_types::state $state
     .files_to_load_of text_filenames
@@ -201,9 +203,35 @@ $tedi::main:
 		  $key data
 		  case key
 		    CTRL_Q, QUIT:
-		      log &io "exiting"
-		      exit &io EXIT_SUCCESS
-		      -> io state
+		      $changed_files ""
+		      for_each window_manager
+			: (window_id page)
+			  if
+			    kind_of(page) == TEDI:
+			      $info info_of(page)
+			      if
+				version_of(info) != saved_version_of(info):
+				  $name get_title(window_manager window_id)
+				  without_prefix &name '*'
+				  append &changed_files name "@nl;"
+				  next
+				next
+			    next
+			:
+			  if
+			    changed_files.is_empty:
+			      log &io "exiting"
+			      exit &io EXIT_SUCCESS
+			      -> io state
+			    :
+			      initialize_rendering template_screen_of(state):
+				yes_no_dialog &window_manager QUIT "
+				  The following files have unsaved changes:
+
+				  @(changed_files)
+				  Do you really want to quit without saving?
+				!state.window_manager_of window_manager
+				-> io state
 		    CTRL_D:
 		      move_window_down &window_manager
 		      !state.window_manager_of window_manager
@@ -233,13 +261,12 @@ $tedi::main:
 			      "Ok" = OKAY
 			!state.window_manager_of window_manager
 			-> io state
-		    HELP:
-		      initialize_rendering template_screen_of(state):
-			okay_dialog &window_manager undefined "
-			  This text will be replaced by
-			  the help text for the current
-			  window.
-			!state.window_manager_of window_manager
+		    YES:
+		      case context
+			QUIT:
+			  log &io "exiting"
+			  exit &io EXIT_SUCCESS
+			  -> io state
 			-> io state
 		    :
 		      $page get_content(window_manager)

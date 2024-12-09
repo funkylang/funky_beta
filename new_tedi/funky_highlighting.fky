@@ -25,7 +25,7 @@
 
 <resolve std_types-2.0>
 
-$FDE .
+#$FDE .
 $DO_VALIDATE false
 
 # New Types
@@ -60,7 +60,7 @@ $fde_types::node tedi_types::line
 # Extensions For Existing Types
 
 $tedi_types::text_page
-  .kind_of FDE
+  #.kind_of FDE
   /: get_text_page_item
   /prepare prepare_text_page
   /replace replace_in_text_page
@@ -840,32 +840,35 @@ $replace_line: (nodes line_no new_line)
       !node
 	.text_of text_of(new_line)
 	.tokens_of undefined
-      annotate_single_node $new_node $new_subkind $new_parameters node
+      annotate_single_node &node $new_subkind $new_parameters
       if
 	new_subkind != old_subkind && subgroups_of(node).is_not_empty:
-	  !old_node nodes(idx)
-	  annotate_node &new_node
-	  !node new_node
+	  !old_node nodes(idx) # restore old node
+	  annotate_node &node
 	  update_definitions
 	:
 	  if
-	    local_definitions_of(node).is_defined:
+	    new_parameters.is_defined:
 	      default_value &old_parameters empty_hash_table
-	      default_value &new_parameters empty_hash_table
-	      merge &new_node.local_definitions_of
+	      default_value $local_definitions
+		local_definitions_of(node) empty_hash_table
+	      merge &local_definitions
 		difference(new_parameters old_parameters symbol_kind_difference)
 		merge_symbol_kinds
+	      !node.local_definitions_of local_definitions
+	      default_value &node.local_redefinitions_of empty_hash_bag
+	      default_value &node.local_usages_of empty_hash_bag
 	      update_definitions
 	    update_definitions
 
       $update_definitions
 	->
-	  nodes(idx new_node)
+	  nodes(idx node)
 	  difference
-	    definitions_of(new_node) definitions_of(old_node)
+	    definitions_of(node) definitions_of(old_node)
 	    symbol_kind_difference
-	  difference(redefinitions_of(new_node) redefinitions_of(old_node))
-	  difference(usages_of(new_node) usages_of(old_node))
+	  difference(redefinitions_of(node) redefinitions_of(old_node))
+	  difference(usages_of(node) usages_of(old_node))
     :
       replace_line &node.subgroups_of offset new_line
 	$definition_changes $redefinition_changes $usage_changes
