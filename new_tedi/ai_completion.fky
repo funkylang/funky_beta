@@ -455,7 +455,7 @@ $EVALUATE/job_completed: (_id io state logits _context)
 		:
 		  if
 		    at_line_start:
-		      goto_xy page &state.window_manager_of x y+1
+		      goto_xy &page &state.window_manager_of x y+1
 		      current_action_completed io state
 		    :
 		      current_action_completed io state
@@ -474,7 +474,7 @@ $EVALUATE/job_completed: (_id io state logits _context)
 		generated_token_count == 0:
 		  if
 		    at_line_start:
-		      goto_xy page &state.window_manager_of 1 y
+		      goto_xy &page &state.window_manager_of 1 y
 		      if
 			at_line_end
 			insert_text
@@ -488,7 +488,7 @@ $EVALUATE/job_completed: (_id io state logits _context)
 		      if
 			at_line_end:
 			  $lines lines_of(page)
-			  goto_xy page &state.window_manager_of width_of(lines(y))+1 y
+			  goto_xy &page &state.window_manager_of width_of(lines(y))+1 y
 			  insert_text
 			insert_text
 		insert_text

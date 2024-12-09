@@ -104,7 +104,11 @@ $tedi_types::page/goto_xy:
     x
     y
   )
-  goto_xy window_manager window_id get_decoration_width(page)+x y
+  !page.info_of
+    .cursor_x_of x
+    .cursor_y_of y
+  goto_xy &window_manager window_id get_decoration_width(page)+x y
+  -> page window_manager
 
 $tedi_types::page/handle_paste_string: (page io state text)
   $window_manager window_manager_of(state)
@@ -382,8 +386,8 @@ $update_text:
 
   $update_cursor_position:
     !page.info_of new_info
+    goto_xy &page &window_manager window_id new_x new_y
     set_content &window_manager window_id page
-    goto_xy page &window_manager window_id new_x new_y
     $start_x selection_x_of(new_info)
     if
       start_x.is_defined:
@@ -406,14 +410,13 @@ $update_text:
 
   $update_completion:
     if
-      do_keep_completions_of(new_info)
+      do_keep_completions_of(info_of(page))
       return
       :
-	!new_info
+	!page.info_of
 	  .possible_completions_of undefined
 	  .completion_index_of undefined
 	  .completion_prefix_of undefined
-	!page.info_of new_info
 	set_status_line &window_manager
 	set_content &window_manager window_id page
 	return
@@ -460,8 +463,8 @@ $tedi_types::page/handle_mouse_click: (page io state x y _button)
 	-> io state
     :
       add_history_entry &page.info_of cx cy
+      goto_xy &page &state.window_manager_of x y
       set_content &state.window_manager_of page
-      goto_xy page &state.window_manager_of x y
       set_status_line &state.window_manager_of
       -> io state
 
@@ -1818,9 +1821,9 @@ $start_search: (state x y lines do_a_backwards_search)
 	if
 	  ew_x != old_x || ew_y != old_y:
 	    add_history_entry &ew_info old_x old_y
-	    goto_xy page &state.window_manager_of ew_x ew_y
-	    set_status_line &state.window_manager_of
 	    !page.info_of ew_info
+	    goto_xy &page &state.window_manager_of ew_x ew_y
+	    set_status_line &state.window_manager_of
 	    set_content &state.window_manager_of page
 	    $end_x selection_x_of(ew_info)
 	    if
@@ -2140,8 +2143,8 @@ $go_to_line: (state _x y lines _info)
     line_no.is_defined:
       get_xy page window_manager_of(state) $old_x $old_y
       add_history_entry &page.info_of old_x old_y
+      goto_xy &page &state.window_manager_of 1 line_no
       set_content &state.window_manager_of page
-      goto_xy page &state.window_manager_of 1 line_no
       set_status_line &state.window_manager_of
       -> state
     :
@@ -2540,6 +2543,7 @@ $toggle_indentation_highlighting: (x y _lines info)
   -> undefined undefined x y info
 
 $toggle_cursor_line_highlighting: (x y _lines info)
+  not &info.do_highlight_cursor_line_of
   -> undefined undefined x y info
 
 $tedi::toggle_soft_line_break: (state x y lines info)
@@ -2742,7 +2746,7 @@ $show_help: (state _x _y _lines _info)
       to_lower_case &key
       replace_all &key '_' = "-"
       if
-	action_name.is_a_string:
+	action_name.is_a_string && action_name_to_key(action_name).is_undefined:
 	  !action_name_to_key(action_name) key
 	  next
 	next
@@ -2963,6 +2967,12 @@ $tedi::decorate: (page line_no line_screen)
   $bookmarks bookmarks_of(info)
   $idx get_item_index(bookmarks line_no)
   $is_bookmarked idx <= length_of(bookmarks) && bookmarks(idx) == line_no
+  update_if
+    do_highlight_cursor_line_of(info) && line_no == cursor_y_of(info)
+    &line_screen
+    :
+      draw_shadow line_screen 0.9
+	1 1 width_of(line_screen) height_of(line_screen)
   if
     do_show_line_numbers_of(info):
       $decoration create_screen(template_screen_of(page) decoration_width 1)
@@ -3019,6 +3029,7 @@ $undo_stack_of () # a list of undo entries (tuples)
 $redo_stack_of () # a list of redo entries (tuples)
 $go_to_history_of () # per document
 $use_soft_line_breaks_of ()
+$do_highlight_cursor_line_of ()
 $do_show_line_numbers_of ()
 $inbounds_width_of ()
 
@@ -3026,6 +3037,8 @@ $tedi_types::info std_types::object
   .version_of 0
   .next_version_of 1
   .saved_version_of 0
+  .cursor_x_of undefined
+  .cursor_y_of undefined
   .selection_x_of undefined
   .selection_y_of undefined
   .bookmarks_of empty_list
@@ -3037,6 +3050,7 @@ $tedi_types::info std_types::object
   .redo_stack_of empty_list
   .go_to_history_of empty_list
   .use_soft_line_breaks_of false
+  .do_highlight_cursor_line_of true
   .do_show_line_numbers_of false
   .inbounds_width_of 80
 
@@ -3266,6 +3280,9 @@ list $help_sections
       "show_help" =
 	"
 	  show this help
+      "toggle_cursor_line_highlighting" =
+	"
+	  enable/disable highlighting of the current line
       "toggle_soft_line_break" =
 	"
 	  toggle soft-break-mode

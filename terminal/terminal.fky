@@ -555,6 +555,7 @@ $std_types::screen/draw_shadow:
     darken fore- and background colours
   (
     screen
+    factor = 0.5
     x
     y
     width
@@ -564,6 +565,7 @@ $std_types::screen/draw_shadow:
   update_if y < 1 &y &height -> 1 height-1+y
   update_if width > width_of(screen) &width -> width_of(screen)-x+1
   update_if height > height_of(screen) &height -> height_of(screen)-y+1
+  darken &screen.clear_colour_of
   if
     width <= 0 || height <= 0
     -> screen
@@ -600,9 +602,9 @@ $std_types::screen/draw_shadow:
     $blue blue_component_of(colour)
     rgb_character
       text_attributes
-      red >> 1
-      green >> 1
-      blue >> 1
+      to_integer(red*factor)
+      to_integer(green*factor)
+      to_integer(blue*factor)
 
 $std_types::screen/move:
   (

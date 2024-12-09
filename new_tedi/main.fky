@@ -41,7 +41,7 @@
 <using tedi>
 
 $tedi::application_name "TEDI"
-$tedi::version "0.7.1"
+$tedi::version "0.8"
 $tedi::author "Michael Niederle"
 
 $tedi::main:
