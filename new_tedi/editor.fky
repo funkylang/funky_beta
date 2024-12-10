@@ -231,9 +231,9 @@ $update_text:
 	  $old_line lines(line_no)
 	  $new_line inserted(1)
 	  $text text_of(new_line)
-	  $inbounds_width inbounds_width_of(new_info)
+	  $right_margin right_margin_of(new_info)
 	  $indent indent_of(old_line)
-	  $max_width inbounds_width-indent
+	  $max_width right_margin-indent
 	  $insertions empty_list
 	  $text_width width_of(text)
 	  cond
@@ -760,7 +760,7 @@ $tedi::functions
 
     "change_colour_set" = tuple(change_colour_set OTHER)
     "toggle_indentation_highlighting" =
-      tuple(toggle_indentation_highlighting OTHER)
+      tuple(toggle_right_margin_display OTHER)
     "toggle_cursor_line_highlighting" =
       tuple(toggle_cursor_line_highlighting OTHER)
     "toggle_soft_line_break" = tuple(toggle_soft_line_break UPDATE_STATE)
@@ -2540,7 +2540,8 @@ $previous_window: (x y _lines info)
 $change_colour_set: (x y _lines info)
   -> undefined undefined x y info
 
-$toggle_indentation_highlighting: (x y _lines info)
+$toggle_right_margin_display: (x y _lines info)
+  not &info.do_show_right_margin_of
   -> undefined undefined x y info
 
 $toggle_cursor_line_highlighting: (x y _lines info)
@@ -2598,7 +2599,7 @@ $tedi::toggle_soft_line_break: (state x y lines info)
 	:
 	  !info.use_soft_line_breaks_of true
 	  set_buttons &state.window_manager_of list(DEACTIVATE_SOFT_BREAKS)
-	  $broken_lines break_all_lines(lines inbounds_width_of(info))
+	  $broken_lines break_all_lines(lines right_margin_of(info))
 
 	  # compute the new cursor position
 	  $new_y 0
@@ -2968,11 +2969,20 @@ $tedi::decorate: (page line_no line_screen)
   $bookmarks bookmarks_of(info)
   $idx get_item_index(bookmarks line_no)
   $is_bookmarked idx <= length_of(bookmarks) && bookmarks(idx) == line_no
+  update_if do_show_right_margin_of(info) &line_screen:
+    $right_margin right_margin_of(info)
+    $width width_of(line_screen)
+    if
+      width >= right_margin:
+	draw_shadow line_screen 0.94 right_margin+1 1 width-right_margin 1
+      :
+	adjoin &line_screen create_screen(line_screen right_margin-width 1)
+	draw_shadow line_screen 0.94 width+1 1 0 1
   update_if
     do_highlight_cursor_line_of(info) && line_no == cursor_y_of(info)
     &line_screen
     :
-      draw_shadow line_screen 0.9
+      draw_shadow line_screen 0.94
 	1 1 width_of(line_screen) height_of(line_screen)
   if
     do_show_line_numbers_of(info):
@@ -3030,9 +3040,10 @@ $undo_stack_of () # a list of undo entries (tuples)
 $redo_stack_of () # a list of redo entries (tuples)
 $go_to_history_of () # per document
 $use_soft_line_breaks_of ()
+$do_show_right_margin_of ()
 $do_highlight_cursor_line_of ()
 $do_show_line_numbers_of ()
-$inbounds_width_of ()
+$right_margin_of ()
 
 $tedi_types::info std_types::object
   .version_of 0
@@ -3050,10 +3061,11 @@ $tedi_types::info std_types::object
   .undo_stack_of empty_list
   .redo_stack_of empty_list
   .go_to_history_of empty_list
+  .do_show_right_margin_of true
   .use_soft_line_breaks_of false
   .do_highlight_cursor_line_of true
   .do_show_line_numbers_of false
-  .inbounds_width_of 80
+  .right_margin_of 80
 
 # Helpers
 
@@ -3281,6 +3293,9 @@ list $help_sections
       "show_help" =
 	"
 	  show this help
+      "toggle_indentation_highlighting" =
+	"
+	  enable/disable display of right margin
       "toggle_cursor_line_highlighting" =
 	"
 	  enable/disable highlighting of the current line
