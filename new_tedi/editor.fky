@@ -393,13 +393,13 @@ $update_text:
 	  .possible_completions_of undefined
 	  .completion_index_of undefined
 	  .completion_prefix_of undefined
-	set_status_line &window_manager
 	update_cursor_position
 
   $update_cursor_position:
     !page.info_of new_info
     set_content &window_manager window_id page
     goto_xy &page &window_manager window_id new_x new_y
+    set_status_line &window_manager
     $start_x selection_x_of(new_info)
     if
       start_x.is_defined:
