@@ -472,8 +472,12 @@ $std::extract_keys:
       :
 	maybe_push_string !keys
 	!buf ""
-	push &keys csi_table(sequence)
-	-> input keys
+	$key csi_table(sequence)
+	if
+	  key.is_defined:
+	    push &keys key
+	    -> input keys
+	  -> input keys
 
   $maybe_push_string:
     if

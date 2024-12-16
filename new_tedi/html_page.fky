@@ -339,11 +339,10 @@ $tedi_types::history
 $tedi_types::html_page/handle_key_press: (page io state key)
   case key
     TABULATOR:
-      $current_rectangle current_rectangle_of(page)
+      $next_rectangle get_next_rectangle(page current_rectangle_of(page))
       if
-	current_rectangle.is_defined:
-	  update_selection &state page
-	    get_next_rectangle(page current_rectangle)
+	next_rectangle.is_defined:
+	  update_selection &state page next_rectangle
 	  -> io state
 	-> io state
     SHIFT_TABULATOR:

@@ -2786,8 +2786,12 @@ $std_types::screen/get_next_rectangle:
     rectangle = undefined
   )
   if
-    rectangle.is_undefined
-    -> find_first_rectangle(rectangles_of(self) 0 0)
+    rectangle.is_undefined:
+      $rectangles rectangles_of(self)
+      if
+	rectangles.is_defined
+	-> find_first_rectangle(rectangles 0 0)
+	-> undefined
     :
       rectangle $_info $x $y
       $rect find_next_rectangle(rectangles_of(self) x y 0 0)
@@ -2887,8 +2891,12 @@ $std_types::screen/get_previous_rectangle:
     rectangle = undefined
   )
   if
-    rectangle.is_undefined
-    -> find_last_rectangle(rectangles_of(self) 0 0)
+    rectangle.is_undefined:
+      $rectangles rectangles_of(self)
+      if
+	rectangles.is_defined
+	-> find_last_rectangle(rectangles 0 0)
+	-> undefined
     :
       rectangle $_info $x $y
       $rect

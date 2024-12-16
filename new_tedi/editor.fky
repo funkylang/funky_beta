@@ -397,8 +397,8 @@ $update_text:
 
   $update_cursor_position:
     !page.info_of new_info
-    set_content &window_manager window_id page
     goto_xy &page &window_manager window_id new_x new_y
+    set_content &window_manager window_id page
     set_status_line &window_manager
     $start_x selection_x_of(new_info)
     if
@@ -463,10 +463,22 @@ $tedi_types::page/handle_mouse_click: (page io state x y _button)
 	-> io state
     :
       add_history_entry &page.info_of cx cy
-      goto_xy &page &state.window_manager_of x y
-      set_content &state.window_manager_of page
-      set_status_line &state.window_manager_of
-      -> io state
+      $info info_of(page)
+      if
+	selection_y_of(info).is_defined:
+	  !page.info_of
+	    info
+	      .selection_x_of undefined
+	      .selection_y_of undefined
+	  unset_selection &state.window_manager_of
+	  update_cursor_position
+	update_cursor_position
+
+      $update_cursor_position:
+	goto_xy &page &state.window_manager_of x y
+	set_content &state.window_manager_of page
+	set_status_line &state.window_manager_of
+	-> io state
 
 $tedi_types::page/handle_changed_focus: (_page state)
   set_status_line &state.window_manager_of
@@ -2528,7 +2540,7 @@ $chmod_action: (io filename mode)
   chmod! filename mode
   -> io undefined
 
-$save_with_leading_spaces: (io state _x _y _lines)
+$save_with_leading_spaces: (io state _x _y _lines _info)
   -> io state
 
 $next_window: (x y _lines info)
