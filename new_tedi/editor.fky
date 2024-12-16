@@ -453,6 +453,7 @@ $split_text_into_two: (text max_width)
 		next
 
 $tedi_types::page/handle_mouse_click: (page io state x y _button)
+  minus &x get_decoration_width(page)
   get_xy page window_manager_of(state) $cx $cy
   if
     cx == x && cy == y:
