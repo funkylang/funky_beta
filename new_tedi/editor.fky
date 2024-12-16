@@ -363,10 +363,10 @@ $update_text:
     :
       if
 	action_class == UNDO
-	update_cursor_position
+	update_completion
 	:
 	  add_history_entry &new_info action_class == REDO x y
-	  update_cursor_position
+	  update_completion
 
   $update_title:
     if
@@ -375,11 +375,11 @@ $update_text:
 	  -> version_of(new_info) == saved_version_of(new_info):
 	    $title get_title(window_manager)
 	    set_title &window_manager range(title 2 -1)
-	    update_cursor_position
+	    update_completion
 	  -> version_of(info) == saved_version_of(info):
 	    $title get_title(window_manager)
 	    set_title &window_manager append("*" title)
-	    update_cursor_position
+	    update_completion
 	  -> true update_completion
       update_completion
 
