@@ -41,7 +41,7 @@
 <using tedi>
 
 $tedi::application_name "TEDI"
-$tedi::version "0.9"
+$tedi::version "0.10"
 $tedi::author "Michael Niederle"
 
 $tedi::main:
@@ -241,7 +241,7 @@ $tedi::main:
 		      !state.window_manager_of window_manager
 		      -> io state
 		    CTRL_W, CLOSE:
-		      close &window_manager
+		      close &window_manager context # window_id
 		      !state.window_manager_of window_manager
 		      -> io state
 		    ABOUT:
@@ -282,7 +282,8 @@ $tedi::main:
 		    -> io state
 		MOUSE_CLICK:
 		  data $mouse_x $mouse_y $button
-		  get_window_at window_manager $window_id $page &mouse_x &mouse_y
+		  get_window_at window_manager
+		    $window_id $page &mouse_x &mouse_y
 		  if
 		    window_id.is_defined:
 		      handle_mouse_click page io state mouse_x mouse_y button
@@ -296,7 +297,8 @@ $tedi::main:
     $update_terminal:
       if
 	window_manager_of(state).needs_updating:
-	  prepare_update &state.window_manager_of &state.terminal_of $update_ranges
+	  prepare_update &state.window_manager_of &state.terminal_of
+	    $update_ranges
 	  map $updates update_ranges: (update_range)
 	    update_range $range $id $content
 	    tuple id prepare(content state range)

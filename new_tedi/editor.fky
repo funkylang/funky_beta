@@ -170,8 +170,7 @@ $tedi::change_text:
 	  action $line_no $inserted $new_x $new_y $new_info
 	    x y lines info
 	  update_text
-	    state window_id
-	    line_no inserted new_x new_y new_info action_class
+	    state window_id line_no inserted new_x new_y new_info action_class
   #
     line_no:
       undefined -> no update
@@ -381,13 +380,26 @@ $update_text:
 	    $title get_title(window_manager)
 	    set_title &window_manager append("*" title)
 	    update_cursor_position
-	  -> true update_cursor_position
+	  -> true update_completion
+      update_completion
+
+
+  $update_completion:
+    if
+      do_keep_completions_of(new_info)
       update_cursor_position
+      :
+	!new_info
+	  .possible_completions_of undefined
+	  .completion_index_of undefined
+	  .completion_prefix_of undefined
+	set_status_line &window_manager
+	update_cursor_position
 
   $update_cursor_position:
     !page.info_of new_info
-    goto_xy &page &window_manager window_id new_x new_y
     set_content &window_manager window_id page
+    goto_xy &page &window_manager window_id new_x new_y
     $start_x selection_x_of(new_info)
     if
       start_x.is_defined:
@@ -398,27 +410,14 @@ $update_text:
 	    min_max &start_x &new_x
 	    set_selection &window_manager window_id
 	      start_x+decoration_width start_y new_x-start_x 1
-	    update_completion
+	    return
 	  : # multi-line selection
 	    min_max &start_y &new_y
 	    set_selection &window_manager window_id
 	      1+decoration_width start_y width_of(page) new_y-start_y
-	    update_completion
+	    return
       :
 	unset_selection &window_manager window_id
-	update_completion
-
-  $update_completion:
-    if
-      do_keep_completions_of(info_of(page))
-      return
-      :
-	!page.info_of
-	  .possible_completions_of undefined
-	  .completion_index_of undefined
-	  .completion_prefix_of undefined
-	set_status_line &window_manager
-	set_content &window_manager window_id page
 	return
 
   $return:
@@ -1537,7 +1536,7 @@ $fold_contents: (x y _lines info)
   -> undefined undefined x y info
 
 $unfold_contents: (x y _lines info)
-  #debug::println "unfold_contents"
+  debug::println "unfold_contents"
   -> undefined undefined x y info
 
 $fold_everything: (x y _lines info)

@@ -339,13 +339,21 @@ $tedi_types::history
 $tedi_types::html_page/handle_key_press: (page io state key)
   case key
     TABULATOR:
-      update_selection &state page
-	get_next_rectangle(page current_rectangle_of(page))
-      -> io state
+      $current_rectangle current_rectangle_of(page)
+      if
+	current_rectangle.is_defined:
+	  update_selection &state page
+	    get_next_rectangle(page current_rectangle)
+	  -> io state
+	-> io state
     SHIFT_TABULATOR:
-      update_selection &state page
-	get_previous_rectangle(page current_rectangle_of(page))
-      -> io state
+      $current_rectangle current_rectangle_of(page)
+      if
+	current_rectangle.is_defined:
+	  update_selection &state page
+	    get_previous_rectangle(page current_rectangle)
+	  -> io state
+	-> io state
     RETURN:
       load_linked_page &io state page
       -> io state
@@ -430,14 +438,18 @@ $get_page_from_history: (io state delta)
   $window_manager window_manager_of(state)
   get_focused_window window_manager $id $page
   $index history_index_of(page)
-  $history history_of(page)
-  $new_index index+delta
   if
-    new_index < 1 || new_index > length_of(history)
+    index.is_undefined
     -> io
     :
-      $filename filename_of(history(new_index))
-      load io LOAD_HELP filename undefined tuple(filename id new_index)
+      $history history_of(page)
+      $new_index index+delta
+      if
+	new_index < 1 || new_index > length_of(history)
+	-> io
+	:
+	  $filename filename_of(history(new_index))
+	  load io LOAD_HELP filename undefined tuple(filename id new_index)
 
 $tedi::LOAD_HELP .
 
