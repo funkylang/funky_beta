@@ -246,6 +246,7 @@ $render_items: (contents)
 	      split_into_lines &content
 	      for_each content
 		: (no line)
+		  replace_all &line "&gt;" = ">"
 		  push &items
 		    create_text_screen(style line .without_suffix. '@nl;' href)
 		  if
@@ -265,6 +266,7 @@ $render_items: (contents)
 		content.is_empty
 		next
 		:
+		  replace_all &content "&gt;" = ">"
 		  split &content many(WHITESPACE)
 		  append &items
 		    map
