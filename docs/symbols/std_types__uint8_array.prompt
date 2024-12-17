@@ -1,0 +1,655 @@
+[GUIDELINES]
+
+All documentation remarks must have
+
+* a single short (single line) description written in lower case
+
+* a parameter(s) section (if appropriate)
+
+* a result(s) section (if appropriate)
+
+* a detailed description of how to use the symbol: when describing unique
+  items of constants, describe how to use them;
+  do not repeat yourself
+
+* one or more associated topic(s) (if appropriate)
+
+* a "See also" entry - mention only a view relevant symbols here
+
+Do not mention unknown symbols!
+
+Do not mention more than 10 symbols in the "See also" entry.
+
+DO NOT MENTION MORE THAN 10 SYMBOLS IN THE "See also" ENTRY!
+
+Do not mention internal details of functions.
+
+Do not start each sentence in the description with "If" or "The".
+
+DO NOT START EACH SENTENCE IN THE DESCRIPTION WITH "If" OR "The"!
+
+Do not tell the user what a function does not do.
+
+When referring to another symbol write it enclosed in angle brackets, e.g.
+<std::clear>.
+
+The "self"-parameter is a normal parameter like any other and should be
+mentioned in the the parameter description.
+
+Replace symbolic constants by their value.
+
+Operations on I/O-objects are not executed immediately but queued as jobs.
+To identify a job, an "id" is used.
+
+I/O-functions and I/O-methods either need I/O-access rights or propagate
+them ("if", "for_each", etc.).
+
+An "example" section, if available, must use Funky syntax and shall not be too
+long.
+
+If there is an appropriate example in the source code then use this example
+in the "example" section!
+
+[EXAMPLES]
+
+[source]
+
+TYPE std_types::object
+
+[documentation remark]
+
+# std_types::object (a builtin type)
+
+  the prototype object for all "normal" objects
+
+  This is one of the three Funky root objects.
+
+  Topics: Basics, Objects
+
+  See also: std_types::undefined, std_types::error
+
+[source]
+
+TYPE std_types::number -> std_types::object
+
+[documentation remark]
+
+# std_types::number (a builtin type derived from std_types::object)
+
+  the prototype object for all kinds of numbers
+
+  Topic: Numbers
+
+  See also: std_types::integer, std_types::real
+
+[source]
+
+METHOD std_types::array/_type
+  {
+    ARRAY_DATA *data = MYSELF->array.data;
+    int dimension_count = data->info->dimension_count;
+    MIN_ARGUMENTS(dimension_count)
+    MAX_ARGUMENTS(dimension_count+1)
+    if (ARGUMENT_COUNT == dimension_count) {
+      // get item
+      data = apply_array_updates((ARRAY *)MYSELF);
+      // info and view could have been updated!
+      long offset = compute_array_read_offset(
+        MYSELF, data->info, MYSELF->array.view);
+      if (offset < 0) return;
+      NODE *value;
+      value = data->items[offset];
+      RETURN_SINGLE_RESULT(value);
+    } else {
+      // set item
+      long offset = compute_array_write_offset(
+        MYSELF, data->info, MYSELF->array.view);
+      if (offset < 0) return;
+      NODE *value;
+      value = ARGUMENTS(dimension_count);
+      long length = MYSELF->array.updates_length;
+      MYSELF =
+        add_update(
+          (ARRAY *)MYSELF, sizeof(UPDATE_ARRAY_DATA_SET_VALUE));
+      UPDATE_ARRAY_DATA_SET_VALUE *update =
+        (UPDATE_ARRAY_DATA_SET_VALUE *)
+        (MYSELF->array.updates->buffer+length);
+      update->tag = SET_VALUE;
+      update->offset = offset;
+      update->value = value;
+      RETURN_SINGLE_RESULT(MYSELF)
+    }
+  }
+
+TYPE std_types::array -> std_types::generic_array
+
+[documentation remark]
+
+# std_types::array (a builtin type derived from std_types::generic_array)
+
+  the prototype object for all arrays
+
+  Parameters:
+    indices: the indices of the array elements
+    value: the new value (only for updates)
+
+  Result:
+    value_or_array: the value at the specified position or the updated array
+
+  Updates to arrays are delayed until the array is read.
+
+  Array indices are one-based.
+
+  Arrays can hold any kind of values.
+
+  Topics: Arrays, Collections
+
+  See also: std_types::list
+
+  Example:
+
+    $a array(3 2) # a new array with 3 rows and 2 columns
+    !a(2 1) 47 # use syntactic sugar to assign a value to an array element
+    !a a(3 2 11) # without syntactic sugar
+    println! a(2 1)
+    println! a(3 2)
+
+  Output:
+
+    47
+    11
+
+[EXERCISE]
+
+[symbols]
+
+TYPE std_types::generic_array -> std_types::object
+METHOD std_types::generic_array/_type
+TYPE std_types::array -> std_types::generic_array
+METHOD std_types::array/_type
+METHOD long std_types::array/_debug_string
+METHOD std_types::array/length_of
+METHOD std_types::array/dimension_count_of
+FUNCTION std::array
+FUNCTION std::initialized_array
+METHOD std_types::array/new
+METHOD std_types::array/range
+TYPE std_types::boolean_array -> std_types::generic_array
+METHOD std_types::boolean_array/_type
+METHOD long std_types::boolean_array/_debug_string
+METHOD std_types::boolean_array/length_of
+METHOD std_types::boolean_array/dimension_count_of
+METHOD std_types::boolean_array/equal
+METHOD std_types::boolean_array/bit_and
+METHOD std_types::boolean_array/bit_or
+METHOD std_types::boolean_array/bit_xor
+FUNCTION std::boolean_array
+FUNCTION std::initialized_boolean_array
+METHOD std_types::boolean_array/new
+METHOD std_types::boolean_array/range
+TYPE std_types::character_array -> std_types::generic_array
+METHOD std_types::character_array/_type
+METHOD long std_types::character_array/_debug_string
+METHOD std_types::character_array/length_of
+METHOD std_types::character_array/dimension_count_of
+METHOD std_types::character_array/equal
+FUNCTION std::character_array
+FUNCTION std::initialized_character_array
+METHOD std_types::character_array/new
+METHOD std_types::character_array/range
+TYPE std_types::int8_array -> std_types::generic_array
+METHOD std_types::int8_array/_type
+METHOD long std_types::int8_array/_debug_string
+METHOD std_types::int8_array/length_of
+METHOD std_types::int8_array/dimension_count_of
+METHOD std_types::int8_array/equal
+METHOD std_types::int8_array/times
+FUNCTION std::int8_array
+FUNCTION std::initialized_int8_array
+METHOD std_types::int8_array/new
+METHOD std_types::int8_array/range
+TYPE std_types::uint8_array -> std_types::generic_array
+METHOD std_types::uint8_array/_type
+METHOD long std_types::uint8_array/_debug_string
+METHOD std_types::uint8_array/length_of
+METHOD std_types::uint8_array/dimension_count_of
+METHOD std_types::uint8_array/equal
+METHOD std_types::uint8_array/bit_and
+METHOD std_types::uint8_array/bit_or
+METHOD std_types::uint8_array/bit_xor
+METHOD std_types::uint8_array/times
+FUNCTION std::uint8_array
+FUNCTION std::initialized_uint8_array
+METHOD std_types::uint8_array/new
+METHOD std_types::uint8_array/range
+TYPE std_types::int16_array -> std_types::generic_array
+METHOD std_types::int16_array/_type
+METHOD long std_types::int16_array/_debug_string
+METHOD std_types::int16_array/length_of
+METHOD std_types::int16_array/dimension_count_of
+METHOD std_types::int16_array/equal
+METHOD std_types::int16_array/times
+FUNCTION std::int16_array
+FUNCTION std::initialized_int16_array
+METHOD std_types::int16_array/new
+METHOD std_types::int16_array/range
+TYPE std_types::uint16_array -> std_types::generic_array
+METHOD std_types::uint16_array/_type
+METHOD long std_types::uint16_array/_debug_string
+METHOD std_types::uint16_array/length_of
+METHOD std_types::uint16_array/dimension_count_of
+METHOD std_types::uint16_array/equal
+METHOD std_types::uint16_array/bit_and
+METHOD std_types::uint16_array/bit_or
+METHOD std_types::uint16_array/bit_xor
+METHOD std_types::uint16_array/times
+FUNCTION std::uint16_array
+FUNCTION std::initialized_uint16_array
+METHOD std_types::uint16_array/new
+METHOD std_types::uint16_array/range
+TYPE std_types::int32_array -> std_types::generic_array
+METHOD std_types::int32_array/_type
+METHOD long std_types::int32_array/_debug_string
+METHOD std_types::int32_array/length_of
+METHOD std_types::int32_array/dimension_count_of
+METHOD std_types::int32_array/equal
+METHOD std_types::int32_array/times
+FUNCTION std::int32_array
+FUNCTION std::initialized_int32_array
+METHOD std_types::int32_array/new
+METHOD std_types::int32_array/range
+TYPE std_types::uint32_array -> std_types::generic_array
+METHOD std_types::uint32_array/_type
+METHOD long std_types::uint32_array/_debug_string
+METHOD std_types::uint32_array/length_of
+METHOD std_types::uint32_array/dimension_count_of
+METHOD std_types::uint32_array/equal
+METHOD std_types::uint32_array/bit_and
+METHOD std_types::uint32_array/bit_or
+METHOD std_types::uint32_array/bit_xor
+METHOD std_types::uint32_array/times
+FUNCTION std::uint32_array
+FUNCTION std::initialized_uint32_array
+METHOD std_types::uint32_array/new
+METHOD std_types::uint32_array/range
+TYPE std_types::int64_array -> std_types::generic_array
+METHOD std_types::int64_array/_type
+METHOD long std_types::int64_array/_debug_string
+METHOD std_types::int64_array/length_of
+METHOD std_types::int64_array/dimension_count_of
+METHOD std_types::int64_array/equal
+METHOD std_types::int64_array/times
+FUNCTION std::int64_array
+FUNCTION std::initialized_int64_array
+METHOD std_types::int64_array/new
+METHOD std_types::int64_array/range
+TYPE std_types::uint64_array -> std_types::generic_array
+METHOD std_types::uint64_array/_type
+METHOD long std_types::uint64_array/_debug_string
+METHOD std_types::uint64_array/length_of
+METHOD std_types::uint64_array/dimension_count_of
+METHOD std_types::uint64_array/equal
+METHOD std_types::uint64_array/bit_and
+METHOD std_types::uint64_array/bit_or
+METHOD std_types::uint64_array/bit_xor
+METHOD std_types::uint64_array/times
+FUNCTION std::uint64_array
+FUNCTION std::initialized_uint64_array
+METHOD std_types::uint64_array/new
+METHOD std_types::uint64_array/range
+TYPE std_types::float32_array -> std_types::generic_array
+METHOD std_types::float32_array/_type
+METHOD long std_types::float32_array/_debug_string
+METHOD std_types::float32_array/length_of
+METHOD std_types::float32_array/dimension_count_of
+METHOD std_types::float32_array/equal
+METHOD std_types::float32_array/times
+FUNCTION std::float32_array
+FUNCTION std::initialized_float32_array
+METHOD std_types::float32_array/new
+METHOD std_types::float32_array/range
+TYPE std_types::float64_array -> std_types::generic_array
+METHOD std_types::float64_array/_type
+METHOD long std_types::float64_array/_debug_string
+METHOD std_types::float64_array/length_of
+METHOD std_types::float64_array/dimension_count_of
+METHOD std_types::float64_array/equal
+METHOD std_types::float64_array/times
+FUNCTION std::float64_array
+FUNCTION std::initialized_float64_array
+METHOD std_types::float64_array/new
+METHOD std_types::float64_array/range
+
+FUNCTION std::int8_array
+  #
+    constructs an empty array
+
+    See also: std_types::int8_array/new, std::initialized_int8_array
+  {
+    MIN_ARGUMENTS(1)
+    ARRAY_VIEW *view = create_array_view(ARGUMENT_COUNT);
+    if (!view) return;
+    INT8_ARRAY_DATA *data = (INT8_ARRAY_DATA *)
+      create_array_info_and_data(view, sizeof(int8_t));
+    if (!data) return;
+    int i;
+    for (i = 0; i < data->size; ++i) {
+      data->items[i] = 0;
+    }
+    RETURN_SINGLE_RESULT(CREATE(std_types::int8_array, 0, view, data, NULL))
+  }
+
+FUNCTION std::initialized_int8_array
+  #
+    constructs an initialized array
+
+    The last argument specifies the initial value for all array items.
+
+    See also: std::int8_array, std_types::int8_array/new
+  {
+    MIN_ARGUMENTS(2)
+    ARRAY_VIEW *view = create_array_view(ARGUMENT_COUNT-1);
+    if (!view) return;
+    int8_t initial_value;
+    CHECK(to_int8(ARGUMENTS(ARGUMENT_COUNT-1), &initial_value))
+    INT8_ARRAY_DATA *data = (INT8_ARRAY_DATA *)
+      create_array_info_and_data(view, sizeof(int8_t));
+    if (!data) return;
+    int i;
+    for (i = 0; i < data->size; ++i) {
+      data->items[i] = initial_value;
+    }
+    RETURN_SINGLE_RESULT(CREATE(std_types::int8_array, 0, view, data, NULL))
+  }
+
+METHOD std_types::int8_array/new
+  #
+    creates an empty new array based on the given template array
+  {
+    CHECK_ARGUMENTS(1)
+    CHECK_RESULTS(1)
+    INT8_ARRAY_DATA *data = (INT8_ARRAY_DATA *)
+      create_array_data(ARGUMENTS(0)->int8_array.data->info,
+        ARGUMENTS(0)->int8_array.data->size, sizeof(int8_t));
+    if (!data) return;
+    int i;
+    for (i = 0; i < data->size; ++i) {
+      data->items[i] = 0;
+    }
+    RETURN_SINGLE_RESULT(CREATE(std_types::int8_array, 0,
+      ARGUMENTS(0)->int8_array.view, data, NULL))
+  }
+
+METHOD std_types::int8_array/range
+  #
+    creates a new array with the elements in the given ranges
+  {
+    INT8_ARRAY *array = (INT8_ARRAY *)ARGUMENTS(0);
+    int dimension_count = array->view->dimension_count;
+    MIN_ARGUMENTS(1)
+    MAX_ARGUMENTS(1+dimension_count)
+    ARRAY_VIEW *view = create_sub_view(array->view);
+    if (!view) return;
+    INT8_ARRAY_DATA *data = apply_int8_array_updates(array);
+    RETURN_SINGLE_RESULT(CREATE(std_types::int8_array, 0, view, data, NULL))
+  }
+
+#######
+
+# ARRAY OF UNSIGNED 8-BIT NUMBERS
+
+#
+
+RECORD UINT8_ARRAY_DATA
+  ARRAY_INFO *info
+  long size
+  uint8_t items[]
+
+UNION UPDATE_UINT8_ARRAY_DATA/SET_VALUE
+  long offset
+  uint8_t value
+
+TYPE std_types::uint8_array -> std_types::generic_array
+  # an array of unsigned 8-bit numbers
+  long updates_length
+  ARRAY_VIEW *view
+  UINT8_ARRAY_DATA *data
+  ARRAY_UPDATES *updates
+
+CODE
+  static UINT8_ARRAY_DATA *apply_uint8_array_updates(UINT8_ARRAY *node)
+    {
+      UINT8_ARRAY_DATA *data = node->data;
+      if (node->updates_length > 0) {
+        ARRAY_VIEW *view = create_new_array_view(node->view);
+        data = (UINT8_ARRAY_DATA *)
+          create_array_info_and_data(view, sizeof(uint8_t));
+        // copy items
+        copy_array(
+          node->view, (ARRAY_DATA *)node->data, 0, 0,
+          sizeof(uint8_t), data->items);
+        // apply updates
+        char *update = node->updates->buffer;
+        char *end_p = update+node->updates_length;
+        while (update < end_p) {
+          switch (*(TAG *)update) {
+            case SET_VALUE:;
+              UPDATE_UINT8_ARRAY_DATA_SET_VALUE *set_value = (void *)update;
+              data->items[set_value->offset] = set_value->value;
+              update += sizeof(UPDATE_UINT8_ARRAY_DATA_SET_VALUE);
+              break;
+          }
+        }
+        node->updates_length = 0;
+        node->view = view;
+        node->data = data;
+        node->updates = NULL;
+      }
+      return data;
+    }
+
+METHOD std_types::uint8_array/_type
+  {
+    UINT8_ARRAY_DATA *data = MYSELF->uint8_array.data;
+    int dimension_count = data->info->dimension_count;
+    MIN_ARGUMENTS(dimension_count)
+    MAX_ARGUMENTS(dimension_count+1)
+    if (ARGUMENT_COUNT == dimension_count) {
+      // get item
+      data = apply_uint8_array_updates((UINT8_ARRAY *)MYSELF);
+      // info and view could have been updated!
+      long offset = compute_array_read_offset(
+        MYSELF, data->info, MYSELF->uint8_array.view);
+      if (offset < 0) return;
+      uint8_t value;
+      value = data->items[offset];
+      RETURN_SINGLE_RESULT(from_uint8(value));
+    } else {
+      // set item
+      long offset = compute_array_write_offset(
+        MYSELF, data->info, MYSELF->uint8_array.view);
+      if (offset < 0) return;
+      uint8_t value;
+      CHECK(to_uint8(ARGUMENTS(dimension_count), &value))
+      long length = MYSELF->uint8_array.updates_length;
+      MYSELF =
+        add_update(
+          (ARRAY *)MYSELF, sizeof(UPDATE_UINT8_ARRAY_DATA_SET_VALUE));
+      UPDATE_UINT8_ARRAY_DATA_SET_VALUE *update =
+        (UPDATE_UINT8_ARRAY_DATA_SET_VALUE *)
+        (MYSELF->uint8_array.updates->buffer+length);
+      update->tag = SET_VALUE;
+      update->offset = offset;
+      update->value = value;
+      RETURN_SINGLE_RESULT(MYSELF)
+    }
+  }
+
+METHOD long std_types::uint8_array/_debug_string
+  (
+    NODE *node,
+    int indent,
+    int max_depth,
+    char *buf
+  )
+  {
+    return array_debug_string(
+      node->uint8_array.data->info, node->uint8_array.view,
+      indent, buf, "uint8");
+  }
+
+METHOD std_types::uint8_array/length_of
+  #
+    implements the *length_of* operation
+
+    An extra argument can be supplied to specify the dimension to query.
+
+    This argument can be omitted, if the array is one-dimensional.
+  {
+    MIN_ARGUMENTS(1)
+    MAX_ARGUMENTS(2)
+    CHECK_RESULTS(1)
+    ARRAY_VIEW *view = ARGUMENTS(0)->uint8_array.view;
+    int dimension = 1;
+    if (ARGUMENT_COUNT == 2) {
+      CHECK(to_int(ARGUMENTS(1), &dimension))
+      if (dimension < 1 || dimension > view->dimension_count) {
+        invalid_dimension(ARGUMENTS(0));
+        return;
+      }
+    }
+    RETURN_SINGLE_RESULT(from_long(view->dimensions[dimension-1].width))
+  }
+
+METHOD std_types::uint8_array/dimension_count_of
+  #
+    implements the *dimension_count_of* operation
+  {
+    CHECK_ARGUMENTS(1)
+    CHECK_RESULTS(1)
+    UINT8_ARRAY_DATA *data = ARGUMENTS(0)->uint8_array.data;
+    RETURN_SINGLE_RESULT(from_long(data->info->dimension_count))
+  }
+
+METHOD std_types::uint8_array/equal
+  #
+    implements the *equal* operation
+  {
+    CHECK_ARGUMENTS(2)
+    CHECK_RESULTS(1)
+    if (ARGUMENTS(1) == ARGUMENTS(0)) RETURN_TRUE
+    if (!equal_array_type(ARGUMENTS(1), ARGUMENTS(0))) RETURN_FALSE
+    UINT8_ARRAY_DATA *left = apply_uint8_array_updates((UINT8_ARRAY *)ARGUMENTS(0));
+    UINT8_ARRAY_DATA *right = apply_uint8_array_updates((UINT8_ARRAY *)ARGUMENTS(1));
+    RETURN_BOOLEAN(
+      memcmp(
+        left->items, right->items,sizeof(uint8_t)*left->size) == 0)
+  }
+
+METHOD std_types::uint8_array/bit_and
+  #
+    implements the *and* operation
+  {
+    CHECK_ARGUMENTS(2)
+    CHECK_RESULTS(1)
+    if (ARGUMENTS(1) == ARGUMENTS(0)) RETURN_SINGLE_RESULT(ARGUMENTS(0))
+    if (!equal_array_type(ARGUMENTS(1), ARGUMENTS(0)))
+      INVALID_ARGUMENTS
+    UINT8_ARRAY_DATA *left = apply_uint8_array_updates((UINT8_ARRAY *)ARGUMENTS(0));
+    UINT8_ARRAY_DATA *right = apply_uint8_array_updates((UINT8_ARRAY *)ARGUMENTS(1));
+    long size = left->size;
+    UINT8_ARRAY_DATA *data =
+      allocate_large(
+        ALLOCATION_SIZE(sizeof(UINT8_ARRAY_DATA)+size*sizeof(uint8_t)));
+    long i;
+    for (i = 0; i < size; ++i) {
+      data->items[i] = left->items[i] & right->items[i];
+    }
+    data->info = left->info;
+    data->size = size;
+    RETURN_SINGLE_RESULT(CREATE(std_types::uint8_array, 0,
+      ARGUMENTS(0)->uint8_array.view, data, NULL))
+  }
+
+METHOD std_types::uint8_array/bit_or
+  #
+    implements the *or* operation
+  {
+    CHECK_ARGUMENTS(2)
+    CHECK_RESULTS(1)
+    if (ARGUMENTS(1) == ARGUMENTS(0)) RETURN_SINGLE_RESULT(ARGUMENTS(0))
+    if (!equal_array_type(ARGUMENTS(1), ARGUMENTS(0)))
+      INVALID_ARGUMENTS
+    UINT8_ARRAY_DATA *left =
+      apply_uint8_array_updates((UINT8_ARRAY *)ARGUMENTS(0));
+    UINT8_ARRAY_DATA *right =
+      apply_uint8_array_updates((UINT8_ARRAY *)ARGUMENTS(1));
+    long size = left->size;
+    UINT8_ARRAY_DATA *data =
+      allocate_large(
+        ALLOCATION_SIZE(sizeof(UINT8_ARRAY_DATA)+size*sizeof(uint8_t)));
+    long i;
+    for (i = 0; i < size; ++i) {
+      data->items[i] = left->items[i] | right->items[i];
+    }
+    data->info = left->info;
+    data->size = size;
+    RETURN_SINGLE_RESULT(CREATE(std_types::uint8_array, 0,
+      ARGUMENTS(0)->uint8_array.view, data, NULL))
+  }
+
+[source]
+
+METHOD std_types::uint8_array/_type
+  {
+    UINT8_ARRAY_DATA *data = MYSELF->uint8_array.data;
+    int dimension_count = data->info->dimension_count;
+    MIN_ARGUMENTS(dimension_count)
+    MAX_ARGUMENTS(dimension_count+1)
+    if (ARGUMENT_COUNT == dimension_count) {
+      // get item
+      data = apply_uint8_array_updates((UINT8_ARRAY *)MYSELF);
+      // info and view could have been updated!
+      long offset = compute_array_read_offset(
+        MYSELF, data->info, MYSELF->uint8_array.view);
+      if (offset < 0) return;
+      uint8_t value;
+      value = data->items[offset];
+      RETURN_SINGLE_RESULT(from_uint8(value));
+    } else {
+      // set item
+      long offset = compute_array_write_offset(
+        MYSELF, data->info, MYSELF->uint8_array.view);
+      if (offset < 0) return;
+      uint8_t value;
+      CHECK(to_uint8(ARGUMENTS(dimension_count), &value))
+      long length = MYSELF->uint8_array.updates_length;
+      MYSELF =
+        add_update(
+          (ARRAY *)MYSELF, sizeof(UPDATE_UINT8_ARRAY_DATA_SET_VALUE));
+      UPDATE_UINT8_ARRAY_DATA_SET_VALUE *update =
+        (UPDATE_UINT8_ARRAY_DATA_SET_VALUE *)
+        (MYSELF->uint8_array.updates->buffer+length);
+      update->tag = SET_VALUE;
+      update->offset = offset;
+      update->value = value;
+      RETURN_SINGLE_RESULT(MYSELF)
+    }
+  }
+
+TYPE std_types::uint8_array -> std_types::generic_array
+  # an array of unsigned 8-bit numbers
+  long updates_length
+  ARRAY_VIEW *view
+  UINT8_ARRAY_DATA *data
+  ARRAY_UPDATES *updates
+
+[documentation remark]
+
+### Always copy examples contained in the symbol's description remark
+    into the documentation
+
+### Use only one of the following topics: Arrays, Collections
+
+# std_types::uint8_array (a builtin type derived from std_types::generic_array)
+

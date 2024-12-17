@@ -1,0 +1,916 @@
+[MANUAL]
+
+In Funky function calls are either written on a single line with arguments
+enclosed within parentheses and separated by single spaces, e.g.:
+
+print! f(a b c) g(x y z)
+
+or they are written in indentation style using mutliple lines:
+
+print!
+  f
+    a
+    b
+    c
+  g
+    x
+    y
+    z
+
+Functions that create any output or read any input need I/O-access rights.
+
+A function that needs I/O-access rights must be called with a trailing
+exclamation mark after the function name, e.g.:
+
+println! "Hello, World!"
+
+The expression
+
+key = value
+
+denotes a key-value-pair.
+
+Collection types cannot be printed directly. You can use "dump!" to
+dump the contents of a collection, e.g.:
+
+$ages
+  hash_table
+    "John" = 42
+    "Mary" = 25
+    "Irene" = 49
+
+dump! `ages
+
+Output:
+
+ages: hash_table <6>
+  "Mary"
+  25
+  "Irene"
+  49
+  "John"
+  42
+
+Note: The number in angular brackets after the typename denotes the number
+of (indented) lines that follow the head.
+
+A tail call returns the result of the called function; e.g.:
+
+$calc:
+  (
+    x
+    y
+  )
+  plus x*x y*y
+
+println! calc(2 3)
+
+prints
+
+13
+
+[GUIDELINES]
+
+All documentation remarks must have
+
+* a single short (single line) description written in lower case
+
+* a parameter(s) section (if appropriate)
+
+* a result(s) section (if appropriate)
+
+* a detailed description of how to use the symbol: when describing unique
+  items of constants, describe how to use them;
+  do not repeat yourself
+
+* one or more associated topic(s) (if appropriate)
+
+* a "See also" entry - mention only a view relevant symbols here
+
+Do not mention unknown symbols!
+
+Do not mention more than 10 symbols in the "See also" entry.
+
+DO NOT MENTION MORE THAN 10 SYMBOLS IN THE "See also" ENTRY!
+
+Do not mention internal details of functions.
+
+Do not start each sentence in the description with "If" or "The".
+
+DO NOT START EACH SENTENCE IN THE DESCRIPTION WITH "If" OR "The"!
+
+Do not tell the user what a function does not do.
+
+When referring to another symbol write it enclosed in angle brackets, e.g.
+<std::clear>.
+
+The "self"-parameter is a normal parameter like any other and should be
+mentioned in the the parameter description.
+
+Replace symbolic constants by their value.
+
+Operations on I/O-objects are not executed immediately but queued as jobs.
+To identify a job, an "id" is used.
+
+I/O-functions and I/O-methods either need I/O-access rights or propagate
+them ("if", "for_each", etc.).
+
+An "example" section, if available, must use Funky syntax and shall not be too
+long.
+
+If there is an appropriate example in the source code then use this example
+in the "example" section!
+
+[EXAMPLES]
+
+[symbols]
+
+$std::CURSOR_LEFT .
+$std::CURSOR_RIGHT .
+$std::CURSOR_UP .
+$std::CURSOR_DOWN .
+$std::CURSOR_HOME .
+$std::CURSOR_END .
+
+$std::DRAW_COLOUR .
+
+$std::BLACK '@0x000000;'
+$std::WHITE '@0xffffff;'
+$std::RED '@0xff0000;'
+$std::GREEN '@0x00ff00;'
+$std::BLUE '@0x0000ff;'
+$std::CYAN '@0x00ffff;'
+$std::MAGENTA '@0xff00ff;'
+$std::YELLOW '@0xffff00;'
+
+$std::set_draw_colour ()
+$std::set_clear_colour ()
+
+$std_types::screen/create_screen:
+  (
+    screen
+    width = undefined
+    height = undefined
+    options*
+  )
+  update_if width.is_undefined &width -> width_of(screen)
+  update_if height.is_undefined &height -> height_of(screen)
+  get_options options
+    DRAW_COLOUR = draw_colour_of(screen) $draw_colour
+    CLEAR_COLOUR = clear_colour_of(screen) $clear_colour
+    LINE_HEIGHT = line_height_of(screen) $line_height
+  $row dup(string(' ' draw_colour clear_colour) width)
+  $rows dup(list(row) height .div. line_height)
+  ->
+    std_types::screen
+      .width_of width
+      .height_of height
+      .draw_colour_of draw_colour
+      .clear_colour_of clear_colour
+      .line_height_of line_height
+      .rows_of rows
+
+[source]
+
+$std::RED '0xff0000;'
+
+[documentation remark]
+
+# std::RED (a literal)
+
+  the colour red as used by the terminal library
+
+  Topic: Colours
+
+  Colour literals are used to set the draw or clear colour.
+
+  See also: std::set_draw_colour, std::set_clear_colour
+
+[source]
+
+$std::CURSOR_LEFT .
+  #
+    Example:
+
+      $x ...
+      get_key! $key
+      case key
+        CURSOR_LEFT:
+          dec &x
+          next!
+        ...
+
+[documentation remark]
+
+# std::CURSOR_HOME (a unique item)
+
+  the cursor home key
+
+  Topic: Terminal
+
+  See also: std::CURSOR_END
+
+  Example:
+
+    $x ...
+    get_key! $key
+    case key
+      CURSOR_HOME:
+        dec &x
+        next!
+      ...
+
+[source]
+
+$std:DRAW_COLOUR .
+
+[documentation remark]
+
+# std::DRAW_COLOUR (a unique item)
+
+  used to specifiy a draw colour
+
+  Topic: Terminal
+
+  See also: std_types::create/screen
+
+[EXERCISE]
+
+#
+  Topic: Window Manager
+
+[symbols]
+
+$std::draw_vertical_slider ()
+$std::draw_horizontal_slider ()
+
+# Terminal Methods
+
+$std::create_window_manager ()
+
+# Window Manager Event Types
+
+$std::FOCUS_CHANGED .
+
+# Window Manager Methods
+
+$std::set_time ()
+$std::create_window ()
+$std::create_dialog ()
+$std::set_menu ()
+$std::set_status ()
+$std::shrink ()
+$std::enlarge ()
+$std::move_left ()
+$std::move_right ()
+$std::move_up ()
+$std::move_down ()
+$std::move_page_up ()
+$std::move_page_down ()
+$std::move_home ()
+$std::move_end ()
+$std::move_top ()
+$std::move_bottom ()
+$std::goto_xy ()
+$std::get_xy ()
+$std::get_size ()
+$std::window_count_of ()
+$std::set_title ()
+$std::get_title ()
+$std::set_buttons ()
+$std::get_buttons ()
+$std::set_content ()
+$std::get_content ()
+$std::set_inbounds_width ()
+$std::get_inbounds_width ()
+$std::get_id ()
+$std::get_focused_window ()
+$std::get_window_at ()
+$std::set_default_message ()
+$std::show_message ()
+$std::remove_message ()
+$std::focus_next_window ()
+$std::focus_previous_window ()
+$std::focus_window ()
+$std::move_window_down ()
+$std::move_window_up ()
+$std::set_selection ()
+$std::unset_selection ()
+$std::needs_updating ()
+$std::prepare_update ()
+$std::handle_window_event ()
+
+# Create Window Options
+
+$std::USE_CURSOR .
+$std::DO_NOT_FOCUS .
+$std::CONTENT .
+$std::HORIZONTAL_SCROLLBAR .
+$std::VERTICAL_SCROLLBAR .
+$std::BUTTONS .
+$std::SHRINK .
+$std::ENLARGE .
+$std::CLOSE .
+$std::CURSOR_X .
+$std::CURSOR_Y .
+$std::FIRST_VISIBLE_COLUMN .
+$std::FIRST_VISIBLE_ROW .
+$std::MODAL .
+$std::PARENT_ID .
+$std::SIZE .
+$std::DEFAULT .
+$std::MINIMIZED .
+$std::MAXIMIZED .
+
+# Window Manager
+
+$std_types::window_manager std_types::object
+
+# Window Prototype
+
+$std_types::terminal/create_window_manager:
+$std_types::window_manager/create_window:
+$std_types::window_manager/create_dialog:
+$std_types::window_manager/set_menu:
+$std_types::window_manager/set_status:
+$std_types::window_manager/set_time:
+$std_types::window_manager/for_each:
+$std_types::window_manager/needs_updating:
+$std_types::window_manager/prepare_update:
+$std_types::window_manager/update:
+$std_types::terminal/draw_vertical_slider:
+$std_types::terminal/draw_horizontal_slider:
+$std_types::window_manager/move_left:
+$std_types::window_manager/move_right:
+$std_types::window_manager/move_up:
+$std_types::window_manager/move_page_up:
+$std_types::window_manager/move_down:
+$std_types::window_manager/move_page_down:
+$std_types::window_manager/move_home:
+$std_types::window_manager/move_end:
+$std_types::window_manager/move_top:
+$std_types::window_manager/move_bottom:
+$std_types::window_manager/goto_xy:
+$std_types::window_manager/get_xy:
+$std_types::window_manager/get_size:
+$std_types::window_manager/focus_next_window:
+$std_types::window_manager/focus_previous_window:
+$std_types::window_manager/focus_window:
+$std_types::window_manager/move_window_down:
+$std_types::window_manager/move_window_up:
+$std_types::window_manager/close:
+$std_types::window_manager/shrink:
+$std_types::window_manager/enlarge:
+$std_types::window_manager/window_count_of:
+$std_types::window_manager/set_title:
+$std_types::window_manager/get_title:
+$std_types::window_manager/set_buttons:
+$std_types::window_manager/get_buttons:
+$std_types::window_manager/set_content:
+$std_types::window_manager/get_content:
+$std_types::window_manager/set_inbounds_width:
+$std_types::window_manager/get_inbounds_width:
+$std_types::window_manager/set_selection:
+$std_types::window_manager/unset_selection:
+$std_types::window_manager/resize:
+$std_types::window_manager/get_id:
+$std_types::window_manager/get_focused_window:
+$std_types::window_manager/get_window_at:
+$std_types::window_manager/set_default_message:
+$std_types::window_manager/show_message:
+$std_types::window_manager/remove_message:
+$std_types::window_manager/handle_event:
+$std_types::window_manager/handle_window_event:
+
+#
+  Copyright (C) 2024 by
+  Dipl.-Ing. Michael Niederle
+
+  This program is free software; you can redistribute it and/or modify
+  it under the terms of the GNU General Public License, version 2, or
+  (at your option) version 3.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  GNU General Public License for more details.
+
+  For details of the GNU General Public License see the accompanying
+  files GPLv2.txt and GLPv3.txt or
+  http://www.gnu.org/licenses/gpl-2.0.html
+  http://www.gnu.org/licenses/gpl-3.0.html
+  or write to the
+  Free Software Foundation, Inc.,
+  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+
+#
+  Topic: Window Manager
+
+$std::draw_vertical_slider ()
+
+$std::draw_horizontal_slider ()
+
+# Terminal Methods
+
+$std::create_window_manager ()
+
+# Window Manager Event Types
+
+$std::FOCUS_CHANGED .
+
+# Window Manager Methods
+
+$std::set_time ()
+
+$std::create_window ()
+
+$std::create_dialog ()
+
+$std::set_menu ()
+
+$std::set_status ()
+
+$std::shrink ()
+
+$std::enlarge ()
+
+$std::move_left ()
+
+$std::move_right ()
+
+$std::move_up ()
+
+$std::move_down ()
+
+$std::move_page_up ()
+
+$std::move_page_down ()
+
+$std::move_home ()
+
+$std::move_end ()
+
+$std::move_top ()
+
+$std::move_bottom ()
+
+$std::goto_xy ()
+
+$std::get_xy ()
+
+$std::get_size ()
+
+$std::window_count_of ()
+
+$std::set_title ()
+
+$std::get_title ()
+
+$std::set_buttons ()
+
+$std::get_buttons ()
+
+$std::set_content ()
+
+$std::get_content ()
+
+$std::set_inbounds_width ()
+
+$std::get_inbounds_width ()
+
+$std::get_id ()
+
+$std::get_focused_window ()
+
+$std::get_window_at ()
+
+$std::set_default_message ()
+
+$std::show_message ()
+
+$std::remove_message ()
+
+$std::focus_next_window ()
+
+$std::focus_previous_window ()
+
+$std::focus_window ()
+
+$std::move_window_down ()
+
+$std::move_window_up ()
+
+$std::set_selection ()
+
+$std::unset_selection ()
+
+$std::needs_updating ()
+
+$std::prepare_update ()
+
+$std::handle_window_event ()
+
+# Create Window Options
+
+$std::USE_CURSOR .
+
+$std::DO_NOT_FOCUS .
+
+$std::CONTENT .
+
+$std::HORIZONTAL_SCROLLBAR .
+
+$std::VERTICAL_SCROLLBAR .
+
+$std::BUTTONS .
+
+$std::SHRINK .
+
+$std::ENLARGE .
+
+$std::CLOSE .
+
+$std::CURSOR_X .
+
+$std::CURSOR_Y .
+
+$std::FIRST_VISIBLE_COLUMN .
+
+$std::FIRST_VISIBLE_ROW .
+
+$std::MODAL .
+
+$std::PARENT_ID .
+
+$std::SIZE .
+
+$std::DEFAULT .
+
+$std::MINIMIZED .
+
+$std::MAXIMIZED .
+
+$next_window_id_of ()
+
+# Window Manager
+
+$template_screen_of ()
+
+$current_time_of ()
+
+$windows_of ()
+
+$message_height_of ()
+
+$dialog_of ()
+
+$menus_of ()
+
+$status_of ()
+
+$current_menu_of ()
+
+$default_message_of ()
+
+$messages_of ()
+
+$has_a_valid_layout ()
+
+$has_a_new_size ()
+
+$is_up_to_date ()
+
+$is_prepared ()
+
+$std_types::window_manager std_types::object
+  .current_time_of undefined
+  .template_screen_of undefined
+  .width_of undefined
+  .height_of undefined
+  .windows_of empty_list
+  .message_height_of 0
+  .dialog_of undefined
+  .menus_of undefined
+  .status_of undefined
+  .current_menu_of undefined
+  .default_message_of undefined
+  .messages_of empty_list
+  .next_window_id_of 1
+  .focused_of undefined
+  .has_a_valid_layout false
+  .has_a_new_size false
+  .is_up_to_date false
+  .is_prepared false
+
+# Window Prototype
+
+$id_of ()
+
+$parent_id_of () # the id of the window that opened this window (optional)
+
+$size_of () # DEFAULT, MINIMIZED, MAXIMIZED or line count
+
+$desired_size_of () # DEFAULT or MINIMIZED
+
+$focused_of ()
+
+$cursor_x_of ()
+
+$cursor_y_of ()
+
+$title_of ()
+
+$content_of ()
+
+$inbounds_width_of ()
+
+$buttons_of ()
+
+$additional_buttons_of ()
+
+$selection_of ()
+
+$needs_a_horizontal_scrollbar ()
+
+$needs_a_vertical_scrollbar ()
+
+$has_a_horizontal_scrollbar ()
+
+$has_a_vertical_scrollbar ()
+
+$first_visible_column_of ()
+
+$first_visible_row_of ()
+
+$is_modal ()
+
+$proto_window std_types::object
+  .id_of undefined
+  .parent_id_of undefined
+  .size_of DEFAULT
+  .desired_size_of DEFAULT
+  .focused_of undefined
+  .x_of undefined
+  .y_of undefined
+  .width_of undefined
+  .height_of undefined
+  .cursor_x_of undefined
+  .cursor_y_of undefined
+  .clear_colour_of undefined
+  .title_of undefined
+  .content_of undefined
+  .inbounds_width_of 80
+  .buttons_of empty_list
+  .additional_buttons_of empty_list
+  .selection_of undefined
+  .needs_a_horizontal_scrollbar undefined
+  .needs_a_vertical_scrollbar undefined
+  .has_a_horizontal_scrollbar false
+  .has_a_vertical_scrollbar false
+  .first_visible_column_of 1
+  .first_visible_row_of 1
+  .is_modal false
+
+$BUTTON_COLOUR '@0xb0b0b0;'
+
+$SHRINK.to_string "－"
+
+$ENLARGE.to_string "＋"
+
+$CLOSE.to_string "Ｘ"
+
+$std_types::terminal/create_window_manager:
+  (
+    terminal
+  )
+  ->
+    std_types::window_manager
+      .template_screen_of create_screen(terminal 0 0)
+      .width_of width_of(terminal)
+      .height_of height_of(terminal)
+
+$std_types::window_manager/create_window:
+  (
+    wm
+    options*
+  )
+  $rc result_count()
+  $window_id next_window_id_of(wm)
+  inc &wm.next_window_id_of
+  get_options options
+    USE_CURSOR = false $use_cursor
+    DO_NOT_FOCUS = false $do_not_focus
+    TITLE = "<untitled>" $title
+    CONTENT = undefined $content
+    CLEAR_COLOUR = WHITE $clear_colour
+    HORIZONTAL_SCROLLBAR = true $horizontal_scrollbar
+    VERTICAL_SCROLLBAR = true $vertical_scrollbar
+    BUTTONS = empty_list $additional_buttons
+    SIZE = DEFAULT $size
+    CURSOR_X = 1 $cursor_x
+    CURSOR_Y = 1 $cursor_y
+    FIRST_VISIBLE_COLUMN = 1 $first_visible_column
+    FIRST_VISIBLE_ROW = 1 $first_visible_row
+    MODAL = false $modal
+    PARENT_ID = undefined $parent_id
+  if
+    size == MAXIMIZED:
+      for_each windows_of(wm)
+        : (idx window)
+          if
+            size_of(window) == MAXIMIZED:
+              !wm.windows_of(idx).size_of DEFAULT
+              add_new_window
+            next
+        add_new_window
+    add_new_window
+
+  $add_new_window:
+    $desired_size if(size == MINIMIZED (-> MINIMIZED) (-> DEFAULT))
+    $focused focused_of(wm)
+    update_if size == MINIMIZED && not(do_not_focus && focused.is_defined)
+      &size -> DEFAULT
+    push &wm.windows_of
+      proto_window
+        .id_of window_id
+        .parent_id_of parent_id
+        .size_of size
+        .desired_size_of desired_size
+        .cursor_x_of if(use_cursor (-> cursor_x) (-> undefined))
+        .cursor_y_of if(use_cursor (-> cursor_y) (-> undefined))
+        .title_of title
+        .clear_colour_of clear_colour
+        .content_of content
+        .additional_buttons_of additional_buttons
+        .has_a_horizontal_scrollbar horizontal_scrollbar
+        .has_a_vertical_scrollbar vertical_scrollbar
+        .first_visible_column_of first_visible_column
+        .first_visible_row_of first_visible_row
+        .is_modal modal
+        .width_of undefined
+        .height_of undefined
+    !wm
+      .focused_of
+        if
+          do_not_focus && focused.is_defined
+          -> focused
+          -> window_id
+      .has_a_valid_layout false
+      .is_up_to_date false
+      .is_prepared false
+    if
+      rc == 2
+      -> wm window_id
+      -> wm
+
+$std_types::window_manager/create_dialog:
+  (
+    wm
+    info
+    content
+  )
+  wm
+    .dialog_of tuple(content info)
+    .is_up_to_date false
+
+$std_types::window_manager/set_menu:
+  (
+    wm
+    menus*
+  )
+  !wm.is_up_to_date false
+  if
+    length_of(menus) == 1 && menus(1).is_a_list
+    -> wm(.menus_of menus(1))
+    -> wm(.menus_of menus)
+
+$std_types::window_manager/set_status:
+  (
+    wm
+    status
+  )
+  !wm.is_up_to_date false
+  -> wm(.status_of status)
+
+$std_types::window_manager/set_time:
+  (
+    wm
+    time
+  )
+  -> wm(.current_time_of time)
+
+$std_types::window_manager/for_each:
+  (
+    wm
+    body
+    continuation
+  )
+  for_each windows_of(wm)
+    : (window) body id_of(window) content_of(window)
+    continuation
+
+$std_types::window_manager/needs_updating:
+  (
+    wm
+  )
+  not wm.is_up_to_date
+
+$std_types::window_manager/prepare_update:
+  (
+    wm
+    terminal
+  )
+  if
+    wm.is_up_to_date
+    -> wm terminal empty_list
+    :
+      !wm.is_prepared true
+      update_size &wm &terminal
+      layout_windows &wm
+      check_contents &wm
+      $update_ranges empty_list
+      for_each windows_of(wm)
+        : (window)
+          $first_visible_row first_visible_row_of(window)
+          push &update_ranges
+            tuple
+              first_visible_row .. first_visible_row+height_of(window)-1
+              id_of(window)
+              content_of(window)
+          next
+        -> wm terminal update_ranges
+
+$check_contents: (wm)
+  for_each windows_of(wm)
+    : (idx window)
+      $width width_of(window)
+      $height height_of(window)
+      $first_visible_column first_visible_column_of(window)
+      $first_visible_row first_visible_row_of(window)
+      $cursor_x cursor_x_of(window)
+      $cursor_y cursor_y_of(window)
+      if
+        cursor_y.is_defined:
+          $delta height >> 2
+          $top_y first_visible_row+delta
+          if
+            cursor_y < top_y:
+              !first_visible_row max(cursor_y-delta 1)
+              !window.first_visible_row_of first_visible_row
+              !wm.windows_of(idx) window
+              check_column
+            :
+              $bottom_y first_visible_row+height-1-delta
+              if
+                cursor_y > bottom_y && bottom_y > 0:
+                  $last_y height_of(content_of(window))
+                  $last_visible_row max(min(cursor_y+delta last_y) cursor_y)
+                  !first_visible_row max(last_visible_row-height+1 1)
+                  !window.first_visible_row_of first_visible_row
+                  !wm.windows_of(idx) window
+                  check_column
+                check_column
+        check_column
+
+      $check_column:
+        if
+          cursor_x.is_defined:
+            $delta width >> 2
+            $left_x first_visible_column+delta
+            if
+              cursor_x < left_x:
+                !first_visible_column max(cursor_x-delta 1)
+                !window.first_visible_column_of first_visible_column
+                !wm.windows_of(idx) window
+                next
+              :
+                $right_x first_visible_column+width-1-delta
+                if
+                  cursor_x > right_x:
+                    $last_x inbounds_width_of(window)
+                    $last_visible_column max(min(cursor_x+delta last_x) cursor_x)
+                    !first_visible_column max(last_visible_column-width+1 1)
+                    !window.first_visible_column_of first_visible_column
+                    !wm.windows_of(idx) window
+                    next
+                  next
+          next
+    -> wm
+
+[source]
+
+$std::USE_CURSOR .
+
+[documentation remark]
+
+### Always copy examples contained in the symbol's description remark
+    into the documentation
+
+### Use (parts of) the documentation already provided in the source
+
+### Do not create completely new examples on your own
+
+### Use only one of the following topics: Window Manager
+
+# std::USE_CURSOR (a unique item)
+

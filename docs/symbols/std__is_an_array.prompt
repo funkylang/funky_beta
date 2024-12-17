@@ -1,0 +1,733 @@
+[MANUAL]
+
+In Funky function calls are either written on a single line with arguments
+enclosed within parentheses and separated by single spaces, e.g.:
+
+print! f(a b c) g(x y z)
+
+or they are written in indentation style using mutliple lines:
+
+print!
+  f
+    a
+    b
+    c
+  g
+    x
+    y
+    z
+
+Functions that create any output or read any input need I/O-access rights.
+
+A function that needs I/O-access rights must be called with a trailing
+exclamation mark after the function name, e.g.:
+
+println! "Hello, World!"
+
+The expression
+
+key = value
+
+denotes a key-value-pair.
+
+Collection types cannot be printed directly. You can use "dump!" to
+dump the contents of a collection, e.g.:
+
+$ages
+  hash_table
+    "John" = 42
+    "Mary" = 25
+    "Irene" = 49
+
+dump! `ages
+
+Output:
+
+ages: hash_table <6>
+  "Mary"
+  25
+  "Irene"
+  49
+  "John"
+  42
+
+Note: The number in angular brackets after the typename denotes the number
+of (indented) lines that follow the head.
+
+A tail call returns the result of the called function; e.g.:
+
+$calc:
+  (
+    x
+    y
+  )
+  plus x*x y*y
+
+println! calc(2 3)
+
+prints
+
+13
+
+[GUIDELINES]
+
+All documentation remarks must have
+
+* a single short (single line) description written in lower case
+
+* a parameter(s) section (if appropriate)
+
+* a result(s) section (if appropriate)
+
+* a detailed description of how to use the symbol: when describing unique
+  items of constants, describe how to use them;
+  do not repeat yourself
+
+* one or more associated topic(s) (if appropriate)
+
+* a "See also" entry - mention only a view relevant symbols here
+
+Do not mention unknown symbols!
+
+Do not mention more than 10 symbols in the "See also" entry.
+
+DO NOT MENTION MORE THAN 10 SYMBOLS IN THE "See also" ENTRY!
+
+Do not mention internal details of functions.
+
+Do not start each sentence in the description with "If" or "The".
+
+DO NOT START EACH SENTENCE IN THE DESCRIPTION WITH "If" OR "The"!
+
+Do not tell the user what a function does not do.
+
+When referring to another symbol write it enclosed in angle brackets, e.g.
+<std::clear>.
+
+The "self"-parameter is a normal parameter like any other and should be
+mentioned in the the parameter description.
+
+Replace symbolic constants by their value.
+
+Operations on I/O-objects are not executed immediately but queued as jobs.
+To identify a job, an "id" is used.
+
+I/O-functions and I/O-methods either need I/O-access rights or propagate
+them ("if", "for_each", etc.).
+
+An "example" section, if available, must use Funky syntax and shall not be too
+long.
+
+If there is an appropriate example in the source code then use this example
+in the "example" section!
+
+[EXAMPLES]
+
+[source]
+
+$std::clear_colour_of ()
+
+[documentation remark]
+
+# std::clear_colour_of (a polymorphic function)
+
+  the clear colour to use
+
+  Parameter:
+    self: the object from which to get the clear colour
+
+  Result:
+    colour: the clear colour
+
+  Returns the clear colour of the object.
+
+  Topic: Terminal
+
+  See also: std::draw_colour_of, std::set_clear_colour
+
+[source]
+
+$std_types::screen/clear:
+  (
+    self
+    x = 1
+    y = 1
+    width = undefined
+    height = undefined
+  )
+  update_if width.is_undefined &width -> width_of(self)-x+1
+  update_if height.is_undefined &height -> height_of(self)-y+1
+  std_private::clear self self x y width height
+
+$std::clear ()
+
+[documentation remark]
+
+# std::clear (a polymorphic function)
+
+  clears a rectangular area
+
+  Parameters:
+    screen # some kind of screen
+    x: x-coordinate of the upper left corner
+    y: y-coordinate of the upper left corner
+    width: width of the area
+    height: height of the area
+
+  Result:
+    screen: the updated screen
+
+  The area is cleared using the current clear colour. Use
+  <std::set_clear_colour> to change the current clear colour.
+
+  The area is clipped at the screen's borders.
+
+  Topic: Terminal
+
+  See also: std_types::screen/std::clear, std::draw_text,
+            std::set_clear_colour
+
+  Example:
+
+    $my_screen create_screen(terminal 40 25)
+    set_clear_colour &my_screen GREEN
+    clear &my_screen 11 6 20 15
+
+[EXERCISE]
+
+#
+  Topic: Arrays
+
+  An array is a fixed-size collection of elements. It can have more than one
+  dimension.
+
+  The elements are accessed using one-based indexing.
+
+  Negative indices are supported and are interpreted as counting from the right
+  end of the array dimension.
+
+  In a pure functional language, arrays are immutable. So it would be very
+  inefficient to update a single element. Therefor update operations are
+  stored in a log buffer and executed in a batch.
+
+  Example:
+
+    $a array(3 2) # 3 rows, 2 columns
+
+    # initialize array
+
+    from_to !a 1 3
+      : (row)
+        from_to 1 2
+          : (column)
+            !a(row column) row*column
+            next
+          next
+      -> a
+
+    from_to 1 3
+      : (row)
+        from_to 1 2
+          : (column)
+            println! "a(" row ", " column ") = " a(row column)
+            next!
+          next
+      pass
+
+  Output:
+
+    a(1, 1) = 1
+    a(1, 2) = 2
+    a(2, 1) = 2
+    a(2, 2) = 4
+    a(3, 1) = 3
+    a(3, 2) = 6
+
+[symbols]
+
+$std::is_an_array () # obvious
+$std_types::object.is_an_array false
+$std_types::generic_array.is_an_array true
+$std_types::generic_array/for_each:
+$std_types::generic_array/map:
+$std_types::generic_array/reduce:
+$std_types::generic_array/map_reduce:
+
+# serialization
+
+$std_types::array.serialization_tag_of "array"
+$std_types::boolean_array.serialization_tag_of "boolean_array"
+$std_types::character_array.serialization_tag_of "character_array"
+$std_types::int8_array.serialization_tag_of "int8_array"
+$std_types::uint8_array.serialization_tag_of "uint8_array"
+$std_types::int16_array.serialization_tag_of "int16_array"
+$std_types::uint16_array.serialization_tag_of "uint16_array"
+$std_types::int32_array.serialization_tag_of "int32_array"
+$std_types::uint32_array.serialization_tag_of "uint32_array"
+$std_types::int64_array.serialization_tag_of "int64_array"
+$std_types::uint64_array.serialization_tag_of "uint64_array"
+$std_types::float32_array.serialization_tag_of "float32_array"
+$std_types::float64_array.serialization_tag_of "float64_array"
+$std_types::generic_array/serialize:
+
+#
+  Copyright (C) 2024 by
+  Dipl.-Ing. Michael Niederle
+
+  This program is free software; you can redistribute it and/or modify
+  it under the terms of the GNU Library General Public License, version 2, or
+  (at your option) under the terms of the GNU Lesser General Public License,
+  version 3.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  GNU Lesser (Library) General Public License for more details.
+
+  For details of the GNU General Public License see the accompanying
+  files LGPLv2.txt and LGLPv3.txt or
+  http://www.gnu.org/licenses/lgpl-2.0.html
+  http://www.gnu.org/licenses/lgpl-3.0.html
+  or write to the
+  Free Software Foundation, Inc.,
+  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+
+<using std>
+
+#
+  Topic: Arrays
+
+  An array is a fixed-size collection of elements. It can have more than one
+  dimension.
+
+  The elements are accessed using one-based indexing.
+
+  Negative indices are supported and are interpreted as counting from the right
+  end of the array dimension.
+
+  In a pure functional language, arrays are immutable. So it would be very
+  inefficient to update a single element. Therefor update operations are
+  stored in a log buffer and executed in a batch.
+
+  Example:
+
+    $a array(3 2) # 3 rows, 2 columns
+
+    # initialize array
+
+    from_to !a 1 3
+      : (row)
+        from_to 1 2
+          : (column)
+            !a(row column) row*column
+            next
+          next
+      -> a
+
+    from_to 1 3
+      : (row)
+        from_to 1 2
+          : (column)
+            println! "a(" row ", " column ") = " a(row column)
+            next!
+          next
+      pass
+
+  Output:
+
+    a(1, 1) = 1
+    a(1, 2) = 2
+    a(2, 1) = 2
+    a(2, 2) = 4
+    a(3, 1) = 3
+    a(3, 2) = 6
+
+$std::is_an_array () # obvious
+
+$std_types::object.is_an_array false
+  #
+    obvious
+
+    Topic: Objects
+
+$std_types::generic_array.is_an_array true
+  #
+    obvious
+
+    Topic: Lists
+
+$std_types::generic_array/for_each:
+  #
+    iterates over all items of the array
+
+    For each item the statement sequence supplied as *body* is called
+    with one or two arguments (depending on *body*'s parameter count).
+
+    If called with two arguments the first argument is the position number
+    of the item within the array.
+
+    To start the next iteration of the loop a tail call to the *next*-function
+    has to be performed.
+
+    The loop is exited when the end of the loop is reached without calling
+    the *next*-function.
+
+    This is a sequential loop.
+  (
+    self # the array to iterate over
+    body # the statement sequence to execute for each item
+    finally = next # called after all items have been iterated over
+  )
+  $saved_context
+    tuple
+      next
+      break
+      basic_loops::from
+      basic_loops::to
+      basic_loops::self
+      basic_loops::body
+      basic_loops::finally
+
+  !basic_loops::from 1 # the first ...
+  !basic_loops::to length_of(self) # ... and last index of the array
+  !basic_loops::self self
+  !basic_loops::body body
+  !basic_loops::finally finally
+
+  $iterate_1:
+    if
+      basic_loops::from <= basic_loops::to # another item available?
+      :
+        basic_loops::body basic_loops::self(basic_loops::from)
+          # supply only the value of each item
+      break
+
+  $iterate_2:
+    if
+      basic_loops::from <= basic_loops::to # another item available?
+      :
+        basic_loops::body basic_loops::from basic_loops::self(basic_loops::from)
+          # supply index *and* value of each item
+      break
+
+  !break: (myself^)
+    !finally basic_loops::finally
+    basic_loops::saved_context_of(myself)
+      !next !break
+      !basic_loops::from !basic_loops::to !basic_loops::self
+      !basic_loops::body !basic_loops::finally
+    finally
+
+  !break.basic_loops::saved_context_of saved_context
+
+  if
+    parameter_count_of(body) == 2:
+      !next:
+        !basic_loops::from basic_loops::from+1 # increase the array index
+        iterate_2 # start the next iteration
+      iterate_2 # start the first iteration
+    :
+      !next:
+        !basic_loops::from basic_loops::from+1 # increase the array index
+        iterate_1 # start the next iteration
+      iterate_1 # start the first iteration
+
+$std_types::generic_array/map:
+  #
+    applies a function to each element of an array, producing a new array
+
+    Topic: Arrays
+
+    See also: map_reduce, reduce
+  (
+    self # the array to work on
+    map_function # the function to apply to each element of the array
+  )
+  $d dimension_count_of(self)
+  case d
+    1:
+      $new_array new(self)
+      if
+        parameter_count_of(map_function) == 1:
+          from_to 1 length_of(self)
+            : (i)
+              !new_array(i) map_function(self(i))
+              next
+            -> new_array
+        :
+          from_to 1 length_of(self)
+            : (i)
+              !new_array(i) map_function(i self(i))
+              next
+            -> new_array
+    2:
+      $n length_of(self 1)
+      $m length_of(self 2)
+      $new_array new(self)
+      from_to 1 n
+        : (i)
+          if
+            parameter_count_of(map_function) == 1:
+              from_to 1 m
+                : (j)
+                  !new_array(i j) map_function(self(i j))
+                  next
+                next
+            :
+              from_to 1 m
+                : (j)
+                  !new_array(i j) map_function(i j self(i j))
+                  next
+                next
+        -> new_array
+    3:
+      $n length_of(self 1)
+      $m length_of(self 2)
+      $k length_of(self 3)
+      $new_array new(self)
+      from_to 1 n
+        : (i)
+          from_to 1 m
+            : (j)
+              if
+                parameter_count_of(map_function) == 1:
+                  from_to 1 k
+                    : (k)
+                      !new_array(i j k) map_function(self(i j k))
+                      next
+                    next
+                :
+                  from_to 1 k
+                    : (k)
+                      !new_array(i j k) map_function(i j k self(i j k))
+                      next
+                    next
+            next
+        -> new_array
+    :
+      Error "
+        <map> is not yet defined for arrays with more than three dimensions
+
+$std_types::generic_array/reduce:
+  #
+    applies a function to the elements of an array, returning a single result
+
+    Topic: Arrays
+
+    See also: map_reduce
+  (
+    self # the array to work on
+    reduce_function = append # the function to apply to pairs of values
+    _unit = undefined # the value to return for empty arrays
+  )
+  $d dimension_count_of(self)
+  case d
+    1:
+      $reduce: (s e)
+        if
+          s < e:
+            $m (s+e) >> 1
+            reduce_function
+              reduce(s m)
+              reduce(m+1 e)
+          -> self(s)
+      reduce 1 length_of(self)
+    2:
+      $n length_of(self 1)
+      $m length_of(self 2)
+      $acc neutral_element_of(self(1 1))
+      from_to 1 n
+        : (i)
+          from_to 1 m
+            : (j)
+              reduce_function &acc self(i j)
+              next
+            next
+        -> acc
+    3:
+      $n length_of(self 1)
+      $m length_of(self 2)
+      $k length_of(self 3)
+      $acc neutral_element_of(self(1 1 1))
+      from_to 1 n
+        : (i)
+          from_to 1 m
+            : (j)
+              from_to 1 k
+                : (k)
+                  reduce_function &acc self(i j k)
+                  next
+                next
+            next
+        -> acc
+    :
+      Error "
+        <reduce> is not yet defined for arrays with more than three dimensions
+
+$std_types::generic_array/map_reduce:
+  #
+    combines a map and a reduce operation into a single operation
+
+    Does not create an intermediate array to hold the "mapped" values.
+
+    Topic: Arrays
+
+    See also: map, reduce
+  (
+    self # the array to work on
+    map_function # the function to apply to each element of the array
+    reduce_function = append # the function to apply to pairs of values
+    _unit = undefined # the value to return for empty arrays
+  )
+  $d dimension_count_of(self)
+  case d
+    1:
+      $map_reduce
+        if
+          parameter_count_of(map_function) == 1
+          ->
+            : (s e)
+              if
+                s < e:
+                  $m (s+e) >> 1
+                  reduce_function
+                    map_reduce(s m)
+                    map_reduce(m+1 e)
+                -> map_function(self(s))
+          ->
+            : (s e)
+              if
+                s < e:
+                  $m (s+e) >> 1
+                  reduce_function
+                    map_reduce(s m)
+                    map_reduce(m+1 e)
+                -> map_function(s self(s))
+      map_reduce 1 length_of(self)
+    2:
+      $n length_of(self 1)
+      $m length_of(self 2)
+      $acc neutral_element_of(map_function(self(1 1)))
+      from_to 1 n
+        : (i)
+          if
+            parameter_count_of(map_function) == 1:
+              from_to 1 m
+                : (j)
+                  reduce_function &acc map_function(self(i j))
+                  next
+                next
+            :
+              from_to 1 m
+                : (j)
+                  reduce_function &acc map_function(i j self(i j))
+                  next
+                next
+        -> acc
+    3:
+      $n length_of(self 1)
+      $m length_of(self 2)
+      $k length_of(self 3)
+      $acc neutral_element_of(map_function(self(1 1 1)))
+      from_to 1 n
+        : (i)
+          from_to 1 m
+            : (j)
+              if
+                parameter_count_of(map_function) == 1:
+                  from_to 1 k
+                    : (k)
+                      reduce_function &acc map_function(self(i j k))
+                      next
+                    next
+                :
+                  from_to 1 k
+                    : (k)
+                      reduce_function &acc map_function(i j k self(i j k))
+                      next
+                    next
+            next
+        -> acc
+    :
+      Error "
+        <map_reduce> is not yet defined for arrays with more than three dimensions
+
+###
+
+# serialization
+
+$std_types::array.serialization_tag_of "array"
+
+$std_types::boolean_array.serialization_tag_of "boolean_array"
+
+$std_types::character_array.serialization_tag_of "character_array"
+
+$std_types::int8_array.serialization_tag_of "int8_array"
+
+$std_types::uint8_array.serialization_tag_of "uint8_array"
+
+$std_types::int16_array.serialization_tag_of "int16_array"
+
+$std_types::uint16_array.serialization_tag_of "uint16_array"
+
+$std_types::int32_array.serialization_tag_of "int32_array"
+
+$std_types::uint32_array.serialization_tag_of "uint32_array"
+
+$std_types::int64_array.serialization_tag_of "int64_array"
+
+$std_types::uint64_array.serialization_tag_of "uint64_array"
+
+$std_types::float32_array.serialization_tag_of "float32_array"
+
+$std_types::float64_array.serialization_tag_of "float64_array"
+
+$std_types::generic_array/serialize:
+  (
+    self
+    indent = undefined
+  )
+  $n dimension_count_of(self)
+  $dimensions map_reduce(1..n : (i) -> append(" " length_of(self i).to_string))
+  $indentation
+    if
+      indent.is_defined
+      -> tabs_and_spaces(indent+2)
+      -> ""
+  append
+    if
+      indent.is_defined
+      -> tabs_and_spaces(indent)
+      -> ""
+    serialization_tag_of(self)
+    dimensions
+    "@nl;"
+    map_reduce(self: (item) -> append(indentation item.to_string "@nl;"))
+
+[source]
+
+$std_types::object.is_an_array false
+  #
+    obvious
+
+    Topic: Objects
+
+$std_types::generic_array.is_an_array true
+  #
+    obvious
+
+    Topic: Lists
+
+$std::is_an_array () # obvious
+
+[documentation remark]
+
+### Always copy examples contained in the symbol's description remark
+    into the documentation
+
+### Do not create completely new examples on your own
+
+### Use only one of the following topics: Arrays
+
+# std::is_an_array (a polymorphic function)
+

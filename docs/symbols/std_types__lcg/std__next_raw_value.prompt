@@ -1,0 +1,377 @@
+[MANUAL]
+
+In Funky function calls are either written on a single line with arguments
+enclosed within parentheses and separated by single spaces, e.g.:
+
+print! f(a b c) g(x y z)
+
+or they are written in indentation style using mutliple lines:
+
+print!
+  f
+    a
+    b
+    c
+  g
+    x
+    y
+    z
+
+Functions that create any output or read any input need I/O-access rights.
+
+A function that needs I/O-access rights must be called with a trailing
+exclamation mark after the function name, e.g.:
+
+println! "Hello, World!"
+
+The expression
+
+key = value
+
+denotes a key-value-pair.
+
+Collection types cannot be printed directly. You can use "dump!" to
+dump the contents of a collection, e.g.:
+
+$ages
+  hash_table
+    "John" = 42
+    "Mary" = 25
+    "Irene" = 49
+
+dump! `ages
+
+Output:
+
+ages: hash_table <6>
+  "Mary"
+  25
+  "Irene"
+  49
+  "John"
+  42
+
+Note: The number in angular brackets after the typename denotes the number
+of (indented) lines that follow the head.
+
+A tail call returns the result of the called function; e.g.:
+
+$calc:
+  (
+    x
+    y
+  )
+  plus x*x y*y
+
+println! calc(2 3)
+
+prints
+
+13
+
+[GUIDELINES]
+
+All documentation remarks must have
+
+* a single short (single line) description written in lower case
+
+* a parameter(s) section (if appropriate)
+
+* a result(s) section (if appropriate)
+
+* a detailed description of how to use the symbol: when describing unique
+  items of constants, describe how to use them;
+  do not repeat yourself
+
+* one or more associated topic(s) (if appropriate)
+
+* a "See also" entry - mention only a view relevant symbols here
+
+Do not mention unknown symbols!
+
+Do not mention more than 10 symbols in the "See also" entry.
+
+DO NOT MENTION MORE THAN 10 SYMBOLS IN THE "See also" ENTRY!
+
+Do not mention internal details of functions.
+
+Do not start each sentence in the description with "If" or "The".
+
+DO NOT START EACH SENTENCE IN THE DESCRIPTION WITH "If" OR "The"!
+
+Do not tell the user what a function does not do.
+
+When referring to another symbol write it enclosed in angle brackets, e.g.
+<std::clear>.
+
+The "self"-parameter is a normal parameter like any other and should be
+mentioned in the the parameter description.
+
+Replace symbolic constants by their value.
+
+Operations on I/O-objects are not executed immediately but queued as jobs.
+To identify a job, an "id" is used.
+
+I/O-functions and I/O-methods either need I/O-access rights or propagate
+them ("if", "for_each", etc.).
+
+An "example" section, if available, must use Funky syntax and shall not be too
+long.
+
+If there is an appropriate example in the source code then use this example
+in the "example" section!
+
+[EXAMPLES]
+
+[source]
+
+$std_types::screen/std::clear:
+  (
+    self
+    x = 1
+    y = 1
+    width = undefined
+    height = undefined
+  )
+  update_if width.is_undefined &width -> width_of(self)-x+1
+  update_if height.is_undefined &height -> height_of(self)-y+1
+  std_private::clear self self x y width height
+
+[documentation remark]
+
+# std_types::screen/clear (a method)
+
+  clears the specified rectangular area
+
+  Parameters:
+    self: the screen to be (partially) cleared
+    x: x-coordinate of the upper left corner
+    y: y-coordinate of the upper left corner
+    width: width of the area
+    height: height of the area
+
+  Result:
+    screen: the updated screen
+
+  The specified area is filled with spaces using the the current draw-
+  and clear colour.
+
+  The area is clipped at the screen's borders.
+
+  This function also works for "graphical screens" (line_height != 1).
+
+  Topic: Terminal
+
+  See also: std_types::screen/std::set_clear_colour,
+            std_types::screen/std::copy
+
+[source]
+
+$std_types::string/match:
+  (
+    self
+    stream
+  )
+  $rc result_count()
+  $len length_of(self)
+  if
+    length_of(stream) >= len:
+      if
+        range(stream 1 len) == self:
+          if
+            rc == 1
+            -> len
+            -> len undefined
+        fail
+    fail
+
+  $fail:
+    if
+      rc == 1
+      -> undefined
+      -> undefined undefined
+
+[documentation remark]
+
+# std_types::string/std::match (a method)
+
+  matches the start of the stream with the string
+
+  Parameters:
+    self: the string to match
+    stream: the stream to match against
+
+  Results:
+    length: the number of matched characters (or <undefined> on fail)
+    capture: the matched string (if requested)
+
+  Attempts to match the start of the stream with the specified string.
+
+  If the match is successful the length of the match (= the length of the
+  string) is returned.
+
+  If the caller requested two result values then in addition to the string
+  length the string itself ("the capture") is also returned.
+
+  If the match fails then one or two <std::undefined>-values are returned.
+
+  Topic: Strings
+
+  See also: std_types::string/std::match_back, std_types::string/std::search
+
+[source]
+
+$std_types::generic_list/map_or_error:
+  (
+    self
+    function
+  )
+  if
+    self.is_empty
+    -> self
+    :
+      $map
+        if
+          parameter_count_of(function) == 2
+          ->
+            : (s e)
+              if
+                s < e:
+                  $m (s+e) >> 1
+                  append_or_error
+                    map(s m)
+                    map(m+1 e)
+                :
+                  $mapped_item function(s self(s))
+                  if
+                    mapped_item.is_an_error
+                    -> mapped_item
+                    -> list(mapped_item)
+          ->
+            : (s e)
+              if
+                s < e:
+                  $m (s+e) >> 1
+                  append_or_error
+                    map(s m)
+                    map(m+1 e)
+                :
+                  $mapped_item function(self(s))
+                  if
+                    mapped_item.is_an_error
+                    -> mapped_item
+                    -> list(mapped_item)
+
+      map 1 length_of(self)
+
+[documentation remark]
+
+# std_types::generic_list/std::map_or_error (a method)
+
+  applies a function to all elements of the list
+
+  Parameters:
+
+    self: the list which items will be mapped
+    function: the function to apply to each element of the list
+
+  Result:
+    list: the list of "mapped" items
+
+  A list of the "mapped" items is returned.
+
+  If any item ist mapped to an error object than the result ist not a
+  collection but the first (left-to-right-order) error object created.
+
+  Topic: Lists
+
+  See also: std_types::generic_list/std::reduce,
+            std_types::generic_list/std::map_reduce
+
+[EXERCISE]
+
+[symbols]
+
+
+# Topic: Random Numbers, Iterators
+
+$std::seed_of ()
+$std_types::lcg std_types::random_number_generator
+$std_types::lcg/next_raw_value: (self)
+$std::lcg:
+
+#
+  Copyright (C) 2021 by
+  Dipl.-Ing. Michael Niederle
+
+  This program is free software; you can redistribute it and/or modify
+  it under the terms of the GNU Library General Public License, version 2, or
+  (at your option) under the terms of the GNU Lesser General Public License,
+  version 3.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  GNU Lesser (Library) General Public License for more details.
+
+  For details of the GNU General Public License see the accompanying
+  files LGPLv2.txt and LGLPv3.txt or
+  http://www.gnu.org/licenses/lgpl-2.0.html
+  http://www.gnu.org/licenses/lgpl-3.0.html
+  or write to the
+  Free Software Foundation, Inc.,
+  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+
+# Topic: Random Numbers, Iterators
+
+$std::seed_of ()
+
+$multiplier_of ()
+
+$increment_of ()
+
+$std_types::lcg std_types::random_number_generator
+
+$std_types::lcg/next_raw_value: (self)
+  $new_seed
+    mod
+      (multiplier_of(self)*seed_of(self)+increment_of(self))
+      modulus_of(self)
+  -> self(.seed_of new_seed) new_seed
+
+$std::lcg:
+  #
+    creates a pseudo random number generator
+  (
+    seed # the seed value to use
+    modulus = 31974247
+    multiplier = 642997
+    increment = 7219879
+  )
+  ->
+    std_types::lcg
+      .seed_of seed
+      .modulus_of modulus
+      .multiplier_of multiplier
+      .increment_of increment
+
+[source]
+
+$std::next_raw_value ()
+
+$std_types::lcg/next_raw_value: (self)
+  $new_seed
+    mod
+      (multiplier_of(self)*seed_of(self)+increment_of(self))
+      modulus_of(self)
+  -> self(.seed_of new_seed) new_seed
+
+[documentation remark]
+
+### Always copy examples contained in the symbol's description remark
+    into the documentation
+
+### Use only one of the following topics: Random Numbers, Iterators
+
+# std_types::lcg/std::next_raw_value (a method)
+

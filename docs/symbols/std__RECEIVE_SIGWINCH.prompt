@@ -1,0 +1,764 @@
+[MANUAL]
+
+In Funky function calls are either written on a single line with arguments
+enclosed within parentheses and separated by single spaces, e.g.:
+
+print! f(a b c) g(x y z)
+
+or they are written in indentation style using mutliple lines:
+
+print!
+  f
+    a
+    b
+    c
+  g
+    x
+    y
+    z
+
+Functions that create any output or read any input need I/O-access rights.
+
+A function that needs I/O-access rights must be called with a trailing
+exclamation mark after the function name, e.g.:
+
+println! "Hello, World!"
+
+The expression
+
+key = value
+
+denotes a key-value-pair.
+
+Collection types cannot be printed directly. You can use "dump!" to
+dump the contents of a collection, e.g.:
+
+$ages
+  hash_table
+    "John" = 42
+    "Mary" = 25
+    "Irene" = 49
+
+dump! `ages
+
+Output:
+
+ages: hash_table <6>
+  "Mary"
+  25
+  "Irene"
+  49
+  "John"
+  42
+
+Note: The number in angular brackets after the typename denotes the number
+of (indented) lines that follow the head.
+
+A tail call returns the result of the called function; e.g.:
+
+$calc:
+  (
+    x
+    y
+  )
+  plus x*x y*y
+
+println! calc(2 3)
+
+prints
+
+13
+
+[GUIDELINES]
+
+All documentation remarks must have
+
+* a single short (single line) description written in lower case
+
+* a parameter(s) section (if appropriate)
+
+* a result(s) section (if appropriate)
+
+* a detailed description of how to use the symbol: when describing unique
+  items of constants, describe how to use them;
+  do not repeat yourself
+
+* one or more associated topic(s) (if appropriate)
+
+* a "See also" entry - mention only a view relevant symbols here
+
+Do not mention unknown symbols!
+
+Do not mention more than 10 symbols in the "See also" entry.
+
+DO NOT MENTION MORE THAN 10 SYMBOLS IN THE "See also" ENTRY!
+
+Do not mention internal details of functions.
+
+Do not start each sentence in the description with "If" or "The".
+
+DO NOT START EACH SENTENCE IN THE DESCRIPTION WITH "If" OR "The"!
+
+Do not tell the user what a function does not do.
+
+When referring to another symbol write it enclosed in angle brackets, e.g.
+<std::clear>.
+
+The "self"-parameter is a normal parameter like any other and should be
+mentioned in the the parameter description.
+
+Replace symbolic constants by their value.
+
+Operations on I/O-objects are not executed immediately but queued as jobs.
+To identify a job, an "id" is used.
+
+I/O-functions and I/O-methods either need I/O-access rights or propagate
+them ("if", "for_each", etc.).
+
+An "example" section, if available, must use Funky syntax and shall not be too
+long.
+
+If there is an appropriate example in the source code then use this example
+in the "example" section!
+
+[EXAMPLES]
+
+[symbols]
+
+$std::CURSOR_LEFT .
+$std::CURSOR_RIGHT .
+$std::CURSOR_UP .
+$std::CURSOR_DOWN .
+$std::CURSOR_HOME .
+$std::CURSOR_END .
+
+$std::DRAW_COLOUR .
+
+$std::BLACK '@0x000000;'
+$std::WHITE '@0xffffff;'
+$std::RED '@0xff0000;'
+$std::GREEN '@0x00ff00;'
+$std::BLUE '@0x0000ff;'
+$std::CYAN '@0x00ffff;'
+$std::MAGENTA '@0xff00ff;'
+$std::YELLOW '@0xffff00;'
+
+$std::set_draw_colour ()
+$std::set_clear_colour ()
+
+$std_types::screen/create_screen:
+  (
+    screen
+    width = undefined
+    height = undefined
+    options*
+  )
+  update_if width.is_undefined &width -> width_of(screen)
+  update_if height.is_undefined &height -> height_of(screen)
+  extract_options options
+    DRAW_COLOUR = draw_colour_of(screen) $draw_colour
+    CLEAR_COLOUR = clear_colour_of(screen) $clear_colour
+    LINE_HEIGHT = line_height_of(screen) $line_height
+  $row dup(string(' ' draw_colour clear_colour) width)
+  $rows dup(list(row) height .div. line_height)
+  ->
+    std_types::screen
+      .width_of width
+      .height_of height
+      .draw_colour_of draw_colour
+      .clear_colour_of clear_colour
+      .line_height_of line_height
+      .rows_of rows
+
+[source]
+
+$std::RED '0xff0000;'
+
+[documentation remark]
+
+# std::RED (a literal)
+
+  the colour red as used by the terminal library
+
+  Topic: Colours
+
+  Colour literals are used to set the draw or clear colour.
+
+  See also: std::BLACK, std::WHITE, std::GREEN, std::BLUE, std::CYAN,
+            std::MAGENTA, std::YELLOW, std::GREY, std::set_draw_colour,
+            std::set_clear_colour
+
+[source]
+
+$std::CURSOR_LEFT .
+  #
+    Example:
+
+      $x ...
+      get_key! $key
+      case key
+        CURSOR_LEFT:
+          dec &x
+          next!
+        ...
+
+[documentation remark]
+
+# std::CURSOR_LEFT (a unique item)
+
+  used to identify the cursor left key
+
+  Topic: Terminal
+
+  See also: std::CURSOR_RIGHT, std::CURSOR_UP, std::CURSOR_DOWN,
+            std::CURSOR_HOME, std::CURSOR_END
+
+  Example:
+
+    $x ...
+    get_key! $key
+    case key
+      CURSOR_LEFT:
+        dec &x
+        next!
+      ...
+
+[source]
+
+$std:DRAW_COLOUR .
+
+[documentation remark]
+
+# std::DRAW_COLOUR (a unique item)
+
+  used to specifiy a draw colour
+
+  Topic: Terminal
+
+  See also: std_types::create/screen
+
+[EXERCISE]
+
+#
+  Topic: Terminal
+
+  The terminal library offers an interface for using text-terminals in a
+  comfortable way.
+
+  The base data type is the <std_types::screen>, a rectangular array of
+  characters and associated draw and clear colors.
+
+  All coordinates are one-based.
+
+  Each colour supports 256 shades of red, green and blue.
+
+  To update the state of a <std_types::screen> or <std_types::terminal) no
+  I/O-acccess rights are necessary.
+
+  There are methods to set draw and clear colors, to draw text, lines
+  or more complex shapes, to clear the screen or parts of it, to scroll the
+  screen or copy arbitrary rectangular areas between screens ("blitting").
+
+  Horizontal and vertical lines are drawn using the appropriate unicode graphics
+  characters.
+
+  Screens and terminals also support Unicode Emojis.
+
+  The terminal library is somewhat similar to the curses library. It tries to
+  update the contents of a terminal in a smart way.
+
+  To start using the functions of this library one must first create a
+  <std_types::terminal> object (see <std::create_terminal>) supplying the
+  terminal's width and height. The current terminal size can be retrieved via
+  the I/O-function <std::get_terminal_size>.
+
+  As an alternative one can use the high-level function
+  <std::initialize_terminal>. When using this function one gets automatic
+  cleanup "for free".
+
+  <std_types::terminal> objects are an in-memory representation of the
+  terminal's contents. To update the terminal's contents one must call the
+  method <std_types::terminal/std::update> to create a character string
+  representing the changes to the terminal's contents and then write this
+  string to the terminal.
+
+  Related topics: Input-Output, Colours
+
+  Example:
+
+    <require basic/stdlib>
+    <require terminal/terminal>
+
+    get_terminal_size! STDIN_FILENO $width $height
+    create_terminal $terminal width height
+    draw_text &terminal 10 5 "Hello, world!"
+    update_terminal &terminal $output # create output character stream
+    print! output # print the generated character stream
+
+  Example:
+
+    <require basic/stdlib>
+    <require terminal/terminal>
+
+    initialize_terminal!: (terminal)
+      draw_text &terminal 10 5 "Hello, world!"
+      update_terminal &terminal $output # create output character stream
+      print! output # print the generated character stream
+
+#
+  Topic: Colours
+
+  The <@Terminal> library uses <std_types::character>s for text and background
+  colours.
+
+  Related topics: Terminal
+
+[symbols]
+
+
+# Methods
+
+$std::resize ()
+$std::set_cursor ()
+$std::set_character_at ()
+$std::get_character_at ()
+$std::set_draw_colour_at ()
+$std::get_draw_colour_at ()
+$std::set_clear_colour_at ()
+$std::get_clear_colour_at ()
+$std::draw_character ()
+$std::draw_line ()
+$std::draw_rectangle ()
+$std::plot ()
+$std::plot_line ()
+$std::fill_trapezoid ()
+$std::copy ()
+$std::scroll_left ()
+$std::scroll_right ()
+$std::scroll_up ()
+$std::scroll_down ()
+$std::create_text_screen ()
+$std::cursor_x_of (!)
+$std::cursor_y_of (!)
+
+# Attributes
+
+$std_types::screen std_types::generic_terminal
+$std::is_a_screen ()
+$std_types::screen.is_a_screen true
+$std_types::object.is_a_screen false
+
+# Screen types
+
+$std::TEXT .
+$std::VISIBLE_CURSOR .
+$std_types::screen.type_of TEXT
+$std_types::screen.plot_y_resolution_of 0.5
+$std_types::screen.serialization_tag_of "screen"
+$std_types::screen.serialization_fields_of
+$std_types::terminal std_types::screen
+$std_types::terminal.name_of "terminal"
+$std_types::terminal.serialization_tag_of "terminal"
+$std_types::terminal.serialization_fields_of
+$std::create_screen ()
+$std_types::screen/create_screen:
+$std_types::screen/resize:
+$std::character_at:
+$std::draw_colour_at:
+$std::clear_colour_at:
+$std_types::screen/scroll_up:
+$std_types::screen/scroll_down:
+$std_types::screen/scroll_left:
+$std_types::screen/scroll_right:
+$std_types::screen/clear:
+$std_types::screen/std_private::clear:
+$std::move ()
+$std_types::screen/move:
+$std_types::screen/copy:
+$std::FILE_DESCRIPTOR .
+$std::RECEIVE_CTRL_C_AND_CTRL_Z .
+$std::RECEIVE_CTRL_Q_AND_CTRL_S .
+$std::MAP_CR .
+$std::RECEIVE_SIGWINCH .
+$std::RECEIVE_MOUSE_CLICKS .
+$std::CURSOR_OFF .
+$std::TITLE .
+$terminal_private::backspace_character '@del;'
+$std::initialize_terminal ()
+$std_types::object/initialize_terminal:
+$std_types::io/initialize_terminal:
+$std_types::terminal.original_attributes_of undefined
+$std_types::terminal.fd_of undefined
+$std_types::terminal.do_switch_cursor_on_of undefined
+$std_types::terminal.do_cancel_mouse_clicks_of undefined
+$std_types::terminal/finalize:
+$std_types::terminal/update update_terminal
+$std::update_terminal:
+$std_types::screen/plot:
+$std_types::screen/plot_line:
+$std_types::screen/fill_trapezoid:
+$std_types::screen/set_draw_colour:
+$std_types::screen/set_clear_colour:
+$std_types::screen/set_cursor:
+$std_types::screen/set_character_at:
+$std_types::view/set_character_at:
+$std_types::screen/get_character_at:
+$std_types::view/get_character_at:
+$std_types::screen/set_draw_colour_at:
+$std_types::view/set_draw_colour_at:
+$std_types::screen/get_draw_colour_at:
+$std_types::view/get_draw_colour_at:
+$std_types::screen/set_clear_colour_at:
+$std_types::view/set_clear_colour_at:
+$std_types::screen/get_clear_colour_at:
+$std_types::view/get_clear_colour_at:
+$std_types::screen/draw_character:
+$std_types::screen/draw_text:
+$std_types::screen/std_private::draw_text:
+$std_types::screen/draw_attributed_text:
+$std_types::screen/std_private::draw_attributed_text:
+$std_types::screen/draw_line:
+$std_types::screen/draw_rectangle:
+$std::create_terminal:
+$std_types::terminal/resize:
+$std::cursor_off:
+$std::cursor_on:
+$std::cursor_home:
+$std::clear_screen:
+$std::rows_and_columns:
+$std::add_attributes:
+$std_types::screen/create_text_screen:
+$std_types::screen/append:
+$std_types::screen/adjoin:
+$std_types::screen/pad_left:
+$std_types::screen/pad_right:
+$std_types::screen/truncate:
+$std_types::screen/range:
+
+$fix_left: (buf)
+  # replace emojis in the right most position with spaces
+  if
+    buf.is_empty
+    -> buf
+    :
+      if
+        width_of(buf(-3)) == 2
+        -> buf(-3 ' ')
+        -> buf
+
+$fix_right: (buf)
+  # replace emojis in the left most position with spaces
+  if
+    buf.is_empty
+    -> buf
+    :
+      if
+        buf(1) == INVALID_CHARACTER
+        -> buf(1 ' ')
+        -> buf
+
+$std::move ()
+
+$std_types::screen/move:
+  (
+    screen
+    x
+    y
+    sx
+    sy
+    width
+    height
+  )
+  copy screen screen x y sx sy width height
+
+$std_types::screen/copy:
+  (
+    destination
+    source
+    x = 1
+    y = 1
+    sx = 1
+    sy = 1
+    width = undefined
+    height = undefined
+  )
+  if
+    &&
+      x == 1
+      y == 1
+      sx == 1
+      sy == 1
+      width_of(source) == width_of(destination)
+      height_of(source) == height_of(destination)
+    -> destination(.rows_of rows_of(source))
+    :
+      update_if width.is_undefined &width -> width_of(source)
+      update_if height.is_undefined &height -> height_of(source)
+      $source_width width_of(source)
+      $source_height height_of(source)
+      if
+        ||
+          sx < 1
+          width < 0
+          (sx+width-1) > source_width
+          sy < 1
+          height < 0
+          sy+height-1 > source_height
+        :
+          error
+            "
+              INVALID ARGUMENTS FOR "std_types::screen/copy"@
+        :
+          $destination_width width_of(destination)
+          $destination_height height_of(destination)
+          if
+            x < 1:
+              $dx 1-x
+              plus &sx dx
+              minus &width dx
+              check_y
+            check_y
+
+          $check_y:
+            if
+              y < 1:
+                $dy 1-y
+                plus &sy dy
+                minus height dy
+                check_width
+              check_width
+
+          $check_width:
+            if
+              x+width-1 > destination_width:
+                !width destination_width+1-x
+                check_height
+              check_height
+
+          $check_height:
+            if
+              y+height-1 > destination_height:
+                !height destination_height+1-y
+                copy_rows
+              copy_rows
+
+          $copy_rows:
+            if
+              width <= 0 || height <= 0
+              -> destination
+              :
+                $dx 3*(sx-x)
+                $dy sy-y
+                !x 3*x-2
+                !width 3*width
+                $rows rows_of(destination)
+                $source_rows rows_of(source)
+                ->
+                  destination
+                    .rows_of
+                      append
+                        append
+                          range(rows 1 y-1)
+                          map(range(rows y y+height-1) copy_row)
+                        range(rows y+height -1)
+
+                $copy_row: (cy row)
+                  append
+                    append
+                      range(row 1 x-1)
+                      range(source_rows(y+cy+dy-1) x+dx x+dx+width-1)
+                    range(row x+width -1)
+
+$std::FILE_DESCRIPTOR .
+
+$std::RECEIVE_CTRL_C_AND_CTRL_Z .
+
+$std::RECEIVE_CTRL_Q_AND_CTRL_S .
+
+$std::MAP_CR .
+
+$std::RECEIVE_SIGWINCH .
+
+$std::RECEIVE_MOUSE_CLICKS .
+
+$std::CURSOR_OFF .
+
+$std::TITLE .
+
+$terminal_private::backspace_character '@del;'
+
+$std::initialize_terminal ()
+
+$std_types::object/initialize_terminal:
+  #
+    Example:
+
+      initialize_terminal!
+        DRAW_COLOUR = RED
+        CLEAR_COLOUR = BLACK
+        TITLE = "My Terminal"
+        : (terminal)
+          draw_text &terminal 10 5 "Hello, world!"
+          update_terminal &terminal $output # create output character stream
+          print! output # print the generated character stream
+  (
+    options* # the options to use
+    body # the function to call
+  )
+  extract_options options
+    DRAW_COLOUR = BLACK $draw_colour
+    CLEAR_COLOUR = WHITE $clear_colour
+    FILE_DESCRIPTOR = STDIN_FILENO $fd
+    RECEIVE_CTRL_C_AND_CTRL_Z = false $do_receive_ctrl_c_and_ctrl_z
+    RECEIVE_CTRL_Q_AND_CTRL_S = false $do_receive_ctrl_q_and_ctrl_s
+    MAP_CR = false $do_map_cr
+    RECEIVE_SIGWINCH = false $_do_receive_sigwinch
+    RECEIVE_MOUSE_CLICKS = false $do_receive_mouse_clicks
+    CURSOR_OFF = false $do_switch_cursor_off
+    TITLE = undefined $title
+
+  get_terminal_attributes! fd $original_attributes
+  $attributes original_attributes
+  use_canonical_mode &attributes false #  no line-buffering ...
+  echo_characters &attributes false # ... and no echoing of typed in characters
+  update_if do_receive_ctrl_c_and_ctrl_z &attributes:
+    generate_signals attributes false
+  update_if do_receive_ctrl_q_and_ctrl_s &attributes:
+    enable_xon_xoff_for_output attributes false
+  update_if do_map_cr &attributes:
+    map_cr_to_lf_on_input attributes false
+  set_terminal_attributes! $success STDIN_FILENO attributes
+
+  on success.is_an_error success
+
+  !terminal_private::backspace_character backspace_character_of(attributes)
+
+  print! "@esc;[?47h" # switch to alternate screen
+  print! "@esc;[33s" # store cursor position
+  on do_switch_cursor_off: cursor_off!
+  on do_receive_mouse_clicks:
+    print! "@esc;[?9;1006;1015h" # enable mouse reporting
+  on title.is_defined: print! "@esc;]0;@(title)@7;"
+
+  get_terminal_size! fd $width $height
+  create_terminal $terminal width height
+    DRAW_COLOUR = draw_colour
+    CLEAR_COLOUR = clear_colour
+
+  initialize_terminal_keys:
+    try $err: body! terminal
+    set_terminal_attributes! $_success fd original_attributes
+    print! "@esc;[u" # restore cursor position
+    print! "@esc;[?47l" # switch to default screen
+    print! "@esc;[0m" # set default colours
+    print! "@esc;]112;@bel;" # restore default cursor colour
+    on do_switch_cursor_off: cursor_on!
+    on do_receive_mouse_clicks:
+      print! "@esc;[?9;1006;1015l" # disable mouse reporting
+    on err.is_an_error err
+
+$std_types::io/initialize_terminal:
+  (
+    io
+    options*
+  )
+  extract_options options
+    DRAW_COLOUR = BLACK $draw_colour
+    CLEAR_COLOUR = WHITE $clear_colour
+    FILE_DESCRIPTOR = STDIN_FILENO $fd
+    RECEIVE_CTRL_C_AND_CTRL_Z = false $do_receive_ctrl_c_and_ctrl_z
+    RECEIVE_CTRL_Q_AND_CTRL_S = false $do_receive_ctrl_q_and_ctrl_s
+    MAP_CR = false $do_map_cr
+    RECEIVE_SIGWINCH = false $_do_receive_sigwinch
+    RECEIVE_MOUSE_CLICKS = false $do_receive_mouse_clicks
+    CURSOR_OFF = false $do_switch_cursor_off
+    TITLE = undefined $title
+  get_terminal_attributes! fd $original_attributes
+  $attributes original_attributes
+  use_canonical_mode &attributes false #  no line-buffering ...
+  echo_characters &attributes false # ... and no echoing of typed in characters
+  update_if do_receive_ctrl_c_and_ctrl_z &attributes:
+    generate_signals attributes false
+  update_if do_receive_ctrl_q_and_ctrl_s &attributes:
+    enable_xon_xoff_for_output attributes false
+  update_if do_map_cr &attributes:
+    map_cr_to_lf_on_input attributes false
+  set_terminal_attributes! $err STDIN_FILENO attributes
+  if
+    err.is_an_error
+    -> io err
+    :
+      #!terminal_private::backspace_character backspace_character_of(attributes)
+      $buf ""
+      append &buf "@esc;[?47h" # switch to alternate screen
+      append &buf "@esc;[33s" # store cursor position
+      append &buf "@esc;]112;@bel;" # restore default cursor colour
+      update_if do_switch_cursor_off &buf: append buf "@esc;[?25l"
+      update_if do_receive_mouse_clicks &buf: append buf "@esc;[?9;1006;1015h"
+      update_if title.is_defined &buf: append buf "@esc;]0;@(title)@7;"
+      write &io STDOUT_FILENO buf
+      get_terminal_size! fd $width $height
+      create_terminal $terminal
+        width height
+        DRAW_COLOUR = draw_colour
+        CLEAR_COLOUR = clear_colour
+      !terminal
+        .original_attributes_of original_attributes
+        .fd_of fd
+        .do_switch_cursor_on_of do_switch_cursor_off
+        .do_cancel_mouse_clicks_of do_receive_mouse_clicks
+      -> io terminal
+
+$original_attributes_of ()
+
+$fd_of ()
+
+$do_switch_cursor_on_of ()
+
+$do_cancel_mouse_clicks_of ()
+
+$std_types::terminal.original_attributes_of undefined
+
+$std_types::terminal.fd_of undefined
+
+$std_types::terminal.do_switch_cursor_on_of undefined
+
+$std_types::terminal.do_cancel_mouse_clicks_of undefined
+
+$std_types::terminal/finalize:
+  (
+    self
+    io
+  )
+  $buf ""
+  append &buf "@esc;[u" # restore cursor position
+  append &buf "@esc;[?47l" # switch to default screen
+  append &buf "@esc;[0m" # set default colours
+  append &buf "@esc;]112;@bel;" # restore default cursor colour
+  update_if do_switch_cursor_on_of(self) &buf: append buf "@esc;[?25h"
+  update_if do_cancel_mouse_clicks_of(self) &buf:
+    append buf "@esc;[?9;1006;1015l"
+  write &io STDOUT_FILENO buf
+  run io reset_attributes self
+
+$reset_attributes: (io terminal)
+  set_terminal_attributes! $_success
+    fd_of(terminal)
+    original_attributes_of(terminal)
+  -> io undefined
+
+$std_types::terminal/update update_terminal
+
+[source]
+
+$std::RECEIVE_SIGWINCH .
+
+[documentation remark]
+
+### Always copy examples contained in the symbol's description remark
+    into the documentation
+
+### Use only one of the following topics: Terminal, Colours
+
+# std::RECEIVE_SIGWINCH (a unique item)
+

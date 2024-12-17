@@ -1,0 +1,913 @@
+[MANUAL]
+
+In Funky function calls are either written on a single line with arguments
+enclosed within parentheses and separated by single spaces, e.g.:
+
+print! f(a b c) g(x y z)
+
+or they are written in indentation style using mutliple lines:
+
+print!
+  f
+    a
+    b
+    c
+  g
+    x
+    y
+    z
+
+Functions that create any output or read any input need I/O-access rights.
+
+A function that needs I/O-access rights must be called with a trailing
+exclamation mark after the function name, e.g.:
+
+println! "Hello, World!"
+
+The expression
+
+key = value
+
+denotes a key-value-pair.
+
+Collection types cannot be printed directly. You can use "dump!" to
+dump the contents of a collection, e.g.:
+
+$ages
+  hash_table
+    "John" = 42
+    "Mary" = 25
+    "Irene" = 49
+
+dump! `ages
+
+Output:
+
+ages: hash_table <6>
+  "Mary"
+  25
+  "Irene"
+  49
+  "John"
+  42
+
+Note: The number in angular brackets after the typename denotes the number
+of (indented) lines that follow the head.
+
+A tail call returns the result of the called function; e.g.:
+
+$calc:
+  (
+    x
+    y
+  )
+  plus x*x y*y
+
+println! calc(2 3)
+
+prints
+
+13
+
+[GUIDELINES]
+
+All documentation remarks must have
+
+* a single short (single line) description written in lower case
+
+* a parameter(s) section (if appropriate)
+
+* a result(s) section (if appropriate)
+
+* a detailed description of how to use the symbol: when describing unique
+  items of constants, describe how to use them;
+  do not repeat yourself
+
+* one or more associated topic(s) (if appropriate)
+
+* a "See also" entry - mention only a view relevant symbols here
+
+Do not mention unknown symbols!
+
+Do not mention more than 10 symbols in the "See also" entry.
+
+DO NOT MENTION MORE THAN 10 SYMBOLS IN THE "See also" ENTRY!
+
+Do not mention internal details of functions.
+
+Do not start each sentence in the description with "If" or "The".
+
+DO NOT START EACH SENTENCE IN THE DESCRIPTION WITH "If" OR "The"!
+
+Do not tell the user what a function does not do.
+
+When referring to another symbol write it enclosed in angle brackets, e.g.
+<std::clear>.
+
+The "self"-parameter is a normal parameter like any other and should be
+mentioned in the the parameter description.
+
+Replace symbolic constants by their value.
+
+Operations on I/O-objects are not executed immediately but queued as jobs.
+To identify a job, an "id" is used.
+
+I/O-functions and I/O-methods either need I/O-access rights or propagate
+them ("if", "for_each", etc.).
+
+An "example" section, if available, must use Funky syntax and shall not be too
+long.
+
+If there is an appropriate example in the source code then use this example
+in the "example" section!
+
+[EXAMPLES]
+
+[symbols]
+
+$std::CURSOR_LEFT .
+$std::CURSOR_RIGHT .
+$std::CURSOR_UP .
+$std::CURSOR_DOWN .
+$std::CURSOR_HOME .
+$std::CURSOR_END .
+
+$std::DRAW_COLOUR .
+
+$std::BLACK '@0x000000;'
+$std::WHITE '@0xffffff;'
+$std::RED '@0xff0000;'
+$std::GREEN '@0x00ff00;'
+$std::BLUE '@0x0000ff;'
+$std::CYAN '@0x00ffff;'
+$std::MAGENTA '@0xff00ff;'
+$std::YELLOW '@0xffff00;'
+
+$std::set_draw_colour ()
+$std::set_clear_colour ()
+
+$std_types::screen/create_screen:
+  (
+    screen
+    width = undefined
+    height = undefined
+    options*
+  )
+  update_if width.is_undefined &width -> width_of(screen)
+  update_if height.is_undefined &height -> height_of(screen)
+  extract_options options
+    DRAW_COLOUR = draw_colour_of(screen) $draw_colour
+    CLEAR_COLOUR = clear_colour_of(screen) $clear_colour
+    LINE_HEIGHT = line_height_of(screen) $line_height
+  $row dup(string(' ' draw_colour clear_colour) width)
+  $rows dup(list(row) height .div. line_height)
+  ->
+    std_types::screen
+      .width_of width
+      .height_of height
+      .draw_colour_of draw_colour
+      .clear_colour_of clear_colour
+      .line_height_of line_height
+      .rows_of rows
+
+[source]
+
+$std::RED '0xff0000;'
+
+[documentation remark]
+
+# std::RED (a literal)
+
+  the colour red as used by the terminal library
+
+  Topic: Colours
+
+  Colour literals are used to set the draw or clear colour.
+
+  See also: std::BLACK, std::WHITE, std::GREEN, std::BLUE, std::CYAN,
+            std::MAGENTA, std::YELLOW, std::GREY, std::set_draw_colour,
+            std::set_clear_colour
+
+[source]
+
+$std::CURSOR_LEFT .
+  #
+    Example:
+
+      $x ...
+      get_key! $key
+      case key
+        CURSOR_LEFT:
+          dec &x
+          next!
+        ...
+
+[documentation remark]
+
+# std::CURSOR_LEFT (a unique item)
+
+  used to identify the cursor left key
+
+  Topic: Terminal
+
+  See also: std::CURSOR_RIGHT, std::CURSOR_UP, std::CURSOR_DOWN,
+            std::CURSOR_HOME, std::CURSOR_END
+
+  Example:
+
+    $x ...
+    get_key! $key
+    case key
+      CURSOR_LEFT:
+        dec &x
+        next!
+      ...
+
+[source]
+
+$std:DRAW_COLOUR .
+
+[documentation remark]
+
+# std::DRAW_COLOUR (a unique item)
+
+  used to specifiy a draw colour
+
+  Topic: Terminal
+
+  See also: std_types::create/screen
+
+[EXERCISE]
+
+#
+  Topic: Parameters
+
+  These functions make it easy to parse
+
+  * command line parameters - <program_parameters>
+
+  * "named" options of functions - <extract_options>
+
+[symbols]
+
+$std::COPYRIGHT .
+$std::VERSION .
+$std::VALUED_OPTION .
+$std::MULTI_VALUED_OPTION .
+$std::MANDATORY_PARAMETER .
+$std::OPTIONAL_PARAMETER .
+$std::SOME_PARAMETERS .
+$std::MANY_PARAMETERS .
+$std::extract_options:
+$std::program_parameters:
+
+#
+  Copyright (C) 2024 by
+  Dipl.-Ing. Michael Niederle
+
+  This program is free software; you can redistribute it and/or modify
+  it under the terms of the GNU Library General Public License, version 2, or
+  (at your option) under the terms of the GNU Lesser General Public License,
+  version 3.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  GNU Lesser (Library) General Public License for more details.
+
+  For details of the GNU General Public License see the accompanying
+  files LGPLv2.txt and LGLPv3.txt or
+  http://www.gnu.org/licenses/lgpl-2.0.html
+  http://www.gnu.org/licenses/lgpl-3.0.html
+  or write to the
+  Free Software Foundation, Inc.,
+  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+
+$BOOLEAN_OPTION . # used internly
+
+#
+  Topic: Parameters
+
+  These functions make it easy to parse
+
+  * command line parameters - <program_parameters>
+
+  * "named" options of functions - <extract_options>
+
+$std::COPYRIGHT .
+  #
+    Example:
+
+      program_parameters!
+        list
+          COPYRIGHT "
+            Copyright (C) 2024 by
+            <your name>
+
+            This program is free software; you can redistribute it and/or modify
+            it under the terms of the GNU General Public License, version 2, or
+            (at your option) version 3.
+            ...
+
+$std::VERSION .
+  #
+    Example:
+
+      program_parameters!
+        list
+          COPYRIGHT ...
+        list
+          VERSION "1.2.3"
+
+$std::VALUED_OPTION .
+  #
+    Example:
+
+      program_parameters!
+        $log_level
+        list
+          VALUED_OPTION "log-level" 0 to_integer "
+            specify the log level (0 = disable)
+
+$std::MULTI_VALUED_OPTION .
+  #
+    Example:
+
+      program_parameters!
+        $stop_word
+        list
+          MULTI_VALUED_OPTION "stop" "
+            specify stop words
+
+$std::MANDATORY_PARAMETER .
+  #
+    Example:
+
+      program_parameters!
+        $input_file
+        list
+          MANDATORY_PARAMETER "input" "
+            the input file to use
+
+$std::OPTIONAL_PARAMETER .
+  #
+    Example:
+
+      program_parameters!
+        $log_file
+        list
+          OPTIONAL_PARAMETER "log-file" "
+            specify the name of the log file to use
+
+$std::SOME_PARAMETERS .
+  #
+    Example:
+
+      program_parameters!
+        $input_files
+        list
+          SOME_PARAMETERS "input" "
+            the input files to use; if none are specified <stdin> is used
+
+$std::MANY_PARAMETERS .
+  #
+    Example:
+
+      program_parameters!
+        $input_files
+        list
+          MANY_PARAMETERS "input" "
+            the input files to use; at least one must be specified
+
+$std::extract_options:
+  #
+    extracts the options of a function call
+
+    This function returns a variable number of results - one for each option
+    template.
+
+    Each template has the form
+
+    OPTION = *default value*
+
+    To make the code more readable it is recommended to interleave the option
+    templates and the results.
+
+    Topic: Parameters
+
+    See also: program_parameters
+
+    Example:
+
+      $std::load_csv: (options\* filename)
+        extract_options options
+          ENCODING = UTF8 $encoding
+          SEPARATOR = ';' $separator
+        load $buf filename
+        ...
+  (
+    options
+    templates*
+  )
+  $results empty_list
+  for_each templates
+    : (template)
+      template $name $result
+      for_each options
+        : (option)
+          if
+            option.is_a_unique_item:
+              if
+                option == name:
+                  !result true
+                  break
+                next
+            :
+              option $key $value
+              if
+                key == name:
+                  !result value
+                  break
+                next
+        :
+          push &results result
+          next
+    :
+      spread results
+
+$std::program_parameters:
+  #
+    Example:
+
+      program_parameters!
+        list
+          COPYRIGHT "
+            Copyright (C) 2024 by
+            Dipl.-Ing. Michael Niederle
+
+            This program is free software; you can redistribute it and/or modify
+            it under the terms of the GNU General Public License, version 2, or
+            (at your option) version 3.
+
+            This program is distributed in the hope that it will be useful,
+            but WITHOUT ANY WARRANTY; without even the implied warranty of
+            MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+            GNU General Public License for more details.
+
+            For details of the GNU General Public License see the accompanying
+            files GPLv2.txt and GLPv3.txt or
+            http://www.gnu.org/licenses/gpl-2.0.html
+            http://www.gnu.org/licenses/gpl-3.0.html
+            or write to the
+            Free Software Foundation, Inc.,
+            51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+        list
+          MANDATORY_PARAMETER "filename" "
+            a source code file with the extension ".fky"
+        list
+          "verbose" "
+            output detailed information about the build process
+        list
+          "rebuild" "
+            rebuild all source files
+        list
+          "print-c" "
+            print C source code for a single module
+  (
+    templates* # the accepted options and arguments
+  )
+  check_arguments! command_line_arguments templates
+
+$display_table: (table)
+  $first_column_width
+    map_reduce
+      table
+      : (entries) -> length_of(entries(1))
+      max
+      0
+  plus &first_column_width 2
+  for_each table
+    : (entries)
+      eprint! "  " pad_right(entries(1) first_column_width)
+      for_each split(entries(2) '@nl;')
+        : (no line)
+          eprintln!
+            if
+              no == 1
+              -> ""
+              -> " " .dup. 2+first_column_width
+            line
+          next!
+        next
+    pass
+
+$check_arguments: (arguments templates)
+  $results empty_list
+  $options empty_key_order_table
+  $parameters empty_key_order_table
+  $names empty_list
+  $kinds empty_list
+  $possible_values empty_list
+  $default_values empty_list
+  $conversions empty_list
+  $help_messages empty_list
+  $command_name truncate_until(program_name '/' -1)
+  map &arguments from_utf8
+
+  extract_copyright_and_version &templates $copyright $version
+
+  for_each templates
+    : (idx template)
+      extract_from_template template
+        $option $name $default_value $conversion $help
+      push &possible_values
+        if
+          option.is_a_key_value_pair
+          -> value_of(option)
+          -> undefined
+      update_if option.is_a_key_value_pair &option -> key_of(option)
+      push &names
+        if
+          name.is_defined
+          -> name
+          -> option
+      push &kinds option
+      push &default_values default_value
+      push &conversions conversion
+      push &help_messages help
+      cond
+        -> option.is_a_string:
+          push &results false
+          !options(option) idx
+          !kinds(idx) BOOLEAN_OPTION
+          next!
+        -> option == VALUED_OPTION:
+          push &results undefined
+          !options(name) idx
+          next!
+        -> option == MULTI_VALUED_OPTION:
+          push &results empty_list
+          !options(name) idx
+          next!
+        -> option == SOME_PARAMETERS || option == MANY_PARAMETERS:
+          push &results empty_list
+          if
+            name.is_defined:
+              !parameters(name) idx
+              next!
+            next
+        -> true:
+          push &results undefined
+          if
+            name.is_defined:
+              !parameters(name) idx
+              next!
+            next
+    :
+      if
+        length_of(arguments) >= 1:
+          cond
+            -> arguments(1) == "--help":
+              show_usage!
+              terminate!
+            -> copyright.is_defined && arguments(1) == "--copyright":
+              show_copyright!
+              terminate!
+            -> version.is_defined && arguments(1) == "--version":
+              show_version!
+              terminate!
+            -> true:
+              initialize_results!
+        :
+          initialize_results!
+
+  $initialize_results:
+    $idx 1
+    $do_fetch_option_value false
+    $option_idx undefined
+    for_each arguments
+      : (argument)
+        if
+          argument == "--":
+            !arguments
+              append(range(arguments 1 idx-1) range(arguments idx+1 -1))
+            break!
+          :
+            if
+              do_fetch_option_value:
+                !do_fetch_option_value false
+                !arguments
+                  append(range(arguments 1 idx-1) range(arguments idx+1 -1))
+                case kinds(option_idx)
+                  VALUED_OPTION:
+                    !results(option_idx) argument
+                    next!
+                  MULTI_VALUED_OPTION:
+                    push &results(option_idx) argument
+                    next!
+                  :
+                    next!
+              :
+                if
+                  argument .has_prefix. "--":
+                    !option_idx options(range(argument 3 -1))
+                    if
+                      option_idx.is_undefined:
+                        Error! "Invalid option: @(argument)!"
+                      :
+                        if
+                          kinds(option_idx) == BOOLEAN_OPTION:
+                            !results(option_idx) true
+                            !arguments
+                              append(range(arguments 1 idx-1) range(arguments idx+1 -1))
+                            next!
+                          :
+                            !do_fetch_option_value true
+                            !arguments
+                              append(range(arguments 1 idx-1) range(arguments idx+1 -1))
+                            next!
+                  :
+                    inc &idx
+                    next!
+      :
+        evaluate_arguments!
+
+  $evaluate_arguments:
+    $last_idx length_of(templates)
+    from_to_by last_idx 1 -1
+      : (idx)
+        extract_from_template templates(idx)
+          $option $_name $_default_value $_conversion $_help
+        update_if option.is_a_key_value_pair &option -> key_of(option)
+        case option
+          MANDATORY_PARAMETER:
+            if
+              arguments.is_empty
+              too_few_arguments_error
+              :
+                pop &arguments !results(idx)
+                !last_idx idx-1
+                next!
+          OPTIONAL_PARAMETER, SOME_PARAMETERS, MANY_PARAMETERS:
+            break!
+          :
+            next!
+      :
+        from_to 1 last_idx
+          : (idx)
+            extract_from_template templates(idx)
+              $option $_name $_default_value $_conversion $_help
+            update_if option.is_a_key_value_pair &option -> key_of(option)
+            case option
+              MANDATORY_PARAMETER:
+                if
+                  length_of(arguments) == 0:
+                    too_few_arguments_error!
+                  :
+                    get &arguments !results(idx)
+                    next!
+              OPTIONAL_PARAMETER:
+                if
+                  length_of(arguments) > 0:
+                    get &arguments !results(idx)
+                    next!
+                  next
+              SOME_PARAMETERS:
+                !results(idx) arguments
+                !arguments empty_list
+                next!
+              MANY_PARAMETERS:
+                if
+                  length_of(arguments) == 0:
+                    too_few_arguments_error!
+                  :
+                    !results(idx) arguments
+                    !arguments empty_list
+                    next!
+              :
+                next!
+          :
+            check_results!
+
+  $check_results:
+    if
+      arguments.is_not_empty:
+        too_many_arguments_error!
+      :
+        for_each results
+          : (idx result)
+            if
+              result.is_undefined && default_values(idx).is_defined:
+                !results(idx) default_values(idx)
+                next!
+              :
+                $possible_value possible_values(idx)
+                if
+                  possible_value.is_defined:
+                    if
+                      result.is_a_list:
+                        for_each result: (item) check item
+                      :
+                        check! result
+                        !results(idx) convert(result)
+                        next!
+                  :
+                    !results(idx) convert(result)
+                    next!
+
+                $check: (value)
+                  if
+                    possible_value(value)
+                    pass
+                    :
+                      eprintln!
+                        "Invalid argument value for @(names(idx).to_upper_case)!@nl;"
+                      show_usage!
+                      exit! 1
+
+                $convert: (value)
+                  $conversion conversions(idx)
+                  if
+                    conversion.is_undefined
+                    -> value
+                    :
+                      if
+                        value.is_a_string
+                        -> conversion(value)
+                        -> map(value conversion)
+          :
+            spread results
+
+  $help_message: (idx)
+    $message help_messages(idx)
+    $possible_value possible_values(idx)
+    if
+      possible_value.is_defined:
+        append &message "valid values:"
+        for_each possible_value
+          : (value)
+            append &message string(' ' value ',')
+            next
+          :
+            !message(-1) '@nl;'
+            handle_default_value
+      handle_default_value
+
+    $handle_default_value:
+      $default_value default_values(idx)
+      if
+        default_value.is_defined:
+          !message(-1) ' '
+          append message "(default value: @(default_value))"
+        -> message
+
+  $show_usage:
+    $parameter_name: (parameter idx)
+      $buf parameter.to_upper_case
+      case kinds(idx)
+        OPTIONAL_PARAMETER:
+          push buf '?'
+        SOME_PARAMETERS:
+          push buf '*'
+        MANY_PARAMETERS:
+          push buf '+'
+        -> buf
+
+    if
+      version.is_defined
+      :
+        show_version!
+      pass
+    eprintln! "Usage:"
+    if
+      copyright.is_defined:
+        eprintln! "  " command_name " --copyright"
+      pass
+    eprintln! "  " command_name " --help"
+    eprint! "  " command_name
+    for_each parameters
+      : (parameter idx)
+        eprint! " " parameter_name(parameter idx)
+        next!
+      :
+        eprintln!
+    eprint! "
+
+      Parameters:
+    do:
+      $table empty_list
+      for_each parameters
+        : (parameter idx)
+          push &table list(parameter_name(parameter idx) help_message(idx))
+          next!
+        :
+          display_table! table
+    if
+      options.is_empty
+      pass
+      :
+        eprint! "
+
+          Options:
+        $table empty_list
+        for_each options
+          : (option idx)
+            push &table list(option_name() help_message(idx))
+            next!
+
+            $option_name:
+              $buf string("--" option)
+              case kinds(idx)
+                VALUED_OPTION:
+                  append buf " VALUE"
+                MULTI_VALUED_OPTION:
+                  append buf " VALUES"
+                -> buf
+          :
+            display_table! table
+
+  $show_version:
+    eprint! "@(command_name) @(version)@nl;"
+
+  $show_copyright:
+    eprint! copyright
+
+  $too_few_arguments_error:
+    eprintln! "
+      Too few arguments!
+    show_usage!
+    exit! 1
+
+  $too_many_arguments_error:
+    eprintln! "
+      Too many arguments!
+    show_usage!
+    exit! 1
+
+$extract_copyright_and_version: (templates)
+  $copyright undefined
+  $version undefined
+  loop:
+    if
+      templates.is_empty
+      -> templates copyright version
+      :
+        extract_from_template templates(1)
+          $option $_name $_default_value $_conversion $message
+        cond
+          -> option == COPYRIGHT:
+            !copyright message
+            range &templates 2 -1
+            next
+          -> option == VERSION:
+            !version message
+            range &templates 2 -1
+            next
+          -> true -> templates copyright version
+
+$extract_from_template: (template)
+  $len length_of(template)
+  if
+    len < 2 || len > 5:
+      Error! "malformed parameter template"
+    pass
+  $option template(1)
+  $name
+    if
+      len >= 3
+      -> template(2)
+      -> undefined
+  $default_value
+    if
+      len >= 4
+      -> template(3)
+      -> undefined
+  $conversion
+    if
+      len >= 5
+      -> template(4)
+      -> undefined
+  $help template(-1)
+  -> option name default_value conversion help
+
+[source]
+
+$std::MANY_PARAMETERS .
+  #
+    Example:
+
+      program_parameters!
+        $input_files
+        list
+          MANY_PARAMETERS "input" "
+            the input files to use; at least one must be specified
+
+[documentation remark]
+
+### Always copy examples contained in the symbol's description remark
+    into the documentation
+
+### Use only one of the following topics: Parameters
+
+# std::MANY_PARAMETERS (a unique item)
+

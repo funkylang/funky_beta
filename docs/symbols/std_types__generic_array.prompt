@@ -1,0 +1,765 @@
+[GUIDELINES]
+
+All documentation remarks must have
+
+* a single short (single line) description written in lower case
+
+* a parameter(s) section (if appropriate)
+
+* a result(s) section (if appropriate)
+
+* a detailed description of how to use the symbol: when describing unique
+  items of constants, describe how to use them;
+  do not repeat yourself
+
+* one or more associated topic(s) (if appropriate)
+
+* a "See also" entry - mention only a view relevant symbols here
+
+Do not mention unknown symbols!
+
+Do not mention more than 10 symbols in the "See also" entry.
+
+DO NOT MENTION MORE THAN 10 SYMBOLS IN THE "See also" ENTRY!
+
+Do not mention internal details of functions.
+
+Do not start each sentence in the description with "If" or "The".
+
+DO NOT START EACH SENTENCE IN THE DESCRIPTION WITH "If" OR "The"!
+
+Do not tell the user what a function does not do.
+
+When referring to another symbol write it enclosed in angle brackets, e.g.
+<std::clear>.
+
+The "self"-parameter is a normal parameter like any other and should be
+mentioned in the the parameter description.
+
+Replace symbolic constants by their value.
+
+Operations on I/O-objects are not executed immediately but queued as jobs.
+To identify a job, an "id" is used.
+
+I/O-functions and I/O-methods either need I/O-access rights or propagate
+them ("if", "for_each", etc.).
+
+An "example" section, if available, must use Funky syntax and shall not be too
+long.
+
+If there is an appropriate example in the source code then use this example
+in the "example" section!
+
+[EXAMPLES]
+
+[source]
+
+TYPE std_types::object
+
+[documentation remark]
+
+# std_types::object (a builtin type)
+
+  the prototype object for all "normal" objects
+
+  This is one of the three Funky root objects.
+
+  Topics: Basics, Objects
+
+  See also: std_types::undefined, std_types::error
+
+[source]
+
+TYPE std_types::number -> std_types::object
+
+[documentation remark]
+
+# std_types::number (a builtin type derived from std_types::object)
+
+  the prototype object for all kinds of numbers
+
+  Topic: Numbers
+
+  See also: std_types::integer, std_types::real
+
+[source]
+
+METHOD std_types::array/_type
+  {
+    ARRAY_DATA *data = MYSELF->array.data;
+    int dimension_count = data->info->dimension_count;
+    MIN_ARGUMENTS(dimension_count)
+    MAX_ARGUMENTS(dimension_count+1)
+    if (ARGUMENT_COUNT == dimension_count) {
+      // get item
+      data = apply_array_updates((ARRAY *)MYSELF);
+      // info and view could have been updated!
+      long offset = compute_array_read_offset(
+        MYSELF, data->info, MYSELF->array.view);
+      if (offset < 0) return;
+      NODE *value;
+      value = data->items[offset];
+      RETURN_SINGLE_RESULT(value);
+    } else {
+      // set item
+      long offset = compute_array_write_offset(
+        MYSELF, data->info, MYSELF->array.view);
+      if (offset < 0) return;
+      NODE *value;
+      value = ARGUMENTS(dimension_count);
+      long length = MYSELF->array.updates_length;
+      MYSELF =
+        add_update(
+          (ARRAY *)MYSELF, sizeof(UPDATE_ARRAY_DATA_SET_VALUE));
+      UPDATE_ARRAY_DATA_SET_VALUE *update =
+        (UPDATE_ARRAY_DATA_SET_VALUE *)
+        (MYSELF->array.updates->buffer+length);
+      update->tag = SET_VALUE;
+      update->offset = offset;
+      update->value = value;
+      RETURN_SINGLE_RESULT(MYSELF)
+    }
+  }
+
+TYPE std_types::array -> std_types::generic_array
+
+[documentation remark]
+
+# std_types::array (a builtin type derived from std_types::generic_array)
+
+  the prototype object for all arrays
+
+  Parameters:
+    indices: the indices of the array elements
+    value: the new value (only for updates)
+
+  Result:
+    value_or_array: the value at the specified position or the updated array
+
+  Updates to arrays are delayed until the array is read.
+
+  Array indices are one-based.
+
+  Arrays can hold any kind of values.
+
+  Topics: Arrays, Collections
+
+  See also: std_types::list
+
+  Example:
+
+    $a array(3 2) # a new array with 3 rows and 2 columns
+    !a(2 1) 47 # use syntactic sugar to assign a value to an array element
+    !a a(3 2 11) # without syntactic sugar
+    println! a(2 1)
+    println! a(3 2)
+
+  Output:
+
+    47
+    11
+
+[EXERCISE]
+
+[symbols]
+
+TYPE std_types::generic_array -> std_types::object
+METHOD std_types::generic_array/_type
+TYPE std_types::array -> std_types::generic_array
+METHOD std_types::array/_type
+METHOD long std_types::array/_debug_string
+METHOD std_types::array/length_of
+METHOD std_types::array/dimension_count_of
+FUNCTION std::array
+FUNCTION std::initialized_array
+METHOD std_types::array/new
+METHOD std_types::array/range
+TYPE std_types::boolean_array -> std_types::generic_array
+METHOD std_types::boolean_array/_type
+METHOD long std_types::boolean_array/_debug_string
+METHOD std_types::boolean_array/length_of
+METHOD std_types::boolean_array/dimension_count_of
+METHOD std_types::boolean_array/equal
+METHOD std_types::boolean_array/bit_and
+METHOD std_types::boolean_array/bit_or
+METHOD std_types::boolean_array/bit_xor
+FUNCTION std::boolean_array
+FUNCTION std::initialized_boolean_array
+METHOD std_types::boolean_array/new
+METHOD std_types::boolean_array/range
+TYPE std_types::character_array -> std_types::generic_array
+METHOD std_types::character_array/_type
+METHOD long std_types::character_array/_debug_string
+METHOD std_types::character_array/length_of
+METHOD std_types::character_array/dimension_count_of
+METHOD std_types::character_array/equal
+FUNCTION std::character_array
+FUNCTION std::initialized_character_array
+METHOD std_types::character_array/new
+METHOD std_types::character_array/range
+TYPE std_types::int8_array -> std_types::generic_array
+METHOD std_types::int8_array/_type
+METHOD long std_types::int8_array/_debug_string
+METHOD std_types::int8_array/length_of
+METHOD std_types::int8_array/dimension_count_of
+METHOD std_types::int8_array/equal
+METHOD std_types::int8_array/times
+FUNCTION std::int8_array
+FUNCTION std::initialized_int8_array
+METHOD std_types::int8_array/new
+METHOD std_types::int8_array/range
+TYPE std_types::uint8_array -> std_types::generic_array
+METHOD std_types::uint8_array/_type
+METHOD long std_types::uint8_array/_debug_string
+METHOD std_types::uint8_array/length_of
+METHOD std_types::uint8_array/dimension_count_of
+METHOD std_types::uint8_array/equal
+METHOD std_types::uint8_array/bit_and
+METHOD std_types::uint8_array/bit_or
+METHOD std_types::uint8_array/bit_xor
+METHOD std_types::uint8_array/times
+FUNCTION std::uint8_array
+FUNCTION std::initialized_uint8_array
+METHOD std_types::uint8_array/new
+METHOD std_types::uint8_array/range
+TYPE std_types::int16_array -> std_types::generic_array
+METHOD std_types::int16_array/_type
+METHOD long std_types::int16_array/_debug_string
+METHOD std_types::int16_array/length_of
+METHOD std_types::int16_array/dimension_count_of
+METHOD std_types::int16_array/equal
+METHOD std_types::int16_array/times
+FUNCTION std::int16_array
+FUNCTION std::initialized_int16_array
+METHOD std_types::int16_array/new
+METHOD std_types::int16_array/range
+TYPE std_types::uint16_array -> std_types::generic_array
+METHOD std_types::uint16_array/_type
+METHOD long std_types::uint16_array/_debug_string
+METHOD std_types::uint16_array/length_of
+METHOD std_types::uint16_array/dimension_count_of
+METHOD std_types::uint16_array/equal
+METHOD std_types::uint16_array/bit_and
+METHOD std_types::uint16_array/bit_or
+METHOD std_types::uint16_array/bit_xor
+METHOD std_types::uint16_array/times
+FUNCTION std::uint16_array
+FUNCTION std::initialized_uint16_array
+METHOD std_types::uint16_array/new
+METHOD std_types::uint16_array/range
+TYPE std_types::int32_array -> std_types::generic_array
+METHOD std_types::int32_array/_type
+METHOD long std_types::int32_array/_debug_string
+METHOD std_types::int32_array/length_of
+METHOD std_types::int32_array/dimension_count_of
+METHOD std_types::int32_array/equal
+METHOD std_types::int32_array/times
+FUNCTION std::int32_array
+FUNCTION std::initialized_int32_array
+METHOD std_types::int32_array/new
+METHOD std_types::int32_array/range
+TYPE std_types::uint32_array -> std_types::generic_array
+METHOD std_types::uint32_array/_type
+METHOD long std_types::uint32_array/_debug_string
+METHOD std_types::uint32_array/length_of
+METHOD std_types::uint32_array/dimension_count_of
+METHOD std_types::uint32_array/equal
+METHOD std_types::uint32_array/bit_and
+METHOD std_types::uint32_array/bit_or
+METHOD std_types::uint32_array/bit_xor
+METHOD std_types::uint32_array/times
+FUNCTION std::uint32_array
+FUNCTION std::initialized_uint32_array
+METHOD std_types::uint32_array/new
+METHOD std_types::uint32_array/range
+TYPE std_types::int64_array -> std_types::generic_array
+METHOD std_types::int64_array/_type
+METHOD long std_types::int64_array/_debug_string
+METHOD std_types::int64_array/length_of
+METHOD std_types::int64_array/dimension_count_of
+METHOD std_types::int64_array/equal
+METHOD std_types::int64_array/times
+FUNCTION std::int64_array
+FUNCTION std::initialized_int64_array
+METHOD std_types::int64_array/new
+METHOD std_types::int64_array/range
+TYPE std_types::uint64_array -> std_types::generic_array
+METHOD std_types::uint64_array/_type
+METHOD long std_types::uint64_array/_debug_string
+METHOD std_types::uint64_array/length_of
+METHOD std_types::uint64_array/dimension_count_of
+METHOD std_types::uint64_array/equal
+METHOD std_types::uint64_array/bit_and
+METHOD std_types::uint64_array/bit_or
+METHOD std_types::uint64_array/bit_xor
+METHOD std_types::uint64_array/times
+FUNCTION std::uint64_array
+FUNCTION std::initialized_uint64_array
+METHOD std_types::uint64_array/new
+METHOD std_types::uint64_array/range
+TYPE std_types::float32_array -> std_types::generic_array
+METHOD std_types::float32_array/_type
+METHOD long std_types::float32_array/_debug_string
+METHOD std_types::float32_array/length_of
+METHOD std_types::float32_array/dimension_count_of
+METHOD std_types::float32_array/equal
+METHOD std_types::float32_array/times
+FUNCTION std::float32_array
+FUNCTION std::initialized_float32_array
+METHOD std_types::float32_array/new
+METHOD std_types::float32_array/range
+TYPE std_types::float64_array -> std_types::generic_array
+METHOD std_types::float64_array/_type
+METHOD long std_types::float64_array/_debug_string
+METHOD std_types::float64_array/length_of
+METHOD std_types::float64_array/dimension_count_of
+METHOD std_types::float64_array/equal
+METHOD std_types::float64_array/times
+FUNCTION std::float64_array
+FUNCTION std::initialized_float64_array
+METHOD std_types::float64_array/new
+METHOD std_types::float64_array/range
+
+#
+  Copyright (C) 2024 by
+  Dipl.-Ing. Michael Niederle
+
+  This program is free software; you can redistribute it and/or modify
+  it under the terms of the GNU General Public License, version 2, or
+  (at your option) version 3.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  GNU General Public License for more details.
+
+  For details of the GNU General Public License see the accompanying
+  files GPLv2.txt and GLPv3.txt or
+  http://www.gnu.org/licenses/gpl-2.0.html
+  http://www.gnu.org/licenses/gpl-3.0.html
+  or write to the
+  Free Software Foundation, Inc.,
+  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+
+# Topics: Arrays, Collections
+
+TYPE std_types::generic_array -> std_types::object
+  #
+    the prototype object for all kind of arrays
+
+    Topic: Collections
+
+    See also:
+
+    std_types::array,
+    std_types::boolean_array,
+    std_types::character_array,
+    std_types::int8_array,
+    std_types::uint8_array,
+    std_types::int16_array,
+    std_types::uint16_array,
+    std_types::int32_array,
+    std_types::uint32_array,
+    std_types::int64_array,
+    std_types::uint64_array,
+    std_types::float32_array,
+    std_types::float64_array
+
+METHOD std_types::generic_array/_type
+  {
+    RUNTIME_ERROR(
+      "Attempt to call the generic array prototype object as a function!")
+  }
+
+RECORD ARRAY_INFO
+  long dimension_count
+  long dimensions[]
+
+RECORD DIMENSION_INFO
+  long first_index
+  long width
+
+RECORD ARRAY_VIEW
+  long dimension_count
+  DIMENSION_INFO dimensions[]
+
+RECORD ARRAY_UPDATES
+  long size
+  long length
+  char buffer[]
+
+CODE
+  static ARRAY_VIEW *create_array_view
+    (
+      int dimension_count
+    )
+    {
+      ARRAY_VIEW *view =
+        allocate(ALLOCATION_SIZE(
+          sizeof(ARRAY_VIEW)+dimension_count*sizeof(DIMENSION_INFO)));
+      view->dimension_count = dimension_count;
+      for (int i = 0; i < dimension_count; ++i) {
+        long dimension;
+        if (!to_long(ARGUMENTS(i), &dimension)) return NULL;
+        if (dimension < 1) {
+          invalid_arguments();
+          return NULL;
+        }
+        view->dimensions[i].first_index = 0;
+        view->dimensions[i].width = dimension;
+      }
+      return view;
+    }
+
+  static ARRAY_VIEW *create_new_array_view
+    (
+      ARRAY_VIEW *view
+    )
+    {
+      int dimension_count = view->dimension_count;
+      ARRAY_VIEW *new_view =
+        allocate(ALLOCATION_SIZE(
+          sizeof(ARRAY_VIEW)+dimension_count*sizeof(DIMENSION_INFO)));
+      new_view->dimension_count = dimension_count;
+      for (int i = 0; i < dimension_count; ++i) {
+        new_view->dimensions[i].first_index = 0;
+        new_view->dimensions[i].width = view->dimensions[i].width;
+      }
+      return new_view;
+    }
+
+  static ARRAY_DATA *create_array_info_and_data
+    (
+      ARRAY_VIEW *view,
+      int item_size
+    )
+    {
+      int dimension_count = view->dimension_count;
+      ARRAY_INFO *info =
+        allocate(
+          ALLOCATION_SIZE(sizeof(ARRAY_INFO)+dimension_count*sizeof(long)));
+      info->dimension_count = dimension_count;
+      long size = 1;
+      for (int i = dimension_count-1; i >= 0; --i) {
+        info->dimensions[i] = size;
+        size *= view->dimensions[i].width;
+      }
+      ARRAY_DATA *data =
+        allocate_large(ALLOCATION_SIZE(sizeof(ARRAY_DATA)+size*item_size));
+      data->info = info;
+      data->size = size;
+      return data;
+    }
+
+  static ARRAY_DATA *create_array_data
+    (
+      ARRAY_INFO *info,
+      long size,
+      int item_size
+    )
+    {
+      ARRAY_DATA *data =
+        allocate_large(ALLOCATION_SIZE(sizeof(ARRAY_DATA)+size*item_size));
+      data->info = info;
+      data->size = size;
+      return data;
+    }
+
+  static void *copy_array
+    (
+      ARRAY_VIEW *source_view,
+      ARRAY_DATA *source_data,
+      long source_offset,
+      int i,
+      int item_size,
+      void *destination
+    )
+    {
+      int dimension_count = source_view->dimension_count;
+      long first_index = source_view->dimensions[i].first_index;
+      long width = source_view->dimensions[i].width;
+      if (i == dimension_count-1) {
+        // last dimension
+        source_offset += first_index;
+        memcpy(
+          destination,
+          (char *)source_data->items+source_offset*item_size,
+          width*item_size);
+        return (char *)destination+width*item_size;
+      } else {
+        long dimension = source_data->info->dimensions[i];
+        source_offset += first_index*dimension;
+        while (--width >= 0) {
+          destination = copy_array(
+            source_view, source_data, source_offset, i+1, item_size,
+            destination);
+          source_offset += dimension;
+        }
+        return destination;
+      }
+    }
+
+  static ARRAY_DATA *new_array_data
+    (
+      ARRAY_INFO *info,
+      int item_size
+    )
+    {
+      int dimension_count = info->dimension_count;
+      long size = info->dimensions[0];
+      for (int i = 1; i < dimension_count; ++i) {
+        size *= info->dimensions[i];
+      }
+      ARRAY_DATA *data =
+        allocate_large(ALLOCATION_SIZE(sizeof(ARRAY_DATA)+size*item_size));
+      data->info = info;
+      data->size = size;
+      return data;
+    }
+
+  static ARRAY_VIEW *create_sub_view
+    (
+      ARRAY_VIEW *view
+    )
+    {
+      int dimension_count = view->dimension_count;
+      ARRAY_VIEW *sub_view =
+        allocate(ALLOCATION_SIZE(
+          sizeof(ARRAY_VIEW)+dimension_count*sizeof(DIMENSION_INFO)));
+      sub_view->dimension_count = dimension_count;
+      int i;
+      for (i = 0; i < dimension_count; ++i) {
+        NODE *argument = ARGUMENTS(1+i);
+        if (TYPEOF(argument) != TYPE(std_types::value_range)) {
+          invalid_arguments();
+          return NULL;
+        }
+        long first;
+        long last;
+        if (
+          !to_long(argument->tuple2.node_0, &first) ||
+          !to_long(argument->tuple2.node_1, &last)
+        ) {
+          invalid_arguments();
+          return NULL;
+        }
+        if (first < 0) {
+          first += view->dimensions[i].width;
+        } else {
+          --first;
+        }
+
+        if (last < 0) {
+          last += view->dimensions[i].width;
+        } else {
+          --last;
+        }
+        if (
+          first < 0 || first >= view->dimensions[i].width ||
+          last < 0 || last >= view->dimensions[i].width ||
+          first > last
+        ) {
+          invalid_arguments();
+          return NULL;
+        }
+        sub_view->dimensions[i].first_index =
+          view->dimensions[i].first_index+first;
+        sub_view->dimensions[i].width = last-first+1;
+      }
+      return sub_view;
+    }
+
+  static void *add_update
+    (
+      ARRAY *node,
+      long item_size
+    )
+    {
+      long length = node->updates_length;
+      ARRAY_UPDATES *updates = node->updates;
+      if (length == 0) {
+        long size = ALLOCATION_SIZE(item_size);
+        updates = allocate_large(sizeof(ARRAY_UPDATES)+size);
+        updates->size = size;
+        updates->length = length+item_size;
+      } else if (
+        length != node->updates->length ||
+        length+item_size > node->updates->size
+      ) {
+        long size = ALLOCATION_SIZE(sizeof(ARRAY_UPDATES)+2*length+item_size);
+        updates = allocate_large(size);
+        updates->size = size;
+        memcpy(updates->buffer, node->updates->buffer, length);
+      }
+      updates->length = length+item_size;
+      ARRAY *new_node = allocate(sizeof(ARRAY));
+      new_node->type = node->type;
+      new_node->attributes = node->attributes;
+      new_node->updates_length = length+item_size;
+      new_node->data = node->data;
+      new_node->view = node->view;
+      new_node->updates = updates;
+      return new_node;
+    }
+
+  static long compute_array_read_offset
+    (
+      NODE *array,
+      ARRAY_INFO *info,
+      ARRAY_VIEW *view
+    )
+    {
+      long offset = 0;
+      int i = 0;
+      long idx;
+      next:
+      if (!to_long(ARGUMENTS(i), &idx)) return -1;
+      if (idx < 0) {
+        idx += view->dimensions[i].width;
+      } else {
+        --idx;
+      }
+      if (idx < 0 || idx >= view->dimensions[i].width) {
+        invalid_index(array);
+        return -1;
+      }
+      idx += view->dimensions[i].first_index;
+      offset += idx*info->dimensions[i];
+      if (++i >= view->dimension_count) return offset;
+      goto next;
+    }
+
+  static long compute_array_write_offset
+    (
+      NODE *array,
+      ARRAY_INFO *info,
+      ARRAY_VIEW *view
+    )
+    {
+      long offset = 0;
+      int i = 0;
+      long idx;
+      next:
+      if (!to_long(ARGUMENTS(i), &idx)) return -1;
+      if (idx < 0) {
+        idx += view->dimensions[i].width;
+      } else {
+        --idx;
+      }
+      if (idx < 0 || idx >= view->dimensions[i].width) {
+        invalid_index(array);
+        return -1;
+      }
+      offset += idx;
+      if (++i >= view->dimension_count) return offset;
+      offset *= view->dimensions[i].width;
+      goto next;
+    }
+
+  static long array_debug_string
+    (
+      ARRAY_INFO *info,
+      ARRAY_VIEW *view,
+      int indent,
+      char *buf,
+      const char *typename
+    )
+    {
+      char type[1024];
+      char *p = type;
+      print(&p, "<%s_array(", typename);
+      int i;
+      int dimension_count = view->dimension_count;
+      for (i = 0; i < dimension_count; ++i) {
+        if (i) *p++ = ' ';
+        print(&p,
+          "%d..%d",
+          view->dimensions[i].first_index+1,
+          view->dimensions[i].first_index+view->dimensions[i].width
+        );
+      }
+      *p++ = ')';
+      *p++ = '>';
+      *p = 0;
+      return debug_print(indent, buf, type);
+    }
+
+  static int equal_array_type
+    (
+      NODE *left,
+      NODE *right
+    )
+    {
+      if (TYPEOF(left) != TYPEOF(right)) {
+        error:
+        invalid_arguments();
+        return false;
+      }
+      ARRAY_VIEW *left_view = ((ARRAY *)left)->view;
+      ARRAY_VIEW *right_view = ((ARRAY *)right)->view;
+      if (
+        left_view->dimension_count != right_view->dimension_count
+      ) goto error;
+      int i;
+      for (i = 0; i < left_view->dimension_count; ++i) {
+        if (
+          left_view->dimensions[i].width != right_view->dimensions[i].width
+        ) goto error;
+      }
+      return true;
+    }
+
+#######
+
+# ARRAY OF OBJECTS
+
+#
+
+RECORD ARRAY_DATA
+  ARRAY_INFO *info
+  long size
+  NODE *items[]
+
+UNION UPDATE_ARRAY_DATA/SET_VALUE
+  long offset
+  NODE *value
+
+[source]
+
+METHOD std_types::generic_array/_type
+  {
+    RUNTIME_ERROR(
+      "Attempt to call the generic array prototype object as a function!")
+  }
+
+TYPE std_types::generic_array -> std_types::object
+  #
+    the prototype object for all kind of arrays
+
+    Topic: Collections
+
+    See also:
+
+    std_types::array,
+    std_types::boolean_array,
+    std_types::character_array,
+    std_types::int8_array,
+    std_types::uint8_array,
+    std_types::int16_array,
+    std_types::uint16_array,
+    std_types::int32_array,
+    std_types::uint32_array,
+    std_types::int64_array,
+    std_types::uint64_array,
+    std_types::float32_array,
+    std_types::float64_array
+
+[documentation remark]
+
+### Always copy examples contained in the symbol's description remark
+    into the documentation
+
+### Use only one of the following topics: Arrays, Collections
+
+# std_types::generic_array (a builtin type derived from std_types::object)
+

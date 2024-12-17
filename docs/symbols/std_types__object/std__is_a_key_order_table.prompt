@@ -1,0 +1,880 @@
+[MANUAL]
+
+In Funky function calls are either written on a single line with arguments
+enclosed within parentheses and separated by single spaces, e.g.:
+
+print! f(a b c) g(x y z)
+
+or they are written in indentation style using mutliple lines:
+
+print!
+  f
+    a
+    b
+    c
+  g
+    x
+    y
+    z
+
+Functions that create any output or read any input need I/O-access rights.
+
+A function that needs I/O-access rights must be called with a trailing
+exclamation mark after the function name, e.g.:
+
+println! "Hello, World!"
+
+The expression
+
+key = value
+
+denotes a key-value-pair.
+
+Collection types cannot be printed directly. You can use "dump!" to
+dump the contents of a collection, e.g.:
+
+$ages
+  hash_table
+    "John" = 42
+    "Mary" = 25
+    "Irene" = 49
+
+dump! `ages
+
+Output:
+
+ages: hash_table <6>
+  "Mary"
+  25
+  "Irene"
+  49
+  "John"
+  42
+
+Note: The number in angular brackets after the typename denotes the number
+of (indented) lines that follow the head.
+
+A tail call returns the result of the called function; e.g.:
+
+$calc:
+  (
+    x
+    y
+  )
+  plus x*x y*y
+
+println! calc(2 3)
+
+prints
+
+13
+
+[GUIDELINES]
+
+All documentation remarks must have
+
+* a single short (single line) description written in lower case
+
+* a parameter(s) section (if appropriate)
+
+* a result(s) section (if appropriate)
+
+* a detailed description of how to use the symbol: when describing unique
+  items of constants, describe how to use them;
+  do not repeat yourself
+
+* one or more associated topic(s) (if appropriate)
+
+* a "See also" entry - mention only a view relevant symbols here
+
+Do not mention unknown symbols!
+
+Do not mention more than 10 symbols in the "See also" entry.
+
+DO NOT MENTION MORE THAN 10 SYMBOLS IN THE "See also" ENTRY!
+
+Do not mention internal details of functions.
+
+Do not start each sentence in the description with "If" or "The".
+
+DO NOT START EACH SENTENCE IN THE DESCRIPTION WITH "If" OR "The"!
+
+Do not tell the user what a function does not do.
+
+When referring to another symbol write it enclosed in angle brackets, e.g.
+<std::clear>.
+
+The "self"-parameter is a normal parameter like any other and should be
+mentioned in the the parameter description.
+
+Replace symbolic constants by their value.
+
+Operations on I/O-objects are not executed immediately but queued as jobs.
+To identify a job, an "id" is used.
+
+I/O-functions and I/O-methods either need I/O-access rights or propagate
+them ("if", "for_each", etc.).
+
+An "example" section, if available, must use Funky syntax and shall not be too
+long.
+
+If there is an appropriate example in the source code then use this example
+in the "example" section!
+
+[EXAMPLES]
+
+[source]
+
+$std_types::undefined.is_defined false # obvious
+
+[documentation remark]
+
+# std::undefined.is_defined (an attribute)
+
+  always returns false
+
+  Parameter:
+    self: an instance of <std_types::undefined>
+
+  Result:
+    success: false
+
+  Topic: Objects
+
+  See also: std_types::undefined, std_types::object
+
+[source]
+
+$std_types::rectangle.x_of 0
+
+[documentation remark]
+
+# std_types::rectangle.std::x_of (an attribute)
+
+  the x-coordinate of the rectangle
+
+  Parameters:
+    self: the rectangle
+
+  Result:
+    x: the x-coordinate of the rectangle
+
+  Topic: Graphic Primitives
+
+  See also: std_types::rectangle/std::y_of,
+            std_types::rectangle/std::width_of,
+            std_types::rectangle/std::height_of
+
+[source]
+
+$std::clear_colour_of ()
+
+[documentation remark]
+
+# std::clear_colour_of (an attribute)
+
+  returns the clear colour of the specified object
+
+  Parameters:
+    self: the object
+
+  Result:
+    colour: the clear colour of the object
+
+  Topic: Terminal
+
+  See also: std::draw_colour_of, std::set_clear_colour, std::clear
+
+[EXERCISE]
+
+[symbols]
+
+
+# Topic: Tables, Collections
+
+
+# internal attributes:
+
+
+# internal methods:
+
+$std::is_a_key_order_table () # obvious
+$std_types::object.is_a_key_order_table false # obvious
+$std_types::key_order_table.is_a_key_order_table true # obvious
+$std_types::key_order_table std_types::table
+$std_types::key_order_table.contents_of empty_node
+$std_types::key_order_table.length_of 0
+$std::empty_key_order_table std_types::key_order_table
+$std_types::object.is_an_empty_node false
+$std_types::key_order_table/:
+
+# retrieve
+
+
+# insert
+
+
+# delete
+
+
+# for_each
+
+$basic_loops::todo undefined
+$std_types::key_order_table/for_each:
+
+# map
+
+$std_types::key_order_table/map:
+
+# reduce
+
+$std_types::key_order_table/reduce:
+
+# map_reduce
+
+$std_types::key_order_table/map_reduce:
+
+# dump_string
+
+
+# merge
+
+$std_types::key_order_table/merge:
+
+# Constructor
+
+$std::key_order_table:
+
+# serialization
+
+$std_types::key_order_table.serialization_tag_of "key_order_table"
+$std_types::key_order_table.empty_collection_of empty_key_order_table
+
+#
+  Copyright (C) 2023 by
+  Dipl.-Ing. Michael Niederle
+
+  This program is free software; you can redistribute it and/or modify
+  it under the terms of the GNU Library General Public License, version 2, or
+  (at your option) under the terms of the GNU Lesser General Public License,
+  version 3.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  GNU Lesser (Library) General Public License for more details.
+
+  For details of the GNU General Public License see the accompanying
+  files LGPLv2.txt and LGLPv3.txt or
+  http://www.gnu.org/licenses/lgpl-2.0.html
+  http://www.gnu.org/licenses/lgpl-3.0.html
+  or write to the
+  Free Software Foundation, Inc.,
+  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+
+# Topic: Tables, Collections
+
+#$std::dump_string ()
+
+# internal attributes:
+
+$contents_of ()
+
+# internal methods:
+
+$retrieve ()
+
+$insert ()
+
+$delete ()
+
+$std::is_a_key_order_table () # obvious
+
+$std_types::object.is_a_key_order_table false # obvious
+
+$std_types::key_order_table.is_a_key_order_table true # obvious
+
+$std_types::key_order_table std_types::table
+  #
+    a table which items are stored in key-order
+
+    All items stored in the table must support the following methods:
+
+    * <equal>
+
+    * <less>
+
+    Topic: Collections
+
+    See also: std_types::table, std_types::hash_table
+
+$std_types::key_order_table.contents_of empty_node
+
+$std_types::key_order_table.length_of 0
+  #
+    returns the number of items in the key-order table
+
+$std::empty_key_order_table std_types::key_order_table
+  #
+    an empty key-order table
+
+    See also: std_types::key_order_table
+
+$is_an_empty_node ()
+
+$std_types::object.is_an_empty_node false
+
+$empty_node.is_an_empty_node true
+
+$empty_node std_types::object
+
+$binary_node tuple(undefined undefined undefined undefined)
+
+$NONE .
+
+$std_types::key_order_table/:
+  # --> std_types::table
+  (
+    myself^
+    key
+    value = NONE
+  )
+  $contents contents_of(myself)
+  if
+    NONE == value
+    -> retrieve(contents key)
+    :
+      if
+        value.is_defined:
+          insert &contents $success key value
+          if
+            success
+            ->
+              myself
+                .contents_of contents
+                .length_of length_of(myself)+1
+            -> myself(.contents_of contents)
+        :
+          delete &contents $success key
+          if
+            success
+            ->
+              myself
+                .contents_of contents
+                .length_of length_of(myself)-1
+            -> myself
+
+###
+
+# retrieve
+
+$empty_node/retrieve: (_self _key) -> undefined
+
+$binary_node/retrieve: (self key)
+  self $my_key $my_value $my_left $my_right
+  if
+    key == my_key
+    -> my_value
+    :
+      if
+        key < my_key
+        : retrieve my_left key
+        : retrieve my_right key
+
+###
+
+# insert
+
+$empty_node/insert: (_self key value)
+  -> new(binary_node key value empty_node empty_node) true
+
+$binary_node/insert: (self key value)
+  self $my_key $my_value $my_left $my_right
+  if
+    key == my_key
+    -> new(self key value my_left my_right) false
+    :
+      if
+        key < my_key
+        :
+          insert &my_left $did_insert key value
+          -> new(self my_key my_value my_left my_right) did_insert
+        :
+          insert &my_right $did_insert key value
+          -> new(self my_key my_value my_left my_right) did_insert
+
+###
+
+# delete
+
+$fetch_first: (self)
+  self $my_key $my_value $my_left $my_right
+  if
+    my_left.is_an_empty_node
+    -> my_right my_key my_value
+    :
+      fetch_first &my_left $first_key $first_value
+      -> new(self my_key my_value my_left my_right) first_key first_value
+
+$empty_node/delete: (self _key) -> self false
+
+$binary_node/delete: (self key)
+  self $my_key $my_value $my_left $my_right
+  if
+    key == my_key
+    :
+      if
+        my_left.is_an_empty_node
+        -> my_right true
+        :
+          if
+            my_right.is_an_empty_node
+            -> my_left true
+            :
+              fetch_first &my_right $first_key $first_value
+              -> new(self first_key first_value my_left my_right)
+    :
+      if
+        key < my_key
+        :
+          delete &my_left $success key
+          if
+            success
+            -> new(self my_key my_value my_left my_right) true
+            -> self false
+        :
+          delete &my_right $success key
+          if
+            success
+            -> new(self my_key my_value my_left my_right) true
+            -> self false
+
+###
+
+# for_each
+
+$for_each_1_left ()
+
+$for_each_1_call ()
+
+$for_each_1_right ()
+
+$for_each_2_left ()
+
+$for_each_2_call ()
+
+$for_each_2_right ()
+
+$basic_loops::todo undefined
+
+$finish std_types::object # works as a sentinel
+
+$finish/for_each_1_call: (_self) break!
+
+$finish/for_each_2_call: (_self) break!
+
+$empty_node/for_each_1_left: (_self)
+  for_each_1_call! basic_loops::todo(-1) # peek
+
+$empty_node/for_each_2_left: (_self)
+  for_each_2_call! basic_loops::todo(-1) # peek
+
+$binary_node/for_each_1_left: (self)
+  self $_my_key $_my_value $my_left $_my_right
+  push &basic_loops::todo self
+  for_each_1_left! my_left
+
+$binary_node/for_each_2_left: (self)
+  self $_my_key $_my_value $my_left $_my_right
+  push &basic_loops::todo self
+  for_each_2_left! my_left
+
+$binary_node/for_each_1_call: (self)
+  self $_my_key $my_value $_my_left $_my_right
+  basic_loops::body! my_value
+
+$binary_node/for_each_2_call: (self)
+  self $my_key $my_value $_my_left $_my_right
+  basic_loops::body! my_key my_value
+
+$binary_node/for_each_1_right: (self)
+  self $_my_key $_my_value $_my_left $my_right
+  for_each_1_left! my_right
+
+$binary_node/for_each_2_right: (self)
+  self $_my_key $_my_value $_my_left $my_right
+  for_each_2_left! my_right
+
+$std_types::key_order_table/for_each:
+  #
+    iterates over all items of the key order table
+
+    For each item the statement sequence supplied as *body* is called
+    with one or two arguments (depending on *body*'s parameter count).
+
+    If called with two arguments the first argument is the *key* and the
+    second argument the corresponding *value*.
+
+    If called with one argument then only the *value* is supplied.
+
+    This is a sequential loop.
+
+    Example:
+
+      $ages empty_key_order_table
+
+      !ages("Tom") 5
+      !ages("Sam") 3
+      !ages("Sarah") 11
+
+      for_each ages: (name age)
+        writeln! name ": " age
+        next
+
+    Output:
+
+      Sarah: 11
+      Sam: 3
+      Tom: 5
+  (
+    self # the hash table to iterate over
+    body # the statement sequence to execute for each item
+    finally = next # used to return results to the caller
+  )
+  $saved_context
+    tuple
+      next
+      break
+      basic_loops::todo
+      basic_loops::body
+      basic_loops::finally
+
+  !basic_loops::todo list(finish)
+  !basic_loops::body body
+  !basic_loops::finally finally
+
+  !break: (myself^)
+    !finally basic_loops::finally
+    basic_loops::saved_context_of(myself)
+      !next !break
+      !basic_loops::todo !basic_loops::body !basic_loops::finally
+    finally!
+
+  !break.basic_loops::saved_context_of saved_context
+
+  if
+    parameter_count_of(body) == 2:
+      !next:
+        pop &basic_loops::todo $node
+        for_each_2_right! node
+
+      for_each_2_left! contents_of(self)
+    :
+      !next:
+        pop &basic_loops::todo $node
+        for_each_1_right! node
+
+      for_each_1_left! contents_of(self)
+
+###
+
+# map
+
+$map_1 ()
+
+$map_2 ()
+
+$mapping_function undefined
+
+$empty_node/map_1: (self) -> self
+
+$empty_node/map_2: (self) -> self
+
+$binary_node/map_1: (self)
+  self $my_key $my_value $my_left $my_right
+  new self my_key mapping_function(my_value) map_1(my_left) map_1(my_right)
+
+$binary_node/map_2: (self)
+  self $my_key $my_value $my_left $my_right
+  new self my_key mapping_function(my_key my_value) map_2(my_left) map_2(my_right)
+
+$std_types::key_order_table/map:
+  #
+    applies a function to all values of the key order table
+
+    A key order table containing the "mapped" items is returned.
+
+    Topic: Tables
+
+    See also: reduce, map_reduce
+  (
+    self # the association list which values will be mapped
+    function # the function to apply to each element of the table
+  )
+  !mapping_function function
+  if
+    parameter_count_of(function) == 2:
+      map_2 &self.contents_of
+      -> self
+    :
+      map_1 &self.contents_of
+      -> self
+
+###
+
+# reduce
+
+$std_types::key_order_table/reduce:
+  #
+    computes a kind of sum from the values stored in the table
+
+    There is no guarantee in which order the values will be reduced (folded).
+
+    So the reduction function must obey to the law of assosiativity!
+
+    Topic: Tables
+
+    See also: map, map_reduce
+  (
+    self # the table to build the "sum" from
+    function # the function to apply to pairs of values
+    unit = undefined # the value to return for empty tables
+  )
+  $contents contents_of(self)
+  if
+    contents.is_an_empty_node
+    -> unit
+    -> reduce(contents)
+
+  $reduce: (node)
+    node $_key $value $left $right
+    if
+      left.is_an_empty_node
+      check_right
+      :
+        !value function(reduce(left) value)
+        check_right
+
+    $check_right:
+      if
+        right.is_an_empty_node
+        -> value
+        -> function(value reduce(right))
+
+###
+
+# map_reduce
+
+$std_types::key_order_table/map_reduce:
+  #
+    combines a map and a reduce operation into a single operation
+
+    Does not create an intermediate table to hold the "mapped" values.
+
+    Topic: Tables
+
+    See also: map, reduce
+  (
+    self # the table to work on
+    map_function # the function to apply to each element of the table
+    reduce_function = append # the function to apply to pairs of values
+    unit = undefined # the value to return for empty tables
+  )
+  $contents contents_of(self)
+  if
+    contents.is_an_empty_node
+    -> unit
+    :
+      if
+        parameter_count_of(map_function) == 2
+        -> map_reduce_2(contents)
+        -> map_reduce_1(contents)
+
+  $map_reduce_1: (node)
+    node $_key $value $left $right
+    map_function &value
+    if
+      left.is_an_empty_node
+      check_right
+      :
+        !value reduce_function(map_reduce_1(left) value)
+        check_right
+
+    $check_right:
+      if
+        right.is_an_empty_node
+        -> value
+        -> reduce_function(value map_reduce_1(right))
+
+  $map_reduce_2: (node)
+    node $key $value $left $right
+    map_function key &value
+    if
+      left.is_an_empty_node
+      check_right
+      :
+        !value reduce_function(map_reduce_2(left) value)
+        check_right
+
+    $check_right:
+      if
+        right.is_an_empty_node
+        -> value
+        -> reduce_function(value map_reduce_2(right))
+
+###
+
+# dump_string
+
+#$empty_node/dump_string: (_self _prefix _marker) -> ""
+
+#$binary_node/dump_string: (self prefix marker)
+  self $key $value $left $right
+  $new_prefix append(prefix spaces(length_of(key)))
+  $empty_prefix
+    if
+      prefix.is_empty
+      -> spaces(length_of(key))
+      -> append(range(prefix 1 -2) spaces(length_of(key)+1))
+  push &new_prefix '|'
+  push &empty_prefix '|'
+  $top
+    dump_string
+      left
+      if
+        marker == '/'
+        -> empty_prefix
+        -> new_prefix
+      '/'
+  $bottom
+    dump_string
+      right
+      if
+        marker == '\'
+        -> empty_prefix
+        -> new_prefix
+      '\'
+  string
+    top
+    if
+      prefix.is_empty
+      -> ""
+      -> range(prefix 1 -2)
+    marker key '(' value ")@nl;"
+    bottom
+
+#$std_types::key_order_table/dump_string:
+  (
+    self
+    prefix = ""
+  )
+  -> dump_string(contents_of(self) prefix "")
+
+###
+
+# merge
+
+$empty_node/merge: (_left right)
+  # returns the merged trees and the number of removed items
+  -> right 0
+
+$binary_node/merge: (left right)
+  # returns the merged trees and the number of removed items
+
+  if
+    right.is_an_empty_node
+    -> left 0
+    :
+      left $left_key $left_value $left_left $left_right
+      right $right_key $right_value $right_left $right_right
+      $total_removed 0
+      $removed undefined
+      $did_insert undefined
+      loop:
+        if
+          right_key < left_key:
+            merge &left_left right_left !removed
+            insert &left_left right_key right_value !did_insert
+            update_removed:
+              if
+                right_right.is_an_empty_node
+                return
+                :
+                  right_right !right_key !right_value !right_left !right_right
+                  next
+          :
+            merge &left_right right_right !removed
+            insert &left_right right_key right_value !did_insert
+            update_removed:
+              if
+                right_left.is_an_empty_node
+                return
+                :
+                  right_left !right_key !right_value !right_left !right_right
+                  next
+
+      $update_removed: (cont)
+        plus &total_removed removed
+        if
+          did_insert
+          cont
+          :
+            plus &total_removed 1
+            cont
+
+      $return
+        ->
+          new(binary_node left_key left_value left_left left_right)
+          total_removed
+
+$std_types::key_order_table/merge:
+  #
+    merges the two tables
+
+    If a key is contained in both tables then the value from the *other*
+    table is used for the merged table.
+  (
+    self # the base table
+    other # the table to merge
+  )
+  merge $contents $total_removed contents_of(self) contents_of(other)
+  ->
+    self
+      .length_of length_of(self)+length_of(other)-total_removed
+      .contents_of contents
+
+# Constructor
+
+$std::key_order_table:
+  (
+    pairs*
+  )
+  $table empty_key_order_table
+  for_each pairs
+    : (pair)
+      pair $key $value
+      !table(key) value
+      next
+    -> table
+
+###
+
+# serialization
+
+$std_types::key_order_table.serialization_tag_of "key_order_table"
+
+$std_types::key_order_table.empty_collection_of empty_key_order_table
+
+[source]
+
+$std_types::object.is_a_key_order_table false # obvious
+
+[documentation remark]
+
+### Always copy examples contained in the symbol's description remark
+    into the documentation
+
+### Use only one of the following topics: Tables, Collections
+
+# std_types::object.std::is_a_key_order_table (an attribute)
+

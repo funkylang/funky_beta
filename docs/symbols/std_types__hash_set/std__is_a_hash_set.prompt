@@ -1,0 +1,688 @@
+[MANUAL]
+
+In Funky function calls are either written on a single line with arguments
+enclosed within parentheses and separated by single spaces, e.g.:
+
+print! f(a b c) g(x y z)
+
+or they are written in indentation style using mutliple lines:
+
+print!
+  f
+    a
+    b
+    c
+  g
+    x
+    y
+    z
+
+Functions that create any output or read any input need I/O-access rights.
+
+A function that needs I/O-access rights must be called with a trailing
+exclamation mark after the function name, e.g.:
+
+println! "Hello, World!"
+
+The expression
+
+key = value
+
+denotes a key-value-pair.
+
+Collection types cannot be printed directly. You can use "dump!" to
+dump the contents of a collection, e.g.:
+
+$ages
+  hash_table
+    "John" = 42
+    "Mary" = 25
+    "Irene" = 49
+
+dump! `ages
+
+Output:
+
+ages: hash_table <6>
+  "Mary"
+  25
+  "Irene"
+  49
+  "John"
+  42
+
+Note: The number in angular brackets after the typename denotes the number
+of (indented) lines that follow the head.
+
+A tail call returns the result of the called function; e.g.:
+
+$calc:
+  (
+    x
+    y
+  )
+  plus x*x y*y
+
+println! calc(2 3)
+
+prints
+
+13
+
+[GUIDELINES]
+
+All documentation remarks must have
+
+* a single short (single line) description written in lower case
+
+* a parameter(s) section (if appropriate)
+
+* a result(s) section (if appropriate)
+
+* a detailed description of how to use the symbol: when describing unique
+  items of constants, describe how to use them;
+  do not repeat yourself
+
+* one or more associated topic(s) (if appropriate)
+
+* a "See also" entry - mention only a view relevant symbols here
+
+Do not mention unknown symbols!
+
+Do not mention more than 10 symbols in the "See also" entry.
+
+DO NOT MENTION MORE THAN 10 SYMBOLS IN THE "See also" ENTRY!
+
+Do not mention internal details of functions.
+
+Do not start each sentence in the description with "If" or "The".
+
+DO NOT START EACH SENTENCE IN THE DESCRIPTION WITH "If" OR "The"!
+
+Do not tell the user what a function does not do.
+
+When referring to another symbol write it enclosed in angle brackets, e.g.
+<std::clear>.
+
+The "self"-parameter is a normal parameter like any other and should be
+mentioned in the the parameter description.
+
+Replace symbolic constants by their value.
+
+Operations on I/O-objects are not executed immediately but queued as jobs.
+To identify a job, an "id" is used.
+
+I/O-functions and I/O-methods either need I/O-access rights or propagate
+them ("if", "for_each", etc.).
+
+An "example" section, if available, must use Funky syntax and shall not be too
+long.
+
+If there is an appropriate example in the source code then use this example
+in the "example" section!
+
+[EXAMPLES]
+
+[source]
+
+$std_types::undefined.is_defined false # obvious
+
+[documentation remark]
+
+# std::undefined.is_defined (an attribute)
+
+  always returns false
+
+  Parameter:
+    self: an instance of <std_types::undefined>
+
+  Result:
+    success: false
+
+  Topic: Objects
+
+  See also: std_types::undefined, std_types::object
+
+[source]
+
+$std_types::rectangle.x_of 0
+
+[documentation remark]
+
+# std_types::rectangle.std::x_of (an attribute)
+
+  the x-coordinate of the rectangle
+
+  Parameters:
+    self: the rectangle
+
+  Result:
+    x: the x-coordinate of the rectangle
+
+  Topic: Graphic Primitives
+
+  See also: std_types::rectangle/std::y_of,
+            std_types::rectangle/std::width_of,
+            std_types::rectangle/std::height_of
+
+[source]
+
+$std::clear_colour_of ()
+
+[documentation remark]
+
+# std::clear_colour_of (an attribute)
+
+  returns the clear colour of the specified object
+
+  Parameters:
+    self: the object
+
+  Result:
+    colour: the clear colour of the object
+
+  Topic: Terminal
+
+  See also: std::draw_colour_of, std::set_clear_colour, std::clear
+
+[EXERCISE]
+
+[symbols]
+
+
+# Topics: Sets, Collections
+
+
+# internal attributes:
+
+
+# internal methods:
+
+$std::is_a_hash_set () # obvious
+$std_types::object.is_a_hash_set false # obvious
+$std_types::hash_set.is_a_hash_set true # obvious
+$std_types::object.is_an_empty_entry false
+$std_types::hash_set std_types::set
+$std_types::hash_set.contents_of empty_hash_set_entry
+$std_types::hash_set.length_of 0
+$std::empty_hash_set std_types::hash_set
+$std_types::hash_set/:
+
+# retrieve
+
+
+# insert
+
+
+# delete
+
+
+# for_each
+
+$std_types::hash_set/for_each:
+
+# map_reduce
+
+$std_types::hash_set/map_reduce:
+$std::hash_set: (keys*)
+$std_types::hash_set.serialization_tag_of "hash_set"
+$std_types::hash_set.empty_collection_of empty_hash_set
+
+#
+  Copyright (C) 2023 by
+  Dipl.-Ing. Michael Niederle
+
+  This program is free software; you can redistribute it and/or modify
+  it under the terms of the GNU Library General Public License, version 2, or
+  (at your option) under the terms of the GNU Lesser General Public License,
+  version 3.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  GNU Lesser (Library) General Public License for more details.
+
+  For details of the GNU General Public License see the accompanying
+  files LGPLv2.txt and LGLPv3.txt or
+  http://www.gnu.org/licenses/lgpl-2.0.html
+  http://www.gnu.org/licenses/lgpl-3.0.html
+  or write to the
+  Free Software Foundation, Inc.,
+  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+
+# Topics: Sets, Collections
+
+#
+  a hash set is an octree of <hash_set_node>s
+
+  the branches of this octree have variable depths
+
+  the maximum tree depth is 10
+
+  a leaf of the tree is either a
+
+  <hash_set_entry>
+
+  or a
+
+  <collision_list_entry>
+
+# internal attributes:
+
+$contents_of ()
+
+# internal methods:
+
+$retrieve ()
+
+$insert ()
+
+$delete ()
+
+$std::is_a_hash_set () # obvious
+
+$std_types::object.is_a_hash_set false # obvious
+
+$std_types::hash_set.is_a_hash_set true # obvious
+
+$is_an_empty_entry ()
+
+$std_types::object.is_an_empty_entry false
+
+$empty_hash_set_entry.is_an_empty_entry true
+
+$empty_collision_list_entry.is_an_empty_entry true
+
+$std_types::hash_set std_types::set
+  #
+    a set for fast random access
+
+    All items stored in the set must support the following methods:
+
+    * <hash>
+
+    * <equal>
+
+    Topic: Collections
+
+    See also: std_types::set, std_types::hash_set
+
+$std_types::hash_set.contents_of empty_hash_set_entry
+
+$std_types::hash_set.length_of 0
+  #
+    returns the number of items in the hash set
+
+$std::empty_hash_set std_types::hash_set
+  #
+    an empty hash set
+
+    See also: std_types::hash_set
+
+$empty_hash_set_entry std_types::object
+
+$hash_set_leaf tuple(undefined undefined)
+
+$empty_collision_list_entry std_types::object
+
+$collision_list_entry tuple(undefined undefined)
+
+$hash_set_node
+  list
+    empty_hash_set_entry
+    empty_hash_set_entry
+    empty_hash_set_entry
+    empty_hash_set_entry
+    empty_hash_set_entry
+    empty_hash_set_entry
+    empty_hash_set_entry
+    empty_hash_set_entry
+
+$NONE .
+
+$std_types::hash_set/:
+  # --> std_types::set
+  (
+    myself^
+    key
+    value = NONE
+  )
+  $hash_index hash(key) | 0xc000'0000 # add sentinel hash index (3)
+  $contents contents_of(myself)
+  if
+    NONE == value
+    -> retrieve(contents hash_index key)
+    :
+      if
+        value:
+          insert &contents $success hash_index key
+          if
+            success
+            ->
+              myself
+                .contents_of contents
+                .length_of length_of(myself)+1
+            -> myself(.contents_of contents)
+        :
+          delete &contents $success hash_index key
+          if
+            success
+            ->
+              myself
+                .contents_of contents
+                .length_of length_of(myself)-1
+            -> myself
+
+###
+
+# retrieve
+
+$empty_hash_set_entry/retrieve: (_self _hash_index _key) -> false
+
+$hash_set_leaf/retrieve: (self _hash_index key)
+  self $_my_hash_index $my_key
+  if
+    key == my_key
+    -> true
+    -> false
+
+$empty_collision_list_entry/retrieve: (_self _dummy _key) -> false
+
+$collision_list_entry/retrieve: (self _dummy key)
+  self $my_key $my_link
+  if
+    key == my_key
+    -> true
+    : retrieve my_link undefined key
+
+$hash_set_node/retrieve: (self hash_index key)
+  $idx (hash_index & 7)+1
+  retrieve self(idx) hash_index >> 3 key
+
+###
+
+# insert
+
+$empty_hash_set_entry/insert: (_self hash_index key)
+  if
+    hash_index == 3
+    -> new(collision_list_entry key empty_collision_list_entry) true
+    -> new(hash_set_leaf hash_index key) true
+
+$hash_set_leaf/insert: (self hash_index key)
+  self $my_hash_index $my_key
+  if
+    key == my_key
+    -> self false
+    :
+      insert hash_set_node $new_node $_did_insert my_hash_index my_key
+      insert new_node hash_index key
+
+$empty_collision_list_entry/insert: (self _dummy key)
+  -> new(collision_list_entry key self) true
+
+$collision_list_entry/insert: (self dummy key)
+  self $my_key $my_link
+  if
+    key == my_key
+    -> self false
+    :
+      insert my_link dummy key $new_link $did_insert
+      if
+        did_insert
+        -> new(collision_list_entry my_key new_link) true
+        -> self false
+
+$hash_set_node/insert: (self hash_index key)
+  $idx (hash_index & 7)+1
+  insert &self(idx) $did_insert hash_index >> 3 key
+  -> self did_insert
+
+###
+
+# delete
+
+#
+  After deletion some single-entry branches can remain.
+
+  The biggest problem is to recompute the hash_index of this single entry
+  when it is moved up the tree. One possibility would be to remove such an
+  entry completely and reinsert it.
+
+  Branches containing no entries are deleted.
+
+$empty_hash_set_entry/delete: (self _hash_index _key) -> self false
+
+$hash_set_leaf/delete: (self _hash_index key)
+  self $_my_hash_index $my_key
+  if
+    key == my_key
+    -> empty_hash_set_entry true
+    -> self false
+
+$empty_collision_list_entry/delete: (self _dummy _key) -> self false
+
+$collision_list_entry/delete: (self _dummy key)
+  self $my_key $my_link
+  if
+    key == my_key
+    :
+      -> my_link true
+    :
+      delete &my_link undefined key $did_delete
+      -> new(collision_list_entry my_key my_link) did_delete
+
+$hash_set_node/delete: (self hash_index key)
+  $idx (hash_index & 7)+1
+  delete &self(idx) $success hash_index >> 3 key
+  if
+    success
+    :
+      if
+        all_of(self is_an_empty_entry)
+        -> empty_hash_set_entry true
+        -> self true
+    -> self false
+
+###
+
+# for_each
+
+$for_each_1 ()
+
+$empty_hash_set_entry/for_each_1: (_self)
+  next!
+
+$collision_list_entry/for_each_1: (self)
+  $saved_context
+    tuple
+      next
+      break
+      basic_loops::self
+
+  !basic_loops::self self
+
+  !break: (myself^)
+    basic_loops::saved_context_of(myself)
+      !next !break
+      !basic_loops::self
+    break!
+
+  !break.basic_loops::saved_context_of saved_context
+
+  !next:
+    if
+      basic_loops::self.is_an_empty_entry:
+        basic_loops::saved_context_of(break)
+          !next !break
+          !basic_loops::self
+        next!
+      :
+        basic_loops::self $key $link
+        !basic_loops::self link
+        basic_loops::body! key
+
+  next
+
+$hash_set_leaf/for_each_1: (self)
+  self $_hash $key
+  basic_loops::body! key
+
+$hash_set_node/for_each_1: (self)
+  $saved_context
+    tuple
+      next
+      break
+      basic_loops::from
+      basic_loops::self
+
+  !basic_loops::from 1
+  !basic_loops::self self
+
+  !break: (myself^)
+    basic_loops::saved_context_of(myself)
+      !next !break
+      !basic_loops::from !basic_loops::self
+    break!
+
+  !break.basic_loops::saved_context_of saved_context
+
+  !next:
+    $idx basic_loops::from
+    if
+      idx <= 8:
+        !basic_loops::from idx+1
+        for_each_1! basic_loops::self(idx)
+      :
+        basic_loops::saved_context_of(break)
+          !next !break
+          !basic_loops::from !basic_loops::self
+        next!
+
+  next!
+
+$std_types::hash_set/for_each:
+  (
+    self # the hash set to iterate over
+    body # the statement sequence to execute for each item
+    finally = next # called after all items have been iterated over
+  )
+  $saved_context
+    tuple
+      next
+      break
+      basic_loops::body
+      basic_loops::finally
+
+  !basic_loops::body body
+  !basic_loops::finally finally
+
+  !break: (myself^)
+    !finally basic_loops::finally
+    basic_loops::saved_context_of(myself)
+      !next !break
+      !basic_loops::body !basic_loops::finally
+    finally!
+
+  !break.basic_loops::saved_context_of saved_context
+  !next break
+
+  for_each_1! contents_of(self)
+
+###
+
+#
+
+$UNIT .
+
+$reduction_function undefined
+
+$my_reduce: (left right)
+  if
+    left == UNIT
+    -> right
+    :
+      if
+        right == UNIT
+        -> left
+        -> reduction_function(left right)
+
+###
+
+# map_reduce
+
+$mapping_function undefined
+
+$map_reduce_1 ()
+
+$empty_hash_set_entry/map_reduce_1: (_self) -> UNIT
+
+$hash_set_leaf/map_reduce_1: (self)
+  self $_my_hash_index $my_key
+  -> mapping_function(my_key)
+
+$empty_collision_list_entry/map_reduce_1: (_self) -> UNIT
+
+$collision_list_entry/map_reduce_1: (self)
+  self $my_key $my_link
+  my_reduce
+    mapping_function(my_key)
+    map_reduce_1(my_link)
+
+$hash_set_node/map_reduce_1: (self)
+  $r12 my_reduce(map_reduce_1(self(1)) map_reduce_1(self(2)))
+  $r34 my_reduce(map_reduce_1(self(3)) map_reduce_1(self(4)))
+  $r56 my_reduce(map_reduce_1(self(5)) map_reduce_1(self(6)))
+  $r78 my_reduce(map_reduce_1(self(7)) map_reduce_1(self(8)))
+  $r1234 my_reduce(r12 r34)
+  $r5678 my_reduce(r56 r78)
+  -> my_reduce(r1234 r5678)
+
+$std_types::hash_set/map_reduce:
+  #
+    combines a map and a reduce operation into a single operation
+
+    Does not create an intermediate set to hold the "mapped" values.
+
+    Topic: Tables
+
+    See also: map, reduce
+  (
+    self # the set to work on
+    map_function # the function to apply to each element of the set
+    reduce_function = append # the function to apply to each member of the set
+    unit = undefined # the value to return for empty sets
+  )
+  if
+    length_of(self) == 0
+    -> unit
+    :
+      !mapping_function map_function
+      !reduction_function reduce_function
+      map_reduce_1 contents_of(self)
+
+$std::hash_set: (keys*)
+  $result empty_hash_set
+  for_each keys
+    : (key)
+      !result(key) true
+      next
+    -> result
+
+$std_types::hash_set.serialization_tag_of "hash_set"
+
+$std_types::hash_set.empty_collection_of empty_hash_set
+
+[source]
+
+$std_types::hash_set.is_a_hash_set true # obvious
+
+[documentation remark]
+
+### Always copy examples contained in the symbol's description remark
+    into the documentation
+
+### Use only one of the following topics: Sets, Collections
+
+# std_types::hash_set.std::is_a_hash_set (an attribute)
+

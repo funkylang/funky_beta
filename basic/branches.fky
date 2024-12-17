@@ -59,7 +59,7 @@ $std::cond:
 
     Topic: Branches, Input-Output
 
-    See also: if, case
+    See also: std::if, std::case
 
     Example:
 
@@ -121,7 +121,7 @@ $std::case:
 
     Topic: Branches
 
-    See also: if, cond
+    See also: std::if, std::cond
 
     Example:
 

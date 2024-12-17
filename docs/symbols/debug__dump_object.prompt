@@ -1,0 +1,388 @@
+[GUIDELINES]
+
+All documentation remarks must have
+
+* a single short (single line) description written in lower case
+
+* a parameter(s) section (if appropriate)
+
+* a result(s) section (if appropriate)
+
+* a detailed description of how to use the symbol: when describing unique
+  items of constants, describe how to use them;
+  do not repeat yourself
+
+* one or more associated topic(s) (if appropriate)
+
+* a "See also" entry - mention only a view relevant symbols here
+
+Do not mention unknown symbols!
+
+Do not mention more than 10 symbols in the "See also" entry.
+
+DO NOT MENTION MORE THAN 10 SYMBOLS IN THE "See also" ENTRY!
+
+Do not mention internal details of functions.
+
+Do not start each sentence in the description with "If" or "The".
+
+DO NOT START EACH SENTENCE IN THE DESCRIPTION WITH "If" OR "The"!
+
+Do not tell the user what a function does not do.
+
+When referring to another symbol write it enclosed in angle brackets, e.g.
+<std::clear>.
+
+The "self"-parameter is a normal parameter like any other and should be
+mentioned in the the parameter description.
+
+Replace symbolic constants by their value.
+
+Operations on I/O-objects are not executed immediately but queued as jobs.
+To identify a job, an "id" is used.
+
+I/O-functions and I/O-methods either need I/O-access rights or propagate
+them ("if", "for_each", etc.).
+
+An "example" section, if available, must use Funky syntax and shall not be too
+long.
+
+If there is an appropriate example in the source code then use this example
+in the "example" section!
+
+[EXAMPLES]
+
+[source]
+
+FUNCTION std::real
+{
+  CHECK_ARGUMENTS(1)
+  char *str;
+  CHECK(to_c_string(ARGUMENTS(0), &str))
+  NODE *result = from_double(atof(str));
+  deallocate_memory(str);
+  RETURN_SINGLE_RESULT(result)
+}
+
+[documentation remark]
+
+# std::real (a function)
+
+  constructs a real number from its string representation
+
+  Parameters:
+    str: the string representation of the real number
+
+  Result:
+    value: the real number
+
+  Topic: Numbers
+
+  See also: std::integer, std_types::real
+
+[EXERCISE]
+
+[symbols]
+
+FUNCTION debug::string
+FUNCTION debug::write
+FUNCTION debug::dump_object
+FUNCTION debug::has_io_access_rights
+FUNCTION debug::exit
+FUNCTION std::error_check
+FUNCTION debug::total_garbage_collections
+
+#
+  Copyright (C) 2020 by
+  Dipl.-Ing. Michael Niederle
+
+  This program is free software; you can redistribute it and/or modify
+  it under the terms of the GNU General Public License, version 2, or
+  (at your option) version 3.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  GNU General Public License for more details.
+
+  For details of the GNU General Public License see the accompanying
+  files GPLv2.txt and GLPv3.txt or
+  http://www.gnu.org/licenses/gpl-2.0.html
+  http://www.gnu.org/licenses/gpl-3.0.html
+  or write to the
+  Free Software Foundation, Inc.,
+  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+
+# Topic: Debugging
+
+FUNCTION debug::string
+  #
+    returns a string representation of the given object
+
+    Parameters:
+      object # the object to be converted to a string
+      indent = 0 # the base indentation to use
+      depth = 1 # the desired level of detail (recursion depth)
+
+    This function uses introspection to display the object's attributes.
+
+    The returned string can contain multiple lines and is always terminated
+    with a line feed.
+
+    A negative indent is the same as a positive indent; but for multi-line
+    results the result string starts with a line feed.
+
+    Topic: Debug
+
+    See also: debug::dump_object, debug::dump, dump, edump
+
+    Example:
+
+      $SYMBOL .
+      print! debug::string(SYMBOL)
+
+    Output:
+
+      SYMBOL
+  {
+    MIN_ARGUMENTS(1)
+    MAX_ARGUMENTS(3)
+
+    NODE *node = ARGUMENTS(0);
+    int indent = 0;
+    int depth = 1;
+    if (ARGUMENT_COUNT >= 2) {
+      CHECK(to_int(ARGUMENTS(1), &indent))
+    }
+    if (ARGUMENT_COUNT >= 3) {
+      CHECK(to_int(ARGUMENTS(2), &depth))
+    }
+    long len = debug_string(node, indent, depth, NULL);
+    char *buf = allocate_memory(len+1);
+      // <sprintf> might be used and might add a null-byte;
+      // therefor allocate 1 byte more
+    len = debug_string(node, indent, depth, buf);
+    NODE *result = from_latin_1_string((const uint8_t *)buf, len);
+    deallocate_memory(buf);
+    RETURN_SINGLE_RESULT(result);
+  }
+
+FUNCTION debug::write
+  #
+    writes the given string to stderr
+
+    The function always prints the whole string and may block until *stderr* is
+    ready to accept new data.
+
+    The function can be called without I/O-access rights.
+
+    Topic: Debug
+
+    See also: debug::println
+
+    Example:
+
+      debug::write "success@nl;"
+
+    Error output:
+
+      success
+  {
+    CHECK_ARGUMENTS(1)
+    char *buf;
+    long len;
+    CHECK(to_octets(ARGUMENTS(0), (const uint8_t **)&buf, &len))
+    char *p = buf;
+    retry:;
+    long bytes_written = write(STDERR_FILENO, p, len);
+    if (bytes_written == -1) {
+      if (errno == EINTR) goto retry;
+    } else if (bytes_written < len) {
+      p += bytes_written;
+      len -= bytes_written;
+      goto retry;
+    }
+    deallocate_memory(buf);
+    RETURN_NOTHING
+  }
+
+FUNCTION debug::dump_object
+  #
+    writes a string representation of an object to stderr
+
+    The function always prints the whole string and may block until *stderr* is
+    ready to accept new data.
+
+    The function can be called without I/O-access rights.
+
+    The supplied string is converted to utf-8 before beeing written.
+
+    Topic: Debug
+
+    See also: debug::dump, debug::string
+
+    Example:
+
+      $SYMBOL .
+      debug::dump_object SYMBOL
+
+    Error output:
+
+      SYMBOL
+  {
+    MIN_ARGUMENTS(1)
+    MAX_ARGUMENTS(2)
+    NODE *node = ARGUMENTS(ARGUMENT_COUNT-1);
+    int depth = 1;
+    if (ARGUMENT_COUNT == 2) {
+      CHECK(to_int(ARGUMENTS(0), &depth))
+    }
+    long len = debug_string(node, 0, depth, NULL);
+    char *buf = allocate_memory(len+1);
+    char *p = buf;
+    len = debug_string(node, 0, depth, buf);
+    retry:;
+    long bytes_written = write(STDERR_FILENO, p, len);
+    if (bytes_written == -1) {
+      if (errno == EINTR) goto retry;
+    } else if (bytes_written < len) {
+      p += bytes_written;
+      len -= bytes_written;
+      goto retry;
+    }
+    deallocate_memory(buf);
+    RETURN_NOTHING
+  }
+
+FUNCTION debug::has_io_access_rights
+  #
+    returns true if the current process has I/O-access rights
+
+    Topic: Debug
+  {
+    CHECK_ARGUMENTS(0)
+    CHECK_RESULTS(1)
+    RETURN_BOOLEAN(!TLS_deny_io)
+  }
+
+FUNCTION debug::exit
+  #
+    terminates the program
+
+    This function does not need I/O-access rights.
+
+    Topic: Debug
+
+    Example:
+
+      on obj.is_an_error:
+        debug::dump_object obj
+        debug::exit
+  {
+    // ignore all arguments
+    exit(EXIT_FAILURE);
+  }
+
+FUNCTION std::error_check
+  #
+    raises an error if any of its arguments is an error object
+
+    This function does not need I/O-access rights.
+
+    Topic: Errors
+
+    See also: try
+
+    Example:
+
+      load! $data_1 filename_1
+      load! $data_2 filename_2
+      error_check data_1 data_2
+  {
+    int i;
+    CHECK_RESULTS(0)
+    for (i = 0; i < ARGUMENT_COUNT; ++i) {
+      if (TYPEOF(ARGUMENTS(i)) == TYPE(std_types::error)) {
+        RETURN_SINGLE_RESULT(ARGUMENTS(i))
+      }
+    }
+    RETURN_NOTHING
+  }
+
+FUNCTION debug::total_garbage_collections
+  #
+    returns the number of garbage collection cycles so far
+
+    Topic: Debug
+
+    Example:
+
+      debug::println! debug::total_garbage_collections().to_string
+
+    Error output:
+
+      0
+  {
+    CHECK_ARGUMENTS(0)
+    RETURN_SINGLE_RESULT(from_long(total_garbage_collections))
+  }
+
+[source]
+
+FUNCTION debug::dump_object
+  #
+    writes a string representation of an object to stderr
+
+    The function always prints the whole string and may block until *stderr* is
+    ready to accept new data.
+
+    The function can be called without I/O-access rights.
+
+    The supplied string is converted to utf-8 before beeing written.
+
+    Topic: Debug
+
+    See also: debug::dump, debug::string
+
+    Example:
+
+      $SYMBOL .
+      debug::dump_object SYMBOL
+
+    Error output:
+
+      SYMBOL
+  {
+    MIN_ARGUMENTS(1)
+    MAX_ARGUMENTS(2)
+    NODE *node = ARGUMENTS(ARGUMENT_COUNT-1);
+    int depth = 1;
+    if (ARGUMENT_COUNT == 2) {
+      CHECK(to_int(ARGUMENTS(0), &depth))
+    }
+    long len = debug_string(node, 0, depth, NULL);
+    char *buf = allocate_memory(len+1);
+    char *p = buf;
+    len = debug_string(node, 0, depth, buf);
+    retry:;
+    long bytes_written = write(STDERR_FILENO, p, len);
+    if (bytes_written == -1) {
+      if (errno == EINTR) goto retry;
+    } else if (bytes_written < len) {
+      p += bytes_written;
+      len -= bytes_written;
+      goto retry;
+    }
+    deallocate_memory(buf);
+    RETURN_NOTHING
+  }
+
+[documentation remark]
+
+### Always copy examples contained in the symbol's description remark
+    into the documentation
+
+### Use only one of the following topics: Debugging
+
+# debug::dump_object (a builtin function)
+

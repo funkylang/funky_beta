@@ -1,0 +1,1019 @@
+[GUIDELINES]
+
+All documentation remarks must have
+
+* a single short (single line) description written in lower case
+
+* a parameter(s) section (if appropriate)
+
+* a result(s) section (if appropriate)
+
+* a detailed description of how to use the symbol: when describing unique
+  items of constants, describe how to use them;
+  do not repeat yourself
+
+* one or more associated topic(s) (if appropriate)
+
+* a "See also" entry - mention only a view relevant symbols here
+
+Do not mention unknown symbols!
+
+Do not mention more than 10 symbols in the "See also" entry.
+
+DO NOT MENTION MORE THAN 10 SYMBOLS IN THE "See also" ENTRY!
+
+Do not mention internal details of functions.
+
+Do not start each sentence in the description with "If" or "The".
+
+DO NOT START EACH SENTENCE IN THE DESCRIPTION WITH "If" OR "The"!
+
+Do not tell the user what a function does not do.
+
+When referring to another symbol write it enclosed in angle brackets, e.g.
+<std::clear>.
+
+The "self"-parameter is a normal parameter like any other and should be
+mentioned in the the parameter description.
+
+Replace symbolic constants by their value.
+
+Operations on I/O-objects are not executed immediately but queued as jobs.
+To identify a job, an "id" is used.
+
+I/O-functions and I/O-methods either need I/O-access rights or propagate
+them ("if", "for_each", etc.).
+
+An "example" section, if available, must use Funky syntax and shall not be too
+long.
+
+If there is an appropriate example in the source code then use this example
+in the "example" section!
+
+[EXAMPLES]
+
+[source]
+
+POLY std::plus
+
+[documentation remark]
+
+# std::plus (a polymorphic function)
+
+  adds two numbers of any kind
+
+  Parameters:
+    left: the left operand
+    right: the right operand
+
+  Result:
+    sum: the sum of the two operands
+
+  Topic: Numbers
+
+  See also: std::minus, std::times, std::over, std::div, std::mod
+
+[EXERCISE]
+
+[symbols]
+
+POLY std::new
+POLY std::plus
+POLY std::minus
+POLY std::times
+POLY std::over
+POLY std::div
+POLY std::mod
+POLY std::negate
+POLY std::floor
+POLY std::ceil
+POLY std::round
+POLY std::ln
+POLY std::exp
+POLY std::equal
+POLY std::less
+POLY std::shift_left
+POLY std::shift_right
+POLY std::bit_and
+POLY std::bit_or
+POLY std::bit_xor
+ATTR std::parameter_count_of
+POLY std::to_string
+POLY std::to_integer
+POLY std::to_real
+POLY std::to_number
+POLY std::to_lower_case
+POLY std::to_upper_case
+POLY std::to_title_case
+POLY std::is_empty
+POLY std::is_not_empty
+ATTR std::length_of
+ATTR std::dimension_count_of
+ATTR std::width_of
+ATTR std::height_of
+POLY std::hash
+POLY std::push
+POLY std::pop
+POLY std::peek
+POLY std::drop
+POLY std::put
+POLY std::get
+POLY std::append
+POLY std::range
+POLY std::spread
+POLY std::to_list
+POLY std::exit
+POLY std::from_utf8
+POLY std::read
+POLY std::write
+POLY std::close
+POLY std::flush
+
+#
+  Copyright (C) 2021 by
+  Dipl.-Ing. Michael Niederle
+
+  This program is free software; you can redistribute it and/or modify
+  it under the terms of the GNU General Public License, version 2, or
+  (at your option) version 3.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  GNU General Public License for more details.
+
+  For details of the GNU General Public License see the accompanying
+  files GPLv2.txt and GLPv3.txt or
+  http://www.gnu.org/licenses/gpl-2.0.html
+  http://www.gnu.org/licenses/gpl-3.0.html
+  or write to the
+  Free Software Foundation, Inc.,
+
+# Topics: Objects, Numbers, Collections, Arrays, Lists, Strings, Input-Output
+
+#
+  define polymorphic functions before any other template is initialized
+
+POLY std::new
+  #
+    creates a new collection with inherited attributes
+
+    Topic: Collections, Lists
+
+POLY std::plus
+  #
+    add two numbers of any kind
+
+    Parameters:
+      left # the left operand
+      right # the right operand
+
+    Result:
+      sum # the sum of left and right
+
+    The result is always stored in the simplest possible form.
+
+    Topic: Numbers
+
+    See also: std::minus, std::times, std::over, std::div, std::mod
+
+POLY std::minus
+  #
+    subtract two numbers of any kind
+
+    Parameters:
+      left # the left operand
+      right # the right operand
+
+    Result:
+      diff # the difference of left and right
+
+    The result is always stored in the simplest possible form.
+
+    Topic: Numbers
+
+    See also: std::negate, std::plus, std::times, std::over, std::div, std::mod
+
+POLY std::times
+  #
+    multiply two numbers of any kind
+
+    Parameters:
+      left # the left operand
+      right # the right operand
+
+    Result:
+      product # the product of left and right
+
+    The result is always stored in the simplest possible form.
+
+    Topic: Numbers
+
+    See also: std::over, std::div, std::mod, std::plus, std::minus
+
+POLY std::over
+  #
+    divide two numbers of any kind
+
+    Parameters:
+      left # the left operand
+      right # the right operand
+
+    Result:
+
+    The result is stored as an integer if there is no remainder.
+
+    Topic: Numbers
+
+    See also: std::div, std::mod, std::times, std::plus, std::minus
+
+POLY std::div
+  #
+    divide two integer numbers
+
+    Parameters:
+      left # the left operand
+      right # the right operand
+
+    Result:
+      quotient # the integral part of the quotient of left and right
+
+    The result is rounded towards zero.
+
+    Topic: Numbers
+
+    See also: std::times, std::over, std::mod, std::plus, std::minus
+
+POLY std::mod
+  #
+    compute the remainder of two integer numbers
+
+    Parameters:
+      left # the left operand
+      right # the right operand
+
+    Result:
+      remainder # the remainder of left and right
+
+    The result has the same sign as the dividend
+
+    Topic: Numbers
+
+    See also: std::div,  std::times, std::over, std::plus, std::minus
+
+POLY std::negate
+  #
+    negate the numeric argument
+
+    Parameter:
+      number # the number to be negated
+
+    Result:
+      negated # the negation of number
+
+    The result is equal to
+
+    0 - argument
+
+    Topic: Numbers
+
+    See also: std::plus, std::minus, std::times, std::over, std::div, std::mod
+
+POLY std::floor
+  #
+    computes the greatest integral number smaller or equal than its argument
+
+    Parameter:
+      number # the input number
+
+    Result:
+      floor # the greatest integral number smaller or equal than number
+
+    Topic: Numbers
+
+    See also: ceil, round
+
+POLY std::ceil
+  #
+    computes the smallest integral number greater or equal than its argument
+
+    Parameter:
+      number # the input number
+
+    Result:
+      ceiling # the smallest integral number greater or equal than number
+
+    Topic: Numbers
+
+    See also: ceil, round
+
+POLY std::round
+  #
+    computes the nearest integral number for its argument
+
+    Parameter:
+      number # the input number
+
+    Result:
+      round # the nearest integral number for number
+
+    Topic: Numbers
+
+    See also: floor, ceil
+
+POLY std::ln
+  #
+    computes the logarithm to the base e
+
+    Parameter:
+      number # the input number
+
+    Result:
+      log # the logarithm of number to the base e
+
+    Topic: Numbers
+
+    See also: exp
+
+POLY std::exp
+  #
+    computes the exponential function of its argument
+
+    Parameter:
+      number # the input number
+
+    Result:
+      exp # the exponential function of number
+
+    Topic: Numbers
+
+    See also: ln
+
+POLY std::equal
+  #
+    compares two objects for equality
+
+    Parameters:
+      left # the left operand
+      right # the right operand
+
+    Result:
+      equal # true if left and right are equal, false otherwise
+
+    Two objects are equal if the equal function says so ... ^^
+
+    Two identical objects should always be equal.
+
+    <std::undefined> should only be equal to itself and to no other object.
+
+    There is no separate function to test non-equality.
+
+    *a* != *b*
+
+    is converted by the compiler to
+
+    <std::not>(<std::equal>(*a* *b*))
+
+    Topic: Objects, Numbers
+
+    See also: std::less
+
+POLY std::less
+  #
+    compares two objects in an object specific way
+
+    Parameters:
+      left # the left operand
+      right # the right operand
+
+    Result:
+      less # true if left is smaller than right, false otherwise
+
+    The two objects must be of a comparable type.
+
+    This function is used to implement the following comparison operators:
+
+    *a* < *b*
+
+    is converted by the compiler to
+
+    <std::less>(*a* *b*)
+
+    *a* > *b*
+
+    is converted by the compiler to
+
+    <std::less>(*b* *a*)
+
+    *a* <= *b*
+
+    is converted by the compiler to
+
+    <std::not>(<std::less>(*b* *a*))
+
+    *a* >= *b*
+
+    is converted by the compiler to
+
+    <std::not>(<std::less>(*a* *b*))
+
+    Topic: Objects, Numbers
+
+    See also: std::equal
+
+POLY std::shift_left
+  #
+    bitwise shift-left operation
+
+    Parameters:
+      value # the value to be shifted
+      shift # the number of bits to shift
+
+    Result:
+      shifted # the shifted value
+
+    The first operand (must be positive integer) is shifted left by the number
+    of bits specified by the second operandt, that must be a positive integer,
+    too.
+
+    There is no restriction in the size of the integer numbers!
+
+    Topic: Numbers
+
+    See also: std::shift_right, std::bit_and, std::bit_or, std::bit_xor
+
+POLY std::shift_right
+  #
+    bitwise shift-right operation
+
+    Parameters:
+      value # the value to be shifted
+      shift # the number of bits to shift
+
+    Result:
+      shifted # the shifted value
+
+    The first operand (must be positive integer) is shifted right by the number
+    of bits specified by the second operandt, that must be a positive integer,
+    too.
+
+    Bits that are shifted out on the right side are "lost".
+
+    There is no restriction in the size of the integer numbers!
+
+    Topic: Numbers
+
+    See also: std::shift_right, std::bit_and, std::bit_or, std::bit_xor
+
+POLY std::bit_and
+  #
+    bitwise and operation
+
+    Parameters:
+      left # the left operand
+      right # the right operand
+
+    Result:
+      and # the bitwise and of left and right
+
+    The two operands (both must be positive integers of any size) are combined
+    bit for bit using an and-operation.
+
+    Topic: Numbers
+
+    See also: std::bit_or, std::bit_xor, std::shift_left, std::shift_right
+
+POLY std::bit_or
+  #
+    bitwise inclusive or operation
+
+    Parameters:
+      left # the left operand
+      right # the right operand
+
+    Result:
+      or # the bitwise or of left and right
+
+    The two operands (both must be positive integers of any size) are combined
+    bit for bit using an inclusive-or-operation.
+
+    Topic: Numbers
+
+    See also: std::bit_and, std::bit_xor, std::shift_left, std::shift_right
+
+POLY std::bit_xor
+  #
+    bitwise exclusive or operation
+
+    Parameters:
+      left # the left operand
+      right # the right operand
+
+    Result:
+      xor # the bitwise exclusive or of left and right
+
+    The two operands (both must be positive integers of any size) are combined
+    bit for bit using an exclusive-or-operation.
+
+    Topic: Numbers
+
+    See also: std::bit_and, std::bit_or, std::shift_left, std::shift_right
+
+ATTR std::parameter_count_of
+  #
+    number of wanted arguments
+
+    Parameter:
+      function # the function to be analyzed
+
+    Result:
+      count # the number of arguments the function expects
+
+    This attribute returns the number of arguments to use when calling its
+    function. Functions that accept a variable number of arguments will return
+    <std::undefined>.
+
+    **Attention**: Functions accepting a variable number of arguments might have
+    a minimum and/or maximum number of expected arguments. These numbers **cannot** be
+    retrieved during runtime!
+
+POLY std::to_string
+  #
+    returns a human readable presentation of the object
+
+    Parameter:
+      object # the object to be converted
+
+    Result:
+      string # the string representation of object
+
+    Returns a string representation of its single argument.
+
+    When called on a string the string is returned unaltered.
+
+    Topic: Strings
+
+    See also: std::to_number, std::to_integer, std::to_real
+
+POLY std::to_integer
+  #
+    converts its argument into an integer number
+
+    Parameter:
+      object # the object to be converted
+
+    Result:
+      integer # the integer representation of object
+
+    Topic: Numbers
+
+    See also: std::parse_integer, std::to_number, std::to_real, std::to_string
+
+POLY std::to_real
+  #
+    converts its argument into a real (floating point) number
+
+    Parameter:
+      object # the object to be converted
+
+    Result:
+      real # the real number
+
+    Topic: Numbers
+
+    See also: std::to_number, std::to_integer, std::to_string
+
+POLY std::to_number
+  #
+    converts its argument into a number
+
+    Parameter:
+      object # the object to be converted
+
+    Result:
+      number # the number representation of object
+
+    Topic: Numbers
+
+    See also: std::to_integer, std::to_real, std::to_string
+
+POLY std::to_lower_case
+  #
+    converts all upper case characters to lower case
+
+    Parameter:
+      string # the string to be converted
+
+    Result:
+      lower # the lower case version of string
+
+    Topic: Strings
+
+    See also: std::to_upper_case, std::to_title_case
+
+POLY std::to_upper_case
+  #
+    converts all lower case characters to UPPER CASE
+
+    Parameter:
+      string # the string to be converted
+
+    Result:
+      upper # the upper case version of string
+
+    Topic: Strings
+
+    See also: std::to_lower_case, std::to_title_case
+
+POLY std::to_title_case
+  #
+    converts the contents to Title Case
+
+    Parameter:
+      string # the string to be converted
+
+    Result:
+      title # the title case version of string
+
+    All characters but the first character of each word are converted to lower
+    case. The first characters of all words are converted to upper case.
+
+    Topic: Strings
+
+    See also: std::to_lower_case, std::to_upper_case
+
+POLY std::is_empty
+  #
+    checks whether a collection contains any items
+
+    Parameter:
+      collection # the collection to be checked
+
+    Result:
+      empty # true if collection is empty, false otherwise
+
+    The following invariant should always hold:
+
+    <std::is_empty>(*collection*) == (<std::length_of>(*collection*) == 0)
+
+    Topic: Collections, Strings, Lists
+
+    See also: is_not_empty, std::length_of
+
+POLY std::is_not_empty
+  #
+    checks whether a collection contains at least one item
+
+    Parameter:
+      collection # the collection to be checked
+
+    Result:
+      not_empty # true if collection is not empty, false otherwise
+
+    The following invariant should always hold:
+
+    <std::is_empty>(*collection*) == (<std::length_of>(*collection*) > 0)
+
+    Topic: Collections, Strings, Lists
+
+    See also: is_empty, length_of
+
+ATTR std::length_of
+  #
+    returns the number of items within a collection
+
+    Parameter:
+      collection # the collection to be analyzed
+
+    Result:
+      length # the number of items within collection
+
+    Many collections just store this value explicitely, making this a very cheap
+    operation.
+
+    But there are collections which must traverse all its contents to compute
+    the total number of stored items, making this a very expensive operation!
+
+    Topics: Strings, Lists, Collections
+
+    See also: std::is_empty
+
+ATTR std::dimension_count_of
+  #
+    returns the number of dimensions of a multidimensional array
+
+    Parameter:
+      array # the array to be analyzed
+
+    Result:
+      count # the number of dimensions of array
+
+    Topic: Arrays
+
+    See also: std::length_of
+
+ATTR std::width_of
+  #
+    returns the width of an object in character positions
+
+    Parameter:
+      object # the object to be analyzed
+
+    Result:
+      width # the width of object in character positions
+
+    This attribute returns the number of character positions needed to display
+    the object.
+
+    Topic: Strings
+
+    See also: std::length_of
+
+ATTR std::height_of
+  #
+    returns the height of an object
+
+    Parameter:
+      object # the object to be analyzed
+
+    Result:
+      height # the height of object in lines
+
+POLY std::hash
+  #
+    returns a hash value
+
+    Parameter:
+      object # the object to be hashed
+
+    Result:
+      hash # an integer hash value
+
+    The returned integer number will always be the same for an object. The
+    returned number might not depend on the platform the program is running!
+
+    It must be computed from the object's contents solely!
+
+    Topics: Numbers, Objects, Strings
+
+    See also: std::equal
+
+POLY std::push
+  #
+    add a single item at the end of a collection
+
+    Parameters:
+      collection # the collection to be modified
+      item # the item to be added
+
+    Result:
+      collection # the modified collection
+
+    Topics: Strings, Lists
+
+    See also: std::pop, std::peek, std::drop, std::put, std::append
+
+POLY std::pop
+  #
+    remove and return the last item of a collection
+
+    Parameter:
+      collection # the collection to be modified
+
+    Results:
+      collection # the modified collection
+      item # the removed item
+
+    Topics: Strings, Lists
+
+    See also: std::peek, std::drop, std::push, std::put
+
+POLY std::peek
+  #
+    returns the last item of a collection without removing it
+
+    Parameter:
+      collection # the collection to be analyzed
+
+    Result:
+      item # the last item of collection
+
+    Topics: Strings, Lists
+
+    See also: std::pop, std::drop, std::push, std::put
+
+POLY std::drop
+  #
+    removes the last item of a collection without returning it
+
+    Parameter:
+      collection # the collection to be modified
+
+    Result:
+      collection # the modified collection
+
+    Topics: Strings, Lists
+
+    See also: std::pop, std::peek, std::push, std::put
+
+POLY std::put
+  #
+    adds a single item at the front of a collection
+
+    Parameters:
+      collection # the collection to be modified
+      item # the item to be added
+
+    Result:
+      collection # the modified collection
+
+    Topics: Strings, Lists
+
+    See also: std::get, std::push, std::pop
+
+POLY std::get
+  #
+    removes and returns the first item of a collection
+
+    Parameter:
+      collection # the collection to be modified
+
+    Results:
+      collection # the modified collection
+      item # the removed item
+
+    Topics: Strings, Lists
+
+    See also: std::put, std::pop, std::push
+
+POLY std::append
+  #
+    appends two or more collections to form a single collection
+
+    Parameters:
+      collections* # the collections to be appended
+
+    Result:
+      collection # the resulting collection
+
+    Topics: Strings, Lists
+
+    See also: std::push, std::dup
+
+POLY std::range
+  #
+    returns a subrange of a collection
+
+    Parameters:
+      collection # the collection to be analyzed
+      start # the first item to be included
+      end # the first item to be excluded
+
+    Result:
+      range # the subrange
+
+    The first argument specifies the collection.
+
+    The second argument specifies the first index of the first item to include
+    in the subrange.
+
+    The third argument specifies the last index of the first item to include in
+    the subrange.
+
+    It is okay if the subrange is empty:
+
+    *first_index* == *last_index* + 1
+
+    It is an error if the size of the subrange would be negative:
+
+    *first_index* > *last_index* + 1
+
+    If an index is negativ it is counted from the end of the collection.
+
+    So -1 denotes the last item of the collection, -2 denotes the next-to-last
+    item and so on.
+
+    Topics: Strings, Lists
+
+POLY std::spread
+  #
+    returns the items of a collection as separate results
+
+    Parameters:
+      collection # the collection to be analyzed
+
+    Results:
+      items* # the items of collection
+
+    Obviously this function should be used with care!
+
+    Topics: Lists
+
+POLY std::to_list
+  #
+    create a list representing the collection
+
+    Parameters:
+      collection # the collection to be analyzed
+
+    Result:
+      list # the list representation of collection
+
+    Topics: Lists
+
+POLY std::exit
+  #
+    terminates the current program or task
+
+    Topic: Input-Output
+
+POLY std::from_utf8
+  #
+    converts a string from utf-8 encoding to code points
+
+    Parameters:
+      string # the string to be converted
+
+    Result:
+      string # the converted string
+
+    Topic: Strings
+
+    See also: to_utf8
+
+POLY std::read
+  #
+    a low level read function
+
+    Parameters:
+      stream # the stream to read from
+      size # the (maximum) number of bytes to read
+
+    Topic: Input-Output
+
+POLY std::write
+  #
+    a low level write function
+
+    Parameters:
+      stream # the stream to write to
+      data # the data to be written
+
+    Topic: Input-Output
+
+POLY std::close
+  #
+    closes a resource
+
+    Parameter:
+      resource # the resource to be closed
+
+    Topic: Input-Output
+
+    See also: std::open_file
+
+POLY std::flush
+  #
+    flushes all buffers associated with the resource
+
+    Parameter:
+      resource # the resource to be flushed
+
+    Topic: Input-Output
+
+[source]
+
+$std_types::generic_list/get:
+  #
+    removes and returns the first element of the list
+  (
+    self
+  )
+  -> range(self 2 -1) self(1)
+
+POLY std::get
+  #
+    removes and returns the first item of a collection
+
+    Parameter:
+      collection # the collection to be modified
+
+    Results:
+      collection # the modified collection
+      item # the removed item
+
+    Topics: Strings, Lists
+
+    See also: std::put, std::pop, std::push
+
+[documentation remark]
+
+### Always copy examples contained in the symbol's description remark
+    into the documentation
+
+### Do not create completely new examples on your own
+
+### Use only one of the following topics: Objects, Numbers, Collections, Arrays, Lists, Strings, Input-Output
+
+# std::get (a polymorphic function)
+

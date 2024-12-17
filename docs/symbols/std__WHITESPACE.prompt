@@ -1,0 +1,1058 @@
+[MANUAL]
+
+In Funky function calls are either written on a single line with arguments
+enclosed within parentheses and separated by single spaces, e.g.:
+
+print! f(a b c) g(x y z)
+
+or they are written in indentation style using mutliple lines:
+
+print!
+  f
+    a
+    b
+    c
+  g
+    x
+    y
+    z
+
+Functions that create any output or read any input need I/O-access rights.
+
+A function that needs I/O-access rights must be called with a trailing
+exclamation mark after the function name, e.g.:
+
+println! "Hello, World!"
+
+The expression
+
+key = value
+
+denotes a key-value-pair.
+
+Collection types cannot be printed directly. You can use "dump!" to
+dump the contents of a collection, e.g.:
+
+$ages
+  hash_table
+    "John" = 42
+    "Mary" = 25
+    "Irene" = 49
+
+dump! `ages
+
+Output:
+
+ages: hash_table <6>
+  "Mary"
+  25
+  "Irene"
+  49
+  "John"
+  42
+
+Note: The number in angular brackets after the typename denotes the number
+of (indented) lines that follow the head.
+
+A tail call returns the result of the called function; e.g.:
+
+$calc:
+  (
+    x
+    y
+  )
+  plus x*x y*y
+
+println! calc(2 3)
+
+prints
+
+13
+
+[GUIDELINES]
+
+All documentation remarks must have
+
+* a single short (single line) description written in lower case
+
+* a parameter(s) section (if appropriate)
+
+* a result(s) section (if appropriate)
+
+* a detailed description of how to use the symbol: when describing unique
+  items of constants, describe how to use them;
+  do not repeat yourself
+
+* one or more associated topic(s) (if appropriate)
+
+* a "See also" entry - mention only a view relevant symbols here
+
+Do not mention unknown symbols!
+
+Do not mention more than 10 symbols in the "See also" entry.
+
+DO NOT MENTION MORE THAN 10 SYMBOLS IN THE "See also" ENTRY!
+
+Do not mention internal details of functions.
+
+Do not start each sentence in the description with "If" or "The".
+
+DO NOT START EACH SENTENCE IN THE DESCRIPTION WITH "If" OR "The"!
+
+Do not tell the user what a function does not do.
+
+When referring to another symbol write it enclosed in angle brackets, e.g.
+<std::clear>.
+
+The "self"-parameter is a normal parameter like any other and should be
+mentioned in the the parameter description.
+
+Replace symbolic constants by their value.
+
+Operations on I/O-objects are not executed immediately but queued as jobs.
+To identify a job, an "id" is used.
+
+I/O-functions and I/O-methods either need I/O-access rights or propagate
+them ("if", "for_each", etc.).
+
+An "example" section, if available, must use Funky syntax and shall not be too
+long.
+
+If there is an appropriate example in the source code then use this example
+in the "example" section!
+
+[EXAMPLES]
+
+[source]
+
+$std::DIGIT '0'..'9'
+
+[documentation remark]
+
+# std::DIGIT (an object)
+
+  a value used to match a digit
+
+  Topic: Grammar Objects
+
+  See also: std::LETTER, std::ALPHANUMERIC
+
+[EXERCISE]
+
+#
+  Topic: Grammar Objects
+
+  Grammar objects support methods for matching and searching.
+
+[symbols]
+
+$std::match ()
+$std::match_back ()
+$std::search ()
+$std_types::FUNKY_IDENTIFIER std_types::object
+$std::FUNKY_IDENTIFIER std_types::FUNKY_IDENTIFIER
+$std_types::FUNKY_IDENTIFIER/match:
+$std_types::FUNKY_IDENTIFIER/match_back:
+$std_types::FUNKY_IDENTIFIER/search:
+$std_types::WHITESPACE std_types::object
+$std::WHITESPACE std_types::WHITESPACE
+$std_types::WHITESPACE/match:
+$std_types::WHITESPACE/match_back:
+$std_types::WHITESPACE/search:
+$std_types::many std_types::object # "many" means "one or more"
+$std::many:
+$std_types::many/match:
+$std_types::many/match_back:
+$std_types::many/search:
+$std_types::some std_types::object # "some" means "zero or more"
+$std::some:
+$std_types::some/match:
+$std_types::optional std_types::object
+$std::optional:
+$std_types::optional/match:
+$std_types::anything std_types::object
+$std::ANYTHING std_types::anything
+$std_types::anything/match:
+$std_types::anything/match_back:
+$std_types::anything/search:
+$std_types::any_character_but std_types::object
+$std::any_character_but:
+$std_types::any_character_but/match:
+$std_types::capture std_types::object
+$std::capture: (expr)
+$std_types::capture/match:
+$std::DIGIT '0'..'9'
+$std::LETTER 'a'..'z', 'A'..'Z'
+$std::alt std::hash_set
+
+#
+  Copyright (C) 2024 by
+  Dipl.-Ing. Michael Niederle
+
+  This program is free software; you can redistribute it and/or modify
+  it under the terms of the GNU Library General Public License, version 2, or
+  (at your option) under the terms of the GNU Lesser General Public License,
+  version 3.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  GNU Lesser (Library) General Public License for more details.
+
+  For details of the GNU General Public License see the accompanying
+  files LGPLv2.txt and LGLPv3.txt or
+  http://www.gnu.org/licenses/lgpl-2.0.html
+  http://www.gnu.org/licenses/lgpl-3.0.html
+  or write to the
+  Free Software Foundation, Inc.,
+  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+
+#
+  Topic: Grammar Objects
+
+  Grammar objects support methods for matching and searching.
+
+$std::match ()
+
+$std::match_back ()
+
+$std::search ()
+
+$std_types::FUNKY_IDENTIFIER std_types::object
+
+$std::FUNKY_IDENTIFIER std_types::FUNKY_IDENTIFIER
+
+$std_types::FUNKY_IDENTIFIER/match:
+  (
+    _self
+    str
+  )
+  $rc result_count()
+  $i 1
+  $n length_of(str)
+
+  if
+    n == 0
+    fail
+    :
+      case str(1)
+        'a' .. 'z', 'A' .. 'Z' within_word
+        fail
+
+  $within_word:
+    inc &i
+    if
+      i > n:
+        if
+          rc == 1
+          -> n
+          -> n range(str 1 n)
+      :
+        case str(i)
+          'a' .. 'z', 'A' .. 'Z', '0' .. '9' within_word
+          '_' word_start
+          :
+            if
+              rc == 1
+              -> i-1
+              -> i-1 range(str 1 i-1)
+
+  $word_start:
+    inc &i
+    if
+      i > n:
+        if
+          rc == 1
+          -> n
+          -> n range(str 1 n)
+      :
+        case str(i)
+          'a' .. 'z', 'A' .. 'Z', '0' .. '9' within_word
+          fail
+
+  $fail:
+    if
+      rc == 1
+      -> undefined
+      -> undefined undefined
+
+$std_types::FUNKY_IDENTIFIER/match_back:
+  (
+    _self
+    str
+  )
+  $n length_of(str)
+  $i n+1
+  word_end
+
+  $word_end:
+    dec &i
+    if
+      i < 1
+      -> undefined
+      :
+        case str(i)
+          'a' .. 'z', 'A' .. 'Z', '0' .. '9' within_word
+          -> undefined
+
+  $within_word:
+    dec &i
+    if
+      i < 1
+      check_start
+      :
+        case str(i)
+          'a' .. 'z', 'A' .. 'Z', '0' .. '9' within_word
+          '_' word_end
+          check_start
+
+  $check_start:
+    if
+      str(i+1) >= '0' && str(i+1) <= '9'
+      -> undefined
+      -> n-i
+
+$std_types::FUNKY_IDENTIFIER/search:
+  (
+    _self
+    str
+    nth = 1
+  )
+  $n length_of(str)
+  if
+    nth < 0
+    search_backwards
+    search_forwards
+
+  $search_forwards:
+    $i 0
+    $s undefined
+    search_for_word_start
+
+    $search_for_word_start:
+      inc &i
+      if
+        i > n
+        -> undefined undefined
+        :
+          case str(i)
+            'a' .. 'z', 'A' .. 'Z':
+              if
+                i == 1:
+                  !s 1
+                  within_word
+                :
+                  case str(i-1)
+                    'a' .. 'z', 'A' .. 'Z', '0' .. '9', '_'
+                    search_for_word_start
+                    :
+                      !s i
+                      within_word
+            search_for_word_start
+
+    $within_word:
+      inc &i
+      if
+        i > n:
+          if
+            nth > 1
+            -> undefined undefined
+            -> s i-s
+        :
+          case str(i)
+            'a' .. 'z', 'A' .. 'Z', '0' .. '9' within_word
+            '_' word_start
+            :
+              if
+                nth > 1:
+                  dec &nth
+                  search_for_word_start
+                -> s i-s
+
+    $word_start:
+      inc &i
+      if
+        i > n
+        -> undefined undefined
+        :
+          case str(i)
+            'a' .. 'z', 'A' .. 'Z', '0' .. '9' within_word
+            search_for_word_start
+
+  $search_backwards:
+    $i n+1
+    $e undefined
+    search_for_word_end
+
+    $search_for_word_end:
+      dec &i
+      if
+        i < 1
+        -> undefined undefined
+        :
+          case str(i)
+            'a' .. 'z', 'A' .. 'Z', '0' .. '9':
+              !e i
+              within_word
+            search_for_word_end
+
+    $within_word:
+      dec &i
+      if
+        i < 1:
+          check_start -> undefined undefined
+        :
+          case str(i)
+            'a' .. 'z', 'A' .. 'Z', '0' .. '9' within_word
+            '_' word_end
+            :
+              check_start search_for_word_end
+
+    $word_end:
+      dec &i
+      if
+        i < 1
+        -> undefined undefined
+        :
+          case str(i)
+            'a' .. 'z', 'A' .. 'Z', '0' .. '9' within_word
+            search_for_word_end
+
+    $check_start: (continuation)
+      $chr str(i+1)
+      if
+        chr >= '0' && chr <= '9'
+        continuation
+        :
+          inc &nth
+          if
+            nth == 0
+            -> i+1 e-i
+            continuation
+
+$std_types::WHITESPACE std_types::object
+
+$std::WHITESPACE std_types::WHITESPACE
+
+$std_types::WHITESPACE/match:
+  #
+    Example:
+
+      $str "@ht;  This is a text."
+      match WHITESPACE str $len
+      dump! `len
+
+    Output:
+
+      len: 3
+
+    Example:
+
+      $str "This is a text."
+      match WHITESPACE str $len
+      dump! `len
+
+    Output:
+
+      len: <undefined>
+  (
+    _self
+    str
+  )
+  $i 0
+  $n length_of(str)
+  if
+    n == 0
+    -> undefined
+    :
+      loop:
+        inc &i
+        if
+          i > n
+          -> n
+          :
+            if
+              str(i).is_a_whitespace_character
+              next
+              :
+                if
+                  i > 1
+                  -> i-1
+                  -> undefined
+
+$std_types::WHITESPACE/match_back:
+  (
+    _self
+    str
+  )
+  $n length_of(str)
+  if
+    n == 0
+    -> undefined
+    :
+      $i n+1
+      loop:
+        dec &i
+        if
+          i < 1
+          -> n
+          :
+            if
+              str(i).is_a_whitespace_character
+              next
+              :
+                if
+                  i < n
+                  -> n-i
+                  -> undefined
+
+$std_types::WHITESPACE/search:
+  #
+    Example:
+
+      $str "This is a text."
+      search WHITESPACE str 2 $pos $len
+      dump! `pos `len
+
+    Output:
+
+      pos: 8
+      len: 1
+
+    Example:
+
+      $str "This is a text.@nl;"
+      search WHITESPACE str -1 $pos $len
+      dump! `pos `len
+
+    Output:
+
+      pos: 10
+      len: 1
+  (
+    _self
+    str
+    nth = 1
+  )
+  $n length_of(str)
+  if
+    nth < 0
+    search_backwards
+    search_forwards
+
+  $search_forwards:
+    $i 0
+    $s undefined
+    search_for_whitespace
+
+    $search_for_whitespace:
+      inc &i
+      if
+        i > n
+        -> undefined undefined
+        :
+          if
+            str(i).is_a_whitespace_character
+            :
+              !s i
+              match_more_whitespace
+            search_for_whitespace
+
+    $match_more_whitespace:
+      inc &i
+      if
+        i > n:
+          if
+            nth > 1
+            -> undefined undefined
+            -> s i-s
+        :
+          if
+            str(i).is_a_whitespace_character
+            match_more_whitespace
+            :
+              if
+                nth > 1:
+                  dec &nth
+                  search_for_whitespace
+                -> s i-s
+
+  $search_backwards:
+    $i n+1
+    $e undefined
+    search_for_whitespace
+
+    $search_for_whitespace:
+      dec &i
+      if
+        i < 1
+        -> undefined undefined
+        :
+          if
+            str(i).is_a_whitespace_character
+            :
+              !e i
+              match_more_whitespace
+            search_for_whitespace
+
+    $match_more_whitespace:
+      dec &i
+      if
+        i < 1:
+          inc &nth
+          if
+            nth == 0
+            -> 1 e
+            -> undefined undefined
+        :
+          if
+            str(i).is_a_whitespace_character
+            match_more_whitespace
+            :
+              inc &nth
+              if
+                nth == 0
+                -> i+1 e-i
+                search_for_whitespace
+
+$expression_of ()
+
+$std_types::many std_types::object # "many" means "one or more"
+
+$std::many:
+  (
+    expr # the expression to match multiple times
+  )
+  -> std_types::many(.expression_of expr)
+
+$std_types::many/match:
+  #
+    Example:
+
+      $str "12345abcdef"
+      match many(DIGIT) str $len
+      dump! `len
+
+    Output:
+
+      len: 5
+  (
+    self
+    str
+  )
+  $rc result_count()
+  $expr expression_of(self)
+  if
+    rc == 1:
+      match $i expr str
+      if
+        i.is_undefined
+        -> undefined
+        :
+          if
+            i == 0
+            -> 0
+            :
+              !i i+1
+              $n length_of(str)
+              loop:
+                if
+                  i > n
+                  -> n
+                  :
+                    match $len expr range(str i n)
+                    if
+                      len.is_undefined || len == 0
+                      -> i-1
+                      :
+                        plus &i len
+                        next
+    :
+      $captured_items empty_list
+      match $i expr str $captured_item
+      if
+        i.is_undefined
+        -> undefined undefined
+        :
+          if
+            i == 0
+            -> 0 undefined
+            :
+              update_if captured_item.is_defined &captured_items
+                -> list(captured_item)
+              !i i+1
+              $n length_of(str)
+              loop:
+                if
+                  i > n
+                  -> n captured_items
+                  :
+                    match $len expr range(str i n) !captured_item
+                    if
+                      len.is_undefined || len == 0
+                      -> i-1 captured_items
+                      :
+                        plus &i len
+                        if
+                          captured_item.is_defined:
+                            push &captured_items captured_item
+                            next
+                          next
+
+$std_types::many/match_back:
+  #
+    Example:
+
+      $str "12345abcdef"
+      match_back many('a'..'z') str $len
+      dump! `len
+
+    Output:
+
+      len: 6
+  (
+    self
+    str
+  )
+  $expr expression_of(self)
+  match_back $i expr str
+  if
+    i.is_undefined || i == 0
+    -> i
+    :
+      $n length_of(str)
+      !i n-i
+      loop:
+        if
+          i < 1
+          -> n
+          :
+            match_back $len expr range(str 1 i)
+            if
+              len.is_undefined || len == 0
+              -> n-i
+              :
+                minus &i len
+                next
+
+$std_types::many/search:
+  #
+    Example:
+
+      $str "ab12cde345fgh"
+      search many(DIGIT) str 2 $pos $len
+      dump! `pos `len
+
+    Output:
+
+      pos: 8
+      len: 3
+  (
+    self # many
+    str # the string to search
+    nth = 1 # the nth occurrence to search for
+  )
+  $expr expression_of(self)
+  $n length_of(str)
+  if
+    nth < 0
+    search_backwards
+    search_forwards
+
+  $search_forwards:
+    $i 1
+    search_next
+
+    $search_next:
+      if
+        i > n+1
+        -> undefined undefined
+        :
+          search expr range(str i n) 1 $pos $len
+          if
+            pos.is_undefined
+            -> undefined undefined
+            :
+              !i i+pos-1
+              dec &nth
+              if
+                len == 0:
+                  if
+                    nth < 1
+                    -> i 0
+                    :
+                      inc &i
+                      search_next
+                :
+                  $s i
+                  loop:
+                    plus &i len
+                    match expr range(str i n) !len
+                    if
+                      len.is_undefined || len == 0:
+                        if
+                          nth < 1
+                          -> s i-s
+                          :
+                            inc &i
+                            search_next
+                      next
+
+  $search_backwards:
+    $i n
+    search_next
+
+    $search_next:
+      if
+        i < 1
+        -> undefined undefined
+        :
+          search expr range(str 1 i) -1 !i $len
+          if
+            i.is_undefined
+            -> undefined undefined
+            :
+              inc &nth
+              if
+                len == 0:
+                  if
+                    nth >= 0
+                    -> i n-i+1
+                    :
+                      dec &i
+                      search_next
+                :
+                  dec &i
+                  $e i+len
+                  loop:
+                    match_back expr range(str 1 i) !len
+                    if
+                      len.is_undefined || len == 0:
+                        if
+                          nth >= 0
+                          -> i+1 e-i
+                          :
+                            dec &i
+                            search_next
+                      :
+                        minus &i len
+                        next
+
+$std_types::some std_types::object # "some" means "zero or more"
+
+$std::some:
+  (
+    expr
+  )
+  -> std_types::some(.expression_of expr)
+
+$std_types::some/match:
+  #
+    checks whether the specified string starts with zero or more occurrences
+    of the specified expression
+
+    Result:
+      len # the number of matched characters or <undefined> if the match is
+            unsuccessful
+
+    Topic: Grammar Objects, Strings
+
+    See also: std_types::some, std_types::some/std::match_back,
+              std_types::some/std::search
+
+    Example:
+
+      $str "abcdef"
+      match some(DIGIT) str $len
+      dump! `len
+
+    Output:
+
+      len: 0
+  (
+    self
+    str
+  )
+  $rc result_count()
+  $expr expression_of(self)
+  if
+    rc == 1:
+      match $i expr str
+      if
+        i.is_undefined || i == 0
+        -> 0
+        :
+          !i i+1
+          $n length_of(str)
+          loop:
+            if
+              i > n
+              -> n
+              :
+                match $len expr range(str i n)
+                if
+                  len.is_undefined || len == 0
+                  -> i-1
+                  :
+                    plus &i len
+                    next
+    :
+      $captured_items empty_list
+      match $i expr str $captured_item
+      if
+        i.is_undefined || i == 0
+        -> 0 undefined
+        :
+          update_if captured_item.is_defined &captured_items
+            -> list(captured_item)
+          !i i+1
+          $n length_of(str)
+          loop:
+            if
+              i > n
+              -> n captured_items
+              :
+                match $len expr range(str i n) !captured_item
+                if
+                  len.is_undefined || len == 0
+                  -> i-1 captured_items
+                  :
+                    plus &i len
+                    if
+                      captured_item.is_defined:
+                        push &captured_items captured_item
+                        next
+                      next
+
+$std_types::optional std_types::object
+
+$std::optional:
+  (
+    expr
+  )
+  -> std_types::optional(.expression_of expr)
+
+$std_types::optional/match:
+  (
+    self
+    str
+  )
+  $rc result_count()
+  $expr expression_of(self)
+  if
+    rc == 1:
+      match $i expr str
+      if
+        i.is_undefined
+        -> 0
+        -> i
+    :
+      match $i expr str $captured_item
+      if
+        i.is_undefined
+        -> 0 undefined
+        -> i captured_item
+
+$std_types::anything std_types::object
+
+$std::ANYTHING std_types::anything
+  #
+    Example:
+
+      $str "abcdef"
+      match ANYTHING str $len
+      dump! `len
+
+    Output:
+
+      len: 6
+
+$std_types::anything/match:
+  (
+    _self
+    str
+  )
+  -> length_of(str)
+
+$std_types::anything/match_back:
+  (
+    _self # anything
+    str # the string to match with
+  )
+  -> length_of(str)
+
+$std_types::anything/search:
+  #
+    Results:
+      pos: always 1
+      len: the length of the whole string
+  (
+    _self # anything
+    str # the string to search
+    _nth = 1 # the nth occurrence to search for
+  )
+  -> 1 length_of(str)
+
+$std_types::any_character_but std_types::object
+
+$std::any_character_but:
+  (
+    expr
+  )
+  -> std_types::any_character_but(.expression_of expr)
+
+$std_types::any_character_but/match:
+  (
+    self
+    str
+  )
+  $expr expression_of(self)
+  match $i expr str
+  if
+    i.is_undefined
+    -> 1
+    -> undefined
+
+$std_types::capture std_types::object
+
+$std::capture: (expr)
+  -> std_types::capture(.expression_of expr)
+
+$std_types::capture/match:
+  (
+    self
+    str
+  )
+  $rc result_count()
+  $expr expression_of(self)
+  match expr str $len
+  if
+    rc == 1
+    -> len
+    :
+      if
+        len.is_undefined
+        -> len undefined
+        -> len range(str 1 len)
+
+$std::DIGIT '0'..'9'
+
+$std::LETTER 'a'..'z', 'A'..'Z'
+
+#$std::ALPHANUMERIC alt(std::LETTER std::DIGIT)
+
+$std::alt std::hash_set
+
+[source]
+
+$std::WHITESPACE std_types::WHITESPACE
+
+[documentation remark]
+
+### Always copy examples contained in the symbol's description remark
+    into the documentation
+
+### Use only one of the following topics: Grammar Objects
+
+# std::WHITESPACE (an object)
+

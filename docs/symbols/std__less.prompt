@@ -1,0 +1,965 @@
+[GUIDELINES]
+
+All documentation remarks must have
+
+* a single short (single line) description written in lower case
+
+* a parameter(s) section (if appropriate)
+
+* a result(s) section (if appropriate)
+
+* a detailed description of how to use the symbol: when describing unique
+  items of constants, describe how to use them;
+  do not repeat yourself
+
+* one or more associated topic(s) (if appropriate)
+
+* a "See also" entry - mention only a view relevant symbols here
+
+Do not mention unknown symbols!
+
+Do not mention more than 10 symbols in the "See also" entry.
+
+DO NOT MENTION MORE THAN 10 SYMBOLS IN THE "See also" ENTRY!
+
+Do not mention internal details of functions.
+
+Do not start each sentence in the description with "If" or "The".
+
+DO NOT START EACH SENTENCE IN THE DESCRIPTION WITH "If" OR "The"!
+
+Do not tell the user what a function does not do.
+
+When referring to another symbol write it enclosed in angle brackets, e.g.
+<std::clear>.
+
+The "self"-parameter is a normal parameter like any other and should be
+mentioned in the the parameter description.
+
+Replace symbolic constants by their value.
+
+Operations on I/O-objects are not executed immediately but queued as jobs.
+To identify a job, an "id" is used.
+
+I/O-functions and I/O-methods either need I/O-access rights or propagate
+them ("if", "for_each", etc.).
+
+An "example" section, if available, must use Funky syntax and shall not be too
+long.
+
+If there is an appropriate example in the source code then use this example
+in the "example" section!
+
+[EXAMPLES]
+
+[source]
+
+POLY std::plus
+
+[documentation remark]
+
+# std::plus (a polymorphic function)
+
+  adds two numbers of any kind
+
+  Parameters:
+    left: the left operand
+    right: the right operand
+
+  Result:
+    sum: the sum of the two operands
+
+  Topic: Numbers
+
+  See also: std::minus, std::times, std::over, std::div, std::mod
+
+[EXERCISE]
+
+[symbols]
+
+POLY std::new
+POLY std::plus
+POLY std::minus
+POLY std::times
+POLY std::over
+POLY std::div
+POLY std::mod
+POLY std::negate
+POLY std::floor
+POLY std::ceil
+POLY std::round
+POLY std::ln
+POLY std::exp
+POLY std::equal
+POLY std::less
+POLY std::shift_left
+POLY std::shift_right
+POLY std::bit_and
+POLY std::bit_or
+POLY std::bit_xor
+ATTR std::parameter_count_of
+POLY std::to_string
+POLY std::to_integer
+POLY std::to_real
+POLY std::to_number
+POLY std::to_lower_case
+POLY std::to_upper_case
+POLY std::to_title_case
+POLY std::is_empty
+POLY std::is_not_empty
+ATTR std::length_of
+ATTR std::dimension_count_of
+ATTR std::width_of
+ATTR std::height_of
+POLY std::hash
+POLY std::push
+POLY std::pop
+POLY std::peek
+POLY std::drop
+POLY std::put
+POLY std::get
+POLY std::append
+POLY std::range
+POLY std::spread
+POLY std::to_list
+POLY std::exit
+POLY std::from_utf8
+POLY std::read
+POLY std::write
+POLY std::close
+POLY std::flush
+
+# Topics: Objects, Numbers, Collections, Arrays, Lists, Strings, Input-Output
+
+#
+  define polymorphic functions before any other template is initialized
+
+POLY std::new
+  #
+    creates a new collection with inherited attributes
+
+    Topic: Collections, Lists
+
+POLY std::plus
+  #
+    add two numbers of any kind
+
+    Parameters:
+      left # the left operand
+      right # the right operand
+
+    Result:
+      sum # the sum of left and right
+
+    The result is always stored in the simplest possible form.
+
+    Topic: Numbers
+
+    See also: std::minus, std::times, std::over, std::div, std::mod
+
+POLY std::minus
+  #
+    subtract two numbers of any kind
+
+    Parameters:
+      left # the left operand
+      right # the right operand
+
+    Result:
+      diff # the difference of left and right
+
+    The result is always stored in the simplest possible form.
+
+    Topic: Numbers
+
+    See also: std::negate, std::plus, std::times, std::over, std::div, std::mod
+
+POLY std::times
+  #
+    multiply two numbers of any kind
+
+    Parameters:
+      left # the left operand
+      right # the right operand
+
+    Result:
+      product # the product of left and right
+
+    The result is always stored in the simplest possible form.
+
+    Topic: Numbers
+
+    See also: std::over, std::div, std::mod, std::plus, std::minus
+
+POLY std::over
+  #
+    divide two numbers of any kind
+
+    Parameters:
+      left # the left operand
+      right # the right operand
+
+    Result:
+
+    The result is stored as an integer if there is no remainder.
+
+    Topic: Numbers
+
+    See also: std::div, std::mod, std::times, std::plus, std::minus
+
+POLY std::div
+  #
+    divide two integer numbers
+
+    Parameters:
+      left # the left operand
+      right # the right operand
+
+    Result:
+      quotient # the integral part of the quotient of left and right
+
+    The result is rounded towards zero.
+
+    Topic: Numbers
+
+    See also: std::times, std::over, std::mod, std::plus, std::minus
+
+POLY std::mod
+  #
+    compute the remainder of two integer numbers
+
+    Parameters:
+      left # the left operand
+      right # the right operand
+
+    Result:
+      remainder # the remainder of left and right
+
+    The result has the same sign as the dividend
+
+    Topic: Numbers
+
+    See also: std::div,  std::times, std::over, std::plus, std::minus
+
+POLY std::negate
+  #
+    negate the numeric argument
+
+    Parameter:
+      number # the number to be negated
+
+    Result:
+      negated # the negation of number
+
+    The result is equal to
+
+    0 - argument
+
+    Topic: Numbers
+
+    See also: std::plus, std::minus, std::times, std::over, std::div, std::mod
+
+POLY std::floor
+  #
+    computes the greatest integral number smaller or equal than its argument
+
+    Parameter:
+      number # the input number
+
+    Result:
+      floor # the greatest integral number smaller or equal than number
+
+    Topic: Numbers
+
+    See also: ceil, round
+
+POLY std::ceil
+  #
+    computes the smallest integral number greater or equal than its argument
+
+    Parameter:
+      number # the input number
+
+    Result:
+      ceiling # the smallest integral number greater or equal than number
+
+    Topic: Numbers
+
+    See also: ceil, round
+
+POLY std::round
+  #
+    computes the nearest integral number for its argument
+
+    Parameter:
+      number # the input number
+
+    Result:
+      round # the nearest integral number for number
+
+    Topic: Numbers
+
+    See also: floor, ceil
+
+POLY std::ln
+  #
+    computes the logarithm to the base e
+
+    Parameter:
+      number # the input number
+
+    Result:
+      log # the logarithm of number to the base e
+
+    Topic: Numbers
+
+    See also: exp
+
+POLY std::exp
+  #
+    computes the exponential function of its argument
+
+    Parameter:
+      number # the input number
+
+    Result:
+      exp # the exponential function of number
+
+    Topic: Numbers
+
+    See also: ln
+
+POLY std::equal
+  #
+    compares two objects for equality
+
+    Parameters:
+      left # the left operand
+      right # the right operand
+
+    Result:
+      equal # true if left and right are equal, false otherwise
+
+    Two objects are equal if the equal function says so ... ^^
+
+    Two identical objects should always be equal.
+
+    <std::undefined> should only be equal to itself and to no other object.
+
+    There is no separate function to test non-equality.
+
+    *a* != *b*
+
+    is converted by the compiler to
+
+    <std::not>(<std::equal>(*a* *b*))
+
+    Topic: Objects, Numbers
+
+    See also: std::less
+
+POLY std::less
+  #
+    compares two objects in an object specific way
+
+    Parameters:
+      left # the left operand
+      right # the right operand
+
+    Result:
+      less # true if left is smaller than right, false otherwise
+
+    The two objects must be of a comparable type.
+
+    This function is used to implement the following comparison operators:
+
+    *a* < *b*
+
+    is converted by the compiler to
+
+    <std::less>(*a* *b*)
+
+    *a* > *b*
+
+    is converted by the compiler to
+
+    <std::less>(*b* *a*)
+
+    *a* <= *b*
+
+    is converted by the compiler to
+
+    <std::not>(<std::less>(*b* *a*))
+
+    *a* >= *b*
+
+    is converted by the compiler to
+
+    <std::not>(<std::less>(*a* *b*))
+
+    Topic: Objects, Numbers
+
+    See also: std::equal
+
+POLY std::shift_left
+  #
+    bitwise shift-left operation
+
+    Parameters:
+      value # the value to be shifted
+      shift # the number of bits to shift
+
+    Result:
+      shifted # the shifted value
+
+    The first operand (must be positive integer) is shifted left by the number
+    of bits specified by the second operandt, that must be a positive integer,
+    too.
+
+    There is no restriction in the size of the integer numbers!
+
+    Topic: Numbers
+
+    See also: std::shift_right, std::bit_and, std::bit_or, std::bit_xor
+
+POLY std::shift_right
+  #
+    bitwise shift-right operation
+
+    Parameters:
+      value # the value to be shifted
+      shift # the number of bits to shift
+
+    Result:
+      shifted # the shifted value
+
+    The first operand (must be positive integer) is shifted right by the number
+    of bits specified by the second operandt, that must be a positive integer,
+    too.
+
+    Bits that are shifted out on the right side are "lost".
+
+    There is no restriction in the size of the integer numbers!
+
+    Topic: Numbers
+
+    See also: std::shift_right, std::bit_and, std::bit_or, std::bit_xor
+
+POLY std::bit_and
+  #
+    bitwise and operation
+
+    Parameters:
+      left # the left operand
+      right # the right operand
+
+    Result:
+      and # the bitwise and of left and right
+
+    The two operands (both must be positive integers of any size) are combined
+    bit for bit using an and-operation.
+
+    Topic: Numbers
+
+    See also: std::bit_or, std::bit_xor, std::shift_left, std::shift_right
+
+POLY std::bit_or
+  #
+    bitwise inclusive or operation
+
+    Parameters:
+      left # the left operand
+      right # the right operand
+
+    Result:
+      or # the bitwise or of left and right
+
+    The two operands (both must be positive integers of any size) are combined
+    bit for bit using an inclusive-or-operation.
+
+    Topic: Numbers
+
+    See also: std::bit_and, std::bit_xor, std::shift_left, std::shift_right
+
+POLY std::bit_xor
+  #
+    bitwise exclusive or operation
+
+    Parameters:
+      left # the left operand
+      right # the right operand
+
+    Result:
+      xor # the bitwise exclusive or of left and right
+
+    The two operands (both must be positive integers of any size) are combined
+    bit for bit using an exclusive-or-operation.
+
+    Topic: Numbers
+
+    See also: std::bit_and, std::bit_or, std::shift_left, std::shift_right
+
+ATTR std::parameter_count_of
+  #
+    number of wanted arguments
+
+    Parameter:
+      function # the function to be analyzed
+
+    Result:
+      count # the number of arguments the function expects
+
+    This attribute returns the number of arguments to use when calling its
+    function. Functions that accept a variable number of arguments will return
+    <std::undefined>.
+
+    **Attention**: Functions accepting a variable number of arguments might have
+    a minimum and/or maximum number of expected arguments. These numbers **cannot** be
+    retrieved during runtime!
+
+POLY std::to_string
+  #
+    returns a human readable presentation of the object
+
+    Parameter:
+      object # the object to be converted
+
+    Result:
+      string # the string representation of object
+
+    Returns a string representation of its single argument.
+
+    When called on a string the string is returned unaltered.
+
+    Topic: Strings
+
+    See also: std::to_number, std::to_integer, std::to_real
+
+POLY std::to_integer
+  #
+    converts its argument into an integer number
+
+    Parameter:
+      object # the object to be converted
+
+    Result:
+      integer # the integer representation of object
+
+    Topic: Numbers
+
+    See also: std::parse_integer, std::to_number, std::to_real, std::to_string
+
+POLY std::to_real
+  #
+    converts its argument into a real (floating point) number
+
+    Parameter:
+      object # the object to be converted
+
+    Result:
+      real # the real number
+
+    Topic: Numbers
+
+    See also: std::to_number, std::to_integer, std::to_string
+
+POLY std::to_number
+  #
+    converts its argument into a number
+
+    Parameter:
+      object # the object to be converted
+
+    Result:
+      number # the number representation of object
+
+    Topic: Numbers
+
+    See also: std::to_integer, std::to_real, std::to_string
+
+POLY std::to_lower_case
+  #
+    converts all upper case characters to lower case
+
+    Parameter:
+      string # the string to be converted
+
+    Result:
+      lower # the lower case version of string
+
+    Topic: Strings
+
+    See also: std::to_upper_case, std::to_title_case
+
+POLY std::to_upper_case
+  #
+    converts all lower case characters to UPPER CASE
+
+    Parameter:
+      string # the string to be converted
+
+    Result:
+      upper # the upper case version of string
+
+    Topic: Strings
+
+    See also: std::to_lower_case, std::to_title_case
+
+POLY std::to_title_case
+  #
+    converts the contents to Title Case
+
+    Parameter:
+      string # the string to be converted
+
+    Result:
+      title # the title case version of string
+
+    All characters but the first character of each word are converted to lower
+    case. The first characters of all words are converted to upper case.
+
+    Topic: Strings
+
+    See also: std::to_lower_case, std::to_upper_case
+
+POLY std::is_empty
+  #
+    checks whether a collection contains any items
+
+    Parameter:
+      collection # the collection to be checked
+
+    Result:
+      empty # true if collection is empty, false otherwise
+
+    The following invariant should always hold:
+
+    <std::is_empty>(*collection*) == (<std::length_of>(*collection*) == 0)
+
+    Topic: Collections, Strings, Lists
+
+    See also: is_not_empty, std::length_of
+
+POLY std::is_not_empty
+  #
+    checks whether a collection contains at least one item
+
+    Parameter:
+      collection # the collection to be checked
+
+    Result:
+      not_empty # true if collection is not empty, false otherwise
+
+    The following invariant should always hold:
+
+    <std::is_empty>(*collection*) == (<std::length_of>(*collection*) > 0)
+
+    Topic: Collections, Strings, Lists
+
+    See also: is_empty, length_of
+
+ATTR std::length_of
+  #
+    returns the number of items within a collection
+
+    Parameter:
+      collection # the collection to be analyzed
+
+    Result:
+      length # the number of items within collection
+
+    Many collections just store this value explicitely, making this a very cheap
+    operation.
+
+    But there are collections which must traverse all its contents to compute
+    the total number of stored items, making this a very expensive operation!
+
+    Topics: Strings, Lists, Collections
+
+    See also: std::is_empty
+
+ATTR std::dimension_count_of
+  #
+    returns the number of dimensions of a multidimensional array
+
+    Parameter:
+      array # the array to be analyzed
+
+    Result:
+      count # the number of dimensions of array
+
+    Topic: Arrays
+
+    See also: std::length_of
+
+[source]
+
+METHOD std_types::octet_string/less
+  #
+    compares the two strings character by character
+  {
+    CHECK_ARGUMENTS(2)
+    CHECK_RESULTS(1)
+    NODE *left = ARGUMENTS(0);
+    NODE *right = ARGUMENTS(1);
+    if (left == right) RETURN_FALSE
+    if (TYPEOF(right) == TYPE(std_types::octet_string)) {
+      OCTET_DATA *left_data = left->octet_string.data;
+      OCTET_DATA *right_data = right->octet_string.data;
+      long left_offset = left->octet_string.offset;
+      long right_offset = right->octet_string.offset;
+      long left_length = left->octet_string.length;
+      long right_length = right->octet_string.length;
+      if (left_offset == right_offset && left_length == right_length && left_data == right_data)
+        RETURN_FALSE
+      long length = left_length;
+      if (right_length < length) length = right_length;
+      long i;
+      for (i = 0; i < length; ++i) {
+        uint8_t left_chr = left_data->buffer[left_offset+i];
+        uint8_t right_chr = right_data->buffer[right_offset+i];
+        if (left_chr < right_chr) RETURN_TRUE
+        if (left_chr > right_chr) RETURN_FALSE
+      }
+      if (left_length < right_length) RETURN_TRUE
+      if (left_offset == right_offset && left_length == right_length) { // both strings are equal!
+        // join the two versions of the string data to simplify future comparisons
+        join_nodes(&left->octet_string.data, &right->octet_string.data);
+      }
+      RETURN_FALSE
+    } else if (TYPEOF(right) == TYPE(std_types::wide_string)) {
+      OCTET_DATA *left_data = left->octet_string.data;
+      WIDE_DATA *right_data = right->wide_string.data;
+      long left_offset = left->octet_string.offset;
+      long right_offset = right->wide_string.offset;
+      long left_length = left->octet_string.length;
+      long right_length = right->wide_string.length;
+      long length = left_length;
+      if (right_length < length) length = right_length;
+      long i;
+      for (i = 0; i < length; ++i) {
+        uint32_t left_chr = left_data->buffer[left_offset+i];
+        uint32_t right_chr = right_data->buffer[right_offset+i];
+        if (left_chr < right_chr) RETURN_TRUE
+        if (left_chr > right_chr) RETURN_FALSE
+      }
+      if (left_length < right_length) RETURN_TRUE
+      RETURN_FALSE
+    } else {
+      INVALID_ARGUMENTS
+    }
+  }
+
+METHOD std_types::wide_string/less
+  #
+    compares the two strings character by character
+  {
+    CHECK_ARGUMENTS(2)
+    CHECK_RESULTS(1)
+    NODE *left = ARGUMENTS(0);
+    NODE *right = ARGUMENTS(1);
+    if (left == right) RETURN_FALSE
+    if (TYPEOF(right) == TYPE(std_types::octet_string)) {
+      WIDE_DATA *left_data = left->wide_string.data;
+      OCTET_DATA *right_data = right->octet_string.data;
+      long left_offset = left->wide_string.offset;
+      long right_offset = right->octet_string.offset;
+      long left_length = left->wide_string.length;
+      long right_length = right->octet_string.length;
+      long length = left_length;
+      if (right_length < length) length = right_length;
+      long i;
+      for (i = 0; i < length; ++i) {
+        uint32_t left_chr = left_data->buffer[left_offset+i];
+        uint32_t right_chr = right_data->buffer[right_offset+i];
+        if (left_chr < right_chr) RETURN_TRUE
+        if (left_chr > right_chr) RETURN_FALSE
+      }
+      if (left_length < right_length) RETURN_TRUE
+      RETURN_FALSE
+    } else if (TYPEOF(right) == TYPE(std_types::wide_string)) {
+      WIDE_DATA *left_data = left->wide_string.data;
+      WIDE_DATA *right_data = right->wide_string.data;
+      long left_offset = left->wide_string.offset;
+      long right_offset = right->wide_string.offset;
+      long left_length = left->wide_string.length;
+      long right_length = right->wide_string.length;
+      if (left_offset == right_offset && left_length == right_length && left_data == right_data)
+        RETURN_FALSE
+      long length = left_length;
+      if (right_length < length) length = right_length;
+      long i;
+      for (i = 0; i < length; ++i) {
+        uint32_t left_chr = left_data->buffer[left_offset+i];
+        uint32_t right_chr = right_data->buffer[right_offset+i];
+        if (left_chr < right_chr) RETURN_TRUE
+        if (left_chr > right_chr) RETURN_FALSE
+      }
+      if (left_length < right_length) RETURN_TRUE
+      if (left_offset == right_offset && left_length == right_length) { // both strings are equal!
+        // join the two versions of the string data to simplify future comparisons
+        join_nodes(&left->octet_string.data, &right->octet_string.data);
+      }
+      RETURN_FALSE
+    } else {
+      INVALID_ARGUMENTS
+    }
+  }
+
+METHOD std_types::character/less
+  #
+    numerically compares the unicode codepoints of the two specified characters
+
+    Parameters:
+      chr_1 # the first character
+      chr_2 # the second character
+
+    Result:
+      success # true if chr_1 is less than chr_2, false otherwise
+
+    A comparison of a character with a non-character value returns an error
+    object!
+
+    Topic: Strings
+
+    See also: std_types::character/equal
+
+    Example:
+
+      dump! `('a' < 'b')
+
+    Output:
+
+      ('a' < 'b'): <true>
+
+    Example:
+
+      dump! `('a' < 97)
+
+
+    Output:
+
+      ('a' < 97): INVALID ARGUMENTS
+  {
+    CHECK_ARGUMENTS(2)
+    CHECK_RESULTS(1)
+    if (TYPEOF(ARGUMENTS(1)) == TYPE(std_types::character)) {
+      RETURN_BOOLEAN(ARGUMENTS(0)->character.code < ARGUMENTS(1)->character.code)
+    }
+    INVALID_ARGUMENTS
+  }
+
+METHOD std_types::date_and_time/less
+  {
+    CHECK_ARGUMENTS(2)
+    NODE *left, *right;
+    left = ARGUMENTS(0);
+    right = ARGUMENTS(1);
+    if (TYPEOF(ARGUMENTS(1)) != TYPE(std_types::date_and_time)) INVALID_ARGUMENTS
+    RETURN_BOOLEAN(
+      left->date_and_time.seconds < right->date_and_time.seconds ||
+      left->date_and_time.seconds == right->date_and_time.seconds &&
+      left->date_and_time.nanoseconds < right->date_and_time.nanoseconds)
+  }
+
+METHOD std_types::real/less
+  #
+    implements the *less* operation for real numbers
+
+    Parameters:
+      left: a real number
+      right: any numeric value
+
+    Result:
+      result: true if left is less than right, false otherwise
+
+    If the *right* argument is an integer then *right* is converted to a real
+    value before the comparison.
+
+    Topic: Numbers
+
+    See also: std_types::integer, std_types::real, std::equal
+
+    Example:
+
+      dump! `(4.0 < 4.0)
+
+    Output:
+
+      (4.0 < 4.0): <false>
+
+    Example:
+
+      dump! `(4.0 < 4)
+
+
+    Output:
+
+      (4.0 < 4): <false>
+  {
+    CHECK_ARGUMENTS(2)
+    CHECK_RESULTS(1)
+    if (TYPEOF(ARGUMENTS(1)) == TYPE(std_types::real)) {
+      RETURN_BOOLEAN(ARGUMENTS(0)->real.value < ARGUMENTS(1)->real.value)
+    } else if (TYPEOF(ARGUMENTS(1)) == TYPE(builtin_types::positive_integer)) {
+      RETURN_BOOLEAN(ARGUMENTS(0)->real.value < ARGUMENTS(1)->integer.value)
+    } else if (TYPEOF(ARGUMENTS(1)) == TYPE(builtin_types::negative_integer)) {
+      RETURN_BOOLEAN(-ARGUMENTS(0)->real.value > ARGUMENTS(1)->integer.value)
+    }
+    INVALID_ARGUMENTS
+  }
+
+POLY std::less
+  #
+    compares two objects in an object specific way
+
+    Parameters:
+      left # the left operand
+      right # the right operand
+
+    Result:
+      less # true if left is smaller than right, false otherwise
+
+    The two objects must be of a comparable type.
+
+    This function is used to implement the following comparison operators:
+
+    *a* < *b*
+
+    is converted by the compiler to
+
+    <std::less>(*a* *b*)
+
+    *a* > *b*
+
+    is converted by the compiler to
+
+    <std::less>(*b* *a*)
+
+    *a* <= *b*
+
+    is converted by the compiler to
+
+    <std::not>(<std::less>(*b* *a*))
+
+    *a* >= *b*
+
+    is converted by the compiler to
+
+    <std::not>(<std::less>(*a* *b*))
+
+    Topic: Objects, Numbers
+
+    See also: std::equal
+
+[documentation remark]
+
+### Always copy examples contained in the symbol's description remark
+    into the documentation
+
+### Do not create completely new examples on your own
+
+### Use only one of the following topics: Objects, Numbers, Collections, Arrays, Lists, Strings, Input-Output
+
+# std::less (a polymorphic function)
+

@@ -1,0 +1,816 @@
+[GUIDELINES]
+
+All documentation remarks must have
+
+* a single short (single line) description written in lower case
+
+* a parameter(s) section (if appropriate)
+
+* a result(s) section (if appropriate)
+
+* a detailed description of how to use the symbol: when describing unique
+  items of constants, describe how to use them;
+  do not repeat yourself
+
+* one or more associated topic(s) (if appropriate)
+
+* a "See also" entry - mention only a view relevant symbols here
+
+Do not mention unknown symbols!
+
+Do not mention more than 10 symbols in the "See also" entry.
+
+DO NOT MENTION MORE THAN 10 SYMBOLS IN THE "See also" ENTRY!
+
+Do not mention internal details of functions.
+
+Do not start each sentence in the description with "If" or "The".
+
+DO NOT START EACH SENTENCE IN THE DESCRIPTION WITH "If" OR "The"!
+
+Do not tell the user what a function does not do.
+
+When referring to another symbol write it enclosed in angle brackets, e.g.
+<std::clear>.
+
+The "self"-parameter is a normal parameter like any other and should be
+mentioned in the the parameter description.
+
+Replace symbolic constants by their value.
+
+Operations on I/O-objects are not executed immediately but queued as jobs.
+To identify a job, an "id" is used.
+
+I/O-functions and I/O-methods either need I/O-access rights or propagate
+them ("if", "for_each", etc.).
+
+An "example" section, if available, must use Funky syntax and shall not be too
+long.
+
+If there is an appropriate example in the source code then use this example
+in the "example" section!
+
+[EXAMPLES]
+
+[source]
+
+FUNCTION std::real
+{
+  CHECK_ARGUMENTS(1)
+  char *str;
+  CHECK(to_c_string(ARGUMENTS(0), &str))
+  NODE *result = from_double(atof(str));
+  deallocate_memory(str);
+  RETURN_SINGLE_RESULT(result)
+}
+
+[documentation remark]
+
+# std::real (a function)
+
+  constructs a real number from its string representation
+
+  Parameters:
+    str: the string representation of the real number
+
+  Result:
+    value: the real number
+
+  Topic: Numbers
+
+  See also: std::integer, std_types::real
+
+[EXERCISE]
+
+[symbols]
+
+UNIQUE IO_ERROR
+UNIQUE RUNTIME_ERROR
+UNIQUE APPLICATION_ERROR
+PUBLIC TYPE std_types::error
+METHOD std_types::error/_type
+METHOD long std_types::error/_debug_string
+POLY std::error_category_of
+METHOD std_types::error/error_category_of
+POLY std::error_message_text_of
+METHOD std_types::error/error_message_text_of
+POLY std::error_details_of
+METHOD std_types::error/error_details_of
+POLY std::errno_of
+METHOD std_types::error/errno_of
+POLY std::failed_attribute_of
+METHOD std_types::error/failed_attribute_of
+FUNCTION int propagate_error
+METHOD int std_types::error/_to_int8 propagate_error
+METHOD int std_types::error/_to_int16 propagate_error
+METHOD int std_types::error/_to_int32 propagate_error
+METHOD int std_types::error/_to_int64 propagate_error
+METHOD int std_types::error/_to_uint8 propagate_error
+METHOD int std_types::error/_to_uint16 propagate_error
+METHOD int std_types::error/_to_uint32 propagate_error
+METHOD int std_types::error/_to_uint64 propagate_error
+METHOD int std_types::error/_to_uchar32 propagate_error
+METHOD int std_types::error/_to_bool propagate_error
+METHOD int std_types::error/_to_int propagate_error
+METHOD int std_types::error/_to_uint propagate_error
+METHOD int std_types::error/_to_long propagate_error
+METHOD int std_types::error/_to_ulong propagate_error
+METHOD int std_types::error/_to_float propagate_error
+METHOD int std_types::error/_to_double propagate_error
+METHOD int std_types::error/_to_c_string propagate_error
+METHOD int std_types::error/_to_octets propagate_error
+METHOD int std_types::error/_get_item_of propagate_error
+METHOD int std_types::error/_length_of propagate_error
+METHOD int std_types::error/_unfold propagate_error
+FUNCTION void print_code_reference
+FUNCTION void create_error_message
+FUNCTION std::error
+METHOD int std_types::object/_to_int8
+METHOD int std_types::undefined/_to_int8
+METHOD int std_types::object/_to_int16
+METHOD int std_types::undefined/_to_int16
+METHOD int std_types::object/_to_int32
+METHOD int std_types::undefined/_to_int32
+METHOD int std_types::object/_to_int64
+METHOD int std_types::undefined/_to_int64
+METHOD int std_types::object/_to_uint8
+METHOD int std_types::undefined/_to_uint8
+METHOD int std_types::object/_to_uint16
+METHOD int std_types::undefined/_to_uint16
+METHOD int std_types::object/_to_uint32
+METHOD int std_types::undefined/_to_uint32
+METHOD int std_types::object/_to_uint64
+METHOD int std_types::undefined/_to_uint64
+METHOD int std_types::object/_to_uchar32
+METHOD int std_types::undefined/_to_uchar32
+METHOD int std_types::object/_to_bool
+METHOD int std_types::undefined/_to_bool
+METHOD int std_types::object/_to_int
+METHOD int std_types::undefined/_to_int
+METHOD int std_types::object/_to_uint
+METHOD int std_types::undefined/_to_uint
+METHOD int std_types::object/_to_long
+METHOD int std_types::undefined/_to_long
+METHOD int std_types::object/_to_ulong
+METHOD int std_types::undefined/_to_ulong
+METHOD int std_types::object/_to_float
+METHOD int std_types::undefined/_to_float
+METHOD int std_types::object/_to_double
+METHOD int std_types::undefined/_to_double
+METHOD int std_types::object/_to_c_string
+METHOD int std_types::undefined/_to_c_string
+METHOD int std_types::object/_to_octets
+METHOD int std_types::undefined/_to_octets
+METHOD int std_types::object/_get_item_of
+METHOD int std_types::undefined/_get_item_of
+METHOD int std_types::object/_length_of
+METHOD int std_types::undefined/_length_of
+METHOD int std_types::object/_unfold
+METHOD int std_types::undefined/_unfold
+FUNCTION void no_such_function
+FUNCTION void too_few_arguments
+FUNCTION void too_many_arguments
+FUNCTION void invalid_arguments
+FUNCTION void result_count_mismatch
+FUNCTION void too_few_results
+FUNCTION void too_many_results
+FUNCTION void invalid_results
+FUNCTION void invalid_index
+FUNCTION void invalid_dimension
+FUNCTION void divide_by_zero
+FUNCTION void missing_io_access_rights
+FUNCTION void not_yet_implemented
+FUNCTION void open_failed
+FUNCTION void close_failed
+FUNCTION void read_error
+FUNCTION void write_error
+FUNCTION void flush_failed
+
+POLY std::error_details_of
+  #
+    Example:
+
+      load! $buf "some-non-existing-file"
+      on buf.is_an_error:
+        dump! `error_details_of(buf)
+
+    Output:
+
+      error_details_of(buf): <undefined>
+
+    Example:
+
+      $my_attr_of ()
+      $a my_attr_of("abc")
+      on a.is_an_error:
+        dump! `error_details_of(a)
+
+    Output:
+
+      error_details_of(a): "abc"
+
+METHOD std_types::error/error_details_of
+  {
+    CHECK_ARGUMENTS(1)
+    NODE *details = ARGUMENTS(0)->error.object;
+    if (!details) details = (NODE *)&std_types::undefined;
+    RETURN_SINGLE_RESULT(details)
+  }
+
+POLY std::errno_of
+
+METHOD std_types::error/errno_of
+  #
+    Example:
+
+      load! $buf "some-non-existing-file"
+      on buf.is_an_error:
+        dump! `errno_of(buf)
+
+    Output:
+
+      errno_of(buf): object <0>
+  {
+    CHECK_ARGUMENTS(1)
+    if (ARGUMENTS(0)->error.err_no) {
+      RETURN_SINGLE_RESULT(error_number_from_int(ARGUMENTS(0)->error.err_no))
+    } else {
+      RETURN_UNDEFINED
+    }
+  }
+
+POLY std::failed_attribute_of
+
+METHOD std_types::error/failed_attribute_of
+  #
+    retrieves the attribute associated with the error object
+
+    This field is used in conjunctions with the "NO SUCH ATTRIBUTE" error.
+
+    Topic: Errors
+
+    See also: std_types::error, std::error_category_of,
+              std::error_message_text_of, std::error_details_of, std::errno_of
+
+    Example:
+
+      $my_attr_of ()
+      $attr my_attr_of("abc")
+      on attr.is_an_error:
+        dump! `error_message_text_of(attr)
+        dump! `failed_attribute_of(attr)
+
+    Output:
+
+      error_message_text_of(attr): "NO SUCH ATTRIBUTE"
+      failed_attribute_of(attr): "my_attr_of"
+  {
+    CHECK_ARGUMENTS(1)
+    if (ARGUMENTS(0)->error.attr_idx) {
+      RETURN_SINGLE_RESULT(
+        from_c_string(poly_name(ARGUMENTS(0)->error.attr_idx)))
+    } else {
+      RETURN_UNDEFINED
+    }
+  }
+
+FUNCTION int propagate_error
+  (
+    NODE *node
+  )
+  {
+    if (RESULT_COUNT < 1) RESULT_COUNT = 1;
+    START_ARGUMENTS(RESULT_COUNT)
+    for (int i = 0; i < RESULT_COUNT; ++i) {
+      ARGUMENTS(i) = node;
+    }
+    PREPARE_SINGLE_RESULT(node)
+    return false;
+  }
+
+METHOD int std_types::error/_to_int8 propagate_error
+
+METHOD int std_types::error/_to_int16 propagate_error
+
+METHOD int std_types::error/_to_int32 propagate_error
+
+METHOD int std_types::error/_to_int64 propagate_error
+
+METHOD int std_types::error/_to_uint8 propagate_error
+
+METHOD int std_types::error/_to_uint16 propagate_error
+
+METHOD int std_types::error/_to_uint32 propagate_error
+
+METHOD int std_types::error/_to_uint64 propagate_error
+
+METHOD int std_types::error/_to_uchar32 propagate_error
+
+METHOD int std_types::error/_to_bool propagate_error
+
+METHOD int std_types::error/_to_int propagate_error
+
+METHOD int std_types::error/_to_uint propagate_error
+
+METHOD int std_types::error/_to_long propagate_error
+
+METHOD int std_types::error/_to_ulong propagate_error
+
+METHOD int std_types::error/_to_float propagate_error
+
+METHOD int std_types::error/_to_double propagate_error
+
+METHOD int std_types::error/_to_c_string propagate_error
+
+METHOD int std_types::error/_to_octets propagate_error
+
+METHOD int std_types::error/_get_item_of propagate_error
+
+METHOD int std_types::error/_length_of propagate_error
+
+METHOD int std_types::error/_unfold propagate_error
+
+CODE
+  extern const TAB_NUM *tail_call_stack[256];
+  extern const TAB_NUM **tail_call_sp;
+  extern int do_dump_errors;
+
+FUNCTION void print_code_reference
+  (
+    const TAB_NUM *code
+  )
+  {
+    const char *module_name, *function_name;
+    int line_no, column_no;
+    retrieve_continuation_info(
+      code, &module_name, &function_name, &line_no, &column_no);
+    if (function_name) {
+      fprintf(stderr, "%s ", function_name);
+    } else {
+      fprintf(stderr, "<anonymous function> ");
+    }
+    fprintf(stderr, "(called from %s", module_name);
+    if (line_no > 0) {
+      fprintf(stderr, ", line: %d, column: %d", line_no, column_no);
+    }
+    fprintf(stderr, ")\n");
+  }
+
+FUNCTION void create_error_message
+  (
+    NODE *category,
+    const char *msg,
+    int err_no,
+    int attr_idx,
+    NODE *node
+  )
+  {
+    NODE *err = NULL;
+    int i;
+    for (i = 0; i < ARGUMENT_COUNT; ++i) {
+      if (ARGUMENTS(i)->type == std_types::error.type) {
+        err = ARGUMENTS(i);
+        break;
+      }
+    }
+    if (!err) {
+      if (do_dump_errors) {
+        fprintf(stderr, "create error message \"%s\"\n", msg);
+      }
+      long size = ALLOCATION_SIZE(strlen(msg)+1);
+      MESSAGE_TEXT *message = allocate(sizeof(MESSAGE_TEXT)+size);
+      message->size = size;
+      strcpy(message->text, msg);
+      TLS_frame->code = TLS_code; // this was not initialized by the caller!
+      long n = tail_call_sp-tail_call_stack;
+      FRAME *trace = TLS_frame;
+      while (trace) {
+        ++n;
+        trace = trace->link;
+      }
+      FUNC_DATA *data = allocate_large(sizeof(FUNC_DATA)+n*sizeof(TAB_NUM *));
+      data->length = n;
+      n = 0;
+      while (tail_call_sp > tail_call_stack) {
+        const TAB_NUM *code = *--tail_call_sp;
+        if (do_dump_errors) {
+          fprintf(stderr, "tail call: ");
+          print_code_reference(code);
+        }
+        data->entries[n++] = code;
+      }
+      trace = TLS_frame;
+      while (trace) {
+        if (do_dump_errors) print_code_reference(trace->code);
+        data->entries[n++] = trace->code;
+        trace = trace->link;
+      }
+      err =
+        CREATE(
+          std_types::error, category,
+          message, err_no, attr_idx, node, instruction_counter, data);
+    }
+    if (RESULT_COUNT < 1) RESULT_COUNT = 1;
+    START_ARGUMENTS(RESULT_COUNT)
+    for (i = 0; i < RESULT_COUNT; ++i) {
+      ARGUMENTS(i) = err;
+    }
+    RETURN
+  }
+
+FUNCTION std::error
+  #
+    creates an error object
+
+    Parameters:
+      category?
+      message_text
+      details?
+  {
+    MIN_ARGUMENTS(1)
+    MAX_ARGUMENTS(3)
+    char *msg;
+    NODE *obj;
+    NODE *category =
+      ARGUMENT_COUNT >= 2 ? ARGUMENTS(0) :
+      module__builtin.constants_base[unique__std___APPLICATION_ERROR-1];
+    if (!to_c_string(ARGUMENTS(ARGUMENT_COUNT >= 2 ? 1 : 0), &msg)) return;
+    obj = ARGUMENT_COUNT == 3 ? ARGUMENTS(2) : NULL;
+    create_error_message(category, msg, 0, 0, obj);
+    deallocate_memory(msg);
+  }
+
+METHOD int std_types::object/_to_int8
+  (
+    NODE *node
+  )
+  {
+    create_error_message(
+      module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+      "ARGUMENT IS NOT AN INTEGER", 0, 0, node);
+    return false;
+  }
+
+METHOD int std_types::undefined/_to_int8
+  (
+    NODE *node
+  )
+  {
+    create_error_message(
+      module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+      "ARGUMENT IS NOT AN INTEGER", 0, 0, node);
+    return false;
+  }
+
+METHOD int std_types::object/_to_int16
+  (
+    NODE *node
+  )
+  {
+    create_error_message(
+      module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+      "ARGUMENT IS NOT AN INTEGER", 0, 0, node);
+    return false;
+  }
+
+METHOD int std_types::undefined/_to_int16
+  (
+    NODE *node
+  )
+  {
+    create_error_message(
+      module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+      "ARGUMENT IS NOT AN INTEGER", 0, 0, node);
+    return false;
+  }
+
+METHOD int std_types::object/_to_int32
+  (
+    NODE *node
+  )
+  {
+    create_error_message(
+      module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+      "ARGUMENT IS NOT AN INTEGER", 0, 0, node);
+    return false;
+  }
+
+METHOD int std_types::undefined/_to_int32
+  (
+    NODE *node
+  )
+  {
+    create_error_message(
+      module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+      "ARGUMENT IS NOT AN INTEGER", 0, 0, node);
+    return false;
+  }
+
+METHOD int std_types::object/_to_int64
+  (
+    NODE *node
+  )
+  {
+    create_error_message(
+      module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+      "ARGUMENT IS NOT AN INTEGER", 0, 0, node);
+    return false;
+  }
+
+METHOD int std_types::undefined/_to_int64
+  (
+    NODE *node
+  )
+  {
+    create_error_message(
+      module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+      "ARGUMENT IS NOT AN INTEGER", 0, 0, node);
+    return false;
+  }
+
+METHOD int std_types::object/_to_uint8
+  (
+    NODE *node
+  )
+  {
+    create_error_message(
+      module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+      "ARGUMENT IS NOT AN INTEGER", 0, 0, node);
+    return false;
+  }
+
+METHOD int std_types::undefined/_to_uint8
+  (
+    NODE *node
+  )
+  {
+    create_error_message(
+      module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+      "ARGUMENT IS NOT AN INTEGER", 0, 0, node);
+    return false;
+  }
+
+METHOD int std_types::object/_to_uint16
+  (
+    NODE *node
+  )
+  {
+    create_error_message(
+      module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+      "ARGUMENT IS NOT AN INTEGER", 0, 0, node);
+    return false;
+  }
+
+METHOD int std_types::undefined/_to_uint16
+  (
+    NODE *node
+  )
+  {
+    create_error_message(
+      module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+      "ARGUMENT IS NOT AN INTEGER", 0, 0, node);
+    return false;
+  }
+
+METHOD int std_types::object/_to_uint32
+  (
+    NODE *node
+  )
+  {
+    create_error_message(
+      module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+      "ARGUMENT IS NOT AN INTEGER", 0, 0, node);
+    return false;
+  }
+
+METHOD int std_types::undefined/_to_uint32
+  (
+    NODE *node
+  )
+  {
+    create_error_message(
+      module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+      "ARGUMENT IS NOT AN INTEGER", 0, 0, node);
+    return false;
+  }
+
+METHOD int std_types::object/_to_uint64
+  (
+    NODE *node
+  )
+  {
+    create_error_message(
+      module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+      "ARGUMENT IS NOT AN INTEGER", 0, 0, node);
+    return false;
+  }
+
+METHOD int std_types::undefined/_to_uint64
+  (
+    NODE *node
+  )
+  {
+    create_error_message(
+      module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+      "ARGUMENT IS NOT AN INTEGER", 0, 0, node);
+    return false;
+  }
+
+METHOD int std_types::object/_to_uchar32
+  (
+    NODE *node
+  )
+  {
+    create_error_message(
+      module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+      "ARGUMENT IS NOT A CHARACTER", 0, 0, node);
+    return false;
+  }
+
+METHOD int std_types::undefined/_to_uchar32
+  (
+    NODE *node
+  )
+  {
+    create_error_message(
+      module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+      "ARGUMENT IS NOT A CHARACTER", 0, 0, node);
+    return false;
+  }
+
+METHOD int std_types::object/_to_bool
+  (
+    NODE *node
+  )
+  {
+    create_error_message(
+      module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+      "ARGUMENT IS NOT A BOOLEAN", 0, 0, node);
+    return false;
+  }
+
+METHOD int std_types::undefined/_to_bool
+  (
+    NODE *node
+  )
+  {
+    create_error_message(
+      module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+      "ARGUMENT IS NOT A BOOLEAN", 0, 0, node);
+    return false;
+  }
+
+METHOD int std_types::object/_to_int
+  (
+    NODE *node
+  )
+  {
+    create_error_message(
+      module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+      "ARGUMENT IS NOT AN INTEGER", 0, 0, node);
+    return false;
+  }
+
+METHOD int std_types::undefined/_to_int
+  (
+    NODE *node
+  )
+  {
+    create_error_message(
+      module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+      "ARGUMENT IS NOT AN INTEGER", 0, 0, node);
+    return false;
+  }
+
+METHOD int std_types::object/_to_uint
+  (
+    NODE *node
+  )
+  {
+    create_error_message(
+      module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+      "ARGUMENT IS NOT AN INTEGER", 0, 0, node);
+    return false;
+  }
+
+METHOD int std_types::undefined/_to_uint
+  (
+    NODE *node
+  )
+  {
+    create_error_message(
+      module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+      "ARGUMENT IS NOT AN INTEGER", 0, 0, node);
+    return false;
+  }
+
+METHOD int std_types::object/_to_long
+  (
+    NODE *node
+  )
+  {
+    create_error_message(
+      module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+      "ARGUMENT IS NOT AN INTEGER", 0, 0, node);
+    return false;
+  }
+
+METHOD int std_types::undefined/_to_long
+  (
+    NODE *node
+  )
+  {
+    create_error_message(
+      module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+      "ARGUMENT IS NOT AN INTEGER", 0, 0, node);
+    return false;
+  }
+
+METHOD int std_types::object/_to_ulong
+  (
+    NODE *node
+  )
+  {
+    create_error_message(
+      module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+      "ARGUMENT IS NOT AN INTEGER", 0, 0, node);
+    return false;
+  }
+
+METHOD int std_types::undefined/_to_ulong
+  (
+    NODE *node
+  )
+  {
+    create_error_message(
+      module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+      "ARGUMENT IS NOT AN INTEGER", 0, 0, node);
+    return false;
+  }
+
+METHOD int std_types::object/_to_float
+  (
+    NODE *node
+  )
+  {
+    create_error_message(
+      module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+      "ARGUMENT IS NOT A NUMBER", 0, 0, node);
+    return false;
+  }
+
+METHOD int std_types::undefined/_to_float
+  (
+    NODE *node
+  )
+  {
+    create_error_message(
+      module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+      "ARGUMENT IS NOT A NUMBER", 0, 0, node);
+    return false;
+  }
+
+METHOD int std_types::object/_to_double
+  (
+    NODE *node
+  )
+  {
+    create_error_message(
+      module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+      "ARGUMENT IS NOT A NUMBER", 0, 0, node);
+    return false;
+  }
+
+[source]
+
+FUNCTION std::error
+  #
+    creates an error object
+
+    Parameters:
+      category?
+      message_text
+      details?
+  {
+    MIN_ARGUMENTS(1)
+    MAX_ARGUMENTS(3)
+    char *msg;
+    NODE *obj;
+    NODE *category =
+      ARGUMENT_COUNT >= 2 ? ARGUMENTS(0) :
+      module__builtin.constants_base[unique__std___APPLICATION_ERROR-1];
+    if (!to_c_string(ARGUMENTS(ARGUMENT_COUNT >= 2 ? 1 : 0), &msg)) return;
+    obj = ARGUMENT_COUNT == 3 ? ARGUMENTS(2) : NULL;
+    create_error_message(category, msg, 0, 0, obj);
+    deallocate_memory(msg);
+  }
+
+[documentation remark]
+
+### Always copy examples contained in the symbol's description remark
+    into the documentation
+
+### Use only one of the following topics: Errors
+
+# std::error (a builtin function)
+

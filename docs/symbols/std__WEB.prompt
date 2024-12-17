@@ -1,0 +1,567 @@
+[MANUAL]
+
+In Funky function calls are either written on a single line with arguments
+enclosed within parentheses and separated by single spaces, e.g.:
+
+print! f(a b c) g(x y z)
+
+or they are written in indentation style using mutliple lines:
+
+print!
+  f
+    a
+    b
+    c
+  g
+    x
+    y
+    z
+
+Functions that create any output or read any input need I/O-access rights.
+
+A function that needs I/O-access rights must be called with a trailing
+exclamation mark after the function name, e.g.:
+
+println! "Hello, World!"
+
+The expression
+
+key = value
+
+denotes a key-value-pair.
+
+Collection types cannot be printed directly. You can use "dump!" to
+dump the contents of a collection, e.g.:
+
+$ages
+  hash_table
+    "John" = 42
+    "Mary" = 25
+    "Irene" = 49
+
+dump! `ages
+
+Output:
+
+ages: hash_table <6>
+  "Mary"
+  25
+  "Irene"
+  49
+  "John"
+  42
+
+Note: The number in angular brackets after the typename denotes the number
+of (indented) lines that follow the head.
+
+A tail call returns the result of the called function; e.g.:
+
+$calc:
+  (
+    x
+    y
+  )
+  plus x*x y*y
+
+println! calc(2 3)
+
+prints
+
+13
+
+[GUIDELINES]
+
+All documentation remarks must have
+
+* a single short (single line) description written in lower case
+
+* a parameter(s) section (if appropriate)
+
+* a result(s) section (if appropriate)
+
+* a detailed description of how to use the symbol: when describing unique
+  items of constants, describe how to use them;
+  do not repeat yourself
+
+* one or more associated topic(s) (if appropriate)
+
+* a "See also" entry - mention only a view relevant symbols here
+
+Do not mention unknown symbols!
+
+Do not mention more than 10 symbols in the "See also" entry.
+
+DO NOT MENTION MORE THAN 10 SYMBOLS IN THE "See also" ENTRY!
+
+Do not mention internal details of functions.
+
+Do not start each sentence in the description with "If" or "The".
+
+DO NOT START EACH SENTENCE IN THE DESCRIPTION WITH "If" OR "The"!
+
+Do not tell the user what a function does not do.
+
+When referring to another symbol write it enclosed in angle brackets, e.g.
+<std::clear>.
+
+The "self"-parameter is a normal parameter like any other and should be
+mentioned in the the parameter description.
+
+Replace symbolic constants by their value.
+
+Operations on I/O-objects are not executed immediately but queued as jobs.
+To identify a job, an "id" is used.
+
+I/O-functions and I/O-methods either need I/O-access rights or propagate
+them ("if", "for_each", etc.).
+
+An "example" section, if available, must use Funky syntax and shall not be too
+long.
+
+If there is an appropriate example in the source code then use this example
+in the "example" section!
+
+[EXAMPLES]
+
+[symbols]
+
+$std::CURSOR_LEFT .
+$std::CURSOR_RIGHT .
+$std::CURSOR_UP .
+$std::CURSOR_DOWN .
+$std::CURSOR_HOME .
+$std::CURSOR_END .
+
+$std::DRAW_COLOUR .
+
+$std::BLACK '@0x000000;'
+$std::WHITE '@0xffffff;'
+$std::RED '@0xff0000;'
+$std::GREEN '@0x00ff00;'
+$std::BLUE '@0x0000ff;'
+$std::CYAN '@0x00ffff;'
+$std::MAGENTA '@0xff00ff;'
+$std::YELLOW '@0xffff00;'
+
+$std::set_draw_colour ()
+$std::set_clear_colour ()
+
+$std_types::screen/create_screen:
+  (
+    screen
+    width = undefined
+    height = undefined
+    options*
+  )
+  update_if width.is_undefined &width -> width_of(screen)
+  update_if height.is_undefined &height -> height_of(screen)
+  extract_options options
+    DRAW_COLOUR = draw_colour_of(screen) $draw_colour
+    CLEAR_COLOUR = clear_colour_of(screen) $clear_colour
+    LINE_HEIGHT = line_height_of(screen) $line_height
+  $row dup(string(' ' draw_colour clear_colour) width)
+  $rows dup(list(row) height .div. line_height)
+  ->
+    std_types::screen
+      .width_of width
+      .height_of height
+      .draw_colour_of draw_colour
+      .clear_colour_of clear_colour
+      .line_height_of line_height
+      .rows_of rows
+
+[source]
+
+$std::RED '0xff0000;'
+
+[documentation remark]
+
+# std::RED (a literal)
+
+  the colour red as used by the terminal library
+
+  Topic: Colours
+
+  Colour literals are used to set the draw or clear colour.
+
+  See also: std::set_draw_colour, std::set_clear_colour
+
+[source]
+
+$std::CURSOR_LEFT .
+  #
+    Example:
+
+      $x ...
+      get_key! $key
+      case key
+        CURSOR_LEFT:
+          dec &x
+          next!
+        ...
+
+[documentation remark]
+
+# std::CURSOR_HOME (a unique item)
+
+  the cursor home key
+
+  Topic: Terminal
+
+  See also: std::CURSOR_END
+
+  Example:
+
+    $x ...
+    get_key! $key
+    case key
+      CURSOR_HOME:
+        dec &x
+        next!
+      ...
+
+[source]
+
+$std:DRAW_COLOUR .
+
+[documentation remark]
+
+# std::DRAW_COLOUR (a unique item)
+
+  used to specifiy a draw colour
+
+  Topic: Terminal
+
+  See also: std_types::create/screen
+
+[EXERCISE]
+
+[symbols]
+
+
+# Topic: Network Clients and Servers
+
+$std_types::web_terminal std_types::generic_terminal
+$std::WEB .
+$std_types::web_terminal.type_of WEB
+$std_types::web_terminal.script_of script_start
+$std_types::web_terminal/set_draw_colour: (self colour)
+$std_types::web_terminal/set_clear_colour: (self colour)
+$std_types::web_terminal/draw_text: (self x y text)
+$std_types::web_terminal/draw_character: (self x y chr)
+$std_types::web_terminal/plot_line: (self x1 y1 x2 y2)
+$std_types::web_terminal/clear:
+$std_types::web_terminal/copy:
+$std_types::web_terminal/update: (self)
+$std_types::io.websocket_message_handler_of undefined
+$std_types::io.websocket_message_handlers_of empty_hash_table
+$std::on_websocket_message:
+$std::handle_websocket_terminal_events: (io events)
+$std::create_web_terminal: (io fd message)
+$std::handle_dom_input_event: (io fd message)
+
+#
+  Copyright (C) 2024 by
+  Dipl.-Ing. Michael Niederle
+
+  This program is free software; you can redistribute it and/or modify
+  it under the terms of the GNU Library General Public License, version 2, or
+  (at your option) under the terms of the GNU Lesser General Public License,
+  version 3.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  GNU Lesser (Library) General Public License for more details.
+
+  For details of the GNU General Public License see the accompanying
+  files LGPLv2.txt and LGLPv3.txt or
+  http://www.gnu.org/licenses/lgpl-2.0.html
+  http://www.gnu.org/licenses/lgpl-3.0.html
+  or write to the
+  Free Software Foundation, Inc.,
+  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+
+# Topic: Network Clients and Servers
+
+$std_types::web_terminal std_types::generic_terminal
+
+$std::WEB .
+
+$std_types::web_terminal.type_of WEB
+
+$script_of ()
+
+$script_start "
+  {
+  canvas.getContext('2d')
+
+$std_types::web_terminal.script_of script_start
+
+$std_types::web_terminal/set_draw_colour: (self colour)
+  append &self.script_of "
+    draw_colour=@(dom_colour(colour))
+  -> self
+
+$std_types::web_terminal/set_clear_colour: (self colour)
+  if
+    colour.is_undefined:
+      append &self.script_of "
+        clear_colour=null
+      -> self
+    :
+      append &self.script_of "
+        clear_colour=@(dom_colour(colour))
+      -> self
+
+$dom_colour: (colour)
+  to_integer &colour
+  $red colour >> 16
+  $green (colour >> 8) & 0xFF
+  $blue colour & 0xFF
+  -> "
+    "rgb(@(red),@(green),@(blue))"@
+
+$std_types::web_terminal/draw_text: (self x y text)
+  replace_all
+    &text
+    '\' = "\\"
+    '@nl;' = "\n"
+  append &self.script_of "
+    draw_text(@(x),@(y),"@(text)")
+  -> self
+
+$std_types::web_terminal/draw_character: (self x y chr)
+  !chr
+    case
+      chr
+      '\' -> "\\"
+      '@nl;' -> "\n"
+      -> chr
+  append &self.script_of "
+    draw_text(@(x),@(y),"@(chr)")
+  -> self
+
+$std_types::web_terminal/plot_line: (self x1 y1 x2 y2)
+  append &self.script_of "
+    plot_line(@(x1),@(y1),@(x2),@(y2))
+  -> self
+
+$std_types::web_terminal/clear:
+  (
+    self
+    x = 1
+    y = 1
+    width = "null"
+    height = "null"
+  )
+  append &self.script_of "
+    clear(@(x),@(y),@(width),@(height))
+  -> self
+
+$std_types::web_terminal/copy:
+  #
+    copies a rectangular area from one screen to another
+
+    This function can also copy a rectangular area within a single screen.
+
+    Topic: Terminal
+
+    See also: std_types::screen/clear
+
+  (
+    destination
+    source
+    x
+    y
+    sx
+    sy
+    width
+    height
+  )
+  ignore source
+  append &destination.script_of "
+    copy(@(x),@(y),@(sx),@(sy),@(width),@(height))
+  -> destination
+
+$std_types::web_terminal/update: (self)
+  $script script_of(self)
+  if
+    script == script_start
+    -> self ""
+    :
+      $command append(script_of(self) "}@nl;")
+      !self.script_of script_start
+      -> self command
+
+$websocket_message_handler_of ()
+
+$websocket_message_handlers_of ()
+
+$std_types::io.websocket_message_handler_of undefined
+
+$std_types::io.websocket_message_handlers_of empty_hash_table
+
+$std::on_websocket_message:
+  (
+    io
+    fd = undefined
+    handler
+  )
+  if
+    fd.is_undefined
+    -> io(.websocket_message_handler_of handler)
+    :
+      $websocket_message_handlers websocket_message_handlers_of(io)
+      !websocket_message_handlers(fd) handler
+      -> io(.websocket_message_handlers_of websocket_message_handlers)
+
+$std::handle_websocket_terminal_events: (io events)
+  $remaining_events empty_list
+  for_each events
+    : (event)
+      event $type $fd $argument
+      case type
+        UPGRADE_TO_WEBSOCKET:
+          $fields argument
+          accept_upgrade_to_websocket &io fd fields
+          next
+        WEBSOCKET_MESSAGE:
+          $message argument
+          handle_websocket_message &io fd message
+          next
+        WEBSOCKET_CLOSED:
+          handle_close &io fd
+          next!
+        :
+          push &remaining_events event
+          next
+    -> io remaining_events
+
+$handle_websocket_message: (io fd message)
+  $websocket_message_handler websocket_message_handlers_of(io)(fd)
+  update_if websocket_message_handler.is_undefined &websocket_message_handler
+    -> websocket_message_handler_of(io)
+  if
+    websocket_message_handler.is_defined:
+      websocket_message_handler io fd message
+    :
+      log io 2 "No websocket message handler defined for @(fd.serialize)"
+
+$std::create_web_terminal: (io fd message)
+  $vt undefined
+  cond
+    -> message .has_prefix. "DOM@nl;":
+      !vt std_types::web_terminal
+      extract_parameters io vt message
+    -> message .has_prefix. "VT@nl;":
+      $client std_types::generic_terminal
+      extract_parameters &io &client message
+      !vt create_terminal(width_of(client) height_of(client))
+      !vt.character_width_of character_width_of(client)
+      !vt.ascent_of ascent_of(client)
+      !vt.descent_of descent_of(client)
+      !vt.character_height_of character_height_of(client)
+      !vt.line_spacing_of line_spacing_of(client)
+      !vt.line_height_of line_height_of(client)
+      !vt.baseline_of baseline_of(client)
+      -> io vt
+    -> true:
+      log &io "UNKNOWN TERMINAL TYPE: @(message .truncate_behind. '@nl;')"
+      close_connection io fd
+
+  $extract_parameters: (io client message)
+    $lines split_into_lines(message .truncate_until. '@nl;')
+    for_each lines
+      : (line)
+        $key (line .before. ':').trim
+        $value (line .behind. ':').trim
+        case key
+          "width":
+            !client.width_of value.to_number
+            next
+          "height":
+            !client.height_of value.to_number
+            next
+          "character_width":
+            !client.character_width_of value.to_number
+            next
+          "ascent":
+            !client.ascent_of value.to_number
+            next
+          "descent":
+            !client.descent_of value.to_number
+            next
+          "character_height":
+            !client.character_height_of value.to_number
+            next
+          "line_spacing":
+            !client.line_spacing_of value.to_number
+            next
+          "line_height":
+            !client.line_height_of value.to_number
+            next
+          "baseline":
+            !client.baseline_of value.to_number
+            next
+          :
+            log &io 3 "
+              Unknown client attribute: "@(key)"
+            next
+      :
+        log &io 3 "
+          create web terminal for @(fd.serialize):
+          width: @(width_of(client))
+          height: @(height_of(client))
+          character_width: @(character_width_of(client))
+          character_height: @(character_height_of(client))
+        -> io client
+
+$std::handle_dom_input_event: (io fd message)
+  from_utf8 &message
+  log &io 4 "got dom input event for @(fd.serialize.trim): @(message)"
+  $type message .before. ':'
+  $value (message .behind. ':').trim
+  case type
+    "KEY_PRESS":
+      $key
+        if
+          length_of(value) == 1
+          -> value(1)
+          -> name_to_key(value)
+      if
+        key.is_defined:
+          $key_press_handler key_press_handlers_of(io)(fd)
+          if
+            key_press_handler.is_defined:
+              key_press_handler io fd key
+            :
+              log io 2 "No key press handler defined for @(fd.serialize)"
+        :
+          log io 2 "
+            No key defined for string "@(value)"
+    -> io
+
+  #$log_error
+    log io 2 "ERROR IN DOM INPUT EVENT FROM @(fd.serialize.trim): @(message)"
+
+$handle_close: (io fd)
+  log &io 4 "close web terminal for @(fd.serialize)"
+  !io.websocket_message_handlers_of(fd) undefined
+  !io.key_press_handlers_of(fd) undefined
+  !io.mouse_click_handlers_of(fd) undefined
+  -> io
+
+[source]
+
+$std::WEB .
+
+[documentation remark]
+
+### Always copy examples contained in the symbol's description remark
+    into the documentation
+
+### Use only one of the following topics: Network Clients and Servers
+
+# std::WEB (a unique item)
+

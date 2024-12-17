@@ -733,8 +733,23 @@ done
 echo "${TAB}mkdir -p -- \$(DESTDIR)$PREFIX/share/funky-$RUNTIME_VERSION/runtime"
 echo "${TAB}cp runtime/*.h \
   \"\$(DESTDIR)$PREFIX/share/funky-$RUNTIME_VERSION/runtime/\""
+for LIBNAME in $ALL_LIBRARIES
+do
+echo "${TAB}mkdir -p \
+  \"\$(DESTDIR)$PREFIX/share/funky-$RUNTIME_VERSION/source/$LIBNAME\""
+echo "${TAB}cd $LIBNAME; find . -name \"*.fky\" | \
+  cpio -pdm \$(DESTDIR)$PREFIX/share/funky-$RUNTIME_VERSION/source/$LIBNAME/"
+done
+echo "${TAB}mkdir -p \
+  \"\$(DESTDIR)$PREFIX/share/funky-$RUNTIME_VERSION/prompts\""
+echo "${TAB}cd docs; find . -name \"*.prompt\" | \
+  cpio -pdm \$(DESTDIR)$PREFIX/share/funky-$RUNTIME_VERSION/prompts/"
 echo "${TAB}cp -r html \"\$(DESTDIR)$PREFIX/share/funky-$RUNTIME_VERSION\""
-echo "${TAB}ln -fs funky-$RUNTIME_VERSION \
+echo "${TAB}ln -fsT ../source \
+  \$(DESTDIR)$PREFIX/share/funky-$RUNTIME_VERSION/html/source"
+echo "${TAB}ln -fsT ../prompts \
+  \$(DESTDIR)$PREFIX/share/funky-$RUNTIME_VERSION/html/prompts"
+echo "${TAB}ln -fsT funky-$RUNTIME_VERSION \
   \$(DESTDIR)$PREFIX/share/funky-$DLL_VERSION"
 if [ $OS = 'linux' ]
 then
@@ -766,6 +781,8 @@ do
 done
 echo "${TAB}rm \
   -f \"\$(DESTDIR)$PREFIX/share/funky-$RUNTIME_VERSION/runtime\"/*.h"
+echo "${TAB}rm -rf \"\$(DESTDIR)$PREFIX/share/funky-$RUNTIME_VERSION/source\""
+echo "${TAB}rm -rf \"\$(DESTDIR)$PREFIX/share/funky-$RUNTIME_VERSION/prompts\""
 echo "${TAB}rm -rf \"\$(DESTDIR)$PREFIX/share/funky-$RUNTIME_VERSION/html\""
 echo "${TAB}rmdir \
   \"\$(DESTDIR)$PREFIX/share/funky-$RUNTIME_VERSION/runtime\" || true"
@@ -793,7 +810,7 @@ echo '.PHONY: runtime'
 echo "runtime: libfky$DLL_EXTENSION libfky$LIB_EXTENSION"
 echo
 echo "libfky$DLL_EXTENSION: libfky-$RUNTIME_VERSION$DLL_EXTENSION"
-echo "${TAB}ln -fs libfky-${RUNTIME_VERSION}${DLL_EXTENSION}" \
+echo "${TAB}ln -fsT libfky-${RUNTIME_VERSION}${DLL_EXTENSION}" \
   "libfky${DLL_EXTENSION}"
 echo
 echo "libfky-$RUNTIME_VERSION$DLL_EXTENSION: \$(runtime_OBJECTS)"
@@ -831,7 +848,7 @@ do
   echo
   echo "libfky-${LIBNAME}${DLL_EXTENSION}: \
     libfky-$LIBNAME-${VERSION}${DLL_EXTENSION}"
-  echo "${TAB}ln -fs libfky-$LIBNAME-${VERSION}${DLL_EXTENSION}" \
+  echo "${TAB}ln -fsT libfky-$LIBNAME-${VERSION}${DLL_EXTENSION}" \
     "libfky-${LIBNAME}${DLL_EXTENSION}"
   echo
   echo "libfky-$LIBNAME-${VERSION}${DLL_EXTENSION}: \${${LIBNAME}_OBJECTS}"
@@ -853,7 +870,7 @@ do
   echo
   echo "libfky-${LIBNAME}${DLL_EXTENSION}: \
     libfky-$LIBNAME-${VERSION}${DLL_EXTENSION}"
-  echo "${TAB}ln -fs libfky-$LIBNAME-${VERSION}${DLL_EXTENSION}" \
+  echo "${TAB}ln -fsT libfky-$LIBNAME-${VERSION}${DLL_EXTENSION}" \
     "libfky-${LIBNAME}${DLL_EXTENSION}"
   echo
   echo ".PHONY: libfky-$LIBNAME-${VERSION}${DLL_EXTENSION}"

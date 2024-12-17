@@ -1,0 +1,807 @@
+[MANUAL]
+
+In Funky function calls are either written on a single line with arguments
+enclosed within parentheses and separated by single spaces, e.g.:
+
+print! f(a b c) g(x y z)
+
+or they are written in indentation style using mutliple lines:
+
+print!
+  f
+    a
+    b
+    c
+  g
+    x
+    y
+    z
+
+Functions that create any output or read any input need I/O-access rights.
+
+A function that needs I/O-access rights must be called with a trailing
+exclamation mark after the function name, e.g.:
+
+println! "Hello, World!"
+
+The expression
+
+key = value
+
+denotes a key-value-pair.
+
+Collection types cannot be printed directly. You can use "dump!" to
+dump the contents of a collection, e.g.:
+
+$ages
+  hash_table
+    "John" = 42
+    "Mary" = 25
+    "Irene" = 49
+
+dump! `ages
+
+Output:
+
+ages: hash_table <6>
+  "Mary"
+  25
+  "Irene"
+  49
+  "John"
+  42
+
+Note: The number in angular brackets after the typename denotes the number
+of (indented) lines that follow the head.
+
+A tail call returns the result of the called function; e.g.:
+
+$calc:
+  (
+    x
+    y
+  )
+  plus x*x y*y
+
+println! calc(2 3)
+
+prints
+
+13
+
+[GUIDELINES]
+
+All documentation remarks must have
+
+* a single short (single line) description written in lower case
+
+* a parameter(s) section (if appropriate)
+
+* a result(s) section (if appropriate)
+
+* a detailed description of how to use the symbol: when describing unique
+  items of constants, describe how to use them;
+  do not repeat yourself
+
+* one or more associated topic(s) (if appropriate)
+
+* a "See also" entry - mention only a view relevant symbols here
+
+Do not mention unknown symbols!
+
+Do not mention more than 10 symbols in the "See also" entry.
+
+DO NOT MENTION MORE THAN 10 SYMBOLS IN THE "See also" ENTRY!
+
+Do not mention internal details of functions.
+
+Do not start each sentence in the description with "If" or "The".
+
+DO NOT START EACH SENTENCE IN THE DESCRIPTION WITH "If" OR "The"!
+
+Do not tell the user what a function does not do.
+
+When referring to another symbol write it enclosed in angle brackets, e.g.
+<std::clear>.
+
+The "self"-parameter is a normal parameter like any other and should be
+mentioned in the the parameter description.
+
+Replace symbolic constants by their value.
+
+Operations on I/O-objects are not executed immediately but queued as jobs.
+To identify a job, an "id" is used.
+
+I/O-functions and I/O-methods either need I/O-access rights or propagate
+them ("if", "for_each", etc.).
+
+An "example" section, if available, must use Funky syntax and shall not be too
+long.
+
+If there is an appropriate example in the source code then use this example
+in the "example" section!
+
+[EXAMPLES]
+
+[source]
+
+$std::clear_colour_of ()
+
+[documentation remark]
+
+# std::clear_colour_of (a polymorphic function)
+
+  the clear colour to use
+
+  Parameter:
+    self: the object from which to get the clear colour
+
+  Result:
+    colour: the clear colour
+
+  Returns the clear colour of the object.
+
+  Topic: Terminal
+
+  See also: std::draw_colour_of, std::set_clear_colour
+
+[source]
+
+$std_types::screen/clear:
+  (
+    self
+    x = 1
+    y = 1
+    width = undefined
+    height = undefined
+  )
+  update_if width.is_undefined &width -> width_of(self)-x+1
+  update_if height.is_undefined &height -> height_of(self)-y+1
+  basic_private::clear self self x y width height
+
+$std::clear ()
+
+[documentation remark]
+
+# std::clear (a polymorphic function)
+
+  clears a rectangular area
+
+  Parameters:
+    screen: some kind of screen
+    x: x-coordinate of the upper left corner
+    y: y-coordinate of the upper left corner
+    width: width of the area
+    height: height of the area
+
+  Result:
+    screen: the updated screen
+
+  The area is cleared using the current clear colour. Use
+  <std::set_clear_colour> to change the current clear colour.
+
+  The area is clipped at the screen's borders.
+
+  Topic: Terminal
+
+  See also: std_types::screen/std::clear, std::draw_text,
+            std::set_clear_colour
+
+  Example:
+
+    $my_screen create_screen(terminal 40 25)
+    set_clear_colour &my_screen GREEN
+    clear &my_screen 11 6 20 15
+
+[EXERCISE]
+
+#
+  Topic: Collections
+
+  There are several kinds of collections
+
+  * tuples
+
+  * lists
+
+  * tables
+
+[symbols]
+
+$std_types::collection std_types::object
+$std_types::collection/is_empty:
+$std_types::collection/is_not_empty:
+$std::add ()
+$std::first_key_of ()
+$std::first_item_of ()
+$std::last_key_of ()
+$std::last_item_of ()
+$std::next_key_of ()
+$std::previous_key_of ()
+$std::retrieve_first_item ()
+$std::retrieve_last_item ()
+$std::next_item_of ()
+$std::previous_item_of ()
+$std::reverse ()
+$std::for_each ()
+$std::map ()
+$std::append_or_error ()
+$std::map_or_error ()
+$std::reduce ()
+$std::map_reduce ()
+$std::reduce_columns ()
+$std::reduce_rows ()
+$std::map_reduce_columns ()
+$std::map_reduce_rows ()
+$std::find_first ()
+$std::filter ()
+$std::sort ()
+$std::intersection ()
+$std::merge ()
+$std::difference ()
+$std::zip ()
+$std::flatten ()
+$std::truncate ()
+$std::pad_left ()
+$std::pad_right ()
+$std::pad_top ()
+$std::pad_bottom ()
+$std::has_prefix ()
+$std::has_suffix ()
+$std::without_prefix ()
+$std::without_suffix ()
+$std::before ()
+$std::truncate_from ()
+$std::behind ()
+$std::truncate_until ()
+$std::from ()
+$std::truncate_before ()
+$std::until ()
+$std::truncate_behind ()
+$std::between ()
+$std::contains ()
+$std::matches ()
+$std::dup ()
+$std::empty_collection_of ()
+$std::to_base64 ()
+$std::from_base64 ()
+$std::sha1 ()
+
+#
+  Copyright (C) 2024 by
+  Dipl.-Ing. Michael Niederle
+
+  This program is free software; you can redistribute it and/or modify
+  it under the terms of the GNU Library General Public License, version 2, or
+  (at your option) under the terms of the GNU Lesser General Public License,
+  version 3.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  GNU Lesser (Library) General Public License for more details.
+
+  For details of the GNU General Public License see the accompanying
+  files LGPLv2.txt and LGLPv3.txt or
+  http://www.gnu.org/licenses/lgpl-2.0.html
+  http://www.gnu.org/licenses/lgpl-3.0.html
+  or write to the
+  Free Software Foundation, Inc.,
+  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+
+<namespace basic_collections>
+
+#
+  Topic: Collections
+
+  There are several kinds of collections
+
+  * tuples
+
+  * lists
+
+  * tables
+
+$std_types::collection std_types::object
+  #
+    the prototype object for all kinds of collections
+
+    Topic: Collections
+
+$std_types::collection/is_empty:
+  # default implementation
+  (
+    self
+  )
+  -> length_of(self) == 0
+
+$std_types::collection/is_not_empty:
+  # default implementation
+  (
+    self
+  )
+  -> not(self.is_empty)
+
+$std::add ()
+  #
+    add some items to a collection
+
+$std::first_key_of ()
+  #
+    returns the first key of a non-empty collection
+
+$std::first_item_of ()
+  #
+    returns the first item of a non-empty collection
+
+$std::last_key_of ()
+  #
+    returns the last key of a non-empty collection
+
+$std::last_item_of ()
+  #
+    returns the last item of a non-empty collection
+
+$std::next_key_of ()
+  #
+    returns the key after the specified key
+
+$std::previous_key_of ()
+  #
+    returns the key before the specified key
+
+$std::retrieve_first_item ()
+  #
+    returns and removes the first item of a non-empty collection
+
+$std::retrieve_last_item ()
+  #
+    returns and removes the last item of a non-empty collection
+
+$std::next_item_of ()
+  #
+    returns the next item after the specified item
+
+$std::previous_item_of ()
+  #
+    returns the previous item before the specified item
+
+$std::reverse ()
+  #
+    reverse the order of all items of a collection
+
+$std::for_each ()
+  #
+    iterates over all items of a collection
+
+    Topic: Loops
+
+    See also: std::next, std::break
+
+$std::map ()
+  #
+    applies a function to all items of a collection
+
+    The function results are collected in a collection of the same type as the
+    original collection.
+
+    The function applications might be executed in parallel!
+
+    See also: reduce, map_reduce, filter
+
+$std::append_or_error ()
+  #
+    appends two collections
+
+    If the left collection is an error object then this error object is returned
+    else if the right collection is an error object then this error object is
+    returned otherwise the default <append> method is applied.
+
+$std::map_or_error ()
+  #
+    applies a function to all items of a collection
+
+    The function results are collected in a collection of the same type as the
+    original collection.
+
+    If any item ist mapped to an error object than the result ist not a
+    collection but the first (left-to-right-order) error object created.
+
+    The function applications might be executed in parallel!
+
+    See also: reduce, map_reduce, filter
+
+$std::reduce ()
+  #
+    computes a kind of sum from the items of a collection
+
+    There is no guarantee in which order the values will be reduced (folded).
+
+    So the the reduction function must obey to the law of assosiativity!
+
+    See also: map, map_reduce, filter
+
+$std::map_reduce ()
+  #
+    combines a map and a reduce operation into a single operation
+
+    See also: map, reduce
+
+$std::reduce_columns ()
+
+$std::reduce_rows ()
+
+$std::map_reduce_columns ()
+
+$std::map_reduce_rows ()
+
+$std::find_first ()
+  #
+    returns the first item of a collection that fullfills the condition
+
+    See also: std::filter
+
+$std::filter ()
+  #
+    returns a collection containing all the items that fullfill the
+    filter-condition
+
+    See also: std::map, std::find_first
+
+$std::sort ()
+  #
+    returns a sorted copy of the collection
+
+    If no comparison function is supplied then the items are sorted in ascending
+    order using the <less>-method.
+
+$std::intersection ()
+  #
+    computes the intersection of two collections
+
+    The result shares type with the first collection.
+
+$std::merge ()
+  #
+    merge two collections in a collection specific way
+
+$std::difference ()
+  #
+    computes the difference of two collections
+
+$std::zip ()
+  #
+    zip (merge) two collections
+
+    All odd numbered items are taken from the first collection; all even
+    numbered items from the second collection.
+
+    If a collection runs out of items the remaining items of the other
+    collection are simply appended.
+
+$std::flatten ()
+  #
+    flattens a collection (probably a list)
+
+$std::truncate ()
+  #
+    truncates a collection to the specified number of items
+
+$std::pad_left ()
+
+$std::pad_right ()
+
+$std::pad_top ()
+
+$std::pad_bottom ()
+
+$std::has_prefix ()
+  #
+    returns *true* if the second argument is a prefix of the first argument
+
+$std::has_suffix ()
+  #
+    returns *true* if the second argument is a suffix of the first argument
+
+$std::without_prefix ()
+  #
+    removes a specific expression at the start of a string
+
+    If the string specified as the first argument starts with the expression
+    specified as the second argument, the matching prefix of the string is
+    removed and the resulting string is returned.
+
+    Otherwise the string is returned without alteration.
+
+    Topic: Strings
+
+    See also: std::without_suffix, std::has_prefix, std::has_suffix,
+              std::behind, std::truncate_from
+
+$std::without_suffix ()
+  #
+    removes a specific expression at the end of a string
+
+    If the string specified as the first argument ends with the expression
+    specified as the second argument, the matching suffix of the string is
+    removed and the resulting string is returned.
+
+    Otherwise the string is returned without alteration.
+
+    Topic: Strings
+
+    See also: std::without_prefix, std::has_suffix, std::has_prefix,
+              std::before, std::truncate_until
+
+$std::before ()
+  #
+    returns the substring before the specified expression
+
+    If the string specified as the first argument contains the expression
+    specified as the second argument, the substring before the first match of
+    the expression is returned.
+
+    **If the string does not contain the expression then the empty string is
+    returned.**
+
+    An optional third argument can be used to match the *nth* occurence of
+    the specified expression. If this value is negative then -1 means the
+    last occurrence, -2 means the next-to-last occurence and so on.
+
+    Topic: Strings
+
+    See also: std::truncate_from, std::between, std::behind, std::from, std::until
+
+$std::truncate_from ()
+  #
+    returns the substring before the specified expression
+
+    If the string specified as the first argument contains the expression
+    specified as the second argument, the substring before the first match of
+    the expression is returned.
+
+    **If the string does not contain the expression then the string is
+    returned without alteration.**
+
+    An optional third argument can be used to match the *nth* occurence of
+    the specified expression. If this value is negative then -1 means the
+    last occurrence, -2 means the next-to-last occurence and so on.
+
+    Topic: Strings
+
+    See also: std::before, std::truncate_until,
+              std::truncate_before, std::truncate_behind
+
+$std::behind ()
+  #
+    returns the substring behind the specified expression
+
+    If the string specified as the first argument contains the expression
+    specified as the second argument, the substring behind the first match of
+    the expression is returned.
+
+    **If the string does not contain the expression then the empty string is
+    returned.**
+
+    An optional third argument can be used to match the *nth* occurence of
+    the specified expression. If this value is negative then -1 means the
+    last occurrence, -2 means the next-to-last occurence and so on.
+
+    Topic: Strings
+
+    See also: std::truncate_until, std::between, std::before, std::from, std::until
+
+$std::truncate_until ()
+  #
+    returns the substring behind the specified expression
+
+    If the string specified as the first argument contains the expression
+    specified as the second argument, the substring behind the first match of
+    the expression is returned.
+
+    **If the string does not contain the expression then the string is
+    returned without alteration.**
+
+    An optional third argument can be used to match the *nth* occurence of
+    the specified expression. If this value is negative then -1 means the
+    last occurrence, -2 means the next-to-last occurence and so on.
+
+    Topic: Strings
+
+    See also: std::behind, std::truncate_from,
+              std::truncate_before, std::truncate_behind
+
+$std::from ()
+  #
+    returns the substring starting with the specified expression
+
+    If the string specified as the first argument contains the expression
+    specified as the second argument, the substring starting with the first
+    match of the expression is returned.
+
+    **If the string does not contain the expression then the empty string is
+    returned.**
+
+    An optional third argument can be used to match the *nth* occurence of
+    the specified expression. If this value is negative then -1 means the
+    last occurrence, -2 means the next-to-last occurence and so on.
+
+    Topic: Strings
+
+    See also: std::truncate_before, std::until, std::before, std::behind
+
+$std::truncate_before ()
+  #
+    returns the substring starting with the specified expression
+
+    If the string specified as the first argument contains the expression
+    specified as the second argument, the substring starting with the first
+    match of the expression is returned.
+
+    **If the string does not contain the expression then the string is
+    returned without alteration.**
+
+    An optional third argument can be used to match the *nth* occurence of
+    the specified expression. If this value is negative then -1 means the
+    last occurrence, -2 means the next-to-last occurence and so on.
+
+    Topic: Strings
+
+    See also: std::from, std::truncate_behind,
+              std::truncate_from, std::truncate_until
+
+$std::until ()
+  #
+    returns the substring ending with the specified expression
+
+    If the string specified as the first argument contains the expression
+    specified as the second argument, the substring ending with the first
+    match of the expression is returned.
+
+    **If the string does not contain the expression then the empty string is
+    returned.**
+
+    An optional third argument can be used to match the *nth* occurence of
+    the specified expression. If this value is negative then -1 means the
+    last occurrence, -2 means the next-to-last occurence and so on.
+
+    Topic: Strings
+
+    See also: std::truncate_behind, std::from, std::before, std::behind
+
+$std::truncate_behind ()
+  #
+    returns the substring ending with the specified expression
+
+    If the string specified as the first argument contains the expression
+    specified as the second argument, the substring ending with the first
+    match of the expression is returned.
+
+    **If the string does not contain the expression then the string is
+    returned without alteration.**
+
+    An optional third argument can be used to match the *nth* occurence of
+    the specified expression. If this value is negative then -1 means the
+    last occurrence, -2 means the next-to-last occurence and so on.
+
+    Topic: Strings
+
+    See also: std::until, std::truncate_before,
+              std::truncate_from, std::truncate_until
+
+$std::between ()
+  #
+    returns the substring between the two specified expressions
+
+    If the string specified as the first argument contains the expression
+    specified as the second and third argument in the correct order, the
+    substring starting between the two matching expressions is returned.
+
+    **If the string does not contain the expressions (or in the wrong order)
+    then the empty string is returned.**
+
+    An optional fourth argument can be used to match the *nth* occurence of
+    the specified expression. If this value is negative then -1 means the
+    last occurrence, -2 means the next-to-last occurence and so on.
+
+    The end-expression is **always** the next match after the start-expression.
+
+    Topic: Strings
+
+    See also: std::behind, std::before
+
+$std::contains ()
+  #
+    checks whether a string contains the specified expression
+
+    Topic: Strings
+
+    See also: std::matches, std::has_prefix, std::has_suffix
+
+$std::matches ()
+  #
+    checks whether a string matches the specified expression
+
+    Topic: Strings
+
+    See also: std::contains, std::has_prefix, std::has_suffix
+
+$std::dup ()
+  #
+    creates a concatenation of *n* copies of the specified collection
+
+    The function aims to duplicate the specified collection in a smart way.
+
+    Topic: Lists, Strings
+
+$std::empty_collection_of ()
+  #
+    an empty collection of the appropriate type
+
+$std::to_base64 ()
+  #
+    converts a string to base64
+
+$std::from_base64 ()
+  #
+    converts a base64 string to a string
+
+$std::sha1 ()
+  #
+    computes the sha1 hash of a string
+
+[source]
+
+$std_types::table/add:
+  (
+    self
+    pairs*
+  )
+  for_each pairs
+    : (pair)
+      pair $key $value
+      !self(key) value
+      next
+    -> self
+
+$std_types::hash_bag/add:
+  (
+    self
+    pairs*
+  )
+  for_each pairs
+    : (pair)
+      if
+        $key $count
+        pair.is_a_key_value_pair
+        pair
+        -> pair 1
+      $value self(key)
+      if
+        value.is_undefined:
+          !self(key) count
+          next
+        :
+          plus &value count
+          update_if value == 0 &value -> undefined
+          !self(key) value
+          next
+    -> self
+
+$std::add ()
+  #
+    add some items to a collection
+
+[documentation remark]
+
+### Always copy examples contained in the symbol's description remark
+    into the documentation
+
+### Use (parts of) the documentation already provided in the source
+
+### Do not create completely new examples on your own
+
+### Use only one of the following topics: Collections
+
+# std::add (a polymorphic function)
+

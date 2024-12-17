@@ -1,0 +1,597 @@
+[GUIDELINES]
+
+All documentation remarks must have
+
+* a single short (single line) description written in lower case
+
+* a parameter(s) section (if appropriate)
+
+* a result(s) section (if appropriate)
+
+* a detailed description of how to use the symbol: when describing unique
+  items of constants, describe how to use them;
+  do not repeat yourself
+
+* one or more associated topic(s) (if appropriate)
+
+* a "See also" entry - mention only a view relevant symbols here
+
+Do not mention unknown symbols!
+
+Do not mention more than 10 symbols in the "See also" entry.
+
+DO NOT MENTION MORE THAN 10 SYMBOLS IN THE "See also" ENTRY!
+
+Do not mention internal details of functions.
+
+Do not start each sentence in the description with "If" or "The".
+
+DO NOT START EACH SENTENCE IN THE DESCRIPTION WITH "If" OR "The"!
+
+Do not tell the user what a function does not do.
+
+When referring to another symbol write it enclosed in angle brackets, e.g.
+<std::clear>.
+
+The "self"-parameter is a normal parameter like any other and should be
+mentioned in the the parameter description.
+
+Replace symbolic constants by their value.
+
+Operations on I/O-objects are not executed immediately but queued as jobs.
+To identify a job, an "id" is used.
+
+I/O-functions and I/O-methods either need I/O-access rights or propagate
+them ("if", "for_each", etc.).
+
+An "example" section, if available, must use Funky syntax and shall not be too
+long.
+
+If there is an appropriate example in the source code then use this example
+in the "example" section!
+
+[EXAMPLES]
+
+[source]
+
+TYPE std_types::object
+
+[documentation remark]
+
+# std_types::object (a builtin type)
+
+  the prototype object for all "normal" objects
+
+  This is one of the three Funky root objects.
+
+  Topics: Basics, Objects
+
+  See also: std_types::undefined, std_types::error
+
+[source]
+
+TYPE std_types::number -> std_types::object
+
+[documentation remark]
+
+# std_types::number (a builtin type derived from std_types::object)
+
+  the prototype object for all kinds of numbers
+
+  Topic: Numbers
+
+  See also: std_types::integer, std_types::real
+
+[source]
+
+METHOD std_types::array/_type
+  {
+    ARRAY_DATA *data = MYSELF->array.data;
+    int dimension_count = data->info->dimension_count;
+    MIN_ARGUMENTS(dimension_count)
+    MAX_ARGUMENTS(dimension_count+1)
+    if (ARGUMENT_COUNT == dimension_count) {
+      // get item
+      data = apply_array_updates((ARRAY *)MYSELF);
+      // info and view could have been updated!
+      long offset = compute_array_read_offset(
+        MYSELF, data->info, MYSELF->array.view);
+      if (offset < 0) return;
+      NODE *value;
+      value = data->items[offset];
+      RETURN_SINGLE_RESULT(value);
+    } else {
+      // set item
+      long offset = compute_array_write_offset(
+        MYSELF, data->info, MYSELF->array.view);
+      if (offset < 0) return;
+      NODE *value;
+      value = ARGUMENTS(dimension_count);
+      long length = MYSELF->array.updates_length;
+      MYSELF =
+        add_update(
+          (ARRAY *)MYSELF, sizeof(UPDATE_ARRAY_DATA_SET_VALUE));
+      UPDATE_ARRAY_DATA_SET_VALUE *update =
+        (UPDATE_ARRAY_DATA_SET_VALUE *)
+        (MYSELF->array.updates->buffer+length);
+      update->tag = SET_VALUE;
+      update->offset = offset;
+      update->value = value;
+      RETURN_SINGLE_RESULT(MYSELF)
+    }
+  }
+
+TYPE std_types::array -> std_types::generic_array
+
+[documentation remark]
+
+# std_types::array (a builtin type derived from std_types::generic_array)
+
+  the prototype object for all arrays
+
+  Parameters:
+    indices: the indices of the array elements
+    value: the new value (only for updates)
+
+  Result:
+    value_or_array: the value at the specified position or the updated array
+
+  Updates to arrays are delayed until the array is read.
+
+  Array indices are one-based.
+
+  Arrays can hold any kind of values.
+
+  Topics: Arrays, Collections
+
+  See also: std_types::list
+
+  Example:
+
+    $a array(3 2) # a new array with 3 rows and 2 columns
+    !a(2 1) 47 # use syntactic sugar to assign a value to an array element
+    !a a(3 2 11) # without syntactic sugar
+    println! a(2 1)
+    println! a(3 2)
+
+  Output:
+
+    47
+    11
+
+[EXERCISE]
+
+[symbols]
+
+TYPE std_types::character -> std_types::object
+METHOD std_types::character/_type
+FUNCTION NODE *from_uchar32
+METHOD uint32_t std_types::character/_to_uchar32
+FUNCTION std::character
+METHOD std_types::character/plus
+METHOD std_types::character/minus
+METHOD std_types::character/equal
+METHOD std_types::character/less
+METHOD std_types::character/hash
+METHOD std_types::character/to_string
+METHOD std_types::character/to_integer
+METHOD std_types::character/width_of
+METHOD long std_types::character/_debug_string
+
+#
+  Copyright (C) 2021 by
+  Dipl.-Ing. Michael Niederle
+
+  This program is free software; you can redistribute it and/or modify
+  it under the terms of the GNU General Public License, version 2, or
+  (at your option) version 3.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  GNU General Public License for more details.
+
+  For details of the GNU General Public License see the accompanying
+  files GPLv2.txt and GLPv3.txt or
+  http://www.gnu.org/licenses/gpl-2.0.html
+  http://www.gnu.org/licenses/gpl-3.0.html
+  or write to the
+  Free Software Foundation, Inc.,
+  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+
+# Topic: Characters
+
+TYPE std_types::character -> std_types::object
+  #
+    a unicode code point encoded as a 32-bit value
+
+    Topic: Strings
+
+    See also: std_types::string
+
+  uint32_t code
+
+METHOD std_types::character/_type
+  {
+    RUNTIME_ERROR("Attempt to call a character value as a function!")
+  }
+
+FUNCTION NODE *from_uchar32
+  (
+    uint32_t code
+  )
+  {
+    return CREATE(std_types::character, code);
+  }
+
+METHOD uint32_t std_types::character/_to_uchar32
+  (
+    NODE *node,
+    uint32_t *result_p
+  )
+  {
+    *result_p = node->character.code;
+    return true;
+  }
+
+FUNCTION std::character
+  #
+    returns the character with the specified unicode codepoint
+
+    Parameter:
+      codepoint # an integer representing the unicode codepoint
+
+    Result:
+      chr # the character with the specified unicode codepoint
+
+    Topic: Strings
+
+    See also: std_types::character/to_integer
+
+    Example:
+
+      println! character(97)
+
+    Output:
+
+      a
+  {
+    CHECK_ARGUMENTS(1)
+    CHECK_RESULTS(1)
+    uint32_t code;
+    CHECK(to_uint32(ARGUMENTS(0), &code))
+    RETURN_SINGLE_RESULT(CREATE(std_types::character, code))
+  }
+
+METHOD std_types::character/plus
+  #
+    returns the nth-next character
+
+    Parameter:
+      chr # the character to increment
+      n # the number of times to increment
+
+    Result:
+      chr # the nth-next character
+
+    Topic: Strings
+
+    See also: std_types::character/minus
+
+    Example:
+
+      println! 'a'+1
+
+    Output:
+
+      b
+  {
+    CHECK_ARGUMENTS(2)
+    CHECK_RESULTS(1)
+    long offset;
+    CHECK(to_long(ARGUMENTS(1), &offset))
+    int64_t code = (int64_t)ARGUMENTS(0)->character.code+offset;
+    if (code >= 0x100000000LL || code < 0) INVALID_ARGUMENTS
+    RETURN_SINGLE_RESULT(CREATE(std_types::character, (uint32_t)code))
+  }
+
+METHOD std_types::character/minus
+  #
+    returns the nth-previous character or the difference between two characters
+
+    Parameter:
+      chr # the character to decrement
+      chr_2_or_n # the character to compare or the number of times to decrement
+
+    Result:
+      chr_or_diff # the nth-previous character or the difference between two
+                    characters
+
+    Topic: Strings
+
+    See also: std_types::character/plus
+
+    Example:
+
+      println! 'z'-1
+
+    Output:
+
+      y
+
+    Example:
+
+      println! 'z'-'a'
+
+    Output:
+
+      25
+  {
+    CHECK_ARGUMENTS(2)
+    CHECK_RESULTS(1)
+    if (TYPEOF(ARGUMENTS(1)) == TYPE(std_types::character)) {
+      RETURN_SINGLE_RESULT(
+        from_long(
+          (long)ARGUMENTS(0)->character.code-(long)ARGUMENTS(1)->character.code));
+    } else {
+      long offset;
+      CHECK(to_long(ARGUMENTS(1), &offset))
+      long code = (long)ARGUMENTS(0)->character.code-offset;
+      if (code >= 0x100000000LL || code < 0) INVALID_ARGUMENTS
+      RETURN_SINGLE_RESULT(CREATE(std_types::character, (uint32_t)code))
+    }
+  }
+
+METHOD std_types::character/equal
+  #
+    compares two characters for equality
+
+    Parameters:
+      chr_1 # the first character
+      chr_2 # the second character
+
+    Result:
+      success # true if the characters are equal, false otherwise
+
+    A comparison of a character with a non-character value always returns false.
+
+    Topic: Strings
+
+    See also: std_types::character/less
+
+    Example:
+
+      dump! `('a' == 'a')
+
+    Output:
+
+      ('a' == 'a'): <true>
+
+    Example:
+
+      dump! `('a' == 97)
+
+    Output:
+
+      ('a' == 97): <false>
+  {
+    CHECK_ARGUMENTS(2)
+    CHECK_RESULTS(1)
+    if (TYPEOF(ARGUMENTS(1)) == TYPE(std_types::character)) {
+      RETURN_BOOLEAN(ARGUMENTS(0)->character.code == ARGUMENTS(1)->character.code)
+    } else if (TYPEOF(ARGUMENTS(1)) == TYPE(std_types::error)) {
+      INVALID_ARGUMENTS
+    } else {
+      RETURN_FALSE
+    }
+  }
+
+METHOD std_types::character/less
+  #
+    numerically compares the unicode codepoints of the two specified characters
+
+    Parameters:
+      chr_1 # the first character
+      chr_2 # the second character
+
+    Result:
+      success # true if chr_1 is less than chr_2, false otherwise
+
+    A comparison of a character with a non-character value returns an error
+    object!
+
+    Topic: Strings
+
+    See also: std_types::character/equal
+
+    Example:
+
+      dump! `('a' < 'b')
+
+    Output:
+
+      ('a' < 'b'): <true>
+
+    Example:
+
+      dump! `('a' < 97)
+
+
+    Output:
+
+      ('a' < 97): INVALID ARGUMENTS
+  {
+    CHECK_ARGUMENTS(2)
+    CHECK_RESULTS(1)
+    if (TYPEOF(ARGUMENTS(1)) == TYPE(std_types::character)) {
+      RETURN_BOOLEAN(ARGUMENTS(0)->character.code < ARGUMENTS(1)->character.code)
+    }
+    INVALID_ARGUMENTS
+  }
+
+METHOD std_types::character/hash
+  #
+    returns an integer value of the character
+
+    Parameter:
+      chr # the character to hash
+
+    Result:
+      hash # the hash value of the character
+
+    Topic: Strings
+
+    See also: std_types::character/to_integer
+
+    Example:
+
+      println! hash('a')
+
+    Output:
+
+      2230631750
+  {
+    CHECK_ARGUMENTS(1)
+    CHECK_RESULTS(1)
+    uint32_t hash = ARGUMENTS(0)->character.code;
+    hash *= 179234567;
+    hash ^= hash >> 27 | hash << 5;
+    RETURN_SINGLE_RESULT(from_uint32(hash));
+  }
+
+METHOD std_types::character/to_string
+  #
+    returns a single-character string containing only the specified character
+
+    Parameter:
+      chr # the character to convert
+
+    Result:
+      str # the string containing the specified character
+
+    Topic: Strings
+
+    See also: std_types::character/to_integer
+
+    Example:
+
+      dump! `to_string('a')
+
+    Output:
+
+      to_string('a'): "a"
+  {
+    CHECK_ARGUMENTS(1)
+    CHECK_RESULTS(1)
+    if (ARGUMENTS(0)->character.code <= 0xff) {
+      char buf[1];
+      buf[0] = ARGUMENTS(0)->character.code;
+      RETURN_SINGLE_RESULT(from_latin_1_string((const uint8_t *)buf, 1))
+    } else {
+      RETURN_SINGLE_RESULT(from_uint32_string(&ARGUMENTS(0)->character.code, 1))
+    }
+  }
+
+METHOD std_types::character/to_integer
+  #
+    returns the unicode codepoint of the specified character
+
+    Parameter:
+      chr # the character to convert
+
+    Result:
+      integer # the unicode codepoint of the specified character
+
+    Topic: Strings
+
+    See also: std_types::character/to_string
+
+    Example:
+
+      println! to_integer('a')
+
+    Output:
+
+      97
+  {
+    CHECK_ARGUMENTS(1)
+    CHECK_RESULTS(1)
+    RETURN_SINGLE_RESULT(from_uint32(ARGUMENTS(0)->character.code))
+  }
+
+METHOD std_types::character/width_of
+  #
+    returns the width of the specified character in character positions
+
+    Parameter:
+      chr # the character to query
+
+    Result:
+      integer # the width of the character in character positions
+
+    Topic: Strings
+
+    See also: std_types::character/to_integer
+
+    Example:
+
+      println! width_of('a')
+
+    Output:
+
+      1
+  {
+    CHECK_ARGUMENTS(1)
+    CHECK_RESULTS(1)
+    RETURN_SINGLE_RESULT(
+      from_uint32(is_a_wide_character(ARGUMENTS(0)->character.code) ? 2 : 1))
+  }
+
+METHOD long std_types::character/_debug_string
+  (
+    NODE *node,
+    int indent,
+    int max_depth,
+    char *buf
+  )
+  {
+    if (node->character.code == '@') {
+      return debug_print(indent, buf, "'@@'");
+    } else if (node->character.code == '\'') {
+      return debug_print(indent, buf, "'@apos;'");
+    } else if (
+      node->character.code >= 0x20 && node->character.code < 0x7f /*||
+      node->character.code >= 0xa0 && node->character.code < 0x100*/
+    ) {
+      return debug_print(indent, buf, "'%c'", node->character.code);
+    } else {
+      return debug_print(indent, buf, "'@0x%x;'", node->character.code);
+    }
+  }
+
+[source]
+
+METHOD std_types::character/_type
+  {
+    RUNTIME_ERROR("Attempt to call a character value as a function!")
+  }
+
+TYPE std_types::character -> std_types::object
+  #
+    a unicode code point encoded as a 32-bit value
+
+    Topic: Strings
+
+    See also: std_types::string
+
+  uint32_t code
+
+[documentation remark]
+
+### Always copy examples contained in the symbol's description remark
+    into the documentation
+
+### Use only one of the following topics: Characters
+
+# std_types::character (a builtin type derived from std_types::object)
+

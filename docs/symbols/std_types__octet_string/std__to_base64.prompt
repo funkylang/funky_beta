@@ -1,0 +1,933 @@
+[MANUAL]
+
+In Funky function calls are either written on a single line with arguments
+enclosed within parentheses and separated by single spaces, e.g.:
+
+print! f(a b c) g(x y z)
+
+or they are written in indentation style using mutliple lines:
+
+print!
+  f
+    a
+    b
+    c
+  g
+    x
+    y
+    z
+
+Functions that create any output or read any input need I/O-access rights.
+
+A function that needs I/O-access rights must be called with a trailing
+exclamation mark after the function name, e.g.:
+
+println! "Hello, World!"
+
+The expression
+
+key = value
+
+denotes a key-value-pair.
+
+Collection types cannot be printed directly. You can use "dump!" to
+dump the contents of a collection, e.g.:
+
+$ages
+  hash_table
+    "John" = 42
+    "Mary" = 25
+    "Irene" = 49
+
+dump! `ages
+
+Output:
+
+ages: hash_table <6>
+  "Mary"
+  25
+  "Irene"
+  49
+  "John"
+  42
+
+Note: The number in angular brackets after the typename denotes the number
+of (indented) lines that follow the head.
+
+A tail call returns the result of the called function; e.g.:
+
+$calc:
+  (
+    x
+    y
+  )
+  plus x*x y*y
+
+println! calc(2 3)
+
+prints
+
+13
+
+[GUIDELINES]
+
+All documentation remarks must have
+
+* a single short (single line) description written in lower case
+
+* a parameter(s) section (if appropriate)
+
+* a result(s) section (if appropriate)
+
+* a detailed description of how to use the symbol: when describing unique
+  items of constants, describe how to use them;
+  do not repeat yourself
+
+* one or more associated topic(s) (if appropriate)
+
+* a "See also" entry - mention only a view relevant symbols here
+
+Do not mention unknown symbols!
+
+Do not mention more than 10 symbols in the "See also" entry.
+
+DO NOT MENTION MORE THAN 10 SYMBOLS IN THE "See also" ENTRY!
+
+Do not mention internal details of functions.
+
+Do not start each sentence in the description with "If" or "The".
+
+DO NOT START EACH SENTENCE IN THE DESCRIPTION WITH "If" OR "The"!
+
+Do not tell the user what a function does not do.
+
+When referring to another symbol write it enclosed in angle brackets, e.g.
+<std::clear>.
+
+The "self"-parameter is a normal parameter like any other and should be
+mentioned in the the parameter description.
+
+Replace symbolic constants by their value.
+
+Operations on I/O-objects are not executed immediately but queued as jobs.
+To identify a job, an "id" is used.
+
+I/O-functions and I/O-methods either need I/O-access rights or propagate
+them ("if", "for_each", etc.).
+
+An "example" section, if available, must use Funky syntax and shall not be too
+long.
+
+If there is an appropriate example in the source code then use this example
+in the "example" section!
+
+[EXAMPLES]
+
+[source]
+
+$std_types::screen/std::clear:
+  (
+    self
+    x = 1
+    y = 1
+    width = undefined
+    height = undefined
+  )
+  update_if width.is_undefined &width -> width_of(self)-x+1
+  update_if height.is_undefined &height -> height_of(self)-y+1
+  std_private::clear self self x y width height
+
+[documentation remark]
+
+# std_types::screen/clear (a method)
+
+  clears the specified rectangular area
+
+  Parameters:
+    self: the screen to be (partially) cleared
+    x: x-coordinate of the upper left corner
+    y: y-coordinate of the upper left corner
+    width: width of the area
+    height: height of the area
+
+  Result:
+    screen: the updated screen
+
+  The specified area is filled with spaces using the the current draw-
+  and clear colour.
+
+  The area is clipped at the screen's borders.
+
+  This function also works for "graphical screens" (line_height != 1).
+
+  Topic: Terminal
+
+  See also: std_types::screen/std::set_clear_colour,
+            std_types::screen/std::copy
+
+[source]
+
+$std_types::string/match:
+  (
+    self
+    stream
+  )
+  $rc result_count()
+  $len length_of(self)
+  if
+    length_of(stream) >= len:
+      if
+        range(stream 1 len) == self:
+          if
+            rc == 1
+            -> len
+            -> len undefined
+        fail
+    fail
+
+  $fail:
+    if
+      rc == 1
+      -> undefined
+      -> undefined undefined
+
+[documentation remark]
+
+# std_types::string/std::match (a method)
+
+  matches the start of the stream with the string
+
+  Parameters:
+    self: the string to match
+    stream: the stream to match against
+
+  Results:
+    length: the number of matched characters (or <undefined> on fail)
+    capture: the matched string (if requested)
+
+  Attempts to match the start of the stream with the specified string.
+
+  If the match is successful the length of the match (= the length of the
+  string) is returned.
+
+  If the caller requested two result values then in addition to the string
+  length the string itself ("the capture") is also returned.
+
+  If the match fails then one or two <std::undefined>-values are returned.
+
+  Topic: Strings
+
+  See also: std_types::string/std::match_back, std_types::string/std::search
+
+[source]
+
+$std_types::generic_list/map_or_error:
+  (
+    self
+    function
+  )
+  if
+    self.is_empty
+    -> self
+    :
+      $map
+        if
+          parameter_count_of(function) == 2
+          ->
+            : (s e)
+              if
+                s < e:
+                  $m (s+e) >> 1
+                  append_or_error
+                    map(s m)
+                    map(m+1 e)
+                :
+                  $mapped_item function(s self(s))
+                  if
+                    mapped_item.is_an_error
+                    -> mapped_item
+                    -> list(mapped_item)
+          ->
+            : (s e)
+              if
+                s < e:
+                  $m (s+e) >> 1
+                  append_or_error
+                    map(s m)
+                    map(m+1 e)
+                :
+                  $mapped_item function(self(s))
+                  if
+                    mapped_item.is_an_error
+                    -> mapped_item
+                    -> list(mapped_item)
+
+      map 1 length_of(self)
+
+[documentation remark]
+
+# std_types::generic_list/std::map_or_error (a method)
+
+  applies a function to all elements of the list
+
+  Parameters:
+
+    self: the list which items will be mapped
+    function: the function to apply to each element of the list
+
+  Result:
+    list: the list of "mapped" items
+
+  A list of the "mapped" items is returned.
+
+  If any item ist mapped to an error object than the result ist not a
+  collection but the first (left-to-right-order) error object created.
+
+  Topic: Lists
+
+  See also: std_types::generic_list/std::reduce,
+            std_types::generic_list/std::map_reduce
+
+[EXERCISE]
+
+#
+  Topic: Strings
+
+  Strings consist of zero or more characters.
+
+  A character is a tagged unsigned 32-bit integer.
+
+  They usually store uni-code code points.
+
+  The subtype <std_types::octet_string> of <std_types::string> is used for
+  binary data, often for storing utf8 encoded strings.
+
+  The most efficient string operation is <push> which adds a character to the
+  end of the string. Appending two or more strings is also done in an efficient
+  way.
+
+  Reading a character at any position is also efficient.
+
+  The most basic string operations are builtin.
+
+  Strings have a lot in common with <std_types::list>.
+
+  Related topics: Lists
+
+[symbols]
+
+$std::to_sentence_case ()
+$std::is_a_string ()
+$std::to_uint8_array ()
+$std_types::object.is_a_string false
+$std_types::string.is_a_string true
+$std::is_an_octet_string ()
+$std_types::object.is_an_octet_string false
+$std_types::octet_string.is_an_octet_string true
+$std_types::string.neutral_element_of ""
+$std_types::string/to_string:
+$std::create_string:
+$std::string:
+$std_types::string/put:
+$std_types::string/dup:
+$std_types::object/pad_left:
+$std_types::object/pad_right:
+$std::spaces:
+$std::tabs_and_spaces:
+$std::with_tabs:
+$std_types::string/match:
+$std_types::string/match_back:
+$std_types::string/matches:
+$std_types::string/search:
+$std_types::string/before:
+$std_types::string/truncate_from:
+$std_types::string/behind:
+$std_types::string/truncate_until:
+$std_types::string/from:
+$std_types::string/truncate_before:
+$std_types::string/until:
+$std_types::string/truncate_behind:
+$std_types::string/between:
+$std_types::string/has_prefix:
+$std_types::string/has_suffix:
+$std_types::string/without_prefix:
+$std_types::string/without_suffix:
+$std_types::string/contains:
+$std::split:
+$std::join:
+$std::trim:
+$std::trim_left:
+$std::trim_right:
+$std::normalize:
+$std_types::octet_string/to_base64:
+$std_types::octet_string/from_base64:
+$std_types::octet_string/sha1:
+$std::parse_integer:
+$std::parse_number:
+$std::parse_hex:
+$std_types::string/to_integer:
+$std_types::string/to_number:
+$std::map_characters:
+$std_types::string/to_upper_case:
+$std_types::string/to_lower_case:
+$std_types::string/to_title_case:
+$std_types::string/to_sentence_case:
+$std_types::string/to_wide: (str)
+$std::delete_all:
+$std::replace_all:
+$std::replace_first:
+$std::count_occurrences:
+$std::split_into_lines: (text)
+$std::split_into_indented_lines:
+$std::subgroups_of (!)
+$std::split_into_groups:
+$std::wrap_words:
+$std_types::string/serialize:
+$std_types::octet_string/to_uint8_array:
+$std::indented:
+$std::format:
+$std_types::string.empty_collection_of ""
+
+$std::join:
+  #
+    concatenates the list items using the specified separator
+
+    Returns a string which is the concatenation of all the list items
+    separated by the specified separator.
+
+    If the list is empty then the empty string is returned.
+
+    Topic: Strings
+
+    See also: string/split
+
+    Example:
+
+      $items list("a" "b" "c")
+      $str join(items ";")
+      println! str
+
+    Output:
+
+      a;b;c
+  (
+    items
+    separator = " "
+  )
+  to_string &separator
+  map_reduce
+    items to_string
+    : (left right) append left separator right
+    ""
+
+$std::trim:
+  #
+    removes leading and trailing whitespace
+
+    Returns a string which is the specified string without any leading or
+    trailing whitespace.
+
+    Topic: Strings
+
+    See also: string/trim_left, string/trim_right, string/normalize
+
+    Example:
+
+      $str "   text   "
+      $trimmed_str trim(str)
+      println! '*' trimmed_str '*'
+
+    Output:
+
+      *text*
+  (
+    self
+    test = is_a_whitespace_character
+  )
+  $s 1
+  $e length_of(self)
+  loop:
+    if
+      s <= e && test(self(s)):
+        inc &s
+        next
+      :
+        loop:
+          if
+            e >= s && test(self(e)):
+              dec &e
+              next
+            :
+              range self s e
+
+$std::trim_left:
+  #
+    removes leading whitespace
+
+    Returns a string which is the specified string without any leading
+    whitespace.
+
+    Topic: Strings
+
+    See also: string/trim, string/trim_right
+
+    Example:
+
+      $str "   text   "
+      $trimmed_str trim_left(str)
+      println! '*' trimmed_str '*'
+
+    Output:
+
+      *text   *
+  (
+    self
+    test = is_a_whitespace_character
+  )
+  $s 1
+  $e length_of(self)
+  loop:
+    if
+      s <= e && test(self(s)):
+        inc &s
+        next
+      :
+        range self s e
+
+$std::trim_right:
+  #
+    removes trailing whitespace
+
+    Returns a string which is the specified string without any trailing
+    whitespace.
+
+    Topic: Strings
+
+    See also: string/trim, string/trim_left
+
+    Example:
+
+      $str "   text   "
+      $trimmed_str trim_right(str)
+      println! '*' trimmed_str '*'
+
+    Output:
+
+      *   text*
+  (
+    self
+    test = is_a_whitespace_character
+  )
+  $e length_of(self)
+  loop:
+    if
+      e >= 1 && test(self(e)):
+        dec &e
+        next
+      :
+        range self 1 e
+
+$std::normalize:
+  #
+    trims the string and replaces whitespace by a single space
+
+    Returns a string which is the specified string without any leading or
+    trailing whitespace and where all sequences of whitespace are replaced by
+    a single space.
+
+    Topic: Strings
+
+    See also: string/trim
+
+    Example:
+
+      $str "   This    is    a     strange    text!   "
+      $normalized_str normalize(str)
+      println! '*' normalized_str '*'
+
+    Output:
+
+      *This is a strange text!*
+  (
+    self
+  )
+  $buf ""
+  $e length_of(self)
+  $i 0
+  loop:
+    loop
+      :
+        inc &i
+        if
+          i > e
+          -> buf
+          :
+            if
+              self(i).is_a_whitespace_character
+              next
+              break
+      :
+        update_if buf.is_not_empty &buf -> push(buf ' ')
+        $s i
+        loop
+          :
+            inc &i
+            if
+              i > e
+              -> append(buf range(self s e))
+              :
+                if
+                  self(i).is_a_whitespace_character
+                  break
+                  next
+          :
+            append &buf range(self s i-1)
+            next
+
+$std_types::octet_string/to_base64:
+  #
+    converts the octet string to base64
+
+    Topic: Strings
+
+    See also: from_base64
+
+    Example:
+
+      println! to_base64("Hello, world!")
+
+    Output:
+
+      SGVsbG8sIHdvcmxkIQ==
+  (
+    str # the octet string
+  )
+  $base64 ""
+  loop:
+    $len length_of(str)
+    if
+      len >= 3:
+        append &base64 encode(range(str 1 3))
+        range &str 4 -1
+        next
+      :
+        if
+          len == 0
+          -> base64
+          :
+            append &str dup("@0;" 3-len)
+            append &base64 encode(str)
+            case len
+              1 -> append(range(base64 1 -3) "==")
+              2 -> push(range(base64 1 -2) '=')
+
+  $encode: (three_octets)
+    #  converts three octets to four base64 characters
+    $bits
+      |
+        three_octets(1).to_integer << 16
+        three_octets(2).to_integer << 8
+        three_octets(3).to_integer
+    $buf ""
+    repeat 4
+      :
+        $value bits >> 18
+        !bits (bits & 0x3ffff) << 6
+        case value
+          0 .. 25:
+            push &buf 'A'+value
+            next
+          26 .. 51:
+            push &buf 'a'+(value-26)
+            next
+          52 .. 61:
+            push &buf '0'+(value-52)
+            next
+          62:
+            push &buf '+'
+            next
+          63:
+            push &buf '/'
+            next
+      -> buf
+
+$std_types::octet_string/from_base64:
+  #
+    converts the base64 string to an octet string
+
+    If the base64 string is not valid or not a multiple of four characters
+    long, then the special value <undefined> is returned.
+
+    Topic: Strings
+
+    See also: to_base64
+
+    Example:
+
+      println! from_base64("SGVsbG8sIHdvcmxkIQ==")
+
+    Output:
+
+      Hello, world!
+  (
+    str # the base64 string
+  )
+  $octets ""
+  if
+    (length_of(str) .mod. 4) != 0
+    -> undefined
+    :
+      loop:
+        if
+          str.is_empty
+          -> octets
+          :
+            $bits 0
+            from_to 1 4
+              : (i)
+                $value decode(str(i))
+                if
+                  value.is_undefined
+                  -> undefined
+                  :
+                    !bits (bits << 6) | value
+                    next
+              :
+                push &octets character(bits >> 16)
+                push &octets character((bits >> 8) & 0xff)
+                push &octets character(bits & 0xff)
+                if
+                  str(4) == '=':
+                    if
+                      str(3) == '='
+                      -> range(octets 1 -3)
+                      -> range(octets 1 -2)
+                  :
+                    range &str 5 -1
+                    next
+
+  $decode: (chr)
+    # converts a base64 character to an integer
+    case chr
+      'A' .. 'Z' -> chr-'A'
+      'a' .. 'z' -> chr-'a'+26
+      '0' .. '9' -> chr-'0'+52
+      '+' -> 62
+      '/' -> 63
+      '=' -> 0
+      -> undefined
+
+$std_types::octet_string/sha1:
+  #
+    calculates the sha1 hash of the octet string
+
+    Topic: Strings
+
+    Example:
+
+      hexdump! sha1("Hello, world!")
+
+    Output:
+
+      00000000: 94 3a 70 2d 06 f3 45 99 ae e1 f8 da 8e f9 f7 29
+      00000010: 60 31 d6 99
+  (
+    message # the octet string
+  )
+  # magic values
+
+  $h0 0x67452301
+  $h1 0xefcdab89
+  $h2 0x98badcfe
+  $h3 0x10325476
+  $h4 0xc3d2e1f0
+
+  $k0 0x5a827999
+  $k1 0x6ed9eba1
+  $k2 0x8f1bbcdc
+  $k3 0xca62c1d6
+
+  #
+    pre-processing:
+
+    * append the bit '1' to the message e.g. by adding 0x80 if message length is
+      a multiple of 8 bits.
+
+    * append 0 ≤ k < 512 bits '0', such that the resulting message length in
+      bits is congruent to −64 ≡ 448 (mod 512)
+
+    * append ml, the original message length in bits, as a 64-bit big-endian
+      integer. Thus, the total length is a multiple of 512 bits.
+
+  $len length_of(message)
+  push &message '@0x80;'
+  $pad_len 56-(len+1 .mod. 512)
+  update_if pad_len < 0 &pad_len -> pad_len+64
+  $pad_octets dup("@0;" pad_len)
+  append &message pad_octets
+  append &message big_endian_string_64(8*len)
+
+  # process the message in successive 512-bit chunks:
+
+  loop:
+    if
+      message.is_empty:
+        string
+          big_endian_string_32(h0)
+          big_endian_string_32(h1)
+          big_endian_string_32(h2)
+          big_endian_string_32(h3)
+          big_endian_string_32(h4)
+      :
+        $w uint32_array(80)
+        from_to 1 16
+          : (i)
+            !w(i)
+              |
+                message(4*i-3).to_integer << 24
+                message(4*i-2).to_integer << 16
+                message(4*i-1).to_integer << 8
+                message(4*i).to_integer
+            next
+          :
+            from_to 17 80
+              : (i)
+                !w(i) w(i-3) ^ w(i-8) ^ w(i-14) ^ w(i-16) .rol32. 1
+                next
+              main_loop
+
+        $main_loop:
+          $a h0
+          $b h1
+          $c h2
+          $d h3
+          $e h4
+          from_to 1 80
+            : (i)
+              cond
+                -> i <= 20: compute (b & c) | ((b ^ 0xffffffff) & d) k0
+                -> i <= 40: compute (b ^ c ^ d) k1
+                -> i <= 60: compute (b & c) | (b & d) | (c & d) k2
+                -> true: compute (b ^ c ^ d) k3
+
+              $compute: (f k)
+                $t ((a .rol32. 5) + f + e + k + w(i)) & 0xffffffff
+                !e d
+                !d c
+                !c b .rol32. 30
+                !b a
+                !a t
+                next
+            :
+              !h0 (h0+a) & 0xffffffff
+              !h1 (h1+b) & 0xffffffff
+              !h2 (h2+c) & 0xffffffff
+              !h3 (h3+d) & 0xffffffff
+              !h4 (h4+e) & 0xffffffff
+              range &message 65 -1
+              next
+
+  $big_endian_string_64: (n)
+    # converts a 64 bit integer to a big-endian octet string
+    string
+      character(n >> 56)
+      character((n >> 48) & 0xff)
+      character((n >> 40) & 0xff)
+      character((n >> 32) & 0xff)
+      character((n >> 24) & 0xff)
+      character((n >> 16) & 0xff)
+      character((n >> 8) & 0xff)
+      character(n & 0xff)
+
+  $big_endian_string_32: (n)
+    # converts a 32 bit integer to a big-endian octet string
+    string
+      character(n >> 24)
+      character((n >> 16) & 0xff)
+      character((n >> 8) & 0xff)
+      character(n & 0xff)
+
+  $rol32: (n k) -> ((n << k) & 0xffffffff) | (n >> (32-k))
+
+[source]
+
+$std::to_base64 ()
+  #
+    converts a string to base64
+
+$std_types::octet_string/to_base64:
+  #
+    converts the octet string to base64
+
+    Topic: Strings
+
+    See also: from_base64
+
+    Example:
+
+      println! to_base64("Hello, world!")
+
+    Output:
+
+      SGVsbG8sIHdvcmxkIQ==
+  (
+    str # the octet string
+  )
+  $base64 ""
+  loop:
+    $len length_of(str)
+    if
+      len >= 3:
+        append &base64 encode(range(str 1 3))
+        range &str 4 -1
+        next
+      :
+        if
+          len == 0
+          -> base64
+          :
+            append &str dup("@0;" 3-len)
+            append &base64 encode(str)
+            case len
+              1 -> append(range(base64 1 -3) "==")
+              2 -> push(range(base64 1 -2) '=')
+
+  $encode: (three_octets)
+    #  converts three octets to four base64 characters
+    $bits
+      |
+        three_octets(1).to_integer << 16
+        three_octets(2).to_integer << 8
+        three_octets(3).to_integer
+    $buf ""
+    repeat 4
+      :
+        $value bits >> 18
+        !bits (bits & 0x3ffff) << 6
+        case value
+          0 .. 25:
+            push &buf 'A'+value
+            next
+          26 .. 51:
+            push &buf 'a'+(value-26)
+            next
+          52 .. 61:
+            push &buf '0'+(value-52)
+            next
+          62:
+            push &buf '+'
+            next
+          63:
+            push &buf '/'
+            next
+      -> buf
+
+[documentation remark]
+
+### Always copy examples contained in the symbol's description remark
+    into the documentation
+
+### Use only one of the following topics: Strings
+
+# std_types::octet_string/std::to_base64 (a method)
+

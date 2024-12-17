@@ -1,0 +1,862 @@
+[GUIDELINES]
+
+All documentation remarks must have
+
+* a single short (single line) description written in lower case
+
+* a parameter(s) section (if appropriate)
+
+* a result(s) section (if appropriate)
+
+* a detailed description of how to use the symbol: when describing unique
+  items of constants, describe how to use them;
+  do not repeat yourself
+
+* one or more associated topic(s) (if appropriate)
+
+* a "See also" entry - mention only a view relevant symbols here
+
+Do not mention unknown symbols!
+
+Do not mention more than 10 symbols in the "See also" entry.
+
+DO NOT MENTION MORE THAN 10 SYMBOLS IN THE "See also" ENTRY!
+
+Do not mention internal details of functions.
+
+Do not start each sentence in the description with "If" or "The".
+
+DO NOT START EACH SENTENCE IN THE DESCRIPTION WITH "If" OR "The"!
+
+Do not tell the user what a function does not do.
+
+When referring to another symbol write it enclosed in angle brackets, e.g.
+<std::clear>.
+
+The "self"-parameter is a normal parameter like any other and should be
+mentioned in the the parameter description.
+
+Replace symbolic constants by their value.
+
+Operations on I/O-objects are not executed immediately but queued as jobs.
+To identify a job, an "id" is used.
+
+I/O-functions and I/O-methods either need I/O-access rights or propagate
+them ("if", "for_each", etc.).
+
+An "example" section, if available, must use Funky syntax and shall not be too
+long.
+
+If there is an appropriate example in the source code then use this example
+in the "example" section!
+
+[EXAMPLES]
+
+[symbols]
+
+POLY error_category_of
+POLY error_message_text_of
+POLY error_details_of
+POLY errno_of
+POLY failed_attribute_of
+
+UNIQUE RUNTIME_ERROR
+UNIQUE IO_ERROR
+
+TYPE error
+
+[source]
+
+UNIQUE IO_ERROR
+
+[documentation remark]
+
+# std::IO_ERROR (a unique item)
+
+  the category for all I/O errors
+
+  Topic: Errors
+
+  See also: std::error_category_of, std_types::error
+
+[EXERCISE]
+
+[symbols]
+
+UNIQUE SIGHUP
+UNIQUE SIGUSR1
+UNIQUE SIGUSR2
+UNIQUE CHILD_CHANGED_STATE
+UNIQUE WINDOW_CHANGED_SIZE
+POLY std::get_terminal_size
+METHOD std_types::file_descriptor/get_terminal_size
+FUNCTION std::exitstatus
+FUNCTION std::pselect
+FUNCTION std::do_not_close
+FUNCTION std::waitpid
+FUNCTION std::open_tcp_client_socket
+FUNCTION std::open_tcp_server_socket
+FUNCTION std::accept
+FUNCTION std::is_listening
+FUNCTION std::get_first_mac_address
+
+#
+  Copyright (C) 2020 by
+  Dipl.-Ing. Michael Niederle
+
+  This program is free software; you can redistribute it and/or modify
+  it under the terms of the GNU General Public License, version 2, or
+  (at your option) version 3.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  GNU General Public License for more details.
+
+  For details of the GNU General Public License see the accompanying
+  files GPLv2.txt and GLPv3.txt or
+  http://www.gnu.org/licenses/gpl-2.0.html
+  http://www.gnu.org/licenses/gpl-3.0.html
+  or write to the
+  Free Software Foundation, Inc.,
+  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+
+# Topics: POSIX, Input-Output
+
+#TYPE std_types::file_descriptor -> std_types::object
+  #
+    a POSIX file descriptor
+
+    Topic: POSIX
+  int value
+
+#OBJECT std::STDIN_FILENO -> std_types::file_descriptor
+  #
+    the respective POSIX file descriptor number
+
+    Topic: Input-Output
+
+    See also: open_file, close_file
+  {STDIN_FILENO}
+
+#OBJECT std::STDOUT_FILENO -> std_types::file_descriptor
+  #
+    the respective POSIX file descriptor number
+
+    Topic: Input-Output
+
+    See also: open_file, close_file
+  {STDOUT_FILENO}
+
+#OBJECT std::STDERR_FILENO -> std_types::file_descriptor
+  #
+    the respective POSIX file descriptor number
+
+    Topic: Input-Output
+
+    See also: open_file, close_file
+  {STDERR_FILENO}
+
+UNIQUE SIGHUP
+
+UNIQUE SIGUSR1
+
+UNIQUE SIGUSR2
+
+UNIQUE CHILD_CHANGED_STATE
+
+UNIQUE WINDOW_CHANGED_SIZE
+
+CODE
+  static int flags_to_int
+  (
+    NODE *node,
+    int *result_p
+  )
+  {
+    char *flags_str = NULL;
+    int flags = 0;
+    if (!to_c_string(node, &flags_str)) return false;
+    switch (flags_str[0]) {
+      case 'R':
+        flags = O_NONBLOCK;
+      case 'r':
+        if (flags_str[1] == '+') {
+          if (flags_str[2] == 0) {
+            flags |= O_CLOEXEC|O_RDWR;
+            break;
+          } else {
+            goto err;
+          }
+        } else if (flags_str[1] == 0) {
+          flags |= O_CLOEXEC|O_RDONLY;
+          break;
+        } else {
+          goto err;
+          goto err;
+        }
+      case 'W':
+        flags = O_NONBLOCK;
+      case 'w':
+        if (flags_str[1] == '+') {
+          if (flags_str[2] == 0) {
+            flags |= O_CLOEXEC|O_RDWR|O_CREAT|O_TRUNC;
+            break;
+          } else {
+            goto err;
+          }
+        } else if (flags_str[1] == 0) {
+          flags |= O_CLOEXEC|O_WRONLY|O_CREAT|O_TRUNC;
+          break;
+        } else {
+          goto err;
+        }
+      case 'A':
+        flags = O_NONBLOCK;
+      case 'a':
+        if (flags_str[1] == '+') {
+          if (flags_str[2] == 0) {
+            flags |= O_CLOEXEC|O_RDWR|O_CREAT|O_APPEND;
+            break;
+          } else {
+            goto err;
+          }
+        } else if (flags_str[1] == 0) {
+          flags |= O_CLOEXEC|O_WRONLY|O_CREAT|O_APPEND;
+          break;
+        } else {
+          goto err;
+        }
+      default:
+        goto err;
+    }
+    deallocate_memory(flags_str);
+    *result_p = flags;
+    return true;
+
+    err:
+    deallocate_memory(flags_str);
+    CREATE_RUNTIME_ERROR("Conversion to open flags failed!")
+    return false;
+  }
+
+CODE
+  static int mode_to_int
+  (
+    NODE *node,
+    int *result_p
+  )
+  {
+    char *mode_str = NULL;
+    int mode = 0;
+    if (!to_c_string(node, &mode_str)) return false;
+    if (strlen(mode_str) != 9) goto err;
+    switch (mode_str[0]) {
+      case 'r':
+        mode |= 0400;
+        break;
+      case '-':
+        break;
+      default:
+        goto err;
+    }
+    switch (mode_str[1]) {
+      case 'w':
+        mode |= 0200;
+        break;
+      case '-':
+        break;
+      default:
+        goto err;
+    }
+    switch (mode_str[2]) {
+      case 'x':
+        mode |= 0100;
+        break;
+      case 's':
+        mode |= 0100|S_ISUID;
+        break;
+      case 'S':
+        mode |= S_ISUID;
+        break;
+      case '-':
+        break;
+      default:
+        goto err;
+    }
+    switch (mode_str[3]) {
+      case 'r':
+        mode |= 040;
+        break;
+      case '-':
+        break;
+      default:
+        goto err;
+    }
+    switch (mode_str[4]) {
+      case 'w':
+        mode |= 020;
+        break;
+      case '-':
+        break;
+      default:
+        goto err;
+    }
+    switch (mode_str[5]) {
+      case 'x':
+        mode |= 010;
+        break;
+      case 's':
+        mode |= 010|S_ISGID;
+        break;
+      case 'S':
+        mode |= S_ISGID;
+        break;
+      case '-':
+        break;
+      default:
+        goto err;
+    }
+    switch (mode_str[6]) {
+      case 'r':
+        mode |= 04;
+        break;
+      case '-':
+        break;
+      default:
+        goto err;
+    }
+    switch (mode_str[7]) {
+      case 'w':
+        mode |= 02;
+        break;
+      case '-':
+        break;
+      default:
+        goto err;
+    }
+    switch (mode_str[8]) {
+      case 'x':
+        mode |= 01;
+        break;
+      case 't':
+        mode |= 01|S_ISVTX;
+        break;
+      case 'T':
+        mode |= S_ISVTX;
+        break;
+      case '-':
+        break;
+      default:
+        goto err;
+    }
+    deallocate_memory(mode_str);
+    *result_p = mode;
+    return true;
+
+    err:
+    deallocate_memory(mode_str);
+    CREATE_RUNTIME_ERROR("Conversion to file mode failed!")
+    return false;
+  }
+
+CODE
+  static NODE *mode_from_int
+  (
+    int value
+  )
+  {
+    char mode[12];
+    if (S_ISREG(value)) {
+      mode[0] = '-';
+    } else if (S_ISBLK(value)) {
+      mode[0] = 'b';
+    } else if (S_ISCHR(value)) {
+      mode[0] = 'c';
+    } else if (S_ISDIR(value)) {
+      mode[0] = 'd';
+    } else if (S_ISLNK(value)) {
+      mode[0] = 'l';
+    } else if (S_ISFIFO(value)) {
+      mode[0] = 'p';
+    } else {
+      mode[0] = 0;
+    }
+    if (value & 0400) {
+      mode[1] = 'r';
+    } else {
+      mode[1] = '-';
+    }
+    if (value & 0200) {
+      mode[2] = 'w';
+    } else {
+      mode[2] = '-';
+    }
+    if (value & 0100) {
+      if (value & S_ISUID) {
+        mode[3] = 's';
+      } else {
+        mode[3] = 'x';
+      }
+    } else {
+      if (value & S_ISUID) {
+        mode[3] = 'S';
+      } else {
+        mode[3] = '-';
+      }
+    }
+    if (value & 040) {
+      mode[4] = 'r';
+    } else {
+      mode[4] = '-';
+    }
+    if (value & 020) {
+      mode[5] = 'w';
+    } else {
+      mode[5] = '-';
+    }
+    if (value & 010) {
+      if (value & S_ISGID) {
+        mode[6] = 's';
+      } else {
+        mode[6] = 'x';
+      }
+    } else {
+      if (value & S_ISGID) {
+        mode[6] = 'S';
+      } else {
+        mode[6] = '-';
+      }
+    }
+    if (value & 04) {
+      mode[7] = 'r';
+    } else {
+      mode[7] = '-';
+    }
+    if (value & 02) {
+      mode[8] = 'w';
+    } else {
+      mode[8] = '-';
+    }
+    if (value & 01) {
+      if (value & S_ISVTX) {
+        mode[9] = 't';
+      } else {
+        mode[9] = 'x';
+      }
+    } else {
+      if (value & S_ISVTX) {
+        mode[9] = 'T';
+      } else {
+        mode[9] = '-';
+      }
+    }
+    mode[10] = 0;
+    return from_c_string(mode[0] ? mode : mode+1);
+  }
+
+POLY std::get_terminal_size
+  #
+    retrieves the current width and height of the specified terminal
+
+    Topic: Terminal
+
+    Parameters:
+      fd # the file descriptor of the terminal
+
+    Results:
+      width # the width of the terminal
+      height # the height of the terminal
+
+    Example:
+
+      get_terminal_size! STDIN_FILENO $width $height
+
+METHOD std_types::file_descriptor/get_terminal_size
+  #
+    retrieves the current width and height of the terminal
+
+    If the file descriptor is not connected to a terminal then the behaviour
+    is undefined.
+  {
+    CHECK_ARGUMENTS(1)
+    CHECK_IO_ACCESS_RIGHTS
+
+    int fd = ARGUMENTS(0)->file_descriptor.value;
+    int width, height;
+    struct winsize winsize;
+
+    EVENT(get_terminal_size)
+      ioctl(fd, TIOCGWINSZ, &winsize);
+      width = winsize.ws_col;
+      height = winsize.ws_row;
+    DATA
+      INT(width)
+      INT(height)
+    END
+    NODE *width_node = from_int(width);
+    NODE *height_node = from_int(height);
+    START_ARGUMENTS(2);
+    ARGUMENTS(0) = width_node;
+    ARGUMENTS(1) = height_node;
+    RETURN
+  }
+
+FUNCTION std::exitstatus
+  #
+    extract the exit status from a status value
+  {
+    CHECK_ARGUMENTS(1)
+    int status;
+    CHECK(to_int(ARGUMENTS(0), &status))
+    PREPARE_SINGLE_RESULT(from_int(WEXITSTATUS(status)))
+  }
+
+CODE
+  static int initialize_fd_set
+    (
+      fd_set *set,
+      NODE *descriptors,
+      long *descriptor_count_p,
+      int *last_fd_p
+    )
+    {
+      long descriptor_count;
+      if (!length_of(descriptors, &descriptor_count)) return false;
+      FD_ZERO(set);
+      int last_fd = *last_fd_p;
+      long i;
+      for (i = 0; i < descriptor_count; ++i) {
+        NODE *descriptor;
+        if (!get_item_of(descriptors, i, &descriptor)) return false;
+        if (TYPEOF(descriptor) != TYPE(std_types::file_descriptor)) {
+          CREATE_RUNTIME_ERROR("Invalid arguments!")
+          return false;
+        }
+        int fd = descriptor->file_descriptor.value;
+        FD_SET(fd, set);
+        if (fd > last_fd) last_fd = fd;
+      }
+      *descriptor_count_p = descriptor_count;
+      *last_fd_p = last_fd;
+      return true;
+    }
+
+  static NODE *create_descriptor_list
+    (
+      fd_set *set,
+      int fd_count,
+      NODE *descriptors,
+      long descriptor_count
+    )
+    {
+      LIST_DATA *data =
+        allocate_large(sizeof(LIST_DATA)+fd_count*sizeof(NODE *));
+      data->size = fd_count;
+      data->length = fd_count;
+      int n = 0;
+      long i;
+      for (i = 0; i < descriptor_count; ++i) {
+        NODE *descriptor;
+        get_item_of(descriptors, i, &descriptor);
+        int fd = descriptor->file_descriptor.value;
+        if (FD_ISSET(fd, set)) {
+          data->items[n++] = descriptor;
+        }
+      }
+      return CREATE(std_types::list, 0, fd_count, data);
+    }
+
+FUNCTION std::pselect
+  #
+    waits for one or more file descriptors to become ready
+  {
+    MIN_ARGUMENTS(3)
+    MAX_ARGUMENTS(4)
+    CHECK_RESULTS(4)
+    CHECK_IO_ACCESS_RIGHTS
+    NODE *read_descriptors = ARGUMENTS(0);
+    NODE *write_descriptors = ARGUMENTS(1);
+    NODE *except_descriptors = ARGUMENTS(2);
+    double timeout = 0.0;
+    struct timespec timeout_data;
+    struct timespec *timeout_ptr = NULL;
+
+    if (
+      ARGUMENT_COUNT > 3 &&
+      TYPEOF(ARGUMENTS(3)) != TYPE(std_types::undefined)
+    ) {
+      CHECK(to_double(ARGUMENTS(3), &timeout))
+      if (timeout < 0.0) timeout = 0.0;
+      timeout_data.tv_sec = timeout;
+      timeout_data.tv_nsec = 1000000000*(timeout-floor(timeout));
+      timeout_ptr = &timeout_data;
+    }
+    long read_descriptor_count, write_descriptor_count, except_descriptor_count;
+    fd_set read_set, write_set, except_set;
+    int last_fd = 0;
+    CHECK(
+      initialize_fd_set(
+        &read_set, read_descriptors, &read_descriptor_count, &last_fd))
+    CHECK(
+      initialize_fd_set(
+        &write_set, write_descriptors, &write_descriptor_count, &last_fd))
+    CHECK(
+      initialize_fd_set(
+        &except_set, except_descriptors, &except_descriptor_count, &last_fd))
+    int ret;
+    int caught_hup = false;
+    int caught_kill = false;
+    int caught_usr1 = false;
+    int caught_usr2 = false;
+    int chld_changed_state = false;
+    int win_changed_size = false;
+    EVENT(pselect)
+      sigset_t set;
+      sigprocmask(0, NULL, &set);
+      sigdelset(&set, SIGHUP);
+      sigdelset(&set, SIGUSR1);
+      sigdelset(&set, SIGUSR2);
+      sigdelset(&set, SIGCHLD);
+      sigdelset(&set, SIGWINCH);
+      retry:;
+      ret = pselect(last_fd+1, &read_set, &write_set, &except_set, timeout_ptr, &set);
+      if (ret < 0 && errno == EINTR) {
+        if (caught_sighup) {
+          caught_sighup = false;
+          caught_hup = true;
+        } else if (caught_sigusr1) {
+          caught_sigusr1 = false;
+          caught_usr1 = true;
+        } else if (caught_sigusr2) {
+          caught_sigusr2 = false;
+          caught_usr2 = true;
+        } else if (child_changed_state) {
+          child_changed_state = false;
+          chld_changed_state = true;
+        } else if (window_changed_size) {
+          window_changed_size = false;
+          win_changed_size = true;
+        } else {
+          goto retry;
+        }
+      }
+    DATA
+      INT(ret)
+      INT(caught_hup)
+      INT(caught_kill)
+      INT(caught_usr1)
+      INT(caught_usr2)
+      INT(chld_changed_state)
+      INT(win_changed_size)
+    END
+    // INT(read_count)
+    // INT(write_count)
+    // INT(except_count)
+    // INT_ARRAY(descriptors, descriptor_count)
+    if (ret == -1 && errno != EINTR) {
+      create_error_message(
+        module__builtin.constants_base[unique__std___IO_ERROR-1],
+        "PSELECT FAILED", errno, 0, NULL);
+      return;
+    }
+    NODE *signals = VAR(std::empty_list);
+    int read_count = 0;
+    int write_count = 0;
+    int except_count = 0;
+    if (ret > 0) { // success
+      int fd;
+      for (fd = 0; fd <= last_fd; ++fd) {
+        if (FD_ISSET(fd, &read_set)) ++read_count;
+        if (FD_ISSET(fd, &write_set)) ++write_count;
+        if (FD_ISSET(fd, &except_set)) ++except_count;
+      }
+      if (read_count != read_descriptor_count) {
+        if (read_count == 0) {
+          read_descriptors = VAR(std::empty_list);
+        } else {
+          read_descriptors =
+            create_descriptor_list(
+              &read_set, read_count,
+              read_descriptors, read_descriptor_count);
+        }
+      }
+      if (write_count != write_descriptor_count) {
+        if (write_count == 0) {
+          write_descriptors = VAR(std::empty_list);
+        } else {
+          write_descriptors =
+            create_descriptor_list(
+              &write_set, write_count,
+              write_descriptors, write_descriptor_count);
+        }
+      }
+      if (except_count != except_descriptor_count) {
+        if (except_count == 0) {
+          except_descriptors = VAR(std::empty_list);
+        } else {
+          except_descriptors =
+            create_descriptor_list(
+              &except_set, except_count,
+              except_descriptors, except_descriptor_count);
+        }
+      }
+    } else {
+      read_descriptors = VAR(std::empty_list);
+      write_descriptors = VAR(std::empty_list);
+      except_descriptors = VAR(std::empty_list);
+    }
+    int signal_count =
+      caught_hup+caught_kill+caught_usr1+caught_usr2+
+      chld_changed_state+win_changed_size;
+    if (signal_count > 0) {
+      LIST_DATA *data =
+        allocate_large(sizeof(LIST_DATA)+signal_count*sizeof(NODE *));
+      data->size = signal_count;
+      data->length = signal_count;
+      int n = 0;
+      if (caught_hup) {
+        data->items[n++] =
+          module__builtin.constants_base[unique__std___SIGHUP-1];
+      }
+      if (caught_usr1) {
+        data->items[n++] =
+          module__builtin.constants_base[unique__std___SIGUSR1-1];
+      }
+      signals = CREATE(std_types::list, 0, signal_count, data);
+      if (caught_usr2) {
+        data->items[n++] =
+          module__builtin.constants_base[unique__std___SIGUSR2-1];
+      }
+      if (chld_changed_state) {
+        data->items[n++] =
+          module__builtin.constants_base[unique__std___CHILD_CHANGED_STATE-1];
+      }
+      if (win_changed_size) {
+        data->items[n++] =
+          module__builtin.constants_base[unique__std___WINDOW_CHANGED_SIZE-1];
+      }
+      signals = CREATE(std_types::list, 0, signal_count, data);
+    }
+    START_ARGUMENTS(4);
+    ARGUMENTS(0) = signals;
+    ARGUMENTS(1) = read_descriptors;
+    ARGUMENTS(2) = write_descriptors;
+    ARGUMENTS(3) = except_descriptors;
+    RETURN
+  }
+
+FUNCTION std::do_not_close
+  {
+    CHECK_ARGUMENTS(1)
+    CHECK_IO_ACCESS_RIGHTS
+    int fd;
+    int result;
+    if (!file_descriptor_to_int(ARGUMENTS(0), &fd)) return;
+    ACTION(do_not_close)
+      do {
+        result = fcntl(fd, F_GETFD);
+      } while (result == -1 && errno == EINTR);
+      if (result != -1) {
+        int flags = result&~FD_CLOEXEC;
+        do {
+          result = fcntl(fd, F_SETFD, flags);
+        } while (result == -1 && errno == EINTR);
+      }
+    INFO
+      INT(fd)
+      INT(result)
+    DATA
+      INT(result)
+    END
+    if (result == -1) {
+      create_error_message(
+        module__builtin.constants_base[unique__std___IO_ERROR-1],
+        "DO_NO_CLOSE FAILED", errno, 0, NULL);
+    } else {
+      PREPARE_NO_RESULT
+    }
+  }
+
+#
+  FUNCTION std::disable_ctrl_c
+    {
+      CHECK_ARGUMENTS(0)
+      CHECK_IO_ACCESS_RIGHTS
+      signal(SIGINT, SIG_IGN);
+      RETURN_NOTHING
+    }
+
+
+  FUNCTION std::enable_ctrl_c
+    {
+      CHECK_ARGUMENTS(0)
+      CHECK_IO_ACCESS_RIGHTS
+      signal(SIGINT, SIG_DFL);
+      RETURN_NOTHING
+    }
+
+  FUNCTION std::disable_ctrl_z
+    {
+      CHECK_ARGUMENTS(0)
+      CHECK_IO_ACCESS_RIGHTS
+      signal(SIGTSTP, SIG_IGN);
+      RETURN_NOTHING
+    }
+
+
+  FUNCTION std::enable_ctrl_z
+    {
+      CHECK_ARGUMENTS(0)
+      CHECK_IO_ACCESS_RIGHTS
+      signal(SIGTSTP, SIG_DFL);
+      RETURN_NOTHING
+    }
+
+  FUNCTION std::disable_sigusr1
+    {
+      CHECK_ARGUMENTS(0)
+      CHECK_IO_ACCESS_RIGHTS
+      signal(SIGUSR1, SIG_IGN);
+      RETURN_NOTHING
+    }
+
+
+  FUNCTION std::enable_sigusr1
+    {
+      CHECK_ARGUMENTS(0)
+      CHECK_IO_ACCESS_RIGHTS
+      signal(SIGUSR1, SIG_DFL);
+      RETURN_NOTHING
+    }
+
+  FUNCTION std::disable_sigusr2
+    {
+      CHECK_ARGUMENTS(0)
+      CHECK_IO_ACCESS_RIGHTS
+      signal(SIGUSR2, SIG_IGN);
+      RETURN_NOTHING
+    }
+
+
+  FUNCTION std::enable_sigusr2
+    {
+      CHECK_ARGUMENTS(0)
+      CHECK_IO_ACCESS_RIGHTS
+      signal(SIGUSR2, SIG_DFL);
+      RETURN_NOTHING
+    }
+
+[source]
+
+UNIQUE SIGUSR1
+
+[documentation remark]
+
+### Always copy examples contained in the symbol's description remark
+    into the documentation
+
+### Use only one of the following topics: POSIX, Input-Output
+
+# std::SIGUSR1 (a unique item)
+

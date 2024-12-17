@@ -1,0 +1,981 @@
+[MANUAL]
+
+In Funky function calls are either written on a single line with arguments
+enclosed within parentheses and separated by single spaces, e.g.:
+
+print! f(a b c) g(x y z)
+
+or they are written in indentation style using mutliple lines:
+
+print!
+  f
+    a
+    b
+    c
+  g
+    x
+    y
+    z
+
+Functions that create any output or read any input need I/O-access rights.
+
+A function that needs I/O-access rights must be called with a trailing
+exclamation mark after the function name, e.g.:
+
+println! "Hello, World!"
+
+The expression
+
+key = value
+
+denotes a key-value-pair.
+
+Collection types cannot be printed directly. You can use "dump!" to
+dump the contents of a collection, e.g.:
+
+$ages
+  hash_table
+    "John" = 42
+    "Mary" = 25
+    "Irene" = 49
+
+dump! `ages
+
+Output:
+
+ages: hash_table <6>
+  "Mary"
+  25
+  "Irene"
+  49
+  "John"
+  42
+
+Note: The number in angular brackets after the typename denotes the number
+of (indented) lines that follow the head.
+
+A tail call returns the result of the called function; e.g.:
+
+$calc:
+  (
+    x
+    y
+  )
+  plus x*x y*y
+
+println! calc(2 3)
+
+prints
+
+13
+
+[GUIDELINES]
+
+All documentation remarks must have
+
+* a single short (single line) description written in lower case
+
+* a parameter(s) section (if appropriate)
+
+* a result(s) section (if appropriate)
+
+* a detailed description of how to use the symbol: when describing unique
+  items of constants, describe how to use them;
+  do not repeat yourself
+
+* one or more associated topic(s) (if appropriate)
+
+* a "See also" entry - mention only a view relevant symbols here
+
+Do not mention unknown symbols!
+
+Do not mention more than 10 symbols in the "See also" entry.
+
+DO NOT MENTION MORE THAN 10 SYMBOLS IN THE "See also" ENTRY!
+
+Do not mention internal details of functions.
+
+Do not start each sentence in the description with "If" or "The".
+
+DO NOT START EACH SENTENCE IN THE DESCRIPTION WITH "If" OR "The"!
+
+Do not tell the user what a function does not do.
+
+When referring to another symbol write it enclosed in angle brackets, e.g.
+<std::clear>.
+
+The "self"-parameter is a normal parameter like any other and should be
+mentioned in the the parameter description.
+
+Replace symbolic constants by their value.
+
+Operations on I/O-objects are not executed immediately but queued as jobs.
+To identify a job, an "id" is used.
+
+I/O-functions and I/O-methods either need I/O-access rights or propagate
+them ("if", "for_each", etc.).
+
+An "example" section, if available, must use Funky syntax and shall not be too
+long.
+
+If there is an appropriate example in the source code then use this example
+in the "example" section!
+
+[EXAMPLES]
+
+[source]
+
+$std::hexdump_to:
+  (
+    fd
+    str
+  )
+  $i 0
+  $n length_of(str)
+  loop:
+    if
+      i >= n:
+        on (i .mod. 16) != 0: print_to! fd "@nl;"
+      :
+        on (i .mod. 16) == 0:
+          print_to! fd hex(i 8)
+          print_to! fd ":"
+        inc &i
+        print_to! fd " "
+        print_to! fd hex(str(i).to_integer 2)
+        on (i .mod. 16) == 0: print_to! fd "@nl;"
+        next!
+
+[documentation remark]
+
+# std::hexdump_to (an I/O-function)
+
+  writes a hexdump of the specified string to the specified file descriptor
+
+  Parameters:
+    fd: the file descriptor to write to
+    str: the string to hexdump
+
+  Results:
+    none
+
+  **Attention**: This function must be called with I/O-access rights!
+
+  The function displays the string's hexadecimal representation.
+
+  Topic: Debugging
+
+  See also: std::hexdump, std::ehexdump, debug::hexdump, std::dump_to
+
+  Example:
+
+    $data "Hello, world!"
+    hexdump_to! STDOUT_FILENO data
+
+  Output:
+
+    00000000: 48 65 6c 6c 6f 2c 20 77 6f 72 6c 64 21
+
+[EXERCISE]
+
+#
+  Topic: Input-Output
+
+  Input/Output is handled in a special way in Funky.
+
+  I/O-functions must be called with so-called *I/O-access rights*.
+
+  To call a function with I/O-access rights you
+
+  * must have *I/O-access rights* yourself
+
+  * hand them on to the called function
+
+  To hand on *I/O-access rights* a function is called with a "!"-suffix.
+
+  Related topics: Input-Output Events, POSIX, Input-Output Task Manager
+
+  Example:
+
+    println! "Hello, world!"
+
+  Output:
+
+    Hello, world!
+
+#
+  Topic: POSIX
+
+  The Funky-API includes most POSIX-function calls.
+
+  The are wrapped in a Funky-style API.
+
+  Funky uses mainly blocking I/O but makes heavy use of the <std::pselect>
+  function to make I/O-calls only when non-blocking behaviour is guaranteed.
+
+  In most cases it will be more appropriate to use the <@Input-Output>-API than
+  the POSIX-API.
+
+  Related topics: Input-Output
+
+[symbols]
+
+
+# File Operations
+
+$std::load () # loads a file in some way; returns a string
+$std::save () # saves a file in some way
+$std::update ()
+
+# Directory Entry Attributes
+
+$std::access_time_of ()
+$std::modification_time_of ()
+$std::status_change_time_of ()
+$std::is_a_directory ()
+$std::sleep:
+$std::write_string_to:
+$std::write_to:
+$std::writeln_to:
+$std::print_string_to:
+$std::print_to ()
+$std_types::file_descriptor/print_to:
+$std::println_to:
+$std::print_string:
+$std::print:
+$std::println:
+$std::eprint_string:
+$std::eprint:
+$std::eprintln:
+$std::read_from:
+$std::read_from_until:
+$std::readln_from:
+$std::read_all_from:
+$std::get_from_until:
+$std::getln_from:
+$std::get_until:
+$std::getln:
+$std_types::string/load:
+$std_types::file_descriptor/load:
+$std_types::io.load_buffer_of empty_hash_table
+$std_types::io.max_length_of empty_hash_table
+$std_types::io.id_of empty_hash_table
+$std_types::io/load:
+$std_types::string/save:
+$std::try:
+$std::check:
+$std::file_exists:
+$std::directory:
+$std_types::stat/access_time_of:
+$std_types::stat/modification_time_of: (self)
+$std_types::stat/status_change_time_of: (self)
+$std_types::stat/is_a_directory: (self)
+$std::call:
+$std::terminate:
+$std::is_a_file_descriptor ()
+$std_types::object.is_a_file_descriptor false
+$std_types::file_descriptor.is_a_file_descriptor true
+$std_types::file_descriptor.serialization_tag_of "file_descriptor"
+$std_types::file_descriptor/serialize:
+$std_types::file_descriptor.deserializer_of:
+$std::is_a_process_id ()
+$std_types::object/is_a_process_id false
+$std_types::process_id/is_a_process_id true
+$std_types::process_id.serialization_tag_of "process_id"
+$std_types::process_id/serialize:
+$std_types::process_id.deserializer_of:
+$std::pipe:
+$std::pipe_commands:
+$std::which:
+$std::find_first_process: (name)
+$std::find_processes: (name)
+$std::get_process_name: (pid)
+$std::extern:
+
+#
+  Copyright (C) 2024 by
+  Dipl.-Ing. Michael Niederle
+
+  This program is free software; you can redistribute it and/or modify
+  it under the terms of the GNU Library General Public License, version 2, or
+  (at your option) under the terms of the GNU Lesser General Public License,
+  version 3.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  GNU Lesser (Library) General Public License for more details.
+
+  For details of the GNU General Public License see the accompanying
+  files LGPLv2.txt and LGLPv3.txt or
+  http://www.gnu.org/licenses/lgpl-2.0.html
+  http://www.gnu.org/licenses/lgpl-3.0.html
+  or print to the
+  Free Software Foundation, Inc.,
+  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+
+#
+  Topic: Input-Output
+
+  Input/Output is handled in a special way in Funky.
+
+  I/O-functions must be called with so-called *I/O-access rights*.
+
+  To call a function with I/O-access rights you
+
+  * must have *I/O-access rights* yourself
+
+  * hand them on to the called function
+
+  To hand on *I/O-access rights* a function is called with a "!"-suffix.
+
+  Related topics: Input-Output Events, POSIX, Input-Output Task Manager
+
+  Example:
+
+    println! "Hello, world!"
+
+  Output:
+
+    Hello, world!
+
+#
+  Topic: POSIX
+
+  The Funky-API includes most POSIX-function calls.
+
+  The are wrapped in a Funky-style API.
+
+  Funky uses mainly blocking I/O but makes heavy use of the <std::pselect>
+  function to make I/O-calls only when non-blocking behaviour is guaranteed.
+
+  In most cases it will be more appropriate to use the <@Input-Output>-API than
+  the POSIX-API.
+
+  Related topics: Input-Output
+
+# File Operations
+
+$std::load () # loads a file in some way; returns a string
+
+$std::save () # saves a file in some way
+
+$std::update ()
+
+# Directory Entry Attributes
+
+$std::access_time_of ()
+
+$std::modification_time_of ()
+
+$std::status_change_time_of ()
+
+$std::is_a_directory ()
+
+$std::sleep:
+  (
+    duration # sleep time in seconds
+  )
+  on duration > 0: usleep! (1'000'000*duration).to_integer
+
+$std::write_string_to:
+  (
+    fd
+    str
+  )
+  $len length_of(str)
+  loop
+    :
+      write! $bytes_written fd str
+      if
+        bytes_written.is_an_error
+        bytes_written
+        :
+          if
+            bytes_written < len:
+              range &str bytes_written+1 -1
+              next!
+            break
+    pass
+
+$std::write_to:
+  (
+    fd
+    args*
+  )
+  write_string_to! fd create_string(args)
+
+$std::writeln_to:
+  (
+    fd
+    args*
+  )
+  write_string_to! fd push(create_string(args) '@nl;')
+
+$std::print_string_to:
+  (
+    fd
+    str
+  )
+  write_string_to! fd str.to_utf8
+
+$std::print_to ()
+
+$std_types::file_descriptor/print_to:
+  (
+    fd
+    args*
+  )
+  write_string_to! fd create_string(args).to_utf8
+
+$std::println_to:
+  (
+    fd
+    args*
+  )
+  write_string_to! fd push(create_string(args).to_utf8 '@nl;')
+
+$std::print_string:
+  (
+    str
+  )
+  write_string_to! STDOUT_FILENO str.to_utf8
+
+$std::print:
+  (
+    args*
+  )
+  print_string! create_string(args)
+
+$std::println:
+  (
+    args*
+  )
+  print_string! push(create_string(args) '@nl;')
+
+$std::eprint_string:
+  (
+    str
+  )
+  write_string_to! STDERR_FILENO str.to_utf8
+
+$std::eprint:
+  (
+    args*
+  )
+  eprint_string! create_string(args)
+
+$std::eprintln:
+  (
+    args*
+  )
+  eprint_string! push(create_string(args) '@nl;')
+
+$std::read_from:
+  (
+    fd
+    length
+  )
+  $data ""
+  loop:
+    read! $buf fd length
+    cond
+      -> buf.is_an_error -> buf
+      -> buf.is_empty -> data
+      -> true:
+        append &data buf
+        minus &length length_of(buf)
+        next!
+
+$std::read_from_until:
+  (
+    fd
+    sentinel
+    nth = 1
+  )
+  $data ""
+  loop:
+    read! $buf fd 1
+    cond
+      -> buf.is_an_error -> buf
+      -> buf.is_empty -> data
+      -> true:
+        append &data buf
+        if!
+          buf .has_suffix. sentinel:
+            dec &nth
+            if!
+              nth > 0
+              next
+              -> data
+          next
+
+$std::readln_from:
+  (
+    fd
+  )
+  read_from_until! fd '@nl;'
+
+$std::read_all_from:
+  (
+    fd
+  )
+  $data ""
+  loop:
+    read! $buf fd 0x100000
+    cond
+      -> buf.is_an_error -> buf
+      -> buf.is_empty -> data
+      -> true:
+        append &data buf
+        next!
+
+$std::get_from_until:
+  (
+    fd
+    sentinel
+    nth = 1
+  )
+  read_from_until! $data fd sentinel nth
+  -> data.from_utf8
+
+$std::getln_from:
+  (
+    fd
+  )
+  get_from_until! fd '@nl;'
+
+$std::get_until:
+  (
+    sentinel
+  )
+  get_from_until! STDIN_FILENO sentinel
+
+$std::getln:
+  getln_from! STDIN_FILENO
+
+$std_types::string/load:
+  #
+    Example:
+
+      load! $buf "test.dat"
+
+    Example:
+
+      load! $buf "/dev/sda" 512 # load first sector of /dev/sda
+  (
+    filename
+    max_length = undefined
+  )
+  open! $fd filename "r"
+  check fd
+  if
+    max_length.is_defined:
+      read_from! $data fd max_length
+      close! fd
+      -> data
+    :
+      load! fd
+
+$std_types::file_descriptor/load:
+  (
+    fd
+  )
+  read_all_from! $data fd
+  check data
+  close! fd
+  -> data
+
+$load_buffer_of ()
+
+$max_length_of ()
+
+$id_of ()
+
+$std_types::io.load_buffer_of empty_hash_table
+
+$std_types::io.max_length_of empty_hash_table
+
+$std_types::io.id_of empty_hash_table
+
+$std_types::io/load:
+  (
+    io
+    id
+    filename
+    max_length = undefined
+  )
+  run io load_file id filename max_length
+
+$load_file: (io id filename max_length)
+  open! $fd filename "r"
+  if
+    fd.is_an_error
+    -> io tuple(JOB_FAILED id fd)
+    :
+      start_reading_from &io fd true max_length
+      !io.load_buffer_of(fd) ""
+      !io.max_length_of(fd) max_length
+      !io.id_of(fd) id
+      register_handlers &io fd
+        READ = read_data
+        CLOSED = file_closed
+        READ_FAILED = read_failed
+      -> io undefined
+
+$read_data: (io fd data)
+  $buf load_buffer_of(io)(fd)
+  $max_length max_length_of(io)(fd)
+  append &buf data
+  if
+    max_length.is_defined && length_of(buf) >= max_length:
+      deregister_all_handlers &io fd
+      $id id_of(io)(fd)
+      !io.load_buffer_of(fd) undefined
+      !io.max_length_of(fd) undefined
+      !io.id_of(fd) undefined
+      -> io tuple(JOB_COMPLETED id buf)
+    :
+      !io.load_buffer_of(fd) buf
+      -> io undefined
+
+$file_closed: (io fd _dummy)
+  deregister_all_handlers &io fd
+  $buf load_buffer_of(io)(fd)
+  $id id_of(io)(fd)
+  !io.load_buffer_of(fd) undefined
+  !io.max_length_of(fd) undefined
+  !io.id_of(fd) undefined
+  -> io tuple(JOB_COMPLETED id buf)
+
+$read_failed: (io fd err)
+  deregister_all_handlers &io fd
+  !io.load_buffer_of(fd) undefined
+  !io.max_length_of(fd) undefined
+  !io.id_of(fd) undefined
+  -> io tuple(JOB_FAILED fd err)
+
+$std_types::string/save:
+  (
+    filename
+    data
+  )
+  open! $fh filename "w+"
+  check fh
+  write_to! fh data
+  close! fh
+
+$std::try:
+  #
+    Example:
+
+      $buf undefined
+      try $success: load! !buf "test.dat"
+      if
+        buf.is_an_error:
+          println! "Failed to load test.dat"
+        :
+          # successfully loaded "test.dat"
+          ...
+  (
+    body
+  )
+  body!
+  -> undefined
+
+$std::check:
+  (
+    argument
+  )
+  if
+    argument.is_an_error
+    -> argument
+    pass
+
+$std::file_exists:
+  #
+    Example:
+
+      file_exists! $does_exist "test.dat"
+      if
+        does_exist:
+          println! "test.dat exists"
+        :
+          println! "test.dat does not exist"
+  (
+    filename
+  )
+  stat! $info filename
+  -> not(info.is_an_error)
+
+$std::directory:
+  #
+    Example:
+
+      directory! $entries "/usr/bin"
+      for_each entries
+        : (entry)
+          println! name_of(entry)
+          next!
+        pass
+  (
+    options*
+    pathname
+  )
+  extract_options options
+    SORT = false $do_sort
+  $entries empty_list
+  opendir! $dir pathname
+  loop:
+    readdir! $entry dir
+    if
+      entry.is_an_error:
+        closedir! dir
+        if
+          do_sort:
+            sort entries: (left right) -> name_of(left) < name_of(right)
+          -> entries
+      :
+        push &entries entry
+        next!
+
+$std_types::stat/access_time_of:
+  (
+    self
+  )
+  ->
+    +
+      access_time_seconds_of(self)
+      access_time_nanoseconds_of(self)/1'000'000'000
+
+$std_types::stat/modification_time_of: (self)
+  ->
+    +
+      modification_time_seconds_of(self)
+      modification_time_nanoseconds_of(self)/1'000'000'000
+
+$std_types::stat/status_change_time_of: (self)
+  ->
+    +
+      status_change_time_seconds_of(self)
+      status_change_time_nanoseconds_of(self)/1'000'000'000
+
+$std_types::stat/is_a_directory: (self)
+  -> mode_of(self)(1) == 'd'
+
+$std::call:
+  (
+    cmd
+    args
+  )
+  $do_collect_output (result_count() >= 2)
+  $do_collect_error_output (result_count() == 3)
+  $env_vars undefined
+  map &args to_string
+  update_if environment.is_defined &env_vars:
+    !env_vars empty_list
+    for_each environment
+      : (key value)
+        push &env_vars "@(key)=@(value)"
+        next
+      -> env_vars
+  create_process! $pid $in_fd $out_fd $err_fd cmd args env_vars
+  close! in_fd
+  $io std_types::io
+  join_process &io pid
+  start_reading_from &io out_fd
+  start_reading_from &io err_fd
+
+  $out ""
+  $err ""
+  loop:
+    get_events! &io $events
+    for_each events
+      : (event)
+        event $type $fd $data
+        case type
+          READ:
+            if
+              data == ""
+              next
+              :
+                case fd
+                  out_fd:
+                    if
+                      do_collect_output:
+                        append &out data
+                        next!
+                      :
+                        write_to! STDOUT_FILENO data
+                        next!
+                  err_fd:
+                    if
+                      do_collect_error_output:
+                        append &err data
+                        next!
+                      :
+                        write_to! STDERR_FILENO data
+                        next!
+                  :
+                    next!
+          PROCESS_JOINED:
+            $ret data
+            if
+              do_collect_output:
+                if
+                  do_collect_error_output
+                  -> ret out err
+                  -> ret out
+              -> ret
+          : # ignore all other signals
+            next!
+      next
+
+$std::terminate:
+  exit! EXIT_SUCCESS
+
+$std::is_a_file_descriptor ()
+
+$std_types::object.is_a_file_descriptor false
+
+$std_types::file_descriptor.is_a_file_descriptor true
+
+$std_types::file_descriptor.serialization_tag_of "file_descriptor"
+
+$std_types::file_descriptor/serialize:
+  (
+    self
+    indent = undefined
+  )
+  $str "
+    file_descriptor @(self.to_integer)
+  if
+    indent.is_defined
+    -> append(tabs_and_spaces(indent) str)
+    -> str
+
+$std_types::file_descriptor.deserializer_of:
+  (
+    _type
+    argument
+  )
+  -> file_descriptor(integer(argument))
+
+$std::is_a_process_id ()
+
+$std_types::object/is_a_process_id false
+
+$std_types::process_id/is_a_process_id true
+
+$std_types::process_id.serialization_tag_of "process_id"
+
+$std_types::process_id/serialize:
+  (
+    self
+    indent = undefined
+  )
+  $str "
+    process_id @(self.to_integer)
+  if
+    indent.is_defined
+    -> append(tabs_and_spaces(indent) str)
+    -> str
+
+$std_types::process_id.deserializer_of:
+  (
+    _type
+    argument
+  )
+  -> process_id(integer(argument))
+
+$command_of ()
+
+$extern_call:
+  (
+    myself^
+    arguments*
+  )
+  call! command_of(myself) map(flatten(arguments) to_string)
+
+$std::pipe:
+  (
+    args*
+  )
+  $i 1
+  $n length_of(args)
+  $in_fd undefined
+  $feed undefined
+  $commands empty_list
+  $head undefined
+  $arguments undefined
+  $first_arg args(1)
+  if
+    first_arg.is_a_string:
+      !feed first_arg
+      !i 2
+      build_commands!
+    :
+      if
+        first_arg.is_a_file_descriptor:
+          !in_fd first_arg
+          !i 2
+          build_commands!
+        build_commands
+
+  $build_commands:
+    loop
+      :
+        if
+          i > n break
+          :
+            $arg args(i)
+            if
+              arg.is_a_function:
+                update_if head.is_defined &commands:
+                  push commands tuple(head map(flatten(arguments) to_string))
+                !head command_of(arg)
+                !arguments empty_list
+                inc &i
+                next!
+              :
+                push &arguments arg
+                inc &i
+                next!
+      :
+        update_if head.is_defined &commands:
+          push commands tuple(head map(flatten(arguments) to_string))
+        run_pipe! in_fd feed commands
+
+$std::pipe_commands:
+  (
+    feed_or_fd = undefined
+    commands
+  )
+  if
+    feed_or_fd.is_defined:
+      if
+        feed_or_fd.is_a_file_descriptor:
+          run_pipe! feed_or_fd undefined commands
+        :
+          run_pipe! undefined feed_or_fd commands
+    :
+      run_pipe! undefined undefined commands
+
+[source]
+
+$std::write_to:
+  (
+    fd
+    args*
+  )
+  write_string_to! fd create_string(args)
+
+[documentation remark]
+
+### Always copy examples contained in the symbol's description remark
+    into the documentation
+
+### Use only one of the following topics: Input-Output, POSIX
+
+# std::write_to (an I/O-function)
+

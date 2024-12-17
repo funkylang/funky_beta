@@ -1,0 +1,446 @@
+[GUIDELINES]
+
+All documentation remarks must have
+
+* a single short (single line) description written in lower case
+
+* a parameter(s) section (if appropriate)
+
+* a result(s) section (if appropriate)
+
+* a detailed description of how to use the symbol: when describing unique
+  items of constants, describe how to use them;
+  do not repeat yourself
+
+* one or more associated topic(s) (if appropriate)
+
+* a "See also" entry - mention only a view relevant symbols here
+
+Do not mention unknown symbols!
+
+Do not mention more than 10 symbols in the "See also" entry.
+
+DO NOT MENTION MORE THAN 10 SYMBOLS IN THE "See also" ENTRY!
+
+Do not mention internal details of functions.
+
+Do not start each sentence in the description with "If" or "The".
+
+DO NOT START EACH SENTENCE IN THE DESCRIPTION WITH "If" OR "The"!
+
+Do not tell the user what a function does not do.
+
+When referring to another symbol write it enclosed in angle brackets, e.g.
+<std::clear>.
+
+The "self"-parameter is a normal parameter like any other and should be
+mentioned in the the parameter description.
+
+Replace symbolic constants by their value.
+
+Operations on I/O-objects are not executed immediately but queued as jobs.
+To identify a job, an "id" is used.
+
+I/O-functions and I/O-methods either need I/O-access rights or propagate
+them ("if", "for_each", etc.).
+
+An "example" section, if available, must use Funky syntax and shall not be too
+long.
+
+If there is an appropriate example in the source code then use this example
+in the "example" section!
+
+[EXAMPLES]
+
+[source]
+
+FUNCTION std::real
+{
+  CHECK_ARGUMENTS(1)
+  char *str;
+  CHECK(to_c_string(ARGUMENTS(0), &str))
+  NODE *result = from_double(atof(str));
+  deallocate_memory(str);
+  RETURN_SINGLE_RESULT(result)
+}
+
+[documentation remark]
+
+# std::real (a function)
+
+  constructs a real number from its string representation
+
+  Parameters:
+    str: the string representation of the real number
+
+  Result:
+    value: the real number
+
+  Topic: Numbers
+
+  See also: std::integer, std_types::real
+
+[EXERCISE]
+
+[symbols]
+
+FUNCTION int is_an_upper_case_letter_character
+FUNCTION static uint32_t to_upper_case
+FUNCTION int is_a_lower_case_letter_character
+FUNCTION static uint32_t to_lower_case
+FUNCTION int is_a_title_case_letter_character
+FUNCTION static uint32_t to_title_case
+FUNCTION int is_a_letter_character
+FUNCTION int is_a_whitespace_character
+FUNCTION int is_a_zero_width_character
+FUNCTION int is_a_wide_character
+METHOD std_types::character/to_upper_case
+FUNCTION std::is_an_upper_case_letter_character
+METHOD std_types::character/to_lower_case
+FUNCTION std::is_a_lower_case_letter_character
+METHOD std_types::character/to_title_case
+FUNCTION std::is_a_title_case_letter_character
+FUNCTION std::is_a_letter_character
+FUNCTION std::is_a_whitespace_character
+FUNCTION std::is_a_zero_width_character
+FUNCTION std::is_a_wide_character
+
+FUNCTION int is_a_wide_character
+  (
+    uint32_t chr
+  )
+  {
+    if (chr <= 0x10ff) return false;
+    if (chr >= 0x1100 && chr <= 0x115f) return true;
+    if (chr >= 0x1160 && chr <= 0x2319) return false;
+    if (chr >= 0x231a && chr <= 0x231b) return true;
+    if (chr >= 0x231c && chr <= 0x2328) return false;
+    if (chr >= 0x2329 && chr <= 0x232a) return true;
+    if (chr >= 0x232b && chr <= 0x23e8) return false;
+    if (chr >= 0x23e9 && chr <= 0x23ec) return true;
+    if (chr >= 0x23ed && chr <= 0x23ef) return false;
+    if (chr == 0x23f0) return true;
+    if (chr >= 0x23f1 && chr <= 0x23f2) return false;
+    if (chr == 0x23f3) return true;
+    if (chr >= 0x23f4 && chr <= 0x25fc) return false;
+    if (chr >= 0x25fd && chr <= 0x25fe) return true;
+    if (chr >= 0x25ff && chr <= 0x2613) return false;
+    if (chr >= 0x2614 && chr <= 0x2615) return true;
+    if (chr >= 0x2616 && chr <= 0x2647) return false;
+    if (chr >= 0x2648 && chr <= 0x2653) return true;
+    if (chr >= 0x2654 && chr <= 0x267e) return false;
+    if (chr == 0x267f) return true;
+    if (chr >= 0x2680 && chr <= 0x2692) return false;
+    if (chr == 0x2693) return true;
+    if (chr >= 0x2694 && chr <= 0x26a0) return false;
+    if (chr == 0x26a1) return true;
+    if (chr >= 0x26a2 && chr <= 0x26a9) return false;
+    if (chr >= 0x26aa && chr <= 0x26ab) return true;
+    if (chr >= 0x26ac && chr <= 0x26bc) return false;
+    if (chr >= 0x26bd && chr <= 0x26be) return true;
+    if (chr >= 0x26bf && chr <= 0x26c3) return false;
+    if (chr >= 0x26c4 && chr <= 0x26c5) return true;
+    if (chr >= 0x26c6 && chr <= 0x26cd) return false;
+    if (chr == 0x26ce) return true;
+    if (chr >= 0x26cf && chr <= 0x26d3) return false;
+    if (chr == 0x26d4) return true;
+    if (chr >= 0x26d5 && chr <= 0x26e9) return false;
+    if (chr == 0x26ea) return true;
+    if (chr >= 0x26eb && chr <= 0x26f1) return false;
+    if (chr >= 0x26f2 && chr <= 0x26f3) return true;
+    if (chr == 0x26f4) return false;
+    if (chr == 0x26f5) return true;
+    if (chr >= 0x26f6 && chr <= 0x26f9) return false;
+    if (chr == 0x26fa) return true;
+    if (chr >= 0x26fb && chr <= 0x26fc) return false;
+    if (chr == 0x26fd) return true;
+    if (chr >= 0x26fe && chr <= 0x2704) return false;
+    if (chr == 0x2705) return true;
+    if (chr >= 0x2706 && chr <= 0x2709) return false;
+    if (chr >= 0x270a && chr <= 0x270b) return true;
+    if (chr >= 0x270c && chr <= 0x2727) return false;
+    if (chr == 0x2728) return true;
+    if (chr >= 0x2729 && chr <= 0x274b) return false;
+    if (chr == 0x274c) return true;
+    if (chr == 0x274d) return false;
+    if (chr == 0x274e) return true;
+    if (chr >= 0x274f && chr <= 0x2752) return false;
+    if (chr >= 0x2753 && chr <= 0x2755) return true;
+    if (chr == 0x2756) return false;
+    if (chr == 0x2757) return true;
+    if (chr >= 0x2758 && chr <= 0x2794) return false;
+    if (chr >= 0x2795 && chr <= 0x2797) return true;
+    if (chr >= 0x2798 && chr <= 0x27af) return false;
+    if (chr == 0x27b0) return true;
+    if (chr >= 0x27b1 && chr <= 0x27be) return false;
+    if (chr == 0x27bf) return true;
+    if (chr >= 0x27c0 && chr <= 0x2b1a) return false;
+    if (chr >= 0x2b1b && chr <= 0x2b1c) return true;
+    if (chr >= 0x2b1d && chr <= 0x2b4f) return false;
+    if (chr == 0x2b50) return true;
+    if (chr >= 0x2b51 && chr <= 0x2b54) return false;
+    if (chr == 0x2b55) return true;
+    if (chr >= 0x2b56 && chr <= 0x2e5d) return false;
+    if (chr >= 0x2e80 && chr <= 0x2e99) return true;
+    if (chr >= 0x2e9b && chr <= 0x2ef3) return true;
+    if (chr >= 0x2f00 && chr <= 0x2fd5) return true;
+    if (chr >= 0x2ff0 && chr <= 0x303e) return true;
+    if (chr == 0x303f) return false;
+    if (chr >= 0x3041 && chr <= 0x3096) return true;
+    if (chr >= 0x3099 && chr <= 0x30ff) return true;
+    if (chr >= 0x3105 && chr <= 0x312f) return true;
+    if (chr >= 0x3131 && chr <= 0x318e) return true;
+    if (chr >= 0x3190 && chr <= 0x31e3) return true;
+    if (chr >= 0x31ef && chr <= 0x321e) return true;
+    if (chr >= 0x3220 && chr <= 0x3247) return true;
+    if (chr >= 0x3248 && chr <= 0x324f) return false;
+    if (chr >= 0x3250 && chr <= 0x4dbf) return true;
+    if (chr >= 0x4dc0 && chr <= 0x4dff) return false;
+    if (chr >= 0x4e00 && chr <= 0xa48c) return true;
+    if (chr >= 0xa490 && chr <= 0xa4c6) return true;
+    if (chr >= 0xa4d0 && chr <= 0xa95f) return false;
+    if (chr >= 0xa960 && chr <= 0xa97c) return true;
+    if (chr >= 0xa980 && chr <= 0xabf9) return false;
+    if (chr >= 0xac00 && chr <= 0xd7a3) return true;
+    if (chr >= 0xd7b0 && chr <= 0xf8ff) return false;
+    if (chr >= 0xf900 && chr <= 0xfaff) return true;
+    if (chr >= 0xfb00 && chr <= 0xfe0f) return false;
+    if (chr >= 0xfe10 && chr <= 0xfe19) return true;
+    if (chr >= 0xfe20 && chr <= 0xfe2f) return false;
+    if (chr >= 0xfe30 && chr <= 0xfe52) return true;
+    if (chr >= 0xfe54 && chr <= 0xfe66) return true;
+    if (chr >= 0xfe68 && chr <= 0xfe6b) return true;
+    if (chr >= 0xfe70 && chr <= 0xfeff) return false;
+    if (chr >= 0xff01 && chr <= 0xff60) return true;
+    if (chr >= 0xff61 && chr <= 0xffdc) return false;
+    if (chr >= 0xffe0 && chr <= 0xffe6) return true;
+    if (chr >= 0xffe8 && chr <= 0x16f9f) return false;
+    if (chr >= 0x16fe0 && chr <= 0x16fe4) return true;
+    if (chr >= 0x16ff0 && chr <= 0x16ff1) return true;
+    if (chr >= 0x17000 && chr <= 0x187f7) return true;
+    if (chr >= 0x18800 && chr <= 0x18cd5) return true;
+    if (chr >= 0x18d00 && chr <= 0x18d08) return true;
+    if (chr >= 0x1aff0 && chr <= 0x1aff3) return true;
+    if (chr >= 0x1aff5 && chr <= 0x1affb) return true;
+    if (chr >= 0x1affd && chr <= 0x1affe) return true;
+    if (chr >= 0x1b000 && chr <= 0x1b122) return true;
+    if (chr == 0x1b132) return true;
+    if (chr >= 0x1b150 && chr <= 0x1b152) return true;
+    if (chr == 0x1b155) return true;
+    if (chr >= 0x1b164 && chr <= 0x1b167) return true;
+    if (chr >= 0x1b170 && chr <= 0x1b2fb) return true;
+    if (chr >= 0x1bc00 && chr <= 0x1f003) return false;
+    if (chr == 0x1f004) return true;
+    if (chr >= 0x1f005 && chr <= 0x1f0ce) return false;
+    if (chr == 0x1f0cf) return true;
+    if (chr >= 0x1f0d1 && chr <= 0x1f18d) return false;
+    if (chr == 0x1f18e) return true;
+    if (chr >= 0x1f18f && chr <= 0x1f190) return false;
+    if (chr >= 0x1f191 && chr <= 0x1f19a) return true;
+    if (chr >= 0x1f19b && chr <= 0x1f1ff) return false;
+    if (chr >= 0x1f200 && chr <= 0x1f202) return true;
+    if (chr >= 0x1f210 && chr <= 0x1f23b) return true;
+    if (chr >= 0x1f240 && chr <= 0x1f248) return true;
+    if (chr >= 0x1f250 && chr <= 0x1f251) return true;
+    if (chr >= 0x1f260 && chr <= 0x1f265) return true;
+    if (chr >= 0x1f300 && chr <= 0x1f320) return true;
+    if (chr >= 0x1f321 && chr <= 0x1f32c) return false;
+    if (chr >= 0x1f32d && chr <= 0x1f335) return true;
+    if (chr == 0x1f336) return false;
+    if (chr >= 0x1f337 && chr <= 0x1f37c) return true;
+    if (chr == 0x1f37d) return false;
+    if (chr >= 0x1f37e && chr <= 0x1f393) return true;
+    if (chr >= 0x1f394 && chr <= 0x1f39f) return false;
+    if (chr >= 0x1f3a0 && chr <= 0x1f3ca) return true;
+    if (chr >= 0x1f3cb && chr <= 0x1f3ce) return false;
+    if (chr >= 0x1f3cf && chr <= 0x1f3d3) return true;
+    if (chr >= 0x1f3d4 && chr <= 0x1f3df) return false;
+    if (chr >= 0x1f3e0 && chr <= 0x1f3f0) return true;
+    if (chr >= 0x1f3f1 && chr <= 0x1f3f3) return false;
+    if (chr == 0x1f3f4) return true;
+    if (chr >= 0x1f3f5 && chr <= 0x1f3f7) return false;
+    if (chr >= 0x1f3f8 && chr <= 0x1f43e) return true;
+    if (chr == 0x1f43f) return false;
+    if (chr == 0x1f440) return true;
+    if (chr == 0x1f441) return false;
+    if (chr >= 0x1f442 && chr <= 0x1f4fc) return true;
+    if (chr >= 0x1f4fd && chr <= 0x1f4fe) return false;
+    if (chr >= 0x1f4ff && chr <= 0x1f53d) return true;
+    if (chr >= 0x1f53e && chr <= 0x1f54a) return false;
+    if (chr >= 0x1f54b && chr <= 0x1f54e) return true;
+    if (chr == 0x1f54f) return false;
+    if (chr >= 0x1f550 && chr <= 0x1f567) return true;
+    if (chr >= 0x1f568 && chr <= 0x1f579) return false;
+    if (chr == 0x1f57a) return true;
+    if (chr >= 0x1f57b && chr <= 0x1f594) return false;
+    if (chr >= 0x1f595 && chr <= 0x1f596) return true;
+    if (chr >= 0x1f597 && chr <= 0x1f5a3) return false;
+    if (chr == 0x1f5a4) return true;
+    if (chr >= 0x1f5a5 && chr <= 0x1f5fa) return false;
+    if (chr >= 0x1f5fb && chr <= 0x1f64f) return true;
+    if (chr >= 0x1f650 && chr <= 0x1f67f) return false;
+    if (chr >= 0x1f680 && chr <= 0x1f6c5) return true;
+    if (chr >= 0x1f6c6 && chr <= 0x1f6cb) return false;
+    if (chr == 0x1f6cc) return true;
+    if (chr >= 0x1f6cd && chr <= 0x1f6cf) return false;
+    if (chr >= 0x1f6d0 && chr <= 0x1f6d2) return true;
+    if (chr >= 0x1f6d3 && chr <= 0x1f6d4) return false;
+    if (chr >= 0x1f6d5 && chr <= 0x1f6d7) return true;
+    if (chr >= 0x1f6dc && chr <= 0x1f6df) return true;
+    if (chr >= 0x1f6e0 && chr <= 0x1f6ea) return false;
+    if (chr >= 0x1f6eb && chr <= 0x1f6ec) return true;
+    if (chr >= 0x1f6f0 && chr <= 0x1f6f3) return false;
+    if (chr >= 0x1f6f4 && chr <= 0x1f6fc) return true;
+    if (chr >= 0x1f700 && chr <= 0x1f7d9) return false;
+    if (chr >= 0x1f7e0 && chr <= 0x1f7eb) return true;
+    if (chr == 0x1f7f0) return true;
+    if (chr >= 0x1f800 && chr <= 0x1f90b) return false;
+    if (chr >= 0x1f90c && chr <= 0x1f93a) return true;
+    if (chr == 0x1f93b) return false;
+    if (chr >= 0x1f93c && chr <= 0x1f945) return true;
+    if (chr == 0x1f946) return false;
+    if (chr >= 0x1f947 && chr <= 0x1f9ff) return true;
+    if (chr >= 0x1fa00 && chr <= 0x1fa6d) return false;
+    if (chr >= 0x1fa70 && chr <= 0x1fa7c) return true;
+    if (chr >= 0x1fa80 && chr <= 0x1fa88) return true;
+    if (chr >= 0x1fa90 && chr <= 0x1fabd) return true;
+    if (chr >= 0x1fabf && chr <= 0x1fac5) return true;
+    if (chr >= 0x1face && chr <= 0x1fadb) return true;
+    if (chr >= 0x1fae0 && chr <= 0x1fae8) return true;
+    if (chr >= 0x1faf0 && chr <= 0x1faf8) return true;
+    if (chr >= 0x1fb00 && chr <= 0x1fbf9) return false;
+    if (chr >= 0x20000 && chr <= 0x2fffd) return true;
+    if (chr >= 0x30000 && chr <= 0x3fffd) return true;
+    return false;
+  }
+
+METHOD std_types::character/to_upper_case
+  #
+    converts to upper case
+
+    All letter characters are converted to their upper case
+    pendants; all other characters are returned unaltered.
+  {
+    CHECK_ARGUMENTS(1)
+    CHECK_RESULTS(1)
+    uint32_t chr_code;
+    CHECK(to_uchar32(ARGUMENTS(0), &chr_code));
+    RETURN_SINGLE_RESULT(CREATE(std_types::character, to_upper_case(chr_code)))
+  }
+
+FUNCTION std::is_an_upper_case_letter_character
+  #
+    returns <true> for upper case letter characters
+  {
+    CHECK_ARGUMENTS(1)
+    CHECK_RESULTS(1)
+    uint32_t chr_code;
+    CHECK(to_uchar32(ARGUMENTS(0), &chr_code));
+    RETURN_BOOLEAN(is_an_upper_case_letter_character(chr_code))
+  }
+
+METHOD std_types::character/to_lower_case
+  #
+    converts to lower case
+
+    All letter characters are converted to their lower case
+    pendants; all other characters are returned unaltered.
+  {
+    CHECK_ARGUMENTS(1)
+    CHECK_RESULTS(1)
+    uint32_t chr_code;
+    CHECK(to_uchar32(ARGUMENTS(0), &chr_code));
+    RETURN_SINGLE_RESULT(CREATE(std_types::character, to_lower_case(chr_code)))
+  }
+
+FUNCTION std::is_a_lower_case_letter_character
+  #
+    returns <true> for lower case letter characters
+  {
+    CHECK_ARGUMENTS(1)
+    CHECK_RESULTS(1)
+    uint32_t chr_code;
+    CHECK(to_uchar32(ARGUMENTS(0), &chr_code));
+    RETURN_BOOLEAN(is_a_lower_case_letter_character(chr_code))
+  }
+
+METHOD std_types::character/to_title_case
+  #
+    converts to title case
+
+    All letter characters are converted to their title case
+    pendants; all other characters are returned unaltered.
+  {
+    CHECK_ARGUMENTS(1)
+    CHECK_RESULTS(1)
+    uint32_t chr_code;
+    CHECK(to_uchar32(ARGUMENTS(0), &chr_code));
+    RETURN_SINGLE_RESULT(CREATE(std_types::character, to_title_case(chr_code)))
+  }
+
+FUNCTION std::is_a_title_case_letter_character
+  #
+    returns <true> for title case letter characters
+  {
+    CHECK_ARGUMENTS(1)
+    CHECK_RESULTS(1)
+    uint32_t chr_code;
+    CHECK(to_uchar32(ARGUMENTS(0), &chr_code));
+    RETURN_BOOLEAN(is_a_title_case_letter_character(chr_code))
+  }
+
+FUNCTION std::is_a_letter_character
+  #
+    returns <true> for letter characters
+  {
+    CHECK_ARGUMENTS(1)
+    CHECK_RESULTS(1)
+    uint32_t chr_code;
+    CHECK(to_uchar32(ARGUMENTS(0), &chr_code));
+    RETURN_BOOLEAN(is_a_letter_character(chr_code))
+  }
+
+FUNCTION std::is_a_whitespace_character
+  #
+    returns <true> for whitespace characters
+  {
+    CHECK_ARGUMENTS(1)
+    CHECK_RESULTS(1)
+    uint32_t chr_code;
+    CHECK(to_uchar32(ARGUMENTS(0), &chr_code));
+    RETURN_BOOLEAN(is_a_whitespace_character(chr_code))
+  }
+
+FUNCTION std::is_a_zero_width_character
+  #
+    returns <true> for zero width characters
+  {
+    CHECK_ARGUMENTS(1)
+    CHECK_RESULTS(1)
+    uint32_t chr_code;
+    CHECK(to_uchar32(ARGUMENTS(0), &chr_code));
+    RETURN_BOOLEAN(is_a_zero_width_character(chr_code))
+  }
+
+[source]
+
+FUNCTION std::is_a_lower_case_letter_character
+  #
+    returns <true> for lower case letter characters
+  {
+    CHECK_ARGUMENTS(1)
+    CHECK_RESULTS(1)
+    uint32_t chr_code;
+    CHECK(to_uchar32(ARGUMENTS(0), &chr_code));
+    RETURN_BOOLEAN(is_a_lower_case_letter_character(chr_code))
+  }
+
+[documentation remark]
+
+### Always copy examples contained in the symbol's description remark
+    into the documentation
+
+### Use only one of the following topics: Characters
+
+# std::is_a_lower_case_letter_character (a builtin function)
+

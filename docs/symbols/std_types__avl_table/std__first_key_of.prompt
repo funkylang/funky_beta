@@ -1,0 +1,870 @@
+[MANUAL]
+
+In Funky function calls are either written on a single line with arguments
+enclosed within parentheses and separated by single spaces, e.g.:
+
+print! f(a b c) g(x y z)
+
+or they are written in indentation style using mutliple lines:
+
+print!
+  f
+    a
+    b
+    c
+  g
+    x
+    y
+    z
+
+Functions that create any output or read any input need I/O-access rights.
+
+A function that needs I/O-access rights must be called with a trailing
+exclamation mark after the function name, e.g.:
+
+println! "Hello, World!"
+
+The expression
+
+key = value
+
+denotes a key-value-pair.
+
+Collection types cannot be printed directly. You can use "dump!" to
+dump the contents of a collection, e.g.:
+
+$ages
+  hash_table
+    "John" = 42
+    "Mary" = 25
+    "Irene" = 49
+
+dump! `ages
+
+Output:
+
+ages: hash_table <6>
+  "Mary"
+  25
+  "Irene"
+  49
+  "John"
+  42
+
+Note: The number in angular brackets after the typename denotes the number
+of (indented) lines that follow the head.
+
+A tail call returns the result of the called function; e.g.:
+
+$calc:
+  (
+    x
+    y
+  )
+  plus x*x y*y
+
+println! calc(2 3)
+
+prints
+
+13
+
+[GUIDELINES]
+
+All documentation remarks must have
+
+* a single short (single line) description written in lower case
+
+* a parameter(s) section (if appropriate)
+
+* a result(s) section (if appropriate)
+
+* a detailed description of how to use the symbol: when describing unique
+  items of constants, describe how to use them;
+  do not repeat yourself
+
+* one or more associated topic(s) (if appropriate)
+
+* a "See also" entry - mention only a view relevant symbols here
+
+Do not mention unknown symbols!
+
+Do not mention more than 10 symbols in the "See also" entry.
+
+DO NOT MENTION MORE THAN 10 SYMBOLS IN THE "See also" ENTRY!
+
+Do not mention internal details of functions.
+
+Do not start each sentence in the description with "If" or "The".
+
+DO NOT START EACH SENTENCE IN THE DESCRIPTION WITH "If" OR "The"!
+
+Do not tell the user what a function does not do.
+
+When referring to another symbol write it enclosed in angle brackets, e.g.
+<std::clear>.
+
+The "self"-parameter is a normal parameter like any other and should be
+mentioned in the the parameter description.
+
+Replace symbolic constants by their value.
+
+Operations on I/O-objects are not executed immediately but queued as jobs.
+To identify a job, an "id" is used.
+
+I/O-functions and I/O-methods either need I/O-access rights or propagate
+them ("if", "for_each", etc.).
+
+An "example" section, if available, must use Funky syntax and shall not be too
+long.
+
+If there is an appropriate example in the source code then use this example
+in the "example" section!
+
+[EXAMPLES]
+
+[source]
+
+$std_types::screen/std::clear:
+  (
+    self
+    x = 1
+    y = 1
+    width = undefined
+    height = undefined
+  )
+  update_if width.is_undefined &width -> width_of(self)-x+1
+  update_if height.is_undefined &height -> height_of(self)-y+1
+  std_private::clear self self x y width height
+
+[documentation remark]
+
+# std_types::screen/clear (a method)
+
+  clears the specified rectangular area
+
+  Parameters:
+    self: the screen to be (partially) cleared
+    x: x-coordinate of the upper left corner
+    y: y-coordinate of the upper left corner
+    width: width of the area
+    height: height of the area
+
+  Result:
+    screen: the updated screen
+
+  The specified area is filled with spaces using the the current draw-
+  and clear colour.
+
+  The area is clipped at the screen's borders.
+
+  This function also works for "graphical screens" (line_height != 1).
+
+  Topic: Terminal
+
+  See also: std_types::screen/std::set_clear_colour,
+            std_types::screen/std::copy
+
+[source]
+
+$std_types::string/match:
+  (
+    self
+    stream
+  )
+  $rc result_count()
+  $len length_of(self)
+  if
+    length_of(stream) >= len:
+      if
+        range(stream 1 len) == self:
+          if
+            rc == 1
+            -> len
+            -> len undefined
+        fail
+    fail
+
+  $fail:
+    if
+      rc == 1
+      -> undefined
+      -> undefined undefined
+
+[documentation remark]
+
+# std_types::string/std::match (a method)
+
+  matches the start of the stream with the string
+
+  Parameters:
+    self: the string to match
+    stream: the stream to match against
+
+  Results:
+    length: the number of matched characters (or <undefined> on fail)
+    capture: the matched string (if requested)
+
+  Attempts to match the start of the stream with the specified string.
+
+  If the match is successful the length of the match (= the length of the
+  string) is returned.
+
+  If the caller requested two result values then in addition to the string
+  length the string itself ("the capture") is also returned.
+
+  If the match fails then one or two <std::undefined>-values are returned.
+
+  Topic: Strings
+
+  See also: std_types::string/std::match_back, std_types::string/std::search
+
+[source]
+
+$std_types::generic_list/map_or_error:
+  (
+    self
+    function
+  )
+  if
+    self.is_empty
+    -> self
+    :
+      $map
+        if
+          parameter_count_of(function) == 2
+          ->
+            : (s e)
+              if
+                s < e:
+                  $m (s+e) >> 1
+                  append_or_error
+                    map(s m)
+                    map(m+1 e)
+                :
+                  $mapped_item function(s self(s))
+                  if
+                    mapped_item.is_an_error
+                    -> mapped_item
+                    -> list(mapped_item)
+          ->
+            : (s e)
+              if
+                s < e:
+                  $m (s+e) >> 1
+                  append_or_error
+                    map(s m)
+                    map(m+1 e)
+                :
+                  $mapped_item function(self(s))
+                  if
+                    mapped_item.is_an_error
+                    -> mapped_item
+                    -> list(mapped_item)
+
+      map 1 length_of(self)
+
+[documentation remark]
+
+# std_types::generic_list/std::map_or_error (a method)
+
+  applies a function to all elements of the list
+
+  Parameters:
+
+    self: the list which items will be mapped
+    function: the function to apply to each element of the list
+
+  Result:
+    list: the list of "mapped" items
+
+  A list of the "mapped" items is returned.
+
+  If any item ist mapped to an error object than the result ist not a
+  collection but the first (left-to-right-order) error object created.
+
+  Topic: Lists
+
+  See also: std_types::generic_list/std::reduce,
+            std_types::generic_list/std::map_reduce
+
+[EXERCISE]
+
+[symbols]
+
+
+# Topic: Tables, Collections
+
+
+# internal methods:
+
+$std::is_an_avl_table () # obvious
+$std_types::object.is_an_avl_table false # obvious
+$std_types::avl_table.is_an_avl_table true # obvious
+$std_types::avl_table std_types::binary_table
+$std_types::avl_table.contents_of empty_node
+$std::empty_avl_table std_types::avl_table
+$std_types::avl_table/:
+
+# height_of
+
+
+# retrieve
+
+$std_types::avl_table/first_key_of:
+$std_types::avl_table/next_key_of:
+
+# insert
+
+
+# delete
+
+
+# for_each
+
+
+# map
+
+
+# validate
+
+
+#
+  Copyright (C) 2022 by
+  Dipl.-Ing. Michael Niederle
+
+  This program is free software; you can redistribute it and/or modify
+  it under the terms of the GNU Library General Public License, version 2, or
+  (at your option) under the terms of the GNU Lesser General Public License,
+  version 3.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  GNU Lesser (Library) General Public License for more details.
+
+  For details of the GNU General Public License see the accompanying
+  files LGPLv2.txt and LGLPv3.txt or
+  http://www.gnu.org/licenses/lgpl-2.0.html
+  http://www.gnu.org/licenses/lgpl-3.0.html
+  or write to the
+  Free Software Foundation, Inc.,
+  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+
+<using std>
+
+<using basic_collections>
+
+# Topic: Tables, Collections
+
+# internal methods:
+
+$insert ()
+
+$delete ()
+
+$height_of ()
+
+$std::is_an_avl_table () # obvious
+
+$std_types::object.is_an_avl_table false # obvious
+
+$std_types::avl_table.is_an_avl_table true # obvious
+
+$avl_node.is_an_empty_node false
+
+$std_types::avl_table std_types::binary_table
+
+$std_types::avl_table.contents_of empty_node
+
+$std::empty_avl_table std_types::avl_table
+
+$empty_node basic_collections::empty_binary_node
+
+$avl_node tuple(undefined undefined undefined undefined undefined)
+  # left right key value height
+
+$NONE .
+
+$std_types::avl_table/:
+  (
+    myself^
+    key
+    value = NONE
+  )
+  $contents contents_of(myself)
+  if
+    NONE == value
+    -> retrieve(contents key)
+    :
+      if
+        value.is_defined:
+          insert &contents $new_height key value
+          if
+            new_height.is_defined
+            ->
+              myself
+                .contents_of contents
+                .length_of length_of(myself)+1
+            -> myself(.contents_of contents)
+        :
+          delete &contents $new_height key
+          if
+            new_height.is_defined
+            ->
+              myself
+                .contents_of contents
+                .length_of length_of(myself)-1
+            -> myself
+
+###
+
+# height_of
+
+$empty_node.height_of 0
+
+$avl_node/height_of: (self)
+  self $_left $_right $_my_key $_my_value $my_height
+  -> my_height
+
+###
+
+# retrieve
+
+$avl_node/retrieve retrieve_method
+
+$std_types::avl_table/first_key_of:
+  #
+    returns the first key of a non-empty AVL-table
+  (
+    self
+  )
+  fetch_first_key contents_of(self)
+
+$std_types::avl_table/next_key_of:
+  #
+    returns the key after the specified key
+  (
+    self
+    key
+  )
+  fetch_next_key contents_of(self)
+
+  $fetch_next_key: (node)
+    node $left $right $my_key
+    if
+      key < my_key:
+        $fetched_key fetch_next_key(left)
+        if
+          fetched_key.is_undefined
+          -> my_key
+          -> fetched_key
+      :
+        if
+          key == my_key:
+            if
+              right.is_an_empty_node
+              -> undefined
+              -> fetch_first_key(right)
+          :
+            if
+              right.is_an_empty_node
+              -> undefined
+              -> fetch_next_key(right)
+
+$fetch_first_key: (node)
+  node $left $_right $my_key
+  if
+    left.is_an_empty_node
+    -> my_key
+    -> fetch_first_key(left)
+
+###
+
+# insert
+
+$empty_node/insert: (_self key value)
+  -> new(avl_node empty_node empty_node key value 1) 1
+
+$avl_node/insert: (self key value)
+  self $left $right $my_key $my_value $my_height
+  if
+    key == my_key
+    -> new(self left right key value my_height) undefined
+    :
+      if
+        key < my_key:
+          insert &left $new_height key value
+          if
+            new_height.is_undefined
+            -> new(avl_node left right my_key my_value my_height) undefined
+            :
+              if
+                new_height == UNCHANGED || new_height < my_height
+                -> new(avl_node left right my_key my_value my_height) UNCHANGED
+                :
+                  right $_right_left $_right_right $_right_key $_right_value
+                    $right_height
+                  if_not
+                    my_height == right_height+2:
+                      !my_height my_height+1
+                      -> new(avl_node left right my_key my_value my_height) my_height
+                    :
+                      balance_left_to_right $new_node $new_node_height left right my_key my_value
+                      ->
+                        new_node
+                        if
+                          new_node_height == UNCHANGED
+                          -> my_height+1
+                          -> UNCHANGED
+        :
+          insert &right $new_height key value
+          if
+            new_height.is_undefined
+            -> new(avl_node left right my_key my_value my_height) undefined
+            :
+              if
+                new_height == UNCHANGED || new_height < my_height
+                -> new(avl_node left right my_key my_value my_height) UNCHANGED
+                :
+                  left $_left_left $_left_right $_left_key $_left_value
+                    $left_height
+                  if_not
+                    my_height == left_height+2:
+                      !my_height my_height+1
+                      -> new(avl_node left right my_key my_value my_height) my_height
+                    :
+                      balance_right_to_left $new_node $new_node_height left right my_key my_value
+                      ->
+                        new_node
+                        if
+                          new_node_height == UNCHANGED
+                          -> my_height+1
+                          -> UNCHANGED
+
+$balance_left_to_right: (left right key value)
+  #
+    called after an
+
+    "insert left", "delete right" or "fetch last"
+
+    called only if a rotation is definitely necessary
+
+    returns the new tree avl_node and the new height (the special value UNCHANGED
+    is returned if the height does not change)
+
+  left $left_left $left_right $left_key $left_value $left_height
+  left_left
+    $_left_left_left $_left_left_right
+    $_left_left_key $_left_left_value $left_left_height
+  left_right
+    $left_right_left $left_right_right
+    $left_right_key $left_right_value $left_right_height
+  if
+    left_right_height > left_left_height: # double rotation
+      $new_left
+        new
+          avl_node
+          left_left left_right_left left_key left_value left_right_height
+      $new_right
+        new
+          avl_node
+          left_right_right right key value left_right_height
+      ->
+        new
+          avl_node new_left new_right left_right_key left_right_value left_height
+        left_height
+    : # single rotation
+      $new_right
+        new
+          avl_node
+          left_right right key value left_right_height+1
+      ->
+        new
+          avl_node left_left new_right left_key left_value left_right_height+2
+        if
+          left_right_height+1 == left_height
+          -> UNCHANGED
+          -> left_right_height+2
+
+$balance_right_to_left: (left right key value)
+  #
+    called after an
+
+    "insert right", "delete left" or "fetch first"
+
+    called only if a rotation is definitely necessary
+
+    returns the new tree avl_node and the new height (the special value UNCHANGED
+    is returned if the height does not change)
+
+  right $right_left $right_right $right_key $right_value $right_height
+  right_left
+    $right_left_left $right_left_right
+    $right_left_key $right_left_value $right_left_height
+  right_right
+    $_right_right_left $_right_right_right
+    $_right_right_key $_right_right_value $right_right_height
+  if
+    right_left_height > right_right_height: # double rotation
+      $new_left
+        new
+          avl_node
+          left right_left_left key value right_left_height
+      $new_right
+        new
+          avl_node
+          right_left_right right_right right_key right_value right_left_height
+      ->
+        new
+          avl_node new_left new_right right_left_key right_left_value right_height
+        right_height
+    : # single rotation
+      $new_left
+        new
+          avl_node
+          left right_left key value right_left_height+1
+      ->
+        new
+          avl_node new_left right_right right_key right_value right_left_height+2
+        if
+          right_left_height+1 == right_height
+          -> UNCHANGED
+          -> right_left_height+2
+
+###
+
+# delete
+
+$UNCHANGED .
+
+$fetch_first: (self)
+  #
+    returns the remaining tree, the fetched key and value and the height
+    of the remaining tree (the special value UNCHANGED is returned if the
+    height does not change)
+
+  self $left $right $my_key $my_value $my_height
+  if
+    left.is_an_empty_node
+    -> right my_key my_value my_height-1
+    :
+      fetch_first &left $key $value $left_height
+      if
+        left_height == UNCHANGED
+        -> new(avl_node left right my_key my_value my_height) key value UNCHANGED
+        :
+          right $_right_left $_right_right $_right_key $_right_value $right_height
+          $height_minus_2 my_height-2
+          if
+            right_height == height_minus_2 # => left_height == height_minus_2
+            ->
+              new(avl_node left right my_key my_value my_height-1)
+              key value my_height-1
+            : # right_height == my_height-1
+              if
+                left_height == height_minus_2
+                ->
+                  new(avl_node left right my_key my_value my_height)
+                  key value UNCHANGED
+                : # left_height == my_height-3
+                  balance_right_to_left $new_node $new_height
+                    left right my_key my_value
+                  if
+                    new_height == UNCHANGED
+                    -> new_node key value UNCHANGED
+                    -> new_node key value my_height-1
+
+$fetch_last: (self)
+  #
+    returns the remaining tree, the fetched key and value and the height
+    of the remaining tree (the special value UNCHANGED is returned if the
+    height does not change)
+
+  self $left $right $my_key $my_value $my_height
+  if
+    right.is_an_empty_node
+    -> left my_key my_value my_height-1
+    :
+      fetch_last &right $key $value $right_height
+      if
+        right_height == UNCHANGED
+        -> new(avl_node left right my_key my_value my_height) key value UNCHANGED
+        :
+          left $_left_left $_left_right $_left_key $_left_value $left_height
+          $height_minus_2 my_height-2
+          if
+            left_height == height_minus_2 # => right_height == height_minus_2
+            ->
+              new(avl_node left right my_key my_value my_height-1)
+              key value my_height-1
+            : # left_height == my_height-1
+              if
+                right_height == height_minus_2
+                ->
+                  new(avl_node left right my_key my_value my_height)
+                  key value UNCHANGED
+                : # right_height == my_height-3
+                  balance_left_to_right $new_node $new_height
+                    left right my_key my_value
+                  if
+                    new_height == UNCHANGED
+                    -> new_node key value UNCHANGED
+                    -> new_node key value my_height-1
+
+$empty_node/delete: (self _key) -> self undefined
+
+$avl_node/delete: (self key)
+  #
+    returns the updated tree and its new height
+
+    if the tree was not updated then the "new height" is undefined
+    if the tree's height did not change then the "new height" equals UNCHANGED
+
+  self $left $right $my_key $my_value $my_height
+  if
+    key == my_key
+    :
+      if
+        left.is_an_empty_node
+        -> right my_height-1
+        :
+          if
+            right.is_an_empty_node
+            -> left my_height-1
+            :
+              left $_left_left $_left_right $_left_key $_left_value $left_height
+              right $_right_left $_right_right $_right_key $_right_value $right_height
+              cond
+                -> left_height > right_height:
+                  fetch_last &left $last_key $last_value $new_left_height
+                  if
+                    new_left_height == UNCHANGED
+                    ->
+                      new(avl_node left right last_key last_value my_height)
+                      UNCHANGED
+                    ->
+                      new(avl_node left right last_key last_value my_height-1)
+                      my_height-1
+                -> right_height > left_height:
+                  fetch_first &right $first_key $first_value $new_right_height
+                  if
+                    new_right_height == UNCHANGED
+                    ->
+                      new(avl_node left right first_key first_value my_height)
+                      UNCHANGED
+                    ->
+                      new(avl_node left right first_key first_value my_height-1)
+                      my_height-1
+                -> true:
+                  fetch_last &left $last_key $last_value !left_height
+                  ->
+                    new(avl_node left right last_key last_value my_height)
+                    UNCHANGED
+    :
+      if
+        key < my_key
+        :
+          delete &left $left_height key
+          if
+            left_height.is_undefined
+            -> self undefined
+            :
+              if
+                left_height == UNCHANGED
+                -> new(avl_node left right my_key my_value my_height) UNCHANGED
+                :
+                  if
+                    left_height == my_height-3:
+                      balance_right_to_left $new_node $new_height
+                        left right my_key my_value
+                      -> new_node new_height
+                    : # left_height == my_height-2
+                      right $_right_left $_right_right $_right_key $_right_value
+                        $right_height
+                      if
+                        left_height == right_height
+                        ->
+                          new(avl_node left right my_key my_value left_height+1)
+                          left_height+1
+                        ->
+                          new(avl_node left right my_key my_value my_height)
+                          UNCHANGED
+        :
+          delete &right $right_height key
+          if
+            right_height.is_undefined
+            -> self undefined
+            :
+              if
+                right_height == UNCHANGED
+                -> new(avl_node left right my_key my_value my_height) UNCHANGED
+                :
+                  if
+                    right_height == my_height-3:
+                      balance_left_to_right $new_node $new_height
+                        left right my_key my_value
+                      -> new_node new_height
+                    : # right_height == my_height-2
+                      left $_left_left $_left_right $_left_key $_left_value
+                        $left_height
+                      if
+                        left_height == right_height
+                        ->
+                          new(avl_node left right my_key my_value left_height+1)
+                          left_height+1
+                        ->
+                          new(avl_node left right my_key my_value my_height)
+                          UNCHANGED
+
+###
+
+# for_each
+
+$avl_node/for_each_1_left for_each_1_left_method
+
+$avl_node/for_each_2_left for_each_2_left_method
+
+$avl_node/for_each_1_call for_each_1_call_method
+
+$avl_node/for_each_2_call for_each_2_call_method
+
+$avl_node/for_each_1_right for_each_1_right_method
+
+$avl_node/for_each_2_right for_each_2_right_method
+
+###
+
+# map
+
+$avl_node/map_1 map_1_method
+
+$avl_node/map_2 map_2_method
+
+###
+
+# validate
+
+[source]
+
+$std::first_key_of ()
+  #
+    returns the first key of a non-empty collection
+
+$std_types::avl_table/first_key_of:
+  #
+    returns the first key of a non-empty AVL-table
+  (
+    self
+  )
+  fetch_first_key contents_of(self)
+
+[documentation remark]
+
+### Always copy examples contained in the symbol's description remark
+    into the documentation
+
+### Use only one of the following topics: Tables, Collections
+
+# std_types::avl_table/std::first_key_of (a method)
+

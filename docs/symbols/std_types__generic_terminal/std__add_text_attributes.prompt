@@ -1,0 +1,891 @@
+[MANUAL]
+
+In Funky function calls are either written on a single line with arguments
+enclosed within parentheses and separated by single spaces, e.g.:
+
+print! f(a b c) g(x y z)
+
+or they are written in indentation style using mutliple lines:
+
+print!
+  f
+    a
+    b
+    c
+  g
+    x
+    y
+    z
+
+Functions that create any output or read any input need I/O-access rights.
+
+A function that needs I/O-access rights must be called with a trailing
+exclamation mark after the function name, e.g.:
+
+println! "Hello, World!"
+
+The expression
+
+key = value
+
+denotes a key-value-pair.
+
+Collection types cannot be printed directly. You can use "dump!" to
+dump the contents of a collection, e.g.:
+
+$ages
+  hash_table
+    "John" = 42
+    "Mary" = 25
+    "Irene" = 49
+
+dump! `ages
+
+Output:
+
+ages: hash_table <6>
+  "Mary"
+  25
+  "Irene"
+  49
+  "John"
+  42
+
+Note: The number in angular brackets after the typename denotes the number
+of (indented) lines that follow the head.
+
+A tail call returns the result of the called function; e.g.:
+
+$calc:
+  (
+    x
+    y
+  )
+  plus x*x y*y
+
+println! calc(2 3)
+
+prints
+
+13
+
+[GUIDELINES]
+
+All documentation remarks must have
+
+* a single short (single line) description written in lower case
+
+* a parameter(s) section (if appropriate)
+
+* a result(s) section (if appropriate)
+
+* a detailed description of how to use the symbol: when describing unique
+  items of constants, describe how to use them;
+  do not repeat yourself
+
+* one or more associated topic(s) (if appropriate)
+
+* a "See also" entry - mention only a view relevant symbols here
+
+Do not mention unknown symbols!
+
+Do not mention more than 10 symbols in the "See also" entry.
+
+DO NOT MENTION MORE THAN 10 SYMBOLS IN THE "See also" ENTRY!
+
+Do not mention internal details of functions.
+
+Do not start each sentence in the description with "If" or "The".
+
+DO NOT START EACH SENTENCE IN THE DESCRIPTION WITH "If" OR "The"!
+
+Do not tell the user what a function does not do.
+
+When referring to another symbol write it enclosed in angle brackets, e.g.
+<std::clear>.
+
+The "self"-parameter is a normal parameter like any other and should be
+mentioned in the the parameter description.
+
+Replace symbolic constants by their value.
+
+Operations on I/O-objects are not executed immediately but queued as jobs.
+To identify a job, an "id" is used.
+
+I/O-functions and I/O-methods either need I/O-access rights or propagate
+them ("if", "for_each", etc.).
+
+An "example" section, if available, must use Funky syntax and shall not be too
+long.
+
+If there is an appropriate example in the source code then use this example
+in the "example" section!
+
+[EXAMPLES]
+
+[source]
+
+$std_types::screen/std::clear:
+  (
+    self
+    x = 1
+    y = 1
+    width = undefined
+    height = undefined
+  )
+  update_if width.is_undefined &width -> width_of(self)-x+1
+  update_if height.is_undefined &height -> height_of(self)-y+1
+  std_private::clear self self x y width height
+
+[documentation remark]
+
+# std_types::screen/clear (a method)
+
+  clears the specified rectangular area
+
+  Parameters:
+    self: the screen to be (partially) cleared
+    x: x-coordinate of the upper left corner
+    y: y-coordinate of the upper left corner
+    width: width of the area
+    height: height of the area
+
+  Result:
+    screen: the updated screen
+
+  The specified area is filled with spaces using the the current draw-
+  and clear colour.
+
+  The area is clipped at the screen's borders.
+
+  This function also works for "graphical screens" (line_height != 1).
+
+  Topic: Terminal
+
+  See also: std_types::screen/std::set_clear_colour,
+            std_types::screen/std::copy
+
+[source]
+
+$std_types::string/match:
+  (
+    self
+    stream
+  )
+  $rc result_count()
+  $len length_of(self)
+  if
+    length_of(stream) >= len:
+      if
+        range(stream 1 len) == self:
+          if
+            rc == 1
+            -> len
+            -> len undefined
+        fail
+    fail
+
+  $fail:
+    if
+      rc == 1
+      -> undefined
+      -> undefined undefined
+
+[documentation remark]
+
+# std_types::string/std::match (a method)
+
+  matches the start of the stream with the string
+
+  Parameters:
+    self: the string to match
+    stream: the stream to match against
+
+  Results:
+    length: the number of matched characters (or <undefined> on fail)
+    capture: the matched string (if requested)
+
+  Attempts to match the start of the stream with the specified string.
+
+  If the match is successful the length of the match (= the length of the
+  string) is returned.
+
+  If the caller requested two result values then in addition to the string
+  length the string itself ("the capture") is also returned.
+
+  If the match fails then one or two <std::undefined>-values are returned.
+
+  Topic: Strings
+
+  See also: std_types::string/std::match_back, std_types::string/std::search
+
+[source]
+
+$std_types::generic_list/map_or_error:
+  (
+    self
+    function
+  )
+  if
+    self.is_empty
+    -> self
+    :
+      $map
+        if
+          parameter_count_of(function) == 2
+          ->
+            : (s e)
+              if
+                s < e:
+                  $m (s+e) >> 1
+                  append_or_error
+                    map(s m)
+                    map(m+1 e)
+                :
+                  $mapped_item function(s self(s))
+                  if
+                    mapped_item.is_an_error
+                    -> mapped_item
+                    -> list(mapped_item)
+          ->
+            : (s e)
+              if
+                s < e:
+                  $m (s+e) >> 1
+                  append_or_error
+                    map(s m)
+                    map(m+1 e)
+                :
+                  $mapped_item function(self(s))
+                  if
+                    mapped_item.is_an_error
+                    -> mapped_item
+                    -> list(mapped_item)
+
+      map 1 length_of(self)
+
+[documentation remark]
+
+# std_types::generic_list/std::map_or_error (a method)
+
+  applies a function to all elements of the list
+
+  Parameters:
+
+    self: the list which items will be mapped
+    function: the function to apply to each element of the list
+
+  Result:
+    list: the list of "mapped" items
+
+  A list of the "mapped" items is returned.
+
+  If any item ist mapped to an error object than the result ist not a
+  collection but the first (left-to-right-order) error object created.
+
+  Topic: Lists
+
+  See also: std_types::generic_list/std::reduce,
+            std_types::generic_list/std::map_reduce
+
+[EXERCISE]
+
+[symbols]
+
+
+# Topic: Terminal
+
+$std::x_of ()
+$std::y_of ()
+$std::plot_x_resolution_of ()
+$std::plot_y_resolution_of ()
+$std::character_width_of ()
+$std::ascent_of ()
+$std::descent_of ()
+$std::character_height_of ()
+$std::line_spacing_of ()
+$std::line_height_of ()
+$std::baseline_of ()
+$std::draw_colour_of ()
+$std::clear_colour_of ()
+$std::text_attributes_of ()
+$std::set_draw_colour ()
+$std::set_clear_colour ()
+$std::set_text_attributes ()
+$std::add_text_attributes ()
+$std::remove_text_attributes ()
+$std::DRAW_COLOUR .
+$std::CLEAR_COLOUR .
+$std::TEXT_ATTRIBUTES .
+$std::NORMAL 0
+$std::BOLD 1
+$std::ITALIC 2
+$std::UNDERLINE 4
+$std::STRIKETHROUGH 8
+$std::KEY_PRESS .
+$std::MOUSE_CLICK .
+$std::draw_text ()
+$std::draw_attributed_text ()
+$std::clear ()
+$std::invert ()
+$std::copy ()
+$std::adjoin ()
+$std_types::generic_terminal std_types::resource
+$std_types::generic_terminal.type_of undefined
+$std_types::generic_terminal.x_of 1
+$std_types::generic_terminal.y_of 1
+$std_types::generic_terminal.plot_x_resolution_of 1
+$std_types::generic_terminal.plot_y_resolution_of 1
+$std_types::generic_terminal.width_of undefined
+$std_types::generic_terminal.height_of undefined
+$std_types::generic_terminal.character_width_of undefined
+$std_types::generic_terminal.ascent_of undefined
+$std_types::generic_terminal.descent_of undefined
+$std_types::generic_terminal.character_height_of undefined
+$std_types::generic_terminal.line_spacing_of undefined
+$std_types::generic_terminal.line_height_of undefined
+$std_types::generic_terminal.baseline_of undefined
+$std_types::generic_terminal.clear_colour_of undefined
+$std_types::generic_terminal.draw_colour_of undefined
+$std_types::generic_terminal.text_attributes_of 0
+$std_types::view std_types::generic_terminal
+$std_private::abs_x: (screen x)
+$std_private::abs_y: (screen y)
+$std::create_view:
+$std_types::generic_terminal/set_clear_colour:
+$std_types::generic_terminal/set_draw_colour:
+$std_types::generic_terminal/set_text_attributes:
+$std_types::generic_terminal/add_text_attributes:
+$std_types::generic_terminal/remove_text_attributes:
+$std_private::draw_text ()
+$std_private::draw_attributed_text ()
+$std_private::clear ()
+$std_types::view/draw_text:
+$std_types::view/draw_attributed_text:
+$std_types::view/clear:
+$std_types::view/invert:
+$std_types::view/copy:
+$std::create_vertical_panes:
+$std::create_horizontal_panes:
+
+#
+  Copyright (C) 2024 by
+  Dipl.-Ing. Michael Niederle
+
+  This program is free software; you can redistribute it and/or modify
+  it under the terms of the GNU Library General Public License, version 2, or
+  (at your option) under the terms of the GNU Lesser General Public License,
+  version 3.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  GNU Lesser (Library) General Public License for more details.
+
+  For details of the GNU General Public License see the accompanying
+  files LGPLv2.txt and LGLPv3.txt or
+  http://www.gnu.org/licenses/lgpl-2.0.html
+  http://www.gnu.org/licenses/lgpl-3.0.html
+  or write to the
+  Free Software Foundation, Inc.,
+  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+
+<allow unused>
+
+# Topic: Terminal
+
+$std::x_of ()
+
+$std::y_of ()
+
+$std::plot_x_resolution_of ()
+
+$std::plot_y_resolution_of ()
+
+$std::character_width_of ()
+
+$std::ascent_of ()
+
+$std::descent_of ()
+
+$std::character_height_of ()
+
+$std::line_spacing_of ()
+
+$std::line_height_of ()
+
+$std::baseline_of ()
+
+$std::draw_colour_of ()
+
+$std::clear_colour_of ()
+
+$std::text_attributes_of ()
+
+$std::set_draw_colour ()
+
+$std::set_clear_colour ()
+
+$std::set_text_attributes ()
+
+$std::add_text_attributes ()
+
+$std::remove_text_attributes ()
+
+$std::DRAW_COLOUR .
+
+$std::CLEAR_COLOUR .
+
+$std::TEXT_ATTRIBUTES .
+
+$std::NORMAL 0
+
+$std::BOLD 1
+
+$std::ITALIC 2
+
+$std::UNDERLINE 4
+
+$std::STRIKETHROUGH 8
+
+$std::KEY_PRESS .
+
+$std::MOUSE_CLICK .
+
+$std::draw_text ()
+  #
+    Example:
+
+      draw_text &screen x y "Hello World!"
+
+$std::draw_attributed_text ()
+
+$std::clear ()
+  #
+    Example:
+
+      clear &screen 2 2 width-2 height-2
+
+$std::invert ()
+
+$std::copy ()
+
+$std::adjoin ()
+
+$std_types::generic_terminal std_types::resource
+
+$std_types::generic_terminal.type_of undefined
+
+$std_types::generic_terminal.x_of 1
+
+$std_types::generic_terminal.y_of 1
+
+$std_types::generic_terminal.plot_x_resolution_of 1
+
+$std_types::generic_terminal.plot_y_resolution_of 1
+
+$std_types::generic_terminal.width_of undefined
+
+$std_types::generic_terminal.height_of undefined
+
+$std_types::generic_terminal.character_width_of undefined
+
+$std_types::generic_terminal.ascent_of undefined
+
+$std_types::generic_terminal.descent_of undefined
+
+$std_types::generic_terminal.character_height_of undefined
+
+$std_types::generic_terminal.line_spacing_of undefined
+
+$std_types::generic_terminal.line_height_of undefined
+
+$std_types::generic_terminal.baseline_of undefined
+
+$std_types::generic_terminal.clear_colour_of undefined
+
+$std_types::generic_terminal.draw_colour_of undefined
+
+$std_types::generic_terminal.text_attributes_of 0
+
+$std_types::view std_types::generic_terminal
+
+$std_private::abs_x: (screen x)
+  if
+    x < 0
+    -> width_of(screen)+x+1
+    -> x
+
+$std_private::abs_y: (screen y)
+  if
+    y < 0
+    -> height_of(screen)+y+1
+    -> y
+
+$std::create_view:
+  (
+    screen
+    left_x
+    top_y
+    right_x
+    bottom_y
+  )
+  std_private::abs_x screen &left_x
+  std_private::abs_y screen &top_y
+  std_private::abs_x screen &right_x
+  std_private::abs_y screen &bottom_y
+  ->
+    std_types::view
+      .x_of x_of(screen)+left_x-1
+      .y_of y_of(screen)+top_y-1
+      .width_of (right_x-left_x+1)
+      .height_of (bottom_y-top_y+1)
+      .character_width_of character_width_of(screen)
+      .ascent_of ascent_of(screen)
+      .descent_of descent_of(screen)
+      .character_height_of character_height_of(screen)
+      .line_spacing_of line_spacing_of(screen)
+      .line_height_of line_height_of(screen)
+      .baseline_of baseline_of(screen)
+      .clear_colour_of clear_colour_of(screen)
+      .draw_colour_of draw_colour_of(screen)
+
+$std_types::generic_terminal/set_clear_colour:
+  (
+    terminal
+    colour
+  )
+  -> terminal(.clear_colour_of colour)
+
+$std_types::generic_terminal/set_draw_colour:
+  (
+    terminal
+    colour
+  )
+  -> terminal(.draw_colour_of colour)
+
+$std_types::generic_terminal/set_text_attributes:
+  (
+    terminal
+    attributes
+  )
+  -> terminal(.text_attributes_of attributes)
+
+$std_types::generic_terminal/add_text_attributes:
+  (
+    terminal
+    attributes
+  )
+  -> terminal(.text_attributes_of text_attributes_of(terminal) | attributes)
+
+$std_types::generic_terminal/remove_text_attributes:
+  (
+    terminal
+    attributes
+  )
+  ->
+    terminal
+      .text_attributes_of text_attributes_of(terminal) & not(attributes)
+
+$std_private::draw_text ()
+
+$std_private::draw_attributed_text ()
+
+$std_private::clear ()
+
+$std_types::view/draw_text:
+  (
+    view
+    screen
+    x
+    y
+    args*
+  )
+  $text create_string(args)
+  std_private::draw_text
+    screen
+    view
+    x_of(view)+x-1
+    y_of(view)+y-1
+    text
+
+$std_types::view/draw_attributed_text:
+  (
+    view
+    screen
+    x
+    y
+    attributed_text
+  )
+  std_private::draw_attributed_text
+    screen
+    view
+    x_of(view)+x-1
+    y_of(view)+y-1
+    attributed_text
+
+$std_types::view/clear:
+  (
+    view
+    screen
+    x = 1
+    y = 1
+    width = undefined
+    height = undefined
+  )
+  update_if width.is_undefined &width -> width_of(view)-x+1
+  update_if height.is_undefined &height -> height_of(view)-y+1
+  std_private::clear
+    screen
+    view
+    x_of(view)+x-1
+    y_of(view)+y-1
+    width
+    height
+
+$std_types::view/invert:
+  (
+    view
+    screen
+    x = 1
+    y = 1
+    width = undefined
+    height = undefined
+  )
+  $view_x x_of(view)
+  $view_y y_of(view)
+  $view_width width_of(view)
+  $view_height height_of(view)
+
+  update_if width.is_undefined &width -> view_width-x+1
+  update_if height.is_undefined &height -> view_height-y+1
+
+  $left_x view_x+x-1
+  $top_y view_y+y-1
+  $right_x left_x+width # exclusive
+  $bottom_y top_y+height # exclusive
+
+  # clip at the view's borders
+
+  update_if left_x < view_x &left_x &width -> view_x width-(view_x-left_x)
+  update_if top_y < view_y &top_y &height -> view_y height-(view_y-top_y)
+  update_if right_x > view_x+view_width &right_x -> view_x+view_width
+  update_if bottom_y > view_y+view_height &bottom_y -> view_y+view_height
+
+  invert
+    screen
+    left_x
+    top_y
+    right_x-left_x
+    bottom_y-top_y
+
+$std_types::view/copy:
+  (
+    view
+    destination
+    source
+    x = 1
+    y = 1
+    sx = 1
+    sy = 1
+    width = undefined
+    height = undefined
+  )
+  update_if width.is_undefined &width -> width_of(source)-sx+1
+  update_if height.is_undefined &height -> height_of(source)-sy+1
+  $view_x x_of(view)
+  $view_y y_of(view)
+  $view_width width_of(view)
+  $view_height height_of(view)
+  !x x+view_x-1
+  !y y+view_y-1
+  $dx view_x-x
+  $dy view_y-y
+  update_if dx > 0 &x &sx &width -> view_x sx+dx width-dx
+  update_if dy > 0 &y &sy &height -> view_y sy+dy height-dy
+  update_if x-view_x+width > view_width &width -> view_width-(x-view_x)
+  update_if y-view_y+height > view_height &height -> view_height-(y-view_y)
+  if
+    width <= 0 || height <= 0
+    -> destination
+    :
+      copy
+        destination
+        source
+        x
+        y
+        sx
+        sy
+        width
+        height
+
+$std::create_vertical_panes:
+  (
+    screen
+    pane_description
+  )
+  $rc result_count()
+  $x x_of(screen)
+  $y y_of(screen)
+  $width width_of(screen)
+  $height height_of(screen)
+  $views empty_list
+  cond
+    -> pane_description.is_an_integer:
+      $n pane_description
+      $iter bresenham(n+1 x x+width)
+      next_value &iter !x
+      repeat n
+        :
+          next_value &iter $next_x
+          push &views create_view(screen x y next_x-1 height)
+          !x next_x
+          next
+        return
+    -> pane_description.is_a_list:
+      $fixed_width 0
+      $flex_width_count 0
+      for_each pane_description
+        : (pane_width)
+          if
+            pane_width < 1:
+              inc &flex_width_count
+              next
+            :
+              plus &fixed_width pane_width
+              next
+        :
+          if
+            fixed_width+flex_width_count > width
+            -> undefined
+            :
+              $flex_width width-fixed_width
+              $remaining_flex_width flex_width
+              for_each pane_description
+                : (pane_width)
+                  if
+                    pane_width < 1:
+                      dec &flex_width_count
+                      !pane_width
+                        min
+                          max(round(pane_width*flex_width).to_integer 1)
+                          remaining_flex_width-flex_width_count #
+                        #
+                          all remaining flexible width pains need to have at
+                          least a width of 1
+                      minus &remaining_flex_width pane_width
+                      create_pane_view
+                    create_pane_view
+
+                  $create_pane_view:
+                    push &views create_view(screen x y x+pane_width-1 height)
+                    plus &x pane_width
+                    next
+                return
+    -> true -> undefined
+
+  $return:
+    if
+      rc == 1
+      -> views
+      : spread views
+
+$std::create_horizontal_panes:
+  (
+    screen
+    pane_description
+  )
+  $rc result_count()
+  $x x_of(screen)
+  $y y_of(screen)
+  $width width_of(screen)
+  $height height_of(screen)
+  $views empty_list
+  cond
+    -> pane_description.is_an_integer:
+      $n pane_description
+      $iter bresenham(n+1 y y+height)
+      next_value &iter !y
+      repeat n
+        :
+          next_value &iter $next_y
+          push &views create_view(screen x y width next_y-1)
+          !y next_y
+          next
+        return
+    -> pane_description.is_a_list:
+      $fixed_height 0
+      $flex_height_count 0
+      for_each pane_description
+        : (pane_height)
+          if
+            pane_height < 1:
+              inc &flex_height_count
+              next
+            :
+              plus &fixed_height pane_height
+              next
+        :
+          if
+            fixed_height+flex_height_count > height
+            -> undefined
+            :
+              $flex_height height-fixed_height
+              $remaining_flex_height flex_height
+              for_each pane_description
+                : (pane_height)
+                  if
+                    pane_height < 1:
+                      dec &flex_height_count
+                      !pane_height
+                        if
+                          flex_height_count == 0
+                          -> flex_height
+                          ->
+                            min
+                              max(round(pane_height*flex_height).to_integer 1)
+                              remaining_flex_height-flex_height_count #
+                            #
+                              all remaining flexible height pains need to have
+                              at least a height of 1
+                      minus &remaining_flex_height pane_height
+                      create_pane_view
+                    create_pane_view
+
+                  $create_pane_view:
+                    push &views create_view(screen x y width y+pane_height-1)
+                    plus &y pane_height
+                    next
+                return
+    -> true -> undefined
+
+  $return:
+    if
+      rc == 1
+      -> views
+      : spread views
+
+[source]
+
+$std::add_text_attributes ()
+
+$std_types::generic_terminal/add_text_attributes:
+  (
+    terminal
+    attributes
+  )
+  -> terminal(.text_attributes_of text_attributes_of(terminal) | attributes)
+
+[documentation remark]
+
+### Always copy examples contained in the symbol's description remark
+    into the documentation
+
+### Use documentation if it is already available in the source
+
+### Do not create completely new examples on your own
+
+### Use only one of the following topics: Terminal
+
+# std_types::generic_terminal/std::add_text_attributes (a method)
+

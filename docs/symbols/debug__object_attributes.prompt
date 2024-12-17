@@ -1,0 +1,414 @@
+[GUIDELINES]
+
+All documentation remarks must have
+
+* a single short (single line) description written in lower case
+
+* a parameter(s) section (if appropriate)
+
+* a result(s) section (if appropriate)
+
+* a detailed description of how to use the symbol: when describing unique
+  items of constants, describe how to use them;
+  do not repeat yourself
+
+* one or more associated topic(s) (if appropriate)
+
+* a "See also" entry - mention only a view relevant symbols here
+
+Do not mention unknown symbols!
+
+Do not mention more than 10 symbols in the "See also" entry.
+
+DO NOT MENTION MORE THAN 10 SYMBOLS IN THE "See also" ENTRY!
+
+Do not mention internal details of functions.
+
+Do not start each sentence in the description with "If" or "The".
+
+DO NOT START EACH SENTENCE IN THE DESCRIPTION WITH "If" OR "The"!
+
+Do not tell the user what a function does not do.
+
+When referring to another symbol write it enclosed in angle brackets, e.g.
+<std::clear>.
+
+The "self"-parameter is a normal parameter like any other and should be
+mentioned in the the parameter description.
+
+Replace symbolic constants by their value.
+
+Operations on I/O-objects are not executed immediately but queued as jobs.
+To identify a job, an "id" is used.
+
+I/O-functions and I/O-methods either need I/O-access rights or propagate
+them ("if", "for_each", etc.).
+
+An "example" section, if available, must use Funky syntax and shall not be too
+long.
+
+If there is an appropriate example in the source code then use this example
+in the "example" section!
+
+[EXAMPLES]
+
+[source]
+
+FUNCTION std::real
+{
+  CHECK_ARGUMENTS(1)
+  char *str;
+  CHECK(to_c_string(ARGUMENTS(0), &str))
+  NODE *result = from_double(atof(str));
+  deallocate_memory(str);
+  RETURN_SINGLE_RESULT(result)
+}
+
+[documentation remark]
+
+# std::real (a function)
+
+  constructs a real number from its string representation
+
+  Parameters:
+    str: the string representation of the real number
+
+  Result:
+    value: the real number
+
+  Topic: Numbers
+
+  See also: std::integer, std_types::real
+
+  Example:
+
+    println! real("3.14159")
+
+  Output:
+
+    3.14159
+
+[EXERCISE]
+
+[symbols]
+
+TYPE std_types::object
+METHOD std_types::object/_type
+METHOD long std_types::object/_debug_string
+FUNCTION debug::object_type
+FUNCTION debug::object_attributes
+METHOD std_types::object/new
+
+#
+  Copyright (C) 2021 by
+  Dipl.-Ing. Michael Niederle
+
+  This program is free software; you can redistribute it and/or modify
+  it under the terms of the GNU General Public License, version 2, or
+  (at your option) version 3.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  GNU General Public License for more details.
+
+  For details of the GNU General Public License see the accompanying
+  files GPLv2.txt and GLPv3.txt or
+  http://www.gnu.org/licenses/gpl-2.0.html
+  http://www.gnu.org/licenses/gpl-3.0.html
+  or write to the
+  Free Software Foundation, Inc.,
+  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+
+# Topic: Basics
+
+TYPE std_types::object
+  #
+    the prototype object for all regular objects
+
+    This is one of the three Funky root objects.
+
+    Topics: Basics, Objects
+
+    See also: std_types::undefined, std_types::error
+
+METHOD std_types::object/_type
+  {
+    RUNTIME_ERROR("Attempt to call an object as a function!")
+  }
+
+METHOD long std_types::object/_debug_string
+  (
+    NODE *node,
+    int indent,
+    int max_depth,
+    char *buf
+  )
+  {
+    int type_no = node->attributes->vtable->type_no;
+    if (max_depth == 0) {
+      if (type_no) {
+        const char *name = type_names[type_no];
+        const char *namespace = name+strlen(name)+1;
+        if (*namespace) {
+          return debug_print(indent, buf, "<%s::%s>", namespace, name);
+        } else {
+          return debug_print(indent, buf, "<%s>", name);
+        }
+      } else {
+        return debug_print(indent, buf, "<object>");
+      }
+    } else {
+      int i, n, len;
+      if (type_no) {
+        const char *name = type_names[type_no];
+        const char *namespace = name+strlen(name)+1;
+        if (*namespace) {
+          n = debug_print_head(&indent, &buf, "%s::%s", namespace, name);
+        } else {
+          n = debug_print_head(&indent, &buf, "%s", name);
+        }
+      } else {
+        n = debug_print_head(&indent, &buf, "object");
+      }
+      const char *contents_indent = indent_to_string(indent);
+      for (i = 1; i < next_polymorphic_function; ++i) {
+        if ((i & 7) != 0) {
+          if (attribute_is_redefined[i]) {
+            NODE *attr = get_attribute(node, i);
+            if (CONTAINS_AN_ATTRIBUTE_VALUE(attr)) {
+              attr = RETRIEVE_ATTRIBUTE_VALUE(attr);
+              const char *poly_name = polymorphic_function_names[i];
+              const char *poly_namespace = poly_name;
+              while (*poly_namespace++);
+              n += print(&buf, contents_indent);
+              if (*poly_namespace) {
+                n += print(&buf, "%s::", poly_namespace);
+              }
+              n += print(&buf, "%s:", poly_name);
+              len = debug_string(attr, -indent-2, max_depth-1, buf);
+              if (buf) buf += len;
+              n += len;
+            }
+          }
+        }
+      }
+      return n;
+    }
+  }
+
+FUNCTION debug::object_type
+  {
+    CHECK_ARGUMENTS(1)
+    NODE *node = ARGUMENTS(0);
+    int type_no = node->attributes->vtable->type_no;
+    if (type_no) {
+      const char *name = type_names[type_no];
+      const char *namespace = name+strlen(name)+1;
+      if (*namespace) {
+        char buf[256];
+        sprintf(buf, "%s::%s", namespace, name);
+        RETURN_SINGLE_RESULT(from_c_string(buf))
+      } else {
+        RETURN_SINGLE_RESULT(from_c_string(name))
+      }
+    } else {
+      RETURN_SINGLE_RESULT(from_c_string("object"))
+    }
+  }
+
+FUNCTION debug::object_attributes
+  {
+    CHECK_ARGUMENTS(1)
+    NODE *node = ARGUMENTS(0);
+    int n = 0;
+    for (int i = 1; i < next_polymorphic_function; ++i) {
+      if ((i & 7) != 0) {
+        if (attribute_is_redefined[i]) {
+          NODE *attr = get_attribute(node, i);
+          if (CONTAINS_AN_ATTRIBUTE_VALUE(attr)) {
+            ++n;
+          }
+        }
+      }
+    }
+    LIST_DATA *data = allocate_large(sizeof(LIST_DATA)+2*n*sizeof(NODE *));
+    data->size = 2*n;
+    data->length = 2*n;
+    n = 0;
+    for (int i = 1; i < next_polymorphic_function; ++i) {
+      if ((i & 7) != 0) {
+        if (attribute_is_redefined[i]) {
+          NODE *attr = get_attribute(node, i);
+          if (CONTAINS_AN_ATTRIBUTE_VALUE(attr)) {
+            attr = RETRIEVE_ATTRIBUTE_VALUE(attr);
+            const char *poly_name = polymorphic_function_names[i];
+            const char *poly_namespace = poly_name;
+            while (*poly_namespace++);
+            if (*poly_namespace) {
+              char buf[256];
+              sprintf(buf, "%s::%s", poly_namespace, poly_name);
+              poly_name = buf;
+            }
+            data->items[n++] = from_c_string(poly_name);
+            data->items[n++] = attr;
+          }
+        }
+      }
+    }
+    RETURN_SINGLE_RESULT(CREATE(std_types::list, 0, n, data))
+    RETURN_NOTHING
+  }
+
+CODE
+  extern int attributes_level;
+  extern int8_t *attribute_is_redefined;
+
+  static void *copy_attributes(
+    OCTREE *to_attributes,
+    OCTREE *from_attributes,
+    int level,
+    int idx
+  ) {
+    int i;
+    if (level == 1) {
+      NODE **to = (NODE **)to_attributes;
+      NODE **from = (NODE **)from_attributes;
+      NODE **new_node = NULL;
+      for (i = 0; i < 8; ++i) {
+        if (from[i] != to[i]) {
+          if (
+            attribute_is_redefined[idx] &&
+            CONTAINS_AN_ATTRIBUTE_VALUE(from[i])
+          ) {
+            if (CONTAINS_AN_ATTRIBUTE_VALUE(to[i])) {
+              if (!new_node) {
+                new_node = (NODE **)allocate(sizeof(OCTREE));
+                memcpy(new_node, to, sizeof(OCTREE));
+              }
+              new_node[i] = from[i];
+            } else {
+              return (void *)(intptr_t)-idx; // 0 is not a valid attribute ID
+            }
+          }
+        }
+        ++idx;
+      }
+      return new_node;
+    } else {
+      int n = (level == attributes_level ? 7 : 8);
+      OCTREE *new_tree = NULL;
+      for (i = 0; i < n; ++i) {
+        if (from_attributes->nodes[i] != to_attributes->nodes[i]) {
+          OCTREE *new_branch =
+            copy_attributes(
+              to_attributes->nodes[i],
+              from_attributes->nodes[i],
+              level-1,
+              idx);
+          if (new_branch) {
+            if ((intptr_t)new_branch < 0) return new_branch;
+            if (!new_tree) {
+              new_tree = (OCTREE *)allocate(sizeof(OCTREE));
+              memcpy(new_tree, to_attributes, sizeof(OCTREE));
+            }
+            new_tree->nodes[i] = new_branch;
+          }
+        }
+        idx += 1 << 3*(level-1);
+      }
+      return new_tree;
+    }
+  }
+
+METHOD std_types::object/new
+  {
+    CHECK_ARGUMENTS(2)
+    NODE *to = ARGUMENTS(0);
+    NODE *from = ARGUMENTS(1);
+    if (
+      from->type == TYPE(std_types::undefined) ||
+      from->type == TYPE(std_types::error)
+    ) RETURN_SINGLE_RESULT(from)
+    if (from->type != to->type) RUNTIME_ERROR("TYPE MISMATCH")
+    ATTRIBUTES *attributes =
+      copy_attributes(
+        (OCTREE *)to->attributes,
+        (OCTREE *)from->attributes,
+        attributes_level,
+        0);
+    if (attributes) {
+      if ((intptr_t)attributes < 0) {
+        invalid_attribute_redefinition(to, -(intptr_t)attributes);
+      } else {
+        NODE *node = copy(from, from->attributes->vtable->size);
+        node->attributes = attributes;
+        RETURN_SINGLE_RESULT(node)
+      }
+    } else if (to->attributes != from->attributes) {
+      NODE *node = copy(from, from->attributes->vtable->size);
+      node->attributes = to->attributes;
+      RETURN_SINGLE_RESULT(node)
+    } else {
+      RETURN_SINGLE_RESULT(from)
+    }
+  }
+
+[source]
+
+FUNCTION debug::object_attributes
+  {
+    CHECK_ARGUMENTS(1)
+    NODE *node = ARGUMENTS(0);
+    int n = 0;
+    for (int i = 1; i < next_polymorphic_function; ++i) {
+      if ((i & 7) != 0) {
+        if (attribute_is_redefined[i]) {
+          NODE *attr = get_attribute(node, i);
+          if (CONTAINS_AN_ATTRIBUTE_VALUE(attr)) {
+            ++n;
+          }
+        }
+      }
+    }
+    LIST_DATA *data = allocate_large(sizeof(LIST_DATA)+2*n*sizeof(NODE *));
+    data->size = 2*n;
+    data->length = 2*n;
+    n = 0;
+    for (int i = 1; i < next_polymorphic_function; ++i) {
+      if ((i & 7) != 0) {
+        if (attribute_is_redefined[i]) {
+          NODE *attr = get_attribute(node, i);
+          if (CONTAINS_AN_ATTRIBUTE_VALUE(attr)) {
+            attr = RETRIEVE_ATTRIBUTE_VALUE(attr);
+            const char *poly_name = polymorphic_function_names[i];
+            const char *poly_namespace = poly_name;
+            while (*poly_namespace++);
+            if (*poly_namespace) {
+              char buf[256];
+              sprintf(buf, "%s::%s", poly_namespace, poly_name);
+              poly_name = buf;
+            }
+            data->items[n++] = from_c_string(poly_name);
+            data->items[n++] = attr;
+          }
+        }
+      }
+    }
+    RETURN_SINGLE_RESULT(CREATE(std_types::list, 0, n, data))
+    RETURN_NOTHING
+  }
+
+[documentation remark]
+
+### Always copy examples contained in the symbol's description remark
+    into the documentation
+
+### Use (parts of) the documentation already provided in the source
+
+### Do not create completely new examples on your own
+
+### Use only one of the following topics: Basics
+
+# debug::object_attributes (a builtin function)
+

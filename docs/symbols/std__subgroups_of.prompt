@@ -1,0 +1,1091 @@
+[MANUAL]
+
+In Funky function calls are either written on a single line with arguments
+enclosed within parentheses and separated by single spaces, e.g.:
+
+print! f(a b c) g(x y z)
+
+or they are written in indentation style using mutliple lines:
+
+print!
+  f
+    a
+    b
+    c
+  g
+    x
+    y
+    z
+
+Functions that create any output or read any input need I/O-access rights.
+
+A function that needs I/O-access rights must be called with a trailing
+exclamation mark after the function name, e.g.:
+
+println! "Hello, World!"
+
+The expression
+
+key = value
+
+denotes a key-value-pair.
+
+Collection types cannot be printed directly. You can use "dump!" to
+dump the contents of a collection, e.g.:
+
+$ages
+  hash_table
+    "John" = 42
+    "Mary" = 25
+    "Irene" = 49
+
+dump! `ages
+
+Output:
+
+ages: hash_table <6>
+  "Mary"
+  25
+  "Irene"
+  49
+  "John"
+  42
+
+Note: The number in angular brackets after the typename denotes the number
+of (indented) lines that follow the head.
+
+A tail call returns the result of the called function; e.g.:
+
+$calc:
+  (
+    x
+    y
+  )
+  plus x*x y*y
+
+println! calc(2 3)
+
+prints
+
+13
+
+[GUIDELINES]
+
+All documentation remarks must have
+
+* a single short (single line) description written in lower case
+
+* a parameter(s) section (if appropriate)
+
+* a result(s) section (if appropriate)
+
+* a detailed description of how to use the symbol: when describing unique
+  items of constants, describe how to use them;
+  do not repeat yourself
+
+* one or more associated topic(s) (if appropriate)
+
+* a "See also" entry - mention only a view relevant symbols here
+
+Do not mention unknown symbols!
+
+Do not mention more than 10 symbols in the "See also" entry.
+
+DO NOT MENTION MORE THAN 10 SYMBOLS IN THE "See also" ENTRY!
+
+Do not mention internal details of functions.
+
+Do not start each sentence in the description with "If" or "The".
+
+DO NOT START EACH SENTENCE IN THE DESCRIPTION WITH "If" OR "The"!
+
+Do not tell the user what a function does not do.
+
+When referring to another symbol write it enclosed in angle brackets, e.g.
+<std::clear>.
+
+The "self"-parameter is a normal parameter like any other and should be
+mentioned in the the parameter description.
+
+Replace symbolic constants by their value.
+
+Operations on I/O-objects are not executed immediately but queued as jobs.
+To identify a job, an "id" is used.
+
+I/O-functions and I/O-methods either need I/O-access rights or propagate
+them ("if", "for_each", etc.).
+
+An "example" section, if available, must use Funky syntax and shall not be too
+long.
+
+If there is an appropriate example in the source code then use this example
+in the "example" section!
+
+[EXAMPLES]
+
+[source]
+
+$std::clear_colour_of ()
+
+[documentation remark]
+
+# std::clear_colour_of (a polymorphic function)
+
+  the clear colour to use
+
+  Parameter:
+    self: the object from which to get the clear colour
+
+  Result:
+    colour: the clear colour
+
+  Returns the clear colour of the object.
+
+  Topic: Terminal
+
+  See also: std::draw_colour_of, std::set_clear_colour
+
+[source]
+
+$std_types::screen/clear:
+  (
+    self
+    x = 1
+    y = 1
+    width = undefined
+    height = undefined
+  )
+  update_if width.is_undefined &width -> width_of(self)-x+1
+  update_if height.is_undefined &height -> height_of(self)-y+1
+  std_private::clear self self x y width height
+
+$std::clear ()
+
+[documentation remark]
+
+# std::clear (a polymorphic function)
+
+  clears a rectangular area
+
+  Parameters:
+    screen # some kind of screen
+    x: x-coordinate of the upper left corner
+    y: y-coordinate of the upper left corner
+    width: width of the area
+    height: height of the area
+
+  Result:
+    screen: the updated screen
+
+  The area is cleared using the current clear colour. Use
+  <std::set_clear_colour> to change the current clear colour.
+
+  The area is clipped at the screen's borders.
+
+  Topic: Terminal
+
+  See also: std_types::screen/std::clear, std::draw_text,
+            std::set_clear_colour
+
+  Example:
+
+    $my_screen create_screen(terminal 40 25)
+    set_clear_colour &my_screen GREEN
+    clear &my_screen 11 6 20 15
+
+[EXERCISE]
+
+#
+  Topic: Strings
+
+  Strings consist of zero or more characters.
+
+  A character is a tagged unsigned 32-bit integer.
+
+  They usually store uni-code code points.
+
+  The subtype <std_types::octet_string> of <std_types::string> is used for
+  binary data, often for storing utf8 encoded strings.
+
+  The most efficient string operation is <push> which adds a character to the
+  end of the string. Appending two or more strings is also done in an efficient
+  way.
+
+  Reading a character at any position is also efficient.
+
+  The most basic string operations are builtin.
+
+  Strings have a lot in common with <std_types::list>.
+
+  Related topics: Lists
+
+[symbols]
+
+$std::to_sentence_case ()
+$std::is_a_string ()
+$std::to_uint8_array ()
+$std_types::object.is_a_string false
+$std_types::string.is_a_string true
+$std::is_an_octet_string ()
+$std_types::object.is_an_octet_string false
+$std_types::octet_string.is_an_octet_string true
+$std_types::string.neutral_element_of ""
+$std_types::string/to_string:
+$std::create_string:
+$std::string:
+$std_types::string/put:
+$std_types::string/dup:
+$std_types::object/pad_left:
+$std_types::object/pad_right:
+$std::spaces:
+$std::tabs_and_spaces:
+$std::with_tabs:
+$std_types::string/match:
+$std_types::string/match_back:
+$std_types::string/matches:
+$std_types::string/search:
+$std_types::string/before:
+$std_types::string/truncate_from:
+$std_types::string/behind:
+$std_types::string/truncate_until:
+$std_types::string/from:
+$std_types::string/truncate_before:
+$std_types::string/until:
+$std_types::string/truncate_behind:
+$std_types::string/between:
+$std_types::string/has_prefix:
+$std_types::string/has_suffix:
+$std_types::string/without_prefix:
+$std_types::string/without_suffix:
+$std_types::string/contains:
+$std::split:
+$std::join:
+$std::trim:
+$std::trim_left:
+$std::trim_right:
+$std::normalize:
+$std_types::octet_string/to_base64:
+$std_types::octet_string/from_base64:
+$std_types::octet_string/sha1:
+$std::parse_integer:
+$std::parse_number:
+$std::parse_hex:
+$std_types::string/to_integer:
+$std_types::string/to_number:
+$std::map_characters:
+$std_types::string/to_upper_case:
+$std_types::string/to_lower_case:
+$std_types::string/to_title_case:
+$std_types::string/to_sentence_case:
+$std_types::string/to_wide: (str)
+$std::delete_all:
+$std::replace_all:
+$std::replace_first:
+$std::count_occurrences:
+$std::split_into_lines: (text)
+$std::split_into_indented_lines:
+$std::subgroups_of (!)
+$std::split_into_groups:
+$std::wrap_words:
+$std_types::string/serialize:
+$std_types::octet_string/to_uint8_array:
+$std::indented:
+$std::format:
+$std_types::string.empty_collection_of ""
+
+$std_types::string/to_sentence_case:
+  #
+    converts the spefied string to "Sentence case"
+
+    Topic: Strings
+
+    See also: to_title_case
+
+    Example:
+
+      $str "this is a test."
+      $sentence_case_str str.to_sentence_case
+      println! sentence_case_str
+
+    Output:
+
+      This is s test.
+  (
+    self
+  )
+  map_characters self: (idx chr)
+    if
+      idx == 1 && self(idx).is_a_letter_character
+      -> chr.to_title_case
+      -> chr.to_lower_case
+
+$std_types::string/to_wide: (str)
+  map_characters str to_wide
+
+$std::delete_all:
+  #
+    deletes all occurences of the specfified expressions
+
+    This function deletes all occurences of the specified expressions from
+    the string.
+
+    Topic: Strings
+
+    See also: replace_all
+
+    Example:
+
+      $str "abcabc"
+      $str_without_b delete_all(str 'b')
+      println! str_without_b
+
+    Output:
+
+      acac
+  (
+    text # the string to process
+    expressions* # the expressions to delete
+  )
+  $delete_all: (txt)
+    if
+      txt.is_empty
+      -> new_text
+      :
+        for_each expressions
+          : (expression)
+            $len match(expression txt)
+            if_not len.is_defined next:
+              delete_all range(txt len+1 -1)
+          :
+            push &new_text txt(1)
+            delete_all range(txt 2 -1)
+
+  $new_text ""
+  delete_all text
+
+$std::replace_all:
+  #
+    replaces all occurences of the specified expressions
+
+    This function replaces all occurences of the specified expressions with
+    their corresponding replacement texts.
+
+    Topic: Strings
+
+    See also: replace_first, delete_all
+
+    Example:
+
+      $str "abcabc"
+      $str_with_x replace_all(str 'b' = 'x')
+      println! str_with_x
+
+    Output:
+
+      axcaxc
+  (
+    text # the string to process
+    args* # the expressions and their replacements
+  )
+  $replace_all: (txt)
+    if
+      txt.is_empty
+      -> new_text
+      :
+        for_each args
+          : (arg)
+            arg $expression $replacement
+            $len match(expression txt)
+            if_not len.is_defined next:
+              if
+                replacement.is_a_string:
+                  append &new_text replacement
+                  replace_all range(txt len+1 -1)
+                :
+                  append &new_text replacement(range(txt 1 len))
+                  replace_all range(txt len+1 -1)
+          :
+            push &new_text txt(1)
+            replace_all range(txt 2 -1)
+
+  $new_text ""
+  replace_all text
+
+$std::replace_first:
+  #
+    replaces the first occurence of the specified expressions
+
+    This function replaces the first occurence of the specified expressions
+    with their corresponding replacement texts.
+
+    Topic: Strings
+
+    See also: replace_all
+
+    Example:
+
+      $str "abcabc"
+      $str_with_x replace_first(str 'b' = 'x')
+      println! str_with_x
+
+    Output:
+
+      axcabc
+  (
+    text # the string to process
+    args* # the expressions and their replacements
+  )
+  $replace_first: (txt)
+    if
+      txt.is_empty
+      -> new_text
+      :
+        for_each args
+          : (arg)
+            arg $expression $replacement
+            $len match(expression txt)
+            if_not
+              len.is_defined
+              next
+              :
+                update_if_not replacement.is_a_string &replacement
+                  -> replacement(range(txt 1 len))
+                -> append(new_text replacement range(txt len+1 -1))
+          :
+            push &new_text txt(1)
+            replace_first range(txt 2 -1)
+
+  $new_text ""
+  replace_first text
+
+$std::count_occurrences:
+  #
+    returns the number of occurences of the specified expression
+
+    This function returns the number of occurences of the specified
+    expression in the string.
+
+    Topic: Strings
+
+    Example:
+
+      $str "abcabc"
+      $occurrences count_occurrences(str 'b')
+      println! occurrences
+
+    Output:
+
+      2
+  (
+    text # the string to process
+    expr # the expression to count
+  )
+  $search_next: (txt count)
+    if
+      txt == ""
+      -> count
+      :
+        $n match(expr txt)
+        if
+          n.is_defined:
+            search_next range(txt n+1 -1) count+1
+          :
+            search_next range(txt 2 -1) count
+
+  search_next text 0
+
+$FORK_TEXT_THRESHOLD 300
+
+# parallel version
+  $std::split_into_lines: (text)
+    $n length_of(text)
+    split 1 n
+
+    $split: (s e)
+      if
+        e+1-s > FORK_TEXT_THRESHOLD: # recurse to exploit parallel execution
+          $m (s+e) .div. 2
+          append split(s m) split(m+1 e)
+        :
+          $lines empty_list
+          $ls
+            if
+              s == 1 || text(s-1) == '@nl;'
+              -> s # the current block starts at a line start
+              -> undefined # just skip the characters until the next line start
+          from_to s e
+            : (i)
+              if_not text(i) == '@nl;' next:
+                if
+                  ls.is_defined:
+                    push &lines range(text ls i)
+                    !ls i+1
+                    next
+                  :
+                    !ls i+1
+                    next
+            :
+              if
+                ls.is_defined && ls <= e:
+                  loop: # the last line extends into the next block
+                    !e e+1
+                    if
+                      text(e) == '@nl;'
+                      -> push(lines range(text ls e))
+                      next
+                -> lines
+
+#serial version
+
+$std::split_into_lines: (text)
+  $lines empty_list
+  $i 1
+  $n length_of(text)
+  $s i
+  loop:
+    if
+      i > n
+      ->
+        if
+          s <= n
+          -> push(lines range(text s n))
+          -> lines
+      :
+        if
+          text(i) == '@nl;':
+            push &lines range(text s i)
+            !i i+1
+            !s i
+            next
+          :
+            !i i+1
+            next
+
+$std::split_into_indented_lines:
+  #
+    splits a text into indented lines
+
+    The result is a list of tuples with two fields:
+
+    * indent
+
+    * text_line
+
+    The *text_line* still contains the trailing line feed but leading whitespace
+    is removed.
+
+    If a line does not contain any text (whitespace does not count as text) then
+    the whole tuple is replaced with the special value <undefined>.
+
+    Topic: Strings
+
+    See also: split_into_lines, split_into_groups
+
+    Example:
+
+      $text "
+        a
+          1
+          2
+          3
+        b
+          4
+          5
+      $lines split_into_indented_lines(text)
+      dump! 3 lines
+
+    Output:
+
+      lines:
+        list
+          tuple
+            0
+            "a@0xa;"
+          tuple
+            2
+            "1@0xa;"
+          tuple
+            2
+            "2@0xa;"
+          tuple
+            2
+            "3@0xa;"
+          tuple
+            0
+            "b@0xa;"
+          tuple
+            2
+            "4@0xa;"
+          tuple
+            2
+            "5@0xa;"
+  (
+    text # the string to process
+  )
+  $n length_of(text)
+  split 1 n
+
+  $split: (s e)
+    if
+      e+1-s > FORK_TEXT_THRESHOLD: # recurse to exploit parallel execution
+        $m (s+e) .div. 2
+        append split(s m) split(m+1 e)
+      :
+        $lines empty_list
+        $ls
+          if
+            s == 1 || text(s-1) == '@nl;'
+            -> s # the current block starts at a line start
+            -> undefined # just skip the characters until the next line start
+        from_to s e
+          : (i)
+            if_not text(i) == '@nl;' next:
+              if
+                ls.is_defined:
+                  push &lines create_line(ls i)
+                  !ls i+1
+                  next
+                :
+                  !ls i+1
+                  next
+          :
+            if
+              ls.is_defined && ls <= e:
+                loop: # the last line extends into the next block
+                  !e e+1
+                  if
+                    text(e) == '@nl;'
+                    -> push(lines create_line(ls e))
+                    next
+              -> lines
+
+  $create_line: (s e)
+    $indent 0
+    loop:
+      if
+        text(s) == '@ht;':
+          !indent indent+8
+          !s s+1
+          next
+        :
+          if
+            text(s) == ' ':
+              !indent indent+1
+              !s s+1
+              next
+            :
+              $line_text range(text s e)
+              if
+                line_text == "@nl;"
+                -> undefined
+                -> tuple(indent line_text)
+
+$FORK_LINES_THRESHOLD 20
+
+$VERY_LARGE_INDENT 9999
+
+$std::subgroups_of (!)
+
+$indent_of: (line)
+  if
+    line.is_defined
+    -> first(line)
+    -> undefined
+
+$std::split_into_groups:
+  #
+    splits already indented lines into groups
+
+    Returns a list of indented lines where each line has a *subgroups*-attribute
+    which is itself a list of "indented lines".
+
+    The division into subgroups is only done on the top-level! The subgroups
+    do not contain any further subgroups.
+
+    Topic: Strings
+
+    See also: split_into_indented_lines
+
+    Example:
+
+      $text "
+        a
+          1
+          2
+          3
+        b
+          4
+          5
+      $lines split_into_indented_lines(text)
+      $groups split_into_groups(lines)
+      dump! 3 `groups
+      dump! 3 `subgroups_of(groups(1))
+
+    Output:
+
+      groups:
+        list
+          tuple
+            0
+            "a@0xa;"
+          tuple
+            0
+            "b@0xa;"
+      subgroups_of(groups(1)):
+        list
+          tuple
+            2
+            "1@0xa;"
+          tuple
+            2
+            "2@0xa;"
+          tuple
+            2
+            "3@0xa;"
+  (
+    lines # the indented lines
+    keep_empty_lines = false
+  )
+  $n length_of(lines)
+  $fv 1 # first valid line
+  loop:
+    if
+      fv <= n:
+        $indent indent_of(lines(fv))
+        if
+          indent.is_defined:
+            if
+              keep_empty_lines && fv > 1
+              -> append(dup(list(undefined) fv-1) split(fv n indent))
+              -> split(fv n indent)
+          :
+            !fv fv+1
+            next
+      -> empty_list
+
+  $split: (s e indent)
+    if
+      e+1-s > FORK_LINES_THRESHOLD: # recurse to exploit parallel execution
+        $m (s+e) .div. 2
+        append split(s m indent) split(m+1 e indent)
+      :
+        $groups empty_list
+        $minimum_indent VERY_LARGE_INDENT
+        $group_start undefined
+        $group_end undefined
+        from_to s e
+          : (i)
+            $current_indent indent_of(lines(i))
+            if
+              current_indent == indent:
+                if
+                  group_start.is_defined && group_start < i:
+                    add_groups !groups group_end i
+                    start_new_fragment_and_next i
+                  :
+                    start_new_fragment_and_next i
+              :
+                update_if current_indent.is_defined &group_end -> i
+                reduce_minimum_indent_and_next current_indent
+          :
+            if
+              group_start.is_defined:
+                loop: # the last group extends into the next block
+                  !e e+1
+                  if
+                    e > n
+                    -> add_groups(group_end e)
+                    :
+                      $current_indent indent_of(lines(e))
+                      if
+                        current_indent.is_defined && current_indent <= indent
+                        -> add_groups(group_end e)
+                        :
+                          update_if current_indent.is_defined &group_end -> e
+                          reduce_minimum_indent_and_next current_indent
+              -> groups
+
+        $add_groups: (last curr_idx)
+          if
+            keep_empty_lines && curr_idx > last+1:
+              add !groups
+              append groups dup(list(undefined) curr_idx-last-1)
+            add
+
+          $add:
+            if
+              group_start == last
+              -> push(groups lines(group_start))
+              :
+                if
+                  minimum_indent == VERY_LARGE_INDENT
+                  -> append(groups range(lines group_start last))
+                  :
+                    $headline lines(group_start)
+                    push groups
+                      headline(.subgroups_of range(lines group_start+1 last))
+
+        $reduce_minimum_indent_and_next: (current_indent)
+          if
+            current_indent.is_defined && current_indent < minimum_indent:
+              !minimum_indent current_indent
+              next
+            next
+
+        $start_new_fragment_and_next: (i)
+          !minimum_indent VERY_LARGE_INDENT
+          !group_start i
+          !group_end i
+          next
+
+$std::wrap_words:
+  #
+    wraps a string consisting of words onto multiple lines
+
+    The string is split into multiple lines according to the specified line
+    width.
+
+    The result is a list of lines.
+
+    Topic: Strings
+
+    See also: indented
+
+    Example:
+
+      $str "This is a very long string that should be wrapped onto multiple lines"
+      $lines wrap_words(str 30)
+      dump! 2 `lines
+
+    Output:
+
+      lines:
+        list
+          "This is a very long string"
+          "that should be wrapped"
+          "onto multiple lines"
+  (
+    text # the string to wrap
+    width # the desired line width
+    _do_use_character_width = false
+  )
+  $lines empty_list
+  $n length_of(text)
+  $s 1 # start of line
+  $b undefined # possible break position
+  $i 0
+  loop:
+    inc &i
+    if
+      i > n:
+        if
+          s > n
+          -> lines
+          -> push(lines range(text s n))
+      :
+        $chr text(i)
+        case chr
+          '@nl;':
+            push &lines range(text s i-1)
+            !s i+1
+            !b undefined
+            next
+          :
+            if
+              chr == ' ':
+                if
+                  i-s == width: # break
+                    push &lines range(text s i-1)
+                    !s i+1
+                    !b undefined
+                    next
+                  :
+                    !b i
+                    next
+              :
+                if
+                  i-s < width
+                  next
+                  :
+                    if
+                      b.is_defined: # wrap
+                        push &lines range(text s b-1)
+                        !s b+1
+                        !b undefined
+                        next
+                      : # hard break
+                        push &lines range(text s i-1)
+                        !s i
+                        next
+
+$std_types::string/serialize:
+  #
+    returns a string representation of the string
+
+    Topic: Strings
+
+    See also: deserialize
+
+    Example:
+
+      $str "Hello World"
+      $serialized_str serialize(str)
+      dump! `serialized_str
+
+    Output:
+
+      serialized_str: "@quot;Hello World@quot;@0xa;"
+  (
+    self
+    indent = undefined
+  )
+  $str "@quot;"
+  $s 1
+  for_each self
+    : (idx chr)
+      if
+        chr < '@0x20;' || chr > '@0x7e;' || chr == '"' || chr == '@@':
+          append &str range(self s idx-1)
+          append &str "@@@(chr.to_integer);"
+          !s idx+1
+          next
+        next
+    :
+      append &str range(self s -1)
+      append &str "@quot;@nl;"
+      if
+        indent.is_defined
+        -> append(tabs_and_spaces(indent) str)
+        -> str
+
+$std_types::octet_string/to_uint8_array:
+  #
+    converts a string to an array of unsigned 8-bit integers
+
+    Topic: Strings
+
+    See also: to_string
+
+    Example:
+
+      $str "Hello World"
+      $arr to_uint8_array(str)
+      dump! 2 `arr
+  (
+    self
+  )
+  $arr uint8_array(length_of(self))
+  for_each self
+    : (idx chr)
+      !arr(idx) chr.to_integer
+      next
+    -> arr
+
+$std::indented:
+  #
+    increases the indent of the specified (multi-line) string
+
+    The text is indented via tabs and spaces. Existing indents are treated
+    correctly.
+
+    The line feed character after the last line is optional.
+
+    Topic: Strings
+
+    See also: wrap_words
+
+    Example:
+
+      $str "
+        a
+          b
+            c
+        d
+      $indented_str indented(5 str)
+      print! indented_str
+
+    Output:
+
+           a
+             b
+               c
+           d
+  (
+    indent
+    text
+  )
+  $indented_text ""
+  $new_indent undefined
+  $i 1
+  $n length_of(text)
+  loop:
+    !new_indent indent
+    skip_indent !i !new_indent
+    if
+      i <= n:
+        if
+          text(i) == '@nl;':
+            push &indented_text '@nl;'
+            !i i+1
+            next
+          :
+            append &indented_text tabs_and_spaces(new_indent)
+            $s i
+            loop
+              :
+                if
+                  text(i) == '@nl;':
+                    append &indented_text range(text s i)
+                    !i i+1
+                    break
+                  :
+                    if
+                      i < n:
+                        !i i+1
+                        next
+                      :
+                        append indented_text range(text s -1)
+              next
+
+      -> indented_text
+
+  $skip_indent:
+    if
+      i <= n:
+        if
+          text(i) == '@ht;':
+            !i i+1
+            !new_indent new_indent+8
+            skip_indent
+          skip_spaces
+      -> i new_indent
+
+  $skip_spaces:
+    if
+      i <= n && text(i) == ' ':
+        !i i+1
+        !new_indent new_indent+1
+        skip_spaces
+      -> i new_indent
+
+$LEFT .
+
+$RIGHT .
+
+$CENTER .
+
+[source]
+
+$std::subgroups_of (!)
+
+[documentation remark]
+
+### Always copy examples contained in the symbol's description remark
+    into the documentation
+
+### Do not create completely new examples on your own
+
+### Use only one of the following topics: Strings
+
+# std::subgroups_of (a polymorphic function)
+

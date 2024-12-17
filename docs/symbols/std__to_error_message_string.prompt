@@ -1,0 +1,377 @@
+[MANUAL]
+
+In Funky function calls are either written on a single line with arguments
+enclosed within parentheses and separated by single spaces, e.g.:
+
+print! f(a b c) g(x y z)
+
+or they are written in indentation style using mutliple lines:
+
+print!
+  f
+    a
+    b
+    c
+  g
+    x
+    y
+    z
+
+Functions that create any output or read any input need I/O-access rights.
+
+A function that needs I/O-access rights must be called with a trailing
+exclamation mark after the function name, e.g.:
+
+println! "Hello, World!"
+
+The expression
+
+key = value
+
+denotes a key-value-pair.
+
+Collection types cannot be printed directly. You can use "dump!" to
+dump the contents of a collection, e.g.:
+
+$ages
+  hash_table
+    "John" = 42
+    "Mary" = 25
+    "Irene" = 49
+
+dump! `ages
+
+Output:
+
+ages: hash_table <6>
+  "Mary"
+  25
+  "Irene"
+  49
+  "John"
+  42
+
+Note: The number in angular brackets after the typename denotes the number
+of (indented) lines that follow the head.
+
+A tail call returns the result of the called function; e.g.:
+
+$calc:
+  (
+    x
+    y
+  )
+  plus x*x y*y
+
+println! calc(2 3)
+
+prints
+
+13
+
+[GUIDELINES]
+
+All documentation remarks must have
+
+* a single short (single line) description written in lower case
+
+* a parameter(s) section (if appropriate)
+
+* a result(s) section (if appropriate)
+
+* a detailed description of how to use the symbol: when describing unique
+  items of constants, describe how to use them;
+  do not repeat yourself
+
+* one or more associated topic(s) (if appropriate)
+
+* a "See also" entry - mention only a view relevant symbols here
+
+Do not mention unknown symbols!
+
+Do not mention more than 10 symbols in the "See also" entry.
+
+DO NOT MENTION MORE THAN 10 SYMBOLS IN THE "See also" ENTRY!
+
+Do not mention internal details of functions.
+
+Do not start each sentence in the description with "If" or "The".
+
+DO NOT START EACH SENTENCE IN THE DESCRIPTION WITH "If" OR "The"!
+
+Do not tell the user what a function does not do.
+
+When referring to another symbol write it enclosed in angle brackets, e.g.
+<std::clear>.
+
+The "self"-parameter is a normal parameter like any other and should be
+mentioned in the the parameter description.
+
+Replace symbolic constants by their value.
+
+Operations on I/O-objects are not executed immediately but queued as jobs.
+To identify a job, an "id" is used.
+
+I/O-functions and I/O-methods either need I/O-access rights or propagate
+them ("if", "for_each", etc.).
+
+An "example" section, if available, must use Funky syntax and shall not be too
+long.
+
+If there is an appropriate example in the source code then use this example
+in the "example" section!
+
+[EXAMPLES]
+
+[source]
+
+$std::wrap_words:
+  (
+    text
+    width
+  )
+  $lines empty_list
+  $n length_of(text)
+  $s 1 # start of line
+  $b undefined # possible break position
+  $i 0
+  loop:
+    inc &i
+    if
+      i > n:
+        if
+          s > n
+          -> lines
+          -> push(lines range(text s n))
+      :
+        $chr text(i)
+        case chr
+          '
+':
+            push &lines range(text s i-1)
+            !s i+1
+            !b undefined
+            next
+          :
+            if
+              chr == ' ':
+                if
+                  i-s == width: # break
+                    push &lines range(text s i-1)
+                    !s i+1
+                    !b undefined
+                    next
+                  :
+                    !b i
+                    next
+              :
+                if
+                  i-s < width
+                  next
+                  :
+                    if
+                      b.is_defined: # wrap
+                        push &lines range(text s b-1)
+                        !s b+1
+                        !b undefined
+                        next
+                      : # hard break
+                        push &lines range(text s i-1)
+                        !s i
+                        next
+
+[documentation remark]
+
+# std::wrap_words (a function)
+
+  wraps a string consisting of words onto multiple lines
+
+  Parameters:
+    text: the text to wrap
+    width: the maximum width of a line
+
+  Result:
+    lines: a list of (wrapped) lines
+
+  The string is split into multiple lines according to the specified line
+  width.
+
+  Topic: Strings
+
+  See also: std::indented
+
+  Example:
+
+    $str "This is a very long string that should be wrapped onto multiple lines"
+    $lines wrap_words(str 30)
+    dump! 2 `lines
+
+  Output:
+
+    lines:
+      list
+        "This is a very long string"
+        "that should be wrapped"
+        "onto multiple lines"
+
+[EXERCISE]
+
+#
+  Topic: Errors
+
+  In Funky errors are handled via so-called error objects.
+
+  In the case an error occurs:
+
+  * if a function would return a single value, it returns an error object
+    instead
+
+  * if a function would return several values, it returns the expected number
+    of results, replacing each result with the error object
+
+  * if a function would return no value at all, it **will** return a single
+    error object to its caller, which results in an error in the caller and
+    leads to propagation of the error
+
+  Error objects contain only very few and special methods. Any attempt to
+  access other methods will propagate the error.
+
+  To check whether a value is an error object or not, use <std::is_an_error>.
+
+  Example:
+
+    load $buf filename
+    on buf.is_an_error: Error "
+      Could not load file "@(filename)"!
+
+[symbols]
+
+$std::Error:
+$std::to_error_message_string:
+
+#
+  Copyright (C) 2024 by
+  Dipl.-Ing. Michael Niederle
+
+  This program is free software; you can redistribute it and/or modify
+  it under the terms of the GNU Library General Public License, version 2, or
+  (at your option) under the terms of the GNU Lesser General Public License,
+  version 3.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  GNU Lesser (Library) General Public License for more details.
+
+  For details of the GNU General Public License see the accompanying
+  files LGPLv2.txt and LGLPv3.txt or
+  http://www.gnu.org/licenses/lgpl-2.0.html
+  http://www.gnu.org/licenses/lgpl-3.0.html
+  or print to the
+  Free Software Foundation, Inc.,
+  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+
+#
+  Topic: Errors
+
+  In Funky errors are handled via so-called error objects.
+
+  In the case an error occurs:
+
+  * if a function would return a single value, it returns an error object
+    instead
+
+  * if a function would return several values, it returns the expected number
+    of results, replacing each result with the error object
+
+  * if a function would return no value at all, it **will** return a single
+    error object to its caller, which results in an error in the caller and
+    leads to propagation of the error
+
+  Error objects contain only very few and special methods. Any attempt to
+  access other methods will propagate the error.
+
+  To check whether a value is an error object or not, use <std::is_an_error>.
+
+  Example:
+
+    load $buf filename
+    on buf.is_an_error: Error "
+      Could not load file "@(filename)"!
+
+$std::Error:
+  #
+    displays an error message and terminates the program
+
+    All arguments are converted to strings, concatenated and printed to stderr.
+
+    Afterwards the program terminates with exit code <EXIT_FAILURE>.
+
+    This function needs I/O-access rights.
+
+    Topic: Errors
+
+    See also: exit
+  (
+    args*
+  )
+  eprintln! "ERROR: " create_string(args) .without_suffix. '@nl;'
+  exit! EXIT_FAILURE
+
+$std::to_error_message_string:
+  (
+    err # the error object
+  )
+  $str error_message_text_of(err)
+  $errno errno_of(err)
+  $details error_details_of(err)
+  update_if errno.is_defined &str -> append(str " - " strerror(errno))
+  if
+    details.is_undefined
+    -> str
+    :
+      if
+        details.is_a_string
+        -> "
+          @(str) ("@(details)")@
+        :
+          to_string &details
+          if
+            details.is_an_error
+            -> str
+            -> "@(str) (@(details))"
+
+[source]
+
+$std::to_error_message_string:
+  (
+    err # the error object
+  )
+  $str error_message_text_of(err)
+  $errno errno_of(err)
+  $details error_details_of(err)
+  update_if errno.is_defined &str -> append(str " - " strerror(errno))
+  if
+    details.is_undefined
+    -> str
+    :
+      if
+        details.is_a_string
+        -> "
+          @(str) ("@(details)")@
+        :
+          to_string &details
+          if
+            details.is_an_error
+            -> str
+            -> "@(str) (@(details))"
+
+[documentation remark]
+
+### Always copy examples contained in the symbol's description remark
+    into the documentation
+
+### Use only one of the following topics: Errors
+
+# std::to_error_message_string (a function)
+

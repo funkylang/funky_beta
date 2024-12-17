@@ -1,0 +1,225 @@
+[GUIDELINES]
+
+All documentation remarks must have
+
+* a single short (single line) description written in lower case
+
+* a parameter(s) section (if appropriate)
+
+* a result(s) section (if appropriate)
+
+* a detailed description of how to use the symbol: when describing unique
+  items of constants, describe how to use them;
+  do not repeat yourself
+
+* one or more associated topic(s) (if appropriate)
+
+* a "See also" entry - mention only a view relevant symbols here
+
+Do not mention unknown symbols!
+
+Do not mention more than 10 symbols in the "See also" entry.
+
+DO NOT MENTION MORE THAN 10 SYMBOLS IN THE "See also" ENTRY!
+
+Do not mention internal details of functions.
+
+Do not start each sentence in the description with "If" or "The".
+
+DO NOT START EACH SENTENCE IN THE DESCRIPTION WITH "If" OR "The"!
+
+Do not tell the user what a function does not do.
+
+When referring to another symbol write it enclosed in angle brackets, e.g.
+<std::clear>.
+
+The "self"-parameter is a normal parameter like any other and should be
+mentioned in the the parameter description.
+
+Replace symbolic constants by their value.
+
+Operations on I/O-objects are not executed immediately but queued as jobs.
+To identify a job, an "id" is used.
+
+I/O-functions and I/O-methods either need I/O-access rights or propagate
+them ("if", "for_each", etc.).
+
+An "example" section, if available, must use Funky syntax and shall not be too
+long.
+
+If there is an appropriate example in the source code then use this example
+in the "example" section!
+
+[EXAMPLES]
+
+[source]
+
+METHOD std_types::positive_integer/plus
+{
+  CHECK_ARGUMENTS(2)
+  CHECK_RESULTS(1)
+  if (TYPEOF(ARGUMENTS(1)) == TYPE(std_types::positive_integer)) {
+    if (ARGUMENTS(0)->integer.value+ARGUMENTS(1)->integer.value >= ARGUMENTS(0)->integer
+      RETURN_SINGLE_RESULT(CREATE(std_types::positive_integer, ARGUMENTS(0)->integer.val
+    }
+  } else if (TYPEOF(ARGUMENTS(1)) == TYPE(negative_integer)) {
+    if (ARGUMENTS(0)->integer.value >= ARGUMENTS(1)->integer.value) {
+      RETURN_SINGLE_RESULT(CREATE(std_types::positive_integer, ARGUMENTS(0)->integer.val
+    } else {
+      RETURN_SINGLE_RESULT(CREATE(negative_integer, ARGUMENTS(1)->integer.value-ARGUMENT
+    }
+  } else if (TYPEOF(ARGUMENTS(1)) == TYPE(std_types::real)) {
+    RETURN_SINGLE_RESULT(CREATE(std_types::real, ARGUMENTS(0)->integer.value+ARGUMENTS(1
+  }
+  INVALID_ARGUMENTS
+}
+
+[documentation remark]
+
+# std_types::positive_integer/std::plus (a method)
+
+  implements the plus operation for positive integers
+
+  Parameters:
+    left: a positive integer value
+    right: any numeric value
+
+  Result:
+    sum: the sum of the two operands
+
+  Topic: Numbers
+
+  See also: std_types::positive_integer/std::minus,
+            std_types::positive_integer/std::times,
+            std_types::positive_integer/std::over,
+            std_types::positive_integer/std::div,
+            std_types::positive_integer/std::mod
+
+[EXERCISE]
+
+[symbols]
+
+TYPE std_types::function -> std_types::object
+METHOD std_types::function/_type
+TYPE tabular_function -> std_types::function
+METHOD tabular_function/_type
+METHOD std_types::function/parameter_count_of
+METHOD long std_types::function/_debug_string
+METHOD std_types::function/new
+FUNCTION NODE *create_function
+
+#
+  Copyright (C) 2021 by
+  Dipl.-Ing. Michael Niederle
+
+  This program is free software; you can redistribute it and/or modify
+  it under the terms of the GNU General Public License, version 2, or
+  (at your option) version 3.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  GNU General Public License for more details.
+
+  For details of the GNU General Public License see the accompanying
+  files GPLv2.txt and GLPv3.txt or
+  http://www.gnu.org/licenses/gpl-2.0.html
+  http://www.gnu.org/licenses/gpl-3.0.html
+  or write to the
+  Free Software Foundation, Inc.,
+  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+
+# Topic: Functions
+
+TYPE std_types::function -> std_types::object
+  #
+    the prototype object for all functions
+
+METHOD std_types::function/_type
+  {
+    RUNTIME_ERROR("Attempt to call the function protoype object!")
+  }
+
+TYPE tabular_function -> std_types::function
+
+METHOD tabular_function/_type
+  {
+    RUNTIME_ERROR("Attempt to call the tabular function protoype object!")
+  }
+
+METHOD std_types::function/parameter_count_of
+  #
+    the number of arguments to supply in calls to this function
+  {
+    CHECK_ARGUMENTS(1)
+    CHECK_RESULTS(1)
+    int par_count =
+      ((const TAB_NUM *)((unsigned long)ARGUMENTS(0)->type & -4L))[1];
+    if (par_count < 0)
+      RETURN_UNDEFINED
+    else
+      RETURN_SINGLE_RESULT(from_uint32(par_count))
+  }
+
+METHOD long std_types::function/_debug_string
+  (
+    NODE *node,
+    int indent,
+    int max_depth,
+    char *buf
+  )
+  {
+    return debug_print(indent, buf, "<tabular function>");
+  }
+
+METHOD std_types::function/new
+  {
+    CHECK_ARGUMENTS(2)
+    if (((long)ARGUMENTS(1)->type & 3)!= TABULAR_FUNCTION_TAG) INVALID_ARGUMENTS
+    NODE *node = CREATE(tabular_function);
+    node->type = ARGUMENTS(1)->type;
+    node->attributes = ARGUMENTS(0)->attributes;
+    RETURN_SINGLE_RESULT(node)
+  }
+
+FUNCTION NODE *create_function
+  (
+    const TAB_NUM *code
+  )
+  {
+    NODE *node = CREATE(tabular_function);
+    node->type = (FUNC)((unsigned long)code|TABULAR_FUNCTION_TAG);
+    return node;
+  }
+
+[source]
+
+POLY std::new
+  #
+    creates a new object with inherited attributes
+
+    Topic: Collections, Lists
+
+METHOD std_types::function/new
+  {
+    CHECK_ARGUMENTS(2)
+    if (((long)ARGUMENTS(1)->type & 3)!= TABULAR_FUNCTION_TAG) INVALID_ARGUMENTS
+    NODE *node = CREATE(tabular_function);
+    node->type = ARGUMENTS(1)->type;
+    node->attributes = ARGUMENTS(0)->attributes;
+    RETURN_SINGLE_RESULT(node)
+  }
+
+[documentation remark]
+
+### Always copy examples contained in the symbol's description remark
+    into the documentation
+
+### Use (parts of) the documentation already provided in the source
+
+### Do not create completely new examples on your own
+
+### Use only one of the following topics: Functions
+
+# std_types::function/std::new (a builtin method)
+

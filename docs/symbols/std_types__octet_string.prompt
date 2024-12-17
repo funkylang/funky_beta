@@ -1,0 +1,707 @@
+[GUIDELINES]
+
+All documentation remarks must have
+
+* a single short (single line) description written in lower case
+
+* a parameter(s) section (if appropriate)
+
+* a result(s) section (if appropriate)
+
+* a detailed description of how to use the symbol: when describing unique
+  items of constants, describe how to use them;
+  do not repeat yourself
+
+* one or more associated topic(s) (if appropriate)
+
+* a "See also" entry - mention only a view relevant symbols here
+
+Do not mention unknown symbols!
+
+Do not mention more than 10 symbols in the "See also" entry.
+
+DO NOT MENTION MORE THAN 10 SYMBOLS IN THE "See also" ENTRY!
+
+Do not mention internal details of functions.
+
+Do not start each sentence in the description with "If" or "The".
+
+DO NOT START EACH SENTENCE IN THE DESCRIPTION WITH "If" OR "The"!
+
+Do not tell the user what a function does not do.
+
+When referring to another symbol write it enclosed in angle brackets, e.g.
+<std::clear>.
+
+The "self"-parameter is a normal parameter like any other and should be
+mentioned in the the parameter description.
+
+Replace symbolic constants by their value.
+
+Operations on I/O-objects are not executed immediately but queued as jobs.
+To identify a job, an "id" is used.
+
+I/O-functions and I/O-methods either need I/O-access rights or propagate
+them ("if", "for_each", etc.).
+
+An "example" section, if available, must use Funky syntax and shall not be too
+long.
+
+If there is an appropriate example in the source code then use this example
+in the "example" section!
+
+[EXAMPLES]
+
+[source]
+
+TYPE std_types::object
+
+[documentation remark]
+
+# std_types::object (a builtin type)
+
+  the prototype object for all "normal" objects
+
+  This is one of the three Funky root objects.
+
+  Topics: Basics, Objects
+
+  See also: std_types::undefined, std_types::error
+
+[source]
+
+TYPE std_types::number -> std_types::object
+
+[documentation remark]
+
+# std_types::number (a builtin type derived from std_types::object)
+
+  the prototype object for all kinds of numbers
+
+  Topic: Numbers
+
+  See also: std_types::integer, std_types::real
+
+[source]
+
+METHOD std_types::array/_type
+  {
+    ARRAY_DATA *data = MYSELF->array.data;
+    int dimension_count = data->info->dimension_count;
+    MIN_ARGUMENTS(dimension_count)
+    MAX_ARGUMENTS(dimension_count+1)
+    if (ARGUMENT_COUNT == dimension_count) {
+      // get item
+      data = apply_array_updates((ARRAY *)MYSELF);
+      // info and view could have been updated!
+      long offset = compute_array_read_offset(
+        MYSELF, data->info, MYSELF->array.view);
+      if (offset < 0) return;
+      NODE *value;
+      value = data->items[offset];
+      RETURN_SINGLE_RESULT(value);
+    } else {
+      // set item
+      long offset = compute_array_write_offset(
+        MYSELF, data->info, MYSELF->array.view);
+      if (offset < 0) return;
+      NODE *value;
+      value = ARGUMENTS(dimension_count);
+      long length = MYSELF->array.updates_length;
+      MYSELF =
+        add_update(
+          (ARRAY *)MYSELF, sizeof(UPDATE_ARRAY_DATA_SET_VALUE));
+      UPDATE_ARRAY_DATA_SET_VALUE *update =
+        (UPDATE_ARRAY_DATA_SET_VALUE *)
+        (MYSELF->array.updates->buffer+length);
+      update->tag = SET_VALUE;
+      update->offset = offset;
+      update->value = value;
+      RETURN_SINGLE_RESULT(MYSELF)
+    }
+  }
+
+TYPE std_types::array -> std_types::generic_array
+
+[documentation remark]
+
+# std_types::array (a builtin type derived from std_types::generic_array)
+
+  the prototype object for all arrays
+
+  Parameters:
+    indices: the indices of the array elements
+    value: the new value (only for updates)
+
+  Result:
+    value_or_array: the value at the specified position or the updated array
+
+  Updates to arrays are delayed until the array is read.
+
+  Array indices are one-based.
+
+  Arrays can hold any kind of values.
+
+  Topics: Arrays, Collections
+
+  See also: std_types::list
+
+  Example:
+
+    $a array(3 2) # a new array with 3 rows and 2 columns
+    !a(2 1) 47 # use syntactic sugar to assign a value to an array element
+    !a a(3 2 11) # without syntactic sugar
+    println! a(2 1)
+    println! a(3 2)
+
+  Output:
+
+    47
+    11
+
+[EXERCISE]
+
+[symbols]
+
+POLY std::to_utf8
+TYPE std_types::string -> std_types::generic_list
+METHOD std_types::string/_type
+TYPE std_types::octet_string -> std_types::string
+TYPE std_types::wide_string -> std_types::string
+OBJECT std::empty_string -> std_types::octet_string
+METHOD std_types::octet_string/_type
+METHOD std_types::wide_string/_type
+METHOD long std_types::octet_string/_debug_string
+METHOD long std_types::wide_string/_debug_string
+METHOD int std_types::octet_string/_get_item_of
+METHOD int std_types::wide_string/_get_item_of
+METHOD int std_types::octet_string/_to_c_string
+METHOD int std_types::octet_string/_to_octets
+FUNCTION NODE *from_latin_1_string
+FUNCTION NODE *from_uint32_string
+FUNCTION NODE *from_c_string
+METHOD int std_types::octet_string/_length_of
+METHOD int std_types::wide_string/_length_of
+METHOD std_types::octet_string/length_of
+METHOD std_types::wide_string/length_of
+METHOD std_types::octet_string/is_empty
+METHOD std_types::octet_string/is_not_empty
+METHOD std_types::wide_string/is_empty
+METHOD std_types::wide_string/is_not_empty
+METHOD std_types::octet_string/push
+METHOD std_types::wide_string/push
+METHOD std_types::octet_string/append
+METHOD std_types::wide_string/append
+METHOD std_types::octet_string/range
+METHOD std_types::wide_string/range
+METHOD std_types::octet_string/hash
+METHOD std_types::wide_string/hash
+METHOD std_types::octet_string/equal
+METHOD std_types::wide_string/equal
+METHOD std_types::octet_string/less
+METHOD std_types::wide_string/less
+METHOD std_types::octet_string/width_of
+METHOD std_types::wide_string/width_of
+METHOD std_types::octet_string/from_utf8
+METHOD std_types::octet_string/to_utf8
+METHOD std_types::wide_string/to_utf8
+
+#
+  Copyright (C) 2020 by
+  Dipl.-Ing. Michael Niederle
+
+  This program is free software; you can redistribute it and/or modify
+  it under the terms of the GNU General Public License, version 2, or
+  (at your option) version 3.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  GNU General Public License for more details.
+
+  For details of the GNU General Public License see the accompanying
+  files GPLv2.txt and GLPv3.txt or
+  http://www.gnu.org/licenses/gpl-2.0.html
+  http://www.gnu.org/licenses/gpl-3.0.html
+  or write to the
+  Free Software Foundation, Inc.,
+  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+
+# Topics: Strings
+
+POLY std::to_utf8
+  #
+    returns an utf8-encoded octet string
+
+    Topic: Strings
+
+TYPE std_types::string -> std_types::generic_list
+  #
+    the prototype object for all strings
+
+    Topic: Collections
+
+METHOD std_types::string/_type
+  {
+    RUNTIME_ERROR("Attempt to call the string prototype object as a function!")
+  }
+
+DATA
+  typedef struct {
+    long size; // in octets
+    long length; // in 8-bit-characters (which is the same as octets)
+    uint8_t buffer[];
+  } OCTET_DATA;
+
+TYPE std_types::octet_string -> std_types::string
+  #
+    a string where all characters fit into an octet
+
+    This kind of string can be used for input/output-operations.
+
+    Topic: Collections
+  long offset # usually zero
+  long length
+  OCTET_DATA *data
+
+DATA
+  typedef struct {
+    long size; // in bytes
+    long length;  // in (32-bit) characters
+    uint32_t buffer[];
+  } WIDE_DATA;
+
+TYPE std_types::wide_string -> std_types::string
+  long offset # usually zero
+  long length
+  WIDE_DATA *data
+
+OBJECT std::empty_string -> std_types::octet_string
+  #
+    the empty string
+  0, 0, NULL
+
+METHOD std_types::octet_string/_type
+  #
+    a string of zero or more 8-bit characters
+
+    The type function supports positive and negative indices from
+    1 to the length of the sequence starting at the left or form -1 to
+    -length of the sequence starting at the right.
+
+    Replacing any character of the string with a 32-bit character will
+    produce a <std_types::wide_string>.
+  {
+    MIN_ARGUMENTS(1)
+    MAX_ARGUMENTS(2)
+    CHECK_RESULTS(1)
+    long idx;
+    CHECK(to_long(ARGUMENTS(0), &idx))
+    long length = MYSELF->octet_string.length;
+    if (idx < 0) idx = length+idx+1;
+    if (idx < 1 || idx > length) INVALID_INDEX(MYSELF);
+    long offset = MYSELF->octet_string.offset;
+    if (ARGUMENT_COUNT == 1)
+      RETURN_SINGLE_RESULT(
+        from_uchar32(MYSELF->octet_string.data->buffer[offset+idx-1]))
+    uint32_t chr;
+    CHECK(to_uchar32(ARGUMENTS(1), &chr));
+    OCTET_DATA *data = MYSELF->octet_string.data;
+    if (data->buffer[idx-1] == chr) RETURN_SINGLE_RESULT(MYSELF)
+    if (chr > 0xff) {
+      long size = ALLOCATION_SIZE(4*length);
+      WIDE_DATA *new_data = allocate_large(sizeof(WIDE_DATA)+size);
+      long i;
+      for (i = 0; i < length; ++i) {
+        new_data->buffer[i] = data->buffer[offset+i];
+      }
+      new_data->size = size;
+      new_data->length = length;
+      new_data->buffer[idx-1] = chr;
+      RETURN_SINGLE_RESULT(CREATE(std_types::wide_string, 0, length, new_data))
+    } else {
+      long size = ALLOCATION_SIZE(length);
+      OCTET_DATA *new_data = allocate_large(sizeof(OCTET_DATA)+size);
+      memcpy(new_data->buffer, data->buffer+offset, length);
+      new_data->size = size;
+      new_data->length = length;
+      new_data->buffer[idx-1] = chr;
+      RETURN_SINGLE_RESULT(CREATE(std_types::octet_string, 0, length, new_data))
+    }
+  }
+
+METHOD std_types::wide_string/_type
+  #
+    a sequence of zero or more 32-bit characters
+
+    The type function supports positive and negative indices from
+    1 to the length of the sequence starting at the left or form -1 to
+    -length of the sequence starting at the right.
+
+    If due to replacement there is no more 32-character in the string it is
+    automatically replaced with a <std_types::wide_string>.
+  {
+    MIN_ARGUMENTS(1)
+    MAX_ARGUMENTS(2)
+    CHECK_RESULTS(1)
+    long idx;
+    CHECK(to_long(ARGUMENTS(0), &idx))
+    long length = MYSELF->wide_string.length;
+    if (idx < 0) idx = length+idx+1;
+    if (idx < 1 || idx > length) INVALID_INDEX(MYSELF);
+    long offset = MYSELF->wide_string.offset;
+    if (ARGUMENT_COUNT == 1)
+      RETURN_SINGLE_RESULT(
+        from_uchar32(MYSELF->wide_string.data->buffer[offset+idx-1]))
+    uint32_t chr;
+    CHECK(to_uchar32(ARGUMENTS(1), &chr));
+    WIDE_DATA *data = MYSELF->wide_string.data;
+    if (data->buffer[idx-1] == chr) RETURN_SINGLE_RESULT(MYSELF)
+    if (chr <= 0xff && data->buffer[offset+idx-1] > 0xff) {
+      long i;
+      for (i = 0; i < length; ++i) {
+        if (i != idx-1 && data->buffer[offset+i] > 0xff) goto quad;
+      }
+      long size = ALLOCATION_SIZE(length);
+      OCTET_DATA *new_data = allocate_large(sizeof(OCTET_DATA)+size);
+      for (i = 0; i < length; ++i) {
+        new_data->buffer[i] = data->buffer[offset+i];
+      }
+      new_data->size = size;
+      new_data->length = length;
+      new_data->buffer[idx-1] = chr;
+      RETURN_SINGLE_RESULT(CREATE(std_types::octet_string, 0, length, new_data))
+    }
+    quad:;
+    long size = ALLOCATION_SIZE(4*length);
+    WIDE_DATA *new_data = allocate_large(sizeof(WIDE_DATA)+size);
+    memcpy(new_data->buffer, data->buffer+offset, 4*length);
+    new_data->size = size;
+    new_data->length = length;
+    new_data->buffer[idx-1] = chr;
+    RETURN_SINGLE_RESULT(CREATE(std_types::wide_string, 0, length, new_data))
+  }
+
+METHOD long std_types::octet_string/_debug_string
+  (
+    NODE *node,
+    int indent,
+    int max_depth,
+    char *buf
+  )
+  {
+    long len = 0;
+    if (indent < 0) {
+      if (buf) *buf++ = ' ';
+      ++len;
+    }
+    if (buf) *buf++ = '\"';
+    ++len;
+    long i;
+    long s = node->octet_string.offset;
+    long e = s+node->octet_string.length;
+    for (i = s; i < e; ++i) {
+      uint8_t chr = node->octet_string.data->buffer[i];
+      if (chr >= 0x20 && chr <= 0x7e) {
+        if (chr == '\"') {
+          len += print(&buf, "@quot;");
+        } else if (chr == '@') {
+          len += print(&buf, "@@");
+        } else {
+          if (buf) *buf++ = chr;
+          ++len;
+        }
+      } else {
+        len += print(&buf, "@0x%x;", chr);
+      }
+    }
+    len += print(&buf, "\"\n");
+    return len;
+  }
+
+METHOD long std_types::wide_string/_debug_string
+  (
+    NODE *node,
+    int indent,
+    int max_depth,
+    char *buf
+  )
+  {
+    long len = 0;
+    if (indent < 0) {
+      if (buf) *buf++ = ' ';
+      ++len;
+    }
+    if (buf) *buf++ = '\"';
+    ++len;
+    long i;
+    long s = node->wide_string.offset;
+    long e = s+node->wide_string.length;
+    for (i = s; i < e; ++i) {
+      uint32_t chr = node->wide_string.data->buffer[i];
+      if (chr >= 0x20 && chr <= 0x7e) {
+        if (chr == '\"') {
+          len += print(&buf, "@quot;");
+        } else if (chr == '@') {
+          len += print(&buf, "@@");
+        } else {
+          if (buf) *buf++ = chr;
+          ++len;
+        }
+      } else {
+        len += print(&buf, "@0x%x;", chr);
+      }
+    }
+    len += print(&buf, "\"\n");
+    return len;
+  }
+
+METHOD int std_types::octet_string/_get_item_of
+  (
+    NODE *node,
+    long idx,
+    NODE **result_p
+  )
+  {
+    long length = node->octet_string.length;
+    if (idx < 0 || idx >= length) {
+      invalid_index(node);
+      return false;
+    }
+    *result_p =
+      from_uchar32(
+        node->octet_string.data->buffer[node->octet_string.offset+idx]);
+    return true;
+  }
+
+METHOD int std_types::wide_string/_get_item_of
+  (
+    NODE *node,
+    long idx,
+    NODE **result_p
+  )
+  {
+    long length = node->wide_string.length;
+    if (idx < 0 || idx >= length) {
+      invalid_index(node);
+      return false;
+    }
+    *result_p =
+      from_uchar32(
+        node->wide_string.data->buffer[node->wide_string.offset+idx]);
+    return true;
+  }
+
+METHOD int std_types::octet_string/_to_c_string
+  (
+    NODE *node,
+    char **result_p
+  )
+  {
+    long offset = node->octet_string.offset;
+    long size = node->octet_string.length;
+    char *buf = allocate_memory(size+1);
+    memcpy(buf, node->octet_string.data->buffer+offset, size);
+    buf[size] = 0;
+    *result_p = buf;
+    return true;
+  }
+
+METHOD int std_types::octet_string/_to_octets
+  (
+    NODE *node,
+    const uint8_t **buf_p,
+    long *size_p
+  )
+  {
+    long offset = node->octet_string.offset;
+    long size = node->octet_string.length;
+    uint8_t *buf = allocate_memory(size);
+    memcpy(buf, node->octet_string.data->buffer+offset, size);
+    *buf_p = buf;
+    *size_p = size;
+    return true;
+  }
+
+FUNCTION NODE *from_latin_1_string
+  (
+    const uint8_t *str,
+    long len
+  )
+  {
+    if (len == 0) return VAR(std::empty_string);
+    long size = ALLOCATION_SIZE(len);
+    OCTET_DATA *data = allocate_large(sizeof(OCTET_DATA)+size);
+    data->size = size;
+    data->length = len;
+    memcpy(data->buffer, str, len);
+    return CREATE(std_types::octet_string, 0, len, data);
+  }
+
+FUNCTION NODE *from_uint32_string
+  (
+    const uint32_t *str,
+    long len
+  )
+  {
+    long size = ALLOCATION_SIZE(4*len);
+    WIDE_DATA *data = allocate_large(sizeof(WIDE_DATA)+size);
+    data->size = size;
+    data->length = len;
+    memcpy(data->buffer, str, 4*len);
+    return CREATE(std_types::wide_string, 0, len, data);
+  }
+
+FUNCTION NODE *from_c_string
+  (
+    const char *str
+  )
+  {
+    return from_latin_1_string((const uint8_t *)str, strlen(str));
+  }
+
+METHOD int std_types::octet_string/_length_of
+  (
+    NODE *node,
+    long *result_p
+  )
+  {
+    *result_p = node->octet_string.length;
+    return true;
+  }
+
+METHOD int std_types::wide_string/_length_of
+  (
+    NODE *node,
+    long *result_p
+  )
+  {
+    *result_p = node->wide_string.length;
+    return true;
+  }
+
+METHOD std_types::octet_string/length_of
+  #
+    returns the number of items within the list
+  {
+    CHECK_ARGUMENTS(1)
+    CHECK_RESULTS(1)
+    RETURN_SINGLE_RESULT(from_long(ARGUMENTS(0)->octet_string.length))
+  }
+
+METHOD std_types::wide_string/length_of
+  #
+    returns the number of items within the list
+  {
+    CHECK_ARGUMENTS(1)
+    CHECK_RESULTS(1)
+    RETURN_SINGLE_RESULT(from_long(ARGUMENTS(0)->wide_string.length))
+  }
+
+METHOD std_types::octet_string/is_empty
+  #
+    returns whether the octet string is empty or not
+  {
+    CHECK_ARGUMENTS(1)
+    CHECK_RESULTS(1)
+    RETURN_BOOLEAN(ARGUMENTS(0)->octet_string.length == 0)
+  }
+
+METHOD std_types::octet_string/is_not_empty
+  #
+    returns whether the octet string is empty or not
+  {
+    CHECK_ARGUMENTS(1)
+    CHECK_RESULTS(1)
+    RETURN_BOOLEAN(ARGUMENTS(0)->octet_string.length > 0)
+  }
+
+METHOD std_types::wide_string/is_empty
+  #
+    returns whether the quad-octet string is empty or not
+  {
+    CHECK_ARGUMENTS(1)
+    CHECK_RESULTS(1)
+    RETURN_BOOLEAN(ARGUMENTS(0)->wide_string.length == 0)
+  }
+
+METHOD std_types::wide_string/is_not_empty
+  #
+    returns whether the quad-octet string is empty or not
+  {
+    CHECK_ARGUMENTS(1)
+    CHECK_RESULTS(1)
+    RETURN_BOOLEAN(ARGUMENTS(0)->wide_string.length > 0)
+  }
+
+[source]
+
+METHOD std_types::octet_string/_type
+  #
+    a string of zero or more 8-bit characters
+
+    The type function supports positive and negative indices from
+    1 to the length of the sequence starting at the left or form -1 to
+    -length of the sequence starting at the right.
+
+    Replacing any character of the string with a 32-bit character will
+    produce a <std_types::wide_string>.
+  {
+    MIN_ARGUMENTS(1)
+    MAX_ARGUMENTS(2)
+    CHECK_RESULTS(1)
+    long idx;
+    CHECK(to_long(ARGUMENTS(0), &idx))
+    long length = MYSELF->octet_string.length;
+    if (idx < 0) idx = length+idx+1;
+    if (idx < 1 || idx > length) INVALID_INDEX(MYSELF);
+    long offset = MYSELF->octet_string.offset;
+    if (ARGUMENT_COUNT == 1)
+      RETURN_SINGLE_RESULT(
+        from_uchar32(MYSELF->octet_string.data->buffer[offset+idx-1]))
+    uint32_t chr;
+    CHECK(to_uchar32(ARGUMENTS(1), &chr));
+    OCTET_DATA *data = MYSELF->octet_string.data;
+    if (data->buffer[idx-1] == chr) RETURN_SINGLE_RESULT(MYSELF)
+    if (chr > 0xff) {
+      long size = ALLOCATION_SIZE(4*length);
+      WIDE_DATA *new_data = allocate_large(sizeof(WIDE_DATA)+size);
+      long i;
+      for (i = 0; i < length; ++i) {
+        new_data->buffer[i] = data->buffer[offset+i];
+      }
+      new_data->size = size;
+      new_data->length = length;
+      new_data->buffer[idx-1] = chr;
+      RETURN_SINGLE_RESULT(CREATE(std_types::wide_string, 0, length, new_data))
+    } else {
+      long size = ALLOCATION_SIZE(length);
+      OCTET_DATA *new_data = allocate_large(sizeof(OCTET_DATA)+size);
+      memcpy(new_data->buffer, data->buffer+offset, length);
+      new_data->size = size;
+      new_data->length = length;
+      new_data->buffer[idx-1] = chr;
+      RETURN_SINGLE_RESULT(CREATE(std_types::octet_string, 0, length, new_data))
+    }
+  }
+
+TYPE std_types::octet_string -> std_types::string
+  #
+    a string where all characters fit into an octet
+
+    This kind of string can be used for input/output-operations.
+
+    Topic: Collections
+  long offset # usually zero
+  long length
+  OCTET_DATA *data
+
+[documentation remark]
+
+### Always copy examples contained in the symbol's description remark
+    into the documentation
+
+### Use only one of the following topics: Strings
+
+# std_types::octet_string (a builtin type derived from std_types::string)
+

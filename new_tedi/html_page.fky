@@ -346,11 +346,11 @@ $tedi_types::html_page/handle_key_press: (page io state key)
 	  -> io state
 	-> io state
     SHIFT_TABULATOR:
-      $current_rectangle current_rectangle_of(page)
+      $previous_rectangle
+	get_previous_rectangle(page current_rectangle_of(page))
       if
-	current_rectangle.is_defined:
-	  update_selection &state page
-	    get_previous_rectangle(page current_rectangle)
+	previous_rectangle.is_defined:
+	  update_selection &state page previous_rectangle
 	  -> io state
 	-> io state
     RETURN:
@@ -454,49 +454,61 @@ $tedi::LOAD_HELP .
 
 $LOAD_HELP/job_completed: (_self io state buf info)
   info $filename $id $history_index
-  $page create_html_page(filename buf template_screen_of(state))
-  $window_manager window_manager_of(state)
   if
-    id.is_defined:
-      $previous_page get_content(window_manager id)
-      $history history_of(previous_page)
-      $previous_history_index history_index_of(previous_page)
-      !history(previous_history_index).current_rectangle_of
-	current_rectangle_of(previous_page)
-      set_title &window_manager id filename
-      move_top &window_manager id
-      move_home &window_manager id
+    filename .has_suffix. ".html":
+      $page create_html_page(filename buf template_screen_of(state))
+      $window_manager window_manager_of(state)
       if
-	history_index.is_defined:
-	  $buttons empty_list
-	  update_if history_index > 1 &buttons: push buttons BACK
-	  update_if history_index < length_of(history) &buttons:
-	    push buttons FORWARD
-	  set_buttons &window_manager id buttons
-	  $current_rectangle current_rectangle_of(history(history_index))
-	  !page
-	    .current_rectangle_of current_rectangle
-	    .history_of history
-	    .history_index_of history_index
-	  set_content &window_manager id page
+	id.is_defined:
+	  $previous_page get_content(window_manager id)
+	  $history history_of(previous_page)
+	  $previous_history_index history_index_of(previous_page)
+	  !history(previous_history_index).current_rectangle_of
+	    current_rectangle_of(previous_page)
+	  set_title &window_manager id filename
+	  move_top &window_manager id
+	  move_home &window_manager id
 	  if
-	    current_rectangle.is_defined:
-	      current_rectangle $_filename $x $y $w $h
-	      set_selection &window_manager x y w h
-	      -> io state(.window_manager_of window_manager)
+	    history_index.is_defined:
+	      $buttons empty_list
+	      update_if history_index > 1 &buttons: push buttons BACK
+	      update_if history_index < length_of(history) &buttons:
+		push buttons FORWARD
+	      set_buttons &window_manager id buttons
+	      $current_rectangle current_rectangle_of(history(history_index))
+	      !page
+		.current_rectangle_of current_rectangle
+		.history_of history
+		.history_index_of history_index
+	      set_content &window_manager id page
+	      if
+		current_rectangle.is_defined:
+		  current_rectangle $_filename $x $y $w $h
+		  set_selection &window_manager x y w h
+		  -> io state(.window_manager_of window_manager)
+		:
+		  unset_selection &window_manager
+		  -> io state(.window_manager_of window_manager)
 	    :
-	      unset_selection &window_manager
+	      set_buttons &window_manager id list(BACK)
+	      append range(history 1 previous_history_index) &page.history_of
+	      !page.history_index_of length_of(history_of(page))
+	      set_content &window_manager id page
+	      unset_selection &window_manager id
 	      -> io state(.window_manager_of window_manager)
 	:
-	  set_buttons &window_manager id list(BACK)
-	  append range(history 1 previous_history_index) &page.history_of
-	  !page.history_index_of length_of(history_of(page))
-	  set_content &window_manager id page
-	  unset_selection &window_manager id
+	  create_window &window_manager
+	    TITLE = filename
+	    CONTENT = page
+	    PARENT_ID = get_id(window_manager)
 	  -> io state(.window_manager_of window_manager)
     :
-      create_window &window_manager
-	TITLE = filename
-	CONTENT = page
-	PARENT_ID = get_id(window_manager)
-      -> io state(.window_manager_of window_manager)
+      log &io "
+	loaded "@(filename)"
+      -> io state
+
+$LOAD_HELP/job_failed: (_self io state _buf info)
+  info $filename
+  log &io "
+    failed to load "@(filename)"
+  -> io state

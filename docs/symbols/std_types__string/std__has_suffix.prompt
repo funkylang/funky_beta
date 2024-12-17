@@ -1,0 +1,1001 @@
+[MANUAL]
+
+In Funky function calls are either written on a single line with arguments
+enclosed within parentheses and separated by single spaces, e.g.:
+
+print! f(a b c) g(x y z)
+
+or they are written in indentation style using mutliple lines:
+
+print!
+  f
+    a
+    b
+    c
+  g
+    x
+    y
+    z
+
+Functions that create any output or read any input need I/O-access rights.
+
+A function that needs I/O-access rights must be called with a trailing
+exclamation mark after the function name, e.g.:
+
+println! "Hello, World!"
+
+The expression
+
+key = value
+
+denotes a key-value-pair.
+
+Collection types cannot be printed directly. You can use "dump!" to
+dump the contents of a collection, e.g.:
+
+$ages
+  hash_table
+    "John" = 42
+    "Mary" = 25
+    "Irene" = 49
+
+dump! `ages
+
+Output:
+
+ages: hash_table <6>
+  "Mary"
+  25
+  "Irene"
+  49
+  "John"
+  42
+
+Note: The number in angular brackets after the typename denotes the number
+of (indented) lines that follow the head.
+
+A tail call returns the result of the called function; e.g.:
+
+$calc:
+  (
+    x
+    y
+  )
+  plus x*x y*y
+
+println! calc(2 3)
+
+prints
+
+13
+
+[GUIDELINES]
+
+All documentation remarks must have
+
+* a single short (single line) description written in lower case
+
+* a parameter(s) section (if appropriate)
+
+* a result(s) section (if appropriate)
+
+* a detailed description of how to use the symbol: when describing unique
+  items of constants, describe how to use them;
+  do not repeat yourself
+
+* one or more associated topic(s) (if appropriate)
+
+* a "See also" entry - mention only a view relevant symbols here
+
+Do not mention unknown symbols!
+
+Do not mention more than 10 symbols in the "See also" entry.
+
+DO NOT MENTION MORE THAN 10 SYMBOLS IN THE "See also" ENTRY!
+
+Do not mention internal details of functions.
+
+Do not start each sentence in the description with "If" or "The".
+
+DO NOT START EACH SENTENCE IN THE DESCRIPTION WITH "If" OR "The"!
+
+Do not tell the user what a function does not do.
+
+When referring to another symbol write it enclosed in angle brackets, e.g.
+<std::clear>.
+
+The "self"-parameter is a normal parameter like any other and should be
+mentioned in the the parameter description.
+
+Replace symbolic constants by their value.
+
+Operations on I/O-objects are not executed immediately but queued as jobs.
+To identify a job, an "id" is used.
+
+I/O-functions and I/O-methods either need I/O-access rights or propagate
+them ("if", "for_each", etc.).
+
+An "example" section, if available, must use Funky syntax and shall not be too
+long.
+
+If there is an appropriate example in the source code then use this example
+in the "example" section!
+
+[EXAMPLES]
+
+[source]
+
+$std_types::screen/std::clear:
+  (
+    self
+    x = 1
+    y = 1
+    width = undefined
+    height = undefined
+  )
+  update_if width.is_undefined &width -> width_of(self)-x+1
+  update_if height.is_undefined &height -> height_of(self)-y+1
+  std_private::clear self self x y width height
+
+[documentation remark]
+
+# std_types::screen/clear (a method)
+
+  clears the specified rectangular area
+
+  Parameters:
+    self: the screen to be (partially) cleared
+    x: x-coordinate of the upper left corner
+    y: y-coordinate of the upper left corner
+    width: width of the area
+    height: height of the area
+
+  Result:
+    screen: the updated screen
+
+  The specified area is filled with spaces using the the current draw-
+  and clear colour.
+
+  The area is clipped at the screen's borders.
+
+  This function also works for "graphical screens" (line_height != 1).
+
+  Topic: Terminal
+
+  See also: std_types::screen/std::set_clear_colour,
+            std_types::screen/std::copy
+
+[source]
+
+$std_types::string/match:
+  (
+    self
+    stream
+  )
+  $rc result_count()
+  $len length_of(self)
+  if
+    length_of(stream) >= len:
+      if
+        range(stream 1 len) == self:
+          if
+            rc == 1
+            -> len
+            -> len undefined
+        fail
+    fail
+
+  $fail:
+    if
+      rc == 1
+      -> undefined
+      -> undefined undefined
+
+[documentation remark]
+
+# std_types::string/std::match (a method)
+
+  matches the start of the stream with the string
+
+  Parameters:
+    self: the string to match
+    stream: the stream to match against
+
+  Results:
+    length: the number of matched characters (or <undefined> on fail)
+    capture: the matched string (if requested)
+
+  Attempts to match the start of the stream with the specified string.
+
+  If the match is successful the length of the match (= the length of the
+  string) is returned.
+
+  If the caller requested two result values then in addition to the string
+  length the string itself ("the capture") is also returned.
+
+  If the match fails then one or two <std::undefined>-values are returned.
+
+  Topic: Strings
+
+  See also: std_types::string/std::match_back, std_types::string/std::search
+
+[source]
+
+$std_types::generic_list/map_or_error:
+  (
+    self
+    function
+  )
+  if
+    self.is_empty
+    -> self
+    :
+      $map
+        if
+          parameter_count_of(function) == 2
+          ->
+            : (s e)
+              if
+                s < e:
+                  $m (s+e) >> 1
+                  append_or_error
+                    map(s m)
+                    map(m+1 e)
+                :
+                  $mapped_item function(s self(s))
+                  if
+                    mapped_item.is_an_error
+                    -> mapped_item
+                    -> list(mapped_item)
+          ->
+            : (s e)
+              if
+                s < e:
+                  $m (s+e) >> 1
+                  append_or_error
+                    map(s m)
+                    map(m+1 e)
+                :
+                  $mapped_item function(self(s))
+                  if
+                    mapped_item.is_an_error
+                    -> mapped_item
+                    -> list(mapped_item)
+
+      map 1 length_of(self)
+
+[documentation remark]
+
+# std_types::generic_list/std::map_or_error (a method)
+
+  applies a function to all elements of the list
+
+  Parameters:
+
+    self: the list which items will be mapped
+    function: the function to apply to each element of the list
+
+  Result:
+    list: the list of "mapped" items
+
+  A list of the "mapped" items is returned.
+
+  If any item ist mapped to an error object than the result ist not a
+  collection but the first (left-to-right-order) error object created.
+
+  Topic: Lists
+
+  See also: std_types::generic_list/std::reduce,
+            std_types::generic_list/std::map_reduce
+
+[EXERCISE]
+
+#
+  Topic: Strings
+
+  Strings consist of zero or more characters.
+
+  A character is a tagged unsigned 32-bit integer.
+
+  They usually store uni-code code points.
+
+  The subtype <std_types::octet_string> of <std_types::string> is used for
+  binary data, often for storing utf8 encoded strings.
+
+  The most efficient string operation is <push> which adds a character to the
+  end of the string. Appending two or more strings is also done in an efficient
+  way.
+
+  Reading a character at any position is also efficient.
+
+  The most basic string operations are builtin.
+
+  Strings have a lot in common with <std_types::list>.
+
+  Related topics: Lists
+
+[symbols]
+
+$std::to_sentence_case ()
+$std::is_a_string ()
+$std::to_uint8_array ()
+$std_types::object.is_a_string false
+$std_types::string.is_a_string true
+$std::is_an_octet_string ()
+$std_types::object.is_an_octet_string false
+$std_types::octet_string.is_an_octet_string true
+$std_types::string.neutral_element_of ""
+$std_types::string/to_string:
+$std::create_string:
+$std::string:
+$std_types::string/put:
+$std_types::string/dup:
+$std_types::object/pad_left:
+$std_types::object/pad_right:
+$std::spaces:
+$std::tabs_and_spaces:
+$std::with_tabs:
+$std_types::string/match:
+$std_types::string/match_back:
+$std_types::string/matches:
+$std_types::string/search:
+$std_types::string/before:
+$std_types::string/truncate_from:
+$std_types::string/behind:
+$std_types::string/truncate_until:
+$std_types::string/from:
+$std_types::string/truncate_before:
+$std_types::string/until:
+$std_types::string/truncate_behind:
+$std_types::string/between:
+$std_types::string/has_prefix:
+$std_types::string/has_suffix:
+$std_types::string/without_prefix:
+$std_types::string/without_suffix:
+$std_types::string/contains:
+$std::split:
+$std::join:
+$std::trim:
+$std::trim_left:
+$std::trim_right:
+$std::normalize:
+$std_types::octet_string/to_base64:
+$std_types::octet_string/from_base64:
+$std_types::octet_string/sha1:
+$std::parse_integer:
+$std::parse_number:
+$std::parse_hex:
+$std_types::string/to_integer:
+$std_types::string/to_number:
+$std::map_characters:
+$std_types::string/to_upper_case:
+$std_types::string/to_lower_case:
+$std_types::string/to_title_case:
+$std_types::string/to_sentence_case:
+$std_types::string/to_wide: (str)
+$std::delete_all:
+$std::replace_all:
+$std::replace_first:
+$std::count_occurrences:
+$std::split_into_lines: (text)
+$std::split_into_indented_lines:
+$std::subgroups_of (!)
+$std::split_into_groups:
+$std::wrap_words:
+$std_types::string/serialize:
+$std_types::octet_string/to_uint8_array:
+$std::indented:
+$std::format:
+$std_types::string.empty_collection_of ""
+
+$std_types::string/truncate_until:
+  #
+    returns the substring behind the specified expression
+
+    If the specified expression is found within the string the substring
+    behind the expression is returned. Otherwise the string is returned
+    unaltered.
+
+    If *nth* is specified then the nth occurence of the expression *expr*
+    is looked for. If there are not at least *n* matches for *expr* within *str*
+    then the string is returned unaltered.
+
+    A very similar function is <string/behind>. It behaves differently only when
+    the expression is *not* found.
+
+    Topic: Strings
+
+    See also: string/behind, string/before, string/between, string/until
+
+    Example:
+
+      $identifier "std::truncate_until"
+      $name identifier .truncate_until. "::"
+      println! name
+
+    Output:
+
+      truncate_until
+
+    Example:
+
+      $identifier "std::truncate_until"
+      $last_part identifier .truncate_until. '.'
+      println! '[' last_part ']'
+
+    Output:
+
+      [std::truncate_until]
+  (
+    str # the string to truncate
+    expr # the expression to look for
+    nth = 1 # look for the nth occurrence of *expr* instead for the first one
+  )
+  search $pos $len expr str nth
+  if
+    pos.is_defined
+    -> range(str pos+len -1)
+    -> str
+
+$std_types::string/from:
+  #
+    returns the substring starting with the specified expression
+
+    If the specified expression is found within the string the substring
+    starting with the expression is returned. Otherwise the empty string is
+    returned.
+
+    If *nth* is specified then the nth occurence of the expression *expr* is
+    looked for. If there are not at least *n* matches for *expr* within *str*
+    then the empty string is returned.
+
+    A very similar function is <string/truncate_before>. It behaves differently
+    only when the expression is *not* found.
+
+    Topic: Strings
+
+    See also: string/truncate_before, string/between, string/until, string/until
+
+    Example:
+
+      $identifier "std::from"
+      $last_part identifier .from. "::"
+      println! last_part
+
+    Output:
+
+      ::from
+
+    Example:
+
+      $identifier "std::from"
+      $first_part identifier .from. '.'
+      println! '[' first_part ']'
+
+    Output:
+
+      []
+  (
+    str # the input string
+    expr # the expression to look for
+    nth = 1 # look for the nth occurrence of *expr* instead for the first one
+  )
+  search $pos $_len expr str nth
+  if
+    pos.is_defined
+    -> range(str pos -1)
+    -> ""
+
+$std_types::string/truncate_before:
+  #
+    returns the substring starting with the specified expression
+
+    If the specified expression is found within the string the substring
+    starting with the expression is returned. Otherwise the string is returned
+    unaltered.
+
+    If *nth* is specified then the nth occurence of the expression *expr* is
+    looked for. If there are not at least *n* matches for *expr* within *str*
+    then the string is returned unaltered.
+
+    A very similar function is <string/from>. It behaves differently only when
+    the expression is *not* found.
+
+    Topic: Strings
+
+    See also: string/from, string/between, string/until, string/until
+
+    Example:
+
+      $identifier "std::truncate_before"
+      $last_part identifier .truncate_before. "::"
+      println! last_part
+
+    Output:
+
+      ::truncate_before
+
+    Example:
+
+      $identifier "std::truncate_before"
+      $first_part identifier .truncate_before. '.'
+      println! '[' first_part ']'
+
+    Output:
+
+      [std::truncate_before]
+  (
+    str # the string to truncate
+    expr # the expression to look for
+    nth = 1 # look for the nth occurrence of *expr* instead for the first one
+  )
+  search $pos $_len expr str nth
+  if
+    pos.is_defined
+    -> range(str pos -1)
+    -> str
+
+$std_types::string/until:
+  #
+    returns the substring until (including) the specified expression
+
+    If the specified expression is found within the string the substring
+    until the expression is returned. Otherwise the empty string is returned.
+
+    If *nth* is specified then the nth occurence of the expression *expr*
+    is looked for. If there are not at least *n* matches for *expr* within *str*
+    then the empty string is returned.
+
+    A very similar function is <string/truncate_behind>. It behaves differently
+    only when the expression is *not* found.
+
+    Topic: Strings
+
+    See also: string/truncate_behind, string/before, string/behind, string/from
+
+    Example:
+
+      $identifier "std::until"
+      $first_part identifier .until. "::"
+      println! first_part
+
+    Output:
+
+      std::
+
+    Example:
+
+      $identifier "std::until"
+      $first_part identifier .until. '.'
+      println! '<' first_part '>'
+
+    Output:
+
+      []
+  (
+    str # the input string
+    expr # the expression to look for
+    nth = 1 # look for the nth occurrence of *expr* instead for the first one
+  )
+  search $pos $len expr str nth
+  if
+    pos.is_defined
+    -> range(str 1 pos+len-1)
+    -> ""
+
+$std_types::string/truncate_behind:
+  #
+    returns the substring until (including) the specified expression
+
+    If the specified expression is found within the string the substring
+    until the expression is returned. Otherwise the string is returned
+    unaltered.
+
+    If *nth* is specified then the nth occurence of the expression *expr*
+    is looked for. If there are not at least *n* matches for *expr* within *str*
+    then the string is returned unaltered.
+
+    A very similar function is <string/until>. It behaves differently only when
+    the expression is *not* found.
+
+    Topic: Strings
+
+    See also: string/until, string/before, string/behind, string/from
+
+    Example:
+
+      $identifier "std::truncate_behind"
+      $first_part identifier .truncate_behind. "::"
+      println! first_part
+
+    Output:
+
+      std::
+
+    Example:
+
+      $identifier "std::truncate_behind"
+      $first_part identifier .truncate_behind. '.'
+      println! '[' first_part ']'
+
+    Output:
+
+      [std::truncate_behind]
+  (
+    str # the string to truncate
+    expr # the expression to look for
+    nth = 1 # look for the nth occurrence of *expr* instead for the first one
+  )
+  search $pos $len expr str nth
+  if
+    pos.is_defined
+    -> range(str 1 pos+len-1)
+    -> str
+
+$std_types::string/between:
+  #
+    returns the substring between two expressions
+
+    If the specified expressions are found within the string the substring
+    between the expressions is returned. Otherwise the empty string is
+    returned.
+
+    If *nth* is specified then the nth occurence of the first expression
+    *expr_1* is looked for. If there are not at least *n* matches for
+    *expr_1* within *str* then the empty string is returned.
+
+    Topic: Strings
+
+    See also: string/before, string/behind, string/until, string/from
+
+    Example:
+
+      $path "/home/user/"
+      $user_name between(path "/" "/" 2)
+      println! user_name
+
+    Output:
+
+      user
+  (
+    str # the input string
+    expr_1 # the expression on the left hand side
+    expr_2 # the expression on the right hand side
+    nth = 1 # look for the nth occurrence of *expr_1* instead for the first one
+  )
+  -> behind(str expr_1 nth) .before. expr_2
+
+$std_types::string/has_prefix:
+  #
+    checks whether the string has the specified prefix
+
+    Topic: Strings
+
+    See also: string/has_suffix, string/without_prefix, string/contains
+
+    Example:
+
+      $path "/home/user/"
+      if
+        path .has_prefix. "/home/":
+          println! "path starts with /home/"
+        :
+          println! "path does not start with /home/"
+  (
+    self # the string to check
+    prefix # the prefix to check for
+  )
+  -> match(prefix self).is_defined
+
+$std_types::string/has_suffix:
+  #
+    checks whether the string has the specified suffix
+
+    Topic: Strings
+
+    See also: string/has_prefix, string/without_suffix, string/contains
+
+    Example:
+
+      $path "/home/user/"
+      if
+        path .has_suffix. '/':
+          println! "path ends with a slash"
+        :
+          println! "path does not end with a slash"
+  (
+    self # the string to check
+    suffix # the suffix to check for
+  )
+  -> match_back(suffix self).is_defined
+
+$std_types::string/without_prefix:
+  #
+    returns the string without the specified prefix
+
+    Checks whether the string has the specified prefix and if so returns
+    the string without it. Otherwise the string is returned unaltered.
+
+    Topic: Strings
+
+    See also: string/without_suffix, string/has_prefix
+
+    Example:
+
+      $path "/home/user"
+      $user_name path .without_prefix. "/home/"
+      println! user_name
+
+    Output:
+
+      user
+  (
+    self # the string to process
+    prefix # the prefix to remove
+  )
+  $n match(prefix self)
+  if
+    n.is_defined
+    -> range(self n+1 -1)
+    -> self
+
+$std_types::string/without_suffix:
+  #
+    returns the string without the specified suffix
+
+    Checks whether the string has the specified suffix and if so returns
+    the string without it. Otherwise the string is returned unaltered.
+
+    Topic: Strings
+
+    See also: string/without_prefix, string/has_suffix
+
+    Example:
+
+      $path "/home/user"
+      $base_dir path .without_suffix. "/user"
+      println! base_dir
+
+    Output:
+
+      /home
+  (
+    self # the string to process
+    suffix # the suffix to remove
+  )
+  $n match_back(suffix self)
+  if
+    n.is_defined
+    -> range(self 1 -(n+1))
+    -> self
+
+$std_types::string/contains:
+  #
+    succeeds if the specified expression occurrs at least once within the string
+
+    Returns <true> if the specified expression occurs at least once within the
+    string.
+
+    Returns <false> if the specified expression does not occur within the
+    string.
+
+    Topic: Strings
+
+    See also: string/has_prefix, string/has_suffix
+
+    Example:
+
+      $path "/home/user/.bashrc"
+      if
+        path .contains. "/user/":
+          println! "path contains /user/"
+        :
+          println! "path does not contain /user/"
+  (
+    self
+    expr
+  )
+  search $pos $_len expr self
+  -> pos.is_defined
+
+$std::split:
+  #
+    splits a string into several parts and returns a list of these parts
+
+    The separators are removed.
+
+    Topic: Strings
+
+    See also: string/join
+
+    Example:
+
+      $items split("a;b;c" ";")
+      dump! `items
+
+    Output:
+
+      items: list <3>
+        "a"
+        "b"
+        "c"
+
+    Example:
+
+      $items split("a;b;" ";")
+      dump! `items
+
+    Output:
+
+      items: list <3>
+        "a"
+        "b"
+        ""
+  (
+    self
+    separator = ' '
+  )
+  $rc result_count()
+  if
+    self.is_empty
+    -> empty_list
+    :
+      $items empty_list
+      loop:
+        search $pos $len separator self
+        if
+          pos.is_defined:
+            push &items range(self 1 pos-1)
+            range &self pos+len -1
+            next
+          :
+            push &items self
+            if
+              rc == 1
+              -> items
+              :
+                spread items
+
+$std::join:
+  #
+    concatenates the list items using the specified separator
+
+    Returns a string which is the concatenation of all the list items
+    separated by the specified separator.
+
+    If the list is empty then the empty string is returned.
+
+    Topic: Strings
+
+    See also: string/split
+
+    Example:
+
+      $items list("a" "b" "c")
+      $str join(items ";")
+      println! str
+
+    Output:
+
+      a;b;c
+  (
+    items
+    separator = " "
+  )
+  to_string &separator
+  map_reduce
+    items to_string
+    : (left right) append left separator right
+    ""
+
+$std::trim:
+  #
+    removes leading and trailing whitespace
+
+    Returns a string which is the specified string without any leading or
+    trailing whitespace.
+
+    Topic: Strings
+
+    See also: string/trim_left, string/trim_right, string/normalize
+
+    Example:
+
+      $str "   text   "
+      $trimmed_str trim(str)
+      println! '*' trimmed_str '*'
+
+    Output:
+
+      *text*
+  (
+    self
+    test = is_a_whitespace_character
+  )
+  $s 1
+  $e length_of(self)
+  loop:
+    if
+      s <= e && test(self(s)):
+        inc &s
+        next
+      :
+        loop:
+          if
+            e >= s && test(self(e)):
+              dec &e
+              next
+            :
+              range self s e
+
+$std::trim_left:
+  #
+    removes leading whitespace
+
+    Returns a string which is the specified string without any leading
+    whitespace.
+
+    Topic: Strings
+
+    See also: string/trim, string/trim_right
+
+    Example:
+
+      $str "   text   "
+      $trimmed_str trim_left(str)
+      println! '*' trimmed_str '*'
+
+    Output:
+
+      *text   *
+  (
+    self
+    test = is_a_whitespace_character
+  )
+  $s 1
+  $e length_of(self)
+  loop:
+    if
+      s <= e && test(self(s)):
+        inc &s
+        next
+      :
+        range self s e
+
+[source]
+
+$std::has_suffix ()
+  #
+    returns *true* if the second argument is a suffix of the first argument
+
+$std_types::string/has_suffix:
+  #
+    checks whether the string has the specified suffix
+
+    Topic: Strings
+
+    See also: string/has_prefix, string/without_suffix, string/contains
+
+    Example:
+
+      $path "/home/user/"
+      if
+        path .has_suffix. '/':
+          println! "path ends with a slash"
+        :
+          println! "path does not end with a slash"
+  (
+    self # the string to check
+    suffix # the suffix to check for
+  )
+  -> match_back(suffix self).is_defined
+
+[documentation remark]
+
+### Always copy examples contained in the symbol's description remark
+    into the documentation
+
+### Use only one of the following topics: Strings
+
+# std_types::string/std::has_suffix (a method)
+

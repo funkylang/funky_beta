@@ -1,0 +1,766 @@
+[GUIDELINES]
+
+All documentation remarks must have
+
+* a single short (single line) description written in lower case
+
+* a parameter(s) section (if appropriate)
+
+* a result(s) section (if appropriate)
+
+* a detailed description of how to use the symbol: when describing unique
+  items of constants, describe how to use them;
+  do not repeat yourself
+
+* one or more associated topic(s) (if appropriate)
+
+* a "See also" entry - mention only a view relevant symbols here
+
+Do not mention unknown symbols!
+
+Do not mention more than 10 symbols in the "See also" entry.
+
+DO NOT MENTION MORE THAN 10 SYMBOLS IN THE "See also" ENTRY!
+
+Do not mention internal details of functions.
+
+Do not start each sentence in the description with "If" or "The".
+
+DO NOT START EACH SENTENCE IN THE DESCRIPTION WITH "If" OR "The"!
+
+Do not tell the user what a function does not do.
+
+When referring to another symbol write it enclosed in angle brackets, e.g.
+<std::clear>.
+
+The "self"-parameter is a normal parameter like any other and should be
+mentioned in the the parameter description.
+
+Replace symbolic constants by their value.
+
+Operations on I/O-objects are not executed immediately but queued as jobs.
+To identify a job, an "id" is used.
+
+I/O-functions and I/O-methods either need I/O-access rights or propagate
+them ("if", "for_each", etc.).
+
+An "example" section, if available, must use Funky syntax and shall not be too
+long.
+
+If there is an appropriate example in the source code then use this example
+in the "example" section!
+
+[EXAMPLES]
+
+[source]
+
+TYPE std_types::object
+
+[documentation remark]
+
+# std_types::object (a builtin type)
+
+  the prototype object for all "normal" objects
+
+  This is one of the three Funky root objects.
+
+  Topics: Basics, Objects
+
+  See also: std_types::undefined, std_types::error
+
+[source]
+
+TYPE std_types::number -> std_types::object
+
+[documentation remark]
+
+# std_types::number (a builtin type derived from std_types::object)
+
+  the prototype object for all kinds of numbers
+
+  Topic: Numbers
+
+  See also: std_types::integer, std_types::real
+
+[source]
+
+METHOD std_types::array/_type
+  {
+    ARRAY_DATA *data = MYSELF->array.data;
+    int dimension_count = data->info->dimension_count;
+    MIN_ARGUMENTS(dimension_count)
+    MAX_ARGUMENTS(dimension_count+1)
+    if (ARGUMENT_COUNT == dimension_count) {
+      // get item
+      data = apply_array_updates((ARRAY *)MYSELF);
+      // info and view could have been updated!
+      long offset = compute_array_read_offset(
+        MYSELF, data->info, MYSELF->array.view);
+      if (offset < 0) return;
+      NODE *value;
+      value = data->items[offset];
+      RETURN_SINGLE_RESULT(value);
+    } else {
+      // set item
+      long offset = compute_array_write_offset(
+        MYSELF, data->info, MYSELF->array.view);
+      if (offset < 0) return;
+      NODE *value;
+      value = ARGUMENTS(dimension_count);
+      long length = MYSELF->array.updates_length;
+      MYSELF =
+        add_update(
+          (ARRAY *)MYSELF, sizeof(UPDATE_ARRAY_DATA_SET_VALUE));
+      UPDATE_ARRAY_DATA_SET_VALUE *update =
+        (UPDATE_ARRAY_DATA_SET_VALUE *)
+        (MYSELF->array.updates->buffer+length);
+      update->tag = SET_VALUE;
+      update->offset = offset;
+      update->value = value;
+      RETURN_SINGLE_RESULT(MYSELF)
+    }
+  }
+
+TYPE std_types::array -> std_types::generic_array
+
+[documentation remark]
+
+# std_types::array (a builtin type derived from std_types::generic_array)
+
+  the prototype object for all arrays
+
+  Parameters:
+    indices: the indices of the array elements
+    value: the new value (only for updates)
+
+  Result:
+    value_or_array: the value at the specified position or the updated array
+
+  Updates to arrays are delayed until the array is read.
+
+  Array indices are one-based.
+
+  Arrays can hold any kind of values.
+
+  Topics: Arrays, Collections
+
+  See also: std_types::list
+
+  Example:
+
+    $a array(3 2) # a new array with 3 rows and 2 columns
+    !a(2 1) 47 # use syntactic sugar to assign a value to an array element
+    !a a(3 2 11) # without syntactic sugar
+    println! a(2 1)
+    println! a(3 2)
+
+  Output:
+
+    47
+    11
+
+[EXERCISE]
+
+[symbols]
+
+TYPE std_types::tuple -> std_types::object
+METHOD std_types::tuple/_type
+METHOD std_types::tuple/new
+FUNCTION NODE *create_tuple
+FUNCTION void set_tuple_item
+TYPE builtin_types::tuple2 -> std_types::tuple
+METHOD builtin_types::tuple2/_type
+METHOD long builtin_types::tuple2/_debug_string
+METHOD builtin_types::tuple2/to_list
+METHOD builtin_types::tuple2/new
+TYPE builtin_types::tuple3 -> std_types::tuple
+METHOD builtin_types::tuple3/_type
+METHOD long builtin_types::tuple3/_debug_string
+METHOD builtin_types::tuple3/to_list
+METHOD builtin_types::tuple3/new
+TYPE builtin_types::tuple4 -> std_types::tuple
+METHOD builtin_types::tuple4/_type
+METHOD long builtin_types::tuple4/_debug_string
+METHOD builtin_types::tuple4/to_list
+METHOD builtin_types::tuple4/new
+TYPE builtin_types::tuple5 -> std_types::tuple
+METHOD builtin_types::tuple5/_type
+METHOD long builtin_types::tuple5/_debug_string
+METHOD builtin_types::tuple5/to_list
+METHOD builtin_types::tuple5/new
+TYPE builtin_types::tuple6 -> std_types::tuple
+METHOD builtin_types::tuple6/_type
+METHOD long builtin_types::tuple6/_debug_string
+METHOD builtin_types::tuple6/to_list
+METHOD builtin_types::tuple6/new
+TYPE builtin_types::tuple7 -> std_types::tuple
+METHOD builtin_types::tuple7/_type
+METHOD long builtin_types::tuple7/_debug_string
+METHOD builtin_types::tuple7/to_list
+METHOD builtin_types::tuple7/new
+TYPE builtin_types::tuple8 -> std_types::tuple
+METHOD builtin_types::tuple8/_type
+METHOD long builtin_types::tuple8/_debug_string
+METHOD builtin_types::tuple8/to_list
+METHOD builtin_types::tuple8/new
+FUNCTION std::tuple
+FUNCTION std::tuple_or_error
+FUNCTION std::new_tuple
+
+#
+  This file was automatically generated by the script
+  "tuples_autogen.sim" - do not edit!
+
+#
+  Copyright (C) 2022 by
+  Dipl.-Ing. Michael Niederle
+
+  This program is free software; you can redistribute it and/or modify
+  it under the terms of the GNU General Public License, version 2, or
+  (at your option) version 3.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  GNU General Public License for more details.
+
+  For details of the GNU General Public License see the accompanying
+  files GPLv2.txt and GLPv3.txt or
+  http://www.gnu.org/licenses/gpl-2.0.html
+  http://www.gnu.org/licenses/gpl-3.0.html
+  or write to the
+  Free Software Foundation, Inc.,
+  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+
+# Topic: Tuples, Collections
+
+TYPE std_types::tuple -> std_types::object
+  #
+    the prototype object for all tuples
+
+    Topic: Collections
+
+METHOD std_types::tuple/_type
+  {
+    RUNTIME_ERROR("Attempt to call the tuple prototype object as a function!")
+  }
+
+METHOD std_types::tuple/new
+  #
+    clones the specified tuple and replace its contents
+
+    The first argument is used as a prototype which supplies the methods for
+    the newly created tuple. All items of the prototype tuple are replaced
+    with the specified items. You must supply as many items as the prototype
+    tuple contains.
+
+    Arguments:
+      prototype # the prototype for the new list
+      first_item
+      ...
+      last_item
+
+    See also: list
+  {
+    RUNTIME_ERROR("Attempt to clone the tuple prototype object!")
+  }
+
+FUNCTION NODE *create_tuple
+  #
+    To be used from the runtime linker only!
+
+    This function returns a partially uninitialized object!
+  (
+    long count
+  )
+  {
+    switch (count) {
+      case 2:
+        return CREATE(builtin_types::tuple2, NULL, NULL);
+      case 3:
+        return CREATE(builtin_types::tuple3, NULL, NULL, NULL);
+      case 4:
+        return CREATE(builtin_types::tuple4, NULL, NULL, NULL, NULL);
+      case 5:
+        return CREATE(builtin_types::tuple5, NULL, NULL, NULL, NULL, NULL);
+      case 6:
+        return CREATE(builtin_types::tuple6, NULL, NULL, NULL, NULL, NULL, NULL);
+      case 7:
+        return CREATE(builtin_types::tuple7, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+      case 8:
+        return CREATE(builtin_types::tuple8, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+      default:
+        unrecoverable_error("Invalid tuple element count!");
+    }
+  }
+
+FUNCTION void set_tuple_item
+  #
+    To be used from the runtime linker only!
+
+    The index is zero based!
+
+    This function does a destructive update!
+  (
+    NODE *tuple,
+    long idx,
+    NODE *value
+  )
+  {
+    ((NODE **)((SIMPLE_NODE *)tuple+1))[idx] = value;
+  }
+
+TYPE builtin_types::tuple2 -> std_types::tuple
+  NODE *node_0
+  NODE *node_1
+
+METHOD builtin_types::tuple2/_type
+  {
+    CHECK_ARGUMENTS(0)
+    MIN_RESULTS(1)
+    MAX_RESULTS(2)
+    START_ARGUMENTS(RESULT_COUNT)
+    switch (RESULT_COUNT) {
+      case 2: ARGUMENTS(1) = MYSELF->tuple2.node_1;
+      case 1: ARGUMENTS(0) = MYSELF->tuple2.node_0;
+    }
+    RETURN
+  }
+
+METHOD long builtin_types::tuple2/_debug_string
+  (
+    NODE *node,
+    int indent,
+    int max_depth,
+    char *buf
+  )
+  {
+    /*NODE *subtype = get_attribute(node, poly_idx__std___subtype_of);
+    if (CONTAINS_AN_ATTRIBUTE_VALUE(subtype)) {
+      subtype = RETRIEVE_ATTRIBUTE_VALUE(subtype);
+      if (TYPEOF(subtype) == TYPE(std_types::undefined)) {
+        subtype = NULL;
+      }
+    } else {
+      subtype = NULL;
+    }*/
+    long n, len;
+    if (max_depth <= 1) {
+      /*if (subtype) {
+        n = 0;
+        if (indent < 0) {
+          if (buf) *buf++ = ' ';
+          ++n;
+        }
+        n += print(&buf, "<tuple-");
+        len = debug_string(subtype, 0, max_depth, buf);
+        --len; // remove trailing newline
+        if (buf) buf += len;
+        n += len;
+        n += print(&buf, ">\n");
+        return n;
+      } else {*/
+        return debug_print(indent, buf, "<tuple of 2 items>");
+      /*}*/
+    } else {
+      long i;
+      n = debug_print_head(&indent, &buf, "tuple");
+      /*if (subtype) {
+        // replace the trailing newline with a hyphen
+        if (buf) buf[-1] = '-';
+        len = debug_string(subtype, 0, max_depth, buf);
+        if (buf) buf += len;
+        n += len;
+      }*/
+      const char *contents_indent = indent_to_string(indent);
+      NODE **node_p = &node->tuple2.node_0;
+      for (i = 0; i < 2; ++i) {
+        n += print(&buf, contents_indent);
+        len = debug_string(node_p[i], indent, max_depth-1, buf);
+        if (buf) buf += len;
+        n += len;
+      }
+      return n;
+    }
+  }
+
+METHOD builtin_types::tuple2/to_list
+  {
+    CHECK_ARGUMENTS(1)
+    NODE *self = ARGUMENTS(0);
+    LIST_DATA *data = allocate(sizeof(LIST_DATA)+2*sizeof(NODE *));
+    data->size = 2;
+    data->length = 2;
+    data->items[0] = self->tuple2.node_0;
+    data->items[1] = self->tuple2.node_1;
+    RETURN_SINGLE_RESULT(CREATE(std_types::list, 0, 2, data))
+  }
+
+METHOD builtin_types::tuple2/new
+  {
+    CHECK_ARGUMENTS(3)
+    NODE *prototype = ARGUMENTS(0);
+    NODE *clone =
+      CREATE(
+        builtin_types::tuple2,
+        ARGUMENTS(1),
+        ARGUMENTS(2)
+      );
+    clone->attributes = prototype->attributes;
+    RETURN_SINGLE_RESULT(clone)
+  }
+
+TYPE builtin_types::tuple3 -> std_types::tuple
+  NODE *node_0
+  NODE *node_1
+  NODE *node_2
+
+METHOD builtin_types::tuple3/_type
+  {
+    CHECK_ARGUMENTS(0)
+    MIN_RESULTS(1)
+    MAX_RESULTS(3)
+    START_ARGUMENTS(RESULT_COUNT)
+    switch (RESULT_COUNT) {
+      case 3: ARGUMENTS(2) = MYSELF->tuple3.node_2;
+      case 2: ARGUMENTS(1) = MYSELF->tuple3.node_1;
+      case 1: ARGUMENTS(0) = MYSELF->tuple3.node_0;
+    }
+    RETURN
+  }
+
+METHOD long builtin_types::tuple3/_debug_string
+  (
+    NODE *node,
+    int indent,
+    int max_depth,
+    char *buf
+  )
+  {
+    /*NODE *subtype = get_attribute(node, poly_idx__std___subtype_of);
+    if (CONTAINS_AN_ATTRIBUTE_VALUE(subtype)) {
+      subtype = RETRIEVE_ATTRIBUTE_VALUE(subtype);
+      if (TYPEOF(subtype) == TYPE(std_types::undefined)) {
+        subtype = NULL;
+      }
+    } else {
+      subtype = NULL;
+    }*/
+    long n, len;
+    if (max_depth <= 1) {
+      /*if (subtype) {
+        n = 0;
+        if (indent < 0) {
+          if (buf) *buf++ = ' ';
+          ++n;
+        }
+        n += print(&buf, "<tuple-");
+        len = debug_string(subtype, 0, max_depth, buf);
+        --len; // remove trailing newline
+        if (buf) buf += len;
+        n += len;
+        n += print(&buf, ">\n");
+        return n;
+      } else {*/
+        return debug_print(indent, buf, "<tuple of 3 items>");
+      /*}*/
+    } else {
+      long i;
+      n = debug_print_head(&indent, &buf, "tuple");
+      /*if (subtype) {
+        // replace the trailing newline with a hyphen
+        if (buf) buf[-1] = '-';
+        len = debug_string(subtype, 0, max_depth, buf);
+        if (buf) buf += len;
+        n += len;
+      }*/
+      const char *contents_indent = indent_to_string(indent);
+      NODE **node_p = &node->tuple3.node_0;
+      for (i = 0; i < 3; ++i) {
+        n += print(&buf, contents_indent);
+        len = debug_string(node_p[i], indent, max_depth-1, buf);
+        if (buf) buf += len;
+        n += len;
+      }
+      return n;
+    }
+  }
+
+METHOD builtin_types::tuple3/to_list
+  {
+    CHECK_ARGUMENTS(1)
+    NODE *self = ARGUMENTS(0);
+    LIST_DATA *data = allocate(sizeof(LIST_DATA)+3*sizeof(NODE *));
+    data->size = 3;
+    data->length = 3;
+    data->items[0] = self->tuple3.node_0;
+    data->items[1] = self->tuple3.node_1;
+    data->items[2] = self->tuple3.node_2;
+    RETURN_SINGLE_RESULT(CREATE(std_types::list, 0, 3, data))
+  }
+
+METHOD builtin_types::tuple3/new
+  {
+    CHECK_ARGUMENTS(4)
+    NODE *prototype = ARGUMENTS(0);
+    NODE *clone =
+      CREATE(
+        builtin_types::tuple3,
+        ARGUMENTS(1),
+        ARGUMENTS(2),
+        ARGUMENTS(3)
+      );
+    clone->attributes = prototype->attributes;
+    RETURN_SINGLE_RESULT(clone)
+  }
+
+TYPE builtin_types::tuple4 -> std_types::tuple
+  NODE *node_0
+  NODE *node_1
+  NODE *node_2
+  NODE *node_3
+
+METHOD builtin_types::tuple4/_type
+  {
+    CHECK_ARGUMENTS(0)
+    MIN_RESULTS(1)
+    MAX_RESULTS(4)
+    START_ARGUMENTS(RESULT_COUNT)
+    switch (RESULT_COUNT) {
+      case 4: ARGUMENTS(3) = MYSELF->tuple4.node_3;
+      case 3: ARGUMENTS(2) = MYSELF->tuple4.node_2;
+      case 2: ARGUMENTS(1) = MYSELF->tuple4.node_1;
+      case 1: ARGUMENTS(0) = MYSELF->tuple4.node_0;
+    }
+    RETURN
+  }
+
+METHOD long builtin_types::tuple4/_debug_string
+  (
+    NODE *node,
+    int indent,
+    int max_depth,
+    char *buf
+  )
+  {
+    /*NODE *subtype = get_attribute(node, poly_idx__std___subtype_of);
+    if (CONTAINS_AN_ATTRIBUTE_VALUE(subtype)) {
+      subtype = RETRIEVE_ATTRIBUTE_VALUE(subtype);
+      if (TYPEOF(subtype) == TYPE(std_types::undefined)) {
+        subtype = NULL;
+      }
+    } else {
+      subtype = NULL;
+    }*/
+    long n, len;
+    if (max_depth <= 1) {
+      /*if (subtype) {
+        n = 0;
+        if (indent < 0) {
+          if (buf) *buf++ = ' ';
+          ++n;
+        }
+        n += print(&buf, "<tuple-");
+        len = debug_string(subtype, 0, max_depth, buf);
+        --len; // remove trailing newline
+        if (buf) buf += len;
+        n += len;
+        n += print(&buf, ">\n");
+        return n;
+      } else {*/
+        return debug_print(indent, buf, "<tuple of 4 items>");
+      /*}*/
+    } else {
+      long i;
+      n = debug_print_head(&indent, &buf, "tuple");
+      /*if (subtype) {
+        // replace the trailing newline with a hyphen
+        if (buf) buf[-1] = '-';
+        len = debug_string(subtype, 0, max_depth, buf);
+        if (buf) buf += len;
+        n += len;
+      }*/
+      const char *contents_indent = indent_to_string(indent);
+      NODE **node_p = &node->tuple4.node_0;
+      for (i = 0; i < 4; ++i) {
+        n += print(&buf, contents_indent);
+        len = debug_string(node_p[i], indent, max_depth-1, buf);
+        if (buf) buf += len;
+        n += len;
+      }
+      return n;
+    }
+  }
+
+METHOD builtin_types::tuple4/to_list
+  {
+    CHECK_ARGUMENTS(1)
+    NODE *self = ARGUMENTS(0);
+    LIST_DATA *data = allocate(sizeof(LIST_DATA)+4*sizeof(NODE *));
+    data->size = 4;
+    data->length = 4;
+    data->items[0] = self->tuple4.node_0;
+    data->items[1] = self->tuple4.node_1;
+    data->items[2] = self->tuple4.node_2;
+    data->items[3] = self->tuple4.node_3;
+    RETURN_SINGLE_RESULT(CREATE(std_types::list, 0, 4, data))
+  }
+
+METHOD builtin_types::tuple4/new
+  {
+    CHECK_ARGUMENTS(5)
+    NODE *prototype = ARGUMENTS(0);
+    NODE *clone =
+      CREATE(
+        builtin_types::tuple4,
+        ARGUMENTS(1),
+        ARGUMENTS(2),
+        ARGUMENTS(3),
+        ARGUMENTS(4)
+      );
+    clone->attributes = prototype->attributes;
+    RETURN_SINGLE_RESULT(clone)
+  }
+
+TYPE builtin_types::tuple5 -> std_types::tuple
+  NODE *node_0
+  NODE *node_1
+  NODE *node_2
+  NODE *node_3
+  NODE *node_4
+
+METHOD builtin_types::tuple5/_type
+  {
+    CHECK_ARGUMENTS(0)
+    MIN_RESULTS(1)
+    MAX_RESULTS(5)
+    START_ARGUMENTS(RESULT_COUNT)
+    switch (RESULT_COUNT) {
+      case 5: ARGUMENTS(4) = MYSELF->tuple5.node_4;
+      case 4: ARGUMENTS(3) = MYSELF->tuple5.node_3;
+      case 3: ARGUMENTS(2) = MYSELF->tuple5.node_2;
+      case 2: ARGUMENTS(1) = MYSELF->tuple5.node_1;
+      case 1: ARGUMENTS(0) = MYSELF->tuple5.node_0;
+    }
+    RETURN
+  }
+
+METHOD long builtin_types::tuple5/_debug_string
+  (
+    NODE *node,
+    int indent,
+    int max_depth,
+    char *buf
+  )
+  {
+    /*NODE *subtype = get_attribute(node, poly_idx__std___subtype_of);
+    if (CONTAINS_AN_ATTRIBUTE_VALUE(subtype)) {
+      subtype = RETRIEVE_ATTRIBUTE_VALUE(subtype);
+      if (TYPEOF(subtype) == TYPE(std_types::undefined)) {
+        subtype = NULL;
+      }
+    } else {
+      subtype = NULL;
+    }*/
+    long n, len;
+    if (max_depth <= 1) {
+      /*if (subtype) {
+        n = 0;
+        if (indent < 0) {
+          if (buf) *buf++ = ' ';
+          ++n;
+        }
+        n += print(&buf, "<tuple-");
+        len = debug_string(subtype, 0, max_depth, buf);
+        --len; // remove trailing newline
+        if (buf) buf += len;
+        n += len;
+        n += print(&buf, ">\n");
+        return n;
+      } else {*/
+        return debug_print(indent, buf, "<tuple of 5 items>");
+      /*}*/
+    } else {
+      long i;
+      n = debug_print_head(&indent, &buf, "tuple");
+      /*if (subtype) {
+        // replace the trailing newline with a hyphen
+        if (buf) buf[-1] = '-';
+        len = debug_string(subtype, 0, max_depth, buf);
+        if (buf) buf += len;
+        n += len;
+      }*/
+      const char *contents_indent = indent_to_string(indent);
+      NODE **node_p = &node->tuple5.node_0;
+      for (i = 0; i < 5; ++i) {
+        n += print(&buf, contents_indent);
+        len = debug_string(node_p[i], indent, max_depth-1, buf);
+        if (buf) buf += len;
+        n += len;
+      }
+      return n;
+    }
+  }
+
+METHOD builtin_types::tuple5/to_list
+  {
+    CHECK_ARGUMENTS(1)
+    NODE *self = ARGUMENTS(0);
+    LIST_DATA *data = allocate(sizeof(LIST_DATA)+5*sizeof(NODE *));
+    data->size = 5;
+    data->length = 5;
+    data->items[0] = self->tuple5.node_0;
+    data->items[1] = self->tuple5.node_1;
+    data->items[2] = self->tuple5.node_2;
+    data->items[3] = self->tuple5.node_3;
+    data->items[4] = self->tuple5.node_4;
+    RETURN_SINGLE_RESULT(CREATE(std_types::list, 0, 5, data))
+  }
+
+METHOD builtin_types::tuple5/new
+  {
+    CHECK_ARGUMENTS(6)
+    NODE *prototype = ARGUMENTS(0);
+    NODE *clone =
+      CREATE(
+        builtin_types::tuple5,
+        ARGUMENTS(1),
+        ARGUMENTS(2),
+        ARGUMENTS(3),
+        ARGUMENTS(4),
+        ARGUMENTS(5)
+      );
+    clone->attributes = prototype->attributes;
+    RETURN_SINGLE_RESULT(clone)
+  }
+
+TYPE builtin_types::tuple6 -> std_types::tuple
+  NODE *node_0
+  NODE *node_1
+  NODE *node_2
+  NODE *node_3
+  NODE *node_4
+  NODE *node_5
+
+[source]
+
+METHOD std_types::tuple/_type
+  {
+    RUNTIME_ERROR("Attempt to call the tuple prototype object as a function!")
+  }
+
+TYPE std_types::tuple -> std_types::object
+  #
+    the prototype object for all tuples
+
+    Topic: Collections
+
+[documentation remark]
+
+### Always copy examples contained in the symbol's description remark
+    into the documentation
+
+### Use only one of the following topics: Tuples, Collections
+
+# std_types::tuple (a builtin type derived from std_types::object)
+

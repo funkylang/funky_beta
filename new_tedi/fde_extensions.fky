@@ -81,6 +81,12 @@ $fde::context_help: (io state x y lines _info)
 		next
 		:
 		  $filename "html/symbols/@(namespace)__@(identifier).html"
+		  append
+		    installation_prefix()
+		    "/share/funky-"
+		    package_version()
+		    "/"
+		    &filename
 		  load &io LOAD_HELP filename undefined tuple(filename undefined)
 		    # tuple(filename id): id == undefined -> open in new window
 		  -> io state

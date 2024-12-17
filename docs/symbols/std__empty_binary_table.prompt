@@ -1,0 +1,789 @@
+[MANUAL]
+
+In Funky function calls are either written on a single line with arguments
+enclosed within parentheses and separated by single spaces, e.g.:
+
+print! f(a b c) g(x y z)
+
+or they are written in indentation style using mutliple lines:
+
+print!
+  f
+    a
+    b
+    c
+  g
+    x
+    y
+    z
+
+Functions that create any output or read any input need I/O-access rights.
+
+A function that needs I/O-access rights must be called with a trailing
+exclamation mark after the function name, e.g.:
+
+println! "Hello, World!"
+
+The expression
+
+key = value
+
+denotes a key-value-pair.
+
+Collection types cannot be printed directly. You can use "dump!" to
+dump the contents of a collection, e.g.:
+
+$ages
+  hash_table
+    "John" = 42
+    "Mary" = 25
+    "Irene" = 49
+
+dump! `ages
+
+Output:
+
+ages: hash_table <6>
+  "Mary"
+  25
+  "Irene"
+  49
+  "John"
+  42
+
+Note: The number in angular brackets after the typename denotes the number
+of (indented) lines that follow the head.
+
+A tail call returns the result of the called function; e.g.:
+
+$calc:
+  (
+    x
+    y
+  )
+  plus x*x y*y
+
+println! calc(2 3)
+
+prints
+
+13
+
+[GUIDELINES]
+
+All documentation remarks must have
+
+* a single short (single line) description written in lower case
+
+* a parameter(s) section (if appropriate)
+
+* a result(s) section (if appropriate)
+
+* a detailed description of how to use the symbol: when describing unique
+  items of constants, describe how to use them;
+  do not repeat yourself
+
+* one or more associated topic(s) (if appropriate)
+
+* a "See also" entry - mention only a view relevant symbols here
+
+Do not mention unknown symbols!
+
+Do not mention more than 10 symbols in the "See also" entry.
+
+DO NOT MENTION MORE THAN 10 SYMBOLS IN THE "See also" ENTRY!
+
+Do not mention internal details of functions.
+
+Do not start each sentence in the description with "If" or "The".
+
+DO NOT START EACH SENTENCE IN THE DESCRIPTION WITH "If" OR "The"!
+
+Do not tell the user what a function does not do.
+
+When referring to another symbol write it enclosed in angle brackets, e.g.
+<std::clear>.
+
+The "self"-parameter is a normal parameter like any other and should be
+mentioned in the the parameter description.
+
+Replace symbolic constants by their value.
+
+Operations on I/O-objects are not executed immediately but queued as jobs.
+To identify a job, an "id" is used.
+
+I/O-functions and I/O-methods either need I/O-access rights or propagate
+them ("if", "for_each", etc.).
+
+An "example" section, if available, must use Funky syntax and shall not be too
+long.
+
+If there is an appropriate example in the source code then use this example
+in the "example" section!
+
+[EXAMPLES]
+
+[source]
+
+$std::DIGIT '0'..'9'
+
+[documentation remark]
+
+# std::DIGIT (an object)
+
+  a value used to match a digit
+
+  Topic: Grammar Objects
+
+  See also: std::LETTER, std::ALPHANUMERIC
+
+[EXERCISE]
+
+[symbols]
+
+
+# Topics: Tables, Collections
+
+$std::validate ()
+
+# shared attributes:
+
+$basic_collections::contents_of ()
+$basic_collections::retrieve ()
+$basic_collections::for_each_1_left ()
+$basic_collections::for_each_1_call ()
+$basic_collections::for_each_1_right ()
+$basic_collections::for_each_2_left ()
+$basic_collections::for_each_2_call ()
+$basic_collections::for_each_2_right ()
+$basic_collections::map_1 ()
+$basic_collections::map_2 ()
+$basic_collections::is_an_empty_node ()
+$basic_collections::empty_binary_node.is_an_empty_node true
+$std_types::binary_table.length_of 0
+
+# internal methods:
+
+$std::is_a_binary_table () # obvious
+$std_types::object.is_a_binary_table false # obvious
+$std_types::binary_table.is_a_binary_table true # obvious
+$std_types::binary_table std_types::table
+$std_types::binary_table.contents_of basic_collections::empty_binary_node
+$std::empty_binary_table std_types::binary_table
+$basic_collections::empty_binary_node
+$std_types::binary_table/:
+
+# retrieve
+
+$basic_collections::empty_binary_node/retrieve: (_self _key) -> undefined
+$basic_collections::retrieve_method: (self key)
+
+# insert
+
+$basic_collections::empty_binary_node/insert: (_self key value)
+
+# delete
+
+$basic_collections::empty_binary_node/delete: (self _key) -> self false
+
+# for_each
+
+$basic_collections::for_each_1_left_method: (self)
+$basic_collections::for_each_2_left_method: (self)
+$basic_collections::for_each_1_call_method: (self)
+$basic_collections::for_each_2_call_method: (self)
+$basic_collections::for_each_1_right_method: (self)
+$basic_collections::for_each_2_right_method: (self)
+$std_types::binary_table/for_each:
+
+# map
+
+$basic_collections::empty_binary_node/map_1: (self) -> self
+$basic_collections::empty_binary_node/map_2: (self) -> self
+$basic_collections::map_1_method: (self)
+$basic_collections::map_2_method: (self)
+$std_types::binary_table/map:
+
+# reduce
+
+$std_types::binary_table/reduce:
+
+# map_reduce
+
+$std_types::binary_table/map_reduce:
+
+# validate
+
+$basic_collections::empty_binary_node/validate: (_self _low _high) -> 0
+$std_types::binary_table/validate: (self)
+
+#
+  Copyright (C) 2022 by
+  Dipl.-Ing. Michael Niederle
+
+  This program is free software; you can redistribute it and/or modify
+  it under the terms of the GNU Library General Public License, version 2, or
+  (at your option) under the terms of the GNU Lesser General Public License,
+  version 3.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  GNU Lesser (Library) General Public License for more details.
+
+  For details of the GNU General Public License see the accompanying
+  files LGPLv2.txt and LGLPv3.txt or
+  http://www.gnu.org/licenses/lgpl-2.0.html
+  http://www.gnu.org/licenses/lgpl-3.0.html
+  or write to the
+  Free Software Foundation, Inc.,
+  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+
+<using std>
+
+<using basic_collections>
+
+# Topics: Tables, Collections
+
+$std::validate ()
+
+# shared attributes:
+
+$basic_collections::contents_of ()
+
+$basic_collections::retrieve ()
+
+$basic_collections::for_each_1_left ()
+
+$basic_collections::for_each_1_call ()
+
+$basic_collections::for_each_1_right ()
+
+$basic_collections::for_each_2_left ()
+
+$basic_collections::for_each_2_call ()
+
+$basic_collections::for_each_2_right ()
+
+$basic_collections::map_1 ()
+
+$basic_collections::map_2 ()
+
+$basic_collections::is_an_empty_node ()
+
+$basic_collections::empty_binary_node.is_an_empty_node true
+
+$std_types::binary_table.length_of 0
+
+# internal methods:
+
+$insert ()
+
+$delete ()
+
+$std::is_a_binary_table () # obvious
+
+$std_types::object.is_a_binary_table false # obvious
+
+$std_types::binary_table.is_a_binary_table true # obvious
+
+$node.is_an_empty_node false
+
+$std_types::binary_table std_types::table
+  #
+    a table based on binary trees
+
+$std_types::binary_table.contents_of basic_collections::empty_binary_node
+
+$std::empty_binary_table std_types::binary_table
+  #
+    an empty binary table
+
+    Topics: Tables, Collections
+
+    See also: std_types::binary_table
+
+$basic_collections::empty_binary_node
+  tuple(undefined undefined undefined undefined 0)
+
+$node tuple(undefined undefined undefined undefined)
+
+$NONE .
+
+$std_types::binary_table/:
+  #
+    the "type function" for binary
+
+    It is used to set or retrieve an element in the binary table.
+
+    Topics: Tables, Collections
+
+    See also: std_types::binary_table
+
+    Example:
+
+      <require basic/stdlib>
+      <require basic/types/collections/tables/binary_table>
+
+      $ages empty_binary_table
+      !ages("Victor") 23
+      !ages("Robert") 25
+      !ages("Eva") 27
+      println! serialize(ages 0)
+
+    Output:
+
+      object <6>
+        "Eva"
+        27
+        "Robert"
+        25
+        "Victor"
+        23
+  (
+    myself^
+    key
+    value = NONE
+  )
+  $contents contents_of(myself)
+  if
+    NONE == value
+    -> retrieve(contents key)
+    :
+      if
+        value.is_defined:
+          insert &contents $did_insert key value
+          if_not
+            did_insert
+            -> myself(.contents_of contents)
+            ->
+              myself
+                .contents_of contents
+                .length_of length_of(myself)+1
+        :
+          delete &contents $did_delete key
+          if_not
+            did_delete
+            -> myself
+            ->
+              myself
+                .contents_of contents
+                .length_of length_of(myself)-1
+
+###
+
+# retrieve
+
+$basic_collections::empty_binary_node/retrieve: (_self _key) -> undefined
+
+$basic_collections::retrieve_method: (self key)
+  self $left $right $my_key $my_value
+  if
+    key == my_key
+    -> my_value
+    :
+      if
+        key < my_key
+        : retrieve left key
+        : retrieve right key
+
+$node/retrieve retrieve_method
+
+###
+
+# insert
+
+$basic_collections::empty_binary_node/insert: (_self key value)
+  ->
+    new
+      node basic_collections::empty_binary_node
+      basic_collections::empty_binary_node
+      key
+      value
+    true
+
+$node/insert: (self key value)
+  self $left $right $my_key $my_value
+  $did_insert undefined
+  if
+    key == my_key
+    -> new(self left right key value) false
+    :
+      if
+        key < my_key
+        :
+          insert &left !did_insert key value
+          return
+        :
+          insert &right !did_insert key value
+          return
+
+  $return
+    -> new(self left right my_key my_value) did_insert
+
+###
+
+# delete
+
+$fetch_first: (self)
+  self $left $right $my_key $my_value
+  if
+    left.is_an_empty_node
+    -> right my_key my_value
+    :
+      fetch_first &left $first_key $first_value
+      -> new(self left right my_key my_value) first_key first_value
+
+$basic_collections::empty_binary_node/delete: (self _key) -> self false
+
+$node/delete: (self key)
+  self $left $right $my_key $my_value
+  if
+    key == my_key
+    :
+      if
+        left.is_an_empty_node
+        -> right true
+        :
+          if
+            right.is_an_empty_node
+            -> left true
+            :
+              fetch_first &right $first_key $first_value
+              -> new(self left right first_key first_value) true
+    :
+      if
+        key < my_key
+        :
+          delete &left $did_delete key
+          if_not
+            did_delete
+            -> self false
+            -> new(self left right my_key my_value) true
+        :
+          delete &right $did_delete key
+          if_not
+            did_delete
+            -> self false
+            -> new(self left right my_key my_value) true
+
+###
+
+# for_each
+
+$finish std_types::object # works as a sentinel
+
+$finish/for_each_1_call: (_self) break!
+
+$finish/for_each_2_call: (_self) break!
+
+$empty_binary_node/for_each_1_left: (_self)
+  for_each_1_call! basic_loops::todo(-1) # peek
+
+$empty_binary_node/for_each_2_left: (_self)
+  for_each_2_call! basic_loops::todo(-1) # peek
+
+$basic_collections::for_each_1_left_method: (self)
+  self $left
+  push &basic_loops::todo self
+  for_each_1_left! left
+
+$basic_collections::for_each_2_left_method: (self)
+  self $left
+  push &basic_loops::todo self
+  for_each_2_left! left
+
+$basic_collections::for_each_1_call_method: (self)
+  self $_left $_right $_my_key $my_value
+  basic_loops::body! my_value
+
+$basic_collections::for_each_2_call_method: (self)
+  self $_left $_right $my_key $my_value
+  basic_loops::body! my_key my_value
+
+$basic_collections::for_each_1_right_method: (self)
+  self $_left $right
+  for_each_1_left! right
+
+$basic_collections::for_each_2_right_method: (self)
+  self $_left $right
+  for_each_2_left! right
+
+$node/for_each_1_left for_each_1_left_method
+
+$node/for_each_2_left for_each_2_left_method
+
+$node/for_each_1_call for_each_1_call_method
+
+$node/for_each_2_call for_each_2_call_method
+
+$node/for_each_1_right for_each_1_right_method
+
+$node/for_each_2_right for_each_2_right_method
+
+$std_types::binary_table/for_each:
+  #
+    iterates over all items of the key order table
+
+    For each item the statement sequence supplied as *body* is called
+    with one or two arguments (depending on *body*'s parameter count).
+
+    If called with two arguments the first argument is the *key* and the
+    second argument the corresponding *value*.
+
+    If called with one argument then only the *value* is supplied.
+
+    This is a sequential loop.
+
+    Example:
+
+      $ages empty_binary_table
+
+      !ages("Tom") 5
+      !ages("Sam") 3
+      !ages("Sarah") 11
+
+      for_each ages: (name age)
+        writeln! name ": " age
+        next
+
+    Output:
+
+      Sarah: 11
+      Sam: 3
+      Tom: 5
+  (
+    self # the hash table to iterate over
+    body # the statement sequence to execute for each item
+    finally = next # used to return results to the caller
+  )
+  $saved_context
+    tuple
+      next
+      break
+      basic_loops::todo
+      basic_loops::body
+      basic_loops::finally
+
+  !basic_loops::todo list(finish)
+  !basic_loops::body body
+  !basic_loops::finally finally
+
+  !break: (myself^)
+    !finally basic_loops::finally
+    basic_loops::saved_context_of(myself)
+      !next !break
+      !basic_loops::todo !basic_loops::body !basic_loops::finally
+    finally!
+
+  !break.basic_loops::saved_context_of saved_context
+
+  if
+    parameter_count_of(body) == 2:
+      !next:
+        pop &basic_loops::todo $previous_node
+        for_each_2_right! previous_node
+
+      for_each_2_left! contents_of(self)
+    :
+      !next:
+        pop &basic_loops::todo $previous_node
+        for_each_1_right! previous_node
+
+      for_each_1_left! contents_of(self)
+
+###
+
+# map
+
+$mapping_function undefined
+
+$basic_collections::empty_binary_node/map_1: (self) -> self
+
+$basic_collections::empty_binary_node/map_2: (self) -> self
+
+$basic_collections::map_1_method: (self)
+  self $left $right $my_key $my_value
+  new self my_key mapping_function(my_value) map_1(left) map_1(right)
+
+$basic_collections::map_2_method: (self)
+  self $left $right $my_key $my_value
+  new self my_key mapping_function(my_key my_value) map_2(left) map_2(right)
+
+$node/map_1 map_1_method
+
+$node/map_2 map_2_method
+
+$std_types::binary_table/map:
+  #
+    applies a function to all values of the key order table
+
+    A key order table containing the "mapped" items is returned.
+
+    Topic: Tables
+
+    See also: reduce, map_reduce
+  (
+    self # the association list which values will be mapped
+    function # the function to apply to each element of the table
+  )
+  !mapping_function function
+
+  if
+    parameter_count_of(function) == 2:
+      map_2 &self.contents_of
+      -> self
+    :
+      map_1 &self.contents_of
+      -> self
+
+###
+
+# reduce
+
+$std_types::binary_table/reduce:
+  #
+    computes a kind of sum from the values stored in the table
+
+    There is no guarantee in which order the values will be reduced (folded).
+
+    So the reduction function must obey to the law of assosiativity!
+
+    Topic: Tables
+
+    See also: map, map_reduce
+  (
+    self # the table to build the "sum" from
+    function # the function to apply to pairs of values
+    unit = undefined # the value to return for empty tables
+  )
+  $contents contents_of(self)
+  if
+    contents.is_an_empty_node
+    -> unit
+    -> reduce(contents)
+
+  $reduce: (inner_node)
+    inner_node $left $right $_my_key $my_value
+    if
+      left.is_an_empty_node
+      check_right
+      :
+        !my_value function(reduce(left) my_value)
+        check_right
+
+    $check_right:
+      if
+        right.is_an_empty_node
+        -> my_value
+        -> function(my_value reduce(right))
+
+###
+
+# map_reduce
+
+$std_types::binary_table/map_reduce:
+  #
+    combines a map and a reduce operation into a single operation
+
+    Does not create an intermediate table to hold the "mapped" values.
+
+    Topic: Tables
+
+    See also: map, reduce
+  (
+    self # the table to work on
+    map_function # the function to apply to each element of the table
+    reduce_function = append # the function to apply to pairs of values
+    unit = undefined # the value to return for empty tables
+  )
+  $contents contents_of(self)
+  if
+    contents.is_an_empty_node
+    -> unit
+    :
+      if
+        parameter_count_of(map_function) == 2
+        -> map_reduce_2(contents)
+        -> map_reduce_1(contents)
+
+  $map_reduce_1: (inner_node)
+    inner_node $left $right $_my_key $my_value
+    map_function &my_value
+    if
+      left.is_an_empty_node
+      check_right
+      :
+        !my_value reduce_function(map_reduce_1(left) my_value)
+        check_right
+
+    $check_right:
+      if
+        right.is_an_empty_node
+        -> my_value
+        -> reduce_function(my_value map_reduce_1(right))
+
+  $map_reduce_2: (inner_node)
+    inner_node $left $right $my_key $my_value
+    map_function my_key &my_value
+    if
+      left.is_an_empty_node
+      check_right
+      :
+        !my_value reduce_function(map_reduce_2(left) my_value)
+        check_right
+
+    $check_right:
+      if
+        right.is_an_empty_node
+        -> my_value
+        -> reduce_function(my_value map_reduce_2(right))
+
+###
+
+# validate
+
+$basic_collections::empty_binary_node/validate: (_self _low _high) -> 0
+
+$node/validate: (self low high)
+  self $left $right $key
+  if
+    ||
+      low.is_defined && key < low
+      high.is_defined && key > high
+    :
+      debug::print "
+        @(default_value(low '[')) < @(key) < @(default_value(high ']')) failed!
+      debug::exit
+    pass
+  -> validate(left low key)+1+validate(right key high)
+
+$std_types::binary_table/validate: (self)
+  $real_length validate(contents_of(self) undefined undefined)
+  $stored_length length_of(self)
+  if
+    real_length != stored_length:
+      debug::print "
+        Table contains @(real_length) entries (stored: @(stored_length))
+      debug::exit
+    pass
+
+[source]
+
+$std::empty_binary_table std_types::binary_table
+  #
+    an empty binary table
+
+    Topics: Tables, Collections
+
+    See also: std_types::binary_table
+
+[documentation remark]
+
+### Always copy examples contained in the symbol's description remark
+    into the documentation
+
+### Use only one of the following topics: Tables, Collections
+
+# std::empty_binary_table (an object)
+

@@ -1,0 +1,894 @@
+[MANUAL]
+
+In Funky function calls are either written on a single line with arguments
+enclosed within parentheses and separated by single spaces, e.g.:
+
+print! f(a b c) g(x y z)
+
+or they are written in indentation style using mutliple lines:
+
+print!
+  f
+    a
+    b
+    c
+  g
+    x
+    y
+    z
+
+Functions that create any output or read any input need I/O-access rights.
+
+A function that needs I/O-access rights must be called with a trailing
+exclamation mark after the function name, e.g.:
+
+println! "Hello, World!"
+
+The expression
+
+key = value
+
+denotes a key-value-pair.
+
+Collection types cannot be printed directly. You can use "dump!" to
+dump the contents of a collection, e.g.:
+
+$ages
+  hash_table
+    "John" = 42
+    "Mary" = 25
+    "Irene" = 49
+
+dump! `ages
+
+Output:
+
+ages: hash_table <6>
+  "Mary"
+  25
+  "Irene"
+  49
+  "John"
+  42
+
+Note: The number in angular brackets after the typename denotes the number
+of (indented) lines that follow the head.
+
+A tail call returns the result of the called function; e.g.:
+
+$calc:
+  (
+    x
+    y
+  )
+  plus x*x y*y
+
+println! calc(2 3)
+
+prints
+
+13
+
+[GUIDELINES]
+
+All documentation remarks must have
+
+* a single short (single line) description written in lower case
+
+* a parameter(s) section (if appropriate)
+
+* a result(s) section (if appropriate)
+
+* a detailed description of how to use the symbol: when describing unique
+  items of constants, describe how to use them;
+  do not repeat yourself
+
+* one or more associated topic(s) (if appropriate)
+
+* a "See also" entry - mention only a view relevant symbols here
+
+Do not mention unknown symbols!
+
+Do not mention more than 10 symbols in the "See also" entry.
+
+DO NOT MENTION MORE THAN 10 SYMBOLS IN THE "See also" ENTRY!
+
+Do not mention internal details of functions.
+
+Do not start each sentence in the description with "If" or "The".
+
+DO NOT START EACH SENTENCE IN THE DESCRIPTION WITH "If" OR "The"!
+
+Do not tell the user what a function does not do.
+
+When referring to another symbol write it enclosed in angle brackets, e.g.
+<std::clear>.
+
+The "self"-parameter is a normal parameter like any other and should be
+mentioned in the the parameter description.
+
+Replace symbolic constants by their value.
+
+Operations on I/O-objects are not executed immediately but queued as jobs.
+To identify a job, an "id" is used.
+
+I/O-functions and I/O-methods either need I/O-access rights or propagate
+them ("if", "for_each", etc.).
+
+An "example" section, if available, must use Funky syntax and shall not be too
+long.
+
+If there is an appropriate example in the source code then use this example
+in the "example" section!
+
+[EXAMPLES]
+
+[source]
+
+$std::clear_colour_of ()
+
+[documentation remark]
+
+# std::clear_colour_of (a polymorphic function)
+
+  the clear colour to use
+
+  Parameter:
+    self: the object from which to get the clear colour
+
+  Result:
+    colour: the clear colour
+
+  Returns the clear colour of the object.
+
+  Topic: Terminal
+
+  See also: std::draw_colour_of, std::set_clear_colour
+
+[source]
+
+$std_types::screen/clear:
+  (
+    self
+    x = 1
+    y = 1
+    width = undefined
+    height = undefined
+  )
+  update_if width.is_undefined &width -> width_of(self)-x+1
+  update_if height.is_undefined &height -> height_of(self)-y+1
+  basic_private::clear self self x y width height
+
+$std::clear ()
+
+[documentation remark]
+
+# std::clear (a polymorphic function)
+
+  clears a rectangular area
+
+  Parameters:
+    screen: some kind of screen
+    x: x-coordinate of the upper left corner
+    y: y-coordinate of the upper left corner
+    width: width of the area
+    height: height of the area
+
+  Result:
+    screen: the updated screen
+
+  The area is cleared using the current clear colour. Use
+  <std::set_clear_colour> to change the current clear colour.
+
+  The area is clipped at the screen's borders.
+
+  Topic: Terminal
+
+  See also: std_types::screen/std::clear, std::draw_text,
+            std::set_clear_colour
+
+  Example:
+
+    $my_screen create_screen(terminal 40 25)
+    set_clear_colour &my_screen GREEN
+    clear &my_screen 11 6 20 15
+
+[EXERCISE]
+
+#
+  Topic: Debugging
+
+  **Attention**: Functions in the namespace "debug" are not available in
+  production code.
+
+  They can access object details via introspection which is not available in
+  production code.
+
+  These functions can also write to stderr without needing I/O-acccess rights!
+  To do so they prevent parallel code execution.
+
+  Related topics: Errors, Input-Output
+
+[symbols]
+
+$debug::to_string ()
+$std_types::object/debug::to_string:
+$std_types::undefined/debug::to_string:
+$std_types::error/debug::to_string:
+$debug::print:
+$debug::println:
+$debug::dump: (args*)
+$debug::dump_one:
+$std::dump_to:
+$std::dump:
+$std::edump:
+$std::hexdump_to:
+$std::hexdump:
+$std::ehexdump:
+$debug::hexdump:
+
+#
+  Copyright (C) 2024 by
+  Dipl.-Ing. Michael Niederle
+
+  This program is free software; you can redistribute it and/or modify
+  it under the terms of the GNU Library General Public License, version 2, or
+  (at your option) under the terms of the GNU Lesser General Public License,
+  version 3.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  GNU Lesser (Library) General Public License for more details.
+
+  For details of the GNU General Public License see the accompanying
+  files LGPLv2.txt and LGLPv3.txt or
+  http://www.gnu.org/licenses/lgpl-2.0.html
+  http://www.gnu.org/licenses/lgpl-3.0.html
+  or write to the
+  Free Software Foundation, Inc.,
+  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+
+#
+  Topic: Debugging
+
+  **Attention**: Functions in the namespace "debug" are not available in
+  production code.
+
+  They can access object details via introspection which is not available in
+  production code.
+
+  These functions can also write to stderr without needing I/O-acccess rights!
+  To do so they prevent parallel code execution.
+
+  Related topics: Errors, Input-Output
+
+$debug::to_string ()
+
+$std_types::object/debug::to_string:
+  (
+    self
+    indent = 0
+    depth = 1
+  )
+  if
+    is_a_plain_object(self):
+      $typename debug::object_type(self)
+      if
+        depth == 0
+        -> "
+          <@(typename)>
+        :
+          $attr_indent indent+2
+          $value_indent indent+4
+          $attributes debug::object_attributes(self)
+          $buf append("@nl;" tabs_and_spaces(indent) typename "@nl;")
+          from_to_by 1 length_of(attributes) 2
+            : (i)
+              $attr_text append(tabs_and_spaces(attr_indent) attributes(i))
+              $value_text debug::to_string(attributes(i+1) value_indent depth-1)
+              append &buf
+                if
+                  value_text(1) == '@nl;'
+                  -> "@(attr_text) =@(value_text)"
+                  -> "@(attr_text) = @(value_text)"
+              next
+            -> buf
+    -> debug::string(self indent depth)
+
+$std_types::undefined/debug::to_string:
+  (
+    _self
+    _indent = 0
+    _depth = 1
+  )
+  -> "undefined@nl;"
+
+$std_types::error/debug::to_string:
+  (
+    self
+    _indent = 0
+    _depth = 1
+  )
+  -> "@(self.to_error_message_string)@nl;"
+
+$debug::print:
+  (
+    str # the string to print
+  )
+  debug::write str.to_utf8
+
+$debug::println:
+  #
+    writes the given string and a newline character to stderr
+
+    The function always prints the whole string and may block until *stderr* is
+    ready to accept new data.
+
+    The function can be called without I/O-access rights.
+
+    The supplied string is converted to utf-8 before beeing written.
+
+    Topic: Debugging
+
+    See also: debug::print, debug::dump, debug::dump_object, debug::hexdump
+
+    Example:
+
+      debug::println "success"
+
+    Error output:
+
+      success
+  (
+    str # the string to print
+  )
+  debug::print str
+  debug::print "@nl;"
+
+#$debug::dump:
+  #
+    writes a string representation of an object to stderr
+
+    The function displays a label and the object's attribute via introspection.
+
+    The function can be called without I/O-access rights.
+
+    The string representation is converted to utf-8 before beeing written.
+
+    The optional *depth* argument specifies the maximum recursion depth used to
+    display the object's attributes.
+
+    Topic: Debugging
+
+    See also: debug::dump_object, debug::println, debug::print
+
+    Example:
+
+      $name_of ()
+      $age_of ()
+      $obj
+        std_types::object
+          .name_of "Albert"
+          .age_of 42
+      debug::dump 2 `obj
+
+    Error output:
+
+      obj: object
+        name_of: "Albert"
+        age_of: 42
+  (
+    depth = 1 # the desired level of detail (recursion depth)
+    label # the label to use for the expression
+    expr # the expression
+  )
+  debug::print label
+  debug::print ": "
+  debug::dump_object depth expr
+
+$debug::dump: (args*)
+  $depth 1
+  update_if args(1).is_an_integer &depth &args
+    -> args(1) range(args 2 -1)
+  $i 1
+  $n length_of(args)
+  loop:
+    if
+      i < n:
+        $label args(i)
+        $expr args(i+1)
+        !i i+2
+        $text debug::to_string(expr 2 depth)
+        if
+          text(1) == '@nl;':
+            debug::print "@(label):@(text)"
+            next
+          :
+            debug::print "@(label): @(text)"
+            next
+      break
+
+$debug::dump_one:
+  #
+    writes a string representation of an object to stderr
+
+    The function displays a label and the object's attribute via introspection.
+
+    The function can be called without I/O-access rights.
+
+    The string representation is converted to utf-8 before beeing written.
+
+    The optional *depth* argument specifies the maximum recursion depth used to
+    display the object's attributes.
+
+    Topic: Debugging
+
+    See also: debug::dump_object, debug::println, debug::print
+
+    Example:
+
+      $name_of ()
+      $age_of ()
+      $obj
+        std_types::object
+          .name_of "Albert"
+          .age_of 42
+      debug::dump_one 2 `obj
+
+    Error output:
+
+      obj: object
+        name_of: "Albert"
+        age_of: 42
+  (
+    depth = 1 # the desired level of detail (recursion depth)
+    label # the label to use for the expression
+    expr # the expression
+  )
+  debug::print label
+  debug::print ": "
+  debug::dump_object depth expr
+
+$dump_args_to: (fd args)
+  $i 1
+  $n length_of(args)
+  loop:
+    if
+      i < n:
+        $name args(i)
+        $expr args(i+1)
+        !i i+2
+        print_to! fd name ": "
+        if
+          expr.is_an_error:
+            println_to! fd error_message_text_of(expr)
+            next!
+          :
+            print_to! fd serialize(expr 0)
+            next!
+      break
+
+$std::dump_to:
+  #
+    writes a string representation of some objects to the given file descriptor
+
+    **Attention**: This function must be called with I/O-access rights!
+
+    The function displays a label before each object.
+
+    To display an object's details the function uses serialization.
+
+    The string representation is converted to utf-8 before beeing written.
+
+    Topic: Debugging
+
+    See also: std::dump, std::edump, debug::dump, debug::dump_object
+
+    Example:
+
+      $fruits list("apple" "banana" "cherry")
+      dump_to! STDOUT_FILENO `fruits
+
+    Output:
+
+      fruits: list <3>
+        "apple"
+        "banana"
+        "cherry"
+  (
+    fd # the file descriptor to write to
+    args* # an alternating sequence of labels and objects
+  )
+  dump_args_to! fd args
+
+$std::dump:
+  #
+    writes a string representation of some objects to stdout
+
+    **Attention**: This function must be called with I/O-access rights!
+
+    The function displays a label before each object.
+
+    To display an object's details the function uses serialization.
+
+    The string representation is converted to utf-8 before beeing written.
+
+    Topic: Debugging
+
+    See also: std::edump, std::dump_to, debug::dump, debug::dump_object
+
+    Example:
+
+      $fruits list("apple" "banana" "cherry")
+      dump `fruits
+
+    Output:
+
+      fruits: list <3>
+        "apple"
+        "banana"
+        "cherry"
+
+    Example:
+
+      $value_1 27
+      $value_2 list("Peter" 'x' list(47 11))
+      dump! `value_1 `value_2 `(2*sqrt(9))
+
+    Output:
+
+      value_1: 27
+      value_2: list <3>
+        "Peter"
+        'x'
+        list <2>
+          47
+          11
+      (2*sqrt(9)): 6.0
+  (
+    args* # an alternating sequence of labels and values
+  )
+  dump_args_to! STDOUT_FILENO args
+
+$std::edump:
+  #
+    print an object dump to stderr
+
+    Dumps its arguments consisting of an alternating sequence of
+    expression labels and expression values using <print>. The expression values
+    are converted into strings using <debug::string>.
+
+    The depth to which debug strings shall be generated can be provided as an
+    optional first argument; the default depth is 1.
+
+    Topic: Input-Output, Debugging
+
+    See also: debug::dump, debug::string
+
+    Example:
+
+      $value_1 27
+      $value_2 list("Peter" 'x' list(47 11))
+      edump! `value_1 `value_2 `(2*sqrt(9))
+
+    Error output:
+
+      value_1: 27
+      value_2: list <3>
+        "Peter"
+        'x'
+        list <2>
+          47
+          11
+      (2*sqrt(9)): 6.0
+  (
+    args* # an alternating sequence of labels and values
+  )
+  dump_args_to! STDERR_FILENO args
+
+$std::hexdump_to:
+  #
+    writes a hexdump of the given string to the given file descriptor
+
+    **Attention**: This function must be called with I/O-access rights!
+
+    The function displays the string's hexadecimal representation.
+
+    Topic: Debugging
+
+    See also: std::hexdump, std::ehexdump, debug::hexdump, std::dump_to
+
+    Example:
+
+      $data "Hello, world!"
+      hexdump_to! STDOUT_FILENO data
+
+    Output:
+
+      00000000: 48 65 6c 6c 6f 2c 20 77 6f 72 6c 64 21
+  (
+    fd # the file descriptor to write to
+    str # the string to dump
+  )
+  $i 0
+  $n length_of(str)
+  loop:
+    if
+      i >= n:
+        on (i .mod. 16) != 0: print_to! fd "@nl;"
+      :
+        on (i .mod. 16) == 0:
+          print_to! fd hex(i 8)
+          print_to! fd ":"
+        inc &i
+        print_to! fd " "
+        print_to! fd hex(str(i).to_integer 2)
+        on (i .mod. 16) == 0: print_to! fd "@nl;"
+        next!
+
+$std::hexdump:
+  #
+    writes a hexdump of the given string to stdout
+
+    **Attention**: This function must be called with I/O-access rights!
+
+    The function displays the string's hexadecimal representation.
+
+    Topic: Debugging
+
+    See also: std::ehexdump, std::hexdump_to, std::dump, debug::hexdump
+
+    Example:
+
+      $data "Hello, world!"
+      hexdump! data
+
+    Output:
+
+      00000000: 48 65 6c 6c 6f 2c 20 77 6f 72 6c 64 21
+  (
+    str # the string to dump
+  )
+  hexdump_to! STDOUT_FILENO str
+
+$std::ehexdump:
+  #
+    writes a hexdump of the given string to stderr
+
+    **Attention**: This function must be called with I/O-access rights!
+
+    The function displays the string's hexadecimal representation.
+
+    Topic: Debugging
+
+    See also: std::hexdump, std::hexdump_to, debug::hexdump
+
+    Example:
+
+      $data "Hello, world!"
+      ehexdump! data
+
+    Error output:
+
+      00000000: 48 65 6c 6c 6f 2c 20 77 6f 72 6c 64 21
+  (
+    str # the string to dump
+  )
+  hexdump_to! STDERR_FILENO str
+
+$debug::hexdump:
+  #
+    writes a hexdump of the given string to stderr
+
+    The function displays the string's hexadecimal representation.
+
+    The function can be called without I/O-access rights.
+
+    Topic: Debugging
+
+    See also: std::hexdump, std::ehexdump, std::hexdump_to, debug::dump
+
+    Example:
+
+      $data "Hello, world!"
+      debug::hexdump data
+
+    Error output:
+
+      00000000: 48 65 6c 6c 6f 2c 20 77 6f 72 6c 64 21
+  (
+    str # the string to dump
+  )
+  $i 0
+  $n length_of(str)
+  loop:
+    if
+      i >= n:
+        on (i .mod. 16) != 0: debug::print! "@nl;"
+      :
+        on (i .mod. 16) == 0:
+          debug::print! hex(i 8)
+          debug::print! ":"
+        inc &i
+        debug::print! " "
+        debug::print! hex(str(i).to_integer 2)
+        on (i .mod. 16) == 0: debug::print! "@nl;"
+        next!
+
+[source]
+
+$std_types::object/debug::to_string:
+  (
+    self
+    indent = 0
+    depth = 1
+  )
+  if
+    is_a_plain_object(self):
+      $typename debug::object_type(self)
+      if
+        depth == 0
+        -> "
+          <@(typename)>
+        :
+          $attr_indent indent+2
+          $value_indent indent+4
+          $attributes debug::object_attributes(self)
+          $buf append("@nl;" tabs_and_spaces(indent) typename "@nl;")
+          from_to_by 1 length_of(attributes) 2
+            : (i)
+              $attr_text append(tabs_and_spaces(attr_indent) attributes(i))
+              $value_text debug::to_string(attributes(i+1) value_indent depth-1)
+              append &buf
+                if
+                  value_text(1) == '@nl;'
+                  -> "@(attr_text) =@(value_text)"
+                  -> "@(attr_text) = @(value_text)"
+              next
+            -> buf
+    -> debug::string(self indent depth)
+
+$std_types::undefined/debug::to_string:
+  (
+    _self
+    _indent = 0
+    _depth = 1
+  )
+  -> "undefined@nl;"
+
+$std_types::error/debug::to_string:
+  (
+    self
+    _indent = 0
+    _depth = 1
+  )
+  -> "@(self.to_error_message_string)@nl;"
+
+$std_types::table/debug::to_string:
+  (
+    self
+    indent = 0
+    depth = 1
+  )
+  $tag serialization_tag_of(self)
+  cond
+    -> self.is_empty -> "empty_@(tag)@nl;"
+    -> depth <= 1:
+      $len length_of(self)
+      if
+        len == 1
+        -> "<@(tag) with 1 item>@nl;"
+        -> "<@(tag) with @(len) items>@nl;"
+    -> true:
+      $key_indent indent+2
+      $value_indent indent+4
+      map_reduce $contents
+        self: (key value)
+          $key_text debug::to_string(key key_indent)
+          $value_text debug::to_string(value value_indent depth-1)
+          trim &key_text
+          append tabs_and_spaces(key_indent) &key_text
+          if
+            value_text(1) == '@nl;'
+            -> "@(key_text) =@(value_text)"
+            -> "@(key_text) = @(value_text)"
+        append
+        ""
+      append append("@nl;" tabs_and_spaces(indent) tag "@nl;") contents
+
+$std_types::set/debug::to_string:
+  (
+    self
+    indent = 0
+    depth = 1
+  )
+  $tag serialization_tag_of(self)
+  cond
+    -> self.is_empty -> "empty_@(tag)@nl;"
+    -> depth <= 1:
+      $len length_of(self)
+      if
+        len == 1
+        -> "<@(tag) with 1 item>@nl;"
+        -> "<@(tag) with @(len) items>@nl;"
+    -> true:
+      $new_indent indent+2
+      map_reduce $contents
+        self: (value)
+          append
+            tabs_and_spaces(new_indent)
+            debug::to_string(value new_indent depth-1)
+        append
+        ""
+      append append("@nl;" tabs_and_spaces(indent) tag "@nl;") contents
+
+$std_types::list/debug::to_string:
+  (
+    self
+    indent = 0
+    depth = 1
+  )
+  cond
+    -> self.is_empty -> "empty_list@nl;"
+    -> depth <= 1:
+      $len length_of(self)
+      if
+        len == 1
+        -> "<list of 1 item>@nl;"
+        -> "<list of @(len) items>@nl;"
+    -> true:
+      $new_indent indent+2
+      map_reduce $contents
+        self: (value)
+          $text debug::to_string(value new_indent depth-1)
+          if
+            text(1) == '@nl;'
+            -> range(text 2 -1)
+            -> append(tabs_and_spaces(new_indent) text)
+        append
+        ""
+      append append("@nl;" tabs_and_spaces(indent) "list@nl;") contents
+
+$std_types::tuple/debug::to_string:
+  (
+    self
+    indent = 0
+    depth = 1
+  )
+  to_list &self
+  if
+    depth <= 1:
+      $len length_of(self)
+      if
+        len == 1
+        -> "<tuple of 1 item>@nl;"
+        -> "<tuple of @(len) items>@nl;"
+    :
+      $new_indent indent+2
+      map_reduce $contents
+        self: (value)
+          $text debug::to_string(value new_indent depth-1)
+          if
+            text(1) == '@nl;'
+            -> range(text 2 -1)
+            -> append(tabs_and_spaces(new_indent) text)
+        append
+        ""
+      append append("@nl;" tabs_and_spaces(indent) "tuple@nl;") contents
+
+$debug::to_string ()
+
+[documentation remark]
+
+### Always copy examples contained in the symbol's description remark
+    into the documentation
+
+### Use (parts of) the documentation already provided in the source
+
+### Do not create completely new examples on your own
+
+### Use only one of the following topics: Debugging
+
+# debug::to_string (a polymorphic function)
+

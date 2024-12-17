@@ -1,0 +1,603 @@
+[MANUAL]
+
+In Funky function calls are either written on a single line with arguments
+enclosed within parentheses and separated by single spaces, e.g.:
+
+print! f(a b c) g(x y z)
+
+or they are written in indentation style using mutliple lines:
+
+print!
+  f
+    a
+    b
+    c
+  g
+    x
+    y
+    z
+
+Functions that create any output or read any input need I/O-access rights.
+
+A function that needs I/O-access rights must be called with a trailing
+exclamation mark after the function name, e.g.:
+
+println! "Hello, World!"
+
+The expression
+
+key = value
+
+denotes a key-value-pair.
+
+Collection types cannot be printed directly. You can use "dump!" to
+dump the contents of a collection, e.g.:
+
+$ages
+  hash_table
+    "John" = 42
+    "Mary" = 25
+    "Irene" = 49
+
+dump! `ages
+
+Output:
+
+ages: hash_table <6>
+  "Mary"
+  25
+  "Irene"
+  49
+  "John"
+  42
+
+Note: The number in angular brackets after the typename denotes the number
+of (indented) lines that follow the head.
+
+A tail call returns the result of the called function; e.g.:
+
+$calc:
+  (
+    x
+    y
+  )
+  plus x*x y*y
+
+println! calc(2 3)
+
+prints
+
+13
+
+[GUIDELINES]
+
+All documentation remarks must have
+
+* a single short (single line) description written in lower case
+
+* a parameter(s) section (if appropriate)
+
+* a result(s) section (if appropriate)
+
+* a detailed description of how to use the symbol: when describing unique
+  items of constants, describe how to use them;
+  do not repeat yourself
+
+* one or more associated topic(s) (if appropriate)
+
+* a "See also" entry - mention only a view relevant symbols here
+
+Do not mention unknown symbols!
+
+Do not mention more than 10 symbols in the "See also" entry.
+
+DO NOT MENTION MORE THAN 10 SYMBOLS IN THE "See also" ENTRY!
+
+Do not mention internal details of functions.
+
+Do not start each sentence in the description with "If" or "The".
+
+DO NOT START EACH SENTENCE IN THE DESCRIPTION WITH "If" OR "The"!
+
+Do not tell the user what a function does not do.
+
+When referring to another symbol write it enclosed in angle brackets, e.g.
+<std::clear>.
+
+The "self"-parameter is a normal parameter like any other and should be
+mentioned in the the parameter description.
+
+Replace symbolic constants by their value.
+
+Operations on I/O-objects are not executed immediately but queued as jobs.
+To identify a job, an "id" is used.
+
+I/O-functions and I/O-methods either need I/O-access rights or propagate
+them ("if", "for_each", etc.).
+
+An "example" section, if available, must use Funky syntax and shall not be too
+long.
+
+If there is an appropriate example in the source code then use this example
+in the "example" section!
+
+[EXAMPLES]
+
+[source]
+
+$std::wrap_words:
+  (
+    text
+    width
+  )
+  $lines empty_list
+  $n length_of(text)
+  $s 1 # start of line
+  $b undefined # possible break position
+  $i 0
+  loop:
+    inc &i
+    if
+      i > n:
+        if
+          s > n
+          -> lines
+          -> push(lines range(text s n))
+      :
+        $chr text(i)
+        case chr
+          '
+':
+            push &lines range(text s i-1)
+            !s i+1
+            !b undefined
+            next
+          :
+            if
+              chr == ' ':
+                if
+                  i-s == width: # break
+                    push &lines range(text s i-1)
+                    !s i+1
+                    !b undefined
+                    next
+                  :
+                    !b i
+                    next
+              :
+                if
+                  i-s < width
+                  next
+                  :
+                    if
+                      b.is_defined: # wrap
+                        push &lines range(text s b-1)
+                        !s b+1
+                        !b undefined
+                        next
+                      : # hard break
+                        push &lines range(text s i-1)
+                        !s i
+                        next
+
+[documentation remark]
+
+# std::wrap_words (a function)
+
+  wraps a string consisting of words onto multiple lines
+
+  Parameters:
+    text: the text to wrap
+    width: the maximum width of a line
+
+  Result:
+    lines: a list of (wrapped) lines
+
+  The string is split into multiple lines according to the specified line
+  width.
+
+  Topic: Strings
+
+  See also: std::indented
+
+  Example:
+
+    $str "This is a very long string that should be wrapped onto multiple lines"
+    $lines wrap_words(str 30)
+    dump! 2 `lines
+
+  Output:
+
+    lines:
+      list
+        "This is a very long string"
+        "that should be wrapped"
+        "onto multiple lines"
+
+[EXERCISE]
+
+#
+  Topic: HTML
+
+[symbols]
+
+$html::HTML:
+$html::HEAD:
+$html::BODY:
+$html::TITLE:
+$html::STYLE:
+$html::LINK:
+$html::H1:
+$html::H2:
+$html::H3:
+$html::H4:
+$html::H5:
+$html::H6:
+$html::P:
+$html::DIV:
+$html::TABLE:
+$html::TBODY:
+$html::TR:
+$html::TH:
+$html::TD:
+$html::DL:
+$html::DT:
+$html::DD:
+$html::PRE:
+$html::A:
+$html::I:
+$html::B:
+$html::SPAN:
+$html::GROUP:
+$html::FROM_TO:
+$html::FOR_EACH:
+
+#
+  Copyright (C) 2023 by
+  Dipl.-Ing. Michael Niederle
+
+  This program is free software; you can redistribute it and/or modify
+  it under the terms of the GNU General Public License, version 2, or
+  (at your option) version 3.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  GNU General Public License for more details.
+
+  For details of the GNU General Public License see the accompanying
+  files GPLv2.txt and GLPv3.txt or
+  http://www.gnu.org/licenses/gpl-2.0.html
+  http://www.gnu.org/licenses/gpl-3.0.html
+  or write to the
+  Free Software Foundation, Inc.,
+  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+
+<namespace html>
+
+#
+  Topic: HTML
+
+$inline_tag: (tag options contents)
+  -> "<@(tag)@(options)>@(contents)</@(tag)>"
+
+$single_line_tag: (tag options contents)
+  -> "
+    <@(tag)@(options)>@(contents)</@(tag)>
+
+$multi_line_tag: (tag options contents)
+  string
+    '<'
+    tag
+    options
+    ">"
+    if
+      contents .has_prefix. '<'
+      -> '@nl;'
+      -> ""
+    contents
+    if
+      contents .has_suffix. '>'
+      -> '@nl;'
+      -> ""
+    "</"
+    tag
+    ">@nl;"
+
+$extract_options: (items)
+  filter items is_a_key_value_pair
+
+$collect_output: (items)
+  $buf ""
+  for_each items
+    : (item)
+      append &buf
+        if
+          item.is_a_string
+          -> item
+          -> item()
+      next
+    -> buf
+
+$collect_options: (options)
+  $buf ""
+  for_each options
+    : (option)
+      option $key $value
+      append &buf " @(key)=@quot;@(value)@quot;"
+      next
+    -> buf
+
+$emit_simple: (tag options)
+  collect_options &options
+  -> "
+    <@(tag)@(options)/>
+
+$emit_single_line: (tag items)
+  extract_options $options &items
+  collect_options &options
+  collect_output $buf items
+  if
+    buf .contains. '@nl;'
+    : multi_line_tag tag options buf
+    : single_line_tag tag options buf
+
+$emit_inline: (tag items)
+  extract_options $options &items
+  collect_options &options
+  collect_output $buf items
+  inline_tag tag options buf
+
+$emit_multi_line: (tag items)
+  extract_options $options &items
+  collect_options &options
+  collect_output $buf items
+  multi_line_tag tag options buf
+
+$html::HTML:
+  #
+    Example:
+
+      printnln!
+        HTML
+          : HEAD
+            : TITLE "My great Homepage"
+            : LINK "rel" = "stylesheet" "href" = "style.css"
+          : BODY
+            : H1 "My great Homepage"
+            : P "This is my great homepage."
+
+    Output:
+
+      <html>
+      <head>
+      <title>My great Homepage</title>
+      <link rel="stylesheet" href="style.css"/>
+      </head>
+      <body>
+      <h1>My great Homepage</h1>
+      <p>This is my great homepage.</p>
+      </body>
+      </html>
+  (
+    items*
+  )
+  emit_multi_line "html" items
+
+$html::HEAD:
+  (
+    items*
+  )
+  emit_multi_line "head" items
+
+$html::BODY:
+  (
+    items*
+  )
+  emit_multi_line "body" items
+
+$html::TITLE:
+  (
+    items*
+  )
+  emit_single_line "title" items
+
+$html::STYLE:
+  (
+    items*
+  )
+  emit_single_line "style" items
+
+$html::LINK:
+  (
+    options*
+  )
+  emit_simple "link" options
+
+$html::H1:
+  (
+    items*
+  )
+  emit_single_line "h1" items
+
+$html::H2:
+  (
+    items*
+  )
+  emit_single_line "h2" items
+
+$html::H3:
+  (
+    items*
+  )
+  emit_single_line "h3" items
+
+$html::H4:
+  (
+    items*
+  )
+  emit_single_line "h4" items
+
+$html::H5:
+  (
+    items*
+  )
+  emit_single_line "h5" items
+
+$html::H6:
+  (
+    items*
+  )
+  emit_single_line "h6" items
+
+$html::P:
+  (
+    items*
+  )
+  emit_single_line "p" items
+
+$html::DIV:
+  (
+    items*
+  )
+  emit_multi_line "div" items
+
+$html::TABLE:
+  (
+    items*
+  )
+  emit_multi_line "table" items
+
+$html::TBODY:
+  (
+    items*
+  )
+  emit_multi_line "tbody" items
+
+$html::TR:
+  (
+    items*
+  )
+  emit_multi_line "tr" items
+
+$html::TH:
+  (
+    items*
+  )
+  emit_single_line "th" items
+
+$html::TD:
+  (
+    items*
+  )
+  emit_single_line "td" items
+
+$html::DL:
+  (
+    items*
+  )
+  emit_multi_line "dl" items
+
+$html::DT:
+  (
+    items*
+  )
+  emit_single_line "dt" items
+
+$html::DD:
+  (
+    items*
+  )
+  emit_multi_line "dd" items
+
+$html::PRE:
+  (
+    items*
+  )
+  emit_single_line "pre" items
+
+$html::A:
+  (
+    items*
+  )
+  emit_inline "a" items
+
+$html::I:
+  (
+    items*
+  )
+  emit_inline "i" items
+
+$html::B:
+  (
+    items*
+  )
+  emit_inline "b" items
+
+$html::SPAN:
+  (
+    items*
+  )
+  emit_inline "span" items
+
+$html::GROUP:
+  (
+    items*
+  )
+  $text ""
+  for_each items
+    : (item)
+      append &text item()
+      next
+    -> text
+
+$html::FROM_TO:
+  (
+    from
+    to
+    body
+  )
+  $text ""
+  from_to from to
+    : (idx)
+      append &text body(idx)
+      next
+    -> text
+
+$html::FOR_EACH:
+  (
+    items
+    body
+  )
+  $text ""
+  if
+    parameter_count_of(body) == 2:
+      for_each items
+        : (key value)
+          append &text body(key value)
+          next
+        -> text
+    :
+      for_each items
+        : (item)
+          append &text body(item)
+          next
+        -> text
+
+[source]
+
+$html::H6:
+  (
+    items*
+  )
+  emit_single_line "h6" items
+
+[documentation remark]
+
+### Always copy examples contained in the symbol's description remark
+    into the documentation
+
+### Use only one of the following topics: HTML
+
+# html::H6 (a function)
+

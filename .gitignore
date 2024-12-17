@@ -7,6 +7,9 @@ compiler/configuration.fky
 !new_tedi
 !terminal
 !web
+!docs
+!docs/symbols
+!docs/symbols/*
 !html
 !html/symbols
 !html/topics
@@ -15,6 +18,7 @@ compiler/configuration.fky
 *.c
 *.a
 *.so.*
+*.txt
 *.bak
 *~*
 s[0-9]*

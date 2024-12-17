@@ -1,0 +1,294 @@
+[MANUAL]
+
+In Funky function calls are either written on a single line with arguments
+enclosed within parentheses and separated by single spaces, e.g.:
+
+print! f(a b c) g(x y z)
+
+or they are written in indentation style using mutliple lines:
+
+print!
+  f
+    a
+    b
+    c
+  g
+    x
+    y
+    z
+
+Functions that create any output or read any input need I/O-access rights.
+
+A function that needs I/O-access rights must be called with a trailing
+exclamation mark after the function name, e.g.:
+
+println! "Hello, World!"
+
+The expression
+
+key = value
+
+denotes a key-value-pair.
+
+Collection types cannot be printed directly. You can use "dump!" to
+dump the contents of a collection, e.g.:
+
+$ages
+  hash_table
+    "John" = 42
+    "Mary" = 25
+    "Irene" = 49
+
+dump! `ages
+
+Output:
+
+ages: hash_table <6>
+  "Mary"
+  25
+  "Irene"
+  49
+  "John"
+  42
+
+Note: The number in angular brackets after the typename denotes the number
+of (indented) lines that follow the head.
+
+A tail call returns the result of the called function; e.g.:
+
+$calc:
+  (
+    x
+    y
+  )
+  plus x*x y*y
+
+println! calc(2 3)
+
+prints
+
+13
+
+[GUIDELINES]
+
+All documentation remarks must have
+
+* a single short (single line) description written in lower case
+
+* a parameter(s) section (if appropriate)
+
+* a result(s) section (if appropriate)
+
+* a detailed description of how to use the symbol: when describing unique
+  items of constants, describe how to use them;
+  do not repeat yourself
+
+* one or more associated topic(s) (if appropriate)
+
+* a "See also" entry - mention only a view relevant symbols here
+
+Do not mention unknown symbols!
+
+Do not mention more than 10 symbols in the "See also" entry.
+
+DO NOT MENTION MORE THAN 10 SYMBOLS IN THE "See also" ENTRY!
+
+Do not mention internal details of functions.
+
+Do not start each sentence in the description with "If" or "The".
+
+DO NOT START EACH SENTENCE IN THE DESCRIPTION WITH "If" OR "The"!
+
+Do not tell the user what a function does not do.
+
+When referring to another symbol write it enclosed in angle brackets, e.g.
+<std::clear>.
+
+The "self"-parameter is a normal parameter like any other and should be
+mentioned in the the parameter description.
+
+Replace symbolic constants by their value.
+
+Operations on I/O-objects are not executed immediately but queued as jobs.
+To identify a job, an "id" is used.
+
+I/O-functions and I/O-methods either need I/O-access rights or propagate
+them ("if", "for_each", etc.).
+
+An "example" section, if available, must use Funky syntax and shall not be too
+long.
+
+If there is an appropriate example in the source code then use this example
+in the "example" section!
+
+[EXAMPLES]
+
+[source]
+
+$std_types::binary_table/:
+  (
+    myself^
+    key
+    value = NONE
+  )
+  $contents contents_of(myself)
+  if
+    NONE == value
+    -> retrieve(contents key)
+    :
+      if
+        value.is_defined:
+          insert &contents $did_insert key value
+          if_not
+            did_insert
+            -> myself(.contents_of contents)
+            ->
+              myself
+                .contents_of contents
+                .length_of length_of(myself)+1
+        :
+          delete &contents $did_delete key
+          if_not
+            did_delete
+            -> myself
+            ->
+              myself
+                .contents_of contents
+                .length_of length_of(myself)-1
+
+$std_types::binary_table std_types::table
+
+[documentation remark]
+
+# std_types::binary_table (a type derived from std_types::table)
+
+  the prototype object for all tree-based tables
+
+  Parameters:
+    key: the key to use for insertion or retrieval
+    value: if supplied the value to associate with the key
+
+  Result:
+    value_or_object: the retrieved value for retrievals or the updated object
+                     for insertions
+
+  This object is never used directly but cloned to create a new table.
+
+  When called it can act as a function to insert a new key-value-pair into
+  the table (2 arguments) or to retrieve the value associated with a key
+  (1 argument).
+
+  Topics: Tables, Collections
+
+  See also: std_types::binary_table/std::map,
+            std_types::binary_table/std::reduce,
+            std_types::binary_table/std::map_reduce
+
+  Example:
+
+    $salaries empty_binary_table
+    !salaries("Joe" 2500)
+    !salaries("Mary" 3000)
+    !salaries("Bob" 2000)
+    println! salaries("Mary")
+
+  Output:
+
+    3000
+
+[source]
+
+$ai_types::connection std_types::resource
+
+[documentation remark]
+
+# ai_types::connection (a type derived from std_types::resource)
+
+  the prototype object for connections to AI servers
+
+  This object is never used directly but cloned to create a new connection.
+
+  Topics: AI
+
+  See also: std::register_resource
+
+[EXERCISE]
+
+[symbols]
+
+
+# Topic: Random Numbers, Iterators
+
+$std::seed_of ()
+$std_types::lcg std_types::random_number_generator
+$std_types::lcg/next_raw_value: (self)
+$std::lcg:
+
+#
+  Copyright (C) 2021 by
+  Dipl.-Ing. Michael Niederle
+
+  This program is free software; you can redistribute it and/or modify
+  it under the terms of the GNU Library General Public License, version 2, or
+  (at your option) under the terms of the GNU Lesser General Public License,
+  version 3.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  GNU Lesser (Library) General Public License for more details.
+
+  For details of the GNU General Public License see the accompanying
+  files LGPLv2.txt and LGLPv3.txt or
+  http://www.gnu.org/licenses/lgpl-2.0.html
+  http://www.gnu.org/licenses/lgpl-3.0.html
+  or write to the
+  Free Software Foundation, Inc.,
+  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+
+# Topic: Random Numbers, Iterators
+
+$std::seed_of ()
+
+$multiplier_of ()
+
+$increment_of ()
+
+$std_types::lcg std_types::random_number_generator
+
+$std_types::lcg/next_raw_value: (self)
+  $new_seed
+    mod
+      (multiplier_of(self)*seed_of(self)+increment_of(self))
+      modulus_of(self)
+  -> self(.seed_of new_seed) new_seed
+
+$std::lcg:
+  #
+    creates a pseudo random number generator
+  (
+    seed # the seed value to use
+    modulus = 31974247
+    multiplier = 642997
+    increment = 7219879
+  )
+  ->
+    std_types::lcg
+      .seed_of seed
+      .modulus_of modulus
+      .multiplier_of multiplier
+      .increment_of increment
+
+[source]
+
+$std_types::lcg std_types::random_number_generator
+
+[documentation remark]
+
+### Always copy examples contained in the symbol's description remark
+    into the documentation
+
+### Use only one of the following topics: Random Numbers, Iterators
+
+# std_types::lcg (a type)
+

@@ -1,0 +1,715 @@
+[MANUAL]
+
+In Funky function calls are either written on a single line with arguments
+enclosed within parentheses and separated by single spaces, e.g.:
+
+print! f(a b c) g(x y z)
+
+or they are written in indentation style using mutliple lines:
+
+print!
+  f
+    a
+    b
+    c
+  g
+    x
+    y
+    z
+
+Functions that create any output or read any input need I/O-access rights.
+
+A function that needs I/O-access rights must be called with a trailing
+exclamation mark after the function name, e.g.:
+
+println! "Hello, World!"
+
+The expression
+
+key = value
+
+denotes a key-value-pair.
+
+Collection types cannot be printed directly. You can use "dump!" to
+dump the contents of a collection, e.g.:
+
+$ages
+  hash_table
+    "John" = 42
+    "Mary" = 25
+    "Irene" = 49
+
+dump! `ages
+
+Output:
+
+ages: hash_table <6>
+  "Mary"
+  25
+  "Irene"
+  49
+  "John"
+  42
+
+Note: The number in angular brackets after the typename denotes the number
+of (indented) lines that follow the head.
+
+A tail call returns the result of the called function; e.g.:
+
+$calc:
+  (
+    x
+    y
+  )
+  plus x*x y*y
+
+println! calc(2 3)
+
+prints
+
+13
+
+[GUIDELINES]
+
+All documentation remarks must have
+
+* a single short (single line) description written in lower case
+
+* a parameter(s) section (if appropriate)
+
+* a result(s) section (if appropriate)
+
+* a detailed description of how to use the symbol: when describing unique
+  items of constants, describe how to use them;
+  do not repeat yourself
+
+* one or more associated topic(s) (if appropriate)
+
+* a "See also" entry - mention only a view relevant symbols here
+
+Do not mention unknown symbols!
+
+Do not mention more than 10 symbols in the "See also" entry.
+
+DO NOT MENTION MORE THAN 10 SYMBOLS IN THE "See also" ENTRY!
+
+Do not mention internal details of functions.
+
+Do not start each sentence in the description with "If" or "The".
+
+DO NOT START EACH SENTENCE IN THE DESCRIPTION WITH "If" OR "The"!
+
+Do not tell the user what a function does not do.
+
+When referring to another symbol write it enclosed in angle brackets, e.g.
+<std::clear>.
+
+The "self"-parameter is a normal parameter like any other and should be
+mentioned in the the parameter description.
+
+Replace symbolic constants by their value.
+
+Operations on I/O-objects are not executed immediately but queued as jobs.
+To identify a job, an "id" is used.
+
+I/O-functions and I/O-methods either need I/O-access rights or propagate
+them ("if", "for_each", etc.).
+
+An "example" section, if available, must use Funky syntax and shall not be too
+long.
+
+If there is an appropriate example in the source code then use this example
+in the "example" section!
+
+[EXAMPLES]
+
+[source]
+
+$std::clear_colour_of ()
+
+[documentation remark]
+
+# std::clear_colour_of (a polymorphic function)
+
+  the clear colour to use
+
+  Parameter:
+    self: the object from which to get the clear colour
+
+  Result:
+    colour: the clear colour
+
+  Returns the clear colour of the object.
+
+  Topic: Terminal
+
+  See also: std::draw_colour_of, std::set_clear_colour
+
+[source]
+
+$std_types::screen/clear:
+  (
+    self
+    x = 1
+    y = 1
+    width = undefined
+    height = undefined
+  )
+  update_if width.is_undefined &width -> width_of(self)-x+1
+  update_if height.is_undefined &height -> height_of(self)-y+1
+  std_private::clear self self x y width height
+
+$std::clear ()
+
+[documentation remark]
+
+# std::clear (a polymorphic function)
+
+  clears a rectangular area
+
+  Parameters:
+    screen # some kind of screen
+    x: x-coordinate of the upper left corner
+    y: y-coordinate of the upper left corner
+    width: width of the area
+    height: height of the area
+
+  Result:
+    screen: the updated screen
+
+  The area is cleared using the current clear colour. Use
+  <std::set_clear_colour> to change the current clear colour.
+
+  The area is clipped at the screen's borders.
+
+  Topic: Terminal
+
+  See also: std_types::screen/std::clear, std::draw_text,
+            std::set_clear_colour
+
+  Example:
+
+    $my_screen create_screen(terminal 40 25)
+    set_clear_colour &my_screen GREEN
+    clear &my_screen 11 6 20 15
+
+[EXERCISE]
+
+#
+  Topic: Serialization
+
+[symbols]
+
+$std::serialize ()
+$std::serialization_tag_of ()
+$std::deserializer_of ()
+$std::deserializers empty_hash_table
+$std::register_type:
+$std::register_types:
+$std::deserialize:
+
+#
+  Copyright (C) 2022 by
+  Dipl.-Ing. Michael Niederle
+
+  This program is free software; you can redistribute it and/or modify
+  it under the terms of the GNU Library General Public License, version 2, or
+  (at your option) under the terms of the GNU Lesser General Public License,
+  version 3.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  GNU Lesser (Library) General Public License for more details.
+
+  For details of the GNU General Public License see the accompanying
+  files LGPLv2.txt and LGLPv3.txt or
+  http://www.gnu.org/licenses/lgpl-2.0.html
+  http://www.gnu.org/licenses/lgpl-3.0.html
+  or write to the
+  Free Software Foundation, Inc.,
+  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+
+#
+  Topic: Serialization
+
+$std::serialize ()
+  #
+    returns a machine readable string representation of the object
+
+    If possible the object ist transformed into its source code form.
+
+    Topic: Strings, Serialization
+
+    See also: std::serialization_tag_of, std::to_string
+
+$std::serialization_tag_of ()
+
+$std::deserializer_of ()
+
+$std::deserializers empty_hash_table
+
+$std::register_type:
+  (
+    deserializers
+    type
+  )
+  -> deserializers(serialization_tag_of(type) type)
+
+$std::register_types:
+  (
+    deserializers
+    types
+  )
+  for_each types
+    : (type)
+      !deserializers(serialization_tag_of(type)) type
+      next
+    -> deserializers
+
+$std::deserialize:
+  (
+    text
+  )
+  split_into_lines $lines text
+  map &lines: (line)
+    trim &line
+    case line(1)
+      '@quot;':
+        $buf ""
+        range &line 2 -2
+        loop:
+          if
+            line.is_empty
+            -> buf
+            :
+              $chr line(1)
+              range &line 2 -1
+              if
+                chr == '@@':
+                  $code integer(line)
+                  push &buf character(code)
+                  loop
+                    :
+                      if
+                        line(1).is_a_digit:
+                          range &line 2 -1
+                          next
+                        :
+                          range &line 2 -1 # skip semicolon
+                          break
+                    next
+                :
+                  push &buf chr
+                  next
+      '@apos;':
+        $chr line(2)
+        if
+          chr == '@@':
+            $code integer(range(line 3 -1))
+            -> character(code)
+          -> chr
+      '0'..'9':
+        if
+          line .contains. '.'
+          -> real(line)
+          -> integer(line)
+      '<':
+        case line
+          "<true>" -> true
+          "<false>" -> false
+          "<undefined>" -> undefined
+          -> unique_item(range(line 2 -2))
+      :
+        $idx 1
+        $len length_of(line)
+        loop:
+          if
+            idx > len
+            -> tuple(deserializers(line) "")
+            :
+              if
+                line(idx) == ' '
+                :
+                  $value range(line idx+1 -1)
+                  update_if value(1) == '<' && value(-1) == '>' &value
+                    -> range(value 2 -2).to_integer
+                  ->
+                    tuple
+                      deserializers(range(line 1 idx-1))
+                      value
+                :
+                  inc &idx
+                  next
+
+  fetch 1 $_pos 1 $objects
+  -> objects(1)
+
+  $fetch: (i len)
+    $items empty_list
+    repeat len
+      :
+        $item lines(i)
+        !i i+1
+        if
+          item.is_defined && item.is_a_tuple:
+            item $type $argument
+            if
+              argument.is_an_integer:
+                fetch &i argument $arguments
+                push &items deserializer_of(type)(type arguments)
+                next
+              :
+                push &items deserializer_of(type)(type argument)
+                next
+          :
+            push &items item
+            next
+      -> i items
+
+[source]
+
+$std_types::file_descriptor/serialize:
+  (
+    self
+    indent = undefined
+  )
+  $str "
+    file_descriptor @(self.to_integer)
+  if
+    indent.is_defined
+    -> append(tabs_and_spaces(indent) str)
+    -> str
+
+$std_types::process_id/serialize:
+  (
+    self
+    indent = undefined
+  )
+  $str "
+    process_id @(self.to_integer)
+  if
+    indent.is_defined
+    -> append(tabs_and_spaces(indent) str)
+    -> str
+
+$std_types::character/serialize:
+  #
+    serializes the character
+
+    Result:
+      str # the serialization of the character
+
+    Topic: Strings
+
+    The optional indent is obeyed.
+
+    Example:
+
+      $str serialize('a')
+      println! str
+
+    Output:
+
+      'a'
+
+    Example:
+
+      $str serialize('a' 2)
+      println! str
+
+    Output:
+
+        'a'
+  (
+    self # the character to serialize
+    indent = undefined # the indentation depth in character positions
+  )
+  $str
+    if
+      self < '@0x20;' || self > '@0x7e;' || self == '@@'
+      -> "'@@@(self.to_integer);'@nl;"
+      -> "'@(self)'@nl;"
+  if
+    indent.is_defined
+    -> append(tabs_and_spaces(indent) str)
+    -> str
+
+$std_types::object/serialize:
+  (
+    obj
+    indent = undefined
+  )
+  $new_indent
+    if
+      indent.is_defined
+      -> indent+2
+      -> undefined
+  $fieldnames_and_getters serialization_fields_of(obj)
+  $i 1
+  $len length_of(fieldnames_and_getters)
+  $buf ""
+  loop:
+    if
+      i < len:
+        $field fieldnames_and_getters(i+1)(obj)
+        if
+          field.is_defined:
+            $fieldname fieldnames_and_getters(i)
+            append &buf serialize(fieldname new_indent)
+            append &buf serialize(field new_indent)
+            !i i+2
+            next
+          :
+            !i i+2
+            next
+      :
+        append string(serialization_tag_of(obj) " <" len ">@nl;") &buf
+        update_if indent.is_defined &buf -> append(tabs_and_spaces(indent) buf)
+        -> buf
+
+$std_types::undefined/serialize:
+  (
+    _self
+    indent = undefined
+  )
+  $str "<undefined>@nl;"
+  if
+    indent.is_defined
+    -> append(tabs_and_spaces(indent) str)
+    -> str
+
+$std_types::unique_item/serialize:
+  (
+    self
+    indent = undefined
+  )
+  $str "
+    <@(self.to_string)>
+  if
+    indent.is_defined
+    -> append(tabs_and_spaces(indent) str)
+    -> str
+
+$std_types::string/serialize:
+  #
+    returns a string representation of the string
+
+    Topic: Strings
+
+    See also: deserialize
+
+    Example:
+
+      $str "Hello World"
+      $serialized_str serialize(str)
+      dump! `serialized_str
+
+    Output:
+
+      serialized_str: "@quot;Hello World@quot;@0xa;"
+  (
+    self
+    indent = undefined
+  )
+  $str "@quot;"
+  $s 1
+  for_each self
+    : (idx chr)
+      if
+        chr < '@0x20;' || chr > '@0x7e;' || chr == '"' || chr == '@@':
+          append &str range(self s idx-1)
+          append &str "@@@(chr.to_integer);"
+          !s idx+1
+          next
+        next
+    :
+      append &str range(self s -1)
+      append &str "@quot;@nl;"
+      if
+        indent.is_defined
+        -> append(tabs_and_spaces(indent) str)
+        -> str
+
+$std_types::generic_array/serialize:
+  (
+    self
+    indent = undefined
+  )
+  $n dimension_count_of(self)
+  $dimensions map_reduce(1..n : (i) -> append(" " length_of(self i).to_string))
+  $indentation
+    if
+      indent.is_defined
+      -> tabs_and_spaces(indent+2)
+      -> ""
+  append
+    if
+      indent.is_defined
+      -> tabs_and_spaces(indent)
+      -> ""
+    serialization_tag_of(self)
+    dimensions
+    "@nl;"
+    map_reduce(self: (item) -> append(indentation item.to_string "@nl;"))
+
+$std_types::table/serialize:
+  (
+    self
+    indent = undefined
+  )
+  $new_indent
+    if
+      indent.is_defined
+      -> indent+2
+      -> undefined
+  map_reduce $contents
+    self: (key value)
+      append serialize(key new_indent) serialize(value new_indent)
+    append
+    ""
+  $header
+    "
+      @(serialization_tag_of(self)) <@(2*length_of(self))>
+  update_if indent.is_defined &header -> append(tabs_and_spaces(indent) header)
+  append header contents
+
+$std_types::set/serialize:
+  (
+    self
+    indent = undefined
+  )
+  $new_indent
+    if
+      indent.is_defined
+      -> indent+2
+      -> undefined
+  map_reduce $contents
+    self: (value) -> serialize(value new_indent)
+    append
+    ""
+  $header
+    "
+      @(serialization_tag_of(self)) <@(length_of(self))>
+  update_if indent.is_defined &header -> append(tabs_and_spaces(indent) header)
+  append header contents
+
+$std_types::list/serialize:
+  (
+    self
+    indent = undefined
+  )
+  $new_indent
+    if
+      indent.is_defined
+      -> indent+2
+      -> undefined
+  map_reduce $contents
+    self: (item) -> serialize(item new_indent)
+    append
+    ""
+  $header
+    "
+      @(serialization_tag_of(self)) <@(length_of(self))>
+  update_if indent.is_defined &header -> append(tabs_and_spaces(indent) header)
+  append header contents
+
+$std_types::tuple/serialize:
+  (
+    self
+    indent = undefined
+  )
+  $new_indent
+    if
+      indent.is_defined
+      -> indent+2
+      -> undefined
+  $items self.to_list
+  map_reduce $contents
+    items: (item) -> serialize(item new_indent)
+    append
+    ""
+  $header
+    "
+      @(serialization_tag_of(self)) <@(length_of(items))>
+  update_if indent.is_defined &header -> append(tabs_and_spaces(indent) header)
+  append header contents
+
+$std_types::true/serialize:
+  #
+    returns the string "<true>" and a newline character
+
+    The optional *indent* is obeyed.
+
+    Topic: Branches
+
+    See also: std_types::true, std_types::false, serialize
+  (
+    _self # <std_types::true>
+    indent = undefined # optional indentation value
+  )
+  $str "<true>@nl;"
+  if
+    indent.is_defined
+    -> append(tabs_and_spaces(indent) str)
+    -> str
+
+$std_types::false/serialize:
+  #
+    returns the string "<false>" and a newline character
+
+    The optional *indent* is obeyed.
+
+    Topic: Branches
+
+    See also: std_types::true, std_types::false, serialize
+  (
+    _self # <std_types::false>
+    indent = undefined # optional indentation value
+  )
+  $str "<false>@nl;"
+  if
+    indent.is_defined
+    -> append(tabs_and_spaces(indent) str)
+    -> str
+
+$std_types::integer/serialize:
+  (
+    self
+    indent = undefined
+  )
+  to_string &self
+  update_if indent.is_defined &self -> append(tabs_and_spaces(indent) self)
+  push self '@nl;'
+
+$std_types::real/serialize:
+  (
+    self
+    indent = undefined
+  )
+  to_string &self
+  update_if not(self .contains. '.') &self -> append(self ".0")
+  update_if indent.is_defined &self -> append(tabs_and_spaces(indent) self)
+  push self '@nl;'
+
+$std::serialize ()
+  #
+    returns a machine readable string representation of the object
+
+    If possible the object ist transformed into its source code form.
+
+    Topic: Strings, Serialization
+
+    See also: std::serialization_tag_of, std::to_string
+
+[documentation remark]
+
+### Always copy examples contained in the symbol's description remark
+    into the documentation
+
+### Do not create completely new examples on your own
+
+### Use only one of the following topics: Serialization
+
+# std::serialize (a polymorphic function)
+

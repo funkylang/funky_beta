@@ -1,0 +1,898 @@
+[MANUAL]
+
+In Funky function calls are either written on a single line with arguments
+enclosed within parentheses and separated by single spaces, e.g.:
+
+print! f(a b c) g(x y z)
+
+or they are written in indentation style using mutliple lines:
+
+print!
+  f
+    a
+    b
+    c
+  g
+    x
+    y
+    z
+
+Functions that create any output or read any input need I/O-access rights.
+
+A function that needs I/O-access rights must be called with a trailing
+exclamation mark after the function name, e.g.:
+
+println! "Hello, World!"
+
+The expression
+
+key = value
+
+denotes a key-value-pair.
+
+Collection types cannot be printed directly. You can use "dump!" to
+dump the contents of a collection, e.g.:
+
+$ages
+  hash_table
+    "John" = 42
+    "Mary" = 25
+    "Irene" = 49
+
+dump! `ages
+
+Output:
+
+ages: hash_table <6>
+  "Mary"
+  25
+  "Irene"
+  49
+  "John"
+  42
+
+Note: The number in angular brackets after the typename denotes the number
+of (indented) lines that follow the head.
+
+A tail call returns the result of the called function; e.g.:
+
+$calc:
+  (
+    x
+    y
+  )
+  plus x*x y*y
+
+println! calc(2 3)
+
+prints
+
+13
+
+[GUIDELINES]
+
+All documentation remarks must have
+
+* a single short (single line) description written in lower case
+
+* a parameter(s) section (if appropriate)
+
+* a result(s) section (if appropriate)
+
+* a detailed description of how to use the symbol: when describing unique
+  items of constants, describe how to use them;
+  do not repeat yourself
+
+* one or more associated topic(s) (if appropriate)
+
+* a "See also" entry - mention only a view relevant symbols here
+
+Do not mention unknown symbols!
+
+Do not mention more than 10 symbols in the "See also" entry.
+
+DO NOT MENTION MORE THAN 10 SYMBOLS IN THE "See also" ENTRY!
+
+Do not mention internal details of functions.
+
+Do not start each sentence in the description with "If" or "The".
+
+DO NOT START EACH SENTENCE IN THE DESCRIPTION WITH "If" OR "The"!
+
+Do not tell the user what a function does not do.
+
+When referring to another symbol write it enclosed in angle brackets, e.g.
+<std::clear>.
+
+The "self"-parameter is a normal parameter like any other and should be
+mentioned in the the parameter description.
+
+Replace symbolic constants by their value.
+
+Operations on I/O-objects are not executed immediately but queued as jobs.
+To identify a job, an "id" is used.
+
+I/O-functions and I/O-methods either need I/O-access rights or propagate
+them ("if", "for_each", etc.).
+
+An "example" section, if available, must use Funky syntax and shall not be too
+long.
+
+If there is an appropriate example in the source code then use this example
+in the "example" section!
+
+[EXAMPLES]
+
+[source]
+
+$std::wrap_words:
+  (
+    text
+    width
+  )
+  $lines empty_list
+  $n length_of(text)
+  $s 1 # start of line
+  $b undefined # possible break position
+  $i 0
+  loop:
+    inc &i
+    if
+      i > n:
+        if
+          s > n
+          -> lines
+          -> push(lines range(text s n))
+      :
+        $chr text(i)
+        case chr
+          '
+':
+            push &lines range(text s i-1)
+            !s i+1
+            !b undefined
+            next
+          :
+            if
+              chr == ' ':
+                if
+                  i-s == width: # break
+                    push &lines range(text s i-1)
+                    !s i+1
+                    !b undefined
+                    next
+                  :
+                    !b i
+                    next
+              :
+                if
+                  i-s < width
+                  next
+                  :
+                    if
+                      b.is_defined: # wrap
+                        push &lines range(text s b-1)
+                        !s b+1
+                        !b undefined
+                        next
+                      : # hard break
+                        push &lines range(text s i-1)
+                        !s i
+                        next
+
+[documentation remark]
+
+# std::wrap_words (a function)
+
+  wraps a string consisting of words onto multiple lines
+
+  Parameters:
+    text: the text to wrap
+    width: the maximum width of a line
+
+  Result:
+    lines: a list of (wrapped) lines
+
+  The string is split into multiple lines according to the specified line
+  width.
+
+  Topic: Strings
+
+  See also: std::indented
+
+  Example:
+
+    $str "This is a very long string that should be wrapped onto multiple lines"
+    $lines wrap_words(str 30)
+    dump! 2 `lines
+
+  Output:
+
+    lines:
+      list
+        "This is a very long string"
+        "that should be wrapped"
+        "onto multiple lines"
+
+[EXERCISE]
+
+#
+  Topic: Strings
+
+  Strings consist of zero or more characters.
+
+  A character is a tagged unsigned 32-bit integer.
+
+  They usually store uni-code code points.
+
+  The subtype <std_types::octet_string> of <std_types::string> is used for
+  binary data, often for storing utf8 encoded strings.
+
+  The most efficient string operation is <push> which adds a character to the
+  end of the string. Appending two or more strings is also done in an efficient
+  way.
+
+  Reading a character at any position is also efficient.
+
+  The most basic string operations are builtin.
+
+  Strings have a lot in common with <std_types::list>.
+
+  Related topics: Lists
+
+[symbols]
+
+$std::to_sentence_case ()
+$std::is_a_string ()
+$std::to_uint8_array ()
+$std_types::object.is_a_string false
+$std_types::string.is_a_string true
+$std::is_an_octet_string ()
+$std_types::object.is_an_octet_string false
+$std_types::octet_string.is_an_octet_string true
+$std_types::string.neutral_element_of ""
+$std_types::string/to_string:
+$std::create_string:
+$std::string:
+$std_types::string/put:
+$std_types::string/dup:
+$std_types::object/pad_left:
+$std_types::object/pad_right:
+$std::spaces:
+$std::tabs_and_spaces:
+$std::with_tabs:
+$std_types::string/match:
+$std_types::string/match_back:
+$std_types::string/matches:
+$std_types::string/search:
+$std_types::string/before:
+$std_types::string/truncate_from:
+$std_types::string/behind:
+$std_types::string/truncate_until:
+$std_types::string/from:
+$std_types::string/truncate_before:
+$std_types::string/until:
+$std_types::string/truncate_behind:
+$std_types::string/between:
+$std_types::string/has_prefix:
+$std_types::string/has_suffix:
+$std_types::string/without_prefix:
+$std_types::string/without_suffix:
+$std_types::string/contains:
+$std::split:
+$std::join:
+$std::trim:
+$std::trim_left:
+$std::trim_right:
+$std::normalize:
+$std_types::octet_string/to_base64:
+$std_types::octet_string/from_base64:
+$std_types::octet_string/sha1:
+$std::parse_integer:
+$std::parse_number:
+$std::parse_hex:
+$std_types::string/to_integer:
+$std_types::string/to_number:
+$std::map_characters:
+$std_types::string/to_upper_case:
+$std_types::string/to_lower_case:
+$std_types::string/to_title_case:
+$std_types::string/to_sentence_case:
+$std_types::string/to_wide: (str)
+$std::delete_all:
+$std::replace_all:
+$std::replace_first:
+$std::count_occurrences:
+$std::split_into_lines: (text)
+$std::split_into_indented_lines:
+$std::subgroups_of (!)
+$std::split_into_groups:
+$std::wrap_words:
+$std_types::string/serialize:
+$std_types::octet_string/to_uint8_array:
+$std::indented:
+$std::format:
+$std_types::string.empty_collection_of ""
+
+$std::wrap_words:
+  #
+    wraps a string consisting of words onto multiple lines
+
+    The string is split into multiple lines according to the specified line
+    width.
+
+    The result is a list of lines.
+
+    Topic: Strings
+
+    See also: indented
+
+    Example:
+
+      $str "This is a very long string that should be wrapped onto multiple lines"
+      $lines wrap_words(str 30)
+      dump! 2 `lines
+
+    Output:
+
+      lines:
+        list
+          "This is a very long string"
+          "that should be wrapped"
+          "onto multiple lines"
+  (
+    text # the string to wrap
+    width # the desired line width
+    _do_use_character_width = false
+  )
+  $lines empty_list
+  $n length_of(text)
+  $s 1 # start of line
+  $b undefined # possible break position
+  $i 0
+  loop:
+    inc &i
+    if
+      i > n:
+        if
+          s > n
+          -> lines
+          -> push(lines range(text s n))
+      :
+        $chr text(i)
+        case chr
+          '@nl;':
+            push &lines range(text s i-1)
+            !s i+1
+            !b undefined
+            next
+          :
+            if
+              chr == ' ':
+                if
+                  i-s == width: # break
+                    push &lines range(text s i-1)
+                    !s i+1
+                    !b undefined
+                    next
+                  :
+                    !b i
+                    next
+              :
+                if
+                  i-s < width
+                  next
+                  :
+                    if
+                      b.is_defined: # wrap
+                        push &lines range(text s b-1)
+                        !s b+1
+                        !b undefined
+                        next
+                      : # hard break
+                        push &lines range(text s i-1)
+                        !s i
+                        next
+
+$std_types::string/serialize:
+  #
+    returns a string representation of the string
+
+    Topic: Strings
+
+    See also: deserialize
+
+    Example:
+
+      $str "Hello World"
+      $serialized_str serialize(str)
+      dump! `serialized_str
+
+    Output:
+
+      serialized_str: "@quot;Hello World@quot;@0xa;"
+  (
+    self
+    indent = undefined
+  )
+  $str "@quot;"
+  $s 1
+  for_each self
+    : (idx chr)
+      if
+        chr < '@0x20;' || chr > '@0x7e;' || chr == '"' || chr == '@@':
+          append &str range(self s idx-1)
+          append &str "@@@(chr.to_integer);"
+          !s idx+1
+          next
+        next
+    :
+      append &str range(self s -1)
+      append &str "@quot;@nl;"
+      if
+        indent.is_defined
+        -> append(tabs_and_spaces(indent) str)
+        -> str
+
+$std_types::octet_string/to_uint8_array:
+  #
+    converts a string to an array of unsigned 8-bit integers
+
+    Topic: Strings
+
+    See also: to_string
+
+    Example:
+
+      $str "Hello World"
+      $arr to_uint8_array(str)
+      dump! 2 `arr
+  (
+    self
+  )
+  $arr uint8_array(length_of(self))
+  for_each self
+    : (idx chr)
+      !arr(idx) chr.to_integer
+      next
+    -> arr
+
+$std::indented:
+  #
+    increases the indent of the specified (multi-line) string
+
+    The text is indented via tabs and spaces. Existing indents are treated
+    correctly.
+
+    The line feed character after the last line is optional.
+
+    Topic: Strings
+
+    See also: wrap_words
+
+    Example:
+
+      $str "
+        a
+          b
+            c
+        d
+      $indented_str indented(5 str)
+      print! indented_str
+
+    Output:
+
+           a
+             b
+               c
+           d
+  (
+    indent
+    text
+  )
+  $indented_text ""
+  $new_indent undefined
+  $i 1
+  $n length_of(text)
+  loop:
+    !new_indent indent
+    skip_indent !i !new_indent
+    if
+      i <= n:
+        if
+          text(i) == '@nl;':
+            push &indented_text '@nl;'
+            !i i+1
+            next
+          :
+            append &indented_text tabs_and_spaces(new_indent)
+            $s i
+            loop
+              :
+                if
+                  text(i) == '@nl;':
+                    append &indented_text range(text s i)
+                    !i i+1
+                    break
+                  :
+                    if
+                      i < n:
+                        !i i+1
+                        next
+                      :
+                        append indented_text range(text s -1)
+              next
+
+      -> indented_text
+
+  $skip_indent:
+    if
+      i <= n:
+        if
+          text(i) == '@ht;':
+            !i i+1
+            !new_indent new_indent+8
+            skip_indent
+          skip_spaces
+      -> i new_indent
+
+  $skip_spaces:
+    if
+      i <= n && text(i) == ' ':
+        !i i+1
+        !new_indent new_indent+1
+        skip_spaces
+      -> i new_indent
+
+$LEFT .
+
+$RIGHT .
+
+$CENTER .
+
+$std::format:
+  #
+    formats its arguments using the specified template string
+
+    The *template* contains a format specifier for each argument.
+
+    Each format specifier start with a '%'-character and is folled by a length
+    and (optionally) by a '.'-character and a second length specifying the
+    number of decimal places.
+
+    E.g. "%3.1" is a format specifier to print a real number with 3 digits,
+    followed by a decimal point and 1 decimal place.
+
+    If the size of the number exceeds the specified number of digits then the
+    number is displayed anyways (ignoring the format specification).
+
+    If the '%'-character is immediately followed by an 'l' or an 'r' it ist
+    left- respectively righ-justified. The default is right justification.
+
+    To print a character that might me misinterpreted as a part of a format
+    specifier ('%', '.' or a digit) precede it with a backslash character ('\').
+    This is also the way to print a backslash itself.
+
+    The function returns the constructed string or <undefined> if the template
+    string contains invalid format specifiers.
+
+    Topic: Strings
+  (
+    template # the template string
+    arguments* # the embedded arguments
+  )
+  $output ""
+  $arg_idx 1
+  $i 1
+  $n length_of(template)
+  loop:
+    if
+      i > n
+      -> output
+      :
+        $chr template(i)
+        !i i+1
+        case chr
+          '%':
+            if
+              i > n
+              -> undefined
+              :
+                case template(i) $alignment !i
+                  'l' -> LEFT i+1
+                  'r' -> RIGHT i+1
+                  'c' -> CENTER i+1
+                  -> RIGHT i
+                $len_chr template(i)
+                if
+                  len_chr < '0' || len_chr > '9'
+                  -> undefined
+                  :
+                    $width len_chr-'0'
+                    loop
+                      :
+                        !i i+1
+                        if
+                          i > n
+                          break
+                          :
+                            $fmt_chr template(i)
+                            if
+                              fmt_chr < '0' || fmt_chr > '9'
+                              break
+                              :
+                                !width 10*width+(fmt_chr-'0')
+                                next
+                      :
+                        if
+                          i > n:
+                            add_argument width
+                          :
+                            if
+                              template(i) == '.':
+                                !i i+1
+                                if
+                                  i > n
+                                  -> undefined
+                                  :
+                                    $dw_chr template(i)
+                                    if
+                                      dw_chr < '0' || dw_chr > '9'
+                                      -> undefined
+                                      :
+                                        $dw dw_chr-'0'
+                                        loop
+                                          :
+                                            !i i+1
+                                            if
+                                              i > n
+                                              break
+                                              :
+                                                $fmt_chr template(i)
+                                                if
+                                                  fmt_chr < '0' || fmt_chr > '9'
+                                                  break
+                                                  :
+                                                    !dw 10*dw+(fmt_chr-'0')
+                                                    next
+                                          :
+                                            add_argument alignment width dw
+                              :
+                                add_argument alignment width
+          '\':
+            if
+              i > n
+              -> undefined
+              :
+                push &output template(i)
+                !i i+1
+                next
+          :
+            push &output chr
+            next
+
+  $add_argument:
+    (
+      alignment
+      width
+      decimal_width = undefined
+    )
+    $argument arguments(arg_idx)
+    !arg_idx arg_idx+1
+    append &output
+      if
+        decimal_width.is_defined:
+          real_to_string &argument
+          if
+            argument.is_undefined
+            -> undefined
+            :
+              $value argument .truncate_from. '.'
+              $decimals argument .behind. '.'
+              string
+                pad_left(value width)
+                "."
+                truncate(pad_right(decimals decimal_width "0") decimal_width)
+        :
+          case alignment
+            LEFT -> pad_right(argument width)
+            RIGHT -> pad_left(argument width)
+    next
+
+$real_to_string: (num)
+  $str num.to_string
+  $n length_of(str)
+  $i n
+  loop:
+    if
+      i == 0
+      -> str
+      :
+        if
+          str(i) == 'e'
+          handle_exponent
+          :
+            !i i-1
+            next
+
+  $handle_exponent:
+    if
+      i >= n || str(2) != '.'
+      -> undefined
+      :
+        $exp range(str i+2 n).to_integer
+        $man put(range(str 3 i-1) str(1))
+        if
+          exp.is_undefined
+          -> undefined
+          :
+            $zeros dup("0" exp-1)
+            case str(i+1)
+              '+':
+                -> append(man zeros)
+              '-':
+                -> append("0." append(zeros man))
+              -> undefined
+
+$std_types::string.empty_collection_of ""
+
+[source]
+
+$std::format:
+  #
+    formats its arguments using the specified template string
+
+    The *template* contains a format specifier for each argument.
+
+    Each format specifier start with a '%'-character and is folled by a length
+    and (optionally) by a '.'-character and a second length specifying the
+    number of decimal places.
+
+    E.g. "%3.1" is a format specifier to print a real number with 3 digits,
+    followed by a decimal point and 1 decimal place.
+
+    If the size of the number exceeds the specified number of digits then the
+    number is displayed anyways (ignoring the format specification).
+
+    If the '%'-character is immediately followed by an 'l' or an 'r' it ist
+    left- respectively righ-justified. The default is right justification.
+
+    To print a character that might me misinterpreted as a part of a format
+    specifier ('%', '.' or a digit) precede it with a backslash character ('\').
+    This is also the way to print a backslash itself.
+
+    The function returns the constructed string or <undefined> if the template
+    string contains invalid format specifiers.
+
+    Topic: Strings
+  (
+    template # the template string
+    arguments* # the embedded arguments
+  )
+  $output ""
+  $arg_idx 1
+  $i 1
+  $n length_of(template)
+  loop:
+    if
+      i > n
+      -> output
+      :
+        $chr template(i)
+        !i i+1
+        case chr
+          '%':
+            if
+              i > n
+              -> undefined
+              :
+                case template(i) $alignment !i
+                  'l' -> LEFT i+1
+                  'r' -> RIGHT i+1
+                  'c' -> CENTER i+1
+                  -> RIGHT i
+                $len_chr template(i)
+                if
+                  len_chr < '0' || len_chr > '9'
+                  -> undefined
+                  :
+                    $width len_chr-'0'
+                    loop
+                      :
+                        !i i+1
+                        if
+                          i > n
+                          break
+                          :
+                            $fmt_chr template(i)
+                            if
+                              fmt_chr < '0' || fmt_chr > '9'
+                              break
+                              :
+                                !width 10*width+(fmt_chr-'0')
+                                next
+                      :
+                        if
+                          i > n:
+                            add_argument width
+                          :
+                            if
+                              template(i) == '.':
+                                !i i+1
+                                if
+                                  i > n
+                                  -> undefined
+                                  :
+                                    $dw_chr template(i)
+                                    if
+                                      dw_chr < '0' || dw_chr > '9'
+                                      -> undefined
+                                      :
+                                        $dw dw_chr-'0'
+                                        loop
+                                          :
+                                            !i i+1
+                                            if
+                                              i > n
+                                              break
+                                              :
+                                                $fmt_chr template(i)
+                                                if
+                                                  fmt_chr < '0' || fmt_chr > '9'
+                                                  break
+                                                  :
+                                                    !dw 10*dw+(fmt_chr-'0')
+                                                    next
+                                          :
+                                            add_argument alignment width dw
+                              :
+                                add_argument alignment width
+          '\':
+            if
+              i > n
+              -> undefined
+              :
+                push &output template(i)
+                !i i+1
+                next
+          :
+            push &output chr
+            next
+
+  $add_argument:
+    (
+      alignment
+      width
+      decimal_width = undefined
+    )
+    $argument arguments(arg_idx)
+    !arg_idx arg_idx+1
+    append &output
+      if
+        decimal_width.is_defined:
+          real_to_string &argument
+          if
+            argument.is_undefined
+            -> undefined
+            :
+              $value argument .truncate_from. '.'
+              $decimals argument .behind. '.'
+              string
+                pad_left(value width)
+                "."
+                truncate(pad_right(decimals decimal_width "0") decimal_width)
+        :
+          case alignment
+            LEFT -> pad_right(argument width)
+            RIGHT -> pad_left(argument width)
+    next
+
+[documentation remark]
+
+### Always copy examples contained in the symbol's description remark
+    into the documentation
+
+### Use only one of the following topics: Strings
+
+# std::format (a function)
+
