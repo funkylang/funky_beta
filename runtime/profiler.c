@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2021 by
+  Copyright (C) 2024 by
   Dipl.-Ing. Michael Niederle
 
   This program is free software; you can redistribute it and/or modify
@@ -37,6 +37,17 @@
 #include "memory.h"
 #include "interpreter.h"
 #include "profiler.h"
+#include "debugger.h"
+
+/*
+  This version of the interpreter is used for
+
+   * profiling
+
+   * tracing
+
+   * debugging
+*/
 
 EXPORT const char *count_names[] = {
   "instructions:",
@@ -57,10 +68,6 @@ EXPORT PROFILE profile;
 
 extern int do_profile;
 extern int do_trace;
-
-#define STACK_SIZE 0x100000
-
-static char stack[STACK_SIZE];
 
 extern char **var_names;
 extern char **const_names;
@@ -300,6 +307,13 @@ extern const TAB_NUM **tail_call_sp;
 
 static TAB_NUM expect_no_results[1] = {0};
 
+EXPORT const TAB_NUM *function_code_start;
+EXPORT const TAB_NUM *function_code_end;
+
+static const TAB_NUM *function_code_start_stack[4096];
+static const TAB_NUM *function_code_end_stack[4096];
+static int function_code_sp = 0;
+
 void profiler(void) {
   // initialize stack
   TREE *initial_dynamics = TLS_frame->dynamics;
@@ -319,9 +333,20 @@ void profiler(void) {
   const TAB_NUM *caller_arguments = TLS_code;
   FUNC func;
 
-  TLS_code = (const TAB_NUM *)((unsigned long)TLS_myself->type & -4L);
+  if (do_debug) {
+    TLS_code = ((FUNCTION_INFO *)((unsigned long)TLS_myself->type & -4L))->code;
+    function_code_start_stack[function_code_sp] = function_code_start;
+    function_code_end_stack[function_code_sp] = function_code_end;
+    ++function_code_sp;
+    function_code_start = TLS_code;
+    function_code_end =
+      ((FUNCTION_INFO *)((unsigned long)TLS_myself->type & -4L))->code_end;
+  } else {
+    TLS_code = (const TAB_NUM *)((unsigned long)TLS_myself->type & -4L);
+  }
 
-  allocate_frame_and_initialize_locals(TLS_frame, *TLS_code++ /* slot count */);
+  TAB_NUM slot_count = *TLS_code++;
+  allocate_frame_and_initialize_locals(TLS_frame, slot_count);
 
   int argument_count = TLS_argument_count;
   TAB_NUM parameter_count = *TLS_code++;
@@ -388,6 +413,11 @@ void profiler(void) {
 	}
 	TLS_code = caller_arguments;
 	TLS_frame = TLS_frame->link;
+	if (do_debug) {
+	  --function_code_sp;
+	  function_code_start = function_code_start_stack[function_code_sp];
+	  function_code_end = function_code_end_stack[function_code_sp];
+	}
 	goto chain_to_c_function;
       }
       // copy arguments into parameters
@@ -400,6 +430,19 @@ void profiler(void) {
 
   execute_statements:;
 
+  if (
+    do_debug &&
+    (
+      instruction_counter == break_at ||
+      break_on_return && TLS_frame->link > break_frame ||
+      (
+	break_code_start &&
+	TLS_code >= break_code_start &&
+	TLS_code < break_code_end
+      ) ||
+      break_on_io && io_occurred
+    )
+  ) debug();
   ++instruction_counter;
   ++profile.counts[COUNT_instructions];
 
@@ -439,6 +482,11 @@ void profiler(void) {
 	tail_call_sp = tail_call_stack;
 	FRAME *callee_frame = TLS_frame;
 	TLS_frame = TLS_frame->link;
+	if (do_debug) {
+	  --function_code_sp;
+	  function_code_start = function_code_start_stack[function_code_sp];
+	  function_code_end = function_code_end_stack[function_code_sp];
+	}
 	if (TLS_deny_io) --TLS_deny_io;
 	  // if we do not have I/O-access then remove one deny-level
 	TLS_code = TLS_frame->code;
@@ -513,7 +561,15 @@ void profiler(void) {
 
 	++profile.counts[COUNT_tail_calls];
 	const TAB_NUM *caller_code = TLS_code;
-	TLS_code = (const TAB_NUM *)((unsigned long)TLS_myself->type & -4L);
+	if (do_debug) {
+	  TLS_code = ((FUNCTION_INFO *)
+	    ((unsigned long)TLS_myself->type & -4L))->code;
+	  function_code_start = TLS_code;
+	  function_code_end = ((FUNCTION_INFO *)
+	    ((unsigned long)TLS_myself->type & -4L))->code_end;
+	} else {
+	  TLS_code = (const TAB_NUM *)((unsigned long)TLS_myself->type & -4L);
+	}
 
 	TAB_NUM slot_count = *TLS_code++;
 	parameter_count = *TLS_code++;
@@ -628,6 +684,11 @@ void profiler(void) {
 	    const TAB_NUM *callee_code = TLS_code;
 	    FRAME *callee_frame = TLS_frame;
 	    TLS_frame = TLS_frame->link;
+	    if (do_debug) {
+	      --function_code_sp;
+	      function_code_start = function_code_start_stack[function_code_sp];
+	      function_code_end = function_code_end_stack[function_code_sp];
+	    }
 	    if (TLS_deny_io) --TLS_deny_io;
 	      // if we do not have I/O-access then remove one level
 	    TLS_code = TLS_frame->code;
@@ -649,7 +710,6 @@ void profiler(void) {
 	  goto call_c_function;
 	}
 
-	//if (TLS_argument_count == 2 && ((long)func & 4)) {
 	if (TLS_argument_count == 2) {
 	  // polymorphic setter
 	  int idx = decode_attribute_index(last_attr_idx);
@@ -686,6 +746,11 @@ void profiler(void) {
   if (TLS_result_count < 0) {
     // tail call
     TLS_frame = TLS_frame->link;
+    if (do_debug) {
+      --function_code_sp;
+      function_code_start = function_code_start_stack[function_code_sp];
+      function_code_end = function_code_end_stack[function_code_sp];
+    }
     is_a_tail_call = true;
     TLS_code = TLS_frame->code;
     TLS_result_count = *TLS_code;
@@ -720,6 +785,11 @@ void profiler(void) {
     if (TLS_argument_count) { // an error object was returned
       do {
 	TLS_frame = TLS_frame->link;
+	if (do_debug) {
+	  --function_code_sp;
+	  function_code_start = function_code_start_stack[function_code_sp];
+	  function_code_end = function_code_end_stack[function_code_sp];
+	}
 	if (TLS_deny_io) --TLS_deny_io;
 	  // we return immediately to our caller
 	TLS_code = TLS_frame->code;

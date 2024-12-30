@@ -55,17 +55,113 @@ $LOAD_SYMBOLS/job_failed: (_self io state _buf _context)
   -> io state
 
 $fde::symbols_of ()
+$continuation_of ()
+$debug_fd_of ()
+$watch_window_id_of ()
+$instruction_pointer_of ()
+$do_skip_initializers_of ()
+$executable_of ()
+$modules_of ()
 
-$tedi_types::state.symbols_of undefined
+$tedi_types::state
+  .symbols_of undefined
+  .continuation_of undefined
+  .debug_fd_of undefined
+  .watch_window_id_of undefined
+  .instruction_pointer_of undefined
+  .do_skip_initializers_of false
+  .executable_of undefined
+  .modules_of undefined
+
+$COMPILE .
+$RUN .
+$START_OR_STOP_DEBUGGING .
+$EXIT_FUNCTION .
+$STEP_INTO .
+$STEP_OVER .
+$SKIP_INITIALIZERS .
+$RUN_TO_CURSOR .
+$TOGGLE_BREAKPOINT .
+$ADD_OR_REMOVE_WATCH .
 
 # Initialization
 
-!tedi::functions("context_help") tuple(context_help IO)
+!main_menu
+  append
+    range(main_menu 1 -2)
+    list
+      "Debug" =
+	list
+	  "Compile (F9)" = COMPILE
+	  "Run (shift-F9)" = RUN
+	  "Start or stop debugging (ctrl-F9)" = START_OR_STOP_DEBUGGING
+	  "Step into (F7)" = STEP_INTO
+	  "Step over (F8)" = STEP_OVER
+	  "Skip initializers (ctrl-F8)" = SKIP_INITIALIZERS
+	  "Run to cursor (F4)" = RUN_TO_CURSOR
+	  "Exit function (F6)" = EXIT_FUNCTION
+	  "Toggle breakpoint (F5)" = TOGGLE_BREAKPOINT
+	  "Add/remove watch (F10)" = ADD_OR_REMOVE_WATCH
+      main_menu(-1)
+
+append &help_sections
+  list
+    "FDE" =
+      list
+	"context_help" =
+	  "
+	    opens a help window for the symbol under the cursor
+
+!default_configuration.commands_of(COMPILE) "compile"
+!default_configuration.commands_of(F9) "compile"
+!default_configuration.commands_of(RUN) "run_program"
+!default_configuration.commands_of(SHIFT_F9) "run_program"
+!default_configuration.commands_of(START_OR_STOP_DEBUGGING)
+  "start_or_stop_debugging"
+!default_configuration.commands_of(CTRL_F9) "start_or_stop_debugging"
+!default_configuration.commands_of(STEP_INTO) "step_into"
+!default_configuration.commands_of(F7) "step_into"
+!default_configuration.commands_of(STEP_OVER) "step_over"
+!default_configuration.commands_of(STEP_OVER) "step_over"
+!default_configuration.commands_of(F8) "step_over"
+!default_configuration.commands_of(SKIP_INITIALIZERS) "skip_initializers"
+!default_configuration.commands_of(CTRL_F8) "skip_initializers"
+!default_configuration.commands_of(RUN_TO_CURSOR) "run_to_cursor"
+!default_configuration.commands_of(F4) "run_to_cursor"
+!default_configuration.commands_of(EXIT_FUNCTION) "exit_function"
+!default_configuration.commands_of(F6) "exit_function"
+!default_configuration.commands_of(TOGGLE_BREAKPOINT) "toggle_breakpoint"
+!default_configuration.commands_of(F5) "toggle_breakpoint"
+!default_configuration.commands_of(ADD_OR_REMOVE_WATCH) "add_or_remove_watch"
+!default_configuration.commands_of(F10) "add_or_remove_watch"
+
+!functions("context_help") tuple(context_help IO)
+!functions("compile") tuple(compile IO)
+!functions("run_program") tuple(run_program IO)
+!functions("start_or_stop_debugging") tuple(start_or_stop_debugging IO)
+!functions("step_into") tuple(step_into IO)
+!functions("step_over") tuple(step_over IO)
+!functions("skip_initializers") tuple(skip_initializers IO)
+!functions("run_to_cursor") tuple(run_to_cursor IO)
+!functions("exit_function") tuple(exit_function IO)
+!functions("toggle_breakpoint") tuple(toggle_breakpoint IO)
+!functions("add_or_remove_watch") tuple(add_or_remove_watch IO)
+
 !double_click_action context_help
 
 push &plugins symbol_plugin
 
-$fde::context_help: (io state x y lines _info)
+$tedi_types::state/set_status_line: (state)
+  $page get_content(window_manager_of(state))
+  get_xy page window_manager_of(state) $x $y
+  $status "@(y):@(x) (@(height_of(page)):@(width_of(page)))"
+  update_if instruction_pointer_of(state).is_defined &status
+    -> "
+      @(status) [@(instruction_pointer_of(state))]
+  set_status &state.window_manager_of status
+  -> state
+
+$context_help: (io state x y lines _info)
   $symbols symbols_of(state)
   if
     symbols.is_defined:
@@ -100,6 +196,668 @@ $fde::context_help: (io state x y lines _info)
 	No symbol information available!
       -> io state
 
+$compile: (io state _x _y _lines _info)
+  if
+    tty_filename.is_defined:
+      # save all modified files
+      for_each window_manager_of(state)
+	: (id page)
+	  $info info_of(page)
+	  if
+	    version_of(info) != saved_version_of(info):
+	      push &state.files_to_save_of id
+	      next
+	    next
+	:
+	  if
+	    files_to_save_of(state).is_empty:
+	      start_compilation io state
+	    :
+	      save_files io state start_compilation
+    :
+      !state.continuation_of undefined
+      $message "no teletype set"
+      log &io message
+      show_error_message &state COMPILE message
+      -> io state
+
+$start_compilation: (io state)
+  $current_page get_content(window_manager_of(state))
+  if
+    starts_with_a_shebang(current_page):
+      call_compiler filename_of(current_page)
+    :
+      $window_id undefined
+      for_each window_manager_of(state)
+	: (id page)
+	  if
+	    starts_with_a_shebang(page):
+	      if
+		window_id.is_defined:
+		  !state.continuation_of undefined
+		  $message "more than one main module found"
+		  log &io message
+		  show_error_message &state COMPILE message
+		  -> io state
+		:
+		  !window_id id
+		  next
+	    next
+	:
+	  if
+	    window_id.is_undefined:
+	      !state.continuation_of undefined
+	      $message "no main module found"
+	      log &io message
+	      show_error_message &state COMPILE message
+	      -> io state
+	    :
+	      $page get_content(window_manager_of(state) window_id)
+	      call_compiler filename_of(page)
+
+  $call_compiler: (filename)
+    !state.executable_of filename .without_suffix. ".fky"
+    log &io "
+      compiling "@(filename)" ...
+    call &io COMPILE "funky" list("--brief" filename) filename
+    -> io state
+
+$starts_with_a_shebang: (page)
+  $lines lines_of(page)
+  -> length_of(lines) > 1 && text_of(lines(1)) .has_prefix. "#!"
+
+$COMPILE/job_failed: (_self io state info _context)
+  !state.continuation_of undefined
+  info $_status $_out $err
+  $filename err .before. ':'
+  $line_no between(err ':' ':').to_integer
+  $column_no between(err ':' ':' 2).to_integer
+  $current_page get_content(window_manager_of(state))
+  without_prefix &filename "./"
+  if
+    filename_of(current_page) == filename:
+      show_error current_page
+    :
+      for_each window_manager_of(state)
+	: (id page)
+	  if
+	    filename_of(page) == filename:
+	      focus_window &state.window_manager_of id
+	      show_error page
+	    next
+	:
+	  debug::dump `err
+	  debug::dump `filename
+	  -> io state
+
+  $show_error: (page)
+    goto_xy &page &state.window_manager_of column_no line_no
+    set_content &state.window_manager_of page
+    set_status_line &state
+    log &io -> "
+      failed to compile "@(filename)"
+    show_error_message &state COMPILE err
+    -> io state
+
+$COMPILE/job_completed: (_self io state _info filename)
+  log &io "compilation successful"
+  $continuation continuation_of(state)
+  !state.continuation_of undefined
+  if
+    continuation.is_defined:
+      continuation io state filename
+    -> io state
+
+$run_program: (io state x y lines info)
+  !state.continuation_of start_program
+  compile io state x y lines info
+
+$start_or_stop_debugging: (io state x y lines info)
+  $debug_fd debug_fd_of(state)
+  if
+    debug_fd.is_defined: # stop debugging
+      log &io "stopping debugging ..."
+      write &io debug_fd "
+	q
+      $watch_window_id watch_window_id_of(state)
+      if
+	watch_window_id.is_defined:
+	  close &state.window_manager_of watch_window_id
+	  !state.watch_window_id_of undefined
+	  -> io state
+	-> io state
+    :
+      !state.continuation_of debug_program
+      compile io state x y lines info
+
+$start_program: (io state filename)
+  without_suffix &filename ".fky"
+  append "./" &filename
+  log &io "
+    running "@(filename)" ...
+  run &io start_program_action filename list("++BRIEF++")
+  -> io state
+
+$debug_program: (io state filename)
+  without_suffix &filename ".fky"
+  append "./" &filename
+  run &io start_program_action filename list("++RECORD++" "++BRIEF++")
+  -> io state
+
+$start_program_action: (io cmd args)
+  open! $tty_fd tty_filename "r+"
+  write! $_bytes_written tty_fd "@esc;[2J@esc;[1;1H"
+  log &io "
+    running "@(cmd) @(args(1))"
+  create_process! $pid cmd args undefined tty_fd tty_fd tty_fd
+  close! tty_fd
+  join_process &io pid
+  register_handlers &io pid
+    PROCESS_JOINED = tuple(program_finished tuple(cmd args))
+  -> io undefined
+
+$program_finished: (io pid status cmd_and_args)
+  cmd_and_args $cmd $args
+  log &io "
+    "@(cmd) @(args(1))" finished with status @(status)
+  deregister_all_handlers &io pid
+  if
+    args(1) == "++RECORD++":
+      run &io start_debug_action cmd list("++DEBUG++" "++BRIEF++")
+      -> io undefined
+    -> io undefined
+
+$start_debug_action: (io cmd args)
+  open! $tty_fd tty_filename "r+"
+  write! $_bytes_written tty_fd "@esc;[2J@esc;[1;1H"
+  log &io "
+    running "@(cmd) @(args(1))"
+  create_process! $pid $in_fd $out_fd $err_fd cmd args
+  join_process &io pid
+  start_reading_from &io out_fd
+  start_reading_from &io err_fd
+  register_handlers &io out_fd
+    READ = read_debug_output
+    READ_FAILED = read_debug_output_failed
+    CLOSED = ignore_close
+  register_handlers &io err_fd
+    READ = read_debug_error_output
+    READ_FAILED = read_debug_error_output_failed
+    CLOSED = ignore_close
+  register_handlers &io pid
+    PROCESS_JOINED = debug_finished
+  -> io tuple(JOB_COMPLETED DEBUG START in_fd)
+
+$DEBUG .
+
+$START .
+$PROMPT .
+$FINISH .
+
+$DEBUG/job_completed: (_self io state cmd argument)
+  case cmd
+    START:
+      !state.debug_fd_of argument
+      show_status_message &state "debugging started"
+      -> io state
+    PROMPT:
+      $debug_fd debug_fd_of(state)
+      update_if do_skip_initializers_of(state) &io:
+	write io debug_fd "
+	  I
+      !state.do_skip_initializers_of false
+      log &io 4 argument
+      $prompt_lines split(argument '@nl;')
+      for_each prompt_lines
+	: (line)
+	  if
+	    line.is_empty || length_of(line) < 2 || line(2) != ':'
+	    next
+	    :
+	      $tag line(1)
+	      range &line 3 -1
+	      case tag
+		'E':
+		  show_error_message &state DEBUG line
+		  next
+		'm': # module
+		  $path line .before. '/'
+		  $filename
+		    case
+		      path
+		      "basic", "terminal", "ai", "web": # libraries
+			append
+			  installation_prefix()
+			  "/share/funky-" package_version()
+			  "/source/"
+			  line
+		      :
+			append until(executable_of(state) '/' -1) line
+		  !state.modules_of(line) filename
+		  next
+		'p':
+		  parse_integer &line $instruction_pointer
+		  if
+		    &&
+		      instruction_pointer.is_defined
+		      instruction_pointer != instruction_pointer_of(state)
+		    :
+		      !state.instruction_pointer_of instruction_pointer
+		      set_status_line &state
+		      update_watches &io &state
+		      if
+			modules_of(state).is_undefined:
+			  !state.modules_of empty_hash_table
+			  write &io debug_fd "
+			    lm
+			  get_trace
+			get_trace
+
+		      $get_trace:
+			write &io debug_fd "
+			  t
+			next
+		    next
+		's': # symbol
+		  $n length_of(line)
+		  $i 1
+		  loop
+		    :
+		      if
+			i > n
+			break
+			:
+			  if
+			    line(i) == ':':
+			      if
+				i < n && line(i+1) == ':':
+				  plus &i 2
+				  next
+				:
+				  $symbol range(line 1 i-1)
+				  $value range(line i+1 -1)
+				  add_watch &io &state symbol value
+				  break
+			    :
+			      inc &i
+			      next
+		    next
+		't':
+		  $filename line .before. ':'
+		  $line_no between(line ':' ':')
+		  $column_no behind(line ':' 2)
+		  if
+		    line_no.is_empty next
+		    :
+		      to_integer &line_no
+		      to_integer &column_no
+		      open_window &state
+			modules_of(state)(filename) line_no column_no
+		      next
+		next
+	:
+	  load_files io state
+    FINISH:
+      !state.debug_fd_of undefined
+      !state.instruction_pointer_of undefined
+      show_status_message &state DEBUG "debugging finished"
+      -> io state
+    -> io state
+
+$add_watch: (io state symbol value)
+  $watch_window_id watch_window_id_of(state)
+  if
+    watch_window_id.is_undefined:
+      $page add(fde_types::watch_page symbol value)
+      create_window &state.window_manager_of !state.watch_window_id_of
+	CONTENT = page
+	TITLE = "Watches"
+	DO_NOT_FOCUS
+      -> io state
+    :
+      $page get_content(window_manager_of(state) watch_window_id)
+      add &page symbol value
+      set_content &state.window_manager_of watch_window_id page
+      -> io state
+
+$update_watches: (io state)
+  $watch_window_id watch_window_id_of(state)
+  if
+    watch_window_id.is_defined:
+      $watch_page get_content(window_manager_of(state) watch_window_id)
+      for_each items_of(watch_page)
+	: (item)
+	  item $symbol
+	  write &io debug_fd_of(state) "
+	    p @(symbol)
+	  next
+	-> io state
+    -> io state
+
+$open_window: (state filename line_no column_no)
+  for_each window_manager_of(state)
+    : (id page)
+      if
+	kind_of(page) == TEDI && filename_of(page) == filename:
+	  focus_window &state.window_manager_of id
+	  if
+	    line_no.is_defined:
+	      goto_xy &page &state.window_manager_of column_no line_no
+	      set_status_line state
+	    -> state
+	next
+    :
+      # open the file in a new window and focus it
+      push &state.files_to_load_of tuple(filename true column_no line_no)
+      -> state
+
+$read_debug_output: (io _fd data)
+  -> io tuple(JOB_COMPLETED DEBUG PROMPT data)
+
+$read_debug_output_failed: (io _fd err)
+  debug::println "debug output failed:"
+  debug::dump `err
+  -> io undefined
+
+$read_debug_error_output: (io _fd data)
+  debug::println "debug error output:"
+  debug::dump `data
+  -> io undefined
+
+$read_debug_error_output_failed: (io _fd err)
+  debug::println "debug error output failed:"
+  debug::dump `err
+  -> io undefined
+
+$ignore_close: (io _fd _data)
+  -> io undefined
+
+$debug_finished: (io pid status)
+  log &io 3 "
+    debugger finished with status @(status)
+  deregister_all_handlers &io pid
+  -> io tuple(JOB_COMPLETED DEBUG FINISH)
+
+$step_into: (io state _x _y _lines _info)
+  $debug_fd debug_fd_of(state)
+  if
+    debug_fd.is_undefined:
+      show_warning_message &state DEBUG "
+	You can't step into in a program that is not being debugged!
+      -> io state
+    :
+      log &io 3 "step into"
+      write &io debug_fd "
+	s
+      -> io state
+
+$step_over: (io state _x _y _lines _info)
+  $debug_fd debug_fd_of(state)
+  if
+    debug_fd.is_undefined:
+      show_warning_message &state DEBUG "
+	You can't step over in a program that is not being debugged!
+      -> io state
+    :
+      log &io 3 "step over"
+      write &io debug_fd "
+	n
+      -> io state
+
+$skip_initializers: (io state x y lines info)
+  $debug_fd debug_fd_of(state)
+  if
+    debug_fd.is_undefined:
+      !state.do_skip_initializers_of true
+      start_or_stop_debugging io state x y lines info
+    :
+      write &io debug_fd "
+	I
+      -> io state
+
+$run_to_cursor: (io state _x _y _lines _info)
+  $debug_fd debug_fd_of(state)
+  if
+    debug_fd.is_undefined:
+      show_warning_message &state DEBUG "
+	You can't run to cursor in a program that is not being debugged!
+      -> io state
+    :
+      log &io 3 "run to cursor"
+      -> io state
+
+$exit_function: (io state _x _y _lines _info)
+  $debug_fd debug_fd_of(state)
+  if
+    debug_fd.is_undefined:
+      show_warning_message &state DEBUG "
+	You can't exit a function in a program that is not being debugged!
+      -> io state
+    :
+      log &io 3 "exit function"
+      write &io debug_fd "
+	e
+      -> io state
+
+$toggle_breakpoint: (io state _x _y _lines _info)
+  $debug_fd debug_fd_of(state)
+  if
+    debug_fd.is_undefined:
+      show_warning_message &state DEBUG "
+	You can't toggle a breakpoint in a program that is not being debugged!
+      -> io state
+    :
+      log &io 3 "togge breakpoint"
+      -> io state
+
+$add_or_remove_watch: (io state x y lines _info)
+  $debug_fd debug_fd_of(state)
+  if
+    debug_fd.is_undefined:
+      show_warning_message &state DEBUG "
+	You can only add watches while debugging!
+      -> io state
+    :
+      $identifier get_identifier_at_xy(x y lines)
+      if
+	identifier.is_undefined
+	-> io state
+	:
+	  update_if_not identifier .contains. ':' &identifier:
+	    $page get_content(window_manager_of(state))
+	    $module_prefix
+	      append
+		"_"
+		without_prefix
+		  without_suffix(filename_of(page) ".fky")
+		  until(executable_of(state) '/' -1)
+	    debug::dump `identifier
+	    get_mangled_variable_name lines_of(page)
+	      x y identifier module_prefix
+	  if
+	    identifier.is_defined:
+	      $watch_window_id watch_window_id_of(state)
+	      if
+		watch_window_id.is_defined:
+		  $watch_page
+		    get_content(window_manager_of(state) watch_window_id)
+		  if
+		    watch_page .contains. identifier:
+		      log &io 3 "
+			remove watch for "@(identifier)"
+		      remove &watch_page identifier
+		      if
+			watch_page.is_empty:
+			  close &state.window_manager_of watch_window_id
+			  !state.watch_window_id_of undefined
+			  -> io state
+
+			:
+			  set_content
+			    &state.window_manager_of watch_window_id watch_page
+			  -> io state
+		    add_a_watch
+		add_a_watch
+
+	      $add_a_watch:
+		log &io 3 "
+		  add watch for "@(identifier)"
+		write &io debug_fd "
+		  p @(identifier)
+		-> io state
+	    -> io state
+
+# Watch Page
+
+$WATCH .
+
+$items_of ()
+
+$fde_types::watch_page std_types::object
+  .kind_of WATCH
+  .items_of empty_list
+  .template_screen_of undefined
+  .screens_of empty_list
+  .first_screen_line_of undefined
+
+$fde_types::watch_page/add: (page symbol value)
+  # check if the symbol is already watched
+  $items items_of(page)
+  for_each items
+    : (idx item)
+      item $item_symbol $old_value
+      if
+	item_symbol == symbol:
+	  if
+	    value != old_value:
+	      !items(idx) tuple(symbol value)
+	      page
+		.first_screen_line_of undefined
+		.items_of items
+	    -> page
+	next
+    -> page(.items_of push(items tuple(symbol value)))
+
+$fde_types::watch_page/remove: (page symbol)
+  $items items_of(page)
+  for_each items
+    : (idx item)
+      item $item_symbol
+      if
+	item_symbol == symbol:
+	  !items append(range(items 1 idx-1) range(items idx+1 -1))
+	  page
+	    .first_screen_line_of undefined
+	    .items_of items
+	next
+    -> page
+
+$fde_types::watch_page/is_empty: (page)
+  -> items_of(page).is_empty
+
+$fde_types::watch_page/contains: (page symbol)
+  any_of items_of(page): (item) -> first(item) == symbol
+
+$fde_types::watch_page/height_of: (page)
+  -> length_of(items_of(page))
+
+$fde_types::watch_page/width_of: (page)
+  map_reduce
+    items_of(page)
+    : (item)
+      item $symbol $value
+      -> width_of(symbol)+2+width_of(value)
+    max
+    0
+
+$fde_types::watch_page/prepare: (page state line_range)
+  update_if template_screen_of(page).is_undefined &page.template_screen_of
+    -> template_screen_of(state)
+  line_range $from $to
+  min &to height_of(page)
+  $screens screens_of(page)
+  $first first_screen_line_of(page)
+  $last
+    if
+      first.is_defined
+      -> first+length_of(screens)-1
+      -> undefined
+  if
+    first.is_undefined || from > last || to < first:
+      # recreate all
+      $new_screens create_watch_screens(page from to)
+      cond
+	-> last == from-1: # last could be undefined
+	  # append
+	  append screens &new_screens
+	  page
+	    .screens_of new_screens
+	-> first == to+1: # first could be undefined
+	  # prepend
+	  append &new_screens screens
+	  page
+	    .first_screen_line_of from
+	    .screens_of new_screens
+	-> true:
+	  # replace
+	  page
+	    .first_screen_line_of from
+	    .screens_of new_screens
+    :
+      if
+	from >= first && to <= last
+	-> page
+	:
+	  if
+	    from < first:
+	      # prepend
+	      $new_screens create_watch_screens(page from first-1)
+	      append &new_screens screens
+	      page
+		.first_screen_line_of from
+		.screens_of new_screens
+	    :
+	      # append
+	      $new_screens create_watch_screens(page last+1 to)
+	      append screens &new_screens
+	      page
+		.screens_of new_screens
+
+$fde_types::watch_page/handle_key_press: (_page _io _state _key)
+  -> undefined undefined
+
+$fde_types::watch_page/handle_mouse_click: (_page io state _x _y _button)
+  -> io state
+
+$fde_types::watch_page/handle_changed_focus: (_page state)
+  -> state
+
+$fde_types::watch_page/: (page^ idx)
+  -> screens_of(page)(idx-first_screen_line_of(page)+1)
+
+$create_watch_screens: (page from to)
+  $screens empty_list
+  from_to from to
+    : (idx)
+      $item items_of(page)(idx)
+      item $symbol $value
+      update_if symbol(1) == '_' &symbol:
+	$module range(symbol .before. "::" 2 -1)
+	$name symbol .behind. "::"
+	update_if name(1).is_a_digit &name &module:
+	  $line_no name .before. '_'
+	  $column_no between(name '_' '_')
+	  -> behind(name '_' 2) append(module ":" line_no ":" column_no)
+	append
+	  name
+	  " (" module ")"
+      push &screens
+	create_text_screen
+	  template_screen_of(page)
+	  append(symbol ": " value)
+      next
+    -> screens
+
 # Helpers
 
 $get_identifier_at_xy: (x y lines)
@@ -116,8 +874,13 @@ $get_identifier_at_xy: (x y lines)
 	:
 	  $pos get_position(text x-indent)
 	  $chr text(pos)
+	  update_if chr == ':' &pos &chr:
+	    if
+	      pos > 1 && text(pos-1) == ':'
+	      -> pos-2 text(pos-2)
+	      -> pos-1 text(pos-1)
 	  if
-	    chr.is_a_letter || chr.is_a_digit || chr == '_':
+	    chr.is_a_letter || chr.is_a_digit || chr == '_' || chr == ':':
 	      $start pos
 	      $end pos
 	      loop:
@@ -132,16 +895,37 @@ $get_identifier_at_xy: (x y lines)
 		    dec &start
 		    next
 		  :
-		    loop:
-		      if
-			&&
-			  end < length_of(text)
-			  ||
-			    text(end+1).is_a_letter
-			    text(end+1).is_a_digit
-			    text(end+1) == '_'
-			:
-			  inc &end
-			  next
-			-> range(text start end)
+		    if
+		      start > 2 && text(start-1) == ':' && text(start-2) == ':':
+			minus &start 2
+			next
+		      :
+			loop:
+			  if
+			    &&
+			      end < length_of(text)
+			      ||
+				text(end+1).is_a_letter
+				text(end+1).is_a_digit
+				text(end+1) == '_'
+			    :
+			      inc &end
+			      next
+			    :
+			      if
+				&&
+				  end+1 < length_of(text)
+				  text(end+1) == ':'
+				  text(end+2) == ':'
+				:
+				  plus &end 2
+				  next
+				:
+				  $identifier range(text start end)
+				  if
+				    ||
+				      identifier(1) == '_'
+				      count_occurrences(identifier ':') > 2
+				    -> undefined
+				    -> identifier
 	    -> undefined

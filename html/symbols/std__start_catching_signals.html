@@ -37,7 +37,7 @@
 </table>
 <h2>Example</h2>
 <div class="Example">$io <a href="std_types__io.html">std_types::io</a> # create an input-output object
-<a href="std__start_catching_signals.html">start_catching_signals</a> &io SIGINT SIGTERM
+<a href="std__start_catching_signals.html">start_catching_signals</a> &io <a href="std__SIGINT.html">SIGINT</a> <a href="std__SIGTERM.html">SIGTERM</a>
 # now the io object will catch SIGINT and SIGTERM signals
 <a href="std__get_events.html">get_events</a>! &io $events # get one or more events
 <a href="std__for_each.html">for_each</a> events # handle all received events
@@ -46,10 +46,10 @@
     <a href="std__case.html">case</a> type # check the event type
       <a href="std__SIGNAL.html">SIGNAL</a>: # event is a signal event
         <a href="std__case.html">case</a> fd # check the signal number
-          SIGINT:
+          <a href="std__SIGINT.html">SIGINT</a>:
             # handle SIGINT signal
             <a href="std__next.html">next</a>
-          SIGTERM:
+          <a href="std__SIGTERM.html">SIGTERM</a>:
             # handle SIGTERM signal
             <a href="std__next.html">next</a>
         <a href="std__next.html">next</a> # ignore other signal types

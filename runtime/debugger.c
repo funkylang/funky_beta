@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2021 by
+  Copyright (C) 2024 by
   Dipl.-Ing. Michael Niederle
 
   This program is free software; you can redistribute it and/or modify
@@ -37,31 +37,44 @@
 #include "fko.h"
 #include "linker.h"
 #include "memory.h"
+#include "interpreter.h"
+#include "profiler.h"
 
 #if !defined(MAP_ANONYMOUS) && defined(MAP_ANON)
   #define MAP_ANONYMOUS MAP_ANON
 #endif
 
-extern size_t instruction_counter;
 extern jmp_buf main_loop_start;
 
-static int is_identifier_start_character(char chr) {
-  return chr >= 'a' && chr <= 'z' || chr >= 'A' && chr <= 'Z';
-}
+EXPORT int do_debug = false;
+EXPORT int do_break_after_initializers = false;
+EXPORT long break_at = 0;
+EXPORT FRAME *break_frame = 0;
+EXPORT int has_completed_initializers = false;
+EXPORT const TAB_NUM *break_code_start;
+EXPORT const TAB_NUM *break_code_end;
+EXPORT int io_occurred = false;
+EXPORT int break_on_return = false;
+EXPORT int break_on_io = false;
 
 static int is_identifier_character(char chr) {
   return
-    is_identifier_start_character(chr) ||
+    chr >= 'a' && chr <= 'z' || chr >= 'A' && chr <= 'Z' ||
     chr == '_' || chr >= '0' && chr <= '9';
 }
 
 static char *parse_identifier(char **pp) {
   char *p = *pp;
-  if (!is_identifier_start_character(*p)) return NULL;
-  char *identifier = p++;
-  while (is_identifier_character(*p)) ++p;
-  *pp = p;
-  return identifier;
+  char *identifier = p;
+  while (is_identifier_character(*p)) {
+   ++p;
+  }
+  if (p > identifier) {
+    *pp = p;
+    return identifier;
+  } else {
+    return NULL;
+  }
 }
 
 static void list_global_symbol_names(void) {
@@ -82,9 +95,8 @@ static void list_global_symbol_names(void) {
 static int already_sorted;
 
 static void list_module_names(void) {
-  FUNKY_MODULE **module_p, *module;
-  for(module_p = funky_modules; module = *module_p; ++module_p) {
-    printf("%s\n", module->name);
+  for (int i = 0; i < funky_module_count; ++i) {
+    printf("m:%s\n", funky_modules[i]->filename);
   }
 }
 
@@ -195,15 +207,162 @@ EXPORT void retrieve_continuation_info(
     current_module = funky_modules[i];
     for (j = 0; j < current_module->constants_count; ++j) {
       FUNKY_CONSTANT *constant = &current_module->constants[j];
-      if (constant->type == FLT_FUNCTION && code >= constant->tfunc) {
-	stmt = find_call(constant->tfunc, code, line_no_p, column_no_p);
-	if (stmt) {
-	  *module_name_p = current_module->filename;
-	  goto get_functor_name;
+      if (constant->type == FLT_FUNCTION) {
+	if (do_debug) {
+	  if (code >= constant->func_info->code) {
+	    stmt = find_call(
+	      constant->func_info->code, code, line_no_p, column_no_p);
+	    if (stmt) {
+	      *module_name_p = current_module->filename;
+	      goto get_functor_name;
+	    }
+	  }
+	} else {
+	  if (code >= constant->tfunc) {
+	    stmt = find_call(constant->tfunc, code, line_no_p, column_no_p);
+	    if (stmt) {
+	      *module_name_p = current_module->filename;
+	      goto get_functor_name;
+	    }
+	  }
 	}
       }
     }
   }
   *module_name_p = "<unknown>";
   *function_name_p = "<unknown>";
+}
+
+char last_cmd[256] = "";
+
+long prev_instruction_pointer = -1;
+
+void debug() {
+  char cmd[256];
+  //printf("!%p (%p..%p)\n", TLS_code, function_code_start, function_code_end);
+  io_occurred = false;
+  break_on_io = false;
+  break_on_return = false;
+  break_code_start = NULL;
+  break_code_end = NULL;
+  print_prompt:
+  if (instruction_counter != prev_instruction_pointer) {
+    prev_instruction_pointer = instruction_counter;
+    printf("p:%ld:%ld\n", instruction_counter, (char *)TLS_frame->link-stack);
+  }
+  fflush(stdout);
+  int i = 0;
+  while (true) {
+    char chr = getchar();
+    if (chr == '\n') break;
+    if (i < 256) cmd[i] = chr;
+    ++i;
+  }
+  if (i < 256) {
+    if (i == 0) {
+      if (*last_cmd) {
+	strcpy(cmd, last_cmd);
+      } else goto print_prompt;
+    } else {
+      cmd[i] = 0;
+      strcpy(last_cmd, cmd);
+    }
+    switch (cmd[0]) {
+      case 'c': // continue forwards
+	break;
+      case 'e' : // exit function
+	break_on_return = true;
+	break;
+      case 'l': // list
+	switch (cmd[1]) {
+	  case 'g': // global variables
+	    list_global_symbol_names();
+	    goto print_prompt;
+	  case 'm' : // modules
+	    list_module_names();
+	    goto print_prompt;
+	  case 'p': // valid code positions
+	    goto print_prompt;
+	  default:
+	    printf("Error: Unknown list command!\n");
+	    goto print_prompt;
+	}
+      case 'i': // continue until next I/O-operation
+	break_on_io = true;
+	break;
+      case 'I': // skip initializers
+	if (has_completed_initializers) goto print_prompt;
+	do_break_after_initializers = true;
+	break;
+      case 'n' : // step over
+	break_frame = TLS_frame->link;
+	break_code_start = function_code_start;
+	break_code_end = function_code_end;
+	break_on_return = true;
+	break;
+      case 'p': // print
+	{
+	  char *p = cmd+1;
+	  while (*p == ' ') ++p;
+	  char *name = parse_identifier(&p);
+	  if (name) {
+	    if (p[0] == ':' && p[1] == ':') {
+	      *p = 0;
+	      p += 2;
+	      char *namespace = name;
+	      name = parse_identifier(&p);
+	      if (*p) {
+		printf("E:Unexpected input at end of line!\n");
+		goto print_prompt;
+	      }
+	      int idx = find_symbol(namespace, name); // negative for constants
+	      if (idx == 0) {
+		printf(
+		  "E:Unknown variable \"%s::%s\"!\n", namespace, name);
+		goto print_prompt;
+	      } else {
+		NODE *node = get_var_or_const(idx);
+		long len = debug_string(node, 0, 1, NULL);
+		char *buf = malloc(len+1); // obey terminating null-byte
+		debug_string(node, 0, 1, buf);
+		buf[len] = 0; // add terminating null-byte
+		printf("s:%s::%s:%s", namespace, name, buf);
+		free(buf);
+		goto print_prompt;
+	      }
+	    }
+	  }
+	  printf("E:Invalid variable name!\n");
+	  goto print_prompt;
+	}
+      case 's': // step into
+	break_at = instruction_counter+1;
+	break;
+      case 't': // dump stack trace
+	{
+	  const char *module_name, *function_name;
+	  int line_no, column_no;
+	  retrieve_continuation_info(
+	    TLS_code, &module_name, &function_name, &line_no, &column_no);
+	  printf("t:%s:", module_name);
+	  /*if (function_name) {
+	    printf("%s", function_name);
+	  }*/
+	  if (line_no > 0) {
+	    printf("%d:%d\n", line_no, column_no);
+	  } else {
+	    printf(":\n");
+	  }
+	  goto print_prompt;
+	}
+      case 'q':
+	exit(EXIT_SUCCESS);
+      default:
+	printf("Error: Unknown command \"%c\"!", cmd[0]);
+	goto print_prompt;
+    }
+  } else {
+    printf("Error: Command line too long!\n");
+    goto print_prompt;
+  }
 }

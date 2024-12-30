@@ -55,7 +55,11 @@ $std_types::collection/is_not_empty:
 
 $std::add ()
   #
-    add some items to a collection
+    add some item(s) to a collection
+
+$std::remove ()
+  #
+    remove some item(s) from a collection
 
 $std::first_key_of ()
   #

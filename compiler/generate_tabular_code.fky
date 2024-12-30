@@ -406,6 +406,7 @@ $funky::generate_tabular_code: (top_level_statements is_a_main_module)
 		  -> ""
 		  :
 		    $mangled_name mangled_literals(body)
+		    #debug::dump 2 `get_source_position(body)
 		    $statements filter(statements_of(body) is_a_valid_statement)
 		    tabular_function
 		      mangled_name parameters_of(body) statements

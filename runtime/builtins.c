@@ -285,6 +285,10 @@ enum {
   func__std_types___file_descriptor___std___hash,
   func__std___file_descriptor,
   func__std_types___file_descriptor___std___to_integer,
+  func__std_types___signal_number___std___equal,
+  func__std_types___signal_number___std___hash,
+  func__std___signal_number,
+  func__std_types___signal_number___std___to_integer,
   func__std_types___shutdown_type___std___equal,
   func__std_types___shutdown_type___std___hash,
   func__std___shutdown_type,
@@ -342,6 +346,7 @@ enum {
   func__std___getsid,
   func__std___getuid,
   func__std___isatty,
+  func__std___kill,
   func__std___link,
   func__std___lseek,
   func__std___mkdir,
@@ -435,11 +440,6 @@ enum {
   func__std_types___unique_item___std___equal,
   func__std_types___unique_item___std___hash,
   func__std___unique_item,
-  unique__std___SIGHUP,
-  unique__std___SIGUSR1,
-  unique__std___SIGUSR2,
-  unique__std___CHILD_CHANGED_STATE,
-  unique__std___WINDOW_CHANGED_SIZE,
   func__std_types___file_descriptor___std___get_terminal_size,
   func__std___exitstatus,
   func__std___pselect,
@@ -762,6 +762,38 @@ enum {
   var_no__std___ECANCELED,
   var_no__std___EOWNERDEAD,
   var_no__std___ENOTRECOVERABLE,
+  var_no__std___SIGHUP,
+  var_no__std___SIGINT,
+  var_no__std___SIGQUIT,
+  var_no__std___SIGILL,
+  var_no__std___SIGTRAP,
+  var_no__std___SIGABRT,
+  var_no__std___SIGIOT,
+  var_no__std___SIGBUS,
+  var_no__std___SIGFPE,
+  var_no__std___SIGKILL,
+  var_no__std___SIGUSR1,
+  var_no__std___SIGSEGV,
+  var_no__std___SIGUSR2,
+  var_no__std___SIGPIPE,
+  var_no__std___SIGALRM,
+  var_no__std___SIGTERM,
+  var_no__std___SIGSTKFLT,
+  var_no__std___SIGCHLD,
+  var_no__std___SIGCONT,
+  var_no__std___SIGSTOP,
+  var_no__std___SIGTSTP,
+  var_no__std___SIGTTIN,
+  var_no__std___SIGTTOU,
+  var_no__std___SIGURG,
+  var_no__std___SIGXCPU,
+  var_no__std___SIGXFSZ,
+  var_no__std___SIGVTALRM,
+  var_no__std___SIGPROF,
+  var_no__std___SIGWINCH,
+  var_no__std___SIGIO,
+  var_no__std___SIGPWR,
+  var_no__std___SIGSYS,
   var_no__std___access_time_of,
   var_no__std___block_count_of,
   var_no__std___block_size_of,
@@ -786,6 +818,8 @@ enum {
   var_no__std___file_type,
   var_no__std_types___file_descriptor,
   var_no__std___file_descriptor,
+  var_no__std_types___signal_number,
+  var_no__std___signal_number,
   var_no__std_types___shutdown_type,
   var_no__std___shutdown_type,
   var_no__std_types___seek_type,
@@ -828,6 +862,7 @@ enum {
   var_no__std___getsid,
   var_no__std___getuid,
   var_no__std___isatty,
+  var_no__std___kill,
   var_no__std___link,
   var_no__std___lseek,
   var_no__std___mkdir,
@@ -893,11 +928,6 @@ enum {
   var_no__std_types___unique_item,
   var_no__std___unique_item,
   var_no__std_types___value_range,
-  var_no__std___SIGHUP,
-  var_no__std___SIGUSR1,
-  var_no__std___SIGUSR2,
-  var_no__std___CHILD_CHANGED_STATE,
-  var_no__std___WINDOW_CHANGED_SIZE,
   var_no__std___get_terminal_size,
   var_no__std___exitstatus,
   var_no__std___pselect,
@@ -1059,6 +1089,38 @@ static ERROR_NUMBER std___ENOMEDIUM;
 static ERROR_NUMBER std___ECANCELED;
 static ERROR_NUMBER std___EOWNERDEAD;
 static ERROR_NUMBER std___ENOTRECOVERABLE;
+static SIGNAL_NUMBER std___SIGHUP;
+static SIGNAL_NUMBER std___SIGINT;
+static SIGNAL_NUMBER std___SIGQUIT;
+static SIGNAL_NUMBER std___SIGILL;
+static SIGNAL_NUMBER std___SIGTRAP;
+static SIGNAL_NUMBER std___SIGABRT;
+static SIGNAL_NUMBER std___SIGIOT;
+static SIGNAL_NUMBER std___SIGBUS;
+static SIGNAL_NUMBER std___SIGFPE;
+static SIGNAL_NUMBER std___SIGKILL;
+static SIGNAL_NUMBER std___SIGUSR1;
+static SIGNAL_NUMBER std___SIGSEGV;
+static SIGNAL_NUMBER std___SIGUSR2;
+static SIGNAL_NUMBER std___SIGPIPE;
+static SIGNAL_NUMBER std___SIGALRM;
+static SIGNAL_NUMBER std___SIGTERM;
+static SIGNAL_NUMBER std___SIGSTKFLT;
+static SIGNAL_NUMBER std___SIGCHLD;
+static SIGNAL_NUMBER std___SIGCONT;
+static SIGNAL_NUMBER std___SIGSTOP;
+static SIGNAL_NUMBER std___SIGTSTP;
+static SIGNAL_NUMBER std___SIGTTIN;
+static SIGNAL_NUMBER std___SIGTTOU;
+static SIGNAL_NUMBER std___SIGURG;
+static SIGNAL_NUMBER std___SIGXCPU;
+static SIGNAL_NUMBER std___SIGXFSZ;
+static SIGNAL_NUMBER std___SIGVTALRM;
+static SIGNAL_NUMBER std___SIGPROF;
+static SIGNAL_NUMBER std___SIGWINCH;
+static SIGNAL_NUMBER std___SIGIO;
+static SIGNAL_NUMBER std___SIGPWR;
+static SIGNAL_NUMBER std___SIGSYS;
 static OCTET_STRING std___empty_string;
 
 static void *create__std_types___array
@@ -1202,6 +1264,11 @@ static void *create__std_types___file_type
   );
 
 static void *create__std_types___file_descriptor
+  (
+    int value
+  );
+
+static void *create__std_types___signal_number
   (
     int value
   );
@@ -1483,6 +1550,8 @@ static void *std_types___file_type____collect(FILE_TYPE *node);
 static long std_types___file_type____debug_string(NODE *node, int indent, int max_depth, char *buf);
 static void *std_types___file_descriptor____collect(FILE_DESCRIPTOR *node);
 static long std_types___file_descriptor____debug_string(NODE *node, int indent, int max_depth, char *buf);
+static void *std_types___signal_number____collect(SIGNAL_NUMBER *node);
+static long std_types___signal_number____debug_string(NODE *node, int indent, int max_depth, char *buf);
 static void *std_types___shutdown_type____collect(SHUTDOWN_TYPE *node);
 static long std_types___shutdown_type____debug_string(NODE *node, int indent, int max_depth, char *buf);
 static void *std_types___seek_type____collect(SEEK_TYPE *node);
@@ -4940,7 +5009,21 @@ static long std_types___function____debug_string
     char *buf
   )
   {
-    return debug_print(indent, buf, "<tabular function>");
+    const char *module_name, *function_name;
+    int line_no, column_no;
+    const TAB_NUM *code =
+      (const TAB_NUM *)((unsigned long)node->type & -4L);
+    //++code; // skip number of locals
+    //TAB_NUM parameter_count = *code++;
+    //if (parameter_count < 0) parameter_count = 2*-parameter_count;
+    //code += parameter_count;
+    retrieve_continuation_info(
+      code, &module_name, &function_name, &line_no, &column_no);
+    return
+      debug_print(
+	indent, buf,
+	"<function in module %s %d:%d>",
+	module_name, line_no, column_no);
   }
 
 NODE *create_function
@@ -5988,6 +6071,55 @@ static NODE *file_descriptor_from_int
   )
   {
     return create__std_types___file_descriptor(value);
+  }
+
+static void *std_types___signal_number____collect
+  (
+    SIGNAL_NUMBER *node
+  )
+  {
+    SIGNAL_NUMBER *new_node;
+    new_node = allocate(sizeof(SIGNAL_NUMBER));
+    new_node->type = node->type;
+    *(void **)node = ENCODE_ADDRESS(new_node);
+    new_node->attributes = collect_attributes(node->attributes);
+    new_node->value = node->value;
+    return new_node;
+  }
+
+static long std_types___signal_number____debug_string
+  (
+    NODE *node,
+    int indent,
+    int max_depth,
+    char *buf
+  )
+  {
+    return debug_print(
+      indent, buf, "<signal_number %d>", node->signal_number.value);
+  }
+
+static int signal_number_to_int
+  (
+    NODE *node,
+    int *result_p
+  )
+  {
+    if ((node)->type != std_types___signal_number.type) {
+      invalid_arguments();
+      return false;
+    } else {
+      *result_p = node->signal_number.value;
+      return true;
+    }
+  }
+
+static NODE *signal_number_from_int
+  (
+    int value
+  )
+  {
+    return create__std_types___signal_number(value);
   }
 
 static void *std_types___shutdown_type____collect
@@ -11319,6 +11451,16 @@ static void std_types___file_descriptor____type (void)
     }
   }
 
+static void std_types___signal_number____type (void)
+  {
+    {
+      create_error_message(
+        module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+        "Attempt to call a signal number as a function!", 0, 0, NULL);
+      return;
+    }
+  }
+
 static void std_types___shutdown_type____type (void)
   {
     {
@@ -11982,6 +12124,10 @@ FILE_TYPE std_types___file_type = {
 
 FILE_DESCRIPTOR std_types___file_descriptor = {
   std_types___file_descriptor____type, NULL
+};
+
+SIGNAL_NUMBER std_types___signal_number = {
+  std_types___signal_number____type, NULL
 };
 
 SHUTDOWN_TYPE std_types___shutdown_type = {
@@ -12660,6 +12806,134 @@ static ERROR_NUMBER std___ENOTRECOVERABLE = {
   std_types___error_number____type, NULL, ENOTRECOVERABLE
 };
 
+static SIGNAL_NUMBER std___SIGHUP = {
+  std_types___signal_number____type, NULL, SIGHUP
+};
+
+static SIGNAL_NUMBER std___SIGINT = {
+  std_types___signal_number____type, NULL, SIGINT
+};
+
+static SIGNAL_NUMBER std___SIGQUIT = {
+  std_types___signal_number____type, NULL, SIGQUIT
+};
+
+static SIGNAL_NUMBER std___SIGILL = {
+  std_types___signal_number____type, NULL, SIGILL
+};
+
+static SIGNAL_NUMBER std___SIGTRAP = {
+  std_types___signal_number____type, NULL, SIGTRAP
+};
+
+static SIGNAL_NUMBER std___SIGABRT = {
+  std_types___signal_number____type, NULL, SIGABRT
+};
+
+static SIGNAL_NUMBER std___SIGIOT = {
+  std_types___signal_number____type, NULL, SIGIOT
+};
+
+static SIGNAL_NUMBER std___SIGBUS = {
+  std_types___signal_number____type, NULL, SIGBUS
+};
+
+static SIGNAL_NUMBER std___SIGFPE = {
+  std_types___signal_number____type, NULL, SIGFPE
+};
+
+static SIGNAL_NUMBER std___SIGKILL = {
+  std_types___signal_number____type, NULL, SIGKILL
+};
+
+static SIGNAL_NUMBER std___SIGUSR1 = {
+  std_types___signal_number____type, NULL, SIGUSR1
+};
+
+static SIGNAL_NUMBER std___SIGSEGV = {
+  std_types___signal_number____type, NULL, SIGSEGV
+};
+
+static SIGNAL_NUMBER std___SIGUSR2 = {
+  std_types___signal_number____type, NULL, SIGUSR2
+};
+
+static SIGNAL_NUMBER std___SIGPIPE = {
+  std_types___signal_number____type, NULL, SIGPIPE
+};
+
+static SIGNAL_NUMBER std___SIGALRM = {
+  std_types___signal_number____type, NULL, SIGALRM
+};
+
+static SIGNAL_NUMBER std___SIGTERM = {
+  std_types___signal_number____type, NULL, SIGTERM
+};
+
+static SIGNAL_NUMBER std___SIGSTKFLT = {
+  std_types___signal_number____type, NULL, SIGSTKFLT
+};
+
+static SIGNAL_NUMBER std___SIGCHLD = {
+  std_types___signal_number____type, NULL, SIGCHLD
+};
+
+static SIGNAL_NUMBER std___SIGCONT = {
+  std_types___signal_number____type, NULL, SIGCONT
+};
+
+static SIGNAL_NUMBER std___SIGSTOP = {
+  std_types___signal_number____type, NULL, SIGSTOP
+};
+
+static SIGNAL_NUMBER std___SIGTSTP = {
+  std_types___signal_number____type, NULL, SIGTSTP
+};
+
+static SIGNAL_NUMBER std___SIGTTIN = {
+  std_types___signal_number____type, NULL, SIGTTIN
+};
+
+static SIGNAL_NUMBER std___SIGTTOU = {
+  std_types___signal_number____type, NULL, SIGTTOU
+};
+
+static SIGNAL_NUMBER std___SIGURG = {
+  std_types___signal_number____type, NULL, SIGURG
+};
+
+static SIGNAL_NUMBER std___SIGXCPU = {
+  std_types___signal_number____type, NULL, SIGXCPU
+};
+
+static SIGNAL_NUMBER std___SIGXFSZ = {
+  std_types___signal_number____type, NULL, SIGXFSZ
+};
+
+static SIGNAL_NUMBER std___SIGVTALRM = {
+  std_types___signal_number____type, NULL, SIGVTALRM
+};
+
+static SIGNAL_NUMBER std___SIGPROF = {
+  std_types___signal_number____type, NULL, SIGPROF
+};
+
+static SIGNAL_NUMBER std___SIGWINCH = {
+  std_types___signal_number____type, NULL, SIGWINCH
+};
+
+static SIGNAL_NUMBER std___SIGIO = {
+  std_types___signal_number____type, NULL, SIGIO
+};
+
+static SIGNAL_NUMBER std___SIGPWR = {
+  std_types___signal_number____type, NULL, SIGPWR
+};
+
+static SIGNAL_NUMBER std___SIGSYS = {
+  std_types___signal_number____type, NULL, SIGSYS
+};
+
 LIST std_types___sequence = {
   std_types___list____type, NULL, 0, 0, NULL
 };
@@ -13063,6 +13337,18 @@ static void *create__std_types___file_descriptor
     FILE_DESCRIPTOR *node = allocate(sizeof(FILE_DESCRIPTOR));
     node->type = std_types___file_descriptor____type;
     node->attributes = std_types___file_descriptor.attributes;
+    node->value = value;
+    return node;
+  }
+
+static void *create__std_types___signal_number
+  (
+    int value
+  )
+  {
+    SIGNAL_NUMBER *node = allocate(sizeof(SIGNAL_NUMBER));
+    node->type = std_types___signal_number____type;
+    node->attributes = std_types___signal_number.attributes;
     node->value = value;
     return node;
   }
@@ -17799,17 +18085,19 @@ static void entry__std___create_process (void)
       // child process
       if (TLS_argument_count >= 4) {
 	dup2_fd(TLS_arguments[3]->file_descriptor.value, STDIN_FILENO);
-	close(TLS_arguments[3]->file_descriptor.value);
-      } else {
-	close(in_pipe.write_fd);
-	dup2_fd(in_pipe.read_fd, STDIN_FILENO);
-	close(in_pipe.read_fd);
       }
       if (TLS_argument_count >= 5) {
 	dup2_fd(TLS_arguments[4]->file_descriptor.value, STDOUT_FILENO);
       }
       if (TLS_argument_count >= 6) {
 	dup2_fd(TLS_arguments[5]->file_descriptor.value, STDERR_FILENO);
+      }
+      if (TLS_argument_count >= 4) {
+	close(TLS_arguments[3]->file_descriptor.value);
+      } else {
+	close(in_pipe.write_fd);
+	dup2_fd(in_pipe.read_fd, STDIN_FILENO);
+	close(in_pipe.read_fd);
       }
       if (TLS_argument_count >= 5) {
 	close(TLS_arguments[4]->file_descriptor.value);
@@ -20316,6 +20604,78 @@ static void entry__std_types___file_descriptor___std___to_integer (void)
     }
   }
 
+static void entry__std_types___signal_number___std___equal (void)
+  {
+    if (TLS_argument_count != 2) {
+      invalid_arguments();
+      return;
+    }
+    if ((TLS_arguments[1])->type == std_types___signal_number.type)
+      {
+        NODE *result__node = (NODE *)(from_bool(
+      	  TLS_arguments[0]->signal_number.value ==
+      	  TLS_arguments[1]->signal_number.value));
+        TLS_arguments[0] = result__node;
+        TLS_argument_count = 1;
+        return;
+      }
+    {
+      NODE *result__node = (NODE *)(&std_types___false);
+      TLS_arguments[0] = result__node;
+      TLS_argument_count = 1;
+      return;
+    }
+  }
+
+static void entry__std_types___signal_number___std___hash (void)
+  {
+    if (TLS_argument_count != 1) {
+      invalid_arguments();
+      return;
+    }
+    uint32_t hash = TLS_arguments[0]->signal_number.value;
+    hash += 8379021777u;
+    hash *= 2567483615;
+    hash ^= hash >> 14 | hash << 18;
+    {
+      NODE *result__node = (NODE *)(from_uint32(hash));
+      TLS_arguments[0] = result__node;
+      TLS_argument_count = 1;
+      return;
+    };
+  }
+
+static void entry__std___signal_number (void)
+  {
+    if (TLS_argument_count != 1) {
+      invalid_arguments();
+      return;
+    }
+    int value;
+    if (!(to_int(TLS_arguments[0], &value))) return;
+    {
+      NODE *result__node = (NODE *)(create__std_types___signal_number(value));
+      TLS_arguments[0] = result__node;
+      TLS_argument_count = 1;
+      return;
+    }
+  }
+
+static void entry__std_types___signal_number___std___to_integer (void)
+  {
+    if (TLS_argument_count != 1) {
+      invalid_arguments();
+      return;
+    }
+    int value = TLS_arguments[0]->signal_number.value;
+    {
+      NODE *result__node = (NODE *)(from_int(value));
+      TLS_arguments[0] = result__node;
+      TLS_argument_count = 1;
+      return;
+    }
+  }
+
 static void entry__std_types___shutdown_type___std___equal (void)
   {
     if (TLS_argument_count != 2) {
@@ -21982,6 +22342,51 @@ static void entry__std___isatty (void)
     }
   }
 
+static void entry__std___kill (void)
+  {
+    if (TLS_argument_count != 2) {
+      invalid_arguments();
+      return;
+    }
+    if (TLS_deny_io) {
+      missing_io_access_rights();
+      return;
+    }
+    int pid;
+    int sig;
+    int result;
+    if (!process_id_to_int(TLS_arguments[0], &pid)) return;
+    if (!signal_number_to_int(TLS_arguments[1], &sig)) return;
+    if (event__mode != EM__REPLAY) {
+      result = kill(pid, sig);
+      if (event__mode == EM__RECORD) {
+        if (result == 0) {
+            successful__action("kill");
+          } else {
+            failed__action("kill");
+            store__integer(result);
+          }
+        }
+      } else {
+        if (replay__action("kill")) {
+          retrieve__integer(&result);
+      } else {
+          result = 0;
+      }
+        report__event("kill");
+          print__integer(pid);
+          print__integer(sig);
+          print__integer(result);
+    }
+    if (result == -1) {
+      create_error_message(
+	module__builtin.constants_base[unique__std___IO_ERROR-1],
+	"KILL FAILED", errno, 0, NULL);
+    } else {
+      TLS_argument_count = 0;
+    }
+  }
+
 static void entry__std___link (void)
   {
     if (TLS_argument_count != 2) {
@@ -22284,32 +22689,32 @@ static void entry__std_types___file_descriptor___std___read (void)
     int fd = TLS_arguments[0]->file_descriptor.value;
     uint8_t *buf = NULL;
     size_t size;
-    ssize_t result;
+    ssize_t bytes_read;
     if (!to_ulong(TLS_arguments[1], (unsigned long *)&size)) goto cleanup;
     buf = allocate_memory(size);
     if (event__mode != EM__REPLAY) {
       do {
-	result = read(fd, (char *)buf, size);
-      } while (result == -1 && errno == EINTR);
+	bytes_read = read(fd, (char *)buf, size);
+      } while (bytes_read == -1 && errno == EINTR);
       if (event__mode == EM__RECORD) {
         record__event("read");
-        store__memory(buf, result);
+        store__memory(buf, bytes_read);
       }
     } else {
       replay__event("read");
-      result = retrieve__memory((uint8_t **)&buf);
+      bytes_read = retrieve__memory((uint8_t **)&buf);
       report__event("read");
       print__integer(fd);
       print__unsigned_long_integer(size);
-      print__memory(buf, result);
+      print__memory(buf, bytes_read);
     }
-    if (result == -1) {
+    if (bytes_read == -1) {
       create_error_message(
 	module__builtin.constants_base[unique__std___IO_ERROR-1],
 	"READ FAILED", errno, 0, NULL);
     } else {
       {
-        NODE *result__node = (NODE *)(from_latin_1_string(buf, result));
+        NODE *result__node = (NODE *)(from_latin_1_string(buf, bytes_read));
         TLS_arguments[0] = result__node;
         TLS_argument_count = 1;
       }
@@ -22771,34 +23176,39 @@ static void entry__std_types___file_descriptor___std___write (void)
     }
     int fd = TLS_arguments[0]->file_descriptor.value;
     uint8_t *buf = NULL;
-    size_t size;
-    ssize_t result;
+    ssize_t size;
+    ssize_t bytes_written;
     if (
-      !to_octets(TLS_arguments[1],
-      (const uint8_t **)&buf, (long *)&size)) goto cleanup;
+      !to_octets(TLS_arguments[1], (const uint8_t **)&buf, &size)) goto cleanup;
     if (event__mode != EM__REPLAY) {
       do {
-	result = write(fd, (char *)buf, size);
-      } while (result == -1 && errno == EINTR);
+	bytes_written = write(fd, (char *)buf, size);
+      } while (bytes_written == -1 && errno == EINTR);
       if (event__mode == EM__RECORD) {
-        record__event("write");
-        store__long_integer(result);
+        if (bytes_written == size) {
+            successful__action("write");
+          } else {
+            failed__action("write");
+            store__long_integer(bytes_written);
+          }
+        }
+      } else {
+        if (replay__action("write")) {
+          retrieve__long_integer(&bytes_written);
+      } else {
+          bytes_written = size;
       }
-    } else {
-      replay__event("write");
-      retrieve__long_integer(&result);
-      report__event("write");
-      print__integer(fd);
-      print__memory(buf, size);
-      print__long_integer(result);
+        report__event("write");
+          print__integer(fd);
+          print__memory(buf, size);
     }
-    if (result == -1) {
+    if (bytes_written == -1) {
       create_error_message(
 	module__builtin.constants_base[unique__std___IO_ERROR-1],
 	"WRITE FAILED", errno, 0, NULL);
     } else {
       {
-        NODE *result__node = (NODE *)(from_long(result));
+        NODE *result__node = (NODE *)(from_long(bytes_written));
         TLS_arguments[0] = result__node;
         TLS_argument_count = 1;
       }
@@ -26148,25 +26558,20 @@ static void entry__std___pselect (void)
       data->length = signal_count;
       int n = 0;
       if (caught_hup) {
-	data->items[n++] =
-	  module__builtin.constants_base[unique__std___SIGHUP-1];
+	data->items[n++] = (NODE *)&std___SIGHUP;
       }
       if (caught_usr1) {
-	data->items[n++] =
-	  module__builtin.constants_base[unique__std___SIGUSR1-1];
+	data->items[n++] = (NODE *)&std___SIGUSR1;
       }
       signals = create__std_types___list(0, signal_count, data);
       if (caught_usr2) {
-	data->items[n++] =
-	  module__builtin.constants_base[unique__std___SIGUSR2-1];
+	data->items[n++] = (NODE *)&std___SIGUSR2;
       }
       if (chld_changed_state) {
-	data->items[n++] =
-	  module__builtin.constants_base[unique__std___CHILD_CHANGED_STATE-1];
+	data->items[n++] = (NODE *)&std___SIGCHLD;
       }
       if (win_changed_size) {
-	data->items[n++] =
-	  module__builtin.constants_base[unique__std___WINDOW_CHANGED_SIZE-1];
+	data->items[n++] = (NODE *)&std___SIGWINCH;
       }
       signals = create__std_types___list(0, signal_count, data);
     }
@@ -26993,6 +27398,10 @@ static FUNKY_CONSTANT constants_table[] = {
   {FLT_C_FUNCTION, 1, {.func = entry__std_types___file_descriptor___std___hash}},
   {FLT_C_FUNCTION, 1, {.func = entry__std___file_descriptor}},
   {FLT_C_FUNCTION, 1, {.func = entry__std_types___file_descriptor___std___to_integer}},
+  {FLT_C_FUNCTION, 2, {.func = entry__std_types___signal_number___std___equal}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std_types___signal_number___std___hash}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std___signal_number}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std_types___signal_number___std___to_integer}},
   {FLT_C_FUNCTION, 2, {.func = entry__std_types___shutdown_type___std___equal}},
   {FLT_C_FUNCTION, 1, {.func = entry__std_types___shutdown_type___std___hash}},
   {FLT_C_FUNCTION, 1, {.func = entry__std___shutdown_type}},
@@ -27050,6 +27459,7 @@ static FUNKY_CONSTANT constants_table[] = {
   {FLT_C_FUNCTION, 1, {.func = entry__std___getsid}},
   {FLT_C_FUNCTION, 0, {.func = entry__std___getuid}},
   {FLT_C_FUNCTION, 1, {.func = entry__std___isatty}},
+  {FLT_C_FUNCTION, 2, {.func = entry__std___kill}},
   {FLT_C_FUNCTION, 2, {.func = entry__std___link}},
   {FLT_C_FUNCTION, 3, {.func = entry__std___lseek}},
   {FLT_C_FUNCTION, -1, {.func = entry__std___mkdir}},
@@ -27143,11 +27553,6 @@ static FUNKY_CONSTANT constants_table[] = {
   {FLT_C_FUNCTION, 2, {.func = entry__std_types___unique_item___std___equal}},
   {FLT_C_FUNCTION, 1, {.func = entry__std_types___unique_item___std___hash}},
   {FLT_C_FUNCTION, 1, {.func = entry__std___unique_item}},
-  {FLT_UNIQUE, 0, {.str_8 = "std::SIGHUP"}},
-  {FLT_UNIQUE, 0, {.str_8 = "std::SIGUSR1"}},
-  {FLT_UNIQUE, 0, {.str_8 = "std::SIGUSR2"}},
-  {FLT_UNIQUE, 0, {.str_8 = "std::CHILD_CHANGED_STATE"}},
-  {FLT_UNIQUE, 0, {.str_8 = "std::WINDOW_CHANGED_SIZE"}},
   {FLT_C_FUNCTION, 1, {.func = entry__std_types___file_descriptor___std___get_terminal_size}},
   {FLT_C_FUNCTION, 1, {.func = entry__std___exitstatus}},
   {FLT_C_FUNCTION, -1, {.func = entry__std___pselect}},
@@ -27694,6 +28099,18 @@ static ATTRIBUTE_DEFINITION std_types___file_descriptor__attributes[] = {
   {var_no__std___set_terminal_attributes, func__std_types___file_descriptor___std___set_terminal_attributes},
   {var_no__std___to_integer, func__std_types___file_descriptor___std___to_integer},
   {var_no__std___write, func__std_types___file_descriptor___std___write}
+};
+
+static INTERNAL_METHOD std_types___signal_number__internal_methods[] = {
+  {FIM_SIZE, {.size = sizeof(SIGNAL_NUMBER)}},
+  {FIM_COLLECT, {std_types___signal_number____collect}},
+  {FIM_DEBUG_STRING, {std_types___signal_number____debug_string}}
+};
+
+static ATTRIBUTE_DEFINITION std_types___signal_number__attributes[] = {
+  {var_no__std___equal, func__std_types___signal_number___std___equal},
+  {var_no__std___hash, func__std_types___signal_number___std___hash},
+  {var_no__std___to_integer, func__std_types___signal_number___std___to_integer}
 };
 
 static INTERNAL_METHOD std_types___shutdown_type__internal_methods[] = {
@@ -30058,6 +30475,262 @@ static FUNKY_VARIABLE variables_table[] = {
     {(NODE *)&std___ENOTRECOVERABLE}
   },
   {
+    FOT_OBJECT, 0, 0,
+    "SIGHUP\000std", NULL,
+    {"signal_number\000std_types"},
+    {.methods_count = 0}, 0,
+    NULL,
+    {(NODE *)&std___SIGHUP}
+  },
+  {
+    FOT_OBJECT, 0, 0,
+    "SIGINT\000std", NULL,
+    {"signal_number\000std_types"},
+    {.methods_count = 0}, 0,
+    NULL,
+    {(NODE *)&std___SIGINT}
+  },
+  {
+    FOT_OBJECT, 0, 0,
+    "SIGQUIT\000std", NULL,
+    {"signal_number\000std_types"},
+    {.methods_count = 0}, 0,
+    NULL,
+    {(NODE *)&std___SIGQUIT}
+  },
+  {
+    FOT_OBJECT, 0, 0,
+    "SIGILL\000std", NULL,
+    {"signal_number\000std_types"},
+    {.methods_count = 0}, 0,
+    NULL,
+    {(NODE *)&std___SIGILL}
+  },
+  {
+    FOT_OBJECT, 0, 0,
+    "SIGTRAP\000std", NULL,
+    {"signal_number\000std_types"},
+    {.methods_count = 0}, 0,
+    NULL,
+    {(NODE *)&std___SIGTRAP}
+  },
+  {
+    FOT_OBJECT, 0, 0,
+    "SIGABRT\000std", NULL,
+    {"signal_number\000std_types"},
+    {.methods_count = 0}, 0,
+    NULL,
+    {(NODE *)&std___SIGABRT}
+  },
+  {
+    FOT_OBJECT, 0, 0,
+    "SIGIOT\000std", NULL,
+    {"signal_number\000std_types"},
+    {.methods_count = 0}, 0,
+    NULL,
+    {(NODE *)&std___SIGIOT}
+  },
+  {
+    FOT_OBJECT, 0, 0,
+    "SIGBUS\000std", NULL,
+    {"signal_number\000std_types"},
+    {.methods_count = 0}, 0,
+    NULL,
+    {(NODE *)&std___SIGBUS}
+  },
+  {
+    FOT_OBJECT, 0, 0,
+    "SIGFPE\000std", NULL,
+    {"signal_number\000std_types"},
+    {.methods_count = 0}, 0,
+    NULL,
+    {(NODE *)&std___SIGFPE}
+  },
+  {
+    FOT_OBJECT, 0, 0,
+    "SIGKILL\000std", NULL,
+    {"signal_number\000std_types"},
+    {.methods_count = 0}, 0,
+    NULL,
+    {(NODE *)&std___SIGKILL}
+  },
+  {
+    FOT_OBJECT, 0, 0,
+    "SIGUSR1\000std", NULL,
+    {"signal_number\000std_types"},
+    {.methods_count = 0}, 0,
+    NULL,
+    {(NODE *)&std___SIGUSR1}
+  },
+  {
+    FOT_OBJECT, 0, 0,
+    "SIGSEGV\000std", NULL,
+    {"signal_number\000std_types"},
+    {.methods_count = 0}, 0,
+    NULL,
+    {(NODE *)&std___SIGSEGV}
+  },
+  {
+    FOT_OBJECT, 0, 0,
+    "SIGUSR2\000std", NULL,
+    {"signal_number\000std_types"},
+    {.methods_count = 0}, 0,
+    NULL,
+    {(NODE *)&std___SIGUSR2}
+  },
+  {
+    FOT_OBJECT, 0, 0,
+    "SIGPIPE\000std", NULL,
+    {"signal_number\000std_types"},
+    {.methods_count = 0}, 0,
+    NULL,
+    {(NODE *)&std___SIGPIPE}
+  },
+  {
+    FOT_OBJECT, 0, 0,
+    "SIGALRM\000std", NULL,
+    {"signal_number\000std_types"},
+    {.methods_count = 0}, 0,
+    NULL,
+    {(NODE *)&std___SIGALRM}
+  },
+  {
+    FOT_OBJECT, 0, 0,
+    "SIGTERM\000std", NULL,
+    {"signal_number\000std_types"},
+    {.methods_count = 0}, 0,
+    NULL,
+    {(NODE *)&std___SIGTERM}
+  },
+  {
+    FOT_OBJECT, 0, 0,
+    "SIGSTKFLT\000std", NULL,
+    {"signal_number\000std_types"},
+    {.methods_count = 0}, 0,
+    NULL,
+    {(NODE *)&std___SIGSTKFLT}
+  },
+  {
+    FOT_OBJECT, 0, 0,
+    "SIGCHLD\000std", NULL,
+    {"signal_number\000std_types"},
+    {.methods_count = 0}, 0,
+    NULL,
+    {(NODE *)&std___SIGCHLD}
+  },
+  {
+    FOT_OBJECT, 0, 0,
+    "SIGCONT\000std", NULL,
+    {"signal_number\000std_types"},
+    {.methods_count = 0}, 0,
+    NULL,
+    {(NODE *)&std___SIGCONT}
+  },
+  {
+    FOT_OBJECT, 0, 0,
+    "SIGSTOP\000std", NULL,
+    {"signal_number\000std_types"},
+    {.methods_count = 0}, 0,
+    NULL,
+    {(NODE *)&std___SIGSTOP}
+  },
+  {
+    FOT_OBJECT, 0, 0,
+    "SIGTSTP\000std", NULL,
+    {"signal_number\000std_types"},
+    {.methods_count = 0}, 0,
+    NULL,
+    {(NODE *)&std___SIGTSTP}
+  },
+  {
+    FOT_OBJECT, 0, 0,
+    "SIGTTIN\000std", NULL,
+    {"signal_number\000std_types"},
+    {.methods_count = 0}, 0,
+    NULL,
+    {(NODE *)&std___SIGTTIN}
+  },
+  {
+    FOT_OBJECT, 0, 0,
+    "SIGTTOU\000std", NULL,
+    {"signal_number\000std_types"},
+    {.methods_count = 0}, 0,
+    NULL,
+    {(NODE *)&std___SIGTTOU}
+  },
+  {
+    FOT_OBJECT, 0, 0,
+    "SIGURG\000std", NULL,
+    {"signal_number\000std_types"},
+    {.methods_count = 0}, 0,
+    NULL,
+    {(NODE *)&std___SIGURG}
+  },
+  {
+    FOT_OBJECT, 0, 0,
+    "SIGXCPU\000std", NULL,
+    {"signal_number\000std_types"},
+    {.methods_count = 0}, 0,
+    NULL,
+    {(NODE *)&std___SIGXCPU}
+  },
+  {
+    FOT_OBJECT, 0, 0,
+    "SIGXFSZ\000std", NULL,
+    {"signal_number\000std_types"},
+    {.methods_count = 0}, 0,
+    NULL,
+    {(NODE *)&std___SIGXFSZ}
+  },
+  {
+    FOT_OBJECT, 0, 0,
+    "SIGVTALRM\000std", NULL,
+    {"signal_number\000std_types"},
+    {.methods_count = 0}, 0,
+    NULL,
+    {(NODE *)&std___SIGVTALRM}
+  },
+  {
+    FOT_OBJECT, 0, 0,
+    "SIGPROF\000std", NULL,
+    {"signal_number\000std_types"},
+    {.methods_count = 0}, 0,
+    NULL,
+    {(NODE *)&std___SIGPROF}
+  },
+  {
+    FOT_OBJECT, 0, 0,
+    "SIGWINCH\000std", NULL,
+    {"signal_number\000std_types"},
+    {.methods_count = 0}, 0,
+    NULL,
+    {(NODE *)&std___SIGWINCH}
+  },
+  {
+    FOT_OBJECT, 0, 0,
+    "SIGIO\000std", NULL,
+    {"signal_number\000std_types"},
+    {.methods_count = 0}, 0,
+    NULL,
+    {(NODE *)&std___SIGIO}
+  },
+  {
+    FOT_OBJECT, 0, 0,
+    "SIGPWR\000std", NULL,
+    {"signal_number\000std_types"},
+    {.methods_count = 0}, 0,
+    NULL,
+    {(NODE *)&std___SIGPWR}
+  },
+  {
+    FOT_OBJECT, 0, 0,
+    "SIGSYS\000std", NULL,
+    {"signal_number\000std_types"},
+    {.methods_count = 0}, 0,
+    NULL,
+    {(NODE *)&std___SIGSYS}
+  },
+  {
     FOT_POLYMORPHIC, 0, 0,
     "access_time_of\000std", NULL,
     {.has_a_setter = false}
@@ -30182,6 +30855,19 @@ static FUNKY_VARIABLE variables_table[] = {
     FOT_INITIALIZED, 0, 0,
     "file_descriptor\000std", NULL,
     {.const_idx = func__std___file_descriptor}
+  },
+  {
+    FOT_TYPE, 0, 3,
+    "signal_number\000std_types", std_types___signal_number__attributes,
+    {"object\000std_types"},
+    {.methods_count = 3}, 0,
+    std_types___signal_number__internal_methods,
+    {(NODE *)&std_types___signal_number}
+  },
+  {
+    FOT_INITIALIZED, 0, 0,
+    "signal_number\000std", NULL,
+    {.const_idx = func__std___signal_number}
   },
   {
     FOT_TYPE, 0, 3,
@@ -30428,6 +31114,11 @@ static FUNKY_VARIABLE variables_table[] = {
     FOT_INITIALIZED, 0, 0,
     "isatty\000std", NULL,
     {.const_idx = func__std___isatty}
+  },
+  {
+    FOT_INITIALIZED, 0, 0,
+    "kill\000std", NULL,
+    {.const_idx = func__std___kill}
   },
   {
     FOT_INITIALIZED, 0, 0,
@@ -30803,31 +31494,6 @@ static FUNKY_VARIABLE variables_table[] = {
     {(NODE *)&std_types___value_range}
   },
   {
-    FOT_INITIALIZED, 0, 0,
-    "SIGHUP\000std", NULL,
-    {.const_idx = unique__std___SIGHUP}
-  },
-  {
-    FOT_INITIALIZED, 0, 0,
-    "SIGUSR1\000std", NULL,
-    {.const_idx = unique__std___SIGUSR1}
-  },
-  {
-    FOT_INITIALIZED, 0, 0,
-    "SIGUSR2\000std", NULL,
-    {.const_idx = unique__std___SIGUSR2}
-  },
-  {
-    FOT_INITIALIZED, 0, 0,
-    "CHILD_CHANGED_STATE\000std", NULL,
-    {.const_idx = unique__std___CHILD_CHANGED_STATE}
-  },
-  {
-    FOT_INITIALIZED, 0, 0,
-    "WINDOW_CHANGED_SIZE\000std", NULL,
-    {.const_idx = unique__std___WINDOW_CHANGED_SIZE}
-  },
-  {
     FOT_POLYMORPHIC, 0, 0,
     "get_terminal_size\000std", NULL,
     {.has_a_setter = false}
@@ -30914,16 +31580,16 @@ static FUNKY_VARIABLE variables_table[] = {
 
 FUNKY_MODULE module__builtin = {
   "_builtin",
-  NULL,
+  "_builtin",
   0, 0,
   4, 0,
-  419, 455,
+  419, 485,
   NULL,
   defined_namespaces, NULL,
   constants_table, variables_table
 };
 
-BUILTIN_FUNCTION_NAME builtin_function_names[472] = {
+BUILTIN_FUNCTION_NAME builtin_function_names[478] = {
   {std_types___generic_array____type, "std_types::generic_array/_type"},
   {std_types___array____type, "std_types::array/_type"},
   {entry__std_types___array___std___length_of, "std_types::array/length_of"},
@@ -31203,6 +31869,11 @@ BUILTIN_FUNCTION_NAME builtin_function_names[472] = {
   {entry__std_types___file_descriptor___std___hash, "std_types::file_descriptor/hash"},
   {entry__std___file_descriptor, "std::file_descriptor"},
   {entry__std_types___file_descriptor___std___to_integer, "std_types::file_descriptor/to_integer"},
+  {std_types___signal_number____type, "std_types::signal_number/_type"},
+  {entry__std_types___signal_number___std___equal, "std_types::signal_number/equal"},
+  {entry__std_types___signal_number___std___hash, "std_types::signal_number/hash"},
+  {entry__std___signal_number, "std::signal_number"},
+  {entry__std_types___signal_number___std___to_integer, "std_types::signal_number/to_integer"},
   {std_types___shutdown_type____type, "std_types::shutdown_type/_type"},
   {entry__std_types___shutdown_type___std___equal, "std_types::shutdown_type/equal"},
   {entry__std_types___shutdown_type___std___hash, "std_types::shutdown_type/hash"},
@@ -31272,6 +31943,7 @@ BUILTIN_FUNCTION_NAME builtin_function_names[472] = {
   {entry__std___getsid, "std::getsid"},
   {entry__std___getuid, "std::getuid"},
   {entry__std___isatty, "std::isatty"},
+  {entry__std___kill, "std::kill"},
   {entry__std___link, "std::link"},
   {entry__std___lseek, "std::lseek"},
   {entry__std___mkdir, "std::mkdir"},

@@ -1,4 +1,4 @@
-ERROR: Last statement is not a tail call IN LINE 9 OF FILE tail_call_1.fky
+ERROR: Last statement is not a tail call IN LINE 9 OF FILE ./error_suite/tail_call_1.fky
 
   $s x*x
   ^

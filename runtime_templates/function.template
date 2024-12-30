@@ -59,7 +59,21 @@ METHOD long std_types::function/_debug_string
     char *buf
   )
   {
-    return debug_print(indent, buf, "<tabular function>");
+    const char *module_name, *function_name;
+    int line_no, column_no;
+    const TAB_NUM *code =
+      (const TAB_NUM *)((unsigned long)node->type & -4L);
+    //++code; // skip number of locals
+    //TAB_NUM parameter_count = *code++;
+    //if (parameter_count < 0) parameter_count = 2*-parameter_count;
+    //code += parameter_count;
+    retrieve_continuation_info(
+      code, &module_name, &function_name, &line_no, &column_no);
+    return
+      debug_print(
+	indent, buf,
+	"<function in module %s %d:%d>",
+	module_name, line_no, column_no);
   }
 
 METHOD std_types::function/new

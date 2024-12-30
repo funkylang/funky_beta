@@ -1,4 +1,4 @@
-ERROR: Unexpected closing parenthesis IN LINE 7 OF FILE invalid_parameters_2.fky
+ERROR: Unexpected closing parenthesis IN LINE 7 OF FILE ./error_suite/invalid_parameters_2.fky
 
   )
    ^

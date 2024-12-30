@@ -1,4 +1,4 @@
-ERROR: Closing parenthesis expected IN LINE 6 OF FILE invalid_parameters_1.fky
+ERROR: Closing parenthesis expected IN LINE 6 OF FILE ./error_suite/invalid_parameters_1.fky
 
   -> x*x
   ^

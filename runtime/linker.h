@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2021 by
+  Copyright (C) 2024 by
   Dipl.-Ing. Michael Niederle
 
   This program is free software; you can redistribute it and/or modify
@@ -117,3 +117,6 @@ extern void dump_types();
 extern void initialize_all();
 
 extern TAB_NUM encode_attr_idx(TAB_NUM attr_idx);
+
+extern int find_symbol(const char *namespace, const char *name);
+extern NODE *get_var_or_const(int var_idx);

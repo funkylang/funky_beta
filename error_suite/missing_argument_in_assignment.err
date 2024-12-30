@@ -1,4 +1,4 @@
-ERROR: Missing argument in assignment IN LINE 3 OF FILE missing_argument_in_assignment.fky
+ERROR: Missing argument in assignment IN LINE 3 OF FILE ./error_suite/missing_argument_in_assignment.fky
 
 $x
 ^

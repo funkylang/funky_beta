@@ -34,6 +34,7 @@
 <require web/server>
 
 <require ./editor>
+<require ./c>
 <require ./html_page>
 
 <using std>
@@ -41,8 +42,10 @@
 <using tedi>
 
 $tedi::application_name "TEDI"
-$tedi::version "0.10.6"
+$tedi::version "0.11.0"
 $tedi::author "Michael Niederle"
+
+$tedi::tty_filename undefined
 
 $tedi::main:
   $io std_types::io
@@ -55,19 +58,21 @@ $tedi::main:
     list
       VALUED_OPTION "log-file" "
 	the name of the log file
+    !tedi::tty_filename
+    list
+      VALUED_OPTION "tty" "
+	a terminal device
     $text_filenames
     list
       SOME_PARAMETERS "filename" "
 	the name(s) of the text file(s) to edit
 
-  !default_configuration.commands_of
-    hash_table
-      CURSOR_UP = "cursor_up"
-      CURSOR_DOWN = "cursor_down"
-      CURSOR_LEFT = "cursor_left"
-      CURSOR_RIGHT = "cursor_right"
-      HELP = "show_help"
-      SAVE = "save_contents"
+  !default_configuration.commands_of(CURSOR_UP) "cursor_up"
+  !default_configuration.commands_of(CURSOR_DOWN) "cursor_down"
+  !default_configuration.commands_of(CURSOR_LEFT) "cursor_left"
+  !default_configuration.commands_of(CURSOR_RIGHT) "cursor_right"
+  !default_configuration.commands_of(HELP) "show_help"
+  !default_configuration.commands_of(SAVE) "save_contents"
 
   tedi_types::state $state
     .files_to_load_of text_filenames
@@ -102,6 +107,15 @@ $tedi::main:
     tuple(toggle_soft_line_break UPDATE_STATE)
   !default_configuration.commands_of(DEACTIVATE_SOFT_BREAKS)
     tuple(toggle_soft_line_break UPDATE_STATE)
+
+  !default_configuration.commands_of(RIGHT_MARGIN)
+    tuple(toggle_right_margin_display OTHER)
+  !default_configuration.commands_of(CURSOR_LINE)
+    tuple(toggle_cursor_line_highlighting OTHER)
+  !default_configuration.commands_of(SOFT_LINE_BREAKS)
+    tuple(toggle_soft_line_break UPDATE_STATE)
+  !default_configuration.commands_of(LINE_NUMBERS)
+    tuple(toggle_line_numbers OTHER)
 
   load_configuration &io LOAD_CONFIGURATION
     default_configuration configuration_filename
@@ -333,7 +347,8 @@ $tedi::configuration_of ()
 $terminal_of ()
 $tedi::template_screen_of ()
 $tedi::window_manager_of ()
-$files_to_load_of ()
+$tedi::files_to_load_of () # a list of filenames
+$tedi::files_to_save_of () # a list of window ids
 $tedi::text_window_id_of ()
 $tedi::clipboard_contents_of ()
 
@@ -344,14 +359,18 @@ $tedi::handle_changed_focus ()
 $tedi::prepare ()
 $tedi::replace ()
 
-$tedi_types::state std_types::object
+$tedi_types::basic_state std_types::object
+  # all base methods are defined here; this allows "overwriting" of methods
+
+$tedi_types::state tedi_types::basic_state
   .uuid_of undefined
   .config_path_of undefined
   .configuration_of undefined
   .terminal_of undefined
   .template_screen_of undefined
   .window_manager_of undefined
-  .files_to_load_of undefined
+  .files_to_load_of empty_list
+  .files_to_save_of empty_list
   .text_window_id_of undefined # the target window of the current command box
   .clipboard_contents_of undefined
 
@@ -378,6 +397,33 @@ $UUID/job_completed: (_id io state uuid _context)
   log &io -> "got uuid: @(uuid)"
   -> io state
 
+$tedi::main_menu
+  list
+    "File" =
+      list
+	"Load" = LOAD
+	"Save" = SAVE
+	"Save as" = SAVE_AS
+	"Quit application" = QUIT
+    "View" =
+      list
+	"Right margin" = RIGHT_MARGIN
+	"Cursor line" = CURSOR_LINE
+	"Soft line breaks" = SOFT_LINE_BREAKS
+	"Line numbers" = LINE_NUMBERS
+	"Plain text (F3)" = PLAIN_TEXT
+
+    "Help" =
+      list
+	"About" = ABOUT
+	"Help" = HELP
+
+$RIGHT_MARGIN .
+$CURSOR_LINE .
+$SOFT_LINE_BREAKS .
+$LINE_NUMBERS .
+$PLAIN_TEXT .
+
 $TERMINAL/job_completed: (_id io state terminal _context)
   log &io 4 -> "initialized terminal"
   register_resource &io TERMINAL terminal
@@ -385,17 +431,7 @@ $TERMINAL/job_completed: (_id io state terminal _context)
   register_handlers &io STDIN_FILENO READ = create_terminal_events
   start_injecting_window_change_events &io
   $window_manager create_window_manager(terminal)
-  set_menu &window_manager
-    "File" =
-      list
-	"Load" = LOAD
-	"Save" = SAVE
-	"Save as" = SAVE_AS
-	"Quit application" = QUIT
-    "Help" =
-      list
-	"About" = ABOUT
-	"Help" = HELP
+  set_menu &window_manager main_menu
   ->
     io
     state
@@ -415,57 +451,153 @@ $LOAD_CONFIGURATION/job_completed: (_id io state data _context)
     :
       load_files io state
 
-$load_files: (io state)
-  # only called if there is at least one file to load
+$tedi::load_files: (io state)
   $files_to_load files_to_load_of(state)
-  $filename files_to_load(1)
-  range &state.files_to_load_of 2 -1
-  log &io 4 -> "
-    load file "@(filename)"
-  load &io LOAD_FILE filename
-  -> io state
+  if
+    files_to_load.is_empty
+    -> io state
+    :
+      $info files_to_load(1)
+      range &state.files_to_load_of 2 -1
+      $filename
+	if
+	  info.is_a_tuple
+	  -> first(info)
+	  -> info
+      log &io 4 -> "
+	load file "@(filename)"
+      load &io LOAD_FILE filename undefined info
+      -> io state
 
 $LOAD_FILE .
 
-$LOAD_FILE/job_completed: (_self io state text filename)
+$LOAD_FILE/job_completed: (_self io state text info)
+  $filename
+    if
+      info.is_a_tuple
+      -> first(info)
+      -> info
   log &io 4 -> "
     loaded file "@(filename)" with @(length_of(text)) bytes
-  create_new_page io state text.from_utf8 filename
+  create_or_update_page io state text.from_utf8 info
 
-$LOAD_FILE/job_failed: (_self io state err filename)
+$LOAD_FILE/job_failed: (_self io state err info)
+  $filename
+    if
+      info.is_a_tuple
+      -> first(info)
+      -> info
   log &io 2 -> "
     failed to load file "@(filename)": @(err.to_error_message_string)
   show_error_message &state "
     could not load file "@(filename)"
-  create_new_page io state "" filename
+  create_or_update_page io state "" info
 
-$create_new_page: (io state text filename)
-  $page create_page_from_text(text state)
-  $is_first_window get_id(window_manager_of(state)).is_undefined
-  $buttons
-    case
-      kind_of(page)
-      TEDI -> list(ACTIVATE_SOFT_BREAKS)
-      -> empty_list
-  create_window &state.window_manager_of
-    TITLE = filename
-    CONTENT = page
-    USE_CURSOR
-    SIZE = MINIMIZED
-    BUTTONS = buttons
-    DO_NOT_FOCUS
-  if
-    is_first_window:
-      set_status_line &state.window_manager_of
-      load_more_files
-    load_more_files
+$create_or_update_page: (io state text info)
+  if $filename $do_focus $line_no $column_no
+    info.is_a_tuple
+    info
+    -> info false undefined undefined
+  $new_page create_page_from_text(text state filename)
+  for_each window_manager_of(state)
+    : (id page)
+      if
+	kind_of(page) == TEDI && filename_of(page) == filename:
+	  set_content &state.window_manager_of id new_page
+	  if
+	    do_focus:
+	      focus_window &state.window_manager_of id
+	      update_cursor
+	    update_cursor
 
-  $load_more_files:
+	  $update_cursor:
+	    if
+	      line_no.is_defined:
+		goto_xy &page &state.window_manager_of id line_no column_no
+		set_content &state.window_manager_of id page
+		-> io state
+	      -> io state
+	next
+    create_new_window
+
+  $create_new_window:
+    $is_first_window get_id(window_manager_of(state)).is_undefined
+    $buttons
+      case
+	kind_of(new_page)
+	TEDI -> list(ACTIVATE_SOFT_BREAKS)
+	-> empty_list
+    create_window &state.window_manager_of $window_id
+      TITLE = filename
+      CONTENT = new_page
+      USE_CURSOR
+      SIZE = MINIMIZED
+      BUTTONS = buttons
+      DO_NOT_FOCUS = not(do_focus)
     if
-      files_to_load_of(state).is_empty
-      -> io state
-      :
-	load_files io state
+      line_no.is_defined:
+	goto_xy &new_page &state.window_manager_of window_id line_no column_no
+	set_content &state.window_manager_of window_id new_page
+	check_status_line
+      check_status_line
+
+    $check_status_line:
+      if
+	is_first_window:
+	  set_status_line &state
+	  load_more_files
+	load_more_files
+
+      $load_more_files:
+	if
+	  files_to_load_of(state).is_empty
+	  -> io state
+	  :
+	    load_files io state
+
+$tedi::save_files: (io state continuation = undefined)
+  # only called if there is at least one file to save
+  $files_to_save files_to_save_of(state)
+  $window_id files_to_save(1)
+  range &state.files_to_save_of 2 -1
+  $page get_content(window_manager_of(state) window_id)
+  $filename filename_of(page)
+  $text lines_to_text(range(lines_of(page) 1 -1))
+  log &io 4 -> "
+    save file "@(filename)"
+  save &io SAVE_FILE filename text tuple(window_id continuation)
+  -> io state
+
+$SAVE_FILE .
+
+$SAVE_FILE/job_completed: (_self io state _dummy context)
+  context $window_id $continuation
+  $page get_content(window_manager_of(state) window_id)
+  !page.info_of.saved_version_of version_of(info_of(page))
+  set_content &state.window_manager_of window_id page
+  $filename filename_of(page)
+  set_title &state.window_manager_of filename
+  log &io 4 -> "
+    saved file "@(filename)"
+  if
+    files_to_save_of(state).is_empty:
+      continuation io state
+    :
+      save_files io state continuation
+
+$SAVE_FILE/job_failed: (_self io state err context)
+  context $window_id $_continuation
+  $page get_content(window_manager_of(state) window_id)
+  $filename filename_of(page)
+  log &io 2 -> "
+    failed to save file "@(filename)": @(err.to_error_message_string)
+  show_error_message &state "
+    could not save file "@(filename)"
+  if
+    files_to_save_of(state).is_empty
+    -> io state
+    :
+      save_files io state undefined # cancel continuation
 
 $tedi::show_status_message:
   (
@@ -519,6 +651,21 @@ $tedi::show_error_message:
       message
   -> state
 
+$tedi::show_warning_message:
+  (
+    state
+    msg_id = undefined
+    message
+  )
+  show_message &state.window_manager_of msg_id
+    create_text_screen
+      create_screen
+	template_screen_of(state) 0 0
+	DRAW_COLOUR = BLACK
+	CLEAR_COLOUR = YELLOW
+      message
+  -> state
+
 $tedi::show_success_message:
   (
     state
@@ -552,7 +699,7 @@ $tedi::ai_server_log_file_of (!)
 $tedi::do_start_ai_server_of (!)
 $tedi::commands_of (!)
 
-$default_configuration std_types::object
+$tedi::default_configuration std_types::object
   .ai_model_name_of "sauerkrautlm-una-solar-instruct.Q5_K_M.gguf"
   .ai_batch_size_of 16
   .ai_context_size_of 4096

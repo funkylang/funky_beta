@@ -155,7 +155,7 @@ $std_types::screen/create_screen:
   )
   update_if width.is_undefined &width -> width_of(screen)
   update_if height.is_undefined &height -> height_of(screen)
-  extract_options options
+  get_options options
     DRAW_COLOUR = draw_colour_of(screen) $draw_colour
     CLEAR_COLOUR = clear_colour_of(screen) $clear_colour
     LINE_HEIGHT = line_height_of(screen) $line_height
@@ -184,9 +184,7 @@ $std::RED '0xff0000;'
 
   Colour literals are used to set the draw or clear colour.
 
-  See also: std::BLACK, std::WHITE, std::GREEN, std::BLUE, std::CYAN,
-            std::MAGENTA, std::YELLOW, std::GREY, std::set_draw_colour,
-            std::set_clear_colour
+  See also: std::set_draw_colour, std::set_clear_colour
 
 [source]
 
@@ -204,21 +202,20 @@ $std::CURSOR_LEFT .
 
 [documentation remark]
 
-# std::CURSOR_LEFT (a unique item)
+# std::CURSOR_HOME (a unique item)
 
-  used to identify the cursor left key
+  the cursor home key
 
   Topic: Terminal
 
-  See also: std::CURSOR_RIGHT, std::CURSOR_UP, std::CURSOR_DOWN,
-            std::CURSOR_HOME, std::CURSOR_END
+  See also: std::CURSOR_END
 
   Example:
 
     $x ...
     get_key! $key
     case key
-      CURSOR_LEFT:
+      CURSOR_HOME:
         dec &x
         next!
       ...
@@ -409,7 +406,7 @@ $std_types::io.step_no_of 0
 $std::do_log_of ()
 $std_types::resource std_types::object
 $std_types::resource.name_of "anonymous resource"
-$std_types::io.do_log_of false
+$std_types::resource.do_log_of false
 $std_types::resource/enable_logging:
 $std_types::resource/disable_logging:
 $std_types::event tuple(undefined undefined undefined)
@@ -440,7 +437,9 @@ $std_types::io/is_empty:
 $std::log_unhandled_event: (io event)
 $std_types::io/initialize:
 $std_types::io/get_events:
-$std::handle_events: (io events)
+$std::handle_events ()
+$std::handle_event ()
+$std_types::io/handle_events: (io events)
 
 #
   Copyright (C) 2024 by
@@ -733,7 +732,7 @@ $std_types::resource std_types::object
 
 $std_types::resource.name_of "anonymous resource"
 
-$std_types::io.do_log_of false
+$std_types::resource.do_log_of false
 
 $std_types::resource/enable_logging:
   (
@@ -756,8 +755,12 @@ $std_types::io/start_reading_from:
     do_close = true
     max_length = undefined
   )
-  !self.read_jobs_of(fd) tuple(do_close max_length)
-  -> self
+  if
+    exit_code_of(self).is_defined
+    -> self
+    :
+      !self.read_jobs_of(fd) tuple(do_close max_length)
+      -> self
 
 $std_types::io/stop_reading_from:
   (
@@ -864,16 +867,34 @@ $std_types::io/set_timeout:
     -> self(.timeout_of timeout)
     -> self
 
+$std::initialize_logging:
+  (
+    io
+    log_level = 3
+    log_filename = undefined
+  )
+  if
+    log_filename.is_defined:
+      open! $log_fd log_filename "w+"
+      dup2! log_fd STDERR_FILENO
+      close! log_fd
+      enable_logging io log_level
+    :
+      fstat! $stdout_info STDOUT_FILENO
+      fstat! $stderr_info STDERR_FILENO
+      if
+        ||
+          inode_number_of(stderr_info) != inode_number_of(stdout_info)
+          device_of(stderr_info) != device_of(stdout_info)
+        :
+          enable_logging io log_level
+        -> io
+
 [source]
 
 $std::SIGNAL .
 
 [documentation remark]
-
-### Always copy examples contained in the symbol's description remark
-    into the documentation
-
-### Use only one of the following topics: Input-Output Events
 
 # std::SIGNAL (a unique item)
 

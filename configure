@@ -481,7 +481,7 @@ CC_OPTIONS="-DNDEBUG -O2 -fno-stack-protector \
   -Wno-ignored-optimization-argument "`:
   `"-falign-functions=16 -falign-loops=16 -Wno-unknown-warning-option "`:
   `"-Wimplicit -Wimplicit-int -Wall -Wextra -Wno-trigraphs \
-    -Wno-unused-function "`:
+    -Wno-unused-function -Wno-unused-result "`:
   `"-Wno-implicit-fallthrough -Wno-switch -Wno-parentheses \
     -Wno-maybe-uninitialized "`:
   `"-Wno-unused-variable -Wno-unused-parameter \

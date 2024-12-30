@@ -23,6 +23,7 @@ enum {
   var_is_not_empty, // extern polymorphic
   var_not, // extern
   var_std__add, // attribute
+  var_std__remove, // attribute
   var_std__first_key_of, // attribute
   var_std__first_item_of, // attribute
   var_std__last_key_of, // attribute
@@ -84,7 +85,7 @@ enum {
 static TAB_NUM t_func_std_types__collection___is_empty[] = {
   3, // locals
   1, // parameters
-  LOCAL(3), // 45_0_self
+  LOCAL(3), // 45_5_self
   // length_of(self) == 0
   var_length_of, 1, LOCAL(3), 1, LOCAL(1),
   // length_of(self) == 0
@@ -99,7 +100,7 @@ static TAB_NUM t_func_std_types__collection___is_empty[] = {
 static TAB_NUM t_func_std_types__collection___is_not_empty[] = {
   3, // locals
   1, // parameters
-  LOCAL(3), // 52_0_self
+  LOCAL(3), // 52_5_self
   // is_empty)
   var_is_empty, 1, LOCAL(3), 1, LOCAL(1),
   // not(self.is_empty)
@@ -166,6 +167,11 @@ static FUNKY_VARIABLE variables_table[] = {
   {
     FOT_POLYMORPHIC, 0, 0,
     "add\000std", NULL,
+    {.has_a_setter = false}
+  },
+  {
+    FOT_POLYMORPHIC, 0, 0,
+    "remove\000std", NULL,
     {.has_a_setter = false}
   },
   {
@@ -459,7 +465,7 @@ FUNKY_MODULE module__basic__types__collections__collection = {
   1, // number of defined namespaces
   1, // number of used namespaces
   3, // number of constants
-  63, // number of variables
+  64, // number of variables
   NULL, // required modules
   defined_namespaces,
   used_namespaces,

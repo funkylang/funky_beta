@@ -301,10 +301,12 @@ $std_types::file_descriptor/load:
 $load_buffer_of ()
 $max_length_of ()
 $id_of ()
+$info_of ()
 
 $std_types::io.load_buffer_of empty_hash_table
 $std_types::io.max_length_of empty_hash_table
 $std_types::io.id_of empty_hash_table
+$std_types::io.info_of empty_hash_table
 
 $std_types::io/load:
   (
@@ -328,8 +330,8 @@ $load_file: (io id filename max_length data)
       !io.id_of(fd) id
       register_handlers &io fd
 	READ = read_data
-	CLOSED = tuple(file_closed_after_reading data)
 	READ_FAILED = tuple(read_failed data)
+	CLOSED = tuple(file_closed_after_reading data)
       -> io undefined
 
 $read_data: (io fd data)
@@ -348,6 +350,13 @@ $read_data: (io fd data)
       !io.load_buffer_of(fd) buf
       -> io undefined
 
+$read_failed: (io fd err data)
+  deregister_all_handlers &io fd
+  !io.load_buffer_of(fd) undefined
+  !io.max_length_of(fd) undefined
+  !io.id_of(fd) undefined
+  -> io tuple(JOB_FAILED fd err data)
+
 $file_closed_after_reading: (io fd _dummy data)
   deregister_all_handlers &io fd
   $buf load_buffer_of(io)(fd)
@@ -356,13 +365,6 @@ $file_closed_after_reading: (io fd _dummy data)
   !io.max_length_of(fd) undefined
   !io.id_of(fd) undefined
   -> io tuple(JOB_COMPLETED id buf data)
-
-$read_failed: (io fd err data)
-  deregister_all_handlers &io fd
-  !io.load_buffer_of(fd) undefined
-  !io.max_length_of(fd) undefined
-  !io.id_of(fd) undefined
-  -> io tuple(JOB_FAILED fd err data)
 
 $NONE .
 
@@ -484,7 +486,9 @@ $std::directory:
 $std_types::stat/is_a_directory: (self)
   -> mode_of(self)(1) == 'd'
 
-$std::call:
+$std::call ()
+
+$std_types::object/call:
   (
     cmd
     args
@@ -493,15 +497,13 @@ $std::call:
   $do_return_error_code (rc >= 1)
   $do_collect_output (rc >= 2)
   $do_collect_error_output (rc == 3)
-  $env_vars undefined
   map &args to_string
-  update_if environment.is_defined &env_vars:
-    !env_vars empty_list
-    for_each environment
-      : (key value)
-	push &env_vars "@(key)=@(value)"
-	next
-      -> env_vars
+  $env_vars empty_list
+  for_each environment !env_vars
+    : (key value)
+      push &env_vars "@(key)=@(value)"
+      next
+    -> env_vars
   create_process! $pid $in_fd $out_fd $err_fd cmd args env_vars
   close! in_fd
   $io std_types::io
@@ -561,6 +563,72 @@ $std::call:
 	  : # ignore all other signals
 	    next!
       next
+
+$std_types::io/call:
+  (
+    io
+    id
+    cmd
+    args
+    context = NONE
+  )
+  run io start_process id cmd args context
+
+$start_process: (io id cmd args context)
+  map &args to_string
+  $env_vars empty_list
+  for_each environment !env_vars
+    : (key value)
+      push &env_vars "@(key)=@(value)"
+      next
+    -> env_vars
+  create_process! $pid $in_fd $out_fd $err_fd cmd args env_vars
+  close! in_fd
+  join_process &io pid
+  start_reading_from &io out_fd
+  start_reading_from &io err_fd
+  !io.id_of(pid) id
+  !io.info_of(out_fd) ""
+  !io.info_of(err_fd) ""
+  !io.info_of(pid) tuple(out_fd err_fd)
+  register_handlers &io out_fd
+    READ = read_process_output
+    READ_FAILED = read_from_process_failed
+    CLOSED = ignore_close
+  register_handlers &io err_fd
+    READ = read_process_output
+    READ_FAILED = read_from_process_failed
+    CLOSED = ignore_close
+  register_handlers &io pid
+    PROCESS_JOINED = tuple(process_finished context)
+  -> io undefined
+
+$read_process_output: (io fd data)
+  append &io.info_of(fd) data
+  -> io undefined
+
+$read_from_process_failed: (io fd _err)
+  deregister_all_handlers &io fd
+  -> io undefined
+
+$ignore_close: (io _fd _data)
+  -> io undefined
+
+$process_finished: (io pid status context)
+  log &io 4 "process finished with status @(status)"
+  deregister_all_handlers &io pid
+  $id id_of(io)(pid)
+  !io.id_of(pid) undefined
+  info_of(io)(pid) $out_fd $err_fd
+  $out info_of(io)(out_fd)
+  $err info_of(io)(err_fd)
+  !io.info_of(pid) undefined
+  !io.info_of(out_fd) undefined
+  !io.info_of(err_fd) undefined
+  if
+    status == 0
+    -> io tuple(JOB_COMPLETED id tuple(out err) context)
+    -> io tuple(JOB_FAILED id tuple(status out err) context)
 
 $std::terminate:
   exit! EXIT_SUCCESS
@@ -759,7 +827,7 @@ $run_pipe:
 	  for_each signals
 	    : (signal)
 	      if
-		signal == CHILD_CHANGED_STATE:
+		signal == SIGCHLD:
 		  loop
 		    :
 		      wait! $rpid $status

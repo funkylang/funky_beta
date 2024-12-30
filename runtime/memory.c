@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2021 by
+  Copyright (C) 2024 by
   Dipl.-Ing. Michael Niederle
 
   This program is free software; you can redistribute it and/or modify
@@ -41,6 +41,7 @@
 #include "memory.h"
 #include "interpreter.h"
 #include "profiler.h"
+#include "debugger.h"
 
 #define INITIAL_POOL_SIZE      0x400000
 #define MEMORY_SOFT_LIMIT       0x10000
@@ -92,7 +93,7 @@ EXPORT void *coll_node_buf_end;
 
 EXPORT NODE *undefined;
 
-EXPORT size_t instruction_counter = 0;
+EXPORT long instruction_counter = 0;
 
 // "no_attributes" is used for <types::undefined>
 
@@ -256,7 +257,7 @@ EXPORT int runtime_debug_level = 0;
 EXPORT __attribute__ ((noreturn)) void unrecoverable_error(const char *msg, ...) {
   va_list args;
   va_start(args, msg);
-  fprintf(stderr, "\n");
+  //fprintf(stderr, "\n");
   vfprintf(stderr, msg, args);
   fprintf(stderr, "\n");
   va_end(args);
@@ -1073,7 +1074,8 @@ EXPORT int replay__action(const char *name) {
 }
 
 EXPORT void report__event(const char *name) {
-  printf("%s\n", name);
+  io_occurred = true;
+  printf("report: %s\n", name);
 }
 
 static void print_pointer(FILE *fp, const void *ptr) {
@@ -1525,6 +1527,7 @@ static void open_log_file(void) {
 }
 
 EXPORT int be_verbose = false;
+EXPORT int be_brief = false;
 static int do_dump = false;
 static int do_dump_types = false;
 int do_dump_errors = false;
@@ -1570,12 +1573,26 @@ EXPORT __attribute__ ((noreturn)) void run(FUNKY_MODULE *module) {
   int i = 1;
   check_option:
   if (i < main_argc) {
-    if (strcmp(main_argv[1], "++RECORD++") == 0) {
+    if (strcmp(main_argv[i], "++RECORD++") == 0) {
       event__mode = EM__RECORD;
       open_log_file();
+      ++i;
+      goto check_option;
+    }
+    if (strcmp(main_argv[i], "++DEBUG++") == 0) {
+      do_debug = true;
+      event__mode = EM__REPLAY;
+      open_log_file();
+      ++i;
+      goto check_option;
     }
     if (strcmp(main_argv[i], "++VERBOSE++") == 0) {
       be_verbose = true;
+      ++i;
+      goto check_option;
+    }
+    if (strcmp(main_argv[i], "++BRIEF++") == 0) {
+      be_brief = true;
       ++i;
       goto check_option;
     }
@@ -1630,10 +1647,25 @@ EXPORT __attribute__ ((noreturn)) void run(FUNKY_MODULE *module) {
       main_module->constants_base-TLS_constants+main_module->constants_count-1;
     wrapper_code[2] = -(0x10000|main_idx);
     wrapper_code[7] = encode_var_idx(undefined->var_idx);
-    TLS_constants[WRAPPER] = create_function(wrapper_code);
+    if (do_debug) {
+      FUNCTION_INFO *info = malloc(sizeof(FUNCTION_INFO));
+      if (!info) unrecoverable_error("OUT OF MEMORY WHILE LINKING!");
+      info->code = wrapper_code;
+      info->code_end = (TAB_NUM *)((char *)wrapper_code+sizeof(wrapper_code));
+      TLS_constants[WRAPPER] = create_function((TAB_NUM *)info);
+    } else {
+      TLS_constants[WRAPPER] = create_function(wrapper_code);
+    }
     TLS_constants[CATCHER] = create_c_function(catcher, 1);
-    TLS_constants[TOPLEVEL] = create_function(toplevel_code);
-
+    if (do_debug) {
+      FUNCTION_INFO *info = malloc(sizeof(FUNCTION_INFO));
+      if (!info) unrecoverable_error("OUT OF MEMORY WHILE LINKING!");
+      info->code = toplevel_code;
+      info->code_end = (TAB_NUM *)((char *)toplevel_code+sizeof(toplevel_code));
+      TLS_constants[TOPLEVEL] = create_function((TAB_NUM *)info);
+    } else {
+      TLS_constants[TOPLEVEL] = create_function(toplevel_code);
+    }
     initialize_environment();
     make_existing_objects_static();
 
@@ -1645,7 +1677,7 @@ EXPORT __attribute__ ((noreturn)) void run(FUNKY_MODULE *module) {
 	if (initializer->type == FLT_FUNCTION) {
 	  TLS_myself = module->constants_base[module->constants_count-1];
 	  TLS_deny_io = 1;
-	  if (do_profile || do_trace) {
+	  if (do_profile || do_trace || do_debug) {
 	    profiler();
 	  } else {
 	    interpreter();
@@ -1663,7 +1695,12 @@ EXPORT __attribute__ ((noreturn)) void run(FUNKY_MODULE *module) {
     if (entry->type == FLT_FUNCTION) {
       TLS_myself = TLS_constants[TOPLEVEL];
       TLS_deny_io = 0;
-      if (do_profile || do_trace) {
+      if (do_profile || do_trace || do_debug) {
+	if (do_break_after_initializers) {
+	  do_break_after_initializers = false;
+	  has_completed_initializers = true;
+	  break_at = instruction_counter+2; // skip "toplevel" and "wrapper"
+	}
 	profiler();
       } else {
 	interpreter();

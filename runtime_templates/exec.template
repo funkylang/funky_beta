@@ -242,17 +242,19 @@ FUNCTION std::create_process
       // child process
       if (ARGUMENT_COUNT >= 4) {
 	dup2_fd(ARGUMENTS(3)->file_descriptor.value, STDIN_FILENO);
-	close(ARGUMENTS(3)->file_descriptor.value);
-      } else {
-	close(in_pipe.write_fd);
-	dup2_fd(in_pipe.read_fd, STDIN_FILENO);
-	close(in_pipe.read_fd);
       }
       if (ARGUMENT_COUNT >= 5) {
 	dup2_fd(ARGUMENTS(4)->file_descriptor.value, STDOUT_FILENO);
       }
       if (ARGUMENT_COUNT >= 6) {
 	dup2_fd(ARGUMENTS(5)->file_descriptor.value, STDERR_FILENO);
+      }
+      if (ARGUMENT_COUNT >= 4) {
+	close(ARGUMENTS(3)->file_descriptor.value);
+      } else {
+	close(in_pipe.write_fd);
+	dup2_fd(in_pipe.read_fd, STDIN_FILENO);
+	close(in_pipe.read_fd);
       }
       if (ARGUMENT_COUNT >= 5) {
 	close(ARGUMENTS(4)->file_descriptor.value);

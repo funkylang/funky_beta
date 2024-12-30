@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2021 by
+  Copyright (C) 2024 by
   Dipl.-Ing. Michael Niederle
 
   This program is free software; you can redistribute it and/or modify
@@ -121,7 +121,7 @@ extern void *coll_node_buf_end;
 
 extern long current_mark;
 
-extern size_t instruction_counter;
+extern long instruction_counter;
 
 extern int caught_sighup;
 extern int caught_sigkill;

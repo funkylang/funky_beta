@@ -83,6 +83,7 @@ $std::handle_window_event ()
 
 # Create Window Options
 
+$std::ID .
 $std::USE_CURSOR .
 $std::DO_NOT_FOCUS .
 $std::CONTENT .
@@ -199,6 +200,9 @@ $proto_window std_types::object
   .first_visible_row_of 1
   .is_modal false
 
+$std::current_cursor_x undefined
+$std::current_cursor_y undefined
+
 $BUTTON_COLOUR '@0xb0b0b0;'
 
 $SHRINK.to_string "－"
@@ -221,9 +225,8 @@ $std_types::window_manager/create_window:
     options*
   )
   $rc result_count()
-  $window_id next_window_id_of(wm)
-  inc &wm.next_window_id_of
   get_options options
+    ID = undefined $window_id
     USE_CURSOR = false $use_cursor
     DO_NOT_FOCUS = false $do_not_focus
     TITLE = "<untitled>" $title
@@ -239,6 +242,8 @@ $std_types::window_manager/create_window:
     FIRST_VISIBLE_ROW = 1 $first_visible_row
     MODAL = false $modal
     PARENT_ID = undefined $parent_id
+  update_if window_id.is_undefined &window_id &wm.next_window_id_of
+    -> next_window_id_of(wm) next_window_id_of(wm)+1
   push &wm.windows_of
     proto_window
       .id_of window_id
@@ -287,7 +292,6 @@ $update_window_sizes: (wm)
   for_each windows
     : (window)
       $window_id id_of(window)
-
       update_if_not window.is_minimized || size_of(window).is_defined
 	&unminimized -> unminimized+1
       update_if window_id == focused &focused_window -> window
@@ -333,36 +337,6 @@ $update_window_sizes: (wm)
 	wm
 	  .windows_of windows
 	  .maximized_of maximized
-	#for_each windows
-	  : (window)
-	    $is_focused
-	      if
-		id_of(window) == focused
-		-> '*'
-		-> ' '
-	    $is_maximized
-	      if
-		id_of(window) == maximized
-		-> " MAXI"
-		-> ""
-	    $minimized
-	      if
-		window.is_minimized
-		-> " mini"
-		-> " default"
-	    $size
-	      if
-		size_of(window).is_defined
-		-> size_of(window)
-		-> "-"
-	    debug::print "
-	      @(id_of(window)): @(is_focused)@(is_maximized)@(minimized) @
-	       @(size)
-	    next
-	  :
-	    debug::print "
-	      ______________________________
-	    -> wm
 
 $std_types::window_manager/create_dialog:
   (
@@ -433,12 +407,21 @@ $std_types::window_manager/prepare_update:
       for_each windows_of(wm)
 	: (window)
 	  $first_visible_row first_visible_row_of(window)
-	  push &update_ranges
-	    tuple
-	      first_visible_row .. first_visible_row+content_height_of(window)-1
-	      id_of(window)
-	      content_of(window)
-	  next
+	  if
+	    first_visible_row > height_of(content_of(window))
+	    next
+	    :
+	      $content content_of(window)
+	      $last_visible_row
+		min
+		  first_visible_row+content_height_of(window)-1
+		  height_of(content)
+	      push &update_ranges
+		tuple
+		  first_visible_row .. last_visible_row
+		  id_of(window)
+		  content_of(window)
+	      next
 	-> wm terminal update_ranges
 
 $check_contents: (wm)
@@ -489,7 +472,8 @@ $check_contents: (wm)
 		if
 		  cursor_x > right_x:
 		    $last_x inbounds_width_of(window)
-		    $last_visible_column max(min(cursor_x+delta last_x) cursor_x)
+		    $last_visible_column
+		      max(min(cursor_x+delta last_x) cursor_x)
 		    !first_visible_column max(last_visible_column-width+1 1)
 		    !window.first_visible_column_of first_visible_column
 		    !wm.windows_of(idx) window
@@ -550,7 +534,6 @@ $std_types::window_manager/update:
 	    $content_width width_of(content)
 	    $content_height height_of(content)
 	    $is_focused id_of(window) == focused
-	    $title_y y-1
 	    set_clear_colour &terminal
 	      if
 		is_focused
@@ -558,20 +541,20 @@ $std_types::window_manager/update:
 		-> '@0x70a0a0;'
 	    set_draw_colour &terminal BLACK
 	    set_text_attributes &terminal NORMAL
-	    clear &terminal x title_y width+2 1
+	    clear &terminal x y width+2 1
 	    $additional_icons
 	      map_reduce
 		additional_buttons_of(window) to_string concatenate(" ")
 	    $title_x x
 	    if
 	      additional_icons.is_defined:
-		draw_text &terminal x title_y additional_icons
+		draw_text &terminal x y additional_icons
 		!title_x x+width_of(additional_icons)+1
 		show_title_and_icons
 	      show_title_and_icons
 
 	    $show_title_and_icons:
-	      draw_text &terminal title_x title_y title_of(window)
+	      draw_text &terminal title_x y title_of(window)
 	      if
 		do_show_mouse_ui:
 		  $right_x
@@ -579,8 +562,9 @@ $std_types::window_manager/update:
 		      window.needs_a_vertical_scrollbar
 		      -> x+width+2
 		      -> x+width
-		  $icons map_reduce(buttons_of(window) to_string concatenate(" "))
-		  draw_text &terminal right_x-width_of(icons) title_y icons
+		  $icons
+		    map_reduce(buttons_of(window) to_string concatenate(" "))
+		  draw_text &terminal right_x-width_of(icons) y icons
 		  show_contents
 		show_contents
 
@@ -589,6 +573,7 @@ $std_types::window_manager/update:
 		window.is_minimized && id_of(window) != focused
 		next
 		:
+		  inc &y # skip title bar
 		  $view create_view(terminal x y x+width-1 y+height-1)
 		  set_clear_colour &view clear_colour_of(window)
 		  clear view &terminal
@@ -605,6 +590,8 @@ $std_types::window_manager/update:
 			    cy > content_height
 			    break
 			    :
+			      !current_cursor_x cursor_x_of(window)
+			      !current_cursor_y cursor_y_of(window)
 			      $source content(cy)
 			      $draw_y cy+1-first_visible_row
 			      copy view &terminal source
@@ -612,7 +599,7 @@ $std_types::window_manager/update:
 				draw_y
 			      $rx 2-first_visible_column+width_of(source)
 			      if
-				rx < width:
+				rx <= width:
 				  set_clear_colour &view clear_colour_of(source)
 				  clear view &terminal rx draw_y undefined 1
 				  next
@@ -635,7 +622,10 @@ $std_types::window_manager/update:
 
 		  $check_cursor:
 		    if
-		      current_menu_of(wm).is_defined || dialog_of(wm).is_defined:
+		      ||
+			current_menu_of(wm).is_defined
+			dialog_of(wm).is_defined
+		      :
 			switch_cursor_off &terminal
 			draw_scrollbars
 		      :
@@ -660,7 +650,8 @@ $std_types::window_manager/update:
 		window.needs_a_vertical_scrollbar:
 		  $slider_y y
 		  $slider_height height
-		  draw_vertical_slider &terminal x+width slider_y 2 slider_height
+		  draw_vertical_slider &terminal
+		    x+width slider_y 2 slider_height
 		    content_height height first_visible_row_of(window)
 		  if
 		    window.needs_a_horizontal_scrollbar:
@@ -810,7 +801,7 @@ $layout_windows: (wm)
 	      menus_of(wm).is_defined
 	      -> 2
 	      -> 1
-	  !available_height height_of(wm)-message_height_of(wm)
+	  !available_height height_of(wm)-message_height_of(wm)+1-first_y
 	  if
 	    maximized_of(wm).is_defined
 	    compute_maximized_layout
@@ -828,17 +819,17 @@ $layout_windows: (wm)
       filter(windows: (window) -> size_of(window).is_defined)
     minus &available_height
       map_reduce(fixed_size_windows size_of plus 0)
-    $iter bresenham(n+1 first_y available_height+1-length_of(windows))
+    $iter bresenham(n+1 first_y first_y+available_height-length_of(windows))
     next_value &iter $y
     $updated_windows empty_list
     $dy 0
     for_each windows
       : (window)
-	inc &dy
 	!window
 	  .x_of 1
 	  .y_of y+dy
 	  .width_of width
+	inc &dy
 	cond
 	  -> window.is_minimized && id_of(window) != focused:
 	    push &updated_windows
@@ -860,7 +851,7 @@ $layout_windows: (wm)
 	    next
 	  -> true:
 	    next_value &iter $next_y
-	    !window.height_of next_y-y
+	    !window.height_of next_y-y+1
 	    maybe_add_scrollbars &window
 	    push &updated_windows window
 	    !y next_y
@@ -879,17 +870,16 @@ $layout_windows: (wm)
     $y first_y
     for_each windows
       : (idx window)
-	inc &y # skip title bar
 	if
 	  id_of(window) == maximized:
 	    !window
 	      .x_of 1
-	      .y_of idx+first_y # skip title bar
+	      .y_of idx+first_y-1
 	      .width_of width_of(wm)
-	      .height_of available_height-length_of(windows)-1
+	      .height_of 1+available_height-length_of(windows)
 	    maybe_add_scrollbars &window
 	    push &updated_windows window
-	    plus &y content_height_of(window)
+	    plus &y height_of(window)
 	    next
 	  :
 	    $height
@@ -902,12 +892,12 @@ $layout_windows: (wm)
 		.x_of 1
 		.y_of y
 		.width_of width_of(wm)
-		.height_of height
+		.height_of 1+height
 		.content_width_of width_of(wm)
 		.content_height_of height
 		.needs_a_horizontal_scrollbar false
 		.needs_a_vertical_scrollbar false
-	    plus &y height
+	    plus &y 1+height
 	    next
       ->
 	wm
@@ -916,7 +906,7 @@ $layout_windows: (wm)
 
 $maybe_add_scrollbars: (window)
   $width width_of(window)
-  $height height_of(window)
+  $content_height height_of(window)-1
   $content content_of(window)
   $max_x width_of(content)
   $max_y height_of(content)
@@ -928,23 +918,23 @@ $maybe_add_scrollbars: (window)
     &max_y -> cursor_y
   $do_show_horizontal_scrollbar
     window.has_a_horizontal_scrollbar && max_x > width
-  update_if do_show_horizontal_scrollbar &height -> height-1
+  update_if do_show_horizontal_scrollbar &content_height -> content_height-1
   $do_show_vertical_scrollbar
     &&
       window.has_a_vertical_scrollbar
-      max_y > height
+      max_y > content_height
   update_if do_show_vertical_scrollbar
     &width -> width-2
   # recompute horizontal scrollbar necessity
   update_if not(do_show_horizontal_scrollbar) && max_x > width
-    &do_show_horizontal_scrollbar &height -> true height-1
+    &do_show_horizontal_scrollbar &content_height -> true content_height-1
   window
     .content_width_of width
-    .content_height_of height
+    .content_height_of content_height
     .first_visible_column_of
       min(first_visible_column_of(window) max(1 max_x-width+1))
     .first_visible_row_of
-      min(first_visible_row_of(window) max(1 max_y-height+1))
+      min(first_visible_row_of(window) max(1 max_y-content_height+1))
     .needs_a_horizontal_scrollbar do_show_horizontal_scrollbar
     .needs_a_vertical_scrollbar do_show_vertical_scrollbar
 
@@ -1511,11 +1501,11 @@ $std_types::window_manager/focus_window:
 	: (window)
 	  if
 	    id_of(window) == id:
-	      !wm
-		.focused_of id
-		.is_up_to_date false
-		.has_a_valid_layout false
-	      update_window_sizes wm
+	      update_window_sizes
+		wm
+		  .focused_of id
+		  .is_up_to_date false
+		  .has_a_valid_layout false
 	    next
 	-> wm # no such window
 
@@ -1540,9 +1530,11 @@ $std_types::window_manager/move_window_down:
 		  $next_window windows(next_idx)
 		  !windows(next_idx) window
 		  !windows(idx) next_window
-		  !wm.windows_of windows
-		  !wm.is_up_to_date false
-		  -> wm
+		  update_window_sizes
+		    wm
+		      .windows_of windows
+		      .is_up_to_date false
+		      .has_a_valid_layout false
 	    next
 	-> wm
     -> wm
@@ -1568,9 +1560,11 @@ $std_types::window_manager/move_window_up:
 		  $prev_window windows(prev_idx)
 		  !windows(prev_idx) window
 		  !windows(idx) prev_window
-		  !wm.windows_of windows
-		  !wm.is_up_to_date false
-		  -> wm
+		  update_window_sizes
+		    wm
+		      .windows_of windows
+		      .is_up_to_date false
+		      .has_a_valid_layout false
 	    next
 	-> wm
     -> wm
@@ -1750,7 +1744,7 @@ $std_types::window_manager/set_content:
       $window windows(index)
       !window.content_of content
       if
-	height_of(window) > 1:
+	height_of(window).is_defined && height_of(window) > 1:
 	  maybe_add_scrollbars &window
 	  return
 	return
@@ -1905,7 +1899,7 @@ $std_types::window_manager/get_window_at:
   for_each windows
     : (window)
       $win_x x_of(window)
-      $win_y y_of(window)
+      $win_y y_of(window)+1
       $win_w content_width_of(window)
       $win_h content_height_of(window)
       if
@@ -2085,30 +2079,20 @@ $handle_mouse_click: (wm fd mouse_x mouse_y)
 	$window_id id_of(window)
 	$window_x x_of(window)
 	$window_y y_of(window)
-	$window_width content_width_of(window)
-	$window_height content_height_of(window)
-	$total_width
-	  if
-	    window.needs_a_vertical_scrollbar
-	    -> window_width+2
-	    -> window_width
-	$total_height
-	  if
-	    window.needs_a_horizontal_scrollbar
-	    -> window_height+1
-	    -> window_height
+	$window_width width_of(window)
+	$window_height height_of(window)
 	if
 	  &&
-	    mouse_x >= window_x && mouse_x < window_x+total_width
-	    mouse_y >= window_y-1 && mouse_y < window_y+total_height
+	    mouse_x >= window_x && mouse_x < window_x+window_width
+	    mouse_y >= window_y && mouse_y < window_y+window_height
 	  :
 	    if
 	      &&
-		mouse_y == window_y-1
-		mouse_x >= window_x && mouse_x <= total_width
+		mouse_y == window_y
+		mouse_x >= window_x && mouse_x <= window_width
 	      :
 		$buttons buttons_of(window)
-		$bx window_x+total_width+1-3*length_of(buttons)
+		$bx window_x+window_width+1-3*length_of(buttons)
 		for_each buttons
 		  : (button)
 		    if
@@ -2140,15 +2124,16 @@ $handle_mouse_click: (wm fd mouse_x mouse_y)
 		      -> wm true
 	      :
 		focus_window &wm window_id
+		$content_y window_y+1
 		cond
 		  ->
 		    &&
 		      window.needs_a_vertical_scrollbar
 		      mouse_x >= window_x+window_width
-		      mouse_x < window_x+total_width
-		      mouse_y >= window_y && mouse_y < window_y+window_height
+		      mouse_x < window_x+window_width
+		      mouse_y >= content_y && mouse_y < content_y+window_height
 		    :
-		      minus &mouse_y window_y
+		      minus &mouse_y content_y
 		      $content content_of(window)
 		      $content_height height_of(content)
 		      $first_visible_row
@@ -2181,7 +2166,7 @@ $handle_mouse_click: (wm fd mouse_x mouse_y)
 		    &&
 		      window.needs_a_horizontal_scrollbar
 		      mouse_x >= window_x && mouse_x < window_x+window_width
-		      mouse_y == window_y+window_height
+		      mouse_y == content_y+window_height
 		    :
 		      minus &mouse_x window_x
 		      $content content_of(window)
@@ -2207,7 +2192,9 @@ $handle_mouse_click: (wm fd mouse_x mouse_y)
 				-> first_visible_column
 				:
 				  if
-				    cursor_x >= first_visible_column+window_width
+				    >=
+				      cursor_x
+				      first_visible_column+window_width
 				    -> first_visible_column+window_width-1
 				    -> cursor_x
 		      !wm.windows_of windows(idx window)
@@ -2257,16 +2244,23 @@ $handle_key_press: (wm fd key)
     $menu current_menu_of(wm)
     if
       menu.is_defined:
-	$rect get_rectangle_by_key(menu key)
 	if
-	  rect.is_defined:
+	  key == ESCAPE:
 	    !wm
 	      .current_menu_of undefined
 	      .is_up_to_date false
-	    rect $_kind $action
-	    action $_shortcut $action_key
-	    -> wm tuple(KEY_PRESS fd action_key)
-	  handle_windows
+	    -> wm true
+	  :
+	    $rect get_rectangle_by_key(menu key)
+	    if
+	      rect.is_defined:
+		!wm
+		  .current_menu_of undefined
+		  .is_up_to_date false
+		rect $_kind $action
+		action $_shortcut $action_key
+		-> wm tuple(KEY_PRESS fd action_key)
+	      handle_windows
       handle_windows
 
   $handle_windows:

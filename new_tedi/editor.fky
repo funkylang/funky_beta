@@ -25,13 +25,20 @@
 
 <resolve std_types-2.0>
 
-$tedi::create_page_from_text: (text state)
+$tedi::create_page_from_text: (text state filename)
   trim_right &text
   push &text '@nl;'
   $lines split_into_indented_lines(text false tedi_types::line)
+  $kind
+    case
+      behind(filename '.' -1)
+      "c", "cc", "cpp", "h" -> C
+      -> TEDI
   prepare
     tedi_types::text_page
       .lines_of lines
+      .kind_of kind
+      .filename_of filename
       .commands_of commands_of(configuration_of(state))
     state
     undefined
@@ -105,9 +112,6 @@ $tedi_types::page/goto_xy:
     x
     y
   )
-  !page.info_of
-    .cursor_x_of x
-    .cursor_y_of y
   goto_xy &window_manager window_id get_decoration_width(page)+x y
   -> page window_manager
 
@@ -370,20 +374,21 @@ $update_text:
 	  update_completion
 
   $update_title:
+    $filename filename_of(page)
     if
-      version_of(new_info) != version_of(info):
-	cond
-	  -> version_of(new_info) == saved_version_of(new_info):
-	    $title get_title(window_manager)
-	    set_title &window_manager range(title 2 -1)
-	    update_completion
-	  -> version_of(info) == saved_version_of(info):
-	    $title get_title(window_manager)
-	    set_title &window_manager append("*" title)
-	    update_completion
-	  -> true update_completion
+      filename.is_defined:
+	if
+	  version_of(new_info) != version_of(info):
+	    cond
+	      -> version_of(new_info) == saved_version_of(new_info):
+		set_title &window_manager filename_of(page)
+		update_completion
+	      -> version_of(info) == saved_version_of(info):
+		set_title &window_manager append("*" filename_of(page))
+		update_completion
+	      -> true update_completion
+	  update_completion
       update_completion
-
 
   $update_completion:
     if
@@ -400,7 +405,6 @@ $update_text:
     !page.info_of new_info
     goto_xy &page &window_manager window_id new_x new_y
     set_content &window_manager window_id page
-    set_status_line &window_manager
     $start_x selection_x_of(new_info)
     if
       start_x.is_defined:
@@ -422,7 +426,8 @@ $update_text:
 	return
 
   $return:
-    -> state(.window_manager_of window_manager)
+    !state.window_manager_of window_manager
+    set_status_line state
 
 $split_text_into_two: (text max_width)
   $width 0
@@ -478,11 +483,11 @@ $tedi_types::page/handle_mouse_click: (page io state x y _button)
       $update_cursor_position:
 	goto_xy &page &state.window_manager_of x y
 	set_content &state.window_manager_of page
-	set_status_line &state.window_manager_of
+	set_status_line &state
 	-> io state
 
 $tedi_types::page/handle_changed_focus: (_page state)
-  set_status_line &state.window_manager_of
+  set_status_line &state
   -> state
 
 $add_history_entry:
@@ -559,10 +564,14 @@ $add_history_entry:
 		  inc &info.next_version_of
 		  -> info
 
-$tedi::set_status_line: (window_manager)
-  $page get_content(window_manager)
-  get_xy page window_manager $x $y
-  set_status window_manager "@(y):@(x) (@(height_of(page)):@(width_of(page)))"
+$tedi::set_status_line ()
+
+$tedi_types::basic_state/set_status_line: (state)
+  $page get_content(window_manager_of(state))
+  get_xy page window_manager_of(state) $x $y
+  set_status &state.window_manager_of
+    "@(y):@(x) (@(height_of(page)):@(width_of(page)))"
+  -> state
 
 $tedi::current_action_completed: (io state)
   $pending_key_presses pending_key_presses_of(state)
@@ -682,7 +691,7 @@ $REDO .
 $FOLDING .
 $tedi::DIALOG .
 $tedi::IO .
-$OTHER .
+$tedi::OTHER .
 
 $tedi::functions
   hash_table
@@ -759,11 +768,6 @@ $tedi::functions
     "paste" = tuple(paste USE_STATE)
     "cut" = tuple(cut UPDATE_STATE)
 
-    # window operations
-
-    "next_window" = tuple(next_window OTHER)
-    "previous_window" = tuple(previous_window OTHER)
-
     # history operations
 
     "undo" = tuple(undo UNDO)
@@ -783,6 +787,7 @@ $tedi::functions
     # filter & action
 
     "filter" = tuple(filter_selection OTHER)
+    "reload" = tuple(reload IO)
     "save_contents" = tuple(save_contents IO)
     "save_with_leading_spaces" = tuple(save_with_leading_spaces IO)
 
@@ -1731,10 +1736,10 @@ $find_text_dialog: (state _x _y _lines _info)
 	SIZE = 1
 	CURSOR_Y = len+1
 	MODAL
-      set_status_line &window_manager
-      state
+      !state
 	.window_manager_of window_manager
 	.text_window_id_of id
+      set_status_line state
 
 $start_forwards_search: (state x y lines _info)
   start_search state x y lines false
@@ -1836,8 +1841,8 @@ $start_search: (state x y lines do_a_backwards_search)
 	    add_history_entry &ew_info old_x old_y
 	    !page.info_of ew_info
 	    goto_xy &page &state.window_manager_of ew_x ew_y
-	    set_status_line &state.window_manager_of
 	    set_content &state.window_manager_of page
+	    set_status_line &state
 	    $end_x selection_x_of(ew_info)
 	    if
 	      end_x.is_defined:
@@ -2137,10 +2142,10 @@ $go_to_line_dialog: (state _x _y _lines _info)
 	SIZE = 1
 	CURSOR_Y = len+1
 	MODAL
-      set_status_line &window_manager
-      state
+      !state
 	.window_manager_of window_manager
 	.text_window_id_of id
+      set_status_line state
 
 $go_to_line: (state _x y lines _info)
   $line_no
@@ -2159,8 +2164,7 @@ $go_to_line: (state _x y lines _info)
       add_history_entry &page.info_of old_x old_y
       goto_xy &page &state.window_manager_of 1 line_no
       set_content &state.window_manager_of page
-      set_status_line &state.window_manager_of
-      -> state
+      set_status_line state
     :
       set_content &state.window_manager_of page
       show_error_message state "Invalid line no.!"
@@ -2302,7 +2306,6 @@ $join_lines: (x y lines info)
   if
     selection_y.is_defined:
       min_max &selection_y &y
-      debug::dump `selection_y `y
       range &lines selection_y y-1
       $new_lines empty_list
       $current_indent undefined
@@ -2459,8 +2462,7 @@ $save_contents: (io state _x _y lines info)
   $page get_content(window_manager_of(state))
   !page.info_of info
   set_content &state.window_manager_of page
-  $window_manager window_manager_of(state)
-  $filename get_title(window_manager) .without_prefix. '*'
+  $filename filename_of(page)
   set_title &state.window_manager_of filename
   update_if use_soft_line_breaks_of(info) &lines
     -> remove_all_soft_breaks(lines)
@@ -2468,7 +2470,7 @@ $save_contents: (io state _x _y lines info)
   run &io save_contents_action filename text
   -> io state
 
-$lines_to_text: (lines)
+$tedi::lines_to_text: (lines)
   map_reduce lines
     : (line)
       if
@@ -2544,20 +2546,21 @@ $chmod_action: (io filename mode)
 $save_with_leading_spaces: (io state _x _y _lines _info)
   -> io state
 
-$next_window: (x y _lines info)
-  -> undefined undefined x y info
-
-$previous_window: (x y _lines info)
-  -> undefined undefined x y info
+$reload: (io state _x _y _lines _info)
+  $window_manager window_manager_of(state)
+  $page get_content(window_manager)
+  $filename filename_of(page)
+  push &state.files_to_load_of filename
+  load_files io state
 
 $change_colour_set: (x y _lines info)
   -> undefined undefined x y info
 
-$toggle_right_margin_display: (x y _lines info)
+$tedi::toggle_right_margin_display: (x y _lines info)
   not &info.do_show_right_margin_of
   -> undefined undefined x y info
 
-$toggle_cursor_line_highlighting: (x y _lines info)
+$tedi::toggle_cursor_line_highlighting: (x y _lines info)
   not &info.do_highlight_cursor_line_of
   -> undefined undefined x y info
 
@@ -2667,7 +2670,7 @@ $tedi::toggle_soft_line_break: (state x y lines info)
 		  info
     -> state undefined undefined x y info
 
-$toggle_line_numbers: (x y _lines info)
+$tedi::toggle_line_numbers: (x y _lines info)
   ->
     undefined undefined x y
     info
@@ -2816,18 +2819,21 @@ $tedi_types::page std_types::object
   .template_screen_of undefined
   .screens_of undefined
   .lines_of empty_list
+  .filename_of undefined
   .kind_of TEDI
   .info_of tedi_types::info
   .commands_of undefined
   .first_screen_line_of undefined
 
 $tedi_types::text_page tedi_types::page
+  # allows "overwriting" of methods
 
 # Page Kinds
 
 $tedi::TEDI .
 $FIND_TEXT .
 $GO_TO_LINE .
+$C .
 
 $tedi_types::page/height_of: (page) -> length_of(lines_of(page))
 
@@ -2958,6 +2964,7 @@ $create_screens: (page first last)
 	      plus &x width_of(chr)
 	      next
 	  -> screen
+      C -> create_c_line(template_screen line)
       ->
 	create_text_screen
 	  template_screen append(spaces(indent_of(line)) text_of(line))
@@ -2992,7 +2999,7 @@ $tedi::decorate: (page line_no line_screen)
 	adjoin &line_screen create_screen(line_screen right_margin-width 1)
 	draw_shadow line_screen 0.94 width+1 1 0 1
   update_if
-    do_highlight_cursor_line_of(info) && line_no == cursor_y_of(info)
+    do_highlight_cursor_line_of(info) && line_no == current_cursor_y
     &line_screen
     :
       draw_shadow line_screen 0.94
@@ -3062,8 +3069,6 @@ $tedi_types::info std_types::object
   .version_of 0
   .next_version_of 1
   .saved_version_of 0
-  .cursor_x_of undefined
-  .cursor_y_of undefined
   .selection_x_of undefined
   .selection_y_of undefined
   .bookmarks_of empty_list
@@ -3122,7 +3127,7 @@ $tedi::get_position: (str x)
 	inc &i
 	next
 
-list $help_sections
+list $tedi::help_sections
   "Cursor Movement" =
     list
       "cursor_left" =
@@ -3282,6 +3287,9 @@ list $help_sections
 	"
 	  leaves the editor;
 	  the documents will <b>NOT</b> be saved!
+      "reload" =
+	"
+	  reloads the current document
       "save_contents" =
 	"
 	  saves the current contents
@@ -3306,15 +3314,3 @@ list $help_sections
       "show_help" =
 	"
 	  show this help
-      "toggle_indentation_highlighting" =
-	"
-	  enable/disable display of right margin
-      "toggle_cursor_line_highlighting" =
-	"
-	  enable/disable highlighting of the current line
-      "toggle_soft_line_break" =
-	"
-	  toggle soft-break-mode
-      "toggle_line_numbers" =
-	"
-	  show/hide line numbers

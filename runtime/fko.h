@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2021 by
+  Copyright (C) 2024 by
   Dipl.-Ing. Michael Niederle
 
   This program is free software; you can redistribute it and/or modify
@@ -90,6 +90,11 @@ typedef struct {
 } INTERNAL_METHOD;
 
 typedef struct {
+  const TAB_NUM *code;
+  const TAB_NUM *code_end;
+} FUNCTION_INFO; // for debugging
+
+typedef struct {
   FUNKY_CONSTANT_TYPE type;
   int count; // string size or parameter count (for functions)
   union {
@@ -101,6 +106,7 @@ typedef struct {
     const int *arguments;
     FUNC func;
     TAB_NUM *tfunc;
+    FUNCTION_INFO *func_info;
   };
 } FUNKY_CONSTANT;
 

@@ -1,4 +1,4 @@
-ERROR: Unexpected output argument IN LINE 4 OF FILE invalid_return_1.fky
+ERROR: Unexpected output argument IN LINE 4 OF FILE ./error_suite/invalid_return_1.fky
 
   -> $a
      ^

@@ -431,6 +431,102 @@ OBJECT std::EOWNERDEAD -> std_types::error_number
 OBJECT std::ENOTRECOVERABLE -> std_types::error_number
   {ENOTRECOVERABLE}
 
+OBJECT std::SIGHUP -> std_types::signal_number
+  {SIGHUP}
+
+OBJECT std::SIGINT -> std_types::signal_number
+  {SIGINT}
+
+OBJECT std::SIGQUIT -> std_types::signal_number
+  {SIGQUIT}
+
+OBJECT std::SIGILL -> std_types::signal_number
+  {SIGILL}
+
+OBJECT std::SIGTRAP -> std_types::signal_number
+  {SIGTRAP}
+
+OBJECT std::SIGABRT -> std_types::signal_number
+  {SIGABRT}
+
+OBJECT std::SIGIOT -> std_types::signal_number
+  {SIGIOT}
+
+OBJECT std::SIGBUS -> std_types::signal_number
+  {SIGBUS}
+
+OBJECT std::SIGFPE -> std_types::signal_number
+  {SIGFPE}
+
+OBJECT std::SIGKILL -> std_types::signal_number
+  {SIGKILL}
+
+OBJECT std::SIGUSR1 -> std_types::signal_number
+  {SIGUSR1}
+
+OBJECT std::SIGSEGV -> std_types::signal_number
+  {SIGSEGV}
+
+OBJECT std::SIGUSR2 -> std_types::signal_number
+  {SIGUSR2}
+
+OBJECT std::SIGPIPE -> std_types::signal_number
+  {SIGPIPE}
+
+OBJECT std::SIGALRM -> std_types::signal_number
+  {SIGALRM}
+
+OBJECT std::SIGTERM -> std_types::signal_number
+  {SIGTERM}
+
+OBJECT std::SIGSTKFLT -> std_types::signal_number
+  {SIGSTKFLT}
+
+OBJECT std::SIGCHLD -> std_types::signal_number
+  {SIGCHLD}
+
+OBJECT std::SIGCONT -> std_types::signal_number
+  {SIGCONT}
+
+OBJECT std::SIGSTOP -> std_types::signal_number
+  {SIGSTOP}
+
+OBJECT std::SIGTSTP -> std_types::signal_number
+  {SIGTSTP}
+
+OBJECT std::SIGTTIN -> std_types::signal_number
+  {SIGTTIN}
+
+OBJECT std::SIGTTOU -> std_types::signal_number
+  {SIGTTOU}
+
+OBJECT std::SIGURG -> std_types::signal_number
+  {SIGURG}
+
+OBJECT std::SIGXCPU -> std_types::signal_number
+  {SIGXCPU}
+
+OBJECT std::SIGXFSZ -> std_types::signal_number
+  {SIGXFSZ}
+
+OBJECT std::SIGVTALRM -> std_types::signal_number
+  {SIGVTALRM}
+
+OBJECT std::SIGPROF -> std_types::signal_number
+  {SIGPROF}
+
+OBJECT std::SIGWINCH -> std_types::signal_number
+  {SIGWINCH}
+
+OBJECT std::SIGIO -> std_types::signal_number
+  {SIGIO}
+
+OBJECT std::SIGPWR -> std_types::signal_number
+  {SIGPWR}
+
+OBJECT std::SIGSYS -> std_types::signal_number
+  {SIGSYS}
+
 POLY std::access_time_of
 POLY std::block_count_of
 POLY std::block_size_of
@@ -649,6 +745,86 @@ METHOD std_types::file_descriptor/to_integer
     RETURN_SINGLE_RESULT(from_int(value))
   }
 
+TYPE std_types::signal_number -> std_types::object
+  int value
+
+METHOD std_types::signal_number/_type
+  {
+    RUNTIME_ERROR("Attempt to call a signal number as a function!")
+  }
+
+METHOD long std_types::signal_number/_debug_string
+  (
+    NODE *node,
+    int indent,
+    int max_depth,
+    char *buf
+  )
+  {
+    return debug_print(
+      indent, buf, "<signal_number %d>", node->signal_number.value);
+  }
+
+CODE
+  static int signal_number_to_int
+    (
+      NODE *node,
+      int *result_p
+    )
+    {
+      if (TYPEOF(node) != TYPE(std_types::signal_number)) {
+	invalid_arguments();
+	return false;
+      } else {
+	*result_p = node->signal_number.value;
+	return true;
+      }
+    }
+
+CODE
+  static NODE *signal_number_from_int
+    (
+      int value
+    )
+    {
+      return create__std_types___signal_number(value);
+    }
+
+METHOD std_types::signal_number/equal
+  {
+    CHECK_ARGUMENTS(2)
+    if (TYPEOF(ARGUMENTS(1)) == TYPE(std_types::signal_number))
+      RETURN_SINGLE_RESULT(
+	from_bool(
+	  ARGUMENTS(0)->signal_number.value ==
+	  ARGUMENTS(1)->signal_number.value))
+    RETURN_FALSE
+  }
+
+METHOD std_types::signal_number/hash
+  {
+    CHECK_ARGUMENTS(1)
+    uint32_t hash = ARGUMENTS(0)->signal_number.value;
+    hash += 8379021777u;
+    hash *= 2567483615;
+    hash ^= hash >> 14 | hash << 18;
+    RETURN_SINGLE_RESULT(from_uint32(hash));
+  }
+
+FUNCTION std::signal_number
+  {
+    CHECK_ARGUMENTS(1)
+    int value;
+    if (!(to_int(ARGUMENTS(0), &value))) return;
+    RETURN_SINGLE_RESULT(create__std_types___signal_number(value))
+  }
+
+METHOD std_types::signal_number/to_integer
+  {
+    CHECK_ARGUMENTS(1)
+    int value = ARGUMENTS(0)->signal_number.value;
+    RETURN_SINGLE_RESULT(from_int(value))
+  }
 
 TYPE std_types::shutdown_type -> std_types::object
   int value
@@ -2168,6 +2344,33 @@ FUNCTION std::isatty
     PREPARE_SINGLE_RESULT(from_bool(result))
   }
 
+FUNCTION std::kill
+  {
+    CHECK_ARGUMENTS(2)
+    CHECK_IO_ACCESS_RIGHTS
+    int pid;
+    int sig;
+    int result;
+    if (!process_id_to_int(ARGUMENTS(0), &pid)) return;
+    if (!signal_number_to_int(ARGUMENTS(1), &sig)) return;
+    ACTION(kill)
+      result = kill(pid, sig);
+    INFO
+      INT(pid)
+      INT(sig)
+      INT(result)
+    DATA
+      INT(result)
+    END
+    if (result == -1) {
+      create_error_message(
+	module__builtin.constants_base[unique__std___IO_ERROR-1],
+	"KILL FAILED", errno, 0, NULL);
+    } else {
+      PREPARE_NO_RESULT
+    }
+  }
+
 FUNCTION std::link
   {
     CHECK_ARGUMENTS(2)
@@ -2464,26 +2667,26 @@ METHOD std_types::file_descriptor/read
     int fd = ARGUMENTS(0)->file_descriptor.value;
     uint8_t *buf = NULL;
     size_t size;
-    ssize_t result;
+    ssize_t bytes_read;
     if (!to_ulong(ARGUMENTS(1), (unsigned long *)&size)) goto cleanup;
     buf = allocate_memory(size);
     EVENT(read)
       do {
-	result = read(fd, (char *)buf, size);
-      } while (result == -1 && errno == EINTR);
+	bytes_read = read(fd, (char *)buf, size);
+      } while (bytes_read == -1 && errno == EINTR);
     INFO
       INT(fd)
       ULONG(size)
-      MEMORY(buf, result)
+      MEMORY(buf, bytes_read)
     DATA
-      MEMORY(buf, result)
+      MEMORY(buf, bytes_read)
     END
-    if (result == -1) {
+    if (bytes_read == -1) {
       create_error_message(
 	module__builtin.constants_base[unique__std___IO_ERROR-1],
 	"READ FAILED", errno, 0, NULL);
     } else {
-      PREPARE_SINGLE_RESULT(from_latin_1_string(buf, result))
+      PREPARE_SINGLE_RESULT(from_latin_1_string(buf, bytes_read))
     }
     cleanup:
     deallocate_memory(buf);
@@ -2818,28 +3021,26 @@ METHOD std_types::file_descriptor/write
     CHECK_IO_ACCESS_RIGHTS
     int fd = ARGUMENTS(0)->file_descriptor.value;
     uint8_t *buf = NULL;
-    size_t size;
-    ssize_t result;
+    ssize_t size;
+    ssize_t bytes_written;
     if (
-      !to_octets(ARGUMENTS(1),
-      (const uint8_t **)&buf, (long *)&size)) goto cleanup;
-    EVENT(write)
+      !to_octets(ARGUMENTS(1), (const uint8_t **)&buf, &size)) goto cleanup;
+    ACTION(write)
       do {
-	result = write(fd, (char *)buf, size);
-      } while (result == -1 && errno == EINTR);
+	bytes_written = write(fd, (char *)buf, size);
+      } while (bytes_written == -1 && errno == EINTR);
     INFO
       INT(fd)
       MEMORY(buf, size)
-      LONG(result)
     DATA
-      LONG(result)
+      LONG(bytes_written, size)
     END
-    if (result == -1) {
+    if (bytes_written == -1) {
       create_error_message(
 	module__builtin.constants_base[unique__std___IO_ERROR-1],
 	"WRITE FAILED", errno, 0, NULL);
     } else {
-      PREPARE_SINGLE_RESULT(from_long(result))
+      PREPARE_SINGLE_RESULT(from_long(bytes_written))
     }
     cleanup:
     deallocate_memory(buf);

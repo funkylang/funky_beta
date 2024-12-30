@@ -110,10 +110,11 @@ $funky::current_module_name undefined
 
 if
   $input_filename
+  $do_show_brief_error_messages
   $be_verbose $do_rebuild $do_print_c $funky::module_prefix $do_build_static
   do_run:
     on command_line_arguments.is_empty: Error "Missing command line arguments!"
-    -> command_line_arguments(1) false false false undefined false
+    -> command_line_arguments(1) false false false false undefined false
   :
     program_parameters!
       list
@@ -140,6 +141,9 @@ if
       list
 	MANDATORY_PARAMETER "filename" "
 	  a source code file with the extension ".fky"
+      list
+	"brief" "
+	  show brief error messages
       list
 	"verbose" "
 	  output detailed information about the build process
@@ -570,7 +574,7 @@ $funky::syntax_error:
     -> 1
   $details
     tuple
-      current_filename
+      append(base_directory current_filename)
       if
 	node.is_defined
 	-> source_group_of(node)
@@ -594,13 +598,25 @@ $display_error: (error)
     line.is_defined:
       line $indent $text
       $line_no line_no_of(line)
-      eprint! "
-	ERROR: @(message.to_sentence_case) IN LINE @(line_no) OF FILE @(filename)
+      if
+	do_show_brief_error_messages:
+	  eprint! "
+	    @(filename):@(line_no):@(indent+position): @(message)
+	  exit! EXIT_FAILURE
+	:
+	  eprint! "
+	    ERROR: @(message.to_sentence_case) IN LINE @(line_no) @
+		   OF FILE @(filename)
 
-	@(tabs_and_spaces(indent))@(text)@
-	@(tabs_and_spaces(indent+position-1))^
-      exit! EXIT_FAILURE
+	    @(tabs_and_spaces(indent))@(text)@
+	    @(tabs_and_spaces(indent+position-1))^
+	  exit! EXIT_FAILURE
     :
-      eprint! "
-	ERROR: @(message.to_sentence_case) IN FILE @(filename)
-      exit! EXIT_FAILURE
+      if
+	do_show_brief_error_messages:
+	  eprint! "
+	    @(filename): @(message)
+	:
+	  eprint! "
+	    ERROR: @(message.to_sentence_case) IN FILE @(filename)
+	  exit! EXIT_FAILURE

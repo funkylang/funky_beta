@@ -323,7 +323,10 @@ $tedi::history_index_of ()
 
 $tedi_types::html_page std_types::screen
 
+$tedi::HTML .
+
 $tedi_types::html_page
+  .kind_of HTML
   .current_rectangle_of undefined
   .history_of undefined
   .history_index_of undefined

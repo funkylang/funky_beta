@@ -649,24 +649,26 @@ $std_types::io/get_events:
       for_each signals
 	: (signal)
 	  case signal
-	    CHILD_CHANGED_STATE:
+	    SIGCHLD:
 	      wait! $pid $status
 	      exitstatus &status
 	      if
 		watched_pids_of(self)(pid):
 		  !self.watched_pids_of(pid) false
-		  push &events typed_tuple(std_types::event PROCESS_JOINED pid status)
+		  push &events
+		    typed_tuple(std_types::event PROCESS_JOINED pid status)
 		  next!
 		:
 		  !self.exit_codes_of(pid) status
 		  next!
-	    WINDOW_CHANGED_SIZE:
+	    SIGWINCH:
 	      !self.window_change_event_occurred true
 	      next!
 	    :
 	      if
 		catched_signals_of(self)(signal):
-		  push &events typed_tuple(std_types::event SIGNAL undefined signal)
+		  push &events
+		    typed_tuple(std_types::event SIGNAL undefined signal)
 		  next!
 		next
 	handle_write_requests
@@ -706,7 +708,8 @@ $std_types::io/get_events:
 		  bytes_written < length_of(job):
 		    range &job bytes_written+1 -1
 		    !self.write_jobs_of(fd) job # remaining text to write
-		    push &events typed_tuple(std_types::event WRITE_PENDING fd job)
+		    push &events
+		      typed_tuple(std_types::event WRITE_PENDING fd job)
 		    next!
 		  :
 		    !self.write_jobs_of(fd) undefined
@@ -819,7 +822,15 @@ $attempt_exit: (io)
 	  if
 	    io.is_empty:
 	      exit! exit_code_of(io)
-	    -> io
+	    :
+	      kill_child_processes! io
+    -> io
+
+$kill_child_processes: (io)
+  for_each watched_pids_of(io)
+    : (pid)
+      kill! pid SIGKILL
+      next
     -> io
 
 $std::handle_events ()

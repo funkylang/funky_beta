@@ -1366,7 +1366,11 @@ $funky::mangle_position: (node)
   $source_group source_group_of(node)
   $line_text second(source_group)
   $line_no line_no_of(source_group)
-  $column_no length_of(line_text)-length_of(source_position_of(node))
+  $column_no
+    +
+      1
+      first(source_group)
+      length_of(line_text)-length_of(source_position_of(node))
   -> "@(line_no)_@(column_no)"
 
 ### Tests

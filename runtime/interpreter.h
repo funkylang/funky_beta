@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2021 by
+  Copyright (C) 2024 by
   Dipl.-Ing. Michael Niederle
 
   This program is free software; you can redistribute it and/or modify
@@ -26,3 +26,7 @@ extern void interpreter(void);
 #define TABULAR_FUNCTION_TAG 1
 #define POLYMORPHIC_FUNCTION_TAG 2
 #define POLYMORPHIC_FUNCTION_WITH_SETTER_TAG 6
+
+#define STACK_SIZE 0x100000
+
+extern char stack[STACK_SIZE];

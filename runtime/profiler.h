@@ -45,3 +45,6 @@ typedef struct {
 
 extern PROFILE profile;
 extern const char *count_names[];
+
+extern const TAB_NUM *function_code_start;
+extern const TAB_NUM *function_code_end;

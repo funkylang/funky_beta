@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2021 by
+  Copyright (C) 2024 by
   Dipl.-Ing. Michael Niederle
 
   This program is free software; you can redistribute it and/or modify
@@ -39,9 +39,7 @@
 
 #define do_inline
 
-#define STACK_SIZE 0x100000
-
-static char stack[STACK_SIZE];
+EXPORT char stack[STACK_SIZE];
 
 extern char **var_names;
 extern char **const_names;
@@ -283,7 +281,8 @@ void interpreter(void) {
 
   TLS_code = (const TAB_NUM *)((unsigned long)TLS_myself->type & -4L);
 
-  allocate_frame_and_initialize_locals(TLS_frame, *TLS_code++ /* slot count */);
+  TAB_NUM slot_count = *TLS_code++;
+  allocate_frame_and_initialize_locals(TLS_frame, slot_count);
 
   int argument_count = TLS_argument_count;
   TAB_NUM parameter_count = *TLS_code++;

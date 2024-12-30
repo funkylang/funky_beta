@@ -1,4 +1,4 @@
-ERROR: Unexpected output argument IN LINE 3 OF FILE invalid_definition_1.fky
+ERROR: Unexpected output argument IN LINE 3 OF FILE ./error_suite/invalid_definition_1.fky
 
 $x $y
    ^

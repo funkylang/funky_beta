@@ -1911,10 +1911,14 @@ $annotate_single_node: (node)
 		  inc &i
 		  get_identifier !i $identifier
 		  if
-		    i < n && (text(i) == '.' || text(i) == '/'):
-		      add_usage identifier next_iteration
+		    identifier.is_empty
+		    next_iteration
 		    :
-		      add_definition next_iteration
+		      if
+			i < n && (text(i) == '.' || text(i) == '/'):
+			  add_usage identifier next_iteration
+			:
+			  add_definition next_iteration
 
 		  $add_definition: (continuation)
 		    if
@@ -1954,7 +1958,11 @@ $annotate_single_node: (node)
 		'!':
 		  inc &i
 		  get_identifier !i $identifier
-		  add_redefinition next_iteration
+		  if
+		    identifier.is_empty
+		    next_iteration
+		    :
+		      add_redefinition next_iteration
 
 		  $add_redefinition: (continuation)
 		    if
@@ -2058,6 +2066,270 @@ $annotate_single_node: (node)
     add &symbol_kind kind
     !definitions(identifier) symbol_kind
     continuation
+
+$fde::get_mangled_variable_name: (tree _x y identifier module_prefix)
+  #debug::dump 2 `local_definitions_of(tree)
+  $mangled_name get_definition(nodes_of(tree) y 0)
+  -> mangled_name
+
+  $get_definition: (lines no offset)
+    $idx 1
+    for_each lines
+      : (line)
+	$next_idx idx+total_line_count_of(line)
+	if
+	  no < next_idx:
+	    $local_definitions local_definitions_of(line)
+	    if
+	      &&
+		local_definitions.is_defined
+		local_definitions(identifier).is_defined
+	      :
+		get_definition_location line offset+idx
+	      :
+		get_definition subgroups_of(line) no-idx offset+idx
+	  :
+	    !idx next_idx
+	    next
+      -> undefined
+
+  $get_definition_location: (group offset)
+    $idx 1
+    $lines subgroups_of(group)
+    if
+      lines.is_not_empty:
+	for_each lines
+	  : (line)
+	    if
+	      line.is_defined:
+		$definition definitions_of(line)(identifier)
+		if
+		  definition.is_defined:
+		    get_definition_location line offset+idx
+		  :
+		    plus &idx total_line_count_of(line)
+		    next
+	      :
+		inc &idx
+		next
+	  : # let's take a look at the head line
+	    return_mangled_name collect_symbol_definitions(group)
+      :
+	return_mangled_name collect_symbol_definitions(group)
+
+    $return_mangled_name: (definitions)
+      for_each definitions
+	: (definition)
+	  definition $column_no $name
+	  if
+	    name == identifier:
+	      string module_prefix "::" offset "_" column_no "_" identifier
+	    next
+	-> undefined
+
+$collect_symbol_definitions: (line)
+  $indent indent_of(line)
+  $text text_of(line)
+  case kind_of(line)
+    PARAMETERS
+    -> list(tuple(indent+1 text .truncate_from. ' '))
+    :
+      $symbols empty_list
+      $i 1
+      $n length_of(text)
+      parse_expressions !i !symbols
+      -> symbols
+
+      $parse_expressions:
+	loop:
+	  if
+	    i > n
+	    -> i symbols
+	    :
+	      case text(i)
+		'$':
+		  inc &i
+		  $s i
+		  skip_identifier !i
+		  if
+		    i > s:
+		      push &symbols tuple(indent+s range(text s i-1))
+		      next
+		    next
+		'!':
+		  inc &i
+		  skip_identifier !i
+		  next
+		'@apos;':
+		  inc &i
+		  skip_character_literal !i
+		  next
+		'@quot;':
+		  inc &i
+		  skip_string_literal !i
+		  next
+		'(':
+		  inc &i
+		  parse_expressions !i !symbols
+		  if
+		    i > n
+		    -> i symbols # missing closing parenthesis
+		    :
+		      if
+			text(i) == ')':
+			  inc &i
+			  next
+			next # missing closing parenthesis
+		':':
+		  inc &i
+		  parse_lambda
+		'_':
+		  inc &i
+		  skip_identifier !i
+		  next
+		'a'..'z', 'A'..'Z':
+		  skip_identifier !i
+		  next
+		:
+		  inc &i
+		  next
+
+      $parse_lambda:
+	loop:
+	  if
+	    i > n
+	    -> i symbols
+	    :
+	      case text(i)
+		'(':
+		  inc &i
+		  parse_parameters !i !symbols
+		  if
+		    i > n
+		    -> i symbols # missing closing parenthesis
+		    :
+		      if
+			text(i) == ')':
+			  inc &i
+			  next
+			next # missing closing parenthesis
+		' ':
+		  inc &i
+		  next
+		:
+		  parse_expressions
+
+      $parse_parameters:
+	loop:
+	  if
+	    i > n
+	    -> i symbols # missing closing parenthesis
+	    :
+	      case text(i)
+		')' -> i symbols
+		' ':
+		  inc &i
+		  next
+		'_':
+		  inc &i
+		  skip_identifier !i
+		  next
+		'a'..'z', 'A'..'Z':
+		  $s i
+		  skip_identifier !i
+		  push &symbols tuple(indent+s range(text s i-1))
+		  next
+		: # some kind of error
+		  inc &i
+		  next
+
+      $skip_identifier:
+	loop:
+	  if
+	    i > n
+	    -> i
+	    :
+	      case text(i)
+		'a'..'z', 'A'..'Z', '0'..'9', '_':
+		  inc &i
+		  next
+		':':
+		  if
+		    i < n && text(i+1) == ':':
+		      plus &i 2
+		      next
+		    -> i
+		-> i
+
+      $skip_character_literal:
+	if
+	  i > n
+	  -> i # missing closing apostrophe
+	  :
+	    if
+	      text(i) == '@@':
+		inc &i
+		skip_special_character !i
+		check_closing_apostrophe
+	      :
+		inc &i
+		check_closing_apostrophe
+
+	$check_closing_apostrophe:
+	  if
+	    i > n # missing closing apostrophe
+	    -> i
+	    :
+	      if
+		text(i) == '@apos;'
+		-> i+1
+		-> i # missing closing apostrophe
+
+      $skip_string_literal:
+	loop:
+	  if
+	    i > n
+	    -> i # missing closing quotation mark
+	    :
+	      case text(i)
+		'@quot;' -> i+1
+		'@@':
+		  inc &i
+		  skip_special_character !i
+		  next
+		:
+		  inc &i
+		  next
+
+      $skip_special_character:
+	if
+	  i > n
+	  -> i # invalid character literal
+	  :
+	    case text(i)
+	      '@@' -> i+1
+	      '(':
+		inc &i
+		parse_expressions !i $_symbols
+		if
+		  i > n
+		  -> i # missing closing parenthesis
+		  :
+		    if
+		      text(i) == ')' -> i+1
+		      -> i # missing closing parenthesis
+	      :
+		loop:
+		  if
+		    i > n
+		    -> i # missing semicolon
+		    :
+		      if
+			text(i) == ';' -> i+1
+			:
+			  inc &i
+			  next
+
 
 # List
 

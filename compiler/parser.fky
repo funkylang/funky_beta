@@ -100,7 +100,10 @@ $syntax_error: (item)
     error
       funky::SYNTAX_ERROR
       message
-      tuple(funky::current_filename current_group pos)
+      tuple
+	append(funky::base_directory funky::current_filename)
+	current_group
+	pos
 
 $parse_groups: (parse_function)
   if

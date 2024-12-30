@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2021 by
+  Copyright (C) 2024 by
   Dipl.-Ing. Michael Niederle
 
   This program is free software; you can redistribute it and/or modify
@@ -44,6 +44,10 @@
 #include "fko.h"
 #include "linker.h"
 #include "memory.h"
+#include "debugger.h"
+
+extern int be_verbose;
+extern int be_brief;
 
 EXPORT int runtime_major_version(void) {
   return RUNTIME_MAJOR_VERSION;
@@ -189,13 +193,20 @@ EXPORT void define_namespace(FUNKY_NAMESPACE *namespace) {
       version_p = &info->versions;
       while ((version = *version_p) && namespace->major <= version->major) {
 	if (namespace->major == version->major) {
-	  unrecoverable_error(
-	    "There are conflicting namespace declarations:\n"
-	    "  %s-%d.%d (defined in module \"%s\")\n"
-	    "  %s-%d.%d (defined in module \"%s\")",
-	    namespace->namespace, namespace->major, namespace->minor,
-	    current_module->name+1,
-	    namespace->namespace, version->major, version->minor, version->module_name);
+	  if (!be_brief) {
+	    unrecoverable_error(
+	      "There are conflicting namespace declarations:\n"
+	      "  %s-%d.%d (defined in module \"%s\")\n"
+	      "  %s-%d.%d (defined in module \"%s\")",
+	      namespace->namespace, namespace->major, namespace->minor,
+	      current_module->name+1,
+	      namespace->namespace, version->major, version->minor, version->module_name);
+	  } else {
+	    unrecoverable_error(
+	      "%s: conflicting namespace declarations for \"%s-%d.%d\"",
+	      current_module->name+1,
+	      namespace->namespace, namespace->major, namespace->minor);
+	  }
 	}
 	version_p = &version->link;
       }
@@ -282,9 +293,15 @@ static const char *check_namespace(
     }
     info = info->link;
   }
-  unrecoverable_error(
-    "The namespace \"%s\" used from module \"%s\" is not defined in any module!",
-    namespace, current_module->name+1);
+  if (!be_brief) {
+    unrecoverable_error(
+      "The namespace \"%s\" used from module \"%s\" is not defined in any module!",
+      namespace, current_module->name+1);
+  } else {
+    unrecoverable_error(
+      "%s: the namespace \"%s\" is not defined in any module!",
+      current_module->name+1, namespace);
+  }
 }
 
 #define rol(val, shift) ((((unsigned)(val))<<(shift))|(((unsigned)(val))>>(32-(shift))))
@@ -327,13 +344,20 @@ static void register_symbol(FUNKY_VARIABLE *variable) {
 	version_p = &sep->versions;
 	while ((version = *version_p) && major <= version->major) {
 	  if (major == version->major) {
-	    unrecoverable_error(
-	      "There are conflicting declarations:\n"
-	      "  %s-%d.%d::%s (defined in module \"%s\")\n"
-	      "  %s-%d.%d::%s (defined in module \"%s\")",
-	      namespace, major, minor, name, current_module->name+1,
-	      namespace, version->major, version->minor, name,
-	      version->module_name);
+	    if (!be_brief) {
+	      unrecoverable_error(
+		"There are conflicting declarations:\n"
+		"  %s-%d.%d::%s (defined in module \"%s\")\n"
+		"  %s-%d.%d::%s (defined in module \"%s\")",
+		namespace, major, minor, name, current_module->name+1,
+		namespace, version->major, version->minor, name,
+		version->module_name);
+	    } else {
+	      unrecoverable_error(
+		"%s: conflicting declarations for \"%s-%d.%d::%s\"",
+		current_module->name+1,
+		namespace, major, minor, name);
+	    }
 	  }
 	  version_p = &version->link;
 	  goto insert_version;
@@ -423,16 +447,28 @@ static FUNKY_VARIABLE *update_symbol(
 	sep = sep->link;
       } while (sep);
     }
-    unrecoverable_error(
-      "The symbol \"%s::%s\" needed by the module\n"
-      "\"%s\" in line %d, column %d is not defined!",
-      namespace, name, current_module->name+1, line_no, column_no);
+    if (!be_brief) {
+      unrecoverable_error(
+	"The symbol \"%s::%s\" needed by the module\n"
+	"\"%s\" in line %d, column %d is not defined!",
+	namespace, name, current_module->name+1, line_no, column_no);
+    } else {
+      unrecoverable_error(
+	"%s:%d:%d: the symbol \"%s::%s\" is not defined",
+	current_module->name+1, line_no, column_no, namespace, name);
+    }
   } else {
     if (!hep) {
-      unrecoverable_error(
-	"The symbol \"%s\" needed by the module\n"
-	"\"%s\" in line %d, column %d is not defined in any namespace!",
-	name, current_module->name+1, line_no, column_no);
+      if (!be_brief) {
+	unrecoverable_error(
+	  "The symbol \"%s\" needed by the module\n"
+	  "\"%s\" in line %d, column %d is not defined in any namespace!",
+	  name, current_module->name+1, line_no, column_no);
+      } else {
+	unrecoverable_error(
+	  "%s:%d:%d: the symbol \"%s\" is not defined in any namespace",
+	  current_module->name+1, line_no, column_no, name);
+      }
     }
 
     //fprintf(stderr, "update symbol %s\n", name);
@@ -460,12 +496,20 @@ static FUNKY_VARIABLE *update_symbol(
 	      used_namespace->minor >= version->minor
 	    ) {
 	      if (version_found) {
-		unrecoverable_error(
-		  "The symbol \"%s\" needed by the module\n"
-		  "\"%s\" in line %d, column %d\n"
-		  "is defined in at least two used namespaces (\"%s\" and \"%s\")!",
-		  name, current_module->name+1, line_no, column_no,
-		  sep->namespace, sep_found->namespace);
+		if (!be_brief) {
+		  unrecoverable_error(
+		    "The symbol \"%s\" needed by the module\n"
+		    "\"%s\" in line %d, column %d\n"
+		    "is defined in at least two used namespaces (\"%s\" and \"%s\")!",
+		    name, current_module->name+1, line_no, column_no,
+		    sep->namespace, sep_found->namespace);
+		} else {
+		  unrecoverable_error(
+		    "%s:%d:%d: the symbol \"%s\" is defined in namespaces "
+		    "(\"%s\" and \"%s\")",
+		    current_module->name+1, line_no, column_no, name,
+		    sep->namespace, sep_found->namespace);
+		}
 	      } else {
 		sep_found = sep;
 		version_found = version;
@@ -552,6 +596,33 @@ static FUNKY_VARIABLE *get_defined_variable(const char *name) {
   return variable;
 }
 
+EXPORT int find_symbol(const char *namespace, const char *name) {
+  uint32_t h = 0;
+  const char *p = name;
+  while (*p) {
+    h = rol(h, 5)^*p++;
+  }
+  h &= HASH_TABLE_SIZE-1;
+
+  HASH_ENTRY *hep = hash_table[h];
+  while (hep) {
+    if (strcmp(hep->name, name) == 0) break;
+    hep = hep->link;
+  }
+  if (hep) {
+    SYMBOL_ENTRY *sep = hep->symbols;
+    do {
+      if (strcmp(sep->namespace, namespace) == 0) {
+	SYMBOL_VERSION *version = sep->versions;
+	return version->variable->var_idx;
+	return 0;
+      }
+      sep = sep->link;
+    } while (sep);
+  }
+  return 0;
+}
+
 EXPORT FUNKY_MODULE *main_module;
 const char **unique_item_names;
 int par_count_id;
@@ -634,8 +705,6 @@ static void print_arguments(FILE *fh, FUNKY_CONSTANT *constant) {
     }
   }
 }
-
-extern int be_verbose;
 
 static void print_argument(TAB_NUM arg) {
   if (arg < 0) {
@@ -1254,7 +1323,7 @@ static void define_var_or_const(FUNKY_VARIABLE *variable, NODE *node) {
   }
 }
 
-static NODE *get_var_or_const(int var_idx) {
+EXPORT NODE *get_var_or_const(int var_idx) {
   if (var_idx < 0) {
     //fprintf(stderr, "get literal %d\n", var_idx);
     return TLS_constants[-var_idx];
@@ -1426,7 +1495,7 @@ static TAB_NUM relocate_argument(TAB_NUM idx) {
   }
 }
 
-static void relocate_function(TAB_NUM *code) {
+static TAB_NUM *relocate_function(TAB_NUM *code) {
   ++code; // skip locals count
   TAB_NUM par_count = *code++;
   if (par_count < 0) {
@@ -1485,7 +1554,7 @@ static void relocate_function(TAB_NUM *code) {
     code[-1] = res_count; // fix <res_count>
     *functor_p = -*functor_p; // mark <functor> as IO-call
   }
-  if (res_count < 0) return;
+  if (res_count < 0) return code;
   while (--res_count >= 0) {
     *code = relocate_argument(*code);
     ++code;
@@ -1496,6 +1565,13 @@ static void relocate_function(TAB_NUM *code) {
 static NODE *create_constant(FUNKY_CONSTANT *constant) {
  switch (constant->type) {
     case FLT_FUNCTION:
+      if (do_debug) {
+	FUNCTION_INFO *info = malloc(sizeof(FUNCTION_INFO));
+	if (!info) unrecoverable_error("OUT OF MEMORY WHILE LINKING!");
+	info->code = constant->tfunc;
+	info->code_end = NULL;
+	constant->func_info = info;
+      }
       return create_function(constant->tfunc);
     case FLT_C_FUNCTION:
       return create_c_function(constant->func, constant->count);
@@ -1694,12 +1770,19 @@ static void resolve_external_references(void) {
 	} else {
 	  const char *separator, *namespace;
 	  split_name(variable->name, &separator, &namespace);
-	  unrecoverable_error(
-	    "The symbol \"%s%s%s\" needed by the module \"%s\" as a polymorphic "
-	    "function is defined in the module \"%s\" but is not a polymorphic "
-	    "function!\n",
-	    namespace, separator, variable->name,
-	    current_module->name+1, defined_variable->module->name+1);
+	  if (!be_brief) {
+	    unrecoverable_error(
+	      "The symbol \"%s%s%s\" needed by the module \"%s\" as a polymorphic "
+	      "function is defined in the module \"%s\" but is not a polymorphic "
+	      "function!\n",
+	      namespace, separator, variable->name,
+	      current_module->name+1, defined_variable->module->name+1);
+	  } else {
+	    unrecoverable_error(
+	      "%s: \"%s%s%s\" needed as a polymorphic function is not defined "
+	      "in any namespace\n",
+	      current_module->name+1, namespace, separator, variable->name);
+	  }
 	}
       }
     }
@@ -1895,12 +1978,21 @@ static void initialize_attributes(FUNKY_VARIABLE *defined_variable) {
 	    const char *name, *separator, *namespace;
 	    name = module->variables[abs(attr_id)-FIRST_VAR].name;
 	    split_name(name, &separator, &namespace);
-	    unrecoverable_error(
-	      "The polymorphic function \"%s%s%s\" for the object \"%s%s%s\" "
-	      "is defined in the module \"%s\" and again in the module \"%s\"!",
-	      namespace, separator, name,
-	      obj_namespace, obj_separator, obj_name,
-	      module->name+1, poly_marker_info[poly_idx]->module->name+1);
+	    if (!be_brief) {
+	      unrecoverable_error(
+		"The polymorphic function \"%s%s%s\" for the object \"%s%s%s\" "
+		"is defined in the module \"%s\" and again in the module \"%s\"!",
+		namespace, separator, name,
+		obj_namespace, obj_separator, obj_name,
+		module->name+1, poly_marker_info[poly_idx]->module->name+1);
+	    } else {
+	      unrecoverable_error(
+		"\"%s%s%s\"/\"%s%s%s\" is defined in modules "
+		"\"%s\" and \"%s\"",
+		obj_namespace, obj_separator, obj_name,
+		namespace, separator, name,
+		module->name+1, poly_marker_info[poly_idx]->module->name+1);
+	    }
 	  }
 	  poly_marker_table[poly_idx] = poly_marker;
 	  poly_marker_info[poly_idx] = variable;
@@ -1942,7 +2034,12 @@ static void initialize_tuples_lists_and_functions(void) {
       FUNKY_CONSTANT *constant = &current_module->constants[i];
       switch (constant->type) {
 	case FLT_FUNCTION:
-	  relocate_function(constant->tfunc);
+	  if (do_debug) {
+	    constant->func_info->code_end =
+	      relocate_function((TAB_NUM *)constant->func_info->code);
+	  } else {
+	    relocate_function(constant->tfunc);
+	  }
 	  break;
 	case FLT_TUPLE:
 	case FLT_KEY_VALUE_PAIR:
@@ -2118,6 +2215,7 @@ EXPORT void initialize_all(void) {
     err_info("There are %d modules.", funky_module_count);
   END
   funky_modules = malloc(funky_module_count*sizeof(FUNKY_MODULE *));
+  if (!funky_modules) unrecoverable_error("OUT OF MEMORY WHILE LINKING!");
   funky_module_count = 0;
   traverse(build_module_table, "Build Module Table");
   pass(define_namespaces, "Define Namespaces");

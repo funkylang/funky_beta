@@ -55,17 +55,6 @@
     See also: open_file, close_file
   {STDERR_FILENO}
 
-UNIQUE SIGHUP
-
-UNIQUE SIGUSR1
-
-UNIQUE SIGUSR2
-
-UNIQUE CHILD_CHANGED_STATE
-
-UNIQUE WINDOW_CHANGED_SIZE
-
-
 CODE
   static int flags_to_int
   (
@@ -615,25 +604,20 @@ FUNCTION std::pselect
       data->length = signal_count;
       int n = 0;
       if (caught_hup) {
-	data->items[n++] =
-	  module__builtin.constants_base[unique__std___SIGHUP-1];
+	data->items[n++] = VAR(std::SIGHUP);
       }
       if (caught_usr1) {
-	data->items[n++] =
-	  module__builtin.constants_base[unique__std___SIGUSR1-1];
+	data->items[n++] = VAR(std::SIGUSR1);
       }
       signals = CREATE(std_types::list, 0, signal_count, data);
       if (caught_usr2) {
-	data->items[n++] =
-	  module__builtin.constants_base[unique__std___SIGUSR2-1];
+	data->items[n++] = VAR(std::SIGUSR2);
       }
       if (chld_changed_state) {
-	data->items[n++] =
-	  module__builtin.constants_base[unique__std___CHILD_CHANGED_STATE-1];
+	data->items[n++] = VAR(std::SIGCHLD);
       }
       if (win_changed_size) {
-	data->items[n++] =
-	  module__builtin.constants_base[unique__std___WINDOW_CHANGED_SIZE-1];
+	data->items[n++] = VAR(std::SIGWINCH);
       }
       signals = CREATE(std_types::list, 0, signal_count, data);
     }
@@ -1304,4 +1288,3 @@ FUNCTION std::create_shared_memory
     cleanup:
     deallocate_memory(filename);
   }
-
