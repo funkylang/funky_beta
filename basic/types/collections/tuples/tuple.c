@@ -60,31 +60,31 @@ enum {
   var_std__fourth, // initialized
   var_std__fifth, // initialized
   var_debug__to_string, // extern polymorphic
-  var_60_0_self, // dynamic
-  var_61_0_indent, // dynamic
-  var_62_0_depth, // dynamic
+  var_60_5_self, // dynamic
+  var_61_5_indent, // dynamic
+  var_62_5_depth, // dynamic
   var_to_list, // extern
   var_std__less, // extern
   var_std__not, // extern
-  var_67_1_len, // dynamic
+  var_67_8_len, // dynamic
   var_length_of, // extern
   var_std__equal, // extern
   var_std__string, // extern
   var_if, // extern
-  var_73_1_new_indent, // dynamic
+  var_73_8_new_indent, // dynamic
   var_std__plus, // extern
   var_std__minus, // extern
-  var_76_1_text, // dynamic
+  var_76_12_text, // dynamic
   var_range, // extern
   var_tabs_and_spaces, // extern
   var_append, // extern
   var_map_reduce, // extern
   var_serialize, // extern polymorphic
-  var_90_0_indent, // dynamic
+  var_90_5_indent, // dynamic
   var_undefined, // extern
   var_is_defined, // extern
-  var_92_1_new_indent, // dynamic
-  var_102_1_header, // dynamic
+  var_92_4_new_indent, // dynamic
+  var_102_4_header, // dynamic
   var_update_if, // extern
   var_deserializer_of, // extern polymorphic
   var_new_tuple, // extern
@@ -97,7 +97,7 @@ enum {
 static TAB_NUM t_func_std__first[] = {
   2, // locals
   1, // parameters
-  LOCAL(1), // 36_14_t
+  LOCAL(1), // 36_15_t
   // t $first
   LOCAL(1), 0, 1, LOCAL(2),
   // -> first
@@ -109,7 +109,7 @@ static TAB_NUM t_func_std__first[] = {
 static TAB_NUM t_func_std__second[] = {
   3, // locals
   1, // parameters
-  LOCAL(2), // 40_15_t
+  LOCAL(2), // 40_16_t
   // t $_first $second
   LOCAL(2), 0, 2, LOCAL(1), LOCAL(3),
   // -> second
@@ -121,7 +121,7 @@ static TAB_NUM t_func_std__second[] = {
 static TAB_NUM t_func_std__third[] = {
   3, // locals
   1, // parameters
-  LOCAL(2), // 44_14_t
+  LOCAL(2), // 44_15_t
   // t $_first $_second $third
   LOCAL(2), 0, 3, LOCAL(1), LOCAL(1), LOCAL(3),
   // -> third
@@ -133,7 +133,7 @@ static TAB_NUM t_func_std__third[] = {
 static TAB_NUM t_func_std__fourth[] = {
   3, // locals
   1, // parameters
-  LOCAL(2), // 48_15_t
+  LOCAL(2), // 48_16_t
   // t $_first $_second $_third $fourth
   LOCAL(2), 0, 4, LOCAL(1), LOCAL(1), LOCAL(1), LOCAL(3),
   // -> fourth
@@ -145,7 +145,7 @@ static TAB_NUM t_func_std__fourth[] = {
 static TAB_NUM t_func_std__fifth[] = {
   3, // locals
   1, // parameters
-  LOCAL(2), // 52_14_t
+  LOCAL(2), // 52_15_t
   // t $_first $_second $_third $_fourth $fifth
   LOCAL(2), 0, 5, LOCAL(1), LOCAL(1), LOCAL(1), LOCAL(1), LOCAL(3),
   // -> fifth
@@ -157,13 +157,13 @@ static TAB_NUM t_func_std__fifth[] = {
 static TAB_NUM t_func_std_types__tuple___debug__to_string[] = {
   2, // locals
   -3, // parameters
-  MANDATORY_PARAMETER, var_60_0_self,
-  num_0, var_61_0_indent,
-  num_1, var_62_0_depth,
+  MANDATORY_PARAMETER, var_60_5_self,
+  num_0, var_61_5_indent,
+  num_1, var_62_5_depth,
   // to_list &self
-  var_to_list, 1, var_60_0_self, 1, var_60_0_self,
+  var_to_list, 1, var_60_5_self, 1, var_60_5_self,
   // 1:
-  var_std__less, 2, num_1, var_62_0_depth, 1, LOCAL(1),
+  var_std__less, 2, num_1, var_62_5_depth, 1, LOCAL(1),
   // 1:
   var_std__not, 1, LOCAL(1), 1, LOCAL(2),
   // if
@@ -178,9 +178,9 @@ static TAB_NUM t_lambda_1[] = {
   1, // locals
   0, // parameters
   // $len length_of(self)
-  var_length_of, 1, var_60_0_self, 1, var_67_1_len,
+  var_length_of, 1, var_60_5_self, 1, var_67_8_len,
   // len == 1
-  var_std__equal, 2, var_67_1_len, num_1, 1, LOCAL(1),
+  var_std__equal, 2, var_67_8_len, num_1, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_2, lambda_3, TAIL_CALL,
   POS(67, 7),
@@ -200,7 +200,7 @@ static TAB_NUM t_lambda_3[] = {
   1, // locals
   0, // parameters
   // "<tuple of @(len) items>@nl;"
-  var_std__string, 3, str_tuple_of, var_67_1_len, str__items, 1, LOCAL(1),
+  var_std__string, 3, str_tuple_of, var_67_8_len, str__items, 1, LOCAL(1),
   //  "<tuple of @(len) items>@nl;"
   LET, 1, LOCAL(1), TAIL_CALL,
   POS(71, 12),
@@ -211,11 +211,11 @@ static TAB_NUM t_lambda_4[] = {
   3, // locals
   0, // parameters
   // $new_indent indent+2
-  var_std__plus, 2, var_61_0_indent, num_2, 1, var_73_1_new_indent,
+  var_std__plus, 2, var_61_5_indent, num_2, 1, var_73_8_new_indent,
   // map_reduce $contents
-  var_map_reduce, 4, var_60_0_self, lambda_self, var_append, string_1, 1, LOCAL(3),
+  var_map_reduce, 4, var_60_5_self, lambda_self, var_append, string_1, 1, LOCAL(3),
   // tabs_and_spaces(indent) "tuple@nl;") contents
-  var_tabs_and_spaces, 1, var_61_0_indent, 1, LOCAL(1),
+  var_tabs_and_spaces, 1, var_61_5_indent, 1, LOCAL(1),
   // append("@nl;" tabs_and_spaces(indent) "tuple@nl;") contents
   var_append, 3, string_2, LOCAL(1), str_tuple_2, 1, LOCAL(2),
   // append append("@nl;" tabs_and_spaces(indent) "tuple@nl;") contents
@@ -230,13 +230,13 @@ static TAB_NUM t_lambda_4[] = {
 static TAB_NUM t_lambda_self[] = {
   3, // locals
   1, // parameters
-  LOCAL(3), // 75_7_value
+  LOCAL(3), // 75_16_value
   // depth-1)
-  var_std__minus, 2, var_62_0_depth, num_1, 1, LOCAL(1),
+  var_std__minus, 2, var_62_5_depth, num_1, 1, LOCAL(1),
   // $text debug::to_string(value new_indent depth-1)
-  var_debug__to_string, 3, LOCAL(3), var_73_1_new_indent, LOCAL(1), 1, var_76_1_text,
+  var_debug__to_string, 3, LOCAL(3), var_73_8_new_indent, LOCAL(1), 1, var_76_12_text,
   // text(1) == '@nl;'
-  var_76_1_text, 1, num_1, 1, LOCAL(1),
+  var_76_12_text, 1, num_1, 1, LOCAL(1),
   // text(1) == '@nl;'
   var_std__equal, 2, LOCAL(1), chr_10, 1, LOCAL(2),
   // if
@@ -252,7 +252,7 @@ static TAB_NUM t_lambda_5[] = {
   1, // locals
   0, // parameters
   // range(text 2 -1)
-  var_range, 3, var_76_1_text, num_2, minus_num_1, 1, LOCAL(1),
+  var_range, 3, var_76_12_text, num_2, minus_num_1, 1, LOCAL(1),
   //  range(text 2 -1)
   LET, 1, LOCAL(1), TAIL_CALL,
   POS(79, 16),
@@ -263,9 +263,9 @@ static TAB_NUM t_lambda_6[] = {
   2, // locals
   0, // parameters
   // tabs_and_spaces(new_indent) text)
-  var_tabs_and_spaces, 1, var_73_1_new_indent, 1, LOCAL(1),
+  var_tabs_and_spaces, 1, var_73_8_new_indent, 1, LOCAL(1),
   // append(tabs_and_spaces(new_indent) text)
-  var_append, 2, LOCAL(1), var_76_1_text, 1, LOCAL(2),
+  var_append, 2, LOCAL(1), var_76_12_text, 1, LOCAL(2),
   //  append(tabs_and_spaces(new_indent) text)
   LET, 1, LOCAL(2), TAIL_CALL,
   POS(80, 23),
@@ -276,12 +276,12 @@ static TAB_NUM t_lambda_6[] = {
 static TAB_NUM t_func_std_types__tuple___serialize[] = {
   5, // locals
   -2, // parameters
-  MANDATORY_PARAMETER, LOCAL(3), // 89_0_self
-  var_undefined, var_90_0_indent,
+  MANDATORY_PARAMETER, LOCAL(3), // 89_5_self
+  var_undefined, var_90_5_indent,
   // is_defined
-  var_is_defined, 1, var_90_0_indent, 1, LOCAL(1),
+  var_is_defined, 1, var_90_5_indent, 1, LOCAL(1),
   // $new_indent
-  var_if, 3, LOCAL(1), lambda_7, lambda_8, 1, var_92_1_new_indent,
+  var_if, 3, LOCAL(1), lambda_7, lambda_8, 1, var_92_4_new_indent,
   // $items self.to_list
   var_to_list, 1, LOCAL(3), 1, LOCAL(4),
   // map_reduce $contents
@@ -291,13 +291,13 @@ static TAB_NUM t_func_std_types__tuple___serialize[] = {
   // length_of(items))>
   var_length_of, 1, LOCAL(4), 1, LOCAL(2),
   // $header
-  var_std__string, 4, LOCAL(1), string_3, LOCAL(2), string_4, 1, var_102_1_header,
+  var_std__string, 4, LOCAL(1), string_3, LOCAL(2), string_4, 1, var_102_4_header,
   // is_defined &header -> append(tabs_and_spaces(indent) header)
-  var_is_defined, 1, var_90_0_indent, 1, LOCAL(1),
+  var_is_defined, 1, var_90_5_indent, 1, LOCAL(1),
   // update_if indent.is_defined &header -> append(tabs_and_spaces(indent) header)
-  var_update_if, 3, LOCAL(1), var_102_1_header, lambda_9, 1, var_102_1_header,
+  var_update_if, 3, LOCAL(1), var_102_4_header, lambda_9, 1, var_102_4_header,
   // append header contents
-  var_append, 2, var_102_1_header, LOCAL(5), TAIL_CALL,
+  var_append, 2, var_102_4_header, LOCAL(5), TAIL_CALL,
   POS(94, 14),
   POS(92, 3),
   POS(97, 3),
@@ -314,7 +314,7 @@ static TAB_NUM t_lambda_7[] = {
   1, // locals
   0, // parameters
   // indent+2
-  var_std__plus, 2, var_90_0_indent, num_2, 1, LOCAL(1),
+  var_std__plus, 2, var_90_5_indent, num_2, 1, LOCAL(1),
   //  indent+2
   LET, 1, LOCAL(1), TAIL_CALL,
   POS(95, 10),
@@ -332,9 +332,9 @@ static TAB_NUM t_lambda_8[] = {
 static TAB_NUM t_lambda_items[] = {
   2, // locals
   1, // parameters
-  LOCAL(2), // 99_8_item
+  LOCAL(2), // 99_13_item
   // serialize(item new_indent)
-  var_serialize, 2, LOCAL(2), var_92_1_new_indent, 1, LOCAL(1),
+  var_serialize, 2, LOCAL(2), var_92_4_new_indent, 1, LOCAL(1),
   // -> serialize(item new_indent)
   LET, 1, LOCAL(1), TAIL_CALL,
   POS(99, 22),
@@ -345,9 +345,9 @@ static TAB_NUM t_lambda_9[] = {
   2, // locals
   0, // parameters
   // tabs_and_spaces(indent) header)
-  var_tabs_and_spaces, 1, var_90_0_indent, 1, LOCAL(1),
+  var_tabs_and_spaces, 1, var_90_5_indent, 1, LOCAL(1),
   // append(tabs_and_spaces(indent) header)
-  var_append, 2, LOCAL(1), var_102_1_header, 1, LOCAL(2),
+  var_append, 2, LOCAL(1), var_102_4_header, 1, LOCAL(2),
   //  append(tabs_and_spaces(indent) header)
   LET, 1, LOCAL(2), TAIL_CALL,
   POS(105, 49),
@@ -358,8 +358,8 @@ static TAB_NUM t_lambda_9[] = {
 static TAB_NUM t_func_std_types__tuple___deserializer_of[] = {
   3, // locals
   2, // parameters
-  LOCAL(2), // 110_0_type
-  LOCAL(3), // 111_0_items
+  LOCAL(2), // 110_5_type
+  LOCAL(3), // 111_5_items
   // new_tuple(type items)
   var_new_tuple, 2, LOCAL(2), LOCAL(3), 1, LOCAL(1),
   // -> new_tuple(type items)
@@ -499,15 +499,15 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "60_0_self\000", NULL
+    "60_5_self\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "61_0_indent\000", NULL
+    "61_5_indent\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "62_0_depth\000", NULL
+    "62_5_depth\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
@@ -526,7 +526,7 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "67_1_len\000", NULL
+    "67_8_len\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
@@ -550,7 +550,7 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "73_1_new_indent\000", NULL
+    "73_8_new_indent\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
@@ -564,7 +564,7 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "76_1_text\000", NULL
+    "76_12_text\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
@@ -593,7 +593,7 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "90_0_indent\000", NULL
+    "90_5_indent\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
@@ -607,11 +607,11 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "92_1_new_indent\000", NULL
+    "92_4_new_indent\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "102_1_header\000", NULL
+    "102_4_header\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,

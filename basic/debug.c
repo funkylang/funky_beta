@@ -75,26 +75,26 @@ enum {
   var_debug__to_string, // attribute
   var_std__assign, // extern
   var_std_types__object, // extern
-  var_41_0_self, // dynamic
-  var_42_0_indent, // dynamic
-  var_43_0_depth, // dynamic
+  var_41_5_self, // dynamic
+  var_42_5_indent, // dynamic
+  var_43_5_depth, // dynamic
   var_is_a_plain_object, // extern
-  var_47_1_typename, // dynamic
+  var_47_8_typename, // dynamic
   var_debug__object_type, // extern
   var_std__equal, // extern
   var_std__string, // extern
-  var_53_1_attr_indent, // dynamic
+  var_53_12_attr_indent, // dynamic
   var_std__plus, // extern
-  var_54_1_value_indent, // dynamic
-  var_55_1_attributes, // dynamic
+  var_54_12_value_indent, // dynamic
+  var_55_12_attributes, // dynamic
   var_debug__object_attributes, // extern
   var_tabs_and_spaces, // extern
-  var_56_1_buf, // dynamic
+  var_56_12_buf, // dynamic
   var_append, // extern
   var_length_of, // extern
-  var_59_1_attr_text, // dynamic
+  var_59_16_attr_text, // dynamic
   var_std__minus, // extern
-  var_60_1_value_text, // dynamic
+  var_60_16_value_text, // dynamic
   var_if, // extern
   var_next, // extern
   var_from_to_by, // extern
@@ -107,25 +107,25 @@ enum {
   var_debug__write, // extern
   var_debug__println, // initialized
   var_debug__dump, // initialized
-  var_161_15_args, // dynamic
-  var_162_1_depth, // dynamic
+  var_161_16_args, // dynamic
+  var_162_4_depth, // dynamic
   var_is_an_integer, // extern
   var_range, // extern
   var_update_if, // extern
-  var_165_1_i, // dynamic
-  var_166_1_n, // dynamic
+  var_165_4_i, // dynamic
+  var_166_4_n, // dynamic
   var_std__less, // extern
-  var_170_1_label, // dynamic
-  var_173_1_text, // dynamic
+  var_170_10_label, // dynamic
+  var_173_10_text, // dynamic
   var_break, // extern
   var_loop, // extern
   var_debug__dump_one, // initialized
   var_debug__dump_object, // extern
-  var_224_16_fd, // dynamic
-  var_224_19_args, // dynamic
-  var_225_1_i, // dynamic
-  var_226_1_n, // dynamic
-  var_231_1_expr, // dynamic
+  var_224_17_fd, // dynamic
+  var_224_20_args, // dynamic
+  var_225_4_i, // dynamic
+  var_226_4_n, // dynamic
+  var_231_10_expr, // dynamic
   var_print_to, // extern
   var_is_an_error, // extern
   var_error_message_text_of, // extern
@@ -137,10 +137,10 @@ enum {
   var_std__edump, // initialized
   var_STDERR_FILENO, // extern
   var_std__hexdump_to, // initialized
-  var_382_0_fd, // dynamic
-  var_383_0_str, // dynamic
-  var_385_1_i, // dynamic
-  var_386_1_n, // dynamic
+  var_382_5_fd, // dynamic
+  var_383_5_str, // dynamic
+  var_385_4_i, // dynamic
+  var_386_4_n, // dynamic
   var_std__not, // extern
   var_mod, // extern
   var_on, // extern
@@ -151,9 +151,9 @@ enum {
   var_hexdump_to, // extern
   var_std__ehexdump, // initialized
   var_debug__hexdump, // initialized
-  var_472_0_str, // dynamic
-  var_474_1_i, // dynamic
-  var_475_1_n, // dynamic
+  var_472_5_str, // dynamic
+  var_474_4_i, // dynamic
+  var_475_4_n, // dynamic
   var__END
 };
 
@@ -161,11 +161,11 @@ enum {
 static TAB_NUM t_func_std_types__object___debug__to_string[] = {
   1, // locals
   -3, // parameters
-  MANDATORY_PARAMETER, var_41_0_self,
-  num_0, var_42_0_indent,
-  num_1, var_43_0_depth,
+  MANDATORY_PARAMETER, var_41_5_self,
+  num_0, var_42_5_indent,
+  num_1, var_43_5_depth,
   // is_a_plain_object(self):
-  var_is_a_plain_object, 1, var_41_0_self, 1, LOCAL(1),
+  var_is_a_plain_object, 1, var_41_5_self, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_is_a_plain_objectself, lambda_7, TAIL_CALL,
   POS(46, 5),
@@ -176,9 +176,9 @@ static TAB_NUM t_lambda_is_a_plain_objectself[] = {
   1, // locals
   0, // parameters
   // $typename debug::object_type(self)
-  var_debug__object_type, 1, var_41_0_self, 1, var_47_1_typename,
+  var_debug__object_type, 1, var_41_5_self, 1, var_47_8_typename,
   // depth == 0
-  var_std__equal, 2, var_43_0_depth, num_0, 1, LOCAL(1),
+  var_std__equal, 2, var_43_5_depth, num_0, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_1, lambda_2, TAIL_CALL,
   POS(47, 7),
@@ -190,7 +190,7 @@ static TAB_NUM t_lambda_1[] = {
   1, // locals
   0, // parameters
   // "
-  var_std__string, 3, string_1, var_47_1_typename, string_2, 1, LOCAL(1),
+  var_std__string, 3, string_1, var_47_8_typename, string_2, 1, LOCAL(1),
   //  "
   LET, 1, LOCAL(1), TAIL_CALL,
   POS(50, 12),
@@ -201,17 +201,17 @@ static TAB_NUM t_lambda_2[] = {
   1, // locals
   0, // parameters
   // $attr_indent indent+2
-  var_std__plus, 2, var_42_0_indent, num_2, 1, var_53_1_attr_indent,
+  var_std__plus, 2, var_42_5_indent, num_2, 1, var_53_12_attr_indent,
   // $value_indent indent+4
-  var_std__plus, 2, var_42_0_indent, num_4, 1, var_54_1_value_indent,
+  var_std__plus, 2, var_42_5_indent, num_4, 1, var_54_12_value_indent,
   // $attributes debug::object_attributes(self)
-  var_debug__object_attributes, 1, var_41_0_self, 1, var_55_1_attributes,
+  var_debug__object_attributes, 1, var_41_5_self, 1, var_55_12_attributes,
   // tabs_and_spaces(indent) typename "@nl;")
-  var_tabs_and_spaces, 1, var_42_0_indent, 1, LOCAL(1),
+  var_tabs_and_spaces, 1, var_42_5_indent, 1, LOCAL(1),
   // $buf append("@nl;" tabs_and_spaces(indent) typename "@nl;")
-  var_append, 4, string_3, LOCAL(1), var_47_1_typename, string_3, 1, var_56_1_buf,
+  var_append, 4, string_3, LOCAL(1), var_47_8_typename, string_3, 1, var_56_12_buf,
   // length_of(attributes) 2
-  var_length_of, 1, var_55_1_attributes, 1, LOCAL(1),
+  var_length_of, 1, var_55_12_attributes, 1, LOCAL(1),
   // from_to_by 1 length_of(attributes) 2
   var_from_to_by, 5, num_1, LOCAL(1), num_2, lambda_3, lambda_6, TAIL_CALL,
   POS(53, 11),
@@ -226,29 +226,29 @@ static TAB_NUM t_lambda_2[] = {
 static TAB_NUM t_lambda_3[] = {
   4, // locals
   1, // parameters
-  LOCAL(4), // 58_3_i
+  LOCAL(4), // 58_16_i
   // tabs_and_spaces(attr_indent) attributes(i))
-  var_tabs_and_spaces, 1, var_53_1_attr_indent, 1, LOCAL(1),
+  var_tabs_and_spaces, 1, var_53_12_attr_indent, 1, LOCAL(1),
   // attributes(i))
-  var_55_1_attributes, 1, LOCAL(4), 1, LOCAL(2),
+  var_55_12_attributes, 1, LOCAL(4), 1, LOCAL(2),
   // $attr_text append(tabs_and_spaces(attr_indent) attributes(i))
-  var_append, 2, LOCAL(1), LOCAL(2), 1, var_59_1_attr_text,
+  var_append, 2, LOCAL(1), LOCAL(2), 1, var_59_16_attr_text,
   // i+1) value_indent depth-1)
   var_std__plus, 2, LOCAL(4), num_1, 1, LOCAL(1),
   // attributes(i+1) value_indent depth-1)
-  var_55_1_attributes, 1, LOCAL(1), 1, LOCAL(2),
+  var_55_12_attributes, 1, LOCAL(1), 1, LOCAL(2),
   // depth-1)
-  var_std__minus, 2, var_43_0_depth, num_1, 1, LOCAL(3),
+  var_std__minus, 2, var_43_5_depth, num_1, 1, LOCAL(3),
   // $value_text debug::to_string(attributes(i+1) value_indent depth-1)
-  var_debug__to_string, 3, LOCAL(2), var_54_1_value_indent, LOCAL(3), 1, var_60_1_value_text,
+  var_debug__to_string, 3, LOCAL(2), var_54_12_value_indent, LOCAL(3), 1, var_60_16_value_text,
   // value_text(1) == '@nl;'
-  var_60_1_value_text, 1, num_1, 1, LOCAL(1),
+  var_60_16_value_text, 1, num_1, 1, LOCAL(1),
   // value_text(1) == '@nl;'
   var_std__equal, 2, LOCAL(1), chr_10, 1, LOCAL(2),
   // if
   var_if, 3, LOCAL(2), lambda_4, lambda_5, 1, LOCAL(3),
   // append &buf
-  var_append, 2, var_56_1_buf, LOCAL(3), 1, var_56_1_buf,
+  var_append, 2, var_56_12_buf, LOCAL(3), 1, var_56_12_buf,
   // next
   var_next, 0, TAIL_CALL,
   POS(59, 33),
@@ -269,7 +269,7 @@ static TAB_NUM t_lambda_4[] = {
   1, // locals
   0, // parameters
   // "@(attr_text) =@(value_text)"
-  var_std__string, 3, var_59_1_attr_text, string_4, var_60_1_value_text, 1, LOCAL(1),
+  var_std__string, 3, var_59_16_attr_text, string_4, var_60_16_value_text, 1, LOCAL(1),
   //  "@(attr_text) =@(value_text)"
   LET, 1, LOCAL(1), TAIL_CALL,
   POS(64, 22),
@@ -280,7 +280,7 @@ static TAB_NUM t_lambda_5[] = {
   1, // locals
   0, // parameters
   // "@(attr_text) = @(value_text)"
-  var_std__string, 3, var_59_1_attr_text, string_5, var_60_1_value_text, 1, LOCAL(1),
+  var_std__string, 3, var_59_16_attr_text, string_5, var_60_16_value_text, 1, LOCAL(1),
   //  "@(attr_text) = @(value_text)"
   LET, 1, LOCAL(1), TAIL_CALL,
   POS(65, 22),
@@ -291,7 +291,7 @@ static TAB_NUM t_lambda_6[] = {
   0, // locals
   0, // parameters
   //  buf
-  LET, 1, var_56_1_buf, TAIL_CALL,
+  LET, 1, var_56_12_buf, TAIL_CALL,
   POS(67, 15)
 };
 
@@ -299,7 +299,7 @@ static TAB_NUM t_lambda_7[] = {
   1, // locals
   0, // parameters
   // debug::string(self indent depth)
-  var_debug__string, 3, var_41_0_self, var_42_0_indent, var_43_0_depth, 1, LOCAL(1),
+  var_debug__string, 3, var_41_5_self, var_42_5_indent, var_43_5_depth, 1, LOCAL(1),
   //  debug::string(self indent depth)
   LET, 1, LOCAL(1), TAIL_CALL,
   POS(68, 8),
@@ -320,7 +320,7 @@ static TAB_NUM t_func_std_types__undefined___debug__to_string[] = {
 static TAB_NUM t_func_std_types__error___debug__to_string[] = {
   3, // locals
   -3, // parameters
-  MANDATORY_PARAMETER, LOCAL(3), // 80_0_self
+  MANDATORY_PARAMETER, LOCAL(3), // 80_5_self
   num_0, LOCAL(1),
   num_1, LOCAL(1),
   // to_error_message_string)@nl;"
@@ -337,7 +337,7 @@ static TAB_NUM t_func_std_types__error___debug__to_string[] = {
 static TAB_NUM t_func_debug__print[] = {
   2, // locals
   1, // parameters
-  LOCAL(2), // 88_0_str
+  LOCAL(2), // 88_5_str
   // to_utf8
   var_to_utf8, 1, LOCAL(2), 1, LOCAL(1),
   // debug::write str.to_utf8
@@ -349,7 +349,7 @@ static TAB_NUM t_func_debug__print[] = {
 static TAB_NUM t_func_debug__println[] = {
   1, // locals
   1, // parameters
-  LOCAL(1), // 115_0_str
+  LOCAL(1), // 115_5_str
   // debug::print str
   var_debug__print, 1, LOCAL(1), 0,
   // debug::print "@nl;"
@@ -361,19 +361,19 @@ static TAB_NUM t_func_debug__println[] = {
 static TAB_NUM t_func_debug__dump[] = {
   2, // locals
   -1, // parameters
-  REST_PARAMETER, var_161_15_args,
+  REST_PARAMETER, var_161_16_args,
   // $depth 1
-  LET, 1, num_1, 1, var_162_1_depth,
+  LET, 1, num_1, 1, var_162_4_depth,
   // args(1).is_an_integer &depth &args
-  var_161_15_args, 1, num_1, 1, LOCAL(1),
+  var_161_16_args, 1, num_1, 1, LOCAL(1),
   // is_an_integer &depth &args
   var_is_an_integer, 1, LOCAL(1), 1, LOCAL(2),
   // update_if args(1).is_an_integer &depth &args
-  var_update_if, 4, LOCAL(2), var_162_1_depth, var_161_15_args, lambda_8, 2, var_162_1_depth, var_161_15_args,
+  var_update_if, 4, LOCAL(2), var_162_4_depth, var_161_16_args, lambda_8, 2, var_162_4_depth, var_161_16_args,
   // $i 1
-  LET, 1, num_1, 1, var_165_1_i,
+  LET, 1, num_1, 1, var_165_4_i,
   // $n length_of(args)
-  var_length_of, 1, var_161_15_args, 1, var_166_1_n,
+  var_length_of, 1, var_161_16_args, 1, var_166_4_n,
   // loop:
   var_loop, 1, lambda_loop, TAIL_CALL,
   POS(162, 3),
@@ -389,9 +389,9 @@ static TAB_NUM t_lambda_8[] = {
   2, // locals
   0, // parameters
   // args(1) range(args 2 -1)
-  var_161_15_args, 1, num_1, 1, LOCAL(1),
+  var_161_16_args, 1, num_1, 1, LOCAL(1),
   // range(args 2 -1)
-  var_range, 3, var_161_15_args, num_2, minus_num_1, 1, LOCAL(2),
+  var_range, 3, var_161_16_args, num_2, minus_num_1, 1, LOCAL(2),
   //  args(1) range(args 2 -1)
   LET, 2, LOCAL(1), LOCAL(2), TAIL_CALL,
   POS(164, 8),
@@ -403,7 +403,7 @@ static TAB_NUM t_lambda_loop[] = {
   1, // locals
   0, // parameters
   // i < n:
-  var_std__less, 2, var_165_1_i, var_166_1_n, 1, LOCAL(1),
+  var_std__less, 2, var_165_4_i, var_166_4_n, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_9, var_break, TAIL_CALL,
   POS(169, 7),
@@ -414,17 +414,17 @@ static TAB_NUM t_lambda_9[] = {
   3, // locals
   0, // parameters
   // $label args(i)
-  var_161_15_args, 1, var_165_1_i, 1, var_170_1_label,
+  var_161_16_args, 1, var_165_4_i, 1, var_170_10_label,
   // i+1)
-  var_std__plus, 2, var_165_1_i, num_1, 1, LOCAL(1),
+  var_std__plus, 2, var_165_4_i, num_1, 1, LOCAL(1),
   // $expr args(i+1)
-  var_161_15_args, 1, LOCAL(1), 1, LOCAL(3),
+  var_161_16_args, 1, LOCAL(1), 1, LOCAL(3),
   // !i i+2
-  var_std__plus, 2, var_165_1_i, num_2, 1, var_165_1_i,
+  var_std__plus, 2, var_165_4_i, num_2, 1, var_165_4_i,
   // $text debug::to_string(expr 2 depth)
-  var_debug__to_string, 3, LOCAL(3), num_2, var_162_1_depth, 1, var_173_1_text,
+  var_debug__to_string, 3, LOCAL(3), num_2, var_162_4_depth, 1, var_173_10_text,
   // text(1) == '@nl;':
-  var_173_1_text, 1, num_1, 1, LOCAL(1),
+  var_173_10_text, 1, num_1, 1, LOCAL(1),
   // text(1) == '@nl;':
   var_std__equal, 2, LOCAL(1), chr_10, 1, LOCAL(2),
   // if
@@ -443,7 +443,7 @@ static TAB_NUM t_lambda_10[] = {
   1, // locals
   0, // parameters
   // "@(label):@(text)"
-  var_std__string, 3, var_170_1_label, string_6, var_173_1_text, 1, LOCAL(1),
+  var_std__string, 3, var_170_10_label, string_6, var_173_10_text, 1, LOCAL(1),
   // debug::print "@(label):@(text)"
   var_debug__print, 1, LOCAL(1), 0,
   // next
@@ -457,7 +457,7 @@ static TAB_NUM t_lambda_11[] = {
   1, // locals
   0, // parameters
   // "@(label): @(text)"
-  var_std__string, 3, var_170_1_label, string_7, var_173_1_text, 1, LOCAL(1),
+  var_std__string, 3, var_170_10_label, string_7, var_173_10_text, 1, LOCAL(1),
   // debug::print "@(label): @(text)"
   var_debug__print, 1, LOCAL(1), 0,
   // next
@@ -470,9 +470,9 @@ static TAB_NUM t_lambda_11[] = {
 static TAB_NUM t_func_debug__dump_one[] = {
   3, // locals
   -3, // parameters
-  num_1, LOCAL(1), // 216_0_depth
-  MANDATORY_PARAMETER, LOCAL(2), // 217_0_label
-  MANDATORY_PARAMETER, LOCAL(3), // 218_0_expr
+  num_1, LOCAL(1), // 216_5_depth
+  MANDATORY_PARAMETER, LOCAL(2), // 217_5_label
+  MANDATORY_PARAMETER, LOCAL(3), // 218_5_expr
   // debug::print label
   var_debug__print, 1, LOCAL(2), 0,
   // debug::print ": "
@@ -487,12 +487,12 @@ static TAB_NUM t_func_debug__dump_one[] = {
 static TAB_NUM t_func_dump_args_to[] = {
   0, // locals
   2, // parameters
-  var_224_16_fd,
-  var_224_19_args,
+  var_224_17_fd,
+  var_224_20_args,
   // $i 1
-  LET, 1, num_1, 1, var_225_1_i,
+  LET, 1, num_1, 1, var_225_4_i,
   // $n length_of(args)
-  var_length_of, 1, var_224_19_args, 1, var_226_1_n,
+  var_length_of, 1, var_224_20_args, 1, var_226_4_n,
   // loop:
   var_loop, 1, lambda_2_loop, IO_TAIL_CALL,
   POS(225, 3),
@@ -504,7 +504,7 @@ static TAB_NUM t_lambda_2_loop[] = {
   1, // locals
   0, // parameters
   // i < n:
-  var_std__less, 2, var_225_1_i, var_226_1_n, 1, LOCAL(1),
+  var_std__less, 2, var_225_4_i, var_226_4_n, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_12, var_break, IO_TAIL_CALL,
   POS(229, 7),
@@ -515,17 +515,17 @@ static TAB_NUM t_lambda_12[] = {
   2, // locals
   0, // parameters
   // $name args(i)
-  var_224_19_args, 1, var_225_1_i, 1, LOCAL(2),
+  var_224_20_args, 1, var_225_4_i, 1, LOCAL(2),
   // i+1)
-  var_std__plus, 2, var_225_1_i, num_1, 1, LOCAL(1),
+  var_std__plus, 2, var_225_4_i, num_1, 1, LOCAL(1),
   // $expr args(i+1)
-  var_224_19_args, 1, LOCAL(1), 1, var_231_1_expr,
+  var_224_20_args, 1, LOCAL(1), 1, var_231_10_expr,
   // !i i+2
-  var_std__plus, 2, var_225_1_i, num_2, 1, var_225_1_i,
+  var_std__plus, 2, var_225_4_i, num_2, 1, var_225_4_i,
   // print_to! fd name ": "
-  var_print_to, 3, var_224_16_fd, LOCAL(2), string_7, IO_CALL(0),
+  var_print_to, 3, var_224_17_fd, LOCAL(2), string_7, IO_CALL(0),
   // is_an_error:
-  var_is_an_error, 1, var_231_1_expr, 1, LOCAL(1),
+  var_is_an_error, 1, var_231_10_expr, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_expr_is_an_error, lambda_13, IO_TAIL_CALL,
   POS(230, 9),
@@ -541,9 +541,9 @@ static TAB_NUM t_lambda_expr_is_an_error[] = {
   1, // locals
   0, // parameters
   // error_message_text_of(expr)
-  var_error_message_text_of, 1, var_231_1_expr, 1, LOCAL(1),
+  var_error_message_text_of, 1, var_231_10_expr, 1, LOCAL(1),
   // println_to! fd error_message_text_of(expr)
-  var_println_to, 2, var_224_16_fd, LOCAL(1), IO_CALL(0),
+  var_println_to, 2, var_224_17_fd, LOCAL(1), IO_CALL(0),
   // next!
   var_next, 0, IO_TAIL_CALL,
   POS(236, 28),
@@ -555,9 +555,9 @@ static TAB_NUM t_lambda_13[] = {
   1, // locals
   0, // parameters
   // serialize(expr 0)
-  var_serialize, 2, var_231_1_expr, num_0, 1, LOCAL(1),
+  var_serialize, 2, var_231_10_expr, num_0, 1, LOCAL(1),
   // print_to! fd serialize(expr 0)
-  var_print_to, 2, var_224_16_fd, LOCAL(1), IO_CALL(0),
+  var_print_to, 2, var_224_17_fd, LOCAL(1), IO_CALL(0),
   // next!
   var_next, 0, IO_TAIL_CALL,
   POS(239, 26),
@@ -568,8 +568,8 @@ static TAB_NUM t_lambda_13[] = {
 static TAB_NUM t_func_std__dump_to[] = {
   2, // locals
   -2, // parameters
-  MANDATORY_PARAMETER, LOCAL(1), // 271_0_fd
-  REST_PARAMETER, LOCAL(2), // 272_0_args
+  MANDATORY_PARAMETER, LOCAL(1), // 271_5_fd
+  REST_PARAMETER, LOCAL(2), // 272_5_args
   // dump_args_to! fd args
   func_dump_args_to, 2, LOCAL(1), LOCAL(2), IO_TAIL_CALL,
   POS(274, 3)
@@ -578,7 +578,7 @@ static TAB_NUM t_func_std__dump_to[] = {
 static TAB_NUM t_func_std__dump[] = {
   1, // locals
   -1, // parameters
-  REST_PARAMETER, LOCAL(1), // 321_0_args
+  REST_PARAMETER, LOCAL(1), // 321_5_args
   // dump_args_to! STDOUT_FILENO args
   func_dump_args_to, 2, var_STDOUT_FILENO, LOCAL(1), IO_TAIL_CALL,
   POS(323, 3)
@@ -587,7 +587,7 @@ static TAB_NUM t_func_std__dump[] = {
 static TAB_NUM t_func_std__edump[] = {
   1, // locals
   -1, // parameters
-  REST_PARAMETER, LOCAL(1), // 357_0_args
+  REST_PARAMETER, LOCAL(1), // 357_5_args
   // dump_args_to! STDERR_FILENO args
   func_dump_args_to, 2, var_STDERR_FILENO, LOCAL(1), IO_TAIL_CALL,
   POS(359, 3)
@@ -596,12 +596,12 @@ static TAB_NUM t_func_std__edump[] = {
 static TAB_NUM t_func_std__hexdump_to[] = {
   0, // locals
   2, // parameters
-  var_382_0_fd,
-  var_383_0_str,
+  var_382_5_fd,
+  var_383_5_str,
   // $i 0
-  LET, 1, num_0, 1, var_385_1_i,
+  LET, 1, num_0, 1, var_385_4_i,
   // $n length_of(str)
-  var_length_of, 1, var_383_0_str, 1, var_386_1_n,
+  var_length_of, 1, var_383_5_str, 1, var_386_4_n,
   // loop:
   var_loop, 1, lambda_3_loop, IO_TAIL_CALL,
   POS(385, 3),
@@ -613,7 +613,7 @@ static TAB_NUM t_lambda_3_loop[] = {
   2, // locals
   0, // parameters
   // i >= n:
-  var_std__less, 2, var_385_1_i, var_386_1_n, 1, LOCAL(1),
+  var_std__less, 2, var_385_4_i, var_386_4_n, 1, LOCAL(1),
   // i >= n:
   var_std__not, 1, LOCAL(1), 1, LOCAL(2),
   // if
@@ -627,7 +627,7 @@ static TAB_NUM t_lambda_14[] = {
   3, // locals
   0, // parameters
   // i .mod. 16) != 0: print_to! fd "@nl;"
-  var_mod, 2, var_385_1_i, num_16, 1, LOCAL(1),
+  var_mod, 2, var_385_4_i, num_16, 1, LOCAL(1),
   // i .mod. 16) != 0: print_to! fd "@nl;"
   var_std__equal, 2, LOCAL(1), num_0, 1, LOCAL(2),
   // i .mod. 16) != 0: print_to! fd "@nl;"
@@ -644,7 +644,7 @@ static TAB_NUM t_lambda_15[] = {
   0, // locals
   0, // parameters
   // print_to! fd "@nl;"
-  var_print_to, 2, var_382_0_fd, string_3, IO_TAIL_CALL,
+  var_print_to, 2, var_382_5_fd, string_3, IO_TAIL_CALL,
   POS(390, 31)
 };
 
@@ -652,25 +652,25 @@ static TAB_NUM t_lambda_16[] = {
   3, // locals
   0, // parameters
   // i .mod. 16) == 0:
-  var_mod, 2, var_385_1_i, num_16, 1, LOCAL(1),
+  var_mod, 2, var_385_4_i, num_16, 1, LOCAL(1),
   // i .mod. 16) == 0:
   var_std__equal, 2, LOCAL(1), num_0, 1, LOCAL(2),
   // on (i .mod. 16) == 0:
   var_on, 2, LOCAL(2), lambda_17, IO_CALL(0),
   // inc &i
-  var_inc, 1, var_385_1_i, 1, var_385_1_i,
+  var_inc, 1, var_385_4_i, 1, var_385_4_i,
   // print_to! fd " "
-  var_print_to, 2, var_382_0_fd, string_8, IO_CALL(0),
+  var_print_to, 2, var_382_5_fd, string_8, IO_CALL(0),
   // str(i).to_integer 2)
-  var_383_0_str, 1, var_385_1_i, 1, LOCAL(1),
+  var_383_5_str, 1, var_385_4_i, 1, LOCAL(1),
   // to_integer 2)
   var_to_integer, 1, LOCAL(1), 1, LOCAL(2),
   // hex(str(i).to_integer 2)
   var_hex, 2, LOCAL(2), num_2, 1, LOCAL(3),
   // print_to! fd hex(str(i).to_integer 2)
-  var_print_to, 2, var_382_0_fd, LOCAL(3), IO_CALL(0),
+  var_print_to, 2, var_382_5_fd, LOCAL(3), IO_CALL(0),
   // i .mod. 16) == 0: print_to! fd "@nl;"
-  var_mod, 2, var_385_1_i, num_16, 1, LOCAL(1),
+  var_mod, 2, var_385_4_i, num_16, 1, LOCAL(1),
   // i .mod. 16) == 0: print_to! fd "@nl;"
   var_std__equal, 2, LOCAL(1), num_0, 1, LOCAL(2),
   // on (i .mod. 16) == 0: print_to! fd "@nl;"
@@ -696,11 +696,11 @@ static TAB_NUM t_lambda_17[] = {
   1, // locals
   0, // parameters
   // hex(i 8)
-  var_hex, 2, var_385_1_i, num_8, 1, LOCAL(1),
+  var_hex, 2, var_385_4_i, num_8, 1, LOCAL(1),
   // print_to! fd hex(i 8)
-  var_print_to, 2, var_382_0_fd, LOCAL(1), IO_CALL(0),
+  var_print_to, 2, var_382_5_fd, LOCAL(1), IO_CALL(0),
   // print_to! fd ":"
-  var_print_to, 2, var_382_0_fd, string_6, IO_TAIL_CALL,
+  var_print_to, 2, var_382_5_fd, string_6, IO_TAIL_CALL,
   POS(393, 24),
   POS(393, 11),
   POS(394, 11)
@@ -710,14 +710,14 @@ static TAB_NUM t_lambda_18[] = {
   0, // locals
   0, // parameters
   // print_to! fd "@nl;"
-  var_print_to, 2, var_382_0_fd, string_3, IO_TAIL_CALL,
+  var_print_to, 2, var_382_5_fd, string_3, IO_TAIL_CALL,
   POS(398, 31)
 };
 
 static TAB_NUM t_func_std__hexdump[] = {
   1, // locals
   1, // parameters
-  LOCAL(1), // 422_0_str
+  LOCAL(1), // 422_5_str
   // hexdump_to! STDOUT_FILENO str
   var_hexdump_to, 2, var_STDOUT_FILENO, LOCAL(1), IO_TAIL_CALL,
   POS(424, 3)
@@ -726,7 +726,7 @@ static TAB_NUM t_func_std__hexdump[] = {
 static TAB_NUM t_func_std__ehexdump[] = {
   1, // locals
   1, // parameters
-  LOCAL(1), // 447_0_str
+  LOCAL(1), // 447_5_str
   // hexdump_to! STDERR_FILENO str
   var_hexdump_to, 2, var_STDERR_FILENO, LOCAL(1), IO_TAIL_CALL,
   POS(449, 3)
@@ -735,11 +735,11 @@ static TAB_NUM t_func_std__ehexdump[] = {
 static TAB_NUM t_func_debug__hexdump[] = {
   0, // locals
   1, // parameters
-  var_472_0_str,
+  var_472_5_str,
   // $i 0
-  LET, 1, num_0, 1, var_474_1_i,
+  LET, 1, num_0, 1, var_474_4_i,
   // $n length_of(str)
-  var_length_of, 1, var_472_0_str, 1, var_475_1_n,
+  var_length_of, 1, var_472_5_str, 1, var_475_4_n,
   // loop:
   var_loop, 1, lambda_4_loop, IO_TAIL_CALL,
   POS(474, 3),
@@ -751,7 +751,7 @@ static TAB_NUM t_lambda_4_loop[] = {
   2, // locals
   0, // parameters
   // i >= n:
-  var_std__less, 2, var_474_1_i, var_475_1_n, 1, LOCAL(1),
+  var_std__less, 2, var_474_4_i, var_475_4_n, 1, LOCAL(1),
   // i >= n:
   var_std__not, 1, LOCAL(1), 1, LOCAL(2),
   // if
@@ -765,7 +765,7 @@ static TAB_NUM t_lambda_19[] = {
   3, // locals
   0, // parameters
   // i .mod. 16) != 0: debug::print! "@nl;"
-  var_mod, 2, var_474_1_i, num_16, 1, LOCAL(1),
+  var_mod, 2, var_474_4_i, num_16, 1, LOCAL(1),
   // i .mod. 16) != 0: debug::print! "@nl;"
   var_std__equal, 2, LOCAL(1), num_0, 1, LOCAL(2),
   // i .mod. 16) != 0: debug::print! "@nl;"
@@ -790,17 +790,17 @@ static TAB_NUM t_lambda_21[] = {
   3, // locals
   0, // parameters
   // i .mod. 16) == 0:
-  var_mod, 2, var_474_1_i, num_16, 1, LOCAL(1),
+  var_mod, 2, var_474_4_i, num_16, 1, LOCAL(1),
   // i .mod. 16) == 0:
   var_std__equal, 2, LOCAL(1), num_0, 1, LOCAL(2),
   // on (i .mod. 16) == 0:
   var_on, 2, LOCAL(2), lambda_22, IO_CALL(0),
   // inc &i
-  var_inc, 1, var_474_1_i, 1, var_474_1_i,
+  var_inc, 1, var_474_4_i, 1, var_474_4_i,
   // debug::print! " "
   var_debug__print, 1, string_8, IO_CALL(0),
   // str(i).to_integer 2)
-  var_472_0_str, 1, var_474_1_i, 1, LOCAL(1),
+  var_472_5_str, 1, var_474_4_i, 1, LOCAL(1),
   // to_integer 2)
   var_to_integer, 1, LOCAL(1), 1, LOCAL(2),
   // hex(str(i).to_integer 2)
@@ -808,7 +808,7 @@ static TAB_NUM t_lambda_21[] = {
   // debug::print! hex(str(i).to_integer 2)
   var_debug__print, 1, LOCAL(3), IO_CALL(0),
   // i .mod. 16) == 0: debug::print! "@nl;"
-  var_mod, 2, var_474_1_i, num_16, 1, LOCAL(1),
+  var_mod, 2, var_474_4_i, num_16, 1, LOCAL(1),
   // i .mod. 16) == 0: debug::print! "@nl;"
   var_std__equal, 2, LOCAL(1), num_0, 1, LOCAL(2),
   // on (i .mod. 16) == 0: debug::print! "@nl;"
@@ -834,7 +834,7 @@ static TAB_NUM t_lambda_22[] = {
   1, // locals
   0, // parameters
   // hex(i 8)
-  var_hex, 2, var_474_1_i, num_8, 1, LOCAL(1),
+  var_hex, 2, var_474_4_i, num_8, 1, LOCAL(1),
   // debug::print! hex(i 8)
   var_debug__print, 1, LOCAL(1), IO_CALL(0),
   // debug::print! ":"
@@ -946,15 +946,15 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "41_0_self\000", NULL
+    "41_5_self\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "42_0_indent\000", NULL
+    "42_5_indent\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "43_0_depth\000", NULL
+    "43_5_depth\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
@@ -963,7 +963,7 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "47_1_typename\000", NULL
+    "47_8_typename\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
@@ -982,7 +982,7 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "53_1_attr_indent\000", NULL
+    "53_12_attr_indent\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
@@ -991,11 +991,11 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "54_1_value_indent\000", NULL
+    "54_12_value_indent\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "55_1_attributes\000", NULL
+    "55_12_attributes\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
@@ -1009,7 +1009,7 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "56_1_buf\000", NULL
+    "56_12_buf\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
@@ -1023,7 +1023,7 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "59_1_attr_text\000", NULL
+    "59_16_attr_text\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
@@ -1032,7 +1032,7 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "60_1_value_text\000", NULL
+    "60_16_value_text\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
@@ -1096,11 +1096,11 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "161_15_args\000", NULL
+    "161_16_args\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "162_1_depth\000", NULL
+    "162_4_depth\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
@@ -1119,11 +1119,11 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "165_1_i\000", NULL
+    "165_4_i\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "166_1_n\000", NULL
+    "166_4_n\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
@@ -1132,11 +1132,11 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "170_1_label\000", NULL
+    "170_10_label\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "173_1_text\000", NULL
+    "173_10_text\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
@@ -1160,23 +1160,23 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "224_16_fd\000", NULL
+    "224_17_fd\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "224_19_args\000", NULL
+    "224_20_args\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "225_1_i\000", NULL
+    "225_4_i\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "226_1_n\000", NULL
+    "226_4_n\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "231_1_expr\000", NULL
+    "231_10_expr\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
@@ -1235,19 +1235,19 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "382_0_fd\000", NULL
+    "382_5_fd\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "383_0_str\000", NULL
+    "383_5_str\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "385_1_i\000", NULL
+    "385_4_i\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "386_1_n\000", NULL
+    "386_4_n\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
@@ -1301,15 +1301,15 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "472_0_str\000", NULL
+    "472_5_str\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "474_1_i\000", NULL
+    "474_4_i\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "475_1_n\000", NULL
+    "475_4_n\000", NULL
   }
 };
 

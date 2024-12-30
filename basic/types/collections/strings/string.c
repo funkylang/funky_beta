@@ -191,13 +191,13 @@ enum {
   num_0x3ffff = -182,
   num_6 = -183,
   num_25 = -184,
-  value_range_1380_0 = -185,
+  value_range_1380_11 = -185,
   num_26 = -186,
   num_51 = -187,
-  value_range_1383_0 = -188,
+  value_range_1383_11 = -188,
   num_52 = -189,
   num_61 = -190,
-  value_range_1386_0 = -191,
+  value_range_1386_11 = -191,
   lambda_107 = -192,
   chr_65 = -193,
   lambda_108 = -194,
@@ -229,11 +229,11 @@ enum {
   num_5 = -220,
   func_decode = -221,
   chr_90 = -222,
-  value_range_1455_1 = -223,
+  value_range_1455_8 = -223,
   chr_122 = -224,
-  value_range_1456_1 = -225,
+  value_range_1456_8 = -225,
   chr_57 = -226,
-  value_range_1457_1 = -227,
+  value_range_1457_8 = -227,
   lambda_125 = -228,
   lambda_126 = -229,
   lambda_127 = -230,
@@ -306,7 +306,7 @@ enum {
   lambda_156 = -297,
   lambda_157 = -298,
   chr_49 = -299,
-  value_range_1657_1 = -300,
+  value_range_1657_14 = -300,
   lambda_158 = -301,
   lambda_159 = -302,
   lambda_160 = -303,
@@ -314,7 +314,7 @@ enum {
   lambda_161 = -305,
   lambda_162 = -306,
   chr_55 = -307,
-  value_range_1668_1 = -308,
+  value_range_1668_14 = -308,
   lambda_163 = -309,
   lambda_164 = -310,
   lambda_165 = -311,
@@ -322,9 +322,9 @@ enum {
   lambda_166 = -313,
   lambda_167 = -314,
   chr_102 = -315,
-  value_range_1682_1 = -316,
+  value_range_1682_14 = -316,
   chr_70 = -317,
-  value_range_1685_1 = -318,
+  value_range_1685_14 = -318,
   lambda_168 = -319,
   lambda_a__f = -320,
   lambda_A__F = -321,
@@ -354,7 +354,7 @@ enum {
   lambda_183 = -345,
   chr_101 = -346,
   chr_69 = -347,
-  sequence_1769_1 = -348,
+  sequence_1769_14 = -348,
   chr_46 = -349,
   lambda_184 = -350,
   lambda_2_skip_one_ore_more_digits = -351,
@@ -527,7 +527,7 @@ enum {
   lambda_310 = -518,
   lambda_311 = -519,
   num_9999 = -520,
-  tuple_2521_0 = -521,
+  tuple_2521_1 = -521,
   func_line_indent_of = -522,
   lambda_312 = -523,
   lambda_313 = -524,
@@ -721,7 +721,7 @@ enum {
   var_neutral_element_of, // extern polymorphic
   var_to_string, // extern polymorphic
   var_std__create_string, // initialized
-  var_143_0_arguments, // dynamic
+  var_143_5_arguments, // dynamic
   var_is_empty, // extern
   var_append, // extern
   var_map_reduce, // extern
@@ -730,19 +730,19 @@ enum {
   var_create_string, // extern
   var_put, // extern polymorphic
   var_dup, // extern polymorphic
-  var_204_0_self, // dynamic
-  var_205_0_n, // dynamic
+  var_204_5_self, // dynamic
+  var_205_5_n, // dynamic
   var_std__shift_right, // extern
-  var_212_1_str, // dynamic
+  var_212_8_str, // dynamic
   var_std__times, // extern
   var_std__equal, // extern
   var_string, // extern
   var_case, // extern
   var_pad_left, // extern polymorphic
-  var_244_0_n, // dynamic
-  var_245_0_pad, // dynamic
-  var_247_1_text, // dynamic
-  var_248_1_len, // dynamic
+  var_244_5_n, // dynamic
+  var_245_5_pad, // dynamic
+  var_247_4_text, // dynamic
+  var_248_4_len, // dynamic
   var_length_of, // extern
   var_std__less, // extern
   var_std__minus, // extern
@@ -750,369 +750,369 @@ enum {
   var_div, // extern
   var_range, // extern
   var_pad_right, // extern polymorphic
-  var_280_0_n, // dynamic
-  var_281_0_pad, // dynamic
-  var_283_1_text, // dynamic
-  var_284_1_len, // dynamic
+  var_280_5_n, // dynamic
+  var_281_5_pad, // dynamic
+  var_283_4_text, // dynamic
+  var_284_4_len, // dynamic
   var_std__spaces, // initialized
-  var_303_0_n, // dynamic
+  var_303_5_n, // dynamic
   var_std__not, // extern
   var_std__tabs_and_spaces, // initialized
-  var_320_0_n, // dynamic
+  var_320_5_n, // dynamic
   var_std__bit_and, // extern
   var_spaces, // extern
   var_std__with_tabs, // initialized
-  var_340_0_text, // dynamic
-  var_342_1_s, // dynamic
-  var_343_1_n, // dynamic
-  var_344_1_i, // dynamic
-  var_345_1_output, // dynamic
-  var_346_1_count, // dynamic
+  var_340_5_text, // dynamic
+  var_342_4_s, // dynamic
+  var_343_4_n, // dynamic
+  var_344_4_i, // dynamic
+  var_345_4_output, // dynamic
+  var_346_4_count, // dynamic
   var_next, // extern
-  var_358_1_tab_count, // dynamic
+  var_358_18_tab_count, // dynamic
   var_std__shift_left, // extern
   var_loop, // extern
   var_std__and, // extern
   var_break, // extern
   var_match, // extern polymorphic
-  var_407_0_self, // dynamic
-  var_408_0_stream, // dynamic
-  var_410_1_rc, // dynamic
+  var_407_5_self, // dynamic
+  var_408_5_stream, // dynamic
+  var_410_4_rc, // dynamic
   var_result_count, // extern
-  var_411_1_len, // dynamic
+  var_411_4_len, // dynamic
   var_undefined, // extern
   var_match_back, // extern polymorphic
-  var_431_0_self, // dynamic
-  var_432_0_stream, // dynamic
-  var_434_1_len, // dynamic
+  var_431_5_self, // dynamic
+  var_432_5_stream, // dynamic
+  var_434_4_len, // dynamic
   var_std__negate, // extern
   var_matches, // extern polymorphic
   var_search, // extern polymorphic
-  var_470_0_self, // dynamic
-  var_471_0_stream, // dynamic
-  var_472_0_nth, // dynamic
-  var_474_1_i, // dynamic
-  var_475_1_length, // dynamic
-  var_476_1_offset, // dynamic
-  var_477_1_n, // dynamic
+  var_470_5_self, // dynamic
+  var_471_5_stream, // dynamic
+  var_472_5_nth, // dynamic
+  var_474_4_i, // dynamic
+  var_475_4_length, // dynamic
+  var_476_4_offset, // dynamic
+  var_477_4_n, // dynamic
   var_dec, // extern
   var_plus, // extern
   var_inc, // extern
   var_minus, // extern
   var_before, // extern polymorphic
-  var_558_0_str, // dynamic
-  var_562_8_pos, // dynamic
+  var_558_5_str, // dynamic
+  var_562_11_pos, // dynamic
   var_is_defined, // extern
   var_truncate_from, // extern polymorphic
-  var_608_0_str, // dynamic
-  var_612_8_pos, // dynamic
+  var_608_5_str, // dynamic
+  var_612_11_pos, // dynamic
   var_behind, // extern polymorphic
-  var_656_0_str, // dynamic
-  var_660_8_pos, // dynamic
-  var_660_13_len, // dynamic
+  var_656_5_str, // dynamic
+  var_660_11_pos, // dynamic
+  var_660_16_len, // dynamic
   var_truncate_until, // extern polymorphic
-  var_705_0_str, // dynamic
-  var_709_8_pos, // dynamic
-  var_709_13_len, // dynamic
+  var_705_5_str, // dynamic
+  var_709_11_pos, // dynamic
+  var_709_16_len, // dynamic
   var_from, // extern polymorphic
-  var_754_0_str, // dynamic
-  var_758_8_pos, // dynamic
+  var_754_5_str, // dynamic
+  var_758_11_pos, // dynamic
   var_truncate_before, // extern polymorphic
-  var_803_0_str, // dynamic
-  var_807_8_pos, // dynamic
+  var_803_5_str, // dynamic
+  var_807_11_pos, // dynamic
   var_until, // extern polymorphic
-  var_851_0_str, // dynamic
-  var_855_8_pos, // dynamic
-  var_855_13_len, // dynamic
+  var_851_5_str, // dynamic
+  var_855_11_pos, // dynamic
+  var_855_16_len, // dynamic
   var_truncate_behind, // extern polymorphic
-  var_900_0_str, // dynamic
-  var_904_8_pos, // dynamic
-  var_904_13_len, // dynamic
+  var_900_5_str, // dynamic
+  var_904_11_pos, // dynamic
+  var_904_16_len, // dynamic
   var_between, // extern polymorphic
   var_has_prefix, // extern polymorphic
   var_has_suffix, // extern polymorphic
   var_without_prefix, // extern polymorphic
-  var_1008_0_self, // dynamic
-  var_1011_1_n, // dynamic
+  var_1008_5_self, // dynamic
+  var_1011_4_n, // dynamic
   var_without_suffix, // extern polymorphic
-  var_1038_0_self, // dynamic
-  var_1041_1_n, // dynamic
+  var_1038_5_self, // dynamic
+  var_1041_4_n, // dynamic
   var_contains, // extern polymorphic
   var_std__split, // initialized
-  var_1110_0_self, // dynamic
-  var_1111_0_separator, // dynamic
-  var_1113_1_rc, // dynamic
+  var_1110_5_self, // dynamic
+  var_1111_5_separator, // dynamic
+  var_1113_4_rc, // dynamic
   var_empty_list, // extern
-  var_1118_1_items, // dynamic
-  var_1120_8_pos, // dynamic
-  var_1120_13_len, // dynamic
+  var_1118_8_items, // dynamic
+  var_1120_17_pos, // dynamic
+  var_1120_22_len, // dynamic
   var_push, // extern
   var_spread, // extern
   var_std__join, // initialized
-  var_1158_0_separator, // dynamic
+  var_1158_5_separator, // dynamic
   var_std__trim, // initialized
-  var_1187_0_self, // dynamic
-  var_1188_0_test, // dynamic
+  var_1187_5_self, // dynamic
+  var_1188_5_test, // dynamic
   var_is_a_whitespace_character, // extern
-  var_1190_1_s, // dynamic
-  var_1191_1_e, // dynamic
+  var_1190_4_s, // dynamic
+  var_1191_4_e, // dynamic
   var_std__trim_left, // initialized
-  var_1227_0_self, // dynamic
-  var_1228_0_test, // dynamic
-  var_1230_1_s, // dynamic
-  var_1231_1_e, // dynamic
+  var_1227_5_self, // dynamic
+  var_1228_5_test, // dynamic
+  var_1230_4_s, // dynamic
+  var_1231_4_e, // dynamic
   var_std__trim_right, // initialized
-  var_1261_0_self, // dynamic
-  var_1262_0_test, // dynamic
-  var_1264_1_e, // dynamic
+  var_1261_5_self, // dynamic
+  var_1262_5_test, // dynamic
+  var_1264_4_e, // dynamic
   var_std__normalize, // initialized
-  var_1295_0_self, // dynamic
-  var_1297_1_buf, // dynamic
-  var_1298_1_e, // dynamic
-  var_1299_1_i, // dynamic
+  var_1295_5_self, // dynamic
+  var_1297_4_buf, // dynamic
+  var_1298_4_e, // dynamic
+  var_1299_4_i, // dynamic
   var_is_not_empty, // extern
   var_update_if, // extern
-  var_1314_1_s, // dynamic
+  var_1314_10_s, // dynamic
   var_to_base64, // extern polymorphic
-  var_1346_0_str, // dynamic
-  var_1348_1_base64, // dynamic
-  var_1350_1_len, // dynamic
+  var_1346_5_str, // dynamic
+  var_1348_4_base64, // dynamic
+  var_1350_6_len, // dynamic
   var_to_integer, // extern polymorphic
   var_std__bit_or, // extern
-  var_1369_1_bits, // dynamic
-  var_1374_1_buf, // dynamic
-  var_1377_1_value, // dynamic
+  var_1369_6_bits, // dynamic
+  var_1374_6_buf, // dynamic
+  var_1377_10_value, // dynamic
   var_std__value_range, // extern
   var_repeat, // extern
   var_from_base64, // extern polymorphic
-  var_1416_0_str, // dynamic
-  var_1418_1_octets, // dynamic
+  var_1416_5_str, // dynamic
+  var_1418_4_octets, // dynamic
   var_mod, // extern
-  var_1428_1_bits, // dynamic
-  var_1431_1_value, // dynamic
+  var_1428_14_bits, // dynamic
+  var_1431_18_value, // dynamic
   var_is_undefined, // extern
   var_character, // extern
   var_from_to, // extern
-  var_1452_10_chr, // dynamic
+  var_1452_13_chr, // dynamic
   var_sha1, // extern polymorphic
-  var_1478_0_message, // dynamic
-  var_1482_1_h0, // dynamic
-  var_1483_1_h1, // dynamic
-  var_1484_1_h2, // dynamic
-  var_1485_1_h3, // dynamic
-  var_1486_1_h4, // dynamic
-  var_1507_1_pad_len, // dynamic
-  var_1525_1_w, // dynamic
+  var_1478_5_message, // dynamic
+  var_1482_4_h0, // dynamic
+  var_1483_4_h1, // dynamic
+  var_1484_4_h2, // dynamic
+  var_1485_4_h3, // dynamic
+  var_1486_4_h4, // dynamic
+  var_1507_4_pad_len, // dynamic
+  var_1525_10_w, // dynamic
   var_uint32_array, // extern
   var_std__bit_xor, // extern
-  var_1543_1_a, // dynamic
-  var_1544_1_b, // dynamic
-  var_1545_1_c, // dynamic
-  var_1546_1_d, // dynamic
-  var_1547_1_e, // dynamic
-  var_1549_3_i, // dynamic
+  var_1543_12_a, // dynamic
+  var_1544_12_b, // dynamic
+  var_1545_12_c, // dynamic
+  var_1546_12_d, // dynamic
+  var_1547_12_e, // dynamic
+  var_1549_16_i, // dynamic
   var_cond, // extern
   var_std__parse_integer, // initialized
-  var_1622_0_self, // dynamic
-  var_1643_1_negate, // dynamic
-  var_1649_1_value, // dynamic
-  var_1630_17_idx, // dynamic
-  var_1642_1_orig, // dynamic
-  var_1654_3_idx, // dynamic
-  var_1654_7_chr, // dynamic
+  var_1622_5_self, // dynamic
+  var_1643_4_negate, // dynamic
+  var_1649_4_value, // dynamic
+  var_1630_20_idx, // dynamic
+  var_1642_4_orig, // dynamic
+  var_1654_12_idx, // dynamic
+  var_1654_16_chr, // dynamic
   var_for_each, // extern
-  var_1666_3_idx, // dynamic
-  var_1666_7_chr, // dynamic
-  var_1677_3_idx, // dynamic
-  var_1677_7_chr, // dynamic
-  var_1693_3_idx, // dynamic
-  var_1693_7_chr, // dynamic
+  var_1666_12_idx, // dynamic
+  var_1666_16_chr, // dynamic
+  var_1677_12_idx, // dynamic
+  var_1677_16_chr, // dynamic
+  var_1693_12_idx, // dynamic
+  var_1693_16_chr, // dynamic
   var_std__parse_number, // initialized
-  var_1729_0_self, // dynamic
-  var_1731_1_i, // dynamic
-  var_1732_1_n, // dynamic
-  var_1737_1_sign_chr, // dynamic
+  var_1729_5_self, // dynamic
+  var_1731_4_i, // dynamic
+  var_1732_4_n, // dynamic
+  var_1737_8_sign_chr, // dynamic
   var_std__or, // extern
-  var_1739_1_sign, // dynamic
+  var_1739_8_sign, // dynamic
   var_parse_hex, // extern
   var_std__sequence, // extern
-  var_1772_28_cont, // dynamic
-  var_1777_1_digit, // dynamic
-  var_1788_1_next_digit, // dynamic
-  var_1800_1_exp_sign_chr, // dynamic
+  var_1772_33_cont, // dynamic
+  var_1777_12_digit, // dynamic
+  var_1788_22_next_digit, // dynamic
+  var_1800_12_exp_sign_chr, // dynamic
   var_integer, // extern
   var_real, // extern
-  var_1808_16_str, // dynamic
-  var_1808_20_i, // dynamic
-  var_1808_22_sign, // dynamic
-  var_1809_1_n, // dynamic
-  var_1813_1_digit, // dynamic
-  var_1818_1_value, // dynamic
-  var_1825_1_next_digit, // dynamic
-  var_1832_15_str, // dynamic
-  var_1832_19_i, // dynamic
-  var_1832_21_sign, // dynamic
-  var_1833_1_n, // dynamic
-  var_1837_1_digit, // dynamic
-  var_1842_1_value, // dynamic
-  var_1849_1_next_digit, // dynamic
+  var_1808_17_str, // dynamic
+  var_1808_21_i, // dynamic
+  var_1808_23_sign, // dynamic
+  var_1809_4_n, // dynamic
+  var_1813_8_digit, // dynamic
+  var_1818_12_value, // dynamic
+  var_1825_18_next_digit, // dynamic
+  var_1832_16_str, // dynamic
+  var_1832_20_i, // dynamic
+  var_1832_22_sign, // dynamic
+  var_1833_4_n, // dynamic
+  var_1837_8_digit, // dynamic
+  var_1842_12_value, // dynamic
+  var_1849_18_next_digit, // dynamic
   var_std__parse_hex, // initialized
-  var_1884_0_str, // dynamic
-  var_1885_0_i, // dynamic
-  var_1886_0_sign, // dynamic
-  var_1888_1_n, // dynamic
-  var_1892_1_digit, // dynamic
-  var_1902_22_value, // dynamic
-  var_1909_1_next_digit, // dynamic
-  var_1958_21_value, // dynamic
+  var_1884_5_str, // dynamic
+  var_1885_5_i, // dynamic
+  var_1886_5_sign, // dynamic
+  var_1888_4_n, // dynamic
+  var_1892_8_digit, // dynamic
+  var_1902_29_value, // dynamic
+  var_1909_16_next_digit, // dynamic
+  var_1958_24_value, // dynamic
   var_parse_integer, // extern
   var_to_number, // extern polymorphic
-  var_2000_20_value, // dynamic
+  var_2000_23_value, // dynamic
   var_parse_number, // extern
   var_std__map_characters, // initialized
-  var_2027_0_self, // dynamic
-  var_2028_0_function, // dynamic
+  var_2027_5_self, // dynamic
+  var_2028_5_function, // dynamic
   var_parameter_count_of, // extern
-  var_2034_3_s, // dynamic
-  var_2034_5_e, // dynamic
-  var_2030_1_map, // dynamic
-  var_2047_3_s, // dynamic
-  var_2047_5_e, // dynamic
+  var_2034_12_s, // dynamic
+  var_2034_14_e, // dynamic
+  var_2030_4_map, // dynamic
+  var_2047_12_s, // dynamic
+  var_2047_14_e, // dynamic
   var_to_upper_case, // extern polymorphic
   var_map_characters, // extern
   var_to_lower_case, // extern polymorphic
   var_to_title_case, // extern polymorphic
-  var_2124_0_self, // dynamic
-  var_2126_22_idx, // dynamic
-  var_2126_26_chr, // dynamic
+  var_2124_5_self, // dynamic
+  var_2126_25_idx, // dynamic
+  var_2126_29_chr, // dynamic
   var_is_a_letter_character, // extern
   var_to_sentence_case, // extern polymorphic
-  var_2150_0_self, // dynamic
-  var_2152_22_idx, // dynamic
-  var_2152_26_chr, // dynamic
+  var_2150_5_self, // dynamic
+  var_2152_25_idx, // dynamic
+  var_2152_29_chr, // dynamic
   var_to_wide, // extern polymorphic
   var_std__delete_all, // initialized
-  var_2183_0_expressions, // dynamic
-  var_2185_14_txt, // dynamic
-  var_2199_1_new_text, // dynamic
-  var_2192_1_len, // dynamic
+  var_2183_5_expressions, // dynamic
+  var_2185_17_txt, // dynamic
+  var_2199_4_new_text, // dynamic
+  var_2192_14_len, // dynamic
   var_if_not, // extern
   var_std__replace_all, // initialized
-  var_2224_0_args, // dynamic
-  var_2226_15_txt, // dynamic
-  var_2247_1_new_text, // dynamic
-  var_2233_17_replacement, // dynamic
-  var_2234_1_len, // dynamic
+  var_2224_5_args, // dynamic
+  var_2226_18_txt, // dynamic
+  var_2247_4_new_text, // dynamic
+  var_2233_30_replacement, // dynamic
+  var_2234_14_len, // dynamic
   var_std__replace_first, // initialized
-  var_2272_0_args, // dynamic
-  var_2274_17_txt, // dynamic
-  var_2294_1_new_text, // dynamic
-  var_2281_17_replacement, // dynamic
-  var_2282_1_len, // dynamic
+  var_2272_5_args, // dynamic
+  var_2274_20_txt, // dynamic
+  var_2294_4_new_text, // dynamic
+  var_2281_30_replacement, // dynamic
+  var_2282_14_len, // dynamic
   var_update_if_not, // extern
   var_std__count_occurrences, // initialized
-  var_2317_0_expr, // dynamic
-  var_2319_15_txt, // dynamic
-  var_2319_19_count, // dynamic
-  var_2324_1_n, // dynamic
+  var_2317_5_expr, // dynamic
+  var_2319_18_txt, // dynamic
+  var_2319_22_count, // dynamic
+  var_2324_10_n, // dynamic
   var_std__split_into_lines, // initialized
-  var_2375_25_text, // dynamic
-  var_2376_1_lines, // dynamic
-  var_2377_1_i, // dynamic
-  var_2378_1_n, // dynamic
-  var_2379_1_s, // dynamic
+  var_2375_26_text, // dynamic
+  var_2376_4_lines, // dynamic
+  var_2377_4_i, // dynamic
+  var_2378_4_n, // dynamic
+  var_2379_4_s, // dynamic
   var_std__split_into_indented_lines, // initialized
-  var_2458_0_text, // dynamic
-  var_2463_9_s, // dynamic
-  var_2463_11_e, // dynamic
-  var_2469_1_lines, // dynamic
-  var_2470_1_ls, // dynamic
-  var_2476_3_i, // dynamic
-  var_2497_15_s, // dynamic
-  var_2497_17_e, // dynamic
-  var_2498_1_indent, // dynamic
-  var_2512_1_line_text, // dynamic
+  var_2458_5_text, // dynamic
+  var_2463_12_s, // dynamic
+  var_2463_14_e, // dynamic
+  var_2469_10_lines, // dynamic
+  var_2470_10_ls, // dynamic
+  var_2476_14_i, // dynamic
+  var_2497_18_s, // dynamic
+  var_2497_20_e, // dynamic
+  var_2498_6_indent, // dynamic
+  var_2512_16_line_text, // dynamic
   var_std_types__line, // initialized compound
   var_typed_tuple, // extern
   var_tuple, // extern
   var_subgroups_of, // extern polymorphic
-  var_2524_18_line, // dynamic
+  var_2524_19_line, // dynamic
   var_first, // extern
   var_std__split_into_groups, // initialized
-  var_2581_0_lines, // dynamic
-  var_2582_0_keep_empty_lines, // dynamic
-  var_2584_1_n, // dynamic
-  var_2585_1_fv, // dynamic
-  var_2589_1_indent, // dynamic
+  var_2581_5_lines, // dynamic
+  var_2582_5_keep_empty_lines, // dynamic
+  var_2584_4_n, // dynamic
+  var_2585_4_fv, // dynamic
+  var_2589_10_indent, // dynamic
   var_list, // extern
-  var_2601_9_s, // dynamic
-  var_2601_11_e, // dynamic
-  var_2601_13_indent, // dynamic
-  var_2607_1_groups, // dynamic
-  var_2608_1_minimum_indent, // dynamic
-  var_2609_1_group_start, // dynamic
-  var_2610_1_group_end, // dynamic
-  var_2612_3_i, // dynamic
-  var_2613_1_current_indent, // dynamic
-  var_2634_1_current_indent, // dynamic
-  var_2643_14_last, // dynamic
-  var_2643_19_curr_idx, // dynamic
-  var_2663_34_current_indent, // dynamic
+  var_2601_12_s, // dynamic
+  var_2601_14_e, // dynamic
+  var_2601_16_indent, // dynamic
+  var_2607_10_groups, // dynamic
+  var_2608_10_minimum_indent, // dynamic
+  var_2609_10_group_start, // dynamic
+  var_2610_10_group_end, // dynamic
+  var_2612_14_i, // dynamic
+  var_2613_14_current_indent, // dynamic
+  var_2634_24_current_indent, // dynamic
+  var_2643_23_last, // dynamic
+  var_2643_28_curr_idx, // dynamic
+  var_2663_43_current_indent, // dynamic
   var_std__wrap_words, // initialized
-  var_2703_0_text, // dynamic
-  var_2704_0_width, // dynamic
-  var_2707_1_lines, // dynamic
-  var_2708_1_n, // dynamic
-  var_2709_1_s, // dynamic
-  var_2710_1_b, // dynamic
-  var_2711_1_i, // dynamic
-  var_2721_1_chr, // dynamic
+  var_2703_5_text, // dynamic
+  var_2704_5_width, // dynamic
+  var_2707_4_lines, // dynamic
+  var_2708_4_n, // dynamic
+  var_2709_4_s, // dynamic
+  var_2710_4_b, // dynamic
+  var_2711_4_i, // dynamic
+  var_2721_10_chr, // dynamic
   var_serialize, // extern polymorphic
-  var_2774_0_self, // dynamic
-  var_2775_0_indent, // dynamic
-  var_2777_1_str, // dynamic
-  var_2778_1_s, // dynamic
-  var_2780_3_idx, // dynamic
-  var_2780_7_chr, // dynamic
+  var_2774_5_self, // dynamic
+  var_2775_5_indent, // dynamic
+  var_2777_4_str, // dynamic
+  var_2778_4_s, // dynamic
+  var_2780_8_idx, // dynamic
+  var_2780_12_chr, // dynamic
   var_tabs_and_spaces, // extern
   var_to_uint8_array, // extern polymorphic
-  var_2812_1_arr, // dynamic
+  var_2812_4_arr, // dynamic
   var_uint8_array, // extern
   var_std__indented, // initialized
-  var_2849_0_indent, // dynamic
-  var_2850_0_text, // dynamic
-  var_2852_1_indented_text, // dynamic
-  var_2853_1_new_indent, // dynamic
-  var_2854_1_i, // dynamic
-  var_2855_1_n, // dynamic
-  var_2868_1_s, // dynamic
+  var_2849_5_indent, // dynamic
+  var_2850_5_text, // dynamic
+  var_2852_4_indented_text, // dynamic
+  var_2853_4_new_indent, // dynamic
+  var_2854_4_i, // dynamic
+  var_2855_4_n, // dynamic
+  var_2868_14_s, // dynamic
   var_std__format, // initialized
-  var_2939_0_template, // dynamic
-  var_2940_0_arguments, // dynamic
-  var_2942_1_output, // dynamic
-  var_2943_1_arg_idx, // dynamic
-  var_2944_1_i, // dynamic
-  var_2945_1_n, // dynamic
-  var_2951_1_chr, // dynamic
-  var_2959_18_alignment, // dynamic
-  var_2965_1_len_chr, // dynamic
-  var_2970_1_width, // dynamic
-  var_2978_1_fmt_chr, // dynamic
-  var_2997_1_dw_chr, // dynamic
-  var_3002_1_dw, // dynamic
-  var_3010_1_fmt_chr, // dynamic
-  var_3063_0_alignment, // dynamic
-  var_3064_0_width, // dynamic
-  var_3065_0_decimal_width, // dynamic
-  var_3067_1_argument, // dynamic
-  var_3072_1_value, // dynamic
-  var_3075_1_decimals, // dynamic
-  var_3103_1_str, // dynamic
-  var_3104_1_n, // dynamic
-  var_3105_1_i, // dynamic
-  var_3123_1_exp, // dynamic
-  var_3124_1_man, // dynamic
-  var_3129_1_zeros, // dynamic
+  var_2939_5_template, // dynamic
+  var_2940_5_arguments, // dynamic
+  var_2942_4_output, // dynamic
+  var_2943_4_arg_idx, // dynamic
+  var_2944_4_i, // dynamic
+  var_2945_4_n, // dynamic
+  var_2951_10_chr, // dynamic
+  var_2959_35_alignment, // dynamic
+  var_2965_18_len_chr, // dynamic
+  var_2970_22_width, // dynamic
+  var_2978_30_fmt_chr, // dynamic
+  var_2997_38_dw_chr, // dynamic
+  var_3002_42_dw, // dynamic
+  var_3010_50_fmt_chr, // dynamic
+  var_3063_7_alignment, // dynamic
+  var_3064_7_width, // dynamic
+  var_3065_7_decimal_width, // dynamic
+  var_3067_6_argument, // dynamic
+  var_3072_10_value, // dynamic
+  var_3075_14_decimals, // dynamic
+  var_3103_4_str, // dynamic
+  var_3104_4_n, // dynamic
+  var_3105_4_i, // dynamic
+  var_3123_10_exp, // dynamic
+  var_3124_10_man, // dynamic
+  var_3129_14_zeros, // dynamic
   var_empty_collection_of, // extern polymorphic
   var__END
 };
@@ -1121,7 +1121,7 @@ enum {
 static TAB_NUM t_func_std_types__string___to_string[] = {
   1, // locals
   1, // parameters
-  LOCAL(1), // 122_0_self
+  LOCAL(1), // 122_5_self
   // -> self
   LET, 1, LOCAL(1), TAIL_CALL,
   POS(124, 3)
@@ -1130,9 +1130,9 @@ static TAB_NUM t_func_std_types__string___to_string[] = {
 static TAB_NUM t_func_std__create_string[] = {
   1, // locals
   1, // parameters
-  var_143_0_arguments,
+  var_143_5_arguments,
   // is_empty
-  var_is_empty, 1, var_143_0_arguments, 1, LOCAL(1),
+  var_is_empty, 1, var_143_5_arguments, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_1, lambda_2, TAIL_CALL,
   POS(146, 15),
@@ -1151,14 +1151,14 @@ static TAB_NUM t_lambda_2[] = {
   0, // locals
   0, // parameters
   // map_reduce arguments to_string append
-  var_map_reduce, 3, var_143_0_arguments, var_to_string, var_append, TAIL_CALL,
+  var_map_reduce, 3, var_143_5_arguments, var_to_string, var_append, TAIL_CALL,
   POS(148, 7)
 };
 
 static TAB_NUM t_func_std__string[] = {
   1, // locals
   -1, // parameters
-  REST_PARAMETER, LOCAL(1), // 162_0_args
+  REST_PARAMETER, LOCAL(1), // 162_5_args
   // create_string args
   var_create_string, 1, LOCAL(1), TAIL_CALL,
   POS(164, 3)
@@ -1167,8 +1167,8 @@ static TAB_NUM t_func_std__string[] = {
 static TAB_NUM t_func_std_types__string___put[] = {
   4, // locals
   2, // parameters
-  LOCAL(3), // 179_0_self
-  LOCAL(4), // 180_0_chr
+  LOCAL(3), // 179_5_self
+  LOCAL(4), // 180_5_chr
   // to_string self)
   var_to_string, 1, LOCAL(4), 1, LOCAL(1),
   // append(chr.to_string self)
@@ -1183,10 +1183,10 @@ static TAB_NUM t_func_std_types__string___put[] = {
 static TAB_NUM t_func_std_types__string___dup[] = {
   0, // locals
   2, // parameters
-  var_204_0_self,
-  var_205_0_n,
+  var_204_5_self,
+  var_205_5_n,
   // case n
-  var_case, 6, var_205_0_n, num_0, lambda_3, num_1, lambda_4, lambda_5, TAIL_CALL,
+  var_case, 6, var_205_5_n, num_0, lambda_3, num_1, lambda_4, lambda_5, TAIL_CALL,
   POS(207, 3)
 };
 
@@ -1202,7 +1202,7 @@ static TAB_NUM t_lambda_4[] = {
   0, // locals
   0, // parameters
   //  self
-  LET, 1, var_204_0_self, TAIL_CALL,
+  LET, 1, var_204_5_self, TAIL_CALL,
   POS(209, 9)
 };
 
@@ -1210,13 +1210,13 @@ static TAB_NUM t_lambda_5[] = {
   3, // locals
   0, // parameters
   // $h n >> 1 # fails if <n> is not a positive integer
-  var_std__shift_right, 2, var_205_0_n, num_1, 1, LOCAL(3),
+  var_std__shift_right, 2, var_205_5_n, num_1, 1, LOCAL(3),
   // $str dup(self h)
-  var_dup, 2, var_204_0_self, LOCAL(3), 1, var_212_1_str,
+  var_dup, 2, var_204_5_self, LOCAL(3), 1, var_212_8_str,
   // 2*h == n:
   var_std__times, 2, num_2, LOCAL(3), 1, LOCAL(1),
   // 2*h == n:
-  var_std__equal, 2, LOCAL(1), var_205_0_n, 1, LOCAL(2),
+  var_std__equal, 2, LOCAL(1), var_205_5_n, 1, LOCAL(2),
   // if
   var_if, 3, LOCAL(2), lambda_6, lambda_7, TAIL_CALL,
   POS(211, 7),
@@ -1230,7 +1230,7 @@ static TAB_NUM t_lambda_6[] = {
   0, // locals
   0, // parameters
   // string str str
-  var_string, 2, var_212_1_str, var_212_1_str, TAIL_CALL,
+  var_string, 2, var_212_8_str, var_212_8_str, TAIL_CALL,
   POS(215, 11)
 };
 
@@ -1238,22 +1238,22 @@ static TAB_NUM t_lambda_7[] = {
   0, // locals
   0, // parameters
   // string str str self
-  var_string, 3, var_212_1_str, var_212_1_str, var_204_0_self, TAIL_CALL,
+  var_string, 3, var_212_8_str, var_212_8_str, var_204_5_self, TAIL_CALL,
   POS(217, 11)
 };
 
 static TAB_NUM t_func_std_types__object___pad_left[] = {
   2, // locals
   -3, // parameters
-  MANDATORY_PARAMETER, LOCAL(2), // 243_0_expr
-  MANDATORY_PARAMETER, var_244_0_n,
-  string_2, var_245_0_pad,
+  MANDATORY_PARAMETER, LOCAL(2), // 243_5_expr
+  MANDATORY_PARAMETER, var_244_5_n,
+  string_2, var_245_5_pad,
   // $text expr.to_string
-  var_to_string, 1, LOCAL(2), 1, var_247_1_text,
+  var_to_string, 1, LOCAL(2), 1, var_247_4_text,
   // $len length_of(text)
-  var_length_of, 1, var_247_1_text, 1, var_248_1_len,
+  var_length_of, 1, var_247_4_text, 1, var_248_4_len,
   // len < n:
-  var_std__less, 2, var_248_1_len, var_244_0_n, 1, LOCAL(1),
+  var_std__less, 2, var_248_4_len, var_244_5_n, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_8, lambda_9, TAIL_CALL,
   POS(247, 3),
@@ -1266,9 +1266,9 @@ static TAB_NUM t_lambda_8[] = {
   8, // locals
   0, // parameters
   // $pad_len length_of(pad)
-  var_length_of, 1, var_245_0_pad, 1, LOCAL(8),
+  var_length_of, 1, var_245_5_pad, 1, LOCAL(8),
   // n-len)+(pad_len-1) .div. pad_len) 1 n-len) text
-  var_std__minus, 2, var_244_0_n, var_248_1_len, 1, LOCAL(1),
+  var_std__minus, 2, var_244_5_n, var_248_4_len, 1, LOCAL(1),
   // pad_len-1) .div. pad_len) 1 n-len) text
   var_std__minus, 2, LOCAL(8), num_1, 1, LOCAL(2),
   // n-len)+(pad_len-1) .div. pad_len) 1 n-len) text
@@ -1276,13 +1276,13 @@ static TAB_NUM t_lambda_8[] = {
   // (n-len)+(pad_len-1) .div. pad_len) 1 n-len) text
   var_div, 2, LOCAL(3), LOCAL(8), 1, LOCAL(4),
   // dup(pad (n-len)+(pad_len-1) .div. pad_len) 1 n-len) text
-  var_dup, 2, var_245_0_pad, LOCAL(4), 1, LOCAL(5),
+  var_dup, 2, var_245_5_pad, LOCAL(4), 1, LOCAL(5),
   // n-len) text
-  var_std__minus, 2, var_244_0_n, var_248_1_len, 1, LOCAL(6),
+  var_std__minus, 2, var_244_5_n, var_248_4_len, 1, LOCAL(6),
   // range(dup(pad (n-len)+(pad_len-1) .div. pad_len) 1 n-len) text
   var_range, 3, LOCAL(5), num_1, LOCAL(6), 1, LOCAL(7),
   // string range(dup(pad (n-len)+(pad_len-1) .div. pad_len) 1 n-len) text
-  var_string, 2, LOCAL(7), var_247_1_text, TAIL_CALL,
+  var_string, 2, LOCAL(7), var_247_4_text, TAIL_CALL,
   POS(251, 7),
   POS(252, 29),
   POS(252, 37),
@@ -1298,22 +1298,22 @@ static TAB_NUM t_lambda_9[] = {
   0, // locals
   0, // parameters
   //  text
-  LET, 1, var_247_1_text, TAIL_CALL,
+  LET, 1, var_247_4_text, TAIL_CALL,
   POS(253, 7)
 };
 
 static TAB_NUM t_func_std_types__object___pad_right[] = {
   2, // locals
   -3, // parameters
-  MANDATORY_PARAMETER, LOCAL(2), // 279_0_expr
-  MANDATORY_PARAMETER, var_280_0_n,
-  string_2, var_281_0_pad,
+  MANDATORY_PARAMETER, LOCAL(2), // 279_5_expr
+  MANDATORY_PARAMETER, var_280_5_n,
+  string_2, var_281_5_pad,
   // $text expr.to_string
-  var_to_string, 1, LOCAL(2), 1, var_283_1_text,
+  var_to_string, 1, LOCAL(2), 1, var_283_4_text,
   // $len length_of(text)
-  var_length_of, 1, var_283_1_text, 1, var_284_1_len,
+  var_length_of, 1, var_283_4_text, 1, var_284_4_len,
   // len < n:
-  var_std__less, 2, var_284_1_len, var_280_0_n, 1, LOCAL(1),
+  var_std__less, 2, var_284_4_len, var_280_5_n, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_10, lambda_11, TAIL_CALL,
   POS(283, 3),
@@ -1326,9 +1326,9 @@ static TAB_NUM t_lambda_10[] = {
   8, // locals
   0, // parameters
   // $pad_len length_of(pad)
-  var_length_of, 1, var_281_0_pad, 1, LOCAL(8),
+  var_length_of, 1, var_281_5_pad, 1, LOCAL(8),
   // n-len)+(pad_len-1) .div. pad_len) 1 n-len)
-  var_std__minus, 2, var_280_0_n, var_284_1_len, 1, LOCAL(1),
+  var_std__minus, 2, var_280_5_n, var_284_4_len, 1, LOCAL(1),
   // pad_len-1) .div. pad_len) 1 n-len)
   var_std__minus, 2, LOCAL(8), num_1, 1, LOCAL(2),
   // n-len)+(pad_len-1) .div. pad_len) 1 n-len)
@@ -1336,13 +1336,13 @@ static TAB_NUM t_lambda_10[] = {
   // (n-len)+(pad_len-1) .div. pad_len) 1 n-len)
   var_div, 2, LOCAL(3), LOCAL(8), 1, LOCAL(4),
   // dup(pad (n-len)+(pad_len-1) .div. pad_len) 1 n-len)
-  var_dup, 2, var_281_0_pad, LOCAL(4), 1, LOCAL(5),
+  var_dup, 2, var_281_5_pad, LOCAL(4), 1, LOCAL(5),
   // n-len)
-  var_std__minus, 2, var_280_0_n, var_284_1_len, 1, LOCAL(6),
+  var_std__minus, 2, var_280_5_n, var_284_4_len, 1, LOCAL(6),
   // range(dup(pad (n-len)+(pad_len-1) .div. pad_len) 1 n-len)
   var_range, 3, LOCAL(5), num_1, LOCAL(6), 1, LOCAL(7),
   // string text range(dup(pad (n-len)+(pad_len-1) .div. pad_len) 1 n-len)
-  var_string, 2, var_283_1_text, LOCAL(7), TAIL_CALL,
+  var_string, 2, var_283_4_text, LOCAL(7), TAIL_CALL,
   POS(287, 7),
   POS(288, 34),
   POS(288, 42),
@@ -1358,16 +1358,16 @@ static TAB_NUM t_lambda_11[] = {
   0, // locals
   0, // parameters
   //  text
-  LET, 1, var_283_1_text, TAIL_CALL,
+  LET, 1, var_283_4_text, TAIL_CALL,
   POS(289, 7)
 };
 
 static TAB_NUM t_func_std__spaces[] = {
   2, // locals
   1, // parameters
-  var_303_0_n,
+  var_303_5_n,
   // 80
-  var_std__less, 2, num_80, var_303_0_n, 1, LOCAL(1),
+  var_std__less, 2, num_80, var_303_5_n, 1, LOCAL(1),
   // 80
   var_std__not, 1, LOCAL(1), 1, LOCAL(2),
   // if
@@ -1381,7 +1381,7 @@ static TAB_NUM t_lambda_12[] = {
   1, // locals
   0, // parameters
   // range(eighty_spaces 1 n)
-  var_range, 3, string_3, num_1, var_303_0_n, 1, LOCAL(1),
+  var_range, 3, string_3, num_1, var_303_5_n, 1, LOCAL(1),
   //  range(eighty_spaces 1 n)
   LET, 1, LOCAL(1), TAIL_CALL,
   POS(307, 8),
@@ -1392,7 +1392,7 @@ static TAB_NUM t_lambda_13[] = {
   1, // locals
   0, // parameters
   // dup(" " n)
-  var_dup, 2, string_2, var_303_0_n, 1, LOCAL(1),
+  var_dup, 2, string_2, var_303_5_n, 1, LOCAL(1),
   //  dup(" " n)
   LET, 1, LOCAL(1), TAIL_CALL,
   POS(308, 8),
@@ -1402,9 +1402,9 @@ static TAB_NUM t_lambda_13[] = {
 static TAB_NUM t_func_std__tabs_and_spaces[] = {
   1, // locals
   1, // parameters
-  var_320_0_n,
+  var_320_5_n,
   // n < 80
-  var_std__less, 2, var_320_0_n, num_80, 1, LOCAL(1),
+  var_std__less, 2, var_320_5_n, num_80, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_14, lambda_15, TAIL_CALL,
   POS(323, 5),
@@ -1415,11 +1415,11 @@ static TAB_NUM t_lambda_14[] = {
   5, // locals
   0, // parameters
   // n >> 3) 9+(n & 7))
-  var_std__shift_right, 2, var_320_0_n, num_3, 1, LOCAL(1),
+  var_std__shift_right, 2, var_320_5_n, num_3, 1, LOCAL(1),
   // 10-(n >> 3) 9+(n & 7))
   var_std__minus, 2, num_10, LOCAL(1), 1, LOCAL(2),
   // n & 7))
-  var_std__bit_and, 2, var_320_0_n, num_7, 1, LOCAL(3),
+  var_std__bit_and, 2, var_320_5_n, num_7, 1, LOCAL(3),
   // 9+(n & 7))
   var_std__plus, 2, num_9, LOCAL(3), 1, LOCAL(4),
   // range(nine_tabs_and_seven_spaces 10-(n >> 3) 9+(n & 7))
@@ -1438,11 +1438,11 @@ static TAB_NUM t_lambda_15[] = {
   5, // locals
   0, // parameters
   // n >> 3) spaces(n & 7))
-  var_std__shift_right, 2, var_320_0_n, num_3, 1, LOCAL(1),
+  var_std__shift_right, 2, var_320_5_n, num_3, 1, LOCAL(1),
   // dup("@ht;" n >> 3) spaces(n & 7))
   var_dup, 2, string_5, LOCAL(1), 1, LOCAL(2),
   // n & 7))
-  var_std__bit_and, 2, var_320_0_n, num_7, 1, LOCAL(3),
+  var_std__bit_and, 2, var_320_5_n, num_7, 1, LOCAL(3),
   // spaces(n & 7))
   var_spaces, 1, LOCAL(3), 1, LOCAL(4),
   // string(dup("@ht;" n >> 3) spaces(n & 7))
@@ -1460,17 +1460,17 @@ static TAB_NUM t_lambda_15[] = {
 static TAB_NUM t_func_std__with_tabs[] = {
   0, // locals
   1, // parameters
-  var_340_0_text,
+  var_340_5_text,
   // $s 1
-  LET, 1, num_1, 1, var_342_1_s,
+  LET, 1, num_1, 1, var_342_4_s,
   // $n length_of(text)
-  var_length_of, 1, var_340_0_text, 1, var_343_1_n,
+  var_length_of, 1, var_340_5_text, 1, var_343_4_n,
   // $i 1
-  LET, 1, num_1, 1, var_344_1_i,
+  LET, 1, num_1, 1, var_344_4_i,
   // $output ""
-  LET, 1, string_1, 1, var_345_1_output,
+  LET, 1, string_1, 1, var_345_4_output,
   // $count 0
-  LET, 1, num_0, 1, var_346_1_count,
+  LET, 1, num_0, 1, var_346_4_count,
   // loop:
   var_loop, 1, lambda_loop, TAIL_CALL,
   POS(342, 3),
@@ -1485,7 +1485,7 @@ static TAB_NUM t_lambda_loop[] = {
   2, // locals
   0, // parameters
   // n:
-  var_std__less, 2, var_343_1_n, var_344_1_i, 1, LOCAL(1),
+  var_std__less, 2, var_343_4_n, var_344_4_i, 1, LOCAL(1),
   // n:
   var_std__not, 1, LOCAL(1), 1, LOCAL(2),
   // if
@@ -1499,7 +1499,7 @@ static TAB_NUM t_lambda_16[] = {
   2, // locals
   0, // parameters
   // text(i) == ' ':
-  var_340_0_text, 1, var_344_1_i, 1, LOCAL(1),
+  var_340_5_text, 1, var_344_4_i, 1, LOCAL(1),
   // text(i) == ' ':
   var_std__equal, 2, LOCAL(1), chr_32, 1, LOCAL(2),
   // if
@@ -1513,9 +1513,9 @@ static TAB_NUM t_lambda_17[] = {
   0, // locals
   0, // parameters
   // !i i+1
-  var_std__plus, 2, var_344_1_i, num_1, 1, var_344_1_i,
+  var_std__plus, 2, var_344_4_i, num_1, 1, var_344_4_i,
   // !count count+1
-  var_std__plus, 2, var_346_1_count, num_1, 1, var_346_1_count,
+  var_std__plus, 2, var_346_4_count, num_1, 1, var_346_4_count,
   // next
   var_next, 0, TAIL_CALL,
   POS(352, 13),
@@ -1527,7 +1527,7 @@ static TAB_NUM t_lambda_18[] = {
   2, // locals
   0, // parameters
   // count >= 8:
-  var_std__less, 2, var_346_1_count, num_8, 1, LOCAL(1),
+  var_std__less, 2, var_346_4_count, num_8, 1, LOCAL(1),
   // count >= 8:
   var_std__not, 1, LOCAL(1), 1, LOCAL(2),
   // if
@@ -1541,9 +1541,9 @@ static TAB_NUM t_lambda_19[] = {
   2, // locals
   0, // parameters
   // $tab_count count >> 3
-  var_std__shift_right, 2, var_346_1_count, num_3, 1, var_358_1_tab_count,
+  var_std__shift_right, 2, var_346_4_count, num_3, 1, var_358_18_tab_count,
   // tab_count >= 1:
-  var_std__less, 2, var_358_1_tab_count, num_1, 1, LOCAL(1),
+  var_std__less, 2, var_358_18_tab_count, num_1, 1, LOCAL(1),
   // tab_count >= 1:
   var_std__not, 1, LOCAL(1), 1, LOCAL(2),
   // if
@@ -1558,25 +1558,25 @@ static TAB_NUM t_lambda_20[] = {
   3, // locals
   0, // parameters
   // count+1))
-  var_std__plus, 2, var_346_1_count, num_1, 1, LOCAL(1),
+  var_std__plus, 2, var_346_4_count, num_1, 1, LOCAL(1),
   // i-(count+1))
-  var_std__minus, 2, var_344_1_i, LOCAL(1), 1, LOCAL(2),
+  var_std__minus, 2, var_344_4_i, LOCAL(1), 1, LOCAL(2),
   // range(text s i-(count+1))
-  var_range, 3, var_340_0_text, var_342_1_s, LOCAL(2), 1, LOCAL(3),
+  var_range, 3, var_340_5_text, var_342_4_s, LOCAL(2), 1, LOCAL(3),
   // append &output range(text s i-(count+1))
-  var_append, 2, var_345_1_output, LOCAL(3), 1, var_345_1_output,
+  var_append, 2, var_345_4_output, LOCAL(3), 1, var_345_4_output,
   // tab_count < 10
-  var_std__less, 2, var_358_1_tab_count, num_10, 1, LOCAL(1),
+  var_std__less, 2, var_358_18_tab_count, num_10, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_21, lambda_22, 1, LOCAL(2),
   // append &output
-  var_append, 2, var_345_1_output, LOCAL(2), 1, var_345_1_output,
+  var_append, 2, var_345_4_output, LOCAL(2), 1, var_345_4_output,
   // i-count)+(tab_count << 3)
-  var_std__minus, 2, var_344_1_i, var_346_1_count, 1, LOCAL(1),
+  var_std__minus, 2, var_344_4_i, var_346_4_count, 1, LOCAL(1),
   // tab_count << 3)
-  var_std__shift_left, 2, var_358_1_tab_count, num_3, 1, LOCAL(2),
+  var_std__shift_left, 2, var_358_18_tab_count, num_3, 1, LOCAL(2),
   // !s (i-count)+(tab_count << 3)
-  var_std__plus, 2, LOCAL(1), LOCAL(2), 1, var_342_1_s,
+  var_std__plus, 2, LOCAL(1), LOCAL(2), 1, var_342_4_s,
   // skip_line
   func_skip_line, 0, TAIL_CALL,
   POS(361, 52),
@@ -1596,7 +1596,7 @@ static TAB_NUM t_lambda_21[] = {
   1, // locals
   0, // parameters
   // range(tabs 1 tab_count)
-  var_range, 3, string_6, num_1, var_358_1_tab_count, 1, LOCAL(1),
+  var_range, 3, string_6, num_1, var_358_18_tab_count, 1, LOCAL(1),
   //  range(tabs 1 tab_count)
   LET, 1, LOCAL(1), TAIL_CALL,
   POS(365, 28),
@@ -1607,7 +1607,7 @@ static TAB_NUM t_lambda_22[] = {
   1, // locals
   0, // parameters
   // dup("@ht;" tab_count)
-  var_dup, 2, string_5, var_358_1_tab_count, 1, LOCAL(1),
+  var_dup, 2, string_5, var_358_18_tab_count, 1, LOCAL(1),
   //  dup("@ht;" tab_count)
   LET, 1, LOCAL(1), TAIL_CALL,
   POS(366, 28),
@@ -1618,7 +1618,7 @@ static TAB_NUM t_lambda_23[] = {
   1, // locals
   0, // parameters
   // s == 1
-  var_std__equal, 2, var_342_1_s, num_1, 1, LOCAL(1),
+  var_std__equal, 2, var_342_4_s, num_1, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_24, lambda_25, TAIL_CALL,
   POS(373, 11),
@@ -1629,7 +1629,7 @@ static TAB_NUM t_lambda_24[] = {
   0, // locals
   0, // parameters
   //  text
-  LET, 1, var_340_0_text, TAIL_CALL,
+  LET, 1, var_340_5_text, TAIL_CALL,
   POS(374, 13)
 };
 
@@ -1637,9 +1637,9 @@ static TAB_NUM t_lambda_25[] = {
   2, // locals
   0, // parameters
   // range(text s -1))
-  var_range, 3, var_340_0_text, var_342_1_s, minus_num_1, 1, LOCAL(1),
+  var_range, 3, var_340_5_text, var_342_4_s, minus_num_1, 1, LOCAL(1),
   // append(output range(text s -1))
-  var_append, 2, var_345_1_output, LOCAL(1), 1, LOCAL(2),
+  var_append, 2, var_345_4_output, LOCAL(1), 1, LOCAL(2),
   //  append(output range(text s -1))
   LET, 1, LOCAL(2), TAIL_CALL,
   POS(375, 28),
@@ -1659,7 +1659,7 @@ static TAB_NUM t_lambda_26[] = {
   3, // locals
   0, // parameters
   // n && text(i) != '@nl;':
-  var_std__less, 2, var_343_1_n, var_344_1_i, 1, LOCAL(1),
+  var_std__less, 2, var_343_4_n, var_344_4_i, 1, LOCAL(1),
   // n && text(i) != '@nl;':
   var_std__not, 1, LOCAL(1), 1, LOCAL(2),
   // n && text(i) != '@nl;':
@@ -1676,7 +1676,7 @@ static TAB_NUM t_lambda_27[] = {
   3, // locals
   0, // parameters
   // text(i) != '@nl;':
-  var_340_0_text, 1, var_344_1_i, 1, LOCAL(1),
+  var_340_5_text, 1, var_344_4_i, 1, LOCAL(1),
   // text(i) != '@nl;':
   var_std__equal, 2, LOCAL(1), chr_10, 1, LOCAL(2),
   // text(i) != '@nl;':
@@ -1693,7 +1693,7 @@ static TAB_NUM t_lambda_28[] = {
   0, // locals
   0, // parameters
   // !i i+1
-  var_std__plus, 2, var_344_1_i, num_1, 1, var_344_1_i,
+  var_std__plus, 2, var_344_4_i, num_1, 1, var_344_4_i,
   // next
   var_next, 0, TAIL_CALL,
   POS(382, 13),
@@ -1704,9 +1704,9 @@ static TAB_NUM t_lambda_29[] = {
   0, // locals
   0, // parameters
   // !i i+1
-  var_std__plus, 2, var_344_1_i, num_1, 1, var_344_1_i,
+  var_std__plus, 2, var_344_4_i, num_1, 1, var_344_4_i,
   // !count 0
-  LET, 1, num_0, 1, var_346_1_count,
+  LET, 1, num_0, 1, var_346_4_count,
   // next
   var_next, 0, TAIL_CALL,
   POS(386, 9),
@@ -1717,16 +1717,16 @@ static TAB_NUM t_lambda_29[] = {
 static TAB_NUM t_func_std_types__string___match[] = {
   3, // locals
   2, // parameters
-  var_407_0_self,
-  var_408_0_stream,
+  var_407_5_self,
+  var_408_5_stream,
   // $rc result_count()
-  var_result_count, 0, 1, var_410_1_rc,
+  var_result_count, 0, 1, var_410_4_rc,
   // $len length_of(self)
-  var_length_of, 1, var_407_0_self, 1, var_411_1_len,
+  var_length_of, 1, var_407_5_self, 1, var_411_4_len,
   // length_of(stream) >= len:
-  var_length_of, 1, var_408_0_stream, 1, LOCAL(1),
+  var_length_of, 1, var_408_5_stream, 1, LOCAL(1),
   // length_of(stream) >= len:
-  var_std__less, 2, LOCAL(1), var_411_1_len, 1, LOCAL(2),
+  var_std__less, 2, LOCAL(1), var_411_4_len, 1, LOCAL(2),
   // length_of(stream) >= len:
   var_std__not, 1, LOCAL(2), 1, LOCAL(3),
   // if
@@ -1743,9 +1743,9 @@ static TAB_NUM t_lambda_30[] = {
   2, // locals
   0, // parameters
   // range(stream 1 len) == self:
-  var_range, 3, var_408_0_stream, num_1, var_411_1_len, 1, LOCAL(1),
+  var_range, 3, var_408_5_stream, num_1, var_411_4_len, 1, LOCAL(1),
   // range(stream 1 len) == self:
-  var_std__equal, 2, LOCAL(1), var_407_0_self, 1, LOCAL(2),
+  var_std__equal, 2, LOCAL(1), var_407_5_self, 1, LOCAL(2),
   // if
   var_if, 3, LOCAL(2), lambda_31, func_fail, TAIL_CALL,
   POS(415, 9),
@@ -1757,7 +1757,7 @@ static TAB_NUM t_lambda_31[] = {
   1, // locals
   0, // parameters
   // rc == 1
-  var_std__equal, 2, var_410_1_rc, num_1, 1, LOCAL(1),
+  var_std__equal, 2, var_410_4_rc, num_1, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_32, lambda_33, TAIL_CALL,
   POS(417, 13),
@@ -1768,7 +1768,7 @@ static TAB_NUM t_lambda_32[] = {
   0, // locals
   0, // parameters
   //  len
-  LET, 1, var_411_1_len, TAIL_CALL,
+  LET, 1, var_411_4_len, TAIL_CALL,
   POS(418, 15)
 };
 
@@ -1776,7 +1776,7 @@ static TAB_NUM t_lambda_33[] = {
   0, // locals
   0, // parameters
   //  len undefined
-  LET, 2, var_411_1_len, var_undefined, TAIL_CALL,
+  LET, 2, var_411_4_len, var_undefined, TAIL_CALL,
   POS(419, 15)
 };
 
@@ -1784,7 +1784,7 @@ static TAB_NUM t_func_fail[] = {
   1, // locals
   0, // parameters
   // rc == 1
-  var_std__equal, 2, var_410_1_rc, num_1, 1, LOCAL(1),
+  var_std__equal, 2, var_410_4_rc, num_1, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_34, lambda_35, TAIL_CALL,
   POS(425, 7),
@@ -1810,14 +1810,14 @@ static TAB_NUM t_lambda_35[] = {
 static TAB_NUM t_func_std_types__string___match_back[] = {
   4, // locals
   2, // parameters
-  var_431_0_self,
-  var_432_0_stream,
+  var_431_5_self,
+  var_432_5_stream,
   // $len length_of(self)
-  var_length_of, 1, var_431_0_self, 1, var_434_1_len,
+  var_length_of, 1, var_431_5_self, 1, var_434_4_len,
   // length_of(stream) >= len && range(stream -len -1) == self
-  var_length_of, 1, var_432_0_stream, 1, LOCAL(1),
+  var_length_of, 1, var_432_5_stream, 1, LOCAL(1),
   // length_of(stream) >= len && range(stream -len -1) == self
-  var_std__less, 2, LOCAL(1), var_434_1_len, 1, LOCAL(2),
+  var_std__less, 2, LOCAL(1), var_434_4_len, 1, LOCAL(2),
   // length_of(stream) >= len && range(stream -len -1) == self
   var_std__not, 1, LOCAL(2), 1, LOCAL(3),
   // length_of(stream) >= len && range(stream -len -1) == self
@@ -1836,11 +1836,11 @@ static TAB_NUM t_lambda_36[] = {
   3, // locals
   0, // parameters
   // len -1) == self
-  var_std__negate, 1, var_434_1_len, 1, LOCAL(1),
+  var_std__negate, 1, var_434_4_len, 1, LOCAL(1),
   // range(stream -len -1) == self
-  var_range, 3, var_432_0_stream, LOCAL(1), minus_num_1, 1, LOCAL(2),
+  var_range, 3, var_432_5_stream, LOCAL(1), minus_num_1, 1, LOCAL(2),
   // range(stream -len -1) == self
-  var_std__equal, 2, LOCAL(2), var_431_0_self, 1, LOCAL(3),
+  var_std__equal, 2, LOCAL(2), var_431_5_self, 1, LOCAL(3),
   // range(stream -len -1) == self
   LET, 1, LOCAL(3), TAIL_CALL,
   POS(436, 47),
@@ -1853,7 +1853,7 @@ static TAB_NUM t_lambda_37[] = {
   0, // locals
   0, // parameters
   //  len
-  LET, 1, var_434_1_len, TAIL_CALL,
+  LET, 1, var_434_4_len, TAIL_CALL,
   POS(437, 7)
 };
 
@@ -1868,8 +1868,8 @@ static TAB_NUM t_lambda_38[] = {
 static TAB_NUM t_func_std_types__string___matches[] = {
   5, // locals
   2, // parameters
-  LOCAL(4), // 448_0_self
-  LOCAL(5), // 449_0_expr
+  LOCAL(4), // 448_5_self
+  LOCAL(5), // 449_5_expr
   // match(expr self) == length_of(self)
   var_match, 2, LOCAL(5), LOCAL(4), 1, LOCAL(1),
   // length_of(self)
@@ -1887,21 +1887,21 @@ static TAB_NUM t_func_std_types__string___matches[] = {
 static TAB_NUM t_func_std_types__string___search[] = {
   1, // locals
   -3, // parameters
-  MANDATORY_PARAMETER, var_470_0_self,
-  MANDATORY_PARAMETER, var_471_0_stream,
-  num_1, var_472_0_nth,
+  MANDATORY_PARAMETER, var_470_5_self,
+  MANDATORY_PARAMETER, var_471_5_stream,
+  num_1, var_472_5_nth,
   // $i undefined
-  LET, 1, var_undefined, 1, var_474_1_i,
+  LET, 1, var_undefined, 1, var_474_4_i,
   // $length length_of(self)
-  var_length_of, 1, var_470_0_self, 1, var_475_1_length,
+  var_length_of, 1, var_470_5_self, 1, var_475_4_length,
   // $offset length-1
-  var_std__minus, 2, var_475_1_length, num_1, 1, var_476_1_offset,
+  var_std__minus, 2, var_475_4_length, num_1, 1, var_476_4_offset,
   // length_of(stream)-offset
-  var_length_of, 1, var_471_0_stream, 1, LOCAL(1),
+  var_length_of, 1, var_471_5_stream, 1, LOCAL(1),
   // $n length_of(stream)-offset
-  var_std__minus, 2, LOCAL(1), var_476_1_offset, 1, var_477_1_n,
+  var_std__minus, 2, LOCAL(1), var_476_4_offset, 1, var_477_4_n,
   // nth < 0:
-  var_std__less, 2, var_472_0_nth, num_0, 1, LOCAL(1),
+  var_std__less, 2, var_472_5_nth, num_0, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_39, lambda_40, TAIL_CALL,
   POS(474, 3),
@@ -1917,7 +1917,7 @@ static TAB_NUM t_lambda_39[] = {
   0, // locals
   0, // parameters
   // !i n
-  LET, 1, var_477_1_n, 1, var_474_1_i,
+  LET, 1, var_477_4_n, 1, var_474_4_i,
   // search_backwards
   func_search_backwards, 0, TAIL_CALL,
   POS(480, 7),
@@ -1928,7 +1928,7 @@ static TAB_NUM t_lambda_40[] = {
   0, // locals
   0, // parameters
   // !i 1
-  LET, 1, num_1, 1, var_474_1_i,
+  LET, 1, num_1, 1, var_474_4_i,
   // search_forwards
   func_search_forwards, 0, TAIL_CALL,
   POS(483, 7),
@@ -1939,7 +1939,7 @@ static TAB_NUM t_func_search_forwards[] = {
   2, // locals
   0, // parameters
   // n
-  var_std__less, 2, var_477_1_n, var_474_1_i, 1, LOCAL(1),
+  var_std__less, 2, var_477_4_n, var_474_4_i, 1, LOCAL(1),
   // n
   var_std__not, 1, LOCAL(1), 1, LOCAL(2),
   // if
@@ -1953,11 +1953,11 @@ static TAB_NUM t_lambda_41[] = {
   3, // locals
   0, // parameters
   // i+offset) == self:
-  var_std__plus, 2, var_474_1_i, var_476_1_offset, 1, LOCAL(1),
+  var_std__plus, 2, var_474_4_i, var_476_4_offset, 1, LOCAL(1),
   // range(stream i i+offset) == self:
-  var_range, 3, var_471_0_stream, var_474_1_i, LOCAL(1), 1, LOCAL(2),
+  var_range, 3, var_471_5_stream, var_474_4_i, LOCAL(1), 1, LOCAL(2),
   // range(stream i i+offset) == self:
-  var_std__equal, 2, LOCAL(2), var_470_0_self, 1, LOCAL(3),
+  var_std__equal, 2, LOCAL(2), var_470_5_self, 1, LOCAL(3),
   // if
   var_if, 3, LOCAL(3), lambda_42, lambda_45, TAIL_CALL,
   POS(491, 26),
@@ -1970,7 +1970,7 @@ static TAB_NUM t_lambda_42[] = {
   1, // locals
   0, // parameters
   // 1:
-  var_std__less, 2, num_1, var_472_0_nth, 1, LOCAL(1),
+  var_std__less, 2, num_1, var_472_5_nth, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_43, lambda_44, TAIL_CALL,
   POS(493, 21),
@@ -1981,9 +1981,9 @@ static TAB_NUM t_lambda_43[] = {
   0, // locals
   0, // parameters
   // dec &nth
-  var_dec, 1, var_472_0_nth, 1, var_472_0_nth,
+  var_dec, 1, var_472_5_nth, 1, var_472_5_nth,
   // plus &i length
-  var_plus, 2, var_474_1_i, var_475_1_length, 1, var_474_1_i,
+  var_plus, 2, var_474_4_i, var_475_4_length, 1, var_474_4_i,
   // search_forwards
   func_search_forwards, 0, TAIL_CALL,
   POS(494, 17),
@@ -1995,7 +1995,7 @@ static TAB_NUM t_lambda_44[] = {
   0, // locals
   0, // parameters
   //  i length
-  LET, 2, var_474_1_i, var_475_1_length, TAIL_CALL,
+  LET, 2, var_474_4_i, var_475_4_length, TAIL_CALL,
   POS(497, 17)
 };
 
@@ -2003,7 +2003,7 @@ static TAB_NUM t_lambda_45[] = {
   0, // locals
   0, // parameters
   // inc &i
-  var_inc, 1, var_474_1_i, 1, var_474_1_i,
+  var_inc, 1, var_474_4_i, 1, var_474_4_i,
   // search_forwards
   func_search_forwards, 0, TAIL_CALL,
   POS(499, 13),
@@ -2022,7 +2022,7 @@ static TAB_NUM t_func_search_backwards[] = {
   2, // locals
   0, // parameters
   // i >= 1
-  var_std__less, 2, var_474_1_i, num_1, 1, LOCAL(1),
+  var_std__less, 2, var_474_4_i, num_1, 1, LOCAL(1),
   // i >= 1
   var_std__not, 1, LOCAL(1), 1, LOCAL(2),
   // if
@@ -2036,11 +2036,11 @@ static TAB_NUM t_lambda_47[] = {
   3, // locals
   0, // parameters
   // i+offset) == self:
-  var_std__plus, 2, var_474_1_i, var_476_1_offset, 1, LOCAL(1),
+  var_std__plus, 2, var_474_4_i, var_476_4_offset, 1, LOCAL(1),
   // range(stream i i+offset) == self:
-  var_range, 3, var_471_0_stream, var_474_1_i, LOCAL(1), 1, LOCAL(2),
+  var_range, 3, var_471_5_stream, var_474_4_i, LOCAL(1), 1, LOCAL(2),
   // range(stream i i+offset) == self:
-  var_std__equal, 2, LOCAL(2), var_470_0_self, 1, LOCAL(3),
+  var_std__equal, 2, LOCAL(2), var_470_5_self, 1, LOCAL(3),
   // if
   var_if, 3, LOCAL(3), lambda_48, lambda_51, TAIL_CALL,
   POS(508, 26),
@@ -2053,7 +2053,7 @@ static TAB_NUM t_lambda_48[] = {
   1, // locals
   0, // parameters
   // nth < -1:
-  var_std__less, 2, var_472_0_nth, minus_num_1, 1, LOCAL(1),
+  var_std__less, 2, var_472_5_nth, minus_num_1, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_49, lambda_50, TAIL_CALL,
   POS(510, 15),
@@ -2064,9 +2064,9 @@ static TAB_NUM t_lambda_49[] = {
   0, // locals
   0, // parameters
   // inc &nth
-  var_inc, 1, var_472_0_nth, 1, var_472_0_nth,
+  var_inc, 1, var_472_5_nth, 1, var_472_5_nth,
   // minus &i length
-  var_minus, 2, var_474_1_i, var_475_1_length, 1, var_474_1_i,
+  var_minus, 2, var_474_4_i, var_475_4_length, 1, var_474_4_i,
   // search_backwards
   func_search_backwards, 0, TAIL_CALL,
   POS(511, 17),
@@ -2078,7 +2078,7 @@ static TAB_NUM t_lambda_50[] = {
   0, // locals
   0, // parameters
   //  i length
-  LET, 2, var_474_1_i, var_475_1_length, TAIL_CALL,
+  LET, 2, var_474_4_i, var_475_4_length, TAIL_CALL,
   POS(514, 17)
 };
 
@@ -2086,7 +2086,7 @@ static TAB_NUM t_lambda_51[] = {
   0, // locals
   0, // parameters
   // dec &i
-  var_dec, 1, var_474_1_i, 1, var_474_1_i,
+  var_dec, 1, var_474_4_i, 1, var_474_4_i,
   // search_backwards
   func_search_backwards, 0, TAIL_CALL,
   POS(516, 13),
@@ -2104,13 +2104,13 @@ static TAB_NUM t_lambda_52[] = {
 static TAB_NUM t_func_std_types__string___before[] = {
   3, // locals
   -3, // parameters
-  MANDATORY_PARAMETER, var_558_0_str,
-  MANDATORY_PARAMETER, LOCAL(2), // 559_0_expr
-  num_1, LOCAL(3), // 560_0_nth
+  MANDATORY_PARAMETER, var_558_5_str,
+  MANDATORY_PARAMETER, LOCAL(2), // 559_5_expr
+  num_1, LOCAL(3), // 560_5_nth
   // search $pos $_len expr str nth
-  var_search, 3, LOCAL(2), var_558_0_str, LOCAL(3), 2, var_562_8_pos, LOCAL(1),
+  var_search, 3, LOCAL(2), var_558_5_str, LOCAL(3), 2, var_562_11_pos, LOCAL(1),
   // is_defined
-  var_is_defined, 1, var_562_8_pos, 1, LOCAL(1),
+  var_is_defined, 1, var_562_11_pos, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_53, lambda_54, TAIL_CALL,
   POS(562, 3),
@@ -2122,9 +2122,9 @@ static TAB_NUM t_lambda_53[] = {
   2, // locals
   0, // parameters
   // pos-1)
-  var_std__minus, 2, var_562_8_pos, num_1, 1, LOCAL(1),
+  var_std__minus, 2, var_562_11_pos, num_1, 1, LOCAL(1),
   // range(str 1 pos-1)
-  var_range, 3, var_558_0_str, num_1, LOCAL(1), 1, LOCAL(2),
+  var_range, 3, var_558_5_str, num_1, LOCAL(1), 1, LOCAL(2),
   //  range(str 1 pos-1)
   LET, 1, LOCAL(2), TAIL_CALL,
   POS(565, 20),
@@ -2143,13 +2143,13 @@ static TAB_NUM t_lambda_54[] = {
 static TAB_NUM t_func_std_types__string___truncate_from[] = {
   3, // locals
   -3, // parameters
-  MANDATORY_PARAMETER, var_608_0_str,
-  MANDATORY_PARAMETER, LOCAL(2), // 609_0_expr
-  num_1, LOCAL(3), // 610_0_nth
+  MANDATORY_PARAMETER, var_608_5_str,
+  MANDATORY_PARAMETER, LOCAL(2), // 609_5_expr
+  num_1, LOCAL(3), // 610_5_nth
   // search $pos $_len expr str nth
-  var_search, 3, LOCAL(2), var_608_0_str, LOCAL(3), 2, var_612_8_pos, LOCAL(1),
+  var_search, 3, LOCAL(2), var_608_5_str, LOCAL(3), 2, var_612_11_pos, LOCAL(1),
   // is_defined
-  var_is_defined, 1, var_612_8_pos, 1, LOCAL(1),
+  var_is_defined, 1, var_612_11_pos, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_55, lambda_56, TAIL_CALL,
   POS(612, 3),
@@ -2161,9 +2161,9 @@ static TAB_NUM t_lambda_55[] = {
   2, // locals
   0, // parameters
   // pos-1)
-  var_std__minus, 2, var_612_8_pos, num_1, 1, LOCAL(1),
+  var_std__minus, 2, var_612_11_pos, num_1, 1, LOCAL(1),
   // range(str 1 pos-1)
-  var_range, 3, var_608_0_str, num_1, LOCAL(1), 1, LOCAL(2),
+  var_range, 3, var_608_5_str, num_1, LOCAL(1), 1, LOCAL(2),
   //  range(str 1 pos-1)
   LET, 1, LOCAL(2), TAIL_CALL,
   POS(615, 20),
@@ -2175,20 +2175,20 @@ static TAB_NUM t_lambda_56[] = {
   0, // locals
   0, // parameters
   //  str
-  LET, 1, var_608_0_str, TAIL_CALL,
+  LET, 1, var_608_5_str, TAIL_CALL,
   POS(616, 7)
 };
 
 static TAB_NUM t_func_std_types__string___behind[] = {
   3, // locals
   -3, // parameters
-  MANDATORY_PARAMETER, var_656_0_str,
-  MANDATORY_PARAMETER, LOCAL(2), // 657_0_expr
-  num_1, LOCAL(3), // 658_0_nth
+  MANDATORY_PARAMETER, var_656_5_str,
+  MANDATORY_PARAMETER, LOCAL(2), // 657_5_expr
+  num_1, LOCAL(3), // 658_5_nth
   // search $pos $len expr str nth
-  var_search, 3, LOCAL(2), var_656_0_str, LOCAL(3), 2, var_660_8_pos, var_660_13_len,
+  var_search, 3, LOCAL(2), var_656_5_str, LOCAL(3), 2, var_660_11_pos, var_660_16_len,
   // is_defined
-  var_is_defined, 1, var_660_8_pos, 1, LOCAL(1),
+  var_is_defined, 1, var_660_11_pos, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_57, lambda_58, TAIL_CALL,
   POS(660, 3),
@@ -2200,9 +2200,9 @@ static TAB_NUM t_lambda_57[] = {
   2, // locals
   0, // parameters
   // pos+len -1)
-  var_std__plus, 2, var_660_8_pos, var_660_13_len, 1, LOCAL(1),
+  var_std__plus, 2, var_660_11_pos, var_660_16_len, 1, LOCAL(1),
   // range(str pos+len -1)
-  var_range, 3, var_656_0_str, LOCAL(1), minus_num_1, 1, LOCAL(2),
+  var_range, 3, var_656_5_str, LOCAL(1), minus_num_1, 1, LOCAL(2),
   //  range(str pos+len -1)
   LET, 1, LOCAL(2), TAIL_CALL,
   POS(663, 18),
@@ -2221,13 +2221,13 @@ static TAB_NUM t_lambda_58[] = {
 static TAB_NUM t_func_std_types__string___truncate_until[] = {
   3, // locals
   -3, // parameters
-  MANDATORY_PARAMETER, var_705_0_str,
-  MANDATORY_PARAMETER, LOCAL(2), // 706_0_expr
-  num_1, LOCAL(3), // 707_0_nth
+  MANDATORY_PARAMETER, var_705_5_str,
+  MANDATORY_PARAMETER, LOCAL(2), // 706_5_expr
+  num_1, LOCAL(3), // 707_5_nth
   // search $pos $len expr str nth
-  var_search, 3, LOCAL(2), var_705_0_str, LOCAL(3), 2, var_709_8_pos, var_709_13_len,
+  var_search, 3, LOCAL(2), var_705_5_str, LOCAL(3), 2, var_709_11_pos, var_709_16_len,
   // is_defined
-  var_is_defined, 1, var_709_8_pos, 1, LOCAL(1),
+  var_is_defined, 1, var_709_11_pos, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_59, lambda_60, TAIL_CALL,
   POS(709, 3),
@@ -2239,9 +2239,9 @@ static TAB_NUM t_lambda_59[] = {
   2, // locals
   0, // parameters
   // pos+len -1)
-  var_std__plus, 2, var_709_8_pos, var_709_13_len, 1, LOCAL(1),
+  var_std__plus, 2, var_709_11_pos, var_709_16_len, 1, LOCAL(1),
   // range(str pos+len -1)
-  var_range, 3, var_705_0_str, LOCAL(1), minus_num_1, 1, LOCAL(2),
+  var_range, 3, var_705_5_str, LOCAL(1), minus_num_1, 1, LOCAL(2),
   //  range(str pos+len -1)
   LET, 1, LOCAL(2), TAIL_CALL,
   POS(712, 18),
@@ -2253,20 +2253,20 @@ static TAB_NUM t_lambda_60[] = {
   0, // locals
   0, // parameters
   //  str
-  LET, 1, var_705_0_str, TAIL_CALL,
+  LET, 1, var_705_5_str, TAIL_CALL,
   POS(713, 7)
 };
 
 static TAB_NUM t_func_std_types__string___from[] = {
   3, // locals
   -3, // parameters
-  MANDATORY_PARAMETER, var_754_0_str,
-  MANDATORY_PARAMETER, LOCAL(2), // 755_0_expr
-  num_1, LOCAL(3), // 756_0_nth
+  MANDATORY_PARAMETER, var_754_5_str,
+  MANDATORY_PARAMETER, LOCAL(2), // 755_5_expr
+  num_1, LOCAL(3), // 756_5_nth
   // search $pos $_len expr str nth
-  var_search, 3, LOCAL(2), var_754_0_str, LOCAL(3), 2, var_758_8_pos, LOCAL(1),
+  var_search, 3, LOCAL(2), var_754_5_str, LOCAL(3), 2, var_758_11_pos, LOCAL(1),
   // is_defined
-  var_is_defined, 1, var_758_8_pos, 1, LOCAL(1),
+  var_is_defined, 1, var_758_11_pos, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_61, lambda_62, TAIL_CALL,
   POS(758, 3),
@@ -2278,7 +2278,7 @@ static TAB_NUM t_lambda_61[] = {
   1, // locals
   0, // parameters
   // range(str pos -1)
-  var_range, 3, var_754_0_str, var_758_8_pos, minus_num_1, 1, LOCAL(1),
+  var_range, 3, var_754_5_str, var_758_11_pos, minus_num_1, 1, LOCAL(1),
   //  range(str pos -1)
   LET, 1, LOCAL(1), TAIL_CALL,
   POS(761, 8),
@@ -2296,13 +2296,13 @@ static TAB_NUM t_lambda_62[] = {
 static TAB_NUM t_func_std_types__string___truncate_before[] = {
   3, // locals
   -3, // parameters
-  MANDATORY_PARAMETER, var_803_0_str,
-  MANDATORY_PARAMETER, LOCAL(2), // 804_0_expr
-  num_1, LOCAL(3), // 805_0_nth
+  MANDATORY_PARAMETER, var_803_5_str,
+  MANDATORY_PARAMETER, LOCAL(2), // 804_5_expr
+  num_1, LOCAL(3), // 805_5_nth
   // search $pos $_len expr str nth
-  var_search, 3, LOCAL(2), var_803_0_str, LOCAL(3), 2, var_807_8_pos, LOCAL(1),
+  var_search, 3, LOCAL(2), var_803_5_str, LOCAL(3), 2, var_807_11_pos, LOCAL(1),
   // is_defined
-  var_is_defined, 1, var_807_8_pos, 1, LOCAL(1),
+  var_is_defined, 1, var_807_11_pos, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_63, lambda_64, TAIL_CALL,
   POS(807, 3),
@@ -2314,7 +2314,7 @@ static TAB_NUM t_lambda_63[] = {
   1, // locals
   0, // parameters
   // range(str pos -1)
-  var_range, 3, var_803_0_str, var_807_8_pos, minus_num_1, 1, LOCAL(1),
+  var_range, 3, var_803_5_str, var_807_11_pos, minus_num_1, 1, LOCAL(1),
   //  range(str pos -1)
   LET, 1, LOCAL(1), TAIL_CALL,
   POS(810, 8),
@@ -2325,20 +2325,20 @@ static TAB_NUM t_lambda_64[] = {
   0, // locals
   0, // parameters
   //  str
-  LET, 1, var_803_0_str, TAIL_CALL,
+  LET, 1, var_803_5_str, TAIL_CALL,
   POS(811, 7)
 };
 
 static TAB_NUM t_func_std_types__string___until[] = {
   3, // locals
   -3, // parameters
-  MANDATORY_PARAMETER, var_851_0_str,
-  MANDATORY_PARAMETER, LOCAL(2), // 852_0_expr
-  num_1, LOCAL(3), // 853_0_nth
+  MANDATORY_PARAMETER, var_851_5_str,
+  MANDATORY_PARAMETER, LOCAL(2), // 852_5_expr
+  num_1, LOCAL(3), // 853_5_nth
   // search $pos $len expr str nth
-  var_search, 3, LOCAL(2), var_851_0_str, LOCAL(3), 2, var_855_8_pos, var_855_13_len,
+  var_search, 3, LOCAL(2), var_851_5_str, LOCAL(3), 2, var_855_11_pos, var_855_16_len,
   // is_defined
-  var_is_defined, 1, var_855_8_pos, 1, LOCAL(1),
+  var_is_defined, 1, var_855_11_pos, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_65, lambda_66, TAIL_CALL,
   POS(855, 3),
@@ -2350,11 +2350,11 @@ static TAB_NUM t_lambda_65[] = {
   3, // locals
   0, // parameters
   // pos+len-1)
-  var_std__plus, 2, var_855_8_pos, var_855_13_len, 1, LOCAL(1),
+  var_std__plus, 2, var_855_11_pos, var_855_16_len, 1, LOCAL(1),
   // pos+len-1)
   var_std__minus, 2, LOCAL(1), num_1, 1, LOCAL(2),
   // range(str 1 pos+len-1)
-  var_range, 3, var_851_0_str, num_1, LOCAL(2), 1, LOCAL(3),
+  var_range, 3, var_851_5_str, num_1, LOCAL(2), 1, LOCAL(3),
   //  range(str 1 pos+len-1)
   LET, 1, LOCAL(3), TAIL_CALL,
   POS(858, 20),
@@ -2374,13 +2374,13 @@ static TAB_NUM t_lambda_66[] = {
 static TAB_NUM t_func_std_types__string___truncate_behind[] = {
   3, // locals
   -3, // parameters
-  MANDATORY_PARAMETER, var_900_0_str,
-  MANDATORY_PARAMETER, LOCAL(2), // 901_0_expr
-  num_1, LOCAL(3), // 902_0_nth
+  MANDATORY_PARAMETER, var_900_5_str,
+  MANDATORY_PARAMETER, LOCAL(2), // 901_5_expr
+  num_1, LOCAL(3), // 902_5_nth
   // search $pos $len expr str nth
-  var_search, 3, LOCAL(2), var_900_0_str, LOCAL(3), 2, var_904_8_pos, var_904_13_len,
+  var_search, 3, LOCAL(2), var_900_5_str, LOCAL(3), 2, var_904_11_pos, var_904_16_len,
   // is_defined
-  var_is_defined, 1, var_904_8_pos, 1, LOCAL(1),
+  var_is_defined, 1, var_904_11_pos, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_67, lambda_68, TAIL_CALL,
   POS(904, 3),
@@ -2392,11 +2392,11 @@ static TAB_NUM t_lambda_67[] = {
   3, // locals
   0, // parameters
   // pos+len-1)
-  var_std__plus, 2, var_904_8_pos, var_904_13_len, 1, LOCAL(1),
+  var_std__plus, 2, var_904_11_pos, var_904_16_len, 1, LOCAL(1),
   // pos+len-1)
   var_std__minus, 2, LOCAL(1), num_1, 1, LOCAL(2),
   // range(str 1 pos+len-1)
-  var_range, 3, var_900_0_str, num_1, LOCAL(2), 1, LOCAL(3),
+  var_range, 3, var_900_5_str, num_1, LOCAL(2), 1, LOCAL(3),
   //  range(str 1 pos+len-1)
   LET, 1, LOCAL(3), TAIL_CALL,
   POS(907, 20),
@@ -2409,17 +2409,17 @@ static TAB_NUM t_lambda_68[] = {
   0, // locals
   0, // parameters
   //  str
-  LET, 1, var_900_0_str, TAIL_CALL,
+  LET, 1, var_900_5_str, TAIL_CALL,
   POS(908, 7)
 };
 
 static TAB_NUM t_func_std_types__string___between[] = {
   6, // locals
   -4, // parameters
-  MANDATORY_PARAMETER, LOCAL(3), // 936_0_str
-  MANDATORY_PARAMETER, LOCAL(4), // 937_0_expr_1
-  MANDATORY_PARAMETER, LOCAL(5), // 938_0_expr_2
-  num_1, LOCAL(6), // 939_0_nth
+  MANDATORY_PARAMETER, LOCAL(3), // 936_5_str
+  MANDATORY_PARAMETER, LOCAL(4), // 937_5_expr_1
+  MANDATORY_PARAMETER, LOCAL(5), // 938_5_expr_2
+  num_1, LOCAL(6), // 939_5_nth
   // behind(str expr_1 nth) .before. expr_2
   var_behind, 3, LOCAL(3), LOCAL(4), LOCAL(6), 1, LOCAL(1),
   // behind(str expr_1 nth) .before. expr_2
@@ -2434,8 +2434,8 @@ static TAB_NUM t_func_std_types__string___between[] = {
 static TAB_NUM t_func_std_types__string___has_prefix[] = {
   4, // locals
   2, // parameters
-  LOCAL(3), // 960_0_self
-  LOCAL(4), // 961_0_prefix
+  LOCAL(3), // 960_5_self
+  LOCAL(4), // 961_5_prefix
   // match(prefix self).is_defined
   var_match, 2, LOCAL(4), LOCAL(3), 1, LOCAL(1),
   // is_defined
@@ -2450,8 +2450,8 @@ static TAB_NUM t_func_std_types__string___has_prefix[] = {
 static TAB_NUM t_func_std_types__string___has_suffix[] = {
   4, // locals
   2, // parameters
-  LOCAL(3), // 982_0_self
-  LOCAL(4), // 983_0_suffix
+  LOCAL(3), // 982_5_self
+  LOCAL(4), // 983_5_suffix
   // match_back(suffix self).is_defined
   var_match_back, 2, LOCAL(4), LOCAL(3), 1, LOCAL(1),
   // is_defined
@@ -2466,12 +2466,12 @@ static TAB_NUM t_func_std_types__string___has_suffix[] = {
 static TAB_NUM t_func_std_types__string___without_prefix[] = {
   2, // locals
   2, // parameters
-  var_1008_0_self,
-  LOCAL(2), // 1009_0_prefix
+  var_1008_5_self,
+  LOCAL(2), // 1009_5_prefix
   // $n match(prefix self)
-  var_match, 2, LOCAL(2), var_1008_0_self, 1, var_1011_1_n,
+  var_match, 2, LOCAL(2), var_1008_5_self, 1, var_1011_4_n,
   // is_defined
-  var_is_defined, 1, var_1011_1_n, 1, LOCAL(1),
+  var_is_defined, 1, var_1011_4_n, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_69, lambda_70, TAIL_CALL,
   POS(1011, 3),
@@ -2483,9 +2483,9 @@ static TAB_NUM t_lambda_69[] = {
   2, // locals
   0, // parameters
   // n+1 -1)
-  var_std__plus, 2, var_1011_1_n, num_1, 1, LOCAL(1),
+  var_std__plus, 2, var_1011_4_n, num_1, 1, LOCAL(1),
   // range(self n+1 -1)
-  var_range, 3, var_1008_0_self, LOCAL(1), minus_num_1, 1, LOCAL(2),
+  var_range, 3, var_1008_5_self, LOCAL(1), minus_num_1, 1, LOCAL(2),
   //  range(self n+1 -1)
   LET, 1, LOCAL(2), TAIL_CALL,
   POS(1014, 19),
@@ -2497,19 +2497,19 @@ static TAB_NUM t_lambda_70[] = {
   0, // locals
   0, // parameters
   //  self
-  LET, 1, var_1008_0_self, TAIL_CALL,
+  LET, 1, var_1008_5_self, TAIL_CALL,
   POS(1015, 7)
 };
 
 static TAB_NUM t_func_std_types__string___without_suffix[] = {
   2, // locals
   2, // parameters
-  var_1038_0_self,
-  LOCAL(2), // 1039_0_suffix
+  var_1038_5_self,
+  LOCAL(2), // 1039_5_suffix
   // $n match_back(suffix self)
-  var_match_back, 2, LOCAL(2), var_1038_0_self, 1, var_1041_1_n,
+  var_match_back, 2, LOCAL(2), var_1038_5_self, 1, var_1041_4_n,
   // is_defined
-  var_is_defined, 1, var_1041_1_n, 1, LOCAL(1),
+  var_is_defined, 1, var_1041_4_n, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_71, lambda_72, TAIL_CALL,
   POS(1041, 3),
@@ -2521,11 +2521,11 @@ static TAB_NUM t_lambda_71[] = {
   3, // locals
   0, // parameters
   // n+1))
-  var_std__plus, 2, var_1041_1_n, num_1, 1, LOCAL(1),
+  var_std__plus, 2, var_1041_4_n, num_1, 1, LOCAL(1),
   // (n+1))
   var_std__negate, 1, LOCAL(1), 1, LOCAL(2),
   // range(self 1 -(n+1))
-  var_range, 3, var_1038_0_self, num_1, LOCAL(2), 1, LOCAL(3),
+  var_range, 3, var_1038_5_self, num_1, LOCAL(2), 1, LOCAL(3),
   //  range(self 1 -(n+1))
   LET, 1, LOCAL(3), TAIL_CALL,
   POS(1044, 23),
@@ -2538,15 +2538,15 @@ static TAB_NUM t_lambda_72[] = {
   0, // locals
   0, // parameters
   //  self
-  LET, 1, var_1038_0_self, TAIL_CALL,
+  LET, 1, var_1038_5_self, TAIL_CALL,
   POS(1045, 7)
 };
 
 static TAB_NUM t_func_std_types__string___contains[] = {
   4, // locals
   2, // parameters
-  LOCAL(2), // 1070_0_self
-  LOCAL(3), // 1071_0_expr
+  LOCAL(2), // 1070_5_self
+  LOCAL(3), // 1071_5_expr
   // search $pos $_len expr self
   var_search, 2, LOCAL(3), LOCAL(2), 2, LOCAL(4), LOCAL(1),
   // is_defined
@@ -2561,12 +2561,12 @@ static TAB_NUM t_func_std_types__string___contains[] = {
 static TAB_NUM t_func_std__split[] = {
   1, // locals
   -2, // parameters
-  MANDATORY_PARAMETER, var_1110_0_self,
-  chr_32, var_1111_0_separator,
+  MANDATORY_PARAMETER, var_1110_5_self,
+  chr_32, var_1111_5_separator,
   // $rc result_count()
-  var_result_count, 0, 1, var_1113_1_rc,
+  var_result_count, 0, 1, var_1113_4_rc,
   // is_empty
-  var_is_empty, 1, var_1110_0_self, 1, LOCAL(1),
+  var_is_empty, 1, var_1110_5_self, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_73, lambda_74, TAIL_CALL,
   POS(1113, 3),
@@ -2586,7 +2586,7 @@ static TAB_NUM t_lambda_74[] = {
   0, // locals
   0, // parameters
   // $items empty_list
-  LET, 1, var_empty_list, 1, var_1118_1_items,
+  LET, 1, var_empty_list, 1, var_1118_8_items,
   // loop:
   var_loop, 1, lambda_2_loop, TAIL_CALL,
   POS(1118, 7),
@@ -2597,9 +2597,9 @@ static TAB_NUM t_lambda_2_loop[] = {
   1, // locals
   0, // parameters
   // search $pos $len separator self
-  var_search, 2, var_1111_0_separator, var_1110_0_self, 2, var_1120_8_pos, var_1120_13_len,
+  var_search, 2, var_1111_5_separator, var_1110_5_self, 2, var_1120_17_pos, var_1120_22_len,
   // is_defined:
-  var_is_defined, 1, var_1120_8_pos, 1, LOCAL(1),
+  var_is_defined, 1, var_1120_17_pos, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_pos_is_defined, lambda_75, TAIL_CALL,
   POS(1120, 9),
@@ -2611,15 +2611,15 @@ static TAB_NUM t_lambda_pos_is_defined[] = {
   2, // locals
   0, // parameters
   // pos-1)
-  var_std__minus, 2, var_1120_8_pos, num_1, 1, LOCAL(1),
+  var_std__minus, 2, var_1120_17_pos, num_1, 1, LOCAL(1),
   // range(self 1 pos-1)
-  var_range, 3, var_1110_0_self, num_1, LOCAL(1), 1, LOCAL(2),
+  var_range, 3, var_1110_5_self, num_1, LOCAL(1), 1, LOCAL(2),
   // push &items range(self 1 pos-1)
-  var_push, 2, var_1118_1_items, LOCAL(2), 1, var_1118_1_items,
+  var_push, 2, var_1118_8_items, LOCAL(2), 1, var_1118_8_items,
   // pos+len -1
-  var_std__plus, 2, var_1120_8_pos, var_1120_13_len, 1, LOCAL(1),
+  var_std__plus, 2, var_1120_17_pos, var_1120_22_len, 1, LOCAL(1),
   // range &self pos+len -1
-  var_range, 3, var_1110_0_self, LOCAL(1), minus_num_1, 1, var_1110_0_self,
+  var_range, 3, var_1110_5_self, LOCAL(1), minus_num_1, 1, var_1110_5_self,
   // next
   var_next, 0, TAIL_CALL,
   POS(1123, 38),
@@ -2634,9 +2634,9 @@ static TAB_NUM t_lambda_75[] = {
   1, // locals
   0, // parameters
   // push &items self
-  var_push, 2, var_1118_1_items, var_1110_0_self, 1, var_1118_1_items,
+  var_push, 2, var_1118_8_items, var_1110_5_self, 1, var_1118_8_items,
   // rc == 1
-  var_std__equal, 2, var_1113_1_rc, num_1, 1, LOCAL(1),
+  var_std__equal, 2, var_1113_4_rc, num_1, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_76, lambda_77, TAIL_CALL,
   POS(1127, 13),
@@ -2648,7 +2648,7 @@ static TAB_NUM t_lambda_76[] = {
   0, // locals
   0, // parameters
   //  items
-  LET, 1, var_1118_1_items, TAIL_CALL,
+  LET, 1, var_1118_8_items, TAIL_CALL,
   POS(1130, 17)
 };
 
@@ -2656,17 +2656,17 @@ static TAB_NUM t_lambda_77[] = {
   0, // locals
   0, // parameters
   // spread items
-  var_spread, 1, var_1118_1_items, TAIL_CALL,
+  var_spread, 1, var_1118_8_items, TAIL_CALL,
   POS(1132, 17)
 };
 
 static TAB_NUM t_func_std__join[] = {
   1, // locals
   -2, // parameters
-  MANDATORY_PARAMETER, LOCAL(1), // 1157_0_items
-  string_2, var_1158_0_separator,
+  MANDATORY_PARAMETER, LOCAL(1), // 1157_5_items
+  string_2, var_1158_5_separator,
   // to_string &separator
-  var_to_string, 1, var_1158_0_separator, 1, var_1158_0_separator,
+  var_to_string, 1, var_1158_5_separator, 1, var_1158_5_separator,
   // map_reduce
   var_map_reduce, 4, LOCAL(1), var_to_string, lambda_78, string_1, TAIL_CALL,
   POS(1160, 3),
@@ -2676,22 +2676,22 @@ static TAB_NUM t_func_std__join[] = {
 static TAB_NUM t_lambda_78[] = {
   2, // locals
   2, // parameters
-  LOCAL(1), // 1163_3_left
-  LOCAL(2), // 1163_8_right
+  LOCAL(1), // 1163_8_left
+  LOCAL(2), // 1163_13_right
   // append left separator right
-  var_append, 3, LOCAL(1), var_1158_0_separator, LOCAL(2), TAIL_CALL,
+  var_append, 3, LOCAL(1), var_1158_5_separator, LOCAL(2), TAIL_CALL,
   POS(1163, 20)
 };
 
 static TAB_NUM t_func_std__trim[] = {
   0, // locals
   -2, // parameters
-  MANDATORY_PARAMETER, var_1187_0_self,
-  var_is_a_whitespace_character, var_1188_0_test,
+  MANDATORY_PARAMETER, var_1187_5_self,
+  var_is_a_whitespace_character, var_1188_5_test,
   // $s 1
-  LET, 1, num_1, 1, var_1190_1_s,
+  LET, 1, num_1, 1, var_1190_4_s,
   // $e length_of(self)
-  var_length_of, 1, var_1187_0_self, 1, var_1191_1_e,
+  var_length_of, 1, var_1187_5_self, 1, var_1191_4_e,
   // loop:
   var_loop, 1, lambda_3_loop, TAIL_CALL,
   POS(1190, 3),
@@ -2703,7 +2703,7 @@ static TAB_NUM t_lambda_3_loop[] = {
   3, // locals
   0, // parameters
   // e && test(self(s)):
-  var_std__less, 2, var_1191_1_e, var_1190_1_s, 1, LOCAL(1),
+  var_std__less, 2, var_1191_4_e, var_1190_4_s, 1, LOCAL(1),
   // e && test(self(s)):
   var_std__not, 1, LOCAL(1), 1, LOCAL(2),
   // e && test(self(s)):
@@ -2720,9 +2720,9 @@ static TAB_NUM t_lambda_79[] = {
   2, // locals
   0, // parameters
   // self(s)):
-  var_1187_0_self, 1, var_1190_1_s, 1, LOCAL(1),
+  var_1187_5_self, 1, var_1190_4_s, 1, LOCAL(1),
   // test(self(s)):
-  var_1188_0_test, 1, LOCAL(1), 1, LOCAL(2),
+  var_1188_5_test, 1, LOCAL(1), 1, LOCAL(2),
   // test(self(s)):
   LET, 1, LOCAL(2), TAIL_CALL,
   POS(1194, 22),
@@ -2734,7 +2734,7 @@ static TAB_NUM t_lambda_80[] = {
   0, // locals
   0, // parameters
   // inc &s
-  var_inc, 1, var_1190_1_s, 1, var_1190_1_s,
+  var_inc, 1, var_1190_4_s, 1, var_1190_4_s,
   // next
   var_next, 0, TAIL_CALL,
   POS(1195, 9),
@@ -2753,7 +2753,7 @@ static TAB_NUM t_lambda_4_loop[] = {
   3, // locals
   0, // parameters
   // e >= s && test(self(e)):
-  var_std__less, 2, var_1191_1_e, var_1190_1_s, 1, LOCAL(1),
+  var_std__less, 2, var_1191_4_e, var_1190_4_s, 1, LOCAL(1),
   // e >= s && test(self(e)):
   var_std__not, 1, LOCAL(1), 1, LOCAL(2),
   // e >= s && test(self(e)):
@@ -2770,9 +2770,9 @@ static TAB_NUM t_lambda_82[] = {
   2, // locals
   0, // parameters
   // self(e)):
-  var_1187_0_self, 1, var_1191_1_e, 1, LOCAL(1),
+  var_1187_5_self, 1, var_1191_4_e, 1, LOCAL(1),
   // test(self(e)):
-  var_1188_0_test, 1, LOCAL(1), 1, LOCAL(2),
+  var_1188_5_test, 1, LOCAL(1), 1, LOCAL(2),
   // test(self(e)):
   LET, 1, LOCAL(2), TAIL_CALL,
   POS(1200, 28),
@@ -2784,7 +2784,7 @@ static TAB_NUM t_lambda_83[] = {
   0, // locals
   0, // parameters
   // dec &e
-  var_dec, 1, var_1191_1_e, 1, var_1191_1_e,
+  var_dec, 1, var_1191_4_e, 1, var_1191_4_e,
   // next
   var_next, 0, TAIL_CALL,
   POS(1201, 15),
@@ -2795,19 +2795,19 @@ static TAB_NUM t_lambda_84[] = {
   0, // locals
   0, // parameters
   // range self s e
-  var_range, 3, var_1187_0_self, var_1190_1_s, var_1191_1_e, TAIL_CALL,
+  var_range, 3, var_1187_5_self, var_1190_4_s, var_1191_4_e, TAIL_CALL,
   POS(1204, 15)
 };
 
 static TAB_NUM t_func_std__trim_left[] = {
   0, // locals
   -2, // parameters
-  MANDATORY_PARAMETER, var_1227_0_self,
-  var_is_a_whitespace_character, var_1228_0_test,
+  MANDATORY_PARAMETER, var_1227_5_self,
+  var_is_a_whitespace_character, var_1228_5_test,
   // $s 1
-  LET, 1, num_1, 1, var_1230_1_s,
+  LET, 1, num_1, 1, var_1230_4_s,
   // $e length_of(self)
-  var_length_of, 1, var_1227_0_self, 1, var_1231_1_e,
+  var_length_of, 1, var_1227_5_self, 1, var_1231_4_e,
   // loop:
   var_loop, 1, lambda_5_loop, TAIL_CALL,
   POS(1230, 3),
@@ -2819,7 +2819,7 @@ static TAB_NUM t_lambda_5_loop[] = {
   3, // locals
   0, // parameters
   // e && test(self(s)):
-  var_std__less, 2, var_1231_1_e, var_1230_1_s, 1, LOCAL(1),
+  var_std__less, 2, var_1231_4_e, var_1230_4_s, 1, LOCAL(1),
   // e && test(self(s)):
   var_std__not, 1, LOCAL(1), 1, LOCAL(2),
   // e && test(self(s)):
@@ -2836,9 +2836,9 @@ static TAB_NUM t_lambda_85[] = {
   2, // locals
   0, // parameters
   // self(s)):
-  var_1227_0_self, 1, var_1230_1_s, 1, LOCAL(1),
+  var_1227_5_self, 1, var_1230_4_s, 1, LOCAL(1),
   // test(self(s)):
-  var_1228_0_test, 1, LOCAL(1), 1, LOCAL(2),
+  var_1228_5_test, 1, LOCAL(1), 1, LOCAL(2),
   // test(self(s)):
   LET, 1, LOCAL(2), TAIL_CALL,
   POS(1234, 22),
@@ -2850,7 +2850,7 @@ static TAB_NUM t_lambda_86[] = {
   0, // locals
   0, // parameters
   // inc &s
-  var_inc, 1, var_1230_1_s, 1, var_1230_1_s,
+  var_inc, 1, var_1230_4_s, 1, var_1230_4_s,
   // next
   var_next, 0, TAIL_CALL,
   POS(1235, 9),
@@ -2861,17 +2861,17 @@ static TAB_NUM t_lambda_87[] = {
   0, // locals
   0, // parameters
   // range self s e
-  var_range, 3, var_1227_0_self, var_1230_1_s, var_1231_1_e, TAIL_CALL,
+  var_range, 3, var_1227_5_self, var_1230_4_s, var_1231_4_e, TAIL_CALL,
   POS(1238, 9)
 };
 
 static TAB_NUM t_func_std__trim_right[] = {
   0, // locals
   -2, // parameters
-  MANDATORY_PARAMETER, var_1261_0_self,
-  var_is_a_whitespace_character, var_1262_0_test,
+  MANDATORY_PARAMETER, var_1261_5_self,
+  var_is_a_whitespace_character, var_1262_5_test,
   // $e length_of(self)
-  var_length_of, 1, var_1261_0_self, 1, var_1264_1_e,
+  var_length_of, 1, var_1261_5_self, 1, var_1264_4_e,
   // loop:
   var_loop, 1, lambda_6_loop, TAIL_CALL,
   POS(1264, 3),
@@ -2882,7 +2882,7 @@ static TAB_NUM t_lambda_6_loop[] = {
   3, // locals
   0, // parameters
   // e >= 1 && test(self(e)):
-  var_std__less, 2, var_1264_1_e, num_1, 1, LOCAL(1),
+  var_std__less, 2, var_1264_4_e, num_1, 1, LOCAL(1),
   // e >= 1 && test(self(e)):
   var_std__not, 1, LOCAL(1), 1, LOCAL(2),
   // e >= 1 && test(self(e)):
@@ -2899,9 +2899,9 @@ static TAB_NUM t_lambda_88[] = {
   2, // locals
   0, // parameters
   // self(e)):
-  var_1261_0_self, 1, var_1264_1_e, 1, LOCAL(1),
+  var_1261_5_self, 1, var_1264_4_e, 1, LOCAL(1),
   // test(self(e)):
-  var_1262_0_test, 1, LOCAL(1), 1, LOCAL(2),
+  var_1262_5_test, 1, LOCAL(1), 1, LOCAL(2),
   // test(self(e)):
   LET, 1, LOCAL(2), TAIL_CALL,
   POS(1267, 22),
@@ -2913,7 +2913,7 @@ static TAB_NUM t_lambda_89[] = {
   0, // locals
   0, // parameters
   // dec &e
-  var_dec, 1, var_1264_1_e, 1, var_1264_1_e,
+  var_dec, 1, var_1264_4_e, 1, var_1264_4_e,
   // next
   var_next, 0, TAIL_CALL,
   POS(1268, 9),
@@ -2924,20 +2924,20 @@ static TAB_NUM t_lambda_90[] = {
   0, // locals
   0, // parameters
   // range self 1 e
-  var_range, 3, var_1261_0_self, num_1, var_1264_1_e, TAIL_CALL,
+  var_range, 3, var_1261_5_self, num_1, var_1264_4_e, TAIL_CALL,
   POS(1271, 9)
 };
 
 static TAB_NUM t_func_std__normalize[] = {
   0, // locals
   1, // parameters
-  var_1295_0_self,
+  var_1295_5_self,
   // $buf ""
-  LET, 1, string_1, 1, var_1297_1_buf,
+  LET, 1, string_1, 1, var_1297_4_buf,
   // $e length_of(self)
-  var_length_of, 1, var_1295_0_self, 1, var_1298_1_e,
+  var_length_of, 1, var_1295_5_self, 1, var_1298_4_e,
   // $i 0
-  LET, 1, num_0, 1, var_1299_1_i,
+  LET, 1, num_0, 1, var_1299_4_i,
   // loop:
   var_loop, 1, lambda_7_loop, TAIL_CALL,
   POS(1297, 3),
@@ -2958,9 +2958,9 @@ static TAB_NUM t_lambda_91[] = {
   1, // locals
   0, // parameters
   // inc &i
-  var_inc, 1, var_1299_1_i, 1, var_1299_1_i,
+  var_inc, 1, var_1299_4_i, 1, var_1299_4_i,
   // e
-  var_std__less, 2, var_1298_1_e, var_1299_1_i, 1, LOCAL(1),
+  var_std__less, 2, var_1298_4_e, var_1299_4_i, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_92, lambda_93, TAIL_CALL,
   POS(1303, 9),
@@ -2972,7 +2972,7 @@ static TAB_NUM t_lambda_92[] = {
   0, // locals
   0, // parameters
   //  buf
-  LET, 1, var_1297_1_buf, TAIL_CALL,
+  LET, 1, var_1297_4_buf, TAIL_CALL,
   POS(1306, 13)
 };
 
@@ -2980,7 +2980,7 @@ static TAB_NUM t_lambda_93[] = {
   2, // locals
   0, // parameters
   // self(i).is_a_whitespace_character
-  var_1295_0_self, 1, var_1299_1_i, 1, LOCAL(1),
+  var_1295_5_self, 1, var_1299_4_i, 1, LOCAL(1),
   // is_a_whitespace_character
   var_is_a_whitespace_character, 1, LOCAL(1), 1, LOCAL(2),
   // if
@@ -2994,11 +2994,11 @@ static TAB_NUM t_lambda_94[] = {
   1, // locals
   0, // parameters
   // is_not_empty &buf -> push(buf ' ')
-  var_is_not_empty, 1, var_1297_1_buf, 1, LOCAL(1),
+  var_is_not_empty, 1, var_1297_4_buf, 1, LOCAL(1),
   // update_if buf.is_not_empty &buf -> push(buf ' ')
-  var_update_if, 3, LOCAL(1), var_1297_1_buf, lambda_95, 1, var_1297_1_buf,
+  var_update_if, 3, LOCAL(1), var_1297_4_buf, lambda_95, 1, var_1297_4_buf,
   // $s i
-  LET, 1, var_1299_1_i, 1, var_1314_1_s,
+  LET, 1, var_1299_4_i, 1, var_1314_10_s,
   // loop
   var_loop, 2, lambda_96, lambda_99, TAIL_CALL,
   POS(1313, 23),
@@ -3011,7 +3011,7 @@ static TAB_NUM t_lambda_95[] = {
   1, // locals
   0, // parameters
   // push(buf ' ')
-  var_push, 2, var_1297_1_buf, chr_32, 1, LOCAL(1),
+  var_push, 2, var_1297_4_buf, chr_32, 1, LOCAL(1),
   //  push(buf ' ')
   LET, 1, LOCAL(1), TAIL_CALL,
   POS(1313, 44),
@@ -3022,9 +3022,9 @@ static TAB_NUM t_lambda_96[] = {
   1, // locals
   0, // parameters
   // inc &i
-  var_inc, 1, var_1299_1_i, 1, var_1299_1_i,
+  var_inc, 1, var_1299_4_i, 1, var_1299_4_i,
   // e
-  var_std__less, 2, var_1298_1_e, var_1299_1_i, 1, LOCAL(1),
+  var_std__less, 2, var_1298_4_e, var_1299_4_i, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_97, lambda_98, TAIL_CALL,
   POS(1317, 13),
@@ -3036,9 +3036,9 @@ static TAB_NUM t_lambda_97[] = {
   2, // locals
   0, // parameters
   // range(self s e))
-  var_range, 3, var_1295_0_self, var_1314_1_s, var_1298_1_e, 1, LOCAL(1),
+  var_range, 3, var_1295_5_self, var_1314_10_s, var_1298_4_e, 1, LOCAL(1),
   // append(buf range(self s e))
-  var_append, 2, var_1297_1_buf, LOCAL(1), 1, LOCAL(2),
+  var_append, 2, var_1297_4_buf, LOCAL(1), 1, LOCAL(2),
   //  append(buf range(self s e))
   LET, 1, LOCAL(2), TAIL_CALL,
   POS(1320, 29),
@@ -3050,7 +3050,7 @@ static TAB_NUM t_lambda_98[] = {
   2, // locals
   0, // parameters
   // self(i).is_a_whitespace_character
-  var_1295_0_self, 1, var_1299_1_i, 1, LOCAL(1),
+  var_1295_5_self, 1, var_1299_4_i, 1, LOCAL(1),
   // is_a_whitespace_character
   var_is_a_whitespace_character, 1, LOCAL(1), 1, LOCAL(2),
   // if
@@ -3064,11 +3064,11 @@ static TAB_NUM t_lambda_99[] = {
   2, // locals
   0, // parameters
   // i-1)
-  var_std__minus, 2, var_1299_1_i, num_1, 1, LOCAL(1),
+  var_std__minus, 2, var_1299_4_i, num_1, 1, LOCAL(1),
   // range(self s i-1)
-  var_range, 3, var_1295_0_self, var_1314_1_s, LOCAL(1), 1, LOCAL(2),
+  var_range, 3, var_1295_5_self, var_1314_10_s, LOCAL(1), 1, LOCAL(2),
   // append &buf range(self s i-1)
-  var_append, 2, var_1297_1_buf, LOCAL(2), 1, var_1297_1_buf,
+  var_append, 2, var_1297_4_buf, LOCAL(2), 1, var_1297_4_buf,
   // next
   var_next, 0, TAIL_CALL,
   POS(1327, 38),
@@ -3080,9 +3080,9 @@ static TAB_NUM t_lambda_99[] = {
 static TAB_NUM t_func_std_types__octet_string___to_base64[] = {
   0, // locals
   1, // parameters
-  var_1346_0_str,
+  var_1346_5_str,
   // $base64 ""
-  LET, 1, string_1, 1, var_1348_1_base64,
+  LET, 1, string_1, 1, var_1348_4_base64,
   // loop:
   var_loop, 1, lambda_8_loop, TAIL_CALL,
   POS(1348, 3),
@@ -3093,9 +3093,9 @@ static TAB_NUM t_lambda_8_loop[] = {
   2, // locals
   0, // parameters
   // $len length_of(str)
-  var_length_of, 1, var_1346_0_str, 1, var_1350_1_len,
+  var_length_of, 1, var_1346_5_str, 1, var_1350_6_len,
   // len >= 3:
-  var_std__less, 2, var_1350_1_len, num_3, 1, LOCAL(1),
+  var_std__less, 2, var_1350_6_len, num_3, 1, LOCAL(1),
   // len >= 3:
   var_std__not, 1, LOCAL(1), 1, LOCAL(2),
   // if
@@ -3110,13 +3110,13 @@ static TAB_NUM t_lambda_100[] = {
   2, // locals
   0, // parameters
   // range(str 1 3))
-  var_range, 3, var_1346_0_str, num_1, num_3, 1, LOCAL(1),
+  var_range, 3, var_1346_5_str, num_1, num_3, 1, LOCAL(1),
   // encode(range(str 1 3))
   func_encode, 1, LOCAL(1), 1, LOCAL(2),
   // append &base64 encode(range(str 1 3))
-  var_append, 2, var_1348_1_base64, LOCAL(2), 1, var_1348_1_base64,
+  var_append, 2, var_1348_4_base64, LOCAL(2), 1, var_1348_4_base64,
   // range &str 4 -1
-  var_range, 3, var_1346_0_str, num_4, minus_num_1, 1, var_1346_0_str,
+  var_range, 3, var_1346_5_str, num_4, minus_num_1, 1, var_1346_5_str,
   // next
   var_next, 0, TAIL_CALL,
   POS(1353, 31),
@@ -3130,7 +3130,7 @@ static TAB_NUM t_lambda_101[] = {
   1, // locals
   0, // parameters
   // len == 0
-  var_std__equal, 2, var_1350_1_len, num_0, 1, LOCAL(1),
+  var_std__equal, 2, var_1350_6_len, num_0, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_102, lambda_103, TAIL_CALL,
   POS(1358, 11),
@@ -3141,7 +3141,7 @@ static TAB_NUM t_lambda_102[] = {
   0, // locals
   0, // parameters
   //  base64
-  LET, 1, var_1348_1_base64, TAIL_CALL,
+  LET, 1, var_1348_4_base64, TAIL_CALL,
   POS(1359, 13)
 };
 
@@ -3149,17 +3149,17 @@ static TAB_NUM t_lambda_103[] = {
   2, // locals
   0, // parameters
   // 3-len)
-  var_std__minus, 2, num_3, var_1350_1_len, 1, LOCAL(1),
+  var_std__minus, 2, num_3, var_1350_6_len, 1, LOCAL(1),
   // dup("@0;" 3-len)
   var_dup, 2, string_7, LOCAL(1), 1, LOCAL(2),
   // append &str dup("@0;" 3-len)
-  var_append, 2, var_1346_0_str, LOCAL(2), 1, var_1346_0_str,
+  var_append, 2, var_1346_5_str, LOCAL(2), 1, var_1346_5_str,
   // encode(str)
-  func_encode, 1, var_1346_0_str, 1, LOCAL(1),
+  func_encode, 1, var_1346_5_str, 1, LOCAL(1),
   // append &base64 encode(str)
-  var_append, 2, var_1348_1_base64, LOCAL(1), 1, var_1348_1_base64,
+  var_append, 2, var_1348_4_base64, LOCAL(1), 1, var_1348_4_base64,
   // case len
-  var_case, 5, var_1350_1_len, num_1, lambda_104, num_2, lambda_105, TAIL_CALL,
+  var_case, 5, var_1350_6_len, num_1, lambda_104, num_2, lambda_105, TAIL_CALL,
   POS(1361, 35),
   POS(1361, 25),
   POS(1361, 13),
@@ -3172,7 +3172,7 @@ static TAB_NUM t_lambda_104[] = {
   2, // locals
   0, // parameters
   // range(base64 1 -3) "==")
-  var_range, 3, var_1348_1_base64, num_1, minus_num_3, 1, LOCAL(1),
+  var_range, 3, var_1348_4_base64, num_1, minus_num_3, 1, LOCAL(1),
   // append(range(base64 1 -3) "==")
   var_append, 2, LOCAL(1), string_8, 1, LOCAL(2),
   //  append(range(base64 1 -3) "==")
@@ -3186,7 +3186,7 @@ static TAB_NUM t_lambda_105[] = {
   2, // locals
   0, // parameters
   // range(base64 1 -2) '=')
-  var_range, 3, var_1348_1_base64, num_1, minus_num_2, 1, LOCAL(1),
+  var_range, 3, var_1348_4_base64, num_1, minus_num_2, 1, LOCAL(1),
   // push(range(base64 1 -2) '=')
   var_push, 2, LOCAL(1), chr_61, 1, LOCAL(2),
   //  push(range(base64 1 -2) '=')
@@ -3199,7 +3199,7 @@ static TAB_NUM t_lambda_105[] = {
 static TAB_NUM t_func_encode[] = {
   10, // locals
   1, // parameters
-  LOCAL(10), // 1367_10_three_octets
+  LOCAL(10), // 1367_13_three_octets
   // three_octets(1).to_integer << 16
   LOCAL(10), 1, num_1, 1, LOCAL(1),
   // to_integer << 16
@@ -3219,9 +3219,9 @@ static TAB_NUM t_func_encode[] = {
   // to_integer
   var_to_integer, 1, LOCAL(8), 1, LOCAL(9),
   // $bits
-  var_std__bit_or, 2, LOCAL(7), LOCAL(9), 1, var_1369_1_bits,
+  var_std__bit_or, 2, LOCAL(7), LOCAL(9), 1, var_1369_6_bits,
   // $buf ""
-  LET, 1, string_1, 1, var_1374_1_buf,
+  LET, 1, string_1, 1, var_1374_6_buf,
   // repeat 4
   var_repeat, 3, num_4, lambda_106, lambda_112, TAIL_CALL,
   POS(1371, 9),
@@ -3242,13 +3242,13 @@ static TAB_NUM t_lambda_106[] = {
   1, // locals
   0, // parameters
   // $value bits >> 18
-  var_std__shift_right, 2, var_1369_1_bits, num_18, 1, var_1377_1_value,
+  var_std__shift_right, 2, var_1369_6_bits, num_18, 1, var_1377_10_value,
   // bits & 0x3ffff) << 6
-  var_std__bit_and, 2, var_1369_1_bits, num_0x3ffff, 1, LOCAL(1),
+  var_std__bit_and, 2, var_1369_6_bits, num_0x3ffff, 1, LOCAL(1),
   // !bits (bits & 0x3ffff) << 6
-  var_std__shift_left, 2, LOCAL(1), num_6, 1, var_1369_1_bits,
+  var_std__shift_left, 2, LOCAL(1), num_6, 1, var_1369_6_bits,
   // case value
-  var_case, 11, var_1377_1_value, value_range_1380_0, lambda_107, value_range_1383_0, lambda_108, value_range_1386_0, lambda_109, num_62, lambda_110, num_63, lambda_111, TAIL_CALL,
+  var_case, 11, var_1377_10_value, value_range_1380_11, lambda_107, value_range_1383_11, lambda_108, value_range_1386_11, lambda_109, num_62, lambda_110, num_63, lambda_111, TAIL_CALL,
   POS(1377, 9),
   POS(1378, 16),
   POS(1378, 9),
@@ -3259,9 +3259,9 @@ static TAB_NUM t_lambda_107[] = {
   1, // locals
   0, // parameters
   // A'+value
-  var_std__plus, 2, chr_65, var_1377_1_value, 1, LOCAL(1),
+  var_std__plus, 2, chr_65, var_1377_10_value, 1, LOCAL(1),
   // push &buf 'A'+value
-  var_push, 2, var_1374_1_buf, LOCAL(1), 1, var_1374_1_buf,
+  var_push, 2, var_1374_6_buf, LOCAL(1), 1, var_1374_6_buf,
   // next
   var_next, 0, TAIL_CALL,
   POS(1381, 24),
@@ -3273,11 +3273,11 @@ static TAB_NUM t_lambda_108[] = {
   2, // locals
   0, // parameters
   // value-26)
-  var_std__minus, 2, var_1377_1_value, num_26, 1, LOCAL(1),
+  var_std__minus, 2, var_1377_10_value, num_26, 1, LOCAL(1),
   // a'+(value-26)
   var_std__plus, 2, chr_97, LOCAL(1), 1, LOCAL(2),
   // push &buf 'a'+(value-26)
-  var_push, 2, var_1374_1_buf, LOCAL(2), 1, var_1374_1_buf,
+  var_push, 2, var_1374_6_buf, LOCAL(2), 1, var_1374_6_buf,
   // next
   var_next, 0, TAIL_CALL,
   POS(1384, 28),
@@ -3290,11 +3290,11 @@ static TAB_NUM t_lambda_109[] = {
   2, // locals
   0, // parameters
   // value-52)
-  var_std__minus, 2, var_1377_1_value, num_52, 1, LOCAL(1),
+  var_std__minus, 2, var_1377_10_value, num_52, 1, LOCAL(1),
   // 0'+(value-52)
   var_std__plus, 2, chr_48, LOCAL(1), 1, LOCAL(2),
   // push &buf '0'+(value-52)
-  var_push, 2, var_1374_1_buf, LOCAL(2), 1, var_1374_1_buf,
+  var_push, 2, var_1374_6_buf, LOCAL(2), 1, var_1374_6_buf,
   // next
   var_next, 0, TAIL_CALL,
   POS(1387, 28),
@@ -3307,7 +3307,7 @@ static TAB_NUM t_lambda_110[] = {
   0, // locals
   0, // parameters
   // push &buf '+'
-  var_push, 2, var_1374_1_buf, chr_43, 1, var_1374_1_buf,
+  var_push, 2, var_1374_6_buf, chr_43, 1, var_1374_6_buf,
   // next
   var_next, 0, TAIL_CALL,
   POS(1390, 13),
@@ -3318,7 +3318,7 @@ static TAB_NUM t_lambda_111[] = {
   0, // locals
   0, // parameters
   // push &buf '/'
-  var_push, 2, var_1374_1_buf, chr_47, 1, var_1374_1_buf,
+  var_push, 2, var_1374_6_buf, chr_47, 1, var_1374_6_buf,
   // next
   var_next, 0, TAIL_CALL,
   POS(1393, 13),
@@ -3329,18 +3329,18 @@ static TAB_NUM t_lambda_112[] = {
   0, // locals
   0, // parameters
   //  buf
-  LET, 1, var_1374_1_buf, TAIL_CALL,
+  LET, 1, var_1374_6_buf, TAIL_CALL,
   POS(1395, 9)
 };
 
 static TAB_NUM t_func_std_types__octet_string___from_base64[] = {
   4, // locals
   1, // parameters
-  var_1416_0_str,
+  var_1416_5_str,
   // $octets ""
-  LET, 1, string_1, 1, var_1418_1_octets,
+  LET, 1, string_1, 1, var_1418_4_octets,
   // length_of(str) .mod. 4) != 0
-  var_length_of, 1, var_1416_0_str, 1, LOCAL(1),
+  var_length_of, 1, var_1416_5_str, 1, LOCAL(1),
   // length_of(str) .mod. 4) != 0
   var_mod, 2, LOCAL(1), num_4, 1, LOCAL(2),
   // length_of(str) .mod. 4) != 0
@@ -3377,7 +3377,7 @@ static TAB_NUM t_lambda_9_loop[] = {
   1, // locals
   0, // parameters
   // is_empty
-  var_is_empty, 1, var_1416_0_str, 1, LOCAL(1),
+  var_is_empty, 1, var_1416_5_str, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_115, lambda_116, TAIL_CALL,
   POS(1425, 15),
@@ -3388,7 +3388,7 @@ static TAB_NUM t_lambda_115[] = {
   0, // locals
   0, // parameters
   //  octets
-  LET, 1, var_1418_1_octets, TAIL_CALL,
+  LET, 1, var_1418_4_octets, TAIL_CALL,
   POS(1426, 13)
 };
 
@@ -3396,7 +3396,7 @@ static TAB_NUM t_lambda_116[] = {
   0, // locals
   0, // parameters
   // $bits 0
-  LET, 1, num_0, 1, var_1428_1_bits,
+  LET, 1, num_0, 1, var_1428_14_bits,
   // from_to 1 4
   var_from_to, 4, num_1, num_4, lambda_117, lambda_120, TAIL_CALL,
   POS(1428, 13),
@@ -3406,13 +3406,13 @@ static TAB_NUM t_lambda_116[] = {
 static TAB_NUM t_lambda_117[] = {
   2, // locals
   1, // parameters
-  LOCAL(2), // 1430_3_i
+  LOCAL(2), // 1430_18_i
   // str(i))
-  var_1416_0_str, 1, LOCAL(2), 1, LOCAL(1),
+  var_1416_5_str, 1, LOCAL(2), 1, LOCAL(1),
   // $value decode(str(i))
-  func_decode, 1, LOCAL(1), 1, var_1431_1_value,
+  func_decode, 1, LOCAL(1), 1, var_1431_18_value,
   // is_undefined
-  var_is_undefined, 1, var_1431_1_value, 1, LOCAL(1),
+  var_is_undefined, 1, var_1431_18_value, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_118, lambda_119, TAIL_CALL,
   POS(1431, 31),
@@ -3433,9 +3433,9 @@ static TAB_NUM t_lambda_119[] = {
   1, // locals
   0, // parameters
   // bits << 6) | value
-  var_std__shift_left, 2, var_1428_1_bits, num_6, 1, LOCAL(1),
+  var_std__shift_left, 2, var_1428_14_bits, num_6, 1, LOCAL(1),
   // !bits (bits << 6) | value
-  var_std__bit_or, 2, LOCAL(1), var_1431_1_value, 1, var_1428_1_bits,
+  var_std__bit_or, 2, LOCAL(1), var_1431_18_value, 1, var_1428_14_bits,
   // next
   var_next, 0, TAIL_CALL,
   POS(1436, 28),
@@ -3447,27 +3447,27 @@ static TAB_NUM t_lambda_120[] = {
   3, // locals
   0, // parameters
   // bits >> 16)
-  var_std__shift_right, 2, var_1428_1_bits, num_16, 1, LOCAL(1),
+  var_std__shift_right, 2, var_1428_14_bits, num_16, 1, LOCAL(1),
   // character(bits >> 16)
   var_character, 1, LOCAL(1), 1, LOCAL(2),
   // push &octets character(bits >> 16)
-  var_push, 2, var_1418_1_octets, LOCAL(2), 1, var_1418_1_octets,
+  var_push, 2, var_1418_4_octets, LOCAL(2), 1, var_1418_4_octets,
   // bits >> 8) & 0xff)
-  var_std__shift_right, 2, var_1428_1_bits, num_8, 1, LOCAL(1),
+  var_std__shift_right, 2, var_1428_14_bits, num_8, 1, LOCAL(1),
   // bits >> 8) & 0xff)
   var_std__bit_and, 2, LOCAL(1), num_0xff, 1, LOCAL(2),
   // character((bits >> 8) & 0xff)
   var_character, 1, LOCAL(2), 1, LOCAL(3),
   // push &octets character((bits >> 8) & 0xff)
-  var_push, 2, var_1418_1_octets, LOCAL(3), 1, var_1418_1_octets,
+  var_push, 2, var_1418_4_octets, LOCAL(3), 1, var_1418_4_octets,
   // bits & 0xff)
-  var_std__bit_and, 2, var_1428_1_bits, num_0xff, 1, LOCAL(1),
+  var_std__bit_and, 2, var_1428_14_bits, num_0xff, 1, LOCAL(1),
   // character(bits & 0xff)
   var_character, 1, LOCAL(1), 1, LOCAL(2),
   // push &octets character(bits & 0xff)
-  var_push, 2, var_1418_1_octets, LOCAL(2), 1, var_1418_1_octets,
+  var_push, 2, var_1418_4_octets, LOCAL(2), 1, var_1418_4_octets,
   // str(4) == '=':
-  var_1416_0_str, 1, num_4, 1, LOCAL(1),
+  var_1416_5_str, 1, num_4, 1, LOCAL(1),
   // str(4) == '=':
   var_std__equal, 2, LOCAL(1), chr_61, 1, LOCAL(2),
   // if
@@ -3491,7 +3491,7 @@ static TAB_NUM t_lambda_121[] = {
   2, // locals
   0, // parameters
   // str(3) == '='
-  var_1416_0_str, 1, num_3, 1, LOCAL(1),
+  var_1416_5_str, 1, num_3, 1, LOCAL(1),
   // str(3) == '='
   var_std__equal, 2, LOCAL(1), chr_61, 1, LOCAL(2),
   // if
@@ -3505,7 +3505,7 @@ static TAB_NUM t_lambda_122[] = {
   1, // locals
   0, // parameters
   // range(octets 1 -3)
-  var_range, 3, var_1418_1_octets, num_1, minus_num_3, 1, LOCAL(1),
+  var_range, 3, var_1418_4_octets, num_1, minus_num_3, 1, LOCAL(1),
   //  range(octets 1 -3)
   LET, 1, LOCAL(1), TAIL_CALL,
   POS(1446, 26),
@@ -3516,7 +3516,7 @@ static TAB_NUM t_lambda_123[] = {
   1, // locals
   0, // parameters
   // range(octets 1 -2)
-  var_range, 3, var_1418_1_octets, num_1, minus_num_2, 1, LOCAL(1),
+  var_range, 3, var_1418_4_octets, num_1, minus_num_2, 1, LOCAL(1),
   //  range(octets 1 -2)
   LET, 1, LOCAL(1), TAIL_CALL,
   POS(1447, 26),
@@ -3527,7 +3527,7 @@ static TAB_NUM t_lambda_124[] = {
   0, // locals
   0, // parameters
   // range &str 5 -1
-  var_range, 3, var_1416_0_str, num_5, minus_num_1, 1, var_1416_0_str,
+  var_range, 3, var_1416_5_str, num_5, minus_num_1, 1, var_1416_5_str,
   // next
   var_next, 0, TAIL_CALL,
   POS(1449, 21),
@@ -3537,9 +3537,9 @@ static TAB_NUM t_lambda_124[] = {
 static TAB_NUM t_func_decode[] = {
   0, // locals
   1, // parameters
-  var_1452_10_chr,
+  var_1452_13_chr,
   // case chr
-  var_case, 14, var_1452_10_chr, value_range_1455_1, lambda_125, value_range_1456_1, lambda_126, value_range_1457_1, lambda_127, chr_43, lambda_128, chr_47, lambda_129, chr_61, lambda_130, lambda_131, TAIL_CALL,
+  var_case, 14, var_1452_13_chr, value_range_1455_8, lambda_125, value_range_1456_8, lambda_126, value_range_1457_8, lambda_127, chr_43, lambda_128, chr_47, lambda_129, chr_61, lambda_130, lambda_131, TAIL_CALL,
   POS(1454, 5)
 };
 
@@ -3547,7 +3547,7 @@ static TAB_NUM t_lambda_125[] = {
   1, // locals
   0, // parameters
   // chr-'A'
-  var_std__minus, 2, var_1452_10_chr, chr_65, 1, LOCAL(1),
+  var_std__minus, 2, var_1452_13_chr, chr_65, 1, LOCAL(1),
   //  chr-'A'
   LET, 1, LOCAL(1), TAIL_CALL,
   POS(1455, 21),
@@ -3558,7 +3558,7 @@ static TAB_NUM t_lambda_126[] = {
   2, // locals
   0, // parameters
   // chr-'a'+26
-  var_std__minus, 2, var_1452_10_chr, chr_97, 1, LOCAL(1),
+  var_std__minus, 2, var_1452_13_chr, chr_97, 1, LOCAL(1),
   // chr-'a'+26
   var_std__plus, 2, LOCAL(1), num_26, 1, LOCAL(2),
   //  chr-'a'+26
@@ -3572,7 +3572,7 @@ static TAB_NUM t_lambda_127[] = {
   2, // locals
   0, // parameters
   // chr-'0'+52
-  var_std__minus, 2, var_1452_10_chr, chr_48, 1, LOCAL(1),
+  var_std__minus, 2, var_1452_13_chr, chr_48, 1, LOCAL(1),
   // chr-'0'+52
   var_std__plus, 2, LOCAL(1), num_52, 1, LOCAL(2),
   //  chr-'0'+52
@@ -3617,41 +3617,41 @@ static TAB_NUM t_lambda_131[] = {
 static TAB_NUM t_func_std_types__octet_string___sha1[] = {
   4, // locals
   1, // parameters
-  var_1478_0_message,
+  var_1478_5_message,
   // $h0 0x67452301
-  LET, 1, num_0x67452301, 1, var_1482_1_h0,
+  LET, 1, num_0x67452301, 1, var_1482_4_h0,
   // $h1 0xefcdab89
-  LET, 1, num_0xefcdab89, 1, var_1483_1_h1,
+  LET, 1, num_0xefcdab89, 1, var_1483_4_h1,
   // $h2 0x98badcfe
-  LET, 1, num_0x98badcfe, 1, var_1484_1_h2,
+  LET, 1, num_0x98badcfe, 1, var_1484_4_h2,
   // $h3 0x10325476
-  LET, 1, num_0x10325476, 1, var_1485_1_h3,
+  LET, 1, num_0x10325476, 1, var_1485_4_h3,
   // $h4 0xc3d2e1f0
-  LET, 1, num_0xc3d2e1f0, 1, var_1486_1_h4,
+  LET, 1, num_0xc3d2e1f0, 1, var_1486_4_h4,
   // $len length_of(message)
-  var_length_of, 1, var_1478_0_message, 1, LOCAL(3),
+  var_length_of, 1, var_1478_5_message, 1, LOCAL(3),
   // push &message '@0x80;'
-  var_push, 2, var_1478_0_message, chr_128, 1, var_1478_0_message,
+  var_push, 2, var_1478_5_message, chr_128, 1, var_1478_5_message,
   // len+1 .mod. 512)
   var_std__plus, 2, LOCAL(3), num_1, 1, LOCAL(1),
   // len+1 .mod. 512)
   var_mod, 2, LOCAL(1), num_512, 1, LOCAL(2),
   // $pad_len 56-(len+1 .mod. 512)
-  var_std__minus, 2, num_56, LOCAL(2), 1, var_1507_1_pad_len,
+  var_std__minus, 2, num_56, LOCAL(2), 1, var_1507_4_pad_len,
   // pad_len < 0 &pad_len -> pad_len+64
-  var_std__less, 2, var_1507_1_pad_len, num_0, 1, LOCAL(1),
+  var_std__less, 2, var_1507_4_pad_len, num_0, 1, LOCAL(1),
   // update_if pad_len < 0 &pad_len -> pad_len+64
-  var_update_if, 3, LOCAL(1), var_1507_1_pad_len, lambda_132, 1, var_1507_1_pad_len,
+  var_update_if, 3, LOCAL(1), var_1507_4_pad_len, lambda_132, 1, var_1507_4_pad_len,
   // $pad_octets dup("@0;" pad_len)
-  var_dup, 2, string_7, var_1507_1_pad_len, 1, LOCAL(4),
+  var_dup, 2, string_7, var_1507_4_pad_len, 1, LOCAL(4),
   // append &message pad_octets
-  var_append, 2, var_1478_0_message, LOCAL(4), 1, var_1478_0_message,
+  var_append, 2, var_1478_5_message, LOCAL(4), 1, var_1478_5_message,
   // 8*len)
   var_std__times, 2, num_8, LOCAL(3), 1, LOCAL(1),
   // big_endian_string_64(8*len)
   func_big_endian_string_64, 1, LOCAL(1), 1, LOCAL(2),
   // append &message big_endian_string_64(8*len)
-  var_append, 2, var_1478_0_message, LOCAL(2), 1, var_1478_0_message,
+  var_append, 2, var_1478_5_message, LOCAL(2), 1, var_1478_5_message,
   // loop:
   var_loop, 1, lambda_10_loop, TAIL_CALL,
   POS(1482, 3),
@@ -3678,7 +3678,7 @@ static TAB_NUM t_lambda_132[] = {
   1, // locals
   0, // parameters
   // pad_len+64
-  var_std__plus, 2, var_1507_1_pad_len, num_64, 1, LOCAL(1),
+  var_std__plus, 2, var_1507_4_pad_len, num_64, 1, LOCAL(1),
   //  pad_len+64
   LET, 1, LOCAL(1), TAIL_CALL,
   POS(1508, 37),
@@ -3689,7 +3689,7 @@ static TAB_NUM t_lambda_10_loop[] = {
   1, // locals
   0, // parameters
   // is_empty:
-  var_is_empty, 1, var_1478_0_message, 1, LOCAL(1),
+  var_is_empty, 1, var_1478_5_message, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_message_is_empty, lambda_133, TAIL_CALL,
   POS(1517, 15),
@@ -3700,15 +3700,15 @@ static TAB_NUM t_lambda_message_is_empty[] = {
   5, // locals
   0, // parameters
   // big_endian_string_32(h0)
-  func_big_endian_string_32, 1, var_1482_1_h0, 1, LOCAL(1),
+  func_big_endian_string_32, 1, var_1482_4_h0, 1, LOCAL(1),
   // big_endian_string_32(h1)
-  func_big_endian_string_32, 1, var_1483_1_h1, 1, LOCAL(2),
+  func_big_endian_string_32, 1, var_1483_4_h1, 1, LOCAL(2),
   // big_endian_string_32(h2)
-  func_big_endian_string_32, 1, var_1484_1_h2, 1, LOCAL(3),
+  func_big_endian_string_32, 1, var_1484_4_h2, 1, LOCAL(3),
   // big_endian_string_32(h3)
-  func_big_endian_string_32, 1, var_1485_1_h3, 1, LOCAL(4),
+  func_big_endian_string_32, 1, var_1485_4_h3, 1, LOCAL(4),
   // big_endian_string_32(h4)
-  func_big_endian_string_32, 1, var_1486_1_h4, 1, LOCAL(5),
+  func_big_endian_string_32, 1, var_1486_4_h4, 1, LOCAL(5),
   // string
   var_string, 5, LOCAL(1), LOCAL(2), LOCAL(3), LOCAL(4), LOCAL(5), TAIL_CALL,
   POS(1519, 11),
@@ -3723,7 +3723,7 @@ static TAB_NUM t_lambda_133[] = {
   0, // locals
   0, // parameters
   // $w uint32_array(80)
-  var_uint32_array, 1, num_80, 1, var_1525_1_w,
+  var_uint32_array, 1, num_80, 1, var_1525_10_w,
   // from_to 1 16
   var_from_to, 4, num_1, num_16, lambda_134, lambda_135, TAIL_CALL,
   POS(1525, 9),
@@ -3733,13 +3733,13 @@ static TAB_NUM t_lambda_133[] = {
 static TAB_NUM t_lambda_134[] = {
   23, // locals
   1, // parameters
-  LOCAL(23), // 1527_3_i
+  LOCAL(23), // 1527_14_i
   // 4*i-3).to_integer << 24
   var_std__times, 2, num_4, LOCAL(23), 1, LOCAL(1),
   // 4*i-3).to_integer << 24
   var_std__minus, 2, LOCAL(1), num_3, 1, LOCAL(2),
   // message(4*i-3).to_integer << 24
-  var_1478_0_message, 1, LOCAL(2), 1, LOCAL(3),
+  var_1478_5_message, 1, LOCAL(2), 1, LOCAL(3),
   // to_integer << 24
   var_to_integer, 1, LOCAL(3), 1, LOCAL(4),
   // to_integer << 24
@@ -3749,7 +3749,7 @@ static TAB_NUM t_lambda_134[] = {
   // 4*i-2).to_integer << 16
   var_std__minus, 2, LOCAL(6), num_2, 1, LOCAL(7),
   // message(4*i-2).to_integer << 16
-  var_1478_0_message, 1, LOCAL(7), 1, LOCAL(8),
+  var_1478_5_message, 1, LOCAL(7), 1, LOCAL(8),
   // to_integer << 16
   var_to_integer, 1, LOCAL(8), 1, LOCAL(9),
   // to_integer << 16
@@ -3761,7 +3761,7 @@ static TAB_NUM t_lambda_134[] = {
   // 4*i-1).to_integer << 8
   var_std__minus, 2, LOCAL(12), num_1, 1, LOCAL(13),
   // message(4*i-1).to_integer << 8
-  var_1478_0_message, 1, LOCAL(13), 1, LOCAL(14),
+  var_1478_5_message, 1, LOCAL(13), 1, LOCAL(14),
   // to_integer << 8
   var_to_integer, 1, LOCAL(14), 1, LOCAL(15),
   // to_integer << 8
@@ -3771,13 +3771,13 @@ static TAB_NUM t_lambda_134[] = {
   // 4*i).to_integer
   var_std__times, 2, num_4, LOCAL(23), 1, LOCAL(18),
   // message(4*i).to_integer
-  var_1478_0_message, 1, LOCAL(18), 1, LOCAL(19),
+  var_1478_5_message, 1, LOCAL(18), 1, LOCAL(19),
   // to_integer
   var_to_integer, 1, LOCAL(19), 1, LOCAL(20),
   // !w(i)
   var_std__bit_or, 2, LOCAL(17), LOCAL(20), 1, LOCAL(22),
   // w(i)
-  var_1525_1_w, 2, LOCAL(23), LOCAL(22), 1, var_1525_1_w,
+  var_1525_10_w, 2, LOCAL(23), LOCAL(22), 1, var_1525_10_w,
   // next
   var_next, 0, TAIL_CALL,
   POS(1530, 25),
@@ -3816,33 +3816,33 @@ static TAB_NUM t_lambda_135[] = {
 static TAB_NUM t_lambda_136[] = {
   14, // locals
   1, // parameters
-  LOCAL(14), // 1537_3_i
+  LOCAL(14), // 1537_18_i
   // i-3) ^ w(i-8) ^ w(i-14) ^ w(i-16) .rol32. 1
   var_std__minus, 2, LOCAL(14), num_3, 1, LOCAL(1),
   // w(i-3) ^ w(i-8) ^ w(i-14) ^ w(i-16) .rol32. 1
-  var_1525_1_w, 1, LOCAL(1), 1, LOCAL(2),
+  var_1525_10_w, 1, LOCAL(1), 1, LOCAL(2),
   // i-8) ^ w(i-14) ^ w(i-16) .rol32. 1
   var_std__minus, 2, LOCAL(14), num_8, 1, LOCAL(3),
   // w(i-8) ^ w(i-14) ^ w(i-16) .rol32. 1
-  var_1525_1_w, 1, LOCAL(3), 1, LOCAL(4),
+  var_1525_10_w, 1, LOCAL(3), 1, LOCAL(4),
   // w(i-3) ^ w(i-8) ^ w(i-14) ^ w(i-16) .rol32. 1
   var_std__bit_xor, 2, LOCAL(2), LOCAL(4), 1, LOCAL(5),
   // i-14) ^ w(i-16) .rol32. 1
   var_std__minus, 2, LOCAL(14), num_14, 1, LOCAL(6),
   // w(i-14) ^ w(i-16) .rol32. 1
-  var_1525_1_w, 1, LOCAL(6), 1, LOCAL(7),
+  var_1525_10_w, 1, LOCAL(6), 1, LOCAL(7),
   // w(i-3) ^ w(i-8) ^ w(i-14) ^ w(i-16) .rol32. 1
   var_std__bit_xor, 2, LOCAL(5), LOCAL(7), 1, LOCAL(8),
   // i-16) .rol32. 1
   var_std__minus, 2, LOCAL(14), num_16, 1, LOCAL(9),
   // w(i-16) .rol32. 1
-  var_1525_1_w, 1, LOCAL(9), 1, LOCAL(10),
+  var_1525_10_w, 1, LOCAL(9), 1, LOCAL(10),
   // w(i-3) ^ w(i-8) ^ w(i-14) ^ w(i-16) .rol32. 1
   var_std__bit_xor, 2, LOCAL(8), LOCAL(10), 1, LOCAL(11),
   // !w(i) w(i-3) ^ w(i-8) ^ w(i-14) ^ w(i-16) .rol32. 1
   func_rol32, 2, LOCAL(11), num_1, 1, LOCAL(13),
   // w(i) w(i-3) ^ w(i-8) ^ w(i-14) ^ w(i-16) .rol32. 1
-  var_1525_1_w, 2, LOCAL(14), LOCAL(13), 1, var_1525_1_w,
+  var_1525_10_w, 2, LOCAL(14), LOCAL(13), 1, var_1525_10_w,
   // next
   var_next, 0, TAIL_CALL,
   POS(1538, 25),
@@ -3865,15 +3865,15 @@ static TAB_NUM t_func_main_loop[] = {
   0, // locals
   0, // parameters
   // $a h0
-  LET, 1, var_1482_1_h0, 1, var_1543_1_a,
+  LET, 1, var_1482_4_h0, 1, var_1543_12_a,
   // $b h1
-  LET, 1, var_1483_1_h1, 1, var_1544_1_b,
+  LET, 1, var_1483_4_h1, 1, var_1544_12_b,
   // $c h2
-  LET, 1, var_1484_1_h2, 1, var_1545_1_c,
+  LET, 1, var_1484_4_h2, 1, var_1545_12_c,
   // $d h3
-  LET, 1, var_1485_1_h3, 1, var_1546_1_d,
+  LET, 1, var_1485_4_h3, 1, var_1546_12_d,
   // $e h4
-  LET, 1, var_1486_1_h4, 1, var_1547_1_e,
+  LET, 1, var_1486_4_h4, 1, var_1547_12_e,
   // from_to 1 80
   var_from_to, 4, num_1, num_80, lambda_137, lambda_146, TAIL_CALL,
   POS(1543, 11),
@@ -3887,7 +3887,7 @@ static TAB_NUM t_func_main_loop[] = {
 static TAB_NUM t_lambda_137[] = {
   0, // locals
   1, // parameters
-  var_1549_3_i,
+  var_1549_16_i,
   // cond
   var_cond, 4, lambda_138, lambda_140, lambda_142, lambda_144, TAIL_CALL,
   POS(1550, 15)
@@ -3897,7 +3897,7 @@ static TAB_NUM t_lambda_138[] = {
   2, // locals
   0, // parameters
   // 20: compute (b & c) | ((b ^ 0xffffffff) & d) k0
-  var_std__less, 2, num_20, var_1549_3_i, 1, LOCAL(1),
+  var_std__less, 2, num_20, var_1549_16_i, 1, LOCAL(1),
   // 20: compute (b & c) | ((b ^ 0xffffffff) & d) k0
   var_std__not, 1, LOCAL(1), 1, LOCAL(2),
   //  i <= 20: compute (b & c) | ((b ^ 0xffffffff) & d) k0
@@ -3911,11 +3911,11 @@ static TAB_NUM t_lambda_139[] = {
   4, // locals
   0, // parameters
   // b & c) | ((b ^ 0xffffffff) & d) k0
-  var_std__bit_and, 2, var_1544_1_b, var_1545_1_c, 1, LOCAL(1),
+  var_std__bit_and, 2, var_1544_12_b, var_1545_12_c, 1, LOCAL(1),
   // b ^ 0xffffffff) & d) k0
-  var_std__bit_xor, 2, var_1544_1_b, num_0xffffffff, 1, LOCAL(2),
+  var_std__bit_xor, 2, var_1544_12_b, num_0xffffffff, 1, LOCAL(2),
   // b ^ 0xffffffff) & d) k0
-  var_std__bit_and, 2, LOCAL(2), var_1546_1_d, 1, LOCAL(3),
+  var_std__bit_and, 2, LOCAL(2), var_1546_12_d, 1, LOCAL(3),
   // b & c) | ((b ^ 0xffffffff) & d) k0
   var_std__bit_or, 2, LOCAL(1), LOCAL(3), 1, LOCAL(4),
   // compute (b & c) | ((b ^ 0xffffffff) & d) k0
@@ -3931,7 +3931,7 @@ static TAB_NUM t_lambda_140[] = {
   2, // locals
   0, // parameters
   // 40: compute (b ^ c ^ d) k1
-  var_std__less, 2, num_40, var_1549_3_i, 1, LOCAL(1),
+  var_std__less, 2, num_40, var_1549_16_i, 1, LOCAL(1),
   // 40: compute (b ^ c ^ d) k1
   var_std__not, 1, LOCAL(1), 1, LOCAL(2),
   //  i <= 40: compute (b ^ c ^ d) k1
@@ -3945,9 +3945,9 @@ static TAB_NUM t_lambda_141[] = {
   2, // locals
   0, // parameters
   // b ^ c ^ d) k1
-  var_std__bit_xor, 2, var_1544_1_b, var_1545_1_c, 1, LOCAL(1),
+  var_std__bit_xor, 2, var_1544_12_b, var_1545_12_c, 1, LOCAL(1),
   // b ^ c ^ d) k1
-  var_std__bit_xor, 2, LOCAL(1), var_1546_1_d, 1, LOCAL(2),
+  var_std__bit_xor, 2, LOCAL(1), var_1546_12_d, 1, LOCAL(2),
   // compute (b ^ c ^ d) k1
   func_compute, 2, LOCAL(2), num_0x6ed9eba1, TAIL_CALL,
   POS(1552, 38),
@@ -3959,7 +3959,7 @@ static TAB_NUM t_lambda_142[] = {
   2, // locals
   0, // parameters
   // 60: compute (b & c) | (b & d) | (c & d) k2
-  var_std__less, 2, num_60, var_1549_3_i, 1, LOCAL(1),
+  var_std__less, 2, num_60, var_1549_16_i, 1, LOCAL(1),
   // 60: compute (b & c) | (b & d) | (c & d) k2
   var_std__not, 1, LOCAL(1), 1, LOCAL(2),
   //  i <= 60: compute (b & c) | (b & d) | (c & d) k2
@@ -3973,13 +3973,13 @@ static TAB_NUM t_lambda_143[] = {
   5, // locals
   0, // parameters
   // b & c) | (b & d) | (c & d) k2
-  var_std__bit_and, 2, var_1544_1_b, var_1545_1_c, 1, LOCAL(1),
+  var_std__bit_and, 2, var_1544_12_b, var_1545_12_c, 1, LOCAL(1),
   // b & d) | (c & d) k2
-  var_std__bit_and, 2, var_1544_1_b, var_1546_1_d, 1, LOCAL(2),
+  var_std__bit_and, 2, var_1544_12_b, var_1546_12_d, 1, LOCAL(2),
   // b & c) | (b & d) | (c & d) k2
   var_std__bit_or, 2, LOCAL(1), LOCAL(2), 1, LOCAL(3),
   // c & d) k2
-  var_std__bit_and, 2, var_1545_1_c, var_1546_1_d, 1, LOCAL(4),
+  var_std__bit_and, 2, var_1545_12_c, var_1546_12_d, 1, LOCAL(4),
   // b & c) | (b & d) | (c & d) k2
   var_std__bit_or, 2, LOCAL(3), LOCAL(4), 1, LOCAL(5),
   // compute (b & c) | (b & d) | (c & d) k2
@@ -4004,9 +4004,9 @@ static TAB_NUM t_lambda_145[] = {
   2, // locals
   0, // parameters
   // b ^ c ^ d) k3
-  var_std__bit_xor, 2, var_1544_1_b, var_1545_1_c, 1, LOCAL(1),
+  var_std__bit_xor, 2, var_1544_12_b, var_1545_12_c, 1, LOCAL(1),
   // b ^ c ^ d) k3
-  var_std__bit_xor, 2, LOCAL(1), var_1546_1_d, 1, LOCAL(2),
+  var_std__bit_xor, 2, LOCAL(1), var_1546_12_d, 1, LOCAL(2),
   // compute (b ^ c ^ d) k3
   func_compute, 2, LOCAL(2), num_0xca62c1d6, TAIL_CALL,
   POS(1554, 35),
@@ -4017,32 +4017,32 @@ static TAB_NUM t_lambda_145[] = {
 static TAB_NUM t_func_compute[] = {
   9, // locals
   2, // parameters
-  LOCAL(7), // 1556_11_f
-  LOCAL(8), // 1556_13_k
+  LOCAL(7), // 1556_26_f
+  LOCAL(8), // 1556_28_k
   // a .rol32. 5) + f + e + k + w(i)) & 0xffffffff
-  func_rol32, 2, var_1543_1_a, num_5, 1, LOCAL(1),
+  func_rol32, 2, var_1543_12_a, num_5, 1, LOCAL(1),
   // a .rol32. 5) + f + e + k + w(i)) & 0xffffffff
   var_std__plus, 2, LOCAL(1), LOCAL(7), 1, LOCAL(2),
   // a .rol32. 5) + f + e + k + w(i)) & 0xffffffff
-  var_std__plus, 2, LOCAL(2), var_1547_1_e, 1, LOCAL(3),
+  var_std__plus, 2, LOCAL(2), var_1547_12_e, 1, LOCAL(3),
   // a .rol32. 5) + f + e + k + w(i)) & 0xffffffff
   var_std__plus, 2, LOCAL(3), LOCAL(8), 1, LOCAL(4),
   // w(i)) & 0xffffffff
-  var_1525_1_w, 1, var_1549_3_i, 1, LOCAL(5),
+  var_1525_10_w, 1, var_1549_16_i, 1, LOCAL(5),
   // a .rol32. 5) + f + e + k + w(i)) & 0xffffffff
   var_std__plus, 2, LOCAL(4), LOCAL(5), 1, LOCAL(6),
   // $t ((a .rol32. 5) + f + e + k + w(i)) & 0xffffffff
   var_std__bit_and, 2, LOCAL(6), num_0xffffffff, 1, LOCAL(9),
   // !e d
-  LET, 1, var_1546_1_d, 1, var_1547_1_e,
+  LET, 1, var_1546_12_d, 1, var_1547_12_e,
   // !d c
-  LET, 1, var_1545_1_c, 1, var_1546_1_d,
+  LET, 1, var_1545_12_c, 1, var_1546_12_d,
   // !c b .rol32. 30
-  func_rol32, 2, var_1544_1_b, num_30, 1, var_1545_1_c,
+  func_rol32, 2, var_1544_12_b, num_30, 1, var_1545_12_c,
   // !b a
-  LET, 1, var_1543_1_a, 1, var_1544_1_b,
+  LET, 1, var_1543_12_a, 1, var_1544_12_b,
   // !a t
-  LET, 1, LOCAL(9), 1, var_1543_1_a,
+  LET, 1, LOCAL(9), 1, var_1543_12_a,
   // next
   var_next, 0, TAIL_CALL,
   POS(1557, 22),
@@ -4064,27 +4064,27 @@ static TAB_NUM t_lambda_146[] = {
   1, // locals
   0, // parameters
   // h0+a) & 0xffffffff
-  var_std__plus, 2, var_1482_1_h0, var_1543_1_a, 1, LOCAL(1),
+  var_std__plus, 2, var_1482_4_h0, var_1543_12_a, 1, LOCAL(1),
   // !h0 (h0+a) & 0xffffffff
-  var_std__bit_and, 2, LOCAL(1), num_0xffffffff, 1, var_1482_1_h0,
+  var_std__bit_and, 2, LOCAL(1), num_0xffffffff, 1, var_1482_4_h0,
   // h1+b) & 0xffffffff
-  var_std__plus, 2, var_1483_1_h1, var_1544_1_b, 1, LOCAL(1),
+  var_std__plus, 2, var_1483_4_h1, var_1544_12_b, 1, LOCAL(1),
   // !h1 (h1+b) & 0xffffffff
-  var_std__bit_and, 2, LOCAL(1), num_0xffffffff, 1, var_1483_1_h1,
+  var_std__bit_and, 2, LOCAL(1), num_0xffffffff, 1, var_1483_4_h1,
   // h2+c) & 0xffffffff
-  var_std__plus, 2, var_1484_1_h2, var_1545_1_c, 1, LOCAL(1),
+  var_std__plus, 2, var_1484_4_h2, var_1545_12_c, 1, LOCAL(1),
   // !h2 (h2+c) & 0xffffffff
-  var_std__bit_and, 2, LOCAL(1), num_0xffffffff, 1, var_1484_1_h2,
+  var_std__bit_and, 2, LOCAL(1), num_0xffffffff, 1, var_1484_4_h2,
   // h3+d) & 0xffffffff
-  var_std__plus, 2, var_1485_1_h3, var_1546_1_d, 1, LOCAL(1),
+  var_std__plus, 2, var_1485_4_h3, var_1546_12_d, 1, LOCAL(1),
   // !h3 (h3+d) & 0xffffffff
-  var_std__bit_and, 2, LOCAL(1), num_0xffffffff, 1, var_1485_1_h3,
+  var_std__bit_and, 2, LOCAL(1), num_0xffffffff, 1, var_1485_4_h3,
   // h4+e) & 0xffffffff
-  var_std__plus, 2, var_1486_1_h4, var_1547_1_e, 1, LOCAL(1),
+  var_std__plus, 2, var_1486_4_h4, var_1547_12_e, 1, LOCAL(1),
   // !h4 (h4+e) & 0xffffffff
-  var_std__bit_and, 2, LOCAL(1), num_0xffffffff, 1, var_1486_1_h4,
+  var_std__bit_and, 2, LOCAL(1), num_0xffffffff, 1, var_1486_4_h4,
   // range &message 65 -1
-  var_range, 3, var_1478_0_message, num_65, minus_num_1, 1, var_1478_0_message,
+  var_range, 3, var_1478_5_message, num_65, minus_num_1, 1, var_1478_5_message,
   // next
   var_next, 0, TAIL_CALL,
   POS(1565, 20),
@@ -4104,7 +4104,7 @@ static TAB_NUM t_lambda_146[] = {
 static TAB_NUM t_func_big_endian_string_64[] = {
   23, // locals
   1, // parameters
-  LOCAL(23), // 1573_24_n
+  LOCAL(23), // 1573_27_n
   // n >> 56)
   var_std__shift_right, 2, LOCAL(23), num_56, 1, LOCAL(1),
   // character(n >> 56)
@@ -4179,7 +4179,7 @@ static TAB_NUM t_func_big_endian_string_64[] = {
 static TAB_NUM t_func_big_endian_string_32[] = {
   11, // locals
   1, // parameters
-  LOCAL(11), // 1585_24_n
+  LOCAL(11), // 1585_27_n
   // n >> 24)
   var_std__shift_right, 2, LOCAL(11), num_24, 1, LOCAL(1),
   // character(n >> 24)
@@ -4218,8 +4218,8 @@ static TAB_NUM t_func_big_endian_string_32[] = {
 static TAB_NUM t_func_rol32[] = {
   7, // locals
   2, // parameters
-  LOCAL(6), // 1593_9_n
-  LOCAL(7), // 1593_11_k
+  LOCAL(6), // 1593_12_n
+  LOCAL(7), // 1593_14_k
   // n << k) & 0xffffffff) | (n >> (32-k))
   var_std__shift_left, 2, LOCAL(6), LOCAL(7), 1, LOCAL(1),
   // n << k) & 0xffffffff) | (n >> (32-k))
@@ -4243,15 +4243,15 @@ static TAB_NUM t_func_rol32[] = {
 static TAB_NUM t_func_std__parse_integer[] = {
   0, // locals
   1, // parameters
-  var_1622_0_self,
+  var_1622_5_self,
   // $orig self
-  LET, 1, var_1622_0_self, 1, var_1642_1_orig,
+  LET, 1, var_1622_5_self, 1, var_1642_4_orig,
   // $negate self .has_prefix. '-'
-  var_has_prefix, 2, var_1622_0_self, chr_45, 1, var_1643_1_negate,
+  var_has_prefix, 2, var_1622_5_self, chr_45, 1, var_1643_4_negate,
   // !self
-  var_if, 3, var_1643_1_negate, lambda_153, lambda_154, 1, var_1622_0_self,
+  var_if, 3, var_1643_4_negate, lambda_153, lambda_154, 1, var_1622_5_self,
   // $value 0
-  LET, 1, num_0, 1, var_1649_1_value,
+  LET, 1, num_0, 1, var_1649_4_value,
   // cond
   var_cond, 4, lambda_155, lambda_160, lambda_165, lambda_170, TAIL_CALL,
   POS(1642, 3),
@@ -4265,7 +4265,7 @@ static TAB_NUM t_func_maybe_negated[] = {
   0, // locals
   0, // parameters
   // if
-  var_if, 3, var_1643_1_negate, lambda_147, lambda_148, TAIL_CALL,
+  var_if, 3, var_1643_4_negate, lambda_147, lambda_148, TAIL_CALL,
   POS(1625, 5)
 };
 
@@ -4273,7 +4273,7 @@ static TAB_NUM t_lambda_147[] = {
   1, // locals
   0, // parameters
   // value
-  var_std__negate, 1, var_1649_1_value, 1, LOCAL(1),
+  var_std__negate, 1, var_1649_4_value, 1, LOCAL(1),
   //  -value
   LET, 1, LOCAL(1), TAIL_CALL,
   POS(1627, 11),
@@ -4284,16 +4284,16 @@ static TAB_NUM t_lambda_148[] = {
   0, // locals
   0, // parameters
   //  value
-  LET, 1, var_1649_1_value, TAIL_CALL,
+  LET, 1, var_1649_4_value, TAIL_CALL,
   POS(1628, 9)
 };
 
 static TAB_NUM t_func_partial_match[] = {
   1, // locals
   1, // parameters
-  var_1630_17_idx,
+  var_1630_20_idx,
   // 1
-  var_std__less, 2, num_1, var_1630_17_idx, 1, LOCAL(1),
+  var_std__less, 2, num_1, var_1630_20_idx, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_149, lambda_150, TAIL_CALL,
   POS(1632, 13),
@@ -4304,7 +4304,7 @@ static TAB_NUM t_lambda_149[] = {
   2, // locals
   0, // parameters
   // range(self idx -1) maybe_negated()
-  var_range, 3, var_1622_0_self, var_1630_17_idx, minus_num_1, 1, LOCAL(1),
+  var_range, 3, var_1622_5_self, var_1630_20_idx, minus_num_1, 1, LOCAL(1),
   // maybe_negated()
   func_maybe_negated, 0, 1, LOCAL(2),
   //  range(self idx -1) maybe_negated()
@@ -4318,7 +4318,7 @@ static TAB_NUM t_lambda_150[] = {
   0, // locals
   0, // parameters
   //  orig undefined
-  LET, 2, var_1642_1_orig, var_undefined, TAIL_CALL,
+  LET, 2, var_1642_4_orig, var_undefined, TAIL_CALL,
   POS(1634, 9)
 };
 
@@ -4326,7 +4326,7 @@ static TAB_NUM t_func_exhausted[] = {
   1, // locals
   0, // parameters
   // is_empty
-  var_is_empty, 1, var_1622_0_self, 1, LOCAL(1),
+  var_is_empty, 1, var_1622_5_self, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_151, lambda_152, TAIL_CALL,
   POS(1638, 12),
@@ -4337,7 +4337,7 @@ static TAB_NUM t_lambda_151[] = {
   0, // locals
   0, // parameters
   //  orig undefined
-  LET, 2, var_1642_1_orig, var_undefined, TAIL_CALL,
+  LET, 2, var_1642_4_orig, var_undefined, TAIL_CALL,
   POS(1639, 9)
 };
 
@@ -4356,7 +4356,7 @@ static TAB_NUM t_lambda_153[] = {
   1, // locals
   0, // parameters
   // range(self 2 -1)
-  var_range, 3, var_1622_0_self, num_2, minus_num_1, 1, LOCAL(1),
+  var_range, 3, var_1622_5_self, num_2, minus_num_1, 1, LOCAL(1),
   //  range(self 2 -1)
   LET, 1, LOCAL(1), TAIL_CALL,
   POS(1647, 10),
@@ -4367,7 +4367,7 @@ static TAB_NUM t_lambda_154[] = {
   0, // locals
   0, // parameters
   //  self
-  LET, 1, var_1622_0_self, TAIL_CALL,
+  LET, 1, var_1622_5_self, TAIL_CALL,
   POS(1648, 9)
 };
 
@@ -4375,7 +4375,7 @@ static TAB_NUM t_lambda_155[] = {
   1, // locals
   0, // parameters
   // self .has_prefix. "0b":
-  var_has_prefix, 2, var_1622_0_self, str_0b, 1, LOCAL(1),
+  var_has_prefix, 2, var_1622_5_self, str_0b, 1, LOCAL(1),
   //  self .has_prefix. "0b":
   LET, 2, LOCAL(1), lambda_156, TAIL_CALL,
   POS(1651, 8),
@@ -4386,9 +4386,9 @@ static TAB_NUM t_lambda_156[] = {
   0, // locals
   0, // parameters
   // range &self 3 -1
-  var_range, 3, var_1622_0_self, num_3, minus_num_1, 1, var_1622_0_self,
+  var_range, 3, var_1622_5_self, num_3, minus_num_1, 1, var_1622_5_self,
   // for_each self
-  var_for_each, 3, var_1622_0_self, lambda_157, func_exhausted, TAIL_CALL,
+  var_for_each, 3, var_1622_5_self, lambda_157, func_exhausted, TAIL_CALL,
   POS(1652, 7),
   POS(1653, 7)
 };
@@ -4396,10 +4396,10 @@ static TAB_NUM t_lambda_156[] = {
 static TAB_NUM t_lambda_157[] = {
   0, // locals
   2, // parameters
-  var_1654_3_idx,
-  var_1654_7_chr,
+  var_1654_12_idx,
+  var_1654_16_chr,
   // case
-  var_case, 4, var_1654_7_chr, value_range_1657_1, lambda_158, lambda_159, TAIL_CALL,
+  var_case, 4, var_1654_16_chr, value_range_1657_14, lambda_158, lambda_159, TAIL_CALL,
   POS(1655, 11)
 };
 
@@ -4407,11 +4407,11 @@ static TAB_NUM t_lambda_158[] = {
   2, // locals
   0, // parameters
   // value << 1)+(chr-'0')
-  var_std__shift_left, 2, var_1649_1_value, num_1, 1, LOCAL(1),
+  var_std__shift_left, 2, var_1649_4_value, num_1, 1, LOCAL(1),
   // chr-'0')
-  var_std__minus, 2, var_1654_7_chr, chr_48, 1, LOCAL(2),
+  var_std__minus, 2, var_1654_16_chr, chr_48, 1, LOCAL(2),
   // !value (value << 1)+(chr-'0')
-  var_std__plus, 2, LOCAL(1), LOCAL(2), 1, var_1649_1_value,
+  var_std__plus, 2, LOCAL(1), LOCAL(2), 1, var_1649_4_value,
   // next
   var_next, 0, TAIL_CALL,
   POS(1658, 23),
@@ -4424,7 +4424,7 @@ static TAB_NUM t_lambda_159[] = {
   0, // locals
   0, // parameters
   // partial_match idx
-  func_partial_match, 1, var_1654_3_idx, TAIL_CALL,
+  func_partial_match, 1, var_1654_12_idx, TAIL_CALL,
   POS(1661, 15)
 };
 
@@ -4432,7 +4432,7 @@ static TAB_NUM t_lambda_160[] = {
   1, // locals
   0, // parameters
   // self .has_prefix. "0o":
-  var_has_prefix, 2, var_1622_0_self, str_0o, 1, LOCAL(1),
+  var_has_prefix, 2, var_1622_5_self, str_0o, 1, LOCAL(1),
   //  self .has_prefix. "0o":
   LET, 2, LOCAL(1), lambda_161, TAIL_CALL,
   POS(1663, 8),
@@ -4443,9 +4443,9 @@ static TAB_NUM t_lambda_161[] = {
   0, // locals
   0, // parameters
   // range &self 3 -1
-  var_range, 3, var_1622_0_self, num_3, minus_num_1, 1, var_1622_0_self,
+  var_range, 3, var_1622_5_self, num_3, minus_num_1, 1, var_1622_5_self,
   // for_each self
-  var_for_each, 3, var_1622_0_self, lambda_162, func_exhausted, TAIL_CALL,
+  var_for_each, 3, var_1622_5_self, lambda_162, func_exhausted, TAIL_CALL,
   POS(1664, 7),
   POS(1665, 7)
 };
@@ -4453,10 +4453,10 @@ static TAB_NUM t_lambda_161[] = {
 static TAB_NUM t_lambda_162[] = {
   0, // locals
   2, // parameters
-  var_1666_3_idx,
-  var_1666_7_chr,
+  var_1666_12_idx,
+  var_1666_16_chr,
   // case chr
-  var_case, 4, var_1666_7_chr, value_range_1668_1, lambda_163, lambda_164, TAIL_CALL,
+  var_case, 4, var_1666_16_chr, value_range_1668_14, lambda_163, lambda_164, TAIL_CALL,
   POS(1667, 11)
 };
 
@@ -4464,11 +4464,11 @@ static TAB_NUM t_lambda_163[] = {
   2, // locals
   0, // parameters
   // value << 3)+(chr-'0')
-  var_std__shift_left, 2, var_1649_1_value, num_3, 1, LOCAL(1),
+  var_std__shift_left, 2, var_1649_4_value, num_3, 1, LOCAL(1),
   // chr-'0')
-  var_std__minus, 2, var_1666_7_chr, chr_48, 1, LOCAL(2),
+  var_std__minus, 2, var_1666_16_chr, chr_48, 1, LOCAL(2),
   // !value (value << 3)+(chr-'0')
-  var_std__plus, 2, LOCAL(1), LOCAL(2), 1, var_1649_1_value,
+  var_std__plus, 2, LOCAL(1), LOCAL(2), 1, var_1649_4_value,
   // next
   var_next, 0, TAIL_CALL,
   POS(1669, 23),
@@ -4481,7 +4481,7 @@ static TAB_NUM t_lambda_164[] = {
   0, // locals
   0, // parameters
   // partial_match idx
-  func_partial_match, 1, var_1666_3_idx, TAIL_CALL,
+  func_partial_match, 1, var_1666_12_idx, TAIL_CALL,
   POS(1672, 15)
 };
 
@@ -4489,7 +4489,7 @@ static TAB_NUM t_lambda_165[] = {
   1, // locals
   0, // parameters
   // self .has_prefix. "0x":
-  var_has_prefix, 2, var_1622_0_self, str_0x, 1, LOCAL(1),
+  var_has_prefix, 2, var_1622_5_self, str_0x, 1, LOCAL(1),
   //  self .has_prefix. "0x":
   LET, 2, LOCAL(1), lambda_166, TAIL_CALL,
   POS(1674, 8),
@@ -4500,9 +4500,9 @@ static TAB_NUM t_lambda_166[] = {
   0, // locals
   0, // parameters
   // range &self 3 -1
-  var_range, 3, var_1622_0_self, num_3, minus_num_1, 1, var_1622_0_self,
+  var_range, 3, var_1622_5_self, num_3, minus_num_1, 1, var_1622_5_self,
   // for_each self
-  var_for_each, 3, var_1622_0_self, lambda_167, func_exhausted, TAIL_CALL,
+  var_for_each, 3, var_1622_5_self, lambda_167, func_exhausted, TAIL_CALL,
   POS(1675, 7),
   POS(1676, 7)
 };
@@ -4510,10 +4510,10 @@ static TAB_NUM t_lambda_166[] = {
 static TAB_NUM t_lambda_167[] = {
   0, // locals
   2, // parameters
-  var_1677_3_idx,
-  var_1677_7_chr,
+  var_1677_12_idx,
+  var_1677_16_chr,
   // case chr
-  var_case, 8, var_1677_7_chr, value_range_1457_1, lambda_168, value_range_1682_1, lambda_a__f, value_range_1685_1, lambda_A__F, lambda_169, TAIL_CALL,
+  var_case, 8, var_1677_16_chr, value_range_1457_8, lambda_168, value_range_1682_14, lambda_a__f, value_range_1685_14, lambda_A__F, lambda_169, TAIL_CALL,
   POS(1678, 11)
 };
 
@@ -4521,11 +4521,11 @@ static TAB_NUM t_lambda_168[] = {
   2, // locals
   0, // parameters
   // value << 4)+(chr-'0')
-  var_std__shift_left, 2, var_1649_1_value, num_4, 1, LOCAL(1),
+  var_std__shift_left, 2, var_1649_4_value, num_4, 1, LOCAL(1),
   // chr-'0')
-  var_std__minus, 2, var_1677_7_chr, chr_48, 1, LOCAL(2),
+  var_std__minus, 2, var_1677_16_chr, chr_48, 1, LOCAL(2),
   // !value (value << 4)+(chr-'0')
-  var_std__plus, 2, LOCAL(1), LOCAL(2), 1, var_1649_1_value,
+  var_std__plus, 2, LOCAL(1), LOCAL(2), 1, var_1649_4_value,
   // next
   var_next, 0, TAIL_CALL,
   POS(1680, 23),
@@ -4538,13 +4538,13 @@ static TAB_NUM t_lambda_a__f[] = {
   3, // locals
   0, // parameters
   // value << 4)+(chr-'a')+10
-  var_std__shift_left, 2, var_1649_1_value, num_4, 1, LOCAL(1),
+  var_std__shift_left, 2, var_1649_4_value, num_4, 1, LOCAL(1),
   // chr-'a')+10
-  var_std__minus, 2, var_1677_7_chr, chr_97, 1, LOCAL(2),
+  var_std__minus, 2, var_1677_16_chr, chr_97, 1, LOCAL(2),
   // value << 4)+(chr-'a')+10
   var_std__plus, 2, LOCAL(1), LOCAL(2), 1, LOCAL(3),
   // !value (value << 4)+(chr-'a')+10
-  var_std__plus, 2, LOCAL(3), num_10, 1, var_1649_1_value,
+  var_std__plus, 2, LOCAL(3), num_10, 1, var_1649_4_value,
   // next
   var_next, 0, TAIL_CALL,
   POS(1683, 23),
@@ -4558,13 +4558,13 @@ static TAB_NUM t_lambda_A__F[] = {
   3, // locals
   0, // parameters
   // value << 4)+(chr-'A')+10
-  var_std__shift_left, 2, var_1649_1_value, num_4, 1, LOCAL(1),
+  var_std__shift_left, 2, var_1649_4_value, num_4, 1, LOCAL(1),
   // chr-'A')+10
-  var_std__minus, 2, var_1677_7_chr, chr_65, 1, LOCAL(2),
+  var_std__minus, 2, var_1677_16_chr, chr_65, 1, LOCAL(2),
   // value << 4)+(chr-'A')+10
   var_std__plus, 2, LOCAL(1), LOCAL(2), 1, LOCAL(3),
   // !value (value << 4)+(chr-'A')+10
-  var_std__plus, 2, LOCAL(3), num_10, 1, var_1649_1_value,
+  var_std__plus, 2, LOCAL(3), num_10, 1, var_1649_4_value,
   // next
   var_next, 0, TAIL_CALL,
   POS(1686, 23),
@@ -4578,7 +4578,7 @@ static TAB_NUM t_lambda_169[] = {
   0, // locals
   0, // parameters
   // partial_match idx
-  func_partial_match, 1, var_1677_3_idx, TAIL_CALL,
+  func_partial_match, 1, var_1677_12_idx, TAIL_CALL,
   POS(1689, 15)
 };
 
@@ -4594,17 +4594,17 @@ static TAB_NUM t_lambda_171[] = {
   0, // locals
   0, // parameters
   // for_each self
-  var_for_each, 3, var_1622_0_self, lambda_172, func_exhausted, TAIL_CALL,
+  var_for_each, 3, var_1622_5_self, lambda_172, func_exhausted, TAIL_CALL,
   POS(1692, 7)
 };
 
 static TAB_NUM t_lambda_172[] = {
   0, // locals
   2, // parameters
-  var_1693_3_idx,
-  var_1693_7_chr,
+  var_1693_12_idx,
+  var_1693_16_chr,
   // case chr
-  var_case, 4, var_1693_7_chr, value_range_1457_1, lambda_173, lambda_174, TAIL_CALL,
+  var_case, 4, var_1693_16_chr, value_range_1457_8, lambda_173, lambda_174, TAIL_CALL,
   POS(1694, 11)
 };
 
@@ -4612,11 +4612,11 @@ static TAB_NUM t_lambda_173[] = {
   2, // locals
   0, // parameters
   // 10*value+(chr-'0')
-  var_std__times, 2, num_10, var_1649_1_value, 1, LOCAL(1),
+  var_std__times, 2, num_10, var_1649_4_value, 1, LOCAL(1),
   // chr-'0')
-  var_std__minus, 2, var_1693_7_chr, chr_48, 1, LOCAL(2),
+  var_std__minus, 2, var_1693_16_chr, chr_48, 1, LOCAL(2),
   // !value 10*value+(chr-'0')
-  var_std__plus, 2, LOCAL(1), LOCAL(2), 1, var_1649_1_value,
+  var_std__plus, 2, LOCAL(1), LOCAL(2), 1, var_1649_4_value,
   // next
   var_next, 0, TAIL_CALL,
   POS(1696, 22),
@@ -4629,20 +4629,20 @@ static TAB_NUM t_lambda_174[] = {
   0, // locals
   0, // parameters
   // partial_match idx
-  func_partial_match, 1, var_1693_3_idx, TAIL_CALL,
+  func_partial_match, 1, var_1693_12_idx, TAIL_CALL,
   POS(1699, 15)
 };
 
 static TAB_NUM t_func_std__parse_number[] = {
   1, // locals
   1, // parameters
-  var_1729_0_self,
+  var_1729_5_self,
   // $i 1
-  LET, 1, num_1, 1, var_1731_1_i,
+  LET, 1, num_1, 1, var_1731_4_i,
   // $n length_of(self)
-  var_length_of, 1, var_1729_0_self, 1, var_1732_1_n,
+  var_length_of, 1, var_1729_5_self, 1, var_1732_4_n,
   // n
-  var_std__less, 2, var_1732_1_n, var_1731_1_i, 1, LOCAL(1),
+  var_std__less, 2, var_1732_4_n, var_1731_4_i, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_175, lambda_176, TAIL_CALL,
   POS(1731, 3),
@@ -4655,7 +4655,7 @@ static TAB_NUM t_lambda_175[] = {
   0, // locals
   0, // parameters
   //  self undefined
-  LET, 2, var_1729_0_self, var_undefined, TAIL_CALL,
+  LET, 2, var_1729_5_self, var_undefined, TAIL_CALL,
   POS(1735, 7)
 };
 
@@ -4663,19 +4663,19 @@ static TAB_NUM t_lambda_176[] = {
   3, // locals
   0, // parameters
   // $sign_chr self(1)
-  var_1729_0_self, 1, num_1, 1, var_1737_1_sign_chr,
+  var_1729_5_self, 1, num_1, 1, var_1737_8_sign_chr,
   // sign_chr == '-' || sign_chr == '+' &i -> i+1
-  var_std__equal, 2, var_1737_1_sign_chr, chr_45, 1, LOCAL(1),
+  var_std__equal, 2, var_1737_8_sign_chr, chr_45, 1, LOCAL(1),
   // sign_chr == '-' || sign_chr == '+' &i -> i+1
   var_std__or, 2, LOCAL(1), lambda_177, 1, LOCAL(2),
   // update_if sign_chr == '-' || sign_chr == '+' &i -> i+1
-  var_update_if, 3, LOCAL(2), var_1731_1_i, lambda_178, 1, var_1731_1_i,
+  var_update_if, 3, LOCAL(2), var_1731_4_i, lambda_178, 1, var_1731_4_i,
   // sign_chr == '-'
-  var_std__equal, 2, var_1737_1_sign_chr, chr_45, 1, LOCAL(1),
+  var_std__equal, 2, var_1737_8_sign_chr, chr_45, 1, LOCAL(1),
   // $sign
-  var_if, 3, LOCAL(1), lambda_179, lambda_180, 1, var_1739_1_sign,
+  var_if, 3, LOCAL(1), lambda_179, lambda_180, 1, var_1739_8_sign,
   // self(i) == '0' && i+1 < n:
-  var_1729_0_self, 1, var_1731_1_i, 1, LOCAL(1),
+  var_1729_5_self, 1, var_1731_4_i, 1, LOCAL(1),
   // self(i) == '0' && i+1 < n:
   var_std__equal, 2, LOCAL(1), chr_48, 1, LOCAL(2),
   // self(i) == '0' && i+1 < n:
@@ -4698,7 +4698,7 @@ static TAB_NUM t_lambda_177[] = {
   1, // locals
   0, // parameters
   // sign_chr == '+' &i -> i+1
-  var_std__equal, 2, var_1737_1_sign_chr, chr_43, 1, LOCAL(1),
+  var_std__equal, 2, var_1737_8_sign_chr, chr_43, 1, LOCAL(1),
   // sign_chr == '+' &i -> i+1
   LET, 1, LOCAL(1), TAIL_CALL,
   POS(1738, 36),
@@ -4709,7 +4709,7 @@ static TAB_NUM t_lambda_178[] = {
   1, // locals
   0, // parameters
   // i+1
-  var_std__plus, 2, var_1731_1_i, num_1, 1, LOCAL(1),
+  var_std__plus, 2, var_1731_4_i, num_1, 1, LOCAL(1),
   //  i+1
   LET, 1, LOCAL(1), TAIL_CALL,
   POS(1738, 58),
@@ -4736,9 +4736,9 @@ static TAB_NUM t_lambda_181[] = {
   2, // locals
   0, // parameters
   // i+1 < n:
-  var_std__plus, 2, var_1731_1_i, num_1, 1, LOCAL(1),
+  var_std__plus, 2, var_1731_4_i, num_1, 1, LOCAL(1),
   // i+1 < n:
-  var_std__less, 2, LOCAL(1), var_1732_1_n, 1, LOCAL(2),
+  var_std__less, 2, LOCAL(1), var_1732_4_n, 1, LOCAL(2),
   // i+1 < n:
   LET, 1, LOCAL(2), TAIL_CALL,
   POS(1745, 27),
@@ -4750,9 +4750,9 @@ static TAB_NUM t_lambda_182[] = {
   2, // locals
   0, // parameters
   // i+1)
-  var_std__plus, 2, var_1731_1_i, num_1, 1, LOCAL(1),
+  var_std__plus, 2, var_1731_4_i, num_1, 1, LOCAL(1),
   // self(i+1)
-  var_1729_0_self, 1, LOCAL(1), 1, LOCAL(2),
+  var_1729_5_self, 1, LOCAL(1), 1, LOCAL(2),
   // case self(i+1)
   var_case, 8, LOCAL(2), chr_98, lambda_b, chr_111, lambda_o, chr_120, lambda_x, func_parse, TAIL_CALL,
   POS(1746, 21),
@@ -4764,9 +4764,9 @@ static TAB_NUM t_lambda_b[] = {
   1, // locals
   0, // parameters
   // i+2 sign
-  var_std__plus, 2, var_1731_1_i, num_2, 1, LOCAL(1),
+  var_std__plus, 2, var_1731_4_i, num_2, 1, LOCAL(1),
   // parse_binary self i+2 sign
-  func_parse_binary, 3, var_1729_0_self, LOCAL(1), var_1739_1_sign, TAIL_CALL,
+  func_parse_binary, 3, var_1729_5_self, LOCAL(1), var_1739_8_sign, TAIL_CALL,
   POS(1747, 36),
   POS(1747, 18)
 };
@@ -4775,9 +4775,9 @@ static TAB_NUM t_lambda_o[] = {
   1, // locals
   0, // parameters
   // i+2 sign
-  var_std__plus, 2, var_1731_1_i, num_2, 1, LOCAL(1),
+  var_std__plus, 2, var_1731_4_i, num_2, 1, LOCAL(1),
   // parse_octal self i+2 sign
-  func_parse_octal, 3, var_1729_0_self, LOCAL(1), var_1739_1_sign, TAIL_CALL,
+  func_parse_octal, 3, var_1729_5_self, LOCAL(1), var_1739_8_sign, TAIL_CALL,
   POS(1748, 35),
   POS(1748, 18)
 };
@@ -4786,9 +4786,9 @@ static TAB_NUM t_lambda_x[] = {
   1, // locals
   0, // parameters
   // i+2 sign
-  var_std__plus, 2, var_1731_1_i, num_2, 1, LOCAL(1),
+  var_std__plus, 2, var_1731_4_i, num_2, 1, LOCAL(1),
   // parse_hex self i+2 sign
-  var_parse_hex, 3, var_1729_0_self, LOCAL(1), var_1739_1_sign, TAIL_CALL,
+  var_parse_hex, 3, var_1729_5_self, LOCAL(1), var_1739_8_sign, TAIL_CALL,
   POS(1749, 33),
   POS(1749, 18)
 };
@@ -4805,7 +4805,7 @@ static TAB_NUM t_lambda_skip_one_ore_more_digits[] = {
   1, // locals
   0, // parameters
   // n return_integer
-  var_std__less, 2, var_1732_1_n, var_1731_1_i, 1, LOCAL(1),
+  var_std__less, 2, var_1732_4_n, var_1731_4_i, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), func_return_integer, lambda_183, TAIL_CALL,
   POS(1756, 13),
@@ -4816,9 +4816,9 @@ static TAB_NUM t_lambda_183[] = {
   1, // locals
   0, // parameters
   // self(i)
-  var_1729_0_self, 1, var_1731_1_i, 1, LOCAL(1),
+  var_1729_5_self, 1, var_1731_4_i, 1, LOCAL(1),
   // case self(i)
-  var_case, 6, LOCAL(1), chr_46, lambda_184, sequence_1769_1, func_handle_exponent, func_return_integer, TAIL_CALL,
+  var_case, 6, LOCAL(1), chr_46, lambda_184, sequence_1769_14, func_handle_exponent, func_return_integer, TAIL_CALL,
   POS(1758, 16),
   POS(1758, 11)
 };
@@ -4827,7 +4827,7 @@ static TAB_NUM t_lambda_184[] = {
   0, // locals
   0, // parameters
   // !i i+1
-  var_std__plus, 2, var_1731_1_i, num_1, 1, var_1731_1_i,
+  var_std__plus, 2, var_1731_4_i, num_1, 1, var_1731_4_i,
   // skip_one_ore_more_digits:
   func_skip_one_ore_more_digits, 1, lambda_2_skip_one_ore_more_digits, TAIL_CALL,
   POS(1760, 15),
@@ -4838,7 +4838,7 @@ static TAB_NUM t_lambda_2_skip_one_ore_more_digits[] = {
   1, // locals
   0, // parameters
   // n
-  var_std__less, 2, var_1732_1_n, var_1731_1_i, 1, LOCAL(1),
+  var_std__less, 2, var_1732_4_n, var_1731_4_i, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), func_return_real, lambda_185, TAIL_CALL,
   POS(1763, 23),
@@ -4849,9 +4849,9 @@ static TAB_NUM t_lambda_185[] = {
   1, // locals
   0, // parameters
   // self(i)
-  var_1729_0_self, 1, var_1731_1_i, 1, LOCAL(1),
+  var_1729_5_self, 1, var_1731_4_i, 1, LOCAL(1),
   // case self(i)
-  var_case, 4, LOCAL(1), sequence_1769_1, func_handle_exponent, func_return_real, TAIL_CALL,
+  var_case, 4, LOCAL(1), sequence_1769_14, func_handle_exponent, func_return_real, TAIL_CALL,
   POS(1766, 26),
   POS(1766, 21)
 };
@@ -4859,9 +4859,9 @@ static TAB_NUM t_lambda_185[] = {
 static TAB_NUM t_func_skip_one_ore_more_digits[] = {
   1, // locals
   1, // parameters
-  var_1772_28_cont,
+  var_1772_33_cont,
   // n
-  var_std__less, 2, var_1732_1_n, var_1731_1_i, 1, LOCAL(1),
+  var_std__less, 2, var_1732_4_n, var_1731_4_i, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_186, lambda_187, TAIL_CALL,
   POS(1774, 13),
@@ -4872,7 +4872,7 @@ static TAB_NUM t_lambda_186[] = {
   0, // locals
   0, // parameters
   //  self undefined
-  LET, 2, var_1729_0_self, var_undefined, TAIL_CALL,
+  LET, 2, var_1729_5_self, var_undefined, TAIL_CALL,
   POS(1775, 11)
 };
 
@@ -4880,9 +4880,9 @@ static TAB_NUM t_lambda_187[] = {
   2, // locals
   0, // parameters
   // $digit self(i)
-  var_1729_0_self, 1, var_1731_1_i, 1, var_1777_1_digit,
+  var_1729_5_self, 1, var_1731_4_i, 1, var_1777_12_digit,
   // digit < '0' || digit > '9'
-  var_std__less, 2, var_1777_1_digit, chr_48, 1, LOCAL(1),
+  var_std__less, 2, var_1777_12_digit, chr_48, 1, LOCAL(1),
   // digit < '0' || digit > '9'
   var_std__or, 2, LOCAL(1), lambda_188, 1, LOCAL(2),
   // if
@@ -4897,7 +4897,7 @@ static TAB_NUM t_lambda_188[] = {
   1, // locals
   0, // parameters
   // 9'
-  var_std__less, 2, chr_57, var_1777_1_digit, 1, LOCAL(1),
+  var_std__less, 2, chr_57, var_1777_12_digit, 1, LOCAL(1),
   // digit > '9'
   LET, 1, LOCAL(1), TAIL_CALL,
   POS(1779, 37),
@@ -4908,7 +4908,7 @@ static TAB_NUM t_lambda_189[] = {
   0, // locals
   0, // parameters
   //  self undefined
-  LET, 2, var_1729_0_self, var_undefined, TAIL_CALL,
+  LET, 2, var_1729_5_self, var_undefined, TAIL_CALL,
   POS(1780, 15)
 };
 
@@ -4924,11 +4924,11 @@ static TAB_NUM t_lambda_11_loop[] = {
   1, // locals
   0, // parameters
   // !i i+1
-  var_std__plus, 2, var_1731_1_i, num_1, 1, var_1731_1_i,
+  var_std__plus, 2, var_1731_4_i, num_1, 1, var_1731_4_i,
   // n
-  var_std__less, 2, var_1732_1_n, var_1731_1_i, 1, LOCAL(1),
+  var_std__less, 2, var_1732_4_n, var_1731_4_i, 1, LOCAL(1),
   // if
-  var_if, 3, LOCAL(1), var_1772_28_cont, lambda_191, TAIL_CALL,
+  var_if, 3, LOCAL(1), var_1772_33_cont, lambda_191, TAIL_CALL,
   POS(1783, 17),
   POS(1785, 23),
   POS(1784, 17)
@@ -4938,15 +4938,15 @@ static TAB_NUM t_lambda_191[] = {
   3, // locals
   0, // parameters
   // $next_digit self(i)
-  var_1729_0_self, 1, var_1731_1_i, 1, var_1788_1_next_digit,
+  var_1729_5_self, 1, var_1731_4_i, 1, var_1788_22_next_digit,
   // next_digit >= '0' && next_digit <= '9'
-  var_std__less, 2, var_1788_1_next_digit, chr_48, 1, LOCAL(1),
+  var_std__less, 2, var_1788_22_next_digit, chr_48, 1, LOCAL(1),
   // next_digit >= '0' && next_digit <= '9'
   var_std__not, 1, LOCAL(1), 1, LOCAL(2),
   // next_digit >= '0' && next_digit <= '9'
   var_std__and, 2, LOCAL(2), lambda_192, 1, LOCAL(3),
   // if
-  var_if, 3, LOCAL(3), var_next, var_1772_28_cont, TAIL_CALL,
+  var_if, 3, LOCAL(3), var_next, var_1772_33_cont, TAIL_CALL,
   POS(1788, 21),
   POS(1790, 23),
   POS(1790, 23),
@@ -4958,7 +4958,7 @@ static TAB_NUM t_lambda_192[] = {
   2, // locals
   0, // parameters
   // 9'
-  var_std__less, 2, chr_57, var_1788_1_next_digit, 1, LOCAL(1),
+  var_std__less, 2, chr_57, var_1788_22_next_digit, 1, LOCAL(1),
   // 9'
   var_std__not, 1, LOCAL(1), 1, LOCAL(2),
   // next_digit <= '9'
@@ -4972,9 +4972,9 @@ static TAB_NUM t_func_handle_exponent[] = {
   1, // locals
   0, // parameters
   // !i i+1
-  var_std__plus, 2, var_1731_1_i, num_1, 1, var_1731_1_i,
+  var_std__plus, 2, var_1731_4_i, num_1, 1, var_1731_4_i,
   // n
-  var_std__less, 2, var_1732_1_n, var_1731_1_i, 1, LOCAL(1),
+  var_std__less, 2, var_1732_4_n, var_1731_4_i, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_193, lambda_194, TAIL_CALL,
   POS(1795, 7),
@@ -4986,7 +4986,7 @@ static TAB_NUM t_lambda_193[] = {
   0, // locals
   0, // parameters
   //  self undefined
-  LET, 2, var_1729_0_self, var_undefined, TAIL_CALL,
+  LET, 2, var_1729_5_self, var_undefined, TAIL_CALL,
   POS(1798, 11)
 };
 
@@ -4994,13 +4994,13 @@ static TAB_NUM t_lambda_194[] = {
   2, // locals
   0, // parameters
   // $exp_sign_chr self(i)
-  var_1729_0_self, 1, var_1731_1_i, 1, var_1800_1_exp_sign_chr,
+  var_1729_5_self, 1, var_1731_4_i, 1, var_1800_12_exp_sign_chr,
   // exp_sign_chr == '-' || exp_sign_chr == '+' &i -> i+1
-  var_std__equal, 2, var_1800_1_exp_sign_chr, chr_45, 1, LOCAL(1),
+  var_std__equal, 2, var_1800_12_exp_sign_chr, chr_45, 1, LOCAL(1),
   // exp_sign_chr == '-' || exp_sign_chr == '+' &i -> i+1
   var_std__or, 2, LOCAL(1), lambda_195, 1, LOCAL(2),
   // update_if exp_sign_chr == '-' || exp_sign_chr == '+' &i -> i+1
-  var_update_if, 3, LOCAL(2), var_1731_1_i, lambda_196, 1, var_1731_1_i,
+  var_update_if, 3, LOCAL(2), var_1731_4_i, lambda_196, 1, var_1731_4_i,
   // skip_one_ore_more_digits return_real
   func_skip_one_ore_more_digits, 1, func_return_real, TAIL_CALL,
   POS(1800, 11),
@@ -5014,7 +5014,7 @@ static TAB_NUM t_lambda_195[] = {
   1, // locals
   0, // parameters
   // exp_sign_chr == '+' &i -> i+1
-  var_std__equal, 2, var_1800_1_exp_sign_chr, chr_43, 1, LOCAL(1),
+  var_std__equal, 2, var_1800_12_exp_sign_chr, chr_43, 1, LOCAL(1),
   // exp_sign_chr == '+' &i -> i+1
   LET, 1, LOCAL(1), TAIL_CALL,
   POS(1801, 44),
@@ -5025,7 +5025,7 @@ static TAB_NUM t_lambda_196[] = {
   1, // locals
   0, // parameters
   // i+1
-  var_std__plus, 2, var_1731_1_i, num_1, 1, LOCAL(1),
+  var_std__plus, 2, var_1731_4_i, num_1, 1, LOCAL(1),
   //  i+1
   LET, 1, LOCAL(1), TAIL_CALL,
   POS(1801, 70),
@@ -5036,11 +5036,11 @@ static TAB_NUM t_func_return_integer[] = {
   4, // locals
   0, // parameters
   // range(self i -1) integer(range(self 1 i-1))
-  var_range, 3, var_1729_0_self, var_1731_1_i, minus_num_1, 1, LOCAL(1),
+  var_range, 3, var_1729_5_self, var_1731_4_i, minus_num_1, 1, LOCAL(1),
   // i-1))
-  var_std__minus, 2, var_1731_1_i, num_1, 1, LOCAL(2),
+  var_std__minus, 2, var_1731_4_i, num_1, 1, LOCAL(2),
   // range(self 1 i-1))
-  var_range, 3, var_1729_0_self, num_1, LOCAL(2), 1, LOCAL(3),
+  var_range, 3, var_1729_5_self, num_1, LOCAL(2), 1, LOCAL(3),
   // integer(range(self 1 i-1))
   var_integer, 1, LOCAL(3), 1, LOCAL(4),
   //  range(self i -1) integer(range(self 1 i-1))
@@ -5056,11 +5056,11 @@ static TAB_NUM t_func_return_real[] = {
   4, // locals
   0, // parameters
   // range(self i -1) real(range(self 1 i-1))
-  var_range, 3, var_1729_0_self, var_1731_1_i, minus_num_1, 1, LOCAL(1),
+  var_range, 3, var_1729_5_self, var_1731_4_i, minus_num_1, 1, LOCAL(1),
   // i-1))
-  var_std__minus, 2, var_1731_1_i, num_1, 1, LOCAL(2),
+  var_std__minus, 2, var_1731_4_i, num_1, 1, LOCAL(2),
   // range(self 1 i-1))
-  var_range, 3, var_1729_0_self, num_1, LOCAL(2), 1, LOCAL(3),
+  var_range, 3, var_1729_5_self, num_1, LOCAL(2), 1, LOCAL(3),
   // real(range(self 1 i-1))
   var_real, 1, LOCAL(3), 1, LOCAL(4),
   //  range(self i -1) real(range(self 1 i-1))
@@ -5075,13 +5075,13 @@ static TAB_NUM t_func_return_real[] = {
 static TAB_NUM t_func_parse_binary[] = {
   1, // locals
   3, // parameters
-  var_1808_16_str,
-  var_1808_20_i,
-  var_1808_22_sign,
+  var_1808_17_str,
+  var_1808_21_i,
+  var_1808_23_sign,
   // $n length_of(str)
-  var_length_of, 1, var_1808_16_str, 1, var_1809_1_n,
+  var_length_of, 1, var_1808_17_str, 1, var_1809_4_n,
   // n -> str undefined
-  var_std__less, 2, var_1809_1_n, var_1808_20_i, 1, LOCAL(1),
+  var_std__less, 2, var_1809_4_n, var_1808_21_i, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_197, lambda_198, TAIL_CALL,
   POS(1809, 3),
@@ -5093,7 +5093,7 @@ static TAB_NUM t_lambda_197[] = {
   0, // locals
   0, // parameters
   //  str undefined
-  LET, 2, var_1808_16_str, var_undefined, TAIL_CALL,
+  LET, 2, var_1808_17_str, var_undefined, TAIL_CALL,
   POS(1811, 13)
 };
 
@@ -5101,9 +5101,9 @@ static TAB_NUM t_lambda_198[] = {
   2, // locals
   0, // parameters
   // $digit str(i)
-  var_1808_16_str, 1, var_1808_20_i, 1, var_1813_1_digit,
+  var_1808_17_str, 1, var_1808_21_i, 1, var_1813_8_digit,
   // digit < '0' || digit > '1'
-  var_std__less, 2, var_1813_1_digit, chr_48, 1, LOCAL(1),
+  var_std__less, 2, var_1813_8_digit, chr_48, 1, LOCAL(1),
   // digit < '0' || digit > '1'
   var_std__or, 2, LOCAL(1), lambda_199, 1, LOCAL(2),
   // if
@@ -5118,7 +5118,7 @@ static TAB_NUM t_lambda_199[] = {
   1, // locals
   0, // parameters
   // 1'
-  var_std__less, 2, chr_49, var_1813_1_digit, 1, LOCAL(1),
+  var_std__less, 2, chr_49, var_1813_8_digit, 1, LOCAL(1),
   // digit > '1'
   LET, 1, LOCAL(1), TAIL_CALL,
   POS(1815, 33),
@@ -5129,7 +5129,7 @@ static TAB_NUM t_lambda_200[] = {
   0, // locals
   0, // parameters
   //  str undefined
-  LET, 2, var_1808_16_str, var_undefined, TAIL_CALL,
+  LET, 2, var_1808_17_str, var_undefined, TAIL_CALL,
   POS(1816, 11)
 };
 
@@ -5137,7 +5137,7 @@ static TAB_NUM t_lambda_201[] = {
   0, // locals
   0, // parameters
   // $value digit-'0'
-  var_std__minus, 2, var_1813_1_digit, chr_48, 1, var_1818_1_value,
+  var_std__minus, 2, var_1813_8_digit, chr_48, 1, var_1818_12_value,
   // loop:
   var_loop, 1, lambda_12_loop, TAIL_CALL,
   POS(1818, 11),
@@ -5148,9 +5148,9 @@ static TAB_NUM t_lambda_12_loop[] = {
   1, // locals
   0, // parameters
   // !i i+1
-  var_std__plus, 2, var_1808_20_i, num_1, 1, var_1808_20_i,
+  var_std__plus, 2, var_1808_21_i, num_1, 1, var_1808_21_i,
   // n
-  var_std__less, 2, var_1809_1_n, var_1808_20_i, 1, LOCAL(1),
+  var_std__less, 2, var_1809_4_n, var_1808_21_i, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_202, lambda_203, TAIL_CALL,
   POS(1820, 13),
@@ -5162,7 +5162,7 @@ static TAB_NUM t_lambda_202[] = {
   1, // locals
   0, // parameters
   // value*sign
-  var_std__times, 2, var_1818_1_value, var_1808_22_sign, 1, LOCAL(1),
+  var_std__times, 2, var_1818_12_value, var_1808_23_sign, 1, LOCAL(1),
   //  "" value*sign
   LET, 2, string_1, LOCAL(1), TAIL_CALL,
   POS(1823, 21),
@@ -5173,9 +5173,9 @@ static TAB_NUM t_lambda_203[] = {
   3, // locals
   0, // parameters
   // $next_digit str(i)
-  var_1808_16_str, 1, var_1808_20_i, 1, var_1825_1_next_digit,
+  var_1808_17_str, 1, var_1808_21_i, 1, var_1825_18_next_digit,
   // next_digit >= '0' && next_digit <= '1':
-  var_std__less, 2, var_1825_1_next_digit, chr_48, 1, LOCAL(1),
+  var_std__less, 2, var_1825_18_next_digit, chr_48, 1, LOCAL(1),
   // next_digit >= '0' && next_digit <= '1':
   var_std__not, 1, LOCAL(1), 1, LOCAL(2),
   // next_digit >= '0' && next_digit <= '1':
@@ -5193,7 +5193,7 @@ static TAB_NUM t_lambda_204[] = {
   2, // locals
   0, // parameters
   // 1':
-  var_std__less, 2, chr_49, var_1825_1_next_digit, 1, LOCAL(1),
+  var_std__less, 2, chr_49, var_1825_18_next_digit, 1, LOCAL(1),
   // 1':
   var_std__not, 1, LOCAL(1), 1, LOCAL(2),
   // next_digit <= '1':
@@ -5207,11 +5207,11 @@ static TAB_NUM t_lambda_205[] = {
   2, // locals
   0, // parameters
   // value << 1)+(next_digit-'0')
-  var_std__shift_left, 2, var_1818_1_value, num_1, 1, LOCAL(1),
+  var_std__shift_left, 2, var_1818_12_value, num_1, 1, LOCAL(1),
   // next_digit-'0')
-  var_std__minus, 2, var_1825_1_next_digit, chr_48, 1, LOCAL(2),
+  var_std__minus, 2, var_1825_18_next_digit, chr_48, 1, LOCAL(2),
   // !value (value << 1)+(next_digit-'0')
-  var_std__plus, 2, LOCAL(1), LOCAL(2), 1, var_1818_1_value,
+  var_std__plus, 2, LOCAL(1), LOCAL(2), 1, var_1818_12_value,
   // next
   var_next, 0, TAIL_CALL,
   POS(1828, 29),
@@ -5224,9 +5224,9 @@ static TAB_NUM t_lambda_206[] = {
   2, // locals
   0, // parameters
   // range(str i -1) value*sign
-  var_range, 3, var_1808_16_str, var_1808_20_i, minus_num_1, 1, LOCAL(1),
+  var_range, 3, var_1808_17_str, var_1808_21_i, minus_num_1, 1, LOCAL(1),
   // value*sign
-  var_std__times, 2, var_1818_1_value, var_1808_22_sign, 1, LOCAL(2),
+  var_std__times, 2, var_1818_12_value, var_1808_23_sign, 1, LOCAL(2),
   //  range(str i -1) value*sign
   LET, 2, LOCAL(1), LOCAL(2), TAIL_CALL,
   POS(1830, 22),
@@ -5237,13 +5237,13 @@ static TAB_NUM t_lambda_206[] = {
 static TAB_NUM t_func_parse_octal[] = {
   1, // locals
   3, // parameters
-  var_1832_15_str,
-  var_1832_19_i,
-  var_1832_21_sign,
+  var_1832_16_str,
+  var_1832_20_i,
+  var_1832_22_sign,
   // $n length_of(str)
-  var_length_of, 1, var_1832_15_str, 1, var_1833_1_n,
+  var_length_of, 1, var_1832_16_str, 1, var_1833_4_n,
   // n -> str undefined
-  var_std__less, 2, var_1833_1_n, var_1832_19_i, 1, LOCAL(1),
+  var_std__less, 2, var_1833_4_n, var_1832_20_i, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_207, lambda_208, TAIL_CALL,
   POS(1833, 3),
@@ -5255,7 +5255,7 @@ static TAB_NUM t_lambda_207[] = {
   0, // locals
   0, // parameters
   //  str undefined
-  LET, 2, var_1832_15_str, var_undefined, TAIL_CALL,
+  LET, 2, var_1832_16_str, var_undefined, TAIL_CALL,
   POS(1835, 13)
 };
 
@@ -5263,9 +5263,9 @@ static TAB_NUM t_lambda_208[] = {
   2, // locals
   0, // parameters
   // $digit str(i)
-  var_1832_15_str, 1, var_1832_19_i, 1, var_1837_1_digit,
+  var_1832_16_str, 1, var_1832_20_i, 1, var_1837_8_digit,
   // digit < '0' || digit > '7'
-  var_std__less, 2, var_1837_1_digit, chr_48, 1, LOCAL(1),
+  var_std__less, 2, var_1837_8_digit, chr_48, 1, LOCAL(1),
   // digit < '0' || digit > '7'
   var_std__or, 2, LOCAL(1), lambda_209, 1, LOCAL(2),
   // if
@@ -5280,7 +5280,7 @@ static TAB_NUM t_lambda_209[] = {
   1, // locals
   0, // parameters
   // 7'
-  var_std__less, 2, chr_55, var_1837_1_digit, 1, LOCAL(1),
+  var_std__less, 2, chr_55, var_1837_8_digit, 1, LOCAL(1),
   // digit > '7'
   LET, 1, LOCAL(1), TAIL_CALL,
   POS(1839, 33),
@@ -5291,7 +5291,7 @@ static TAB_NUM t_lambda_210[] = {
   0, // locals
   0, // parameters
   //  str undefined
-  LET, 2, var_1832_15_str, var_undefined, TAIL_CALL,
+  LET, 2, var_1832_16_str, var_undefined, TAIL_CALL,
   POS(1840, 11)
 };
 
@@ -5299,7 +5299,7 @@ static TAB_NUM t_lambda_211[] = {
   0, // locals
   0, // parameters
   // $value digit-'0'
-  var_std__minus, 2, var_1837_1_digit, chr_48, 1, var_1842_1_value,
+  var_std__minus, 2, var_1837_8_digit, chr_48, 1, var_1842_12_value,
   // loop:
   var_loop, 1, lambda_13_loop, TAIL_CALL,
   POS(1842, 11),
@@ -5310,9 +5310,9 @@ static TAB_NUM t_lambda_13_loop[] = {
   1, // locals
   0, // parameters
   // !i i+1
-  var_std__plus, 2, var_1832_19_i, num_1, 1, var_1832_19_i,
+  var_std__plus, 2, var_1832_20_i, num_1, 1, var_1832_20_i,
   // n
-  var_std__less, 2, var_1833_1_n, var_1832_19_i, 1, LOCAL(1),
+  var_std__less, 2, var_1833_4_n, var_1832_20_i, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_212, lambda_213, TAIL_CALL,
   POS(1844, 13),
@@ -5324,7 +5324,7 @@ static TAB_NUM t_lambda_212[] = {
   1, // locals
   0, // parameters
   // value*sign
-  var_std__times, 2, var_1842_1_value, var_1832_21_sign, 1, LOCAL(1),
+  var_std__times, 2, var_1842_12_value, var_1832_22_sign, 1, LOCAL(1),
   //  "" value*sign
   LET, 2, string_1, LOCAL(1), TAIL_CALL,
   POS(1847, 21),
@@ -5335,9 +5335,9 @@ static TAB_NUM t_lambda_213[] = {
   3, // locals
   0, // parameters
   // $next_digit str(i)
-  var_1832_15_str, 1, var_1832_19_i, 1, var_1849_1_next_digit,
+  var_1832_16_str, 1, var_1832_20_i, 1, var_1849_18_next_digit,
   // next_digit >= '0' && next_digit <= '7':
-  var_std__less, 2, var_1849_1_next_digit, chr_48, 1, LOCAL(1),
+  var_std__less, 2, var_1849_18_next_digit, chr_48, 1, LOCAL(1),
   // next_digit >= '0' && next_digit <= '7':
   var_std__not, 1, LOCAL(1), 1, LOCAL(2),
   // next_digit >= '0' && next_digit <= '7':
@@ -5355,7 +5355,7 @@ static TAB_NUM t_lambda_214[] = {
   2, // locals
   0, // parameters
   // 7':
-  var_std__less, 2, chr_55, var_1849_1_next_digit, 1, LOCAL(1),
+  var_std__less, 2, chr_55, var_1849_18_next_digit, 1, LOCAL(1),
   // 7':
   var_std__not, 1, LOCAL(1), 1, LOCAL(2),
   // next_digit <= '7':
@@ -5369,11 +5369,11 @@ static TAB_NUM t_lambda_215[] = {
   2, // locals
   0, // parameters
   // value << 3)+(next_digit-'0')
-  var_std__shift_left, 2, var_1842_1_value, num_3, 1, LOCAL(1),
+  var_std__shift_left, 2, var_1842_12_value, num_3, 1, LOCAL(1),
   // next_digit-'0')
-  var_std__minus, 2, var_1849_1_next_digit, chr_48, 1, LOCAL(2),
+  var_std__minus, 2, var_1849_18_next_digit, chr_48, 1, LOCAL(2),
   // !value (value << 3)+(next_digit-'0')
-  var_std__plus, 2, LOCAL(1), LOCAL(2), 1, var_1842_1_value,
+  var_std__plus, 2, LOCAL(1), LOCAL(2), 1, var_1842_12_value,
   // next
   var_next, 0, TAIL_CALL,
   POS(1852, 29),
@@ -5386,9 +5386,9 @@ static TAB_NUM t_lambda_216[] = {
   2, // locals
   0, // parameters
   // range(str i -1) value*sign
-  var_range, 3, var_1832_15_str, var_1832_19_i, minus_num_1, 1, LOCAL(1),
+  var_range, 3, var_1832_16_str, var_1832_20_i, minus_num_1, 1, LOCAL(1),
   // value*sign
-  var_std__times, 2, var_1842_1_value, var_1832_21_sign, 1, LOCAL(2),
+  var_std__times, 2, var_1842_12_value, var_1832_22_sign, 1, LOCAL(2),
   //  range(str i -1) value*sign
   LET, 2, LOCAL(1), LOCAL(2), TAIL_CALL,
   POS(1854, 22),
@@ -5399,13 +5399,13 @@ static TAB_NUM t_lambda_216[] = {
 static TAB_NUM t_func_std__parse_hex[] = {
   1, // locals
   -3, // parameters
-  MANDATORY_PARAMETER, var_1884_0_str,
-  num_1, var_1885_0_i,
-  num_1, var_1886_0_sign,
+  MANDATORY_PARAMETER, var_1884_5_str,
+  num_1, var_1885_5_i,
+  num_1, var_1886_5_sign,
   // $n length_of(str)
-  var_length_of, 1, var_1884_0_str, 1, var_1888_1_n,
+  var_length_of, 1, var_1884_5_str, 1, var_1888_4_n,
   // n -> str undefined
-  var_std__less, 2, var_1888_1_n, var_1885_0_i, 1, LOCAL(1),
+  var_std__less, 2, var_1888_4_n, var_1885_5_i, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_217, lambda_218, TAIL_CALL,
   POS(1888, 3),
@@ -5417,7 +5417,7 @@ static TAB_NUM t_lambda_217[] = {
   0, // locals
   0, // parameters
   //  str undefined
-  LET, 2, var_1884_0_str, var_undefined, TAIL_CALL,
+  LET, 2, var_1884_5_str, var_undefined, TAIL_CALL,
   POS(1890, 13)
 };
 
@@ -5425,7 +5425,7 @@ static TAB_NUM t_lambda_218[] = {
   0, // locals
   0, // parameters
   // $digit str(i)
-  var_1884_0_str, 1, var_1885_0_i, 1, var_1892_1_digit,
+  var_1884_5_str, 1, var_1885_5_i, 1, var_1892_8_digit,
   // cond
   var_cond, 4, lambda_219, lambda_222, lambda_225, lambda_228, TAIL_CALL,
   POS(1892, 7),
@@ -5436,7 +5436,7 @@ static TAB_NUM t_lambda_219[] = {
   3, // locals
   0, // parameters
   // digit >= '0' && digit <= '9':
-  var_std__less, 2, var_1892_1_digit, chr_48, 1, LOCAL(1),
+  var_std__less, 2, var_1892_8_digit, chr_48, 1, LOCAL(1),
   // digit >= '0' && digit <= '9':
   var_std__not, 1, LOCAL(1), 1, LOCAL(2),
   // digit >= '0' && digit <= '9':
@@ -5453,7 +5453,7 @@ static TAB_NUM t_lambda_220[] = {
   2, // locals
   0, // parameters
   // 9':
-  var_std__less, 2, chr_57, var_1892_1_digit, 1, LOCAL(1),
+  var_std__less, 2, chr_57, var_1892_8_digit, 1, LOCAL(1),
   // 9':
   var_std__not, 1, LOCAL(1), 1, LOCAL(2),
   // digit <= '9':
@@ -5467,7 +5467,7 @@ static TAB_NUM t_lambda_221[] = {
   1, // locals
   0, // parameters
   // digit-'0'
-  var_std__minus, 2, var_1892_1_digit, chr_48, 1, LOCAL(1),
+  var_std__minus, 2, var_1892_8_digit, chr_48, 1, LOCAL(1),
   // handle_more_digits digit-'0'
   func_handle_more_digits, 1, LOCAL(1), TAIL_CALL,
   POS(1895, 30),
@@ -5478,7 +5478,7 @@ static TAB_NUM t_lambda_222[] = {
   3, // locals
   0, // parameters
   // digit >= 'a' && digit <= 'f':
-  var_std__less, 2, var_1892_1_digit, chr_97, 1, LOCAL(1),
+  var_std__less, 2, var_1892_8_digit, chr_97, 1, LOCAL(1),
   // digit >= 'a' && digit <= 'f':
   var_std__not, 1, LOCAL(1), 1, LOCAL(2),
   // digit >= 'a' && digit <= 'f':
@@ -5495,7 +5495,7 @@ static TAB_NUM t_lambda_223[] = {
   2, // locals
   0, // parameters
   // f':
-  var_std__less, 2, chr_102, var_1892_1_digit, 1, LOCAL(1),
+  var_std__less, 2, chr_102, var_1892_8_digit, 1, LOCAL(1),
   // f':
   var_std__not, 1, LOCAL(1), 1, LOCAL(2),
   // digit <= 'f':
@@ -5509,7 +5509,7 @@ static TAB_NUM t_lambda_224[] = {
   2, // locals
   0, // parameters
   // digit-'a')+10
-  var_std__minus, 2, var_1892_1_digit, chr_97, 1, LOCAL(1),
+  var_std__minus, 2, var_1892_8_digit, chr_97, 1, LOCAL(1),
   // digit-'a')+10
   var_std__plus, 2, LOCAL(1), num_10, 1, LOCAL(2),
   // handle_more_digits (digit-'a')+10
@@ -5523,7 +5523,7 @@ static TAB_NUM t_lambda_225[] = {
   3, // locals
   0, // parameters
   // digit >= 'A' && digit <= 'F':
-  var_std__less, 2, var_1892_1_digit, chr_65, 1, LOCAL(1),
+  var_std__less, 2, var_1892_8_digit, chr_65, 1, LOCAL(1),
   // digit >= 'A' && digit <= 'F':
   var_std__not, 1, LOCAL(1), 1, LOCAL(2),
   // digit >= 'A' && digit <= 'F':
@@ -5540,7 +5540,7 @@ static TAB_NUM t_lambda_226[] = {
   2, // locals
   0, // parameters
   // F':
-  var_std__less, 2, chr_70, var_1892_1_digit, 1, LOCAL(1),
+  var_std__less, 2, chr_70, var_1892_8_digit, 1, LOCAL(1),
   // F':
   var_std__not, 1, LOCAL(1), 1, LOCAL(2),
   // digit <= 'F':
@@ -5554,7 +5554,7 @@ static TAB_NUM t_lambda_227[] = {
   2, // locals
   0, // parameters
   // digit-'A')+10
-  var_std__minus, 2, var_1892_1_digit, chr_65, 1, LOCAL(1),
+  var_std__minus, 2, var_1892_8_digit, chr_65, 1, LOCAL(1),
   // digit-'A')+10
   var_std__plus, 2, LOCAL(1), num_10, 1, LOCAL(2),
   // handle_more_digits (digit-'A')+10
@@ -5576,14 +5576,14 @@ static TAB_NUM t_lambda_229[] = {
   0, // locals
   0, // parameters
   //  str undefined
-  LET, 2, var_1884_0_str, var_undefined, TAIL_CALL,
+  LET, 2, var_1884_5_str, var_undefined, TAIL_CALL,
   POS(1900, 19)
 };
 
 static TAB_NUM t_func_handle_more_digits[] = {
   0, // locals
   1, // parameters
-  var_1902_22_value,
+  var_1902_29_value,
   // loop:
   var_loop, 1, lambda_14_loop, TAIL_CALL,
   POS(1903, 9)
@@ -5593,9 +5593,9 @@ static TAB_NUM t_lambda_14_loop[] = {
   1, // locals
   0, // parameters
   // !i i+1
-  var_std__plus, 2, var_1885_0_i, num_1, 1, var_1885_0_i,
+  var_std__plus, 2, var_1885_5_i, num_1, 1, var_1885_5_i,
   // n
-  var_std__less, 2, var_1888_1_n, var_1885_0_i, 1, LOCAL(1),
+  var_std__less, 2, var_1888_4_n, var_1885_5_i, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_230, lambda_231, TAIL_CALL,
   POS(1904, 11),
@@ -5607,7 +5607,7 @@ static TAB_NUM t_lambda_230[] = {
   1, // locals
   0, // parameters
   // value*sign
-  var_std__times, 2, var_1902_22_value, var_1886_0_sign, 1, LOCAL(1),
+  var_std__times, 2, var_1902_29_value, var_1886_5_sign, 1, LOCAL(1),
   //  "" value*sign
   LET, 2, string_1, LOCAL(1), TAIL_CALL,
   POS(1907, 19),
@@ -5618,7 +5618,7 @@ static TAB_NUM t_lambda_231[] = {
   0, // locals
   0, // parameters
   // $next_digit str(i)
-  var_1884_0_str, 1, var_1885_0_i, 1, var_1909_1_next_digit,
+  var_1884_5_str, 1, var_1885_5_i, 1, var_1909_16_next_digit,
   // cond
   var_cond, 4, lambda_232, lambda_235, lambda_238, lambda_241, TAIL_CALL,
   POS(1909, 15),
@@ -5629,7 +5629,7 @@ static TAB_NUM t_lambda_232[] = {
   3, // locals
   0, // parameters
   // next_digit >= '0' && next_digit <= '9':
-  var_std__less, 2, var_1909_1_next_digit, chr_48, 1, LOCAL(1),
+  var_std__less, 2, var_1909_16_next_digit, chr_48, 1, LOCAL(1),
   // next_digit >= '0' && next_digit <= '9':
   var_std__not, 1, LOCAL(1), 1, LOCAL(2),
   // next_digit >= '0' && next_digit <= '9':
@@ -5646,7 +5646,7 @@ static TAB_NUM t_lambda_233[] = {
   2, // locals
   0, // parameters
   // 9':
-  var_std__less, 2, chr_57, var_1909_1_next_digit, 1, LOCAL(1),
+  var_std__less, 2, chr_57, var_1909_16_next_digit, 1, LOCAL(1),
   // 9':
   var_std__not, 1, LOCAL(1), 1, LOCAL(2),
   // next_digit <= '9':
@@ -5660,11 +5660,11 @@ static TAB_NUM t_lambda_234[] = {
   2, // locals
   0, // parameters
   // value << 4)+(next_digit-'0')
-  var_std__shift_left, 2, var_1902_22_value, num_4, 1, LOCAL(1),
+  var_std__shift_left, 2, var_1902_29_value, num_4, 1, LOCAL(1),
   // next_digit-'0')
-  var_std__minus, 2, var_1909_1_next_digit, chr_48, 1, LOCAL(2),
+  var_std__minus, 2, var_1909_16_next_digit, chr_48, 1, LOCAL(2),
   // !value (value << 4)+(next_digit-'0')
-  var_std__plus, 2, LOCAL(1), LOCAL(2), 1, var_1902_22_value,
+  var_std__plus, 2, LOCAL(1), LOCAL(2), 1, var_1902_29_value,
   // next
   var_next, 0, TAIL_CALL,
   POS(1912, 27),
@@ -5677,7 +5677,7 @@ static TAB_NUM t_lambda_235[] = {
   3, // locals
   0, // parameters
   // next_digit >= 'a' && next_digit <= 'f':
-  var_std__less, 2, var_1909_1_next_digit, chr_97, 1, LOCAL(1),
+  var_std__less, 2, var_1909_16_next_digit, chr_97, 1, LOCAL(1),
   // next_digit >= 'a' && next_digit <= 'f':
   var_std__not, 1, LOCAL(1), 1, LOCAL(2),
   // next_digit >= 'a' && next_digit <= 'f':
@@ -5694,7 +5694,7 @@ static TAB_NUM t_lambda_236[] = {
   2, // locals
   0, // parameters
   // f':
-  var_std__less, 2, chr_102, var_1909_1_next_digit, 1, LOCAL(1),
+  var_std__less, 2, chr_102, var_1909_16_next_digit, 1, LOCAL(1),
   // f':
   var_std__not, 1, LOCAL(1), 1, LOCAL(2),
   // next_digit <= 'f':
@@ -5708,13 +5708,13 @@ static TAB_NUM t_lambda_237[] = {
   3, // locals
   0, // parameters
   // value << 4)+(next_digit-'a')+10
-  var_std__shift_left, 2, var_1902_22_value, num_4, 1, LOCAL(1),
+  var_std__shift_left, 2, var_1902_29_value, num_4, 1, LOCAL(1),
   // next_digit-'a')+10
-  var_std__minus, 2, var_1909_1_next_digit, chr_97, 1, LOCAL(2),
+  var_std__minus, 2, var_1909_16_next_digit, chr_97, 1, LOCAL(2),
   // value << 4)+(next_digit-'a')+10
   var_std__plus, 2, LOCAL(1), LOCAL(2), 1, LOCAL(3),
   // !value (value << 4)+(next_digit-'a')+10
-  var_std__plus, 2, LOCAL(3), num_10, 1, var_1902_22_value,
+  var_std__plus, 2, LOCAL(3), num_10, 1, var_1902_29_value,
   // next
   var_next, 0, TAIL_CALL,
   POS(1915, 27),
@@ -5728,7 +5728,7 @@ static TAB_NUM t_lambda_238[] = {
   3, // locals
   0, // parameters
   // next_digit >= 'A' && next_digit <= 'F':
-  var_std__less, 2, var_1909_1_next_digit, chr_65, 1, LOCAL(1),
+  var_std__less, 2, var_1909_16_next_digit, chr_65, 1, LOCAL(1),
   // next_digit >= 'A' && next_digit <= 'F':
   var_std__not, 1, LOCAL(1), 1, LOCAL(2),
   // next_digit >= 'A' && next_digit <= 'F':
@@ -5745,7 +5745,7 @@ static TAB_NUM t_lambda_239[] = {
   2, // locals
   0, // parameters
   // F':
-  var_std__less, 2, chr_70, var_1909_1_next_digit, 1, LOCAL(1),
+  var_std__less, 2, chr_70, var_1909_16_next_digit, 1, LOCAL(1),
   // F':
   var_std__not, 1, LOCAL(1), 1, LOCAL(2),
   // next_digit <= 'F':
@@ -5759,13 +5759,13 @@ static TAB_NUM t_lambda_240[] = {
   3, // locals
   0, // parameters
   // value << 4)+(next_digit-'A')+10
-  var_std__shift_left, 2, var_1902_22_value, num_4, 1, LOCAL(1),
+  var_std__shift_left, 2, var_1902_29_value, num_4, 1, LOCAL(1),
   // next_digit-'A')+10
-  var_std__minus, 2, var_1909_1_next_digit, chr_65, 1, LOCAL(2),
+  var_std__minus, 2, var_1909_16_next_digit, chr_65, 1, LOCAL(2),
   // value << 4)+(next_digit-'A')+10
   var_std__plus, 2, LOCAL(1), LOCAL(2), 1, LOCAL(3),
   // !value (value << 4)+(next_digit-'A')+10
-  var_std__plus, 2, LOCAL(3), num_10, 1, var_1902_22_value,
+  var_std__plus, 2, LOCAL(3), num_10, 1, var_1902_29_value,
   // next
   var_next, 0, TAIL_CALL,
   POS(1918, 27),
@@ -5787,9 +5787,9 @@ static TAB_NUM t_lambda_242[] = {
   2, // locals
   0, // parameters
   // range(str i -1) value*sign
-  var_range, 3, var_1884_0_str, var_1885_0_i, minus_num_1, 1, LOCAL(1),
+  var_range, 3, var_1884_5_str, var_1885_5_i, minus_num_1, 1, LOCAL(1),
   // value*sign
-  var_std__times, 2, var_1902_22_value, var_1886_0_sign, 1, LOCAL(2),
+  var_std__times, 2, var_1902_29_value, var_1886_5_sign, 1, LOCAL(2),
   //  range(str i -1) value*sign
   LET, 2, LOCAL(1), LOCAL(2), TAIL_CALL,
   POS(1920, 28),
@@ -5800,9 +5800,9 @@ static TAB_NUM t_lambda_242[] = {
 static TAB_NUM t_func_std_types__string___to_integer[] = {
   2, // locals
   1, // parameters
-  LOCAL(2), // 1956_0_self
+  LOCAL(2), // 1956_5_self
   // parse_integer &self $value
-  var_parse_integer, 1, LOCAL(2), 2, LOCAL(2), var_1958_21_value,
+  var_parse_integer, 1, LOCAL(2), 2, LOCAL(2), var_1958_24_value,
   // self == ""
   var_std__equal, 2, LOCAL(2), string_1, 1, LOCAL(1),
   // if
@@ -5816,7 +5816,7 @@ static TAB_NUM t_lambda_243[] = {
   0, // locals
   0, // parameters
   //  value
-  LET, 1, var_1958_21_value, TAIL_CALL,
+  LET, 1, var_1958_24_value, TAIL_CALL,
   POS(1961, 7)
 };
 
@@ -5831,9 +5831,9 @@ static TAB_NUM t_lambda_244[] = {
 static TAB_NUM t_func_std_types__string___to_number[] = {
   2, // locals
   1, // parameters
-  LOCAL(2), // 1998_0_self
+  LOCAL(2), // 1998_5_self
   // parse_number &self $value
-  var_parse_number, 1, LOCAL(2), 2, LOCAL(2), var_2000_20_value,
+  var_parse_number, 1, LOCAL(2), 2, LOCAL(2), var_2000_23_value,
   // self == ""
   var_std__equal, 2, LOCAL(2), string_1, 1, LOCAL(1),
   // if
@@ -5847,7 +5847,7 @@ static TAB_NUM t_lambda_245[] = {
   0, // locals
   0, // parameters
   //  value
-  LET, 1, var_2000_20_value, TAIL_CALL,
+  LET, 1, var_2000_23_value, TAIL_CALL,
   POS(2003, 7)
 };
 
@@ -5862,18 +5862,18 @@ static TAB_NUM t_lambda_246[] = {
 static TAB_NUM t_func_std__map_characters[] = {
   2, // locals
   2, // parameters
-  var_2027_0_self,
-  var_2028_0_function,
+  var_2027_5_self,
+  var_2028_5_function,
   // parameter_count_of(function) == 2
-  var_parameter_count_of, 1, var_2028_0_function, 1, LOCAL(1),
+  var_parameter_count_of, 1, var_2028_5_function, 1, LOCAL(1),
   // parameter_count_of(function) == 2
   var_std__equal, 2, LOCAL(1), num_2, 1, LOCAL(2),
   // $map
-  var_if, 3, LOCAL(2), lambda_247, lambda_253, 1, var_2030_1_map,
+  var_if, 3, LOCAL(2), lambda_247, lambda_253, 1, var_2030_4_map,
   // length_of(self)
-  var_length_of, 1, var_2027_0_self, 1, LOCAL(1),
+  var_length_of, 1, var_2027_5_self, 1, LOCAL(1),
   // map 1 length_of(self)
-  var_2030_1_map, 2, num_1, LOCAL(1), TAIL_CALL,
+  var_2030_4_map, 2, num_1, LOCAL(1), TAIL_CALL,
   POS(2032, 7),
   POS(2032, 7),
   POS(2030, 3),
@@ -5892,10 +5892,10 @@ static TAB_NUM t_lambda_247[] = {
 static TAB_NUM t_lambda_248[] = {
   1, // locals
   2, // parameters
-  var_2034_3_s,
-  var_2034_5_e,
+  var_2034_12_s,
+  var_2034_14_e,
   // s < e:
-  var_std__less, 2, var_2034_3_s, var_2034_5_e, 1, LOCAL(1),
+  var_std__less, 2, var_2034_12_s, var_2034_14_e, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_249, lambda_250, TAIL_CALL,
   POS(2036, 13),
@@ -5906,15 +5906,15 @@ static TAB_NUM t_lambda_249[] = {
   4, // locals
   0, // parameters
   // s+e) >> 1
-  var_std__plus, 2, var_2034_3_s, var_2034_5_e, 1, LOCAL(1),
+  var_std__plus, 2, var_2034_12_s, var_2034_14_e, 1, LOCAL(1),
   // $m (s+e) >> 1
   var_std__shift_right, 2, LOCAL(1), num_1, 1, LOCAL(4),
   // map(s m)
-  var_2030_1_map, 2, var_2034_3_s, LOCAL(4), 1, LOCAL(1),
+  var_2030_4_map, 2, var_2034_12_s, LOCAL(4), 1, LOCAL(1),
   // m+1 e)
   var_std__plus, 2, LOCAL(4), num_1, 1, LOCAL(2),
   // map(m+1 e)
-  var_2030_1_map, 2, LOCAL(2), var_2034_5_e, 1, LOCAL(3),
+  var_2030_4_map, 2, LOCAL(2), var_2034_14_e, 1, LOCAL(3),
   // append
   var_append, 2, LOCAL(1), LOCAL(3), TAIL_CALL,
   POS(2037, 19),
@@ -5929,7 +5929,7 @@ static TAB_NUM t_lambda_250[] = {
   1, // locals
   0, // parameters
   // e
-  var_std__less, 2, var_2034_5_e, var_2034_3_s, 1, LOCAL(1),
+  var_std__less, 2, var_2034_14_e, var_2034_12_s, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_251, lambda_252, TAIL_CALL,
   POS(2043, 21),
@@ -5948,9 +5948,9 @@ static TAB_NUM t_lambda_252[] = {
   3, // locals
   0, // parameters
   // self(s)).to_string
-  var_2027_0_self, 1, var_2034_3_s, 1, LOCAL(1),
+  var_2027_5_self, 1, var_2034_12_s, 1, LOCAL(1),
   // function(s self(s)).to_string
-  var_2028_0_function, 2, var_2034_3_s, LOCAL(1), 1, LOCAL(2),
+  var_2028_5_function, 2, var_2034_12_s, LOCAL(1), 1, LOCAL(2),
   // to_string
   var_to_string, 1, LOCAL(2), 1, LOCAL(3),
   //  function(s self(s)).to_string
@@ -5972,10 +5972,10 @@ static TAB_NUM t_lambda_253[] = {
 static TAB_NUM t_lambda_254[] = {
   1, // locals
   2, // parameters
-  var_2047_3_s,
-  var_2047_5_e,
+  var_2047_12_s,
+  var_2047_14_e,
   // s < e:
-  var_std__less, 2, var_2047_3_s, var_2047_5_e, 1, LOCAL(1),
+  var_std__less, 2, var_2047_12_s, var_2047_14_e, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_255, lambda_256, TAIL_CALL,
   POS(2049, 13),
@@ -5986,15 +5986,15 @@ static TAB_NUM t_lambda_255[] = {
   4, // locals
   0, // parameters
   // s+e) >> 1
-  var_std__plus, 2, var_2047_3_s, var_2047_5_e, 1, LOCAL(1),
+  var_std__plus, 2, var_2047_12_s, var_2047_14_e, 1, LOCAL(1),
   // $m (s+e) >> 1
   var_std__shift_right, 2, LOCAL(1), num_1, 1, LOCAL(4),
   // map(s m)
-  var_2030_1_map, 2, var_2047_3_s, LOCAL(4), 1, LOCAL(1),
+  var_2030_4_map, 2, var_2047_12_s, LOCAL(4), 1, LOCAL(1),
   // m+1 e)
   var_std__plus, 2, LOCAL(4), num_1, 1, LOCAL(2),
   // map(m+1 e)
-  var_2030_1_map, 2, LOCAL(2), var_2047_5_e, 1, LOCAL(3),
+  var_2030_4_map, 2, LOCAL(2), var_2047_14_e, 1, LOCAL(3),
   // append
   var_append, 2, LOCAL(1), LOCAL(3), TAIL_CALL,
   POS(2050, 19),
@@ -6009,7 +6009,7 @@ static TAB_NUM t_lambda_256[] = {
   1, // locals
   0, // parameters
   // e
-  var_std__less, 2, var_2047_5_e, var_2047_3_s, 1, LOCAL(1),
+  var_std__less, 2, var_2047_14_e, var_2047_12_s, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_257, lambda_258, TAIL_CALL,
   POS(2056, 21),
@@ -6028,9 +6028,9 @@ static TAB_NUM t_lambda_258[] = {
   3, // locals
   0, // parameters
   // self(s)).to_string
-  var_2027_0_self, 1, var_2047_3_s, 1, LOCAL(1),
+  var_2027_5_self, 1, var_2047_12_s, 1, LOCAL(1),
   // function(self(s)).to_string
-  var_2028_0_function, 1, LOCAL(1), 1, LOCAL(2),
+  var_2028_5_function, 1, LOCAL(1), 1, LOCAL(2),
   // to_string
   var_to_string, 1, LOCAL(2), 1, LOCAL(3),
   //  function(self(s)).to_string
@@ -6044,7 +6044,7 @@ static TAB_NUM t_lambda_258[] = {
 static TAB_NUM t_func_std_types__string___to_upper_case[] = {
   1, // locals
   1, // parameters
-  LOCAL(1), // 2080_0_self
+  LOCAL(1), // 2080_5_self
   // map_characters self to_upper_case
   var_map_characters, 2, LOCAL(1), var_to_upper_case, TAIL_CALL,
   POS(2082, 3)
@@ -6053,7 +6053,7 @@ static TAB_NUM t_func_std_types__string___to_upper_case[] = {
 static TAB_NUM t_func_std_types__string___to_lower_case[] = {
   1, // locals
   1, // parameters
-  LOCAL(1), // 2102_0_self
+  LOCAL(1), // 2102_5_self
   // map_characters self to_lower_case
   var_map_characters, 2, LOCAL(1), var_to_lower_case, TAIL_CALL,
   POS(2104, 3)
@@ -6062,19 +6062,19 @@ static TAB_NUM t_func_std_types__string___to_lower_case[] = {
 static TAB_NUM t_func_std_types__string___to_title_case[] = {
   0, // locals
   1, // parameters
-  var_2124_0_self,
+  var_2124_5_self,
   // map_characters self: (idx chr)
-  var_map_characters, 2, var_2124_0_self, lambda_259, TAIL_CALL,
+  var_map_characters, 2, var_2124_5_self, lambda_259, TAIL_CALL,
   POS(2126, 3)
 };
 
 static TAB_NUM t_lambda_259[] = {
   2, // locals
   2, // parameters
-  var_2126_22_idx,
-  var_2126_26_chr,
+  var_2126_25_idx,
+  var_2126_29_chr,
   // 1 && self(idx-1).is_a_letter_character
-  var_std__less, 2, num_1, var_2126_22_idx, 1, LOCAL(1),
+  var_std__less, 2, num_1, var_2126_25_idx, 1, LOCAL(1),
   // 1 && self(idx-1).is_a_letter_character
   var_std__and, 2, LOCAL(1), lambda_260, 1, LOCAL(2),
   // if
@@ -6088,9 +6088,9 @@ static TAB_NUM t_lambda_260[] = {
   3, // locals
   0, // parameters
   // idx-1).is_a_letter_character
-  var_std__minus, 2, var_2126_22_idx, num_1, 1, LOCAL(1),
+  var_std__minus, 2, var_2126_25_idx, num_1, 1, LOCAL(1),
   // self(idx-1).is_a_letter_character
-  var_2124_0_self, 1, LOCAL(1), 1, LOCAL(2),
+  var_2124_5_self, 1, LOCAL(1), 1, LOCAL(2),
   // is_a_letter_character
   var_is_a_letter_character, 1, LOCAL(2), 1, LOCAL(3),
   // self(idx-1).is_a_letter_character
@@ -6105,7 +6105,7 @@ static TAB_NUM t_lambda_261[] = {
   1, // locals
   0, // parameters
   // to_lower_case
-  var_to_lower_case, 1, var_2126_26_chr, 1, LOCAL(1),
+  var_to_lower_case, 1, var_2126_29_chr, 1, LOCAL(1),
   //  chr.to_lower_case
   LET, 1, LOCAL(1), TAIL_CALL,
   POS(2129, 14),
@@ -6116,7 +6116,7 @@ static TAB_NUM t_lambda_262[] = {
   1, // locals
   0, // parameters
   // to_title_case
-  var_to_title_case, 1, var_2126_26_chr, 1, LOCAL(1),
+  var_to_title_case, 1, var_2126_29_chr, 1, LOCAL(1),
   //  chr.to_title_case
   LET, 1, LOCAL(1), TAIL_CALL,
   POS(2130, 14),
@@ -6126,19 +6126,19 @@ static TAB_NUM t_lambda_262[] = {
 static TAB_NUM t_func_std_types__string___to_sentence_case[] = {
   0, // locals
   1, // parameters
-  var_2150_0_self,
+  var_2150_5_self,
   // map_characters self: (idx chr)
-  var_map_characters, 2, var_2150_0_self, lambda_263, TAIL_CALL,
+  var_map_characters, 2, var_2150_5_self, lambda_263, TAIL_CALL,
   POS(2152, 3)
 };
 
 static TAB_NUM t_lambda_263[] = {
   2, // locals
   2, // parameters
-  var_2152_22_idx,
-  var_2152_26_chr,
+  var_2152_25_idx,
+  var_2152_29_chr,
   // idx == 1 && self(idx).is_a_letter_character
-  var_std__equal, 2, var_2152_22_idx, num_1, 1, LOCAL(1),
+  var_std__equal, 2, var_2152_25_idx, num_1, 1, LOCAL(1),
   // idx == 1 && self(idx).is_a_letter_character
   var_std__and, 2, LOCAL(1), lambda_264, 1, LOCAL(2),
   // if
@@ -6152,7 +6152,7 @@ static TAB_NUM t_lambda_264[] = {
   2, // locals
   0, // parameters
   // self(idx).is_a_letter_character
-  var_2150_0_self, 1, var_2152_22_idx, 1, LOCAL(1),
+  var_2150_5_self, 1, var_2152_25_idx, 1, LOCAL(1),
   // is_a_letter_character
   var_is_a_letter_character, 1, LOCAL(1), 1, LOCAL(2),
   // self(idx).is_a_letter_character
@@ -6166,7 +6166,7 @@ static TAB_NUM t_lambda_265[] = {
   1, // locals
   0, // parameters
   // to_title_case
-  var_to_title_case, 1, var_2152_26_chr, 1, LOCAL(1),
+  var_to_title_case, 1, var_2152_29_chr, 1, LOCAL(1),
   //  chr.to_title_case
   LET, 1, LOCAL(1), TAIL_CALL,
   POS(2155, 14),
@@ -6177,7 +6177,7 @@ static TAB_NUM t_lambda_266[] = {
   1, // locals
   0, // parameters
   // to_lower_case
-  var_to_lower_case, 1, var_2152_26_chr, 1, LOCAL(1),
+  var_to_lower_case, 1, var_2152_29_chr, 1, LOCAL(1),
   //  chr.to_lower_case
   LET, 1, LOCAL(1), TAIL_CALL,
   POS(2156, 14),
@@ -6187,7 +6187,7 @@ static TAB_NUM t_lambda_266[] = {
 static TAB_NUM t_func_std_types__string___to_wide[] = {
   1, // locals
   1, // parameters
-  LOCAL(1), // 2158_29_str
+  LOCAL(1), // 2158_30_str
   // map_characters str to_wide
   var_map_characters, 2, LOCAL(1), var_to_wide, TAIL_CALL,
   POS(2159, 3)
@@ -6196,10 +6196,10 @@ static TAB_NUM t_func_std_types__string___to_wide[] = {
 static TAB_NUM t_func_std__delete_all[] = {
   1, // locals
   -2, // parameters
-  MANDATORY_PARAMETER, LOCAL(1), // 2182_0_text
-  REST_PARAMETER, var_2183_0_expressions,
+  MANDATORY_PARAMETER, LOCAL(1), // 2182_5_text
+  REST_PARAMETER, var_2183_5_expressions,
   // $new_text ""
-  LET, 1, string_1, 1, var_2199_1_new_text,
+  LET, 1, string_1, 1, var_2199_4_new_text,
   // delete_all text
   func_delete_all, 1, LOCAL(1), TAIL_CALL,
   POS(2199, 3),
@@ -6209,9 +6209,9 @@ static TAB_NUM t_func_std__delete_all[] = {
 static TAB_NUM t_func_delete_all[] = {
   1, // locals
   1, // parameters
-  var_2185_14_txt,
+  var_2185_17_txt,
   // is_empty
-  var_is_empty, 1, var_2185_14_txt, 1, LOCAL(1),
+  var_is_empty, 1, var_2185_17_txt, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_267, lambda_268, TAIL_CALL,
   POS(2187, 11),
@@ -6222,7 +6222,7 @@ static TAB_NUM t_lambda_267[] = {
   0, // locals
   0, // parameters
   //  new_text
-  LET, 1, var_2199_1_new_text, TAIL_CALL,
+  LET, 1, var_2199_4_new_text, TAIL_CALL,
   POS(2188, 9)
 };
 
@@ -6230,18 +6230,18 @@ static TAB_NUM t_lambda_268[] = {
   0, // locals
   0, // parameters
   // for_each expressions
-  var_for_each, 3, var_2183_0_expressions, lambda_269, lambda_271, TAIL_CALL,
+  var_for_each, 3, var_2183_5_expressions, lambda_269, lambda_271, TAIL_CALL,
   POS(2190, 9)
 };
 
 static TAB_NUM t_lambda_269[] = {
   2, // locals
   1, // parameters
-  LOCAL(2), // 2191_3_expression
+  LOCAL(2), // 2191_14_expression
   // $len match(expression txt)
-  var_match, 2, LOCAL(2), var_2185_14_txt, 1, var_2192_1_len,
+  var_match, 2, LOCAL(2), var_2185_17_txt, 1, var_2192_14_len,
   // is_defined next:
-  var_is_defined, 1, var_2192_1_len, 1, LOCAL(1),
+  var_is_defined, 1, var_2192_14_len, 1, LOCAL(1),
   // if_not len.is_defined next:
   var_if_not, 3, LOCAL(1), var_next, lambda_270, TAIL_CALL,
   POS(2192, 13),
@@ -6253,9 +6253,9 @@ static TAB_NUM t_lambda_270[] = {
   2, // locals
   0, // parameters
   // len+1 -1)
-  var_std__plus, 2, var_2192_1_len, num_1, 1, LOCAL(1),
+  var_std__plus, 2, var_2192_14_len, num_1, 1, LOCAL(1),
   // range(txt len+1 -1)
-  var_range, 3, var_2185_14_txt, LOCAL(1), minus_num_1, 1, LOCAL(2),
+  var_range, 3, var_2185_17_txt, LOCAL(1), minus_num_1, 1, LOCAL(2),
   // delete_all range(txt len+1 -1)
   func_delete_all, 1, LOCAL(2), TAIL_CALL,
   POS(2194, 36),
@@ -6267,11 +6267,11 @@ static TAB_NUM t_lambda_271[] = {
   1, // locals
   0, // parameters
   // txt(1)
-  var_2185_14_txt, 1, num_1, 1, LOCAL(1),
+  var_2185_17_txt, 1, num_1, 1, LOCAL(1),
   // push &new_text txt(1)
-  var_push, 2, var_2199_1_new_text, LOCAL(1), 1, var_2199_1_new_text,
+  var_push, 2, var_2199_4_new_text, LOCAL(1), 1, var_2199_4_new_text,
   // range(txt 2 -1)
-  var_range, 3, var_2185_14_txt, num_2, minus_num_1, 1, LOCAL(1),
+  var_range, 3, var_2185_17_txt, num_2, minus_num_1, 1, LOCAL(1),
   // delete_all range(txt 2 -1)
   func_delete_all, 1, LOCAL(1), TAIL_CALL,
   POS(2196, 28),
@@ -6283,10 +6283,10 @@ static TAB_NUM t_lambda_271[] = {
 static TAB_NUM t_func_std__replace_all[] = {
   1, // locals
   -2, // parameters
-  MANDATORY_PARAMETER, LOCAL(1), // 2223_0_text
-  REST_PARAMETER, var_2224_0_args,
+  MANDATORY_PARAMETER, LOCAL(1), // 2223_5_text
+  REST_PARAMETER, var_2224_5_args,
   // $new_text ""
-  LET, 1, string_1, 1, var_2247_1_new_text,
+  LET, 1, string_1, 1, var_2247_4_new_text,
   // replace_all text
   func_replace_all, 1, LOCAL(1), TAIL_CALL,
   POS(2247, 3),
@@ -6296,9 +6296,9 @@ static TAB_NUM t_func_std__replace_all[] = {
 static TAB_NUM t_func_replace_all[] = {
   1, // locals
   1, // parameters
-  var_2226_15_txt,
+  var_2226_18_txt,
   // is_empty
-  var_is_empty, 1, var_2226_15_txt, 1, LOCAL(1),
+  var_is_empty, 1, var_2226_18_txt, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_272, lambda_273, TAIL_CALL,
   POS(2228, 11),
@@ -6309,7 +6309,7 @@ static TAB_NUM t_lambda_272[] = {
   0, // locals
   0, // parameters
   //  new_text
-  LET, 1, var_2247_1_new_text, TAIL_CALL,
+  LET, 1, var_2247_4_new_text, TAIL_CALL,
   POS(2229, 9)
 };
 
@@ -6317,20 +6317,20 @@ static TAB_NUM t_lambda_273[] = {
   0, // locals
   0, // parameters
   // for_each args
-  var_for_each, 3, var_2224_0_args, lambda_274, lambda_277, TAIL_CALL,
+  var_for_each, 3, var_2224_5_args, lambda_274, lambda_277, TAIL_CALL,
   POS(2231, 9)
 };
 
 static TAB_NUM t_lambda_274[] = {
   3, // locals
   1, // parameters
-  LOCAL(2), // 2232_3_arg
+  LOCAL(2), // 2232_14_arg
   // arg $expression $replacement
-  LOCAL(2), 0, 2, LOCAL(3), var_2233_17_replacement,
+  LOCAL(2), 0, 2, LOCAL(3), var_2233_30_replacement,
   // $len match(expression txt)
-  var_match, 2, LOCAL(3), var_2226_15_txt, 1, var_2234_1_len,
+  var_match, 2, LOCAL(3), var_2226_18_txt, 1, var_2234_14_len,
   // is_defined next:
-  var_is_defined, 1, var_2234_1_len, 1, LOCAL(1),
+  var_is_defined, 1, var_2234_14_len, 1, LOCAL(1),
   // if_not len.is_defined next:
   var_if_not, 3, LOCAL(1), var_next, lambda_275, TAIL_CALL,
   POS(2233, 13),
@@ -6343,7 +6343,7 @@ static TAB_NUM t_lambda_275[] = {
   1, // locals
   0, // parameters
   // is_a_string:
-  var_is_a_string, 1, var_2233_17_replacement, 1, LOCAL(1),
+  var_is_a_string, 1, var_2233_30_replacement, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_replacement_is_a_string, lambda_276, TAIL_CALL,
   POS(2237, 29),
@@ -6354,11 +6354,11 @@ static TAB_NUM t_lambda_replacement_is_a_string[] = {
   2, // locals
   0, // parameters
   // append &new_text replacement
-  var_append, 2, var_2247_1_new_text, var_2233_17_replacement, 1, var_2247_1_new_text,
+  var_append, 2, var_2247_4_new_text, var_2233_30_replacement, 1, var_2247_4_new_text,
   // len+1 -1)
-  var_std__plus, 2, var_2234_1_len, num_1, 1, LOCAL(1),
+  var_std__plus, 2, var_2234_14_len, num_1, 1, LOCAL(1),
   // range(txt len+1 -1)
-  var_range, 3, var_2226_15_txt, LOCAL(1), minus_num_1, 1, LOCAL(2),
+  var_range, 3, var_2226_18_txt, LOCAL(1), minus_num_1, 1, LOCAL(2),
   // replace_all range(txt len+1 -1)
   func_replace_all, 1, LOCAL(2), TAIL_CALL,
   POS(2238, 19),
@@ -6371,15 +6371,15 @@ static TAB_NUM t_lambda_276[] = {
   2, // locals
   0, // parameters
   // range(txt 1 len))
-  var_range, 3, var_2226_15_txt, num_1, var_2234_1_len, 1, LOCAL(1),
+  var_range, 3, var_2226_18_txt, num_1, var_2234_14_len, 1, LOCAL(1),
   // replacement(range(txt 1 len))
-  var_2233_17_replacement, 1, LOCAL(1), 1, LOCAL(2),
+  var_2233_30_replacement, 1, LOCAL(1), 1, LOCAL(2),
   // append &new_text replacement(range(txt 1 len))
-  var_append, 2, var_2247_1_new_text, LOCAL(2), 1, var_2247_1_new_text,
+  var_append, 2, var_2247_4_new_text, LOCAL(2), 1, var_2247_4_new_text,
   // len+1 -1)
-  var_std__plus, 2, var_2234_1_len, num_1, 1, LOCAL(1),
+  var_std__plus, 2, var_2234_14_len, num_1, 1, LOCAL(1),
   // range(txt len+1 -1)
-  var_range, 3, var_2226_15_txt, LOCAL(1), minus_num_1, 1, LOCAL(2),
+  var_range, 3, var_2226_18_txt, LOCAL(1), minus_num_1, 1, LOCAL(2),
   // replace_all range(txt len+1 -1)
   func_replace_all, 1, LOCAL(2), TAIL_CALL,
   POS(2241, 48),
@@ -6394,11 +6394,11 @@ static TAB_NUM t_lambda_277[] = {
   1, // locals
   0, // parameters
   // txt(1)
-  var_2226_15_txt, 1, num_1, 1, LOCAL(1),
+  var_2226_18_txt, 1, num_1, 1, LOCAL(1),
   // push &new_text txt(1)
-  var_push, 2, var_2247_1_new_text, LOCAL(1), 1, var_2247_1_new_text,
+  var_push, 2, var_2247_4_new_text, LOCAL(1), 1, var_2247_4_new_text,
   // range(txt 2 -1)
-  var_range, 3, var_2226_15_txt, num_2, minus_num_1, 1, LOCAL(1),
+  var_range, 3, var_2226_18_txt, num_2, minus_num_1, 1, LOCAL(1),
   // replace_all range(txt 2 -1)
   func_replace_all, 1, LOCAL(1), TAIL_CALL,
   POS(2244, 28),
@@ -6410,10 +6410,10 @@ static TAB_NUM t_lambda_277[] = {
 static TAB_NUM t_func_std__replace_first[] = {
   1, // locals
   -2, // parameters
-  MANDATORY_PARAMETER, LOCAL(1), // 2271_0_text
-  REST_PARAMETER, var_2272_0_args,
+  MANDATORY_PARAMETER, LOCAL(1), // 2271_5_text
+  REST_PARAMETER, var_2272_5_args,
   // $new_text ""
-  LET, 1, string_1, 1, var_2294_1_new_text,
+  LET, 1, string_1, 1, var_2294_4_new_text,
   // replace_first text
   func_replace_first, 1, LOCAL(1), TAIL_CALL,
   POS(2294, 3),
@@ -6423,9 +6423,9 @@ static TAB_NUM t_func_std__replace_first[] = {
 static TAB_NUM t_func_replace_first[] = {
   1, // locals
   1, // parameters
-  var_2274_17_txt,
+  var_2274_20_txt,
   // is_empty
-  var_is_empty, 1, var_2274_17_txt, 1, LOCAL(1),
+  var_is_empty, 1, var_2274_20_txt, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_278, lambda_279, TAIL_CALL,
   POS(2276, 11),
@@ -6436,7 +6436,7 @@ static TAB_NUM t_lambda_278[] = {
   0, // locals
   0, // parameters
   //  new_text
-  LET, 1, var_2294_1_new_text, TAIL_CALL,
+  LET, 1, var_2294_4_new_text, TAIL_CALL,
   POS(2277, 9)
 };
 
@@ -6444,20 +6444,20 @@ static TAB_NUM t_lambda_279[] = {
   0, // locals
   0, // parameters
   // for_each args
-  var_for_each, 3, var_2272_0_args, lambda_280, lambda_283, TAIL_CALL,
+  var_for_each, 3, var_2272_5_args, lambda_280, lambda_283, TAIL_CALL,
   POS(2279, 9)
 };
 
 static TAB_NUM t_lambda_280[] = {
   3, // locals
   1, // parameters
-  LOCAL(2), // 2280_3_arg
+  LOCAL(2), // 2280_14_arg
   // arg $expression $replacement
-  LOCAL(2), 0, 2, LOCAL(3), var_2281_17_replacement,
+  LOCAL(2), 0, 2, LOCAL(3), var_2281_30_replacement,
   // $len match(expression txt)
-  var_match, 2, LOCAL(3), var_2274_17_txt, 1, var_2282_1_len,
+  var_match, 2, LOCAL(3), var_2274_20_txt, 1, var_2282_14_len,
   // is_defined
-  var_is_defined, 1, var_2282_1_len, 1, LOCAL(1),
+  var_is_defined, 1, var_2282_14_len, 1, LOCAL(1),
   // if_not
   var_if_not, 3, LOCAL(1), var_next, lambda_281, TAIL_CALL,
   POS(2281, 13),
@@ -6470,15 +6470,15 @@ static TAB_NUM t_lambda_281[] = {
   3, // locals
   0, // parameters
   // is_a_string &replacement
-  var_is_a_string, 1, var_2281_17_replacement, 1, LOCAL(1),
+  var_is_a_string, 1, var_2281_30_replacement, 1, LOCAL(1),
   // update_if_not replacement.is_a_string &replacement
-  var_update_if_not, 3, LOCAL(1), var_2281_17_replacement, lambda_282, 1, var_2281_17_replacement,
+  var_update_if_not, 3, LOCAL(1), var_2281_30_replacement, lambda_282, 1, var_2281_30_replacement,
   // len+1 -1))
-  var_std__plus, 2, var_2282_1_len, num_1, 1, LOCAL(1),
+  var_std__plus, 2, var_2282_14_len, num_1, 1, LOCAL(1),
   // range(txt len+1 -1))
-  var_range, 3, var_2274_17_txt, LOCAL(1), minus_num_1, 1, LOCAL(2),
+  var_range, 3, var_2274_20_txt, LOCAL(1), minus_num_1, 1, LOCAL(2),
   // append(new_text replacement range(txt len+1 -1))
-  var_append, 3, var_2294_1_new_text, var_2281_17_replacement, LOCAL(2), 1, LOCAL(3),
+  var_append, 3, var_2294_4_new_text, var_2281_30_replacement, LOCAL(2), 1, LOCAL(3),
   // -> append(new_text replacement range(txt len+1 -1))
   LET, 1, LOCAL(3), TAIL_CALL,
   POS(2287, 43),
@@ -6493,9 +6493,9 @@ static TAB_NUM t_lambda_282[] = {
   2, // locals
   0, // parameters
   // range(txt 1 len))
-  var_range, 3, var_2274_17_txt, num_1, var_2282_1_len, 1, LOCAL(1),
+  var_range, 3, var_2274_20_txt, num_1, var_2282_14_len, 1, LOCAL(1),
   // replacement(range(txt 1 len))
-  var_2281_17_replacement, 1, LOCAL(1), 1, LOCAL(2),
+  var_2281_30_replacement, 1, LOCAL(1), 1, LOCAL(2),
   //  replacement(range(txt 1 len))
   LET, 1, LOCAL(2), TAIL_CALL,
   POS(2288, 34),
@@ -6507,11 +6507,11 @@ static TAB_NUM t_lambda_283[] = {
   1, // locals
   0, // parameters
   // txt(1)
-  var_2274_17_txt, 1, num_1, 1, LOCAL(1),
+  var_2274_20_txt, 1, num_1, 1, LOCAL(1),
   // push &new_text txt(1)
-  var_push, 2, var_2294_1_new_text, LOCAL(1), 1, var_2294_1_new_text,
+  var_push, 2, var_2294_4_new_text, LOCAL(1), 1, var_2294_4_new_text,
   // range(txt 2 -1)
-  var_range, 3, var_2274_17_txt, num_2, minus_num_1, 1, LOCAL(1),
+  var_range, 3, var_2274_20_txt, num_2, minus_num_1, 1, LOCAL(1),
   // replace_first range(txt 2 -1)
   func_replace_first, 1, LOCAL(1), TAIL_CALL,
   POS(2291, 28),
@@ -6523,8 +6523,8 @@ static TAB_NUM t_lambda_283[] = {
 static TAB_NUM t_func_std__count_occurrences[] = {
   1, // locals
   2, // parameters
-  LOCAL(1), // 2316_0_text
-  var_2317_0_expr,
+  LOCAL(1), // 2316_5_text
+  var_2317_5_expr,
   // search_next text 0
   func_search_next, 2, LOCAL(1), num_0, TAIL_CALL,
   POS(2331, 3)
@@ -6533,10 +6533,10 @@ static TAB_NUM t_func_std__count_occurrences[] = {
 static TAB_NUM t_func_search_next[] = {
   1, // locals
   2, // parameters
-  var_2319_15_txt,
-  var_2319_19_count,
+  var_2319_18_txt,
+  var_2319_22_count,
   // txt == ""
-  var_std__equal, 2, var_2319_15_txt, string_1, 1, LOCAL(1),
+  var_std__equal, 2, var_2319_18_txt, string_1, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_284, lambda_285, TAIL_CALL,
   POS(2321, 7),
@@ -6547,7 +6547,7 @@ static TAB_NUM t_lambda_284[] = {
   0, // locals
   0, // parameters
   //  count
-  LET, 1, var_2319_19_count, TAIL_CALL,
+  LET, 1, var_2319_22_count, TAIL_CALL,
   POS(2322, 9)
 };
 
@@ -6555,9 +6555,9 @@ static TAB_NUM t_lambda_285[] = {
   1, // locals
   0, // parameters
   // $n match(expr txt)
-  var_match, 2, var_2317_0_expr, var_2319_15_txt, 1, var_2324_1_n,
+  var_match, 2, var_2317_5_expr, var_2319_18_txt, 1, var_2324_10_n,
   // is_defined:
-  var_is_defined, 1, var_2324_1_n, 1, LOCAL(1),
+  var_is_defined, 1, var_2324_10_n, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_n_is_defined, lambda_286, TAIL_CALL,
   POS(2324, 9),
@@ -6569,11 +6569,11 @@ static TAB_NUM t_lambda_n_is_defined[] = {
   3, // locals
   0, // parameters
   // n+1 -1) count+1
-  var_std__plus, 2, var_2324_1_n, num_1, 1, LOCAL(1),
+  var_std__plus, 2, var_2324_10_n, num_1, 1, LOCAL(1),
   // range(txt n+1 -1) count+1
-  var_range, 3, var_2319_15_txt, LOCAL(1), minus_num_1, 1, LOCAL(2),
+  var_range, 3, var_2319_18_txt, LOCAL(1), minus_num_1, 1, LOCAL(2),
   // count+1
-  var_std__plus, 2, var_2319_19_count, num_1, 1, LOCAL(3),
+  var_std__plus, 2, var_2319_22_count, num_1, 1, LOCAL(3),
   // search_next range(txt n+1 -1) count+1
   func_search_next, 2, LOCAL(2), LOCAL(3), TAIL_CALL,
   POS(2327, 35),
@@ -6586,9 +6586,9 @@ static TAB_NUM t_lambda_286[] = {
   1, // locals
   0, // parameters
   // range(txt 2 -1) count
-  var_range, 3, var_2319_15_txt, num_2, minus_num_1, 1, LOCAL(1),
+  var_range, 3, var_2319_18_txt, num_2, minus_num_1, 1, LOCAL(1),
   // search_next range(txt 2 -1) count
-  func_search_next, 2, LOCAL(1), var_2319_19_count, TAIL_CALL,
+  func_search_next, 2, LOCAL(1), var_2319_22_count, TAIL_CALL,
   POS(2329, 25),
   POS(2329, 13)
 };
@@ -6596,15 +6596,15 @@ static TAB_NUM t_lambda_286[] = {
 static TAB_NUM t_func_std__split_into_lines[] = {
   0, // locals
   1, // parameters
-  var_2375_25_text,
+  var_2375_26_text,
   // $lines empty_list
-  LET, 1, var_empty_list, 1, var_2376_1_lines,
+  LET, 1, var_empty_list, 1, var_2376_4_lines,
   // $i 1
-  LET, 1, num_1, 1, var_2377_1_i,
+  LET, 1, num_1, 1, var_2377_4_i,
   // $n length_of(text)
-  var_length_of, 1, var_2375_25_text, 1, var_2378_1_n,
+  var_length_of, 1, var_2375_26_text, 1, var_2378_4_n,
   // $s i
-  LET, 1, var_2377_1_i, 1, var_2379_1_s,
+  LET, 1, var_2377_4_i, 1, var_2379_4_s,
   // loop:
   var_loop, 1, lambda_15_loop, TAIL_CALL,
   POS(2376, 3),
@@ -6618,7 +6618,7 @@ static TAB_NUM t_lambda_15_loop[] = {
   1, // locals
   0, // parameters
   // n
-  var_std__less, 2, var_2378_1_n, var_2377_1_i, 1, LOCAL(1),
+  var_std__less, 2, var_2378_4_n, var_2377_4_i, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_287, lambda_290, TAIL_CALL,
   POS(2382, 11),
@@ -6629,7 +6629,7 @@ static TAB_NUM t_lambda_287[] = {
   3, // locals
   0, // parameters
   // n
-  var_std__less, 2, var_2378_1_n, var_2379_1_s, 1, LOCAL(1),
+  var_std__less, 2, var_2378_4_n, var_2379_4_s, 1, LOCAL(1),
   // n
   var_std__not, 1, LOCAL(1), 1, LOCAL(2),
   // if
@@ -6646,9 +6646,9 @@ static TAB_NUM t_lambda_288[] = {
   2, // locals
   0, // parameters
   // range(text s n))
-  var_range, 3, var_2375_25_text, var_2379_1_s, var_2378_1_n, 1, LOCAL(1),
+  var_range, 3, var_2375_26_text, var_2379_4_s, var_2378_4_n, 1, LOCAL(1),
   // push(lines range(text s n))
-  var_push, 2, var_2376_1_lines, LOCAL(1), 1, LOCAL(2),
+  var_push, 2, var_2376_4_lines, LOCAL(1), 1, LOCAL(2),
   //  push(lines range(text s n))
   LET, 1, LOCAL(2), TAIL_CALL,
   POS(2386, 25),
@@ -6660,7 +6660,7 @@ static TAB_NUM t_lambda_289[] = {
   0, // locals
   0, // parameters
   //  lines
-  LET, 1, var_2376_1_lines, TAIL_CALL,
+  LET, 1, var_2376_4_lines, TAIL_CALL,
   POS(2387, 13)
 };
 
@@ -6668,7 +6668,7 @@ static TAB_NUM t_lambda_290[] = {
   2, // locals
   0, // parameters
   // text(i) == '@nl;':
-  var_2375_25_text, 1, var_2377_1_i, 1, LOCAL(1),
+  var_2375_26_text, 1, var_2377_4_i, 1, LOCAL(1),
   // text(i) == '@nl;':
   var_std__equal, 2, LOCAL(1), chr_10, 1, LOCAL(2),
   // if
@@ -6682,13 +6682,13 @@ static TAB_NUM t_lambda_291[] = {
   1, // locals
   0, // parameters
   // range(text s i)
-  var_range, 3, var_2375_25_text, var_2379_1_s, var_2377_1_i, 1, LOCAL(1),
+  var_range, 3, var_2375_26_text, var_2379_4_s, var_2377_4_i, 1, LOCAL(1),
   // push &lines range(text s i)
-  var_push, 2, var_2376_1_lines, LOCAL(1), 1, var_2376_1_lines,
+  var_push, 2, var_2376_4_lines, LOCAL(1), 1, var_2376_4_lines,
   // !i i+1
-  var_std__plus, 2, var_2377_1_i, num_1, 1, var_2377_1_i,
+  var_std__plus, 2, var_2377_4_i, num_1, 1, var_2377_4_i,
   // !s i
-  LET, 1, var_2377_1_i, 1, var_2379_1_s,
+  LET, 1, var_2377_4_i, 1, var_2379_4_s,
   // next
   var_next, 0, TAIL_CALL,
   POS(2391, 25),
@@ -6702,7 +6702,7 @@ static TAB_NUM t_lambda_292[] = {
   0, // locals
   0, // parameters
   // !i i+1
-  var_std__plus, 2, var_2377_1_i, num_1, 1, var_2377_1_i,
+  var_std__plus, 2, var_2377_4_i, num_1, 1, var_2377_4_i,
   // next
   var_next, 0, TAIL_CALL,
   POS(2396, 13),
@@ -6712,9 +6712,9 @@ static TAB_NUM t_lambda_292[] = {
 static TAB_NUM t_func_std__split_into_indented_lines[] = {
   1, // locals
   1, // parameters
-  var_2458_0_text,
+  var_2458_5_text,
   // $n length_of(text)
-  var_length_of, 1, var_2458_0_text, 1, LOCAL(1),
+  var_length_of, 1, var_2458_5_text, 1, LOCAL(1),
   // split 1 n
   func_split, 2, num_1, LOCAL(1), TAIL_CALL,
   POS(2460, 3),
@@ -6724,12 +6724,12 @@ static TAB_NUM t_func_std__split_into_indented_lines[] = {
 static TAB_NUM t_func_split[] = {
   3, // locals
   2, // parameters
-  var_2463_9_s,
-  var_2463_11_e,
+  var_2463_12_s,
+  var_2463_14_e,
   // e+1-s > FORK_TEXT_THRESHOLD: # recurse to exploit parallel execution
-  var_std__plus, 2, var_2463_11_e, num_1, 1, LOCAL(1),
+  var_std__plus, 2, var_2463_14_e, num_1, 1, LOCAL(1),
   // e+1-s > FORK_TEXT_THRESHOLD: # recurse to exploit parallel execution
-  var_std__minus, 2, LOCAL(1), var_2463_9_s, 1, LOCAL(2),
+  var_std__minus, 2, LOCAL(1), var_2463_12_s, 1, LOCAL(2),
   // FORK_TEXT_THRESHOLD: # recurse to exploit parallel execution
   var_std__less, 2, num_300, LOCAL(2), 1, LOCAL(3),
   // if
@@ -6744,15 +6744,15 @@ static TAB_NUM t_lambda_293[] = {
   4, // locals
   0, // parameters
   // s+e) .div. 2
-  var_std__plus, 2, var_2463_9_s, var_2463_11_e, 1, LOCAL(1),
+  var_std__plus, 2, var_2463_12_s, var_2463_14_e, 1, LOCAL(1),
   // $m (s+e) .div. 2
   var_div, 2, LOCAL(1), num_2, 1, LOCAL(4),
   // split(s m) split(m+1 e)
-  func_split, 2, var_2463_9_s, LOCAL(4), 1, LOCAL(1),
+  func_split, 2, var_2463_12_s, LOCAL(4), 1, LOCAL(1),
   // m+1 e)
   var_std__plus, 2, LOCAL(4), num_1, 1, LOCAL(2),
   // split(m+1 e)
-  func_split, 2, LOCAL(2), var_2463_11_e, 1, LOCAL(3),
+  func_split, 2, LOCAL(2), var_2463_14_e, 1, LOCAL(3),
   // append split(s m) split(m+1 e)
   var_append, 2, LOCAL(1), LOCAL(3), TAIL_CALL,
   POS(2466, 13),
@@ -6767,15 +6767,15 @@ static TAB_NUM t_lambda_294[] = {
   2, // locals
   0, // parameters
   // $lines empty_list
-  LET, 1, var_empty_list, 1, var_2469_1_lines,
+  LET, 1, var_empty_list, 1, var_2469_10_lines,
   // s == 1 || text(s-1) == '@nl;'
-  var_std__equal, 2, var_2463_9_s, num_1, 1, LOCAL(1),
+  var_std__equal, 2, var_2463_12_s, num_1, 1, LOCAL(1),
   // s == 1 || text(s-1) == '@nl;'
   var_std__or, 2, LOCAL(1), lambda_295, 1, LOCAL(2),
   // $ls
-  var_if, 3, LOCAL(2), lambda_296, lambda_297, 1, var_2470_1_ls,
+  var_if, 3, LOCAL(2), lambda_296, lambda_297, 1, var_2470_10_ls,
   // from_to s e
-  var_from_to, 4, var_2463_9_s, var_2463_11_e, lambda_298, lambda_301, TAIL_CALL,
+  var_from_to, 4, var_2463_12_s, var_2463_14_e, lambda_298, lambda_301, TAIL_CALL,
   POS(2469, 9),
   POS(2472, 13),
   POS(2472, 13),
@@ -6787,9 +6787,9 @@ static TAB_NUM t_lambda_295[] = {
   3, // locals
   0, // parameters
   // s-1) == '@nl;'
-  var_std__minus, 2, var_2463_9_s, num_1, 1, LOCAL(1),
+  var_std__minus, 2, var_2463_12_s, num_1, 1, LOCAL(1),
   // text(s-1) == '@nl;'
-  var_2458_0_text, 1, LOCAL(1), 1, LOCAL(2),
+  var_2458_5_text, 1, LOCAL(1), 1, LOCAL(2),
   // text(s-1) == '@nl;'
   var_std__equal, 2, LOCAL(2), chr_10, 1, LOCAL(3),
   // text(s-1) == '@nl;'
@@ -6804,7 +6804,7 @@ static TAB_NUM t_lambda_296[] = {
   0, // locals
   0, // parameters
   //  s # the current block starts at a line start
-  LET, 1, var_2463_9_s, TAIL_CALL,
+  LET, 1, var_2463_12_s, TAIL_CALL,
   POS(2473, 15)
 };
 
@@ -6819,9 +6819,9 @@ static TAB_NUM t_lambda_297[] = {
 static TAB_NUM t_lambda_298[] = {
   2, // locals
   1, // parameters
-  var_2476_3_i,
+  var_2476_14_i,
   // text(i) == '@nl;' next:
-  var_2458_0_text, 1, var_2476_3_i, 1, LOCAL(1),
+  var_2458_5_text, 1, var_2476_14_i, 1, LOCAL(1),
   // text(i) == '@nl;' next:
   var_std__equal, 2, LOCAL(1), chr_10, 1, LOCAL(2),
   // if_not text(i) == '@nl;' next:
@@ -6835,7 +6835,7 @@ static TAB_NUM t_lambda_299[] = {
   1, // locals
   0, // parameters
   // is_defined:
-  var_is_defined, 1, var_2470_1_ls, 1, LOCAL(1),
+  var_is_defined, 1, var_2470_10_ls, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_ls_is_defined, lambda_300, TAIL_CALL,
   POS(2479, 20),
@@ -6846,11 +6846,11 @@ static TAB_NUM t_lambda_ls_is_defined[] = {
   1, // locals
   0, // parameters
   // create_line(ls i)
-  func_create_line, 2, var_2470_1_ls, var_2476_3_i, 1, LOCAL(1),
+  func_create_line, 2, var_2470_10_ls, var_2476_14_i, 1, LOCAL(1),
   // push &lines create_line(ls i)
-  var_push, 2, var_2469_1_lines, LOCAL(1), 1, var_2469_1_lines,
+  var_push, 2, var_2469_10_lines, LOCAL(1), 1, var_2469_10_lines,
   // !ls i+1
-  var_std__plus, 2, var_2476_3_i, num_1, 1, var_2470_1_ls,
+  var_std__plus, 2, var_2476_14_i, num_1, 1, var_2470_10_ls,
   // next
   var_next, 0, TAIL_CALL,
   POS(2480, 31),
@@ -6863,7 +6863,7 @@ static TAB_NUM t_lambda_300[] = {
   0, // locals
   0, // parameters
   // !ls i+1
-  var_std__plus, 2, var_2476_3_i, num_1, 1, var_2470_1_ls,
+  var_std__plus, 2, var_2476_14_i, num_1, 1, var_2470_10_ls,
   // next
   var_next, 0, TAIL_CALL,
   POS(2484, 19),
@@ -6874,7 +6874,7 @@ static TAB_NUM t_lambda_301[] = {
   2, // locals
   0, // parameters
   // is_defined && ls <= e:
-  var_is_defined, 1, var_2470_1_ls, 1, LOCAL(1),
+  var_is_defined, 1, var_2470_10_ls, 1, LOCAL(1),
   // is_defined && ls <= e:
   var_std__and, 2, LOCAL(1), lambda_302, 1, LOCAL(2),
   // if
@@ -6888,7 +6888,7 @@ static TAB_NUM t_lambda_302[] = {
   2, // locals
   0, // parameters
   // e:
-  var_std__less, 2, var_2463_11_e, var_2470_1_ls, 1, LOCAL(1),
+  var_std__less, 2, var_2463_14_e, var_2470_10_ls, 1, LOCAL(1),
   // e:
   var_std__not, 1, LOCAL(1), 1, LOCAL(2),
   // ls <= e:
@@ -6910,9 +6910,9 @@ static TAB_NUM t_lambda_16_loop[] = {
   2, // locals
   0, // parameters
   // !e e+1
-  var_std__plus, 2, var_2463_11_e, num_1, 1, var_2463_11_e,
+  var_std__plus, 2, var_2463_14_e, num_1, 1, var_2463_14_e,
   // text(e) == '@nl;'
-  var_2458_0_text, 1, var_2463_11_e, 1, LOCAL(1),
+  var_2458_5_text, 1, var_2463_14_e, 1, LOCAL(1),
   // text(e) == '@nl;'
   var_std__equal, 2, LOCAL(1), chr_10, 1, LOCAL(2),
   // if
@@ -6927,9 +6927,9 @@ static TAB_NUM t_lambda_304[] = {
   2, // locals
   0, // parameters
   // create_line(ls e))
-  func_create_line, 2, var_2470_1_ls, var_2463_11_e, 1, LOCAL(1),
+  func_create_line, 2, var_2470_10_ls, var_2463_14_e, 1, LOCAL(1),
   // push(lines create_line(ls e))
-  var_push, 2, var_2469_1_lines, LOCAL(1), 1, LOCAL(2),
+  var_push, 2, var_2469_10_lines, LOCAL(1), 1, LOCAL(2),
   //  push(lines create_line(ls e))
   LET, 1, LOCAL(2), TAIL_CALL,
   POS(2493, 35),
@@ -6941,17 +6941,17 @@ static TAB_NUM t_lambda_305[] = {
   0, // locals
   0, // parameters
   //  lines
-  LET, 1, var_2469_1_lines, TAIL_CALL,
+  LET, 1, var_2469_10_lines, TAIL_CALL,
   POS(2495, 17)
 };
 
 static TAB_NUM t_func_create_line[] = {
   0, // locals
   2, // parameters
-  var_2497_15_s,
-  var_2497_17_e,
+  var_2497_18_s,
+  var_2497_20_e,
   // $indent 0
-  LET, 1, num_0, 1, var_2498_1_indent,
+  LET, 1, num_0, 1, var_2498_6_indent,
   // loop:
   var_loop, 1, lambda_17_loop, TAIL_CALL,
   POS(2498, 5),
@@ -6962,7 +6962,7 @@ static TAB_NUM t_lambda_17_loop[] = {
   2, // locals
   0, // parameters
   // text(s) == '@ht;':
-  var_2458_0_text, 1, var_2497_15_s, 1, LOCAL(1),
+  var_2458_5_text, 1, var_2497_18_s, 1, LOCAL(1),
   // text(s) == '@ht;':
   var_std__equal, 2, LOCAL(1), chr_9, 1, LOCAL(2),
   // if
@@ -6976,9 +6976,9 @@ static TAB_NUM t_lambda_306[] = {
   0, // locals
   0, // parameters
   // !indent indent+8
-  var_std__plus, 2, var_2498_1_indent, num_8, 1, var_2498_1_indent,
+  var_std__plus, 2, var_2498_6_indent, num_8, 1, var_2498_6_indent,
   // !s s+1
-  var_std__plus, 2, var_2497_15_s, num_1, 1, var_2497_15_s,
+  var_std__plus, 2, var_2497_18_s, num_1, 1, var_2497_18_s,
   // next
   var_next, 0, TAIL_CALL,
   POS(2502, 11),
@@ -6990,7 +6990,7 @@ static TAB_NUM t_lambda_307[] = {
   2, // locals
   0, // parameters
   // text(s) == ' ':
-  var_2458_0_text, 1, var_2497_15_s, 1, LOCAL(1),
+  var_2458_5_text, 1, var_2497_18_s, 1, LOCAL(1),
   // text(s) == ' ':
   var_std__equal, 2, LOCAL(1), chr_32, 1, LOCAL(2),
   // if
@@ -7004,9 +7004,9 @@ static TAB_NUM t_lambda_308[] = {
   0, // locals
   0, // parameters
   // !indent indent+1
-  var_std__plus, 2, var_2498_1_indent, num_1, 1, var_2498_1_indent,
+  var_std__plus, 2, var_2498_6_indent, num_1, 1, var_2498_6_indent,
   // !s s+1
-  var_std__plus, 2, var_2497_15_s, num_1, 1, var_2497_15_s,
+  var_std__plus, 2, var_2497_18_s, num_1, 1, var_2497_18_s,
   // next
   var_next, 0, TAIL_CALL,
   POS(2508, 15),
@@ -7018,9 +7018,9 @@ static TAB_NUM t_lambda_309[] = {
   1, // locals
   0, // parameters
   // $line_text range(text s e)
-  var_range, 3, var_2458_0_text, var_2497_15_s, var_2497_17_e, 1, var_2512_1_line_text,
+  var_range, 3, var_2458_5_text, var_2497_18_s, var_2497_20_e, 1, var_2512_16_line_text,
   // line_text == "@nl;"
-  var_std__equal, 2, var_2512_1_line_text, string_9, 1, LOCAL(1),
+  var_std__equal, 2, var_2512_16_line_text, string_9, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_310, lambda_311, TAIL_CALL,
   POS(2512, 15),
@@ -7040,7 +7040,7 @@ static TAB_NUM t_lambda_311[] = {
   1, // locals
   0, // parameters
   // typed_tuple(std_types::line indent line_text)
-  var_typed_tuple, 3, var_std_types__line, var_2498_1_indent, var_2512_1_line_text, 1, LOCAL(1),
+  var_typed_tuple, 3, var_std_types__line, var_2498_6_indent, var_2512_16_line_text, 1, LOCAL(1),
   //  typed_tuple(std_types::line indent line_text)
   LET, 1, LOCAL(1), TAIL_CALL,
   POS(2516, 20),
@@ -7050,9 +7050,9 @@ static TAB_NUM t_lambda_311[] = {
 static TAB_NUM t_func_line_indent_of[] = {
   1, // locals
   1, // parameters
-  var_2524_18_line,
+  var_2524_19_line,
   // is_defined
-  var_is_defined, 1, var_2524_18_line, 1, LOCAL(1),
+  var_is_defined, 1, var_2524_19_line, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_312, lambda_313, TAIL_CALL,
   POS(2526, 10),
@@ -7063,7 +7063,7 @@ static TAB_NUM t_lambda_312[] = {
   1, // locals
   0, // parameters
   // first(line)
-  var_first, 1, var_2524_18_line, 1, LOCAL(1),
+  var_first, 1, var_2524_19_line, 1, LOCAL(1),
   //  first(line)
   LET, 1, LOCAL(1), TAIL_CALL,
   POS(2527, 8),
@@ -7081,12 +7081,12 @@ static TAB_NUM t_lambda_313[] = {
 static TAB_NUM t_func_std__split_into_groups[] = {
   0, // locals
   -2, // parameters
-  MANDATORY_PARAMETER, var_2581_0_lines,
-  var_false, var_2582_0_keep_empty_lines,
+  MANDATORY_PARAMETER, var_2581_5_lines,
+  var_false, var_2582_5_keep_empty_lines,
   // $n length_of(lines)
-  var_length_of, 1, var_2581_0_lines, 1, var_2584_1_n,
+  var_length_of, 1, var_2581_5_lines, 1, var_2584_4_n,
   // $fv 1 # first valid line
-  LET, 1, num_1, 1, var_2585_1_fv,
+  LET, 1, num_1, 1, var_2585_4_fv,
   // loop:
   var_loop, 1, lambda_18_loop, TAIL_CALL,
   POS(2584, 3),
@@ -7098,7 +7098,7 @@ static TAB_NUM t_lambda_18_loop[] = {
   2, // locals
   0, // parameters
   // n:
-  var_std__less, 2, var_2584_1_n, var_2585_1_fv, 1, LOCAL(1),
+  var_std__less, 2, var_2584_4_n, var_2585_4_fv, 1, LOCAL(1),
   // n:
   var_std__not, 1, LOCAL(1), 1, LOCAL(2),
   // if
@@ -7112,11 +7112,11 @@ static TAB_NUM t_lambda_314[] = {
   1, // locals
   0, // parameters
   // lines(fv))
-  var_2581_0_lines, 1, var_2585_1_fv, 1, LOCAL(1),
+  var_2581_5_lines, 1, var_2585_4_fv, 1, LOCAL(1),
   // $indent line_indent_of(lines(fv))
-  func_line_indent_of, 1, LOCAL(1), 1, var_2589_1_indent,
+  func_line_indent_of, 1, LOCAL(1), 1, var_2589_10_indent,
   // is_defined:
-  var_is_defined, 1, var_2589_1_indent, 1, LOCAL(1),
+  var_is_defined, 1, var_2589_10_indent, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_indent_is_defined, lambda_318, TAIL_CALL,
   POS(2589, 32),
@@ -7129,7 +7129,7 @@ static TAB_NUM t_lambda_indent_is_defined[] = {
   1, // locals
   0, // parameters
   // keep_empty_lines && fv > 1
-  var_std__and, 2, var_2582_0_keep_empty_lines, lambda_315, 1, LOCAL(1),
+  var_std__and, 2, var_2582_5_keep_empty_lines, lambda_315, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_316, lambda_317, TAIL_CALL,
   POS(2593, 15),
@@ -7140,7 +7140,7 @@ static TAB_NUM t_lambda_315[] = {
   1, // locals
   0, // parameters
   // 1
-  var_std__less, 2, num_1, var_2585_1_fv, 1, LOCAL(1),
+  var_std__less, 2, num_1, var_2585_4_fv, 1, LOCAL(1),
   // fv > 1
   LET, 1, LOCAL(1), TAIL_CALL,
   POS(2593, 40),
@@ -7153,11 +7153,11 @@ static TAB_NUM t_lambda_316[] = {
   // list(undefined) fv-1) split(fv n indent))
   var_list, 1, var_undefined, 1, LOCAL(1),
   // fv-1) split(fv n indent))
-  var_std__minus, 2, var_2585_1_fv, num_1, 1, LOCAL(2),
+  var_std__minus, 2, var_2585_4_fv, num_1, 1, LOCAL(2),
   // dup(list(undefined) fv-1) split(fv n indent))
   var_dup, 2, LOCAL(1), LOCAL(2), 1, LOCAL(3),
   // split(fv n indent))
-  func_2_split, 3, var_2585_1_fv, var_2584_1_n, var_2589_1_indent, 1, LOCAL(4),
+  func_2_split, 3, var_2585_4_fv, var_2584_4_n, var_2589_10_indent, 1, LOCAL(4),
   // append(dup(list(undefined) fv-1) split(fv n indent))
   var_append, 2, LOCAL(3), LOCAL(4), 1, LOCAL(5),
   //  append(dup(list(undefined) fv-1) split(fv n indent))
@@ -7174,7 +7174,7 @@ static TAB_NUM t_lambda_317[] = {
   1, // locals
   0, // parameters
   // split(fv n indent)
-  func_2_split, 3, var_2585_1_fv, var_2584_1_n, var_2589_1_indent, 1, LOCAL(1),
+  func_2_split, 3, var_2585_4_fv, var_2584_4_n, var_2589_10_indent, 1, LOCAL(1),
   //  split(fv n indent)
   LET, 1, LOCAL(1), TAIL_CALL,
   POS(2595, 18),
@@ -7185,7 +7185,7 @@ static TAB_NUM t_lambda_318[] = {
   0, // locals
   0, // parameters
   // !fv fv+1
-  var_std__plus, 2, var_2585_1_fv, num_1, 1, var_2585_1_fv,
+  var_std__plus, 2, var_2585_4_fv, num_1, 1, var_2585_4_fv,
   // next
   var_next, 0, TAIL_CALL,
   POS(2597, 13),
@@ -7203,13 +7203,13 @@ static TAB_NUM t_lambda_319[] = {
 static TAB_NUM t_func_2_split[] = {
   3, // locals
   3, // parameters
-  var_2601_9_s,
-  var_2601_11_e,
-  var_2601_13_indent,
+  var_2601_12_s,
+  var_2601_14_e,
+  var_2601_16_indent,
   // e+1-s > FORK_LINES_THRESHOLD: # recurse to exploit parallel execution
-  var_std__plus, 2, var_2601_11_e, num_1, 1, LOCAL(1),
+  var_std__plus, 2, var_2601_14_e, num_1, 1, LOCAL(1),
   // e+1-s > FORK_LINES_THRESHOLD: # recurse to exploit parallel execution
-  var_std__minus, 2, LOCAL(1), var_2601_9_s, 1, LOCAL(2),
+  var_std__minus, 2, LOCAL(1), var_2601_12_s, 1, LOCAL(2),
   // FORK_LINES_THRESHOLD: # recurse to exploit parallel execution
   var_std__less, 2, num_20, LOCAL(2), 1, LOCAL(3),
   // if
@@ -7224,15 +7224,15 @@ static TAB_NUM t_lambda_320[] = {
   4, // locals
   0, // parameters
   // s+e) .div. 2
-  var_std__plus, 2, var_2601_9_s, var_2601_11_e, 1, LOCAL(1),
+  var_std__plus, 2, var_2601_12_s, var_2601_14_e, 1, LOCAL(1),
   // $m (s+e) .div. 2
   var_div, 2, LOCAL(1), num_2, 1, LOCAL(4),
   // split(s m indent) split(m+1 e indent)
-  func_2_split, 3, var_2601_9_s, LOCAL(4), var_2601_13_indent, 1, LOCAL(1),
+  func_2_split, 3, var_2601_12_s, LOCAL(4), var_2601_16_indent, 1, LOCAL(1),
   // m+1 e indent)
   var_std__plus, 2, LOCAL(4), num_1, 1, LOCAL(2),
   // split(m+1 e indent)
-  func_2_split, 3, LOCAL(2), var_2601_11_e, var_2601_13_indent, 1, LOCAL(3),
+  func_2_split, 3, LOCAL(2), var_2601_14_e, var_2601_16_indent, 1, LOCAL(3),
   // append split(s m indent) split(m+1 e indent)
   var_append, 2, LOCAL(1), LOCAL(3), TAIL_CALL,
   POS(2604, 13),
@@ -7247,15 +7247,15 @@ static TAB_NUM t_lambda_321[] = {
   0, // locals
   0, // parameters
   // $groups empty_list
-  LET, 1, var_empty_list, 1, var_2607_1_groups,
+  LET, 1, var_empty_list, 1, var_2607_10_groups,
   // $minimum_indent VERY_LARGE_INDENT
-  LET, 1, num_9999, 1, var_2608_1_minimum_indent,
+  LET, 1, num_9999, 1, var_2608_10_minimum_indent,
   // $group_start undefined
-  LET, 1, var_undefined, 1, var_2609_1_group_start,
+  LET, 1, var_undefined, 1, var_2609_10_group_start,
   // $group_end undefined
-  LET, 1, var_undefined, 1, var_2610_1_group_end,
+  LET, 1, var_undefined, 1, var_2610_10_group_end,
   // from_to s e
-  var_from_to, 4, var_2601_9_s, var_2601_11_e, lambda_322, lambda_329, TAIL_CALL,
+  var_from_to, 4, var_2601_12_s, var_2601_14_e, lambda_322, lambda_329, TAIL_CALL,
   POS(2607, 9),
   POS(2608, 9),
   POS(2609, 9),
@@ -7266,13 +7266,13 @@ static TAB_NUM t_lambda_321[] = {
 static TAB_NUM t_lambda_322[] = {
   1, // locals
   1, // parameters
-  var_2612_3_i,
+  var_2612_14_i,
   // lines(i))
-  var_2581_0_lines, 1, var_2612_3_i, 1, LOCAL(1),
+  var_2581_5_lines, 1, var_2612_14_i, 1, LOCAL(1),
   // $current_indent line_indent_of(lines(i))
-  func_line_indent_of, 1, LOCAL(1), 1, var_2613_1_current_indent,
+  func_line_indent_of, 1, LOCAL(1), 1, var_2613_14_current_indent,
   // current_indent == indent:
-  var_std__equal, 2, var_2613_1_current_indent, var_2601_13_indent, 1, LOCAL(1),
+  var_std__equal, 2, var_2613_14_current_indent, var_2601_16_indent, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_323, lambda_327, TAIL_CALL,
   POS(2613, 44),
@@ -7285,7 +7285,7 @@ static TAB_NUM t_lambda_323[] = {
   2, // locals
   0, // parameters
   // is_defined && group_start < i:
-  var_is_defined, 1, var_2609_1_group_start, 1, LOCAL(1),
+  var_is_defined, 1, var_2609_10_group_start, 1, LOCAL(1),
   // is_defined && group_start < i:
   var_std__and, 2, LOCAL(1), lambda_324, 1, LOCAL(2),
   // if
@@ -7299,7 +7299,7 @@ static TAB_NUM t_lambda_324[] = {
   1, // locals
   0, // parameters
   // group_start < i:
-  var_std__less, 2, var_2609_1_group_start, var_2612_3_i, 1, LOCAL(1),
+  var_std__less, 2, var_2609_10_group_start, var_2612_14_i, 1, LOCAL(1),
   // group_start < i:
   LET, 1, LOCAL(1), TAIL_CALL,
   POS(2617, 45),
@@ -7310,9 +7310,9 @@ static TAB_NUM t_lambda_325[] = {
   0, // locals
   0, // parameters
   // add_groups !groups group_end i
-  func_add_groups, 2, var_2610_1_group_end, var_2612_3_i, 1, var_2607_1_groups,
+  func_add_groups, 2, var_2610_10_group_end, var_2612_14_i, 1, var_2607_10_groups,
   // start_new_fragment_and_next i
-  func_start_new_fragment_and_next, 1, var_2612_3_i, TAIL_CALL,
+  func_start_new_fragment_and_next, 1, var_2612_14_i, TAIL_CALL,
   POS(2618, 21),
   POS(2619, 21)
 };
@@ -7321,7 +7321,7 @@ static TAB_NUM t_lambda_326[] = {
   0, // locals
   0, // parameters
   // start_new_fragment_and_next i
-  func_start_new_fragment_and_next, 1, var_2612_3_i, TAIL_CALL,
+  func_start_new_fragment_and_next, 1, var_2612_14_i, TAIL_CALL,
   POS(2621, 21)
 };
 
@@ -7329,11 +7329,11 @@ static TAB_NUM t_lambda_327[] = {
   1, // locals
   0, // parameters
   // is_defined &group_end -> i
-  var_is_defined, 1, var_2613_1_current_indent, 1, LOCAL(1),
+  var_is_defined, 1, var_2613_14_current_indent, 1, LOCAL(1),
   // update_if current_indent.is_defined &group_end -> i
-  var_update_if, 3, LOCAL(1), var_2610_1_group_end, lambda_328, 1, var_2610_1_group_end,
+  var_update_if, 3, LOCAL(1), var_2610_10_group_end, lambda_328, 1, var_2610_10_group_end,
   // reduce_minimum_indent_and_next current_indent
-  func_reduce_minimum_indent_and_next, 1, var_2613_1_current_indent, TAIL_CALL,
+  func_reduce_minimum_indent_and_next, 1, var_2613_14_current_indent, TAIL_CALL,
   POS(2623, 42),
   POS(2623, 17),
   POS(2624, 17)
@@ -7343,7 +7343,7 @@ static TAB_NUM t_lambda_328[] = {
   0, // locals
   0, // parameters
   //  i
-  LET, 1, var_2612_3_i, TAIL_CALL,
+  LET, 1, var_2612_14_i, TAIL_CALL,
   POS(2623, 66)
 };
 
@@ -7351,7 +7351,7 @@ static TAB_NUM t_lambda_329[] = {
   1, // locals
   0, // parameters
   // is_defined:
-  var_is_defined, 1, var_2609_1_group_start, 1, LOCAL(1),
+  var_is_defined, 1, var_2609_10_group_start, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_group_start_is_defined, lambda_336, TAIL_CALL,
   POS(2627, 27),
@@ -7370,9 +7370,9 @@ static TAB_NUM t_lambda_19_loop[] = {
   1, // locals
   0, // parameters
   // !e e+1
-  var_std__plus, 2, var_2601_11_e, num_1, 1, var_2601_11_e,
+  var_std__plus, 2, var_2601_14_e, num_1, 1, var_2601_14_e,
   // n
-  var_std__less, 2, var_2584_1_n, var_2601_11_e, 1, LOCAL(1),
+  var_std__less, 2, var_2584_4_n, var_2601_14_e, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_330, lambda_331, TAIL_CALL,
   POS(2629, 19),
@@ -7384,7 +7384,7 @@ static TAB_NUM t_lambda_330[] = {
   1, // locals
   0, // parameters
   // add_groups(group_end e)
-  func_add_groups, 2, var_2610_1_group_end, var_2601_11_e, 1, LOCAL(1),
+  func_add_groups, 2, var_2610_10_group_end, var_2601_14_e, 1, LOCAL(1),
   //  add_groups(group_end e)
   LET, 1, LOCAL(1), TAIL_CALL,
   POS(2632, 24),
@@ -7395,11 +7395,11 @@ static TAB_NUM t_lambda_331[] = {
   2, // locals
   0, // parameters
   // lines(e))
-  var_2581_0_lines, 1, var_2601_11_e, 1, LOCAL(1),
+  var_2581_5_lines, 1, var_2601_14_e, 1, LOCAL(1),
   // $current_indent line_indent_of(lines(e))
-  func_line_indent_of, 1, LOCAL(1), 1, var_2634_1_current_indent,
+  func_line_indent_of, 1, LOCAL(1), 1, var_2634_24_current_indent,
   // is_defined && current_indent <= indent
-  var_is_defined, 1, var_2634_1_current_indent, 1, LOCAL(1),
+  var_is_defined, 1, var_2634_24_current_indent, 1, LOCAL(1),
   // is_defined && current_indent <= indent
   var_std__and, 2, LOCAL(1), lambda_332, 1, LOCAL(2),
   // if
@@ -7415,7 +7415,7 @@ static TAB_NUM t_lambda_332[] = {
   2, // locals
   0, // parameters
   // indent
-  var_std__less, 2, var_2601_13_indent, var_2634_1_current_indent, 1, LOCAL(1),
+  var_std__less, 2, var_2601_16_indent, var_2634_24_current_indent, 1, LOCAL(1),
   // indent
   var_std__not, 1, LOCAL(1), 1, LOCAL(2),
   // current_indent <= indent
@@ -7429,7 +7429,7 @@ static TAB_NUM t_lambda_333[] = {
   1, // locals
   0, // parameters
   // add_groups(group_end e)
-  func_add_groups, 2, var_2610_1_group_end, var_2601_11_e, 1, LOCAL(1),
+  func_add_groups, 2, var_2610_10_group_end, var_2601_14_e, 1, LOCAL(1),
   //  add_groups(group_end e)
   LET, 1, LOCAL(1), TAIL_CALL,
   POS(2637, 28),
@@ -7440,11 +7440,11 @@ static TAB_NUM t_lambda_334[] = {
   1, // locals
   0, // parameters
   // is_defined &group_end -> e
-  var_is_defined, 1, var_2634_1_current_indent, 1, LOCAL(1),
+  var_is_defined, 1, var_2634_24_current_indent, 1, LOCAL(1),
   // update_if current_indent.is_defined &group_end -> e
-  var_update_if, 3, LOCAL(1), var_2610_1_group_end, lambda_335, 1, var_2610_1_group_end,
+  var_update_if, 3, LOCAL(1), var_2610_10_group_end, lambda_335, 1, var_2610_10_group_end,
   // reduce_minimum_indent_and_next current_indent
-  func_reduce_minimum_indent_and_next, 1, var_2634_1_current_indent, TAIL_CALL,
+  func_reduce_minimum_indent_and_next, 1, var_2634_24_current_indent, TAIL_CALL,
   POS(2639, 52),
   POS(2639, 27),
   POS(2640, 27)
@@ -7454,7 +7454,7 @@ static TAB_NUM t_lambda_335[] = {
   0, // locals
   0, // parameters
   //  e
-  LET, 1, var_2601_11_e, TAIL_CALL,
+  LET, 1, var_2601_14_e, TAIL_CALL,
   POS(2639, 76)
 };
 
@@ -7462,17 +7462,17 @@ static TAB_NUM t_lambda_336[] = {
   0, // locals
   0, // parameters
   //  groups
-  LET, 1, var_2607_1_groups, TAIL_CALL,
+  LET, 1, var_2607_10_groups, TAIL_CALL,
   POS(2641, 17)
 };
 
 static TAB_NUM t_func_add_groups[] = {
   1, // locals
   2, // parameters
-  var_2643_14_last,
-  var_2643_19_curr_idx,
+  var_2643_23_last,
+  var_2643_28_curr_idx,
   // keep_empty_lines && curr_idx > last+1:
-  var_std__and, 2, var_2582_0_keep_empty_lines, lambda_337, 1, LOCAL(1),
+  var_std__and, 2, var_2582_5_keep_empty_lines, lambda_337, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_338, func_add, TAIL_CALL,
   POS(2645, 13),
@@ -7483,9 +7483,9 @@ static TAB_NUM t_lambda_337[] = {
   2, // locals
   0, // parameters
   // last+1:
-  var_std__plus, 2, var_2643_14_last, num_1, 1, LOCAL(1),
+  var_std__plus, 2, var_2643_23_last, num_1, 1, LOCAL(1),
   // last+1:
-  var_std__less, 2, LOCAL(1), var_2643_19_curr_idx, 1, LOCAL(2),
+  var_std__less, 2, LOCAL(1), var_2643_28_curr_idx, 1, LOCAL(2),
   // curr_idx > last+1:
   LET, 1, LOCAL(2), TAIL_CALL,
   POS(2645, 44),
@@ -7497,17 +7497,17 @@ static TAB_NUM t_lambda_338[] = {
   4, // locals
   0, // parameters
   // add !groups
-  func_add, 0, 1, var_2607_1_groups,
+  func_add, 0, 1, var_2607_10_groups,
   // list(undefined) curr_idx-last-1)
   var_list, 1, var_undefined, 1, LOCAL(1),
   // curr_idx-last-1)
-  var_std__minus, 2, var_2643_19_curr_idx, var_2643_14_last, 1, LOCAL(2),
+  var_std__minus, 2, var_2643_28_curr_idx, var_2643_23_last, 1, LOCAL(2),
   // curr_idx-last-1)
   var_std__minus, 2, LOCAL(2), num_1, 1, LOCAL(3),
   // dup(list(undefined) curr_idx-last-1)
   var_dup, 2, LOCAL(1), LOCAL(3), 1, LOCAL(4),
   // append groups dup(list(undefined) curr_idx-last-1)
-  var_append, 2, var_2607_1_groups, LOCAL(4), TAIL_CALL,
+  var_append, 2, var_2607_10_groups, LOCAL(4), TAIL_CALL,
   POS(2646, 15),
   POS(2647, 33),
   POS(2647, 49),
@@ -7520,7 +7520,7 @@ static TAB_NUM t_func_add[] = {
   1, // locals
   0, // parameters
   // group_start == last
-  var_std__equal, 2, var_2609_1_group_start, var_2643_14_last, 1, LOCAL(1),
+  var_std__equal, 2, var_2609_10_group_start, var_2643_23_last, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_339, lambda_340, TAIL_CALL,
   POS(2652, 15),
@@ -7531,9 +7531,9 @@ static TAB_NUM t_lambda_339[] = {
   2, // locals
   0, // parameters
   // lines(group_start))
-  var_2581_0_lines, 1, var_2609_1_group_start, 1, LOCAL(1),
+  var_2581_5_lines, 1, var_2609_10_group_start, 1, LOCAL(1),
   // push(groups lines(group_start))
-  var_push, 2, var_2607_1_groups, LOCAL(1), 1, LOCAL(2),
+  var_push, 2, var_2607_10_groups, LOCAL(1), 1, LOCAL(2),
   //  push(groups lines(group_start))
   LET, 1, LOCAL(2), TAIL_CALL,
   POS(2653, 30),
@@ -7545,7 +7545,7 @@ static TAB_NUM t_lambda_340[] = {
   1, // locals
   0, // parameters
   // minimum_indent == VERY_LARGE_INDENT
-  var_std__equal, 2, var_2608_1_minimum_indent, num_9999, 1, LOCAL(1),
+  var_std__equal, 2, var_2608_10_minimum_indent, num_9999, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_341, lambda_342, TAIL_CALL,
   POS(2656, 19),
@@ -7556,9 +7556,9 @@ static TAB_NUM t_lambda_341[] = {
   2, // locals
   0, // parameters
   // range(lines group_start last))
-  var_range, 3, var_2581_0_lines, var_2609_1_group_start, var_2643_14_last, 1, LOCAL(1),
+  var_range, 3, var_2581_5_lines, var_2609_10_group_start, var_2643_23_last, 1, LOCAL(1),
   // append(groups range(lines group_start last))
-  var_append, 2, var_2607_1_groups, LOCAL(1), 1, LOCAL(2),
+  var_append, 2, var_2607_10_groups, LOCAL(1), 1, LOCAL(2),
   //  append(groups range(lines group_start last))
   LET, 1, LOCAL(2), TAIL_CALL,
   POS(2657, 36),
@@ -7570,15 +7570,15 @@ static TAB_NUM t_lambda_342[] = {
   3, // locals
   0, // parameters
   // $head lines(group_start)
-  var_2581_0_lines, 1, var_2609_1_group_start, 1, LOCAL(2),
+  var_2581_5_lines, 1, var_2609_10_group_start, 1, LOCAL(2),
   // group_start+1 last)
-  var_std__plus, 2, var_2609_1_group_start, num_1, 1, LOCAL(1),
+  var_std__plus, 2, var_2609_10_group_start, num_1, 1, LOCAL(1),
   // $subgroups range(lines group_start+1 last)
-  var_range, 3, var_2581_0_lines, LOCAL(1), var_2643_14_last, 1, LOCAL(3),
+  var_range, 3, var_2581_5_lines, LOCAL(1), var_2643_23_last, 1, LOCAL(3),
   // .subgroups_of subgroups)
   LET, -1, LOCAL(2), var_subgroups_of, LOCAL(3), LOCAL(1),
   // push groups head(.subgroups_of subgroups)
-  var_push, 2, var_2607_1_groups, LOCAL(1), TAIL_CALL,
+  var_push, 2, var_2607_10_groups, LOCAL(1), TAIL_CALL,
   POS(2659, 21),
   POS(2660, 44),
   POS(2660, 21),
@@ -7589,9 +7589,9 @@ static TAB_NUM t_lambda_342[] = {
 static TAB_NUM t_func_reduce_minimum_indent_and_next[] = {
   2, // locals
   1, // parameters
-  var_2663_34_current_indent,
+  var_2663_43_current_indent,
   // is_defined && current_indent < minimum_indent:
-  var_is_defined, 1, var_2663_34_current_indent, 1, LOCAL(1),
+  var_is_defined, 1, var_2663_43_current_indent, 1, LOCAL(1),
   // is_defined && current_indent < minimum_indent:
   var_std__and, 2, LOCAL(1), lambda_343, 1, LOCAL(2),
   // if
@@ -7605,7 +7605,7 @@ static TAB_NUM t_lambda_343[] = {
   1, // locals
   0, // parameters
   // current_indent < minimum_indent:
-  var_std__less, 2, var_2663_34_current_indent, var_2608_1_minimum_indent, 1, LOCAL(1),
+  var_std__less, 2, var_2663_43_current_indent, var_2608_10_minimum_indent, 1, LOCAL(1),
   // current_indent < minimum_indent:
   LET, 1, LOCAL(1), TAIL_CALL,
   POS(2665, 42),
@@ -7616,7 +7616,7 @@ static TAB_NUM t_lambda_344[] = {
   0, // locals
   0, // parameters
   // !minimum_indent current_indent
-  LET, 1, var_2663_34_current_indent, 1, var_2608_1_minimum_indent,
+  LET, 1, var_2663_43_current_indent, 1, var_2608_10_minimum_indent,
   // next
   var_next, 0, TAIL_CALL,
   POS(2666, 15),
@@ -7626,13 +7626,13 @@ static TAB_NUM t_lambda_344[] = {
 static TAB_NUM t_func_start_new_fragment_and_next[] = {
   1, // locals
   1, // parameters
-  LOCAL(1), // 2670_31_i
+  LOCAL(1), // 2670_40_i
   // !minimum_indent VERY_LARGE_INDENT
-  LET, 1, num_9999, 1, var_2608_1_minimum_indent,
+  LET, 1, num_9999, 1, var_2608_10_minimum_indent,
   // !group_start i
-  LET, 1, LOCAL(1), 1, var_2609_1_group_start,
+  LET, 1, LOCAL(1), 1, var_2609_10_group_start,
   // !group_end i
-  LET, 1, LOCAL(1), 1, var_2610_1_group_end,
+  LET, 1, LOCAL(1), 1, var_2610_10_group_end,
   // next
   var_next, 0, TAIL_CALL,
   POS(2671, 11),
@@ -7644,19 +7644,19 @@ static TAB_NUM t_func_start_new_fragment_and_next[] = {
 static TAB_NUM t_func_std__wrap_words[] = {
   1, // locals
   -3, // parameters
-  MANDATORY_PARAMETER, var_2703_0_text,
-  MANDATORY_PARAMETER, var_2704_0_width,
+  MANDATORY_PARAMETER, var_2703_5_text,
+  MANDATORY_PARAMETER, var_2704_5_width,
   var_false, LOCAL(1),
   // $lines empty_list
-  LET, 1, var_empty_list, 1, var_2707_1_lines,
+  LET, 1, var_empty_list, 1, var_2707_4_lines,
   // $n length_of(text)
-  var_length_of, 1, var_2703_0_text, 1, var_2708_1_n,
+  var_length_of, 1, var_2703_5_text, 1, var_2708_4_n,
   // $s 1 # start of line
-  LET, 1, num_1, 1, var_2709_1_s,
+  LET, 1, num_1, 1, var_2709_4_s,
   // $b undefined # possible break position
-  LET, 1, var_undefined, 1, var_2710_1_b,
+  LET, 1, var_undefined, 1, var_2710_4_b,
   // $i 0
-  LET, 1, num_0, 1, var_2711_1_i,
+  LET, 1, num_0, 1, var_2711_4_i,
   // loop:
   var_loop, 1, lambda_20_loop, TAIL_CALL,
   POS(2707, 3),
@@ -7671,9 +7671,9 @@ static TAB_NUM t_lambda_20_loop[] = {
   1, // locals
   0, // parameters
   // inc &i
-  var_inc, 1, var_2711_1_i, 1, var_2711_1_i,
+  var_inc, 1, var_2711_4_i, 1, var_2711_4_i,
   // n:
-  var_std__less, 2, var_2708_1_n, var_2711_1_i, 1, LOCAL(1),
+  var_std__less, 2, var_2708_4_n, var_2711_4_i, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_345, lambda_348, TAIL_CALL,
   POS(2713, 5),
@@ -7685,7 +7685,7 @@ static TAB_NUM t_lambda_345[] = {
   1, // locals
   0, // parameters
   // n
-  var_std__less, 2, var_2708_1_n, var_2709_1_s, 1, LOCAL(1),
+  var_std__less, 2, var_2708_4_n, var_2709_4_s, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_346, lambda_347, TAIL_CALL,
   POS(2717, 15),
@@ -7696,7 +7696,7 @@ static TAB_NUM t_lambda_346[] = {
   0, // locals
   0, // parameters
   //  lines
-  LET, 1, var_2707_1_lines, TAIL_CALL,
+  LET, 1, var_2707_4_lines, TAIL_CALL,
   POS(2718, 13)
 };
 
@@ -7704,9 +7704,9 @@ static TAB_NUM t_lambda_347[] = {
   2, // locals
   0, // parameters
   // range(text s n))
-  var_range, 3, var_2703_0_text, var_2709_1_s, var_2708_1_n, 1, LOCAL(1),
+  var_range, 3, var_2703_5_text, var_2709_4_s, var_2708_4_n, 1, LOCAL(1),
   // push(lines range(text s n))
-  var_push, 2, var_2707_1_lines, LOCAL(1), 1, LOCAL(2),
+  var_push, 2, var_2707_4_lines, LOCAL(1), 1, LOCAL(2),
   //  push(lines range(text s n))
   LET, 1, LOCAL(2), TAIL_CALL,
   POS(2719, 25),
@@ -7718,9 +7718,9 @@ static TAB_NUM t_lambda_348[] = {
   0, // locals
   0, // parameters
   // $chr text(i)
-  var_2703_0_text, 1, var_2711_1_i, 1, var_2721_1_chr,
+  var_2703_5_text, 1, var_2711_4_i, 1, var_2721_10_chr,
   // case chr
-  var_case, 4, var_2721_1_chr, chr_10, lambda_nl, lambda_349, TAIL_CALL,
+  var_case, 4, var_2721_10_chr, chr_10, lambda_nl, lambda_349, TAIL_CALL,
   POS(2721, 9),
   POS(2722, 9)
 };
@@ -7729,15 +7729,15 @@ static TAB_NUM t_lambda_nl[] = {
   2, // locals
   0, // parameters
   // i-1)
-  var_std__minus, 2, var_2711_1_i, num_1, 1, LOCAL(1),
+  var_std__minus, 2, var_2711_4_i, num_1, 1, LOCAL(1),
   // range(text s i-1)
-  var_range, 3, var_2703_0_text, var_2709_1_s, LOCAL(1), 1, LOCAL(2),
+  var_range, 3, var_2703_5_text, var_2709_4_s, LOCAL(1), 1, LOCAL(2),
   // push &lines range(text s i-1)
-  var_push, 2, var_2707_1_lines, LOCAL(2), 1, var_2707_1_lines,
+  var_push, 2, var_2707_4_lines, LOCAL(2), 1, var_2707_4_lines,
   // !s i+1
-  var_std__plus, 2, var_2711_1_i, num_1, 1, var_2709_1_s,
+  var_std__plus, 2, var_2711_4_i, num_1, 1, var_2709_4_s,
   // !b undefined
-  LET, 1, var_undefined, 1, var_2710_1_b,
+  LET, 1, var_undefined, 1, var_2710_4_b,
   // next
   var_next, 0, TAIL_CALL,
   POS(2724, 38),
@@ -7752,7 +7752,7 @@ static TAB_NUM t_lambda_349[] = {
   1, // locals
   0, // parameters
   // chr == ' ':
-  var_std__equal, 2, var_2721_1_chr, chr_32, 1, LOCAL(1),
+  var_std__equal, 2, var_2721_10_chr, chr_32, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_350, lambda_353, TAIL_CALL,
   POS(2730, 15),
@@ -7763,9 +7763,9 @@ static TAB_NUM t_lambda_350[] = {
   2, // locals
   0, // parameters
   // i-s == width: # break
-  var_std__minus, 2, var_2711_1_i, var_2709_1_s, 1, LOCAL(1),
+  var_std__minus, 2, var_2711_4_i, var_2709_4_s, 1, LOCAL(1),
   // i-s == width: # break
-  var_std__equal, 2, LOCAL(1), var_2704_0_width, 1, LOCAL(2),
+  var_std__equal, 2, LOCAL(1), var_2704_5_width, 1, LOCAL(2),
   // if
   var_if, 3, LOCAL(2), lambda_351, lambda_352, TAIL_CALL,
   POS(2732, 19),
@@ -7777,15 +7777,15 @@ static TAB_NUM t_lambda_351[] = {
   2, // locals
   0, // parameters
   // i-1)
-  var_std__minus, 2, var_2711_1_i, num_1, 1, LOCAL(1),
+  var_std__minus, 2, var_2711_4_i, num_1, 1, LOCAL(1),
   // range(text s i-1)
-  var_range, 3, var_2703_0_text, var_2709_1_s, LOCAL(1), 1, LOCAL(2),
+  var_range, 3, var_2703_5_text, var_2709_4_s, LOCAL(1), 1, LOCAL(2),
   // push &lines range(text s i-1)
-  var_push, 2, var_2707_1_lines, LOCAL(2), 1, var_2707_1_lines,
+  var_push, 2, var_2707_4_lines, LOCAL(2), 1, var_2707_4_lines,
   // !s i+1
-  var_std__plus, 2, var_2711_1_i, num_1, 1, var_2709_1_s,
+  var_std__plus, 2, var_2711_4_i, num_1, 1, var_2709_4_s,
   // !b undefined
-  LET, 1, var_undefined, 1, var_2710_1_b,
+  LET, 1, var_undefined, 1, var_2710_4_b,
   // next
   var_next, 0, TAIL_CALL,
   POS(2733, 46),
@@ -7800,7 +7800,7 @@ static TAB_NUM t_lambda_352[] = {
   0, // locals
   0, // parameters
   // !b i
-  LET, 1, var_2711_1_i, 1, var_2710_1_b,
+  LET, 1, var_2711_4_i, 1, var_2710_4_b,
   // next
   var_next, 0, TAIL_CALL,
   POS(2738, 21),
@@ -7811,9 +7811,9 @@ static TAB_NUM t_lambda_353[] = {
   2, // locals
   0, // parameters
   // i-s < width
-  var_std__minus, 2, var_2711_1_i, var_2709_1_s, 1, LOCAL(1),
+  var_std__minus, 2, var_2711_4_i, var_2709_4_s, 1, LOCAL(1),
   // i-s < width
-  var_std__less, 2, LOCAL(1), var_2704_0_width, 1, LOCAL(2),
+  var_std__less, 2, LOCAL(1), var_2704_5_width, 1, LOCAL(2),
   // if
   var_if, 3, LOCAL(2), var_next, lambda_354, TAIL_CALL,
   POS(2742, 19),
@@ -7825,7 +7825,7 @@ static TAB_NUM t_lambda_354[] = {
   1, // locals
   0, // parameters
   // is_defined: # wrap
-  var_is_defined, 1, var_2710_1_b, 1, LOCAL(1),
+  var_is_defined, 1, var_2710_4_b, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_b_is_defined, lambda_355, TAIL_CALL,
   POS(2746, 25),
@@ -7836,15 +7836,15 @@ static TAB_NUM t_lambda_b_is_defined[] = {
   2, // locals
   0, // parameters
   // b-1)
-  var_std__minus, 2, var_2710_1_b, num_1, 1, LOCAL(1),
+  var_std__minus, 2, var_2710_4_b, num_1, 1, LOCAL(1),
   // range(text s b-1)
-  var_range, 3, var_2703_0_text, var_2709_1_s, LOCAL(1), 1, LOCAL(2),
+  var_range, 3, var_2703_5_text, var_2709_4_s, LOCAL(1), 1, LOCAL(2),
   // push &lines range(text s b-1)
-  var_push, 2, var_2707_1_lines, LOCAL(2), 1, var_2707_1_lines,
+  var_push, 2, var_2707_4_lines, LOCAL(2), 1, var_2707_4_lines,
   // !s b+1
-  var_std__plus, 2, var_2710_1_b, num_1, 1, var_2709_1_s,
+  var_std__plus, 2, var_2710_4_b, num_1, 1, var_2709_4_s,
   // !b undefined
-  LET, 1, var_undefined, 1, var_2710_1_b,
+  LET, 1, var_undefined, 1, var_2710_4_b,
   // next
   var_next, 0, TAIL_CALL,
   POS(2747, 50),
@@ -7859,13 +7859,13 @@ static TAB_NUM t_lambda_355[] = {
   2, // locals
   0, // parameters
   // i-1)
-  var_std__minus, 2, var_2711_1_i, num_1, 1, LOCAL(1),
+  var_std__minus, 2, var_2711_4_i, num_1, 1, LOCAL(1),
   // range(text s i-1)
-  var_range, 3, var_2703_0_text, var_2709_1_s, LOCAL(1), 1, LOCAL(2),
+  var_range, 3, var_2703_5_text, var_2709_4_s, LOCAL(1), 1, LOCAL(2),
   // push &lines range(text s i-1)
-  var_push, 2, var_2707_1_lines, LOCAL(2), 1, var_2707_1_lines,
+  var_push, 2, var_2707_4_lines, LOCAL(2), 1, var_2707_4_lines,
   // !s i
-  LET, 1, var_2711_1_i, 1, var_2709_1_s,
+  LET, 1, var_2711_4_i, 1, var_2709_4_s,
   // next
   var_next, 0, TAIL_CALL,
   POS(2752, 50),
@@ -7878,14 +7878,14 @@ static TAB_NUM t_lambda_355[] = {
 static TAB_NUM t_func_std_types__string___serialize[] = {
   0, // locals
   -2, // parameters
-  MANDATORY_PARAMETER, var_2774_0_self,
-  var_undefined, var_2775_0_indent,
+  MANDATORY_PARAMETER, var_2774_5_self,
+  var_undefined, var_2775_5_indent,
   // $str "@quot;"
-  LET, 1, string_10, 1, var_2777_1_str,
+  LET, 1, string_10, 1, var_2777_4_str,
   // $s 1
-  LET, 1, num_1, 1, var_2778_1_s,
+  LET, 1, num_1, 1, var_2778_4_s,
   // for_each self
-  var_for_each, 3, var_2774_0_self, lambda_356, lambda_361, TAIL_CALL,
+  var_for_each, 3, var_2774_5_self, lambda_356, lambda_361, TAIL_CALL,
   POS(2777, 3),
   POS(2778, 3),
   POS(2779, 3)
@@ -7894,10 +7894,10 @@ static TAB_NUM t_func_std_types__string___serialize[] = {
 static TAB_NUM t_lambda_356[] = {
   2, // locals
   2, // parameters
-  var_2780_3_idx,
-  var_2780_7_chr,
+  var_2780_8_idx,
+  var_2780_12_chr,
   // chr < '@0x20;' || chr > '@0x7e;' || chr == '"' || chr == '@@':
-  var_std__less, 2, var_2780_7_chr, chr_32, 1, LOCAL(1),
+  var_std__less, 2, var_2780_12_chr, chr_32, 1, LOCAL(1),
   // chr < '@0x20;' || chr > '@0x7e;' || chr == '"' || chr == '@@':
   var_std__or, 2, LOCAL(1), lambda_357, 1, LOCAL(2),
   // if
@@ -7911,7 +7911,7 @@ static TAB_NUM t_lambda_357[] = {
   2, // locals
   0, // parameters
   // 0x7e;' || chr == '"' || chr == '@@':
-  var_std__less, 2, chr_126, var_2780_7_chr, 1, LOCAL(1),
+  var_std__less, 2, chr_126, var_2780_12_chr, 1, LOCAL(1),
   // 0x7e;' || chr == '"' || chr == '@@':
   var_std__or, 2, LOCAL(1), lambda_358, 1, LOCAL(2),
   // chr > '@0x7e;' || chr == '"' || chr == '@@':
@@ -7925,7 +7925,7 @@ static TAB_NUM t_lambda_358[] = {
   2, // locals
   0, // parameters
   // chr == '"' || chr == '@@':
-  var_std__equal, 2, var_2780_7_chr, chr_34, 1, LOCAL(1),
+  var_std__equal, 2, var_2780_12_chr, chr_34, 1, LOCAL(1),
   // chr == '"' || chr == '@@':
   var_std__or, 2, LOCAL(1), lambda_359, 1, LOCAL(2),
   // chr == '"' || chr == '@@':
@@ -7939,7 +7939,7 @@ static TAB_NUM t_lambda_359[] = {
   1, // locals
   0, // parameters
   // chr == '@@':
-  var_std__equal, 2, var_2780_7_chr, chr_64, 1, LOCAL(1),
+  var_std__equal, 2, var_2780_12_chr, chr_64, 1, LOCAL(1),
   // chr == '@@':
   LET, 1, LOCAL(1), TAIL_CALL,
   POS(2782, 59),
@@ -7950,19 +7950,19 @@ static TAB_NUM t_lambda_360[] = {
   2, // locals
   0, // parameters
   // idx-1)
-  var_std__minus, 2, var_2780_3_idx, num_1, 1, LOCAL(1),
+  var_std__minus, 2, var_2780_8_idx, num_1, 1, LOCAL(1),
   // range(self s idx-1)
-  var_range, 3, var_2774_0_self, var_2778_1_s, LOCAL(1), 1, LOCAL(2),
+  var_range, 3, var_2774_5_self, var_2778_4_s, LOCAL(1), 1, LOCAL(2),
   // append &str range(self s idx-1)
-  var_append, 2, var_2777_1_str, LOCAL(2), 1, var_2777_1_str,
+  var_append, 2, var_2777_4_str, LOCAL(2), 1, var_2777_4_str,
   // to_integer);"
-  var_to_integer, 1, var_2780_7_chr, 1, LOCAL(1),
+  var_to_integer, 1, var_2780_12_chr, 1, LOCAL(1),
   // "@@@(chr.to_integer);"
   var_std__string, 3, string_11, LOCAL(1), string_12, 1, LOCAL(2),
   // append &str "@@@(chr.to_integer);"
-  var_append, 2, var_2777_1_str, LOCAL(2), 1, var_2777_1_str,
+  var_append, 2, var_2777_4_str, LOCAL(2), 1, var_2777_4_str,
   // !s idx+1
-  var_std__plus, 2, var_2780_3_idx, num_1, 1, var_2778_1_s,
+  var_std__plus, 2, var_2780_8_idx, num_1, 1, var_2778_4_s,
   // next
   var_next, 0, TAIL_CALL,
   POS(2783, 36),
@@ -7979,13 +7979,13 @@ static TAB_NUM t_lambda_361[] = {
   1, // locals
   0, // parameters
   // range(self s -1)
-  var_range, 3, var_2774_0_self, var_2778_1_s, minus_num_1, 1, LOCAL(1),
+  var_range, 3, var_2774_5_self, var_2778_4_s, minus_num_1, 1, LOCAL(1),
   // append &str range(self s -1)
-  var_append, 2, var_2777_1_str, LOCAL(1), 1, var_2777_1_str,
+  var_append, 2, var_2777_4_str, LOCAL(1), 1, var_2777_4_str,
   // append &str "@quot;@nl;"
-  var_append, 2, var_2777_1_str, string_13, 1, var_2777_1_str,
+  var_append, 2, var_2777_4_str, string_13, 1, var_2777_4_str,
   // is_defined
-  var_is_defined, 1, var_2775_0_indent, 1, LOCAL(1),
+  var_is_defined, 1, var_2775_5_indent, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_362, lambda_363, TAIL_CALL,
   POS(2789, 19),
@@ -7999,9 +7999,9 @@ static TAB_NUM t_lambda_362[] = {
   2, // locals
   0, // parameters
   // tabs_and_spaces(indent) str)
-  var_tabs_and_spaces, 1, var_2775_0_indent, 1, LOCAL(1),
+  var_tabs_and_spaces, 1, var_2775_5_indent, 1, LOCAL(1),
   // append(tabs_and_spaces(indent) str)
-  var_append, 2, LOCAL(1), var_2777_1_str, 1, LOCAL(2),
+  var_append, 2, LOCAL(1), var_2777_4_str, 1, LOCAL(2),
   //  append(tabs_and_spaces(indent) str)
   LET, 1, LOCAL(2), TAIL_CALL,
   POS(2793, 19),
@@ -8013,18 +8013,18 @@ static TAB_NUM t_lambda_363[] = {
   0, // locals
   0, // parameters
   //  str
-  LET, 1, var_2777_1_str, TAIL_CALL,
+  LET, 1, var_2777_4_str, TAIL_CALL,
   POS(2794, 11)
 };
 
 static TAB_NUM t_func_std_types__octet_string___to_uint8_array[] = {
   2, // locals
   1, // parameters
-  LOCAL(2), // 2810_0_self
+  LOCAL(2), // 2810_5_self
   // length_of(self))
   var_length_of, 1, LOCAL(2), 1, LOCAL(1),
   // $arr uint8_array(length_of(self))
-  var_uint8_array, 1, LOCAL(1), 1, var_2812_1_arr,
+  var_uint8_array, 1, LOCAL(1), 1, var_2812_4_arr,
   // for_each self
   var_for_each, 3, LOCAL(2), lambda_364, lambda_365, TAIL_CALL,
   POS(2812, 20),
@@ -8035,12 +8035,12 @@ static TAB_NUM t_func_std_types__octet_string___to_uint8_array[] = {
 static TAB_NUM t_lambda_364[] = {
   4, // locals
   2, // parameters
-  LOCAL(3), // 2814_3_idx
-  LOCAL(4), // 2814_7_chr
+  LOCAL(3), // 2814_8_idx
+  LOCAL(4), // 2814_12_chr
   // !arr(idx) chr.to_integer
   var_to_integer, 1, LOCAL(4), 1, LOCAL(2),
   // arr(idx) chr.to_integer
-  var_2812_1_arr, 2, LOCAL(3), LOCAL(2), 1, var_2812_1_arr,
+  var_2812_4_arr, 2, LOCAL(3), LOCAL(2), 1, var_2812_4_arr,
   // next
   var_next, 0, TAIL_CALL,
   POS(2815, 7),
@@ -8052,23 +8052,23 @@ static TAB_NUM t_lambda_365[] = {
   0, // locals
   0, // parameters
   //  arr
-  LET, 1, var_2812_1_arr, TAIL_CALL,
+  LET, 1, var_2812_4_arr, TAIL_CALL,
   POS(2817, 7)
 };
 
 static TAB_NUM t_func_std__indented[] = {
   0, // locals
   2, // parameters
-  var_2849_0_indent,
-  var_2850_0_text,
+  var_2849_5_indent,
+  var_2850_5_text,
   // $indented_text ""
-  LET, 1, string_1, 1, var_2852_1_indented_text,
+  LET, 1, string_1, 1, var_2852_4_indented_text,
   // $new_indent undefined
-  LET, 1, var_undefined, 1, var_2853_1_new_indent,
+  LET, 1, var_undefined, 1, var_2853_4_new_indent,
   // $i 1
-  LET, 1, num_1, 1, var_2854_1_i,
+  LET, 1, num_1, 1, var_2854_4_i,
   // $n length_of(text)
-  var_length_of, 1, var_2850_0_text, 1, var_2855_1_n,
+  var_length_of, 1, var_2850_5_text, 1, var_2855_4_n,
   // loop:
   var_loop, 1, lambda_21_loop, TAIL_CALL,
   POS(2852, 3),
@@ -8082,11 +8082,11 @@ static TAB_NUM t_lambda_21_loop[] = {
   2, // locals
   0, // parameters
   // !new_indent indent
-  LET, 1, var_2849_0_indent, 1, var_2853_1_new_indent,
+  LET, 1, var_2849_5_indent, 1, var_2853_4_new_indent,
   // skip_indent !i !new_indent
-  func_skip_indent, 0, 2, var_2854_1_i, var_2853_1_new_indent,
+  func_skip_indent, 0, 2, var_2854_4_i, var_2853_4_new_indent,
   // n:
-  var_std__less, 2, var_2855_1_n, var_2854_1_i, 1, LOCAL(1),
+  var_std__less, 2, var_2855_4_n, var_2854_4_i, 1, LOCAL(1),
   // n:
   var_std__not, 1, LOCAL(1), 1, LOCAL(2),
   // if
@@ -8102,7 +8102,7 @@ static TAB_NUM t_lambda_366[] = {
   2, // locals
   0, // parameters
   // text(i) == '@nl;':
-  var_2850_0_text, 1, var_2854_1_i, 1, LOCAL(1),
+  var_2850_5_text, 1, var_2854_4_i, 1, LOCAL(1),
   // text(i) == '@nl;':
   var_std__equal, 2, LOCAL(1), chr_10, 1, LOCAL(2),
   // if
@@ -8116,9 +8116,9 @@ static TAB_NUM t_lambda_367[] = {
   0, // locals
   0, // parameters
   // push &indented_text '@nl;'
-  var_push, 2, var_2852_1_indented_text, chr_10, 1, var_2852_1_indented_text,
+  var_push, 2, var_2852_4_indented_text, chr_10, 1, var_2852_4_indented_text,
   // !i i+1
-  var_std__plus, 2, var_2854_1_i, num_1, 1, var_2854_1_i,
+  var_std__plus, 2, var_2854_4_i, num_1, 1, var_2854_4_i,
   // next
   var_next, 0, TAIL_CALL,
   POS(2863, 13),
@@ -8130,11 +8130,11 @@ static TAB_NUM t_lambda_368[] = {
   1, // locals
   0, // parameters
   // tabs_and_spaces(new_indent)
-  var_tabs_and_spaces, 1, var_2853_1_new_indent, 1, LOCAL(1),
+  var_tabs_and_spaces, 1, var_2853_4_new_indent, 1, LOCAL(1),
   // append &indented_text tabs_and_spaces(new_indent)
-  var_append, 2, var_2852_1_indented_text, LOCAL(1), 1, var_2852_1_indented_text,
+  var_append, 2, var_2852_4_indented_text, LOCAL(1), 1, var_2852_4_indented_text,
   // $s i
-  LET, 1, var_2854_1_i, 1, var_2868_1_s,
+  LET, 1, var_2854_4_i, 1, var_2868_14_s,
   // loop
   var_loop, 2, lambda_369, var_next, TAIL_CALL,
   POS(2867, 35),
@@ -8147,7 +8147,7 @@ static TAB_NUM t_lambda_369[] = {
   2, // locals
   0, // parameters
   // text(i) == '@nl;':
-  var_2850_0_text, 1, var_2854_1_i, 1, LOCAL(1),
+  var_2850_5_text, 1, var_2854_4_i, 1, LOCAL(1),
   // text(i) == '@nl;':
   var_std__equal, 2, LOCAL(1), chr_10, 1, LOCAL(2),
   // if
@@ -8161,11 +8161,11 @@ static TAB_NUM t_lambda_370[] = {
   1, // locals
   0, // parameters
   // range(text s i)
-  var_range, 3, var_2850_0_text, var_2868_1_s, var_2854_1_i, 1, LOCAL(1),
+  var_range, 3, var_2850_5_text, var_2868_14_s, var_2854_4_i, 1, LOCAL(1),
   // append &indented_text range(text s i)
-  var_append, 2, var_2852_1_indented_text, LOCAL(1), 1, var_2852_1_indented_text,
+  var_append, 2, var_2852_4_indented_text, LOCAL(1), 1, var_2852_4_indented_text,
   // !i i+1
-  var_std__plus, 2, var_2854_1_i, num_1, 1, var_2854_1_i,
+  var_std__plus, 2, var_2854_4_i, num_1, 1, var_2854_4_i,
   // break
   var_break, 0, TAIL_CALL,
   POS(2873, 43),
@@ -8178,7 +8178,7 @@ static TAB_NUM t_lambda_371[] = {
   1, // locals
   0, // parameters
   // i < n:
-  var_std__less, 2, var_2854_1_i, var_2855_1_n, 1, LOCAL(1),
+  var_std__less, 2, var_2854_4_i, var_2855_4_n, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_372, lambda_373, TAIL_CALL,
   POS(2878, 23),
@@ -8189,7 +8189,7 @@ static TAB_NUM t_lambda_372[] = {
   0, // locals
   0, // parameters
   // !i i+1
-  var_std__plus, 2, var_2854_1_i, num_1, 1, var_2854_1_i,
+  var_std__plus, 2, var_2854_4_i, num_1, 1, var_2854_4_i,
   // next
   var_next, 0, TAIL_CALL,
   POS(2879, 25),
@@ -8200,9 +8200,9 @@ static TAB_NUM t_lambda_373[] = {
   1, // locals
   0, // parameters
   // range(text s -1)
-  var_range, 3, var_2850_0_text, var_2868_1_s, minus_num_1, 1, LOCAL(1),
+  var_range, 3, var_2850_5_text, var_2868_14_s, minus_num_1, 1, LOCAL(1),
   // append indented_text range(text s -1)
-  var_append, 2, var_2852_1_indented_text, LOCAL(1), TAIL_CALL,
+  var_append, 2, var_2852_4_indented_text, LOCAL(1), TAIL_CALL,
   POS(2882, 46),
   POS(2882, 25)
 };
@@ -8211,7 +8211,7 @@ static TAB_NUM t_lambda_374[] = {
   0, // locals
   0, // parameters
   //  indented_text
-  LET, 1, var_2852_1_indented_text, TAIL_CALL,
+  LET, 1, var_2852_4_indented_text, TAIL_CALL,
   POS(2885, 9)
 };
 
@@ -8219,7 +8219,7 @@ static TAB_NUM t_func_skip_indent[] = {
   2, // locals
   0, // parameters
   // n:
-  var_std__less, 2, var_2855_1_n, var_2854_1_i, 1, LOCAL(1),
+  var_std__less, 2, var_2855_4_n, var_2854_4_i, 1, LOCAL(1),
   // n:
   var_std__not, 1, LOCAL(1), 1, LOCAL(2),
   // if
@@ -8233,7 +8233,7 @@ static TAB_NUM t_lambda_375[] = {
   2, // locals
   0, // parameters
   // text(i) == '@ht;':
-  var_2850_0_text, 1, var_2854_1_i, 1, LOCAL(1),
+  var_2850_5_text, 1, var_2854_4_i, 1, LOCAL(1),
   // text(i) == '@ht;':
   var_std__equal, 2, LOCAL(1), chr_9, 1, LOCAL(2),
   // if
@@ -8247,9 +8247,9 @@ static TAB_NUM t_lambda_376[] = {
   0, // locals
   0, // parameters
   // !i i+1
-  var_std__plus, 2, var_2854_1_i, num_1, 1, var_2854_1_i,
+  var_std__plus, 2, var_2854_4_i, num_1, 1, var_2854_4_i,
   // !new_indent new_indent+8
-  var_std__plus, 2, var_2853_1_new_indent, num_8, 1, var_2853_1_new_indent,
+  var_std__plus, 2, var_2853_4_new_indent, num_8, 1, var_2853_4_new_indent,
   // skip_indent
   func_skip_indent, 0, TAIL_CALL,
   POS(2892, 13),
@@ -8261,7 +8261,7 @@ static TAB_NUM t_lambda_377[] = {
   0, // locals
   0, // parameters
   //  i new_indent
-  LET, 2, var_2854_1_i, var_2853_1_new_indent, TAIL_CALL,
+  LET, 2, var_2854_4_i, var_2853_4_new_indent, TAIL_CALL,
   POS(2896, 9)
 };
 
@@ -8269,7 +8269,7 @@ static TAB_NUM t_func_skip_spaces[] = {
   3, // locals
   0, // parameters
   // n && text(i) == ' ':
-  var_std__less, 2, var_2855_1_n, var_2854_1_i, 1, LOCAL(1),
+  var_std__less, 2, var_2855_4_n, var_2854_4_i, 1, LOCAL(1),
   // n && text(i) == ' ':
   var_std__not, 1, LOCAL(1), 1, LOCAL(2),
   // n && text(i) == ' ':
@@ -8286,7 +8286,7 @@ static TAB_NUM t_lambda_378[] = {
   2, // locals
   0, // parameters
   // text(i) == ' ':
-  var_2850_0_text, 1, var_2854_1_i, 1, LOCAL(1),
+  var_2850_5_text, 1, var_2854_4_i, 1, LOCAL(1),
   // text(i) == ' ':
   var_std__equal, 2, LOCAL(1), chr_32, 1, LOCAL(2),
   // text(i) == ' ':
@@ -8300,9 +8300,9 @@ static TAB_NUM t_lambda_379[] = {
   0, // locals
   0, // parameters
   // !i i+1
-  var_std__plus, 2, var_2854_1_i, num_1, 1, var_2854_1_i,
+  var_std__plus, 2, var_2854_4_i, num_1, 1, var_2854_4_i,
   // !new_indent new_indent+1
-  var_std__plus, 2, var_2853_1_new_indent, num_1, 1, var_2853_1_new_indent,
+  var_std__plus, 2, var_2853_4_new_indent, num_1, 1, var_2853_4_new_indent,
   // skip_spaces
   func_skip_spaces, 0, TAIL_CALL,
   POS(2901, 9),
@@ -8314,23 +8314,23 @@ static TAB_NUM t_lambda_380[] = {
   0, // locals
   0, // parameters
   //  i new_indent
-  LET, 2, var_2854_1_i, var_2853_1_new_indent, TAIL_CALL,
+  LET, 2, var_2854_4_i, var_2853_4_new_indent, TAIL_CALL,
   POS(2904, 9)
 };
 
 static TAB_NUM t_func_std__format[] = {
   0, // locals
   -2, // parameters
-  MANDATORY_PARAMETER, var_2939_0_template,
-  REST_PARAMETER, var_2940_0_arguments,
+  MANDATORY_PARAMETER, var_2939_5_template,
+  REST_PARAMETER, var_2940_5_arguments,
   // $output ""
-  LET, 1, string_1, 1, var_2942_1_output,
+  LET, 1, string_1, 1, var_2942_4_output,
   // $arg_idx 1
-  LET, 1, num_1, 1, var_2943_1_arg_idx,
+  LET, 1, num_1, 1, var_2943_4_arg_idx,
   // $i 1
-  LET, 1, num_1, 1, var_2944_1_i,
+  LET, 1, num_1, 1, var_2944_4_i,
   // $n length_of(template)
-  var_length_of, 1, var_2939_0_template, 1, var_2945_1_n,
+  var_length_of, 1, var_2939_5_template, 1, var_2945_4_n,
   // loop:
   var_loop, 1, lambda_22_loop, TAIL_CALL,
   POS(2942, 3),
@@ -8344,7 +8344,7 @@ static TAB_NUM t_lambda_22_loop[] = {
   1, // locals
   0, // parameters
   // n
-  var_std__less, 2, var_2945_1_n, var_2944_1_i, 1, LOCAL(1),
+  var_std__less, 2, var_2945_4_n, var_2944_4_i, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_381, lambda_382, TAIL_CALL,
   POS(2948, 11),
@@ -8355,7 +8355,7 @@ static TAB_NUM t_lambda_381[] = {
   0, // locals
   0, // parameters
   //  output
-  LET, 1, var_2942_1_output, TAIL_CALL,
+  LET, 1, var_2942_4_output, TAIL_CALL,
   POS(2949, 9)
 };
 
@@ -8363,11 +8363,11 @@ static TAB_NUM t_lambda_382[] = {
   0, // locals
   0, // parameters
   // $chr template(i)
-  var_2939_0_template, 1, var_2944_1_i, 1, var_2951_1_chr,
+  var_2939_5_template, 1, var_2944_4_i, 1, var_2951_10_chr,
   // !i i+1
-  var_std__plus, 2, var_2944_1_i, num_1, 1, var_2944_1_i,
+  var_std__plus, 2, var_2944_4_i, num_1, 1, var_2944_4_i,
   // case chr
-  var_case, 6, var_2951_1_chr, chr_37, lambda_383, chr_92, lambda_410, lambda_413, TAIL_CALL,
+  var_case, 6, var_2951_10_chr, chr_37, lambda_383, chr_92, lambda_410, lambda_413, TAIL_CALL,
   POS(2951, 9),
   POS(2952, 9),
   POS(2953, 9)
@@ -8377,7 +8377,7 @@ static TAB_NUM t_lambda_383[] = {
   1, // locals
   0, // parameters
   // n
-  var_std__less, 2, var_2945_1_n, var_2944_1_i, 1, LOCAL(1),
+  var_std__less, 2, var_2945_4_n, var_2944_4_i, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_384, lambda_385, TAIL_CALL,
   POS(2956, 19),
@@ -8396,13 +8396,13 @@ static TAB_NUM t_lambda_385[] = {
   2, // locals
   0, // parameters
   // template(i) $alignment !i
-  var_2939_0_template, 1, var_2944_1_i, 1, LOCAL(1),
+  var_2939_5_template, 1, var_2944_4_i, 1, LOCAL(1),
   // case template(i) $alignment !i
-  var_case, 10, LOCAL(1), chr_48, lambda_386, chr_108, lambda_l, chr_114, lambda_r, chr_99, lambda_c, lambda_387, 2, var_2959_18_alignment, var_2944_1_i,
+  var_case, 10, LOCAL(1), chr_48, lambda_386, chr_108, lambda_l, chr_114, lambda_r, chr_99, lambda_c, lambda_387, 2, var_2959_35_alignment, var_2944_4_i,
   // $len_chr template(i)
-  var_2939_0_template, 1, var_2944_1_i, 1, var_2965_1_len_chr,
+  var_2939_5_template, 1, var_2944_4_i, 1, var_2965_18_len_chr,
   // len_chr < '0' || len_chr > '9'
-  var_std__less, 2, var_2965_1_len_chr, chr_48, 1, LOCAL(1),
+  var_std__less, 2, var_2965_18_len_chr, chr_48, 1, LOCAL(1),
   // len_chr < '0' || len_chr > '9'
   var_std__or, 2, LOCAL(1), lambda_388, 1, LOCAL(2),
   // if
@@ -8419,7 +8419,7 @@ static TAB_NUM t_lambda_386[] = {
   1, // locals
   0, // parameters
   // i+1
-  var_std__plus, 2, var_2944_1_i, num_1, 1, LOCAL(1),
+  var_std__plus, 2, var_2944_4_i, num_1, 1, LOCAL(1),
   //  ZEROS i+1
   LET, 2, uni_ZEROS, LOCAL(1), TAIL_CALL,
   POS(2960, 32),
@@ -8430,7 +8430,7 @@ static TAB_NUM t_lambda_l[] = {
   1, // locals
   0, // parameters
   // i+1
-  var_std__plus, 2, var_2944_1_i, num_1, 1, LOCAL(1),
+  var_std__plus, 2, var_2944_4_i, num_1, 1, LOCAL(1),
   //  LEFT i+1
   LET, 2, uni_LEFT, LOCAL(1), TAIL_CALL,
   POS(2961, 31),
@@ -8441,7 +8441,7 @@ static TAB_NUM t_lambda_r[] = {
   1, // locals
   0, // parameters
   // i+1
-  var_std__plus, 2, var_2944_1_i, num_1, 1, LOCAL(1),
+  var_std__plus, 2, var_2944_4_i, num_1, 1, LOCAL(1),
   //  RIGHT i+1
   LET, 2, uni_RIGHT, LOCAL(1), TAIL_CALL,
   POS(2962, 32),
@@ -8452,7 +8452,7 @@ static TAB_NUM t_lambda_c[] = {
   1, // locals
   0, // parameters
   // i+1
-  var_std__plus, 2, var_2944_1_i, num_1, 1, LOCAL(1),
+  var_std__plus, 2, var_2944_4_i, num_1, 1, LOCAL(1),
   //  CENTER i+1
   LET, 2, uni_CENTER, LOCAL(1), TAIL_CALL,
   POS(2963, 33),
@@ -8463,7 +8463,7 @@ static TAB_NUM t_lambda_387[] = {
   0, // locals
   0, // parameters
   //  RIGHT i
-  LET, 2, uni_RIGHT, var_2944_1_i, TAIL_CALL,
+  LET, 2, uni_RIGHT, var_2944_4_i, TAIL_CALL,
   POS(2964, 21)
 };
 
@@ -8471,7 +8471,7 @@ static TAB_NUM t_lambda_388[] = {
   1, // locals
   0, // parameters
   // 9'
-  var_std__less, 2, chr_57, var_2965_1_len_chr, 1, LOCAL(1),
+  var_std__less, 2, chr_57, var_2965_18_len_chr, 1, LOCAL(1),
   // len_chr > '9'
   LET, 1, LOCAL(1), TAIL_CALL,
   POS(2967, 47),
@@ -8490,7 +8490,7 @@ static TAB_NUM t_lambda_390[] = {
   0, // locals
   0, // parameters
   // $width len_chr-'0'
-  var_std__minus, 2, var_2965_1_len_chr, chr_48, 1, var_2970_1_width,
+  var_std__minus, 2, var_2965_18_len_chr, chr_48, 1, var_2970_22_width,
   // loop
   var_loop, 2, lambda_391, lambda_395, TAIL_CALL,
   POS(2970, 21),
@@ -8501,9 +8501,9 @@ static TAB_NUM t_lambda_391[] = {
   1, // locals
   0, // parameters
   // !i i+1
-  var_std__plus, 2, var_2944_1_i, num_1, 1, var_2944_1_i,
+  var_std__plus, 2, var_2944_4_i, num_1, 1, var_2944_4_i,
   // n
-  var_std__less, 2, var_2945_1_n, var_2944_1_i, 1, LOCAL(1),
+  var_std__less, 2, var_2945_4_n, var_2944_4_i, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), var_break, lambda_392, TAIL_CALL,
   POS(2973, 25),
@@ -8515,9 +8515,9 @@ static TAB_NUM t_lambda_392[] = {
   2, // locals
   0, // parameters
   // $fmt_chr template(i)
-  var_2939_0_template, 1, var_2944_1_i, 1, var_2978_1_fmt_chr,
+  var_2939_5_template, 1, var_2944_4_i, 1, var_2978_30_fmt_chr,
   // fmt_chr < '0' || fmt_chr > '9'
-  var_std__less, 2, var_2978_1_fmt_chr, chr_48, 1, LOCAL(1),
+  var_std__less, 2, var_2978_30_fmt_chr, chr_48, 1, LOCAL(1),
   // fmt_chr < '0' || fmt_chr > '9'
   var_std__or, 2, LOCAL(1), lambda_393, 1, LOCAL(2),
   // if
@@ -8532,7 +8532,7 @@ static TAB_NUM t_lambda_393[] = {
   1, // locals
   0, // parameters
   // 9'
-  var_std__less, 2, chr_57, var_2978_1_fmt_chr, 1, LOCAL(1),
+  var_std__less, 2, chr_57, var_2978_30_fmt_chr, 1, LOCAL(1),
   // fmt_chr > '9'
   LET, 1, LOCAL(1), TAIL_CALL,
   POS(2980, 59),
@@ -8543,11 +8543,11 @@ static TAB_NUM t_lambda_394[] = {
   2, // locals
   0, // parameters
   // 10*width+(fmt_chr-'0')
-  var_std__times, 2, num_10, var_2970_1_width, 1, LOCAL(1),
+  var_std__times, 2, num_10, var_2970_22_width, 1, LOCAL(1),
   // fmt_chr-'0')
-  var_std__minus, 2, var_2978_1_fmt_chr, chr_48, 1, LOCAL(2),
+  var_std__minus, 2, var_2978_30_fmt_chr, chr_48, 1, LOCAL(2),
   // !width 10*width+(fmt_chr-'0')
-  var_std__plus, 2, LOCAL(1), LOCAL(2), 1, var_2970_1_width,
+  var_std__plus, 2, LOCAL(1), LOCAL(2), 1, var_2970_22_width,
   // next
   var_next, 0, TAIL_CALL,
   POS(2983, 40),
@@ -8560,7 +8560,7 @@ static TAB_NUM t_lambda_395[] = {
   1, // locals
   0, // parameters
   // n:
-  var_std__less, 2, var_2945_1_n, var_2944_1_i, 1, LOCAL(1),
+  var_std__less, 2, var_2945_4_n, var_2944_4_i, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_396, lambda_397, TAIL_CALL,
   POS(2987, 31),
@@ -8571,7 +8571,7 @@ static TAB_NUM t_lambda_396[] = {
   0, // locals
   0, // parameters
   // add_argument alignment width
-  func_add_argument, 2, var_2959_18_alignment, var_2970_1_width, TAIL_CALL,
+  func_add_argument, 2, var_2959_35_alignment, var_2970_22_width, TAIL_CALL,
   POS(2988, 29)
 };
 
@@ -8579,7 +8579,7 @@ static TAB_NUM t_lambda_397[] = {
   2, // locals
   0, // parameters
   // template(i) == '.':
-  var_2939_0_template, 1, var_2944_1_i, 1, LOCAL(1),
+  var_2939_5_template, 1, var_2944_4_i, 1, LOCAL(1),
   // template(i) == '.':
   var_std__equal, 2, LOCAL(1), chr_46, 1, LOCAL(2),
   // if
@@ -8593,9 +8593,9 @@ static TAB_NUM t_lambda_398[] = {
   1, // locals
   0, // parameters
   // !i i+1
-  var_std__plus, 2, var_2944_1_i, num_1, 1, var_2944_1_i,
+  var_std__plus, 2, var_2944_4_i, num_1, 1, var_2944_4_i,
   // n
-  var_std__less, 2, var_2945_1_n, var_2944_1_i, 1, LOCAL(1),
+  var_std__less, 2, var_2945_4_n, var_2944_4_i, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_399, lambda_400, TAIL_CALL,
   POS(2992, 33),
@@ -8615,9 +8615,9 @@ static TAB_NUM t_lambda_400[] = {
   2, // locals
   0, // parameters
   // $dw_chr template(i)
-  var_2939_0_template, 1, var_2944_1_i, 1, var_2997_1_dw_chr,
+  var_2939_5_template, 1, var_2944_4_i, 1, var_2997_38_dw_chr,
   // dw_chr < '0' || dw_chr > '9'
-  var_std__less, 2, var_2997_1_dw_chr, chr_48, 1, LOCAL(1),
+  var_std__less, 2, var_2997_38_dw_chr, chr_48, 1, LOCAL(1),
   // dw_chr < '0' || dw_chr > '9'
   var_std__or, 2, LOCAL(1), lambda_401, 1, LOCAL(2),
   // if
@@ -8632,7 +8632,7 @@ static TAB_NUM t_lambda_401[] = {
   1, // locals
   0, // parameters
   // 9'
-  var_std__less, 2, chr_57, var_2997_1_dw_chr, 1, LOCAL(1),
+  var_std__less, 2, chr_57, var_2997_38_dw_chr, 1, LOCAL(1),
   // dw_chr > '9'
   LET, 1, LOCAL(1), TAIL_CALL,
   POS(2999, 65),
@@ -8651,7 +8651,7 @@ static TAB_NUM t_lambda_403[] = {
   0, // locals
   0, // parameters
   // $dw dw_chr-'0'
-  var_std__minus, 2, var_2997_1_dw_chr, chr_48, 1, var_3002_1_dw,
+  var_std__minus, 2, var_2997_38_dw_chr, chr_48, 1, var_3002_42_dw,
   // loop
   var_loop, 2, lambda_404, lambda_408, TAIL_CALL,
   POS(3002, 41),
@@ -8662,9 +8662,9 @@ static TAB_NUM t_lambda_404[] = {
   1, // locals
   0, // parameters
   // !i i+1
-  var_std__plus, 2, var_2944_1_i, num_1, 1, var_2944_1_i,
+  var_std__plus, 2, var_2944_4_i, num_1, 1, var_2944_4_i,
   // n
-  var_std__less, 2, var_2945_1_n, var_2944_1_i, 1, LOCAL(1),
+  var_std__less, 2, var_2945_4_n, var_2944_4_i, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), var_break, lambda_405, TAIL_CALL,
   POS(3005, 45),
@@ -8676,9 +8676,9 @@ static TAB_NUM t_lambda_405[] = {
   2, // locals
   0, // parameters
   // $fmt_chr template(i)
-  var_2939_0_template, 1, var_2944_1_i, 1, var_3010_1_fmt_chr,
+  var_2939_5_template, 1, var_2944_4_i, 1, var_3010_50_fmt_chr,
   // fmt_chr < '0' || fmt_chr > '9'
-  var_std__less, 2, var_3010_1_fmt_chr, chr_48, 1, LOCAL(1),
+  var_std__less, 2, var_3010_50_fmt_chr, chr_48, 1, LOCAL(1),
   // fmt_chr < '0' || fmt_chr > '9'
   var_std__or, 2, LOCAL(1), lambda_406, 1, LOCAL(2),
   // if
@@ -8693,7 +8693,7 @@ static TAB_NUM t_lambda_406[] = {
   1, // locals
   0, // parameters
   // 9'
-  var_std__less, 2, chr_57, var_3010_1_fmt_chr, 1, LOCAL(1),
+  var_std__less, 2, chr_57, var_3010_50_fmt_chr, 1, LOCAL(1),
   // fmt_chr > '9'
   LET, 1, LOCAL(1), TAIL_CALL,
   POS(3012, 79),
@@ -8704,11 +8704,11 @@ static TAB_NUM t_lambda_407[] = {
   2, // locals
   0, // parameters
   // 10*dw+(fmt_chr-'0')
-  var_std__times, 2, num_10, var_3002_1_dw, 1, LOCAL(1),
+  var_std__times, 2, num_10, var_3002_42_dw, 1, LOCAL(1),
   // fmt_chr-'0')
-  var_std__minus, 2, var_3010_1_fmt_chr, chr_48, 1, LOCAL(2),
+  var_std__minus, 2, var_3010_50_fmt_chr, chr_48, 1, LOCAL(2),
   // !dw 10*dw+(fmt_chr-'0')
-  var_std__plus, 2, LOCAL(1), LOCAL(2), 1, var_3002_1_dw,
+  var_std__plus, 2, LOCAL(1), LOCAL(2), 1, var_3002_42_dw,
   // next
   var_next, 0, TAIL_CALL,
   POS(3015, 57),
@@ -8721,7 +8721,7 @@ static TAB_NUM t_lambda_408[] = {
   0, // locals
   0, // parameters
   // add_argument alignment width dw
-  func_add_argument, 3, var_2959_18_alignment, var_2970_1_width, var_3002_1_dw, TAIL_CALL,
+  func_add_argument, 3, var_2959_35_alignment, var_2970_22_width, var_3002_42_dw, TAIL_CALL,
   POS(3018, 45)
 };
 
@@ -8729,7 +8729,7 @@ static TAB_NUM t_lambda_409[] = {
   0, // locals
   0, // parameters
   // add_argument alignment width
-  func_add_argument, 2, var_2959_18_alignment, var_2970_1_width, TAIL_CALL,
+  func_add_argument, 2, var_2959_35_alignment, var_2970_22_width, TAIL_CALL,
   POS(3020, 33)
 };
 
@@ -8737,7 +8737,7 @@ static TAB_NUM t_lambda_410[] = {
   1, // locals
   0, // parameters
   // n
-  var_std__less, 2, var_2945_1_n, var_2944_1_i, 1, LOCAL(1),
+  var_std__less, 2, var_2945_4_n, var_2944_4_i, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_411, lambda_412, TAIL_CALL,
   POS(3023, 19),
@@ -8756,11 +8756,11 @@ static TAB_NUM t_lambda_412[] = {
   1, // locals
   0, // parameters
   // template(i)
-  var_2939_0_template, 1, var_2944_1_i, 1, LOCAL(1),
+  var_2939_5_template, 1, var_2944_4_i, 1, LOCAL(1),
   // push &output template(i)
-  var_push, 2, var_2942_1_output, LOCAL(1), 1, var_2942_1_output,
+  var_push, 2, var_2942_4_output, LOCAL(1), 1, var_2942_4_output,
   // !i i+1
-  var_std__plus, 2, var_2944_1_i, num_1, 1, var_2944_1_i,
+  var_std__plus, 2, var_2944_4_i, num_1, 1, var_2944_4_i,
   // next
   var_next, 0, TAIL_CALL,
   POS(3026, 30),
@@ -8773,7 +8773,7 @@ static TAB_NUM t_lambda_413[] = {
   0, // locals
   0, // parameters
   // push &output chr
-  var_push, 2, var_2942_1_output, var_2951_1_chr, 1, var_2942_1_output,
+  var_push, 2, var_2942_4_output, var_2951_10_chr, 1, var_2942_4_output,
   // next
   var_next, 0, TAIL_CALL,
   POS(3030, 13),
@@ -8783,15 +8783,15 @@ static TAB_NUM t_lambda_413[] = {
 static TAB_NUM t_func_add_argument[] = {
   1, // locals
   -3, // parameters
-  MANDATORY_PARAMETER, var_3063_0_alignment,
-  MANDATORY_PARAMETER, var_3064_0_width,
-  var_undefined, var_3065_0_decimal_width,
+  MANDATORY_PARAMETER, var_3063_7_alignment,
+  MANDATORY_PARAMETER, var_3064_7_width,
+  var_undefined, var_3065_7_decimal_width,
   // $argument arguments(arg_idx)
-  var_2940_0_arguments, 1, var_2943_1_arg_idx, 1, var_3067_1_argument,
+  var_2940_5_arguments, 1, var_2943_4_arg_idx, 1, var_3067_6_argument,
   // !arg_idx arg_idx+1
-  var_std__plus, 2, var_2943_1_arg_idx, num_1, 1, var_2943_1_arg_idx,
+  var_std__plus, 2, var_2943_4_arg_idx, num_1, 1, var_2943_4_arg_idx,
   // is_defined:
-  var_is_defined, 1, var_3065_0_decimal_width, 1, LOCAL(1),
+  var_is_defined, 1, var_3065_7_decimal_width, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_decimal_width_is_defined, lambda_419, TAIL_CALL,
   POS(3067, 5),
@@ -8804,11 +8804,11 @@ static TAB_NUM t_lambda_decimal_width_is_defined[] = {
   1, // locals
   0, // parameters
   // real_to_string &argument
-  func_real_to_string, 1, var_3067_1_argument, 1, var_3067_1_argument,
+  func_real_to_string, 1, var_3067_6_argument, 1, var_3067_6_argument,
   // $value argument .truncate_from. '.'
-  var_truncate_from, 2, var_3067_1_argument, chr_46, 1, var_3072_1_value,
+  var_truncate_from, 2, var_3067_6_argument, chr_46, 1, var_3072_10_value,
   // 0:
-  var_std__less, 2, num_0, var_3065_0_decimal_width, 1, LOCAL(1),
+  var_std__less, 2, num_0, var_3065_7_decimal_width, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_414, lambda_417, TAIL_CALL,
   POS(3071, 9),
@@ -8821,13 +8821,13 @@ static TAB_NUM t_lambda_414[] = {
   1, // locals
   0, // parameters
   // $decimals argument .behind. '.'
-  var_behind, 2, var_3067_1_argument, chr_46, 1, var_3075_1_decimals,
+  var_behind, 2, var_3067_6_argument, chr_46, 1, var_3075_14_decimals,
   // pad_right &decimals decimal_width "0"
-  var_pad_right, 3, var_3075_1_decimals, var_3065_0_decimal_width, string_14, 1, var_3075_1_decimals,
+  var_pad_right, 3, var_3075_14_decimals, var_3065_7_decimal_width, string_14, 1, var_3075_14_decimals,
   // range &decimals 1 decimal_width
-  var_range, 3, var_3075_1_decimals, num_1, var_3065_0_decimal_width, 1, var_3075_1_decimals,
+  var_range, 3, var_3075_14_decimals, num_1, var_3065_7_decimal_width, 1, var_3075_14_decimals,
   // alignment == ZEROS:
-  var_std__equal, 2, var_3063_0_alignment, uni_ZEROS, 1, LOCAL(1),
+  var_std__equal, 2, var_3063_7_alignment, uni_ZEROS, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_415, lambda_416, TAIL_CALL,
   POS(3075, 13),
@@ -8841,9 +8841,9 @@ static TAB_NUM t_lambda_415[] = {
   1, // locals
   0, // parameters
   // pad_left(value width "0") "." decimals
-  var_pad_left, 3, var_3072_1_value, var_3064_0_width, string_14, 1, LOCAL(1),
+  var_pad_left, 3, var_3072_10_value, var_3064_7_width, string_14, 1, LOCAL(1),
   // append &output pad_left(value width "0") "." decimals
-  var_append, 4, var_2942_1_output, LOCAL(1), string_15, var_3075_1_decimals, 1, var_2942_1_output,
+  var_append, 4, var_2942_4_output, LOCAL(1), string_15, var_3075_14_decimals, 1, var_2942_4_output,
   // next
   var_next, 0, TAIL_CALL,
   POS(3080, 32),
@@ -8855,9 +8855,9 @@ static TAB_NUM t_lambda_416[] = {
   1, // locals
   0, // parameters
   // pad_left(value width) "." decimals
-  var_pad_left, 2, var_3072_1_value, var_3064_0_width, 1, LOCAL(1),
+  var_pad_left, 2, var_3072_10_value, var_3064_7_width, 1, LOCAL(1),
   // append &output pad_left(value width) "." decimals
-  var_append, 4, var_2942_1_output, LOCAL(1), string_15, var_3075_1_decimals, 1, var_2942_1_output,
+  var_append, 4, var_2942_4_output, LOCAL(1), string_15, var_3075_14_decimals, 1, var_2942_4_output,
   // next
   var_next, 0, TAIL_CALL,
   POS(3083, 32),
@@ -8869,9 +8869,9 @@ static TAB_NUM t_lambda_417[] = {
   1, // locals
   0, // parameters
   // case
-  var_case, 6, var_3063_0_alignment, uni_LEFT, lambda_LEFT, uni_ZEROS, lambda_ZEROS, lambda_418, 1, LOCAL(1),
+  var_case, 6, var_3063_7_alignment, uni_LEFT, lambda_LEFT, uni_ZEROS, lambda_ZEROS, lambda_418, 1, LOCAL(1),
   // append &output
-  var_append, 2, var_2942_1_output, LOCAL(1), 1, var_2942_1_output,
+  var_append, 2, var_2942_4_output, LOCAL(1), 1, var_2942_4_output,
   // next
   var_next, 0, TAIL_CALL,
   POS(3087, 15),
@@ -8883,7 +8883,7 @@ static TAB_NUM t_lambda_LEFT[] = {
   1, // locals
   0, // parameters
   // pad_right(value width)
-  var_pad_right, 2, var_3072_1_value, var_3064_0_width, 1, LOCAL(1),
+  var_pad_right, 2, var_3072_10_value, var_3064_7_width, 1, LOCAL(1),
   //  pad_right(value width)
   LET, 1, LOCAL(1), TAIL_CALL,
   POS(3089, 25),
@@ -8894,7 +8894,7 @@ static TAB_NUM t_lambda_ZEROS[] = {
   1, // locals
   0, // parameters
   // pad_left(value width "0")
-  var_pad_left, 3, var_3072_1_value, var_3064_0_width, string_14, 1, LOCAL(1),
+  var_pad_left, 3, var_3072_10_value, var_3064_7_width, string_14, 1, LOCAL(1),
   //  pad_left(value width "0")
   LET, 1, LOCAL(1), TAIL_CALL,
   POS(3090, 26),
@@ -8905,7 +8905,7 @@ static TAB_NUM t_lambda_418[] = {
   1, // locals
   0, // parameters
   // pad_left(argument value)
-  var_pad_left, 2, var_3067_1_argument, var_3072_1_value, 1, LOCAL(1),
+  var_pad_left, 2, var_3067_6_argument, var_3072_10_value, 1, LOCAL(1),
   //  pad_left(argument value)
   LET, 1, LOCAL(1), TAIL_CALL,
   POS(3091, 20),
@@ -8916,9 +8916,9 @@ static TAB_NUM t_lambda_419[] = {
   1, // locals
   0, // parameters
   // case
-  var_case, 6, var_3063_0_alignment, uni_LEFT, lambda_2_LEFT, uni_ZEROS, lambda_2_ZEROS, lambda_420, 1, LOCAL(1),
+  var_case, 6, var_3063_7_alignment, uni_LEFT, lambda_2_LEFT, uni_ZEROS, lambda_2_ZEROS, lambda_420, 1, LOCAL(1),
   // append &output
-  var_append, 2, var_2942_1_output, LOCAL(1), 1, var_2942_1_output,
+  var_append, 2, var_2942_4_output, LOCAL(1), 1, var_2942_4_output,
   // next
   var_next, 0, TAIL_CALL,
   POS(3095, 11),
@@ -8930,7 +8930,7 @@ static TAB_NUM t_lambda_2_LEFT[] = {
   1, // locals
   0, // parameters
   // pad_right(argument width)
-  var_pad_right, 2, var_3067_1_argument, var_3064_0_width, 1, LOCAL(1),
+  var_pad_right, 2, var_3067_6_argument, var_3064_7_width, 1, LOCAL(1),
   //  pad_right(argument width)
   LET, 1, LOCAL(1), TAIL_CALL,
   POS(3097, 21),
@@ -8941,7 +8941,7 @@ static TAB_NUM t_lambda_2_ZEROS[] = {
   1, // locals
   0, // parameters
   // pad_left(argument width "0")
-  var_pad_left, 3, var_3067_1_argument, var_3064_0_width, string_14, 1, LOCAL(1),
+  var_pad_left, 3, var_3067_6_argument, var_3064_7_width, string_14, 1, LOCAL(1),
   //  pad_left(argument width "0")
   LET, 1, LOCAL(1), TAIL_CALL,
   POS(3098, 22),
@@ -8952,7 +8952,7 @@ static TAB_NUM t_lambda_420[] = {
   1, // locals
   0, // parameters
   // pad_left(argument width)
-  var_pad_left, 2, var_3067_1_argument, var_3064_0_width, 1, LOCAL(1),
+  var_pad_left, 2, var_3067_6_argument, var_3064_7_width, 1, LOCAL(1),
   //  pad_left(argument width)
   LET, 1, LOCAL(1), TAIL_CALL,
   POS(3099, 16),
@@ -8962,13 +8962,13 @@ static TAB_NUM t_lambda_420[] = {
 static TAB_NUM t_func_real_to_string[] = {
   1, // locals
   1, // parameters
-  LOCAL(1), // 3102_18_num
+  LOCAL(1), // 3102_19_num
   // $str num.to_string
-  var_to_string, 1, LOCAL(1), 1, var_3103_1_str,
+  var_to_string, 1, LOCAL(1), 1, var_3103_4_str,
   // $n length_of(str)
-  var_length_of, 1, var_3103_1_str, 1, var_3104_1_n,
+  var_length_of, 1, var_3103_4_str, 1, var_3104_4_n,
   // $i n
-  LET, 1, var_3104_1_n, 1, var_3105_1_i,
+  LET, 1, var_3104_4_n, 1, var_3105_4_i,
   // loop:
   var_loop, 1, lambda_23_loop, TAIL_CALL,
   POS(3103, 3),
@@ -8981,7 +8981,7 @@ static TAB_NUM t_lambda_23_loop[] = {
   1, // locals
   0, // parameters
   // i == 0
-  var_std__equal, 2, var_3105_1_i, num_0, 1, LOCAL(1),
+  var_std__equal, 2, var_3105_4_i, num_0, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_421, lambda_422, TAIL_CALL,
   POS(3108, 7),
@@ -8992,7 +8992,7 @@ static TAB_NUM t_lambda_421[] = {
   0, // locals
   0, // parameters
   //  str
-  LET, 1, var_3103_1_str, TAIL_CALL,
+  LET, 1, var_3103_4_str, TAIL_CALL,
   POS(3109, 9)
 };
 
@@ -9000,7 +9000,7 @@ static TAB_NUM t_lambda_422[] = {
   2, // locals
   0, // parameters
   // str(i) == 'e'
-  var_3103_1_str, 1, var_3105_1_i, 1, LOCAL(1),
+  var_3103_4_str, 1, var_3105_4_i, 1, LOCAL(1),
   // str(i) == 'e'
   var_std__equal, 2, LOCAL(1), chr_101, 1, LOCAL(2),
   // if
@@ -9014,7 +9014,7 @@ static TAB_NUM t_lambda_423[] = {
   0, // locals
   0, // parameters
   // !i i-1
-  var_std__minus, 2, var_3105_1_i, num_1, 1, var_3105_1_i,
+  var_std__minus, 2, var_3105_4_i, num_1, 1, var_3105_4_i,
   // next
   var_next, 0, TAIL_CALL,
   POS(3115, 13),
@@ -9025,7 +9025,7 @@ static TAB_NUM t_func_2_handle_exponent[] = {
   3, // locals
   0, // parameters
   // i >= n || str(2) != '.'
-  var_std__less, 2, var_3105_1_i, var_3104_1_n, 1, LOCAL(1),
+  var_std__less, 2, var_3105_4_i, var_3104_4_n, 1, LOCAL(1),
   // i >= n || str(2) != '.'
   var_std__not, 1, LOCAL(1), 1, LOCAL(2),
   // i >= n || str(2) != '.'
@@ -9042,7 +9042,7 @@ static TAB_NUM t_lambda_424[] = {
   3, // locals
   0, // parameters
   // str(2) != '.'
-  var_3103_1_str, 1, num_2, 1, LOCAL(1),
+  var_3103_4_str, 1, num_2, 1, LOCAL(1),
   // str(2) != '.'
   var_std__equal, 2, LOCAL(1), chr_46, 1, LOCAL(2),
   // str(2) != '.'
@@ -9067,21 +9067,21 @@ static TAB_NUM t_lambda_426[] = {
   3, // locals
   0, // parameters
   // i+2 n).to_integer
-  var_std__plus, 2, var_3105_1_i, num_2, 1, LOCAL(1),
+  var_std__plus, 2, var_3105_4_i, num_2, 1, LOCAL(1),
   // range(str i+2 n).to_integer
-  var_range, 3, var_3103_1_str, LOCAL(1), var_3104_1_n, 1, LOCAL(2),
+  var_range, 3, var_3103_4_str, LOCAL(1), var_3104_4_n, 1, LOCAL(2),
   // $exp range(str i+2 n).to_integer
-  var_to_integer, 1, LOCAL(2), 1, var_3123_1_exp,
+  var_to_integer, 1, LOCAL(2), 1, var_3123_10_exp,
   // i-1) str(1))
-  var_std__minus, 2, var_3105_1_i, num_1, 1, LOCAL(1),
+  var_std__minus, 2, var_3105_4_i, num_1, 1, LOCAL(1),
   // range(str 3 i-1) str(1))
-  var_range, 3, var_3103_1_str, num_3, LOCAL(1), 1, LOCAL(2),
+  var_range, 3, var_3103_4_str, num_3, LOCAL(1), 1, LOCAL(2),
   // str(1))
-  var_3103_1_str, 1, num_1, 1, LOCAL(3),
+  var_3103_4_str, 1, num_1, 1, LOCAL(3),
   // $man put(range(str 3 i-1) str(1))
-  var_put, 2, LOCAL(2), LOCAL(3), 1, var_3124_1_man,
+  var_put, 2, LOCAL(2), LOCAL(3), 1, var_3124_10_man,
   // is_undefined
-  var_is_undefined, 1, var_3123_1_exp, 1, LOCAL(1),
+  var_is_undefined, 1, var_3123_10_exp, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_427, lambda_428, TAIL_CALL,
   POS(3123, 24),
@@ -9107,13 +9107,13 @@ static TAB_NUM t_lambda_428[] = {
   2, // locals
   0, // parameters
   // exp-1)
-  var_std__minus, 2, var_3123_1_exp, num_1, 1, LOCAL(1),
+  var_std__minus, 2, var_3123_10_exp, num_1, 1, LOCAL(1),
   // $zeros dup("0" exp-1)
-  var_dup, 2, string_14, LOCAL(1), 1, var_3129_1_zeros,
+  var_dup, 2, string_14, LOCAL(1), 1, var_3129_14_zeros,
   // i+1)
-  var_std__plus, 2, var_3105_1_i, num_1, 1, LOCAL(1),
+  var_std__plus, 2, var_3105_4_i, num_1, 1, LOCAL(1),
   // str(i+1)
-  var_3103_1_str, 1, LOCAL(1), 1, LOCAL(2),
+  var_3103_4_str, 1, LOCAL(1), 1, LOCAL(2),
   // case str(i+1)
   var_case, 6, LOCAL(2), chr_43, lambda_429, chr_45, lambda_430, lambda_431, TAIL_CALL,
   POS(3129, 28),
@@ -9127,7 +9127,7 @@ static TAB_NUM t_lambda_429[] = {
   1, // locals
   0, // parameters
   // append(man zeros)
-  var_append, 2, var_3124_1_man, var_3129_1_zeros, 1, LOCAL(1),
+  var_append, 2, var_3124_10_man, var_3129_14_zeros, 1, LOCAL(1),
   // -> append(man zeros)
   LET, 1, LOCAL(1), TAIL_CALL,
   POS(3132, 20),
@@ -9138,7 +9138,7 @@ static TAB_NUM t_lambda_430[] = {
   2, // locals
   0, // parameters
   // append(zeros man))
-  var_append, 2, var_3129_1_zeros, var_3124_1_man, 1, LOCAL(1),
+  var_append, 2, var_3129_14_zeros, var_3124_10_man, 1, LOCAL(1),
   // append("0." append(zeros man))
   var_append, 2, string_16, LOCAL(1), 1, LOCAL(2),
   // -> append("0." append(zeros man))
@@ -9156,51 +9156,51 @@ static TAB_NUM t_lambda_431[] = {
   POS(3135, 17)
 };
 
-static int value_range_1380_0_arguments[] = {
+static int value_range_1380_11_arguments[] = {
   -num_0, -num_25
 };
 
-static int value_range_1383_0_arguments[] = {
+static int value_range_1383_11_arguments[] = {
   -num_26, -num_51
 };
 
-static int value_range_1386_0_arguments[] = {
+static int value_range_1386_11_arguments[] = {
   -num_52, -num_61
 };
 
-static int value_range_1455_1_arguments[] = {
+static int value_range_1455_8_arguments[] = {
   -chr_65, -chr_90
 };
 
-static int value_range_1456_1_arguments[] = {
+static int value_range_1456_8_arguments[] = {
   -chr_97, -chr_122
 };
 
-static int value_range_1457_1_arguments[] = {
+static int value_range_1457_8_arguments[] = {
   -chr_48, -chr_57
 };
 
-static int value_range_1657_1_arguments[] = {
+static int value_range_1657_14_arguments[] = {
   -chr_48, -chr_49
 };
 
-static int value_range_1668_1_arguments[] = {
+static int value_range_1668_14_arguments[] = {
   -chr_48, -chr_55
 };
 
-static int value_range_1682_1_arguments[] = {
+static int value_range_1682_14_arguments[] = {
   -chr_97, -chr_102
 };
 
-static int value_range_1685_1_arguments[] = {
+static int value_range_1685_14_arguments[] = {
   -chr_65, -chr_70
 };
 
-static int sequence_1769_1_arguments[] = {
+static int sequence_1769_14_arguments[] = {
   -chr_101, -chr_69
 };
 
-static int tuple_2521_0_arguments[] = {
+static int tuple_2521_1_arguments[] = {
   -var_undefined, -var_undefined
 };
 
@@ -9389,13 +9389,13 @@ static FUNKY_CONSTANT constants_table[] = {
   {FLT_POSITIVE_INT64, 0, {.value = 0x3ffff}},
   {FLT_POSITIVE_INT64, 0, {.value = 6}},
   {FLT_POSITIVE_INT64, 0, {.value = 25}},
-  {FLT_VALUE_RANGE, 2, {.arguments = value_range_1380_0_arguments}},
+  {FLT_VALUE_RANGE, 2, {.arguments = value_range_1380_11_arguments}},
   {FLT_POSITIVE_INT64, 0, {.value = 26}},
   {FLT_POSITIVE_INT64, 0, {.value = 51}},
-  {FLT_VALUE_RANGE, 2, {.arguments = value_range_1383_0_arguments}},
+  {FLT_VALUE_RANGE, 2, {.arguments = value_range_1383_11_arguments}},
   {FLT_POSITIVE_INT64, 0, {.value = 52}},
   {FLT_POSITIVE_INT64, 0, {.value = 61}},
-  {FLT_VALUE_RANGE, 2, {.arguments = value_range_1386_0_arguments}},
+  {FLT_VALUE_RANGE, 2, {.arguments = value_range_1386_11_arguments}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_107}},
   {FLT_CHARACTER, 0, {.value = 65}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_108}},
@@ -9427,11 +9427,11 @@ static FUNKY_CONSTANT constants_table[] = {
   {FLT_POSITIVE_INT64, 0, {.value = 5}},
   {FLT_FUNCTION, 0, {.tfunc = t_func_decode}},
   {FLT_CHARACTER, 0, {.value = 90}},
-  {FLT_VALUE_RANGE, 2, {.arguments = value_range_1455_1_arguments}},
+  {FLT_VALUE_RANGE, 2, {.arguments = value_range_1455_8_arguments}},
   {FLT_CHARACTER, 0, {.value = 122}},
-  {FLT_VALUE_RANGE, 2, {.arguments = value_range_1456_1_arguments}},
+  {FLT_VALUE_RANGE, 2, {.arguments = value_range_1456_8_arguments}},
   {FLT_CHARACTER, 0, {.value = 57}},
-  {FLT_VALUE_RANGE, 2, {.arguments = value_range_1457_1_arguments}},
+  {FLT_VALUE_RANGE, 2, {.arguments = value_range_1457_8_arguments}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_125}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_126}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_127}},
@@ -9504,7 +9504,7 @@ static FUNKY_CONSTANT constants_table[] = {
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_156}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_157}},
   {FLT_CHARACTER, 0, {.value = 49}},
-  {FLT_VALUE_RANGE, 2, {.arguments = value_range_1657_1_arguments}},
+  {FLT_VALUE_RANGE, 2, {.arguments = value_range_1657_14_arguments}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_158}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_159}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_160}},
@@ -9512,7 +9512,7 @@ static FUNKY_CONSTANT constants_table[] = {
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_161}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_162}},
   {FLT_CHARACTER, 0, {.value = 55}},
-  {FLT_VALUE_RANGE, 2, {.arguments = value_range_1668_1_arguments}},
+  {FLT_VALUE_RANGE, 2, {.arguments = value_range_1668_14_arguments}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_163}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_164}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_165}},
@@ -9520,9 +9520,9 @@ static FUNKY_CONSTANT constants_table[] = {
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_166}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_167}},
   {FLT_CHARACTER, 0, {.value = 102}},
-  {FLT_VALUE_RANGE, 2, {.arguments = value_range_1682_1_arguments}},
+  {FLT_VALUE_RANGE, 2, {.arguments = value_range_1682_14_arguments}},
   {FLT_CHARACTER, 0, {.value = 70}},
-  {FLT_VALUE_RANGE, 2, {.arguments = value_range_1685_1_arguments}},
+  {FLT_VALUE_RANGE, 2, {.arguments = value_range_1685_14_arguments}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_168}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_a__f}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_A__F}},
@@ -9552,7 +9552,7 @@ static FUNKY_CONSTANT constants_table[] = {
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_183}},
   {FLT_CHARACTER, 0, {.value = 101}},
   {FLT_CHARACTER, 0, {.value = 69}},
-  {FLT_SEQUENCE, 2, {.arguments = sequence_1769_1_arguments}},
+  {FLT_SEQUENCE, 2, {.arguments = sequence_1769_14_arguments}},
   {FLT_CHARACTER, 0, {.value = 46}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_184}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_2_skip_one_ore_more_digits}},
@@ -9725,7 +9725,7 @@ static FUNKY_CONSTANT constants_table[] = {
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_310}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_311}},
   {FLT_POSITIVE_INT64, 0, {.value = 9999}},
-  {FLT_TUPLE, 2, {.arguments = tuple_2521_0_arguments}},
+  {FLT_TUPLE, 2, {.arguments = tuple_2521_1_arguments}},
   {FLT_FUNCTION, 0, {.tfunc = t_func_line_indent_of}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_312}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_313}},
@@ -10034,7 +10034,7 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "143_0_arguments\000", NULL
+    "143_5_arguments\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
@@ -10078,11 +10078,11 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "204_0_self\000", NULL
+    "204_5_self\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "205_0_n\000", NULL
+    "205_5_n\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
@@ -10091,7 +10091,7 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "212_1_str\000", NULL
+    "212_8_str\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
@@ -10120,19 +10120,19 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "244_0_n\000", NULL
+    "244_5_n\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "245_0_pad\000", NULL
+    "245_5_pad\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "247_1_text\000", NULL
+    "247_4_text\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "248_1_len\000", NULL
+    "248_4_len\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
@@ -10171,19 +10171,19 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "280_0_n\000", NULL
+    "280_5_n\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "281_0_pad\000", NULL
+    "281_5_pad\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "283_1_text\000", NULL
+    "283_4_text\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "284_1_len\000", NULL
+    "284_4_len\000", NULL
   },
   {
     FOT_INITIALIZED, 0, 0,
@@ -10192,7 +10192,7 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "303_0_n\000", NULL
+    "303_5_n\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
@@ -10206,7 +10206,7 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "320_0_n\000", NULL
+    "320_5_n\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
@@ -10225,27 +10225,27 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "340_0_text\000", NULL
+    "340_5_text\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "342_1_s\000", NULL
+    "342_4_s\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "343_1_n\000", NULL
+    "343_4_n\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "344_1_i\000", NULL
+    "344_4_i\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "345_1_output\000", NULL
+    "345_4_output\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "346_1_count\000", NULL
+    "346_4_count\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
@@ -10254,7 +10254,7 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "358_1_tab_count\000", NULL
+    "358_18_tab_count\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
@@ -10283,15 +10283,15 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "407_0_self\000", NULL
+    "407_5_self\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "408_0_stream\000", NULL
+    "408_5_stream\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "410_1_rc\000", NULL
+    "410_4_rc\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
@@ -10300,7 +10300,7 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "411_1_len\000", NULL
+    "411_4_len\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
@@ -10314,15 +10314,15 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "431_0_self\000", NULL
+    "431_5_self\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "432_0_stream\000", NULL
+    "432_5_stream\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "434_1_len\000", NULL
+    "434_4_len\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
@@ -10341,31 +10341,31 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "470_0_self\000", NULL
+    "470_5_self\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "471_0_stream\000", NULL
+    "471_5_stream\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "472_0_nth\000", NULL
+    "472_5_nth\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "474_1_i\000", NULL
+    "474_4_i\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "475_1_length\000", NULL
+    "475_4_length\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "476_1_offset\000", NULL
+    "476_4_offset\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "477_1_n\000", NULL
+    "477_4_n\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
@@ -10394,11 +10394,11 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "558_0_str\000", NULL
+    "558_5_str\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "562_8_pos\000", NULL
+    "562_11_pos\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
@@ -10412,11 +10412,11 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "608_0_str\000", NULL
+    "608_5_str\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "612_8_pos\000", NULL
+    "612_11_pos\000", NULL
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
@@ -10425,15 +10425,15 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "656_0_str\000", NULL
+    "656_5_str\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "660_8_pos\000", NULL
+    "660_11_pos\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "660_13_len\000", NULL
+    "660_16_len\000", NULL
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
@@ -10442,15 +10442,15 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "705_0_str\000", NULL
+    "705_5_str\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "709_8_pos\000", NULL
+    "709_11_pos\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "709_13_len\000", NULL
+    "709_16_len\000", NULL
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
@@ -10459,11 +10459,11 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "754_0_str\000", NULL
+    "754_5_str\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "758_8_pos\000", NULL
+    "758_11_pos\000", NULL
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
@@ -10472,11 +10472,11 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "803_0_str\000", NULL
+    "803_5_str\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "807_8_pos\000", NULL
+    "807_11_pos\000", NULL
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
@@ -10485,15 +10485,15 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "851_0_str\000", NULL
+    "851_5_str\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "855_8_pos\000", NULL
+    "855_11_pos\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "855_13_len\000", NULL
+    "855_16_len\000", NULL
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
@@ -10502,15 +10502,15 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "900_0_str\000", NULL
+    "900_5_str\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "904_8_pos\000", NULL
+    "904_11_pos\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "904_13_len\000", NULL
+    "904_16_len\000", NULL
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
@@ -10534,11 +10534,11 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "1008_0_self\000", NULL
+    "1008_5_self\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "1011_1_n\000", NULL
+    "1011_4_n\000", NULL
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
@@ -10547,11 +10547,11 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "1038_0_self\000", NULL
+    "1038_5_self\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "1041_1_n\000", NULL
+    "1041_4_n\000", NULL
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
@@ -10565,15 +10565,15 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "1110_0_self\000", NULL
+    "1110_5_self\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "1111_0_separator\000", NULL
+    "1111_5_separator\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "1113_1_rc\000", NULL
+    "1113_4_rc\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
@@ -10582,15 +10582,15 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "1118_1_items\000", NULL
+    "1118_8_items\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "1120_8_pos\000", NULL
+    "1120_17_pos\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "1120_13_len\000", NULL
+    "1120_22_len\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
@@ -10609,7 +10609,7 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "1158_0_separator\000", NULL
+    "1158_5_separator\000", NULL
   },
   {
     FOT_INITIALIZED, 0, 0,
@@ -10618,11 +10618,11 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "1187_0_self\000", NULL
+    "1187_5_self\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "1188_0_test\000", NULL
+    "1188_5_test\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
@@ -10631,11 +10631,11 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "1190_1_s\000", NULL
+    "1190_4_s\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "1191_1_e\000", NULL
+    "1191_4_e\000", NULL
   },
   {
     FOT_INITIALIZED, 0, 0,
@@ -10644,19 +10644,19 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "1227_0_self\000", NULL
+    "1227_5_self\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "1228_0_test\000", NULL
+    "1228_5_test\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "1230_1_s\000", NULL
+    "1230_4_s\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "1231_1_e\000", NULL
+    "1231_4_e\000", NULL
   },
   {
     FOT_INITIALIZED, 0, 0,
@@ -10665,15 +10665,15 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "1261_0_self\000", NULL
+    "1261_5_self\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "1262_0_test\000", NULL
+    "1262_5_test\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "1264_1_e\000", NULL
+    "1264_4_e\000", NULL
   },
   {
     FOT_INITIALIZED, 0, 0,
@@ -10682,19 +10682,19 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "1295_0_self\000", NULL
+    "1295_5_self\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "1297_1_buf\000", NULL
+    "1297_4_buf\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "1298_1_e\000", NULL
+    "1298_4_e\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "1299_1_i\000", NULL
+    "1299_4_i\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
@@ -10708,7 +10708,7 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "1314_1_s\000", NULL
+    "1314_10_s\000", NULL
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
@@ -10717,15 +10717,15 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "1346_0_str\000", NULL
+    "1346_5_str\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "1348_1_base64\000", NULL
+    "1348_4_base64\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "1350_1_len\000", NULL
+    "1350_6_len\000", NULL
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
@@ -10739,15 +10739,15 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "1369_1_bits\000", NULL
+    "1369_6_bits\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "1374_1_buf\000", NULL
+    "1374_6_buf\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "1377_1_value\000", NULL
+    "1377_10_value\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
@@ -10766,11 +10766,11 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "1416_0_str\000", NULL
+    "1416_5_str\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "1418_1_octets\000", NULL
+    "1418_4_octets\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
@@ -10779,11 +10779,11 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "1428_1_bits\000", NULL
+    "1428_14_bits\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "1431_1_value\000", NULL
+    "1431_18_value\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
@@ -10802,7 +10802,7 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "1452_10_chr\000", NULL
+    "1452_13_chr\000", NULL
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
@@ -10811,35 +10811,35 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "1478_0_message\000", NULL
+    "1478_5_message\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "1482_1_h0\000", NULL
+    "1482_4_h0\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "1483_1_h1\000", NULL
+    "1483_4_h1\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "1484_1_h2\000", NULL
+    "1484_4_h2\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "1485_1_h3\000", NULL
+    "1485_4_h3\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "1486_1_h4\000", NULL
+    "1486_4_h4\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "1507_1_pad_len\000", NULL
+    "1507_4_pad_len\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "1525_1_w\000", NULL
+    "1525_10_w\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
@@ -10853,27 +10853,27 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "1543_1_a\000", NULL
+    "1543_12_a\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "1544_1_b\000", NULL
+    "1544_12_b\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "1545_1_c\000", NULL
+    "1545_12_c\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "1546_1_d\000", NULL
+    "1546_12_d\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "1547_1_e\000", NULL
+    "1547_12_e\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "1549_3_i\000", NULL
+    "1549_16_i\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
@@ -10887,31 +10887,31 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "1622_0_self\000", NULL
+    "1622_5_self\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "1643_1_negate\000", NULL
+    "1643_4_negate\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "1649_1_value\000", NULL
+    "1649_4_value\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "1630_17_idx\000", NULL
+    "1630_20_idx\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "1642_1_orig\000", NULL
+    "1642_4_orig\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "1654_3_idx\000", NULL
+    "1654_12_idx\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "1654_7_chr\000", NULL
+    "1654_16_chr\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
@@ -10920,27 +10920,27 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "1666_3_idx\000", NULL
+    "1666_12_idx\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "1666_7_chr\000", NULL
+    "1666_16_chr\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "1677_3_idx\000", NULL
+    "1677_12_idx\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "1677_7_chr\000", NULL
+    "1677_16_chr\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "1693_3_idx\000", NULL
+    "1693_12_idx\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "1693_7_chr\000", NULL
+    "1693_16_chr\000", NULL
   },
   {
     FOT_INITIALIZED, 0, 0,
@@ -10949,19 +10949,19 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "1729_0_self\000", NULL
+    "1729_5_self\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "1731_1_i\000", NULL
+    "1731_4_i\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "1732_1_n\000", NULL
+    "1732_4_n\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "1737_1_sign_chr\000", NULL
+    "1737_8_sign_chr\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
@@ -10970,7 +10970,7 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "1739_1_sign\000", NULL
+    "1739_8_sign\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
@@ -10984,19 +10984,19 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "1772_28_cont\000", NULL
+    "1772_33_cont\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "1777_1_digit\000", NULL
+    "1777_12_digit\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "1788_1_next_digit\000", NULL
+    "1788_22_next_digit\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "1800_1_exp_sign_chr\000", NULL
+    "1800_12_exp_sign_chr\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
@@ -11010,59 +11010,59 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "1808_16_str\000", NULL
+    "1808_17_str\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "1808_20_i\000", NULL
+    "1808_21_i\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "1808_22_sign\000", NULL
+    "1808_23_sign\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "1809_1_n\000", NULL
+    "1809_4_n\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "1813_1_digit\000", NULL
+    "1813_8_digit\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "1818_1_value\000", NULL
+    "1818_12_value\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "1825_1_next_digit\000", NULL
+    "1825_18_next_digit\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "1832_15_str\000", NULL
+    "1832_16_str\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "1832_19_i\000", NULL
+    "1832_20_i\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "1832_21_sign\000", NULL
+    "1832_22_sign\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "1833_1_n\000", NULL
+    "1833_4_n\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "1837_1_digit\000", NULL
+    "1837_8_digit\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "1842_1_value\000", NULL
+    "1842_12_value\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "1849_1_next_digit\000", NULL
+    "1849_18_next_digit\000", NULL
   },
   {
     FOT_INITIALIZED, 0, 0,
@@ -11071,35 +11071,35 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "1884_0_str\000", NULL
+    "1884_5_str\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "1885_0_i\000", NULL
+    "1885_5_i\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "1886_0_sign\000", NULL
+    "1886_5_sign\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "1888_1_n\000", NULL
+    "1888_4_n\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "1892_1_digit\000", NULL
+    "1892_8_digit\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "1902_22_value\000", NULL
+    "1902_29_value\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "1909_1_next_digit\000", NULL
+    "1909_16_next_digit\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "1958_21_value\000", NULL
+    "1958_24_value\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
@@ -11113,7 +11113,7 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "2000_20_value\000", NULL
+    "2000_23_value\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
@@ -11127,11 +11127,11 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "2027_0_self\000", NULL
+    "2027_5_self\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "2028_0_function\000", NULL
+    "2028_5_function\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
@@ -11140,23 +11140,23 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "2034_3_s\000", NULL
+    "2034_12_s\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "2034_5_e\000", NULL
+    "2034_14_e\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "2030_1_map\000", NULL
+    "2030_4_map\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "2047_3_s\000", NULL
+    "2047_12_s\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "2047_5_e\000", NULL
+    "2047_14_e\000", NULL
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
@@ -11180,15 +11180,15 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "2124_0_self\000", NULL
+    "2124_5_self\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "2126_22_idx\000", NULL
+    "2126_25_idx\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "2126_26_chr\000", NULL
+    "2126_29_chr\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
@@ -11202,15 +11202,15 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "2150_0_self\000", NULL
+    "2150_5_self\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "2152_22_idx\000", NULL
+    "2152_25_idx\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "2152_26_chr\000", NULL
+    "2152_29_chr\000", NULL
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
@@ -11224,19 +11224,19 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "2183_0_expressions\000", NULL
+    "2183_5_expressions\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "2185_14_txt\000", NULL
+    "2185_17_txt\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "2199_1_new_text\000", NULL
+    "2199_4_new_text\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "2192_1_len\000", NULL
+    "2192_14_len\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
@@ -11250,23 +11250,23 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "2224_0_args\000", NULL
+    "2224_5_args\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "2226_15_txt\000", NULL
+    "2226_18_txt\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "2247_1_new_text\000", NULL
+    "2247_4_new_text\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "2233_17_replacement\000", NULL
+    "2233_30_replacement\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "2234_1_len\000", NULL
+    "2234_14_len\000", NULL
   },
   {
     FOT_INITIALIZED, 0, 0,
@@ -11275,23 +11275,23 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "2272_0_args\000", NULL
+    "2272_5_args\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "2274_17_txt\000", NULL
+    "2274_20_txt\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "2294_1_new_text\000", NULL
+    "2294_4_new_text\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "2281_17_replacement\000", NULL
+    "2281_30_replacement\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "2282_1_len\000", NULL
+    "2282_14_len\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
@@ -11305,19 +11305,19 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "2317_0_expr\000", NULL
+    "2317_5_expr\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "2319_15_txt\000", NULL
+    "2319_18_txt\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "2319_19_count\000", NULL
+    "2319_22_count\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "2324_1_n\000", NULL
+    "2324_10_n\000", NULL
   },
   {
     FOT_INITIALIZED, 0, 0,
@@ -11326,23 +11326,23 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "2375_25_text\000", NULL
+    "2375_26_text\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "2376_1_lines\000", NULL
+    "2376_4_lines\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "2377_1_i\000", NULL
+    "2377_4_i\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "2378_1_n\000", NULL
+    "2378_4_n\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "2379_1_s\000", NULL
+    "2379_4_s\000", NULL
   },
   {
     FOT_INITIALIZED, 0, 0,
@@ -11351,48 +11351,48 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "2458_0_text\000", NULL
+    "2458_5_text\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "2463_9_s\000", NULL
+    "2463_12_s\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "2463_11_e\000", NULL
+    "2463_14_e\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "2469_1_lines\000", NULL
+    "2469_10_lines\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "2470_1_ls\000", NULL
+    "2470_10_ls\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "2476_3_i\000", NULL
+    "2476_14_i\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "2497_15_s\000", NULL
+    "2497_18_s\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "2497_17_e\000", NULL
+    "2497_20_e\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "2498_1_indent\000", NULL
+    "2498_6_indent\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "2512_1_line_text\000", NULL
+    "2512_16_line_text\000", NULL
   },
   {
     FOT_INITIALIZED, 0, 1,
     "line\000std_types", std_types__line__attributes,
-    {.const_idx = -tuple_2521_0}
+    {.const_idx = -tuple_2521_1}
   },
   {
     FOT_UNKNOWN, 0, 0,
@@ -11411,7 +11411,7 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "2524_18_line\000", NULL
+    "2524_19_line\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
@@ -11425,23 +11425,23 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "2581_0_lines\000", NULL
+    "2581_5_lines\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "2582_0_keep_empty_lines\000", NULL
+    "2582_5_keep_empty_lines\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "2584_1_n\000", NULL
+    "2584_4_n\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "2585_1_fv\000", NULL
+    "2585_4_fv\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "2589_1_indent\000", NULL
+    "2589_10_indent\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
@@ -11450,55 +11450,55 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "2601_9_s\000", NULL
+    "2601_12_s\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "2601_11_e\000", NULL
+    "2601_14_e\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "2601_13_indent\000", NULL
+    "2601_16_indent\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "2607_1_groups\000", NULL
+    "2607_10_groups\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "2608_1_minimum_indent\000", NULL
+    "2608_10_minimum_indent\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "2609_1_group_start\000", NULL
+    "2609_10_group_start\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "2610_1_group_end\000", NULL
+    "2610_10_group_end\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "2612_3_i\000", NULL
+    "2612_14_i\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "2613_1_current_indent\000", NULL
+    "2613_14_current_indent\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "2634_1_current_indent\000", NULL
+    "2634_24_current_indent\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "2643_14_last\000", NULL
+    "2643_23_last\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "2643_19_curr_idx\000", NULL
+    "2643_28_curr_idx\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "2663_34_current_indent\000", NULL
+    "2663_43_current_indent\000", NULL
   },
   {
     FOT_INITIALIZED, 0, 0,
@@ -11507,35 +11507,35 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "2703_0_text\000", NULL
+    "2703_5_text\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "2704_0_width\000", NULL
+    "2704_5_width\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "2707_1_lines\000", NULL
+    "2707_4_lines\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "2708_1_n\000", NULL
+    "2708_4_n\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "2709_1_s\000", NULL
+    "2709_4_s\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "2710_1_b\000", NULL
+    "2710_4_b\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "2711_1_i\000", NULL
+    "2711_4_i\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "2721_1_chr\000", NULL
+    "2721_10_chr\000", NULL
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
@@ -11544,27 +11544,27 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "2774_0_self\000", NULL
+    "2774_5_self\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "2775_0_indent\000", NULL
+    "2775_5_indent\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "2777_1_str\000", NULL
+    "2777_4_str\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "2778_1_s\000", NULL
+    "2778_4_s\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "2780_3_idx\000", NULL
+    "2780_8_idx\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "2780_7_chr\000", NULL
+    "2780_12_chr\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
@@ -11578,7 +11578,7 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "2812_1_arr\000", NULL
+    "2812_4_arr\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
@@ -11592,31 +11592,31 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "2849_0_indent\000", NULL
+    "2849_5_indent\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "2850_0_text\000", NULL
+    "2850_5_text\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "2852_1_indented_text\000", NULL
+    "2852_4_indented_text\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "2853_1_new_indent\000", NULL
+    "2853_4_new_indent\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "2854_1_i\000", NULL
+    "2854_4_i\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "2855_1_n\000", NULL
+    "2855_4_n\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "2868_1_s\000", NULL
+    "2868_14_s\000", NULL
   },
   {
     FOT_INITIALIZED, 0, 0,
@@ -11625,107 +11625,107 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "2939_0_template\000", NULL
+    "2939_5_template\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "2940_0_arguments\000", NULL
+    "2940_5_arguments\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "2942_1_output\000", NULL
+    "2942_4_output\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "2943_1_arg_idx\000", NULL
+    "2943_4_arg_idx\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "2944_1_i\000", NULL
+    "2944_4_i\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "2945_1_n\000", NULL
+    "2945_4_n\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "2951_1_chr\000", NULL
+    "2951_10_chr\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "2959_18_alignment\000", NULL
+    "2959_35_alignment\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "2965_1_len_chr\000", NULL
+    "2965_18_len_chr\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "2970_1_width\000", NULL
+    "2970_22_width\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "2978_1_fmt_chr\000", NULL
+    "2978_30_fmt_chr\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "2997_1_dw_chr\000", NULL
+    "2997_38_dw_chr\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "3002_1_dw\000", NULL
+    "3002_42_dw\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "3010_1_fmt_chr\000", NULL
+    "3010_50_fmt_chr\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "3063_0_alignment\000", NULL
+    "3063_7_alignment\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "3064_0_width\000", NULL
+    "3064_7_width\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "3065_0_decimal_width\000", NULL
+    "3065_7_decimal_width\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "3067_1_argument\000", NULL
+    "3067_6_argument\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "3072_1_value\000", NULL
+    "3072_10_value\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "3075_1_decimals\000", NULL
+    "3075_14_decimals\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "3103_1_str\000", NULL
+    "3103_4_str\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "3104_1_n\000", NULL
+    "3104_4_n\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "3105_1_i\000", NULL
+    "3105_4_i\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "3123_1_exp\000", NULL
+    "3123_10_exp\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "3124_1_man\000", NULL
+    "3124_10_man\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "3129_1_zeros\000", NULL
+    "3129_14_zeros\000", NULL
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,

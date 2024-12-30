@@ -24,10 +24,10 @@ enum {
   var_std_types__unique_item, // extern
   var_true, // extern
   var_serialize, // extern polymorphic
-  var_38_0_indent, // dynamic
+  var_38_5_indent, // dynamic
   var_undefined, // extern
   var_to_string, // extern
-  var_40_1_str, // dynamic
+  var_40_4_str, // dynamic
   var_std__string, // extern
   var_is_defined, // extern
   var_tabs_and_spaces, // extern
@@ -40,14 +40,14 @@ enum {
 static TAB_NUM t_func_std_types__unique_item___serialize[] = {
   2, // locals
   -2, // parameters
-  MANDATORY_PARAMETER, LOCAL(2), // 37_0_self
-  var_undefined, var_38_0_indent,
+  MANDATORY_PARAMETER, LOCAL(2), // 37_5_self
+  var_undefined, var_38_5_indent,
   // to_string)>
   var_to_string, 1, LOCAL(2), 1, LOCAL(1),
   // $str "
-  var_std__string, 3, string_1, LOCAL(1), string_2, 1, var_40_1_str,
+  var_std__string, 3, string_1, LOCAL(1), string_2, 1, var_40_4_str,
   // is_defined
-  var_is_defined, 1, var_38_0_indent, 1, LOCAL(1),
+  var_is_defined, 1, var_38_5_indent, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_1, lambda_2, TAIL_CALL,
   POS(41, 13),
@@ -60,9 +60,9 @@ static TAB_NUM t_lambda_1[] = {
   2, // locals
   0, // parameters
   // tabs_and_spaces(indent) str)
-  var_tabs_and_spaces, 1, var_38_0_indent, 1, LOCAL(1),
+  var_tabs_and_spaces, 1, var_38_5_indent, 1, LOCAL(1),
   // append(tabs_and_spaces(indent) str)
-  var_append, 2, LOCAL(1), var_40_1_str, 1, LOCAL(2),
+  var_append, 2, LOCAL(1), var_40_4_str, 1, LOCAL(2),
   //  append(tabs_and_spaces(indent) str)
   LET, 1, LOCAL(2), TAIL_CALL,
   POS(44, 15),
@@ -74,7 +74,7 @@ static TAB_NUM t_lambda_2[] = {
   0, // locals
   0, // parameters
   //  str
-  LET, 1, var_40_1_str, TAIL_CALL,
+  LET, 1, var_40_4_str, TAIL_CALL,
   POS(45, 7)
 };
 
@@ -138,7 +138,7 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "38_0_indent\000", NULL
+    "38_5_indent\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
@@ -152,7 +152,7 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "40_1_str\000", NULL
+    "40_4_str\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,

@@ -22,8 +22,8 @@ enum {
 static TAB_NUM t_func_std__in[] = {
   3, // locals
   2, // parameters
-  LOCAL(2), // 31_0_element
-  LOCAL(3), // 32_0_collection
+  LOCAL(2), // 31_5_element
+  LOCAL(3), // 32_5_collection
   // contains(collection element)
   var_contains, 2, LOCAL(3), LOCAL(2), 1, LOCAL(1),
   // -> contains(collection element)

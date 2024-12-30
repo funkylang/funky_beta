@@ -92,8 +92,8 @@ static TAB_NUM t_func_generate_id[] = {
 static TAB_NUM t_func_std_types__io___generate_uuid[] = {
   4, // locals
   3, // parameters
-  LOCAL(3), // 51_0_io
-  LOCAL(4), // 52_0_id
+  LOCAL(3), // 51_5_io
+  LOCAL(4), // 52_5_id
   LOCAL(1),
   // tuple &id 1
   var_tuple, 2, LOCAL(4), num_1, 1, LOCAL(4),
@@ -115,9 +115,9 @@ static TAB_NUM t_func_std_types__io___generate_uuid[] = {
 static TAB_NUM t_func_load_completed[] = {
   6, // locals
   3, // parameters
-  LOCAL(4), // 61_18_io
-  LOCAL(5), // 61_21_id
-  LOCAL(6), // 61_24_rnd
+  LOCAL(4), // 61_19_io
+  LOCAL(5), // 61_22_id
+  LOCAL(6), // 61_25_rnd
   // deregister_all_handlers &io id
   var_deregister_all_handlers, 2, LOCAL(4), LOCAL(5), 1, LOCAL(4),
   // id !id
@@ -141,9 +141,9 @@ static TAB_NUM t_func_load_completed[] = {
 static TAB_NUM t_func_load_failed[] = {
   4, // locals
   3, // parameters
-  LOCAL(2), // 66_15_io
-  LOCAL(3), // 66_18_id
-  LOCAL(4), // 66_21_err
+  LOCAL(2), // 66_16_io
+  LOCAL(3), // 66_19_id
+  LOCAL(4), // 66_22_err
   // deregister_all_handlers &io id
   var_deregister_all_handlers, 2, LOCAL(2), LOCAL(3), 1, LOCAL(2),
   // id !id
@@ -161,8 +161,8 @@ static TAB_NUM t_func_load_failed[] = {
 static TAB_NUM t_func_compute_uuid[] = {
   36, // locals
   2, // parameters
-  LOCAL(34), // 71_16_t
-  LOCAL(35), // 71_18_rnd
+  LOCAL(34), // 71_17_t
+  LOCAL(35), // 71_19_rnd
   // to_uint8_array &rnd
   var_to_uint8_array, 1, LOCAL(35), 1, LOCAL(35),
   // seconds_since_epoch(t).to_string second_of(t).to_string)

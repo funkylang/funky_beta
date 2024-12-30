@@ -76,13 +76,15 @@ $tedi_types::state
 $COMPILE .
 $RUN .
 $START_OR_STOP_DEBUGGING .
-$EXIT_FUNCTION .
 $STEP_INTO .
 $STEP_INTO_BACKWARDS .
 $STEP_OVER .
 $STEP_OVER_BACKWARDS .
 $SKIP_INITIALIZERS .
 $RUN_TO_CURSOR .
+$RUN_TO_CURSOR_BACKWARDS .
+$EXIT_FUNCTION .
+$EXIT_FUNCTION_BACKWARDS .
 $TOGGLE_BREAKPOINT .
 $ADD_OR_REMOVE_WATCH .
 
@@ -103,7 +105,9 @@ $ADD_OR_REMOVE_WATCH .
 	  "Step over backwards (shift-F8)" = STEP_OVER_BACKWARDS
 	  "Skip initializers (ctrl-F8)" = SKIP_INITIALIZERS
 	  "Run to cursor (F4)" = RUN_TO_CURSOR
+	  "Run to cursor backwards (shift-F4)" = RUN_TO_CURSOR_BACKWARDS
 	  "Exit function (F6)" = EXIT_FUNCTION
+	  "Exit function backwards (shift-F6)" = EXIT_FUNCTION_BACKWARDS
 	  "Toggle breakpoint (F5)" = TOGGLE_BREAKPOINT
 	  "Add/remove watch (F10)" = ADD_OR_REMOVE_WATCH
       main_menu(-1)
@@ -135,8 +139,14 @@ append &help_sections
 !default_configuration.commands_of(CTRL_F8) "skip_initializers"
 !default_configuration.commands_of(RUN_TO_CURSOR) "run_to_cursor"
 !default_configuration.commands_of(F4) "run_to_cursor"
+!default_configuration.commands_of(RUN_TO_CURSOR_BACKWARDS)
+  "run_to_cursor_backwards"
+!default_configuration.commands_of(SHIFT_F4) "run_to_cursor_backwards"
 !default_configuration.commands_of(EXIT_FUNCTION) "exit_function"
 !default_configuration.commands_of(F6) "exit_function"
+!default_configuration.commands_of(EXIT_FUNCTION_BACKWARDS)
+  "exit_function_backwards"
+!default_configuration.commands_of(SHIFT_F6) "exit_function_backwards"
 !default_configuration.commands_of(TOGGLE_BREAKPOINT) "toggle_breakpoint"
 !default_configuration.commands_of(F5) "toggle_breakpoint"
 !default_configuration.commands_of(ADD_OR_REMOVE_WATCH) "add_or_remove_watch"
@@ -152,7 +162,9 @@ append &help_sections
 !functions("step_over_backwards") tuple(step_over_backwards IO)
 !functions("skip_initializers") tuple(skip_initializers IO)
 !functions("run_to_cursor") tuple(run_to_cursor IO)
+!functions("run_to_cursor_backwards") tuple(run_to_cursor_backwards IO)
 !functions("exit_function") tuple(exit_function IO)
+!functions("exit_function_backwards") tuple(exit_function_backwards IO)
 !functions("toggle_breakpoint") tuple(toggle_breakpoint IO)
 !functions("add_or_remove_watch") tuple(add_or_remove_watch IO)
 
@@ -661,6 +673,18 @@ $run_to_cursor: (io state _x _y _lines _info)
       log &io 3 "run to cursor"
       -> io state
 
+$run_to_cursor_backwards: (io state _x _y _lines _info)
+  $debug_fd debug_fd_of(state)
+  if
+    debug_fd.is_undefined:
+      show_warning_message &state DEBUG "
+	You can't run to cursor backwards in a program that is not being @
+	debugged!
+      -> io state
+    :
+      log &io 3 "run to cursor backwards"
+      -> io state
+
 $exit_function: (io state _x _y _lines _info)
   $debug_fd debug_fd_of(state)
   if
@@ -674,6 +698,20 @@ $exit_function: (io state _x _y _lines _info)
 	e
       -> io state
 
+$exit_function_backwards: (io state _x _y _lines _info)
+  $debug_fd debug_fd_of(state)
+  if
+    debug_fd.is_undefined:
+      show_warning_message &state DEBUG "
+	You can't exit a function backwards in a program that is not being @
+	debugged!
+      -> io state
+    :
+      log &io 3 "exit function backwards"
+      write &io debug_fd "
+	E
+      -> io state
+
 $toggle_breakpoint: (io state _x _y _lines _info)
   $debug_fd debug_fd_of(state)
   if
@@ -682,7 +720,7 @@ $toggle_breakpoint: (io state _x _y _lines _info)
 	You can't toggle a breakpoint in a program that is not being debugged!
       -> io state
     :
-      log &io 3 "togge breakpoint"
+      log &io 3 "toggle breakpoint"
       -> io state
 
 $add_or_remove_watch: (io state x y lines _info)
@@ -700,12 +738,21 @@ $add_or_remove_watch: (io state x y lines _info)
 	:
 	  update_if_not identifier .contains. ':' &identifier:
 	    $page get_content(window_manager_of(state))
+	    $filename filename_of(page) .without_suffix. ".fky"
+	    $library_prefix
+	      append
+		installation_prefix()
+		"/share/funky-" package_version()
+		"/source/"
 	    $module_prefix
 	      append
 		"_"
-		without_prefix
-		  without_suffix(filename_of(page) ".fky")
-		  until(executable_of(state) '/' -1)
+		if
+		  filename .has_prefix. library_prefix:
+		    replace_all
+		      without_prefix(filename library_prefix)
+		      '/' = "__"
+		  -> without_prefix(filename until(executable_of(state) '/' -1))
 	    get_mangled_variable_name lines_of(page)
 	      x y identifier module_prefix
 	  if

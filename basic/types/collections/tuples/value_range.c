@@ -83,12 +83,12 @@ enum {
   var_std__plus, // extern
   var_std__minus, // extern
   var_match, // extern polymorphic
-  var_78_0_expr, // dynamic
-  var_79_0_str, // dynamic
-  var_81_1_rc, // dynamic
+  var_78_5_expr, // dynamic
+  var_79_5_str, // dynamic
+  var_81_4_rc, // dynamic
   var_result_count, // extern
   var_is_empty, // extern
-  var_86_1_chr, // dynamic
+  var_86_8_chr, // dynamic
   var_std__less, // extern
   var_std__not, // extern
   var_std__and, // extern
@@ -96,45 +96,45 @@ enum {
   var_undefined, // extern
   var_if, // extern
   var_match_back, // extern polymorphic
-  var_123_0_expr, // dynamic
-  var_124_0_str, // dynamic
-  var_130_1_chr, // dynamic
+  var_123_5_expr, // dynamic
+  var_124_5_str, // dynamic
+  var_130_8_chr, // dynamic
   var_search, // extern polymorphic
-  var_150_0_str, // dynamic
-  var_151_0_nth, // dynamic
-  var_153_1_low, // dynamic
-  var_154_1_high, // dynamic
-  var_155_1_len, // dynamic
-  var_162_1_i, // dynamic
+  var_150_5_str, // dynamic
+  var_151_5_nth, // dynamic
+  var_153_4_low, // dynamic
+  var_154_4_high, // dynamic
+  var_155_4_len, // dynamic
+  var_162_6_i, // dynamic
   var_inc, // extern
-  var_169_1_chr, // dynamic
+  var_169_12_chr, // dynamic
   var_dec, // extern
   var_next, // extern
   var_loop, // extern
-  var_180_1_i, // dynamic
-  var_187_1_chr, // dynamic
+  var_180_6_i, // dynamic
+  var_187_12_chr, // dynamic
   var_for_each, // extern polymorphic
   var_from_to, // extern
   var_map, // extern polymorphic
-  var_213_0_function, // dynamic
-  var_215_7_from, // dynamic
-  var_215_12_to, // dynamic
-  var_216_1_n, // dynamic
+  var_213_5_function, // dynamic
+  var_215_10_from, // dynamic
+  var_215_15_to, // dynamic
+  var_216_6_n, // dynamic
   var_std__shift_right, // extern
   var_append, // extern
   var_list, // extern
   var_empty_list, // extern
   var_std__reduce, // extern polymorphic
-  var_235_0_function, // dynamic
-  var_237_10_from, // dynamic
-  var_237_15_to, // dynamic
-  var_238_1_n, // dynamic
+  var_235_5_function, // dynamic
+  var_237_13_from, // dynamic
+  var_237_18_to, // dynamic
+  var_238_6_n, // dynamic
   var_map_reduce, // extern polymorphic
-  var_253_0_map_function, // dynamic
-  var_254_0_reduce_function, // dynamic
-  var_256_14_from, // dynamic
-  var_256_19_to, // dynamic
-  var_257_1_n, // dynamic
+  var_253_5_map_function, // dynamic
+  var_254_5_reduce_function, // dynamic
+  var_256_17_from, // dynamic
+  var_256_22_to, // dynamic
+  var_257_6_n, // dynamic
   var_std__value_range, // initialized
   var_typed_tuple, // extern
   var_serialization_tag_of, // extern polymorphic
@@ -147,7 +147,7 @@ enum {
 static TAB_NUM t_func_std_types__value_range___lower_bound_of[] = {
   3, // locals
   1, // parameters
-  LOCAL(2), // 37_0_self
+  LOCAL(2), // 37_5_self
   // self $lower_bound $_upper_bound
   LOCAL(2), 0, 2, LOCAL(3), LOCAL(1),
   // -> lower_bound
@@ -159,7 +159,7 @@ static TAB_NUM t_func_std_types__value_range___lower_bound_of[] = {
 static TAB_NUM t_func_std_types__value_range___upper_bound_of[] = {
   3, // locals
   1, // parameters
-  LOCAL(2), // 44_0_self
+  LOCAL(2), // 44_5_self
   // self $_lower_bound $upper_bound
   LOCAL(2), 0, 2, LOCAL(1), LOCAL(3),
   // -> upper_bound
@@ -171,7 +171,7 @@ static TAB_NUM t_func_std_types__value_range___upper_bound_of[] = {
 static TAB_NUM t_func_std_types__value_range___length_of[] = {
   5, // locals
   1, // parameters
-  LOCAL(3), // 51_0_self
+  LOCAL(3), // 51_5_self
   // self $lower_bound $upper_bound
   LOCAL(3), 0, 2, LOCAL(4), LOCAL(5),
   // upper_bound+1-lower_bound
@@ -189,12 +189,12 @@ static TAB_NUM t_func_std_types__value_range___length_of[] = {
 static TAB_NUM t_func_std_types__value_range___match[] = {
   1, // locals
   2, // parameters
-  var_78_0_expr,
-  var_79_0_str,
+  var_78_5_expr,
+  var_79_5_str,
   // $rc result_count()
-  var_result_count, 0, 1, var_81_1_rc,
+  var_result_count, 0, 1, var_81_4_rc,
   // is_empty
-  var_is_empty, 1, var_79_0_str, 1, LOCAL(1),
+  var_is_empty, 1, var_79_5_str, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), func_fail, lambda_1, TAIL_CALL,
   POS(81, 3),
@@ -206,11 +206,11 @@ static TAB_NUM t_lambda_1[] = {
   4, // locals
   0, // parameters
   // $chr str(1)
-  var_79_0_str, 1, num_1, 1, var_86_1_chr,
+  var_79_5_str, 1, num_1, 1, var_86_8_chr,
   // lower_bound_of(expr) && chr <= upper_bound_of(expr):
-  var_lower_bound_of, 1, var_78_0_expr, 1, LOCAL(1),
+  var_lower_bound_of, 1, var_78_5_expr, 1, LOCAL(1),
   // chr >= lower_bound_of(expr) && chr <= upper_bound_of(expr):
-  var_std__less, 2, var_86_1_chr, LOCAL(1), 1, LOCAL(2),
+  var_std__less, 2, var_86_8_chr, LOCAL(1), 1, LOCAL(2),
   // chr >= lower_bound_of(expr) && chr <= upper_bound_of(expr):
   var_std__not, 1, LOCAL(2), 1, LOCAL(3),
   // chr >= lower_bound_of(expr) && chr <= upper_bound_of(expr):
@@ -229,9 +229,9 @@ static TAB_NUM t_lambda_2[] = {
   3, // locals
   0, // parameters
   // upper_bound_of(expr):
-  var_upper_bound_of, 1, var_78_0_expr, 1, LOCAL(1),
+  var_upper_bound_of, 1, var_78_5_expr, 1, LOCAL(1),
   // upper_bound_of(expr):
-  var_std__less, 2, LOCAL(1), var_86_1_chr, 1, LOCAL(2),
+  var_std__less, 2, LOCAL(1), var_86_8_chr, 1, LOCAL(2),
   // upper_bound_of(expr):
   var_std__not, 1, LOCAL(2), 1, LOCAL(3),
   // chr <= upper_bound_of(expr):
@@ -246,7 +246,7 @@ static TAB_NUM t_lambda_3[] = {
   1, // locals
   0, // parameters
   // rc == 1
-  var_std__equal, 2, var_81_1_rc, num_1, 1, LOCAL(1),
+  var_std__equal, 2, var_81_4_rc, num_1, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_4, lambda_5, TAIL_CALL,
   POS(90, 13),
@@ -273,7 +273,7 @@ static TAB_NUM t_func_fail[] = {
   1, // locals
   0, // parameters
   // rc == 1
-  var_std__equal, 2, var_81_1_rc, num_1, 1, LOCAL(1),
+  var_std__equal, 2, var_81_4_rc, num_1, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_6, lambda_7, TAIL_CALL,
   POS(97, 7),
@@ -299,10 +299,10 @@ static TAB_NUM t_lambda_7[] = {
 static TAB_NUM t_func_std_types__value_range___match_back[] = {
   1, // locals
   2, // parameters
-  var_123_0_expr,
-  var_124_0_str,
+  var_123_5_expr,
+  var_124_5_str,
   // is_empty
-  var_is_empty, 1, var_124_0_str, 1, LOCAL(1),
+  var_is_empty, 1, var_124_5_str, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_8, lambda_9, TAIL_CALL,
   POS(127, 9),
@@ -321,11 +321,11 @@ static TAB_NUM t_lambda_9[] = {
   4, // locals
   0, // parameters
   // $chr str(-1)
-  var_124_0_str, 1, minus_num_1, 1, var_130_1_chr,
+  var_124_5_str, 1, minus_num_1, 1, var_130_8_chr,
   // lower_bound_of(expr) && chr <= upper_bound_of(expr)
-  var_lower_bound_of, 1, var_123_0_expr, 1, LOCAL(1),
+  var_lower_bound_of, 1, var_123_5_expr, 1, LOCAL(1),
   // chr >= lower_bound_of(expr) && chr <= upper_bound_of(expr)
-  var_std__less, 2, var_130_1_chr, LOCAL(1), 1, LOCAL(2),
+  var_std__less, 2, var_130_8_chr, LOCAL(1), 1, LOCAL(2),
   // chr >= lower_bound_of(expr) && chr <= upper_bound_of(expr)
   var_std__not, 1, LOCAL(2), 1, LOCAL(3),
   // chr >= lower_bound_of(expr) && chr <= upper_bound_of(expr)
@@ -344,9 +344,9 @@ static TAB_NUM t_lambda_10[] = {
   3, // locals
   0, // parameters
   // upper_bound_of(expr)
-  var_upper_bound_of, 1, var_123_0_expr, 1, LOCAL(1),
+  var_upper_bound_of, 1, var_123_5_expr, 1, LOCAL(1),
   // upper_bound_of(expr)
-  var_std__less, 2, LOCAL(1), var_130_1_chr, 1, LOCAL(2),
+  var_std__less, 2, LOCAL(1), var_130_8_chr, 1, LOCAL(2),
   // upper_bound_of(expr)
   var_std__not, 1, LOCAL(2), 1, LOCAL(3),
   // chr <= upper_bound_of(expr)
@@ -376,17 +376,17 @@ static TAB_NUM t_lambda_12[] = {
 static TAB_NUM t_func_std_types__value_range___search[] = {
   2, // locals
   -3, // parameters
-  MANDATORY_PARAMETER, LOCAL(2), // 149_0_expr
-  MANDATORY_PARAMETER, var_150_0_str,
-  num_1, var_151_0_nth,
+  MANDATORY_PARAMETER, LOCAL(2), // 149_5_expr
+  MANDATORY_PARAMETER, var_150_5_str,
+  num_1, var_151_5_nth,
   // $low lower_bound_of(expr)
-  var_lower_bound_of, 1, LOCAL(2), 1, var_153_1_low,
+  var_lower_bound_of, 1, LOCAL(2), 1, var_153_4_low,
   // $high upper_bound_of(expr)
-  var_upper_bound_of, 1, LOCAL(2), 1, var_154_1_high,
+  var_upper_bound_of, 1, LOCAL(2), 1, var_154_4_high,
   // $len length_of(str)
-  var_length_of, 1, var_150_0_str, 1, var_155_1_len,
+  var_length_of, 1, var_150_5_str, 1, var_155_4_len,
   // nth < 0
-  var_std__less, 2, var_151_0_nth, num_0, 1, LOCAL(1),
+  var_std__less, 2, var_151_5_nth, num_0, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), func_search_backwards, func_search_forwards, TAIL_CALL,
   POS(153, 3),
@@ -400,7 +400,7 @@ static TAB_NUM t_func_search_forwards[] = {
   0, // locals
   0, // parameters
   // $i 0
-  LET, 1, num_0, 1, var_162_1_i,
+  LET, 1, num_0, 1, var_162_6_i,
   // loop:
   var_loop, 1, lambda_loop, TAIL_CALL,
   POS(162, 5),
@@ -411,9 +411,9 @@ static TAB_NUM t_lambda_loop[] = {
   1, // locals
   0, // parameters
   // inc &i
-  var_inc, 1, var_162_1_i, 1, var_162_1_i,
+  var_inc, 1, var_162_6_i, 1, var_162_6_i,
   // len
-  var_std__less, 2, var_155_1_len, var_162_1_i, 1, LOCAL(1),
+  var_std__less, 2, var_155_4_len, var_162_6_i, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_13, lambda_14, TAIL_CALL,
   POS(164, 7),
@@ -433,9 +433,9 @@ static TAB_NUM t_lambda_14[] = {
   3, // locals
   0, // parameters
   // $chr str(i)
-  var_150_0_str, 1, var_162_1_i, 1, var_169_1_chr,
+  var_150_5_str, 1, var_162_6_i, 1, var_169_12_chr,
   // chr >= low && chr <= high:
-  var_std__less, 2, var_169_1_chr, var_153_1_low, 1, LOCAL(1),
+  var_std__less, 2, var_169_12_chr, var_153_4_low, 1, LOCAL(1),
   // chr >= low && chr <= high:
   var_std__not, 1, LOCAL(1), 1, LOCAL(2),
   // chr >= low && chr <= high:
@@ -453,7 +453,7 @@ static TAB_NUM t_lambda_15[] = {
   2, // locals
   0, // parameters
   // high:
-  var_std__less, 2, var_154_1_high, var_169_1_chr, 1, LOCAL(1),
+  var_std__less, 2, var_154_4_high, var_169_12_chr, 1, LOCAL(1),
   // high:
   var_std__not, 1, LOCAL(1), 1, LOCAL(2),
   // chr <= high:
@@ -467,7 +467,7 @@ static TAB_NUM t_lambda_16[] = {
   1, // locals
   0, // parameters
   // 1:
-  var_std__less, 2, num_1, var_151_0_nth, 1, LOCAL(1),
+  var_std__less, 2, num_1, var_151_5_nth, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_17, lambda_18, TAIL_CALL,
   POS(173, 23),
@@ -478,7 +478,7 @@ static TAB_NUM t_lambda_17[] = {
   0, // locals
   0, // parameters
   // dec &nth
-  var_dec, 1, var_151_0_nth, 1, var_151_0_nth,
+  var_dec, 1, var_151_5_nth, 1, var_151_5_nth,
   // next
   var_next, 0, TAIL_CALL,
   POS(174, 19),
@@ -489,7 +489,7 @@ static TAB_NUM t_lambda_18[] = {
   0, // locals
   0, // parameters
   //  i 1
-  LET, 2, var_162_1_i, num_1, TAIL_CALL,
+  LET, 2, var_162_6_i, num_1, TAIL_CALL,
   POS(176, 19)
 };
 
@@ -497,7 +497,7 @@ static TAB_NUM t_func_search_backwards[] = {
   0, // locals
   0, // parameters
   // $i len+1
-  var_std__plus, 2, var_155_1_len, num_1, 1, var_180_1_i,
+  var_std__plus, 2, var_155_4_len, num_1, 1, var_180_6_i,
   // loop:
   var_loop, 1, lambda_2_loop, TAIL_CALL,
   POS(180, 5),
@@ -508,9 +508,9 @@ static TAB_NUM t_lambda_2_loop[] = {
   1, // locals
   0, // parameters
   // dec &i
-  var_dec, 1, var_180_1_i, 1, var_180_1_i,
+  var_dec, 1, var_180_6_i, 1, var_180_6_i,
   // i < 1
-  var_std__less, 2, var_180_1_i, num_1, 1, LOCAL(1),
+  var_std__less, 2, var_180_6_i, num_1, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_19, lambda_20, TAIL_CALL,
   POS(182, 7),
@@ -530,9 +530,9 @@ static TAB_NUM t_lambda_20[] = {
   3, // locals
   0, // parameters
   // $chr str(i)
-  var_150_0_str, 1, var_180_1_i, 1, var_187_1_chr,
+  var_150_5_str, 1, var_180_6_i, 1, var_187_12_chr,
   // chr >= low && chr <= high:
-  var_std__less, 2, var_187_1_chr, var_153_1_low, 1, LOCAL(1),
+  var_std__less, 2, var_187_12_chr, var_153_4_low, 1, LOCAL(1),
   // chr >= low && chr <= high:
   var_std__not, 1, LOCAL(1), 1, LOCAL(2),
   // chr >= low && chr <= high:
@@ -550,7 +550,7 @@ static TAB_NUM t_lambda_21[] = {
   2, // locals
   0, // parameters
   // high:
-  var_std__less, 2, var_154_1_high, var_187_1_chr, 1, LOCAL(1),
+  var_std__less, 2, var_154_4_high, var_187_12_chr, 1, LOCAL(1),
   // high:
   var_std__not, 1, LOCAL(1), 1, LOCAL(2),
   // chr <= high:
@@ -564,7 +564,7 @@ static TAB_NUM t_lambda_22[] = {
   1, // locals
   0, // parameters
   // nth < -1:
-  var_std__less, 2, var_151_0_nth, minus_num_1, 1, LOCAL(1),
+  var_std__less, 2, var_151_5_nth, minus_num_1, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_23, lambda_24, TAIL_CALL,
   POS(191, 17),
@@ -575,7 +575,7 @@ static TAB_NUM t_lambda_23[] = {
   0, // locals
   0, // parameters
   // inc &nth
-  var_inc, 1, var_151_0_nth, 1, var_151_0_nth,
+  var_inc, 1, var_151_5_nth, 1, var_151_5_nth,
   // next
   var_next, 0, TAIL_CALL,
   POS(192, 19),
@@ -586,16 +586,16 @@ static TAB_NUM t_lambda_24[] = {
   0, // locals
   0, // parameters
   //  i 1
-  LET, 2, var_180_1_i, num_1, TAIL_CALL,
+  LET, 2, var_180_6_i, num_1, TAIL_CALL,
   POS(194, 19)
 };
 
 static TAB_NUM t_func_std_types__value_range___for_each[] = {
   5, // locals
   3, // parameters
-  LOCAL(1), // 199_0_self
-  LOCAL(2), // 200_0_body
-  LOCAL(3), // 201_0_finally
+  LOCAL(1), // 199_5_self
+  LOCAL(2), // 200_5_body
+  LOCAL(3), // 201_5_finally
   // self $low $high
   LOCAL(1), 0, 2, LOCAL(4), LOCAL(5),
   // from_to! low high body finally
@@ -607,8 +607,8 @@ static TAB_NUM t_func_std_types__value_range___for_each[] = {
 static TAB_NUM t_func_std_types__value_range___map[] = {
   3, // locals
   2, // parameters
-  LOCAL(1), // 212_0_self
-  var_213_0_function,
+  LOCAL(1), // 212_5_self
+  var_213_5_function,
   // self $lower_bound $upper_bound
   LOCAL(1), 0, 2, LOCAL(2), LOCAL(3),
   // map lower_bound upper_bound
@@ -620,14 +620,14 @@ static TAB_NUM t_func_std_types__value_range___map[] = {
 static TAB_NUM t_func_map[] = {
   2, // locals
   2, // parameters
-  var_215_7_from,
-  var_215_12_to,
+  var_215_10_from,
+  var_215_15_to,
   // to+1-from
-  var_std__plus, 2, var_215_12_to, num_1, 1, LOCAL(1),
+  var_std__plus, 2, var_215_15_to, num_1, 1, LOCAL(1),
   // $n to+1-from
-  var_std__minus, 2, LOCAL(1), var_215_7_from, 1, var_216_1_n,
+  var_std__minus, 2, LOCAL(1), var_215_10_from, 1, var_216_6_n,
   // n >= 2:
-  var_std__less, 2, var_216_1_n, num_2, 1, LOCAL(1),
+  var_std__less, 2, var_216_6_n, num_2, 1, LOCAL(1),
   // n >= 2:
   var_std__not, 1, LOCAL(1), 1, LOCAL(2),
   // if
@@ -643,17 +643,17 @@ static TAB_NUM t_lambda_25[] = {
   6, // locals
   0, // parameters
   // $m n >> 1
-  var_std__shift_right, 2, var_216_1_n, num_1, 1, LOCAL(6),
+  var_std__shift_right, 2, var_216_6_n, num_1, 1, LOCAL(6),
   // from+m-1)
-  var_std__plus, 2, var_215_7_from, LOCAL(6), 1, LOCAL(1),
+  var_std__plus, 2, var_215_10_from, LOCAL(6), 1, LOCAL(1),
   // from+m-1)
   var_std__minus, 2, LOCAL(1), num_1, 1, LOCAL(2),
   // map(from from+m-1)
-  func_map, 2, var_215_7_from, LOCAL(2), 1, LOCAL(3),
+  func_map, 2, var_215_10_from, LOCAL(2), 1, LOCAL(3),
   // from+m to)
-  var_std__plus, 2, var_215_7_from, LOCAL(6), 1, LOCAL(4),
+  var_std__plus, 2, var_215_10_from, LOCAL(6), 1, LOCAL(4),
   // map(from+m to)
-  func_map, 2, LOCAL(4), var_215_12_to, 1, LOCAL(5),
+  func_map, 2, LOCAL(4), var_215_15_to, 1, LOCAL(5),
   // append
   var_append, 2, LOCAL(3), LOCAL(5), TAIL_CALL,
   POS(219, 9),
@@ -669,7 +669,7 @@ static TAB_NUM t_lambda_26[] = {
   1, // locals
   0, // parameters
   // n == 1
-  var_std__equal, 2, var_216_1_n, num_1, 1, LOCAL(1),
+  var_std__equal, 2, var_216_6_n, num_1, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_27, lambda_28, TAIL_CALL,
   POS(225, 11),
@@ -680,7 +680,7 @@ static TAB_NUM t_lambda_27[] = {
   1, // locals
   0, // parameters
   // function(from)
-  var_213_0_function, 1, var_215_7_from, 1, LOCAL(1),
+  var_213_5_function, 1, var_215_10_from, 1, LOCAL(1),
   // list function(from)
   var_list, 1, LOCAL(1), TAIL_CALL,
   POS(226, 18),
@@ -698,8 +698,8 @@ static TAB_NUM t_lambda_28[] = {
 static TAB_NUM t_func_std_types__value_range___std__reduce[] = {
   3, // locals
   2, // parameters
-  LOCAL(1), // 234_0_self
-  var_235_0_function,
+  LOCAL(1), // 234_5_self
+  var_235_5_function,
   // self $lower_bound $upper_bound
   LOCAL(1), 0, 2, LOCAL(2), LOCAL(3),
   // reduce lower_bound upper_bound
@@ -711,14 +711,14 @@ static TAB_NUM t_func_std_types__value_range___std__reduce[] = {
 static TAB_NUM t_func_reduce[] = {
   2, // locals
   2, // parameters
-  var_237_10_from,
-  var_237_15_to,
+  var_237_13_from,
+  var_237_18_to,
   // to+1-from
-  var_std__plus, 2, var_237_15_to, num_1, 1, LOCAL(1),
+  var_std__plus, 2, var_237_18_to, num_1, 1, LOCAL(1),
   // $n to+1-from
-  var_std__minus, 2, LOCAL(1), var_237_10_from, 1, var_238_1_n,
+  var_std__minus, 2, LOCAL(1), var_237_13_from, 1, var_238_6_n,
   // n >= 2:
-  var_std__less, 2, var_238_1_n, num_2, 1, LOCAL(1),
+  var_std__less, 2, var_238_6_n, num_2, 1, LOCAL(1),
   // n >= 2:
   var_std__not, 1, LOCAL(1), 1, LOCAL(2),
   // if
@@ -734,19 +734,19 @@ static TAB_NUM t_lambda_29[] = {
   6, // locals
   0, // parameters
   // $m n >> 1
-  var_std__shift_right, 2, var_238_1_n, num_1, 1, LOCAL(6),
+  var_std__shift_right, 2, var_238_6_n, num_1, 1, LOCAL(6),
   // from+m-1)
-  var_std__plus, 2, var_237_10_from, LOCAL(6), 1, LOCAL(1),
+  var_std__plus, 2, var_237_13_from, LOCAL(6), 1, LOCAL(1),
   // from+m-1)
   var_std__minus, 2, LOCAL(1), num_1, 1, LOCAL(2),
   // reduce(from from+m-1)
-  func_reduce, 2, var_237_10_from, LOCAL(2), 1, LOCAL(3),
+  func_reduce, 2, var_237_13_from, LOCAL(2), 1, LOCAL(3),
   // from+m to)
-  var_std__plus, 2, var_237_10_from, LOCAL(6), 1, LOCAL(4),
+  var_std__plus, 2, var_237_13_from, LOCAL(6), 1, LOCAL(4),
   // reduce(from+m to)
-  func_reduce, 2, LOCAL(4), var_237_15_to, 1, LOCAL(5),
+  func_reduce, 2, LOCAL(4), var_237_18_to, 1, LOCAL(5),
   // function
-  var_235_0_function, 2, LOCAL(3), LOCAL(5), TAIL_CALL,
+  var_235_5_function, 2, LOCAL(3), LOCAL(5), TAIL_CALL,
   POS(241, 9),
   POS(243, 23),
   POS(243, 23),
@@ -760,16 +760,16 @@ static TAB_NUM t_lambda_30[] = {
   0, // locals
   0, // parameters
   //  from
-  LET, 1, var_237_10_from, TAIL_CALL,
+  LET, 1, var_237_13_from, TAIL_CALL,
   POS(245, 9)
 };
 
 static TAB_NUM t_func_std_types__value_range___map_reduce[] = {
   3, // locals
   -3, // parameters
-  MANDATORY_PARAMETER, LOCAL(1), // 252_0_self
-  MANDATORY_PARAMETER, var_253_0_map_function,
-  var_append, var_254_0_reduce_function,
+  MANDATORY_PARAMETER, LOCAL(1), // 252_5_self
+  MANDATORY_PARAMETER, var_253_5_map_function,
+  var_append, var_254_5_reduce_function,
   // self $lower_bound $upper_bound
   LOCAL(1), 0, 2, LOCAL(2), LOCAL(3),
   // map_reduce lower_bound upper_bound
@@ -781,14 +781,14 @@ static TAB_NUM t_func_std_types__value_range___map_reduce[] = {
 static TAB_NUM t_func_map_reduce[] = {
   2, // locals
   2, // parameters
-  var_256_14_from,
-  var_256_19_to,
+  var_256_17_from,
+  var_256_22_to,
   // to+1-from
-  var_std__plus, 2, var_256_19_to, num_1, 1, LOCAL(1),
+  var_std__plus, 2, var_256_22_to, num_1, 1, LOCAL(1),
   // $n to+1-from
-  var_std__minus, 2, LOCAL(1), var_256_14_from, 1, var_257_1_n,
+  var_std__minus, 2, LOCAL(1), var_256_17_from, 1, var_257_6_n,
   // n >= 2:
-  var_std__less, 2, var_257_1_n, num_2, 1, LOCAL(1),
+  var_std__less, 2, var_257_6_n, num_2, 1, LOCAL(1),
   // n >= 2:
   var_std__not, 1, LOCAL(1), 1, LOCAL(2),
   // if
@@ -804,19 +804,19 @@ static TAB_NUM t_lambda_31[] = {
   6, // locals
   0, // parameters
   // $m n >> 1
-  var_std__shift_right, 2, var_257_1_n, num_1, 1, LOCAL(6),
+  var_std__shift_right, 2, var_257_6_n, num_1, 1, LOCAL(6),
   // from+m-1)
-  var_std__plus, 2, var_256_14_from, LOCAL(6), 1, LOCAL(1),
+  var_std__plus, 2, var_256_17_from, LOCAL(6), 1, LOCAL(1),
   // from+m-1)
   var_std__minus, 2, LOCAL(1), num_1, 1, LOCAL(2),
   // map_reduce(from from+m-1)
-  func_map_reduce, 2, var_256_14_from, LOCAL(2), 1, LOCAL(3),
+  func_map_reduce, 2, var_256_17_from, LOCAL(2), 1, LOCAL(3),
   // from+m to)
-  var_std__plus, 2, var_256_14_from, LOCAL(6), 1, LOCAL(4),
+  var_std__plus, 2, var_256_17_from, LOCAL(6), 1, LOCAL(4),
   // map_reduce(from+m to)
-  func_map_reduce, 2, LOCAL(4), var_256_19_to, 1, LOCAL(5),
+  func_map_reduce, 2, LOCAL(4), var_256_22_to, 1, LOCAL(5),
   // reduce_function
-  var_254_0_reduce_function, 2, LOCAL(3), LOCAL(5), TAIL_CALL,
+  var_254_5_reduce_function, 2, LOCAL(3), LOCAL(5), TAIL_CALL,
   POS(260, 9),
   POS(262, 27),
   POS(262, 27),
@@ -830,7 +830,7 @@ static TAB_NUM t_lambda_32[] = {
   1, // locals
   0, // parameters
   // map_function(from)
-  var_253_0_map_function, 1, var_256_14_from, 1, LOCAL(1),
+  var_253_5_map_function, 1, var_256_17_from, 1, LOCAL(1),
   //  map_function(from)
   LET, 1, LOCAL(1), TAIL_CALL,
   POS(264, 10),
@@ -840,8 +840,8 @@ static TAB_NUM t_lambda_32[] = {
 static TAB_NUM t_func_std__value_range[] = {
   2, // locals
   2, // parameters
-  LOCAL(1), // 271_0_lower_bound
-  LOCAL(2), // 272_0_upper_bound
+  LOCAL(1), // 271_5_lower_bound
+  LOCAL(2), // 272_5_upper_bound
   // typed_tuple std_types::value_range lower_bound upper_bound
   var_typed_tuple, 3, var_std_types__value_range, LOCAL(1), LOCAL(2), TAIL_CALL,
   POS(274, 3)
@@ -1019,15 +1019,15 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "78_0_expr\000", NULL
+    "78_5_expr\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "79_0_str\000", NULL
+    "79_5_str\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "81_1_rc\000", NULL
+    "81_4_rc\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
@@ -1041,7 +1041,7 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "86_1_chr\000", NULL
+    "86_8_chr\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
@@ -1080,15 +1080,15 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "123_0_expr\000", NULL
+    "123_5_expr\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "124_0_str\000", NULL
+    "124_5_str\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "130_1_chr\000", NULL
+    "130_8_chr\000", NULL
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
@@ -1097,27 +1097,27 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "150_0_str\000", NULL
+    "150_5_str\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "151_0_nth\000", NULL
+    "151_5_nth\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "153_1_low\000", NULL
+    "153_4_low\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "154_1_high\000", NULL
+    "154_4_high\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "155_1_len\000", NULL
+    "155_4_len\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "162_1_i\000", NULL
+    "162_6_i\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
@@ -1126,7 +1126,7 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "169_1_chr\000", NULL
+    "169_12_chr\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
@@ -1145,11 +1145,11 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "180_1_i\000", NULL
+    "180_6_i\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "187_1_chr\000", NULL
+    "187_12_chr\000", NULL
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
@@ -1168,19 +1168,19 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "213_0_function\000", NULL
+    "213_5_function\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "215_7_from\000", NULL
+    "215_10_from\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "215_12_to\000", NULL
+    "215_15_to\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "216_1_n\000", NULL
+    "216_6_n\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
@@ -1209,19 +1209,19 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "235_0_function\000", NULL
+    "235_5_function\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "237_10_from\000", NULL
+    "237_13_from\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "237_15_to\000", NULL
+    "237_18_to\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "238_1_n\000", NULL
+    "238_6_n\000", NULL
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
@@ -1230,23 +1230,23 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "253_0_map_function\000", NULL
+    "253_5_map_function\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "254_0_reduce_function\000", NULL
+    "254_5_reduce_function\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "256_14_from\000", NULL
+    "256_17_from\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "256_19_to\000", NULL
+    "256_22_to\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "257_1_n\000", NULL
+    "257_6_n\000", NULL
   },
   {
     FOT_INITIALIZED, 0, 0,

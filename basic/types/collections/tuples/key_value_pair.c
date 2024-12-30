@@ -39,7 +39,7 @@ enum {
 static TAB_NUM t_func_std_types__key_value_pair___key_of[] = {
   3, // locals
   1, // parameters
-  LOCAL(2), // 38_0_self
+  LOCAL(2), // 38_5_self
   // self $key $_value
   LOCAL(2), 0, 2, LOCAL(3), LOCAL(1),
   // -> key
@@ -51,7 +51,7 @@ static TAB_NUM t_func_std_types__key_value_pair___key_of[] = {
 static TAB_NUM t_func_std_types__key_value_pair___value_of[] = {
   3, // locals
   1, // parameters
-  LOCAL(2), // 45_0_self
+  LOCAL(2), // 45_5_self
   // self $_key $value
   LOCAL(2), 0, 2, LOCAL(1), LOCAL(3),
   // -> value
@@ -63,8 +63,8 @@ static TAB_NUM t_func_std_types__key_value_pair___value_of[] = {
 static TAB_NUM t_func_std__key_value_pair[] = {
   2, // locals
   2, // parameters
-  LOCAL(1), // 52_0_key
-  LOCAL(2), // 53_0_value
+  LOCAL(1), // 52_5_key
+  LOCAL(2), // 53_5_value
   // typed_tuple std_types::key_value_pair key value
   var_typed_tuple, 3, var_std_types__key_value_pair, LOCAL(1), LOCAL(2), TAIL_CALL,
   POS(55, 3)

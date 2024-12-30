@@ -16,7 +16,7 @@ enum {
 enum {
   var__START = FIRST_VAR-1,
   var_std__environment, // dynamic
-  var_46_1_env, // dynamic
+  var_46_4_env, // dynamic
   var_empty_key_order_table, // extern
   var_std__assign, // extern
   var_environment_variables, // extern
@@ -33,7 +33,7 @@ static TAB_NUM t_func_get_environment[] = {
   0, // locals
   0, // parameters
   // $env empty_key_order_table
-  LET, 1, var_empty_key_order_table, 1, var_46_1_env,
+  LET, 1, var_empty_key_order_table, 1, var_46_4_env,
   // for_each environment_variables
   var_for_each, 3, var_environment_variables, lambda_1, lambda_2, TAIL_CALL,
   POS(46, 3),
@@ -43,7 +43,7 @@ static TAB_NUM t_func_get_environment[] = {
 static TAB_NUM t_lambda_1[] = {
   3, // locals
   1, // parameters
-  LOCAL(1), // 48_3_key_and_value
+  LOCAL(1), // 48_8_key_and_value
   // from_utf8 &key_and_value
   var_from_utf8, 1, LOCAL(1), 1, LOCAL(1),
   // $key key_and_value .before. '='
@@ -51,7 +51,7 @@ static TAB_NUM t_lambda_1[] = {
   // $value key_and_value .behind. '='
   var_behind, 2, LOCAL(1), chr_61, 1, LOCAL(3),
   // env(key) value
-  var_46_1_env, 2, LOCAL(2), LOCAL(3), 1, var_46_1_env,
+  var_46_4_env, 2, LOCAL(2), LOCAL(3), 1, var_46_4_env,
   // next
   var_next, 0, TAIL_CALL,
   POS(49, 7),
@@ -65,7 +65,7 @@ static TAB_NUM t_lambda_2[] = {
   0, // locals
   0, // parameters
   //  env
-  LET, 1, var_46_1_env, TAIL_CALL,
+  LET, 1, var_46_4_env, TAIL_CALL,
   POS(54, 7)
 };
 
@@ -93,7 +93,7 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "46_1_env\000", NULL
+    "46_4_env\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,

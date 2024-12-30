@@ -36,13 +36,13 @@ enum {
   var_false, // extern
   var_true, // extern
   var_match, // extern polymorphic
-  var_63_0_self, // dynamic
-  var_64_0_str, // dynamic
+  var_63_5_self, // dynamic
+  var_64_5_str, // dynamic
   var_result_count, // extern
-  var_67_1_pos, // dynamic
+  var_67_4_pos, // dynamic
   var_std__equal, // extern
   var_range, // extern
-  var_72_30_len, // dynamic
+  var_72_41_len, // dynamic
   var_is_undefined, // extern
   var_undefined, // extern
   var_plus, // extern
@@ -50,10 +50,10 @@ enum {
   var_if, // extern
   var_std__minus, // extern
   var_for_each, // extern
-  var_81_1_captured_items, // dynamic
+  var_81_8_captured_items, // dynamic
   var_empty_list, // extern
-  var_84_30_len, // dynamic
-  var_84_35_captured_item, // dynamic
+  var_84_41_len, // dynamic
+  var_84_46_captured_item, // dynamic
   var_is_defined, // extern
   var_push, // extern
   var_std__sequence, // initialized
@@ -65,12 +65,12 @@ enum {
 static TAB_NUM t_func_std_types__sequence___match[] = {
   2, // locals
   2, // parameters
-  var_63_0_self,
-  var_64_0_str,
+  var_63_5_self,
+  var_64_5_str,
   // $rc result_count()
   var_result_count, 0, 1, LOCAL(2),
   // $pos 1
-  LET, 1, num_1, 1, var_67_1_pos,
+  LET, 1, num_1, 1, var_67_4_pos,
   // rc == 1:
   var_std__equal, 2, LOCAL(2), num_1, 1, LOCAL(1),
   // if
@@ -85,20 +85,20 @@ static TAB_NUM t_lambda_1[] = {
   0, // locals
   0, // parameters
   // for_each self
-  var_for_each, 3, var_63_0_self, lambda_2, lambda_5, TAIL_CALL,
+  var_for_each, 3, var_63_5_self, lambda_2, lambda_5, TAIL_CALL,
   POS(70, 7)
 };
 
 static TAB_NUM t_lambda_2[] = {
   2, // locals
   1, // parameters
-  LOCAL(2), // 71_3_item
+  LOCAL(2), // 71_12_item
   // range(str pos -1) $len
-  var_range, 3, var_64_0_str, var_67_1_pos, minus_num_1, 1, LOCAL(1),
+  var_range, 3, var_64_5_str, var_67_4_pos, minus_num_1, 1, LOCAL(1),
   // match item range(str pos -1) $len
-  var_match, 2, LOCAL(2), LOCAL(1), 1, var_72_30_len,
+  var_match, 2, LOCAL(2), LOCAL(1), 1, var_72_41_len,
   // is_undefined
-  var_is_undefined, 1, var_72_30_len, 1, LOCAL(1),
+  var_is_undefined, 1, var_72_41_len, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_3, lambda_4, TAIL_CALL,
   POS(72, 22),
@@ -119,7 +119,7 @@ static TAB_NUM t_lambda_4[] = {
   0, // locals
   0, // parameters
   // plus &pos len
-  var_plus, 2, var_67_1_pos, var_72_30_len, 1, var_67_1_pos,
+  var_plus, 2, var_67_4_pos, var_72_41_len, 1, var_67_4_pos,
   // next
   var_next, 0, TAIL_CALL,
   POS(77, 15),
@@ -130,7 +130,7 @@ static TAB_NUM t_lambda_5[] = {
   1, // locals
   0, // parameters
   // pos-1
-  var_std__minus, 2, var_67_1_pos, num_1, 1, LOCAL(1),
+  var_std__minus, 2, var_67_4_pos, num_1, 1, LOCAL(1),
   //  pos-1
   LET, 1, LOCAL(1), TAIL_CALL,
   POS(79, 12),
@@ -141,9 +141,9 @@ static TAB_NUM t_lambda_6[] = {
   0, // locals
   0, // parameters
   // $captured_items empty_list
-  LET, 1, var_empty_list, 1, var_81_1_captured_items,
+  LET, 1, var_empty_list, 1, var_81_8_captured_items,
   // for_each self
-  var_for_each, 3, var_63_0_self, lambda_7, lambda_10, TAIL_CALL,
+  var_for_each, 3, var_63_5_self, lambda_7, lambda_10, TAIL_CALL,
   POS(81, 7),
   POS(82, 7)
 };
@@ -151,13 +151,13 @@ static TAB_NUM t_lambda_6[] = {
 static TAB_NUM t_lambda_7[] = {
   2, // locals
   1, // parameters
-  LOCAL(2), // 83_3_item
+  LOCAL(2), // 83_12_item
   // range(str pos -1) $len $captured_item
-  var_range, 3, var_64_0_str, var_67_1_pos, minus_num_1, 1, LOCAL(1),
+  var_range, 3, var_64_5_str, var_67_4_pos, minus_num_1, 1, LOCAL(1),
   // match item range(str pos -1) $len $captured_item
-  var_match, 2, LOCAL(2), LOCAL(1), 2, var_84_30_len, var_84_35_captured_item,
+  var_match, 2, LOCAL(2), LOCAL(1), 2, var_84_41_len, var_84_46_captured_item,
   // is_undefined
-  var_is_undefined, 1, var_84_30_len, 1, LOCAL(1),
+  var_is_undefined, 1, var_84_41_len, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_8, lambda_9, TAIL_CALL,
   POS(84, 22),
@@ -178,9 +178,9 @@ static TAB_NUM t_lambda_9[] = {
   1, // locals
   0, // parameters
   // plus &pos len
-  var_plus, 2, var_67_1_pos, var_84_30_len, 1, var_67_1_pos,
+  var_plus, 2, var_67_4_pos, var_84_41_len, 1, var_67_4_pos,
   // is_defined:
-  var_is_defined, 1, var_84_35_captured_item, 1, LOCAL(1),
+  var_is_defined, 1, var_84_46_captured_item, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_captured_item_is_defined, var_next, TAIL_CALL,
   POS(89, 15),
@@ -192,7 +192,7 @@ static TAB_NUM t_lambda_captured_item_is_defined[] = {
   0, // locals
   0, // parameters
   // push &captured_items captured_item
-  var_push, 2, var_81_1_captured_items, var_84_35_captured_item, 1, var_81_1_captured_items,
+  var_push, 2, var_81_8_captured_items, var_84_46_captured_item, 1, var_81_8_captured_items,
   // next
   var_next, 0, TAIL_CALL,
   POS(92, 19),
@@ -203,9 +203,9 @@ static TAB_NUM t_lambda_10[] = {
   1, // locals
   0, // parameters
   // pos-1 captured_items
-  var_std__minus, 2, var_67_1_pos, num_1, 1, LOCAL(1),
+  var_std__minus, 2, var_67_4_pos, num_1, 1, LOCAL(1),
   //  pos-1 captured_items
-  LET, 2, LOCAL(1), var_81_1_captured_items, TAIL_CALL,
+  LET, 2, LOCAL(1), var_81_8_captured_items, TAIL_CALL,
   POS(95, 12),
   POS(95, 11)
 };
@@ -213,7 +213,7 @@ static TAB_NUM t_lambda_10[] = {
 static TAB_NUM t_func_std__sequence[] = {
   1, // locals
   -1, // parameters
-  REST_PARAMETER, LOCAL(1), // 105_0_args
+  REST_PARAMETER, LOCAL(1), // 105_5_args
   // new std_types::sequence args
   var_new, 2, var_std_types__sequence, LOCAL(1), TAIL_CALL,
   POS(107, 3)
@@ -296,11 +296,11 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "63_0_self\000", NULL
+    "63_5_self\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "64_0_str\000", NULL
+    "64_5_str\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
@@ -309,7 +309,7 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "67_1_pos\000", NULL
+    "67_4_pos\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
@@ -323,7 +323,7 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "72_30_len\000", NULL
+    "72_41_len\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
@@ -362,7 +362,7 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "81_1_captured_items\000", NULL
+    "81_8_captured_items\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
@@ -371,11 +371,11 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "84_30_len\000", NULL
+    "84_41_len\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "84_35_captured_item\000", NULL
+    "84_46_captured_item\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,

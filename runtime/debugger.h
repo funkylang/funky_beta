@@ -21,6 +21,8 @@
   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
+#define RESPAWN 47
+
 typedef struct {
   char last_cmd[256];
 
@@ -35,6 +37,8 @@ typedef struct {
   FRAME *break_frame;
   const TAB_NUM *break_code_start;
   const TAB_NUM *break_code_end;
+  long best_backstep_position;
+  long backstep_start;
  } SHARED_DEBUG_DATA;
 
 extern int do_debug;

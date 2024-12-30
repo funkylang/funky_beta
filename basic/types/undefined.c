@@ -31,7 +31,7 @@ enum {
   var_true, // extern
   var_equal, // extern polymorphic
   var_serialize, // extern polymorphic
-  var_83_0_indent, // dynamic
+  var_83_5_indent, // dynamic
   var_undefined, // extern
   var_tabs_and_spaces, // extern
   var_append, // extern
@@ -43,7 +43,7 @@ enum {
 static TAB_NUM t_func_std_types__object___default_value[] = {
   2, // locals
   2, // parameters
-  LOCAL(2), // 53_0_self
+  LOCAL(2), // 53_5_self
   LOCAL(1),
   // -> self
   LET, 1, LOCAL(2), TAIL_CALL,
@@ -54,7 +54,7 @@ static TAB_NUM t_func_std_types__undefined___default_value[] = {
   2, // locals
   2, // parameters
   LOCAL(1),
-  LOCAL(2), // 67_0_default
+  LOCAL(2), // 67_5_default
   // -> default
   LET, 1, LOCAL(2), TAIL_CALL,
   POS(69, 3)
@@ -64,7 +64,7 @@ static TAB_NUM t_func_std_types__undefined___equal[] = {
   2, // locals
   2, // parameters
   LOCAL(1),
-  LOCAL(2), // 76_0_right
+  LOCAL(2), // 76_5_right
   // is_undefined
   var_is_undefined, 1, LOCAL(2), 1, LOCAL(1),
   // -> right.is_undefined
@@ -77,9 +77,9 @@ static TAB_NUM t_func_std_types__undefined___serialize[] = {
   1, // locals
   -2, // parameters
   MANDATORY_PARAMETER, LOCAL(1),
-  var_undefined, var_83_0_indent,
+  var_undefined, var_83_5_indent,
   // is_defined
-  var_is_defined, 1, var_83_0_indent, 1, LOCAL(1),
+  var_is_defined, 1, var_83_5_indent, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_1, lambda_2, TAIL_CALL,
   POS(87, 12),
@@ -90,7 +90,7 @@ static TAB_NUM t_lambda_1[] = {
   2, // locals
   0, // parameters
   // tabs_and_spaces(indent) str)
-  var_tabs_and_spaces, 1, var_83_0_indent, 1, LOCAL(1),
+  var_tabs_and_spaces, 1, var_83_5_indent, 1, LOCAL(1),
   // append(tabs_and_spaces(indent) str)
   var_append, 2, LOCAL(1), str_undefined, 1, LOCAL(2),
   //  append(tabs_and_spaces(indent) str)
@@ -199,7 +199,7 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "83_0_indent\000", NULL
+    "83_5_indent\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,

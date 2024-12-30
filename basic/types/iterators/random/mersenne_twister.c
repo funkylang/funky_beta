@@ -17,7 +17,7 @@ enum {
   func_std_types__mersenne_twister___next_raw_value = -8,
   num_0x0 = -9,
   num_0x9908b0df = -10,
-  list_44_0 = -11,
+  list_44_3 = -11,
   lambda_1 = -12,
   num_1 = -13,
   lambda_2 = -14,
@@ -48,11 +48,11 @@ enum {
   var_undefined, // extern
   var_modulus_of, // extern polymorphic
   var_next_raw_value, // extern polymorphic
-  var_42_1_state, // dynamic
-  var_43_1_index, // dynamic
+  var_42_4_state, // dynamic
+  var_43_4_index, // dynamic
   var_list, // extern
   var_std__less, // extern
-  var_47_1_new_state, // dynamic
+  var_47_8_new_state, // dynamic
   var_empty_list, // extern
   var_std__minus, // extern
   var_std__bit_and, // extern
@@ -68,7 +68,7 @@ enum {
   var_inc, // extern
   var_std__shift_left, // extern
   var_std__mersenne_twister, // initialized
-  var_101_1_initial_state, // dynamic
+  var_101_4_initial_state, // dynamic
   var_std__times, // extern
   var_repeat, // extern
   var__END
@@ -78,19 +78,19 @@ enum {
 static TAB_NUM t_func_std_types__mersenne_twister___next_raw_value[] = {
   4, // locals
   1, // parameters
-  LOCAL(3), // 41_46_self
+  LOCAL(3), // 41_47_self
   // $state state_of(self)
-  var_state_of, 1, LOCAL(3), 1, var_42_1_state,
+  var_state_of, 1, LOCAL(3), 1, var_42_4_state,
   // $index index_of(self)
-  var_index_of, 1, LOCAL(3), 1, var_43_1_index,
+  var_index_of, 1, LOCAL(3), 1, var_43_4_index,
   // STATE_VECTOR_LENGTH:
-  var_std__less, 2, num_624, var_43_1_index, 1, LOCAL(1),
+  var_std__less, 2, num_624, var_43_4_index, 1, LOCAL(1),
   // if !state !index
-  var_if, 3, LOCAL(1), lambda_1, lambda_6, 2, var_42_1_state, var_43_1_index,
+  var_if, 3, LOCAL(1), lambda_1, lambda_6, 2, var_42_4_state, var_43_4_index,
   // $y state(index)
-  var_42_1_state, 1, var_43_1_index, 1, LOCAL(4),
+  var_42_4_state, 1, var_43_4_index, 1, LOCAL(4),
   // inc &index
-  var_inc, 1, var_43_1_index, 1, var_43_1_index,
+  var_inc, 1, var_43_4_index, 1, var_43_4_index,
   // y >> 11)
   var_std__shift_right, 2, LOCAL(4), num_11, 1, LOCAL(1),
   // !y y ^ (y >> 11)
@@ -112,7 +112,7 @@ static TAB_NUM t_func_std_types__mersenne_twister___next_raw_value[] = {
   // !y y ^ (y >> 18)
   var_std__bit_xor, 2, LOCAL(4), LOCAL(1), 1, LOCAL(4),
   // self
-  LET, -2, LOCAL(3), var_state_of, var_42_1_state, var_index_of, var_43_1_index, LOCAL(1),
+  LET, -2, LOCAL(3), var_state_of, var_42_4_state, var_index_of, var_43_4_index, LOCAL(1),
   // ->
   LET, 2, LOCAL(1), LOCAL(4), TAIL_CALL,
   POS(42, 3),
@@ -139,11 +139,11 @@ static TAB_NUM t_lambda_1[] = {
   3, // locals
   0, // parameters
   // $new_state empty_list
-  LET, 1, var_empty_list, 1, var_47_1_new_state,
+  LET, 1, var_empty_list, 1, var_47_8_new_state,
   // STATE_VECTOR_LENGTH-STATE_VECTOR_M
   var_std__minus, 2, num_624, num_397, 1, LOCAL(1),
   // from_to !new_state
-  var_from_to, 4, num_1, LOCAL(1), lambda_2, lambda_3, 1, var_47_1_new_state,
+  var_from_to, 4, num_1, LOCAL(1), lambda_2, lambda_3, 1, var_47_8_new_state,
   // STATE_VECTOR_LENGTH+1-STATE_VECTOR_M
   var_std__plus, 2, num_624, num_1, 1, LOCAL(1),
   // STATE_VECTOR_LENGTH+1-STATE_VECTOR_M
@@ -151,7 +151,7 @@ static TAB_NUM t_lambda_1[] = {
   // STATE_VECTOR_LENGTH-1
   var_std__minus, 2, num_624, num_1, 1, LOCAL(3),
   // from_to !new_state
-  var_from_to, 4, LOCAL(2), LOCAL(3), lambda_4, lambda_5, 1, var_47_1_new_state,
+  var_from_to, 4, LOCAL(2), LOCAL(3), lambda_4, lambda_5, 1, var_47_8_new_state,
   // do:
   var_do, 1, lambda_do, TAIL_CALL,
   POS(47, 7),
@@ -167,15 +167,15 @@ static TAB_NUM t_lambda_1[] = {
 static TAB_NUM t_lambda_2[] = {
   10, // locals
   1, // parameters
-  LOCAL(9), // 50_3_kk
+  LOCAL(9), // 50_12_kk
   // state(kk) & UPPER_MASK
-  var_42_1_state, 1, LOCAL(9), 1, LOCAL(1),
+  var_42_4_state, 1, LOCAL(9), 1, LOCAL(1),
   // state(kk) & UPPER_MASK
   var_std__bit_and, 2, LOCAL(1), num_0x80000000, 1, LOCAL(2),
   // kk+1) & LOWER_MASK
   var_std__plus, 2, LOCAL(9), num_1, 1, LOCAL(3),
   // state(kk+1) & LOWER_MASK
-  var_42_1_state, 1, LOCAL(3), 1, LOCAL(4),
+  var_42_4_state, 1, LOCAL(3), 1, LOCAL(4),
   // state(kk+1) & LOWER_MASK
   var_std__bit_and, 2, LOCAL(4), num_0x7fffffff, 1, LOCAL(5),
   // $x
@@ -183,7 +183,7 @@ static TAB_NUM t_lambda_2[] = {
   // kk+STATE_VECTOR_M) ^ (x >> 1) ^ mag((x & 1)+1)
   var_std__plus, 2, LOCAL(9), num_397, 1, LOCAL(1),
   // state(kk+STATE_VECTOR_M) ^ (x >> 1) ^ mag((x & 1)+1)
-  var_42_1_state, 1, LOCAL(1), 1, LOCAL(2),
+  var_42_4_state, 1, LOCAL(1), 1, LOCAL(2),
   // x >> 1) ^ mag((x & 1)+1)
   var_std__shift_right, 2, LOCAL(10), num_1, 1, LOCAL(3),
   // state(kk+STATE_VECTOR_M) ^ (x >> 1) ^ mag((x & 1)+1)
@@ -193,11 +193,11 @@ static TAB_NUM t_lambda_2[] = {
   // x & 1)+1)
   var_std__plus, 2, LOCAL(5), num_1, 1, LOCAL(6),
   // mag((x & 1)+1)
-  list_44_0, 1, LOCAL(6), 1, LOCAL(7),
+  list_44_3, 1, LOCAL(6), 1, LOCAL(7),
   // state(kk+STATE_VECTOR_M) ^ (x >> 1) ^ mag((x & 1)+1)
   var_std__bit_xor, 2, LOCAL(4), LOCAL(7), 1, LOCAL(8),
   // push &new_state state(kk+STATE_VECTOR_M) ^ (x >> 1) ^ mag((x & 1)+1)
-  var_push, 2, var_47_1_new_state, LOCAL(8), 1, var_47_1_new_state,
+  var_push, 2, var_47_8_new_state, LOCAL(8), 1, var_47_8_new_state,
   // next
   var_next, 0, TAIL_CALL,
   POS(53, 15),
@@ -222,22 +222,22 @@ static TAB_NUM t_lambda_3[] = {
   0, // locals
   0, // parameters
   //  new_state
-  LET, 1, var_47_1_new_state, TAIL_CALL,
+  LET, 1, var_47_8_new_state, TAIL_CALL,
   POS(57, 11)
 };
 
 static TAB_NUM t_lambda_4[] = {
   11, // locals
   1, // parameters
-  LOCAL(10), // 61_3_kk
+  LOCAL(10), // 61_12_kk
   // state(kk) & UPPER_MASK
-  var_42_1_state, 1, LOCAL(10), 1, LOCAL(1),
+  var_42_4_state, 1, LOCAL(10), 1, LOCAL(1),
   // state(kk) & UPPER_MASK
   var_std__bit_and, 2, LOCAL(1), num_0x80000000, 1, LOCAL(2),
   // kk+1) & LOWER_MASK
   var_std__plus, 2, LOCAL(10), num_1, 1, LOCAL(3),
   // state(kk+1) & LOWER_MASK
-  var_42_1_state, 1, LOCAL(3), 1, LOCAL(4),
+  var_42_4_state, 1, LOCAL(3), 1, LOCAL(4),
   // state(kk+1) & LOWER_MASK
   var_std__bit_and, 2, LOCAL(4), num_0x7fffffff, 1, LOCAL(5),
   // $x
@@ -247,7 +247,7 @@ static TAB_NUM t_lambda_4[] = {
   // kk+STATE_VECTOR_M-STATE_VECTOR_LENGTH)
   var_std__minus, 2, LOCAL(1), num_624, 1, LOCAL(2),
   // new_state(kk+STATE_VECTOR_M-STATE_VECTOR_LENGTH)
-  var_47_1_new_state, 1, LOCAL(2), 1, LOCAL(3),
+  var_47_8_new_state, 1, LOCAL(2), 1, LOCAL(3),
   // x >> 1
   var_std__shift_right, 2, LOCAL(11), num_1, 1, LOCAL(4),
   // 
@@ -257,11 +257,11 @@ static TAB_NUM t_lambda_4[] = {
   // x & 1)+1)
   var_std__plus, 2, LOCAL(6), num_1, 1, LOCAL(7),
   // mag((x & 1)+1)
-  list_44_0, 1, LOCAL(7), 1, LOCAL(8),
+  list_44_3, 1, LOCAL(7), 1, LOCAL(8),
   // 
   var_std__bit_xor, 2, LOCAL(5), LOCAL(8), 1, LOCAL(9),
   // push
-  var_push, 2, var_47_1_new_state, LOCAL(9), 1, var_47_1_new_state,
+  var_push, 2, var_47_8_new_state, LOCAL(9), 1, var_47_8_new_state,
   // next
   var_next, 0, TAIL_CALL,
   POS(64, 15),
@@ -287,7 +287,7 @@ static TAB_NUM t_lambda_5[] = {
   0, // locals
   0, // parameters
   //  new_state
-  LET, 1, var_47_1_new_state, TAIL_CALL,
+  LET, 1, var_47_8_new_state, TAIL_CALL,
   POS(73, 11)
 };
 
@@ -295,17 +295,17 @@ static TAB_NUM t_lambda_do[] = {
   8, // locals
   0, // parameters
   // state(STATE_VECTOR_LENGTH) & UPPER_MASK
-  var_42_1_state, 1, num_624, 1, LOCAL(1),
+  var_42_4_state, 1, num_624, 1, LOCAL(1),
   // state(STATE_VECTOR_LENGTH) & UPPER_MASK
   var_std__bit_and, 2, LOCAL(1), num_0x80000000, 1, LOCAL(2),
   // new_state(1) & LOWER_MASK
-  var_47_1_new_state, 1, num_1, 1, LOCAL(3),
+  var_47_8_new_state, 1, num_1, 1, LOCAL(3),
   // new_state(1) & LOWER_MASK
   var_std__bit_and, 2, LOCAL(3), num_0x7fffffff, 1, LOCAL(4),
   // $x
   var_std__bit_or, 2, LOCAL(2), LOCAL(4), 1, LOCAL(8),
   // new_state(STATE_VECTOR_M) ^ (x >> 1) ^ mag((x & 1)+1)
-  var_47_1_new_state, 1, num_397, 1, LOCAL(1),
+  var_47_8_new_state, 1, num_397, 1, LOCAL(1),
   // x >> 1) ^ mag((x & 1)+1)
   var_std__shift_right, 2, LOCAL(8), num_1, 1, LOCAL(2),
   // new_state(STATE_VECTOR_M) ^ (x >> 1) ^ mag((x & 1)+1)
@@ -315,13 +315,13 @@ static TAB_NUM t_lambda_do[] = {
   // x & 1)+1)
   var_std__plus, 2, LOCAL(4), num_1, 1, LOCAL(5),
   // mag((x & 1)+1)
-  list_44_0, 1, LOCAL(5), 1, LOCAL(6),
+  list_44_3, 1, LOCAL(5), 1, LOCAL(6),
   // new_state(STATE_VECTOR_M) ^ (x >> 1) ^ mag((x & 1)+1)
   var_std__bit_xor, 2, LOCAL(3), LOCAL(6), 1, LOCAL(7),
   // push &new_state new_state(STATE_VECTOR_M) ^ (x >> 1) ^ mag((x & 1)+1)
-  var_push, 2, var_47_1_new_state, LOCAL(7), 1, var_47_1_new_state,
+  var_push, 2, var_47_8_new_state, LOCAL(7), 1, var_47_8_new_state,
   // -> new_state 1
-  LET, 2, var_47_1_new_state, num_1, TAIL_CALL,
+  LET, 2, var_47_8_new_state, num_1, TAIL_CALL,
   POS(77, 13),
   POS(77, 13),
   POS(78, 13),
@@ -342,26 +342,26 @@ static TAB_NUM t_lambda_6[] = {
   0, // locals
   0, // parameters
   // -> state index
-  LET, 2, var_42_1_state, var_43_1_index, TAIL_CALL,
+  LET, 2, var_42_4_state, var_43_4_index, TAIL_CALL,
   POS(82, 7)
 };
 
 static TAB_NUM t_func_std__mersenne_twister[] = {
   3, // locals
   1, // parameters
-  LOCAL(3), // 99_0_seed
+  LOCAL(3), // 99_5_seed
   // seed & 0xffffffff)
   var_std__bit_and, 2, LOCAL(3), num_0xffffffff, 1, LOCAL(1),
   // $initial_state list(seed & 0xffffffff)
-  var_list, 1, LOCAL(1), 1, var_101_1_initial_state,
+  var_list, 1, LOCAL(1), 1, var_101_4_initial_state,
   // STATE_VECTOR_LENGTH-1
   var_std__minus, 2, num_624, num_1, 1, LOCAL(1),
   // repeat !initial_state STATE_VECTOR_LENGTH-1
-  var_repeat, 3, LOCAL(1), lambda_7, lambda_8, 1, var_101_1_initial_state,
+  var_repeat, 3, LOCAL(1), lambda_7, lambda_8, 1, var_101_4_initial_state,
   // STATE_VECTOR_LENGTH+1
   var_std__plus, 2, num_624, num_1, 1, LOCAL(1),
   // std_types::mersenne_twister
-  LET, -2, var_std_types__mersenne_twister, var_state_of, var_101_1_initial_state, var_index_of, LOCAL(1), LOCAL(2),
+  LET, -2, var_std_types__mersenne_twister, var_state_of, var_101_4_initial_state, var_index_of, LOCAL(1), LOCAL(2),
   // ->
   LET, 1, LOCAL(2), TAIL_CALL,
   POS(101, 23),
@@ -377,13 +377,13 @@ static TAB_NUM t_lambda_7[] = {
   3, // locals
   0, // parameters
   // initial_state(-1) & 0xffffffff
-  var_101_1_initial_state, 1, minus_num_1, 1, LOCAL(1),
+  var_101_4_initial_state, 1, minus_num_1, 1, LOCAL(1),
   // 6069*initial_state(-1) & 0xffffffff
   var_std__times, 2, num_6069, LOCAL(1), 1, LOCAL(2),
   // 6069*initial_state(-1) & 0xffffffff
   var_std__bit_and, 2, LOCAL(2), num_0xffffffff, 1, LOCAL(3),
   // push &initial_state 6069*initial_state(-1) & 0xffffffff
-  var_push, 2, var_101_1_initial_state, LOCAL(3), 1, var_101_1_initial_state,
+  var_push, 2, var_101_4_initial_state, LOCAL(3), 1, var_101_4_initial_state,
   // next
   var_next, 0, TAIL_CALL,
   POS(104, 32),
@@ -397,11 +397,11 @@ static TAB_NUM t_lambda_8[] = {
   0, // locals
   0, // parameters
   //  initial_state
-  LET, 1, var_101_1_initial_state, TAIL_CALL,
+  LET, 1, var_101_4_initial_state, TAIL_CALL,
   POS(106, 7)
 };
 
-static int list_44_0_arguments[] = {
+static int list_44_3_arguments[] = {
   -num_0x0, -num_0x9908b0df
 };
 
@@ -416,7 +416,7 @@ static FUNKY_CONSTANT constants_table[] = {
   {FLT_FUNCTION, 0, {.tfunc = t_func_std_types__mersenne_twister___next_raw_value}},
   {FLT_POSITIVE_INT64, 0, {.value = 0x0}},
   {FLT_POSITIVE_INT64, 0, {.value = 0x9908b0df}},
-  {FLT_LIST, 2, {.arguments = list_44_0_arguments}},
+  {FLT_LIST, 2, {.arguments = list_44_3_arguments}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_1}},
   {FLT_POSITIVE_INT64, 0, {.value = 1}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_2}},
@@ -487,11 +487,11 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "42_1_state\000", NULL
+    "42_4_state\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "43_1_index\000", NULL
+    "43_4_index\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
@@ -505,7 +505,7 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "47_1_new_state\000", NULL
+    "47_8_new_state\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
@@ -584,7 +584,7 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "101_1_initial_state\000", NULL
+    "101_4_initial_state\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,

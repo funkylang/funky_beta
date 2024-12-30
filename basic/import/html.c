@@ -7,7 +7,7 @@
 #include "runtime/memory.h"
 
 enum {
-  tuple_25_0 = -1,
+  tuple_25_1 = -1,
   func_std__from_html = -2,
   str_area = -3,
   str_base = -4,
@@ -143,9 +143,9 @@ enum {
   var_false, // extern
   var_is_a_void_element, // derived
   var_std__from_html, // initialized
-  var_38_18_text, // dynamic
+  var_38_19_text, // dynamic
   var_hash_set, // extern
-  var_56_18_element, // dynamic
+  var_56_21_element, // dynamic
   var_is_defined, // extern
   var_WHITESPACE, // extern
   var_some, // extern
@@ -154,44 +154,44 @@ enum {
   var_PARSE_ERROR, // extern
   var_error, // extern
   var_if, // extern
-  var_63_14_text, // dynamic
-  var_64_1_i, // dynamic
-  var_65_1_n, // dynamic
+  var_63_15_text, // dynamic
+  var_64_4_i, // dynamic
+  var_65_4_n, // dynamic
   var_length_of, // extern
   var_range, // extern
   var_std__less, // extern
-  var_75_1_chr, // dynamic
+  var_75_12_chr, // dynamic
   var_std__not, // extern
   var_inc, // extern
   var_next, // extern
   var_std__equal, // extern
-  var_84_14_tag, // dynamic
-  var_85_26_attributes, // dynamic
+  var_84_33_tag, // dynamic
+  var_85_45_attributes, // dynamic
   var_std__or, // extern
   var_typed_tuple, // extern
-  var_96_19_contents, // dynamic
+  var_96_46_contents, // dynamic
   var_std__plus, // extern
-  var_103_1_element, // dynamic
-  var_107_1_bti, // dynamic
+  var_103_32_element, // dynamic
+  var_107_32_bti, // dynamic
   var_plus, // extern
   var_loop, // extern
-  var_136_1_s, // dynamic
-  var_142_1_chr, // dynamic
+  var_136_6_s, // dynamic
+  var_142_12_chr, // dynamic
   var_std__minus, // extern
-  var_151_1_attributes, // dynamic
+  var_151_6_attributes, // dynamic
   var_empty_insert_order_table, // extern
-  var_157_1_chr, // dynamic
-  var_167_25_name, // dynamic
-  var_178_1_s, // dynamic
-  var_184_1_chr, // dynamic
-  var_198_1_chr, // dynamic
-  var_202_1_s, // dynamic
-  var_223_1_s, // dynamic
+  var_157_12_chr, // dynamic
+  var_167_44_name, // dynamic
+  var_178_6_s, // dynamic
+  var_184_12_chr, // dynamic
+  var_198_12_chr, // dynamic
+  var_202_16_s, // dynamic
+  var_223_20_s, // dynamic
   var_case, // extern
-  var_239_1_contents, // dynamic
+  var_239_6_contents, // dynamic
   var_empty_list, // extern
   var_push, // extern
-  var_261_1_s, // dynamic
+  var_261_6_s, // dynamic
   var__END
 };
 
@@ -199,13 +199,13 @@ enum {
 static TAB_NUM t_func_std__from_html[] = {
   2, // locals
   1, // parameters
-  var_38_18_text,
+  var_38_19_text,
   // !is_a_void_element
   var_hash_set, 15, str_area, str_base, str_br, str_col, str_embed, str_hr, str_img, str_input, str_keygen, str_link, str_meta, str_param, str_source, str_track, str_wbr, 1, var_is_a_void_element,
   // parse_html &text $element
-  func_parse_html, 1, var_38_18_text, 2, var_38_18_text, var_56_18_element,
+  func_parse_html, 1, var_38_19_text, 2, var_38_19_text, var_56_21_element,
   // is_defined && text .matches. some(WHITESPACE)
-  var_is_defined, 1, var_56_18_element, 1, LOCAL(1),
+  var_is_defined, 1, var_56_21_element, 1, LOCAL(1),
   // is_defined && text .matches. some(WHITESPACE)
   var_std__and, 2, LOCAL(1), lambda_1, 1, LOCAL(2),
   // if
@@ -223,7 +223,7 @@ static TAB_NUM t_lambda_1[] = {
   // some(WHITESPACE)
   var_some, 1, var_WHITESPACE, 1, LOCAL(1),
   // text .matches. some(WHITESPACE)
-  var_matches, 2, var_38_18_text, LOCAL(1), 1, LOCAL(2),
+  var_matches, 2, var_38_19_text, LOCAL(1), 1, LOCAL(2),
   // text .matches. some(WHITESPACE)
   LET, 1, LOCAL(2), TAIL_CALL,
   POS(58, 42),
@@ -235,7 +235,7 @@ static TAB_NUM t_lambda_2[] = {
   0, // locals
   0, // parameters
   //  element
-  LET, 1, var_56_18_element, TAIL_CALL,
+  LET, 1, var_56_21_element, TAIL_CALL,
   POS(59, 7)
 };
 
@@ -243,22 +243,22 @@ static TAB_NUM t_lambda_3[] = {
   0, // locals
   0, // parameters
   // error PARSE_ERROR "Unexpected input" text
-  var_error, 3, var_PARSE_ERROR, str_Unexpected_input, var_38_18_text, TAIL_CALL,
+  var_error, 3, var_PARSE_ERROR, str_Unexpected_input, var_38_19_text, TAIL_CALL,
   POS(61, 7)
 };
 
 static TAB_NUM t_func_parse_html[] = {
   2, // locals
   1, // parameters
-  var_63_14_text,
+  var_63_15_text,
   // $i 1
-  LET, 1, num_1, 1, var_64_1_i,
+  LET, 1, num_1, 1, var_64_4_i,
   // $n length_of(text)
-  var_length_of, 1, var_63_14_text, 1, var_65_1_n,
+  var_length_of, 1, var_63_15_text, 1, var_65_4_n,
   // parse_element !i $top_level_element
-  func_parse_element, 0, 2, var_64_1_i, LOCAL(2),
+  func_parse_element, 0, 2, var_64_4_i, LOCAL(2),
   // range(text i n) top_level_element
-  var_range, 3, var_63_14_text, var_64_1_i, var_65_1_n, 1, LOCAL(1),
+  var_range, 3, var_63_15_text, var_64_4_i, var_65_4_n, 1, LOCAL(1),
   // -> range(text i n) top_level_element
   LET, 2, LOCAL(1), LOCAL(2), TAIL_CALL,
   POS(64, 3),
@@ -280,7 +280,7 @@ static TAB_NUM t_lambda_loop[] = {
   1, // locals
   0, // parameters
   // n
-  var_std__less, 2, var_65_1_n, var_64_1_i, 1, LOCAL(1),
+  var_std__less, 2, var_65_4_n, var_64_4_i, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_4, lambda_5, TAIL_CALL,
   POS(72, 13),
@@ -299,9 +299,9 @@ static TAB_NUM t_lambda_5[] = {
   2, // locals
   0, // parameters
   // $chr text(i)
-  var_63_14_text, 1, var_64_1_i, 1, var_75_1_chr,
+  var_63_15_text, 1, var_64_4_i, 1, var_75_12_chr,
   //  ':
-  var_std__less, 2, chr_32, var_75_1_chr, 1, LOCAL(1),
+  var_std__less, 2, chr_32, var_75_12_chr, 1, LOCAL(1),
   //  ':
   var_std__not, 1, LOCAL(1), 1, LOCAL(2),
   // if
@@ -316,7 +316,7 @@ static TAB_NUM t_lambda_6[] = {
   0, // locals
   0, // parameters
   // inc &i
-  var_inc, 1, var_64_1_i, 1, var_64_1_i,
+  var_inc, 1, var_64_4_i, 1, var_64_4_i,
   // next
   var_next, 0, TAIL_CALL,
   POS(78, 15),
@@ -327,7 +327,7 @@ static TAB_NUM t_lambda_7[] = {
   1, // locals
   0, // parameters
   // chr == '<':
-  var_std__equal, 2, var_75_1_chr, chr_60, 1, LOCAL(1),
+  var_std__equal, 2, var_75_12_chr, chr_60, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_8, lambda_22, TAIL_CALL,
   POS(82, 17),
@@ -338,13 +338,13 @@ static TAB_NUM t_lambda_8[] = {
   2, // locals
   0, // parameters
   // inc &i
-  var_inc, 1, var_64_1_i, 1, var_64_1_i,
+  var_inc, 1, var_64_4_i, 1, var_64_4_i,
   // parse_tag !i $tag
-  func_parse_tag, 0, 2, var_64_1_i, var_84_14_tag,
+  func_parse_tag, 0, 2, var_64_4_i, var_84_33_tag,
   // parse_attributes text !i $attributes
-  func_parse_attributes, 1, var_63_14_text, 2, var_64_1_i, var_85_26_attributes,
+  func_parse_attributes, 1, var_63_15_text, 2, var_64_4_i, var_85_45_attributes,
   // n || text(i) != '>'
-  var_std__less, 2, var_65_1_n, var_64_1_i, 1, LOCAL(1),
+  var_std__less, 2, var_65_4_n, var_64_4_i, 1, LOCAL(1),
   // n || text(i) != '>'
   var_std__or, 2, LOCAL(1), lambda_9, 1, LOCAL(2),
   // if
@@ -361,7 +361,7 @@ static TAB_NUM t_lambda_9[] = {
   3, // locals
   0, // parameters
   // text(i) != '>'
-  var_63_14_text, 1, var_64_1_i, 1, LOCAL(1),
+  var_63_15_text, 1, var_64_4_i, 1, LOCAL(1),
   // text(i) != '>'
   var_std__equal, 2, LOCAL(1), chr_62, 1, LOCAL(2),
   // text(i) != '>'
@@ -378,7 +378,7 @@ static TAB_NUM t_lambda_10[] = {
   1, // locals
   0, // parameters
   // range(text i -1)
-  var_range, 3, var_63_14_text, var_64_1_i, minus_num_1, 1, LOCAL(1),
+  var_range, 3, var_63_15_text, var_64_4_i, minus_num_1, 1, LOCAL(1),
   // error PARSE_ERROR "Expected '>'" range(text i -1)
   var_error, 3, var_PARSE_ERROR, str_Expected, LOCAL(1), TAIL_CALL,
   POS(89, 56),
@@ -389,9 +389,9 @@ static TAB_NUM t_lambda_11[] = {
   1, // locals
   0, // parameters
   // inc &i
-  var_inc, 1, var_64_1_i, 1, var_64_1_i,
+  var_inc, 1, var_64_4_i, 1, var_64_4_i,
   // is_a_void_element(tag)
-  var_is_a_void_element, 1, var_84_14_tag, 1, LOCAL(1),
+  var_is_a_void_element, 1, var_84_33_tag, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_12, lambda_13, TAIL_CALL,
   POS(91, 23),
@@ -403,9 +403,9 @@ static TAB_NUM t_lambda_12[] = {
   1, // locals
   0, // parameters
   // typed_tuple(std_types::html_element tag attributes undefined)
-  var_typed_tuple, 4, var_std_types__html_element, var_84_14_tag, var_85_26_attributes, var_undefined, 1, LOCAL(1),
+  var_typed_tuple, 4, var_std_types__html_element, var_84_33_tag, var_85_45_attributes, var_undefined, 1, LOCAL(1),
   //  i typed_tuple(std_types::html_element tag attributes undefined)
-  LET, 2, var_64_1_i, LOCAL(1), TAIL_CALL,
+  LET, 2, var_64_4_i, LOCAL(1), TAIL_CALL,
   POS(94, 30),
   POS(94, 27)
 };
@@ -414,11 +414,11 @@ static TAB_NUM t_lambda_13[] = {
   3, // locals
   0, // parameters
   // parse_contents !i $contents
-  func_parse_contents, 0, 2, var_64_1_i, var_96_19_contents,
+  func_parse_contents, 0, 2, var_64_4_i, var_96_46_contents,
   // i+1 > n || text(i) != '<' || text(i+1) != '/':
-  var_std__plus, 2, var_64_1_i, num_1, 1, LOCAL(1),
+  var_std__plus, 2, var_64_4_i, num_1, 1, LOCAL(1),
   // n || text(i) != '<' || text(i+1) != '/':
-  var_std__less, 2, var_65_1_n, LOCAL(1), 1, LOCAL(2),
+  var_std__less, 2, var_65_4_n, LOCAL(1), 1, LOCAL(2),
   // n || text(i) != '<' || text(i+1) != '/':
   var_std__or, 2, LOCAL(2), lambda_14, 1, LOCAL(3),
   // if
@@ -434,7 +434,7 @@ static TAB_NUM t_lambda_14[] = {
   4, // locals
   0, // parameters
   // text(i) != '<' || text(i+1) != '/':
-  var_63_14_text, 1, var_64_1_i, 1, LOCAL(1),
+  var_63_15_text, 1, var_64_4_i, 1, LOCAL(1),
   // text(i) != '<' || text(i+1) != '/':
   var_std__equal, 2, LOCAL(1), chr_60, 1, LOCAL(2),
   // text(i) != '<' || text(i+1) != '/':
@@ -454,9 +454,9 @@ static TAB_NUM t_lambda_15[] = {
   4, // locals
   0, // parameters
   // i+1) != '/':
-  var_std__plus, 2, var_64_1_i, num_1, 1, LOCAL(1),
+  var_std__plus, 2, var_64_4_i, num_1, 1, LOCAL(1),
   // text(i+1) != '/':
-  var_63_14_text, 1, LOCAL(1), 1, LOCAL(2),
+  var_63_15_text, 1, LOCAL(1), 1, LOCAL(2),
   // text(i+1) != '/':
   var_std__equal, 2, LOCAL(2), chr_47, 1, LOCAL(3),
   // text(i+1) != '/':
@@ -474,7 +474,7 @@ static TAB_NUM t_lambda_16[] = {
   1, // locals
   0, // parameters
   // range(text i -1)
-  var_range, 3, var_63_14_text, var_64_1_i, minus_num_1, 1, LOCAL(1),
+  var_range, 3, var_63_15_text, var_64_4_i, minus_num_1, 1, LOCAL(1),
   // error PARSE_ERROR
   var_error, 3, var_PARSE_ERROR, str_Expected_closing, LOCAL(1), TAIL_CALL,
   POS(101, 33),
@@ -485,15 +485,15 @@ static TAB_NUM t_lambda_17[] = {
   3, // locals
   0, // parameters
   // $element
-  var_typed_tuple, 4, var_std_types__html_element, var_84_14_tag, var_85_26_attributes, var_96_19_contents, 1, var_103_1_element,
+  var_typed_tuple, 4, var_std_types__html_element, var_84_33_tag, var_85_45_attributes, var_96_46_contents, 1, var_103_32_element,
   // $bti i # backtrack position
-  LET, 1, var_64_1_i, 1, var_107_1_bti,
+  LET, 1, var_64_4_i, 1, var_107_32_bti,
   // plus &i 2
-  var_plus, 2, var_64_1_i, num_2, 1, var_64_1_i,
+  var_plus, 2, var_64_4_i, num_2, 1, var_64_4_i,
   // parse_tag !i $end_tag
-  func_parse_tag, 0, 2, var_64_1_i, LOCAL(3),
+  func_parse_tag, 0, 2, var_64_4_i, LOCAL(3),
   // end_tag != tag
-  var_std__equal, 2, LOCAL(3), var_84_14_tag, 1, LOCAL(1),
+  var_std__equal, 2, LOCAL(3), var_84_33_tag, 1, LOCAL(1),
   // end_tag != tag
   var_std__not, 1, LOCAL(1), 1, LOCAL(2),
   // if
@@ -511,7 +511,7 @@ static TAB_NUM t_lambda_18[] = {
   0, // locals
   0, // parameters
   //  bti element
-  LET, 2, var_107_1_bti, var_103_1_element, TAIL_CALL,
+  LET, 2, var_107_32_bti, var_103_32_element, TAIL_CALL,
   POS(112, 35)
 };
 
@@ -519,7 +519,7 @@ static TAB_NUM t_lambda_19[] = {
   3, // locals
   0, // parameters
   // text(i) != '>'
-  var_63_14_text, 1, var_64_1_i, 1, LOCAL(1),
+  var_63_15_text, 1, var_64_4_i, 1, LOCAL(1),
   // text(i) != '>'
   var_std__equal, 2, LOCAL(1), chr_62, 1, LOCAL(2),
   // text(i) != '>'
@@ -536,7 +536,7 @@ static TAB_NUM t_lambda_20[] = {
   1, // locals
   0, // parameters
   // range(text i -1)
-  var_range, 3, var_63_14_text, var_64_1_i, minus_num_1, 1, LOCAL(1),
+  var_range, 3, var_63_15_text, var_64_4_i, minus_num_1, 1, LOCAL(1),
   // error PARSE_ERROR
   var_error, 3, var_PARSE_ERROR, str_Expected, LOCAL(1), TAIL_CALL,
   POS(125, 41),
@@ -547,9 +547,9 @@ static TAB_NUM t_lambda_21[] = {
   1, // locals
   0, // parameters
   // i+1 element
-  var_std__plus, 2, var_64_1_i, num_1, 1, LOCAL(1),
+  var_std__plus, 2, var_64_4_i, num_1, 1, LOCAL(1),
   //  i+1 element
-  LET, 2, LOCAL(1), var_103_1_element, TAIL_CALL,
+  LET, 2, LOCAL(1), var_103_32_element, TAIL_CALL,
   POS(126, 40),
   POS(126, 39)
 };
@@ -558,7 +558,7 @@ static TAB_NUM t_lambda_22[] = {
   2, // locals
   0, // parameters
   //  ':
-  var_std__less, 2, chr_32, var_75_1_chr, 1, LOCAL(1),
+  var_std__less, 2, chr_32, var_75_12_chr, 1, LOCAL(1),
   //  ':
   var_std__not, 1, LOCAL(1), 1, LOCAL(2),
   // if
@@ -572,7 +572,7 @@ static TAB_NUM t_lambda_23[] = {
   0, // locals
   0, // parameters
   // inc &i
-  var_inc, 1, var_64_1_i, 1, var_64_1_i,
+  var_inc, 1, var_64_4_i, 1, var_64_4_i,
   // next
   var_next, 0, TAIL_CALL,
   POS(130, 23),
@@ -583,7 +583,7 @@ static TAB_NUM t_lambda_24[] = {
   1, // locals
   0, // parameters
   // range(text i -1)
-  var_range, 3, var_63_14_text, var_64_1_i, minus_num_1, 1, LOCAL(1),
+  var_range, 3, var_63_15_text, var_64_4_i, minus_num_1, 1, LOCAL(1),
   // error PARSE_ERROR "Expected '<'" range(text i -1)
   var_error, 3, var_PARSE_ERROR, str_Expected_2, LOCAL(1), TAIL_CALL,
   POS(133, 56),
@@ -594,7 +594,7 @@ static TAB_NUM t_func_parse_tag[] = {
   0, // locals
   0, // parameters
   // $s i
-  LET, 1, var_64_1_i, 1, var_136_1_s,
+  LET, 1, var_64_4_i, 1, var_136_6_s,
   // loop:
   var_loop, 1, lambda_2_loop, TAIL_CALL,
   POS(136, 5),
@@ -605,7 +605,7 @@ static TAB_NUM t_lambda_2_loop[] = {
   1, // locals
   0, // parameters
   // n:
-  var_std__less, 2, var_65_1_n, var_64_1_i, 1, LOCAL(1),
+  var_std__less, 2, var_65_4_n, var_64_4_i, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_25, lambda_26, TAIL_CALL,
   POS(139, 13),
@@ -616,7 +616,7 @@ static TAB_NUM t_lambda_25[] = {
   1, // locals
   0, // parameters
   // range(text s -1)
-  var_range, 3, var_63_14_text, var_136_1_s, minus_num_1, 1, LOCAL(1),
+  var_range, 3, var_63_15_text, var_136_6_s, minus_num_1, 1, LOCAL(1),
   // error PARSE_ERROR "Expected '>'" range(text s -1)
   var_error, 3, var_PARSE_ERROR, str_Expected, LOCAL(1), TAIL_CALL,
   POS(140, 44),
@@ -627,9 +627,9 @@ static TAB_NUM t_lambda_26[] = {
   3, // locals
   0, // parameters
   // $chr text(i)
-  var_63_14_text, 1, var_64_1_i, 1, var_142_1_chr,
+  var_63_15_text, 1, var_64_4_i, 1, var_142_12_chr,
   //  ' || chr == '>'
-  var_std__less, 2, chr_32, var_142_1_chr, 1, LOCAL(1),
+  var_std__less, 2, chr_32, var_142_12_chr, 1, LOCAL(1),
   //  ' || chr == '>'
   var_std__not, 1, LOCAL(1), 1, LOCAL(2),
   //  ' || chr == '>'
@@ -647,7 +647,7 @@ static TAB_NUM t_lambda_27[] = {
   1, // locals
   0, // parameters
   // chr == '>'
-  var_std__equal, 2, var_142_1_chr, chr_62, 1, LOCAL(1),
+  var_std__equal, 2, var_142_12_chr, chr_62, 1, LOCAL(1),
   // chr == '>'
   LET, 1, LOCAL(1), TAIL_CALL,
   POS(144, 27),
@@ -658,11 +658,11 @@ static TAB_NUM t_lambda_28[] = {
   2, // locals
   0, // parameters
   // i-1)
-  var_std__minus, 2, var_64_1_i, num_1, 1, LOCAL(1),
+  var_std__minus, 2, var_64_4_i, num_1, 1, LOCAL(1),
   // range(text s i-1)
-  var_range, 3, var_63_14_text, var_136_1_s, LOCAL(1), 1, LOCAL(2),
+  var_range, 3, var_63_15_text, var_136_6_s, LOCAL(1), 1, LOCAL(2),
   //  i range(text s i-1)
-  LET, 2, var_64_1_i, LOCAL(2), TAIL_CALL,
+  LET, 2, var_64_4_i, LOCAL(2), TAIL_CALL,
   POS(145, 31),
   POS(145, 18),
   POS(145, 15)
@@ -672,7 +672,7 @@ static TAB_NUM t_lambda_29[] = {
   0, // locals
   0, // parameters
   // inc &i
-  var_inc, 1, var_64_1_i, 1, var_64_1_i,
+  var_inc, 1, var_64_4_i, 1, var_64_4_i,
   // next
   var_next, 0, TAIL_CALL,
   POS(147, 15),
@@ -683,7 +683,7 @@ static TAB_NUM t_func_parse_attributes[] = {
   0, // locals
   0, // parameters
   // $attributes empty_insert_order_table
-  LET, 1, var_empty_insert_order_table, 1, var_151_1_attributes,
+  LET, 1, var_empty_insert_order_table, 1, var_151_6_attributes,
   // loop:
   var_loop, 1, lambda_3_loop, TAIL_CALL,
   POS(151, 5),
@@ -694,7 +694,7 @@ static TAB_NUM t_lambda_3_loop[] = {
   1, // locals
   0, // parameters
   // n
-  var_std__less, 2, var_65_1_n, var_64_1_i, 1, LOCAL(1),
+  var_std__less, 2, var_65_4_n, var_64_4_i, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_30, lambda_31, TAIL_CALL,
   POS(154, 13),
@@ -705,7 +705,7 @@ static TAB_NUM t_lambda_30[] = {
   0, // locals
   0, // parameters
   //  i attributes
-  LET, 2, var_64_1_i, var_151_1_attributes, TAIL_CALL,
+  LET, 2, var_64_4_i, var_151_6_attributes, TAIL_CALL,
   POS(155, 11)
 };
 
@@ -713,9 +713,9 @@ static TAB_NUM t_lambda_31[] = {
   1, // locals
   0, // parameters
   // $chr text(i)
-  var_63_14_text, 1, var_64_1_i, 1, var_157_1_chr,
+  var_63_15_text, 1, var_64_4_i, 1, var_157_12_chr,
   // chr == '>'
-  var_std__equal, 2, var_157_1_chr, chr_62, 1, LOCAL(1),
+  var_std__equal, 2, var_157_12_chr, chr_62, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_32, lambda_33, TAIL_CALL,
   POS(157, 11),
@@ -727,7 +727,7 @@ static TAB_NUM t_lambda_32[] = {
   0, // locals
   0, // parameters
   //  i attributes
-  LET, 2, var_64_1_i, var_151_1_attributes, TAIL_CALL,
+  LET, 2, var_64_4_i, var_151_6_attributes, TAIL_CALL,
   POS(160, 15)
 };
 
@@ -735,7 +735,7 @@ static TAB_NUM t_lambda_33[] = {
   2, // locals
   0, // parameters
   //  ':
-  var_std__less, 2, chr_32, var_157_1_chr, 1, LOCAL(1),
+  var_std__less, 2, chr_32, var_157_12_chr, 1, LOCAL(1),
   //  ':
   var_std__not, 1, LOCAL(1), 1, LOCAL(2),
   // if
@@ -749,7 +749,7 @@ static TAB_NUM t_lambda_34[] = {
   0, // locals
   0, // parameters
   // inc &i
-  var_inc, 1, var_64_1_i, 1, var_64_1_i,
+  var_inc, 1, var_64_4_i, 1, var_64_4_i,
   // next
   var_next, 0, TAIL_CALL,
   POS(164, 19),
@@ -760,9 +760,9 @@ static TAB_NUM t_lambda_35[] = {
   2, // locals
   0, // parameters
   // parse_attribute_name !i $name
-  func_parse_attribute_name, 0, 2, var_64_1_i, var_167_25_name,
+  func_parse_attribute_name, 0, 2, var_64_4_i, var_167_44_name,
   // n || text(i) != '='
-  var_std__less, 2, var_65_1_n, var_64_1_i, 1, LOCAL(1),
+  var_std__less, 2, var_65_4_n, var_64_4_i, 1, LOCAL(1),
   // n || text(i) != '='
   var_std__or, 2, LOCAL(1), lambda_36, 1, LOCAL(2),
   // if
@@ -777,7 +777,7 @@ static TAB_NUM t_lambda_36[] = {
   3, // locals
   0, // parameters
   // text(i) != '='
-  var_63_14_text, 1, var_64_1_i, 1, LOCAL(1),
+  var_63_15_text, 1, var_64_4_i, 1, LOCAL(1),
   // text(i) != '='
   var_std__equal, 2, LOCAL(1), chr_61, 1, LOCAL(2),
   // text(i) != '='
@@ -794,7 +794,7 @@ static TAB_NUM t_lambda_37[] = {
   0, // locals
   0, // parameters
   //  i undefined
-  LET, 2, var_64_1_i, var_undefined, TAIL_CALL,
+  LET, 2, var_64_4_i, var_undefined, TAIL_CALL,
   POS(170, 23)
 };
 
@@ -802,11 +802,11 @@ static TAB_NUM t_lambda_38[] = {
   1, // locals
   0, // parameters
   // inc &i
-  var_inc, 1, var_64_1_i, 1, var_64_1_i,
+  var_inc, 1, var_64_4_i, 1, var_64_4_i,
   // parse_attribute_value !i $value
-  func_parse_attribute_value, 0, 2, var_64_1_i, LOCAL(1),
+  func_parse_attribute_value, 0, 2, var_64_4_i, LOCAL(1),
   // attributes(name) value
-  var_151_1_attributes, 2, var_167_25_name, LOCAL(1), 1, var_151_1_attributes,
+  var_151_6_attributes, 2, var_167_44_name, LOCAL(1), 1, var_151_6_attributes,
   // next
   var_next, 0, TAIL_CALL,
   POS(172, 23),
@@ -819,7 +819,7 @@ static TAB_NUM t_func_parse_attribute_name[] = {
   0, // locals
   0, // parameters
   // $s i
-  LET, 1, var_64_1_i, 1, var_178_1_s,
+  LET, 1, var_64_4_i, 1, var_178_6_s,
   // loop:
   var_loop, 1, lambda_4_loop, TAIL_CALL,
   POS(178, 5),
@@ -830,7 +830,7 @@ static TAB_NUM t_lambda_4_loop[] = {
   1, // locals
   0, // parameters
   // n:
-  var_std__less, 2, var_65_1_n, var_64_1_i, 1, LOCAL(1),
+  var_std__less, 2, var_65_4_n, var_64_4_i, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_39, lambda_40, TAIL_CALL,
   POS(181, 13),
@@ -841,7 +841,7 @@ static TAB_NUM t_lambda_39[] = {
   1, // locals
   0, // parameters
   // range(text s -1)
-  var_range, 3, var_63_14_text, var_178_1_s, minus_num_1, 1, LOCAL(1),
+  var_range, 3, var_63_15_text, var_178_6_s, minus_num_1, 1, LOCAL(1),
   // error PARSE_ERROR "Unexpected end of input" range(text s -1)
   var_error, 3, var_PARSE_ERROR, str_Unexpected_end_o, LOCAL(1), TAIL_CALL,
   POS(182, 55),
@@ -852,9 +852,9 @@ static TAB_NUM t_lambda_40[] = {
   3, // locals
   0, // parameters
   // $chr text(i)
-  var_63_14_text, 1, var_64_1_i, 1, var_184_1_chr,
+  var_63_15_text, 1, var_64_4_i, 1, var_184_12_chr,
   //  ' || chr == '=' || chr == '>'
-  var_std__less, 2, chr_32, var_184_1_chr, 1, LOCAL(1),
+  var_std__less, 2, chr_32, var_184_12_chr, 1, LOCAL(1),
   //  ' || chr == '=' || chr == '>'
   var_std__not, 1, LOCAL(1), 1, LOCAL(2),
   //  ' || chr == '=' || chr == '>'
@@ -872,7 +872,7 @@ static TAB_NUM t_lambda_41[] = {
   2, // locals
   0, // parameters
   // chr == '=' || chr == '>'
-  var_std__equal, 2, var_184_1_chr, chr_61, 1, LOCAL(1),
+  var_std__equal, 2, var_184_12_chr, chr_61, 1, LOCAL(1),
   // chr == '=' || chr == '>'
   var_std__or, 2, LOCAL(1), lambda_42, 1, LOCAL(2),
   // chr == '=' || chr == '>'
@@ -886,7 +886,7 @@ static TAB_NUM t_lambda_42[] = {
   1, // locals
   0, // parameters
   // chr == '>'
-  var_std__equal, 2, var_184_1_chr, chr_62, 1, LOCAL(1),
+  var_std__equal, 2, var_184_12_chr, chr_62, 1, LOCAL(1),
   // chr == '>'
   LET, 1, LOCAL(1), TAIL_CALL,
   POS(186, 41),
@@ -897,11 +897,11 @@ static TAB_NUM t_lambda_43[] = {
   2, // locals
   0, // parameters
   // i-1)
-  var_std__minus, 2, var_64_1_i, num_1, 1, LOCAL(1),
+  var_std__minus, 2, var_64_4_i, num_1, 1, LOCAL(1),
   // range(text s i-1)
-  var_range, 3, var_63_14_text, var_178_1_s, LOCAL(1), 1, LOCAL(2),
+  var_range, 3, var_63_15_text, var_178_6_s, LOCAL(1), 1, LOCAL(2),
   //  i range(text s i-1)
-  LET, 2, var_64_1_i, LOCAL(2), TAIL_CALL,
+  LET, 2, var_64_4_i, LOCAL(2), TAIL_CALL,
   POS(187, 31),
   POS(187, 18),
   POS(187, 15)
@@ -911,7 +911,7 @@ static TAB_NUM t_lambda_44[] = {
   0, // locals
   0, // parameters
   // inc &i
-  var_inc, 1, var_64_1_i, 1, var_64_1_i,
+  var_inc, 1, var_64_4_i, 1, var_64_4_i,
   // next
   var_next, 0, TAIL_CALL,
   POS(189, 15),
@@ -930,7 +930,7 @@ static TAB_NUM t_lambda_5_loop[] = {
   1, // locals
   0, // parameters
   // n:
-  var_std__less, 2, var_65_1_n, var_64_1_i, 1, LOCAL(1),
+  var_std__less, 2, var_65_4_n, var_64_4_i, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_45, lambda_46, TAIL_CALL,
   POS(195, 13),
@@ -941,7 +941,7 @@ static TAB_NUM t_lambda_45[] = {
   1, // locals
   0, // parameters
   // range(text i -1)
-  var_range, 3, var_63_14_text, var_64_1_i, minus_num_1, 1, LOCAL(1),
+  var_range, 3, var_63_15_text, var_64_4_i, minus_num_1, 1, LOCAL(1),
   // error PARSE_ERROR "Unexpected end of input" range(text i -1)
   var_error, 3, var_PARSE_ERROR, str_Unexpected_end_o, LOCAL(1), TAIL_CALL,
   POS(196, 55),
@@ -952,9 +952,9 @@ static TAB_NUM t_lambda_46[] = {
   1, // locals
   0, // parameters
   // $chr text(i)
-  var_63_14_text, 1, var_64_1_i, 1, var_198_1_chr,
+  var_63_15_text, 1, var_64_4_i, 1, var_198_12_chr,
   // chr == '@quot;':
-  var_std__equal, 2, var_198_1_chr, chr_34, 1, LOCAL(1),
+  var_std__equal, 2, var_198_12_chr, chr_34, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_47, lambda_52, TAIL_CALL,
   POS(198, 11),
@@ -966,9 +966,9 @@ static TAB_NUM t_lambda_47[] = {
   0, // locals
   0, // parameters
   // inc &i
-  var_inc, 1, var_64_1_i, 1, var_64_1_i,
+  var_inc, 1, var_64_4_i, 1, var_64_4_i,
   // $s i
-  LET, 1, var_64_1_i, 1, var_202_1_s,
+  LET, 1, var_64_4_i, 1, var_202_16_s,
   // loop:
   var_loop, 1, lambda_6_loop, TAIL_CALL,
   POS(201, 15),
@@ -980,7 +980,7 @@ static TAB_NUM t_lambda_6_loop[] = {
   1, // locals
   0, // parameters
   // n:
-  var_std__less, 2, var_65_1_n, var_64_1_i, 1, LOCAL(1),
+  var_std__less, 2, var_65_4_n, var_64_4_i, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_48, lambda_49, TAIL_CALL,
   POS(205, 23),
@@ -991,7 +991,7 @@ static TAB_NUM t_lambda_48[] = {
   1, // locals
   0, // parameters
   // range(text i -1)
-  var_range, 3, var_63_14_text, var_64_1_i, minus_num_1, 1, LOCAL(1),
+  var_range, 3, var_63_15_text, var_64_4_i, minus_num_1, 1, LOCAL(1),
   // error PARSE_ERROR "Unexpected end of input" range(text i -1)
   var_error, 3, var_PARSE_ERROR, str_Unexpected_end_o, LOCAL(1), TAIL_CALL,
   POS(206, 65),
@@ -1002,9 +1002,9 @@ static TAB_NUM t_lambda_49[] = {
   1, // locals
   0, // parameters
   // !chr text(i)
-  var_63_14_text, 1, var_64_1_i, 1, var_198_1_chr,
+  var_63_15_text, 1, var_64_4_i, 1, var_198_12_chr,
   // chr == '@quot;'
-  var_std__equal, 2, var_198_1_chr, chr_34, 1, LOCAL(1),
+  var_std__equal, 2, var_198_12_chr, chr_34, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_50, lambda_51, TAIL_CALL,
   POS(208, 21),
@@ -1016,11 +1016,11 @@ static TAB_NUM t_lambda_50[] = {
   3, // locals
   0, // parameters
   // i+1 range(text s i-1)
-  var_std__plus, 2, var_64_1_i, num_1, 1, LOCAL(1),
+  var_std__plus, 2, var_64_4_i, num_1, 1, LOCAL(1),
   // i-1)
-  var_std__minus, 2, var_64_1_i, num_1, 1, LOCAL(2),
+  var_std__minus, 2, var_64_4_i, num_1, 1, LOCAL(2),
   // range(text s i-1)
-  var_range, 3, var_63_14_text, var_202_1_s, LOCAL(2), 1, LOCAL(3),
+  var_range, 3, var_63_15_text, var_202_16_s, LOCAL(2), 1, LOCAL(3),
   //  i+1 range(text s i-1)
   LET, 2, LOCAL(1), LOCAL(3), TAIL_CALL,
   POS(211, 26),
@@ -1033,7 +1033,7 @@ static TAB_NUM t_lambda_51[] = {
   0, // locals
   0, // parameters
   // inc &i
-  var_inc, 1, var_64_1_i, 1, var_64_1_i,
+  var_inc, 1, var_64_4_i, 1, var_64_4_i,
   // next
   var_next, 0, TAIL_CALL,
   POS(213, 25),
@@ -1044,7 +1044,7 @@ static TAB_NUM t_lambda_52[] = {
   0, // locals
   0, // parameters
   // case chr
-  var_case, 6, var_198_1_chr, chr_32, lambda_53, chr_62, lambda_54, lambda_55, TAIL_CALL,
+  var_case, 6, var_198_12_chr, chr_32, lambda_53, chr_62, lambda_54, lambda_55, TAIL_CALL,
   POS(216, 15)
 };
 
@@ -1052,7 +1052,7 @@ static TAB_NUM t_lambda_53[] = {
   0, // locals
   0, // parameters
   // inc &i
-  var_inc, 1, var_64_1_i, 1, var_64_1_i,
+  var_inc, 1, var_64_4_i, 1, var_64_4_i,
   // next
   var_next, 0, TAIL_CALL,
   POS(218, 19),
@@ -1063,7 +1063,7 @@ static TAB_NUM t_lambda_54[] = {
   1, // locals
   0, // parameters
   // range(text i -1)
-  var_range, 3, var_63_14_text, var_64_1_i, minus_num_1, 1, LOCAL(1),
+  var_range, 3, var_63_15_text, var_64_4_i, minus_num_1, 1, LOCAL(1),
   // error PARSE_ERROR "Expected attribute value" range(text i -1)
   var_error, 3, var_PARSE_ERROR, str_Expected_attribu, LOCAL(1), TAIL_CALL,
   POS(221, 64),
@@ -1074,9 +1074,9 @@ static TAB_NUM t_lambda_55[] = {
   0, // locals
   0, // parameters
   // $s i
-  LET, 1, var_64_1_i, 1, var_223_1_s,
+  LET, 1, var_64_4_i, 1, var_223_20_s,
   // inc &i
-  var_inc, 1, var_64_1_i, 1, var_64_1_i,
+  var_inc, 1, var_64_4_i, 1, var_64_4_i,
   // loop:
   var_loop, 1, lambda_7_loop, TAIL_CALL,
   POS(223, 19),
@@ -1088,7 +1088,7 @@ static TAB_NUM t_lambda_7_loop[] = {
   1, // locals
   0, // parameters
   // n
-  var_std__less, 2, var_65_1_n, var_64_1_i, 1, LOCAL(1),
+  var_std__less, 2, var_65_4_n, var_64_4_i, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_56, lambda_57, TAIL_CALL,
   POS(227, 27),
@@ -1099,11 +1099,11 @@ static TAB_NUM t_lambda_56[] = {
   2, // locals
   0, // parameters
   // i-1)
-  var_std__minus, 2, var_64_1_i, num_1, 1, LOCAL(1),
+  var_std__minus, 2, var_64_4_i, num_1, 1, LOCAL(1),
   // range(text s i-1)
-  var_range, 3, var_63_14_text, var_223_1_s, LOCAL(1), 1, LOCAL(2),
+  var_range, 3, var_63_15_text, var_223_20_s, LOCAL(1), 1, LOCAL(2),
   //  i range(text s i-1)
-  LET, 2, var_64_1_i, LOCAL(2), TAIL_CALL,
+  LET, 2, var_64_4_i, LOCAL(2), TAIL_CALL,
   POS(228, 41),
   POS(228, 28),
   POS(228, 25)
@@ -1113,9 +1113,9 @@ static TAB_NUM t_lambda_57[] = {
   3, // locals
   0, // parameters
   // !chr text(i)
-  var_63_14_text, 1, var_64_1_i, 1, var_198_1_chr,
+  var_63_15_text, 1, var_64_4_i, 1, var_198_12_chr,
   //  ' || chr == '>'
-  var_std__less, 2, chr_32, var_198_1_chr, 1, LOCAL(1),
+  var_std__less, 2, chr_32, var_198_12_chr, 1, LOCAL(1),
   //  ' || chr == '>'
   var_std__not, 1, LOCAL(1), 1, LOCAL(2),
   //  ' || chr == '>'
@@ -1133,7 +1133,7 @@ static TAB_NUM t_lambda_58[] = {
   1, // locals
   0, // parameters
   // chr == '>'
-  var_std__equal, 2, var_198_1_chr, chr_62, 1, LOCAL(1),
+  var_std__equal, 2, var_198_12_chr, chr_62, 1, LOCAL(1),
   // chr == '>'
   LET, 1, LOCAL(1), TAIL_CALL,
   POS(232, 41),
@@ -1144,11 +1144,11 @@ static TAB_NUM t_lambda_59[] = {
   2, // locals
   0, // parameters
   // i-1)
-  var_std__minus, 2, var_64_1_i, num_1, 1, LOCAL(1),
+  var_std__minus, 2, var_64_4_i, num_1, 1, LOCAL(1),
   // range(text s i-1)
-  var_range, 3, var_63_14_text, var_223_1_s, LOCAL(1), 1, LOCAL(2),
+  var_range, 3, var_63_15_text, var_223_20_s, LOCAL(1), 1, LOCAL(2),
   //  i range(text s i-1)
-  LET, 2, var_64_1_i, LOCAL(2), TAIL_CALL,
+  LET, 2, var_64_4_i, LOCAL(2), TAIL_CALL,
   POS(233, 45),
   POS(233, 32),
   POS(233, 29)
@@ -1158,7 +1158,7 @@ static TAB_NUM t_lambda_60[] = {
   0, // locals
   0, // parameters
   // inc &i
-  var_inc, 1, var_64_1_i, 1, var_64_1_i,
+  var_inc, 1, var_64_4_i, 1, var_64_4_i,
   // next
   var_next, 0, TAIL_CALL,
   POS(235, 29),
@@ -1169,7 +1169,7 @@ static TAB_NUM t_func_parse_contents[] = {
   0, // locals
   0, // parameters
   // $contents empty_list
-  LET, 1, var_empty_list, 1, var_239_1_contents,
+  LET, 1, var_empty_list, 1, var_239_6_contents,
   // loop:
   var_loop, 1, lambda_8_loop, TAIL_CALL,
   POS(239, 5),
@@ -1180,7 +1180,7 @@ static TAB_NUM t_lambda_8_loop[] = {
   1, // locals
   0, // parameters
   // n
-  var_std__less, 2, var_65_1_n, var_64_1_i, 1, LOCAL(1),
+  var_std__less, 2, var_65_4_n, var_64_4_i, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_61, lambda_62, TAIL_CALL,
   POS(242, 13),
@@ -1191,7 +1191,7 @@ static TAB_NUM t_lambda_61[] = {
   0, // locals
   0, // parameters
   //  i contents
-  LET, 2, var_64_1_i, var_239_1_contents, TAIL_CALL,
+  LET, 2, var_64_4_i, var_239_6_contents, TAIL_CALL,
   POS(243, 11)
 };
 
@@ -1199,7 +1199,7 @@ static TAB_NUM t_lambda_62[] = {
   2, // locals
   0, // parameters
   // $chr text(i)
-  var_63_14_text, 1, var_64_1_i, 1, LOCAL(2),
+  var_63_15_text, 1, var_64_4_i, 1, LOCAL(2),
   // chr == '<':
   var_std__equal, 2, LOCAL(2), chr_60, 1, LOCAL(1),
   // if
@@ -1213,9 +1213,9 @@ static TAB_NUM t_lambda_63[] = {
   3, // locals
   0, // parameters
   // i+1 < n && text(i+1) == '/'
-  var_std__plus, 2, var_64_1_i, num_1, 1, LOCAL(1),
+  var_std__plus, 2, var_64_4_i, num_1, 1, LOCAL(1),
   // i+1 < n && text(i+1) == '/'
-  var_std__less, 2, LOCAL(1), var_65_1_n, 1, LOCAL(2),
+  var_std__less, 2, LOCAL(1), var_65_4_n, 1, LOCAL(2),
   // i+1 < n && text(i+1) == '/'
   var_std__and, 2, LOCAL(2), lambda_64, 1, LOCAL(3),
   // if
@@ -1230,9 +1230,9 @@ static TAB_NUM t_lambda_64[] = {
   3, // locals
   0, // parameters
   // i+1) == '/'
-  var_std__plus, 2, var_64_1_i, num_1, 1, LOCAL(1),
+  var_std__plus, 2, var_64_4_i, num_1, 1, LOCAL(1),
   // text(i+1) == '/'
-  var_63_14_text, 1, LOCAL(1), 1, LOCAL(2),
+  var_63_15_text, 1, LOCAL(1), 1, LOCAL(2),
   // text(i+1) == '/'
   var_std__equal, 2, LOCAL(2), chr_47, 1, LOCAL(3),
   // text(i+1) == '/'
@@ -1247,7 +1247,7 @@ static TAB_NUM t_lambda_65[] = {
   0, // locals
   0, // parameters
   //  i contents
-  LET, 2, var_64_1_i, var_239_1_contents, TAIL_CALL,
+  LET, 2, var_64_4_i, var_239_6_contents, TAIL_CALL,
   POS(250, 19)
 };
 
@@ -1255,9 +1255,9 @@ static TAB_NUM t_lambda_66[] = {
   1, // locals
   0, // parameters
   // parse_element !i $element
-  func_parse_element, 0, 2, var_64_1_i, LOCAL(1),
+  func_parse_element, 0, 2, var_64_4_i, LOCAL(1),
   // push &contents element
-  var_push, 2, var_239_1_contents, LOCAL(1), 1, var_239_1_contents,
+  var_push, 2, var_239_6_contents, LOCAL(1), 1, var_239_6_contents,
   // next
   var_next, 0, TAIL_CALL,
   POS(252, 19),
@@ -1269,9 +1269,9 @@ static TAB_NUM t_lambda_67[] = {
   1, // locals
   0, // parameters
   // parse_simple_text !i $simple_text
-  func_parse_simple_text, 0, 2, var_64_1_i, LOCAL(1),
+  func_parse_simple_text, 0, 2, var_64_4_i, LOCAL(1),
   // push &contents simple_text
-  var_push, 2, var_239_1_contents, LOCAL(1), 1, var_239_1_contents,
+  var_push, 2, var_239_6_contents, LOCAL(1), 1, var_239_6_contents,
   // next
   var_next, 0, TAIL_CALL,
   POS(256, 15),
@@ -1283,7 +1283,7 @@ static TAB_NUM t_func_parse_simple_text[] = {
   0, // locals
   0, // parameters
   // $s i
-  LET, 1, var_64_1_i, 1, var_261_1_s,
+  LET, 1, var_64_4_i, 1, var_261_6_s,
   // loop:
   var_loop, 1, lambda_9_loop, TAIL_CALL,
   POS(261, 5),
@@ -1294,7 +1294,7 @@ static TAB_NUM t_lambda_9_loop[] = {
   1, // locals
   0, // parameters
   // n
-  var_std__less, 2, var_65_1_n, var_64_1_i, 1, LOCAL(1),
+  var_std__less, 2, var_65_4_n, var_64_4_i, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_68, lambda_69, TAIL_CALL,
   POS(264, 13),
@@ -1305,11 +1305,11 @@ static TAB_NUM t_lambda_68[] = {
   2, // locals
   0, // parameters
   // i-1)
-  var_std__minus, 2, var_64_1_i, num_1, 1, LOCAL(1),
+  var_std__minus, 2, var_64_4_i, num_1, 1, LOCAL(1),
   // range(text s i-1)
-  var_range, 3, var_63_14_text, var_261_1_s, LOCAL(1), 1, LOCAL(2),
+  var_range, 3, var_63_15_text, var_261_6_s, LOCAL(1), 1, LOCAL(2),
   //  i range(text s i-1)
-  LET, 2, var_64_1_i, LOCAL(2), TAIL_CALL,
+  LET, 2, var_64_4_i, LOCAL(2), TAIL_CALL,
   POS(265, 27),
   POS(265, 14),
   POS(265, 11)
@@ -1319,7 +1319,7 @@ static TAB_NUM t_lambda_69[] = {
   2, // locals
   0, // parameters
   // $chr text(i)
-  var_63_14_text, 1, var_64_1_i, 1, LOCAL(2),
+  var_63_15_text, 1, var_64_4_i, 1, LOCAL(2),
   // chr == '<':
   var_std__equal, 2, LOCAL(2), chr_60, 1, LOCAL(1),
   // if
@@ -1333,11 +1333,11 @@ static TAB_NUM t_lambda_70[] = {
   2, // locals
   0, // parameters
   // i-1)
-  var_std__minus, 2, var_64_1_i, num_1, 1, LOCAL(1),
+  var_std__minus, 2, var_64_4_i, num_1, 1, LOCAL(1),
   // range(text s i-1)
-  var_range, 3, var_63_14_text, var_261_1_s, LOCAL(1), 1, LOCAL(2),
+  var_range, 3, var_63_15_text, var_261_6_s, LOCAL(1), 1, LOCAL(2),
   // -> i range(text s i-1)
-  LET, 2, var_64_1_i, LOCAL(2), TAIL_CALL,
+  LET, 2, var_64_4_i, LOCAL(2), TAIL_CALL,
   POS(270, 33),
   POS(270, 20),
   POS(270, 15)
@@ -1347,19 +1347,19 @@ static TAB_NUM t_lambda_71[] = {
   0, // locals
   0, // parameters
   // inc &i
-  var_inc, 1, var_64_1_i, 1, var_64_1_i,
+  var_inc, 1, var_64_4_i, 1, var_64_4_i,
   // next
   var_next, 0, TAIL_CALL,
   POS(272, 15),
   POS(273, 15)
 };
 
-static int tuple_25_0_arguments[] = {
+static int tuple_25_1_arguments[] = {
   -var_undefined, -var_undefined, -var_undefined
 };
 
 static FUNKY_CONSTANT constants_table[] = {
-  {FLT_TUPLE, 3, {.arguments = tuple_25_0_arguments}},
+  {FLT_TUPLE, 3, {.arguments = tuple_25_1_arguments}},
   {FLT_FUNCTION, 0, {.tfunc = t_func_std__from_html}},
   {FLT_STRING_8, 4, {.str_8 = "area"}},
   {FLT_STRING_8, 4, {.str_8 = "base"}},
@@ -1494,7 +1494,7 @@ static FUNKY_VARIABLE variables_table[] = {
   {
     FOT_INITIALIZED, 0, 1,
     "html_element\000std_types", std_types__html_element__attributes,
-    {.const_idx = -tuple_25_0}
+    {.const_idx = -tuple_25_1}
   },
   {
     FOT_UNKNOWN, 0, 0,
@@ -1548,7 +1548,7 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "38_18_text\000", NULL
+    "38_19_text\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
@@ -1557,7 +1557,7 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "56_18_element\000", NULL
+    "56_21_element\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
@@ -1601,15 +1601,15 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "63_14_text\000", NULL
+    "63_15_text\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "64_1_i\000", NULL
+    "64_4_i\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "65_1_n\000", NULL
+    "65_4_n\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
@@ -1628,7 +1628,7 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "75_1_chr\000", NULL
+    "75_12_chr\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
@@ -1652,11 +1652,11 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "84_14_tag\000", NULL
+    "84_33_tag\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "85_26_attributes\000", NULL
+    "85_45_attributes\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
@@ -1670,7 +1670,7 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "96_19_contents\000", NULL
+    "96_46_contents\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
@@ -1679,11 +1679,11 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "103_1_element\000", NULL
+    "103_32_element\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "107_1_bti\000", NULL
+    "107_32_bti\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
@@ -1697,11 +1697,11 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "136_1_s\000", NULL
+    "136_6_s\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "142_1_chr\000", NULL
+    "142_12_chr\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
@@ -1710,7 +1710,7 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "151_1_attributes\000", NULL
+    "151_6_attributes\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
@@ -1719,31 +1719,31 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "157_1_chr\000", NULL
+    "157_12_chr\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "167_25_name\000", NULL
+    "167_44_name\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "178_1_s\000", NULL
+    "178_6_s\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "184_1_chr\000", NULL
+    "184_12_chr\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "198_1_chr\000", NULL
+    "198_12_chr\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "202_1_s\000", NULL
+    "202_16_s\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "223_1_s\000", NULL
+    "223_20_s\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
@@ -1752,7 +1752,7 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "239_1_contents\000", NULL
+    "239_6_contents\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
@@ -1766,7 +1766,7 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "261_1_s\000", NULL
+    "261_6_s\000", NULL
   }
 };
 

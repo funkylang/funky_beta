@@ -48,29 +48,29 @@ enum {
 enum {
   var__START = FIRST_VAR-1,
   var_std__cond, // initialized
-  var_83_0_args, // dynamic
-  var_85_1_i, // dynamic
+  var_83_5_args, // dynamic
+  var_85_4_i, // dynamic
   var_std__assign, // extern
-  var_86_1_n, // dynamic
+  var_86_4_n, // dynamic
   var_length_of, // extern
   var_std__less, // extern
   var_std__not, // extern
-  var_92_15_body, // dynamic
+  var_92_24_body, // dynamic
   var_std__plus, // extern
   var_if, // extern
   var_pass, // extern
   var_std__case, // initialized
-  var_145_0_expr, // dynamic
-  var_146_0_values_and_bodies, // dynamic
-  var_149_1_n, // dynamic
-  var_150_1_i, // dynamic
+  var_145_5_expr, // dynamic
+  var_146_5_values_and_bodies, // dynamic
+  var_149_4_n, // dynamic
+  var_150_4_i, // dynamic
   var_is_a_function, // extern
   var_test_function, // derived
   var_inc, // extern
   var_std__equal, // extern
   var_passes_test, // attribute
   var_plus, // extern
-  var_185_1_value, // dynamic
+  var_185_18_value, // dynamic
   var_is_defined, // extern
   var_does_match, // attribute
   var_std__and, // extern
@@ -79,16 +79,16 @@ enum {
   var_std_types__object, // extern
   var_equal, // extern
   var_std_types__value_range, // extern
-  var_200_42_expr, // dynamic
-  var_201_19_upper_bound, // dynamic
+  var_200_43_expr, // dynamic
+  var_201_22_upper_bound, // dynamic
   var_std_types__sequence, // extern
-  var_204_39_expr, // dynamic
+  var_204_40_expr, // dynamic
   var_true, // extern
   var_next, // extern
   var_false, // extern
   var_for_each, // extern
   var_undefined, // extern
-  var_219_40_expr, // dynamic
+  var_219_41_expr, // dynamic
   var__END
 };
 
@@ -96,11 +96,11 @@ enum {
 static TAB_NUM t_func_std__cond[] = {
   0, // locals
   -1, // parameters
-  REST_PARAMETER, var_83_0_args,
+  REST_PARAMETER, var_83_5_args,
   // $i 1
-  LET, 1, num_1, 1, var_85_1_i,
+  LET, 1, num_1, 1, var_85_4_i,
   // $n length_of(args)
-  var_length_of, 1, var_83_0_args, 1, var_86_1_n,
+  var_length_of, 1, var_83_5_args, 1, var_86_4_n,
   // check!
   func_check, 0, IO_TAIL_CALL,
   POS(85, 3),
@@ -112,7 +112,7 @@ static TAB_NUM t_func_check[] = {
   2, // locals
   0, // parameters
   // n:
-  var_std__less, 2, var_86_1_n, var_85_1_i, 1, LOCAL(1),
+  var_std__less, 2, var_86_4_n, var_85_4_i, 1, LOCAL(1),
   // n:
   var_std__not, 1, LOCAL(1), 1, LOCAL(2),
   // if
@@ -126,9 +126,9 @@ static TAB_NUM t_lambda_1[] = {
   2, // locals
   0, // parameters
   // args(i) $cond $body
-  var_83_0_args, 1, var_85_1_i, 1, LOCAL(1),
+  var_83_5_args, 1, var_85_4_i, 1, LOCAL(1),
   // args(i) $cond $body
-  LOCAL(1), 0, 2, LOCAL(2), var_92_15_body,
+  LOCAL(1), 0, 2, LOCAL(2), var_92_24_body,
   // if
   var_if, 3, LOCAL(2), lambda_2, lambda_3, IO_TAIL_CALL,
   POS(92, 9),
@@ -140,7 +140,7 @@ static TAB_NUM t_lambda_2[] = {
   0, // locals
   0, // parameters
   // body!
-  var_92_15_body, 0, IO_TAIL_CALL,
+  var_92_24_body, 0, IO_TAIL_CALL,
   POS(96, 13)
 };
 
@@ -148,7 +148,7 @@ static TAB_NUM t_lambda_3[] = {
   0, // locals
   0, // parameters
   // !i i+1
-  var_std__plus, 2, var_85_1_i, num_1, 1, var_85_1_i,
+  var_std__plus, 2, var_85_4_i, num_1, 1, var_85_4_i,
   // check!
   func_check, 0, IO_TAIL_CALL,
   POS(98, 13),
@@ -158,14 +158,14 @@ static TAB_NUM t_lambda_3[] = {
 static TAB_NUM t_func_std__case[] = {
   2, // locals
   -2, // parameters
-  MANDATORY_PARAMETER, var_145_0_expr,
-  REST_PARAMETER, var_146_0_values_and_bodies,
+  MANDATORY_PARAMETER, var_145_5_expr,
+  REST_PARAMETER, var_146_5_values_and_bodies,
   // $n length_of(values_and_bodies)
-  var_length_of, 1, var_146_0_values_and_bodies, 1, var_149_1_n,
+  var_length_of, 1, var_146_5_values_and_bodies, 1, var_149_4_n,
   // $i 1
-  LET, 1, num_1, 1, var_150_1_i,
+  LET, 1, num_1, 1, var_150_4_i,
   // values_and_bodies(1).is_a_function:
-  var_146_0_values_and_bodies, 1, num_1, 1, LOCAL(1),
+  var_146_5_values_and_bodies, 1, num_1, 1, LOCAL(1),
   // is_a_function:
   var_is_a_function, 1, LOCAL(1), 1, LOCAL(2),
   // if
@@ -181,9 +181,9 @@ static TAB_NUM t_lambda_values_and_bodies1_is_a_function[] = {
   0, // locals
   0, // parameters
   // !test_function values_and_bodies(1)
-  var_146_0_values_and_bodies, 1, num_1, 1, var_test_function,
+  var_146_5_values_and_bodies, 1, num_1, 1, var_test_function,
   // inc &i
-  var_inc, 1, var_150_1_i, 1, var_150_1_i,
+  var_inc, 1, var_150_4_i, 1, var_150_4_i,
   // check!
   func_2_check, 0, IO_TAIL_CALL,
   POS(153, 7),
@@ -195,7 +195,7 @@ static TAB_NUM t_func_2_check[] = {
   1, // locals
   0, // parameters
   // n
-  var_std__less, 2, var_149_1_n, var_150_1_i, 1, LOCAL(1),
+  var_std__less, 2, var_149_4_n, var_150_4_i, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), var_pass, lambda_4, IO_TAIL_CALL,
   POS(159, 15),
@@ -206,7 +206,7 @@ static TAB_NUM t_lambda_4[] = {
   1, // locals
   0, // parameters
   // i == n:
-  var_std__equal, 2, var_150_1_i, var_149_1_n, 1, LOCAL(1),
+  var_std__equal, 2, var_150_4_i, var_149_4_n, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_5, lambda_6, IO_TAIL_CALL,
   POS(163, 15),
@@ -217,7 +217,7 @@ static TAB_NUM t_lambda_5[] = {
   1, // locals
   0, // parameters
   // values_and_bodies(n)!
-  var_146_0_values_and_bodies, 1, var_149_1_n, 1, LOCAL(1),
+  var_146_5_values_and_bodies, 1, var_149_4_n, 1, LOCAL(1),
   // values_and_bodies(n)!
   LOCAL(1), 0, IO_TAIL_CALL,
   POS(164, 17),
@@ -228,9 +228,9 @@ static TAB_NUM t_lambda_6[] = {
   2, // locals
   0, // parameters
   // $value values_and_bodies(i)
-  var_146_0_values_and_bodies, 1, var_150_1_i, 1, LOCAL(2),
+  var_146_5_values_and_bodies, 1, var_150_4_i, 1, LOCAL(2),
   // passes_test(value expr):
-  var_passes_test, 2, LOCAL(2), var_145_0_expr, 1, LOCAL(1),
+  var_passes_test, 2, LOCAL(2), var_145_5_expr, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_7, lambda_8, IO_TAIL_CALL,
   POS(166, 17),
@@ -242,9 +242,9 @@ static TAB_NUM t_lambda_7[] = {
   2, // locals
   0, // parameters
   // i+1)!
-  var_std__plus, 2, var_150_1_i, num_1, 1, LOCAL(1),
+  var_std__plus, 2, var_150_4_i, num_1, 1, LOCAL(1),
   // values_and_bodies(i+1)!
-  var_146_0_values_and_bodies, 1, LOCAL(1), 1, LOCAL(2),
+  var_146_5_values_and_bodies, 1, LOCAL(1), 1, LOCAL(2),
   // values_and_bodies(i+1)!
   LOCAL(2), 0, IO_TAIL_CALL,
   POS(169, 39),
@@ -256,7 +256,7 @@ static TAB_NUM t_lambda_8[] = {
   0, // locals
   0, // parameters
   // plus &i 2
-  var_plus, 2, var_150_1_i, num_2, 1, var_150_1_i,
+  var_plus, 2, var_150_4_i, num_2, 1, var_150_4_i,
   // check!
   func_2_check, 0, IO_TAIL_CALL,
   POS(171, 21),
@@ -275,7 +275,7 @@ static TAB_NUM t_func_3_check[] = {
   1, // locals
   0, // parameters
   // n
-  var_std__less, 2, var_149_1_n, var_150_1_i, 1, LOCAL(1),
+  var_std__less, 2, var_149_4_n, var_150_4_i, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), var_pass, lambda_10, IO_TAIL_CALL,
   POS(178, 15),
@@ -286,7 +286,7 @@ static TAB_NUM t_lambda_10[] = {
   1, // locals
   0, // parameters
   // i == n:
-  var_std__equal, 2, var_150_1_i, var_149_1_n, 1, LOCAL(1),
+  var_std__equal, 2, var_150_4_i, var_149_4_n, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_11, lambda_12, IO_TAIL_CALL,
   POS(182, 15),
@@ -297,7 +297,7 @@ static TAB_NUM t_lambda_11[] = {
   1, // locals
   0, // parameters
   // values_and_bodies(n)!
-  var_146_0_values_and_bodies, 1, var_149_1_n, 1, LOCAL(1),
+  var_146_5_values_and_bodies, 1, var_149_4_n, 1, LOCAL(1),
   // values_and_bodies(n)!
   LOCAL(1), 0, IO_TAIL_CALL,
   POS(183, 17),
@@ -308,9 +308,9 @@ static TAB_NUM t_lambda_12[] = {
   3, // locals
   0, // parameters
   // $value values_and_bodies(i)
-  var_146_0_values_and_bodies, 1, var_150_1_i, 1, var_185_1_value,
+  var_146_5_values_and_bodies, 1, var_150_4_i, 1, var_185_18_value,
   // is_defined && does_match(value expr)
-  var_is_defined, 1, var_185_1_value, 1, LOCAL(1),
+  var_is_defined, 1, var_185_18_value, 1, LOCAL(1),
   // is_defined && does_match(value expr)
   var_std__and, 2, LOCAL(1), lambda_13, 1, LOCAL(2),
   // 
@@ -328,7 +328,7 @@ static TAB_NUM t_lambda_13[] = {
   1, // locals
   0, // parameters
   // does_match(value expr)
-  var_does_match, 2, var_185_1_value, var_145_0_expr, 1, LOCAL(1),
+  var_does_match, 2, var_185_18_value, var_145_5_expr, 1, LOCAL(1),
   // does_match(value expr)
   LET, 1, LOCAL(1), TAIL_CALL,
   POS(188, 41),
@@ -339,7 +339,7 @@ static TAB_NUM t_lambda_14[] = {
   2, // locals
   0, // parameters
   // is_undefined && expr.is_undefined
-  var_is_undefined, 1, var_185_1_value, 1, LOCAL(1),
+  var_is_undefined, 1, var_185_18_value, 1, LOCAL(1),
   // is_undefined && expr.is_undefined
   var_std__and, 2, LOCAL(1), lambda_15, 1, LOCAL(2),
   // value.is_undefined && expr.is_undefined
@@ -353,7 +353,7 @@ static TAB_NUM t_lambda_15[] = {
   1, // locals
   0, // parameters
   // is_undefined
-  var_is_undefined, 1, var_145_0_expr, 1, LOCAL(1),
+  var_is_undefined, 1, var_145_5_expr, 1, LOCAL(1),
   // expr.is_undefined
   LET, 1, LOCAL(1), TAIL_CALL,
   POS(189, 48),
@@ -364,9 +364,9 @@ static TAB_NUM t_lambda_16[] = {
   2, // locals
   0, // parameters
   // i+1)!
-  var_std__plus, 2, var_150_1_i, num_1, 1, LOCAL(1),
+  var_std__plus, 2, var_150_4_i, num_1, 1, LOCAL(1),
   // values_and_bodies(i+1)!
-  var_146_0_values_and_bodies, 1, LOCAL(1), 1, LOCAL(2),
+  var_146_5_values_and_bodies, 1, LOCAL(1), 1, LOCAL(2),
   // values_and_bodies(i+1)!
   LOCAL(2), 0, IO_TAIL_CALL,
   POS(191, 39),
@@ -378,7 +378,7 @@ static TAB_NUM t_lambda_17[] = {
   0, // locals
   0, // parameters
   // plus &i 2
-  var_plus, 2, var_150_1_i, num_2, 1, var_150_1_i,
+  var_plus, 2, var_150_4_i, num_2, 1, var_150_4_i,
   // check!
   func_3_check, 0, IO_TAIL_CALL,
   POS(193, 21),
@@ -388,12 +388,12 @@ static TAB_NUM t_lambda_17[] = {
 static TAB_NUM t_func_std_types__value_range___does_match[] = {
   5, // locals
   2, // parameters
-  LOCAL(4), // 200_37_self
-  var_200_42_expr,
+  LOCAL(4), // 200_38_self
+  var_200_43_expr,
   // self $lower_bound $upper_bound
-  LOCAL(4), 0, 2, LOCAL(5), var_201_19_upper_bound,
+  LOCAL(4), 0, 2, LOCAL(5), var_201_22_upper_bound,
   // expr >= lower_bound && expr <= upper_bound
-  var_std__less, 2, var_200_42_expr, LOCAL(5), 1, LOCAL(1),
+  var_std__less, 2, var_200_43_expr, LOCAL(5), 1, LOCAL(1),
   // expr >= lower_bound && expr <= upper_bound
   var_std__not, 1, LOCAL(1), 1, LOCAL(2),
   // expr >= lower_bound && expr <= upper_bound
@@ -411,7 +411,7 @@ static TAB_NUM t_lambda_18[] = {
   2, // locals
   0, // parameters
   // upper_bound
-  var_std__less, 2, var_201_19_upper_bound, var_200_42_expr, 1, LOCAL(1),
+  var_std__less, 2, var_201_22_upper_bound, var_200_43_expr, 1, LOCAL(1),
   // upper_bound
   var_std__not, 1, LOCAL(1), 1, LOCAL(2),
   // expr <= upper_bound
@@ -424,8 +424,8 @@ static TAB_NUM t_lambda_18[] = {
 static TAB_NUM t_func_std_types__sequence___does_match[] = {
   1, // locals
   2, // parameters
-  LOCAL(1), // 204_34_self
-  var_204_39_expr,
+  LOCAL(1), // 204_35_self
+  var_204_40_expr,
   // for_each self
   var_for_each, 3, LOCAL(1), lambda_19, lambda_21, TAIL_CALL,
   POS(205, 3)
@@ -434,9 +434,9 @@ static TAB_NUM t_func_std_types__sequence___does_match[] = {
 static TAB_NUM t_lambda_19[] = {
   2, // locals
   1, // parameters
-  LOCAL(2), // 206_3_item
+  LOCAL(2), // 206_8_item
   // does_match(item expr)
-  var_does_match, 2, LOCAL(2), var_204_39_expr, 1, LOCAL(1),
+  var_does_match, 2, LOCAL(2), var_204_40_expr, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_20, var_next, TAIL_CALL,
   POS(208, 9),
@@ -462,8 +462,8 @@ static TAB_NUM t_lambda_21[] = {
 static TAB_NUM t_func_std_types__object___passes_test[] = {
   3, // locals
   2, // parameters
-  LOCAL(2), // 217_33_self
-  LOCAL(3), // 217_38_expr
+  LOCAL(2), // 217_34_self
+  LOCAL(3), // 217_39_expr
   // test_function(expr self)
   var_test_function, 2, LOCAL(3), LOCAL(2), 1, LOCAL(1),
   // -> test_function(expr self)
@@ -475,8 +475,8 @@ static TAB_NUM t_func_std_types__object___passes_test[] = {
 static TAB_NUM t_func_std_types__sequence___passes_test[] = {
   1, // locals
   2, // parameters
-  LOCAL(1), // 219_35_self
-  var_219_40_expr,
+  LOCAL(1), // 219_36_self
+  var_219_41_expr,
   // for_each self
   var_for_each, 3, LOCAL(1), lambda_22, lambda_24, TAIL_CALL,
   POS(220, 3)
@@ -485,9 +485,9 @@ static TAB_NUM t_func_std_types__sequence___passes_test[] = {
 static TAB_NUM t_lambda_22[] = {
   2, // locals
   1, // parameters
-  LOCAL(2), // 221_3_item
+  LOCAL(2), // 221_8_item
   // test_function(expr item)
-  var_test_function, 2, var_219_40_expr, LOCAL(2), 1, LOCAL(1),
+  var_test_function, 2, var_219_41_expr, LOCAL(2), 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_23, var_next, TAIL_CALL,
   POS(223, 9),
@@ -571,11 +571,11 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "83_0_args\000", NULL
+    "83_5_args\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "85_1_i\000", NULL
+    "85_4_i\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
@@ -584,7 +584,7 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "86_1_n\000", NULL
+    "86_4_n\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
@@ -603,7 +603,7 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "92_15_body\000", NULL
+    "92_24_body\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
@@ -627,19 +627,19 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "145_0_expr\000", NULL
+    "145_5_expr\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "146_0_values_and_bodies\000", NULL
+    "146_5_values_and_bodies\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "149_1_n\000", NULL
+    "149_4_n\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "150_1_i\000", NULL
+    "150_4_i\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
@@ -673,7 +673,7 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "185_1_value\000", NULL
+    "185_18_value\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
@@ -717,11 +717,11 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "200_42_expr\000", NULL
+    "200_43_expr\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "201_19_upper_bound\000", NULL
+    "201_22_upper_bound\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 2,
@@ -730,7 +730,7 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "204_39_expr\000", NULL
+    "204_40_expr\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
@@ -759,7 +759,7 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "219_40_expr\000", NULL
+    "219_41_expr\000", NULL
   }
 };
 

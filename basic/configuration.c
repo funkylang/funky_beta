@@ -48,11 +48,11 @@ enum {
   str_yes = -39,
   str_on = -40,
   str_true = -41,
-  sequence_140_1 = -42,
+  sequence_140_22 = -42,
   str_no = -43,
   str_off = -44,
   str_false = -45,
-  sequence_143_1 = -46,
+  sequence_143_22 = -46,
   lambda_17 = -47,
   lambda_18 = -48,
   lambda_19 = -49,
@@ -81,11 +81,11 @@ enum {
   var_std__assign, // extern
   var_std_types__object, // extern
   var_load_configuration, // extern polymorphic
-  var_44_0_configuration, // dynamic
-  var_46_0_fields, // dynamic
-  var_49_1_errors, // dynamic
+  var_44_5_configuration, // dynamic
+  var_46_5_fields, // dynamic
+  var_49_4_errors, // dynamic
   var_empty_list, // extern
-  var_52_7_buf, // dynamic
+  var_52_14_buf, // dynamic
   var_load, // extern
   var_is_an_error, // extern
   var_push, // extern
@@ -95,7 +95,7 @@ enum {
   var_std_types__io, // extern
   var_run, // extern
   var_tuple, // extern
-  var_76_1_filename, // dynamic
+  var_76_4_filename, // dynamic
   var_std__string, // extern
   var_log, // extern
   var_JOB_COMPLETED, // extern
@@ -105,21 +105,21 @@ enum {
   var_register_handlers, // extern
   var_undefined, // extern
   var_deregister_all_handlers, // extern
-  var_92_15_io, // dynamic
-  var_92_18_id, // dynamic
-  var_92_21_err, // dynamic
-  var_92_25_more_filenames, // dynamic
+  var_92_16_io, // dynamic
+  var_92_19_id, // dynamic
+  var_92_22_err, // dynamic
+  var_92_26_more_filenames, // dynamic
   var_is_empty, // extern
-  var_99_1_filename, // dynamic
-  var_107_25_configuration, // dynamic
-  var_107_43_fields, // dynamic
-  var_108_1_errors, // dynamic
+  var_99_8_filename, // dynamic
+  var_107_26_configuration, // dynamic
+  var_107_44_fields, // dynamic
+  var_108_4_errors, // dynamic
   var_length_of, // extern
   var_std__equal, // extern
   var_is_a_list, // extern
   var_std__and, // extern
   var_update_if, // extern
-  var_110_16_tables, // dynamic
+  var_110_19_tables, // dynamic
   var_first, // extern
   var_is_a_string, // extern
   var_filter, // extern
@@ -127,16 +127,16 @@ enum {
   var_from_utf8, // extern
   var_trim_right, // extern
   var_split, // extern
-  var_114_3_no, // dynamic
-  var_114_6_line, // dynamic
+  var_114_8_no, // dynamic
+  var_114_11_line, // dynamic
   var_truncate_from, // extern
   var_normalize, // extern
-  var_121_1_name, // dynamic
-  var_122_1_value, // dynamic
+  var_121_12_name, // dynamic
+  var_122_12_value, // dynamic
   var_behind, // extern
-  var_123_1_attribute_of, // dynamic
+  var_123_12_attribute_of, // dynamic
   var_is_defined, // extern
-  var_126_1_default_value, // dynamic
+  var_126_16_default_value, // dynamic
   var_is_a_number, // extern
   var_to_number, // extern
   var_is_a_boolean, // extern
@@ -145,12 +145,12 @@ enum {
   var_false, // extern
   var_case, // extern
   var_cond, // extern
-  var_155_1_found, // dynamic
-  var_159_1_key, // dynamic
+  var_155_16_found, // dynamic
+  var_159_20_key, // dynamic
   var_break, // extern
-  var_178_31_base_filename, // dynamic
+  var_178_32_base_filename, // dynamic
   var_append, // extern
-  var_180_18_mac_address, // dynamic
+  var_180_21_mac_address, // dynamic
   var_get_mac_address, // extern
   var_list, // extern
   var__END
@@ -160,13 +160,13 @@ enum {
 static TAB_NUM t_func_std_types__object___load_configuration[] = {
   2, // locals
   -3, // parameters
-  MANDATORY_PARAMETER, var_44_0_configuration,
-  MANDATORY_PARAMETER, LOCAL(1), // 45_0_base_filename
-  REST_PARAMETER, var_46_0_fields,
+  MANDATORY_PARAMETER, var_44_5_configuration,
+  MANDATORY_PARAMETER, LOCAL(1), // 45_5_base_filename
+  REST_PARAMETER, var_46_5_fields,
   // get_configuration_filenames! $filenames base_filename
   func_get_configuration_filenames, 1, LOCAL(1), IO_CALL(1), LOCAL(2),
   // $errors empty_list
-  LET, 1, var_empty_list, 1, var_49_1_errors,
+  LET, 1, var_empty_list, 1, var_49_4_errors,
   // for_each filenames
   var_for_each, 3, LOCAL(2), lambda_1, lambda_3, IO_TAIL_CALL,
   POS(48, 3),
@@ -177,11 +177,11 @@ static TAB_NUM t_func_std_types__object___load_configuration[] = {
 static TAB_NUM t_lambda_1[] = {
   2, // locals
   1, // parameters
-  LOCAL(2), // 51_3_filename
+  LOCAL(2), // 51_8_filename
   // load! $buf filename
-  var_load, 1, LOCAL(2), IO_CALL(1), var_52_7_buf,
+  var_load, 1, LOCAL(2), IO_CALL(1), var_52_14_buf,
   // is_an_error:
-  var_is_an_error, 1, var_52_7_buf, 1, LOCAL(1),
+  var_is_an_error, 1, var_52_14_buf, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_buf_is_an_error, lambda_2, IO_TAIL_CALL,
   POS(52, 7),
@@ -193,7 +193,7 @@ static TAB_NUM t_lambda_buf_is_an_error[] = {
   0, // locals
   0, // parameters
   // push &errors buf
-  var_push, 2, var_49_1_errors, var_52_7_buf, 1, var_49_1_errors,
+  var_push, 2, var_49_4_errors, var_52_14_buf, 1, var_49_4_errors,
   // next!
   var_next, 0, IO_TAIL_CALL,
   POS(55, 11),
@@ -204,7 +204,7 @@ static TAB_NUM t_lambda_2[] = {
   0, // locals
   0, // parameters
   // extract_configuration configuration buf fields
-  func_extract_configuration, 3, var_44_0_configuration, var_52_7_buf, var_46_0_fields, TAIL_CALL,
+  func_extract_configuration, 3, var_44_5_configuration, var_52_14_buf, var_46_5_fields, TAIL_CALL,
   POS(58, 11)
 };
 
@@ -212,18 +212,18 @@ static TAB_NUM t_lambda_3[] = {
   0, // locals
   0, // parameters
   //  configuration errors
-  LET, 2, var_44_0_configuration, var_49_1_errors, TAIL_CALL,
+  LET, 2, var_44_5_configuration, var_49_4_errors, TAIL_CALL,
   POS(59, 7)
 };
 
 static TAB_NUM t_func_std_types__io___load_configuration[] = {
   5, // locals
   -5, // parameters
-  MANDATORY_PARAMETER, LOCAL(1), // 65_0_io
-  MANDATORY_PARAMETER, LOCAL(2), // 66_0_id
-  MANDATORY_PARAMETER, LOCAL(3), // 67_0_configuration
-  MANDATORY_PARAMETER, LOCAL(4), // 68_0_base_filename
-  REST_PARAMETER, LOCAL(5), // 69_0_fields
+  MANDATORY_PARAMETER, LOCAL(1), // 65_5_io
+  MANDATORY_PARAMETER, LOCAL(2), // 66_5_id
+  MANDATORY_PARAMETER, LOCAL(3), // 67_5_configuration
+  MANDATORY_PARAMETER, LOCAL(4), // 68_5_base_filename
+  REST_PARAMETER, LOCAL(5), // 69_5_fields
   // run io load_configuration_action id configuration base_filename fields
   var_run, 6, LOCAL(1), func_load_configuration_action, LOCAL(2), LOCAL(3), LOCAL(4), LOCAL(5), TAIL_CALL,
   POS(71, 3)
@@ -232,21 +232,21 @@ static TAB_NUM t_func_std_types__io___load_configuration[] = {
 static TAB_NUM t_func_load_configuration_action[] = {
   12, // locals
   5, // parameters
-  LOCAL(7), // 73_29_io
-  LOCAL(8), // 73_32_id
-  LOCAL(9), // 73_35_configuration
-  LOCAL(10), // 73_49_base_filename
-  LOCAL(11), // 73_63_fields
+  LOCAL(7), // 73_30_io
+  LOCAL(8), // 73_33_id
+  LOCAL(9), // 73_36_configuration
+  LOCAL(10), // 73_50_base_filename
+  LOCAL(11), // 73_64_fields
   // get_configuration_filenames! $filenames base_filename
   func_get_configuration_filenames, 1, LOCAL(10), IO_CALL(1), LOCAL(12),
   // tuple &id 1
   var_tuple, 2, LOCAL(8), num_1, 1, LOCAL(8),
   // $filename filenames(1)
-  LOCAL(12), 1, num_1, 1, var_76_1_filename,
+  LOCAL(12), 1, num_1, 1, var_76_4_filename,
   // log &io 4 -> "
   var_log, 3, LOCAL(7), num_4, lambda_4, 1, LOCAL(7),
   // load &io id filename
-  var_load, 3, LOCAL(7), LOCAL(8), var_76_1_filename, 1, LOCAL(7),
+  var_load, 3, LOCAL(7), LOCAL(8), var_76_4_filename, 1, LOCAL(7),
   // tuple(configuration fields))
   var_tuple, 2, LOCAL(9), LOCAL(11), 1, LOCAL(1),
   // tuple(load_completed tuple(configuration fields))
@@ -282,7 +282,7 @@ static TAB_NUM t_lambda_4[] = {
   1, // locals
   0, // parameters
   // "
-  var_std__string, 3, str_try_to_load_conf, var_76_1_filename, string_1, 1, LOCAL(1),
+  var_std__string, 3, str_try_to_load_conf, var_76_4_filename, string_1, 1, LOCAL(1),
   //  "
   LET, 1, LOCAL(1), TAIL_CALL,
   POS(77, 16),
@@ -292,10 +292,10 @@ static TAB_NUM t_lambda_4[] = {
 static TAB_NUM t_func_load_completed[] = {
   9, // locals
   4, // parameters
-  LOCAL(3), // 85_18_io
-  LOCAL(4), // 85_21_id
-  LOCAL(5), // 85_24_buf
-  LOCAL(6), // 85_28_configuration_info
+  LOCAL(3), // 85_19_io
+  LOCAL(4), // 85_22_id
+  LOCAL(5), // 85_25_buf
+  LOCAL(6), // 85_29_configuration_info
   // deregister_all_handlers &io id
   var_deregister_all_handlers, 2, LOCAL(3), LOCAL(4), 1, LOCAL(3),
   // id !id
@@ -322,12 +322,12 @@ static TAB_NUM t_func_load_completed[] = {
 static TAB_NUM t_func_load_failed[] = {
   1, // locals
   4, // parameters
-  var_92_15_io,
-  var_92_18_id,
-  var_92_21_err,
-  var_92_25_more_filenames,
+  var_92_16_io,
+  var_92_19_id,
+  var_92_22_err,
+  var_92_26_more_filenames,
   // is_empty:
-  var_is_empty, 1, var_92_25_more_filenames, 1, LOCAL(1),
+  var_is_empty, 1, var_92_26_more_filenames, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_more_filenames_is_empty, lambda_5, TAIL_CALL,
   POS(94, 20),
@@ -338,13 +338,13 @@ static TAB_NUM t_lambda_more_filenames_is_empty[] = {
   1, // locals
   0, // parameters
   // deregister_all_handlers &io id
-  var_deregister_all_handlers, 2, var_92_15_io, var_92_18_id, 1, var_92_15_io,
+  var_deregister_all_handlers, 2, var_92_16_io, var_92_19_id, 1, var_92_16_io,
   // id !id
-  var_92_18_id, 0, 1, var_92_18_id,
+  var_92_19_id, 0, 1, var_92_19_id,
   // tuple(JOB_FAILED id err)
-  var_tuple, 3, var_JOB_FAILED, var_92_18_id, var_92_21_err, 1, LOCAL(1),
+  var_tuple, 3, var_JOB_FAILED, var_92_19_id, var_92_22_err, 1, LOCAL(1),
   // -> io tuple(JOB_FAILED id err)
-  LET, 2, var_92_15_io, LOCAL(1), TAIL_CALL,
+  LET, 2, var_92_16_io, LOCAL(1), TAIL_CALL,
   POS(95, 7),
   POS(96, 7),
   POS(97, 13),
@@ -355,21 +355,21 @@ static TAB_NUM t_lambda_5[] = {
   3, // locals
   0, // parameters
   // $filename more_filenames(1)
-  var_92_25_more_filenames, 1, num_1, 1, var_99_1_filename,
+  var_92_26_more_filenames, 1, num_1, 1, var_99_8_filename,
   // log &io 4 -> "
-  var_log, 3, var_92_15_io, num_4, lambda_6, 1, var_92_15_io,
+  var_log, 3, var_92_16_io, num_4, lambda_6, 1, var_92_16_io,
   // load &io id filename
-  var_load, 3, var_92_15_io, var_92_18_id, var_99_1_filename, 1, var_92_15_io,
+  var_load, 3, var_92_16_io, var_92_19_id, var_99_8_filename, 1, var_92_16_io,
   // range(more_filenames 2 -1))
-  var_range, 3, var_92_25_more_filenames, num_2, minus_num_1, 1, LOCAL(1),
+  var_range, 3, var_92_26_more_filenames, num_2, minus_num_1, 1, LOCAL(1),
   // tuple(load_failed range(more_filenames 2 -1))
   var_tuple, 2, func_load_failed, LOCAL(1), 1, LOCAL(2),
   // JOB_FAILED = tuple(load_failed range(more_filenames 2 -1))
   var_std__key_value_pair, 2, var_JOB_FAILED, LOCAL(2), 1, LOCAL(3),
   // register_handlers &io id # replace "failed"-handler
-  var_register_handlers, 3, var_92_15_io, var_92_18_id, LOCAL(3), 1, var_92_15_io,
+  var_register_handlers, 3, var_92_16_io, var_92_19_id, LOCAL(3), 1, var_92_16_io,
   // -> io undefined
-  LET, 2, var_92_15_io, var_undefined, TAIL_CALL,
+  LET, 2, var_92_16_io, var_undefined, TAIL_CALL,
   POS(99, 7),
   POS(100, 7),
   POS(102, 7),
@@ -384,7 +384,7 @@ static TAB_NUM t_lambda_6[] = {
   1, // locals
   0, // parameters
   // "
-  var_std__string, 3, str_try_to_load_conf, var_99_1_filename, string_1, 1, LOCAL(1),
+  var_std__string, 3, str_try_to_load_conf, var_99_8_filename, string_1, 1, LOCAL(1),
   //  "
   LET, 1, LOCAL(1), TAIL_CALL,
   POS(100, 20),
@@ -394,23 +394,23 @@ static TAB_NUM t_lambda_6[] = {
 static TAB_NUM t_func_extract_configuration[] = {
   4, // locals
   3, // parameters
-  var_107_25_configuration,
-  LOCAL(4), // 107_39_buf
-  var_107_43_fields,
+  var_107_26_configuration,
+  LOCAL(4), // 107_40_buf
+  var_107_44_fields,
   // $errors empty_list
-  LET, 1, var_empty_list, 1, var_108_1_errors,
+  LET, 1, var_empty_list, 1, var_108_4_errors,
   // length_of(fields) == 1 && fields(1).is_a_list &fields -> fields(1)
-  var_length_of, 1, var_107_43_fields, 1, LOCAL(1),
+  var_length_of, 1, var_107_44_fields, 1, LOCAL(1),
   // length_of(fields) == 1 && fields(1).is_a_list &fields -> fields(1)
   var_std__equal, 2, LOCAL(1), num_1, 1, LOCAL(2),
   // length_of(fields) == 1 && fields(1).is_a_list &fields -> fields(1)
   var_std__and, 2, LOCAL(2), lambda_7, 1, LOCAL(3),
   // update_if length_of(fields) == 1 && fields(1).is_a_list &fields -> fields(1)
-  var_update_if, 3, LOCAL(3), var_107_43_fields, lambda_8, 1, var_107_43_fields,
+  var_update_if, 3, LOCAL(3), var_107_44_fields, lambda_8, 1, var_107_44_fields,
   // filter &fields $tables: (field) -> first(field).is_a_string
-  var_filter, 2, var_107_43_fields, lambda_9, 2, var_107_43_fields, var_110_16_tables,
+  var_filter, 2, var_107_44_fields, lambda_9, 2, var_107_44_fields, var_110_19_tables,
   // to_hash_table &fields
-  var_to_hash_table, 1, var_107_43_fields, 1, var_107_43_fields,
+  var_to_hash_table, 1, var_107_44_fields, 1, var_107_44_fields,
   // from_utf8 &buf
   var_from_utf8, 1, LOCAL(4), 1, LOCAL(4),
   // trim_right '@nl;')
@@ -436,7 +436,7 @@ static TAB_NUM t_lambda_7[] = {
   2, // locals
   0, // parameters
   // fields(1).is_a_list &fields -> fields(1)
-  var_107_43_fields, 1, num_1, 1, LOCAL(1),
+  var_107_44_fields, 1, num_1, 1, LOCAL(1),
   // is_a_list &fields -> fields(1)
   var_is_a_list, 1, LOCAL(1), 1, LOCAL(2),
   // fields(1).is_a_list &fields -> fields(1)
@@ -450,7 +450,7 @@ static TAB_NUM t_lambda_8[] = {
   1, // locals
   0, // parameters
   // fields(1)
-  var_107_43_fields, 1, num_1, 1, LOCAL(1),
+  var_107_44_fields, 1, num_1, 1, LOCAL(1),
   //  fields(1)
   LET, 1, LOCAL(1), TAIL_CALL,
   POS(109, 70),
@@ -460,7 +460,7 @@ static TAB_NUM t_lambda_8[] = {
 static TAB_NUM t_lambda_9[] = {
   3, // locals
   1, // parameters
-  LOCAL(3), // 110_25_field
+  LOCAL(3), // 110_28_field
   // first(field).is_a_string
   var_first, 1, LOCAL(3), 1, LOCAL(1),
   // is_a_string
@@ -475,14 +475,14 @@ static TAB_NUM t_lambda_9[] = {
 static TAB_NUM t_lambda_10[] = {
   1, // locals
   2, // parameters
-  var_114_3_no,
-  var_114_6_line,
+  var_114_8_no,
+  var_114_11_line,
   // truncate_from &line '#'
-  var_truncate_from, 2, var_114_6_line, chr_35, 1, var_114_6_line,
+  var_truncate_from, 2, var_114_11_line, chr_35, 1, var_114_11_line,
   // normalize &line
-  var_normalize, 1, var_114_6_line, 1, var_114_6_line,
+  var_normalize, 1, var_114_11_line, 1, var_114_11_line,
   // is_empty
-  var_is_empty, 1, var_114_6_line, 1, LOCAL(1),
+  var_is_empty, 1, var_114_11_line, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), var_next, lambda_11, TAIL_CALL,
   POS(115, 7),
@@ -495,13 +495,13 @@ static TAB_NUM t_lambda_11[] = {
   1, // locals
   0, // parameters
   // $name line .truncate_from. ' '
-  var_truncate_from, 2, var_114_6_line, chr_32, 1, var_121_1_name,
+  var_truncate_from, 2, var_114_11_line, chr_32, 1, var_121_12_name,
   // $value line .behind. ' '
-  var_behind, 2, var_114_6_line, chr_32, 1, var_122_1_value,
+  var_behind, 2, var_114_11_line, chr_32, 1, var_122_12_value,
   // $attribute_of fields(name)
-  var_107_43_fields, 1, var_121_1_name, 1, var_123_1_attribute_of,
+  var_107_44_fields, 1, var_121_12_name, 1, var_123_12_attribute_of,
   // is_defined:
-  var_is_defined, 1, var_123_1_attribute_of, 1, LOCAL(1),
+  var_is_defined, 1, var_123_12_attribute_of, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_attribute_of_is_defined, lambda_22, TAIL_CALL,
   POS(121, 11),
@@ -515,7 +515,7 @@ static TAB_NUM t_lambda_attribute_of_is_defined[] = {
   0, // locals
   0, // parameters
   // $default_value attribute_of(configuration)
-  var_123_1_attribute_of, 1, var_107_25_configuration, 1, var_126_1_default_value,
+  var_123_12_attribute_of, 1, var_107_26_configuration, 1, var_126_16_default_value,
   // cond
   var_cond, 3, lambda_12, lambda_15, lambda_20, TAIL_CALL,
   POS(126, 15),
@@ -526,7 +526,7 @@ static TAB_NUM t_lambda_12[] = {
   1, // locals
   0, // parameters
   // is_a_number:
-  var_is_a_number, 1, var_126_1_default_value, 1, LOCAL(1),
+  var_is_a_number, 1, var_126_16_default_value, 1, LOCAL(1),
   //  default_value.is_a_number:
   LET, 2, LOCAL(1), lambda_13, TAIL_CALL,
   POS(128, 34),
@@ -537,9 +537,9 @@ static TAB_NUM t_lambda_13[] = {
   1, // locals
   0, // parameters
   // to_number &value
-  var_to_number, 1, var_122_1_value, 1, var_122_1_value,
+  var_to_number, 1, var_122_12_value, 1, var_122_12_value,
   // is_defined:
-  var_is_defined, 1, var_122_1_value, 1, LOCAL(1),
+  var_is_defined, 1, var_122_12_value, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_value_is_defined, lambda_14, TAIL_CALL,
   POS(129, 19),
@@ -551,7 +551,7 @@ static TAB_NUM t_lambda_value_is_defined[] = {
   0, // locals
   0, // parameters
   // attribute_of &configuration value
-  var_123_1_attribute_of, 2, var_107_25_configuration, var_122_1_value, 1, var_107_25_configuration,
+  var_123_12_attribute_of, 2, var_107_26_configuration, var_122_12_value, 1, var_107_26_configuration,
   // next
   var_next, 0, TAIL_CALL,
   POS(132, 23),
@@ -562,9 +562,9 @@ static TAB_NUM t_lambda_14[] = {
   1, // locals
   0, // parameters
   // "
-  var_std__string, 5, str_Attribute, var_121_1_name, str__should_be_a_num, var_114_3_no, string_2, 1, LOCAL(1),
+  var_std__string, 5, str_Attribute, var_121_12_name, str__should_be_a_num, var_114_8_no, string_2, 1, LOCAL(1),
   // push &errors "
-  var_push, 2, var_108_1_errors, LOCAL(1), 1, var_108_1_errors,
+  var_push, 2, var_108_4_errors, LOCAL(1), 1, var_108_4_errors,
   // next
   var_next, 0, TAIL_CALL,
   POS(135, 36),
@@ -576,7 +576,7 @@ static TAB_NUM t_lambda_15[] = {
   1, // locals
   0, // parameters
   // is_a_boolean:
-  var_is_a_boolean, 1, var_126_1_default_value, 1, LOCAL(1),
+  var_is_a_boolean, 1, var_126_16_default_value, 1, LOCAL(1),
   //  default_value.is_a_boolean:
   LET, 2, LOCAL(1), lambda_16, TAIL_CALL,
   POS(138, 34),
@@ -587,7 +587,7 @@ static TAB_NUM t_lambda_16[] = {
   0, // locals
   0, // parameters
   // case value
-  var_case, 6, var_122_1_value, sequence_140_1, lambda_17, sequence_143_1, lambda_18, lambda_19, TAIL_CALL,
+  var_case, 6, var_122_12_value, sequence_140_22, lambda_17, sequence_143_22, lambda_18, lambda_19, TAIL_CALL,
   POS(139, 19)
 };
 
@@ -595,7 +595,7 @@ static TAB_NUM t_lambda_17[] = {
   0, // locals
   0, // parameters
   // attribute_of &configuration true
-  var_123_1_attribute_of, 2, var_107_25_configuration, var_true, 1, var_107_25_configuration,
+  var_123_12_attribute_of, 2, var_107_26_configuration, var_true, 1, var_107_26_configuration,
   // next
   var_next, 0, TAIL_CALL,
   POS(141, 23),
@@ -606,7 +606,7 @@ static TAB_NUM t_lambda_18[] = {
   0, // locals
   0, // parameters
   // attribute_of &configuration false
-  var_123_1_attribute_of, 2, var_107_25_configuration, var_false, 1, var_107_25_configuration,
+  var_123_12_attribute_of, 2, var_107_26_configuration, var_false, 1, var_107_26_configuration,
   // next
   var_next, 0, TAIL_CALL,
   POS(144, 23),
@@ -617,9 +617,9 @@ static TAB_NUM t_lambda_19[] = {
   1, // locals
   0, // parameters
   // "
-  var_std__string, 5, str_Attribute, var_121_1_name, str__should_be_eithe, var_114_3_no, string_2, 1, LOCAL(1),
+  var_std__string, 5, str_Attribute, var_121_12_name, str__should_be_eithe, var_114_8_no, string_2, 1, LOCAL(1),
   // push &errors "
-  var_push, 2, var_108_1_errors, LOCAL(1), 1, var_108_1_errors,
+  var_push, 2, var_108_4_errors, LOCAL(1), 1, var_108_4_errors,
   // next
   var_next, 0, TAIL_CALL,
   POS(147, 36),
@@ -639,7 +639,7 @@ static TAB_NUM t_lambda_21[] = {
   0, // locals
   0, // parameters
   // attribute_of &configuration value
-  var_123_1_attribute_of, 2, var_107_25_configuration, var_122_1_value, 1, var_107_25_configuration,
+  var_123_12_attribute_of, 2, var_107_26_configuration, var_122_12_value, 1, var_107_26_configuration,
   // next
   var_next, 0, TAIL_CALL,
   POS(152, 19),
@@ -650,9 +650,9 @@ static TAB_NUM t_lambda_22[] = {
   0, // locals
   0, // parameters
   // $found false
-  LET, 1, var_false, 1, var_155_1_found,
+  LET, 1, var_false, 1, var_155_16_found,
   // for_each tables
-  var_for_each, 3, var_110_16_tables, lambda_23, lambda_24, TAIL_CALL,
+  var_for_each, 3, var_110_19_tables, lambda_23, lambda_24, TAIL_CALL,
   POS(155, 15),
   POS(156, 15)
 };
@@ -660,13 +660,13 @@ static TAB_NUM t_lambda_22[] = {
 static TAB_NUM t_lambda_23[] = {
   2, // locals
   1, // parameters
-  LOCAL(2), // 157_3_table
+  LOCAL(2), // 157_20_table
   // table !table !attribute_of
-  LOCAL(2), 0, 2, LOCAL(2), var_123_1_attribute_of,
+  LOCAL(2), 0, 2, LOCAL(2), var_123_12_attribute_of,
   // $key table(name)
-  LOCAL(2), 1, var_121_1_name, 1, var_159_1_key,
+  LOCAL(2), 1, var_121_12_name, 1, var_159_20_key,
   // is_defined:
-  var_is_defined, 1, var_159_1_key, 1, LOCAL(1),
+  var_is_defined, 1, var_159_20_key, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_key_is_defined, var_next, TAIL_CALL,
   POS(158, 19),
@@ -679,13 +679,13 @@ static TAB_NUM t_lambda_key_is_defined[] = {
   1, // locals
   0, // parameters
   // $values attribute_of(configuration)
-  var_123_1_attribute_of, 1, var_107_25_configuration, 1, LOCAL(1),
+  var_123_12_attribute_of, 1, var_107_26_configuration, 1, LOCAL(1),
   // values(key) value
-  LOCAL(1), 2, var_159_1_key, var_122_1_value, 1, LOCAL(1),
+  LOCAL(1), 2, var_159_20_key, var_122_12_value, 1, LOCAL(1),
   // attribute_of &configuration values
-  var_123_1_attribute_of, 2, var_107_25_configuration, LOCAL(1), 1, var_107_25_configuration,
+  var_123_12_attribute_of, 2, var_107_26_configuration, LOCAL(1), 1, var_107_26_configuration,
   // !found true
-  LET, 1, var_true, 1, var_155_1_found,
+  LET, 1, var_true, 1, var_155_16_found,
   // break
   var_break, 0, TAIL_CALL,
   POS(162, 23),
@@ -699,7 +699,7 @@ static TAB_NUM t_lambda_24[] = {
   0, // locals
   0, // parameters
   // if
-  var_if, 3, var_155_1_found, var_next, lambda_25, TAIL_CALL,
+  var_if, 3, var_155_16_found, var_next, lambda_25, TAIL_CALL,
   POS(169, 19)
 };
 
@@ -707,9 +707,9 @@ static TAB_NUM t_lambda_25[] = {
   1, // locals
   0, // parameters
   // "
-  var_std__string, 5, str_Invalid_attribut, var_121_1_name, str__in_line, var_114_3_no, string_3, 1, LOCAL(1),
+  var_std__string, 5, str_Invalid_attribut, var_121_12_name, str__in_line, var_114_8_no, string_3, 1, LOCAL(1),
   // push &errors "
-  var_push, 2, var_108_1_errors, LOCAL(1), 1, var_108_1_errors,
+  var_push, 2, var_108_4_errors, LOCAL(1), 1, var_108_4_errors,
   // next
   var_next, 0, TAIL_CALL,
   POS(173, 36),
@@ -721,20 +721,20 @@ static TAB_NUM t_lambda_26[] = {
   0, // locals
   0, // parameters
   //  configuration errors
-  LET, 2, var_107_25_configuration, var_108_1_errors, TAIL_CALL,
+  LET, 2, var_107_26_configuration, var_108_4_errors, TAIL_CALL,
   POS(176, 7)
 };
 
 static TAB_NUM t_func_get_configuration_filenames[] = {
   3, // locals
   1, // parameters
-  var_178_31_base_filename,
+  var_178_32_base_filename,
   // $default_filename append(base_filename ".cfg")
-  var_append, 2, var_178_31_base_filename, str_cfg, 1, LOCAL(2),
+  var_append, 2, var_178_32_base_filename, str_cfg, 1, LOCAL(2),
   // get_mac_address! $mac_address
-  var_get_mac_address, 0, IO_CALL(1), var_180_18_mac_address,
+  var_get_mac_address, 0, IO_CALL(1), var_180_21_mac_address,
   // is_defined
-  var_is_defined, 1, var_180_18_mac_address, 1, LOCAL(1),
+  var_is_defined, 1, var_180_21_mac_address, 1, LOCAL(1),
   // $filenames
   var_if, 3, LOCAL(1), lambda_27, lambda_28, 1, LOCAL(3),
   // push &filenames default_filename
@@ -753,7 +753,7 @@ static TAB_NUM t_lambda_27[] = {
   2, // locals
   0, // parameters
   // append(base_filename "_" mac_address ".cfg"))
-  var_append, 4, var_178_31_base_filename, string_4, var_180_18_mac_address, str_cfg, 1, LOCAL(1),
+  var_append, 4, var_178_32_base_filename, string_4, var_180_21_mac_address, str_cfg, 1, LOCAL(1),
   // list(append(base_filename "_" mac_address ".cfg"))
   var_list, 1, LOCAL(1), 1, LOCAL(2),
   //  list(append(base_filename "_" mac_address ".cfg"))
@@ -771,11 +771,11 @@ static TAB_NUM t_lambda_28[] = {
   POS(185, 9)
 };
 
-static int sequence_140_1_arguments[] = {
+static int sequence_140_22_arguments[] = {
   -str_yes, -str_on, -str_true
 };
 
-static int sequence_143_1_arguments[] = {
+static int sequence_143_22_arguments[] = {
   -str_no, -str_off, -str_false
 };
 
@@ -821,11 +821,11 @@ static FUNKY_CONSTANT constants_table[] = {
   {FLT_STRING_8, 3, {.str_8 = "yes"}},
   {FLT_STRING_8, 2, {.str_8 = "on"}},
   {FLT_STRING_8, 4, {.str_8 = "true"}},
-  {FLT_SEQUENCE, 3, {.arguments = sequence_140_1_arguments}},
+  {FLT_SEQUENCE, 3, {.arguments = sequence_140_22_arguments}},
   {FLT_STRING_8, 2, {.str_8 = "no"}},
   {FLT_STRING_8, 3, {.str_8 = "off"}},
   {FLT_STRING_8, 5, {.str_8 = "false"}},
-  {FLT_SEQUENCE, 3, {.arguments = sequence_143_1_arguments}},
+  {FLT_SEQUENCE, 3, {.arguments = sequence_143_22_arguments}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_17}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_18}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_19}},
@@ -879,15 +879,15 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "44_0_configuration\000", NULL
+    "44_5_configuration\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "46_0_fields\000", NULL
+    "46_5_fields\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "49_1_errors\000", NULL
+    "49_4_errors\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
@@ -896,7 +896,7 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "52_7_buf\000", NULL
+    "52_14_buf\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
@@ -945,7 +945,7 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "76_1_filename\000", NULL
+    "76_4_filename\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
@@ -994,19 +994,19 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "92_15_io\000", NULL
+    "92_16_io\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "92_18_id\000", NULL
+    "92_19_id\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "92_21_err\000", NULL
+    "92_22_err\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "92_25_more_filenames\000", NULL
+    "92_26_more_filenames\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
@@ -1015,19 +1015,19 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "99_1_filename\000", NULL
+    "99_8_filename\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "107_25_configuration\000", NULL
+    "107_26_configuration\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "107_43_fields\000", NULL
+    "107_44_fields\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "108_1_errors\000", NULL
+    "108_4_errors\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
@@ -1056,7 +1056,7 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "110_16_tables\000", NULL
+    "110_19_tables\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
@@ -1095,11 +1095,11 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "114_3_no\000", NULL
+    "114_8_no\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "114_6_line\000", NULL
+    "114_11_line\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
@@ -1113,11 +1113,11 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "121_1_name\000", NULL
+    "121_12_name\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "122_1_value\000", NULL
+    "122_12_value\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
@@ -1126,7 +1126,7 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "123_1_attribute_of\000", NULL
+    "123_12_attribute_of\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
@@ -1135,7 +1135,7 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "126_1_default_value\000", NULL
+    "126_16_default_value\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
@@ -1179,11 +1179,11 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "155_1_found\000", NULL
+    "155_16_found\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "159_1_key\000", NULL
+    "159_20_key\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
@@ -1192,7 +1192,7 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "178_31_base_filename\000", NULL
+    "178_32_base_filename\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
@@ -1201,7 +1201,7 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "180_18_mac_address\000", NULL
+    "180_21_mac_address\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,

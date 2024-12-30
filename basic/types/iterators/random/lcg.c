@@ -37,7 +37,7 @@ enum {
 static TAB_NUM t_func_std_types__lcg___next_raw_value[] = {
   8, // locals
   1, // parameters
-  LOCAL(7), // 35_33_self
+  LOCAL(7), // 35_34_self
   // multiplier_of(self)*seed_of(self)+increment_of(self))
   var_multiplier_of, 1, LOCAL(7), 1, LOCAL(1),
   // seed_of(self)+increment_of(self))
@@ -70,10 +70,10 @@ static TAB_NUM t_func_std_types__lcg___next_raw_value[] = {
 static TAB_NUM t_func_std__lcg[] = {
   5, // locals
   -4, // parameters
-  MANDATORY_PARAMETER, LOCAL(2), // 46_0_seed
-  num_31974247, LOCAL(3), // 47_0_modulus
-  num_642997, LOCAL(4), // 48_0_multiplier
-  num_7219879, LOCAL(5), // 49_0_increment
+  MANDATORY_PARAMETER, LOCAL(2), // 46_5_seed
+  num_31974247, LOCAL(3), // 47_5_modulus
+  num_642997, LOCAL(4), // 48_5_multiplier
+  num_7219879, LOCAL(5), // 49_5_increment
   // std_types::lcg
   LET, -4, var_std_types__lcg, var_seed_of, LOCAL(2), var_modulus_of, LOCAL(3), var_multiplier_of, LOCAL(4), var_increment_of, LOCAL(5), LOCAL(1),
   // ->

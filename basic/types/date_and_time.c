@@ -33,7 +33,7 @@ enum {
   var__START = FIRST_VAR-1,
   var_std_types__date_and_time, // extern
   var_to_string, // extern polymorphic
-  var_46_1_ts, // dynamic
+  var_46_4_ts, // dynamic
   var_time_shift_of, // extern
   var_std__plus, // extern
   var_second_of, // extern
@@ -59,11 +59,11 @@ enum {
 static TAB_NUM t_func_std_types__date_and_time___to_string[] = {
   20, // locals
   1, // parameters
-  LOCAL(18), // 44_0_self
+  LOCAL(18), // 44_5_self
   // $ts time_shift_of(self)
-  var_time_shift_of, 1, LOCAL(18), 1, var_46_1_ts,
+  var_time_shift_of, 1, LOCAL(18), 1, var_46_4_ts,
   // $t self+ts
-  var_std__plus, 2, LOCAL(18), var_46_1_ts, 1, LOCAL(19),
+  var_std__plus, 2, LOCAL(18), var_46_4_ts, 1, LOCAL(19),
   // $second second_of(t)
   var_second_of, 1, LOCAL(19), 1, LOCAL(20),
   // year_of(t)
@@ -129,7 +129,7 @@ static TAB_NUM t_lambda_1[] = {
   1, // locals
   0, // parameters
   // 0 -> string("+" ts/3600)
-  var_std__less, 2, num_0, var_46_1_ts, 1, LOCAL(1),
+  var_std__less, 2, num_0, var_46_4_ts, 1, LOCAL(1),
   //  ts > 0 -> string("+" ts/3600)
   LET, 2, LOCAL(1), lambda_2, TAIL_CALL,
   POS(66, 17),
@@ -140,7 +140,7 @@ static TAB_NUM t_lambda_2[] = {
   2, // locals
   0, // parameters
   // ts/3600)
-  var_std__over, 2, var_46_1_ts, num_3600, 1, LOCAL(1),
+  var_std__over, 2, var_46_4_ts, num_3600, 1, LOCAL(1),
   // string("+" ts/3600)
   var_string, 2, string_2, LOCAL(1), 1, LOCAL(2),
   //  string("+" ts/3600)
@@ -154,7 +154,7 @@ static TAB_NUM t_lambda_3[] = {
   1, // locals
   0, // parameters
   // ts < 0 -> ts/3600
-  var_std__less, 2, var_46_1_ts, num_0, 1, LOCAL(1),
+  var_std__less, 2, var_46_4_ts, num_0, 1, LOCAL(1),
   //  ts < 0 -> ts/3600
   LET, 2, LOCAL(1), lambda_4, TAIL_CALL,
   POS(67, 12),
@@ -165,7 +165,7 @@ static TAB_NUM t_lambda_4[] = {
   1, // locals
   0, // parameters
   // ts/3600
-  var_std__over, 2, var_46_1_ts, num_3600, 1, LOCAL(1),
+  var_std__over, 2, var_46_4_ts, num_3600, 1, LOCAL(1),
   //  ts/3600
   LET, 1, LOCAL(1), TAIL_CALL,
   POS(67, 22),
@@ -228,7 +228,7 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "46_1_ts\000", NULL
+    "46_4_ts\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,

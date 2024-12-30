@@ -228,8 +228,6 @@ EXPORT void retrieve_continuation_info(
 
 long prev_instruction_pointer = -1;
 
-#define RESPAWN 47
-
 SHARED_DEBUG_DATA *create_snapshot() {
   SHARED_DEBUG_DATA *sd = mmap(
     NULL, sizeof(SHARED_DEBUG_DATA),
@@ -249,9 +247,10 @@ SHARED_DEBUG_DATA *create_snapshot() {
     }
     int status;
     waitpid(pid, &status, 0);
-    fprintf(stderr, "Child process %d exited with status %d\n", pid, status);
+    //fprintf(stderr, "Child process %d exited with status %d\n",
+    //  pid, WEXITSTATUS(status));
     if (WEXITSTATUS(status) != RESPAWN) exit(status);
-    fprintf(stderr, "break at: %ld\n", sd->break_at);
+    //fprintf(stderr, "break at: %ld\n", sd->break_at);
   }
 }
 
@@ -260,9 +259,12 @@ void debug() {
   //printf("!%p (%p..%p)\n", TLS_code, function_code_start, function_code_end);
   sdd->io_occurred = false;
   sdd->break_on_io = false;
+  sdd->break_at = 0;
   sdd->break_on_return = false;
   sdd->break_code_start = NULL;
   sdd->break_code_end = NULL;
+  sdd->backstep_start = 0;
+  sdd->best_backstep_position = 0;
   print_prompt:
   if (instruction_counter != prev_instruction_pointer) {
     prev_instruction_pointer = instruction_counter;
@@ -289,8 +291,14 @@ void debug() {
       case 'c': // continue forwards
 	break;
       case 'e' : // exit function
+	sdd->break_frame = TLS_frame->link;
 	sdd->break_on_return = true;
 	break;
+      case 'E': // exit function backwards
+	sdd->break_frame = TLS_frame->link;
+	sdd->break_on_return = true;
+	sdd->backstep_start = instruction_counter;
+	exit(RESPAWN);
       case 'l': // list
 	switch (cmd[1]) {
 	  case 'g': // global variables
@@ -302,7 +310,7 @@ void debug() {
 	  case 'p': // valid code positions
 	    goto print_prompt;
 	  default:
-	    printf("Error: Unknown list command!\n");
+	    printf("E:Unknown list command!\n");
 	    goto print_prompt;
 	}
       case 'i': // continue until next I/O-operation
@@ -318,6 +326,17 @@ void debug() {
 	sdd->break_code_end = function_code_end;
 	sdd->break_on_return = true;
 	break;
+      case 'N': // step over backwards
+	if (instruction_counter == 0) {
+	  printf("E:Already at the beginning of the program!\n");
+	  goto print_prompt;
+	}
+	sdd->break_frame = TLS_frame->link;
+	sdd->break_code_start = function_code_start;
+	sdd->break_code_end = function_code_end;
+	sdd->break_on_return = true;
+	sdd->backstep_start = instruction_counter;
+	exit(RESPAWN);
       case 'p': // print
 	{
 	  char *p = cmd+1;
@@ -383,11 +402,11 @@ void debug() {
       case 'q':
 	exit(EXIT_SUCCESS);
       default:
-	printf("Error: Unknown command \"%c\"!", cmd[0]);
+	printf("E:Unknown command \"%c\"!", cmd[0]);
 	goto print_prompt;
     }
   } else {
-    printf("Error: Command line too long!\n");
+    printf("E:Command line too long!\n");
     goto print_prompt;
   }
 }

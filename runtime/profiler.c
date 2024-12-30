@@ -430,6 +430,17 @@ void profiler(void) {
 
   execute_statements:;
 
+  if (instruction_counter >= sdd->backstep_start && sdd->backstep_start > 0) {
+    sdd->break_at = sdd->best_backstep_position;
+    sdd->io_occurred = false;
+    sdd->break_on_io = false;
+    sdd->break_on_return = false;
+    sdd->break_code_start = NULL;
+    sdd->break_code_end = NULL;
+    sdd->backstep_start = 0;
+    sdd->best_backstep_position = 0;
+    exit(RESPAWN);
+  }
   if (
     do_debug &&
     (
@@ -442,7 +453,16 @@ void profiler(void) {
       ) ||
       sdd->break_on_io && sdd->io_occurred
     )
-  ) debug();
+  ) {
+    if (sdd->backstep_start) {
+      if (instruction_counter+1 == sdd->backstep_start) {
+	debug(); // no further pass needed
+      }
+      sdd->best_backstep_position = instruction_counter;
+    } else {
+      debug();
+    }
+  }
   ++instruction_counter;
   ++profile.counts[COUNT_instructions];
 

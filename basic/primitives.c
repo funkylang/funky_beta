@@ -27,8 +27,8 @@ enum {
   var_pass, // extern
   var_spread, // extern
   var_std__chain, // initialized
-  var_83_14_initializers, // dynamic
-  var_83_28_body, // dynamic
+  var_83_15_initializers, // dynamic
+  var_83_29_body, // dynamic
   var_is_empty, // extern
   var_range, // extern
   var_next, // extern
@@ -41,7 +41,7 @@ enum {
 static TAB_NUM t_func_std__do[] = {
   1, // locals
   1, // parameters
-  LOCAL(1), // 43_0_body
+  LOCAL(1), // 43_5_body
   // body!
   LOCAL(1), 0, IO_TAIL_CALL,
   POS(45, 3)
@@ -59,7 +59,7 @@ static TAB_NUM t_func_std__ignore[] = {
 static TAB_NUM t_func_std__assign[] = {
   1, // locals
   -1, // parameters
-  REST_PARAMETER, LOCAL(1), // 79_0_args
+  REST_PARAMETER, LOCAL(1), // 79_5_args
   // spread args
   var_spread, 1, LOCAL(1), TAIL_CALL,
   POS(81, 3)
@@ -68,8 +68,8 @@ static TAB_NUM t_func_std__assign[] = {
 static TAB_NUM t_func_std__chain[] = {
   0, // locals
   -2, // parameters
-  REST_PARAMETER, var_83_14_initializers,
-  MANDATORY_PARAMETER, var_83_28_body,
+  REST_PARAMETER, var_83_15_initializers,
+  MANDATORY_PARAMETER, var_83_29_body,
   // loop:
   var_loop, 1, lambda_loop, IO_TAIL_CALL,
   POS(84, 3)
@@ -79,9 +79,9 @@ static TAB_NUM t_lambda_loop[] = {
   1, // locals
   0, // parameters
   // is_empty
-  var_is_empty, 1, var_83_14_initializers, 1, LOCAL(1),
+  var_is_empty, 1, var_83_15_initializers, 1, LOCAL(1),
   // if!
-  var_if, 3, LOCAL(1), var_83_28_body, lambda_1, IO_TAIL_CALL,
+  var_if, 3, LOCAL(1), var_83_29_body, lambda_1, IO_TAIL_CALL,
   POS(86, 20),
   POS(85, 5)
 };
@@ -90,7 +90,7 @@ static TAB_NUM t_lambda_1[] = {
   1, // locals
   0, // parameters
   // initializers(1):
-  var_83_14_initializers, 1, num_1, 1, LOCAL(1),
+  var_83_15_initializers, 1, num_1, 1, LOCAL(1),
   // initializers(1):
   LOCAL(1), 1, lambda_initializers1, IO_TAIL_CALL,
   POS(89, 9),
@@ -101,7 +101,7 @@ static TAB_NUM t_lambda_initializers1[] = {
   0, // locals
   0, // parameters
   // range &initializers 2 -1
-  var_range, 3, var_83_14_initializers, num_2, minus_num_1, 1, var_83_14_initializers,
+  var_range, 3, var_83_15_initializers, num_2, minus_num_1, 1, var_83_15_initializers,
   // next!
   var_next, 0, IO_TAIL_CALL,
   POS(90, 11),
@@ -154,11 +154,11 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "83_14_initializers\000", NULL
+    "83_15_initializers\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "83_28_body\000", NULL
+    "83_29_body\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,

@@ -152,15 +152,15 @@ enum {
   var_equal, // extern polymorphic
   var_std_types__object, // extern
   var_false, // extern
-  var_40_11_lv2, // dynamic
-  var_41_12_rv2, // dynamic
+  var_40_14_lv2, // dynamic
+  var_41_15_rv2, // dynamic
   var_std__equal, // extern
   var_std__and, // extern
   var_less, // extern polymorphic
-  var_48_6_lv1, // dynamic
-  var_48_11_lv2, // dynamic
-  var_49_7_rv1, // dynamic
-  var_49_12_rv2, // dynamic
+  var_48_9_lv1, // dynamic
+  var_48_14_lv2, // dynamic
+  var_49_10_rv1, // dynamic
+  var_49_15_rv2, // dynamic
   var_std__less, // extern
   var_std__or, // extern
   var_hash, // extern polymorphic
@@ -171,141 +171,141 @@ enum {
   var_undefined, // extern
   var_equal3, // attribute
   var_builtin_types__tuple3, // extern
-  var_84_11_lv2, // dynamic
-  var_84_16_lv3, // dynamic
-  var_85_12_rv2, // dynamic
-  var_85_17_rv3, // dynamic
-  var_93_6_lv1, // dynamic
-  var_93_11_lv2, // dynamic
-  var_93_16_lv3, // dynamic
-  var_94_7_rv1, // dynamic
-  var_94_12_rv2, // dynamic
-  var_94_17_rv3, // dynamic
+  var_84_14_lv2, // dynamic
+  var_84_19_lv3, // dynamic
+  var_85_15_rv2, // dynamic
+  var_85_20_rv3, // dynamic
+  var_93_9_lv1, // dynamic
+  var_93_14_lv2, // dynamic
+  var_93_19_lv3, // dynamic
+  var_94_10_rv1, // dynamic
+  var_94_15_rv2, // dynamic
+  var_94_20_rv3, // dynamic
   var_binop3, // initialized
   var_equal4, // attribute
   var_builtin_types__tuple4, // extern
-  var_135_11_lv2, // dynamic
-  var_135_16_lv3, // dynamic
-  var_135_21_lv4, // dynamic
-  var_136_12_rv2, // dynamic
-  var_136_17_rv3, // dynamic
-  var_136_22_rv4, // dynamic
-  var_145_6_lv1, // dynamic
-  var_145_11_lv2, // dynamic
-  var_145_16_lv3, // dynamic
-  var_145_21_lv4, // dynamic
-  var_146_7_rv1, // dynamic
-  var_146_12_rv2, // dynamic
-  var_146_17_rv3, // dynamic
-  var_146_22_rv4, // dynamic
+  var_135_14_lv2, // dynamic
+  var_135_19_lv3, // dynamic
+  var_135_24_lv4, // dynamic
+  var_136_15_rv2, // dynamic
+  var_136_20_rv3, // dynamic
+  var_136_25_rv4, // dynamic
+  var_145_9_lv1, // dynamic
+  var_145_14_lv2, // dynamic
+  var_145_19_lv3, // dynamic
+  var_145_24_lv4, // dynamic
+  var_146_10_rv1, // dynamic
+  var_146_15_rv2, // dynamic
+  var_146_20_rv3, // dynamic
+  var_146_25_rv4, // dynamic
   var_binop4, // initialized
   var_equal5, // attribute
   var_builtin_types__tuple5, // extern
-  var_193_11_lv2, // dynamic
-  var_193_16_lv3, // dynamic
-  var_193_21_lv4, // dynamic
-  var_193_26_lv5, // dynamic
-  var_194_12_rv2, // dynamic
-  var_194_17_rv3, // dynamic
-  var_194_22_rv4, // dynamic
-  var_194_27_rv5, // dynamic
-  var_204_6_lv1, // dynamic
-  var_204_11_lv2, // dynamic
-  var_204_16_lv3, // dynamic
-  var_204_21_lv4, // dynamic
-  var_204_26_lv5, // dynamic
-  var_205_7_rv1, // dynamic
-  var_205_12_rv2, // dynamic
-  var_205_17_rv3, // dynamic
-  var_205_22_rv4, // dynamic
-  var_205_27_rv5, // dynamic
+  var_193_14_lv2, // dynamic
+  var_193_19_lv3, // dynamic
+  var_193_24_lv4, // dynamic
+  var_193_29_lv5, // dynamic
+  var_194_15_rv2, // dynamic
+  var_194_20_rv3, // dynamic
+  var_194_25_rv4, // dynamic
+  var_194_30_rv5, // dynamic
+  var_204_9_lv1, // dynamic
+  var_204_14_lv2, // dynamic
+  var_204_19_lv3, // dynamic
+  var_204_24_lv4, // dynamic
+  var_204_29_lv5, // dynamic
+  var_205_10_rv1, // dynamic
+  var_205_15_rv2, // dynamic
+  var_205_20_rv3, // dynamic
+  var_205_25_rv4, // dynamic
+  var_205_30_rv5, // dynamic
   var_binop5, // initialized
   var_equal6, // attribute
   var_builtin_types__tuple6, // extern
-  var_258_11_lv2, // dynamic
-  var_258_16_lv3, // dynamic
-  var_258_21_lv4, // dynamic
-  var_258_26_lv5, // dynamic
-  var_258_31_lv6, // dynamic
-  var_259_12_rv2, // dynamic
-  var_259_17_rv3, // dynamic
-  var_259_22_rv4, // dynamic
-  var_259_27_rv5, // dynamic
-  var_259_32_rv6, // dynamic
-  var_270_6_lv1, // dynamic
-  var_270_11_lv2, // dynamic
-  var_270_16_lv3, // dynamic
-  var_270_21_lv4, // dynamic
-  var_270_26_lv5, // dynamic
-  var_270_31_lv6, // dynamic
-  var_271_7_rv1, // dynamic
-  var_271_12_rv2, // dynamic
-  var_271_17_rv3, // dynamic
-  var_271_22_rv4, // dynamic
-  var_271_27_rv5, // dynamic
-  var_271_32_rv6, // dynamic
+  var_258_14_lv2, // dynamic
+  var_258_19_lv3, // dynamic
+  var_258_24_lv4, // dynamic
+  var_258_29_lv5, // dynamic
+  var_258_34_lv6, // dynamic
+  var_259_15_rv2, // dynamic
+  var_259_20_rv3, // dynamic
+  var_259_25_rv4, // dynamic
+  var_259_30_rv5, // dynamic
+  var_259_35_rv6, // dynamic
+  var_270_9_lv1, // dynamic
+  var_270_14_lv2, // dynamic
+  var_270_19_lv3, // dynamic
+  var_270_24_lv4, // dynamic
+  var_270_29_lv5, // dynamic
+  var_270_34_lv6, // dynamic
+  var_271_10_rv1, // dynamic
+  var_271_15_rv2, // dynamic
+  var_271_20_rv3, // dynamic
+  var_271_25_rv4, // dynamic
+  var_271_30_rv5, // dynamic
+  var_271_35_rv6, // dynamic
   var_binop6, // initialized
   var_equal7, // attribute
   var_builtin_types__tuple7, // extern
-  var_330_11_lv2, // dynamic
-  var_330_16_lv3, // dynamic
-  var_330_21_lv4, // dynamic
-  var_330_26_lv5, // dynamic
-  var_330_31_lv6, // dynamic
-  var_330_36_lv7, // dynamic
-  var_331_12_rv2, // dynamic
-  var_331_17_rv3, // dynamic
-  var_331_22_rv4, // dynamic
-  var_331_27_rv5, // dynamic
-  var_331_32_rv6, // dynamic
-  var_331_37_rv7, // dynamic
-  var_343_6_lv1, // dynamic
-  var_343_11_lv2, // dynamic
-  var_343_16_lv3, // dynamic
-  var_343_21_lv4, // dynamic
-  var_343_26_lv5, // dynamic
-  var_343_31_lv6, // dynamic
-  var_343_36_lv7, // dynamic
-  var_344_7_rv1, // dynamic
-  var_344_12_rv2, // dynamic
-  var_344_17_rv3, // dynamic
-  var_344_22_rv4, // dynamic
-  var_344_27_rv5, // dynamic
-  var_344_32_rv6, // dynamic
-  var_344_37_rv7, // dynamic
+  var_330_14_lv2, // dynamic
+  var_330_19_lv3, // dynamic
+  var_330_24_lv4, // dynamic
+  var_330_29_lv5, // dynamic
+  var_330_34_lv6, // dynamic
+  var_330_39_lv7, // dynamic
+  var_331_15_rv2, // dynamic
+  var_331_20_rv3, // dynamic
+  var_331_25_rv4, // dynamic
+  var_331_30_rv5, // dynamic
+  var_331_35_rv6, // dynamic
+  var_331_40_rv7, // dynamic
+  var_343_9_lv1, // dynamic
+  var_343_14_lv2, // dynamic
+  var_343_19_lv3, // dynamic
+  var_343_24_lv4, // dynamic
+  var_343_29_lv5, // dynamic
+  var_343_34_lv6, // dynamic
+  var_343_39_lv7, // dynamic
+  var_344_10_rv1, // dynamic
+  var_344_15_rv2, // dynamic
+  var_344_20_rv3, // dynamic
+  var_344_25_rv4, // dynamic
+  var_344_30_rv5, // dynamic
+  var_344_35_rv6, // dynamic
+  var_344_40_rv7, // dynamic
   var_binop7, // initialized
   var_equal8, // attribute
   var_builtin_types__tuple8, // extern
-  var_409_11_lv2, // dynamic
-  var_409_16_lv3, // dynamic
-  var_409_21_lv4, // dynamic
-  var_409_26_lv5, // dynamic
-  var_409_31_lv6, // dynamic
-  var_409_36_lv7, // dynamic
-  var_409_41_lv8, // dynamic
-  var_410_12_rv2, // dynamic
-  var_410_17_rv3, // dynamic
-  var_410_22_rv4, // dynamic
-  var_410_27_rv5, // dynamic
-  var_410_32_rv6, // dynamic
-  var_410_37_rv7, // dynamic
-  var_410_42_rv8, // dynamic
-  var_423_6_lv1, // dynamic
-  var_423_11_lv2, // dynamic
-  var_423_16_lv3, // dynamic
-  var_423_21_lv4, // dynamic
-  var_423_26_lv5, // dynamic
-  var_423_31_lv6, // dynamic
-  var_423_36_lv7, // dynamic
-  var_423_41_lv8, // dynamic
-  var_424_7_rv1, // dynamic
-  var_424_12_rv2, // dynamic
-  var_424_17_rv3, // dynamic
-  var_424_22_rv4, // dynamic
-  var_424_27_rv5, // dynamic
-  var_424_32_rv6, // dynamic
-  var_424_37_rv7, // dynamic
-  var_424_42_rv8, // dynamic
+  var_409_14_lv2, // dynamic
+  var_409_19_lv3, // dynamic
+  var_409_24_lv4, // dynamic
+  var_409_29_lv5, // dynamic
+  var_409_34_lv6, // dynamic
+  var_409_39_lv7, // dynamic
+  var_409_44_lv8, // dynamic
+  var_410_15_rv2, // dynamic
+  var_410_20_rv3, // dynamic
+  var_410_25_rv4, // dynamic
+  var_410_30_rv5, // dynamic
+  var_410_35_rv6, // dynamic
+  var_410_40_rv7, // dynamic
+  var_410_45_rv8, // dynamic
+  var_423_9_lv1, // dynamic
+  var_423_14_lv2, // dynamic
+  var_423_19_lv3, // dynamic
+  var_423_24_lv4, // dynamic
+  var_423_29_lv5, // dynamic
+  var_423_34_lv6, // dynamic
+  var_423_39_lv7, // dynamic
+  var_423_44_lv8, // dynamic
+  var_424_10_rv1, // dynamic
+  var_424_15_rv2, // dynamic
+  var_424_20_rv3, // dynamic
+  var_424_25_rv4, // dynamic
+  var_424_30_rv5, // dynamic
+  var_424_35_rv6, // dynamic
+  var_424_40_rv7, // dynamic
+  var_424_45_rv8, // dynamic
   var_binop8, // initialized
   var__END
 };
@@ -314,8 +314,8 @@ enum {
 static TAB_NUM t_func_builtin_types__tuple2___equal[] = {
   2, // locals
   2, // parameters
-  LOCAL(1), // 34_31_left
-  LOCAL(2), // 34_36_right
+  LOCAL(1), // 34_32_left
+  LOCAL(2), // 34_37_right
   // equal2 right left
   var_equal2, 2, LOCAL(2), LOCAL(1), TAIL_CALL,
   POS(35, 3)
@@ -334,12 +334,12 @@ static TAB_NUM t_func_std_types__object___equal2[] = {
 static TAB_NUM t_func_builtin_types__tuple2___equal2[] = {
   6, // locals
   2, // parameters
-  LOCAL(3), // 39_32_right
-  LOCAL(4), // 39_38_left
+  LOCAL(3), // 39_33_right
+  LOCAL(4), // 39_39_left
   // left $lv1 $lv2
-  LOCAL(4), 0, 2, LOCAL(5), var_40_11_lv2,
+  LOCAL(4), 0, 2, LOCAL(5), var_40_14_lv2,
   // right $rv1 $rv2
-  LOCAL(3), 0, 2, LOCAL(6), var_41_12_rv2,
+  LOCAL(3), 0, 2, LOCAL(6), var_41_15_rv2,
   // lv1 == rv1
   var_std__equal, 2, LOCAL(5), LOCAL(6), 1, LOCAL(1),
   // 
@@ -357,7 +357,7 @@ static TAB_NUM t_lambda_1[] = {
   1, // locals
   0, // parameters
   // lv2 == rv2
-  var_std__equal, 2, var_40_11_lv2, var_41_12_rv2, 1, LOCAL(1),
+  var_std__equal, 2, var_40_14_lv2, var_41_15_rv2, 1, LOCAL(1),
   // lv2 == rv2
   LET, 1, LOCAL(1), TAIL_CALL,
   POS(45, 7),
@@ -367,14 +367,14 @@ static TAB_NUM t_lambda_1[] = {
 static TAB_NUM t_func_builtin_types__tuple2___less[] = {
   4, // locals
   2, // parameters
-  LOCAL(3), // 47_30_left
-  LOCAL(4), // 47_35_right
+  LOCAL(3), // 47_31_left
+  LOCAL(4), // 47_36_right
   // left $lv1 $lv2
-  LOCAL(3), 0, 2, var_48_6_lv1, var_48_11_lv2,
+  LOCAL(3), 0, 2, var_48_9_lv1, var_48_14_lv2,
   // right $rv1 $rv2
-  LOCAL(4), 0, 2, var_49_7_rv1, var_49_12_rv2,
+  LOCAL(4), 0, 2, var_49_10_rv1, var_49_15_rv2,
   // lv1 < rv1
-  var_std__less, 2, var_48_6_lv1, var_49_7_rv1, 1, LOCAL(1),
+  var_std__less, 2, var_48_9_lv1, var_49_10_rv1, 1, LOCAL(1),
   // 
   var_std__or, 2, LOCAL(1), lambda_2, 1, LOCAL(2),
   // ->
@@ -390,7 +390,7 @@ static TAB_NUM t_lambda_2[] = {
   2, // locals
   0, // parameters
   // lv1 == rv1
-  var_std__equal, 2, var_48_6_lv1, var_49_7_rv1, 1, LOCAL(1),
+  var_std__equal, 2, var_48_9_lv1, var_49_10_rv1, 1, LOCAL(1),
   // 
   var_std__and, 2, LOCAL(1), lambda_3, 1, LOCAL(2),
   // 
@@ -404,7 +404,7 @@ static TAB_NUM t_lambda_3[] = {
   1, // locals
   0, // parameters
   // lv2 < rv2
-  var_std__less, 2, var_48_11_lv2, var_49_12_rv2, 1, LOCAL(1),
+  var_std__less, 2, var_48_14_lv2, var_49_15_rv2, 1, LOCAL(1),
   // lv2 < rv2
   LET, 1, LOCAL(1), TAIL_CALL,
   POS(55, 9),
@@ -414,7 +414,7 @@ static TAB_NUM t_lambda_3[] = {
 static TAB_NUM t_func_builtin_types__tuple2___hash[] = {
   6, // locals
   1, // parameters
-  LOCAL(4), // 57_30_self
+  LOCAL(4), // 57_31_self
   // self $v1 $v2
   LOCAL(4), 0, 2, LOCAL(5), LOCAL(6),
   // hash(v1)
@@ -435,7 +435,7 @@ static TAB_NUM t_func_builtin_types__tuple2___hash[] = {
 static TAB_NUM t_func_builtin_types__tuple2___to_binop[] = {
   2, // locals
   1, // parameters
-  LOCAL(2), // 64_34_self
+  LOCAL(2), // 64_35_self
   // .operators_of self)
   LET, -1, var_binop2, var_operators_of, LOCAL(2), LOCAL(1),
   // -> binop2(.operators_of self)
@@ -447,9 +447,9 @@ static TAB_NUM t_func_builtin_types__tuple2___to_binop[] = {
 static TAB_NUM t_func_binop2[] = {
   11, // locals
   -3, // parameters
-  MYSELF_PARAMETER, LOCAL(3), // 66_10_myself
-  MANDATORY_PARAMETER, LOCAL(4), // 66_18_left
-  MANDATORY_PARAMETER, LOCAL(5), // 66_23_right
+  MYSELF_PARAMETER, LOCAL(3), // 66_11_myself
+  MANDATORY_PARAMETER, LOCAL(4), // 66_19_left
+  MANDATORY_PARAMETER, LOCAL(5), // 66_24_right
   // operators_of(myself) $op1 $op2
   var_operators_of, 1, LOCAL(3), 1, LOCAL(1),
   // operators_of(myself) $op1 $op2
@@ -476,8 +476,8 @@ static TAB_NUM t_func_binop2[] = {
 static TAB_NUM t_func_builtin_types__tuple3___equal[] = {
   2, // locals
   2, // parameters
-  LOCAL(1), // 78_31_left
-  LOCAL(2), // 78_36_right
+  LOCAL(1), // 78_32_left
+  LOCAL(2), // 78_37_right
   // equal3 right left
   var_equal3, 2, LOCAL(2), LOCAL(1), TAIL_CALL,
   POS(79, 3)
@@ -496,12 +496,12 @@ static TAB_NUM t_func_std_types__object___equal3[] = {
 static TAB_NUM t_func_builtin_types__tuple3___equal3[] = {
   6, // locals
   2, // parameters
-  LOCAL(3), // 83_32_right
-  LOCAL(4), // 83_38_left
+  LOCAL(3), // 83_33_right
+  LOCAL(4), // 83_39_left
   // left $lv1 $lv2 $lv3
-  LOCAL(4), 0, 3, LOCAL(5), var_84_11_lv2, var_84_16_lv3,
+  LOCAL(4), 0, 3, LOCAL(5), var_84_14_lv2, var_84_19_lv3,
   // right $rv1 $rv2 $rv3
-  LOCAL(3), 0, 3, LOCAL(6), var_85_12_rv2, var_85_17_rv3,
+  LOCAL(3), 0, 3, LOCAL(6), var_85_15_rv2, var_85_20_rv3,
   // lv1 == rv1
   var_std__equal, 2, LOCAL(5), LOCAL(6), 1, LOCAL(1),
   // 
@@ -519,7 +519,7 @@ static TAB_NUM t_lambda_4[] = {
   2, // locals
   0, // parameters
   // lv2 == rv2
-  var_std__equal, 2, var_84_11_lv2, var_85_12_rv2, 1, LOCAL(1),
+  var_std__equal, 2, var_84_14_lv2, var_85_15_rv2, 1, LOCAL(1),
   // 
   var_std__and, 2, LOCAL(1), lambda_5, 1, LOCAL(2),
   // lv2 == rv2
@@ -533,7 +533,7 @@ static TAB_NUM t_lambda_5[] = {
   1, // locals
   0, // parameters
   // lv3 == rv3
-  var_std__equal, 2, var_84_16_lv3, var_85_17_rv3, 1, LOCAL(1),
+  var_std__equal, 2, var_84_19_lv3, var_85_20_rv3, 1, LOCAL(1),
   // lv3 == rv3
   LET, 1, LOCAL(1), TAIL_CALL,
   POS(90, 7),
@@ -543,14 +543,14 @@ static TAB_NUM t_lambda_5[] = {
 static TAB_NUM t_func_builtin_types__tuple3___less[] = {
   4, // locals
   2, // parameters
-  LOCAL(3), // 92_30_left
-  LOCAL(4), // 92_35_right
+  LOCAL(3), // 92_31_left
+  LOCAL(4), // 92_36_right
   // left $lv1 $lv2 $lv3
-  LOCAL(3), 0, 3, var_93_6_lv1, var_93_11_lv2, var_93_16_lv3,
+  LOCAL(3), 0, 3, var_93_9_lv1, var_93_14_lv2, var_93_19_lv3,
   // right $rv1 $rv2 $rv3
-  LOCAL(4), 0, 3, var_94_7_rv1, var_94_12_rv2, var_94_17_rv3,
+  LOCAL(4), 0, 3, var_94_10_rv1, var_94_15_rv2, var_94_20_rv3,
   // lv1 < rv1
-  var_std__less, 2, var_93_6_lv1, var_94_7_rv1, 1, LOCAL(1),
+  var_std__less, 2, var_93_9_lv1, var_94_10_rv1, 1, LOCAL(1),
   // 
   var_std__or, 2, LOCAL(1), lambda_6, 1, LOCAL(2),
   // ->
@@ -566,7 +566,7 @@ static TAB_NUM t_lambda_6[] = {
   2, // locals
   0, // parameters
   // lv1 == rv1
-  var_std__equal, 2, var_93_6_lv1, var_94_7_rv1, 1, LOCAL(1),
+  var_std__equal, 2, var_93_9_lv1, var_94_10_rv1, 1, LOCAL(1),
   // 
   var_std__and, 2, LOCAL(1), lambda_7, 1, LOCAL(2),
   // 
@@ -580,7 +580,7 @@ static TAB_NUM t_lambda_7[] = {
   2, // locals
   0, // parameters
   // lv2 < rv2
-  var_std__less, 2, var_93_11_lv2, var_94_12_rv2, 1, LOCAL(1),
+  var_std__less, 2, var_93_14_lv2, var_94_15_rv2, 1, LOCAL(1),
   // 
   var_std__or, 2, LOCAL(1), lambda_8, 1, LOCAL(2),
   // 
@@ -594,7 +594,7 @@ static TAB_NUM t_lambda_8[] = {
   2, // locals
   0, // parameters
   // lv2 == rv2
-  var_std__equal, 2, var_93_11_lv2, var_94_12_rv2, 1, LOCAL(1),
+  var_std__equal, 2, var_93_14_lv2, var_94_15_rv2, 1, LOCAL(1),
   // 
   var_std__and, 2, LOCAL(1), lambda_9, 1, LOCAL(2),
   // 
@@ -608,7 +608,7 @@ static TAB_NUM t_lambda_9[] = {
   1, // locals
   0, // parameters
   // lv3 < rv3
-  var_std__less, 2, var_93_16_lv3, var_94_17_rv3, 1, LOCAL(1),
+  var_std__less, 2, var_93_19_lv3, var_94_20_rv3, 1, LOCAL(1),
   // lv3 < rv3
   LET, 1, LOCAL(1), TAIL_CALL,
   POS(104, 13),
@@ -618,7 +618,7 @@ static TAB_NUM t_lambda_9[] = {
 static TAB_NUM t_func_builtin_types__tuple3___hash[] = {
   9, // locals
   1, // parameters
-  LOCAL(6), // 106_30_self
+  LOCAL(6), // 106_31_self
   // self $v1 $v2 $v3
   LOCAL(6), 0, 3, LOCAL(7), LOCAL(8), LOCAL(9),
   // hash(v1)
@@ -645,7 +645,7 @@ static TAB_NUM t_func_builtin_types__tuple3___hash[] = {
 static TAB_NUM t_func_builtin_types__tuple3___to_binop[] = {
   2, // locals
   1, // parameters
-  LOCAL(2), // 114_34_self
+  LOCAL(2), // 114_35_self
   // .operators_of self)
   LET, -1, var_binop3, var_operators_of, LOCAL(2), LOCAL(1),
   // -> binop3(.operators_of self)
@@ -657,9 +657,9 @@ static TAB_NUM t_func_builtin_types__tuple3___to_binop[] = {
 static TAB_NUM t_func_binop3[] = {
   15, // locals
   -3, // parameters
-  MYSELF_PARAMETER, LOCAL(4), // 116_10_myself
-  MANDATORY_PARAMETER, LOCAL(5), // 116_18_left
-  MANDATORY_PARAMETER, LOCAL(6), // 116_23_right
+  MYSELF_PARAMETER, LOCAL(4), // 116_11_myself
+  MANDATORY_PARAMETER, LOCAL(5), // 116_19_left
+  MANDATORY_PARAMETER, LOCAL(6), // 116_24_right
   // operators_of(myself) $op1 $op2 $op3
   var_operators_of, 1, LOCAL(4), 1, LOCAL(1),
   // operators_of(myself) $op1 $op2 $op3
@@ -689,8 +689,8 @@ static TAB_NUM t_func_binop3[] = {
 static TAB_NUM t_func_builtin_types__tuple4___equal[] = {
   2, // locals
   2, // parameters
-  LOCAL(1), // 129_31_left
-  LOCAL(2), // 129_36_right
+  LOCAL(1), // 129_32_left
+  LOCAL(2), // 129_37_right
   // equal4 right left
   var_equal4, 2, LOCAL(2), LOCAL(1), TAIL_CALL,
   POS(130, 3)
@@ -709,12 +709,12 @@ static TAB_NUM t_func_std_types__object___equal4[] = {
 static TAB_NUM t_func_builtin_types__tuple4___equal4[] = {
   6, // locals
   2, // parameters
-  LOCAL(3), // 134_32_right
-  LOCAL(4), // 134_38_left
+  LOCAL(3), // 134_33_right
+  LOCAL(4), // 134_39_left
   // left $lv1 $lv2 $lv3 $lv4
-  LOCAL(4), 0, 4, LOCAL(5), var_135_11_lv2, var_135_16_lv3, var_135_21_lv4,
+  LOCAL(4), 0, 4, LOCAL(5), var_135_14_lv2, var_135_19_lv3, var_135_24_lv4,
   // right $rv1 $rv2 $rv3 $rv4
-  LOCAL(3), 0, 4, LOCAL(6), var_136_12_rv2, var_136_17_rv3, var_136_22_rv4,
+  LOCAL(3), 0, 4, LOCAL(6), var_136_15_rv2, var_136_20_rv3, var_136_25_rv4,
   // lv1 == rv1
   var_std__equal, 2, LOCAL(5), LOCAL(6), 1, LOCAL(1),
   // 
@@ -732,7 +732,7 @@ static TAB_NUM t_lambda_10[] = {
   2, // locals
   0, // parameters
   // lv2 == rv2
-  var_std__equal, 2, var_135_11_lv2, var_136_12_rv2, 1, LOCAL(1),
+  var_std__equal, 2, var_135_14_lv2, var_136_15_rv2, 1, LOCAL(1),
   // 
   var_std__and, 2, LOCAL(1), lambda_11, 1, LOCAL(2),
   // lv2 == rv2
@@ -746,7 +746,7 @@ static TAB_NUM t_lambda_11[] = {
   2, // locals
   0, // parameters
   // lv3 == rv3
-  var_std__equal, 2, var_135_16_lv3, var_136_17_rv3, 1, LOCAL(1),
+  var_std__equal, 2, var_135_19_lv3, var_136_20_rv3, 1, LOCAL(1),
   // 
   var_std__and, 2, LOCAL(1), lambda_12, 1, LOCAL(2),
   // lv3 == rv3
@@ -760,7 +760,7 @@ static TAB_NUM t_lambda_12[] = {
   1, // locals
   0, // parameters
   // lv4 == rv4
-  var_std__equal, 2, var_135_21_lv4, var_136_22_rv4, 1, LOCAL(1),
+  var_std__equal, 2, var_135_24_lv4, var_136_25_rv4, 1, LOCAL(1),
   // lv4 == rv4
   LET, 1, LOCAL(1), TAIL_CALL,
   POS(142, 7),
@@ -770,14 +770,14 @@ static TAB_NUM t_lambda_12[] = {
 static TAB_NUM t_func_builtin_types__tuple4___less[] = {
   4, // locals
   2, // parameters
-  LOCAL(3), // 144_30_left
-  LOCAL(4), // 144_35_right
+  LOCAL(3), // 144_31_left
+  LOCAL(4), // 144_36_right
   // left $lv1 $lv2 $lv3 $lv4
-  LOCAL(3), 0, 4, var_145_6_lv1, var_145_11_lv2, var_145_16_lv3, var_145_21_lv4,
+  LOCAL(3), 0, 4, var_145_9_lv1, var_145_14_lv2, var_145_19_lv3, var_145_24_lv4,
   // right $rv1 $rv2 $rv3 $rv4
-  LOCAL(4), 0, 4, var_146_7_rv1, var_146_12_rv2, var_146_17_rv3, var_146_22_rv4,
+  LOCAL(4), 0, 4, var_146_10_rv1, var_146_15_rv2, var_146_20_rv3, var_146_25_rv4,
   // lv1 < rv1
-  var_std__less, 2, var_145_6_lv1, var_146_7_rv1, 1, LOCAL(1),
+  var_std__less, 2, var_145_9_lv1, var_146_10_rv1, 1, LOCAL(1),
   // 
   var_std__or, 2, LOCAL(1), lambda_13, 1, LOCAL(2),
   // ->
@@ -793,7 +793,7 @@ static TAB_NUM t_lambda_13[] = {
   2, // locals
   0, // parameters
   // lv1 == rv1
-  var_std__equal, 2, var_145_6_lv1, var_146_7_rv1, 1, LOCAL(1),
+  var_std__equal, 2, var_145_9_lv1, var_146_10_rv1, 1, LOCAL(1),
   // 
   var_std__and, 2, LOCAL(1), lambda_14, 1, LOCAL(2),
   // 
@@ -807,7 +807,7 @@ static TAB_NUM t_lambda_14[] = {
   2, // locals
   0, // parameters
   // lv2 < rv2
-  var_std__less, 2, var_145_11_lv2, var_146_12_rv2, 1, LOCAL(1),
+  var_std__less, 2, var_145_14_lv2, var_146_15_rv2, 1, LOCAL(1),
   // 
   var_std__or, 2, LOCAL(1), lambda_15, 1, LOCAL(2),
   // 
@@ -821,7 +821,7 @@ static TAB_NUM t_lambda_15[] = {
   2, // locals
   0, // parameters
   // lv2 == rv2
-  var_std__equal, 2, var_145_11_lv2, var_146_12_rv2, 1, LOCAL(1),
+  var_std__equal, 2, var_145_14_lv2, var_146_15_rv2, 1, LOCAL(1),
   // 
   var_std__and, 2, LOCAL(1), lambda_16, 1, LOCAL(2),
   // 
@@ -835,7 +835,7 @@ static TAB_NUM t_lambda_16[] = {
   2, // locals
   0, // parameters
   // lv3 < rv3
-  var_std__less, 2, var_145_16_lv3, var_146_17_rv3, 1, LOCAL(1),
+  var_std__less, 2, var_145_19_lv3, var_146_20_rv3, 1, LOCAL(1),
   // 
   var_std__or, 2, LOCAL(1), lambda_17, 1, LOCAL(2),
   // 
@@ -849,7 +849,7 @@ static TAB_NUM t_lambda_17[] = {
   2, // locals
   0, // parameters
   // lv3 == rv3
-  var_std__equal, 2, var_145_16_lv3, var_146_17_rv3, 1, LOCAL(1),
+  var_std__equal, 2, var_145_19_lv3, var_146_20_rv3, 1, LOCAL(1),
   // 
   var_std__and, 2, LOCAL(1), lambda_18, 1, LOCAL(2),
   // 
@@ -863,7 +863,7 @@ static TAB_NUM t_lambda_18[] = {
   1, // locals
   0, // parameters
   // lv4 < rv4
-  var_std__less, 2, var_145_21_lv4, var_146_22_rv4, 1, LOCAL(1),
+  var_std__less, 2, var_145_24_lv4, var_146_25_rv4, 1, LOCAL(1),
   // lv4 < rv4
   LET, 1, LOCAL(1), TAIL_CALL,
   POS(160, 17),
@@ -873,7 +873,7 @@ static TAB_NUM t_lambda_18[] = {
 static TAB_NUM t_func_builtin_types__tuple4___hash[] = {
   12, // locals
   1, // parameters
-  LOCAL(8), // 162_30_self
+  LOCAL(8), // 162_31_self
   // self $v1 $v2 $v3 $v4
   LOCAL(8), 0, 4, LOCAL(9), LOCAL(10), LOCAL(11), LOCAL(12),
   // hash(v1)
@@ -906,7 +906,7 @@ static TAB_NUM t_func_builtin_types__tuple4___hash[] = {
 static TAB_NUM t_func_builtin_types__tuple4___to_binop[] = {
   2, // locals
   1, // parameters
-  LOCAL(2), // 171_34_self
+  LOCAL(2), // 171_35_self
   // .operators_of self)
   LET, -1, var_binop4, var_operators_of, LOCAL(2), LOCAL(1),
   // -> binop4(.operators_of self)
@@ -918,9 +918,9 @@ static TAB_NUM t_func_builtin_types__tuple4___to_binop[] = {
 static TAB_NUM t_func_binop4[] = {
   19, // locals
   -3, // parameters
-  MYSELF_PARAMETER, LOCAL(5), // 173_10_myself
-  MANDATORY_PARAMETER, LOCAL(6), // 173_18_left
-  MANDATORY_PARAMETER, LOCAL(7), // 173_23_right
+  MYSELF_PARAMETER, LOCAL(5), // 173_11_myself
+  MANDATORY_PARAMETER, LOCAL(6), // 173_19_left
+  MANDATORY_PARAMETER, LOCAL(7), // 173_24_right
   // operators_of(myself) $op1 $op2 $op3 $op4
   var_operators_of, 1, LOCAL(5), 1, LOCAL(1),
   // operators_of(myself) $op1 $op2 $op3 $op4
@@ -953,8 +953,8 @@ static TAB_NUM t_func_binop4[] = {
 static TAB_NUM t_func_builtin_types__tuple5___equal[] = {
   2, // locals
   2, // parameters
-  LOCAL(1), // 187_31_left
-  LOCAL(2), // 187_36_right
+  LOCAL(1), // 187_32_left
+  LOCAL(2), // 187_37_right
   // equal5 right left
   var_equal5, 2, LOCAL(2), LOCAL(1), TAIL_CALL,
   POS(188, 3)
@@ -973,12 +973,12 @@ static TAB_NUM t_func_std_types__object___equal5[] = {
 static TAB_NUM t_func_builtin_types__tuple5___equal5[] = {
   6, // locals
   2, // parameters
-  LOCAL(3), // 192_32_right
-  LOCAL(4), // 192_38_left
+  LOCAL(3), // 192_33_right
+  LOCAL(4), // 192_39_left
   // left $lv1 $lv2 $lv3 $lv4 $lv5
-  LOCAL(4), 0, 5, LOCAL(5), var_193_11_lv2, var_193_16_lv3, var_193_21_lv4, var_193_26_lv5,
+  LOCAL(4), 0, 5, LOCAL(5), var_193_14_lv2, var_193_19_lv3, var_193_24_lv4, var_193_29_lv5,
   // right $rv1 $rv2 $rv3 $rv4 $rv5
-  LOCAL(3), 0, 5, LOCAL(6), var_194_12_rv2, var_194_17_rv3, var_194_22_rv4, var_194_27_rv5,
+  LOCAL(3), 0, 5, LOCAL(6), var_194_15_rv2, var_194_20_rv3, var_194_25_rv4, var_194_30_rv5,
   // lv1 == rv1
   var_std__equal, 2, LOCAL(5), LOCAL(6), 1, LOCAL(1),
   // 
@@ -996,7 +996,7 @@ static TAB_NUM t_lambda_19[] = {
   2, // locals
   0, // parameters
   // lv2 == rv2
-  var_std__equal, 2, var_193_11_lv2, var_194_12_rv2, 1, LOCAL(1),
+  var_std__equal, 2, var_193_14_lv2, var_194_15_rv2, 1, LOCAL(1),
   // 
   var_std__and, 2, LOCAL(1), lambda_20, 1, LOCAL(2),
   // lv2 == rv2
@@ -1010,7 +1010,7 @@ static TAB_NUM t_lambda_20[] = {
   2, // locals
   0, // parameters
   // lv3 == rv3
-  var_std__equal, 2, var_193_16_lv3, var_194_17_rv3, 1, LOCAL(1),
+  var_std__equal, 2, var_193_19_lv3, var_194_20_rv3, 1, LOCAL(1),
   // 
   var_std__and, 2, LOCAL(1), lambda_21, 1, LOCAL(2),
   // lv3 == rv3
@@ -1024,7 +1024,7 @@ static TAB_NUM t_lambda_21[] = {
   2, // locals
   0, // parameters
   // lv4 == rv4
-  var_std__equal, 2, var_193_21_lv4, var_194_22_rv4, 1, LOCAL(1),
+  var_std__equal, 2, var_193_24_lv4, var_194_25_rv4, 1, LOCAL(1),
   // 
   var_std__and, 2, LOCAL(1), lambda_22, 1, LOCAL(2),
   // lv4 == rv4
@@ -1038,7 +1038,7 @@ static TAB_NUM t_lambda_22[] = {
   1, // locals
   0, // parameters
   // lv5 == rv5
-  var_std__equal, 2, var_193_26_lv5, var_194_27_rv5, 1, LOCAL(1),
+  var_std__equal, 2, var_193_29_lv5, var_194_30_rv5, 1, LOCAL(1),
   // lv5 == rv5
   LET, 1, LOCAL(1), TAIL_CALL,
   POS(201, 7),
@@ -1048,14 +1048,14 @@ static TAB_NUM t_lambda_22[] = {
 static TAB_NUM t_func_builtin_types__tuple5___less[] = {
   4, // locals
   2, // parameters
-  LOCAL(3), // 203_30_left
-  LOCAL(4), // 203_35_right
+  LOCAL(3), // 203_31_left
+  LOCAL(4), // 203_36_right
   // left $lv1 $lv2 $lv3 $lv4 $lv5
-  LOCAL(3), 0, 5, var_204_6_lv1, var_204_11_lv2, var_204_16_lv3, var_204_21_lv4, var_204_26_lv5,
+  LOCAL(3), 0, 5, var_204_9_lv1, var_204_14_lv2, var_204_19_lv3, var_204_24_lv4, var_204_29_lv5,
   // right $rv1 $rv2 $rv3 $rv4 $rv5
-  LOCAL(4), 0, 5, var_205_7_rv1, var_205_12_rv2, var_205_17_rv3, var_205_22_rv4, var_205_27_rv5,
+  LOCAL(4), 0, 5, var_205_10_rv1, var_205_15_rv2, var_205_20_rv3, var_205_25_rv4, var_205_30_rv5,
   // lv1 < rv1
-  var_std__less, 2, var_204_6_lv1, var_205_7_rv1, 1, LOCAL(1),
+  var_std__less, 2, var_204_9_lv1, var_205_10_rv1, 1, LOCAL(1),
   // 
   var_std__or, 2, LOCAL(1), lambda_23, 1, LOCAL(2),
   // ->
@@ -1071,7 +1071,7 @@ static TAB_NUM t_lambda_23[] = {
   2, // locals
   0, // parameters
   // lv1 == rv1
-  var_std__equal, 2, var_204_6_lv1, var_205_7_rv1, 1, LOCAL(1),
+  var_std__equal, 2, var_204_9_lv1, var_205_10_rv1, 1, LOCAL(1),
   // 
   var_std__and, 2, LOCAL(1), lambda_24, 1, LOCAL(2),
   // 
@@ -1085,7 +1085,7 @@ static TAB_NUM t_lambda_24[] = {
   2, // locals
   0, // parameters
   // lv2 < rv2
-  var_std__less, 2, var_204_11_lv2, var_205_12_rv2, 1, LOCAL(1),
+  var_std__less, 2, var_204_14_lv2, var_205_15_rv2, 1, LOCAL(1),
   // 
   var_std__or, 2, LOCAL(1), lambda_25, 1, LOCAL(2),
   // 
@@ -1099,7 +1099,7 @@ static TAB_NUM t_lambda_25[] = {
   2, // locals
   0, // parameters
   // lv2 == rv2
-  var_std__equal, 2, var_204_11_lv2, var_205_12_rv2, 1, LOCAL(1),
+  var_std__equal, 2, var_204_14_lv2, var_205_15_rv2, 1, LOCAL(1),
   // 
   var_std__and, 2, LOCAL(1), lambda_26, 1, LOCAL(2),
   // 
@@ -1113,7 +1113,7 @@ static TAB_NUM t_lambda_26[] = {
   2, // locals
   0, // parameters
   // lv3 < rv3
-  var_std__less, 2, var_204_16_lv3, var_205_17_rv3, 1, LOCAL(1),
+  var_std__less, 2, var_204_19_lv3, var_205_20_rv3, 1, LOCAL(1),
   // 
   var_std__or, 2, LOCAL(1), lambda_27, 1, LOCAL(2),
   // 
@@ -1127,7 +1127,7 @@ static TAB_NUM t_lambda_27[] = {
   2, // locals
   0, // parameters
   // lv3 == rv3
-  var_std__equal, 2, var_204_16_lv3, var_205_17_rv3, 1, LOCAL(1),
+  var_std__equal, 2, var_204_19_lv3, var_205_20_rv3, 1, LOCAL(1),
   // 
   var_std__and, 2, LOCAL(1), lambda_28, 1, LOCAL(2),
   // 
@@ -1141,7 +1141,7 @@ static TAB_NUM t_lambda_28[] = {
   2, // locals
   0, // parameters
   // lv4 < rv4
-  var_std__less, 2, var_204_21_lv4, var_205_22_rv4, 1, LOCAL(1),
+  var_std__less, 2, var_204_24_lv4, var_205_25_rv4, 1, LOCAL(1),
   // 
   var_std__or, 2, LOCAL(1), lambda_29, 1, LOCAL(2),
   // 
@@ -1155,7 +1155,7 @@ static TAB_NUM t_lambda_29[] = {
   2, // locals
   0, // parameters
   // lv4 == rv4
-  var_std__equal, 2, var_204_21_lv4, var_205_22_rv4, 1, LOCAL(1),
+  var_std__equal, 2, var_204_24_lv4, var_205_25_rv4, 1, LOCAL(1),
   // 
   var_std__and, 2, LOCAL(1), lambda_30, 1, LOCAL(2),
   // 
@@ -1169,7 +1169,7 @@ static TAB_NUM t_lambda_30[] = {
   1, // locals
   0, // parameters
   // lv5 < rv5
-  var_std__less, 2, var_204_26_lv5, var_205_27_rv5, 1, LOCAL(1),
+  var_std__less, 2, var_204_29_lv5, var_205_30_rv5, 1, LOCAL(1),
   // lv5 < rv5
   LET, 1, LOCAL(1), TAIL_CALL,
   POS(223, 21),
@@ -1179,7 +1179,7 @@ static TAB_NUM t_lambda_30[] = {
 static TAB_NUM t_func_builtin_types__tuple5___hash[] = {
   15, // locals
   1, // parameters
-  LOCAL(10), // 225_30_self
+  LOCAL(10), // 225_31_self
   // self $v1 $v2 $v3 $v4 $v5
   LOCAL(10), 0, 5, LOCAL(11), LOCAL(12), LOCAL(13), LOCAL(14), LOCAL(15),
   // hash(v1)
@@ -1218,7 +1218,7 @@ static TAB_NUM t_func_builtin_types__tuple5___hash[] = {
 static TAB_NUM t_func_builtin_types__tuple5___to_binop[] = {
   2, // locals
   1, // parameters
-  LOCAL(2), // 235_34_self
+  LOCAL(2), // 235_35_self
   // .operators_of self)
   LET, -1, var_binop5, var_operators_of, LOCAL(2), LOCAL(1),
   // -> binop5(.operators_of self)
@@ -1230,9 +1230,9 @@ static TAB_NUM t_func_builtin_types__tuple5___to_binop[] = {
 static TAB_NUM t_func_binop5[] = {
   23, // locals
   -3, // parameters
-  MYSELF_PARAMETER, LOCAL(6), // 237_10_myself
-  MANDATORY_PARAMETER, LOCAL(7), // 237_18_left
-  MANDATORY_PARAMETER, LOCAL(8), // 237_23_right
+  MYSELF_PARAMETER, LOCAL(6), // 237_11_myself
+  MANDATORY_PARAMETER, LOCAL(7), // 237_19_left
+  MANDATORY_PARAMETER, LOCAL(8), // 237_24_right
   // operators_of(myself) $op1 $op2 $op3 $op4 $op5
   var_operators_of, 1, LOCAL(6), 1, LOCAL(1),
   // operators_of(myself) $op1 $op2 $op3 $op4 $op5
@@ -1268,8 +1268,8 @@ static TAB_NUM t_func_binop5[] = {
 static TAB_NUM t_func_builtin_types__tuple6___equal[] = {
   2, // locals
   2, // parameters
-  LOCAL(1), // 252_31_left
-  LOCAL(2), // 252_36_right
+  LOCAL(1), // 252_32_left
+  LOCAL(2), // 252_37_right
   // equal6 right left
   var_equal6, 2, LOCAL(2), LOCAL(1), TAIL_CALL,
   POS(253, 3)
@@ -1288,12 +1288,12 @@ static TAB_NUM t_func_std_types__object___equal6[] = {
 static TAB_NUM t_func_builtin_types__tuple6___equal6[] = {
   6, // locals
   2, // parameters
-  LOCAL(3), // 257_32_right
-  LOCAL(4), // 257_38_left
+  LOCAL(3), // 257_33_right
+  LOCAL(4), // 257_39_left
   // left $lv1 $lv2 $lv3 $lv4 $lv5 $lv6
-  LOCAL(4), 0, 6, LOCAL(5), var_258_11_lv2, var_258_16_lv3, var_258_21_lv4, var_258_26_lv5, var_258_31_lv6,
+  LOCAL(4), 0, 6, LOCAL(5), var_258_14_lv2, var_258_19_lv3, var_258_24_lv4, var_258_29_lv5, var_258_34_lv6,
   // right $rv1 $rv2 $rv3 $rv4 $rv5 $rv6
-  LOCAL(3), 0, 6, LOCAL(6), var_259_12_rv2, var_259_17_rv3, var_259_22_rv4, var_259_27_rv5, var_259_32_rv6,
+  LOCAL(3), 0, 6, LOCAL(6), var_259_15_rv2, var_259_20_rv3, var_259_25_rv4, var_259_30_rv5, var_259_35_rv6,
   // lv1 == rv1
   var_std__equal, 2, LOCAL(5), LOCAL(6), 1, LOCAL(1),
   // 
@@ -1311,7 +1311,7 @@ static TAB_NUM t_lambda_31[] = {
   2, // locals
   0, // parameters
   // lv2 == rv2
-  var_std__equal, 2, var_258_11_lv2, var_259_12_rv2, 1, LOCAL(1),
+  var_std__equal, 2, var_258_14_lv2, var_259_15_rv2, 1, LOCAL(1),
   // 
   var_std__and, 2, LOCAL(1), lambda_32, 1, LOCAL(2),
   // lv2 == rv2
@@ -1325,7 +1325,7 @@ static TAB_NUM t_lambda_32[] = {
   2, // locals
   0, // parameters
   // lv3 == rv3
-  var_std__equal, 2, var_258_16_lv3, var_259_17_rv3, 1, LOCAL(1),
+  var_std__equal, 2, var_258_19_lv3, var_259_20_rv3, 1, LOCAL(1),
   // 
   var_std__and, 2, LOCAL(1), lambda_33, 1, LOCAL(2),
   // lv3 == rv3
@@ -1339,7 +1339,7 @@ static TAB_NUM t_lambda_33[] = {
   2, // locals
   0, // parameters
   // lv4 == rv4
-  var_std__equal, 2, var_258_21_lv4, var_259_22_rv4, 1, LOCAL(1),
+  var_std__equal, 2, var_258_24_lv4, var_259_25_rv4, 1, LOCAL(1),
   // 
   var_std__and, 2, LOCAL(1), lambda_34, 1, LOCAL(2),
   // lv4 == rv4
@@ -1353,7 +1353,7 @@ static TAB_NUM t_lambda_34[] = {
   2, // locals
   0, // parameters
   // lv5 == rv5
-  var_std__equal, 2, var_258_26_lv5, var_259_27_rv5, 1, LOCAL(1),
+  var_std__equal, 2, var_258_29_lv5, var_259_30_rv5, 1, LOCAL(1),
   // 
   var_std__and, 2, LOCAL(1), lambda_35, 1, LOCAL(2),
   // lv5 == rv5
@@ -1367,7 +1367,7 @@ static TAB_NUM t_lambda_35[] = {
   1, // locals
   0, // parameters
   // lv6 == rv6
-  var_std__equal, 2, var_258_31_lv6, var_259_32_rv6, 1, LOCAL(1),
+  var_std__equal, 2, var_258_34_lv6, var_259_35_rv6, 1, LOCAL(1),
   // lv6 == rv6
   LET, 1, LOCAL(1), TAIL_CALL,
   POS(267, 7),
@@ -1377,14 +1377,14 @@ static TAB_NUM t_lambda_35[] = {
 static TAB_NUM t_func_builtin_types__tuple6___less[] = {
   4, // locals
   2, // parameters
-  LOCAL(3), // 269_30_left
-  LOCAL(4), // 269_35_right
+  LOCAL(3), // 269_31_left
+  LOCAL(4), // 269_36_right
   // left $lv1 $lv2 $lv3 $lv4 $lv5 $lv6
-  LOCAL(3), 0, 6, var_270_6_lv1, var_270_11_lv2, var_270_16_lv3, var_270_21_lv4, var_270_26_lv5, var_270_31_lv6,
+  LOCAL(3), 0, 6, var_270_9_lv1, var_270_14_lv2, var_270_19_lv3, var_270_24_lv4, var_270_29_lv5, var_270_34_lv6,
   // right $rv1 $rv2 $rv3 $rv4 $rv5 $rv6
-  LOCAL(4), 0, 6, var_271_7_rv1, var_271_12_rv2, var_271_17_rv3, var_271_22_rv4, var_271_27_rv5, var_271_32_rv6,
+  LOCAL(4), 0, 6, var_271_10_rv1, var_271_15_rv2, var_271_20_rv3, var_271_25_rv4, var_271_30_rv5, var_271_35_rv6,
   // lv1 < rv1
-  var_std__less, 2, var_270_6_lv1, var_271_7_rv1, 1, LOCAL(1),
+  var_std__less, 2, var_270_9_lv1, var_271_10_rv1, 1, LOCAL(1),
   // 
   var_std__or, 2, LOCAL(1), lambda_36, 1, LOCAL(2),
   // ->
@@ -1400,7 +1400,7 @@ static TAB_NUM t_lambda_36[] = {
   2, // locals
   0, // parameters
   // lv1 == rv1
-  var_std__equal, 2, var_270_6_lv1, var_271_7_rv1, 1, LOCAL(1),
+  var_std__equal, 2, var_270_9_lv1, var_271_10_rv1, 1, LOCAL(1),
   // 
   var_std__and, 2, LOCAL(1), lambda_37, 1, LOCAL(2),
   // 
@@ -1414,7 +1414,7 @@ static TAB_NUM t_lambda_37[] = {
   2, // locals
   0, // parameters
   // lv2 < rv2
-  var_std__less, 2, var_270_11_lv2, var_271_12_rv2, 1, LOCAL(1),
+  var_std__less, 2, var_270_14_lv2, var_271_15_rv2, 1, LOCAL(1),
   // 
   var_std__or, 2, LOCAL(1), lambda_38, 1, LOCAL(2),
   // 
@@ -1428,7 +1428,7 @@ static TAB_NUM t_lambda_38[] = {
   2, // locals
   0, // parameters
   // lv2 == rv2
-  var_std__equal, 2, var_270_11_lv2, var_271_12_rv2, 1, LOCAL(1),
+  var_std__equal, 2, var_270_14_lv2, var_271_15_rv2, 1, LOCAL(1),
   // 
   var_std__and, 2, LOCAL(1), lambda_39, 1, LOCAL(2),
   // 
@@ -1442,7 +1442,7 @@ static TAB_NUM t_lambda_39[] = {
   2, // locals
   0, // parameters
   // lv3 < rv3
-  var_std__less, 2, var_270_16_lv3, var_271_17_rv3, 1, LOCAL(1),
+  var_std__less, 2, var_270_19_lv3, var_271_20_rv3, 1, LOCAL(1),
   // 
   var_std__or, 2, LOCAL(1), lambda_40, 1, LOCAL(2),
   // 
@@ -1456,7 +1456,7 @@ static TAB_NUM t_lambda_40[] = {
   2, // locals
   0, // parameters
   // lv3 == rv3
-  var_std__equal, 2, var_270_16_lv3, var_271_17_rv3, 1, LOCAL(1),
+  var_std__equal, 2, var_270_19_lv3, var_271_20_rv3, 1, LOCAL(1),
   // 
   var_std__and, 2, LOCAL(1), lambda_41, 1, LOCAL(2),
   // 
@@ -1470,7 +1470,7 @@ static TAB_NUM t_lambda_41[] = {
   2, // locals
   0, // parameters
   // lv4 < rv4
-  var_std__less, 2, var_270_21_lv4, var_271_22_rv4, 1, LOCAL(1),
+  var_std__less, 2, var_270_24_lv4, var_271_25_rv4, 1, LOCAL(1),
   // 
   var_std__or, 2, LOCAL(1), lambda_42, 1, LOCAL(2),
   // 
@@ -1484,7 +1484,7 @@ static TAB_NUM t_lambda_42[] = {
   2, // locals
   0, // parameters
   // lv4 == rv4
-  var_std__equal, 2, var_270_21_lv4, var_271_22_rv4, 1, LOCAL(1),
+  var_std__equal, 2, var_270_24_lv4, var_271_25_rv4, 1, LOCAL(1),
   // 
   var_std__and, 2, LOCAL(1), lambda_43, 1, LOCAL(2),
   // 
@@ -1498,7 +1498,7 @@ static TAB_NUM t_lambda_43[] = {
   2, // locals
   0, // parameters
   // lv5 < rv5
-  var_std__less, 2, var_270_26_lv5, var_271_27_rv5, 1, LOCAL(1),
+  var_std__less, 2, var_270_29_lv5, var_271_30_rv5, 1, LOCAL(1),
   // 
   var_std__or, 2, LOCAL(1), lambda_44, 1, LOCAL(2),
   // 
@@ -1512,7 +1512,7 @@ static TAB_NUM t_lambda_44[] = {
   2, // locals
   0, // parameters
   // lv5 == rv5
-  var_std__equal, 2, var_270_26_lv5, var_271_27_rv5, 1, LOCAL(1),
+  var_std__equal, 2, var_270_29_lv5, var_271_30_rv5, 1, LOCAL(1),
   // 
   var_std__and, 2, LOCAL(1), lambda_45, 1, LOCAL(2),
   // 
@@ -1526,7 +1526,7 @@ static TAB_NUM t_lambda_45[] = {
   1, // locals
   0, // parameters
   // lv6 < rv6
-  var_std__less, 2, var_270_31_lv6, var_271_32_rv6, 1, LOCAL(1),
+  var_std__less, 2, var_270_34_lv6, var_271_35_rv6, 1, LOCAL(1),
   // lv6 < rv6
   LET, 1, LOCAL(1), TAIL_CALL,
   POS(293, 25),
@@ -1536,7 +1536,7 @@ static TAB_NUM t_lambda_45[] = {
 static TAB_NUM t_func_builtin_types__tuple6___hash[] = {
   18, // locals
   1, // parameters
-  LOCAL(12), // 295_30_self
+  LOCAL(12), // 295_31_self
   // self $v1 $v2 $v3 $v4 $v5 $v6
   LOCAL(12), 0, 6, LOCAL(13), LOCAL(14), LOCAL(15), LOCAL(16), LOCAL(17), LOCAL(18),
   // hash(v1)
@@ -1581,7 +1581,7 @@ static TAB_NUM t_func_builtin_types__tuple6___hash[] = {
 static TAB_NUM t_func_builtin_types__tuple6___to_binop[] = {
   2, // locals
   1, // parameters
-  LOCAL(2), // 306_34_self
+  LOCAL(2), // 306_35_self
   // .operators_of self)
   LET, -1, var_binop6, var_operators_of, LOCAL(2), LOCAL(1),
   // -> binop6(.operators_of self)
@@ -1593,9 +1593,9 @@ static TAB_NUM t_func_builtin_types__tuple6___to_binop[] = {
 static TAB_NUM t_func_binop6[] = {
   27, // locals
   -3, // parameters
-  MYSELF_PARAMETER, LOCAL(7), // 308_10_myself
-  MANDATORY_PARAMETER, LOCAL(8), // 308_18_left
-  MANDATORY_PARAMETER, LOCAL(9), // 308_23_right
+  MYSELF_PARAMETER, LOCAL(7), // 308_11_myself
+  MANDATORY_PARAMETER, LOCAL(8), // 308_19_left
+  MANDATORY_PARAMETER, LOCAL(9), // 308_24_right
   // operators_of(myself) $op1 $op2 $op3 $op4 $op5 $op6
   var_operators_of, 1, LOCAL(7), 1, LOCAL(1),
   // operators_of(myself) $op1 $op2 $op3 $op4 $op5 $op6
@@ -1634,8 +1634,8 @@ static TAB_NUM t_func_binop6[] = {
 static TAB_NUM t_func_builtin_types__tuple7___equal[] = {
   2, // locals
   2, // parameters
-  LOCAL(1), // 324_31_left
-  LOCAL(2), // 324_36_right
+  LOCAL(1), // 324_32_left
+  LOCAL(2), // 324_37_right
   // equal7 right left
   var_equal7, 2, LOCAL(2), LOCAL(1), TAIL_CALL,
   POS(325, 3)
@@ -1654,12 +1654,12 @@ static TAB_NUM t_func_std_types__object___equal7[] = {
 static TAB_NUM t_func_builtin_types__tuple7___equal7[] = {
   6, // locals
   2, // parameters
-  LOCAL(3), // 329_32_right
-  LOCAL(4), // 329_38_left
+  LOCAL(3), // 329_33_right
+  LOCAL(4), // 329_39_left
   // left $lv1 $lv2 $lv3 $lv4 $lv5 $lv6 $lv7
-  LOCAL(4), 0, 7, LOCAL(5), var_330_11_lv2, var_330_16_lv3, var_330_21_lv4, var_330_26_lv5, var_330_31_lv6, var_330_36_lv7,
+  LOCAL(4), 0, 7, LOCAL(5), var_330_14_lv2, var_330_19_lv3, var_330_24_lv4, var_330_29_lv5, var_330_34_lv6, var_330_39_lv7,
   // right $rv1 $rv2 $rv3 $rv4 $rv5 $rv6 $rv7
-  LOCAL(3), 0, 7, LOCAL(6), var_331_12_rv2, var_331_17_rv3, var_331_22_rv4, var_331_27_rv5, var_331_32_rv6, var_331_37_rv7,
+  LOCAL(3), 0, 7, LOCAL(6), var_331_15_rv2, var_331_20_rv3, var_331_25_rv4, var_331_30_rv5, var_331_35_rv6, var_331_40_rv7,
   // lv1 == rv1
   var_std__equal, 2, LOCAL(5), LOCAL(6), 1, LOCAL(1),
   // 
@@ -1677,7 +1677,7 @@ static TAB_NUM t_lambda_46[] = {
   2, // locals
   0, // parameters
   // lv2 == rv2
-  var_std__equal, 2, var_330_11_lv2, var_331_12_rv2, 1, LOCAL(1),
+  var_std__equal, 2, var_330_14_lv2, var_331_15_rv2, 1, LOCAL(1),
   // 
   var_std__and, 2, LOCAL(1), lambda_47, 1, LOCAL(2),
   // lv2 == rv2
@@ -1691,7 +1691,7 @@ static TAB_NUM t_lambda_47[] = {
   2, // locals
   0, // parameters
   // lv3 == rv3
-  var_std__equal, 2, var_330_16_lv3, var_331_17_rv3, 1, LOCAL(1),
+  var_std__equal, 2, var_330_19_lv3, var_331_20_rv3, 1, LOCAL(1),
   // 
   var_std__and, 2, LOCAL(1), lambda_48, 1, LOCAL(2),
   // lv3 == rv3
@@ -1705,7 +1705,7 @@ static TAB_NUM t_lambda_48[] = {
   2, // locals
   0, // parameters
   // lv4 == rv4
-  var_std__equal, 2, var_330_21_lv4, var_331_22_rv4, 1, LOCAL(1),
+  var_std__equal, 2, var_330_24_lv4, var_331_25_rv4, 1, LOCAL(1),
   // 
   var_std__and, 2, LOCAL(1), lambda_49, 1, LOCAL(2),
   // lv4 == rv4
@@ -1719,7 +1719,7 @@ static TAB_NUM t_lambda_49[] = {
   2, // locals
   0, // parameters
   // lv5 == rv5
-  var_std__equal, 2, var_330_26_lv5, var_331_27_rv5, 1, LOCAL(1),
+  var_std__equal, 2, var_330_29_lv5, var_331_30_rv5, 1, LOCAL(1),
   // 
   var_std__and, 2, LOCAL(1), lambda_50, 1, LOCAL(2),
   // lv5 == rv5
@@ -1733,7 +1733,7 @@ static TAB_NUM t_lambda_50[] = {
   2, // locals
   0, // parameters
   // lv6 == rv6
-  var_std__equal, 2, var_330_31_lv6, var_331_32_rv6, 1, LOCAL(1),
+  var_std__equal, 2, var_330_34_lv6, var_331_35_rv6, 1, LOCAL(1),
   // 
   var_std__and, 2, LOCAL(1), lambda_51, 1, LOCAL(2),
   // lv6 == rv6
@@ -1747,7 +1747,7 @@ static TAB_NUM t_lambda_51[] = {
   1, // locals
   0, // parameters
   // lv7 == rv7
-  var_std__equal, 2, var_330_36_lv7, var_331_37_rv7, 1, LOCAL(1),
+  var_std__equal, 2, var_330_39_lv7, var_331_40_rv7, 1, LOCAL(1),
   // lv7 == rv7
   LET, 1, LOCAL(1), TAIL_CALL,
   POS(340, 7),
@@ -1757,14 +1757,14 @@ static TAB_NUM t_lambda_51[] = {
 static TAB_NUM t_func_builtin_types__tuple7___less[] = {
   4, // locals
   2, // parameters
-  LOCAL(3), // 342_30_left
-  LOCAL(4), // 342_35_right
+  LOCAL(3), // 342_31_left
+  LOCAL(4), // 342_36_right
   // left $lv1 $lv2 $lv3 $lv4 $lv5 $lv6 $lv7
-  LOCAL(3), 0, 7, var_343_6_lv1, var_343_11_lv2, var_343_16_lv3, var_343_21_lv4, var_343_26_lv5, var_343_31_lv6, var_343_36_lv7,
+  LOCAL(3), 0, 7, var_343_9_lv1, var_343_14_lv2, var_343_19_lv3, var_343_24_lv4, var_343_29_lv5, var_343_34_lv6, var_343_39_lv7,
   // right $rv1 $rv2 $rv3 $rv4 $rv5 $rv6 $rv7
-  LOCAL(4), 0, 7, var_344_7_rv1, var_344_12_rv2, var_344_17_rv3, var_344_22_rv4, var_344_27_rv5, var_344_32_rv6, var_344_37_rv7,
+  LOCAL(4), 0, 7, var_344_10_rv1, var_344_15_rv2, var_344_20_rv3, var_344_25_rv4, var_344_30_rv5, var_344_35_rv6, var_344_40_rv7,
   // lv1 < rv1
-  var_std__less, 2, var_343_6_lv1, var_344_7_rv1, 1, LOCAL(1),
+  var_std__less, 2, var_343_9_lv1, var_344_10_rv1, 1, LOCAL(1),
   // 
   var_std__or, 2, LOCAL(1), lambda_52, 1, LOCAL(2),
   // ->
@@ -1780,7 +1780,7 @@ static TAB_NUM t_lambda_52[] = {
   2, // locals
   0, // parameters
   // lv1 == rv1
-  var_std__equal, 2, var_343_6_lv1, var_344_7_rv1, 1, LOCAL(1),
+  var_std__equal, 2, var_343_9_lv1, var_344_10_rv1, 1, LOCAL(1),
   // 
   var_std__and, 2, LOCAL(1), lambda_53, 1, LOCAL(2),
   // 
@@ -1794,7 +1794,7 @@ static TAB_NUM t_lambda_53[] = {
   2, // locals
   0, // parameters
   // lv2 < rv2
-  var_std__less, 2, var_343_11_lv2, var_344_12_rv2, 1, LOCAL(1),
+  var_std__less, 2, var_343_14_lv2, var_344_15_rv2, 1, LOCAL(1),
   // 
   var_std__or, 2, LOCAL(1), lambda_54, 1, LOCAL(2),
   // 
@@ -1808,7 +1808,7 @@ static TAB_NUM t_lambda_54[] = {
   2, // locals
   0, // parameters
   // lv2 == rv2
-  var_std__equal, 2, var_343_11_lv2, var_344_12_rv2, 1, LOCAL(1),
+  var_std__equal, 2, var_343_14_lv2, var_344_15_rv2, 1, LOCAL(1),
   // 
   var_std__and, 2, LOCAL(1), lambda_55, 1, LOCAL(2),
   // 
@@ -1822,7 +1822,7 @@ static TAB_NUM t_lambda_55[] = {
   2, // locals
   0, // parameters
   // lv3 < rv3
-  var_std__less, 2, var_343_16_lv3, var_344_17_rv3, 1, LOCAL(1),
+  var_std__less, 2, var_343_19_lv3, var_344_20_rv3, 1, LOCAL(1),
   // 
   var_std__or, 2, LOCAL(1), lambda_56, 1, LOCAL(2),
   // 
@@ -1836,7 +1836,7 @@ static TAB_NUM t_lambda_56[] = {
   2, // locals
   0, // parameters
   // lv3 == rv3
-  var_std__equal, 2, var_343_16_lv3, var_344_17_rv3, 1, LOCAL(1),
+  var_std__equal, 2, var_343_19_lv3, var_344_20_rv3, 1, LOCAL(1),
   // 
   var_std__and, 2, LOCAL(1), lambda_57, 1, LOCAL(2),
   // 
@@ -1850,7 +1850,7 @@ static TAB_NUM t_lambda_57[] = {
   2, // locals
   0, // parameters
   // lv4 < rv4
-  var_std__less, 2, var_343_21_lv4, var_344_22_rv4, 1, LOCAL(1),
+  var_std__less, 2, var_343_24_lv4, var_344_25_rv4, 1, LOCAL(1),
   // 
   var_std__or, 2, LOCAL(1), lambda_58, 1, LOCAL(2),
   // 
@@ -1864,7 +1864,7 @@ static TAB_NUM t_lambda_58[] = {
   2, // locals
   0, // parameters
   // lv4 == rv4
-  var_std__equal, 2, var_343_21_lv4, var_344_22_rv4, 1, LOCAL(1),
+  var_std__equal, 2, var_343_24_lv4, var_344_25_rv4, 1, LOCAL(1),
   // 
   var_std__and, 2, LOCAL(1), lambda_59, 1, LOCAL(2),
   // 
@@ -1878,7 +1878,7 @@ static TAB_NUM t_lambda_59[] = {
   2, // locals
   0, // parameters
   // lv5 < rv5
-  var_std__less, 2, var_343_26_lv5, var_344_27_rv5, 1, LOCAL(1),
+  var_std__less, 2, var_343_29_lv5, var_344_30_rv5, 1, LOCAL(1),
   // 
   var_std__or, 2, LOCAL(1), lambda_60, 1, LOCAL(2),
   // 
@@ -1892,7 +1892,7 @@ static TAB_NUM t_lambda_60[] = {
   2, // locals
   0, // parameters
   // lv5 == rv5
-  var_std__equal, 2, var_343_26_lv5, var_344_27_rv5, 1, LOCAL(1),
+  var_std__equal, 2, var_343_29_lv5, var_344_30_rv5, 1, LOCAL(1),
   // 
   var_std__and, 2, LOCAL(1), lambda_61, 1, LOCAL(2),
   // 
@@ -1906,7 +1906,7 @@ static TAB_NUM t_lambda_61[] = {
   2, // locals
   0, // parameters
   // lv6 < rv6
-  var_std__less, 2, var_343_31_lv6, var_344_32_rv6, 1, LOCAL(1),
+  var_std__less, 2, var_343_34_lv6, var_344_35_rv6, 1, LOCAL(1),
   // 
   var_std__or, 2, LOCAL(1), lambda_62, 1, LOCAL(2),
   // 
@@ -1920,7 +1920,7 @@ static TAB_NUM t_lambda_62[] = {
   2, // locals
   0, // parameters
   // lv6 == rv6
-  var_std__equal, 2, var_343_31_lv6, var_344_32_rv6, 1, LOCAL(1),
+  var_std__equal, 2, var_343_34_lv6, var_344_35_rv6, 1, LOCAL(1),
   // 
   var_std__and, 2, LOCAL(1), lambda_63, 1, LOCAL(2),
   // 
@@ -1934,7 +1934,7 @@ static TAB_NUM t_lambda_63[] = {
   1, // locals
   0, // parameters
   // lv7 < rv7
-  var_std__less, 2, var_343_36_lv7, var_344_37_rv7, 1, LOCAL(1),
+  var_std__less, 2, var_343_39_lv7, var_344_40_rv7, 1, LOCAL(1),
   // lv7 < rv7
   LET, 1, LOCAL(1), TAIL_CALL,
   POS(370, 29),
@@ -1944,7 +1944,7 @@ static TAB_NUM t_lambda_63[] = {
 static TAB_NUM t_func_builtin_types__tuple7___hash[] = {
   21, // locals
   1, // parameters
-  LOCAL(14), // 372_30_self
+  LOCAL(14), // 372_31_self
   // self $v1 $v2 $v3 $v4 $v5 $v6 $v7
   LOCAL(14), 0, 7, LOCAL(15), LOCAL(16), LOCAL(17), LOCAL(18), LOCAL(19), LOCAL(20), LOCAL(21),
   // hash(v1)
@@ -1995,7 +1995,7 @@ static TAB_NUM t_func_builtin_types__tuple7___hash[] = {
 static TAB_NUM t_func_builtin_types__tuple7___to_binop[] = {
   2, // locals
   1, // parameters
-  LOCAL(2), // 384_34_self
+  LOCAL(2), // 384_35_self
   // .operators_of self)
   LET, -1, var_binop7, var_operators_of, LOCAL(2), LOCAL(1),
   // -> binop7(.operators_of self)
@@ -2007,9 +2007,9 @@ static TAB_NUM t_func_builtin_types__tuple7___to_binop[] = {
 static TAB_NUM t_func_binop7[] = {
   31, // locals
   -3, // parameters
-  MYSELF_PARAMETER, LOCAL(8), // 386_10_myself
-  MANDATORY_PARAMETER, LOCAL(9), // 386_18_left
-  MANDATORY_PARAMETER, LOCAL(10), // 386_23_right
+  MYSELF_PARAMETER, LOCAL(8), // 386_11_myself
+  MANDATORY_PARAMETER, LOCAL(9), // 386_19_left
+  MANDATORY_PARAMETER, LOCAL(10), // 386_24_right
   // operators_of(myself) $op1 $op2 $op3 $op4 $op5 $op6 $op7
   var_operators_of, 1, LOCAL(8), 1, LOCAL(1),
   // operators_of(myself) $op1 $op2 $op3 $op4 $op5 $op6 $op7
@@ -2051,8 +2051,8 @@ static TAB_NUM t_func_binop7[] = {
 static TAB_NUM t_func_builtin_types__tuple8___equal[] = {
   2, // locals
   2, // parameters
-  LOCAL(1), // 403_31_left
-  LOCAL(2), // 403_36_right
+  LOCAL(1), // 403_32_left
+  LOCAL(2), // 403_37_right
   // equal8 right left
   var_equal8, 2, LOCAL(2), LOCAL(1), TAIL_CALL,
   POS(404, 3)
@@ -2071,12 +2071,12 @@ static TAB_NUM t_func_std_types__object___equal8[] = {
 static TAB_NUM t_func_builtin_types__tuple8___equal8[] = {
   6, // locals
   2, // parameters
-  LOCAL(3), // 408_32_right
-  LOCAL(4), // 408_38_left
+  LOCAL(3), // 408_33_right
+  LOCAL(4), // 408_39_left
   // left $lv1 $lv2 $lv3 $lv4 $lv5 $lv6 $lv7 $lv8
-  LOCAL(4), 0, 8, LOCAL(5), var_409_11_lv2, var_409_16_lv3, var_409_21_lv4, var_409_26_lv5, var_409_31_lv6, var_409_36_lv7, var_409_41_lv8,
+  LOCAL(4), 0, 8, LOCAL(5), var_409_14_lv2, var_409_19_lv3, var_409_24_lv4, var_409_29_lv5, var_409_34_lv6, var_409_39_lv7, var_409_44_lv8,
   // right $rv1 $rv2 $rv3 $rv4 $rv5 $rv6 $rv7 $rv8
-  LOCAL(3), 0, 8, LOCAL(6), var_410_12_rv2, var_410_17_rv3, var_410_22_rv4, var_410_27_rv5, var_410_32_rv6, var_410_37_rv7, var_410_42_rv8,
+  LOCAL(3), 0, 8, LOCAL(6), var_410_15_rv2, var_410_20_rv3, var_410_25_rv4, var_410_30_rv5, var_410_35_rv6, var_410_40_rv7, var_410_45_rv8,
   // lv1 == rv1
   var_std__equal, 2, LOCAL(5), LOCAL(6), 1, LOCAL(1),
   // 
@@ -2094,7 +2094,7 @@ static TAB_NUM t_lambda_64[] = {
   2, // locals
   0, // parameters
   // lv2 == rv2
-  var_std__equal, 2, var_409_11_lv2, var_410_12_rv2, 1, LOCAL(1),
+  var_std__equal, 2, var_409_14_lv2, var_410_15_rv2, 1, LOCAL(1),
   // 
   var_std__and, 2, LOCAL(1), lambda_65, 1, LOCAL(2),
   // lv2 == rv2
@@ -2108,7 +2108,7 @@ static TAB_NUM t_lambda_65[] = {
   2, // locals
   0, // parameters
   // lv3 == rv3
-  var_std__equal, 2, var_409_16_lv3, var_410_17_rv3, 1, LOCAL(1),
+  var_std__equal, 2, var_409_19_lv3, var_410_20_rv3, 1, LOCAL(1),
   // 
   var_std__and, 2, LOCAL(1), lambda_66, 1, LOCAL(2),
   // lv3 == rv3
@@ -2122,7 +2122,7 @@ static TAB_NUM t_lambda_66[] = {
   2, // locals
   0, // parameters
   // lv4 == rv4
-  var_std__equal, 2, var_409_21_lv4, var_410_22_rv4, 1, LOCAL(1),
+  var_std__equal, 2, var_409_24_lv4, var_410_25_rv4, 1, LOCAL(1),
   // 
   var_std__and, 2, LOCAL(1), lambda_67, 1, LOCAL(2),
   // lv4 == rv4
@@ -2136,7 +2136,7 @@ static TAB_NUM t_lambda_67[] = {
   2, // locals
   0, // parameters
   // lv5 == rv5
-  var_std__equal, 2, var_409_26_lv5, var_410_27_rv5, 1, LOCAL(1),
+  var_std__equal, 2, var_409_29_lv5, var_410_30_rv5, 1, LOCAL(1),
   // 
   var_std__and, 2, LOCAL(1), lambda_68, 1, LOCAL(2),
   // lv5 == rv5
@@ -2150,7 +2150,7 @@ static TAB_NUM t_lambda_68[] = {
   2, // locals
   0, // parameters
   // lv6 == rv6
-  var_std__equal, 2, var_409_31_lv6, var_410_32_rv6, 1, LOCAL(1),
+  var_std__equal, 2, var_409_34_lv6, var_410_35_rv6, 1, LOCAL(1),
   // 
   var_std__and, 2, LOCAL(1), lambda_69, 1, LOCAL(2),
   // lv6 == rv6
@@ -2164,7 +2164,7 @@ static TAB_NUM t_lambda_69[] = {
   2, // locals
   0, // parameters
   // lv7 == rv7
-  var_std__equal, 2, var_409_36_lv7, var_410_37_rv7, 1, LOCAL(1),
+  var_std__equal, 2, var_409_39_lv7, var_410_40_rv7, 1, LOCAL(1),
   // 
   var_std__and, 2, LOCAL(1), lambda_70, 1, LOCAL(2),
   // lv7 == rv7
@@ -2178,7 +2178,7 @@ static TAB_NUM t_lambda_70[] = {
   1, // locals
   0, // parameters
   // lv8 == rv8
-  var_std__equal, 2, var_409_41_lv8, var_410_42_rv8, 1, LOCAL(1),
+  var_std__equal, 2, var_409_44_lv8, var_410_45_rv8, 1, LOCAL(1),
   // lv8 == rv8
   LET, 1, LOCAL(1), TAIL_CALL,
   POS(420, 7),
@@ -2188,14 +2188,14 @@ static TAB_NUM t_lambda_70[] = {
 static TAB_NUM t_func_builtin_types__tuple8___less[] = {
   4, // locals
   2, // parameters
-  LOCAL(3), // 422_30_left
-  LOCAL(4), // 422_35_right
+  LOCAL(3), // 422_31_left
+  LOCAL(4), // 422_36_right
   // left $lv1 $lv2 $lv3 $lv4 $lv5 $lv6 $lv7 $lv8
-  LOCAL(3), 0, 8, var_423_6_lv1, var_423_11_lv2, var_423_16_lv3, var_423_21_lv4, var_423_26_lv5, var_423_31_lv6, var_423_36_lv7, var_423_41_lv8,
+  LOCAL(3), 0, 8, var_423_9_lv1, var_423_14_lv2, var_423_19_lv3, var_423_24_lv4, var_423_29_lv5, var_423_34_lv6, var_423_39_lv7, var_423_44_lv8,
   // right $rv1 $rv2 $rv3 $rv4 $rv5 $rv6 $rv7 $rv8
-  LOCAL(4), 0, 8, var_424_7_rv1, var_424_12_rv2, var_424_17_rv3, var_424_22_rv4, var_424_27_rv5, var_424_32_rv6, var_424_37_rv7, var_424_42_rv8,
+  LOCAL(4), 0, 8, var_424_10_rv1, var_424_15_rv2, var_424_20_rv3, var_424_25_rv4, var_424_30_rv5, var_424_35_rv6, var_424_40_rv7, var_424_45_rv8,
   // lv1 < rv1
-  var_std__less, 2, var_423_6_lv1, var_424_7_rv1, 1, LOCAL(1),
+  var_std__less, 2, var_423_9_lv1, var_424_10_rv1, 1, LOCAL(1),
   // 
   var_std__or, 2, LOCAL(1), lambda_71, 1, LOCAL(2),
   // ->
@@ -2211,7 +2211,7 @@ static TAB_NUM t_lambda_71[] = {
   2, // locals
   0, // parameters
   // lv1 == rv1
-  var_std__equal, 2, var_423_6_lv1, var_424_7_rv1, 1, LOCAL(1),
+  var_std__equal, 2, var_423_9_lv1, var_424_10_rv1, 1, LOCAL(1),
   // 
   var_std__and, 2, LOCAL(1), lambda_72, 1, LOCAL(2),
   // 
@@ -2225,7 +2225,7 @@ static TAB_NUM t_lambda_72[] = {
   2, // locals
   0, // parameters
   // lv2 < rv2
-  var_std__less, 2, var_423_11_lv2, var_424_12_rv2, 1, LOCAL(1),
+  var_std__less, 2, var_423_14_lv2, var_424_15_rv2, 1, LOCAL(1),
   // 
   var_std__or, 2, LOCAL(1), lambda_73, 1, LOCAL(2),
   // 
@@ -2239,7 +2239,7 @@ static TAB_NUM t_lambda_73[] = {
   2, // locals
   0, // parameters
   // lv2 == rv2
-  var_std__equal, 2, var_423_11_lv2, var_424_12_rv2, 1, LOCAL(1),
+  var_std__equal, 2, var_423_14_lv2, var_424_15_rv2, 1, LOCAL(1),
   // 
   var_std__and, 2, LOCAL(1), lambda_74, 1, LOCAL(2),
   // 
@@ -2253,7 +2253,7 @@ static TAB_NUM t_lambda_74[] = {
   2, // locals
   0, // parameters
   // lv3 < rv3
-  var_std__less, 2, var_423_16_lv3, var_424_17_rv3, 1, LOCAL(1),
+  var_std__less, 2, var_423_19_lv3, var_424_20_rv3, 1, LOCAL(1),
   // 
   var_std__or, 2, LOCAL(1), lambda_75, 1, LOCAL(2),
   // 
@@ -2267,7 +2267,7 @@ static TAB_NUM t_lambda_75[] = {
   2, // locals
   0, // parameters
   // lv3 == rv3
-  var_std__equal, 2, var_423_16_lv3, var_424_17_rv3, 1, LOCAL(1),
+  var_std__equal, 2, var_423_19_lv3, var_424_20_rv3, 1, LOCAL(1),
   // 
   var_std__and, 2, LOCAL(1), lambda_76, 1, LOCAL(2),
   // 
@@ -2281,7 +2281,7 @@ static TAB_NUM t_lambda_76[] = {
   2, // locals
   0, // parameters
   // lv4 < rv4
-  var_std__less, 2, var_423_21_lv4, var_424_22_rv4, 1, LOCAL(1),
+  var_std__less, 2, var_423_24_lv4, var_424_25_rv4, 1, LOCAL(1),
   // 
   var_std__or, 2, LOCAL(1), lambda_77, 1, LOCAL(2),
   // 
@@ -2295,7 +2295,7 @@ static TAB_NUM t_lambda_77[] = {
   2, // locals
   0, // parameters
   // lv4 == rv4
-  var_std__equal, 2, var_423_21_lv4, var_424_22_rv4, 1, LOCAL(1),
+  var_std__equal, 2, var_423_24_lv4, var_424_25_rv4, 1, LOCAL(1),
   // 
   var_std__and, 2, LOCAL(1), lambda_78, 1, LOCAL(2),
   // 
@@ -2309,7 +2309,7 @@ static TAB_NUM t_lambda_78[] = {
   2, // locals
   0, // parameters
   // lv5 < rv5
-  var_std__less, 2, var_423_26_lv5, var_424_27_rv5, 1, LOCAL(1),
+  var_std__less, 2, var_423_29_lv5, var_424_30_rv5, 1, LOCAL(1),
   // 
   var_std__or, 2, LOCAL(1), lambda_79, 1, LOCAL(2),
   // 
@@ -2323,7 +2323,7 @@ static TAB_NUM t_lambda_79[] = {
   2, // locals
   0, // parameters
   // lv5 == rv5
-  var_std__equal, 2, var_423_26_lv5, var_424_27_rv5, 1, LOCAL(1),
+  var_std__equal, 2, var_423_29_lv5, var_424_30_rv5, 1, LOCAL(1),
   // 
   var_std__and, 2, LOCAL(1), lambda_80, 1, LOCAL(2),
   // 
@@ -2337,7 +2337,7 @@ static TAB_NUM t_lambda_80[] = {
   2, // locals
   0, // parameters
   // lv6 < rv6
-  var_std__less, 2, var_423_31_lv6, var_424_32_rv6, 1, LOCAL(1),
+  var_std__less, 2, var_423_34_lv6, var_424_35_rv6, 1, LOCAL(1),
   // 
   var_std__or, 2, LOCAL(1), lambda_81, 1, LOCAL(2),
   // 
@@ -2351,7 +2351,7 @@ static TAB_NUM t_lambda_81[] = {
   2, // locals
   0, // parameters
   // lv6 == rv6
-  var_std__equal, 2, var_423_31_lv6, var_424_32_rv6, 1, LOCAL(1),
+  var_std__equal, 2, var_423_34_lv6, var_424_35_rv6, 1, LOCAL(1),
   // 
   var_std__and, 2, LOCAL(1), lambda_82, 1, LOCAL(2),
   // 
@@ -2365,7 +2365,7 @@ static TAB_NUM t_lambda_82[] = {
   2, // locals
   0, // parameters
   // lv7 < rv7
-  var_std__less, 2, var_423_36_lv7, var_424_37_rv7, 1, LOCAL(1),
+  var_std__less, 2, var_423_39_lv7, var_424_40_rv7, 1, LOCAL(1),
   // 
   var_std__or, 2, LOCAL(1), lambda_83, 1, LOCAL(2),
   // 
@@ -2379,7 +2379,7 @@ static TAB_NUM t_lambda_83[] = {
   2, // locals
   0, // parameters
   // lv7 == rv7
-  var_std__equal, 2, var_423_36_lv7, var_424_37_rv7, 1, LOCAL(1),
+  var_std__equal, 2, var_423_39_lv7, var_424_40_rv7, 1, LOCAL(1),
   // 
   var_std__and, 2, LOCAL(1), lambda_84, 1, LOCAL(2),
   // 
@@ -2393,7 +2393,7 @@ static TAB_NUM t_lambda_84[] = {
   1, // locals
   0, // parameters
   // lv8 < rv8
-  var_std__less, 2, var_423_41_lv8, var_424_42_rv8, 1, LOCAL(1),
+  var_std__less, 2, var_423_44_lv8, var_424_45_rv8, 1, LOCAL(1),
   // lv8 < rv8
   LET, 1, LOCAL(1), TAIL_CALL,
   POS(454, 33),
@@ -2403,7 +2403,7 @@ static TAB_NUM t_lambda_84[] = {
 static TAB_NUM t_func_builtin_types__tuple8___hash[] = {
   24, // locals
   1, // parameters
-  LOCAL(16), // 456_30_self
+  LOCAL(16), // 456_31_self
   // self $v1 $v2 $v3 $v4 $v5 $v6 $v7 $v8
   LOCAL(16), 0, 8, LOCAL(17), LOCAL(18), LOCAL(19), LOCAL(20), LOCAL(21), LOCAL(22), LOCAL(23), LOCAL(24),
   // hash(v1)
@@ -2460,7 +2460,7 @@ static TAB_NUM t_func_builtin_types__tuple8___hash[] = {
 static TAB_NUM t_func_builtin_types__tuple8___to_binop[] = {
   2, // locals
   1, // parameters
-  LOCAL(2), // 469_34_self
+  LOCAL(2), // 469_35_self
   // .operators_of self)
   LET, -1, var_binop8, var_operators_of, LOCAL(2), LOCAL(1),
   // -> binop8(.operators_of self)
@@ -2472,9 +2472,9 @@ static TAB_NUM t_func_builtin_types__tuple8___to_binop[] = {
 static TAB_NUM t_func_binop8[] = {
   35, // locals
   -3, // parameters
-  MYSELF_PARAMETER, LOCAL(9), // 471_10_myself
-  MANDATORY_PARAMETER, LOCAL(10), // 471_18_left
-  MANDATORY_PARAMETER, LOCAL(11), // 471_23_right
+  MYSELF_PARAMETER, LOCAL(9), // 471_11_myself
+  MANDATORY_PARAMETER, LOCAL(10), // 471_19_left
+  MANDATORY_PARAMETER, LOCAL(11), // 471_24_right
   // operators_of(myself) $op1 $op2 $op3 $op4 $op5 $op6 $op7 $op8
   var_operators_of, 1, LOCAL(9), 1, LOCAL(1),
   // operators_of(myself) $op1 $op2 $op3 $op4 $op5 $op6 $op7 $op8
@@ -2789,11 +2789,11 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "40_11_lv2\000", NULL
+    "40_14_lv2\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "41_12_rv2\000", NULL
+    "41_15_rv2\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
@@ -2812,19 +2812,19 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "48_6_lv1\000", NULL
+    "48_9_lv1\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "48_11_lv2\000", NULL
+    "48_14_lv2\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "49_7_rv1\000", NULL
+    "49_10_rv1\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "49_12_rv2\000", NULL
+    "49_15_rv2\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
@@ -2878,43 +2878,43 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "84_11_lv2\000", NULL
+    "84_14_lv2\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "84_16_lv3\000", NULL
+    "84_19_lv3\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "85_12_rv2\000", NULL
+    "85_15_rv2\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "85_17_rv3\000", NULL
+    "85_20_rv3\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "93_6_lv1\000", NULL
+    "93_9_lv1\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "93_11_lv2\000", NULL
+    "93_14_lv2\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "93_16_lv3\000", NULL
+    "93_19_lv3\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "94_7_rv1\000", NULL
+    "94_10_rv1\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "94_12_rv2\000", NULL
+    "94_15_rv2\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "94_17_rv3\000", NULL
+    "94_20_rv3\000", NULL
   },
   {
     FOT_INITIALIZED, 0, 1,
@@ -2933,59 +2933,59 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "135_11_lv2\000", NULL
+    "135_14_lv2\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "135_16_lv3\000", NULL
+    "135_19_lv3\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "135_21_lv4\000", NULL
+    "135_24_lv4\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "136_12_rv2\000", NULL
+    "136_15_rv2\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "136_17_rv3\000", NULL
+    "136_20_rv3\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "136_22_rv4\000", NULL
+    "136_25_rv4\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "145_6_lv1\000", NULL
+    "145_9_lv1\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "145_11_lv2\000", NULL
+    "145_14_lv2\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "145_16_lv3\000", NULL
+    "145_19_lv3\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "145_21_lv4\000", NULL
+    "145_24_lv4\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "146_7_rv1\000", NULL
+    "146_10_rv1\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "146_12_rv2\000", NULL
+    "146_15_rv2\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "146_17_rv3\000", NULL
+    "146_20_rv3\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "146_22_rv4\000", NULL
+    "146_25_rv4\000", NULL
   },
   {
     FOT_INITIALIZED, 0, 1,
@@ -3004,75 +3004,75 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "193_11_lv2\000", NULL
+    "193_14_lv2\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "193_16_lv3\000", NULL
+    "193_19_lv3\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "193_21_lv4\000", NULL
+    "193_24_lv4\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "193_26_lv5\000", NULL
+    "193_29_lv5\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "194_12_rv2\000", NULL
+    "194_15_rv2\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "194_17_rv3\000", NULL
+    "194_20_rv3\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "194_22_rv4\000", NULL
+    "194_25_rv4\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "194_27_rv5\000", NULL
+    "194_30_rv5\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "204_6_lv1\000", NULL
+    "204_9_lv1\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "204_11_lv2\000", NULL
+    "204_14_lv2\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "204_16_lv3\000", NULL
+    "204_19_lv3\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "204_21_lv4\000", NULL
+    "204_24_lv4\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "204_26_lv5\000", NULL
+    "204_29_lv5\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "205_7_rv1\000", NULL
+    "205_10_rv1\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "205_12_rv2\000", NULL
+    "205_15_rv2\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "205_17_rv3\000", NULL
+    "205_20_rv3\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "205_22_rv4\000", NULL
+    "205_25_rv4\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "205_27_rv5\000", NULL
+    "205_30_rv5\000", NULL
   },
   {
     FOT_INITIALIZED, 0, 1,
@@ -3091,91 +3091,91 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "258_11_lv2\000", NULL
+    "258_14_lv2\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "258_16_lv3\000", NULL
+    "258_19_lv3\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "258_21_lv4\000", NULL
+    "258_24_lv4\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "258_26_lv5\000", NULL
+    "258_29_lv5\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "258_31_lv6\000", NULL
+    "258_34_lv6\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "259_12_rv2\000", NULL
+    "259_15_rv2\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "259_17_rv3\000", NULL
+    "259_20_rv3\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "259_22_rv4\000", NULL
+    "259_25_rv4\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "259_27_rv5\000", NULL
+    "259_30_rv5\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "259_32_rv6\000", NULL
+    "259_35_rv6\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "270_6_lv1\000", NULL
+    "270_9_lv1\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "270_11_lv2\000", NULL
+    "270_14_lv2\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "270_16_lv3\000", NULL
+    "270_19_lv3\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "270_21_lv4\000", NULL
+    "270_24_lv4\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "270_26_lv5\000", NULL
+    "270_29_lv5\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "270_31_lv6\000", NULL
+    "270_34_lv6\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "271_7_rv1\000", NULL
+    "271_10_rv1\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "271_12_rv2\000", NULL
+    "271_15_rv2\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "271_17_rv3\000", NULL
+    "271_20_rv3\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "271_22_rv4\000", NULL
+    "271_25_rv4\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "271_27_rv5\000", NULL
+    "271_30_rv5\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "271_32_rv6\000", NULL
+    "271_35_rv6\000", NULL
   },
   {
     FOT_INITIALIZED, 0, 1,
@@ -3194,107 +3194,107 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "330_11_lv2\000", NULL
+    "330_14_lv2\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "330_16_lv3\000", NULL
+    "330_19_lv3\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "330_21_lv4\000", NULL
+    "330_24_lv4\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "330_26_lv5\000", NULL
+    "330_29_lv5\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "330_31_lv6\000", NULL
+    "330_34_lv6\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "330_36_lv7\000", NULL
+    "330_39_lv7\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "331_12_rv2\000", NULL
+    "331_15_rv2\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "331_17_rv3\000", NULL
+    "331_20_rv3\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "331_22_rv4\000", NULL
+    "331_25_rv4\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "331_27_rv5\000", NULL
+    "331_30_rv5\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "331_32_rv6\000", NULL
+    "331_35_rv6\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "331_37_rv7\000", NULL
+    "331_40_rv7\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "343_6_lv1\000", NULL
+    "343_9_lv1\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "343_11_lv2\000", NULL
+    "343_14_lv2\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "343_16_lv3\000", NULL
+    "343_19_lv3\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "343_21_lv4\000", NULL
+    "343_24_lv4\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "343_26_lv5\000", NULL
+    "343_29_lv5\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "343_31_lv6\000", NULL
+    "343_34_lv6\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "343_36_lv7\000", NULL
+    "343_39_lv7\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "344_7_rv1\000", NULL
+    "344_10_rv1\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "344_12_rv2\000", NULL
+    "344_15_rv2\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "344_17_rv3\000", NULL
+    "344_20_rv3\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "344_22_rv4\000", NULL
+    "344_25_rv4\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "344_27_rv5\000", NULL
+    "344_30_rv5\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "344_32_rv6\000", NULL
+    "344_35_rv6\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "344_37_rv7\000", NULL
+    "344_40_rv7\000", NULL
   },
   {
     FOT_INITIALIZED, 0, 1,
@@ -3313,123 +3313,123 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "409_11_lv2\000", NULL
+    "409_14_lv2\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "409_16_lv3\000", NULL
+    "409_19_lv3\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "409_21_lv4\000", NULL
+    "409_24_lv4\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "409_26_lv5\000", NULL
+    "409_29_lv5\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "409_31_lv6\000", NULL
+    "409_34_lv6\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "409_36_lv7\000", NULL
+    "409_39_lv7\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "409_41_lv8\000", NULL
+    "409_44_lv8\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "410_12_rv2\000", NULL
+    "410_15_rv2\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "410_17_rv3\000", NULL
+    "410_20_rv3\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "410_22_rv4\000", NULL
+    "410_25_rv4\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "410_27_rv5\000", NULL
+    "410_30_rv5\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "410_32_rv6\000", NULL
+    "410_35_rv6\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "410_37_rv7\000", NULL
+    "410_40_rv7\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "410_42_rv8\000", NULL
+    "410_45_rv8\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "423_6_lv1\000", NULL
+    "423_9_lv1\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "423_11_lv2\000", NULL
+    "423_14_lv2\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "423_16_lv3\000", NULL
+    "423_19_lv3\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "423_21_lv4\000", NULL
+    "423_24_lv4\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "423_26_lv5\000", NULL
+    "423_29_lv5\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "423_31_lv6\000", NULL
+    "423_34_lv6\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "423_36_lv7\000", NULL
+    "423_39_lv7\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "423_41_lv8\000", NULL
+    "423_44_lv8\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "424_7_rv1\000", NULL
+    "424_10_rv1\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "424_12_rv2\000", NULL
+    "424_15_rv2\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "424_17_rv3\000", NULL
+    "424_20_rv3\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "424_22_rv4\000", NULL
+    "424_25_rv4\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "424_27_rv5\000", NULL
+    "424_30_rv5\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "424_32_rv6\000", NULL
+    "424_35_rv6\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "424_37_rv7\000", NULL
+    "424_40_rv7\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "424_42_rv8\000", NULL
+    "424_45_rv8\000", NULL
   },
   {
     FOT_INITIALIZED, 0, 1,

@@ -29,11 +29,11 @@ enum {
   var_length_of, // extern polymorphic
   var_undefined, // extern
   var_next_value, // extern polymorphic
-  var_40_44_self, // dynamic
-  var_41_1_error, // dynamic
+  var_40_45_self, // dynamic
+  var_41_4_error, // dynamic
   var_std__minus, // extern
-  var_42_1_value, // dynamic
-  var_43_1_new_value, // dynamic
+  var_42_4_value, // dynamic
+  var_43_4_new_value, // dynamic
   var_plus, // extern
   var_std__less, // extern
   var_if, // extern
@@ -51,23 +51,23 @@ enum {
 static TAB_NUM t_func_std_types__bresenham_iterator___next_value[] = {
   2, // locals
   1, // parameters
-  var_40_44_self,
+  var_40_45_self,
   // error_of(self)-delta_of(self)
-  var_error_of, 1, var_40_44_self, 1, LOCAL(1),
+  var_error_of, 1, var_40_45_self, 1, LOCAL(1),
   // delta_of(self)
-  var_delta_of, 1, var_40_44_self, 1, LOCAL(2),
+  var_delta_of, 1, var_40_45_self, 1, LOCAL(2),
   // $error error_of(self)-delta_of(self)
-  var_std__minus, 2, LOCAL(1), LOCAL(2), 1, var_41_1_error,
+  var_std__minus, 2, LOCAL(1), LOCAL(2), 1, var_41_4_error,
   // $value value_of(self)
-  var_value_of, 1, var_40_44_self, 1, var_42_1_value,
+  var_value_of, 1, var_40_45_self, 1, var_42_4_value,
   // $new_value value
-  LET, 1, var_42_1_value, 1, var_43_1_new_value,
+  LET, 1, var_42_4_value, 1, var_43_4_new_value,
   // base_increment_of(self)
-  var_base_increment_of, 1, var_40_44_self, 1, LOCAL(1),
+  var_base_increment_of, 1, var_40_45_self, 1, LOCAL(1),
   // plus &new_value base_increment_of(self)
-  var_plus, 2, var_43_1_new_value, LOCAL(1), 1, var_43_1_new_value,
+  var_plus, 2, var_43_4_new_value, LOCAL(1), 1, var_43_4_new_value,
   // error < 0:
-  var_std__less, 2, var_41_1_error, num_0, 1, LOCAL(1),
+  var_std__less, 2, var_41_4_error, num_0, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_1, func_return, TAIL_CALL,
   POS(41, 10),
@@ -85,13 +85,13 @@ static TAB_NUM t_lambda_1[] = {
   1, // locals
   0, // parameters
   // steps_of(self)
-  var_steps_of, 1, var_40_44_self, 1, LOCAL(1),
+  var_steps_of, 1, var_40_45_self, 1, LOCAL(1),
   // plus &error steps_of(self)
-  var_plus, 2, var_41_1_error, LOCAL(1), 1, var_41_1_error,
+  var_plus, 2, var_41_4_error, LOCAL(1), 1, var_41_4_error,
   // additional_increment_of(self)
-  var_additional_increment_of, 1, var_40_44_self, 1, LOCAL(1),
+  var_additional_increment_of, 1, var_40_45_self, 1, LOCAL(1),
   // plus &new_value additional_increment_of(self)
-  var_plus, 2, var_43_1_new_value, LOCAL(1), 1, var_43_1_new_value,
+  var_plus, 2, var_43_4_new_value, LOCAL(1), 1, var_43_4_new_value,
   // return
   func_return, 0, TAIL_CALL,
   POS(48, 19),
@@ -105,11 +105,11 @@ static TAB_NUM t_func_return[] = {
   0, // locals
   0, // parameters
   // self.error_of error
-  LET, -1, var_40_44_self, var_error_of, var_41_1_error, var_40_44_self,
+  LET, -1, var_40_45_self, var_error_of, var_41_4_error, var_40_45_self,
   // self.value_of new_value
-  LET, -1, var_40_44_self, var_value_of, var_43_1_new_value, var_40_44_self,
+  LET, -1, var_40_45_self, var_value_of, var_43_4_new_value, var_40_45_self,
   // -> self value
-  LET, 2, var_40_44_self, var_42_1_value, TAIL_CALL,
+  LET, 2, var_40_45_self, var_42_4_value, TAIL_CALL,
   POS(54, 6),
   POS(55, 6),
   POS(56, 5)
@@ -118,9 +118,9 @@ static TAB_NUM t_func_return[] = {
 static TAB_NUM t_func_std__bresenham[] = {
   11, // locals
   3, // parameters
-  LOCAL(5), // 65_0_count
-  LOCAL(6), // 66_0_first
-  LOCAL(7), // 67_0_last
+  LOCAL(5), // 65_5_count
+  LOCAL(6), // 66_5_first
+  LOCAL(7), // 67_5_last
   // last-first)
   var_std__minus, 2, LOCAL(7), LOCAL(6), 1, LOCAL(1),
   // $delta abs(last-first)
@@ -239,11 +239,11 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "40_44_self\000", NULL
+    "40_45_self\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "41_1_error\000", NULL
+    "41_4_error\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
@@ -252,11 +252,11 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "42_1_value\000", NULL
+    "42_4_value\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "43_1_new_value\000", NULL
+    "43_4_new_value\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,

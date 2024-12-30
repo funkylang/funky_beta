@@ -37,11 +37,11 @@ enum {
   var_exit, // extern
   var_std__assign, // extern
   var_std__to_error_message_string, // initialized
-  var_74_1_str, // dynamic
+  var_74_4_str, // dynamic
   var_error_message_text_of, // extern
-  var_75_1_errno, // dynamic
+  var_75_4_errno, // dynamic
   var_errno_of, // extern
-  var_76_1_details, // dynamic
+  var_76_4_details, // dynamic
   var_error_details_of, // extern
   var_is_defined, // extern
   var_strerror, // extern
@@ -62,7 +62,7 @@ enum {
 static TAB_NUM t_func_std__Error[] = {
   3, // locals
   -1, // parameters
-  REST_PARAMETER, LOCAL(3), // 65_0_args
+  REST_PARAMETER, LOCAL(3), // 65_5_args
   // create_string(args) .without_suffix. '@nl;'
   var_create_string, 1, LOCAL(3), 1, LOCAL(1),
   // create_string(args) .without_suffix. '@nl;'
@@ -80,19 +80,19 @@ static TAB_NUM t_func_std__Error[] = {
 static TAB_NUM t_func_std__to_error_message_string[] = {
   2, // locals
   1, // parameters
-  LOCAL(2), // 72_0_err
+  LOCAL(2), // 72_5_err
   // $str error_message_text_of(err)
-  var_error_message_text_of, 1, LOCAL(2), 1, var_74_1_str,
+  var_error_message_text_of, 1, LOCAL(2), 1, var_74_4_str,
   // $errno errno_of(err)
-  var_errno_of, 1, LOCAL(2), 1, var_75_1_errno,
+  var_errno_of, 1, LOCAL(2), 1, var_75_4_errno,
   // $details error_details_of(err)
-  var_error_details_of, 1, LOCAL(2), 1, var_76_1_details,
+  var_error_details_of, 1, LOCAL(2), 1, var_76_4_details,
   // is_defined &str -> append(str " - " strerror(errno))
-  var_is_defined, 1, var_75_1_errno, 1, LOCAL(1),
+  var_is_defined, 1, var_75_4_errno, 1, LOCAL(1),
   // update_if errno.is_defined &str -> append(str " - " strerror(errno))
-  var_update_if, 3, LOCAL(1), var_74_1_str, lambda_1, 1, var_74_1_str,
+  var_update_if, 3, LOCAL(1), var_74_4_str, lambda_1, 1, var_74_4_str,
   // is_undefined
-  var_is_undefined, 1, var_76_1_details, 1, LOCAL(1),
+  var_is_undefined, 1, var_76_4_details, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_2, lambda_3, TAIL_CALL,
   POS(74, 3),
@@ -108,9 +108,9 @@ static TAB_NUM t_lambda_1[] = {
   2, // locals
   0, // parameters
   // strerror(errno))
-  var_strerror, 1, var_75_1_errno, 1, LOCAL(1),
+  var_strerror, 1, var_75_4_errno, 1, LOCAL(1),
   // append(str " - " strerror(errno))
-  var_append, 3, var_74_1_str, string_1, LOCAL(1), 1, LOCAL(2),
+  var_append, 3, var_74_4_str, string_1, LOCAL(1), 1, LOCAL(2),
   //  append(str " - " strerror(errno))
   LET, 1, LOCAL(2), TAIL_CALL,
   POS(77, 55),
@@ -122,7 +122,7 @@ static TAB_NUM t_lambda_2[] = {
   0, // locals
   0, // parameters
   //  str
-  LET, 1, var_74_1_str, TAIL_CALL,
+  LET, 1, var_74_4_str, TAIL_CALL,
   POS(80, 7)
 };
 
@@ -130,7 +130,7 @@ static TAB_NUM t_lambda_3[] = {
   1, // locals
   0, // parameters
   // is_a_string
-  var_is_a_string, 1, var_76_1_details, 1, LOCAL(1),
+  var_is_a_string, 1, var_76_4_details, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_4, lambda_5, TAIL_CALL,
   POS(83, 17),
@@ -141,7 +141,7 @@ static TAB_NUM t_lambda_4[] = {
   1, // locals
   0, // parameters
   // "
-  var_std__string, 4, var_74_1_str, string_2, var_76_1_details, string_3, 1, LOCAL(1),
+  var_std__string, 4, var_74_4_str, string_2, var_76_4_details, string_3, 1, LOCAL(1),
   //  "
   LET, 1, LOCAL(1), TAIL_CALL,
   POS(84, 12),
@@ -152,9 +152,9 @@ static TAB_NUM t_lambda_5[] = {
   1, // locals
   0, // parameters
   // to_string &details
-  var_to_string, 1, var_76_1_details, 1, var_76_1_details,
+  var_to_string, 1, var_76_4_details, 1, var_76_4_details,
   // is_an_error
-  var_is_an_error, 1, var_76_1_details, 1, LOCAL(1),
+  var_is_an_error, 1, var_76_4_details, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_6, lambda_7, TAIL_CALL,
   POS(87, 11),
@@ -166,7 +166,7 @@ static TAB_NUM t_lambda_6[] = {
   0, // locals
   0, // parameters
   //  str
-  LET, 1, var_74_1_str, TAIL_CALL,
+  LET, 1, var_74_4_str, TAIL_CALL,
   POS(90, 15)
 };
 
@@ -174,7 +174,7 @@ static TAB_NUM t_lambda_7[] = {
   1, // locals
   0, // parameters
   // "@(str) (@(details))"
-  var_std__string, 4, var_74_1_str, string_4, var_76_1_details, string_5, 1, LOCAL(1),
+  var_std__string, 4, var_74_4_str, string_4, var_76_4_details, string_5, 1, LOCAL(1),
   //  "@(str) (@(details))"
   LET, 1, LOCAL(1), TAIL_CALL,
   POS(91, 16),
@@ -253,7 +253,7 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "74_1_str\000", NULL
+    "74_4_str\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
@@ -262,7 +262,7 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "75_1_errno\000", NULL
+    "75_4_errno\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
@@ -271,7 +271,7 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "76_1_details\000", NULL
+    "76_4_details\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,

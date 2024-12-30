@@ -121,16 +121,16 @@ enum {
   var_string, // extern
   var_is_a_key_value_pair, // extern
   var_filter, // extern
-  var_57_1_buf, // dynamic
-  var_59_3_item, // dynamic
+  var_57_4_buf, // dynamic
+  var_59_8_item, // dynamic
   var_is_a_string, // extern
   var_append, // extern
   var_next, // extern
   var_for_each, // extern
-  var_69_1_buf, // dynamic
-  var_82_20_tag, // dynamic
-  var_83_17_options, // dynamic
-  var_85_16_buf, // dynamic
+  var_69_4_buf, // dynamic
+  var_82_21_tag, // dynamic
+  var_83_20_options, // dynamic
+  var_85_19_buf, // dynamic
   var_contains, // extern
   var_html__HTML, // initialized
   var_html__HEAD, // initialized
@@ -160,15 +160,15 @@ enum {
   var_html__B, // initialized
   var_html__SPAN, // initialized
   var_html__GROUP, // initialized
-  var_294_1_text, // dynamic
+  var_294_4_text, // dynamic
   var_html__FROM_TO, // initialized
-  var_305_0_body, // dynamic
-  var_307_1_text, // dynamic
+  var_305_5_body, // dynamic
+  var_307_4_text, // dynamic
   var_from_to, // extern
   var_html__FOR_EACH, // initialized
-  var_316_0_items, // dynamic
-  var_317_0_body, // dynamic
-  var_319_1_text, // dynamic
+  var_316_5_items, // dynamic
+  var_317_5_body, // dynamic
+  var_319_4_text, // dynamic
   var_parameter_count_of, // extern
   var_std__equal, // extern
   var__END
@@ -178,9 +178,9 @@ enum {
 static TAB_NUM t_func_inline_tag[] = {
   4, // locals
   3, // parameters
-  LOCAL(2), // 27_14_tag
-  LOCAL(3), // 27_18_options
-  LOCAL(4), // 27_26_contents
+  LOCAL(2), // 27_15_tag
+  LOCAL(3), // 27_19_options
+  LOCAL(4), // 27_27_contents
   // "<@(tag)@(options)>@(contents)</@(tag)>"
   var_std__string, 8, string_1, LOCAL(2), LOCAL(3), string_2, LOCAL(4), string_3, LOCAL(2), string_2, 1, LOCAL(1),
   // -> "<@(tag)@(options)>@(contents)</@(tag)>"
@@ -192,9 +192,9 @@ static TAB_NUM t_func_inline_tag[] = {
 static TAB_NUM t_func_single_line_tag[] = {
   4, // locals
   3, // parameters
-  LOCAL(2), // 30_19_tag
-  LOCAL(3), // 30_23_options
-  LOCAL(4), // 30_31_contents
+  LOCAL(2), // 30_20_tag
+  LOCAL(3), // 30_24_options
+  LOCAL(4), // 30_32_contents
   // "
   var_std__string, 8, string_1, LOCAL(2), LOCAL(3), string_2, LOCAL(4), string_3, LOCAL(2), string_4, 1, LOCAL(1),
   // -> "
@@ -206,9 +206,9 @@ static TAB_NUM t_func_single_line_tag[] = {
 static TAB_NUM t_func_multi_line_tag[] = {
   7, // locals
   3, // parameters
-  LOCAL(5), // 34_18_tag
-  LOCAL(6), // 34_22_options
-  LOCAL(7), // 34_30_contents
+  LOCAL(5), // 34_19_tag
+  LOCAL(6), // 34_23_options
+  LOCAL(7), // 34_31_contents
   // contents .has_prefix. '<'
   var_has_prefix, 2, LOCAL(7), chr_60, 1, LOCAL(1),
   // if
@@ -261,7 +261,7 @@ static TAB_NUM t_lambda_4[] = {
 static TAB_NUM t_func_extract_options[] = {
   1, // locals
   1, // parameters
-  LOCAL(1), // 53_19_items
+  LOCAL(1), // 53_20_items
   // filter items is_a_key_value_pair
   var_filter, 2, LOCAL(1), var_is_a_key_value_pair, TAIL_CALL,
   POS(54, 3)
@@ -270,9 +270,9 @@ static TAB_NUM t_func_extract_options[] = {
 static TAB_NUM t_func_collect_output[] = {
   1, // locals
   1, // parameters
-  LOCAL(1), // 56_18_items
+  LOCAL(1), // 56_19_items
   // $buf ""
-  LET, 1, string_5, 1, var_57_1_buf,
+  LET, 1, string_5, 1, var_57_4_buf,
   // for_each items
   var_for_each, 3, LOCAL(1), lambda_5, lambda_8, TAIL_CALL,
   POS(57, 3),
@@ -282,13 +282,13 @@ static TAB_NUM t_func_collect_output[] = {
 static TAB_NUM t_lambda_5[] = {
   2, // locals
   1, // parameters
-  var_59_3_item,
+  var_59_8_item,
   // is_a_string
-  var_is_a_string, 1, var_59_3_item, 1, LOCAL(1),
+  var_is_a_string, 1, var_59_8_item, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_6, lambda_7, 1, LOCAL(2),
   // append &buf
-  var_append, 2, var_57_1_buf, LOCAL(2), 1, var_57_1_buf,
+  var_append, 2, var_57_4_buf, LOCAL(2), 1, var_57_4_buf,
   // next
   var_next, 0, TAIL_CALL,
   POS(62, 16),
@@ -301,7 +301,7 @@ static TAB_NUM t_lambda_6[] = {
   0, // locals
   0, // parameters
   //  item
-  LET, 1, var_59_3_item, TAIL_CALL,
+  LET, 1, var_59_8_item, TAIL_CALL,
   POS(63, 13)
 };
 
@@ -309,7 +309,7 @@ static TAB_NUM t_lambda_7[] = {
   1, // locals
   0, // parameters
   // item()
-  var_59_3_item, 0, 1, LOCAL(1),
+  var_59_8_item, 0, 1, LOCAL(1),
   //  item()
   LET, 1, LOCAL(1), TAIL_CALL,
   POS(64, 14),
@@ -320,16 +320,16 @@ static TAB_NUM t_lambda_8[] = {
   0, // locals
   0, // parameters
   //  buf
-  LET, 1, var_57_1_buf, TAIL_CALL,
+  LET, 1, var_57_4_buf, TAIL_CALL,
   POS(66, 7)
 };
 
 static TAB_NUM t_func_collect_options[] = {
   1, // locals
   1, // parameters
-  LOCAL(1), // 68_19_options
+  LOCAL(1), // 68_20_options
   // $buf ""
-  LET, 1, string_5, 1, var_69_1_buf,
+  LET, 1, string_5, 1, var_69_4_buf,
   // for_each options
   var_for_each, 3, LOCAL(1), lambda_9, lambda_10, TAIL_CALL,
   POS(69, 3),
@@ -339,13 +339,13 @@ static TAB_NUM t_func_collect_options[] = {
 static TAB_NUM t_lambda_9[] = {
   4, // locals
   1, // parameters
-  LOCAL(2), // 71_3_option
+  LOCAL(2), // 71_8_option
   // option $key $value
   LOCAL(2), 0, 2, LOCAL(3), LOCAL(4),
   // " @(key)=@quot;@(value)@quot;"
   var_std__string, 5, string_6, LOCAL(3), string_7, LOCAL(4), string_8, 1, LOCAL(1),
   // append &buf " @(key)=@quot;@(value)@quot;"
-  var_append, 2, var_69_1_buf, LOCAL(1), 1, var_69_1_buf,
+  var_append, 2, var_69_4_buf, LOCAL(1), 1, var_69_4_buf,
   // next
   var_next, 0, TAIL_CALL,
   POS(72, 7),
@@ -358,15 +358,15 @@ static TAB_NUM t_lambda_10[] = {
   0, // locals
   0, // parameters
   //  buf
-  LET, 1, var_69_1_buf, TAIL_CALL,
+  LET, 1, var_69_4_buf, TAIL_CALL,
   POS(75, 7)
 };
 
 static TAB_NUM t_func_emit_simple[] = {
   3, // locals
   2, // parameters
-  LOCAL(2), // 77_15_tag
-  LOCAL(3), // 77_19_options
+  LOCAL(2), // 77_16_tag
+  LOCAL(3), // 77_20_options
   // collect_options &options
   func_collect_options, 1, LOCAL(3), 1, LOCAL(3),
   // "
@@ -381,16 +381,16 @@ static TAB_NUM t_func_emit_simple[] = {
 static TAB_NUM t_func_emit_single_line[] = {
   2, // locals
   2, // parameters
-  var_82_20_tag,
-  LOCAL(2), // 82_24_items
+  var_82_21_tag,
+  LOCAL(2), // 82_25_items
   // extract_options $options &items
-  func_extract_options, 1, LOCAL(2), 2, var_83_17_options, LOCAL(2),
+  func_extract_options, 1, LOCAL(2), 2, var_83_20_options, LOCAL(2),
   // collect_options &options
-  func_collect_options, 1, var_83_17_options, 1, var_83_17_options,
+  func_collect_options, 1, var_83_20_options, 1, var_83_20_options,
   // collect_output $buf items
-  func_collect_output, 1, LOCAL(2), 1, var_85_16_buf,
+  func_collect_output, 1, LOCAL(2), 1, var_85_19_buf,
   // buf .contains. '@nl;'
-  var_contains, 2, var_85_16_buf, chr_10, 1, LOCAL(1),
+  var_contains, 2, var_85_19_buf, chr_10, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_11, lambda_12, TAIL_CALL,
   POS(83, 3),
@@ -404,7 +404,7 @@ static TAB_NUM t_lambda_11[] = {
   0, // locals
   0, // parameters
   // multi_line_tag tag options buf
-  func_multi_line_tag, 3, var_82_20_tag, var_83_17_options, var_85_16_buf, TAIL_CALL,
+  func_multi_line_tag, 3, var_82_21_tag, var_83_20_options, var_85_19_buf, TAIL_CALL,
   POS(88, 7)
 };
 
@@ -412,15 +412,15 @@ static TAB_NUM t_lambda_12[] = {
   0, // locals
   0, // parameters
   // single_line_tag tag options buf
-  func_single_line_tag, 3, var_82_20_tag, var_83_17_options, var_85_16_buf, TAIL_CALL,
+  func_single_line_tag, 3, var_82_21_tag, var_83_20_options, var_85_19_buf, TAIL_CALL,
   POS(89, 7)
 };
 
 static TAB_NUM t_func_emit_inline[] = {
   4, // locals
   2, // parameters
-  LOCAL(1), // 91_15_tag
-  LOCAL(2), // 91_19_items
+  LOCAL(1), // 91_16_tag
+  LOCAL(2), // 91_20_items
   // extract_options $options &items
   func_extract_options, 1, LOCAL(2), 2, LOCAL(3), LOCAL(2),
   // collect_options &options
@@ -438,8 +438,8 @@ static TAB_NUM t_func_emit_inline[] = {
 static TAB_NUM t_func_emit_multi_line[] = {
   4, // locals
   2, // parameters
-  LOCAL(1), // 97_19_tag
-  LOCAL(2), // 97_23_items
+  LOCAL(1), // 97_20_tag
+  LOCAL(2), // 97_24_items
   // extract_options $options &items
   func_extract_options, 1, LOCAL(2), 2, LOCAL(3), LOCAL(2),
   // collect_options &options
@@ -457,7 +457,7 @@ static TAB_NUM t_func_emit_multi_line[] = {
 static TAB_NUM t_func_html__HTML[] = {
   1, // locals
   -1, // parameters
-  REST_PARAMETER, LOCAL(1), // 129_0_items
+  REST_PARAMETER, LOCAL(1), // 129_5_items
   // emit_multi_line "html" items
   func_emit_multi_line, 2, str_html, LOCAL(1), TAIL_CALL,
   POS(131, 3)
@@ -466,7 +466,7 @@ static TAB_NUM t_func_html__HTML[] = {
 static TAB_NUM t_func_html__HEAD[] = {
   1, // locals
   -1, // parameters
-  REST_PARAMETER, LOCAL(1), // 135_0_items
+  REST_PARAMETER, LOCAL(1), // 135_5_items
   // emit_multi_line "head" items
   func_emit_multi_line, 2, str_head, LOCAL(1), TAIL_CALL,
   POS(137, 3)
@@ -475,7 +475,7 @@ static TAB_NUM t_func_html__HEAD[] = {
 static TAB_NUM t_func_html__BODY[] = {
   1, // locals
   -1, // parameters
-  REST_PARAMETER, LOCAL(1), // 142_0_items
+  REST_PARAMETER, LOCAL(1), // 142_5_items
   // emit_multi_line "body" items
   func_emit_multi_line, 2, str_body, LOCAL(1), TAIL_CALL,
   POS(144, 3)
@@ -484,7 +484,7 @@ static TAB_NUM t_func_html__BODY[] = {
 static TAB_NUM t_func_html__TITLE[] = {
   1, // locals
   -1, // parameters
-  REST_PARAMETER, LOCAL(1), // 148_0_items
+  REST_PARAMETER, LOCAL(1), // 148_5_items
   // emit_single_line "title" items
   func_emit_single_line, 2, str_title, LOCAL(1), TAIL_CALL,
   POS(150, 3)
@@ -493,7 +493,7 @@ static TAB_NUM t_func_html__TITLE[] = {
 static TAB_NUM t_func_html__STYLE[] = {
   1, // locals
   -1, // parameters
-  REST_PARAMETER, LOCAL(1), // 154_0_items
+  REST_PARAMETER, LOCAL(1), // 154_5_items
   // emit_single_line "style" items
   func_emit_single_line, 2, str_style, LOCAL(1), TAIL_CALL,
   POS(156, 3)
@@ -502,7 +502,7 @@ static TAB_NUM t_func_html__STYLE[] = {
 static TAB_NUM t_func_html__LINK[] = {
   1, // locals
   -1, // parameters
-  REST_PARAMETER, LOCAL(1), // 160_0_options
+  REST_PARAMETER, LOCAL(1), // 160_5_options
   // emit_simple "link" options
   func_emit_simple, 2, str_link, LOCAL(1), TAIL_CALL,
   POS(162, 3)
@@ -511,7 +511,7 @@ static TAB_NUM t_func_html__LINK[] = {
 static TAB_NUM t_func_html__H1[] = {
   1, // locals
   -1, // parameters
-  REST_PARAMETER, LOCAL(1), // 166_0_items
+  REST_PARAMETER, LOCAL(1), // 166_5_items
   // emit_single_line "h1" items
   func_emit_single_line, 2, str_h, LOCAL(1), TAIL_CALL,
   POS(168, 3)
@@ -520,7 +520,7 @@ static TAB_NUM t_func_html__H1[] = {
 static TAB_NUM t_func_html__H2[] = {
   1, // locals
   -1, // parameters
-  REST_PARAMETER, LOCAL(1), // 172_0_items
+  REST_PARAMETER, LOCAL(1), // 172_5_items
   // emit_single_line "h2" items
   func_emit_single_line, 2, str_h_2, LOCAL(1), TAIL_CALL,
   POS(174, 3)
@@ -529,7 +529,7 @@ static TAB_NUM t_func_html__H2[] = {
 static TAB_NUM t_func_html__H3[] = {
   1, // locals
   -1, // parameters
-  REST_PARAMETER, LOCAL(1), // 178_0_items
+  REST_PARAMETER, LOCAL(1), // 178_5_items
   // emit_single_line "h3" items
   func_emit_single_line, 2, str_h_3, LOCAL(1), TAIL_CALL,
   POS(180, 3)
@@ -538,7 +538,7 @@ static TAB_NUM t_func_html__H3[] = {
 static TAB_NUM t_func_html__H4[] = {
   1, // locals
   -1, // parameters
-  REST_PARAMETER, LOCAL(1), // 184_0_items
+  REST_PARAMETER, LOCAL(1), // 184_5_items
   // emit_single_line "h4" items
   func_emit_single_line, 2, str_h_4, LOCAL(1), TAIL_CALL,
   POS(186, 3)
@@ -547,7 +547,7 @@ static TAB_NUM t_func_html__H4[] = {
 static TAB_NUM t_func_html__H5[] = {
   1, // locals
   -1, // parameters
-  REST_PARAMETER, LOCAL(1), // 190_0_items
+  REST_PARAMETER, LOCAL(1), // 190_5_items
   // emit_single_line "h5" items
   func_emit_single_line, 2, str_h_5, LOCAL(1), TAIL_CALL,
   POS(192, 3)
@@ -556,7 +556,7 @@ static TAB_NUM t_func_html__H5[] = {
 static TAB_NUM t_func_html__H6[] = {
   1, // locals
   -1, // parameters
-  REST_PARAMETER, LOCAL(1), // 196_0_items
+  REST_PARAMETER, LOCAL(1), // 196_5_items
   // emit_single_line "h6" items
   func_emit_single_line, 2, str_h_6, LOCAL(1), TAIL_CALL,
   POS(198, 3)
@@ -565,7 +565,7 @@ static TAB_NUM t_func_html__H6[] = {
 static TAB_NUM t_func_html__P[] = {
   1, // locals
   -1, // parameters
-  REST_PARAMETER, LOCAL(1), // 202_0_items
+  REST_PARAMETER, LOCAL(1), // 202_5_items
   // emit_single_line "p" items
   func_emit_single_line, 2, str_p, LOCAL(1), TAIL_CALL,
   POS(204, 3)
@@ -574,7 +574,7 @@ static TAB_NUM t_func_html__P[] = {
 static TAB_NUM t_func_html__DIV[] = {
   1, // locals
   -1, // parameters
-  REST_PARAMETER, LOCAL(1), // 208_0_items
+  REST_PARAMETER, LOCAL(1), // 208_5_items
   // emit_multi_line "div" items
   func_emit_multi_line, 2, str_div, LOCAL(1), TAIL_CALL,
   POS(210, 3)
@@ -583,7 +583,7 @@ static TAB_NUM t_func_html__DIV[] = {
 static TAB_NUM t_func_html__TABLE[] = {
   1, // locals
   -1, // parameters
-  REST_PARAMETER, LOCAL(1), // 214_0_items
+  REST_PARAMETER, LOCAL(1), // 214_5_items
   // emit_multi_line "table" items
   func_emit_multi_line, 2, str_table, LOCAL(1), TAIL_CALL,
   POS(216, 3)
@@ -592,7 +592,7 @@ static TAB_NUM t_func_html__TABLE[] = {
 static TAB_NUM t_func_html__TBODY[] = {
   1, // locals
   -1, // parameters
-  REST_PARAMETER, LOCAL(1), // 220_0_items
+  REST_PARAMETER, LOCAL(1), // 220_5_items
   // emit_multi_line "tbody" items
   func_emit_multi_line, 2, str_tbody, LOCAL(1), TAIL_CALL,
   POS(222, 3)
@@ -601,7 +601,7 @@ static TAB_NUM t_func_html__TBODY[] = {
 static TAB_NUM t_func_html__TR[] = {
   1, // locals
   -1, // parameters
-  REST_PARAMETER, LOCAL(1), // 226_0_items
+  REST_PARAMETER, LOCAL(1), // 226_5_items
   // emit_multi_line "tr" items
   func_emit_multi_line, 2, str_tr, LOCAL(1), TAIL_CALL,
   POS(228, 3)
@@ -610,7 +610,7 @@ static TAB_NUM t_func_html__TR[] = {
 static TAB_NUM t_func_html__TH[] = {
   1, // locals
   -1, // parameters
-  REST_PARAMETER, LOCAL(1), // 232_0_items
+  REST_PARAMETER, LOCAL(1), // 232_5_items
   // emit_single_line "th" items
   func_emit_single_line, 2, str_th, LOCAL(1), TAIL_CALL,
   POS(234, 3)
@@ -619,7 +619,7 @@ static TAB_NUM t_func_html__TH[] = {
 static TAB_NUM t_func_html__TD[] = {
   1, // locals
   -1, // parameters
-  REST_PARAMETER, LOCAL(1), // 238_0_items
+  REST_PARAMETER, LOCAL(1), // 238_5_items
   // emit_single_line "td" items
   func_emit_single_line, 2, str_td, LOCAL(1), TAIL_CALL,
   POS(240, 3)
@@ -628,7 +628,7 @@ static TAB_NUM t_func_html__TD[] = {
 static TAB_NUM t_func_html__DL[] = {
   1, // locals
   -1, // parameters
-  REST_PARAMETER, LOCAL(1), // 244_0_items
+  REST_PARAMETER, LOCAL(1), // 244_5_items
   // emit_multi_line "dl" items
   func_emit_multi_line, 2, str_dl, LOCAL(1), TAIL_CALL,
   POS(246, 3)
@@ -637,7 +637,7 @@ static TAB_NUM t_func_html__DL[] = {
 static TAB_NUM t_func_html__DT[] = {
   1, // locals
   -1, // parameters
-  REST_PARAMETER, LOCAL(1), // 250_0_items
+  REST_PARAMETER, LOCAL(1), // 250_5_items
   // emit_single_line "dt" items
   func_emit_single_line, 2, str_dt, LOCAL(1), TAIL_CALL,
   POS(252, 3)
@@ -646,7 +646,7 @@ static TAB_NUM t_func_html__DT[] = {
 static TAB_NUM t_func_html__DD[] = {
   1, // locals
   -1, // parameters
-  REST_PARAMETER, LOCAL(1), // 256_0_items
+  REST_PARAMETER, LOCAL(1), // 256_5_items
   // emit_multi_line "dd" items
   func_emit_multi_line, 2, str_dd, LOCAL(1), TAIL_CALL,
   POS(258, 3)
@@ -655,7 +655,7 @@ static TAB_NUM t_func_html__DD[] = {
 static TAB_NUM t_func_html__PRE[] = {
   1, // locals
   -1, // parameters
-  REST_PARAMETER, LOCAL(1), // 262_0_items
+  REST_PARAMETER, LOCAL(1), // 262_5_items
   // emit_single_line "pre" items
   func_emit_single_line, 2, str_pre, LOCAL(1), TAIL_CALL,
   POS(264, 3)
@@ -664,7 +664,7 @@ static TAB_NUM t_func_html__PRE[] = {
 static TAB_NUM t_func_html__A[] = {
   1, // locals
   -1, // parameters
-  REST_PARAMETER, LOCAL(1), // 268_0_items
+  REST_PARAMETER, LOCAL(1), // 268_5_items
   // emit_inline "a" items
   func_emit_inline, 2, str_a, LOCAL(1), TAIL_CALL,
   POS(270, 3)
@@ -673,7 +673,7 @@ static TAB_NUM t_func_html__A[] = {
 static TAB_NUM t_func_html__I[] = {
   1, // locals
   -1, // parameters
-  REST_PARAMETER, LOCAL(1), // 274_0_items
+  REST_PARAMETER, LOCAL(1), // 274_5_items
   // emit_inline "i" items
   func_emit_inline, 2, str_i, LOCAL(1), TAIL_CALL,
   POS(276, 3)
@@ -682,7 +682,7 @@ static TAB_NUM t_func_html__I[] = {
 static TAB_NUM t_func_html__B[] = {
   1, // locals
   -1, // parameters
-  REST_PARAMETER, LOCAL(1), // 280_0_items
+  REST_PARAMETER, LOCAL(1), // 280_5_items
   // emit_inline "b" items
   func_emit_inline, 2, str_b, LOCAL(1), TAIL_CALL,
   POS(282, 3)
@@ -691,7 +691,7 @@ static TAB_NUM t_func_html__B[] = {
 static TAB_NUM t_func_html__SPAN[] = {
   1, // locals
   -1, // parameters
-  REST_PARAMETER, LOCAL(1), // 286_0_items
+  REST_PARAMETER, LOCAL(1), // 286_5_items
   // emit_inline "span" items
   func_emit_inline, 2, str_span, LOCAL(1), TAIL_CALL,
   POS(288, 3)
@@ -700,9 +700,9 @@ static TAB_NUM t_func_html__SPAN[] = {
 static TAB_NUM t_func_html__GROUP[] = {
   1, // locals
   -1, // parameters
-  REST_PARAMETER, LOCAL(1), // 292_0_items
+  REST_PARAMETER, LOCAL(1), // 292_5_items
   // $text ""
-  LET, 1, string_5, 1, var_294_1_text,
+  LET, 1, string_5, 1, var_294_4_text,
   // for_each items
   var_for_each, 3, LOCAL(1), lambda_13, lambda_14, TAIL_CALL,
   POS(294, 3),
@@ -712,11 +712,11 @@ static TAB_NUM t_func_html__GROUP[] = {
 static TAB_NUM t_lambda_13[] = {
   2, // locals
   1, // parameters
-  LOCAL(2), // 296_3_item
+  LOCAL(2), // 296_8_item
   // item()
   LOCAL(2), 0, 1, LOCAL(1),
   // append &text item()
-  var_append, 2, var_294_1_text, LOCAL(1), 1, var_294_1_text,
+  var_append, 2, var_294_4_text, LOCAL(1), 1, var_294_4_text,
   // next
   var_next, 0, TAIL_CALL,
   POS(297, 20),
@@ -728,18 +728,18 @@ static TAB_NUM t_lambda_14[] = {
   0, // locals
   0, // parameters
   //  text
-  LET, 1, var_294_1_text, TAIL_CALL,
+  LET, 1, var_294_4_text, TAIL_CALL,
   POS(299, 7)
 };
 
 static TAB_NUM t_func_html__FROM_TO[] = {
   2, // locals
   3, // parameters
-  LOCAL(1), // 303_0_from
-  LOCAL(2), // 304_0_to
-  var_305_0_body,
+  LOCAL(1), // 303_5_from
+  LOCAL(2), // 304_5_to
+  var_305_5_body,
   // $text ""
-  LET, 1, string_5, 1, var_307_1_text,
+  LET, 1, string_5, 1, var_307_4_text,
   // from_to from to
   var_from_to, 4, LOCAL(1), LOCAL(2), lambda_15, lambda_16, TAIL_CALL,
   POS(307, 3),
@@ -749,11 +749,11 @@ static TAB_NUM t_func_html__FROM_TO[] = {
 static TAB_NUM t_lambda_15[] = {
   2, // locals
   1, // parameters
-  LOCAL(2), // 309_3_idx
+  LOCAL(2), // 309_8_idx
   // body(idx)
-  var_305_0_body, 1, LOCAL(2), 1, LOCAL(1),
+  var_305_5_body, 1, LOCAL(2), 1, LOCAL(1),
   // append &text body(idx)
-  var_append, 2, var_307_1_text, LOCAL(1), 1, var_307_1_text,
+  var_append, 2, var_307_4_text, LOCAL(1), 1, var_307_4_text,
   // next
   var_next, 0, TAIL_CALL,
   POS(310, 20),
@@ -765,19 +765,19 @@ static TAB_NUM t_lambda_16[] = {
   0, // locals
   0, // parameters
   //  text
-  LET, 1, var_307_1_text, TAIL_CALL,
+  LET, 1, var_307_4_text, TAIL_CALL,
   POS(312, 7)
 };
 
 static TAB_NUM t_func_html__FOR_EACH[] = {
   2, // locals
   2, // parameters
-  var_316_0_items,
-  var_317_0_body,
+  var_316_5_items,
+  var_317_5_body,
   // $text ""
-  LET, 1, string_5, 1, var_319_1_text,
+  LET, 1, string_5, 1, var_319_4_text,
   // parameter_count_of(body) == 2:
-  var_parameter_count_of, 1, var_317_0_body, 1, LOCAL(1),
+  var_parameter_count_of, 1, var_317_5_body, 1, LOCAL(1),
   // parameter_count_of(body) == 2:
   var_std__equal, 2, LOCAL(1), num_2, 1, LOCAL(2),
   // if
@@ -792,19 +792,19 @@ static TAB_NUM t_lambda_17[] = {
   0, // locals
   0, // parameters
   // for_each items
-  var_for_each, 3, var_316_0_items, lambda_18, lambda_19, TAIL_CALL,
+  var_for_each, 3, var_316_5_items, lambda_18, lambda_19, TAIL_CALL,
   POS(322, 7)
 };
 
 static TAB_NUM t_lambda_18[] = {
   3, // locals
   2, // parameters
-  LOCAL(2), // 323_3_key
-  LOCAL(3), // 323_7_value
+  LOCAL(2), // 323_12_key
+  LOCAL(3), // 323_16_value
   // body(key value)
-  var_317_0_body, 2, LOCAL(2), LOCAL(3), 1, LOCAL(1),
+  var_317_5_body, 2, LOCAL(2), LOCAL(3), 1, LOCAL(1),
   // append &text body(key value)
-  var_append, 2, var_319_1_text, LOCAL(1), 1, var_319_1_text,
+  var_append, 2, var_319_4_text, LOCAL(1), 1, var_319_4_text,
   // next
   var_next, 0, TAIL_CALL,
   POS(324, 24),
@@ -816,7 +816,7 @@ static TAB_NUM t_lambda_19[] = {
   0, // locals
   0, // parameters
   //  text
-  LET, 1, var_319_1_text, TAIL_CALL,
+  LET, 1, var_319_4_text, TAIL_CALL,
   POS(326, 11)
 };
 
@@ -824,18 +824,18 @@ static TAB_NUM t_lambda_20[] = {
   0, // locals
   0, // parameters
   // for_each items
-  var_for_each, 3, var_316_0_items, lambda_21, lambda_22, TAIL_CALL,
+  var_for_each, 3, var_316_5_items, lambda_21, lambda_22, TAIL_CALL,
   POS(328, 7)
 };
 
 static TAB_NUM t_lambda_21[] = {
   2, // locals
   1, // parameters
-  LOCAL(2), // 329_3_item
+  LOCAL(2), // 329_12_item
   // body(item)
-  var_317_0_body, 1, LOCAL(2), 1, LOCAL(1),
+  var_317_5_body, 1, LOCAL(2), 1, LOCAL(1),
   // append &text body(item)
-  var_append, 2, var_319_1_text, LOCAL(1), 1, var_319_1_text,
+  var_append, 2, var_319_4_text, LOCAL(1), 1, var_319_4_text,
   // next
   var_next, 0, TAIL_CALL,
   POS(330, 24),
@@ -847,7 +847,7 @@ static TAB_NUM t_lambda_22[] = {
   0, // locals
   0, // parameters
   //  text
-  LET, 1, var_319_1_text, TAIL_CALL,
+  LET, 1, var_319_4_text, TAIL_CALL,
   POS(332, 11)
 };
 
@@ -999,11 +999,11 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "57_1_buf\000", NULL
+    "57_4_buf\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "59_3_item\000", NULL
+    "59_8_item\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
@@ -1027,19 +1027,19 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "69_1_buf\000", NULL
+    "69_4_buf\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "82_20_tag\000", NULL
+    "82_21_tag\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "83_17_options\000", NULL
+    "83_20_options\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "85_16_buf\000", NULL
+    "85_19_buf\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
@@ -1188,7 +1188,7 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "294_1_text\000", NULL
+    "294_4_text\000", NULL
   },
   {
     FOT_INITIALIZED, 0, 0,
@@ -1197,11 +1197,11 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "305_0_body\000", NULL
+    "305_5_body\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "307_1_text\000", NULL
+    "307_4_text\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
@@ -1215,15 +1215,15 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "316_0_items\000", NULL
+    "316_5_items\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "317_0_body\000", NULL
+    "317_5_body\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "319_1_text\000", NULL
+    "319_4_text\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,

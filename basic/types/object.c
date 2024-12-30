@@ -72,19 +72,19 @@ enum {
   var_serialization_fields_of, // extern polymorphic
   var_empty_list, // extern
   var_serialize, // extern polymorphic
-  var_114_0_obj, // dynamic
-  var_115_0_indent, // dynamic
+  var_114_5_obj, // dynamic
+  var_115_5_indent, // dynamic
   var_undefined, // extern
   var_std__plus, // extern
-  var_117_1_new_indent, // dynamic
+  var_117_4_new_indent, // dynamic
   var_if, // extern
-  var_122_1_fieldnames_and_getters, // dynamic
-  var_123_1_i, // dynamic
-  var_124_1_len, // dynamic
+  var_122_4_fieldnames_and_getters, // dynamic
+  var_123_4_i, // dynamic
+  var_124_4_len, // dynamic
   var_length_of, // extern
-  var_125_1_buf, // dynamic
+  var_125_4_buf, // dynamic
   var_std__less, // extern
-  var_129_1_field, // dynamic
+  var_129_10_field, // dynamic
   var_append, // extern
   var_next, // extern
   var_string, // extern
@@ -92,24 +92,24 @@ enum {
   var_update_if, // extern
   var_loop, // extern
   var_deserializer_of, // extern polymorphic
-  var_147_0_prototype, // dynamic
-  var_148_0_items, // dynamic
-  var_150_1_tab, // dynamic
-  var_151_1_i, // dynamic
-  var_152_1_n, // dynamic
+  var_147_5_prototype, // dynamic
+  var_148_5_items, // dynamic
+  var_150_4_tab, // dynamic
+  var_151_4_i, // dynamic
+  var_152_4_n, // dynamic
   var_std__shift_right, // extern
   var_std__not, // extern
   var_std__times, // extern
   var_std__minus, // extern
-  var_157_1_value, // dynamic
+  var_157_10_value, // dynamic
   var_inc, // extern
-  var_159_1_setter, // dynamic
+  var_159_10_setter, // dynamic
   var_deserializers, // extern
   var_register_type, // extern
-  var_170_12_fields, // dynamic
-  var_171_1_i, // dynamic
-  var_172_1_n, // dynamic
-  var_173_1_tab, // dynamic
+  var_170_13_fields, // dynamic
+  var_171_4_i, // dynamic
+  var_172_4_n, // dynamic
+  var_173_4_tab, // dynamic
   var_empty_key_order_table, // extern
   var__END
 };
@@ -118,20 +118,20 @@ enum {
 static TAB_NUM t_func_std_types__object___serialize[] = {
   1, // locals
   -2, // parameters
-  MANDATORY_PARAMETER, var_114_0_obj,
-  var_undefined, var_115_0_indent,
+  MANDATORY_PARAMETER, var_114_5_obj,
+  var_undefined, var_115_5_indent,
   // is_defined
-  var_is_defined, 1, var_115_0_indent, 1, LOCAL(1),
+  var_is_defined, 1, var_115_5_indent, 1, LOCAL(1),
   // $new_indent
-  var_if, 3, LOCAL(1), lambda_1, lambda_2, 1, var_117_1_new_indent,
+  var_if, 3, LOCAL(1), lambda_1, lambda_2, 1, var_117_4_new_indent,
   // $fieldnames_and_getters serialization_fields_of(obj)
-  var_serialization_fields_of, 1, var_114_0_obj, 1, var_122_1_fieldnames_and_getters,
+  var_serialization_fields_of, 1, var_114_5_obj, 1, var_122_4_fieldnames_and_getters,
   // $i 1
-  LET, 1, num_1, 1, var_123_1_i,
+  LET, 1, num_1, 1, var_123_4_i,
   // $len length_of(fieldnames_and_getters)
-  var_length_of, 1, var_122_1_fieldnames_and_getters, 1, var_124_1_len,
+  var_length_of, 1, var_122_4_fieldnames_and_getters, 1, var_124_4_len,
   // $buf ""
-  LET, 1, string_1, 1, var_125_1_buf,
+  LET, 1, string_1, 1, var_125_4_buf,
   // loop:
   var_loop, 1, lambda_loop, TAIL_CALL,
   POS(119, 14),
@@ -147,7 +147,7 @@ static TAB_NUM t_lambda_1[] = {
   1, // locals
   0, // parameters
   // indent+2
-  var_std__plus, 2, var_115_0_indent, num_2, 1, LOCAL(1),
+  var_std__plus, 2, var_115_5_indent, num_2, 1, LOCAL(1),
   //  indent+2
   LET, 1, LOCAL(1), TAIL_CALL,
   POS(120, 10),
@@ -166,7 +166,7 @@ static TAB_NUM t_lambda_loop[] = {
   1, // locals
   0, // parameters
   // i < len:
-  var_std__less, 2, var_123_1_i, var_124_1_len, 1, LOCAL(1),
+  var_std__less, 2, var_123_4_i, var_124_4_len, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_3, lambda_5, TAIL_CALL,
   POS(128, 7),
@@ -177,13 +177,13 @@ static TAB_NUM t_lambda_3[] = {
   2, // locals
   0, // parameters
   // i+1)(obj)
-  var_std__plus, 2, var_123_1_i, num_1, 1, LOCAL(1),
+  var_std__plus, 2, var_123_4_i, num_1, 1, LOCAL(1),
   // fieldnames_and_getters(i+1)(obj)
-  var_122_1_fieldnames_and_getters, 1, LOCAL(1), 1, LOCAL(2),
+  var_122_4_fieldnames_and_getters, 1, LOCAL(1), 1, LOCAL(2),
   // $field fieldnames_and_getters(i+1)(obj)
-  LOCAL(2), 1, var_114_0_obj, 1, var_129_1_field,
+  LOCAL(2), 1, var_114_5_obj, 1, var_129_10_field,
   // is_defined:
-  var_is_defined, 1, var_129_1_field, 1, LOCAL(1),
+  var_is_defined, 1, var_129_10_field, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_field_is_defined, lambda_4, TAIL_CALL,
   POS(129, 39),
@@ -197,17 +197,17 @@ static TAB_NUM t_lambda_field_is_defined[] = {
   2, // locals
   0, // parameters
   // $fieldname fieldnames_and_getters(i)
-  var_122_1_fieldnames_and_getters, 1, var_123_1_i, 1, LOCAL(2),
+  var_122_4_fieldnames_and_getters, 1, var_123_4_i, 1, LOCAL(2),
   // serialize(fieldname new_indent)
-  var_serialize, 2, LOCAL(2), var_117_1_new_indent, 1, LOCAL(1),
+  var_serialize, 2, LOCAL(2), var_117_4_new_indent, 1, LOCAL(1),
   // append &buf serialize(fieldname new_indent)
-  var_append, 2, var_125_1_buf, LOCAL(1), 1, var_125_1_buf,
+  var_append, 2, var_125_4_buf, LOCAL(1), 1, var_125_4_buf,
   // serialize(field new_indent)
-  var_serialize, 2, var_129_1_field, var_117_1_new_indent, 1, LOCAL(1),
+  var_serialize, 2, var_129_10_field, var_117_4_new_indent, 1, LOCAL(1),
   // append &buf serialize(field new_indent)
-  var_append, 2, var_125_1_buf, LOCAL(1), 1, var_125_1_buf,
+  var_append, 2, var_125_4_buf, LOCAL(1), 1, var_125_4_buf,
   // !i i+2
-  var_std__plus, 2, var_123_1_i, num_2, 1, var_123_1_i,
+  var_std__plus, 2, var_123_4_i, num_2, 1, var_123_4_i,
   // next
   var_next, 0, TAIL_CALL,
   POS(132, 13),
@@ -223,7 +223,7 @@ static TAB_NUM t_lambda_4[] = {
   0, // locals
   0, // parameters
   // !i i+2
-  var_std__plus, 2, var_123_1_i, num_2, 1, var_123_1_i,
+  var_std__plus, 2, var_123_4_i, num_2, 1, var_123_4_i,
   // next
   var_next, 0, TAIL_CALL,
   POS(138, 13),
@@ -234,17 +234,17 @@ static TAB_NUM t_lambda_5[] = {
   2, // locals
   0, // parameters
   // serialization_tag_of(obj) " <" len ">@nl;") &buf
-  var_serialization_tag_of, 1, var_114_0_obj, 1, LOCAL(1),
+  var_serialization_tag_of, 1, var_114_5_obj, 1, LOCAL(1),
   // string(serialization_tag_of(obj) " <" len ">@nl;") &buf
-  var_string, 4, LOCAL(1), string_2, var_124_1_len, string_3, 1, LOCAL(2),
+  var_string, 4, LOCAL(1), string_2, var_124_4_len, string_3, 1, LOCAL(2),
   // append string(serialization_tag_of(obj) " <" len ">@nl;") &buf
-  var_append, 2, LOCAL(2), var_125_1_buf, 1, var_125_1_buf,
+  var_append, 2, LOCAL(2), var_125_4_buf, 1, var_125_4_buf,
   // is_defined &buf -> append(tabs_and_spaces(indent) buf)
-  var_is_defined, 1, var_115_0_indent, 1, LOCAL(1),
+  var_is_defined, 1, var_115_5_indent, 1, LOCAL(1),
   // update_if indent.is_defined &buf -> append(tabs_and_spaces(indent) buf)
-  var_update_if, 3, LOCAL(1), var_125_1_buf, lambda_6, 1, var_125_1_buf,
+  var_update_if, 3, LOCAL(1), var_125_4_buf, lambda_6, 1, var_125_4_buf,
   // -> buf
-  LET, 1, var_125_1_buf, TAIL_CALL,
+  LET, 1, var_125_4_buf, TAIL_CALL,
   POS(141, 23),
   POS(141, 16),
   POS(141, 9),
@@ -257,9 +257,9 @@ static TAB_NUM t_lambda_6[] = {
   2, // locals
   0, // parameters
   // tabs_and_spaces(indent) buf)
-  var_tabs_and_spaces, 1, var_115_0_indent, 1, LOCAL(1),
+  var_tabs_and_spaces, 1, var_115_5_indent, 1, LOCAL(1),
   // append(tabs_and_spaces(indent) buf)
-  var_append, 2, LOCAL(1), var_125_1_buf, 1, LOCAL(2),
+  var_append, 2, LOCAL(1), var_125_4_buf, 1, LOCAL(2),
   //  append(tabs_and_spaces(indent) buf)
   LET, 1, LOCAL(2), TAIL_CALL,
   POS(142, 52),
@@ -270,18 +270,18 @@ static TAB_NUM t_lambda_6[] = {
 static TAB_NUM t_func_std_types__object___deserializer_of[] = {
   1, // locals
   2, // parameters
-  var_147_0_prototype,
-  var_148_0_items,
+  var_147_5_prototype,
+  var_148_5_items,
   // serialization_fields_of(prototype).to_table
-  var_serialization_fields_of, 1, var_147_0_prototype, 1, LOCAL(1),
+  var_serialization_fields_of, 1, var_147_5_prototype, 1, LOCAL(1),
   // $tab serialization_fields_of(prototype).to_table
-  func_to_table, 1, LOCAL(1), 1, var_150_1_tab,
+  func_to_table, 1, LOCAL(1), 1, var_150_4_tab,
   // $i 1
-  LET, 1, num_1, 1, var_151_1_i,
+  LET, 1, num_1, 1, var_151_4_i,
   // length_of(items) >> 1
-  var_length_of, 1, var_148_0_items, 1, LOCAL(1),
+  var_length_of, 1, var_148_5_items, 1, LOCAL(1),
   // $n length_of(items) >> 1
-  var_std__shift_right, 2, LOCAL(1), num_1, 1, var_152_1_n,
+  var_std__shift_right, 2, LOCAL(1), num_1, 1, var_152_4_n,
   // loop:
   var_loop, 1, lambda_2_loop, TAIL_CALL,
   POS(150, 8),
@@ -296,7 +296,7 @@ static TAB_NUM t_lambda_2_loop[] = {
   2, // locals
   0, // parameters
   // n:
-  var_std__less, 2, var_152_1_n, var_151_1_i, 1, LOCAL(1),
+  var_std__less, 2, var_152_4_n, var_151_4_i, 1, LOCAL(1),
   // n:
   var_std__not, 1, LOCAL(1), 1, LOCAL(2),
   // if
@@ -310,21 +310,21 @@ static TAB_NUM t_lambda_7[] = {
   3, // locals
   0, // parameters
   // 2*i-1)
-  var_std__times, 2, num_2, var_151_1_i, 1, LOCAL(1),
+  var_std__times, 2, num_2, var_151_4_i, 1, LOCAL(1),
   // 2*i-1)
   var_std__minus, 2, LOCAL(1), num_1, 1, LOCAL(2),
   // $key items(2*i-1)
-  var_148_0_items, 1, LOCAL(2), 1, LOCAL(3),
+  var_148_5_items, 1, LOCAL(2), 1, LOCAL(3),
   // 2*i)
-  var_std__times, 2, num_2, var_151_1_i, 1, LOCAL(1),
+  var_std__times, 2, num_2, var_151_4_i, 1, LOCAL(1),
   // $value items(2*i)
-  var_148_0_items, 1, LOCAL(1), 1, var_157_1_value,
+  var_148_5_items, 1, LOCAL(1), 1, var_157_10_value,
   // inc &i
-  var_inc, 1, var_151_1_i, 1, var_151_1_i,
+  var_inc, 1, var_151_4_i, 1, var_151_4_i,
   // $setter tab(key)
-  var_150_1_tab, 1, LOCAL(3), 1, var_159_1_setter,
+  var_150_4_tab, 1, LOCAL(3), 1, var_159_10_setter,
   // is_defined:
-  var_is_defined, 1, var_159_1_setter, 1, LOCAL(1),
+  var_is_defined, 1, var_159_10_setter, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_setter_is_defined, var_next, TAIL_CALL,
   POS(156, 20),
@@ -342,7 +342,7 @@ static TAB_NUM t_lambda_setter_is_defined[] = {
   0, // locals
   0, // parameters
   // setter &prototype value
-  var_159_1_setter, 2, var_147_0_prototype, var_157_1_value, 1, var_147_0_prototype,
+  var_159_10_setter, 2, var_147_5_prototype, var_157_10_value, 1, var_147_5_prototype,
   // next
   var_next, 0, TAIL_CALL,
   POS(162, 13),
@@ -353,20 +353,20 @@ static TAB_NUM t_lambda_8[] = {
   0, // locals
   0, // parameters
   //  prototype
-  LET, 1, var_147_0_prototype, TAIL_CALL,
+  LET, 1, var_147_5_prototype, TAIL_CALL,
   POS(165, 9)
 };
 
 static TAB_NUM t_func_to_table[] = {
   0, // locals
   1, // parameters
-  var_170_12_fields,
+  var_170_13_fields,
   // $i 1
-  LET, 1, num_1, 1, var_171_1_i,
+  LET, 1, num_1, 1, var_171_4_i,
   // $n length_of(fields)
-  var_length_of, 1, var_170_12_fields, 1, var_172_1_n,
+  var_length_of, 1, var_170_13_fields, 1, var_172_4_n,
   // $tab empty_key_order_table
-  LET, 1, var_empty_key_order_table, 1, var_173_1_tab,
+  LET, 1, var_empty_key_order_table, 1, var_173_4_tab,
   // loop:
   var_loop, 1, lambda_3_loop, TAIL_CALL,
   POS(171, 3),
@@ -379,7 +379,7 @@ static TAB_NUM t_lambda_3_loop[] = {
   1, // locals
   0, // parameters
   // i < n:
-  var_std__less, 2, var_171_1_i, var_172_1_n, 1, LOCAL(1),
+  var_std__less, 2, var_171_4_i, var_172_4_n, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_9, lambda_10, TAIL_CALL,
   POS(176, 7),
@@ -390,15 +390,15 @@ static TAB_NUM t_lambda_9[] = {
   3, // locals
   0, // parameters
   // $key fields(i)
-  var_170_12_fields, 1, var_171_1_i, 1, LOCAL(2),
+  var_170_13_fields, 1, var_171_4_i, 1, LOCAL(2),
   // i+1)
-  var_std__plus, 2, var_171_1_i, num_1, 1, LOCAL(1),
+  var_std__plus, 2, var_171_4_i, num_1, 1, LOCAL(1),
   // $value fields(i+1)
-  var_170_12_fields, 1, LOCAL(1), 1, LOCAL(3),
+  var_170_13_fields, 1, LOCAL(1), 1, LOCAL(3),
   // tab(key) value
-  var_173_1_tab, 2, LOCAL(2), LOCAL(3), 1, var_173_1_tab,
+  var_173_4_tab, 2, LOCAL(2), LOCAL(3), 1, var_173_4_tab,
   // !i i+2
-  var_std__plus, 2, var_171_1_i, num_2, 1, var_171_1_i,
+  var_std__plus, 2, var_171_4_i, num_2, 1, var_171_4_i,
   // next
   var_next, 0, TAIL_CALL,
   POS(177, 9),
@@ -413,7 +413,7 @@ static TAB_NUM t_lambda_10[] = {
   0, // locals
   0, // parameters
   //  tab
-  LET, 1, var_173_1_tab, TAIL_CALL,
+  LET, 1, var_173_4_tab, TAIL_CALL,
   POS(182, 9)
 };
 
@@ -747,11 +747,11 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "114_0_obj\000", NULL
+    "114_5_obj\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "115_0_indent\000", NULL
+    "115_5_indent\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
@@ -765,7 +765,7 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "117_1_new_indent\000", NULL
+    "117_4_new_indent\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
@@ -774,15 +774,15 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "122_1_fieldnames_and_getters\000", NULL
+    "122_4_fieldnames_and_getters\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "123_1_i\000", NULL
+    "123_4_i\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "124_1_len\000", NULL
+    "124_4_len\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
@@ -791,7 +791,7 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "125_1_buf\000", NULL
+    "125_4_buf\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
@@ -800,7 +800,7 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "129_1_field\000", NULL
+    "129_10_field\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
@@ -839,23 +839,23 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "147_0_prototype\000", NULL
+    "147_5_prototype\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "148_0_items\000", NULL
+    "148_5_items\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "150_1_tab\000", NULL
+    "150_4_tab\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "151_1_i\000", NULL
+    "151_4_i\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "152_1_n\000", NULL
+    "152_4_n\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
@@ -879,7 +879,7 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "157_1_value\000", NULL
+    "157_10_value\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
@@ -888,7 +888,7 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "159_1_setter\000", NULL
+    "159_10_setter\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
@@ -902,19 +902,19 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "170_12_fields\000", NULL
+    "170_13_fields\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "171_1_i\000", NULL
+    "171_4_i\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "172_1_n\000", NULL
+    "172_4_n\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "173_1_tab\000", NULL
+    "173_4_tab\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,

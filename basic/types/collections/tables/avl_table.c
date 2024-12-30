@@ -7,7 +7,7 @@
 #include "runtime/memory.h"
 
 enum {
-  tuple_47_0 = -1,
+  tuple_47_1 = -1,
   uni_NONE = -2,
   func_std_types__avl_table = -3,
   lambda_1 = -4,
@@ -170,10 +170,10 @@ enum {
   var_basic_collections__empty_binary_node, // extern
   var_undefined, // extern
   var_tuple, // extern
-  var_54_0_myself, // dynamic
-  var_55_0_key, // dynamic
-  var_56_0_value, // dynamic
-  var_58_1_contents, // dynamic
+  var_54_5_myself, // dynamic
+  var_55_5_key, // dynamic
+  var_56_5_value, // dynamic
+  var_58_4_contents, // dynamic
   var_std__equal, // extern
   var_retrieve, // extern polymorphic
   var_is_defined, // extern
@@ -184,91 +184,91 @@ enum {
   var_retrieve_method, // extern
   var_first_key_of, // extern polymorphic
   var_next_key_of, // extern polymorphic
-  var_110_0_key, // dynamic
-  var_115_6_left, // dynamic
-  var_115_12_right, // dynamic
-  var_115_19_my_key, // dynamic
+  var_110_5_key, // dynamic
+  var_115_11_left, // dynamic
+  var_115_17_right, // dynamic
+  var_115_24_my_key, // dynamic
   var_std__less, // extern
-  var_118_1_fetched_key, // dynamic
+  var_118_10_fetched_key, // dynamic
   var_is_undefined, // extern
-  var_137_6_left, // dynamic
-  var_137_20_my_key, // dynamic
+  var_137_9_left, // dynamic
+  var_137_23_my_key, // dynamic
   var_typed_tuple, // extern
-  var_149_19_self, // dynamic
-  var_149_24_key, // dynamic
-  var_149_28_value, // dynamic
-  var_150_6_left, // dynamic
-  var_150_12_right, // dynamic
-  var_150_19_my_key, // dynamic
-  var_150_27_my_value, // dynamic
-  var_150_37_my_height, // dynamic
-  var_157_14_new_height, // dynamic
+  var_149_20_self, // dynamic
+  var_149_25_key, // dynamic
+  var_149_29_value, // dynamic
+  var_150_9_left, // dynamic
+  var_150_15_right, // dynamic
+  var_150_22_my_key, // dynamic
+  var_150_30_my_value, // dynamic
+  var_150_40_my_height, // dynamic
+  var_157_25_new_height, // dynamic
   var_std__or, // extern
   var_if_not, // extern
-  var_181_15_new_height, // dynamic
-  var_205_30_right, // dynamic
-  var_205_36_key, // dynamic
-  var_205_40_value, // dynamic
-  var_216_6_left_left, // dynamic
-  var_216_17_left_right, // dynamic
-  var_216_29_left_key, // dynamic
-  var_216_39_left_value, // dynamic
-  var_216_51_left_height, // dynamic
-  var_221_1_left_right_left, // dynamic
-  var_221_18_left_right_right, // dynamic
-  var_222_1_left_right_key, // dynamic
-  var_222_17_left_right_value, // dynamic
-  var_222_35_left_right_height, // dynamic
-  var_250_25_left, // dynamic
-  var_250_36_key, // dynamic
-  var_250_40_value, // dynamic
-  var_261_7_right_left, // dynamic
-  var_261_19_right_right, // dynamic
-  var_261_32_right_key, // dynamic
-  var_261_43_right_value, // dynamic
-  var_261_56_right_height, // dynamic
-  var_263_1_right_left_left, // dynamic
-  var_263_18_right_left_right, // dynamic
-  var_264_1_right_left_key, // dynamic
-  var_264_17_right_left_value, // dynamic
-  var_264_35_right_left_height, // dynamic
-  var_306_6_left, // dynamic
-  var_306_12_right, // dynamic
-  var_306_19_my_key, // dynamic
-  var_306_27_my_value, // dynamic
-  var_306_37_my_height, // dynamic
-  var_311_19_key, // dynamic
-  var_311_24_value, // dynamic
-  var_311_31_left_height, // dynamic
-  var_317_1_height_minus_2, // dynamic
-  var_330_23_new_node, // dynamic
-  var_343_6_left, // dynamic
-  var_343_12_right, // dynamic
-  var_343_19_my_key, // dynamic
-  var_343_27_my_value, // dynamic
-  var_343_37_my_height, // dynamic
-  var_348_19_key, // dynamic
-  var_348_24_value, // dynamic
-  var_348_31_right_height, // dynamic
-  var_354_1_height_minus_2, // dynamic
-  var_367_23_new_node, // dynamic
-  var_376_19_self, // dynamic
-  var_376_24_key, // dynamic
-  var_383_6_left, // dynamic
-  var_383_12_right, // dynamic
-  var_383_19_my_key, // dynamic
-  var_383_27_my_value, // dynamic
-  var_383_37_my_height, // dynamic
-  var_395_55_left_height, // dynamic
-  var_396_60_right_height, // dynamic
-  var_399_18_last_key, // dynamic
-  var_399_28_last_value, // dynamic
-  var_409_20_first_key, // dynamic
-  var_409_31_first_value, // dynamic
+  var_181_26_new_height, // dynamic
+  var_205_31_right, // dynamic
+  var_205_37_key, // dynamic
+  var_205_41_value, // dynamic
+  var_216_9_left_left, // dynamic
+  var_216_20_left_right, // dynamic
+  var_216_32_left_key, // dynamic
+  var_216_42_left_value, // dynamic
+  var_216_54_left_height, // dynamic
+  var_221_6_left_right_left, // dynamic
+  var_221_23_left_right_right, // dynamic
+  var_222_6_left_right_key, // dynamic
+  var_222_22_left_right_value, // dynamic
+  var_222_40_left_right_height, // dynamic
+  var_250_26_left, // dynamic
+  var_250_37_key, // dynamic
+  var_250_41_value, // dynamic
+  var_261_10_right_left, // dynamic
+  var_261_22_right_right, // dynamic
+  var_261_35_right_key, // dynamic
+  var_261_46_right_value, // dynamic
+  var_261_59_right_height, // dynamic
+  var_263_6_right_left_left, // dynamic
+  var_263_23_right_left_right, // dynamic
+  var_264_6_right_left_key, // dynamic
+  var_264_22_right_left_value, // dynamic
+  var_264_40_right_left_height, // dynamic
+  var_306_9_left, // dynamic
+  var_306_15_right, // dynamic
+  var_306_22_my_key, // dynamic
+  var_306_30_my_value, // dynamic
+  var_306_40_my_height, // dynamic
+  var_311_26_key, // dynamic
+  var_311_31_value, // dynamic
+  var_311_38_left_height, // dynamic
+  var_317_12_height_minus_2, // dynamic
+  var_330_42_new_node, // dynamic
+  var_343_9_left, // dynamic
+  var_343_15_right, // dynamic
+  var_343_22_my_key, // dynamic
+  var_343_30_my_value, // dynamic
+  var_343_40_my_height, // dynamic
+  var_348_26_key, // dynamic
+  var_348_31_value, // dynamic
+  var_348_38_right_height, // dynamic
+  var_354_12_height_minus_2, // dynamic
+  var_367_42_new_node, // dynamic
+  var_376_20_self, // dynamic
+  var_376_25_key, // dynamic
+  var_383_9_left, // dynamic
+  var_383_15_right, // dynamic
+  var_383_22_my_key, // dynamic
+  var_383_30_my_value, // dynamic
+  var_383_40_my_height, // dynamic
+  var_395_70_left_height, // dynamic
+  var_396_75_right_height, // dynamic
+  var_399_37_last_key, // dynamic
+  var_399_47_last_value, // dynamic
+  var_409_39_first_key, // dynamic
+  var_409_50_first_value, // dynamic
   var_cond, // extern
-  var_427_14_left_height, // dynamic
-  var_453_15_right_height, // dynamic
-  var_469_1_left_height, // dynamic
+  var_427_25_left_height, // dynamic
+  var_453_26_right_height, // dynamic
+  var_469_26_left_height, // dynamic
   var_for_each_1_left, // extern polymorphic
   var_for_each_1_left_method, // extern
   var_for_each_2_left, // extern polymorphic
@@ -286,20 +286,20 @@ enum {
   var_map_2, // extern polymorphic
   var_map_2_method, // extern
   var_validate, // extern polymorphic
-  var_498_26_low, // dynamic
-  var_498_30_high, // dynamic
-  var_499_6_left, // dynamic
-  var_499_12_right, // dynamic
-  var_499_19_key, // dynamic
-  var_499_32_height, // dynamic
+  var_498_27_low, // dynamic
+  var_498_31_high, // dynamic
+  var_499_9_left, // dynamic
+  var_499_15_right, // dynamic
+  var_499_22_key, // dynamic
+  var_499_35_height, // dynamic
   var_std__and, // extern
   var_default_value, // extern
   var_std__string, // extern
   var_debug__print, // extern
   var_debug__exit, // extern
   var_pass, // extern
-  var_509_55_left_height, // dynamic
-  var_510_60_right_height, // dynamic
+  var_509_58_left_height, // dynamic
+  var_510_63_right_height, // dynamic
   var_max, // extern
   var__END
 };
@@ -308,13 +308,13 @@ enum {
 static TAB_NUM t_func_std_types__avl_table[] = {
   1, // locals
   -3, // parameters
-  MYSELF_PARAMETER, var_54_0_myself,
-  MANDATORY_PARAMETER, var_55_0_key,
-  uni_NONE, var_56_0_value,
+  MYSELF_PARAMETER, var_54_5_myself,
+  MANDATORY_PARAMETER, var_55_5_key,
+  uni_NONE, var_56_5_value,
   // $contents contents_of(myself)
-  var_contents_of, 1, var_54_0_myself, 1, var_58_1_contents,
+  var_contents_of, 1, var_54_5_myself, 1, var_58_4_contents,
   // NONE == value
-  var_std__equal, 2, uni_NONE, var_56_0_value, 1, LOCAL(1),
+  var_std__equal, 2, uni_NONE, var_56_5_value, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_1, lambda_2, TAIL_CALL,
   POS(58, 3),
@@ -326,7 +326,7 @@ static TAB_NUM t_lambda_1[] = {
   1, // locals
   0, // parameters
   // retrieve(contents key)
-  var_retrieve, 2, var_58_1_contents, var_55_0_key, 1, LOCAL(1),
+  var_retrieve, 2, var_58_4_contents, var_55_5_key, 1, LOCAL(1),
   //  retrieve(contents key)
   LET, 1, LOCAL(1), TAIL_CALL,
   POS(61, 8),
@@ -337,7 +337,7 @@ static TAB_NUM t_lambda_2[] = {
   1, // locals
   0, // parameters
   // is_defined:
-  var_is_defined, 1, var_56_0_value, 1, LOCAL(1),
+  var_is_defined, 1, var_56_5_value, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_value_is_defined, lambda_5, TAIL_CALL,
   POS(64, 15),
@@ -348,7 +348,7 @@ static TAB_NUM t_lambda_value_is_defined[] = {
   2, // locals
   0, // parameters
   // insert &contents $new_height key value
-  var_insert, 3, var_58_1_contents, var_55_0_key, var_56_0_value, 2, var_58_1_contents, LOCAL(2),
+  var_insert, 3, var_58_4_contents, var_55_5_key, var_56_5_value, 2, var_58_4_contents, LOCAL(2),
   // is_defined
   var_is_defined, 1, LOCAL(2), 1, LOCAL(1),
   // if
@@ -362,11 +362,11 @@ static TAB_NUM t_lambda_3[] = {
   3, // locals
   0, // parameters
   // length_of(myself)+1
-  var_length_of, 1, var_54_0_myself, 1, LOCAL(1),
+  var_length_of, 1, var_54_5_myself, 1, LOCAL(1),
   // length_of(myself)+1
   var_std__plus, 2, LOCAL(1), num_1, 1, LOCAL(2),
   // myself
-  LET, -2, var_54_0_myself, var_contents_of, var_58_1_contents, var_length_of, LOCAL(2), LOCAL(3),
+  LET, -2, var_54_5_myself, var_contents_of, var_58_4_contents, var_length_of, LOCAL(2), LOCAL(3),
   // 
   LET, 1, LOCAL(3), TAIL_CALL,
   POS(71, 28),
@@ -379,7 +379,7 @@ static TAB_NUM t_lambda_4[] = {
   1, // locals
   0, // parameters
   // .contents_of contents)
-  LET, -1, var_54_0_myself, var_contents_of, var_58_1_contents, LOCAL(1),
+  LET, -1, var_54_5_myself, var_contents_of, var_58_4_contents, LOCAL(1),
   //  myself(.contents_of contents)
   LET, 1, LOCAL(1), TAIL_CALL,
   POS(72, 23),
@@ -390,7 +390,7 @@ static TAB_NUM t_lambda_5[] = {
   2, // locals
   0, // parameters
   // delete &contents $new_height key
-  var_delete, 2, var_58_1_contents, var_55_0_key, 2, var_58_1_contents, LOCAL(2),
+  var_delete, 2, var_58_4_contents, var_55_5_key, 2, var_58_4_contents, LOCAL(2),
   // is_defined
   var_is_defined, 1, LOCAL(2), 1, LOCAL(1),
   // if
@@ -404,11 +404,11 @@ static TAB_NUM t_lambda_6[] = {
   3, // locals
   0, // parameters
   // length_of(myself)-1
-  var_length_of, 1, var_54_0_myself, 1, LOCAL(1),
+  var_length_of, 1, var_54_5_myself, 1, LOCAL(1),
   // length_of(myself)-1
   var_std__minus, 2, LOCAL(1), num_1, 1, LOCAL(2),
   // myself
-  LET, -2, var_54_0_myself, var_contents_of, var_58_1_contents, var_length_of, LOCAL(2), LOCAL(3),
+  LET, -2, var_54_5_myself, var_contents_of, var_58_4_contents, var_length_of, LOCAL(2), LOCAL(3),
   // 
   LET, 1, LOCAL(3), TAIL_CALL,
   POS(80, 28),
@@ -421,14 +421,14 @@ static TAB_NUM t_lambda_7[] = {
   0, // locals
   0, // parameters
   //  myself
-  LET, 1, var_54_0_myself, TAIL_CALL,
+  LET, 1, var_54_5_myself, TAIL_CALL,
   POS(81, 15)
 };
 
 static TAB_NUM t_func_avl_node___height_of[] = {
   3, // locals
   1, // parameters
-  LOCAL(2), // 88_22_self
+  LOCAL(2), // 88_23_self
   // self $_left $_right $_my_key $_my_value $my_height
   LOCAL(2), 0, 5, LOCAL(1), LOCAL(1), LOCAL(1), LOCAL(1), LOCAL(3),
   // -> my_height
@@ -440,7 +440,7 @@ static TAB_NUM t_func_avl_node___height_of[] = {
 static TAB_NUM t_func_std_types__avl_table___first_key_of[] = {
   2, // locals
   1, // parameters
-  LOCAL(2), // 101_0_self
+  LOCAL(2), // 101_5_self
   // contents_of(self)
   var_contents_of, 1, LOCAL(2), 1, LOCAL(1),
   // fetch_first_key contents_of(self)
@@ -452,8 +452,8 @@ static TAB_NUM t_func_std_types__avl_table___first_key_of[] = {
 static TAB_NUM t_func_std_types__avl_table___next_key_of[] = {
   2, // locals
   2, // parameters
-  LOCAL(2), // 109_0_self
-  var_110_0_key,
+  LOCAL(2), // 109_5_self
+  var_110_5_key,
   // contents_of(self)
   var_contents_of, 1, LOCAL(2), 1, LOCAL(1),
   // fetch_next_key contents_of(self)
@@ -465,11 +465,11 @@ static TAB_NUM t_func_std_types__avl_table___next_key_of[] = {
 static TAB_NUM t_func_fetch_next_key[] = {
   2, // locals
   1, // parameters
-  LOCAL(2), // 114_18_node
+  LOCAL(2), // 114_21_node
   // node $left $right $my_key
-  LOCAL(2), 0, 3, var_115_6_left, var_115_12_right, var_115_19_my_key,
+  LOCAL(2), 0, 3, var_115_11_left, var_115_17_right, var_115_24_my_key,
   // key < my_key:
-  var_std__less, 2, var_110_0_key, var_115_19_my_key, 1, LOCAL(1),
+  var_std__less, 2, var_110_5_key, var_115_24_my_key, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_8, lambda_11, TAIL_CALL,
   POS(115, 5),
@@ -481,9 +481,9 @@ static TAB_NUM t_lambda_8[] = {
   1, // locals
   0, // parameters
   // $fetched_key fetch_next_key(left)
-  func_fetch_next_key, 1, var_115_6_left, 1, var_118_1_fetched_key,
+  func_fetch_next_key, 1, var_115_11_left, 1, var_118_10_fetched_key,
   // is_undefined
-  var_is_undefined, 1, var_118_1_fetched_key, 1, LOCAL(1),
+  var_is_undefined, 1, var_118_10_fetched_key, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_9, lambda_10, TAIL_CALL,
   POS(118, 9),
@@ -495,7 +495,7 @@ static TAB_NUM t_lambda_9[] = {
   0, // locals
   0, // parameters
   //  my_key
-  LET, 1, var_115_19_my_key, TAIL_CALL,
+  LET, 1, var_115_24_my_key, TAIL_CALL,
   POS(121, 13)
 };
 
@@ -503,7 +503,7 @@ static TAB_NUM t_lambda_10[] = {
   0, // locals
   0, // parameters
   //  fetched_key
-  LET, 1, var_118_1_fetched_key, TAIL_CALL,
+  LET, 1, var_118_10_fetched_key, TAIL_CALL,
   POS(122, 13)
 };
 
@@ -511,7 +511,7 @@ static TAB_NUM t_lambda_11[] = {
   1, // locals
   0, // parameters
   // key == my_key:
-  var_std__equal, 2, var_110_0_key, var_115_19_my_key, 1, LOCAL(1),
+  var_std__equal, 2, var_110_5_key, var_115_24_my_key, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_12, lambda_15, TAIL_CALL,
   POS(125, 11),
@@ -522,7 +522,7 @@ static TAB_NUM t_lambda_12[] = {
   1, // locals
   0, // parameters
   // is_an_empty_node
-  var_is_an_empty_node, 1, var_115_12_right, 1, LOCAL(1),
+  var_is_an_empty_node, 1, var_115_17_right, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_13, lambda_14, TAIL_CALL,
   POS(127, 21),
@@ -541,7 +541,7 @@ static TAB_NUM t_lambda_14[] = {
   1, // locals
   0, // parameters
   // fetch_first_key(right)
-  func_fetch_first_key, 1, var_115_12_right, 1, LOCAL(1),
+  func_fetch_first_key, 1, var_115_17_right, 1, LOCAL(1),
   //  fetch_first_key(right)
   LET, 1, LOCAL(1), TAIL_CALL,
   POS(129, 18),
@@ -552,7 +552,7 @@ static TAB_NUM t_lambda_15[] = {
   1, // locals
   0, // parameters
   // is_an_empty_node
-  var_is_an_empty_node, 1, var_115_12_right, 1, LOCAL(1),
+  var_is_an_empty_node, 1, var_115_17_right, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_16, lambda_17, TAIL_CALL,
   POS(132, 21),
@@ -571,7 +571,7 @@ static TAB_NUM t_lambda_17[] = {
   1, // locals
   0, // parameters
   // fetch_next_key(right)
-  func_fetch_next_key, 1, var_115_12_right, 1, LOCAL(1),
+  func_fetch_next_key, 1, var_115_17_right, 1, LOCAL(1),
   //  fetch_next_key(right)
   LET, 1, LOCAL(1), TAIL_CALL,
   POS(134, 18),
@@ -581,11 +581,11 @@ static TAB_NUM t_lambda_17[] = {
 static TAB_NUM t_func_fetch_first_key[] = {
   2, // locals
   1, // parameters
-  LOCAL(2), // 136_19_node
+  LOCAL(2), // 136_20_node
   // node $left $_right $my_key
-  LOCAL(2), 0, 3, var_137_6_left, LOCAL(1), var_137_20_my_key,
+  LOCAL(2), 0, 3, var_137_9_left, LOCAL(1), var_137_23_my_key,
   // is_an_empty_node
-  var_is_an_empty_node, 1, var_137_6_left, 1, LOCAL(1),
+  var_is_an_empty_node, 1, var_137_9_left, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_18, lambda_19, TAIL_CALL,
   POS(137, 3),
@@ -597,7 +597,7 @@ static TAB_NUM t_lambda_18[] = {
   0, // locals
   0, // parameters
   //  my_key
-  LET, 1, var_137_20_my_key, TAIL_CALL,
+  LET, 1, var_137_23_my_key, TAIL_CALL,
   POS(140, 7)
 };
 
@@ -605,7 +605,7 @@ static TAB_NUM t_lambda_19[] = {
   1, // locals
   0, // parameters
   // fetch_first_key(left)
-  func_fetch_first_key, 1, var_137_6_left, 1, LOCAL(1),
+  func_fetch_first_key, 1, var_137_9_left, 1, LOCAL(1),
   //  fetch_first_key(left)
   LET, 1, LOCAL(1), TAIL_CALL,
   POS(141, 8),
@@ -616,8 +616,8 @@ static TAB_NUM t_func_empty_node___insert[] = {
   3, // locals
   3, // parameters
   LOCAL(1),
-  LOCAL(2), // 146_27_key
-  LOCAL(3), // 146_31_value
+  LOCAL(2), // 146_28_key
+  LOCAL(3), // 146_32_value
   // typed_tuple(avl_node empty_node empty_node key value 1) 1
   var_typed_tuple, 6, var_avl_node, var_empty_node, var_empty_node, LOCAL(2), LOCAL(3), num_1, 1, LOCAL(1),
   // -> typed_tuple(avl_node empty_node empty_node key value 1) 1
@@ -629,13 +629,13 @@ static TAB_NUM t_func_empty_node___insert[] = {
 static TAB_NUM t_func_avl_node___insert[] = {
   1, // locals
   3, // parameters
-  var_149_19_self,
-  var_149_24_key,
-  var_149_28_value,
+  var_149_20_self,
+  var_149_25_key,
+  var_149_29_value,
   // self $left $right $my_key $my_value $my_height
-  var_149_19_self, 0, 5, var_150_6_left, var_150_12_right, var_150_19_my_key, var_150_27_my_value, var_150_37_my_height,
+  var_149_20_self, 0, 5, var_150_9_left, var_150_15_right, var_150_22_my_key, var_150_30_my_value, var_150_40_my_height,
   // key == my_key
-  var_std__equal, 2, var_149_24_key, var_150_19_my_key, 1, LOCAL(1),
+  var_std__equal, 2, var_149_25_key, var_150_22_my_key, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_20, lambda_21, TAIL_CALL,
   POS(150, 3),
@@ -647,7 +647,7 @@ static TAB_NUM t_lambda_20[] = {
   1, // locals
   0, // parameters
   // typed_tuple(self left right key value my_height) undefined
-  var_typed_tuple, 6, var_149_19_self, var_150_6_left, var_150_12_right, var_149_24_key, var_149_28_value, var_150_37_my_height, 1, LOCAL(1),
+  var_typed_tuple, 6, var_149_20_self, var_150_9_left, var_150_15_right, var_149_25_key, var_149_29_value, var_150_40_my_height, 1, LOCAL(1),
   //  typed_tuple(self left right key value my_height) undefined
   LET, 2, LOCAL(1), var_undefined, TAIL_CALL,
   POS(153, 8),
@@ -658,7 +658,7 @@ static TAB_NUM t_lambda_21[] = {
   1, // locals
   0, // parameters
   // key < my_key:
-  var_std__less, 2, var_149_24_key, var_150_19_my_key, 1, LOCAL(1),
+  var_std__less, 2, var_149_25_key, var_150_22_my_key, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_22, lambda_32, TAIL_CALL,
   POS(156, 9),
@@ -669,9 +669,9 @@ static TAB_NUM t_lambda_22[] = {
   1, // locals
   0, // parameters
   // insert &left $new_height key value
-  var_insert, 3, var_150_6_left, var_149_24_key, var_149_28_value, 2, var_150_6_left, var_157_14_new_height,
+  var_insert, 3, var_150_9_left, var_149_25_key, var_149_29_value, 2, var_150_9_left, var_157_25_new_height,
   // is_undefined
-  var_is_undefined, 1, var_157_14_new_height, 1, LOCAL(1),
+  var_is_undefined, 1, var_157_25_new_height, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_23, lambda_24, TAIL_CALL,
   POS(157, 11),
@@ -683,7 +683,7 @@ static TAB_NUM t_lambda_23[] = {
   1, // locals
   0, // parameters
   // typed_tuple(avl_node left right my_key my_value my_height) undefined
-  var_typed_tuple, 6, var_avl_node, var_150_6_left, var_150_12_right, var_150_19_my_key, var_150_27_my_value, var_150_37_my_height, 1, LOCAL(1),
+  var_typed_tuple, 6, var_avl_node, var_150_9_left, var_150_15_right, var_150_22_my_key, var_150_30_my_value, var_150_40_my_height, 1, LOCAL(1),
   //  typed_tuple(avl_node left right my_key my_value my_height) undefined
   LET, 2, LOCAL(1), var_undefined, TAIL_CALL,
   POS(160, 16),
@@ -694,7 +694,7 @@ static TAB_NUM t_lambda_24[] = {
   2, // locals
   0, // parameters
   // new_height == UNCHANGED || new_height < my_height
-  var_std__equal, 2, var_157_14_new_height, uni_UNCHANGED, 1, LOCAL(1),
+  var_std__equal, 2, var_157_25_new_height, uni_UNCHANGED, 1, LOCAL(1),
   // new_height == UNCHANGED || new_height < my_height
   var_std__or, 2, LOCAL(1), lambda_25, 1, LOCAL(2),
   // if
@@ -708,7 +708,7 @@ static TAB_NUM t_lambda_25[] = {
   1, // locals
   0, // parameters
   // new_height < my_height
-  var_std__less, 2, var_157_14_new_height, var_150_37_my_height, 1, LOCAL(1),
+  var_std__less, 2, var_157_25_new_height, var_150_40_my_height, 1, LOCAL(1),
   // new_height < my_height
   LET, 1, LOCAL(1), TAIL_CALL,
   POS(163, 44),
@@ -719,7 +719,7 @@ static TAB_NUM t_lambda_26[] = {
   1, // locals
   0, // parameters
   // typed_tuple(avl_node left right my_key my_value my_height) UNCHANGED
-  var_typed_tuple, 6, var_avl_node, var_150_6_left, var_150_12_right, var_150_19_my_key, var_150_27_my_value, var_150_37_my_height, 1, LOCAL(1),
+  var_typed_tuple, 6, var_avl_node, var_150_9_left, var_150_15_right, var_150_22_my_key, var_150_30_my_value, var_150_40_my_height, 1, LOCAL(1),
   //  typed_tuple(avl_node left right my_key my_value my_height) UNCHANGED
   LET, 2, LOCAL(1), uni_UNCHANGED, TAIL_CALL,
   POS(164, 20),
@@ -730,11 +730,11 @@ static TAB_NUM t_lambda_27[] = {
   3, // locals
   0, // parameters
   // right $_right_left $_right_right $_right_key $_right_value
-  var_150_12_right, 0, 5, LOCAL(1), LOCAL(1), LOCAL(1), LOCAL(1), LOCAL(3),
+  var_150_15_right, 0, 5, LOCAL(1), LOCAL(1), LOCAL(1), LOCAL(1), LOCAL(3),
   // right_height+2:
   var_std__plus, 2, LOCAL(3), num_2, 1, LOCAL(1),
   // my_height == right_height+2:
-  var_std__equal, 2, var_150_37_my_height, LOCAL(1), 1, LOCAL(2),
+  var_std__equal, 2, var_150_40_my_height, LOCAL(1), 1, LOCAL(2),
   // if_not
   var_if_not, 3, LOCAL(2), lambda_28, lambda_29, TAIL_CALL,
   POS(166, 19),
@@ -747,11 +747,11 @@ static TAB_NUM t_lambda_28[] = {
   1, // locals
   0, // parameters
   // !my_height my_height+1
-  var_std__plus, 2, var_150_37_my_height, num_1, 1, var_150_37_my_height,
+  var_std__plus, 2, var_150_40_my_height, num_1, 1, var_150_40_my_height,
   // typed_tuple(avl_node left right my_key my_value my_height) my_height
-  var_typed_tuple, 6, var_avl_node, var_150_6_left, var_150_12_right, var_150_19_my_key, var_150_27_my_value, var_150_37_my_height, 1, LOCAL(1),
+  var_typed_tuple, 6, var_avl_node, var_150_9_left, var_150_15_right, var_150_22_my_key, var_150_30_my_value, var_150_40_my_height, 1, LOCAL(1),
   // -> typed_tuple(avl_node left right my_key my_value my_height) my_height
-  LET, 2, LOCAL(1), var_150_37_my_height, TAIL_CALL,
+  LET, 2, LOCAL(1), var_150_40_my_height, TAIL_CALL,
   POS(170, 23),
   POS(171, 26),
   POS(171, 23)
@@ -761,7 +761,7 @@ static TAB_NUM t_lambda_29[] = {
   4, // locals
   0, // parameters
   // balance_left_to_right $new_node $new_node_height left right my_key my_value
-  func_balance_left_to_right, 4, var_150_6_left, var_150_12_right, var_150_19_my_key, var_150_27_my_value, 2, LOCAL(3), LOCAL(4),
+  func_balance_left_to_right, 4, var_150_9_left, var_150_15_right, var_150_22_my_key, var_150_30_my_value, 2, LOCAL(3), LOCAL(4),
   // new_node_height == UNCHANGED
   var_std__equal, 2, LOCAL(4), uni_UNCHANGED, 1, LOCAL(1),
   // if
@@ -778,7 +778,7 @@ static TAB_NUM t_lambda_30[] = {
   1, // locals
   0, // parameters
   // my_height+1
-  var_std__plus, 2, var_150_37_my_height, num_1, 1, LOCAL(1),
+  var_std__plus, 2, var_150_40_my_height, num_1, 1, LOCAL(1),
   //  my_height+1
   LET, 1, LOCAL(1), TAIL_CALL,
   POS(178, 30),
@@ -797,9 +797,9 @@ static TAB_NUM t_lambda_32[] = {
   1, // locals
   0, // parameters
   // insert &right $new_height key value
-  var_insert, 3, var_150_12_right, var_149_24_key, var_149_28_value, 2, var_150_12_right, var_181_15_new_height,
+  var_insert, 3, var_150_15_right, var_149_25_key, var_149_29_value, 2, var_150_15_right, var_181_26_new_height,
   // is_undefined
-  var_is_undefined, 1, var_181_15_new_height, 1, LOCAL(1),
+  var_is_undefined, 1, var_181_26_new_height, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_33, lambda_34, TAIL_CALL,
   POS(181, 11),
@@ -811,7 +811,7 @@ static TAB_NUM t_lambda_33[] = {
   1, // locals
   0, // parameters
   // typed_tuple(avl_node left right my_key my_value my_height) undefined
-  var_typed_tuple, 6, var_avl_node, var_150_6_left, var_150_12_right, var_150_19_my_key, var_150_27_my_value, var_150_37_my_height, 1, LOCAL(1),
+  var_typed_tuple, 6, var_avl_node, var_150_9_left, var_150_15_right, var_150_22_my_key, var_150_30_my_value, var_150_40_my_height, 1, LOCAL(1),
   //  typed_tuple(avl_node left right my_key my_value my_height) undefined
   LET, 2, LOCAL(1), var_undefined, TAIL_CALL,
   POS(184, 16),
@@ -822,7 +822,7 @@ static TAB_NUM t_lambda_34[] = {
   2, // locals
   0, // parameters
   // new_height == UNCHANGED || new_height < my_height
-  var_std__equal, 2, var_181_15_new_height, uni_UNCHANGED, 1, LOCAL(1),
+  var_std__equal, 2, var_181_26_new_height, uni_UNCHANGED, 1, LOCAL(1),
   // new_height == UNCHANGED || new_height < my_height
   var_std__or, 2, LOCAL(1), lambda_35, 1, LOCAL(2),
   // if
@@ -836,7 +836,7 @@ static TAB_NUM t_lambda_35[] = {
   1, // locals
   0, // parameters
   // new_height < my_height
-  var_std__less, 2, var_181_15_new_height, var_150_37_my_height, 1, LOCAL(1),
+  var_std__less, 2, var_181_26_new_height, var_150_40_my_height, 1, LOCAL(1),
   // new_height < my_height
   LET, 1, LOCAL(1), TAIL_CALL,
   POS(187, 44),
@@ -847,7 +847,7 @@ static TAB_NUM t_lambda_36[] = {
   1, // locals
   0, // parameters
   // typed_tuple(avl_node left right my_key my_value my_height) UNCHANGED
-  var_typed_tuple, 6, var_avl_node, var_150_6_left, var_150_12_right, var_150_19_my_key, var_150_27_my_value, var_150_37_my_height, 1, LOCAL(1),
+  var_typed_tuple, 6, var_avl_node, var_150_9_left, var_150_15_right, var_150_22_my_key, var_150_30_my_value, var_150_40_my_height, 1, LOCAL(1),
   //  typed_tuple(avl_node left right my_key my_value my_height) UNCHANGED
   LET, 2, LOCAL(1), uni_UNCHANGED, TAIL_CALL,
   POS(188, 20),
@@ -858,11 +858,11 @@ static TAB_NUM t_lambda_37[] = {
   3, // locals
   0, // parameters
   // left $_left_left $_left_right $_left_key $_left_value
-  var_150_6_left, 0, 5, LOCAL(1), LOCAL(1), LOCAL(1), LOCAL(1), LOCAL(3),
+  var_150_9_left, 0, 5, LOCAL(1), LOCAL(1), LOCAL(1), LOCAL(1), LOCAL(3),
   // left_height+2:
   var_std__plus, 2, LOCAL(3), num_2, 1, LOCAL(1),
   // my_height == left_height+2:
-  var_std__equal, 2, var_150_37_my_height, LOCAL(1), 1, LOCAL(2),
+  var_std__equal, 2, var_150_40_my_height, LOCAL(1), 1, LOCAL(2),
   // if_not
   var_if_not, 3, LOCAL(2), lambda_38, lambda_39, TAIL_CALL,
   POS(190, 19),
@@ -875,11 +875,11 @@ static TAB_NUM t_lambda_38[] = {
   1, // locals
   0, // parameters
   // !my_height my_height+1
-  var_std__plus, 2, var_150_37_my_height, num_1, 1, var_150_37_my_height,
+  var_std__plus, 2, var_150_40_my_height, num_1, 1, var_150_40_my_height,
   // typed_tuple(avl_node left right my_key my_value my_height) my_height
-  var_typed_tuple, 6, var_avl_node, var_150_6_left, var_150_12_right, var_150_19_my_key, var_150_27_my_value, var_150_37_my_height, 1, LOCAL(1),
+  var_typed_tuple, 6, var_avl_node, var_150_9_left, var_150_15_right, var_150_22_my_key, var_150_30_my_value, var_150_40_my_height, 1, LOCAL(1),
   // -> typed_tuple(avl_node left right my_key my_value my_height) my_height
-  LET, 2, LOCAL(1), var_150_37_my_height, TAIL_CALL,
+  LET, 2, LOCAL(1), var_150_40_my_height, TAIL_CALL,
   POS(194, 23),
   POS(195, 26),
   POS(195, 23)
@@ -889,7 +889,7 @@ static TAB_NUM t_lambda_39[] = {
   4, // locals
   0, // parameters
   // balance_right_to_left $new_node $new_node_height left right my_key my_value
-  func_balance_right_to_left, 4, var_150_6_left, var_150_12_right, var_150_19_my_key, var_150_27_my_value, 2, LOCAL(3), LOCAL(4),
+  func_balance_right_to_left, 4, var_150_9_left, var_150_15_right, var_150_22_my_key, var_150_30_my_value, 2, LOCAL(3), LOCAL(4),
   // new_node_height == UNCHANGED
   var_std__equal, 2, LOCAL(4), uni_UNCHANGED, 1, LOCAL(1),
   // if
@@ -906,7 +906,7 @@ static TAB_NUM t_lambda_40[] = {
   1, // locals
   0, // parameters
   // my_height+1
-  var_std__plus, 2, var_150_37_my_height, num_1, 1, LOCAL(1),
+  var_std__plus, 2, var_150_40_my_height, num_1, 1, LOCAL(1),
   //  my_height+1
   LET, 1, LOCAL(1), TAIL_CALL,
   POS(202, 30),
@@ -924,18 +924,18 @@ static TAB_NUM t_lambda_41[] = {
 static TAB_NUM t_func_balance_left_to_right[] = {
   3, // locals
   4, // parameters
-  LOCAL(2), // 205_25_left
-  var_205_30_right,
-  var_205_36_key,
-  var_205_40_value,
+  LOCAL(2), // 205_26_left
+  var_205_31_right,
+  var_205_37_key,
+  var_205_41_value,
   // left $left_left $left_right $left_key $left_value $left_height
-  LOCAL(2), 0, 5, var_216_6_left_left, var_216_17_left_right, var_216_29_left_key, var_216_39_left_value, var_216_51_left_height,
+  LOCAL(2), 0, 5, var_216_9_left_left, var_216_20_left_right, var_216_32_left_key, var_216_42_left_value, var_216_54_left_height,
   // left_left
-  var_216_6_left_left, 0, 5, LOCAL(1), LOCAL(1), LOCAL(1), LOCAL(1), LOCAL(3),
+  var_216_9_left_left, 0, 5, LOCAL(1), LOCAL(1), LOCAL(1), LOCAL(1), LOCAL(3),
   // left_right
-  var_216_17_left_right, 0, 5, var_221_1_left_right_left, var_221_18_left_right_right, var_222_1_left_right_key, var_222_17_left_right_value, var_222_35_left_right_height,
+  var_216_20_left_right, 0, 5, var_221_6_left_right_left, var_221_23_left_right_right, var_222_6_left_right_key, var_222_22_left_right_value, var_222_40_left_right_height,
   // left_left_height: # double rotation
-  var_std__less, 2, LOCAL(3), var_222_35_left_right_height, 1, LOCAL(1),
+  var_std__less, 2, LOCAL(3), var_222_40_left_right_height, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_42, lambda_43, TAIL_CALL,
   POS(216, 3),
@@ -949,13 +949,13 @@ static TAB_NUM t_lambda_42[] = {
   3, // locals
   0, // parameters
   // $new_left
-  var_typed_tuple, 6, var_avl_node, var_216_6_left_left, var_221_1_left_right_left, var_216_29_left_key, var_216_39_left_value, var_222_35_left_right_height, 1, LOCAL(2),
+  var_typed_tuple, 6, var_avl_node, var_216_9_left_left, var_221_6_left_right_left, var_216_32_left_key, var_216_42_left_value, var_222_40_left_right_height, 1, LOCAL(2),
   // $new_right
-  var_typed_tuple, 6, var_avl_node, var_221_18_left_right_right, var_205_30_right, var_205_36_key, var_205_40_value, var_222_35_left_right_height, 1, LOCAL(3),
+  var_typed_tuple, 6, var_avl_node, var_221_23_left_right_right, var_205_31_right, var_205_37_key, var_205_41_value, var_222_40_left_right_height, 1, LOCAL(3),
   // typed_tuple
-  var_typed_tuple, 6, var_avl_node, LOCAL(2), LOCAL(3), var_222_1_left_right_key, var_222_17_left_right_value, var_216_51_left_height, 1, LOCAL(1),
+  var_typed_tuple, 6, var_avl_node, LOCAL(2), LOCAL(3), var_222_6_left_right_key, var_222_22_left_right_value, var_216_54_left_height, 1, LOCAL(1),
   // ->
-  LET, 2, LOCAL(1), var_216_51_left_height, TAIL_CALL,
+  LET, 2, LOCAL(1), var_216_54_left_height, TAIL_CALL,
   POS(225, 7),
   POS(229, 7),
   POS(234, 9),
@@ -966,17 +966,17 @@ static TAB_NUM t_lambda_43[] = {
   6, // locals
   0, // parameters
   // left_right_height+1
-  var_std__plus, 2, var_222_35_left_right_height, num_1, 1, LOCAL(1),
+  var_std__plus, 2, var_222_40_left_right_height, num_1, 1, LOCAL(1),
   // $new_right
-  var_typed_tuple, 6, var_avl_node, var_216_17_left_right, var_205_30_right, var_205_36_key, var_205_40_value, LOCAL(1), 1, LOCAL(6),
+  var_typed_tuple, 6, var_avl_node, var_216_20_left_right, var_205_31_right, var_205_37_key, var_205_41_value, LOCAL(1), 1, LOCAL(6),
   // left_right_height+2
-  var_std__plus, 2, var_222_35_left_right_height, num_2, 1, LOCAL(1),
+  var_std__plus, 2, var_222_40_left_right_height, num_2, 1, LOCAL(1),
   // typed_tuple
-  var_typed_tuple, 6, var_avl_node, var_216_6_left_left, LOCAL(6), var_216_29_left_key, var_216_39_left_value, LOCAL(1), 1, LOCAL(2),
+  var_typed_tuple, 6, var_avl_node, var_216_9_left_left, LOCAL(6), var_216_32_left_key, var_216_42_left_value, LOCAL(1), 1, LOCAL(2),
   // left_right_height+1 == left_height
-  var_std__plus, 2, var_222_35_left_right_height, num_1, 1, LOCAL(3),
+  var_std__plus, 2, var_222_40_left_right_height, num_1, 1, LOCAL(3),
   // left_right_height+1 == left_height
-  var_std__equal, 2, LOCAL(3), var_216_51_left_height, 1, LOCAL(4),
+  var_std__equal, 2, LOCAL(3), var_216_54_left_height, 1, LOCAL(4),
   // if
   var_if, 3, LOCAL(4), lambda_44, lambda_45, 1, LOCAL(5),
   // ->
@@ -1003,7 +1003,7 @@ static TAB_NUM t_lambda_45[] = {
   1, // locals
   0, // parameters
   // left_right_height+2
-  var_std__plus, 2, var_222_35_left_right_height, num_2, 1, LOCAL(1),
+  var_std__plus, 2, var_222_40_left_right_height, num_2, 1, LOCAL(1),
   //  left_right_height+2
   LET, 1, LOCAL(1), TAIL_CALL,
   POS(248, 14),
@@ -1013,18 +1013,18 @@ static TAB_NUM t_lambda_45[] = {
 static TAB_NUM t_func_balance_right_to_left[] = {
   3, // locals
   4, // parameters
-  var_250_25_left,
-  LOCAL(2), // 250_30_right
-  var_250_36_key,
-  var_250_40_value,
+  var_250_26_left,
+  LOCAL(2), // 250_31_right
+  var_250_37_key,
+  var_250_41_value,
   // right $right_left $right_right $right_key $right_value $right_height
-  LOCAL(2), 0, 5, var_261_7_right_left, var_261_19_right_right, var_261_32_right_key, var_261_43_right_value, var_261_56_right_height,
+  LOCAL(2), 0, 5, var_261_10_right_left, var_261_22_right_right, var_261_35_right_key, var_261_46_right_value, var_261_59_right_height,
   // right_left
-  var_261_7_right_left, 0, 5, var_263_1_right_left_left, var_263_18_right_left_right, var_264_1_right_left_key, var_264_17_right_left_value, var_264_35_right_left_height,
+  var_261_10_right_left, 0, 5, var_263_6_right_left_left, var_263_23_right_left_right, var_264_6_right_left_key, var_264_22_right_left_value, var_264_40_right_left_height,
   // right_right
-  var_261_19_right_right, 0, 5, LOCAL(1), LOCAL(1), LOCAL(1), LOCAL(1), LOCAL(3),
+  var_261_22_right_right, 0, 5, LOCAL(1), LOCAL(1), LOCAL(1), LOCAL(1), LOCAL(3),
   // right_right_height: # double rotation
-  var_std__less, 2, LOCAL(3), var_264_35_right_left_height, 1, LOCAL(1),
+  var_std__less, 2, LOCAL(3), var_264_40_right_left_height, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_46, lambda_47, TAIL_CALL,
   POS(261, 3),
@@ -1038,13 +1038,13 @@ static TAB_NUM t_lambda_46[] = {
   3, // locals
   0, // parameters
   // $new_left
-  var_typed_tuple, 6, var_avl_node, var_250_25_left, var_263_1_right_left_left, var_250_36_key, var_250_40_value, var_264_35_right_left_height, 1, LOCAL(2),
+  var_typed_tuple, 6, var_avl_node, var_250_26_left, var_263_6_right_left_left, var_250_37_key, var_250_41_value, var_264_40_right_left_height, 1, LOCAL(2),
   // $new_right
-  var_typed_tuple, 6, var_avl_node, var_263_18_right_left_right, var_261_19_right_right, var_261_32_right_key, var_261_43_right_value, var_264_35_right_left_height, 1, LOCAL(3),
+  var_typed_tuple, 6, var_avl_node, var_263_23_right_left_right, var_261_22_right_right, var_261_35_right_key, var_261_46_right_value, var_264_40_right_left_height, 1, LOCAL(3),
   // typed_tuple
-  var_typed_tuple, 6, var_avl_node, LOCAL(2), LOCAL(3), var_264_1_right_left_key, var_264_17_right_left_value, var_261_56_right_height, 1, LOCAL(1),
+  var_typed_tuple, 6, var_avl_node, LOCAL(2), LOCAL(3), var_264_6_right_left_key, var_264_22_right_left_value, var_261_59_right_height, 1, LOCAL(1),
   // ->
-  LET, 2, LOCAL(1), var_261_56_right_height, TAIL_CALL,
+  LET, 2, LOCAL(1), var_261_59_right_height, TAIL_CALL,
   POS(270, 7),
   POS(274, 7),
   POS(279, 9),
@@ -1055,17 +1055,17 @@ static TAB_NUM t_lambda_47[] = {
   6, // locals
   0, // parameters
   // right_left_height+1
-  var_std__plus, 2, var_264_35_right_left_height, num_1, 1, LOCAL(1),
+  var_std__plus, 2, var_264_40_right_left_height, num_1, 1, LOCAL(1),
   // $new_left
-  var_typed_tuple, 6, var_avl_node, var_250_25_left, var_261_7_right_left, var_250_36_key, var_250_40_value, LOCAL(1), 1, LOCAL(6),
+  var_typed_tuple, 6, var_avl_node, var_250_26_left, var_261_10_right_left, var_250_37_key, var_250_41_value, LOCAL(1), 1, LOCAL(6),
   // right_left_height+2
-  var_std__plus, 2, var_264_35_right_left_height, num_2, 1, LOCAL(1),
+  var_std__plus, 2, var_264_40_right_left_height, num_2, 1, LOCAL(1),
   // typed_tuple
-  var_typed_tuple, 6, var_avl_node, LOCAL(6), var_261_19_right_right, var_261_32_right_key, var_261_43_right_value, LOCAL(1), 1, LOCAL(2),
+  var_typed_tuple, 6, var_avl_node, LOCAL(6), var_261_22_right_right, var_261_35_right_key, var_261_46_right_value, LOCAL(1), 1, LOCAL(2),
   // right_left_height+1 == right_height
-  var_std__plus, 2, var_264_35_right_left_height, num_1, 1, LOCAL(3),
+  var_std__plus, 2, var_264_40_right_left_height, num_1, 1, LOCAL(3),
   // right_left_height+1 == right_height
-  var_std__equal, 2, LOCAL(3), var_261_56_right_height, 1, LOCAL(4),
+  var_std__equal, 2, LOCAL(3), var_261_59_right_height, 1, LOCAL(4),
   // if
   var_if, 3, LOCAL(4), lambda_48, lambda_49, 1, LOCAL(5),
   // ->
@@ -1092,7 +1092,7 @@ static TAB_NUM t_lambda_49[] = {
   1, // locals
   0, // parameters
   // right_left_height+2
-  var_std__plus, 2, var_264_35_right_left_height, num_2, 1, LOCAL(1),
+  var_std__plus, 2, var_264_40_right_left_height, num_2, 1, LOCAL(1),
   //  right_left_height+2
   LET, 1, LOCAL(1), TAIL_CALL,
   POS(293, 14),
@@ -1102,11 +1102,11 @@ static TAB_NUM t_lambda_49[] = {
 static TAB_NUM t_func_fetch_first[] = {
   2, // locals
   1, // parameters
-  LOCAL(2), // 300_15_self
+  LOCAL(2), // 300_16_self
   // self $left $right $my_key $my_value $my_height
-  LOCAL(2), 0, 5, var_306_6_left, var_306_12_right, var_306_19_my_key, var_306_27_my_value, var_306_37_my_height,
+  LOCAL(2), 0, 5, var_306_9_left, var_306_15_right, var_306_22_my_key, var_306_30_my_value, var_306_40_my_height,
   // is_an_empty_node
-  var_is_an_empty_node, 1, var_306_6_left, 1, LOCAL(1),
+  var_is_an_empty_node, 1, var_306_9_left, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_50, lambda_51, TAIL_CALL,
   POS(306, 3),
@@ -1118,9 +1118,9 @@ static TAB_NUM t_lambda_50[] = {
   1, // locals
   0, // parameters
   // my_height-1
-  var_std__minus, 2, var_306_37_my_height, num_1, 1, LOCAL(1),
+  var_std__minus, 2, var_306_40_my_height, num_1, 1, LOCAL(1),
   //  right my_key my_value my_height-1
-  LET, 4, var_306_12_right, var_306_19_my_key, var_306_27_my_value, LOCAL(1), TAIL_CALL,
+  LET, 4, var_306_15_right, var_306_22_my_key, var_306_30_my_value, LOCAL(1), TAIL_CALL,
   POS(309, 30),
   POS(309, 7)
 };
@@ -1129,9 +1129,9 @@ static TAB_NUM t_lambda_51[] = {
   1, // locals
   0, // parameters
   // fetch_first &left $key $value $left_height
-  func_fetch_first, 1, var_306_6_left, 4, var_306_6_left, var_311_19_key, var_311_24_value, var_311_31_left_height,
+  func_fetch_first, 1, var_306_9_left, 4, var_306_9_left, var_311_26_key, var_311_31_value, var_311_38_left_height,
   // left_height == UNCHANGED
-  var_std__equal, 2, var_311_31_left_height, uni_UNCHANGED, 1, LOCAL(1),
+  var_std__equal, 2, var_311_38_left_height, uni_UNCHANGED, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_52, lambda_53, TAIL_CALL,
   POS(311, 7),
@@ -1143,9 +1143,9 @@ static TAB_NUM t_lambda_52[] = {
   1, // locals
   0, // parameters
   // typed_tuple(avl_node left right my_key my_value my_height) key value UNCHANGED
-  var_typed_tuple, 6, var_avl_node, var_306_6_left, var_306_12_right, var_306_19_my_key, var_306_27_my_value, var_306_37_my_height, 1, LOCAL(1),
+  var_typed_tuple, 6, var_avl_node, var_306_9_left, var_306_15_right, var_306_22_my_key, var_306_30_my_value, var_306_40_my_height, 1, LOCAL(1),
   //  typed_tuple(avl_node left right my_key my_value my_height) key value UNCHANGED
-  LET, 4, LOCAL(1), var_311_19_key, var_311_24_value, uni_UNCHANGED, TAIL_CALL,
+  LET, 4, LOCAL(1), var_311_26_key, var_311_31_value, uni_UNCHANGED, TAIL_CALL,
   POS(314, 12),
   POS(314, 11)
 };
@@ -1154,11 +1154,11 @@ static TAB_NUM t_lambda_53[] = {
   2, // locals
   0, // parameters
   // right $_right_left $_right_right $_right_key $_right_value $right_height
-  var_306_12_right, 0, 5, LOCAL(1), LOCAL(1), LOCAL(1), LOCAL(1), LOCAL(2),
+  var_306_15_right, 0, 5, LOCAL(1), LOCAL(1), LOCAL(1), LOCAL(1), LOCAL(2),
   // $height_minus_2 my_height-2
-  var_std__minus, 2, var_306_37_my_height, num_2, 1, var_317_1_height_minus_2,
+  var_std__minus, 2, var_306_40_my_height, num_2, 1, var_317_12_height_minus_2,
   // right_height == height_minus_2 # => left_height == height_minus_2
-  var_std__equal, 2, LOCAL(2), var_317_1_height_minus_2, 1, LOCAL(1),
+  var_std__equal, 2, LOCAL(2), var_317_12_height_minus_2, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_54, lambda_55, TAIL_CALL,
   POS(316, 11),
@@ -1171,13 +1171,13 @@ static TAB_NUM t_lambda_54[] = {
   3, // locals
   0, // parameters
   // my_height-1)
-  var_std__minus, 2, var_306_37_my_height, num_1, 1, LOCAL(1),
+  var_std__minus, 2, var_306_40_my_height, num_1, 1, LOCAL(1),
   // typed_tuple(avl_node left right my_key my_value my_height-1)
-  var_typed_tuple, 6, var_avl_node, var_306_6_left, var_306_12_right, var_306_19_my_key, var_306_27_my_value, LOCAL(1), 1, LOCAL(2),
+  var_typed_tuple, 6, var_avl_node, var_306_9_left, var_306_15_right, var_306_22_my_key, var_306_30_my_value, LOCAL(1), 1, LOCAL(2),
   // my_height-1
-  var_std__minus, 2, var_306_37_my_height, num_1, 1, LOCAL(3),
+  var_std__minus, 2, var_306_40_my_height, num_1, 1, LOCAL(3),
   // 
-  LET, 4, LOCAL(2), var_311_19_key, var_311_24_value, LOCAL(3), TAIL_CALL,
+  LET, 4, LOCAL(2), var_311_26_key, var_311_31_value, LOCAL(3), TAIL_CALL,
   POS(321, 63),
   POS(321, 15),
   POS(322, 25),
@@ -1188,7 +1188,7 @@ static TAB_NUM t_lambda_55[] = {
   1, // locals
   0, // parameters
   // left_height == height_minus_2
-  var_std__equal, 2, var_311_31_left_height, var_317_1_height_minus_2, 1, LOCAL(1),
+  var_std__equal, 2, var_311_38_left_height, var_317_12_height_minus_2, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_56, lambda_57, TAIL_CALL,
   POS(325, 17),
@@ -1199,9 +1199,9 @@ static TAB_NUM t_lambda_56[] = {
   1, // locals
   0, // parameters
   // typed_tuple(avl_node left right my_key my_value my_height)
-  var_typed_tuple, 6, var_avl_node, var_306_6_left, var_306_12_right, var_306_19_my_key, var_306_27_my_value, var_306_37_my_height, 1, LOCAL(1),
+  var_typed_tuple, 6, var_avl_node, var_306_9_left, var_306_15_right, var_306_22_my_key, var_306_30_my_value, var_306_40_my_height, 1, LOCAL(1),
   // 
-  LET, 4, LOCAL(1), var_311_19_key, var_311_24_value, uni_UNCHANGED, TAIL_CALL,
+  LET, 4, LOCAL(1), var_311_26_key, var_311_31_value, uni_UNCHANGED, TAIL_CALL,
   POS(327, 19),
   POS(326, 19)
 };
@@ -1210,7 +1210,7 @@ static TAB_NUM t_lambda_57[] = {
   2, // locals
   0, // parameters
   // balance_right_to_left $new_node $new_height
-  func_balance_right_to_left, 4, var_306_6_left, var_306_12_right, var_306_19_my_key, var_306_27_my_value, 2, var_330_23_new_node, LOCAL(2),
+  func_balance_right_to_left, 4, var_306_9_left, var_306_15_right, var_306_22_my_key, var_306_30_my_value, 2, var_330_42_new_node, LOCAL(2),
   // new_height == UNCHANGED
   var_std__equal, 2, LOCAL(2), uni_UNCHANGED, 1, LOCAL(1),
   // if
@@ -1224,7 +1224,7 @@ static TAB_NUM t_lambda_58[] = {
   0, // locals
   0, // parameters
   //  new_node key value UNCHANGED
-  LET, 4, var_330_23_new_node, var_311_19_key, var_311_24_value, uni_UNCHANGED, TAIL_CALL,
+  LET, 4, var_330_42_new_node, var_311_26_key, var_311_31_value, uni_UNCHANGED, TAIL_CALL,
   POS(334, 23)
 };
 
@@ -1232,9 +1232,9 @@ static TAB_NUM t_lambda_59[] = {
   1, // locals
   0, // parameters
   // my_height-1
-  var_std__minus, 2, var_306_37_my_height, num_1, 1, LOCAL(1),
+  var_std__minus, 2, var_306_40_my_height, num_1, 1, LOCAL(1),
   //  new_node key value my_height-1
-  LET, 4, var_330_23_new_node, var_311_19_key, var_311_24_value, LOCAL(1), TAIL_CALL,
+  LET, 4, var_330_42_new_node, var_311_26_key, var_311_31_value, LOCAL(1), TAIL_CALL,
   POS(335, 43),
   POS(335, 23)
 };
@@ -1242,11 +1242,11 @@ static TAB_NUM t_lambda_59[] = {
 static TAB_NUM t_func_fetch_last[] = {
   2, // locals
   1, // parameters
-  LOCAL(2), // 337_14_self
+  LOCAL(2), // 337_15_self
   // self $left $right $my_key $my_value $my_height
-  LOCAL(2), 0, 5, var_343_6_left, var_343_12_right, var_343_19_my_key, var_343_27_my_value, var_343_37_my_height,
+  LOCAL(2), 0, 5, var_343_9_left, var_343_15_right, var_343_22_my_key, var_343_30_my_value, var_343_40_my_height,
   // is_an_empty_node
-  var_is_an_empty_node, 1, var_343_12_right, 1, LOCAL(1),
+  var_is_an_empty_node, 1, var_343_15_right, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_60, lambda_61, TAIL_CALL,
   POS(343, 3),
@@ -1258,9 +1258,9 @@ static TAB_NUM t_lambda_60[] = {
   1, // locals
   0, // parameters
   // my_height-1
-  var_std__minus, 2, var_343_37_my_height, num_1, 1, LOCAL(1),
+  var_std__minus, 2, var_343_40_my_height, num_1, 1, LOCAL(1),
   //  left my_key my_value my_height-1
-  LET, 4, var_343_6_left, var_343_19_my_key, var_343_27_my_value, LOCAL(1), TAIL_CALL,
+  LET, 4, var_343_9_left, var_343_22_my_key, var_343_30_my_value, LOCAL(1), TAIL_CALL,
   POS(346, 29),
   POS(346, 7)
 };
@@ -1269,9 +1269,9 @@ static TAB_NUM t_lambda_61[] = {
   1, // locals
   0, // parameters
   // fetch_last &right $key $value $right_height
-  func_fetch_last, 1, var_343_12_right, 4, var_343_12_right, var_348_19_key, var_348_24_value, var_348_31_right_height,
+  func_fetch_last, 1, var_343_15_right, 4, var_343_15_right, var_348_26_key, var_348_31_value, var_348_38_right_height,
   // right_height == UNCHANGED
-  var_std__equal, 2, var_348_31_right_height, uni_UNCHANGED, 1, LOCAL(1),
+  var_std__equal, 2, var_348_38_right_height, uni_UNCHANGED, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_62, lambda_63, TAIL_CALL,
   POS(348, 7),
@@ -1283,9 +1283,9 @@ static TAB_NUM t_lambda_62[] = {
   1, // locals
   0, // parameters
   // typed_tuple(avl_node left right my_key my_value my_height) key value UNCHANGED
-  var_typed_tuple, 6, var_avl_node, var_343_6_left, var_343_12_right, var_343_19_my_key, var_343_27_my_value, var_343_37_my_height, 1, LOCAL(1),
+  var_typed_tuple, 6, var_avl_node, var_343_9_left, var_343_15_right, var_343_22_my_key, var_343_30_my_value, var_343_40_my_height, 1, LOCAL(1),
   //  typed_tuple(avl_node left right my_key my_value my_height) key value UNCHANGED
-  LET, 4, LOCAL(1), var_348_19_key, var_348_24_value, uni_UNCHANGED, TAIL_CALL,
+  LET, 4, LOCAL(1), var_348_26_key, var_348_31_value, uni_UNCHANGED, TAIL_CALL,
   POS(351, 12),
   POS(351, 11)
 };
@@ -1294,11 +1294,11 @@ static TAB_NUM t_lambda_63[] = {
   2, // locals
   0, // parameters
   // left $_left_left $_left_right $_left_key $_left_value $left_height
-  var_343_6_left, 0, 5, LOCAL(1), LOCAL(1), LOCAL(1), LOCAL(1), LOCAL(2),
+  var_343_9_left, 0, 5, LOCAL(1), LOCAL(1), LOCAL(1), LOCAL(1), LOCAL(2),
   // $height_minus_2 my_height-2
-  var_std__minus, 2, var_343_37_my_height, num_2, 1, var_354_1_height_minus_2,
+  var_std__minus, 2, var_343_40_my_height, num_2, 1, var_354_12_height_minus_2,
   // left_height == height_minus_2 # => right_height == height_minus_2
-  var_std__equal, 2, LOCAL(2), var_354_1_height_minus_2, 1, LOCAL(1),
+  var_std__equal, 2, LOCAL(2), var_354_12_height_minus_2, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_64, lambda_65, TAIL_CALL,
   POS(353, 11),
@@ -1311,13 +1311,13 @@ static TAB_NUM t_lambda_64[] = {
   3, // locals
   0, // parameters
   // my_height-1)
-  var_std__minus, 2, var_343_37_my_height, num_1, 1, LOCAL(1),
+  var_std__minus, 2, var_343_40_my_height, num_1, 1, LOCAL(1),
   // typed_tuple(avl_node left right my_key my_value my_height-1)
-  var_typed_tuple, 6, var_avl_node, var_343_6_left, var_343_12_right, var_343_19_my_key, var_343_27_my_value, LOCAL(1), 1, LOCAL(2),
+  var_typed_tuple, 6, var_avl_node, var_343_9_left, var_343_15_right, var_343_22_my_key, var_343_30_my_value, LOCAL(1), 1, LOCAL(2),
   // my_height-1
-  var_std__minus, 2, var_343_37_my_height, num_1, 1, LOCAL(3),
+  var_std__minus, 2, var_343_40_my_height, num_1, 1, LOCAL(3),
   // 
-  LET, 4, LOCAL(2), var_348_19_key, var_348_24_value, LOCAL(3), TAIL_CALL,
+  LET, 4, LOCAL(2), var_348_26_key, var_348_31_value, LOCAL(3), TAIL_CALL,
   POS(358, 63),
   POS(358, 15),
   POS(359, 25),
@@ -1328,7 +1328,7 @@ static TAB_NUM t_lambda_65[] = {
   1, // locals
   0, // parameters
   // right_height == height_minus_2
-  var_std__equal, 2, var_348_31_right_height, var_354_1_height_minus_2, 1, LOCAL(1),
+  var_std__equal, 2, var_348_38_right_height, var_354_12_height_minus_2, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_66, lambda_67, TAIL_CALL,
   POS(362, 17),
@@ -1339,9 +1339,9 @@ static TAB_NUM t_lambda_66[] = {
   1, // locals
   0, // parameters
   // typed_tuple(avl_node left right my_key my_value my_height)
-  var_typed_tuple, 6, var_avl_node, var_343_6_left, var_343_12_right, var_343_19_my_key, var_343_27_my_value, var_343_37_my_height, 1, LOCAL(1),
+  var_typed_tuple, 6, var_avl_node, var_343_9_left, var_343_15_right, var_343_22_my_key, var_343_30_my_value, var_343_40_my_height, 1, LOCAL(1),
   // 
-  LET, 4, LOCAL(1), var_348_19_key, var_348_24_value, uni_UNCHANGED, TAIL_CALL,
+  LET, 4, LOCAL(1), var_348_26_key, var_348_31_value, uni_UNCHANGED, TAIL_CALL,
   POS(364, 19),
   POS(363, 19)
 };
@@ -1350,7 +1350,7 @@ static TAB_NUM t_lambda_67[] = {
   2, // locals
   0, // parameters
   // balance_left_to_right $new_node $new_height
-  func_balance_left_to_right, 4, var_343_6_left, var_343_12_right, var_343_19_my_key, var_343_27_my_value, 2, var_367_23_new_node, LOCAL(2),
+  func_balance_left_to_right, 4, var_343_9_left, var_343_15_right, var_343_22_my_key, var_343_30_my_value, 2, var_367_42_new_node, LOCAL(2),
   // new_height == UNCHANGED
   var_std__equal, 2, LOCAL(2), uni_UNCHANGED, 1, LOCAL(1),
   // if
@@ -1364,7 +1364,7 @@ static TAB_NUM t_lambda_68[] = {
   0, // locals
   0, // parameters
   //  new_node key value UNCHANGED
-  LET, 4, var_367_23_new_node, var_348_19_key, var_348_24_value, uni_UNCHANGED, TAIL_CALL,
+  LET, 4, var_367_42_new_node, var_348_26_key, var_348_31_value, uni_UNCHANGED, TAIL_CALL,
   POS(371, 23)
 };
 
@@ -1372,9 +1372,9 @@ static TAB_NUM t_lambda_69[] = {
   1, // locals
   0, // parameters
   // my_height-1
-  var_std__minus, 2, var_343_37_my_height, num_1, 1, LOCAL(1),
+  var_std__minus, 2, var_343_40_my_height, num_1, 1, LOCAL(1),
   //  new_node key value my_height-1
-  LET, 4, var_367_23_new_node, var_348_19_key, var_348_24_value, LOCAL(1), TAIL_CALL,
+  LET, 4, var_367_42_new_node, var_348_26_key, var_348_31_value, LOCAL(1), TAIL_CALL,
   POS(372, 43),
   POS(372, 23)
 };
@@ -1382,7 +1382,7 @@ static TAB_NUM t_lambda_69[] = {
 static TAB_NUM t_func_empty_node___delete[] = {
   2, // locals
   2, // parameters
-  LOCAL(2), // 374_21_self
+  LOCAL(2), // 374_22_self
   LOCAL(1),
   // -> self undefined
   LET, 2, LOCAL(2), var_undefined, TAIL_CALL,
@@ -1392,12 +1392,12 @@ static TAB_NUM t_func_empty_node___delete[] = {
 static TAB_NUM t_func_avl_node___delete[] = {
   1, // locals
   2, // parameters
-  var_376_19_self,
-  var_376_24_key,
+  var_376_20_self,
+  var_376_25_key,
   // self $left $right $my_key $my_value $my_height
-  var_376_19_self, 0, 5, var_383_6_left, var_383_12_right, var_383_19_my_key, var_383_27_my_value, var_383_37_my_height,
+  var_376_20_self, 0, 5, var_383_9_left, var_383_15_right, var_383_22_my_key, var_383_30_my_value, var_383_40_my_height,
   // key == my_key
-  var_std__equal, 2, var_376_24_key, var_383_19_my_key, 1, LOCAL(1),
+  var_std__equal, 2, var_376_25_key, var_383_22_my_key, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_70, lambda_85, TAIL_CALL,
   POS(383, 3),
@@ -1409,7 +1409,7 @@ static TAB_NUM t_lambda_70[] = {
   1, // locals
   0, // parameters
   // is_an_empty_node
-  var_is_an_empty_node, 1, var_383_6_left, 1, LOCAL(1),
+  var_is_an_empty_node, 1, var_383_9_left, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_71, lambda_72, TAIL_CALL,
   POS(388, 14),
@@ -1420,9 +1420,9 @@ static TAB_NUM t_lambda_71[] = {
   1, // locals
   0, // parameters
   // my_height-1
-  var_std__minus, 2, var_383_37_my_height, num_1, 1, LOCAL(1),
+  var_std__minus, 2, var_383_40_my_height, num_1, 1, LOCAL(1),
   //  right my_height-1
-  LET, 2, var_383_12_right, LOCAL(1), TAIL_CALL,
+  LET, 2, var_383_15_right, LOCAL(1), TAIL_CALL,
   POS(389, 18),
   POS(389, 11)
 };
@@ -1431,7 +1431,7 @@ static TAB_NUM t_lambda_72[] = {
   1, // locals
   0, // parameters
   // is_an_empty_node
-  var_is_an_empty_node, 1, var_383_12_right, 1, LOCAL(1),
+  var_is_an_empty_node, 1, var_383_15_right, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_73, lambda_74, TAIL_CALL,
   POS(392, 19),
@@ -1442,9 +1442,9 @@ static TAB_NUM t_lambda_73[] = {
   1, // locals
   0, // parameters
   // my_height-1
-  var_std__minus, 2, var_383_37_my_height, num_1, 1, LOCAL(1),
+  var_std__minus, 2, var_383_40_my_height, num_1, 1, LOCAL(1),
   //  left my_height-1
-  LET, 2, var_383_6_left, LOCAL(1), TAIL_CALL,
+  LET, 2, var_383_9_left, LOCAL(1), TAIL_CALL,
   POS(393, 21),
   POS(393, 15)
 };
@@ -1453,9 +1453,9 @@ static TAB_NUM t_lambda_74[] = {
   1, // locals
   0, // parameters
   // left $_left_left $_left_right $_left_key $_left_value $left_height
-  var_383_6_left, 0, 5, LOCAL(1), LOCAL(1), LOCAL(1), LOCAL(1), var_395_55_left_height,
+  var_383_9_left, 0, 5, LOCAL(1), LOCAL(1), LOCAL(1), LOCAL(1), var_395_70_left_height,
   // right $_right_left $_right_right $_right_key $_right_value $right_height
-  var_383_12_right, 0, 5, LOCAL(1), LOCAL(1), LOCAL(1), LOCAL(1), var_396_60_right_height,
+  var_383_15_right, 0, 5, LOCAL(1), LOCAL(1), LOCAL(1), LOCAL(1), var_396_75_right_height,
   // cond
   var_cond, 3, lambda_75, lambda_79, lambda_83, TAIL_CALL,
   POS(395, 15),
@@ -1467,7 +1467,7 @@ static TAB_NUM t_lambda_75[] = {
   1, // locals
   0, // parameters
   // right_height:
-  var_std__less, 2, var_396_60_right_height, var_395_55_left_height, 1, LOCAL(1),
+  var_std__less, 2, var_396_75_right_height, var_395_70_left_height, 1, LOCAL(1),
   //  left_height > right_height:
   LET, 2, LOCAL(1), lambda_76, TAIL_CALL,
   POS(398, 34),
@@ -1478,7 +1478,7 @@ static TAB_NUM t_lambda_76[] = {
   2, // locals
   0, // parameters
   // fetch_last &left $last_key $last_value $new_left_height
-  func_fetch_last, 1, var_383_6_left, 4, var_383_6_left, var_399_18_last_key, var_399_28_last_value, LOCAL(2),
+  func_fetch_last, 1, var_383_9_left, 4, var_383_9_left, var_399_37_last_key, var_399_47_last_value, LOCAL(2),
   // new_left_height == UNCHANGED
   var_std__equal, 2, LOCAL(2), uni_UNCHANGED, 1, LOCAL(1),
   // if
@@ -1492,7 +1492,7 @@ static TAB_NUM t_lambda_77[] = {
   1, // locals
   0, // parameters
   // typed_tuple(avl_node left right last_key last_value my_height)
-  var_typed_tuple, 6, var_avl_node, var_383_6_left, var_383_12_right, var_399_18_last_key, var_399_28_last_value, var_383_37_my_height, 1, LOCAL(1),
+  var_typed_tuple, 6, var_avl_node, var_383_9_left, var_383_15_right, var_399_37_last_key, var_399_47_last_value, var_383_40_my_height, 1, LOCAL(1),
   // 
   LET, 2, LOCAL(1), uni_UNCHANGED, TAIL_CALL,
   POS(403, 23),
@@ -1503,11 +1503,11 @@ static TAB_NUM t_lambda_78[] = {
   3, // locals
   0, // parameters
   // my_height-1)
-  var_std__minus, 2, var_383_37_my_height, num_1, 1, LOCAL(1),
+  var_std__minus, 2, var_383_40_my_height, num_1, 1, LOCAL(1),
   // typed_tuple(avl_node left right last_key last_value my_height-1)
-  var_typed_tuple, 6, var_avl_node, var_383_6_left, var_383_12_right, var_399_18_last_key, var_399_28_last_value, LOCAL(1), 1, LOCAL(2),
+  var_typed_tuple, 6, var_avl_node, var_383_9_left, var_383_15_right, var_399_37_last_key, var_399_47_last_value, LOCAL(1), 1, LOCAL(2),
   // my_height-1
-  var_std__minus, 2, var_383_37_my_height, num_1, 1, LOCAL(3),
+  var_std__minus, 2, var_383_40_my_height, num_1, 1, LOCAL(3),
   // 
   LET, 2, LOCAL(2), LOCAL(3), TAIL_CALL,
   POS(406, 75),
@@ -1520,7 +1520,7 @@ static TAB_NUM t_lambda_79[] = {
   1, // locals
   0, // parameters
   // left_height:
-  var_std__less, 2, var_395_55_left_height, var_396_60_right_height, 1, LOCAL(1),
+  var_std__less, 2, var_395_70_left_height, var_396_75_right_height, 1, LOCAL(1),
   //  right_height > left_height:
   LET, 2, LOCAL(1), lambda_80, TAIL_CALL,
   POS(408, 35),
@@ -1531,7 +1531,7 @@ static TAB_NUM t_lambda_80[] = {
   2, // locals
   0, // parameters
   // fetch_first &right $first_key $first_value $new_right_height
-  func_fetch_first, 1, var_383_12_right, 4, var_383_12_right, var_409_20_first_key, var_409_31_first_value, LOCAL(2),
+  func_fetch_first, 1, var_383_15_right, 4, var_383_15_right, var_409_39_first_key, var_409_50_first_value, LOCAL(2),
   // new_right_height == UNCHANGED
   var_std__equal, 2, LOCAL(2), uni_UNCHANGED, 1, LOCAL(1),
   // if
@@ -1545,7 +1545,7 @@ static TAB_NUM t_lambda_81[] = {
   1, // locals
   0, // parameters
   // typed_tuple(avl_node left right first_key first_value my_height)
-  var_typed_tuple, 6, var_avl_node, var_383_6_left, var_383_12_right, var_409_20_first_key, var_409_31_first_value, var_383_37_my_height, 1, LOCAL(1),
+  var_typed_tuple, 6, var_avl_node, var_383_9_left, var_383_15_right, var_409_39_first_key, var_409_50_first_value, var_383_40_my_height, 1, LOCAL(1),
   // 
   LET, 2, LOCAL(1), uni_UNCHANGED, TAIL_CALL,
   POS(413, 23),
@@ -1556,11 +1556,11 @@ static TAB_NUM t_lambda_82[] = {
   3, // locals
   0, // parameters
   // my_height-1)
-  var_std__minus, 2, var_383_37_my_height, num_1, 1, LOCAL(1),
+  var_std__minus, 2, var_383_40_my_height, num_1, 1, LOCAL(1),
   // typed_tuple(avl_node left right first_key first_value my_height-1)
-  var_typed_tuple, 6, var_avl_node, var_383_6_left, var_383_12_right, var_409_20_first_key, var_409_31_first_value, LOCAL(1), 1, LOCAL(2),
+  var_typed_tuple, 6, var_avl_node, var_383_9_left, var_383_15_right, var_409_39_first_key, var_409_50_first_value, LOCAL(1), 1, LOCAL(2),
   // my_height-1
-  var_std__minus, 2, var_383_37_my_height, num_1, 1, LOCAL(3),
+  var_std__minus, 2, var_383_40_my_height, num_1, 1, LOCAL(3),
   // 
   LET, 2, LOCAL(2), LOCAL(3), TAIL_CALL,
   POS(416, 77),
@@ -1581,9 +1581,9 @@ static TAB_NUM t_lambda_84[] = {
   3, // locals
   0, // parameters
   // fetch_last &left $last_key $last_value !left_height
-  func_fetch_last, 1, var_383_6_left, 4, var_383_6_left, LOCAL(2), LOCAL(3), var_395_55_left_height,
+  func_fetch_last, 1, var_383_9_left, 4, var_383_9_left, LOCAL(2), LOCAL(3), var_395_70_left_height,
   // typed_tuple(avl_node left right last_key last_value my_height)
-  var_typed_tuple, 6, var_avl_node, var_383_6_left, var_383_12_right, LOCAL(2), LOCAL(3), var_383_37_my_height, 1, LOCAL(1),
+  var_typed_tuple, 6, var_avl_node, var_383_9_left, var_383_15_right, LOCAL(2), LOCAL(3), var_383_40_my_height, 1, LOCAL(1),
   // ->
   LET, 2, LOCAL(1), uni_UNCHANGED, TAIL_CALL,
   POS(419, 19),
@@ -1595,7 +1595,7 @@ static TAB_NUM t_lambda_85[] = {
   1, // locals
   0, // parameters
   // key < my_key
-  var_std__less, 2, var_376_24_key, var_383_19_my_key, 1, LOCAL(1),
+  var_std__less, 2, var_376_25_key, var_383_22_my_key, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_86, lambda_95, TAIL_CALL,
   POS(425, 9),
@@ -1606,9 +1606,9 @@ static TAB_NUM t_lambda_86[] = {
   1, // locals
   0, // parameters
   // delete &left $left_height key
-  var_delete, 2, var_383_6_left, var_376_24_key, 2, var_383_6_left, var_427_14_left_height,
+  var_delete, 2, var_383_9_left, var_376_25_key, 2, var_383_9_left, var_427_25_left_height,
   // is_undefined
-  var_is_undefined, 1, var_427_14_left_height, 1, LOCAL(1),
+  var_is_undefined, 1, var_427_25_left_height, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_87, lambda_88, TAIL_CALL,
   POS(427, 11),
@@ -1620,7 +1620,7 @@ static TAB_NUM t_lambda_87[] = {
   0, // locals
   0, // parameters
   //  self undefined
-  LET, 2, var_376_19_self, var_undefined, TAIL_CALL,
+  LET, 2, var_376_20_self, var_undefined, TAIL_CALL,
   POS(430, 15)
 };
 
@@ -1628,7 +1628,7 @@ static TAB_NUM t_lambda_88[] = {
   1, // locals
   0, // parameters
   // left_height == UNCHANGED
-  var_std__equal, 2, var_427_14_left_height, uni_UNCHANGED, 1, LOCAL(1),
+  var_std__equal, 2, var_427_25_left_height, uni_UNCHANGED, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_89, lambda_90, TAIL_CALL,
   POS(433, 17),
@@ -1639,7 +1639,7 @@ static TAB_NUM t_lambda_89[] = {
   1, // locals
   0, // parameters
   // typed_tuple(avl_node left right my_key my_value my_height) UNCHANGED
-  var_typed_tuple, 6, var_avl_node, var_383_6_left, var_383_12_right, var_383_19_my_key, var_383_27_my_value, var_383_37_my_height, 1, LOCAL(1),
+  var_typed_tuple, 6, var_avl_node, var_383_9_left, var_383_15_right, var_383_22_my_key, var_383_30_my_value, var_383_40_my_height, 1, LOCAL(1),
   //  typed_tuple(avl_node left right my_key my_value my_height) UNCHANGED
   LET, 2, LOCAL(1), uni_UNCHANGED, TAIL_CALL,
   POS(434, 20),
@@ -1650,9 +1650,9 @@ static TAB_NUM t_lambda_90[] = {
   2, // locals
   0, // parameters
   // my_height-3:
-  var_std__minus, 2, var_383_37_my_height, num_3, 1, LOCAL(1),
+  var_std__minus, 2, var_383_40_my_height, num_3, 1, LOCAL(1),
   // left_height == my_height-3:
-  var_std__equal, 2, var_427_14_left_height, LOCAL(1), 1, LOCAL(2),
+  var_std__equal, 2, var_427_25_left_height, LOCAL(1), 1, LOCAL(2),
   // if
   var_if, 3, LOCAL(2), lambda_91, lambda_92, TAIL_CALL,
   POS(437, 36),
@@ -1664,7 +1664,7 @@ static TAB_NUM t_lambda_91[] = {
   2, // locals
   0, // parameters
   // balance_right_to_left $new_node $new_height
-  func_balance_right_to_left, 4, var_383_6_left, var_383_12_right, var_383_19_my_key, var_383_27_my_value, 2, LOCAL(1), LOCAL(2),
+  func_balance_right_to_left, 4, var_383_9_left, var_383_15_right, var_383_22_my_key, var_383_30_my_value, 2, LOCAL(1), LOCAL(2),
   // -> new_node new_height
   LET, 2, LOCAL(1), LOCAL(2), TAIL_CALL,
   POS(438, 23),
@@ -1675,9 +1675,9 @@ static TAB_NUM t_lambda_92[] = {
   2, // locals
   0, // parameters
   // right $_right_left $_right_right $_right_key $_right_value
-  var_383_12_right, 0, 5, LOCAL(1), LOCAL(1), LOCAL(1), LOCAL(1), LOCAL(2),
+  var_383_15_right, 0, 5, LOCAL(1), LOCAL(1), LOCAL(1), LOCAL(1), LOCAL(2),
   // left_height == right_height
-  var_std__equal, 2, var_427_14_left_height, LOCAL(2), 1, LOCAL(1),
+  var_std__equal, 2, var_427_25_left_height, LOCAL(2), 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_93, lambda_94, TAIL_CALL,
   POS(442, 23),
@@ -1689,11 +1689,11 @@ static TAB_NUM t_lambda_93[] = {
   3, // locals
   0, // parameters
   // left_height+1)
-  var_std__plus, 2, var_427_14_left_height, num_1, 1, LOCAL(1),
+  var_std__plus, 2, var_427_25_left_height, num_1, 1, LOCAL(1),
   // typed_tuple(avl_node left right my_key my_value left_height+1)
-  var_typed_tuple, 6, var_avl_node, var_383_6_left, var_383_12_right, var_383_19_my_key, var_383_27_my_value, LOCAL(1), 1, LOCAL(2),
+  var_typed_tuple, 6, var_avl_node, var_383_9_left, var_383_15_right, var_383_22_my_key, var_383_30_my_value, LOCAL(1), 1, LOCAL(2),
   // left_height+1
-  var_std__plus, 2, var_427_14_left_height, num_1, 1, LOCAL(3),
+  var_std__plus, 2, var_427_25_left_height, num_1, 1, LOCAL(3),
   // 
   LET, 2, LOCAL(2), LOCAL(3), TAIL_CALL,
   POS(447, 75),
@@ -1706,7 +1706,7 @@ static TAB_NUM t_lambda_94[] = {
   1, // locals
   0, // parameters
   // typed_tuple(avl_node left right my_key my_value my_height)
-  var_typed_tuple, 6, var_avl_node, var_383_6_left, var_383_12_right, var_383_19_my_key, var_383_27_my_value, var_383_37_my_height, 1, LOCAL(1),
+  var_typed_tuple, 6, var_avl_node, var_383_9_left, var_383_15_right, var_383_22_my_key, var_383_30_my_value, var_383_40_my_height, 1, LOCAL(1),
   // 
   LET, 2, LOCAL(1), uni_UNCHANGED, TAIL_CALL,
   POS(450, 27),
@@ -1717,9 +1717,9 @@ static TAB_NUM t_lambda_95[] = {
   1, // locals
   0, // parameters
   // delete &right $right_height key
-  var_delete, 2, var_383_12_right, var_376_24_key, 2, var_383_12_right, var_453_15_right_height,
+  var_delete, 2, var_383_15_right, var_376_25_key, 2, var_383_15_right, var_453_26_right_height,
   // is_undefined
-  var_is_undefined, 1, var_453_15_right_height, 1, LOCAL(1),
+  var_is_undefined, 1, var_453_26_right_height, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_96, lambda_97, TAIL_CALL,
   POS(453, 11),
@@ -1731,7 +1731,7 @@ static TAB_NUM t_lambda_96[] = {
   0, // locals
   0, // parameters
   //  self undefined
-  LET, 2, var_376_19_self, var_undefined, TAIL_CALL,
+  LET, 2, var_376_20_self, var_undefined, TAIL_CALL,
   POS(456, 15)
 };
 
@@ -1739,7 +1739,7 @@ static TAB_NUM t_lambda_97[] = {
   1, // locals
   0, // parameters
   // right_height == UNCHANGED
-  var_std__equal, 2, var_453_15_right_height, uni_UNCHANGED, 1, LOCAL(1),
+  var_std__equal, 2, var_453_26_right_height, uni_UNCHANGED, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_98, lambda_99, TAIL_CALL,
   POS(459, 17),
@@ -1750,7 +1750,7 @@ static TAB_NUM t_lambda_98[] = {
   1, // locals
   0, // parameters
   // typed_tuple(avl_node left right my_key my_value my_height) UNCHANGED
-  var_typed_tuple, 6, var_avl_node, var_383_6_left, var_383_12_right, var_383_19_my_key, var_383_27_my_value, var_383_37_my_height, 1, LOCAL(1),
+  var_typed_tuple, 6, var_avl_node, var_383_9_left, var_383_15_right, var_383_22_my_key, var_383_30_my_value, var_383_40_my_height, 1, LOCAL(1),
   //  typed_tuple(avl_node left right my_key my_value my_height) UNCHANGED
   LET, 2, LOCAL(1), uni_UNCHANGED, TAIL_CALL,
   POS(460, 20),
@@ -1761,9 +1761,9 @@ static TAB_NUM t_lambda_99[] = {
   2, // locals
   0, // parameters
   // my_height-3:
-  var_std__minus, 2, var_383_37_my_height, num_3, 1, LOCAL(1),
+  var_std__minus, 2, var_383_40_my_height, num_3, 1, LOCAL(1),
   // right_height == my_height-3:
-  var_std__equal, 2, var_453_15_right_height, LOCAL(1), 1, LOCAL(2),
+  var_std__equal, 2, var_453_26_right_height, LOCAL(1), 1, LOCAL(2),
   // if
   var_if, 3, LOCAL(2), lambda_100, lambda_101, TAIL_CALL,
   POS(463, 37),
@@ -1775,7 +1775,7 @@ static TAB_NUM t_lambda_100[] = {
   2, // locals
   0, // parameters
   // balance_left_to_right $new_node $new_height
-  func_balance_left_to_right, 4, var_383_6_left, var_383_12_right, var_383_19_my_key, var_383_27_my_value, 2, LOCAL(1), LOCAL(2),
+  func_balance_left_to_right, 4, var_383_9_left, var_383_15_right, var_383_22_my_key, var_383_30_my_value, 2, LOCAL(1), LOCAL(2),
   // -> new_node new_height
   LET, 2, LOCAL(1), LOCAL(2), TAIL_CALL,
   POS(464, 23),
@@ -1786,9 +1786,9 @@ static TAB_NUM t_lambda_101[] = {
   1, // locals
   0, // parameters
   // left $_left_left $_left_right $_left_key $_left_value
-  var_383_6_left, 0, 5, LOCAL(1), LOCAL(1), LOCAL(1), LOCAL(1), var_469_1_left_height,
+  var_383_9_left, 0, 5, LOCAL(1), LOCAL(1), LOCAL(1), LOCAL(1), var_469_26_left_height,
   // left_height == right_height
-  var_std__equal, 2, var_469_1_left_height, var_453_15_right_height, 1, LOCAL(1),
+  var_std__equal, 2, var_469_26_left_height, var_453_26_right_height, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_102, lambda_103, TAIL_CALL,
   POS(468, 23),
@@ -1800,11 +1800,11 @@ static TAB_NUM t_lambda_102[] = {
   3, // locals
   0, // parameters
   // left_height+1)
-  var_std__plus, 2, var_469_1_left_height, num_1, 1, LOCAL(1),
+  var_std__plus, 2, var_469_26_left_height, num_1, 1, LOCAL(1),
   // typed_tuple(avl_node left right my_key my_value left_height+1)
-  var_typed_tuple, 6, var_avl_node, var_383_6_left, var_383_12_right, var_383_19_my_key, var_383_27_my_value, LOCAL(1), 1, LOCAL(2),
+  var_typed_tuple, 6, var_avl_node, var_383_9_left, var_383_15_right, var_383_22_my_key, var_383_30_my_value, LOCAL(1), 1, LOCAL(2),
   // left_height+1
-  var_std__plus, 2, var_469_1_left_height, num_1, 1, LOCAL(3),
+  var_std__plus, 2, var_469_26_left_height, num_1, 1, LOCAL(3),
   // 
   LET, 2, LOCAL(2), LOCAL(3), TAIL_CALL,
   POS(473, 75),
@@ -1817,7 +1817,7 @@ static TAB_NUM t_lambda_103[] = {
   1, // locals
   0, // parameters
   // typed_tuple(avl_node left right my_key my_value my_height)
-  var_typed_tuple, 6, var_avl_node, var_383_6_left, var_383_12_right, var_383_19_my_key, var_383_27_my_value, var_383_37_my_height, 1, LOCAL(1),
+  var_typed_tuple, 6, var_avl_node, var_383_9_left, var_383_15_right, var_383_22_my_key, var_383_30_my_value, var_383_40_my_height, 1, LOCAL(1),
   // 
   LET, 2, LOCAL(1), uni_UNCHANGED, TAIL_CALL,
   POS(476, 27),
@@ -1827,13 +1827,13 @@ static TAB_NUM t_lambda_103[] = {
 static TAB_NUM t_func_avl_node___validate[] = {
   4, // locals
   3, // parameters
-  LOCAL(4), // 498_21_self
-  var_498_26_low,
-  var_498_30_high,
+  LOCAL(4), // 498_22_self
+  var_498_27_low,
+  var_498_31_high,
   // self $left $right $key $_value $height
-  LOCAL(4), 0, 5, var_499_6_left, var_499_12_right, var_499_19_key, LOCAL(1), var_499_32_height,
+  LOCAL(4), 0, 5, var_499_9_left, var_499_15_right, var_499_22_key, LOCAL(1), var_499_35_height,
   // is_defined && key < low
-  var_is_defined, 1, var_498_26_low, 1, LOCAL(1),
+  var_is_defined, 1, var_498_27_low, 1, LOCAL(1),
   // is_defined && key < low
   var_std__and, 2, LOCAL(1), lambda_104, 1, LOCAL(2),
   // 
@@ -1841,15 +1841,15 @@ static TAB_NUM t_func_avl_node___validate[] = {
   // if
   var_if, 3, LOCAL(3), lambda_107, var_pass, 0,
   // left $_left_left $_left_right $_left_key $_left_value $left_height
-  var_499_6_left, 0, 5, LOCAL(1), LOCAL(1), LOCAL(1), LOCAL(1), var_509_55_left_height,
+  var_499_9_left, 0, 5, LOCAL(1), LOCAL(1), LOCAL(1), LOCAL(1), var_509_58_left_height,
   // right $_right_left $_right_right $_right_key $_right_value $right_height
-  var_499_12_right, 0, 5, LOCAL(1), LOCAL(1), LOCAL(1), LOCAL(1), var_510_60_right_height,
+  var_499_15_right, 0, 5, LOCAL(1), LOCAL(1), LOCAL(1), LOCAL(1), var_510_63_right_height,
   // max(left_height right_height)+1 == height
-  var_max, 2, var_509_55_left_height, var_510_60_right_height, 1, LOCAL(1),
+  var_max, 2, var_509_58_left_height, var_510_63_right_height, 1, LOCAL(1),
   // max(left_height right_height)+1 == height
   var_std__plus, 2, LOCAL(1), num_1, 1, LOCAL(2),
   // max(left_height right_height)+1 == height
-  var_std__equal, 2, LOCAL(2), var_499_32_height, 1, LOCAL(3),
+  var_std__equal, 2, LOCAL(2), var_499_35_height, 1, LOCAL(3),
   // if
   var_if, 3, LOCAL(3), lambda_108, lambda_109, TAIL_CALL,
   POS(499, 3),
@@ -1869,7 +1869,7 @@ static TAB_NUM t_lambda_104[] = {
   1, // locals
   0, // parameters
   // key < low
-  var_std__less, 2, var_499_19_key, var_498_26_low, 1, LOCAL(1),
+  var_std__less, 2, var_499_22_key, var_498_27_low, 1, LOCAL(1),
   // key < low
   LET, 1, LOCAL(1), TAIL_CALL,
   POS(502, 25),
@@ -1880,7 +1880,7 @@ static TAB_NUM t_lambda_105[] = {
   2, // locals
   0, // parameters
   // is_defined && key > high
-  var_is_defined, 1, var_498_30_high, 1, LOCAL(1),
+  var_is_defined, 1, var_498_31_high, 1, LOCAL(1),
   // is_defined && key > high
   var_std__and, 2, LOCAL(1), lambda_106, 1, LOCAL(2),
   // high.is_defined && key > high
@@ -1894,7 +1894,7 @@ static TAB_NUM t_lambda_106[] = {
   1, // locals
   0, // parameters
   // high
-  var_std__less, 2, var_498_30_high, var_499_19_key, 1, LOCAL(1),
+  var_std__less, 2, var_498_31_high, var_499_22_key, 1, LOCAL(1),
   // key > high
   LET, 1, LOCAL(1), TAIL_CALL,
   POS(503, 32),
@@ -1905,11 +1905,11 @@ static TAB_NUM t_lambda_107[] = {
   3, // locals
   0, // parameters
   // default_value(low '[')) < @(key) < @(default_value(high ']')) failed!
-  var_default_value, 2, var_498_26_low, chr_91, 1, LOCAL(1),
+  var_default_value, 2, var_498_27_low, chr_91, 1, LOCAL(1),
   // default_value(high ']')) failed!
-  var_default_value, 2, var_498_30_high, chr_93, 1, LOCAL(2),
+  var_default_value, 2, var_498_31_high, chr_93, 1, LOCAL(2),
   // "
-  var_std__string, 6, LOCAL(1), string_1, var_499_19_key, string_1, LOCAL(2), str__failed, 1, LOCAL(3),
+  var_std__string, 6, LOCAL(1), string_1, var_499_22_key, string_1, LOCAL(2), str__failed, 1, LOCAL(3),
   // debug::print "
   var_debug__print, 1, LOCAL(3), 0,
   // debug::exit
@@ -1925,11 +1925,11 @@ static TAB_NUM t_lambda_108[] = {
   4, // locals
   0, // parameters
   // validate(left low key)+1+validate(right key high)
-  var_validate, 3, var_499_6_left, var_498_26_low, var_499_19_key, 1, LOCAL(1),
+  var_validate, 3, var_499_9_left, var_498_27_low, var_499_22_key, 1, LOCAL(1),
   // validate(left low key)+1+validate(right key high)
   var_std__plus, 2, LOCAL(1), num_1, 1, LOCAL(2),
   // validate(right key high)
-  var_validate, 3, var_499_12_right, var_499_19_key, var_498_30_high, 1, LOCAL(3),
+  var_validate, 3, var_499_15_right, var_499_22_key, var_498_31_high, 1, LOCAL(3),
   // validate(left low key)+1+validate(right key high)
   var_std__plus, 2, LOCAL(2), LOCAL(3), 1, LOCAL(4),
   //  validate(left low key)+1+validate(right key high)
@@ -1945,7 +1945,7 @@ static TAB_NUM t_lambda_109[] = {
   1, // locals
   0, // parameters
   // "
-  var_std__string, 7, str_left_height, var_509_55_left_height, str__right_height, var_510_60_right_height, str__height, var_499_32_height, string_2, 1, LOCAL(1),
+  var_std__string, 7, str_left_height, var_509_58_left_height, str__right_height, var_510_63_right_height, str__height, var_499_35_height, string_2, 1, LOCAL(1),
   // debug::print "
   var_debug__print, 1, LOCAL(1), 0,
   // debug::exit
@@ -1955,12 +1955,12 @@ static TAB_NUM t_lambda_109[] = {
   POS(518, 7)
 };
 
-static int tuple_47_0_arguments[] = {
+static int tuple_47_1_arguments[] = {
   -var_undefined, -var_undefined, -var_undefined, -var_undefined, -var_undefined
 };
 
 static FUNKY_CONSTANT constants_table[] = {
-  {FLT_TUPLE, 5, {.arguments = tuple_47_0_arguments}},
+  {FLT_TUPLE, 5, {.arguments = tuple_47_1_arguments}},
   {FLT_UNIQUE, 0, {.str_8 = "NONE"}},
   {FLT_FUNCTION, 0, {.tfunc = t_func_std_types__avl_table}},
   {FLT_FUNCTION, 0, {.tfunc = t_lambda_1}},
@@ -2191,7 +2191,7 @@ static FUNKY_VARIABLE variables_table[] = {
   {
     FOT_INITIALIZED, 0, 14,
     "avl_node\000", avl_node__attributes,
-    {.const_idx = -tuple_47_0}
+    {.const_idx = -tuple_47_1}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
@@ -2235,19 +2235,19 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "54_0_myself\000", NULL
+    "54_5_myself\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "55_0_key\000", NULL
+    "55_5_key\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "56_0_value\000", NULL
+    "56_5_value\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "58_1_contents\000", NULL
+    "58_4_contents\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
@@ -2301,19 +2301,19 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "110_0_key\000", NULL
+    "110_5_key\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "115_6_left\000", NULL
+    "115_11_left\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "115_12_right\000", NULL
+    "115_17_right\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "115_19_my_key\000", NULL
+    "115_24_my_key\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
@@ -2322,7 +2322,7 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "118_1_fetched_key\000", NULL
+    "118_10_fetched_key\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
@@ -2331,11 +2331,11 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "137_6_left\000", NULL
+    "137_9_left\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "137_20_my_key\000", NULL
+    "137_23_my_key\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
@@ -2344,39 +2344,39 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "149_19_self\000", NULL
+    "149_20_self\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "149_24_key\000", NULL
+    "149_25_key\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "149_28_value\000", NULL
+    "149_29_value\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "150_6_left\000", NULL
+    "150_9_left\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "150_12_right\000", NULL
+    "150_15_right\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "150_19_my_key\000", NULL
+    "150_22_my_key\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "150_27_my_value\000", NULL
+    "150_30_my_value\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "150_37_my_height\000", NULL
+    "150_40_my_height\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "157_14_new_height\000", NULL
+    "157_25_new_height\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
@@ -2390,243 +2390,243 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "181_15_new_height\000", NULL
+    "181_26_new_height\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "205_30_right\000", NULL
+    "205_31_right\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "205_36_key\000", NULL
+    "205_37_key\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "205_40_value\000", NULL
+    "205_41_value\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "216_6_left_left\000", NULL
+    "216_9_left_left\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "216_17_left_right\000", NULL
+    "216_20_left_right\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "216_29_left_key\000", NULL
+    "216_32_left_key\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "216_39_left_value\000", NULL
+    "216_42_left_value\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "216_51_left_height\000", NULL
+    "216_54_left_height\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "221_1_left_right_left\000", NULL
+    "221_6_left_right_left\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "221_18_left_right_right\000", NULL
+    "221_23_left_right_right\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "222_1_left_right_key\000", NULL
+    "222_6_left_right_key\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "222_17_left_right_value\000", NULL
+    "222_22_left_right_value\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "222_35_left_right_height\000", NULL
+    "222_40_left_right_height\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "250_25_left\000", NULL
+    "250_26_left\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "250_36_key\000", NULL
+    "250_37_key\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "250_40_value\000", NULL
+    "250_41_value\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "261_7_right_left\000", NULL
+    "261_10_right_left\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "261_19_right_right\000", NULL
+    "261_22_right_right\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "261_32_right_key\000", NULL
+    "261_35_right_key\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "261_43_right_value\000", NULL
+    "261_46_right_value\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "261_56_right_height\000", NULL
+    "261_59_right_height\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "263_1_right_left_left\000", NULL
+    "263_6_right_left_left\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "263_18_right_left_right\000", NULL
+    "263_23_right_left_right\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "264_1_right_left_key\000", NULL
+    "264_6_right_left_key\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "264_17_right_left_value\000", NULL
+    "264_22_right_left_value\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "264_35_right_left_height\000", NULL
+    "264_40_right_left_height\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "306_6_left\000", NULL
+    "306_9_left\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "306_12_right\000", NULL
+    "306_15_right\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "306_19_my_key\000", NULL
+    "306_22_my_key\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "306_27_my_value\000", NULL
+    "306_30_my_value\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "306_37_my_height\000", NULL
+    "306_40_my_height\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "311_19_key\000", NULL
+    "311_26_key\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "311_24_value\000", NULL
+    "311_31_value\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "311_31_left_height\000", NULL
+    "311_38_left_height\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "317_1_height_minus_2\000", NULL
+    "317_12_height_minus_2\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "330_23_new_node\000", NULL
+    "330_42_new_node\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "343_6_left\000", NULL
+    "343_9_left\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "343_12_right\000", NULL
+    "343_15_right\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "343_19_my_key\000", NULL
+    "343_22_my_key\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "343_27_my_value\000", NULL
+    "343_30_my_value\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "343_37_my_height\000", NULL
+    "343_40_my_height\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "348_19_key\000", NULL
+    "348_26_key\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "348_24_value\000", NULL
+    "348_31_value\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "348_31_right_height\000", NULL
+    "348_38_right_height\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "354_1_height_minus_2\000", NULL
+    "354_12_height_minus_2\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "367_23_new_node\000", NULL
+    "367_42_new_node\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "376_19_self\000", NULL
+    "376_20_self\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "376_24_key\000", NULL
+    "376_25_key\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "383_6_left\000", NULL
+    "383_9_left\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "383_12_right\000", NULL
+    "383_15_right\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "383_19_my_key\000", NULL
+    "383_22_my_key\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "383_27_my_value\000", NULL
+    "383_30_my_value\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "383_37_my_height\000", NULL
+    "383_40_my_height\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "395_55_left_height\000", NULL
+    "395_70_left_height\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "396_60_right_height\000", NULL
+    "396_75_right_height\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "399_18_last_key\000", NULL
+    "399_37_last_key\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "399_28_last_value\000", NULL
+    "399_47_last_value\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "409_20_first_key\000", NULL
+    "409_39_first_key\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "409_31_first_value\000", NULL
+    "409_50_first_value\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
@@ -2635,15 +2635,15 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "427_14_left_height\000", NULL
+    "427_25_left_height\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "453_15_right_height\000", NULL
+    "453_26_right_height\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "469_1_left_height\000", NULL
+    "469_26_left_height\000", NULL
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
@@ -2732,27 +2732,27 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "498_26_low\000", NULL
+    "498_27_low\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "498_30_high\000", NULL
+    "498_31_high\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "499_6_left\000", NULL
+    "499_9_left\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "499_12_right\000", NULL
+    "499_15_right\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "499_19_key\000", NULL
+    "499_22_key\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "499_32_height\000", NULL
+    "499_35_height\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
@@ -2786,11 +2786,11 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "509_55_left_height\000", NULL
+    "509_58_left_height\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "510_60_right_height\000", NULL
+    "510_63_right_height\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,

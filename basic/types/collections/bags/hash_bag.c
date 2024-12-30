@@ -37,13 +37,13 @@ enum {
   var_std_types__hash_table, // extern
   var_std__empty_hash_bag, // derived
   var_add, // extern polymorphic
-  var_41_0_self, // dynamic
-  var_45_3_pair, // dynamic
+  var_41_5_self, // dynamic
+  var_45_8_pair, // dynamic
   var_is_a_key_value_pair, // extern
-  var_47_1_key, // dynamic
-  var_47_6_count, // dynamic
+  var_47_10_key, // dynamic
+  var_47_15_count, // dynamic
   var_if, // extern
-  var_51_1_value, // dynamic
+  var_51_8_value, // dynamic
   var_is_undefined, // extern
   var_next, // extern
   var_plus, // extern
@@ -52,15 +52,15 @@ enum {
   var_update_if, // extern
   var_for_each, // extern
   var_merge, // extern polymorphic
-  var_65_0_self, // dynamic
+  var_65_5_self, // dynamic
   var_std__key_value_pair, // extern
   var_difference, // extern polymorphic
-  var_76_0_self, // dynamic
+  var_76_5_self, // dynamic
   var_std__negate, // extern
   var_std__hash_bag, // initialized
   var_to_hash_bag, // extern polymorphic
   var_std_types__list, // extern
-  var_103_1_table, // dynamic
+  var_103_4_table, // dynamic
   var_empty_hash_bag, // extern
   var_serialization_tag_of, // extern polymorphic
   var_empty_collection_of, // extern polymorphic
@@ -73,8 +73,8 @@ enum {
 static TAB_NUM t_func_std_types__hash_bag___add[] = {
   1, // locals
   -2, // parameters
-  MANDATORY_PARAMETER, var_41_0_self,
-  REST_PARAMETER, LOCAL(1), // 42_0_pairs
+  MANDATORY_PARAMETER, var_41_5_self,
+  REST_PARAMETER, LOCAL(1), // 42_5_pairs
   // for_each pairs
   var_for_each, 3, LOCAL(1), lambda_1, lambda_5, TAIL_CALL,
   POS(44, 3)
@@ -83,15 +83,15 @@ static TAB_NUM t_func_std_types__hash_bag___add[] = {
 static TAB_NUM t_lambda_1[] = {
   1, // locals
   1, // parameters
-  var_45_3_pair,
+  var_45_8_pair,
   // is_a_key_value_pair
-  var_is_a_key_value_pair, 1, var_45_3_pair, 1, LOCAL(1),
+  var_is_a_key_value_pair, 1, var_45_8_pair, 1, LOCAL(1),
   // if
-  var_if, 3, LOCAL(1), var_45_3_pair, lambda_2, 2, var_47_1_key, var_47_6_count,
+  var_if, 3, LOCAL(1), var_45_8_pair, lambda_2, 2, var_47_10_key, var_47_15_count,
   // $value self(key)
-  var_41_0_self, 1, var_47_1_key, 1, var_51_1_value,
+  var_41_5_self, 1, var_47_10_key, 1, var_51_8_value,
   // is_undefined:
-  var_is_undefined, 1, var_51_1_value, 1, LOCAL(1),
+  var_is_undefined, 1, var_51_8_value, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_value_is_undefined, lambda_3, TAIL_CALL,
   POS(48, 14),
@@ -105,7 +105,7 @@ static TAB_NUM t_lambda_2[] = {
   0, // locals
   0, // parameters
   //  pair 1
-  LET, 2, var_45_3_pair, num_1, TAIL_CALL,
+  LET, 2, var_45_8_pair, num_1, TAIL_CALL,
   POS(50, 11)
 };
 
@@ -113,7 +113,7 @@ static TAB_NUM t_lambda_value_is_undefined[] = {
   0, // locals
   0, // parameters
   // self(key) count
-  var_41_0_self, 2, var_47_1_key, var_47_6_count, 1, var_41_0_self,
+  var_41_5_self, 2, var_47_10_key, var_47_15_count, 1, var_41_5_self,
   // next
   var_next, 0, TAIL_CALL,
   POS(54, 12),
@@ -124,13 +124,13 @@ static TAB_NUM t_lambda_3[] = {
   1, // locals
   0, // parameters
   // plus &value count
-  var_plus, 2, var_51_1_value, var_47_6_count, 1, var_51_1_value,
+  var_plus, 2, var_51_8_value, var_47_15_count, 1, var_51_8_value,
   // value == 0 &value -> undefined
-  var_std__equal, 2, var_51_1_value, num_0, 1, LOCAL(1),
+  var_std__equal, 2, var_51_8_value, num_0, 1, LOCAL(1),
   // update_if value == 0 &value -> undefined
-  var_update_if, 3, LOCAL(1), var_51_1_value, lambda_4, 1, var_51_1_value,
+  var_update_if, 3, LOCAL(1), var_51_8_value, lambda_4, 1, var_51_8_value,
   // self(key) value
-  var_41_0_self, 2, var_47_1_key, var_51_1_value, 1, var_41_0_self,
+  var_41_5_self, 2, var_47_10_key, var_51_8_value, 1, var_41_5_self,
   // next
   var_next, 0, TAIL_CALL,
   POS(57, 11),
@@ -152,15 +152,15 @@ static TAB_NUM t_lambda_5[] = {
   0, // locals
   0, // parameters
   //  self
-  LET, 1, var_41_0_self, TAIL_CALL,
+  LET, 1, var_41_5_self, TAIL_CALL,
   POS(61, 7)
 };
 
 static TAB_NUM t_func_std_types__hash_bag___merge[] = {
   1, // locals
   2, // parameters
-  var_65_0_self,
-  LOCAL(1), // 66_0_other
+  var_65_5_self,
+  LOCAL(1), // 66_5_other
   // for_each other
   var_for_each, 3, LOCAL(1), lambda_6, lambda_7, TAIL_CALL,
   POS(68, 3)
@@ -169,12 +169,12 @@ static TAB_NUM t_func_std_types__hash_bag___merge[] = {
 static TAB_NUM t_lambda_6[] = {
   3, // locals
   2, // parameters
-  LOCAL(2), // 69_3_key
-  LOCAL(3), // 69_7_value
+  LOCAL(2), // 69_8_key
+  LOCAL(3), // 69_12_value
   // key = value
   var_std__key_value_pair, 2, LOCAL(2), LOCAL(3), 1, LOCAL(1),
   // add &self key = value
-  var_add, 2, var_65_0_self, LOCAL(1), 1, var_65_0_self,
+  var_add, 2, var_65_5_self, LOCAL(1), 1, var_65_5_self,
   // next
   var_next, 0, TAIL_CALL,
   POS(70, 17),
@@ -186,15 +186,15 @@ static TAB_NUM t_lambda_7[] = {
   0, // locals
   0, // parameters
   //  self
-  LET, 1, var_65_0_self, TAIL_CALL,
+  LET, 1, var_65_5_self, TAIL_CALL,
   POS(72, 7)
 };
 
 static TAB_NUM t_func_std_types__hash_bag___difference[] = {
   1, // locals
   2, // parameters
-  var_76_0_self,
-  LOCAL(1), // 77_0_other
+  var_76_5_self,
+  LOCAL(1), // 77_5_other
   // for_each other
   var_for_each, 3, LOCAL(1), lambda_8, lambda_9, TAIL_CALL,
   POS(79, 3)
@@ -203,14 +203,14 @@ static TAB_NUM t_func_std_types__hash_bag___difference[] = {
 static TAB_NUM t_lambda_8[] = {
   4, // locals
   2, // parameters
-  LOCAL(3), // 80_3_key
-  LOCAL(4), // 80_7_value
+  LOCAL(3), // 80_8_key
+  LOCAL(4), // 80_12_value
   // value
   var_std__negate, 1, LOCAL(4), 1, LOCAL(1),
   // key = -value
   var_std__key_value_pair, 2, LOCAL(3), LOCAL(1), 1, LOCAL(2),
   // add &self key = -value
-  var_add, 2, var_76_0_self, LOCAL(2), 1, var_76_0_self,
+  var_add, 2, var_76_5_self, LOCAL(2), 1, var_76_5_self,
   // next
   var_next, 0, TAIL_CALL,
   POS(81, 24),
@@ -223,14 +223,14 @@ static TAB_NUM t_lambda_9[] = {
   0, // locals
   0, // parameters
   //  self
-  LET, 1, var_76_0_self, TAIL_CALL,
+  LET, 1, var_76_5_self, TAIL_CALL,
   POS(83, 7)
 };
 
 static TAB_NUM t_func_std__hash_bag[] = {
   1, // locals
   -1, // parameters
-  REST_PARAMETER, LOCAL(1), // 89_0_pairs
+  REST_PARAMETER, LOCAL(1), // 89_5_pairs
   // to_hash_bag pairs
   var_to_hash_bag, 1, LOCAL(1), TAIL_CALL,
   POS(91, 3)
@@ -239,9 +239,9 @@ static TAB_NUM t_func_std__hash_bag[] = {
 static TAB_NUM t_func_std_types__list___to_hash_bag[] = {
   1, // locals
   1, // parameters
-  LOCAL(1), // 101_0_items
+  LOCAL(1), // 101_5_items
   // $table empty_hash_bag
-  LET, 1, var_empty_hash_bag, 1, var_103_1_table,
+  LET, 1, var_empty_hash_bag, 1, var_103_4_table,
   // for_each items
   var_for_each, 3, LOCAL(1), lambda_10, lambda_11, TAIL_CALL,
   POS(103, 3),
@@ -251,11 +251,11 @@ static TAB_NUM t_func_std_types__list___to_hash_bag[] = {
 static TAB_NUM t_lambda_10[] = {
   3, // locals
   1, // parameters
-  LOCAL(1), // 105_3_item
+  LOCAL(1), // 105_8_item
   // item $key $value
   LOCAL(1), 0, 2, LOCAL(2), LOCAL(3),
   // table(key) value
-  var_103_1_table, 2, LOCAL(2), LOCAL(3), 1, var_103_1_table,
+  var_103_4_table, 2, LOCAL(2), LOCAL(3), 1, var_103_4_table,
   // next
   var_next, 0, TAIL_CALL,
   POS(106, 7),
@@ -267,7 +267,7 @@ static TAB_NUM t_lambda_11[] = {
   0, // locals
   0, // parameters
   //  table
-  LET, 1, var_103_1_table, TAIL_CALL,
+  LET, 1, var_103_4_table, TAIL_CALL,
   POS(109, 7)
 };
 
@@ -349,11 +349,11 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "41_0_self\000", NULL
+    "41_5_self\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "45_3_pair\000", NULL
+    "45_8_pair\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
@@ -362,11 +362,11 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "47_1_key\000", NULL
+    "47_10_key\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "47_6_count\000", NULL
+    "47_15_count\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
@@ -375,7 +375,7 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "51_1_value\000", NULL
+    "51_8_value\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
@@ -419,7 +419,7 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "65_0_self\000", NULL
+    "65_5_self\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
@@ -433,7 +433,7 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "76_0_self\000", NULL
+    "76_5_self\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
@@ -457,7 +457,7 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "103_1_table\000", NULL
+    "103_4_table\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,

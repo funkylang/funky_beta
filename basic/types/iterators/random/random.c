@@ -34,27 +34,27 @@ enum {
   var_residual_random_of, // attribute
   var_residual_modulus_of, // attribute
   var_std_types__iterator, // extern
-  var_47_18_rng, // dynamic
-  var_47_22_n, // dynamic
-  var_50_1_rm, // dynamic
-  var_51_1_rr, // dynamic
-  var_54_1_m, // dynamic
+  var_47_19_rng, // dynamic
+  var_47_23_n, // dynamic
+  var_50_4_rm, // dynamic
+  var_51_4_rr, // dynamic
+  var_54_6_m, // dynamic
   var_modulus_of, // extern
-  var_55_21_r, // dynamic
+  var_55_26_r, // dynamic
   var_next_raw_value, // extern
   var_std__times, // extern
   var_std__plus, // extern
-  var_58_1_range_count, // dynamic
+  var_58_6_range_count, // dynamic
   var_div, // extern
-  var_59_1_range_no, // dynamic
+  var_59_6_range_no, // dynamic
   var_std__less, // extern
   var_std__minus, // extern
   var_if, // extern
   var_std__not, // extern
-  var_75_1_range_count, // dynamic
-  var_76_1_range_no, // dynamic
+  var_75_8_range_count, // dynamic
+  var_76_8_range_no, // dynamic
   var_next_value, // extern polymorphic
-  var_91_54_n, // dynamic
+  var_91_55_n, // dynamic
   var_is_a_value_range, // extern
   var__END
 };
@@ -63,14 +63,14 @@ enum {
 static TAB_NUM t_func_get_next_value[] = {
   2, // locals
   2, // parameters
-  var_47_18_rng,
-  var_47_22_n,
+  var_47_19_rng,
+  var_47_23_n,
   // $rm residual_modulus_of(rng)
-  var_residual_modulus_of, 1, var_47_18_rng, 1, var_50_1_rm,
+  var_residual_modulus_of, 1, var_47_19_rng, 1, var_50_4_rm,
   // $rr residual_random_of(rng)
-  var_residual_random_of, 1, var_47_18_rng, 1, var_51_1_rr,
+  var_residual_random_of, 1, var_47_19_rng, 1, var_51_4_rr,
   // rm:
-  var_std__less, 2, var_50_1_rm, var_47_22_n, 1, LOCAL(1),
+  var_std__less, 2, var_50_4_rm, var_47_23_n, 1, LOCAL(1),
   // rm:
   var_std__not, 1, LOCAL(1), 1, LOCAL(2),
   // if
@@ -86,21 +86,21 @@ static TAB_NUM t_func_add_more_random[] = {
   1, // locals
   0, // parameters
   // $m modulus_of(rng)
-  var_modulus_of, 1, var_47_18_rng, 1, var_54_1_m,
+  var_modulus_of, 1, var_47_19_rng, 1, var_54_6_m,
   // next_raw_value &rng $r
-  var_next_raw_value, 1, var_47_18_rng, 2, var_47_18_rng, var_55_21_r,
+  var_next_raw_value, 1, var_47_19_rng, 2, var_47_19_rng, var_55_26_r,
   // rr*m+r
-  var_std__times, 2, var_51_1_rr, var_54_1_m, 1, LOCAL(1),
+  var_std__times, 2, var_51_4_rr, var_54_6_m, 1, LOCAL(1),
   // !r rr*m+r
-  var_std__plus, 2, LOCAL(1), var_55_21_r, 1, var_55_21_r,
+  var_std__plus, 2, LOCAL(1), var_55_26_r, 1, var_55_26_r,
   // !m rm*m
-  var_std__times, 2, var_50_1_rm, var_54_1_m, 1, var_54_1_m,
+  var_std__times, 2, var_50_4_rm, var_54_6_m, 1, var_54_6_m,
   // $range_count m .div. n
-  var_div, 2, var_54_1_m, var_47_22_n, 1, var_58_1_range_count,
+  var_div, 2, var_54_6_m, var_47_23_n, 1, var_58_6_range_count,
   // $range_no r .div. n
-  var_div, 2, var_55_21_r, var_47_22_n, 1, var_59_1_range_no,
+  var_div, 2, var_55_26_r, var_47_23_n, 1, var_59_6_range_no,
   // range_no < range_count
-  var_std__less, 2, var_59_1_range_no, var_58_1_range_count, 1, LOCAL(1),
+  var_std__less, 2, var_59_6_range_no, var_58_6_range_count, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_1, lambda_2, TAIL_CALL,
   POS(54, 5),
@@ -118,11 +118,11 @@ static TAB_NUM t_lambda_1[] = {
   3, // locals
   0, // parameters
   // rng
-  LET, -2, var_47_18_rng, var_residual_modulus_of, var_58_1_range_count, var_residual_random_of, var_59_1_range_no, LOCAL(1),
+  LET, -2, var_47_19_rng, var_residual_modulus_of, var_58_6_range_count, var_residual_random_of, var_59_6_range_no, LOCAL(1),
   // n*range_no
-  var_std__times, 2, var_47_22_n, var_59_1_range_no, 1, LOCAL(2),
+  var_std__times, 2, var_47_23_n, var_59_6_range_no, 1, LOCAL(2),
   // r-n*range_no
-  var_std__minus, 2, var_55_21_r, LOCAL(2), 1, LOCAL(3),
+  var_std__minus, 2, var_55_26_r, LOCAL(2), 1, LOCAL(3),
   // 
   LET, 2, LOCAL(1), LOCAL(3), TAIL_CALL,
   POS(63, 9),
@@ -135,11 +135,11 @@ static TAB_NUM t_lambda_2[] = {
   1, // locals
   0, // parameters
   // $base range_count*n
-  var_std__times, 2, var_58_1_range_count, var_47_22_n, 1, LOCAL(1),
+  var_std__times, 2, var_58_6_range_count, var_47_23_n, 1, LOCAL(1),
   // !rm m-base
-  var_std__minus, 2, var_54_1_m, LOCAL(1), 1, var_50_1_rm,
+  var_std__minus, 2, var_54_6_m, LOCAL(1), 1, var_50_4_rm,
   // !rr r-base
-  var_std__minus, 2, var_55_21_r, LOCAL(1), 1, var_51_1_rr,
+  var_std__minus, 2, var_55_26_r, LOCAL(1), 1, var_51_4_rr,
   // add_more_random
   func_add_more_random, 0, TAIL_CALL,
   POS(68, 9),
@@ -152,11 +152,11 @@ static TAB_NUM t_lambda_3[] = {
   1, // locals
   0, // parameters
   // $range_count rm .div. n
-  var_div, 2, var_50_1_rm, var_47_22_n, 1, var_75_1_range_count,
+  var_div, 2, var_50_4_rm, var_47_23_n, 1, var_75_8_range_count,
   // $range_no rr .div. n
-  var_div, 2, var_51_1_rr, var_47_22_n, 1, var_76_1_range_no,
+  var_div, 2, var_51_4_rr, var_47_23_n, 1, var_76_8_range_no,
   // range_no < range_count
-  var_std__less, 2, var_76_1_range_no, var_75_1_range_count, 1, LOCAL(1),
+  var_std__less, 2, var_76_8_range_no, var_75_8_range_count, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_4, lambda_5, TAIL_CALL,
   POS(75, 7),
@@ -169,11 +169,11 @@ static TAB_NUM t_lambda_4[] = {
   3, // locals
   0, // parameters
   // rng
-  LET, -2, var_47_18_rng, var_residual_modulus_of, var_75_1_range_count, var_residual_random_of, var_76_1_range_no, LOCAL(1),
+  LET, -2, var_47_19_rng, var_residual_modulus_of, var_75_8_range_count, var_residual_random_of, var_76_8_range_no, LOCAL(1),
   // n*range_no
-  var_std__times, 2, var_47_22_n, var_76_1_range_no, 1, LOCAL(2),
+  var_std__times, 2, var_47_23_n, var_76_8_range_no, 1, LOCAL(2),
   // rr-n*range_no
-  var_std__minus, 2, var_51_1_rr, LOCAL(2), 1, LOCAL(3),
+  var_std__minus, 2, var_51_4_rr, LOCAL(2), 1, LOCAL(3),
   // 
   LET, 2, LOCAL(1), LOCAL(3), TAIL_CALL,
   POS(80, 11),
@@ -186,11 +186,11 @@ static TAB_NUM t_lambda_5[] = {
   1, // locals
   0, // parameters
   // $base range_count*n
-  var_std__times, 2, var_75_1_range_count, var_47_22_n, 1, LOCAL(1),
+  var_std__times, 2, var_75_8_range_count, var_47_23_n, 1, LOCAL(1),
   // !rm rm-base
-  var_std__minus, 2, var_50_1_rm, LOCAL(1), 1, var_50_1_rm,
+  var_std__minus, 2, var_50_4_rm, LOCAL(1), 1, var_50_4_rm,
   // !rr rr-base
-  var_std__minus, 2, var_51_1_rr, LOCAL(1), 1, var_51_1_rr,
+  var_std__minus, 2, var_51_4_rr, LOCAL(1), 1, var_51_4_rr,
   // add_more_random
   func_add_more_random, 0, TAIL_CALL,
   POS(85, 11),
@@ -202,12 +202,12 @@ static TAB_NUM t_lambda_5[] = {
 static TAB_NUM t_func_std_types__random_number_generator___next_value[] = {
   6, // locals
   2, // parameters
-  LOCAL(3), // 91_49_self
-  var_91_54_n,
+  LOCAL(3), // 91_50_self
+  var_91_55_n,
   // is_a_value_range
-  var_is_a_value_range, 1, var_91_54_n, 1, LOCAL(1),
+  var_is_a_value_range, 1, var_91_55_n, 1, LOCAL(1),
   // if $low $high
-  var_if, 3, LOCAL(1), var_91_54_n, lambda_6, 2, LOCAL(4), LOCAL(5),
+  var_if, 3, LOCAL(1), var_91_55_n, lambda_6, 2, LOCAL(4), LOCAL(5),
   // high+1-low
   var_std__plus, 2, LOCAL(5), num_1, 1, LOCAL(1),
   // high+1-low
@@ -231,7 +231,7 @@ static TAB_NUM t_lambda_6[] = {
   0, // locals
   0, // parameters
   //  1 n
-  LET, 2, num_1, var_91_54_n, TAIL_CALL,
+  LET, 2, num_1, var_91_55_n, TAIL_CALL,
   POS(95, 7)
 };
 
@@ -323,23 +323,23 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "47_18_rng\000", NULL
+    "47_19_rng\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "47_22_n\000", NULL
+    "47_23_n\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "50_1_rm\000", NULL
+    "50_4_rm\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "51_1_rr\000", NULL
+    "51_4_rr\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "54_1_m\000", NULL
+    "54_6_m\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
@@ -348,7 +348,7 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "55_21_r\000", NULL
+    "55_26_r\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
@@ -367,7 +367,7 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "58_1_range_count\000", NULL
+    "58_6_range_count\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
@@ -376,7 +376,7 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "59_1_range_no\000", NULL
+    "59_6_range_no\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
@@ -400,11 +400,11 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "75_1_range_count\000", NULL
+    "75_8_range_count\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "76_1_range_no\000", NULL
+    "76_8_range_no\000", NULL
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
@@ -413,7 +413,7 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "91_54_n\000", NULL
+    "91_55_n\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,

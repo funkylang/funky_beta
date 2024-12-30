@@ -38,8 +38,8 @@ enum {
   var_ceil, // extern polymorphic
   var_round, // extern polymorphic
   var_serialize, // extern polymorphic
-  var_83_0_self, // dynamic
-  var_84_0_indent, // dynamic
+  var_83_5_self, // dynamic
+  var_84_5_indent, // dynamic
   var_undefined, // extern
   var_to_string, // extern
   var_is_defined, // extern
@@ -48,8 +48,8 @@ enum {
   var_update_if, // extern
   var_push, // extern
   var_std_types__real, // extern
-  var_92_0_self, // dynamic
-  var_93_0_indent, // dynamic
+  var_92_5_self, // dynamic
+  var_93_5_indent, // dynamic
   var_contains, // extern
   var_not, // extern
   var__END
@@ -59,7 +59,7 @@ enum {
 static TAB_NUM t_func_std_types__number___floor[] = {
   1, // locals
   1, // parameters
-  LOCAL(1), // 61_0_self
+  LOCAL(1), // 61_5_self
   // -> self
   LET, 1, LOCAL(1), TAIL_CALL,
   POS(63, 3)
@@ -68,7 +68,7 @@ static TAB_NUM t_func_std_types__number___floor[] = {
 static TAB_NUM t_func_std_types__number___ceil[] = {
   1, // locals
   1, // parameters
-  LOCAL(1), // 69_0_self
+  LOCAL(1), // 69_5_self
   // -> self
   LET, 1, LOCAL(1), TAIL_CALL,
   POS(71, 3)
@@ -77,7 +77,7 @@ static TAB_NUM t_func_std_types__number___ceil[] = {
 static TAB_NUM t_func_std_types__number___round[] = {
   1, // locals
   1, // parameters
-  LOCAL(1), // 77_0_self
+  LOCAL(1), // 77_5_self
   // -> self
   LET, 1, LOCAL(1), TAIL_CALL,
   POS(79, 3)
@@ -86,16 +86,16 @@ static TAB_NUM t_func_std_types__number___round[] = {
 static TAB_NUM t_func_std_types__integer___serialize[] = {
   1, // locals
   -2, // parameters
-  MANDATORY_PARAMETER, var_83_0_self,
-  var_undefined, var_84_0_indent,
+  MANDATORY_PARAMETER, var_83_5_self,
+  var_undefined, var_84_5_indent,
   // to_string &self
-  var_to_string, 1, var_83_0_self, 1, var_83_0_self,
+  var_to_string, 1, var_83_5_self, 1, var_83_5_self,
   // is_defined &self -> append(tabs_and_spaces(indent) self)
-  var_is_defined, 1, var_84_0_indent, 1, LOCAL(1),
+  var_is_defined, 1, var_84_5_indent, 1, LOCAL(1),
   // update_if indent.is_defined &self -> append(tabs_and_spaces(indent) self)
-  var_update_if, 3, LOCAL(1), var_83_0_self, lambda_1, 1, var_83_0_self,
+  var_update_if, 3, LOCAL(1), var_83_5_self, lambda_1, 1, var_83_5_self,
   // push self '@nl;'
-  var_push, 2, var_83_0_self, chr_10, TAIL_CALL,
+  var_push, 2, var_83_5_self, chr_10, TAIL_CALL,
   POS(86, 3),
   POS(87, 20),
   POS(87, 3),
@@ -106,9 +106,9 @@ static TAB_NUM t_lambda_1[] = {
   2, // locals
   0, // parameters
   // tabs_and_spaces(indent) self)
-  var_tabs_and_spaces, 1, var_84_0_indent, 1, LOCAL(1),
+  var_tabs_and_spaces, 1, var_84_5_indent, 1, LOCAL(1),
   // append(tabs_and_spaces(indent) self)
-  var_append, 2, LOCAL(1), var_83_0_self, 1, LOCAL(2),
+  var_append, 2, LOCAL(1), var_83_5_self, 1, LOCAL(2),
   //  append(tabs_and_spaces(indent) self)
   LET, 1, LOCAL(2), TAIL_CALL,
   POS(87, 47),
@@ -119,22 +119,22 @@ static TAB_NUM t_lambda_1[] = {
 static TAB_NUM t_func_std_types__real___serialize[] = {
   2, // locals
   -2, // parameters
-  MANDATORY_PARAMETER, var_92_0_self,
-  var_undefined, var_93_0_indent,
+  MANDATORY_PARAMETER, var_92_5_self,
+  var_undefined, var_93_5_indent,
   // to_string &self
-  var_to_string, 1, var_92_0_self, 1, var_92_0_self,
+  var_to_string, 1, var_92_5_self, 1, var_92_5_self,
   // self .contains. '.') &self -> append(self ".0")
-  var_contains, 2, var_92_0_self, chr_46, 1, LOCAL(1),
+  var_contains, 2, var_92_5_self, chr_46, 1, LOCAL(1),
   // not(self .contains. '.') &self -> append(self ".0")
   var_not, 1, LOCAL(1), 1, LOCAL(2),
   // update_if not(self .contains. '.') &self -> append(self ".0")
-  var_update_if, 3, LOCAL(2), var_92_0_self, lambda_2, 1, var_92_0_self,
+  var_update_if, 3, LOCAL(2), var_92_5_self, lambda_2, 1, var_92_5_self,
   // is_defined &self -> append(tabs_and_spaces(indent) self)
-  var_is_defined, 1, var_93_0_indent, 1, LOCAL(1),
+  var_is_defined, 1, var_93_5_indent, 1, LOCAL(1),
   // update_if indent.is_defined &self -> append(tabs_and_spaces(indent) self)
-  var_update_if, 3, LOCAL(1), var_92_0_self, lambda_3, 1, var_92_0_self,
+  var_update_if, 3, LOCAL(1), var_92_5_self, lambda_3, 1, var_92_5_self,
   // push self '@nl;'
-  var_push, 2, var_92_0_self, chr_10, TAIL_CALL,
+  var_push, 2, var_92_5_self, chr_10, TAIL_CALL,
   POS(95, 3),
   POS(96, 17),
   POS(96, 13),
@@ -148,7 +148,7 @@ static TAB_NUM t_lambda_2[] = {
   1, // locals
   0, // parameters
   // append(self ".0")
-  var_append, 2, var_92_0_self, string_1, 1, LOCAL(1),
+  var_append, 2, var_92_5_self, string_1, 1, LOCAL(1),
   //  append(self ".0")
   LET, 1, LOCAL(1), TAIL_CALL,
   POS(96, 47),
@@ -159,9 +159,9 @@ static TAB_NUM t_lambda_3[] = {
   2, // locals
   0, // parameters
   // tabs_and_spaces(indent) self)
-  var_tabs_and_spaces, 1, var_93_0_indent, 1, LOCAL(1),
+  var_tabs_and_spaces, 1, var_93_5_indent, 1, LOCAL(1),
   // append(tabs_and_spaces(indent) self)
-  var_append, 2, LOCAL(1), var_92_0_self, 1, LOCAL(2),
+  var_append, 2, LOCAL(1), var_92_5_self, 1, LOCAL(2),
   //  append(tabs_and_spaces(indent) self)
   LET, 1, LOCAL(2), TAIL_CALL,
   POS(97, 47),
@@ -284,11 +284,11 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "83_0_self\000", NULL
+    "83_5_self\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "84_0_indent\000", NULL
+    "84_5_indent\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
@@ -332,11 +332,11 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "92_0_self\000", NULL
+    "92_5_self\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "93_0_indent\000", NULL
+    "93_5_indent\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,

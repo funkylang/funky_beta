@@ -66,12 +66,12 @@ enum {
   var_pass, // extern
   var_on_not, // extern polymorphic
   var_serialize, // extern polymorphic
-  var_633_0_indent, // dynamic
+  var_633_5_indent, // dynamic
   var_undefined, // extern
   var_is_defined, // extern
   var_tabs_and_spaces, // extern
   var_append, // extern
-  var_652_0_indent, // dynamic
+  var_652_5_indent, // dynamic
   var__END
 };
 
@@ -80,7 +80,7 @@ static TAB_NUM t_func_std_types__true___and[] = {
   2, // locals
   2, // parameters
   LOCAL(1),
-  LOCAL(2), // 396_0_right
+  LOCAL(2), // 396_5_right
   // right
   LOCAL(2), 0, TAIL_CALL,
   POS(398, 3)
@@ -110,7 +110,7 @@ static TAB_NUM t_func_std_types__false___or[] = {
   2, // locals
   2, // parameters
   LOCAL(1),
-  LOCAL(2), // 442_0_right
+  LOCAL(2), // 442_5_right
   // right
   LOCAL(2), 0, TAIL_CALL,
   POS(444, 3)
@@ -120,7 +120,7 @@ static TAB_NUM t_func_std_types__true___if[] = {
   2, // locals
   3, // parameters
   LOCAL(1),
-  LOCAL(2), // 457_0_then
+  LOCAL(2), // 457_5_then
   LOCAL(1),
   // then!
   LOCAL(2), 0, IO_TAIL_CALL,
@@ -132,7 +132,7 @@ static TAB_NUM t_func_std_types__false___if[] = {
   3, // parameters
   LOCAL(1),
   LOCAL(1),
-  LOCAL(2), // 474_0_else
+  LOCAL(2), // 474_5_else
   // else!
   LOCAL(2), 0, IO_TAIL_CALL,
   POS(476, 3)
@@ -143,7 +143,7 @@ static TAB_NUM t_func_std_types__true___if_not[] = {
   3, // parameters
   LOCAL(1),
   LOCAL(1),
-  LOCAL(2), // 490_0_else
+  LOCAL(2), // 490_5_else
   // else!
   LOCAL(2), 0, IO_TAIL_CALL,
   POS(492, 3)
@@ -153,7 +153,7 @@ static TAB_NUM t_func_std_types__false___if_not[] = {
   2, // locals
   3, // parameters
   LOCAL(1),
-  LOCAL(2), // 505_0_then
+  LOCAL(2), // 505_5_then
   LOCAL(1),
   // then!
   LOCAL(2), 0, IO_TAIL_CALL,
@@ -165,7 +165,7 @@ static TAB_NUM t_func_std_types__true___update_if[] = {
   -3, // parameters
   MANDATORY_PARAMETER, LOCAL(1),
   REST_PARAMETER, LOCAL(1),
-  MANDATORY_PARAMETER, LOCAL(2), // 520_0_body
+  MANDATORY_PARAMETER, LOCAL(2), // 520_5_body
   // body
   LOCAL(2), 0, TAIL_CALL,
   POS(522, 3)
@@ -175,7 +175,7 @@ static TAB_NUM t_func_std_types__false___update_if[] = {
   2, // locals
   -3, // parameters
   MANDATORY_PARAMETER, LOCAL(1),
-  REST_PARAMETER, LOCAL(2), // 533_0_values
+  REST_PARAMETER, LOCAL(2), // 533_5_values
   MANDATORY_PARAMETER, LOCAL(1),
   // spread values
   var_spread, 1, LOCAL(2), TAIL_CALL,
@@ -186,7 +186,7 @@ static TAB_NUM t_func_std_types__true___update_if_not[] = {
   2, // locals
   -3, // parameters
   MANDATORY_PARAMETER, LOCAL(1),
-  REST_PARAMETER, LOCAL(2), // 547_0_values
+  REST_PARAMETER, LOCAL(2), // 547_5_values
   MANDATORY_PARAMETER, LOCAL(1),
   // spread values
   var_spread, 1, LOCAL(2), TAIL_CALL,
@@ -198,7 +198,7 @@ static TAB_NUM t_func_std_types__false___update_if_not[] = {
   -3, // parameters
   MANDATORY_PARAMETER, LOCAL(1),
   REST_PARAMETER, LOCAL(1),
-  MANDATORY_PARAMETER, LOCAL(2), // 562_0_body
+  MANDATORY_PARAMETER, LOCAL(2), // 562_5_body
   // body
   LOCAL(2), 0, TAIL_CALL,
   POS(564, 3)
@@ -208,7 +208,7 @@ static TAB_NUM t_func_std_types__true___on[] = {
   2, // locals
   2, // parameters
   LOCAL(1),
-  LOCAL(2), // 577_0_action
+  LOCAL(2), // 577_5_action
   // action!
   LOCAL(2), 0, IO_TAIL_CALL,
   POS(579, 3)
@@ -238,7 +238,7 @@ static TAB_NUM t_func_std_types__false___on_not[] = {
   2, // locals
   2, // parameters
   LOCAL(1),
-  LOCAL(2), // 618_0_action
+  LOCAL(2), // 618_5_action
   // action!
   LOCAL(2), 0, IO_TAIL_CALL,
   POS(620, 3)
@@ -248,9 +248,9 @@ static TAB_NUM t_func_std_types__true___serialize[] = {
   1, // locals
   -2, // parameters
   MANDATORY_PARAMETER, LOCAL(1),
-  var_undefined, var_633_0_indent,
+  var_undefined, var_633_5_indent,
   // is_defined
-  var_is_defined, 1, var_633_0_indent, 1, LOCAL(1),
+  var_is_defined, 1, var_633_5_indent, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_1, lambda_2, TAIL_CALL,
   POS(637, 12),
@@ -261,7 +261,7 @@ static TAB_NUM t_lambda_1[] = {
   2, // locals
   0, // parameters
   // tabs_and_spaces(indent) str)
-  var_tabs_and_spaces, 1, var_633_0_indent, 1, LOCAL(1),
+  var_tabs_and_spaces, 1, var_633_5_indent, 1, LOCAL(1),
   // append(tabs_and_spaces(indent) str)
   var_append, 2, LOCAL(1), str_true, 1, LOCAL(2),
   //  append(tabs_and_spaces(indent) str)
@@ -283,9 +283,9 @@ static TAB_NUM t_func_std_types__false___serialize[] = {
   1, // locals
   -2, // parameters
   MANDATORY_PARAMETER, LOCAL(1),
-  var_undefined, var_652_0_indent,
+  var_undefined, var_652_5_indent,
   // is_defined
-  var_is_defined, 1, var_652_0_indent, 1, LOCAL(1),
+  var_is_defined, 1, var_652_5_indent, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_3, lambda_4, TAIL_CALL,
   POS(656, 12),
@@ -296,7 +296,7 @@ static TAB_NUM t_lambda_3[] = {
   2, // locals
   0, // parameters
   // tabs_and_spaces(indent) str)
-  var_tabs_and_spaces, 1, var_652_0_indent, 1, LOCAL(1),
+  var_tabs_and_spaces, 1, var_652_5_indent, 1, LOCAL(1),
   // append(tabs_and_spaces(indent) str)
   var_append, 2, LOCAL(1), str_false, 1, LOCAL(2),
   //  append(tabs_and_spaces(indent) str)
@@ -531,7 +531,7 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "633_0_indent\000", NULL
+    "633_5_indent\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
@@ -555,7 +555,7 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "652_0_indent\000", NULL
+    "652_5_indent\000", NULL
   }
 };
 
