@@ -2681,7 +2681,7 @@ static long std_types___uint8_array____debug_string
       indent, buf, "uint8");
   }
 
-static ulong uint8_array_scalar_product
+static unsigned long uint8_array_scalar_product
   (
     ARRAY_VIEW *left_view,
     UINT8_ARRAY_DATA *left_data,
@@ -2696,7 +2696,7 @@ static ulong uint8_array_scalar_product
     long first_left_index = left_view->dimensions[i].first_index;
     long first_right_index = right_view->dimensions[i].first_index;
     long width = left_view->dimensions[i].width;
-    ulong result = 0;
+    unsigned long result = 0;
     if (i == dimension_count-1) {
       // last dimension
       left_offset += first_left_index;
@@ -2941,7 +2941,7 @@ static long std_types___uint16_array____debug_string
       indent, buf, "uint16");
   }
 
-static ulong uint16_array_scalar_product
+static unsigned long uint16_array_scalar_product
   (
     ARRAY_VIEW *left_view,
     UINT16_ARRAY_DATA *left_data,
@@ -2956,7 +2956,7 @@ static ulong uint16_array_scalar_product
     long first_left_index = left_view->dimensions[i].first_index;
     long first_right_index = right_view->dimensions[i].first_index;
     long width = left_view->dimensions[i].width;
-    ulong result = 0;
+    unsigned long result = 0;
     if (i == dimension_count-1) {
       // last dimension
       left_offset += first_left_index;
@@ -3201,7 +3201,7 @@ static long std_types___uint32_array____debug_string
       indent, buf, "uint32");
   }
 
-static ulong uint32_array_scalar_product
+static unsigned long uint32_array_scalar_product
   (
     ARRAY_VIEW *left_view,
     UINT32_ARRAY_DATA *left_data,
@@ -3216,7 +3216,7 @@ static ulong uint32_array_scalar_product
     long first_left_index = left_view->dimensions[i].first_index;
     long first_right_index = right_view->dimensions[i].first_index;
     long width = left_view->dimensions[i].width;
-    ulong result = 0;
+    unsigned long result = 0;
     if (i == dimension_count-1) {
       // last dimension
       left_offset += first_left_index;
@@ -3461,7 +3461,7 @@ static long std_types___uint64_array____debug_string
       indent, buf, "uint64");
   }
 
-static ulong uint64_array_scalar_product
+static unsigned long uint64_array_scalar_product
   (
     ARRAY_VIEW *left_view,
     UINT64_ARRAY_DATA *left_data,
@@ -3476,7 +3476,7 @@ static ulong uint64_array_scalar_product
     long first_left_index = left_view->dimensions[i].first_index;
     long first_right_index = right_view->dimensions[i].first_index;
     long width = left_view->dimensions[i].width;
-    ulong result = 0;
+    unsigned long result = 0;
     if (i == dimension_count-1) {
       // last dimension
       left_offset += first_left_index;

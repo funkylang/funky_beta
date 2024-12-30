@@ -2301,7 +2301,7 @@ CODE
       long first_left_index = left_view->dimensions[i].first_index;
       long first_right_index = right_view->dimensions[i].first_index;
       long width = left_view->dimensions[i].width;
-      ulong result = 0;
+      unsigned long result = 0;
       if (i == dimension_count-1) {
 	// last dimension
 	left_offset += first_left_index;
