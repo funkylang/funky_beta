@@ -1074,7 +1074,7 @@ EXPORT int replay__action(const char *name) {
 }
 
 EXPORT void report__event(const char *name) {
-  io_occurred = true;
+  sdd->io_occurred = true;
   printf("report: %s\n", name);
 }
 
@@ -1669,6 +1669,8 @@ EXPORT __attribute__ ((noreturn)) void run(FUNKY_MODULE *module) {
     initialize_environment();
     make_existing_objects_static();
 
+    if (do_debug) sdd = create_snapshot();
+
     for (i = 0; i < funky_module_count; ++i) {
       FUNKY_MODULE *module = funky_modules[i];
       if (module->feature_flags & FEAT_INITIALIZER) {
@@ -1696,10 +1698,11 @@ EXPORT __attribute__ ((noreturn)) void run(FUNKY_MODULE *module) {
       TLS_myself = TLS_constants[TOPLEVEL];
       TLS_deny_io = 0;
       if (do_profile || do_trace || do_debug) {
-	if (do_break_after_initializers) {
-	  do_break_after_initializers = false;
-	  has_completed_initializers = true;
-	  break_at = instruction_counter+2; // skip "toplevel" and "wrapper"
+	if (sdd->do_break_after_initializers) {
+	  sdd->do_break_after_initializers = false;
+	  sdd->has_completed_initializers = true;
+	  sdd->break_at = instruction_counter+2;
+	    // skip "toplevel" and "wrapper"
 	}
 	profiler();
       } else {

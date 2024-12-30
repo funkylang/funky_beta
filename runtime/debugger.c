@@ -29,6 +29,7 @@
 #include <sys/mman.h>
 #include <setjmp.h>
 #include <unistd.h>
+#include <sys/prctl.h>
 #include <sys/types.h>
 #include <sys/wait.h>
 
@@ -39,23 +40,15 @@
 #include "memory.h"
 #include "interpreter.h"
 #include "profiler.h"
+#include "debugger.h"
 
 #if !defined(MAP_ANONYMOUS) && defined(MAP_ANON)
   #define MAP_ANONYMOUS MAP_ANON
 #endif
 
-extern jmp_buf main_loop_start;
-
 EXPORT int do_debug = false;
-EXPORT int do_break_after_initializers = false;
-EXPORT long break_at = 0;
-EXPORT FRAME *break_frame = 0;
-EXPORT int has_completed_initializers = false;
-EXPORT const TAB_NUM *break_code_start;
-EXPORT const TAB_NUM *break_code_end;
-EXPORT int io_occurred = false;
-EXPORT int break_on_return = false;
-EXPORT int break_on_io = false;
+
+EXPORT SHARED_DEBUG_DATA *sdd;
 
 static int is_identifier_character(char chr) {
   return
@@ -233,18 +226,43 @@ EXPORT void retrieve_continuation_info(
   *function_name_p = "<unknown>";
 }
 
-char last_cmd[256] = "";
-
 long prev_instruction_pointer = -1;
+
+#define RESPAWN 47
+
+SHARED_DEBUG_DATA *create_snapshot() {
+  SHARED_DEBUG_DATA *sd = mmap(
+    NULL, sizeof(SHARED_DEBUG_DATA),
+    PROT_READ|PROT_WRITE,
+    MAP_ANONYMOUS|MAP_SHARED,
+    0, 0);
+  memset(sd, 0, sizeof(SHARED_DEBUG_DATA));
+  while (true) {
+    int pid = fork();
+    if (pid == 0){
+      prctl(PR_SET_PDEATHSIG, SIGKILL);
+	// kill the child process if the parent process is killed
+      return sd; // let the child process do the actual work
+    }
+    if (pid < 0) {
+      unrecoverable_error("Failed to fork a child process for debugging!");
+    }
+    int status;
+    waitpid(pid, &status, 0);
+    fprintf(stderr, "Child process %d exited with status %d\n", pid, status);
+    if (WEXITSTATUS(status) != RESPAWN) exit(status);
+    fprintf(stderr, "break at: %ld\n", sd->break_at);
+  }
+}
 
 void debug() {
   char cmd[256];
   //printf("!%p (%p..%p)\n", TLS_code, function_code_start, function_code_end);
-  io_occurred = false;
-  break_on_io = false;
-  break_on_return = false;
-  break_code_start = NULL;
-  break_code_end = NULL;
+  sdd->io_occurred = false;
+  sdd->break_on_io = false;
+  sdd->break_on_return = false;
+  sdd->break_code_start = NULL;
+  sdd->break_code_end = NULL;
   print_prompt:
   if (instruction_counter != prev_instruction_pointer) {
     prev_instruction_pointer = instruction_counter;
@@ -260,18 +278,18 @@ void debug() {
   }
   if (i < 256) {
     if (i == 0) {
-      if (*last_cmd) {
-	strcpy(cmd, last_cmd);
+      if (*sdd->last_cmd) {
+	strcpy(cmd, sdd->last_cmd);
       } else goto print_prompt;
     } else {
       cmd[i] = 0;
-      strcpy(last_cmd, cmd);
+      strcpy(sdd->last_cmd, cmd);
     }
     switch (cmd[0]) {
       case 'c': // continue forwards
 	break;
       case 'e' : // exit function
-	break_on_return = true;
+	sdd->break_on_return = true;
 	break;
       case 'l': // list
 	switch (cmd[1]) {
@@ -288,17 +306,17 @@ void debug() {
 	    goto print_prompt;
 	}
       case 'i': // continue until next I/O-operation
-	break_on_io = true;
+	sdd->break_on_io = true;
 	break;
       case 'I': // skip initializers
-	if (has_completed_initializers) goto print_prompt;
-	do_break_after_initializers = true;
+	if (sdd->has_completed_initializers) goto print_prompt;
+	sdd->do_break_after_initializers = true;
 	break;
       case 'n' : // step over
-	break_frame = TLS_frame->link;
-	break_code_start = function_code_start;
-	break_code_end = function_code_end;
-	break_on_return = true;
+	sdd->break_frame = TLS_frame->link;
+	sdd->break_code_start = function_code_start;
+	sdd->break_code_end = function_code_end;
+	sdd->break_on_return = true;
 	break;
       case 'p': // print
 	{
@@ -336,8 +354,15 @@ void debug() {
 	  goto print_prompt;
 	}
       case 's': // step into
-	break_at = instruction_counter+1;
+	sdd->break_at = instruction_counter+1;
 	break;
+      case 'S' : // step into backwards
+	if (instruction_counter == 0) {
+	  printf("E:Already at the beginning of the program!\n");
+	  goto print_prompt;
+	}
+	sdd->break_at = instruction_counter-1;
+	exit(RESPAWN);
       case 't': // dump stack trace
 	{
 	  const char *module_name, *function_name;

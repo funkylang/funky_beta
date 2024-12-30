@@ -78,7 +78,9 @@ $RUN .
 $START_OR_STOP_DEBUGGING .
 $EXIT_FUNCTION .
 $STEP_INTO .
+$STEP_INTO_BACKWARDS .
 $STEP_OVER .
+$STEP_OVER_BACKWARDS .
 $SKIP_INITIALIZERS .
 $RUN_TO_CURSOR .
 $TOGGLE_BREAKPOINT .
@@ -96,7 +98,9 @@ $ADD_OR_REMOVE_WATCH .
 	  "Run (shift-F9)" = RUN
 	  "Start or stop debugging (ctrl-F9)" = START_OR_STOP_DEBUGGING
 	  "Step into (F7)" = STEP_INTO
+	  "Step into backwards (shift-F7)" = STEP_INTO_BACKWARDS
 	  "Step over (F8)" = STEP_OVER
+	  "Step over backwards (shift-F8)" = STEP_OVER_BACKWARDS
 	  "Skip initializers (ctrl-F8)" = SKIP_INITIALIZERS
 	  "Run to cursor (F4)" = RUN_TO_CURSOR
 	  "Exit function (F6)" = EXIT_FUNCTION
@@ -121,9 +125,12 @@ append &help_sections
 !default_configuration.commands_of(CTRL_F9) "start_or_stop_debugging"
 !default_configuration.commands_of(STEP_INTO) "step_into"
 !default_configuration.commands_of(F7) "step_into"
-!default_configuration.commands_of(STEP_OVER) "step_over"
+!default_configuration.commands_of(STEP_INTO_BACKWARDS) "step_into_backwards"
+!default_configuration.commands_of(SHIFT_F7) "step_into_backwards"
 !default_configuration.commands_of(STEP_OVER) "step_over"
 !default_configuration.commands_of(F8) "step_over"
+!default_configuration.commands_of(STEP_OVER_BACKWARDS) "step_over_backwards"
+!default_configuration.commands_of(SHIFT_F8) "step_over_backwards"
 !default_configuration.commands_of(SKIP_INITIALIZERS) "skip_initializers"
 !default_configuration.commands_of(CTRL_F8) "skip_initializers"
 !default_configuration.commands_of(RUN_TO_CURSOR) "run_to_cursor"
@@ -140,14 +147,16 @@ append &help_sections
 !functions("run_program") tuple(run_program IO)
 !functions("start_or_stop_debugging") tuple(start_or_stop_debugging IO)
 !functions("step_into") tuple(step_into IO)
+!functions("step_into_backwards") tuple(step_into_backwards IO)
 !functions("step_over") tuple(step_over IO)
+!functions("step_over_backwards") tuple(step_over_backwards IO)
 !functions("skip_initializers") tuple(skip_initializers IO)
 !functions("run_to_cursor") tuple(run_to_cursor IO)
 !functions("exit_function") tuple(exit_function IO)
 !functions("toggle_breakpoint") tuple(toggle_breakpoint IO)
 !functions("add_or_remove_watch") tuple(add_or_remove_watch IO)
 
-!double_click_action context_help
+!double_click_action context_help_or_add_or_remove_watch
 
 push &plugins symbol_plugin
 
@@ -591,6 +600,19 @@ $step_into: (io state _x _y _lines _info)
 	s
       -> io state
 
+$step_into_backwards: (io state _x _y _lines _info)
+  $debug_fd debug_fd_of(state)
+  if
+    debug_fd.is_undefined:
+      show_warning_message &state DEBUG "
+	You can't step into backwards in a program that is not being debugged!
+      -> io state
+    :
+      log &io 3 "step into backwards"
+      write &io debug_fd "
+	S
+      -> io state
+
 $step_over: (io state _x _y _lines _info)
   $debug_fd debug_fd_of(state)
   if
@@ -602,6 +624,19 @@ $step_over: (io state _x _y _lines _info)
       log &io 3 "step over"
       write &io debug_fd "
 	n
+      -> io state
+
+$step_over_backwards: (io state _x _y _lines _info)
+  $debug_fd debug_fd_of(state)
+  if
+    debug_fd.is_undefined:
+      show_warning_message &state DEBUG "
+	You can't step over backwards in a program that is not being debugged!
+      -> io state
+    :
+      log &io 3 "step over backwards"
+      write &io debug_fd "
+	N
       -> io state
 
 $skip_initializers: (io state x y lines info)
@@ -671,7 +706,6 @@ $add_or_remove_watch: (io state x y lines _info)
 		without_prefix
 		  without_suffix(filename_of(page) ".fky")
 		  until(executable_of(state) '/' -1)
-	    debug::dump `identifier
 	    get_mangled_variable_name lines_of(page)
 	      x y identifier module_prefix
 	  if
@@ -706,6 +740,13 @@ $add_or_remove_watch: (io state x y lines _info)
 		  p @(identifier)
 		-> io state
 	    -> io state
+
+$context_help_or_add_or_remove_watch: (io state x y lines info)
+  if
+    debug_fd_of(state).is_defined:
+      add_or_remove_watch io state x y lines info
+    :
+      context_help io state x y lines info
 
 # Watch Page
 

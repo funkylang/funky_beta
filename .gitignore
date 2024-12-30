@@ -23,6 +23,10 @@ compiler/configuration.fky
 *~*
 s[0-9]*
 !basic/**/*.c
+!runtime
+!runtime/*.c
+!runtime/*.h
+runtime/platform.h
 examples
 Makefile
 adv2.fky

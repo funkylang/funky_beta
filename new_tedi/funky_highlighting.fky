@@ -2068,9 +2068,10 @@ $annotate_single_node: (node)
     continuation
 
 $fde::get_mangled_variable_name: (tree _x y identifier module_prefix)
-  #debug::dump 2 `local_definitions_of(tree)
-  $mangled_name get_definition(nodes_of(tree) y 0)
-  -> mangled_name
+  if
+    local_definitions_of(tree)(identifier).is_defined
+    -> append(module_prefix "::" identifier)
+    -> get_definition(nodes_of(tree) y 0)
 
   $get_definition: (lines no offset)
     $idx 1

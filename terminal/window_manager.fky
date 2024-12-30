@@ -814,7 +814,10 @@ $layout_windows: (wm)
       count
 	windows
 	: (window)
-	  -> not(window.is_minimized) || id_of(window) == focused
+	  not
+	    ||
+	      size_of(window).is_defined
+	      window.is_minimized && not(id_of(window) == focused)
     $fixed_size_windows
       filter(windows: (window) -> size_of(window).is_defined)
     minus &available_height

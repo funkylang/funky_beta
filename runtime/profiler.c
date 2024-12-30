@@ -433,14 +433,14 @@ void profiler(void) {
   if (
     do_debug &&
     (
-      instruction_counter == break_at ||
-      break_on_return && TLS_frame->link > break_frame ||
+      instruction_counter == sdd->break_at ||
+      sdd->break_on_return && TLS_frame->link > sdd->break_frame ||
       (
-	break_code_start &&
-	TLS_code >= break_code_start &&
-	TLS_code < break_code_end
+	sdd->break_code_start &&
+	TLS_code >= sdd->break_code_start &&
+	TLS_code < sdd->break_code_end
       ) ||
-      break_on_io && io_occurred
+      sdd->break_on_io && sdd->io_occurred
     )
   ) debug();
   ++instruction_counter;
