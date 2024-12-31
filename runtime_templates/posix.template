@@ -3094,26 +3094,30 @@ FUNCTION std::shm_unlink
   {
     CHECK_ARGUMENTS(1)
     CHECK_IO_ACCESS_RIGHTS
-    char *filename = NULL;
-    int result;
-    if (!to_c_string(ARGUMENTS(0), &filename)) goto cleanup;
-    ACTION(shm_unlink)
-      result = shm_unlink(filename);
-    INFO
-      C_STRING(filename)
-      INT(result)
-    DATA
-      INT(result)
-    END
-    if (result == -1) {
-      create_error_message(
-	module__builtin.constants_base[unique__std___IO_ERROR-1],
-	"SHM_UNLINK FAILED", errno, 0, NULL);
-    } else {
-      PREPARE_NO_RESULT
-    }
-    cleanup:
-    deallocate_memory(filename);
+    #ifdef __ANDROID__
+      RUNTIME_ERROR("shm_unlink is not supported on Android!")
+    #else
+      char *filename = NULL;
+      int result;
+      if (!to_c_string(ARGUMENTS(0), &filename)) goto cleanup;
+      ACTION(shm_unlink)
+	result = shm_unlink(filename);
+      INFO
+	C_STRING(filename)
+	INT(result)
+      DATA
+	INT(result)
+      END
+      if (result == -1) {
+	create_error_message(
+	  module__builtin.constants_base[unique__std___IO_ERROR-1],
+	  "SHM_UNLINK FAILED", errno, 0, NULL);
+      } else {
+	PREPARE_NO_RESULT
+      }
+      cleanup:
+      deallocate_memory(filename);
+    #endif
   }
 
 FUNCTION std::usleep

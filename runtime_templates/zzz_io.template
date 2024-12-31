@@ -1259,32 +1259,36 @@ FUNCTION std::create_shared_memory
   {
     CHECK_ARGUMENTS(2)
     CHECK_IO_ACCESS_RIGHTS
-    char *filename = NULL;
-    long size;
-    int fd;
-    if (!to_c_string(ARGUMENTS(0), &filename)) goto cleanup;
-    if (!to_long(ARGUMENTS(1), &size)) goto cleanup;
-    fd = shm_open(filename, O_RDWR|O_CREAT|O_TRUNC|O_EXCL, 0600);
-    if (fd == -1) {
-      create_error_message(
-	module__builtin.constants_base[unique__std___IO_ERROR-1],
-	"SHM_OPEN FAILED", errno, 0, NULL);
-      goto cleanup;
-    }
-    if (ftruncate(fd, size) == -1) {
-      create_error_message(
-	module__builtin.constants_base[unique__std___IO_ERROR-1],
-	"FTRUNCATE FAILED", errno, 0, NULL);
-      goto cleanup;
-    }
-    void *buf = mmap(NULL, size, PROT_READ|PROT_WRITE, MAP_SHARED, fd, 0);
-    if (buf == MAP_FAILED) {
-      create_error_message(
-	module__builtin.constants_base[unique__std___IO_ERROR-1],
-	"MMAP FAILED", errno, 0, NULL);
-      goto cleanup;
-    }
-    PREPARE_SINGLE_RESULT(CREATE(std_types::shared_memory, fd, size, buf))
-    cleanup:
-    deallocate_memory(filename);
+    #ifdef __ANDROID__
+      RUNTIME_ERROR("Shared memory is not supported on Android!")
+    #else
+      char *filename = NULL;
+      long size;
+      int fd;
+      if (!to_c_string(ARGUMENTS(0), &filename)) goto cleanup;
+      if (!to_long(ARGUMENTS(1), &size)) goto cleanup;
+      fd = shm_open(filename, O_RDWR|O_CREAT|O_TRUNC|O_EXCL, 0600);
+      if (fd == -1) {
+	create_error_message(
+	  module__builtin.constants_base[unique__std___IO_ERROR-1],
+	  "SHM_OPEN FAILED", errno, 0, NULL);
+	goto cleanup;
+      }
+      if (ftruncate(fd, size) == -1) {
+	create_error_message(
+	  module__builtin.constants_base[unique__std___IO_ERROR-1],
+	  "FTRUNCATE FAILED", errno, 0, NULL);
+	goto cleanup;
+      }
+      void *buf = mmap(NULL, size, PROT_READ|PROT_WRITE, MAP_SHARED, fd, 0);
+      if (buf == MAP_FAILED) {
+	create_error_message(
+	  module__builtin.constants_base[unique__std___IO_ERROR-1],
+	  "MMAP FAILED", errno, 0, NULL);
+	goto cleanup;
+      }
+      PREPARE_SINGLE_RESULT(CREATE(std_types::shared_memory, fd, size, buf))
+      cleanup:
+      deallocate_memory(filename);
+    #endif
   }

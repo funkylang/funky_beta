@@ -23304,38 +23304,47 @@ static void entry__std___shm_unlink (void)
       missing_io_access_rights();
       return;
     }
-    char *filename = NULL;
-    int result;
-    if (!to_c_string(TLS_arguments[0], &filename)) goto cleanup;
-    if (event__mode != EM__REPLAY) {
-      result = shm_unlink(filename);
-      if (event__mode == EM__RECORD) {
-        if (result == 0) {
-            successful__action("shm_unlink");
-          } else {
-            failed__action("shm_unlink");
-            store__integer(result);
-          }
-        }
-      } else {
-        if (replay__action("shm_unlink")) {
-          retrieve__integer(&result);
-      } else {
-          result = 0;
+    #ifdef __ANDROID__
+      {
+        create_error_message(
+          module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+          "shm_unlink is not supported on Android!", 0, 0, NULL);
+        return;
       }
-        report__event("shm_unlink");
-          print__c_string(filename);
-          print__integer(result);
-    }
-    if (result == -1) {
-      create_error_message(
-	module__builtin.constants_base[unique__std___IO_ERROR-1],
-	"SHM_UNLINK FAILED", errno, 0, NULL);
-    } else {
-      TLS_argument_count = 0;
-    }
-    cleanup:
-    deallocate_memory(filename);
+    #else
+      char *filename = NULL;
+      int result;
+      if (!to_c_string(TLS_arguments[0], &filename)) goto cleanup;
+      if (event__mode != EM__REPLAY) {
+	result = shm_unlink(filename);
+        if (event__mode == EM__RECORD) {
+	  if (result == 0) {
+	      successful__action("shm_unlink");
+	    } else {
+	      failed__action("shm_unlink");
+	      store__integer(result);
+	    }
+          }
+        } else {
+          if (replay__action("shm_unlink")) {
+            retrieve__integer(&result);
+        } else {
+            result = 0;
+        }
+          report__event("shm_unlink");
+            print__c_string(filename);
+            print__integer(result);
+      }
+      if (result == -1) {
+	create_error_message(
+	  module__builtin.constants_base[unique__std___IO_ERROR-1],
+	  "SHM_UNLINK FAILED", errno, 0, NULL);
+      } else {
+	TLS_argument_count = 0;
+      }
+      cleanup:
+      deallocate_memory(filename);
+    #endif
   }
 
 static void entry__std___usleep (void)
@@ -27108,38 +27117,47 @@ static void entry__std___create_shared_memory (void)
       missing_io_access_rights();
       return;
     }
-    char *filename = NULL;
-    long size;
-    int fd;
-    if (!to_c_string(TLS_arguments[0], &filename)) goto cleanup;
-    if (!to_long(TLS_arguments[1], &size)) goto cleanup;
-    fd = shm_open(filename, O_RDWR|O_CREAT|O_TRUNC|O_EXCL, 0600);
-    if (fd == -1) {
-      create_error_message(
-	module__builtin.constants_base[unique__std___IO_ERROR-1],
-	"SHM_OPEN FAILED", errno, 0, NULL);
-      goto cleanup;
-    }
-    if (ftruncate(fd, size) == -1) {
-      create_error_message(
-	module__builtin.constants_base[unique__std___IO_ERROR-1],
-	"FTRUNCATE FAILED", errno, 0, NULL);
-      goto cleanup;
-    }
-    void *buf = mmap(NULL, size, PROT_READ|PROT_WRITE, MAP_SHARED, fd, 0);
-    if (buf == MAP_FAILED) {
-      create_error_message(
-	module__builtin.constants_base[unique__std___IO_ERROR-1],
-	"MMAP FAILED", errno, 0, NULL);
-      goto cleanup;
-    }
-    {
-      NODE *result__node = (NODE *)(create__std_types___shared_memory(fd, size, buf));
-      TLS_arguments[0] = result__node;
-      TLS_argument_count = 1;
-    }
-    cleanup:
-    deallocate_memory(filename);
+    #ifdef __ANDROID__
+      {
+        create_error_message(
+          module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+          "Shared memory is not supported on Android!", 0, 0, NULL);
+        return;
+      }
+    #else
+      char *filename = NULL;
+      long size;
+      int fd;
+      if (!to_c_string(TLS_arguments[0], &filename)) goto cleanup;
+      if (!to_long(TLS_arguments[1], &size)) goto cleanup;
+      fd = shm_open(filename, O_RDWR|O_CREAT|O_TRUNC|O_EXCL, 0600);
+      if (fd == -1) {
+	create_error_message(
+	  module__builtin.constants_base[unique__std___IO_ERROR-1],
+	  "SHM_OPEN FAILED", errno, 0, NULL);
+	goto cleanup;
+      }
+      if (ftruncate(fd, size) == -1) {
+	create_error_message(
+	  module__builtin.constants_base[unique__std___IO_ERROR-1],
+	  "FTRUNCATE FAILED", errno, 0, NULL);
+	goto cleanup;
+      }
+      void *buf = mmap(NULL, size, PROT_READ|PROT_WRITE, MAP_SHARED, fd, 0);
+      if (buf == MAP_FAILED) {
+	create_error_message(
+	  module__builtin.constants_base[unique__std___IO_ERROR-1],
+	  "MMAP FAILED", errno, 0, NULL);
+	goto cleanup;
+      }
+      {
+        NODE *result__node = (NODE *)(create__std_types___shared_memory(fd, size, buf));
+        TLS_arguments[0] = result__node;
+        TLS_argument_count = 1;
+      }
+      cleanup:
+      deallocate_memory(filename);
+    #endif
   }
 
 static FUNKY_NAMESPACE defined_namespaces[] = {
