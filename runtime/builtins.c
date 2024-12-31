@@ -21303,7 +21303,7 @@ static void entry__std___access (void)
       return;
     }
     char *filename = NULL;
-    char *mode_str;
+    char *mode_str = NULL;
     int mode;
     int result;
     if (!to_c_string(TLS_arguments[0], &filename)) goto cleanup;

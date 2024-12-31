@@ -1623,7 +1623,7 @@ FUNCTION std::access
     CHECK_ARGUMENTS(2)
     CHECK_IO_ACCESS_RIGHTS
     char *filename = NULL;
-    char *mode_str;
+    char *mode_str = NULL;
     int mode;
     int result;
     if (!to_c_string(ARGUMENTS(0), &filename)) goto cleanup;
