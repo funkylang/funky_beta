@@ -396,7 +396,13 @@ static TAB_NUM t_func_std__get_options[] = {
   // for_each templates
   var_for_each, 3, LOCAL(1), lambda_1, lambda_7, TAIL_CALL,
   POS(149, 3),
-  POS(150, 3)
+  POS(150, 3),
+  LOCAL(1)
+};
+
+static FUNCTION_INFO i_func_std__get_options = {
+  t_func_std__get_options, NULL, 2, 1,
+  {"147_5_templates\000"}
 };
 
 static TAB_NUM t_lambda_1[] = {
@@ -408,7 +414,13 @@ static TAB_NUM t_lambda_1[] = {
   // for_each options
   var_for_each, 3, var_146_5_options, lambda_2, lambda_6, TAIL_CALL,
   POS(152, 7),
-  POS(153, 7)
+  POS(153, 7),
+  LOCAL(1)
+};
+
+static FUNCTION_INFO i_lambda_1 = {
+  t_lambda_1, NULL, 2, 1,
+  {"151_8_template\000"}
 };
 
 static TAB_NUM t_lambda_2[] = {
@@ -423,6 +435,11 @@ static TAB_NUM t_lambda_2[] = {
   POS(155, 11)
 };
 
+static FUNCTION_INFO i_lambda_2 = {
+  t_lambda_2, NULL, 2, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_option_is_a_unique_item[] = {
   1, // locals
   0, // parameters
@@ -432,6 +449,11 @@ static TAB_NUM t_lambda_option_is_a_unique_item[] = {
   var_if, 3, LOCAL(1), lambda_3, var_next, TAIL_CALL,
   POS(158, 17),
   POS(157, 15)
+};
+
+static FUNCTION_INFO i_lambda_option_is_a_unique_item = {
+  t_lambda_option_is_a_unique_item, NULL, 2, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_3[] = {
@@ -445,6 +467,11 @@ static TAB_NUM t_lambda_3[] = {
   POS(160, 19)
 };
 
+static FUNCTION_INFO i_lambda_3 = {
+  t_lambda_3, NULL, 2, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_4[] = {
   2, // locals
   0, // parameters
@@ -456,7 +483,13 @@ static TAB_NUM t_lambda_4[] = {
   var_if, 3, LOCAL(1), lambda_5, var_next, TAIL_CALL,
   POS(163, 15),
   POS(165, 17),
-  POS(164, 15)
+  POS(164, 15),
+  LOCAL(2)
+};
+
+static FUNCTION_INFO i_lambda_4 = {
+  t_lambda_4, NULL, 3, 1,
+  {"163_23_key\000"}
 };
 
 static TAB_NUM t_lambda_5[] = {
@@ -470,6 +503,11 @@ static TAB_NUM t_lambda_5[] = {
   POS(167, 19)
 };
 
+static FUNCTION_INFO i_lambda_5 = {
+  t_lambda_5, NULL, 2, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_6[] = {
   0, // locals
   0, // parameters
@@ -481,12 +519,22 @@ static TAB_NUM t_lambda_6[] = {
   POS(171, 11)
 };
 
+static FUNCTION_INFO i_lambda_6 = {
+  t_lambda_6, NULL, 2, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_7[] = {
   0, // locals
   0, // parameters
   // spread results
   var_spread, 1, var_149_4_results, TAIL_CALL,
   POS(173, 7)
+};
+
+static FUNCTION_INFO i_lambda_7 = {
+  t_lambda_7, NULL, 1, 0,
+  {}
 };
 
 static TAB_NUM t_func_std__extract_options[] = {
@@ -502,7 +550,13 @@ static TAB_NUM t_func_std__extract_options[] = {
   var_for_each, 3, LOCAL(1), lambda_8, lambda_14, TAIL_CALL,
   POS(185, 3),
   POS(186, 3),
-  POS(187, 3)
+  POS(187, 3),
+  LOCAL(1)
+};
+
+static FUNCTION_INFO i_func_std__extract_options = {
+  t_func_std__extract_options, NULL, 3, 1,
+  {"183_5_templates\000"}
 };
 
 static TAB_NUM t_lambda_8[] = {
@@ -514,7 +568,13 @@ static TAB_NUM t_lambda_8[] = {
   // for_each arguments
   var_for_each, 3, var_182_5_arguments, lambda_9, lambda_13, TAIL_CALL,
   POS(189, 7),
-  POS(190, 7)
+  POS(190, 7),
+  LOCAL(1)
+};
+
+static FUNCTION_INFO i_lambda_8 = {
+  t_lambda_8, NULL, 2, 1,
+  {"188_8_template\000"}
 };
 
 static TAB_NUM t_lambda_9[] = {
@@ -530,6 +590,11 @@ static TAB_NUM t_lambda_9[] = {
   POS(192, 11)
 };
 
+static FUNCTION_INFO i_lambda_9 = {
+  t_lambda_9, NULL, 2, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_argument_is_a_unique_item[] = {
   1, // locals
   0, // parameters
@@ -539,6 +604,11 @@ static TAB_NUM t_lambda_argument_is_a_unique_item[] = {
   var_if, 3, LOCAL(1), lambda_10, var_next, TAIL_CALL,
   POS(195, 17),
   POS(194, 15)
+};
+
+static FUNCTION_INFO i_lambda_argument_is_a_unique_item = {
+  t_lambda_argument_is_a_unique_item, NULL, 2, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_10[] = {
@@ -555,6 +625,11 @@ static TAB_NUM t_lambda_10[] = {
   POS(198, 19)
 };
 
+static FUNCTION_INFO i_lambda_10 = {
+  t_lambda_10, NULL, 3, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_11[] = {
   1, // locals
   0, // parameters
@@ -564,6 +639,11 @@ static TAB_NUM t_lambda_11[] = {
   var_if, 3, LOCAL(1), lambda_argument_is_a_tuple, var_next, TAIL_CALL,
   POS(202, 26),
   POS(201, 15)
+};
+
+static FUNCTION_INFO i_lambda_11 = {
+  t_lambda_11, NULL, 2, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_argument_is_a_tuple[] = {
@@ -577,7 +657,13 @@ static TAB_NUM t_lambda_argument_is_a_tuple[] = {
   var_if, 3, LOCAL(1), lambda_12, var_next, TAIL_CALL,
   POS(203, 19),
   POS(205, 21),
-  POS(204, 19)
+  POS(204, 19),
+  LOCAL(2)
+};
+
+static FUNCTION_INFO i_lambda_argument_is_a_tuple = {
+  t_lambda_argument_is_a_tuple, NULL, 3, 1,
+  {"203_29_key\000"}
 };
 
 static TAB_NUM t_lambda_12[] = {
@@ -594,6 +680,11 @@ static TAB_NUM t_lambda_12[] = {
   POS(208, 23)
 };
 
+static FUNCTION_INFO i_lambda_12 = {
+  t_lambda_12, NULL, 3, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_13[] = {
   0, // locals
   0, // parameters
@@ -603,6 +694,11 @@ static TAB_NUM t_lambda_13[] = {
   var_next, 0, TAIL_CALL,
   POS(212, 11),
   POS(213, 11)
+};
+
+static FUNCTION_INFO i_lambda_13 = {
+  t_lambda_13, NULL, 2, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_14[] = {
@@ -616,6 +712,11 @@ static TAB_NUM t_lambda_14[] = {
   POS(216, 7)
 };
 
+static FUNCTION_INFO i_lambda_14 = {
+  t_lambda_14, NULL, 2, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_15[] = {
   2, // locals
   2, // parameters
@@ -626,7 +727,13 @@ static TAB_NUM t_lambda_15[] = {
   // if
   var_if, 3, LOCAL(1), var_next, lambda_16, TAIL_CALL,
   POS(219, 13),
-  POS(218, 11)
+  POS(218, 11),
+  LOCAL(2)
+};
+
+static FUNCTION_INFO i_lambda_15 = {
+  t_lambda_15, NULL, 2, 1,
+  {"217_12_idx\000"}
 };
 
 static TAB_NUM t_lambda_16[] = {
@@ -640,6 +747,11 @@ static TAB_NUM t_lambda_16[] = {
   POS(223, 15)
 };
 
+static FUNCTION_INFO i_lambda_16 = {
+  t_lambda_16, NULL, 2, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_17[] = {
   0, // locals
   0, // parameters
@@ -651,13 +763,24 @@ static TAB_NUM t_lambda_17[] = {
   POS(226, 11)
 };
 
+static FUNCTION_INFO i_lambda_17 = {
+  t_lambda_17, NULL, 2, 0,
+  {}
+};
+
 static TAB_NUM t_func_std__program_parameters[] = {
   1, // locals
   -1, // parameters
   REST_PARAMETER, LOCAL(1), // 267_5_templates
   // check_arguments! command_line_arguments templates
   func_check_arguments, 2, var_command_line_arguments, LOCAL(1), IO_TAIL_CALL,
-  POS(269, 3)
+  POS(269, 3),
+  LOCAL(1)
+};
+
+static FUNCTION_INFO i_func_std__program_parameters = {
+  t_func_std__program_parameters, NULL, 1, 1,
+  {"267_5_templates\000"}
 };
 
 static TAB_NUM t_func_display_table[] = {
@@ -672,7 +795,13 @@ static TAB_NUM t_func_display_table[] = {
   var_for_each, 3, LOCAL(1), lambda_19, var_pass, IO_TAIL_CALL,
   POS(272, 3),
   POS(278, 3),
-  POS(279, 3)
+  POS(279, 3),
+  LOCAL(1)
+};
+
+static FUNCTION_INFO i_func_display_table = {
+  t_func_display_table, NULL, 3, 1,
+  {"271_18_table\000"}
 };
 
 static TAB_NUM t_lambda_18[] = {
@@ -687,7 +816,13 @@ static TAB_NUM t_lambda_18[] = {
   LET, 1, LOCAL(2), TAIL_CALL,
   POS(275, 32),
   POS(275, 22),
-  POS(275, 19)
+  POS(275, 19),
+  LOCAL(3)
+};
+
+static FUNCTION_INFO i_lambda_18 = {
+  t_lambda_18, NULL, 3, 1,
+  {"275_10_entries\000"}
 };
 
 static TAB_NUM t_lambda_19[] = {
@@ -711,7 +846,13 @@ static TAB_NUM t_lambda_19[] = {
   POS(281, 7),
   POS(282, 22),
   POS(282, 16),
-  POS(282, 7)
+  POS(282, 7),
+  LOCAL(3)
+};
+
+static FUNCTION_INFO i_lambda_19 = {
+  t_lambda_19, NULL, 6, 1,
+  {"280_8_entries\000"}
 };
 
 static TAB_NUM t_lambda_20[] = {
@@ -730,7 +871,14 @@ static TAB_NUM t_lambda_20[] = {
   POS(286, 15),
   POS(285, 13),
   POS(284, 11),
-  POS(290, 11)
+  POS(290, 11),
+  LOCAL(3),
+  LOCAL(4)
+};
+
+static FUNCTION_INFO i_lambda_20 = {
+  t_lambda_20, NULL, 4, 2,
+  {"283_12_no\000", "283_15_line\000"}
 };
 
 static TAB_NUM t_lambda_21[] = {
@@ -739,6 +887,11 @@ static TAB_NUM t_lambda_21[] = {
   //  ""
   LET, 1, string_2, TAIL_CALL,
   POS(287, 17)
+};
+
+static FUNCTION_INFO i_lambda_21 = {
+  t_lambda_21, NULL, 1, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_22[] = {
@@ -753,6 +906,11 @@ static TAB_NUM t_lambda_22[] = {
   POS(288, 28),
   POS(288, 18),
   POS(288, 17)
+};
+
+static FUNCTION_INFO i_lambda_22 = {
+  t_lambda_22, NULL, 3, 0,
+  {}
 };
 
 static TAB_NUM t_func_check_arguments[] = {
@@ -799,6 +957,11 @@ static TAB_NUM t_func_check_arguments[] = {
   POS(305, 3),
   POS(307, 3),
   POS(309, 3)
+};
+
+static FUNCTION_INFO i_func_check_arguments = {
+  t_func_check_arguments, NULL, 13, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_23[] = {
@@ -850,7 +1013,16 @@ static TAB_NUM t_lambda_23[] = {
   POS(326, 7),
   POS(327, 7),
   POS(328, 7),
-  POS(329, 7)
+  POS(329, 7),
+  LOCAL(6),
+  LOCAL(5),
+  LOCAL(3),
+  LOCAL(4)
+};
+
+static FUNCTION_INFO i_lambda_23 = {
+  t_lambda_23, NULL, 15, 4,
+  {"312_51_help\000", "312_39_conversion\000", "310_12_template\000", "312_24_default_value\000"}
 };
 
 static TAB_NUM t_lambda_24[] = {
@@ -864,12 +1036,22 @@ static TAB_NUM t_lambda_24[] = {
   POS(317, 13)
 };
 
+static FUNCTION_INFO i_lambda_24 = {
+  t_lambda_24, NULL, 2, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_25[] = {
   0, // locals
   0, // parameters
   //  undefined
   LET, 1, var_undefined, TAIL_CALL,
   POS(318, 13)
+};
+
+static FUNCTION_INFO i_lambda_25 = {
+  t_lambda_25, NULL, 1, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_26[] = {
@@ -883,6 +1065,11 @@ static TAB_NUM t_lambda_26[] = {
   POS(319, 54)
 };
 
+static FUNCTION_INFO i_lambda_26 = {
+  t_lambda_26, NULL, 2, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_27[] = {
   0, // locals
   0, // parameters
@@ -891,12 +1078,22 @@ static TAB_NUM t_lambda_27[] = {
   POS(323, 13)
 };
 
+static FUNCTION_INFO i_lambda_27 = {
+  t_lambda_27, NULL, 1, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_28[] = {
   0, // locals
   0, // parameters
   //  option
   LET, 1, var_312_10_option, TAIL_CALL,
   POS(324, 13)
+};
+
+static FUNCTION_INFO i_lambda_28 = {
+  t_lambda_28, NULL, 1, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_29[] = {
@@ -908,6 +1105,11 @@ static TAB_NUM t_lambda_29[] = {
   LET, 2, LOCAL(1), lambda_30, IO_TAIL_CALL,
   POS(330, 19),
   POS(330, 11)
+};
+
+static FUNCTION_INFO i_lambda_29 = {
+  t_lambda_29, NULL, 2, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_30[] = {
@@ -927,6 +1129,11 @@ static TAB_NUM t_lambda_30[] = {
   POS(334, 11)
 };
 
+static FUNCTION_INFO i_lambda_30 = {
+  t_lambda_30, NULL, 4, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_31[] = {
   1, // locals
   0, // parameters
@@ -936,6 +1143,11 @@ static TAB_NUM t_lambda_31[] = {
   LET, 2, LOCAL(1), lambda_32, IO_TAIL_CALL,
   POS(335, 12),
   POS(335, 11)
+};
+
+static FUNCTION_INFO i_lambda_31 = {
+  t_lambda_31, NULL, 2, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_32[] = {
@@ -952,6 +1164,11 @@ static TAB_NUM t_lambda_32[] = {
   POS(338, 11)
 };
 
+static FUNCTION_INFO i_lambda_32 = {
+  t_lambda_32, NULL, 3, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_33[] = {
   1, // locals
   0, // parameters
@@ -961,6 +1178,11 @@ static TAB_NUM t_lambda_33[] = {
   LET, 2, LOCAL(1), lambda_34, IO_TAIL_CALL,
   POS(339, 12),
   POS(339, 11)
+};
+
+static FUNCTION_INFO i_lambda_33 = {
+  t_lambda_33, NULL, 2, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_34[] = {
@@ -977,6 +1199,11 @@ static TAB_NUM t_lambda_34[] = {
   POS(342, 11)
 };
 
+static FUNCTION_INFO i_lambda_34 = {
+  t_lambda_34, NULL, 3, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_35[] = {
   2, // locals
   0, // parameters
@@ -991,6 +1218,11 @@ static TAB_NUM t_lambda_35[] = {
   POS(343, 11)
 };
 
+static FUNCTION_INFO i_lambda_35 = {
+  t_lambda_35, NULL, 3, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_36[] = {
   1, // locals
   0, // parameters
@@ -1000,6 +1232,11 @@ static TAB_NUM t_lambda_36[] = {
   LET, 1, LOCAL(1), TAIL_CALL,
   POS(343, 41),
   POS(343, 41)
+};
+
+static FUNCTION_INFO i_lambda_36 = {
+  t_lambda_36, NULL, 2, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_37[] = {
@@ -1016,6 +1253,11 @@ static TAB_NUM t_lambda_37[] = {
   POS(345, 11)
 };
 
+static FUNCTION_INFO i_lambda_37 = {
+  t_lambda_37, NULL, 3, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_name_is_defined[] = {
   0, // locals
   0, // parameters
@@ -1027,12 +1269,22 @@ static TAB_NUM t_lambda_name_is_defined[] = {
   POS(348, 15)
 };
 
+static FUNCTION_INFO i_lambda_name_is_defined = {
+  t_lambda_name_is_defined, NULL, 2, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_38[] = {
   0, // locals
   0, // parameters
   //  true:
   LET, 2, var_true, lambda_39, IO_TAIL_CALL,
   POS(350, 11)
+};
+
+static FUNCTION_INFO i_lambda_38 = {
+  t_lambda_38, NULL, 1, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_39[] = {
@@ -1049,6 +1301,11 @@ static TAB_NUM t_lambda_39[] = {
   POS(352, 11)
 };
 
+static FUNCTION_INFO i_lambda_39 = {
+  t_lambda_39, NULL, 3, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_2_name_is_defined[] = {
   0, // locals
   0, // parameters
@@ -1058,6 +1315,11 @@ static TAB_NUM t_lambda_2_name_is_defined[] = {
   var_next, 0, IO_TAIL_CALL,
   POS(354, 16),
   POS(355, 15)
+};
+
+static FUNCTION_INFO i_lambda_2_name_is_defined = {
+  t_lambda_2_name_is_defined, NULL, 2, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_40[] = {
@@ -1077,12 +1339,22 @@ static TAB_NUM t_lambda_40[] = {
   POS(358, 7)
 };
 
+static FUNCTION_INFO i_lambda_40 = {
+  t_lambda_40, NULL, 4, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_41[] = {
   0, // locals
   0, // parameters
   // cond
   var_cond, 4, lambda_42, lambda_44, lambda_47, lambda_50, IO_TAIL_CALL,
   POS(360, 11)
+};
+
+static FUNCTION_INFO i_lambda_41 = {
+  t_lambda_41, NULL, 1, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_42[] = {
@@ -1099,6 +1371,11 @@ static TAB_NUM t_lambda_42[] = {
   POS(361, 15)
 };
 
+static FUNCTION_INFO i_lambda_42 = {
+  t_lambda_42, NULL, 3, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_43[] = {
   0, // locals
   0, // parameters
@@ -1108,6 +1385,11 @@ static TAB_NUM t_lambda_43[] = {
   var_terminate, 0, IO_TAIL_CALL,
   POS(362, 15),
   POS(363, 15)
+};
+
+static FUNCTION_INFO i_lambda_43 = {
+  t_lambda_43, NULL, 2, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_44[] = {
@@ -1124,6 +1406,11 @@ static TAB_NUM t_lambda_44[] = {
   POS(364, 15)
 };
 
+static FUNCTION_INFO i_lambda_44 = {
+  t_lambda_44, NULL, 3, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_45[] = {
   2, // locals
   0, // parameters
@@ -1138,6 +1425,11 @@ static TAB_NUM t_lambda_45[] = {
   POS(364, 40)
 };
 
+static FUNCTION_INFO i_lambda_45 = {
+  t_lambda_45, NULL, 3, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_46[] = {
   0, // locals
   0, // parameters
@@ -1147,6 +1439,11 @@ static TAB_NUM t_lambda_46[] = {
   var_terminate, 0, IO_TAIL_CALL,
   POS(365, 15),
   POS(366, 15)
+};
+
+static FUNCTION_INFO i_lambda_46 = {
+  t_lambda_46, NULL, 2, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_47[] = {
@@ -1163,6 +1460,11 @@ static TAB_NUM t_lambda_47[] = {
   POS(367, 15)
 };
 
+static FUNCTION_INFO i_lambda_47 = {
+  t_lambda_47, NULL, 3, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_48[] = {
   2, // locals
   0, // parameters
@@ -1177,6 +1479,11 @@ static TAB_NUM t_lambda_48[] = {
   POS(367, 38)
 };
 
+static FUNCTION_INFO i_lambda_48 = {
+  t_lambda_48, NULL, 3, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_49[] = {
   0, // locals
   0, // parameters
@@ -1188,12 +1495,22 @@ static TAB_NUM t_lambda_49[] = {
   POS(369, 15)
 };
 
+static FUNCTION_INFO i_lambda_49 = {
+  t_lambda_49, NULL, 2, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_50[] = {
   0, // locals
   0, // parameters
   //  true:
   LET, 2, var_true, lambda_51, IO_TAIL_CALL,
   POS(370, 15)
+};
+
+static FUNCTION_INFO i_lambda_50 = {
+  t_lambda_50, NULL, 1, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_51[] = {
@@ -1204,12 +1521,22 @@ static TAB_NUM t_lambda_51[] = {
   POS(371, 15)
 };
 
+static FUNCTION_INFO i_lambda_51 = {
+  t_lambda_51, NULL, 1, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_52[] = {
   0, // locals
   0, // parameters
   // initialize_results!
   func_initialize_results, 0, IO_TAIL_CALL,
   POS(373, 11)
+};
+
+static FUNCTION_INFO i_lambda_52 = {
+  t_lambda_52, NULL, 1, 0,
+  {}
 };
 
 static TAB_NUM t_func_initialize_results[] = {
@@ -1229,6 +1556,11 @@ static TAB_NUM t_func_initialize_results[] = {
   POS(379, 5)
 };
 
+static FUNCTION_INFO i_func_initialize_results = {
+  t_func_initialize_results, NULL, 4, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_53[] = {
   1, // locals
   1, // parameters
@@ -1239,6 +1571,11 @@ static TAB_NUM t_lambda_53[] = {
   var_if, 3, LOCAL(1), lambda_54, lambda_55, IO_TAIL_CALL,
   POS(382, 11),
   POS(381, 9)
+};
+
+static FUNCTION_INFO i_lambda_53 = {
+  t_lambda_53, NULL, 2, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_54[] = {
@@ -1264,12 +1601,22 @@ static TAB_NUM t_lambda_54[] = {
   POS(385, 13)
 };
 
+static FUNCTION_INFO i_lambda_54 = {
+  t_lambda_54, NULL, 6, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_55[] = {
   0, // locals
   0, // parameters
   // if
   var_if, 3, var_377_6_do_fetch_option_value, lambda_do_fetch_option_value, lambda_57, IO_TAIL_CALL,
   POS(387, 13)
+};
+
+static FUNCTION_INFO i_lambda_55 = {
+  t_lambda_55, NULL, 1, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_do_fetch_option_value[] = {
@@ -1301,6 +1648,11 @@ static TAB_NUM t_lambda_do_fetch_option_value[] = {
   POS(392, 17)
 };
 
+static FUNCTION_INFO i_lambda_do_fetch_option_value = {
+  t_lambda_do_fetch_option_value, NULL, 8, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_VALUED_OPTION[] = {
   0, // locals
   0, // parameters
@@ -1310,6 +1662,11 @@ static TAB_NUM t_lambda_VALUED_OPTION[] = {
   var_next, 0, IO_TAIL_CALL,
   POS(394, 22),
   POS(395, 21)
+};
+
+static FUNCTION_INFO i_lambda_VALUED_OPTION = {
+  t_lambda_VALUED_OPTION, NULL, 2, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_MULTI_VALUED_OPTION[] = {
@@ -1329,12 +1686,22 @@ static TAB_NUM t_lambda_MULTI_VALUED_OPTION[] = {
   POS(398, 21)
 };
 
+static FUNCTION_INFO i_lambda_MULTI_VALUED_OPTION = {
+  t_lambda_MULTI_VALUED_OPTION, NULL, 4, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_56[] = {
   0, // locals
   0, // parameters
   // next!
   var_next, 0, IO_TAIL_CALL,
   POS(400, 21)
+};
+
+static FUNCTION_INFO i_lambda_56 = {
+  t_lambda_56, NULL, 1, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_57[] = {
@@ -1346,6 +1713,11 @@ static TAB_NUM t_lambda_57[] = {
   var_if, 3, LOCAL(1), lambda_58, lambda_62, IO_TAIL_CALL,
   POS(403, 19),
   POS(402, 17)
+};
+
+static FUNCTION_INFO i_lambda_57 = {
+  t_lambda_57, NULL, 2, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_58[] = {
@@ -1365,6 +1737,11 @@ static TAB_NUM t_lambda_58[] = {
   POS(405, 21)
 };
 
+static FUNCTION_INFO i_lambda_58 = {
+  t_lambda_58, NULL, 4, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_option_idx_is_undefined[] = {
   1, // locals
   0, // parameters
@@ -1374,6 +1751,11 @@ static TAB_NUM t_lambda_option_idx_is_undefined[] = {
   var_Error, 1, LOCAL(1), IO_TAIL_CALL,
   POS(407, 32),
   POS(407, 25)
+};
+
+static FUNCTION_INFO i_lambda_option_idx_is_undefined = {
+  t_lambda_option_idx_is_undefined, NULL, 2, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_59[] = {
@@ -1388,6 +1770,11 @@ static TAB_NUM t_lambda_59[] = {
   POS(410, 27),
   POS(410, 27),
   POS(409, 25)
+};
+
+static FUNCTION_INFO i_lambda_59 = {
+  t_lambda_59, NULL, 3, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_60[] = {
@@ -1416,6 +1803,11 @@ static TAB_NUM t_lambda_60[] = {
   POS(414, 29)
 };
 
+static FUNCTION_INFO i_lambda_60 = {
+  t_lambda_60, NULL, 7, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_61[] = {
   4, // locals
   0, // parameters
@@ -1442,6 +1834,11 @@ static TAB_NUM t_lambda_61[] = {
   POS(419, 29)
 };
 
+static FUNCTION_INFO i_lambda_61 = {
+  t_lambda_61, NULL, 7, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_62[] = {
   0, // locals
   0, // parameters
@@ -1453,12 +1850,22 @@ static TAB_NUM t_lambda_62[] = {
   POS(422, 21)
 };
 
+static FUNCTION_INFO i_lambda_62 = {
+  t_lambda_62, NULL, 2, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_63[] = {
   0, // locals
   0, // parameters
   // evaluate_arguments!
   func_evaluate_arguments, 0, IO_TAIL_CALL,
   POS(424, 9)
+};
+
+static FUNCTION_INFO i_lambda_63 = {
+  t_lambda_63, NULL, 1, 0,
+  {}
 };
 
 static TAB_NUM t_func_evaluate_arguments[] = {
@@ -1470,6 +1877,11 @@ static TAB_NUM t_func_evaluate_arguments[] = {
   var_from_to_by, 5, var_427_6_last_idx, num_1, minus_num_1, lambda_64, lambda_69, IO_TAIL_CALL,
   POS(427, 5),
   POS(428, 5)
+};
+
+static FUNCTION_INFO i_func_evaluate_arguments = {
+  t_func_evaluate_arguments, NULL, 2, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_64[] = {
@@ -1496,6 +1908,11 @@ static TAB_NUM t_lambda_64[] = {
   POS(433, 9)
 };
 
+static FUNCTION_INFO i_lambda_64 = {
+  t_lambda_64, NULL, 6, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_65[] = {
   1, // locals
   0, // parameters
@@ -1507,6 +1924,11 @@ static TAB_NUM t_lambda_65[] = {
   POS(432, 56)
 };
 
+static FUNCTION_INFO i_lambda_65 = {
+  t_lambda_65, NULL, 2, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_MANDATORY_PARAMETER[] = {
   1, // locals
   0, // parameters
@@ -1516,6 +1938,11 @@ static TAB_NUM t_lambda_MANDATORY_PARAMETER[] = {
   var_if, 3, LOCAL(1), func_too_few_arguments_error, lambda_66, IO_TAIL_CALL,
   POS(436, 25),
   POS(435, 13)
+};
+
+static FUNCTION_INFO i_lambda_MANDATORY_PARAMETER = {
+  t_lambda_MANDATORY_PARAMETER, NULL, 2, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_66[] = {
@@ -1535,12 +1962,22 @@ static TAB_NUM t_lambda_66[] = {
   POS(441, 17)
 };
 
+static FUNCTION_INFO i_lambda_66 = {
+  t_lambda_66, NULL, 4, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_67[] = {
   0, // locals
   0, // parameters
   // break!
   var_break, 0, IO_TAIL_CALL,
   POS(443, 13)
+};
+
+static FUNCTION_INFO i_lambda_67 = {
+  t_lambda_67, NULL, 1, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_68[] = {
@@ -1551,12 +1988,22 @@ static TAB_NUM t_lambda_68[] = {
   POS(445, 13)
 };
 
+static FUNCTION_INFO i_lambda_68 = {
+  t_lambda_68, NULL, 1, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_69[] = {
   0, // locals
   0, // parameters
   // from_to 1 last_idx
   var_from_to, 4, num_1, var_427_6_last_idx, lambda_70, lambda_78, IO_TAIL_CALL,
   POS(447, 9)
+};
+
+static FUNCTION_INFO i_lambda_69 = {
+  t_lambda_69, NULL, 1, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_70[] = {
@@ -1580,6 +2027,11 @@ static TAB_NUM t_lambda_70[] = {
   POS(452, 13)
 };
 
+static FUNCTION_INFO i_lambda_70 = {
+  t_lambda_70, NULL, 5, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_71[] = {
   1, // locals
   0, // parameters
@@ -1589,6 +2041,11 @@ static TAB_NUM t_lambda_71[] = {
   LET, 1, LOCAL(1), TAIL_CALL,
   POS(451, 61),
   POS(451, 60)
+};
+
+static FUNCTION_INFO i_lambda_71 = {
+  t_lambda_71, NULL, 2, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_2_MANDATORY_PARAMETER[] = {
@@ -1605,12 +2062,22 @@ static TAB_NUM t_lambda_2_MANDATORY_PARAMETER[] = {
   POS(454, 17)
 };
 
+static FUNCTION_INFO i_lambda_2_MANDATORY_PARAMETER = {
+  t_lambda_2_MANDATORY_PARAMETER, NULL, 3, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_72[] = {
   0, // locals
   0, // parameters
   // too_few_arguments_error!
   func_too_few_arguments_error, 0, IO_TAIL_CALL,
   POS(456, 21)
+};
+
+static FUNCTION_INFO i_lambda_72 = {
+  t_lambda_72, NULL, 1, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_73[] = {
@@ -1627,6 +2094,11 @@ static TAB_NUM t_lambda_73[] = {
   POS(459, 21)
 };
 
+static FUNCTION_INFO i_lambda_73 = {
+  t_lambda_73, NULL, 3, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_OPTIONAL_PARAMETER[] = {
   2, // locals
   0, // parameters
@@ -1639,6 +2111,11 @@ static TAB_NUM t_lambda_OPTIONAL_PARAMETER[] = {
   POS(462, 19),
   POS(462, 42),
   POS(461, 17)
+};
+
+static FUNCTION_INFO i_lambda_OPTIONAL_PARAMETER = {
+  t_lambda_OPTIONAL_PARAMETER, NULL, 3, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_74[] = {
@@ -1655,6 +2132,11 @@ static TAB_NUM t_lambda_74[] = {
   POS(464, 21)
 };
 
+static FUNCTION_INFO i_lambda_74 = {
+  t_lambda_74, NULL, 3, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_SOME_PARAMETERS[] = {
   0, // locals
   0, // parameters
@@ -1667,6 +2149,11 @@ static TAB_NUM t_lambda_SOME_PARAMETERS[] = {
   POS(467, 18),
   POS(468, 17),
   POS(469, 17)
+};
+
+static FUNCTION_INFO i_lambda_SOME_PARAMETERS = {
+  t_lambda_SOME_PARAMETERS, NULL, 3, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_MANY_PARAMETERS[] = {
@@ -1683,12 +2170,22 @@ static TAB_NUM t_lambda_MANY_PARAMETERS[] = {
   POS(471, 17)
 };
 
+static FUNCTION_INFO i_lambda_MANY_PARAMETERS = {
+  t_lambda_MANY_PARAMETERS, NULL, 3, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_75[] = {
   0, // locals
   0, // parameters
   // too_few_arguments_error!
   func_too_few_arguments_error, 0, IO_TAIL_CALL,
   POS(473, 21)
+};
+
+static FUNCTION_INFO i_lambda_75 = {
+  t_lambda_75, NULL, 1, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_76[] = {
@@ -1705,6 +2202,11 @@ static TAB_NUM t_lambda_76[] = {
   POS(477, 21)
 };
 
+static FUNCTION_INFO i_lambda_76 = {
+  t_lambda_76, NULL, 3, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_77[] = {
   0, // locals
   0, // parameters
@@ -1713,12 +2215,22 @@ static TAB_NUM t_lambda_77[] = {
   POS(479, 17)
 };
 
+static FUNCTION_INFO i_lambda_77 = {
+  t_lambda_77, NULL, 1, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_78[] = {
   0, // locals
   0, // parameters
   // check_results!
   func_check_results, 0, IO_TAIL_CALL,
   POS(481, 13)
+};
+
+static FUNCTION_INFO i_lambda_78 = {
+  t_lambda_78, NULL, 1, 0,
+  {}
 };
 
 static TAB_NUM t_func_check_results[] = {
@@ -1732,6 +2244,11 @@ static TAB_NUM t_func_check_results[] = {
   POS(484, 5)
 };
 
+static FUNCTION_INFO i_func_check_results = {
+  t_func_check_results, NULL, 2, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_arguments_is_not_empty[] = {
   0, // locals
   0, // parameters
@@ -1740,12 +2257,22 @@ static TAB_NUM t_lambda_arguments_is_not_empty[] = {
   POS(486, 9)
 };
 
+static FUNCTION_INFO i_lambda_arguments_is_not_empty = {
+  t_lambda_arguments_is_not_empty, NULL, 1, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_79[] = {
   0, // locals
   0, // parameters
   // for_each results
   var_for_each, 3, var_295_4_results, lambda_80, lambda_92, IO_TAIL_CALL,
   POS(488, 9)
+};
+
+static FUNCTION_INFO i_lambda_79 = {
+  t_lambda_79, NULL, 1, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_80[] = {
@@ -1764,6 +2291,11 @@ static TAB_NUM t_lambda_80[] = {
   POS(490, 13)
 };
 
+static FUNCTION_INFO i_lambda_80 = {
+  t_lambda_80, NULL, 3, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_81[] = {
   2, // locals
   0, // parameters
@@ -1776,6 +2308,11 @@ static TAB_NUM t_lambda_81[] = {
   POS(491, 38),
   POS(491, 58),
   POS(491, 38)
+};
+
+static FUNCTION_INFO i_lambda_81 = {
+  t_lambda_81, NULL, 3, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_82[] = {
@@ -1792,6 +2329,11 @@ static TAB_NUM t_lambda_82[] = {
   POS(493, 17)
 };
 
+static FUNCTION_INFO i_lambda_82 = {
+  t_lambda_82, NULL, 3, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_83[] = {
   1, // locals
   0, // parameters
@@ -1806,6 +2348,11 @@ static TAB_NUM t_lambda_83[] = {
   POS(496, 17)
 };
 
+static FUNCTION_INFO i_lambda_83 = {
+  t_lambda_83, NULL, 3, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_possible_value_is_defined[] = {
   1, // locals
   0, // parameters
@@ -1817,6 +2364,11 @@ static TAB_NUM t_lambda_possible_value_is_defined[] = {
   POS(498, 21)
 };
 
+static FUNCTION_INFO i_lambda_possible_value_is_defined = {
+  t_lambda_possible_value_is_defined, NULL, 2, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_result_is_a_list[] = {
   0, // locals
   0, // parameters
@@ -1825,13 +2377,24 @@ static TAB_NUM t_lambda_result_is_a_list[] = {
   POS(500, 25)
 };
 
+static FUNCTION_INFO i_lambda_result_is_a_list = {
+  t_lambda_result_is_a_list, NULL, 1, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_84[] = {
   1, // locals
   1, // parameters
   LOCAL(1), // 500_43_item
   // check item
   func_check, 1, LOCAL(1), TAIL_CALL,
-  POS(500, 49)
+  POS(500, 49),
+  LOCAL(1)
+};
+
+static FUNCTION_INFO i_lambda_84 = {
+  t_lambda_84, NULL, 1, 1,
+  {"500_43_item\000"}
 };
 
 static TAB_NUM t_lambda_85[] = {
@@ -1851,6 +2414,11 @@ static TAB_NUM t_lambda_85[] = {
   POS(504, 25)
 };
 
+static FUNCTION_INFO i_lambda_85 = {
+  t_lambda_85, NULL, 4, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_86[] = {
   2, // locals
   0, // parameters
@@ -1865,6 +2433,11 @@ static TAB_NUM t_lambda_86[] = {
   POS(507, 21)
 };
 
+static FUNCTION_INFO i_lambda_86 = {
+  t_lambda_86, NULL, 3, 0,
+  {}
+};
+
 static TAB_NUM t_func_check[] = {
   2, // locals
   1, // parameters
@@ -1874,7 +2447,13 @@ static TAB_NUM t_func_check[] = {
   // if
   var_if, 3, LOCAL(1), var_pass, lambda_87, IO_TAIL_CALL,
   POS(511, 21),
-  POS(510, 19)
+  POS(510, 19),
+  LOCAL(2)
+};
+
+static FUNCTION_INFO i_func_check = {
+  t_func_check, NULL, 2, 1,
+  {"509_26_value\000"}
 };
 
 static TAB_NUM t_lambda_87[] = {
@@ -1900,6 +2479,11 @@ static TAB_NUM t_lambda_87[] = {
   POS(517, 23)
 };
 
+static FUNCTION_INFO i_lambda_87 = {
+  t_lambda_87, NULL, 6, 0,
+  {}
+};
+
 static TAB_NUM t_func_convert[] = {
   1, // locals
   1, // parameters
@@ -1915,12 +2499,22 @@ static TAB_NUM t_func_convert[] = {
   POS(521, 19)
 };
 
+static FUNCTION_INFO i_func_convert = {
+  t_func_convert, NULL, 3, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_88[] = {
   0, // locals
   0, // parameters
   //  value
   LET, 1, var_519_28_value, TAIL_CALL,
   POS(523, 23)
+};
+
+static FUNCTION_INFO i_lambda_88 = {
+  t_lambda_88, NULL, 1, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_89[] = {
@@ -1934,6 +2528,11 @@ static TAB_NUM t_lambda_89[] = {
   POS(525, 23)
 };
 
+static FUNCTION_INFO i_lambda_89 = {
+  t_lambda_89, NULL, 2, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_90[] = {
   1, // locals
   0, // parameters
@@ -1943,6 +2542,11 @@ static TAB_NUM t_lambda_90[] = {
   LET, 1, LOCAL(1), TAIL_CALL,
   POS(527, 28),
   POS(527, 27)
+};
+
+static FUNCTION_INFO i_lambda_90 = {
+  t_lambda_90, NULL, 2, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_91[] = {
@@ -1956,12 +2560,22 @@ static TAB_NUM t_lambda_91[] = {
   POS(528, 27)
 };
 
+static FUNCTION_INFO i_lambda_91 = {
+  t_lambda_91, NULL, 2, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_92[] = {
   0, // locals
   0, // parameters
   // spread results
   var_spread, 1, var_295_4_results, TAIL_CALL,
   POS(530, 13)
+};
+
+static FUNCTION_INFO i_lambda_92 = {
+  t_lambda_92, NULL, 1, 0,
+  {}
 };
 
 static TAB_NUM t_func_help_message[] = {
@@ -1982,6 +2596,11 @@ static TAB_NUM t_func_help_message[] = {
   POS(535, 5)
 };
 
+static FUNCTION_INFO i_func_help_message = {
+  t_func_help_message, NULL, 4, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_2_possible_value_is_defined[] = {
   0, // locals
   0, // parameters
@@ -1991,6 +2610,11 @@ static TAB_NUM t_lambda_2_possible_value_is_defined[] = {
   var_for_each, 3, var_534_6_possible_value, lambda_93, lambda_94, TAIL_CALL,
   POS(537, 9),
   POS(538, 9)
+};
+
+static FUNCTION_INFO i_lambda_2_possible_value_is_defined = {
+  t_lambda_2_possible_value_is_defined, NULL, 2, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_93[] = {
@@ -2005,7 +2629,13 @@ static TAB_NUM t_lambda_93[] = {
   var_next, 0, TAIL_CALL,
   POS(540, 29),
   POS(540, 13),
-  POS(541, 13)
+  POS(541, 13),
+  LOCAL(2)
+};
+
+static FUNCTION_INFO i_lambda_93 = {
+  t_lambda_93, NULL, 3, 1,
+  {"539_14_value\000"}
 };
 
 static TAB_NUM t_lambda_94[] = {
@@ -2017,6 +2647,11 @@ static TAB_NUM t_lambda_94[] = {
   func_handle_default_value, 0, TAIL_CALL,
   POS(543, 14),
   POS(544, 13)
+};
+
+static FUNCTION_INFO i_lambda_94 = {
+  t_lambda_94, NULL, 2, 0,
+  {}
 };
 
 static TAB_NUM t_func_handle_default_value[] = {
@@ -2033,6 +2668,11 @@ static TAB_NUM t_func_handle_default_value[] = {
   POS(549, 7)
 };
 
+static FUNCTION_INFO i_func_handle_default_value = {
+  t_func_handle_default_value, NULL, 3, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_default_value_is_defined[] = {
   1, // locals
   0, // parameters
@@ -2047,12 +2687,22 @@ static TAB_NUM t_lambda_default_value_is_defined[] = {
   POS(552, 11)
 };
 
+static FUNCTION_INFO i_lambda_default_value_is_defined = {
+  t_lambda_default_value_is_defined, NULL, 3, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_95[] = {
   0, // locals
   0, // parameters
   //  message
   LET, 1, var_533_6_message, TAIL_CALL,
   POS(553, 11)
+};
+
+static FUNCTION_INFO i_lambda_95 = {
+  t_lambda_95, NULL, 1, 0,
+  {}
 };
 
 static TAB_NUM t_func_show_usage[] = {
@@ -2096,6 +2746,11 @@ static TAB_NUM t_func_show_usage[] = {
   POS(596, 5)
 };
 
+static FUNCTION_INFO i_func_show_usage = {
+  t_func_show_usage, NULL, 12, 0,
+  {}
+};
+
 static TAB_NUM t_func_parameter_name[] = {
   3, // locals
   2, // parameters
@@ -2109,7 +2764,14 @@ static TAB_NUM t_func_parameter_name[] = {
   var_case, 8, LOCAL(1), var_OPTIONAL_PARAMETER, lambda_2_OPTIONAL_PARAMETER, var_SOME_PARAMETERS, lambda_2_SOME_PARAMETERS, var_MANY_PARAMETERS, lambda_2_MANY_PARAMETERS, lambda_96, TAIL_CALL,
   POS(557, 7),
   POS(558, 12),
-  POS(558, 7)
+  POS(558, 7),
+  LOCAL(3),
+  LOCAL(2)
+};
+
+static FUNCTION_INFO i_func_parameter_name = {
+  t_func_parameter_name, NULL, 3, 2,
+  {"556_33_idx\000", "556_23_parameter\000"}
 };
 
 static TAB_NUM t_lambda_2_OPTIONAL_PARAMETER[] = {
@@ -2120,12 +2782,22 @@ static TAB_NUM t_lambda_2_OPTIONAL_PARAMETER[] = {
   POS(560, 11)
 };
 
+static FUNCTION_INFO i_lambda_2_OPTIONAL_PARAMETER = {
+  t_lambda_2_OPTIONAL_PARAMETER, NULL, 1, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_2_SOME_PARAMETERS[] = {
   0, // locals
   0, // parameters
   // push buf '*'
   var_push, 2, var_557_8_buf, chr_42, TAIL_CALL,
   POS(562, 11)
+};
+
+static FUNCTION_INFO i_lambda_2_SOME_PARAMETERS = {
+  t_lambda_2_SOME_PARAMETERS, NULL, 1, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_2_MANY_PARAMETERS[] = {
@@ -2136,12 +2808,22 @@ static TAB_NUM t_lambda_2_MANY_PARAMETERS[] = {
   POS(564, 11)
 };
 
+static FUNCTION_INFO i_lambda_2_MANY_PARAMETERS = {
+  t_lambda_2_MANY_PARAMETERS, NULL, 1, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_96[] = {
   0, // locals
   0, // parameters
   //  buf
   LET, 1, var_557_8_buf, TAIL_CALL,
   POS(565, 11)
+};
+
+static FUNCTION_INFO i_lambda_96 = {
+  t_lambda_96, NULL, 1, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_97[] = {
@@ -2152,12 +2834,22 @@ static TAB_NUM t_lambda_97[] = {
   POS(570, 9)
 };
 
+static FUNCTION_INFO i_lambda_97 = {
+  t_lambda_97, NULL, 1, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_copyright_is_defined[] = {
   0, // locals
   0, // parameters
   // eprintln! "  " command_name " --copyright"
   var_eprintln, 3, string_1, var_304_4_command_name, str__copyright, IO_TAIL_CALL,
   POS(575, 9)
+};
+
+static FUNCTION_INFO i_lambda_copyright_is_defined = {
+  t_lambda_copyright_is_defined, NULL, 1, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_98[] = {
@@ -2173,7 +2865,14 @@ static TAB_NUM t_lambda_98[] = {
   var_next, 0, IO_TAIL_CALL,
   POS(581, 21),
   POS(581, 9),
-  POS(582, 9)
+  POS(582, 9),
+  LOCAL(2),
+  LOCAL(3)
+};
+
+static FUNCTION_INFO i_lambda_98 = {
+  t_lambda_98, NULL, 3, 2,
+  {"580_10_parameter\000", "580_20_idx\000"}
 };
 
 static TAB_NUM t_lambda_99[] = {
@@ -2182,6 +2881,11 @@ static TAB_NUM t_lambda_99[] = {
   // eprintln!
   var_eprintln, 0, IO_TAIL_CALL,
   POS(584, 9)
+};
+
+static FUNCTION_INFO i_lambda_99 = {
+  t_lambda_99, NULL, 1, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_do[] = {
@@ -2193,6 +2897,11 @@ static TAB_NUM t_lambda_do[] = {
   var_for_each, 3, var_297_4_parameters, lambda_100, lambda_101, IO_TAIL_CALL,
   POS(589, 7),
   POS(590, 7)
+};
+
+static FUNCTION_INFO i_lambda_do = {
+  t_lambda_do, NULL, 2, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_100[] = {
@@ -2214,7 +2923,14 @@ static TAB_NUM t_lambda_100[] = {
   POS(592, 58),
   POS(592, 23),
   POS(592, 11),
-  POS(593, 11)
+  POS(593, 11),
+  LOCAL(4),
+  LOCAL(5)
+};
+
+static FUNCTION_INFO i_lambda_100 = {
+  t_lambda_100, NULL, 5, 2,
+  {"591_12_parameter\000", "591_22_idx\000"}
 };
 
 static TAB_NUM t_lambda_101[] = {
@@ -2223,6 +2939,11 @@ static TAB_NUM t_lambda_101[] = {
   // display_table! table
   func_display_table, 1, var_589_8_table, IO_TAIL_CALL,
   POS(595, 11)
+};
+
+static FUNCTION_INFO i_lambda_101 = {
+  t_lambda_101, NULL, 1, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_102[] = {
@@ -2237,6 +2958,11 @@ static TAB_NUM t_lambda_102[] = {
   POS(600, 9),
   POS(603, 9),
   POS(604, 9)
+};
+
+static FUNCTION_INFO i_lambda_102 = {
+  t_lambda_102, NULL, 3, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_103[] = {
@@ -2261,6 +2987,11 @@ static TAB_NUM t_lambda_103[] = {
   POS(607, 13)
 };
 
+static FUNCTION_INFO i_lambda_103 = {
+  t_lambda_103, NULL, 5, 0,
+  {}
+};
+
 static TAB_NUM t_func_option_name[] = {
   1, // locals
   0, // parameters
@@ -2275,12 +3006,22 @@ static TAB_NUM t_func_option_name[] = {
   POS(611, 15)
 };
 
+static FUNCTION_INFO i_func_option_name = {
+  t_func_option_name, NULL, 3, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_2_VALUED_OPTION[] = {
   0, // locals
   0, // parameters
   // append buf " VALUE"
   var_append, 2, var_610_16_buf, str__VALUE, TAIL_CALL,
   POS(613, 19)
+};
+
+static FUNCTION_INFO i_lambda_2_VALUED_OPTION = {
+  t_lambda_2_VALUED_OPTION, NULL, 1, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_2_MULTI_VALUED_OPTION[] = {
@@ -2291,6 +3032,11 @@ static TAB_NUM t_lambda_2_MULTI_VALUED_OPTION[] = {
   POS(615, 19)
 };
 
+static FUNCTION_INFO i_lambda_2_MULTI_VALUED_OPTION = {
+  t_lambda_2_MULTI_VALUED_OPTION, NULL, 1, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_104[] = {
   0, // locals
   0, // parameters
@@ -2299,12 +3045,22 @@ static TAB_NUM t_lambda_104[] = {
   POS(616, 19)
 };
 
+static FUNCTION_INFO i_lambda_104 = {
+  t_lambda_104, NULL, 1, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_105[] = {
   0, // locals
   0, // parameters
   // display_table! table
   func_display_table, 1, var_603_10_table, IO_TAIL_CALL,
   POS(618, 13)
+};
+
+static FUNCTION_INFO i_lambda_105 = {
+  t_lambda_105, NULL, 1, 0,
+  {}
 };
 
 static TAB_NUM t_func_show_version[] = {
@@ -2318,12 +3074,22 @@ static TAB_NUM t_func_show_version[] = {
   POS(621, 5)
 };
 
+static FUNCTION_INFO i_func_show_version = {
+  t_func_show_version, NULL, 2, 0,
+  {}
+};
+
 static TAB_NUM t_func_show_copyright[] = {
   0, // locals
   0, // parameters
   // eprint! copyright
   var_eprint, 1, var_307_45_copyright, IO_TAIL_CALL,
   POS(624, 5)
+};
+
+static FUNCTION_INFO i_func_show_copyright = {
+  t_func_show_copyright, NULL, 1, 0,
+  {}
 };
 
 static TAB_NUM t_func_too_few_arguments_error[] = {
@@ -2340,6 +3106,11 @@ static TAB_NUM t_func_too_few_arguments_error[] = {
   POS(630, 5)
 };
 
+static FUNCTION_INFO i_func_too_few_arguments_error = {
+  t_func_too_few_arguments_error, NULL, 3, 0,
+  {}
+};
+
 static TAB_NUM t_func_too_many_arguments_error[] = {
   0, // locals
   0, // parameters
@@ -2352,6 +3123,11 @@ static TAB_NUM t_func_too_many_arguments_error[] = {
   POS(633, 5),
   POS(635, 5),
   POS(636, 5)
+};
+
+static FUNCTION_INFO i_func_too_many_arguments_error = {
+  t_func_too_many_arguments_error, NULL, 3, 0,
+  {}
 };
 
 static TAB_NUM t_func_extract_copyright_and_version[] = {
@@ -2369,6 +3145,11 @@ static TAB_NUM t_func_extract_copyright_and_version[] = {
   POS(641, 3)
 };
 
+static FUNCTION_INFO i_func_extract_copyright_and_version = {
+  t_func_extract_copyright_and_version, NULL, 3, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_loop[] = {
   1, // locals
   0, // parameters
@@ -2380,12 +3161,22 @@ static TAB_NUM t_lambda_loop[] = {
   POS(642, 5)
 };
 
+static FUNCTION_INFO i_lambda_loop = {
+  t_lambda_loop, NULL, 2, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_106[] = {
   0, // locals
   0, // parameters
   //  templates copyright version
   LET, 3, var_638_34_templates, var_639_4_copyright, var_640_4_version, TAIL_CALL,
   POS(644, 9)
+};
+
+static FUNCTION_INFO i_lambda_106 = {
+  t_lambda_106, NULL, 1, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_107[] = {
@@ -2402,6 +3193,11 @@ static TAB_NUM t_lambda_107[] = {
   POS(648, 9)
 };
 
+static FUNCTION_INFO i_lambda_107 = {
+  t_lambda_107, NULL, 3, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_108[] = {
   1, // locals
   0, // parameters
@@ -2411,6 +3207,11 @@ static TAB_NUM t_lambda_108[] = {
   LET, 2, LOCAL(1), lambda_109, TAIL_CALL,
   POS(649, 14),
   POS(649, 13)
+};
+
+static FUNCTION_INFO i_lambda_108 = {
+  t_lambda_108, NULL, 2, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_109[] = {
@@ -2427,6 +3228,11 @@ static TAB_NUM t_lambda_109[] = {
   POS(652, 13)
 };
 
+static FUNCTION_INFO i_lambda_109 = {
+  t_lambda_109, NULL, 3, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_110[] = {
   1, // locals
   0, // parameters
@@ -2436,6 +3242,11 @@ static TAB_NUM t_lambda_110[] = {
   LET, 2, LOCAL(1), lambda_111, TAIL_CALL,
   POS(653, 14),
   POS(653, 13)
+};
+
+static FUNCTION_INFO i_lambda_110 = {
+  t_lambda_110, NULL, 2, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_111[] = {
@@ -2452,6 +3263,11 @@ static TAB_NUM t_lambda_111[] = {
   POS(656, 13)
 };
 
+static FUNCTION_INFO i_lambda_111 = {
+  t_lambda_111, NULL, 3, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_112[] = {
   0, // locals
   0, // parameters
@@ -2460,12 +3276,22 @@ static TAB_NUM t_lambda_112[] = {
   POS(657, 13)
 };
 
+static FUNCTION_INFO i_lambda_112 = {
+  t_lambda_112, NULL, 1, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_113[] = {
   0, // locals
   0, // parameters
   //  templates copyright version
   LET, 3, var_638_34_templates, var_639_4_copyright, var_640_4_version, TAIL_CALL,
   POS(657, 21)
+};
+
+static FUNCTION_INFO i_lambda_113 = {
+  t_lambda_113, NULL, 1, 0,
+  {}
 };
 
 static TAB_NUM t_func_extract_from_template[] = {
@@ -2519,7 +3345,17 @@ static TAB_NUM t_func_extract_from_template[] = {
   POS(678, 7),
   POS(676, 3),
   POS(681, 3),
-  POS(682, 3)
+  POS(682, 3),
+  LOCAL(3),
+  LOCAL(5),
+  LOCAL(4),
+  LOCAL(7),
+  LOCAL(6)
+};
+
+static FUNCTION_INFO i_func_extract_from_template = {
+  t_func_extract_from_template, NULL, 16, 5,
+  {"665_4_option\000", "671_4_default_value\000", "666_4_name\000", "681_4_help\000", "676_4_conversion\000"}
 };
 
 static TAB_NUM t_lambda_114[] = {
@@ -2533,12 +3369,22 @@ static TAB_NUM t_lambda_114[] = {
   POS(662, 16)
 };
 
+static FUNCTION_INFO i_lambda_114 = {
+  t_lambda_114, NULL, 2, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_115[] = {
   0, // locals
   0, // parameters
   // Error! "malformed parameter template"
   var_Error, 1, str_malformed_parame, IO_TAIL_CALL,
   POS(663, 7)
+};
+
+static FUNCTION_INFO i_lambda_115 = {
+  t_lambda_115, NULL, 1, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_116[] = {
@@ -2552,12 +3398,22 @@ static TAB_NUM t_lambda_116[] = {
   POS(669, 9)
 };
 
+static FUNCTION_INFO i_lambda_116 = {
+  t_lambda_116, NULL, 2, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_117[] = {
   0, // locals
   0, // parameters
   //  undefined
   LET, 1, var_undefined, TAIL_CALL,
   POS(670, 9)
+};
+
+static FUNCTION_INFO i_lambda_117 = {
+  t_lambda_117, NULL, 1, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_118[] = {
@@ -2571,12 +3427,22 @@ static TAB_NUM t_lambda_118[] = {
   POS(674, 9)
 };
 
+static FUNCTION_INFO i_lambda_118 = {
+  t_lambda_118, NULL, 2, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_119[] = {
   0, // locals
   0, // parameters
   //  undefined
   LET, 1, var_undefined, TAIL_CALL,
   POS(675, 9)
+};
+
+static FUNCTION_INFO i_lambda_119 = {
+  t_lambda_119, NULL, 1, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_120[] = {
@@ -2590,12 +3456,22 @@ static TAB_NUM t_lambda_120[] = {
   POS(679, 9)
 };
 
+static FUNCTION_INFO i_lambda_120 = {
+  t_lambda_120, NULL, 2, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_121[] = {
   0, // locals
   0, // parameters
   //  undefined
   LET, 1, var_undefined, TAIL_CALL,
   POS(680, 9)
+};
+
+static FUNCTION_INFO i_lambda_121 = {
+  t_lambda_121, NULL, 1, 0,
+  {}
 };
 
 static FUNKY_CONSTANT constants_table[] = {
@@ -2608,214 +3484,214 @@ static FUNKY_CONSTANT constants_table[] = {
   {FLT_UNIQUE, 0, {.str_8 = "std::OPTIONAL_PARAMETER"}},
   {FLT_UNIQUE, 0, {.str_8 = "std::SOME_PARAMETERS"}},
   {FLT_UNIQUE, 0, {.str_8 = "std::MANY_PARAMETERS"}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std__get_options}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_1}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_2}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_option_is_a_unique_item}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_3}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_4}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_5}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_6}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_7}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std__extract_options}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_8}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_9}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_argument_is_a_unique_item}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_10}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_11}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_argument_is_a_tuple}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_12}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_13}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_14}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_15}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_16}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_17}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std__program_parameters}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_display_table}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_18}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std__get_options}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_1}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_2}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_option_is_a_unique_item}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_3}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_4}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_5}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_6}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_7}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std__extract_options}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_8}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_9}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_argument_is_a_unique_item}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_10}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_11}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_argument_is_a_tuple}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_12}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_13}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_14}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_15}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_16}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_17}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std__program_parameters}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_display_table}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_18}},
   {FLT_POSITIVE_INT64, 0, {.value = 1}},
   {FLT_POSITIVE_INT64, 0, {.value = 0}},
   {FLT_POSITIVE_INT64, 0, {.value = 2}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_19}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_19}},
   {FLT_STRING_8, 2, {.str_8 = "  "}},
   {FLT_CHARACTER, 0, {.value = 10}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_20}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_21}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_20}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_21}},
   {FLT_STRING_8, 0, {.str_8 = ""}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_22}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_22}},
   {FLT_STRING_8, 1, {.str_8 = " "}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_check_arguments}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_check_arguments}},
   {FLT_CHARACTER, 0, {.value = 47}},
   {FLT_NEGATIVE_INT64, 0, {.value = 1}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_23}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_24}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_25}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_26}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_27}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_28}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_29}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_30}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_31}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_32}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_33}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_34}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_35}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_36}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_37}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_name_is_defined}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_38}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_39}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_2_name_is_defined}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_40}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_41}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_42}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_23}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_24}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_25}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_26}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_27}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_28}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_29}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_30}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_31}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_32}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_33}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_34}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_35}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_36}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_37}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_name_is_defined}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_38}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_39}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_2_name_is_defined}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_40}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_41}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_42}},
   {FLT_STRING_8, 6, {.str_8 = "--help"}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_43}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_44}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_45}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_43}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_44}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_45}},
   {FLT_STRING_8, 11, {.str_8 = "--copyright"}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_46}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_47}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_48}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_46}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_47}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_48}},
   {FLT_STRING_8, 9, {.str_8 = "--version"}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_49}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_50}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_51}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_52}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_initialize_results}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_53}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_49}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_50}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_51}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_52}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_initialize_results}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_53}},
   {FLT_STRING_8, 2, {.str_8 = "--"}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_54}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_55}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_do_fetch_option_value}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_VALUED_OPTION}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_MULTI_VALUED_OPTION}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_56}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_57}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_58}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_54}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_55}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_do_fetch_option_value}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_VALUED_OPTION}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_MULTI_VALUED_OPTION}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_56}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_57}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_58}},
   {FLT_POSITIVE_INT64, 0, {.value = 3}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_option_idx_is_undefined}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_option_idx_is_undefined}},
   {FLT_STRING_8, 16, {.str_8 = "Invalid option: "}},
   {FLT_STRING_8, 1, {.str_8 = "!"}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_59}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_60}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_61}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_62}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_63}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_evaluate_arguments}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_64}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_65}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_MANDATORY_PARAMETER}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_66}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_67}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_68}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_69}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_70}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_71}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_2_MANDATORY_PARAMETER}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_72}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_73}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_OPTIONAL_PARAMETER}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_74}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_SOME_PARAMETERS}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_MANY_PARAMETERS}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_75}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_76}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_77}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_78}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_check_results}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_arguments_is_not_empty}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_79}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_80}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_81}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_82}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_83}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_possible_value_is_defined}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_result_is_a_list}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_84}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_85}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_86}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_check}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_87}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_59}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_60}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_61}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_62}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_63}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_evaluate_arguments}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_64}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_65}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_MANDATORY_PARAMETER}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_66}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_67}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_68}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_69}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_70}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_71}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_2_MANDATORY_PARAMETER}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_72}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_73}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_OPTIONAL_PARAMETER}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_74}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_SOME_PARAMETERS}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_MANY_PARAMETERS}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_75}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_76}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_77}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_78}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_check_results}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_arguments_is_not_empty}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_79}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_80}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_81}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_82}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_83}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_possible_value_is_defined}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_result_is_a_list}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_84}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_85}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_86}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_check}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_87}},
   {FLT_STRING_8, 27, {.str_8 = "Invalid argument value for "}},
   {FLT_STRING_8, 2, {.str_8 = "!\012"}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_convert}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_88}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_89}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_90}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_91}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_92}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_help_message}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_2_possible_value_is_defined}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_convert}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_88}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_89}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_90}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_91}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_92}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_help_message}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_2_possible_value_is_defined}},
   {FLT_STRING_8, 13, {.str_8 = "valid values:"}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_93}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_93}},
   {FLT_CHARACTER, 0, {.value = 32}},
   {FLT_CHARACTER, 0, {.value = 44}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_94}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_handle_default_value}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_default_value_is_defined}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_94}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_handle_default_value}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_default_value_is_defined}},
   {FLT_STRING_8, 16, {.str_8 = "(default value: "}},
   {FLT_STRING_8, 1, {.str_8 = ")"}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_95}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_show_usage}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_parameter_name}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_2_OPTIONAL_PARAMETER}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_95}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_show_usage}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_parameter_name}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_2_OPTIONAL_PARAMETER}},
   {FLT_CHARACTER, 0, {.value = 63}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_2_SOME_PARAMETERS}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_2_SOME_PARAMETERS}},
   {FLT_CHARACTER, 0, {.value = 42}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_2_MANY_PARAMETERS}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_2_MANY_PARAMETERS}},
   {FLT_CHARACTER, 0, {.value = 43}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_96}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_97}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_96}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_97}},
   {FLT_STRING_8, 6, {.str_8 = "Usage:"}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_copyright_is_defined}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_copyright_is_defined}},
   {FLT_STRING_8, 12, {.str_8 = " --copyright"}},
   {FLT_STRING_8, 7, {.str_8 = " --help"}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_98}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_99}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_98}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_99}},
   {FLT_STRING_8, 13, {.str_8 = "\012Parameters:\012"}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_do}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_100}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_101}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_102}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_do}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_100}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_101}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_102}},
   {FLT_STRING_8, 10, {.str_8 = "\012Options:\012"}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_103}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_option_name}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_2_VALUED_OPTION}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_103}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_option_name}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_2_VALUED_OPTION}},
   {FLT_STRING_8, 6, {.str_8 = " VALUE"}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_2_MULTI_VALUED_OPTION}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_2_MULTI_VALUED_OPTION}},
   {FLT_STRING_8, 7, {.str_8 = " VALUES"}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_104}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_105}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_show_version}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_104}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_105}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_show_version}},
   {FLT_STRING_8, 1, {.str_8 = "\012"}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_show_copyright}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_too_few_arguments_error}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_show_copyright}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_too_few_arguments_error}},
   {FLT_STRING_8, 19, {.str_8 = "Too few arguments!\012"}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_too_many_arguments_error}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_too_many_arguments_error}},
   {FLT_STRING_8, 20, {.str_8 = "Too many arguments!\012"}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_extract_copyright_and_version}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_loop}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_106}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_107}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_108}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_109}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_110}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_111}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_112}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_113}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_extract_from_template}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_114}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_extract_copyright_and_version}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_loop}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_106}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_107}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_108}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_109}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_110}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_111}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_112}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_113}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_extract_from_template}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_114}},
   {FLT_POSITIVE_INT64, 0, {.value = 5}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_115}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_115}},
   {FLT_STRING_8, 28, {.str_8 = "malformed parameter template"}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_116}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_117}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_116}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_117}},
   {FLT_POSITIVE_INT64, 0, {.value = 4}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_118}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_119}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_120}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_121}}
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_118}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_119}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_120}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_121}}
 };
 
 static FUNKY_VARIABLE variables_table[] = {
@@ -3535,7 +4411,7 @@ FUNKY_MODULE module__basic__parameters = {
   "basic/parameters.fky", // module filename
   .major_version = 0,
   .minor_version = 0,
-  .feature_flags = FEAT_POSITIONS,
+  .feature_flags = FEAT_POSITIONS|FEAT_FUNCTION_INFO,
   .marker = 0,
   0, // number of required modules
   0, // number of defined namespaces

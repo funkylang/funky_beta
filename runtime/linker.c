@@ -596,7 +596,7 @@ static FUNKY_VARIABLE *get_defined_variable(const char *name) {
   return variable;
 }
 
-EXPORT int find_symbol(const char *namespace, const char *name) {
+EXPORT FUNKY_VARIABLE *find_symbol(const char *namespace, const char *name) {
   uint32_t h = 0;
   const char *p = name;
   while (*p) {
@@ -614,13 +614,12 @@ EXPORT int find_symbol(const char *namespace, const char *name) {
     do {
       if (strcmp(sep->namespace, namespace) == 0) {
 	SYMBOL_VERSION *version = sep->versions;
-	return version->variable->var_idx;
-	return 0;
+	return version->variable;
       }
       sep = sep->link;
     } while (sep);
   }
-  return 0;
+  return NULL;
 }
 
 EXPORT FUNKY_MODULE *main_module;
@@ -718,8 +717,13 @@ static void print_argument(TAB_NUM arg) {
   }
 }
 
-static void dump_function(FUNKY_CONSTANT *constant, int indent) {
-  const TAB_NUM *p = constant->tfunc;
+static void dump_function(
+  FUNKY_CONSTANT *constant, int indent, uint8_t feature_flags
+) {
+  const TAB_NUM *p =
+    feature_flags & FEAT_FUNCTION_INFO
+    ? constant->func_info->code
+    : constant->tfunc;
   int temp_count = *p++;
   TAB_NUM par_count = *p++;
   if (par_count < 0) {
@@ -907,7 +911,7 @@ static void dump_module(void) {
       print_constant(stdout, constant);
       putchar('\n');
       if (be_verbose && constant->type == FLT_FUNCTION) {
-	dump_function(constant, 10);
+	dump_function(constant, 10, current_module->feature_flags);
       }
     }
   }
@@ -944,6 +948,9 @@ static void dump_module(void) {
 	  break;
 	case FOT_UNINITIALIZED:
 	  printf("(uninitialized)");
+	  break;
+	case FOT_LOCAL:
+	  printf("(local)");
 	  break;
 	default:
 	  printf("???");
@@ -1232,7 +1239,11 @@ static void mark_redefined_variables(void) {
     for (i = 0; i < current_module->constants_count; ++i) {
       FUNKY_CONSTANT *constant = &current_module->constants[i];
       if (constant->type == FLT_FUNCTION) {
-	mark_variables(constant->tfunc);
+	mark_variables(
+	  current_module->feature_flags & FEAT_FUNCTION_INFO
+	  ? constant->func_info->code
+	  : constant->tfunc
+	);
       }
     }
   }
@@ -1495,7 +1506,7 @@ static TAB_NUM relocate_argument(TAB_NUM idx) {
   }
 }
 
-static TAB_NUM *relocate_function(TAB_NUM *code) {
+static void relocate_function(TAB_NUM *code, FUNCTION_INFO *info) {
   ++code; // skip locals count
   TAB_NUM par_count = *code++;
   if (par_count < 0) {
@@ -1514,10 +1525,12 @@ static TAB_NUM *relocate_function(TAB_NUM *code) {
       ++code;
     }
   }
+  int position_count = 0;
   relocate_statement:;
   TAB_NUM *functor_p = code;
   TAB_NUM functor = *code++;
   TAB_NUM arg_count = *code++;
+  ++position_count;
   if (functor == LET) {
     if (arg_count < 0) {
       *code = relocate_argument(*code); // relocate source
@@ -1554,7 +1567,13 @@ static TAB_NUM *relocate_function(TAB_NUM *code) {
     code[-1] = res_count; // fix <res_count>
     *functor_p = -*functor_p; // mark <functor> as IO-call
   }
-  if (res_count < 0) return code;
+  if (res_count < 0) {
+    if (info) {
+      info->code_end = code;
+      info->position_count = position_count;
+    }
+    return;
+  }
   while (--res_count >= 0) {
     *code = relocate_argument(*code);
     ++code;
@@ -1562,15 +1581,21 @@ static TAB_NUM *relocate_function(TAB_NUM *code) {
   goto relocate_statement;
 }
 
-static NODE *create_constant(FUNKY_CONSTANT *constant) {
+static NODE *create_constant(FUNKY_CONSTANT *constant, uint8_t feature_flags) {
  switch (constant->type) {
     case FLT_FUNCTION:
       if (do_debug) {
-	FUNCTION_INFO *info = malloc(sizeof(FUNCTION_INFO));
-	if (!info) unrecoverable_error("OUT OF MEMORY WHILE LINKING!");
-	info->code = constant->tfunc;
-	info->code_end = NULL;
-	constant->func_info = info;
+	if (!(feature_flags & FEAT_FUNCTION_INFO)) {
+	  FUNCTION_INFO *info = malloc(sizeof(FUNCTION_INFO));
+	  if (!info) unrecoverable_error("OUT OF MEMORY WHILE LINKING!");
+	  info->code = constant->tfunc;
+	  info->code_end = NULL;
+	  info->position_count = 0;
+	  info->local_count = 0;
+	  constant->func_info = info;
+	}
+      } else if (feature_flags & FEAT_FUNCTION_INFO) {
+	return create_function(constant->func_info->code);
       }
       return create_function(constant->tfunc);
     case FLT_C_FUNCTION:
@@ -1613,7 +1638,8 @@ static void initialize_constants(void) {
 	  " as const_%d\n", current_module->constants_base-TLS_constants+i+1);
       END
       current_module->constants_base[i] =
-	create_constant(&current_module->constants[i]);
+	create_constant(
+	  &current_module->constants[i], current_module->feature_flags);
     }
   }
 }
@@ -2035,10 +2061,26 @@ static void initialize_tuples_lists_and_functions(void) {
       switch (constant->type) {
 	case FLT_FUNCTION:
 	  if (do_debug) {
-	    constant->func_info->code_end =
-	      relocate_function((TAB_NUM *)constant->func_info->code);
+	    FUNCTION_INFO *func_info = constant->func_info;
+	    relocate_function((TAB_NUM *)func_info->code, constant->func_info);
+	    TAB_NUM *slots =
+	      (TAB_NUM *)func_info->code_end+func_info->position_count;
+	    for (int i = 0; i < func_info->local_count; ++i) {
+	      FUNKY_VARIABLE *var = malloc(sizeof(FUNKY_VARIABLE));
+	      if (!var) unrecoverable_error("OUT OF MEMORY WHILE LINKING!");
+	      memset(var, 0, sizeof(FUNKY_VARIABLE));
+	      var->type = FOT_LOCAL;
+	      var->name = func_info->local_names[i];
+	      var->var_idx = slots[i];
+	      var->func_info = constant->func_info;
+	      register_symbol(var);
+	    }
 	  } else {
-	    relocate_function(constant->tfunc);
+	    relocate_function(
+	      current_module->feature_flags & FEAT_FUNCTION_INFO
+	      ? (TAB_NUM *)constant->func_info->code
+	      :  constant->tfunc,
+	      NULL);
 	  }
 	  break;
 	case FLT_TUPLE:

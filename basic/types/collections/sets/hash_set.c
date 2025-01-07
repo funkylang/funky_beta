@@ -216,6 +216,11 @@ static TAB_NUM t_func_std_types__hash_set[] = {
   POS(115, 3)
 };
 
+static FUNCTION_INFO i_func_std_types__hash_set = {
+  t_func_std_types__hash_set, NULL, 5, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_1[] = {
   1, // locals
   0, // parameters
@@ -227,12 +232,22 @@ static TAB_NUM t_lambda_1[] = {
   POS(117, 7)
 };
 
+static FUNCTION_INFO i_lambda_1 = {
+  t_lambda_1, NULL, 2, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_2[] = {
   0, // locals
   0, // parameters
   // if
   var_if, 3, var_111_5_value, lambda_value, lambda_5, TAIL_CALL,
   POS(119, 7)
+};
+
+static FUNCTION_INFO i_lambda_2 = {
+  t_lambda_2, NULL, 1, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_value[] = {
@@ -243,7 +258,13 @@ static TAB_NUM t_lambda_value[] = {
   // if
   var_if, 3, LOCAL(1), lambda_3, lambda_4, TAIL_CALL,
   POS(121, 11),
-  POS(122, 11)
+  POS(122, 11),
+  LOCAL(1)
+};
+
+static FUNCTION_INFO i_lambda_value = {
+  t_lambda_value, NULL, 2, 1,
+  {"121_29_success\000"}
 };
 
 static TAB_NUM t_lambda_3[] = {
@@ -263,6 +284,11 @@ static TAB_NUM t_lambda_3[] = {
   POS(124, 15)
 };
 
+static FUNCTION_INFO i_lambda_3 = {
+  t_lambda_3, NULL, 4, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_4[] = {
   1, // locals
   0, // parameters
@@ -274,6 +300,11 @@ static TAB_NUM t_lambda_4[] = {
   POS(128, 15)
 };
 
+static FUNCTION_INFO i_lambda_4 = {
+  t_lambda_4, NULL, 2, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_5[] = {
   1, // locals
   0, // parameters
@@ -282,7 +313,13 @@ static TAB_NUM t_lambda_5[] = {
   // if
   var_if, 3, LOCAL(1), lambda_6, lambda_7, TAIL_CALL,
   POS(130, 11),
-  POS(131, 11)
+  POS(131, 11),
+  LOCAL(1)
+};
+
+static FUNCTION_INFO i_lambda_5 = {
+  t_lambda_5, NULL, 2, 1,
+  {"130_29_success\000"}
 };
 
 static TAB_NUM t_lambda_6[] = {
@@ -302,12 +339,22 @@ static TAB_NUM t_lambda_6[] = {
   POS(133, 15)
 };
 
+static FUNCTION_INFO i_lambda_6 = {
+  t_lambda_6, NULL, 4, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_7[] = {
   0, // locals
   0, // parameters
   //  myself
   LET, 1, var_109_5_myself, TAIL_CALL,
   POS(137, 15)
+};
+
+static FUNCTION_INFO i_lambda_7 = {
+  t_lambda_7, NULL, 1, 0,
+  {}
 };
 
 static TAB_NUM t_func_empty_hash_set_entry___retrieve[] = {
@@ -319,6 +366,11 @@ static TAB_NUM t_func_empty_hash_set_entry___retrieve[] = {
   // -> false
   LET, 1, var_false, TAIL_CALL,
   POS(142, 58)
+};
+
+static FUNCTION_INFO i_func_empty_hash_set_entry___retrieve = {
+  t_func_empty_hash_set_entry___retrieve, NULL, 1, 0,
+  {}
 };
 
 static TAB_NUM t_func_hash_set_leaf___retrieve[] = {
@@ -335,7 +387,15 @@ static TAB_NUM t_func_hash_set_leaf___retrieve[] = {
   var_if, 3, LOCAL(1), lambda_8, lambda_9, TAIL_CALL,
   POS(145, 3),
   POS(147, 5),
-  POS(146, 3)
+  POS(146, 3),
+  LOCAL(3),
+  LOCAL(2),
+  LOCAL(4)
+};
+
+static FUNCTION_INFO i_func_hash_set_leaf___retrieve = {
+  t_func_hash_set_leaf___retrieve, NULL, 3, 3,
+  {"144_44_key\000", "144_27_self\000", "145_25_my_key\000"}
 };
 
 static TAB_NUM t_lambda_8[] = {
@@ -346,12 +406,22 @@ static TAB_NUM t_lambda_8[] = {
   POS(148, 7)
 };
 
+static FUNCTION_INFO i_lambda_8 = {
+  t_lambda_8, NULL, 1, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_9[] = {
   0, // locals
   0, // parameters
   //  false
   LET, 1, var_false, TAIL_CALL,
   POS(149, 7)
+};
+
+static FUNCTION_INFO i_lambda_9 = {
+  t_lambda_9, NULL, 1, 0,
+  {}
 };
 
 static TAB_NUM t_func_empty_collision_list_entry___retrieve[] = {
@@ -363,6 +433,11 @@ static TAB_NUM t_func_empty_collision_list_entry___retrieve[] = {
   // -> false
   LET, 1, var_false, TAIL_CALL,
   POS(151, 59)
+};
+
+static FUNCTION_INFO i_func_empty_collision_list_entry___retrieve = {
+  t_func_empty_collision_list_entry___retrieve, NULL, 1, 0,
+  {}
 };
 
 static TAB_NUM t_func_collision_list_entry___retrieve[] = {
@@ -379,7 +454,14 @@ static TAB_NUM t_func_collision_list_entry___retrieve[] = {
   var_if, 3, LOCAL(1), lambda_10, lambda_11, TAIL_CALL,
   POS(154, 3),
   POS(156, 5),
-  POS(155, 3)
+  POS(155, 3),
+  LOCAL(2),
+  LOCAL(3)
+};
+
+static FUNCTION_INFO i_func_collision_list_entry___retrieve = {
+  t_func_collision_list_entry___retrieve, NULL, 3, 2,
+  {"153_34_self\000", "154_9_my_key\000"}
 };
 
 static TAB_NUM t_lambda_10[] = {
@@ -390,12 +472,22 @@ static TAB_NUM t_lambda_10[] = {
   POS(157, 7)
 };
 
+static FUNCTION_INFO i_lambda_10 = {
+  t_lambda_10, NULL, 1, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_11[] = {
   0, // locals
   0, // parameters
   // retrieve my_link undefined key
   var_retrieve, 3, var_154_17_my_link, var_undefined, var_153_46_key, TAIL_CALL,
   POS(158, 7)
+};
+
+static FUNCTION_INFO i_lambda_11 = {
+  t_lambda_11, NULL, 1, 0,
+  {}
 };
 
 static TAB_NUM t_func_hash_set_node___retrieve[] = {
@@ -418,7 +510,16 @@ static TAB_NUM t_func_hash_set_node___retrieve[] = {
   POS(161, 3),
   POS(162, 12),
   POS(162, 22),
-  POS(162, 3)
+  POS(162, 3),
+  LOCAL(5),
+  LOCAL(6),
+  LOCAL(3),
+  LOCAL(4)
+};
+
+static FUNCTION_INFO i_func_hash_set_node___retrieve = {
+  t_func_hash_set_node___retrieve, NULL, 5, 4,
+  {"160_43_key\000", "161_4_idx\000", "160_27_self\000", "160_32_hash_index\000"}
 };
 
 static TAB_NUM t_func_empty_hash_set_entry___insert[] = {
@@ -435,6 +536,11 @@ static TAB_NUM t_func_empty_hash_set_entry___insert[] = {
   POS(168, 3)
 };
 
+static FUNCTION_INFO i_func_empty_hash_set_entry___insert = {
+  t_func_empty_hash_set_entry___insert, NULL, 2, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_12[] = {
   1, // locals
   0, // parameters
@@ -446,6 +552,11 @@ static TAB_NUM t_lambda_12[] = {
   POS(170, 7)
 };
 
+static FUNCTION_INFO i_lambda_12 = {
+  t_lambda_12, NULL, 2, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_13[] = {
   1, // locals
   0, // parameters
@@ -455,6 +566,11 @@ static TAB_NUM t_lambda_13[] = {
   LET, 2, LOCAL(1), var_true, TAIL_CALL,
   POS(171, 8),
   POS(171, 7)
+};
+
+static FUNCTION_INFO i_lambda_13 = {
+  t_lambda_13, NULL, 2, 0,
+  {}
 };
 
 static TAB_NUM t_func_hash_set_leaf___insert[] = {
@@ -474,12 +590,22 @@ static TAB_NUM t_func_hash_set_leaf___insert[] = {
   POS(175, 3)
 };
 
+static FUNCTION_INFO i_func_hash_set_leaf___insert = {
+  t_func_hash_set_leaf___insert, NULL, 3, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_14[] = {
   0, // locals
   0, // parameters
   //  self false
   LET, 2, var_173_25_self, var_false, TAIL_CALL,
   POS(177, 7)
+};
+
+static FUNCTION_INFO i_lambda_14 = {
+  t_lambda_14, NULL, 1, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_15[] = {
@@ -490,7 +616,13 @@ static TAB_NUM t_lambda_15[] = {
   // insert new_node hash_index key
   var_insert, 3, LOCAL(2), var_173_30_hash_index, var_173_41_key, TAIL_CALL,
   POS(179, 7),
-  POS(180, 7)
+  POS(180, 7),
+  LOCAL(2)
+};
+
+static FUNCTION_INFO i_lambda_15 = {
+  t_lambda_15, NULL, 2, 1,
+  {"179_29_new_node\000"}
 };
 
 static TAB_NUM t_func_empty_collision_list_entry___insert[] = {
@@ -504,7 +636,14 @@ static TAB_NUM t_func_empty_collision_list_entry___insert[] = {
   // -> typed_tuple(collision_list_entry key self) true
   LET, 2, LOCAL(1), var_true, TAIL_CALL,
   POS(183, 6),
-  POS(183, 3)
+  POS(183, 3),
+  LOCAL(2),
+  LOCAL(3)
+};
+
+static FUNCTION_INFO i_func_empty_collision_list_entry___insert = {
+  t_func_empty_collision_list_entry___insert, NULL, 2, 2,
+  {"182_38_self\000", "182_50_key\000"}
 };
 
 static TAB_NUM t_func_collision_list_entry___insert[] = {
@@ -524,12 +663,22 @@ static TAB_NUM t_func_collision_list_entry___insert[] = {
   POS(187, 3)
 };
 
+static FUNCTION_INFO i_func_collision_list_entry___insert = {
+  t_func_collision_list_entry___insert, NULL, 3, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_16[] = {
   0, // locals
   0, // parameters
   //  self false
   LET, 2, var_185_32_self, var_false, TAIL_CALL,
   POS(189, 7)
+};
+
+static FUNCTION_INFO i_lambda_16 = {
+  t_lambda_16, NULL, 1, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_17[] = {
@@ -540,7 +689,13 @@ static TAB_NUM t_lambda_17[] = {
   // if
   var_if, 3, LOCAL(1), lambda_18, lambda_19, TAIL_CALL,
   POS(191, 7),
-  POS(192, 7)
+  POS(192, 7),
+  LOCAL(1)
+};
+
+static FUNCTION_INFO i_lambda_17 = {
+  t_lambda_17, NULL, 2, 1,
+  {"191_43_did_insert\000"}
 };
 
 static TAB_NUM t_lambda_18[] = {
@@ -554,12 +709,22 @@ static TAB_NUM t_lambda_18[] = {
   POS(194, 11)
 };
 
+static FUNCTION_INFO i_lambda_18 = {
+  t_lambda_18, NULL, 2, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_19[] = {
   0, // locals
   0, // parameters
   //  self false
   LET, 2, var_185_32_self, var_false, TAIL_CALL,
   POS(195, 11)
+};
+
+static FUNCTION_INFO i_lambda_19 = {
+  t_lambda_19, NULL, 1, 0,
+  {}
 };
 
 static TAB_NUM t_func_hash_set_node___insert[] = {
@@ -588,7 +753,17 @@ static TAB_NUM t_func_hash_set_node___insert[] = {
   POS(199, 33),
   POS(199, 3),
   POS(199, 11),
-  POS(200, 3)
+  POS(200, 3),
+  LOCAL(4),
+  LOCAL(7),
+  LOCAL(6),
+  LOCAL(3),
+  LOCAL(5)
+};
+
+static FUNCTION_INFO i_func_hash_set_node___insert = {
+  t_func_hash_set_node___insert, NULL, 7, 5,
+  {"197_30_hash_index\000", "199_22_did_insert\000", "198_4_idx\000", "197_25_self\000", "197_41_key\000"}
 };
 
 static TAB_NUM t_func_empty_hash_set_entry___delete[] = {
@@ -599,7 +774,13 @@ static TAB_NUM t_func_empty_hash_set_entry___delete[] = {
   LOCAL(1),
   // -> self false
   LET, 2, LOCAL(2), var_false, TAIL_CALL,
-  POS(214, 55)
+  POS(214, 55),
+  LOCAL(2)
+};
+
+static FUNCTION_INFO i_func_empty_hash_set_entry___delete = {
+  t_func_empty_hash_set_entry___delete, NULL, 1, 1,
+  {"214_32_self\000"}
 };
 
 static TAB_NUM t_func_hash_set_leaf___delete[] = {
@@ -616,7 +797,14 @@ static TAB_NUM t_func_hash_set_leaf___delete[] = {
   var_if, 3, LOCAL(1), lambda_20, lambda_21, TAIL_CALL,
   POS(217, 3),
   POS(219, 5),
-  POS(218, 3)
+  POS(218, 3),
+  LOCAL(2),
+  LOCAL(3)
+};
+
+static FUNCTION_INFO i_func_hash_set_leaf___delete = {
+  t_func_hash_set_leaf___delete, NULL, 3, 2,
+  {"216_42_key\000", "217_25_my_key\000"}
 };
 
 static TAB_NUM t_lambda_20[] = {
@@ -627,12 +815,22 @@ static TAB_NUM t_lambda_20[] = {
   POS(220, 7)
 };
 
+static FUNCTION_INFO i_lambda_20 = {
+  t_lambda_20, NULL, 1, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_21[] = {
   0, // locals
   0, // parameters
   //  self false
   LET, 2, var_216_25_self, var_false, TAIL_CALL,
   POS(221, 7)
+};
+
+static FUNCTION_INFO i_lambda_21 = {
+  t_lambda_21, NULL, 1, 0,
+  {}
 };
 
 static TAB_NUM t_func_empty_collision_list_entry___delete[] = {
@@ -643,7 +841,13 @@ static TAB_NUM t_func_empty_collision_list_entry___delete[] = {
   LOCAL(1),
   // -> self false
   LET, 2, LOCAL(2), var_false, TAIL_CALL,
-  POS(223, 56)
+  POS(223, 56),
+  LOCAL(2)
+};
+
+static FUNCTION_INFO i_func_empty_collision_list_entry___delete = {
+  t_func_empty_collision_list_entry___delete, NULL, 1, 1,
+  {"223_38_self\000"}
 };
 
 static TAB_NUM t_func_collision_list_entry___delete[] = {
@@ -660,7 +864,13 @@ static TAB_NUM t_func_collision_list_entry___delete[] = {
   var_if, 3, LOCAL(1), lambda_22, lambda_23, TAIL_CALL,
   POS(226, 3),
   POS(228, 5),
-  POS(227, 3)
+  POS(227, 3),
+  LOCAL(2)
+};
+
+static FUNCTION_INFO i_func_collision_list_entry___delete = {
+  t_func_collision_list_entry___delete, NULL, 3, 1,
+  {"225_32_self\000"}
 };
 
 static TAB_NUM t_lambda_22[] = {
@@ -669,6 +879,11 @@ static TAB_NUM t_lambda_22[] = {
   // -> my_link true
   LET, 2, var_226_17_my_link, var_true, TAIL_CALL,
   POS(230, 7)
+};
+
+static FUNCTION_INFO i_lambda_22 = {
+  t_lambda_22, NULL, 1, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_23[] = {
@@ -682,7 +897,13 @@ static TAB_NUM t_lambda_23[] = {
   LET, 2, LOCAL(1), LOCAL(2), TAIL_CALL,
   POS(232, 7),
   POS(233, 10),
-  POS(233, 7)
+  POS(233, 7),
+  LOCAL(2)
+};
+
+static FUNCTION_INFO i_lambda_23 = {
+  t_lambda_23, NULL, 3, 1,
+  {"232_38_did_delete\000"}
 };
 
 static TAB_NUM t_func_hash_set_node___delete[] = {
@@ -711,7 +932,16 @@ static TAB_NUM t_func_hash_set_node___delete[] = {
   POS(237, 30),
   POS(237, 3),
   POS(237, 11),
-  POS(238, 3)
+  POS(238, 3),
+  LOCAL(3),
+  LOCAL(6),
+  LOCAL(4),
+  LOCAL(5)
+};
+
+static FUNCTION_INFO i_func_hash_set_node___delete = {
+  t_func_hash_set_node___delete, NULL, 7, 4,
+  {"235_30_hash_index\000", "237_22_success\000", "235_41_key\000", "236_4_idx\000"}
 };
 
 static TAB_NUM t_lambda_24[] = {
@@ -725,12 +955,22 @@ static TAB_NUM t_lambda_24[] = {
   POS(241, 7)
 };
 
+static FUNCTION_INFO i_lambda_24 = {
+  t_lambda_24, NULL, 2, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_25[] = {
   0, // locals
   0, // parameters
   //  empty_hash_set_entry true
   LET, 2, var_empty_hash_set_entry, var_true, TAIL_CALL,
   POS(243, 11)
+};
+
+static FUNCTION_INFO i_lambda_25 = {
+  t_lambda_25, NULL, 1, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_26[] = {
@@ -741,12 +981,22 @@ static TAB_NUM t_lambda_26[] = {
   POS(244, 11)
 };
 
+static FUNCTION_INFO i_lambda_26 = {
+  t_lambda_26, NULL, 1, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_27[] = {
   0, // locals
   0, // parameters
   //  self false
   LET, 2, var_235_25_self, var_false, TAIL_CALL,
   POS(245, 7)
+};
+
+static FUNCTION_INFO i_lambda_27 = {
+  t_lambda_27, NULL, 1, 0,
+  {}
 };
 
 static TAB_NUM t_func_empty_hash_set_entry___for_each_1[] = {
@@ -756,6 +1006,11 @@ static TAB_NUM t_func_empty_hash_set_entry___for_each_1[] = {
   // next!
   var_next, 0, IO_TAIL_CALL,
   POS(253, 3)
+};
+
+static FUNCTION_INFO i_func_empty_hash_set_entry___for_each_1 = {
+  t_func_empty_hash_set_entry___for_each_1, NULL, 1, 0,
+  {}
 };
 
 static TAB_NUM t_func_collision_list_entry___for_each_1[] = {
@@ -779,7 +1034,14 @@ static TAB_NUM t_func_collision_list_entry___for_each_1[] = {
   POS(264, 3),
   POS(270, 4),
   POS(272, 3),
-  POS(284, 3)
+  POS(284, 3),
+  LOCAL(1),
+  LOCAL(2)
+};
+
+static FUNCTION_INFO i_func_collision_list_entry___for_each_1 = {
+  t_func_collision_list_entry___for_each_1, NULL, 6, 2,
+  {"255_36_self\000", "256_4_saved_context\000"}
 };
 
 static TAB_NUM t_lambda_28[] = {
@@ -794,7 +1056,13 @@ static TAB_NUM t_lambda_28[] = {
   var_break, 0, IO_TAIL_CALL,
   POS(265, 5),
   POS(265, 5),
-  POS(268, 5)
+  POS(268, 5),
+  LOCAL(2)
+};
+
+static FUNCTION_INFO i_lambda_28 = {
+  t_lambda_28, NULL, 3, 1,
+  {"264_44_myself\000"}
 };
 
 static TAB_NUM t_lambda_next[] = {
@@ -806,6 +1074,11 @@ static TAB_NUM t_lambda_next[] = {
   var_if, 3, LOCAL(1), lambda_basic_loopsself_is_an_empty_entry, lambda_29, IO_TAIL_CALL,
   POS(274, 25),
   POS(273, 5)
+};
+
+static FUNCTION_INFO i_lambda_next = {
+  t_lambda_next, NULL, 2, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_basic_loopsself_is_an_empty_entry[] = {
@@ -822,6 +1095,11 @@ static TAB_NUM t_lambda_basic_loopsself_is_an_empty_entry[] = {
   POS(278, 9)
 };
 
+static FUNCTION_INFO i_lambda_basic_loopsself_is_an_empty_entry = {
+  t_lambda_basic_loopsself_is_an_empty_entry, NULL, 3, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_29[] = {
   2, // locals
   0, // parameters
@@ -833,7 +1111,14 @@ static TAB_NUM t_lambda_29[] = {
   var_basic_loops__body, 1, LOCAL(1), IO_TAIL_CALL,
   POS(280, 9),
   POS(281, 9),
-  POS(282, 9)
+  POS(282, 9),
+  LOCAL(1),
+  LOCAL(2)
+};
+
+static FUNCTION_INFO i_lambda_29 = {
+  t_lambda_29, NULL, 3, 2,
+  {"280_28_key\000", "280_33_link\000"}
 };
 
 static TAB_NUM t_func_hash_set_leaf___for_each_1[] = {
@@ -845,7 +1130,14 @@ static TAB_NUM t_func_hash_set_leaf___for_each_1[] = {
   // basic_loops::body! key
   var_basic_loops__body, 1, LOCAL(3), IO_TAIL_CALL,
   POS(287, 3),
-  POS(288, 3)
+  POS(288, 3),
+  LOCAL(2),
+  LOCAL(3)
+};
+
+static FUNCTION_INFO i_func_hash_set_leaf___for_each_1 = {
+  t_func_hash_set_leaf___for_each_1, NULL, 2, 2,
+  {"286_29_self\000", "287_16_key\000"}
 };
 
 static TAB_NUM t_func_hash_set_node___for_each_1[] = {
@@ -872,7 +1164,14 @@ static TAB_NUM t_func_hash_set_node___for_each_1[] = {
   POS(301, 3),
   POS(307, 4),
   POS(309, 3),
-  POS(321, 3)
+  POS(321, 3),
+  LOCAL(2),
+  LOCAL(1)
+};
+
+static FUNCTION_INFO i_func_hash_set_node___for_each_1 = {
+  t_func_hash_set_node___for_each_1, NULL, 7, 2,
+  {"291_4_saved_context\000", "290_29_self\000"}
 };
 
 static TAB_NUM t_lambda_30[] = {
@@ -887,7 +1186,13 @@ static TAB_NUM t_lambda_30[] = {
   var_break, 0, IO_TAIL_CALL,
   POS(302, 5),
   POS(302, 5),
-  POS(305, 5)
+  POS(305, 5),
+  LOCAL(2)
+};
+
+static FUNCTION_INFO i_lambda_30 = {
+  t_lambda_30, NULL, 3, 1,
+  {"301_44_myself\000"}
 };
 
 static TAB_NUM t_lambda_2_next[] = {
@@ -907,6 +1212,11 @@ static TAB_NUM t_lambda_2_next[] = {
   POS(311, 5)
 };
 
+static FUNCTION_INFO i_lambda_2_next = {
+  t_lambda_2_next, NULL, 4, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_31[] = {
   1, // locals
   0, // parameters
@@ -921,6 +1231,11 @@ static TAB_NUM t_lambda_31[] = {
   POS(314, 9)
 };
 
+static FUNCTION_INFO i_lambda_31 = {
+  t_lambda_31, NULL, 3, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_32[] = {
   1, // locals
   0, // parameters
@@ -933,6 +1248,11 @@ static TAB_NUM t_lambda_32[] = {
   POS(316, 9),
   POS(316, 9),
   POS(319, 9)
+};
+
+static FUNCTION_INFO i_lambda_32 = {
+  t_lambda_32, NULL, 3, 0,
+  {}
 };
 
 static TAB_NUM t_func_std_types__hash_set___for_each[] = {
@@ -964,7 +1284,15 @@ static TAB_NUM t_func_std_types__hash_set___for_each[] = {
   POS(346, 4),
   POS(347, 3),
   POS(349, 15),
-  POS(349, 3)
+  POS(349, 3),
+  LOCAL(2),
+  LOCAL(3),
+  LOCAL(4)
+};
+
+static FUNCTION_INFO i_func_std_types__hash_set___for_each = {
+  t_func_std_types__hash_set___for_each, NULL, 8, 3,
+  {"325_5_self\000", "326_5_body\000", "329_4_saved_context\000"}
 };
 
 static TAB_NUM t_lambda_33[] = {
@@ -982,7 +1310,13 @@ static TAB_NUM t_lambda_33[] = {
   POS(340, 5),
   POS(341, 5),
   POS(341, 5),
-  POS(344, 5)
+  POS(344, 5),
+  LOCAL(2)
+};
+
+static FUNCTION_INFO i_lambda_33 = {
+  t_lambda_33, NULL, 4, 1,
+  {"339_44_myself\000"}
 };
 
 static TAB_NUM t_func_my_reduce[] = {
@@ -998,12 +1332,22 @@ static TAB_NUM t_func_my_reduce[] = {
   POS(359, 3)
 };
 
+static FUNCTION_INFO i_func_my_reduce = {
+  t_func_my_reduce, NULL, 2, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_34[] = {
   0, // locals
   0, // parameters
   //  right
   LET, 1, var_358_19_right, TAIL_CALL,
   POS(361, 7)
+};
+
+static FUNCTION_INFO i_lambda_34 = {
+  t_lambda_34, NULL, 1, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_35[] = {
@@ -1017,12 +1361,22 @@ static TAB_NUM t_lambda_35[] = {
   POS(363, 7)
 };
 
+static FUNCTION_INFO i_lambda_35 = {
+  t_lambda_35, NULL, 2, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_36[] = {
   0, // locals
   0, // parameters
   //  left
   LET, 1, var_358_14_left, TAIL_CALL,
   POS(365, 11)
+};
+
+static FUNCTION_INFO i_lambda_36 = {
+  t_lambda_36, NULL, 1, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_37[] = {
@@ -1036,6 +1390,11 @@ static TAB_NUM t_lambda_37[] = {
   POS(366, 11)
 };
 
+static FUNCTION_INFO i_lambda_37 = {
+  t_lambda_37, NULL, 2, 0,
+  {}
+};
+
 static TAB_NUM t_func_empty_hash_set_entry___map_reduce_1[] = {
   1, // locals
   1, // parameters
@@ -1043,6 +1402,11 @@ static TAB_NUM t_func_empty_hash_set_entry___map_reduce_1[] = {
   // -> UNIT
   LET, 1, uni_UNIT, TAIL_CALL,
   POS(375, 45)
+};
+
+static FUNCTION_INFO i_func_empty_hash_set_entry___map_reduce_1 = {
+  t_func_empty_hash_set_entry___map_reduce_1, NULL, 1, 0,
+  {}
 };
 
 static TAB_NUM t_func_hash_set_leaf___map_reduce_1[] = {
@@ -1057,7 +1421,14 @@ static TAB_NUM t_func_hash_set_leaf___map_reduce_1[] = {
   LET, 1, LOCAL(1), TAIL_CALL,
   POS(378, 3),
   POS(379, 6),
-  POS(379, 3)
+  POS(379, 3),
+  LOCAL(3),
+  LOCAL(2)
+};
+
+static FUNCTION_INFO i_func_hash_set_leaf___map_reduce_1 = {
+  t_func_hash_set_leaf___map_reduce_1, NULL, 3, 2,
+  {"378_25_my_key\000", "377_31_self\000"}
 };
 
 static TAB_NUM t_func_empty_collision_list_entry___map_reduce_1[] = {
@@ -1067,6 +1438,11 @@ static TAB_NUM t_func_empty_collision_list_entry___map_reduce_1[] = {
   // -> UNIT
   LET, 1, uni_UNIT, TAIL_CALL,
   POS(381, 51)
+};
+
+static FUNCTION_INFO i_func_empty_collision_list_entry___map_reduce_1 = {
+  t_func_empty_collision_list_entry___map_reduce_1, NULL, 1, 0,
+  {}
 };
 
 static TAB_NUM t_func_collision_list_entry___map_reduce_1[] = {
@@ -1084,7 +1460,15 @@ static TAB_NUM t_func_collision_list_entry___map_reduce_1[] = {
   POS(384, 3),
   POS(386, 5),
   POS(387, 5),
-  POS(385, 3)
+  POS(385, 3),
+  LOCAL(4),
+  LOCAL(3),
+  LOCAL(5)
+};
+
+static FUNCTION_INFO i_func_collision_list_entry___map_reduce_1 = {
+  t_func_collision_list_entry___map_reduce_1, NULL, 4, 3,
+  {"384_9_my_key\000", "383_38_self\000", "384_17_my_link\000"}
 };
 
 static TAB_NUM t_func_hash_set_node___map_reduce_1[] = {
@@ -1162,7 +1546,19 @@ static TAB_NUM t_func_hash_set_node___map_reduce_1[] = {
   POS(394, 3),
   POS(395, 3),
   POS(396, 6),
-  POS(396, 3)
+  POS(396, 3),
+  LOCAL(6),
+  LOCAL(5),
+  LOCAL(9),
+  LOCAL(8),
+  LOCAL(7),
+  LOCAL(10),
+  LOCAL(11)
+};
+
+static FUNCTION_INFO i_func_hash_set_node___map_reduce_1 = {
+  t_func_hash_set_node___map_reduce_1, NULL, 24, 7,
+  {"390_4_r12\000", "389_31_self\000", "393_4_r78\000", "392_4_r56\000", "391_4_r34\000", "394_4_r1234\000", "395_4_r5678\000"}
 };
 
 static TAB_NUM t_func_std_types__hash_set___map_reduce[] = {
@@ -1183,12 +1579,22 @@ static TAB_NUM t_func_std_types__hash_set___map_reduce[] = {
   POS(413, 3)
 };
 
+static FUNCTION_INFO i_func_std_types__hash_set___map_reduce = {
+  t_func_std_types__hash_set___map_reduce, NULL, 3, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_38[] = {
   0, // locals
   0, // parameters
   //  unit
   LET, 1, var_411_5_unit, TAIL_CALL,
   POS(415, 7)
+};
+
+static FUNCTION_INFO i_lambda_38 = {
+  t_lambda_38, NULL, 1, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_39[] = {
@@ -1208,6 +1614,11 @@ static TAB_NUM t_lambda_39[] = {
   POS(419, 7)
 };
 
+static FUNCTION_INFO i_lambda_39 = {
+  t_lambda_39, NULL, 4, 0,
+  {}
+};
+
 static TAB_NUM t_func_std__hash_set[] = {
   1, // locals
   -1, // parameters
@@ -1217,7 +1628,13 @@ static TAB_NUM t_func_std__hash_set[] = {
   // for_each keys
   var_for_each, 3, LOCAL(1), lambda_40, lambda_41, TAIL_CALL,
   POS(423, 3),
-  POS(424, 3)
+  POS(424, 3),
+  LOCAL(1)
+};
+
+static FUNCTION_INFO i_func_std__hash_set = {
+  t_func_std__hash_set, NULL, 2, 1,
+  {"422_18_keys\000"}
 };
 
 static TAB_NUM t_lambda_40[] = {
@@ -1229,7 +1646,13 @@ static TAB_NUM t_lambda_40[] = {
   // next
   var_next, 0, TAIL_CALL,
   POS(426, 8),
-  POS(427, 7)
+  POS(427, 7),
+  LOCAL(1)
+};
+
+static FUNCTION_INFO i_lambda_40 = {
+  t_lambda_40, NULL, 2, 1,
+  {"425_8_key\000"}
 };
 
 static TAB_NUM t_lambda_41[] = {
@@ -1238,6 +1661,11 @@ static TAB_NUM t_lambda_41[] = {
   //  result
   LET, 1, var_423_4_result, TAIL_CALL,
   POS(428, 7)
+};
+
+static FUNCTION_INFO i_lambda_41 = {
+  t_lambda_41, NULL, 1, 0,
+  {}
 };
 
 static int tuple_87_1_arguments[] = {
@@ -1253,90 +1681,90 @@ static FUNKY_CONSTANT constants_table[] = {
   {FLT_TUPLE, 2, {.arguments = tuple_87_1_arguments}},
   {FLT_LIST, 8, {.arguments = list_93_1_arguments}},
   {FLT_UNIQUE, 0, {.str_8 = "NONE"}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std_types__hash_set}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std_types__hash_set}},
   {FLT_POSITIVE_INT64, 0, {.value = 0xc0000000}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_1}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_2}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_value}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_3}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_1}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_2}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_value}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_3}},
   {FLT_POSITIVE_INT64, 0, {.value = 1}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_4}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_5}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_6}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_7}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_empty_hash_set_entry___retrieve}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_hash_set_leaf___retrieve}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_8}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_9}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_empty_collision_list_entry___retrieve}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_collision_list_entry___retrieve}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_10}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_11}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_hash_set_node___retrieve}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_4}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_5}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_6}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_7}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_empty_hash_set_entry___retrieve}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_hash_set_leaf___retrieve}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_8}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_9}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_empty_collision_list_entry___retrieve}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_collision_list_entry___retrieve}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_10}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_11}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_hash_set_node___retrieve}},
   {FLT_POSITIVE_INT64, 0, {.value = 7}},
   {FLT_POSITIVE_INT64, 0, {.value = 3}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_empty_hash_set_entry___insert}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_12}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_13}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_hash_set_leaf___insert}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_14}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_15}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_empty_collision_list_entry___insert}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_collision_list_entry___insert}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_16}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_17}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_18}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_19}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_hash_set_node___insert}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_empty_hash_set_entry___delete}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_hash_set_leaf___delete}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_20}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_21}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_empty_collision_list_entry___delete}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_collision_list_entry___delete}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_22}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_23}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_hash_set_node___delete}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_24}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_25}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_26}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_27}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_empty_hash_set_entry___for_each_1}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_collision_list_entry___for_each_1}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_28}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_next}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_basic_loopsself_is_an_empty_entry}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_29}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_hash_set_leaf___for_each_1}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_hash_set_node___for_each_1}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_30}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_2_next}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_empty_hash_set_entry___insert}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_12}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_13}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_hash_set_leaf___insert}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_14}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_15}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_empty_collision_list_entry___insert}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_collision_list_entry___insert}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_16}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_17}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_18}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_19}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_hash_set_node___insert}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_empty_hash_set_entry___delete}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_hash_set_leaf___delete}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_20}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_21}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_empty_collision_list_entry___delete}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_collision_list_entry___delete}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_22}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_23}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_hash_set_node___delete}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_24}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_25}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_26}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_27}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_empty_hash_set_entry___for_each_1}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_collision_list_entry___for_each_1}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_28}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_next}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_basic_loopsself_is_an_empty_entry}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_29}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_hash_set_leaf___for_each_1}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_hash_set_node___for_each_1}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_30}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_2_next}},
   {FLT_POSITIVE_INT64, 0, {.value = 8}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_31}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_32}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std_types__hash_set___for_each}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_33}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_31}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_32}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std_types__hash_set___for_each}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_33}},
   {FLT_UNIQUE, 0, {.str_8 = "UNIT"}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_my_reduce}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_34}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_35}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_36}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_37}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_empty_hash_set_entry___map_reduce_1}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_hash_set_leaf___map_reduce_1}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_empty_collision_list_entry___map_reduce_1}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_collision_list_entry___map_reduce_1}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_hash_set_node___map_reduce_1}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_my_reduce}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_34}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_35}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_36}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_37}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_empty_hash_set_entry___map_reduce_1}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_hash_set_leaf___map_reduce_1}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_empty_collision_list_entry___map_reduce_1}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_collision_list_entry___map_reduce_1}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_hash_set_node___map_reduce_1}},
   {FLT_POSITIVE_INT64, 0, {.value = 2}},
   {FLT_POSITIVE_INT64, 0, {.value = 4}},
   {FLT_POSITIVE_INT64, 0, {.value = 5}},
   {FLT_POSITIVE_INT64, 0, {.value = 6}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std_types__hash_set___map_reduce}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_38}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_39}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std__hash_set}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_40}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_41}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std_types__hash_set___map_reduce}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_38}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_39}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std__hash_set}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_40}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_41}},
   {FLT_STRING_8, 8, {.str_8 = "hash_set"}}
 };
 
@@ -1820,7 +2248,7 @@ FUNKY_MODULE module__basic__types__collections__sets__hash_set = {
   "basic/types/collections/sets/hash_set.fky", // module filename
   .major_version = 0,
   .minor_version = 0,
-  .feature_flags = FEAT_POSITIONS,
+  .feature_flags = FEAT_POSITIONS|FEAT_FUNCTION_INFO,
   .marker = 0,
   0, // number of required modules
   0, // number of defined namespaces

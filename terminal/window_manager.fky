@@ -85,6 +85,7 @@ $std::handle_window_event ()
 
 $std::ID .
 $std::USE_CURSOR .
+$std::AS_FIRST . # make the window the first in its pane
 $std::DO_NOT_FOCUS .
 $std::CONTENT .
 $std::HORIZONTAL_SCROLLBAR .
@@ -228,6 +229,7 @@ $std_types::window_manager/create_window:
   get_options options
     ID = undefined $window_id
     USE_CURSOR = false $use_cursor
+    AS_FIRST = false $as_first
     DO_NOT_FOCUS = false $do_not_focus
     TITLE = "<untitled>" $title
     CONTENT = undefined $content
@@ -244,7 +246,7 @@ $std_types::window_manager/create_window:
     PARENT_ID = undefined $parent_id
   update_if window_id.is_undefined &window_id &wm.next_window_id_of
     -> next_window_id_of(wm) next_window_id_of(wm)+1
-  push &wm.windows_of
+  $new_window
     proto_window
       .id_of window_id
       .parent_id_of parent_id
@@ -261,6 +263,12 @@ $std_types::window_manager/create_window:
       .first_visible_column_of first_visible_column
       .first_visible_row_of first_visible_row
       .is_modal modal
+  !wm.windows_of
+    if
+      as_first:
+	put windows_of(wm) new_window
+      :
+	push windows_of(wm) new_window
   $focused focused_of(wm)
   !wm
     .focused_of
@@ -781,7 +789,7 @@ $std_types::window_manager/update:
 	-> wm terminal
 
 $layout_windows: (wm)
-  $windows undefined
+  $windows windows_of(wm)
   $first_y undefined
   $available_height undefined
 
@@ -791,7 +799,6 @@ $layout_windows: (wm)
     wm.has_a_valid_layout
     -> wm
     :
-      !windows windows_of(wm)
       if
 	windows.is_empty
 	-> wm(.has_a_valid_layout true)
@@ -809,6 +816,9 @@ $layout_windows: (wm)
 
   $compute_default_layout:
     $focused focused_of(wm)
+    $index find_index(windows focused)
+    $focused_window windows(index)
+    $parent_id parent_id_of(focused_window)
     $width width_of(wm)
     $n
       count
@@ -817,52 +827,108 @@ $layout_windows: (wm)
 	  not
 	    ||
 	      size_of(window).is_defined
-	      window.is_minimized && not(id_of(window) == focused)
+	      &&
+		window.is_minimized
+		not
+		  id_of(window) == focused || id_of(window) == parent_id
     $fixed_size_windows
       filter(windows: (window) -> size_of(window).is_defined)
     minus &available_height
-      map_reduce(fixed_size_windows size_of plus 0)
-    $iter bresenham(n+1 first_y first_y+available_height-length_of(windows))
-    next_value &iter $y
-    $updated_windows empty_list
-    $dy 0
-    for_each windows
-      : (window)
-	!window
-	  .x_of 1
-	  .y_of y+dy
-	  .width_of width
-	inc &dy
-	cond
-	  -> window.is_minimized && id_of(window) != focused:
-	    push &updated_windows
-	      window
-		.height_of 1
-		.content_width_of width
-		.content_height_of 0
-		.needs_a_horizontal_scrollbar false
-		.needs_a_vertical_scrollbar false
-	    next
-	  -> size_of(window).is_defined:
-	    push &updated_windows
-	      window
-		.content_width_of width
-		.height_of size_of(window)+1
-		.content_height_of size_of(window)
-		.needs_a_horizontal_scrollbar false
-		.needs_a_vertical_scrollbar false
-	    next
-	  -> true:
-	    next_value &iter $next_y
-	    !window.height_of next_y-y+1
-	    maybe_add_scrollbars &window
-	    push &updated_windows window
-	    !y next_y
-	    next
-      ->
-	wm
-	  .windows_of updated_windows
-	  .has_a_valid_layout true
+      +
+	map_reduce(fixed_size_windows size_of plus 0) # content height of fixed
+	length_of(windows) # title bars
+    $new_n n
+    $new_available_height available_height
+    loop
+      :
+	for_each windows
+	  : (window)
+	    if
+	      &&
+		size_of(window).is_undefined
+		||
+		  not(window.is_minimized)
+		  id_of(window) == focused || id_of(window) == parent_id
+	      :
+		$content content_of(window)
+		$content_height height_of(content)
+		update_if width_of(content) > width_of(wm)
+		  &content_height -> content_height+1
+		if
+		  n*content_height <= available_height:
+		    dec &new_n
+		    minus &new_available_height content_height
+		    next
+		  next
+	      next
+	  :
+	    if
+	      new_n > 0:
+		!n new_n
+		!available_height new_available_height
+		layout_variable_sized_windows true
+	      :
+		layout_variable_sized_windows false
+
+    $layout_variable_sized_windows: (do_shrink)
+      $iter bresenham_delta(n available_height)
+      $y first_y
+      $updated_windows empty_list
+      for_each windows
+	: (window)
+	  !window
+	    .x_of 1
+	    .y_of y
+	    .width_of width
+	  cond
+	    ->
+	      &&
+		window.is_minimized
+		id_of(window) != focused && id_of(window) != parent_id
+	      :
+		push &updated_windows
+		  window
+		    .height_of 1
+		    .content_width_of width
+		    .content_height_of 0
+		    .needs_a_horizontal_scrollbar false
+		    .needs_a_vertical_scrollbar false
+		inc &y
+		next
+	    -> size_of(window).is_defined:
+	      $height size_of(window)+1
+	      push &updated_windows
+		window
+		  .content_width_of width
+		  .height_of height
+		  .content_height_of size_of(window)
+		  .needs_a_horizontal_scrollbar false
+		  .needs_a_vertical_scrollbar false
+	      plus &y height
+	      next
+	    -> true:
+	      $content content_of(window)
+	      $content_height height_of(content)
+	      update_if width_of(content) > width_of(wm)
+		&content_height -> content_height+1
+	      if
+		do_shrink && n*content_height <= available_height:
+		  layout_variable_sized_window content_height
+		:
+		  next_value &iter $height
+		  layout_variable_sized_window height
+
+	      $layout_variable_sized_window: (height)
+		inc &height # title bar
+		!window.height_of height
+		maybe_add_scrollbars &window
+		push &updated_windows window
+		plus &y height
+		next
+	->
+	  wm
+	    .windows_of updated_windows
+	    .has_a_valid_layout true
 
   $compute_maximized_layout:
     # show one window maximized, all others minimized
@@ -1745,6 +1811,14 @@ $std_types::window_manager/set_content:
   if
     index.is_defined:
       $window windows(index)
+      $old_content_height
+	if
+	  content_of(window).is_defined
+	  -> height_of(content_of(window))
+	  -> 0
+      $new_content_height height_of(content)
+      update_if new_content_height != old_content_height &wm.has_a_valid_layout
+	-> false
       !window.content_of content
       if
 	height_of(window).is_defined && height_of(window) > 1:
@@ -2132,76 +2206,82 @@ $handle_mouse_click: (wm fd mouse_x mouse_y)
 		  ->
 		    &&
 		      window.needs_a_vertical_scrollbar
-		      mouse_x >= window_x+window_width
+		      mouse_x >= window_x+window_width-2
 		      mouse_x < window_x+window_width
 		      mouse_y >= content_y && mouse_y < content_y+window_height
 		    :
 		      minus &mouse_y content_y
 		      $content content_of(window)
 		      $content_height height_of(content)
-		      $first_visible_row
-			+
-			  1
-			  div
+		      $scrollbar_height
+			if
+			  window.needs_a_horizontal_scrollbar
+			  -> window_height-2
+			  -> window_height-1
+		      if
+			cursor_y_of(window).is_defined:
+			  !window.cursor_y_of
 			    +
-			      mouse_y*content_height-window_height
-			      window_height-1 >> 1
-			    window_height-1
-		      $cursor_y cursor_y_of(window)
-		      !window
-			.first_visible_row_of first_visible_row
-			.cursor_y_of
-			  if
-			    cursor_y.is_undefined
-			    -> undefined
-			    :
-			      if
-				cursor_y < first_visible_row
-				-> first_visible_row
-				:
-				  if
-				    cursor_y >= first_visible_row+window_height
-				    -> first_visible_row+window_height-1
-				    -> cursor_y
-		      !wm.windows_of windows(idx window)
-		      -> wm true
+			      1
+			      to_integer
+				round
+				  (mouse_y*content_height)/(scrollbar_height-1)
+			  !wm
+			    .windows_of windows(idx window)
+			    .is_up_to_date false
+			  -> wm true
+			:
+			  !window.first_visible_row_of
+			    +
+			      1
+			      to_integer
+				round
+				  /
+				    mouse_y*(content_height-scrollbar_height)
+				    scrollbar_height-1
+			  !wm
+			    .windows_of windows(idx window)
+			    .is_up_to_date false
+			  -> wm true
 		  ->
 		    &&
 		      window.needs_a_horizontal_scrollbar
-		      mouse_x >= window_x && mouse_x < window_x+window_width
-		      mouse_y == content_y+window_height
+		      mouse_x >= window_x && mouse_x < window_x+window_width-2
+		      mouse_y == window_y+window_height-1
 		    :
 		      minus &mouse_x window_x
 		      $content content_of(window)
 		      $content_width width_of(content)
-		      $first_visible_column
-			+
-			  1
-			  div
+		      $scrollbar_width
+			if
+			  window.needs_a_vertical_scrollbar
+			  -> window_width-2
+			  -> window_width
+		      if
+			cursor_x_of(window).is_defined:
+			  !window.cursor_x_of
 			    +
-			      mouse_x*(content_width-window_width)
-			      window_width-1 >> 1
-			    window_width-1
-		      $cursor_x cursor_x_of(window)
-		      !window
-			.first_visible_column_of first_visible_column
-			.cursor_x_of
-			  if
-			    cursor_x.is_undefined
-			    -> undefined
-			    :
-			      if
-				cursor_x < first_visible_column
-				-> first_visible_column
-				:
-				  if
-				    >=
-				      cursor_x
-				      first_visible_column+window_width
-				    -> first_visible_column+window_width-1
-				    -> cursor_x
-		      !wm.windows_of windows(idx window)
-		      -> wm true
+			      1
+			      to_integer
+				round
+				  (mouse_x*content_width)/(scrollbar_width-1)
+			  !wm
+			    .windows_of windows(idx window)
+			    .is_up_to_date false
+			  -> wm true
+			:
+			  !window.first_visible_column_of
+			    +
+			      1
+			      to_integer
+				round
+				  /
+				    mouse_x*(content_width-scrollbar_width)
+				    scrollbar_width-1
+			  !wm
+			    .windows_of windows(idx window)
+			    .is_up_to_date false
+			  -> wm true
 		  -> true:
 		    -> wm undefined
 	  next

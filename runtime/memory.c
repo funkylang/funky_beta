@@ -569,12 +569,22 @@ static void catcher(void) {
       node = create__std_types___error(
 	undefined, message, 0, 0, node, instruction_counter, data);
     }
-    long len = debug_string(node, 0, 51, NULL);
-    char *buf = malloc(len+1);
-    debug_string(node, 0, 51, buf);
-    buf[len] = 0;
-    fprintf(stderr, "%s", buf);
-    exit(EXIT_FAILURE);
+    if (do_debug) {
+      long len = debug_string(node, 0, 1, NULL);
+      char *buf = malloc(len+1);
+      debug_string(node, 0, 1, buf);
+      buf[len] = 0;
+      printf("E:%s", buf);
+      debug();
+      exit(EXIT_FAILURE);
+    } else {
+      long len = debug_string(node, 0, 51, NULL);
+      char *buf = malloc(len+1);
+      debug_string(node, 0, 51, buf);
+      buf[len] = 0;
+      fprintf(stderr, "%s", buf);
+      exit(EXIT_FAILURE);
+    }
   }
   if (do_profile) {
     setlocale(LC_ALL, "");
@@ -1075,18 +1085,22 @@ EXPORT int replay__action(const char *name) {
 
 EXPORT void report__event(const char *name) {
   sdd->io_occurred = true;
-  printf("report: %s\n", name);
+  printf("r:%s", name);
+}
+
+EXPORT void end__report() {
+  printf("\n");
 }
 
 static void print_pointer(FILE *fp, const void *ptr) {
   if (ptr) {
     if (ptr == (void *)FIRST_INVALID_ADDRESS) {
-      fprintf(fp, "  -1\n");
+      fprintf(fp, ":-1\n");
     } else {
-      fprintf(fp, "  1\n");
+      fprintf(fp, ":1\n");
     }
   } else {
-    fprintf(fp, "  0\n");
+    fprintf(fp, ":0\n");
   }
 }
 
@@ -1102,7 +1116,7 @@ EXPORT void retrieve__pointer(const void **ptr_p) {
 }
 
 static void print_integer(FILE *fp, int val) {
-  fprintf(fp, "  %d\n", val);
+  fprintf(fp, ":%d", val);
 }
 
 EXPORT void print__integer(int val) {
@@ -1119,7 +1133,7 @@ EXPORT void retrieve__integer(int *val_p) {
 }
 
 static void print_unsigned_integer(FILE *fp, unsigned int val) {
-  fprintf(fp, "  %u\n", val);
+  fprintf(fp, ":%u", val);
 }
 
 EXPORT void print__unsigned_integer(unsigned int val) {
@@ -1136,7 +1150,7 @@ EXPORT void retrieve__unsigned_integer(unsigned int *val_p) {
 }
 
 static void print_long_integer(FILE *fp, long val) {
-  fprintf(fp, "  %ld\n", val);
+  fprintf(fp, ":%ld", val);
 }
 
 EXPORT void print__long_integer(long val) {
@@ -1153,7 +1167,7 @@ EXPORT void retrieve__long_integer(long *val_p) {
 }
 
 static void print_unsigned_long_integer(FILE *fp, unsigned long val) {
-  fprintf(fp, "  %lu\n", val);
+  fprintf(fp, "%lu", val);
 }
 
 EXPORT void print__unsigned_long_integer(unsigned long val) {
@@ -1170,16 +1184,14 @@ EXPORT void retrieve__unsigned_long_integer(unsigned long *val_p) {
 }
 
 static void print_int_array(FILE *fp, const int *buf, long len) {
-  fprintf(fp, "  %ld", len);
+  fprintf(fp, ":%ld", len);
   if (len > 0) {
     long i;
     for (i = 0; i < len; ++i) {
-      if (i % 16 == 0) fprintf(fp, "\n ");
       uint8_t chr = buf[i];
-      fprintf(fp, " %d", chr);
+      fprintf(fp, ":%d", chr);
     }
   }
-  fprintf(fp, "\n");
 }
 
 EXPORT void print__int_array(const int *buf, long len) {
@@ -1206,11 +1218,10 @@ EXPORT long retrieve__int_array(int **buf_p) {
 }
 
 static void print_memory(FILE *fp, const uint8_t *buf, long len) {
-  fprintf(fp, "  %ld", len);
+  fprintf(fp, ":%ld:", len);
   if (len > 0) {
     long i;
     for (i = 0; i < len; ++i) {
-      if (i % 32 == 0) fprintf(fp, "\n  ");
       uint8_t chr = buf[i];
       if (chr > 0x20 && chr < 0x7f && chr != '%') {
 	fputc((char)chr, fp);
@@ -1263,7 +1274,7 @@ EXPORT void retrieve__fixed_memory(uint8_t *buf, long size) {
       do {
 	chr = get_character();
       } while (chr <= 0x20);
-      if (chr == '%') {
+      if (chr == '%' || chr == ':') {
 	unsigned int val;
 	fscanf(log_fp, "%02x", &val);
 	if (i < size) {
@@ -1282,17 +1293,17 @@ EXPORT void retrieve__fixed_memory(uint8_t *buf, long size) {
 static void print_c_string(FILE *fp, const char *buf) {
   if (buf) {
     uint8_t chr;
-    fprintf(fp, "  %zu \"", strlen(buf));
+    fprintf(fp, ":%zu:\"", strlen(buf));
     while (chr = (uint8_t)*buf++) {
-      if (chr >= 0x20 && chr < 0x7f && chr != '%') {
+      if (chr >= 0x20 && chr < 0x7f && chr != '%' && chr != ':') {
 	fputc((char)chr, fp);
       } else {
 	fprintf(fp, "%%%02x", chr);
       }
     }
-    fprintf(fp, "\"\n");
+    fprintf(fp, "\"");
   } else {
-    fprintf(fp, "  <null>\n");
+    fprintf(fp, ":<null>\n");
   }
 }
 
@@ -1698,7 +1709,7 @@ EXPORT __attribute__ ((noreturn)) void run(FUNKY_MODULE *module) {
       TLS_myself = TLS_constants[TOPLEVEL];
       TLS_deny_io = 0;
       if (do_profile || do_trace || do_debug) {
-	if (sdd->do_break_after_initializers) {
+	if (do_debug && sdd->do_break_after_initializers) {
 	  sdd->do_break_after_initializers = false;
 	  sdd->has_completed_initializers = true;
 	  sdd->break_at = instruction_counter+2;

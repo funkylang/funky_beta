@@ -118,5 +118,5 @@ extern void initialize_all();
 
 extern TAB_NUM encode_attr_idx(TAB_NUM attr_idx);
 
-extern int find_symbol(const char *namespace, const char *name);
+extern FUNKY_VARIABLE *find_symbol(const char *namespace, const char *name);
 extern NODE *get_var_or_const(int var_idx);

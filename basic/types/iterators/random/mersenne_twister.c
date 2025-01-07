@@ -132,7 +132,14 @@ static TAB_NUM t_func_std_types__mersenne_twister___next_raw_value[] = {
   POS(88, 11),
   POS(88, 3),
   POS(90, 5),
-  POS(89, 3)
+  POS(89, 3),
+  LOCAL(3),
+  LOCAL(4)
+};
+
+static FUNCTION_INFO i_func_std_types__mersenne_twister___next_raw_value = {
+  t_func_std_types__mersenne_twister___next_raw_value, NULL, 18, 2,
+  {"41_47_self\000", "83_4_y\000"}
 };
 
 static TAB_NUM t_lambda_1[] = {
@@ -162,6 +169,11 @@ static TAB_NUM t_lambda_1[] = {
   POS(60, 9),
   POS(58, 7),
   POS(74, 7)
+};
+
+static FUNCTION_INFO i_lambda_1 = {
+  t_lambda_1, NULL, 8, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_2[] = {
@@ -215,7 +227,14 @@ static TAB_NUM t_lambda_2[] = {
   POS(55, 65),
   POS(55, 27),
   POS(55, 11),
-  POS(56, 11)
+  POS(56, 11),
+  LOCAL(10),
+  LOCAL(9)
+};
+
+static FUNCTION_INFO i_lambda_2 = {
+  t_lambda_2, NULL, 16, 2,
+  {"51_12_x\000", "50_12_kk\000"}
 };
 
 static TAB_NUM t_lambda_3[] = {
@@ -224,6 +243,11 @@ static TAB_NUM t_lambda_3[] = {
   //  new_state
   LET, 1, var_47_8_new_state, TAIL_CALL,
   POS(57, 11)
+};
+
+static FUNCTION_INFO i_lambda_3 = {
+  t_lambda_3, NULL, 1, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_4[] = {
@@ -280,7 +304,14 @@ static TAB_NUM t_lambda_4[] = {
   POS(71, 15),
   POS(68, 14),
   POS(66, 11),
-  POS(72, 11)
+  POS(72, 11),
+  LOCAL(10),
+  LOCAL(11)
+};
+
+static FUNCTION_INFO i_lambda_4 = {
+  t_lambda_4, NULL, 17, 2,
+  {"61_12_kk\000", "62_12_x\000"}
 };
 
 static TAB_NUM t_lambda_5[] = {
@@ -289,6 +320,11 @@ static TAB_NUM t_lambda_5[] = {
   //  new_state
   LET, 1, var_47_8_new_state, TAIL_CALL,
   POS(73, 11)
+};
+
+static FUNCTION_INFO i_lambda_5 = {
+  t_lambda_5, NULL, 1, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_do[] = {
@@ -335,7 +371,13 @@ static TAB_NUM t_lambda_do[] = {
   POS(79, 64),
   POS(79, 25),
   POS(79, 9),
-  POS(80, 9)
+  POS(80, 9),
+  LOCAL(8)
+};
+
+static FUNCTION_INFO i_lambda_do = {
+  t_lambda_do, NULL, 14, 1,
+  {"75_10_x\000"}
 };
 
 static TAB_NUM t_lambda_6[] = {
@@ -344,6 +386,11 @@ static TAB_NUM t_lambda_6[] = {
   // -> state index
   LET, 2, var_42_4_state, var_43_4_index, TAIL_CALL,
   POS(82, 7)
+};
+
+static FUNCTION_INFO i_lambda_6 = {
+  t_lambda_6, NULL, 1, 0,
+  {}
 };
 
 static TAB_NUM t_func_std__mersenne_twister[] = {
@@ -370,7 +417,13 @@ static TAB_NUM t_func_std__mersenne_twister[] = {
   POS(102, 3),
   POS(110, 17),
   POS(108, 5),
-  POS(107, 3)
+  POS(107, 3),
+  LOCAL(3)
+};
+
+static FUNCTION_INFO i_func_std__mersenne_twister = {
+  t_func_std__mersenne_twister, NULL, 7, 1,
+  {"99_5_seed\000"}
 };
 
 static TAB_NUM t_lambda_7[] = {
@@ -393,12 +446,22 @@ static TAB_NUM t_lambda_7[] = {
   POS(105, 7)
 };
 
+static FUNCTION_INFO i_lambda_7 = {
+  t_lambda_7, NULL, 5, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_8[] = {
   0, // locals
   0, // parameters
   //  initial_state
   LET, 1, var_101_4_initial_state, TAIL_CALL,
   POS(106, 7)
+};
+
+static FUNCTION_INFO i_lambda_8 = {
+  t_lambda_8, NULL, 1, 0,
+  {}
 };
 
 static int list_44_3_arguments[] = {
@@ -413,28 +476,28 @@ static FUNKY_CONSTANT constants_table[] = {
   {FLT_POSITIVE_INT64, 0, {.value = 0x9d2c5680}},
   {FLT_POSITIVE_INT64, 0, {.value = 0xefc60000}},
   {FLT_POSITIVE_INT64, 0, {.value = 0x100000000}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std_types__mersenne_twister___next_raw_value}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std_types__mersenne_twister___next_raw_value}},
   {FLT_POSITIVE_INT64, 0, {.value = 0x0}},
   {FLT_POSITIVE_INT64, 0, {.value = 0x9908b0df}},
   {FLT_LIST, 2, {.arguments = list_44_3_arguments}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_1}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_1}},
   {FLT_POSITIVE_INT64, 0, {.value = 1}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_2}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_3}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_4}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_5}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_do}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_6}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_2}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_3}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_4}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_5}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_do}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_6}},
   {FLT_POSITIVE_INT64, 0, {.value = 11}},
   {FLT_POSITIVE_INT64, 0, {.value = 7}},
   {FLT_POSITIVE_INT64, 0, {.value = 15}},
   {FLT_POSITIVE_INT64, 0, {.value = 18}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std__mersenne_twister}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std__mersenne_twister}},
   {FLT_POSITIVE_INT64, 0, {.value = 0xffffffff}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_7}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_7}},
   {FLT_NEGATIVE_INT64, 0, {.value = 1}},
   {FLT_POSITIVE_INT64, 0, {.value = 6069}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_8}}
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_8}}
 };
 
 static ATTRIBUTE_DEFINITION std_types__mersenne_twister__attributes[] = {
@@ -607,7 +670,7 @@ FUNKY_MODULE module__basic__types__iterators__random__mersenne_twister = {
   "basic/types/iterators/random/mersenne_twister.fky", // module filename
   .major_version = 0,
   .minor_version = 0,
-  .feature_flags = FEAT_POSITIONS,
+  .feature_flags = FEAT_POSITIONS|FEAT_FUNCTION_INFO,
   .marker = 0,
   0, // number of required modules
   0, // number of defined namespaces

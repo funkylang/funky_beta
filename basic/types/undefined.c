@@ -47,7 +47,13 @@ static TAB_NUM t_func_std_types__object___default_value[] = {
   LOCAL(1),
   // -> self
   LET, 1, LOCAL(2), TAIL_CALL,
-  POS(56, 3)
+  POS(56, 3),
+  LOCAL(2)
+};
+
+static FUNCTION_INFO i_func_std_types__object___default_value = {
+  t_func_std_types__object___default_value, NULL, 1, 1,
+  {"53_5_self\000"}
 };
 
 static TAB_NUM t_func_std_types__undefined___default_value[] = {
@@ -57,7 +63,13 @@ static TAB_NUM t_func_std_types__undefined___default_value[] = {
   LOCAL(2), // 67_5_default
   // -> default
   LET, 1, LOCAL(2), TAIL_CALL,
-  POS(69, 3)
+  POS(69, 3),
+  LOCAL(2)
+};
+
+static FUNCTION_INFO i_func_std_types__undefined___default_value = {
+  t_func_std_types__undefined___default_value, NULL, 1, 1,
+  {"67_5_default\000"}
 };
 
 static TAB_NUM t_func_std_types__undefined___equal[] = {
@@ -70,7 +82,13 @@ static TAB_NUM t_func_std_types__undefined___equal[] = {
   // -> right.is_undefined
   LET, 1, LOCAL(1), TAIL_CALL,
   POS(78, 12),
-  POS(78, 3)
+  POS(78, 3),
+  LOCAL(2)
+};
+
+static FUNCTION_INFO i_func_std_types__undefined___equal = {
+  t_func_std_types__undefined___equal, NULL, 2, 1,
+  {"76_5_right\000"}
 };
 
 static TAB_NUM t_func_std_types__undefined___serialize[] = {
@@ -84,6 +102,11 @@ static TAB_NUM t_func_std_types__undefined___serialize[] = {
   var_if, 3, LOCAL(1), lambda_1, lambda_2, TAIL_CALL,
   POS(87, 12),
   POS(86, 3)
+};
+
+static FUNCTION_INFO i_func_std_types__undefined___serialize = {
+  t_func_std_types__undefined___serialize, NULL, 2, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_1[] = {
@@ -100,6 +123,11 @@ static TAB_NUM t_lambda_1[] = {
   POS(88, 7)
 };
 
+static FUNCTION_INFO i_lambda_1 = {
+  t_lambda_1, NULL, 3, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_2[] = {
   0, // locals
   0, // parameters
@@ -108,14 +136,19 @@ static TAB_NUM t_lambda_2[] = {
   POS(89, 7)
 };
 
+static FUNCTION_INFO i_lambda_2 = {
+  t_lambda_2, NULL, 1, 0,
+  {}
+};
+
 static FUNKY_CONSTANT constants_table[] = {
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std_types__object___default_value}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std_types__undefined___default_value}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std_types__undefined___equal}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std_types__undefined___serialize}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std_types__object___default_value}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std_types__undefined___default_value}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std_types__undefined___equal}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std_types__undefined___serialize}},
   {FLT_STRING_8, 12, {.str_8 = "<undefined>\012"}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_1}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_2}}
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_1}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_2}}
 };
 
 static ATTRIBUTE_DEFINITION std_types__undefined__attributes[] = {
@@ -232,7 +265,7 @@ FUNKY_MODULE module__basic__types__undefined = {
   "basic/types/undefined.fky", // module filename
   .major_version = 0,
   .minor_version = 0,
-  .feature_flags = FEAT_POSITIONS,
+  .feature_flags = FEAT_POSITIONS|FEAT_FUNCTION_INFO,
   .marker = 0,
   0, // number of required modules
   0, // number of defined namespaces

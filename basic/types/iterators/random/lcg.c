@@ -64,7 +64,14 @@ static TAB_NUM t_func_std_types__lcg___next_raw_value[] = {
   POS(39, 7),
   POS(36, 3),
   POS(40, 11),
-  POS(40, 3)
+  POS(40, 3),
+  LOCAL(7),
+  LOCAL(8)
+};
+
+static FUNCTION_INFO i_func_std_types__lcg___next_raw_value = {
+  t_func_std_types__lcg___next_raw_value, NULL, 9, 2,
+  {"35_34_self\000", "36_4_new_seed\000"}
 };
 
 static TAB_NUM t_func_std__lcg[] = {
@@ -79,12 +86,21 @@ static TAB_NUM t_func_std__lcg[] = {
   // ->
   LET, 1, LOCAL(1), TAIL_CALL,
   POS(52, 5),
-  POS(51, 3)
+  POS(51, 3),
+  LOCAL(2),
+  LOCAL(4),
+  LOCAL(3),
+  LOCAL(5)
+};
+
+static FUNCTION_INFO i_func_std__lcg = {
+  t_func_std__lcg, NULL, 2, 4,
+  {"46_5_seed\000", "48_5_multiplier\000", "47_5_modulus\000", "49_5_increment\000"}
 };
 
 static FUNKY_CONSTANT constants_table[] = {
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std_types__lcg___next_raw_value}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std__lcg}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std_types__lcg___next_raw_value}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std__lcg}},
   {FLT_POSITIVE_INT64, 0, {.value = 31974247}},
   {FLT_POSITIVE_INT64, 0, {.value = 642997}},
   {FLT_POSITIVE_INT64, 0, {.value = 7219879}}
@@ -180,7 +196,7 @@ FUNKY_MODULE module__basic__types__iterators__random__lcg = {
   "basic/types/iterators/random/lcg.fky", // module filename
   .major_version = 0,
   .minor_version = 0,
-  .feature_flags = FEAT_POSITIONS,
+  .feature_flags = FEAT_POSITIONS|FEAT_FUNCTION_INFO,
   .marker = 0,
   0, // number of required modules
   0, // number of defined namespaces

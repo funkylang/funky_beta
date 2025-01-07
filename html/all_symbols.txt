@@ -143,6 +143,7 @@ std::ALT_Y UNIQUE_ITEM
 std::ALT_Z UNIQUE_ITEM
 std::ANYTHING OBJECT
 std::APPLICATION_ERROR UNIQUE_ITEM
+std::AS_FIRST UNIQUE_ITEM
 std::BACKSPACE UNIQUE_ITEM
 std::BLACK CONSTANT
 std::BLOCK_DEVICE BUILTIN_OBJECT
@@ -631,6 +632,7 @@ std::blue_component_of POLYMORPHIC_FUNCTION
 std::boolean_array BUILTIN_FUNCTION
 std::break OBJECT
 std::bresenham FUNCTION
+std::bresenham_delta FUNCTION
 std::broadcast_websocket_text_message IO_FUNCTION
 std::call POLYMORPHIC_FUNCTION
 std::cancel POLYMORPHIC_FUNCTION
@@ -788,6 +790,7 @@ std::file_descriptor BUILTIN_FUNCTION
 std::file_descriptor_of POLYMORPHIC_FUNCTION
 std::file_exists IO_FUNCTION
 std::file_type BUILTIN_FUNCTION
+std::fill_rectangle POLYMORPHIC_FUNCTION
 std::fill_trapezoid POLYMORPHIC_FUNCTION
 std::filter POLYMORPHIC_FUNCTION
 std::finalize POLYMORPHIC_FUNCTION
@@ -1368,6 +1371,7 @@ std_types::association_list TYPE
 std_types::avl_table TYPE
 std_types::binary_table TYPE
 std_types::boolean_array BUILTIN_TYPE
+std_types::bresenham_delta_iterator TYPE
 std_types::bresenham_iterator TYPE
 std_types::capture TYPE
 std_types::character BUILTIN_TYPE

@@ -143,6 +143,11 @@ static TAB_NUM t_func_std_types__object___serialize[] = {
   POS(126, 3)
 };
 
+static FUNCTION_INFO i_func_std_types__object___serialize = {
+  t_func_std_types__object___serialize, NULL, 7, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_1[] = {
   1, // locals
   0, // parameters
@@ -154,12 +159,22 @@ static TAB_NUM t_lambda_1[] = {
   POS(120, 9)
 };
 
+static FUNCTION_INFO i_lambda_1 = {
+  t_lambda_1, NULL, 2, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_2[] = {
   0, // locals
   0, // parameters
   //  undefined
   LET, 1, var_undefined, TAIL_CALL,
   POS(121, 9)
+};
+
+static FUNCTION_INFO i_lambda_2 = {
+  t_lambda_2, NULL, 1, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_loop[] = {
@@ -171,6 +186,11 @@ static TAB_NUM t_lambda_loop[] = {
   var_if, 3, LOCAL(1), lambda_3, lambda_5, TAIL_CALL,
   POS(128, 7),
   POS(127, 5)
+};
+
+static FUNCTION_INFO i_lambda_loop = {
+  t_lambda_loop, NULL, 2, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_3[] = {
@@ -191,6 +211,11 @@ static TAB_NUM t_lambda_3[] = {
   POS(129, 9),
   POS(131, 17),
   POS(130, 9)
+};
+
+static FUNCTION_INFO i_lambda_3 = {
+  t_lambda_3, NULL, 5, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_field_is_defined[] = {
@@ -216,7 +241,13 @@ static TAB_NUM t_lambda_field_is_defined[] = {
   POS(134, 25),
   POS(134, 13),
   POS(135, 13),
-  POS(136, 13)
+  POS(136, 13),
+  LOCAL(2)
+};
+
+static FUNCTION_INFO i_lambda_field_is_defined = {
+  t_lambda_field_is_defined, NULL, 7, 1,
+  {"132_14_fieldname\000"}
 };
 
 static TAB_NUM t_lambda_4[] = {
@@ -228,6 +259,11 @@ static TAB_NUM t_lambda_4[] = {
   var_next, 0, TAIL_CALL,
   POS(138, 13),
   POS(139, 13)
+};
+
+static FUNCTION_INFO i_lambda_4 = {
+  t_lambda_4, NULL, 2, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_5[] = {
@@ -253,6 +289,11 @@ static TAB_NUM t_lambda_5[] = {
   POS(143, 9)
 };
 
+static FUNCTION_INFO i_lambda_5 = {
+  t_lambda_5, NULL, 6, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_6[] = {
   2, // locals
   0, // parameters
@@ -265,6 +306,11 @@ static TAB_NUM t_lambda_6[] = {
   POS(142, 52),
   POS(142, 45),
   POS(142, 44)
+};
+
+static FUNCTION_INFO i_lambda_6 = {
+  t_lambda_6, NULL, 3, 0,
+  {}
 };
 
 static TAB_NUM t_func_std_types__object___deserializer_of[] = {
@@ -292,6 +338,11 @@ static TAB_NUM t_func_std_types__object___deserializer_of[] = {
   POS(153, 3)
 };
 
+static FUNCTION_INFO i_func_std_types__object___deserializer_of = {
+  t_func_std_types__object___deserializer_of, NULL, 6, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_2_loop[] = {
   2, // locals
   0, // parameters
@@ -304,6 +355,11 @@ static TAB_NUM t_lambda_2_loop[] = {
   POS(155, 12),
   POS(155, 12),
   POS(154, 5)
+};
+
+static FUNCTION_INFO i_lambda_2_loop = {
+  t_lambda_2_loop, NULL, 3, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_7[] = {
@@ -335,7 +391,13 @@ static TAB_NUM t_lambda_7[] = {
   POS(158, 9),
   POS(159, 9),
   POS(161, 18),
-  POS(160, 9)
+  POS(160, 9),
+  LOCAL(3)
+};
+
+static FUNCTION_INFO i_lambda_7 = {
+  t_lambda_7, NULL, 9, 1,
+  {"156_10_key\000"}
 };
 
 static TAB_NUM t_lambda_setter_is_defined[] = {
@@ -349,12 +411,22 @@ static TAB_NUM t_lambda_setter_is_defined[] = {
   POS(163, 13)
 };
 
+static FUNCTION_INFO i_lambda_setter_is_defined = {
+  t_lambda_setter_is_defined, NULL, 2, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_8[] = {
   0, // locals
   0, // parameters
   //  prototype
   LET, 1, var_147_5_prototype, TAIL_CALL,
   POS(165, 9)
+};
+
+static FUNCTION_INFO i_lambda_8 = {
+  t_lambda_8, NULL, 1, 0,
+  {}
 };
 
 static TAB_NUM t_func_to_table[] = {
@@ -375,6 +447,11 @@ static TAB_NUM t_func_to_table[] = {
   POS(174, 3)
 };
 
+static FUNCTION_INFO i_func_to_table = {
+  t_func_to_table, NULL, 4, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_3_loop[] = {
   1, // locals
   0, // parameters
@@ -384,6 +461,11 @@ static TAB_NUM t_lambda_3_loop[] = {
   var_if, 3, LOCAL(1), lambda_9, lambda_10, TAIL_CALL,
   POS(176, 7),
   POS(175, 5)
+};
+
+static FUNCTION_INFO i_lambda_3_loop = {
+  t_lambda_3_loop, NULL, 2, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_9[] = {
@@ -406,7 +488,14 @@ static TAB_NUM t_lambda_9[] = {
   POS(178, 9),
   POS(179, 10),
   POS(180, 9),
-  POS(181, 9)
+  POS(181, 9),
+  LOCAL(2),
+  LOCAL(3)
+};
+
+static FUNCTION_INFO i_lambda_9 = {
+  t_lambda_9, NULL, 6, 2,
+  {"177_10_key\000", "178_10_value\000"}
 };
 
 static TAB_NUM t_lambda_10[] = {
@@ -415,6 +504,11 @@ static TAB_NUM t_lambda_10[] = {
   //  tab
   LET, 1, var_173_4_tab, TAIL_CALL,
   POS(182, 9)
+};
+
+static FUNCTION_INFO i_lambda_10 = {
+  t_lambda_10, NULL, 1, 0,
+  {}
 };
 
 static TAB_NUM t_module_entry[] = {
@@ -426,32 +520,37 @@ static TAB_NUM t_module_entry[] = {
   POS(167, 1)
 };
 
+static FUNCTION_INFO i_module_entry = {
+  t_module_entry, NULL, 1, 0,
+  {}
+};
+
 static FUNKY_CONSTANT constants_table[] = {
   {FLT_STRING_8, 6, {.str_8 = "object"}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std_types__object___serialize}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_1}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std_types__object___serialize}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_1}},
   {FLT_POSITIVE_INT64, 0, {.value = 2}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_2}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_2}},
   {FLT_POSITIVE_INT64, 0, {.value = 1}},
   {FLT_STRING_8, 0, {.str_8 = ""}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_loop}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_3}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_field_is_defined}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_4}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_5}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_loop}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_3}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_field_is_defined}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_4}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_5}},
   {FLT_STRING_8, 2, {.str_8 = " <"}},
   {FLT_STRING_8, 2, {.str_8 = ">\012"}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_6}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std_types__object___deserializer_of}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_2_loop}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_7}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_setter_is_defined}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_8}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_to_table}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_3_loop}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_9}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_10}},
-  {FLT_FUNCTION, 0, {.tfunc = t_module_entry}}
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_6}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std_types__object___deserializer_of}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_2_loop}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_7}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_setter_is_defined}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_8}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_to_table}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_3_loop}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_9}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_10}},
+  {FLT_FUNCTION, 0, {.func_info = &i_module_entry}}
 };
 
 static ATTRIBUTE_DEFINITION std_types__object__attributes[] = {
@@ -932,7 +1031,7 @@ FUNKY_MODULE module__basic__types__object = {
   "basic/types/object.fky", // module filename
   .major_version = 0,
   .minor_version = 0,
-  .feature_flags = FEAT_POSITIONS|FEAT_INITIALIZER,
+  .feature_flags = FEAT_POSITIONS|FEAT_FUNCTION_INFO|FEAT_INITIALIZER,
   .marker = 0,
   0, // number of required modules
   0, // number of defined namespaces

@@ -103,7 +103,14 @@ static TAB_NUM t_func_std__first[] = {
   // -> first
   LET, 1, LOCAL(2), TAIL_CALL,
   POS(37, 3),
-  POS(38, 3)
+  POS(38, 3),
+  LOCAL(1),
+  LOCAL(2)
+};
+
+static FUNCTION_INFO i_func_std__first = {
+  t_func_std__first, NULL, 2, 2,
+  {"36_15_t\000", "37_6_first\000"}
 };
 
 static TAB_NUM t_func_std__second[] = {
@@ -115,7 +122,14 @@ static TAB_NUM t_func_std__second[] = {
   // -> second
   LET, 1, LOCAL(3), TAIL_CALL,
   POS(41, 3),
-  POS(42, 3)
+  POS(42, 3),
+  LOCAL(3),
+  LOCAL(2)
+};
+
+static FUNCTION_INFO i_func_std__second = {
+  t_func_std__second, NULL, 2, 2,
+  {"41_14_second\000", "40_16_t\000"}
 };
 
 static TAB_NUM t_func_std__third[] = {
@@ -127,7 +141,14 @@ static TAB_NUM t_func_std__third[] = {
   // -> third
   LET, 1, LOCAL(3), TAIL_CALL,
   POS(45, 3),
-  POS(46, 3)
+  POS(46, 3),
+  LOCAL(2),
+  LOCAL(3)
+};
+
+static FUNCTION_INFO i_func_std__third = {
+  t_func_std__third, NULL, 2, 2,
+  {"44_15_t\000", "45_23_third\000"}
 };
 
 static TAB_NUM t_func_std__fourth[] = {
@@ -139,7 +160,14 @@ static TAB_NUM t_func_std__fourth[] = {
   // -> fourth
   LET, 1, LOCAL(3), TAIL_CALL,
   POS(49, 3),
-  POS(50, 3)
+  POS(50, 3),
+  LOCAL(2),
+  LOCAL(3)
+};
+
+static FUNCTION_INFO i_func_std__fourth = {
+  t_func_std__fourth, NULL, 2, 2,
+  {"48_16_t\000", "49_31_fourth\000"}
 };
 
 static TAB_NUM t_func_std__fifth[] = {
@@ -151,7 +179,14 @@ static TAB_NUM t_func_std__fifth[] = {
   // -> fifth
   LET, 1, LOCAL(3), TAIL_CALL,
   POS(53, 3),
-  POS(54, 3)
+  POS(54, 3),
+  LOCAL(3),
+  LOCAL(2)
+};
+
+static FUNCTION_INFO i_func_std__fifth = {
+  t_func_std__fifth, NULL, 2, 2,
+  {"53_40_fifth\000", "52_15_t\000"}
 };
 
 static TAB_NUM t_func_std_types__tuple___debug__to_string[] = {
@@ -174,6 +209,11 @@ static TAB_NUM t_func_std_types__tuple___debug__to_string[] = {
   POS(65, 3)
 };
 
+static FUNCTION_INFO i_func_std_types__tuple___debug__to_string = {
+  t_func_std_types__tuple___debug__to_string, NULL, 4, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_1[] = {
   1, // locals
   0, // parameters
@@ -188,12 +228,22 @@ static TAB_NUM t_lambda_1[] = {
   POS(68, 7)
 };
 
+static FUNCTION_INFO i_lambda_1 = {
+  t_lambda_1, NULL, 3, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_2[] = {
   0, // locals
   0, // parameters
   //  "<tuple of 1 item>@nl;"
   LET, 1, str_tuple_of_1_item, TAIL_CALL,
   POS(70, 11)
+};
+
+static FUNCTION_INFO i_lambda_2 = {
+  t_lambda_2, NULL, 1, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_3[] = {
@@ -205,6 +255,11 @@ static TAB_NUM t_lambda_3[] = {
   LET, 1, LOCAL(1), TAIL_CALL,
   POS(71, 12),
   POS(71, 11)
+};
+
+static FUNCTION_INFO i_lambda_3 = {
+  t_lambda_3, NULL, 2, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_4[] = {
@@ -224,7 +279,13 @@ static TAB_NUM t_lambda_4[] = {
   POS(74, 7),
   POS(83, 28),
   POS(83, 14),
-  POS(83, 7)
+  POS(83, 7),
+  LOCAL(3)
+};
+
+static FUNCTION_INFO i_lambda_4 = {
+  t_lambda_4, NULL, 5, 1,
+  {"74_19_contents\000"}
 };
 
 static TAB_NUM t_lambda_self[] = {
@@ -245,7 +306,13 @@ static TAB_NUM t_lambda_self[] = {
   POS(76, 11),
   POS(78, 13),
   POS(78, 13),
-  POS(77, 11)
+  POS(77, 11),
+  LOCAL(3)
+};
+
+static FUNCTION_INFO i_lambda_self = {
+  t_lambda_self, NULL, 5, 1,
+  {"75_16_value\000"}
 };
 
 static TAB_NUM t_lambda_5[] = {
@@ -257,6 +324,11 @@ static TAB_NUM t_lambda_5[] = {
   LET, 1, LOCAL(1), TAIL_CALL,
   POS(79, 16),
   POS(79, 15)
+};
+
+static FUNCTION_INFO i_lambda_5 = {
+  t_lambda_5, NULL, 2, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_6[] = {
@@ -271,6 +343,11 @@ static TAB_NUM t_lambda_6[] = {
   POS(80, 23),
   POS(80, 16),
   POS(80, 15)
+};
+
+static FUNCTION_INFO i_lambda_6 = {
+  t_lambda_6, NULL, 3, 0,
+  {}
 };
 
 static TAB_NUM t_func_std_types__tuple___serialize[] = {
@@ -307,7 +384,15 @@ static TAB_NUM t_func_std_types__tuple___serialize[] = {
   POS(102, 3),
   POS(105, 20),
   POS(105, 3),
-  POS(106, 3)
+  POS(106, 3),
+  LOCAL(4),
+  LOCAL(5),
+  LOCAL(3)
+};
+
+static FUNCTION_INFO i_func_std_types__tuple___serialize = {
+  t_func_std_types__tuple___serialize, NULL, 10, 3,
+  {"97_4_items\000", "98_15_contents\000", "89_5_self\000"}
 };
 
 static TAB_NUM t_lambda_7[] = {
@@ -321,12 +406,22 @@ static TAB_NUM t_lambda_7[] = {
   POS(95, 9)
 };
 
+static FUNCTION_INFO i_lambda_7 = {
+  t_lambda_7, NULL, 2, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_8[] = {
   0, // locals
   0, // parameters
   //  undefined
   LET, 1, var_undefined, TAIL_CALL,
   POS(96, 9)
+};
+
+static FUNCTION_INFO i_lambda_8 = {
+  t_lambda_8, NULL, 1, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_items[] = {
@@ -338,7 +433,13 @@ static TAB_NUM t_lambda_items[] = {
   // -> serialize(item new_indent)
   LET, 1, LOCAL(1), TAIL_CALL,
   POS(99, 22),
-  POS(99, 19)
+  POS(99, 19),
+  LOCAL(2)
+};
+
+static FUNCTION_INFO i_lambda_items = {
+  t_lambda_items, NULL, 2, 1,
+  {"99_13_item\000"}
 };
 
 static TAB_NUM t_lambda_9[] = {
@@ -355,6 +456,11 @@ static TAB_NUM t_lambda_9[] = {
   POS(105, 41)
 };
 
+static FUNCTION_INFO i_lambda_9 = {
+  t_lambda_9, NULL, 3, 0,
+  {}
+};
+
 static TAB_NUM t_func_std_types__tuple___deserializer_of[] = {
   3, // locals
   2, // parameters
@@ -365,7 +471,14 @@ static TAB_NUM t_func_std_types__tuple___deserializer_of[] = {
   // -> new_tuple(type items)
   LET, 1, LOCAL(1), TAIL_CALL,
   POS(113, 6),
-  POS(113, 3)
+  POS(113, 3),
+  LOCAL(3),
+  LOCAL(2)
+};
+
+static FUNCTION_INFO i_func_std_types__tuple___deserializer_of = {
+  t_func_std_types__tuple___deserializer_of, NULL, 2, 2,
+  {"111_5_items\000", "110_5_type\000"}
 };
 
 static TAB_NUM t_module_entry[] = {
@@ -377,41 +490,46 @@ static TAB_NUM t_module_entry[] = {
   POS(115, 1)
 };
 
+static FUNCTION_INFO i_module_entry = {
+  t_module_entry, NULL, 1, 0,
+  {}
+};
+
 static FUNKY_CONSTANT constants_table[] = {
   {FLT_STRING_8, 5, {.str_8 = "tuple"}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std__first}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std__second}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std__third}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std__fourth}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std__fifth}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std_types__tuple___debug__to_string}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std__first}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std__second}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std__third}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std__fourth}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std__fifth}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std_types__tuple___debug__to_string}},
   {FLT_POSITIVE_INT64, 0, {.value = 0}},
   {FLT_POSITIVE_INT64, 0, {.value = 1}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_1}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_2}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_1}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_2}},
   {FLT_STRING_8, 18, {.str_8 = "<tuple of 1 item>\012"}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_3}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_3}},
   {FLT_STRING_8, 10, {.str_8 = "<tuple of "}},
   {FLT_STRING_8, 8, {.str_8 = " items>\012"}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_4}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_4}},
   {FLT_POSITIVE_INT64, 0, {.value = 2}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_self}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_self}},
   {FLT_CHARACTER, 0, {.value = 10}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_5}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_5}},
   {FLT_NEGATIVE_INT64, 0, {.value = 1}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_6}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_6}},
   {FLT_STRING_8, 0, {.str_8 = ""}},
   {FLT_STRING_8, 1, {.str_8 = "\012"}},
   {FLT_STRING_8, 6, {.str_8 = "tuple\012"}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std_types__tuple___serialize}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_7}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_8}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_items}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std_types__tuple___serialize}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_7}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_8}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_items}},
   {FLT_STRING_8, 2, {.str_8 = " <"}},
   {FLT_STRING_8, 2, {.str_8 = ">\012"}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_9}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std_types__tuple___deserializer_of}},
-  {FLT_FUNCTION, 0, {.tfunc = t_module_entry}}
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_9}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std_types__tuple___deserializer_of}},
+  {FLT_FUNCTION, 0, {.func_info = &i_module_entry}}
 };
 
 static ATTRIBUTE_DEFINITION std_types__object__attributes[] = {
@@ -655,7 +773,7 @@ FUNKY_MODULE module__basic__types__collections__tuples__tuple = {
   "basic/types/collections/tuples/tuple.fky", // module filename
   .major_version = 0,
   .minor_version = 0,
-  .feature_flags = FEAT_POSITIONS|FEAT_INITIALIZER,
+  .feature_flags = FEAT_POSITIONS|FEAT_FUNCTION_INFO|FEAT_INITIALIZER,
   .marker = 0,
   1, // number of required modules
   0, // number of defined namespaces

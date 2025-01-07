@@ -115,7 +115,13 @@ static TAB_NUM t_func_std_types__string___to_json[] = {
   // append "@quot;" quoted(self) "@quot;"
   var_append, 3, string_1, LOCAL(1), string_1, TAIL_CALL,
   POS(28, 19),
-  POS(28, 3)
+  POS(28, 3),
+  LOCAL(2)
+};
+
+static FUNCTION_INFO i_func_std_types__string___to_json = {
+  t_func_std_types__string___to_json, NULL, 2, 1,
+  {"27_30_self\000"}
 };
 
 static TAB_NUM t_func_std_types__number___to_json[] = {
@@ -127,7 +133,13 @@ static TAB_NUM t_func_std_types__number___to_json[] = {
   // -> self.to_string
   LET, 1, LOCAL(1), TAIL_CALL,
   POS(30, 44),
-  POS(30, 36)
+  POS(30, 36),
+  LOCAL(2)
+};
+
+static FUNCTION_INFO i_func_std_types__number___to_json = {
+  t_func_std_types__number___to_json, NULL, 2, 1,
+  {"30_30_self\000"}
 };
 
 static TAB_NUM t_func_std_types__true___to_json[] = {
@@ -139,6 +151,11 @@ static TAB_NUM t_func_std_types__true___to_json[] = {
   POS(32, 35)
 };
 
+static FUNCTION_INFO i_func_std_types__true___to_json = {
+  t_func_std_types__true___to_json, NULL, 1, 0,
+  {}
+};
+
 static TAB_NUM t_func_std_types__false___to_json[] = {
   1, // locals
   1, // parameters
@@ -148,6 +165,11 @@ static TAB_NUM t_func_std_types__false___to_json[] = {
   POS(34, 36)
 };
 
+static FUNCTION_INFO i_func_std_types__false___to_json = {
+  t_func_std_types__false___to_json, NULL, 1, 0,
+  {}
+};
+
 static TAB_NUM t_func_std_types__undefined___to_json[] = {
   1, // locals
   1, // parameters
@@ -155,6 +177,11 @@ static TAB_NUM t_func_std_types__undefined___to_json[] = {
   // -> "null"
   LET, 1, str_null, TAIL_CALL,
   POS(36, 40)
+};
+
+static FUNCTION_INFO i_func_std_types__undefined___to_json = {
+  t_func_std_types__undefined___to_json, NULL, 1, 0,
+  {}
 };
 
 static TAB_NUM t_func_std_types__generic_list___to_json[] = {
@@ -172,6 +199,11 @@ static TAB_NUM t_func_std_types__generic_list___to_json[] = {
   POS(40, 3)
 };
 
+static FUNCTION_INFO i_func_std_types__generic_list___to_json = {
+  t_func_std_types__generic_list___to_json, NULL, 3, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_1[] = {
   0, // locals
   0, // parameters
@@ -180,12 +212,22 @@ static TAB_NUM t_lambda_1[] = {
   POS(42, 7)
 };
 
+static FUNCTION_INFO i_lambda_1 = {
+  t_lambda_1, NULL, 1, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_2[] = {
   0, // locals
   0, // parameters
   // for_each self
   var_for_each, 3, var_38_36_self, lambda_3, lambda_4, TAIL_CALL,
   POS(44, 7)
+};
+
+static FUNCTION_INFO i_lambda_2 = {
+  t_lambda_2, NULL, 1, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_3[] = {
@@ -200,7 +242,13 @@ static TAB_NUM t_lambda_3[] = {
   var_next, 0, TAIL_CALL,
   POS(46, 32),
   POS(46, 11),
-  POS(47, 11)
+  POS(47, 11),
+  LOCAL(2)
+};
+
+static FUNCTION_INFO i_lambda_3 = {
+  t_lambda_3, NULL, 3, 1,
+  {"45_12_item\000"}
 };
 
 static TAB_NUM t_lambda_4[] = {
@@ -215,6 +263,11 @@ static TAB_NUM t_lambda_4[] = {
   POS(48, 23),
   POS(48, 12),
   POS(48, 11)
+};
+
+static FUNCTION_INFO i_lambda_4 = {
+  t_lambda_4, NULL, 3, 0,
+  {}
 };
 
 static TAB_NUM t_func_std_types__table___to_json[] = {
@@ -232,6 +285,11 @@ static TAB_NUM t_func_std_types__table___to_json[] = {
   POS(52, 3)
 };
 
+static FUNCTION_INFO i_func_std_types__table___to_json = {
+  t_func_std_types__table___to_json, NULL, 3, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_5[] = {
   0, // locals
   0, // parameters
@@ -240,12 +298,22 @@ static TAB_NUM t_lambda_5[] = {
   POS(54, 7)
 };
 
+static FUNCTION_INFO i_lambda_5 = {
+  t_lambda_5, NULL, 1, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_6[] = {
   0, // locals
   0, // parameters
   // for_each self
   var_for_each, 3, var_50_29_self, lambda_7, lambda_8, TAIL_CALL,
   POS(56, 7)
+};
+
+static FUNCTION_INFO i_lambda_6 = {
+  t_lambda_6, NULL, 1, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_7[] = {
@@ -264,7 +332,14 @@ static TAB_NUM t_lambda_7[] = {
   POS(58, 31),
   POS(58, 49),
   POS(58, 11),
-  POS(59, 11)
+  POS(59, 11),
+  LOCAL(4),
+  LOCAL(3)
+};
+
+static FUNCTION_INFO i_lambda_7 = {
+  t_lambda_7, NULL, 4, 2,
+  {"57_16_value\000", "57_12_key\000"}
 };
 
 static TAB_NUM t_lambda_8[] = {
@@ -279,6 +354,11 @@ static TAB_NUM t_lambda_8[] = {
   POS(60, 23),
   POS(60, 12),
   POS(60, 11)
+};
+
+static FUNCTION_INFO i_lambda_8 = {
+  t_lambda_8, NULL, 3, 0,
+  {}
 };
 
 static TAB_NUM t_func_quoted[] = {
@@ -302,6 +382,11 @@ static TAB_NUM t_func_quoted[] = {
   POS(67, 3)
 };
 
+static FUNCTION_INFO i_func_quoted = {
+  t_func_quoted, NULL, 5, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_loop[] = {
   1, // locals
   0, // parameters
@@ -314,6 +399,11 @@ static TAB_NUM t_lambda_loop[] = {
   POS(68, 5),
   POS(70, 11),
   POS(69, 5)
+};
+
+static FUNCTION_INFO i_lambda_loop = {
+  t_lambda_loop, NULL, 3, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_9[] = {
@@ -330,6 +420,11 @@ static TAB_NUM t_lambda_9[] = {
   POS(71, 9)
 };
 
+static FUNCTION_INFO i_lambda_9 = {
+  t_lambda_9, NULL, 3, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_10[] = {
   0, // locals
   0, // parameters
@@ -339,6 +434,11 @@ static TAB_NUM t_lambda_10[] = {
   var_case, 14, var_73_10_chr, chr_10, lambda_nl, chr_13, lambda_cr, chr_9, lambda_ht, chr_8, lambda_bs, chr_12, lambda_ff, sequence_100_13, lambda_11, var_next, TAIL_CALL,
   POS(73, 9),
   POS(74, 9)
+};
+
+static FUNCTION_INFO i_lambda_10 = {
+  t_lambda_10, NULL, 2, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_nl[] = {
@@ -364,6 +464,11 @@ static TAB_NUM t_lambda_nl[] = {
   POS(79, 13)
 };
 
+static FUNCTION_INFO i_lambda_nl = {
+  t_lambda_nl, NULL, 6, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_cr[] = {
   2, // locals
   0, // parameters
@@ -385,6 +490,11 @@ static TAB_NUM t_lambda_cr[] = {
   POS(82, 13),
   POS(83, 13),
   POS(84, 13)
+};
+
+static FUNCTION_INFO i_lambda_cr = {
+  t_lambda_cr, NULL, 6, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_ht[] = {
@@ -410,6 +520,11 @@ static TAB_NUM t_lambda_ht[] = {
   POS(89, 13)
 };
 
+static FUNCTION_INFO i_lambda_ht = {
+  t_lambda_ht, NULL, 6, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_bs[] = {
   2, // locals
   0, // parameters
@@ -433,6 +548,11 @@ static TAB_NUM t_lambda_bs[] = {
   POS(94, 13)
 };
 
+static FUNCTION_INFO i_lambda_bs = {
+  t_lambda_bs, NULL, 6, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_ff[] = {
   2, // locals
   0, // parameters
@@ -454,6 +574,11 @@ static TAB_NUM t_lambda_ff[] = {
   POS(97, 13),
   POS(98, 13),
   POS(99, 13)
+};
+
+static FUNCTION_INFO i_lambda_ff = {
+  t_lambda_ff, NULL, 6, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_11[] = {
@@ -482,66 +607,71 @@ static TAB_NUM t_lambda_11[] = {
   POS(105, 13)
 };
 
+static FUNCTION_INFO i_lambda_11 = {
+  t_lambda_11, NULL, 7, 0,
+  {}
+};
+
 static int sequence_100_13_arguments[] = {
   -chr_34, -chr_92
 };
 
 static FUNKY_CONSTANT constants_table[] = {
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std_types__string___to_json}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std_types__string___to_json}},
   {FLT_STRING_8, 1, {.str_8 = "\042"}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std_types__number___to_json}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std_types__true___to_json}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std_types__number___to_json}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std_types__true___to_json}},
   {FLT_STRING_8, 4, {.str_8 = "true"}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std_types__false___to_json}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std_types__false___to_json}},
   {FLT_STRING_8, 5, {.str_8 = "false"}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std_types__undefined___to_json}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std_types__undefined___to_json}},
   {FLT_STRING_8, 4, {.str_8 = "null"}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std_types__generic_list___to_json}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std_types__generic_list___to_json}},
   {FLT_STRING_8, 0, {.str_8 = ""}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_1}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_1}},
   {FLT_STRING_8, 2, {.str_8 = "[]"}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_2}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_3}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_2}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_3}},
   {FLT_STRING_8, 1, {.str_8 = ","}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_4}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_4}},
   {FLT_POSITIVE_INT64, 0, {.value = 2}},
   {FLT_NEGATIVE_INT64, 0, {.value = 1}},
   {FLT_STRING_8, 1, {.str_8 = "["}},
   {FLT_STRING_8, 1, {.str_8 = "]"}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std_types__table___to_json}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_5}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std_types__table___to_json}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_5}},
   {FLT_STRING_8, 2, {.str_8 = "{}"}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_6}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_7}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_6}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_7}},
   {FLT_STRING_8, 1, {.str_8 = ":"}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_8}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_8}},
   {FLT_STRING_8, 1, {.str_8 = "{"}},
   {FLT_STRING_8, 1, {.str_8 = "}"}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_quoted}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_quoted}},
   {FLT_POSITIVE_INT64, 0, {.value = 1}},
   {FLT_POSITIVE_INT64, 0, {.value = 0}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_loop}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_9}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_10}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_loop}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_9}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_10}},
   {FLT_CHARACTER, 0, {.value = 34}},
   {FLT_CHARACTER, 0, {.value = 92}},
   {FLT_SEQUENCE, 2, {.arguments = sequence_100_13_arguments}},
   {FLT_CHARACTER, 0, {.value = 10}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_nl}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_nl}},
   {FLT_STRING_8, 2, {.str_8 = "\134n"}},
   {FLT_CHARACTER, 0, {.value = 13}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_cr}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_cr}},
   {FLT_STRING_8, 2, {.str_8 = "\134r"}},
   {FLT_CHARACTER, 0, {.value = 9}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_ht}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_ht}},
   {FLT_STRING_8, 2, {.str_8 = "\134t"}},
   {FLT_CHARACTER, 0, {.value = 8}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_bs}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_bs}},
   {FLT_STRING_8, 2, {.str_8 = "\134b"}},
   {FLT_CHARACTER, 0, {.value = 12}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_ff}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_ff}},
   {FLT_STRING_8, 2, {.str_8 = "\134f"}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_11}}
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_11}}
 };
 
 static ATTRIBUTE_DEFINITION std_types__string__attributes[] = {
@@ -754,7 +884,7 @@ FUNKY_MODULE module__basic__export__json = {
   "basic/export/json.fky", // module filename
   .major_version = 0,
   .minor_version = 0,
-  .feature_flags = FEAT_POSITIONS,
+  .feature_flags = FEAT_POSITIONS|FEAT_FUNCTION_INFO,
   .marker = 0,
   0, // number of required modules
   0, // number of defined namespaces

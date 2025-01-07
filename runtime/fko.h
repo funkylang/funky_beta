@@ -47,7 +47,8 @@ typedef enum {
   FOT_POLYMORPHIC,         //  default, poly_idx/var_idx,       -, module
   FOT_INITIALIZED,         // constant,        -/var_idx,       -, module
   FOT_DERIVED,             //   parent,        -/var_idx,       -, module
-  FOT_UNINITIALIZED        //        -,        -/var_idx,       -, module
+  FOT_UNINITIALIZED,       //        -,        -/var_idx,       -, module
+  FOT_LOCAL
 } FUNKY_OBJECT_TYPE;
 
 #define MANDATORY_PARAMETER 0
@@ -70,6 +71,7 @@ typedef enum {
 
 #define FEAT_POSITIONS 0x01
 #define FEAT_INITIALIZER 0x02
+#define FEAT_FUNCTION_INFO 0x04
 
 typedef struct {
   int attribute;
@@ -92,6 +94,9 @@ typedef struct {
 typedef struct {
   const TAB_NUM *code;
   const TAB_NUM *code_end;
+  int position_count; // total number of instructions (= code positions)
+  int local_count; // total number of named local (non-shared) variables
+  const char *local_names[];
 } FUNCTION_INFO; // for debugging
 
 typedef struct {
@@ -122,6 +127,7 @@ typedef struct FUNKY_VARIABLE {
     int has_a_setter; // for polymorphic functions (boolean)
     struct FUNKY_VARIABLE *link; // link chain for distributed definitions
     int32_t position; // source position for unknown symbols
+    FUNCTION_INFO *func_info; // for local (non-shared) variables
   };
   union { // see FUNKY_OBJECT_TYPE
     int methods_count;

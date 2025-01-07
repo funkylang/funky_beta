@@ -35,6 +35,7 @@
 #include "linker.h"
 #include "memory.h"
 #include "interpreter.h"
+#include "debugger.h"
 
 enum {
   func__std_types___array___std___length_of = 1,
@@ -4262,6 +4263,10 @@ void create_error_message
     NODE *node
   )
   {
+    if (do_debug) {
+      printf("E:%s\n", msg);
+      sdd->break_at = instruction_counter;
+    }
     NODE *err = NULL;
     int i;
     for (i = 0; i < TLS_argument_count; ++i) {
@@ -5012,11 +5017,9 @@ static long std_types___function____debug_string
     const char *module_name, *function_name;
     int line_no, column_no;
     const TAB_NUM *code =
-      (const TAB_NUM *)((unsigned long)node->type & -4L);
-    //++code; // skip number of locals
-    //TAB_NUM parameter_count = *code++;
-    //if (parameter_count < 0) parameter_count = 2*-parameter_count;
-    //code += parameter_count;
+      do_debug
+      ? ((FUNCTION_INFO *)((unsigned long)node->type & -4L))->code
+      : (const TAB_NUM *)((unsigned long)node->type & -4L);
     retrieve_continuation_info(
       code, &module_name, &function_name, &line_no, &column_no);
     return
@@ -10509,8 +10512,8 @@ static void std_types___generic_array____type (void)
   {
     {
       create_error_message(
-        module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
-        "Attempt to call the generic array prototype object as a function!", 0, 0, NULL);
+	module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+	"Attempt to call the generic array prototype object as a function!", 0, 0, NULL);
       return;
     }
   }
@@ -10537,10 +10540,10 @@ static void std_types___array____type (void)
       NODE *value;
       value = data->items[offset];
       {
-        NODE *result__node = (NODE *)(value);
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(value);
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       };
     } else {
       // set item
@@ -10560,10 +10563,10 @@ static void std_types___array____type (void)
       update->offset = offset;
       update->value = value;
       {
-        NODE *result__node = (NODE *)(TLS_myself);
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(TLS_myself);
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       }
     }
   }
@@ -10590,10 +10593,10 @@ static void std_types___boolean_array____type (void)
       int value;
       value = data->items[offset];
       {
-        NODE *result__node = (NODE *)(from_bool(value));
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(from_bool(value));
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       };
     } else {
       // set item
@@ -10613,10 +10616,10 @@ static void std_types___boolean_array____type (void)
       update->offset = offset;
       update->value = value;
       {
-        NODE *result__node = (NODE *)(TLS_myself);
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(TLS_myself);
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       }
     }
   }
@@ -10643,10 +10646,10 @@ static void std_types___character_array____type (void)
       uint32_t value;
       value = data->items[offset];
       {
-        NODE *result__node = (NODE *)(from_uchar32(value));
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(from_uchar32(value));
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       };
     } else {
       // set item
@@ -10666,10 +10669,10 @@ static void std_types___character_array____type (void)
       update->offset = offset;
       update->value = value;
       {
-        NODE *result__node = (NODE *)(TLS_myself);
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(TLS_myself);
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       }
     }
   }
@@ -10696,10 +10699,10 @@ static void std_types___int8_array____type (void)
       int8_t value;
       value = data->items[offset];
       {
-        NODE *result__node = (NODE *)(from_int8(value));
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(from_int8(value));
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       };
     } else {
       // set item
@@ -10719,10 +10722,10 @@ static void std_types___int8_array____type (void)
       update->offset = offset;
       update->value = value;
       {
-        NODE *result__node = (NODE *)(TLS_myself);
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(TLS_myself);
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       }
     }
   }
@@ -10749,10 +10752,10 @@ static void std_types___uint8_array____type (void)
       uint8_t value;
       value = data->items[offset];
       {
-        NODE *result__node = (NODE *)(from_uint8(value));
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(from_uint8(value));
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       };
     } else {
       // set item
@@ -10772,10 +10775,10 @@ static void std_types___uint8_array____type (void)
       update->offset = offset;
       update->value = value;
       {
-        NODE *result__node = (NODE *)(TLS_myself);
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(TLS_myself);
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       }
     }
   }
@@ -10802,10 +10805,10 @@ static void std_types___int16_array____type (void)
       int16_t value;
       value = data->items[offset];
       {
-        NODE *result__node = (NODE *)(from_int16(value));
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(from_int16(value));
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       };
     } else {
       // set item
@@ -10825,10 +10828,10 @@ static void std_types___int16_array____type (void)
       update->offset = offset;
       update->value = value;
       {
-        NODE *result__node = (NODE *)(TLS_myself);
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(TLS_myself);
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       }
     }
   }
@@ -10855,10 +10858,10 @@ static void std_types___uint16_array____type (void)
       uint16_t value;
       value = data->items[offset];
       {
-        NODE *result__node = (NODE *)(from_uint16(value));
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(from_uint16(value));
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       };
     } else {
       // set item
@@ -10878,10 +10881,10 @@ static void std_types___uint16_array____type (void)
       update->offset = offset;
       update->value = value;
       {
-        NODE *result__node = (NODE *)(TLS_myself);
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(TLS_myself);
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       }
     }
   }
@@ -10908,10 +10911,10 @@ static void std_types___int32_array____type (void)
       int32_t value;
       value = data->items[offset];
       {
-        NODE *result__node = (NODE *)(from_int32(value));
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(from_int32(value));
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       };
     } else {
       // set item
@@ -10931,10 +10934,10 @@ static void std_types___int32_array____type (void)
       update->offset = offset;
       update->value = value;
       {
-        NODE *result__node = (NODE *)(TLS_myself);
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(TLS_myself);
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       }
     }
   }
@@ -10961,10 +10964,10 @@ static void std_types___uint32_array____type (void)
       uint32_t value;
       value = data->items[offset];
       {
-        NODE *result__node = (NODE *)(from_uint32(value));
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(from_uint32(value));
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       };
     } else {
       // set item
@@ -10984,10 +10987,10 @@ static void std_types___uint32_array____type (void)
       update->offset = offset;
       update->value = value;
       {
-        NODE *result__node = (NODE *)(TLS_myself);
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(TLS_myself);
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       }
     }
   }
@@ -11014,10 +11017,10 @@ static void std_types___int64_array____type (void)
       int64_t value;
       value = data->items[offset];
       {
-        NODE *result__node = (NODE *)(from_int64(value));
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(from_int64(value));
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       };
     } else {
       // set item
@@ -11037,10 +11040,10 @@ static void std_types___int64_array____type (void)
       update->offset = offset;
       update->value = value;
       {
-        NODE *result__node = (NODE *)(TLS_myself);
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(TLS_myself);
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       }
     }
   }
@@ -11067,10 +11070,10 @@ static void std_types___uint64_array____type (void)
       uint64_t value;
       value = data->items[offset];
       {
-        NODE *result__node = (NODE *)(from_uint64(value));
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(from_uint64(value));
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       };
     } else {
       // set item
@@ -11090,10 +11093,10 @@ static void std_types___uint64_array____type (void)
       update->offset = offset;
       update->value = value;
       {
-        NODE *result__node = (NODE *)(TLS_myself);
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(TLS_myself);
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       }
     }
   }
@@ -11120,10 +11123,10 @@ static void std_types___float32_array____type (void)
       float value;
       value = data->items[offset];
       {
-        NODE *result__node = (NODE *)(from_float(value));
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(from_float(value));
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       };
     } else {
       // set item
@@ -11143,10 +11146,10 @@ static void std_types___float32_array____type (void)
       update->offset = offset;
       update->value = value;
       {
-        NODE *result__node = (NODE *)(TLS_myself);
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(TLS_myself);
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       }
     }
   }
@@ -11173,10 +11176,10 @@ static void std_types___float64_array____type (void)
       double value;
       value = data->items[offset];
       {
-        NODE *result__node = (NODE *)(from_double(value));
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(from_double(value));
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       };
     } else {
       // set item
@@ -11196,10 +11199,10 @@ static void std_types___float64_array____type (void)
       update->offset = offset;
       update->value = value;
       {
-        NODE *result__node = (NODE *)(TLS_myself);
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(TLS_myself);
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       }
     }
   }
@@ -11208,8 +11211,8 @@ static void std_types___true____type (void)
   {
     {
       create_error_message(
-        module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
-        "Attempt to call the boolean value true as a function!", 0, 0, NULL);
+	module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+	"Attempt to call the boolean value true as a function!", 0, 0, NULL);
       return;
     }
   }
@@ -11218,8 +11221,8 @@ static void std_types___false____type (void)
   {
     {
       create_error_message(
-        module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
-        "Attempt to call the boolean value false as a function!", 0, 0, NULL);
+	module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+	"Attempt to call the boolean value false as a function!", 0, 0, NULL);
       return;
     }
   }
@@ -11228,8 +11231,8 @@ static void c_function____type (void)
   {
     {
       create_error_message(
-        module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
-        "Attempt to call the C function protoype object!", 0, 0, NULL);
+	module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+	"Attempt to call the C function protoype object!", 0, 0, NULL);
       return;
     }
   }
@@ -11238,8 +11241,8 @@ static void std_types___character____type (void)
   {
     {
       create_error_message(
-        module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
-        "Attempt to call a character value as a function!", 0, 0, NULL);
+	module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+	"Attempt to call a character value as a function!", 0, 0, NULL);
       return;
     }
   }
@@ -11248,8 +11251,8 @@ static void std_types___date_and_time____type (void)
   {
     {
       create_error_message(
-        module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
-        "Attempt to call a date-and-time object as a function!", 0, 0, NULL);
+	module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+	"Attempt to call a date-and-time object as a function!", 0, 0, NULL);
       return;
     }
   }
@@ -11271,8 +11274,8 @@ static void std_types___object____type (void)
   {
     {
       create_error_message(
-        module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
-        "Attempt to call an object as a function!", 0, 0, NULL);
+	module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+	"Attempt to call an object as a function!", 0, 0, NULL);
       return;
     }
   }
@@ -11281,8 +11284,8 @@ void std_types___undefined____type (void)
   {
     {
       create_error_message(
-        module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
-        "Attempt to call an undefined object as a function!", 0, 0, NULL);
+	module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+	"Attempt to call an undefined object as a function!", 0, 0, NULL);
       return;
     }
   }
@@ -11291,8 +11294,8 @@ static void std_types___function____type (void)
   {
     {
       create_error_message(
-        module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
-        "Attempt to call the function protoype object!", 0, 0, NULL);
+	module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+	"Attempt to call the function protoype object!", 0, 0, NULL);
       return;
     }
   }
@@ -11301,8 +11304,8 @@ static void tabular_function____type (void)
   {
     {
       create_error_message(
-        module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
-        "Attempt to call the tabular function protoype object!", 0, 0, NULL);
+	module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+	"Attempt to call the tabular function protoype object!", 0, 0, NULL);
       return;
     }
   }
@@ -11311,8 +11314,8 @@ static void std_types___generic_list____type (void)
   {
     {
       create_error_message(
-        module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
-        "Attempt to call the generic list prototype object as a function!", 0, 0, NULL);
+	module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+	"Attempt to call the generic list prototype object as a function!", 0, 0, NULL);
       return;
     }
   }
@@ -11338,10 +11341,10 @@ void std_types___list____type (void)
     long offset = TLS_myself->list.offset;
     if (TLS_argument_count == 1)
       {
-        NODE *result__node = (NODE *)(TLS_myself->list.data->items[offset+idx-1]);
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(TLS_myself->list.data->items[offset+idx-1]);
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       }
     NODE *item = TLS_arguments[1];
     LIST_DATA *new_data = allocate_large(sizeof(LIST_DATA)+length*sizeof(NODE *));
@@ -11365,8 +11368,8 @@ static void std_types___number____type (void)
   {
     {
       create_error_message(
-        module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
-        "Attempt to call a numeric value as a function!", 0, 0, NULL);
+	module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+	"Attempt to call a numeric value as a function!", 0, 0, NULL);
       return;
     }
   }
@@ -11375,8 +11378,8 @@ static void std_types___integer____type (void)
   {
     {
       create_error_message(
-        module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
-        "Attempt to call the integer protoype object as a function!", 0, 0, NULL);
+	module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+	"Attempt to call the integer protoype object as a function!", 0, 0, NULL);
       return;
     }
   }
@@ -11385,8 +11388,8 @@ void builtin_types___positive_integer____type (void)
   {
     {
       create_error_message(
-        module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
-        "Attempt to call a positive integer value as a function!", 0, 0, NULL);
+	module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+	"Attempt to call a positive integer value as a function!", 0, 0, NULL);
       return;
     }
   }
@@ -11395,8 +11398,8 @@ void builtin_types___negative_integer____type (void)
   {
     {
       create_error_message(
-        module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
-        "Attempt to call a negative integer value as a function!", 0, 0, NULL);
+	module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+	"Attempt to call a negative integer value as a function!", 0, 0, NULL);
       return;
     }
   }
@@ -11405,8 +11408,8 @@ static void std_types___real____type (void)
   {
     {
       create_error_message(
-        module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
-        "Attempt to call a real number as a function!", 0, 0, NULL);
+	module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+	"Attempt to call a real number as a function!", 0, 0, NULL);
       return;
     }
   }
@@ -11415,8 +11418,8 @@ static void std_types___polymorphic_function____type (void)
   {
     {
       create_error_message(
-        module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
-        "Attempt to call the polymorphic-function protoype object!", 0, 0, NULL);
+	module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+	"Attempt to call the polymorphic-function protoype object!", 0, 0, NULL);
       return;
     }
   }
@@ -11425,8 +11428,8 @@ static void std_types___polymorphic_function_with_setter____type (void)
   {
     {
       create_error_message(
-        module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
-        "Attempt to call the polymorphic-function-with-setter protoype object!", 0, 0, NULL);
+	module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+	"Attempt to call the polymorphic-function-with-setter protoype object!", 0, 0, NULL);
       return;
     }
   }
@@ -11435,8 +11438,8 @@ static void std_types___file_type____type (void)
   {
     {
       create_error_message(
-        module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
-        "Attempt to call a file type as a function!", 0, 0, NULL);
+	module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+	"Attempt to call a file type as a function!", 0, 0, NULL);
       return;
     }
   }
@@ -11445,8 +11448,8 @@ static void std_types___file_descriptor____type (void)
   {
     {
       create_error_message(
-        module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
-        "Attempt to call a file descriptor as a function!", 0, 0, NULL);
+	module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+	"Attempt to call a file descriptor as a function!", 0, 0, NULL);
       return;
     }
   }
@@ -11455,8 +11458,8 @@ static void std_types___signal_number____type (void)
   {
     {
       create_error_message(
-        module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
-        "Attempt to call a signal number as a function!", 0, 0, NULL);
+	module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+	"Attempt to call a signal number as a function!", 0, 0, NULL);
       return;
     }
   }
@@ -11465,8 +11468,8 @@ static void std_types___shutdown_type____type (void)
   {
     {
       create_error_message(
-        module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
-        "Attempt to call a shutdown type as a function!", 0, 0, NULL);
+	module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+	"Attempt to call a shutdown type as a function!", 0, 0, NULL);
       return;
     }
   }
@@ -11475,8 +11478,8 @@ static void std_types___seek_type____type (void)
   {
     {
       create_error_message(
-        module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
-        "Attempt to call a seek type as a function!", 0, 0, NULL);
+	module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+	"Attempt to call a seek type as a function!", 0, 0, NULL);
       return;
     }
   }
@@ -11485,8 +11488,8 @@ static void std_types___device_id____type (void)
   {
     {
       create_error_message(
-        module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
-        "Attempt to call a device id as a function!", 0, 0, NULL);
+	module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+	"Attempt to call a device id as a function!", 0, 0, NULL);
       return;
     }
   }
@@ -11495,8 +11498,8 @@ static void std_types___directory____type (void)
   {
     {
       create_error_message(
-        module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
-        "Attempt to call a directory as a function!", 0, 0, NULL);
+	module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+	"Attempt to call a directory as a function!", 0, 0, NULL);
       return;
     }
   }
@@ -11505,8 +11508,8 @@ static void std_types___group_id____type (void)
   {
     {
       create_error_message(
-        module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
-        "Attempt to call a group id as a function!", 0, 0, NULL);
+	module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+	"Attempt to call a group id as a function!", 0, 0, NULL);
       return;
     }
   }
@@ -11515,8 +11518,8 @@ static void std_types___inode_number____type (void)
   {
     {
       create_error_message(
-        module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
-        "Attempt to call a inode number as a function!", 0, 0, NULL);
+	module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+	"Attempt to call a inode number as a function!", 0, 0, NULL);
       return;
     }
   }
@@ -11525,8 +11528,8 @@ static void std_types___process_id____type (void)
   {
     {
       create_error_message(
-        module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
-        "Attempt to call a process id as a function!", 0, 0, NULL);
+	module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+	"Attempt to call a process id as a function!", 0, 0, NULL);
       return;
     }
   }
@@ -11535,8 +11538,8 @@ static void std_types___user_id____type (void)
   {
     {
       create_error_message(
-        module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
-        "Attempt to call a user id as a function!", 0, 0, NULL);
+	module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+	"Attempt to call a user id as a function!", 0, 0, NULL);
       return;
     }
   }
@@ -11545,8 +11548,8 @@ static void std_types___error_number____type (void)
   {
     {
       create_error_message(
-        module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
-        "Attempt to call a error number as a function!", 0, 0, NULL);
+	module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+	"Attempt to call a error number as a function!", 0, 0, NULL);
       return;
     }
   }
@@ -11555,8 +11558,8 @@ static void std_types___passwd____type (void)
   {
     {
       create_error_message(
-        module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
-        "Attempt to call a passwd as a function!", 0, 0, NULL);
+	module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+	"Attempt to call a passwd as a function!", 0, 0, NULL);
       return;
     }
   }
@@ -11565,8 +11568,8 @@ static void std_types___stat____type (void)
   {
     {
       create_error_message(
-        module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
-        "Attempt to call a stat as a function!", 0, 0, NULL);
+	module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+	"Attempt to call a stat as a function!", 0, 0, NULL);
       return;
     }
   }
@@ -11575,8 +11578,8 @@ static void std_types___dirent____type (void)
   {
     {
       create_error_message(
-        module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
-        "Attempt to call a dirent as a function!", 0, 0, NULL);
+	module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+	"Attempt to call a dirent as a function!", 0, 0, NULL);
       return;
     }
   }
@@ -11585,8 +11588,8 @@ static void std_types___string____type (void)
   {
     {
       create_error_message(
-        module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
-        "Attempt to call the string prototype object as a function!", 0, 0, NULL);
+	module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+	"Attempt to call the string prototype object as a function!", 0, 0, NULL);
       return;
     }
   }
@@ -11616,10 +11619,10 @@ static void std_types___octet_string____type (void)
     long offset = TLS_myself->octet_string.offset;
     if (TLS_argument_count == 1)
       {
-        NODE *result__node = (NODE *)(from_uchar32(TLS_myself->octet_string.data->buffer[offset+idx-1]));
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(from_uchar32(TLS_myself->octet_string.data->buffer[offset+idx-1]));
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       }
     uint32_t chr;
     if (!to_uchar32(TLS_arguments[1], &chr)) return;;
@@ -11641,10 +11644,10 @@ static void std_types___octet_string____type (void)
       new_data->length = length;
       new_data->buffer[idx-1] = chr;
       {
-        NODE *result__node = (NODE *)(create__std_types___wide_string(0, length, new_data));
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(create__std_types___wide_string(0, length, new_data));
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       }
     } else {
       long size = ALLOCATION_SIZE(length);
@@ -11654,10 +11657,10 @@ static void std_types___octet_string____type (void)
       new_data->length = length;
       new_data->buffer[idx-1] = chr;
       {
-        NODE *result__node = (NODE *)(create__std_types___octet_string(0, length, new_data));
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(create__std_types___octet_string(0, length, new_data));
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       }
     }
   }
@@ -11687,10 +11690,10 @@ static void std_types___wide_string____type (void)
     long offset = TLS_myself->wide_string.offset;
     if (TLS_argument_count == 1)
       {
-        NODE *result__node = (NODE *)(from_uchar32(TLS_myself->wide_string.data->buffer[offset+idx-1]));
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(from_uchar32(TLS_myself->wide_string.data->buffer[offset+idx-1]));
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       }
     uint32_t chr;
     if (!to_uchar32(TLS_arguments[1], &chr)) return;;
@@ -11715,10 +11718,10 @@ static void std_types___wide_string____type (void)
       new_data->length = length;
       new_data->buffer[idx-1] = chr;
       {
-        NODE *result__node = (NODE *)(create__std_types___octet_string(0, length, new_data));
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(create__std_types___octet_string(0, length, new_data));
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       }
     }
     quad:;
@@ -11740,8 +11743,8 @@ static void std_types___terminal_attributes____type (void)
   {
     {
       create_error_message(
-        module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
-        "Attempt to call terminal attributes as a function!", 0, 0, NULL);
+	module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+	"Attempt to call terminal attributes as a function!", 0, 0, NULL);
       return;
     };
   }
@@ -11750,8 +11753,8 @@ static void std_types___tuple____type (void)
   {
     {
       create_error_message(
-        module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
-        "Attempt to call the tuple prototype object as a function!", 0, 0, NULL);
+	module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+	"Attempt to call the tuple prototype object as a function!", 0, 0, NULL);
       return;
     }
   }
@@ -11970,8 +11973,8 @@ static void std_types___unique_item____type (void)
   {
     {
       create_error_message(
-        module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
-        "Attempt to call a unique item as a function!", 0, 0, NULL);
+	module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+	"Attempt to call a unique item as a function!", 0, 0, NULL);
       return;
     }
   }
@@ -11980,8 +11983,8 @@ static void std_types___shared_memory____type (void)
   {
     {
       create_error_message(
-        module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
-        "Attempt to call a shared memory object as a function!", 0, 0, NULL);
+	module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+	"Attempt to call a shared memory object as a function!", 0, 0, NULL);
       return;
     }
   }
@@ -13896,7 +13899,7 @@ static void entry__std_types___boolean_array___std___equal (void)
     BOOLEAN_ARRAY_DATA *right = apply_boolean_array_updates((BOOLEAN_ARRAY *)TLS_arguments[1]);
     {
       NODE *result__node = (NODE *)(from_bool(memcmp(
-    	left->items, right->items,sizeof(int)*left->size) == 0));
+	    left->items, right->items,sizeof(int)*left->size) == 0));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -13921,8 +13924,8 @@ static void entry__std_types___boolean_array___std___bit_and (void)
     }
     if (!equal_array_type(TLS_arguments[1], TLS_arguments[0]))
       {
-        invalid_arguments();
-        return;
+	invalid_arguments();
+	return;
       }
     BOOLEAN_ARRAY_DATA *left = apply_boolean_array_updates((BOOLEAN_ARRAY *)TLS_arguments[0]);
     BOOLEAN_ARRAY_DATA *right = apply_boolean_array_updates((BOOLEAN_ARRAY *)TLS_arguments[1]);
@@ -13962,8 +13965,8 @@ static void entry__std_types___boolean_array___std___bit_or (void)
     }
     if (!equal_array_type(TLS_arguments[1], TLS_arguments[0]))
       {
-        invalid_arguments();
-        return;
+	invalid_arguments();
+	return;
       }
     BOOLEAN_ARRAY_DATA *left =
       apply_boolean_array_updates((BOOLEAN_ARRAY *)TLS_arguments[0]);
@@ -13999,8 +14002,8 @@ static void entry__std_types___boolean_array___std___bit_xor (void)
     }
     if (!equal_array_type(TLS_arguments[1], TLS_arguments[0]))
       {
-        invalid_arguments();
-        return;
+	invalid_arguments();
+	return;
       }
     BOOLEAN_ARRAY_DATA *left = apply_boolean_array_updates((BOOLEAN_ARRAY *)TLS_arguments[0]);
     BOOLEAN_ARRAY_DATA *right = apply_boolean_array_updates((BOOLEAN_ARRAY *)TLS_arguments[1]);
@@ -14195,7 +14198,7 @@ static void entry__std_types___character_array___std___equal (void)
     CHARACTER_ARRAY_DATA *right = apply_character_array_updates((CHARACTER_ARRAY *)TLS_arguments[1]);
     {
       NODE *result__node = (NODE *)(from_bool(memcmp(
-    	left->items, right->items,sizeof(uint32_t)*left->size) == 0));
+	    left->items, right->items,sizeof(uint32_t)*left->size) == 0));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -14375,7 +14378,7 @@ static void entry__std_types___int8_array___std___equal (void)
     INT8_ARRAY_DATA *right = apply_int8_array_updates((INT8_ARRAY *)TLS_arguments[1]);
     {
       NODE *result__node = (NODE *)(from_bool(memcmp(
-    	left->items, right->items,sizeof(int8_t)*left->size) == 0));
+	    left->items, right->items,sizeof(int8_t)*left->size) == 0));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -14400,17 +14403,17 @@ static void entry__std_types___int8_array___std___times (void)
     }
     if (!equal_array_type(TLS_arguments[1], TLS_arguments[0]))
       {
-        invalid_arguments();
-        return;
+	invalid_arguments();
+	return;
       }
     INT8_ARRAY_DATA *left = apply_int8_array_updates((INT8_ARRAY *)TLS_arguments[0]);
     INT8_ARRAY_DATA *right = apply_int8_array_updates((INT8_ARRAY *)TLS_arguments[1]);
     {
       NODE *result__node = (NODE *)(from_long(
-    	int8_array_scalar_product(
-    	  TLS_arguments[0]->int8_array.view, left, 0,
-    	  TLS_arguments[1]->int8_array.view, right, 0,
-    	  0)));
+	    int8_array_scalar_product(
+	      TLS_arguments[0]->int8_array.view, left, 0,
+	      TLS_arguments[1]->int8_array.view, right, 0,
+	      0)));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -14590,7 +14593,7 @@ static void entry__std_types___uint8_array___std___equal (void)
     UINT8_ARRAY_DATA *right = apply_uint8_array_updates((UINT8_ARRAY *)TLS_arguments[1]);
     {
       NODE *result__node = (NODE *)(from_bool(memcmp(
-    	left->items, right->items,sizeof(uint8_t)*left->size) == 0));
+	    left->items, right->items,sizeof(uint8_t)*left->size) == 0));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -14615,8 +14618,8 @@ static void entry__std_types___uint8_array___std___bit_and (void)
     }
     if (!equal_array_type(TLS_arguments[1], TLS_arguments[0]))
       {
-        invalid_arguments();
-        return;
+	invalid_arguments();
+	return;
       }
     UINT8_ARRAY_DATA *left = apply_uint8_array_updates((UINT8_ARRAY *)TLS_arguments[0]);
     UINT8_ARRAY_DATA *right = apply_uint8_array_updates((UINT8_ARRAY *)TLS_arguments[1]);
@@ -14656,8 +14659,8 @@ static void entry__std_types___uint8_array___std___bit_or (void)
     }
     if (!equal_array_type(TLS_arguments[1], TLS_arguments[0]))
       {
-        invalid_arguments();
-        return;
+	invalid_arguments();
+	return;
       }
     UINT8_ARRAY_DATA *left =
       apply_uint8_array_updates((UINT8_ARRAY *)TLS_arguments[0]);
@@ -14693,8 +14696,8 @@ static void entry__std_types___uint8_array___std___bit_xor (void)
     }
     if (!equal_array_type(TLS_arguments[1], TLS_arguments[0]))
       {
-        invalid_arguments();
-        return;
+	invalid_arguments();
+	return;
       }
     UINT8_ARRAY_DATA *left = apply_uint8_array_updates((UINT8_ARRAY *)TLS_arguments[0]);
     UINT8_ARRAY_DATA *right = apply_uint8_array_updates((UINT8_ARRAY *)TLS_arguments[1]);
@@ -14734,17 +14737,17 @@ static void entry__std_types___uint8_array___std___times (void)
     }
     if (!equal_array_type(TLS_arguments[1], TLS_arguments[0]))
       {
-        invalid_arguments();
-        return;
+	invalid_arguments();
+	return;
       }
     UINT8_ARRAY_DATA *left = apply_uint8_array_updates((UINT8_ARRAY *)TLS_arguments[0]);
     UINT8_ARRAY_DATA *right = apply_uint8_array_updates((UINT8_ARRAY *)TLS_arguments[1]);
     {
       NODE *result__node = (NODE *)(from_ulong(
-    	uint8_array_scalar_product(
-    	  TLS_arguments[0]->uint8_array.view, left, 0,
-    	  TLS_arguments[1]->uint8_array.view, right, 0,
-    	  0)));
+	    uint8_array_scalar_product(
+	      TLS_arguments[0]->uint8_array.view, left, 0,
+	      TLS_arguments[1]->uint8_array.view, right, 0,
+	      0)));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -14924,7 +14927,7 @@ static void entry__std_types___int16_array___std___equal (void)
     INT16_ARRAY_DATA *right = apply_int16_array_updates((INT16_ARRAY *)TLS_arguments[1]);
     {
       NODE *result__node = (NODE *)(from_bool(memcmp(
-    	left->items, right->items,sizeof(int16_t)*left->size) == 0));
+	    left->items, right->items,sizeof(int16_t)*left->size) == 0));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -14949,17 +14952,17 @@ static void entry__std_types___int16_array___std___times (void)
     }
     if (!equal_array_type(TLS_arguments[1], TLS_arguments[0]))
       {
-        invalid_arguments();
-        return;
+	invalid_arguments();
+	return;
       }
     INT16_ARRAY_DATA *left = apply_int16_array_updates((INT16_ARRAY *)TLS_arguments[0]);
     INT16_ARRAY_DATA *right = apply_int16_array_updates((INT16_ARRAY *)TLS_arguments[1]);
     {
       NODE *result__node = (NODE *)(from_long(
-    	int16_array_scalar_product(
-    	  TLS_arguments[0]->int16_array.view, left, 0,
-    	  TLS_arguments[1]->int16_array.view, right, 0,
-    	  0)));
+	    int16_array_scalar_product(
+	      TLS_arguments[0]->int16_array.view, left, 0,
+	      TLS_arguments[1]->int16_array.view, right, 0,
+	      0)));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -15139,7 +15142,7 @@ static void entry__std_types___uint16_array___std___equal (void)
     UINT16_ARRAY_DATA *right = apply_uint16_array_updates((UINT16_ARRAY *)TLS_arguments[1]);
     {
       NODE *result__node = (NODE *)(from_bool(memcmp(
-    	left->items, right->items,sizeof(uint16_t)*left->size) == 0));
+	    left->items, right->items,sizeof(uint16_t)*left->size) == 0));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -15164,8 +15167,8 @@ static void entry__std_types___uint16_array___std___bit_and (void)
     }
     if (!equal_array_type(TLS_arguments[1], TLS_arguments[0]))
       {
-        invalid_arguments();
-        return;
+	invalid_arguments();
+	return;
       }
     UINT16_ARRAY_DATA *left = apply_uint16_array_updates((UINT16_ARRAY *)TLS_arguments[0]);
     UINT16_ARRAY_DATA *right = apply_uint16_array_updates((UINT16_ARRAY *)TLS_arguments[1]);
@@ -15205,8 +15208,8 @@ static void entry__std_types___uint16_array___std___bit_or (void)
     }
     if (!equal_array_type(TLS_arguments[1], TLS_arguments[0]))
       {
-        invalid_arguments();
-        return;
+	invalid_arguments();
+	return;
       }
     UINT16_ARRAY_DATA *left =
       apply_uint16_array_updates((UINT16_ARRAY *)TLS_arguments[0]);
@@ -15242,8 +15245,8 @@ static void entry__std_types___uint16_array___std___bit_xor (void)
     }
     if (!equal_array_type(TLS_arguments[1], TLS_arguments[0]))
       {
-        invalid_arguments();
-        return;
+	invalid_arguments();
+	return;
       }
     UINT16_ARRAY_DATA *left = apply_uint16_array_updates((UINT16_ARRAY *)TLS_arguments[0]);
     UINT16_ARRAY_DATA *right = apply_uint16_array_updates((UINT16_ARRAY *)TLS_arguments[1]);
@@ -15283,17 +15286,17 @@ static void entry__std_types___uint16_array___std___times (void)
     }
     if (!equal_array_type(TLS_arguments[1], TLS_arguments[0]))
       {
-        invalid_arguments();
-        return;
+	invalid_arguments();
+	return;
       }
     UINT16_ARRAY_DATA *left = apply_uint16_array_updates((UINT16_ARRAY *)TLS_arguments[0]);
     UINT16_ARRAY_DATA *right = apply_uint16_array_updates((UINT16_ARRAY *)TLS_arguments[1]);
     {
       NODE *result__node = (NODE *)(from_ulong(
-    	uint16_array_scalar_product(
-    	  TLS_arguments[0]->uint16_array.view, left, 0,
-    	  TLS_arguments[1]->uint16_array.view, right, 0,
-    	  0)));
+	    uint16_array_scalar_product(
+	      TLS_arguments[0]->uint16_array.view, left, 0,
+	      TLS_arguments[1]->uint16_array.view, right, 0,
+	      0)));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -15473,7 +15476,7 @@ static void entry__std_types___int32_array___std___equal (void)
     INT32_ARRAY_DATA *right = apply_int32_array_updates((INT32_ARRAY *)TLS_arguments[1]);
     {
       NODE *result__node = (NODE *)(from_bool(memcmp(
-    	left->items, right->items,sizeof(int32_t)*left->size) == 0));
+	    left->items, right->items,sizeof(int32_t)*left->size) == 0));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -15498,17 +15501,17 @@ static void entry__std_types___int32_array___std___times (void)
     }
     if (!equal_array_type(TLS_arguments[1], TLS_arguments[0]))
       {
-        invalid_arguments();
-        return;
+	invalid_arguments();
+	return;
       }
     INT32_ARRAY_DATA *left = apply_int32_array_updates((INT32_ARRAY *)TLS_arguments[0]);
     INT32_ARRAY_DATA *right = apply_int32_array_updates((INT32_ARRAY *)TLS_arguments[1]);
     {
       NODE *result__node = (NODE *)(from_long(
-    	int32_array_scalar_product(
-    	  TLS_arguments[0]->int32_array.view, left, 0,
-    	  TLS_arguments[1]->int32_array.view, right, 0,
-    	  0)));
+	    int32_array_scalar_product(
+	      TLS_arguments[0]->int32_array.view, left, 0,
+	      TLS_arguments[1]->int32_array.view, right, 0,
+	      0)));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -15688,7 +15691,7 @@ static void entry__std_types___uint32_array___std___equal (void)
     UINT32_ARRAY_DATA *right = apply_uint32_array_updates((UINT32_ARRAY *)TLS_arguments[1]);
     {
       NODE *result__node = (NODE *)(from_bool(memcmp(
-    	left->items, right->items,sizeof(uint32_t)*left->size) == 0));
+	    left->items, right->items,sizeof(uint32_t)*left->size) == 0));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -15713,8 +15716,8 @@ static void entry__std_types___uint32_array___std___bit_and (void)
     }
     if (!equal_array_type(TLS_arguments[1], TLS_arguments[0]))
       {
-        invalid_arguments();
-        return;
+	invalid_arguments();
+	return;
       }
     UINT32_ARRAY_DATA *left = apply_uint32_array_updates((UINT32_ARRAY *)TLS_arguments[0]);
     UINT32_ARRAY_DATA *right = apply_uint32_array_updates((UINT32_ARRAY *)TLS_arguments[1]);
@@ -15754,8 +15757,8 @@ static void entry__std_types___uint32_array___std___bit_or (void)
     }
     if (!equal_array_type(TLS_arguments[1], TLS_arguments[0]))
       {
-        invalid_arguments();
-        return;
+	invalid_arguments();
+	return;
       }
     UINT32_ARRAY_DATA *left =
       apply_uint32_array_updates((UINT32_ARRAY *)TLS_arguments[0]);
@@ -15791,8 +15794,8 @@ static void entry__std_types___uint32_array___std___bit_xor (void)
     }
     if (!equal_array_type(TLS_arguments[1], TLS_arguments[0]))
       {
-        invalid_arguments();
-        return;
+	invalid_arguments();
+	return;
       }
     UINT32_ARRAY_DATA *left = apply_uint32_array_updates((UINT32_ARRAY *)TLS_arguments[0]);
     UINT32_ARRAY_DATA *right = apply_uint32_array_updates((UINT32_ARRAY *)TLS_arguments[1]);
@@ -15832,17 +15835,17 @@ static void entry__std_types___uint32_array___std___times (void)
     }
     if (!equal_array_type(TLS_arguments[1], TLS_arguments[0]))
       {
-        invalid_arguments();
-        return;
+	invalid_arguments();
+	return;
       }
     UINT32_ARRAY_DATA *left = apply_uint32_array_updates((UINT32_ARRAY *)TLS_arguments[0]);
     UINT32_ARRAY_DATA *right = apply_uint32_array_updates((UINT32_ARRAY *)TLS_arguments[1]);
     {
       NODE *result__node = (NODE *)(from_ulong(
-    	uint32_array_scalar_product(
-    	  TLS_arguments[0]->uint32_array.view, left, 0,
-    	  TLS_arguments[1]->uint32_array.view, right, 0,
-    	  0)));
+	    uint32_array_scalar_product(
+	      TLS_arguments[0]->uint32_array.view, left, 0,
+	      TLS_arguments[1]->uint32_array.view, right, 0,
+	      0)));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -16022,7 +16025,7 @@ static void entry__std_types___int64_array___std___equal (void)
     INT64_ARRAY_DATA *right = apply_int64_array_updates((INT64_ARRAY *)TLS_arguments[1]);
     {
       NODE *result__node = (NODE *)(from_bool(memcmp(
-    	left->items, right->items,sizeof(int64_t)*left->size) == 0));
+	    left->items, right->items,sizeof(int64_t)*left->size) == 0));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -16047,17 +16050,17 @@ static void entry__std_types___int64_array___std___times (void)
     }
     if (!equal_array_type(TLS_arguments[1], TLS_arguments[0]))
       {
-        invalid_arguments();
-        return;
+	invalid_arguments();
+	return;
       }
     INT64_ARRAY_DATA *left = apply_int64_array_updates((INT64_ARRAY *)TLS_arguments[0]);
     INT64_ARRAY_DATA *right = apply_int64_array_updates((INT64_ARRAY *)TLS_arguments[1]);
     {
       NODE *result__node = (NODE *)(from_long(
-    	int64_array_scalar_product(
-    	  TLS_arguments[0]->int64_array.view, left, 0,
-    	  TLS_arguments[1]->int64_array.view, right, 0,
-    	  0)));
+	    int64_array_scalar_product(
+	      TLS_arguments[0]->int64_array.view, left, 0,
+	      TLS_arguments[1]->int64_array.view, right, 0,
+	      0)));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -16237,7 +16240,7 @@ static void entry__std_types___uint64_array___std___equal (void)
     UINT64_ARRAY_DATA *right = apply_uint64_array_updates((UINT64_ARRAY *)TLS_arguments[1]);
     {
       NODE *result__node = (NODE *)(from_bool(memcmp(
-    	left->items, right->items,sizeof(uint64_t)*left->size) == 0));
+	    left->items, right->items,sizeof(uint64_t)*left->size) == 0));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -16262,8 +16265,8 @@ static void entry__std_types___uint64_array___std___bit_and (void)
     }
     if (!equal_array_type(TLS_arguments[1], TLS_arguments[0]))
       {
-        invalid_arguments();
-        return;
+	invalid_arguments();
+	return;
       }
     UINT64_ARRAY_DATA *left = apply_uint64_array_updates((UINT64_ARRAY *)TLS_arguments[0]);
     UINT64_ARRAY_DATA *right = apply_uint64_array_updates((UINT64_ARRAY *)TLS_arguments[1]);
@@ -16303,8 +16306,8 @@ static void entry__std_types___uint64_array___std___bit_or (void)
     }
     if (!equal_array_type(TLS_arguments[1], TLS_arguments[0]))
       {
-        invalid_arguments();
-        return;
+	invalid_arguments();
+	return;
       }
     UINT64_ARRAY_DATA *left =
       apply_uint64_array_updates((UINT64_ARRAY *)TLS_arguments[0]);
@@ -16340,8 +16343,8 @@ static void entry__std_types___uint64_array___std___bit_xor (void)
     }
     if (!equal_array_type(TLS_arguments[1], TLS_arguments[0]))
       {
-        invalid_arguments();
-        return;
+	invalid_arguments();
+	return;
       }
     UINT64_ARRAY_DATA *left = apply_uint64_array_updates((UINT64_ARRAY *)TLS_arguments[0]);
     UINT64_ARRAY_DATA *right = apply_uint64_array_updates((UINT64_ARRAY *)TLS_arguments[1]);
@@ -16381,17 +16384,17 @@ static void entry__std_types___uint64_array___std___times (void)
     }
     if (!equal_array_type(TLS_arguments[1], TLS_arguments[0]))
       {
-        invalid_arguments();
-        return;
+	invalid_arguments();
+	return;
       }
     UINT64_ARRAY_DATA *left = apply_uint64_array_updates((UINT64_ARRAY *)TLS_arguments[0]);
     UINT64_ARRAY_DATA *right = apply_uint64_array_updates((UINT64_ARRAY *)TLS_arguments[1]);
     {
       NODE *result__node = (NODE *)(from_ulong(
-    	uint64_array_scalar_product(
-    	  TLS_arguments[0]->uint64_array.view, left, 0,
-    	  TLS_arguments[1]->uint64_array.view, right, 0,
-    	  0)));
+	    uint64_array_scalar_product(
+	      TLS_arguments[0]->uint64_array.view, left, 0,
+	      TLS_arguments[1]->uint64_array.view, right, 0,
+	      0)));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -16571,7 +16574,7 @@ static void entry__std_types___float32_array___std___equal (void)
     FLOAT32_ARRAY_DATA *right = apply_float32_array_updates((FLOAT32_ARRAY *)TLS_arguments[1]);
     {
       NODE *result__node = (NODE *)(from_bool(memcmp(
-    	left->items, right->items,sizeof(float)*left->size) == 0));
+	    left->items, right->items,sizeof(float)*left->size) == 0));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -16596,17 +16599,17 @@ static void entry__std_types___float32_array___std___times (void)
     }
     if (!equal_array_type(TLS_arguments[1], TLS_arguments[0]))
       {
-        invalid_arguments();
-        return;
+	invalid_arguments();
+	return;
       }
     FLOAT32_ARRAY_DATA *left = apply_float32_array_updates((FLOAT32_ARRAY *)TLS_arguments[0]);
     FLOAT32_ARRAY_DATA *right = apply_float32_array_updates((FLOAT32_ARRAY *)TLS_arguments[1]);
     {
       NODE *result__node = (NODE *)(from_double(
-    	float32_array_scalar_product(
-    	  TLS_arguments[0]->float32_array.view, left, 0,
-    	  TLS_arguments[1]->float32_array.view, right, 0,
-    	  0)));
+	    float32_array_scalar_product(
+	      TLS_arguments[0]->float32_array.view, left, 0,
+	      TLS_arguments[1]->float32_array.view, right, 0,
+	      0)));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -16786,7 +16789,7 @@ static void entry__std_types___float64_array___std___equal (void)
     FLOAT64_ARRAY_DATA *right = apply_float64_array_updates((FLOAT64_ARRAY *)TLS_arguments[1]);
     {
       NODE *result__node = (NODE *)(from_bool(memcmp(
-    	left->items, right->items,sizeof(double)*left->size) == 0));
+	    left->items, right->items,sizeof(double)*left->size) == 0));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -16811,17 +16814,17 @@ static void entry__std_types___float64_array___std___times (void)
     }
     if (!equal_array_type(TLS_arguments[1], TLS_arguments[0]))
       {
-        invalid_arguments();
-        return;
+	invalid_arguments();
+	return;
       }
     FLOAT64_ARRAY_DATA *left = apply_float64_array_updates((FLOAT64_ARRAY *)TLS_arguments[0]);
     FLOAT64_ARRAY_DATA *right = apply_float64_array_updates((FLOAT64_ARRAY *)TLS_arguments[1]);
     {
       NODE *result__node = (NODE *)(from_double(
-    	float64_array_scalar_product(
-    	  TLS_arguments[0]->float64_array.view, left, 0,
-    	  TLS_arguments[1]->float64_array.view, right, 0,
-    	  0)));
+	    float64_array_scalar_product(
+	      TLS_arguments[0]->float64_array.view, left, 0,
+	      TLS_arguments[1]->float64_array.view, right, 0,
+	      0)));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -16927,6 +16930,9 @@ static void entry__std_types___float64_array___std___range (void)
 
 static void entry__std___pass (void)
   {
+    if (instruction_counter >= 27883 && instruction_counter < 27890) {
+      printf("I:%ld:pass\n", instruction_counter);
+    }
     if (TLS_argument_count != 0) {
       invalid_arguments();
       return;
@@ -16970,22 +16976,22 @@ static void entry__std_types___true___std___equal (void)
     }
     if ((TLS_arguments[1])->type == std_types___true.type) {
       {
-        NODE *result__node = (NODE *)(&std_types___true);
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(&std_types___true);
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       }
     } else if ((TLS_arguments[1])->type == std_types___error.type) {
       {
-        invalid_arguments();
-        return;
+	invalid_arguments();
+	return;
       }
     } else {
       {
-        NODE *result__node = (NODE *)(&std_types___false);
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(&std_types___false);
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       }
     }
   }
@@ -17002,22 +17008,22 @@ static void entry__std_types___false___std___equal (void)
     }
     if ((TLS_arguments[1])->type == std_types___false.type) {
       {
-        NODE *result__node = (NODE *)(&std_types___true);
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(&std_types___true);
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       }
     } else if ((TLS_arguments[1])->type == std_types___error.type) {
       {
-        invalid_arguments();
-        return;
+	invalid_arguments();
+	return;
       }
     } else {
       {
-        NODE *result__node = (NODE *)(&std_types___false);
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(&std_types___false);
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       }
     }
   }
@@ -17034,17 +17040,17 @@ static void entry__c_function___std___parameter_count_of (void)
     }
     if (TLS_arguments[0]->c_function.parameter_count < 0)
       {
-        NODE *result__node = (NODE *)(&std_types___undefined);
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(&std_types___undefined);
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       }
     else
       {
-        NODE *result__node = (NODE *)(from_uint32(TLS_arguments[0]->c_function.parameter_count));
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(from_uint32(TLS_arguments[0]->c_function.parameter_count));
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       }
   }
 
@@ -17105,25 +17111,25 @@ static void entry__std_types___character___std___minus (void)
     }
     if ((TLS_arguments[1])->type == std_types___character.type) {
       {
-        NODE *result__node = (NODE *)(from_long(
-      	  (long)TLS_arguments[0]->character.code-(long)TLS_arguments[1]->character.code));
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(from_long(
+		(long)TLS_arguments[0]->character.code-(long)TLS_arguments[1]->character.code));
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       };
     } else {
       long offset;
       if (!to_long(TLS_arguments[1], &offset)) return;
       long code = (long)TLS_arguments[0]->character.code-offset;
       if (code >= 0x100000000LL || code < 0) {
-        invalid_arguments();
-        return;
+	invalid_arguments();
+	return;
       }
       {
-        NODE *result__node = (NODE *)(create__std_types___character((uint32_t)code));
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(create__std_types___character((uint32_t)code));
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       }
     }
   }
@@ -17140,22 +17146,22 @@ static void entry__std_types___character___std___equal (void)
     }
     if ((TLS_arguments[1])->type == std_types___character.type) {
       {
-        NODE *result__node = (NODE *)(from_bool(TLS_arguments[0]->character.code == TLS_arguments[1]->character.code));
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(from_bool(TLS_arguments[0]->character.code == TLS_arguments[1]->character.code));
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       }
     } else if ((TLS_arguments[1])->type == std_types___error.type) {
       {
-        invalid_arguments();
-        return;
+	invalid_arguments();
+	return;
       }
     } else {
       {
-        NODE *result__node = (NODE *)(&std_types___false);
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(&std_types___false);
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       }
     }
   }
@@ -17172,10 +17178,10 @@ static void entry__std_types___character___std___less (void)
     }
     if ((TLS_arguments[1])->type == std_types___character.type) {
       {
-        NODE *result__node = (NODE *)(from_bool(TLS_arguments[0]->character.code < TLS_arguments[1]->character.code));
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(from_bool(TLS_arguments[0]->character.code < TLS_arguments[1]->character.code));
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       }
     }
     {
@@ -17219,17 +17225,17 @@ static void entry__std_types___character___std___to_string (void)
       char buf[1];
       buf[0] = TLS_arguments[0]->character.code;
       {
-        NODE *result__node = (NODE *)(from_latin_1_string((const uint8_t *)buf, 1));
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(from_latin_1_string((const uint8_t *)buf, 1));
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       }
     } else {
       {
-        NODE *result__node = (NODE *)(from_uint32_string(&TLS_arguments[0]->character.code, 1));
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(from_uint32_string(&TLS_arguments[0]->character.code, 1));
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       }
     }
   }
@@ -17344,10 +17350,10 @@ static void entry__std___date_and_time (void)
       }
       if (month > m) days += d;
       if (month == m && day > d) {
-        NODE *result__node = (NODE *)(&std_types___undefined);
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(&std_types___undefined);
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       }
     }
     days += day-1;
@@ -17416,7 +17422,7 @@ static void entry__std_types___date_and_time___std___day_of_week_of (void)
     }
     {
       NODE *result__node = (NODE *)(from_long(
-    	(3+TLS_arguments[0]->date_and_time.seconds/86400)%7+1));
+	    (3+TLS_arguments[0]->date_and_time.seconds/86400)%7+1));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -17461,8 +17467,8 @@ static void entry__std_types___date_and_time___std___second_of (void)
     }
     {
       NODE *result__node = (NODE *)(from_double(
-    	TLS_arguments[0]->date_and_time.seconds%60+
-    	TLS_arguments[0]->date_and_time.nanoseconds/1000000000.0));
+	    TLS_arguments[0]->date_and_time.seconds%60+
+	    TLS_arguments[0]->date_and_time.nanoseconds/1000000000.0));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -17543,11 +17549,11 @@ static void entry__std_types___date_and_time___std___minus (void)
       int64_t seconds_2 = TLS_arguments[1]->date_and_time.seconds;
       int32_t nanoseconds_2 = TLS_arguments[1]->date_and_time.nanoseconds;
       {
-        NODE *result__node = (NODE *)(from_double(
-      	seconds-seconds_2+(nanoseconds-nanoseconds_2)/1000000000.0));
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(from_double(
+	      seconds-seconds_2+(nanoseconds-nanoseconds_2)/1000000000.0));
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       }
     } else {
       double delta;
@@ -17561,10 +17567,10 @@ static void entry__std_types___date_and_time___std___minus (void)
 	--seconds;
       }
       {
-        NODE *result__node = (NODE *)(create__std_types___date_and_time(seconds, nanoseconds));
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(create__std_types___date_and_time(seconds, nanoseconds));
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       }
     }
   }
@@ -17586,7 +17592,7 @@ static void entry__std_types___date_and_time___std___equal (void)
     }
     {
       NODE *result__node = (NODE *)(from_bool(left->date_and_time.seconds == right->date_and_time.seconds &&
-          left->date_and_time.nanoseconds == right->date_and_time.nanoseconds));
+	  left->date_and_time.nanoseconds == right->date_and_time.nanoseconds));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -17608,8 +17614,8 @@ static void entry__std_types___date_and_time___std___less (void)
     }
     {
       NODE *result__node = (NODE *)(from_bool(left->date_and_time.seconds < right->date_and_time.seconds ||
-          left->date_and_time.seconds == right->date_and_time.seconds &&
-          left->date_and_time.nanoseconds < right->date_and_time.nanoseconds));
+	  left->date_and_time.seconds == right->date_and_time.seconds &&
+	  left->date_and_time.nanoseconds < right->date_and_time.nanoseconds));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -17875,17 +17881,17 @@ static void entry__std_types___error___std___errno_of (void)
     }
     if (TLS_arguments[0]->error.err_no) {
       {
-        NODE *result__node = (NODE *)(error_number_from_int(TLS_arguments[0]->error.err_no));
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(error_number_from_int(TLS_arguments[0]->error.err_no));
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       }
     } else {
       {
-        NODE *result__node = (NODE *)(&std_types___undefined);
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(&std_types___undefined);
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       }
     }
   }
@@ -17898,17 +17904,17 @@ static void entry__std_types___error___std___failed_attribute_of (void)
     }
     if (TLS_arguments[0]->error.attr_idx) {
       {
-        NODE *result__node = (NODE *)(from_c_string(polymorphic_function_names[TLS_arguments[0]->error.attr_idx]));
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(from_c_string(polymorphic_function_names[TLS_arguments[0]->error.attr_idx]));
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       }
     } else {
       {
-        NODE *result__node = (NODE *)(&std_types___undefined);
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(&std_types___undefined);
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       }
     }
   }
@@ -18010,8 +18016,8 @@ static void entry__std___create_process (void)
 	(environment)->type != std_types___undefined.type &&
 	(environment)->type != std_types___list.type
       ) {
-        invalid_arguments();
-        return;
+	invalid_arguments();
+	return;
       }
     }
     if (
@@ -18217,21 +18223,24 @@ static void entry__std_types___function___std___parameter_count_of (void)
       result_count_mismatch();
       return;
     }
-    int par_count =
-      ((const TAB_NUM *)((unsigned long)TLS_arguments[0]->type & -4L))[1];
+    const TAB_NUM *code =
+      do_debug
+      ? ((FUNCTION_INFO *)((unsigned long)TLS_arguments[0]->type & -4L))->code
+      : (const TAB_NUM *)((unsigned long)TLS_arguments[0]->type & -4L);
+    int par_count = code[1];
     if (par_count < 0)
       {
-        NODE *result__node = (NODE *)(&std_types___undefined);
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(&std_types___undefined);
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       }
     else
       {
-        NODE *result__node = (NODE *)(from_uint32(par_count));
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(from_uint32(par_count));
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       }
   }
 
@@ -18390,8 +18399,8 @@ static void entry__std_types___list___std___drop (void)
     long length = list->list.length;
     if (length == 0) {
       create_error_message(
-        module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
-        "Attempt to drop an element from an empty list!", 0, 0, NULL);
+	module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+	"Attempt to drop an element from an empty list!", 0, 0, NULL);
       return;
     }
     NODE *result =
@@ -18417,8 +18426,8 @@ static void entry__std_types___list___std___pop (void)
     }
     if (TLS_result_count != 2) {
       create_error_message(
-        module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
-        "Invalid number of expected results!", 0, 0, NULL);
+	module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+	"Invalid number of expected results!", 0, 0, NULL);
       return;
     }
     NODE *list = TLS_arguments[0];
@@ -18426,8 +18435,8 @@ static void entry__std_types___list___std___pop (void)
     long length = list->list.length;
     if (length == 0) {
       create_error_message(
-        module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
-        "Attempt to pop an element from an empty list!", 0, 0, NULL);
+	module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+	"Attempt to pop an element from an empty list!", 0, 0, NULL);
       return;
     }
     NODE *new_list = create__std_types___list(offset, length-1, list->list.data);
@@ -18454,8 +18463,8 @@ static void entry__std_types___list___std___peek (void)
     long length = list->list.length;
     if (length == 0) {
       create_error_message(
-        module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
-        "Attempt to peek an element of an empty list!", 0, 0, NULL);
+	module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+	"Attempt to peek an element of an empty list!", 0, 0, NULL);
       return;
     }
     {
@@ -18483,8 +18492,8 @@ static void entry__std_types___list___std___append (void)
     for (i = 1; i < TLS_argument_count; ++i) {
       NODE *right = TLS_arguments[i];
       if ((right)->type != std_types___list.type) {
-        invalid_arguments();
-        return;
+	invalid_arguments();
+	return;
       }
       new_length += right->list.length;
     }
@@ -18500,10 +18509,10 @@ static void entry__std_types___list___std___append (void)
 	create__std_types___list(right->list.offset, right->list.length, right->list.data);
       result->attributes = left->attributes; // maintain attributes
       {
-        NODE *result__node = (NODE *)(result);
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(result);
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       };
     }
     long left_offset = left->list.offset;
@@ -18708,10 +18717,10 @@ static void entry__builtin_types___positive_integer___std___times (void)
       }
     } else if ((TLS_arguments[1])->type == std_types___real.type) {
       {
-        NODE *result__node = (NODE *)(create__std_types___real(TLS_arguments[0]->integer.value*TLS_arguments[1]->real.value));
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(create__std_types___real(TLS_arguments[0]->integer.value*TLS_arguments[1]->real.value));
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       }
     }
     {
@@ -18764,10 +18773,10 @@ static void entry__builtin_types___negative_integer___std___times (void)
       }
     } else if ((TLS_arguments[1])->type == std_types___real.type) {
       {
-        NODE *result__node = (NODE *)(create__std_types___real(-(TLS_arguments[0]->integer.value*TLS_arguments[1]->real.value)));
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(create__std_types___real(-(TLS_arguments[0]->integer.value*TLS_arguments[1]->real.value)));
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       }
     }
     {
@@ -18933,8 +18942,8 @@ static void entry__builtin_types___positive_integer___std___over (void)
     }
     if ((TLS_arguments[1])->type == builtin_types___positive_integer.type) {
       if (TLS_arguments[1]->integer.value == 0) {
-        divide_by_zero();
-        return;
+	divide_by_zero();
+	return;
       }
       if (TLS_arguments[0]->integer.value % TLS_arguments[1]->integer.value == 0) {
 	{
@@ -18963,7 +18972,7 @@ static void entry__builtin_types___positive_integer___std___over (void)
       } else {
 	{
 	  NODE *result__node = (NODE *)(create__std_types___real(-((double)TLS_arguments[0]->integer.value /
-	  	    TLS_arguments[1]->integer.value)));
+		      TLS_arguments[1]->integer.value)));
 	  TLS_arguments[0] = result__node;
 	  TLS_argument_count = 1;
 	  return;
@@ -18971,14 +18980,14 @@ static void entry__builtin_types___positive_integer___std___over (void)
       }
     } else if ((TLS_arguments[1])->type == std_types___real.type) {
       if (TLS_arguments[1]->real.value == 0.0) {
-        divide_by_zero();
-        return;
+	divide_by_zero();
+	return;
       }
       {
-        NODE *result__node = (NODE *)(create__std_types___real(TLS_arguments[0]->integer.value/TLS_arguments[1]->real.value));
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(create__std_types___real(TLS_arguments[0]->integer.value/TLS_arguments[1]->real.value));
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       }
     }
     {
@@ -19008,7 +19017,7 @@ static void entry__builtin_types___negative_integer___std___over (void)
       } else {
 	{
 	  NODE *result__node = (NODE *)(create__std_types___real((double)TLS_arguments[0]->integer.value /
-	  	    TLS_arguments[1]->integer.value));
+		      TLS_arguments[1]->integer.value));
 	  TLS_arguments[0] = result__node;
 	  TLS_argument_count = 1;
 	  return;
@@ -19016,8 +19025,8 @@ static void entry__builtin_types___negative_integer___std___over (void)
       }
     } else if ((TLS_arguments[1])->type == builtin_types___positive_integer.type) {
       if (TLS_arguments[1]->integer.value == 0) {
-        divide_by_zero();
-        return;
+	divide_by_zero();
+	return;
       }
       if (TLS_arguments[0]->integer.value % TLS_arguments[1]->integer.value == 0) {
 	{
@@ -19030,7 +19039,7 @@ static void entry__builtin_types___negative_integer___std___over (void)
       } else {
 	{
 	  NODE *result__node = (NODE *)(create__std_types___real(-((double)TLS_arguments[0]->integer.value /
-	  	    TLS_arguments[1]->integer.value)));
+		      TLS_arguments[1]->integer.value)));
 	  TLS_arguments[0] = result__node;
 	  TLS_argument_count = 1;
 	  return;
@@ -19038,14 +19047,14 @@ static void entry__builtin_types___negative_integer___std___over (void)
       }
     } else if ((TLS_arguments[1])->type == std_types___real.type) {
       if (TLS_arguments[1]->real.value == 0.0) {
-        divide_by_zero();
-        return;
+	divide_by_zero();
+	return;
       }
       {
-        NODE *result__node = (NODE *)(create__std_types___real(-(TLS_arguments[0]->integer.value/TLS_arguments[1]->real.value)));
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(create__std_types___real(-(TLS_arguments[0]->integer.value/TLS_arguments[1]->real.value)));
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       }
     }
     {
@@ -19073,18 +19082,18 @@ static void entry__builtin_types___positive_integer___std___div (void)
 	  return;
 	}
       } else {
-        divide_by_zero();
-        return;
+	divide_by_zero();
+	return;
       }
     } else if ((TLS_arguments[1])->type == builtin_types___negative_integer.type) {
       uint64_t value =
 	(TLS_arguments[0]->integer.value+TLS_arguments[1]->integer.value-1) /
 	TLS_arguments[1]->integer.value;
       {
-        NODE *result__node = (NODE *)(create_negative_integer(value));
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(create_negative_integer(value));
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       }
     }
     {
@@ -19115,15 +19124,15 @@ static void entry__builtin_types___negative_integer___std___div (void)
 	  return;
 	}
       } else {
-        divide_by_zero();
-        return;
+	divide_by_zero();
+	return;
       }
     } else if ((TLS_arguments[1])->type == builtin_types___negative_integer.type) {
       {
-        NODE *result__node = (NODE *)(create__builtin_types___positive_integer(TLS_arguments[0]->integer.value / TLS_arguments[1]->integer.value));
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(create__builtin_types___positive_integer(TLS_arguments[0]->integer.value / TLS_arguments[1]->integer.value));
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       }
     }
     {
@@ -19151,17 +19160,17 @@ static void entry__builtin_types___positive_integer___std___mod (void)
 	  return;
 	}
       } else {
-        divide_by_zero();
-        return;
+	divide_by_zero();
+	return;
       }
     } else if ((TLS_arguments[1])->type == builtin_types___negative_integer.type) {
       long result = TLS_arguments[0]->integer.value % TLS_arguments[1]->integer.value;
       if (result != 0) result = TLS_arguments[1]->integer.value-result;
       {
-        NODE *result__node = (NODE *)(create_negative_integer(result));
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(create_negative_integer(result));
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       }
     }
     {
@@ -19191,16 +19200,16 @@ static void entry__builtin_types___negative_integer___std___mod (void)
 	  return;
 	}
       } else {
-        divide_by_zero();
-        return;
+	divide_by_zero();
+	return;
       }
     } else if ((TLS_arguments[1])->type == builtin_types___negative_integer.type) {
       {
-        NODE *result__node = (NODE *)(create_negative_integer(
-      	  TLS_arguments[0]->integer.value % TLS_arguments[1]->integer.value));
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(create_negative_integer(
+		TLS_arguments[0]->integer.value % TLS_arguments[1]->integer.value));
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       }
     }
     {
@@ -19400,9 +19409,9 @@ static void entry__std___integer (void)
 	result = create__builtin_types___positive_integer(value);
       }
       {
-        NODE *result__node = (NODE *)(result);
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
+	NODE *result__node = (NODE *)(result);
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
       }
       goto cleanup;
     } else {
@@ -19523,10 +19532,10 @@ static void entry__builtin_types___positive_integer___std___plus (void)
       }
     } else if ((TLS_arguments[1])->type == std_types___real.type) {
       {
-        NODE *result__node = (NODE *)(create__std_types___real(TLS_arguments[0]->integer.value+TLS_arguments[1]->real.value));
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(create__std_types___real(TLS_arguments[0]->integer.value+TLS_arguments[1]->real.value));
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       }
     }
     {
@@ -19577,10 +19586,10 @@ static void entry__builtin_types___negative_integer___std___plus (void)
       }
     } else if ((TLS_arguments[1])->type == std_types___real.type) {
       {
-        NODE *result__node = (NODE *)(create__std_types___real(TLS_arguments[1]->real.value-TLS_arguments[0]->integer.value));
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(create__std_types___real(TLS_arguments[1]->real.value-TLS_arguments[0]->integer.value));
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       }
     }
     {
@@ -19601,24 +19610,24 @@ static void entry__std_types___real___std___plus (void)
     }
     if ((TLS_arguments[1])->type == std_types___real.type) {
       {
-        NODE *result__node = (NODE *)(create__std_types___real(TLS_arguments[0]->real.value+TLS_arguments[1]->real.value));
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(create__std_types___real(TLS_arguments[0]->real.value+TLS_arguments[1]->real.value));
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       }
     } else if ((TLS_arguments[1])->type == builtin_types___positive_integer.type) {
       {
-        NODE *result__node = (NODE *)(create__std_types___real(TLS_arguments[0]->real.value+TLS_arguments[1]->integer.value));
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(create__std_types___real(TLS_arguments[0]->real.value+TLS_arguments[1]->integer.value));
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       }
     } else if ((TLS_arguments[1])->type == builtin_types___negative_integer.type) {
       {
-        NODE *result__node = (NODE *)(create__std_types___real(TLS_arguments[0]->real.value-TLS_arguments[1]->integer.value));
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(create__std_types___real(TLS_arguments[0]->real.value-TLS_arguments[1]->integer.value));
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       }
     }
     {
@@ -19665,10 +19674,10 @@ static void entry__builtin_types___positive_integer___std___minus (void)
       }
     } else if ((TLS_arguments[1])->type == std_types___real.type) {
       {
-        NODE *result__node = (NODE *)(create__std_types___real(TLS_arguments[0]->integer.value-TLS_arguments[1]->real.value));
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(create__std_types___real(TLS_arguments[0]->integer.value-TLS_arguments[1]->real.value));
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       }
     }
     {
@@ -19719,10 +19728,10 @@ static void entry__builtin_types___negative_integer___std___minus (void)
       }
     } else if ((TLS_arguments[1])->type == std_types___real.type) {
       {
-        NODE *result__node = (NODE *)(create__std_types___real(-(TLS_arguments[0]->integer.value+TLS_arguments[1]->real.value)));
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(create__std_types___real(-(TLS_arguments[0]->integer.value+TLS_arguments[1]->real.value)));
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       }
     }
     {
@@ -19743,24 +19752,24 @@ static void entry__std_types___real___std___minus (void)
     }
     if ((TLS_arguments[1])->type == std_types___real.type) {
       {
-        NODE *result__node = (NODE *)(create__std_types___real(TLS_arguments[0]->real.value-TLS_arguments[1]->real.value));
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(create__std_types___real(TLS_arguments[0]->real.value-TLS_arguments[1]->real.value));
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       }
     } else if ((TLS_arguments[1])->type == builtin_types___positive_integer.type) {
       {
-        NODE *result__node = (NODE *)(create__std_types___real(TLS_arguments[0]->real.value-TLS_arguments[1]->integer.value));
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(create__std_types___real(TLS_arguments[0]->real.value-TLS_arguments[1]->integer.value));
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       }
     } else if ((TLS_arguments[1])->type == builtin_types___negative_integer.type) {
       {
-        NODE *result__node = (NODE *)(create__std_types___real(TLS_arguments[0]->real.value+TLS_arguments[1]->integer.value));
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(create__std_types___real(TLS_arguments[0]->real.value+TLS_arguments[1]->integer.value));
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       }
     }
     {
@@ -19781,24 +19790,24 @@ static void entry__std_types___real___std___times (void)
     }
     if ((TLS_arguments[1])->type == std_types___real.type) {
       {
-        NODE *result__node = (NODE *)(create__std_types___real(TLS_arguments[0]->real.value*TLS_arguments[1]->real.value));
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(create__std_types___real(TLS_arguments[0]->real.value*TLS_arguments[1]->real.value));
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       }
     } else if ((TLS_arguments[1])->type == builtin_types___positive_integer.type) {
       {
-        NODE *result__node = (NODE *)(create__std_types___real(TLS_arguments[0]->real.value*TLS_arguments[1]->integer.value));
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(create__std_types___real(TLS_arguments[0]->real.value*TLS_arguments[1]->integer.value));
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       }
     } else if ((TLS_arguments[1])->type == builtin_types___negative_integer.type) {
       {
-        NODE *result__node = (NODE *)(create__std_types___real(-(TLS_arguments[0]->real.value*TLS_arguments[1]->integer.value)));
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(create__std_types___real(-(TLS_arguments[0]->real.value*TLS_arguments[1]->integer.value)));
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       }
     }
     {
@@ -19819,32 +19828,32 @@ static void entry__std_types___real___std___over (void)
     }
     if ((TLS_arguments[1])->type == std_types___real.type) {
       if (TLS_arguments[1]->real.value == 0.0) {
-        divide_by_zero();
-        return;
+	divide_by_zero();
+	return;
       }
       {
-        NODE *result__node = (NODE *)(create__std_types___real(TLS_arguments[0]->real.value/TLS_arguments[1]->real.value));
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(create__std_types___real(TLS_arguments[0]->real.value/TLS_arguments[1]->real.value));
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       }
     } else if ((TLS_arguments[1])->type == builtin_types___positive_integer.type) {
       if (TLS_arguments[1]->integer.value == 0) {
-        divide_by_zero();
-        return;
+	divide_by_zero();
+	return;
       }
       {
-        NODE *result__node = (NODE *)(create__std_types___real(TLS_arguments[0]->real.value/TLS_arguments[1]->integer.value));
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(create__std_types___real(TLS_arguments[0]->real.value/TLS_arguments[1]->integer.value));
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       }
     } else if ((TLS_arguments[1])->type == builtin_types___negative_integer.type) {
       {
-        NODE *result__node = (NODE *)(create__std_types___real(-(TLS_arguments[0]->real.value/TLS_arguments[1]->integer.value)));
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(create__std_types___real(-(TLS_arguments[0]->real.value/TLS_arguments[1]->integer.value)));
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       }
     }
     {
@@ -19865,29 +19874,29 @@ static void entry__builtin_types___positive_integer___std___equal (void)
     }
     if ((TLS_arguments[1])->type == builtin_types___positive_integer.type) {
       {
-        NODE *result__node = (NODE *)(from_bool(TLS_arguments[0]->integer.value == TLS_arguments[1]->integer.value));
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(from_bool(TLS_arguments[0]->integer.value == TLS_arguments[1]->integer.value));
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       }
     } else if ((TLS_arguments[1])->type == std_types___real.type) {
       {
-        NODE *result__node = (NODE *)(from_bool(TLS_arguments[0]->integer.value == TLS_arguments[1]->real.value));
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(from_bool(TLS_arguments[0]->integer.value == TLS_arguments[1]->real.value));
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       }
     } else if ((TLS_arguments[1])->type == std_types___error.type) {
       {
-        invalid_arguments();
-        return;
+	invalid_arguments();
+	return;
       }
     } else {
       {
-        NODE *result__node = (NODE *)(&std_types___false);
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(&std_types___false);
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       }
     }
   }
@@ -19904,29 +19913,29 @@ static void entry__builtin_types___negative_integer___std___equal (void)
     }
     if ((TLS_arguments[1])->type == builtin_types___negative_integer.type) {
       {
-        NODE *result__node = (NODE *)(from_bool(TLS_arguments[0]->integer.value == TLS_arguments[1]->integer.value));
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(from_bool(TLS_arguments[0]->integer.value == TLS_arguments[1]->integer.value));
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       }
     } else if ((TLS_arguments[1])->type == std_types___real.type) {
       {
-        NODE *result__node = (NODE *)(from_bool(TLS_arguments[0]->integer.value == -TLS_arguments[1]->real.value));
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(from_bool(TLS_arguments[0]->integer.value == -TLS_arguments[1]->real.value));
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       }
     } else if ((TLS_arguments[1])->type == std_types___error.type) {
       {
-        invalid_arguments();
-        return;
+	invalid_arguments();
+	return;
       }
     } else {
       {
-        NODE *result__node = (NODE *)(&std_types___false);
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(&std_types___false);
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       }
     }
   }
@@ -19943,36 +19952,36 @@ static void entry__std_types___real___std___equal (void)
     }
     if ((TLS_arguments[1])->type == std_types___real.type) {
       {
-        NODE *result__node = (NODE *)(from_bool(TLS_arguments[0]->real.value == TLS_arguments[1]->real.value));
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(from_bool(TLS_arguments[0]->real.value == TLS_arguments[1]->real.value));
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       }
     } else if ((TLS_arguments[1])->type == builtin_types___positive_integer.type) {
       {
-        NODE *result__node = (NODE *)(from_bool(TLS_arguments[0]->real.value == TLS_arguments[1]->integer.value));
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(from_bool(TLS_arguments[0]->real.value == TLS_arguments[1]->integer.value));
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       }
     } else if ((TLS_arguments[1])->type == builtin_types___negative_integer.type) {
       {
-        NODE *result__node = (NODE *)(from_bool(-TLS_arguments[0]->real.value == TLS_arguments[1]->integer.value));
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(from_bool(-TLS_arguments[0]->real.value == TLS_arguments[1]->integer.value));
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       }
     } else if ((TLS_arguments[1])->type == std_types___error.type) {
       {
-        invalid_arguments();
-        return;
+	invalid_arguments();
+	return;
       }
     } else {
       {
-        NODE *result__node = (NODE *)(&std_types___false);
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(&std_types___false);
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       }
     }
   }
@@ -19989,24 +19998,24 @@ static void entry__builtin_types___positive_integer___std___less (void)
     }
     if ((TLS_arguments[1])->type == builtin_types___positive_integer.type) {
       {
-        NODE *result__node = (NODE *)(from_bool(TLS_arguments[0]->integer.value < TLS_arguments[1]->integer.value));
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(from_bool(TLS_arguments[0]->integer.value < TLS_arguments[1]->integer.value));
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       }
     } else if ((TLS_arguments[1])->type == builtin_types___negative_integer.type) {
       {
-        NODE *result__node = (NODE *)(&std_types___false);
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(&std_types___false);
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       }
     } else if ((TLS_arguments[1])->type == std_types___real.type) {
       {
-        NODE *result__node = (NODE *)(from_bool(TLS_arguments[0]->integer.value < TLS_arguments[1]->real.value));
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(from_bool(TLS_arguments[0]->integer.value < TLS_arguments[1]->real.value));
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       }
     }
     {
@@ -20027,24 +20036,24 @@ static void entry__builtin_types___negative_integer___std___less (void)
     }
     if ((TLS_arguments[1])->type == builtin_types___negative_integer.type) {
       {
-        NODE *result__node = (NODE *)(from_bool(TLS_arguments[0]->integer.value > TLS_arguments[1]->integer.value));
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(from_bool(TLS_arguments[0]->integer.value > TLS_arguments[1]->integer.value));
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       }
     } else if ((TLS_arguments[1])->type == builtin_types___positive_integer.type) {
       {
-        NODE *result__node = (NODE *)(&std_types___true);
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(&std_types___true);
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       }
     } else if ((TLS_arguments[1])->type == std_types___real.type) {
       {
-        NODE *result__node = (NODE *)(from_bool(TLS_arguments[0]->integer.value > -TLS_arguments[1]->real.value));
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(from_bool(TLS_arguments[0]->integer.value > -TLS_arguments[1]->real.value));
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       }
     }
     {
@@ -20065,24 +20074,24 @@ static void entry__std_types___real___std___less (void)
     }
     if ((TLS_arguments[1])->type == std_types___real.type) {
       {
-        NODE *result__node = (NODE *)(from_bool(TLS_arguments[0]->real.value < TLS_arguments[1]->real.value));
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(from_bool(TLS_arguments[0]->real.value < TLS_arguments[1]->real.value));
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       }
     } else if ((TLS_arguments[1])->type == builtin_types___positive_integer.type) {
       {
-        NODE *result__node = (NODE *)(from_bool(TLS_arguments[0]->real.value < TLS_arguments[1]->integer.value));
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(from_bool(TLS_arguments[0]->real.value < TLS_arguments[1]->integer.value));
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       }
     } else if ((TLS_arguments[1])->type == builtin_types___negative_integer.type) {
       {
-        NODE *result__node = (NODE *)(from_bool(-TLS_arguments[0]->real.value > TLS_arguments[1]->integer.value));
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(from_bool(-TLS_arguments[0]->real.value > TLS_arguments[1]->integer.value));
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       }
     }
     {
@@ -20103,10 +20112,10 @@ static void entry__builtin_types___positive_integer___std___shift_left (void)
     }
     if ((TLS_arguments[1])->type == builtin_types___positive_integer.type) {
       {
-        NODE *result__node = (NODE *)(create__builtin_types___positive_integer(TLS_arguments[0]->integer.value << TLS_arguments[1]->integer.value));
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(create__builtin_types___positive_integer(TLS_arguments[0]->integer.value << TLS_arguments[1]->integer.value));
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       }
     }
     {
@@ -20127,10 +20136,10 @@ static void entry__builtin_types___positive_integer___std___shift_right (void)
     }
     if ((TLS_arguments[1])->type == builtin_types___positive_integer.type) {
       {
-        NODE *result__node = (NODE *)(create__builtin_types___positive_integer(TLS_arguments[0]->integer.value >> TLS_arguments[1]->integer.value));
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(create__builtin_types___positive_integer(TLS_arguments[0]->integer.value >> TLS_arguments[1]->integer.value));
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       }
     }
     {
@@ -20151,10 +20160,10 @@ static void entry__builtin_types___positive_integer___std___bit_and (void)
     }
     if ((TLS_arguments[1])->type == builtin_types___positive_integer.type) {
       {
-        NODE *result__node = (NODE *)(create__builtin_types___positive_integer(TLS_arguments[0]->integer.value & TLS_arguments[1]->integer.value));
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(create__builtin_types___positive_integer(TLS_arguments[0]->integer.value & TLS_arguments[1]->integer.value));
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       }
     }
     {
@@ -20175,10 +20184,10 @@ static void entry__builtin_types___positive_integer___std___bit_or (void)
     }
     if ((TLS_arguments[1])->type == builtin_types___positive_integer.type) {
       {
-        NODE *result__node = (NODE *)(create__builtin_types___positive_integer(TLS_arguments[0]->integer.value | TLS_arguments[1]->integer.value));
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(create__builtin_types___positive_integer(TLS_arguments[0]->integer.value | TLS_arguments[1]->integer.value));
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       }
     }
     {
@@ -20199,10 +20208,10 @@ static void entry__builtin_types___positive_integer___std___bit_xor (void)
     }
     if ((TLS_arguments[1])->type == builtin_types___positive_integer.type) {
       {
-        NODE *result__node = (NODE *)(create__builtin_types___positive_integer(TLS_arguments[0]->integer.value ^ TLS_arguments[1]->integer.value));
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(create__builtin_types___positive_integer(TLS_arguments[0]->integer.value ^ TLS_arguments[1]->integer.value));
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       }
     }
     {
@@ -20337,10 +20346,10 @@ static void entry__debug___object_type (void)
       }
     } else {
       {
-        NODE *result__node = (NODE *)(from_c_string("object"));
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(from_c_string("object"));
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       }
     }
   }
@@ -20418,8 +20427,8 @@ static void entry__std_types___object___std___new (void)
     }
     if (from->type != to->type) {
       create_error_message(
-        module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
-        "TYPE MISMATCH", 0, 0, NULL);
+	module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+	"TYPE MISMATCH", 0, 0, NULL);
       return;
     }
     ATTRIBUTES *attributes =
@@ -20445,17 +20454,17 @@ static void entry__std_types___object___std___new (void)
       NODE *node = copy(from, from->attributes->vtable->size);
       node->attributes = to->attributes;
       {
-        NODE *result__node = (NODE *)(node);
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(node);
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       }
     } else {
       {
-        NODE *result__node = (NODE *)(from);
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(from);
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       }
     }
   }
@@ -20468,12 +20477,12 @@ static void entry__std_types___file_type___std___equal (void)
     }
     if ((TLS_arguments[1])->type == std_types___file_type.type)
       {
-        NODE *result__node = (NODE *)(from_bool(
-      	  TLS_arguments[0]->file_type.value ==
-      	  TLS_arguments[1]->file_type.value));
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(from_bool(
+		TLS_arguments[0]->file_type.value ==
+		TLS_arguments[1]->file_type.value));
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       }
     {
       NODE *result__node = (NODE *)(&std_types___false);
@@ -20540,12 +20549,12 @@ static void entry__std_types___file_descriptor___std___equal (void)
     }
     if ((TLS_arguments[1])->type == std_types___file_descriptor.type)
       {
-        NODE *result__node = (NODE *)(from_bool(
-      	  TLS_arguments[0]->file_descriptor.value ==
-      	  TLS_arguments[1]->file_descriptor.value));
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(from_bool(
+		TLS_arguments[0]->file_descriptor.value ==
+		TLS_arguments[1]->file_descriptor.value));
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       }
     {
       NODE *result__node = (NODE *)(&std_types___false);
@@ -20612,12 +20621,12 @@ static void entry__std_types___signal_number___std___equal (void)
     }
     if ((TLS_arguments[1])->type == std_types___signal_number.type)
       {
-        NODE *result__node = (NODE *)(from_bool(
-      	  TLS_arguments[0]->signal_number.value ==
-      	  TLS_arguments[1]->signal_number.value));
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(from_bool(
+		TLS_arguments[0]->signal_number.value ==
+		TLS_arguments[1]->signal_number.value));
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       }
     {
       NODE *result__node = (NODE *)(&std_types___false);
@@ -20684,12 +20693,12 @@ static void entry__std_types___shutdown_type___std___equal (void)
     }
     if ((TLS_arguments[1])->type == std_types___shutdown_type.type)
       {
-        NODE *result__node = (NODE *)(from_bool(
-      	  TLS_arguments[0]->shutdown_type.value ==
-      	  TLS_arguments[1]->shutdown_type.value));
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(from_bool(
+		TLS_arguments[0]->shutdown_type.value ==
+		TLS_arguments[1]->shutdown_type.value));
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       }
     {
       NODE *result__node = (NODE *)(&std_types___false);
@@ -20756,11 +20765,11 @@ static void entry__std_types___seek_type___std___equal (void)
     }
     if ((TLS_arguments[1])->type == std_types___seek_type.type)
       {
-        NODE *result__node = (NODE *)(from_bool(
-      	  TLS_arguments[0]->seek_type.value == TLS_arguments[1]->seek_type.value));
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(from_bool(
+		TLS_arguments[0]->seek_type.value == TLS_arguments[1]->seek_type.value));
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       }
     {
       NODE *result__node = (NODE *)(&std_types___false);
@@ -20827,12 +20836,12 @@ static void entry__std_types___device_id___std___equal (void)
     }
     if ((TLS_arguments[1])->type == std_types___device_id.type)
       {
-        NODE *result__node = (NODE *)(from_bool(
-      	  TLS_arguments[0]->device_id.value ==
-      	  TLS_arguments[1]->device_id.value));
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(from_bool(
+		TLS_arguments[0]->device_id.value ==
+		TLS_arguments[1]->device_id.value));
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       }
     {
       NODE *result__node = (NODE *)(&std_types___false);
@@ -20899,12 +20908,12 @@ static void entry__std_types___directory___std___equal (void)
     }
     if ((TLS_arguments[1])->type == std_types___directory.type)
       {
-        NODE *result__node = (NODE *)(from_bool(
-      	  TLS_arguments[0]->directory.value ==
-      	  TLS_arguments[1]->directory.value));
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(from_bool(
+		TLS_arguments[0]->directory.value ==
+		TLS_arguments[1]->directory.value));
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       }
     {
       NODE *result__node = (NODE *)(&std_types___false);
@@ -20940,12 +20949,12 @@ static void entry__std_types___group_id___std___equal (void)
     }
     if ((TLS_arguments[1])->type == std_types___group_id.type)
       {
-        NODE *result__node = (NODE *)(from_bool(
-      	  TLS_arguments[0]->group_id.value ==
-      	  TLS_arguments[1]->group_id.value));
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(from_bool(
+		TLS_arguments[0]->group_id.value ==
+		TLS_arguments[1]->group_id.value));
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       }
     {
       NODE *result__node = (NODE *)(&std_types___false);
@@ -21012,12 +21021,12 @@ static void entry__std_types___inode_number___std___equal (void)
     }
     if ((TLS_arguments[1])->type == std_types___inode_number.type)
       {
-        NODE *result__node = (NODE *)(from_bool(
-      	  TLS_arguments[0]->inode_number.value ==
-      	  TLS_arguments[1]->inode_number.value));
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(from_bool(
+		TLS_arguments[0]->inode_number.value ==
+		TLS_arguments[1]->inode_number.value));
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       }
     {
       NODE *result__node = (NODE *)(&std_types___false);
@@ -21084,12 +21093,12 @@ static void entry__std_types___process_id___std___equal (void)
     }
     if ((TLS_arguments[1])->type == std_types___process_id.type)
       {
-        NODE *result__node = (NODE *)(from_bool(
-      	  TLS_arguments[0]->process_id.value ==
-      	  TLS_arguments[1]->process_id.value));
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(from_bool(
+		TLS_arguments[0]->process_id.value ==
+		TLS_arguments[1]->process_id.value));
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       }
     {
       NODE *result__node = (NODE *)(&std_types___false);
@@ -21156,12 +21165,12 @@ static void entry__std_types___user_id___std___equal (void)
     }
     if ((TLS_arguments[1])->type == std_types___user_id.type)
       {
-        NODE *result__node = (NODE *)(from_bool(
-      	  TLS_arguments[0]->user_id.value ==
-      	  TLS_arguments[1]->user_id.value));
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(from_bool(
+		TLS_arguments[0]->user_id.value ==
+		TLS_arguments[1]->user_id.value));
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       }
     {
       NODE *result__node = (NODE *)(&std_types___false);
@@ -21228,12 +21237,12 @@ static void entry__std_types___error_number___std___equal (void)
     }
     if ((TLS_arguments[1])->type == std_types___error_number.type)
       {
-        NODE *result__node = (NODE *)(from_bool(
-      	  TLS_arguments[0]->error_number.value ==
-      	  TLS_arguments[1]->error_number.value));
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(from_bool(
+		TLS_arguments[0]->error_number.value ==
+		TLS_arguments[1]->error_number.value));
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       }
     {
       NODE *result__node = (NODE *)(&std_types___false);
@@ -21330,29 +21339,29 @@ static void entry__std___access (void)
     if (event__mode != EM__REPLAY) {
       result = access(filename, mode);
       if (event__mode == EM__RECORD) {
-        if (result == 0) {
-            successful__action("access");
-          } else {
-            failed__action("access");
-            store__integer(result);
-          }
-        }
+	if (result == 0) {
+	    successful__action("access");
+	  } else {
+	    failed__action("access");
+	    store__integer(result);
+	  }
+	}
       } else {
-        if (replay__action("access")) {
-          retrieve__integer(&result);
+	if (replay__action("access")) {
+	  retrieve__integer(&result);
       } else {
-          result = 0;
+	  result = 0;
       }
-        report__event("access");
-          print__c_string(filename);
-          print__c_string(mode_str);
-          print__integer(result);
+	report__event("access");
+	print__c_string(filename);
+	print__c_string(mode_str);
+	print__integer(result);
     }
     if (result == 0) {
       {
-        NODE *result__node = (NODE *)(&std_types___true);
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
+	NODE *result__node = (NODE *)(&std_types___true);
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
       }
     } else {
       if (errno == EACCES) {
@@ -21388,22 +21397,22 @@ static void entry__std___chdir (void)
     if (event__mode != EM__REPLAY) {
       result = chdir(pathname);
       if (event__mode == EM__RECORD) {
-        if (result == 0) {
-            successful__action("chdir");
-          } else {
-            failed__action("chdir");
-            store__integer(result);
-          }
-        }
+	if (result == 0) {
+	    successful__action("chdir");
+	  } else {
+	    failed__action("chdir");
+	    store__integer(result);
+	  }
+	}
       } else {
-        if (replay__action("chdir")) {
-          retrieve__integer(&result);
+	if (replay__action("chdir")) {
+	  retrieve__integer(&result);
       } else {
-          result = 0;
+	  result = 0;
       }
-        report__event("chdir");
-          print__c_string(pathname);
-          print__integer(result);
+	report__event("chdir");
+	print__c_string(pathname);
+	print__integer(result);
     }
     if (result == -1) {
       create_error_message(
@@ -21434,23 +21443,23 @@ static void entry__std___chmod (void)
     if (event__mode != EM__REPLAY) {
       result = chmod(filename, mode);
       if (event__mode == EM__RECORD) {
-        if (result == 0) {
-            successful__action("chmod");
-          } else {
-            failed__action("chmod");
-            store__integer(result);
-          }
-        }
+	if (result == 0) {
+	    successful__action("chmod");
+	  } else {
+	    failed__action("chmod");
+	    store__integer(result);
+	  }
+	}
       } else {
-        if (replay__action("chmod")) {
-          retrieve__integer(&result);
+	if (replay__action("chmod")) {
+	  retrieve__integer(&result);
       } else {
-          result = 0;
+	  result = 0;
       }
-        report__event("chmod");
-          print__c_string(filename);
-          print__integer(mode);
-          print__integer(result);
+	report__event("chmod");
+	print__c_string(filename);
+	print__integer(mode);
+	print__integer(result);
     }
     if (result == -1) {
       create_error_message(
@@ -21483,24 +21492,24 @@ static void entry__std___chown (void)
     if (event__mode != EM__REPLAY) {
       result = chown(filename, owner, group);
       if (event__mode == EM__RECORD) {
-        if (result == 0) {
-            successful__action("chown");
-          } else {
-            failed__action("chown");
-            store__integer(result);
-          }
-        }
+	if (result == 0) {
+	    successful__action("chown");
+	  } else {
+	    failed__action("chown");
+	    store__integer(result);
+	  }
+	}
       } else {
-        if (replay__action("chown")) {
-          retrieve__integer(&result);
+	if (replay__action("chown")) {
+	  retrieve__integer(&result);
       } else {
-          result = 0;
+	  result = 0;
       }
-        report__event("chown");
-          print__c_string(filename);
-          print__integer(owner);
-          print__integer(group);
-          print__integer(result);
+	report__event("chown");
+	print__c_string(filename);
+	print__integer(owner);
+	print__integer(group);
+	print__integer(result);
     }
     if (result == -1) {
       create_error_message(
@@ -21529,22 +21538,22 @@ static void entry__std___chroot (void)
     if (event__mode != EM__REPLAY) {
       result = chroot(pathname);
       if (event__mode == EM__RECORD) {
-        if (result == 0) {
-            successful__action("chroot");
-          } else {
-            failed__action("chroot");
-            store__integer(result);
-          }
-        }
+	if (result == 0) {
+	    successful__action("chroot");
+	  } else {
+	    failed__action("chroot");
+	    store__integer(result);
+	  }
+	}
       } else {
-        if (replay__action("chroot")) {
-          retrieve__integer(&result);
+	if (replay__action("chroot")) {
+	  retrieve__integer(&result);
       } else {
-          result = 0;
+	  result = 0;
       }
-        report__event("chroot");
-          print__c_string(pathname);
-          print__integer(result);
+	report__event("chroot");
+	print__c_string(pathname);
+	print__integer(result);
     }
     if (result == -1) {
       create_error_message(
@@ -21574,22 +21583,22 @@ static void entry__std_types___file_descriptor___std___close (void)
 	result = close(fd);
       } while (result == -1 && errno == EINTR);
       if (event__mode == EM__RECORD) {
-        if (result == 0) {
-            successful__action("close");
-          } else {
-            failed__action("close");
-            store__integer(result);
-          }
-        }
+	if (result == 0) {
+	    successful__action("close");
+	  } else {
+	    failed__action("close");
+	    store__integer(result);
+	  }
+	}
       } else {
-        if (replay__action("close")) {
-          retrieve__integer(&result);
+	if (replay__action("close")) {
+	  retrieve__integer(&result);
       } else {
-          result = 0;
+	  result = 0;
       }
-        report__event("close");
-          print__integer(fd);
-          print__integer(result);
+	report__event("close");
+	print__integer(fd);
+	print__integer(result);
     }
     if (result == -1) {
       create_error_message(
@@ -21616,22 +21625,22 @@ static void entry__std___closedir (void)
     if (event__mode != EM__REPLAY) {
       result = closedir(dir);
       if (event__mode == EM__RECORD) {
-        if (result == 0) {
-            successful__action("closedir");
-          } else {
-            failed__action("closedir");
-            store__integer(result);
-          }
-        }
+	if (result == 0) {
+	    successful__action("closedir");
+	  } else {
+	    failed__action("closedir");
+	    store__integer(result);
+	  }
+	}
       } else {
-        if (replay__action("closedir")) {
-          retrieve__integer(&result);
+	if (replay__action("closedir")) {
+	  retrieve__integer(&result);
       } else {
-          result = 0;
+	  result = 0;
       }
-        report__event("closedir");
-          print__pointer(dir);
-          print__integer(result);
+	report__event("closedir");
+	print__pointer(dir);
+	print__integer(result);
     }
     if (result == -1) {
       create_error_message(
@@ -21662,23 +21671,23 @@ static void entry__std___dup2 (void)
 	result = dup2(old_fd, new_fd);
       } while (result == -1 && errno == EINTR);
       if (event__mode == EM__RECORD) {
-        if (result == 0) {
-            successful__action("dup2");
-          } else {
-            failed__action("dup2");
-            store__integer(result);
-          }
-        }
+	if (result == 0) {
+	    successful__action("dup2");
+	  } else {
+	    failed__action("dup2");
+	    store__integer(result);
+	  }
+	}
       } else {
-        if (replay__action("dup2")) {
-          retrieve__integer(&result);
+	if (replay__action("dup2")) {
+	  retrieve__integer(&result);
       } else {
-          result = 0;
+	  result = 0;
       }
-        report__event("dup2");
-          print__integer(old_fd);
-          print__integer(new_fd);
-          print__integer(result);
+	report__event("dup2");
+	print__integer(old_fd);
+	print__integer(new_fd);
+	print__integer(result);
     }
     if (result == -1) {
       create_error_message(
@@ -21706,9 +21715,9 @@ static void entry__std___fstat (void)
     if (event__mode != EM__REPLAY) {
       result = fstat(fd, &statbuf);
       if (event__mode == EM__RECORD) {
-        record__event("fstat");
-        store__integer(result);
-        store__memory(&statbuf, sizeof(statbuf));
+	record__event("fstat");
+	store__integer(result);
+	store__memory(&statbuf, sizeof(statbuf));
       }
     } else {
       replay__event("fstat");
@@ -21718,6 +21727,7 @@ static void entry__std___fstat (void)
       print__integer(fd);
       print__integer(result);
       print__memory(&statbuf, sizeof(statbuf));
+      end__report();
     }
     if (result == -1) {
       create_error_message(
@@ -21800,9 +21810,9 @@ static void entry__std___fstat (void)
 	variables_table[var_no__std___status_change_time_of-FIRST_VAR].poly_idx,
 	MAKE_ATTRIBUTE_VALUE(node_status_change_time_of));
       {
-        NODE *result__node = (NODE *)(node);
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
+	NODE *result__node = (NODE *)(node);
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
       }
     }
   }
@@ -21823,22 +21833,22 @@ static void entry__std___fsync (void)
     if (event__mode != EM__REPLAY) {
       result = fsync(fd);
       if (event__mode == EM__RECORD) {
-        if (result == 0) {
-            successful__action("fsync");
-          } else {
-            failed__action("fsync");
-            store__integer(result);
-          }
-        }
+	if (result == 0) {
+	    successful__action("fsync");
+	  } else {
+	    failed__action("fsync");
+	    store__integer(result);
+	  }
+	}
       } else {
-        if (replay__action("fsync")) {
-          retrieve__integer(&result);
+	if (replay__action("fsync")) {
+	  retrieve__integer(&result);
       } else {
-          result = 0;
+	  result = 0;
       }
-        report__event("fsync");
-          print__integer(fd);
-          print__integer(result);
+	report__event("fsync");
+	print__integer(fd);
+	print__integer(result);
     }
     if (result == -1) {
       create_error_message(
@@ -21875,14 +21885,15 @@ static void entry__std___getcwd (void)
 	goto retry;
       }
       if (event__mode == EM__RECORD) {
-        record__event("getcwd");
-        store__c_string(result);
+	record__event("getcwd");
+	store__c_string(result);
       }
     } else {
       replay__event("getcwd");
       retrieve__c_string(&result);
       report__event("getcwd");
       print__c_string(result);
+      end__report();
     }
     if (result == NULL) {
       create_error_message(
@@ -21890,9 +21901,9 @@ static void entry__std___getcwd (void)
 	"GETCWD FAILED", errno, 0, NULL);
     } else {
       {
-        NODE *result__node = (NODE *)(from_c_string(result));
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
+	NODE *result__node = (NODE *)(from_c_string(result));
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
       }
     }
     deallocate_memory(buf);
@@ -21914,8 +21925,8 @@ static void entry__std___getenv (void)
     if (event__mode != EM__REPLAY) {
       result = getenv(var_name);
       if (event__mode == EM__RECORD) {
-        record__event("getenv");
-        store__c_string(result);
+	record__event("getenv");
+	store__c_string(result);
       }
     } else {
       replay__event("getenv");
@@ -21923,6 +21934,7 @@ static void entry__std___getenv (void)
       report__event("getenv");
       print__c_string(var_name);
       print__c_string(result);
+      end__report();
     }
     if (result == NULL) {
       create_error_message(
@@ -21930,9 +21942,9 @@ static void entry__std___getenv (void)
 	"GETENV FAILED", errno, 0, NULL);
     } else {
       {
-        NODE *result__node = (NODE *)(from_c_string(result));
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
+	NODE *result__node = (NODE *)(from_c_string(result));
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
       }
     }
     cleanup:
@@ -21953,14 +21965,15 @@ static void entry__std___getegid (void)
     if (event__mode != EM__REPLAY) {
       result = getegid();
       if (event__mode == EM__RECORD) {
-        record__event("getegid");
-        store__integer(result);
+	record__event("getegid");
+	store__integer(result);
       }
     } else {
       replay__event("getegid");
       retrieve__integer(&result);
       report__event("getegid");
       print__integer(result);
+      end__report();
     }
     {
       NODE *result__node = (NODE *)(group_id_from_int(result));
@@ -21983,14 +21996,15 @@ static void entry__std___geteuid (void)
     if (event__mode != EM__REPLAY) {
       result = geteuid();
       if (event__mode == EM__RECORD) {
-        record__event("geteuid");
-        store__integer(result);
+	record__event("geteuid");
+	store__integer(result);
       }
     } else {
       replay__event("geteuid");
       retrieve__integer(&result);
       report__event("geteuid");
       print__integer(result);
+      end__report();
     }
     {
       NODE *result__node = (NODE *)(user_id_from_int(result));
@@ -22013,14 +22027,15 @@ static void entry__std___getgid (void)
     if (event__mode != EM__REPLAY) {
       result = getgid();
       if (event__mode == EM__RECORD) {
-        record__event("getgid");
-        store__integer(result);
+	record__event("getgid");
+	store__integer(result);
       }
     } else {
       replay__event("getgid");
       retrieve__integer(&result);
       report__event("getgid");
       print__integer(result);
+      end__report();
     }
     {
       NODE *result__node = (NODE *)(group_id_from_int(result));
@@ -22044,14 +22059,15 @@ static void entry__std___gethostname (void)
     if (event__mode != EM__REPLAY) {
       result = gethostname(buf, sizeof(buf));
       if (event__mode == EM__RECORD) {
-        record__event("gethostname");
-        store__memory(buf, result);
+	record__event("gethostname");
+	store__memory(buf, result);
       }
     } else {
       replay__event("gethostname");
       result = retrieve__memory((uint8_t **)&buf);
       report__event("gethostname");
       print__memory(buf, result);
+      end__report();
     }
     if (result == -1) {
       create_error_message(
@@ -22059,9 +22075,9 @@ static void entry__std___gethostname (void)
 	"GETHOSTNAME FAILED", errno, 0, NULL);
     } else {
       {
-        NODE *result__node = (NODE *)(from_c_string(buf));
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
+	NODE *result__node = (NODE *)(from_c_string(buf));
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
       }
     }
   }
@@ -22080,14 +22096,15 @@ static void entry__std___getlogin (void)
     if (event__mode != EM__REPLAY) {
       result = getlogin();
       if (event__mode == EM__RECORD) {
-        record__event("getlogin");
-        store__c_string(result);
+	record__event("getlogin");
+	store__c_string(result);
       }
     } else {
       replay__event("getlogin");
       retrieve__c_string(&result);
       report__event("getlogin");
       print__c_string(result);
+      end__report();
     }
     if (result == NULL) {
       create_error_message(
@@ -22095,9 +22112,9 @@ static void entry__std___getlogin (void)
 	"GETLOGIN FAILED", errno, 0, NULL);
     } else {
       {
-        NODE *result__node = (NODE *)(from_c_string(result));
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
+	NODE *result__node = (NODE *)(from_c_string(result));
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
       }
     }
   }
@@ -22116,14 +22133,15 @@ static void entry__std___getpid (void)
     if (event__mode != EM__REPLAY) {
       result = getpid();
       if (event__mode == EM__RECORD) {
-        record__event("getpid");
-        store__integer(result);
+	record__event("getpid");
+	store__integer(result);
       }
     } else {
       replay__event("getpid");
       retrieve__integer(&result);
       report__event("getpid");
       print__integer(result);
+      end__report();
     }
     {
       NODE *result__node = (NODE *)(process_id_from_int(result));
@@ -22146,14 +22164,15 @@ static void entry__std___getppid (void)
     if (event__mode != EM__REPLAY) {
       result = getppid();
       if (event__mode == EM__RECORD) {
-        record__event("getppid");
-        store__integer(result);
+	record__event("getppid");
+	store__integer(result);
       }
     } else {
       replay__event("getppid");
       retrieve__integer(&result);
       report__event("getppid");
       print__integer(result);
+      end__report();
     }
     {
       NODE *result__node = (NODE *)(process_id_from_int(result));
@@ -22180,8 +22199,8 @@ static void entry__std___getpwuid (void)
 	result = getpwuid(uid);
       } while (result == NULL && errno == EINTR);
       if (event__mode == EM__RECORD) {
-        record__event("getpwuid");
-        store__memory(&result, sizeof(result));
+	record__event("getpwuid");
+	store__memory(&result, sizeof(result));
       }
     } else {
       replay__event("getpwuid");
@@ -22189,6 +22208,7 @@ static void entry__std___getpwuid (void)
       report__event("getpwuid");
       print__integer(uid);
       print__memory(&result, sizeof(result));
+      end__report();
     }
     if (result == NULL) {
       create_error_message(
@@ -22233,9 +22253,9 @@ static void entry__std___getpwuid (void)
 	variables_table[var_no__std___shell_of-FIRST_VAR].poly_idx,
 	MAKE_ATTRIBUTE_VALUE(node__shell_of));
       {
-        NODE *result__node = (NODE *)(node);
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
+	NODE *result__node = (NODE *)(node);
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
       }
     }
   }
@@ -22256,8 +22276,8 @@ static void entry__std___getsid (void)
     if (event__mode != EM__REPLAY) {
       result = getsid(pid);
       if (event__mode == EM__RECORD) {
-        record__event("getsid");
-        store__integer(result);
+	record__event("getsid");
+	store__integer(result);
       }
     } else {
       replay__event("getsid");
@@ -22265,6 +22285,7 @@ static void entry__std___getsid (void)
       report__event("getsid");
       print__integer(pid);
       print__integer(result);
+      end__report();
     }
     if (result == -1) {
       create_error_message(
@@ -22272,9 +22293,9 @@ static void entry__std___getsid (void)
 	"GETSID FAILED", errno, 0, NULL);
     } else {
       {
-        NODE *result__node = (NODE *)(process_id_from_int(result));
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
+	NODE *result__node = (NODE *)(process_id_from_int(result));
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
       }
     }
   }
@@ -22293,14 +22314,15 @@ static void entry__std___getuid (void)
     if (event__mode != EM__REPLAY) {
       result = getuid();
       if (event__mode == EM__RECORD) {
-        record__event("getuid");
-        store__integer(result);
+	record__event("getuid");
+	store__integer(result);
       }
     } else {
       replay__event("getuid");
       retrieve__integer(&result);
       report__event("getuid");
       print__integer(result);
+      end__report();
     }
     {
       NODE *result__node = (NODE *)(user_id_from_int(result));
@@ -22325,8 +22347,8 @@ static void entry__std___isatty (void)
     if (event__mode != EM__REPLAY) {
       result = isatty(fd);
       if (event__mode == EM__RECORD) {
-        record__event("isatty");
-        store__integer(result);
+	record__event("isatty");
+	store__integer(result);
       }
     } else {
       replay__event("isatty");
@@ -22334,6 +22356,7 @@ static void entry__std___isatty (void)
       report__event("isatty");
       print__integer(fd);
       print__integer(result);
+      end__report();
     }
     {
       NODE *result__node = (NODE *)(from_bool(result));
@@ -22360,23 +22383,23 @@ static void entry__std___kill (void)
     if (event__mode != EM__REPLAY) {
       result = kill(pid, sig);
       if (event__mode == EM__RECORD) {
-        if (result == 0) {
-            successful__action("kill");
-          } else {
-            failed__action("kill");
-            store__integer(result);
-          }
-        }
+	if (result == 0) {
+	    successful__action("kill");
+	  } else {
+	    failed__action("kill");
+	    store__integer(result);
+	  }
+	}
       } else {
-        if (replay__action("kill")) {
-          retrieve__integer(&result);
+	if (replay__action("kill")) {
+	  retrieve__integer(&result);
       } else {
-          result = 0;
+	  result = 0;
       }
-        report__event("kill");
-          print__integer(pid);
-          print__integer(sig);
-          print__integer(result);
+	report__event("kill");
+	print__integer(pid);
+	print__integer(sig);
+	print__integer(result);
     }
     if (result == -1) {
       create_error_message(
@@ -22413,9 +22436,9 @@ static void entry__std___link (void)
 	TLS_argument_count = 0;
       }
       if (event__mode == EM__RECORD) {
-        record__event("link");
-        store__c_string(old_path);
-        store__c_string(new_path);
+	record__event("link");
+	store__c_string(old_path);
+	store__c_string(new_path);
       }
     } else {
       replay__event("link");
@@ -22424,6 +22447,7 @@ static void entry__std___link (void)
       report__event("link");
       print__c_string(old_path);
       print__c_string(new_path);
+      end__report();
     }
     deallocate_memory(old_path);
     deallocate_memory(new_path);
@@ -22449,11 +22473,11 @@ static void entry__std___lseek (void)
     if (event__mode != EM__REPLAY) {
       result = lseek(fd, offset, whence);
       if (event__mode == EM__RECORD) {
-        record__event("lseek");
-        store__integer(fd);
-        store__long_integer(offset);
-        store__integer(whence);
-        store__long_integer(result);
+	record__event("lseek");
+	store__integer(fd);
+	store__long_integer(offset);
+	store__integer(whence);
+	store__long_integer(result);
       }
     } else {
       replay__event("lseek");
@@ -22466,6 +22490,7 @@ static void entry__std___lseek (void)
       print__long_integer(offset);
       print__integer(whence);
       print__long_integer(result);
+      end__report();
     }
     if (result == -1) {
       create_error_message(
@@ -22473,9 +22498,9 @@ static void entry__std___lseek (void)
 	"LSEEK FAILED", errno, 0, NULL);
     } else {
       {
-        NODE *result__node = (NODE *)(from_long(result));
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
+	NODE *result__node = (NODE *)(from_long(result));
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
       }
     }
   }
@@ -22502,23 +22527,23 @@ static void entry__std___mkdir (void)
     if (event__mode != EM__REPLAY) {
       result = mkdir(pathname, mode);
       if (event__mode == EM__RECORD) {
-        if (result == 0) {
-            successful__action("mkdir");
-          } else {
-            failed__action("mkdir");
-            store__integer(result);
-          }
-        }
+	if (result == 0) {
+	    successful__action("mkdir");
+	  } else {
+	    failed__action("mkdir");
+	    store__integer(result);
+	  }
+	}
       } else {
-        if (replay__action("mkdir")) {
-          retrieve__integer(&result);
+	if (replay__action("mkdir")) {
+	  retrieve__integer(&result);
       } else {
-          result = 0;
+	  result = 0;
       }
-        report__event("mkdir");
-          print__c_string(pathname);
-          print__integer(mode);
-          print__integer(result);
+	report__event("mkdir");
+	print__c_string(pathname);
+	print__integer(mode);
+	print__integer(result);
     }
     if (result == -1) {
       create_error_message(
@@ -22553,23 +22578,23 @@ static void entry__std___mkfifo (void)
     if (event__mode != EM__REPLAY) {
       result = mkfifo(filename, mode);
       if (event__mode == EM__RECORD) {
-        if (result == 0) {
-            successful__action("mkfifo");
-          } else {
-            failed__action("mkfifo");
-            store__integer(result);
-          }
-        }
+	if (result == 0) {
+	    successful__action("mkfifo");
+	  } else {
+	    failed__action("mkfifo");
+	    store__integer(result);
+	  }
+	}
       } else {
-        if (replay__action("mkfifo")) {
-          retrieve__integer(&result);
+	if (replay__action("mkfifo")) {
+	  retrieve__integer(&result);
       } else {
-          result = 0;
+	  result = 0;
       }
-        report__event("mkfifo");
-          print__c_string(filename);
-          print__integer(mode);
-          print__integer(result);
+	report__event("mkfifo");
+	print__c_string(filename);
+	print__integer(mode);
+	print__integer(result);
     }
     if (result == -1) {
       create_error_message(
@@ -22608,8 +22633,8 @@ static void entry__std___open (void)
 	result = open(filename, flags, mode);
       } while (result == -1 && errno == EINTR);
       if (event__mode == EM__RECORD) {
-        record__event("open");
-        store__integer(result);
+	record__event("open");
+	store__integer(result);
       }
     } else {
       replay__event("open");
@@ -22619,6 +22644,7 @@ static void entry__std___open (void)
       print__integer(flags);
       print__integer(mode);
       print__integer(result);
+      end__report();
     }
     if (result == -1) {
       create_error_message(
@@ -22626,9 +22652,9 @@ static void entry__std___open (void)
 	"OPEN FAILED", errno, 0, TLS_arguments[0]);
     } else {
       {
-        NODE *result__node = (NODE *)(file_descriptor_from_int(result));
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
+	NODE *result__node = (NODE *)(file_descriptor_from_int(result));
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
       }
     }
     cleanup:
@@ -22651,8 +22677,8 @@ static void entry__std___opendir (void)
     if (event__mode != EM__REPLAY) {
       result = opendir(name);
       if (event__mode == EM__RECORD) {
-        record__event("opendir");
-        store__pointer(result);
+	record__event("opendir");
+	store__pointer(result);
       }
     } else {
       replay__event("opendir");
@@ -22660,6 +22686,7 @@ static void entry__std___opendir (void)
       report__event("opendir");
       print__c_string(name);
       print__pointer(result);
+      end__report();
     }
     if (!result) {
       create_error_message(
@@ -22667,9 +22694,9 @@ static void entry__std___opendir (void)
 	"OPENDIR FAILED", errno, 0, TLS_arguments[0]);
     } else {
       {
-        NODE *result__node = (NODE *)(directory_from_ptr(result));
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
+	NODE *result__node = (NODE *)(directory_from_ptr(result));
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
       }
     }
     cleanup:
@@ -22697,8 +22724,8 @@ static void entry__std_types___file_descriptor___std___read (void)
 	bytes_read = read(fd, (char *)buf, size);
       } while (bytes_read == -1 && errno == EINTR);
       if (event__mode == EM__RECORD) {
-        record__event("read");
-        store__memory(buf, bytes_read);
+	record__event("read");
+	store__memory(buf, bytes_read);
       }
     } else {
       replay__event("read");
@@ -22707,6 +22734,7 @@ static void entry__std_types___file_descriptor___std___read (void)
       print__integer(fd);
       print__unsigned_long_integer(size);
       print__memory(buf, bytes_read);
+      end__report();
     }
     if (bytes_read == -1) {
       create_error_message(
@@ -22714,9 +22742,9 @@ static void entry__std_types___file_descriptor___std___read (void)
 	"READ FAILED", errno, 0, NULL);
     } else {
       {
-        NODE *result__node = (NODE *)(from_latin_1_string(buf, bytes_read));
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
+	NODE *result__node = (NODE *)(from_latin_1_string(buf, bytes_read));
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
       }
     }
     cleanup:
@@ -22739,8 +22767,8 @@ static void entry__std___readdir (void)
     if (event__mode != EM__REPLAY) {
       result = readdir(dir);
       if (event__mode == EM__RECORD) {
-        record__event("readdir");
-        store__memory(&result, sizeof(result));
+	record__event("readdir");
+	store__memory(&result, sizeof(result));
       }
     } else {
       replay__event("readdir");
@@ -22748,6 +22776,7 @@ static void entry__std___readdir (void)
       report__event("readdir");
       print__pointer(dir);
       print__memory(&result, sizeof(result));
+      end__report();
     }
     if (result == NULL) {
       create_error_message(
@@ -22772,9 +22801,9 @@ static void entry__std___readdir (void)
 	variables_table[var_no__std___name_of-FIRST_VAR].poly_idx,
 	MAKE_ATTRIBUTE_VALUE(node__name_of));
       {
-        NODE *result__node = (NODE *)(node);
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
+	NODE *result__node = (NODE *)(node);
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
       }
     }
   }
@@ -22796,8 +22825,8 @@ static void entry__std___realpath (void)
     if (event__mode != EM__REPLAY) {
       result = realpath(filename, resolved_name);
       if (event__mode == EM__RECORD) {
-        record__event("realpath");
-        store__c_string(result);
+	record__event("realpath");
+	store__c_string(result);
       }
     } else {
       replay__event("realpath");
@@ -22805,6 +22834,7 @@ static void entry__std___realpath (void)
       report__event("realpath");
       print__c_string(filename);
       print__c_string(result);
+      end__report();
     }
     if (result == NULL) {
       create_error_message(
@@ -22812,9 +22842,9 @@ static void entry__std___realpath (void)
 	"REALPATH FAILED", errno, 0, NULL);
     } else {
       {
-        NODE *result__node = (NODE *)(from_c_string(result));
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
+	NODE *result__node = (NODE *)(from_c_string(result));
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
       }
     }
     cleanup:
@@ -22841,23 +22871,23 @@ static void entry__std___rename (void)
     if (event__mode != EM__REPLAY) {
       result = rename(old_filename, new_filename);
       if (event__mode == EM__RECORD) {
-        if (result == 0) {
-            successful__action("rename");
-          } else {
-            failed__action("rename");
-            store__integer(result);
-          }
-        }
+	if (result == 0) {
+	    successful__action("rename");
+	  } else {
+	    failed__action("rename");
+	    store__integer(result);
+	  }
+	}
       } else {
-        if (replay__action("rename")) {
-          retrieve__integer(&result);
+	if (replay__action("rename")) {
+	  retrieve__integer(&result);
       } else {
-          result = 0;
+	  result = 0;
       }
-        report__event("rename");
-          print__c_string(old_filename);
-          print__c_string(new_filename);
-          print__integer(result);
+	report__event("rename");
+	print__c_string(old_filename);
+	print__c_string(new_filename);
+	print__integer(result);
     }
     if (result == -1) {
       create_error_message(
@@ -22892,22 +22922,22 @@ static void entry__std___sethostname (void)
 	result = sethostname((char *)buf, size);
       } while (result == -1 && errno == EINTR);
       if (event__mode == EM__RECORD) {
-        if (result == 0) {
-            successful__action("sethostname");
-          } else {
-            failed__action("sethostname");
-            store__integer(result);
-          }
-        }
+	if (result == 0) {
+	    successful__action("sethostname");
+	  } else {
+	    failed__action("sethostname");
+	    store__integer(result);
+	  }
+	}
       } else {
-        if (replay__action("sethostname")) {
-          retrieve__integer(&result);
+	if (replay__action("sethostname")) {
+	  retrieve__integer(&result);
       } else {
-          result = 0;
+	  result = 0;
       }
-        report__event("sethostname");
-          print__memory(buf, size);
-          print__integer(result);
+	report__event("sethostname");
+	print__memory(buf, size);
+	print__integer(result);
     }
     if (result == -1) {
       create_error_message(
@@ -22938,23 +22968,23 @@ static void entry__std___shutdown (void)
     if (event__mode != EM__REPLAY) {
       result = shutdown(fd, how);
       if (event__mode == EM__RECORD) {
-        if (result == 0) {
-            successful__action("shutdown");
-          } else {
-            failed__action("shutdown");
-            store__integer(result);
-          }
-        }
+	if (result == 0) {
+	    successful__action("shutdown");
+	  } else {
+	    failed__action("shutdown");
+	    store__integer(result);
+	  }
+	}
       } else {
-        if (replay__action("shutdown")) {
-          retrieve__integer(&result);
+	if (replay__action("shutdown")) {
+	  retrieve__integer(&result);
       } else {
-          result = 0;
+	  result = 0;
       }
-        report__event("shutdown");
-          print__integer(fd);
-          print__integer(how);
-          print__integer(result);
+	report__event("shutdown");
+	print__integer(fd);
+	print__integer(how);
+	print__integer(result);
     }
     if (result == -1) {
       create_error_message(
@@ -22982,9 +23012,9 @@ static void entry__std___stat (void)
     if (event__mode != EM__REPLAY) {
       result = stat(filename, &statbuf);
       if (event__mode == EM__RECORD) {
-        record__event("stat");
-        store__integer(result);
-        store__memory(&statbuf, sizeof(statbuf));
+	record__event("stat");
+	store__integer(result);
+	store__memory(&statbuf, sizeof(statbuf));
       }
     } else {
       replay__event("stat");
@@ -22994,6 +23024,7 @@ static void entry__std___stat (void)
       print__c_string(filename);
       print__integer(result);
       print__memory(&statbuf, sizeof(statbuf));
+      end__report();
     }
     if (result == -1) {
       create_error_message(
@@ -23080,9 +23111,9 @@ static void entry__std___stat (void)
 	variables_table[var_no__std___status_change_time_of-FIRST_VAR].poly_idx,
 	MAKE_ATTRIBUTE_VALUE(node_status_change_time_of));
       {
-        NODE *result__node = (NODE *)(node);
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
+	NODE *result__node = (NODE *)(node);
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
       }
     }
     cleanup:
@@ -23101,8 +23132,8 @@ static void entry__std___strerror (void)
     if (event__mode != EM__REPLAY) {
       result = strerror(errnum);
       if (event__mode == EM__RECORD) {
-        record__event("strerror");
-        store__c_string(result);
+	record__event("strerror");
+	store__c_string(result);
       }
     } else {
       replay__event("strerror");
@@ -23110,6 +23141,7 @@ static void entry__std___strerror (void)
       report__event("strerror");
       print__integer(errnum);
       print__c_string(result);
+      end__report();
     }
     if (result == NULL) {
       create_error_message(
@@ -23117,9 +23149,9 @@ static void entry__std___strerror (void)
 	"STRERROR FAILED", errno, 0, NULL);
     } else {
       {
-        NODE *result__node = (NODE *)(from_c_string(result));
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
+	NODE *result__node = (NODE *)(from_c_string(result));
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
       }
     }
   }
@@ -23141,9 +23173,9 @@ static void entry__std___wait (void)
 	result = wait(&status);
       } while (result == -1 && errno == EINTR);
       if (event__mode == EM__RECORD) {
-        record__event("wait");
-        store__integer(result);
-        store__integer(status);
+	record__event("wait");
+	store__integer(result);
+	store__integer(status);
       }
     } else {
       replay__event("wait");
@@ -23152,6 +23184,7 @@ static void entry__std___wait (void)
       report__event("wait");
       print__integer(result);
       print__integer(status);
+      end__report();
     }
     if (result == -1) {
       create_error_message(
@@ -23185,22 +23218,22 @@ static void entry__std_types___file_descriptor___std___write (void)
 	bytes_written = write(fd, (char *)buf, size);
       } while (bytes_written == -1 && errno == EINTR);
       if (event__mode == EM__RECORD) {
-        if (bytes_written == size) {
-            successful__action("write");
-          } else {
-            failed__action("write");
-            store__long_integer(bytes_written);
-          }
-        }
+	if (bytes_written == size) {
+	    successful__action("write");
+	  } else {
+	    failed__action("write");
+	    store__long_integer(bytes_written);
+	  }
+	}
       } else {
-        if (replay__action("write")) {
-          retrieve__long_integer(&bytes_written);
+	if (replay__action("write")) {
+	  retrieve__long_integer(&bytes_written);
       } else {
-          bytes_written = size;
+	  bytes_written = size;
       }
-        report__event("write");
-          print__integer(fd);
-          print__memory(buf, size);
+	report__event("write");
+	print__integer(fd);
+	print__memory(buf, size);
     }
     if (bytes_written == -1) {
       create_error_message(
@@ -23208,9 +23241,9 @@ static void entry__std_types___file_descriptor___std___write (void)
 	"WRITE FAILED", errno, 0, NULL);
     } else {
       {
-        NODE *result__node = (NODE *)(from_long(bytes_written));
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
+	NODE *result__node = (NODE *)(from_long(bytes_written));
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
       }
     }
     cleanup:
@@ -23233,8 +23266,8 @@ static void entry__std___umask (void)
     if (event__mode != EM__REPLAY) {
       result = umask(mask);
       if (event__mode == EM__RECORD) {
-        record__event("umask");
-        store__integer(result);
+	record__event("umask");
+	store__integer(result);
       }
     } else {
       replay__event("umask");
@@ -23242,6 +23275,7 @@ static void entry__std___umask (void)
       report__event("umask");
       print__integer(mask);
       print__integer(result);
+      end__report();
     }
     {
       NODE *result__node = (NODE *)(mode_from_int(result));
@@ -23266,22 +23300,22 @@ static void entry__std___unlink (void)
     if (event__mode != EM__REPLAY) {
       result = unlink(filename);
       if (event__mode == EM__RECORD) {
-        if (result == 0) {
-            successful__action("unlink");
-          } else {
-            failed__action("unlink");
-            store__integer(result);
-          }
-        }
+	if (result == 0) {
+	    successful__action("unlink");
+	  } else {
+	    failed__action("unlink");
+	    store__integer(result);
+	  }
+	}
       } else {
-        if (replay__action("unlink")) {
-          retrieve__integer(&result);
+	if (replay__action("unlink")) {
+	  retrieve__integer(&result);
       } else {
-          result = 0;
+	  result = 0;
       }
-        report__event("unlink");
-          print__c_string(filename);
-          print__integer(result);
+	report__event("unlink");
+	print__c_string(filename);
+	print__integer(result);
     }
     if (result == -1) {
       create_error_message(
@@ -23306,10 +23340,10 @@ static void entry__std___shm_unlink (void)
     }
     #ifdef __ANDROID__
       {
-        create_error_message(
-          module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
-          "shm_unlink is not supported on Android!", 0, 0, NULL);
-        return;
+	create_error_message(
+	  module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+	  "shm_unlink is not supported on Android!", 0, 0, NULL);
+	return;
       }
     #else
       char *filename = NULL;
@@ -23317,23 +23351,23 @@ static void entry__std___shm_unlink (void)
       if (!to_c_string(TLS_arguments[0], &filename)) goto cleanup;
       if (event__mode != EM__REPLAY) {
 	result = shm_unlink(filename);
-        if (event__mode == EM__RECORD) {
+	if (event__mode == EM__RECORD) {
 	  if (result == 0) {
 	      successful__action("shm_unlink");
 	    } else {
 	      failed__action("shm_unlink");
 	      store__integer(result);
 	    }
-          }
-        } else {
-          if (replay__action("shm_unlink")) {
-            retrieve__integer(&result);
-        } else {
-            result = 0;
-        }
-          report__event("shm_unlink");
-            print__c_string(filename);
-            print__integer(result);
+	  }
+	} else {
+	  if (replay__action("shm_unlink")) {
+	    retrieve__integer(&result);
+	} else {
+	    result = 0;
+	}
+	  report__event("shm_unlink");
+	  print__c_string(filename);
+	  print__integer(result);
       }
       if (result == -1) {
 	create_error_message(
@@ -23363,8 +23397,8 @@ static void entry__std___usleep (void)
     if (event__mode != EM__REPLAY) {
       result = usleep(microseconds);
       if (event__mode == EM__RECORD) {
-        record__event("usleep");
-        store__integer(result);
+	record__event("usleep");
+	store__integer(result);
       }
     } else {
       replay__event("usleep");
@@ -23372,6 +23406,7 @@ static void entry__std___usleep (void)
       report__event("usleep");
       print__unsigned_integer(microseconds);
       print__integer(result);
+      end__report();
     }
     if (result == -1) {
       create_error_message(
@@ -23526,10 +23561,10 @@ static void entry__std_types___octet_string___std___push (void)
       data->buffer[end_offset] = (uint8_t)chr_code;
       data->length = end_offset+1;
       {
-        NODE *result__node = (NODE *)(create__std_types___octet_string(left_start_offset, new_length, data));
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(create__std_types___octet_string(left_start_offset, new_length, data));
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       }
     } else {
       long new_size = ALLOCATION_SIZE(4*2*new_length);
@@ -23544,10 +23579,10 @@ static void entry__std_types___octet_string___std___push (void)
       }
       new_data->buffer[length] = chr_code;
       {
-        NODE *result__node = (NODE *)(create__std_types___wide_string(0, new_length, new_data));
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(create__std_types___wide_string(0, new_length, new_data));
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       }
     }
   }
@@ -23629,10 +23664,10 @@ static void entry__std_types___octet_string___std___append (void)
     }
     if (left_length == 0 && TLS_argument_count == 2) {
       {
-        NODE *result__node = (NODE *)(TLS_arguments[1]);
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(TLS_arguments[1]);
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       }
     }
     long left_offset = left->octet_string.offset;
@@ -23666,10 +23701,10 @@ static void entry__std_types___octet_string___std___append (void)
 	offset += right_length;
       }
       {
-        NODE *result__node = (NODE *)(create__std_types___wide_string(0, new_length, new_data));
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(create__std_types___wide_string(0, new_length, new_data));
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       }
     } else {
       if (
@@ -23697,10 +23732,10 @@ static void entry__std_types___octet_string___std___append (void)
       }
       data->length = left_offset+new_length;
       {
-        NODE *result__node = (NODE *)(create__std_types___octet_string(left_offset, new_length, data));
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(create__std_types___octet_string(left_offset, new_length, data));
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       }
     }
   }
@@ -23741,10 +23776,10 @@ static void entry__std_types___wide_string___std___append (void)
     }
     if (left_length == 0 && TLS_argument_count == 2) {
       {
-        NODE *result__node = (NODE *)(TLS_arguments[1]);
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(TLS_arguments[1]);
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       }
     }
     long left_offset = left->wide_string.offset;
@@ -24036,10 +24071,10 @@ static void entry__std_types___octet_string___std___equal (void)
     long i;
     for (i = 0; i < length; ++i) {
       if (left_data->buffer[left_offset+i] != right_data->buffer[right_offset+i]) {
-        NODE *result__node = (NODE *)(&std_types___false);
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(&std_types___false);
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       }
     }
     if (left_offset == right_offset) {
@@ -24098,10 +24133,10 @@ static void entry__std_types___wide_string___std___equal (void)
     long i;
     for (i = 0; i < length; ++i) {
       if (left_data->buffer[left_offset+i] != right_data->buffer[right_offset+i]) {
-        NODE *result__node = (NODE *)(&std_types___false);
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(&std_types___false);
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       }
     }
     if (left_offset == right_offset) {
@@ -24168,20 +24203,20 @@ static void entry__std_types___octet_string___std___less (void)
 	}
       }
       if (left_length < right_length) {
-        NODE *result__node = (NODE *)(&std_types___true);
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(&std_types___true);
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       }
       if (left_offset == right_offset && left_length == right_length) { // both strings are equal!
 	// join the two versions of the string data to simplify future comparisons
 	join_nodes(&left->octet_string.data, &right->octet_string.data);
       }
       {
-        NODE *result__node = (NODE *)(&std_types___false);
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(&std_types___false);
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       }
     } else if ((right)->type == std_types___wide_string.type) {
       OCTET_DATA *left_data = left->octet_string.data;
@@ -24210,21 +24245,21 @@ static void entry__std_types___octet_string___std___less (void)
 	}
       }
       if (left_length < right_length) {
-        NODE *result__node = (NODE *)(&std_types___true);
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(&std_types___true);
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       }
       {
-        NODE *result__node = (NODE *)(&std_types___false);
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(&std_types___false);
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       }
     } else {
       {
-        invalid_arguments();
-        return;
+	invalid_arguments();
+	return;
       }
     }
   }
@@ -24274,16 +24309,16 @@ static void entry__std_types___wide_string___std___less (void)
 	}
       }
       if (left_length < right_length) {
-        NODE *result__node = (NODE *)(&std_types___true);
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(&std_types___true);
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       }
       {
-        NODE *result__node = (NODE *)(&std_types___false);
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(&std_types___false);
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       }
     } else if ((right)->type == std_types___wide_string.type) {
       WIDE_DATA *left_data = left->wide_string.data;
@@ -24319,25 +24354,25 @@ static void entry__std_types___wide_string___std___less (void)
 	}
       }
       if (left_length < right_length) {
-        NODE *result__node = (NODE *)(&std_types___true);
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(&std_types___true);
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       }
       if (left_offset == right_offset && left_length == right_length) { // both strings are equal!
 	// join the two versions of the string data to simplify future comparisons
 	join_nodes(&left->octet_string.data, &right->octet_string.data);
       }
       {
-        NODE *result__node = (NODE *)(&std_types___false);
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(&std_types___false);
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       }
     } else {
       {
-        invalid_arguments();
-        return;
+	invalid_arguments();
+	return;
       }
     }
   }
@@ -24467,10 +24502,10 @@ static void entry__std_types___octet_string___std___from_utf8 (void)
 	data->buffer[dest_idx] = chr;
       }
       {
-        NODE *result__node = (NODE *)(create__std_types___octet_string(0, new_length, data));
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(create__std_types___octet_string(0, new_length, data));
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       }
     } else {
       long new_size = ALLOCATION_SIZE(4*new_length);
@@ -24509,10 +24544,10 @@ static void entry__std_types___octet_string___std___from_utf8 (void)
 	data->buffer[dest_idx] = chr;
       }
       {
-        NODE *result__node = (NODE *)(create__std_types___wide_string(0, new_length, data));
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(create__std_types___wide_string(0, new_length, data));
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       }
     }
   }
@@ -24672,17 +24707,17 @@ static void entry__std_types___file_descriptor___std___get_terminal_attributes (
     TERMIO_DATA *data = allocate(sizeof(TERMIO_DATA));
     if (tcgetattr(fd, &data->termios) == 0) {
       {
-        NODE *result__node = (NODE *)(create__std_types___terminal_attributes(data));
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(create__std_types___terminal_attributes(data));
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       }
     } else {
       {
-        NODE *result__node = (NODE *)(&std_types___undefined);
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(&std_types___undefined);
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       }
     }
   }
@@ -24702,22 +24737,22 @@ static void entry__std_types___file_descriptor___std___set_terminal_attributes (
     NODE *attributes = TLS_arguments[1];
     if ((attributes)->type != ((NODE *)&std_types___terminal_attributes)->type)
       {
-        invalid_arguments();
-        return;
+	invalid_arguments();
+	return;
       }
     if (tcsetattr(fd, TCSANOW, &attributes->terminal_attributes.data->termios) == 0) {
       {
-        NODE *result__node = (NODE *)(&std_types___true);
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(&std_types___true);
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       }
     } else {
       {
-        NODE *result__node = (NODE *)(&std_types___false);
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(&std_types___false);
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       }
     }
   }
@@ -24750,10 +24785,10 @@ static void entry__std_types___terminal_attributes___std___use_canonical_mode (v
     struct termios *termios = &TLS_arguments[0]->terminal_attributes.data->termios;
     if (TLS_argument_count == 1) {
       {
-        NODE *result__node = (NODE *)(from_bool(termios->c_lflag & ICANON));
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(from_bool(termios->c_lflag & ICANON));
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       }
     } else {
       int do_set;
@@ -24766,10 +24801,10 @@ static void entry__std_types___terminal_attributes___std___use_canonical_mode (v
 	data->termios.c_lflag &= ~ICANON;
       }
       {
-        NODE *result__node = (NODE *)(create__std_types___terminal_attributes(data));
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(create__std_types___terminal_attributes(data));
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       }
     }
   }
@@ -24787,10 +24822,10 @@ static void entry__std_types___terminal_attributes___std___echo_characters (void
     struct termios *termios = &TLS_arguments[0]->terminal_attributes.data->termios;
     if (TLS_argument_count == 1) {
       {
-        NODE *result__node = (NODE *)(from_bool(termios->c_lflag & ECHO));
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(from_bool(termios->c_lflag & ECHO));
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       }
     } else {
       int do_set;
@@ -24803,10 +24838,10 @@ static void entry__std_types___terminal_attributes___std___echo_characters (void
 	data->termios.c_lflag &= ~ECHO;
       }
       {
-        NODE *result__node = (NODE *)(create__std_types___terminal_attributes(data));
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(create__std_types___terminal_attributes(data));
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       }
     }
   }
@@ -24824,10 +24859,10 @@ static void entry__std_types___terminal_attributes___std___echo_new_lines (void)
     struct termios *termios = &TLS_arguments[0]->terminal_attributes.data->termios;
     if (TLS_argument_count == 1) {
       {
-        NODE *result__node = (NODE *)(from_bool(termios->c_lflag & ECHONL));
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(from_bool(termios->c_lflag & ECHONL));
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       }
     } else {
       int do_set;
@@ -24840,10 +24875,10 @@ static void entry__std_types___terminal_attributes___std___echo_new_lines (void)
 	data->termios.c_lflag &= ~ECHONL;
       }
       {
-        NODE *result__node = (NODE *)(create__std_types___terminal_attributes(data));
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(create__std_types___terminal_attributes(data));
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       }
     }
   }
@@ -24861,10 +24896,10 @@ static void entry__std_types___terminal_attributes___std___enable_xon_xoff_for_i
     struct termios *termios = &TLS_arguments[0]->terminal_attributes.data->termios;
     if (TLS_argument_count == 1) {
       {
-        NODE *result__node = (NODE *)(from_bool(termios->c_iflag & IXOFF));
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(from_bool(termios->c_iflag & IXOFF));
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       }
     } else {
       int do_set;
@@ -24877,10 +24912,10 @@ static void entry__std_types___terminal_attributes___std___enable_xon_xoff_for_i
 	data->termios.c_iflag &= ~IXOFF;
       }
       {
-        NODE *result__node = (NODE *)(create__std_types___terminal_attributes(data));
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(create__std_types___terminal_attributes(data));
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       }
     }
   }
@@ -24898,10 +24933,10 @@ static void entry__std_types___terminal_attributes___std___enable_xon_xoff_for_o
     struct termios *termios = &TLS_arguments[0]->terminal_attributes.data->termios;
     if (TLS_argument_count == 1) {
       {
-        NODE *result__node = (NODE *)(from_bool(termios->c_iflag & IXON));
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(from_bool(termios->c_iflag & IXON));
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       }
     } else {
       int do_set;
@@ -24914,10 +24949,10 @@ static void entry__std_types___terminal_attributes___std___enable_xon_xoff_for_o
 	data->termios.c_iflag &= ~IXON;
       }
       {
-        NODE *result__node = (NODE *)(create__std_types___terminal_attributes(data));
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(create__std_types___terminal_attributes(data));
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       }
     }
   }
@@ -24935,10 +24970,10 @@ static void entry__std_types___terminal_attributes___std___restart_output_on_any
     struct termios *termios = &TLS_arguments[0]->terminal_attributes.data->termios;
     if (TLS_argument_count == 1) {
       {
-        NODE *result__node = (NODE *)(from_bool(termios->c_iflag & IXANY));
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(from_bool(termios->c_iflag & IXANY));
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       }
     } else {
       int do_set;
@@ -24951,10 +24986,10 @@ static void entry__std_types___terminal_attributes___std___restart_output_on_any
 	data->termios.c_iflag &= ~IXANY;
       }
       {
-        NODE *result__node = (NODE *)(create__std_types___terminal_attributes(data));
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(create__std_types___terminal_attributes(data));
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       }
     }
   }
@@ -24972,10 +25007,10 @@ static void entry__std_types___terminal_attributes___std___ignore_cr_on_input (v
     struct termios *termios = &TLS_arguments[0]->terminal_attributes.data->termios;
     if (TLS_argument_count == 1) {
       {
-        NODE *result__node = (NODE *)(from_bool(termios->c_iflag & IGNCR));
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(from_bool(termios->c_iflag & IGNCR));
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       }
     } else {
       int do_set;
@@ -24988,10 +25023,10 @@ static void entry__std_types___terminal_attributes___std___ignore_cr_on_input (v
 	data->termios.c_iflag &= ~IGNCR;
       }
       {
-        NODE *result__node = (NODE *)(create__std_types___terminal_attributes(data));
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(create__std_types___terminal_attributes(data));
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       }
     }
   }
@@ -25009,10 +25044,10 @@ static void entry__std_types___terminal_attributes___std___generate_signals (voi
     struct termios *termios = &TLS_arguments[0]->terminal_attributes.data->termios;
     if (TLS_argument_count == 1) {
       {
-        NODE *result__node = (NODE *)(from_bool(termios->c_lflag & ISIG));
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(from_bool(termios->c_lflag & ISIG));
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       }
     } else {
       int do_set;
@@ -25025,10 +25060,10 @@ static void entry__std_types___terminal_attributes___std___generate_signals (voi
 	data->termios.c_lflag &= ~ISIG;
       }
       {
-        NODE *result__node = (NODE *)(create__std_types___terminal_attributes(data));
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(create__std_types___terminal_attributes(data));
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       }
     }
   }
@@ -25046,10 +25081,10 @@ static void entry__std_types___terminal_attributes___std___map_cr_to_lf_on_input
     struct termios *termios = &TLS_arguments[0]->terminal_attributes.data->termios;
     if (TLS_argument_count == 1) {
       {
-        NODE *result__node = (NODE *)(from_bool(termios->c_iflag & ICRNL));
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(from_bool(termios->c_iflag & ICRNL));
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       }
     } else {
       int do_set;
@@ -25062,10 +25097,10 @@ static void entry__std_types___terminal_attributes___std___map_cr_to_lf_on_input
 	data->termios.c_iflag &= ~ICRNL;
       }
       {
-        NODE *result__node = (NODE *)(create__std_types___terminal_attributes(data));
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(create__std_types___terminal_attributes(data));
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       }
     }
   }
@@ -25083,10 +25118,10 @@ static void entry__std_types___terminal_attributes___std___hangup_on_close (void
     struct termios *termios = &TLS_arguments[0]->terminal_attributes.data->termios;
     if (TLS_argument_count == 1) {
       {
-        NODE *result__node = (NODE *)(from_bool(termios->c_oflag & HUPCL));
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(from_bool(termios->c_oflag & HUPCL));
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       }
     } else {
       int do_set;
@@ -25099,10 +25134,10 @@ static void entry__std_types___terminal_attributes___std___hangup_on_close (void
 	data->termios.c_oflag &= ~HUPCL;
       }
       {
-        NODE *result__node = (NODE *)(create__std_types___terminal_attributes(data));
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(create__std_types___terminal_attributes(data));
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       }
     }
   }
@@ -25120,10 +25155,10 @@ static void entry__std_types___terminal_attributes___std___map_lf_to_crlf_on_out
     struct termios *termios = &TLS_arguments[0]->terminal_attributes.data->termios;
     if (TLS_argument_count == 1) {
       {
-        NODE *result__node = (NODE *)(from_bool(termios->c_oflag & ONLCR));
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(from_bool(termios->c_oflag & ONLCR));
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       }
     } else {
       int do_set;
@@ -25136,10 +25171,10 @@ static void entry__std_types___terminal_attributes___std___map_lf_to_crlf_on_out
 	data->termios.c_oflag &= ~ONLCR;
       }
       {
-        NODE *result__node = (NODE *)(create__std_types___terminal_attributes(data));
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(create__std_types___terminal_attributes(data));
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       }
     }
   }
@@ -25157,10 +25192,10 @@ static void entry__std_types___terminal_attributes___std___minimum_characters_fo
     struct termios *termios = &TLS_arguments[0]->terminal_attributes.data->termios;
     if (TLS_argument_count == 1) {
       {
-        NODE *result__node = (NODE *)(from_int(termios->c_cc[VMIN]));
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(from_int(termios->c_cc[VMIN]));
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       }
     } else {
       int value;
@@ -25169,10 +25204,10 @@ static void entry__std_types___terminal_attributes___std___minimum_characters_fo
       data->termios = *termios;
       data->termios.c_cc[VMIN] = value;
       {
-        NODE *result__node = (NODE *)(create__std_types___terminal_attributes(data));
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(create__std_types___terminal_attributes(data));
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       }
     }
   }
@@ -25190,10 +25225,10 @@ static void entry__std_types___terminal_attributes___std___timeout_for_reads (vo
     struct termios *termios = &TLS_arguments[0]->terminal_attributes.data->termios;
     if (TLS_argument_count == 1) {
       {
-        NODE *result__node = (NODE *)(from_double((double)termios->c_cc[VTIME]/10));
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(from_double((double)termios->c_cc[VTIME]/10));
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       }
     } else {
       double value;
@@ -25203,10 +25238,10 @@ static void entry__std_types___terminal_attributes___std___timeout_for_reads (vo
       data->termios = *termios;
       data->termios.c_cc[VTIME] = value;
       {
-        NODE *result__node = (NODE *)(create__std_types___terminal_attributes(data));
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(create__std_types___terminal_attributes(data));
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       }
     }
   }
@@ -25371,10 +25406,10 @@ static void entry__std_types___terminal_attributes___std___input_speed (void)
       data->termios = *termios;
       cfsetispeed(&data->termios, speed);
       {
-        NODE *result__node = (NODE *)(create__std_types___terminal_attributes(data));
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(create__std_types___terminal_attributes(data));
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       }
     }
   }
@@ -25539,10 +25574,10 @@ static void entry__std_types___terminal_attributes___std___output_speed (void)
       data->termios = *termios;
       cfsetospeed(&data->termios, speed);
       {
-        NODE *result__node = (NODE *)(create__std_types___terminal_attributes(data));
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(create__std_types___terminal_attributes(data));
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       }
     }
   }
@@ -25551,8 +25586,8 @@ static void entry__std_types___tuple___std___typed_tuple (void)
   {
     {
       create_error_message(
-        module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
-        "Attempt to clone the tuple prototype object!", 0, 0, NULL);
+	module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+	"Attempt to clone the tuple prototype object!", 0, 0, NULL);
       return;
     }
   }
@@ -25996,18 +26031,18 @@ static void entry__std___new_tuple (void)
     long length = list->list.length;
     if (length < 2) {
       {
-        create_error_message(
-          module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
-          "tuple_from_list - TOO FEW ITEMS", 0, 0, NULL);
-        return;
+	create_error_message(
+	  module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+	  "tuple_from_list - TOO FEW ITEMS", 0, 0, NULL);
+	return;
       }
       return;
     } else if (length > 8) {
       {
-        create_error_message(
-          module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
-          "tuple_from_list - TOO MANY ITEMS", 0, 0, NULL);
-        return;
+	create_error_message(
+	  module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+	  "tuple_from_list - TOO MANY ITEMS", 0, 0, NULL);
+	return;
       }
       return;
     }
@@ -26278,22 +26313,22 @@ static void entry__std_types___unique_item___std___equal (void)
     NODE *right = TLS_arguments[1];
     if ((right)->type == std_types___unique_item.type) {
       {
-        NODE *result__node = (NODE *)(from_bool(TLS_arguments[0]->unique_item.id == right->unique_item.id));
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(from_bool(TLS_arguments[0]->unique_item.id == right->unique_item.id));
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       }
     } else if ((right)->type == std_types___error.type) {
       {
-        invalid_arguments();
-        return;
+	invalid_arguments();
+	return;
       }
     } else {
       {
-        NODE *result__node = (NODE *)(&std_types___false);
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(&std_types___false);
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       }
     }
   }
@@ -26336,8 +26371,8 @@ static void entry__std___unique_item (void)
     }
     {
       create_error_message(
-        module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
-        "NO SUCH UNIQUE ITEM", 0, 0, NULL);
+	module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+	"NO SUCH UNIQUE ITEM", 0, 0, NULL);
       return;
     }
 
@@ -26366,9 +26401,9 @@ static void entry__std_types___file_descriptor___std___get_terminal_size (void)
       width = winsize.ws_col;
       height = winsize.ws_row;
       if (event__mode == EM__RECORD) {
-        record__event("get_terminal_size");
-        store__integer(width);
-        store__integer(height);
+	record__event("get_terminal_size");
+	store__integer(width);
+	store__integer(height);
       }
     } else {
       replay__event("get_terminal_size");
@@ -26439,11 +26474,11 @@ static void entry__std___pselect (void)
     fd_set read_set, write_set, except_set;
     int last_fd = 0;
     if (!initialize_fd_set(
-    	&read_set, read_descriptors, &read_descriptor_count, &last_fd)) return;
+	    &read_set, read_descriptors, &read_descriptor_count, &last_fd)) return;
     if (!initialize_fd_set(
-    	&write_set, write_descriptors, &write_descriptor_count, &last_fd)) return;
+	    &write_set, write_descriptors, &write_descriptor_count, &last_fd)) return;
     if (!initialize_fd_set(
-    	&except_set, except_descriptors, &except_descriptor_count, &last_fd)) return;
+	    &except_set, except_descriptors, &except_descriptor_count, &last_fd)) return;
     int ret;
     int caught_hup = false;
     int caught_kill = false;
@@ -26482,14 +26517,14 @@ static void entry__std___pselect (void)
 	}
       }
       if (event__mode == EM__RECORD) {
-        record__event("pselect");
-        store__integer(ret);
-        store__integer(caught_hup);
-        store__integer(caught_kill);
-        store__integer(caught_usr1);
-        store__integer(caught_usr2);
-        store__integer(chld_changed_state);
-        store__integer(win_changed_size);
+	record__event("pselect");
+	store__integer(ret);
+	store__integer(caught_hup);
+	store__integer(caught_kill);
+	store__integer(caught_usr1);
+	store__integer(caught_usr2);
+	store__integer(chld_changed_state);
+	store__integer(win_changed_size);
       }
     } else {
       replay__event("pselect");
@@ -26618,22 +26653,22 @@ static void entry__std___do_not_close (void)
 	} while (result == -1 && errno == EINTR);
       }
       if (event__mode == EM__RECORD) {
-        if (result == 0) {
-            successful__action("do_not_close");
-          } else {
-            failed__action("do_not_close");
-            store__integer(result);
-          }
-        }
+	if (result == 0) {
+	    successful__action("do_not_close");
+	  } else {
+	    failed__action("do_not_close");
+	    store__integer(result);
+	  }
+	}
       } else {
-        if (replay__action("do_not_close")) {
-          retrieve__integer(&result);
+	if (replay__action("do_not_close")) {
+	  retrieve__integer(&result);
       } else {
-          result = 0;
+	  result = 0;
       }
-        report__event("do_not_close");
-          print__integer(fd);
-          print__integer(result);
+	report__event("do_not_close");
+	print__integer(fd);
+	print__integer(result);
     }
     if (result == -1) {
       create_error_message(
@@ -26663,9 +26698,9 @@ static void entry__std___waitpid (void)
 	result = waitpid(pid, &status, WNOHANG);
       } while (result == -1 && errno == EINTR);
       if (event__mode == EM__RECORD) {
-        record__event("waitpid");
-        store__integer(result);
-        store__integer(status);
+	record__event("waitpid");
+	store__integer(result);
+	store__integer(status);
       }
     } else {
       replay__event("waitpid");
@@ -26674,6 +26709,7 @@ static void entry__std___waitpid (void)
       report__event("waitpid");
       print__integer(result);
       print__integer(status);
+      end__report();
     }
     if (result == -1) {
       create_error_message(
@@ -26711,8 +26747,8 @@ static void entry__std___open_unix_socket (void)
 	result = connect(sock, (const struct sockaddr *)&addr, sizeof(addr));
       } while (result == -1 && errno == EINTR);
       if (event__mode == EM__RECORD) {
-        record__event("open_tcp_socket");
-        store__integer(sock);
+	record__event("open_tcp_socket");
+	store__integer(sock);
       }
     } else {
       replay__event("open_tcp_socket");
@@ -26720,6 +26756,7 @@ static void entry__std___open_unix_socket (void)
       report__event("open_tcp_socket");
       print__c_string(filename);
       print__integer(sock);
+      end__report();
     }
     if (result == -1) {
       error:
@@ -26728,9 +26765,9 @@ static void entry__std___open_unix_socket (void)
 	"OPEN SOCKET FAILED", errno, 0, NULL);
     } else {
       {
-        NODE *result__node = (NODE *)(file_descriptor_from_int(sock));
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
+	NODE *result__node = (NODE *)(file_descriptor_from_int(sock));
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
       }
     }
     cleanup:
@@ -26779,8 +26816,8 @@ static void entry__std___send_file_descriptor (void)
 	result = sendmsg(sock, &msg, 0);
       } while (result == -1 && errno == EINTR);
       if (event__mode == EM__RECORD) {
-        record__event("send_file_descriptor");
-        store__integer(result);
+	record__event("send_file_descriptor");
+	store__integer(result);
       }
     } else {
       replay__event("send_file_descriptor");
@@ -26790,6 +26827,7 @@ static void entry__std___send_file_descriptor (void)
       print__c_string(message);
       print__integer(fd);
       print__integer(result);
+      end__report();
     }
     if (result == -1) {
       create_error_message(
@@ -26838,8 +26876,8 @@ static void entry__std___open_tcp_client_socket (void)
 	result = fcntl(sock, F_SETFL, flags);
       }
       if (event__mode == EM__RECORD) {
-        record__event("open_tcp_client_socket");
-        store__integer(sock);
+	record__event("open_tcp_client_socket");
+	store__integer(sock);
       }
     } else {
       replay__event("open_tcp_client_socket");
@@ -26848,6 +26886,7 @@ static void entry__std___open_tcp_client_socket (void)
       print__c_string(uri);
       print__integer(port_no);
       print__integer(sock);
+      end__report();
     }
     if (result == -1) {
       error:
@@ -26856,9 +26895,9 @@ static void entry__std___open_tcp_client_socket (void)
 	"OPEN_TCP_CLIENT_SOCKET FAILED", errno, 0, NULL);
     } else {
       {
-        NODE *result__node = (NODE *)(file_descriptor_from_int(sock));
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
+	NODE *result__node = (NODE *)(file_descriptor_from_int(sock));
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
       }
     }
     cleanup:
@@ -26907,8 +26946,8 @@ static void entry__std___open_tcp_server_socket (void)
       if (bind(sock, (struct sockaddr *)&addr, sizeof(addr)) == -1) goto error;
       if (listen(sock, backlog_count) == -1) goto error;
       if (event__mode == EM__RECORD) {
-        record__event("open_tcp_server_socket");
-        store__integer(sock);
+	record__event("open_tcp_server_socket");
+	store__integer(sock);
       }
     } else {
       replay__event("open_tcp_server_socket");
@@ -26917,6 +26956,7 @@ static void entry__std___open_tcp_server_socket (void)
       print__integer(port_no);
       print__integer(backlog_count);
       print__integer(sock);
+      end__report();
     }
     if (result == -1) {
       error:
@@ -26925,9 +26965,9 @@ static void entry__std___open_tcp_server_socket (void)
 	"OPEN_TCP_SERVER_SOCKET FAILED", errno, 0, NULL);
     } else {
       {
-        NODE *result__node = (NODE *)(file_descriptor_from_int(sock));
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
+	NODE *result__node = (NODE *)(file_descriptor_from_int(sock));
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
       }
     }
   }
@@ -26956,8 +26996,8 @@ static void entry__std___accept (void)
 	  "ACCEPT FAILED", errno, 0, NULL);
       }
       if (event__mode == EM__RECORD) {
-        record__event("accept");
-        store__integer(conn);
+	record__event("accept");
+	store__integer(conn);
       }
     } else {
       replay__event("accept");
@@ -26965,12 +27005,13 @@ static void entry__std___accept (void)
       report__event("accept");
       print__integer(sock);
       print__integer(conn);
+      end__report();
     }
     if (conn != -1) {
       {
-        NODE *result__node = (NODE *)(file_descriptor_from_int(conn));
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
+	NODE *result__node = (NODE *)(file_descriptor_from_int(conn));
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
       }
     }
   }
@@ -26997,10 +27038,10 @@ static void entry__std___is_listening (void)
 	"GETSOCKOPT FAILED", errno, 0, NULL);
     } else {
       {
-        NODE *result__node = (NODE *)(from_bool(does_listen ? true : false));
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+	NODE *result__node = (NODE *)(from_bool(does_listen ? true : false));
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
+	return;
       }
     }
   }
@@ -27090,10 +27131,10 @@ static void entry__std_types___shared_memory___std___write_at (void)
     long length = TLS_arguments[2]->octet_string.length;
     if (position < 1 || position+length-1 > TLS_arguments[0]->shared_memory.size) {
       {
-        create_error_message(
-          module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
-          "Invalid offset or length!", 0, 0, NULL);
-        return;
+	create_error_message(
+	  module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+	  "Invalid offset or length!", 0, 0, NULL);
+	return;
       }
       return;
     }
@@ -27119,10 +27160,10 @@ static void entry__std___create_shared_memory (void)
     }
     #ifdef __ANDROID__
       {
-        create_error_message(
-          module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
-          "Shared memory is not supported on Android!", 0, 0, NULL);
-        return;
+	create_error_message(
+	  module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+	  "Shared memory is not supported on Android!", 0, 0, NULL);
+	return;
       }
     #else
       char *filename = NULL;
@@ -27151,9 +27192,9 @@ static void entry__std___create_shared_memory (void)
 	goto cleanup;
       }
       {
-        NODE *result__node = (NODE *)(create__std_types___shared_memory(fd, size, buf));
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
+	NODE *result__node = (NODE *)(create__std_types___shared_memory(fd, size, buf));
+	TLS_arguments[0] = result__node;
+	TLS_argument_count = 1;
       }
       cleanup:
       deallocate_memory(filename);

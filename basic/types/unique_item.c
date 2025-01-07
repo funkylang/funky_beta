@@ -53,7 +53,13 @@ static TAB_NUM t_func_std_types__unique_item___serialize[] = {
   POS(41, 13),
   POS(40, 3),
   POS(43, 12),
-  POS(42, 3)
+  POS(42, 3),
+  LOCAL(2)
+};
+
+static FUNCTION_INFO i_func_std_types__unique_item___serialize = {
+  t_func_std_types__unique_item___serialize, NULL, 4, 1,
+  {"37_5_self\000"}
 };
 
 static TAB_NUM t_lambda_1[] = {
@@ -70,6 +76,11 @@ static TAB_NUM t_lambda_1[] = {
   POS(44, 7)
 };
 
+static FUNCTION_INFO i_lambda_1 = {
+  t_lambda_1, NULL, 3, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_2[] = {
   0, // locals
   0, // parameters
@@ -78,12 +89,17 @@ static TAB_NUM t_lambda_2[] = {
   POS(45, 7)
 };
 
+static FUNCTION_INFO i_lambda_2 = {
+  t_lambda_2, NULL, 1, 0,
+  {}
+};
+
 static FUNKY_CONSTANT constants_table[] = {
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std_types__unique_item___serialize}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std_types__unique_item___serialize}},
   {FLT_STRING_8, 1, {.str_8 = "<"}},
   {FLT_STRING_8, 2, {.str_8 = ">\012"}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_1}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_2}}
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_1}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_2}}
 };
 
 static ATTRIBUTE_DEFINITION std_types__object__attributes[] = {
@@ -190,7 +206,7 @@ FUNKY_MODULE module__basic__types__unique_item = {
   "basic/types/unique_item.fky", // module filename
   .major_version = 0,
   .minor_version = 0,
-  .feature_flags = FEAT_POSITIONS,
+  .feature_flags = FEAT_POSITIONS|FEAT_FUNCTION_INFO,
   .marker = 0,
   0, // number of required modules
   0, // number of defined namespaces

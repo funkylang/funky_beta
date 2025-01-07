@@ -426,8 +426,8 @@ $update_text:
 	return
 
   $return:
-    !state.window_manager_of window_manager
-    set_status_line state
+    state
+      .window_manager_of window_manager
 
 $split_text_into_two: (text max_width)
   $width 0
@@ -483,11 +483,9 @@ $tedi_types::page/handle_mouse_click: (page io state x y _button)
       $update_cursor_position:
 	goto_xy &page &state.window_manager_of x y
 	set_content &state.window_manager_of page
-	set_status_line &state
 	-> io state
 
 $tedi_types::page/handle_changed_focus: (_page state)
-  set_status_line &state
   -> state
 
 $add_history_entry:
@@ -568,10 +566,13 @@ $tedi::set_status_line ()
 
 $tedi_types::basic_state/set_status_line: (state)
   $page get_content(window_manager_of(state))
-  get_xy page window_manager_of(state) $x $y
-  set_status &state.window_manager_of
-    "@(y):@(x) (@(height_of(page)):@(width_of(page)))"
-  -> state
+  if
+    page.is_defined:
+      get_xy page window_manager_of(state) $x $y
+      set_status &state.window_manager_of
+	"@(y):@(x) (@(height_of(page)):@(width_of(page)))"
+      -> state
+    -> state
 
 $tedi::current_action_completed: (io state)
   $pending_key_presses pending_key_presses_of(state)
@@ -1735,11 +1736,11 @@ $find_text_dialog: (state _x _y _lines _info)
 	USE_CURSOR
 	SIZE = 1
 	CURSOR_Y = len+1
+	PARENT_ID = id
 	MODAL
-      !state
+      state
 	.window_manager_of window_manager
 	.text_window_id_of id
-      set_status_line state
 
 $start_forwards_search: (state x y lines _info)
   start_search state x y lines false
@@ -1842,13 +1843,12 @@ $start_search: (state x y lines do_a_backwards_search)
 	    !page.info_of ew_info
 	    goto_xy &page &state.window_manager_of ew_x ew_y
 	    set_content &state.window_manager_of page
-	    set_status_line &state
 	    $end_x selection_x_of(ew_info)
 	    if
 	      end_x.is_defined:
 		min_max &ew_x &end_x
-		plus &ew_x get_decoration_width(page)
-		set_selection &state.window_manager_of ew_x ew_y end_x-ew_x 1
+		set_selection &state.window_manager_of
+		  get_decoration_width(page)+ew_x ew_y end_x-ew_x 1
 		-> state
 	      -> state
 	  -> state
@@ -2141,11 +2141,11 @@ $go_to_line_dialog: (state _x _y _lines _info)
 	USE_CURSOR
 	SIZE = 1
 	CURSOR_Y = len+1
+	PARENT_ID = id
 	MODAL
-      !state
+      state
 	.window_manager_of window_manager
 	.text_window_id_of id
-      set_status_line state
 
 $go_to_line: (state _x y lines _info)
   $line_no
@@ -2164,7 +2164,7 @@ $go_to_line: (state _x y lines _info)
       add_history_entry &page.info_of old_x old_y
       goto_xy &page &state.window_manager_of 1 line_no
       set_content &state.window_manager_of page
-      set_status_line state
+      -> state
     :
       set_content &state.window_manager_of page
       show_error_message state "Invalid line no.!"
@@ -2518,9 +2518,7 @@ $save_contents_action: (io filename text)
 	  save &io SAVE_CONTENTS filename text tuple(filename mode)
 	  -> io undefined
 
-$SAVE_CONTENTS/job_failed: (_self io state err context)
-  context $filename
-  debug::dump `io `state `filename
+$SAVE_CONTENTS/job_failed: (_self io state err filename)
   log &io -> "
     failed to save file "@(filename)": @(err.to_error_message_string)
   show_error_message &state SAVE_CONTENTS "
@@ -2833,11 +2831,13 @@ $tedi_types::text_page tedi_types::page
 $tedi::TEDI .
 $FIND_TEXT .
 $GO_TO_LINE .
-$C .
+$tedi::C .
 
 $tedi_types::page/height_of: (page) -> length_of(lines_of(page))
 
-$tedi_types::page/prepare: (page state line_range)
+$tedi_types::page/prepare prepare_tedi_page
+
+$tedi::prepare_tedi_page: (page state line_range)
   if
     line_range.is_undefined:
       page

@@ -40,6 +40,11 @@ static TAB_NUM t_func_get_environment[] = {
   POS(47, 3)
 };
 
+static FUNCTION_INFO i_func_get_environment = {
+  t_func_get_environment, NULL, 2, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_1[] = {
   3, // locals
   1, // parameters
@@ -58,7 +63,15 @@ static TAB_NUM t_lambda_1[] = {
   POS(50, 7),
   POS(51, 7),
   POS(52, 8),
-  POS(53, 7)
+  POS(53, 7),
+  LOCAL(2),
+  LOCAL(3),
+  LOCAL(1)
+};
+
+static FUNCTION_INFO i_lambda_1 = {
+  t_lambda_1, NULL, 5, 3,
+  {"50_8_key\000", "51_8_value\000", "48_8_key_and_value\000"}
 };
 
 static TAB_NUM t_lambda_2[] = {
@@ -67,6 +80,11 @@ static TAB_NUM t_lambda_2[] = {
   //  env
   LET, 1, var_46_4_env, TAIL_CALL,
   POS(54, 7)
+};
+
+static FUNCTION_INFO i_lambda_2 = {
+  t_lambda_2, NULL, 1, 0,
+  {}
 };
 
 static TAB_NUM t_module_entry[] = {
@@ -78,12 +96,17 @@ static TAB_NUM t_module_entry[] = {
   POS(26, 1)
 };
 
+static FUNCTION_INFO i_module_entry = {
+  t_module_entry, NULL, 1, 0,
+  {}
+};
+
 static FUNKY_CONSTANT constants_table[] = {
-  {FLT_FUNCTION, 0, {.tfunc = t_func_get_environment}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_1}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_get_environment}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_1}},
   {FLT_CHARACTER, 0, {.value = 61}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_2}},
-  {FLT_FUNCTION, 0, {.tfunc = t_module_entry}}
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_2}},
+  {FLT_FUNCTION, 0, {.func_info = &i_module_entry}}
 };
 
 static FUNKY_VARIABLE variables_table[] = {
@@ -146,7 +169,7 @@ FUNKY_MODULE module__basic__environment = {
   "basic/environment.fky", // module filename
   .major_version = 0,
   .minor_version = 0,
-  .feature_flags = FEAT_POSITIONS|FEAT_INITIALIZER,
+  .feature_flags = FEAT_POSITIONS|FEAT_FUNCTION_INFO|FEAT_INITIALIZER,
   .marker = 0,
   0, // number of required modules
   0, // number of defined namespaces

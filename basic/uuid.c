@@ -86,7 +86,14 @@ static TAB_NUM t_func_generate_id[] = {
   POS(43, 3),
   POS(44, 3),
   POS(45, 6),
-  POS(45, 3)
+  POS(45, 3),
+  LOCAL(3),
+  LOCAL(2)
+};
+
+static FUNCTION_INFO i_func_generate_id = {
+  t_func_generate_id, NULL, 4, 2,
+  {"44_18_t\000", "43_10_rnd\000"}
 };
 
 static TAB_NUM t_func_std_types__io___generate_uuid[] = {
@@ -109,7 +116,14 @@ static TAB_NUM t_func_std_types__io___generate_uuid[] = {
   POS(56, 3),
   POS(58, 5),
   POS(59, 5),
-  POS(57, 3)
+  POS(57, 3),
+  LOCAL(3),
+  LOCAL(4)
+};
+
+static FUNCTION_INFO i_func_std_types__io___generate_uuid = {
+  t_func_std_types__io___generate_uuid, NULL, 5, 2,
+  {"51_5_io\000", "52_5_id\000"}
 };
 
 static TAB_NUM t_func_load_completed[] = {
@@ -135,7 +149,15 @@ static TAB_NUM t_func_load_completed[] = {
   POS(64, 45),
   POS(64, 32),
   POS(64, 9),
-  POS(64, 3)
+  POS(64, 3),
+  LOCAL(5),
+  LOCAL(4),
+  LOCAL(6)
+};
+
+static FUNCTION_INFO i_func_load_completed = {
+  t_func_load_completed, NULL, 6, 3,
+  {"61_22_id\000", "61_19_io\000", "61_25_rnd\000"}
 };
 
 static TAB_NUM t_func_load_failed[] = {
@@ -155,7 +177,15 @@ static TAB_NUM t_func_load_failed[] = {
   POS(67, 3),
   POS(68, 3),
   POS(69, 9),
-  POS(69, 3)
+  POS(69, 3),
+  LOCAL(4),
+  LOCAL(2),
+  LOCAL(3)
+};
+
+static FUNCTION_INFO i_func_load_failed = {
+  t_func_load_failed, NULL, 4, 3,
+  {"66_22_err\000", "66_16_io\000", "66_19_id\000"}
 };
 
 static TAB_NUM t_func_compute_uuid[] = {
@@ -294,21 +324,29 @@ static TAB_NUM t_func_compute_uuid[] = {
   POS(104, 11),
   POS(104, 7),
   POS(84, 5),
-  POS(83, 3)
+  POS(83, 3),
+  LOCAL(34),
+  LOCAL(36),
+  LOCAL(35)
+};
+
+static FUNCTION_INFO i_func_compute_uuid = {
+  t_func_compute_uuid, NULL, 44, 3,
+  {"71_17_t\000", "82_4_uuid\000", "71_19_rnd\000"}
 };
 
 static FUNKY_CONSTANT constants_table[] = {
   {FLT_UNIQUE, 0, {.str_8 = "std::RANDOM_BASED_UUID"}},
   {FLT_UNIQUE, 0, {.str_8 = "std::TIME_BASED_UUID"}},
   {FLT_UNIQUE, 0, {.str_8 = "std::NAME_BASED_UUID"}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_generate_id}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_generate_id}},
   {FLT_STRING_8, 12, {.str_8 = "/dev/urandom"}},
   {FLT_POSITIVE_INT64, 0, {.value = 16}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std_types__io___generate_uuid}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std_types__io___generate_uuid}},
   {FLT_POSITIVE_INT64, 0, {.value = 1}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_load_completed}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_load_failed}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_compute_uuid}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_load_completed}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_load_failed}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_compute_uuid}},
   {FLT_STRING_8, 1, {.str_8 = "0"}},
   {FLT_NEGATIVE_INT64, 0, {.value = 16}},
   {FLT_NEGATIVE_INT64, 0, {.value = 1}},
@@ -488,7 +526,7 @@ FUNKY_MODULE module__basic__uuid = {
   "basic/uuid.fky", // module filename
   .major_version = 0,
   .minor_version = 0,
-  .feature_flags = FEAT_POSITIONS,
+  .feature_flags = FEAT_POSITIONS|FEAT_FUNCTION_INFO,
   .marker = 0,
   0, // number of required modules
   0, // number of defined namespaces

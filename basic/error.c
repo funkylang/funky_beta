@@ -74,7 +74,13 @@ static TAB_NUM t_func_std__Error[] = {
   POS(67, 23),
   POS(67, 23),
   POS(67, 3),
-  POS(68, 3)
+  POS(68, 3),
+  LOCAL(3)
+};
+
+static FUNCTION_INFO i_func_std__Error = {
+  t_func_std__Error, NULL, 4, 1,
+  {"65_5_args\000"}
 };
 
 static TAB_NUM t_func_std__to_error_message_string[] = {
@@ -101,7 +107,13 @@ static TAB_NUM t_func_std__to_error_message_string[] = {
   POS(77, 19),
   POS(77, 3),
   POS(79, 13),
-  POS(78, 3)
+  POS(78, 3),
+  LOCAL(2)
+};
+
+static FUNCTION_INFO i_func_std__to_error_message_string = {
+  t_func_std__to_error_message_string, NULL, 7, 1,
+  {"72_5_err\000"}
 };
 
 static TAB_NUM t_lambda_1[] = {
@@ -118,12 +130,22 @@ static TAB_NUM t_lambda_1[] = {
   POS(77, 37)
 };
 
+static FUNCTION_INFO i_lambda_1 = {
+  t_lambda_1, NULL, 3, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_2[] = {
   0, // locals
   0, // parameters
   //  str
   LET, 1, var_74_4_str, TAIL_CALL,
   POS(80, 7)
+};
+
+static FUNCTION_INFO i_lambda_2 = {
+  t_lambda_2, NULL, 1, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_3[] = {
@@ -137,6 +159,11 @@ static TAB_NUM t_lambda_3[] = {
   POS(82, 7)
 };
 
+static FUNCTION_INFO i_lambda_3 = {
+  t_lambda_3, NULL, 2, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_4[] = {
   1, // locals
   0, // parameters
@@ -146,6 +173,11 @@ static TAB_NUM t_lambda_4[] = {
   LET, 1, LOCAL(1), TAIL_CALL,
   POS(84, 12),
   POS(84, 11)
+};
+
+static FUNCTION_INFO i_lambda_4 = {
+  t_lambda_4, NULL, 2, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_5[] = {
@@ -162,12 +194,22 @@ static TAB_NUM t_lambda_5[] = {
   POS(88, 11)
 };
 
+static FUNCTION_INFO i_lambda_5 = {
+  t_lambda_5, NULL, 3, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_6[] = {
   0, // locals
   0, // parameters
   //  str
   LET, 1, var_74_4_str, TAIL_CALL,
   POS(90, 15)
+};
+
+static FUNCTION_INFO i_lambda_6 = {
+  t_lambda_6, NULL, 1, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_7[] = {
@@ -181,6 +223,11 @@ static TAB_NUM t_lambda_7[] = {
   POS(91, 15)
 };
 
+static FUNCTION_INFO i_lambda_7 = {
+  t_lambda_7, NULL, 2, 0,
+  {}
+};
+
 static TAB_NUM t_func_std__unreachable[] = {
   0, // locals
   0, // parameters
@@ -189,24 +236,29 @@ static TAB_NUM t_func_std__unreachable[] = {
   POS(97, 3)
 };
 
+static FUNCTION_INFO i_func_std__unreachable = {
+  t_func_std__unreachable, NULL, 1, 0,
+  {}
+};
+
 static FUNKY_CONSTANT constants_table[] = {
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std__Error}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std__Error}},
   {FLT_CHARACTER, 0, {.value = 10}},
   {FLT_STRING_8, 7, {.str_8 = "ERROR: "}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std__to_error_message_string}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_1}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std__to_error_message_string}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_1}},
   {FLT_STRING_8, 3, {.str_8 = " - "}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_2}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_3}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_4}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_2}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_3}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_4}},
   {FLT_STRING_8, 3, {.str_8 = " (\042"}},
   {FLT_STRING_8, 2, {.str_8 = "\042)"}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_5}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_6}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_7}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_5}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_6}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_7}},
   {FLT_STRING_8, 2, {.str_8 = " ("}},
   {FLT_STRING_8, 1, {.str_8 = ")"}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std__unreachable}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std__unreachable}},
   {FLT_STRING_8, 41, {.str_8 = "control flow reached \042unreachable\042 point\012"}}
 };
 
@@ -349,7 +401,7 @@ FUNKY_MODULE module__basic__error = {
   "basic/error.fky", // module filename
   .major_version = 0,
   .minor_version = 0,
-  .feature_flags = FEAT_POSITIONS,
+  .feature_flags = FEAT_POSITIONS|FEAT_FUNCTION_INFO,
   .marker = 0,
   0, // number of required modules
   0, // number of defined namespaces

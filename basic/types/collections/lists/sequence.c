@@ -78,7 +78,13 @@ static TAB_NUM t_func_std_types__sequence___match[] = {
   POS(66, 3),
   POS(67, 3),
   POS(69, 5),
-  POS(68, 3)
+  POS(68, 3),
+  LOCAL(2)
+};
+
+static FUNCTION_INFO i_func_std_types__sequence___match = {
+  t_func_std_types__sequence___match, NULL, 4, 1,
+  {"66_4_rc\000"}
 };
 
 static TAB_NUM t_lambda_1[] = {
@@ -87,6 +93,11 @@ static TAB_NUM t_lambda_1[] = {
   // for_each self
   var_for_each, 3, var_63_5_self, lambda_2, lambda_5, TAIL_CALL,
   POS(70, 7)
+};
+
+static FUNCTION_INFO i_lambda_1 = {
+  t_lambda_1, NULL, 1, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_2[] = {
@@ -104,7 +115,13 @@ static TAB_NUM t_lambda_2[] = {
   POS(72, 22),
   POS(72, 11),
   POS(74, 17),
-  POS(73, 11)
+  POS(73, 11),
+  LOCAL(2)
+};
+
+static FUNCTION_INFO i_lambda_2 = {
+  t_lambda_2, NULL, 4, 1,
+  {"71_12_item\000"}
 };
 
 static TAB_NUM t_lambda_3[] = {
@@ -113,6 +130,11 @@ static TAB_NUM t_lambda_3[] = {
   //  undefined
   LET, 1, var_undefined, TAIL_CALL,
   POS(75, 15)
+};
+
+static FUNCTION_INFO i_lambda_3 = {
+  t_lambda_3, NULL, 1, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_4[] = {
@@ -126,6 +148,11 @@ static TAB_NUM t_lambda_4[] = {
   POS(78, 15)
 };
 
+static FUNCTION_INFO i_lambda_4 = {
+  t_lambda_4, NULL, 2, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_5[] = {
   1, // locals
   0, // parameters
@@ -137,6 +164,11 @@ static TAB_NUM t_lambda_5[] = {
   POS(79, 11)
 };
 
+static FUNCTION_INFO i_lambda_5 = {
+  t_lambda_5, NULL, 2, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_6[] = {
   0, // locals
   0, // parameters
@@ -146,6 +178,11 @@ static TAB_NUM t_lambda_6[] = {
   var_for_each, 3, var_63_5_self, lambda_7, lambda_10, TAIL_CALL,
   POS(81, 7),
   POS(82, 7)
+};
+
+static FUNCTION_INFO i_lambda_6 = {
+  t_lambda_6, NULL, 2, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_7[] = {
@@ -163,7 +200,13 @@ static TAB_NUM t_lambda_7[] = {
   POS(84, 22),
   POS(84, 11),
   POS(86, 17),
-  POS(85, 11)
+  POS(85, 11),
+  LOCAL(2)
+};
+
+static FUNCTION_INFO i_lambda_7 = {
+  t_lambda_7, NULL, 4, 1,
+  {"83_12_item\000"}
 };
 
 static TAB_NUM t_lambda_8[] = {
@@ -172,6 +215,11 @@ static TAB_NUM t_lambda_8[] = {
   //  undefined undefined
   LET, 2, var_undefined, var_undefined, TAIL_CALL,
   POS(87, 15)
+};
+
+static FUNCTION_INFO i_lambda_8 = {
+  t_lambda_8, NULL, 1, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_9[] = {
@@ -188,6 +236,11 @@ static TAB_NUM t_lambda_9[] = {
   POS(90, 15)
 };
 
+static FUNCTION_INFO i_lambda_9 = {
+  t_lambda_9, NULL, 3, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_captured_item_is_defined[] = {
   0, // locals
   0, // parameters
@@ -197,6 +250,11 @@ static TAB_NUM t_lambda_captured_item_is_defined[] = {
   var_next, 0, TAIL_CALL,
   POS(92, 19),
   POS(93, 19)
+};
+
+static FUNCTION_INFO i_lambda_captured_item_is_defined = {
+  t_lambda_captured_item_is_defined, NULL, 2, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_10[] = {
@@ -210,32 +268,43 @@ static TAB_NUM t_lambda_10[] = {
   POS(95, 11)
 };
 
+static FUNCTION_INFO i_lambda_10 = {
+  t_lambda_10, NULL, 2, 0,
+  {}
+};
+
 static TAB_NUM t_func_std__sequence[] = {
   1, // locals
   -1, // parameters
   REST_PARAMETER, LOCAL(1), // 105_5_args
   // new std_types::sequence args
   var_new, 2, var_std_types__sequence, LOCAL(1), TAIL_CALL,
-  POS(107, 3)
+  POS(107, 3),
+  LOCAL(1)
+};
+
+static FUNCTION_INFO i_func_std__sequence = {
+  t_func_std__sequence, NULL, 1, 1,
+  {"105_5_args\000"}
 };
 
 static FUNKY_CONSTANT constants_table[] = {
   {FLT_STRING_8, 8, {.str_8 = "sequence"}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std_types__sequence___match}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std_types__sequence___match}},
   {FLT_POSITIVE_INT64, 0, {.value = 1}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_1}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_2}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_1}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_2}},
   {FLT_NEGATIVE_INT64, 0, {.value = 1}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_3}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_4}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_5}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_6}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_7}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_8}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_9}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_captured_item_is_defined}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_10}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std__sequence}}
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_3}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_4}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_5}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_6}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_7}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_8}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_9}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_captured_item_is_defined}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_10}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std__sequence}}
 };
 
 static ATTRIBUTE_DEFINITION std_types__sequence__attributes[] = {
@@ -408,7 +477,7 @@ FUNKY_MODULE module__basic__types__collections__lists__sequence = {
   "basic/types/collections/lists/sequence.fky", // module filename
   .major_version = 0,
   .minor_version = 0,
-  .feature_flags = FEAT_POSITIONS,
+  .feature_flags = FEAT_POSITIONS|FEAT_FUNCTION_INFO,
   .marker = 0,
   0, // number of required modules
   0, // number of defined namespaces

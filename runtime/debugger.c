@@ -88,9 +88,11 @@ static void list_global_symbol_names(void) {
 static int already_sorted;
 
 static void list_module_names(void) {
+  printf("m");
   for (int i = 0; i < funky_module_count; ++i) {
-    printf("m:%s\n", funky_modules[i]->filename);
+    printf(":%s", funky_modules[i]->filename);
   }
+  printf("\n");
 }
 
 typedef int (*COMPARE_FUNCTION)(const void *, const void *);
@@ -123,7 +125,7 @@ static const TAB_NUM *find_call(
   }
   p += arg_count;
   TAB_NUM res_count = *p++;
-  if (code <= p) {
+  if (code < p+res_count) {
     if (!line_no_p) return stmt;
     if (current_module->feature_flags & FEAT_POSITIONS) {
       if (!found_stmt) {
@@ -211,8 +213,12 @@ EXPORT void retrieve_continuation_info(
 	    }
 	  }
 	} else {
-	  if (code >= constant->tfunc) {
-	    stmt = find_call(constant->tfunc, code, line_no_p, column_no_p);
+	  const TAB_NUM *tfunc =
+	    current_module->feature_flags & FEAT_FUNCTION_INFO
+	    ? constant->func_info->code
+	    : constant->tfunc;
+	  if (code >= tfunc) {
+	    stmt = find_call(tfunc, code, line_no_p, column_no_p);
 	    if (stmt) {
 	      *module_name_p = current_module->filename;
 	      goto get_functor_name;
@@ -224,6 +230,78 @@ EXPORT void retrieve_continuation_info(
   }
   *module_name_p = "<unknown>";
   *function_name_p = "<unknown>";
+}
+
+void list_code_positions(const char *module_name) {
+  int i, j, k;
+  for (i = 0; i < funky_module_count; ++i) {
+    current_module = funky_modules[i];
+    if (strcmp(current_module->filename, module_name) == 0) {
+      printf("c:%s", module_name);
+      for (j = 0; j < current_module->constants_count; ++j) {
+	FUNKY_CONSTANT *constant = &current_module->constants[j];
+	if (constant->type == FLT_FUNCTION) {
+	  FUNCTION_INFO *func_info = constant->func_info;
+	  const TAB_NUM *positions = func_info->code_end;
+	  for (k = 0; k < func_info->position_count; ++k) {
+	    int line_no = positions[k] >> 16;
+	    int column_no = positions[k] & 0xffff;
+	    printf(":%d:%d", line_no, column_no);
+	  }
+	}
+      }
+      printf("\n");
+    }
+  }
+}
+
+const TAB_NUM *get_code_position(
+  const char *module_name, int line_no, int column_no
+) {
+  int i, j, k;
+  TAB_NUM line_and_column = (line_no << 16) | column_no;
+  for (i = 0; i < funky_module_count; ++i) {
+    current_module = funky_modules[i];
+    if (strcmp(current_module->filename, module_name) == 0) {
+      for (j = 0; j < current_module->constants_count; ++j) {
+	FUNKY_CONSTANT *constant = &current_module->constants[j];
+	if (constant->type == FLT_FUNCTION) {
+	  FUNCTION_INFO *func_info = constant->func_info;
+	  const TAB_NUM *positions = func_info->code_end;
+	  const TAB_NUM *p = func_info->code;
+	  ++p; // skip temp count
+	  TAB_NUM par_count = *p++;
+	  if (par_count < 0) {
+	    p -= 2*par_count;
+	  } else {
+	    p += par_count;
+	  }
+	  for (k = 0; k < func_info->position_count; ++k) {
+	    if (positions[k] == line_and_column) {
+	      return p;
+	    }
+	    ++p; // skip functor
+	    TAB_NUM arg_count = *p++;
+	    if (arg_count < 0) { // assign attributes
+	      p += 2*(-arg_count)+2; // 1 object + 1 destination
+	      continue; // there are no results
+	    } else {
+	      p += arg_count;
+	    }
+	    TAB_NUM res_count = *p++;
+	    if (res_count >= 0) {
+	      p += res_count;
+	    }
+	  }
+	}
+      }
+    }
+  }
+  return NULL;
+}
+
+void set_breakpoint(const char *module_name, int line_no, int column_no) {
+  printf("b+%s:%d:%d\n", module_name, line_no, column_no);
 }
 
 long prev_instruction_pointer = -1;
@@ -240,6 +318,7 @@ SHARED_DEBUG_DATA *create_snapshot() {
     if (pid == 0){
       prctl(PR_SET_PDEATHSIG, SIGKILL);
 	// kill the child process if the parent process is killed
+      printf("R:%ld\n", instruction_counter);
       return sd; // let the child process do the actual work
     }
     if (pid < 0) {
@@ -256,7 +335,6 @@ SHARED_DEBUG_DATA *create_snapshot() {
 
 void debug() {
   char cmd[256];
-  //printf("!%p (%p..%p)\n", TLS_code, function_code_start, function_code_end);
   sdd->io_occurred = false;
   sdd->break_on_io = false;
   sdd->break_at = 0;
@@ -288,6 +366,45 @@ void debug() {
       strcpy(sdd->last_cmd, cmd);
     }
     switch (cmd[0]) {
+      case 'b': // set breakpoint - module_name:line_no:column_no
+	{
+	  char *p = cmd+1;
+	  while (*p == ' ') ++p;
+	  char *module_name = p;
+	  while (*p && *p != ':') ++p;
+	  if (*p == ':') {
+	    *p++ = 0;
+	    char *line_no_str = p;
+	    while (*p && *p != ':') ++p;
+	    if (*p == ':') {
+	      *p++ = 0;
+	      if (!*module_name) {
+		printf("E:No module specified\n");
+		goto print_prompt;
+	      }
+	      int line_no = atoi(line_no_str);
+	      if (line_no == 0) {
+		printf("E:Invalid line number!\n");
+		goto print_prompt;
+	      }
+	      char *column_no_str = p;
+	      while (*p) ++p;
+	      int column_no = atoi(column_no_str);
+	      if (column_no == 0) {
+		printf("E:Invalid column number!\n");
+		goto print_prompt;
+	      }
+	      set_breakpoint(module_name, line_no, column_no);
+	      goto print_prompt;
+	    } else {
+	      printf("E:No column number specified!\n");
+	      goto print_prompt;
+	    }
+	  } else {
+	    printf("E:No line number specified!\n");
+	    goto print_prompt;
+	  }
+	}
       case 'c': // continue forwards
 	break;
       case 'e' : // exit function
@@ -307,8 +424,17 @@ void debug() {
 	  case 'm' : // modules
 	    list_module_names();
 	    goto print_prompt;
-	  case 'p': // valid code positions
-	    goto print_prompt;
+	  case 'c': // code positions - module_name
+	    {
+	      char *module_name = cmd+2;
+	      while (*module_name == ' ') ++module_name;
+	      if (*module_name) {
+		list_code_positions(module_name);
+	      } else {
+		printf("E:No module specified\n");
+	      }
+	      goto print_prompt;
+	    }
 	  default:
 	    printf("E:Unknown list command!\n");
 	    goto print_prompt;
@@ -337,7 +463,7 @@ void debug() {
 	sdd->break_on_return = true;
 	sdd->backstep_start = instruction_counter;
 	exit(RESPAWN);
-      case 'p': // print
+      case 'p': // print - symbol name
 	{
 	  char *p = cmd+1;
 	  while (*p == ' ') ++p;
@@ -352,18 +478,36 @@ void debug() {
 		printf("E:Unexpected input at end of line!\n");
 		goto print_prompt;
 	      }
-	      int idx = find_symbol(namespace, name); // negative for constants
-	      if (idx == 0) {
+	      FUNKY_VARIABLE *var = find_symbol(namespace, name);
+	      if (!var) {
 		printf(
 		  "E:Unknown variable \"%s::%s\"!\n", namespace, name);
 		goto print_prompt;
+	      }
+	      NODE *node;
+	      if (var->type == FOT_LOCAL) {
+		// check for local variables on stack
+		FRAME *sp = TLS_frame;
+		while (sp) {
+		  FUNCTION_INFO *func_info = ((FUNCTION_INFO **)sp)[-1];
+		  if (func_info == var->func_info) {
+		    node = sp->slots[var->var_idx-4];
+		    goto print_contents;
+		  }
+		  sp = sp->link;
+		};
+		printf("s:%s::%s:<unavailable>\n", namespace, name);
+		goto print_prompt;
 	      } else {
-		NODE *node = get_var_or_const(idx);
+		int idx = var->var_idx; // negative for constants
+		node = get_var_or_const(idx);
+		print_contents:
 		long len = debug_string(node, 0, 1, NULL);
 		char *buf = malloc(len+1); // obey terminating null-byte
 		debug_string(node, 0, 1, buf);
 		buf[len] = 0; // add terminating null-byte
 		printf("s:%s::%s:%s", namespace, name, buf);
+		// <buf> already contains a terminating '\n'
 		free(buf);
 		goto print_prompt;
 	      }
@@ -371,6 +515,64 @@ void debug() {
 	  }
 	  printf("E:Invalid variable name!\n");
 	  goto print_prompt;
+	}
+      case 'P': // Ping
+	{
+	  char *p = cmd+1;
+	  while (*p == ' ') ++p;
+	  printf("P:%s\n", p);
+	  goto print_prompt;
+	}
+      case 'r': // run - module name:line_no:column_no
+      case 'R': // run backwards - module name:line_no:column_no
+	{
+	  char *p = cmd+1;
+	  while (*p == ' ') ++p;
+	  char *module_name = p;
+	  while (*p && *p != ':') ++p;
+	  if (*p == ':') {
+	    *p++ = 0;
+	    if (!*module_name) {
+	      printf("E:No module specified\n");
+	      goto print_prompt;
+	    }
+	    char *line_no_str = p;
+	    while (*p && *p != ':') ++p;
+	    if (*p == ':') {
+	      *p++ = 0;
+	      int line_no = atoi(line_no_str);
+	      if (line_no == 0) {
+		printf("E:Invalid line number!\n");
+		goto print_prompt;
+	      }
+	      char *column_no_str = p;
+	      while (*p) ++p;
+	      int column_no = atoi(column_no_str);
+	      if (column_no == 0) {
+		printf("E:Invalid column number!\n");
+		goto print_prompt;
+	      }
+	      const TAB_NUM *code = get_code_position(
+		module_name, line_no, column_no);
+	      if (!code) {
+		printf("E:No code position found!\n");
+		goto print_prompt;
+	      }
+	      sdd->break_code_start = code;
+	      sdd->break_code_end = code+1;
+	      if (cmd[0] == 'R') {
+		sdd->backstep_start = instruction_counter;
+		exit(RESPAWN);
+	      }
+	      break;
+	    } else {
+	      printf("E:No column number specified!\n");
+	      goto print_prompt;
+	    }
+	  } else {
+	    printf("E:No line number specified!\n");
+	    goto print_prompt;
+	  }
 	}
       case 's': // step into
 	sdd->break_at = instruction_counter+1;

@@ -214,6 +214,7 @@ extern void failed__action(const char *name);
 extern void replay__event(const char *name);
 extern int replay__action(const char *name);
 extern void report__event(const char *name);
+extern void end__report();
 
 extern void print__pointer(const void *ptr);
 extern void store__pointer(const void *ptr);

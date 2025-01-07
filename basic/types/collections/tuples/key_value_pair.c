@@ -45,7 +45,14 @@ static TAB_NUM t_func_std_types__key_value_pair___key_of[] = {
   // -> key
   LET, 1, LOCAL(3), TAIL_CALL,
   POS(40, 3),
-  POS(41, 3)
+  POS(41, 3),
+  LOCAL(2),
+  LOCAL(3)
+};
+
+static FUNCTION_INFO i_func_std_types__key_value_pair___key_of = {
+  t_func_std_types__key_value_pair___key_of, NULL, 2, 2,
+  {"38_5_self\000", "40_9_key\000"}
 };
 
 static TAB_NUM t_func_std_types__key_value_pair___value_of[] = {
@@ -57,7 +64,14 @@ static TAB_NUM t_func_std_types__key_value_pair___value_of[] = {
   // -> value
   LET, 1, LOCAL(3), TAIL_CALL,
   POS(47, 3),
-  POS(48, 3)
+  POS(48, 3),
+  LOCAL(3),
+  LOCAL(2)
+};
+
+static FUNCTION_INFO i_func_std_types__key_value_pair___value_of = {
+  t_func_std_types__key_value_pair___value_of, NULL, 2, 2,
+  {"47_15_value\000", "45_5_self\000"}
 };
 
 static TAB_NUM t_func_std__key_value_pair[] = {
@@ -67,7 +81,14 @@ static TAB_NUM t_func_std__key_value_pair[] = {
   LOCAL(2), // 53_5_value
   // typed_tuple std_types::key_value_pair key value
   var_typed_tuple, 3, var_std_types__key_value_pair, LOCAL(1), LOCAL(2), TAIL_CALL,
-  POS(55, 3)
+  POS(55, 3),
+  LOCAL(1),
+  LOCAL(2)
+};
+
+static FUNCTION_INFO i_func_std__key_value_pair = {
+  t_func_std__key_value_pair, NULL, 1, 2,
+  {"52_5_key\000", "53_5_value\000"}
 };
 
 static TAB_NUM t_module_entry[] = {
@@ -79,12 +100,17 @@ static TAB_NUM t_module_entry[] = {
   POS(59, 1)
 };
 
+static FUNCTION_INFO i_module_entry = {
+  t_module_entry, NULL, 1, 0,
+  {}
+};
+
 static FUNKY_CONSTANT constants_table[] = {
   {FLT_STRING_8, 14, {.str_8 = "key_value_pair"}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std_types__key_value_pair___key_of}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std_types__key_value_pair___value_of}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std__key_value_pair}},
-  {FLT_FUNCTION, 0, {.tfunc = t_module_entry}}
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std_types__key_value_pair___key_of}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std_types__key_value_pair___value_of}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std__key_value_pair}},
+  {FLT_FUNCTION, 0, {.func_info = &i_module_entry}}
 };
 
 static ATTRIBUTE_DEFINITION std_types__key_value_pair__attributes[] = {
@@ -196,7 +222,7 @@ FUNKY_MODULE module__basic__types__collections__tuples__key_value_pair = {
   "basic/types/collections/tuples/key_value_pair.fky", // module filename
   .major_version = 0,
   .minor_version = 0,
-  .feature_flags = FEAT_POSITIONS|FEAT_INITIALIZER,
+  .feature_flags = FEAT_POSITIONS|FEAT_FUNCTION_INFO|FEAT_INITIALIZER,
   .marker = 0,
   0, // number of required modules
   0, // number of defined namespaces

@@ -28,33 +28,6 @@ $steps_of ()
 $value_of ()
 $error_of ()
 
-$std_types::bresenham_iterator std_types::iterator
-  .length_of undefined
-  .delta_of undefined
-  .base_increment_of undefined
-  .additional_increment_of undefined
-  .steps_of undefined
-  .value_of undefined
-  .error_of undefined
-
-$std_types::bresenham_iterator/next_value: (self)
-  $error error_of(self)-delta_of(self)
-  $value value_of(self)
-  $new_value value
-  plus &new_value base_increment_of(self)
-  #debug::dump `error
-  if
-    error < 0:
-      plus &error steps_of(self)
-      plus &new_value additional_increment_of(self)
-      return
-    return
-
-  $return:
-    !self.error_of error
-    !self.value_of new_value
-    -> self value
-
 $std::bresenham:
   #
     returns an iterator
@@ -79,3 +52,69 @@ $std::bresenham:
       .steps_of steps
       .value_of first
       .error_of steps >> 1
+
+$std_types::bresenham_iterator std_types::iterator
+  .length_of undefined
+  .delta_of undefined
+  .base_increment_of undefined
+  .additional_increment_of undefined
+  .steps_of undefined
+  .value_of undefined
+  .error_of undefined
+
+$std_types::bresenham_iterator/next_value: (self)
+  $error error_of(self)-delta_of(self)
+  $value value_of(self)
+  $new_value value
+  plus &new_value base_increment_of(self)
+  if
+    error < 0:
+      plus &error steps_of(self)
+      plus &new_value additional_increment_of(self)
+      return
+    return
+
+  $return:
+    !self
+      .error_of error
+      .value_of new_value
+    -> self value
+
+$std::bresenham_delta:
+  #
+    returns an iterator
+
+    The iterator produces *count* equally distributed values that sum up to
+    *amount*.
+  (
+    count # the number of values to return
+    amount # the sum of all returned values (a positive value)
+  )
+  $d amount .mod. count
+  ->
+    std_types::bresenham_delta_iterator
+      .length_of count
+      .delta_of d
+      .base_increment_of div(amount count)
+      .steps_of count
+      .error_of count >> 1
+
+$std_types::bresenham_delta_iterator std_types::iterator
+  .length_of undefined
+  .delta_of undefined
+  .base_increment_of undefined
+  .steps_of undefined
+  .error_of undefined
+
+$std_types::bresenham_delta_iterator/next_value: (self)
+  $error error_of(self)-delta_of(self)
+  $new_value base_increment_of(self)
+  if
+    error < 0:
+      plus &error steps_of(self)
+      inc &new_value
+      return
+    return
+
+  $return:
+    -> self(.error_of error) new_value

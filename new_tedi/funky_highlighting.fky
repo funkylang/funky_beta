@@ -216,10 +216,34 @@ $indent_colours
 
 # Text Page
 
-$get_text_page_item: (myself^ idx)
-  decorate myself idx screens_of(myself)(idx-first_screen_line_of(myself)+1)
+$get_text_page_item: (page^ idx)
+  $screen screens_of(page)(idx-first_screen_line_of(page)+1)
+  $debug_position debug_position_of(global_info)
+  if
+    debug_position.is_defined:
+      debug_position $filename $line_no $column_no
+      if
+	&&
+	  idx == line_no
+	  column_no <= width_of(screen)
+	  filename == filename_of(page)
+	:
+	  fill_rectangle &screen '@0xffc000;' 0.5 column_no 1 1 1
+	  decorate_line
+	decorate_line
+    decorate_line
+
+  $decorate_line:
+    decorate page idx screen
 
 $prepare_text_page: (page state line_range)
+  if
+    filename_of(page) .has_suffix. ".fky":
+      prepare_funky_page page state line_range
+    :
+      prepare_tedi_page page state line_range
+
+$prepare_funky_page: (page state line_range)
   if
     line_range.is_undefined:
       $lines create_tree(lines_of(page))
@@ -1984,7 +2008,9 @@ $annotate_single_node: (node)
 			text(i) == '(':
 			  !within_parameters true
 			  next
-			next
+			:
+			  dec &i
+			  next
 		    :
 		      dec &i
 		      next
@@ -2067,7 +2093,15 @@ $annotate_single_node: (node)
     !definitions(identifier) symbol_kind
     continuation
 
-$fde::get_mangled_variable_name: (tree _x y identifier module_prefix)
+$fde::get_mangled_variable_name:
+  (
+    tree
+    library_symbols
+    _x
+    y
+    identifier
+    module_prefix
+  )
   if
     local_definitions_of(tree)(identifier).is_defined
     -> append(module_prefix "::" identifier)
@@ -2092,6 +2126,17 @@ $fde::get_mangled_variable_name: (tree _x y identifier module_prefix)
 	  :
 	    !idx next_idx
 	    next
+      :
+	check_libarary_symbols
+
+  $check_libarary_symbols:
+    for_each used_namespaces_of(tree)
+      : (namespace)
+	$namespaced_identifier append(namespace "::" identifier)
+	if
+	  library_symbols(namespaced_identifier).is_defined
+	  -> namespaced_identifier
+	  next
       -> undefined
 
   $get_definition_location: (group offset)

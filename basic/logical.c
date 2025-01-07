@@ -29,11 +29,18 @@ static TAB_NUM t_func_std__in[] = {
   // -> contains(collection element)
   LET, 1, LOCAL(1), TAIL_CALL,
   POS(34, 6),
-  POS(34, 3)
+  POS(34, 3),
+  LOCAL(2),
+  LOCAL(3)
+};
+
+static FUNCTION_INFO i_func_std__in = {
+  t_func_std__in, NULL, 2, 2,
+  {"31_5_element\000", "32_5_collection\000"}
 };
 
 static FUNKY_CONSTANT constants_table[] = {
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std__in}}
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std__in}}
 };
 
 static FUNKY_VARIABLE variables_table[] = {
@@ -63,7 +70,7 @@ FUNKY_MODULE module__basic__logical = {
   "basic/logical.fky", // module filename
   .major_version = 0,
   .minor_version = 0,
-  .feature_flags = FEAT_POSITIONS,
+  .feature_flags = FEAT_POSITIONS|FEAT_FUNCTION_INFO,
   .marker = 0,
   0, // number of required modules
   0, // number of defined namespaces

@@ -113,6 +113,11 @@ static TAB_NUM t_func_std_types__insert_order_set[] = {
   POS(56, 3)
 };
 
+static FUNCTION_INFO i_func_std_types__insert_order_set = {
+  t_func_std_types__insert_order_set, NULL, 4, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_1[] = {
   1, // locals
   0, // parameters
@@ -124,12 +129,22 @@ static TAB_NUM t_lambda_1[] = {
   POS(58, 7)
 };
 
+static FUNCTION_INFO i_lambda_1 = {
+  t_lambda_1, NULL, 2, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_2[] = {
   0, // locals
   0, // parameters
   // if
   var_if, 3, var_52_5_value, lambda_value, lambda_6, TAIL_CALL,
   POS(60, 7)
+};
+
+static FUNCTION_INFO i_lambda_2 = {
+  t_lambda_2, NULL, 1, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_value[] = {
@@ -143,12 +158,22 @@ static TAB_NUM t_lambda_value[] = {
   POS(62, 11)
 };
 
+static FUNCTION_INFO i_lambda_value = {
+  t_lambda_value, NULL, 2, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_3[] = {
   0, // locals
   0, // parameters
   //  myself
   LET, 1, var_50_5_myself, TAIL_CALL,
   POS(64, 15)
+};
+
+static FUNCTION_INFO i_lambda_3 = {
+  t_lambda_3, NULL, 1, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_4[] = {
@@ -169,6 +194,11 @@ static TAB_NUM t_lambda_4[] = {
   POS(67, 16),
   POS(69, 26),
   POS(68, 15)
+};
+
+static FUNCTION_INFO i_lambda_4 = {
+  t_lambda_4, NULL, 5, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_last_key_is_defined[] = {
@@ -194,6 +224,11 @@ static TAB_NUM t_lambda_last_key_is_defined[] = {
   POS(71, 19)
 };
 
+static FUNCTION_INFO i_lambda_last_key_is_defined = {
+  t_lambda_last_key_is_defined, NULL, 6, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_5[] = {
   1, // locals
   0, // parameters
@@ -203,6 +238,11 @@ static TAB_NUM t_lambda_5[] = {
   LET, 1, LOCAL(1), TAIL_CALL,
   POS(76, 19),
   POS(75, 19)
+};
+
+static FUNCTION_INFO i_lambda_5 = {
+  t_lambda_5, NULL, 2, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_6[] = {
@@ -216,12 +256,22 @@ static TAB_NUM t_lambda_6[] = {
   POS(81, 11)
 };
 
+static FUNCTION_INFO i_lambda_6 = {
+  t_lambda_6, NULL, 2, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_7[] = {
   0, // locals
   0, // parameters
   //  myself
   LET, 1, var_50_5_myself, TAIL_CALL,
   POS(83, 15)
+};
+
+static FUNCTION_INFO i_lambda_7 = {
+  t_lambda_7, NULL, 1, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_8[] = {
@@ -247,6 +297,11 @@ static TAB_NUM t_lambda_8[] = {
   POS(89, 15)
 };
 
+static FUNCTION_INFO i_lambda_8 = {
+  t_lambda_8, NULL, 6, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_previous_key_is_defined[] = {
   4, // locals
   0, // parameters
@@ -267,6 +322,11 @@ static TAB_NUM t_lambda_previous_key_is_defined[] = {
   POS(93, 19)
 };
 
+static FUNCTION_INFO i_lambda_previous_key_is_defined = {
+  t_lambda_previous_key_is_defined, NULL, 5, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_9[] = {
   0, // locals
   0, // parameters
@@ -278,6 +338,11 @@ static TAB_NUM t_lambda_9[] = {
   POS(96, 19)
 };
 
+static FUNCTION_INFO i_lambda_9 = {
+  t_lambda_9, NULL, 2, 0,
+  {}
+};
+
 static TAB_NUM t_func_check_next_key[] = {
   1, // locals
   0, // parameters
@@ -287,6 +352,11 @@ static TAB_NUM t_func_check_next_key[] = {
   var_if, 3, LOCAL(1), lambda_next_key_is_defined, lambda_10, TAIL_CALL,
   POS(100, 28),
   POS(99, 17)
+};
+
+static FUNCTION_INFO i_func_check_next_key = {
+  t_func_check_next_key, NULL, 2, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_next_key_is_defined[] = {
@@ -309,6 +379,11 @@ static TAB_NUM t_lambda_next_key_is_defined[] = {
   POS(103, 21)
 };
 
+static FUNCTION_INFO i_lambda_next_key_is_defined = {
+  t_lambda_next_key_is_defined, NULL, 5, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_10[] = {
   0, // locals
   0, // parameters
@@ -320,6 +395,11 @@ static TAB_NUM t_lambda_10[] = {
   POS(106, 21)
 };
 
+static FUNCTION_INFO i_lambda_10 = {
+  t_lambda_10, NULL, 2, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_11[] = {
   1, // locals
   0, // parameters
@@ -329,6 +409,11 @@ static TAB_NUM t_lambda_11[] = {
   LET, 1, LOCAL(1), TAIL_CALL,
   POS(110, 19),
   POS(109, 19)
+};
+
+static FUNCTION_INFO i_lambda_11 = {
+  t_lambda_11, NULL, 2, 0,
+  {}
 };
 
 static TAB_NUM t_func_std_types__insert_order_set___length_of[] = {
@@ -343,7 +428,13 @@ static TAB_NUM t_func_std_types__insert_order_set___length_of[] = {
   LET, 1, LOCAL(2), TAIL_CALL,
   POS(116, 16),
   POS(116, 6),
-  POS(116, 3)
+  POS(116, 3),
+  LOCAL(3)
+};
+
+static FUNCTION_INFO i_func_std_types__insert_order_set___length_of = {
+  t_func_std_types__insert_order_set___length_of, NULL, 3, 1,
+  {"115_42_self\000"}
 };
 
 static TAB_NUM t_func_std_types__insert_order_set___to_list[] = {
@@ -361,7 +452,13 @@ static TAB_NUM t_func_std_types__insert_order_set___to_list[] = {
   POS(124, 3),
   POS(125, 3),
   POS(126, 12),
-  POS(126, 3)
+  POS(126, 3),
+  LOCAL(2)
+};
+
+static FUNCTION_INFO i_func_std_types__insert_order_set___to_list = {
+  t_func_std_types__insert_order_set___to_list, NULL, 4, 1,
+  {"122_5_self\000"}
 };
 
 static TAB_NUM t_func_add_keys[] = {
@@ -376,12 +473,22 @@ static TAB_NUM t_func_add_keys[] = {
   POS(129, 5)
 };
 
+static FUNCTION_INFO i_func_add_keys = {
+  t_func_add_keys, NULL, 2, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_12[] = {
   0, // locals
   0, // parameters
   //  keys
   LET, 1, var_125_4_keys, TAIL_CALL,
   POS(131, 9)
+};
+
+static FUNCTION_INFO i_lambda_12 = {
+  t_lambda_12, NULL, 1, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_13[] = {
@@ -401,6 +508,11 @@ static TAB_NUM t_lambda_13[] = {
   POS(134, 9)
 };
 
+static FUNCTION_INFO i_lambda_13 = {
+  t_lambda_13, NULL, 4, 0,
+  {}
+};
+
 static TAB_NUM t_func_std_types__insert_order_set___for_each[] = {
   4, // locals
   -3, // parameters
@@ -412,7 +524,15 @@ static TAB_NUM t_func_std_types__insert_order_set___for_each[] = {
   // for_each! self.to_list body finally
   var_for_each, 3, LOCAL(1), LOCAL(3), LOCAL(4), IO_TAIL_CALL,
   POS(144, 18),
-  POS(144, 3)
+  POS(144, 3),
+  LOCAL(2),
+  LOCAL(4),
+  LOCAL(3)
+};
+
+static FUNCTION_INFO i_func_std_types__insert_order_set___for_each = {
+  t_func_std_types__insert_order_set___for_each, NULL, 2, 3,
+  {"140_5_self\000", "142_5_finally\000", "141_5_body\000"}
 };
 
 static TAB_NUM t_func_std_types__insert_order_set___map_reduce[] = {
@@ -427,7 +547,16 @@ static TAB_NUM t_func_std_types__insert_order_set___map_reduce[] = {
   // map_reduce self.to_list map_function reduce_function unit
   var_map_reduce, 4, LOCAL(1), LOCAL(3), LOCAL(4), LOCAL(5), TAIL_CALL,
   POS(164, 19),
-  POS(164, 3)
+  POS(164, 3),
+  LOCAL(5),
+  LOCAL(2),
+  LOCAL(4),
+  LOCAL(3)
+};
+
+static FUNCTION_INFO i_func_std_types__insert_order_set___map_reduce = {
+  t_func_std_types__insert_order_set___map_reduce, NULL, 2, 4,
+  {"162_5_unit\000", "159_5_self\000", "161_5_reduce_function\000", "160_5_map_function\000"}
 };
 
 static TAB_NUM t_func_std__insert_order_set[] = {
@@ -439,7 +568,13 @@ static TAB_NUM t_func_std__insert_order_set[] = {
   // for_each keys
   var_for_each, 3, LOCAL(1), lambda_14, lambda_15, TAIL_CALL,
   POS(173, 3),
-  POS(174, 3)
+  POS(174, 3),
+  LOCAL(1)
+};
+
+static FUNCTION_INFO i_func_std__insert_order_set = {
+  t_func_std__insert_order_set, NULL, 2, 1,
+  {"171_5_keys\000"}
 };
 
 static TAB_NUM t_lambda_14[] = {
@@ -451,7 +586,13 @@ static TAB_NUM t_lambda_14[] = {
   // next
   var_next, 0, TAIL_CALL,
   POS(176, 8),
-  POS(177, 7)
+  POS(177, 7),
+  LOCAL(1)
+};
+
+static FUNCTION_INFO i_lambda_14 = {
+  t_lambda_14, NULL, 2, 1,
+  {"175_8_key\000"}
 };
 
 static TAB_NUM t_lambda_15[] = {
@@ -460,6 +601,11 @@ static TAB_NUM t_lambda_15[] = {
   //  set
   LET, 1, var_173_4_set, TAIL_CALL,
   POS(178, 7)
+};
+
+static FUNCTION_INFO i_lambda_15 = {
+  t_lambda_15, NULL, 1, 0,
+  {}
 };
 
 static TAB_NUM t_module_entry[] = {
@@ -471,37 +617,42 @@ static TAB_NUM t_module_entry[] = {
   POS(186, 1)
 };
 
+static FUNCTION_INFO i_module_entry = {
+  t_module_entry, NULL, 1, 0,
+  {}
+};
+
 static FUNKY_CONSTANT constants_table[] = {
   {FLT_UNIQUE, 0, {.str_8 = "NONE"}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std_types__insert_order_set}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_1}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_2}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_value}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_3}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_4}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_last_key_is_defined}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_5}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_6}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_7}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_8}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_previous_key_is_defined}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_9}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_check_next_key}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_next_key_is_defined}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_10}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_11}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std_types__insert_order_set___length_of}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std_types__insert_order_set___to_list}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_add_keys}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_12}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_13}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std_types__insert_order_set___for_each}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std_types__insert_order_set___map_reduce}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std__insert_order_set}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_14}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_15}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std_types__insert_order_set}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_1}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_2}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_value}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_3}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_4}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_last_key_is_defined}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_5}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_6}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_7}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_8}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_previous_key_is_defined}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_9}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_check_next_key}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_next_key_is_defined}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_10}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_11}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std_types__insert_order_set___length_of}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std_types__insert_order_set___to_list}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_add_keys}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_12}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_13}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std_types__insert_order_set___for_each}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std_types__insert_order_set___map_reduce}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std__insert_order_set}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_14}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_15}},
   {FLT_STRING_8, 16, {.str_8 = "insert_order_set"}},
-  {FLT_FUNCTION, 0, {.tfunc = t_module_entry}}
+  {FLT_FUNCTION, 0, {.func_info = &i_module_entry}}
 };
 
 static ATTRIBUTE_DEFINITION std_types__object__attributes[] = {
@@ -765,7 +916,7 @@ FUNKY_MODULE module__basic__types__collections__sets__insert_order_set = {
   "basic/types/collections/sets/insert_order_set.fky", // module filename
   .major_version = 0,
   .minor_version = 0,
-  .feature_flags = FEAT_POSITIONS|FEAT_INITIALIZER,
+  .feature_flags = FEAT_POSITIONS|FEAT_FUNCTION_INFO|FEAT_INITIALIZER,
   .marker = 0,
   0, // number of required modules
   0, // number of defined namespaces

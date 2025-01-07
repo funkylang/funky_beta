@@ -109,85 +109,15 @@ extern char **const_names;
   #define my_get_attr get_attr
 #endif
 
-#if 0
-  static void print_var_or_const(TAB_NUM idx) {
-    int leaf_idx = idx & 0xffff;
-    int branch_idx = 0;
-    idx >>= 16;
-    while (idx) {
-      branch_idx <<= 3;
-      branch_idx |= idx & 7;
-      idx >>= 3;
-    }
-    switch (branch_idx) {
-      case 0:
-	fprintf(stderr, "temp__%d", leaf_idx-3);
-	break;
-      case 1:
-	if (const_names[leaf_idx]) {
-	  fprintf(stderr, "%s", const_names[leaf_idx]);
-	} else {
-	  fprintf(stderr, "const__%d", leaf_idx);
-	}
-	break;
-      default:
-	fprintf(stderr, "%s", var_names[(branch_idx << 3) | leaf_idx]);
-    }
-  }
+static INLINE NODE *get_argument(FRAME *frame, TAB_NUM idx) {
+  // use the specified frame
+  return my_get(&frame->tree, idx);
+}
 
-  static NODE *get_argument(FRAME *frame, TAB_NUM idx) {
-    // use the specified frame
-    NODE *node = get(&frame->tree, idx);
-    char buf[1024];
-    if (node) {
-      int len = debug_string(node, 0, 1, NULL);
-      if (len < 1024) {
-	len = debug_string(node, 0, 1, buf);
-	buf[len] = 0;
-      } else {
-	strcpy(buf,"<text too long>\n");
-      }
-    } else {
-      strcpy(buf, "NULL\n");
-    }
-    fprintf(stderr, "%ld: get_argument(%ld, ",
-      instruction_counter, (char *)frame-(stack+STACK_SIZE));
-    print_var_or_const(idx);
-    fprintf(stderr, ") -> %s", buf);
-    return node;
-  }
-
-  static void set_argument(TAB_NUM idx, NODE *value) {
-    // always use the current frame
-    fprintf(stderr, "%ld: set_argument(%ld, ",
-      instruction_counter, (char *)TLS_frame-(stack+STACK_SIZE));
-    print_var_or_const(idx);
-    char buf[1024];
-    if (value) {
-      int len = debug_string(value, 0, 1, NULL);
-      if (len < 1024) {
-	len = debug_string(value, 0, 1, buf);
-	buf[len-1] = 0;
-      } else {
-	strcpy(buf,"<text too long>");
-      }
-    } else {
-      strcpy(buf, "NULL\n");
-    }
-    fprintf(stderr, ", %s)\n", buf);
-    set(&TLS_frame->tree, idx, value);
-  }
-#else
-  static INLINE NODE *get_argument(FRAME *frame, TAB_NUM idx) {
-    // use the specified frame
-    return my_get(&frame->tree, idx);
-  }
-
-  static INLINE void set_argument(TAB_NUM idx, NODE *value) {
-    // always use the current frame
-    my_set(&TLS_frame->tree, idx, value);
-  }
-#endif
+static INLINE void set_argument(TAB_NUM idx, NODE *value) {
+  // always use the current frame
+  my_set(&TLS_frame->tree, idx, value);
+}
 
 static NODE *from_arguments
   (

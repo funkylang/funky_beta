@@ -77,7 +77,13 @@ static TAB_NUM t_func_std_types__hash_bag___add[] = {
   REST_PARAMETER, LOCAL(1), // 42_5_pairs
   // for_each pairs
   var_for_each, 3, LOCAL(1), lambda_1, lambda_5, TAIL_CALL,
-  POS(44, 3)
+  POS(44, 3),
+  LOCAL(1)
+};
+
+static FUNCTION_INFO i_func_std_types__hash_bag___add = {
+  t_func_std_types__hash_bag___add, NULL, 1, 1,
+  {"42_5_pairs\000"}
 };
 
 static TAB_NUM t_lambda_1[] = {
@@ -101,12 +107,22 @@ static TAB_NUM t_lambda_1[] = {
   POS(52, 7)
 };
 
+static FUNCTION_INFO i_lambda_1 = {
+  t_lambda_1, NULL, 5, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_2[] = {
   0, // locals
   0, // parameters
   //  pair 1
   LET, 2, var_45_8_pair, num_1, TAIL_CALL,
   POS(50, 11)
+};
+
+static FUNCTION_INFO i_lambda_2 = {
+  t_lambda_2, NULL, 1, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_value_is_undefined[] = {
@@ -118,6 +134,11 @@ static TAB_NUM t_lambda_value_is_undefined[] = {
   var_next, 0, TAIL_CALL,
   POS(54, 12),
   POS(55, 11)
+};
+
+static FUNCTION_INFO i_lambda_value_is_undefined = {
+  t_lambda_value_is_undefined, NULL, 2, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_3[] = {
@@ -140,12 +161,22 @@ static TAB_NUM t_lambda_3[] = {
   POS(60, 11)
 };
 
+static FUNCTION_INFO i_lambda_3 = {
+  t_lambda_3, NULL, 5, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_4[] = {
   0, // locals
   0, // parameters
   //  undefined
   LET, 1, var_undefined, TAIL_CALL,
   POS(58, 41)
+};
+
+static FUNCTION_INFO i_lambda_4 = {
+  t_lambda_4, NULL, 1, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_5[] = {
@@ -156,6 +187,11 @@ static TAB_NUM t_lambda_5[] = {
   POS(61, 7)
 };
 
+static FUNCTION_INFO i_lambda_5 = {
+  t_lambda_5, NULL, 1, 0,
+  {}
+};
+
 static TAB_NUM t_func_std_types__hash_bag___merge[] = {
   1, // locals
   2, // parameters
@@ -163,7 +199,13 @@ static TAB_NUM t_func_std_types__hash_bag___merge[] = {
   LOCAL(1), // 66_5_other
   // for_each other
   var_for_each, 3, LOCAL(1), lambda_6, lambda_7, TAIL_CALL,
-  POS(68, 3)
+  POS(68, 3),
+  LOCAL(1)
+};
+
+static FUNCTION_INFO i_func_std_types__hash_bag___merge = {
+  t_func_std_types__hash_bag___merge, NULL, 1, 1,
+  {"66_5_other\000"}
 };
 
 static TAB_NUM t_lambda_6[] = {
@@ -179,7 +221,14 @@ static TAB_NUM t_lambda_6[] = {
   var_next, 0, TAIL_CALL,
   POS(70, 17),
   POS(70, 7),
-  POS(71, 7)
+  POS(71, 7),
+  LOCAL(3),
+  LOCAL(2)
+};
+
+static FUNCTION_INFO i_lambda_6 = {
+  t_lambda_6, NULL, 3, 2,
+  {"69_12_value\000", "69_8_key\000"}
 };
 
 static TAB_NUM t_lambda_7[] = {
@@ -190,6 +239,11 @@ static TAB_NUM t_lambda_7[] = {
   POS(72, 7)
 };
 
+static FUNCTION_INFO i_lambda_7 = {
+  t_lambda_7, NULL, 1, 0,
+  {}
+};
+
 static TAB_NUM t_func_std_types__hash_bag___difference[] = {
   1, // locals
   2, // parameters
@@ -197,7 +251,13 @@ static TAB_NUM t_func_std_types__hash_bag___difference[] = {
   LOCAL(1), // 77_5_other
   // for_each other
   var_for_each, 3, LOCAL(1), lambda_8, lambda_9, TAIL_CALL,
-  POS(79, 3)
+  POS(79, 3),
+  LOCAL(1)
+};
+
+static FUNCTION_INFO i_func_std_types__hash_bag___difference = {
+  t_func_std_types__hash_bag___difference, NULL, 1, 1,
+  {"77_5_other\000"}
 };
 
 static TAB_NUM t_lambda_8[] = {
@@ -216,7 +276,14 @@ static TAB_NUM t_lambda_8[] = {
   POS(81, 24),
   POS(81, 17),
   POS(81, 7),
-  POS(82, 7)
+  POS(82, 7),
+  LOCAL(3),
+  LOCAL(4)
+};
+
+static FUNCTION_INFO i_lambda_8 = {
+  t_lambda_8, NULL, 4, 2,
+  {"80_8_key\000", "80_12_value\000"}
 };
 
 static TAB_NUM t_lambda_9[] = {
@@ -227,13 +294,24 @@ static TAB_NUM t_lambda_9[] = {
   POS(83, 7)
 };
 
+static FUNCTION_INFO i_lambda_9 = {
+  t_lambda_9, NULL, 1, 0,
+  {}
+};
+
 static TAB_NUM t_func_std__hash_bag[] = {
   1, // locals
   -1, // parameters
   REST_PARAMETER, LOCAL(1), // 89_5_pairs
   // to_hash_bag pairs
   var_to_hash_bag, 1, LOCAL(1), TAIL_CALL,
-  POS(91, 3)
+  POS(91, 3),
+  LOCAL(1)
+};
+
+static FUNCTION_INFO i_func_std__hash_bag = {
+  t_func_std__hash_bag, NULL, 1, 1,
+  {"89_5_pairs\000"}
 };
 
 static TAB_NUM t_func_std_types__list___to_hash_bag[] = {
@@ -245,7 +323,13 @@ static TAB_NUM t_func_std_types__list___to_hash_bag[] = {
   // for_each items
   var_for_each, 3, LOCAL(1), lambda_10, lambda_11, TAIL_CALL,
   POS(103, 3),
-  POS(104, 3)
+  POS(104, 3),
+  LOCAL(1)
+};
+
+static FUNCTION_INFO i_func_std_types__list___to_hash_bag = {
+  t_func_std_types__list___to_hash_bag, NULL, 2, 1,
+  {"101_5_items\000"}
 };
 
 static TAB_NUM t_lambda_10[] = {
@@ -260,7 +344,15 @@ static TAB_NUM t_lambda_10[] = {
   var_next, 0, TAIL_CALL,
   POS(106, 7),
   POS(107, 8),
-  POS(108, 7)
+  POS(108, 7),
+  LOCAL(3),
+  LOCAL(2),
+  LOCAL(1)
+};
+
+static FUNCTION_INFO i_lambda_10 = {
+  t_lambda_10, NULL, 3, 3,
+  {"106_18_value\000", "106_13_key\000", "105_8_item\000"}
 };
 
 static TAB_NUM t_lambda_11[] = {
@@ -269,6 +361,11 @@ static TAB_NUM t_lambda_11[] = {
   //  table
   LET, 1, var_103_4_table, TAIL_CALL,
   POS(109, 7)
+};
+
+static FUNCTION_INFO i_lambda_11 = {
+  t_lambda_11, NULL, 1, 0,
+  {}
 };
 
 static TAB_NUM t_module_entry[] = {
@@ -280,28 +377,33 @@ static TAB_NUM t_module_entry[] = {
   POS(116, 1)
 };
 
+static FUNCTION_INFO i_module_entry = {
+  t_module_entry, NULL, 1, 0,
+  {}
+};
+
 static FUNKY_CONSTANT constants_table[] = {
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std_types__hash_bag___add}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_1}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_2}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std_types__hash_bag___add}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_1}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_2}},
   {FLT_POSITIVE_INT64, 0, {.value = 1}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_value_is_undefined}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_3}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_value_is_undefined}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_3}},
   {FLT_POSITIVE_INT64, 0, {.value = 0}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_4}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_5}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std_types__hash_bag___merge}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_6}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_7}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std_types__hash_bag___difference}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_8}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_9}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std__hash_bag}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std_types__list___to_hash_bag}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_10}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_11}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_4}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_5}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std_types__hash_bag___merge}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_6}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_7}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std_types__hash_bag___difference}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_8}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_9}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std__hash_bag}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std_types__list___to_hash_bag}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_10}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_11}},
   {FLT_STRING_8, 8, {.str_8 = "hash_bag"}},
-  {FLT_FUNCTION, 0, {.tfunc = t_module_entry}}
+  {FLT_FUNCTION, 0, {.func_info = &i_module_entry}}
 };
 
 static ATTRIBUTE_DEFINITION std_types__hash_bag__attributes[] = {
@@ -495,7 +597,7 @@ FUNKY_MODULE module__basic__types__collections__bags__hash_bag = {
   "basic/types/collections/bags/hash_bag.fky", // module filename
   .major_version = 0,
   .minor_version = 0,
-  .feature_flags = FEAT_POSITIONS|FEAT_INITIALIZER,
+  .feature_flags = FEAT_POSITIONS|FEAT_FUNCTION_INFO|FEAT_INITIALIZER,
   .marker = 0,
   0, // number of required modules
   0, // number of defined namespaces

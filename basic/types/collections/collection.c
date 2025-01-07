@@ -94,7 +94,13 @@ static TAB_NUM t_func_std_types__collection___is_empty[] = {
   LET, 1, LOCAL(2), TAIL_CALL,
   POS(47, 6),
   POS(47, 6),
-  POS(47, 3)
+  POS(47, 3),
+  LOCAL(3)
+};
+
+static FUNCTION_INFO i_func_std_types__collection___is_empty = {
+  t_func_std_types__collection___is_empty, NULL, 3, 1,
+  {"45_5_self\000"}
 };
 
 static TAB_NUM t_func_std_types__collection___is_not_empty[] = {
@@ -109,13 +115,19 @@ static TAB_NUM t_func_std_types__collection___is_not_empty[] = {
   LET, 1, LOCAL(2), TAIL_CALL,
   POS(54, 15),
   POS(54, 6),
-  POS(54, 3)
+  POS(54, 3),
+  LOCAL(3)
+};
+
+static FUNCTION_INFO i_func_std_types__collection___is_not_empty = {
+  t_func_std_types__collection___is_not_empty, NULL, 3, 1,
+  {"52_5_self\000"}
 };
 
 static FUNKY_CONSTANT constants_table[] = {
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std_types__collection___is_empty}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std_types__collection___is_empty}},
   {FLT_POSITIVE_INT64, 0, {.value = 0}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std_types__collection___is_not_empty}}
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std_types__collection___is_not_empty}}
 };
 
 static ATTRIBUTE_DEFINITION std_types__collection__attributes[] = {
@@ -459,7 +471,7 @@ FUNKY_MODULE module__basic__types__collections__collection = {
   "basic/types/collections/collection.fky", // module filename
   .major_version = 0,
   .minor_version = 0,
-  .feature_flags = FEAT_POSITIONS,
+  .feature_flags = FEAT_POSITIONS|FEAT_FUNCTION_INFO,
   .marker = 0,
   0, // number of required modules
   1, // number of defined namespaces

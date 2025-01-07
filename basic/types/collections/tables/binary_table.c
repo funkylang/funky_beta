@@ -285,6 +285,11 @@ static TAB_NUM t_func_std_types__binary_table[] = {
   POS(116, 3)
 };
 
+static FUNCTION_INFO i_func_std_types__binary_table = {
+  t_func_std_types__binary_table, NULL, 3, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_1[] = {
   1, // locals
   0, // parameters
@@ -294,6 +299,11 @@ static TAB_NUM t_lambda_1[] = {
   LET, 1, LOCAL(1), TAIL_CALL,
   POS(118, 8),
   POS(118, 7)
+};
+
+static FUNCTION_INFO i_lambda_1 = {
+  t_lambda_1, NULL, 2, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_2[] = {
@@ -307,6 +317,11 @@ static TAB_NUM t_lambda_2[] = {
   POS(120, 7)
 };
 
+static FUNCTION_INFO i_lambda_2 = {
+  t_lambda_2, NULL, 2, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_value_is_defined[] = {
   1, // locals
   0, // parameters
@@ -315,7 +330,13 @@ static TAB_NUM t_lambda_value_is_defined[] = {
   // if_not
   var_if_not, 3, LOCAL(1), lambda_3, lambda_4, TAIL_CALL,
   POS(122, 11),
-  POS(123, 11)
+  POS(123, 11),
+  LOCAL(1)
+};
+
+static FUNCTION_INFO i_lambda_value_is_defined = {
+  t_lambda_value_is_defined, NULL, 2, 1,
+  {"122_29_did_insert\000"}
 };
 
 static TAB_NUM t_lambda_3[] = {
@@ -327,6 +348,11 @@ static TAB_NUM t_lambda_3[] = {
   LET, 1, LOCAL(1), TAIL_CALL,
   POS(125, 23),
   POS(125, 15)
+};
+
+static FUNCTION_INFO i_lambda_3 = {
+  t_lambda_3, NULL, 2, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_4[] = {
@@ -346,6 +372,11 @@ static TAB_NUM t_lambda_4[] = {
   POS(126, 15)
 };
 
+static FUNCTION_INFO i_lambda_4 = {
+  t_lambda_4, NULL, 4, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_5[] = {
   1, // locals
   0, // parameters
@@ -354,7 +385,13 @@ static TAB_NUM t_lambda_5[] = {
   // if_not
   var_if_not, 3, LOCAL(1), lambda_6, lambda_7, TAIL_CALL,
   POS(131, 11),
-  POS(132, 11)
+  POS(132, 11),
+  LOCAL(1)
+};
+
+static FUNCTION_INFO i_lambda_5 = {
+  t_lambda_5, NULL, 2, 1,
+  {"131_29_did_delete\000"}
 };
 
 static TAB_NUM t_lambda_6[] = {
@@ -363,6 +400,11 @@ static TAB_NUM t_lambda_6[] = {
   //  myself
   LET, 1, var_111_5_myself, TAIL_CALL,
   POS(134, 15)
+};
+
+static FUNCTION_INFO i_lambda_6 = {
+  t_lambda_6, NULL, 1, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_7[] = {
@@ -382,6 +424,11 @@ static TAB_NUM t_lambda_7[] = {
   POS(135, 15)
 };
 
+static FUNCTION_INFO i_lambda_7 = {
+  t_lambda_7, NULL, 4, 0,
+  {}
+};
+
 static TAB_NUM t_func_basic_collections__empty_binary_node___retrieve[] = {
   1, // locals
   2, // parameters
@@ -390,6 +437,11 @@ static TAB_NUM t_func_basic_collections__empty_binary_node___retrieve[] = {
   // -> undefined
   LET, 1, var_undefined, TAIL_CALL,
   POS(143, 62)
+};
+
+static FUNCTION_INFO i_func_basic_collections__empty_binary_node___retrieve = {
+  t_func_basic_collections__empty_binary_node___retrieve, NULL, 1, 0,
+  {}
 };
 
 static TAB_NUM t_func_basic_collections__retrieve_method[] = {
@@ -405,7 +457,13 @@ static TAB_NUM t_func_basic_collections__retrieve_method[] = {
   var_if, 3, LOCAL(1), lambda_8, lambda_9, TAIL_CALL,
   POS(146, 3),
   POS(148, 5),
-  POS(147, 3)
+  POS(147, 3),
+  LOCAL(2)
+};
+
+static FUNCTION_INFO i_func_basic_collections__retrieve_method = {
+  t_func_basic_collections__retrieve_method, NULL, 3, 1,
+  {"145_39_self\000"}
 };
 
 static TAB_NUM t_lambda_8[] = {
@@ -414,6 +472,11 @@ static TAB_NUM t_lambda_8[] = {
   //  my_value
   LET, 1, var_146_30_my_value, TAIL_CALL,
   POS(149, 7)
+};
+
+static FUNCTION_INFO i_lambda_8 = {
+  t_lambda_8, NULL, 1, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_9[] = {
@@ -427,6 +490,11 @@ static TAB_NUM t_lambda_9[] = {
   POS(151, 7)
 };
 
+static FUNCTION_INFO i_lambda_9 = {
+  t_lambda_9, NULL, 2, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_10[] = {
   0, // locals
   0, // parameters
@@ -435,12 +503,22 @@ static TAB_NUM t_lambda_10[] = {
   POS(153, 11)
 };
 
+static FUNCTION_INFO i_lambda_10 = {
+  t_lambda_10, NULL, 1, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_11[] = {
   0, // locals
   0, // parameters
   // retrieve right key
   var_retrieve, 2, var_146_15_right, var_145_44_key, TAIL_CALL,
   POS(154, 11)
+};
+
+static FUNCTION_INFO i_lambda_11 = {
+  t_lambda_11, NULL, 1, 0,
+  {}
 };
 
 static TAB_NUM t_func_basic_collections__empty_binary_node___insert[] = {
@@ -454,7 +532,14 @@ static TAB_NUM t_func_basic_collections__empty_binary_node___insert[] = {
   // ->
   LET, 2, LOCAL(1), var_true, TAIL_CALL,
   POS(163, 5),
-  POS(162, 3)
+  POS(162, 3),
+  LOCAL(3),
+  LOCAL(2)
+};
+
+static FUNCTION_INFO i_func_basic_collections__empty_binary_node___insert = {
+  t_func_basic_collections__empty_binary_node___insert, NULL, 2, 2,
+  {"161_58_value\000", "161_54_key\000"}
 };
 
 static TAB_NUM t_func_node___insert[] = {
@@ -477,6 +562,11 @@ static TAB_NUM t_func_node___insert[] = {
   POS(173, 3)
 };
 
+static FUNCTION_INFO i_func_node___insert = {
+  t_func_node___insert, NULL, 4, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_12[] = {
   1, // locals
   0, // parameters
@@ -486,6 +576,11 @@ static TAB_NUM t_lambda_12[] = {
   LET, 2, LOCAL(1), var_false, TAIL_CALL,
   POS(175, 8),
   POS(175, 7)
+};
+
+static FUNCTION_INFO i_lambda_12 = {
+  t_lambda_12, NULL, 2, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_13[] = {
@@ -499,6 +594,11 @@ static TAB_NUM t_lambda_13[] = {
   POS(177, 7)
 };
 
+static FUNCTION_INFO i_lambda_13 = {
+  t_lambda_13, NULL, 2, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_14[] = {
   0, // locals
   0, // parameters
@@ -508,6 +608,11 @@ static TAB_NUM t_lambda_14[] = {
   lambda_16, 0, TAIL_CALL,
   POS(180, 11),
   POS(181, 11)
+};
+
+static FUNCTION_INFO i_lambda_14 = {
+  t_lambda_14, NULL, 2, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_15[] = {
@@ -521,6 +626,11 @@ static TAB_NUM t_lambda_15[] = {
   POS(184, 11)
 };
 
+static FUNCTION_INFO i_lambda_15 = {
+  t_lambda_15, NULL, 2, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_16[] = {
   1, // locals
   0, // parameters
@@ -530,6 +640,11 @@ static TAB_NUM t_lambda_16[] = {
   LET, 2, LOCAL(1), var_172_4_did_insert, TAIL_CALL,
   POS(187, 8),
   POS(187, 7)
+};
+
+static FUNCTION_INFO i_lambda_16 = {
+  t_lambda_16, NULL, 2, 0,
+  {}
 };
 
 static TAB_NUM t_func_fetch_first[] = {
@@ -547,12 +662,22 @@ static TAB_NUM t_func_fetch_first[] = {
   POS(194, 3)
 };
 
+static FUNCTION_INFO i_func_fetch_first = {
+  t_func_fetch_first, NULL, 3, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_17[] = {
   0, // locals
   0, // parameters
   //  right my_key my_value
   LET, 3, var_193_15_right, var_193_22_my_key, var_193_30_my_value, TAIL_CALL,
   POS(196, 7)
+};
+
+static FUNCTION_INFO i_lambda_17 = {
+  t_lambda_17, NULL, 1, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_18[] = {
@@ -566,7 +691,14 @@ static TAB_NUM t_lambda_18[] = {
   LET, 3, LOCAL(1), LOCAL(2), LOCAL(3), TAIL_CALL,
   POS(198, 7),
   POS(199, 10),
-  POS(199, 7)
+  POS(199, 7),
+  LOCAL(3),
+  LOCAL(2)
+};
+
+static FUNCTION_INFO i_lambda_18 = {
+  t_lambda_18, NULL, 3, 2,
+  {"198_37_first_value\000", "198_26_first_key\000"}
 };
 
 static TAB_NUM t_func_basic_collections__empty_binary_node___delete[] = {
@@ -576,7 +708,13 @@ static TAB_NUM t_func_basic_collections__empty_binary_node___delete[] = {
   LOCAL(1),
   // -> self false
   LET, 2, LOCAL(2), var_false, TAIL_CALL,
-  POS(201, 59)
+  POS(201, 59),
+  LOCAL(2)
+};
+
+static FUNCTION_INFO i_func_basic_collections__empty_binary_node___delete = {
+  t_func_basic_collections__empty_binary_node___delete, NULL, 1, 1,
+  {"201_48_self\000"}
 };
 
 static TAB_NUM t_func_node___delete[] = {
@@ -595,6 +733,11 @@ static TAB_NUM t_func_node___delete[] = {
   POS(205, 3)
 };
 
+static FUNCTION_INFO i_func_node___delete = {
+  t_func_node___delete, NULL, 3, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_19[] = {
   1, // locals
   0, // parameters
@@ -606,12 +749,22 @@ static TAB_NUM t_lambda_19[] = {
   POS(208, 7)
 };
 
+static FUNCTION_INFO i_lambda_19 = {
+  t_lambda_19, NULL, 2, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_20[] = {
   0, // locals
   0, // parameters
   //  right true
   LET, 2, var_204_15_right, var_true, TAIL_CALL,
   POS(210, 11)
+};
+
+static FUNCTION_INFO i_lambda_20 = {
+  t_lambda_20, NULL, 1, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_21[] = {
@@ -625,12 +778,22 @@ static TAB_NUM t_lambda_21[] = {
   POS(212, 11)
 };
 
+static FUNCTION_INFO i_lambda_21 = {
+  t_lambda_21, NULL, 2, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_22[] = {
   0, // locals
   0, // parameters
   //  left true
   LET, 2, var_204_9_left, var_true, TAIL_CALL,
   POS(214, 15)
+};
+
+static FUNCTION_INFO i_lambda_22 = {
+  t_lambda_22, NULL, 1, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_23[] = {
@@ -644,7 +807,14 @@ static TAB_NUM t_lambda_23[] = {
   LET, 2, LOCAL(1), var_true, TAIL_CALL,
   POS(216, 15),
   POS(217, 18),
-  POS(217, 15)
+  POS(217, 15),
+  LOCAL(3),
+  LOCAL(2)
+};
+
+static FUNCTION_INFO i_lambda_23 = {
+  t_lambda_23, NULL, 3, 2,
+  {"216_46_first_value\000", "216_35_first_key\000"}
 };
 
 static TAB_NUM t_lambda_24[] = {
@@ -658,6 +828,11 @@ static TAB_NUM t_lambda_24[] = {
   POS(219, 7)
 };
 
+static FUNCTION_INFO i_lambda_24 = {
+  t_lambda_24, NULL, 2, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_25[] = {
   1, // locals
   0, // parameters
@@ -666,7 +841,13 @@ static TAB_NUM t_lambda_25[] = {
   // if_not
   var_if_not, 3, LOCAL(1), lambda_26, lambda_27, TAIL_CALL,
   POS(222, 11),
-  POS(223, 11)
+  POS(223, 11),
+  LOCAL(1)
+};
+
+static FUNCTION_INFO i_lambda_25 = {
+  t_lambda_25, NULL, 2, 1,
+  {"222_25_did_delete\000"}
 };
 
 static TAB_NUM t_lambda_26[] = {
@@ -675,6 +856,11 @@ static TAB_NUM t_lambda_26[] = {
   //  self false
   LET, 2, var_203_16_self, var_false, TAIL_CALL,
   POS(225, 15)
+};
+
+static FUNCTION_INFO i_lambda_26 = {
+  t_lambda_26, NULL, 1, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_27[] = {
@@ -688,6 +874,11 @@ static TAB_NUM t_lambda_27[] = {
   POS(226, 15)
 };
 
+static FUNCTION_INFO i_lambda_27 = {
+  t_lambda_27, NULL, 2, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_28[] = {
   1, // locals
   0, // parameters
@@ -696,7 +887,13 @@ static TAB_NUM t_lambda_28[] = {
   // if_not
   var_if_not, 3, LOCAL(1), lambda_29, lambda_30, TAIL_CALL,
   POS(228, 11),
-  POS(229, 11)
+  POS(229, 11),
+  LOCAL(1)
+};
+
+static FUNCTION_INFO i_lambda_28 = {
+  t_lambda_28, NULL, 2, 1,
+  {"228_26_did_delete\000"}
 };
 
 static TAB_NUM t_lambda_29[] = {
@@ -705,6 +902,11 @@ static TAB_NUM t_lambda_29[] = {
   //  self false
   LET, 2, var_203_16_self, var_false, TAIL_CALL,
   POS(231, 15)
+};
+
+static FUNCTION_INFO i_lambda_29 = {
+  t_lambda_29, NULL, 1, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_30[] = {
@@ -718,6 +920,11 @@ static TAB_NUM t_lambda_30[] = {
   POS(232, 15)
 };
 
+static FUNCTION_INFO i_lambda_30 = {
+  t_lambda_30, NULL, 2, 0,
+  {}
+};
+
 static TAB_NUM t_func_finish___for_each_1_call[] = {
   1, // locals
   1, // parameters
@@ -727,6 +934,11 @@ static TAB_NUM t_func_finish___for_each_1_call[] = {
   POS(239, 34)
 };
 
+static FUNCTION_INFO i_func_finish___for_each_1_call = {
+  t_func_finish___for_each_1_call, NULL, 1, 0,
+  {}
+};
+
 static TAB_NUM t_func_finish___for_each_2_call[] = {
   1, // locals
   1, // parameters
@@ -734,6 +946,11 @@ static TAB_NUM t_func_finish___for_each_2_call[] = {
   // break!
   var_break, 0, IO_TAIL_CALL,
   POS(240, 34)
+};
+
+static FUNCTION_INFO i_func_finish___for_each_2_call = {
+  t_func_finish___for_each_2_call, NULL, 1, 0,
+  {}
 };
 
 static TAB_NUM t_func_empty_binary_node___for_each_1_left[] = {
@@ -748,6 +965,11 @@ static TAB_NUM t_func_empty_binary_node___for_each_1_left[] = {
   POS(243, 3)
 };
 
+static FUNCTION_INFO i_func_empty_binary_node___for_each_1_left = {
+  t_func_empty_binary_node___for_each_1_left, NULL, 2, 0,
+  {}
+};
+
 static TAB_NUM t_func_empty_binary_node___for_each_2_left[] = {
   1, // locals
   1, // parameters
@@ -758,6 +980,11 @@ static TAB_NUM t_func_empty_binary_node___for_each_2_left[] = {
   var_for_each_2_call, 1, LOCAL(1), IO_TAIL_CALL,
   POS(246, 20),
   POS(246, 3)
+};
+
+static FUNCTION_INFO i_func_empty_binary_node___for_each_2_left = {
+  t_func_empty_binary_node___for_each_2_left, NULL, 2, 0,
+  {}
 };
 
 static TAB_NUM t_func_basic_collections__for_each_1_left_method[] = {
@@ -772,7 +999,14 @@ static TAB_NUM t_func_basic_collections__for_each_1_left_method[] = {
   var_for_each_1_left, 1, LOCAL(2), IO_TAIL_CALL,
   POS(249, 3),
   POS(250, 3),
-  POS(251, 3)
+  POS(251, 3),
+  LOCAL(1),
+  LOCAL(2)
+};
+
+static FUNCTION_INFO i_func_basic_collections__for_each_1_left_method = {
+  t_func_basic_collections__for_each_1_left_method, NULL, 3, 2,
+  {"248_46_self\000", "249_9_left\000"}
 };
 
 static TAB_NUM t_func_basic_collections__for_each_2_left_method[] = {
@@ -787,7 +1021,14 @@ static TAB_NUM t_func_basic_collections__for_each_2_left_method[] = {
   var_for_each_2_left, 1, LOCAL(2), IO_TAIL_CALL,
   POS(254, 3),
   POS(255, 3),
-  POS(256, 3)
+  POS(256, 3),
+  LOCAL(1),
+  LOCAL(2)
+};
+
+static FUNCTION_INFO i_func_basic_collections__for_each_2_left_method = {
+  t_func_basic_collections__for_each_2_left_method, NULL, 3, 2,
+  {"253_46_self\000", "254_9_left\000"}
 };
 
 static TAB_NUM t_func_basic_collections__for_each_1_call_method[] = {
@@ -799,7 +1040,14 @@ static TAB_NUM t_func_basic_collections__for_each_1_call_method[] = {
   // basic_loops::body! my_value
   var_basic_loops__body, 1, LOCAL(3), IO_TAIL_CALL,
   POS(259, 3),
-  POS(260, 3)
+  POS(260, 3),
+  LOCAL(2),
+  LOCAL(3)
+};
+
+static FUNCTION_INFO i_func_basic_collections__for_each_1_call_method = {
+  t_func_basic_collections__for_each_1_call_method, NULL, 2, 2,
+  {"258_46_self\000", "259_33_my_value\000"}
 };
 
 static TAB_NUM t_func_basic_collections__for_each_2_call_method[] = {
@@ -811,7 +1059,15 @@ static TAB_NUM t_func_basic_collections__for_each_2_call_method[] = {
   // basic_loops::body! my_key my_value
   var_basic_loops__body, 2, LOCAL(3), LOCAL(4), IO_TAIL_CALL,
   POS(263, 3),
-  POS(264, 3)
+  POS(264, 3),
+  LOCAL(3),
+  LOCAL(2),
+  LOCAL(4)
+};
+
+static FUNCTION_INFO i_func_basic_collections__for_each_2_call_method = {
+  t_func_basic_collections__for_each_2_call_method, NULL, 2, 3,
+  {"263_24_my_key\000", "262_46_self\000", "263_32_my_value\000"}
 };
 
 static TAB_NUM t_func_basic_collections__for_each_1_right_method[] = {
@@ -823,7 +1079,14 @@ static TAB_NUM t_func_basic_collections__for_each_1_right_method[] = {
   // for_each_1_left! right
   var_for_each_1_left, 1, LOCAL(3), IO_TAIL_CALL,
   POS(267, 3),
-  POS(268, 3)
+  POS(268, 3),
+  LOCAL(2),
+  LOCAL(3)
+};
+
+static FUNCTION_INFO i_func_basic_collections__for_each_1_right_method = {
+  t_func_basic_collections__for_each_1_right_method, NULL, 2, 2,
+  {"266_47_self\000", "267_16_right\000"}
 };
 
 static TAB_NUM t_func_basic_collections__for_each_2_right_method[] = {
@@ -835,7 +1098,14 @@ static TAB_NUM t_func_basic_collections__for_each_2_right_method[] = {
   // for_each_2_left! right
   var_for_each_2_left, 1, LOCAL(3), IO_TAIL_CALL,
   POS(271, 3),
-  POS(272, 3)
+  POS(272, 3),
+  LOCAL(3),
+  LOCAL(2)
+};
+
+static FUNCTION_INFO i_func_basic_collections__for_each_2_right_method = {
+  t_func_basic_collections__for_each_2_right_method, NULL, 2, 2,
+  {"271_16_right\000", "270_47_self\000"}
 };
 
 static TAB_NUM t_func_std_types__binary_table___for_each[] = {
@@ -870,7 +1140,14 @@ static TAB_NUM t_func_std_types__binary_table___for_each[] = {
   POS(336, 4),
   POS(339, 5),
   POS(339, 5),
-  POS(338, 3)
+  POS(338, 3),
+  LOCAL(3),
+  LOCAL(4)
+};
+
+static FUNCTION_INFO i_func_std_types__binary_table___for_each = {
+  t_func_std_types__binary_table___for_each, NULL, 9, 2,
+  {"314_5_body\000", "317_4_saved_context\000"}
 };
 
 static TAB_NUM t_lambda_31[] = {
@@ -888,7 +1165,13 @@ static TAB_NUM t_lambda_31[] = {
   POS(330, 5),
   POS(331, 5),
   POS(331, 5),
-  POS(334, 5)
+  POS(334, 5),
+  LOCAL(2)
+};
+
+static FUNCTION_INFO i_lambda_31 = {
+  t_lambda_31, NULL, 4, 1,
+  {"329_44_myself\000"}
 };
 
 static TAB_NUM t_lambda_32[] = {
@@ -905,6 +1188,11 @@ static TAB_NUM t_lambda_32[] = {
   POS(344, 7)
 };
 
+static FUNCTION_INFO i_lambda_32 = {
+  t_lambda_32, NULL, 3, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_next[] = {
   1, // locals
   0, // parameters
@@ -913,7 +1201,13 @@ static TAB_NUM t_lambda_next[] = {
   // for_each_2_right! previous_node
   var_for_each_2_right, 1, LOCAL(1), IO_TAIL_CALL,
   POS(341, 9),
-  POS(342, 9)
+  POS(342, 9),
+  LOCAL(1)
+};
+
+static FUNCTION_INFO i_lambda_next = {
+  t_lambda_next, NULL, 2, 1,
+  {"341_33_previous_node\000"}
 };
 
 static TAB_NUM t_lambda_33[] = {
@@ -930,6 +1224,11 @@ static TAB_NUM t_lambda_33[] = {
   POS(350, 7)
 };
 
+static FUNCTION_INFO i_lambda_33 = {
+  t_lambda_33, NULL, 3, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_2_next[] = {
   1, // locals
   0, // parameters
@@ -938,7 +1237,13 @@ static TAB_NUM t_lambda_2_next[] = {
   // for_each_1_right! previous_node
   var_for_each_1_right, 1, LOCAL(1), IO_TAIL_CALL,
   POS(347, 9),
-  POS(348, 9)
+  POS(348, 9),
+  LOCAL(1)
+};
+
+static FUNCTION_INFO i_lambda_2_next = {
+  t_lambda_2_next, NULL, 2, 1,
+  {"347_33_previous_node\000"}
 };
 
 static TAB_NUM t_func_basic_collections__empty_binary_node___map_1[] = {
@@ -947,7 +1252,13 @@ static TAB_NUM t_func_basic_collections__empty_binary_node___map_1[] = {
   LOCAL(1), // 357_47_self
   // -> self
   LET, 1, LOCAL(1), TAIL_CALL,
-  POS(357, 53)
+  POS(357, 53),
+  LOCAL(1)
+};
+
+static FUNCTION_INFO i_func_basic_collections__empty_binary_node___map_1 = {
+  t_func_basic_collections__empty_binary_node___map_1, NULL, 1, 1,
+  {"357_47_self\000"}
 };
 
 static TAB_NUM t_func_basic_collections__empty_binary_node___map_2[] = {
@@ -956,7 +1267,13 @@ static TAB_NUM t_func_basic_collections__empty_binary_node___map_2[] = {
   LOCAL(1), // 359_47_self
   // -> self
   LET, 1, LOCAL(1), TAIL_CALL,
-  POS(359, 53)
+  POS(359, 53),
+  LOCAL(1)
+};
+
+static FUNCTION_INFO i_func_basic_collections__empty_binary_node___map_2 = {
+  t_func_basic_collections__empty_binary_node___map_2, NULL, 1, 1,
+  {"359_47_self\000"}
 };
 
 static TAB_NUM t_func_basic_collections__map_1_method[] = {
@@ -977,7 +1294,17 @@ static TAB_NUM t_func_basic_collections__map_1_method[] = {
   POS(363, 27),
   POS(363, 54),
   POS(363, 66),
-  POS(363, 3)
+  POS(363, 3),
+  LOCAL(8),
+  LOCAL(7),
+  LOCAL(5),
+  LOCAL(6),
+  LOCAL(4)
+};
+
+static FUNCTION_INFO i_func_basic_collections__map_1_method = {
+  t_func_basic_collections__map_1_method, NULL, 5, 5,
+  {"362_30_my_value\000", "362_22_my_key\000", "362_9_left\000", "362_15_right\000", "361_36_self\000"}
 };
 
 static TAB_NUM t_func_basic_collections__map_2_method[] = {
@@ -998,7 +1325,17 @@ static TAB_NUM t_func_basic_collections__map_2_method[] = {
   POS(367, 27),
   POS(367, 61),
   POS(367, 73),
-  POS(367, 3)
+  POS(367, 3),
+  LOCAL(4),
+  LOCAL(8),
+  LOCAL(5),
+  LOCAL(7),
+  LOCAL(6)
+};
+
+static FUNCTION_INFO i_func_basic_collections__map_2_method = {
+  t_func_basic_collections__map_2_method, NULL, 5, 5,
+  {"365_36_self\000", "366_30_my_value\000", "366_9_left\000", "366_22_my_key\000", "366_15_right\000"}
 };
 
 static TAB_NUM t_func_std_types__binary_table___map[] = {
@@ -1017,7 +1354,13 @@ static TAB_NUM t_func_std_types__binary_table___map[] = {
   POS(385, 3),
   POS(388, 5),
   POS(388, 5),
-  POS(387, 3)
+  POS(387, 3),
+  LOCAL(3)
+};
+
+static FUNCTION_INFO i_func_std_types__binary_table___map = {
+  t_func_std_types__binary_table___map, NULL, 4, 1,
+  {"383_5_function\000"}
 };
 
 static TAB_NUM t_lambda_34[] = {
@@ -1037,6 +1380,11 @@ static TAB_NUM t_lambda_34[] = {
   POS(390, 7)
 };
 
+static FUNCTION_INFO i_lambda_34 = {
+  t_lambda_34, NULL, 4, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_35[] = {
   1, // locals
   0, // parameters
@@ -1054,6 +1402,11 @@ static TAB_NUM t_lambda_35[] = {
   POS(393, 7)
 };
 
+static FUNCTION_INFO i_lambda_35 = {
+  t_lambda_35, NULL, 4, 0,
+  {}
+};
+
 static TAB_NUM t_func_std_types__binary_table___reduce[] = {
   2, // locals
   -3, // parameters
@@ -1068,7 +1421,13 @@ static TAB_NUM t_func_std_types__binary_table___reduce[] = {
   var_if, 3, LOCAL(1), lambda_36, lambda_37, TAIL_CALL,
   POS(414, 3),
   POS(416, 14),
-  POS(415, 3)
+  POS(415, 3),
+  LOCAL(2)
+};
+
+static FUNCTION_INFO i_func_std_types__binary_table___reduce = {
+  t_func_std_types__binary_table___reduce, NULL, 3, 1,
+  {"410_5_self\000"}
 };
 
 static TAB_NUM t_lambda_36[] = {
@@ -1077,6 +1436,11 @@ static TAB_NUM t_lambda_36[] = {
   //  unit
   LET, 1, var_412_5_unit, TAIL_CALL,
   POS(417, 7)
+};
+
+static FUNCTION_INFO i_lambda_36 = {
+  t_lambda_36, NULL, 1, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_37[] = {
@@ -1088,6 +1452,11 @@ static TAB_NUM t_lambda_37[] = {
   LET, 1, LOCAL(1), TAIL_CALL,
   POS(418, 8),
   POS(418, 7)
+};
+
+static FUNCTION_INFO i_lambda_37 = {
+  t_lambda_37, NULL, 2, 0,
+  {}
 };
 
 static TAB_NUM t_func_reduce[] = {
@@ -1102,7 +1471,13 @@ static TAB_NUM t_func_reduce[] = {
   var_if, 3, LOCAL(1), func_check_right, lambda_38, TAIL_CALL,
   POS(421, 5),
   POS(423, 12),
-  POS(422, 5)
+  POS(422, 5),
+  LOCAL(2)
+};
+
+static FUNCTION_INFO i_func_reduce = {
+  t_func_reduce, NULL, 3, 1,
+  {"420_13_inner_node\000"}
 };
 
 static TAB_NUM t_lambda_38[] = {
@@ -1119,6 +1494,11 @@ static TAB_NUM t_lambda_38[] = {
   POS(427, 9)
 };
 
+static FUNCTION_INFO i_lambda_38 = {
+  t_lambda_38, NULL, 3, 0,
+  {}
+};
+
 static TAB_NUM t_func_check_right[] = {
   1, // locals
   0, // parameters
@@ -1130,12 +1510,22 @@ static TAB_NUM t_func_check_right[] = {
   POS(430, 7)
 };
 
+static FUNCTION_INFO i_func_check_right = {
+  t_func_check_right, NULL, 2, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_39[] = {
   0, // locals
   0, // parameters
   //  my_value
   LET, 1, var_421_39_my_value, TAIL_CALL,
   POS(432, 11)
+};
+
+static FUNCTION_INFO i_lambda_39 = {
+  t_lambda_39, NULL, 1, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_40[] = {
@@ -1150,6 +1540,11 @@ static TAB_NUM t_lambda_40[] = {
   POS(433, 30),
   POS(433, 12),
   POS(433, 11)
+};
+
+static FUNCTION_INFO i_lambda_40 = {
+  t_lambda_40, NULL, 3, 0,
+  {}
 };
 
 static TAB_NUM t_func_std_types__binary_table___map_reduce[] = {
@@ -1167,7 +1562,13 @@ static TAB_NUM t_func_std_types__binary_table___map_reduce[] = {
   var_if, 3, LOCAL(1), lambda_41, lambda_42, TAIL_CALL,
   POS(453, 3),
   POS(455, 14),
-  POS(454, 3)
+  POS(454, 3),
+  LOCAL(2)
+};
+
+static FUNCTION_INFO i_func_std_types__binary_table___map_reduce = {
+  t_func_std_types__binary_table___map_reduce, NULL, 3, 1,
+  {"448_5_self\000"}
 };
 
 static TAB_NUM t_lambda_41[] = {
@@ -1176,6 +1577,11 @@ static TAB_NUM t_lambda_41[] = {
   //  unit
   LET, 1, var_451_5_unit, TAIL_CALL,
   POS(456, 7)
+};
+
+static FUNCTION_INFO i_lambda_41 = {
+  t_lambda_41, NULL, 1, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_42[] = {
@@ -1192,6 +1598,11 @@ static TAB_NUM t_lambda_42[] = {
   POS(458, 7)
 };
 
+static FUNCTION_INFO i_lambda_42 = {
+  t_lambda_42, NULL, 3, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_43[] = {
   1, // locals
   0, // parameters
@@ -1203,6 +1614,11 @@ static TAB_NUM t_lambda_43[] = {
   POS(460, 11)
 };
 
+static FUNCTION_INFO i_lambda_43 = {
+  t_lambda_43, NULL, 2, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_44[] = {
   1, // locals
   0, // parameters
@@ -1212,6 +1628,11 @@ static TAB_NUM t_lambda_44[] = {
   LET, 1, LOCAL(1), TAIL_CALL,
   POS(461, 12),
   POS(461, 11)
+};
+
+static FUNCTION_INFO i_lambda_44 = {
+  t_lambda_44, NULL, 2, 0,
+  {}
 };
 
 static TAB_NUM t_func_map_reduce_1[] = {
@@ -1229,7 +1650,13 @@ static TAB_NUM t_func_map_reduce_1[] = {
   POS(464, 5),
   POS(465, 5),
   POS(467, 12),
-  POS(466, 5)
+  POS(466, 5),
+  LOCAL(2)
+};
+
+static FUNCTION_INFO i_func_map_reduce_1 = {
+  t_func_map_reduce_1, NULL, 4, 1,
+  {"463_19_inner_node\000"}
 };
 
 static TAB_NUM t_lambda_45[] = {
@@ -1246,6 +1673,11 @@ static TAB_NUM t_lambda_45[] = {
   POS(471, 9)
 };
 
+static FUNCTION_INFO i_lambda_45 = {
+  t_lambda_45, NULL, 3, 0,
+  {}
+};
+
 static TAB_NUM t_func_2_check_right[] = {
   1, // locals
   0, // parameters
@@ -1257,12 +1689,22 @@ static TAB_NUM t_func_2_check_right[] = {
   POS(474, 7)
 };
 
+static FUNCTION_INFO i_func_2_check_right = {
+  t_func_2_check_right, NULL, 2, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_46[] = {
   0, // locals
   0, // parameters
   //  my_value
   LET, 1, var_464_39_my_value, TAIL_CALL,
   POS(476, 11)
+};
+
+static FUNCTION_INFO i_lambda_46 = {
+  t_lambda_46, NULL, 1, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_47[] = {
@@ -1277,6 +1719,11 @@ static TAB_NUM t_lambda_47[] = {
   POS(477, 37),
   POS(477, 12),
   POS(477, 11)
+};
+
+static FUNCTION_INFO i_lambda_47 = {
+  t_lambda_47, NULL, 3, 0,
+  {}
 };
 
 static TAB_NUM t_func_map_reduce_2[] = {
@@ -1294,7 +1741,14 @@ static TAB_NUM t_func_map_reduce_2[] = {
   POS(480, 5),
   POS(481, 5),
   POS(483, 12),
-  POS(482, 5)
+  POS(482, 5),
+  LOCAL(2),
+  LOCAL(3)
+};
+
+static FUNCTION_INFO i_func_map_reduce_2 = {
+  t_func_map_reduce_2, NULL, 4, 2,
+  {"479_19_inner_node\000", "480_30_my_key\000"}
 };
 
 static TAB_NUM t_lambda_48[] = {
@@ -1311,6 +1765,11 @@ static TAB_NUM t_lambda_48[] = {
   POS(487, 9)
 };
 
+static FUNCTION_INFO i_lambda_48 = {
+  t_lambda_48, NULL, 3, 0,
+  {}
+};
+
 static TAB_NUM t_func_3_check_right[] = {
   1, // locals
   0, // parameters
@@ -1322,12 +1781,22 @@ static TAB_NUM t_func_3_check_right[] = {
   POS(490, 7)
 };
 
+static FUNCTION_INFO i_func_3_check_right = {
+  t_func_3_check_right, NULL, 2, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_49[] = {
   0, // locals
   0, // parameters
   //  my_value
   LET, 1, var_480_38_my_value, TAIL_CALL,
   POS(492, 11)
+};
+
+static FUNCTION_INFO i_lambda_49 = {
+  t_lambda_49, NULL, 1, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_50[] = {
@@ -1344,6 +1813,11 @@ static TAB_NUM t_lambda_50[] = {
   POS(493, 11)
 };
 
+static FUNCTION_INFO i_lambda_50 = {
+  t_lambda_50, NULL, 3, 0,
+  {}
+};
+
 static TAB_NUM t_func_basic_collections__empty_binary_node___validate[] = {
   1, // locals
   3, // parameters
@@ -1353,6 +1827,11 @@ static TAB_NUM t_func_basic_collections__empty_binary_node___validate[] = {
   // -> 0
   LET, 1, num_0, TAIL_CALL,
   POS(498, 68)
+};
+
+static FUNCTION_INFO i_func_basic_collections__empty_binary_node___validate = {
+  t_func_basic_collections__empty_binary_node___validate, NULL, 1, 0,
+  {}
 };
 
 static TAB_NUM t_func_node___validate[] = {
@@ -1390,7 +1869,15 @@ static TAB_NUM t_func_node___validate[] = {
   POS(511, 6),
   POS(511, 31),
   POS(511, 6),
-  POS(511, 3)
+  POS(511, 3),
+  LOCAL(7),
+  LOCAL(6),
+  LOCAL(5)
+};
+
+static FUNCTION_INFO i_func_node___validate = {
+  t_func_node___validate, NULL, 10, 3,
+  {"501_15_right\000", "501_9_left\000", "500_18_self\000"}
 };
 
 static TAB_NUM t_lambda_51[] = {
@@ -1402,6 +1889,11 @@ static TAB_NUM t_lambda_51[] = {
   LET, 1, LOCAL(1), TAIL_CALL,
   POS(504, 25),
   POS(504, 25)
+};
+
+static FUNCTION_INFO i_lambda_51 = {
+  t_lambda_51, NULL, 2, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_52[] = {
@@ -1418,6 +1910,11 @@ static TAB_NUM t_lambda_52[] = {
   POS(505, 7)
 };
 
+static FUNCTION_INFO i_lambda_52 = {
+  t_lambda_52, NULL, 3, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_53[] = {
   1, // locals
   0, // parameters
@@ -1427,6 +1924,11 @@ static TAB_NUM t_lambda_53[] = {
   LET, 1, LOCAL(1), TAIL_CALL,
   POS(505, 32),
   POS(505, 26)
+};
+
+static FUNCTION_INFO i_lambda_53 = {
+  t_lambda_53, NULL, 2, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_54[] = {
@@ -1447,6 +1949,11 @@ static TAB_NUM t_lambda_54[] = {
   POS(507, 20),
   POS(507, 7),
   POS(509, 7)
+};
+
+static FUNCTION_INFO i_lambda_54 = {
+  t_lambda_54, NULL, 5, 0,
+  {}
 };
 
 static TAB_NUM t_func_std_types__binary_table___validate[] = {
@@ -1470,7 +1977,13 @@ static TAB_NUM t_func_std_types__binary_table___validate[] = {
   POS(515, 3),
   POS(517, 5),
   POS(517, 5),
-  POS(516, 3)
+  POS(516, 3),
+  LOCAL(3)
+};
+
+static FUNCTION_INFO i_func_std_types__binary_table___validate = {
+  t_func_std_types__binary_table___validate, NULL, 6, 1,
+  {"513_37_self\000"}
 };
 
 static TAB_NUM t_lambda_55[] = {
@@ -1487,6 +2000,11 @@ static TAB_NUM t_lambda_55[] = {
   POS(520, 7)
 };
 
+static FUNCTION_INFO i_lambda_55 = {
+  t_lambda_55, NULL, 3, 0,
+  {}
+};
+
 static int tuple_73_1_arguments[] = {
   -var_undefined, -var_undefined, -var_undefined, -var_undefined, -num_0
 };
@@ -1500,106 +2018,106 @@ static FUNKY_CONSTANT constants_table[] = {
   {FLT_POSITIVE_INT64, 0, {.value = 0}},
   {FLT_TUPLE, 4, {.arguments = tuple_76_1_arguments}},
   {FLT_UNIQUE, 0, {.str_8 = "NONE"}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std_types__binary_table}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_1}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_2}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_value_is_defined}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_3}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_4}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std_types__binary_table}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_1}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_2}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_value_is_defined}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_3}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_4}},
   {FLT_POSITIVE_INT64, 0, {.value = 1}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_5}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_6}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_7}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_basic_collections__empty_binary_node___retrieve}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_basic_collections__retrieve_method}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_8}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_9}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_10}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_11}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_basic_collections__empty_binary_node___insert}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_node___insert}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_12}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_13}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_14}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_15}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_16}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_fetch_first}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_17}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_18}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_basic_collections__empty_binary_node___delete}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_node___delete}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_19}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_20}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_21}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_22}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_23}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_24}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_25}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_26}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_27}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_28}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_29}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_30}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_finish___for_each_1_call}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_finish___for_each_2_call}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_empty_binary_node___for_each_1_left}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_5}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_6}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_7}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_basic_collections__empty_binary_node___retrieve}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_basic_collections__retrieve_method}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_8}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_9}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_10}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_11}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_basic_collections__empty_binary_node___insert}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_node___insert}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_12}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_13}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_14}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_15}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_16}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_fetch_first}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_17}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_18}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_basic_collections__empty_binary_node___delete}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_node___delete}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_19}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_20}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_21}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_22}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_23}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_24}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_25}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_26}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_27}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_28}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_29}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_30}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_finish___for_each_1_call}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_finish___for_each_2_call}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_empty_binary_node___for_each_1_left}},
   {FLT_NEGATIVE_INT64, 0, {.value = 1}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_empty_binary_node___for_each_2_left}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_basic_collections__for_each_1_left_method}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_basic_collections__for_each_2_left_method}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_basic_collections__for_each_1_call_method}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_basic_collections__for_each_2_call_method}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_basic_collections__for_each_1_right_method}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_basic_collections__for_each_2_right_method}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std_types__binary_table___for_each}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_31}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_empty_binary_node___for_each_2_left}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_basic_collections__for_each_1_left_method}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_basic_collections__for_each_2_left_method}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_basic_collections__for_each_1_call_method}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_basic_collections__for_each_2_call_method}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_basic_collections__for_each_1_right_method}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_basic_collections__for_each_2_right_method}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std_types__binary_table___for_each}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_31}},
   {FLT_POSITIVE_INT64, 0, {.value = 2}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_32}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_next}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_33}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_2_next}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_basic_collections__empty_binary_node___map_1}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_basic_collections__empty_binary_node___map_2}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_basic_collections__map_1_method}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_basic_collections__map_2_method}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std_types__binary_table___map}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_34}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_35}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std_types__binary_table___reduce}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_36}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_37}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_reduce}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_38}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_check_right}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_39}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_40}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std_types__binary_table___map_reduce}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_41}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_42}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_43}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_44}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_map_reduce_1}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_45}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_2_check_right}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_46}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_47}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_map_reduce_2}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_48}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_3_check_right}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_49}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_50}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_basic_collections__empty_binary_node___validate}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_node___validate}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_51}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_52}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_53}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_54}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_32}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_next}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_33}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_2_next}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_basic_collections__empty_binary_node___map_1}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_basic_collections__empty_binary_node___map_2}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_basic_collections__map_1_method}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_basic_collections__map_2_method}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std_types__binary_table___map}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_34}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_35}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std_types__binary_table___reduce}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_36}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_37}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_reduce}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_38}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_check_right}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_39}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_40}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std_types__binary_table___map_reduce}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_41}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_42}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_43}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_44}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_map_reduce_1}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_45}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_2_check_right}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_46}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_47}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_map_reduce_2}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_48}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_3_check_right}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_49}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_50}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_basic_collections__empty_binary_node___validate}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_node___validate}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_51}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_52}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_53}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_54}},
   {FLT_CHARACTER, 0, {.value = 91}},
   {FLT_CHARACTER, 0, {.value = 93}},
   {FLT_STRING_8, 3, {.str_8 = " < "}},
   {FLT_STRING_8, 9, {.str_8 = " failed!\012"}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std_types__binary_table___validate}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_55}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std_types__binary_table___validate}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_55}},
   {FLT_STRING_8, 15, {.str_8 = "Table contains "}},
   {FLT_STRING_8, 18, {.str_8 = " entries (stored: "}},
   {FLT_STRING_8, 2, {.str_8 = ")\012"}}
@@ -2348,7 +2866,7 @@ FUNKY_MODULE module__basic__types__collections__tables__binary_table = {
   "basic/types/collections/tables/binary_table.fky", // module filename
   .major_version = 0,
   .minor_version = 0,
-  .feature_flags = FEAT_POSITIONS,
+  .feature_flags = FEAT_POSITIONS|FEAT_FUNCTION_INFO,
   .marker = 0,
   0, // number of required modules
   0, // number of defined namespaces

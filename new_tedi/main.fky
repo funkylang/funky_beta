@@ -42,7 +42,7 @@
 <using tedi>
 
 $tedi::application_name "TEDI"
-$tedi::version "0.11.0"
+$tedi::version "0.12.0"
 $tedi::author "Michael Niederle"
 
 $tedi::tty_filename undefined
@@ -309,8 +309,10 @@ $tedi::main:
 	-> undefined undefined
 
     $update_terminal:
+      !global_info global_info_of(state)
       if
 	window_manager_of(state).needs_updating:
+	  set_status_line &state
 	  prepare_update &state.window_manager_of &state.terminal_of
 	    $update_ranges
 	  map $updates update_ranges: (update_range)
@@ -351,6 +353,7 @@ $tedi::files_to_load_of () # a list of filenames
 $tedi::files_to_save_of () # a list of window ids
 $tedi::text_window_id_of ()
 $tedi::clipboard_contents_of ()
+$tedi::global_info_of ()
 
 $tedi::handle_key_press ()
 $tedi::handle_paste_string ()
@@ -373,6 +376,11 @@ $tedi_types::state tedi_types::basic_state
   .files_to_save_of empty_list
   .text_window_id_of undefined # the target window of the current command box
   .clipboard_contents_of undefined
+  .global_info_of tedi_types::global_info
+
+$tedi_types::global_info std_types::object
+
+$tedi::global_info undefined # read-only global information
 
 # Job Methods
 
@@ -493,7 +501,7 @@ $LOAD_FILE/job_failed: (_self io state err info)
     could not load file "@(filename)"
   create_or_update_page io state "" info
 
-$create_or_update_page: (io state text info)
+$tedi::create_or_update_page: (io state text info)
   if $filename $do_focus $line_no $column_no
     info.is_a_tuple
     info
@@ -501,8 +509,12 @@ $create_or_update_page: (io state text info)
   $new_page create_page_from_text(text state filename)
   for_each window_manager_of(state)
     : (id page)
+      $kind kind_of(page)
       if
-	kind_of(page) == TEDI && filename_of(page) == filename:
+	&&
+	  kind == TEDI || kind == C
+	  filename_of(page) == filename
+	:
 	  set_content &state.window_manager_of id new_page
 	  if
 	    do_focus:

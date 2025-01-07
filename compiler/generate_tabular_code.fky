@@ -68,7 +68,7 @@ $funky::generate_tabular_code: (top_level_statements is_a_main_module)
 	  variable_count > 0
 	  -> "  variables_table,"
 	  -> "  NULL, // no variables"
-      $feature_flags "FEAT_POSITIONS"
+      $feature_flags "FEAT_POSITIONS|FEAT_FUNCTION_INFO"
       update_if top_level_statements.is_not_empty && not(is_a_main_module)
 	&feature_flags: append feature_flags "|FEAT_INITIALIZER"
       append
@@ -194,7 +194,7 @@ $funky::generate_tabular_code: (top_level_statements is_a_main_module)
 	      :
 		append buf "
 		  @
-		    {FLT_FUNCTION, 0, {.tfunc = t_module_entry}}
+		    {FLT_FUNCTION, 0, {.func_info = &i_module_entry}}
 		  };
 
       $variables_enum:
@@ -230,8 +230,9 @@ $funky::generate_tabular_code: (top_level_statements is_a_main_module)
 	  : (name info)
 	    info $kind $value
 	    if
-	      kind.is_local_or_constant
-	      -> ""
+	      kind.is_local_or_constant:
+		#debug::dump `name `kind
+		-> ""
 	      :
 		retrieve_base_and_method_count $base $method_count name
 		$namespace name .before. "::"
@@ -470,13 +471,32 @@ $funky::generate_tabular_code: (top_level_statements is_a_main_module)
 	      next
 	  -> local_mapping temp_count
 	$n length_of(statements)
+	$local_count length_of(local_mapping)
+	$local_positions
+	  map_reduce
+	    local_mapping
+	    : (_identifier idx) -> ",@nl;  LOCAL(@(temp_count+idx))"
+	    append
+	    ""
+	$locals
+	  map_reduce
+	    local_mapping
+	    : (identifier _idx) -> "@quot;@(identifier)\000@quot;"
+	    concatenate(", ")
+	    ""
 	-> "
 
 	  static TAB_NUM t_@(name)[] = {
 	    @(temp_count+length_of(local_mapping)), // locals
 	  @(add_parameters())@
 	  @(map_reduce(statements: (idx statement) compile statement idx == n))@
-	  @(range(map_reduce(statements add_source_positions) 1 -3))
+	  @(range(map_reduce(statements add_source_positions) 1 -3))@
+	  @(local_positions)
+	  };
+
+	  static FUNCTION_INFO i_@(name) = {
+	    t_@(name), NULL, @(n), @(local_count),
+	    {@(locals)}
 	  };
 
 	$add_parameters:
@@ -820,7 +840,7 @@ $funky::generate_tabular_code: (top_level_statements is_a_main_module)
     $mangled_name mangled_literals(self)
     -> "
       @
-	{FLT_FUNCTION, 0, {.tfunc = t_@(mangled_name)}},
+	{FLT_FUNCTION, 0, {.func_info = &i_@(mangled_name)}},
 
 $is_a_valid_statement: (statement)
   if

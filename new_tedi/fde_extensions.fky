@@ -56,22 +56,42 @@ $LOAD_SYMBOLS/job_failed: (_self io state _buf _context)
 
 $fde::symbols_of ()
 $continuation_of ()
-$debug_fd_of ()
-$watch_window_id_of ()
-$instruction_pointer_of ()
-$do_skip_initializers_of ()
 $executable_of ()
-$modules_of ()
+$debug_data_of ()
 
 $tedi_types::state
   .symbols_of undefined
   .continuation_of undefined
+  .executable_of undefined
+  .debug_data_of undefined
+
+$debug_fd_of ()
+$watch_window_id_of ()
+$instruction_counter_of ()
+$do_skip_initializers_of ()
+$stop_position_of ()
+$modules_of ()
+$module_names_of ()
+
+$fde_types::debug_data std_types::object
   .debug_fd_of undefined
   .watch_window_id_of undefined
-  .instruction_pointer_of undefined
+  .instruction_counter_of undefined
   .do_skip_initializers_of false
-  .executable_of undefined
+  .stop_position_of undefined
   .modules_of undefined
+  .module_names_of undefined
+
+$fde::debug_position_of ()
+
+$tedi_types::global_info
+  .debug_position_of undefined
+
+$positions_of ()
+
+$fde_types::module_info std_types::object
+  .filename_of undefined
+  .positions_of undefined
 
 $COMPILE .
 $RUN .
@@ -174,13 +194,21 @@ push &plugins symbol_plugin
 
 $tedi_types::state/set_status_line: (state)
   $page get_content(window_manager_of(state))
-  get_xy page window_manager_of(state) $x $y
-  $status "@(y):@(x) (@(height_of(page)):@(width_of(page)))"
-  update_if instruction_pointer_of(state).is_defined &status
-    -> "
-      @(status) [@(instruction_pointer_of(state))]
-  set_status &state.window_manager_of status
-  -> state
+  if
+    page.is_defined && kind_of(page) == TEDI:
+      get_xy page window_manager_of(state) $x $y
+      $status "@(y):@(x) (@(height_of(page)):@(width_of(page)))"
+      $debug_data debug_data_of(state)
+      update_if
+	&&
+	  debug_data.is_defined
+	  instruction_counter_of(debug_data).is_defined
+	&status
+	-> "
+	  @(status) [@(instruction_counter_of(debug_data))]
+      set_status &state.window_manager_of status
+      -> state
+    -> state
 
 $context_help: (io state x y lines _info)
   $symbols symbols_of(state)
@@ -314,7 +342,6 @@ $COMPILE/job_failed: (_self io state info _context)
   $show_error: (page)
     goto_xy &page &state.window_manager_of column_no line_no
     set_content &state.window_manager_of page
-    set_status_line &state
     log &io -> "
       failed to compile "@(filename)"
     show_error_message &state COMPILE err
@@ -330,24 +357,32 @@ $COMPILE/job_completed: (_self io state _info filename)
     -> io state
 
 $run_program: (io state x y lines info)
-  !state.continuation_of start_program
-  compile io state x y lines info
+  $debug_data debug_data_of(state)
+  if
+    debug_data.is_defined:
+      log &io "run"
+      write &io debug_fd_of(debug_data) "
+	c
+      -> io state
+    :
+      !state.continuation_of start_program
+      compile io state x y lines info
 
 $start_or_stop_debugging: (io state x y lines info)
-  $debug_fd debug_fd_of(state)
+  $debug_data debug_data_of(state)
   if
-    debug_fd.is_defined: # stop debugging
-      log &io "stopping debugging ..."
-      write &io debug_fd "
+    debug_data.is_defined && debug_fd_of(debug_data).is_defined:
+      log &io "stop debugging ..."
+      write &io debug_fd_of(debug_data) "
 	q
-      $watch_window_id watch_window_id_of(state)
+      $watch_window_id watch_window_id_of(debug_data)
+      !state.debug_data_of undefined
       if
 	watch_window_id.is_defined:
 	  close &state.window_manager_of watch_window_id
-	  !state.watch_window_id_of undefined
 	  -> io state
 	-> io state
-    :
+    : # start debugging
       !state.continuation_of debug_program
       compile io state x y lines info
 
@@ -418,16 +453,20 @@ $FINISH .
 $DEBUG/job_completed: (_self io state cmd argument)
   case cmd
     START:
-      !state.debug_fd_of argument
+      $debug_data debug_data_of(state)
+      update_if debug_data.is_undefined &debug_data -> fde_types::debug_data
+      !debug_data.debug_fd_of argument
+      !state.debug_data_of debug_data
       show_status_message &state "debugging started"
       -> io state
     PROMPT:
-      $debug_fd debug_fd_of(state)
-      update_if do_skip_initializers_of(state) &io:
+      $debug_data debug_data_of(state)
+      $debug_fd debug_fd_of(debug_data)
+      update_if do_skip_initializers_of(debug_data) &io:
 	write io debug_fd "
 	  I
-      !state.do_skip_initializers_of false
-      log &io 4 argument
+      !debug_data.do_skip_initializers_of false
+      ##log &io 4 argument
       $prompt_lines split(argument '@nl;')
       for_each prompt_lines
 	: (line)
@@ -436,39 +475,76 @@ $DEBUG/job_completed: (_self io state cmd argument)
 	    next
 	    :
 	      $tag line(1)
-	      range &line 3 -1
+	      $buf range(line 3 -1)
 	      case tag
 		'E':
-		  show_error_message &state DEBUG line
+		  log &io 2 line
+		  show_error_message &state DEBUG buf
 		  next
+		'c': # code position
+		  $filename buf .truncate_from. ':'
+		  $modules modules_of(debug_data)
+		  if
+		    modules.is_defined && modules(filename).is_defined:
+		      $positions empty_list
+		      loop
+			:
+			  behind &buf ':'
+			  if
+			    buf.is_empty
+			    break
+			    :
+			      $line_no (buf .truncate_from. ':').to_integer
+			      behind &buf ':'
+			      $column_no (buf .truncate_from. ':').to_integer
+			      push &positions tuple(line_no column_no)
+			      next
+			:
+			  !debug_data.modules_of(filename).positions_of
+			    sort(positions)
+			  next
+		    next
 		'm': # module
-		  $path line .before. '/'
-		  $filename
-		    case
-		      path
-		      "basic", "terminal", "ai", "web": # libraries
-			append
-			  installation_prefix()
-			  "/share/funky-" package_version()
-			  "/source/"
-			  line
-		      :
-			append until(executable_of(state) '/' -1) line
-		  !state.modules_of(line) filename
-		  next
+		  for_each split(buf ':')
+		    : (module_name)
+		      $path module_name .before. '/'
+		      $filename
+			case
+			  path
+			  "basic", "terminal", "ai", "web": # libraries
+			    append
+			      installation_prefix()
+			      "/share/funky-" package_version()
+			      "/source/"
+			      module_name
+			  :
+			    append
+			      until(executable_of(state) '/' -1)
+			      module_name
+		      !debug_data.modules_of(module_name)
+			fde_types::module_info(.filename_of filename)
+		      !debug_data.module_names_of(filename) module_name
+		      write &io debug_fd "
+			lc @(module_name)
+		      next
+		    :
+		      write &io debug_fd "
+			P ready
+		      next
 		'p':
-		  parse_integer &line $instruction_pointer
+		  log &io 4 line
+		  parse_integer &buf $instruction_counter
 		  if
 		    &&
-		      instruction_pointer.is_defined
-		      instruction_pointer != instruction_pointer_of(state)
+		      instruction_counter.is_defined
+		      instruction_counter != instruction_counter_of(debug_data)
 		    :
-		      !state.instruction_pointer_of instruction_pointer
-		      set_status_line &state
+		      !debug_data.instruction_counter_of instruction_counter
 		      update_watches &io &state
 		      if
-			modules_of(state).is_undefined:
-			  !state.modules_of empty_hash_table
+			modules_of(debug_data).is_undefined:
+			  !debug_data.modules_of empty_hash_table
+			  !debug_data.module_names_of empty_hash_table
 			  write &io debug_fd "
 			    lm
 			  get_trace
@@ -479,8 +555,23 @@ $DEBUG/job_completed: (_self io state cmd argument)
 			  t
 			next
 		    next
+		'P':
+		  log &io 3 line
+		  case buf
+		    "ready":
+		      $stop_position stop_position_of(debug_data)
+		      if
+			stop_position.is_defined:
+			  !debug_data.stop_position_of undefined
+			  stop_position $filename $column_no $line_no
+			  !state.debug_data_of debug_data
+			  run_to_position &io &state filename column_no line_no
+			  next
+			next
+		    next
 		's': # symbol
-		  $n length_of(line)
+		  log &io 4 line
+		  $n length_of(buf)
 		  $i 1
 		  loop
 		    :
@@ -489,50 +580,62 @@ $DEBUG/job_completed: (_self io state cmd argument)
 			break
 			:
 			  if
-			    line(i) == ':':
+			    buf(i) == ':':
 			      if
-				i < n && line(i+1) == ':':
+				i < n && buf(i+1) == ':':
 				  plus &i 2
 				  next
 				:
-				  $symbol range(line 1 i-1)
-				  $value range(line i+1 -1)
+				  $symbol range(buf 1 i-1)
+				  $value range(buf i+1 -1)
+				  !state.debug_data_of debug_data
 				  add_watch &io &state symbol value
+				  !debug_data debug_data_of(state)
 				  break
 			    :
 			      inc &i
 			      next
 		    next
 		't':
-		  $filename line .before. ':'
-		  $line_no between(line ':' ':')
-		  $column_no behind(line ':' 2)
+		  log &io 4 line
+		  $filename buf .before. ':'
+		  $line_no between(buf ':' ':')
+		  $column_no behind(buf ':' 2)
 		  if
 		    line_no.is_empty next
 		    :
 		      to_integer &line_no
 		      to_integer &column_no
-		      open_window &state
-			modules_of(state)(filename) line_no column_no
+		      !filename filename_of(modules_of(debug_data)(filename))
+		      !state.global_info_of.debug_position_of
+			tuple(filename line_no column_no)
+		      open_window &state filename line_no column_no
+		      !state.debug_data_of debug_data
+		      set_status_line &state
 		      next
-		next
+		:
+		  log &io 2 line
+		  next
 	:
+	  !state.debug_data_of debug_data
 	  load_files io state
     FINISH:
-      !state.debug_fd_of undefined
-      !state.instruction_pointer_of undefined
+      !state.debug_data_of undefined
+      !state.global_info_of.debug_position_of undefined
       show_status_message &state DEBUG "debugging finished"
       -> io state
     -> io state
 
 $add_watch: (io state symbol value)
-  $watch_window_id watch_window_id_of(state)
+  $watch_window_id watch_window_id_of(debug_data_of(state))
   if
     watch_window_id.is_undefined:
       $page add(fde_types::watch_page symbol value)
-      create_window &state.window_manager_of !state.watch_window_id_of
+      create_window &state.window_manager_of
+	!state.debug_data_of.watch_window_id_of
 	CONTENT = page
 	TITLE = "Watches"
+	AS_FIRST
 	DO_NOT_FOCUS
       -> io state
     :
@@ -542,14 +645,15 @@ $add_watch: (io state symbol value)
       -> io state
 
 $update_watches: (io state)
-  $watch_window_id watch_window_id_of(state)
+  $debug_data debug_data_of(state)
+  $watch_window_id watch_window_id_of(debug_data)
   if
     watch_window_id.is_defined:
       $watch_page get_content(window_manager_of(state) watch_window_id)
       for_each items_of(watch_page)
 	: (item)
 	  item $symbol
-	  write &io debug_fd_of(state) "
+	  write &io debug_fd_of(debug_data) "
 	    p @(symbol)
 	  next
 	-> io state
@@ -564,7 +668,7 @@ $open_window: (state filename line_no column_no)
 	  if
 	    line_no.is_defined:
 	      goto_xy &page &state.window_manager_of column_no line_no
-	      set_status_line state
+	      -> state
 	    -> state
 	next
     :
@@ -582,7 +686,7 @@ $read_debug_output_failed: (io _fd err)
 
 $read_debug_error_output: (io _fd data)
   debug::println "debug error output:"
-  debug::dump `data
+  debug::println data
   -> io undefined
 
 $read_debug_error_output_failed: (io _fd err)
@@ -600,122 +704,159 @@ $debug_finished: (io pid status)
   -> io tuple(JOB_COMPLETED DEBUG FINISH)
 
 $step_into: (io state _x _y _lines _info)
-  $debug_fd debug_fd_of(state)
+  $debug_data debug_data_of(state)
   if
-    debug_fd.is_undefined:
+    debug_data.is_undefined:
       show_warning_message &state DEBUG "
 	You can't step into in a program that is not being debugged!
       -> io state
     :
       log &io 3 "step into"
-      write &io debug_fd "
+      write &io debug_fd_of(debug_data) "
 	s
       -> io state
 
 $step_into_backwards: (io state _x _y _lines _info)
-  $debug_fd debug_fd_of(state)
+  $debug_data debug_data_of(state)
   if
-    debug_fd.is_undefined:
+    debug_data.is_undefined:
       show_warning_message &state DEBUG "
 	You can't step into backwards in a program that is not being debugged!
       -> io state
     :
       log &io 3 "step into backwards"
-      write &io debug_fd "
+      write &io debug_fd_of(debug_data) "
 	S
       -> io state
 
 $step_over: (io state _x _y _lines _info)
-  $debug_fd debug_fd_of(state)
+  $debug_data debug_data_of(state)
   if
-    debug_fd.is_undefined:
+    debug_data.is_undefined:
       show_warning_message &state DEBUG "
 	You can't step over in a program that is not being debugged!
       -> io state
     :
       log &io 3 "step over"
-      write &io debug_fd "
+      write &io debug_fd_of(debug_data) "
 	n
       -> io state
 
 $step_over_backwards: (io state _x _y _lines _info)
-  $debug_fd debug_fd_of(state)
+  $debug_data debug_data_of(state)
   if
-    debug_fd.is_undefined:
+    debug_data.is_undefined:
       show_warning_message &state DEBUG "
 	You can't step over backwards in a program that is not being debugged!
       -> io state
     :
       log &io 3 "step over backwards"
-      write &io debug_fd "
+      write &io debug_fd_of(debug_data) "
 	N
       -> io state
 
 $skip_initializers: (io state x y lines info)
-  $debug_fd debug_fd_of(state)
+  $debug_data debug_data_of(state)
   if
-    debug_fd.is_undefined:
-      !state.do_skip_initializers_of true
-      start_or_stop_debugging io state x y lines info
-    :
-      write &io debug_fd "
+    debug_data.is_defined && debug_fd_of(debug_data).is_defined:
+      write &io debug_fd_of(debug_data) "
 	I
       -> io state
-
-$run_to_cursor: (io state _x _y _lines _info)
-  $debug_fd debug_fd_of(state)
-  if
-    debug_fd.is_undefined:
-      show_warning_message &state DEBUG "
-	You can't run to cursor in a program that is not being debugged!
-      -> io state
     :
-      log &io 3 "run to cursor"
-      -> io state
+      update_if debug_data.is_undefined &debug_data -> fde_types::debug_data
+      !debug_data.do_skip_initializers_of true
+      !state.debug_data_of debug_data
+      start_or_stop_debugging io state x y lines info
 
-$run_to_cursor_backwards: (io state _x _y _lines _info)
-  $debug_fd debug_fd_of(state)
+$run_to_cursor: (io state x y lines info)
+  $page get_content(window_manager_of(state))
+  $filename filename_of(page)
+  $debug_data debug_data_of(state)
   if
-    debug_fd.is_undefined:
+    debug_data.is_defined && debug_fd_of(debug_data).is_defined:
+      run_to_position io state filename x y
+    :
+      update_if debug_data.is_undefined &debug_data -> fde_types::debug_data
+      !debug_data.stop_position_of tuple(filename x y)
+      !state.debug_data_of debug_data
+      start_or_stop_debugging io state x y lines info
+
+$run_to_position: (io state filename x y)
+  $debug_data debug_data_of(state)
+  $module_name module_names_of(debug_data)(filename)
+  $module modules_of(debug_data)(module_name)
+  # ATTENTION: a binary search would be more efficient
+  for_each positions_of(module)
+    : (position)
+      position $line_no $column_no
+      if
+	(line_no >= y && column_no >= x) || line_no > y:
+	  log &io 3 "
+	    running to line @(line_no) column @(column_no)
+	  write &io debug_fd_of(debug_data) "
+	    r @(module_name):@(line_no):@(column_no)
+	  -> io state
+	next
+    -> io state
+
+$run_to_cursor_backwards: (io state x y _lines _info)
+  $debug_data debug_data_of(state)
+  if
+    debug_data.is_undefined || debug_fd_of(debug_data).is_undefined:
       show_warning_message &state DEBUG "
 	You can't run to cursor backwards in a program that is not being @
 	debugged!
       -> io state
     :
-      log &io 3 "run to cursor backwards"
-      -> io state
+      $page get_content(window_manager_of(state))
+      $filename filename_of(page)
+      $module_name module_names_of(debug_data)(filename)
+      $module modules_of(debug_data)(module_name)
+      # ATTENTION: a binary search would be more efficient
+      for_each positions_of(module)
+	: (position)
+	  position $line_no $column_no
+	  if
+	    (line_no >= y && column_no >= x) || line_no > y:
+	      log &io 3 "
+		running backwards to line @(line_no) column @(column_no)
+	      write &io debug_fd_of(debug_data) "
+		R @(module_name):@(line_no):@(column_no)
+	      -> io state
+	    next
+	-> io state
 
 $exit_function: (io state _x _y _lines _info)
-  $debug_fd debug_fd_of(state)
+  $debug_data debug_data_of(state)
   if
-    debug_fd.is_undefined:
+    debug_data.is_undefined || debug_fd_of(debug_data).is_undefined:
       show_warning_message &state DEBUG "
 	You can't exit a function in a program that is not being debugged!
       -> io state
     :
       log &io 3 "exit function"
-      write &io debug_fd "
+      write &io debug_fd_of(debug_data) "
 	e
       -> io state
 
 $exit_function_backwards: (io state _x _y _lines _info)
-  $debug_fd debug_fd_of(state)
+  $debug_data debug_data_of(state)
   if
-    debug_fd.is_undefined:
+    debug_data.is_undefined || debug_fd_of(debug_data).is_undefined:
       show_warning_message &state DEBUG "
 	You can't exit a function backwards in a program that is not being @
 	debugged!
       -> io state
     :
       log &io 3 "exit function backwards"
-      write &io debug_fd "
+      write &io debug_fd_of(debug_data) "
 	E
       -> io state
 
 $toggle_breakpoint: (io state _x _y _lines _info)
-  $debug_fd debug_fd_of(state)
+  $debug_data debug_data_of(state)
   if
-    debug_fd.is_undefined:
+    debug_data.is_undefined || debug_fd_of(debug_data).is_undefined:
       show_warning_message &state DEBUG "
 	You can't toggle a breakpoint in a program that is not being debugged!
       -> io state
@@ -724,9 +865,9 @@ $toggle_breakpoint: (io state _x _y _lines _info)
       -> io state
 
 $add_or_remove_watch: (io state x y lines _info)
-  $debug_fd debug_fd_of(state)
+  $debug_data debug_data_of(state)
   if
-    debug_fd.is_undefined:
+    debug_data.is_undefined || debug_fd_of(debug_data).is_undefined:
       show_warning_message &state DEBUG "
 	You can only add watches while debugging!
       -> io state
@@ -753,11 +894,11 @@ $add_or_remove_watch: (io state x y lines _info)
 		      without_prefix(filename library_prefix)
 		      '/' = "__"
 		  -> without_prefix(filename until(executable_of(state) '/' -1))
-	    get_mangled_variable_name lines_of(page)
+	    get_mangled_variable_name lines_of(page) symbols_of(state)
 	      x y identifier module_prefix
 	  if
 	    identifier.is_defined:
-	      $watch_window_id watch_window_id_of(state)
+	      $watch_window_id watch_window_id_of(debug_data)
 	      if
 		watch_window_id.is_defined:
 		  $watch_page
@@ -770,9 +911,8 @@ $add_or_remove_watch: (io state x y lines _info)
 		      if
 			watch_page.is_empty:
 			  close &state.window_manager_of watch_window_id
-			  !state.watch_window_id_of undefined
+			  !state.debug_data_of.watch_window_id_of undefined
 			  -> io state
-
 			:
 			  set_content
 			    &state.window_manager_of watch_window_id watch_page
@@ -783,14 +923,15 @@ $add_or_remove_watch: (io state x y lines _info)
 	      $add_a_watch:
 		log &io 3 "
 		  add watch for "@(identifier)"
-		write &io debug_fd "
+		write &io debug_fd_of(debug_data) "
 		  p @(identifier)
 		-> io state
 	    -> io state
 
 $context_help_or_add_or_remove_watch: (io state x y lines info)
+  $debug_data debug_data_of(state)
   if
-    debug_fd_of(state).is_defined:
+    debug_data.is_defined && debug_fd_of(debug_data).is_defined:
       add_or_remove_watch io state x y lines info
     :
       context_help io state x y lines info
@@ -810,12 +951,13 @@ $fde_types::watch_page std_types::object
 
 $fde_types::watch_page/add: (page symbol value)
   # check if the symbol is already watched
+  $name symbol_to_name(symbol)
   $items items_of(page)
   for_each items
     : (idx item)
       item $item_symbol $old_value
       if
-	item_symbol == symbol:
+	symbol == item_symbol:
 	  if
 	    value != old_value:
 	      !items(idx) tuple(symbol value)
@@ -823,8 +965,24 @@ $fde_types::watch_page/add: (page symbol value)
 		.first_screen_line_of undefined
 		.items_of items
 	    -> page
-	next
+	:
+	  if
+	    name < symbol_to_name(item_symbol):
+	      page
+		.first_screen_line_of undefined
+		.items_of
+		  append
+		    range(items 1 idx-1)
+		    list(tuple(symbol value))
+		    range(items idx -1)
+	    next
     -> page(.items_of push(items tuple(symbol value)))
+
+$symbol_to_name: (symbol)
+  if
+    symbol(1) == '_' # module local
+    -> behind(behind(symbol "::") '_' 2)
+    -> put(symbol '@@') # '@' has a code less than any letter
 
 $fde_types::watch_page/remove: (page symbol)
   $items items_of(page)

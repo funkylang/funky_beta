@@ -83,7 +83,13 @@ static TAB_NUM t_func_std_types__true___and[] = {
   LOCAL(2), // 396_5_right
   // right
   LOCAL(2), 0, TAIL_CALL,
-  POS(398, 3)
+  POS(398, 3),
+  LOCAL(2)
+};
+
+static FUNCTION_INFO i_func_std_types__true___and = {
+  t_func_std_types__true___and, NULL, 1, 1,
+  {"396_5_right\000"}
 };
 
 static TAB_NUM t_func_std_types__false___and[] = {
@@ -96,6 +102,11 @@ static TAB_NUM t_func_std_types__false___and[] = {
   POS(413, 3)
 };
 
+static FUNCTION_INFO i_func_std_types__false___and = {
+  t_func_std_types__false___and, NULL, 1, 0,
+  {}
+};
+
 static TAB_NUM t_func_std_types__true___or[] = {
   1, // locals
   2, // parameters
@@ -106,6 +117,11 @@ static TAB_NUM t_func_std_types__true___or[] = {
   POS(428, 3)
 };
 
+static FUNCTION_INFO i_func_std_types__true___or = {
+  t_func_std_types__true___or, NULL, 1, 0,
+  {}
+};
+
 static TAB_NUM t_func_std_types__false___or[] = {
   2, // locals
   2, // parameters
@@ -113,7 +129,13 @@ static TAB_NUM t_func_std_types__false___or[] = {
   LOCAL(2), // 442_5_right
   // right
   LOCAL(2), 0, TAIL_CALL,
-  POS(444, 3)
+  POS(444, 3),
+  LOCAL(2)
+};
+
+static FUNCTION_INFO i_func_std_types__false___or = {
+  t_func_std_types__false___or, NULL, 1, 1,
+  {"442_5_right\000"}
 };
 
 static TAB_NUM t_func_std_types__true___if[] = {
@@ -124,7 +146,13 @@ static TAB_NUM t_func_std_types__true___if[] = {
   LOCAL(1),
   // then!
   LOCAL(2), 0, IO_TAIL_CALL,
-  POS(460, 3)
+  POS(460, 3),
+  LOCAL(2)
+};
+
+static FUNCTION_INFO i_func_std_types__true___if = {
+  t_func_std_types__true___if, NULL, 1, 1,
+  {"457_5_then\000"}
 };
 
 static TAB_NUM t_func_std_types__false___if[] = {
@@ -135,7 +163,13 @@ static TAB_NUM t_func_std_types__false___if[] = {
   LOCAL(2), // 474_5_else
   // else!
   LOCAL(2), 0, IO_TAIL_CALL,
-  POS(476, 3)
+  POS(476, 3),
+  LOCAL(2)
+};
+
+static FUNCTION_INFO i_func_std_types__false___if = {
+  t_func_std_types__false___if, NULL, 1, 1,
+  {"474_5_else\000"}
 };
 
 static TAB_NUM t_func_std_types__true___if_not[] = {
@@ -146,7 +180,13 @@ static TAB_NUM t_func_std_types__true___if_not[] = {
   LOCAL(2), // 490_5_else
   // else!
   LOCAL(2), 0, IO_TAIL_CALL,
-  POS(492, 3)
+  POS(492, 3),
+  LOCAL(2)
+};
+
+static FUNCTION_INFO i_func_std_types__true___if_not = {
+  t_func_std_types__true___if_not, NULL, 1, 1,
+  {"490_5_else\000"}
 };
 
 static TAB_NUM t_func_std_types__false___if_not[] = {
@@ -157,7 +197,13 @@ static TAB_NUM t_func_std_types__false___if_not[] = {
   LOCAL(1),
   // then!
   LOCAL(2), 0, IO_TAIL_CALL,
-  POS(508, 3)
+  POS(508, 3),
+  LOCAL(2)
+};
+
+static FUNCTION_INFO i_func_std_types__false___if_not = {
+  t_func_std_types__false___if_not, NULL, 1, 1,
+  {"505_5_then\000"}
 };
 
 static TAB_NUM t_func_std_types__true___update_if[] = {
@@ -168,7 +214,13 @@ static TAB_NUM t_func_std_types__true___update_if[] = {
   MANDATORY_PARAMETER, LOCAL(2), // 520_5_body
   // body
   LOCAL(2), 0, TAIL_CALL,
-  POS(522, 3)
+  POS(522, 3),
+  LOCAL(2)
+};
+
+static FUNCTION_INFO i_func_std_types__true___update_if = {
+  t_func_std_types__true___update_if, NULL, 1, 1,
+  {"520_5_body\000"}
 };
 
 static TAB_NUM t_func_std_types__false___update_if[] = {
@@ -179,7 +231,13 @@ static TAB_NUM t_func_std_types__false___update_if[] = {
   MANDATORY_PARAMETER, LOCAL(1),
   // spread values
   var_spread, 1, LOCAL(2), TAIL_CALL,
-  POS(536, 3)
+  POS(536, 3),
+  LOCAL(2)
+};
+
+static FUNCTION_INFO i_func_std_types__false___update_if = {
+  t_func_std_types__false___update_if, NULL, 1, 1,
+  {"533_5_values\000"}
 };
 
 static TAB_NUM t_func_std_types__true___update_if_not[] = {
@@ -190,7 +248,13 @@ static TAB_NUM t_func_std_types__true___update_if_not[] = {
   MANDATORY_PARAMETER, LOCAL(1),
   // spread values
   var_spread, 1, LOCAL(2), TAIL_CALL,
-  POS(550, 3)
+  POS(550, 3),
+  LOCAL(2)
+};
+
+static FUNCTION_INFO i_func_std_types__true___update_if_not = {
+  t_func_std_types__true___update_if_not, NULL, 1, 1,
+  {"547_5_values\000"}
 };
 
 static TAB_NUM t_func_std_types__false___update_if_not[] = {
@@ -201,7 +265,13 @@ static TAB_NUM t_func_std_types__false___update_if_not[] = {
   MANDATORY_PARAMETER, LOCAL(2), // 562_5_body
   // body
   LOCAL(2), 0, TAIL_CALL,
-  POS(564, 3)
+  POS(564, 3),
+  LOCAL(2)
+};
+
+static FUNCTION_INFO i_func_std_types__false___update_if_not = {
+  t_func_std_types__false___update_if_not, NULL, 1, 1,
+  {"562_5_body\000"}
 };
 
 static TAB_NUM t_func_std_types__true___on[] = {
@@ -211,7 +281,13 @@ static TAB_NUM t_func_std_types__true___on[] = {
   LOCAL(2), // 577_5_action
   // action!
   LOCAL(2), 0, IO_TAIL_CALL,
-  POS(579, 3)
+  POS(579, 3),
+  LOCAL(2)
+};
+
+static FUNCTION_INFO i_func_std_types__true___on = {
+  t_func_std_types__true___on, NULL, 1, 1,
+  {"577_5_action\000"}
 };
 
 static TAB_NUM t_func_std_types__false___on[] = {
@@ -224,6 +300,11 @@ static TAB_NUM t_func_std_types__false___on[] = {
   POS(592, 3)
 };
 
+static FUNCTION_INFO i_func_std_types__false___on = {
+  t_func_std_types__false___on, NULL, 1, 0,
+  {}
+};
+
 static TAB_NUM t_func_std_types__true___on_not[] = {
   1, // locals
   2, // parameters
@@ -234,6 +315,11 @@ static TAB_NUM t_func_std_types__true___on_not[] = {
   POS(605, 3)
 };
 
+static FUNCTION_INFO i_func_std_types__true___on_not = {
+  t_func_std_types__true___on_not, NULL, 1, 0,
+  {}
+};
+
 static TAB_NUM t_func_std_types__false___on_not[] = {
   2, // locals
   2, // parameters
@@ -241,7 +327,13 @@ static TAB_NUM t_func_std_types__false___on_not[] = {
   LOCAL(2), // 618_5_action
   // action!
   LOCAL(2), 0, IO_TAIL_CALL,
-  POS(620, 3)
+  POS(620, 3),
+  LOCAL(2)
+};
+
+static FUNCTION_INFO i_func_std_types__false___on_not = {
+  t_func_std_types__false___on_not, NULL, 1, 1,
+  {"618_5_action\000"}
 };
 
 static TAB_NUM t_func_std_types__true___serialize[] = {
@@ -255,6 +347,11 @@ static TAB_NUM t_func_std_types__true___serialize[] = {
   var_if, 3, LOCAL(1), lambda_1, lambda_2, TAIL_CALL,
   POS(637, 12),
   POS(636, 3)
+};
+
+static FUNCTION_INFO i_func_std_types__true___serialize = {
+  t_func_std_types__true___serialize, NULL, 2, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_1[] = {
@@ -271,12 +368,22 @@ static TAB_NUM t_lambda_1[] = {
   POS(638, 7)
 };
 
+static FUNCTION_INFO i_lambda_1 = {
+  t_lambda_1, NULL, 3, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_2[] = {
   0, // locals
   0, // parameters
   //  str
   LET, 1, str_true, TAIL_CALL,
   POS(639, 7)
+};
+
+static FUNCTION_INFO i_lambda_2 = {
+  t_lambda_2, NULL, 1, 0,
+  {}
 };
 
 static TAB_NUM t_func_std_types__false___serialize[] = {
@@ -290,6 +397,11 @@ static TAB_NUM t_func_std_types__false___serialize[] = {
   var_if, 3, LOCAL(1), lambda_3, lambda_4, TAIL_CALL,
   POS(656, 12),
   POS(655, 3)
+};
+
+static FUNCTION_INFO i_func_std_types__false___serialize = {
+  t_func_std_types__false___serialize, NULL, 2, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_3[] = {
@@ -306,6 +418,11 @@ static TAB_NUM t_lambda_3[] = {
   POS(657, 7)
 };
 
+static FUNCTION_INFO i_lambda_3 = {
+  t_lambda_3, NULL, 3, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_4[] = {
   0, // locals
   0, // parameters
@@ -314,31 +431,36 @@ static TAB_NUM t_lambda_4[] = {
   POS(658, 7)
 };
 
+static FUNCTION_INFO i_lambda_4 = {
+  t_lambda_4, NULL, 1, 0,
+  {}
+};
+
 static FUNKY_CONSTANT constants_table[] = {
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std_types__true___and}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std_types__false___and}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std_types__true___or}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std_types__false___or}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std_types__true___if}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std_types__false___if}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std_types__true___if_not}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std_types__false___if_not}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std_types__true___update_if}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std_types__false___update_if}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std_types__true___update_if_not}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std_types__false___update_if_not}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std_types__true___on}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std_types__false___on}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std_types__true___on_not}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std_types__false___on_not}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std_types__true___serialize}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std_types__true___and}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std_types__false___and}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std_types__true___or}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std_types__false___or}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std_types__true___if}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std_types__false___if}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std_types__true___if_not}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std_types__false___if_not}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std_types__true___update_if}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std_types__false___update_if}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std_types__true___update_if_not}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std_types__false___update_if_not}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std_types__true___on}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std_types__false___on}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std_types__true___on_not}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std_types__false___on_not}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std_types__true___serialize}},
   {FLT_STRING_8, 7, {.str_8 = "<true>\012"}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_1}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_2}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std_types__false___serialize}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_1}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_2}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std_types__false___serialize}},
   {FLT_STRING_8, 8, {.str_8 = "<false>\012"}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_3}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_4}}
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_3}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_4}}
 };
 
 static ATTRIBUTE_DEFINITION std_types__object__attributes[] = {
@@ -568,7 +690,7 @@ FUNKY_MODULE module__basic__types__boolean = {
   "basic/types/boolean.fky", // module filename
   .major_version = 0,
   .minor_version = 0,
-  .feature_flags = FEAT_POSITIONS,
+  .feature_flags = FEAT_POSITIONS|FEAT_FUNCTION_INFO,
   .marker = 0,
   0, // number of required modules
   0, // number of defined namespaces

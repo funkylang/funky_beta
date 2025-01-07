@@ -554,6 +554,11 @@ static TAB_NUM t_func_std__sleep[] = {
   POS(81, 3)
 };
 
+static FUNCTION_INFO i_func_std__sleep = {
+  t_func_std__sleep, NULL, 2, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_1[] = {
   2, // locals
   0, // parameters
@@ -568,6 +573,11 @@ static TAB_NUM t_lambda_1[] = {
   POS(81, 20)
 };
 
+static FUNCTION_INFO i_lambda_1 = {
+  t_lambda_1, NULL, 3, 0,
+  {}
+};
+
 static TAB_NUM t_func_std__write_string_to[] = {
   0, // locals
   2, // parameters
@@ -579,6 +589,11 @@ static TAB_NUM t_func_std__write_string_to[] = {
   var_loop, 2, lambda_2, var_pass, IO_TAIL_CALL,
   POS(88, 3),
   POS(89, 3)
+};
+
+static FUNCTION_INFO i_func_std__write_string_to = {
+  t_func_std__write_string_to, NULL, 2, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_2[] = {
@@ -595,6 +610,11 @@ static TAB_NUM t_lambda_2[] = {
   POS(92, 7)
 };
 
+static FUNCTION_INFO i_lambda_2 = {
+  t_lambda_2, NULL, 3, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_3[] = {
   1, // locals
   0, // parameters
@@ -604,6 +624,11 @@ static TAB_NUM t_lambda_3[] = {
   var_if, 3, LOCAL(1), lambda_4, var_break, IO_TAIL_CALL,
   POS(97, 13),
   POS(96, 11)
+};
+
+static FUNCTION_INFO i_lambda_3 = {
+  t_lambda_3, NULL, 2, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_4[] = {
@@ -620,6 +645,11 @@ static TAB_NUM t_lambda_4[] = {
   POS(99, 15)
 };
 
+static FUNCTION_INFO i_lambda_4 = {
+  t_lambda_4, NULL, 3, 0,
+  {}
+};
+
 static TAB_NUM t_func_std__write_to[] = {
   3, // locals
   -2, // parameters
@@ -630,7 +660,14 @@ static TAB_NUM t_func_std__write_to[] = {
   // write_string_to! fd create_string(args)
   var_write_string_to, 2, LOCAL(2), LOCAL(1), IO_TAIL_CALL,
   POS(108, 23),
-  POS(108, 3)
+  POS(108, 3),
+  LOCAL(3),
+  LOCAL(2)
+};
+
+static FUNCTION_INFO i_func_std__write_to = {
+  t_func_std__write_to, NULL, 2, 2,
+  {"106_5_args\000", "105_5_fd\000"}
 };
 
 static TAB_NUM t_func_std__writeln_to[] = {
@@ -646,7 +683,14 @@ static TAB_NUM t_func_std__writeln_to[] = {
   var_write_string_to, 2, LOCAL(3), LOCAL(2), IO_TAIL_CALL,
   POS(115, 28),
   POS(115, 23),
-  POS(115, 3)
+  POS(115, 3),
+  LOCAL(3),
+  LOCAL(4)
+};
+
+static FUNCTION_INFO i_func_std__writeln_to = {
+  t_func_std__writeln_to, NULL, 3, 2,
+  {"112_5_fd\000", "113_5_args\000"}
 };
 
 static TAB_NUM t_func_std__print_string_to[] = {
@@ -659,7 +703,14 @@ static TAB_NUM t_func_std__print_string_to[] = {
   // write_string_to! fd str.to_utf8
   var_write_string_to, 2, LOCAL(2), LOCAL(1), IO_TAIL_CALL,
   POS(122, 27),
-  POS(122, 3)
+  POS(122, 3),
+  LOCAL(2),
+  LOCAL(3)
+};
+
+static FUNCTION_INFO i_func_std__print_string_to = {
+  t_func_std__print_string_to, NULL, 2, 2,
+  {"119_5_fd\000", "120_5_str\000"}
 };
 
 static TAB_NUM t_func_std_types__file_descriptor___print_to[] = {
@@ -675,7 +726,14 @@ static TAB_NUM t_func_std_types__file_descriptor___print_to[] = {
   var_write_string_to, 2, LOCAL(3), LOCAL(2), IO_TAIL_CALL,
   POS(131, 23),
   POS(131, 43),
-  POS(131, 3)
+  POS(131, 3),
+  LOCAL(4),
+  LOCAL(3)
+};
+
+static FUNCTION_INFO i_func_std_types__file_descriptor___print_to = {
+  t_func_std_types__file_descriptor___print_to, NULL, 3, 2,
+  {"129_5_args\000", "128_5_fd\000"}
 };
 
 static TAB_NUM t_func_std__println_to[] = {
@@ -694,7 +752,14 @@ static TAB_NUM t_func_std__println_to[] = {
   POS(138, 28),
   POS(138, 48),
   POS(138, 23),
-  POS(138, 3)
+  POS(138, 3),
+  LOCAL(4),
+  LOCAL(5)
+};
+
+static FUNCTION_INFO i_func_std__println_to = {
+  t_func_std__println_to, NULL, 4, 2,
+  {"135_5_fd\000", "136_5_args\000"}
 };
 
 static TAB_NUM t_func_std__print_string[] = {
@@ -706,7 +771,13 @@ static TAB_NUM t_func_std__print_string[] = {
   // write_string_to! STDOUT_FILENO str.to_utf8
   var_write_string_to, 2, var_STDOUT_FILENO, LOCAL(1), IO_TAIL_CALL,
   POS(144, 38),
-  POS(144, 3)
+  POS(144, 3),
+  LOCAL(2)
+};
+
+static FUNCTION_INFO i_func_std__print_string = {
+  t_func_std__print_string, NULL, 2, 1,
+  {"142_5_str\000"}
 };
 
 static TAB_NUM t_func_std__print[] = {
@@ -718,7 +789,13 @@ static TAB_NUM t_func_std__print[] = {
   // print_string! create_string(args)
   var_print_string, 1, LOCAL(1), IO_TAIL_CALL,
   POS(150, 17),
-  POS(150, 3)
+  POS(150, 3),
+  LOCAL(2)
+};
+
+static FUNCTION_INFO i_func_std__print = {
+  t_func_std__print, NULL, 2, 1,
+  {"148_5_args\000"}
 };
 
 static TAB_NUM t_func_std__println[] = {
@@ -733,7 +810,13 @@ static TAB_NUM t_func_std__println[] = {
   var_print_string, 1, LOCAL(2), IO_TAIL_CALL,
   POS(156, 22),
   POS(156, 17),
-  POS(156, 3)
+  POS(156, 3),
+  LOCAL(3)
+};
+
+static FUNCTION_INFO i_func_std__println = {
+  t_func_std__println, NULL, 3, 1,
+  {"154_5_args\000"}
 };
 
 static TAB_NUM t_func_std__eprint_string[] = {
@@ -745,7 +828,13 @@ static TAB_NUM t_func_std__eprint_string[] = {
   // write_string_to! STDERR_FILENO str.to_utf8
   var_write_string_to, 2, var_STDERR_FILENO, LOCAL(1), IO_TAIL_CALL,
   POS(162, 38),
-  POS(162, 3)
+  POS(162, 3),
+  LOCAL(2)
+};
+
+static FUNCTION_INFO i_func_std__eprint_string = {
+  t_func_std__eprint_string, NULL, 2, 1,
+  {"160_5_str\000"}
 };
 
 static TAB_NUM t_func_std__eprint[] = {
@@ -757,7 +846,13 @@ static TAB_NUM t_func_std__eprint[] = {
   // eprint_string! create_string(args)
   var_eprint_string, 1, LOCAL(1), IO_TAIL_CALL,
   POS(168, 18),
-  POS(168, 3)
+  POS(168, 3),
+  LOCAL(2)
+};
+
+static FUNCTION_INFO i_func_std__eprint = {
+  t_func_std__eprint, NULL, 2, 1,
+  {"166_5_args\000"}
 };
 
 static TAB_NUM t_func_std__eprintln[] = {
@@ -772,7 +867,13 @@ static TAB_NUM t_func_std__eprintln[] = {
   var_eprint_string, 1, LOCAL(2), IO_TAIL_CALL,
   POS(174, 23),
   POS(174, 18),
-  POS(174, 3)
+  POS(174, 3),
+  LOCAL(3)
+};
+
+static FUNCTION_INFO i_func_std__eprintln = {
+  t_func_std__eprintln, NULL, 3, 1,
+  {"172_5_args\000"}
 };
 
 static TAB_NUM t_func_std__read_from[] = {
@@ -788,6 +889,11 @@ static TAB_NUM t_func_std__read_from[] = {
   POS(182, 3)
 };
 
+static FUNCTION_INFO i_func_std__read_from = {
+  t_func_std__read_from, NULL, 2, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_loop[] = {
   0, // locals
   0, // parameters
@@ -797,6 +903,11 @@ static TAB_NUM t_lambda_loop[] = {
   var_cond, 3, lambda_5, lambda_7, lambda_9, IO_TAIL_CALL,
   POS(183, 5),
   POS(184, 5)
+};
+
+static FUNCTION_INFO i_lambda_loop = {
+  t_lambda_loop, NULL, 2, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_5[] = {
@@ -810,12 +921,22 @@ static TAB_NUM t_lambda_5[] = {
   POS(185, 9)
 };
 
+static FUNCTION_INFO i_lambda_5 = {
+  t_lambda_5, NULL, 2, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_6[] = {
   0, // locals
   0, // parameters
   //  buf
   LET, 1, var_183_12_buf, TAIL_CALL,
   POS(185, 28)
+};
+
+static FUNCTION_INFO i_lambda_6 = {
+  t_lambda_6, NULL, 1, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_7[] = {
@@ -829,6 +950,11 @@ static TAB_NUM t_lambda_7[] = {
   POS(186, 9)
 };
 
+static FUNCTION_INFO i_lambda_7 = {
+  t_lambda_7, NULL, 2, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_8[] = {
   0, // locals
   0, // parameters
@@ -837,12 +963,22 @@ static TAB_NUM t_lambda_8[] = {
   POS(186, 25)
 };
 
+static FUNCTION_INFO i_lambda_8 = {
+  t_lambda_8, NULL, 1, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_9[] = {
   0, // locals
   0, // parameters
   //  true:
   LET, 2, var_true, lambda_10, IO_TAIL_CALL,
   POS(187, 9)
+};
+
+static FUNCTION_INFO i_lambda_9 = {
+  t_lambda_9, NULL, 1, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_10[] = {
@@ -862,6 +998,11 @@ static TAB_NUM t_lambda_10[] = {
   POS(190, 9)
 };
 
+static FUNCTION_INFO i_lambda_10 = {
+  t_lambda_10, NULL, 4, 0,
+  {}
+};
+
 static TAB_NUM t_func_std__read_from_until[] = {
   0, // locals
   -3, // parameters
@@ -876,6 +1017,11 @@ static TAB_NUM t_func_std__read_from_until[] = {
   POS(199, 3)
 };
 
+static FUNCTION_INFO i_func_std__read_from_until = {
+  t_func_std__read_from_until, NULL, 2, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_2_loop[] = {
   0, // locals
   0, // parameters
@@ -885,6 +1031,11 @@ static TAB_NUM t_lambda_2_loop[] = {
   var_cond, 3, lambda_11, lambda_13, lambda_15, IO_TAIL_CALL,
   POS(200, 5),
   POS(201, 5)
+};
+
+static FUNCTION_INFO i_lambda_2_loop = {
+  t_lambda_2_loop, NULL, 2, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_11[] = {
@@ -898,12 +1049,22 @@ static TAB_NUM t_lambda_11[] = {
   POS(202, 9)
 };
 
+static FUNCTION_INFO i_lambda_11 = {
+  t_lambda_11, NULL, 2, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_12[] = {
   0, // locals
   0, // parameters
   //  buf
   LET, 1, var_200_12_buf, TAIL_CALL,
   POS(202, 28)
+};
+
+static FUNCTION_INFO i_lambda_12 = {
+  t_lambda_12, NULL, 1, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_13[] = {
@@ -917,6 +1078,11 @@ static TAB_NUM t_lambda_13[] = {
   POS(203, 9)
 };
 
+static FUNCTION_INFO i_lambda_13 = {
+  t_lambda_13, NULL, 2, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_14[] = {
   0, // locals
   0, // parameters
@@ -925,12 +1091,22 @@ static TAB_NUM t_lambda_14[] = {
   POS(203, 25)
 };
 
+static FUNCTION_INFO i_lambda_14 = {
+  t_lambda_14, NULL, 1, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_15[] = {
   0, // locals
   0, // parameters
   //  true:
   LET, 2, var_true, lambda_16, IO_TAIL_CALL,
   POS(204, 9)
+};
+
+static FUNCTION_INFO i_lambda_15 = {
+  t_lambda_15, NULL, 1, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_16[] = {
@@ -947,6 +1123,11 @@ static TAB_NUM t_lambda_16[] = {
   POS(206, 9)
 };
 
+static FUNCTION_INFO i_lambda_16 = {
+  t_lambda_16, NULL, 3, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_17[] = {
   1, // locals
   0, // parameters
@@ -961,6 +1142,11 @@ static TAB_NUM t_lambda_17[] = {
   POS(209, 13)
 };
 
+static FUNCTION_INFO i_lambda_17 = {
+  t_lambda_17, NULL, 3, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_18[] = {
   0, // locals
   0, // parameters
@@ -969,13 +1155,24 @@ static TAB_NUM t_lambda_18[] = {
   POS(212, 17)
 };
 
+static FUNCTION_INFO i_lambda_18 = {
+  t_lambda_18, NULL, 1, 0,
+  {}
+};
+
 static TAB_NUM t_func_std__readln_from[] = {
   1, // locals
   1, // parameters
   LOCAL(1), // 217_5_fd
   // read_from_until! fd '@nl;'
   var_read_from_until, 2, LOCAL(1), chr_10, IO_TAIL_CALL,
-  POS(219, 3)
+  POS(219, 3),
+  LOCAL(1)
+};
+
+static FUNCTION_INFO i_func_std__readln_from = {
+  t_func_std__readln_from, NULL, 1, 1,
+  {"217_5_fd\000"}
 };
 
 static TAB_NUM t_func_std__read_all_from[] = {
@@ -990,6 +1187,11 @@ static TAB_NUM t_func_std__read_all_from[] = {
   POS(226, 3)
 };
 
+static FUNCTION_INFO i_func_std__read_all_from = {
+  t_func_std__read_all_from, NULL, 2, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_3_loop[] = {
   0, // locals
   0, // parameters
@@ -999,6 +1201,11 @@ static TAB_NUM t_lambda_3_loop[] = {
   var_cond, 3, lambda_19, lambda_21, lambda_23, IO_TAIL_CALL,
   POS(227, 5),
   POS(228, 5)
+};
+
+static FUNCTION_INFO i_lambda_3_loop = {
+  t_lambda_3_loop, NULL, 2, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_19[] = {
@@ -1012,12 +1219,22 @@ static TAB_NUM t_lambda_19[] = {
   POS(229, 9)
 };
 
+static FUNCTION_INFO i_lambda_19 = {
+  t_lambda_19, NULL, 2, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_20[] = {
   0, // locals
   0, // parameters
   //  buf
   LET, 1, var_227_12_buf, TAIL_CALL,
   POS(229, 28)
+};
+
+static FUNCTION_INFO i_lambda_20 = {
+  t_lambda_20, NULL, 1, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_21[] = {
@@ -1031,6 +1248,11 @@ static TAB_NUM t_lambda_21[] = {
   POS(230, 9)
 };
 
+static FUNCTION_INFO i_lambda_21 = {
+  t_lambda_21, NULL, 2, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_22[] = {
   0, // locals
   0, // parameters
@@ -1039,12 +1261,22 @@ static TAB_NUM t_lambda_22[] = {
   POS(230, 25)
 };
 
+static FUNCTION_INFO i_lambda_22 = {
+  t_lambda_22, NULL, 1, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_23[] = {
   0, // locals
   0, // parameters
   //  true:
   LET, 2, var_true, lambda_24, IO_TAIL_CALL,
   POS(231, 9)
+};
+
+static FUNCTION_INFO i_lambda_23 = {
+  t_lambda_23, NULL, 1, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_24[] = {
@@ -1056,6 +1288,11 @@ static TAB_NUM t_lambda_24[] = {
   var_next, 0, IO_TAIL_CALL,
   POS(232, 9),
   POS(233, 9)
+};
+
+static FUNCTION_INFO i_lambda_24 = {
+  t_lambda_24, NULL, 2, 0,
+  {}
 };
 
 static TAB_NUM t_func_std__get_from_until[] = {
@@ -1072,7 +1309,16 @@ static TAB_NUM t_func_std__get_from_until[] = {
   LET, 1, LOCAL(1), TAIL_CALL,
   POS(241, 3),
   POS(242, 11),
-  POS(242, 3)
+  POS(242, 3),
+  LOCAL(2),
+  LOCAL(3),
+  LOCAL(4),
+  LOCAL(5)
+};
+
+static FUNCTION_INFO i_func_std__get_from_until = {
+  t_func_std__get_from_until, NULL, 3, 4,
+  {"237_5_fd\000", "238_5_sentinel\000", "239_5_nth\000", "241_21_data\000"}
 };
 
 static TAB_NUM t_func_std__getln_from[] = {
@@ -1081,7 +1327,13 @@ static TAB_NUM t_func_std__getln_from[] = {
   LOCAL(1), // 246_5_fd
   // get_from_until! fd '@nl;'
   var_get_from_until, 2, LOCAL(1), chr_10, IO_TAIL_CALL,
-  POS(248, 3)
+  POS(248, 3),
+  LOCAL(1)
+};
+
+static FUNCTION_INFO i_func_std__getln_from = {
+  t_func_std__getln_from, NULL, 1, 1,
+  {"246_5_fd\000"}
 };
 
 static TAB_NUM t_func_std__get_until[] = {
@@ -1090,7 +1342,13 @@ static TAB_NUM t_func_std__get_until[] = {
   LOCAL(1), // 252_5_sentinel
   // get_from_until! STDIN_FILENO sentinel
   var_get_from_until, 2, var_STDIN_FILENO, LOCAL(1), IO_TAIL_CALL,
-  POS(254, 3)
+  POS(254, 3),
+  LOCAL(1)
+};
+
+static FUNCTION_INFO i_func_std__get_until = {
+  t_func_std__get_until, NULL, 1, 1,
+  {"252_5_sentinel\000"}
 };
 
 static TAB_NUM t_func_std__getln[] = {
@@ -1099,6 +1357,11 @@ static TAB_NUM t_func_std__getln[] = {
   // getln_from! STDIN_FILENO
   var_getln_from, 1, var_STDIN_FILENO, IO_TAIL_CALL,
   POS(257, 3)
+};
+
+static FUNCTION_INFO i_func_std__getln = {
+  t_func_std__getln, NULL, 1, 0,
+  {}
 };
 
 static TAB_NUM t_func_std_types__string___load[] = {
@@ -1117,7 +1380,13 @@ static TAB_NUM t_func_std_types__string___load[] = {
   POS(272, 3),
   POS(273, 3),
   POS(275, 16),
-  POS(274, 3)
+  POS(274, 3),
+  LOCAL(2)
+};
+
+static FUNCTION_INFO i_func_std_types__string___load = {
+  t_func_std_types__string___load, NULL, 4, 1,
+  {"269_5_filename\000"}
 };
 
 static TAB_NUM t_lambda_max_length_is_defined[] = {
@@ -1131,7 +1400,13 @@ static TAB_NUM t_lambda_max_length_is_defined[] = {
   LET, 1, LOCAL(1), TAIL_CALL,
   POS(276, 7),
   POS(277, 7),
-  POS(278, 7)
+  POS(278, 7),
+  LOCAL(1)
+};
+
+static FUNCTION_INFO i_lambda_max_length_is_defined = {
+  t_lambda_max_length_is_defined, NULL, 3, 1,
+  {"276_19_data\000"}
 };
 
 static TAB_NUM t_lambda_25[] = {
@@ -1140,6 +1415,11 @@ static TAB_NUM t_lambda_25[] = {
   // load! fd
   var_load, 1, var_272_10_fd, IO_TAIL_CALL,
   POS(280, 7)
+};
+
+static FUNCTION_INFO i_lambda_25 = {
+  t_lambda_25, NULL, 1, 0,
+  {}
 };
 
 static TAB_NUM t_func_std_types__string___save[] = {
@@ -1158,7 +1438,15 @@ static TAB_NUM t_func_std_types__string___save[] = {
   POS(287, 3),
   POS(288, 3),
   POS(289, 3),
-  POS(290, 3)
+  POS(290, 3),
+  LOCAL(2),
+  LOCAL(3),
+  LOCAL(1)
+};
+
+static FUNCTION_INFO i_func_std_types__string___save = {
+  t_func_std_types__string___save, NULL, 4, 3,
+  {"285_5_data\000", "287_10_fh\000", "284_5_filename\000"}
 };
 
 static TAB_NUM t_func_std_types__file_descriptor___load[] = {
@@ -1176,7 +1464,14 @@ static TAB_NUM t_func_std_types__file_descriptor___load[] = {
   POS(296, 3),
   POS(297, 3),
   POS(298, 3),
-  POS(299, 3)
+  POS(299, 3),
+  LOCAL(1),
+  LOCAL(2)
+};
+
+static FUNCTION_INFO i_func_std_types__file_descriptor___load = {
+  t_func_std_types__file_descriptor___load, NULL, 4, 2,
+  {"294_5_fd\000", "296_19_data\000"}
 };
 
 static TAB_NUM t_func_std_types__io___load[] = {
@@ -1189,7 +1484,17 @@ static TAB_NUM t_func_std_types__io___load[] = {
   LOCAL(3), LOCAL(5), // 317_5_data
   // run io load_file id filename max_length data
   var_run, 6, LOCAL(1), func_load_file, LOCAL(2), LOCAL(3), LOCAL(4), LOCAL(5), TAIL_CALL,
-  POS(319, 3)
+  POS(319, 3),
+  LOCAL(1),
+  LOCAL(4),
+  LOCAL(2),
+  LOCAL(5),
+  LOCAL(3)
+};
+
+static FUNCTION_INFO i_func_std_types__io___load = {
+  t_func_std_types__io___load, NULL, 1, 5,
+  {"313_5_io\000", "316_5_max_length\000", "314_5_id\000", "317_5_data\000", "315_5_filename\000"}
 };
 
 static TAB_NUM t_func_load_file[] = {
@@ -1208,7 +1513,13 @@ static TAB_NUM t_func_load_file[] = {
   var_if, 3, LOCAL(1), lambda_26, lambda_27, TAIL_CALL,
   POS(322, 3),
   POS(324, 8),
-  POS(323, 3)
+  POS(323, 3),
+  LOCAL(2)
+};
+
+static FUNCTION_INFO i_func_load_file = {
+  t_func_load_file, NULL, 3, 1,
+  {"321_20_filename\000"}
 };
 
 static TAB_NUM t_lambda_26[] = {
@@ -1220,6 +1531,11 @@ static TAB_NUM t_lambda_26[] = {
   LET, 2, var_321_14_io, LOCAL(1), TAIL_CALL,
   POS(325, 11),
   POS(325, 7)
+};
+
+static FUNCTION_INFO i_lambda_26 = {
+  t_lambda_26, NULL, 2, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_27[] = {
@@ -1278,6 +1594,11 @@ static TAB_NUM t_lambda_27[] = {
   POS(335, 7)
 };
 
+static FUNCTION_INFO i_lambda_27 = {
+  t_lambda_27, NULL, 17, 0,
+  {}
+};
+
 static TAB_NUM t_func_read_data[] = {
   3, // locals
   3, // parameters
@@ -1307,7 +1628,13 @@ static TAB_NUM t_func_read_data[] = {
   POS(340, 3),
   POS(342, 16),
   POS(342, 16),
-  POS(341, 3)
+  POS(341, 3),
+  LOCAL(3)
+};
+
+static FUNCTION_INFO i_func_read_data = {
+  t_func_read_data, NULL, 8, 1,
+  {"337_20_data\000"}
 };
 
 static TAB_NUM t_lambda_28[] = {
@@ -1325,6 +1652,11 @@ static TAB_NUM t_lambda_28[] = {
   POS(342, 30),
   POS(342, 30),
   POS(342, 30)
+};
+
+static FUNCTION_INFO i_lambda_28 = {
+  t_lambda_28, NULL, 4, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_29[] = {
@@ -1371,7 +1703,13 @@ static TAB_NUM t_lambda_29[] = {
   POS(347, 11),
   POS(347, 8),
   POS(348, 13),
-  POS(348, 7)
+  POS(348, 7),
+  LOCAL(3)
+};
+
+static FUNCTION_INFO i_lambda_29 = {
+  t_lambda_29, NULL, 14, 1,
+  {"344_8_id\000"}
 };
 
 static TAB_NUM t_lambda_30[] = {
@@ -1389,6 +1727,11 @@ static TAB_NUM t_lambda_30[] = {
   POS(350, 11),
   POS(350, 8),
   POS(351, 7)
+};
+
+static FUNCTION_INFO i_lambda_30 = {
+  t_lambda_30, NULL, 4, 0,
+  {}
 };
 
 static TAB_NUM t_func_read_failed[] = {
@@ -1433,7 +1776,16 @@ static TAB_NUM t_func_read_failed[] = {
   POS(357, 7),
   POS(357, 4),
   POS(358, 9),
-  POS(358, 3)
+  POS(358, 3),
+  LOCAL(3),
+  LOCAL(4),
+  LOCAL(5),
+  LOCAL(6)
+};
+
+static FUNCTION_INFO i_func_read_failed = {
+  t_func_read_failed, NULL, 12, 4,
+  {"353_16_io\000", "353_19_fd\000", "353_22_err\000", "353_26_data\000"}
 };
 
 static TAB_NUM t_func_file_closed_after_reading[] = {
@@ -1490,7 +1842,17 @@ static TAB_NUM t_func_file_closed_after_reading[] = {
   POS(366, 7),
   POS(366, 4),
   POS(367, 9),
-  POS(367, 3)
+  POS(367, 3),
+  LOCAL(6),
+  LOCAL(7),
+  LOCAL(3),
+  LOCAL(4),
+  LOCAL(5)
+};
+
+static FUNCTION_INFO i_func_file_closed_after_reading = {
+  t_func_file_closed_after_reading, NULL, 16, 5,
+  {"362_4_buf\000", "363_4_id\000", "360_30_io\000", "360_33_fd\000", "360_43_data\000"}
 };
 
 static TAB_NUM t_func_std_types__io___save[] = {
@@ -1503,7 +1865,17 @@ static TAB_NUM t_func_std_types__io___save[] = {
   uni_NONE, LOCAL(5), // 377_5_context
   // run io save_file id filename data context
   var_run, 6, LOCAL(1), func_save_file, LOCAL(2), LOCAL(3), LOCAL(4), LOCAL(5), TAIL_CALL,
-  POS(379, 3)
+  POS(379, 3),
+  LOCAL(4),
+  LOCAL(3),
+  LOCAL(5),
+  LOCAL(2),
+  LOCAL(1)
+};
+
+static FUNCTION_INFO i_func_std_types__io___save = {
+  t_func_std_types__io___save, NULL, 1, 5,
+  {"376_5_data\000", "375_5_filename\000", "377_5_context\000", "374_5_id\000", "373_5_io\000"}
 };
 
 static TAB_NUM t_func_save_file[] = {
@@ -1525,6 +1897,11 @@ static TAB_NUM t_func_save_file[] = {
   POS(383, 3)
 };
 
+static FUNCTION_INFO i_func_save_file = {
+  t_func_save_file, NULL, 3, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_31[] = {
   1, // locals
   0, // parameters
@@ -1534,6 +1911,11 @@ static TAB_NUM t_lambda_31[] = {
   LET, 2, var_381_14_io, LOCAL(1), TAIL_CALL,
   POS(385, 11),
   POS(385, 7)
+};
+
+static FUNCTION_INFO i_lambda_31 = {
+  t_lambda_31, NULL, 2, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_32[] = {
@@ -1577,12 +1959,22 @@ static TAB_NUM t_lambda_32[] = {
   POS(393, 7)
 };
 
+static FUNCTION_INFO i_lambda_32 = {
+  t_lambda_32, NULL, 12, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_33[] = {
   0, // locals
   0, // parameters
   //  filename
   LET, 1, var_381_20_filename, TAIL_CALL,
   POS(389, 44)
+};
+
+static FUNCTION_INFO i_lambda_33 = {
+  t_lambda_33, NULL, 1, 0,
+  {}
 };
 
 static TAB_NUM t_func_write_completed[] = {
@@ -1597,7 +1989,15 @@ static TAB_NUM t_func_write_completed[] = {
   // -> io undefined
   LET, 2, LOCAL(2), var_undefined, TAIL_CALL,
   POS(396, 3),
-  POS(397, 3)
+  POS(397, 3),
+  LOCAL(4),
+  LOCAL(3),
+  LOCAL(2)
+};
+
+static FUNCTION_INFO i_func_write_completed = {
+  t_func_write_completed, NULL, 2, 3,
+  {"395_33_context\000", "395_23_fd\000", "395_20_io\000"}
 };
 
 static TAB_NUM t_func_close_file_after_writing[] = {
@@ -1632,7 +2032,16 @@ static TAB_NUM t_func_close_file_after_writing[] = {
   POS(403, 7),
   POS(403, 4),
   POS(404, 9),
-  POS(404, 3)
+  POS(404, 3),
+  LOCAL(4),
+  LOCAL(6),
+  LOCAL(3),
+  LOCAL(5)
+};
+
+static FUNCTION_INFO i_func_close_file_after_writing = {
+  t_func_close_file_after_writing, NULL, 9, 4,
+  {"399_32_fd\000", "402_4_id\000", "399_29_io\000", "399_35_context\000"}
 };
 
 static TAB_NUM t_func_write_failed[] = {
@@ -1665,7 +2074,17 @@ static TAB_NUM t_func_write_failed[] = {
   POS(409, 7),
   POS(409, 4),
   POS(410, 9),
-  POS(410, 3)
+  POS(410, 3),
+  LOCAL(4),
+  LOCAL(6),
+  LOCAL(5),
+  LOCAL(7),
+  LOCAL(3)
+};
+
+static FUNCTION_INFO i_func_write_failed = {
+  t_func_write_failed, NULL, 8, 5,
+  {"406_20_fd\000", "406_27_context\000", "406_23_err\000", "408_4_id\000", "406_17_io\000"}
 };
 
 static TAB_NUM t_func_std__try[] = {
@@ -1677,7 +2096,13 @@ static TAB_NUM t_func_std__try[] = {
   // -> undefined
   LET, 1, var_undefined, TAIL_CALL,
   POS(427, 3),
-  POS(428, 3)
+  POS(428, 3),
+  LOCAL(1)
+};
+
+static FUNCTION_INFO i_func_std__try = {
+  t_func_std__try, NULL, 2, 1,
+  {"425_5_body\000"}
 };
 
 static TAB_NUM t_func_std__check[] = {
@@ -1692,12 +2117,22 @@ static TAB_NUM t_func_std__check[] = {
   POS(434, 3)
 };
 
+static FUNCTION_INFO i_func_std__check = {
+  t_func_std__check, NULL, 2, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_34[] = {
   0, // locals
   0, // parameters
   //  argument
   LET, 1, var_432_5_argument, TAIL_CALL,
   POS(436, 7)
+};
+
+static FUNCTION_INFO i_lambda_34 = {
+  t_lambda_34, NULL, 1, 0,
+  {}
 };
 
 static TAB_NUM t_func_std__file_exists[] = {
@@ -1715,7 +2150,14 @@ static TAB_NUM t_func_std__file_exists[] = {
   POS(452, 3),
   POS(453, 15),
   POS(453, 6),
-  POS(453, 3)
+  POS(453, 3),
+  LOCAL(3),
+  LOCAL(4)
+};
+
+static FUNCTION_INFO i_func_std__file_exists = {
+  t_func_std__file_exists, NULL, 4, 2,
+  {"450_5_filename\000", "452_10_info\000"}
 };
 
 static TAB_NUM t_func_std__directory[] = {
@@ -1737,7 +2179,14 @@ static TAB_NUM t_func_std__directory[] = {
   POS(469, 3),
   POS(471, 3),
   POS(472, 3),
-  POS(473, 3)
+  POS(473, 3),
+  LOCAL(3),
+  LOCAL(2)
+};
+
+static FUNCTION_INFO i_func_std__directory = {
+  t_func_std__directory, NULL, 5, 2,
+  {"467_5_pathname\000", "466_5_options\000"}
 };
 
 static TAB_NUM t_lambda_4_loop[] = {
@@ -1754,6 +2203,11 @@ static TAB_NUM t_lambda_4_loop[] = {
   POS(475, 5)
 };
 
+static FUNCTION_INFO i_lambda_4_loop = {
+  t_lambda_4_loop, NULL, 3, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_entry_is_an_error[] = {
   0, // locals
   0, // parameters
@@ -1765,12 +2219,22 @@ static TAB_NUM t_lambda_entry_is_an_error[] = {
   POS(478, 9)
 };
 
+static FUNCTION_INFO i_lambda_entry_is_an_error = {
+  t_lambda_entry_is_an_error, NULL, 2, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_do_sort[] = {
   0, // locals
   0, // parameters
   // sort entries: (left right) -> name_of(left) < name_of(right)
   var_sort, 2, var_471_4_entries, lambda_35, TAIL_CALL,
   POS(480, 13)
+};
+
+static FUNCTION_INFO i_lambda_do_sort = {
+  t_lambda_do_sort, NULL, 1, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_35[] = {
@@ -1789,7 +2253,14 @@ static TAB_NUM t_lambda_35[] = {
   POS(480, 43),
   POS(480, 59),
   POS(480, 43),
-  POS(480, 40)
+  POS(480, 40),
+  LOCAL(5),
+  LOCAL(4)
+};
+
+static FUNCTION_INFO i_lambda_35 = {
+  t_lambda_35, NULL, 4, 2,
+  {"480_33_right\000", "480_28_left\000"}
 };
 
 static TAB_NUM t_lambda_36[] = {
@@ -1798,6 +2269,11 @@ static TAB_NUM t_lambda_36[] = {
   //  entries
   LET, 1, var_471_4_entries, TAIL_CALL,
   POS(481, 13)
+};
+
+static FUNCTION_INFO i_lambda_36 = {
+  t_lambda_36, NULL, 1, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_37[] = {
@@ -1809,6 +2285,11 @@ static TAB_NUM t_lambda_37[] = {
   var_next, 0, IO_TAIL_CALL,
   POS(483, 9),
   POS(484, 9)
+};
+
+static FUNCTION_INFO i_lambda_37 = {
+  t_lambda_37, NULL, 2, 0,
+  {}
 };
 
 static TAB_NUM t_func_std_types__stat___is_a_directory[] = {
@@ -1826,7 +2307,13 @@ static TAB_NUM t_func_std_types__stat___is_a_directory[] = {
   POS(487, 6),
   POS(487, 6),
   POS(487, 6),
-  POS(487, 3)
+  POS(487, 3),
+  LOCAL(4)
+};
+
+static FUNCTION_INFO i_func_std_types__stat___is_a_directory = {
+  t_func_std_types__stat___is_a_directory, NULL, 4, 1,
+  {"486_35_self\000"}
 };
 
 static TAB_NUM t_func_std_types__object___call[] = {
@@ -1887,7 +2374,17 @@ static TAB_NUM t_func_std_types__object___call[] = {
   POS(512, 3),
   POS(514, 3),
   POS(515, 3),
-  POS(516, 3)
+  POS(516, 3),
+  LOCAL(3),
+  LOCAL(5),
+  LOCAL(4),
+  LOCAL(2),
+  LOCAL(6)
+};
+
+static FUNCTION_INFO i_func_std_types__object___call = {
+  t_func_std_types__object___call, NULL, 18, 5,
+  {"494_5_args\000", "507_20_pid\000", "496_4_rc\000", "493_5_cmd\000", "507_25_in_fd\000"}
 };
 
 static TAB_NUM t_lambda_38[] = {
@@ -1903,7 +2400,14 @@ static TAB_NUM t_lambda_38[] = {
   var_next, 0, TAIL_CALL,
   POS(504, 22),
   POS(504, 7),
-  POS(505, 7)
+  POS(505, 7),
+  LOCAL(3),
+  LOCAL(2)
+};
+
+static FUNCTION_INFO i_lambda_38 = {
+  t_lambda_38, NULL, 3, 2,
+  {"503_12_value\000", "503_8_key\000"}
 };
 
 static TAB_NUM t_lambda_39[] = {
@@ -1914,6 +2418,11 @@ static TAB_NUM t_lambda_39[] = {
   POS(506, 7)
 };
 
+static FUNCTION_INFO i_lambda_39 = {
+  t_lambda_39, NULL, 1, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_5_loop[] = {
   1, // locals
   0, // parameters
@@ -1922,7 +2431,13 @@ static TAB_NUM t_lambda_5_loop[] = {
   // for_each events
   var_for_each, 3, LOCAL(1), lambda_40, var_next, IO_TAIL_CALL,
   POS(517, 5),
-  POS(518, 5)
+  POS(518, 5),
+  LOCAL(1)
+};
+
+static FUNCTION_INFO i_lambda_5_loop = {
+  t_lambda_5_loop, NULL, 2, 1,
+  {"517_22_events\000"}
 };
 
 static TAB_NUM t_lambda_40[] = {
@@ -1934,7 +2449,14 @@ static TAB_NUM t_lambda_40[] = {
   // case type
   var_case, 6, LOCAL(2), var_READ, lambda_READ, var_PROCESS_JOINED, lambda_PROCESS_JOINED, lambda_50, IO_TAIL_CALL,
   POS(520, 9),
-  POS(521, 9)
+  POS(521, 9),
+  LOCAL(2),
+  LOCAL(1)
+};
+
+static FUNCTION_INFO i_lambda_40 = {
+  t_lambda_40, NULL, 2, 2,
+  {"520_16_type\000", "519_10_event\000"}
 };
 
 static TAB_NUM t_lambda_READ[] = {
@@ -1948,6 +2470,11 @@ static TAB_NUM t_lambda_READ[] = {
   POS(523, 13)
 };
 
+static FUNCTION_INFO i_lambda_READ = {
+  t_lambda_READ, NULL, 2, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_41[] = {
   0, // locals
   0, // parameters
@@ -1956,12 +2483,22 @@ static TAB_NUM t_lambda_41[] = {
   POS(527, 17)
 };
 
+static FUNCTION_INFO i_lambda_41 = {
+  t_lambda_41, NULL, 1, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_out_fd[] = {
   0, // locals
   0, // parameters
   // if
   var_if, 3, var_498_4_do_collect_output, lambda_do_collect_output, lambda_42, IO_TAIL_CALL,
   POS(529, 21)
+};
+
+static FUNCTION_INFO i_lambda_out_fd = {
+  t_lambda_out_fd, NULL, 1, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_do_collect_output[] = {
@@ -1975,6 +2512,11 @@ static TAB_NUM t_lambda_do_collect_output[] = {
   POS(532, 25)
 };
 
+static FUNCTION_INFO i_lambda_do_collect_output = {
+  t_lambda_do_collect_output, NULL, 2, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_42[] = {
   0, // locals
   0, // parameters
@@ -1986,12 +2528,22 @@ static TAB_NUM t_lambda_42[] = {
   POS(535, 25)
 };
 
+static FUNCTION_INFO i_lambda_42 = {
+  t_lambda_42, NULL, 2, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_err_fd[] = {
   0, // locals
   0, // parameters
   // if
   var_if, 3, var_499_4_do_collect_error_output, lambda_do_collect_error_output, lambda_43, IO_TAIL_CALL,
   POS(537, 21)
+};
+
+static FUNCTION_INFO i_lambda_err_fd = {
+  t_lambda_err_fd, NULL, 1, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_do_collect_error_output[] = {
@@ -2005,6 +2557,11 @@ static TAB_NUM t_lambda_do_collect_error_output[] = {
   POS(540, 25)
 };
 
+static FUNCTION_INFO i_lambda_do_collect_error_output = {
+  t_lambda_do_collect_error_output, NULL, 2, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_43[] = {
   0, // locals
   0, // parameters
@@ -2016,12 +2573,22 @@ static TAB_NUM t_lambda_43[] = {
   POS(543, 25)
 };
 
+static FUNCTION_INFO i_lambda_43 = {
+  t_lambda_43, NULL, 2, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_44[] = {
   0, // locals
   0, // parameters
   // next!
   var_next, 0, IO_TAIL_CALL,
   POS(545, 21)
+};
+
+static FUNCTION_INFO i_lambda_44 = {
+  t_lambda_44, NULL, 1, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_PROCESS_JOINED[] = {
@@ -2035,12 +2602,22 @@ static TAB_NUM t_lambda_PROCESS_JOINED[] = {
   POS(548, 13)
 };
 
+static FUNCTION_INFO i_lambda_PROCESS_JOINED = {
+  t_lambda_PROCESS_JOINED, NULL, 2, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_do_return_error_code[] = {
   0, // locals
   0, // parameters
   // if
   var_if, 3, var_498_4_do_collect_output, lambda_2_do_collect_output, lambda_47, TAIL_CALL,
   POS(550, 17)
+};
+
+static FUNCTION_INFO i_lambda_do_return_error_code = {
+  t_lambda_do_return_error_code, NULL, 1, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_2_do_collect_output[] = {
@@ -2051,12 +2628,22 @@ static TAB_NUM t_lambda_2_do_collect_output[] = {
   POS(552, 21)
 };
 
+static FUNCTION_INFO i_lambda_2_do_collect_output = {
+  t_lambda_2_do_collect_output, NULL, 1, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_45[] = {
   0, // locals
   0, // parameters
   //  ret out err
   LET, 3, var_547_14_ret, var_514_4_out, var_515_4_err, TAIL_CALL,
   POS(554, 25)
+};
+
+static FUNCTION_INFO i_lambda_45 = {
+  t_lambda_45, NULL, 1, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_46[] = {
@@ -2067,12 +2654,22 @@ static TAB_NUM t_lambda_46[] = {
   POS(555, 25)
 };
 
+static FUNCTION_INFO i_lambda_46 = {
+  t_lambda_46, NULL, 1, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_47[] = {
   0, // locals
   0, // parameters
   //  ret
   LET, 1, var_547_14_ret, TAIL_CALL,
   POS(556, 21)
+};
+
+static FUNCTION_INFO i_lambda_47 = {
+  t_lambda_47, NULL, 1, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_48[] = {
@@ -2086,6 +2683,11 @@ static TAB_NUM t_lambda_48[] = {
   POS(558, 17)
 };
 
+static FUNCTION_INFO i_lambda_48 = {
+  t_lambda_48, NULL, 2, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_49[] = {
   0, // locals
   0, // parameters
@@ -2094,12 +2696,22 @@ static TAB_NUM t_lambda_49[] = {
   POS(562, 21)
 };
 
+static FUNCTION_INFO i_lambda_49 = {
+  t_lambda_49, NULL, 1, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_50[] = {
   0, // locals
   0, // parameters
   // next!
   var_next, 0, IO_TAIL_CALL,
   POS(564, 13)
+};
+
+static FUNCTION_INFO i_lambda_50 = {
+  t_lambda_50, NULL, 1, 0,
+  {}
 };
 
 static TAB_NUM t_func_std_types__io___call[] = {
@@ -2112,7 +2724,17 @@ static TAB_NUM t_func_std_types__io___call[] = {
   uni_NONE, LOCAL(5), // 573_5_context
   // run io start_process id cmd args context
   var_run, 6, LOCAL(1), func_start_process, LOCAL(2), LOCAL(3), LOCAL(4), LOCAL(5), TAIL_CALL,
-  POS(575, 3)
+  POS(575, 3),
+  LOCAL(4),
+  LOCAL(5),
+  LOCAL(3),
+  LOCAL(2),
+  LOCAL(1)
+};
+
+static FUNCTION_INFO i_func_std_types__io___call = {
+  t_func_std_types__io___call, NULL, 1, 5,
+  {"572_5_args\000", "573_5_context\000", "571_5_cmd\000", "570_5_id\000", "569_5_io\000"}
 };
 
 static TAB_NUM t_func_start_process[] = {
@@ -2221,7 +2843,21 @@ static TAB_NUM t_func_start_process[] = {
   POS(603, 22),
   POS(603, 5),
   POS(602, 3),
-  POS(604, 3)
+  POS(604, 3),
+  LOCAL(10),
+  LOCAL(6),
+  LOCAL(4),
+  LOCAL(9),
+  LOCAL(5),
+  LOCAL(8),
+  LOCAL(12),
+  LOCAL(7),
+  LOCAL(11)
+};
+
+static FUNCTION_INFO i_func_start_process = {
+  t_func_start_process, NULL, 33, 9,
+  {"585_25_in_fd\000", "577_24_cmd\000", "577_18_io\000", "585_20_pid\000", "577_21_id\000", "577_33_context\000", "585_40_err_fd\000", "577_28_args\000", "585_32_out_fd\000"}
 };
 
 static TAB_NUM t_lambda_51[] = {
@@ -2237,7 +2873,14 @@ static TAB_NUM t_lambda_51[] = {
   var_next, 0, TAIL_CALL,
   POS(582, 22),
   POS(582, 7),
-  POS(583, 7)
+  POS(583, 7),
+  LOCAL(3),
+  LOCAL(2)
+};
+
+static FUNCTION_INFO i_lambda_51 = {
+  t_lambda_51, NULL, 3, 2,
+  {"581_12_value\000", "581_8_key\000"}
 };
 
 static TAB_NUM t_lambda_52[] = {
@@ -2246,6 +2889,11 @@ static TAB_NUM t_lambda_52[] = {
   //  env_vars
   LET, 1, var_579_4_env_vars, TAIL_CALL,
   POS(584, 7)
+};
+
+static FUNCTION_INFO i_lambda_52 = {
+  t_lambda_52, NULL, 1, 0,
+  {}
 };
 
 static TAB_NUM t_func_read_process_output[] = {
@@ -2271,7 +2919,15 @@ static TAB_NUM t_func_read_process_output[] = {
   POS(607, 3),
   POS(607, 14),
   POS(607, 11),
-  POS(608, 3)
+  POS(608, 3),
+  LOCAL(5),
+  LOCAL(3),
+  LOCAL(4)
+};
+
+static FUNCTION_INFO i_func_read_process_output = {
+  t_func_read_process_output, NULL, 6, 3,
+  {"606_30_data\000", "606_24_io\000", "606_27_fd\000"}
 };
 
 static TAB_NUM t_func_read_from_process_failed[] = {
@@ -2285,7 +2941,14 @@ static TAB_NUM t_func_read_from_process_failed[] = {
   // -> io undefined
   LET, 2, LOCAL(2), var_undefined, TAIL_CALL,
   POS(611, 3),
-  POS(612, 3)
+  POS(612, 3),
+  LOCAL(2),
+  LOCAL(3)
+};
+
+static FUNCTION_INFO i_func_read_from_process_failed = {
+  t_func_read_from_process_failed, NULL, 2, 2,
+  {"610_29_io\000", "610_32_fd\000"}
 };
 
 static TAB_NUM t_func_ignore_close[] = {
@@ -2296,7 +2959,13 @@ static TAB_NUM t_func_ignore_close[] = {
   LOCAL(1),
   // -> io undefined
   LET, 2, LOCAL(2), var_undefined, TAIL_CALL,
-  POS(615, 3)
+  POS(615, 3),
+  LOCAL(2)
+};
+
+static FUNCTION_INFO i_func_ignore_close = {
+  t_func_ignore_close, NULL, 1, 1,
+  {"614_17_io\000"}
 };
 
 static TAB_NUM t_func_process_finished[] = {
@@ -2383,7 +3052,15 @@ static TAB_NUM t_func_process_finished[] = {
   POS(627, 7),
   POS(627, 4),
   POS(629, 5),
-  POS(628, 3)
+  POS(628, 3),
+  LOCAL(4),
+  LOCAL(3),
+  LOCAL(5)
+};
+
+static FUNCTION_INFO i_func_process_finished = {
+  t_func_process_finished, NULL, 26, 3,
+  {"622_21_out_fd\000", "617_24_pid\000", "622_29_err_fd\000"}
 };
 
 static TAB_NUM t_lambda_53[] = {
@@ -2400,6 +3077,11 @@ static TAB_NUM t_lambda_53[] = {
   POS(630, 7)
 };
 
+static FUNCTION_INFO i_lambda_53 = {
+  t_lambda_53, NULL, 3, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_54[] = {
   2, // locals
   0, // parameters
@@ -2414,12 +3096,22 @@ static TAB_NUM t_lambda_54[] = {
   POS(631, 7)
 };
 
+static FUNCTION_INFO i_lambda_54 = {
+  t_lambda_54, NULL, 3, 0,
+  {}
+};
+
 static TAB_NUM t_func_std__terminate[] = {
   0, // locals
   0, // parameters
   // exit! EXIT_SUCCESS
   var_exit, 1, var_EXIT_SUCCESS, IO_TAIL_CALL,
   POS(634, 3)
+};
+
+static FUNCTION_INFO i_func_std__terminate = {
+  t_func_std__terminate, NULL, 1, 0,
+  {}
 };
 
 static TAB_NUM t_func_std_types__file_descriptor___serialize[] = {
@@ -2438,7 +3130,13 @@ static TAB_NUM t_func_std_types__file_descriptor___serialize[] = {
   POS(648, 28),
   POS(647, 3),
   POS(650, 12),
-  POS(649, 3)
+  POS(649, 3),
+  LOCAL(2)
+};
+
+static FUNCTION_INFO i_func_std_types__file_descriptor___serialize = {
+  t_func_std_types__file_descriptor___serialize, NULL, 4, 1,
+  {"644_5_self\000"}
 };
 
 static TAB_NUM t_lambda_55[] = {
@@ -2455,12 +3153,22 @@ static TAB_NUM t_lambda_55[] = {
   POS(651, 7)
 };
 
+static FUNCTION_INFO i_lambda_55 = {
+  t_lambda_55, NULL, 3, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_56[] = {
   0, // locals
   0, // parameters
   //  str
   LET, 1, var_647_4_str, TAIL_CALL,
   POS(652, 7)
+};
+
+static FUNCTION_INFO i_lambda_56 = {
+  t_lambda_56, NULL, 1, 0,
+  {}
 };
 
 static TAB_NUM t_func_std_types__file_descriptor___deserializer_of[] = {
@@ -2476,7 +3184,13 @@ static TAB_NUM t_func_std_types__file_descriptor___deserializer_of[] = {
   LET, 1, LOCAL(2), TAIL_CALL,
   POS(659, 22),
   POS(659, 6),
-  POS(659, 3)
+  POS(659, 3),
+  LOCAL(3)
+};
+
+static FUNCTION_INFO i_func_std_types__file_descriptor___deserializer_of = {
+  t_func_std_types__file_descriptor___deserializer_of, NULL, 3, 1,
+  {"657_5_argument\000"}
 };
 
 static TAB_NUM t_func_std_types__process_id___serialize[] = {
@@ -2495,7 +3209,13 @@ static TAB_NUM t_func_std_types__process_id___serialize[] = {
   POS(675, 23),
   POS(674, 3),
   POS(677, 12),
-  POS(676, 3)
+  POS(676, 3),
+  LOCAL(2)
+};
+
+static FUNCTION_INFO i_func_std_types__process_id___serialize = {
+  t_func_std_types__process_id___serialize, NULL, 4, 1,
+  {"671_5_self\000"}
 };
 
 static TAB_NUM t_lambda_57[] = {
@@ -2512,12 +3232,22 @@ static TAB_NUM t_lambda_57[] = {
   POS(678, 7)
 };
 
+static FUNCTION_INFO i_lambda_57 = {
+  t_lambda_57, NULL, 3, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_58[] = {
   0, // locals
   0, // parameters
   //  str
   LET, 1, var_674_4_str, TAIL_CALL,
   POS(679, 7)
+};
+
+static FUNCTION_INFO i_lambda_58 = {
+  t_lambda_58, NULL, 1, 0,
+  {}
 };
 
 static TAB_NUM t_func_std_types__process_id___deserializer_of[] = {
@@ -2533,7 +3263,13 @@ static TAB_NUM t_func_std_types__process_id___deserializer_of[] = {
   LET, 1, LOCAL(2), TAIL_CALL,
   POS(686, 17),
   POS(686, 6),
-  POS(686, 3)
+  POS(686, 3),
+  LOCAL(3)
+};
+
+static FUNCTION_INFO i_func_std_types__process_id___deserializer_of = {
+  t_func_std_types__process_id___deserializer_of, NULL, 3, 1,
+  {"684_5_argument\000"}
 };
 
 static TAB_NUM t_func_extern_call[] = {
@@ -2552,7 +3288,14 @@ static TAB_NUM t_func_extern_call[] = {
   POS(697, 9),
   POS(697, 32),
   POS(697, 28),
-  POS(697, 3)
+  POS(697, 3),
+  LOCAL(4),
+  LOCAL(5)
+};
+
+static FUNCTION_INFO i_func_extern_call = {
+  t_func_extern_call, NULL, 4, 2,
+  {"694_5_myself\000", "695_5_arguments\000"}
 };
 
 static TAB_NUM t_func_std__pipe[] = {
@@ -2591,6 +3334,11 @@ static TAB_NUM t_func_std__pipe[] = {
   POS(713, 3)
 };
 
+static FUNCTION_INFO i_func_std__pipe = {
+  t_func_std__pipe, NULL, 10, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_first_arg_is_a_string[] = {
   0, // locals
   0, // parameters
@@ -2605,6 +3353,11 @@ static TAB_NUM t_lambda_first_arg_is_a_string[] = {
   POS(717, 7)
 };
 
+static FUNCTION_INFO i_lambda_first_arg_is_a_string = {
+  t_lambda_first_arg_is_a_string, NULL, 3, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_59[] = {
   1, // locals
   0, // parameters
@@ -2614,6 +3367,11 @@ static TAB_NUM t_lambda_59[] = {
   var_if, 3, LOCAL(1), lambda_first_arg_is_a_file_descriptor, func_build_commands, IO_TAIL_CALL,
   POS(720, 19),
   POS(719, 7)
+};
+
+static FUNCTION_INFO i_lambda_59 = {
+  t_lambda_59, NULL, 2, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_first_arg_is_a_file_descriptor[] = {
@@ -2630,12 +3388,22 @@ static TAB_NUM t_lambda_first_arg_is_a_file_descriptor[] = {
   POS(723, 11)
 };
 
+static FUNCTION_INFO i_lambda_first_arg_is_a_file_descriptor = {
+  t_lambda_first_arg_is_a_file_descriptor, NULL, 3, 0,
+  {}
+};
+
 static TAB_NUM t_func_build_commands[] = {
   0, // locals
   0, // parameters
   // loop
   var_loop, 2, lambda_60, lambda_64, IO_TAIL_CALL,
   POS(727, 5)
+};
+
+static FUNCTION_INFO i_func_build_commands = {
+  t_func_build_commands, NULL, 1, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_60[] = {
@@ -2647,6 +3415,11 @@ static TAB_NUM t_lambda_60[] = {
   var_if, 3, LOCAL(1), var_break, lambda_61, IO_TAIL_CALL,
   POS(730, 15),
   POS(729, 9)
+};
+
+static FUNCTION_INFO i_lambda_60 = {
+  t_lambda_60, NULL, 2, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_61[] = {
@@ -2661,6 +3434,11 @@ static TAB_NUM t_lambda_61[] = {
   POS(732, 13),
   POS(734, 19),
   POS(733, 13)
+};
+
+static FUNCTION_INFO i_lambda_61 = {
+  t_lambda_61, NULL, 3, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_arg_is_a_function[] = {
@@ -2686,6 +3464,11 @@ static TAB_NUM t_lambda_arg_is_a_function[] = {
   POS(740, 17)
 };
 
+static FUNCTION_INFO i_lambda_arg_is_a_function = {
+  t_lambda_arg_is_a_function, NULL, 6, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_62[] = {
   3, // locals
   0, // parameters
@@ -2703,6 +3486,11 @@ static TAB_NUM t_lambda_62[] = {
   POS(736, 19)
 };
 
+static FUNCTION_INFO i_lambda_62 = {
+  t_lambda_62, NULL, 4, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_63[] = {
   0, // locals
   0, // parameters
@@ -2717,6 +3505,11 @@ static TAB_NUM t_lambda_63[] = {
   POS(744, 17)
 };
 
+static FUNCTION_INFO i_lambda_63 = {
+  t_lambda_63, NULL, 3, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_64[] = {
   1, // locals
   0, // parameters
@@ -2729,6 +3522,11 @@ static TAB_NUM t_lambda_64[] = {
   POS(746, 24),
   POS(746, 9),
   POS(748, 9)
+};
+
+static FUNCTION_INFO i_lambda_64 = {
+  t_lambda_64, NULL, 3, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_65[] = {
@@ -2748,6 +3546,11 @@ static TAB_NUM t_lambda_65[] = {
   POS(747, 11)
 };
 
+static FUNCTION_INFO i_lambda_65 = {
+  t_lambda_65, NULL, 4, 0,
+  {}
+};
+
 static TAB_NUM t_func_std__pipe_commands[] = {
   1, // locals
   -2, // parameters
@@ -2761,6 +3564,11 @@ static TAB_NUM t_func_std__pipe_commands[] = {
   POS(755, 3)
 };
 
+static FUNCTION_INFO i_func_std__pipe_commands = {
+  t_func_std__pipe_commands, NULL, 2, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_feed_or_fd_is_defined[] = {
   1, // locals
   0, // parameters
@@ -2772,12 +3580,22 @@ static TAB_NUM t_lambda_feed_or_fd_is_defined[] = {
   POS(757, 7)
 };
 
+static FUNCTION_INFO i_lambda_feed_or_fd_is_defined = {
+  t_lambda_feed_or_fd_is_defined, NULL, 2, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_feed_or_fd_is_a_file_descriptor[] = {
   0, // locals
   0, // parameters
   // run_pipe! feed_or_fd undefined commands
   func_run_pipe, 3, var_752_5_feed_or_fd, var_undefined, var_753_5_commands, IO_TAIL_CALL,
   POS(759, 11)
+};
+
+static FUNCTION_INFO i_lambda_feed_or_fd_is_a_file_descriptor = {
+  t_lambda_feed_or_fd_is_a_file_descriptor, NULL, 1, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_66[] = {
@@ -2788,12 +3606,22 @@ static TAB_NUM t_lambda_66[] = {
   POS(761, 11)
 };
 
+static FUNCTION_INFO i_lambda_66 = {
+  t_lambda_66, NULL, 1, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_67[] = {
   0, // locals
   0, // parameters
   // run_pipe! undefined undefined commands
   func_run_pipe, 3, var_undefined, var_undefined, var_753_5_commands, IO_TAIL_CALL,
   POS(763, 7)
+};
+
+static FUNCTION_INFO i_lambda_67 = {
+  t_lambda_67, NULL, 1, 0,
+  {}
 };
 
 static TAB_NUM t_func_run_pipe[] = {
@@ -2825,6 +3653,11 @@ static TAB_NUM t_func_run_pipe[] = {
   POS(782, 3)
 };
 
+static FUNCTION_INFO i_func_run_pipe = {
+  t_func_run_pipe, NULL, 7, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_68[] = {
   0, // locals
   0, // parameters
@@ -2834,6 +3667,11 @@ static TAB_NUM t_lambda_68[] = {
   var_for_each, 3, var_environment, lambda_69, lambda_70, TAIL_CALL,
   POS(776, 5),
   POS(777, 5)
+};
+
+static FUNCTION_INFO i_lambda_68 = {
+  t_lambda_68, NULL, 2, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_69[] = {
@@ -2849,7 +3687,14 @@ static TAB_NUM t_lambda_69[] = {
   var_next, 0, TAIL_CALL,
   POS(779, 24),
   POS(779, 9),
-  POS(780, 9)
+  POS(780, 9),
+  LOCAL(3),
+  LOCAL(2)
+};
+
+static FUNCTION_INFO i_lambda_69 = {
+  t_lambda_69, NULL, 3, 2,
+  {"778_14_value\000", "778_10_key\000"}
 };
 
 static TAB_NUM t_lambda_70[] = {
@@ -2858,6 +3703,11 @@ static TAB_NUM t_lambda_70[] = {
   //  env_vars
   LET, 1, var_774_4_env_vars, TAIL_CALL,
   POS(781, 9)
+};
+
+static FUNCTION_INFO i_lambda_70 = {
+  t_lambda_70, NULL, 1, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_71[] = {
@@ -2885,7 +3735,13 @@ static TAB_NUM t_lambda_71[] = {
   POS(787, 7),
   POS(789, 9),
   POS(789, 9),
-  POS(788, 7)
+  POS(788, 7),
+  LOCAL(3)
+};
+
+static FUNCTION_INFO i_lambda_71 = {
+  t_lambda_71, NULL, 7, 1,
+  {"783_12_command\000"}
 };
 
 static TAB_NUM t_lambda_72[] = {
@@ -2899,6 +3755,11 @@ static TAB_NUM t_lambda_72[] = {
   POS(789, 21)
 };
 
+static FUNCTION_INFO i_lambda_72 = {
+  t_lambda_72, NULL, 2, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_73[] = {
   0, // locals
   0, // parameters
@@ -2910,6 +3771,11 @@ static TAB_NUM t_lambda_73[] = {
   POS(791, 11)
 };
 
+static FUNCTION_INFO i_lambda_73 = {
+  t_lambda_73, NULL, 2, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_74[] = {
   0, // locals
   0, // parameters
@@ -2919,6 +3785,11 @@ static TAB_NUM t_lambda_74[] = {
   func_store_pid_and_err_fd, 0, IO_TAIL_CALL,
   POS(793, 11),
   POS(794, 11)
+};
+
+static FUNCTION_INFO i_lambda_74 = {
+  t_lambda_74, NULL, 2, 0,
+  {}
 };
 
 static TAB_NUM t_func_store_pid_and_err_fd[] = {
@@ -2933,6 +3804,11 @@ static TAB_NUM t_func_store_pid_and_err_fd[] = {
   POS(797, 10),
   POS(798, 10),
   POS(799, 9)
+};
+
+static FUNCTION_INFO i_func_store_pid_and_err_fd = {
+  t_func_store_pid_and_err_fd, NULL, 3, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_75[] = {
@@ -2964,6 +3840,11 @@ static TAB_NUM t_lambda_75[] = {
   POS(804, 7)
 };
 
+static FUNCTION_INFO i_lambda_75 = {
+  t_lambda_75, NULL, 8, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_76[] = {
   0, // locals
   0, // parameters
@@ -2978,12 +3859,22 @@ static TAB_NUM t_lambda_76[] = {
   POS(810, 11)
 };
 
+static FUNCTION_INFO i_lambda_76 = {
+  t_lambda_76, NULL, 3, 0,
+  {}
+};
+
 static TAB_NUM t_func_manage_io[] = {
   0, // locals
   0, // parameters
   // loop:
   var_loop, 1, lambda_6_loop, IO_TAIL_CALL,
   POS(813, 9)
+};
+
+static FUNCTION_INFO i_func_manage_io = {
+  t_func_manage_io, NULL, 1, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_6_loop[] = {
@@ -3009,7 +3900,14 @@ static TAB_NUM t_lambda_6_loop[] = {
   POS(820, 28),
   POS(820, 11),
   POS(822, 11),
-  POS(827, 11)
+  POS(827, 11),
+  LOCAL(2),
+  LOCAL(3)
+};
+
+static FUNCTION_INFO i_lambda_6_loop = {
+  t_lambda_6_loop, NULL, 7, 2,
+  {"815_12_write_descriptor_list\000", "823_14_signals\000"}
 };
 
 static TAB_NUM t_lambda_77[] = {
@@ -3023,6 +3921,11 @@ static TAB_NUM t_lambda_77[] = {
   POS(818, 17)
 };
 
+static FUNCTION_INFO i_lambda_77 = {
+  t_lambda_77, NULL, 2, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_78[] = {
   0, // locals
   0, // parameters
@@ -3031,12 +3934,22 @@ static TAB_NUM t_lambda_78[] = {
   POS(819, 17)
 };
 
+static FUNCTION_INFO i_lambda_78 = {
+  t_lambda_78, NULL, 1, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_79[] = {
   0, // locals
   0, // parameters
   // push read_descriptor_list out_fd
   var_push, 2, var_814_12_read_descriptor_list, var_773_4_out_fd, TAIL_CALL,
   POS(821, 13)
+};
+
+static FUNCTION_INFO i_lambda_79 = {
+  t_lambda_79, NULL, 1, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_80[] = {
@@ -3048,7 +3961,13 @@ static TAB_NUM t_lambda_80[] = {
   // if
   var_if, 3, LOCAL(1), lambda_81, var_next, IO_TAIL_CALL,
   POS(830, 17),
-  POS(829, 15)
+  POS(829, 15),
+  LOCAL(2)
+};
+
+static FUNCTION_INFO i_lambda_80 = {
+  t_lambda_80, NULL, 2, 1,
+  {"828_16_signal\000"}
 };
 
 static TAB_NUM t_lambda_81[] = {
@@ -3057,6 +3976,11 @@ static TAB_NUM t_lambda_81[] = {
   // loop
   var_loop, 2, lambda_82, var_next, IO_TAIL_CALL,
   POS(831, 19)
+};
+
+static FUNCTION_INFO i_lambda_81 = {
+  t_lambda_81, NULL, 1, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_82[] = {
@@ -3071,6 +3995,11 @@ static TAB_NUM t_lambda_82[] = {
   POS(833, 23),
   POS(835, 30),
   POS(834, 23)
+};
+
+static FUNCTION_INFO i_lambda_82 = {
+  t_lambda_82, NULL, 3, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_rpid_is_defined[] = {
@@ -3093,12 +4022,22 @@ static TAB_NUM t_lambda_rpid_is_defined[] = {
   POS(838, 27)
 };
 
+static FUNCTION_INFO i_lambda_rpid_is_defined = {
+  t_lambda_rpid_is_defined, NULL, 5, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_83[] = {
   0, // locals
   0, // parameters
   // for_each write_descriptors
   var_for_each, 3, var_825_14_write_descriptors, lambda_84, lambda_85, IO_TAIL_CALL,
   POS(846, 15)
+};
+
+static FUNCTION_INFO i_lambda_83 = {
+  t_lambda_83, NULL, 1, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_84[] = {
@@ -3119,7 +4058,14 @@ static TAB_NUM t_lambda_84[] = {
   POS(849, 31),
   POS(849, 19),
   POS(851, 26),
-  POS(850, 19)
+  POS(850, 19),
+  LOCAL(2),
+  LOCAL(3)
+};
+
+static FUNCTION_INFO i_lambda_84 = {
+  t_lambda_84, NULL, 5, 2,
+  {"847_20_write_descriptor\000", "848_27_bytes_written\000"}
 };
 
 static TAB_NUM t_lambda_feed_is_empty[] = {
@@ -3136,12 +4082,22 @@ static TAB_NUM t_lambda_feed_is_empty[] = {
   POS(854, 23)
 };
 
+static FUNCTION_INFO i_lambda_feed_is_empty = {
+  t_lambda_feed_is_empty, NULL, 3, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_85[] = {
   0, // locals
   0, // parameters
   // for_each read_descriptors
   var_for_each, 3, var_824_14_read_descriptors, lambda_86, lambda_92, IO_TAIL_CALL,
   POS(857, 19)
+};
+
+static FUNCTION_INFO i_lambda_85 = {
+  t_lambda_85, NULL, 1, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_86[] = {
@@ -3159,6 +4115,11 @@ static TAB_NUM t_lambda_86[] = {
   POS(860, 23)
 };
 
+static FUNCTION_INFO i_lambda_86 = {
+  t_lambda_86, NULL, 3, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_buf_is_empty[] = {
   1, // locals
   0, // parameters
@@ -3173,6 +4134,11 @@ static TAB_NUM t_lambda_buf_is_empty[] = {
   POS(863, 27)
 };
 
+static FUNCTION_INFO i_lambda_buf_is_empty = {
+  t_lambda_buf_is_empty, NULL, 3, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_87[] = {
   0, // locals
   0, // parameters
@@ -3182,6 +4148,11 @@ static TAB_NUM t_lambda_87[] = {
   var_next, 0, IO_TAIL_CALL,
   POS(865, 31),
   POS(866, 31)
+};
+
+static FUNCTION_INFO i_lambda_87 = {
+  t_lambda_87, NULL, 2, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_88[] = {
@@ -3195,6 +4166,11 @@ static TAB_NUM t_lambda_88[] = {
   POS(869, 31)
 };
 
+static FUNCTION_INFO i_lambda_88 = {
+  t_lambda_88, NULL, 2, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_89[] = {
   1, // locals
   0, // parameters
@@ -3206,6 +4182,11 @@ static TAB_NUM t_lambda_89[] = {
   POS(871, 27)
 };
 
+static FUNCTION_INFO i_lambda_89 = {
+  t_lambda_89, NULL, 2, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_90[] = {
   0, // locals
   0, // parameters
@@ -3215,6 +4196,11 @@ static TAB_NUM t_lambda_90[] = {
   var_next, 0, IO_TAIL_CALL,
   POS(873, 31),
   POS(874, 31)
+};
+
+static FUNCTION_INFO i_lambda_90 = {
+  t_lambda_90, NULL, 2, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_91[] = {
@@ -3237,6 +4223,11 @@ static TAB_NUM t_lambda_91[] = {
   POS(877, 31)
 };
 
+static FUNCTION_INFO i_lambda_91 = {
+  t_lambda_91, NULL, 5, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_92[] = {
   2, // locals
   0, // parameters
@@ -3249,6 +4240,11 @@ static TAB_NUM t_lambda_92[] = {
   POS(880, 30),
   POS(880, 30),
   POS(879, 23)
+};
+
+static FUNCTION_INFO i_lambda_92 = {
+  t_lambda_92, NULL, 3, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_93[] = {
@@ -3265,6 +4261,11 @@ static TAB_NUM t_lambda_93[] = {
   POS(880, 42)
 };
 
+static FUNCTION_INFO i_lambda_93 = {
+  t_lambda_93, NULL, 3, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_94[] = {
   1, // locals
   0, // parameters
@@ -3276,12 +4277,22 @@ static TAB_NUM t_lambda_94[] = {
   POS(880, 65)
 };
 
+static FUNCTION_INFO i_lambda_94 = {
+  t_lambda_94, NULL, 2, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_95[] = {
   0, // locals
   0, // parameters
   //  ret out err
   LET, 3, var_801_8_ret, var_802_8_out, var_803_8_err, TAIL_CALL,
   POS(881, 27)
+};
+
+static FUNCTION_INFO i_lambda_95 = {
+  t_lambda_95, NULL, 1, 0,
+  {}
 };
 
 static TAB_NUM t_func_std__which[] = {
@@ -3299,6 +4310,11 @@ static TAB_NUM t_func_std__which[] = {
   POS(888, 3)
 };
 
+static FUNCTION_INFO i_func_std__which = {
+  t_func_std__which, NULL, 3, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_96[] = {
   2, // locals
   1, // parameters
@@ -3311,7 +4327,14 @@ static TAB_NUM t_lambda_96[] = {
   var_if, 3, LOCAL(2), lambda_97, var_next, IO_TAIL_CALL,
   POS(890, 7),
   POS(891, 7),
-  POS(892, 7)
+  POS(892, 7),
+  LOCAL(2),
+  LOCAL(1)
+};
+
+static FUNCTION_INFO i_lambda_96 = {
+  t_lambda_96, NULL, 3, 2,
+  {"891_30_does_exist\000", "889_8_pathname\000"}
 };
 
 static TAB_NUM t_lambda_97[] = {
@@ -3322,12 +4345,22 @@ static TAB_NUM t_lambda_97[] = {
   POS(893, 11)
 };
 
+static FUNCTION_INFO i_lambda_97 = {
+  t_lambda_97, NULL, 1, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_98[] = {
   0, // locals
   0, // parameters
   //  undefined
   LET, 1, var_undefined, TAIL_CALL,
   POS(895, 7)
+};
+
+static FUNCTION_INFO i_lambda_98 = {
+  t_lambda_98, NULL, 1, 0,
+  {}
 };
 
 static TAB_NUM t_func_std__find_first_process[] = {
@@ -3340,6 +4373,11 @@ static TAB_NUM t_func_std__find_first_process[] = {
   var_loop, 1, lambda_7_loop, IO_TAIL_CALL,
   POS(898, 3),
   POS(899, 3)
+};
+
+static FUNCTION_INFO i_func_std__find_first_process = {
+  t_func_std__find_first_process, NULL, 2, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_7_loop[] = {
@@ -3356,6 +4394,11 @@ static TAB_NUM t_lambda_7_loop[] = {
   POS(901, 5)
 };
 
+static FUNCTION_INFO i_lambda_7_loop = {
+  t_lambda_7_loop, NULL, 3, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_2_entry_is_an_error[] = {
   0, // locals
   0, // parameters
@@ -3365,6 +4408,11 @@ static TAB_NUM t_lambda_2_entry_is_an_error[] = {
   LET, 1, var_undefined, TAIL_CALL,
   POS(903, 9),
   POS(904, 9)
+};
+
+static FUNCTION_INFO i_lambda_2_entry_is_an_error = {
+  t_lambda_2_entry_is_an_error, NULL, 2, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_99[] = {
@@ -3384,6 +4432,11 @@ static TAB_NUM t_lambda_99[] = {
   POS(907, 9)
 };
 
+static FUNCTION_INFO i_lambda_99 = {
+  t_lambda_99, NULL, 4, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_100[] = {
   1, // locals
   0, // parameters
@@ -3401,6 +4454,11 @@ static TAB_NUM t_lambda_100[] = {
   POS(910, 13)
 };
 
+static FUNCTION_INFO i_lambda_100 = {
+  t_lambda_100, NULL, 4, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_101[] = {
   2, // locals
   0, // parameters
@@ -3415,7 +4473,13 @@ static TAB_NUM t_lambda_101[] = {
   POS(914, 17),
   POS(915, 17),
   POS(917, 19),
-  POS(916, 17)
+  POS(916, 17),
+  LOCAL(2)
+};
+
+static FUNCTION_INFO i_lambda_101 = {
+  t_lambda_101, NULL, 4, 1,
+  {"914_18_proc_name\000"}
 };
 
 static TAB_NUM t_lambda_102[] = {
@@ -3427,6 +4491,11 @@ static TAB_NUM t_lambda_102[] = {
   LET, 1, LOCAL(1), TAIL_CALL,
   POS(918, 31),
   POS(918, 21)
+};
+
+static FUNCTION_INFO i_lambda_102 = {
+  t_lambda_102, NULL, 2, 0,
+  {}
 };
 
 static TAB_NUM t_func_std__find_processes[] = {
@@ -3444,6 +4513,11 @@ static TAB_NUM t_func_std__find_processes[] = {
   POS(925, 3)
 };
 
+static FUNCTION_INFO i_func_std__find_processes = {
+  t_func_std__find_processes, NULL, 3, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_8_loop[] = {
   1, // locals
   0, // parameters
@@ -3458,6 +4532,11 @@ static TAB_NUM t_lambda_8_loop[] = {
   POS(927, 5)
 };
 
+static FUNCTION_INFO i_lambda_8_loop = {
+  t_lambda_8_loop, NULL, 3, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_3_entry_is_an_error[] = {
   0, // locals
   0, // parameters
@@ -3467,6 +4546,11 @@ static TAB_NUM t_lambda_3_entry_is_an_error[] = {
   LET, 1, var_924_4_pids, TAIL_CALL,
   POS(929, 9),
   POS(930, 9)
+};
+
+static FUNCTION_INFO i_lambda_3_entry_is_an_error = {
+  t_lambda_3_entry_is_an_error, NULL, 2, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_103[] = {
@@ -3486,6 +4570,11 @@ static TAB_NUM t_lambda_103[] = {
   POS(933, 9)
 };
 
+static FUNCTION_INFO i_lambda_103 = {
+  t_lambda_103, NULL, 4, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_104[] = {
   1, // locals
   0, // parameters
@@ -3503,6 +4592,11 @@ static TAB_NUM t_lambda_104[] = {
   POS(936, 13)
 };
 
+static FUNCTION_INFO i_lambda_104 = {
+  t_lambda_104, NULL, 4, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_105[] = {
   2, // locals
   0, // parameters
@@ -3517,7 +4611,13 @@ static TAB_NUM t_lambda_105[] = {
   POS(940, 17),
   POS(941, 17),
   POS(943, 19),
-  POS(942, 17)
+  POS(942, 17),
+  LOCAL(2)
+};
+
+static FUNCTION_INFO i_lambda_105 = {
+  t_lambda_105, NULL, 4, 1,
+  {"940_18_proc_name\000"}
 };
 
 static TAB_NUM t_lambda_106[] = {
@@ -3532,6 +4632,11 @@ static TAB_NUM t_lambda_106[] = {
   POS(944, 41),
   POS(944, 21),
   POS(945, 21)
+};
+
+static FUNCTION_INFO i_lambda_106 = {
+  t_lambda_106, NULL, 3, 0,
+  {}
 };
 
 static TAB_NUM t_func_std__get_process_name[] = {
@@ -3549,7 +4654,13 @@ static TAB_NUM t_func_std__get_process_name[] = {
   POS(950, 14),
   POS(950, 3),
   POS(952, 9),
-  POS(951, 3)
+  POS(951, 3),
+  LOCAL(2)
+};
+
+static FUNCTION_INFO i_func_std__get_process_name = {
+  t_func_std__get_process_name, NULL, 4, 1,
+  {"949_26_pid\000"}
 };
 
 static TAB_NUM t_lambda_107[] = {
@@ -3558,6 +4669,11 @@ static TAB_NUM t_lambda_107[] = {
   //  undefined
   LET, 1, var_undefined, TAIL_CALL,
   POS(953, 7)
+};
+
+static FUNCTION_INFO i_lambda_107 = {
+  t_lambda_107, NULL, 1, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_108[] = {
@@ -3569,6 +4685,11 @@ static TAB_NUM t_lambda_108[] = {
   LET, 1, LOCAL(1), TAIL_CALL,
   POS(954, 8),
   POS(954, 7)
+};
+
+static FUNCTION_INFO i_lambda_108 = {
+  t_lambda_108, NULL, 2, 0,
+  {}
 };
 
 static TAB_NUM t_func_std__get_mac_address[] = {
@@ -3585,12 +4706,22 @@ static TAB_NUM t_func_std__get_mac_address[] = {
   POS(958, 3)
 };
 
+static FUNCTION_INFO i_func_std__get_mac_address = {
+  t_func_std__get_mac_address, NULL, 3, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_mac_is_defined[] = {
   0, // locals
   0, // parameters
   // map_reduce mac: (chr) -> hex(chr.to_integer 2)
   var_map_reduce, 2, var_957_27_mac, lambda_109, TAIL_CALL,
   POS(959, 21)
+};
+
+static FUNCTION_INFO i_lambda_mac_is_defined = {
+  t_lambda_mac_is_defined, NULL, 1, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_109[] = {
@@ -3605,7 +4736,13 @@ static TAB_NUM t_lambda_109[] = {
   LET, 1, LOCAL(2), TAIL_CALL,
   POS(959, 54),
   POS(959, 46),
-  POS(959, 43)
+  POS(959, 43),
+  LOCAL(3)
+};
+
+static FUNCTION_INFO i_lambda_109 = {
+  t_lambda_109, NULL, 3, 1,
+  {"959_38_chr\000"}
 };
 
 static TAB_NUM t_lambda_110[] = {
@@ -3614,6 +4751,11 @@ static TAB_NUM t_lambda_110[] = {
   //  undefined
   LET, 1, var_undefined, TAIL_CALL,
   POS(960, 7)
+};
+
+static FUNCTION_INFO i_lambda_110 = {
+  t_lambda_110, NULL, 1, 0,
+  {}
 };
 
 static TAB_NUM t_func_std__extern[] = {
@@ -3625,7 +4767,13 @@ static TAB_NUM t_func_std__extern[] = {
   // -> extern_call(.command_of command)
   LET, 1, LOCAL(1), TAIL_CALL,
   POS(966, 18),
-  POS(966, 3)
+  POS(966, 3),
+  LOCAL(2)
+};
+
+static FUNCTION_INFO i_func_std__extern = {
+  t_func_std__extern, NULL, 2, 1,
+  {"964_5_command\000"}
 };
 
 static TAB_NUM t_module_entry[] = {
@@ -3640,248 +4788,253 @@ static TAB_NUM t_module_entry[] = {
   POS(688, 1)
 };
 
+static FUNCTION_INFO i_module_entry = {
+  t_module_entry, NULL, 2, 0,
+  {}
+};
+
 static int list_803_16_arguments[] = {
   -string_1
 };
 
 static FUNKY_CONSTANT constants_table[] = {
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std__sleep}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std__sleep}},
   {FLT_POSITIVE_INT64, 0, {.value = 0}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_1}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_1}},
   {FLT_POSITIVE_INT64, 0, {.value = 1000000}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std__write_string_to}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_2}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_3}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_4}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std__write_string_to}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_2}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_3}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_4}},
   {FLT_POSITIVE_INT64, 0, {.value = 1}},
   {FLT_NEGATIVE_INT64, 0, {.value = 1}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std__write_to}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std__writeln_to}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std__write_to}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std__writeln_to}},
   {FLT_CHARACTER, 0, {.value = 10}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std__print_string_to}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std_types__file_descriptor___print_to}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std__println_to}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std__print_string}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std__print}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std__println}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std__eprint_string}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std__eprint}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std__eprintln}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std__read_from}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std__print_string_to}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std_types__file_descriptor___print_to}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std__println_to}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std__print_string}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std__print}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std__println}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std__eprint_string}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std__eprint}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std__eprintln}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std__read_from}},
   {FLT_STRING_8, 0, {.str_8 = ""}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_loop}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_5}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_6}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_7}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_8}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_9}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_10}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std__read_from_until}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_2_loop}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_11}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_12}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_13}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_14}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_15}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_16}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_17}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_18}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std__readln_from}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std__read_all_from}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_3_loop}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_loop}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_5}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_6}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_7}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_8}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_9}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_10}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std__read_from_until}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_2_loop}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_11}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_12}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_13}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_14}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_15}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_16}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_17}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_18}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std__readln_from}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std__read_all_from}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_3_loop}},
   {FLT_POSITIVE_INT64, 0, {.value = 0x100000}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_19}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_20}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_21}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_22}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_23}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_24}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std__get_from_until}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std__getln_from}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std__get_until}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std__getln}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std_types__string___load}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_19}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_20}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_21}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_22}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_23}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_24}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std__get_from_until}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std__getln_from}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std__get_until}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std__getln}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std_types__string___load}},
   {FLT_STRING_8, 1, {.str_8 = "r"}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_max_length_is_defined}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_25}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std_types__string___save}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_max_length_is_defined}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_25}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std_types__string___save}},
   {FLT_STRING_8, 2, {.str_8 = "w+"}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std_types__file_descriptor___load}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std_types__io___load}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_load_file}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_26}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_27}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_read_data}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_28}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_29}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_30}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_read_failed}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_file_closed_after_reading}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std_types__file_descriptor___load}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std_types__io___load}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_load_file}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_26}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_27}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_read_data}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_28}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_29}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_30}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_read_failed}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_file_closed_after_reading}},
   {FLT_UNIQUE, 0, {.str_8 = "NONE"}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std_types__io___save}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_save_file}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std_types__io___save}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_save_file}},
   {FLT_STRING_8, 1, {.str_8 = "w"}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_31}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_32}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_33}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_write_completed}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_close_file_after_writing}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_write_failed}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std__try}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std__check}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_34}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std__file_exists}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std__directory}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_4_loop}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_entry_is_an_error}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_do_sort}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_35}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_36}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_37}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std_types__stat___is_a_directory}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_31}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_32}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_33}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_write_completed}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_close_file_after_writing}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_write_failed}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std__try}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std__check}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_34}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std__file_exists}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std__directory}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_4_loop}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_entry_is_an_error}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_do_sort}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_35}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_36}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_37}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std_types__stat___is_a_directory}},
   {FLT_CHARACTER, 0, {.value = 100}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std_types__object___call}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std_types__object___call}},
   {FLT_POSITIVE_INT64, 0, {.value = 2}},
   {FLT_POSITIVE_INT64, 0, {.value = 3}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_38}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_38}},
   {FLT_STRING_8, 1, {.str_8 = "="}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_39}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_5_loop}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_40}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_READ}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_41}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_out_fd}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_do_collect_output}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_42}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_err_fd}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_do_collect_error_output}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_43}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_44}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_PROCESS_JOINED}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_do_return_error_code}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_2_do_collect_output}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_45}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_46}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_47}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_48}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_49}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_39}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_5_loop}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_40}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_READ}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_41}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_out_fd}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_do_collect_output}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_42}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_err_fd}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_do_collect_error_output}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_43}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_44}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_PROCESS_JOINED}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_do_return_error_code}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_2_do_collect_output}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_45}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_46}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_47}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_48}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_49}},
   {FLT_STRING_8, 22, {.str_8 = "CALLING PROCESS FAILED"}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_50}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std_types__io___call}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_start_process}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_51}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_52}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_read_process_output}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_read_from_process_failed}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_ignore_close}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_process_finished}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_50}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std_types__io___call}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_start_process}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_51}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_52}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_read_process_output}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_read_from_process_failed}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_ignore_close}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_process_finished}},
   {FLT_STRING_8, 29, {.str_8 = "process finished with status "}},
   {FLT_POSITIVE_INT64, 0, {.value = 4}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_53}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_54}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std__terminate}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_53}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_54}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std__terminate}},
   {FLT_STRING_8, 15, {.str_8 = "file_descriptor"}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std_types__file_descriptor___serialize}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std_types__file_descriptor___serialize}},
   {FLT_STRING_8, 16, {.str_8 = "file_descriptor "}},
   {FLT_STRING_8, 1, {.str_8 = "\012"}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_55}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_56}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std_types__file_descriptor___deserializer_of}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_55}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_56}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std_types__file_descriptor___deserializer_of}},
   {FLT_STRING_8, 10, {.str_8 = "process_id"}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std_types__process_id___serialize}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std_types__process_id___serialize}},
   {FLT_STRING_8, 11, {.str_8 = "process_id "}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_57}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_58}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std_types__process_id___deserializer_of}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_extern_call}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std__pipe}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_first_arg_is_a_string}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_59}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_first_arg_is_a_file_descriptor}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_build_commands}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_60}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_61}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_arg_is_a_function}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_62}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_63}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_64}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_65}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std__pipe_commands}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_feed_or_fd_is_defined}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_feed_or_fd_is_a_file_descriptor}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_66}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_67}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_run_pipe}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_68}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_69}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_70}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_71}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_72}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_73}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_74}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_store_pid_and_err_fd}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_75}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_57}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_58}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std_types__process_id___deserializer_of}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_extern_call}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std__pipe}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_first_arg_is_a_string}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_59}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_first_arg_is_a_file_descriptor}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_build_commands}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_60}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_61}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_arg_is_a_function}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_62}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_63}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_64}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_65}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std__pipe_commands}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_feed_or_fd_is_defined}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_feed_or_fd_is_a_file_descriptor}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_66}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_67}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_run_pipe}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_68}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_69}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_70}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_71}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_72}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_73}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_74}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_store_pid_and_err_fd}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_75}},
   {FLT_LIST, 1, {.arguments = list_803_16_arguments}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_76}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_manage_io}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_6_loop}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_77}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_78}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_79}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_80}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_81}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_82}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_rpid_is_defined}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_83}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_84}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_feed_is_empty}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_85}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_86}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_buf_is_empty}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_87}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_88}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_89}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_90}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_91}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_92}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_93}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_94}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_95}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std__which}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_76}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_manage_io}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_6_loop}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_77}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_78}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_79}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_80}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_81}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_82}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_rpid_is_defined}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_83}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_84}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_feed_is_empty}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_85}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_86}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_buf_is_empty}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_87}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_88}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_89}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_90}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_91}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_92}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_93}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_94}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_95}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std__which}},
   {FLT_STRING_8, 4, {.str_8 = "PATH"}},
   {FLT_CHARACTER, 0, {.value = 58}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_96}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_96}},
   {FLT_STRING_8, 1, {.str_8 = "/"}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_97}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_98}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std__find_first_process}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_97}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_98}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std__find_first_process}},
   {FLT_STRING_8, 5, {.str_8 = "/proc"}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_7_loop}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_2_entry_is_an_error}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_99}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_100}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_7_loop}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_2_entry_is_an_error}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_99}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_100}},
   {FLT_STRING_8, 6, {.str_8 = "/proc/"}},
   {FLT_STRING_8, 8, {.str_8 = "/cmdline"}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_101}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_101}},
   {FLT_CHARACTER, 0, {.value = 0}},
   {FLT_CHARACTER, 0, {.value = 47}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_102}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std__find_processes}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_8_loop}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_3_entry_is_an_error}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_103}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_104}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_105}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_106}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std__get_process_name}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_107}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_108}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std__get_mac_address}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_mac_is_defined}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_109}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_110}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std__extern}},
-  {FLT_FUNCTION, 0, {.tfunc = t_module_entry}}
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_102}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std__find_processes}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_8_loop}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_3_entry_is_an_error}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_103}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_104}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_105}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_106}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std__get_process_name}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_107}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_108}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std__get_mac_address}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_mac_is_defined}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_109}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_110}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std__extern}},
+  {FLT_FUNCTION, 0, {.func_info = &i_module_entry}}
 };
 
 static ATTRIBUTE_DEFINITION std_types__file_descriptor__attributes[] = {
@@ -5285,7 +6438,7 @@ FUNKY_MODULE module__basic__io__io = {
   "basic/io/io.fky", // module filename
   .major_version = 0,
   .minor_version = 0,
-  .feature_flags = FEAT_POSITIONS|FEAT_INITIALIZER,
+  .feature_flags = FEAT_POSITIONS|FEAT_FUNCTION_INFO|FEAT_INITIALIZER,
   .marker = 0,
   0, // number of required modules
   0, // number of defined namespaces

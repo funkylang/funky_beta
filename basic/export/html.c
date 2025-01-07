@@ -186,7 +186,15 @@ static TAB_NUM t_func_inline_tag[] = {
   // -> "<@(tag)@(options)>@(contents)</@(tag)>"
   LET, 1, LOCAL(1), TAIL_CALL,
   POS(28, 6),
-  POS(28, 3)
+  POS(28, 3),
+  LOCAL(4),
+  LOCAL(3),
+  LOCAL(2)
+};
+
+static FUNCTION_INFO i_func_inline_tag = {
+  t_func_inline_tag, NULL, 2, 3,
+  {"27_27_contents\000", "27_19_options\000", "27_15_tag\000"}
 };
 
 static TAB_NUM t_func_single_line_tag[] = {
@@ -200,7 +208,15 @@ static TAB_NUM t_func_single_line_tag[] = {
   // -> "
   LET, 1, LOCAL(1), TAIL_CALL,
   POS(31, 6),
-  POS(31, 3)
+  POS(31, 3),
+  LOCAL(3),
+  LOCAL(4),
+  LOCAL(2)
+};
+
+static FUNCTION_INFO i_func_single_line_tag = {
+  t_func_single_line_tag, NULL, 2, 3,
+  {"30_24_options\000", "30_32_contents\000", "30_20_tag\000"}
 };
 
 static TAB_NUM t_func_multi_line_tag[] = {
@@ -223,7 +239,15 @@ static TAB_NUM t_func_multi_line_tag[] = {
   POS(40, 5),
   POS(46, 7),
   POS(45, 5),
-  POS(35, 3)
+  POS(35, 3),
+  LOCAL(6),
+  LOCAL(5),
+  LOCAL(7)
+};
+
+static FUNCTION_INFO i_func_multi_line_tag = {
+  t_func_multi_line_tag, NULL, 5, 3,
+  {"34_23_options\000", "34_19_tag\000", "34_31_contents\000"}
 };
 
 static TAB_NUM t_lambda_1[] = {
@@ -234,12 +258,22 @@ static TAB_NUM t_lambda_1[] = {
   POS(42, 9)
 };
 
+static FUNCTION_INFO i_lambda_1 = {
+  t_lambda_1, NULL, 1, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_2[] = {
   0, // locals
   0, // parameters
   //  ""
   LET, 1, string_5, TAIL_CALL,
   POS(43, 9)
+};
+
+static FUNCTION_INFO i_lambda_2 = {
+  t_lambda_2, NULL, 1, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_3[] = {
@@ -250,6 +284,11 @@ static TAB_NUM t_lambda_3[] = {
   POS(47, 9)
 };
 
+static FUNCTION_INFO i_lambda_3 = {
+  t_lambda_3, NULL, 1, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_4[] = {
   0, // locals
   0, // parameters
@@ -258,13 +297,24 @@ static TAB_NUM t_lambda_4[] = {
   POS(48, 9)
 };
 
+static FUNCTION_INFO i_lambda_4 = {
+  t_lambda_4, NULL, 1, 0,
+  {}
+};
+
 static TAB_NUM t_func_extract_options[] = {
   1, // locals
   1, // parameters
   LOCAL(1), // 53_20_items
   // filter items is_a_key_value_pair
   var_filter, 2, LOCAL(1), var_is_a_key_value_pair, TAIL_CALL,
-  POS(54, 3)
+  POS(54, 3),
+  LOCAL(1)
+};
+
+static FUNCTION_INFO i_func_extract_options = {
+  t_func_extract_options, NULL, 1, 1,
+  {"53_20_items\000"}
 };
 
 static TAB_NUM t_func_collect_output[] = {
@@ -276,7 +326,13 @@ static TAB_NUM t_func_collect_output[] = {
   // for_each items
   var_for_each, 3, LOCAL(1), lambda_5, lambda_8, TAIL_CALL,
   POS(57, 3),
-  POS(58, 3)
+  POS(58, 3),
+  LOCAL(1)
+};
+
+static FUNCTION_INFO i_func_collect_output = {
+  t_func_collect_output, NULL, 2, 1,
+  {"56_19_items\000"}
 };
 
 static TAB_NUM t_lambda_5[] = {
@@ -297,12 +353,22 @@ static TAB_NUM t_lambda_5[] = {
   POS(65, 7)
 };
 
+static FUNCTION_INFO i_lambda_5 = {
+  t_lambda_5, NULL, 4, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_6[] = {
   0, // locals
   0, // parameters
   //  item
   LET, 1, var_59_8_item, TAIL_CALL,
   POS(63, 13)
+};
+
+static FUNCTION_INFO i_lambda_6 = {
+  t_lambda_6, NULL, 1, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_7[] = {
@@ -316,12 +382,22 @@ static TAB_NUM t_lambda_7[] = {
   POS(64, 13)
 };
 
+static FUNCTION_INFO i_lambda_7 = {
+  t_lambda_7, NULL, 2, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_8[] = {
   0, // locals
   0, // parameters
   //  buf
   LET, 1, var_57_4_buf, TAIL_CALL,
   POS(66, 7)
+};
+
+static FUNCTION_INFO i_lambda_8 = {
+  t_lambda_8, NULL, 1, 0,
+  {}
 };
 
 static TAB_NUM t_func_collect_options[] = {
@@ -333,7 +409,13 @@ static TAB_NUM t_func_collect_options[] = {
   // for_each options
   var_for_each, 3, LOCAL(1), lambda_9, lambda_10, TAIL_CALL,
   POS(69, 3),
-  POS(70, 3)
+  POS(70, 3),
+  LOCAL(1)
+};
+
+static FUNCTION_INFO i_func_collect_options = {
+  t_func_collect_options, NULL, 2, 1,
+  {"68_20_options\000"}
 };
 
 static TAB_NUM t_lambda_9[] = {
@@ -351,7 +433,15 @@ static TAB_NUM t_lambda_9[] = {
   POS(72, 7),
   POS(73, 19),
   POS(73, 7),
-  POS(74, 7)
+  POS(74, 7),
+  LOCAL(4),
+  LOCAL(3),
+  LOCAL(2)
+};
+
+static FUNCTION_INFO i_lambda_9 = {
+  t_lambda_9, NULL, 4, 3,
+  {"72_20_value\000", "72_15_key\000", "71_8_option\000"}
 };
 
 static TAB_NUM t_lambda_10[] = {
@@ -360,6 +450,11 @@ static TAB_NUM t_lambda_10[] = {
   //  buf
   LET, 1, var_69_4_buf, TAIL_CALL,
   POS(75, 7)
+};
+
+static FUNCTION_INFO i_lambda_10 = {
+  t_lambda_10, NULL, 1, 0,
+  {}
 };
 
 static TAB_NUM t_func_emit_simple[] = {
@@ -375,7 +470,14 @@ static TAB_NUM t_func_emit_simple[] = {
   LET, 1, LOCAL(1), TAIL_CALL,
   POS(78, 3),
   POS(79, 6),
-  POS(79, 3)
+  POS(79, 3),
+  LOCAL(3),
+  LOCAL(2)
+};
+
+static FUNCTION_INFO i_func_emit_simple = {
+  t_func_emit_simple, NULL, 3, 2,
+  {"77_20_options\000", "77_16_tag\000"}
 };
 
 static TAB_NUM t_func_emit_single_line[] = {
@@ -397,7 +499,13 @@ static TAB_NUM t_func_emit_single_line[] = {
   POS(84, 3),
   POS(85, 3),
   POS(87, 5),
-  POS(86, 3)
+  POS(86, 3),
+  LOCAL(2)
+};
+
+static FUNCTION_INFO i_func_emit_single_line = {
+  t_func_emit_single_line, NULL, 5, 1,
+  {"82_25_items\000"}
 };
 
 static TAB_NUM t_lambda_11[] = {
@@ -408,12 +516,22 @@ static TAB_NUM t_lambda_11[] = {
   POS(88, 7)
 };
 
+static FUNCTION_INFO i_lambda_11 = {
+  t_lambda_11, NULL, 1, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_12[] = {
   0, // locals
   0, // parameters
   // single_line_tag tag options buf
   func_single_line_tag, 3, var_82_21_tag, var_83_20_options, var_85_19_buf, TAIL_CALL,
   POS(89, 7)
+};
+
+static FUNCTION_INFO i_lambda_12 = {
+  t_lambda_12, NULL, 1, 0,
+  {}
 };
 
 static TAB_NUM t_func_emit_inline[] = {
@@ -432,7 +550,16 @@ static TAB_NUM t_func_emit_inline[] = {
   POS(92, 3),
   POS(93, 3),
   POS(94, 3),
-  POS(95, 3)
+  POS(95, 3),
+  LOCAL(1),
+  LOCAL(2),
+  LOCAL(4),
+  LOCAL(3)
+};
+
+static FUNCTION_INFO i_func_emit_inline = {
+  t_func_emit_inline, NULL, 4, 4,
+  {"91_16_tag\000", "91_20_items\000", "94_19_buf\000", "92_20_options\000"}
 };
 
 static TAB_NUM t_func_emit_multi_line[] = {
@@ -451,7 +578,16 @@ static TAB_NUM t_func_emit_multi_line[] = {
   POS(98, 3),
   POS(99, 3),
   POS(100, 3),
-  POS(101, 3)
+  POS(101, 3),
+  LOCAL(3),
+  LOCAL(2),
+  LOCAL(1),
+  LOCAL(4)
+};
+
+static FUNCTION_INFO i_func_emit_multi_line = {
+  t_func_emit_multi_line, NULL, 4, 4,
+  {"98_20_options\000", "97_24_items\000", "97_20_tag\000", "100_19_buf\000"}
 };
 
 static TAB_NUM t_func_html__HTML[] = {
@@ -460,7 +596,13 @@ static TAB_NUM t_func_html__HTML[] = {
   REST_PARAMETER, LOCAL(1), // 129_5_items
   // emit_multi_line "html" items
   func_emit_multi_line, 2, str_html, LOCAL(1), TAIL_CALL,
-  POS(131, 3)
+  POS(131, 3),
+  LOCAL(1)
+};
+
+static FUNCTION_INFO i_func_html__HTML = {
+  t_func_html__HTML, NULL, 1, 1,
+  {"129_5_items\000"}
 };
 
 static TAB_NUM t_func_html__HEAD[] = {
@@ -469,7 +611,13 @@ static TAB_NUM t_func_html__HEAD[] = {
   REST_PARAMETER, LOCAL(1), // 135_5_items
   // emit_multi_line "head" items
   func_emit_multi_line, 2, str_head, LOCAL(1), TAIL_CALL,
-  POS(137, 3)
+  POS(137, 3),
+  LOCAL(1)
+};
+
+static FUNCTION_INFO i_func_html__HEAD = {
+  t_func_html__HEAD, NULL, 1, 1,
+  {"135_5_items\000"}
 };
 
 static TAB_NUM t_func_html__BODY[] = {
@@ -478,7 +626,13 @@ static TAB_NUM t_func_html__BODY[] = {
   REST_PARAMETER, LOCAL(1), // 142_5_items
   // emit_multi_line "body" items
   func_emit_multi_line, 2, str_body, LOCAL(1), TAIL_CALL,
-  POS(144, 3)
+  POS(144, 3),
+  LOCAL(1)
+};
+
+static FUNCTION_INFO i_func_html__BODY = {
+  t_func_html__BODY, NULL, 1, 1,
+  {"142_5_items\000"}
 };
 
 static TAB_NUM t_func_html__TITLE[] = {
@@ -487,7 +641,13 @@ static TAB_NUM t_func_html__TITLE[] = {
   REST_PARAMETER, LOCAL(1), // 148_5_items
   // emit_single_line "title" items
   func_emit_single_line, 2, str_title, LOCAL(1), TAIL_CALL,
-  POS(150, 3)
+  POS(150, 3),
+  LOCAL(1)
+};
+
+static FUNCTION_INFO i_func_html__TITLE = {
+  t_func_html__TITLE, NULL, 1, 1,
+  {"148_5_items\000"}
 };
 
 static TAB_NUM t_func_html__STYLE[] = {
@@ -496,7 +656,13 @@ static TAB_NUM t_func_html__STYLE[] = {
   REST_PARAMETER, LOCAL(1), // 154_5_items
   // emit_single_line "style" items
   func_emit_single_line, 2, str_style, LOCAL(1), TAIL_CALL,
-  POS(156, 3)
+  POS(156, 3),
+  LOCAL(1)
+};
+
+static FUNCTION_INFO i_func_html__STYLE = {
+  t_func_html__STYLE, NULL, 1, 1,
+  {"154_5_items\000"}
 };
 
 static TAB_NUM t_func_html__LINK[] = {
@@ -505,7 +671,13 @@ static TAB_NUM t_func_html__LINK[] = {
   REST_PARAMETER, LOCAL(1), // 160_5_options
   // emit_simple "link" options
   func_emit_simple, 2, str_link, LOCAL(1), TAIL_CALL,
-  POS(162, 3)
+  POS(162, 3),
+  LOCAL(1)
+};
+
+static FUNCTION_INFO i_func_html__LINK = {
+  t_func_html__LINK, NULL, 1, 1,
+  {"160_5_options\000"}
 };
 
 static TAB_NUM t_func_html__H1[] = {
@@ -514,7 +686,13 @@ static TAB_NUM t_func_html__H1[] = {
   REST_PARAMETER, LOCAL(1), // 166_5_items
   // emit_single_line "h1" items
   func_emit_single_line, 2, str_h, LOCAL(1), TAIL_CALL,
-  POS(168, 3)
+  POS(168, 3),
+  LOCAL(1)
+};
+
+static FUNCTION_INFO i_func_html__H1 = {
+  t_func_html__H1, NULL, 1, 1,
+  {"166_5_items\000"}
 };
 
 static TAB_NUM t_func_html__H2[] = {
@@ -523,7 +701,13 @@ static TAB_NUM t_func_html__H2[] = {
   REST_PARAMETER, LOCAL(1), // 172_5_items
   // emit_single_line "h2" items
   func_emit_single_line, 2, str_h_2, LOCAL(1), TAIL_CALL,
-  POS(174, 3)
+  POS(174, 3),
+  LOCAL(1)
+};
+
+static FUNCTION_INFO i_func_html__H2 = {
+  t_func_html__H2, NULL, 1, 1,
+  {"172_5_items\000"}
 };
 
 static TAB_NUM t_func_html__H3[] = {
@@ -532,7 +716,13 @@ static TAB_NUM t_func_html__H3[] = {
   REST_PARAMETER, LOCAL(1), // 178_5_items
   // emit_single_line "h3" items
   func_emit_single_line, 2, str_h_3, LOCAL(1), TAIL_CALL,
-  POS(180, 3)
+  POS(180, 3),
+  LOCAL(1)
+};
+
+static FUNCTION_INFO i_func_html__H3 = {
+  t_func_html__H3, NULL, 1, 1,
+  {"178_5_items\000"}
 };
 
 static TAB_NUM t_func_html__H4[] = {
@@ -541,7 +731,13 @@ static TAB_NUM t_func_html__H4[] = {
   REST_PARAMETER, LOCAL(1), // 184_5_items
   // emit_single_line "h4" items
   func_emit_single_line, 2, str_h_4, LOCAL(1), TAIL_CALL,
-  POS(186, 3)
+  POS(186, 3),
+  LOCAL(1)
+};
+
+static FUNCTION_INFO i_func_html__H4 = {
+  t_func_html__H4, NULL, 1, 1,
+  {"184_5_items\000"}
 };
 
 static TAB_NUM t_func_html__H5[] = {
@@ -550,7 +746,13 @@ static TAB_NUM t_func_html__H5[] = {
   REST_PARAMETER, LOCAL(1), // 190_5_items
   // emit_single_line "h5" items
   func_emit_single_line, 2, str_h_5, LOCAL(1), TAIL_CALL,
-  POS(192, 3)
+  POS(192, 3),
+  LOCAL(1)
+};
+
+static FUNCTION_INFO i_func_html__H5 = {
+  t_func_html__H5, NULL, 1, 1,
+  {"190_5_items\000"}
 };
 
 static TAB_NUM t_func_html__H6[] = {
@@ -559,7 +761,13 @@ static TAB_NUM t_func_html__H6[] = {
   REST_PARAMETER, LOCAL(1), // 196_5_items
   // emit_single_line "h6" items
   func_emit_single_line, 2, str_h_6, LOCAL(1), TAIL_CALL,
-  POS(198, 3)
+  POS(198, 3),
+  LOCAL(1)
+};
+
+static FUNCTION_INFO i_func_html__H6 = {
+  t_func_html__H6, NULL, 1, 1,
+  {"196_5_items\000"}
 };
 
 static TAB_NUM t_func_html__P[] = {
@@ -568,7 +776,13 @@ static TAB_NUM t_func_html__P[] = {
   REST_PARAMETER, LOCAL(1), // 202_5_items
   // emit_single_line "p" items
   func_emit_single_line, 2, str_p, LOCAL(1), TAIL_CALL,
-  POS(204, 3)
+  POS(204, 3),
+  LOCAL(1)
+};
+
+static FUNCTION_INFO i_func_html__P = {
+  t_func_html__P, NULL, 1, 1,
+  {"202_5_items\000"}
 };
 
 static TAB_NUM t_func_html__DIV[] = {
@@ -577,7 +791,13 @@ static TAB_NUM t_func_html__DIV[] = {
   REST_PARAMETER, LOCAL(1), // 208_5_items
   // emit_multi_line "div" items
   func_emit_multi_line, 2, str_div, LOCAL(1), TAIL_CALL,
-  POS(210, 3)
+  POS(210, 3),
+  LOCAL(1)
+};
+
+static FUNCTION_INFO i_func_html__DIV = {
+  t_func_html__DIV, NULL, 1, 1,
+  {"208_5_items\000"}
 };
 
 static TAB_NUM t_func_html__TABLE[] = {
@@ -586,7 +806,13 @@ static TAB_NUM t_func_html__TABLE[] = {
   REST_PARAMETER, LOCAL(1), // 214_5_items
   // emit_multi_line "table" items
   func_emit_multi_line, 2, str_table, LOCAL(1), TAIL_CALL,
-  POS(216, 3)
+  POS(216, 3),
+  LOCAL(1)
+};
+
+static FUNCTION_INFO i_func_html__TABLE = {
+  t_func_html__TABLE, NULL, 1, 1,
+  {"214_5_items\000"}
 };
 
 static TAB_NUM t_func_html__TBODY[] = {
@@ -595,7 +821,13 @@ static TAB_NUM t_func_html__TBODY[] = {
   REST_PARAMETER, LOCAL(1), // 220_5_items
   // emit_multi_line "tbody" items
   func_emit_multi_line, 2, str_tbody, LOCAL(1), TAIL_CALL,
-  POS(222, 3)
+  POS(222, 3),
+  LOCAL(1)
+};
+
+static FUNCTION_INFO i_func_html__TBODY = {
+  t_func_html__TBODY, NULL, 1, 1,
+  {"220_5_items\000"}
 };
 
 static TAB_NUM t_func_html__TR[] = {
@@ -604,7 +836,13 @@ static TAB_NUM t_func_html__TR[] = {
   REST_PARAMETER, LOCAL(1), // 226_5_items
   // emit_multi_line "tr" items
   func_emit_multi_line, 2, str_tr, LOCAL(1), TAIL_CALL,
-  POS(228, 3)
+  POS(228, 3),
+  LOCAL(1)
+};
+
+static FUNCTION_INFO i_func_html__TR = {
+  t_func_html__TR, NULL, 1, 1,
+  {"226_5_items\000"}
 };
 
 static TAB_NUM t_func_html__TH[] = {
@@ -613,7 +851,13 @@ static TAB_NUM t_func_html__TH[] = {
   REST_PARAMETER, LOCAL(1), // 232_5_items
   // emit_single_line "th" items
   func_emit_single_line, 2, str_th, LOCAL(1), TAIL_CALL,
-  POS(234, 3)
+  POS(234, 3),
+  LOCAL(1)
+};
+
+static FUNCTION_INFO i_func_html__TH = {
+  t_func_html__TH, NULL, 1, 1,
+  {"232_5_items\000"}
 };
 
 static TAB_NUM t_func_html__TD[] = {
@@ -622,7 +866,13 @@ static TAB_NUM t_func_html__TD[] = {
   REST_PARAMETER, LOCAL(1), // 238_5_items
   // emit_single_line "td" items
   func_emit_single_line, 2, str_td, LOCAL(1), TAIL_CALL,
-  POS(240, 3)
+  POS(240, 3),
+  LOCAL(1)
+};
+
+static FUNCTION_INFO i_func_html__TD = {
+  t_func_html__TD, NULL, 1, 1,
+  {"238_5_items\000"}
 };
 
 static TAB_NUM t_func_html__DL[] = {
@@ -631,7 +881,13 @@ static TAB_NUM t_func_html__DL[] = {
   REST_PARAMETER, LOCAL(1), // 244_5_items
   // emit_multi_line "dl" items
   func_emit_multi_line, 2, str_dl, LOCAL(1), TAIL_CALL,
-  POS(246, 3)
+  POS(246, 3),
+  LOCAL(1)
+};
+
+static FUNCTION_INFO i_func_html__DL = {
+  t_func_html__DL, NULL, 1, 1,
+  {"244_5_items\000"}
 };
 
 static TAB_NUM t_func_html__DT[] = {
@@ -640,7 +896,13 @@ static TAB_NUM t_func_html__DT[] = {
   REST_PARAMETER, LOCAL(1), // 250_5_items
   // emit_single_line "dt" items
   func_emit_single_line, 2, str_dt, LOCAL(1), TAIL_CALL,
-  POS(252, 3)
+  POS(252, 3),
+  LOCAL(1)
+};
+
+static FUNCTION_INFO i_func_html__DT = {
+  t_func_html__DT, NULL, 1, 1,
+  {"250_5_items\000"}
 };
 
 static TAB_NUM t_func_html__DD[] = {
@@ -649,7 +911,13 @@ static TAB_NUM t_func_html__DD[] = {
   REST_PARAMETER, LOCAL(1), // 256_5_items
   // emit_multi_line "dd" items
   func_emit_multi_line, 2, str_dd, LOCAL(1), TAIL_CALL,
-  POS(258, 3)
+  POS(258, 3),
+  LOCAL(1)
+};
+
+static FUNCTION_INFO i_func_html__DD = {
+  t_func_html__DD, NULL, 1, 1,
+  {"256_5_items\000"}
 };
 
 static TAB_NUM t_func_html__PRE[] = {
@@ -658,7 +926,13 @@ static TAB_NUM t_func_html__PRE[] = {
   REST_PARAMETER, LOCAL(1), // 262_5_items
   // emit_single_line "pre" items
   func_emit_single_line, 2, str_pre, LOCAL(1), TAIL_CALL,
-  POS(264, 3)
+  POS(264, 3),
+  LOCAL(1)
+};
+
+static FUNCTION_INFO i_func_html__PRE = {
+  t_func_html__PRE, NULL, 1, 1,
+  {"262_5_items\000"}
 };
 
 static TAB_NUM t_func_html__A[] = {
@@ -667,7 +941,13 @@ static TAB_NUM t_func_html__A[] = {
   REST_PARAMETER, LOCAL(1), // 268_5_items
   // emit_inline "a" items
   func_emit_inline, 2, str_a, LOCAL(1), TAIL_CALL,
-  POS(270, 3)
+  POS(270, 3),
+  LOCAL(1)
+};
+
+static FUNCTION_INFO i_func_html__A = {
+  t_func_html__A, NULL, 1, 1,
+  {"268_5_items\000"}
 };
 
 static TAB_NUM t_func_html__I[] = {
@@ -676,7 +956,13 @@ static TAB_NUM t_func_html__I[] = {
   REST_PARAMETER, LOCAL(1), // 274_5_items
   // emit_inline "i" items
   func_emit_inline, 2, str_i, LOCAL(1), TAIL_CALL,
-  POS(276, 3)
+  POS(276, 3),
+  LOCAL(1)
+};
+
+static FUNCTION_INFO i_func_html__I = {
+  t_func_html__I, NULL, 1, 1,
+  {"274_5_items\000"}
 };
 
 static TAB_NUM t_func_html__B[] = {
@@ -685,7 +971,13 @@ static TAB_NUM t_func_html__B[] = {
   REST_PARAMETER, LOCAL(1), // 280_5_items
   // emit_inline "b" items
   func_emit_inline, 2, str_b, LOCAL(1), TAIL_CALL,
-  POS(282, 3)
+  POS(282, 3),
+  LOCAL(1)
+};
+
+static FUNCTION_INFO i_func_html__B = {
+  t_func_html__B, NULL, 1, 1,
+  {"280_5_items\000"}
 };
 
 static TAB_NUM t_func_html__SPAN[] = {
@@ -694,7 +986,13 @@ static TAB_NUM t_func_html__SPAN[] = {
   REST_PARAMETER, LOCAL(1), // 286_5_items
   // emit_inline "span" items
   func_emit_inline, 2, str_span, LOCAL(1), TAIL_CALL,
-  POS(288, 3)
+  POS(288, 3),
+  LOCAL(1)
+};
+
+static FUNCTION_INFO i_func_html__SPAN = {
+  t_func_html__SPAN, NULL, 1, 1,
+  {"286_5_items\000"}
 };
 
 static TAB_NUM t_func_html__GROUP[] = {
@@ -706,7 +1004,13 @@ static TAB_NUM t_func_html__GROUP[] = {
   // for_each items
   var_for_each, 3, LOCAL(1), lambda_13, lambda_14, TAIL_CALL,
   POS(294, 3),
-  POS(295, 3)
+  POS(295, 3),
+  LOCAL(1)
+};
+
+static FUNCTION_INFO i_func_html__GROUP = {
+  t_func_html__GROUP, NULL, 2, 1,
+  {"292_5_items\000"}
 };
 
 static TAB_NUM t_lambda_13[] = {
@@ -721,7 +1025,13 @@ static TAB_NUM t_lambda_13[] = {
   var_next, 0, TAIL_CALL,
   POS(297, 20),
   POS(297, 7),
-  POS(298, 7)
+  POS(298, 7),
+  LOCAL(2)
+};
+
+static FUNCTION_INFO i_lambda_13 = {
+  t_lambda_13, NULL, 3, 1,
+  {"296_8_item\000"}
 };
 
 static TAB_NUM t_lambda_14[] = {
@@ -730,6 +1040,11 @@ static TAB_NUM t_lambda_14[] = {
   //  text
   LET, 1, var_294_4_text, TAIL_CALL,
   POS(299, 7)
+};
+
+static FUNCTION_INFO i_lambda_14 = {
+  t_lambda_14, NULL, 1, 0,
+  {}
 };
 
 static TAB_NUM t_func_html__FROM_TO[] = {
@@ -743,7 +1058,14 @@ static TAB_NUM t_func_html__FROM_TO[] = {
   // from_to from to
   var_from_to, 4, LOCAL(1), LOCAL(2), lambda_15, lambda_16, TAIL_CALL,
   POS(307, 3),
-  POS(308, 3)
+  POS(308, 3),
+  LOCAL(1),
+  LOCAL(2)
+};
+
+static FUNCTION_INFO i_func_html__FROM_TO = {
+  t_func_html__FROM_TO, NULL, 2, 2,
+  {"303_5_from\000", "304_5_to\000"}
 };
 
 static TAB_NUM t_lambda_15[] = {
@@ -758,7 +1080,13 @@ static TAB_NUM t_lambda_15[] = {
   var_next, 0, TAIL_CALL,
   POS(310, 20),
   POS(310, 7),
-  POS(311, 7)
+  POS(311, 7),
+  LOCAL(2)
+};
+
+static FUNCTION_INFO i_lambda_15 = {
+  t_lambda_15, NULL, 3, 1,
+  {"309_8_idx\000"}
 };
 
 static TAB_NUM t_lambda_16[] = {
@@ -767,6 +1095,11 @@ static TAB_NUM t_lambda_16[] = {
   //  text
   LET, 1, var_307_4_text, TAIL_CALL,
   POS(312, 7)
+};
+
+static FUNCTION_INFO i_lambda_16 = {
+  t_lambda_16, NULL, 1, 0,
+  {}
 };
 
 static TAB_NUM t_func_html__FOR_EACH[] = {
@@ -788,12 +1121,22 @@ static TAB_NUM t_func_html__FOR_EACH[] = {
   POS(320, 3)
 };
 
+static FUNCTION_INFO i_func_html__FOR_EACH = {
+  t_func_html__FOR_EACH, NULL, 4, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_17[] = {
   0, // locals
   0, // parameters
   // for_each items
   var_for_each, 3, var_316_5_items, lambda_18, lambda_19, TAIL_CALL,
   POS(322, 7)
+};
+
+static FUNCTION_INFO i_lambda_17 = {
+  t_lambda_17, NULL, 1, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_18[] = {
@@ -809,7 +1152,14 @@ static TAB_NUM t_lambda_18[] = {
   var_next, 0, TAIL_CALL,
   POS(324, 24),
   POS(324, 11),
-  POS(325, 11)
+  POS(325, 11),
+  LOCAL(3),
+  LOCAL(2)
+};
+
+static FUNCTION_INFO i_lambda_18 = {
+  t_lambda_18, NULL, 3, 2,
+  {"323_16_value\000", "323_12_key\000"}
 };
 
 static TAB_NUM t_lambda_19[] = {
@@ -820,12 +1170,22 @@ static TAB_NUM t_lambda_19[] = {
   POS(326, 11)
 };
 
+static FUNCTION_INFO i_lambda_19 = {
+  t_lambda_19, NULL, 1, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_20[] = {
   0, // locals
   0, // parameters
   // for_each items
   var_for_each, 3, var_316_5_items, lambda_21, lambda_22, TAIL_CALL,
   POS(328, 7)
+};
+
+static FUNCTION_INFO i_lambda_20 = {
+  t_lambda_20, NULL, 1, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_21[] = {
@@ -840,7 +1200,13 @@ static TAB_NUM t_lambda_21[] = {
   var_next, 0, TAIL_CALL,
   POS(330, 24),
   POS(330, 11),
-  POS(331, 11)
+  POS(331, 11),
+  LOCAL(2)
+};
+
+static FUNCTION_INFO i_lambda_21 = {
+  t_lambda_21, NULL, 3, 1,
+  {"329_12_item\000"}
 };
 
 static TAB_NUM t_lambda_22[] = {
@@ -851,109 +1217,114 @@ static TAB_NUM t_lambda_22[] = {
   POS(332, 11)
 };
 
+static FUNCTION_INFO i_lambda_22 = {
+  t_lambda_22, NULL, 1, 0,
+  {}
+};
+
 static FUNKY_CONSTANT constants_table[] = {
-  {FLT_FUNCTION, 0, {.tfunc = t_func_inline_tag}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_inline_tag}},
   {FLT_STRING_8, 1, {.str_8 = "<"}},
   {FLT_STRING_8, 1, {.str_8 = ">"}},
   {FLT_STRING_8, 2, {.str_8 = "</"}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_single_line_tag}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_single_line_tag}},
   {FLT_STRING_8, 2, {.str_8 = ">\012"}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_multi_line_tag}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_multi_line_tag}},
   {FLT_CHARACTER, 0, {.value = 60}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_1}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_1}},
   {FLT_CHARACTER, 0, {.value = 10}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_2}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_2}},
   {FLT_STRING_8, 0, {.str_8 = ""}},
   {FLT_CHARACTER, 0, {.value = 62}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_3}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_4}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_extract_options}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_collect_output}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_5}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_6}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_7}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_8}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_collect_options}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_9}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_3}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_4}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_extract_options}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_collect_output}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_5}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_6}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_7}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_8}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_collect_options}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_9}},
   {FLT_STRING_8, 1, {.str_8 = " "}},
   {FLT_STRING_8, 2, {.str_8 = "=\042"}},
   {FLT_STRING_8, 1, {.str_8 = "\042"}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_10}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_emit_simple}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_10}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_emit_simple}},
   {FLT_STRING_8, 3, {.str_8 = "/>\012"}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_emit_single_line}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_11}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_12}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_emit_inline}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_emit_multi_line}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_html__HTML}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_emit_single_line}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_11}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_12}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_emit_inline}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_emit_multi_line}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_html__HTML}},
   {FLT_STRING_8, 4, {.str_8 = "html"}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_html__HEAD}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_html__HEAD}},
   {FLT_STRING_8, 4, {.str_8 = "head"}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_html__BODY}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_html__BODY}},
   {FLT_STRING_8, 4, {.str_8 = "body"}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_html__TITLE}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_html__TITLE}},
   {FLT_STRING_8, 5, {.str_8 = "title"}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_html__STYLE}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_html__STYLE}},
   {FLT_STRING_8, 5, {.str_8 = "style"}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_html__LINK}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_html__LINK}},
   {FLT_STRING_8, 4, {.str_8 = "link"}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_html__H1}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_html__H1}},
   {FLT_STRING_8, 2, {.str_8 = "h1"}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_html__H2}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_html__H2}},
   {FLT_STRING_8, 2, {.str_8 = "h2"}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_html__H3}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_html__H3}},
   {FLT_STRING_8, 2, {.str_8 = "h3"}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_html__H4}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_html__H4}},
   {FLT_STRING_8, 2, {.str_8 = "h4"}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_html__H5}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_html__H5}},
   {FLT_STRING_8, 2, {.str_8 = "h5"}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_html__H6}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_html__H6}},
   {FLT_STRING_8, 2, {.str_8 = "h6"}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_html__P}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_html__P}},
   {FLT_STRING_8, 1, {.str_8 = "p"}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_html__DIV}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_html__DIV}},
   {FLT_STRING_8, 3, {.str_8 = "div"}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_html__TABLE}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_html__TABLE}},
   {FLT_STRING_8, 5, {.str_8 = "table"}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_html__TBODY}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_html__TBODY}},
   {FLT_STRING_8, 5, {.str_8 = "tbody"}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_html__TR}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_html__TR}},
   {FLT_STRING_8, 2, {.str_8 = "tr"}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_html__TH}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_html__TH}},
   {FLT_STRING_8, 2, {.str_8 = "th"}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_html__TD}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_html__TD}},
   {FLT_STRING_8, 2, {.str_8 = "td"}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_html__DL}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_html__DL}},
   {FLT_STRING_8, 2, {.str_8 = "dl"}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_html__DT}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_html__DT}},
   {FLT_STRING_8, 2, {.str_8 = "dt"}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_html__DD}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_html__DD}},
   {FLT_STRING_8, 2, {.str_8 = "dd"}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_html__PRE}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_html__PRE}},
   {FLT_STRING_8, 3, {.str_8 = "pre"}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_html__A}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_html__A}},
   {FLT_STRING_8, 1, {.str_8 = "a"}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_html__I}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_html__I}},
   {FLT_STRING_8, 1, {.str_8 = "i"}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_html__B}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_html__B}},
   {FLT_STRING_8, 1, {.str_8 = "b"}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_html__SPAN}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_html__SPAN}},
   {FLT_STRING_8, 4, {.str_8 = "span"}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_html__GROUP}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_13}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_14}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_html__FROM_TO}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_15}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_16}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_html__FOR_EACH}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_html__GROUP}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_13}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_14}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_html__FROM_TO}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_15}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_16}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_html__FOR_EACH}},
   {FLT_POSITIVE_INT64, 0, {.value = 2}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_17}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_18}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_19}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_20}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_21}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_22}}
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_17}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_18}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_19}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_20}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_21}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_22}}
 };
 
 static FUNKY_VARIABLE variables_table[] = {
@@ -1250,7 +1621,7 @@ FUNKY_MODULE module__basic__export__html = {
   "basic/export/html.fky", // module filename
   .major_version = 0,
   .minor_version = 0,
-  .feature_flags = FEAT_POSITIONS,
+  .feature_flags = FEAT_POSITIONS|FEAT_FUNCTION_INFO,
   .marker = 0,
   0, // number of required modules
   1, // number of defined namespaces

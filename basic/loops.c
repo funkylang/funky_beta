@@ -109,7 +109,14 @@ static TAB_NUM t_func_std__loop[] = {
   POS(171, 3),
   POS(173, 3),
   POS(178, 4),
-  POS(180, 3)
+  POS(180, 3),
+  LOCAL(2),
+  LOCAL(1)
+};
+
+static FUNCTION_INFO i_func_std__loop = {
+  t_func_std__loop, NULL, 6, 2,
+  {"167_4_saved_context\000", "164_5_body\000"}
 };
 
 static TAB_NUM t_lambda_1[] = {
@@ -127,7 +134,13 @@ static TAB_NUM t_lambda_1[] = {
   POS(174, 5),
   POS(175, 5),
   POS(175, 5),
-  POS(176, 5)
+  POS(176, 5),
+  LOCAL(2)
+};
+
+static FUNCTION_INFO i_lambda_1 = {
+  t_lambda_1, NULL, 4, 1,
+  {"173_44_myself\000"}
 };
 
 static TAB_NUM t_func_std__while[] = {
@@ -141,6 +154,11 @@ static TAB_NUM t_func_std__while[] = {
   POS(202, 3)
 };
 
+static FUNCTION_INFO i_func_std__while = {
+  t_func_std__while, NULL, 1, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_loop[] = {
   1, // locals
   0, // parameters
@@ -150,6 +168,11 @@ static TAB_NUM t_lambda_loop[] = {
   var_if, 3, LOCAL(1), var_199_5_body, var_200_5_finally, TAIL_CALL,
   POS(202, 12),
   POS(202, 9)
+};
+
+static FUNCTION_INFO i_lambda_loop = {
+  t_lambda_loop, NULL, 2, 0,
+  {}
 };
 
 static TAB_NUM t_func_std__while_not[] = {
@@ -163,6 +186,11 @@ static TAB_NUM t_func_std__while_not[] = {
   POS(224, 3)
 };
 
+static FUNCTION_INFO i_func_std__while_not = {
+  t_func_std__while_not, NULL, 1, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_2_loop[] = {
   1, // locals
   0, // parameters
@@ -172,6 +200,11 @@ static TAB_NUM t_lambda_2_loop[] = {
   var_if_not, 3, LOCAL(1), var_221_5_body, var_222_5_finally, TAIL_CALL,
   POS(224, 16),
   POS(224, 9)
+};
+
+static FUNCTION_INFO i_lambda_2_loop = {
+  t_lambda_2_loop, NULL, 2, 0,
+  {}
 };
 
 static TAB_NUM t_func_std__repeat[] = {
@@ -203,7 +236,15 @@ static TAB_NUM t_func_std__repeat[] = {
   POS(323, 3),
   POS(327, 3),
   POS(334, 4),
-  POS(336, 3)
+  POS(336, 3),
+  LOCAL(2),
+  LOCAL(1),
+  LOCAL(3)
+};
+
+static FUNCTION_INFO i_func_std__repeat = {
+  t_func_std__repeat, NULL, 8, 3,
+  {"301_5_body\000", "300_5_n\000", "304_4_saved_context\000"}
 };
 
 static TAB_NUM t_func_iterate[] = {
@@ -217,6 +258,11 @@ static TAB_NUM t_func_iterate[] = {
   POS(317, 5)
 };
 
+static FUNCTION_INFO i_func_iterate = {
+  t_func_iterate, NULL, 2, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_2[] = {
   0, // locals
   0, // parameters
@@ -225,12 +271,22 @@ static TAB_NUM t_lambda_2[] = {
   POS(319, 9)
 };
 
+static FUNCTION_INFO i_lambda_2 = {
+  t_lambda_2, NULL, 1, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_3[] = {
   0, // locals
   0, // parameters
   // break!
   var_break, 0, IO_TAIL_CALL,
   POS(321, 9)
+};
+
+static FUNCTION_INFO i_lambda_3 = {
+  t_lambda_3, NULL, 1, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_next[] = {
@@ -242,6 +298,11 @@ static TAB_NUM t_lambda_next[] = {
   func_iterate, 0, IO_TAIL_CALL,
   POS(324, 5),
   POS(325, 5)
+};
+
+static FUNCTION_INFO i_lambda_next = {
+  t_lambda_next, NULL, 2, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_4[] = {
@@ -259,7 +320,13 @@ static TAB_NUM t_lambda_4[] = {
   POS(328, 5),
   POS(329, 5),
   POS(329, 5),
-  POS(332, 5)
+  POS(332, 5),
+  LOCAL(2)
+};
+
+static FUNCTION_INFO i_lambda_4 = {
+  t_lambda_4, NULL, 4, 1,
+  {"327_44_myself\000"}
 };
 
 static TAB_NUM t_func_std__from_to[] = {
@@ -295,7 +362,16 @@ static TAB_NUM t_func_std__from_to[] = {
   POS(440, 3),
   POS(444, 3),
   POS(451, 4),
-  POS(453, 3)
+  POS(453, 3),
+  LOCAL(4),
+  LOCAL(3),
+  LOCAL(1),
+  LOCAL(2)
+};
+
+static FUNCTION_INFO i_func_std__from_to = {
+  t_func_std__from_to, NULL, 9, 4,
+  {"419_4_saved_context\000", "416_5_body\000", "414_5_from\000", "415_5_to\000"}
 };
 
 static TAB_NUM t_func_2_iterate[] = {
@@ -312,6 +388,11 @@ static TAB_NUM t_func_2_iterate[] = {
   POS(434, 5)
 };
 
+static FUNCTION_INFO i_func_2_iterate = {
+  t_func_2_iterate, NULL, 3, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_5[] = {
   0, // locals
   0, // parameters
@@ -320,12 +401,22 @@ static TAB_NUM t_lambda_5[] = {
   POS(436, 9)
 };
 
+static FUNCTION_INFO i_lambda_5 = {
+  t_lambda_5, NULL, 1, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_6[] = {
   0, // locals
   0, // parameters
   // break!
   var_break, 0, IO_TAIL_CALL,
   POS(438, 9)
+};
+
+static FUNCTION_INFO i_lambda_6 = {
+  t_lambda_6, NULL, 1, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_2_next[] = {
@@ -337,6 +428,11 @@ static TAB_NUM t_lambda_2_next[] = {
   func_2_iterate, 0, IO_TAIL_CALL,
   POS(441, 5),
   POS(442, 5)
+};
+
+static FUNCTION_INFO i_lambda_2_next = {
+  t_lambda_2_next, NULL, 2, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_7[] = {
@@ -354,7 +450,13 @@ static TAB_NUM t_lambda_7[] = {
   POS(445, 5),
   POS(446, 5),
   POS(446, 5),
-  POS(449, 5)
+  POS(449, 5),
+  LOCAL(2)
+};
+
+static FUNCTION_INFO i_lambda_7 = {
+  t_lambda_7, NULL, 4, 1,
+  {"444_44_myself\000"}
 };
 
 static TAB_NUM t_func_std__from_to_by[] = {
@@ -400,7 +502,17 @@ static TAB_NUM t_func_std__from_to_by[] = {
   POS(536, 3),
   POS(540, 3),
   POS(548, 4),
-  POS(550, 3)
+  POS(550, 3),
+  LOCAL(3),
+  LOCAL(5),
+  LOCAL(4),
+  LOCAL(6),
+  LOCAL(2)
+};
+
+static FUNCTION_INFO i_func_std__from_to_by = {
+  t_func_std__from_to_by, NULL, 12, 5,
+  {"499_5_to\000", "501_5_body\000", "500_5_by\000", "504_4_saved_context\000", "498_5_from\000"}
 };
 
 static TAB_NUM t_lambda_8[] = {
@@ -409,6 +521,11 @@ static TAB_NUM t_lambda_8[] = {
   //  :
   LET, 1, lambda_9, IO_TAIL_CALL,
   POS(523, 9)
+};
+
+static FUNCTION_INFO i_lambda_8 = {
+  t_lambda_8, NULL, 1, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_9[] = {
@@ -425,12 +542,22 @@ static TAB_NUM t_lambda_9[] = {
   POS(524, 9)
 };
 
+static FUNCTION_INFO i_lambda_9 = {
+  t_lambda_9, NULL, 3, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_10[] = {
   0, // locals
   0, // parameters
   // basic_loops::body! basic_loops::from
   var_basic_loops__body, 1, var_basic_loops__from, IO_TAIL_CALL,
   POS(526, 13)
+};
+
+static FUNCTION_INFO i_lambda_10 = {
+  t_lambda_10, NULL, 1, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_11[] = {
@@ -441,12 +568,22 @@ static TAB_NUM t_lambda_11[] = {
   POS(528, 13)
 };
 
+static FUNCTION_INFO i_lambda_11 = {
+  t_lambda_11, NULL, 1, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_12[] = {
   0, // locals
   0, // parameters
   //  :
   LET, 1, lambda_13, IO_TAIL_CALL,
   POS(529, 9)
+};
+
+static FUNCTION_INFO i_lambda_12 = {
+  t_lambda_12, NULL, 1, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_13[] = {
@@ -463,6 +600,11 @@ static TAB_NUM t_lambda_13[] = {
   POS(530, 9)
 };
 
+static FUNCTION_INFO i_lambda_13 = {
+  t_lambda_13, NULL, 3, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_14[] = {
   0, // locals
   0, // parameters
@@ -471,12 +613,22 @@ static TAB_NUM t_lambda_14[] = {
   POS(532, 13)
 };
 
+static FUNCTION_INFO i_lambda_14 = {
+  t_lambda_14, NULL, 1, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_15[] = {
   0, // locals
   0, // parameters
   // break!
   var_break, 0, IO_TAIL_CALL,
   POS(534, 13)
+};
+
+static FUNCTION_INFO i_lambda_15 = {
+  t_lambda_15, NULL, 1, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_3_next[] = {
@@ -488,6 +640,11 @@ static TAB_NUM t_lambda_3_next[] = {
   var_520_4_iterate, 0, IO_TAIL_CALL,
   POS(537, 5),
   POS(538, 5)
+};
+
+static FUNCTION_INFO i_lambda_3_next = {
+  t_lambda_3_next, NULL, 2, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_16[] = {
@@ -505,41 +662,47 @@ static TAB_NUM t_lambda_16[] = {
   POS(541, 5),
   POS(542, 5),
   POS(542, 5),
-  POS(546, 5)
+  POS(546, 5),
+  LOCAL(2)
+};
+
+static FUNCTION_INFO i_lambda_16 = {
+  t_lambda_16, NULL, 4, 1,
+  {"540_44_myself\000"}
 };
 
 static FUNKY_CONSTANT constants_table[] = {
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std__loop}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_1}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std__while}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_loop}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std__while_not}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_2_loop}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std__repeat}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_iterate}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std__loop}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_1}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std__while}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_loop}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std__while_not}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_2_loop}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std__repeat}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_iterate}},
   {FLT_POSITIVE_INT64, 0, {.value = 0}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_2}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_3}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_next}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_2}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_3}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_next}},
   {FLT_POSITIVE_INT64, 0, {.value = 1}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_4}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std__from_to}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_2_iterate}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_5}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_6}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_2_next}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_7}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std__from_to_by}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_8}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_9}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_10}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_11}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_12}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_13}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_14}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_15}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_3_next}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_16}}
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_4}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std__from_to}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_2_iterate}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_5}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_6}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_2_next}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_7}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std__from_to_by}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_8}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_9}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_10}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_11}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_12}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_13}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_14}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_15}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_3_next}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_16}}
 };
 
 static ATTRIBUTE_DEFINITION basic_types__break_function__attributes[] = {
@@ -756,7 +919,7 @@ FUNKY_MODULE module__basic__loops = {
   "basic/loops.fky", // module filename
   .major_version = 0,
   .minor_version = 0,
-  .feature_flags = FEAT_POSITIONS,
+  .feature_flags = FEAT_POSITIONS|FEAT_FUNCTION_INFO,
   .marker = 0,
   0, // number of required modules
   1, // number of defined namespaces

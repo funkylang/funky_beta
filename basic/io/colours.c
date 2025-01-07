@@ -188,7 +188,16 @@ static TAB_NUM t_func_std__rgb_character[] = {
   POS(76, 17),
   POS(76, 17),
   POS(76, 6),
-  POS(76, 3)
+  POS(76, 3),
+  LOCAL(10),
+  LOCAL(8),
+  LOCAL(11),
+  LOCAL(9)
+};
+
+static FUNCTION_INFO i_func_std__rgb_character = {
+  t_func_std__rgb_character, NULL, 8, 4,
+  {"73_5_green\000", "71_5_text_attributes\000", "74_5_blue\000", "72_5_red\000"}
 };
 
 static TAB_NUM t_func_std_types__character___text_attributes_of[] = {
@@ -206,7 +215,13 @@ static TAB_NUM t_func_std_types__character___text_attributes_of[] = {
   POS(82, 11),
   POS(82, 11),
   POS(82, 11),
-  POS(82, 3)
+  POS(82, 3),
+  LOCAL(4)
+};
+
+static FUNCTION_INFO i_func_std_types__character___text_attributes_of = {
+  t_func_std_types__character___text_attributes_of, NULL, 4, 1,
+  {"80_5_chr\000"}
 };
 
 static TAB_NUM t_func_std_types__character___red_component_of[] = {
@@ -224,7 +239,13 @@ static TAB_NUM t_func_std_types__character___red_component_of[] = {
   POS(88, 11),
   POS(88, 11),
   POS(88, 11),
-  POS(88, 3)
+  POS(88, 3),
+  LOCAL(4)
+};
+
+static FUNCTION_INFO i_func_std_types__character___red_component_of = {
+  t_func_std_types__character___red_component_of, NULL, 4, 1,
+  {"86_5_chr\000"}
 };
 
 static TAB_NUM t_func_std_types__character___green_component_of[] = {
@@ -242,7 +263,13 @@ static TAB_NUM t_func_std_types__character___green_component_of[] = {
   POS(94, 11),
   POS(94, 11),
   POS(94, 11),
-  POS(94, 3)
+  POS(94, 3),
+  LOCAL(4)
+};
+
+static FUNCTION_INFO i_func_std_types__character___green_component_of = {
+  t_func_std_types__character___green_component_of, NULL, 4, 1,
+  {"92_5_chr\000"}
 };
 
 static TAB_NUM t_func_std_types__character___blue_component_of[] = {
@@ -257,7 +284,13 @@ static TAB_NUM t_func_std_types__character___blue_component_of[] = {
   LET, 1, LOCAL(2), TAIL_CALL,
   POS(100, 10),
   POS(100, 10),
-  POS(100, 3)
+  POS(100, 3),
+  LOCAL(3)
+};
+
+static FUNCTION_INFO i_func_std_types__character___blue_component_of = {
+  t_func_std_types__character___blue_component_of, NULL, 3, 1,
+  {"98_5_chr\000"}
 };
 
 static TAB_NUM t_func_std__colour_mixture[] = {
@@ -278,7 +311,13 @@ static TAB_NUM t_func_std__colour_mixture[] = {
   POS(114, 3),
   POS(115, 3),
   POS(116, 3),
-  POS(117, 3)
+  POS(117, 3),
+  LOCAL(1)
+};
+
+static FUNCTION_INFO i_func_std__colour_mixture = {
+  t_func_std__colour_mixture, NULL, 5, 1,
+  {"111_5_args\000"}
 };
 
 static TAB_NUM t_lambda_1[] = {
@@ -291,6 +330,11 @@ static TAB_NUM t_lambda_1[] = {
   var_if, 3, LOCAL(1), lambda_arg_is_a_key_value_pair, lambda_2, TAIL_CALL,
   POS(120, 13),
   POS(119, 7)
+};
+
+static FUNCTION_INFO i_lambda_1 = {
+  t_lambda_1, NULL, 2, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_arg_is_a_key_value_pair[] = {
@@ -334,7 +378,14 @@ static TAB_NUM t_lambda_arg_is_a_key_value_pair[] = {
   POS(125, 22),
   POS(125, 11),
   POS(126, 11),
-  POS(127, 11)
+  POS(127, 11),
+  LOCAL(4),
+  LOCAL(3)
+};
+
+static FUNCTION_INFO i_lambda_arg_is_a_key_value_pair = {
+  t_lambda_arg_is_a_key_value_pair, NULL, 13, 2,
+  {"122_12_parts\000", "121_12_colour\000"}
 };
 
 static TAB_NUM t_lambda_2[] = {
@@ -364,6 +415,11 @@ static TAB_NUM t_lambda_2[] = {
   POS(131, 11),
   POS(132, 11),
   POS(133, 11)
+};
+
+static FUNCTION_INFO i_lambda_2 = {
+  t_lambda_2, NULL, 8, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_3[] = {
@@ -404,6 +460,11 @@ static TAB_NUM t_lambda_3[] = {
   POS(134, 7)
 };
 
+static FUNCTION_INFO i_lambda_3 = {
+  t_lambda_3, NULL, 11, 0,
+  {}
+};
+
 static TAB_NUM t_func_std__ansi_text_colour[] = {
   6, // locals
   1, // parameters
@@ -428,7 +489,17 @@ static TAB_NUM t_func_std__ansi_text_colour[] = {
   POS(146, 3),
   POS(147, 3),
   POS(148, 6),
-  POS(148, 3)
+  POS(148, 3),
+  LOCAL(4),
+  LOCAL(5),
+  LOCAL(3),
+  LOCAL(2),
+  LOCAL(6)
+};
+
+static FUNCTION_INFO i_func_std__ansi_text_colour = {
+  t_func_std__ansi_text_colour, NULL, 7, 5,
+  {"145_4_red\000", "146_4_green\000", "144_4_colour_value\000", "142_5_colour\000", "147_4_blue\000"}
 };
 
 static TAB_NUM t_func_std__ansi_background_colour[] = {
@@ -455,7 +526,17 @@ static TAB_NUM t_func_std__ansi_background_colour[] = {
   POS(156, 3),
   POS(157, 3),
   POS(158, 6),
-  POS(158, 3)
+  POS(158, 3),
+  LOCAL(6),
+  LOCAL(3),
+  LOCAL(5),
+  LOCAL(2),
+  LOCAL(4)
+};
+
+static FUNCTION_INFO i_func_std__ansi_background_colour = {
+  t_func_std__ansi_background_colour, NULL, 7, 5,
+  {"157_4_blue\000", "154_4_colour_value\000", "156_4_green\000", "152_5_colour\000", "155_4_red\000"}
 };
 
 static TAB_NUM t_func_std__ansi_reset_colour[] = {
@@ -469,12 +550,22 @@ static TAB_NUM t_func_std__ansi_reset_colour[] = {
   POS(161, 3)
 };
 
+static FUNCTION_INFO i_func_std__ansi_reset_colour = {
+  t_func_std__ansi_reset_colour, NULL, 2, 0,
+  {}
+};
+
 static TAB_NUM t_func_std__restore_colours[] = {
   0, // locals
   0, // parameters
   // print! "@esc;[39m@esc;[49m"
   var_print, 1, str_39m49m, IO_TAIL_CALL,
   POS(164, 3)
+};
+
+static FUNCTION_INFO i_func_std__restore_colours = {
+  t_func_std__restore_colours, NULL, 1, 0,
+  {}
 };
 
 static TAB_NUM t_func_std__csi[] = {
@@ -490,7 +581,14 @@ static TAB_NUM t_func_std__csi[] = {
   LET, 1, LOCAL(2), TAIL_CALL,
   POS(167, 22),
   POS(167, 6),
-  POS(167, 3)
+  POS(167, 3),
+  LOCAL(3),
+  LOCAL(4)
+};
+
+static FUNCTION_INFO i_func_std__csi = {
+  t_func_std__csi, NULL, 3, 2,
+  {"166_13_arguments\000", "166_24_command\000"}
 };
 
 static FUNKY_CONSTANT constants_table[] = {
@@ -528,32 +626,32 @@ static FUNKY_CONSTANT constants_table[] = {
   {FLT_CHARACTER, 0, {.value = 14737632}},
   {FLT_CHARACTER, 0, {.value = 4210752}},
   {FLT_CHARACTER, 0, {.value = 2105376}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std__rgb_character}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std__rgb_character}},
   {FLT_POSITIVE_INT64, 0, {.value = 0}},
   {FLT_POSITIVE_INT64, 0, {.value = 24}},
   {FLT_POSITIVE_INT64, 0, {.value = 16}},
   {FLT_POSITIVE_INT64, 0, {.value = 8}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std_types__character___text_attributes_of}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std_types__character___text_attributes_of}},
   {FLT_POSITIVE_INT64, 0, {.value = 0xff}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std_types__character___red_component_of}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std_types__character___green_component_of}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std_types__character___blue_component_of}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std__colour_mixture}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_1}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_arg_is_a_key_value_pair}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_2}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_3}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std__ansi_text_colour}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std_types__character___red_component_of}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std_types__character___green_component_of}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std_types__character___blue_component_of}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std__colour_mixture}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_1}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_arg_is_a_key_value_pair}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_2}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_3}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std__ansi_text_colour}},
   {FLT_POSITIVE_INT64, 0, {.value = 38}},
   {FLT_POSITIVE_INT64, 0, {.value = 2}},
   {FLT_CHARACTER, 0, {.value = 109}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std__ansi_background_colour}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std__ansi_background_colour}},
   {FLT_POSITIVE_INT64, 0, {.value = 48}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std__ansi_reset_colour}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std__ansi_reset_colour}},
   {FLT_STRING_8, 2, {.str_8 = "0m"}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std__restore_colours}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std__restore_colours}},
   {FLT_STRING_8, 10, {.str_8 = "\033[39m\033[49m"}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std__csi}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std__csi}},
   {FLT_CHARACTER, 0, {.value = 59}},
   {FLT_STRING_8, 2, {.str_8 = "\033["}}
 };
@@ -977,7 +1075,7 @@ FUNKY_MODULE module__basic__io__colours = {
   "basic/io/colours.fky", // module filename
   .major_version = 0,
   .minor_version = 0,
-  .feature_flags = FEAT_POSITIONS,
+  .feature_flags = FEAT_POSITIONS|FEAT_FUNCTION_INFO,
   .marker = 0,
   0, // number of required modules
   0, // number of defined namespaces

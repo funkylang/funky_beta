@@ -108,60 +108,64 @@ $render_block: (element width)
     "table":
       filter &contents is_an_html_element
       $table_rows collect_table_rows(contents)
-      $column_count length_of(table_rows(1))
-      $min_width
-	map
-	  table_rows: (table_row)
-	    map table_row: (cell)
-	      map_reduce cell width_of max
-      $max_width
-	map
-	  table_rows: (table_row)
-	    map table_row: (cell)
-	      map_reduce cell width_of: (left right) -> left+1+right
-      $min_column_widths reduce_rows(min_width max)
-      $max_column_widths reduce_rows(max_width max)
-      $column_widths min_column_widths
-      $available_width width-rendering_indent-2*column_count
-      !column_widths
-	if
-	  available_width >= reduce(max_column_widths plus)
-	  -> max_column_widths
-	  :
-	    $remaining_width available_width-reduce(column_widths plus)
-	    for_each column_widths
-	      : (idx column_width)
-		if
-		  remaining_width <= 0
+      if
+	table_rows.is_empty
+	-> empty_line
+	:
+	  $column_count length_of(table_rows(1))
+	  $min_width
+	    map
+	      table_rows: (table_row)
+		map table_row: (cell)
+		  map_reduce cell width_of max
+	  $max_width
+	    map
+	      table_rows: (table_row)
+		map table_row: (cell)
+		  map_reduce cell width_of: (left right) -> left+1+right
+	  $min_column_widths reduce_rows(min_width max)
+	  $max_column_widths reduce_rows(max_width max)
+	  $column_widths min_column_widths
+	  $available_width width-rendering_indent-2*column_count
+	  !column_widths
+	    if
+	      available_width >= reduce(max_column_widths plus)
+	      -> max_column_widths
+	      :
+		$remaining_width available_width-reduce(column_widths plus)
+		for_each column_widths
+		  : (idx column_width)
+		    if
+		      remaining_width <= 0
+		      -> column_widths
+		      :
+			$additional_width
+			  min
+			    max_column_widths(idx)-column_width
+			    remaining_width
+			plus &column_widths(idx) additional_width
+			minus &remaining_width additional_width
+			next
 		  -> column_widths
-		  :
-		    $additional_width
-		      min
-			max_column_widths(idx)-column_width
-			remaining_width
-		    plus &column_widths(idx) additional_width
-		    minus &remaining_width additional_width
-		    next
-	      -> column_widths
-      map &table_rows: (row)
-	map row: (column_no column)
-	  render_paragraph column
-	    column_widths(column_no)
-      pad_right
-	map_reduce
-	  table_rows
-	  : (row)
-	    $max_height map_reduce(row height_of max)
-	    adjoin
-	      create_screen(style 2 max_height)
-	      reduce
-		row: (left right)
-		  adjoin
-		    pad_bottom(left max_height)
-		    create_screen(style 2 max_height)
-		    pad_bottom(right max_height)
-	  append
-	width
+	  map &table_rows: (row)
+	    map row: (column_no column)
+	      render_paragraph column
+		column_widths(column_no)
+	  pad_right
+	    map_reduce
+	      table_rows
+	      : (row)
+		$max_height map_reduce(row height_of max)
+		adjoin
+		  create_screen(style 2 max_height)
+		  reduce
+		    row: (left right)
+		      adjoin
+			pad_bottom(left max_height)
+			create_screen(style 2 max_height)
+			pad_bottom(right max_height)
+	      append
+	    width
     :
       debug::dump `tag
       debug::exit
@@ -461,6 +465,8 @@ $LOAD_HELP/job_completed: (_self io state buf info)
   info $filename $id $history_index
   if
     filename .has_suffix. ".html":
+      log &io 4 "
+	creating HTML page for "@(filename)"
       $page create_html_page(filename buf template_screen_of(state))
       $window_manager window_manager_of(state)
       if
@@ -509,8 +515,8 @@ $LOAD_HELP/job_completed: (_self io state buf info)
 	  -> io state(.window_manager_of window_manager)
     :
       log &io "
-	loaded "@(filename)"
-      -> io state
+	loaded linked file "@(filename)"
+      create_or_update_page io state buf tuple(filename true)
 
 $LOAD_HELP/job_failed: (_self io state _buf info)
   info $filename

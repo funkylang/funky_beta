@@ -122,7 +122,15 @@ static TAB_NUM t_func_std_types__date_and_time___to_string[] = {
   POS(63, 7),
   POS(65, 7),
   POS(50, 5),
-  POS(49, 3)
+  POS(49, 3),
+  LOCAL(18),
+  LOCAL(19),
+  LOCAL(20)
+};
+
+static FUNCTION_INFO i_func_std_types__date_and_time___to_string = {
+  t_func_std_types__date_and_time___to_string, NULL, 21, 3,
+  {"44_5_self\000", "47_4_t\000", "48_4_second\000"}
 };
 
 static TAB_NUM t_lambda_1[] = {
@@ -134,6 +142,11 @@ static TAB_NUM t_lambda_1[] = {
   LET, 2, LOCAL(1), lambda_2, TAIL_CALL,
   POS(66, 17),
   POS(66, 11)
+};
+
+static FUNCTION_INFO i_lambda_1 = {
+  t_lambda_1, NULL, 2, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_2[] = {
@@ -150,6 +163,11 @@ static TAB_NUM t_lambda_2[] = {
   POS(66, 21)
 };
 
+static FUNCTION_INFO i_lambda_2 = {
+  t_lambda_2, NULL, 3, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_3[] = {
   1, // locals
   0, // parameters
@@ -159,6 +177,11 @@ static TAB_NUM t_lambda_3[] = {
   LET, 2, LOCAL(1), lambda_4, TAIL_CALL,
   POS(67, 12),
   POS(67, 11)
+};
+
+static FUNCTION_INFO i_lambda_3 = {
+  t_lambda_3, NULL, 2, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_4[] = {
@@ -172,12 +195,22 @@ static TAB_NUM t_lambda_4[] = {
   POS(67, 21)
 };
 
+static FUNCTION_INFO i_lambda_4 = {
+  t_lambda_4, NULL, 2, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_5[] = {
   0, // locals
   0, // parameters
   //  true -> ""
   LET, 2, var_true, lambda_6, TAIL_CALL,
   POS(68, 11)
+};
+
+static FUNCTION_INFO i_lambda_5 = {
+  t_lambda_5, NULL, 1, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_6[] = {
@@ -188,21 +221,26 @@ static TAB_NUM t_lambda_6[] = {
   POS(68, 19)
 };
 
+static FUNCTION_INFO i_lambda_6 = {
+  t_lambda_6, NULL, 1, 0,
+  {}
+};
+
 static FUNKY_CONSTANT constants_table[] = {
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std_types__date_and_time___to_string}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std_types__date_and_time___to_string}},
   {FLT_POSITIVE_INT64, 0, {.value = 2}},
   {FLT_STRING_8, 1, {.str_8 = "0"}},
   {FLT_POSITIVE_INT64, 0, {.value = 1000}},
   {FLT_POSITIVE_INT64, 0, {.value = 3}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_1}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_1}},
   {FLT_POSITIVE_INT64, 0, {.value = 0}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_2}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_2}},
   {FLT_POSITIVE_INT64, 0, {.value = 3600}},
   {FLT_STRING_8, 1, {.str_8 = "+"}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_3}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_4}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_5}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_6}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_3}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_4}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_5}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_6}},
   {FLT_STRING_8, 0, {.str_8 = ""}},
   {FLT_STRING_8, 1, {.str_8 = "-"}},
   {FLT_CHARACTER, 0, {.value = 32}},
@@ -331,7 +369,7 @@ FUNKY_MODULE module__basic__types__date_and_time = {
   "basic/types/date_and_time.fky", // module filename
   .major_version = 0,
   .minor_version = 0,
-  .feature_flags = FEAT_POSITIONS,
+  .feature_flags = FEAT_POSITIONS|FEAT_FUNCTION_INFO,
   .marker = 0,
   0, // number of required modules
   0, // number of defined namespaces

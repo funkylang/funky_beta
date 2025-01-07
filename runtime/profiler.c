@@ -283,14 +283,18 @@ static void maybe_collect_garbage(void) {
   }
 }
 
+static FUNCTION_INFO *func_info = NULL;
+
 static void allocate_frame_and_initialize_locals(
   FRAME *parent_frame,
   int slot_count
 ) {
   TREE *dynamics = TLS_frame->dynamics;
-  long size = sizeof(FRAME)+slot_count*sizeof(NODE *);
+  long size = sizeof(FUNCTION_INFO *)+sizeof(FRAME)+slot_count*sizeof(NODE *);
   TLS_frame = (void *)parent_frame - size;
-  if ((void *)TLS_frame < (void *)stack) stack_overflow_error();
+  if ((void *)TLS_frame < (void *)stack+sizeof(FUNCTION_INFO *))
+    stack_overflow_error();
+  ((FUNCTION_INFO **)TLS_frame)[-1] = func_info;
   TLS_frame->link = parent_frame;
   TLS_frame->dynamics = dynamics;
   TLS_frame->constants = TLS_constants;
@@ -314,10 +318,13 @@ static const TAB_NUM *function_code_start_stack[4096];
 static const TAB_NUM *function_code_end_stack[4096];
 static int function_code_sp = 0;
 
+FUNCTION_INFO dummy_func_info = {NULL, NULL, 0, 0};
+
 void profiler(void) {
   // initialize stack
   TREE *initial_dynamics = TLS_frame->dynamics;
   TLS_frame = (FRAME *)(stack+STACK_SIZE-sizeof(FRAME));
+  ((FUNCTION_INFO **)TLS_frame)[-1] = &dummy_func_info;
   TLS_frame->link = NULL;
   TLS_frame->dynamics = initial_dynamics;
   TLS_frame->constants = TLS_constants;
@@ -334,13 +341,13 @@ void profiler(void) {
   FUNC func;
 
   if (do_debug) {
-    TLS_code = ((FUNCTION_INFO *)((unsigned long)TLS_myself->type & -4L))->code;
+    func_info = (FUNCTION_INFO *)((unsigned long)TLS_myself->type & -4L);
+    TLS_code = func_info->code;
     function_code_start_stack[function_code_sp] = function_code_start;
     function_code_end_stack[function_code_sp] = function_code_end;
     ++function_code_sp;
     function_code_start = TLS_code;
-    function_code_end =
-      ((FUNCTION_INFO *)((unsigned long)TLS_myself->type & -4L))->code_end;
+    function_code_end = func_info->code_end;
   } else {
     TLS_code = (const TAB_NUM *)((unsigned long)TLS_myself->type & -4L);
   }
@@ -430,20 +437,19 @@ void profiler(void) {
 
   execute_statements:;
 
-  if (instruction_counter >= sdd->backstep_start && sdd->backstep_start > 0) {
-    sdd->break_at = sdd->best_backstep_position;
-    sdd->io_occurred = false;
-    sdd->break_on_io = false;
-    sdd->break_on_return = false;
-    sdd->break_code_start = NULL;
-    sdd->break_code_end = NULL;
-    sdd->backstep_start = 0;
-    sdd->best_backstep_position = 0;
-    exit(RESPAWN);
-  }
-  if (
-    do_debug &&
-    (
+  if (do_debug) {
+    if (instruction_counter >= sdd->backstep_start && sdd->backstep_start > 0) {
+      sdd->break_at = sdd->best_backstep_position;
+      sdd->io_occurred = false;
+      sdd->break_on_io = false;
+      sdd->break_on_return = false;
+      sdd->break_code_start = NULL;
+      sdd->break_code_end = NULL;
+      sdd->backstep_start = 0;
+      sdd->best_backstep_position = 0;
+      exit(RESPAWN);
+    }
+    if (
       instruction_counter == sdd->break_at ||
       sdd->break_on_return && TLS_frame->link > sdd->break_frame ||
       (
@@ -452,15 +458,15 @@ void profiler(void) {
 	TLS_code < sdd->break_code_end
       ) ||
       sdd->break_on_io && sdd->io_occurred
-    )
-  ) {
-    if (sdd->backstep_start) {
-      if (instruction_counter+1 == sdd->backstep_start) {
-	debug(); // no further pass needed
+    ) {
+      if (sdd->backstep_start) {
+	if (instruction_counter+1 == sdd->backstep_start) {
+	  debug(); // no further pass needed
+	}
+	sdd->best_backstep_position = instruction_counter;
+      } else {
+	debug();
       }
-      sdd->best_backstep_position = instruction_counter;
-    } else {
-      debug();
     }
   }
   ++instruction_counter;
@@ -582,8 +588,8 @@ void profiler(void) {
 	++profile.counts[COUNT_tail_calls];
 	const TAB_NUM *caller_code = TLS_code;
 	if (do_debug) {
-	  TLS_code = ((FUNCTION_INFO *)
-	    ((unsigned long)TLS_myself->type & -4L))->code;
+	  func_info = (FUNCTION_INFO *)((unsigned long)TLS_myself->type & -4L);
+	  TLS_code = func_info->code;
 	  function_code_start = TLS_code;
 	  function_code_end = ((FUNCTION_INFO *)
 	    ((unsigned long)TLS_myself->type & -4L))->code_end;

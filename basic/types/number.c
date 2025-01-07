@@ -62,7 +62,13 @@ static TAB_NUM t_func_std_types__number___floor[] = {
   LOCAL(1), // 61_5_self
   // -> self
   LET, 1, LOCAL(1), TAIL_CALL,
-  POS(63, 3)
+  POS(63, 3),
+  LOCAL(1)
+};
+
+static FUNCTION_INFO i_func_std_types__number___floor = {
+  t_func_std_types__number___floor, NULL, 1, 1,
+  {"61_5_self\000"}
 };
 
 static TAB_NUM t_func_std_types__number___ceil[] = {
@@ -71,7 +77,13 @@ static TAB_NUM t_func_std_types__number___ceil[] = {
   LOCAL(1), // 69_5_self
   // -> self
   LET, 1, LOCAL(1), TAIL_CALL,
-  POS(71, 3)
+  POS(71, 3),
+  LOCAL(1)
+};
+
+static FUNCTION_INFO i_func_std_types__number___ceil = {
+  t_func_std_types__number___ceil, NULL, 1, 1,
+  {"69_5_self\000"}
 };
 
 static TAB_NUM t_func_std_types__number___round[] = {
@@ -80,7 +92,13 @@ static TAB_NUM t_func_std_types__number___round[] = {
   LOCAL(1), // 77_5_self
   // -> self
   LET, 1, LOCAL(1), TAIL_CALL,
-  POS(79, 3)
+  POS(79, 3),
+  LOCAL(1)
+};
+
+static FUNCTION_INFO i_func_std_types__number___round = {
+  t_func_std_types__number___round, NULL, 1, 1,
+  {"77_5_self\000"}
 };
 
 static TAB_NUM t_func_std_types__integer___serialize[] = {
@@ -102,6 +120,11 @@ static TAB_NUM t_func_std_types__integer___serialize[] = {
   POS(88, 3)
 };
 
+static FUNCTION_INFO i_func_std_types__integer___serialize = {
+  t_func_std_types__integer___serialize, NULL, 4, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_1[] = {
   2, // locals
   0, // parameters
@@ -114,6 +137,11 @@ static TAB_NUM t_lambda_1[] = {
   POS(87, 47),
   POS(87, 40),
   POS(87, 39)
+};
+
+static FUNCTION_INFO i_lambda_1 = {
+  t_lambda_1, NULL, 3, 0,
+  {}
 };
 
 static TAB_NUM t_func_std_types__real___serialize[] = {
@@ -144,6 +172,11 @@ static TAB_NUM t_func_std_types__real___serialize[] = {
   POS(98, 3)
 };
 
+static FUNCTION_INFO i_func_std_types__real___serialize = {
+  t_func_std_types__real___serialize, NULL, 7, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_2[] = {
   1, // locals
   0, // parameters
@@ -153,6 +186,11 @@ static TAB_NUM t_lambda_2[] = {
   LET, 1, LOCAL(1), TAIL_CALL,
   POS(96, 47),
   POS(96, 46)
+};
+
+static FUNCTION_INFO i_lambda_2 = {
+  t_lambda_2, NULL, 2, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_3[] = {
@@ -169,19 +207,24 @@ static TAB_NUM t_lambda_3[] = {
   POS(97, 39)
 };
 
+static FUNCTION_INFO i_lambda_3 = {
+  t_lambda_3, NULL, 3, 0,
+  {}
+};
+
 static FUNKY_CONSTANT constants_table[] = {
   {FLT_POSITIVE_INT64, 0, {.value = 0}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std_types__number___floor}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std_types__number___ceil}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std_types__number___round}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std_types__integer___serialize}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_1}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std_types__number___floor}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std_types__number___ceil}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std_types__number___round}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std_types__integer___serialize}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_1}},
   {FLT_CHARACTER, 0, {.value = 10}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std_types__real___serialize}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std_types__real___serialize}},
   {FLT_CHARACTER, 0, {.value = 46}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_2}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_2}},
   {FLT_STRING_8, 2, {.str_8 = ".0"}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_3}}
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_3}}
 };
 
 static ATTRIBUTE_DEFINITION std_types__object__attributes[] = {
@@ -359,7 +402,7 @@ FUNKY_MODULE module__basic__types__number = {
   "basic/types/number.fky", // module filename
   .major_version = 0,
   .minor_version = 0,
-  .feature_flags = FEAT_POSITIONS,
+  .feature_flags = FEAT_POSITIONS|FEAT_FUNCTION_INFO,
   .marker = 0,
   0, // number of required modules
   0, // number of defined namespaces

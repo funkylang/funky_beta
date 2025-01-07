@@ -386,6 +386,10 @@ FUNCTION void create_error_message
     NODE *node
   )
   {
+    if (do_debug) {
+      printf("E:%s\n", msg);
+      sdd->break_at = instruction_counter;
+    }
     NODE *err = NULL;
     int i;
     for (i = 0; i < ARGUMENT_COUNT; ++i) {

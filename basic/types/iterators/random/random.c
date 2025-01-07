@@ -82,6 +82,11 @@ static TAB_NUM t_func_get_next_value[] = {
   POS(73, 3)
 };
 
+static FUNCTION_INFO i_func_get_next_value = {
+  t_func_get_next_value, NULL, 5, 0,
+  {}
+};
+
 static TAB_NUM t_func_add_more_random[] = {
   1, // locals
   0, // parameters
@@ -114,6 +119,11 @@ static TAB_NUM t_func_add_more_random[] = {
   POS(60, 5)
 };
 
+static FUNCTION_INFO i_func_add_more_random = {
+  t_func_add_more_random, NULL, 9, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_1[] = {
   3, // locals
   0, // parameters
@@ -131,6 +141,11 @@ static TAB_NUM t_lambda_1[] = {
   POS(62, 9)
 };
 
+static FUNCTION_INFO i_lambda_1 = {
+  t_lambda_1, NULL, 4, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_2[] = {
   1, // locals
   0, // parameters
@@ -145,7 +160,13 @@ static TAB_NUM t_lambda_2[] = {
   POS(68, 9),
   POS(69, 9),
   POS(70, 9),
-  POS(71, 9)
+  POS(71, 9),
+  LOCAL(1)
+};
+
+static FUNCTION_INFO i_lambda_2 = {
+  t_lambda_2, NULL, 4, 1,
+  {"68_10_base\000"}
 };
 
 static TAB_NUM t_lambda_3[] = {
@@ -165,6 +186,11 @@ static TAB_NUM t_lambda_3[] = {
   POS(77, 7)
 };
 
+static FUNCTION_INFO i_lambda_3 = {
+  t_lambda_3, NULL, 4, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_4[] = {
   3, // locals
   0, // parameters
@@ -182,6 +208,11 @@ static TAB_NUM t_lambda_4[] = {
   POS(79, 11)
 };
 
+static FUNCTION_INFO i_lambda_4 = {
+  t_lambda_4, NULL, 4, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_5[] = {
   1, // locals
   0, // parameters
@@ -196,7 +227,13 @@ static TAB_NUM t_lambda_5[] = {
   POS(85, 11),
   POS(86, 11),
   POS(87, 11),
-  POS(88, 11)
+  POS(88, 11),
+  LOCAL(1)
+};
+
+static FUNCTION_INFO i_lambda_5 = {
+  t_lambda_5, NULL, 4, 1,
+  {"85_12_base\000"}
 };
 
 static TAB_NUM t_func_std_types__random_number_generator___next_value[] = {
@@ -224,7 +261,16 @@ static TAB_NUM t_func_std_types__random_number_generator___next_value[] = {
   POS(96, 27),
   POS(96, 3),
   POS(97, 11),
-  POS(97, 3)
+  POS(97, 3),
+  LOCAL(5),
+  LOCAL(3),
+  LOCAL(6),
+  LOCAL(4)
+};
+
+static FUNCTION_INFO i_func_std_types__random_number_generator___next_value = {
+  t_func_std_types__random_number_generator___next_value, NULL, 7, 4,
+  {"92_12_high\000", "91_50_self\000", "96_25_r\000", "92_7_low\000"}
 };
 
 static TAB_NUM t_lambda_6[] = {
@@ -235,18 +281,23 @@ static TAB_NUM t_lambda_6[] = {
   POS(95, 7)
 };
 
+static FUNCTION_INFO i_lambda_6 = {
+  t_lambda_6, NULL, 1, 0,
+  {}
+};
+
 static FUNKY_CONSTANT constants_table[] = {
   {FLT_POSITIVE_INT64, 0, {.value = 1}},
   {FLT_POSITIVE_INT64, 0, {.value = 0}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_get_next_value}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_add_more_random}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_1}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_2}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_3}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_4}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_5}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std_types__random_number_generator___next_value}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_6}}
+  {FLT_FUNCTION, 0, {.func_info = &i_func_get_next_value}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_add_more_random}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_1}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_2}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_3}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_4}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_5}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std_types__random_number_generator___next_value}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_6}}
 };
 
 static ATTRIBUTE_DEFINITION std_types__object__attributes[] = {
@@ -431,7 +482,7 @@ FUNKY_MODULE module__basic__types__iterators__random__random = {
   "basic/types/iterators/random/random.fky", // module filename
   .major_version = 0,
   .minor_version = 0,
-  .feature_flags = FEAT_POSITIONS,
+  .feature_flags = FEAT_POSITIONS|FEAT_FUNCTION_INFO,
   .marker = 0,
   0, // number of required modules
   0, // number of defined namespaces

@@ -44,7 +44,13 @@ static TAB_NUM t_func_std__do[] = {
   LOCAL(1), // 43_5_body
   // body!
   LOCAL(1), 0, IO_TAIL_CALL,
-  POS(45, 3)
+  POS(45, 3),
+  LOCAL(1)
+};
+
+static FUNCTION_INFO i_func_std__do = {
+  t_func_std__do, NULL, 1, 1,
+  {"43_5_body\000"}
 };
 
 static TAB_NUM t_func_std__ignore[] = {
@@ -56,13 +62,24 @@ static TAB_NUM t_func_std__ignore[] = {
   POS(59, 3)
 };
 
+static FUNCTION_INFO i_func_std__ignore = {
+  t_func_std__ignore, NULL, 1, 0,
+  {}
+};
+
 static TAB_NUM t_func_std__assign[] = {
   1, // locals
   -1, // parameters
   REST_PARAMETER, LOCAL(1), // 79_5_args
   // spread args
   var_spread, 1, LOCAL(1), TAIL_CALL,
-  POS(81, 3)
+  POS(81, 3),
+  LOCAL(1)
+};
+
+static FUNCTION_INFO i_func_std__assign = {
+  t_func_std__assign, NULL, 1, 1,
+  {"79_5_args\000"}
 };
 
 static TAB_NUM t_func_std__chain[] = {
@@ -73,6 +90,11 @@ static TAB_NUM t_func_std__chain[] = {
   // loop:
   var_loop, 1, lambda_loop, IO_TAIL_CALL,
   POS(84, 3)
+};
+
+static FUNCTION_INFO i_func_std__chain = {
+  t_func_std__chain, NULL, 1, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_loop[] = {
@@ -86,6 +108,11 @@ static TAB_NUM t_lambda_loop[] = {
   POS(85, 5)
 };
 
+static FUNCTION_INFO i_lambda_loop = {
+  t_lambda_loop, NULL, 2, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_1[] = {
   1, // locals
   0, // parameters
@@ -95,6 +122,11 @@ static TAB_NUM t_lambda_1[] = {
   LOCAL(1), 1, lambda_initializers1, IO_TAIL_CALL,
   POS(89, 9),
   POS(89, 9)
+};
+
+static FUNCTION_INFO i_lambda_1 = {
+  t_lambda_1, NULL, 2, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_initializers1[] = {
@@ -108,15 +140,20 @@ static TAB_NUM t_lambda_initializers1[] = {
   POS(91, 11)
 };
 
+static FUNCTION_INFO i_lambda_initializers1 = {
+  t_lambda_initializers1, NULL, 2, 0,
+  {}
+};
+
 static FUNKY_CONSTANT constants_table[] = {
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std__do}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std__ignore}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std__assign}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std__chain}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_loop}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_1}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std__do}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std__ignore}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std__assign}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std__chain}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_loop}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_1}},
   {FLT_POSITIVE_INT64, 0, {.value = 1}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_initializers1}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_initializers1}},
   {FLT_POSITIVE_INT64, 0, {.value = 2}},
   {FLT_NEGATIVE_INT64, 0, {.value = 1}}
 };
@@ -196,7 +233,7 @@ FUNKY_MODULE module__basic__primitives = {
   "basic/primitives.fky", // module filename
   .major_version = 0,
   .minor_version = 0,
-  .feature_flags = FEAT_POSITIONS,
+  .feature_flags = FEAT_POSITIONS|FEAT_FUNCTION_INFO,
   .marker = 0,
   0, // number of required modules
   0, // number of defined namespaces
