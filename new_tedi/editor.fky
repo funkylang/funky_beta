@@ -567,7 +567,7 @@ $tedi::set_status_line ()
 $tedi_types::basic_state/set_status_line: (state)
   $page get_content(window_manager_of(state))
   if
-    page.is_defined:
+    page.is_defined && (kind_of(page) == TEDI || kind_of(page) == C):
       get_xy page window_manager_of(state) $x $y
       set_status &state.window_manager_of
 	"@(y):@(x) (@(height_of(page)):@(width_of(page)))"

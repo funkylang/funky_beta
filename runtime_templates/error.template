@@ -413,6 +413,7 @@ FUNCTION void create_error_message
 	++n;
 	trace = trace->link;
       }
+      --n; // do not use sentinel
       FUNC_DATA *data = allocate_large(sizeof(FUNC_DATA)+n*sizeof(TAB_NUM *));
       data->length = n;
       n = 0;
@@ -425,7 +426,7 @@ FUNCTION void create_error_message
 	data->entries[n++] = code;
       }
       trace = TLS_frame;
-      while (trace) {
+      while (trace && trace->link) {
 	if (do_dump_errors) print_code_reference(trace->code);
 	data->entries[n++] = trace->code;
 	trace = trace->link;
