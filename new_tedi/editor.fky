@@ -1,5 +1,5 @@
 #
-  Copyright (C) 2024 by
+  Copyright (C) 2025 by
   Dipl.-Ing. Michael Niederle
 
   This program is free software; you can redistribute it and/or modify
@@ -33,7 +33,11 @@ $tedi::create_page_from_text: (text state filename)
     case
       behind(filename '.' -1)
       "c", "cc", "cpp", "h" -> C
-      -> TEDI
+      "sh" -> SH
+      :
+	case text .truncate_from. '@nl;'
+	  "#!/bin/bash", "#!/bin/sh" -> SH
+	  -> kind_of(tedi_types::text_page)
   prepare
     tedi_types::text_page
       .lines_of lines
@@ -567,7 +571,7 @@ $tedi::set_status_line ()
 $tedi_types::basic_state/set_status_line: (state)
   $page get_content(window_manager_of(state))
   if
-    page.is_defined && (kind_of(page) == TEDI || kind_of(page) == C):
+    page.is_defined && (kind_of(page).is_a_text_page_kind):
       get_xy page window_manager_of(state) $x $y
       set_status &state.window_manager_of
 	"@(y):@(x) (@(height_of(page)):@(width_of(page)))"
@@ -586,6 +590,18 @@ $tedi::current_action_completed: (io state)
       handle_key_press page &io &state key
       next
     -> io state
+
+$HELP .
+
+$context_help: (io state x y lines info)
+  $page get_content(window_manager_of(state))
+  $context_help_function context_help_functions(kind_of(page))
+  if
+    context_help_function.is_defined:
+      context_help_function io state x y lines info
+    :
+      show_status_message &state HELP "no context help available"
+      -> io state
 
 # Dynamic Variables
 
@@ -774,7 +790,7 @@ $tedi::functions
     "undo" = tuple(undo UNDO)
     "redo" = tuple(redo REDO)
 
-    # function keys
+    # view
 
     "change_colour_set" = tuple(change_colour_set OTHER)
     "toggle_indentation_highlighting" =
@@ -783,7 +799,11 @@ $tedi::functions
       tuple(toggle_cursor_line_highlighting OTHER)
     "toggle_soft_line_break" = tuple(toggle_soft_line_break UPDATE_STATE)
     "toggle_line_numbers" = tuple(toggle_line_numbers OTHER)
+
+    # help
+
     "show_help" = tuple(show_help DIALOG)
+    "context_help" = tuple(context_help IO)
 
     # filter & action
 
@@ -2832,6 +2852,9 @@ $tedi::TEDI .
 $FIND_TEXT .
 $GO_TO_LINE .
 $tedi::C .
+$tedi::SH .
+
+$tedi::is_a_text_page_kind hash_set(TEDI C SH)
 
 $tedi_types::page/height_of: (page) -> length_of(lines_of(page))
 
@@ -2844,6 +2867,7 @@ $tedi::prepare_tedi_page: (page state line_range)
        .width_of map_reduce(lines_of(page) line_width_of max 0)
        .template_screen_of template_screen_of(state)
     :
+      !symbol_info symbol_info_of(state)
       line_range $from $to
       min &to height_of(page)
       $screens screens_of(page)
@@ -2965,6 +2989,7 @@ $create_screens: (page first last)
 	      next
 	  -> screen
       C -> create_c_line(template_screen line)
+      SH -> create_sh_line(template_screen line)
       ->
 	create_text_screen
 	  template_screen append(spaces(indent_of(line)) text_of(line))
@@ -3060,7 +3085,7 @@ $undo_stack_of () # a list of undo entries (tuples)
 $redo_stack_of () # a list of redo entries (tuples)
 $go_to_history_of () # per document
 $use_soft_line_breaks_of ()
-$do_show_right_margin_of ()
+$tedi::do_show_right_margin_of ()
 $do_highlight_cursor_line_of ()
 $do_show_line_numbers_of ()
 $right_margin_of ()
@@ -3309,8 +3334,11 @@ list $tedi::help_sections
       "ctrl-page-up" =
 	"
 	  goto previous window
-  "Function Keys" =
+  "Help" =
     list
       "show_help" =
 	"
 	  show this help
+      "context_help" =
+	"
+	  opens a help window for the symbol under the cursor

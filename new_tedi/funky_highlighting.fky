@@ -1,5 +1,5 @@
 #
-  Copyright (C) 2024 by
+  Copyright (C) 2025 by
   Dipl.-Ing. Michael Niederle
 
   This program is free software; you can redistribute it and/or modify
@@ -25,7 +25,6 @@
 
 <resolve std_types-2.0>
 
-#$FDE .
 $DO_VALIDATE false
 
 # New Types
@@ -60,7 +59,7 @@ $fde_types::node tedi_types::line
 # Extensions For Existing Types
 
 $tedi_types::text_page
-  #.kind_of FDE
+  .kind_of FDE
   /: get_text_page_item
   /prepare prepare_text_page
   /replace replace_in_text_page

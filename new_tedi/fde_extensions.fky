@@ -1,5 +1,5 @@
 #
-  Copyright (C) 2024 by
+  Copyright (C) 2025 by
   Dipl.-Ing. Michael Niederle
 
   This program is free software; you can redistribute it and/or modify
@@ -66,6 +66,7 @@ $tedi_types::state
   .debug_data_of undefined
 
 $debug_fd_of ()
+$tty_fd_of ()
 $watch_window_id_of ()
 $instruction_counter_of ()
 $do_skip_initializers_of ()
@@ -75,6 +76,7 @@ $module_names_of ()
 
 $fde_types::debug_data std_types::object
   .debug_fd_of undefined
+  .tty_fd_of undefined
   .watch_window_id_of undefined
   .instruction_counter_of undefined
   .do_skip_initializers_of false
@@ -132,13 +134,9 @@ $ADD_OR_REMOVE_WATCH .
 	  "Add/remove watch (F10)" = ADD_OR_REMOVE_WATCH
       main_menu(-1)
 
-append &help_sections
-  list
-    "FDE" =
-      list
-	"context_help" =
-	  "
-	    opens a help window for the symbol under the cursor
+$fde::FDE .
+
+!context_help_functions(FDE) fde_context_help
 
 !default_configuration.commands_of(COMPILE) "compile"
 !default_configuration.commands_of(F9) "compile"
@@ -172,7 +170,6 @@ append &help_sections
 !default_configuration.commands_of(ADD_OR_REMOVE_WATCH) "add_or_remove_watch"
 !default_configuration.commands_of(F10) "add_or_remove_watch"
 
-!functions("context_help") tuple(context_help IO)
 !functions("compile") tuple(compile IO)
 !functions("run_program") tuple(run_program IO)
 !functions("start_or_stop_debugging") tuple(start_or_stop_debugging IO)
@@ -210,7 +207,7 @@ $tedi_types::state/set_status_line: (state)
       -> state
     -> state
 
-$context_help: (io state x y lines _info)
+$fde_context_help: (io state x y lines _info)
   $symbols symbols_of(state)
   if
     symbols.is_defined:
@@ -376,7 +373,6 @@ $start_or_stop_debugging: (io state x y lines info)
       write &io debug_fd_of(debug_data) "
 	q
       $watch_window_id watch_window_id_of(debug_data)
-      !state.debug_data_of undefined
       if
 	watch_window_id.is_defined:
 	  close &state.window_manager_of watch_window_id
@@ -424,8 +420,7 @@ $program_finished: (io pid status cmd_and_args)
     -> io undefined
 
 $start_debug_action: (io cmd args)
-  open! $tty_fd tty_filename "r+"
-  write! $_bytes_written tty_fd "@esc;[2J@esc;[1;1H"
+  open! $tty_fd tty_filename "w"
   log &io "
     running "@(cmd) @(args(1))"
   create_process! $pid $in_fd $out_fd $err_fd cmd args
@@ -442,7 +437,7 @@ $start_debug_action: (io cmd args)
     CLOSED = ignore_close
   register_handlers &io pid
     PROCESS_JOINED = debug_finished
-  -> io tuple(JOB_COMPLETED DEBUG START in_fd)
+  -> io tuple(JOB_COMPLETED DEBUG START tuple(in_fd tty_fd))
 
 $DEBUG .
 
@@ -453,11 +448,13 @@ $FINISH .
 $DEBUG/job_completed: (_self io state cmd argument)
   case cmd
     START:
+      argument $debug_fd $tty_fd
       $debug_data debug_data_of(state)
       update_if debug_data.is_undefined &debug_data -> fde_types::debug_data
-      !debug_data.debug_fd_of argument
+      !debug_data.debug_fd_of debug_fd
+      !debug_data.tty_fd_of tty_fd
       !state.debug_data_of debug_data
-      show_status_message &state "debugging started"
+      show_status_message &state DEBUG "debugging started"
       -> io state
     PROMPT:
       $debug_data debug_data_of(state)
@@ -569,6 +566,16 @@ $DEBUG/job_completed: (_self io state cmd argument)
 			  next
 			next
 		    next
+		'R': # reset
+		  $instruction_counter buf.to_integer
+		  log &io 2 "
+		    reset to instruction counter @(instruction_counter)
+		  write &io tty_fd_of(debug_data) "@esc;[2J@esc;[1;1H"
+		  next
+		'r': # report
+		  log &io 2 line
+		  handle_io_action &io &state buf
+		  next
 		's': # symbol
 		  log &io 4 line
 		  $n length_of(buf)
@@ -620,11 +627,85 @@ $DEBUG/job_completed: (_self io state cmd argument)
 	  !state.debug_data_of debug_data
 	  load_files io state
     FINISH:
+      $debug_data debug_data_of(state)
+      close &io debug_fd_of(debug_data)
+      close &io tty_fd_of(debug_data)
       !state.debug_data_of undefined
       !state.global_info_of.debug_position_of undefined
       show_status_message &state DEBUG "debugging finished"
       -> io state
     -> io state
+
+$handle_io_action: (io state arguments)
+  $action arguments .truncate_from. ':'
+  behind &arguments ':'
+  case action
+    "write":
+      parse arguments
+	INT $fd
+	MEMORY $data
+      if
+	fd == 1:
+	  write &io tty_fd_of(debug_data_of(state)) data
+	  -> io state
+	-> io state
+    -> io state
+
+# field types
+
+$INT .
+$MEMORY .
+
+$parse: (arguments fields*)
+  $results empty_list
+  for_each fields
+    : (field)
+      $value arguments .truncate_from. ':'
+      behind &arguments ':'
+      case field
+	INT:
+	  push &results value.to_integer
+	  next
+	MEMORY:
+	  $length value.to_integer
+	  $data "" # empty octet string
+	  $i 1
+	  $n length_of(arguments)
+	  loop
+	    :
+	      if
+		i > n || length_of(data) >= length
+		break
+		:
+		  $byte arguments(i)
+		  if
+		    byte == '%':
+		      $high arguments(i+1)
+		      $low arguments(i+2)
+		      push &data
+			character
+			  (high.from_hex_digit << 4) | low.from_hex_digit
+		      plus &i 3
+		      next
+		    :
+		      push &data byte
+		      inc &i
+		      next
+	    :
+	      behind &arguments ':'
+	      push &results data
+	      next
+	:
+	  debug::dump `field
+	  next
+    :
+      spread results
+
+$from_hex_digit: (chr)
+  case chr
+    '0' .. '9' -> chr-'0'
+    'a' .. 'f' -> chr-'a'+10
+    'A' .. 'F' -> chr-'A'+10
 
 $add_watch: (io state symbol value)
   $watch_window_id watch_window_id_of(debug_data_of(state))
@@ -934,7 +1015,7 @@ $context_help_or_add_or_remove_watch: (io state x y lines info)
     debug_data.is_defined && debug_fd_of(debug_data).is_defined:
       add_or_remove_watch io state x y lines info
     :
-      context_help io state x y lines info
+      fde_context_help io state x y lines info
 
 # Watch Page
 

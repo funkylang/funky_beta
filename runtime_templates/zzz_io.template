@@ -371,23 +371,30 @@ METHOD std_types::file_descriptor/get_terminal_size
     CHECK_IO_ACCESS_RIGHTS
 
     int fd = ARGUMENTS(0)->file_descriptor.value;
-    int width, height;
+    int success, width, height;
     struct winsize winsize;
 
     EVENT(get_terminal_size)
-      ioctl(fd, TIOCGWINSZ, &winsize);
+      success = ioctl(fd, TIOCGWINSZ, &winsize);
       width = winsize.ws_col;
       height = winsize.ws_row;
     DATA
+      INT(success)
       INT(width)
       INT(height)
     END
-    NODE *width_node = from_int(width);
-    NODE *height_node = from_int(height);
-    START_ARGUMENTS(2);
-    ARGUMENTS(0) = width_node;
-    ARGUMENTS(1) = height_node;
-    RETURN
+    if (success == 0) {
+      NODE *width_node = from_int(width);
+      NODE *height_node = from_int(height);
+      START_ARGUMENTS(2);
+      ARGUMENTS(0) = width_node;
+      ARGUMENTS(1) = height_node;
+      RETURN
+    } else {
+      create_error_message(
+	module__builtin.constants_base[unique__std___IO_ERROR-1],
+	"IOCTL FAILED", errno, 0, NULL);
+    }
   }
 
 FUNCTION std::exitstatus

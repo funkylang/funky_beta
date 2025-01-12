@@ -992,7 +992,7 @@ EXPORT NODE *get_attribute(NODE *node, int idx) {
   return interior_p->nodes[idx & 7];
 }
 
-void reset_log_file(void) {
+EXPORT void reset_log_file() {
   fseek(log_fp, 0, SEEK_SET);
 }
 
@@ -1046,7 +1046,11 @@ static unsigned long get_unsigned_number(void) {
 }
 
 EXPORT void record__event(const char *name) {
-  fprintf(log_fp, "%s\n", name);
+  fprintf(log_fp, "%s", name);
+}
+
+EXPORT void end__record() {
+  fprintf(log_fp, "\n");
 }
 
 EXPORT void successful__action(const char *name) {
@@ -1062,12 +1066,14 @@ EXPORT void replay__event(const char *name) {
   char tag[64];
   char *p = tag;
   char chr;
+  fprintf(log_fp, "replay__event %s", name);
   do {
     chr = get_character();
   } while (chr <= 0x20);
   while (true) {
-    if (chr == '\n') break;
-    if (p >= tag+63) runtime_error("Invalid event tag encountered!");
+    if (chr == ':' || chr == '\n') break;
+    if (p >= tag+63) runtime_error(
+      "Invalid event tag encountered (expected \"%s\")!", name);
     *p++ = chr;
     chr = get_character();
   };
@@ -1223,31 +1229,30 @@ static void print_memory(FILE *fp, const uint8_t *buf, long len) {
     long i;
     for (i = 0; i < len; ++i) {
       uint8_t chr = buf[i];
-      if (chr > 0x20 && chr < 0x7f && chr != '%') {
+      if (chr > 0x20 && chr < 0x7f && chr != '%' && chr != ':') {
 	fputc((char)chr, fp);
       } else {
 	fprintf(fp, "%%%02x", chr);
       }
     }
   }
-  fprintf(fp, "\n");
 }
 
-EXPORT void print__memory(const void *buf, long len) {
-  print_memory(stdout, (const uint8_t *)buf, len);
+EXPORT void print__memory(const void *buf, long size) {
+  print_memory(stdout, (const uint8_t *)buf, size);
 }
 
-EXPORT void store__memory(const void *buf, long len) {
-  print_memory(log_fp, (const uint8_t *)buf, len);
+EXPORT void store__memory(const void *buf, long size) {
+  print_memory(log_fp, (const uint8_t *)buf, size);
 }
 
 EXPORT long retrieve__memory(uint8_t **buf_p) {
-  long len = get_number();
+  long size = get_number();
   char *buf = NULL;
-  if (len > 0) {
-    buf = allocate_memory(len);
+  if (size > 0) {
+    buf = allocate_memory(size);
     long i;
-    for (i = 0; i < len; ++i) {
+    for (i = 0; i < size; ++i) {
       char chr;
       do {
 	chr = get_character();
@@ -1262,7 +1267,7 @@ EXPORT long retrieve__memory(uint8_t **buf_p) {
     }
   }
   *buf_p = (uint8_t *)buf;
-  return len;
+  return size;
 }
 
 EXPORT void retrieve__fixed_memory(uint8_t *buf, long size) {

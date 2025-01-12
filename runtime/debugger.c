@@ -330,6 +330,7 @@ SHARED_DEBUG_DATA *create_snapshot() {
     //  pid, WEXITSTATUS(status));
     if (WEXITSTATUS(status) != RESPAWN) exit(status);
     //fprintf(stderr, "break at: %ld\n", sd->break_at);
+    reset_log_file();
   }
 }
 

@@ -1,0 +1,482 @@
+#
+  Copyright (C) 2025 by
+  Dipl.-Ing. Michael Niederle
+
+  This program is free software; you can redistribute it and/or modify
+  it under the terms of the GNU General Public License, version 2, or
+  (at your option) version 3.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  GNU General Public License for more details.
+
+  For details of the GNU General Public License see the accompanying
+  files GPLv2.txt and GLPv3.txt or
+  http://www.gnu.org/licenses/gpl-2.0.html
+  http://www.gnu.org/licenses/gpl-3.0.html
+  or write to the
+  Free Software Foundation, Inc.,
+  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+
+<using std-2.0>
+<using tedi>
+
+!context_help_functions(SH) sh_context_help
+
+$is_a_builtin_command
+  hash_set
+    "alias"
+    "bg"
+    "bind"
+    "break"
+    "builtin"
+    "case"
+    "cd"
+    "command"
+    "compgen"
+    "complete"
+    "compopt"
+    "continue"
+    "coproc"
+    "declare"
+    "dirs"
+    "disown"
+    "echo"
+    "enable"
+    "eval"
+    "exec"
+    "exit"
+    "export"
+    "false"
+    "fc"
+    "fg"
+    "for"
+    "getopts"
+    "hash"
+    "help"
+    "history"
+    "if"
+    "jobs"
+    "kill"
+    "let"
+    "local"
+    "logout"
+    "popd"
+    "printf"
+    "pushd"
+    "pwd"
+    "read"
+    "readonly"
+    "return"
+    "set"
+    "shift"
+    "shopt"
+    "source"
+    "suspend"
+    "test"
+    "times"
+    "trap"
+    "true"
+    "type"
+    "typeset"
+    "ulimit"
+    "umask"
+    "unalias"
+    "unset"
+    "until"
+    "wait"
+    "while"
+
+$is_a_builtin_keyword
+  hash_set
+    "do"
+    "done"
+    "elif"
+    "else"
+    "esac"
+    "fi"
+    "in"
+    "then"
+
+$shell_commands_of ()
+
+$tedi_types::symbol_info
+  .shell_commands_of undefined
+
+$command_plugin std_types::object
+
+$command_plugin/initialize: (_id io)
+  log &io "
+    retrieving shell commands
+  run io retrieve_shell_commands_action split(environment("PATH") ':')
+
+push &plugins command_plugin
+
+$RETRIEVE_SHELL_COMMANDS .
+
+$retrieve_shell_commands_action: (io paths)
+  $shell_commands empty_hash_set
+  for_each paths
+    : (path)
+      directory! $entries path
+      if
+	entries.is_an_error
+	next
+	:
+	  for_each entries
+	    : (entry)
+	      if
+		type_of(entry) == REGULAR_FILE:
+		  !shell_commands(name_of(entry)) true
+		  next!
+		next
+	    next
+    -> io tuple(JOB_COMPLETED RETRIEVE_SHELL_COMMANDS shell_commands)
+
+$RETRIEVE_SHELL_COMMANDS/job_completed: (_self io state shell_commands _context)
+  !state.symbol_info_of.shell_commands_of shell_commands
+  -> io state
+
+$sh_context_help: (io state x y lines _info)
+  $shell_commands shell_commands_of(symbol_info_of(state))
+  $identifier get_identifier_at_xy(x y lines)
+  if
+    identifier.is_defined:
+      if
+	is_a_builtin_command(identifier):
+	  call &io GET_HELP "bash" list("-c" "help" identifier) identifier
+	  -> io state
+	:
+	  if
+	    shell_commands(identifier):
+	      call &io GET_HELP "man" list(identifier) identifier
+	      -> io state
+	    -> io state
+    -> io state
+
+$GET_HELP .
+
+$GET_HELP/job_completed: (_self io state output topic)
+  output $out $_err
+  from_utf8 &out
+  $page create_page_from_text(out state topic)
+  !page.info_of.do_show_right_margin_of false
+  create_window &state.window_manager_of
+    CONTENT = page
+    TITLE = topic
+    USE_CURSOR
+  -> io state
+
+$GET_HELP/job_failed: (_self io state _error topic)
+  show_error_message &state "
+    failed to retrieve help text for "@(topic)"
+  -> io state
+
+$get_identifier_at_xy: (x y lines)
+  $line lines(y)
+  if
+    line.is_undefined
+    -> undefined
+    :
+      $text text_of(line)
+      $indent indent_of(line)
+      if
+	x <= indent || x > indent+width_of(text)
+	-> undefined
+	:
+	  $pos get_position(text x-indent)
+	  $chr text(pos)
+	  if
+	    chr.is_a_letter || chr.is_a_digit || chr == '_':
+	      $start pos
+	      $end pos
+	      loop:
+		if
+		  &&
+		    start > 1
+		    ||
+		      text(start-1).is_a_letter
+		      text(start-1).is_a_digit
+		      text(start-1) == '_'
+		  :
+		    dec &start
+		    next
+		  :
+		    loop:
+		      if
+			&&
+			  end < length_of(text)
+			  ||
+			    text(end+1).is_a_letter
+			    text(end+1).is_a_digit
+			    text(end+1) == '_'
+			:
+			  inc &end
+			  next
+			-> range(text start end)
+	    -> undefined
+
+$tedi::create_sh_line: (template_screen line)
+  $shell_commands shell_commands_of(symbol_info)
+  $indent indent_of(line)
+  $text text_of(line)
+  $screen create_screen(template_screen indent+width_of(text) 1)
+  $x indent+1
+  $i 1
+  $n length_of(text)
+  loop:
+    if
+      i > n
+      -> screen
+      :
+	$chr text(i)
+	case chr
+	  '#':
+	    set_draw_colour &screen '@0x00a000;'
+	    set_text_attributes &screen ITALIC
+	    draw_text screen x 1 range(text i n)
+	  '{', '}':
+	    set_text_attributes &screen BOLD
+	    set_draw_colour &screen BLACK
+	    draw_character &screen x 1 chr
+	    inc &x
+	    inc &i
+	    next
+	  'a' .. 'z', 'A' .. 'Z':
+	    $s i
+	    inc &i
+	    loop
+	      :
+		if
+		  i > n
+		  add_identifier
+		  :
+		    if
+		      text(i).is_an_identifier_character:
+			inc &i
+			next
+		      add_identifier
+
+		$add_identifier:
+		  $symbol range(text s i-1)
+		  if
+		    is_a_builtin_command(symbol):
+		      set_text_attributes &screen BOLD
+		      set_draw_colour &screen '@0xb000b0;'
+		      draw_symbol
+		    :
+		      if
+			is_a_builtin_keyword(symbol):
+			  set_text_attributes &screen BOLD
+			  set_draw_colour &screen '@0x703070;'
+			  draw_symbol
+			:
+			  if
+			    shell_commands(symbol):
+			      set_text_attributes &screen BOLD
+			      set_draw_colour &screen '@0x806000;'
+			      draw_symbol
+			    :
+			      set_text_attributes &screen NORMAL
+			      set_draw_colour &screen BLACK
+			      draw_symbol
+
+		  $draw_symbol:
+		    draw_text &screen x 1 symbol
+		    plus &x width_of(symbol)
+		    break
+	      next
+	  '@apos;':
+	    $is_valid true
+	    $s i
+	    loop
+	      :
+		inc &i
+		if
+		  i > n:
+		    !is_valid false
+		    break
+		  :
+		    if
+		      text(i) == '@apos;':
+			inc &i
+			break
+		      next
+	      :
+		set_text_attributes &screen ITALIC
+		set_draw_colour &screen
+		  if
+		    is_valid
+		    -> BLUE
+		    -> RED
+		$literal range(text s i-1)
+		draw_text &screen x 1 literal
+		plus &x width_of(literal)
+		next
+	  '@quot;':
+	    $is_valid true
+	    $s i
+	    loop
+	      :
+		inc &i
+		if
+		  i > n:
+		    !is_valid false
+		    break
+		  :
+		    case text(i)
+		      '@quot;':
+			inc &i
+			break
+		      '\':
+			inc &i
+			next
+		      next
+	      :
+		set_text_attributes &screen ITALIC
+		set_draw_colour &screen
+		  if
+		    is_valid
+		    -> BLUE
+		    -> RED
+		$literal range(text s i-1)
+		draw_text &screen x 1 literal
+		plus &x width_of(literal)
+		next
+	  '$':
+	    $s i
+	    inc &i
+	    if
+	      i > n:
+		set_text_attributes &screen BOLD
+		set_draw_colour &screen RED
+		draw_text &screen x 1 "$"
+		next
+	      :
+		case text(i)
+		  '{':
+		    $is_valid true
+		    loop
+		      :
+			inc &i
+			if
+			  i > n:
+			    !is_valid false
+			    break
+			  :
+			    if
+			      text(i) == '}':
+				inc &i
+				break
+			      next
+		      :
+			set_text_attributes &screen BOLD
+			set_draw_colour &screen
+			  if
+			    is_valid
+			    -> MAGENTA
+			    -> RED
+			$variable range(text s i-1)
+			draw_text &screen x 1 variable
+			plus &x width_of(variable)
+			next
+		  'A' .. 'Z', 'a' .. 'z', '_':
+		    loop
+		      :
+			inc &i
+			if
+			  i > n
+			  break
+			  :
+			    if
+			      text(i).is_an_identifier_character
+			      next
+			      break
+		      :
+			set_text_attributes &screen BOLD
+			set_draw_colour &screen MAGENTA
+			$variable range(text s i-1)
+			draw_text &screen x 1 variable
+			plus &x width_of(variable)
+			next
+		  '0' .. '9':
+		    set_text_attributes &screen BOLD
+		    set_draw_colour &screen MAGENTA
+		    $variable range(text s i)
+		    draw_text &screen x 1 variable
+		    plus &x width_of(variable)
+		    inc &i
+		    next
+		  '(':
+		    if
+		      i < n && text(i+1) == '(':
+			$is_valid true
+			inc &i
+			loop
+			  :
+			    inc &i
+			    if
+			      i >= n:
+				!is_valid false
+				!i n+1
+				break
+			      :
+				if
+				  text(i) == ')' && text(i+1) == ')':
+				    plus &i 2
+				    break
+				  next
+			  :
+			    set_text_attributes &screen BOLD
+			    set_draw_colour &screen
+			      if
+				is_valid
+				-> MAGENTA
+				-> RED
+			    $expression range(text s i-1)
+			    draw_text &screen x 1 expression
+			    plus &x width_of(expression)
+			    next
+		      :
+			$is_valid true
+			loop
+			  :
+			    inc &i
+			    if
+			      i > n:
+				!is_valid false
+				break
+			      :
+				if
+				  text(i) == ')':
+				    inc &i
+				    break
+				  next
+			  :
+			    set_text_attributes &screen BOLD
+			    set_draw_colour &screen
+			      if
+				is_valid
+				-> MAGENTA
+				-> RED
+			    $expression range(text s i-1)
+			    draw_text &screen x 1 expression
+			    plus &x width_of(expression)
+			    next
+		  :
+		    set_text_attributes &screen BOLD
+		    set_draw_colour &screen RED
+		    draw_text &screen x 1 "$"
+		    plus &x width_of("$")
+		    next
+	  :
+	    set_text_attributes &screen NORMAL
+	    set_draw_colour &screen BLACK
+	    draw_character &screen x 1 chr
+	    plus &x width_of(chr)
+	    inc &i
+	    next
+
+  $is_an_identifier_character: (chr)
+    -> chr.is_a_letter || chr.is_a_digit || chr == '_'

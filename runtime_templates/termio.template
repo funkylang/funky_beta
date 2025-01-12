@@ -130,7 +130,14 @@ METHOD std_types::file_descriptor/get_terminal_attributes
 
     int fd = ARGUMENTS(0)->file_descriptor.value;
     TERMIO_DATA *data = allocate(sizeof(TERMIO_DATA));
-    if (tcgetattr(fd, &data->termios) == 0) {
+    int success;
+    EVENT(get_terminal_attributes)
+      success = tcgetattr(fd, &data->termios);
+    DATA
+      INT(success)
+      MEMORY(&data->termios, sizeof(data->termios))
+    END
+    if (success == 0) {
       RETURN_SINGLE_RESULT(CREATE(std_types::terminal_attributes, data))
     } else {
       RETURN_UNDEFINED
@@ -146,11 +153,14 @@ METHOD std_types::file_descriptor/set_terminal_attributes
     NODE *attributes = ARGUMENTS(1);
     if (TYPEOF(attributes) != TYPEOF(VAR(std_types::terminal_attributes)))
       INVALID_ARGUMENTS
-    if (tcsetattr(fd, TCSANOW, &attributes->terminal_attributes.data->termios) == 0) {
-      RETURN_TRUE
-    } else {
-      RETURN_FALSE
-    }
+    int success;
+    ACTION(set_terminal_attributes)
+      success =
+	tcsetattr(fd, TCSANOW, &attributes->terminal_attributes.data->termios);
+    DATA
+      INT(success, 0)
+    END
+    RETURN_BOOLEAN(success == 0)
   }
 
 METHOD std_types::terminal_attributes/backspace_character_of

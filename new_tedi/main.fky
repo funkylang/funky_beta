@@ -1,5 +1,5 @@
 #
-  Copyright (C) 2024 by
+  Copyright (C) 2025 by
   Dipl.-Ing. Michael Niederle
 
   This program is free software; you can redistribute it and/or modify
@@ -35,6 +35,7 @@
 
 <require ./editor>
 <require ./c>
+<require ./sh>
 <require ./html_page>
 
 <using std>
@@ -42,7 +43,7 @@
 <using tedi>
 
 $tedi::application_name "TEDI"
-$tedi::version "0.12.0"
+$tedi::version "0.13.0"
 $tedi::author "Michael Niederle"
 
 $tedi::tty_filename undefined
@@ -354,6 +355,7 @@ $tedi::files_to_save_of () # a list of window ids
 $tedi::text_window_id_of ()
 $tedi::clipboard_contents_of ()
 $tedi::global_info_of ()
+$tedi::symbol_info_of ()
 
 $tedi::handle_key_press ()
 $tedi::handle_paste_string ()
@@ -377,10 +379,16 @@ $tedi_types::state tedi_types::basic_state
   .text_window_id_of undefined # the target window of the current command box
   .clipboard_contents_of undefined
   .global_info_of tedi_types::global_info
+  .symbol_info_of tedi_types::symbol_info
+
 
 $tedi_types::global_info std_types::object
 
 $tedi::global_info undefined # read-only global information
+
+$tedi_types::symbol_info std_types::object
+
+$tedi::symbol_info undefined # read-only symbol information
 
 # Job Methods
 
@@ -722,6 +730,8 @@ $tedi::default_configuration std_types::object
   .ai_server_log_file_of "/tmp/funky_server.log"
   .do_start_ai_server_of false
   .commands_of empty_hash_table
+
+$tedi::context_help_functions empty_hash_table
 
 # Resources
 

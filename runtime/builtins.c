@@ -21338,22 +21338,24 @@ static void entry__std___access (void)
       result = access(filename, mode);
       if (event__mode == EM__RECORD) {
         if (result == 0) {
-            successful__action("access");
-          } else {
-            failed__action("access");
-            store__integer(result);
-          }
+          successful__action("access");
+        } else {
+          failed__action("access");
+          store__integer(result);
+          end__record();
         }
-      } else {
-        if (replay__action("access")) {
-          retrieve__integer(&result);
-      } else {
-          result = 0;
       }
-        report__event("access");
-        print__c_string(filename);
-        print__c_string(mode_str);
-        print__integer(result);
+    } else {
+      if (replay__action("access")) {
+        retrieve__integer(&result);
+      } else {
+        result = 0;
+      }
+      report__event("access");
+      print__c_string(filename);
+      print__c_string(mode_str);
+      print__integer(result);
+      end__report();
     }
     if (result == 0) {
       {
@@ -21396,21 +21398,23 @@ static void entry__std___chdir (void)
       result = chdir(pathname);
       if (event__mode == EM__RECORD) {
         if (result == 0) {
-            successful__action("chdir");
-          } else {
-            failed__action("chdir");
-            store__integer(result);
-          }
+          successful__action("chdir");
+        } else {
+          failed__action("chdir");
+          store__integer(result);
+          end__record();
         }
-      } else {
-        if (replay__action("chdir")) {
-          retrieve__integer(&result);
-      } else {
-          result = 0;
       }
-        report__event("chdir");
-        print__c_string(pathname);
-        print__integer(result);
+    } else {
+      if (replay__action("chdir")) {
+        retrieve__integer(&result);
+      } else {
+        result = 0;
+      }
+      report__event("chdir");
+      print__c_string(pathname);
+      print__integer(result);
+      end__report();
     }
     if (result == -1) {
       create_error_message(
@@ -21442,22 +21446,24 @@ static void entry__std___chmod (void)
       result = chmod(filename, mode);
       if (event__mode == EM__RECORD) {
         if (result == 0) {
-            successful__action("chmod");
-          } else {
-            failed__action("chmod");
-            store__integer(result);
-          }
+          successful__action("chmod");
+        } else {
+          failed__action("chmod");
+          store__integer(result);
+          end__record();
         }
-      } else {
-        if (replay__action("chmod")) {
-          retrieve__integer(&result);
-      } else {
-          result = 0;
       }
-        report__event("chmod");
-        print__c_string(filename);
-        print__integer(mode);
-        print__integer(result);
+    } else {
+      if (replay__action("chmod")) {
+        retrieve__integer(&result);
+      } else {
+        result = 0;
+      }
+      report__event("chmod");
+      print__c_string(filename);
+      print__integer(mode);
+      print__integer(result);
+      end__report();
     }
     if (result == -1) {
       create_error_message(
@@ -21491,23 +21497,25 @@ static void entry__std___chown (void)
       result = chown(filename, owner, group);
       if (event__mode == EM__RECORD) {
         if (result == 0) {
-            successful__action("chown");
-          } else {
-            failed__action("chown");
-            store__integer(result);
-          }
+          successful__action("chown");
+        } else {
+          failed__action("chown");
+          store__integer(result);
+          end__record();
         }
-      } else {
-        if (replay__action("chown")) {
-          retrieve__integer(&result);
-      } else {
-          result = 0;
       }
-        report__event("chown");
-        print__c_string(filename);
-        print__integer(owner);
-        print__integer(group);
-        print__integer(result);
+    } else {
+      if (replay__action("chown")) {
+        retrieve__integer(&result);
+      } else {
+        result = 0;
+      }
+      report__event("chown");
+      print__c_string(filename);
+      print__integer(owner);
+      print__integer(group);
+      print__integer(result);
+      end__report();
     }
     if (result == -1) {
       create_error_message(
@@ -21537,21 +21545,23 @@ static void entry__std___chroot (void)
       result = chroot(pathname);
       if (event__mode == EM__RECORD) {
         if (result == 0) {
-            successful__action("chroot");
-          } else {
-            failed__action("chroot");
-            store__integer(result);
-          }
+          successful__action("chroot");
+        } else {
+          failed__action("chroot");
+          store__integer(result);
+          end__record();
         }
-      } else {
-        if (replay__action("chroot")) {
-          retrieve__integer(&result);
-      } else {
-          result = 0;
       }
-        report__event("chroot");
-        print__c_string(pathname);
-        print__integer(result);
+    } else {
+      if (replay__action("chroot")) {
+        retrieve__integer(&result);
+      } else {
+        result = 0;
+      }
+      report__event("chroot");
+      print__c_string(pathname);
+      print__integer(result);
+      end__report();
     }
     if (result == -1) {
       create_error_message(
@@ -21582,21 +21592,23 @@ static void entry__std_types___file_descriptor___std___close (void)
       } while (result == -1 && errno == EINTR);
       if (event__mode == EM__RECORD) {
         if (result == 0) {
-            successful__action("close");
-          } else {
-            failed__action("close");
-            store__integer(result);
-          }
+          successful__action("close");
+        } else {
+          failed__action("close");
+          store__integer(result);
+          end__record();
         }
-      } else {
-        if (replay__action("close")) {
-          retrieve__integer(&result);
-      } else {
-          result = 0;
       }
-        report__event("close");
-        print__integer(fd);
-        print__integer(result);
+    } else {
+      if (replay__action("close")) {
+        retrieve__integer(&result);
+      } else {
+        result = 0;
+      }
+      report__event("close");
+      print__integer(fd);
+      print__integer(result);
+      end__report();
     }
     if (result == -1) {
       create_error_message(
@@ -21624,21 +21636,23 @@ static void entry__std___closedir (void)
       result = closedir(dir);
       if (event__mode == EM__RECORD) {
         if (result == 0) {
-            successful__action("closedir");
-          } else {
-            failed__action("closedir");
-            store__integer(result);
-          }
+          successful__action("closedir");
+        } else {
+          failed__action("closedir");
+          store__integer(result);
+          end__record();
         }
-      } else {
-        if (replay__action("closedir")) {
-          retrieve__integer(&result);
-      } else {
-          result = 0;
       }
-        report__event("closedir");
-        print__pointer(dir);
-        print__integer(result);
+    } else {
+      if (replay__action("closedir")) {
+        retrieve__integer(&result);
+      } else {
+        result = 0;
+      }
+      report__event("closedir");
+      print__pointer(dir);
+      print__integer(result);
+      end__report();
     }
     if (result == -1) {
       create_error_message(
@@ -21670,22 +21684,24 @@ static void entry__std___dup2 (void)
       } while (result == -1 && errno == EINTR);
       if (event__mode == EM__RECORD) {
         if (result == 0) {
-            successful__action("dup2");
-          } else {
-            failed__action("dup2");
-            store__integer(result);
-          }
+          successful__action("dup2");
+        } else {
+          failed__action("dup2");
+          store__integer(result);
+          end__record();
         }
-      } else {
-        if (replay__action("dup2")) {
-          retrieve__integer(&result);
-      } else {
-          result = 0;
       }
-        report__event("dup2");
-        print__integer(old_fd);
-        print__integer(new_fd);
-        print__integer(result);
+    } else {
+      if (replay__action("dup2")) {
+        retrieve__integer(&result);
+      } else {
+        result = 0;
+      }
+      report__event("dup2");
+      print__integer(old_fd);
+      print__integer(new_fd);
+      print__integer(result);
+      end__report();
     }
     if (result == -1) {
       create_error_message(
@@ -21716,6 +21732,7 @@ static void entry__std___fstat (void)
         record__event("fstat");
         store__integer(result);
         store__memory(&statbuf, sizeof(statbuf));
+        end__record();
       }
     } else {
       replay__event("fstat");
@@ -21832,21 +21849,23 @@ static void entry__std___fsync (void)
       result = fsync(fd);
       if (event__mode == EM__RECORD) {
         if (result == 0) {
-            successful__action("fsync");
-          } else {
-            failed__action("fsync");
-            store__integer(result);
-          }
+          successful__action("fsync");
+        } else {
+          failed__action("fsync");
+          store__integer(result);
+          end__record();
         }
-      } else {
-        if (replay__action("fsync")) {
-          retrieve__integer(&result);
-      } else {
-          result = 0;
       }
-        report__event("fsync");
-        print__integer(fd);
-        print__integer(result);
+    } else {
+      if (replay__action("fsync")) {
+        retrieve__integer(&result);
+      } else {
+        result = 0;
+      }
+      report__event("fsync");
+      print__integer(fd);
+      print__integer(result);
+      end__report();
     }
     if (result == -1) {
       create_error_message(
@@ -21885,6 +21904,7 @@ static void entry__std___getcwd (void)
       if (event__mode == EM__RECORD) {
         record__event("getcwd");
         store__c_string(result);
+        end__record();
       }
     } else {
       replay__event("getcwd");
@@ -21925,6 +21945,7 @@ static void entry__std___getenv (void)
       if (event__mode == EM__RECORD) {
         record__event("getenv");
         store__c_string(result);
+        end__record();
       }
     } else {
       replay__event("getenv");
@@ -21965,6 +21986,7 @@ static void entry__std___getegid (void)
       if (event__mode == EM__RECORD) {
         record__event("getegid");
         store__integer(result);
+        end__record();
       }
     } else {
       replay__event("getegid");
@@ -21996,6 +22018,7 @@ static void entry__std___geteuid (void)
       if (event__mode == EM__RECORD) {
         record__event("geteuid");
         store__integer(result);
+        end__record();
       }
     } else {
       replay__event("geteuid");
@@ -22027,6 +22050,7 @@ static void entry__std___getgid (void)
       if (event__mode == EM__RECORD) {
         record__event("getgid");
         store__integer(result);
+        end__record();
       }
     } else {
       replay__event("getgid");
@@ -22059,6 +22083,7 @@ static void entry__std___gethostname (void)
       if (event__mode == EM__RECORD) {
         record__event("gethostname");
         store__memory(buf, result);
+        end__record();
       }
     } else {
       replay__event("gethostname");
@@ -22096,6 +22121,7 @@ static void entry__std___getlogin (void)
       if (event__mode == EM__RECORD) {
         record__event("getlogin");
         store__c_string(result);
+        end__record();
       }
     } else {
       replay__event("getlogin");
@@ -22133,6 +22159,7 @@ static void entry__std___getpid (void)
       if (event__mode == EM__RECORD) {
         record__event("getpid");
         store__integer(result);
+        end__record();
       }
     } else {
       replay__event("getpid");
@@ -22164,6 +22191,7 @@ static void entry__std___getppid (void)
       if (event__mode == EM__RECORD) {
         record__event("getppid");
         store__integer(result);
+        end__record();
       }
     } else {
       replay__event("getppid");
@@ -22199,6 +22227,7 @@ static void entry__std___getpwuid (void)
       if (event__mode == EM__RECORD) {
         record__event("getpwuid");
         store__memory(&result, sizeof(result));
+        end__record();
       }
     } else {
       replay__event("getpwuid");
@@ -22276,6 +22305,7 @@ static void entry__std___getsid (void)
       if (event__mode == EM__RECORD) {
         record__event("getsid");
         store__integer(result);
+        end__record();
       }
     } else {
       replay__event("getsid");
@@ -22314,6 +22344,7 @@ static void entry__std___getuid (void)
       if (event__mode == EM__RECORD) {
         record__event("getuid");
         store__integer(result);
+        end__record();
       }
     } else {
       replay__event("getuid");
@@ -22347,6 +22378,7 @@ static void entry__std___isatty (void)
       if (event__mode == EM__RECORD) {
         record__event("isatty");
         store__integer(result);
+        end__record();
       }
     } else {
       replay__event("isatty");
@@ -22382,22 +22414,24 @@ static void entry__std___kill (void)
       result = kill(pid, sig);
       if (event__mode == EM__RECORD) {
         if (result == 0) {
-            successful__action("kill");
-          } else {
-            failed__action("kill");
-            store__integer(result);
-          }
+          successful__action("kill");
+        } else {
+          failed__action("kill");
+          store__integer(result);
+          end__record();
         }
-      } else {
-        if (replay__action("kill")) {
-          retrieve__integer(&result);
-      } else {
-          result = 0;
       }
-        report__event("kill");
-        print__integer(pid);
-        print__integer(sig);
-        print__integer(result);
+    } else {
+      if (replay__action("kill")) {
+        retrieve__integer(&result);
+      } else {
+        result = 0;
+      }
+      report__event("kill");
+      print__integer(pid);
+      print__integer(sig);
+      print__integer(result);
+      end__report();
     }
     if (result == -1) {
       create_error_message(
@@ -22437,6 +22471,7 @@ static void entry__std___link (void)
         record__event("link");
         store__c_string(old_path);
         store__c_string(new_path);
+        end__record();
       }
     } else {
       replay__event("link");
@@ -22476,6 +22511,7 @@ static void entry__std___lseek (void)
         store__long_integer(offset);
         store__integer(whence);
         store__long_integer(result);
+        end__record();
       }
     } else {
       replay__event("lseek");
@@ -22526,22 +22562,24 @@ static void entry__std___mkdir (void)
       result = mkdir(pathname, mode);
       if (event__mode == EM__RECORD) {
         if (result == 0) {
-            successful__action("mkdir");
-          } else {
-            failed__action("mkdir");
-            store__integer(result);
-          }
+          successful__action("mkdir");
+        } else {
+          failed__action("mkdir");
+          store__integer(result);
+          end__record();
         }
-      } else {
-        if (replay__action("mkdir")) {
-          retrieve__integer(&result);
-      } else {
-          result = 0;
       }
-        report__event("mkdir");
-        print__c_string(pathname);
-        print__integer(mode);
-        print__integer(result);
+    } else {
+      if (replay__action("mkdir")) {
+        retrieve__integer(&result);
+      } else {
+        result = 0;
+      }
+      report__event("mkdir");
+      print__c_string(pathname);
+      print__integer(mode);
+      print__integer(result);
+      end__report();
     }
     if (result == -1) {
       create_error_message(
@@ -22577,22 +22615,24 @@ static void entry__std___mkfifo (void)
       result = mkfifo(filename, mode);
       if (event__mode == EM__RECORD) {
         if (result == 0) {
-            successful__action("mkfifo");
-          } else {
-            failed__action("mkfifo");
-            store__integer(result);
-          }
+          successful__action("mkfifo");
+        } else {
+          failed__action("mkfifo");
+          store__integer(result);
+          end__record();
         }
-      } else {
-        if (replay__action("mkfifo")) {
-          retrieve__integer(&result);
-      } else {
-          result = 0;
       }
-        report__event("mkfifo");
-        print__c_string(filename);
-        print__integer(mode);
-        print__integer(result);
+    } else {
+      if (replay__action("mkfifo")) {
+        retrieve__integer(&result);
+      } else {
+        result = 0;
+      }
+      report__event("mkfifo");
+      print__c_string(filename);
+      print__integer(mode);
+      print__integer(result);
+      end__report();
     }
     if (result == -1) {
       create_error_message(
@@ -22633,6 +22673,7 @@ static void entry__std___open (void)
       if (event__mode == EM__RECORD) {
         record__event("open");
         store__integer(result);
+        end__record();
       }
     } else {
       replay__event("open");
@@ -22677,6 +22718,7 @@ static void entry__std___opendir (void)
       if (event__mode == EM__RECORD) {
         record__event("opendir");
         store__pointer(result);
+        end__record();
       }
     } else {
       replay__event("opendir");
@@ -22724,6 +22766,7 @@ static void entry__std_types___file_descriptor___std___read (void)
       if (event__mode == EM__RECORD) {
         record__event("read");
         store__memory(buf, bytes_read);
+        end__record();
       }
     } else {
       replay__event("read");
@@ -22767,6 +22810,7 @@ static void entry__std___readdir (void)
       if (event__mode == EM__RECORD) {
         record__event("readdir");
         store__memory(&result, sizeof(result));
+        end__record();
       }
     } else {
       replay__event("readdir");
@@ -22825,6 +22869,7 @@ static void entry__std___realpath (void)
       if (event__mode == EM__RECORD) {
         record__event("realpath");
         store__c_string(result);
+        end__record();
       }
     } else {
       replay__event("realpath");
@@ -22870,22 +22915,24 @@ static void entry__std___rename (void)
       result = rename(old_filename, new_filename);
       if (event__mode == EM__RECORD) {
         if (result == 0) {
-            successful__action("rename");
-          } else {
-            failed__action("rename");
-            store__integer(result);
-          }
+          successful__action("rename");
+        } else {
+          failed__action("rename");
+          store__integer(result);
+          end__record();
         }
-      } else {
-        if (replay__action("rename")) {
-          retrieve__integer(&result);
-      } else {
-          result = 0;
       }
-        report__event("rename");
-        print__c_string(old_filename);
-        print__c_string(new_filename);
-        print__integer(result);
+    } else {
+      if (replay__action("rename")) {
+        retrieve__integer(&result);
+      } else {
+        result = 0;
+      }
+      report__event("rename");
+      print__c_string(old_filename);
+      print__c_string(new_filename);
+      print__integer(result);
+      end__report();
     }
     if (result == -1) {
       create_error_message(
@@ -22921,21 +22968,23 @@ static void entry__std___sethostname (void)
       } while (result == -1 && errno == EINTR);
       if (event__mode == EM__RECORD) {
         if (result == 0) {
-            successful__action("sethostname");
-          } else {
-            failed__action("sethostname");
-            store__integer(result);
-          }
+          successful__action("sethostname");
+        } else {
+          failed__action("sethostname");
+          store__integer(result);
+          end__record();
         }
-      } else {
-        if (replay__action("sethostname")) {
-          retrieve__integer(&result);
-      } else {
-          result = 0;
       }
-        report__event("sethostname");
-        print__memory(buf, size);
-        print__integer(result);
+    } else {
+      if (replay__action("sethostname")) {
+        retrieve__integer(&result);
+      } else {
+        result = 0;
+      }
+      report__event("sethostname");
+      print__memory(buf, size);
+      print__integer(result);
+      end__report();
     }
     if (result == -1) {
       create_error_message(
@@ -22967,22 +23016,24 @@ static void entry__std___shutdown (void)
       result = shutdown(fd, how);
       if (event__mode == EM__RECORD) {
         if (result == 0) {
-            successful__action("shutdown");
-          } else {
-            failed__action("shutdown");
-            store__integer(result);
-          }
+          successful__action("shutdown");
+        } else {
+          failed__action("shutdown");
+          store__integer(result);
+          end__record();
         }
-      } else {
-        if (replay__action("shutdown")) {
-          retrieve__integer(&result);
-      } else {
-          result = 0;
       }
-        report__event("shutdown");
-        print__integer(fd);
-        print__integer(how);
-        print__integer(result);
+    } else {
+      if (replay__action("shutdown")) {
+        retrieve__integer(&result);
+      } else {
+        result = 0;
+      }
+      report__event("shutdown");
+      print__integer(fd);
+      print__integer(how);
+      print__integer(result);
+      end__report();
     }
     if (result == -1) {
       create_error_message(
@@ -23013,6 +23064,7 @@ static void entry__std___stat (void)
         record__event("stat");
         store__integer(result);
         store__memory(&statbuf, sizeof(statbuf));
+        end__record();
       }
     } else {
       replay__event("stat");
@@ -23132,6 +23184,7 @@ static void entry__std___strerror (void)
       if (event__mode == EM__RECORD) {
         record__event("strerror");
         store__c_string(result);
+        end__record();
       }
     } else {
       replay__event("strerror");
@@ -23174,6 +23227,7 @@ static void entry__std___wait (void)
         record__event("wait");
         store__integer(result);
         store__integer(status);
+        end__record();
       }
     } else {
       replay__event("wait");
@@ -23217,21 +23271,23 @@ static void entry__std_types___file_descriptor___std___write (void)
       } while (bytes_written == -1 && errno == EINTR);
       if (event__mode == EM__RECORD) {
         if (bytes_written == size) {
-            successful__action("write");
-          } else {
-            failed__action("write");
-            store__long_integer(bytes_written);
-          }
+          successful__action("write");
+        } else {
+          failed__action("write");
+          store__long_integer(bytes_written);
+          end__report();
         }
-      } else {
-        if (replay__action("write")) {
-          retrieve__long_integer(&bytes_written);
-      } else {
-          bytes_written = size;
       }
-        report__event("write");
-        print__integer(fd);
-        print__memory(buf, size);
+    } else {
+      if (replay__action("write")) {
+        retrieve__long_integer(&bytes_written);
+      } else {
+        bytes_written = size;
+      }
+      report__event("write");
+      print__integer(fd);
+      print__memory(buf, size);
+      end__report();
     }
     if (bytes_written == -1) {
       create_error_message(
@@ -23266,6 +23322,7 @@ static void entry__std___umask (void)
       if (event__mode == EM__RECORD) {
         record__event("umask");
         store__integer(result);
+        end__record();
       }
     } else {
       replay__event("umask");
@@ -23299,21 +23356,23 @@ static void entry__std___unlink (void)
       result = unlink(filename);
       if (event__mode == EM__RECORD) {
         if (result == 0) {
-            successful__action("unlink");
-          } else {
-            failed__action("unlink");
-            store__integer(result);
-          }
+          successful__action("unlink");
+        } else {
+          failed__action("unlink");
+          store__integer(result);
+          end__record();
         }
-      } else {
-        if (replay__action("unlink")) {
-          retrieve__integer(&result);
-      } else {
-          result = 0;
       }
-        report__event("unlink");
-        print__c_string(filename);
-        print__integer(result);
+    } else {
+      if (replay__action("unlink")) {
+        retrieve__integer(&result);
+      } else {
+        result = 0;
+      }
+      report__event("unlink");
+      print__c_string(filename);
+      print__integer(result);
+      end__report();
     }
     if (result == -1) {
       create_error_message(
@@ -23351,21 +23410,23 @@ static void entry__std___shm_unlink (void)
 	result = shm_unlink(filename);
         if (event__mode == EM__RECORD) {
 	  if (result == 0) {
-	      successful__action("shm_unlink");
-	    } else {
-	      failed__action("shm_unlink");
-	      store__integer(result);
-	    }
-          }
-        } else {
-          if (replay__action("shm_unlink")) {
-            retrieve__integer(&result);
-        } else {
-            result = 0;
+	    successful__action("shm_unlink");
+	  } else {
+	    failed__action("shm_unlink");
+	    store__integer(result);
+	    end__record();
+	  }
         }
-          report__event("shm_unlink");
-          print__c_string(filename);
-          print__integer(result);
+      } else {
+        if (replay__action("shm_unlink")) {
+          retrieve__integer(&result);
+        } else {
+          result = 0;
+        }
+        report__event("shm_unlink");
+        print__c_string(filename);
+        print__integer(result);
+        end__report();
       }
       if (result == -1) {
 	create_error_message(
@@ -23397,6 +23458,7 @@ static void entry__std___usleep (void)
       if (event__mode == EM__RECORD) {
         record__event("usleep");
         store__integer(result);
+        end__record();
       }
     } else {
       replay__event("usleep");
@@ -24703,7 +24765,21 @@ static void entry__std_types___file_descriptor___std___get_terminal_attributes (
 
     int fd = TLS_arguments[0]->file_descriptor.value;
     TERMIO_DATA *data = allocate(sizeof(TERMIO_DATA));
-    if (tcgetattr(fd, &data->termios) == 0) {
+    int success;
+    if (event__mode != EM__REPLAY) {
+      success = tcgetattr(fd, &data->termios);
+      if (event__mode == EM__RECORD) {
+        record__event("get_terminal_attributes");
+        store__integer(success);
+        store__memory(&data->termios, sizeof(data->termios));
+        end__record();
+      }
+    } else {
+      replay__event("get_terminal_attributes");
+      retrieve__integer(&success);
+      retrieve__fixed_memory((uint8_t *)&data->termios, sizeof(data->termios));
+    }
+    if (success == 0) {
       {
         NODE *result__node = (NODE *)(create__std_types___terminal_attributes(data));
         TLS_arguments[0] = result__node;
@@ -24738,20 +24814,31 @@ static void entry__std_types___file_descriptor___std___set_terminal_attributes (
         invalid_arguments();
         return;
       }
-    if (tcsetattr(fd, TCSANOW, &attributes->terminal_attributes.data->termios) == 0) {
-      {
-        NODE *result__node = (NODE *)(&std_types___true);
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+    int success;
+    if (event__mode != EM__REPLAY) {
+      success =
+	tcsetattr(fd, TCSANOW, &attributes->terminal_attributes.data->termios);
+      if (event__mode == EM__RECORD) {
+        if (success == 0) {
+          successful__action("set_terminal_attributes");
+        } else {
+          failed__action("set_terminal_attributes");
+          store__integer(success);
+          end__record();
+        }
       }
     } else {
-      {
-        NODE *result__node = (NODE *)(&std_types___false);
-        TLS_arguments[0] = result__node;
-        TLS_argument_count = 1;
-        return;
+      if (replay__action("set_terminal_attributes")) {
+        retrieve__integer(&success);
+      } else {
+        success = 0;
       }
+    }
+    {
+      NODE *result__node = (NODE *)(from_bool(success == 0));
+      TLS_arguments[0] = result__node;
+      TLS_argument_count = 1;
+      return;
     }
   }
 
@@ -26391,30 +26478,39 @@ static void entry__std_types___file_descriptor___std___get_terminal_size (void)
     }
 
     int fd = TLS_arguments[0]->file_descriptor.value;
-    int width, height;
+    int success, width, height;
     struct winsize winsize;
 
     if (event__mode != EM__REPLAY) {
-      ioctl(fd, TIOCGWINSZ, &winsize);
+      success = ioctl(fd, TIOCGWINSZ, &winsize);
       width = winsize.ws_col;
       height = winsize.ws_row;
       if (event__mode == EM__RECORD) {
         record__event("get_terminal_size");
+        store__integer(success);
         store__integer(width);
         store__integer(height);
+        end__record();
       }
     } else {
       replay__event("get_terminal_size");
+      retrieve__integer(&success);
       retrieve__integer(&width);
       retrieve__integer(&height);
     }
-    NODE *width_node = from_int(width);
-    NODE *height_node = from_int(height);
-    TLS_argument_count = 2;;
-    TLS_arguments[0] = width_node;
-    TLS_arguments[1] = height_node;
-    {
-      return;
+    if (success == 0) {
+      NODE *width_node = from_int(width);
+      NODE *height_node = from_int(height);
+      TLS_argument_count = 2;;
+      TLS_arguments[0] = width_node;
+      TLS_arguments[1] = height_node;
+      {
+        return;
+      }
+    } else {
+      create_error_message(
+	module__builtin.constants_base[unique__std___IO_ERROR-1],
+	"IOCTL FAILED", errno, 0, NULL);
     }
   }
 
@@ -26523,6 +26619,7 @@ static void entry__std___pselect (void)
         store__integer(caught_usr2);
         store__integer(chld_changed_state);
         store__integer(win_changed_size);
+        end__record();
       }
     } else {
       replay__event("pselect");
@@ -26652,21 +26749,23 @@ static void entry__std___do_not_close (void)
       }
       if (event__mode == EM__RECORD) {
         if (result == 0) {
-            successful__action("do_not_close");
-          } else {
-            failed__action("do_not_close");
-            store__integer(result);
-          }
+          successful__action("do_not_close");
+        } else {
+          failed__action("do_not_close");
+          store__integer(result);
+          end__record();
         }
-      } else {
-        if (replay__action("do_not_close")) {
-          retrieve__integer(&result);
-      } else {
-          result = 0;
       }
-        report__event("do_not_close");
-        print__integer(fd);
-        print__integer(result);
+    } else {
+      if (replay__action("do_not_close")) {
+        retrieve__integer(&result);
+      } else {
+        result = 0;
+      }
+      report__event("do_not_close");
+      print__integer(fd);
+      print__integer(result);
+      end__report();
     }
     if (result == -1) {
       create_error_message(
@@ -26699,6 +26798,7 @@ static void entry__std___waitpid (void)
         record__event("waitpid");
         store__integer(result);
         store__integer(status);
+        end__record();
       }
     } else {
       replay__event("waitpid");
@@ -26747,6 +26847,7 @@ static void entry__std___open_unix_socket (void)
       if (event__mode == EM__RECORD) {
         record__event("open_tcp_socket");
         store__integer(sock);
+        end__record();
       }
     } else {
       replay__event("open_tcp_socket");
@@ -26816,6 +26917,7 @@ static void entry__std___send_file_descriptor (void)
       if (event__mode == EM__RECORD) {
         record__event("send_file_descriptor");
         store__integer(result);
+        end__record();
       }
     } else {
       replay__event("send_file_descriptor");
@@ -26876,6 +26978,7 @@ static void entry__std___open_tcp_client_socket (void)
       if (event__mode == EM__RECORD) {
         record__event("open_tcp_client_socket");
         store__integer(sock);
+        end__record();
       }
     } else {
       replay__event("open_tcp_client_socket");
@@ -26946,6 +27049,7 @@ static void entry__std___open_tcp_server_socket (void)
       if (event__mode == EM__RECORD) {
         record__event("open_tcp_server_socket");
         store__integer(sock);
+        end__record();
       }
     } else {
       replay__event("open_tcp_server_socket");
@@ -26996,6 +27100,7 @@ static void entry__std___accept (void)
       if (event__mode == EM__RECORD) {
         record__event("accept");
         store__integer(conn);
+        end__record();
       }
     } else {
       replay__event("accept");

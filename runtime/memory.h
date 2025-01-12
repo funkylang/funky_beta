@@ -208,7 +208,9 @@ typedef enum {
 
 extern EVENT__MODE event__mode;
 
+extern void reset_log_file();
 extern void record__event(const char *name);
+extern void end__record();
 extern void successful__action(const char *name);
 extern void failed__action(const char *name);
 extern void replay__event(const char *name);
