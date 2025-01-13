@@ -145,7 +145,8 @@ $sh_context_help: (io state x y lines _info)
     identifier.is_defined:
       if
 	is_a_builtin_command(identifier):
-	  call &io GET_HELP "bash" list("-c" "help" identifier) identifier
+	  debug::dump `identifier
+	  call &io GET_HELP "bash" list("-c" "help @(identifier)") identifier
 	  -> io state
 	:
 	  if
@@ -400,7 +401,7 @@ $tedi::create_sh_line: (template_screen line)
 			draw_text &screen x 1 variable
 			plus &x width_of(variable)
 			next
-		  '0' .. '9':
+		  '0' .. '9', '?', '@@':
 		    set_text_attributes &screen BOLD
 		    set_draw_colour &screen MAGENTA
 		    $variable range(text s i)
