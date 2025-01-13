@@ -43,7 +43,7 @@
 <using tedi>
 
 $tedi::application_name "TEDI"
-$tedi::version "0.13.0"
+$tedi::version "0.13.1"
 $tedi::author "Michael Niederle"
 
 $tedi::tty_filename undefined

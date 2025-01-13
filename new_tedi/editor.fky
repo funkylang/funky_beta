@@ -1568,23 +1568,23 @@ $smart_uncompletion_or_outdent: (state x y lines info)
 	  smart_outdent x y lines info
 
 $toggle_folding: (x y _lines info)
-  debug::println "toggle_folding"
+  log &info 2 "toggle_folding"
   -> undefined undefined x y info
 
 $fold_contents: (x y _lines info)
-  debug::println "fold_contents"
+  log &info 2 "fold_contents"
   -> undefined undefined x y info
 
 $unfold_contents: (x y _lines info)
-  debug::println "unfold_contents"
+  log &info 2 "unfold_contents"
   -> undefined undefined x y info
 
 $fold_everything: (x y _lines info)
-  debug::println "fold_everything"
+  log &info 2 "fold_everything"
   -> undefined undefined x y info
 
 $unfold_everything: (x y _lines info)
-  debug::println "unfold_everything"
+  log &info 2 "unfold_everything"
   -> undefined undefined x y info
 
 $copy: (state x y lines info)
