@@ -331,6 +331,7 @@ $tedi::HTML .
 
 $tedi_types::html_page
   .kind_of HTML
+  .is_a_text_page false
   .current_rectangle_of undefined
   .history_of undefined
   .history_index_of undefined

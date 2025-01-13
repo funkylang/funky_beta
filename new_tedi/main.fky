@@ -517,10 +517,9 @@ $tedi::create_or_update_page: (io state text info)
   $new_page create_page_from_text(text state filename)
   for_each window_manager_of(state)
     : (id page)
-      $kind kind_of(page)
       if
 	&&
-	  kind.is_a_text_page_kind
+	  page.is_a_text_page
 	  filename_of(page) == filename
 	:
 	  set_content &state.window_manager_of id new_page
