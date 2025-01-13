@@ -43,7 +43,7 @@
 <using tedi>
 
 $tedi::application_name "TEDI"
-$tedi::version "0.13.3"
+$tedi::version "0.13.4"
 $tedi::author "Michael Niederle"
 
 $tedi::tty_filename undefined
@@ -222,7 +222,7 @@ $tedi::main:
 		      for_each window_manager
 			: (window_id page)
 			  if
-			    kind_of(page) == TEDI:
+			    page.is_a_text_page:
 			      $info info_of(page)
 			      if
 				version_of(info) != saved_version_of(info):
@@ -532,8 +532,8 @@ $tedi::create_or_update_page: (io state text info)
 	  $update_cursor:
 	    if
 	      line_no.is_defined:
-		goto_xy &page &state.window_manager_of id line_no column_no
 		set_content &state.window_manager_of id page
+		goto_xy &page &state.window_manager_of id line_no column_no
 		-> io state
 	      -> io state
 	next
