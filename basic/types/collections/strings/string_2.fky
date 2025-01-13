@@ -94,23 +94,41 @@ $std-2.0::split_into_indented_lines:
 	      !s s+1
 	      next
 	    :
-	      $line_text
-		range
-		  text
-		  s
-		  if
-		    keep_lineends
-		    -> e
-		    -> e-1
 	      if
 		s == e # only a newline character
 		-> undefined
-		->
-		  proto_line
-		    .indent_of indent
-		    .text_of line_text
-
-
+		:
+		  $buf ""
+		  $i s
+		  loop:
+		    if
+		      i > e:
+			$line_text
+			  append
+			    buf
+			    range
+			      text
+			      s
+			      if
+				keep_lineends
+				-> e
+				-> e-1
+			->
+			  proto_line
+			    .indent_of indent
+			    .text_of line_text
+		      :
+			if
+			  text(i) == '@ht;':
+			    append &buf range(text s i-1)
+			    append &buf
+			      spaces(8-(indent+length_of(buf) .mod. 8))
+			    inc &i
+			    !s i
+			    next
+			  :
+			    inc &i
+			    next
 
 $std_types-2.0::group std_types::line
 
