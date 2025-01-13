@@ -464,30 +464,33 @@ $split_text_into_two: (text max_width)
 
 $tedi_types::page/handle_mouse_click: (page io state x y _button)
   minus &x get_decoration_width(page)
-  get_xy page window_manager_of(state) $cx $cy
   if
-    cx == x && cy == y:
+    x >= 1:
+      get_xy page window_manager_of(state) $cx $cy
       if
-	double_click_action.is_defined:
-	  double_click_action io state x y lines_of(page) info_of(page)
-	-> io state
-    :
-      add_history_entry &page.info_of cx cy
-      $info info_of(page)
-      if
-	selection_y_of(info).is_defined:
-	  !page.info_of
-	    info
-	      .selection_x_of undefined
-	      .selection_y_of undefined
-	  unset_selection &state.window_manager_of
-	  update_cursor_position
-	update_cursor_position
+	cx == x && cy == y:
+	  if
+	    double_click_action.is_defined:
+	      double_click_action io state x y lines_of(page) info_of(page)
+	    -> io state
+	:
+	  add_history_entry &page.info_of cx cy
+	  $info info_of(page)
+	  if
+	    selection_y_of(info).is_defined:
+	      !page.info_of
+		info
+		  .selection_x_of undefined
+		  .selection_y_of undefined
+	      unset_selection &state.window_manager_of
+	      update_cursor_position
+	    update_cursor_position
 
-      $update_cursor_position:
-	goto_xy &page &state.window_manager_of x y
-	set_content &state.window_manager_of page
-	-> io state
+	  $update_cursor_position:
+	    goto_xy &page &state.window_manager_of x y
+	    set_content &state.window_manager_of page
+	    -> io state
+    -> io state
 
 $tedi_types::page/handle_changed_focus: (_page state)
   -> state
@@ -1568,23 +1571,18 @@ $smart_uncompletion_or_outdent: (state x y lines info)
 	  smart_outdent x y lines info
 
 $toggle_folding: (x y _lines info)
-  log &info 2 "toggle_folding"
   -> undefined undefined x y info
 
 $fold_contents: (x y _lines info)
-  log &info 2 "fold_contents"
   -> undefined undefined x y info
 
 $unfold_contents: (x y _lines info)
-  log &info 2 "unfold_contents"
   -> undefined undefined x y info
 
 $fold_everything: (x y _lines info)
-  log &info 2 "fold_everything"
   -> undefined undefined x y info
 
 $unfold_everything: (x y _lines info)
-  log &info 2 "unfold_everything"
   -> undefined undefined x y info
 
 $copy: (state x y lines info)
