@@ -514,7 +514,7 @@ $tedi::create_or_update_page: (io state text info)
     info.is_a_tuple
     info
     -> info false undefined undefined
-  $new_page create_page_from_text(text state filename)
+  create_text_page &io &state $new_page text filename
   for_each window_manager_of(state)
     : (id page)
       if

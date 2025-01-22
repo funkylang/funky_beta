@@ -1063,6 +1063,7 @@ EXPORT void failed__action(const char *name) {
 }
 
 EXPORT void replay__event(const char *name) {
+  sdd->io_occurred = true;
   char tag[64];
   char *p = tag;
   char chr;

@@ -25,6 +25,8 @@
 
 <resolve std_types-2.0>
 
+<allow unused>
+
 $DO_VALIDATE false
 
 # New Types
@@ -34,6 +36,7 @@ $fde_types::tree std_types::object
   .length_of undefined
   .defined_namespaces_of undefined
   .used_namespaces_of undefined
+  .required_modules_of undefined
   .local_definitions_of empty_hash_table # each entry is a hash_bag
   .local_redefinitions_of empty_hash_bag
   .local_usages_of empty_hash_bag
@@ -64,6 +67,9 @@ $tedi_types::text_page
   /prepare prepare_text_page
   /replace replace_in_text_page
 
+$tedi_types::symbol_info
+  .exports_of undefined
+
 $std_types::undefined
   /total_line_count_of: (_self) -> 1
   /line_width_of: (_self) -> 0
@@ -77,6 +83,9 @@ $std_types::list
 $nodes_of ()
 $defined_namespaces_of ()
 $used_namespaces_of ()
+$required_modules_of ()
+
+$fde::exports_of ()
 
 $total_line_count_of ()
 $local_definitions_of ()
@@ -213,6 +222,61 @@ $indent_colours
     '@0xeeffee;'
     '@0xffffec;'
 
+#$referrers_of ()
+
+$fde_types::exports std_types::object
+  .symbols_of undefined
+  #.referrers_of undefined
+
+$fde::create_exports_table: (io state filename page)
+  log &io 4 "create exports table"
+  $path until(filename '/' -1)
+  $exports empty_hash_table
+  $lines lines_of(page)
+  if
+    length_of(lines) >= 1:
+      $text text_of(lines(1))
+      if
+	text .has_prefix. "#!": # a main module
+	  add_exports !io !exports filename lines
+	  !state.symbol_info_of.exports_of
+	    fde_types::exports
+	      .symbols_of exports
+	  -> io state page
+	-> io state page
+    -> io state page
+
+  $add_exports: (module_name tree)
+    $definitions empty_hash_table
+    for_each local_definitions_of(tree)
+      : (symbol kind)
+	if
+	  symbol .contains. ':':
+	    !definitions(symbol) kind
+	    next
+	  next
+      :
+	!exports(module_name) definitions
+	for_each required_modules_of(tree)
+	  : (required)
+	    if
+	      required .has_prefix. "./":
+		add_module !io !exports append(path range(required 3 -1) ".fky")
+		next
+	      next
+	  -> io exports
+
+  $add_module: (module_name)
+    log &io 4 "add module @(module_name)"
+    for_each window_manager_of(state)
+      : (id content)
+	if
+	  kind_of(content) == FDE && filename_of(content) == module_name:
+	    add_exports !io !exports module_name lines_of(content)
+	    next
+	  next
+      -> io exports
+
 # Text Page
 
 $get_text_page_item: (page^ idx)
@@ -246,13 +310,12 @@ $prepare_funky_page: (page state line_range)
   if
     line_range.is_undefined:
       $lines create_tree(lines_of(page))
-      #debug::dump 9 `lines
       page
 	.lines_of lines
 	.width_of line_width_of(lines)
 	.template_screen_of template_screen_of(state)
     :
-      $symbols symbols_of(state)
+      $symbol_info symbol_info_of(state)
       line_range $from $to
       min &to height_of(page)
       $screens screens_of(page)
@@ -265,7 +328,7 @@ $prepare_funky_page: (page state line_range)
       if
 	first.is_undefined || from > last || to < first:
 	  # recreate all
-	  $new_screens create_screens(page symbols from to)
+	  $new_screens create_screens(page symbol_info from to)
 	  cond
 	    -> last == from-1: # last could be undefined
 	      # append
@@ -291,14 +354,14 @@ $prepare_funky_page: (page state line_range)
 	      if
 		from < first:
 		  # prepend
-		  $new_screens create_screens(page symbols from first-1)
+		  $new_screens create_screens(page symbol_info from first-1)
 		  append &new_screens screens
 		  page
 		    .first_screen_line_of from
 		    .screens_of new_screens
 		:
 		  # append
-		  $new_screens create_screens(page symbols last+1 to)
+		  $new_screens create_screens(page symbol_info last+1 to)
 		  append screens &new_screens
 		  page
 		    .screens_of new_screens
@@ -1053,7 +1116,7 @@ $validate_nodes: (nodes parent_indent)
 $create_tree: (lines)
   $length length_of(lines)
   split_into_groups &lines true true fde_types::node
-  collect_metadata lines $defined_namespaces $used_namespaces
+  collect_metadata lines $defined_namespaces $used_namespaces $required_modules
   update_if used_namespaces.is_empty
     &used_namespaces -> used_namespaces("std" true)
   annotate_nodes &lines
@@ -1063,6 +1126,7 @@ $create_tree: (lines)
     .length_of length
     .defined_namespaces_of defined_namespaces
     .used_namespaces_of used_namespaces
+    .required_modules_of required_modules
     .local_definitions_of local_definitions
     .local_redefinitions_of local_redefinitions
     .local_usages_of local_usages
@@ -1198,7 +1262,9 @@ $line_width_of_node: (self)
 
 # Screens
 
-$create_screens: (page symbols from_line to_line)
+$create_screens: (page symbol_info from_line to_line)
+  $symbols symbols_of(symbol_info)
+  $exports exports_of(symbol_info)
   $template_screen template_screen_of(page)
   $empty_line create_text_screen(template_screen "")
   $tree lines_of(page)
@@ -1595,18 +1661,26 @@ $create_screens: (page symbols from_line to_line)
 			    check_namespaced_symbols
 
 		    $check_namespaced_symbols:
-		      for_each used_namespaces
-			: (namespace)
-			  $identifier append(namespace "::" part)
-			  $definition local_definitions_of(tree)(identifier)
-			  if
-			    definition.is_defined:
-			      if
-				found_node.is_defined
-				-> HIDING_DEFINITION
-				:
-				  return_variable_kind tree identifier
-			    next
+		      if
+			exports.is_defined:
+			  for_each used_namespaces
+			    : (namespace)
+			      $identifier append(namespace "::" part)
+			      for_each symbols_of(exports)
+				: (module_name module_symbols)
+				  $definition module_symbols(identifier)
+				  if
+				    definition.is_defined:
+				      if
+					found_node.is_defined
+					-> HIDING_DEFINITION
+					:
+					  get_first_key_and_value
+					    &definition $count
+					  return_kind definition count
+				    next
+				next
+			    check_global_symbols
 			check_global_symbols
 
 		    $check_global_symbols:
@@ -1638,17 +1712,21 @@ $create_screens: (page symbols from_line to_line)
 				-> MULTIPLE_DEFINITIONS
 				:
 				  get_first_key_and_value &var_kind $count
-				  if
-				    count > 1
-				    -> MULTIPLE_DEFINITIONS
-				    :
-				      case var_kind
-					sequence
-					  LOCAL_FUNCTION
-					  LOCAL_UNIQUE_ITEM
-					  MULTIPLE_DEFINITIONS
-					-> var_kind
-					-> LOCAL_CONSTANT
+				  return_kind var_kind count
+
+		    $return_kind: (var_kind count)
+		      if
+			count > 1
+			-> MULTIPLE_DEFINITIONS
+			:
+			  case var_kind
+			    sequence
+			      LOCAL_FUNCTION
+			      LOCAL_UNIQUE_ITEM
+			      MULTIPLE_DEFINITIONS
+			    -> var_kind
+			    -> LOCAL_CONSTANT
+
 	      set_draw_colour &screen kind_to_colour(style)
 	      set_text_attributes &screen kind_to_text_attributes(style)
 	      draw_text &screen x 1 part
@@ -1669,6 +1747,7 @@ $get_first_key_and_value: (self)
 $collect_metadata: (lines)
   $defined empty_hash_set
   $used empty_hash_set
+  $required empty_hash_set
   for_each lines
     : (line)
       if
@@ -1699,9 +1778,18 @@ $collect_metadata: (lines)
 		      !used(name) true
 		      next
 		    next
+		"require":
+		  range &text 8 -1
+		  skip_whitespace &text
+		  get_file_name &text $name
+		  if
+		    name.is_defined:
+		      !required(name) true
+		      next
+		    next
 		next
-	    -> defined used
-    -> defined used
+	    -> defined used required
+    -> defined used required
 
 $skip_whitespace: (text)
   $n length_of(text)
@@ -1719,6 +1807,24 @@ $get_name: (text)
     len.is_defined
     -> range(text len+1 -1) range(text 1 len)
     -> text undefined
+
+$get_file_name: (text)
+  $i 1
+  $n length_of(text)
+  update_if text .has_prefix. "./" &i -> 3
+  loop:
+    match $len FUNKY_IDENTIFIER range(text i -1)
+    if
+      len.is_undefined
+      -> text undefined
+      :
+	plus &i len
+	if
+	  i > n || text(i) != '/'
+	  -> range(text i -1) range(text 1 i-1)
+	  :
+	    inc &i
+	    next
 
 $annotate_nodes:
   (

@@ -46,7 +46,9 @@ $LOAD_SYMBOLS/job_completed: (_self io state buf _context)
       $kind range(line .behind. ' ' 1 -2)
       !symbols(name) kind
       next
-    -> io state(.symbols_of symbols)
+    :
+      !state.symbol_info_of.symbols_of symbols
+      -> io state
 
 $LOAD_SYMBOLS/job_failed: (_self io state _buf _context)
   log &io "failed to load symbols"
@@ -60,10 +62,12 @@ $executable_of ()
 $debug_data_of ()
 
 $tedi_types::state
-  .symbols_of undefined
   .continuation_of undefined
   .executable_of undefined
   .debug_data_of undefined
+
+$tedi_types::symbol_info
+  .symbols_of undefined
 
 $debug_fd_of ()
 $tty_fd_of ()
@@ -73,6 +77,7 @@ $do_skip_initializers_of ()
 $stop_position_of ()
 $modules_of ()
 $module_names_of ()
+$input_text_of ()
 
 $fde_types::debug_data std_types::object
   .debug_fd_of undefined
@@ -83,6 +88,7 @@ $fde_types::debug_data std_types::object
   .stop_position_of undefined
   .modules_of undefined
   .module_names_of undefined
+  .input_text_of ""
 
 $fde::debug_position_of ()
 
@@ -109,6 +115,8 @@ $EXIT_FUNCTION .
 $EXIT_FUNCTION_BACKWARDS .
 $TOGGLE_BREAKPOINT .
 $ADD_OR_REMOVE_WATCH .
+$NEXT_IO_CALL .
+$PREVIOUS_IO_CALL .
 
 # Initialization
 
@@ -132,6 +140,8 @@ $ADD_OR_REMOVE_WATCH .
 	  "Exit function backwards (shift-F6)" = EXIT_FUNCTION_BACKWARDS
 	  "Toggle breakpoint (F5)" = TOGGLE_BREAKPOINT
 	  "Add/remove watch (F10)" = ADD_OR_REMOVE_WATCH
+	  "Next I/O-call (F12" = NEXT_IO_CALL
+	  "Previous I/O-call (shift-F12)" = PREVIOUS_IO_CALL
       main_menu(-1)
 
 $fde::FDE .
@@ -169,6 +179,10 @@ $fde::FDE .
 !default_configuration.commands_of(F5) "toggle_breakpoint"
 !default_configuration.commands_of(ADD_OR_REMOVE_WATCH) "add_or_remove_watch"
 !default_configuration.commands_of(F10) "add_or_remove_watch"
+!default_configuration.commands_of(NEXT_IO_CALL) "next_io_call"
+!default_configuration.commands_of(F12) "next_io_call"
+!default_configuration.commands_of(PREVIOUS_IO_CALL) "previous_io_call"
+!default_configuration.commands_of(SHIFT_F12) "previous_io_call"
 
 !functions("compile") tuple(compile IO)
 !functions("run_program") tuple(run_program IO)
@@ -184,10 +198,32 @@ $fde::FDE .
 !functions("exit_function_backwards") tuple(exit_function_backwards IO)
 !functions("toggle_breakpoint") tuple(toggle_breakpoint IO)
 !functions("add_or_remove_watch") tuple(add_or_remove_watch IO)
+!functions("next_io_call") tuple(next_io_call IO)
+!functions("previous_io_call") tuple(previous_io_call IO)
 
 !double_click_action context_help_or_add_or_remove_watch
 
 push &plugins symbol_plugin
+
+!page_constructors("fky") create_funky_page
+
+$create_funky_page: (io state lines filename)
+  $page
+    prepare
+      tedi_types::text_page
+	.lines_of lines
+	.kind_of FDE
+	.filename_of filename
+	.commands_of commands_of(configuration_of(state))
+      state
+      undefined
+  if
+    &&
+      files_to_load_of(state).is_empty
+      exports_of(symbol_info_of(state)).is_undefined
+    :
+      create_exports_table io state filename page
+    -> io state page
 
 $tedi_types::state/set_status_line: (state)
   $page get_content(window_manager_of(state))
@@ -208,7 +244,7 @@ $tedi_types::state/set_status_line: (state)
     -> state
 
 $fde_context_help: (io state x y lines _info)
-  $symbols symbols_of(state)
+  $symbols symbols_of(symbol_info_of(state))
   if
     symbols.is_defined:
       $identifier get_identifier_at_xy(x y lines)
@@ -461,171 +497,185 @@ $DEBUG/job_completed: (_self io state cmd argument)
       $debug_fd debug_fd_of(debug_data)
       update_if do_skip_initializers_of(debug_data) &io:
 	write io debug_fd "
-	  I
+	  a
       !debug_data.do_skip_initializers_of false
-      ##log &io 4 argument
-      $prompt_lines split(argument '@nl;')
-      for_each prompt_lines
-	: (line)
-	  if
-	    line.is_empty || length_of(line) < 2 || line(2) != ':'
-	    next
-	    :
-	      $tag line(1)
-	      $buf range(line 3 -1)
-	      case tag
-		'E':
-		  log &io 2 line
-		  show_error_message &state DEBUG buf
-		  next
-		'c': # code position
-		  $filename buf .truncate_from. ':'
-		  $modules modules_of(debug_data)
-		  if
-		    modules.is_defined && modules(filename).is_defined:
-		      $positions empty_list
-		      loop
-			:
-			  behind &buf ':'
-			  if
-			    buf.is_empty
-			    break
-			    :
-			      $line_no (buf .truncate_from. ':').to_integer
-			      behind &buf ':'
-			      $column_no (buf .truncate_from. ':').to_integer
-			      push &positions tuple(line_no column_no)
-			      next
-			:
-			  !debug_data.modules_of(filename).positions_of
-			    sort(positions)
-			  next
-		    next
-		'm': # module
-		  for_each split(buf ':')
-		    : (module_name)
-		      $path module_name .before. '/'
-		      $filename
-			case
-			  path
-			  "basic", "terminal", "ai", "web": # libraries
-			    append
-			      installation_prefix()
-			      "/share/funky-" package_version()
-			      "/source/"
-			      module_name
-			  :
-			    append
-			      until(executable_of(state) '/' -1)
-			      module_name
-		      !debug_data.modules_of(module_name)
-			fde_types::module_info(.filename_of filename)
-		      !debug_data.module_names_of(filename) module_name
-		      write &io debug_fd "
-			lc @(module_name)
-		      next
-		    :
-		      write &io debug_fd "
-			P ready
-		      next
-		'p':
-		  log &io 4 line
-		  parse_integer &buf $instruction_counter
-		  if
-		    &&
-		      instruction_counter.is_defined
-		      instruction_counter != instruction_counter_of(debug_data)
-		    :
-		      !debug_data.instruction_counter_of instruction_counter
-		      update_watches &io &state
-		      if
-			modules_of(debug_data).is_undefined:
-			  !debug_data.modules_of empty_hash_table
-			  !debug_data.module_names_of empty_hash_table
-			  write &io debug_fd "
-			    lm
-			  get_trace
-			get_trace
-
-		      $get_trace:
-			write &io debug_fd "
-			  t
-			next
-		    next
-		'P':
-		  log &io 3 line
-		  case buf
-		    "ready":
-		      $stop_position stop_position_of(debug_data)
-		      if
-			stop_position.is_defined:
-			  !debug_data.stop_position_of undefined
-			  stop_position $filename $column_no $line_no
-			  !state.debug_data_of debug_data
-			  run_to_position &io &state filename column_no line_no
-			  next
-			next
-		    next
-		'R': # reset
-		  $instruction_counter buf.to_integer
-		  log &io 2 "
-		    reset to instruction counter @(instruction_counter)
-		  write &io tty_fd_of(debug_data) "@esc;[2J@esc;[1;1H"
-		  next
-		'r': # report
-		  log &io 2 line
-		  handle_io_action &io &state buf
-		  next
-		's': # symbol
-		  log &io 4 line
-		  $n length_of(buf)
-		  $i 1
-		  loop
-		    :
-		      if
-			i > n
-			break
-			:
-			  if
-			    buf(i) == ':':
-			      if
-				i < n && buf(i+1) == ':':
-				  plus &i 2
-				  next
-				:
-				  $symbol range(buf 1 i-1)
-				  $value range(buf i+1 -1)
-				  !state.debug_data_of debug_data
-				  add_watch &io &state symbol value
-				  !debug_data debug_data_of(state)
-				  break
-			    :
-			      inc &i
-			      next
-		    next
-		't':
-		  log &io 4 line
-		  $filename buf .before. ':'
-		  $line_no between(buf ':' ':')
-		  $column_no behind(buf ':' 2)
-		  if
-		    line_no.is_empty next
-		    :
-		      to_integer &line_no
-		      to_integer &column_no
-		      !filename filename_of(modules_of(debug_data)(filename))
-		      !state.global_info_of.debug_position_of
-			tuple(filename line_no column_no)
-		      open_window &state filename line_no column_no
-		      !state.debug_data_of debug_data
-		      set_status_line &state
-		      next
-		:
-		  log &io 2 line
-		  next
-	:
+      search $pos $_len '@nl;' argument
+      if
+	pos.is_undefined:
+	  append &debug_data.input_text_of argument
 	  !state.debug_data_of debug_data
-	  load_files io state
+	  -> io state
+	:
+	  $line append(input_text_of(debug_data) range(argument 1 pos-1))
+	  !debug_data.input_text_of range(argument pos+1 -1)
+	  loop:
+	    if
+	      line.is_empty || length_of(line) < 2 || line(2) != ':'
+	      next_line
+	      :
+		$tag line(1)
+		$buf range(line 3 -1)
+		case tag
+		  'E':
+		    log &io 2 line
+		    show_error_message &state DEBUG buf
+		    next_line
+		  'c': # code position
+		    $filename buf .truncate_from. ':'
+		    $modules modules_of(debug_data)
+		    if
+		      modules.is_defined && modules(filename).is_defined:
+			$positions empty_list
+			loop
+			  :
+			    behind &buf ':'
+			    if
+			      buf.is_empty
+			      break
+			      :
+				$line_no (buf .truncate_from. ':').to_integer
+				behind &buf ':'
+				$column_no (buf .truncate_from. ':').to_integer
+				push &positions tuple(line_no column_no)
+				next
+			  :
+			    !debug_data.modules_of(filename).positions_of
+			      sort(positions)
+			    next_line
+		      next_line
+		  'm': # module
+		    for_each split(buf ':')
+		      : (module_name)
+			$path module_name .before. '/'
+			$filename
+			  case
+			    path
+			    "basic", "terminal", "ai", "web": # libraries
+			      append
+				installation_prefix()
+				"/share/funky-" package_version()
+				"/source/"
+				module_name
+			    :
+			      append
+				until(executable_of(state) '/' -1)
+				module_name
+			!debug_data.modules_of(module_name)
+			  fde_types::module_info(.filename_of filename)
+			!debug_data.module_names_of(filename) module_name
+			write &io debug_fd "
+			  lc @(module_name)
+			next
+		      :
+			write &io debug_fd "
+			  P ready
+			next_line
+		  'p':
+		    log &io 4 line
+		    parse_integer &buf $instruction_counter
+		    if
+		      &&
+			instruction_counter.is_defined
+			instruction_counter != instruction_counter_of(debug_data)
+		      :
+			!debug_data.instruction_counter_of instruction_counter
+			update_watches &io &state
+			if
+			  modules_of(debug_data).is_undefined:
+			    !debug_data.modules_of empty_hash_table
+			    !debug_data.module_names_of empty_hash_table
+			    write &io debug_fd "
+			      lm
+			    get_trace
+			  get_trace
+
+			$get_trace:
+			  write &io debug_fd "
+			    t
+			  next_line
+		      next_line
+		  'P':
+		    log &io 3 line
+		    case buf
+		      "ready":
+			$stop_position stop_position_of(debug_data)
+			if
+			  stop_position.is_defined:
+			    !debug_data.stop_position_of undefined
+			    stop_position $filename $column_no $line_no
+			    !state.debug_data_of debug_data
+			    run_to_position &io &state filename column_no line_no
+			    next_line
+			  next_line
+		      next_line
+		  'R': # reset
+		    $instruction_counter buf.to_integer
+		    log &io 2 "
+		      reset to instruction counter @(instruction_counter)
+		    write &io tty_fd_of(debug_data) "@esc;[2J@esc;[1;1H"
+		    next_line
+		  'r': # report
+		    #log &io 2 line
+		    handle_io_action &io &state buf
+		    next_line
+		  's': # symbol
+		    log &io 4 line
+		    $n length_of(buf)
+		    $i 1
+		    loop
+		      :
+			if
+			  i > n
+			  break
+			  :
+			    if
+			      buf(i) == ':':
+				if
+				  i < n && buf(i+1) == ':':
+				    plus &i 2
+				    next
+				  :
+				    $symbol range(buf 1 i-1)
+				    $value range(buf i+1 -1)
+				    !state.debug_data_of debug_data
+				    add_watch &io &state symbol value
+				    !debug_data debug_data_of(state)
+				    break
+			      :
+				inc &i
+				next
+		      next_line
+		  't':
+		    log &io 4 line
+		    $filename buf .before. ':'
+		    $line_no between(buf ':' ':')
+		    $column_no behind(buf ':' 2)
+		    if
+		      line_no.is_empty next_line
+		      :
+			to_integer &line_no
+			to_integer &column_no
+			!filename filename_of(modules_of(debug_data)(filename))
+			!state.global_info_of.debug_position_of
+			  tuple(filename line_no column_no)
+			open_window &state filename line_no column_no
+			!state.debug_data_of debug_data
+			set_status_line &state
+			next_line
+		  :
+		    log &io 2 line
+		    next
+
+	    $next_line:
+	      search $nl_pos $_len '@nl;' input_text_of(debug_data)
+	      if
+		nl_pos.is_defined:
+		  !line range(input_text_of(debug_data) 1 nl_pos-1)
+		  range &debug_data.input_text_of nl_pos+1 -1
+		  next
+		:
+		  !state.debug_data_of debug_data
+		  load_files io state
     FINISH:
       $debug_data debug_data_of(state)
       close &io debug_fd_of(debug_data)
@@ -841,7 +891,7 @@ $skip_initializers: (io state x y lines info)
   if
     debug_data.is_defined && debug_fd_of(debug_data).is_defined:
       write &io debug_fd_of(debug_data) "
-	I
+	a
       -> io state
     :
       update_if debug_data.is_undefined &debug_data -> fde_types::debug_data
@@ -1016,6 +1066,32 @@ $context_help_or_add_or_remove_watch: (io state x y lines info)
       add_or_remove_watch io state x y lines info
     :
       fde_context_help io state x y lines info
+
+$next_io_call: (io state _x _y _lines _info)
+  $debug_data debug_data_of(state)
+  if
+    debug_data.is_undefined || debug_fd_of(debug_data).is_undefined:
+      show_warning_message &state DEBUG "
+	You can't step over I/O-calls in a program that is not being debugged!
+      -> io state
+    :
+      log &io 3 "run to next I/O-call"
+      write &io debug_fd_of(debug_data) "
+	i
+      -> io state
+
+$previous_io_call: (io state _x _y _lines _info)
+  $debug_data debug_data_of(state)
+  if
+    debug_data.is_undefined || debug_fd_of(debug_data).is_undefined:
+      show_warning_message &state DEBUG "
+	You can't step over I/O-calls in a program that is not being debugged!
+      -> io state
+    :
+      log &io 3 "run to previous I/O-call"
+      write &io debug_fd_of(debug_data) "
+	I
+      -> io state
 
 # Watch Page
 

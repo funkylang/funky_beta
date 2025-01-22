@@ -25,19 +25,34 @@
 
 <resolve std_types-2.0>
 
-$tedi::create_page_from_text: (text state filename)
+$tedi::page_constructors empty_hash_table
+
+$tedi::create_text_page: (io state text filename)
   trim_right &text
   push &text '@nl;'
   $lines split_into_indented_lines(text false tedi_types::line)
+  $extension behind(filename '.' -1)
+  $shebang
+    if
+      text .has_prefix. "#!"
+      -> text .truncate_from. '@nl;'
+      -> undefined
+  $page_constructor page_constructors(extension)
+  update_if page_constructor.is_undefined && shebang.is_defined
+    &page_constructor -> page_constructors(shebang)
+  if
+    page_constructor.is_defined:
+      page_constructor io state lines filename
+    :
+      $page create_page_from_text(lines state filename)
+      -> io state page
+
+$tedi::create_page_from_text: (lines state filename)
   $kind
     case
       behind(filename '.' -1)
       "c", "cc", "cpp", "h" -> C
-      "sh" -> SH
-      :
-	case text .truncate_from. '@nl;'
-	  "#!/bin/bash", "#!/bin/sh" -> SH
-	  -> kind_of(tedi_types::text_page)
+      -> kind_of(tedi_types::text_page)
   prepare
     tedi_types::text_page
       .lines_of lines
@@ -357,6 +372,7 @@ $update_text:
 	  insert_lines
 
       $insert_lines:
+	!symbol_info symbol_info_of(state)
 	replace &page first last inserted
 	if
 	  action_class == UNDO
@@ -2918,7 +2934,7 @@ $tedi::prepare_tedi_page: (page state line_range)
 		  page
 		    .screens_of new_screens
 
-$line_width_of ()
+$tedi::line_width_of ()
 
 $std_types::undefined/line_width_of: (_self) -> 0
 
@@ -2942,11 +2958,17 @@ $tedi_types::page/replace: (page first last inserted)
 	  map_reduce(removed_lines line_width_of max 0) == page_width
 	  -> map_reduce(updated_lines line_width_of max 0)
 	  -> page_width
+  !page
+    .lines_of updated_lines
+    .width_of page_width
+  repair_screens page till from length_of(inserted)
+
+$tedi::repair_screens ()
+
+$tedi_types::page/repair_screens: (page _till _from _length)
   page
     .screens_of undefined
     .first_screen_line_of undefined
-    .lines_of updated_lines
-    .width_of page_width
 
 $create_screens: (page first last)
   $lines range(lines_of(page) first last)
@@ -2989,7 +3011,6 @@ $create_screens: (page first last)
 	      next
 	  -> screen
       C -> create_c_line(template_screen line)
-      SH -> create_sh_line(template_screen line)
       ->
 	create_text_screen
 	  template_screen append(spaces(indent_of(line)) text_of(line))

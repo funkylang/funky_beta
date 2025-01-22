@@ -367,6 +367,10 @@ void debug() {
       strcpy(sdd->last_cmd, cmd);
     }
     switch (cmd[0]) {
+      case 'a': // skip initializers
+	if (sdd->has_completed_initializers) goto print_prompt;
+	sdd->do_break_after_initializers = true;
+	break;
       case 'b': // set breakpoint - module_name:line_no:column_no
 	{
 	  char *p = cmd+1;
@@ -443,10 +447,10 @@ void debug() {
       case 'i': // continue until next I/O-operation
 	sdd->break_on_io = true;
 	break;
-      case 'I': // skip initializers
-	if (sdd->has_completed_initializers) goto print_prompt;
-	sdd->do_break_after_initializers = true;
-	break;
+      case 'I': // continue until next I/O-operation backwards
+	sdd->break_on_io = true;
+	sdd->backstep_start = instruction_counter;
+	exit(RESPAWN);
       case 'n' : // step over
 	sdd->break_frame = TLS_frame->link;
 	sdd->break_code_start = function_code_start;
