@@ -26,6 +26,8 @@
 
 !context_help_functions(SH) sh_context_help
 
+$ORANGE '@0xff8800;'
+
 $is_a_builtin_command
   hash_set
     "alias"
@@ -164,41 +166,55 @@ $empty_stack list(NORMAL)
 
 $tedi_types::sh_page/repair_screens: (page till from length)
   $lines lines_of(page)
-  $screens screens_of(page)
-  $n length_of(screens)
+  $entries screens_of(page)
+  $n length_of(entries)
+  loop !till !length: # search for start of a logical line
+    if
+      till > 0 && lines(till).is_defined && second(entries(till)).is_empty:
+	dec &till
+	inc &length
+	next
+      -> till length
   if
     n <= till
     -> page
     :
       if
 	from > n
-	-> page(.screens_of range(screens 1 till))
+	-> page(.screens_of range(entries 1 till))
 	:
-	  $start range(screens 1 till)
-	  $end range(screens from -1)
+	  $start range(entries 1 till)
 	  if
 	    length > 0:
-	      $new_screens create_screens(page till+1 till+length)
-	      $old_stack
-		if
-		  from > 1
-		  -> second(screens(from-1))
-		  -> empty_stack
-	      $new_stack second(new_screens(-1))
+	      $new_entries create_screens(page till+1 till+length)
+	      $real_length length_of(new_entries)
+	      plus &from real_length-length
 	      if
-		new_stack .equals. old_stack
-		-> page(.screens_of append(start new_screens end))
-		-> page(.screens_of append(start new_screens))
+		&&
+		  from <= n
+		  ||
+		    lines(from).is_undefined
+		    equals
+		      second(new_entries(-1))
+		      if
+			from > 1
+			-> second(entries(from-1))
+			-> empty_stack
+		->
+		  page
+		    .screens_of
+		      append(start new_entries range(entries from -1))
+		-> page(.screens_of append(start new_entries))
 	    :
-	      $old_stack second(screens(from-1))
+	      $old_stack second(entries(from-1))
 	      $new_stack
 		if
 		  till > 0
-		  -> second(screens(till))
+		  -> second(entries(till))
 		  -> empty_stack
 	      if
 		new_stack .equals. old_stack
-		-> page(.screens_of append(start end))
+		-> page(.screens_of append(start range(entries from -1)))
 		-> page(.screens_of start)
 
 $equals: (left right)
@@ -217,25 +233,45 @@ $create_screens: (page first last)
   $lines lines_of(page)
   $template_screen template_screen_of(page)
   $empty_line create_text_screen(template_screen "")
-  $screens empty_list
-  $stack
+  $created_screens empty_list
+  $first_line_no first
+  loop:
     if
-      first > 1
-      -> second(screens_of(page)(first-1))
-      -> empty_stack
-  from_to first last
-    : (line_no)
-      $line lines(line_no)
+      first_line_no > 1:
+	$line lines(first_line_no-1)
+	if
+	  line.is_defined && text_of(line)(-1) == '\':
+	    dec &first_line_no
+	    next
+	  create
+      create
+
+  $create:
+    $stack
       if
-	line.is_defined:
-	  create_sh_line $screen &stack template_screen line
-	  push &screens tuple(screen stack)
-	  next
-	:
-	  update_if stack(-1) == '\' &stack -> range(stack 1 -2)
-	  push &screens tuple(empty_line stack)
-	  next
-    -> screens
+	first_line_no > 1
+	-> second(screens_of(page)(first_line_no-1))
+	-> empty_stack
+    $n length_of(lines)
+    $line_no first_line_no
+    loop:
+      if
+	line_no <= last:
+	  $line lines(line_no)
+	  if
+	    lines(line_no).is_defined:
+	      create_sh_line $screens &stack template_screen
+		range(lines line_no -1)
+	      append &created_screens screens
+	      #debug::print "@(length_of(screens)): "
+	      #debug::println text_of(lines(line_no))
+	      plus &line_no length_of(screens)
+	      next
+	    :
+	      push &created_screens tuple(empty_line stack)
+	      inc &line_no
+	      next
+	-> created_screens
 
 $tedi_types::sh_page/: (page^ idx)
   screens_of(page)(idx) $screen
@@ -273,7 +309,6 @@ $sh_context_help: (io state x y lines _info)
     identifier.is_defined:
       if
 	is_a_builtin_command(identifier):
-	  debug::dump `identifier
 	  call &io GET_HELP "bash" list("-c" "help @(identifier)") identifier
 	  -> io state
 	:
@@ -355,249 +390,553 @@ $attributes
     '@quot;' = tuple(BLUE ITALIC)
     '@apos;' = tuple(DARK_CYAN ITALIC)
 
-$tedi::create_sh_line: (stack template_screen line)
+$tedi::create_sh_line: (stack template_screen lines)
   $shell_commands shell_commands_of(symbol_info)
-  $indent indent_of(line)
-  $text text_of(line)
-  $screen create_screen(template_screen indent+width_of(text) 1)
-  $x indent+1
-  $s 1
-  $n length_of(text)
-  $i 1
-  case stack(-1)
-    '@quot;', '@apos;':
-      check_line
-    '\':
-      range &stack 1 -2
-      check_line
-    :
-      check_for_command check_line
+  $idx 1
+  $screens empty_list
+  loop:
+    $line lines(idx)
+    $indent indent_of(line)
+    $text text_of(line)
+    $screen create_screen(template_screen indent+width_of(text) 1)
+    $x indent+1
+    $s 1
+    $n length_of(text)
+    $i 1
+    case stack(-1)
+      '@quot;', '@apos;':
+	check_line
+      '\':
+	range &stack 1 -2
+	check_line
+      :
+	check_for_command check_line
 
-  $check_line:
-    loop:
-      if
-	i > n:
-	  draw:
+    $check_line:
+      loop:
+	if
+	  i > n:
+	    draw:
+	      $mode stack(-1)
+	      update_if mode == '$' || mode == '#' &stack -> range(stack 1 -2)
+	      push &screens tuple(screen stack)
+	      -> screens stack
+	  :
+	    $chr text(i)
 	    $mode stack(-1)
-	    update_if mode == '$' || mode == '#' &stack -> range(stack 1 -2)
-	    -> screen stack
-	:
-	  $chr text(i)
-	  $mode stack(-1)
-	  case chr
-	    '#':
-	      case mode
-		'@quot;', '@apos;':
-		  inc &i
-		  next
-		:
-		  draw:
+	    case chr
+	      '#':
+		case mode
+		  '@quot;', '@apos;':
 		    inc &i
-		    push &stack chr
 		    next
-	    '@quot;':
-	      case mode
-		'@quot;':
-		  inc &i
-		  draw:
-		    range &stack 1 -2
-		    next
-		'#':
-		  inc &i
-		  next
-		:
-		  draw:
-		    inc &i
-		    push &stack chr
-		    next
-	    '@apos;':
-	      case mode
-		'@apos;':
-		  inc &i
-		  draw:
-		    range &stack 1 -2
-		    next
-		'#':
-		  inc &i
-		  next
-		:
-		  draw:
-		    inc &i
-		    push &stack chr
-		    next
-	    '`':
-	      find_first $idx $_item stack : (item) -> item == '`'
-	      if
-		idx.is_defined: # within a backquoted expression
-		  draw:
-		    inc &i
-		    range &stack 1 idx # remove stacked modifiers
+		  :
 		    draw:
-		      range &stack 1 idx-1 # remove '`'
-		      next
-		:
-		  if
-		    mode == '#':
 		      inc &i
+		      push &stack chr
 		      next
-		    :
+	      '@quot;':
+		case mode
+		  '@quot;':
+		    inc &i
+		    draw:
+		      range &stack 1 -2
+		      next
+		  '#':
+		    inc &i
+		    next
+		  :
+		    draw:
+		      inc &i
+		      push &stack chr
+		      next
+	      '@apos;':
+		case mode
+		  '@apos;':
+		    inc &i
+		    draw:
+		      range &stack 1 -2
+		      next
+		  '#':
+		    inc &i
+		    next
+		  :
+		    draw:
+		      inc &i
+		      push &stack chr
+		      next
+	      '`':
+		find_first $pos $_item stack : (item) -> item == '`'
+		if
+		  pos.is_defined: # within a backquoted expression
+		    draw:
+		      inc &i
+		      range &stack 1 pos # remove stacked modifiers
 		      draw:
+			range &stack 1 pos-1 # remove '`'
+			next
+		  :
+		    if
+		      mode == '#':
 			inc &i
-			push &stack chr
-			check_for_command next
-	    '$':
-	      case mode
-		'@apos;', '#':
-		  inc &i
-		  next
-		:
-		  if
-		    i < n:
-		      if
-			text(i+1).starts_an_identifier:
-			  draw:
-			    inc &i
-			    skip_identifier: (symbol)
-			      draw_symbol symbol ITALIC MAGENTA next
-			:
-			  if
-			    text(i+1).is_a_digit:
-			      draw:
-				draw_symbol range(text i i+1) ITALIC MAGENTA:
-				  plus &i 2
-				  !s i
-				  next
-			    :
-			      inc &i
-			      next
-		    :
-		      inc &i
-		      next
-	    '\':
-	      case mode
-		'@apos;', '#':
-		  inc &i
-		  next
-		:
-		  draw:
-		    draw_symbol "\" BOLD '@0xc000ff;':
-		      inc &i
-		      !s i
-		      if
-			i > n:
-			  push &stack chr
-			  next
-			:
+			next
+		      :
+			draw:
 			  inc &i
-			  next
-	    'a'..'z', 'A'..'Z', '0'..'9', '_':
+			  push &stack chr
+			  check_for_command next
+	      '$':
+		case mode
+		  '@apos;', '#':
+		    inc &i
+		    next
+		  :
+		    if
+		      i < n:
+			draw:
+			  inc &i
+			  handle_parameter next
+			#case get_next_character(i+1)
+			  'a'..'z', 'A'..'Z', '_':
+			    draw:
+			      inc &i
+			      handle_variable ITALIC next
+			  '0'..'9', '*', '@@', '#', '?', '-', '$', '!':
+			    draw:
+			      inc &i
+			      handle_character ITALIC MAGENTA next
+			  '{':
+			    inc &i
+			    get_next_character(i)
+			    get_identifier $symbol &i
+			    debug::dump `symbol
+			    inc &i
+			    next
+			  :
+			    inc &i
+			    next
+		      :
+			inc &i
+			next
+
+		#$get_next_character: (curr_i)
+		  $c text(curr_i)
+		  if
+		    c == '\':
+		      if
+			curr_i < n
+			-> c
+			:
+			  inc &idx
+			  !line lines(idx)
+			  if
+			    indent_of(line) == 0:
+			      !text text_of(line)
+			      !n length_of(text)
+			      -> get_next_character(1)
+			    -> undefined
+		    -> c
+	      '|':
+		case mode
+		  '@apos;', '@quot;', '#':
+		    inc &i
+		    next
+		  :
+		    draw:
+		      draw_symbol chr BOLD '@0xc000ff;':
+			inc &i
+			!s i
+			check_for_command next
+	      '\':
+		case mode
+		  '@apos;', '#':
+		    inc &i
+		    next
+		  :
+		    draw:
+		      draw_symbol "\" BOLD '@0xc000ff;':
+			if
+			  i == n:
+			    push &screens tuple(screen empty_list)
+			    if
+			      idx < length_of(lines) && lines(idx+1).is_defined:
+				inc &idx
+				!line lines(idx)
+				!indent indent_of(line)
+				!text text_of(line)
+				!screen
+				  create_screen
+				    template_screen indent+width_of(text) 1
+				!x indent+1
+				!s 1
+				!n length_of(text)
+				!i 1
+				next
+			      -> screens stack
+			  :
+			    inc &i
+			    !s i
+			    if
+			      i > n:
+				push &stack chr
+				next
+			      :
+				inc &i
+				next
+	      'a'..'z', 'A'..'Z', '0'..'9', '_':
+		inc &i
+		next
+	      :
+		case mode
+		  '$':
+		    draw:
+		      inc &i
+		      range &stack 1 -2
+		      next
+		  :
+		    inc &i
+		    next
+
+    $check_for_command: (continuation)
+      $found_assignment false
+      $symbol ""
+      $cmd_idx idx
+      loop
+	:
+	  if
+	    i <= n && text(i) == ' ':
 	      inc &i
 	      next
-	    :
-	      case mode
-		'$':
-		  draw:
-		    inc &i
-		    range &stack 1 -2
-		    next
-		:
-		  inc &i
-		  next
+	    break
+	:
+	  draw:
+	    $cmd_text text
+	    $within_single_quotes false
+	    $within_double_quotes false
+	    loop
+	      :
+		if
+		  i > n
+		  break
+		  :
+		    $chr cmd_text(i)
+		    case chr
+		      ' ', '#', '(', ')':
+			if
+			  within_single_quotes || within_double_quotes:
+			    push &symbol chr
+			    inc &i
+			    next
+			  break
+		      '`':
+			if
+			  within_single_quotes:
+			    push &symbol chr
+			    inc &i
+			    next
+			  break
+		      '@apos;':
+			if
+			  within_double_quotes:
+			    push &symbol chr
+			    inc &i
+			    next
+			  :
+			    not &within_single_quotes
+			    inc &i
+			    next
+		      '@quot;':
+			if
+			  within_single_quotes:
+			    push &symbol chr
+			    inc &i
+			    next
+			  :
+			    not &within_double_quotes
+			    inc &i
+			    next
+		      '=':
+			!found_assignment true
+			break
+		      '\':
+			if
+			  i < n:
+			    inc &i
+			    !chr cmd_text(i)
+			    push &symbol chr
+			    inc &i
+			    next
+			  :
+			    if
+			      cmd_idx < length_of(lines):
+				$next_line lines(cmd_idx+1)
+				if
+				  &&
+				    next_line.is_defined
+				    indent_of(next_line) == 0
+				  :
+				    inc &cmd_idx
+				    !cmd_text text_of(next_line)
+				    !i 1
+				    !n length_of(cmd_text)
+				    next
+				  break
+			      break
+		      :
+			push &symbol chr
+			inc &i
+			next
+	      :
+		if
+		  symbol.is_empty
+		  continuation
+		  lookup
 
-  $check_for_command: (continuation)
-    $found_symbol false
-    $found_assignment false
-    draw:
+      $lookup:
+	$text_attributes NORMAL
+	$colour BLACK
+	if
+	  found_assignment:
+	    if
+	      symbol.is_an_identifier:
+		!colour
+		  if
+		    environment(symbol).is_defined
+		    -> ORANGE
+		    -> MAGENTA
+		draw_command
+	      :
+		!text_attributes BOLD
+		!colour RED
+		draw_command
+	  :
+	    !text_attributes BOLD
+	    if
+	      is_a_builtin_keyword(symbol):
+		!colour '@0xb000b0;'
+		draw_command
+	      :
+		if
+		  is_a_builtin_command(symbol):
+		    !colour '@0x903090;'
+		    draw_command
+		  :
+		    if
+		      shell_commands(symbol):
+			!colour '@0x806000;'
+			draw_command
+		      draw_command
+
+	$draw_command:
+	  if
+	    cmd_idx > idx:
+	      draw_symbol range(text s -1) text_attributes colour:
+		loop
+		  :
+		    push &screens tuple(screen empty_list)
+		    inc &idx
+		    !line lines(idx)
+		    if
+		      idx == cmd_idx
+		      break
+		      :
+			$line_indent indent_of(line)
+			$line_text text_of(line)
+			!screen
+			  create_screen
+			    template_screen line_indent+width_of(line_text) 1
+			!x line_indent+1
+			draw_symbol line_text text_attributes colour next
+		  :
+		    !indent indent_of(line)
+		    !text text_of(line)
+		    !screen
+		      create_screen
+			template_screen indent+width_of(text) 1
+		    !x indent+1
+		    !n length_of(text)
+		    draw_symbol range(text 1 i-1) text_attributes colour
+		      continuation
+	    :
+	      $symbol_text range(text s i-1)
+	      draw_symbol symbol_text text_attributes colour continuation
+
+    $draw_symbol: (symbol text_attributes draw_colour continuation)
+      set_draw_colour &screen draw_colour
+      set_text_attributes &screen text_attributes
+      draw_text &screen x 1 symbol
+      plus &x width_of(symbol)
+      !s i
+      continuation
+
+    $draw: (continuation)
+      if
+	i > s:
+	  attributes(stack(-1)) $draw_colour $text_attributes
+	  set_draw_colour &screen draw_colour
+	  set_text_attributes &screen text_attributes
+	  $part range(text s i-1)
+	  draw_text &screen x 1 part
+	  plus &x width_of(part)
+	  !s i
+	  continuation
+	continuation
+
+    $handle_parameter: (continuation)
+      $symbol ""
+      $orig_text text
+      $orig_i i
+      $id_idx idx
+      $expansion_chr undefined
       loop
 	:
 	  if
 	    i > n:
-	      if
-		i > s:
-		  !found_symbol true
-		  break
-		break
+	      break
 	    :
-	      case text(i)
-		' ', '`', '#':
-		  !found_symbol true
-		  break
-		'=':
-		  !found_assignment true
-		  break
-		:
-		  inc &i
-		  next
-	:
-	  if
-	    found_symbol || found_assignment
-	    lookup
-	    continuation
-
-    $lookup:
-      $symbol range(text s i-1)
-      if
-	found_assignment:
-	  draw_symbol symbol NORMAL MAGENTA continuation
-	:
-	  if
-	    is_a_builtin_keyword(symbol):
-	      draw_symbol symbol BOLD '@0xb000b0;' continuation
-	    :
+	      $chr text(i)
 	      if
-		is_a_builtin_command(symbol):
-		  draw_symbol symbol BOLD '@0x903090;' continuation
+		symbol.is_empty:
+		  case chr
+		    '0'..'9', '*', '@@', '#', '?', '-', '$', '!':
+		      push &symbol chr
+		      inc &i
+		      break
+		    '{':
+		      push &symbol chr
+		      inc &i
+		      next
+		    check_character
 		:
 		  if
-		    shell_commands(symbol):
-		      draw_symbol symbol BOLD '@0x806000;' continuation
+		    symbol == "{":
+		      case chr
+			'0'..'9', '*', '@@', '#', '?', '-', '$', '!':
+			  push &symbol chr
+			  inc &i
+			  next
+			check_character
+		    check_character
+
+	      $check_character:
+		cond
+		  -> chr.is_an_identifier_character:
+		    push &symbol chr
+		    inc &i
+		    next
+		  -> chr.is_an_expansion_character:
+		    !expansion_chr chr
+		    inc &i
+		    break
+		  -> true:
+		    if
+		      chr == '\' && i == n && id_idx < length_of(lines):
+			$next_line lines(id_idx+1)
+			if
+			  next_line.is_defined && indent_of(next_line) == 0:
+			    inc &id_idx
+			    !text text_of(next_line)
+			    !i 1
+			    !n length_of(text)
+			    next
+			  break
+		      :
+			if
+			  chr == '}' && symbol .has_prefix. '{':
+			    push &symbol chr
+			    inc &i
+			    break
+			  break
+	:
+	  if
+	    symbol.is_empty:
+	      !text orig_text
+	      !i orig_i
+	      !n length_of(text)
+	      continuation
+	    :
+	      $text_attributes ITALIC
+	      if !symbol !text_attributes $colour
+		symbol .has_prefix. '{':
+		  if
+		    expansion_chr.is_defined
+		    -> range(symbol 2 -1) text_attributes undefined
 		    :
-		      draw_symbol symbol BOLD BLACK continuation
+		      if
+			symbol(-1) == '}'
+			-> range(symbol 2 -2) text_attributes undefined
+			-> symbol text_attributes|BOLD RED
+		-> symbol text_attributes undefined
+	      update_if colour.is_undefined &colour:
+		if
+		  environment(symbol).is_defined
+		  -> ORANGE
+		  -> MAGENTA
+	      if
+		idx < id_idx:
+		  !text orig_text
+		  draw_symbol range(text s -1) text_attributes colour:
+		    loop
+		      :
+			push &screens tuple(screen empty_list)
+			inc &idx
+			!line lines(idx)
+			if
+			  idx == id_idx
+			  break
+			  :
+			    $line_indent indent_of(line)
+			    $line_text text_of(line)
+			    !screen
+			      create_screen
+				template_screen
+				line_indent+width_of(line_text) 1
+			    !x line_indent+1
+			    draw_symbol line_text text_attributes colour next
+		      :
+			!indent indent_of(line)
+			!text text_of(line)
+			!screen
+			  create_screen
+			    template_screen indent+width_of(text) 1
+			!x indent+1
+			!s 1
+			!n length_of(text)
+			draw_identifier
+		draw_identifier
 
-  $draw_symbol: (symbol text_attributes draw_colour continuation)
-    set_draw_colour &screen draw_colour
-    set_text_attributes &screen text_attributes
-    draw_text &screen x 1 symbol
-    plus &x width_of(symbol)
-    !s i
-    continuation
+	      $draw_identifier:
+		draw_symbol range(text s i-1) text_attributes colour continuation
 
-  $draw: (continuation)
-    if
-      i > s:
-	attributes(stack(-1)) $draw_colour $text_attributes
-	set_draw_colour &screen draw_colour
-	set_text_attributes &screen text_attributes
-	$part range(text s i-1)
-	draw_text &screen x 1 part
-	plus &x width_of(part)
-	!s i
-	continuation
-      continuation
+    $handle_character: (text_attributes draw_colour continuation)
+      $chr text(i)
+      if
+	chr == '\': # must be at a line end
+	  draw_symbol range(text s -1) text_attributes draw_colour:
+	    push &screens tuple(screen stack)
+	    inc &idx
+	    !line lines(idx)
+	    !indent indent_of(line)
+	    !text text_of(line)
+	    !screen
+	      create_screen
+		template_screen indent+width_of(text) 1
+	    !x indent+1
+	    !s 1
+	    !n length_of(text)
+	    !i 1
+	    handle_character text_attributes draw_colour continuation
+	:
+	  inc &i
+	  draw_symbol range(text s i-1) text_attributes draw_colour continuation
 
-  $skip_identifier: (continuation)
-    $symbol undefined
-    loop
-      :
-	if
-	  i > n:
-	    !symbol range(text s i-1)
-	    !s i
-	    break
-	  :
-	    if
-	      text(i).is_an_identifier_character:
-		inc &i
-		next
-	      :
-		!symbol range(text s i-1)
-		!s i
-		break
-      :
-	continuation symbol
+$is_an_identifier_character: (chr)
+  -> chr.is_a_letter || chr.is_a_digit || chr == '_'
 
-  $starts_an_identifier: (chr)
-    -> chr.is_a_letter || chr == '_'
+$is_an_expansion_character hash_set(':' '-' '#' '/' '^' ',' '@@')
 
-  $is_an_identifier_character: (chr)
-    -> chr.is_a_letter || chr.is_a_digit || chr == '_'
+$is_an_identifier: (str)
+  ->
+    &&
+      str(1).is_a_letter || str(1) == '_'
+      all_of(range(str 2 -1) is_an_identifier_character)
