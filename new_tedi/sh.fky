@@ -380,13 +380,19 @@ $get_identifier_at_xy: (x y lines)
 			-> range(text start end)
 	    -> undefined
 
-$attributes
+$REMARK .
+$VAR .
+$ENV_VAR .
+
+$attributes_table
   hash_table
     NORMAL = tuple(BLACK NORMAL)
-    '#' = tuple('@0x00a000;' ITALIC)
+    REMARK = tuple('@0x00a000;' ITALIC)
     '`' = tuple('@0xe0a000;' NORMAL)
     '@quot;' = tuple(BLUE ITALIC)
     '@apos;' = tuple(DARK_CYAN ITALIC)
+    VAR = tuple(MAGENTA ITALIC)
+    ENV_VAR = tuple(ORANGE ITALIC)
 
 $tedi::create_sh_line: (stack template_screen lines)
   $shell_commands shell_commands_of(symbol_info)
@@ -416,7 +422,8 @@ $tedi::create_sh_line: (stack template_screen lines)
 	  i > n:
 	    draw:
 	      $mode stack(-1)
-	      update_if mode == '$' || mode == '#' &stack -> range(stack 1 -2)
+	      update_if mode == '$' || mode == REMARK
+		&stack -> range(stack 1 -2)
 	      push &screens tuple(screen stack)
 	      -> screens stack
 	  :
@@ -425,13 +432,13 @@ $tedi::create_sh_line: (stack template_screen lines)
 	    case chr
 	      '#':
 		case mode
-		  '@quot;', '@apos;':
+		  '@quot;', '@apos;', '-', '=', '?', '+':
 		    inc &i
 		    next
 		  :
 		    draw:
 		      inc &i
-		      push &stack chr
+		      push &stack REMARK
 		      next
 	      '@quot;':
 		case mode
@@ -440,7 +447,7 @@ $tedi::create_sh_line: (stack template_screen lines)
 		    draw:
 		      range &stack 1 -2
 		      next
-		  '#':
+		  REMARK:
 		    inc &i
 		    next
 		  :
@@ -450,7 +457,7 @@ $tedi::create_sh_line: (stack template_screen lines)
 		      next
 	      '@apos;':
 		case mode
-		  '@quot;', '#':
+		  '@quot;', REMARK:
 		    inc &i
 		    next
 		  '@apos;':
@@ -475,7 +482,7 @@ $tedi::create_sh_line: (stack template_screen lines)
 			next
 		  :
 		    if
-		      mode == '#':
+		      mode == REMARK:
 			inc &i
 			next
 		      :
@@ -485,7 +492,7 @@ $tedi::create_sh_line: (stack template_screen lines)
 			  check_for_command next
 	      '$':
 		case mode
-		  '@apos;', '#':
+		  '@apos;', REMARK:
 		    inc &i
 		    next
 		  :
@@ -494,49 +501,12 @@ $tedi::create_sh_line: (stack template_screen lines)
 			draw:
 			  inc &i
 			  handle_parameter next
-			#case get_next_character(i+1)
-			  'a'..'z', 'A'..'Z', '_':
-			    draw:
-			      inc &i
-			      handle_variable ITALIC next
-			  '0'..'9', '*', '@@', '#', '?', '-', '$', '!':
-			    draw:
-			      inc &i
-			      handle_character ITALIC MAGENTA next
-			  '{':
-			    inc &i
-			    get_next_character(i)
-			    get_identifier $symbol &i
-			    debug::dump `symbol
-			    inc &i
-			    next
-			  :
-			    inc &i
-			    next
 		      :
 			inc &i
 			next
-
-		#$get_next_character: (curr_i)
-		  $c text(curr_i)
-		  if
-		    c == '\':
-		      if
-			curr_i < n
-			-> c
-			:
-			  inc &idx
-			  !line lines(idx)
-			  if
-			    indent_of(line) == 0:
-			      !text text_of(line)
-			      !n length_of(text)
-			      -> get_next_character(1)
-			    -> undefined
-		    -> c
 	      '|':
 		case mode
-		  '@apos;', '@quot;', '#':
+		  '@apos;', '@quot;', REMARK:
 		    inc &i
 		    next
 		  :
@@ -547,7 +517,7 @@ $tedi::create_sh_line: (stack template_screen lines)
 			check_for_command next
 	      '\':
 		case mode
-		  '@apos;', '#':
+		  '@apos;', REMARK:
 		    inc &i
 		    next
 		  :
@@ -584,13 +554,22 @@ $tedi::create_sh_line: (stack template_screen lines)
 	      'a'..'z', 'A'..'Z', '0'..'9', '_':
 		inc &i
 		next
-	      :
-		case mode
-		  '$':
+	      '}':
+		if
+		  mode.is_an_expansion_character:
+		    inc &i
 		    draw:
-		      inc &i
-		      range &stack 1 -2
+		      range &stack 1 -3 # pop var kind
 		      next
+		  :
+		    inc &i
+		    next
+	      :
+		if
+		  mode == ':' && chr.is_an_expansion_character:
+		    !stack(-1) chr
+		    inc &i
+		    next
 		  :
 		    inc &i
 		    next
@@ -770,7 +749,10 @@ $tedi::create_sh_line: (stack template_screen lines)
     $draw: (continuation)
       if
 	i > s:
-	  attributes(stack(-1)) $draw_colour $text_attributes
+	  $attributes attributes_table(stack(-1))
+	  update_if attributes.is_undefined &attributes
+	    -> attributes_table(stack(-2))
+	  attributes $draw_colour $text_attributes
 	  set_draw_colour &screen draw_colour
 	  set_text_attributes &screen text_attributes
 	  $part range(text s i-1)
@@ -865,9 +847,16 @@ $tedi::create_sh_line: (stack template_screen lines)
 			-> range(symbol 2 -2) text_attributes undefined
 			-> symbol text_attributes|BOLD RED
 		-> symbol text_attributes undefined
-	      update_if colour.is_undefined &colour:
+	      $var_kind
 		if
 		  environment(symbol).is_defined
+		  -> ENV_VAR
+		  -> VAR
+	      update_if expansion_chr.is_defined &stack:
+		append stack list(var_kind expansion_chr)
+	      update_if colour.is_undefined &colour:
+		if
+		  var_kind == ENV_VAR
 		  -> ORANGE
 		  -> MAGENTA
 	      if
