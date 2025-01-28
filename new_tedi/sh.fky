@@ -192,14 +192,12 @@ $tedi_types::sh_page/repair_screens: (page till from length)
 	      if
 		&&
 		  from <= n
-		  ||
-		    lines(from).is_undefined
-		    equals
-		      second(new_entries(-1))
-		      if
-			from > 1
-			-> second(entries(from-1))
-			-> empty_stack
+		  equals
+		    second(new_entries(-1))
+		    if
+		      from > 1
+		      -> second(entries(from-1))
+		      -> empty_stack
 		->
 		  page
 		    .screens_of
@@ -452,14 +450,14 @@ $tedi::create_sh_line: (stack template_screen lines)
 		      next
 	      '@apos;':
 		case mode
+		  '@quot;', '#':
+		    inc &i
+		    next
 		  '@apos;':
 		    inc &i
 		    draw:
 		      range &stack 1 -2
 		      next
-		  '#':
-		    inc &i
-		    next
 		  :
 		    draw:
 		      inc &i
