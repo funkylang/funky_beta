@@ -28,6 +28,7 @@ $symbol_plugin std_types::object
 $symbol_plugin/initialize: (_id io)
   $filename
     append
+      root_prefix
       installation_prefix()
       "/share/funky-" package_version()
       "/html/all_symbols.txt"
@@ -260,6 +261,7 @@ $fde_context_help: (io state x y lines _info)
 		:
 		  $filename "html/symbols/@(namespace)__@(identifier).html"
 		  append
+		    root_prefix
 		    installation_prefix()
 		    "/share/funky-"
 		    package_version()
@@ -552,6 +554,7 @@ $DEBUG/job_completed: (_self io state cmd argument)
 			    path
 			    "basic", "terminal", "ai", "web": # libraries
 			      append
+				root_prefix
 				installation_prefix()
 				"/share/funky-" package_version()
 				"/source/"
@@ -1013,6 +1016,7 @@ $add_or_remove_watch: (io state x y lines _info)
 	    $filename filename_of(page) .without_suffix. ".fky"
 	    $library_prefix
 	      append
+		root_prefix
 		installation_prefix()
 		"/share/funky-" package_version()
 		"/source/"

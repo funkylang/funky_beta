@@ -55,6 +55,10 @@ $tedi::main:
     list
       VALUED_OPTION "config-path" "
 	the path where to look for "tedi.cfg"
+    $tedi::root_prefix
+    list
+      VALUED_OPTION "root" "" "
+	a prefix for "--prefix"
     $log_filename
     list
       VALUED_OPTION "log-file" "
