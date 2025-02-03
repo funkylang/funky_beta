@@ -28,7 +28,9 @@ $csi_table
     "C" = CURSOR_RIGHT
     "D" = CURSOR_LEFT
     "F" = END
+    "4~" = END # for "screen" utility
     "H" = HOME
+    "1~" = HOME # for "screen" utility
     "2~" = INSERT
     "3~" = DELETE
     "5~" = PAGE_UP

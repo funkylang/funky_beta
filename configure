@@ -738,12 +738,12 @@ do
 echo "${TAB}mkdir -p \
   \"\$(DESTDIR)$PREFIX/share/funky-$RUNTIME_VERSION/source/$LIBNAME\""
 echo "${TAB}cd $LIBNAME; find . -name \"*.fky\" | \
-  cpio -pdm \$(DESTDIR)$PREFIX/share/funky-$RUNTIME_VERSION/source/$LIBNAME/"
+  cpio -pdmu \$(DESTDIR)$PREFIX/share/funky-$RUNTIME_VERSION/source/$LIBNAME/"
 done
 echo "${TAB}mkdir -p \
   \"\$(DESTDIR)$PREFIX/share/funky-$RUNTIME_VERSION/prompts\""
 echo "${TAB}cd docs; find . -name \"*.prompt\" | \
-  cpio -pdm \$(DESTDIR)$PREFIX/share/funky-$RUNTIME_VERSION/prompts/"
+  cpio -pdmu \$(DESTDIR)$PREFIX/share/funky-$RUNTIME_VERSION/prompts/"
 echo "${TAB}cp -r html \"\$(DESTDIR)$PREFIX/share/funky-$RUNTIME_VERSION\""
 echo "${TAB}ln -fsT ../source \
   \$(DESTDIR)$PREFIX/share/funky-$RUNTIME_VERSION/html/source"
