@@ -1,7 +1,10 @@
 *
 !*.*
 !ai
-!basic
+!basic/
+!basic/io/
+!basic/io/*.c
+!basic/io/*.fky
 !compiler
 compiler/configuration.fky
 !new_tedi

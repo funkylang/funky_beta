@@ -306,7 +306,7 @@ void set_breakpoint(const char *module_name, int line_no, int column_no) {
 
 long prev_instruction_pointer = -1;
 
-SHARED_DEBUG_DATA *create_snapshot() {
+SHARED_DEBUG_DATA *create_snapshot(void) {
   SHARED_DEBUG_DATA *sd = mmap(
     NULL, sizeof(SHARED_DEBUG_DATA),
     PROT_READ|PROT_WRITE,
@@ -334,7 +334,7 @@ SHARED_DEBUG_DATA *create_snapshot() {
   }
 }
 
-void debug() {
+void debug(void) {
   char cmd[256];
   sdd->io_occurred = false;
   sdd->break_on_io = false;
@@ -506,7 +506,7 @@ void debug() {
 	      } else {
 		int idx = var->var_idx; // negative for constants
 		node = get_var_or_const(idx);
-		print_contents:
+		print_contents:;
 		long len = debug_string(node, 0, 1, NULL);
 		char *buf = malloc(len+1); // obey terminating null-byte
 		debug_string(node, 0, 1, buf);

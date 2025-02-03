@@ -1515,8 +1515,6 @@ static void skip_argument(void) {
   --main_argc;
 }
 
-extern void debug(FUNC entry);
-
 static void open_log_file(void) {
   skip_argument();
   const char *s = main_argv[0];

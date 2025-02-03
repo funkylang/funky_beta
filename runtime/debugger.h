@@ -45,5 +45,5 @@ extern int do_debug;
 
 extern SHARED_DEBUG_DATA *sdd;
 
-extern SHARED_DEBUG_DATA *create_snapshot();
-extern void debug();
+extern SHARED_DEBUG_DATA *create_snapshot(void);
+extern void debug(void);
