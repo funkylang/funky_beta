@@ -31,6 +31,12 @@ $tedi::create_text_page: (io state text filename)
   trim_right &text
   push &text '@nl;'
   $lines split_into_indented_lines(text false tedi_types::line)
+  map &lines: (line)
+    if
+      line.is_defined:
+	trim_right &line.text_of
+	-> line
+      -> line
   $extension behind(filename '.' -1)
   $shebang
     if
