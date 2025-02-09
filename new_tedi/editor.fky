@@ -28,8 +28,7 @@
 $tedi::page_constructors empty_hash_table
 
 $tedi::create_text_page: (io state text filename)
-  trim_right &text
-  push &text '@nl;'
+  check_end_of_text &text
   $lines split_into_indented_lines(text false tedi_types::line)
   map &lines: (line)
     if
@@ -52,6 +51,27 @@ $tedi::create_text_page: (io state text filename)
     :
       $page create_page_from_text(lines state filename)
       -> io state page
+
+$check_end_of_text: (text)
+  $n length_of(text)
+  $i n
+  loop:
+    if
+      i < 1
+      -> ""
+      :
+	if
+	  text(i).is_a_whitespace_character:
+	    dec &i
+	    next
+	  :
+	    if
+	      i < n:
+		if
+		  text(i+1) == '@nl;'
+		  -> range(text 1 i+1)
+		  -> push(range(text 1 i) '@nl;')
+	      -> push(text '@nl;')
 
 $tedi::create_page_from_text: (lines state filename)
   $kind
