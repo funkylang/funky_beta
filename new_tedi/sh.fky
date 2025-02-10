@@ -668,6 +668,9 @@ $tedi::create_sh_line: (state template_screen lines line_no)
 			      draw BOLD BLACK:
 				push &stack SUBSTITUION
 				inc &level
+				!symbol ""
+				!is_an_identifier false
+				!is_a_variable false
 				next
 		      :
 			draw:
