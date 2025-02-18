@@ -148,8 +148,9 @@ $std::case:
   )
   $n length_of(values_and_bodies)
   $i 1
+  $first_value values_and_bodies(1)
   if
-    values_and_bodies(1).is_a_function:
+    first_value.is_defined && first_value.is_a_function:
       !test_function values_and_bodies(1)
       inc &i
       check!

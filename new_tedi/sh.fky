@@ -157,6 +157,9 @@ $create_sh_page: (io state lines filename)
       undefined
   -> io state page
 
+$tedi_types::sh_page/height_of: (page)
+  max length_of(lines_of(page)) length_of(screens_of(page))
+
 $tedi_types::sh_page/prepare: (page state line_range)
   if
     line_range.is_undefined:
@@ -312,8 +315,8 @@ $retrieve_shell_commands_action: (io paths)
 	:
 	  for_each entries
 	    : (entry)
-	      if
-		type_of(entry) == REGULAR_FILE:
+	      case type_of(entry)
+		REGULAR_FILE, SYMBOLIC_LINK:
 		  !shell_commands(name_of(entry)) true
 		  next!
 		next
@@ -412,14 +415,18 @@ $VAR_EXPANSION . # after the variable name
 $ENV_EXPANSION . # after the variable name if it is an environment variable
 $ERR_EXPANSION . # after an invalid variable name
 $SUBSTITUION . # after encountering "$("
+$TEST . # after encountering "["
 $ARITHMETIC_EXPRESSION . # after encountering "$((
 $OLD_SUBSTITUTION . # after encountering "`"
+$EXPECT_BODY . # after encountering a function definition
+$EXPECT_END_OF_BODY . # after encountering "{"
 $EXPECT_DO .
 $EXPECT_DONE .
 $EXPECT_THEN .
 $EXPECT_FI .
 $EXPECT_IN .
 $EXPECT_ESAC .
+$EXPECT_IN_THEN_ESAC .
 
 $attributes_table
   hash_table
@@ -451,8 +458,7 @@ $tedi::create_sh_line: (state template_screen lines line_no)
       stack(-1)
       DOUBLE_QUOTES, SINGLE_QUOTES -> undefined
       -> ""
-  $is_an_identifier true
-  $is_a_variable false
+  $identifier undefined
   $level count(stack: (mode) -> mode == OLD_SUBSTITUTION || mode == SUBSTITUION)
   $quoting_level
     count(stack: (mode) -> mode == DOUBLE_QUOTES || mode == OLD_SUBSTITUTION || mode == SUBSTITUION)
@@ -461,10 +467,8 @@ $tedi::create_sh_line: (state template_screen lines line_no)
       i > n:
 	check_for_symbol:
 	  draw:
-	    $mode stack(-1)
-	    update_if mode == '$' || mode == REMARK
-	      &stack -> range(stack 1 -2)
-	    split_screen
+	    handle_unclosed_line !stack
+	    split_screen $entries !state
 	      screen
 	      sh_state
 		stack
@@ -473,18 +477,152 @@ $tedi::create_sh_line: (state template_screen lines line_no)
 		variables
 		variables_string
 	      line_count lines
-      :
-	$chr text(i)
-	$mode stack(-1)
+	    if
+	      line_count == length_of(lines) && length_of(stack) > 1:
+		handle_unclosed entries
+	      -> entries state
+      handle_character
+
+    $handle_character:
+      $chr text(i)
+      $mode stack(-1)
+      cond
+	-> chr == '@quot;' && mode == DOUBLE_QUOTES:
+	  inc &i
+	  check_for_symbol:
+	    draw:
+	      range &stack 1 -2
+	      dec &quoting_level
+	      next
+	-> chr == '@apos;' && mode == SINGLE_QUOTES:
+	  inc &i
+	  draw:
+	    range &stack 1 -2
+	    next
+	-> chr == '`':
+	  find_first $pos $_item stack: (item) -> item == OLD_SUBSTITUTION
+	  if
+	    pos.is_defined: # within a backquoted expression
+	      case mode
+		DOUBLE_QUOTES, SINGLE_QUOTES:
+		  draw BOLD|ITALIC RED update_stack
+		:
+		  check_for_symbol update_stack
+
+	      $update_stack:
+		draw:
+		  range &stack 1 pos-1 # remove OLD_SUBSTITUTION
+		  dec &level
+		  !quoting_level
+		    count(stack: (m) -> m == DOUBLE_QUOTES || m == OLD_SUBSTITUTION)
+		  inc &i
+		  draw BOLD BLACK next
+	    check_whether_within_string_or_remark
+	-> true check_whether_within_string_or_remark
+
+      $check_whether_within_string_or_remark:
+	case mode
+	  SINGLE_QUOTES, REMARK:
+	    inc &i
+	    next
+	  DOUBLE_QUOTES:
+	    if
+	      chr == '$'
+	      check_character
+	      :
+		inc &i
+		next
+	  check_character
+
+      $check_character:
 	case chr
+	  'a'..'z', 'A'..'Z', '_':
+	    if
+	      symbol == "": # at start of command
+		draw:
+		  inc &i
+		  skip_identifier !i
+		  $name range(text s i-1)
+		  if
+		    i <= n && text(i) == '=':
+		      if
+			environment(name).is_defined:
+			  draw NORMAL ORANGE handle_assignment
+			:
+			  !variables(name) line_no
+			  append &variables_string "|" name
+			  draw NORMAL MAGENTA handle_assignment
+
+		      $handle_assignment:
+			!symbol undefined
+			inc &i
+			draw BOLD BLACK next
+		    :
+		      if
+			followed_by('('):
+			  skip !i '('
+			  if
+			    followed_by(')'):
+			      skip !i ')'
+			      !functions(name) line_no
+			      !symbol undefined
+			      append &functions_string "|" name
+			      push &stack EXPECT_BODY
+			      draw BOLD BLACK next
+			    :
+			      draw BOLD RED next
+			:
+			  handle_identifier name next
+	      :
+		inc &i
+		if
+		  &&
+		    i <= n && chr == 'i' && text(i) == 'n'
+		    i == n || text(i+1) == ' '
+		  :
+		    $name "in"
+		    case mode
+		      EXPECT_IN:
+			range &stack 1 -2
+			push &stack EXPECT_DO
+			draw_identifier
+		      EXPECT_IN_THEN_ESAC:
+			range &stack 1 -2
+			push &stack EXPECT_ESAC
+			draw_identifier
+		      :
+			if
+			  stack .contains. EXPECT_IN:
+			    unwind_stack !stack EXPECT_IN
+			    push &stack EXPECT_DO
+			    draw_error
+			  draw_error
+
+		    $draw_identifier:
+		      $curr_i i
+		      minus &i length_of(name)
+		      draw:
+			!identifier undefined
+			!i curr_i
+			draw BOLD DIMGREY next
+
+		    $draw_error:
+		      !identifier undefined
+		      draw BOLD RED next
+		  :
+		    if
+		      symbol.is_defined:
+			push &symbol chr
+			next
+		      next
 	  ' ':
 	    if
-	      symbol == "" && not(is_a_variable):
+	      symbol == "":
 		inc &i
 		next
 	      :
 		if
-		  symbol.is_defined && is_a_variable && mode == EXPANSION:
+		  symbol.is_defined && mode == EXPANSION:
 		    draw BOLD|ITALIC RED:
 		      !symbol undefined
 		      inc &i
@@ -493,7 +631,6 @@ $tedi::create_sh_line: (state template_screen lines line_no)
 		    if
 		      &&
 			symbol.is_defined
-			not(is_a_variable)
 			followed_by('(')
 		      :
 			skip !i '('
@@ -509,7 +646,7 @@ $tedi::create_sh_line: (state template_screen lines line_no)
 			      next
 	  '#':
 	    case mode
-	      DOUBLE_QUOTES, SINGLE_QUOTES, REMARK, VAR_EXPANSION, ENV_EXPANSION:
+	      VAR_EXPANSION, ENV_EXPANSION:
 		inc &i
 		next
 	      :
@@ -520,16 +657,6 @@ $tedi::create_sh_line: (state template_screen lines line_no)
 		  next
 	  '@quot;':
 	    case mode
-	      DOUBLE_QUOTES:
-		inc &i
-		check_for_symbol:
-		  draw:
-		    range &stack 1 -2
-		    dec &quoting_level
-		    next
-	      REMARK:
-		inc &i
-		next
 	      "()":
 		inc &i
 		draw BOLD RED next
@@ -541,14 +668,6 @@ $tedi::create_sh_line: (state template_screen lines line_no)
 		  next
 	  '@apos;':
 	    case mode
-	      DOUBLE_QUOTES, REMARK:
-		inc &i
-		next
-	      SINGLE_QUOTES:
-		inc &i
-		draw:
-		  range &stack 1 -2
-		  next
 	      "()":
 		inc &i
 		draw BOLD RED next
@@ -558,151 +677,97 @@ $tedi::create_sh_line: (state template_screen lines line_no)
 		  push &stack SINGLE_QUOTES
 		  next
 	  '`':
-	    find_first $pos $_item stack : (item) -> item == OLD_SUBSTITUTION
+	    draw:
+	      inc &i
+	      draw BOLD BLACK:
+		push &stack OLD_SUBSTITUTION
+		inc &level
+		inc &quoting_level
+		!symbol ""
+		next
+	  '$':
 	    if
-	      pos.is_defined: # within a backquoted expression
-		case mode
-		  DOUBLE_QUOTES, SINGLE_QUOTES:
-		    draw BOLD|ITALIC RED update_stack
-		  :
-		    check_for_symbol update_stack
-
-		$update_stack:
-		  draw:
-		    range &stack 1 pos-1 # remove OLD_SUBSTITUTION
-		    dec &level
-		    !quoting_level
-		      count(stack: (m) -> m == DOUBLE_QUOTES || m == OLD_SUBSTITUTION)
-		    inc &i
-		    draw BOLD BLACK next
-	      :
-		case mode
-		  SINGLE_QUOTES, REMARK:
-		    inc &i
-		    next
-		  "()":
-		    inc &i
-		    draw BOLD RED next
-		  :
+	      i < n:
+		case text(i+1)
+		  '{':
+		    draw:
+		      if
+			i+2 <= n:
+			  case text(i+2)
+			    'a'..'z', 'A'..'Z', '_':
+			      !symbol undefined
+			      plus &i 2
+			      skip_identifier !i
+			      $name range(text s i-1)
+			      if
+				environment(name).is_defined:
+				  draw NORMAL ORANGE:
+				    push &stack ENV_EXPANSION
+				    next
+				:
+				  draw NORMAL MAGENTA:
+				    push &stack VAR_EXPANSION
+				    next
+			    :
+			      !symbol undefined
+			      plus &i 2
+			      draw BOLD RED next
+			:
+			  !symbol undefined
+			  plus &i 2
+			  draw BOLD RED next
+		  '0'..'9', '*', '@@', '#', '?', '-', '$', '!':
+		    draw:
+		      plus &i 2
+		      draw ITALIC MAGENTA next
+		  'a'..'z', 'A'..'Z', '_':
 		    draw:
 		      inc &i
-		      draw BOLD BLACK:
-			push &stack OLD_SUBSTITUTION
-			inc &level
-			inc &quoting_level
-			!symbol ""
-			!is_an_identifier false
-			!is_a_variable false
-			next
-	  '=':
-	    case mode
-	      DOUBLE_QUOTES, SINGLE_QUOTES, REMARK:
-		inc &i
-		next
-	      "()":
-		inc &i
-		draw BOLD RED next
-	      :
-		if
-		  symbol.is_defined:
-		    update_if
-		      &&
-			is_an_identifier
-			not(environment(symbol).is_defined)
-		      &variables &variables_string
-		      ->
-			variables(symbol line_no)
-			append(variables_string "|" symbol)
-		    if $text_attributes $draw_colour
-		      &&
-			is_an_identifier
-			i == n || text(i+1) != ' '
-		      :
-			if
-			  environment(symbol).is_defined
-			  -> NORMAL ORANGE
-			  -> NORMAL MAGENTA
-		      -> BOLD RED
-		    draw text_attributes draw_colour:
-		      !symbol undefined
+		      skip_identifier !i
+		      $name range(text s+1 i-1)
+		      cond
+			-> environment(name).is_defined:
+			  draw ITALIC ORANGE next
+			-> variables(name).is_defined:
+			  draw ITALIC MAGENTA next
+			-> name == "REPLY":
+			  draw ITALIC DARKSALMON next
+			-> true:
+			  draw BOLD|ITALIC RED next
+		  '(':
+		    !symbol undefined
+		    draw:
+		      if
+			i+2 <= n && text(i+2) == '(':
+			  plus &i 3
+			  draw BOLD BLACK:
+			    push &stack ARITHMETIC_EXPRESSION
+			    next
+			:
+			  plus &i 2
+			  draw BOLD BLACK:
+			    push &stack SUBSTITUION
+			    inc &level
+			    !symbol ""
+			    next
+		  :
+		    draw:
+		      !symbol ""
 		      inc &i
 		      next
-		  :
-		    inc &i
-		    next
-	  '$':
-	    case mode
-	      SINGLE_QUOTES, REMARK:
+	      :
 		inc &i
 		next
-	      "()":
-		inc &i
-		draw BOLD RED next
-	      :
-		if
-		  i < n:
-		    case text(i+1)
-		      '{':
-			draw:
-			  !symbol ""
-			  !is_an_identifier true
-			  !is_a_variable true
-			  push &stack EXPANSION
-			  plus &i 2
-			  next
-		      '0'..'9', '*', '@@', '#', '?', '-', '$', '!':
-			draw:
-			  plus &i 2
-			  draw ITALIC MAGENTA next
-		      '(':
-			!symbol undefined
-			draw:
-			  if
-			    i+2 <= n && text(i+2) == '(':
-			      plus &i 3
-			      draw BOLD BLACK:
-				push &stack ARITHMETIC_EXPRESSION
-				next
-			    :
-			      plus &i 2
-			      draw BOLD BLACK:
-				push &stack SUBSTITUION
-				inc &level
-				!symbol ""
-				!is_an_identifier false
-				!is_a_variable false
-				next
-		      :
-			draw:
-			  !symbol ""
-			  !is_an_identifier true
-			  !is_a_variable true
-			  inc &i
-			  next
-		  :
-		    inc &i
-		    next
 	  '(':
-	    case mode
-	      SINGLE_QUOTES, DOUBLE_QUOTES, REMARK:
+	    if
+	      symbol.is_defined:
+		inc &i
+		handle_function_definition
+	      :
 		inc &i
 		next
-	      "()":
-		inc &i
-		draw BOLD RED next
-	      :
-		if
-		  symbol.is_defined && not(is_a_variable):
-		    inc &i
-		    handle_function_definition
-		  :
-		    inc &i
-		    next
 	  ')':
 	    case mode
-	      SINGLE_QUOTES, DOUBLE_QUOTES, REMARK:
-		inc &i
-		next
 	      SUBSTITUION:
 		draw:
 		  range &stack 1 -2
@@ -724,40 +789,59 @@ $tedi::create_sh_line: (state template_screen lines line_no)
 		    :
 		      inc &i
 		      next
-	  '&', '|', ';':
-	    case mode
-	      SINGLE_QUOTES, DOUBLE_QUOTES, REMARK, VAR_EXPANSION, ENV_EXPANSION:
-		inc &i
-		next
-	      "()":
-		inc &i
-		draw BOLD RED next
-	      :
-		check_for_symbol:
-		  draw:
-		    inc &i
-		    draw BOLD TURQUOISE:
-		      !symbol ""
-		      !is_an_identifier true
-		      !is_a_variable false
-		      next
-	  '{':
-	    case mode
-	      SINGLE_QUOTES, DOUBLE_QUOTES, REMARK:
-		inc &i
-		next
-	      "()":
-		!stack(-1) '{'
-		inc &i
-		draw BOLD BLACK next
+	  '[':
+	    if
+	      &&
+		i == 1 || text(i-1) == ' '
+		i == n || text(i+1) == ' '
 	      :
 		draw:
-		  push &stack '{'
+		  push &stack TEST
 		  inc &i
-		  next
+		  draw BOLD BLACK next
+	      :
+		inc &i
+		next
+	  ']':
+	    if
+	      &&
+		i > 1 && text(i-1) == ' '
+		i == n || text(i+1) == ' ' || text(i+1) == ';'
+	      :
+		if
+		  mode == TEST:
+		    range &stack 1 -2
+		    draw:
+		      inc &i
+		      draw BOLD BLACK next
+		  :
+		    if
+		      stack .contains. TEST:
+			unwind_stack !stack TEST
+			draw BOLD RED:
+			  inc &i
+			  draw BOLD BLACK next
+		      :
+			draw:
+			  inc &i
+			  draw BOLD RED next
+	      :
+		inc &i
+		next
+	  '{':
+	    case mode
+	      EXPECT_BODY:
+		draw:
+		  range &stack 1 -2
+		  push &stack EXPECT_END_OF_BODY
+		  inc &i
+		  draw BOLD BLACK next
+	      :
+		inc &i
+		next
 	  '}':
 	    case mode
-	      '{':
+	      EXPECT_END_OF_BODY:
 		draw:
 		  range &stack 1 -2
 		  inc &i
@@ -792,72 +876,54 @@ $tedi::create_sh_line: (state template_screen lines line_no)
 		range &stack 1 -2
 		inc &i
 		draw BOLD|ITALIC RED next
-	      "()":
-		inc &i
-		draw BOLD RED next
 	      :
 		draw:
 		  inc &i
 		  draw BOLD RED next
-	  '\':
-	    case mode
-	      SINGLE_QUOTES, REMARK:
+	  '&', '|', ';':
+	    check_for_symbol:
+	      draw:
 		inc &i
-		next
+		draw BOLD TURQUOISE:
+		  !symbol ""
+		  next
+	  '\':
+	    if
+	      i == n || (mode == OLD_SUBSTITUTION && text(i+1) == '`'):
+		draw:
+		  inc &i
+		  draw BOLD RED next
 	      :
 		if
-		  i == n || (mode == OLD_SUBSTITUTION && text(i+1) == '`'):
+		  symbol.is_defined:
+		    if
+		      i > 1 && text(i-1) == '\':
+			push &symbol chr
+			inc &i
+			next
+		      :
+			inc &i
+			next
+		  :
 		    draw:
 		      inc &i
-		      draw BOLD RED next
-		  :
-		    if
-		      symbol.is_defined:
-			!is_an_identifier false
-			if
-			  i > 1 && text(i-1) == '\':
-			    push &symbol chr
-			    inc &i
-			    next
-			  :
-			    inc &i
-			    next
-		      :
-			draw:
-			  inc &i
-			  draw BOLD TURQUOISE:
-			    inc &i
-			    next
-	  'a'..'z', 'A'..'Z', '0'..'9', '_':
-	    case mode
-	      "()":
-		inc &i
-		draw BOLD RED next
+		      draw BOLD TURQUOISE:
+			inc &i
+			next
+	  :
+	    if
+	      &&
+		symbol.is_defined
+		chr.is_an_expansion_character
+		mode == EXPANSION
+	      :
+		check_for_symbol:
+		  inc &i
+		  next
 	      :
 		update_if symbol.is_defined &symbol: push symbol chr
 		inc &i
 		next
-	  :
-	    case mode
-	      "()":
-		inc &i
-		draw BOLD RED next
-	      :
-		if
-		  &&
-		    symbol.is_defined
-		    chr.is_an_expansion_character
-		    is_a_variable
-		    mode == EXPANSION
-		  :
-		    check_for_symbol:
-		      inc &i
-		      next
-		  :
-		    update_if symbol.is_defined &symbol: push symbol chr
-		    !is_an_identifier false
-		    inc &i
-		    next
 
     $handle_function_definition:
       skip_whitespace !i
@@ -872,19 +938,61 @@ $tedi::create_sh_line: (state template_screen lines line_no)
 	:
 	  draw BOLD RED:
 	    !symbol undefined
-	    inc &i
 	    next
+
+    $handle_unclosed_line:
+      from_to_by length_of(stack) 2 -1
+	: (idx)
+	  case stack(idx)
+	    REMARK, TEST:
+	      !stack append(range(stack 1 idx-1) range(stack idx+1 -1))
+	      next
+	    next
+	-> stack
+
+    $handle_unclosed: (entries)
+      $error_message "missing"
+      from_to_by length_of(stack) 2 -1
+	: (idx)
+	  append &error_message
+	    case
+	      stack(idx)
+	      SINGLE_QUOTES -> " @apos;"
+	      DOUBLE_QUOTES -> " @quot;"
+	      SUBSTITUION -> " )"
+	      OLD_SUBSTITUTION -> " `"
+	      EXPECT_BODY -> " {"
+	      EXPECT_END_OF_BODY -> " }"
+	      EXPECT_THEN -> " 'then'"
+	      EXPECT_FI -> " 'fi'"
+	      EXPECT_DONE -> " 'done'"
+	      EXPECT_DO -> " do"
+	      EXPECT_IN -> " 'in'"
+	      EXPECT_IN_THEN_ESAC -> " 'in'"
+	      EXPECT_ESAC -> " 'esac'"
+	      :
+		debug::dump `stack(-1)
+		-> " ?"
+	  next
+	:
+	  push &entries tuple(template_screen state)
+	  set_clear_colour &template_screen RED
+	  set_draw_colour &template_screen WHITE
+	  $error_screen create_text_screen(template_screen error_message)
+	  push &entries tuple(error_screen state)
+	  -> entries state
 
   $followed_by: (chr)
     loop:
-      inc &i
       if
 	i > n
 	-> false
 	:
 	  case text(i)
 	    chr -> true
-	    ' ' next
+	    ' ':
+	      inc &i
+	      next
 	    -> false
 
   $skip: (chr)
@@ -908,139 +1016,239 @@ $tedi::create_sh_line: (state template_screen lines line_no)
 	  next
 	-> i
 
+  $skip_identifier:
+    loop:
+      if
+	i > n
+	-> i
+	:
+	  case text(i)
+	    'a'..'z', 'A'..'Z', '_', '0'..'9':
+	      inc &i
+	      next
+	    -> i
+
+  $handle_identifier: (name continuation)
+    $mode stack(-1)
+    case name
+      "if":
+	push &stack EXPECT_THEN
+	draw_identifier
+      "then":
+	if
+	  mode == EXPECT_THEN:
+	    range &stack 1 -2
+	    push &stack EXPECT_FI
+	    draw_identifier
+	  :
+	    if
+	      stack .contains. EXPECT_THEN:
+		unwind_stack !stack EXPECT_THEN
+		push &stack EXPECT_FI
+		draw_error
+	      draw_error
+      "else":
+	if
+	  mode == EXPECT_FI
+	  draw_identifier
+	  :
+	    if
+	      stack .contains. EXPECT_FI:
+		unwind_stack !stack EXPECT_FI
+		push &stack EXPECT_FI
+		draw_error
+	      draw_error
+      "fi":
+	if
+	  mode == EXPECT_FI:
+	    range &stack 1 -2
+	    draw_identifier
+	  :
+	    if
+	      stack .contains. EXPECT_FI:
+		unwind_stack !stack EXPECT_FI
+		draw_error
+	      draw_error
+      "do":
+	if
+	  mode == EXPECT_DO:
+	    range &stack 1 -2
+	    push &stack EXPECT_DONE
+	    draw_identifier
+	  :
+	    if
+	      stack .contains. EXPECT_DO:
+		unwind_stack !stack EXPECT_DO
+		push &stack EXPECT_DONE
+		draw_error
+	      draw_error
+      "done":
+	if
+	  mode == EXPECT_DONE:
+	    range &stack 1 -2
+	    draw_identifier
+	  :
+	    if
+	      stack .contains. EXPECT_DONE:
+		unwind_stack !stack EXPECT_DONE
+		draw_error
+	      draw_error
+      "for":
+	push &stack EXPECT_IN
+	draw_identifier:
+	  skip_whitespace !i
+	  if
+	    i > n
+	    continuation
+	    :
+	      case text(i)
+		'a'..'z', 'A'..'Z', '_':
+		  draw:
+		    !s i
+		    skip_identifier !i
+		    $var range(text s i-1)
+		    if
+		      environment(var).is_defined:
+			draw NORMAL ORANGE continuation
+		      :
+			!variables(var) line_no
+			append &variables_string "|" var
+			draw NORMAL MAGENTA:
+			  continuation
+		continuation
+      "select":
+	push &stack EXPECT_IN
+	draw_identifier:
+	  skip_whitespace !i
+	  if
+	    i > n
+	    continuation
+	    :
+	      case text(i)
+		'a'..'z', 'A'..'Z', '_':
+		  draw:
+		    !s i
+		    skip_identifier !i
+		    $var range(text s i-1)
+		    if
+		      environment(var).is_defined:
+			draw NORMAL ORANGE continuation
+		      :
+			!variables(var) line_no
+			append &variables_string "|" var
+			draw NORMAL MAGENTA:
+			  continuation
+		continuation
+      "case":
+	push &stack EXPECT_IN_THEN_ESAC
+	draw_identifier
+      "esac":
+	if
+	  mode == EXPECT_ESAC:
+	    range &stack 1 -2
+	    draw_identifier
+	  :
+	    if
+	      stack .contains. EXPECT_ESAC:
+		unwind_stack !stack EXPECT_ESAC
+		draw_error
+	      draw_error
+      "while":
+	push &stack EXPECT_DO
+	draw_identifier
+      "until":
+	push &stack EXPECT_DO
+	draw_identifier
+      "read":
+	draw_identifier:
+	  skip_whitespace !i
+	  if
+	    i > n
+	    continuation
+	    :
+	      case text(i)
+		'a'..'z', 'A'..'Z', '_':
+		  draw:
+		    !s i
+		    skip_identifier !i
+		    $var range(text s i-1)
+		    if
+		      environment(var).is_defined:
+			draw NORMAL ORANGE continuation
+		      :
+			!variables(var) line_no
+			append &variables_string "|" var
+			draw NORMAL MAGENTA:
+			  continuation
+		continuation
+      :
+	!symbol name
+	check_for_symbol continuation
+
+    $draw_identifier: (cont = continuation)
+      $curr_i i
+      minus &i length_of(name)
+      draw:
+	!identifier undefined
+	!symbol undefined
+	!i curr_i
+	draw BOLD DIMGREY cont
+
+    $draw_error:
+      !identifier undefined
+      !symbol undefined
+      draw BOLD RED continuation
+
+  #
+      :
+	case identifier
+	  "then":
+	    unwind_stack !stack EXPECT_THEN
+	    dropped_compound
+	  :
+	    !identifier undefined
+	    continuation
+
+	$dropped_compound:
+	  debug::println "
+	    dropped compound "@(identifier)"
+	  !identifier undefined
+	  draw BOLD RED continuation
+
+  $unwind_stack: (mode)
+    $idx length_of(stack)
+    loop:
+      if
+	idx == 0
+	-> stack
+	:
+	  if
+	    stack(idx) == mode
+	    -> range(stack 1 idx-1)
+	    :
+	      dec &idx
+	      next
+
   $check_for_symbol: (continuation)
     if
-      &&
-	symbol.is_defined && symbol != ""
-	not(is_a_variable) || is_an_identifier
-      : # invalid variable names are not highlighted as errors
-	$mode stack(-1)
-	update_if mode == EXPANSION
-	  &stack
-	  :
-	    if
-	      is_an_identifier:
-		if
-		  environment(symbol).is_defined
-		  -> stack(-1 ENV_EXPANSION)
-		  -> stack(-1 VAR_EXPANSION)
-	      -> stack(-1 ERR_EXPANSION)
-	$is_a_keyword not(is_a_variable) && is_a_builtin_keyword(symbol)
+      symbol.is_defined && symbol != "":
 	if $text_attributes $draw_colour
-	  is_an_identifier && is_a_variable:
-	    if
-	      environment(symbol).is_defined
-	      -> ITALIC ORANGE
-	      :
-		if
-		  variables(symbol).is_defined
-		  -> ITALIC MAGENTA
-		  -> BOLD|ITALIC RED
+	  functions(symbol).is_defined
+	  -> BOLD BLACK
 	  :
 	    if
-	      is_a_keyword
-	      -> BOLD DIMGREY
+	      is_a_builtin_command(symbol)
+	      -> BOLD BLUEVIOLET
 	      :
 		if
-		  is_a_builtin_command(symbol)
-		  -> BOLD DIMGREY #BLUEVIOLET
-		  :
-		    if
-		      functions(symbol).is_defined
-		      -> BOLD BLACK
-		      :
-			if
-			  shell_commands(symbol)
-			  -> BOLD OLIVE
-			  -> BOLD RED
-	if
-	  is_a_keyword:
-	    case symbol
-	      "for", "select":
-		push &stack EXPECT_DO
-		$old_i i
-		get_identifier:
-		  if
-		    symbol.is_empty:
-		      !i old_i
-		      draw_error
-		    :
-		      !variables(symbol) line_no
-		      append &variables_string "|" symbol
-		      $new_i i
-		      !i old_i
-		      draw BOLD DIMGREY:
-			!i new_i
-			!symbol ""
-			!is_an_identifier true
-			draw NORMAL MAGENTA continuation
-	      "do":
-		if
-		  mode == EXPECT_DO:
-		    !stack(-1) EXPECT_DONE
-		    draw_symbol
-		  draw_error
-	      "done":
-		if
-		  mode == EXPECT_DONE:
-		    range &stack 1 -2
-		    draw_symbol
-		  draw_error
-	      "if":
-		push &stack EXPECT_THEN
-		draw_symbol
-	      "then":
-		if
-		  mode == EXPECT_THEN:
-		    !stack(-1) EXPECT_FI
-		    draw_symbol
-		  draw_error
-	      "fi":
-		if
-		  mode == EXPECT_FI:
-		    range &stack 1 -2
-		    draw_symbol
-		  draw_error
-	      "else":
-		if
-		  mode == EXPECT_FI
-		  draw_symbol
-		  draw_error
-	      "elif":
-		if
-		  mode == EXPECT_FI
-		  draw_symbol
-		  draw_error
-	      "case":
-		push &stack EXPECT_IN
-		draw_symbol
-	      "in":
-		case mode
-		  EXPECT_IN:
-		    !stack(-1) EXPECT_ESAC
-		    draw_symbol
-		  EXPECT_DO:
-		    draw_symbol
-		  draw_error
-	      "esac":
-		if
-		  mode == EXPECT_ESAC:
-		    range &stack 1 -2
-		    draw_symbol
-		  draw_error
-	      draw_symbol
-	  draw_symbol
+		  shell_commands(symbol)
+		  -> BOLD OLIVE
+		  -> BOLD RED
+	draw_symbol
 
 	$draw_symbol:
-	  if
-	    stack(-1) == EXPECT_IN:
-	      !symbol ""
-	      !is_an_identifier true
-	      !is_a_variable false
-	      draw text_attributes draw_colour continuation
-	    :
-	      !symbol undefined
-	      draw text_attributes draw_colour continuation
+	  !symbol undefined
+	  draw text_attributes draw_colour continuation
 
 	$draw_error:
 	  !symbol undefined
