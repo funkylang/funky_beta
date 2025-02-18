@@ -1058,6 +1058,19 @@ $tedi::create_sh_line: (state template_screen lines line_no)
 		push &stack EXPECT_FI
 		draw_error
 	      draw_error
+      "elif":
+	if
+	  mode == EXPECT_FI:
+	    range &stack 1 -2
+	    push &stack EXPECT_THEN
+	    draw_identifier
+	  :
+	    if
+	      stack .contains. EXPECT_FI:
+		unwind_stack !stack EXPECT_FI
+		push &stack EXPECT_THEN
+		draw_error
+	      draw_error
       "fi":
 	if
 	  mode == EXPECT_FI:
@@ -1183,7 +1196,7 @@ $tedi::create_sh_line: (state template_screen lines line_no)
 		continuation
       :
 	!symbol name
-	check_for_symbol continuation
+	continuation
 
     $draw_identifier: (cont = continuation)
       $curr_i i
