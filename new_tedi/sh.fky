@@ -550,7 +550,7 @@ $tedi::create_sh_line: (state template_screen lines line_no)
 		  if
 		    i <= n && text(i) == '=':
 		      if
-			environment(name).is_defined:
+			name.is_in_environment:
 			  draw NORMAL ORANGE handle_assignment
 			:
 			  !variables(name) line_no
@@ -704,7 +704,7 @@ $tedi::create_sh_line: (state template_screen lines line_no)
 			      skip_identifier !i
 			      $name range(text s i-1)
 			      if
-				environment(name).is_defined:
+				name.is_in_environment:
 				  draw NORMAL ORANGE:
 				    push &stack ENV_EXPANSION
 				    next
@@ -730,7 +730,7 @@ $tedi::create_sh_line: (state template_screen lines line_no)
 		      skip_identifier !i
 		      $name range(text s+1 i-1)
 		      cond
-			-> environment(name).is_defined:
+			-> name.is_in_environment:
 			  draw ITALIC ORANGE next
 			-> variables(name).is_defined:
 			  draw ITALIC MAGENTA next
@@ -1125,7 +1125,7 @@ $tedi::create_sh_line: (state template_screen lines line_no)
 		    skip_identifier !i
 		    $var range(text s i-1)
 		    if
-		      environment(var).is_defined:
+		      var.is_in_environment:
 			draw NORMAL ORANGE continuation
 		      :
 			!variables(var) line_no
@@ -1148,7 +1148,7 @@ $tedi::create_sh_line: (state template_screen lines line_no)
 		    skip_identifier !i
 		    $var range(text s i-1)
 		    if
-		      environment(var).is_defined:
+		      var.is_in_environment:
 			draw NORMAL ORANGE continuation
 		      :
 			!variables(var) line_no
@@ -1190,7 +1190,7 @@ $tedi::create_sh_line: (state template_screen lines line_no)
 		    skip_identifier !i
 		    $var range(text s i-1)
 		    if
-		      environment(var).is_defined:
+		      var.is_in_environment:
 			draw NORMAL ORANGE continuation
 		      :
 			!variables(var) line_no
@@ -1438,3 +1438,6 @@ $split_screen: (screen state line_count lines)
 $is_a_special_variable hash_set('*' '@@' '#' '?' '-' '$' '!')
 
 $is_an_expansion_character hash_set(':' '-' '#' '/' '^' ',' '@@')
+
+$is_in_environment: (name)
+  -> environment(name).is_defined || name == "UID" || name == "EUID"
