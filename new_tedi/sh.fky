@@ -256,6 +256,10 @@ $sh_state: (stack functions functions_string variables variables_string)
 
 $empty_sh_state tedi_types::sh_state
 
+$continuation_sh_state
+  tedi_types::sh_state
+    .stack_of empty_list
+
 $tedi_types::sh_state/equal: (left right)
   $left_stack stack_of(left)
   $right_stack stack_of(right)
@@ -1423,7 +1427,7 @@ $split_screen: (screen state line_count lines)
 	set_text_attributes &part BOLD
 	set_draw_colour &part TURQUOISE
 	adjoin &part create_text_screen(part "\")
-	push &entries tuple(part empty_sh_state)
+	push &entries tuple(part continuation_sh_state)
 	plus &x line_width-1 # the '\' is not part of the screen
 	inc &idx
 	next
