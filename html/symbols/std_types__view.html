@@ -1,3 +1,4 @@
+<!doctype html>
 <html>
 <head>
 <title>std_types::view</title>
@@ -8,56 +9,35 @@
 <a class="Button" href="../index.html">Home</a> <a class="Button" href="../manual.html">Manual</a> <a class="Button" href="../topics/index.html">Topics</a> <a class="Button" href="type_index.html">Types</a> <a class="Button" href="function_index.html">Functions</a> <a class="Button" href="objects_index.html">Objects</a> <a class="Button" href="constants_index.html">Constants</a> <a class="Button" href="index.html">All</a>
 </div>
 <h1 class="pre">std_types::view</h1>
-<p class="short">the prototype object for views</p>
-<h2>Parameters</h2>
-<dl>
-<dt>screen</dt>
-<dd>the screen to use for drawing</dd>
-<dt>x</dt>
-<dd>the x-coordinate of the upper left corner of the view</dd>
-<dt>y</dt>
-<dd>the y-coordinate of the upper left corner of the view</dd>
-<dt>width</dt>
-<dd>the width of the view</dd>
-<dt>height</dt>
-<dd>the height of the view</dd>
-</dl>
-<h2>Result</h2>
-<dl>
-<dt>view</dt>
-<dd>the created view</dd>
-</dl>
+<p class="short">a view of a screen</p>
+<h2>Derived from</h2>
+<table>
+<tr>
+<td><a href="std_types__generic_terminal.html">std_types::generic_terminal</a></td>
+<td class="description">a generic terminal object</td>
+</tr>
+</table>
 <h2>Description</h2>
-<p>This object is never used directly but cloned to create a new view.</p>
+<p>A <i>view</i> is a rectangular region that restricts drawing operations on their parent screen.</p>
+<p>All drawing operations occur on a screen (not the view).</p>
+<p>To draw using a <i>view</i> both the view's parent screen and the view must be specified.</p>
 <h2>Topics</h2>
 <table>
 <tr><td><a href="../topics/Terminal.html">Terminal</a></td></tr>
+<tr><td><a href="../topics/IO.html">IO</a></td></tr>
 </table>
 <h2>See also</h2>
 <table>
 <tr>
-  <td><a href="std__create_view.html">std::create_view</a></td>
-  <td class="description">creates a view on a terminal</td>
+  <td><a href="std_types__generic_terminal.html">std_types::generic_terminal</a></td>
+  <td class="description">a generic terminal object</td>
 </tr>
 </table>
-<h2>Example</h2>
-<div class="Example">$screen <a href="std__create_terminal.html">create_terminal</a>
-$view <a href="std__create_view.html">create_view</a>(&screen 2 2 10 5)
-<a href="std__draw_text.html">draw_text</a> &view 2 2 "Hello World!"
-</div>
-<h2>Output</h2>
-<div class="Output">+----------+
-|          |
-|  Hello   |
-|  World!  |
-|          |
-+----------+
-</div>
 <h2>Methods</h2>
 <table>
 <tr>
 <td><a href="std_types__generic_terminal/std__add_text_attributes.html">std::add_text_attributes</a></td>
-<td class="description">Adds the specified attributes to the current text attributes of the</td>
+<td class="description">adds text attributes to the terminal</td>
 </tr>
 <tr>
 <td><a href="std_types__generic_terminal/std__ascent_of.html">std::ascent_of</a></td>
@@ -77,7 +57,7 @@ $view <a href="std__create_view.html">create_view</a>(&screen 2 2 10 5)
 </tr>
 <tr>
 <td><a href="std_types__view/std__clear.html">std::clear</a></td>
-<td class="description">clears the specified rectangular area</td>
+<td class="description">clears a region of the view</td>
 </tr>
 <tr>
 <td><a href="std_types__generic_terminal/std__clear_colour_of.html">std::clear_colour_of</a></td>
@@ -85,7 +65,7 @@ $view <a href="std__create_view.html">create_view</a>(&screen 2 2 10 5)
 </tr>
 <tr>
 <td><a href="std_types__view/std__copy.html">std::copy</a></td>
-<td class="description">Copies a rectangular area from one screen to another.</td>
+<td class="description">copies a region of the source to the destination view</td>
 </tr>
 <tr>
 <td><a href="std_types__generic_terminal/std__descent_of.html">std::descent_of</a></td>
@@ -101,7 +81,7 @@ $view <a href="std__create_view.html">create_view</a>(&screen 2 2 10 5)
 </tr>
 <tr>
 <td><a href="std_types__view/std__draw_attributed_text.html">std::draw_attributed_text</a></td>
-<td class="description">draws attributed text at the specified position</td>
+<td class="description">draws attributed text at the given position in the view</td>
 </tr>
 <tr>
 <td><a href="std_types__generic_terminal/std__draw_colour_of.html">std::draw_colour_of</a></td>
@@ -109,11 +89,11 @@ $view <a href="std__create_view.html">create_view</a>(&screen 2 2 10 5)
 </tr>
 <tr>
 <td><a href="std_types__view/std__draw_shadow.html">std::draw_shadow</a></td>
-<td class="description">draws a shadow around the specified rectangular area</td>
+<td class="description">draws a drop shadow</td>
 </tr>
 <tr>
 <td><a href="std_types__view/std__draw_text.html">std::draw_text</a></td>
-<td class="description">draws text at the specified position</td>
+<td class="description">(a method)</td>
 </tr>
 <tr>
 <td><a href="std_types__resource/std__enable_logging.html">std::enable_logging</a></td>
@@ -124,12 +104,24 @@ $view <a href="std__create_view.html">create_view</a>(&screen 2 2 10 5)
 <td class="description">returns the character at the specified position</td>
 </tr>
 <tr>
+<td><a href="std_types__generic_terminal/std__get_clear_colour.html">std::get_clear_colour</a></td>
+<td class="description">gets the current clear colour</td>
+</tr>
+<tr>
 <td><a href="std_types__view/std__get_clear_colour_at.html">std::get_clear_colour_at</a></td>
 <td class="description">returns the clear colour of the specified character</td>
 </tr>
 <tr>
+<td><a href="std_types__generic_terminal/std__get_draw_colour.html">std::get_draw_colour</a></td>
+<td class="description">gets the current draw colour</td>
+</tr>
+<tr>
 <td><a href="std_types__view/std__get_draw_colour_at.html">std::get_draw_colour_at</a></td>
 <td class="description">returns the draw colour at the specified position</td>
+</tr>
+<tr>
+<td><a href="std_types__generic_terminal/std__get_text_attributes.html">std::get_text_attributes</a></td>
+<td class="description">gets the current text attributes</td>
 </tr>
 <tr>
 <td><a href="std_types__generic_terminal/std__height_of.html">std::height_of</a></td>
@@ -137,7 +129,7 @@ $view <a href="std__create_view.html">create_view</a>(&screen 2 2 10 5)
 </tr>
 <tr>
 <td><a href="std_types__view/std__invert.html">std::invert</a></td>
-<td class="description">inverts the colours of the specified rectangular area within the view</td>
+<td class="description">(a method)</td>
 </tr>
 <tr>
 <td><a href="std_types__generic_terminal/std__line_height_of.html">std::line_height_of</a></td>
@@ -189,7 +181,7 @@ $view <a href="std__create_view.html">create_view</a>(&screen 2 2 10 5)
 </tr>
 <tr>
 <td><a href="std_types__generic_terminal/std__set_text_attributes.html">std::set_text_attributes</a></td>
-<td class="description">sets the text attributes for the terminal</td>
+<td class="description">sets the text attributes of the terminal</td>
 </tr>
 <tr>
 <td><a href="std_types__generic_terminal/std__text_attributes_of.html">std::text_attributes_of</a></td>
@@ -213,8 +205,8 @@ $view <a href="std__create_view.html">create_view</a>(&screen 2 2 10 5)
 </tr>
 </table>
 <div class="footer">(defined in <a href="../source/basic/io/generic_terminal.fky">basic/io/generic_terminal.fky</a>)</div>
-<div class="footer">(generated by Codestral-22B-v0.1-Q5_K_M.gguf)</div>
-<div class="footer">(2024-07-02 20:12:32)</div>
-<div class="footer">(<a href="../prompts/symbols/std_types__view.prompt">prompt</a>)</div>
+<div class="footer">(generated by Qwen_Qwen3-30B-A3B-Q4_K_M.gguf)</div>
+<div class="footer">(revised)</div>
+<div class="footer">(2025-05-13 19:12:19)</div>
 </body>
 </html>

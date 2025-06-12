@@ -26,4 +26,20 @@
 <using std>
 <using tedi>
 
+!main_menu
+  append
+    range(main_menu 1 1)
+    list
+      "View" =
+	list
+	  "Right margin" = RIGHT_MARGIN
+	  "Cursor line" = CURSOR_LINE
+	  "Plain text (F3)" = PLAIN_TEXT
+	  "Soft line breaks (F5)" = SOFT_LINE_BREAKS
+	  "Line numbers (F6)" = LINE_NUMBERS
+    range(main_menu -1 -1)
+
+!default_configuration.commands_of(F5) "toggle_soft_line_break"
+!default_configuration.commands_of(F6) "toggle_line_numbers"
+
 tedi::main!

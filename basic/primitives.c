@@ -8,27 +8,24 @@
 
 enum {
   func_std__do = -1,
-  func_std__ignore = -2,
-  func_std__assign = -3,
-  func_std__chain = -4,
-  lambda_loop = -5,
-  lambda_1 = -6,
-  num_1 = -7,
-  lambda_initializers1 = -8,
-  num_2 = -9,
-  minus_num_1 = -10
+  func_std__assign = -2,
+  func_std__chain = -3,
+  lambda_loop = -4,
+  lambda_1 = -5,
+  num_1 = -6,
+  lambda_initializers1 = -7,
+  num_2 = -8,
+  minus_num_1 = -9
 };
 
 enum {
   var__START = FIRST_VAR-1,
   var_std__do, // initialized
   var_std__assign, // initialized
-  var_std__ignore, // initialized
-  var_pass, // extern
   var_spread, // extern
   var_std__chain, // initialized
-  var_83_15_initializers, // dynamic
-  var_83_29_body, // dynamic
+  var_69_15_initializers, // dynamic
+  var_69_29_body, // dynamic
   var_is_empty, // extern
   var_range, // extern
   var_next, // extern
@@ -53,43 +50,29 @@ static FUNCTION_INFO i_func_std__do = {
   {"43_5_body\000"}
 };
 
-static TAB_NUM t_func_std__ignore[] = {
-  1, // locals
-  1, // parameters
-  LOCAL(1),
-  // pass
-  var_pass, 0, TAIL_CALL,
-  POS(59, 3)
-};
-
-static FUNCTION_INFO i_func_std__ignore = {
-  t_func_std__ignore, NULL, 1, 0,
-  {}
-};
-
 static TAB_NUM t_func_std__assign[] = {
   1, // locals
   -1, // parameters
-  REST_PARAMETER, LOCAL(1), // 79_5_args
+  REST_PARAMETER, LOCAL(1), // 65_5_args
   // spread args
   var_spread, 1, LOCAL(1), TAIL_CALL,
-  POS(81, 3),
+  POS(67, 3),
   LOCAL(1)
 };
 
 static FUNCTION_INFO i_func_std__assign = {
   t_func_std__assign, NULL, 1, 1,
-  {"79_5_args\000"}
+  {"65_5_args\000"}
 };
 
 static TAB_NUM t_func_std__chain[] = {
   0, // locals
   -2, // parameters
-  REST_PARAMETER, var_83_15_initializers,
-  MANDATORY_PARAMETER, var_83_29_body,
+  REST_PARAMETER, var_69_15_initializers,
+  MANDATORY_PARAMETER, var_69_29_body,
   // loop:
   var_loop, 1, lambda_loop, IO_TAIL_CALL,
-  POS(84, 3)
+  POS(70, 3)
 };
 
 static FUNCTION_INFO i_func_std__chain = {
@@ -101,11 +84,11 @@ static TAB_NUM t_lambda_loop[] = {
   1, // locals
   0, // parameters
   // is_empty
-  var_is_empty, 1, var_83_15_initializers, 1, LOCAL(1),
+  var_is_empty, 1, var_69_15_initializers, 1, LOCAL(1),
   // if!
-  var_if, 3, LOCAL(1), var_83_29_body, lambda_1, IO_TAIL_CALL,
-  POS(86, 20),
-  POS(85, 5)
+  var_if, 3, LOCAL(1), var_69_29_body, lambda_1, IO_TAIL_CALL,
+  POS(72, 20),
+  POS(71, 5)
 };
 
 static FUNCTION_INFO i_lambda_loop = {
@@ -117,11 +100,11 @@ static TAB_NUM t_lambda_1[] = {
   1, // locals
   0, // parameters
   // initializers(1):
-  var_83_15_initializers, 1, num_1, 1, LOCAL(1),
+  var_69_15_initializers, 1, num_1, 1, LOCAL(1),
   // initializers(1):
   LOCAL(1), 1, lambda_initializers1, IO_TAIL_CALL,
-  POS(89, 9),
-  POS(89, 9)
+  POS(75, 9),
+  POS(75, 9)
 };
 
 static FUNCTION_INFO i_lambda_1 = {
@@ -133,11 +116,11 @@ static TAB_NUM t_lambda_initializers1[] = {
   0, // locals
   0, // parameters
   // range &initializers 2 -1
-  var_range, 3, var_83_15_initializers, num_2, minus_num_1, 1, var_83_15_initializers,
+  var_range, 3, var_69_15_initializers, num_2, minus_num_1, 1, var_69_15_initializers,
   // next!
   var_next, 0, IO_TAIL_CALL,
-  POS(90, 11),
-  POS(91, 11)
+  POS(76, 11),
+  POS(77, 11)
 };
 
 static FUNCTION_INFO i_lambda_initializers1 = {
@@ -147,7 +130,6 @@ static FUNCTION_INFO i_lambda_initializers1 = {
 
 static FUNKY_CONSTANT constants_table[] = {
   {FLT_FUNCTION, 0, {.func_info = &i_func_std__do}},
-  {FLT_FUNCTION, 0, {.func_info = &i_func_std__ignore}},
   {FLT_FUNCTION, 0, {.func_info = &i_func_std__assign}},
   {FLT_FUNCTION, 0, {.func_info = &i_func_std__chain}},
   {FLT_FUNCTION, 0, {.func_info = &i_lambda_loop}},
@@ -170,19 +152,9 @@ static FUNKY_VARIABLE variables_table[] = {
     {.const_idx = -func_std__assign}
   },
   {
-    FOT_INITIALIZED, 0, 0,
-    "ignore\000std", NULL,
-    {.const_idx = -func_std__ignore}
-  },
-  {
-    FOT_UNKNOWN, 0, 0,
-    "pass\000", NULL,
-    {.position = POS(59, 3)}
-  },
-  {
     FOT_UNKNOWN, 0, 0,
     "spread\000", NULL,
-    {.position = POS(81, 3)}
+    {.position = POS(67, 3)}
   },
   {
     FOT_INITIALIZED, 0, 0,
@@ -191,36 +163,36 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "83_15_initializers\000", NULL
+    "69_15_initializers\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "83_29_body\000", NULL
+    "69_29_body\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
     "is_empty\000", NULL,
-    {.position = POS(86, 20)}
+    {.position = POS(72, 20)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "range\000", NULL,
-    {.position = POS(90, 11)}
+    {.position = POS(76, 11)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "next\000", NULL,
-    {.position = POS(91, 11)}
+    {.position = POS(77, 11)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "if\000", NULL,
-    {.position = POS(85, 5)}
+    {.position = POS(71, 5)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "loop\000", NULL,
-    {.position = POS(84, 3)}
+    {.position = POS(70, 3)}
   }
 };
 
@@ -238,8 +210,8 @@ FUNKY_MODULE module__basic__primitives = {
   0, // number of required modules
   0, // number of defined namespaces
   1, // number of used namespaces
-  10, // number of constants
-  13, // number of variables
+  9, // number of constants
+  11, // number of variables
   NULL, // required modules
   NULL, // defined namespaces
   used_namespaces,

@@ -392,7 +392,7 @@ METHOD std_types::file_descriptor/get_terminal_size
       RETURN
     } else {
       create_error_message(
-	module__builtin.constants_base[unique__std___IO_ERROR-1],
+	module__builtin.constants_base[unique__std__IO_ERROR-1],
 	"IOCTL FAILED", errno, 0, NULL);
     }
   }
@@ -551,7 +551,7 @@ FUNCTION std::pselect
     // INT_ARRAY(descriptors, descriptor_count)
     if (ret == -1 && errno != EINTR) {
       create_error_message(
-	module__builtin.constants_base[unique__std___IO_ERROR-1],
+	module__builtin.constants_base[unique__std__IO_ERROR-1],
 	"PSELECT FAILED", errno, 0, NULL);
       return;
     }
@@ -661,7 +661,7 @@ FUNCTION std::do_not_close
     END
     if (result == -1) {
       create_error_message(
-	module__builtin.constants_base[unique__std___IO_ERROR-1],
+	module__builtin.constants_base[unique__std__IO_ERROR-1],
 	"DO_NO_CLOSE FAILED", errno, 0, NULL);
     } else {
       PREPARE_NO_RESULT
@@ -753,7 +753,7 @@ FUNCTION std::do_not_close
     END
     if (result == -1) {
       create_error_message(
-	module__builtin.constants_base[unique__std___IO_ERROR-1],
+	module__builtin.constants_base[unique__std__IO_ERROR-1],
       "PIPE FAILED", errno, 0, NULL);
     } else {
       START_ARGUMENTS(2);
@@ -794,7 +794,7 @@ FUNCTION std::waitpid
     END
     if (result == -1) {
       create_error_message(
-	module__builtin.constants_base[unique__std___IO_ERROR-1],
+	module__builtin.constants_base[unique__std__IO_ERROR-1],
       "WAIT FAILED", errno, 0, NULL);
     } else {
       START_ARGUMENTS(2)
@@ -843,7 +843,7 @@ FUNCTION std::open_unix_socket
     if (result == -1) {
       error:
       create_error_message(
-	module__builtin.constants_base[unique__std___IO_ERROR-1],
+	module__builtin.constants_base[unique__std__IO_ERROR-1],
 	"OPEN SOCKET FAILED", errno, 0, NULL);
     } else {
       PREPARE_SINGLE_RESULT(file_descriptor_from_int(sock))
@@ -899,7 +899,7 @@ FUNCTION std::send_file_descriptor
     END
     if (result == -1) {
       create_error_message(
-	module__builtin.constants_base[unique__std___IO_ERROR-1],
+	module__builtin.constants_base[unique__std__IO_ERROR-1],
 	"SEND FILE DESCRIPTOR FAILED", errno, 0, NULL);
     } else {
       PREPARE_NO_RESULT
@@ -1000,7 +1000,7 @@ FUNCTION std::open_tcp_client_socket
     if (result == -1) {
       error:
       create_error_message(
-	module__builtin.constants_base[unique__std___IO_ERROR-1],
+	module__builtin.constants_base[unique__std__IO_ERROR-1],
 	"OPEN_TCP_CLIENT_SOCKET FAILED", errno, 0, NULL);
     } else {
       PREPARE_SINGLE_RESULT(file_descriptor_from_int(sock))
@@ -1074,7 +1074,7 @@ FUNCTION std::open_tcp_server_socket
     if (result == -1) {
       error:
       create_error_message(
-	module__builtin.constants_base[unique__std___IO_ERROR-1],
+	module__builtin.constants_base[unique__std__IO_ERROR-1],
 	"OPEN_TCP_SERVER_SOCKET FAILED", errno, 0, NULL);
     } else {
       PREPARE_SINGLE_RESULT(file_descriptor_from_int(sock))
@@ -1113,7 +1113,7 @@ FUNCTION std::accept
       } while (conn == -1 && errno == EINTR);
       if (conn == -1) {
 	create_error_message(
-	  module__builtin.constants_base[unique__std___IO_ERROR-1],
+	  module__builtin.constants_base[unique__std__IO_ERROR-1],
 	  "ACCEPT FAILED", errno, 0, NULL);
       }
     INFO
@@ -1157,7 +1157,7 @@ FUNCTION std::is_listening
     result = getsockopt(sock, SOL_SOCKET, SO_ACCEPTCONN, &does_listen, &len);
     if (result == -1) {
       create_error_message(
-	module__builtin.constants_base[unique__std___IO_ERROR-1],
+	module__builtin.constants_base[unique__std__IO_ERROR-1],
 	"GETSOCKOPT FAILED", errno, 0, NULL);
     } else {
       RETURN_BOOLEAN(does_listen ? true : false)
@@ -1277,20 +1277,20 @@ FUNCTION std::create_shared_memory
       fd = shm_open(filename, O_RDWR|O_CREAT|O_TRUNC|O_EXCL, 0600);
       if (fd == -1) {
 	create_error_message(
-	  module__builtin.constants_base[unique__std___IO_ERROR-1],
+	  module__builtin.constants_base[unique__std__IO_ERROR-1],
 	  "SHM_OPEN FAILED", errno, 0, NULL);
 	goto cleanup;
       }
       if (ftruncate(fd, size) == -1) {
 	create_error_message(
-	  module__builtin.constants_base[unique__std___IO_ERROR-1],
+	  module__builtin.constants_base[unique__std__IO_ERROR-1],
 	  "FTRUNCATE FAILED", errno, 0, NULL);
 	goto cleanup;
       }
       void *buf = mmap(NULL, size, PROT_READ|PROT_WRITE, MAP_SHARED, fd, 0);
       if (buf == MAP_FAILED) {
 	create_error_message(
-	  module__builtin.constants_base[unique__std___IO_ERROR-1],
+	  module__builtin.constants_base[unique__std__IO_ERROR-1],
 	  "MMAP FAILED", errno, 0, NULL);
 	goto cleanup;
       }

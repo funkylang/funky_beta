@@ -459,7 +459,7 @@ FUNCTION std::error
     NODE *obj;
     NODE *category =
       ARGUMENT_COUNT >= 2 ? ARGUMENTS(0) :
-      module__builtin.constants_base[unique__std___APPLICATION_ERROR-1];
+      module__builtin.constants_base[unique__std__APPLICATION_ERROR-1];
     if (!to_c_string(ARGUMENTS(ARGUMENT_COUNT >= 2 ? 1 : 0), &msg)) return;
     obj = ARGUMENT_COUNT == 3 ? ARGUMENTS(2) : NULL;
     create_error_message(category, msg, 0, 0, obj);
@@ -471,7 +471,7 @@ METHOD int std_types::object/_to_int8
   )
   {
     create_error_message(
-      module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+      module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
       "ARGUMENT IS NOT AN INTEGER", 0, 0, node);
     return false;
   }
@@ -482,7 +482,7 @@ METHOD int std_types::undefined/_to_int8
   )
   {
     create_error_message(
-      module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+      module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
       "ARGUMENT IS NOT AN INTEGER", 0, 0, node);
     return false;
   }
@@ -493,7 +493,7 @@ METHOD int std_types::object/_to_int16
   )
   {
     create_error_message(
-      module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+      module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
       "ARGUMENT IS NOT AN INTEGER", 0, 0, node);
     return false;
   }
@@ -504,7 +504,7 @@ METHOD int std_types::undefined/_to_int16
   )
   {
     create_error_message(
-      module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+      module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
       "ARGUMENT IS NOT AN INTEGER", 0, 0, node);
     return false;
   }
@@ -515,7 +515,7 @@ METHOD int std_types::object/_to_int32
   )
   {
     create_error_message(
-      module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+      module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
       "ARGUMENT IS NOT AN INTEGER", 0, 0, node);
     return false;
   }
@@ -526,7 +526,7 @@ METHOD int std_types::undefined/_to_int32
   )
   {
     create_error_message(
-      module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+      module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
       "ARGUMENT IS NOT AN INTEGER", 0, 0, node);
     return false;
   }
@@ -537,7 +537,7 @@ METHOD int std_types::object/_to_int64
   )
   {
     create_error_message(
-      module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+      module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
       "ARGUMENT IS NOT AN INTEGER", 0, 0, node);
     return false;
   }
@@ -548,7 +548,7 @@ METHOD int std_types::undefined/_to_int64
   )
   {
     create_error_message(
-      module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+      module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
       "ARGUMENT IS NOT AN INTEGER", 0, 0, node);
     return false;
   }
@@ -559,7 +559,7 @@ METHOD int std_types::object/_to_uint8
   )
   {
     create_error_message(
-      module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+      module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
       "ARGUMENT IS NOT AN INTEGER", 0, 0, node);
     return false;
   }
@@ -570,7 +570,7 @@ METHOD int std_types::undefined/_to_uint8
   )
   {
     create_error_message(
-      module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+      module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
       "ARGUMENT IS NOT AN INTEGER", 0, 0, node);
     return false;
   }
@@ -581,7 +581,7 @@ METHOD int std_types::object/_to_uint16
   )
   {
     create_error_message(
-      module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+      module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
       "ARGUMENT IS NOT AN INTEGER", 0, 0, node);
     return false;
   }
@@ -592,7 +592,7 @@ METHOD int std_types::undefined/_to_uint16
   )
   {
     create_error_message(
-      module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+      module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
       "ARGUMENT IS NOT AN INTEGER", 0, 0, node);
     return false;
   }
@@ -603,7 +603,7 @@ METHOD int std_types::object/_to_uint32
   )
   {
     create_error_message(
-      module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+      module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
       "ARGUMENT IS NOT AN INTEGER", 0, 0, node);
     return false;
   }
@@ -614,7 +614,7 @@ METHOD int std_types::undefined/_to_uint32
   )
   {
     create_error_message(
-      module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+      module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
       "ARGUMENT IS NOT AN INTEGER", 0, 0, node);
     return false;
   }
@@ -625,7 +625,7 @@ METHOD int std_types::object/_to_uint64
   )
   {
     create_error_message(
-      module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+      module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
       "ARGUMENT IS NOT AN INTEGER", 0, 0, node);
     return false;
   }
@@ -636,7 +636,7 @@ METHOD int std_types::undefined/_to_uint64
   )
   {
     create_error_message(
-      module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+      module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
       "ARGUMENT IS NOT AN INTEGER", 0, 0, node);
     return false;
   }
@@ -647,7 +647,7 @@ METHOD int std_types::object/_to_uchar32
   )
   {
     create_error_message(
-      module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+      module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
       "ARGUMENT IS NOT A CHARACTER", 0, 0, node);
     return false;
   }
@@ -658,7 +658,7 @@ METHOD int std_types::undefined/_to_uchar32
   )
   {
     create_error_message(
-      module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+      module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
       "ARGUMENT IS NOT A CHARACTER", 0, 0, node);
     return false;
   }
@@ -669,7 +669,7 @@ METHOD int std_types::object/_to_bool
   )
   {
     create_error_message(
-      module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+      module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
       "ARGUMENT IS NOT A BOOLEAN", 0, 0, node);
     return false;
   }
@@ -680,7 +680,7 @@ METHOD int std_types::undefined/_to_bool
   )
   {
     create_error_message(
-      module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+      module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
       "ARGUMENT IS NOT A BOOLEAN", 0, 0, node);
     return false;
   }
@@ -691,7 +691,7 @@ METHOD int std_types::object/_to_int
   )
   {
     create_error_message(
-      module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+      module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
       "ARGUMENT IS NOT AN INTEGER", 0, 0, node);
     return false;
   }
@@ -702,7 +702,7 @@ METHOD int std_types::undefined/_to_int
   )
   {
     create_error_message(
-      module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+      module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
       "ARGUMENT IS NOT AN INTEGER", 0, 0, node);
     return false;
   }
@@ -713,7 +713,7 @@ METHOD int std_types::object/_to_uint
   )
   {
     create_error_message(
-      module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+      module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
       "ARGUMENT IS NOT AN INTEGER", 0, 0, node);
     return false;
   }
@@ -724,7 +724,7 @@ METHOD int std_types::undefined/_to_uint
   )
   {
     create_error_message(
-      module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+      module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
       "ARGUMENT IS NOT AN INTEGER", 0, 0, node);
     return false;
   }
@@ -735,7 +735,7 @@ METHOD int std_types::object/_to_long
   )
   {
     create_error_message(
-      module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+      module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
       "ARGUMENT IS NOT AN INTEGER", 0, 0, node);
     return false;
   }
@@ -746,7 +746,7 @@ METHOD int std_types::undefined/_to_long
   )
   {
     create_error_message(
-      module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+      module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
       "ARGUMENT IS NOT AN INTEGER", 0, 0, node);
     return false;
   }
@@ -757,7 +757,7 @@ METHOD int std_types::object/_to_ulong
   )
   {
     create_error_message(
-      module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+      module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
       "ARGUMENT IS NOT AN INTEGER", 0, 0, node);
     return false;
   }
@@ -768,7 +768,7 @@ METHOD int std_types::undefined/_to_ulong
   )
   {
     create_error_message(
-      module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+      module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
       "ARGUMENT IS NOT AN INTEGER", 0, 0, node);
     return false;
   }
@@ -779,7 +779,7 @@ METHOD int std_types::object/_to_float
   )
   {
     create_error_message(
-      module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+      module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
       "ARGUMENT IS NOT A NUMBER", 0, 0, node);
     return false;
   }
@@ -790,7 +790,7 @@ METHOD int std_types::undefined/_to_float
   )
   {
     create_error_message(
-      module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+      module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
       "ARGUMENT IS NOT A NUMBER", 0, 0, node);
     return false;
   }
@@ -801,7 +801,7 @@ METHOD int std_types::object/_to_double
   )
   {
     create_error_message(
-      module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+      module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
       "ARGUMENT IS NOT A NUMBER", 0, 0, node);
     return false;
   }
@@ -812,7 +812,7 @@ METHOD int std_types::undefined/_to_double
   )
   {
     create_error_message(
-      module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+      module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
       "ARGUMENT IS NOT A NUMBER", 0, 0, node);
     return false;
   }
@@ -823,7 +823,7 @@ METHOD int std_types::object/_to_c_string
   )
   {
     create_error_message(
-      module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+      module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
       "ARGUMENT IS NOT A STRING", 0, 0, node);
     return false;
   }
@@ -834,7 +834,7 @@ METHOD int std_types::undefined/_to_c_string
   )
   {
     create_error_message(
-      module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+      module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
       "ARGUMENT IS NOT A STRING", 0, 0, node);
     return false;
   }
@@ -845,7 +845,7 @@ METHOD int std_types::object/_to_octets
   )
   {
     create_error_message(
-      module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+      module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
       "ARGUMENT IS NOT A STRING", 0, 0, node);
     return false;
   }
@@ -856,7 +856,7 @@ METHOD int std_types::undefined/_to_octets
   )
   {
     create_error_message(
-      module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+      module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
       "ARGUMENT IS NOT A STRING", 0, 0, node);
     return false;
   }
@@ -867,7 +867,7 @@ METHOD int std_types::object/_get_item_of
   )
   {
     create_error_message(
-      module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+      module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
       "ATTEMPT TO CALL THE UNDEFINED INTERNAL FUNCTION \"get_item_of\"",
       0, 0, node);
     return false;
@@ -879,7 +879,7 @@ METHOD int std_types::undefined/_get_item_of
   )
   {
     create_error_message(
-      module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+      module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
       "ATTEMPT TO CALL THE INTERNAL FUNCTION \"get_item_of\" ON AN UNDEFINED OBJECT", 0, 0, node);
     return false;
   }
@@ -890,7 +890,7 @@ METHOD int std_types::object/_length_of
   )
   {
     create_error_message(
-      module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+      module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
       "ATTEMPT TO CALL THE UNDEFINED INTERNAL FUNCTION \"length_of\"",
       0, 0, node);
     return false;
@@ -902,7 +902,7 @@ METHOD int std_types::undefined/_length_of
   )
   {
     create_error_message(
-      module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+      module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
       "ATTEMPT TO CALL THE INTERNAL FUNCTION \"length_of\" ON AN UNDEFINED OBJECT", 0, 0, node);
     return false;
   }
@@ -913,7 +913,7 @@ METHOD int std_types::object/_unfold
   )
   {
     create_error_message(
-      module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+      module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
       "ATTEMPT TO CALL THE UNDEFINED INTERNAL FUNCTION \"unfold\"",
       0, 0, node);
     return false;
@@ -925,7 +925,7 @@ METHOD int std_types::undefined/_unfold
   )
   {
     create_error_message(
-      module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+      module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
       "ATTEMPT TO CALL THE INTERNAL FUNCTION \"unfold\" ON AN UNDEFINED OBJECT", 0, 0, node);
     return false;
   }
@@ -937,7 +937,7 @@ FUNCTION void no_such_function
   )
   {
     create_error_message(
-      module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+      module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
       "NO SUCH FUNCTION", 0, 0, NULL);
   }
 
@@ -948,7 +948,7 @@ FUNCTION void invalid_attribute_redefinition
   )
   {
     create_error_message(
-      module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+      module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
       "INVALID ATTRIBUTE REDEFINITION", 0, attr_idx, node);
   }
 
@@ -958,7 +958,7 @@ FUNCTION void attribute_has_no_setter
   )
   {
     create_error_message(
-      module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+      module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
       "ATTRIBUTE HAS NO SETTER",
       0, decode_attribute_index(last_attr_idx), ARGUMENTS(0));
   }
@@ -969,7 +969,7 @@ FUNCTION void too_few_arguments
   )
   {
     create_error_message(
-      module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+      module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
       "TOO FEW ARGUMENTS", 0, 0, NULL);
   }
 
@@ -979,7 +979,7 @@ FUNCTION void too_many_arguments
   )
   {
     create_error_message(
-      module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+      module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
       "TOO MANY ARGUMENTS", 0, 0, NULL);
   }
 
@@ -989,7 +989,7 @@ FUNCTION void invalid_arguments
   )
   {
     create_error_message(
-      module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+      module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
       "INVALID ARGUMENTS", 0, 0, NULL);
   }
 
@@ -999,7 +999,7 @@ FUNCTION void result_count_mismatch
   )
   {
     create_error_message(
-      module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+      module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
       "RESULT COUNT MISMATCH", 0, 0, NULL);
   }
 
@@ -1009,7 +1009,7 @@ FUNCTION void too_few_results
   )
   {
     create_error_message(
-      module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+      module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
       "TOO FEW RESULTS", 0, 0, NULL);
   }
 
@@ -1019,7 +1019,7 @@ FUNCTION void too_many_results
   )
   {
     create_error_message(
-      module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+      module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
       "TOO MANY RESULTS", 0, 0, NULL);
   }
 
@@ -1029,7 +1029,7 @@ FUNCTION void invalid_results
   )
   {
     create_error_message(
-      module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+      module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
       "INVALID RESULTS", 0, 0, NULL);
   }
 
@@ -1039,7 +1039,7 @@ FUNCTION void invalid_index
   )
   {
     create_error_message(
-      module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+      module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
       "INVALID INDEX", 0, 0, node);
   }
 
@@ -1049,7 +1049,7 @@ FUNCTION void invalid_dimension
   )
   {
     create_error_message(
-      module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+      module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
       "INVALID DIMENSION", 0, 0, node);
   }
 
@@ -1060,7 +1060,7 @@ FUNCTION void divide_by_zero
   )
   {
     create_error_message(
-      module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+      module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
       "DIVIDE BY ZERO", 0, 0, NULL);
   }
 
@@ -1070,7 +1070,7 @@ FUNCTION void missing_io_access_rights
   )
   {
     create_error_message(
-      module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+      module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
       "MISSING IO ACCESS RIGHTS", 0, 0, NULL);
   }
 
@@ -1080,7 +1080,7 @@ FUNCTION void not_yet_implemented
   )
   {
     create_error_message(
-      module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+      module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
       "NOT YET IMPLEMENTED", 0, 0, NULL);
   }
 
@@ -1090,7 +1090,7 @@ FUNCTION void open_failed
   )
   {
     create_error_message(
-      module__builtin.constants_base[unique__std___IO_ERROR-1],
+      module__builtin.constants_base[unique__std__IO_ERROR-1],
       "OPEN FAILED", errno, 0, NULL);
   }
 
@@ -1100,7 +1100,7 @@ FUNCTION void close_failed
   )
   {
     create_error_message(
-      module__builtin.constants_base[unique__std___IO_ERROR-1],
+      module__builtin.constants_base[unique__std__IO_ERROR-1],
       "CLOSE FAILED", errno, 0, NULL);
   }
 
@@ -1110,7 +1110,7 @@ FUNCTION void read_error
   )
   {
     create_error_message(
-      module__builtin.constants_base[unique__std___IO_ERROR-1],
+      module__builtin.constants_base[unique__std__IO_ERROR-1],
       "READ ERROR", errno, 0, NULL);
   }
 
@@ -1120,7 +1120,7 @@ FUNCTION void write_error
   )
   {
     create_error_message(
-      module__builtin.constants_base[unique__std___IO_ERROR-1],
+      module__builtin.constants_base[unique__std__IO_ERROR-1],
       "WRITE ERROR", errno, 0, NULL);
   }
 
@@ -1130,6 +1130,6 @@ FUNCTION void flush_failed
   )
   {
     create_error_message(
-      module__builtin.constants_base[unique__std___IO_ERROR-1],
+      module__builtin.constants_base[unique__std__IO_ERROR-1],
       "FLUSH FAILED", errno, 0, NULL);
   }

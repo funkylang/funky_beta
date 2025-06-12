@@ -92,25 +92,37 @@ enum {
 static TAB_NUM t_func_std_types__undefined___collect_variables[] = {
   1, // locals
   1, // parameters
-  LOCAL(1), // 10_42_self
+  LOCAL(1), // 10_43_self
   // -> empty_insert_order_table
   LET, 1, var_empty_insert_order_table, TAIL_CALL,
-  POS(11, 3)
+  POS(11, 3),
+  LOCAL(1)
+};
+
+static FUNCTION_INFO i_func_std_types__undefined___collect_variables = {
+  t_func_std_types__undefined___collect_variables, NULL, 1, 1,
+  {"10_43_self\000"}
 };
 
 static TAB_NUM t_func_funky_types__node___collect_variables[] = {
   1, // locals
   1, // parameters
-  LOCAL(1), // 13_39_self
+  LOCAL(1), // 13_40_self
   // -> empty_insert_order_table
   LET, 1, var_empty_insert_order_table, TAIL_CALL,
-  POS(14, 3)
+  POS(14, 3),
+  LOCAL(1)
+};
+
+static FUNCTION_INFO i_func_funky_types__node___collect_variables = {
+  t_func_funky_types__node___collect_variables, NULL, 1, 1,
+  {"13_40_self\000"}
 };
 
 static TAB_NUM t_func_funky_types__identifier_and_expression___collect_variables[] = {
   3, // locals
   1, // parameters
-  LOCAL(2), // 16_60_self
+  LOCAL(2), // 16_61_self
   // funky::expression_of(self) $result_insert_order_table
   var_funky__expression_of, 1, LOCAL(2), 1, LOCAL(1),
   // collect_variables funky::expression_of(self) $result_insert_order_table
@@ -119,13 +131,20 @@ static TAB_NUM t_func_funky_types__identifier_and_expression___collect_variables
   LET, 1, LOCAL(3), TAIL_CALL,
   POS(17, 21),
   POS(17, 3),
-  POS(18, 3)
+  POS(18, 3),
+  LOCAL(3),
+  LOCAL(2)
+};
+
+static FUNCTION_INFO i_func_funky_types__identifier_and_expression___collect_variables = {
+  t_func_funky_types__identifier_and_expression___collect_variables, NULL, 3, 2,
+  {"17_49_result_insert_order_table\000", "16_61_self\000"}
 };
 
 static TAB_NUM t_func_funky_types__simple_expression___collect_variables[] = {
   3, // locals
   1, // parameters
-  LOCAL(2), // 20_52_self
+  LOCAL(2), // 20_53_self
   // funky::expression_of(self) $result_insert_order_table
   var_funky__expression_of, 1, LOCAL(2), 1, LOCAL(1),
   // collect_variables funky::expression_of(self) $result_insert_order_table
@@ -134,13 +153,20 @@ static TAB_NUM t_func_funky_types__simple_expression___collect_variables[] = {
   LET, 1, LOCAL(3), TAIL_CALL,
   POS(21, 21),
   POS(21, 3),
-  POS(22, 3)
+  POS(22, 3),
+  LOCAL(2),
+  LOCAL(3)
+};
+
+static FUNCTION_INFO i_func_funky_types__simple_expression___collect_variables = {
+  t_func_funky_types__simple_expression___collect_variables, NULL, 3, 2,
+  {"20_53_self\000", "21_49_result_insert_order_table\000"}
 };
 
 static TAB_NUM t_func_funky_types__inline_statement___collect_variables[] = {
   4, // locals
   1, // parameters
-  LOCAL(2), // 24_51_self
+  LOCAL(2), // 24_52_self
   // funky::head_of(self) $result_insert_order_table
   var_funky__head_of, 1, LOCAL(2), 1, LOCAL(1),
   // collect_variables funky::head_of(self) $result_insert_order_table
@@ -158,13 +184,21 @@ static TAB_NUM t_func_funky_types__inline_statement___collect_variables[] = {
   POS(26, 21),
   POS(26, 3),
   POS(27, 3),
-  POS(28, 3)
+  POS(28, 3),
+  LOCAL(3),
+  LOCAL(4),
+  LOCAL(2)
+};
+
+static FUNCTION_INFO i_func_funky_types__inline_statement___collect_variables = {
+  t_func_funky_types__inline_statement___collect_variables, NULL, 6, 3,
+  {"25_43_result_insert_order_table\000", "26_48_arguments_result_insert_order_table\000", "24_52_self\000"}
 };
 
 static TAB_NUM t_func_funky_types__function_call_extension___collect_variables[] = {
   4, // locals
   1, // parameters
-  LOCAL(2), // 30_58_self
+  LOCAL(2), // 30_59_self
   // funky::call_of(self) $result_insert_order_table
   var_funky__call_of, 1, LOCAL(2), 1, LOCAL(1),
   // collect_variables funky::call_of(self) $result_insert_order_table
@@ -182,13 +216,21 @@ static TAB_NUM t_func_funky_types__function_call_extension___collect_variables[]
   POS(32, 14),
   POS(32, 3),
   POS(33, 3),
-  POS(34, 3)
+  POS(34, 3),
+  LOCAL(2),
+  LOCAL(3),
+  LOCAL(4)
+};
+
+static FUNCTION_INFO i_func_funky_types__function_call_extension___collect_variables = {
+  t_func_funky_types__function_call_extension___collect_variables, NULL, 6, 3,
+  {"30_59_self\000", "31_43_result_insert_order_table\000", "32_42_extensions_result_insert_order_table\000"}
 };
 
 static TAB_NUM t_func_funky_types__attribute_access_extension___collect_variables[] = {
   4, // locals
   1, // parameters
-  LOCAL(2), // 36_61_self
+  LOCAL(2), // 36_62_self
   // funky::access_of(self) $result_insert_order_table
   var_funky__access_of, 1, LOCAL(2), 1, LOCAL(1),
   // collect_variables funky::access_of(self) $result_insert_order_table
@@ -206,13 +248,21 @@ static TAB_NUM t_func_funky_types__attribute_access_extension___collect_variable
   POS(38, 14),
   POS(38, 3),
   POS(39, 3),
-  POS(40, 3)
+  POS(40, 3),
+  LOCAL(2),
+  LOCAL(4),
+  LOCAL(3)
+};
+
+static FUNCTION_INFO i_func_funky_types__attribute_access_extension___collect_variables = {
+  t_func_funky_types__attribute_access_extension___collect_variables, NULL, 6, 3,
+  {"36_62_self\000", "38_42_extensions_result_insert_order_table\000", "37_45_result_insert_order_table\000"}
 };
 
 static TAB_NUM t_func_funky_types__inline_function_call_extension___collect_variables[] = {
   4, // locals
   1, // parameters
-  LOCAL(2), // 42_65_self
+  LOCAL(2), // 42_66_self
   // funky::call_of(self) $result_insert_order_table
   var_funky__call_of, 1, LOCAL(2), 1, LOCAL(1),
   // collect_variables funky::call_of(self) $result_insert_order_table
@@ -230,13 +280,21 @@ static TAB_NUM t_func_funky_types__inline_function_call_extension___collect_vari
   POS(44, 14),
   POS(44, 3),
   POS(45, 3),
-  POS(46, 3)
+  POS(46, 3),
+  LOCAL(3),
+  LOCAL(4),
+  LOCAL(2)
+};
+
+static FUNCTION_INFO i_func_funky_types__inline_function_call_extension___collect_variables = {
+  t_func_funky_types__inline_function_call_extension___collect_variables, NULL, 6, 3,
+  {"43_43_result_insert_order_table\000", "44_42_extensions_result_insert_order_table\000", "42_66_self\000"}
 };
 
 static TAB_NUM t_func_funky_types__inline_attribute_access_extension___collect_variables[] = {
   4, // locals
   1, // parameters
-  LOCAL(2), // 48_68_self
+  LOCAL(2), // 48_69_self
   // funky::access_of(self) $result_insert_order_table
   var_funky__access_of, 1, LOCAL(2), 1, LOCAL(1),
   // collect_variables funky::access_of(self) $result_insert_order_table
@@ -254,13 +312,21 @@ static TAB_NUM t_func_funky_types__inline_attribute_access_extension___collect_v
   POS(50, 14),
   POS(50, 3),
   POS(51, 3),
-  POS(52, 3)
+  POS(52, 3),
+  LOCAL(2),
+  LOCAL(3),
+  LOCAL(4)
+};
+
+static FUNCTION_INFO i_func_funky_types__inline_attribute_access_extension___collect_variables = {
+  t_func_funky_types__inline_attribute_access_extension___collect_variables, NULL, 6, 3,
+  {"48_69_self\000", "49_45_result_insert_order_table\000", "50_42_extensions_result_insert_order_table\000"}
 };
 
 static TAB_NUM t_func_funky_types__function_call___collect_variables[] = {
   3, // locals
   1, // parameters
-  LOCAL(2), // 54_48_self
+  LOCAL(2), // 54_49_self
   // funky::arguments_of(self) $result_insert_order_table collect_variables merge_variables empty_insert_order_table
   var_funky__arguments_of, 1, LOCAL(2), 1, LOCAL(1),
   // map_reduce funky::arguments_of(self) $result_insert_order_table collect_variables merge_variables empty_insert_order_table
@@ -269,13 +335,20 @@ static TAB_NUM t_func_funky_types__function_call___collect_variables[] = {
   LET, 1, LOCAL(3), TAIL_CALL,
   POS(55, 14),
   POS(55, 3),
-  POS(56, 3)
+  POS(56, 3),
+  LOCAL(2),
+  LOCAL(3)
+};
+
+static FUNCTION_INFO i_func_funky_types__function_call___collect_variables = {
+  t_func_funky_types__function_call___collect_variables, NULL, 3, 2,
+  {"54_49_self\000", "55_41_result_insert_order_table\000"}
 };
 
 static TAB_NUM t_func_funky_types__spaced_arguments___collect_variables[] = {
   3, // locals
   1, // parameters
-  LOCAL(2), // 58_51_self
+  LOCAL(2), // 58_52_self
   // funky::arguments_of(self) $result_insert_order_table
   var_funky__arguments_of, 1, LOCAL(2), 1, LOCAL(1),
   // collect_variables funky::arguments_of(self) $result_insert_order_table
@@ -284,13 +357,20 @@ static TAB_NUM t_func_funky_types__spaced_arguments___collect_variables[] = {
   LET, 1, LOCAL(3), TAIL_CALL,
   POS(59, 21),
   POS(59, 3),
-  POS(60, 3)
+  POS(60, 3),
+  LOCAL(2),
+  LOCAL(3)
+};
+
+static FUNCTION_INFO i_func_funky_types__spaced_arguments___collect_variables = {
+  t_func_funky_types__spaced_arguments___collect_variables, NULL, 3, 2,
+  {"58_52_self\000", "59_48_result_insert_order_table\000"}
 };
 
 static TAB_NUM t_func_funky_types__spaced_statement_arguments___collect_variables[] = {
   3, // locals
   1, // parameters
-  LOCAL(2), // 62_61_self
+  LOCAL(2), // 62_62_self
   // funky::arguments_of(self) $result_insert_order_table
   var_funky__arguments_of, 1, LOCAL(2), 1, LOCAL(1),
   // collect_variables funky::arguments_of(self) $result_insert_order_table
@@ -299,13 +379,20 @@ static TAB_NUM t_func_funky_types__spaced_statement_arguments___collect_variable
   LET, 1, LOCAL(3), TAIL_CALL,
   POS(63, 21),
   POS(63, 3),
-  POS(64, 3)
+  POS(64, 3),
+  LOCAL(3),
+  LOCAL(2)
+};
+
+static FUNCTION_INFO i_func_funky_types__spaced_statement_arguments___collect_variables = {
+  t_func_funky_types__spaced_statement_arguments___collect_variables, NULL, 3, 2,
+  {"63_48_result_insert_order_table\000", "62_62_self\000"}
 };
 
 static TAB_NUM t_func_funky_types__arguments___collect_variables[] = {
   4, // locals
   1, // parameters
-  LOCAL(2), // 66_44_self
+  LOCAL(2), // 66_45_self
   // funky::argument_of(self) $result_insert_order_table
   var_funky__argument_of, 1, LOCAL(2), 1, LOCAL(1),
   // collect_variables funky::argument_of(self) $result_insert_order_table
@@ -323,13 +410,21 @@ static TAB_NUM t_func_funky_types__arguments___collect_variables[] = {
   POS(68, 14),
   POS(68, 3),
   POS(69, 3),
-  POS(70, 3)
+  POS(70, 3),
+  LOCAL(2),
+  LOCAL(3),
+  LOCAL(4)
+};
+
+static FUNCTION_INFO i_func_funky_types__arguments___collect_variables = {
+  t_func_funky_types__arguments___collect_variables, NULL, 6, 3,
+  {"66_45_self\000", "67_47_result_insert_order_table\000", "68_41_arguments_result_insert_order_table\000"}
 };
 
 static TAB_NUM t_func_funky_types__even_more_statement_arguments___collect_variables[] = {
   4, // locals
   1, // parameters
-  LOCAL(2), // 72_64_self
+  LOCAL(2), // 72_65_self
   // funky::argument_of(self) $result_insert_order_table
   var_funky__argument_of, 1, LOCAL(2), 1, LOCAL(1),
   // collect_variables funky::argument_of(self) $result_insert_order_table
@@ -347,13 +442,21 @@ static TAB_NUM t_func_funky_types__even_more_statement_arguments___collect_varia
   POS(74, 14),
   POS(74, 3),
   POS(75, 3),
-  POS(76, 3)
+  POS(76, 3),
+  LOCAL(3),
+  LOCAL(4),
+  LOCAL(2)
+};
+
+static FUNCTION_INFO i_func_funky_types__even_more_statement_arguments___collect_variables = {
+  t_func_funky_types__even_more_statement_arguments___collect_variables, NULL, 6, 3,
+  {"73_47_result_insert_order_table\000", "74_41_arguments_result_insert_order_table\000", "72_65_self\000"}
 };
 
 static TAB_NUM t_func_funky_types__remark_and_multiline_function_call___collect_variables[] = {
   3, // locals
   1, // parameters
-  LOCAL(2), // 78_69_self
+  LOCAL(2), // 78_70_self
   // funky::arguments_of(self) $result_insert_order_table collect_variables merge_variables empty_insert_order_table
   var_funky__arguments_of, 1, LOCAL(2), 1, LOCAL(1),
   // map_reduce funky::arguments_of(self) $result_insert_order_table collect_variables merge_variables empty_insert_order_table
@@ -362,13 +465,20 @@ static TAB_NUM t_func_funky_types__remark_and_multiline_function_call___collect_
   LET, 1, LOCAL(3), TAIL_CALL,
   POS(79, 14),
   POS(79, 3),
-  POS(80, 3)
+  POS(80, 3),
+  LOCAL(3),
+  LOCAL(2)
+};
+
+static FUNCTION_INFO i_func_funky_types__remark_and_multiline_function_call___collect_variables = {
+  t_func_funky_types__remark_and_multiline_function_call___collect_variables, NULL, 3, 2,
+  {"79_41_result_insert_order_table\000", "78_70_self\000"}
 };
 
 static TAB_NUM t_func_funky_types__expression___collect_variables[] = {
   4, // locals
   1, // parameters
-  LOCAL(2), // 82_45_self
+  LOCAL(2), // 82_46_self
   // funky::expression_of(self) $result_insert_order_table
   var_funky__expression_of, 1, LOCAL(2), 1, LOCAL(1),
   // collect_variables funky::expression_of(self) $result_insert_order_table
@@ -386,13 +496,21 @@ static TAB_NUM t_func_funky_types__expression___collect_variables[] = {
   POS(84, 21),
   POS(84, 3),
   POS(85, 3),
-  POS(86, 3)
+  POS(86, 3),
+  LOCAL(3),
+  LOCAL(4),
+  LOCAL(2)
+};
+
+static FUNCTION_INFO i_func_funky_types__expression___collect_variables = {
+  t_func_funky_types__expression___collect_variables, NULL, 6, 3,
+  {"83_49_result_insert_order_table\000", "84_47_operator_result_insert_order_table\000", "82_46_self\000"}
 };
 
 static TAB_NUM t_func_funky_types__parenthesed_expression___collect_variables[] = {
   4, // locals
   1, // parameters
-  LOCAL(2), // 88_57_self
+  LOCAL(2), // 88_58_self
   // funky::expression_of(self) $result_insert_order_table
   var_funky__expression_of, 1, LOCAL(2), 1, LOCAL(1),
   // collect_variables funky::expression_of(self) $result_insert_order_table
@@ -410,13 +528,21 @@ static TAB_NUM t_func_funky_types__parenthesed_expression___collect_variables[] 
   POS(90, 14),
   POS(90, 3),
   POS(91, 3),
-  POS(92, 3)
+  POS(92, 3),
+  LOCAL(2),
+  LOCAL(3),
+  LOCAL(4)
+};
+
+static FUNCTION_INFO i_func_funky_types__parenthesed_expression___collect_variables = {
+  t_func_funky_types__parenthesed_expression___collect_variables, NULL, 6, 3,
+  {"88_58_self\000", "89_49_result_insert_order_table\000", "90_37_calls_result_insert_order_table\000"}
 };
 
 static TAB_NUM t_func_funky_types__multiline_minus___collect_variables[] = {
   3, // locals
   1, // parameters
-  LOCAL(2), // 94_50_self
+  LOCAL(2), // 94_51_self
   // funky::arguments_of(self) $result_insert_order_table collect_variables merge_variables empty_insert_order_table
   var_funky__arguments_of, 1, LOCAL(2), 1, LOCAL(1),
   // map_reduce funky::arguments_of(self) $result_insert_order_table collect_variables merge_variables empty_insert_order_table
@@ -425,13 +551,20 @@ static TAB_NUM t_func_funky_types__multiline_minus___collect_variables[] = {
   LET, 1, LOCAL(3), TAIL_CALL,
   POS(95, 14),
   POS(95, 3),
-  POS(96, 3)
+  POS(96, 3),
+  LOCAL(3),
+  LOCAL(2)
+};
+
+static FUNCTION_INFO i_func_funky_types__multiline_minus___collect_variables = {
+  t_func_funky_types__multiline_minus___collect_variables, NULL, 3, 2,
+  {"95_41_result_insert_order_table\000", "94_51_self\000"}
 };
 
 static TAB_NUM t_func_funky_types__expression_and_inline_arguments___collect_variables[] = {
   4, // locals
   1, // parameters
-  LOCAL(2), // 98_66_self
+  LOCAL(2), // 98_67_self
   // funky::expression_of(self) $result_insert_order_table
   var_funky__expression_of, 1, LOCAL(2), 1, LOCAL(1),
   // collect_variables funky::expression_of(self) $result_insert_order_table
@@ -449,13 +582,21 @@ static TAB_NUM t_func_funky_types__expression_and_inline_arguments___collect_var
   POS(100, 21),
   POS(100, 3),
   POS(101, 3),
-  POS(102, 3)
+  POS(102, 3),
+  LOCAL(2),
+  LOCAL(4),
+  LOCAL(3)
+};
+
+static FUNCTION_INFO i_func_funky_types__expression_and_inline_arguments___collect_variables = {
+  t_func_funky_types__expression_and_inline_arguments___collect_variables, NULL, 6, 3,
+  {"98_67_self\000", "100_48_arguments_result_insert_order_table\000", "99_49_result_insert_order_table\000"}
 };
 
 static TAB_NUM t_func_funky_types__string_literal___collect_variables[] = {
   3, // locals
   1, // parameters
-  LOCAL(2), // 104_49_self
+  LOCAL(2), // 104_50_self
   // funky::components_of(self) $result_insert_order_table collect_variables merge_variables empty_insert_order_table
   var_funky__components_of, 1, LOCAL(2), 1, LOCAL(1),
   // map_reduce funky::components_of(self) $result_insert_order_table collect_variables merge_variables empty_insert_order_table
@@ -464,13 +605,20 @@ static TAB_NUM t_func_funky_types__string_literal___collect_variables[] = {
   LET, 1, LOCAL(3), TAIL_CALL,
   POS(105, 14),
   POS(105, 3),
-  POS(106, 3)
+  POS(106, 3),
+  LOCAL(2),
+  LOCAL(3)
+};
+
+static FUNCTION_INFO i_func_funky_types__string_literal___collect_variables = {
+  t_func_funky_types__string_literal___collect_variables, NULL, 3, 2,
+  {"104_50_self\000", "105_42_result_insert_order_table\000"}
 };
 
 static TAB_NUM t_func_funky_types__some_string_components___collect_variables[] = {
   4, // locals
   1, // parameters
-  LOCAL(2), // 108_57_self
+  LOCAL(2), // 108_58_self
   // funky::component_of(self) $result_insert_order_table
   var_funky__component_of, 1, LOCAL(2), 1, LOCAL(1),
   // collect_variables funky::component_of(self) $result_insert_order_table
@@ -488,13 +636,21 @@ static TAB_NUM t_func_funky_types__some_string_components___collect_variables[] 
   POS(110, 14),
   POS(110, 3),
   POS(111, 3),
-  POS(112, 3)
+  POS(112, 3),
+  LOCAL(2),
+  LOCAL(4),
+  LOCAL(3)
+};
+
+static FUNCTION_INFO i_func_funky_types__some_string_components___collect_variables = {
+  t_func_funky_types__some_string_components___collect_variables, NULL, 6, 3,
+  {"108_58_self\000", "110_42_components_result_insert_order_table\000", "109_48_result_insert_order_table\000"}
 };
 
 static TAB_NUM t_func_funky_types__some_string_line_components___collect_variables[] = {
   4, // locals
   1, // parameters
-  LOCAL(2), // 114_62_self
+  LOCAL(2), // 114_63_self
   // funky::component_of(self) $result_insert_order_table
   var_funky__component_of, 1, LOCAL(2), 1, LOCAL(1),
   // collect_variables funky::component_of(self) $result_insert_order_table
@@ -512,13 +668,21 @@ static TAB_NUM t_func_funky_types__some_string_line_components___collect_variabl
   POS(116, 14),
   POS(116, 3),
   POS(117, 3),
-  POS(118, 3)
+  POS(118, 3),
+  LOCAL(3),
+  LOCAL(4),
+  LOCAL(2)
+};
+
+static FUNCTION_INFO i_func_funky_types__some_string_line_components___collect_variables = {
+  t_func_funky_types__some_string_line_components___collect_variables, NULL, 6, 3,
+  {"115_48_result_insert_order_table\000", "116_42_components_result_insert_order_table\000", "114_63_self\000"}
 };
 
 static TAB_NUM t_func_funky_types__inline_body___collect_variables[] = {
   4, // locals
   1, // parameters
-  LOCAL(2), // 120_46_self
+  LOCAL(2), // 120_47_self
   // funky::parameters_of(self) $result_insert_order_table collect_variables merge_variables empty_insert_order_table
   var_funky__parameters_of, 1, LOCAL(2), 1, LOCAL(1),
   // map_reduce funky::parameters_of(self) $result_insert_order_table collect_variables merge_variables empty_insert_order_table
@@ -536,13 +700,21 @@ static TAB_NUM t_func_funky_types__inline_body___collect_variables[] = {
   POS(122, 21),
   POS(122, 3),
   POS(123, 3),
-  POS(124, 3)
+  POS(124, 3),
+  LOCAL(3),
+  LOCAL(4),
+  LOCAL(2)
+};
+
+static FUNCTION_INFO i_func_funky_types__inline_body___collect_variables = {
+  t_func_funky_types__inline_body___collect_variables, NULL, 6, 3,
+  {"121_42_result_insert_order_table\000", "122_48_statement_result_insert_order_table\000", "120_47_self\000"}
 };
 
 static TAB_NUM t_func_funky_types__statements___collect_variables[] = {
   3, // locals
   1, // parameters
-  LOCAL(2), // 126_45_self
+  LOCAL(2), // 126_46_self
   // funky::statement_of(self) $result_insert_order_table collect_variables merge_variables empty_insert_order_table
   var_funky__statement_of, 1, LOCAL(2), 1, LOCAL(1),
   // map_reduce funky::statement_of(self) $result_insert_order_table collect_variables merge_variables empty_insert_order_table
@@ -551,13 +723,20 @@ static TAB_NUM t_func_funky_types__statements___collect_variables[] = {
   LET, 1, LOCAL(3), TAIL_CALL,
   POS(127, 14),
   POS(127, 3),
-  POS(128, 3)
+  POS(128, 3),
+  LOCAL(2),
+  LOCAL(3)
+};
+
+static FUNCTION_INFO i_func_funky_types__statements___collect_variables = {
+  t_func_funky_types__statements___collect_variables, NULL, 3, 2,
+  {"126_46_self\000", "127_41_result_insert_order_table\000"}
 };
 
 static TAB_NUM t_func_funky_types__one_or_more_inline_parameters___collect_variables[] = {
   4, // locals
   1, // parameters
-  LOCAL(2), // 130_64_self
+  LOCAL(2), // 130_65_self
   // funky::parameter_of(self) $result_insert_order_table
   var_funky__parameter_of, 1, LOCAL(2), 1, LOCAL(1),
   // collect_variables funky::parameter_of(self) $result_insert_order_table
@@ -575,13 +754,21 @@ static TAB_NUM t_func_funky_types__one_or_more_inline_parameters___collect_varia
   POS(132, 21),
   POS(132, 3),
   POS(133, 3),
-  POS(134, 3)
+  POS(134, 3),
+  LOCAL(4),
+  LOCAL(2),
+  LOCAL(3)
+};
+
+static FUNCTION_INFO i_func_funky_types__one_or_more_inline_parameters___collect_variables = {
+  t_func_funky_types__one_or_more_inline_parameters___collect_variables, NULL, 6, 3,
+  {"132_49_parameters_result_insert_order_table\000", "130_65_self\000", "131_48_result_insert_order_table\000"}
 };
 
 static TAB_NUM t_func_funky_types__open_parameters___collect_variables[] = {
   3, // locals
   1, // parameters
-  LOCAL(2), // 136_50_self
+  LOCAL(2), // 136_51_self
   // funky::parameter_of(self) $result_insert_order_table collect_variables merge_variables empty_insert_order_table
   var_funky__parameter_of, 1, LOCAL(2), 1, LOCAL(1),
   // map_reduce funky::parameter_of(self) $result_insert_order_table collect_variables merge_variables empty_insert_order_table
@@ -590,13 +777,20 @@ static TAB_NUM t_func_funky_types__open_parameters___collect_variables[] = {
   LET, 1, LOCAL(3), TAIL_CALL,
   POS(137, 14),
   POS(137, 3),
-  POS(138, 3)
+  POS(138, 3),
+  LOCAL(3),
+  LOCAL(2)
+};
+
+static FUNCTION_INFO i_func_funky_types__open_parameters___collect_variables = {
+  t_func_funky_types__open_parameters___collect_variables, NULL, 3, 2,
+  {"137_41_result_insert_order_table\000", "136_51_self\000"}
 };
 
 static TAB_NUM t_func_funky_types__initial_value___collect_variables[] = {
   3, // locals
   1, // parameters
-  LOCAL(2), // 140_48_self
+  LOCAL(2), // 140_49_self
   // funky::operand_of(self) $result_insert_order_table
   var_funky__operand_of, 1, LOCAL(2), 1, LOCAL(1),
   // collect_variables funky::operand_of(self) $result_insert_order_table
@@ -605,37 +799,44 @@ static TAB_NUM t_func_funky_types__initial_value___collect_variables[] = {
   LET, 1, LOCAL(3), TAIL_CALL,
   POS(141, 21),
   POS(141, 3),
-  POS(142, 3)
+  POS(142, 3),
+  LOCAL(3),
+  LOCAL(2)
+};
+
+static FUNCTION_INFO i_func_funky_types__initial_value___collect_variables = {
+  t_func_funky_types__initial_value___collect_variables, NULL, 3, 2,
+  {"141_46_result_insert_order_table\000", "140_49_self\000"}
 };
 
 static FUNKY_CONSTANT constants_table[] = {
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std_types__undefined___collect_variables}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_funky_types__node___collect_variables}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_funky_types__identifier_and_expression___collect_variables}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_funky_types__simple_expression___collect_variables}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_funky_types__inline_statement___collect_variables}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_funky_types__function_call_extension___collect_variables}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_funky_types__attribute_access_extension___collect_variables}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_funky_types__inline_function_call_extension___collect_variables}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_funky_types__inline_attribute_access_extension___collect_variables}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_funky_types__function_call___collect_variables}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_funky_types__spaced_arguments___collect_variables}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_funky_types__spaced_statement_arguments___collect_variables}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_funky_types__arguments___collect_variables}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_funky_types__even_more_statement_arguments___collect_variables}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_funky_types__remark_and_multiline_function_call___collect_variables}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_funky_types__expression___collect_variables}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_funky_types__parenthesed_expression___collect_variables}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_funky_types__multiline_minus___collect_variables}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_funky_types__expression_and_inline_arguments___collect_variables}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_funky_types__string_literal___collect_variables}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_funky_types__some_string_components___collect_variables}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_funky_types__some_string_line_components___collect_variables}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_funky_types__inline_body___collect_variables}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_funky_types__statements___collect_variables}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_funky_types__one_or_more_inline_parameters___collect_variables}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_funky_types__open_parameters___collect_variables}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_funky_types__initial_value___collect_variables}}
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std_types__undefined___collect_variables}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_funky_types__node___collect_variables}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_funky_types__identifier_and_expression___collect_variables}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_funky_types__simple_expression___collect_variables}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_funky_types__inline_statement___collect_variables}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_funky_types__function_call_extension___collect_variables}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_funky_types__attribute_access_extension___collect_variables}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_funky_types__inline_function_call_extension___collect_variables}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_funky_types__inline_attribute_access_extension___collect_variables}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_funky_types__function_call___collect_variables}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_funky_types__spaced_arguments___collect_variables}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_funky_types__spaced_statement_arguments___collect_variables}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_funky_types__arguments___collect_variables}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_funky_types__even_more_statement_arguments___collect_variables}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_funky_types__remark_and_multiline_function_call___collect_variables}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_funky_types__expression___collect_variables}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_funky_types__parenthesed_expression___collect_variables}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_funky_types__multiline_minus___collect_variables}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_funky_types__expression_and_inline_arguments___collect_variables}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_funky_types__string_literal___collect_variables}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_funky_types__some_string_components___collect_variables}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_funky_types__some_string_line_components___collect_variables}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_funky_types__inline_body___collect_variables}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_funky_types__statements___collect_variables}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_funky_types__one_or_more_inline_parameters___collect_variables}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_funky_types__open_parameters___collect_variables}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_funky_types__initial_value___collect_variables}}
 };
 
 static ATTRIBUTE_DEFINITION std_types__undefined__attributes[] = {
@@ -994,7 +1195,7 @@ FUNKY_MODULE module__collect_variables_autogen = {
   "collect_variables_autogen.fky", // module filename
   .major_version = 0,
   .minor_version = 0,
-  .feature_flags = FEAT_POSITIONS,
+  .feature_flags = FEAT_POSITIONS|FEAT_FUNCTION_INFO,
   .marker = 0,
   0, // number of required modules
   0, // number of defined namespaces

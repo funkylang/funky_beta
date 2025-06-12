@@ -754,7 +754,7 @@ int is_a_zero_width_character(uint32_t chr);
 int is_a_wide_character(uint32_t chr);
 NODE *register_unique_item(const char *name);
 
-void *create__std_types___error
+void *create__std_types__error
   (
     NODE *category,
     MESSAGE_TEXT *message,
@@ -765,92 +765,92 @@ void *create__std_types___error
     FUNC_DATA *data
   );
 
-void *create__std_types___list
+void *create__std_types__list
   (
     long offset,
     long length,
     LIST_DATA *data
   );
 
-void *create__builtin_types___positive_integer
+void *create__builtin_types__positive_integer
   (
     uint64_t value
   );
 
-void *create__builtin_types___negative_integer
+void *create__builtin_types__negative_integer
   (
     uint64_t value
   );
-void std_types___error____type (void);
-void std_types___undefined____type (void);
-void std_types___list____type (void);
-void builtin_types___positive_integer____type (void);
-void builtin_types___negative_integer____type (void);
-extern SIMPLE_NODE std_types___generic_array;
-extern ARRAY std_types___array;
-extern BOOLEAN_ARRAY std_types___boolean_array;
-extern CHARACTER_ARRAY std_types___character_array;
-extern INT8_ARRAY std_types___int8_array;
-extern UINT8_ARRAY std_types___uint8_array;
-extern INT16_ARRAY std_types___int16_array;
-extern UINT16_ARRAY std_types___uint16_array;
-extern INT32_ARRAY std_types___int32_array;
-extern UINT32_ARRAY std_types___uint32_array;
-extern INT64_ARRAY std_types___int64_array;
-extern UINT64_ARRAY std_types___uint64_array;
-extern FLOAT32_ARRAY std_types___float32_array;
-extern FLOAT64_ARRAY std_types___float64_array;
-extern SIMPLE_NODE std_types___true;
-extern SIMPLE_NODE std_types___false;
+void std_types__error___type (void);
+void std_types__undefined___type (void);
+void std_types__list___type (void);
+void builtin_types__positive_integer___type (void);
+void builtin_types__negative_integer___type (void);
+extern SIMPLE_NODE std_types__generic_array;
+extern ARRAY std_types__array;
+extern BOOLEAN_ARRAY std_types__boolean_array;
+extern CHARACTER_ARRAY std_types__character_array;
+extern INT8_ARRAY std_types__int8_array;
+extern UINT8_ARRAY std_types__uint8_array;
+extern INT16_ARRAY std_types__int16_array;
+extern UINT16_ARRAY std_types__uint16_array;
+extern INT32_ARRAY std_types__int32_array;
+extern UINT32_ARRAY std_types__uint32_array;
+extern INT64_ARRAY std_types__int64_array;
+extern UINT64_ARRAY std_types__uint64_array;
+extern FLOAT32_ARRAY std_types__float32_array;
+extern FLOAT64_ARRAY std_types__float64_array;
+extern SIMPLE_NODE std_types__true;
+extern SIMPLE_NODE std_types__false;
 extern C_FUNCTION c_function;
-extern CHARACTER std_types___character;
-extern DATE_AND_TIME std_types___date_and_time;
-extern ERROR std_types___error;
-extern SIMPLE_NODE std_types___object;
-extern SIMPLE_NODE std_types___undefined;
-extern SIMPLE_NODE std_types___function;
+extern CHARACTER std_types__character;
+extern DATE_AND_TIME std_types__date_and_time;
+extern ERROR std_types__error;
+extern SIMPLE_NODE std_types__object;
+extern SIMPLE_NODE std_types__undefined;
+extern SIMPLE_NODE std_types__function;
 extern TABULAR_FUNCTION tabular_function;
-extern SIMPLE_NODE std_types___generic_list;
-extern LIST std_types___list;
-extern SIMPLE_NODE std_types___number;
-extern INTEGER std_types___integer;
-extern POSITIVE_INTEGER builtin_types___positive_integer;
-extern NEGATIVE_INTEGER builtin_types___negative_integer;
-extern REAL std_types___real;
-extern SIMPLE_NODE std_types___polymorphic_function;
-extern SIMPLE_NODE std_types___polymorphic_function_with_setter;
-extern FILE_TYPE std_types___file_type;
-extern FILE_DESCRIPTOR std_types___file_descriptor;
-extern SIGNAL_NUMBER std_types___signal_number;
-extern SHUTDOWN_TYPE std_types___shutdown_type;
-extern SEEK_TYPE std_types___seek_type;
-extern DEVICE_ID std_types___device_id;
-extern DIRECTORY std_types___directory;
-extern GROUP_ID std_types___group_id;
-extern INODE_NUMBER std_types___inode_number;
-extern PROCESS_ID std_types___process_id;
-extern USER_ID std_types___user_id;
-extern ERROR_NUMBER std_types___error_number;
-extern SIMPLE_NODE std_types___passwd;
-extern SIMPLE_NODE std_types___stat;
-extern SIMPLE_NODE std_types___dirent;
-extern SIMPLE_NODE std_types___string;
-extern OCTET_STRING std_types___octet_string;
-extern WIDE_STRING std_types___wide_string;
-extern TERMINAL_ATTRIBUTES std_types___terminal_attributes;
-extern SIMPLE_NODE std_types___tuple;
-extern TUPLE2 builtin_types___tuple2;
-extern TUPLE3 builtin_types___tuple3;
-extern TUPLE4 builtin_types___tuple4;
-extern TUPLE5 builtin_types___tuple5;
-extern TUPLE6 builtin_types___tuple6;
-extern TUPLE7 builtin_types___tuple7;
-extern TUPLE8 builtin_types___tuple8;
-extern UNIQUE_ITEM std_types___unique_item;
-extern SHARED_MEMORY std_types___shared_memory;
-extern TUPLE2 std_types___key_value_pair;
-extern LIST std___empty_list;
-extern LIST std_types___sequence;
-extern TUPLE2 std_types___value_range;
+extern SIMPLE_NODE std_types__generic_list;
+extern LIST std_types__list;
+extern SIMPLE_NODE std_types__number;
+extern INTEGER std_types__integer;
+extern POSITIVE_INTEGER builtin_types__positive_integer;
+extern NEGATIVE_INTEGER builtin_types__negative_integer;
+extern REAL std_types__real;
+extern SIMPLE_NODE std_types__polymorphic_function;
+extern SIMPLE_NODE std_types__polymorphic_function_with_setter;
+extern FILE_TYPE std_types__file_type;
+extern FILE_DESCRIPTOR std_types__file_descriptor;
+extern SIGNAL_NUMBER std_types__signal_number;
+extern SHUTDOWN_TYPE std_types__shutdown_type;
+extern SEEK_TYPE std_types__seek_type;
+extern DEVICE_ID std_types__device_id;
+extern DIRECTORY std_types__directory;
+extern GROUP_ID std_types__group_id;
+extern INODE_NUMBER std_types__inode_number;
+extern PROCESS_ID std_types__process_id;
+extern USER_ID std_types__user_id;
+extern ERROR_NUMBER std_types__error_number;
+extern SIMPLE_NODE std_types__passwd;
+extern SIMPLE_NODE std_types__stat;
+extern SIMPLE_NODE std_types__dirent;
+extern SIMPLE_NODE std_types__string;
+extern OCTET_STRING std_types__octet_string;
+extern WIDE_STRING std_types__wide_string;
+extern TERMINAL_ATTRIBUTES std_types__terminal_attributes;
+extern SIMPLE_NODE std_types__tuple;
+extern TUPLE2 builtin_types__tuple2;
+extern TUPLE3 builtin_types__tuple3;
+extern TUPLE4 builtin_types__tuple4;
+extern TUPLE5 builtin_types__tuple5;
+extern TUPLE6 builtin_types__tuple6;
+extern TUPLE7 builtin_types__tuple7;
+extern TUPLE8 builtin_types__tuple8;
+extern UNIQUE_ITEM std_types__unique_item;
+extern SHARED_MEMORY std_types__shared_memory;
+extern TUPLE2 std_types__key_value_pair;
+extern LIST std__empty_list;
+extern LIST std_types__sequence;
+extern TUPLE2 std_types__value_range;
 
 extern FUNKY_MODULE module__builtin;

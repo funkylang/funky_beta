@@ -204,7 +204,7 @@ $std::read_from_until:
       -> true:
 	append &data buf
 	if!
-	  buf .has_suffix. sentinel:
+	  data .has_suffix. sentinel:
 	    dec &nth
 	    if!
 	      nth > 0
@@ -314,9 +314,9 @@ $std_types::io/load:
     id
     filename
     max_length = undefined
-    data = filename # the default data to return
+    context = filename
   )
-  run io load_file id filename max_length data
+  run io load_file id filename max_length context
 
 $load_file: (io id filename max_length data)
   open! $fd filename "r"
@@ -366,15 +366,13 @@ $file_closed_after_reading: (io fd _dummy data)
   !io.id_of(fd) undefined
   -> io tuple(JOB_COMPLETED id buf data)
 
-$NONE .
-
 $std_types::io/save:
   (
     io
     id
     filename
     data
-    context = NONE
+    context = undefined
   )
   run io save_file id filename data context
 
@@ -386,7 +384,7 @@ $save_file: (io id filename data context)
     :
       write &io fd data
       !io.id_of(fd) id
-      update_if NONE == context &context -> filename
+      update_if context.is_undefined &context -> filename
       register_handlers &io fd
 	WRITE_COMPLETED = tuple(write_completed context)
 	WRITE_FAILED = tuple(write_failed context)
@@ -570,7 +568,7 @@ $std_types::io/call:
     id
     cmd
     args
-    context = NONE
+    context = undefined
   )
   run io start_process id cmd args context
 
@@ -653,7 +651,7 @@ $std_types::file_descriptor/serialize:
 
 $std_types::file_descriptor.deserializer_of:
   (
-    _type
+    _tag
     argument
   )
   -> file_descriptor(integer(argument))
@@ -680,7 +678,7 @@ $std_types::process_id/serialize:
 
 $std_types::process_id.deserializer_of:
   (
-    _type
+    _tag
     argument
   )
   -> process_id(integer(argument))

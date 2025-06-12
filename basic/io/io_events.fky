@@ -582,7 +582,10 @@ $std_types::io/get_events:
     !timeout timeout_of(self)
     if
       timeout.is_defined || first_job_time.is_defined:
-	update_if timeout.is_undefined || first_job_time < timeout
+	update_if
+	  ||
+	    timeout.is_undefined
+	    first_job_time.is_defined && first_job_time < timeout
 	  &timeout -> first_job_time
 	!self.timeout_of undefined
 	!timeout max(timeout-t 0)

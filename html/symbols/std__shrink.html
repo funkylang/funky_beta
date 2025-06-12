@@ -1,3 +1,4 @@
+<!doctype html>
 <html>
 <head>
 <title>std::shrink</title>
@@ -8,22 +9,19 @@
 <a class="Button" href="../index.html">Home</a> <a class="Button" href="../manual.html">Manual</a> <a class="Button" href="../topics/index.html">Topics</a> <a class="Button" href="type_index.html">Types</a> <a class="Button" href="function_index.html">Functions</a> <a class="Button" href="objects_index.html">Objects</a> <a class="Button" href="constants_index.html">Constants</a> <a class="Button" href="index.html">All</a>
 </div>
 <h1 class="pre">std::shrink</h1>
-<p class="short">shrinks a window</p>
+<p class="short">minimizes a window</p>
 <h2>Parameters</h2>
 <dl>
-<dt>window_manager</dt>
-<dd>a window manager</dd>
-<dt>id</dt>
-<dd>the id of the window to shrink</dd>
+<dt>self</dt>
+<dd>the window to minimize</dd>
 </dl>
 <h2>Result</h2>
 <dl>
-<dt>window_manager</dt>
-<dd>the updated window manager</dd>
+<dt>the updated window</dt>
+<dd></dd>
 </dl>
 <h2>Description</h2>
-<p>If no id is given then the focused window is shrinked.</p>
-<p>If a window is set to MINIMIZED then at least one other window must be set to DEFAULT or MAXIMIZED.</p>
+<p>Minimizes the window.</p>
 <h2>Topic</h2>
 <table><tr><td><a href="../topics/Window_Manager.html">Window Manager</a></td></tr></table>
 <h2>See also</h2>
@@ -32,114 +30,17 @@
   <td><a href="std__enlarge.html">std::enlarge</a></td>
   <td class="description">enlarges a window</td>
 </tr>
-<tr>
-  <td><a href="std__move_left.html">std::move_left</a></td>
-  <td class="description">moves the content of a window to the left</td>
-</tr>
-<tr>
-  <td><a href="std__move_right.html">std::move_right</a></td>
-  <td class="description">moves the content of a window to the right</td>
-</tr>
-<tr>
-  <td><a href="std__move_up.html">std::move_up</a></td>
-  <td class="description">moves the content of a window up</td>
-</tr>
-<tr>
-  <td><a href="std__move_down.html">std::move_down</a></td>
-  <td class="description">moves the content of a window down</td>
-</tr>
-<tr>
-  <td><a href="std__move_page_up.html">std::move_page_up</a></td>
-  <td class="description">moves the first visible row of a window up by one page</td>
-</tr>
-<tr>
-  <td><a href="std__move_page_down.html">std::move_page_down</a></td>
-  <td class="description">moves the content of a window down by one page</td>
-</tr>
-<tr>
-  <td><a href="std__move_home.html">std::move_home</a></td>
-  <td class="description">moves the first visible column to the leftmost column</td>
-</tr>
-<tr>
-  <td><a href="std__move_end.html">std::move_end</a></td>
-  <td class="description">moves the first visible column to the end</td>
-</tr>
-<tr>
-  <td><a href="std__move_top.html">std::move_top</a></td>
-  <td class="description">moves a window to the top</td>
-</tr>
-<tr>
-  <td><a href="std__move_bottom.html">std::move_bottom</a></td>
-  <td class="description">moves the content of a window to the bottom</td>
-</tr>
-<tr>
-  <td><a href="std__window_count_of.html">std::window_count_of</a></td>
-  <td class="description">returns the number of windows</td>
-</tr>
-<tr>
-  <td><a href="std__set_title.html">std::set_title</a></td>
-  <td class="description">sets the title of a window</td>
-</tr>
-<tr>
-  <td><a href="std__get_title.html">std::get_title</a></td>
-  <td class="description">returns the title of a window</td>
-</tr>
-<tr>
-  <td><a href="std__set_buttons.html">std::set_buttons</a></td>
-  <td class="description">sets the buttons of a window</td>
-</tr>
-<tr>
-  <td><a href="std__get_buttons.html">std::get_buttons</a></td>
-  <td class="description">returns the additional buttons of a window</td>
-</tr>
-<tr>
-  <td><a href="std__set_content.html">std::set_content</a></td>
-  <td class="description">sets the content of a window</td>
-</tr>
-<tr>
-  <td><a href="std__get_content.html">std::get_content</a></td>
-  <td class="description">returns the content of a window</td>
-</tr>
-<tr>
-  <td><a href="std__get_window_at.html">std::get_window_at</a></td>
-  <td class="description">returns the window at the given position</td>
-</tr>
-<tr>
-  <td><a href="std__focus_next_window.html">std::focus_next_window</a></td>
-  <td class="description">focuses the next window</td>
-</tr>
-<tr>
-  <td><a href="std__focus_previous_window.html">std::focus_previous_window</a></td>
-  <td class="description">focuses the previous window</td>
-</tr>
-<tr>
-  <td><a href="std__focus_window.html">std::focus_window</a></td>
-  <td class="description">focuses a window</td>
-</tr>
-<tr>
-  <td><a href="std__set_selection.html">std::set_selection</a></td>
-  <td class="description">sets the selection of a window</td>
-</tr>
-<tr>
-  <td><a href="std__unset_selection.html">std::unset_selection</a></td>
-  <td class="description">unsets the selection of a window</td>
-</tr>
 </table>
-<h2>Example</h2>
-<div class="Example">$wm <a href="std__create_window_manager.html">create_window_manager</a>(terminal)
-$id <a href="std__create_window.html">create_window</a>(&wm "My Window" <a href="std__CONTENT.html">CONTENT</a> "Hello, World!")
-<a href="std__shrink.html">shrink</a> &wm id
-</div>
 <h2>Implementations</h2>
 <table>
 <tr>
 <td><a href="std_types__window_manager/std__shrink.html">std_types::window_manager</a></td>
-<td class="description">shrinks the specified window</td>
+<td class="description">minimizes a window</td>
 </tr>
 </table>
 <div class="footer">(defined in <a href="../source/terminal/window_manager.fky">terminal/window_manager.fky</a>)</div>
-<div class="footer">(generated by Codestral-22B-v0.1-Q5_K_M.gguf)</div>
-<div class="footer">(2024-07-20 18:15:02)</div>
-<div class="footer">(<a href="../prompts/symbols/std__shrink.prompt">prompt</a>)</div>
+<div class="footer">(generated by Qwen_Qwen3-30B-A3B-Q4_K_M.gguf)</div>
+<div class="footer">(rating 5)</div>
+<div class="footer">(2025-05-29 14:28:24)</div>
 </body>
 </html>

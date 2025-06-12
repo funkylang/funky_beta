@@ -49,60 +49,60 @@ enum {
   str_times = -40,
   str_version = -41,
   str_xor = -42,
-  list_60_0 = -43,
-  list_64_0 = -44,
-  list_69_0 = -45,
-  list_73_0 = -46,
-  list_80_0 = -47,
+  list_60_3 = -43,
+  list_64_3 = -44,
+  list_69_3 = -45,
+  list_73_3 = -46,
+  list_80_3 = -47,
   str_inline_statement = -48,
   str_attribute_value = -49,
   str_type_function = -50,
   str_method_value_pai = -51,
-  list_98_0 = -52,
+  list_98_3 = -52,
   str_namespace_instru = -53,
   str_require_instruct = -54,
-  list_106_0 = -55,
+  list_106_3 = -55,
   str_using_instructio = -56,
   str_alias_instructio = -57,
-  list_114_0 = -58,
+  list_114_3 = -58,
   str_resolve_instruct = -59,
   str_allow_instructio = -60,
-  list_124_0 = -61,
+  list_124_3 = -61,
   str_version_no = -62,
-  list_132_0 = -63,
+  list_132_3 = -63,
   str_unstable = -64,
   str_allow_hidden = -65,
   str_allow_unused = -66,
   str_functor = -67,
-  list_144_0 = -68,
+  list_144_3 = -68,
   str_function_call_ex = -69,
-  list_150_0 = -70,
+  list_150_3 = -70,
   str_attribute_access = -71,
-  list_156_0 = -72,
+  list_156_3 = -72,
   str_inline_functor = -73,
   str_inline_function = -74,
   str_inline_attribute = -75,
   str_io_call = -76,
   str_function_call = -77,
-  list_178_0 = -78,
+  list_178_3 = -78,
   str_function_call_ar = -79,
   str_inline_return = -80,
   str_attribute_access_2 = -81,
-  list_187_0 = -82,
+  list_187_3 = -82,
   str_spaced_arguments = -83,
   str_spaced_statement = -84,
-  list_202_0 = -85,
+  list_202_3 = -85,
   str_even_more_statem = -86,
   str_multiline_argume = -87,
   str_tagged_multiline = -88,
   str_remark_and_multi = -89,
-  list_218_0 = -90,
+  list_218_3 = -90,
   str_dummy_definition = -91,
   str_variable = -92,
   str_definition = -93,
   str_redefinition = -94,
   str_update = -95,
-  list_234_0 = -96,
+  list_234_3 = -96,
   str_key_value = -97,
   str_sequence_express = -98,
   str_comma = -99,
@@ -141,7 +141,7 @@ enum {
   str_times_2 = -132,
   str_over_2 = -133,
   str_parenthesed_expr = -134,
-  list_322_0 = -135,
+  list_322_3 = -135,
   str_backquoted = -136,
   str_negation = -137,
   str_multiline_operat = -138,
@@ -169,21 +169,21 @@ enum {
   str_inline_attribute_2 = -160,
   str_inline_method_va = -161,
   str_expression_and_i = -162,
-  list_384_0 = -163,
+  list_384_3 = -163,
   str_spaced_inline_ar = -164,
   str_numeric_literal = -165,
-  list_392_0 = -166,
+  list_392_3 = -166,
   str_at_character_lit = -167,
   str_named_character = -168,
   str_numeric_characte = -169,
   str_character_litera = -170,
-  list_403_0 = -171,
+  list_403_3 = -171,
   str_string_literal = -172,
-  list_408_0 = -173,
+  list_408_3 = -173,
   str_some_string_comp = -174,
-  list_413_0 = -175,
+  list_413_3 = -175,
   str_character_sequen = -176,
-  list_419_0 = -177,
+  list_419_3 = -177,
   str_multiline_string = -178,
   str_newline = -179,
   str_some_string_line = -180,
@@ -196,36 +196,36 @@ enum {
   str_numeric_characte_2 = -187,
   str_string_line_char = -188,
   str_unique = -189,
-  list_450_0 = -190,
+  list_450_3 = -190,
   str_attribute = -191,
   str_attribute_with_s = -192,
-  list_459_0 = -193,
+  list_459_3 = -193,
   str_line_end_stateme = -194,
   str_inline_body = -195,
-  list_468_0 = -196,
-  list_474_0 = -197,
+  list_468_3 = -196,
+  list_474_3 = -197,
   str_one_or_more_inli = -198,
-  list_479_0 = -199,
+  list_479_3 = -199,
   str_open_parameters = -200,
-  list_485_0 = -201,
+  list_485_3 = -201,
   str_inline_parameter = -202,
-  list_491_0 = -203,
-  list_497_0 = -204,
+  list_491_3 = -203,
+  list_497_3 = -204,
   str_myself = -205,
   str_rest = -206,
   str_initial_value = -207,
-  list_508_0 = -208,
+  list_508_3 = -208,
   str_close_parameters = -209,
-  list_513_0 = -210,
+  list_513_3 = -210,
   str_return_expressio = -211,
   str_return = -212,
-  list_522_0 = -213,
+  list_522_3 = -213,
   str_line_end_and_lin = -214,
-  list_527_0 = -215,
+  list_527_3 = -215,
   str_line_remarks = -216,
   str_spaced_remark = -217,
   str_multiline_remark = -218,
-  list_540_0 = -219,
+  list_540_3 = -219,
   str_remark_lines = -220,
   str_dummy_remark = -221
 };
@@ -443,155 +443,155 @@ enum {
 };
 
 
-static int list_60_0_arguments[] = {
+static int list_60_3_arguments[] = {
   -var_funky__name_of
 };
 
-static int list_64_0_arguments[] = {
+static int list_64_3_arguments[] = {
   -var_funky__identifier_of, -var_funky__expression_of
 };
 
-static int list_69_0_arguments[] = {
+static int list_69_3_arguments[] = {
   -var_funky__expression_of
 };
 
-static int list_73_0_arguments[] = {
+static int list_73_3_arguments[] = {
   -var_funky__name_of, -var_funky__version_of, -var_funky__remarks_of
 };
 
-static int list_80_0_arguments[] = {
+static int list_80_3_arguments[] = {
   -var_funky__head_of, -var_funky__arguments_of
 };
 
-static int list_98_0_arguments[] = {
+static int list_98_3_arguments[] = {
   -var_funky__identifier_of, -var_funky__argument_of
 };
 
-static int list_106_0_arguments[] = {
+static int list_106_3_arguments[] = {
   -var_funky__filename_of, -var_funky__remarks_of
 };
 
-static int list_114_0_arguments[] = {
+static int list_114_3_arguments[] = {
   -var_funky__alias_of, -var_funky__sign_of, -var_funky__name_of, -var_funky__remarks_of
 };
 
-static int list_124_0_arguments[] = {
+static int list_124_3_arguments[] = {
   -var_funky__pragma_of, -var_funky__remarks_of
 };
 
-static int list_132_0_arguments[] = {
+static int list_132_3_arguments[] = {
   -var_funky__major_of, -var_funky__minor_of
 };
 
-static int list_144_0_arguments[] = {
+static int list_144_3_arguments[] = {
   -var_funky__identifier_of, -var_funky__extensions_of
 };
 
-static int list_150_0_arguments[] = {
+static int list_150_3_arguments[] = {
   -var_funky__call_of, -var_funky__extensions_of
 };
 
-static int list_156_0_arguments[] = {
+static int list_156_3_arguments[] = {
   -var_funky__access_of, -var_funky__extensions_of
 };
 
-static int list_178_0_arguments[] = {
+static int list_178_3_arguments[] = {
   -var_funky__arguments_of
 };
 
-static int list_187_0_arguments[] = {
+static int list_187_3_arguments[] = {
   -var_funky__identifier_of
 };
 
-static int list_202_0_arguments[] = {
+static int list_202_3_arguments[] = {
   -var_funky__argument_of, -var_funky__arguments_of
 };
 
-static int list_218_0_arguments[] = {
+static int list_218_3_arguments[] = {
   -var_funky__remark_of, -var_funky__arguments_of
 };
 
-static int list_234_0_arguments[] = {
+static int list_234_3_arguments[] = {
   -var_funky__expression_of, -var_funky__operator_of
 };
 
-static int list_322_0_arguments[] = {
+static int list_322_3_arguments[] = {
   -var_funky__expression_of, -var_funky__calls_of
 };
 
-static int list_384_0_arguments[] = {
+static int list_384_3_arguments[] = {
   -var_funky__expression_of, -var_funky__arguments_of
 };
 
-static int list_392_0_arguments[] = {
+static int list_392_3_arguments[] = {
   -var_funky__digits_of
 };
 
-static int list_403_0_arguments[] = {
+static int list_403_3_arguments[] = {
   -var_funky__character_of
 };
 
-static int list_408_0_arguments[] = {
+static int list_408_3_arguments[] = {
   -var_funky__components_of
 };
 
-static int list_413_0_arguments[] = {
+static int list_413_3_arguments[] = {
   -var_funky__component_of, -var_funky__components_of
 };
 
-static int list_419_0_arguments[] = {
+static int list_419_3_arguments[] = {
   -var_funky__characters_of
 };
 
-static int list_450_0_arguments[] = {
+static int list_450_3_arguments[] = {
   -var_funky__remarks_of
 };
 
-static int list_459_0_arguments[] = {
+static int list_459_3_arguments[] = {
   -var_funky__parameters_of, -var_funky__remark_of, -var_funky__statements_of
 };
 
-static int list_468_0_arguments[] = {
+static int list_468_3_arguments[] = {
   -var_funky__parameters_of, -var_funky__statement_of
 };
 
-static int list_474_0_arguments[] = {
+static int list_474_3_arguments[] = {
   -var_funky__statement_of
 };
 
-static int list_479_0_arguments[] = {
+static int list_479_3_arguments[] = {
   -var_funky__parameter_of, -var_funky__parameters_of
 };
 
-static int list_485_0_arguments[] = {
+static int list_485_3_arguments[] = {
   -var_funky__remark_of, -var_funky__parameter_of
 };
 
-static int list_491_0_arguments[] = {
+static int list_491_3_arguments[] = {
   -var_funky__name_of, -var_funky__option_of
 };
 
-static int list_497_0_arguments[] = {
+static int list_497_3_arguments[] = {
   -var_funky__name_of, -var_funky__option_of, -var_funky__remarks_of
 };
 
-static int list_508_0_arguments[] = {
+static int list_508_3_arguments[] = {
   -var_funky__operand_of
 };
 
-static int list_513_0_arguments[] = {
+static int list_513_3_arguments[] = {
   -var_funky__remark_of
 };
 
-static int list_522_0_arguments[] = {
+static int list_522_3_arguments[] = {
   -var_funky__text_of
 };
 
-static int list_527_0_arguments[] = {
+static int list_527_3_arguments[] = {
   -var_funky__remark_of, -var_funky__remarks_of
 };
 
-static int list_540_0_arguments[] = {
+static int list_540_3_arguments[] = {
   -var_funky__text_of, -var_funky__lines_of
 };
 
@@ -638,60 +638,60 @@ static FUNKY_CONSTANT constants_table[] = {
   {FLT_STRING_8, 6, {.str_8 = "times2"}},
   {FLT_STRING_8, 7, {.str_8 = "version"}},
   {FLT_STRING_8, 4, {.str_8 = "xor2"}},
-  {FLT_LIST, 1, {.arguments = list_60_0_arguments}},
-  {FLT_LIST, 2, {.arguments = list_64_0_arguments}},
-  {FLT_LIST, 1, {.arguments = list_69_0_arguments}},
-  {FLT_LIST, 3, {.arguments = list_73_0_arguments}},
-  {FLT_LIST, 2, {.arguments = list_80_0_arguments}},
+  {FLT_LIST, 1, {.arguments = list_60_3_arguments}},
+  {FLT_LIST, 2, {.arguments = list_64_3_arguments}},
+  {FLT_LIST, 1, {.arguments = list_69_3_arguments}},
+  {FLT_LIST, 3, {.arguments = list_73_3_arguments}},
+  {FLT_LIST, 2, {.arguments = list_80_3_arguments}},
   {FLT_STRING_8, 16, {.str_8 = "inline_statement"}},
   {FLT_STRING_8, 20, {.str_8 = "attribute_value_pair"}},
   {FLT_STRING_8, 13, {.str_8 = "type_function"}},
   {FLT_STRING_8, 17, {.str_8 = "method_value_pair"}},
-  {FLT_LIST, 2, {.arguments = list_98_0_arguments}},
+  {FLT_LIST, 2, {.arguments = list_98_3_arguments}},
   {FLT_STRING_8, 21, {.str_8 = "namespace_instruction"}},
   {FLT_STRING_8, 19, {.str_8 = "require_instruction"}},
-  {FLT_LIST, 2, {.arguments = list_106_0_arguments}},
+  {FLT_LIST, 2, {.arguments = list_106_3_arguments}},
   {FLT_STRING_8, 17, {.str_8 = "using_instruction"}},
   {FLT_STRING_8, 17, {.str_8 = "alias_instruction"}},
-  {FLT_LIST, 4, {.arguments = list_114_0_arguments}},
+  {FLT_LIST, 4, {.arguments = list_114_3_arguments}},
   {FLT_STRING_8, 19, {.str_8 = "resolve_instruction"}},
   {FLT_STRING_8, 17, {.str_8 = "allow_instruction"}},
-  {FLT_LIST, 2, {.arguments = list_124_0_arguments}},
+  {FLT_LIST, 2, {.arguments = list_124_3_arguments}},
   {FLT_STRING_8, 10, {.str_8 = "version_no"}},
-  {FLT_LIST, 2, {.arguments = list_132_0_arguments}},
+  {FLT_LIST, 2, {.arguments = list_132_3_arguments}},
   {FLT_STRING_8, 8, {.str_8 = "unstable"}},
   {FLT_STRING_8, 12, {.str_8 = "allow_hidden"}},
   {FLT_STRING_8, 12, {.str_8 = "allow_unused"}},
   {FLT_STRING_8, 7, {.str_8 = "functor"}},
-  {FLT_LIST, 2, {.arguments = list_144_0_arguments}},
+  {FLT_LIST, 2, {.arguments = list_144_3_arguments}},
   {FLT_STRING_8, 23, {.str_8 = "function_call_extension"}},
-  {FLT_LIST, 2, {.arguments = list_150_0_arguments}},
+  {FLT_LIST, 2, {.arguments = list_150_3_arguments}},
   {FLT_STRING_8, 26, {.str_8 = "attribute_access_extension"}},
-  {FLT_LIST, 2, {.arguments = list_156_0_arguments}},
+  {FLT_LIST, 2, {.arguments = list_156_3_arguments}},
   {FLT_STRING_8, 14, {.str_8 = "inline_functor"}},
   {FLT_STRING_8, 30, {.str_8 = "inline_function_call_extension"}},
   {FLT_STRING_8, 33, {.str_8 = "inline_attribute_access_extension"}},
   {FLT_STRING_8, 7, {.str_8 = "io_call"}},
   {FLT_STRING_8, 13, {.str_8 = "function_call"}},
-  {FLT_LIST, 1, {.arguments = list_178_0_arguments}},
+  {FLT_LIST, 1, {.arguments = list_178_3_arguments}},
   {FLT_STRING_8, 23, {.str_8 = "function_call_arguments"}},
   {FLT_STRING_8, 13, {.str_8 = "inline_return"}},
   {FLT_STRING_8, 16, {.str_8 = "attribute_access"}},
-  {FLT_LIST, 1, {.arguments = list_187_0_arguments}},
+  {FLT_LIST, 1, {.arguments = list_187_3_arguments}},
   {FLT_STRING_8, 16, {.str_8 = "spaced_arguments"}},
   {FLT_STRING_8, 26, {.str_8 = "spaced_statement_arguments"}},
-  {FLT_LIST, 2, {.arguments = list_202_0_arguments}},
+  {FLT_LIST, 2, {.arguments = list_202_3_arguments}},
   {FLT_STRING_8, 29, {.str_8 = "even_more_statement_arguments"}},
   {FLT_STRING_8, 19, {.str_8 = "multiline_arguments"}},
   {FLT_STRING_8, 26, {.str_8 = "tagged_multiline_arguments"}},
   {FLT_STRING_8, 34, {.str_8 = "remark_and_multiline_function_call"}},
-  {FLT_LIST, 2, {.arguments = list_218_0_arguments}},
+  {FLT_LIST, 2, {.arguments = list_218_3_arguments}},
   {FLT_STRING_8, 16, {.str_8 = "dummy_definition"}},
   {FLT_STRING_8, 8, {.str_8 = "variable"}},
   {FLT_STRING_8, 10, {.str_8 = "definition"}},
   {FLT_STRING_8, 12, {.str_8 = "redefinition"}},
   {FLT_STRING_8, 6, {.str_8 = "update"}},
-  {FLT_LIST, 2, {.arguments = list_234_0_arguments}},
+  {FLT_LIST, 2, {.arguments = list_234_3_arguments}},
   {FLT_STRING_8, 9, {.str_8 = "key_value"}},
   {FLT_STRING_8, 19, {.str_8 = "sequence_expression"}},
   {FLT_STRING_8, 5, {.str_8 = "comma"}},
@@ -730,7 +730,7 @@ static FUNKY_CONSTANT constants_table[] = {
   {FLT_STRING_8, 5, {.str_8 = "times"}},
   {FLT_STRING_8, 4, {.str_8 = "over"}},
   {FLT_STRING_8, 22, {.str_8 = "parenthesed_expression"}},
-  {FLT_LIST, 2, {.arguments = list_322_0_arguments}},
+  {FLT_LIST, 2, {.arguments = list_322_3_arguments}},
   {FLT_STRING_8, 10, {.str_8 = "backquoted"}},
   {FLT_STRING_8, 8, {.str_8 = "negation"}},
   {FLT_STRING_8, 18, {.str_8 = "multiline_operator"}},
@@ -758,21 +758,21 @@ static FUNKY_CONSTANT constants_table[] = {
   {FLT_STRING_8, 27, {.str_8 = "inline_attribute_value_pair"}},
   {FLT_STRING_8, 24, {.str_8 = "inline_method_value_pair"}},
   {FLT_STRING_8, 31, {.str_8 = "expression_and_inline_arguments"}},
-  {FLT_LIST, 2, {.arguments = list_384_0_arguments}},
+  {FLT_LIST, 2, {.arguments = list_384_3_arguments}},
   {FLT_STRING_8, 23, {.str_8 = "spaced_inline_arguments"}},
   {FLT_STRING_8, 15, {.str_8 = "numeric_literal"}},
-  {FLT_LIST, 1, {.arguments = list_392_0_arguments}},
+  {FLT_LIST, 1, {.arguments = list_392_3_arguments}},
   {FLT_STRING_8, 20, {.str_8 = "at_character_literal"}},
   {FLT_STRING_8, 23, {.str_8 = "named_character_literal"}},
   {FLT_STRING_8, 25, {.str_8 = "numeric_character_literal"}},
   {FLT_STRING_8, 17, {.str_8 = "character_literal"}},
-  {FLT_LIST, 1, {.arguments = list_403_0_arguments}},
+  {FLT_LIST, 1, {.arguments = list_403_3_arguments}},
   {FLT_STRING_8, 14, {.str_8 = "string_literal"}},
-  {FLT_LIST, 1, {.arguments = list_408_0_arguments}},
+  {FLT_LIST, 1, {.arguments = list_408_3_arguments}},
   {FLT_STRING_8, 22, {.str_8 = "some_string_components"}},
-  {FLT_LIST, 2, {.arguments = list_413_0_arguments}},
+  {FLT_LIST, 2, {.arguments = list_413_3_arguments}},
   {FLT_STRING_8, 18, {.str_8 = "character_sequence"}},
-  {FLT_LIST, 1, {.arguments = list_419_0_arguments}},
+  {FLT_LIST, 1, {.arguments = list_419_3_arguments}},
   {FLT_STRING_8, 24, {.str_8 = "multiline_string_literal"}},
   {FLT_STRING_8, 7, {.str_8 = "newline"}},
   {FLT_STRING_8, 27, {.str_8 = "some_string_line_components"}},
@@ -785,36 +785,36 @@ static FUNKY_CONSTANT constants_table[] = {
   {FLT_STRING_8, 17, {.str_8 = "numeric_character"}},
   {FLT_STRING_8, 30, {.str_8 = "string_line_character_sequence"}},
   {FLT_STRING_8, 6, {.str_8 = "unique"}},
-  {FLT_LIST, 1, {.arguments = list_450_0_arguments}},
+  {FLT_LIST, 1, {.arguments = list_450_3_arguments}},
   {FLT_STRING_8, 9, {.str_8 = "attribute"}},
   {FLT_STRING_8, 21, {.str_8 = "attribute_with_setter"}},
-  {FLT_LIST, 3, {.arguments = list_459_0_arguments}},
+  {FLT_LIST, 3, {.arguments = list_459_3_arguments}},
   {FLT_STRING_8, 18, {.str_8 = "line_end_statement"}},
   {FLT_STRING_8, 11, {.str_8 = "inline_body"}},
-  {FLT_LIST, 2, {.arguments = list_468_0_arguments}},
-  {FLT_LIST, 1, {.arguments = list_474_0_arguments}},
+  {FLT_LIST, 2, {.arguments = list_468_3_arguments}},
+  {FLT_LIST, 1, {.arguments = list_474_3_arguments}},
   {FLT_STRING_8, 29, {.str_8 = "one_or_more_inline_parameters"}},
-  {FLT_LIST, 2, {.arguments = list_479_0_arguments}},
+  {FLT_LIST, 2, {.arguments = list_479_3_arguments}},
   {FLT_STRING_8, 15, {.str_8 = "open_parameters"}},
-  {FLT_LIST, 2, {.arguments = list_485_0_arguments}},
+  {FLT_LIST, 2, {.arguments = list_485_3_arguments}},
   {FLT_STRING_8, 16, {.str_8 = "inline_parameter"}},
-  {FLT_LIST, 2, {.arguments = list_491_0_arguments}},
-  {FLT_LIST, 3, {.arguments = list_497_0_arguments}},
+  {FLT_LIST, 2, {.arguments = list_491_3_arguments}},
+  {FLT_LIST, 3, {.arguments = list_497_3_arguments}},
   {FLT_STRING_8, 6, {.str_8 = "myself"}},
   {FLT_STRING_8, 4, {.str_8 = "rest"}},
   {FLT_STRING_8, 13, {.str_8 = "initial_value"}},
-  {FLT_LIST, 1, {.arguments = list_508_0_arguments}},
+  {FLT_LIST, 1, {.arguments = list_508_3_arguments}},
   {FLT_STRING_8, 16, {.str_8 = "close_parameters"}},
-  {FLT_LIST, 1, {.arguments = list_513_0_arguments}},
+  {FLT_LIST, 1, {.arguments = list_513_3_arguments}},
   {FLT_STRING_8, 17, {.str_8 = "return_expression"}},
   {FLT_STRING_8, 6, {.str_8 = "return"}},
-  {FLT_LIST, 1, {.arguments = list_522_0_arguments}},
+  {FLT_LIST, 1, {.arguments = list_522_3_arguments}},
   {FLT_STRING_8, 25, {.str_8 = "line_end_and_line_remarks"}},
-  {FLT_LIST, 2, {.arguments = list_527_0_arguments}},
+  {FLT_LIST, 2, {.arguments = list_527_3_arguments}},
   {FLT_STRING_8, 12, {.str_8 = "line_remarks"}},
   {FLT_STRING_8, 13, {.str_8 = "spaced_remark"}},
   {FLT_STRING_8, 16, {.str_8 = "multiline_remark"}},
-  {FLT_LIST, 2, {.arguments = list_540_0_arguments}},
+  {FLT_LIST, 2, {.arguments = list_540_3_arguments}},
   {FLT_STRING_8, 12, {.str_8 = "remark_lines"}},
   {FLT_STRING_8, 12, {.str_8 = "dummy_remark"}}
 };
@@ -992,29 +992,29 @@ static ATTRIBUTE_DEFINITION funky_types__fieldless_node__attributes[] = {
 };
 
 static ATTRIBUTE_DEFINITION funky_types__simple_name__attributes[] = {
-  {-var_funky__node_fields_of, -list_60_0}
+  {-var_funky__node_fields_of, -list_60_3}
 };
 
 static ATTRIBUTE_DEFINITION funky_types__identifier_and_expression__attributes[] = {
-  {-var_funky__node_fields_of, -list_64_0}
+  {-var_funky__node_fields_of, -list_64_3}
 };
 
 static ATTRIBUTE_DEFINITION funky_types__simple_expression__attributes[] = {
-  {-var_funky__node_fields_of, -list_69_0}
+  {-var_funky__node_fields_of, -list_69_3}
 };
 
 static ATTRIBUTE_DEFINITION funky_types__namespace_meta_instruction__attributes[] = {
-  {-var_funky__node_fields_of, -list_73_0}
+  {-var_funky__node_fields_of, -list_73_3}
 };
 
 static ATTRIBUTE_DEFINITION funky_types__statement__attributes[] = {
   {-var_funky__node_name_of, -str_statement},
-  {-var_funky__node_fields_of, -list_80_0}
+  {-var_funky__node_fields_of, -list_80_3}
 };
 
 static ATTRIBUTE_DEFINITION funky_types__inline_statement__attributes[] = {
   {-var_funky__node_name_of, -str_inline_statement},
-  {-var_funky__node_fields_of, -list_80_0}
+  {-var_funky__node_fields_of, -list_80_3}
 };
 
 static ATTRIBUTE_DEFINITION funky_types__attribute_value_pair__attributes[] = {
@@ -1031,7 +1031,7 @@ static ATTRIBUTE_DEFINITION funky_types__method_value_pair__attributes[] = {
 
 static ATTRIBUTE_DEFINITION funky_types__pair__attributes[] = {
   {-var_funky__node_name_of, -str_pair},
-  {-var_funky__node_fields_of, -list_98_0}
+  {-var_funky__node_fields_of, -list_98_3}
 };
 
 static ATTRIBUTE_DEFINITION funky_types__namespace_instruction__attributes[] = {
@@ -1040,7 +1040,7 @@ static ATTRIBUTE_DEFINITION funky_types__namespace_instruction__attributes[] = {
 
 static ATTRIBUTE_DEFINITION funky_types__require_instruction__attributes[] = {
   {-var_funky__node_name_of, -str_require_instruct},
-  {-var_funky__node_fields_of, -list_106_0}
+  {-var_funky__node_fields_of, -list_106_3}
 };
 
 static ATTRIBUTE_DEFINITION funky_types__using_instruction__attributes[] = {
@@ -1049,7 +1049,7 @@ static ATTRIBUTE_DEFINITION funky_types__using_instruction__attributes[] = {
 
 static ATTRIBUTE_DEFINITION funky_types__alias_instruction__attributes[] = {
   {-var_funky__node_name_of, -str_alias_instructio},
-  {-var_funky__node_fields_of, -list_114_0}
+  {-var_funky__node_fields_of, -list_114_3}
 };
 
 static ATTRIBUTE_DEFINITION funky_types__resolve_instruction__attributes[] = {
@@ -1058,7 +1058,7 @@ static ATTRIBUTE_DEFINITION funky_types__resolve_instruction__attributes[] = {
 
 static ATTRIBUTE_DEFINITION funky_types__allow_instruction__attributes[] = {
   {-var_funky__node_name_of, -str_allow_instructio},
-  {-var_funky__node_fields_of, -list_124_0}
+  {-var_funky__node_fields_of, -list_124_3}
 };
 
 static ATTRIBUTE_DEFINITION funky_types__alias__attributes[] = {
@@ -1067,7 +1067,7 @@ static ATTRIBUTE_DEFINITION funky_types__alias__attributes[] = {
 
 static ATTRIBUTE_DEFINITION funky_types__version_no__attributes[] = {
   {-var_funky__node_name_of, -str_version_no},
-  {-var_funky__node_fields_of, -list_132_0}
+  {-var_funky__node_fields_of, -list_132_3}
 };
 
 static ATTRIBUTE_DEFINITION funky_types__unstable__attributes[] = {
@@ -1084,17 +1084,17 @@ static ATTRIBUTE_DEFINITION funky_types__allow_unused__attributes[] = {
 
 static ATTRIBUTE_DEFINITION funky_types__functor__attributes[] = {
   {-var_funky__node_name_of, -str_functor},
-  {-var_funky__node_fields_of, -list_144_0}
+  {-var_funky__node_fields_of, -list_144_3}
 };
 
 static ATTRIBUTE_DEFINITION funky_types__function_call_extension__attributes[] = {
   {-var_funky__node_name_of, -str_function_call_ex},
-  {-var_funky__node_fields_of, -list_150_0}
+  {-var_funky__node_fields_of, -list_150_3}
 };
 
 static ATTRIBUTE_DEFINITION funky_types__attribute_access_extension__attributes[] = {
   {-var_funky__node_name_of, -str_attribute_access},
-  {-var_funky__node_fields_of, -list_156_0}
+  {-var_funky__node_fields_of, -list_156_3}
 };
 
 static ATTRIBUTE_DEFINITION funky_types__inline_functor__attributes[] = {
@@ -1103,12 +1103,12 @@ static ATTRIBUTE_DEFINITION funky_types__inline_functor__attributes[] = {
 
 static ATTRIBUTE_DEFINITION funky_types__inline_function_call_extension__attributes[] = {
   {-var_funky__node_name_of, -str_inline_function},
-  {-var_funky__node_fields_of, -list_150_0}
+  {-var_funky__node_fields_of, -list_150_3}
 };
 
 static ATTRIBUTE_DEFINITION funky_types__inline_attribute_access_extension__attributes[] = {
   {-var_funky__node_name_of, -str_inline_attribute},
-  {-var_funky__node_fields_of, -list_156_0}
+  {-var_funky__node_fields_of, -list_156_3}
 };
 
 static ATTRIBUTE_DEFINITION funky_types__io_call__attributes[] = {
@@ -1117,7 +1117,7 @@ static ATTRIBUTE_DEFINITION funky_types__io_call__attributes[] = {
 
 static ATTRIBUTE_DEFINITION funky_types__function_call__attributes[] = {
   {-var_funky__node_name_of, -str_function_call},
-  {-var_funky__node_fields_of, -list_178_0}
+  {-var_funky__node_fields_of, -list_178_3}
 };
 
 static ATTRIBUTE_DEFINITION funky_types__function_call_arguments__attributes[] = {
@@ -1130,27 +1130,27 @@ static ATTRIBUTE_DEFINITION funky_types__inline_return__attributes[] = {
 
 static ATTRIBUTE_DEFINITION funky_types__attribute_access__attributes[] = {
   {-var_funky__node_name_of, -str_attribute_access_2},
-  {-var_funky__node_fields_of, -list_187_0}
+  {-var_funky__node_fields_of, -list_187_3}
 };
 
 static ATTRIBUTE_DEFINITION funky_types__spaced_arguments__attributes[] = {
   {-var_funky__node_name_of, -str_spaced_arguments},
-  {-var_funky__node_fields_of, -list_178_0}
+  {-var_funky__node_fields_of, -list_178_3}
 };
 
 static ATTRIBUTE_DEFINITION funky_types__spaced_statement_arguments__attributes[] = {
   {-var_funky__node_name_of, -str_spaced_statement},
-  {-var_funky__node_fields_of, -list_178_0}
+  {-var_funky__node_fields_of, -list_178_3}
 };
 
 static ATTRIBUTE_DEFINITION funky_types__arguments__attributes[] = {
   {-var_funky__node_name_of, -str_arguments},
-  {-var_funky__node_fields_of, -list_202_0}
+  {-var_funky__node_fields_of, -list_202_3}
 };
 
 static ATTRIBUTE_DEFINITION funky_types__even_more_statement_arguments__attributes[] = {
   {-var_funky__node_name_of, -str_even_more_statem},
-  {-var_funky__node_fields_of, -list_202_0}
+  {-var_funky__node_fields_of, -list_202_3}
 };
 
 static ATTRIBUTE_DEFINITION funky_types__multiline_arguments__attributes[] = {
@@ -1163,7 +1163,7 @@ static ATTRIBUTE_DEFINITION funky_types__tagged_multiline_arguments__attributes[
 
 static ATTRIBUTE_DEFINITION funky_types__remark_and_multiline_function_call__attributes[] = {
   {-var_funky__node_name_of, -str_remark_and_multi},
-  {-var_funky__node_fields_of, -list_218_0}
+  {-var_funky__node_fields_of, -list_218_3}
 };
 
 static ATTRIBUTE_DEFINITION funky_types__dummy_definition__attributes[] = {
@@ -1188,7 +1188,7 @@ static ATTRIBUTE_DEFINITION funky_types__update__attributes[] = {
 
 static ATTRIBUTE_DEFINITION funky_types__expression__attributes[] = {
   {-var_funky__node_name_of, -str_expression},
-  {-var_funky__node_fields_of, -list_234_0}
+  {-var_funky__node_fields_of, -list_234_3}
 };
 
 static ATTRIBUTE_DEFINITION funky_types__key_value__attributes[] = {
@@ -1357,7 +1357,7 @@ static ATTRIBUTE_DEFINITION funky_types__over2__attributes[] = {
 
 static ATTRIBUTE_DEFINITION funky_types__parenthesed_expression__attributes[] = {
   {-var_funky__node_name_of, -str_parenthesed_expr},
-  {-var_funky__node_fields_of, -list_322_0}
+  {-var_funky__node_fields_of, -list_322_3}
 };
 
 static ATTRIBUTE_DEFINITION funky_types__backquoted__attributes[] = {
@@ -1378,7 +1378,7 @@ static ATTRIBUTE_DEFINITION funky_types__multiline_plus__attributes[] = {
 
 static ATTRIBUTE_DEFINITION funky_types__multiline_minus__attributes[] = {
   {-var_funky__node_name_of, -str_multiline_minus},
-  {-var_funky__node_fields_of, -list_218_0}
+  {-var_funky__node_fields_of, -list_218_3}
 };
 
 static ATTRIBUTE_DEFINITION funky_types__multiline_minus_with_remark__attributes[] = {
@@ -1467,7 +1467,7 @@ static ATTRIBUTE_DEFINITION funky_types__inline_method_value_pair__attributes[] 
 
 static ATTRIBUTE_DEFINITION funky_types__expression_and_inline_arguments__attributes[] = {
   {-var_funky__node_name_of, -str_expression_and_i},
-  {-var_funky__node_fields_of, -list_384_0}
+  {-var_funky__node_fields_of, -list_384_3}
 };
 
 static ATTRIBUTE_DEFINITION funky_types__spaced_inline_arguments__attributes[] = {
@@ -1476,7 +1476,7 @@ static ATTRIBUTE_DEFINITION funky_types__spaced_inline_arguments__attributes[] =
 
 static ATTRIBUTE_DEFINITION funky_types__numeric_literal__attributes[] = {
   {-var_funky__node_name_of, -str_numeric_literal},
-  {-var_funky__node_fields_of, -list_392_0}
+  {-var_funky__node_fields_of, -list_392_3}
 };
 
 static ATTRIBUTE_DEFINITION funky_types__at_character_literal__attributes[] = {
@@ -1493,22 +1493,22 @@ static ATTRIBUTE_DEFINITION funky_types__numeric_character_literal__attributes[]
 
 static ATTRIBUTE_DEFINITION funky_types__character_literal__attributes[] = {
   {-var_funky__node_name_of, -str_character_litera},
-  {-var_funky__node_fields_of, -list_403_0}
+  {-var_funky__node_fields_of, -list_403_3}
 };
 
 static ATTRIBUTE_DEFINITION funky_types__string_literal__attributes[] = {
   {-var_funky__node_name_of, -str_string_literal},
-  {-var_funky__node_fields_of, -list_408_0}
+  {-var_funky__node_fields_of, -list_408_3}
 };
 
 static ATTRIBUTE_DEFINITION funky_types__some_string_components__attributes[] = {
   {-var_funky__node_name_of, -str_some_string_comp},
-  {-var_funky__node_fields_of, -list_413_0}
+  {-var_funky__node_fields_of, -list_413_3}
 };
 
 static ATTRIBUTE_DEFINITION funky_types__character_sequence__attributes[] = {
   {-var_funky__node_name_of, -str_character_sequen},
-  {-var_funky__node_fields_of, -list_419_0}
+  {-var_funky__node_fields_of, -list_419_3}
 };
 
 static ATTRIBUTE_DEFINITION funky_types__multiline_string_literal__attributes[] = {
@@ -1521,7 +1521,7 @@ static ATTRIBUTE_DEFINITION funky_types__newline__attributes[] = {
 
 static ATTRIBUTE_DEFINITION funky_types__some_string_line_components__attributes[] = {
   {-var_funky__node_name_of, -str_some_string_line},
-  {-var_funky__node_fields_of, -list_413_0}
+  {-var_funky__node_fields_of, -list_413_3}
 };
 
 static ATTRIBUTE_DEFINITION funky_types__string_line_end__attributes[] = {
@@ -1558,7 +1558,7 @@ static ATTRIBUTE_DEFINITION funky_types__string_line_character_sequence__attribu
 
 static ATTRIBUTE_DEFINITION funky_types__unique__attributes[] = {
   {-var_funky__node_name_of, -str_unique},
-  {-var_funky__node_fields_of, -list_450_0}
+  {-var_funky__node_fields_of, -list_450_3}
 };
 
 static ATTRIBUTE_DEFINITION funky_types__attribute__attributes[] = {
@@ -1571,7 +1571,7 @@ static ATTRIBUTE_DEFINITION funky_types__attribute_with_setter__attributes[] = {
 
 static ATTRIBUTE_DEFINITION funky_types__body__attributes[] = {
   {-var_funky__node_name_of, -str_body},
-  {-var_funky__node_fields_of, -list_459_0}
+  {-var_funky__node_fields_of, -list_459_3}
 };
 
 static ATTRIBUTE_DEFINITION funky_types__line_end_statement__attributes[] = {
@@ -1580,32 +1580,32 @@ static ATTRIBUTE_DEFINITION funky_types__line_end_statement__attributes[] = {
 
 static ATTRIBUTE_DEFINITION funky_types__inline_body__attributes[] = {
   {-var_funky__node_name_of, -str_inline_body},
-  {-var_funky__node_fields_of, -list_468_0}
+  {-var_funky__node_fields_of, -list_468_3}
 };
 
 static ATTRIBUTE_DEFINITION funky_types__statements__attributes[] = {
   {-var_funky__node_name_of, -str_statements},
-  {-var_funky__node_fields_of, -list_474_0}
+  {-var_funky__node_fields_of, -list_474_3}
 };
 
 static ATTRIBUTE_DEFINITION funky_types__one_or_more_inline_parameters__attributes[] = {
   {-var_funky__node_name_of, -str_one_or_more_inli},
-  {-var_funky__node_fields_of, -list_479_0}
+  {-var_funky__node_fields_of, -list_479_3}
 };
 
 static ATTRIBUTE_DEFINITION funky_types__open_parameters__attributes[] = {
   {-var_funky__node_name_of, -str_open_parameters},
-  {-var_funky__node_fields_of, -list_485_0}
+  {-var_funky__node_fields_of, -list_485_3}
 };
 
 static ATTRIBUTE_DEFINITION funky_types__inline_parameter__attributes[] = {
   {-var_funky__node_name_of, -str_inline_parameter},
-  {-var_funky__node_fields_of, -list_491_0}
+  {-var_funky__node_fields_of, -list_491_3}
 };
 
 static ATTRIBUTE_DEFINITION funky_types__parameter__attributes[] = {
   {-var_funky__node_name_of, -str_parameter},
-  {-var_funky__node_fields_of, -list_497_0}
+  {-var_funky__node_fields_of, -list_497_3}
 };
 
 static ATTRIBUTE_DEFINITION funky_types__myself__attributes[] = {
@@ -1618,12 +1618,12 @@ static ATTRIBUTE_DEFINITION funky_types__rest__attributes[] = {
 
 static ATTRIBUTE_DEFINITION funky_types__initial_value__attributes[] = {
   {-var_funky__node_name_of, -str_initial_value},
-  {-var_funky__node_fields_of, -list_508_0}
+  {-var_funky__node_fields_of, -list_508_3}
 };
 
 static ATTRIBUTE_DEFINITION funky_types__close_parameters__attributes[] = {
   {-var_funky__node_name_of, -str_close_parameters},
-  {-var_funky__node_fields_of, -list_513_0}
+  {-var_funky__node_fields_of, -list_513_3}
 };
 
 static ATTRIBUTE_DEFINITION funky_types__return_expression__attributes[] = {
@@ -1636,17 +1636,17 @@ static ATTRIBUTE_DEFINITION funky_types__return__attributes[] = {
 
 static ATTRIBUTE_DEFINITION funky_types__remark__attributes[] = {
   {-var_funky__node_name_of, -str_remark},
-  {-var_funky__node_fields_of, -list_522_0}
+  {-var_funky__node_fields_of, -list_522_3}
 };
 
 static ATTRIBUTE_DEFINITION funky_types__line_end_and_line_remarks__attributes[] = {
   {-var_funky__node_name_of, -str_line_end_and_lin},
-  {-var_funky__node_fields_of, -list_527_0}
+  {-var_funky__node_fields_of, -list_527_3}
 };
 
 static ATTRIBUTE_DEFINITION funky_types__line_remarks__attributes[] = {
   {-var_funky__node_name_of, -str_line_remarks},
-  {-var_funky__node_fields_of, -list_513_0}
+  {-var_funky__node_fields_of, -list_513_3}
 };
 
 static ATTRIBUTE_DEFINITION funky_types__spaced_remark__attributes[] = {
@@ -1655,7 +1655,7 @@ static ATTRIBUTE_DEFINITION funky_types__spaced_remark__attributes[] = {
 
 static ATTRIBUTE_DEFINITION funky_types__multiline_remark__attributes[] = {
   {-var_funky__node_name_of, -str_multiline_remark},
-  {-var_funky__node_fields_of, -list_540_0}
+  {-var_funky__node_fields_of, -list_540_3}
 };
 
 static ATTRIBUTE_DEFINITION funky_types__remark_lines__attributes[] = {
@@ -2713,7 +2713,7 @@ FUNKY_MODULE module__nodes_metadata = {
   "nodes_metadata.fky", // module filename
   .major_version = 0,
   .minor_version = 0,
-  .feature_flags = FEAT_POSITIONS,
+  .feature_flags = FEAT_POSITIONS|FEAT_FUNCTION_INFO,
   .marker = 0,
   0, // number of required modules
   0, // number of defined namespaces

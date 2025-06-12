@@ -1,3 +1,4 @@
+<!doctype html>
 <html>
 <head>
 <title>Date and Time</title>
@@ -8,6 +9,15 @@
 <a class="Button" href="../index.html">Home</a> <a class="Button" href="../manual.html">Manual</a> <a class="Button" href="index.html">Topics</a> <a class="Button" href="../symbols/type_index.html">Types</a> <a class="Button" href="../symbols/function_index.html">Functions</a> <a class="Button" href="../symbols/objects_index.html">Objects</a> <a class="Button" href="../symbols/constants_index.html">Constants</a> <a class="Button" href="../symbols/index.html">All</a>
 </div>
 <h1>Date and Time</h1>
+<h2>Description</h2>
+<p>Dates are based on the UNIX epoch.</p>
+<h2>Example</h2>
+<div class="Example"><a href="../symbols/std__current_time.html">current_time</a>! $t
+<a href="../symbols/std__println.html">println</a>! t
+</div>
+<h2>Output</h2>
+<div class="Output">2025-05-24 19:12:06.699 GMT+2
+</div>
 <h2>Types</h2>
 <table>
 <tr>
@@ -18,12 +28,24 @@
 <h2>Functions</h2>
 <table>
 <tr>
+  <td><a href="../symbols/std__current_time.html">std::current_time</a></td>
+  <td class="description">returns the current date and time</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__date_and_time.html">std::date_and_time</a></td>
+  <td class="description">constructs a date-and-time object from its components</td>
+</tr>
+<tr>
   <td><a href="../symbols/std__day_of.html">std::day_of</a></td>
   <td class="description">the day of the month of a date-and-time object</td>
 </tr>
 <tr>
   <td><a href="../symbols/std__day_of_week_of.html">std::day_of_week_of</a></td>
   <td class="description">the day of the week of a date-and-time object</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__from_unix_time.html">std::from_unix_time</a></td>
+  <td class="description">constructs a date-and-time object from the number of seconds since the</td>
 </tr>
 <tr>
   <td><a href="../symbols/std__hour_of.html">std::hour_of</a></td>

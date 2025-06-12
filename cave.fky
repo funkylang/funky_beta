@@ -29,6 +29,8 @@
   This is by purpose only a skeleton of the game - waiting for *you* to develop
   it into a full fledged action game!
 
+<namespace my_types>
+
 <require basic/stdlib>
 <require terminal/terminal>
 
@@ -40,23 +42,40 @@ $LASER_BEAM .
 
 # Attributes
 
-$type_of (!) # used for dynamic items
-$symbol_of (!) # used for dynamic items
-$colour_of (!) # used for dynamic items
+$type_of () # used for dynamic items
+$symbol_of () # used for dynamic items
+$colour_of () # used for dynamic items
 $frequency_of (!) # used for dynamic items
-$tick_of (!) # used for dynamic items
-$x_of (!) # used for dynamic items
-$y_of (!) # used for dynamic items
-$dx_of (!) # used for dynamic items
-$dy_of (!) # used for dynamic items
-$y1_of (!) # used for dynamic items
-$y2_of (!) # used for dynamic items
+$tick_of () # used for dynamic items
+$x_of () # used for dynamic items
+$y_of () # used for dynamic items
+$dx_of () # used for dynamic items
+$dy_of () # used for dynamic items
+$y1_of () # used for dynamic items
+$y2_of () # used for dynamic items
 
 # Constants
 
 $WIDTH 80 # the width of the cave in character columns
 $HEIGHT 25 # the height of the cave in character rows
 $CAVE_HEIGHT 2*HEIGHT # the height of the cave in half character rows
+
+$my_types::cannon std_types::object
+  .type_of CANNON
+  .x_of undefined
+  .y_of undefined
+  .dx_of undefined
+  .dy_of undefined
+  .symbol_of SHOT_SYMBOL
+  .colour_of SHOT_COLOUR
+  .frequency_of undefined
+  .tick_of undefined
+
+$my_types::laser_beam std_types::object
+  .type_of LASER_BEAM
+  .x_of undefined
+  .y1_of undefined
+  .y2_of undefined
 
 #
   The height of a character is approximately about twice the size of its width.
@@ -172,10 +191,7 @@ create_terminal $terminal terminal_width terminal_height
 
   catching errors is important to restore the terminal to a sane state
 
-try $error: chain! initialize_terminal_keys start_game
-on error.is_an_error:
-  eprintln! "ERROR: " debug::string(error 0 50)
-  quit!
+start_game!
 
 $start_game:
   show_welcome_screen! !terminal
@@ -343,7 +359,7 @@ $show_welcome_screen:
   -> terminal
 
 $update_terminal_window:
-  update_terminal &terminal $output
+  update &terminal $output
     # create output character stream that will update the terminal window
   print! output
     # print the generated character stream
@@ -456,8 +472,7 @@ $draw_cave_columns:
 		set_draw_colour_at &terminal x y2+1 LASER_BEAMER_COLOUR
 		set_character_at &terminal x y2+1 LASER_BEAMER_SYMBOL
 		push &dynamic_items
-		  std_types::object
-		    .type_of LASER_BEAM
+		  my_types::laser_beam
 		    .x_of cave_draw_x
 		    .y1_of y1
 		    .y2_of y2
@@ -474,14 +489,11 @@ $draw_cave_columns:
 		set_draw_colour_at &terminal x y2+1 CANNON_COLOUR
 		set_character_at &terminal x y2+1 CANNON_SYMBOL
 		push &dynamic_items
-		  std_types::object
-		    .type_of CANNON
+		  my_types::cannon
 		    .x_of cave_draw_x-1
 		    .y_of y2
 		    .dx_of -1
 		    .dy_of -1
-		    .symbol_of SHOT_SYMBOL
-		    .colour_of SHOT_COLOUR
 		    .frequency_of
 		      if
 			cave_draw_x > 500

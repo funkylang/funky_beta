@@ -43,7 +43,7 @@
 <using tedi>
 
 $tedi::application_name "TEDI"
-$tedi::version "0.14.1"
+$tedi::version "0.15"
 $tedi::author "Michael Niederle"
 
 $tedi::tty_filename undefined
@@ -133,6 +133,7 @@ $tedi::main:
     "ai-server-name" = ai_server_name_of
     "ai-log-file" = ai_server_log_file_of
     "start-ai-server" = do_start_ai_server_of
+    "enable-developer-mode" = do_enable_developer_mode_of
     name_to_key = commands_of
 
   initialize_plugins &io
@@ -422,27 +423,19 @@ $tedi::main_menu
     "File" =
       list
 	"Load" = LOAD
-	"Save" = SAVE
+	"Save (ctrl-s)" = SAVE
 	"Save as" = SAVE_AS
-	"Quit application" = QUIT
-    "View" =
-      list
-	"Right margin" = RIGHT_MARGIN
-	"Cursor line" = CURSOR_LINE
-	"Soft line breaks" = SOFT_LINE_BREAKS
-	"Line numbers" = LINE_NUMBERS
-	"Plain text (F3)" = PLAIN_TEXT
-
+	"Quit application (ctrl-q)" = QUIT
     "Help" =
       list
 	"About" = ABOUT
-	"Help" = HELP
+	"Help (F1)" = HELP
 
-$RIGHT_MARGIN .
-$CURSOR_LINE .
-$SOFT_LINE_BREAKS .
-$LINE_NUMBERS .
-$PLAIN_TEXT .
+$tedi::RIGHT_MARGIN .
+$tedi::CURSOR_LINE .
+$tedi::SOFT_LINE_BREAKS .
+$tedi::LINE_NUMBERS .
+$tedi::PLAIN_TEXT .
 
 $TERMINAL/job_completed: (_id io state terminal _context)
   log &io 4 -> "initialized terminal"
@@ -720,6 +713,7 @@ $tedi::ai_server_port_no_of (!)
 $tedi::ai_server_name_of (!)
 $tedi::ai_server_log_file_of (!)
 $tedi::do_start_ai_server_of (!)
+$tedi::do_enable_developer_mode_of (!)
 $tedi::commands_of (!)
 
 $tedi::default_configuration std_types::object
@@ -732,6 +726,7 @@ $tedi::default_configuration std_types::object
   .ai_server_name_of "funky_server"
   .ai_server_log_file_of "/tmp/funky_server.log"
   .do_start_ai_server_of false
+  .do_enable_developer_mode_of false
   .commands_of empty_hash_table
 
 $tedi::context_help_functions empty_hash_table

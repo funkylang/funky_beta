@@ -80,17 +80,18 @@ enum {
   var_std__or, // extern
   var_std_types__object, // extern
   var_equal, // extern
+  var_std_types__undefined, // extern
   var_std_types__value_range, // extern
-  var_201_43_expr, // dynamic
-  var_202_22_upper_bound, // dynamic
+  var_203_43_expr, // dynamic
+  var_204_22_upper_bound, // dynamic
   var_std_types__sequence, // extern
-  var_205_40_expr, // dynamic
+  var_207_40_expr, // dynamic
   var_true, // extern
   var_next, // extern
   var_false, // extern
   var_for_each, // extern
   var_undefined, // extern
-  var_220_41_expr, // dynamic
+  var_222_41_expr, // dynamic
   var__END
 };
 
@@ -526,44 +527,44 @@ static FUNCTION_INFO i_lambda_19 = {
 static TAB_NUM t_func_std_types__value_range___does_match[] = {
   5, // locals
   2, // parameters
-  LOCAL(4), // 201_38_self
-  var_201_43_expr,
+  LOCAL(4), // 203_38_self
+  var_203_43_expr,
   // self $lower_bound $upper_bound
-  LOCAL(4), 0, 2, LOCAL(5), var_202_22_upper_bound,
+  LOCAL(4), 0, 2, LOCAL(5), var_204_22_upper_bound,
   // expr >= lower_bound && expr <= upper_bound
-  var_std__less, 2, var_201_43_expr, LOCAL(5), 1, LOCAL(1),
+  var_std__less, 2, var_203_43_expr, LOCAL(5), 1, LOCAL(1),
   // expr >= lower_bound && expr <= upper_bound
   var_std__not, 1, LOCAL(1), 1, LOCAL(2),
   // expr >= lower_bound && expr <= upper_bound
   var_std__and, 2, LOCAL(2), lambda_20, 1, LOCAL(3),
   // -> expr >= lower_bound && expr <= upper_bound
   LET, 1, LOCAL(3), TAIL_CALL,
-  POS(202, 3),
-  POS(203, 6),
-  POS(203, 6),
-  POS(203, 6),
-  POS(203, 3),
+  POS(204, 3),
+  POS(205, 6),
+  POS(205, 6),
+  POS(205, 6),
+  POS(205, 3),
   LOCAL(4),
   LOCAL(5)
 };
 
 static FUNCTION_INFO i_func_std_types__value_range___does_match = {
   t_func_std_types__value_range___does_match, NULL, 5, 2,
-  {"201_38_self\000", "202_9_lower_bound\000"}
+  {"203_38_self\000", "204_9_lower_bound\000"}
 };
 
 static TAB_NUM t_lambda_20[] = {
   2, // locals
   0, // parameters
   // upper_bound
-  var_std__less, 2, var_202_22_upper_bound, var_201_43_expr, 1, LOCAL(1),
+  var_std__less, 2, var_204_22_upper_bound, var_203_43_expr, 1, LOCAL(1),
   // upper_bound
   var_std__not, 1, LOCAL(1), 1, LOCAL(2),
   // expr <= upper_bound
   LET, 1, LOCAL(2), TAIL_CALL,
-  POS(203, 37),
-  POS(203, 37),
-  POS(203, 29)
+  POS(205, 37),
+  POS(205, 37),
+  POS(205, 29)
 };
 
 static FUNCTION_INFO i_lambda_20 = {
@@ -574,35 +575,35 @@ static FUNCTION_INFO i_lambda_20 = {
 static TAB_NUM t_func_std_types__sequence___does_match[] = {
   1, // locals
   2, // parameters
-  LOCAL(1), // 205_35_self
-  var_205_40_expr,
+  LOCAL(1), // 207_35_self
+  var_207_40_expr,
   // for_each self
   var_for_each, 3, LOCAL(1), lambda_21, lambda_23, TAIL_CALL,
-  POS(206, 3),
+  POS(208, 3),
   LOCAL(1)
 };
 
 static FUNCTION_INFO i_func_std_types__sequence___does_match = {
   t_func_std_types__sequence___does_match, NULL, 1, 1,
-  {"205_35_self\000"}
+  {"207_35_self\000"}
 };
 
 static TAB_NUM t_lambda_21[] = {
   2, // locals
   1, // parameters
-  LOCAL(2), // 207_8_item
+  LOCAL(2), // 209_8_item
   // does_match(item expr)
-  var_does_match, 2, LOCAL(2), var_205_40_expr, 1, LOCAL(1),
+  var_does_match, 2, LOCAL(2), var_207_40_expr, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_22, var_next, TAIL_CALL,
-  POS(209, 9),
-  POS(208, 7),
+  POS(211, 9),
+  POS(210, 7),
   LOCAL(2)
 };
 
 static FUNCTION_INFO i_lambda_21 = {
   t_lambda_21, NULL, 2, 1,
-  {"207_8_item\000"}
+  {"209_8_item\000"}
 };
 
 static TAB_NUM t_lambda_22[] = {
@@ -610,7 +611,7 @@ static TAB_NUM t_lambda_22[] = {
   0, // parameters
   //  true
   LET, 1, var_true, TAIL_CALL,
-  POS(210, 11)
+  POS(212, 11)
 };
 
 static FUNCTION_INFO i_lambda_22 = {
@@ -623,7 +624,7 @@ static TAB_NUM t_lambda_23[] = {
   0, // parameters
   //  false
   LET, 1, var_false, TAIL_CALL,
-  POS(212, 7)
+  POS(214, 7)
 };
 
 static FUNCTION_INFO i_lambda_23 = {
@@ -634,55 +635,55 @@ static FUNCTION_INFO i_lambda_23 = {
 static TAB_NUM t_func_std_types__object___passes_test[] = {
   3, // locals
   2, // parameters
-  LOCAL(2), // 218_34_self
-  LOCAL(3), // 218_39_expr
+  LOCAL(2), // 220_34_self
+  LOCAL(3), // 220_39_expr
   // test_function(expr self)
   var_test_function, 2, LOCAL(3), LOCAL(2), 1, LOCAL(1),
   // -> test_function(expr self)
   LET, 1, LOCAL(1), TAIL_CALL,
-  POS(218, 48),
-  POS(218, 45),
+  POS(220, 48),
+  POS(220, 45),
   LOCAL(2),
   LOCAL(3)
 };
 
 static FUNCTION_INFO i_func_std_types__object___passes_test = {
   t_func_std_types__object___passes_test, NULL, 2, 2,
-  {"218_34_self\000", "218_39_expr\000"}
+  {"220_34_self\000", "220_39_expr\000"}
 };
 
 static TAB_NUM t_func_std_types__sequence___passes_test[] = {
   1, // locals
   2, // parameters
-  LOCAL(1), // 220_36_self
-  var_220_41_expr,
+  LOCAL(1), // 222_36_self
+  var_222_41_expr,
   // for_each self
   var_for_each, 3, LOCAL(1), lambda_24, lambda_26, TAIL_CALL,
-  POS(221, 3),
+  POS(223, 3),
   LOCAL(1)
 };
 
 static FUNCTION_INFO i_func_std_types__sequence___passes_test = {
   t_func_std_types__sequence___passes_test, NULL, 1, 1,
-  {"220_36_self\000"}
+  {"222_36_self\000"}
 };
 
 static TAB_NUM t_lambda_24[] = {
   2, // locals
   1, // parameters
-  LOCAL(2), // 222_8_item
+  LOCAL(2), // 224_8_item
   // test_function(expr item)
-  var_test_function, 2, var_220_41_expr, LOCAL(2), 1, LOCAL(1),
+  var_test_function, 2, var_222_41_expr, LOCAL(2), 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_25, var_next, TAIL_CALL,
-  POS(224, 9),
-  POS(223, 7),
+  POS(226, 9),
+  POS(225, 7),
   LOCAL(2)
 };
 
 static FUNCTION_INFO i_lambda_24 = {
   t_lambda_24, NULL, 2, 1,
-  {"222_8_item\000"}
+  {"224_8_item\000"}
 };
 
 static TAB_NUM t_lambda_25[] = {
@@ -690,7 +691,7 @@ static TAB_NUM t_lambda_25[] = {
   0, // parameters
   //  true
   LET, 1, var_true, TAIL_CALL,
-  POS(225, 11)
+  POS(227, 11)
 };
 
 static FUNCTION_INFO i_lambda_25 = {
@@ -703,7 +704,7 @@ static TAB_NUM t_lambda_26[] = {
   0, // parameters
   //  false
   LET, 1, var_false, TAIL_CALL,
-  POS(227, 7)
+  POS(229, 7)
 };
 
 static FUNCTION_INFO i_lambda_26 = {
@@ -754,6 +755,10 @@ static FUNKY_CONSTANT constants_table[] = {
 static ATTRIBUTE_DEFINITION std_types__object__attributes[] = {
   {var_does_match, -var_equal},
   {var_passes_test, -func_std_types__object___passes_test}
+};
+
+static ATTRIBUTE_DEFINITION std_types__undefined__attributes[] = {
+  {var_does_match, -var_equal}
 };
 
 static ATTRIBUTE_DEFINITION std_types__value_range__attributes[] = {
@@ -918,54 +923,59 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNKNOWN, 0, 1,
-    "value_range\000std_types", std_types__value_range__attributes,
+    "undefined\000std_types", std_types__undefined__attributes,
     {.position = POS(201, 1)}
   },
   {
-    FOT_UNINITIALIZED, 0, 0,
-    "201_43_expr\000", NULL
+    FOT_UNKNOWN, 0, 1,
+    "value_range\000std_types", std_types__value_range__attributes,
+    {.position = POS(203, 1)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "202_22_upper_bound\000", NULL
+    "203_43_expr\000", NULL
+  },
+  {
+    FOT_UNINITIALIZED, 0, 0,
+    "204_22_upper_bound\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 2,
     "sequence\000std_types", std_types__sequence__attributes,
-    {.position = POS(205, 1)}
+    {.position = POS(207, 1)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "205_40_expr\000", NULL
+    "207_40_expr\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
     "true\000", NULL,
-    {.position = POS(210, 12)}
+    {.position = POS(212, 12)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "next\000", NULL,
-    {.position = POS(211, 9)}
+    {.position = POS(213, 9)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "false\000", NULL,
-    {.position = POS(212, 8)}
+    {.position = POS(214, 8)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "for_each\000", NULL,
-    {.position = POS(206, 3)}
+    {.position = POS(208, 3)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "undefined\000", NULL,
-    {.position = POS(214, 16)}
+    {.position = POS(216, 16)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "220_41_expr\000", NULL
+    "222_41_expr\000", NULL
   }
 };
 
@@ -984,7 +994,7 @@ FUNKY_MODULE module__basic__branches = {
   0, // number of defined namespaces
   1, // number of used namespaces
   37, // number of constants
-  43, // number of variables
+  44, // number of variables
   NULL, // required modules
   NULL, // defined namespaces
   used_namespaces,

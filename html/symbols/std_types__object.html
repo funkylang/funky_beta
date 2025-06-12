@@ -1,3 +1,4 @@
+<!doctype html>
 <html>
 <head>
 <title>std_types::object</title>
@@ -9,11 +10,51 @@
 </div>
 <h1 class="pre">std_types::object</h1>
 <p class="short">the prototype object for all regular objects</p>
-<h2>Derived Types</h2>
+<h2>Derived types</h2>
 <table>
+<tr>
+<td><a href="ai_types__model.html">ai_types::model</a></td>
+<td class="description">the prototype object for all AI models</td>
+</tr>
+<tr>
+<td><a href="llama_types__model.html">llama_types::model</a></td>
+<td class="description">the prototype object for all models</td>
+</tr>
+<tr>
+<td><a href="std__widget_settings.html">std::widget_settings</a></td>
+<td class="description">the prototype object for widget settings</td>
+</tr>
+<tr>
+<td><a href="std_types__FUNKY_IDENTIFIER.html">std_types::FUNKY_IDENTIFIER</a></td>
+<td class="description">the prototype grammar object for Funky identifiers</td>
+</tr>
+<tr>
+<td><a href="std_types__WHITESPACE.html">std_types::WHITESPACE</a></td>
+<td class="description">the prototype grammar object for whitespace</td>
+</tr>
+<tr>
+<td><a href="std_types__alt.html">std_types::alt</a></td>
+<td class="description">a grammar object to match one of several alternatives</td>
+</tr>
+<tr>
+<td><a href="std_types__any_character_but.html">std_types::any_character_but</a></td>
+<td class="description">the prototype grammar object for matching anything but the specified</td>
+</tr>
+<tr>
+<td><a href="std_types__anything.html">std_types::anything</a></td>
+<td class="description">the prototype for grammar objects that match everything</td>
+</tr>
+<tr>
+<td><a href="std_types__capture.html">std_types::capture</a></td>
+<td class="description">the prototype grammar object for capturing text</td>
+</tr>
 <tr>
 <td><a href="std_types__character.html">std_types::character</a></td>
 <td class="description">a unicode code point encoded as a 32-bit value</td>
+</tr>
+<tr>
+<td><a href="std_types__collection.html">std_types::collection</a></td>
+<td class="description">the prototype object for all kinds of collections</td>
 </tr>
 <tr>
 <td><a href="std_types__date_and_time.html">std_types::date_and_time</a></td>
@@ -33,11 +74,11 @@
 </tr>
 <tr>
 <td><a href="std_types__error_number.html">std_types::error_number</a></td>
-<td class="description">a POSIX error number</td>
+<td class="description">the protoype object for all POSIX error numbers</td>
 </tr>
 <tr>
 <td><a href="std_types__false.html">std_types::false</a></td>
-<td class="description">the <i>type</i> of the boolean value <em>false</em></td>
+<td class="description">the prototype for the boolean value <i>false</i></td>
 </tr>
 <tr>
 <td><a href="std_types__file_descriptor.html">std_types::file_descriptor</a></td>
@@ -68,8 +109,24 @@
 <td class="description">the prototype object for all inode numbers</td>
 </tr>
 <tr>
+<td><a href="std_types__io.html">std_types::io</a></td>
+<td class="description">the I/O object</td>
+</tr>
+<tr>
+<td><a href="std_types__iterator.html">std_types::iterator</a></td>
+<td class="description">the prototype object for all kinds of iterators</td>
+</tr>
+<tr>
+<td><a href="std_types__many.html">std_types::many</a></td>
+<td class="description">the protoype grammar object for matching one or more occurences of something</td>
+</tr>
+<tr>
 <td><a href="std_types__number.html">std_types::number</a></td>
 <td class="description">the prototype object for all kinds of numbers</td>
+</tr>
+<tr>
+<td><a href="std_types__optional.html">std_types::optional</a></td>
+<td class="description">the prototype grammar object for matching zero or one occurrence of something</td>
 </tr>
 <tr>
 <td><a href="std_types__passwd.html">std_types::passwd</a></td>
@@ -82,6 +139,10 @@
 <tr>
 <td><a href="std_types__process_id.html">std_types::process_id</a></td>
 <td class="description">a process id</td>
+</tr>
+<tr>
+<td><a href="std_types__resource.html">std_types::resource</a></td>
+<td class="description">a resource object</td>
 </tr>
 <tr>
 <td><a href="std_types__seek_type.html">std_types::seek_type</a></td>
@@ -100,6 +161,10 @@
 <td class="description">a signal number</td>
 </tr>
 <tr>
+<td><a href="std_types__some.html">std_types::some</a></td>
+<td class="description">the prototype grammar object to match zero or more occurrences of something</td>
+</tr>
+<tr>
 <td><a href="std_types__stat.html">std_types::stat</a></td>
 <td class="description">the prototype object for all stat objects</td>
 </tr>
@@ -109,7 +174,7 @@
 </tr>
 <tr>
 <td><a href="std_types__true.html">std_types::true</a></td>
-<td class="description">the <i>type</i> of the boolean value <em>true</em></td>
+<td class="description">the prototype for the boolean value <i>true</i></td>
 </tr>
 <tr>
 <td><a href="std_types__tuple.html">std_types::tuple</a></td>
@@ -122,6 +187,10 @@
 <tr>
 <td><a href="std_types__user_id.html">std_types::user_id</a></td>
 <td class="description">a user id</td>
+</tr>
+<tr>
+<td><a href="std_types__window_manager.html">std_types::window_manager</a></td>
+<td class="description">the prototype object for window managers</td>
 </tr>
 </table>
 <h2>Description</h2>
@@ -150,7 +219,7 @@
 </tr>
 <tr>
 <td><a href="std_types__object/std__call.html">std::call</a></td>
-<td class="description">calls the specified command with the specified arguments</td>
+<td class="description">calls an external command</td>
 </tr>
 <tr>
 <td><a href="std_types__object/std__default_value.html">std::default_value</a></td>
@@ -162,7 +231,7 @@
 </tr>
 <tr>
 <td><a href="std_types__object/std__generate_uuid.html">std::generate_uuid</a></td>
-<td class="description">generates and returns a Universally Unique Identifier (UUID)</td>
+<td class="description">generates a UUID</td>
 </tr>
 <tr>
 <td><a href="std_types__object/std__initialize_terminal.html">std::initialize_terminal</a></td>
@@ -230,7 +299,7 @@
 </tr>
 <tr>
 <td><a href="std_types__object/std__is_a_process_id.html">std::is_a_process_id</a></td>
-<td class="description">checks if the object is a process id</td>
+<td class="description">indicates that this object is not a process ID</td>
 </tr>
 <tr>
 <td><a href="std_types__object/std__is_a_random_number_generator.html">std::is_a_random_number_generator</a></td>
@@ -318,7 +387,7 @@
 </tr>
 <tr>
 <td><a href="std_types__object/std__load_configuration.html">std::load_configuration</a></td>
-<td class="description">loads the configuration from the given file</td>
+<td class="description">loads a configuration from a file</td>
 </tr>
 <tr>
 <td><a href="std_types__object/std__neutral_element_of.html">std::neutral_element_of</a></td>
@@ -352,6 +421,5 @@
 <div class="footer">(defined in <a href="../source/runtime_templates/object.template">runtime_templates/object.template</a>)</div>
 <div class="footer">(generated by Codestral-22B-v0.1-Q5_K_M.gguf)</div>
 <div class="footer">(2024-07-02 17:22:15)</div>
-<div class="footer">(<a href="../prompts/symbols/std_types__object.prompt">prompt</a>)</div>
 </body>
 </html>

@@ -23,7 +23,58 @@
 #
   Topic: Grammar Objects
 
-  Grammar objects support methods for matching and searching.
+  Grammar objects support methods for matching and searching. They take the
+  place of regular expressions used in some other languages and libraries.
+
+  A simple string or character is a grammar object that matches its contents.
+
+  A range of characters is also a grammar object, e.g.
+
+  'a'..'z'
+
+  takes the place of the regular expression
+
+  [a..z]
+
+  The grammar object
+
+  some(*expr*)
+
+  takes the place of the regular expression
+
+  *expr*\*
+
+  The grammar object
+
+  many(*expr*)
+
+  takes the place of the regular expression
+
+  *expr*+
+
+  The grammar object
+
+  optional(*expr*)
+
+  takes the place of the regular expression
+
+  *expr*?
+
+  To concatenate several grammar objects the are put into a sequence:
+
+  *expr_1*, *expr_2*, ..., *expr_n*
+
+  The grammar object
+
+  alt(*expr_1* *expr_2*)
+
+  takes the place of the regular expression
+
+  *expr_1*|*expr_2*
+
+  Grammar objects can be built stepwise from already defined grammar objects.
+
+  They can be used in string functions like <std::before> or <std::has_prefix>.
 
 $std::match ()
 $std::match_back ()

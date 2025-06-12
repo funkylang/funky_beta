@@ -84,7 +84,7 @@ FUNCTION std::exec
 
     int err = execvp(args[0], args); // This call should not return!
     create_error_message(
-      module__builtin.constants_base[unique__std___IO_ERROR-1],
+      module__builtin.constants_base[unique__std__IO_ERROR-1],
       "EXEC FAILED", errno, 0, NULL);
 
     cleanup:
@@ -225,7 +225,7 @@ FUNCTION std::create_process
       if (pipe((int *)&in_pipe) != 0) {
 	pipe_creation_failed:
 	create_error_message(
-	  module__builtin.constants_base[unique__std___IO_ERROR-1],
+	  module__builtin.constants_base[unique__std__IO_ERROR-1],
 	  "PIPE_CREATION FAILED", errno, 0, NULL);
 	goto cleanup;
       }
@@ -296,7 +296,7 @@ FUNCTION std::create_process
 
     if (pid == -1) {
       create_error_message(
-	      module__builtin.constants_base[unique__std___IO_ERROR-1],
+	      module__builtin.constants_base[unique__std__IO_ERROR-1],
 	"FORK FAILED", errno, 0, NULL);
       goto cleanup;
     }

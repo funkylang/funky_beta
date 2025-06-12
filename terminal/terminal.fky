@@ -34,13 +34,13 @@
   comfortable way.
 
   The base data type is the <std_types::screen>, a rectangular array of
-  characters and associated draw and clear colors.
+  characters, associated text-styles (bold, italic, ...), draw and clear colors.
 
-  All coordinates are one-based.
+  Coordinates are always one-based.
 
   Each colour supports 256 shades of red, green and blue.
 
-  To update the state of a <std_types::screen> or <std_types::terminal) no
+  To update the state of a <std_types::screen> or <std_types::terminal no
   I/O-acccess rights are necessary.
 
   There are methods to set draw and clear colors, to draw text, lines
@@ -52,7 +52,7 @@
 
   Screens and terminals also support Unicode Emojis.
 
-  The terminal library is somewhat similar to the curses library. It tries to
+  The terminal library is somewhat similar to the *curses* library. It tries to
   update the contents of a terminal in a smart way.
 
   To start using the functions of this library one must first create a
@@ -98,6 +98,9 @@
 
   The <@Terminal> library uses <std_types::character>s for text and background
   colours.
+
+  Each colour is a combination of red, green and blue. Each colour component
+  supports 256 shades.
 
   Related topics: Terminal
 
@@ -967,10 +970,7 @@ $reset_attributes: (io terminal)
     original_attributes_of(terminal)
   -> io undefined
 
-$std_types::terminal/update update_terminal
-
-$std::update_terminal:
-  # deprecated - use <std_types::terminal/std::update> instead
+$std_types::terminal/update:
   (
     terminal
     do_log = false # log updates to <stderr>
@@ -2627,15 +2627,19 @@ $adjoin_screens:
   $height height_of(left)
   $rows rows_of(left)
   $rectangles rectangles_of(left)
+  $dx 0
+  $dy 0
   $clear_colour clear_colour_of(left)
   $draw_colour draw_colour_of(left)
   !rectangles
     if
       rectangles.is_defined:
-	rectangles $kind $info
+	rectangles $kind $info $x $y
 	if
-	  kind == HORIZONTAL
-	  -> info
+	  kind == HORIZONTAL:
+	    !dx x-1
+	    !dy y-1
+	    map info add_delta
 	  -> list(rectangles)
       -> empty_list
   for_each screens
@@ -2649,6 +2653,8 @@ $adjoin_screens:
 	    more_rectangles $kind $info $x $y $w $h
 	    if
 	      kind == HORIZONTAL:
+		!dx x-1+width
+		!dy y-1
 		append rectangles map(info add_delta)
 	      :
 		push rectangles tuple(kind info x+width y w h)
@@ -2675,7 +2681,7 @@ $adjoin_screens:
 
   $add_delta: (item)
     item $kind $info $x $y $w $h
-    -> tuple(kind info x+width y w h)
+    -> tuple(kind info x+dx y+dy w h)
 
 $std_types::screen/append:
   (
@@ -2686,13 +2692,17 @@ $std_types::screen/append:
   $height height_of(self)
   $rows rows_of(self)
   $rectangles rectangles_of(self)
+  $dx 0
+  $dy 0
   !rectangles
     if
       rectangles.is_defined:
-	rectangles $kind $info
+	rectangles $kind $info $x $y
 	if
-	  kind == VERTICAL
-	  -> info
+	  kind == VERTICAL:
+	    !dx x-1
+	    !dy y-1
+	    map info add_delta
 	  -> list(rectangles)
       -> empty_list
   for_each screens
@@ -2706,6 +2716,8 @@ $std_types::screen/append:
 	    more_rectangles $kind $info $x $y $w $h
 	    if
 	      kind == VERTICAL:
+		!dx x-1
+		!dy y-1+height
 		append rectangles map(info add_delta)
 	      :
 		push rectangles tuple(kind info x y+height w h)
@@ -2728,7 +2740,7 @@ $std_types::screen/append:
 
   $add_delta: (item)
     item $kind $info $x $y $w $h
-    -> tuple(kind info x y+height w h)
+    -> tuple(kind info x+dx y+dy w h)
 
 $std_types::screen/get_rectangle_at:
   (
@@ -3059,8 +3071,9 @@ $std_types::screen/pad_left:
     width
     clear_colour = undefined
   )
+  $delta width-width_of(self)
   if
-    width <= width_of(self)
+    delta <= 0
     -> self
     :
       update_if clear_colour.is_undefined &clear_colour -> clear_colour_of(self)
@@ -3070,8 +3083,11 @@ $std_types::screen/pad_left:
 	    ' '
 	    draw_colour_of(self)
 	    clear_colour
-	  width-width_of(self)
+	  delta
       map &self.rows_of: (row) append pad row
+      update_if rectangles_of(self).is_defined &self.rectangles_of:
+	rectangles_of(self) $kind $info $x $y $w $h
+	tuple kind info x+delta y w h
       -> self(.width_of width)
 
 $std_types::screen/pad_right:

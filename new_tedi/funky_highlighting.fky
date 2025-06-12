@@ -61,7 +61,7 @@ $fde_types::node tedi_types::line
 
 # Extensions For Existing Types
 
-$tedi_types::text_page
+$fde_types::page tedi_types::page
   .kind_of FDE
   /: get_text_page_item
   /prepare prepare_text_page
@@ -81,9 +81,9 @@ $std_types::list
 # Attributes
 
 $nodes_of ()
-$defined_namespaces_of ()
-$used_namespaces_of ()
-$required_modules_of ()
+$fde::defined_namespaces_of ()
+$fde::used_namespaces_of ()
+$fde::required_modules_of ()
 
 $fde::exports_of ()
 

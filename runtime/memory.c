@@ -189,7 +189,7 @@ static ATTRIBUTES attributes__types__uninitialized = {
 
 static void type__types__uninitialized(void) {
   create_error_message(
-    //module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+    //module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
     undefined,
     "Attempt to call an uninitialized value as a function!", 0, 0, NULL);
 }
@@ -554,9 +554,9 @@ EXPORT int do_trace = false;
 
 static void catcher(void) {
   NODE *node = TLS_arguments[0];
-  if (node->type != std_types___undefined____type) {
+  if (node->type != std_types__undefined___type) {
     // the "main" function returned a result - most likely an error
-    if (node->type != std_types___error____type) {
+    if (node->type != std_types__error___type) {
       // it wasn't an error - very strange
       // maybe an (unwanted) tail call returning a result in "main"
       char *msg = "MAIN RETURNED A RESULT";
@@ -566,7 +566,7 @@ static void catcher(void) {
       strcpy(message->text, msg);
       FUNC_DATA *data = allocate_large(sizeof(FUNC_DATA));
       data->length = 0;
-      node = create__std_types___error(
+      node = create__std_types__error(
 	undefined, message, 0, 0, node, instruction_counter, data);
     }
     if (do_debug) {
@@ -1654,7 +1654,7 @@ EXPORT __attribute__ ((noreturn)) void run(FUNKY_MODULE *module) {
       dump_types();
       exit(EXIT_SUCCESS);
     }
-    undefined = (NODE *)&std_types___undefined;
+    undefined = (NODE *)&std_types__undefined;
     no_such_attribute_node.attributes = c_function.attributes;
 
     FUNKY_VARIABLE *undefined = resolve_symbol("undefined\000std_types");
@@ -1734,7 +1734,7 @@ EXPORT __attribute__ ((noreturn)) void run(FUNKY_MODULE *module) {
 EXPORT void initialize_funky_runtime(FUNKY_MODULE *module) {
   main_module = module;
   initialize_runtime();
-  undefined = (NODE *)&std_types___undefined;
+  undefined = (NODE *)&std_types__undefined;
   initialize_all();
   no_such_attribute_node.attributes = c_function.attributes;
   initialize_environment();

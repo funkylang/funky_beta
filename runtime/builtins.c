@@ -38,1093 +38,1093 @@
 #include "debugger.h"
 
 enum {
-  func__std_types___array___std___length_of = 1,
-  func__std_types___array___std___dimension_count_of,
-  func__std___array,
-  func__std___initialized_array,
-  func__std_types___array___std___create_empty_array,
-  func__std_types___array___std___range,
-  func__std_types___boolean_array___std___length_of,
-  func__std_types___boolean_array___std___dimension_count_of,
-  func__std_types___boolean_array___std___equal,
-  func__std_types___boolean_array___std___bit_and,
-  func__std_types___boolean_array___std___bit_or,
-  func__std_types___boolean_array___std___bit_xor,
-  func__std___boolean_array,
-  func__std___initialized_boolean_array,
-  func__std_types___boolean_array___std___create_empty_array,
-  func__std_types___boolean_array___std___range,
-  func__std_types___character_array___std___length_of,
-  func__std_types___character_array___std___dimension_count_of,
-  func__std_types___character_array___std___equal,
-  func__std___character_array,
-  func__std___initialized_character_array,
-  func__std_types___character_array___std___create_empty_array,
-  func__std_types___character_array___std___range,
-  func__std_types___int8_array___std___length_of,
-  func__std_types___int8_array___std___dimension_count_of,
-  func__std_types___int8_array___std___equal,
-  func__std_types___int8_array___std___times,
-  func__std___int8_array,
-  func__std___initialized_int8_array,
-  func__std_types___int8_array___std___create_empty_array,
-  func__std_types___int8_array___std___range,
-  func__std_types___uint8_array___std___length_of,
-  func__std_types___uint8_array___std___dimension_count_of,
-  func__std_types___uint8_array___std___equal,
-  func__std_types___uint8_array___std___bit_and,
-  func__std_types___uint8_array___std___bit_or,
-  func__std_types___uint8_array___std___bit_xor,
-  func__std_types___uint8_array___std___times,
-  func__std___uint8_array,
-  func__std___initialized_uint8_array,
-  func__std_types___uint8_array___std___create_empty_array,
-  func__std_types___uint8_array___std___range,
-  func__std_types___int16_array___std___length_of,
-  func__std_types___int16_array___std___dimension_count_of,
-  func__std_types___int16_array___std___equal,
-  func__std_types___int16_array___std___times,
-  func__std___int16_array,
-  func__std___initialized_int16_array,
-  func__std_types___int16_array___std___create_empty_array,
-  func__std_types___int16_array___std___range,
-  func__std_types___uint16_array___std___length_of,
-  func__std_types___uint16_array___std___dimension_count_of,
-  func__std_types___uint16_array___std___equal,
-  func__std_types___uint16_array___std___bit_and,
-  func__std_types___uint16_array___std___bit_or,
-  func__std_types___uint16_array___std___bit_xor,
-  func__std_types___uint16_array___std___times,
-  func__std___uint16_array,
-  func__std___initialized_uint16_array,
-  func__std_types___uint16_array___std___create_empty_array,
-  func__std_types___uint16_array___std___range,
-  func__std_types___int32_array___std___length_of,
-  func__std_types___int32_array___std___dimension_count_of,
-  func__std_types___int32_array___std___equal,
-  func__std_types___int32_array___std___times,
-  func__std___int32_array,
-  func__std___initialized_int32_array,
-  func__std_types___int32_array___std___create_empty_array,
-  func__std_types___int32_array___std___range,
-  func__std_types___uint32_array___std___length_of,
-  func__std_types___uint32_array___std___dimension_count_of,
-  func__std_types___uint32_array___std___equal,
-  func__std_types___uint32_array___std___bit_and,
-  func__std_types___uint32_array___std___bit_or,
-  func__std_types___uint32_array___std___bit_xor,
-  func__std_types___uint32_array___std___times,
-  func__std___uint32_array,
-  func__std___initialized_uint32_array,
-  func__std_types___uint32_array___std___create_empty_array,
-  func__std_types___uint32_array___std___range,
-  func__std_types___int64_array___std___length_of,
-  func__std_types___int64_array___std___dimension_count_of,
-  func__std_types___int64_array___std___equal,
-  func__std_types___int64_array___std___times,
-  func__std___int64_array,
-  func__std___initialized_int64_array,
-  func__std_types___int64_array___std___create_empty_array,
-  func__std_types___int64_array___std___range,
-  func__std_types___uint64_array___std___length_of,
-  func__std_types___uint64_array___std___dimension_count_of,
-  func__std_types___uint64_array___std___equal,
-  func__std_types___uint64_array___std___bit_and,
-  func__std_types___uint64_array___std___bit_or,
-  func__std_types___uint64_array___std___bit_xor,
-  func__std_types___uint64_array___std___times,
-  func__std___uint64_array,
-  func__std___initialized_uint64_array,
-  func__std_types___uint64_array___std___create_empty_array,
-  func__std_types___uint64_array___std___range,
-  func__std_types___float32_array___std___length_of,
-  func__std_types___float32_array___std___dimension_count_of,
-  func__std_types___float32_array___std___equal,
-  func__std_types___float32_array___std___times,
-  func__std___float32_array,
-  func__std___initialized_float32_array,
-  func__std_types___float32_array___std___create_empty_array,
-  func__std_types___float32_array___std___range,
-  func__std_types___float64_array___std___length_of,
-  func__std_types___float64_array___std___dimension_count_of,
-  func__std_types___float64_array___std___equal,
-  func__std_types___float64_array___std___times,
-  func__std___float64_array,
-  func__std___initialized_float64_array,
-  func__std_types___float64_array___std___create_empty_array,
-  func__std_types___float64_array___std___range,
-  func__std___pass,
-  func__std___result_count,
-  func__std_types___true___std___equal,
-  func__std_types___false___std___equal,
-  func__c_function___std___parameter_count_of,
-  func__std___character,
-  func__std_types___character___std___plus,
-  func__std_types___character___std___minus,
-  func__std_types___character___std___equal,
-  func__std_types___character___std___less,
-  func__std_types___character___std___hash,
-  func__std_types___character___std___to_string,
-  func__std_types___character___std___to_integer,
-  func__std_types___character___std___width_of,
-  func__std___from_unix_time,
-  func__std___date_and_time,
-  func__std_types___date_and_time___std___year_of,
-  func__std_types___date_and_time___std___month_of,
-  func__std_types___date_and_time___std___day_of,
-  func__std_types___date_and_time___std___day_of_week_of,
-  func__std_types___date_and_time___std___hour_of,
-  func__std_types___date_and_time___std___minute_of,
-  func__std_types___date_and_time___std___second_of,
-  func__std_types___date_and_time___std___time_shift_of,
-  func__std_types___date_and_time___std___seconds_since_epoch,
-  func__std_types___date_and_time___std___plus,
-  func__std_types___date_and_time___std___minus,
-  func__std_types___date_and_time___std___equal,
-  func__std_types___date_and_time___std___less,
-  func__std___current_time,
-  func__debug___string,
-  func__debug___write,
-  func__debug___dump_object,
-  func__debug___has_io_access_rights,
-  func__debug___exit,
-  func__std___error_check,
-  func__debug___total_garbage_collections,
-  func__std___installation_prefix,
-  func__std___package_version,
-  unique__std___IO_ERROR,
-  unique__std___RUNTIME_ERROR,
-  unique__std___APPLICATION_ERROR,
-  func__std_types___error___std___error_category_of,
-  func__std_types___error___std___error_message_text_of,
-  func__std_types___error___std___error_details_of,
-  func__std_types___error___std___errno_of,
-  func__std_types___error___std___failed_attribute_of,
-  func__std___error,
-  func__std___exec,
-  func__std___create_process,
-  func__std_types___function___std___parameter_count_of,
-  func__std_types___function___std___new,
-  func__std___list,
-  func__std_types___list___std___length_of,
-  func__std_types___list___std___is_empty,
-  func__std_types___list___std___is_not_empty,
-  func__std_types___list___std___push,
-  func__std_types___list___std___drop,
-  func__std_types___list___std___pop,
-  func__std_types___list___std___peek,
-  func__std_types___list___std___append,
-  func__std_types___list___std___range,
-  func__std_types___list___std___spread,
-  func__builtin_types___positive_integer___std___negate,
-  func__builtin_types___negative_integer___std___negate,
-  func__std_types___real___std___negate,
-  func__builtin_types___positive_integer___std___times,
-  func__builtin_types___negative_integer___std___times,
-  func__builtin_types___positive_integer___std___to_integer,
-  func__builtin_types___negative_integer___std___to_integer,
-  func__std_types___real___std___to_integer,
-  func__std_types___real___std___floor,
-  func__std_types___real___std___ceil,
-  func__std_types___real___std___round,
-  func__builtin_types___negative_integer___std___to_string,
-  func__builtin_types___positive_integer___std___to_string,
-  func__std_types___real___std___to_string,
-  func__builtin_types___positive_integer___std___over,
-  func__builtin_types___negative_integer___std___over,
-  func__builtin_types___positive_integer___std___div,
-  func__builtin_types___negative_integer___std___div,
-  func__builtin_types___positive_integer___std___mod,
-  func__builtin_types___negative_integer___std___mod,
-  func__builtin_types___positive_integer___std___hash,
-  func__builtin_types___negative_integer___std___hash,
-  func__std_types___real___std___hash,
-  func__builtin_types___positive_integer___std___ln,
-  func__builtin_types___negative_integer___std___ln,
-  func__std_types___real___std___ln,
-  func__builtin_types___positive_integer___std___exp,
-  func__builtin_types___negative_integer___std___exp,
-  func__std_types___real___std___exp,
-  func__std___real,
-  func__std___integer,
-  func__std___sqrt,
-  func__std___pow,
-  func__builtin_types___positive_integer___std___exit,
-  func__builtin_types___positive_integer___std___plus,
-  func__builtin_types___negative_integer___std___plus,
-  func__std_types___real___std___plus,
-  func__builtin_types___positive_integer___std___minus,
-  func__builtin_types___negative_integer___std___minus,
-  func__std_types___real___std___minus,
-  func__std_types___real___std___times,
-  func__std_types___real___std___over,
-  func__builtin_types___positive_integer___std___equal,
-  func__builtin_types___negative_integer___std___equal,
-  func__std_types___real___std___equal,
-  func__builtin_types___positive_integer___std___less,
-  func__builtin_types___negative_integer___std___less,
-  func__std_types___real___std___less,
-  func__builtin_types___positive_integer___std___shift_left,
-  func__builtin_types___positive_integer___std___shift_right,
-  func__builtin_types___positive_integer___std___bit_and,
-  func__builtin_types___positive_integer___std___bit_or,
-  func__builtin_types___positive_integer___std___bit_xor,
-  func__std___sin,
-  func__std___cos,
-  func__std___tan,
-  func__std___asin,
-  func__std___acos,
-  func__std___atan,
-  func__debug___object_type,
-  func__debug___object_attributes,
-  func__std_types___object___std___new,
-  func__std_types___file_type___std___equal,
-  func__std_types___file_type___std___hash,
-  func__std___file_type,
-  func__std_types___file_type___std___to_integer,
-  func__std_types___file_descriptor___std___equal,
-  func__std_types___file_descriptor___std___hash,
-  func__std___file_descriptor,
-  func__std_types___file_descriptor___std___to_integer,
-  func__std_types___signal_number___std___equal,
-  func__std_types___signal_number___std___hash,
-  func__std___signal_number,
-  func__std_types___signal_number___std___to_integer,
-  func__std_types___shutdown_type___std___equal,
-  func__std_types___shutdown_type___std___hash,
-  func__std___shutdown_type,
-  func__std_types___shutdown_type___std___to_integer,
-  func__std_types___seek_type___std___equal,
-  func__std_types___seek_type___std___hash,
-  func__std___seek_type,
-  func__std_types___seek_type___std___to_integer,
-  func__std_types___device_id___std___equal,
-  func__std_types___device_id___std___hash,
-  func__std___device_id,
-  func__std_types___device_id___std___to_integer,
-  func__std_types___directory___std___equal,
-  func__std_types___directory___std___hash,
-  func__std_types___group_id___std___equal,
-  func__std_types___group_id___std___hash,
-  func__std___group_id,
-  func__std_types___group_id___std___to_integer,
-  func__std_types___inode_number___std___equal,
-  func__std_types___inode_number___std___hash,
-  func__std___inode_number,
-  func__std_types___inode_number___std___to_integer,
-  func__std_types___process_id___std___equal,
-  func__std_types___process_id___std___hash,
-  func__std___process_id,
-  func__std_types___process_id___std___to_integer,
-  func__std_types___user_id___std___equal,
-  func__std_types___user_id___std___hash,
-  func__std___user_id,
-  func__std_types___user_id___std___to_integer,
-  func__std_types___error_number___std___equal,
-  func__std_types___error_number___std___hash,
-  func__std___error_number,
-  func__std_types___error_number___std___to_integer,
-  func__std___access,
-  func__std___chdir,
-  func__std___chmod,
-  func__std___chown,
-  func__std___chroot,
-  func__std_types___file_descriptor___std___close,
-  func__std___closedir,
-  func__std___dup2,
-  func__std___fstat,
-  func__std___fsync,
-  func__std___getcwd,
-  func__std___getenv,
-  func__std___getegid,
-  func__std___geteuid,
-  func__std___getgid,
-  func__std___gethostname,
-  func__std___getlogin,
-  func__std___getpid,
-  func__std___getppid,
-  func__std___getpwuid,
-  func__std___getsid,
-  func__std___getuid,
-  func__std___isatty,
-  func__std___kill,
-  func__std___link,
-  func__std___lseek,
-  func__std___mkdir,
-  func__std___mkfifo,
-  func__std___open,
-  func__std___opendir,
-  func__std_types___file_descriptor___std___read,
-  func__std___readdir,
-  func__std___realpath,
-  func__std___rename,
-  func__std___sethostname,
-  func__std___shutdown,
-  func__std___stat,
-  func__std___strerror,
-  func__std___wait,
-  func__std_types___file_descriptor___std___write,
-  func__std___umask,
-  func__std___unlink,
-  func__std___shm_unlink,
-  func__std___usleep,
-  func__std_types___octet_string___std___length_of,
-  func__std_types___wide_string___std___length_of,
-  func__std_types___octet_string___std___is_empty,
-  func__std_types___octet_string___std___is_not_empty,
-  func__std_types___wide_string___std___is_empty,
-  func__std_types___wide_string___std___is_not_empty,
-  func__std_types___octet_string___std___push,
-  func__std_types___wide_string___std___push,
-  func__std_types___octet_string___std___append,
-  func__std_types___wide_string___std___append,
-  func__std_types___octet_string___std___range,
-  func__std_types___wide_string___std___range,
-  func__std_types___octet_string___std___hash,
-  func__std_types___wide_string___std___hash,
-  func__std_types___octet_string___std___equal,
-  func__std_types___wide_string___std___equal,
-  func__std_types___octet_string___std___less,
-  func__std_types___wide_string___std___less,
-  func__std_types___octet_string___std___width_of,
-  func__std_types___wide_string___std___width_of,
-  func__std_types___octet_string___std___from_utf8,
-  func__std_types___octet_string___std___to_utf8,
-  func__std_types___wide_string___std___to_utf8,
-  func__std_types___file_descriptor___std___get_terminal_attributes,
-  func__std_types___file_descriptor___std___set_terminal_attributes,
-  func__std_types___terminal_attributes___std___backspace_character_of,
-  func__std_types___terminal_attributes___std___use_canonical_mode,
-  func__std_types___terminal_attributes___std___echo_characters,
-  func__std_types___terminal_attributes___std___echo_new_lines,
-  func__std_types___terminal_attributes___std___enable_xon_xoff_for_input,
-  func__std_types___terminal_attributes___std___enable_xon_xoff_for_output,
-  func__std_types___terminal_attributes___std___restart_output_on_any_character,
-  func__std_types___terminal_attributes___std___ignore_cr_on_input,
-  func__std_types___terminal_attributes___std___generate_signals,
-  func__std_types___terminal_attributes___std___map_cr_to_lf_on_input,
-  func__std_types___terminal_attributes___std___hangup_on_close,
-  func__std_types___terminal_attributes___std___map_lf_to_crlf_on_output,
-  func__std_types___terminal_attributes___std___minimum_characters_for_canoncial_read,
-  func__std_types___terminal_attributes___std___timeout_for_reads,
-  func__std_types___terminal_attributes___std___input_speed,
-  func__std_types___terminal_attributes___std___output_speed,
-  func__std_types___tuple___std___typed_tuple,
-  func__builtin_types___tuple2___std___to_list,
-  func__builtin_types___tuple2___std___typed_tuple,
-  func__builtin_types___tuple3___std___to_list,
-  func__builtin_types___tuple3___std___typed_tuple,
-  func__builtin_types___tuple4___std___to_list,
-  func__builtin_types___tuple4___std___typed_tuple,
-  func__builtin_types___tuple5___std___to_list,
-  func__builtin_types___tuple5___std___typed_tuple,
-  func__builtin_types___tuple6___std___to_list,
-  func__builtin_types___tuple6___std___typed_tuple,
-  func__builtin_types___tuple7___std___to_list,
-  func__builtin_types___tuple7___std___typed_tuple,
-  func__builtin_types___tuple8___std___to_list,
-  func__builtin_types___tuple8___std___typed_tuple,
-  func__std___tuple,
-  func__std___tuple_or_error,
-  func__std___new_tuple,
-  func__std_types___character___std___to_upper_case,
-  func__std___is_an_upper_case_letter_character,
-  func__std_types___character___std___to_lower_case,
-  func__std___is_a_lower_case_letter_character,
-  func__std_types___character___std___to_title_case,
-  func__std___is_a_title_case_letter_character,
-  func__std___is_a_letter_character,
-  func__std___is_a_whitespace_character,
-  func__std___is_a_zero_width_character,
-  func__std___is_a_wide_character,
-  func__std_types___unique_item___std___to_string,
-  func__std_types___unique_item___std___equal,
-  func__std_types___unique_item___std___hash,
-  func__std___unique_item,
-  func__std_types___file_descriptor___std___get_terminal_size,
-  func__std___exitstatus,
-  func__std___pselect,
-  func__std___do_not_close,
-  func__std___waitpid,
-  func__std___open_unix_socket,
-  func__std___send_file_descriptor,
-  func__std___open_tcp_client_socket,
-  func__std___open_tcp_server_socket,
-  func__std___accept,
-  func__std___is_listening,
-  func__std___get_first_mac_address,
-  func__std_types___shared_memory___std___size_of,
-  func__std_types___shared_memory___std___file_descriptor_of,
-  func__std_types___shared_memory___std___write_at,
-  func__std___create_shared_memory
+  func__std_types__array__std__length_of = 1,
+  func__std_types__array__std__dimension_count_of,
+  func__std__array,
+  func__std__initialized_array,
+  func__std_types__array__std__create_empty_array,
+  func__std_types__array__std__range,
+  func__std_types__boolean_array__std__length_of,
+  func__std_types__boolean_array__std__dimension_count_of,
+  func__std_types__boolean_array__std__equal,
+  func__std_types__boolean_array__std__bit_and,
+  func__std_types__boolean_array__std__bit_or,
+  func__std_types__boolean_array__std__bit_xor,
+  func__std__boolean_array,
+  func__std__initialized_boolean_array,
+  func__std_types__boolean_array__std__create_empty_array,
+  func__std_types__boolean_array__std__range,
+  func__std_types__character_array__std__length_of,
+  func__std_types__character_array__std__dimension_count_of,
+  func__std_types__character_array__std__equal,
+  func__std__character_array,
+  func__std__initialized_character_array,
+  func__std_types__character_array__std__create_empty_array,
+  func__std_types__character_array__std__range,
+  func__std_types__int8_array__std__length_of,
+  func__std_types__int8_array__std__dimension_count_of,
+  func__std_types__int8_array__std__equal,
+  func__std_types__int8_array__std__times,
+  func__std__int8_array,
+  func__std__initialized_int8_array,
+  func__std_types__int8_array__std__create_empty_array,
+  func__std_types__int8_array__std__range,
+  func__std_types__uint8_array__std__length_of,
+  func__std_types__uint8_array__std__dimension_count_of,
+  func__std_types__uint8_array__std__equal,
+  func__std_types__uint8_array__std__bit_and,
+  func__std_types__uint8_array__std__bit_or,
+  func__std_types__uint8_array__std__bit_xor,
+  func__std_types__uint8_array__std__times,
+  func__std__uint8_array,
+  func__std__initialized_uint8_array,
+  func__std_types__uint8_array__std__create_empty_array,
+  func__std_types__uint8_array__std__range,
+  func__std_types__int16_array__std__length_of,
+  func__std_types__int16_array__std__dimension_count_of,
+  func__std_types__int16_array__std__equal,
+  func__std_types__int16_array__std__times,
+  func__std__int16_array,
+  func__std__initialized_int16_array,
+  func__std_types__int16_array__std__create_empty_array,
+  func__std_types__int16_array__std__range,
+  func__std_types__uint16_array__std__length_of,
+  func__std_types__uint16_array__std__dimension_count_of,
+  func__std_types__uint16_array__std__equal,
+  func__std_types__uint16_array__std__bit_and,
+  func__std_types__uint16_array__std__bit_or,
+  func__std_types__uint16_array__std__bit_xor,
+  func__std_types__uint16_array__std__times,
+  func__std__uint16_array,
+  func__std__initialized_uint16_array,
+  func__std_types__uint16_array__std__create_empty_array,
+  func__std_types__uint16_array__std__range,
+  func__std_types__int32_array__std__length_of,
+  func__std_types__int32_array__std__dimension_count_of,
+  func__std_types__int32_array__std__equal,
+  func__std_types__int32_array__std__times,
+  func__std__int32_array,
+  func__std__initialized_int32_array,
+  func__std_types__int32_array__std__create_empty_array,
+  func__std_types__int32_array__std__range,
+  func__std_types__uint32_array__std__length_of,
+  func__std_types__uint32_array__std__dimension_count_of,
+  func__std_types__uint32_array__std__equal,
+  func__std_types__uint32_array__std__bit_and,
+  func__std_types__uint32_array__std__bit_or,
+  func__std_types__uint32_array__std__bit_xor,
+  func__std_types__uint32_array__std__times,
+  func__std__uint32_array,
+  func__std__initialized_uint32_array,
+  func__std_types__uint32_array__std__create_empty_array,
+  func__std_types__uint32_array__std__range,
+  func__std_types__int64_array__std__length_of,
+  func__std_types__int64_array__std__dimension_count_of,
+  func__std_types__int64_array__std__equal,
+  func__std_types__int64_array__std__times,
+  func__std__int64_array,
+  func__std__initialized_int64_array,
+  func__std_types__int64_array__std__create_empty_array,
+  func__std_types__int64_array__std__range,
+  func__std_types__uint64_array__std__length_of,
+  func__std_types__uint64_array__std__dimension_count_of,
+  func__std_types__uint64_array__std__equal,
+  func__std_types__uint64_array__std__bit_and,
+  func__std_types__uint64_array__std__bit_or,
+  func__std_types__uint64_array__std__bit_xor,
+  func__std_types__uint64_array__std__times,
+  func__std__uint64_array,
+  func__std__initialized_uint64_array,
+  func__std_types__uint64_array__std__create_empty_array,
+  func__std_types__uint64_array__std__range,
+  func__std_types__float32_array__std__length_of,
+  func__std_types__float32_array__std__dimension_count_of,
+  func__std_types__float32_array__std__equal,
+  func__std_types__float32_array__std__times,
+  func__std__float32_array,
+  func__std__initialized_float32_array,
+  func__std_types__float32_array__std__create_empty_array,
+  func__std_types__float32_array__std__range,
+  func__std_types__float64_array__std__length_of,
+  func__std_types__float64_array__std__dimension_count_of,
+  func__std_types__float64_array__std__equal,
+  func__std_types__float64_array__std__times,
+  func__std__float64_array,
+  func__std__initialized_float64_array,
+  func__std_types__float64_array__std__create_empty_array,
+  func__std_types__float64_array__std__range,
+  func__std__pass,
+  func__std__result_count,
+  func__std_types__true__std__equal,
+  func__std_types__false__std__equal,
+  func__c_function__std__parameter_count_of,
+  func__std__character,
+  func__std_types__character__std__plus,
+  func__std_types__character__std__minus,
+  func__std_types__character__std__equal,
+  func__std_types__character__std__less,
+  func__std_types__character__std__hash,
+  func__std_types__character__std__to_string,
+  func__std_types__character__std__to_integer,
+  func__std_types__character__std__width_of,
+  func__std__from_unix_time,
+  func__std__date_and_time,
+  func__std_types__date_and_time__std__year_of,
+  func__std_types__date_and_time__std__month_of,
+  func__std_types__date_and_time__std__day_of,
+  func__std_types__date_and_time__std__day_of_week_of,
+  func__std_types__date_and_time__std__hour_of,
+  func__std_types__date_and_time__std__minute_of,
+  func__std_types__date_and_time__std__second_of,
+  func__std_types__date_and_time__std__time_shift_of,
+  func__std_types__date_and_time__std__seconds_since_epoch,
+  func__std_types__date_and_time__std__plus,
+  func__std_types__date_and_time__std__minus,
+  func__std_types__date_and_time__std__equal,
+  func__std_types__date_and_time__std__less,
+  func__std__current_time,
+  func__debug__string,
+  func__debug__write,
+  func__debug__dump_object,
+  func__debug__has_io_access_rights,
+  func__debug__exit,
+  func__std__error_check,
+  func__debug__total_garbage_collections,
+  func__std__installation_prefix,
+  func__std__package_version,
+  unique__std__IO_ERROR,
+  unique__std__RUNTIME_ERROR,
+  unique__std__APPLICATION_ERROR,
+  func__std_types__error__std__error_category_of,
+  func__std_types__error__std__error_message_text_of,
+  func__std_types__error__std__error_details_of,
+  func__std_types__error__std__errno_of,
+  func__std_types__error__std__failed_attribute_of,
+  func__std__error,
+  func__std__exec,
+  func__std__create_process,
+  func__std_types__function__std__parameter_count_of,
+  func__std_types__function__std__new,
+  func__std__list,
+  func__std_types__list__std__length_of,
+  func__std_types__list__std__is_empty,
+  func__std_types__list__std__is_not_empty,
+  func__std_types__list__std__push,
+  func__std_types__list__std__drop,
+  func__std_types__list__std__pop,
+  func__std_types__list__std__peek,
+  func__std_types__list__std__append,
+  func__std_types__list__std__range,
+  func__std_types__list__std__spread,
+  func__builtin_types__positive_integer__std__negate,
+  func__builtin_types__negative_integer__std__negate,
+  func__std_types__real__std__negate,
+  func__builtin_types__positive_integer__std__times,
+  func__builtin_types__negative_integer__std__times,
+  func__builtin_types__positive_integer__std__to_integer,
+  func__builtin_types__negative_integer__std__to_integer,
+  func__std_types__real__std__to_integer,
+  func__std_types__real__std__floor,
+  func__std_types__real__std__ceil,
+  func__std_types__real__std__round,
+  func__builtin_types__negative_integer__std__to_string,
+  func__builtin_types__positive_integer__std__to_string,
+  func__std_types__real__std__to_string,
+  func__builtin_types__positive_integer__std__over,
+  func__builtin_types__negative_integer__std__over,
+  func__builtin_types__positive_integer__std__div,
+  func__builtin_types__negative_integer__std__div,
+  func__builtin_types__positive_integer__std__mod,
+  func__builtin_types__negative_integer__std__mod,
+  func__builtin_types__positive_integer__std__hash,
+  func__builtin_types__negative_integer__std__hash,
+  func__std_types__real__std__hash,
+  func__builtin_types__positive_integer__std__ln,
+  func__builtin_types__negative_integer__std__ln,
+  func__std_types__real__std__ln,
+  func__builtin_types__positive_integer__std__exp,
+  func__builtin_types__negative_integer__std__exp,
+  func__std_types__real__std__exp,
+  func__std__real,
+  func__std__integer,
+  func__std__sqrt,
+  func__std__pow,
+  func__builtin_types__positive_integer__std__exit,
+  func__builtin_types__positive_integer__std__plus,
+  func__builtin_types__negative_integer__std__plus,
+  func__std_types__real__std__plus,
+  func__builtin_types__positive_integer__std__minus,
+  func__builtin_types__negative_integer__std__minus,
+  func__std_types__real__std__minus,
+  func__std_types__real__std__times,
+  func__std_types__real__std__over,
+  func__builtin_types__positive_integer__std__equal,
+  func__builtin_types__negative_integer__std__equal,
+  func__std_types__real__std__equal,
+  func__builtin_types__positive_integer__std__less,
+  func__builtin_types__negative_integer__std__less,
+  func__std_types__real__std__less,
+  func__builtin_types__positive_integer__std__shift_left,
+  func__builtin_types__positive_integer__std__shift_right,
+  func__builtin_types__positive_integer__std__bit_and,
+  func__builtin_types__positive_integer__std__bit_or,
+  func__builtin_types__positive_integer__std__bit_xor,
+  func__std__sin,
+  func__std__cos,
+  func__std__tan,
+  func__std__asin,
+  func__std__acos,
+  func__std__atan,
+  func__debug__object_type,
+  func__debug__object_attributes,
+  func__std_types__object__std__new,
+  func__std_types__file_type__std__equal,
+  func__std_types__file_type__std__hash,
+  func__std__file_type,
+  func__std_types__file_type__std__to_integer,
+  func__std_types__file_descriptor__std__equal,
+  func__std_types__file_descriptor__std__hash,
+  func__std__file_descriptor,
+  func__std_types__file_descriptor__std__to_integer,
+  func__std_types__signal_number__std__equal,
+  func__std_types__signal_number__std__hash,
+  func__std__signal_number,
+  func__std_types__signal_number__std__to_integer,
+  func__std_types__shutdown_type__std__equal,
+  func__std_types__shutdown_type__std__hash,
+  func__std__shutdown_type,
+  func__std_types__shutdown_type__std__to_integer,
+  func__std_types__seek_type__std__equal,
+  func__std_types__seek_type__std__hash,
+  func__std__seek_type,
+  func__std_types__seek_type__std__to_integer,
+  func__std_types__device_id__std__equal,
+  func__std_types__device_id__std__hash,
+  func__std__device_id,
+  func__std_types__device_id__std__to_integer,
+  func__std_types__directory__std__equal,
+  func__std_types__directory__std__hash,
+  func__std_types__group_id__std__equal,
+  func__std_types__group_id__std__hash,
+  func__std__group_id,
+  func__std_types__group_id__std__to_integer,
+  func__std_types__inode_number__std__equal,
+  func__std_types__inode_number__std__hash,
+  func__std__inode_number,
+  func__std_types__inode_number__std__to_integer,
+  func__std_types__process_id__std__equal,
+  func__std_types__process_id__std__hash,
+  func__std__process_id,
+  func__std_types__process_id__std__to_integer,
+  func__std_types__user_id__std__equal,
+  func__std_types__user_id__std__hash,
+  func__std__user_id,
+  func__std_types__user_id__std__to_integer,
+  func__std_types__error_number__std__equal,
+  func__std_types__error_number__std__hash,
+  func__std__error_number,
+  func__std_types__error_number__std__to_integer,
+  func__std__access,
+  func__std__chdir,
+  func__std__chmod,
+  func__std__chown,
+  func__std__chroot,
+  func__std_types__file_descriptor__std__close,
+  func__std__closedir,
+  func__std__dup2,
+  func__std__fstat,
+  func__std__fsync,
+  func__std__getcwd,
+  func__std__getenv,
+  func__std__getegid,
+  func__std__geteuid,
+  func__std__getgid,
+  func__std__gethostname,
+  func__std__getlogin,
+  func__std__getpid,
+  func__std__getppid,
+  func__std__getpwuid,
+  func__std__getsid,
+  func__std__getuid,
+  func__std__isatty,
+  func__std__kill,
+  func__std__link,
+  func__std__lseek,
+  func__std__mkdir,
+  func__std__mkfifo,
+  func__std__open,
+  func__std__opendir,
+  func__std_types__file_descriptor__std__read,
+  func__std__readdir,
+  func__std__realpath,
+  func__std__rename,
+  func__std__sethostname,
+  func__std__shutdown,
+  func__std__stat,
+  func__std__strerror,
+  func__std__wait,
+  func__std_types__file_descriptor__std__write,
+  func__std__umask,
+  func__std__unlink,
+  func__std__shm_unlink,
+  func__std__usleep,
+  func__std_types__octet_string__std__length_of,
+  func__std_types__wide_string__std__length_of,
+  func__std_types__octet_string__std__is_empty,
+  func__std_types__octet_string__std__is_not_empty,
+  func__std_types__wide_string__std__is_empty,
+  func__std_types__wide_string__std__is_not_empty,
+  func__std_types__octet_string__std__push,
+  func__std_types__wide_string__std__push,
+  func__std_types__octet_string__std__append,
+  func__std_types__wide_string__std__append,
+  func__std_types__octet_string__std__range,
+  func__std_types__wide_string__std__range,
+  func__std_types__octet_string__std__hash,
+  func__std_types__wide_string__std__hash,
+  func__std_types__octet_string__std__equal,
+  func__std_types__wide_string__std__equal,
+  func__std_types__octet_string__std__less,
+  func__std_types__wide_string__std__less,
+  func__std_types__octet_string__std__width_of,
+  func__std_types__wide_string__std__width_of,
+  func__std_types__octet_string__std__from_utf8,
+  func__std_types__octet_string__std__to_utf8,
+  func__std_types__wide_string__std__to_utf8,
+  func__std_types__file_descriptor__std__get_terminal_attributes,
+  func__std_types__file_descriptor__std__set_terminal_attributes,
+  func__std_types__terminal_attributes__std__backspace_character_of,
+  func__std_types__terminal_attributes__std__use_canonical_mode,
+  func__std_types__terminal_attributes__std__echo_characters,
+  func__std_types__terminal_attributes__std__echo_new_lines,
+  func__std_types__terminal_attributes__std__enable_xon_xoff_for_input,
+  func__std_types__terminal_attributes__std__enable_xon_xoff_for_output,
+  func__std_types__terminal_attributes__std__restart_output_on_any_character,
+  func__std_types__terminal_attributes__std__ignore_cr_on_input,
+  func__std_types__terminal_attributes__std__generate_signals,
+  func__std_types__terminal_attributes__std__map_cr_to_lf_on_input,
+  func__std_types__terminal_attributes__std__hangup_on_close,
+  func__std_types__terminal_attributes__std__map_lf_to_crlf_on_output,
+  func__std_types__terminal_attributes__std__minimum_characters_for_canoncial_read,
+  func__std_types__terminal_attributes__std__timeout_for_reads,
+  func__std_types__terminal_attributes__std__input_speed,
+  func__std_types__terminal_attributes__std__output_speed,
+  func__std_types__tuple__std__typed_tuple,
+  func__builtin_types__tuple2__std__to_list,
+  func__builtin_types__tuple2__std__typed_tuple,
+  func__builtin_types__tuple3__std__to_list,
+  func__builtin_types__tuple3__std__typed_tuple,
+  func__builtin_types__tuple4__std__to_list,
+  func__builtin_types__tuple4__std__typed_tuple,
+  func__builtin_types__tuple5__std__to_list,
+  func__builtin_types__tuple5__std__typed_tuple,
+  func__builtin_types__tuple6__std__to_list,
+  func__builtin_types__tuple6__std__typed_tuple,
+  func__builtin_types__tuple7__std__to_list,
+  func__builtin_types__tuple7__std__typed_tuple,
+  func__builtin_types__tuple8__std__to_list,
+  func__builtin_types__tuple8__std__typed_tuple,
+  func__std__tuple,
+  func__std__tuple_or_error,
+  func__std__new_tuple,
+  func__std_types__character__std__to_upper_case,
+  func__std__is_an_upper_case_letter_character,
+  func__std_types__character__std__to_lower_case,
+  func__std__is_a_lower_case_letter_character,
+  func__std_types__character__std__to_title_case,
+  func__std__is_a_title_case_letter_character,
+  func__std__is_a_letter_character,
+  func__std__is_a_whitespace_character,
+  func__std__is_a_zero_width_character,
+  func__std__is_a_wide_character,
+  func__std_types__unique_item__std__to_string,
+  func__std_types__unique_item__std__equal,
+  func__std_types__unique_item__std__hash,
+  func__std__unique_item,
+  func__std_types__file_descriptor__std__get_terminal_size,
+  func__std__exitstatus,
+  func__std__pselect,
+  func__std__do_not_close,
+  func__std__waitpid,
+  func__std__open_unix_socket,
+  func__std__send_file_descriptor,
+  func__std__open_tcp_client_socket,
+  func__std__open_tcp_server_socket,
+  func__std__accept,
+  func__std__is_listening,
+  func__std__get_first_mac_address,
+  func__std_types__shared_memory__std__size_of,
+  func__std_types__shared_memory__std__file_descriptor_of,
+  func__std_types__shared_memory__std__write_at,
+  func__std__create_shared_memory
 };
 
 enum {
-  var_no__std___new = FIRST_VAR+0,
-  var_no__std___plus,
-  var_no__std___minus,
-  var_no__std___times,
-  var_no__std___over,
-  var_no__std___div,
-  var_no__std___mod,
-  var_no__std___negate,
-  var_no__std___floor,
-  var_no__std___ceil,
-  var_no__std___round,
-  var_no__std___ln,
-  var_no__std___exp,
-  var_no__std___equal,
-  var_no__std___less,
-  var_no__std___shift_left,
-  var_no__std___shift_right,
-  var_no__std___bit_and,
-  var_no__std___bit_or,
-  var_no__std___bit_xor,
-  var_no__std___parameter_count_of,
-  var_no__std___to_string,
-  var_no__std___to_integer,
-  var_no__std___to_real,
-  var_no__std___to_number,
-  var_no__std___to_lower_case,
-  var_no__std___to_upper_case,
-  var_no__std___to_title_case,
-  var_no__std___is_empty,
-  var_no__std___is_not_empty,
-  var_no__std___length_of,
-  var_no__std___dimension_count_of,
-  var_no__std___width_of,
-  var_no__std___height_of,
-  var_no__std___hash,
-  var_no__std___push,
-  var_no__std___pop,
-  var_no__std___peek,
-  var_no__std___drop,
-  var_no__std___put,
-  var_no__std___get,
-  var_no__std___append,
-  var_no__std___range,
-  var_no__std___spread,
-  var_no__std___to_list,
-  var_no__std___exit,
-  var_no__std___from_utf8,
-  var_no__std___read,
-  var_no__std___write,
-  var_no__std___close,
-  var_no__std___flush,
-  var_no__std_types___generic_array,
-  var_no__std___create_empty_array,
-  var_no__std_types___array,
-  var_no__std___array,
-  var_no__std___initialized_array,
-  var_no__std_types___boolean_array,
-  var_no__std___boolean_array,
-  var_no__std___initialized_boolean_array,
-  var_no__std_types___character_array,
-  var_no__std___character_array,
-  var_no__std___initialized_character_array,
-  var_no__std_types___int8_array,
-  var_no__std___int8_array,
-  var_no__std___initialized_int8_array,
-  var_no__std_types___uint8_array,
-  var_no__std___uint8_array,
-  var_no__std___initialized_uint8_array,
-  var_no__std_types___int16_array,
-  var_no__std___int16_array,
-  var_no__std___initialized_int16_array,
-  var_no__std_types___uint16_array,
-  var_no__std___uint16_array,
-  var_no__std___initialized_uint16_array,
-  var_no__std_types___int32_array,
-  var_no__std___int32_array,
-  var_no__std___initialized_int32_array,
-  var_no__std_types___uint32_array,
-  var_no__std___uint32_array,
-  var_no__std___initialized_uint32_array,
-  var_no__std_types___int64_array,
-  var_no__std___int64_array,
-  var_no__std___initialized_int64_array,
-  var_no__std_types___uint64_array,
-  var_no__std___uint64_array,
-  var_no__std___initialized_uint64_array,
-  var_no__std_types___float32_array,
-  var_no__std___float32_array,
-  var_no__std___initialized_float32_array,
-  var_no__std_types___float64_array,
-  var_no__std___float64_array,
-  var_no__std___initialized_float64_array,
-  var_no__std___EXIT_SUCCESS,
-  var_no__std___EXIT_FAILURE,
-  var_no__std___pass,
-  var_no__std___result_count,
-  var_no__std_types___true,
-  var_no__std_types___false,
-  var_no__c_function,
-  var_no__std_types___character,
-  var_no__std___character,
-  var_no__std___year_of,
-  var_no__std___month_of,
-  var_no__std___day_of,
-  var_no__std___day_of_week_of,
-  var_no__std___hour_of,
-  var_no__std___minute_of,
-  var_no__std___second_of,
-  var_no__std___time_shift_of,
-  var_no__std___seconds_since_epoch,
-  var_no__std_types___date_and_time,
-  var_no__std___from_unix_time,
-  var_no__std___date_and_time,
-  var_no__std___current_time,
-  var_no__debug___string,
-  var_no__debug___write,
-  var_no__debug___dump_object,
-  var_no__debug___has_io_access_rights,
-  var_no__debug___exit,
-  var_no__std___error_check,
-  var_no__debug___total_garbage_collections,
-  var_no__std___program_name,
-  var_no__std___command_line_arguments,
-  var_no__std___environment_variables,
-  var_no__std___installation_prefix,
-  var_no__std___package_version,
-  var_no__std___IO_ERROR,
-  var_no__std___RUNTIME_ERROR,
-  var_no__std___APPLICATION_ERROR,
-  var_no__std_types___error,
-  var_no__std___error_category_of,
-  var_no__std___error_message_text_of,
-  var_no__std___error_details_of,
-  var_no__std___errno_of,
-  var_no__std___failed_attribute_of,
-  var_no__std___error,
-  var_no__std_types___object,
-  var_no__std_types___undefined,
-  var_no__std___exec,
-  var_no__std___create_process,
-  var_no__std_types___function,
-  var_no__tabular_function,
-  var_no__std_types___key_value_pair,
-  var_no__std_types___generic_list,
-  var_no__std_types___list,
-  var_no__std___empty_list,
-  var_no__std___list,
-  var_no__std_types___number,
-  var_no__std_types___integer,
-  var_no__builtin_types___positive_integer,
-  var_no__builtin_types___negative_integer,
-  var_no__std_types___real,
-  var_no__std___real,
-  var_no__std___integer,
-  var_no__std___sqrt,
-  var_no__std___pow,
-  var_no__std___sin,
-  var_no__std___cos,
-  var_no__std___tan,
-  var_no__std___asin,
-  var_no__std___acos,
-  var_no__std___atan,
-  var_no__debug___object_type,
-  var_no__debug___object_attributes,
-  var_no__std_types___polymorphic_function,
-  var_no__std_types___polymorphic_function_with_setter,
-  var_no__std___subtype_of,
-  var_no__std___BLOCK_DEVICE,
-  var_no__std___CHARACTER_DEVICE,
-  var_no__std___DIRECTORY,
-  var_no__std___NAMED_PIPE,
-  var_no__std___SYMBOLIC_LINK,
-  var_no__std___REGULAR_FILE,
-  var_no__std___SOCKET,
-  var_no__std___UNKNOWN_FILE_TYPE,
-  var_no__std___STDIN_FILENO,
-  var_no__std___STDOUT_FILENO,
-  var_no__std___STDERR_FILENO,
-  var_no__std___SHUT_RD,
-  var_no__std___SHUT_WR,
-  var_no__std___SHUT_RDWR,
-  var_no__std___SEEK_SET,
-  var_no__std___SEEK_CUR,
-  var_no__std___SEEK_END,
-  var_no__std___ENOERR,
-  var_no__std___EPERM,
-  var_no__std___ENOENT,
-  var_no__std___ESRCH,
-  var_no__std___EINTR,
-  var_no__std___EIO,
-  var_no__std___ENXIO,
-  var_no__std___E2BIG,
-  var_no__std___ENOEXEC,
-  var_no__std___EBADF,
-  var_no__std___ECHILD,
-  var_no__std___EAGAIN,
-  var_no__std___ENOMEM,
-  var_no__std___EACCES,
-  var_no__std___EFAULT,
-  var_no__std___ENOTBLK,
-  var_no__std___EBUSY,
-  var_no__std___EEXIST,
-  var_no__std___EXDEV,
-  var_no__std___ENODEV,
-  var_no__std___ENOTDIR,
-  var_no__std___EISDIR,
-  var_no__std___EINVAL,
-  var_no__std___ENFILE,
-  var_no__std___EMFILE,
-  var_no__std___ENOTTY,
-  var_no__std___ETXTBSY,
-  var_no__std___EFBIG,
-  var_no__std___ENOSPC,
-  var_no__std___ESPIPE,
-  var_no__std___EROFS,
-  var_no__std___EMLINK,
-  var_no__std___EPIPE,
-  var_no__std___EDOM,
-  var_no__std___ERANGE,
-  var_no__std___EDEADLK,
-  var_no__std___ENAMETOOLONG,
-  var_no__std___ENOLCK,
-  var_no__std___ENOSYS,
-  var_no__std___ENOTEMPTY,
-  var_no__std___EILSEQ,
-  var_no__std___ELOOP,
-  var_no__std___ENOMSG,
-  var_no__std___EIDRM,
-  var_no__std___ECHRNG,
-  var_no__std___EL2NSYNC,
-  var_no__std___EL3HLT,
-  var_no__std___EL3RST,
-  var_no__std___ELNRNG,
-  var_no__std___EUNATCH,
-  var_no__std___ENOCSI,
-  var_no__std___EL2HLT,
-  var_no__std___EBADE,
-  var_no__std___EBADR,
-  var_no__std___EXFULL,
-  var_no__std___ENOANO,
-  var_no__std___EBADRQC,
-  var_no__std___EBADSLT,
-  var_no__std___EBFONT,
-  var_no__std___ENOSTR,
-  var_no__std___ENODATA,
-  var_no__std___ETIME,
-  var_no__std___ENOSR,
-  var_no__std___ENONET,
-  var_no__std___ENOPKG,
-  var_no__std___EREMOTE,
-  var_no__std___ENOLINK,
-  var_no__std___EADV,
-  var_no__std___ESRMNT,
-  var_no__std___ECOMM,
-  var_no__std___EPROTO,
-  var_no__std___EMULTIHOP,
-  var_no__std___EDOTDOT,
-  var_no__std___EBADMSG,
-  var_no__std___EOVERFLOW,
-  var_no__std___ENOTUNIQ,
-  var_no__std___EBADFD,
-  var_no__std___EREMCHG,
-  var_no__std___ELIBACC,
-  var_no__std___ELIBBAD,
-  var_no__std___ELIBSCN,
-  var_no__std___ELIBMAX,
-  var_no__std___ELIBEXEC,
-  var_no__std___ESTRPIPE,
-  var_no__std___EUSERS,
-  var_no__std___ENOTSOCK,
-  var_no__std___EDESTADDRREQ,
-  var_no__std___EMSGSIZE,
-  var_no__std___EPROTOTYPE,
-  var_no__std___ENOPROTOOPT,
-  var_no__std___EPROTONOSUPPORT,
-  var_no__std___ESOCKTNOSUPPORT,
-  var_no__std___EOPNOTSUPP,
-  var_no__std___EPFNOSUPPORT,
-  var_no__std___EAFNOSUPPORT,
-  var_no__std___EADDRINUSE,
-  var_no__std___EADDRNOTAVAIL,
-  var_no__std___ENETDOWN,
-  var_no__std___ENETUNREACH,
-  var_no__std___ENETRESET,
-  var_no__std___ECONNABORTED,
-  var_no__std___ECONNRESET,
-  var_no__std___ENOBUFS,
-  var_no__std___EISCONN,
-  var_no__std___ENOTCONN,
-  var_no__std___ESHUTDOWN,
-  var_no__std___ETOOMANYREFS,
-  var_no__std___ETIMEDOUT,
-  var_no__std___ECONNREFUSED,
-  var_no__std___EHOSTDOWN,
-  var_no__std___EHOSTUNREACH,
-  var_no__std___EALREADY,
-  var_no__std___EINPROGRESS,
-  var_no__std___ESTALE,
-  var_no__std___EDQUOT,
-  var_no__std___ENOMEDIUM,
-  var_no__std___ECANCELED,
-  var_no__std___EOWNERDEAD,
-  var_no__std___ENOTRECOVERABLE,
-  var_no__std___SIGHUP,
-  var_no__std___SIGINT,
-  var_no__std___SIGQUIT,
-  var_no__std___SIGILL,
-  var_no__std___SIGTRAP,
-  var_no__std___SIGABRT,
-  var_no__std___SIGIOT,
-  var_no__std___SIGBUS,
-  var_no__std___SIGFPE,
-  var_no__std___SIGKILL,
-  var_no__std___SIGUSR1,
-  var_no__std___SIGSEGV,
-  var_no__std___SIGUSR2,
-  var_no__std___SIGPIPE,
-  var_no__std___SIGALRM,
-  var_no__std___SIGTERM,
-  var_no__std___SIGSTKFLT,
-  var_no__std___SIGCHLD,
-  var_no__std___SIGCONT,
-  var_no__std___SIGSTOP,
-  var_no__std___SIGTSTP,
-  var_no__std___SIGTTIN,
-  var_no__std___SIGTTOU,
-  var_no__std___SIGURG,
-  var_no__std___SIGXCPU,
-  var_no__std___SIGXFSZ,
-  var_no__std___SIGVTALRM,
-  var_no__std___SIGPROF,
-  var_no__std___SIGWINCH,
-  var_no__std___SIGIO,
-  var_no__std___SIGPWR,
-  var_no__std___SIGSYS,
-  var_no__std___access_time_of,
-  var_no__std___block_count_of,
-  var_no__std___block_size_of,
-  var_no__std___device_of,
-  var_no__std___group_id_of,
-  var_no__std___home_directory_of,
-  var_no__std___inode_number_of,
-  var_no__std___link_count_of,
-  var_no__std___mode_of,
-  var_no__std___modification_time_of,
-  var_no__std___name_of,
-  var_no__std___password_of,
-  var_no__std___root_device_of,
-  var_no__std___shell_of,
-  var_no__std___size_of,
-  var_no__std___status_change_time_of,
-  var_no__std___type_of,
-  var_no__std___user_id_of,
-  var_no__std___user_information_of,
-  var_no__std___username_of,
-  var_no__std_types___file_type,
-  var_no__std___file_type,
-  var_no__std_types___file_descriptor,
-  var_no__std___file_descriptor,
-  var_no__std_types___signal_number,
-  var_no__std___signal_number,
-  var_no__std_types___shutdown_type,
-  var_no__std___shutdown_type,
-  var_no__std_types___seek_type,
-  var_no__std___seek_type,
-  var_no__std_types___device_id,
-  var_no__std___device_id,
-  var_no__std_types___directory,
-  var_no__std_types___group_id,
-  var_no__std___group_id,
-  var_no__std_types___inode_number,
-  var_no__std___inode_number,
-  var_no__std_types___process_id,
-  var_no__std___process_id,
-  var_no__std_types___user_id,
-  var_no__std___user_id,
-  var_no__std_types___error_number,
-  var_no__std___error_number,
-  var_no__std_types___passwd,
-  var_no__std_types___stat,
-  var_no__std_types___dirent,
-  var_no__std___access,
-  var_no__std___chdir,
-  var_no__std___chmod,
-  var_no__std___chown,
-  var_no__std___chroot,
-  var_no__std___closedir,
-  var_no__std___dup2,
-  var_no__std___fstat,
-  var_no__std___fsync,
-  var_no__std___getcwd,
-  var_no__std___getenv,
-  var_no__std___getegid,
-  var_no__std___geteuid,
-  var_no__std___getgid,
-  var_no__std___gethostname,
-  var_no__std___getlogin,
-  var_no__std___getpid,
-  var_no__std___getppid,
-  var_no__std___getpwuid,
-  var_no__std___getsid,
-  var_no__std___getuid,
-  var_no__std___isatty,
-  var_no__std___kill,
-  var_no__std___link,
-  var_no__std___lseek,
-  var_no__std___mkdir,
-  var_no__std___mkfifo,
-  var_no__std___open,
-  var_no__std___opendir,
-  var_no__std___readdir,
-  var_no__std___realpath,
-  var_no__std___rename,
-  var_no__std___sethostname,
-  var_no__std___shutdown,
-  var_no__std___stat,
-  var_no__std___strerror,
-  var_no__std___wait,
-  var_no__std___umask,
-  var_no__std___unlink,
-  var_no__std___shm_unlink,
-  var_no__std___usleep,
-  var_no__std_types___sequence,
-  var_no__std___to_utf8,
-  var_no__std_types___string,
-  var_no__std_types___octet_string,
-  var_no__std_types___wide_string,
-  var_no__std___empty_string,
-  var_no__std___get_terminal_attributes,
-  var_no__std___set_terminal_attributes,
-  var_no__std___backspace_character_of,
-  var_no__std___use_canonical_mode,
-  var_no__std___echo_characters,
-  var_no__std___echo_new_lines,
-  var_no__std___enable_xon_xoff_for_input,
-  var_no__std___enable_xon_xoff_for_output,
-  var_no__std___restart_output_on_any_character,
-  var_no__std___ignore_cr_on_input,
-  var_no__std___generate_signals,
-  var_no__std___map_cr_to_lf_on_input,
-  var_no__std___hangup_on_close,
-  var_no__std___map_lf_to_crlf_on_output,
-  var_no__std___minimum_characters_for_canoncial_read,
-  var_no__std___timeout_for_reads,
-  var_no__std___input_speed,
-  var_no__std___output_speed,
-  var_no__std_types___terminal_attributes,
-  var_no__std_types___tuple,
-  var_no__std___typed_tuple,
-  var_no__builtin_types___tuple2,
-  var_no__builtin_types___tuple3,
-  var_no__builtin_types___tuple4,
-  var_no__builtin_types___tuple5,
-  var_no__builtin_types___tuple6,
-  var_no__builtin_types___tuple7,
-  var_no__builtin_types___tuple8,
-  var_no__std___tuple,
-  var_no__std___tuple_or_error,
-  var_no__std___new_tuple,
-  var_no__std___is_an_upper_case_letter_character,
-  var_no__std___is_a_lower_case_letter_character,
-  var_no__std___is_a_title_case_letter_character,
-  var_no__std___is_a_letter_character,
-  var_no__std___is_a_whitespace_character,
-  var_no__std___is_a_zero_width_character,
-  var_no__std___is_a_wide_character,
-  var_no__std_types___unique_item,
-  var_no__std___unique_item,
-  var_no__std_types___value_range,
-  var_no__std___get_terminal_size,
-  var_no__std___exitstatus,
-  var_no__std___pselect,
-  var_no__std___do_not_close,
-  var_no__std___waitpid,
-  var_no__std___open_unix_socket,
-  var_no__std___send_file_descriptor,
-  var_no__std___open_tcp_client_socket,
-  var_no__std___open_tcp_server_socket,
-  var_no__std___accept,
-  var_no__std___is_listening,
-  var_no__std___get_first_mac_address,
-  var_no__std_types___shared_memory,
-  var_no__std___file_descriptor_of,
-  var_no__std___write_at,
-  var_no__std___create_shared_memory
+  var_std__new = FIRST_VAR+0,
+  var_std__plus,
+  var_std__minus,
+  var_std__times,
+  var_std__over,
+  var_std__div,
+  var_std__mod,
+  var_std__negate,
+  var_std__floor,
+  var_std__ceil,
+  var_std__round,
+  var_std__ln,
+  var_std__exp,
+  var_std__equal,
+  var_std__less,
+  var_std__shift_left,
+  var_std__shift_right,
+  var_std__bit_and,
+  var_std__bit_or,
+  var_std__bit_xor,
+  var_std__parameter_count_of,
+  var_std__to_string,
+  var_std__to_integer,
+  var_std__to_real,
+  var_std__to_number,
+  var_std__to_lower_case,
+  var_std__to_upper_case,
+  var_std__to_title_case,
+  var_std__is_empty,
+  var_std__is_not_empty,
+  var_std__length_of,
+  var_std__dimension_count_of,
+  var_std__width_of,
+  var_std__height_of,
+  var_std__hash,
+  var_std__push,
+  var_std__pop,
+  var_std__peek,
+  var_std__drop,
+  var_std__put,
+  var_std__get,
+  var_std__append,
+  var_std__range,
+  var_std__spread,
+  var_std__to_list,
+  var_std__exit,
+  var_std__from_utf8,
+  var_std__read,
+  var_std__write,
+  var_std__close,
+  var_std__flush,
+  var_std_types__generic_array,
+  var_std__create_empty_array,
+  var_std_types__array,
+  var_std__array,
+  var_std__initialized_array,
+  var_std_types__boolean_array,
+  var_std__boolean_array,
+  var_std__initialized_boolean_array,
+  var_std_types__character_array,
+  var_std__character_array,
+  var_std__initialized_character_array,
+  var_std_types__int8_array,
+  var_std__int8_array,
+  var_std__initialized_int8_array,
+  var_std_types__uint8_array,
+  var_std__uint8_array,
+  var_std__initialized_uint8_array,
+  var_std_types__int16_array,
+  var_std__int16_array,
+  var_std__initialized_int16_array,
+  var_std_types__uint16_array,
+  var_std__uint16_array,
+  var_std__initialized_uint16_array,
+  var_std_types__int32_array,
+  var_std__int32_array,
+  var_std__initialized_int32_array,
+  var_std_types__uint32_array,
+  var_std__uint32_array,
+  var_std__initialized_uint32_array,
+  var_std_types__int64_array,
+  var_std__int64_array,
+  var_std__initialized_int64_array,
+  var_std_types__uint64_array,
+  var_std__uint64_array,
+  var_std__initialized_uint64_array,
+  var_std_types__float32_array,
+  var_std__float32_array,
+  var_std__initialized_float32_array,
+  var_std_types__float64_array,
+  var_std__float64_array,
+  var_std__initialized_float64_array,
+  var_std__EXIT_SUCCESS,
+  var_std__EXIT_FAILURE,
+  var_std__pass,
+  var_std__result_count,
+  var_std_types__true,
+  var_std_types__false,
+  var_c_function,
+  var_std_types__character,
+  var_std__character,
+  var_std__year_of,
+  var_std__month_of,
+  var_std__day_of,
+  var_std__day_of_week_of,
+  var_std__hour_of,
+  var_std__minute_of,
+  var_std__second_of,
+  var_std__time_shift_of,
+  var_std__seconds_since_epoch,
+  var_std_types__date_and_time,
+  var_std__from_unix_time,
+  var_std__date_and_time,
+  var_std__current_time,
+  var_debug__string,
+  var_debug__write,
+  var_debug__dump_object,
+  var_debug__has_io_access_rights,
+  var_debug__exit,
+  var_std__error_check,
+  var_debug__total_garbage_collections,
+  var_std__program_name,
+  var_std__command_line_arguments,
+  var_std__environment_variables,
+  var_std__installation_prefix,
+  var_std__package_version,
+  var_std__IO_ERROR,
+  var_std__RUNTIME_ERROR,
+  var_std__APPLICATION_ERROR,
+  var_std_types__error,
+  var_std__error_category_of,
+  var_std__error_message_text_of,
+  var_std__error_details_of,
+  var_std__errno_of,
+  var_std__failed_attribute_of,
+  var_std__error,
+  var_std_types__object,
+  var_std_types__undefined,
+  var_std__exec,
+  var_std__create_process,
+  var_std_types__function,
+  var_tabular_function,
+  var_std_types__key_value_pair,
+  var_std_types__generic_list,
+  var_std_types__list,
+  var_std__empty_list,
+  var_std__list,
+  var_std_types__number,
+  var_std_types__integer,
+  var_builtin_types__positive_integer,
+  var_builtin_types__negative_integer,
+  var_std_types__real,
+  var_std__real,
+  var_std__integer,
+  var_std__sqrt,
+  var_std__pow,
+  var_std__sin,
+  var_std__cos,
+  var_std__tan,
+  var_std__asin,
+  var_std__acos,
+  var_std__atan,
+  var_debug__object_type,
+  var_debug__object_attributes,
+  var_std_types__polymorphic_function,
+  var_std_types__polymorphic_function_with_setter,
+  var_std__subtype_of,
+  var_std__BLOCK_DEVICE,
+  var_std__CHARACTER_DEVICE,
+  var_std__DIRECTORY,
+  var_std__NAMED_PIPE,
+  var_std__SYMBOLIC_LINK,
+  var_std__REGULAR_FILE,
+  var_std__SOCKET,
+  var_std__UNKNOWN_FILE_TYPE,
+  var_std__STDIN_FILENO,
+  var_std__STDOUT_FILENO,
+  var_std__STDERR_FILENO,
+  var_std__SHUT_RD,
+  var_std__SHUT_WR,
+  var_std__SHUT_RDWR,
+  var_std__SEEK_SET,
+  var_std__SEEK_CUR,
+  var_std__SEEK_END,
+  var_std__ENOERR,
+  var_std__EPERM,
+  var_std__ENOENT,
+  var_std__ESRCH,
+  var_std__EINTR,
+  var_std__EIO,
+  var_std__ENXIO,
+  var_std__E2BIG,
+  var_std__ENOEXEC,
+  var_std__EBADF,
+  var_std__ECHILD,
+  var_std__EAGAIN,
+  var_std__ENOMEM,
+  var_std__EACCES,
+  var_std__EFAULT,
+  var_std__ENOTBLK,
+  var_std__EBUSY,
+  var_std__EEXIST,
+  var_std__EXDEV,
+  var_std__ENODEV,
+  var_std__ENOTDIR,
+  var_std__EISDIR,
+  var_std__EINVAL,
+  var_std__ENFILE,
+  var_std__EMFILE,
+  var_std__ENOTTY,
+  var_std__ETXTBSY,
+  var_std__EFBIG,
+  var_std__ENOSPC,
+  var_std__ESPIPE,
+  var_std__EROFS,
+  var_std__EMLINK,
+  var_std__EPIPE,
+  var_std__EDOM,
+  var_std__ERANGE,
+  var_std__EDEADLK,
+  var_std__ENAMETOOLONG,
+  var_std__ENOLCK,
+  var_std__ENOSYS,
+  var_std__ENOTEMPTY,
+  var_std__EILSEQ,
+  var_std__ELOOP,
+  var_std__ENOMSG,
+  var_std__EIDRM,
+  var_std__ECHRNG,
+  var_std__EL2NSYNC,
+  var_std__EL3HLT,
+  var_std__EL3RST,
+  var_std__ELNRNG,
+  var_std__EUNATCH,
+  var_std__ENOCSI,
+  var_std__EL2HLT,
+  var_std__EBADE,
+  var_std__EBADR,
+  var_std__EXFULL,
+  var_std__ENOANO,
+  var_std__EBADRQC,
+  var_std__EBADSLT,
+  var_std__EBFONT,
+  var_std__ENOSTR,
+  var_std__ENODATA,
+  var_std__ETIME,
+  var_std__ENOSR,
+  var_std__ENONET,
+  var_std__ENOPKG,
+  var_std__EREMOTE,
+  var_std__ENOLINK,
+  var_std__EADV,
+  var_std__ESRMNT,
+  var_std__ECOMM,
+  var_std__EPROTO,
+  var_std__EMULTIHOP,
+  var_std__EDOTDOT,
+  var_std__EBADMSG,
+  var_std__EOVERFLOW,
+  var_std__ENOTUNIQ,
+  var_std__EBADFD,
+  var_std__EREMCHG,
+  var_std__ELIBACC,
+  var_std__ELIBBAD,
+  var_std__ELIBSCN,
+  var_std__ELIBMAX,
+  var_std__ELIBEXEC,
+  var_std__ESTRPIPE,
+  var_std__EUSERS,
+  var_std__ENOTSOCK,
+  var_std__EDESTADDRREQ,
+  var_std__EMSGSIZE,
+  var_std__EPROTOTYPE,
+  var_std__ENOPROTOOPT,
+  var_std__EPROTONOSUPPORT,
+  var_std__ESOCKTNOSUPPORT,
+  var_std__EOPNOTSUPP,
+  var_std__EPFNOSUPPORT,
+  var_std__EAFNOSUPPORT,
+  var_std__EADDRINUSE,
+  var_std__EADDRNOTAVAIL,
+  var_std__ENETDOWN,
+  var_std__ENETUNREACH,
+  var_std__ENETRESET,
+  var_std__ECONNABORTED,
+  var_std__ECONNRESET,
+  var_std__ENOBUFS,
+  var_std__EISCONN,
+  var_std__ENOTCONN,
+  var_std__ESHUTDOWN,
+  var_std__ETOOMANYREFS,
+  var_std__ETIMEDOUT,
+  var_std__ECONNREFUSED,
+  var_std__EHOSTDOWN,
+  var_std__EHOSTUNREACH,
+  var_std__EALREADY,
+  var_std__EINPROGRESS,
+  var_std__ESTALE,
+  var_std__EDQUOT,
+  var_std__ENOMEDIUM,
+  var_std__ECANCELED,
+  var_std__EOWNERDEAD,
+  var_std__ENOTRECOVERABLE,
+  var_std__SIGHUP,
+  var_std__SIGINT,
+  var_std__SIGQUIT,
+  var_std__SIGILL,
+  var_std__SIGTRAP,
+  var_std__SIGABRT,
+  var_std__SIGIOT,
+  var_std__SIGBUS,
+  var_std__SIGFPE,
+  var_std__SIGKILL,
+  var_std__SIGUSR1,
+  var_std__SIGSEGV,
+  var_std__SIGUSR2,
+  var_std__SIGPIPE,
+  var_std__SIGALRM,
+  var_std__SIGTERM,
+  var_std__SIGSTKFLT,
+  var_std__SIGCHLD,
+  var_std__SIGCONT,
+  var_std__SIGSTOP,
+  var_std__SIGTSTP,
+  var_std__SIGTTIN,
+  var_std__SIGTTOU,
+  var_std__SIGURG,
+  var_std__SIGXCPU,
+  var_std__SIGXFSZ,
+  var_std__SIGVTALRM,
+  var_std__SIGPROF,
+  var_std__SIGWINCH,
+  var_std__SIGIO,
+  var_std__SIGPWR,
+  var_std__SIGSYS,
+  var_std__access_time_of,
+  var_std__block_count_of,
+  var_std__block_size_of,
+  var_std__device_of,
+  var_std__group_id_of,
+  var_std__home_directory_of,
+  var_std__inode_number_of,
+  var_std__link_count_of,
+  var_std__mode_of,
+  var_std__modification_time_of,
+  var_std__name_of,
+  var_std__password_of,
+  var_std__root_device_of,
+  var_std__shell_of,
+  var_std__size_of,
+  var_std__status_change_time_of,
+  var_std__type_of,
+  var_std__user_id_of,
+  var_std__user_information_of,
+  var_std__username_of,
+  var_std_types__file_type,
+  var_std__file_type,
+  var_std_types__file_descriptor,
+  var_std__file_descriptor,
+  var_std_types__signal_number,
+  var_std__signal_number,
+  var_std_types__shutdown_type,
+  var_std__shutdown_type,
+  var_std_types__seek_type,
+  var_std__seek_type,
+  var_std_types__device_id,
+  var_std__device_id,
+  var_std_types__directory,
+  var_std_types__group_id,
+  var_std__group_id,
+  var_std_types__inode_number,
+  var_std__inode_number,
+  var_std_types__process_id,
+  var_std__process_id,
+  var_std_types__user_id,
+  var_std__user_id,
+  var_std_types__error_number,
+  var_std__error_number,
+  var_std_types__passwd,
+  var_std_types__stat,
+  var_std_types__dirent,
+  var_std__access,
+  var_std__chdir,
+  var_std__chmod,
+  var_std__chown,
+  var_std__chroot,
+  var_std__closedir,
+  var_std__dup2,
+  var_std__fstat,
+  var_std__fsync,
+  var_std__getcwd,
+  var_std__getenv,
+  var_std__getegid,
+  var_std__geteuid,
+  var_std__getgid,
+  var_std__gethostname,
+  var_std__getlogin,
+  var_std__getpid,
+  var_std__getppid,
+  var_std__getpwuid,
+  var_std__getsid,
+  var_std__getuid,
+  var_std__isatty,
+  var_std__kill,
+  var_std__link,
+  var_std__lseek,
+  var_std__mkdir,
+  var_std__mkfifo,
+  var_std__open,
+  var_std__opendir,
+  var_std__readdir,
+  var_std__realpath,
+  var_std__rename,
+  var_std__sethostname,
+  var_std__shutdown,
+  var_std__stat,
+  var_std__strerror,
+  var_std__wait,
+  var_std__umask,
+  var_std__unlink,
+  var_std__shm_unlink,
+  var_std__usleep,
+  var_std_types__sequence,
+  var_std__to_utf8,
+  var_std_types__string,
+  var_std_types__octet_string,
+  var_std_types__wide_string,
+  var_std__empty_string,
+  var_std__get_terminal_attributes,
+  var_std__set_terminal_attributes,
+  var_std__backspace_character_of,
+  var_std__use_canonical_mode,
+  var_std__echo_characters,
+  var_std__echo_new_lines,
+  var_std__enable_xon_xoff_for_input,
+  var_std__enable_xon_xoff_for_output,
+  var_std__restart_output_on_any_character,
+  var_std__ignore_cr_on_input,
+  var_std__generate_signals,
+  var_std__map_cr_to_lf_on_input,
+  var_std__hangup_on_close,
+  var_std__map_lf_to_crlf_on_output,
+  var_std__minimum_characters_for_canoncial_read,
+  var_std__timeout_for_reads,
+  var_std__input_speed,
+  var_std__output_speed,
+  var_std_types__terminal_attributes,
+  var_std_types__tuple,
+  var_std__typed_tuple,
+  var_builtin_types__tuple2,
+  var_builtin_types__tuple3,
+  var_builtin_types__tuple4,
+  var_builtin_types__tuple5,
+  var_builtin_types__tuple6,
+  var_builtin_types__tuple7,
+  var_builtin_types__tuple8,
+  var_std__tuple,
+  var_std__tuple_or_error,
+  var_std__new_tuple,
+  var_std__is_an_upper_case_letter_character,
+  var_std__is_a_lower_case_letter_character,
+  var_std__is_a_title_case_letter_character,
+  var_std__is_a_letter_character,
+  var_std__is_a_whitespace_character,
+  var_std__is_a_zero_width_character,
+  var_std__is_a_wide_character,
+  var_std_types__unique_item,
+  var_std__unique_item,
+  var_std_types__value_range,
+  var_std__get_terminal_size,
+  var_std__exitstatus,
+  var_std__pselect,
+  var_std__do_not_close,
+  var_std__waitpid,
+  var_std__open_unix_socket,
+  var_std__send_file_descriptor,
+  var_std__open_tcp_client_socket,
+  var_std__open_tcp_server_socket,
+  var_std__accept,
+  var_std__is_listening,
+  var_std__get_first_mac_address,
+  var_std_types__shared_memory,
+  var_std__file_descriptor_of,
+  var_std__write_at,
+  var_std__create_shared_memory
 };
 
 static FUNKY_VARIABLE variables_table[];
 
-static POSITIVE_INTEGER std___EXIT_SUCCESS;
-static POSITIVE_INTEGER std___EXIT_FAILURE;
-static OCTET_STRING std___program_name;
-static LIST std___command_line_arguments;
-static LIST std___environment_variables;
-static FILE_TYPE std___BLOCK_DEVICE;
-static FILE_TYPE std___CHARACTER_DEVICE;
-static FILE_TYPE std___DIRECTORY;
-static FILE_TYPE std___NAMED_PIPE;
-static FILE_TYPE std___SYMBOLIC_LINK;
-static FILE_TYPE std___REGULAR_FILE;
-static FILE_TYPE std___SOCKET;
-static FILE_TYPE std___UNKNOWN_FILE_TYPE;
-static FILE_DESCRIPTOR std___STDIN_FILENO;
-static FILE_DESCRIPTOR std___STDOUT_FILENO;
-static FILE_DESCRIPTOR std___STDERR_FILENO;
-static SHUTDOWN_TYPE std___SHUT_RD;
-static SHUTDOWN_TYPE std___SHUT_WR;
-static SHUTDOWN_TYPE std___SHUT_RDWR;
-static SEEK_TYPE std___SEEK_SET;
-static SEEK_TYPE std___SEEK_CUR;
-static SEEK_TYPE std___SEEK_END;
-static ERROR_NUMBER std___ENOERR;
-static ERROR_NUMBER std___EPERM;
-static ERROR_NUMBER std___ENOENT;
-static ERROR_NUMBER std___ESRCH;
-static ERROR_NUMBER std___EINTR;
-static ERROR_NUMBER std___EIO;
-static ERROR_NUMBER std___ENXIO;
-static ERROR_NUMBER std___E2BIG;
-static ERROR_NUMBER std___ENOEXEC;
-static ERROR_NUMBER std___EBADF;
-static ERROR_NUMBER std___ECHILD;
-static ERROR_NUMBER std___EAGAIN;
-static ERROR_NUMBER std___ENOMEM;
-static ERROR_NUMBER std___EACCES;
-static ERROR_NUMBER std___EFAULT;
-static ERROR_NUMBER std___ENOTBLK;
-static ERROR_NUMBER std___EBUSY;
-static ERROR_NUMBER std___EEXIST;
-static ERROR_NUMBER std___EXDEV;
-static ERROR_NUMBER std___ENODEV;
-static ERROR_NUMBER std___ENOTDIR;
-static ERROR_NUMBER std___EISDIR;
-static ERROR_NUMBER std___EINVAL;
-static ERROR_NUMBER std___ENFILE;
-static ERROR_NUMBER std___EMFILE;
-static ERROR_NUMBER std___ENOTTY;
-static ERROR_NUMBER std___ETXTBSY;
-static ERROR_NUMBER std___EFBIG;
-static ERROR_NUMBER std___ENOSPC;
-static ERROR_NUMBER std___ESPIPE;
-static ERROR_NUMBER std___EROFS;
-static ERROR_NUMBER std___EMLINK;
-static ERROR_NUMBER std___EPIPE;
-static ERROR_NUMBER std___EDOM;
-static ERROR_NUMBER std___ERANGE;
-static ERROR_NUMBER std___EDEADLK;
-static ERROR_NUMBER std___ENAMETOOLONG;
-static ERROR_NUMBER std___ENOLCK;
-static ERROR_NUMBER std___ENOSYS;
-static ERROR_NUMBER std___ENOTEMPTY;
-static ERROR_NUMBER std___EILSEQ;
-static ERROR_NUMBER std___ELOOP;
-static ERROR_NUMBER std___ENOMSG;
-static ERROR_NUMBER std___EIDRM;
-static ERROR_NUMBER std___ECHRNG;
-static ERROR_NUMBER std___EL2NSYNC;
-static ERROR_NUMBER std___EL3HLT;
-static ERROR_NUMBER std___EL3RST;
-static ERROR_NUMBER std___ELNRNG;
-static ERROR_NUMBER std___EUNATCH;
-static ERROR_NUMBER std___ENOCSI;
-static ERROR_NUMBER std___EL2HLT;
-static ERROR_NUMBER std___EBADE;
-static ERROR_NUMBER std___EBADR;
-static ERROR_NUMBER std___EXFULL;
-static ERROR_NUMBER std___ENOANO;
-static ERROR_NUMBER std___EBADRQC;
-static ERROR_NUMBER std___EBADSLT;
-static ERROR_NUMBER std___EBFONT;
-static ERROR_NUMBER std___ENOSTR;
-static ERROR_NUMBER std___ENODATA;
-static ERROR_NUMBER std___ETIME;
-static ERROR_NUMBER std___ENOSR;
-static ERROR_NUMBER std___ENONET;
-static ERROR_NUMBER std___ENOPKG;
-static ERROR_NUMBER std___EREMOTE;
-static ERROR_NUMBER std___ENOLINK;
-static ERROR_NUMBER std___EADV;
-static ERROR_NUMBER std___ESRMNT;
-static ERROR_NUMBER std___ECOMM;
-static ERROR_NUMBER std___EPROTO;
-static ERROR_NUMBER std___EMULTIHOP;
-static ERROR_NUMBER std___EDOTDOT;
-static ERROR_NUMBER std___EBADMSG;
-static ERROR_NUMBER std___EOVERFLOW;
-static ERROR_NUMBER std___ENOTUNIQ;
-static ERROR_NUMBER std___EBADFD;
-static ERROR_NUMBER std___EREMCHG;
-static ERROR_NUMBER std___ELIBACC;
-static ERROR_NUMBER std___ELIBBAD;
-static ERROR_NUMBER std___ELIBSCN;
-static ERROR_NUMBER std___ELIBMAX;
-static ERROR_NUMBER std___ELIBEXEC;
-static ERROR_NUMBER std___ESTRPIPE;
-static ERROR_NUMBER std___EUSERS;
-static ERROR_NUMBER std___ENOTSOCK;
-static ERROR_NUMBER std___EDESTADDRREQ;
-static ERROR_NUMBER std___EMSGSIZE;
-static ERROR_NUMBER std___EPROTOTYPE;
-static ERROR_NUMBER std___ENOPROTOOPT;
-static ERROR_NUMBER std___EPROTONOSUPPORT;
-static ERROR_NUMBER std___ESOCKTNOSUPPORT;
-static ERROR_NUMBER std___EOPNOTSUPP;
-static ERROR_NUMBER std___EPFNOSUPPORT;
-static ERROR_NUMBER std___EAFNOSUPPORT;
-static ERROR_NUMBER std___EADDRINUSE;
-static ERROR_NUMBER std___EADDRNOTAVAIL;
-static ERROR_NUMBER std___ENETDOWN;
-static ERROR_NUMBER std___ENETUNREACH;
-static ERROR_NUMBER std___ENETRESET;
-static ERROR_NUMBER std___ECONNABORTED;
-static ERROR_NUMBER std___ECONNRESET;
-static ERROR_NUMBER std___ENOBUFS;
-static ERROR_NUMBER std___EISCONN;
-static ERROR_NUMBER std___ENOTCONN;
-static ERROR_NUMBER std___ESHUTDOWN;
-static ERROR_NUMBER std___ETOOMANYREFS;
-static ERROR_NUMBER std___ETIMEDOUT;
-static ERROR_NUMBER std___ECONNREFUSED;
-static ERROR_NUMBER std___EHOSTDOWN;
-static ERROR_NUMBER std___EHOSTUNREACH;
-static ERROR_NUMBER std___EALREADY;
-static ERROR_NUMBER std___EINPROGRESS;
-static ERROR_NUMBER std___ESTALE;
-static ERROR_NUMBER std___EDQUOT;
-static ERROR_NUMBER std___ENOMEDIUM;
-static ERROR_NUMBER std___ECANCELED;
-static ERROR_NUMBER std___EOWNERDEAD;
-static ERROR_NUMBER std___ENOTRECOVERABLE;
-static SIGNAL_NUMBER std___SIGHUP;
-static SIGNAL_NUMBER std___SIGINT;
-static SIGNAL_NUMBER std___SIGQUIT;
-static SIGNAL_NUMBER std___SIGILL;
-static SIGNAL_NUMBER std___SIGTRAP;
-static SIGNAL_NUMBER std___SIGABRT;
-static SIGNAL_NUMBER std___SIGIOT;
-static SIGNAL_NUMBER std___SIGBUS;
-static SIGNAL_NUMBER std___SIGFPE;
-static SIGNAL_NUMBER std___SIGKILL;
-static SIGNAL_NUMBER std___SIGUSR1;
-static SIGNAL_NUMBER std___SIGSEGV;
-static SIGNAL_NUMBER std___SIGUSR2;
-static SIGNAL_NUMBER std___SIGPIPE;
-static SIGNAL_NUMBER std___SIGALRM;
-static SIGNAL_NUMBER std___SIGTERM;
-static SIGNAL_NUMBER std___SIGSTKFLT;
-static SIGNAL_NUMBER std___SIGCHLD;
-static SIGNAL_NUMBER std___SIGCONT;
-static SIGNAL_NUMBER std___SIGSTOP;
-static SIGNAL_NUMBER std___SIGTSTP;
-static SIGNAL_NUMBER std___SIGTTIN;
-static SIGNAL_NUMBER std___SIGTTOU;
-static SIGNAL_NUMBER std___SIGURG;
-static SIGNAL_NUMBER std___SIGXCPU;
-static SIGNAL_NUMBER std___SIGXFSZ;
-static SIGNAL_NUMBER std___SIGVTALRM;
-static SIGNAL_NUMBER std___SIGPROF;
-static SIGNAL_NUMBER std___SIGWINCH;
-static SIGNAL_NUMBER std___SIGIO;
-static SIGNAL_NUMBER std___SIGPWR;
-static SIGNAL_NUMBER std___SIGSYS;
-static OCTET_STRING std___empty_string;
+static POSITIVE_INTEGER std__EXIT_SUCCESS;
+static POSITIVE_INTEGER std__EXIT_FAILURE;
+static OCTET_STRING std__program_name;
+static LIST std__command_line_arguments;
+static LIST std__environment_variables;
+static FILE_TYPE std__BLOCK_DEVICE;
+static FILE_TYPE std__CHARACTER_DEVICE;
+static FILE_TYPE std__DIRECTORY;
+static FILE_TYPE std__NAMED_PIPE;
+static FILE_TYPE std__SYMBOLIC_LINK;
+static FILE_TYPE std__REGULAR_FILE;
+static FILE_TYPE std__SOCKET;
+static FILE_TYPE std__UNKNOWN_FILE_TYPE;
+static FILE_DESCRIPTOR std__STDIN_FILENO;
+static FILE_DESCRIPTOR std__STDOUT_FILENO;
+static FILE_DESCRIPTOR std__STDERR_FILENO;
+static SHUTDOWN_TYPE std__SHUT_RD;
+static SHUTDOWN_TYPE std__SHUT_WR;
+static SHUTDOWN_TYPE std__SHUT_RDWR;
+static SEEK_TYPE std__SEEK_SET;
+static SEEK_TYPE std__SEEK_CUR;
+static SEEK_TYPE std__SEEK_END;
+static ERROR_NUMBER std__ENOERR;
+static ERROR_NUMBER std__EPERM;
+static ERROR_NUMBER std__ENOENT;
+static ERROR_NUMBER std__ESRCH;
+static ERROR_NUMBER std__EINTR;
+static ERROR_NUMBER std__EIO;
+static ERROR_NUMBER std__ENXIO;
+static ERROR_NUMBER std__E2BIG;
+static ERROR_NUMBER std__ENOEXEC;
+static ERROR_NUMBER std__EBADF;
+static ERROR_NUMBER std__ECHILD;
+static ERROR_NUMBER std__EAGAIN;
+static ERROR_NUMBER std__ENOMEM;
+static ERROR_NUMBER std__EACCES;
+static ERROR_NUMBER std__EFAULT;
+static ERROR_NUMBER std__ENOTBLK;
+static ERROR_NUMBER std__EBUSY;
+static ERROR_NUMBER std__EEXIST;
+static ERROR_NUMBER std__EXDEV;
+static ERROR_NUMBER std__ENODEV;
+static ERROR_NUMBER std__ENOTDIR;
+static ERROR_NUMBER std__EISDIR;
+static ERROR_NUMBER std__EINVAL;
+static ERROR_NUMBER std__ENFILE;
+static ERROR_NUMBER std__EMFILE;
+static ERROR_NUMBER std__ENOTTY;
+static ERROR_NUMBER std__ETXTBSY;
+static ERROR_NUMBER std__EFBIG;
+static ERROR_NUMBER std__ENOSPC;
+static ERROR_NUMBER std__ESPIPE;
+static ERROR_NUMBER std__EROFS;
+static ERROR_NUMBER std__EMLINK;
+static ERROR_NUMBER std__EPIPE;
+static ERROR_NUMBER std__EDOM;
+static ERROR_NUMBER std__ERANGE;
+static ERROR_NUMBER std__EDEADLK;
+static ERROR_NUMBER std__ENAMETOOLONG;
+static ERROR_NUMBER std__ENOLCK;
+static ERROR_NUMBER std__ENOSYS;
+static ERROR_NUMBER std__ENOTEMPTY;
+static ERROR_NUMBER std__EILSEQ;
+static ERROR_NUMBER std__ELOOP;
+static ERROR_NUMBER std__ENOMSG;
+static ERROR_NUMBER std__EIDRM;
+static ERROR_NUMBER std__ECHRNG;
+static ERROR_NUMBER std__EL2NSYNC;
+static ERROR_NUMBER std__EL3HLT;
+static ERROR_NUMBER std__EL3RST;
+static ERROR_NUMBER std__ELNRNG;
+static ERROR_NUMBER std__EUNATCH;
+static ERROR_NUMBER std__ENOCSI;
+static ERROR_NUMBER std__EL2HLT;
+static ERROR_NUMBER std__EBADE;
+static ERROR_NUMBER std__EBADR;
+static ERROR_NUMBER std__EXFULL;
+static ERROR_NUMBER std__ENOANO;
+static ERROR_NUMBER std__EBADRQC;
+static ERROR_NUMBER std__EBADSLT;
+static ERROR_NUMBER std__EBFONT;
+static ERROR_NUMBER std__ENOSTR;
+static ERROR_NUMBER std__ENODATA;
+static ERROR_NUMBER std__ETIME;
+static ERROR_NUMBER std__ENOSR;
+static ERROR_NUMBER std__ENONET;
+static ERROR_NUMBER std__ENOPKG;
+static ERROR_NUMBER std__EREMOTE;
+static ERROR_NUMBER std__ENOLINK;
+static ERROR_NUMBER std__EADV;
+static ERROR_NUMBER std__ESRMNT;
+static ERROR_NUMBER std__ECOMM;
+static ERROR_NUMBER std__EPROTO;
+static ERROR_NUMBER std__EMULTIHOP;
+static ERROR_NUMBER std__EDOTDOT;
+static ERROR_NUMBER std__EBADMSG;
+static ERROR_NUMBER std__EOVERFLOW;
+static ERROR_NUMBER std__ENOTUNIQ;
+static ERROR_NUMBER std__EBADFD;
+static ERROR_NUMBER std__EREMCHG;
+static ERROR_NUMBER std__ELIBACC;
+static ERROR_NUMBER std__ELIBBAD;
+static ERROR_NUMBER std__ELIBSCN;
+static ERROR_NUMBER std__ELIBMAX;
+static ERROR_NUMBER std__ELIBEXEC;
+static ERROR_NUMBER std__ESTRPIPE;
+static ERROR_NUMBER std__EUSERS;
+static ERROR_NUMBER std__ENOTSOCK;
+static ERROR_NUMBER std__EDESTADDRREQ;
+static ERROR_NUMBER std__EMSGSIZE;
+static ERROR_NUMBER std__EPROTOTYPE;
+static ERROR_NUMBER std__ENOPROTOOPT;
+static ERROR_NUMBER std__EPROTONOSUPPORT;
+static ERROR_NUMBER std__ESOCKTNOSUPPORT;
+static ERROR_NUMBER std__EOPNOTSUPP;
+static ERROR_NUMBER std__EPFNOSUPPORT;
+static ERROR_NUMBER std__EAFNOSUPPORT;
+static ERROR_NUMBER std__EADDRINUSE;
+static ERROR_NUMBER std__EADDRNOTAVAIL;
+static ERROR_NUMBER std__ENETDOWN;
+static ERROR_NUMBER std__ENETUNREACH;
+static ERROR_NUMBER std__ENETRESET;
+static ERROR_NUMBER std__ECONNABORTED;
+static ERROR_NUMBER std__ECONNRESET;
+static ERROR_NUMBER std__ENOBUFS;
+static ERROR_NUMBER std__EISCONN;
+static ERROR_NUMBER std__ENOTCONN;
+static ERROR_NUMBER std__ESHUTDOWN;
+static ERROR_NUMBER std__ETOOMANYREFS;
+static ERROR_NUMBER std__ETIMEDOUT;
+static ERROR_NUMBER std__ECONNREFUSED;
+static ERROR_NUMBER std__EHOSTDOWN;
+static ERROR_NUMBER std__EHOSTUNREACH;
+static ERROR_NUMBER std__EALREADY;
+static ERROR_NUMBER std__EINPROGRESS;
+static ERROR_NUMBER std__ESTALE;
+static ERROR_NUMBER std__EDQUOT;
+static ERROR_NUMBER std__ENOMEDIUM;
+static ERROR_NUMBER std__ECANCELED;
+static ERROR_NUMBER std__EOWNERDEAD;
+static ERROR_NUMBER std__ENOTRECOVERABLE;
+static SIGNAL_NUMBER std__SIGHUP;
+static SIGNAL_NUMBER std__SIGINT;
+static SIGNAL_NUMBER std__SIGQUIT;
+static SIGNAL_NUMBER std__SIGILL;
+static SIGNAL_NUMBER std__SIGTRAP;
+static SIGNAL_NUMBER std__SIGABRT;
+static SIGNAL_NUMBER std__SIGIOT;
+static SIGNAL_NUMBER std__SIGBUS;
+static SIGNAL_NUMBER std__SIGFPE;
+static SIGNAL_NUMBER std__SIGKILL;
+static SIGNAL_NUMBER std__SIGUSR1;
+static SIGNAL_NUMBER std__SIGSEGV;
+static SIGNAL_NUMBER std__SIGUSR2;
+static SIGNAL_NUMBER std__SIGPIPE;
+static SIGNAL_NUMBER std__SIGALRM;
+static SIGNAL_NUMBER std__SIGTERM;
+static SIGNAL_NUMBER std__SIGSTKFLT;
+static SIGNAL_NUMBER std__SIGCHLD;
+static SIGNAL_NUMBER std__SIGCONT;
+static SIGNAL_NUMBER std__SIGSTOP;
+static SIGNAL_NUMBER std__SIGTSTP;
+static SIGNAL_NUMBER std__SIGTTIN;
+static SIGNAL_NUMBER std__SIGTTOU;
+static SIGNAL_NUMBER std__SIGURG;
+static SIGNAL_NUMBER std__SIGXCPU;
+static SIGNAL_NUMBER std__SIGXFSZ;
+static SIGNAL_NUMBER std__SIGVTALRM;
+static SIGNAL_NUMBER std__SIGPROF;
+static SIGNAL_NUMBER std__SIGWINCH;
+static SIGNAL_NUMBER std__SIGIO;
+static SIGNAL_NUMBER std__SIGPWR;
+static SIGNAL_NUMBER std__SIGSYS;
+static OCTET_STRING std__empty_string;
 
-static void *create__std_types___array
+static void *create__std_types__array
   (
     long updates_length,
     ARRAY_VIEW *view,
@@ -1132,7 +1132,7 @@ static void *create__std_types___array
     ARRAY_UPDATES *updates
   );
 
-static void *create__std_types___boolean_array
+static void *create__std_types__boolean_array
   (
     long updates_length,
     ARRAY_VIEW *view,
@@ -1140,7 +1140,7 @@ static void *create__std_types___boolean_array
     ARRAY_UPDATES *updates
   );
 
-static void *create__std_types___character_array
+static void *create__std_types__character_array
   (
     long updates_length,
     ARRAY_VIEW *view,
@@ -1148,7 +1148,7 @@ static void *create__std_types___character_array
     ARRAY_UPDATES *updates
   );
 
-static void *create__std_types___int8_array
+static void *create__std_types__int8_array
   (
     long updates_length,
     ARRAY_VIEW *view,
@@ -1156,7 +1156,7 @@ static void *create__std_types___int8_array
     ARRAY_UPDATES *updates
   );
 
-static void *create__std_types___uint8_array
+static void *create__std_types__uint8_array
   (
     long updates_length,
     ARRAY_VIEW *view,
@@ -1164,7 +1164,7 @@ static void *create__std_types___uint8_array
     ARRAY_UPDATES *updates
   );
 
-static void *create__std_types___int16_array
+static void *create__std_types__int16_array
   (
     long updates_length,
     ARRAY_VIEW *view,
@@ -1172,7 +1172,7 @@ static void *create__std_types___int16_array
     ARRAY_UPDATES *updates
   );
 
-static void *create__std_types___uint16_array
+static void *create__std_types__uint16_array
   (
     long updates_length,
     ARRAY_VIEW *view,
@@ -1180,7 +1180,7 @@ static void *create__std_types___uint16_array
     ARRAY_UPDATES *updates
   );
 
-static void *create__std_types___int32_array
+static void *create__std_types__int32_array
   (
     long updates_length,
     ARRAY_VIEW *view,
@@ -1188,7 +1188,7 @@ static void *create__std_types___int32_array
     ARRAY_UPDATES *updates
   );
 
-static void *create__std_types___uint32_array
+static void *create__std_types__uint32_array
   (
     long updates_length,
     ARRAY_VIEW *view,
@@ -1196,7 +1196,7 @@ static void *create__std_types___uint32_array
     ARRAY_UPDATES *updates
   );
 
-static void *create__std_types___int64_array
+static void *create__std_types__int64_array
   (
     long updates_length,
     ARRAY_VIEW *view,
@@ -1204,7 +1204,7 @@ static void *create__std_types___int64_array
     ARRAY_UPDATES *updates
   );
 
-static void *create__std_types___uint64_array
+static void *create__std_types__uint64_array
   (
     long updates_length,
     ARRAY_VIEW *view,
@@ -1212,7 +1212,7 @@ static void *create__std_types___uint64_array
     ARRAY_UPDATES *updates
   );
 
-static void *create__std_types___float32_array
+static void *create__std_types__float32_array
   (
     long updates_length,
     ARRAY_VIEW *view,
@@ -1220,7 +1220,7 @@ static void *create__std_types___float32_array
     ARRAY_UPDATES *updates
   );
 
-static void *create__std_types___float64_array
+static void *create__std_types__float64_array
   (
     long updates_length,
     ARRAY_VIEW *view,
@@ -1233,12 +1233,12 @@ static void *create__c_function
     int32_t parameter_count
   );
 
-static void *create__std_types___character
+static void *create__std_types__character
   (
     uint32_t code
   );
 
-static void *create__std_types___date_and_time
+static void *create__std_types__date_and_time
   (
     int64_t seconds,
     int32_t nanoseconds
@@ -1249,109 +1249,109 @@ static void *create__tabular_function
 
   );
 
-static void *create__std_types___integer
+static void *create__std_types__integer
   (
     uint64_t value
   );
 
-static void *create__std_types___real
+static void *create__std_types__real
   (
     double value
   );
 
-static void *create__std_types___file_type
+static void *create__std_types__file_type
   (
     int value
   );
 
-static void *create__std_types___file_descriptor
+static void *create__std_types__file_descriptor
   (
     int value
   );
 
-static void *create__std_types___signal_number
+static void *create__std_types__signal_number
   (
     int value
   );
 
-static void *create__std_types___shutdown_type
+static void *create__std_types__shutdown_type
   (
     int value
   );
 
-static void *create__std_types___seek_type
+static void *create__std_types__seek_type
   (
     int value
   );
 
-static void *create__std_types___device_id
+static void *create__std_types__device_id
   (
     unsigned long value
   );
 
-static void *create__std_types___directory
+static void *create__std_types__directory
   (
     void *value
   );
 
-static void *create__std_types___group_id
+static void *create__std_types__group_id
   (
     int value
   );
 
-static void *create__std_types___inode_number
+static void *create__std_types__inode_number
   (
     unsigned long value
   );
 
-static void *create__std_types___process_id
+static void *create__std_types__process_id
   (
     int value
   );
 
-static void *create__std_types___user_id
+static void *create__std_types__user_id
   (
     int value
   );
 
-static void *create__std_types___error_number
+static void *create__std_types__error_number
   (
     int value
   );
 
-static void *create__std_types___octet_string
+static void *create__std_types__octet_string
   (
     long offset,
     long length,
     OCTET_DATA *data
   );
 
-static void *create__std_types___wide_string
+static void *create__std_types__wide_string
   (
     long offset,
     long length,
     WIDE_DATA *data
   );
 
-static void *create__std_types___terminal_attributes
+static void *create__std_types__terminal_attributes
   (
     TERMIO_DATA *data
   );
 
-static void *create__builtin_types___tuple2
+static void *create__builtin_types__tuple2
   (
     NODE *node_0,
     NODE *node_1
   );
 
-static void *create__builtin_types___tuple3
+static void *create__builtin_types__tuple3
   (
     NODE *node_0,
     NODE *node_1,
     NODE *node_2
   );
 
-static void *create__builtin_types___tuple4
+static void *create__builtin_types__tuple4
   (
     NODE *node_0,
     NODE *node_1,
@@ -1359,7 +1359,7 @@ static void *create__builtin_types___tuple4
     NODE *node_3
   );
 
-static void *create__builtin_types___tuple5
+static void *create__builtin_types__tuple5
   (
     NODE *node_0,
     NODE *node_1,
@@ -1368,7 +1368,7 @@ static void *create__builtin_types___tuple5
     NODE *node_4
   );
 
-static void *create__builtin_types___tuple6
+static void *create__builtin_types__tuple6
   (
     NODE *node_0,
     NODE *node_1,
@@ -1378,7 +1378,7 @@ static void *create__builtin_types___tuple6
     NODE *node_5
   );
 
-static void *create__builtin_types___tuple7
+static void *create__builtin_types__tuple7
   (
     NODE *node_0,
     NODE *node_1,
@@ -1389,7 +1389,7 @@ static void *create__builtin_types___tuple7
     NODE *node_6
   );
 
-static void *create__builtin_types___tuple8
+static void *create__builtin_types__tuple8
   (
     NODE *node_0,
     NODE *node_1,
@@ -1401,12 +1401,12 @@ static void *create__builtin_types___tuple8
     NODE *node_7
   );
 
-static void *create__std_types___unique_item
+static void *create__std_types__unique_item
   (
     long id
   );
 
-static void *create__std_types___shared_memory
+static void *create__std_types__shared_memory
   (
     int fd,
     long size,
@@ -1417,195 +1417,195 @@ static void *collect_dimension_info(DIMENSION_INFO *info);
 static void *collect_array_view(ARRAY_VIEW *view);
 static void *collect_array_updates(ARRAY_UPDATES *updates);
 static void *collect_array_data(ARRAY_DATA *data);
-static void *std_types___array____collect(ARRAY *node);
-static long std_types___array____debug_string(NODE *node, int indent, int max_depth, char *buf);
+static void *std_types__array___collect(ARRAY *node);
+static long std_types__array___debug_string(NODE *node, int indent, int max_depth, char *buf);
 static void *collect_boolean_array_data(BOOLEAN_ARRAY_DATA *data);
-static void *std_types___boolean_array____collect(BOOLEAN_ARRAY *node);
-static long std_types___boolean_array____debug_string(NODE *node, int indent, int max_depth, char *buf);
+static void *std_types__boolean_array___collect(BOOLEAN_ARRAY *node);
+static long std_types__boolean_array___debug_string(NODE *node, int indent, int max_depth, char *buf);
 static void *collect_character_array_data(CHARACTER_ARRAY_DATA *data);
-static void *std_types___character_array____collect(CHARACTER_ARRAY *node);
-static long std_types___character_array____debug_string(NODE *node, int indent, int max_depth, char *buf);
+static void *std_types__character_array___collect(CHARACTER_ARRAY *node);
+static long std_types__character_array___debug_string(NODE *node, int indent, int max_depth, char *buf);
 static void *collect_int8_array_data(INT8_ARRAY_DATA *data);
-static void *std_types___int8_array____collect(INT8_ARRAY *node);
-static long std_types___int8_array____debug_string(NODE *node, int indent, int max_depth, char *buf);
+static void *std_types__int8_array___collect(INT8_ARRAY *node);
+static long std_types__int8_array___debug_string(NODE *node, int indent, int max_depth, char *buf);
 static void *collect_uint8_array_data(UINT8_ARRAY_DATA *data);
-static void *std_types___uint8_array____collect(UINT8_ARRAY *node);
-static long std_types___uint8_array____debug_string(NODE *node, int indent, int max_depth, char *buf);
+static void *std_types__uint8_array___collect(UINT8_ARRAY *node);
+static long std_types__uint8_array___debug_string(NODE *node, int indent, int max_depth, char *buf);
 static void *collect_int16_array_data(INT16_ARRAY_DATA *data);
-static void *std_types___int16_array____collect(INT16_ARRAY *node);
-static long std_types___int16_array____debug_string(NODE *node, int indent, int max_depth, char *buf);
+static void *std_types__int16_array___collect(INT16_ARRAY *node);
+static long std_types__int16_array___debug_string(NODE *node, int indent, int max_depth, char *buf);
 static void *collect_uint16_array_data(UINT16_ARRAY_DATA *data);
-static void *std_types___uint16_array____collect(UINT16_ARRAY *node);
-static long std_types___uint16_array____debug_string(NODE *node, int indent, int max_depth, char *buf);
+static void *std_types__uint16_array___collect(UINT16_ARRAY *node);
+static long std_types__uint16_array___debug_string(NODE *node, int indent, int max_depth, char *buf);
 static void *collect_int32_array_data(INT32_ARRAY_DATA *data);
-static void *std_types___int32_array____collect(INT32_ARRAY *node);
-static long std_types___int32_array____debug_string(NODE *node, int indent, int max_depth, char *buf);
+static void *std_types__int32_array___collect(INT32_ARRAY *node);
+static long std_types__int32_array___debug_string(NODE *node, int indent, int max_depth, char *buf);
 static void *collect_uint32_array_data(UINT32_ARRAY_DATA *data);
-static void *std_types___uint32_array____collect(UINT32_ARRAY *node);
-static long std_types___uint32_array____debug_string(NODE *node, int indent, int max_depth, char *buf);
+static void *std_types__uint32_array___collect(UINT32_ARRAY *node);
+static long std_types__uint32_array___debug_string(NODE *node, int indent, int max_depth, char *buf);
 static void *collect_int64_array_data(INT64_ARRAY_DATA *data);
-static void *std_types___int64_array____collect(INT64_ARRAY *node);
-static long std_types___int64_array____debug_string(NODE *node, int indent, int max_depth, char *buf);
+static void *std_types__int64_array___collect(INT64_ARRAY *node);
+static long std_types__int64_array___debug_string(NODE *node, int indent, int max_depth, char *buf);
 static void *collect_uint64_array_data(UINT64_ARRAY_DATA *data);
-static void *std_types___uint64_array____collect(UINT64_ARRAY *node);
-static long std_types___uint64_array____debug_string(NODE *node, int indent, int max_depth, char *buf);
+static void *std_types__uint64_array___collect(UINT64_ARRAY *node);
+static long std_types__uint64_array___debug_string(NODE *node, int indent, int max_depth, char *buf);
 static void *collect_float32_array_data(FLOAT32_ARRAY_DATA *data);
-static void *std_types___float32_array____collect(FLOAT32_ARRAY *node);
-static long std_types___float32_array____debug_string(NODE *node, int indent, int max_depth, char *buf);
+static void *std_types__float32_array___collect(FLOAT32_ARRAY *node);
+static long std_types__float32_array___debug_string(NODE *node, int indent, int max_depth, char *buf);
 static void *collect_float64_array_data(FLOAT64_ARRAY_DATA *data);
-static void *std_types___float64_array____collect(FLOAT64_ARRAY *node);
-static long std_types___float64_array____debug_string(NODE *node, int indent, int max_depth, char *buf);
-static int std_types___true____to_bool(NODE *node, int *result_p);
-static long std_types___true____debug_string(NODE *node, int indent, int max_depth, char *buf);
-static int std_types___false____to_bool(NODE *node, int *result_p);
-static long std_types___false____debug_string(NODE *node, int indent, int max_depth, char *buf);
-static void *c_function____collect(C_FUNCTION *node);
-static long c_function____debug_string(NODE *node, int indent, int max_depth, char *buf);
-static void *std_types___character____collect(CHARACTER *node);
-static uint32_t std_types___character____to_uchar32(NODE *node, uint32_t *result_p);
-static long std_types___character____debug_string(NODE *node, int indent, int max_depth, char *buf);
-static void *std_types___date_and_time____collect(DATE_AND_TIME *node);
-static long std_types___date_and_time____debug_string(NODE *node, int indent, int max_depth, char *buf);
-static void *std_types___error____collect(ERROR *node);
-static long std_types___error____debug_string(NODE *node, int indent, int max_depth, char *buf);
-static int std_types___object____to_int8(NODE *node);
-static int std_types___undefined____to_int8(NODE *node);
-static int std_types___object____to_int16(NODE *node);
-static int std_types___undefined____to_int16(NODE *node);
-static int std_types___object____to_int32(NODE *node);
-static int std_types___undefined____to_int32(NODE *node);
-static int std_types___object____to_int64(NODE *node);
-static int std_types___undefined____to_int64(NODE *node);
-static int std_types___object____to_uint8(NODE *node);
-static int std_types___undefined____to_uint8(NODE *node);
-static int std_types___object____to_uint16(NODE *node);
-static int std_types___undefined____to_uint16(NODE *node);
-static int std_types___object____to_uint32(NODE *node);
-static int std_types___undefined____to_uint32(NODE *node);
-static int std_types___object____to_uint64(NODE *node);
-static int std_types___undefined____to_uint64(NODE *node);
-static int std_types___object____to_uchar32(NODE *node);
-static int std_types___undefined____to_uchar32(NODE *node);
-static int std_types___object____to_bool(NODE *node);
-static int std_types___undefined____to_bool(NODE *node);
-static int std_types___object____to_int(NODE *node);
-static int std_types___undefined____to_int(NODE *node);
-static int std_types___object____to_uint(NODE *node);
-static int std_types___undefined____to_uint(NODE *node);
-static int std_types___object____to_long(NODE *node);
-static int std_types___undefined____to_long(NODE *node);
-static int std_types___object____to_ulong(NODE *node);
-static int std_types___undefined____to_ulong(NODE *node);
-static int std_types___object____to_float(NODE *node);
-static int std_types___undefined____to_float(NODE *node);
-static int std_types___object____to_double(NODE *node);
-static int std_types___undefined____to_double(NODE *node);
-static int std_types___object____to_c_string(NODE *node);
-static int std_types___undefined____to_c_string(NODE *node);
-static int std_types___object____to_octets(NODE *node);
-static int std_types___undefined____to_octets(NODE *node);
-static int std_types___object____get_item_of(NODE *node);
-static int std_types___undefined____get_item_of(NODE *node);
-static int std_types___object____length_of(NODE *node);
-static int std_types___undefined____length_of(NODE *node);
-static int std_types___object____unfold(NODE *node);
-static int std_types___undefined____unfold(NODE *node);
-static long std_types___function____debug_string(NODE *node, int indent, int max_depth, char *buf);
-static void *std_types___list____collect(LIST *node);
-static long std_types___list____debug_string(NODE *node, int indent, int max_depth, char *buf);
-static int std_types___list____get_item_of(NODE *node, long idx, NODE **result_p);
-static int std_types___list____unfold(NODE *list);
-static int std_types___list____length_of(NODE *node, long *result_p);
-static void *std_types___integer____collect(INTEGER *node);
-static void *std_types___real____collect(REAL *node);
-static long builtin_types___positive_integer____debug_string(NODE *node, int indent, int max_depth, char *buf);
-static long builtin_types___negative_integer____debug_string(NODE *node, int indent, int max_depth, char *buf);
-static long std_types___real____debug_string(NODE *node, int indent, int max_depth, char *buf);
-static int builtin_types___positive_integer____to_double(NODE *node, double *result_p);
-static int builtin_types___positive_integer____to_float(NODE *node, float *result_p);
-static int builtin_types___negative_integer____to_double(NODE *node, double *result_p);
-static int builtin_types___negative_integer____to_float(NODE *node, float *result_p);
-static int std_types___real____to_double(NODE *node, double *result_p);
-static int std_types___real____to_float(NODE *node, float *result_p);
-static int builtin_types___positive_integer____to_int(NODE *node, int *result_p);
-static int builtin_types___negative_integer____to_int(NODE *node, int *result_p);
-static int builtin_types___positive_integer____to_long(NODE *node, long *result_p);
-static int builtin_types___negative_integer____to_long(NODE *node, long *result_p);
-static int builtin_types___positive_integer____to_uint(NODE *node, uint *result_p);
-static int builtin_types___positive_integer____to_ulong(NODE *node, unsigned long *result_p);
-static int builtin_types___positive_integer____to_int8(NODE *node, int8_t *result_p);
-static int builtin_types___negative_integer____to_int8(NODE *node, int8_t *result_p);
-static int builtin_types___positive_integer____to_int16(NODE *node, int16_t *result_p);
-static int builtin_types___negative_integer____to_int16(NODE *node, int16_t *result_p);
-static int builtin_types___positive_integer____to_int32(NODE *node, int32_t *result_p);
-static int builtin_types___negative_integer____to_int32(NODE *node, int32_t *result_p);
-static int builtin_types___positive_integer____to_int64(NODE *node, int64_t *result_p);
-static int builtin_types___negative_integer____to_int64(NODE *node, int64_t *result_p);
-static int builtin_types___positive_integer____to_uint8(NODE *node, uint8_t *result_p);
-static int builtin_types___positive_integer____to_uint16(NODE *node, uint16_t *result_p);
-static int builtin_types___positive_integer____to_uint32(NODE *node, uint32_t *result_p);
-static int builtin_types___positive_integer____to_uint64(NODE *node, uint64_t *result_p);
-static void *std_types___object____collect(SIMPLE_NODE *node);
-static long std_types___object____debug_string(NODE *node, int indent, int max_depth, char *buf);
-static void *std_types___file_type____collect(FILE_TYPE *node);
-static long std_types___file_type____debug_string(NODE *node, int indent, int max_depth, char *buf);
-static void *std_types___file_descriptor____collect(FILE_DESCRIPTOR *node);
-static long std_types___file_descriptor____debug_string(NODE *node, int indent, int max_depth, char *buf);
-static void *std_types___signal_number____collect(SIGNAL_NUMBER *node);
-static long std_types___signal_number____debug_string(NODE *node, int indent, int max_depth, char *buf);
-static void *std_types___shutdown_type____collect(SHUTDOWN_TYPE *node);
-static long std_types___shutdown_type____debug_string(NODE *node, int indent, int max_depth, char *buf);
-static void *std_types___seek_type____collect(SEEK_TYPE *node);
-static long std_types___seek_type____debug_string(NODE *node, int indent, int max_depth, char *buf);
-static void *std_types___device_id____collect(DEVICE_ID *node);
-static long std_types___device_id____debug_string(NODE *node, int indent, int max_depth, char *buf);
-static void *std_types___directory____collect(DIRECTORY *node);
-static long std_types___directory____debug_string(NODE *node, int indent, int max_depth, char *buf);
-static void *std_types___group_id____collect(GROUP_ID *node);
-static long std_types___group_id____debug_string(NODE *node, int indent, int max_depth, char *buf);
-static void *std_types___inode_number____collect(INODE_NUMBER *node);
-static long std_types___inode_number____debug_string(NODE *node, int indent, int max_depth, char *buf);
-static void *std_types___process_id____collect(PROCESS_ID *node);
-static long std_types___process_id____debug_string(NODE *node, int indent, int max_depth, char *buf);
-static void *std_types___user_id____collect(USER_ID *node);
-static long std_types___user_id____debug_string(NODE *node, int indent, int max_depth, char *buf);
-static void *std_types___error_number____collect(ERROR_NUMBER *node);
-static long std_types___error_number____debug_string(NODE *node, int indent, int max_depth, char *buf);
-static void *std_types___octet_string____collect(OCTET_STRING *node);
-static void *std_types___wide_string____collect(WIDE_STRING *node);
-static long std_types___octet_string____debug_string(NODE *node, int indent, int max_depth, char *buf);
-static long std_types___wide_string____debug_string(NODE *node, int indent, int max_depth, char *buf);
-static int std_types___octet_string____get_item_of(NODE *node, long idx, NODE **result_p);
-static int std_types___wide_string____get_item_of(NODE *node, long idx, NODE **result_p);
-static int std_types___octet_string____to_c_string(NODE *node, char **result_p);
-static int std_types___octet_string____to_octets(NODE *node, const uint8_t **buf_p, long *size_p);
-static int std_types___octet_string____length_of(NODE *node, long *result_p);
-static int std_types___wide_string____length_of(NODE *node, long *result_p);
-static void *std_types___terminal_attributes____collect(TERMINAL_ATTRIBUTES *node);
-static long std_types___terminal_attributes____debug_string(NODE *node, int indent, int max_depth, char *buf);
-static void *builtin_types___tuple2____collect(TUPLE2 *node);
-static long builtin_types___tuple2____debug_string(NODE *node, int indent, int max_depth, char *buf);
-static void *builtin_types___tuple3____collect(TUPLE3 *node);
-static long builtin_types___tuple3____debug_string(NODE *node, int indent, int max_depth, char *buf);
-static void *builtin_types___tuple4____collect(TUPLE4 *node);
-static long builtin_types___tuple4____debug_string(NODE *node, int indent, int max_depth, char *buf);
-static void *builtin_types___tuple5____collect(TUPLE5 *node);
-static long builtin_types___tuple5____debug_string(NODE *node, int indent, int max_depth, char *buf);
-static void *builtin_types___tuple6____collect(TUPLE6 *node);
-static long builtin_types___tuple6____debug_string(NODE *node, int indent, int max_depth, char *buf);
-static void *builtin_types___tuple7____collect(TUPLE7 *node);
-static long builtin_types___tuple7____debug_string(NODE *node, int indent, int max_depth, char *buf);
-static void *builtin_types___tuple8____collect(TUPLE8 *node);
-static long builtin_types___tuple8____debug_string(NODE *node, int indent, int max_depth, char *buf);
-static void *std_types___undefined____collect(SIMPLE_NODE *node);
-static long std_types___undefined____debug_string(NODE *node, int indent, int max_depth, char *buf);
+static void *std_types__float64_array___collect(FLOAT64_ARRAY *node);
+static long std_types__float64_array___debug_string(NODE *node, int indent, int max_depth, char *buf);
+static int std_types__true___to_bool(NODE *node, int *result_p);
+static long std_types__true___debug_string(NODE *node, int indent, int max_depth, char *buf);
+static int std_types__false___to_bool(NODE *node, int *result_p);
+static long std_types__false___debug_string(NODE *node, int indent, int max_depth, char *buf);
+static void *c_function___collect(C_FUNCTION *node);
+static long c_function___debug_string(NODE *node, int indent, int max_depth, char *buf);
+static void *std_types__character___collect(CHARACTER *node);
+static uint32_t std_types__character___to_uchar32(NODE *node, uint32_t *result_p);
+static long std_types__character___debug_string(NODE *node, int indent, int max_depth, char *buf);
+static void *std_types__date_and_time___collect(DATE_AND_TIME *node);
+static long std_types__date_and_time___debug_string(NODE *node, int indent, int max_depth, char *buf);
+static void *std_types__error___collect(ERROR *node);
+static long std_types__error___debug_string(NODE *node, int indent, int max_depth, char *buf);
+static int std_types__object___to_int8(NODE *node);
+static int std_types__undefined___to_int8(NODE *node);
+static int std_types__object___to_int16(NODE *node);
+static int std_types__undefined___to_int16(NODE *node);
+static int std_types__object___to_int32(NODE *node);
+static int std_types__undefined___to_int32(NODE *node);
+static int std_types__object___to_int64(NODE *node);
+static int std_types__undefined___to_int64(NODE *node);
+static int std_types__object___to_uint8(NODE *node);
+static int std_types__undefined___to_uint8(NODE *node);
+static int std_types__object___to_uint16(NODE *node);
+static int std_types__undefined___to_uint16(NODE *node);
+static int std_types__object___to_uint32(NODE *node);
+static int std_types__undefined___to_uint32(NODE *node);
+static int std_types__object___to_uint64(NODE *node);
+static int std_types__undefined___to_uint64(NODE *node);
+static int std_types__object___to_uchar32(NODE *node);
+static int std_types__undefined___to_uchar32(NODE *node);
+static int std_types__object___to_bool(NODE *node);
+static int std_types__undefined___to_bool(NODE *node);
+static int std_types__object___to_int(NODE *node);
+static int std_types__undefined___to_int(NODE *node);
+static int std_types__object___to_uint(NODE *node);
+static int std_types__undefined___to_uint(NODE *node);
+static int std_types__object___to_long(NODE *node);
+static int std_types__undefined___to_long(NODE *node);
+static int std_types__object___to_ulong(NODE *node);
+static int std_types__undefined___to_ulong(NODE *node);
+static int std_types__object___to_float(NODE *node);
+static int std_types__undefined___to_float(NODE *node);
+static int std_types__object___to_double(NODE *node);
+static int std_types__undefined___to_double(NODE *node);
+static int std_types__object___to_c_string(NODE *node);
+static int std_types__undefined___to_c_string(NODE *node);
+static int std_types__object___to_octets(NODE *node);
+static int std_types__undefined___to_octets(NODE *node);
+static int std_types__object___get_item_of(NODE *node);
+static int std_types__undefined___get_item_of(NODE *node);
+static int std_types__object___length_of(NODE *node);
+static int std_types__undefined___length_of(NODE *node);
+static int std_types__object___unfold(NODE *node);
+static int std_types__undefined___unfold(NODE *node);
+static long std_types__function___debug_string(NODE *node, int indent, int max_depth, char *buf);
+static void *std_types__list___collect(LIST *node);
+static long std_types__list___debug_string(NODE *node, int indent, int max_depth, char *buf);
+static int std_types__list___get_item_of(NODE *node, long idx, NODE **result_p);
+static int std_types__list___unfold(NODE *list);
+static int std_types__list___length_of(NODE *node, long *result_p);
+static void *std_types__integer___collect(INTEGER *node);
+static void *std_types__real___collect(REAL *node);
+static long builtin_types__positive_integer___debug_string(NODE *node, int indent, int max_depth, char *buf);
+static long builtin_types__negative_integer___debug_string(NODE *node, int indent, int max_depth, char *buf);
+static long std_types__real___debug_string(NODE *node, int indent, int max_depth, char *buf);
+static int builtin_types__positive_integer___to_double(NODE *node, double *result_p);
+static int builtin_types__positive_integer___to_float(NODE *node, float *result_p);
+static int builtin_types__negative_integer___to_double(NODE *node, double *result_p);
+static int builtin_types__negative_integer___to_float(NODE *node, float *result_p);
+static int std_types__real___to_double(NODE *node, double *result_p);
+static int std_types__real___to_float(NODE *node, float *result_p);
+static int builtin_types__positive_integer___to_int(NODE *node, int *result_p);
+static int builtin_types__negative_integer___to_int(NODE *node, int *result_p);
+static int builtin_types__positive_integer___to_long(NODE *node, long *result_p);
+static int builtin_types__negative_integer___to_long(NODE *node, long *result_p);
+static int builtin_types__positive_integer___to_uint(NODE *node, uint *result_p);
+static int builtin_types__positive_integer___to_ulong(NODE *node, unsigned long *result_p);
+static int builtin_types__positive_integer___to_int8(NODE *node, int8_t *result_p);
+static int builtin_types__negative_integer___to_int8(NODE *node, int8_t *result_p);
+static int builtin_types__positive_integer___to_int16(NODE *node, int16_t *result_p);
+static int builtin_types__negative_integer___to_int16(NODE *node, int16_t *result_p);
+static int builtin_types__positive_integer___to_int32(NODE *node, int32_t *result_p);
+static int builtin_types__negative_integer___to_int32(NODE *node, int32_t *result_p);
+static int builtin_types__positive_integer___to_int64(NODE *node, int64_t *result_p);
+static int builtin_types__negative_integer___to_int64(NODE *node, int64_t *result_p);
+static int builtin_types__positive_integer___to_uint8(NODE *node, uint8_t *result_p);
+static int builtin_types__positive_integer___to_uint16(NODE *node, uint16_t *result_p);
+static int builtin_types__positive_integer___to_uint32(NODE *node, uint32_t *result_p);
+static int builtin_types__positive_integer___to_uint64(NODE *node, uint64_t *result_p);
+static void *std_types__object___collect(SIMPLE_NODE *node);
+static long std_types__object___debug_string(NODE *node, int indent, int max_depth, char *buf);
+static void *std_types__file_type___collect(FILE_TYPE *node);
+static long std_types__file_type___debug_string(NODE *node, int indent, int max_depth, char *buf);
+static void *std_types__file_descriptor___collect(FILE_DESCRIPTOR *node);
+static long std_types__file_descriptor___debug_string(NODE *node, int indent, int max_depth, char *buf);
+static void *std_types__signal_number___collect(SIGNAL_NUMBER *node);
+static long std_types__signal_number___debug_string(NODE *node, int indent, int max_depth, char *buf);
+static void *std_types__shutdown_type___collect(SHUTDOWN_TYPE *node);
+static long std_types__shutdown_type___debug_string(NODE *node, int indent, int max_depth, char *buf);
+static void *std_types__seek_type___collect(SEEK_TYPE *node);
+static long std_types__seek_type___debug_string(NODE *node, int indent, int max_depth, char *buf);
+static void *std_types__device_id___collect(DEVICE_ID *node);
+static long std_types__device_id___debug_string(NODE *node, int indent, int max_depth, char *buf);
+static void *std_types__directory___collect(DIRECTORY *node);
+static long std_types__directory___debug_string(NODE *node, int indent, int max_depth, char *buf);
+static void *std_types__group_id___collect(GROUP_ID *node);
+static long std_types__group_id___debug_string(NODE *node, int indent, int max_depth, char *buf);
+static void *std_types__inode_number___collect(INODE_NUMBER *node);
+static long std_types__inode_number___debug_string(NODE *node, int indent, int max_depth, char *buf);
+static void *std_types__process_id___collect(PROCESS_ID *node);
+static long std_types__process_id___debug_string(NODE *node, int indent, int max_depth, char *buf);
+static void *std_types__user_id___collect(USER_ID *node);
+static long std_types__user_id___debug_string(NODE *node, int indent, int max_depth, char *buf);
+static void *std_types__error_number___collect(ERROR_NUMBER *node);
+static long std_types__error_number___debug_string(NODE *node, int indent, int max_depth, char *buf);
+static void *std_types__octet_string___collect(OCTET_STRING *node);
+static void *std_types__wide_string___collect(WIDE_STRING *node);
+static long std_types__octet_string___debug_string(NODE *node, int indent, int max_depth, char *buf);
+static long std_types__wide_string___debug_string(NODE *node, int indent, int max_depth, char *buf);
+static int std_types__octet_string___get_item_of(NODE *node, long idx, NODE **result_p);
+static int std_types__wide_string___get_item_of(NODE *node, long idx, NODE **result_p);
+static int std_types__octet_string___to_c_string(NODE *node, char **result_p);
+static int std_types__octet_string___to_octets(NODE *node, const uint8_t **buf_p, long *size_p);
+static int std_types__octet_string___length_of(NODE *node, long *result_p);
+static int std_types__wide_string___length_of(NODE *node, long *result_p);
+static void *std_types__terminal_attributes___collect(TERMINAL_ATTRIBUTES *node);
+static long std_types__terminal_attributes___debug_string(NODE *node, int indent, int max_depth, char *buf);
+static void *builtin_types__tuple2___collect(TUPLE2 *node);
+static long builtin_types__tuple2___debug_string(NODE *node, int indent, int max_depth, char *buf);
+static void *builtin_types__tuple3___collect(TUPLE3 *node);
+static long builtin_types__tuple3___debug_string(NODE *node, int indent, int max_depth, char *buf);
+static void *builtin_types__tuple4___collect(TUPLE4 *node);
+static long builtin_types__tuple4___debug_string(NODE *node, int indent, int max_depth, char *buf);
+static void *builtin_types__tuple5___collect(TUPLE5 *node);
+static long builtin_types__tuple5___debug_string(NODE *node, int indent, int max_depth, char *buf);
+static void *builtin_types__tuple6___collect(TUPLE6 *node);
+static long builtin_types__tuple6___debug_string(NODE *node, int indent, int max_depth, char *buf);
+static void *builtin_types__tuple7___collect(TUPLE7 *node);
+static long builtin_types__tuple7___debug_string(NODE *node, int indent, int max_depth, char *buf);
+static void *builtin_types__tuple8___collect(TUPLE8 *node);
+static long builtin_types__tuple8___debug_string(NODE *node, int indent, int max_depth, char *buf);
+static void *std_types__undefined___collect(SIMPLE_NODE *node);
+static long std_types__undefined___debug_string(NODE *node, int indent, int max_depth, char *buf);
 static uint32_t to_upper_case(uint32_t chr);
 static uint32_t to_lower_case(uint32_t chr);
 static uint32_t to_title_case(uint32_t chr);
-static void *std_types___unique_item____collect(UNIQUE_ITEM *node);
-static long std_types___unique_item____debug_string(NODE *node, int indent, int max_depth, char *buf);
-static void *std_types___shared_memory____collect(SHARED_MEMORY *node);
-static long std_types___shared_memory____debug_string(NODE *node, int indent, int max_depth, char *buf);
+static void *std_types__unique_item___collect(UNIQUE_ITEM *node);
+static long std_types__unique_item___debug_string(NODE *node, int indent, int max_depth, char *buf);
+static void *std_types__shared_memory___collect(SHARED_MEMORY *node);
+static long std_types__shared_memory___debug_string(NODE *node, int indent, int max_depth, char *buf);
 
 int to_int8
   (
@@ -2014,7 +2014,7 @@ static ARRAY_VIEW *create_sub_view
     int i;
     for (i = 0; i < dimension_count; ++i) {
       NODE *argument = TLS_arguments[1+i];
-      if ((argument)->type != std_types___value_range.type) {
+      if ((argument)->type != std_types__value_range.type) {
 	invalid_arguments();
 	return NULL;
       }
@@ -2224,7 +2224,7 @@ static void *collect_array_data
     return new_data;
   }
 
-static void *std_types___array____collect
+static void *std_types__array___collect
   (
     ARRAY *node
   )
@@ -2272,7 +2272,7 @@ static ARRAY_DATA *apply_array_updates(ARRAY *node)
     return data;
   }
 
-static long std_types___array____debug_string
+static long std_types__array___debug_string
   (
     NODE *node,
     int indent,
@@ -2313,7 +2313,7 @@ static void *collect_boolean_array_data
     return new_data;
   }
 
-static void *std_types___boolean_array____collect
+static void *std_types__boolean_array___collect
   (
     BOOLEAN_ARRAY *node
   )
@@ -2361,7 +2361,7 @@ static BOOLEAN_ARRAY_DATA *apply_boolean_array_updates(BOOLEAN_ARRAY *node)
     return data;
   }
 
-static long std_types___boolean_array____debug_string
+static long std_types__boolean_array___debug_string
   (
     NODE *node,
     int indent,
@@ -2402,7 +2402,7 @@ static void *collect_character_array_data
     return new_data;
   }
 
-static void *std_types___character_array____collect
+static void *std_types__character_array___collect
   (
     CHARACTER_ARRAY *node
   )
@@ -2450,7 +2450,7 @@ static CHARACTER_ARRAY_DATA *apply_character_array_updates(CHARACTER_ARRAY *node
     return data;
   }
 
-static long std_types___character_array____debug_string
+static long std_types__character_array___debug_string
   (
     NODE *node,
     int indent,
@@ -2491,7 +2491,7 @@ static void *collect_int8_array_data
     return new_data;
   }
 
-static void *std_types___int8_array____collect
+static void *std_types__int8_array___collect
   (
     INT8_ARRAY *node
   )
@@ -2539,7 +2539,7 @@ static INT8_ARRAY_DATA *apply_int8_array_updates(INT8_ARRAY *node)
     return data;
   }
 
-static long std_types___int8_array____debug_string
+static long std_types__int8_array___debug_string
   (
     NODE *node,
     int indent,
@@ -2621,7 +2621,7 @@ static void *collect_uint8_array_data
     return new_data;
   }
 
-static void *std_types___uint8_array____collect
+static void *std_types__uint8_array___collect
   (
     UINT8_ARRAY *node
   )
@@ -2669,7 +2669,7 @@ static UINT8_ARRAY_DATA *apply_uint8_array_updates(UINT8_ARRAY *node)
     return data;
   }
 
-static long std_types___uint8_array____debug_string
+static long std_types__uint8_array___debug_string
   (
     NODE *node,
     int indent,
@@ -2751,7 +2751,7 @@ static void *collect_int16_array_data
     return new_data;
   }
 
-static void *std_types___int16_array____collect
+static void *std_types__int16_array___collect
   (
     INT16_ARRAY *node
   )
@@ -2799,7 +2799,7 @@ static INT16_ARRAY_DATA *apply_int16_array_updates(INT16_ARRAY *node)
     return data;
   }
 
-static long std_types___int16_array____debug_string
+static long std_types__int16_array___debug_string
   (
     NODE *node,
     int indent,
@@ -2881,7 +2881,7 @@ static void *collect_uint16_array_data
     return new_data;
   }
 
-static void *std_types___uint16_array____collect
+static void *std_types__uint16_array___collect
   (
     UINT16_ARRAY *node
   )
@@ -2929,7 +2929,7 @@ static UINT16_ARRAY_DATA *apply_uint16_array_updates(UINT16_ARRAY *node)
     return data;
   }
 
-static long std_types___uint16_array____debug_string
+static long std_types__uint16_array___debug_string
   (
     NODE *node,
     int indent,
@@ -3011,7 +3011,7 @@ static void *collect_int32_array_data
     return new_data;
   }
 
-static void *std_types___int32_array____collect
+static void *std_types__int32_array___collect
   (
     INT32_ARRAY *node
   )
@@ -3059,7 +3059,7 @@ static INT32_ARRAY_DATA *apply_int32_array_updates(INT32_ARRAY *node)
     return data;
   }
 
-static long std_types___int32_array____debug_string
+static long std_types__int32_array___debug_string
   (
     NODE *node,
     int indent,
@@ -3141,7 +3141,7 @@ static void *collect_uint32_array_data
     return new_data;
   }
 
-static void *std_types___uint32_array____collect
+static void *std_types__uint32_array___collect
   (
     UINT32_ARRAY *node
   )
@@ -3189,7 +3189,7 @@ static UINT32_ARRAY_DATA *apply_uint32_array_updates(UINT32_ARRAY *node)
     return data;
   }
 
-static long std_types___uint32_array____debug_string
+static long std_types__uint32_array___debug_string
   (
     NODE *node,
     int indent,
@@ -3271,7 +3271,7 @@ static void *collect_int64_array_data
     return new_data;
   }
 
-static void *std_types___int64_array____collect
+static void *std_types__int64_array___collect
   (
     INT64_ARRAY *node
   )
@@ -3319,7 +3319,7 @@ static INT64_ARRAY_DATA *apply_int64_array_updates(INT64_ARRAY *node)
     return data;
   }
 
-static long std_types___int64_array____debug_string
+static long std_types__int64_array___debug_string
   (
     NODE *node,
     int indent,
@@ -3401,7 +3401,7 @@ static void *collect_uint64_array_data
     return new_data;
   }
 
-static void *std_types___uint64_array____collect
+static void *std_types__uint64_array___collect
   (
     UINT64_ARRAY *node
   )
@@ -3449,7 +3449,7 @@ static UINT64_ARRAY_DATA *apply_uint64_array_updates(UINT64_ARRAY *node)
     return data;
   }
 
-static long std_types___uint64_array____debug_string
+static long std_types__uint64_array___debug_string
   (
     NODE *node,
     int indent,
@@ -3531,7 +3531,7 @@ static void *collect_float32_array_data
     return new_data;
   }
 
-static void *std_types___float32_array____collect
+static void *std_types__float32_array___collect
   (
     FLOAT32_ARRAY *node
   )
@@ -3579,7 +3579,7 @@ static FLOAT32_ARRAY_DATA *apply_float32_array_updates(FLOAT32_ARRAY *node)
     return data;
   }
 
-static long std_types___float32_array____debug_string
+static long std_types__float32_array___debug_string
   (
     NODE *node,
     int indent,
@@ -3661,7 +3661,7 @@ static void *collect_float64_array_data
     return new_data;
   }
 
-static void *std_types___float64_array____collect
+static void *std_types__float64_array___collect
   (
     FLOAT64_ARRAY *node
   )
@@ -3709,7 +3709,7 @@ static FLOAT64_ARRAY_DATA *apply_float64_array_updates(FLOAT64_ARRAY *node)
     return data;
   }
 
-static long std_types___float64_array____debug_string
+static long std_types__float64_array___debug_string
   (
     NODE *node,
     int indent,
@@ -3763,7 +3763,7 @@ static double float64_array_scalar_product
     return result;
   }
 
-static int std_types___true____to_bool
+static int std_types__true___to_bool
   (
     NODE *node,
     int *result_p
@@ -3773,7 +3773,7 @@ static int std_types___true____to_bool
     return true;
   }
 
-static long std_types___true____debug_string
+static long std_types__true___debug_string
   (
     NODE *node,
     int indent,
@@ -3784,7 +3784,7 @@ static long std_types___true____debug_string
     return debug_print(indent, buf, "true");
   }
 
-static int std_types___false____to_bool
+static int std_types__false___to_bool
   (
     NODE *node,
     int *result_p
@@ -3794,7 +3794,7 @@ static int std_types___false____to_bool
     return true;
   }
 
-static long std_types___false____debug_string
+static long std_types__false___debug_string
   (
     NODE *node,
     int indent,
@@ -3811,12 +3811,12 @@ NODE *from_bool
   )
   {
     if (val)
-      return (NODE *)&std_types___true;
+      return (NODE *)&std_types__true;
     else
-      return (NODE *)&std_types___false;
+      return (NODE *)&std_types__false;
   }
 
-static void *c_function____collect
+static void *c_function___collect
   (
     C_FUNCTION *node
   )
@@ -3830,7 +3830,7 @@ static void *c_function____collect
     return new_node;
   }
 
-static long c_function____debug_string
+static long c_function___debug_string
   (
     NODE *node,
     int indent,
@@ -3852,7 +3852,7 @@ NODE *create_c_function
     return node;
   }
 
-static void *std_types___character____collect
+static void *std_types__character___collect
   (
     CHARACTER *node
   )
@@ -3871,10 +3871,10 @@ NODE *from_uchar32
     uint32_t code
   )
   {
-    return create__std_types___character(code);
+    return create__std_types__character(code);
   }
 
-static uint32_t std_types___character____to_uchar32
+static uint32_t std_types__character___to_uchar32
   (
     NODE *node,
     uint32_t *result_p
@@ -3884,7 +3884,7 @@ static uint32_t std_types___character____to_uchar32
     return true;
   }
 
-static long std_types___character____debug_string
+static long std_types__character___debug_string
   (
     NODE *node,
     int indent,
@@ -3906,7 +3906,7 @@ static long std_types___character____debug_string
     }
   }
 
-static void *std_types___date_and_time____collect
+static void *std_types__date_and_time___collect
   (
     DATE_AND_TIME *node
   )
@@ -3921,7 +3921,7 @@ static void *std_types___date_and_time____collect
     return new_node;
   }
 
-static long std_types___date_and_time____debug_string
+static long std_types__date_and_time___debug_string
   (
     NODE *node,
     int indent,
@@ -4021,16 +4021,16 @@ void initialize_environment
   )
   {
     memcpy(
-      (NODE *)&std___program_name, from_c_string(main_argv[0]),
-      sizeof(std___program_name));
+      (NODE *)&std__program_name, from_c_string(main_argv[0]),
+      sizeof(std__program_name));
     NODE *args = create_list(main_argc-1);
     int i;
     for (i = 1; i < main_argc; ++i) {
       set_list_item(args, i-1, from_c_string(main_argv[i]));
     }
     memcpy(
-      (NODE *)&std___command_line_arguments, args,
-      sizeof(std___command_line_arguments));
+      (NODE *)&std__command_line_arguments, args,
+      sizeof(std__command_line_arguments));
     char **p = environ;
     while (*p++);
     int n = p-environ-1;
@@ -4039,8 +4039,8 @@ void initialize_environment
       set_list_item(env_vars, i, from_c_string(environ[i]));
     }
     memcpy(
-      (NODE *)&std___environment_variables, env_vars,
-      sizeof(std___environment_variables));
+      (NODE *)&std__environment_variables, env_vars,
+      sizeof(std__environment_variables));
   }
 
 static MESSAGE_TEXT *collect_message_text
@@ -4097,7 +4097,7 @@ static FUNC_DATA *collect_func_data
     return new_data;
   }
 
-static void *std_types___error____collect
+static void *std_types__error___collect
   (
     ERROR *node
   )
@@ -4117,7 +4117,7 @@ static void *std_types___error____collect
     return new_node;
   }
 
-static long std_types___error____debug_string
+static long std_types__error___debug_string
   (
     NODE *node,
     int indent,
@@ -4270,7 +4270,7 @@ void create_error_message
     NODE *err = NULL;
     int i;
     for (i = 0; i < TLS_argument_count; ++i) {
-      if (TLS_arguments[i]->type == std_types___error.type) {
+      if (TLS_arguments[i]->type == std_types__error.type) {
 	err = TLS_arguments[i];
 	break;
       }
@@ -4309,7 +4309,7 @@ void create_error_message
 	trace = trace->link;
       }
       err =
-	create__std_types___error(category, message, err_no, attr_idx, node, instruction_counter, data);
+	create__std_types__error(category, message, err_no, attr_idx, node, instruction_counter, data);
     }
     if (TLS_result_count < 1) TLS_result_count = 1;
     TLS_argument_count = TLS_result_count;
@@ -4321,467 +4321,467 @@ void create_error_message
     }
   }
 
-static int std_types___object____to_int8
+static int std_types__object___to_int8
   (
     NODE *node
   )
   {
     create_error_message(
-      module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+      module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
       "ARGUMENT IS NOT AN INTEGER", 0, 0, node);
     return false;
   }
 
-static int std_types___undefined____to_int8
+static int std_types__undefined___to_int8
   (
     NODE *node
   )
   {
     create_error_message(
-      module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+      module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
       "ARGUMENT IS NOT AN INTEGER", 0, 0, node);
     return false;
   }
 
-static int std_types___object____to_int16
+static int std_types__object___to_int16
   (
     NODE *node
   )
   {
     create_error_message(
-      module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+      module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
       "ARGUMENT IS NOT AN INTEGER", 0, 0, node);
     return false;
   }
 
-static int std_types___undefined____to_int16
+static int std_types__undefined___to_int16
   (
     NODE *node
   )
   {
     create_error_message(
-      module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+      module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
       "ARGUMENT IS NOT AN INTEGER", 0, 0, node);
     return false;
   }
 
-static int std_types___object____to_int32
+static int std_types__object___to_int32
   (
     NODE *node
   )
   {
     create_error_message(
-      module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+      module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
       "ARGUMENT IS NOT AN INTEGER", 0, 0, node);
     return false;
   }
 
-static int std_types___undefined____to_int32
+static int std_types__undefined___to_int32
   (
     NODE *node
   )
   {
     create_error_message(
-      module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+      module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
       "ARGUMENT IS NOT AN INTEGER", 0, 0, node);
     return false;
   }
 
-static int std_types___object____to_int64
+static int std_types__object___to_int64
   (
     NODE *node
   )
   {
     create_error_message(
-      module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+      module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
       "ARGUMENT IS NOT AN INTEGER", 0, 0, node);
     return false;
   }
 
-static int std_types___undefined____to_int64
+static int std_types__undefined___to_int64
   (
     NODE *node
   )
   {
     create_error_message(
-      module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+      module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
       "ARGUMENT IS NOT AN INTEGER", 0, 0, node);
     return false;
   }
 
-static int std_types___object____to_uint8
+static int std_types__object___to_uint8
   (
     NODE *node
   )
   {
     create_error_message(
-      module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+      module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
       "ARGUMENT IS NOT AN INTEGER", 0, 0, node);
     return false;
   }
 
-static int std_types___undefined____to_uint8
+static int std_types__undefined___to_uint8
   (
     NODE *node
   )
   {
     create_error_message(
-      module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+      module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
       "ARGUMENT IS NOT AN INTEGER", 0, 0, node);
     return false;
   }
 
-static int std_types___object____to_uint16
+static int std_types__object___to_uint16
   (
     NODE *node
   )
   {
     create_error_message(
-      module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+      module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
       "ARGUMENT IS NOT AN INTEGER", 0, 0, node);
     return false;
   }
 
-static int std_types___undefined____to_uint16
+static int std_types__undefined___to_uint16
   (
     NODE *node
   )
   {
     create_error_message(
-      module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+      module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
       "ARGUMENT IS NOT AN INTEGER", 0, 0, node);
     return false;
   }
 
-static int std_types___object____to_uint32
+static int std_types__object___to_uint32
   (
     NODE *node
   )
   {
     create_error_message(
-      module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+      module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
       "ARGUMENT IS NOT AN INTEGER", 0, 0, node);
     return false;
   }
 
-static int std_types___undefined____to_uint32
+static int std_types__undefined___to_uint32
   (
     NODE *node
   )
   {
     create_error_message(
-      module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+      module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
       "ARGUMENT IS NOT AN INTEGER", 0, 0, node);
     return false;
   }
 
-static int std_types___object____to_uint64
+static int std_types__object___to_uint64
   (
     NODE *node
   )
   {
     create_error_message(
-      module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+      module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
       "ARGUMENT IS NOT AN INTEGER", 0, 0, node);
     return false;
   }
 
-static int std_types___undefined____to_uint64
+static int std_types__undefined___to_uint64
   (
     NODE *node
   )
   {
     create_error_message(
-      module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+      module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
       "ARGUMENT IS NOT AN INTEGER", 0, 0, node);
     return false;
   }
 
-static int std_types___object____to_uchar32
+static int std_types__object___to_uchar32
   (
     NODE *node
   )
   {
     create_error_message(
-      module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+      module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
       "ARGUMENT IS NOT A CHARACTER", 0, 0, node);
     return false;
   }
 
-static int std_types___undefined____to_uchar32
+static int std_types__undefined___to_uchar32
   (
     NODE *node
   )
   {
     create_error_message(
-      module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+      module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
       "ARGUMENT IS NOT A CHARACTER", 0, 0, node);
     return false;
   }
 
-static int std_types___object____to_bool
+static int std_types__object___to_bool
   (
     NODE *node
   )
   {
     create_error_message(
-      module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+      module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
       "ARGUMENT IS NOT A BOOLEAN", 0, 0, node);
     return false;
   }
 
-static int std_types___undefined____to_bool
+static int std_types__undefined___to_bool
   (
     NODE *node
   )
   {
     create_error_message(
-      module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+      module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
       "ARGUMENT IS NOT A BOOLEAN", 0, 0, node);
     return false;
   }
 
-static int std_types___object____to_int
+static int std_types__object___to_int
   (
     NODE *node
   )
   {
     create_error_message(
-      module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+      module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
       "ARGUMENT IS NOT AN INTEGER", 0, 0, node);
     return false;
   }
 
-static int std_types___undefined____to_int
+static int std_types__undefined___to_int
   (
     NODE *node
   )
   {
     create_error_message(
-      module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+      module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
       "ARGUMENT IS NOT AN INTEGER", 0, 0, node);
     return false;
   }
 
-static int std_types___object____to_uint
+static int std_types__object___to_uint
   (
     NODE *node
   )
   {
     create_error_message(
-      module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+      module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
       "ARGUMENT IS NOT AN INTEGER", 0, 0, node);
     return false;
   }
 
-static int std_types___undefined____to_uint
+static int std_types__undefined___to_uint
   (
     NODE *node
   )
   {
     create_error_message(
-      module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+      module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
       "ARGUMENT IS NOT AN INTEGER", 0, 0, node);
     return false;
   }
 
-static int std_types___object____to_long
+static int std_types__object___to_long
   (
     NODE *node
   )
   {
     create_error_message(
-      module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+      module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
       "ARGUMENT IS NOT AN INTEGER", 0, 0, node);
     return false;
   }
 
-static int std_types___undefined____to_long
+static int std_types__undefined___to_long
   (
     NODE *node
   )
   {
     create_error_message(
-      module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+      module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
       "ARGUMENT IS NOT AN INTEGER", 0, 0, node);
     return false;
   }
 
-static int std_types___object____to_ulong
+static int std_types__object___to_ulong
   (
     NODE *node
   )
   {
     create_error_message(
-      module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+      module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
       "ARGUMENT IS NOT AN INTEGER", 0, 0, node);
     return false;
   }
 
-static int std_types___undefined____to_ulong
+static int std_types__undefined___to_ulong
   (
     NODE *node
   )
   {
     create_error_message(
-      module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+      module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
       "ARGUMENT IS NOT AN INTEGER", 0, 0, node);
     return false;
   }
 
-static int std_types___object____to_float
+static int std_types__object___to_float
   (
     NODE *node
   )
   {
     create_error_message(
-      module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+      module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
       "ARGUMENT IS NOT A NUMBER", 0, 0, node);
     return false;
   }
 
-static int std_types___undefined____to_float
+static int std_types__undefined___to_float
   (
     NODE *node
   )
   {
     create_error_message(
-      module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+      module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
       "ARGUMENT IS NOT A NUMBER", 0, 0, node);
     return false;
   }
 
-static int std_types___object____to_double
+static int std_types__object___to_double
   (
     NODE *node
   )
   {
     create_error_message(
-      module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+      module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
       "ARGUMENT IS NOT A NUMBER", 0, 0, node);
     return false;
   }
 
-static int std_types___undefined____to_double
+static int std_types__undefined___to_double
   (
     NODE *node
   )
   {
     create_error_message(
-      module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+      module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
       "ARGUMENT IS NOT A NUMBER", 0, 0, node);
     return false;
   }
 
-static int std_types___object____to_c_string
+static int std_types__object___to_c_string
   (
     NODE *node
   )
   {
     create_error_message(
-      module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+      module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
       "ARGUMENT IS NOT A STRING", 0, 0, node);
     return false;
   }
 
-static int std_types___undefined____to_c_string
+static int std_types__undefined___to_c_string
   (
     NODE *node
   )
   {
     create_error_message(
-      module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+      module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
       "ARGUMENT IS NOT A STRING", 0, 0, node);
     return false;
   }
 
-static int std_types___object____to_octets
+static int std_types__object___to_octets
   (
     NODE *node
   )
   {
     create_error_message(
-      module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+      module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
       "ARGUMENT IS NOT A STRING", 0, 0, node);
     return false;
   }
 
-static int std_types___undefined____to_octets
+static int std_types__undefined___to_octets
   (
     NODE *node
   )
   {
     create_error_message(
-      module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+      module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
       "ARGUMENT IS NOT A STRING", 0, 0, node);
     return false;
   }
 
-static int std_types___object____get_item_of
+static int std_types__object___get_item_of
   (
     NODE *node
   )
   {
     create_error_message(
-      module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+      module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
       "ATTEMPT TO CALL THE UNDEFINED INTERNAL FUNCTION \"get_item_of\"",
       0, 0, node);
     return false;
   }
 
-static int std_types___undefined____get_item_of
+static int std_types__undefined___get_item_of
   (
     NODE *node
   )
   {
     create_error_message(
-      module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+      module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
       "ATTEMPT TO CALL THE INTERNAL FUNCTION \"get_item_of\" ON AN UNDEFINED OBJECT", 0, 0, node);
     return false;
   }
 
-static int std_types___object____length_of
+static int std_types__object___length_of
   (
     NODE *node
   )
   {
     create_error_message(
-      module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+      module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
       "ATTEMPT TO CALL THE UNDEFINED INTERNAL FUNCTION \"length_of\"",
       0, 0, node);
     return false;
   }
 
-static int std_types___undefined____length_of
+static int std_types__undefined___length_of
   (
     NODE *node
   )
   {
     create_error_message(
-      module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+      module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
       "ATTEMPT TO CALL THE INTERNAL FUNCTION \"length_of\" ON AN UNDEFINED OBJECT", 0, 0, node);
     return false;
   }
 
-static int std_types___object____unfold
+static int std_types__object___unfold
   (
     NODE *node
   )
   {
     create_error_message(
-      module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+      module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
       "ATTEMPT TO CALL THE UNDEFINED INTERNAL FUNCTION \"unfold\"",
       0, 0, node);
     return false;
   }
 
-static int std_types___undefined____unfold
+static int std_types__undefined___unfold
   (
     NODE *node
   )
   {
     create_error_message(
-      module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+      module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
       "ATTEMPT TO CALL THE INTERNAL FUNCTION \"unfold\" ON AN UNDEFINED OBJECT", 0, 0, node);
     return false;
   }
@@ -4792,7 +4792,7 @@ void no_such_function
   )
   {
     create_error_message(
-      module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+      module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
       "NO SUCH FUNCTION", 0, 0, NULL);
   }
 
@@ -4803,7 +4803,7 @@ void invalid_attribute_redefinition
   )
   {
     create_error_message(
-      module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+      module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
       "INVALID ATTRIBUTE REDEFINITION", 0, attr_idx, node);
   }
 
@@ -4813,7 +4813,7 @@ void attribute_has_no_setter
   )
   {
     create_error_message(
-      module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+      module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
       "ATTRIBUTE HAS NO SETTER",
       0, decode_attribute_index(last_attr_idx), TLS_arguments[0]);
   }
@@ -4824,7 +4824,7 @@ void too_few_arguments
   )
   {
     create_error_message(
-      module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+      module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
       "TOO FEW ARGUMENTS", 0, 0, NULL);
   }
 
@@ -4834,7 +4834,7 @@ void too_many_arguments
   )
   {
     create_error_message(
-      module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+      module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
       "TOO MANY ARGUMENTS", 0, 0, NULL);
   }
 
@@ -4844,7 +4844,7 @@ void invalid_arguments
   )
   {
     create_error_message(
-      module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+      module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
       "INVALID ARGUMENTS", 0, 0, NULL);
   }
 
@@ -4854,7 +4854,7 @@ void result_count_mismatch
   )
   {
     create_error_message(
-      module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+      module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
       "RESULT COUNT MISMATCH", 0, 0, NULL);
   }
 
@@ -4864,7 +4864,7 @@ void too_few_results
   )
   {
     create_error_message(
-      module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+      module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
       "TOO FEW RESULTS", 0, 0, NULL);
   }
 
@@ -4874,7 +4874,7 @@ void too_many_results
   )
   {
     create_error_message(
-      module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+      module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
       "TOO MANY RESULTS", 0, 0, NULL);
   }
 
@@ -4884,7 +4884,7 @@ void invalid_results
   )
   {
     create_error_message(
-      module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+      module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
       "INVALID RESULTS", 0, 0, NULL);
   }
 
@@ -4894,7 +4894,7 @@ void invalid_index
   )
   {
     create_error_message(
-      module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+      module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
       "INVALID INDEX", 0, 0, node);
   }
 
@@ -4904,7 +4904,7 @@ void invalid_dimension
   )
   {
     create_error_message(
-      module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+      module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
       "INVALID DIMENSION", 0, 0, node);
   }
 
@@ -4914,7 +4914,7 @@ void divide_by_zero
   )
   {
     create_error_message(
-      module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+      module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
       "DIVIDE BY ZERO", 0, 0, NULL);
   }
 
@@ -4924,7 +4924,7 @@ void missing_io_access_rights
   )
   {
     create_error_message(
-      module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+      module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
       "MISSING IO ACCESS RIGHTS", 0, 0, NULL);
   }
 
@@ -4934,7 +4934,7 @@ void not_yet_implemented
   )
   {
     create_error_message(
-      module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+      module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
       "NOT YET IMPLEMENTED", 0, 0, NULL);
   }
 
@@ -4944,7 +4944,7 @@ void open_failed
   )
   {
     create_error_message(
-      module__builtin.constants_base[unique__std___IO_ERROR-1],
+      module__builtin.constants_base[unique__std__IO_ERROR-1],
       "OPEN FAILED", errno, 0, NULL);
   }
 
@@ -4954,7 +4954,7 @@ void close_failed
   )
   {
     create_error_message(
-      module__builtin.constants_base[unique__std___IO_ERROR-1],
+      module__builtin.constants_base[unique__std__IO_ERROR-1],
       "CLOSE FAILED", errno, 0, NULL);
   }
 
@@ -4964,7 +4964,7 @@ void read_error
   )
   {
     create_error_message(
-      module__builtin.constants_base[unique__std___IO_ERROR-1],
+      module__builtin.constants_base[unique__std__IO_ERROR-1],
       "READ ERROR", errno, 0, NULL);
   }
 
@@ -4974,7 +4974,7 @@ void write_error
   )
   {
     create_error_message(
-      module__builtin.constants_base[unique__std___IO_ERROR-1],
+      module__builtin.constants_base[unique__std__IO_ERROR-1],
       "WRITE ERROR", errno, 0, NULL);
   }
 
@@ -4984,7 +4984,7 @@ void flush_failed
   )
   {
     create_error_message(
-      module__builtin.constants_base[unique__std___IO_ERROR-1],
+      module__builtin.constants_base[unique__std__IO_ERROR-1],
       "FLUSH FAILED", errno, 0, NULL);
   }
 
@@ -5007,7 +5007,7 @@ int dup2_fd(int src_fd, int dest_fd) {
   return err;
 }
 
-static long std_types___function____debug_string
+static long std_types__function___debug_string
   (
     NODE *node,
     int indent,
@@ -5071,7 +5071,7 @@ static LIST_DATA *collect_list_data
     return new_data;
   }
 
-static void *std_types___list____collect
+static void *std_types__list___collect
   (
     LIST *node
   )
@@ -5089,7 +5089,7 @@ static void *std_types___list____collect
     return new_node;
   }
 
-static long std_types___list____debug_string
+static long std_types__list___debug_string
   (
     NODE *node,
     int indent,
@@ -5097,10 +5097,10 @@ static long std_types___list____debug_string
     char *buf
   )
   {
-    /*NODE *subtype = get_attribute(node, poly_idx__std___subtype_of);
+    /*NODE *subtype = get_attribute(node, poly_idx__std__subtype_of);
     if (CONTAINS_AN_ATTRIBUTE_VALUE(subtype)) {
       subtype = RETRIEVE_ATTRIBUTE_VALUE(subtype);
-      if ((subtype)->type == std_types___undefined.type) {
+      if ((subtype)->type == std_types__undefined.type) {
 	subtype = NULL;
       }
     } else {
@@ -5175,7 +5175,7 @@ static long std_types___list____debug_string
     }
   }
 
-static int std_types___list____get_item_of
+static int std_types__list___get_item_of
   (
     NODE *node,
     long idx,
@@ -5196,11 +5196,11 @@ NODE *create_list
     long count
   )
   {
-    if (count ==  0) return (NODE *)&std___empty_list;
+    if (count ==  0) return (NODE *)&std__empty_list;
     LIST_DATA *data = allocate_large(sizeof(LIST_DATA)+count*sizeof(NODE *));
     data->size = count;
     data->length = count;
-    return create__std_types___list(0, count, data);
+    return create__std_types__list(0, count, data);
   }
 
 void set_list_item
@@ -5213,7 +5213,7 @@ void set_list_item
     list->list.data->items[list->list.offset+idx] = value;
   }
 
-static int std_types___list____unfold
+static int std_types__list___unfold
   (
     NODE *list
   )
@@ -5226,7 +5226,7 @@ static int std_types___list____unfold
     return true;
   }
 
-static int std_types___list____length_of
+static int std_types__list___length_of
   (
     NODE *node,
     long *result_p
@@ -5236,7 +5236,7 @@ static int std_types___list____length_of
     return true;
   }
 
-static void *std_types___integer____collect
+static void *std_types__integer___collect
   (
     INTEGER *node
   )
@@ -5250,7 +5250,7 @@ static void *std_types___integer____collect
     return new_node;
   }
 
-static void *std_types___real____collect
+static void *std_types__real___collect
   (
     REAL *node
   )
@@ -5264,7 +5264,7 @@ static void *std_types___real____collect
     return new_node;
   }
 
-static long builtin_types___positive_integer____debug_string
+static long builtin_types__positive_integer___debug_string
   (
     NODE *node,
     int indent,
@@ -5275,7 +5275,7 @@ static long builtin_types___positive_integer____debug_string
     return debug_print(indent, buf, "%" PRIu64, node->integer.value);
   }
 
-static long builtin_types___negative_integer____debug_string
+static long builtin_types__negative_integer___debug_string
   (
     NODE *node,
     int indent,
@@ -5286,7 +5286,7 @@ static long builtin_types___negative_integer____debug_string
     return debug_print(indent, buf, "-%" PRIu64, node->integer.value);
   }
 
-static long std_types___real____debug_string
+static long std_types__real___debug_string
   (
     NODE *node,
     int indent,
@@ -5302,7 +5302,7 @@ NODE *from_float
     float value
   )
   {
-    return create__std_types___real(value);
+    return create__std_types__real(value);
   }
 
 NODE *from_double
@@ -5310,10 +5310,10 @@ NODE *from_double
     double value
   )
   {
-    return create__std_types___real(value);
+    return create__std_types__real(value);
   }
 
-static int builtin_types___positive_integer____to_double
+static int builtin_types__positive_integer___to_double
   (
     NODE *node,
     double *result_p
@@ -5323,7 +5323,7 @@ static int builtin_types___positive_integer____to_double
     return true;
   }
 
-static int builtin_types___positive_integer____to_float
+static int builtin_types__positive_integer___to_float
   (
     NODE *node,
     float *result_p
@@ -5333,7 +5333,7 @@ static int builtin_types___positive_integer____to_float
     return true;
   }
 
-static int builtin_types___negative_integer____to_double
+static int builtin_types__negative_integer___to_double
   (
     NODE *node,
     double *result_p
@@ -5343,7 +5343,7 @@ static int builtin_types___negative_integer____to_double
     return true;
   }
 
-static int builtin_types___negative_integer____to_float
+static int builtin_types__negative_integer___to_float
   (
     NODE *node,
     float *result_p
@@ -5353,7 +5353,7 @@ static int builtin_types___negative_integer____to_float
     return true;
   }
 
-static int std_types___real____to_double
+static int std_types__real___to_double
   (
     NODE *node,
     double *result_p
@@ -5363,7 +5363,7 @@ static int std_types___real____to_double
     return true;
   }
 
-static int std_types___real____to_float
+static int std_types__real___to_float
   (
     NODE *node,
     float *result_p
@@ -5379,9 +5379,9 @@ NODE *create_negative_integer
   )
   {
     if (value == 0) {
-      return create__builtin_types___positive_integer(0);
+      return create__builtin_types__positive_integer(0);
     } else {
-      return create__builtin_types___negative_integer(value);
+      return create__builtin_types__negative_integer(value);
     }
   }
 
@@ -5436,9 +5436,9 @@ NODE *from_int
   )
   {
     if (value >= 0)
-      return create__builtin_types___positive_integer(value);
+      return create__builtin_types__positive_integer(value);
     else
-      return create__builtin_types___negative_integer(-value);
+      return create__builtin_types__negative_integer(-value);
   }
 
 NODE *from_long
@@ -5447,9 +5447,9 @@ NODE *from_long
   )
   {
     if (value >= 0)
-      return create__builtin_types___positive_integer(value);
+      return create__builtin_types__positive_integer(value);
     else
-      return create__builtin_types___negative_integer(-value);
+      return create__builtin_types__negative_integer(-value);
   }
 
 NODE *from_uint
@@ -5457,7 +5457,7 @@ NODE *from_uint
     unsigned int value
   )
   {
-    return create__builtin_types___positive_integer(value);
+    return create__builtin_types__positive_integer(value);
   }
 
 NODE *from_ulong
@@ -5465,7 +5465,7 @@ NODE *from_ulong
     unsigned long value
   )
   {
-    return create__builtin_types___positive_integer(value);
+    return create__builtin_types__positive_integer(value);
   }
 
 NODE *from_int8
@@ -5474,9 +5474,9 @@ NODE *from_int8
   )
   {
     if (value >= 0)
-      return create__builtin_types___positive_integer(value);
+      return create__builtin_types__positive_integer(value);
     else
-      return create__builtin_types___negative_integer(-value);
+      return create__builtin_types__negative_integer(-value);
   }
 
 NODE *from_int16
@@ -5485,9 +5485,9 @@ NODE *from_int16
   )
   {
     if (value >= 0)
-      return create__builtin_types___positive_integer(value);
+      return create__builtin_types__positive_integer(value);
     else
-      return create__builtin_types___negative_integer(-value);
+      return create__builtin_types__negative_integer(-value);
   }
 
 NODE *from_int32
@@ -5496,9 +5496,9 @@ NODE *from_int32
   )
   {
     if (value >= 0)
-      return create__builtin_types___positive_integer(value);
+      return create__builtin_types__positive_integer(value);
     else
-      return create__builtin_types___negative_integer(-value);
+      return create__builtin_types__negative_integer(-value);
   }
 
 NODE *from_int64
@@ -5507,9 +5507,9 @@ NODE *from_int64
   )
   {
     if (value >= 0)
-      return create__builtin_types___positive_integer(value);
+      return create__builtin_types__positive_integer(value);
     else
-      return create__builtin_types___negative_integer(-value);
+      return create__builtin_types__negative_integer(-value);
   }
 
 NODE *from_uint8
@@ -5517,7 +5517,7 @@ NODE *from_uint8
     uint8_t value
   )
   {
-    return create__builtin_types___positive_integer(value);
+    return create__builtin_types__positive_integer(value);
   }
 
 NODE *from_uint16
@@ -5525,7 +5525,7 @@ NODE *from_uint16
     uint16_t value
   )
   {
-    return create__builtin_types___positive_integer(value);
+    return create__builtin_types__positive_integer(value);
   }
 
 NODE *from_uint32
@@ -5533,7 +5533,7 @@ NODE *from_uint32
     uint32_t value
   )
   {
-    return create__builtin_types___positive_integer(value);
+    return create__builtin_types__positive_integer(value);
   }
 
 NODE *from_uint64
@@ -5541,10 +5541,10 @@ NODE *from_uint64
     uint64_t value
   )
   {
-    return create__builtin_types___positive_integer(value);
+    return create__builtin_types__positive_integer(value);
   }
 
-static int builtin_types___positive_integer____to_int
+static int builtin_types__positive_integer___to_int
   (
     NODE *node,
     int *result_p
@@ -5552,7 +5552,7 @@ static int builtin_types___positive_integer____to_int
   {
     if (node->integer.value > INT_MAX) {
       create_error_message(
-	module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+	module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
 	"Conversion of integer value to \"int\" failed!", 0, 0, NULL);
       return false;
     }
@@ -5560,7 +5560,7 @@ static int builtin_types___positive_integer____to_int
     return true;
   }
 
-static int builtin_types___negative_integer____to_int
+static int builtin_types__negative_integer___to_int
   (
     NODE *node,
     int *result_p
@@ -5568,7 +5568,7 @@ static int builtin_types___negative_integer____to_int
   {
     if (node->integer.value > -(uint64_t)INT_MIN) {
       create_error_message(
-	module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+	module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
 	"Conversion of integer value to \"int\" failed!", 0, 0, NULL);
       return false;
     }
@@ -5576,7 +5576,7 @@ static int builtin_types___negative_integer____to_int
     return true;
   }
 
-static int builtin_types___positive_integer____to_long
+static int builtin_types__positive_integer___to_long
   (
     NODE *node,
     long *result_p
@@ -5584,7 +5584,7 @@ static int builtin_types___positive_integer____to_long
   {
     if (node->integer.value > LONG_MAX) {
       create_error_message(
-	module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+	module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
 	"Conversion of integer value to \"long\" failed!", 0, 0, NULL);
       return false;
     }
@@ -5592,7 +5592,7 @@ static int builtin_types___positive_integer____to_long
     return true;
   }
 
-static int builtin_types___negative_integer____to_long
+static int builtin_types__negative_integer___to_long
   (
     NODE *node,
     long *result_p
@@ -5600,7 +5600,7 @@ static int builtin_types___negative_integer____to_long
   {
     if (node->integer.value > -(uint64_t)LONG_MIN) {
       create_error_message(
-	module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+	module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
 	"Conversion of integer value to \"long\" failed!", 0, 0, NULL);
       return false;
     }
@@ -5608,7 +5608,7 @@ static int builtin_types___negative_integer____to_long
     return true;
   }
 
-static int builtin_types___positive_integer____to_uint
+static int builtin_types__positive_integer___to_uint
   (
     NODE *node,
     uint *result_p
@@ -5616,7 +5616,7 @@ static int builtin_types___positive_integer____to_uint
   {
     if (node->integer.value > UINT_MAX) {
       create_error_message(
-	module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+	module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
 	"Conversion of integer value to \"uint\" failed!", 0, 0, NULL);
       return false;
     }
@@ -5624,7 +5624,7 @@ static int builtin_types___positive_integer____to_uint
     return true;
   }
 
-static int builtin_types___positive_integer____to_ulong
+static int builtin_types__positive_integer___to_ulong
   (
     NODE *node,
     unsigned long *result_p
@@ -5633,7 +5633,7 @@ static int builtin_types___positive_integer____to_ulong
     return true;
   }
 
-static int builtin_types___positive_integer____to_int8
+static int builtin_types__positive_integer___to_int8
   (
     NODE *node,
     int8_t *result_p
@@ -5641,7 +5641,7 @@ static int builtin_types___positive_integer____to_int8
   {
     if (node->integer.value > 0x7f) {
       create_error_message(
-	module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+	module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
 	"Conversion of integer value to \"int8\" failed!", 0, 0, NULL);
       return false;
     }
@@ -5649,7 +5649,7 @@ static int builtin_types___positive_integer____to_int8
     return true;
   }
 
-static int builtin_types___negative_integer____to_int8
+static int builtin_types__negative_integer___to_int8
   (
     NODE *node,
     int8_t *result_p
@@ -5657,7 +5657,7 @@ static int builtin_types___negative_integer____to_int8
   {
     if (node->integer.value > 0x80) {
       create_error_message(
-	module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+	module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
 	"Conversion of integer value to \"int8\" failed!", 0, 0, NULL);
       return false;
     }
@@ -5665,7 +5665,7 @@ static int builtin_types___negative_integer____to_int8
     return true;
   }
 
-static int builtin_types___positive_integer____to_int16
+static int builtin_types__positive_integer___to_int16
   (
     NODE *node,
     int16_t *result_p
@@ -5673,7 +5673,7 @@ static int builtin_types___positive_integer____to_int16
   {
     if (node->integer.value > 0x7fff) {
       create_error_message(
-	module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+	module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
 	"Conversion of integer value to \"int16\" failed!", 0, 0, NULL);
       return false;
     }
@@ -5681,7 +5681,7 @@ static int builtin_types___positive_integer____to_int16
     return true;
   }
 
-static int builtin_types___negative_integer____to_int16
+static int builtin_types__negative_integer___to_int16
   (
     NODE *node,
     int16_t *result_p
@@ -5689,7 +5689,7 @@ static int builtin_types___negative_integer____to_int16
   {
     if (node->integer.value > 0x8000) {
       create_error_message(
-	module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+	module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
 	"Conversion of integer value to \"int16\" failed!", 0, 0, NULL);
       return false;
     }
@@ -5697,7 +5697,7 @@ static int builtin_types___negative_integer____to_int16
     return true;
   }
 
-static int builtin_types___positive_integer____to_int32
+static int builtin_types__positive_integer___to_int32
   (
     NODE *node,
     int32_t *result_p
@@ -5705,7 +5705,7 @@ static int builtin_types___positive_integer____to_int32
   {
     if (node->integer.value > 0x7fffffff) {
       create_error_message(
-	module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+	module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
 	"Conversion of integer value to \"int32\" failed!", 0, 0, NULL);
       return false;
     }
@@ -5713,7 +5713,7 @@ static int builtin_types___positive_integer____to_int32
     return true;
   }
 
-static int builtin_types___negative_integer____to_int32
+static int builtin_types__negative_integer___to_int32
   (
     NODE *node,
     int32_t *result_p
@@ -5721,7 +5721,7 @@ static int builtin_types___negative_integer____to_int32
   {
     if (node->integer.value > 0x80000000) {
       create_error_message(
-	module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+	module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
 	"Conversion of integer value to \"int32\" failed!", 0, 0, NULL);
       return false;
     }
@@ -5729,7 +5729,7 @@ static int builtin_types___negative_integer____to_int32
     return true;
   }
 
-static int builtin_types___positive_integer____to_int64
+static int builtin_types__positive_integer___to_int64
   (
     NODE *node,
     int64_t *result_p
@@ -5737,7 +5737,7 @@ static int builtin_types___positive_integer____to_int64
   {
     if (node->integer.value > 0x7fffffffffffffff) {
       create_error_message(
-	module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+	module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
 	"Conversion of integer value to \"int64\" failed!", 0, 0, NULL);
       return false;
     }
@@ -5745,7 +5745,7 @@ static int builtin_types___positive_integer____to_int64
     return true;
   }
 
-static int builtin_types___negative_integer____to_int64
+static int builtin_types__negative_integer___to_int64
   (
     NODE *node,
     int64_t *result_p
@@ -5753,7 +5753,7 @@ static int builtin_types___negative_integer____to_int64
   {
     if (node->integer.value > 0x8000000000000000) {
       create_error_message(
-	module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+	module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
 	"Conversion of integer value to \"int64\" failed!", 0, 0, NULL);
       return false;
     }
@@ -5761,7 +5761,7 @@ static int builtin_types___negative_integer____to_int64
     return true;
   }
 
-static int builtin_types___positive_integer____to_uint8
+static int builtin_types__positive_integer___to_uint8
   (
     NODE *node,
     uint8_t *result_p
@@ -5769,7 +5769,7 @@ static int builtin_types___positive_integer____to_uint8
   {
     if (node->integer.value > 0xff) {
       create_error_message(
-	module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+	module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
 	"Conversion of integer value to \"uint8\" failed!", 0, 0, NULL);
       return false;
     }
@@ -5777,7 +5777,7 @@ static int builtin_types___positive_integer____to_uint8
     return true;
   }
 
-static int builtin_types___positive_integer____to_uint16
+static int builtin_types__positive_integer___to_uint16
   (
     NODE *node,
     uint16_t *result_p
@@ -5785,7 +5785,7 @@ static int builtin_types___positive_integer____to_uint16
   {
     if (node->integer.value > 0xffff) {
       create_error_message(
-	module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+	module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
 	"Conversion of integer value to \"uint16\" failed!", 0, 0, NULL);
       return false;
     }
@@ -5793,7 +5793,7 @@ static int builtin_types___positive_integer____to_uint16
     return true;
   }
 
-static int builtin_types___positive_integer____to_uint32
+static int builtin_types__positive_integer___to_uint32
   (
     NODE *node,
     uint32_t *result_p
@@ -5801,7 +5801,7 @@ static int builtin_types___positive_integer____to_uint32
   {
     if (node->integer.value > 0xffffffff) {
       create_error_message(
-	module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+	module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
 	"Conversion of integer value to \"uint32\" failed!", 0, 0, NULL);
       return false;
     }
@@ -5809,7 +5809,7 @@ static int builtin_types___positive_integer____to_uint32
     return true;
   }
 
-static int builtin_types___positive_integer____to_uint64
+static int builtin_types__positive_integer___to_uint64
   (
     NODE *node,
     uint64_t *result_p
@@ -5818,7 +5818,7 @@ static int builtin_types___positive_integer____to_uint64
     return true;
   }
 
-static void *std_types___object____collect
+static void *std_types__object___collect
   (
     SIMPLE_NODE *node
   )
@@ -5831,7 +5831,7 @@ static void *std_types___object____collect
     return new_node;
   }
 
-static long std_types___object____debug_string
+static long std_types__object___debug_string
   (
     NODE *node,
     int indent,
@@ -5961,7 +5961,7 @@ NODE *create_polymorphic_function
       (FUNC)(unsigned long)
       (POLYMORPHIC_FUNCTION_TAG|(poly_idx << 3));
     node->attributes =
-      std_types___polymorphic_function.attributes;
+      std_types__polymorphic_function.attributes;
     return node;
   }
 
@@ -5975,11 +5975,11 @@ NODE *create_polymorphic_function_with_setter
       (FUNC)(unsigned long)
       (POLYMORPHIC_FUNCTION_WITH_SETTER_TAG|(poly_idx << 3));
     node->attributes =
-      std_types___polymorphic_function_with_setter.attributes;
+      std_types__polymorphic_function_with_setter.attributes;
     return node;
   }
 
-static void *std_types___file_type____collect
+static void *std_types__file_type___collect
   (
     FILE_TYPE *node
   )
@@ -5993,7 +5993,7 @@ static void *std_types___file_type____collect
     return new_node;
   }
 
-static long std_types___file_type____debug_string
+static long std_types__file_type___debug_string
   (
     NODE *node,
     int indent,
@@ -6011,7 +6011,7 @@ static int file_type_to_int
     int *result_p
   )
   {
-    if ((node)->type != std_types___file_type.type) {
+    if ((node)->type != std_types__file_type.type) {
       invalid_arguments();
       return false;
     } else {
@@ -6025,10 +6025,10 @@ static NODE *file_type_from_int
     int value
   )
   {
-    return create__std_types___file_type(value);
+    return create__std_types__file_type(value);
   }
 
-static void *std_types___file_descriptor____collect
+static void *std_types__file_descriptor___collect
   (
     FILE_DESCRIPTOR *node
   )
@@ -6042,7 +6042,7 @@ static void *std_types___file_descriptor____collect
     return new_node;
   }
 
-static long std_types___file_descriptor____debug_string
+static long std_types__file_descriptor___debug_string
   (
     NODE *node,
     int indent,
@@ -6060,7 +6060,7 @@ static int file_descriptor_to_int
     int *result_p
   )
   {
-    if ((node)->type != std_types___file_descriptor.type) {
+    if ((node)->type != std_types__file_descriptor.type) {
       invalid_arguments();
       return false;
     } else {
@@ -6074,10 +6074,10 @@ static NODE *file_descriptor_from_int
     int value
   )
   {
-    return create__std_types___file_descriptor(value);
+    return create__std_types__file_descriptor(value);
   }
 
-static void *std_types___signal_number____collect
+static void *std_types__signal_number___collect
   (
     SIGNAL_NUMBER *node
   )
@@ -6091,7 +6091,7 @@ static void *std_types___signal_number____collect
     return new_node;
   }
 
-static long std_types___signal_number____debug_string
+static long std_types__signal_number___debug_string
   (
     NODE *node,
     int indent,
@@ -6109,7 +6109,7 @@ static int signal_number_to_int
     int *result_p
   )
   {
-    if ((node)->type != std_types___signal_number.type) {
+    if ((node)->type != std_types__signal_number.type) {
       invalid_arguments();
       return false;
     } else {
@@ -6123,10 +6123,10 @@ static NODE *signal_number_from_int
     int value
   )
   {
-    return create__std_types___signal_number(value);
+    return create__std_types__signal_number(value);
   }
 
-static void *std_types___shutdown_type____collect
+static void *std_types__shutdown_type___collect
   (
     SHUTDOWN_TYPE *node
   )
@@ -6140,7 +6140,7 @@ static void *std_types___shutdown_type____collect
     return new_node;
   }
 
-static long std_types___shutdown_type____debug_string
+static long std_types__shutdown_type___debug_string
   (
     NODE *node,
     int indent,
@@ -6158,7 +6158,7 @@ static int shutdown_type_to_int
     int *result_p
   )
   {
-    if ((node)->type != std_types___shutdown_type.type) {
+    if ((node)->type != std_types__shutdown_type.type) {
       invalid_arguments();
       return false;
     } else {
@@ -6172,10 +6172,10 @@ static NODE *shutdown_type_from_int
     int value
   )
   {
-    return create__std_types___shutdown_type(value);
+    return create__std_types__shutdown_type(value);
   }
 
-static void *std_types___seek_type____collect
+static void *std_types__seek_type___collect
   (
     SEEK_TYPE *node
   )
@@ -6189,7 +6189,7 @@ static void *std_types___seek_type____collect
     return new_node;
   }
 
-static long std_types___seek_type____debug_string
+static long std_types__seek_type___debug_string
   (
     NODE *node,
     int indent,
@@ -6207,7 +6207,7 @@ static int seek_type_to_int
     int *result_p
   )
   {
-    if ((node)->type != std_types___seek_type.type) {
+    if ((node)->type != std_types__seek_type.type) {
       invalid_arguments();
       return false;
     } else {
@@ -6221,10 +6221,10 @@ static NODE *seek_type_from_int
     int value
   )
   {
-    return create__std_types___seek_type(value);
+    return create__std_types__seek_type(value);
   }
 
-static void *std_types___device_id____collect
+static void *std_types__device_id___collect
   (
     DEVICE_ID *node
   )
@@ -6238,7 +6238,7 @@ static void *std_types___device_id____collect
     return new_node;
   }
 
-static long std_types___device_id____debug_string
+static long std_types__device_id___debug_string
   (
     NODE *node,
     int indent,
@@ -6256,7 +6256,7 @@ static int device_id_to_ulong
     unsigned long *result_p
   )
   {
-    if ((node)->type != std_types___device_id.type) {
+    if ((node)->type != std_types__device_id.type) {
       invalid_arguments();
       return false;
     } else {
@@ -6270,10 +6270,10 @@ static NODE *device_id_from_ulong
     unsigned long value
   )
   {
-    return create__std_types___device_id(value);
+    return create__std_types__device_id(value);
   }
 
-static void *std_types___directory____collect
+static void *std_types__directory___collect
   (
     DIRECTORY *node
   )
@@ -6287,7 +6287,7 @@ static void *std_types___directory____collect
     return new_node;
   }
 
-static long std_types___directory____debug_string
+static long std_types__directory___debug_string
   (
     NODE *node,
     int indent,
@@ -6305,7 +6305,7 @@ static int directory_to_ptr
     void * *result_p
   )
   {
-    if ((node)->type != std_types___directory.type) {
+    if ((node)->type != std_types__directory.type) {
       invalid_arguments();
       return false;
     } else {
@@ -6319,10 +6319,10 @@ static NODE *directory_from_ptr
     void * value
   )
   {
-    return create__std_types___directory(value);
+    return create__std_types__directory(value);
   }
 
-static void *std_types___group_id____collect
+static void *std_types__group_id___collect
   (
     GROUP_ID *node
   )
@@ -6336,7 +6336,7 @@ static void *std_types___group_id____collect
     return new_node;
   }
 
-static long std_types___group_id____debug_string
+static long std_types__group_id___debug_string
   (
     NODE *node,
     int indent,
@@ -6354,7 +6354,7 @@ static int group_id_to_int
     int *result_p
   )
   {
-    if ((node)->type != std_types___group_id.type) {
+    if ((node)->type != std_types__group_id.type) {
       invalid_arguments();
       return false;
     } else {
@@ -6368,10 +6368,10 @@ static NODE *group_id_from_int
     int value
   )
   {
-    return create__std_types___group_id(value);
+    return create__std_types__group_id(value);
   }
 
-static void *std_types___inode_number____collect
+static void *std_types__inode_number___collect
   (
     INODE_NUMBER *node
   )
@@ -6385,7 +6385,7 @@ static void *std_types___inode_number____collect
     return new_node;
   }
 
-static long std_types___inode_number____debug_string
+static long std_types__inode_number___debug_string
   (
     NODE *node,
     int indent,
@@ -6403,7 +6403,7 @@ static int inode_number_to_ulong
     unsigned long *result_p
   )
   {
-    if ((node)->type != std_types___inode_number.type) {
+    if ((node)->type != std_types__inode_number.type) {
       invalid_arguments();
       return false;
     } else {
@@ -6417,10 +6417,10 @@ static NODE *inode_number_from_ulong
     unsigned long value
   )
   {
-    return create__std_types___inode_number(value);
+    return create__std_types__inode_number(value);
   }
 
-static void *std_types___process_id____collect
+static void *std_types__process_id___collect
   (
     PROCESS_ID *node
   )
@@ -6434,7 +6434,7 @@ static void *std_types___process_id____collect
     return new_node;
   }
 
-static long std_types___process_id____debug_string
+static long std_types__process_id___debug_string
   (
     NODE *node,
     int indent,
@@ -6452,7 +6452,7 @@ static int process_id_to_int
     int *result_p
   )
   {
-    if ((node)->type != std_types___process_id.type) {
+    if ((node)->type != std_types__process_id.type) {
       invalid_arguments();
       return false;
     } else {
@@ -6466,10 +6466,10 @@ static NODE *process_id_from_int
     int value
   )
   {
-    return create__std_types___process_id(value);
+    return create__std_types__process_id(value);
   }
 
-static void *std_types___user_id____collect
+static void *std_types__user_id___collect
   (
     USER_ID *node
   )
@@ -6483,7 +6483,7 @@ static void *std_types___user_id____collect
     return new_node;
   }
 
-static long std_types___user_id____debug_string
+static long std_types__user_id___debug_string
   (
     NODE *node,
     int indent,
@@ -6501,7 +6501,7 @@ static int user_id_to_int
     int *result_p
   )
   {
-    if ((node)->type != std_types___user_id.type) {
+    if ((node)->type != std_types__user_id.type) {
       invalid_arguments();
       return false;
     } else {
@@ -6515,10 +6515,10 @@ static NODE *user_id_from_int
     int value
   )
   {
-    return create__std_types___user_id(value);
+    return create__std_types__user_id(value);
   }
 
-static void *std_types___error_number____collect
+static void *std_types__error_number___collect
   (
     ERROR_NUMBER *node
   )
@@ -6532,7 +6532,7 @@ static void *std_types___error_number____collect
     return new_node;
   }
 
-static long std_types___error_number____debug_string
+static long std_types__error_number___debug_string
   (
     NODE *node,
     int indent,
@@ -6550,7 +6550,7 @@ static int error_number_to_int
     int *result_p
   )
   {
-    if ((node)->type != std_types___error_number.type) {
+    if ((node)->type != std_types__error_number.type) {
       invalid_arguments();
       return false;
     } else {
@@ -6564,7 +6564,7 @@ static NODE *error_number_from_int
     int value
   )
   {
-    return create__std_types___error_number(value);
+    return create__std_types__error_number(value);
   }
 
 static OCTET_DATA *collect_octet_data
@@ -6595,7 +6595,7 @@ static OCTET_DATA *collect_octet_data
     return new_data;
   }
 
-static void *std_types___octet_string____collect
+static void *std_types__octet_string___collect
   (
     OCTET_STRING *node
   )
@@ -6641,7 +6641,7 @@ static WIDE_DATA *collect_wide_data
     return new_data;
   }
 
-static void *std_types___wide_string____collect
+static void *std_types__wide_string___collect
   (
     WIDE_STRING *node
   )
@@ -6659,7 +6659,7 @@ static void *std_types___wide_string____collect
     return new_node;
   }
 
-static long std_types___octet_string____debug_string
+static long std_types__octet_string___debug_string
   (
     NODE *node,
     int indent,
@@ -6696,7 +6696,7 @@ static long std_types___octet_string____debug_string
     return len;
   }
 
-static long std_types___wide_string____debug_string
+static long std_types__wide_string___debug_string
   (
     NODE *node,
     int indent,
@@ -6733,7 +6733,7 @@ static long std_types___wide_string____debug_string
     return len;
   }
 
-static int std_types___octet_string____get_item_of
+static int std_types__octet_string___get_item_of
   (
     NODE *node,
     long idx,
@@ -6751,7 +6751,7 @@ static int std_types___octet_string____get_item_of
     return true;
   }
 
-static int std_types___wide_string____get_item_of
+static int std_types__wide_string___get_item_of
   (
     NODE *node,
     long idx,
@@ -6769,7 +6769,7 @@ static int std_types___wide_string____get_item_of
     return true;
   }
 
-static int std_types___octet_string____to_c_string
+static int std_types__octet_string___to_c_string
   (
     NODE *node,
     char **result_p
@@ -6784,7 +6784,7 @@ static int std_types___octet_string____to_c_string
     return true;
   }
 
-static int std_types___octet_string____to_octets
+static int std_types__octet_string___to_octets
   (
     NODE *node,
     const uint8_t **buf_p,
@@ -6806,13 +6806,13 @@ NODE *from_latin_1_string
     long len
   )
   {
-    if (len == 0) return (NODE *)&std___empty_string;
+    if (len == 0) return (NODE *)&std__empty_string;
     long size = ALLOCATION_SIZE(len);
     OCTET_DATA *data = allocate_large(sizeof(OCTET_DATA)+size);
     data->size = size;
     data->length = len;
     memcpy(data->buffer, str, len);
-    return create__std_types___octet_string(0, len, data);
+    return create__std_types__octet_string(0, len, data);
   }
 
 NODE *from_uint32_string
@@ -6826,7 +6826,7 @@ NODE *from_uint32_string
     data->size = size;
     data->length = len;
     memcpy(data->buffer, str, 4*len);
-    return create__std_types___wide_string(0, len, data);
+    return create__std_types__wide_string(0, len, data);
   }
 
 NODE *from_c_string
@@ -6837,7 +6837,7 @@ NODE *from_c_string
     return from_latin_1_string((const uint8_t *)str, strlen(str));
   }
 
-static int std_types___octet_string____length_of
+static int std_types__octet_string___length_of
   (
     NODE *node,
     long *result_p
@@ -6847,7 +6847,7 @@ static int std_types___octet_string____length_of
     return true;
   }
 
-static int std_types___wide_string____length_of
+static int std_types__wide_string___length_of
   (
     NODE *node,
     long *result_p
@@ -6876,7 +6876,7 @@ static TERMIO_DATA *collect_termio_data
     return new_data;
   }
 
-static void *std_types___terminal_attributes____collect
+static void *std_types__terminal_attributes___collect
   (
     TERMINAL_ATTRIBUTES *node
   )
@@ -6890,7 +6890,7 @@ static void *std_types___terminal_attributes____collect
     return new_node;
   }
 
-static long std_types___terminal_attributes____debug_string
+static long std_types__terminal_attributes___debug_string
   (
     NODE *node,
     int indent,
@@ -6908,19 +6908,19 @@ NODE *create_tuple
   {
     switch (count) {
       case 2:
-	return create__builtin_types___tuple2(NULL, NULL);
+	return create__builtin_types__tuple2(NULL, NULL);
       case 3:
-	return create__builtin_types___tuple3(NULL, NULL, NULL);
+	return create__builtin_types__tuple3(NULL, NULL, NULL);
       case 4:
-	return create__builtin_types___tuple4(NULL, NULL, NULL, NULL);
+	return create__builtin_types__tuple4(NULL, NULL, NULL, NULL);
       case 5:
-	return create__builtin_types___tuple5(NULL, NULL, NULL, NULL, NULL);
+	return create__builtin_types__tuple5(NULL, NULL, NULL, NULL, NULL);
       case 6:
-	return create__builtin_types___tuple6(NULL, NULL, NULL, NULL, NULL, NULL);
+	return create__builtin_types__tuple6(NULL, NULL, NULL, NULL, NULL, NULL);
       case 7:
-	return create__builtin_types___tuple7(NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+	return create__builtin_types__tuple7(NULL, NULL, NULL, NULL, NULL, NULL, NULL);
       case 8:
-	return create__builtin_types___tuple8(NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+	return create__builtin_types__tuple8(NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
       default:
 	unrecoverable_error("Invalid tuple element count!");
     }
@@ -6936,7 +6936,7 @@ void set_tuple_item
     ((NODE **)((SIMPLE_NODE *)tuple+1))[idx] = value;
   }
 
-static void *builtin_types___tuple2____collect
+static void *builtin_types__tuple2___collect
   (
     TUPLE2 *node
   )
@@ -6951,7 +6951,7 @@ static void *builtin_types___tuple2____collect
     return new_node;
   }
 
-static long builtin_types___tuple2____debug_string
+static long builtin_types__tuple2___debug_string
   (
     NODE *node,
     int indent,
@@ -6959,10 +6959,10 @@ static long builtin_types___tuple2____debug_string
     char *buf
   )
   {
-    /*NODE *subtype = get_attribute(node, poly_idx__std___subtype_of);
+    /*NODE *subtype = get_attribute(node, poly_idx__std__subtype_of);
     if (CONTAINS_AN_ATTRIBUTE_VALUE(subtype)) {
       subtype = RETRIEVE_ATTRIBUTE_VALUE(subtype);
-      if ((subtype)->type == std_types___undefined.type) {
+      if ((subtype)->type == std_types__undefined.type) {
 	subtype = NULL;
       }
     } else {
@@ -7008,7 +7008,7 @@ static long builtin_types___tuple2____debug_string
     }
   }
 
-static void *builtin_types___tuple3____collect
+static void *builtin_types__tuple3___collect
   (
     TUPLE3 *node
   )
@@ -7024,7 +7024,7 @@ static void *builtin_types___tuple3____collect
     return new_node;
   }
 
-static long builtin_types___tuple3____debug_string
+static long builtin_types__tuple3___debug_string
   (
     NODE *node,
     int indent,
@@ -7032,10 +7032,10 @@ static long builtin_types___tuple3____debug_string
     char *buf
   )
   {
-    /*NODE *subtype = get_attribute(node, poly_idx__std___subtype_of);
+    /*NODE *subtype = get_attribute(node, poly_idx__std__subtype_of);
     if (CONTAINS_AN_ATTRIBUTE_VALUE(subtype)) {
       subtype = RETRIEVE_ATTRIBUTE_VALUE(subtype);
-      if ((subtype)->type == std_types___undefined.type) {
+      if ((subtype)->type == std_types__undefined.type) {
 	subtype = NULL;
       }
     } else {
@@ -7081,7 +7081,7 @@ static long builtin_types___tuple3____debug_string
     }
   }
 
-static void *builtin_types___tuple4____collect
+static void *builtin_types__tuple4___collect
   (
     TUPLE4 *node
   )
@@ -7098,7 +7098,7 @@ static void *builtin_types___tuple4____collect
     return new_node;
   }
 
-static long builtin_types___tuple4____debug_string
+static long builtin_types__tuple4___debug_string
   (
     NODE *node,
     int indent,
@@ -7106,10 +7106,10 @@ static long builtin_types___tuple4____debug_string
     char *buf
   )
   {
-    /*NODE *subtype = get_attribute(node, poly_idx__std___subtype_of);
+    /*NODE *subtype = get_attribute(node, poly_idx__std__subtype_of);
     if (CONTAINS_AN_ATTRIBUTE_VALUE(subtype)) {
       subtype = RETRIEVE_ATTRIBUTE_VALUE(subtype);
-      if ((subtype)->type == std_types___undefined.type) {
+      if ((subtype)->type == std_types__undefined.type) {
 	subtype = NULL;
       }
     } else {
@@ -7155,7 +7155,7 @@ static long builtin_types___tuple4____debug_string
     }
   }
 
-static void *builtin_types___tuple5____collect
+static void *builtin_types__tuple5___collect
   (
     TUPLE5 *node
   )
@@ -7173,7 +7173,7 @@ static void *builtin_types___tuple5____collect
     return new_node;
   }
 
-static long builtin_types___tuple5____debug_string
+static long builtin_types__tuple5___debug_string
   (
     NODE *node,
     int indent,
@@ -7181,10 +7181,10 @@ static long builtin_types___tuple5____debug_string
     char *buf
   )
   {
-    /*NODE *subtype = get_attribute(node, poly_idx__std___subtype_of);
+    /*NODE *subtype = get_attribute(node, poly_idx__std__subtype_of);
     if (CONTAINS_AN_ATTRIBUTE_VALUE(subtype)) {
       subtype = RETRIEVE_ATTRIBUTE_VALUE(subtype);
-      if ((subtype)->type == std_types___undefined.type) {
+      if ((subtype)->type == std_types__undefined.type) {
 	subtype = NULL;
       }
     } else {
@@ -7230,7 +7230,7 @@ static long builtin_types___tuple5____debug_string
     }
   }
 
-static void *builtin_types___tuple6____collect
+static void *builtin_types__tuple6___collect
   (
     TUPLE6 *node
   )
@@ -7249,7 +7249,7 @@ static void *builtin_types___tuple6____collect
     return new_node;
   }
 
-static long builtin_types___tuple6____debug_string
+static long builtin_types__tuple6___debug_string
   (
     NODE *node,
     int indent,
@@ -7257,10 +7257,10 @@ static long builtin_types___tuple6____debug_string
     char *buf
   )
   {
-    /*NODE *subtype = get_attribute(node, poly_idx__std___subtype_of);
+    /*NODE *subtype = get_attribute(node, poly_idx__std__subtype_of);
     if (CONTAINS_AN_ATTRIBUTE_VALUE(subtype)) {
       subtype = RETRIEVE_ATTRIBUTE_VALUE(subtype);
-      if ((subtype)->type == std_types___undefined.type) {
+      if ((subtype)->type == std_types__undefined.type) {
 	subtype = NULL;
       }
     } else {
@@ -7306,7 +7306,7 @@ static long builtin_types___tuple6____debug_string
     }
   }
 
-static void *builtin_types___tuple7____collect
+static void *builtin_types__tuple7___collect
   (
     TUPLE7 *node
   )
@@ -7326,7 +7326,7 @@ static void *builtin_types___tuple7____collect
     return new_node;
   }
 
-static long builtin_types___tuple7____debug_string
+static long builtin_types__tuple7___debug_string
   (
     NODE *node,
     int indent,
@@ -7334,10 +7334,10 @@ static long builtin_types___tuple7____debug_string
     char *buf
   )
   {
-    /*NODE *subtype = get_attribute(node, poly_idx__std___subtype_of);
+    /*NODE *subtype = get_attribute(node, poly_idx__std__subtype_of);
     if (CONTAINS_AN_ATTRIBUTE_VALUE(subtype)) {
       subtype = RETRIEVE_ATTRIBUTE_VALUE(subtype);
-      if ((subtype)->type == std_types___undefined.type) {
+      if ((subtype)->type == std_types__undefined.type) {
 	subtype = NULL;
       }
     } else {
@@ -7383,7 +7383,7 @@ static long builtin_types___tuple7____debug_string
     }
   }
 
-static void *builtin_types___tuple8____collect
+static void *builtin_types__tuple8___collect
   (
     TUPLE8 *node
   )
@@ -7404,7 +7404,7 @@ static void *builtin_types___tuple8____collect
     return new_node;
   }
 
-static long builtin_types___tuple8____debug_string
+static long builtin_types__tuple8___debug_string
   (
     NODE *node,
     int indent,
@@ -7412,10 +7412,10 @@ static long builtin_types___tuple8____debug_string
     char *buf
   )
   {
-    /*NODE *subtype = get_attribute(node, poly_idx__std___subtype_of);
+    /*NODE *subtype = get_attribute(node, poly_idx__std__subtype_of);
     if (CONTAINS_AN_ATTRIBUTE_VALUE(subtype)) {
       subtype = RETRIEVE_ATTRIBUTE_VALUE(subtype);
-      if ((subtype)->type == std_types___undefined.type) {
+      if ((subtype)->type == std_types__undefined.type) {
 	subtype = NULL;
       }
     } else {
@@ -7461,7 +7461,7 @@ static long builtin_types___tuple8____debug_string
     }
   }
 
-static void *std_types___undefined____collect
+static void *std_types__undefined___collect
   (
     SIMPLE_NODE *node
   )
@@ -7474,7 +7474,7 @@ static void *std_types___undefined____collect
     return new_node;
   }
 
-static long std_types___undefined____debug_string
+static long std_types__undefined___debug_string
   (
     NODE *node,
     int indent,
@@ -10088,7 +10088,7 @@ int is_a_wide_character
 static long unique_idx = 1;
 static const char **my_unique_item_names;
 
-static void *std_types___unique_item____collect
+static void *std_types__unique_item___collect
   (
     UNIQUE_ITEM *node
   )
@@ -10116,10 +10116,10 @@ NODE *register_unique_item
 	  2*unique_idx*sizeof(const char *));
     }
     my_unique_item_names[unique_idx] = name;
-    return create__std_types___unique_item(unique_idx++);
+    return create__std_types__unique_item(unique_idx++);
   }
 
-static long std_types___unique_item____debug_string
+static long std_types__unique_item___debug_string
   (
     NODE *node,
     int indent,
@@ -10202,7 +10202,7 @@ static int flags_to_int
   err:
   deallocate_memory(flags_str);
   create_error_message(
-    module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+    module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
     "Conversion to open flags failed!", 0, 0, NULL);
   return false;
 }
@@ -10323,7 +10323,7 @@ static int mode_to_int
   err:
   deallocate_memory(mode_str);
   create_error_message(
-    module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+    module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
     "Conversion to file mode failed!", 0, 0, NULL);
   return false;
 }
@@ -10438,9 +10438,9 @@ static int initialize_fd_set
     for (i = 0; i < descriptor_count; ++i) {
       NODE *descriptor;
       if (!get_item_of(descriptors, i, &descriptor)) return false;
-      if ((descriptor)->type != std_types___file_descriptor.type) {
+      if ((descriptor)->type != std_types__file_descriptor.type) {
 	create_error_message(
-	  module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+	  module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
 	  "Invalid arguments!", 0, 0, NULL);
 	return false;
       }
@@ -10475,10 +10475,10 @@ static NODE *create_descriptor_list
 	data->items[n++] = descriptor;
       }
     }
-    return create__std_types___list(0, fd_count, data);
+    return create__std_types__list(0, fd_count, data);
   }
 
-static void *std_types___shared_memory____collect
+static void *std_types__shared_memory___collect
   (
     SHARED_MEMORY *node
   )
@@ -10496,7 +10496,7 @@ static void *std_types___shared_memory____collect
     return new_node;
   }
 
-static long std_types___shared_memory____debug_string
+static long std_types__shared_memory___debug_string
   (
     NODE *node,
     int indent,
@@ -10509,17 +10509,17 @@ static long std_types___shared_memory____debug_string
       node->shared_memory.fd, node->shared_memory.size);
   }
 
-static void std_types___generic_array____type (void)
+static void std_types__generic_array___type (void)
   {
     {
       create_error_message(
-        module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+        module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
         "Attempt to call the generic array prototype object as a function!", 0, 0, NULL);
       return;
     }
   }
 
-static void std_types___array____type (void)
+static void std_types__array___type (void)
   {
     ARRAY_DATA *data = TLS_myself->array.data;
     int dimension_count = data->info->dimension_count;
@@ -10572,7 +10572,7 @@ static void std_types___array____type (void)
     }
   }
 
-static void std_types___boolean_array____type (void)
+static void std_types__boolean_array___type (void)
   {
     BOOLEAN_ARRAY_DATA *data = TLS_myself->boolean_array.data;
     int dimension_count = data->info->dimension_count;
@@ -10625,7 +10625,7 @@ static void std_types___boolean_array____type (void)
     }
   }
 
-static void std_types___character_array____type (void)
+static void std_types__character_array___type (void)
   {
     CHARACTER_ARRAY_DATA *data = TLS_myself->character_array.data;
     int dimension_count = data->info->dimension_count;
@@ -10678,7 +10678,7 @@ static void std_types___character_array____type (void)
     }
   }
 
-static void std_types___int8_array____type (void)
+static void std_types__int8_array___type (void)
   {
     INT8_ARRAY_DATA *data = TLS_myself->int8_array.data;
     int dimension_count = data->info->dimension_count;
@@ -10731,7 +10731,7 @@ static void std_types___int8_array____type (void)
     }
   }
 
-static void std_types___uint8_array____type (void)
+static void std_types__uint8_array___type (void)
   {
     UINT8_ARRAY_DATA *data = TLS_myself->uint8_array.data;
     int dimension_count = data->info->dimension_count;
@@ -10784,7 +10784,7 @@ static void std_types___uint8_array____type (void)
     }
   }
 
-static void std_types___int16_array____type (void)
+static void std_types__int16_array___type (void)
   {
     INT16_ARRAY_DATA *data = TLS_myself->int16_array.data;
     int dimension_count = data->info->dimension_count;
@@ -10837,7 +10837,7 @@ static void std_types___int16_array____type (void)
     }
   }
 
-static void std_types___uint16_array____type (void)
+static void std_types__uint16_array___type (void)
   {
     UINT16_ARRAY_DATA *data = TLS_myself->uint16_array.data;
     int dimension_count = data->info->dimension_count;
@@ -10890,7 +10890,7 @@ static void std_types___uint16_array____type (void)
     }
   }
 
-static void std_types___int32_array____type (void)
+static void std_types__int32_array___type (void)
   {
     INT32_ARRAY_DATA *data = TLS_myself->int32_array.data;
     int dimension_count = data->info->dimension_count;
@@ -10943,7 +10943,7 @@ static void std_types___int32_array____type (void)
     }
   }
 
-static void std_types___uint32_array____type (void)
+static void std_types__uint32_array___type (void)
   {
     UINT32_ARRAY_DATA *data = TLS_myself->uint32_array.data;
     int dimension_count = data->info->dimension_count;
@@ -10996,7 +10996,7 @@ static void std_types___uint32_array____type (void)
     }
   }
 
-static void std_types___int64_array____type (void)
+static void std_types__int64_array___type (void)
   {
     INT64_ARRAY_DATA *data = TLS_myself->int64_array.data;
     int dimension_count = data->info->dimension_count;
@@ -11049,7 +11049,7 @@ static void std_types___int64_array____type (void)
     }
   }
 
-static void std_types___uint64_array____type (void)
+static void std_types__uint64_array___type (void)
   {
     UINT64_ARRAY_DATA *data = TLS_myself->uint64_array.data;
     int dimension_count = data->info->dimension_count;
@@ -11102,7 +11102,7 @@ static void std_types___uint64_array____type (void)
     }
   }
 
-static void std_types___float32_array____type (void)
+static void std_types__float32_array___type (void)
   {
     FLOAT32_ARRAY_DATA *data = TLS_myself->float32_array.data;
     int dimension_count = data->info->dimension_count;
@@ -11155,7 +11155,7 @@ static void std_types___float32_array____type (void)
     }
   }
 
-static void std_types___float64_array____type (void)
+static void std_types__float64_array___type (void)
   {
     FLOAT64_ARRAY_DATA *data = TLS_myself->float64_array.data;
     int dimension_count = data->info->dimension_count;
@@ -11208,57 +11208,57 @@ static void std_types___float64_array____type (void)
     }
   }
 
-static void std_types___true____type (void)
+static void std_types__true___type (void)
   {
     {
       create_error_message(
-        module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+        module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
         "Attempt to call the boolean value true as a function!", 0, 0, NULL);
       return;
     }
   }
 
-static void std_types___false____type (void)
+static void std_types__false___type (void)
   {
     {
       create_error_message(
-        module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+        module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
         "Attempt to call the boolean value false as a function!", 0, 0, NULL);
       return;
     }
   }
 
-static void c_function____type (void)
+static void c_function___type (void)
   {
     {
       create_error_message(
-        module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+        module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
         "Attempt to call the C function protoype object!", 0, 0, NULL);
       return;
     }
   }
 
-static void std_types___character____type (void)
+static void std_types__character___type (void)
   {
     {
       create_error_message(
-        module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+        module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
         "Attempt to call a character value as a function!", 0, 0, NULL);
       return;
     }
   }
 
-static void std_types___date_and_time____type (void)
+static void std_types__date_and_time___type (void)
   {
     {
       create_error_message(
-        module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+        module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
         "Attempt to call a date-and-time object as a function!", 0, 0, NULL);
       return;
     }
   }
 
-void std_types___error____type (void)
+void std_types__error___type (void)
   {
     if (TLS_result_count < 1) TLS_result_count = 1;
     TLS_argument_count = TLS_result_count;
@@ -11271,57 +11271,57 @@ void std_types___error____type (void)
     }
   }
 
-static void std_types___object____type (void)
+static void std_types__object___type (void)
   {
     {
       create_error_message(
-        module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+        module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
         "Attempt to call an object as a function!", 0, 0, NULL);
       return;
     }
   }
 
-void std_types___undefined____type (void)
+void std_types__undefined___type (void)
   {
     {
       create_error_message(
-        module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+        module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
         "Attempt to call an undefined object as a function!", 0, 0, NULL);
       return;
     }
   }
 
-static void std_types___function____type (void)
+static void std_types__function___type (void)
   {
     {
       create_error_message(
-        module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+        module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
         "Attempt to call the function protoype object!", 0, 0, NULL);
       return;
     }
   }
 
-static void tabular_function____type (void)
+static void tabular_function___type (void)
   {
     {
       create_error_message(
-        module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+        module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
         "Attempt to call the tabular function protoype object!", 0, 0, NULL);
       return;
     }
   }
 
-static void std_types___generic_list____type (void)
+static void std_types__generic_list___type (void)
   {
     {
       create_error_message(
-        module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+        module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
         "Attempt to call the generic list prototype object as a function!", 0, 0, NULL);
       return;
     }
   }
 
-void std_types___list____type (void)
+void std_types__list___type (void)
   {
     if (TLS_argument_count < 1) {
       too_few_arguments();
@@ -11354,7 +11354,7 @@ void std_types___list____type (void)
     new_data->items[idx-1] = item;
     new_data->size = length;
     new_data->length = length;
-    NODE *node = create__std_types___list(0, length, new_data);
+    NODE *node = create__std_types__list(0, length, new_data);
     node->type = TLS_myself->type;
     node->attributes = TLS_myself->attributes;
     {
@@ -11365,237 +11365,237 @@ void std_types___list____type (void)
     }
   }
 
-static void std_types___number____type (void)
+static void std_types__number___type (void)
   {
     {
       create_error_message(
-        module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+        module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
         "Attempt to call a numeric value as a function!", 0, 0, NULL);
       return;
     }
   }
 
-static void std_types___integer____type (void)
+static void std_types__integer___type (void)
   {
     {
       create_error_message(
-        module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+        module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
         "Attempt to call the integer protoype object as a function!", 0, 0, NULL);
       return;
     }
   }
 
-void builtin_types___positive_integer____type (void)
+void builtin_types__positive_integer___type (void)
   {
     {
       create_error_message(
-        module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+        module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
         "Attempt to call a positive integer value as a function!", 0, 0, NULL);
       return;
     }
   }
 
-void builtin_types___negative_integer____type (void)
+void builtin_types__negative_integer___type (void)
   {
     {
       create_error_message(
-        module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+        module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
         "Attempt to call a negative integer value as a function!", 0, 0, NULL);
       return;
     }
   }
 
-static void std_types___real____type (void)
+static void std_types__real___type (void)
   {
     {
       create_error_message(
-        module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+        module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
         "Attempt to call a real number as a function!", 0, 0, NULL);
       return;
     }
   }
 
-static void std_types___polymorphic_function____type (void)
+static void std_types__polymorphic_function___type (void)
   {
     {
       create_error_message(
-        module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+        module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
         "Attempt to call the polymorphic-function protoype object!", 0, 0, NULL);
       return;
     }
   }
 
-static void std_types___polymorphic_function_with_setter____type (void)
+static void std_types__polymorphic_function_with_setter___type (void)
   {
     {
       create_error_message(
-        module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+        module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
         "Attempt to call the polymorphic-function-with-setter protoype object!", 0, 0, NULL);
       return;
     }
   }
 
-static void std_types___file_type____type (void)
+static void std_types__file_type___type (void)
   {
     {
       create_error_message(
-        module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+        module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
         "Attempt to call a file type as a function!", 0, 0, NULL);
       return;
     }
   }
 
-static void std_types___file_descriptor____type (void)
+static void std_types__file_descriptor___type (void)
   {
     {
       create_error_message(
-        module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+        module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
         "Attempt to call a file descriptor as a function!", 0, 0, NULL);
       return;
     }
   }
 
-static void std_types___signal_number____type (void)
+static void std_types__signal_number___type (void)
   {
     {
       create_error_message(
-        module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+        module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
         "Attempt to call a signal number as a function!", 0, 0, NULL);
       return;
     }
   }
 
-static void std_types___shutdown_type____type (void)
+static void std_types__shutdown_type___type (void)
   {
     {
       create_error_message(
-        module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+        module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
         "Attempt to call a shutdown type as a function!", 0, 0, NULL);
       return;
     }
   }
 
-static void std_types___seek_type____type (void)
+static void std_types__seek_type___type (void)
   {
     {
       create_error_message(
-        module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+        module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
         "Attempt to call a seek type as a function!", 0, 0, NULL);
       return;
     }
   }
 
-static void std_types___device_id____type (void)
+static void std_types__device_id___type (void)
   {
     {
       create_error_message(
-        module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+        module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
         "Attempt to call a device id as a function!", 0, 0, NULL);
       return;
     }
   }
 
-static void std_types___directory____type (void)
+static void std_types__directory___type (void)
   {
     {
       create_error_message(
-        module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+        module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
         "Attempt to call a directory as a function!", 0, 0, NULL);
       return;
     }
   }
 
-static void std_types___group_id____type (void)
+static void std_types__group_id___type (void)
   {
     {
       create_error_message(
-        module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+        module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
         "Attempt to call a group id as a function!", 0, 0, NULL);
       return;
     }
   }
 
-static void std_types___inode_number____type (void)
+static void std_types__inode_number___type (void)
   {
     {
       create_error_message(
-        module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+        module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
         "Attempt to call a inode number as a function!", 0, 0, NULL);
       return;
     }
   }
 
-static void std_types___process_id____type (void)
+static void std_types__process_id___type (void)
   {
     {
       create_error_message(
-        module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+        module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
         "Attempt to call a process id as a function!", 0, 0, NULL);
       return;
     }
   }
 
-static void std_types___user_id____type (void)
+static void std_types__user_id___type (void)
   {
     {
       create_error_message(
-        module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+        module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
         "Attempt to call a user id as a function!", 0, 0, NULL);
       return;
     }
   }
 
-static void std_types___error_number____type (void)
+static void std_types__error_number___type (void)
   {
     {
       create_error_message(
-        module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+        module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
         "Attempt to call a error number as a function!", 0, 0, NULL);
       return;
     }
   }
 
-static void std_types___passwd____type (void)
+static void std_types__passwd___type (void)
   {
     {
       create_error_message(
-        module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+        module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
         "Attempt to call a passwd as a function!", 0, 0, NULL);
       return;
     }
   }
 
-static void std_types___stat____type (void)
+static void std_types__stat___type (void)
   {
     {
       create_error_message(
-        module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+        module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
         "Attempt to call a stat as a function!", 0, 0, NULL);
       return;
     }
   }
 
-static void std_types___dirent____type (void)
+static void std_types__dirent___type (void)
   {
     {
       create_error_message(
-        module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+        module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
         "Attempt to call a dirent as a function!", 0, 0, NULL);
       return;
     }
   }
 
-static void std_types___string____type (void)
+static void std_types__string___type (void)
   {
     {
       create_error_message(
-        module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+        module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
         "Attempt to call the string prototype object as a function!", 0, 0, NULL);
       return;
     }
   }
 
-static void std_types___octet_string____type (void)
+static void std_types__octet_string___type (void)
   {
     if (TLS_argument_count < 1) {
       too_few_arguments();
@@ -11645,7 +11645,7 @@ static void std_types___octet_string____type (void)
       new_data->length = length;
       new_data->buffer[idx-1] = chr;
       {
-        NODE *result__node = (NODE *)(create__std_types___wide_string(0, length, new_data));
+        NODE *result__node = (NODE *)(create__std_types__wide_string(0, length, new_data));
         TLS_arguments[0] = result__node;
         TLS_argument_count = 1;
         return;
@@ -11658,7 +11658,7 @@ static void std_types___octet_string____type (void)
       new_data->length = length;
       new_data->buffer[idx-1] = chr;
       {
-        NODE *result__node = (NODE *)(create__std_types___octet_string(0, length, new_data));
+        NODE *result__node = (NODE *)(create__std_types__octet_string(0, length, new_data));
         TLS_arguments[0] = result__node;
         TLS_argument_count = 1;
         return;
@@ -11666,7 +11666,7 @@ static void std_types___octet_string____type (void)
     }
   }
 
-static void std_types___wide_string____type (void)
+static void std_types__wide_string___type (void)
   {
     if (TLS_argument_count < 1) {
       too_few_arguments();
@@ -11719,7 +11719,7 @@ static void std_types___wide_string____type (void)
       new_data->length = length;
       new_data->buffer[idx-1] = chr;
       {
-        NODE *result__node = (NODE *)(create__std_types___octet_string(0, length, new_data));
+        NODE *result__node = (NODE *)(create__std_types__octet_string(0, length, new_data));
         TLS_arguments[0] = result__node;
         TLS_argument_count = 1;
         return;
@@ -11733,34 +11733,34 @@ static void std_types___wide_string____type (void)
     new_data->length = length;
     new_data->buffer[idx-1] = chr;
     {
-      NODE *result__node = (NODE *)(create__std_types___wide_string(0, length, new_data));
+      NODE *result__node = (NODE *)(create__std_types__wide_string(0, length, new_data));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
   }
 
-static void std_types___terminal_attributes____type (void)
+static void std_types__terminal_attributes___type (void)
   {
     {
       create_error_message(
-        module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+        module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
         "Attempt to call terminal attributes as a function!", 0, 0, NULL);
       return;
     };
   }
 
-static void std_types___tuple____type (void)
+static void std_types__tuple___type (void)
   {
     {
       create_error_message(
-        module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+        module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
         "Attempt to call the tuple prototype object as a function!", 0, 0, NULL);
       return;
     }
   }
 
-static void builtin_types___tuple2____type (void)
+static void builtin_types__tuple2___type (void)
   {
     if (TLS_argument_count != 0) {
       invalid_arguments();
@@ -11776,12 +11776,12 @@ static void builtin_types___tuple2____type (void)
     }
     TLS_argument_count = TLS_result_count;
     switch (TLS_result_count) {
-      case 8: TLS_arguments[7] = (NODE *)&std_types___undefined;
-      case 7: TLS_arguments[6] = (NODE *)&std_types___undefined;
-      case 6: TLS_arguments[5] = (NODE *)&std_types___undefined;
-      case 5: TLS_arguments[4] = (NODE *)&std_types___undefined;
-      case 4: TLS_arguments[3] = (NODE *)&std_types___undefined;
-      case 3: TLS_arguments[2] = (NODE *)&std_types___undefined;
+      case 8: TLS_arguments[7] = (NODE *)&std_types__undefined;
+      case 7: TLS_arguments[6] = (NODE *)&std_types__undefined;
+      case 6: TLS_arguments[5] = (NODE *)&std_types__undefined;
+      case 5: TLS_arguments[4] = (NODE *)&std_types__undefined;
+      case 4: TLS_arguments[3] = (NODE *)&std_types__undefined;
+      case 3: TLS_arguments[2] = (NODE *)&std_types__undefined;
       case 2: TLS_arguments[1] = TLS_myself->tuple2.node_1;
       case 1: TLS_arguments[0] = TLS_myself->tuple2.node_0;
     }
@@ -11790,7 +11790,7 @@ static void builtin_types___tuple2____type (void)
     }
   }
 
-static void builtin_types___tuple3____type (void)
+static void builtin_types__tuple3___type (void)
   {
     if (TLS_argument_count != 0) {
       invalid_arguments();
@@ -11806,11 +11806,11 @@ static void builtin_types___tuple3____type (void)
     }
     TLS_argument_count = TLS_result_count;
     switch (TLS_result_count) {
-      case 8: TLS_arguments[7] = (NODE *)&std_types___undefined;
-      case 7: TLS_arguments[6] = (NODE *)&std_types___undefined;
-      case 6: TLS_arguments[5] = (NODE *)&std_types___undefined;
-      case 5: TLS_arguments[4] = (NODE *)&std_types___undefined;
-      case 4: TLS_arguments[3] = (NODE *)&std_types___undefined;
+      case 8: TLS_arguments[7] = (NODE *)&std_types__undefined;
+      case 7: TLS_arguments[6] = (NODE *)&std_types__undefined;
+      case 6: TLS_arguments[5] = (NODE *)&std_types__undefined;
+      case 5: TLS_arguments[4] = (NODE *)&std_types__undefined;
+      case 4: TLS_arguments[3] = (NODE *)&std_types__undefined;
       case 3: TLS_arguments[2] = TLS_myself->tuple3.node_2;
       case 2: TLS_arguments[1] = TLS_myself->tuple3.node_1;
       case 1: TLS_arguments[0] = TLS_myself->tuple3.node_0;
@@ -11820,7 +11820,7 @@ static void builtin_types___tuple3____type (void)
     }
   }
 
-static void builtin_types___tuple4____type (void)
+static void builtin_types__tuple4___type (void)
   {
     if (TLS_argument_count != 0) {
       invalid_arguments();
@@ -11836,9 +11836,9 @@ static void builtin_types___tuple4____type (void)
     }
     TLS_argument_count = TLS_result_count;
     switch (TLS_result_count) {
-      case 8: TLS_arguments[7] = (NODE *)&std_types___undefined;
-      case 7: TLS_arguments[6] = (NODE *)&std_types___undefined;
-      case 6: TLS_arguments[5] = (NODE *)&std_types___undefined;
+      case 8: TLS_arguments[7] = (NODE *)&std_types__undefined;
+      case 7: TLS_arguments[6] = (NODE *)&std_types__undefined;
+      case 6: TLS_arguments[5] = (NODE *)&std_types__undefined;
       case 5: TLS_arguments[4] = TLS_myself->tuple4.node_3;
       case 4: TLS_arguments[3] = TLS_myself->tuple4.node_3;
       case 3: TLS_arguments[2] = TLS_myself->tuple4.node_2;
@@ -11850,7 +11850,7 @@ static void builtin_types___tuple4____type (void)
     }
   }
 
-static void builtin_types___tuple5____type (void)
+static void builtin_types__tuple5___type (void)
   {
     if (TLS_argument_count != 0) {
       invalid_arguments();
@@ -11866,8 +11866,8 @@ static void builtin_types___tuple5____type (void)
     }
     TLS_argument_count = TLS_result_count;
     switch (TLS_result_count) {
-      case 8: TLS_arguments[7] = (NODE *)&std_types___undefined;
-      case 7: TLS_arguments[6] = (NODE *)&std_types___undefined;
+      case 8: TLS_arguments[7] = (NODE *)&std_types__undefined;
+      case 7: TLS_arguments[6] = (NODE *)&std_types__undefined;
       case 6: TLS_arguments[5] = TLS_myself->tuple5.node_4;
       case 5: TLS_arguments[4] = TLS_myself->tuple5.node_4;
       case 4: TLS_arguments[3] = TLS_myself->tuple5.node_3;
@@ -11880,7 +11880,7 @@ static void builtin_types___tuple5____type (void)
     }
   }
 
-static void builtin_types___tuple6____type (void)
+static void builtin_types__tuple6___type (void)
   {
     if (TLS_argument_count != 0) {
       invalid_arguments();
@@ -11896,8 +11896,8 @@ static void builtin_types___tuple6____type (void)
     }
     TLS_argument_count = TLS_result_count;
     switch (TLS_result_count) {
-      case 8: TLS_arguments[7] = (NODE *)&std_types___undefined;
-      case 7: TLS_arguments[6] = (NODE *)&std_types___undefined;
+      case 8: TLS_arguments[7] = (NODE *)&std_types__undefined;
+      case 7: TLS_arguments[6] = (NODE *)&std_types__undefined;
       case 6: TLS_arguments[5] = TLS_myself->tuple6.node_5;
       case 5: TLS_arguments[4] = TLS_myself->tuple6.node_4;
       case 4: TLS_arguments[3] = TLS_myself->tuple6.node_3;
@@ -11910,7 +11910,7 @@ static void builtin_types___tuple6____type (void)
     }
   }
 
-static void builtin_types___tuple7____type (void)
+static void builtin_types__tuple7___type (void)
   {
     if (TLS_argument_count != 0) {
       invalid_arguments();
@@ -11926,7 +11926,7 @@ static void builtin_types___tuple7____type (void)
     }
     TLS_argument_count = TLS_result_count;
     switch (TLS_result_count) {
-      case 8: TLS_arguments[7] = (NODE *)&std_types___undefined;
+      case 8: TLS_arguments[7] = (NODE *)&std_types__undefined;
       case 7: TLS_arguments[6] = TLS_myself->tuple7.node_6;
       case 6: TLS_arguments[5] = TLS_myself->tuple7.node_5;
       case 5: TLS_arguments[4] = TLS_myself->tuple7.node_4;
@@ -11940,7 +11940,7 @@ static void builtin_types___tuple7____type (void)
     }
   }
 
-static void builtin_types___tuple8____type (void)
+static void builtin_types__tuple8___type (void)
   {
     if (TLS_argument_count != 0) {
       invalid_arguments();
@@ -11970,987 +11970,987 @@ static void builtin_types___tuple8____type (void)
     }
   }
 
-static void std_types___unique_item____type (void)
+static void std_types__unique_item___type (void)
   {
     {
       create_error_message(
-        module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+        module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
         "Attempt to call a unique item as a function!", 0, 0, NULL);
       return;
     }
   }
 
-static void std_types___shared_memory____type (void)
+static void std_types__shared_memory___type (void)
   {
     {
       create_error_message(
-        module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+        module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
         "Attempt to call a shared memory object as a function!", 0, 0, NULL);
       return;
     }
   }
 
-SIMPLE_NODE std_types___generic_array = {
-  std_types___generic_array____type, NULL
+SIMPLE_NODE std_types__generic_array = {
+  std_types__generic_array___type, NULL
 };
 
-ARRAY std_types___array = {
-  std_types___array____type, NULL
+ARRAY std_types__array = {
+  std_types__array___type, NULL
 };
 
-BOOLEAN_ARRAY std_types___boolean_array = {
-  std_types___boolean_array____type, NULL
+BOOLEAN_ARRAY std_types__boolean_array = {
+  std_types__boolean_array___type, NULL
 };
 
-CHARACTER_ARRAY std_types___character_array = {
-  std_types___character_array____type, NULL
+CHARACTER_ARRAY std_types__character_array = {
+  std_types__character_array___type, NULL
 };
 
-INT8_ARRAY std_types___int8_array = {
-  std_types___int8_array____type, NULL
+INT8_ARRAY std_types__int8_array = {
+  std_types__int8_array___type, NULL
 };
 
-UINT8_ARRAY std_types___uint8_array = {
-  std_types___uint8_array____type, NULL
+UINT8_ARRAY std_types__uint8_array = {
+  std_types__uint8_array___type, NULL
 };
 
-INT16_ARRAY std_types___int16_array = {
-  std_types___int16_array____type, NULL
+INT16_ARRAY std_types__int16_array = {
+  std_types__int16_array___type, NULL
 };
 
-UINT16_ARRAY std_types___uint16_array = {
-  std_types___uint16_array____type, NULL
+UINT16_ARRAY std_types__uint16_array = {
+  std_types__uint16_array___type, NULL
 };
 
-INT32_ARRAY std_types___int32_array = {
-  std_types___int32_array____type, NULL
+INT32_ARRAY std_types__int32_array = {
+  std_types__int32_array___type, NULL
 };
 
-UINT32_ARRAY std_types___uint32_array = {
-  std_types___uint32_array____type, NULL
+UINT32_ARRAY std_types__uint32_array = {
+  std_types__uint32_array___type, NULL
 };
 
-INT64_ARRAY std_types___int64_array = {
-  std_types___int64_array____type, NULL
+INT64_ARRAY std_types__int64_array = {
+  std_types__int64_array___type, NULL
 };
 
-UINT64_ARRAY std_types___uint64_array = {
-  std_types___uint64_array____type, NULL
+UINT64_ARRAY std_types__uint64_array = {
+  std_types__uint64_array___type, NULL
 };
 
-FLOAT32_ARRAY std_types___float32_array = {
-  std_types___float32_array____type, NULL
+FLOAT32_ARRAY std_types__float32_array = {
+  std_types__float32_array___type, NULL
 };
 
-FLOAT64_ARRAY std_types___float64_array = {
-  std_types___float64_array____type, NULL
+FLOAT64_ARRAY std_types__float64_array = {
+  std_types__float64_array___type, NULL
 };
 
-SIMPLE_NODE std_types___true = {
-  std_types___true____type, NULL
+SIMPLE_NODE std_types__true = {
+  std_types__true___type, NULL
 };
 
-SIMPLE_NODE std_types___false = {
-  std_types___false____type, NULL
+SIMPLE_NODE std_types__false = {
+  std_types__false___type, NULL
 };
 
 C_FUNCTION c_function = {
-  c_function____type, NULL
+  c_function___type, NULL
 };
 
-CHARACTER std_types___character = {
-  std_types___character____type, NULL
+CHARACTER std_types__character = {
+  std_types__character___type, NULL
 };
 
-DATE_AND_TIME std_types___date_and_time = {
-  std_types___date_and_time____type, NULL
+DATE_AND_TIME std_types__date_and_time = {
+  std_types__date_and_time___type, NULL
 };
 
-ERROR std_types___error = {
-  std_types___error____type, NULL
+ERROR std_types__error = {
+  std_types__error___type, NULL
 };
 
-SIMPLE_NODE std_types___object = {
-  std_types___object____type, NULL
+SIMPLE_NODE std_types__object = {
+  std_types__object___type, NULL
 };
 
-SIMPLE_NODE std_types___undefined = {
-  std_types___undefined____type, NULL
+SIMPLE_NODE std_types__undefined = {
+  std_types__undefined___type, NULL
 };
 
-SIMPLE_NODE std_types___function = {
-  std_types___function____type, NULL
+SIMPLE_NODE std_types__function = {
+  std_types__function___type, NULL
 };
 
 TABULAR_FUNCTION tabular_function = {
-  tabular_function____type, NULL
+  tabular_function___type, NULL
 };
 
-SIMPLE_NODE std_types___generic_list = {
-  std_types___generic_list____type, NULL
+SIMPLE_NODE std_types__generic_list = {
+  std_types__generic_list___type, NULL
 };
 
-LIST std_types___list = {
-  std_types___list____type, NULL
+LIST std_types__list = {
+  std_types__list___type, NULL
 };
 
-SIMPLE_NODE std_types___number = {
-  std_types___number____type, NULL
+SIMPLE_NODE std_types__number = {
+  std_types__number___type, NULL
 };
 
-INTEGER std_types___integer = {
-  std_types___integer____type, NULL
+INTEGER std_types__integer = {
+  std_types__integer___type, NULL
 };
 
-POSITIVE_INTEGER builtin_types___positive_integer = {
-  builtin_types___positive_integer____type, NULL
+POSITIVE_INTEGER builtin_types__positive_integer = {
+  builtin_types__positive_integer___type, NULL
 };
 
-NEGATIVE_INTEGER builtin_types___negative_integer = {
-  builtin_types___negative_integer____type, NULL
+NEGATIVE_INTEGER builtin_types__negative_integer = {
+  builtin_types__negative_integer___type, NULL
 };
 
-REAL std_types___real = {
-  std_types___real____type, NULL
+REAL std_types__real = {
+  std_types__real___type, NULL
 };
 
-SIMPLE_NODE std_types___polymorphic_function = {
-  std_types___polymorphic_function____type, NULL
+SIMPLE_NODE std_types__polymorphic_function = {
+  std_types__polymorphic_function___type, NULL
 };
 
-SIMPLE_NODE std_types___polymorphic_function_with_setter = {
-  std_types___polymorphic_function_with_setter____type, NULL
+SIMPLE_NODE std_types__polymorphic_function_with_setter = {
+  std_types__polymorphic_function_with_setter___type, NULL
 };
 
-FILE_TYPE std_types___file_type = {
-  std_types___file_type____type, NULL
+FILE_TYPE std_types__file_type = {
+  std_types__file_type___type, NULL
 };
 
-FILE_DESCRIPTOR std_types___file_descriptor = {
-  std_types___file_descriptor____type, NULL
+FILE_DESCRIPTOR std_types__file_descriptor = {
+  std_types__file_descriptor___type, NULL
 };
 
-SIGNAL_NUMBER std_types___signal_number = {
-  std_types___signal_number____type, NULL
+SIGNAL_NUMBER std_types__signal_number = {
+  std_types__signal_number___type, NULL
 };
 
-SHUTDOWN_TYPE std_types___shutdown_type = {
-  std_types___shutdown_type____type, NULL
+SHUTDOWN_TYPE std_types__shutdown_type = {
+  std_types__shutdown_type___type, NULL
 };
 
-SEEK_TYPE std_types___seek_type = {
-  std_types___seek_type____type, NULL
+SEEK_TYPE std_types__seek_type = {
+  std_types__seek_type___type, NULL
 };
 
-DEVICE_ID std_types___device_id = {
-  std_types___device_id____type, NULL
+DEVICE_ID std_types__device_id = {
+  std_types__device_id___type, NULL
 };
 
-DIRECTORY std_types___directory = {
-  std_types___directory____type, NULL
+DIRECTORY std_types__directory = {
+  std_types__directory___type, NULL
 };
 
-GROUP_ID std_types___group_id = {
-  std_types___group_id____type, NULL
+GROUP_ID std_types__group_id = {
+  std_types__group_id___type, NULL
 };
 
-INODE_NUMBER std_types___inode_number = {
-  std_types___inode_number____type, NULL
+INODE_NUMBER std_types__inode_number = {
+  std_types__inode_number___type, NULL
 };
 
-PROCESS_ID std_types___process_id = {
-  std_types___process_id____type, NULL
+PROCESS_ID std_types__process_id = {
+  std_types__process_id___type, NULL
 };
 
-USER_ID std_types___user_id = {
-  std_types___user_id____type, NULL
+USER_ID std_types__user_id = {
+  std_types__user_id___type, NULL
 };
 
-ERROR_NUMBER std_types___error_number = {
-  std_types___error_number____type, NULL
+ERROR_NUMBER std_types__error_number = {
+  std_types__error_number___type, NULL
 };
 
-SIMPLE_NODE std_types___passwd = {
-  std_types___passwd____type, NULL
+SIMPLE_NODE std_types__passwd = {
+  std_types__passwd___type, NULL
 };
 
-SIMPLE_NODE std_types___stat = {
-  std_types___stat____type, NULL
+SIMPLE_NODE std_types__stat = {
+  std_types__stat___type, NULL
 };
 
-SIMPLE_NODE std_types___dirent = {
-  std_types___dirent____type, NULL
+SIMPLE_NODE std_types__dirent = {
+  std_types__dirent___type, NULL
 };
 
-SIMPLE_NODE std_types___string = {
-  std_types___string____type, NULL
+SIMPLE_NODE std_types__string = {
+  std_types__string___type, NULL
 };
 
-OCTET_STRING std_types___octet_string = {
-  std_types___octet_string____type, NULL
+OCTET_STRING std_types__octet_string = {
+  std_types__octet_string___type, NULL
 };
 
-WIDE_STRING std_types___wide_string = {
-  std_types___wide_string____type, NULL
+WIDE_STRING std_types__wide_string = {
+  std_types__wide_string___type, NULL
 };
 
-TERMINAL_ATTRIBUTES std_types___terminal_attributes = {
-  std_types___terminal_attributes____type, NULL
+TERMINAL_ATTRIBUTES std_types__terminal_attributes = {
+  std_types__terminal_attributes___type, NULL
 };
 
-SIMPLE_NODE std_types___tuple = {
-  std_types___tuple____type, NULL
+SIMPLE_NODE std_types__tuple = {
+  std_types__tuple___type, NULL
 };
 
-TUPLE2 builtin_types___tuple2 = {
-  builtin_types___tuple2____type, NULL
+TUPLE2 builtin_types__tuple2 = {
+  builtin_types__tuple2___type, NULL
 };
 
-TUPLE3 builtin_types___tuple3 = {
-  builtin_types___tuple3____type, NULL
+TUPLE3 builtin_types__tuple3 = {
+  builtin_types__tuple3___type, NULL
 };
 
-TUPLE4 builtin_types___tuple4 = {
-  builtin_types___tuple4____type, NULL
+TUPLE4 builtin_types__tuple4 = {
+  builtin_types__tuple4___type, NULL
 };
 
-TUPLE5 builtin_types___tuple5 = {
-  builtin_types___tuple5____type, NULL
+TUPLE5 builtin_types__tuple5 = {
+  builtin_types__tuple5___type, NULL
 };
 
-TUPLE6 builtin_types___tuple6 = {
-  builtin_types___tuple6____type, NULL
+TUPLE6 builtin_types__tuple6 = {
+  builtin_types__tuple6___type, NULL
 };
 
-TUPLE7 builtin_types___tuple7 = {
-  builtin_types___tuple7____type, NULL
+TUPLE7 builtin_types__tuple7 = {
+  builtin_types__tuple7___type, NULL
 };
 
-TUPLE8 builtin_types___tuple8 = {
-  builtin_types___tuple8____type, NULL
+TUPLE8 builtin_types__tuple8 = {
+  builtin_types__tuple8___type, NULL
 };
 
-UNIQUE_ITEM std_types___unique_item = {
-  std_types___unique_item____type, NULL
+UNIQUE_ITEM std_types__unique_item = {
+  std_types__unique_item___type, NULL
 };
 
-SHARED_MEMORY std_types___shared_memory = {
-  std_types___shared_memory____type, NULL
+SHARED_MEMORY std_types__shared_memory = {
+  std_types__shared_memory___type, NULL
 };
 
-static POSITIVE_INTEGER std___EXIT_SUCCESS = {
-  builtin_types___positive_integer____type, NULL, EXIT_SUCCESS
+static POSITIVE_INTEGER std__EXIT_SUCCESS = {
+  builtin_types__positive_integer___type, NULL, EXIT_SUCCESS
 };
 
-static POSITIVE_INTEGER std___EXIT_FAILURE = {
-  builtin_types___positive_integer____type, NULL, EXIT_FAILURE
+static POSITIVE_INTEGER std__EXIT_FAILURE = {
+  builtin_types__positive_integer___type, NULL, EXIT_FAILURE
 };
 
-static OCTET_STRING std___program_name = {
-  std_types___octet_string____type, NULL, 0, 0, NULL
+static OCTET_STRING std__program_name = {
+  std_types__octet_string___type, NULL, 0, 0, NULL
 };
 
-static LIST std___command_line_arguments = {
-  std_types___list____type, NULL, 0, 0, NULL
+static LIST std__command_line_arguments = {
+  std_types__list___type, NULL, 0, 0, NULL
 };
 
-static LIST std___environment_variables = {
-  std_types___list____type, NULL, 0, 0, NULL
+static LIST std__environment_variables = {
+  std_types__list___type, NULL, 0, 0, NULL
 };
 
-TUPLE2 std_types___key_value_pair = {
-  builtin_types___tuple2____type, NULL, (NODE *)&std_types___undefined, (NODE *)&std_types___undefined
+TUPLE2 std_types__key_value_pair = {
+  builtin_types__tuple2___type, NULL, (NODE *)&std_types__undefined, (NODE *)&std_types__undefined
 };
 
-LIST std___empty_list = {
-  std_types___list____type, NULL, 0, 0, NULL
+LIST std__empty_list = {
+  std_types__list___type, NULL, 0, 0, NULL
 };
 
-static FILE_TYPE std___BLOCK_DEVICE = {
-  std_types___file_type____type, NULL, DT_BLK
+static FILE_TYPE std__BLOCK_DEVICE = {
+  std_types__file_type___type, NULL, DT_BLK
 };
 
-static FILE_TYPE std___CHARACTER_DEVICE = {
-  std_types___file_type____type, NULL, DT_CHR
+static FILE_TYPE std__CHARACTER_DEVICE = {
+  std_types__file_type___type, NULL, DT_CHR
 };
 
-static FILE_TYPE std___DIRECTORY = {
-  std_types___file_type____type, NULL, DT_DIR
+static FILE_TYPE std__DIRECTORY = {
+  std_types__file_type___type, NULL, DT_DIR
 };
 
-static FILE_TYPE std___NAMED_PIPE = {
-  std_types___file_type____type, NULL, DT_FIFO
+static FILE_TYPE std__NAMED_PIPE = {
+  std_types__file_type___type, NULL, DT_FIFO
 };
 
-static FILE_TYPE std___SYMBOLIC_LINK = {
-  std_types___file_type____type, NULL, DT_LNK
+static FILE_TYPE std__SYMBOLIC_LINK = {
+  std_types__file_type___type, NULL, DT_LNK
 };
 
-static FILE_TYPE std___REGULAR_FILE = {
-  std_types___file_type____type, NULL, DT_REG
+static FILE_TYPE std__REGULAR_FILE = {
+  std_types__file_type___type, NULL, DT_REG
 };
 
-static FILE_TYPE std___SOCKET = {
-  std_types___file_type____type, NULL, DT_SOCK
+static FILE_TYPE std__SOCKET = {
+  std_types__file_type___type, NULL, DT_SOCK
 };
 
-static FILE_TYPE std___UNKNOWN_FILE_TYPE = {
-  std_types___file_type____type, NULL, DT_UNKNOWN
+static FILE_TYPE std__UNKNOWN_FILE_TYPE = {
+  std_types__file_type___type, NULL, DT_UNKNOWN
 };
 
-static FILE_DESCRIPTOR std___STDIN_FILENO = {
-  std_types___file_descriptor____type, NULL, STDIN_FILENO
+static FILE_DESCRIPTOR std__STDIN_FILENO = {
+  std_types__file_descriptor___type, NULL, STDIN_FILENO
 };
 
-static FILE_DESCRIPTOR std___STDOUT_FILENO = {
-  std_types___file_descriptor____type, NULL, STDOUT_FILENO
+static FILE_DESCRIPTOR std__STDOUT_FILENO = {
+  std_types__file_descriptor___type, NULL, STDOUT_FILENO
 };
 
-static FILE_DESCRIPTOR std___STDERR_FILENO = {
-  std_types___file_descriptor____type, NULL, STDERR_FILENO
+static FILE_DESCRIPTOR std__STDERR_FILENO = {
+  std_types__file_descriptor___type, NULL, STDERR_FILENO
 };
 
-static SHUTDOWN_TYPE std___SHUT_RD = {
-  std_types___shutdown_type____type, NULL, SHUT_RD
+static SHUTDOWN_TYPE std__SHUT_RD = {
+  std_types__shutdown_type___type, NULL, SHUT_RD
 };
 
-static SHUTDOWN_TYPE std___SHUT_WR = {
-  std_types___shutdown_type____type, NULL, SHUT_WR
+static SHUTDOWN_TYPE std__SHUT_WR = {
+  std_types__shutdown_type___type, NULL, SHUT_WR
 };
 
-static SHUTDOWN_TYPE std___SHUT_RDWR = {
-  std_types___shutdown_type____type, NULL, SHUT_RDWR
+static SHUTDOWN_TYPE std__SHUT_RDWR = {
+  std_types__shutdown_type___type, NULL, SHUT_RDWR
 };
 
-static SEEK_TYPE std___SEEK_SET = {
-  std_types___seek_type____type, NULL, SEEK_SET
+static SEEK_TYPE std__SEEK_SET = {
+  std_types__seek_type___type, NULL, SEEK_SET
 };
 
-static SEEK_TYPE std___SEEK_CUR = {
-  std_types___seek_type____type, NULL, SEEK_CUR
+static SEEK_TYPE std__SEEK_CUR = {
+  std_types__seek_type___type, NULL, SEEK_CUR
 };
 
-static SEEK_TYPE std___SEEK_END = {
-  std_types___seek_type____type, NULL, SEEK_END
+static SEEK_TYPE std__SEEK_END = {
+  std_types__seek_type___type, NULL, SEEK_END
 };
 
-static ERROR_NUMBER std___ENOERR = {
-  std_types___error_number____type, NULL, 0
+static ERROR_NUMBER std__ENOERR = {
+  std_types__error_number___type, NULL, 0
 };
 
-static ERROR_NUMBER std___EPERM = {
-  std_types___error_number____type, NULL, EPERM
+static ERROR_NUMBER std__EPERM = {
+  std_types__error_number___type, NULL, EPERM
 };
 
-static ERROR_NUMBER std___ENOENT = {
-  std_types___error_number____type, NULL, ENOENT
+static ERROR_NUMBER std__ENOENT = {
+  std_types__error_number___type, NULL, ENOENT
 };
 
-static ERROR_NUMBER std___ESRCH = {
-  std_types___error_number____type, NULL, ESRCH
+static ERROR_NUMBER std__ESRCH = {
+  std_types__error_number___type, NULL, ESRCH
 };
 
-static ERROR_NUMBER std___EINTR = {
-  std_types___error_number____type, NULL, EINTR
+static ERROR_NUMBER std__EINTR = {
+  std_types__error_number___type, NULL, EINTR
 };
 
-static ERROR_NUMBER std___EIO = {
-  std_types___error_number____type, NULL, EIO
+static ERROR_NUMBER std__EIO = {
+  std_types__error_number___type, NULL, EIO
 };
 
-static ERROR_NUMBER std___ENXIO = {
-  std_types___error_number____type, NULL, ENXIO
+static ERROR_NUMBER std__ENXIO = {
+  std_types__error_number___type, NULL, ENXIO
 };
 
-static ERROR_NUMBER std___E2BIG = {
-  std_types___error_number____type, NULL, E2BIG
+static ERROR_NUMBER std__E2BIG = {
+  std_types__error_number___type, NULL, E2BIG
 };
 
-static ERROR_NUMBER std___ENOEXEC = {
-  std_types___error_number____type, NULL, ENOEXEC
+static ERROR_NUMBER std__ENOEXEC = {
+  std_types__error_number___type, NULL, ENOEXEC
 };
 
-static ERROR_NUMBER std___EBADF = {
-  std_types___error_number____type, NULL, EBADF
+static ERROR_NUMBER std__EBADF = {
+  std_types__error_number___type, NULL, EBADF
 };
 
-static ERROR_NUMBER std___ECHILD = {
-  std_types___error_number____type, NULL, ECHILD
+static ERROR_NUMBER std__ECHILD = {
+  std_types__error_number___type, NULL, ECHILD
 };
 
-static ERROR_NUMBER std___EAGAIN = {
-  std_types___error_number____type, NULL, EAGAIN
+static ERROR_NUMBER std__EAGAIN = {
+  std_types__error_number___type, NULL, EAGAIN
 };
 
-static ERROR_NUMBER std___ENOMEM = {
-  std_types___error_number____type, NULL, ENOMEM
+static ERROR_NUMBER std__ENOMEM = {
+  std_types__error_number___type, NULL, ENOMEM
 };
 
-static ERROR_NUMBER std___EACCES = {
-  std_types___error_number____type, NULL, EACCES
+static ERROR_NUMBER std__EACCES = {
+  std_types__error_number___type, NULL, EACCES
 };
 
-static ERROR_NUMBER std___EFAULT = {
-  std_types___error_number____type, NULL, EFAULT
+static ERROR_NUMBER std__EFAULT = {
+  std_types__error_number___type, NULL, EFAULT
 };
 
-static ERROR_NUMBER std___ENOTBLK = {
-  std_types___error_number____type, NULL, ENOTBLK
+static ERROR_NUMBER std__ENOTBLK = {
+  std_types__error_number___type, NULL, ENOTBLK
 };
 
-static ERROR_NUMBER std___EBUSY = {
-  std_types___error_number____type, NULL, EBUSY
+static ERROR_NUMBER std__EBUSY = {
+  std_types__error_number___type, NULL, EBUSY
 };
 
-static ERROR_NUMBER std___EEXIST = {
-  std_types___error_number____type, NULL, EEXIST
+static ERROR_NUMBER std__EEXIST = {
+  std_types__error_number___type, NULL, EEXIST
 };
 
-static ERROR_NUMBER std___EXDEV = {
-  std_types___error_number____type, NULL, EXDEV
+static ERROR_NUMBER std__EXDEV = {
+  std_types__error_number___type, NULL, EXDEV
 };
 
-static ERROR_NUMBER std___ENODEV = {
-  std_types___error_number____type, NULL, ENODEV
+static ERROR_NUMBER std__ENODEV = {
+  std_types__error_number___type, NULL, ENODEV
 };
 
-static ERROR_NUMBER std___ENOTDIR = {
-  std_types___error_number____type, NULL, ENOTDIR
+static ERROR_NUMBER std__ENOTDIR = {
+  std_types__error_number___type, NULL, ENOTDIR
 };
 
-static ERROR_NUMBER std___EISDIR = {
-  std_types___error_number____type, NULL, EISDIR
+static ERROR_NUMBER std__EISDIR = {
+  std_types__error_number___type, NULL, EISDIR
 };
 
-static ERROR_NUMBER std___EINVAL = {
-  std_types___error_number____type, NULL, EINVAL
+static ERROR_NUMBER std__EINVAL = {
+  std_types__error_number___type, NULL, EINVAL
 };
 
-static ERROR_NUMBER std___ENFILE = {
-  std_types___error_number____type, NULL, ENFILE
+static ERROR_NUMBER std__ENFILE = {
+  std_types__error_number___type, NULL, ENFILE
 };
 
-static ERROR_NUMBER std___EMFILE = {
-  std_types___error_number____type, NULL, EMFILE
+static ERROR_NUMBER std__EMFILE = {
+  std_types__error_number___type, NULL, EMFILE
 };
 
-static ERROR_NUMBER std___ENOTTY = {
-  std_types___error_number____type, NULL, ENOTTY
+static ERROR_NUMBER std__ENOTTY = {
+  std_types__error_number___type, NULL, ENOTTY
 };
 
-static ERROR_NUMBER std___ETXTBSY = {
-  std_types___error_number____type, NULL, ETXTBSY
+static ERROR_NUMBER std__ETXTBSY = {
+  std_types__error_number___type, NULL, ETXTBSY
 };
 
-static ERROR_NUMBER std___EFBIG = {
-  std_types___error_number____type, NULL, EFBIG
+static ERROR_NUMBER std__EFBIG = {
+  std_types__error_number___type, NULL, EFBIG
 };
 
-static ERROR_NUMBER std___ENOSPC = {
-  std_types___error_number____type, NULL, ENOSPC
+static ERROR_NUMBER std__ENOSPC = {
+  std_types__error_number___type, NULL, ENOSPC
 };
 
-static ERROR_NUMBER std___ESPIPE = {
-  std_types___error_number____type, NULL, ESPIPE
+static ERROR_NUMBER std__ESPIPE = {
+  std_types__error_number___type, NULL, ESPIPE
 };
 
-static ERROR_NUMBER std___EROFS = {
-  std_types___error_number____type, NULL, EROFS
+static ERROR_NUMBER std__EROFS = {
+  std_types__error_number___type, NULL, EROFS
 };
 
-static ERROR_NUMBER std___EMLINK = {
-  std_types___error_number____type, NULL, EMLINK
+static ERROR_NUMBER std__EMLINK = {
+  std_types__error_number___type, NULL, EMLINK
 };
 
-static ERROR_NUMBER std___EPIPE = {
-  std_types___error_number____type, NULL, EPIPE
+static ERROR_NUMBER std__EPIPE = {
+  std_types__error_number___type, NULL, EPIPE
 };
 
-static ERROR_NUMBER std___EDOM = {
-  std_types___error_number____type, NULL, EDOM
+static ERROR_NUMBER std__EDOM = {
+  std_types__error_number___type, NULL, EDOM
 };
 
-static ERROR_NUMBER std___ERANGE = {
-  std_types___error_number____type, NULL, ERANGE
+static ERROR_NUMBER std__ERANGE = {
+  std_types__error_number___type, NULL, ERANGE
 };
 
-static ERROR_NUMBER std___EDEADLK = {
-  std_types___error_number____type, NULL, EDEADLK
+static ERROR_NUMBER std__EDEADLK = {
+  std_types__error_number___type, NULL, EDEADLK
 };
 
-static ERROR_NUMBER std___ENAMETOOLONG = {
-  std_types___error_number____type, NULL, ENAMETOOLONG
+static ERROR_NUMBER std__ENAMETOOLONG = {
+  std_types__error_number___type, NULL, ENAMETOOLONG
 };
 
-static ERROR_NUMBER std___ENOLCK = {
-  std_types___error_number____type, NULL, ENOLCK
+static ERROR_NUMBER std__ENOLCK = {
+  std_types__error_number___type, NULL, ENOLCK
 };
 
-static ERROR_NUMBER std___ENOSYS = {
-  std_types___error_number____type, NULL, ENOSYS
+static ERROR_NUMBER std__ENOSYS = {
+  std_types__error_number___type, NULL, ENOSYS
 };
 
-static ERROR_NUMBER std___ENOTEMPTY = {
-  std_types___error_number____type, NULL, ENOTEMPTY
+static ERROR_NUMBER std__ENOTEMPTY = {
+  std_types__error_number___type, NULL, ENOTEMPTY
 };
 
-static ERROR_NUMBER std___EILSEQ = {
-  std_types___error_number____type, NULL, EILSEQ
+static ERROR_NUMBER std__EILSEQ = {
+  std_types__error_number___type, NULL, EILSEQ
 };
 
-static ERROR_NUMBER std___ELOOP = {
-  std_types___error_number____type, NULL, ELOOP
+static ERROR_NUMBER std__ELOOP = {
+  std_types__error_number___type, NULL, ELOOP
 };
 
-static ERROR_NUMBER std___ENOMSG = {
-  std_types___error_number____type, NULL, ENOMSG
+static ERROR_NUMBER std__ENOMSG = {
+  std_types__error_number___type, NULL, ENOMSG
 };
 
-static ERROR_NUMBER std___EIDRM = {
-  std_types___error_number____type, NULL, EIDRM
+static ERROR_NUMBER std__EIDRM = {
+  std_types__error_number___type, NULL, EIDRM
 };
 
-static ERROR_NUMBER std___ECHRNG = {
-  std_types___error_number____type, NULL, ECHRNG
+static ERROR_NUMBER std__ECHRNG = {
+  std_types__error_number___type, NULL, ECHRNG
 };
 
-static ERROR_NUMBER std___EL2NSYNC = {
-  std_types___error_number____type, NULL, EL2NSYNC
+static ERROR_NUMBER std__EL2NSYNC = {
+  std_types__error_number___type, NULL, EL2NSYNC
 };
 
-static ERROR_NUMBER std___EL3HLT = {
-  std_types___error_number____type, NULL, EL3HLT
+static ERROR_NUMBER std__EL3HLT = {
+  std_types__error_number___type, NULL, EL3HLT
 };
 
-static ERROR_NUMBER std___EL3RST = {
-  std_types___error_number____type, NULL, EL3RST
+static ERROR_NUMBER std__EL3RST = {
+  std_types__error_number___type, NULL, EL3RST
 };
 
-static ERROR_NUMBER std___ELNRNG = {
-  std_types___error_number____type, NULL, ELNRNG
+static ERROR_NUMBER std__ELNRNG = {
+  std_types__error_number___type, NULL, ELNRNG
 };
 
-static ERROR_NUMBER std___EUNATCH = {
-  std_types___error_number____type, NULL, EUNATCH
+static ERROR_NUMBER std__EUNATCH = {
+  std_types__error_number___type, NULL, EUNATCH
 };
 
-static ERROR_NUMBER std___ENOCSI = {
-  std_types___error_number____type, NULL, ENOCSI
+static ERROR_NUMBER std__ENOCSI = {
+  std_types__error_number___type, NULL, ENOCSI
 };
 
-static ERROR_NUMBER std___EL2HLT = {
-  std_types___error_number____type, NULL, EL2HLT
+static ERROR_NUMBER std__EL2HLT = {
+  std_types__error_number___type, NULL, EL2HLT
 };
 
-static ERROR_NUMBER std___EBADE = {
-  std_types___error_number____type, NULL, EBADE
+static ERROR_NUMBER std__EBADE = {
+  std_types__error_number___type, NULL, EBADE
 };
 
-static ERROR_NUMBER std___EBADR = {
-  std_types___error_number____type, NULL, EBADR
+static ERROR_NUMBER std__EBADR = {
+  std_types__error_number___type, NULL, EBADR
 };
 
-static ERROR_NUMBER std___EXFULL = {
-  std_types___error_number____type, NULL, EXFULL
+static ERROR_NUMBER std__EXFULL = {
+  std_types__error_number___type, NULL, EXFULL
 };
 
-static ERROR_NUMBER std___ENOANO = {
-  std_types___error_number____type, NULL, ENOANO
+static ERROR_NUMBER std__ENOANO = {
+  std_types__error_number___type, NULL, ENOANO
 };
 
-static ERROR_NUMBER std___EBADRQC = {
-  std_types___error_number____type, NULL, EBADRQC
+static ERROR_NUMBER std__EBADRQC = {
+  std_types__error_number___type, NULL, EBADRQC
 };
 
-static ERROR_NUMBER std___EBADSLT = {
-  std_types___error_number____type, NULL, EBADSLT
+static ERROR_NUMBER std__EBADSLT = {
+  std_types__error_number___type, NULL, EBADSLT
 };
 
-static ERROR_NUMBER std___EBFONT = {
-  std_types___error_number____type, NULL, EBFONT
+static ERROR_NUMBER std__EBFONT = {
+  std_types__error_number___type, NULL, EBFONT
 };
 
-static ERROR_NUMBER std___ENOSTR = {
-  std_types___error_number____type, NULL, ENOSTR
+static ERROR_NUMBER std__ENOSTR = {
+  std_types__error_number___type, NULL, ENOSTR
 };
 
-static ERROR_NUMBER std___ENODATA = {
-  std_types___error_number____type, NULL, ENODATA
+static ERROR_NUMBER std__ENODATA = {
+  std_types__error_number___type, NULL, ENODATA
 };
 
-static ERROR_NUMBER std___ETIME = {
-  std_types___error_number____type, NULL, ETIME
+static ERROR_NUMBER std__ETIME = {
+  std_types__error_number___type, NULL, ETIME
 };
 
-static ERROR_NUMBER std___ENOSR = {
-  std_types___error_number____type, NULL, ENOSR
+static ERROR_NUMBER std__ENOSR = {
+  std_types__error_number___type, NULL, ENOSR
 };
 
-static ERROR_NUMBER std___ENONET = {
-  std_types___error_number____type, NULL, ENONET
+static ERROR_NUMBER std__ENONET = {
+  std_types__error_number___type, NULL, ENONET
 };
 
-static ERROR_NUMBER std___ENOPKG = {
-  std_types___error_number____type, NULL, ENOPKG
+static ERROR_NUMBER std__ENOPKG = {
+  std_types__error_number___type, NULL, ENOPKG
 };
 
-static ERROR_NUMBER std___EREMOTE = {
-  std_types___error_number____type, NULL, EREMOTE
+static ERROR_NUMBER std__EREMOTE = {
+  std_types__error_number___type, NULL, EREMOTE
 };
 
-static ERROR_NUMBER std___ENOLINK = {
-  std_types___error_number____type, NULL, ENOLINK
+static ERROR_NUMBER std__ENOLINK = {
+  std_types__error_number___type, NULL, ENOLINK
 };
 
-static ERROR_NUMBER std___EADV = {
-  std_types___error_number____type, NULL, EADV
+static ERROR_NUMBER std__EADV = {
+  std_types__error_number___type, NULL, EADV
 };
 
-static ERROR_NUMBER std___ESRMNT = {
-  std_types___error_number____type, NULL, ESRMNT
+static ERROR_NUMBER std__ESRMNT = {
+  std_types__error_number___type, NULL, ESRMNT
 };
 
-static ERROR_NUMBER std___ECOMM = {
-  std_types___error_number____type, NULL, ECOMM
+static ERROR_NUMBER std__ECOMM = {
+  std_types__error_number___type, NULL, ECOMM
 };
 
-static ERROR_NUMBER std___EPROTO = {
-  std_types___error_number____type, NULL, EPROTO
+static ERROR_NUMBER std__EPROTO = {
+  std_types__error_number___type, NULL, EPROTO
 };
 
-static ERROR_NUMBER std___EMULTIHOP = {
-  std_types___error_number____type, NULL, EMULTIHOP
+static ERROR_NUMBER std__EMULTIHOP = {
+  std_types__error_number___type, NULL, EMULTIHOP
 };
 
-static ERROR_NUMBER std___EDOTDOT = {
-  std_types___error_number____type, NULL, EDOTDOT
+static ERROR_NUMBER std__EDOTDOT = {
+  std_types__error_number___type, NULL, EDOTDOT
 };
 
-static ERROR_NUMBER std___EBADMSG = {
-  std_types___error_number____type, NULL, EBADMSG
+static ERROR_NUMBER std__EBADMSG = {
+  std_types__error_number___type, NULL, EBADMSG
 };
 
-static ERROR_NUMBER std___EOVERFLOW = {
-  std_types___error_number____type, NULL, EOVERFLOW
+static ERROR_NUMBER std__EOVERFLOW = {
+  std_types__error_number___type, NULL, EOVERFLOW
 };
 
-static ERROR_NUMBER std___ENOTUNIQ = {
-  std_types___error_number____type, NULL, ENOTUNIQ
+static ERROR_NUMBER std__ENOTUNIQ = {
+  std_types__error_number___type, NULL, ENOTUNIQ
 };
 
-static ERROR_NUMBER std___EBADFD = {
-  std_types___error_number____type, NULL, EBADFD
+static ERROR_NUMBER std__EBADFD = {
+  std_types__error_number___type, NULL, EBADFD
 };
 
-static ERROR_NUMBER std___EREMCHG = {
-  std_types___error_number____type, NULL, EREMCHG
+static ERROR_NUMBER std__EREMCHG = {
+  std_types__error_number___type, NULL, EREMCHG
 };
 
-static ERROR_NUMBER std___ELIBACC = {
-  std_types___error_number____type, NULL, ELIBACC
+static ERROR_NUMBER std__ELIBACC = {
+  std_types__error_number___type, NULL, ELIBACC
 };
 
-static ERROR_NUMBER std___ELIBBAD = {
-  std_types___error_number____type, NULL, ELIBBAD
+static ERROR_NUMBER std__ELIBBAD = {
+  std_types__error_number___type, NULL, ELIBBAD
 };
 
-static ERROR_NUMBER std___ELIBSCN = {
-  std_types___error_number____type, NULL, ELIBSCN
+static ERROR_NUMBER std__ELIBSCN = {
+  std_types__error_number___type, NULL, ELIBSCN
 };
 
-static ERROR_NUMBER std___ELIBMAX = {
-  std_types___error_number____type, NULL, ELIBMAX
+static ERROR_NUMBER std__ELIBMAX = {
+  std_types__error_number___type, NULL, ELIBMAX
 };
 
-static ERROR_NUMBER std___ELIBEXEC = {
-  std_types___error_number____type, NULL, ELIBEXEC
+static ERROR_NUMBER std__ELIBEXEC = {
+  std_types__error_number___type, NULL, ELIBEXEC
 };
 
-static ERROR_NUMBER std___ESTRPIPE = {
-  std_types___error_number____type, NULL, ESTRPIPE
+static ERROR_NUMBER std__ESTRPIPE = {
+  std_types__error_number___type, NULL, ESTRPIPE
 };
 
-static ERROR_NUMBER std___EUSERS = {
-  std_types___error_number____type, NULL, EUSERS
+static ERROR_NUMBER std__EUSERS = {
+  std_types__error_number___type, NULL, EUSERS
 };
 
-static ERROR_NUMBER std___ENOTSOCK = {
-  std_types___error_number____type, NULL, ENOTSOCK
+static ERROR_NUMBER std__ENOTSOCK = {
+  std_types__error_number___type, NULL, ENOTSOCK
 };
 
-static ERROR_NUMBER std___EDESTADDRREQ = {
-  std_types___error_number____type, NULL, EDESTADDRREQ
+static ERROR_NUMBER std__EDESTADDRREQ = {
+  std_types__error_number___type, NULL, EDESTADDRREQ
 };
 
-static ERROR_NUMBER std___EMSGSIZE = {
-  std_types___error_number____type, NULL, EMSGSIZE
+static ERROR_NUMBER std__EMSGSIZE = {
+  std_types__error_number___type, NULL, EMSGSIZE
 };
 
-static ERROR_NUMBER std___EPROTOTYPE = {
-  std_types___error_number____type, NULL, EPROTOTYPE
+static ERROR_NUMBER std__EPROTOTYPE = {
+  std_types__error_number___type, NULL, EPROTOTYPE
 };
 
-static ERROR_NUMBER std___ENOPROTOOPT = {
-  std_types___error_number____type, NULL, ENOPROTOOPT
+static ERROR_NUMBER std__ENOPROTOOPT = {
+  std_types__error_number___type, NULL, ENOPROTOOPT
 };
 
-static ERROR_NUMBER std___EPROTONOSUPPORT = {
-  std_types___error_number____type, NULL, EPROTONOSUPPORT
+static ERROR_NUMBER std__EPROTONOSUPPORT = {
+  std_types__error_number___type, NULL, EPROTONOSUPPORT
 };
 
-static ERROR_NUMBER std___ESOCKTNOSUPPORT = {
-  std_types___error_number____type, NULL, ESOCKTNOSUPPORT
+static ERROR_NUMBER std__ESOCKTNOSUPPORT = {
+  std_types__error_number___type, NULL, ESOCKTNOSUPPORT
 };
 
-static ERROR_NUMBER std___EOPNOTSUPP = {
-  std_types___error_number____type, NULL, EOPNOTSUPP
+static ERROR_NUMBER std__EOPNOTSUPP = {
+  std_types__error_number___type, NULL, EOPNOTSUPP
 };
 
-static ERROR_NUMBER std___EPFNOSUPPORT = {
-  std_types___error_number____type, NULL, EPFNOSUPPORT
+static ERROR_NUMBER std__EPFNOSUPPORT = {
+  std_types__error_number___type, NULL, EPFNOSUPPORT
 };
 
-static ERROR_NUMBER std___EAFNOSUPPORT = {
-  std_types___error_number____type, NULL, EAFNOSUPPORT
+static ERROR_NUMBER std__EAFNOSUPPORT = {
+  std_types__error_number___type, NULL, EAFNOSUPPORT
 };
 
-static ERROR_NUMBER std___EADDRINUSE = {
-  std_types___error_number____type, NULL, EADDRINUSE
+static ERROR_NUMBER std__EADDRINUSE = {
+  std_types__error_number___type, NULL, EADDRINUSE
 };
 
-static ERROR_NUMBER std___EADDRNOTAVAIL = {
-  std_types___error_number____type, NULL, EADDRNOTAVAIL
+static ERROR_NUMBER std__EADDRNOTAVAIL = {
+  std_types__error_number___type, NULL, EADDRNOTAVAIL
 };
 
-static ERROR_NUMBER std___ENETDOWN = {
-  std_types___error_number____type, NULL, ENETDOWN
+static ERROR_NUMBER std__ENETDOWN = {
+  std_types__error_number___type, NULL, ENETDOWN
 };
 
-static ERROR_NUMBER std___ENETUNREACH = {
-  std_types___error_number____type, NULL, ENETUNREACH
+static ERROR_NUMBER std__ENETUNREACH = {
+  std_types__error_number___type, NULL, ENETUNREACH
 };
 
-static ERROR_NUMBER std___ENETRESET = {
-  std_types___error_number____type, NULL, ENETRESET
+static ERROR_NUMBER std__ENETRESET = {
+  std_types__error_number___type, NULL, ENETRESET
 };
 
-static ERROR_NUMBER std___ECONNABORTED = {
-  std_types___error_number____type, NULL, ECONNABORTED
+static ERROR_NUMBER std__ECONNABORTED = {
+  std_types__error_number___type, NULL, ECONNABORTED
 };
 
-static ERROR_NUMBER std___ECONNRESET = {
-  std_types___error_number____type, NULL, ECONNRESET
+static ERROR_NUMBER std__ECONNRESET = {
+  std_types__error_number___type, NULL, ECONNRESET
 };
 
-static ERROR_NUMBER std___ENOBUFS = {
-  std_types___error_number____type, NULL, ENOBUFS
+static ERROR_NUMBER std__ENOBUFS = {
+  std_types__error_number___type, NULL, ENOBUFS
 };
 
-static ERROR_NUMBER std___EISCONN = {
-  std_types___error_number____type, NULL, EISCONN
+static ERROR_NUMBER std__EISCONN = {
+  std_types__error_number___type, NULL, EISCONN
 };
 
-static ERROR_NUMBER std___ENOTCONN = {
-  std_types___error_number____type, NULL, ENOTCONN
+static ERROR_NUMBER std__ENOTCONN = {
+  std_types__error_number___type, NULL, ENOTCONN
 };
 
-static ERROR_NUMBER std___ESHUTDOWN = {
-  std_types___error_number____type, NULL, ESHUTDOWN
+static ERROR_NUMBER std__ESHUTDOWN = {
+  std_types__error_number___type, NULL, ESHUTDOWN
 };
 
-static ERROR_NUMBER std___ETOOMANYREFS = {
-  std_types___error_number____type, NULL, ETOOMANYREFS
+static ERROR_NUMBER std__ETOOMANYREFS = {
+  std_types__error_number___type, NULL, ETOOMANYREFS
 };
 
-static ERROR_NUMBER std___ETIMEDOUT = {
-  std_types___error_number____type, NULL, ETIMEDOUT
+static ERROR_NUMBER std__ETIMEDOUT = {
+  std_types__error_number___type, NULL, ETIMEDOUT
 };
 
-static ERROR_NUMBER std___ECONNREFUSED = {
-  std_types___error_number____type, NULL, ECONNREFUSED
+static ERROR_NUMBER std__ECONNREFUSED = {
+  std_types__error_number___type, NULL, ECONNREFUSED
 };
 
-static ERROR_NUMBER std___EHOSTDOWN = {
-  std_types___error_number____type, NULL, EHOSTDOWN
+static ERROR_NUMBER std__EHOSTDOWN = {
+  std_types__error_number___type, NULL, EHOSTDOWN
 };
 
-static ERROR_NUMBER std___EHOSTUNREACH = {
-  std_types___error_number____type, NULL, EHOSTUNREACH
+static ERROR_NUMBER std__EHOSTUNREACH = {
+  std_types__error_number___type, NULL, EHOSTUNREACH
 };
 
-static ERROR_NUMBER std___EALREADY = {
-  std_types___error_number____type, NULL, EALREADY
+static ERROR_NUMBER std__EALREADY = {
+  std_types__error_number___type, NULL, EALREADY
 };
 
-static ERROR_NUMBER std___EINPROGRESS = {
-  std_types___error_number____type, NULL, EINPROGRESS
+static ERROR_NUMBER std__EINPROGRESS = {
+  std_types__error_number___type, NULL, EINPROGRESS
 };
 
-static ERROR_NUMBER std___ESTALE = {
-  std_types___error_number____type, NULL, ESTALE
+static ERROR_NUMBER std__ESTALE = {
+  std_types__error_number___type, NULL, ESTALE
 };
 
-static ERROR_NUMBER std___EDQUOT = {
-  std_types___error_number____type, NULL, EDQUOT
+static ERROR_NUMBER std__EDQUOT = {
+  std_types__error_number___type, NULL, EDQUOT
 };
 
-static ERROR_NUMBER std___ENOMEDIUM = {
-  std_types___error_number____type, NULL, ENOMEDIUM
+static ERROR_NUMBER std__ENOMEDIUM = {
+  std_types__error_number___type, NULL, ENOMEDIUM
 };
 
-static ERROR_NUMBER std___ECANCELED = {
-  std_types___error_number____type, NULL, ECANCELED
+static ERROR_NUMBER std__ECANCELED = {
+  std_types__error_number___type, NULL, ECANCELED
 };
 
-static ERROR_NUMBER std___EOWNERDEAD = {
-  std_types___error_number____type, NULL, EOWNERDEAD
+static ERROR_NUMBER std__EOWNERDEAD = {
+  std_types__error_number___type, NULL, EOWNERDEAD
 };
 
-static ERROR_NUMBER std___ENOTRECOVERABLE = {
-  std_types___error_number____type, NULL, ENOTRECOVERABLE
+static ERROR_NUMBER std__ENOTRECOVERABLE = {
+  std_types__error_number___type, NULL, ENOTRECOVERABLE
 };
 
-static SIGNAL_NUMBER std___SIGHUP = {
-  std_types___signal_number____type, NULL, SIGHUP
+static SIGNAL_NUMBER std__SIGHUP = {
+  std_types__signal_number___type, NULL, SIGHUP
 };
 
-static SIGNAL_NUMBER std___SIGINT = {
-  std_types___signal_number____type, NULL, SIGINT
+static SIGNAL_NUMBER std__SIGINT = {
+  std_types__signal_number___type, NULL, SIGINT
 };
 
-static SIGNAL_NUMBER std___SIGQUIT = {
-  std_types___signal_number____type, NULL, SIGQUIT
+static SIGNAL_NUMBER std__SIGQUIT = {
+  std_types__signal_number___type, NULL, SIGQUIT
 };
 
-static SIGNAL_NUMBER std___SIGILL = {
-  std_types___signal_number____type, NULL, SIGILL
+static SIGNAL_NUMBER std__SIGILL = {
+  std_types__signal_number___type, NULL, SIGILL
 };
 
-static SIGNAL_NUMBER std___SIGTRAP = {
-  std_types___signal_number____type, NULL, SIGTRAP
+static SIGNAL_NUMBER std__SIGTRAP = {
+  std_types__signal_number___type, NULL, SIGTRAP
 };
 
-static SIGNAL_NUMBER std___SIGABRT = {
-  std_types___signal_number____type, NULL, SIGABRT
+static SIGNAL_NUMBER std__SIGABRT = {
+  std_types__signal_number___type, NULL, SIGABRT
 };
 
-static SIGNAL_NUMBER std___SIGIOT = {
-  std_types___signal_number____type, NULL, SIGIOT
+static SIGNAL_NUMBER std__SIGIOT = {
+  std_types__signal_number___type, NULL, SIGIOT
 };
 
-static SIGNAL_NUMBER std___SIGBUS = {
-  std_types___signal_number____type, NULL, SIGBUS
+static SIGNAL_NUMBER std__SIGBUS = {
+  std_types__signal_number___type, NULL, SIGBUS
 };
 
-static SIGNAL_NUMBER std___SIGFPE = {
-  std_types___signal_number____type, NULL, SIGFPE
+static SIGNAL_NUMBER std__SIGFPE = {
+  std_types__signal_number___type, NULL, SIGFPE
 };
 
-static SIGNAL_NUMBER std___SIGKILL = {
-  std_types___signal_number____type, NULL, SIGKILL
+static SIGNAL_NUMBER std__SIGKILL = {
+  std_types__signal_number___type, NULL, SIGKILL
 };
 
-static SIGNAL_NUMBER std___SIGUSR1 = {
-  std_types___signal_number____type, NULL, SIGUSR1
+static SIGNAL_NUMBER std__SIGUSR1 = {
+  std_types__signal_number___type, NULL, SIGUSR1
 };
 
-static SIGNAL_NUMBER std___SIGSEGV = {
-  std_types___signal_number____type, NULL, SIGSEGV
+static SIGNAL_NUMBER std__SIGSEGV = {
+  std_types__signal_number___type, NULL, SIGSEGV
 };
 
-static SIGNAL_NUMBER std___SIGUSR2 = {
-  std_types___signal_number____type, NULL, SIGUSR2
+static SIGNAL_NUMBER std__SIGUSR2 = {
+  std_types__signal_number___type, NULL, SIGUSR2
 };
 
-static SIGNAL_NUMBER std___SIGPIPE = {
-  std_types___signal_number____type, NULL, SIGPIPE
+static SIGNAL_NUMBER std__SIGPIPE = {
+  std_types__signal_number___type, NULL, SIGPIPE
 };
 
-static SIGNAL_NUMBER std___SIGALRM = {
-  std_types___signal_number____type, NULL, SIGALRM
+static SIGNAL_NUMBER std__SIGALRM = {
+  std_types__signal_number___type, NULL, SIGALRM
 };
 
-static SIGNAL_NUMBER std___SIGTERM = {
-  std_types___signal_number____type, NULL, SIGTERM
+static SIGNAL_NUMBER std__SIGTERM = {
+  std_types__signal_number___type, NULL, SIGTERM
 };
 
-static SIGNAL_NUMBER std___SIGSTKFLT = {
-  std_types___signal_number____type, NULL, SIGSTKFLT
+static SIGNAL_NUMBER std__SIGSTKFLT = {
+  std_types__signal_number___type, NULL, SIGSTKFLT
 };
 
-static SIGNAL_NUMBER std___SIGCHLD = {
-  std_types___signal_number____type, NULL, SIGCHLD
+static SIGNAL_NUMBER std__SIGCHLD = {
+  std_types__signal_number___type, NULL, SIGCHLD
 };
 
-static SIGNAL_NUMBER std___SIGCONT = {
-  std_types___signal_number____type, NULL, SIGCONT
+static SIGNAL_NUMBER std__SIGCONT = {
+  std_types__signal_number___type, NULL, SIGCONT
 };
 
-static SIGNAL_NUMBER std___SIGSTOP = {
-  std_types___signal_number____type, NULL, SIGSTOP
+static SIGNAL_NUMBER std__SIGSTOP = {
+  std_types__signal_number___type, NULL, SIGSTOP
 };
 
-static SIGNAL_NUMBER std___SIGTSTP = {
-  std_types___signal_number____type, NULL, SIGTSTP
+static SIGNAL_NUMBER std__SIGTSTP = {
+  std_types__signal_number___type, NULL, SIGTSTP
 };
 
-static SIGNAL_NUMBER std___SIGTTIN = {
-  std_types___signal_number____type, NULL, SIGTTIN
+static SIGNAL_NUMBER std__SIGTTIN = {
+  std_types__signal_number___type, NULL, SIGTTIN
 };
 
-static SIGNAL_NUMBER std___SIGTTOU = {
-  std_types___signal_number____type, NULL, SIGTTOU
+static SIGNAL_NUMBER std__SIGTTOU = {
+  std_types__signal_number___type, NULL, SIGTTOU
 };
 
-static SIGNAL_NUMBER std___SIGURG = {
-  std_types___signal_number____type, NULL, SIGURG
+static SIGNAL_NUMBER std__SIGURG = {
+  std_types__signal_number___type, NULL, SIGURG
 };
 
-static SIGNAL_NUMBER std___SIGXCPU = {
-  std_types___signal_number____type, NULL, SIGXCPU
+static SIGNAL_NUMBER std__SIGXCPU = {
+  std_types__signal_number___type, NULL, SIGXCPU
 };
 
-static SIGNAL_NUMBER std___SIGXFSZ = {
-  std_types___signal_number____type, NULL, SIGXFSZ
+static SIGNAL_NUMBER std__SIGXFSZ = {
+  std_types__signal_number___type, NULL, SIGXFSZ
 };
 
-static SIGNAL_NUMBER std___SIGVTALRM = {
-  std_types___signal_number____type, NULL, SIGVTALRM
+static SIGNAL_NUMBER std__SIGVTALRM = {
+  std_types__signal_number___type, NULL, SIGVTALRM
 };
 
-static SIGNAL_NUMBER std___SIGPROF = {
-  std_types___signal_number____type, NULL, SIGPROF
+static SIGNAL_NUMBER std__SIGPROF = {
+  std_types__signal_number___type, NULL, SIGPROF
 };
 
-static SIGNAL_NUMBER std___SIGWINCH = {
-  std_types___signal_number____type, NULL, SIGWINCH
+static SIGNAL_NUMBER std__SIGWINCH = {
+  std_types__signal_number___type, NULL, SIGWINCH
 };
 
-static SIGNAL_NUMBER std___SIGIO = {
-  std_types___signal_number____type, NULL, SIGIO
+static SIGNAL_NUMBER std__SIGIO = {
+  std_types__signal_number___type, NULL, SIGIO
 };
 
-static SIGNAL_NUMBER std___SIGPWR = {
-  std_types___signal_number____type, NULL, SIGPWR
+static SIGNAL_NUMBER std__SIGPWR = {
+  std_types__signal_number___type, NULL, SIGPWR
 };
 
-static SIGNAL_NUMBER std___SIGSYS = {
-  std_types___signal_number____type, NULL, SIGSYS
+static SIGNAL_NUMBER std__SIGSYS = {
+  std_types__signal_number___type, NULL, SIGSYS
 };
 
-LIST std_types___sequence = {
-  std_types___list____type, NULL, 0, 0, NULL
+LIST std_types__sequence = {
+  std_types__list___type, NULL, 0, 0, NULL
 };
 
-static OCTET_STRING std___empty_string = {
-  std_types___octet_string____type, NULL, 0, 0, NULL
+static OCTET_STRING std__empty_string = {
+  std_types__octet_string___type, NULL, 0, 0, NULL
 };
 
-TUPLE2 std_types___value_range = {
-  builtin_types___tuple2____type, NULL, (NODE *)&std_types___undefined, (NODE *)&std_types___undefined
+TUPLE2 std_types__value_range = {
+  builtin_types__tuple2___type, NULL, (NODE *)&std_types__undefined, (NODE *)&std_types__undefined
 };
 
-static void *create__std_types___array
+static void *create__std_types__array
   (
     long updates_length,
     ARRAY_VIEW *view,
@@ -12959,8 +12959,8 @@ static void *create__std_types___array
   )
   {
     ARRAY *node = allocate(sizeof(ARRAY));
-    node->type = std_types___array____type;
-    node->attributes = std_types___array.attributes;
+    node->type = std_types__array___type;
+    node->attributes = std_types__array.attributes;
     node->updates_length = updates_length;
     node->view = view;
     node->data = data;
@@ -12968,7 +12968,7 @@ static void *create__std_types___array
     return node;
   }
 
-static void *create__std_types___boolean_array
+static void *create__std_types__boolean_array
   (
     long updates_length,
     ARRAY_VIEW *view,
@@ -12977,8 +12977,8 @@ static void *create__std_types___boolean_array
   )
   {
     BOOLEAN_ARRAY *node = allocate(sizeof(BOOLEAN_ARRAY));
-    node->type = std_types___boolean_array____type;
-    node->attributes = std_types___boolean_array.attributes;
+    node->type = std_types__boolean_array___type;
+    node->attributes = std_types__boolean_array.attributes;
     node->updates_length = updates_length;
     node->view = view;
     node->data = data;
@@ -12986,7 +12986,7 @@ static void *create__std_types___boolean_array
     return node;
   }
 
-static void *create__std_types___character_array
+static void *create__std_types__character_array
   (
     long updates_length,
     ARRAY_VIEW *view,
@@ -12995,8 +12995,8 @@ static void *create__std_types___character_array
   )
   {
     CHARACTER_ARRAY *node = allocate(sizeof(CHARACTER_ARRAY));
-    node->type = std_types___character_array____type;
-    node->attributes = std_types___character_array.attributes;
+    node->type = std_types__character_array___type;
+    node->attributes = std_types__character_array.attributes;
     node->updates_length = updates_length;
     node->view = view;
     node->data = data;
@@ -13004,7 +13004,7 @@ static void *create__std_types___character_array
     return node;
   }
 
-static void *create__std_types___int8_array
+static void *create__std_types__int8_array
   (
     long updates_length,
     ARRAY_VIEW *view,
@@ -13013,8 +13013,8 @@ static void *create__std_types___int8_array
   )
   {
     INT8_ARRAY *node = allocate(sizeof(INT8_ARRAY));
-    node->type = std_types___int8_array____type;
-    node->attributes = std_types___int8_array.attributes;
+    node->type = std_types__int8_array___type;
+    node->attributes = std_types__int8_array.attributes;
     node->updates_length = updates_length;
     node->view = view;
     node->data = data;
@@ -13022,7 +13022,7 @@ static void *create__std_types___int8_array
     return node;
   }
 
-static void *create__std_types___uint8_array
+static void *create__std_types__uint8_array
   (
     long updates_length,
     ARRAY_VIEW *view,
@@ -13031,8 +13031,8 @@ static void *create__std_types___uint8_array
   )
   {
     UINT8_ARRAY *node = allocate(sizeof(UINT8_ARRAY));
-    node->type = std_types___uint8_array____type;
-    node->attributes = std_types___uint8_array.attributes;
+    node->type = std_types__uint8_array___type;
+    node->attributes = std_types__uint8_array.attributes;
     node->updates_length = updates_length;
     node->view = view;
     node->data = data;
@@ -13040,7 +13040,7 @@ static void *create__std_types___uint8_array
     return node;
   }
 
-static void *create__std_types___int16_array
+static void *create__std_types__int16_array
   (
     long updates_length,
     ARRAY_VIEW *view,
@@ -13049,8 +13049,8 @@ static void *create__std_types___int16_array
   )
   {
     INT16_ARRAY *node = allocate(sizeof(INT16_ARRAY));
-    node->type = std_types___int16_array____type;
-    node->attributes = std_types___int16_array.attributes;
+    node->type = std_types__int16_array___type;
+    node->attributes = std_types__int16_array.attributes;
     node->updates_length = updates_length;
     node->view = view;
     node->data = data;
@@ -13058,7 +13058,7 @@ static void *create__std_types___int16_array
     return node;
   }
 
-static void *create__std_types___uint16_array
+static void *create__std_types__uint16_array
   (
     long updates_length,
     ARRAY_VIEW *view,
@@ -13067,8 +13067,8 @@ static void *create__std_types___uint16_array
   )
   {
     UINT16_ARRAY *node = allocate(sizeof(UINT16_ARRAY));
-    node->type = std_types___uint16_array____type;
-    node->attributes = std_types___uint16_array.attributes;
+    node->type = std_types__uint16_array___type;
+    node->attributes = std_types__uint16_array.attributes;
     node->updates_length = updates_length;
     node->view = view;
     node->data = data;
@@ -13076,7 +13076,7 @@ static void *create__std_types___uint16_array
     return node;
   }
 
-static void *create__std_types___int32_array
+static void *create__std_types__int32_array
   (
     long updates_length,
     ARRAY_VIEW *view,
@@ -13085,8 +13085,8 @@ static void *create__std_types___int32_array
   )
   {
     INT32_ARRAY *node = allocate(sizeof(INT32_ARRAY));
-    node->type = std_types___int32_array____type;
-    node->attributes = std_types___int32_array.attributes;
+    node->type = std_types__int32_array___type;
+    node->attributes = std_types__int32_array.attributes;
     node->updates_length = updates_length;
     node->view = view;
     node->data = data;
@@ -13094,7 +13094,7 @@ static void *create__std_types___int32_array
     return node;
   }
 
-static void *create__std_types___uint32_array
+static void *create__std_types__uint32_array
   (
     long updates_length,
     ARRAY_VIEW *view,
@@ -13103,8 +13103,8 @@ static void *create__std_types___uint32_array
   )
   {
     UINT32_ARRAY *node = allocate(sizeof(UINT32_ARRAY));
-    node->type = std_types___uint32_array____type;
-    node->attributes = std_types___uint32_array.attributes;
+    node->type = std_types__uint32_array___type;
+    node->attributes = std_types__uint32_array.attributes;
     node->updates_length = updates_length;
     node->view = view;
     node->data = data;
@@ -13112,7 +13112,7 @@ static void *create__std_types___uint32_array
     return node;
   }
 
-static void *create__std_types___int64_array
+static void *create__std_types__int64_array
   (
     long updates_length,
     ARRAY_VIEW *view,
@@ -13121,8 +13121,8 @@ static void *create__std_types___int64_array
   )
   {
     INT64_ARRAY *node = allocate(sizeof(INT64_ARRAY));
-    node->type = std_types___int64_array____type;
-    node->attributes = std_types___int64_array.attributes;
+    node->type = std_types__int64_array___type;
+    node->attributes = std_types__int64_array.attributes;
     node->updates_length = updates_length;
     node->view = view;
     node->data = data;
@@ -13130,7 +13130,7 @@ static void *create__std_types___int64_array
     return node;
   }
 
-static void *create__std_types___uint64_array
+static void *create__std_types__uint64_array
   (
     long updates_length,
     ARRAY_VIEW *view,
@@ -13139,8 +13139,8 @@ static void *create__std_types___uint64_array
   )
   {
     UINT64_ARRAY *node = allocate(sizeof(UINT64_ARRAY));
-    node->type = std_types___uint64_array____type;
-    node->attributes = std_types___uint64_array.attributes;
+    node->type = std_types__uint64_array___type;
+    node->attributes = std_types__uint64_array.attributes;
     node->updates_length = updates_length;
     node->view = view;
     node->data = data;
@@ -13148,7 +13148,7 @@ static void *create__std_types___uint64_array
     return node;
   }
 
-static void *create__std_types___float32_array
+static void *create__std_types__float32_array
   (
     long updates_length,
     ARRAY_VIEW *view,
@@ -13157,8 +13157,8 @@ static void *create__std_types___float32_array
   )
   {
     FLOAT32_ARRAY *node = allocate(sizeof(FLOAT32_ARRAY));
-    node->type = std_types___float32_array____type;
-    node->attributes = std_types___float32_array.attributes;
+    node->type = std_types__float32_array___type;
+    node->attributes = std_types__float32_array.attributes;
     node->updates_length = updates_length;
     node->view = view;
     node->data = data;
@@ -13166,7 +13166,7 @@ static void *create__std_types___float32_array
     return node;
   }
 
-static void *create__std_types___float64_array
+static void *create__std_types__float64_array
   (
     long updates_length,
     ARRAY_VIEW *view,
@@ -13175,8 +13175,8 @@ static void *create__std_types___float64_array
   )
   {
     FLOAT64_ARRAY *node = allocate(sizeof(FLOAT64_ARRAY));
-    node->type = std_types___float64_array____type;
-    node->attributes = std_types___float64_array.attributes;
+    node->type = std_types__float64_array___type;
+    node->attributes = std_types__float64_array.attributes;
     node->updates_length = updates_length;
     node->view = view;
     node->data = data;
@@ -13190,39 +13190,39 @@ static void *create__c_function
   )
   {
     C_FUNCTION *node = allocate(sizeof(C_FUNCTION));
-    node->type = c_function____type;
+    node->type = c_function___type;
     node->attributes = c_function.attributes;
     node->parameter_count = parameter_count;
     return node;
   }
 
-static void *create__std_types___character
+static void *create__std_types__character
   (
     uint32_t code
   )
   {
     CHARACTER *node = allocate(sizeof(CHARACTER));
-    node->type = std_types___character____type;
-    node->attributes = std_types___character.attributes;
+    node->type = std_types__character___type;
+    node->attributes = std_types__character.attributes;
     node->code = code;
     return node;
   }
 
-static void *create__std_types___date_and_time
+static void *create__std_types__date_and_time
   (
     int64_t seconds,
     int32_t nanoseconds
   )
   {
     DATE_AND_TIME *node = allocate(sizeof(DATE_AND_TIME));
-    node->type = std_types___date_and_time____type;
-    node->attributes = std_types___date_and_time.attributes;
+    node->type = std_types__date_and_time___type;
+    node->attributes = std_types__date_and_time.attributes;
     node->seconds = seconds;
     node->nanoseconds = nanoseconds;
     return node;
   }
 
-void *create__std_types___error
+void *create__std_types__error
   (
     NODE *category,
     MESSAGE_TEXT *message,
@@ -13234,8 +13234,8 @@ void *create__std_types___error
   )
   {
     ERROR *node = allocate(sizeof(ERROR));
-    node->type = std_types___error____type;
-    node->attributes = std_types___error.attributes;
+    node->type = std_types__error___type;
+    node->attributes = std_types__error.attributes;
     node->category = category;
     node->message = message;
     node->err_no = err_no;
@@ -13252,12 +13252,12 @@ static void *create__tabular_function
   )
   {
     TABULAR_FUNCTION *node = allocate(sizeof(TABULAR_FUNCTION));
-    node->type = tabular_function____type;
+    node->type = tabular_function___type;
     node->attributes = tabular_function.attributes;
     return node;
   }
 
-void *create__std_types___list
+void *create__std_types__list
   (
     long offset,
     long length,
@@ -13265,207 +13265,207 @@ void *create__std_types___list
   )
   {
     LIST *node = allocate(sizeof(LIST));
-    node->type = std_types___list____type;
-    node->attributes = std_types___list.attributes;
+    node->type = std_types__list___type;
+    node->attributes = std_types__list.attributes;
     node->offset = offset;
     node->length = length;
     node->data = data;
     return node;
   }
 
-static void *create__std_types___integer
+static void *create__std_types__integer
   (
     uint64_t value
   )
   {
     INTEGER *node = allocate(sizeof(INTEGER));
-    node->type = std_types___integer____type;
-    node->attributes = std_types___integer.attributes;
+    node->type = std_types__integer___type;
+    node->attributes = std_types__integer.attributes;
     node->value = value;
     return node;
   }
 
-void *create__builtin_types___positive_integer
+void *create__builtin_types__positive_integer
   (
     uint64_t value
   )
   {
     POSITIVE_INTEGER *node = allocate(sizeof(POSITIVE_INTEGER));
-    node->type = builtin_types___positive_integer____type;
-    node->attributes = builtin_types___positive_integer.attributes;
+    node->type = builtin_types__positive_integer___type;
+    node->attributes = builtin_types__positive_integer.attributes;
     node->value = value;
     return node;
   }
 
-void *create__builtin_types___negative_integer
+void *create__builtin_types__negative_integer
   (
     uint64_t value
   )
   {
     NEGATIVE_INTEGER *node = allocate(sizeof(NEGATIVE_INTEGER));
-    node->type = builtin_types___negative_integer____type;
-    node->attributes = builtin_types___negative_integer.attributes;
+    node->type = builtin_types__negative_integer___type;
+    node->attributes = builtin_types__negative_integer.attributes;
     node->value = value;
     return node;
   }
 
-static void *create__std_types___real
+static void *create__std_types__real
   (
     double value
   )
   {
     REAL *node = allocate(sizeof(REAL));
-    node->type = std_types___real____type;
-    node->attributes = std_types___real.attributes;
+    node->type = std_types__real___type;
+    node->attributes = std_types__real.attributes;
     node->value = value;
     return node;
   }
 
-static void *create__std_types___file_type
+static void *create__std_types__file_type
   (
     int value
   )
   {
     FILE_TYPE *node = allocate(sizeof(FILE_TYPE));
-    node->type = std_types___file_type____type;
-    node->attributes = std_types___file_type.attributes;
+    node->type = std_types__file_type___type;
+    node->attributes = std_types__file_type.attributes;
     node->value = value;
     return node;
   }
 
-static void *create__std_types___file_descriptor
+static void *create__std_types__file_descriptor
   (
     int value
   )
   {
     FILE_DESCRIPTOR *node = allocate(sizeof(FILE_DESCRIPTOR));
-    node->type = std_types___file_descriptor____type;
-    node->attributes = std_types___file_descriptor.attributes;
+    node->type = std_types__file_descriptor___type;
+    node->attributes = std_types__file_descriptor.attributes;
     node->value = value;
     return node;
   }
 
-static void *create__std_types___signal_number
+static void *create__std_types__signal_number
   (
     int value
   )
   {
     SIGNAL_NUMBER *node = allocate(sizeof(SIGNAL_NUMBER));
-    node->type = std_types___signal_number____type;
-    node->attributes = std_types___signal_number.attributes;
+    node->type = std_types__signal_number___type;
+    node->attributes = std_types__signal_number.attributes;
     node->value = value;
     return node;
   }
 
-static void *create__std_types___shutdown_type
+static void *create__std_types__shutdown_type
   (
     int value
   )
   {
     SHUTDOWN_TYPE *node = allocate(sizeof(SHUTDOWN_TYPE));
-    node->type = std_types___shutdown_type____type;
-    node->attributes = std_types___shutdown_type.attributes;
+    node->type = std_types__shutdown_type___type;
+    node->attributes = std_types__shutdown_type.attributes;
     node->value = value;
     return node;
   }
 
-static void *create__std_types___seek_type
+static void *create__std_types__seek_type
   (
     int value
   )
   {
     SEEK_TYPE *node = allocate(sizeof(SEEK_TYPE));
-    node->type = std_types___seek_type____type;
-    node->attributes = std_types___seek_type.attributes;
+    node->type = std_types__seek_type___type;
+    node->attributes = std_types__seek_type.attributes;
     node->value = value;
     return node;
   }
 
-static void *create__std_types___device_id
+static void *create__std_types__device_id
   (
     unsigned long value
   )
   {
     DEVICE_ID *node = allocate(sizeof(DEVICE_ID));
-    node->type = std_types___device_id____type;
-    node->attributes = std_types___device_id.attributes;
+    node->type = std_types__device_id___type;
+    node->attributes = std_types__device_id.attributes;
     node->value = value;
     return node;
   }
 
-static void *create__std_types___directory
+static void *create__std_types__directory
   (
     void *value
   )
   {
     DIRECTORY *node = allocate(sizeof(DIRECTORY));
-    node->type = std_types___directory____type;
-    node->attributes = std_types___directory.attributes;
+    node->type = std_types__directory___type;
+    node->attributes = std_types__directory.attributes;
     node->value = value;
     return node;
   }
 
-static void *create__std_types___group_id
+static void *create__std_types__group_id
   (
     int value
   )
   {
     GROUP_ID *node = allocate(sizeof(GROUP_ID));
-    node->type = std_types___group_id____type;
-    node->attributes = std_types___group_id.attributes;
+    node->type = std_types__group_id___type;
+    node->attributes = std_types__group_id.attributes;
     node->value = value;
     return node;
   }
 
-static void *create__std_types___inode_number
+static void *create__std_types__inode_number
   (
     unsigned long value
   )
   {
     INODE_NUMBER *node = allocate(sizeof(INODE_NUMBER));
-    node->type = std_types___inode_number____type;
-    node->attributes = std_types___inode_number.attributes;
+    node->type = std_types__inode_number___type;
+    node->attributes = std_types__inode_number.attributes;
     node->value = value;
     return node;
   }
 
-static void *create__std_types___process_id
+static void *create__std_types__process_id
   (
     int value
   )
   {
     PROCESS_ID *node = allocate(sizeof(PROCESS_ID));
-    node->type = std_types___process_id____type;
-    node->attributes = std_types___process_id.attributes;
+    node->type = std_types__process_id___type;
+    node->attributes = std_types__process_id.attributes;
     node->value = value;
     return node;
   }
 
-static void *create__std_types___user_id
+static void *create__std_types__user_id
   (
     int value
   )
   {
     USER_ID *node = allocate(sizeof(USER_ID));
-    node->type = std_types___user_id____type;
-    node->attributes = std_types___user_id.attributes;
+    node->type = std_types__user_id___type;
+    node->attributes = std_types__user_id.attributes;
     node->value = value;
     return node;
   }
 
-static void *create__std_types___error_number
+static void *create__std_types__error_number
   (
     int value
   )
   {
     ERROR_NUMBER *node = allocate(sizeof(ERROR_NUMBER));
-    node->type = std_types___error_number____type;
-    node->attributes = std_types___error_number.attributes;
+    node->type = std_types__error_number___type;
+    node->attributes = std_types__error_number.attributes;
     node->value = value;
     return node;
   }
 
-static void *create__std_types___octet_string
+static void *create__std_types__octet_string
   (
     long offset,
     long length,
@@ -13473,15 +13473,15 @@ static void *create__std_types___octet_string
   )
   {
     OCTET_STRING *node = allocate(sizeof(OCTET_STRING));
-    node->type = std_types___octet_string____type;
-    node->attributes = std_types___octet_string.attributes;
+    node->type = std_types__octet_string___type;
+    node->attributes = std_types__octet_string.attributes;
     node->offset = offset;
     node->length = length;
     node->data = data;
     return node;
   }
 
-static void *create__std_types___wide_string
+static void *create__std_types__wide_string
   (
     long offset,
     long length,
@@ -13489,41 +13489,41 @@ static void *create__std_types___wide_string
   )
   {
     WIDE_STRING *node = allocate(sizeof(WIDE_STRING));
-    node->type = std_types___wide_string____type;
-    node->attributes = std_types___wide_string.attributes;
+    node->type = std_types__wide_string___type;
+    node->attributes = std_types__wide_string.attributes;
     node->offset = offset;
     node->length = length;
     node->data = data;
     return node;
   }
 
-static void *create__std_types___terminal_attributes
+static void *create__std_types__terminal_attributes
   (
     TERMIO_DATA *data
   )
   {
     TERMINAL_ATTRIBUTES *node = allocate(sizeof(TERMINAL_ATTRIBUTES));
-    node->type = std_types___terminal_attributes____type;
-    node->attributes = std_types___terminal_attributes.attributes;
+    node->type = std_types__terminal_attributes___type;
+    node->attributes = std_types__terminal_attributes.attributes;
     node->data = data;
     return node;
   }
 
-static void *create__builtin_types___tuple2
+static void *create__builtin_types__tuple2
   (
     NODE *node_0,
     NODE *node_1
   )
   {
     TUPLE2 *node = allocate(sizeof(TUPLE2));
-    node->type = builtin_types___tuple2____type;
-    node->attributes = builtin_types___tuple2.attributes;
+    node->type = builtin_types__tuple2___type;
+    node->attributes = builtin_types__tuple2.attributes;
     node->node_0 = node_0;
     node->node_1 = node_1;
     return node;
   }
 
-static void *create__builtin_types___tuple3
+static void *create__builtin_types__tuple3
   (
     NODE *node_0,
     NODE *node_1,
@@ -13531,15 +13531,15 @@ static void *create__builtin_types___tuple3
   )
   {
     TUPLE3 *node = allocate(sizeof(TUPLE3));
-    node->type = builtin_types___tuple3____type;
-    node->attributes = builtin_types___tuple3.attributes;
+    node->type = builtin_types__tuple3___type;
+    node->attributes = builtin_types__tuple3.attributes;
     node->node_0 = node_0;
     node->node_1 = node_1;
     node->node_2 = node_2;
     return node;
   }
 
-static void *create__builtin_types___tuple4
+static void *create__builtin_types__tuple4
   (
     NODE *node_0,
     NODE *node_1,
@@ -13548,8 +13548,8 @@ static void *create__builtin_types___tuple4
   )
   {
     TUPLE4 *node = allocate(sizeof(TUPLE4));
-    node->type = builtin_types___tuple4____type;
-    node->attributes = builtin_types___tuple4.attributes;
+    node->type = builtin_types__tuple4___type;
+    node->attributes = builtin_types__tuple4.attributes;
     node->node_0 = node_0;
     node->node_1 = node_1;
     node->node_2 = node_2;
@@ -13557,7 +13557,7 @@ static void *create__builtin_types___tuple4
     return node;
   }
 
-static void *create__builtin_types___tuple5
+static void *create__builtin_types__tuple5
   (
     NODE *node_0,
     NODE *node_1,
@@ -13567,8 +13567,8 @@ static void *create__builtin_types___tuple5
   )
   {
     TUPLE5 *node = allocate(sizeof(TUPLE5));
-    node->type = builtin_types___tuple5____type;
-    node->attributes = builtin_types___tuple5.attributes;
+    node->type = builtin_types__tuple5___type;
+    node->attributes = builtin_types__tuple5.attributes;
     node->node_0 = node_0;
     node->node_1 = node_1;
     node->node_2 = node_2;
@@ -13577,7 +13577,7 @@ static void *create__builtin_types___tuple5
     return node;
   }
 
-static void *create__builtin_types___tuple6
+static void *create__builtin_types__tuple6
   (
     NODE *node_0,
     NODE *node_1,
@@ -13588,8 +13588,8 @@ static void *create__builtin_types___tuple6
   )
   {
     TUPLE6 *node = allocate(sizeof(TUPLE6));
-    node->type = builtin_types___tuple6____type;
-    node->attributes = builtin_types___tuple6.attributes;
+    node->type = builtin_types__tuple6___type;
+    node->attributes = builtin_types__tuple6.attributes;
     node->node_0 = node_0;
     node->node_1 = node_1;
     node->node_2 = node_2;
@@ -13599,7 +13599,7 @@ static void *create__builtin_types___tuple6
     return node;
   }
 
-static void *create__builtin_types___tuple7
+static void *create__builtin_types__tuple7
   (
     NODE *node_0,
     NODE *node_1,
@@ -13611,8 +13611,8 @@ static void *create__builtin_types___tuple7
   )
   {
     TUPLE7 *node = allocate(sizeof(TUPLE7));
-    node->type = builtin_types___tuple7____type;
-    node->attributes = builtin_types___tuple7.attributes;
+    node->type = builtin_types__tuple7___type;
+    node->attributes = builtin_types__tuple7.attributes;
     node->node_0 = node_0;
     node->node_1 = node_1;
     node->node_2 = node_2;
@@ -13623,7 +13623,7 @@ static void *create__builtin_types___tuple7
     return node;
   }
 
-static void *create__builtin_types___tuple8
+static void *create__builtin_types__tuple8
   (
     NODE *node_0,
     NODE *node_1,
@@ -13636,8 +13636,8 @@ static void *create__builtin_types___tuple8
   )
   {
     TUPLE8 *node = allocate(sizeof(TUPLE8));
-    node->type = builtin_types___tuple8____type;
-    node->attributes = builtin_types___tuple8.attributes;
+    node->type = builtin_types__tuple8___type;
+    node->attributes = builtin_types__tuple8.attributes;
     node->node_0 = node_0;
     node->node_1 = node_1;
     node->node_2 = node_2;
@@ -13649,19 +13649,19 @@ static void *create__builtin_types___tuple8
     return node;
   }
 
-static void *create__std_types___unique_item
+static void *create__std_types__unique_item
   (
     long id
   )
   {
     UNIQUE_ITEM *node = allocate(sizeof(UNIQUE_ITEM));
-    node->type = std_types___unique_item____type;
-    node->attributes = std_types___unique_item.attributes;
+    node->type = std_types__unique_item___type;
+    node->attributes = std_types__unique_item.attributes;
     node->id = id;
     return node;
   }
 
-static void *create__std_types___shared_memory
+static void *create__std_types__shared_memory
   (
     int fd,
     long size,
@@ -13669,15 +13669,15 @@ static void *create__std_types___shared_memory
   )
   {
     SHARED_MEMORY *node = allocate(sizeof(SHARED_MEMORY));
-    node->type = std_types___shared_memory____type;
-    node->attributes = std_types___shared_memory.attributes;
+    node->type = std_types__shared_memory___type;
+    node->attributes = std_types__shared_memory.attributes;
     node->fd = fd;
     node->size = size;
     node->buf = buf;
     return node;
   }
 
-static void entry__std_types___array___std___length_of (void)
+static void entry__std_types__array__std__length_of (void)
   {
     if (TLS_argument_count < 1) {
       too_few_arguments();
@@ -13708,7 +13708,7 @@ static void entry__std_types___array___std___length_of (void)
     }
   }
 
-static void entry__std_types___array___std___dimension_count_of (void)
+static void entry__std_types__array__std__dimension_count_of (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -13727,7 +13727,7 @@ static void entry__std_types___array___std___dimension_count_of (void)
     }
   }
 
-static void entry__std___array (void)
+static void entry__std__array (void)
   {
     if (TLS_argument_count < 1) {
       too_few_arguments();
@@ -13740,17 +13740,17 @@ static void entry__std___array (void)
     if (!data) return;
     int i;
     for (i = 0; i < data->size; ++i) {
-      data->items[i] = (NODE *)&std_types___undefined;
+      data->items[i] = (NODE *)&std_types__undefined;
     }
     {
-      NODE *result__node = (NODE *)(create__std_types___array(0, view, data, NULL));
+      NODE *result__node = (NODE *)(create__std_types__array(0, view, data, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
   }
 
-static void entry__std___initialized_array (void)
+static void entry__std__initialized_array (void)
   {
     if (TLS_argument_count < 2) {
       too_few_arguments();
@@ -13768,14 +13768,14 @@ static void entry__std___initialized_array (void)
       data->items[i] = initial_value;
     }
     {
-      NODE *result__node = (NODE *)(create__std_types___array(0, view, data, NULL));
+      NODE *result__node = (NODE *)(create__std_types__array(0, view, data, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
   }
 
-static void entry__std_types___array___std___create_empty_array (void)
+static void entry__std_types__array__std__create_empty_array (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -13791,17 +13791,17 @@ static void entry__std_types___array___std___create_empty_array (void)
     if (!data) return;
     int i;
     for (i = 0; i < data->size; ++i) {
-      data->items[i] = (NODE *)&std_types___undefined;
+      data->items[i] = (NODE *)&std_types__undefined;
     }
     {
-      NODE *result__node = (NODE *)(create__std_types___array(0, TLS_arguments[0]->array.view, data, NULL));
+      NODE *result__node = (NODE *)(create__std_types__array(0, TLS_arguments[0]->array.view, data, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
   }
 
-static void entry__std_types___array___std___range (void)
+static void entry__std_types__array__std__range (void)
   {
     ARRAY *array = (ARRAY *)TLS_arguments[0];
     int dimension_count = array->view->dimension_count;
@@ -13817,14 +13817,14 @@ static void entry__std_types___array___std___range (void)
     if (!view) return;
     ARRAY_DATA *data = apply_array_updates(array);
     {
-      NODE *result__node = (NODE *)(create__std_types___array(0, view, data, NULL));
+      NODE *result__node = (NODE *)(create__std_types__array(0, view, data, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
   }
 
-static void entry__std_types___boolean_array___std___length_of (void)
+static void entry__std_types__boolean_array__std__length_of (void)
   {
     if (TLS_argument_count < 1) {
       too_few_arguments();
@@ -13855,7 +13855,7 @@ static void entry__std_types___boolean_array___std___length_of (void)
     }
   }
 
-static void entry__std_types___boolean_array___std___dimension_count_of (void)
+static void entry__std_types__boolean_array__std__dimension_count_of (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -13874,7 +13874,7 @@ static void entry__std_types___boolean_array___std___dimension_count_of (void)
     }
   }
 
-static void entry__std_types___boolean_array___std___equal (void)
+static void entry__std_types__boolean_array__std__equal (void)
   {
     if (TLS_argument_count != 2) {
       invalid_arguments();
@@ -13885,13 +13885,13 @@ static void entry__std_types___boolean_array___std___equal (void)
       return;
     }
     if (TLS_arguments[1] == TLS_arguments[0]) {
-      NODE *result__node = (NODE *)(&std_types___true);
+      NODE *result__node = (NODE *)(&std_types__true);
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
     if (!equal_array_type(TLS_arguments[1], TLS_arguments[0])) {
-      NODE *result__node = (NODE *)(&std_types___false);
+      NODE *result__node = (NODE *)(&std_types__false);
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -13907,7 +13907,7 @@ static void entry__std_types___boolean_array___std___equal (void)
     }
   }
 
-static void entry__std_types___boolean_array___std___bit_and (void)
+static void entry__std_types__boolean_array__std__bit_and (void)
   {
     if (TLS_argument_count != 2) {
       invalid_arguments();
@@ -13941,14 +13941,14 @@ static void entry__std_types___boolean_array___std___bit_and (void)
     data->info = left->info;
     data->size = size;
     {
-      NODE *result__node = (NODE *)(create__std_types___boolean_array(0, TLS_arguments[0]->boolean_array.view, data, NULL));
+      NODE *result__node = (NODE *)(create__std_types__boolean_array(0, TLS_arguments[0]->boolean_array.view, data, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
   }
 
-static void entry__std_types___boolean_array___std___bit_or (void)
+static void entry__std_types__boolean_array__std__bit_or (void)
   {
     if (TLS_argument_count != 2) {
       invalid_arguments();
@@ -13984,14 +13984,14 @@ static void entry__std_types___boolean_array___std___bit_or (void)
     data->info = left->info;
     data->size = size;
     {
-      NODE *result__node = (NODE *)(create__std_types___boolean_array(0, TLS_arguments[0]->boolean_array.view, data, NULL));
+      NODE *result__node = (NODE *)(create__std_types__boolean_array(0, TLS_arguments[0]->boolean_array.view, data, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
   }
 
-static void entry__std_types___boolean_array___std___bit_xor (void)
+static void entry__std_types__boolean_array__std__bit_xor (void)
   {
     if (TLS_argument_count != 2) {
       invalid_arguments();
@@ -14019,14 +14019,14 @@ static void entry__std_types___boolean_array___std___bit_xor (void)
     data->info = left->info;
     data->size = size;
     {
-      NODE *result__node = (NODE *)(create__std_types___boolean_array(0, TLS_arguments[0]->boolean_array.view, data, NULL));
+      NODE *result__node = (NODE *)(create__std_types__boolean_array(0, TLS_arguments[0]->boolean_array.view, data, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
   }
 
-static void entry__std___boolean_array (void)
+static void entry__std__boolean_array (void)
   {
     if (TLS_argument_count < 1) {
       too_few_arguments();
@@ -14042,14 +14042,14 @@ static void entry__std___boolean_array (void)
       data->items[i] = false;
     }
     {
-      NODE *result__node = (NODE *)(create__std_types___boolean_array(0, view, data, NULL));
+      NODE *result__node = (NODE *)(create__std_types__boolean_array(0, view, data, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
   }
 
-static void entry__std___initialized_boolean_array (void)
+static void entry__std__initialized_boolean_array (void)
   {
     if (TLS_argument_count < 2) {
       too_few_arguments();
@@ -14067,14 +14067,14 @@ static void entry__std___initialized_boolean_array (void)
       data->items[i] = initial_value;
     }
     {
-      NODE *result__node = (NODE *)(create__std_types___boolean_array(0, view, data, NULL));
+      NODE *result__node = (NODE *)(create__std_types__boolean_array(0, view, data, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
   }
 
-static void entry__std_types___boolean_array___std___create_empty_array (void)
+static void entry__std_types__boolean_array__std__create_empty_array (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -14093,14 +14093,14 @@ static void entry__std_types___boolean_array___std___create_empty_array (void)
       data->items[i] = false;
     }
     {
-      NODE *result__node = (NODE *)(create__std_types___boolean_array(0, TLS_arguments[0]->boolean_array.view, data, NULL));
+      NODE *result__node = (NODE *)(create__std_types__boolean_array(0, TLS_arguments[0]->boolean_array.view, data, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
   }
 
-static void entry__std_types___boolean_array___std___range (void)
+static void entry__std_types__boolean_array__std__range (void)
   {
     BOOLEAN_ARRAY *array = (BOOLEAN_ARRAY *)TLS_arguments[0];
     int dimension_count = array->view->dimension_count;
@@ -14116,14 +14116,14 @@ static void entry__std_types___boolean_array___std___range (void)
     if (!view) return;
     BOOLEAN_ARRAY_DATA *data = apply_boolean_array_updates(array);
     {
-      NODE *result__node = (NODE *)(create__std_types___boolean_array(0, view, data, NULL));
+      NODE *result__node = (NODE *)(create__std_types__boolean_array(0, view, data, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
   }
 
-static void entry__std_types___character_array___std___length_of (void)
+static void entry__std_types__character_array__std__length_of (void)
   {
     if (TLS_argument_count < 1) {
       too_few_arguments();
@@ -14154,7 +14154,7 @@ static void entry__std_types___character_array___std___length_of (void)
     }
   }
 
-static void entry__std_types___character_array___std___dimension_count_of (void)
+static void entry__std_types__character_array__std__dimension_count_of (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -14173,7 +14173,7 @@ static void entry__std_types___character_array___std___dimension_count_of (void)
     }
   }
 
-static void entry__std_types___character_array___std___equal (void)
+static void entry__std_types__character_array__std__equal (void)
   {
     if (TLS_argument_count != 2) {
       invalid_arguments();
@@ -14184,13 +14184,13 @@ static void entry__std_types___character_array___std___equal (void)
       return;
     }
     if (TLS_arguments[1] == TLS_arguments[0]) {
-      NODE *result__node = (NODE *)(&std_types___true);
+      NODE *result__node = (NODE *)(&std_types__true);
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
     if (!equal_array_type(TLS_arguments[1], TLS_arguments[0])) {
-      NODE *result__node = (NODE *)(&std_types___false);
+      NODE *result__node = (NODE *)(&std_types__false);
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -14206,7 +14206,7 @@ static void entry__std_types___character_array___std___equal (void)
     }
   }
 
-static void entry__std___character_array (void)
+static void entry__std__character_array (void)
   {
     if (TLS_argument_count < 1) {
       too_few_arguments();
@@ -14222,14 +14222,14 @@ static void entry__std___character_array (void)
       data->items[i] = 0;
     }
     {
-      NODE *result__node = (NODE *)(create__std_types___character_array(0, view, data, NULL));
+      NODE *result__node = (NODE *)(create__std_types__character_array(0, view, data, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
   }
 
-static void entry__std___initialized_character_array (void)
+static void entry__std__initialized_character_array (void)
   {
     if (TLS_argument_count < 2) {
       too_few_arguments();
@@ -14247,14 +14247,14 @@ static void entry__std___initialized_character_array (void)
       data->items[i] = initial_value;
     }
     {
-      NODE *result__node = (NODE *)(create__std_types___character_array(0, view, data, NULL));
+      NODE *result__node = (NODE *)(create__std_types__character_array(0, view, data, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
   }
 
-static void entry__std_types___character_array___std___create_empty_array (void)
+static void entry__std_types__character_array__std__create_empty_array (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -14273,14 +14273,14 @@ static void entry__std_types___character_array___std___create_empty_array (void)
       data->items[i] = 0;
     }
     {
-      NODE *result__node = (NODE *)(create__std_types___character_array(0, TLS_arguments[0]->character_array.view, data, NULL));
+      NODE *result__node = (NODE *)(create__std_types__character_array(0, TLS_arguments[0]->character_array.view, data, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
   }
 
-static void entry__std_types___character_array___std___range (void)
+static void entry__std_types__character_array__std__range (void)
   {
     CHARACTER_ARRAY *array = (CHARACTER_ARRAY *)TLS_arguments[0];
     int dimension_count = array->view->dimension_count;
@@ -14296,14 +14296,14 @@ static void entry__std_types___character_array___std___range (void)
     if (!view) return;
     CHARACTER_ARRAY_DATA *data = apply_character_array_updates(array);
     {
-      NODE *result__node = (NODE *)(create__std_types___character_array(0, view, data, NULL));
+      NODE *result__node = (NODE *)(create__std_types__character_array(0, view, data, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
   }
 
-static void entry__std_types___int8_array___std___length_of (void)
+static void entry__std_types__int8_array__std__length_of (void)
   {
     if (TLS_argument_count < 1) {
       too_few_arguments();
@@ -14334,7 +14334,7 @@ static void entry__std_types___int8_array___std___length_of (void)
     }
   }
 
-static void entry__std_types___int8_array___std___dimension_count_of (void)
+static void entry__std_types__int8_array__std__dimension_count_of (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -14353,7 +14353,7 @@ static void entry__std_types___int8_array___std___dimension_count_of (void)
     }
   }
 
-static void entry__std_types___int8_array___std___equal (void)
+static void entry__std_types__int8_array__std__equal (void)
   {
     if (TLS_argument_count != 2) {
       invalid_arguments();
@@ -14364,13 +14364,13 @@ static void entry__std_types___int8_array___std___equal (void)
       return;
     }
     if (TLS_arguments[1] == TLS_arguments[0]) {
-      NODE *result__node = (NODE *)(&std_types___true);
+      NODE *result__node = (NODE *)(&std_types__true);
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
     if (!equal_array_type(TLS_arguments[1], TLS_arguments[0])) {
-      NODE *result__node = (NODE *)(&std_types___false);
+      NODE *result__node = (NODE *)(&std_types__false);
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -14386,7 +14386,7 @@ static void entry__std_types___int8_array___std___equal (void)
     }
   }
 
-static void entry__std_types___int8_array___std___times (void)
+static void entry__std_types__int8_array__std__times (void)
   {
     if (TLS_argument_count != 2) {
       invalid_arguments();
@@ -14421,7 +14421,7 @@ static void entry__std_types___int8_array___std___times (void)
     }
   }
 
-static void entry__std___int8_array (void)
+static void entry__std__int8_array (void)
   {
     if (TLS_argument_count < 1) {
       too_few_arguments();
@@ -14437,14 +14437,14 @@ static void entry__std___int8_array (void)
       data->items[i] = 0;
     }
     {
-      NODE *result__node = (NODE *)(create__std_types___int8_array(0, view, data, NULL));
+      NODE *result__node = (NODE *)(create__std_types__int8_array(0, view, data, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
   }
 
-static void entry__std___initialized_int8_array (void)
+static void entry__std__initialized_int8_array (void)
   {
     if (TLS_argument_count < 2) {
       too_few_arguments();
@@ -14462,14 +14462,14 @@ static void entry__std___initialized_int8_array (void)
       data->items[i] = initial_value;
     }
     {
-      NODE *result__node = (NODE *)(create__std_types___int8_array(0, view, data, NULL));
+      NODE *result__node = (NODE *)(create__std_types__int8_array(0, view, data, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
   }
 
-static void entry__std_types___int8_array___std___create_empty_array (void)
+static void entry__std_types__int8_array__std__create_empty_array (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -14488,14 +14488,14 @@ static void entry__std_types___int8_array___std___create_empty_array (void)
       data->items[i] = 0;
     }
     {
-      NODE *result__node = (NODE *)(create__std_types___int8_array(0, TLS_arguments[0]->int8_array.view, data, NULL));
+      NODE *result__node = (NODE *)(create__std_types__int8_array(0, TLS_arguments[0]->int8_array.view, data, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
   }
 
-static void entry__std_types___int8_array___std___range (void)
+static void entry__std_types__int8_array__std__range (void)
   {
     INT8_ARRAY *array = (INT8_ARRAY *)TLS_arguments[0];
     int dimension_count = array->view->dimension_count;
@@ -14511,14 +14511,14 @@ static void entry__std_types___int8_array___std___range (void)
     if (!view) return;
     INT8_ARRAY_DATA *data = apply_int8_array_updates(array);
     {
-      NODE *result__node = (NODE *)(create__std_types___int8_array(0, view, data, NULL));
+      NODE *result__node = (NODE *)(create__std_types__int8_array(0, view, data, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
   }
 
-static void entry__std_types___uint8_array___std___length_of (void)
+static void entry__std_types__uint8_array__std__length_of (void)
   {
     if (TLS_argument_count < 1) {
       too_few_arguments();
@@ -14549,7 +14549,7 @@ static void entry__std_types___uint8_array___std___length_of (void)
     }
   }
 
-static void entry__std_types___uint8_array___std___dimension_count_of (void)
+static void entry__std_types__uint8_array__std__dimension_count_of (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -14568,7 +14568,7 @@ static void entry__std_types___uint8_array___std___dimension_count_of (void)
     }
   }
 
-static void entry__std_types___uint8_array___std___equal (void)
+static void entry__std_types__uint8_array__std__equal (void)
   {
     if (TLS_argument_count != 2) {
       invalid_arguments();
@@ -14579,13 +14579,13 @@ static void entry__std_types___uint8_array___std___equal (void)
       return;
     }
     if (TLS_arguments[1] == TLS_arguments[0]) {
-      NODE *result__node = (NODE *)(&std_types___true);
+      NODE *result__node = (NODE *)(&std_types__true);
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
     if (!equal_array_type(TLS_arguments[1], TLS_arguments[0])) {
-      NODE *result__node = (NODE *)(&std_types___false);
+      NODE *result__node = (NODE *)(&std_types__false);
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -14601,7 +14601,7 @@ static void entry__std_types___uint8_array___std___equal (void)
     }
   }
 
-static void entry__std_types___uint8_array___std___bit_and (void)
+static void entry__std_types__uint8_array__std__bit_and (void)
   {
     if (TLS_argument_count != 2) {
       invalid_arguments();
@@ -14635,14 +14635,14 @@ static void entry__std_types___uint8_array___std___bit_and (void)
     data->info = left->info;
     data->size = size;
     {
-      NODE *result__node = (NODE *)(create__std_types___uint8_array(0, TLS_arguments[0]->uint8_array.view, data, NULL));
+      NODE *result__node = (NODE *)(create__std_types__uint8_array(0, TLS_arguments[0]->uint8_array.view, data, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
   }
 
-static void entry__std_types___uint8_array___std___bit_or (void)
+static void entry__std_types__uint8_array__std__bit_or (void)
   {
     if (TLS_argument_count != 2) {
       invalid_arguments();
@@ -14678,14 +14678,14 @@ static void entry__std_types___uint8_array___std___bit_or (void)
     data->info = left->info;
     data->size = size;
     {
-      NODE *result__node = (NODE *)(create__std_types___uint8_array(0, TLS_arguments[0]->uint8_array.view, data, NULL));
+      NODE *result__node = (NODE *)(create__std_types__uint8_array(0, TLS_arguments[0]->uint8_array.view, data, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
   }
 
-static void entry__std_types___uint8_array___std___bit_xor (void)
+static void entry__std_types__uint8_array__std__bit_xor (void)
   {
     if (TLS_argument_count != 2) {
       invalid_arguments();
@@ -14713,14 +14713,14 @@ static void entry__std_types___uint8_array___std___bit_xor (void)
     data->info = left->info;
     data->size = size;
     {
-      NODE *result__node = (NODE *)(create__std_types___uint8_array(0, TLS_arguments[0]->uint8_array.view, data, NULL));
+      NODE *result__node = (NODE *)(create__std_types__uint8_array(0, TLS_arguments[0]->uint8_array.view, data, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
   }
 
-static void entry__std_types___uint8_array___std___times (void)
+static void entry__std_types__uint8_array__std__times (void)
   {
     if (TLS_argument_count != 2) {
       invalid_arguments();
@@ -14755,7 +14755,7 @@ static void entry__std_types___uint8_array___std___times (void)
     }
   }
 
-static void entry__std___uint8_array (void)
+static void entry__std__uint8_array (void)
   {
     if (TLS_argument_count < 1) {
       too_few_arguments();
@@ -14771,14 +14771,14 @@ static void entry__std___uint8_array (void)
       data->items[i] = 0;
     }
     {
-      NODE *result__node = (NODE *)(create__std_types___uint8_array(0, view, data, NULL));
+      NODE *result__node = (NODE *)(create__std_types__uint8_array(0, view, data, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
   }
 
-static void entry__std___initialized_uint8_array (void)
+static void entry__std__initialized_uint8_array (void)
   {
     if (TLS_argument_count < 2) {
       too_few_arguments();
@@ -14796,14 +14796,14 @@ static void entry__std___initialized_uint8_array (void)
       data->items[i] = initial_value;
     }
     {
-      NODE *result__node = (NODE *)(create__std_types___uint8_array(0, view, data, NULL));
+      NODE *result__node = (NODE *)(create__std_types__uint8_array(0, view, data, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
   }
 
-static void entry__std_types___uint8_array___std___create_empty_array (void)
+static void entry__std_types__uint8_array__std__create_empty_array (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -14822,14 +14822,14 @@ static void entry__std_types___uint8_array___std___create_empty_array (void)
       data->items[i] = 0;
     }
     {
-      NODE *result__node = (NODE *)(create__std_types___uint8_array(0, TLS_arguments[0]->uint8_array.view, data, NULL));
+      NODE *result__node = (NODE *)(create__std_types__uint8_array(0, TLS_arguments[0]->uint8_array.view, data, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
   }
 
-static void entry__std_types___uint8_array___std___range (void)
+static void entry__std_types__uint8_array__std__range (void)
   {
     UINT8_ARRAY *array = (UINT8_ARRAY *)TLS_arguments[0];
     int dimension_count = array->view->dimension_count;
@@ -14845,14 +14845,14 @@ static void entry__std_types___uint8_array___std___range (void)
     if (!view) return;
     UINT8_ARRAY_DATA *data = apply_uint8_array_updates(array);
     {
-      NODE *result__node = (NODE *)(create__std_types___uint8_array(0, view, data, NULL));
+      NODE *result__node = (NODE *)(create__std_types__uint8_array(0, view, data, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
   }
 
-static void entry__std_types___int16_array___std___length_of (void)
+static void entry__std_types__int16_array__std__length_of (void)
   {
     if (TLS_argument_count < 1) {
       too_few_arguments();
@@ -14883,7 +14883,7 @@ static void entry__std_types___int16_array___std___length_of (void)
     }
   }
 
-static void entry__std_types___int16_array___std___dimension_count_of (void)
+static void entry__std_types__int16_array__std__dimension_count_of (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -14902,7 +14902,7 @@ static void entry__std_types___int16_array___std___dimension_count_of (void)
     }
   }
 
-static void entry__std_types___int16_array___std___equal (void)
+static void entry__std_types__int16_array__std__equal (void)
   {
     if (TLS_argument_count != 2) {
       invalid_arguments();
@@ -14913,13 +14913,13 @@ static void entry__std_types___int16_array___std___equal (void)
       return;
     }
     if (TLS_arguments[1] == TLS_arguments[0]) {
-      NODE *result__node = (NODE *)(&std_types___true);
+      NODE *result__node = (NODE *)(&std_types__true);
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
     if (!equal_array_type(TLS_arguments[1], TLS_arguments[0])) {
-      NODE *result__node = (NODE *)(&std_types___false);
+      NODE *result__node = (NODE *)(&std_types__false);
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -14935,7 +14935,7 @@ static void entry__std_types___int16_array___std___equal (void)
     }
   }
 
-static void entry__std_types___int16_array___std___times (void)
+static void entry__std_types__int16_array__std__times (void)
   {
     if (TLS_argument_count != 2) {
       invalid_arguments();
@@ -14970,7 +14970,7 @@ static void entry__std_types___int16_array___std___times (void)
     }
   }
 
-static void entry__std___int16_array (void)
+static void entry__std__int16_array (void)
   {
     if (TLS_argument_count < 1) {
       too_few_arguments();
@@ -14986,14 +14986,14 @@ static void entry__std___int16_array (void)
       data->items[i] = 0;
     }
     {
-      NODE *result__node = (NODE *)(create__std_types___int16_array(0, view, data, NULL));
+      NODE *result__node = (NODE *)(create__std_types__int16_array(0, view, data, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
   }
 
-static void entry__std___initialized_int16_array (void)
+static void entry__std__initialized_int16_array (void)
   {
     if (TLS_argument_count < 2) {
       too_few_arguments();
@@ -15011,14 +15011,14 @@ static void entry__std___initialized_int16_array (void)
       data->items[i] = initial_value;
     }
     {
-      NODE *result__node = (NODE *)(create__std_types___int16_array(0, view, data, NULL));
+      NODE *result__node = (NODE *)(create__std_types__int16_array(0, view, data, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
   }
 
-static void entry__std_types___int16_array___std___create_empty_array (void)
+static void entry__std_types__int16_array__std__create_empty_array (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -15037,14 +15037,14 @@ static void entry__std_types___int16_array___std___create_empty_array (void)
       data->items[i] = 0;
     }
     {
-      NODE *result__node = (NODE *)(create__std_types___int16_array(0, TLS_arguments[0]->int16_array.view, data, NULL));
+      NODE *result__node = (NODE *)(create__std_types__int16_array(0, TLS_arguments[0]->int16_array.view, data, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
   }
 
-static void entry__std_types___int16_array___std___range (void)
+static void entry__std_types__int16_array__std__range (void)
   {
     INT16_ARRAY *array = (INT16_ARRAY *)TLS_arguments[0];
     int dimension_count = array->view->dimension_count;
@@ -15060,14 +15060,14 @@ static void entry__std_types___int16_array___std___range (void)
     if (!view) return;
     INT16_ARRAY_DATA *data = apply_int16_array_updates(array);
     {
-      NODE *result__node = (NODE *)(create__std_types___int16_array(0, view, data, NULL));
+      NODE *result__node = (NODE *)(create__std_types__int16_array(0, view, data, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
   }
 
-static void entry__std_types___uint16_array___std___length_of (void)
+static void entry__std_types__uint16_array__std__length_of (void)
   {
     if (TLS_argument_count < 1) {
       too_few_arguments();
@@ -15098,7 +15098,7 @@ static void entry__std_types___uint16_array___std___length_of (void)
     }
   }
 
-static void entry__std_types___uint16_array___std___dimension_count_of (void)
+static void entry__std_types__uint16_array__std__dimension_count_of (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -15117,7 +15117,7 @@ static void entry__std_types___uint16_array___std___dimension_count_of (void)
     }
   }
 
-static void entry__std_types___uint16_array___std___equal (void)
+static void entry__std_types__uint16_array__std__equal (void)
   {
     if (TLS_argument_count != 2) {
       invalid_arguments();
@@ -15128,13 +15128,13 @@ static void entry__std_types___uint16_array___std___equal (void)
       return;
     }
     if (TLS_arguments[1] == TLS_arguments[0]) {
-      NODE *result__node = (NODE *)(&std_types___true);
+      NODE *result__node = (NODE *)(&std_types__true);
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
     if (!equal_array_type(TLS_arguments[1], TLS_arguments[0])) {
-      NODE *result__node = (NODE *)(&std_types___false);
+      NODE *result__node = (NODE *)(&std_types__false);
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -15150,7 +15150,7 @@ static void entry__std_types___uint16_array___std___equal (void)
     }
   }
 
-static void entry__std_types___uint16_array___std___bit_and (void)
+static void entry__std_types__uint16_array__std__bit_and (void)
   {
     if (TLS_argument_count != 2) {
       invalid_arguments();
@@ -15184,14 +15184,14 @@ static void entry__std_types___uint16_array___std___bit_and (void)
     data->info = left->info;
     data->size = size;
     {
-      NODE *result__node = (NODE *)(create__std_types___uint16_array(0, TLS_arguments[0]->uint16_array.view, data, NULL));
+      NODE *result__node = (NODE *)(create__std_types__uint16_array(0, TLS_arguments[0]->uint16_array.view, data, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
   }
 
-static void entry__std_types___uint16_array___std___bit_or (void)
+static void entry__std_types__uint16_array__std__bit_or (void)
   {
     if (TLS_argument_count != 2) {
       invalid_arguments();
@@ -15227,14 +15227,14 @@ static void entry__std_types___uint16_array___std___bit_or (void)
     data->info = left->info;
     data->size = size;
     {
-      NODE *result__node = (NODE *)(create__std_types___uint16_array(0, TLS_arguments[0]->uint16_array.view, data, NULL));
+      NODE *result__node = (NODE *)(create__std_types__uint16_array(0, TLS_arguments[0]->uint16_array.view, data, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
   }
 
-static void entry__std_types___uint16_array___std___bit_xor (void)
+static void entry__std_types__uint16_array__std__bit_xor (void)
   {
     if (TLS_argument_count != 2) {
       invalid_arguments();
@@ -15262,14 +15262,14 @@ static void entry__std_types___uint16_array___std___bit_xor (void)
     data->info = left->info;
     data->size = size;
     {
-      NODE *result__node = (NODE *)(create__std_types___uint16_array(0, TLS_arguments[0]->uint16_array.view, data, NULL));
+      NODE *result__node = (NODE *)(create__std_types__uint16_array(0, TLS_arguments[0]->uint16_array.view, data, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
   }
 
-static void entry__std_types___uint16_array___std___times (void)
+static void entry__std_types__uint16_array__std__times (void)
   {
     if (TLS_argument_count != 2) {
       invalid_arguments();
@@ -15304,7 +15304,7 @@ static void entry__std_types___uint16_array___std___times (void)
     }
   }
 
-static void entry__std___uint16_array (void)
+static void entry__std__uint16_array (void)
   {
     if (TLS_argument_count < 1) {
       too_few_arguments();
@@ -15320,14 +15320,14 @@ static void entry__std___uint16_array (void)
       data->items[i] = 0;
     }
     {
-      NODE *result__node = (NODE *)(create__std_types___uint16_array(0, view, data, NULL));
+      NODE *result__node = (NODE *)(create__std_types__uint16_array(0, view, data, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
   }
 
-static void entry__std___initialized_uint16_array (void)
+static void entry__std__initialized_uint16_array (void)
   {
     if (TLS_argument_count < 2) {
       too_few_arguments();
@@ -15345,14 +15345,14 @@ static void entry__std___initialized_uint16_array (void)
       data->items[i] = initial_value;
     }
     {
-      NODE *result__node = (NODE *)(create__std_types___uint16_array(0, view, data, NULL));
+      NODE *result__node = (NODE *)(create__std_types__uint16_array(0, view, data, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
   }
 
-static void entry__std_types___uint16_array___std___create_empty_array (void)
+static void entry__std_types__uint16_array__std__create_empty_array (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -15371,14 +15371,14 @@ static void entry__std_types___uint16_array___std___create_empty_array (void)
       data->items[i] = 0;
     }
     {
-      NODE *result__node = (NODE *)(create__std_types___uint16_array(0, TLS_arguments[0]->uint16_array.view, data, NULL));
+      NODE *result__node = (NODE *)(create__std_types__uint16_array(0, TLS_arguments[0]->uint16_array.view, data, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
   }
 
-static void entry__std_types___uint16_array___std___range (void)
+static void entry__std_types__uint16_array__std__range (void)
   {
     UINT16_ARRAY *array = (UINT16_ARRAY *)TLS_arguments[0];
     int dimension_count = array->view->dimension_count;
@@ -15394,14 +15394,14 @@ static void entry__std_types___uint16_array___std___range (void)
     if (!view) return;
     UINT16_ARRAY_DATA *data = apply_uint16_array_updates(array);
     {
-      NODE *result__node = (NODE *)(create__std_types___uint16_array(0, view, data, NULL));
+      NODE *result__node = (NODE *)(create__std_types__uint16_array(0, view, data, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
   }
 
-static void entry__std_types___int32_array___std___length_of (void)
+static void entry__std_types__int32_array__std__length_of (void)
   {
     if (TLS_argument_count < 1) {
       too_few_arguments();
@@ -15432,7 +15432,7 @@ static void entry__std_types___int32_array___std___length_of (void)
     }
   }
 
-static void entry__std_types___int32_array___std___dimension_count_of (void)
+static void entry__std_types__int32_array__std__dimension_count_of (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -15451,7 +15451,7 @@ static void entry__std_types___int32_array___std___dimension_count_of (void)
     }
   }
 
-static void entry__std_types___int32_array___std___equal (void)
+static void entry__std_types__int32_array__std__equal (void)
   {
     if (TLS_argument_count != 2) {
       invalid_arguments();
@@ -15462,13 +15462,13 @@ static void entry__std_types___int32_array___std___equal (void)
       return;
     }
     if (TLS_arguments[1] == TLS_arguments[0]) {
-      NODE *result__node = (NODE *)(&std_types___true);
+      NODE *result__node = (NODE *)(&std_types__true);
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
     if (!equal_array_type(TLS_arguments[1], TLS_arguments[0])) {
-      NODE *result__node = (NODE *)(&std_types___false);
+      NODE *result__node = (NODE *)(&std_types__false);
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -15484,7 +15484,7 @@ static void entry__std_types___int32_array___std___equal (void)
     }
   }
 
-static void entry__std_types___int32_array___std___times (void)
+static void entry__std_types__int32_array__std__times (void)
   {
     if (TLS_argument_count != 2) {
       invalid_arguments();
@@ -15519,7 +15519,7 @@ static void entry__std_types___int32_array___std___times (void)
     }
   }
 
-static void entry__std___int32_array (void)
+static void entry__std__int32_array (void)
   {
     if (TLS_argument_count < 1) {
       too_few_arguments();
@@ -15535,14 +15535,14 @@ static void entry__std___int32_array (void)
       data->items[i] = 0;
     }
     {
-      NODE *result__node = (NODE *)(create__std_types___int32_array(0, view, data, NULL));
+      NODE *result__node = (NODE *)(create__std_types__int32_array(0, view, data, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
   }
 
-static void entry__std___initialized_int32_array (void)
+static void entry__std__initialized_int32_array (void)
   {
     if (TLS_argument_count < 2) {
       too_few_arguments();
@@ -15560,14 +15560,14 @@ static void entry__std___initialized_int32_array (void)
       data->items[i] = initial_value;
     }
     {
-      NODE *result__node = (NODE *)(create__std_types___int32_array(0, view, data, NULL));
+      NODE *result__node = (NODE *)(create__std_types__int32_array(0, view, data, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
   }
 
-static void entry__std_types___int32_array___std___create_empty_array (void)
+static void entry__std_types__int32_array__std__create_empty_array (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -15586,14 +15586,14 @@ static void entry__std_types___int32_array___std___create_empty_array (void)
       data->items[i] = 0;
     }
     {
-      NODE *result__node = (NODE *)(create__std_types___int32_array(0, TLS_arguments[0]->int32_array.view, data, NULL));
+      NODE *result__node = (NODE *)(create__std_types__int32_array(0, TLS_arguments[0]->int32_array.view, data, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
   }
 
-static void entry__std_types___int32_array___std___range (void)
+static void entry__std_types__int32_array__std__range (void)
   {
     INT32_ARRAY *array = (INT32_ARRAY *)TLS_arguments[0];
     int dimension_count = array->view->dimension_count;
@@ -15609,14 +15609,14 @@ static void entry__std_types___int32_array___std___range (void)
     if (!view) return;
     INT32_ARRAY_DATA *data = apply_int32_array_updates(array);
     {
-      NODE *result__node = (NODE *)(create__std_types___int32_array(0, view, data, NULL));
+      NODE *result__node = (NODE *)(create__std_types__int32_array(0, view, data, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
   }
 
-static void entry__std_types___uint32_array___std___length_of (void)
+static void entry__std_types__uint32_array__std__length_of (void)
   {
     if (TLS_argument_count < 1) {
       too_few_arguments();
@@ -15647,7 +15647,7 @@ static void entry__std_types___uint32_array___std___length_of (void)
     }
   }
 
-static void entry__std_types___uint32_array___std___dimension_count_of (void)
+static void entry__std_types__uint32_array__std__dimension_count_of (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -15666,7 +15666,7 @@ static void entry__std_types___uint32_array___std___dimension_count_of (void)
     }
   }
 
-static void entry__std_types___uint32_array___std___equal (void)
+static void entry__std_types__uint32_array__std__equal (void)
   {
     if (TLS_argument_count != 2) {
       invalid_arguments();
@@ -15677,13 +15677,13 @@ static void entry__std_types___uint32_array___std___equal (void)
       return;
     }
     if (TLS_arguments[1] == TLS_arguments[0]) {
-      NODE *result__node = (NODE *)(&std_types___true);
+      NODE *result__node = (NODE *)(&std_types__true);
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
     if (!equal_array_type(TLS_arguments[1], TLS_arguments[0])) {
-      NODE *result__node = (NODE *)(&std_types___false);
+      NODE *result__node = (NODE *)(&std_types__false);
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -15699,7 +15699,7 @@ static void entry__std_types___uint32_array___std___equal (void)
     }
   }
 
-static void entry__std_types___uint32_array___std___bit_and (void)
+static void entry__std_types__uint32_array__std__bit_and (void)
   {
     if (TLS_argument_count != 2) {
       invalid_arguments();
@@ -15733,14 +15733,14 @@ static void entry__std_types___uint32_array___std___bit_and (void)
     data->info = left->info;
     data->size = size;
     {
-      NODE *result__node = (NODE *)(create__std_types___uint32_array(0, TLS_arguments[0]->uint32_array.view, data, NULL));
+      NODE *result__node = (NODE *)(create__std_types__uint32_array(0, TLS_arguments[0]->uint32_array.view, data, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
   }
 
-static void entry__std_types___uint32_array___std___bit_or (void)
+static void entry__std_types__uint32_array__std__bit_or (void)
   {
     if (TLS_argument_count != 2) {
       invalid_arguments();
@@ -15776,14 +15776,14 @@ static void entry__std_types___uint32_array___std___bit_or (void)
     data->info = left->info;
     data->size = size;
     {
-      NODE *result__node = (NODE *)(create__std_types___uint32_array(0, TLS_arguments[0]->uint32_array.view, data, NULL));
+      NODE *result__node = (NODE *)(create__std_types__uint32_array(0, TLS_arguments[0]->uint32_array.view, data, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
   }
 
-static void entry__std_types___uint32_array___std___bit_xor (void)
+static void entry__std_types__uint32_array__std__bit_xor (void)
   {
     if (TLS_argument_count != 2) {
       invalid_arguments();
@@ -15811,14 +15811,14 @@ static void entry__std_types___uint32_array___std___bit_xor (void)
     data->info = left->info;
     data->size = size;
     {
-      NODE *result__node = (NODE *)(create__std_types___uint32_array(0, TLS_arguments[0]->uint32_array.view, data, NULL));
+      NODE *result__node = (NODE *)(create__std_types__uint32_array(0, TLS_arguments[0]->uint32_array.view, data, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
   }
 
-static void entry__std_types___uint32_array___std___times (void)
+static void entry__std_types__uint32_array__std__times (void)
   {
     if (TLS_argument_count != 2) {
       invalid_arguments();
@@ -15853,7 +15853,7 @@ static void entry__std_types___uint32_array___std___times (void)
     }
   }
 
-static void entry__std___uint32_array (void)
+static void entry__std__uint32_array (void)
   {
     if (TLS_argument_count < 1) {
       too_few_arguments();
@@ -15869,14 +15869,14 @@ static void entry__std___uint32_array (void)
       data->items[i] = 0;
     }
     {
-      NODE *result__node = (NODE *)(create__std_types___uint32_array(0, view, data, NULL));
+      NODE *result__node = (NODE *)(create__std_types__uint32_array(0, view, data, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
   }
 
-static void entry__std___initialized_uint32_array (void)
+static void entry__std__initialized_uint32_array (void)
   {
     if (TLS_argument_count < 2) {
       too_few_arguments();
@@ -15894,14 +15894,14 @@ static void entry__std___initialized_uint32_array (void)
       data->items[i] = initial_value;
     }
     {
-      NODE *result__node = (NODE *)(create__std_types___uint32_array(0, view, data, NULL));
+      NODE *result__node = (NODE *)(create__std_types__uint32_array(0, view, data, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
   }
 
-static void entry__std_types___uint32_array___std___create_empty_array (void)
+static void entry__std_types__uint32_array__std__create_empty_array (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -15920,14 +15920,14 @@ static void entry__std_types___uint32_array___std___create_empty_array (void)
       data->items[i] = 0;
     }
     {
-      NODE *result__node = (NODE *)(create__std_types___uint32_array(0, TLS_arguments[0]->uint32_array.view, data, NULL));
+      NODE *result__node = (NODE *)(create__std_types__uint32_array(0, TLS_arguments[0]->uint32_array.view, data, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
   }
 
-static void entry__std_types___uint32_array___std___range (void)
+static void entry__std_types__uint32_array__std__range (void)
   {
     UINT32_ARRAY *array = (UINT32_ARRAY *)TLS_arguments[0];
     int dimension_count = array->view->dimension_count;
@@ -15943,14 +15943,14 @@ static void entry__std_types___uint32_array___std___range (void)
     if (!view) return;
     UINT32_ARRAY_DATA *data = apply_uint32_array_updates(array);
     {
-      NODE *result__node = (NODE *)(create__std_types___uint32_array(0, view, data, NULL));
+      NODE *result__node = (NODE *)(create__std_types__uint32_array(0, view, data, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
   }
 
-static void entry__std_types___int64_array___std___length_of (void)
+static void entry__std_types__int64_array__std__length_of (void)
   {
     if (TLS_argument_count < 1) {
       too_few_arguments();
@@ -15981,7 +15981,7 @@ static void entry__std_types___int64_array___std___length_of (void)
     }
   }
 
-static void entry__std_types___int64_array___std___dimension_count_of (void)
+static void entry__std_types__int64_array__std__dimension_count_of (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -16000,7 +16000,7 @@ static void entry__std_types___int64_array___std___dimension_count_of (void)
     }
   }
 
-static void entry__std_types___int64_array___std___equal (void)
+static void entry__std_types__int64_array__std__equal (void)
   {
     if (TLS_argument_count != 2) {
       invalid_arguments();
@@ -16011,13 +16011,13 @@ static void entry__std_types___int64_array___std___equal (void)
       return;
     }
     if (TLS_arguments[1] == TLS_arguments[0]) {
-      NODE *result__node = (NODE *)(&std_types___true);
+      NODE *result__node = (NODE *)(&std_types__true);
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
     if (!equal_array_type(TLS_arguments[1], TLS_arguments[0])) {
-      NODE *result__node = (NODE *)(&std_types___false);
+      NODE *result__node = (NODE *)(&std_types__false);
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -16033,7 +16033,7 @@ static void entry__std_types___int64_array___std___equal (void)
     }
   }
 
-static void entry__std_types___int64_array___std___times (void)
+static void entry__std_types__int64_array__std__times (void)
   {
     if (TLS_argument_count != 2) {
       invalid_arguments();
@@ -16068,7 +16068,7 @@ static void entry__std_types___int64_array___std___times (void)
     }
   }
 
-static void entry__std___int64_array (void)
+static void entry__std__int64_array (void)
   {
     if (TLS_argument_count < 1) {
       too_few_arguments();
@@ -16084,14 +16084,14 @@ static void entry__std___int64_array (void)
       data->items[i] = 0;
     }
     {
-      NODE *result__node = (NODE *)(create__std_types___int64_array(0, view, data, NULL));
+      NODE *result__node = (NODE *)(create__std_types__int64_array(0, view, data, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
   }
 
-static void entry__std___initialized_int64_array (void)
+static void entry__std__initialized_int64_array (void)
   {
     if (TLS_argument_count < 2) {
       too_few_arguments();
@@ -16109,14 +16109,14 @@ static void entry__std___initialized_int64_array (void)
       data->items[i] = initial_value;
     }
     {
-      NODE *result__node = (NODE *)(create__std_types___int64_array(0, view, data, NULL));
+      NODE *result__node = (NODE *)(create__std_types__int64_array(0, view, data, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
   }
 
-static void entry__std_types___int64_array___std___create_empty_array (void)
+static void entry__std_types__int64_array__std__create_empty_array (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -16135,14 +16135,14 @@ static void entry__std_types___int64_array___std___create_empty_array (void)
       data->items[i] = 0;
     }
     {
-      NODE *result__node = (NODE *)(create__std_types___int64_array(0, TLS_arguments[0]->int64_array.view, data, NULL));
+      NODE *result__node = (NODE *)(create__std_types__int64_array(0, TLS_arguments[0]->int64_array.view, data, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
   }
 
-static void entry__std_types___int64_array___std___range (void)
+static void entry__std_types__int64_array__std__range (void)
   {
     INT64_ARRAY *array = (INT64_ARRAY *)TLS_arguments[0];
     int dimension_count = array->view->dimension_count;
@@ -16158,14 +16158,14 @@ static void entry__std_types___int64_array___std___range (void)
     if (!view) return;
     INT64_ARRAY_DATA *data = apply_int64_array_updates(array);
     {
-      NODE *result__node = (NODE *)(create__std_types___int64_array(0, view, data, NULL));
+      NODE *result__node = (NODE *)(create__std_types__int64_array(0, view, data, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
   }
 
-static void entry__std_types___uint64_array___std___length_of (void)
+static void entry__std_types__uint64_array__std__length_of (void)
   {
     if (TLS_argument_count < 1) {
       too_few_arguments();
@@ -16196,7 +16196,7 @@ static void entry__std_types___uint64_array___std___length_of (void)
     }
   }
 
-static void entry__std_types___uint64_array___std___dimension_count_of (void)
+static void entry__std_types__uint64_array__std__dimension_count_of (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -16215,7 +16215,7 @@ static void entry__std_types___uint64_array___std___dimension_count_of (void)
     }
   }
 
-static void entry__std_types___uint64_array___std___equal (void)
+static void entry__std_types__uint64_array__std__equal (void)
   {
     if (TLS_argument_count != 2) {
       invalid_arguments();
@@ -16226,13 +16226,13 @@ static void entry__std_types___uint64_array___std___equal (void)
       return;
     }
     if (TLS_arguments[1] == TLS_arguments[0]) {
-      NODE *result__node = (NODE *)(&std_types___true);
+      NODE *result__node = (NODE *)(&std_types__true);
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
     if (!equal_array_type(TLS_arguments[1], TLS_arguments[0])) {
-      NODE *result__node = (NODE *)(&std_types___false);
+      NODE *result__node = (NODE *)(&std_types__false);
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -16248,7 +16248,7 @@ static void entry__std_types___uint64_array___std___equal (void)
     }
   }
 
-static void entry__std_types___uint64_array___std___bit_and (void)
+static void entry__std_types__uint64_array__std__bit_and (void)
   {
     if (TLS_argument_count != 2) {
       invalid_arguments();
@@ -16282,14 +16282,14 @@ static void entry__std_types___uint64_array___std___bit_and (void)
     data->info = left->info;
     data->size = size;
     {
-      NODE *result__node = (NODE *)(create__std_types___uint64_array(0, TLS_arguments[0]->uint64_array.view, data, NULL));
+      NODE *result__node = (NODE *)(create__std_types__uint64_array(0, TLS_arguments[0]->uint64_array.view, data, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
   }
 
-static void entry__std_types___uint64_array___std___bit_or (void)
+static void entry__std_types__uint64_array__std__bit_or (void)
   {
     if (TLS_argument_count != 2) {
       invalid_arguments();
@@ -16325,14 +16325,14 @@ static void entry__std_types___uint64_array___std___bit_or (void)
     data->info = left->info;
     data->size = size;
     {
-      NODE *result__node = (NODE *)(create__std_types___uint64_array(0, TLS_arguments[0]->uint64_array.view, data, NULL));
+      NODE *result__node = (NODE *)(create__std_types__uint64_array(0, TLS_arguments[0]->uint64_array.view, data, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
   }
 
-static void entry__std_types___uint64_array___std___bit_xor (void)
+static void entry__std_types__uint64_array__std__bit_xor (void)
   {
     if (TLS_argument_count != 2) {
       invalid_arguments();
@@ -16360,14 +16360,14 @@ static void entry__std_types___uint64_array___std___bit_xor (void)
     data->info = left->info;
     data->size = size;
     {
-      NODE *result__node = (NODE *)(create__std_types___uint64_array(0, TLS_arguments[0]->uint64_array.view, data, NULL));
+      NODE *result__node = (NODE *)(create__std_types__uint64_array(0, TLS_arguments[0]->uint64_array.view, data, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
   }
 
-static void entry__std_types___uint64_array___std___times (void)
+static void entry__std_types__uint64_array__std__times (void)
   {
     if (TLS_argument_count != 2) {
       invalid_arguments();
@@ -16402,7 +16402,7 @@ static void entry__std_types___uint64_array___std___times (void)
     }
   }
 
-static void entry__std___uint64_array (void)
+static void entry__std__uint64_array (void)
   {
     if (TLS_argument_count < 1) {
       too_few_arguments();
@@ -16418,14 +16418,14 @@ static void entry__std___uint64_array (void)
       data->items[i] = 0;
     }
     {
-      NODE *result__node = (NODE *)(create__std_types___uint64_array(0, view, data, NULL));
+      NODE *result__node = (NODE *)(create__std_types__uint64_array(0, view, data, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
   }
 
-static void entry__std___initialized_uint64_array (void)
+static void entry__std__initialized_uint64_array (void)
   {
     if (TLS_argument_count < 2) {
       too_few_arguments();
@@ -16443,14 +16443,14 @@ static void entry__std___initialized_uint64_array (void)
       data->items[i] = initial_value;
     }
     {
-      NODE *result__node = (NODE *)(create__std_types___uint64_array(0, view, data, NULL));
+      NODE *result__node = (NODE *)(create__std_types__uint64_array(0, view, data, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
   }
 
-static void entry__std_types___uint64_array___std___create_empty_array (void)
+static void entry__std_types__uint64_array__std__create_empty_array (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -16469,14 +16469,14 @@ static void entry__std_types___uint64_array___std___create_empty_array (void)
       data->items[i] = 0;
     }
     {
-      NODE *result__node = (NODE *)(create__std_types___uint64_array(0, TLS_arguments[0]->uint64_array.view, data, NULL));
+      NODE *result__node = (NODE *)(create__std_types__uint64_array(0, TLS_arguments[0]->uint64_array.view, data, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
   }
 
-static void entry__std_types___uint64_array___std___range (void)
+static void entry__std_types__uint64_array__std__range (void)
   {
     UINT64_ARRAY *array = (UINT64_ARRAY *)TLS_arguments[0];
     int dimension_count = array->view->dimension_count;
@@ -16492,14 +16492,14 @@ static void entry__std_types___uint64_array___std___range (void)
     if (!view) return;
     UINT64_ARRAY_DATA *data = apply_uint64_array_updates(array);
     {
-      NODE *result__node = (NODE *)(create__std_types___uint64_array(0, view, data, NULL));
+      NODE *result__node = (NODE *)(create__std_types__uint64_array(0, view, data, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
   }
 
-static void entry__std_types___float32_array___std___length_of (void)
+static void entry__std_types__float32_array__std__length_of (void)
   {
     if (TLS_argument_count < 1) {
       too_few_arguments();
@@ -16530,7 +16530,7 @@ static void entry__std_types___float32_array___std___length_of (void)
     }
   }
 
-static void entry__std_types___float32_array___std___dimension_count_of (void)
+static void entry__std_types__float32_array__std__dimension_count_of (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -16549,7 +16549,7 @@ static void entry__std_types___float32_array___std___dimension_count_of (void)
     }
   }
 
-static void entry__std_types___float32_array___std___equal (void)
+static void entry__std_types__float32_array__std__equal (void)
   {
     if (TLS_argument_count != 2) {
       invalid_arguments();
@@ -16560,13 +16560,13 @@ static void entry__std_types___float32_array___std___equal (void)
       return;
     }
     if (TLS_arguments[1] == TLS_arguments[0]) {
-      NODE *result__node = (NODE *)(&std_types___true);
+      NODE *result__node = (NODE *)(&std_types__true);
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
     if (!equal_array_type(TLS_arguments[1], TLS_arguments[0])) {
-      NODE *result__node = (NODE *)(&std_types___false);
+      NODE *result__node = (NODE *)(&std_types__false);
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -16582,7 +16582,7 @@ static void entry__std_types___float32_array___std___equal (void)
     }
   }
 
-static void entry__std_types___float32_array___std___times (void)
+static void entry__std_types__float32_array__std__times (void)
   {
     if (TLS_argument_count != 2) {
       invalid_arguments();
@@ -16617,7 +16617,7 @@ static void entry__std_types___float32_array___std___times (void)
     }
   }
 
-static void entry__std___float32_array (void)
+static void entry__std__float32_array (void)
   {
     if (TLS_argument_count < 1) {
       too_few_arguments();
@@ -16633,14 +16633,14 @@ static void entry__std___float32_array (void)
       data->items[i] = 0;
     }
     {
-      NODE *result__node = (NODE *)(create__std_types___float32_array(0, view, data, NULL));
+      NODE *result__node = (NODE *)(create__std_types__float32_array(0, view, data, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
   }
 
-static void entry__std___initialized_float32_array (void)
+static void entry__std__initialized_float32_array (void)
   {
     if (TLS_argument_count < 2) {
       too_few_arguments();
@@ -16658,14 +16658,14 @@ static void entry__std___initialized_float32_array (void)
       data->items[i] = initial_value;
     }
     {
-      NODE *result__node = (NODE *)(create__std_types___float32_array(0, view, data, NULL));
+      NODE *result__node = (NODE *)(create__std_types__float32_array(0, view, data, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
   }
 
-static void entry__std_types___float32_array___std___create_empty_array (void)
+static void entry__std_types__float32_array__std__create_empty_array (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -16684,14 +16684,14 @@ static void entry__std_types___float32_array___std___create_empty_array (void)
       data->items[i] = 0;
     }
     {
-      NODE *result__node = (NODE *)(create__std_types___float32_array(0, TLS_arguments[0]->float32_array.view, data, NULL));
+      NODE *result__node = (NODE *)(create__std_types__float32_array(0, TLS_arguments[0]->float32_array.view, data, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
   }
 
-static void entry__std_types___float32_array___std___range (void)
+static void entry__std_types__float32_array__std__range (void)
   {
     FLOAT32_ARRAY *array = (FLOAT32_ARRAY *)TLS_arguments[0];
     int dimension_count = array->view->dimension_count;
@@ -16707,14 +16707,14 @@ static void entry__std_types___float32_array___std___range (void)
     if (!view) return;
     FLOAT32_ARRAY_DATA *data = apply_float32_array_updates(array);
     {
-      NODE *result__node = (NODE *)(create__std_types___float32_array(0, view, data, NULL));
+      NODE *result__node = (NODE *)(create__std_types__float32_array(0, view, data, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
   }
 
-static void entry__std_types___float64_array___std___length_of (void)
+static void entry__std_types__float64_array__std__length_of (void)
   {
     if (TLS_argument_count < 1) {
       too_few_arguments();
@@ -16745,7 +16745,7 @@ static void entry__std_types___float64_array___std___length_of (void)
     }
   }
 
-static void entry__std_types___float64_array___std___dimension_count_of (void)
+static void entry__std_types__float64_array__std__dimension_count_of (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -16764,7 +16764,7 @@ static void entry__std_types___float64_array___std___dimension_count_of (void)
     }
   }
 
-static void entry__std_types___float64_array___std___equal (void)
+static void entry__std_types__float64_array__std__equal (void)
   {
     if (TLS_argument_count != 2) {
       invalid_arguments();
@@ -16775,13 +16775,13 @@ static void entry__std_types___float64_array___std___equal (void)
       return;
     }
     if (TLS_arguments[1] == TLS_arguments[0]) {
-      NODE *result__node = (NODE *)(&std_types___true);
+      NODE *result__node = (NODE *)(&std_types__true);
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
     if (!equal_array_type(TLS_arguments[1], TLS_arguments[0])) {
-      NODE *result__node = (NODE *)(&std_types___false);
+      NODE *result__node = (NODE *)(&std_types__false);
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -16797,7 +16797,7 @@ static void entry__std_types___float64_array___std___equal (void)
     }
   }
 
-static void entry__std_types___float64_array___std___times (void)
+static void entry__std_types__float64_array__std__times (void)
   {
     if (TLS_argument_count != 2) {
       invalid_arguments();
@@ -16832,7 +16832,7 @@ static void entry__std_types___float64_array___std___times (void)
     }
   }
 
-static void entry__std___float64_array (void)
+static void entry__std__float64_array (void)
   {
     if (TLS_argument_count < 1) {
       too_few_arguments();
@@ -16848,14 +16848,14 @@ static void entry__std___float64_array (void)
       data->items[i] = 0;
     }
     {
-      NODE *result__node = (NODE *)(create__std_types___float64_array(0, view, data, NULL));
+      NODE *result__node = (NODE *)(create__std_types__float64_array(0, view, data, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
   }
 
-static void entry__std___initialized_float64_array (void)
+static void entry__std__initialized_float64_array (void)
   {
     if (TLS_argument_count < 2) {
       too_few_arguments();
@@ -16873,14 +16873,14 @@ static void entry__std___initialized_float64_array (void)
       data->items[i] = initial_value;
     }
     {
-      NODE *result__node = (NODE *)(create__std_types___float64_array(0, view, data, NULL));
+      NODE *result__node = (NODE *)(create__std_types__float64_array(0, view, data, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
   }
 
-static void entry__std_types___float64_array___std___create_empty_array (void)
+static void entry__std_types__float64_array__std__create_empty_array (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -16899,14 +16899,14 @@ static void entry__std_types___float64_array___std___create_empty_array (void)
       data->items[i] = 0;
     }
     {
-      NODE *result__node = (NODE *)(create__std_types___float64_array(0, TLS_arguments[0]->float64_array.view, data, NULL));
+      NODE *result__node = (NODE *)(create__std_types__float64_array(0, TLS_arguments[0]->float64_array.view, data, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
   }
 
-static void entry__std_types___float64_array___std___range (void)
+static void entry__std_types__float64_array__std__range (void)
   {
     FLOAT64_ARRAY *array = (FLOAT64_ARRAY *)TLS_arguments[0];
     int dimension_count = array->view->dimension_count;
@@ -16922,14 +16922,14 @@ static void entry__std_types___float64_array___std___range (void)
     if (!view) return;
     FLOAT64_ARRAY_DATA *data = apply_float64_array_updates(array);
     {
-      NODE *result__node = (NODE *)(create__std_types___float64_array(0, view, data, NULL));
+      NODE *result__node = (NODE *)(create__std_types__float64_array(0, view, data, NULL));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
   }
 
-static void entry__std___pass (void)
+static void entry__std__pass (void)
   {
     if (TLS_argument_count != 0) {
       invalid_arguments();
@@ -16944,7 +16944,7 @@ static void entry__std___pass (void)
     }
   }
 
-static void entry__std___result_count (void)
+static void entry__std__result_count (void)
   {
     if (TLS_argument_count != 0) {
       invalid_arguments();
@@ -16962,7 +16962,7 @@ static void entry__std___result_count (void)
     }
   }
 
-static void entry__std_types___true___std___equal (void)
+static void entry__std_types__true__std__equal (void)
   {
     if (TLS_argument_count != 2) {
       invalid_arguments();
@@ -16972,21 +16972,21 @@ static void entry__std_types___true___std___equal (void)
       result_count_mismatch();
       return;
     }
-    if ((TLS_arguments[1])->type == std_types___true.type) {
+    if ((TLS_arguments[1])->type == std_types__true.type) {
       {
-        NODE *result__node = (NODE *)(&std_types___true);
+        NODE *result__node = (NODE *)(&std_types__true);
         TLS_arguments[0] = result__node;
         TLS_argument_count = 1;
         return;
       }
-    } else if ((TLS_arguments[1])->type == std_types___error.type) {
+    } else if ((TLS_arguments[1])->type == std_types__error.type) {
       {
         invalid_arguments();
         return;
       }
     } else {
       {
-        NODE *result__node = (NODE *)(&std_types___false);
+        NODE *result__node = (NODE *)(&std_types__false);
         TLS_arguments[0] = result__node;
         TLS_argument_count = 1;
         return;
@@ -16994,7 +16994,7 @@ static void entry__std_types___true___std___equal (void)
     }
   }
 
-static void entry__std_types___false___std___equal (void)
+static void entry__std_types__false__std__equal (void)
   {
     if (TLS_argument_count != 2) {
       invalid_arguments();
@@ -17004,21 +17004,21 @@ static void entry__std_types___false___std___equal (void)
       result_count_mismatch();
       return;
     }
-    if ((TLS_arguments[1])->type == std_types___false.type) {
+    if ((TLS_arguments[1])->type == std_types__false.type) {
       {
-        NODE *result__node = (NODE *)(&std_types___true);
+        NODE *result__node = (NODE *)(&std_types__true);
         TLS_arguments[0] = result__node;
         TLS_argument_count = 1;
         return;
       }
-    } else if ((TLS_arguments[1])->type == std_types___error.type) {
+    } else if ((TLS_arguments[1])->type == std_types__error.type) {
       {
         invalid_arguments();
         return;
       }
     } else {
       {
-        NODE *result__node = (NODE *)(&std_types___false);
+        NODE *result__node = (NODE *)(&std_types__false);
         TLS_arguments[0] = result__node;
         TLS_argument_count = 1;
         return;
@@ -17026,7 +17026,7 @@ static void entry__std_types___false___std___equal (void)
     }
   }
 
-static void entry__c_function___std___parameter_count_of (void)
+static void entry__c_function__std__parameter_count_of (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -17038,7 +17038,7 @@ static void entry__c_function___std___parameter_count_of (void)
     }
     if (TLS_arguments[0]->c_function.parameter_count < 0)
       {
-        NODE *result__node = (NODE *)(&std_types___undefined);
+        NODE *result__node = (NODE *)(&std_types__undefined);
         TLS_arguments[0] = result__node;
         TLS_argument_count = 1;
         return;
@@ -17052,7 +17052,7 @@ static void entry__c_function___std___parameter_count_of (void)
       }
   }
 
-static void entry__std___character (void)
+static void entry__std__character (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -17065,14 +17065,14 @@ static void entry__std___character (void)
     uint32_t code;
     if (!to_uint32(TLS_arguments[0], &code)) return;
     {
-      NODE *result__node = (NODE *)(create__std_types___character(code));
+      NODE *result__node = (NODE *)(create__std_types__character(code));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
   }
 
-static void entry__std_types___character___std___plus (void)
+static void entry__std_types__character__std__plus (void)
   {
     if (TLS_argument_count != 2) {
       invalid_arguments();
@@ -17090,14 +17090,14 @@ static void entry__std_types___character___std___plus (void)
       return;
     }
     {
-      NODE *result__node = (NODE *)(create__std_types___character((uint32_t)code));
+      NODE *result__node = (NODE *)(create__std_types__character((uint32_t)code));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
   }
 
-static void entry__std_types___character___std___minus (void)
+static void entry__std_types__character__std__minus (void)
   {
     if (TLS_argument_count != 2) {
       invalid_arguments();
@@ -17107,7 +17107,7 @@ static void entry__std_types___character___std___minus (void)
       result_count_mismatch();
       return;
     }
-    if ((TLS_arguments[1])->type == std_types___character.type) {
+    if ((TLS_arguments[1])->type == std_types__character.type) {
       {
         NODE *result__node = (NODE *)(from_long(
       	  (long)TLS_arguments[0]->character.code-(long)TLS_arguments[1]->character.code));
@@ -17124,7 +17124,7 @@ static void entry__std_types___character___std___minus (void)
         return;
       }
       {
-        NODE *result__node = (NODE *)(create__std_types___character((uint32_t)code));
+        NODE *result__node = (NODE *)(create__std_types__character((uint32_t)code));
         TLS_arguments[0] = result__node;
         TLS_argument_count = 1;
         return;
@@ -17132,7 +17132,7 @@ static void entry__std_types___character___std___minus (void)
     }
   }
 
-static void entry__std_types___character___std___equal (void)
+static void entry__std_types__character__std__equal (void)
   {
     if (TLS_argument_count != 2) {
       invalid_arguments();
@@ -17142,21 +17142,21 @@ static void entry__std_types___character___std___equal (void)
       result_count_mismatch();
       return;
     }
-    if ((TLS_arguments[1])->type == std_types___character.type) {
+    if ((TLS_arguments[1])->type == std_types__character.type) {
       {
         NODE *result__node = (NODE *)(from_bool(TLS_arguments[0]->character.code == TLS_arguments[1]->character.code));
         TLS_arguments[0] = result__node;
         TLS_argument_count = 1;
         return;
       }
-    } else if ((TLS_arguments[1])->type == std_types___error.type) {
+    } else if ((TLS_arguments[1])->type == std_types__error.type) {
       {
         invalid_arguments();
         return;
       }
     } else {
       {
-        NODE *result__node = (NODE *)(&std_types___false);
+        NODE *result__node = (NODE *)(&std_types__false);
         TLS_arguments[0] = result__node;
         TLS_argument_count = 1;
         return;
@@ -17164,7 +17164,7 @@ static void entry__std_types___character___std___equal (void)
     }
   }
 
-static void entry__std_types___character___std___less (void)
+static void entry__std_types__character__std__less (void)
   {
     if (TLS_argument_count != 2) {
       invalid_arguments();
@@ -17174,7 +17174,7 @@ static void entry__std_types___character___std___less (void)
       result_count_mismatch();
       return;
     }
-    if ((TLS_arguments[1])->type == std_types___character.type) {
+    if ((TLS_arguments[1])->type == std_types__character.type) {
       {
         NODE *result__node = (NODE *)(from_bool(TLS_arguments[0]->character.code < TLS_arguments[1]->character.code));
         TLS_arguments[0] = result__node;
@@ -17188,7 +17188,7 @@ static void entry__std_types___character___std___less (void)
     }
   }
 
-static void entry__std_types___character___std___hash (void)
+static void entry__std_types__character__std__hash (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -17209,7 +17209,7 @@ static void entry__std_types___character___std___hash (void)
     };
   }
 
-static void entry__std_types___character___std___to_string (void)
+static void entry__std_types__character__std__to_string (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -17238,7 +17238,7 @@ static void entry__std_types___character___std___to_string (void)
     }
   }
 
-static void entry__std_types___character___std___to_integer (void)
+static void entry__std_types__character__std__to_integer (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -17256,7 +17256,7 @@ static void entry__std_types___character___std___to_integer (void)
     }
   }
 
-static void entry__std_types___character___std___width_of (void)
+static void entry__std_types__character__std__width_of (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -17274,7 +17274,7 @@ static void entry__std_types___character___std___width_of (void)
     }
   }
 
-static void entry__std___from_unix_time (void)
+static void entry__std__from_unix_time (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -17283,14 +17283,14 @@ static void entry__std___from_unix_time (void)
     int64_t sec;
     if (!to_int64(TLS_arguments[0], &sec)) return;
     {
-      NODE *result__node = (NODE *)(create__std_types___date_and_time(sec, 0));
+      NODE *result__node = (NODE *)(create__std_types__date_and_time(sec, 0));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
   }
 
-static void entry__std___date_and_time (void)
+static void entry__std__date_and_time (void)
   {
     if (TLS_argument_count != 6) {
       invalid_arguments();
@@ -17315,7 +17315,7 @@ static void entry__std___date_and_time (void)
       minute < 0 || minute > 59 ||
       seconds < 0 || seconds > 59
     ) {
-      NODE *result__node = (NODE *)(&std_types___undefined);
+      NODE *result__node = (NODE *)(&std_types__undefined);
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -17348,7 +17348,7 @@ static void entry__std___date_and_time (void)
       }
       if (month > m) days += d;
       if (month == m && day > d) {
-        NODE *result__node = (NODE *)(&std_types___undefined);
+        NODE *result__node = (NODE *)(&std_types__undefined);
         TLS_arguments[0] = result__node;
         TLS_argument_count = 1;
         return;
@@ -17357,14 +17357,14 @@ static void entry__std___date_and_time (void)
     days += day-1;
     seconds += 86400*(uint64_t)days+3600*hour+60*minute;
     {
-      NODE *result__node = (NODE *)(create__std_types___date_and_time(seconds, nanoseconds));
+      NODE *result__node = (NODE *)(create__std_types__date_and_time(seconds, nanoseconds));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
   }
 
-static void entry__std_types___date_and_time___std___year_of (void)
+static void entry__std_types__date_and_time__std__year_of (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -17380,7 +17380,7 @@ static void entry__std_types___date_and_time___std___year_of (void)
     }
   }
 
-static void entry__std_types___date_and_time___std___month_of (void)
+static void entry__std_types__date_and_time__std__month_of (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -17396,7 +17396,7 @@ static void entry__std_types___date_and_time___std___month_of (void)
     }
   }
 
-static void entry__std_types___date_and_time___std___day_of (void)
+static void entry__std_types__date_and_time__std__day_of (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -17412,7 +17412,7 @@ static void entry__std_types___date_and_time___std___day_of (void)
     }
   }
 
-static void entry__std_types___date_and_time___std___day_of_week_of (void)
+static void entry__std_types__date_and_time__std__day_of_week_of (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -17427,7 +17427,7 @@ static void entry__std_types___date_and_time___std___day_of_week_of (void)
     }
   }
 
-static void entry__std_types___date_and_time___std___hour_of (void)
+static void entry__std_types__date_and_time__std__hour_of (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -17442,7 +17442,7 @@ static void entry__std_types___date_and_time___std___hour_of (void)
     }
   }
 
-static void entry__std_types___date_and_time___std___minute_of (void)
+static void entry__std_types__date_and_time__std__minute_of (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -17457,7 +17457,7 @@ static void entry__std_types___date_and_time___std___minute_of (void)
     }
   }
 
-static void entry__std_types___date_and_time___std___second_of (void)
+static void entry__std_types__date_and_time__std__second_of (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -17473,7 +17473,7 @@ static void entry__std_types___date_and_time___std___second_of (void)
     }
   }
 
-static void entry__std_types___date_and_time___std___time_shift_of (void)
+static void entry__std_types__date_and_time__std__time_shift_of (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -17495,7 +17495,7 @@ static void entry__std_types___date_and_time___std___time_shift_of (void)
     }
   }
 
-static void entry__std_types___date_and_time___std___seconds_since_epoch (void)
+static void entry__std_types__date_and_time__std__seconds_since_epoch (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -17509,7 +17509,7 @@ static void entry__std_types___date_and_time___std___seconds_since_epoch (void)
     }
   }
 
-static void entry__std_types___date_and_time___std___plus (void)
+static void entry__std_types__date_and_time__std__plus (void)
   {
     if (TLS_argument_count != 2) {
       invalid_arguments();
@@ -17528,14 +17528,14 @@ static void entry__std_types___date_and_time___std___plus (void)
       ++seconds;
     }
     {
-      NODE *result__node = (NODE *)(create__std_types___date_and_time(seconds, nanoseconds));
+      NODE *result__node = (NODE *)(create__std_types__date_and_time(seconds, nanoseconds));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
   }
 
-static void entry__std_types___date_and_time___std___minus (void)
+static void entry__std_types__date_and_time__std__minus (void)
   {
     if (TLS_argument_count != 2) {
       invalid_arguments();
@@ -17543,7 +17543,7 @@ static void entry__std_types___date_and_time___std___minus (void)
     }
     int64_t seconds = TLS_arguments[0]->date_and_time.seconds;
     int32_t nanoseconds = TLS_arguments[0]->date_and_time.nanoseconds;
-    if ((TLS_arguments[1])->type == std_types___date_and_time.type) {
+    if ((TLS_arguments[1])->type == std_types__date_and_time.type) {
       int64_t seconds_2 = TLS_arguments[1]->date_and_time.seconds;
       int32_t nanoseconds_2 = TLS_arguments[1]->date_and_time.nanoseconds;
       {
@@ -17565,7 +17565,7 @@ static void entry__std_types___date_and_time___std___minus (void)
 	--seconds;
       }
       {
-        NODE *result__node = (NODE *)(create__std_types___date_and_time(seconds, nanoseconds));
+        NODE *result__node = (NODE *)(create__std_types__date_and_time(seconds, nanoseconds));
         TLS_arguments[0] = result__node;
         TLS_argument_count = 1;
         return;
@@ -17573,7 +17573,7 @@ static void entry__std_types___date_and_time___std___minus (void)
     }
   }
 
-static void entry__std_types___date_and_time___std___equal (void)
+static void entry__std_types__date_and_time__std__equal (void)
   {
     if (TLS_argument_count != 2) {
       invalid_arguments();
@@ -17582,8 +17582,8 @@ static void entry__std_types___date_and_time___std___equal (void)
     NODE *left, *right;
     left = TLS_arguments[0];
     right = TLS_arguments[1];
-    if ((TLS_arguments[1])->type != std_types___date_and_time.type) {
-      NODE *result__node = (NODE *)(&std_types___false);
+    if ((TLS_arguments[1])->type != std_types__date_and_time.type) {
+      NODE *result__node = (NODE *)(&std_types__false);
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -17597,7 +17597,7 @@ static void entry__std_types___date_and_time___std___equal (void)
     }
   }
 
-static void entry__std_types___date_and_time___std___less (void)
+static void entry__std_types__date_and_time__std__less (void)
   {
     if (TLS_argument_count != 2) {
       invalid_arguments();
@@ -17606,7 +17606,7 @@ static void entry__std_types___date_and_time___std___less (void)
     NODE *left, *right;
     left = TLS_arguments[0];
     right = TLS_arguments[1];
-    if ((TLS_arguments[1])->type != std_types___date_and_time.type) {
+    if ((TLS_arguments[1])->type != std_types__date_and_time.type) {
       invalid_arguments();
       return;
     }
@@ -17620,7 +17620,7 @@ static void entry__std_types___date_and_time___std___less (void)
     }
   }
 
-static void entry__std___current_time (void)
+static void entry__std__current_time (void)
   {
     if (TLS_argument_count != 0) {
       invalid_arguments();
@@ -17633,14 +17633,14 @@ static void entry__std___current_time (void)
     struct timespec timespec;
     clock_gettime(CLOCK_REALTIME, &timespec);
     {
-      NODE *result__node = (NODE *)(create__std_types___date_and_time(timespec.tv_sec, timespec.tv_nsec));
+      NODE *result__node = (NODE *)(create__std_types__date_and_time(timespec.tv_sec, timespec.tv_nsec));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
   }
 
-static void entry__debug___string (void)
+static void entry__debug__string (void)
   {
     if (TLS_argument_count < 1) {
       too_few_arguments();
@@ -17655,7 +17655,7 @@ static void entry__debug___string (void)
     int indent = 0;
     int depth = 1;
     if (TLS_argument_count >= 2) {
-      if ((TLS_arguments[1])->type != std_types___undefined.type) {
+      if ((TLS_arguments[1])->type != std_types__undefined.type) {
 	if (!to_int(TLS_arguments[1], &indent)) return;
       }
     }
@@ -17677,7 +17677,7 @@ static void entry__debug___string (void)
     };
   }
 
-static void entry__debug___write (void)
+static void entry__debug__write (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -17703,7 +17703,7 @@ static void entry__debug___write (void)
     }
   }
 
-static void entry__debug___dump_object (void)
+static void entry__debug__dump_object (void)
   {
     if (TLS_argument_count < 1) {
       too_few_arguments();
@@ -17738,7 +17738,7 @@ static void entry__debug___dump_object (void)
     }
   }
 
-static void entry__debug___has_io_access_rights (void)
+static void entry__debug__has_io_access_rights (void)
   {
     if (TLS_argument_count != 0) {
       invalid_arguments();
@@ -17756,13 +17756,13 @@ static void entry__debug___has_io_access_rights (void)
     }
   }
 
-static void entry__debug___exit (void)
+static void entry__debug__exit (void)
   {
     // ignore all arguments
     exit(EXIT_FAILURE);
   }
 
-static void entry__std___error_check (void)
+static void entry__std__error_check (void)
   {
     int i;
     if (TLS_result_count != 0) {
@@ -17770,7 +17770,7 @@ static void entry__std___error_check (void)
       return;
     }
     for (i = 0; i < TLS_argument_count; ++i) {
-      if ((TLS_arguments[i])->type == std_types___error.type) {
+      if ((TLS_arguments[i])->type == std_types__error.type) {
 	{
 	  NODE *result__node = (NODE *)(TLS_arguments[i]);
 	  TLS_arguments[0] = result__node;
@@ -17785,7 +17785,7 @@ static void entry__std___error_check (void)
     }
   }
 
-static void entry__debug___total_garbage_collections (void)
+static void entry__debug__total_garbage_collections (void)
   {
     if (TLS_argument_count != 0) {
       invalid_arguments();
@@ -17799,7 +17799,7 @@ static void entry__debug___total_garbage_collections (void)
     }
   }
 
-static void entry__std___installation_prefix (void)
+static void entry__std__installation_prefix (void)
   {
     if (TLS_argument_count != 0) {
       invalid_arguments();
@@ -17813,7 +17813,7 @@ static void entry__std___installation_prefix (void)
     }
   }
 
-static void entry__std___package_version (void)
+static void entry__std__package_version (void)
   {
     if (TLS_argument_count != 0) {
       invalid_arguments();
@@ -17827,7 +17827,7 @@ static void entry__std___package_version (void)
     }
   }
 
-static void entry__std_types___error___std___error_category_of (void)
+static void entry__std_types__error__std__error_category_of (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -17841,7 +17841,7 @@ static void entry__std_types___error___std___error_category_of (void)
     }
   }
 
-static void entry__std_types___error___std___error_message_text_of (void)
+static void entry__std_types__error__std__error_message_text_of (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -17855,14 +17855,14 @@ static void entry__std_types___error___std___error_message_text_of (void)
     }
   }
 
-static void entry__std_types___error___std___error_details_of (void)
+static void entry__std_types__error__std__error_details_of (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
       return;
     }
     NODE *details = TLS_arguments[0]->error.object;
-    if (!details) details = (NODE *)&std_types___undefined;
+    if (!details) details = (NODE *)&std_types__undefined;
     {
       NODE *result__node = (NODE *)(details);
       TLS_arguments[0] = result__node;
@@ -17871,7 +17871,7 @@ static void entry__std_types___error___std___error_details_of (void)
     }
   }
 
-static void entry__std_types___error___std___errno_of (void)
+static void entry__std_types__error__std__errno_of (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -17886,7 +17886,7 @@ static void entry__std_types___error___std___errno_of (void)
       }
     } else {
       {
-        NODE *result__node = (NODE *)(&std_types___undefined);
+        NODE *result__node = (NODE *)(&std_types__undefined);
         TLS_arguments[0] = result__node;
         TLS_argument_count = 1;
         return;
@@ -17894,7 +17894,7 @@ static void entry__std_types___error___std___errno_of (void)
     }
   }
 
-static void entry__std_types___error___std___failed_attribute_of (void)
+static void entry__std_types__error__std__failed_attribute_of (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -17909,7 +17909,7 @@ static void entry__std_types___error___std___failed_attribute_of (void)
       }
     } else {
       {
-        NODE *result__node = (NODE *)(&std_types___undefined);
+        NODE *result__node = (NODE *)(&std_types__undefined);
         TLS_arguments[0] = result__node;
         TLS_argument_count = 1;
         return;
@@ -17917,7 +17917,7 @@ static void entry__std_types___error___std___failed_attribute_of (void)
     }
   }
 
-static void entry__std___error (void)
+static void entry__std__error (void)
   {
     if (TLS_argument_count < 1) {
       too_few_arguments();
@@ -17931,20 +17931,20 @@ static void entry__std___error (void)
     NODE *obj;
     NODE *category =
       TLS_argument_count >= 2 ? TLS_arguments[0] :
-      module__builtin.constants_base[unique__std___APPLICATION_ERROR-1];
+      module__builtin.constants_base[unique__std__APPLICATION_ERROR-1];
     if (!to_c_string(TLS_arguments[TLS_argument_count >= 2 ? 1 : 0], &msg)) return;
     obj = TLS_argument_count == 3 ? TLS_arguments[2] : NULL;
     create_error_message(category, msg, 0, 0, obj);
     deallocate_memory(msg);
   }
 
-static void entry__std___exec (void)
+static void entry__std__exec (void)
   {
     if (TLS_argument_count != 2) {
       invalid_arguments();
       return;
     }
-    if ((TLS_arguments[1])->type != std_types___list.type) {
+    if ((TLS_arguments[1])->type != std_types__list.type) {
       invalid_arguments();
       return;
     }
@@ -17980,7 +17980,7 @@ static void entry__std___exec (void)
 
     int err = execvp(args[0], args); // This call should not return!
     create_error_message(
-      module__builtin.constants_base[unique__std___IO_ERROR-1],
+      module__builtin.constants_base[unique__std__IO_ERROR-1],
       "EXEC FAILED", errno, 0, NULL);
 
     cleanup:
@@ -17993,7 +17993,7 @@ static void entry__std___exec (void)
     }
   }
 
-static void entry__std___create_process (void)
+static void entry__std__create_process (void)
   {
     if (TLS_argument_count < 2) {
       too_few_arguments();
@@ -18003,16 +18003,16 @@ static void entry__std___create_process (void)
       too_many_arguments();
       return;
     }
-    if ((TLS_arguments[1])->type != std_types___list.type) {
+    if ((TLS_arguments[1])->type != std_types__list.type) {
       invalid_arguments();
       return;
     }
-    NODE *environment = (NODE *)&std_types___undefined;
+    NODE *environment = (NODE *)&std_types__undefined;
     if (TLS_argument_count >= 3) {
       environment = TLS_arguments[2];
       if (
-	(environment)->type != std_types___undefined.type &&
-	(environment)->type != std_types___list.type
+	(environment)->type != std_types__undefined.type &&
+	(environment)->type != std_types__list.type
       ) {
         invalid_arguments();
         return;
@@ -18020,21 +18020,21 @@ static void entry__std___create_process (void)
     }
     if (
       TLS_argument_count >= 4 &&
-      (TLS_arguments[3])->type != std_types___file_descriptor.type
+      (TLS_arguments[3])->type != std_types__file_descriptor.type
     ) {
       invalid_arguments();
       return;
     }
     if (
       TLS_argument_count >= 5 &&
-      (TLS_arguments[4])->type != std_types___file_descriptor.type
+      (TLS_arguments[4])->type != std_types__file_descriptor.type
     ) {
       invalid_arguments();
       return;
     }
     if (
       TLS_argument_count >= 6 &&
-      (TLS_arguments[5])->type != std_types___file_descriptor.type
+      (TLS_arguments[5])->type != std_types__file_descriptor.type
     ) {
       invalid_arguments();
       return;
@@ -18072,7 +18072,7 @@ static void entry__std___create_process (void)
       if (pipe((int *)&in_pipe) != 0) {
 	pipe_creation_failed:
 	create_error_message(
-	  module__builtin.constants_base[unique__std___IO_ERROR-1],
+	  module__builtin.constants_base[unique__std__IO_ERROR-1],
 	  "PIPE_CREATION FAILED", errno, 0, NULL);
 	goto cleanup;
       }
@@ -18118,7 +18118,7 @@ static void entry__std___create_process (void)
 	close(err_pipe.write_fd);
       }
 
-      if ((environment)->type == std_types___list.type) {
+      if ((environment)->type == std_types__list.type) {
 	envp = allocate_memory((environment->list.length+1)*sizeof(char *));
 	int i;
 	for (i = 0; i < environment->list.length; ++i) {
@@ -18143,7 +18143,7 @@ static void entry__std___create_process (void)
 
     if (pid == -1) {
       create_error_message(
-	      module__builtin.constants_base[unique__std___IO_ERROR-1],
+	      module__builtin.constants_base[unique__std__IO_ERROR-1],
 	"FORK FAILED", errno, 0, NULL);
       goto cleanup;
     }
@@ -18211,7 +18211,7 @@ static void entry__std___create_process (void)
     }
   }
 
-static void entry__std_types___function___std___parameter_count_of (void)
+static void entry__std_types__function__std__parameter_count_of (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -18228,7 +18228,7 @@ static void entry__std_types___function___std___parameter_count_of (void)
     int par_count = code[1];
     if (par_count < 0)
       {
-        NODE *result__node = (NODE *)(&std_types___undefined);
+        NODE *result__node = (NODE *)(&std_types__undefined);
         TLS_arguments[0] = result__node;
         TLS_argument_count = 1;
         return;
@@ -18242,7 +18242,7 @@ static void entry__std_types___function___std___parameter_count_of (void)
       }
   }
 
-static void entry__std_types___function___std___new (void)
+static void entry__std_types__function__std__new (void)
   {
     if (TLS_argument_count != 2) {
       invalid_arguments();
@@ -18263,14 +18263,14 @@ static void entry__std_types___function___std___new (void)
     }
   }
 
-static void entry__std___list (void)
+static void entry__std__list (void)
   {
     if (TLS_argument_count < 0) {
       too_few_arguments();
       return;
     }
     if (TLS_argument_count == 0) {
-      NODE *result__node = (NODE *)((NODE *)&std___empty_list);
+      NODE *result__node = (NODE *)((NODE *)&std__empty_list);
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -18284,14 +18284,14 @@ static void entry__std___list (void)
       data->items[i] = TLS_arguments[i];
     }
     {
-      NODE *result__node = (NODE *)(create__std_types___list(0, TLS_argument_count, data));
+      NODE *result__node = (NODE *)(create__std_types__list(0, TLS_argument_count, data));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
   }
 
-static void entry__std_types___list___std___length_of (void)
+static void entry__std_types__list__std__length_of (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -18309,7 +18309,7 @@ static void entry__std_types___list___std___length_of (void)
     }
   }
 
-static void entry__std_types___list___std___is_empty (void)
+static void entry__std_types__list__std__is_empty (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -18327,7 +18327,7 @@ static void entry__std_types___list___std___is_empty (void)
     }
   }
 
-static void entry__std_types___list___std___is_not_empty (void)
+static void entry__std_types__list__std__is_not_empty (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -18345,7 +18345,7 @@ static void entry__std_types___list___std___is_not_empty (void)
     }
   }
 
-static void entry__std_types___list___std___push (void)
+static void entry__std_types__list__std__push (void)
   {
     if (TLS_argument_count != 2) {
       invalid_arguments();
@@ -18373,7 +18373,7 @@ static void entry__std_types___list___std___push (void)
     }
     data->items[end_offset] = value;
     data->length = end_offset+1;
-    NODE *result = create__std_types___list(start_offset, new_length, data);
+    NODE *result = create__std_types__list(start_offset, new_length, data);
     result->attributes = self->attributes; // maintain attributes
     {
       NODE *result__node = (NODE *)(result);
@@ -18383,7 +18383,7 @@ static void entry__std_types___list___std___push (void)
     };
   }
 
-static void entry__std_types___list___std___drop (void)
+static void entry__std_types__list__std__drop (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -18397,12 +18397,12 @@ static void entry__std_types___list___std___drop (void)
     long length = list->list.length;
     if (length == 0) {
       create_error_message(
-        module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+        module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
         "Attempt to drop an element from an empty list!", 0, 0, NULL);
       return;
     }
     NODE *result =
-      create__std_types___list(list->list.offset, length-1, list->list.data);
+      create__std_types__list(list->list.offset, length-1, list->list.data);
     result->attributes = list->attributes; // maintain attributes
     {
       NODE *result__node = (NODE *)(result);
@@ -18412,7 +18412,7 @@ static void entry__std_types___list___std___drop (void)
     };
   }
 
-static void entry__std_types___list___std___pop (void)
+static void entry__std_types__list__std__pop (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -18424,7 +18424,7 @@ static void entry__std_types___list___std___pop (void)
     }
     if (TLS_result_count != 2) {
       create_error_message(
-        module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+        module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
         "Invalid number of expected results!", 0, 0, NULL);
       return;
     }
@@ -18433,11 +18433,11 @@ static void entry__std_types___list___std___pop (void)
     long length = list->list.length;
     if (length == 0) {
       create_error_message(
-        module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+        module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
         "Attempt to pop an element from an empty list!", 0, 0, NULL);
       return;
     }
-    NODE *new_list = create__std_types___list(offset, length-1, list->list.data);
+    NODE *new_list = create__std_types__list(offset, length-1, list->list.data);
     new_list->attributes = list->attributes; // maintain attributes
     TLS_argument_count = 2;
     TLS_arguments[0] = new_list;
@@ -18447,7 +18447,7 @@ static void entry__std_types___list___std___pop (void)
     }
   }
 
-static void entry__std_types___list___std___peek (void)
+static void entry__std_types__list__std__peek (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -18461,7 +18461,7 @@ static void entry__std_types___list___std___peek (void)
     long length = list->list.length;
     if (length == 0) {
       create_error_message(
-        module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+        module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
         "Attempt to peek an element of an empty list!", 0, 0, NULL);
       return;
     }
@@ -18473,7 +18473,7 @@ static void entry__std_types___list___std___peek (void)
     }
   }
 
-static void entry__std_types___list___std___append (void)
+static void entry__std_types__list__std__append (void)
   {
     if (TLS_argument_count < 2) {
       too_few_arguments();
@@ -18489,7 +18489,7 @@ static void entry__std_types___list___std___append (void)
     int i;
     for (i = 1; i < TLS_argument_count; ++i) {
       NODE *right = TLS_arguments[i];
-      if ((right)->type != std_types___list.type) {
+      if ((right)->type != std_types__list.type) {
         invalid_arguments();
         return;
       }
@@ -18504,7 +18504,7 @@ static void entry__std_types___list___std___append (void)
     if (left_length == 0 && TLS_argument_count == 2) {
       NODE *right = TLS_arguments[1];
       NODE *result =
-	create__std_types___list(right->list.offset, right->list.length, right->list.data);
+	create__std_types__list(right->list.offset, right->list.length, right->list.data);
       result->attributes = left->attributes; // maintain attributes
       {
         NODE *result__node = (NODE *)(result);
@@ -18544,7 +18544,7 @@ static void entry__std_types___list___std___append (void)
       }
     }
     data->length = left_offset+new_length;
-    NODE *result = create__std_types___list(left_offset, new_length, data);
+    NODE *result = create__std_types__list(left_offset, new_length, data);
     result->attributes = left->attributes; // maintain attributes
     {
       NODE *result__node = (NODE *)(result);
@@ -18554,7 +18554,7 @@ static void entry__std_types___list___std___append (void)
     };
   }
 
-static void entry__std_types___list___std___range (void)
+static void entry__std_types__list__std__range (void)
   {
     if (TLS_argument_count != 3) {
       invalid_arguments();
@@ -18591,20 +18591,20 @@ static void entry__std_types___list___std___range (void)
     }
     long new_len = last_idx-first_idx+1;
     if (new_len == 0) {
-      NODE *result__node = (NODE *)((NODE *)&std___empty_list);
+      NODE *result__node = (NODE *)((NODE *)&std__empty_list);
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
     {
-      NODE *result__node = (NODE *)(create__std_types___list(self->list.offset+first_idx-1, new_len, self->list.data));
+      NODE *result__node = (NODE *)(create__std_types__list(self->list.offset+first_idx-1, new_len, self->list.data));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
   }
 
-static void entry__std_types___list___std___spread (void)
+static void entry__std_types__list__std__spread (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -18626,7 +18626,7 @@ static void entry__std_types___list___std___spread (void)
     }
   }
 
-static void entry__builtin_types___positive_integer___std___negate (void)
+static void entry__builtin_types__positive_integer__std__negate (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -18644,7 +18644,7 @@ static void entry__builtin_types___positive_integer___std___negate (void)
     }
   }
 
-static void entry__builtin_types___negative_integer___std___negate (void)
+static void entry__builtin_types__negative_integer__std__negate (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -18655,14 +18655,14 @@ static void entry__builtin_types___negative_integer___std___negate (void)
       return;
     }
     {
-      NODE *result__node = (NODE *)(create__builtin_types___positive_integer(TLS_arguments[0]->integer.value));
+      NODE *result__node = (NODE *)(create__builtin_types__positive_integer(TLS_arguments[0]->integer.value));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
   }
 
-static void entry__std_types___real___std___negate (void)
+static void entry__std_types__real__std__negate (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -18673,14 +18673,14 @@ static void entry__std_types___real___std___negate (void)
       return;
     }
     {
-      NODE *result__node = (NODE *)(create__std_types___real(-TLS_arguments[0]->real.value));
+      NODE *result__node = (NODE *)(create__std_types__real(-TLS_arguments[0]->real.value));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
   }
 
-static void entry__builtin_types___positive_integer___std___times (void)
+static void entry__builtin_types__positive_integer__std__times (void)
   {
     if (TLS_argument_count != 2) {
       invalid_arguments();
@@ -18691,18 +18691,18 @@ static void entry__builtin_types___positive_integer___std___times (void)
       return;
     }
     uint64_t low, high;
-    if ((TLS_arguments[1])->type == builtin_types___positive_integer.type) {
+    if ((TLS_arguments[1])->type == builtin_types__positive_integer.type) {
       high =
 	umul64(TLS_arguments[0]->integer.value, TLS_arguments[1]->integer.value, &low);
       if (high == 0) {
 	{
-	  NODE *result__node = (NODE *)(create__builtin_types___positive_integer(low));
+	  NODE *result__node = (NODE *)(create__builtin_types__positive_integer(low));
 	  TLS_arguments[0] = result__node;
 	  TLS_argument_count = 1;
 	  return;
 	}
       }
-    } else if ((TLS_arguments[1])->type == builtin_types___negative_integer.type) {
+    } else if ((TLS_arguments[1])->type == builtin_types__negative_integer.type) {
       high =
 	umul64(TLS_arguments[0]->integer.value, TLS_arguments[1]->integer.value, &low);
       if (high == 0) {
@@ -18713,9 +18713,9 @@ static void entry__builtin_types___positive_integer___std___times (void)
 	  return;
 	}
       }
-    } else if ((TLS_arguments[1])->type == std_types___real.type) {
+    } else if ((TLS_arguments[1])->type == std_types__real.type) {
       {
-        NODE *result__node = (NODE *)(create__std_types___real(TLS_arguments[0]->integer.value*TLS_arguments[1]->real.value));
+        NODE *result__node = (NODE *)(create__std_types__real(TLS_arguments[0]->integer.value*TLS_arguments[1]->real.value));
         TLS_arguments[0] = result__node;
         TLS_argument_count = 1;
         return;
@@ -18727,7 +18727,7 @@ static void entry__builtin_types___positive_integer___std___times (void)
     }
   }
 
-static void entry__builtin_types___negative_integer___std___times (void)
+static void entry__builtin_types__negative_integer__std__times (void)
   {
     if (TLS_argument_count != 2) {
       invalid_arguments();
@@ -18738,13 +18738,13 @@ static void entry__builtin_types___negative_integer___std___times (void)
       return;
     }
     uint64_t low, high;
-    if ((TLS_arguments[1])->type == builtin_types___positive_integer.type) {
+    if ((TLS_arguments[1])->type == builtin_types__positive_integer.type) {
       high =
 	umul64(TLS_arguments[0]->integer.value, TLS_arguments[1]->integer.value, &low);
       if (high == 0) {
 	if (low == 0) {
 	  {
-	    NODE *result__node = (NODE *)(create__builtin_types___positive_integer(0));
+	    NODE *result__node = (NODE *)(create__builtin_types__positive_integer(0));
 	    TLS_arguments[0] = result__node;
 	    TLS_argument_count = 1;
 	    return;
@@ -18758,20 +18758,20 @@ static void entry__builtin_types___negative_integer___std___times (void)
 	  }
 	}
       }
-    } else if ((TLS_arguments[1])->type == builtin_types___negative_integer.type) {
+    } else if ((TLS_arguments[1])->type == builtin_types__negative_integer.type) {
       high =
 	umul64(TLS_arguments[0]->integer.value, TLS_arguments[1]->integer.value, &low);
       if (high == 0) {
 	{
-	  NODE *result__node = (NODE *)(create__builtin_types___positive_integer(low));
+	  NODE *result__node = (NODE *)(create__builtin_types__positive_integer(low));
 	  TLS_arguments[0] = result__node;
 	  TLS_argument_count = 1;
 	  return;
 	}
       }
-    } else if ((TLS_arguments[1])->type == std_types___real.type) {
+    } else if ((TLS_arguments[1])->type == std_types__real.type) {
       {
-        NODE *result__node = (NODE *)(create__std_types___real(-(TLS_arguments[0]->integer.value*TLS_arguments[1]->real.value)));
+        NODE *result__node = (NODE *)(create__std_types__real(-(TLS_arguments[0]->integer.value*TLS_arguments[1]->real.value)));
         TLS_arguments[0] = result__node;
         TLS_argument_count = 1;
         return;
@@ -18783,7 +18783,7 @@ static void entry__builtin_types___negative_integer___std___times (void)
     }
   }
 
-static void entry__builtin_types___positive_integer___std___to_integer (void)
+static void entry__builtin_types__positive_integer__std__to_integer (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -18797,7 +18797,7 @@ static void entry__builtin_types___positive_integer___std___to_integer (void)
     }
   }
 
-static void entry__builtin_types___negative_integer___std___to_integer (void)
+static void entry__builtin_types__negative_integer__std__to_integer (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -18811,7 +18811,7 @@ static void entry__builtin_types___negative_integer___std___to_integer (void)
     }
   }
 
-static void entry__std_types___real___std___to_integer (void)
+static void entry__std_types__real__std__to_integer (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -18826,49 +18826,49 @@ static void entry__std_types___real___std___to_integer (void)
     }
   }
 
-static void entry__std_types___real___std___floor (void)
+static void entry__std_types__real__std__floor (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
       return;
     }
     {
-      NODE *result__node = (NODE *)(create__std_types___real(floor(TLS_arguments[0]->real.value)));
+      NODE *result__node = (NODE *)(create__std_types__real(floor(TLS_arguments[0]->real.value)));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
   }
 
-static void entry__std_types___real___std___ceil (void)
+static void entry__std_types__real__std__ceil (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
       return;
     }
     {
-      NODE *result__node = (NODE *)(create__std_types___real(ceil(TLS_arguments[0]->real.value)));
+      NODE *result__node = (NODE *)(create__std_types__real(ceil(TLS_arguments[0]->real.value)));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
   }
 
-static void entry__std_types___real___std___round (void)
+static void entry__std_types__real__std__round (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
       return;
     }
     {
-      NODE *result__node = (NODE *)(create__std_types___real(round(TLS_arguments[0]->real.value)));
+      NODE *result__node = (NODE *)(create__std_types__real(round(TLS_arguments[0]->real.value)));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
   }
 
-static void entry__builtin_types___negative_integer___std___to_string (void)
+static void entry__builtin_types__negative_integer__std__to_string (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -18888,7 +18888,7 @@ static void entry__builtin_types___negative_integer___std___to_string (void)
     }
   }
 
-static void entry__builtin_types___positive_integer___std___to_string (void)
+static void entry__builtin_types__positive_integer__std__to_string (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -18908,7 +18908,7 @@ static void entry__builtin_types___positive_integer___std___to_string (void)
     }
   }
 
-static void entry__std_types___real___std___to_string (void)
+static void entry__std_types__real__std__to_string (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -18928,7 +18928,7 @@ static void entry__std_types___real___std___to_string (void)
     }
   }
 
-static void entry__builtin_types___positive_integer___std___over (void)
+static void entry__builtin_types__positive_integer__std__over (void)
   {
     if (TLS_argument_count != 2) {
       invalid_arguments();
@@ -18938,27 +18938,27 @@ static void entry__builtin_types___positive_integer___std___over (void)
       result_count_mismatch();
       return;
     }
-    if ((TLS_arguments[1])->type == builtin_types___positive_integer.type) {
+    if ((TLS_arguments[1])->type == builtin_types__positive_integer.type) {
       if (TLS_arguments[1]->integer.value == 0) {
         divide_by_zero();
         return;
       }
       if (TLS_arguments[0]->integer.value % TLS_arguments[1]->integer.value == 0) {
 	{
-	  NODE *result__node = (NODE *)(create__builtin_types___positive_integer(TLS_arguments[0]->integer.value / TLS_arguments[1]->integer.value));
+	  NODE *result__node = (NODE *)(create__builtin_types__positive_integer(TLS_arguments[0]->integer.value / TLS_arguments[1]->integer.value));
 	  TLS_arguments[0] = result__node;
 	  TLS_argument_count = 1;
 	  return;
 	}
       } else {
 	{
-	  NODE *result__node = (NODE *)(create__std_types___real((double)TLS_arguments[0]->integer.value / TLS_arguments[1]->integer.value));
+	  NODE *result__node = (NODE *)(create__std_types__real((double)TLS_arguments[0]->integer.value / TLS_arguments[1]->integer.value));
 	  TLS_arguments[0] = result__node;
 	  TLS_argument_count = 1;
 	  return;
 	}
       }
-    } else if ((TLS_arguments[1])->type == builtin_types___negative_integer.type) {
+    } else if ((TLS_arguments[1])->type == builtin_types__negative_integer.type) {
       if (TLS_arguments[0]->integer.value % TLS_arguments[1]->integer.value == 0) {
 	{
 	  NODE *result__node = (NODE *)(create_negative_integer(
@@ -18969,20 +18969,20 @@ static void entry__builtin_types___positive_integer___std___over (void)
 	}
       } else {
 	{
-	  NODE *result__node = (NODE *)(create__std_types___real(-((double)TLS_arguments[0]->integer.value /
+	  NODE *result__node = (NODE *)(create__std_types__real(-((double)TLS_arguments[0]->integer.value /
 	  	    TLS_arguments[1]->integer.value)));
 	  TLS_arguments[0] = result__node;
 	  TLS_argument_count = 1;
 	  return;
 	}
       }
-    } else if ((TLS_arguments[1])->type == std_types___real.type) {
+    } else if ((TLS_arguments[1])->type == std_types__real.type) {
       if (TLS_arguments[1]->real.value == 0.0) {
         divide_by_zero();
         return;
       }
       {
-        NODE *result__node = (NODE *)(create__std_types___real(TLS_arguments[0]->integer.value/TLS_arguments[1]->real.value));
+        NODE *result__node = (NODE *)(create__std_types__real(TLS_arguments[0]->integer.value/TLS_arguments[1]->real.value));
         TLS_arguments[0] = result__node;
         TLS_argument_count = 1;
         return;
@@ -18994,7 +18994,7 @@ static void entry__builtin_types___positive_integer___std___over (void)
     }
   }
 
-static void entry__builtin_types___negative_integer___std___over (void)
+static void entry__builtin_types__negative_integer__std__over (void)
   {
     if (TLS_argument_count != 2) {
       invalid_arguments();
@@ -19004,24 +19004,24 @@ static void entry__builtin_types___negative_integer___std___over (void)
       result_count_mismatch();
       return;
     }
-    if ((TLS_arguments[1])->type == builtin_types___negative_integer.type) {
+    if ((TLS_arguments[1])->type == builtin_types__negative_integer.type) {
       if (TLS_arguments[0]->integer.value % TLS_arguments[1]->integer.value == 0) {
 	{
-	  NODE *result__node = (NODE *)(create__builtin_types___positive_integer(TLS_arguments[0]->integer.value / TLS_arguments[1]->integer.value));
+	  NODE *result__node = (NODE *)(create__builtin_types__positive_integer(TLS_arguments[0]->integer.value / TLS_arguments[1]->integer.value));
 	  TLS_arguments[0] = result__node;
 	  TLS_argument_count = 1;
 	  return;
 	}
       } else {
 	{
-	  NODE *result__node = (NODE *)(create__std_types___real((double)TLS_arguments[0]->integer.value /
+	  NODE *result__node = (NODE *)(create__std_types__real((double)TLS_arguments[0]->integer.value /
 	  	    TLS_arguments[1]->integer.value));
 	  TLS_arguments[0] = result__node;
 	  TLS_argument_count = 1;
 	  return;
 	}
       }
-    } else if ((TLS_arguments[1])->type == builtin_types___positive_integer.type) {
+    } else if ((TLS_arguments[1])->type == builtin_types__positive_integer.type) {
       if (TLS_arguments[1]->integer.value == 0) {
         divide_by_zero();
         return;
@@ -19036,20 +19036,20 @@ static void entry__builtin_types___negative_integer___std___over (void)
 	}
       } else {
 	{
-	  NODE *result__node = (NODE *)(create__std_types___real(-((double)TLS_arguments[0]->integer.value /
+	  NODE *result__node = (NODE *)(create__std_types__real(-((double)TLS_arguments[0]->integer.value /
 	  	    TLS_arguments[1]->integer.value)));
 	  TLS_arguments[0] = result__node;
 	  TLS_argument_count = 1;
 	  return;
 	}
       }
-    } else if ((TLS_arguments[1])->type == std_types___real.type) {
+    } else if ((TLS_arguments[1])->type == std_types__real.type) {
       if (TLS_arguments[1]->real.value == 0.0) {
         divide_by_zero();
         return;
       }
       {
-        NODE *result__node = (NODE *)(create__std_types___real(-(TLS_arguments[0]->integer.value/TLS_arguments[1]->real.value)));
+        NODE *result__node = (NODE *)(create__std_types__real(-(TLS_arguments[0]->integer.value/TLS_arguments[1]->real.value)));
         TLS_arguments[0] = result__node;
         TLS_argument_count = 1;
         return;
@@ -19061,7 +19061,7 @@ static void entry__builtin_types___negative_integer___std___over (void)
     }
   }
 
-static void entry__builtin_types___positive_integer___std___div (void)
+static void entry__builtin_types__positive_integer__std__div (void)
   {
     if (TLS_argument_count != 2) {
       invalid_arguments();
@@ -19071,10 +19071,10 @@ static void entry__builtin_types___positive_integer___std___div (void)
       result_count_mismatch();
       return;
     }
-    if ((TLS_arguments[1])->type == builtin_types___positive_integer.type) {
+    if ((TLS_arguments[1])->type == builtin_types__positive_integer.type) {
       if (TLS_arguments[1]->integer.value) {
 	{
-	  NODE *result__node = (NODE *)(create__builtin_types___positive_integer(TLS_arguments[0]->integer.value / TLS_arguments[1]->integer.value));
+	  NODE *result__node = (NODE *)(create__builtin_types__positive_integer(TLS_arguments[0]->integer.value / TLS_arguments[1]->integer.value));
 	  TLS_arguments[0] = result__node;
 	  TLS_argument_count = 1;
 	  return;
@@ -19083,7 +19083,7 @@ static void entry__builtin_types___positive_integer___std___div (void)
         divide_by_zero();
         return;
       }
-    } else if ((TLS_arguments[1])->type == builtin_types___negative_integer.type) {
+    } else if ((TLS_arguments[1])->type == builtin_types__negative_integer.type) {
       uint64_t value =
 	(TLS_arguments[0]->integer.value+TLS_arguments[1]->integer.value-1) /
 	TLS_arguments[1]->integer.value;
@@ -19100,7 +19100,7 @@ static void entry__builtin_types___positive_integer___std___div (void)
     }
   }
 
-static void entry__builtin_types___negative_integer___std___div (void)
+static void entry__builtin_types__negative_integer__std__div (void)
   {
     if (TLS_argument_count != 2) {
       invalid_arguments();
@@ -19110,7 +19110,7 @@ static void entry__builtin_types___negative_integer___std___div (void)
       result_count_mismatch();
       return;
     }
-    if ((TLS_arguments[1])->type == builtin_types___positive_integer.type) {
+    if ((TLS_arguments[1])->type == builtin_types__positive_integer.type) {
       if (TLS_arguments[1]->integer.value) {
 	uint64_t value =
 	  (TLS_arguments[0]->integer.value+TLS_arguments[1]->integer.value-1) /
@@ -19125,9 +19125,9 @@ static void entry__builtin_types___negative_integer___std___div (void)
         divide_by_zero();
         return;
       }
-    } else if ((TLS_arguments[1])->type == builtin_types___negative_integer.type) {
+    } else if ((TLS_arguments[1])->type == builtin_types__negative_integer.type) {
       {
-        NODE *result__node = (NODE *)(create__builtin_types___positive_integer(TLS_arguments[0]->integer.value / TLS_arguments[1]->integer.value));
+        NODE *result__node = (NODE *)(create__builtin_types__positive_integer(TLS_arguments[0]->integer.value / TLS_arguments[1]->integer.value));
         TLS_arguments[0] = result__node;
         TLS_argument_count = 1;
         return;
@@ -19139,7 +19139,7 @@ static void entry__builtin_types___negative_integer___std___div (void)
     }
   }
 
-static void entry__builtin_types___positive_integer___std___mod (void)
+static void entry__builtin_types__positive_integer__std__mod (void)
   {
     if (TLS_argument_count != 2) {
       invalid_arguments();
@@ -19149,10 +19149,10 @@ static void entry__builtin_types___positive_integer___std___mod (void)
       result_count_mismatch();
       return;
     }
-    if ((TLS_arguments[1])->type == builtin_types___positive_integer.type) {
+    if ((TLS_arguments[1])->type == builtin_types__positive_integer.type) {
       if (TLS_arguments[1]->integer.value) {
 	{
-	  NODE *result__node = (NODE *)(create__builtin_types___positive_integer(TLS_arguments[0]->integer.value % TLS_arguments[1]->integer.value));
+	  NODE *result__node = (NODE *)(create__builtin_types__positive_integer(TLS_arguments[0]->integer.value % TLS_arguments[1]->integer.value));
 	  TLS_arguments[0] = result__node;
 	  TLS_argument_count = 1;
 	  return;
@@ -19161,7 +19161,7 @@ static void entry__builtin_types___positive_integer___std___mod (void)
         divide_by_zero();
         return;
       }
-    } else if ((TLS_arguments[1])->type == builtin_types___negative_integer.type) {
+    } else if ((TLS_arguments[1])->type == builtin_types__negative_integer.type) {
       long result = TLS_arguments[0]->integer.value % TLS_arguments[1]->integer.value;
       if (result != 0) result = TLS_arguments[1]->integer.value-result;
       {
@@ -19177,7 +19177,7 @@ static void entry__builtin_types___positive_integer___std___mod (void)
     }
   }
 
-static void entry__builtin_types___negative_integer___std___mod (void)
+static void entry__builtin_types__negative_integer__std__mod (void)
   {
     if (TLS_argument_count != 2) {
       invalid_arguments();
@@ -19187,12 +19187,12 @@ static void entry__builtin_types___negative_integer___std___mod (void)
       result_count_mismatch();
       return;
     }
-    if ((TLS_arguments[1])->type == builtin_types___positive_integer.type) {
+    if ((TLS_arguments[1])->type == builtin_types__positive_integer.type) {
       if (TLS_arguments[1]->integer.value) {
 	long result = TLS_arguments[0]->integer.value % TLS_arguments[1]->integer.value;
 	if (result != 0) result = TLS_arguments[1]->integer.value-result;
 	{
-	  NODE *result__node = (NODE *)(create__builtin_types___positive_integer(result));
+	  NODE *result__node = (NODE *)(create__builtin_types__positive_integer(result));
 	  TLS_arguments[0] = result__node;
 	  TLS_argument_count = 1;
 	  return;
@@ -19201,7 +19201,7 @@ static void entry__builtin_types___negative_integer___std___mod (void)
         divide_by_zero();
         return;
       }
-    } else if ((TLS_arguments[1])->type == builtin_types___negative_integer.type) {
+    } else if ((TLS_arguments[1])->type == builtin_types__negative_integer.type) {
       {
         NODE *result__node = (NODE *)(create_negative_integer(
       	  TLS_arguments[0]->integer.value % TLS_arguments[1]->integer.value));
@@ -19216,7 +19216,7 @@ static void entry__builtin_types___negative_integer___std___mod (void)
     }
   }
 
-static void entry__builtin_types___positive_integer___std___hash (void)
+static void entry__builtin_types__positive_integer__std__hash (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -19236,7 +19236,7 @@ static void entry__builtin_types___positive_integer___std___hash (void)
     }
   }
 
-static void entry__builtin_types___negative_integer___std___hash (void)
+static void entry__builtin_types__negative_integer__std__hash (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -19256,7 +19256,7 @@ static void entry__builtin_types___negative_integer___std___hash (void)
     }
   }
 
-static void entry__std_types___real___std___hash (void)
+static void entry__std_types__real__std__hash (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -19273,91 +19273,91 @@ static void entry__std_types___real___std___hash (void)
     }
   }
 
-static void entry__builtin_types___positive_integer___std___ln (void)
+static void entry__builtin_types__positive_integer__std__ln (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
       return;
     }
     {
-      NODE *result__node = (NODE *)(create__std_types___real(log(TLS_arguments[0]->integer.value)));
+      NODE *result__node = (NODE *)(create__std_types__real(log(TLS_arguments[0]->integer.value)));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
   }
 
-static void entry__builtin_types___negative_integer___std___ln (void)
+static void entry__builtin_types__negative_integer__std__ln (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
       return;
     }
     {
-      NODE *result__node = (NODE *)(create__std_types___real(log(-TLS_arguments[0]->integer.value)));
+      NODE *result__node = (NODE *)(create__std_types__real(log(-TLS_arguments[0]->integer.value)));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
   }
 
-static void entry__std_types___real___std___ln (void)
+static void entry__std_types__real__std__ln (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
       return;
     }
     {
-      NODE *result__node = (NODE *)(create__std_types___real(log(TLS_arguments[0]->real.value)));
+      NODE *result__node = (NODE *)(create__std_types__real(log(TLS_arguments[0]->real.value)));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
   }
 
-static void entry__builtin_types___positive_integer___std___exp (void)
+static void entry__builtin_types__positive_integer__std__exp (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
       return;
     }
     {
-      NODE *result__node = (NODE *)(create__std_types___real(exp(TLS_arguments[0]->integer.value)));
+      NODE *result__node = (NODE *)(create__std_types__real(exp(TLS_arguments[0]->integer.value)));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
   }
 
-static void entry__builtin_types___negative_integer___std___exp (void)
+static void entry__builtin_types__negative_integer__std__exp (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
       return;
     }
     {
-      NODE *result__node = (NODE *)(create__std_types___real(exp(-TLS_arguments[0]->integer.value)));
+      NODE *result__node = (NODE *)(create__std_types__real(exp(-TLS_arguments[0]->integer.value)));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
   }
 
-static void entry__std_types___real___std___exp (void)
+static void entry__std_types__real__std__exp (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
       return;
     }
     {
-      NODE *result__node = (NODE *)(create__std_types___real(exp(TLS_arguments[0]->real.value)));
+      NODE *result__node = (NODE *)(create__std_types__real(exp(TLS_arguments[0]->real.value)));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
   }
 
-static void entry__std___real (void)
+static void entry__std__real (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -19375,7 +19375,7 @@ static void entry__std___real (void)
     }
   }
 
-static void entry__std___integer (void)
+static void entry__std__integer (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -19402,9 +19402,9 @@ static void entry__std___integer (void)
     if (c < '0' || c > '9') {
       NODE *result;
       if (sign < 0 && value != 0) {
-	result = create__builtin_types___negative_integer(value);
+	result = create__builtin_types__negative_integer(value);
       } else {
-	result = create__builtin_types___positive_integer(value);
+	result = create__builtin_types__positive_integer(value);
       }
       {
         NODE *result__node = (NODE *)(result);
@@ -19434,7 +19434,7 @@ static void entry__std___integer (void)
     overflow:
 
     create_error_message(
-      module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+      module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
       "std::integer OVERFLOW", 0, 0, NULL);
 
     cleanup:
@@ -19443,7 +19443,7 @@ static void entry__std___integer (void)
     return;
   }
 
-static void entry__std___sqrt (void)
+static void entry__std__sqrt (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -19452,14 +19452,14 @@ static void entry__std___sqrt (void)
     double arg;
     if (!to_double(TLS_arguments[0], &arg)) return;
     {
-      NODE *result__node = (NODE *)(create__std_types___real(sqrt(arg)));
+      NODE *result__node = (NODE *)(create__std_types__real(sqrt(arg)));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
   }
 
-static void entry__std___pow (void)
+static void entry__std__pow (void)
   {
     if (TLS_argument_count != 2) {
       invalid_arguments();
@@ -19470,14 +19470,14 @@ static void entry__std___pow (void)
     double exponent;
     if (!to_double(TLS_arguments[1], &exponent)) return;
     {
-      NODE *result__node = (NODE *)(create__std_types___real(pow(base, exponent)));
+      NODE *result__node = (NODE *)(create__std_types__real(pow(base, exponent)));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
   }
 
-static void entry__builtin_types___positive_integer___std___exit (void)
+static void entry__builtin_types__positive_integer__std__exit (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -19492,7 +19492,7 @@ static void entry__builtin_types___positive_integer___std___exit (void)
     exit(status);
   }
 
-static void entry__builtin_types___positive_integer___std___plus (void)
+static void entry__builtin_types__positive_integer__std__plus (void)
   {
     if (TLS_argument_count != 2) {
       invalid_arguments();
@@ -19502,19 +19502,19 @@ static void entry__builtin_types___positive_integer___std___plus (void)
       result_count_mismatch();
       return;
     }
-    if ((TLS_arguments[1])->type == builtin_types___positive_integer.type) {
+    if ((TLS_arguments[1])->type == builtin_types__positive_integer.type) {
       if (TLS_arguments[0]->integer.value+TLS_arguments[1]->integer.value >= TLS_arguments[0]->integer.value) {
 	{
-	  NODE *result__node = (NODE *)(create__builtin_types___positive_integer(TLS_arguments[0]->integer.value+TLS_arguments[1]->integer.value));
+	  NODE *result__node = (NODE *)(create__builtin_types__positive_integer(TLS_arguments[0]->integer.value+TLS_arguments[1]->integer.value));
 	  TLS_arguments[0] = result__node;
 	  TLS_argument_count = 1;
 	  return;
 	}
       }
-    } else if ((TLS_arguments[1])->type == builtin_types___negative_integer.type) {
+    } else if ((TLS_arguments[1])->type == builtin_types__negative_integer.type) {
       if (TLS_arguments[0]->integer.value >= TLS_arguments[1]->integer.value) {
 	{
-	  NODE *result__node = (NODE *)(create__builtin_types___positive_integer(TLS_arguments[0]->integer.value-TLS_arguments[1]->integer.value));
+	  NODE *result__node = (NODE *)(create__builtin_types__positive_integer(TLS_arguments[0]->integer.value-TLS_arguments[1]->integer.value));
 	  TLS_arguments[0] = result__node;
 	  TLS_argument_count = 1;
 	  return;
@@ -19528,9 +19528,9 @@ static void entry__builtin_types___positive_integer___std___plus (void)
 	  return;
 	}
       }
-    } else if ((TLS_arguments[1])->type == std_types___real.type) {
+    } else if ((TLS_arguments[1])->type == std_types__real.type) {
       {
-        NODE *result__node = (NODE *)(create__std_types___real(TLS_arguments[0]->integer.value+TLS_arguments[1]->real.value));
+        NODE *result__node = (NODE *)(create__std_types__real(TLS_arguments[0]->integer.value+TLS_arguments[1]->real.value));
         TLS_arguments[0] = result__node;
         TLS_argument_count = 1;
         return;
@@ -19542,7 +19542,7 @@ static void entry__builtin_types___positive_integer___std___plus (void)
     }
   }
 
-static void entry__builtin_types___negative_integer___std___plus (void)
+static void entry__builtin_types__negative_integer__std__plus (void)
   {
     if (TLS_argument_count != 2) {
       invalid_arguments();
@@ -19552,7 +19552,7 @@ static void entry__builtin_types___negative_integer___std___plus (void)
       result_count_mismatch();
       return;
     }
-    if ((TLS_arguments[1])->type == builtin_types___negative_integer.type) {
+    if ((TLS_arguments[1])->type == builtin_types__negative_integer.type) {
       if (
 	TLS_arguments[0]->integer.value+TLS_arguments[1]->integer.value >=
 	TLS_arguments[0]->integer.value
@@ -19565,7 +19565,7 @@ static void entry__builtin_types___negative_integer___std___plus (void)
 	  return;
 	}
       }
-    } else if ((TLS_arguments[1])->type == builtin_types___positive_integer.type) {
+    } else if ((TLS_arguments[1])->type == builtin_types__positive_integer.type) {
       if (TLS_arguments[0]->integer.value > TLS_arguments[1]->integer.value) {
 	{
 	  NODE *result__node = (NODE *)(create_negative_integer(
@@ -19576,15 +19576,15 @@ static void entry__builtin_types___negative_integer___std___plus (void)
 	}
       } else {
 	{
-	  NODE *result__node = (NODE *)(create__builtin_types___positive_integer(TLS_arguments[1]->integer.value-TLS_arguments[0]->integer.value));
+	  NODE *result__node = (NODE *)(create__builtin_types__positive_integer(TLS_arguments[1]->integer.value-TLS_arguments[0]->integer.value));
 	  TLS_arguments[0] = result__node;
 	  TLS_argument_count = 1;
 	  return;
 	}
       }
-    } else if ((TLS_arguments[1])->type == std_types___real.type) {
+    } else if ((TLS_arguments[1])->type == std_types__real.type) {
       {
-        NODE *result__node = (NODE *)(create__std_types___real(TLS_arguments[1]->real.value-TLS_arguments[0]->integer.value));
+        NODE *result__node = (NODE *)(create__std_types__real(TLS_arguments[1]->real.value-TLS_arguments[0]->integer.value));
         TLS_arguments[0] = result__node;
         TLS_argument_count = 1;
         return;
@@ -19596,7 +19596,7 @@ static void entry__builtin_types___negative_integer___std___plus (void)
     }
   }
 
-static void entry__std_types___real___std___plus (void)
+static void entry__std_types__real__std__plus (void)
   {
     if (TLS_argument_count != 2) {
       invalid_arguments();
@@ -19606,23 +19606,23 @@ static void entry__std_types___real___std___plus (void)
       result_count_mismatch();
       return;
     }
-    if ((TLS_arguments[1])->type == std_types___real.type) {
+    if ((TLS_arguments[1])->type == std_types__real.type) {
       {
-        NODE *result__node = (NODE *)(create__std_types___real(TLS_arguments[0]->real.value+TLS_arguments[1]->real.value));
+        NODE *result__node = (NODE *)(create__std_types__real(TLS_arguments[0]->real.value+TLS_arguments[1]->real.value));
         TLS_arguments[0] = result__node;
         TLS_argument_count = 1;
         return;
       }
-    } else if ((TLS_arguments[1])->type == builtin_types___positive_integer.type) {
+    } else if ((TLS_arguments[1])->type == builtin_types__positive_integer.type) {
       {
-        NODE *result__node = (NODE *)(create__std_types___real(TLS_arguments[0]->real.value+TLS_arguments[1]->integer.value));
+        NODE *result__node = (NODE *)(create__std_types__real(TLS_arguments[0]->real.value+TLS_arguments[1]->integer.value));
         TLS_arguments[0] = result__node;
         TLS_argument_count = 1;
         return;
       }
-    } else if ((TLS_arguments[1])->type == builtin_types___negative_integer.type) {
+    } else if ((TLS_arguments[1])->type == builtin_types__negative_integer.type) {
       {
-        NODE *result__node = (NODE *)(create__std_types___real(TLS_arguments[0]->real.value-TLS_arguments[1]->integer.value));
+        NODE *result__node = (NODE *)(create__std_types__real(TLS_arguments[0]->real.value-TLS_arguments[1]->integer.value));
         TLS_arguments[0] = result__node;
         TLS_argument_count = 1;
         return;
@@ -19634,7 +19634,7 @@ static void entry__std_types___real___std___plus (void)
     }
   }
 
-static void entry__builtin_types___positive_integer___std___minus (void)
+static void entry__builtin_types__positive_integer__std__minus (void)
   {
     if (TLS_argument_count != 2) {
       invalid_arguments();
@@ -19644,10 +19644,10 @@ static void entry__builtin_types___positive_integer___std___minus (void)
       result_count_mismatch();
       return;
     }
-    if ((TLS_arguments[1])->type == builtin_types___positive_integer.type) {
+    if ((TLS_arguments[1])->type == builtin_types__positive_integer.type) {
       if (TLS_arguments[0]->integer.value >= TLS_arguments[1]->integer.value) {
 	{
-	  NODE *result__node = (NODE *)(create__builtin_types___positive_integer(TLS_arguments[0]->integer.value-TLS_arguments[1]->integer.value));
+	  NODE *result__node = (NODE *)(create__builtin_types__positive_integer(TLS_arguments[0]->integer.value-TLS_arguments[1]->integer.value));
 	  TLS_arguments[0] = result__node;
 	  TLS_argument_count = 1;
 	  return;
@@ -19661,18 +19661,18 @@ static void entry__builtin_types___positive_integer___std___minus (void)
 	  return;
 	}
       }
-    } else if ((TLS_arguments[1])->type == builtin_types___negative_integer.type) {
+    } else if ((TLS_arguments[1])->type == builtin_types__negative_integer.type) {
       if (TLS_arguments[0]->integer.value+TLS_arguments[1]->integer.value >= TLS_arguments[0]->integer.value) {
 	{
-	  NODE *result__node = (NODE *)(create__builtin_types___positive_integer(TLS_arguments[0]->integer.value+TLS_arguments[1]->integer.value));
+	  NODE *result__node = (NODE *)(create__builtin_types__positive_integer(TLS_arguments[0]->integer.value+TLS_arguments[1]->integer.value));
 	  TLS_arguments[0] = result__node;
 	  TLS_argument_count = 1;
 	  return;
 	}
       }
-    } else if ((TLS_arguments[1])->type == std_types___real.type) {
+    } else if ((TLS_arguments[1])->type == std_types__real.type) {
       {
-        NODE *result__node = (NODE *)(create__std_types___real(TLS_arguments[0]->integer.value-TLS_arguments[1]->real.value));
+        NODE *result__node = (NODE *)(create__std_types__real(TLS_arguments[0]->integer.value-TLS_arguments[1]->real.value));
         TLS_arguments[0] = result__node;
         TLS_argument_count = 1;
         return;
@@ -19684,7 +19684,7 @@ static void entry__builtin_types___positive_integer___std___minus (void)
     }
   }
 
-static void entry__builtin_types___negative_integer___std___minus (void)
+static void entry__builtin_types__negative_integer__std__minus (void)
   {
     if (TLS_argument_count != 2) {
       invalid_arguments();
@@ -19694,7 +19694,7 @@ static void entry__builtin_types___negative_integer___std___minus (void)
       result_count_mismatch();
       return;
     }
-    if ((TLS_arguments[1])->type == builtin_types___negative_integer.type) {
+    if ((TLS_arguments[1])->type == builtin_types__negative_integer.type) {
       if (TLS_arguments[0]->integer.value > TLS_arguments[1]->integer.value) {
 	{
 	  NODE *result__node = (NODE *)(create_negative_integer(
@@ -19705,13 +19705,13 @@ static void entry__builtin_types___negative_integer___std___minus (void)
 	}
       } else {
 	{
-	  NODE *result__node = (NODE *)(create__builtin_types___positive_integer(TLS_arguments[1]->integer.value-TLS_arguments[0]->integer.value));
+	  NODE *result__node = (NODE *)(create__builtin_types__positive_integer(TLS_arguments[1]->integer.value-TLS_arguments[0]->integer.value));
 	  TLS_arguments[0] = result__node;
 	  TLS_argument_count = 1;
 	  return;
 	}
       }
-    } else if ((TLS_arguments[1])->type == builtin_types___positive_integer.type) {
+    } else if ((TLS_arguments[1])->type == builtin_types__positive_integer.type) {
       if (
 	TLS_arguments[0]->integer.value+TLS_arguments[1]->integer.value >=
 	TLS_arguments[0]->integer.value
@@ -19724,9 +19724,9 @@ static void entry__builtin_types___negative_integer___std___minus (void)
 	  return;
 	}
       }
-    } else if ((TLS_arguments[1])->type == std_types___real.type) {
+    } else if ((TLS_arguments[1])->type == std_types__real.type) {
       {
-        NODE *result__node = (NODE *)(create__std_types___real(-(TLS_arguments[0]->integer.value+TLS_arguments[1]->real.value)));
+        NODE *result__node = (NODE *)(create__std_types__real(-(TLS_arguments[0]->integer.value+TLS_arguments[1]->real.value)));
         TLS_arguments[0] = result__node;
         TLS_argument_count = 1;
         return;
@@ -19738,7 +19738,7 @@ static void entry__builtin_types___negative_integer___std___minus (void)
     }
   }
 
-static void entry__std_types___real___std___minus (void)
+static void entry__std_types__real__std__minus (void)
   {
     if (TLS_argument_count != 2) {
       invalid_arguments();
@@ -19748,23 +19748,23 @@ static void entry__std_types___real___std___minus (void)
       result_count_mismatch();
       return;
     }
-    if ((TLS_arguments[1])->type == std_types___real.type) {
+    if ((TLS_arguments[1])->type == std_types__real.type) {
       {
-        NODE *result__node = (NODE *)(create__std_types___real(TLS_arguments[0]->real.value-TLS_arguments[1]->real.value));
+        NODE *result__node = (NODE *)(create__std_types__real(TLS_arguments[0]->real.value-TLS_arguments[1]->real.value));
         TLS_arguments[0] = result__node;
         TLS_argument_count = 1;
         return;
       }
-    } else if ((TLS_arguments[1])->type == builtin_types___positive_integer.type) {
+    } else if ((TLS_arguments[1])->type == builtin_types__positive_integer.type) {
       {
-        NODE *result__node = (NODE *)(create__std_types___real(TLS_arguments[0]->real.value-TLS_arguments[1]->integer.value));
+        NODE *result__node = (NODE *)(create__std_types__real(TLS_arguments[0]->real.value-TLS_arguments[1]->integer.value));
         TLS_arguments[0] = result__node;
         TLS_argument_count = 1;
         return;
       }
-    } else if ((TLS_arguments[1])->type == builtin_types___negative_integer.type) {
+    } else if ((TLS_arguments[1])->type == builtin_types__negative_integer.type) {
       {
-        NODE *result__node = (NODE *)(create__std_types___real(TLS_arguments[0]->real.value+TLS_arguments[1]->integer.value));
+        NODE *result__node = (NODE *)(create__std_types__real(TLS_arguments[0]->real.value+TLS_arguments[1]->integer.value));
         TLS_arguments[0] = result__node;
         TLS_argument_count = 1;
         return;
@@ -19776,7 +19776,7 @@ static void entry__std_types___real___std___minus (void)
     }
   }
 
-static void entry__std_types___real___std___times (void)
+static void entry__std_types__real__std__times (void)
   {
     if (TLS_argument_count != 2) {
       invalid_arguments();
@@ -19786,23 +19786,23 @@ static void entry__std_types___real___std___times (void)
       result_count_mismatch();
       return;
     }
-    if ((TLS_arguments[1])->type == std_types___real.type) {
+    if ((TLS_arguments[1])->type == std_types__real.type) {
       {
-        NODE *result__node = (NODE *)(create__std_types___real(TLS_arguments[0]->real.value*TLS_arguments[1]->real.value));
+        NODE *result__node = (NODE *)(create__std_types__real(TLS_arguments[0]->real.value*TLS_arguments[1]->real.value));
         TLS_arguments[0] = result__node;
         TLS_argument_count = 1;
         return;
       }
-    } else if ((TLS_arguments[1])->type == builtin_types___positive_integer.type) {
+    } else if ((TLS_arguments[1])->type == builtin_types__positive_integer.type) {
       {
-        NODE *result__node = (NODE *)(create__std_types___real(TLS_arguments[0]->real.value*TLS_arguments[1]->integer.value));
+        NODE *result__node = (NODE *)(create__std_types__real(TLS_arguments[0]->real.value*TLS_arguments[1]->integer.value));
         TLS_arguments[0] = result__node;
         TLS_argument_count = 1;
         return;
       }
-    } else if ((TLS_arguments[1])->type == builtin_types___negative_integer.type) {
+    } else if ((TLS_arguments[1])->type == builtin_types__negative_integer.type) {
       {
-        NODE *result__node = (NODE *)(create__std_types___real(-(TLS_arguments[0]->real.value*TLS_arguments[1]->integer.value)));
+        NODE *result__node = (NODE *)(create__std_types__real(-(TLS_arguments[0]->real.value*TLS_arguments[1]->integer.value)));
         TLS_arguments[0] = result__node;
         TLS_argument_count = 1;
         return;
@@ -19814,7 +19814,7 @@ static void entry__std_types___real___std___times (void)
     }
   }
 
-static void entry__std_types___real___std___over (void)
+static void entry__std_types__real__std__over (void)
   {
     if (TLS_argument_count != 2) {
       invalid_arguments();
@@ -19824,31 +19824,31 @@ static void entry__std_types___real___std___over (void)
       result_count_mismatch();
       return;
     }
-    if ((TLS_arguments[1])->type == std_types___real.type) {
+    if ((TLS_arguments[1])->type == std_types__real.type) {
       if (TLS_arguments[1]->real.value == 0.0) {
         divide_by_zero();
         return;
       }
       {
-        NODE *result__node = (NODE *)(create__std_types___real(TLS_arguments[0]->real.value/TLS_arguments[1]->real.value));
+        NODE *result__node = (NODE *)(create__std_types__real(TLS_arguments[0]->real.value/TLS_arguments[1]->real.value));
         TLS_arguments[0] = result__node;
         TLS_argument_count = 1;
         return;
       }
-    } else if ((TLS_arguments[1])->type == builtin_types___positive_integer.type) {
+    } else if ((TLS_arguments[1])->type == builtin_types__positive_integer.type) {
       if (TLS_arguments[1]->integer.value == 0) {
         divide_by_zero();
         return;
       }
       {
-        NODE *result__node = (NODE *)(create__std_types___real(TLS_arguments[0]->real.value/TLS_arguments[1]->integer.value));
+        NODE *result__node = (NODE *)(create__std_types__real(TLS_arguments[0]->real.value/TLS_arguments[1]->integer.value));
         TLS_arguments[0] = result__node;
         TLS_argument_count = 1;
         return;
       }
-    } else if ((TLS_arguments[1])->type == builtin_types___negative_integer.type) {
+    } else if ((TLS_arguments[1])->type == builtin_types__negative_integer.type) {
       {
-        NODE *result__node = (NODE *)(create__std_types___real(-(TLS_arguments[0]->real.value/TLS_arguments[1]->integer.value)));
+        NODE *result__node = (NODE *)(create__std_types__real(-(TLS_arguments[0]->real.value/TLS_arguments[1]->integer.value)));
         TLS_arguments[0] = result__node;
         TLS_argument_count = 1;
         return;
@@ -19860,7 +19860,7 @@ static void entry__std_types___real___std___over (void)
     }
   }
 
-static void entry__builtin_types___positive_integer___std___equal (void)
+static void entry__builtin_types__positive_integer__std__equal (void)
   {
     if (TLS_argument_count != 2) {
       invalid_arguments();
@@ -19870,28 +19870,28 @@ static void entry__builtin_types___positive_integer___std___equal (void)
       result_count_mismatch();
       return;
     }
-    if ((TLS_arguments[1])->type == builtin_types___positive_integer.type) {
+    if ((TLS_arguments[1])->type == builtin_types__positive_integer.type) {
       {
         NODE *result__node = (NODE *)(from_bool(TLS_arguments[0]->integer.value == TLS_arguments[1]->integer.value));
         TLS_arguments[0] = result__node;
         TLS_argument_count = 1;
         return;
       }
-    } else if ((TLS_arguments[1])->type == std_types___real.type) {
+    } else if ((TLS_arguments[1])->type == std_types__real.type) {
       {
         NODE *result__node = (NODE *)(from_bool(TLS_arguments[0]->integer.value == TLS_arguments[1]->real.value));
         TLS_arguments[0] = result__node;
         TLS_argument_count = 1;
         return;
       }
-    } else if ((TLS_arguments[1])->type == std_types___error.type) {
+    } else if ((TLS_arguments[1])->type == std_types__error.type) {
       {
         invalid_arguments();
         return;
       }
     } else {
       {
-        NODE *result__node = (NODE *)(&std_types___false);
+        NODE *result__node = (NODE *)(&std_types__false);
         TLS_arguments[0] = result__node;
         TLS_argument_count = 1;
         return;
@@ -19899,7 +19899,7 @@ static void entry__builtin_types___positive_integer___std___equal (void)
     }
   }
 
-static void entry__builtin_types___negative_integer___std___equal (void)
+static void entry__builtin_types__negative_integer__std__equal (void)
   {
     if (TLS_argument_count != 2) {
       invalid_arguments();
@@ -19909,28 +19909,28 @@ static void entry__builtin_types___negative_integer___std___equal (void)
       result_count_mismatch();
       return;
     }
-    if ((TLS_arguments[1])->type == builtin_types___negative_integer.type) {
+    if ((TLS_arguments[1])->type == builtin_types__negative_integer.type) {
       {
         NODE *result__node = (NODE *)(from_bool(TLS_arguments[0]->integer.value == TLS_arguments[1]->integer.value));
         TLS_arguments[0] = result__node;
         TLS_argument_count = 1;
         return;
       }
-    } else if ((TLS_arguments[1])->type == std_types___real.type) {
+    } else if ((TLS_arguments[1])->type == std_types__real.type) {
       {
         NODE *result__node = (NODE *)(from_bool(TLS_arguments[0]->integer.value == -TLS_arguments[1]->real.value));
         TLS_arguments[0] = result__node;
         TLS_argument_count = 1;
         return;
       }
-    } else if ((TLS_arguments[1])->type == std_types___error.type) {
+    } else if ((TLS_arguments[1])->type == std_types__error.type) {
       {
         invalid_arguments();
         return;
       }
     } else {
       {
-        NODE *result__node = (NODE *)(&std_types___false);
+        NODE *result__node = (NODE *)(&std_types__false);
         TLS_arguments[0] = result__node;
         TLS_argument_count = 1;
         return;
@@ -19938,7 +19938,7 @@ static void entry__builtin_types___negative_integer___std___equal (void)
     }
   }
 
-static void entry__std_types___real___std___equal (void)
+static void entry__std_types__real__std__equal (void)
   {
     if (TLS_argument_count != 2) {
       invalid_arguments();
@@ -19948,35 +19948,35 @@ static void entry__std_types___real___std___equal (void)
       result_count_mismatch();
       return;
     }
-    if ((TLS_arguments[1])->type == std_types___real.type) {
+    if ((TLS_arguments[1])->type == std_types__real.type) {
       {
         NODE *result__node = (NODE *)(from_bool(TLS_arguments[0]->real.value == TLS_arguments[1]->real.value));
         TLS_arguments[0] = result__node;
         TLS_argument_count = 1;
         return;
       }
-    } else if ((TLS_arguments[1])->type == builtin_types___positive_integer.type) {
+    } else if ((TLS_arguments[1])->type == builtin_types__positive_integer.type) {
       {
         NODE *result__node = (NODE *)(from_bool(TLS_arguments[0]->real.value == TLS_arguments[1]->integer.value));
         TLS_arguments[0] = result__node;
         TLS_argument_count = 1;
         return;
       }
-    } else if ((TLS_arguments[1])->type == builtin_types___negative_integer.type) {
+    } else if ((TLS_arguments[1])->type == builtin_types__negative_integer.type) {
       {
         NODE *result__node = (NODE *)(from_bool(-TLS_arguments[0]->real.value == TLS_arguments[1]->integer.value));
         TLS_arguments[0] = result__node;
         TLS_argument_count = 1;
         return;
       }
-    } else if ((TLS_arguments[1])->type == std_types___error.type) {
+    } else if ((TLS_arguments[1])->type == std_types__error.type) {
       {
         invalid_arguments();
         return;
       }
     } else {
       {
-        NODE *result__node = (NODE *)(&std_types___false);
+        NODE *result__node = (NODE *)(&std_types__false);
         TLS_arguments[0] = result__node;
         TLS_argument_count = 1;
         return;
@@ -19984,7 +19984,7 @@ static void entry__std_types___real___std___equal (void)
     }
   }
 
-static void entry__builtin_types___positive_integer___std___less (void)
+static void entry__builtin_types__positive_integer__std__less (void)
   {
     if (TLS_argument_count != 2) {
       invalid_arguments();
@@ -19994,21 +19994,21 @@ static void entry__builtin_types___positive_integer___std___less (void)
       result_count_mismatch();
       return;
     }
-    if ((TLS_arguments[1])->type == builtin_types___positive_integer.type) {
+    if ((TLS_arguments[1])->type == builtin_types__positive_integer.type) {
       {
         NODE *result__node = (NODE *)(from_bool(TLS_arguments[0]->integer.value < TLS_arguments[1]->integer.value));
         TLS_arguments[0] = result__node;
         TLS_argument_count = 1;
         return;
       }
-    } else if ((TLS_arguments[1])->type == builtin_types___negative_integer.type) {
+    } else if ((TLS_arguments[1])->type == builtin_types__negative_integer.type) {
       {
-        NODE *result__node = (NODE *)(&std_types___false);
+        NODE *result__node = (NODE *)(&std_types__false);
         TLS_arguments[0] = result__node;
         TLS_argument_count = 1;
         return;
       }
-    } else if ((TLS_arguments[1])->type == std_types___real.type) {
+    } else if ((TLS_arguments[1])->type == std_types__real.type) {
       {
         NODE *result__node = (NODE *)(from_bool(TLS_arguments[0]->integer.value < TLS_arguments[1]->real.value));
         TLS_arguments[0] = result__node;
@@ -20022,7 +20022,7 @@ static void entry__builtin_types___positive_integer___std___less (void)
     }
   }
 
-static void entry__builtin_types___negative_integer___std___less (void)
+static void entry__builtin_types__negative_integer__std__less (void)
   {
     if (TLS_argument_count != 2) {
       invalid_arguments();
@@ -20032,21 +20032,21 @@ static void entry__builtin_types___negative_integer___std___less (void)
       result_count_mismatch();
       return;
     }
-    if ((TLS_arguments[1])->type == builtin_types___negative_integer.type) {
+    if ((TLS_arguments[1])->type == builtin_types__negative_integer.type) {
       {
         NODE *result__node = (NODE *)(from_bool(TLS_arguments[0]->integer.value > TLS_arguments[1]->integer.value));
         TLS_arguments[0] = result__node;
         TLS_argument_count = 1;
         return;
       }
-    } else if ((TLS_arguments[1])->type == builtin_types___positive_integer.type) {
+    } else if ((TLS_arguments[1])->type == builtin_types__positive_integer.type) {
       {
-        NODE *result__node = (NODE *)(&std_types___true);
+        NODE *result__node = (NODE *)(&std_types__true);
         TLS_arguments[0] = result__node;
         TLS_argument_count = 1;
         return;
       }
-    } else if ((TLS_arguments[1])->type == std_types___real.type) {
+    } else if ((TLS_arguments[1])->type == std_types__real.type) {
       {
         NODE *result__node = (NODE *)(from_bool(TLS_arguments[0]->integer.value > -TLS_arguments[1]->real.value));
         TLS_arguments[0] = result__node;
@@ -20060,7 +20060,7 @@ static void entry__builtin_types___negative_integer___std___less (void)
     }
   }
 
-static void entry__std_types___real___std___less (void)
+static void entry__std_types__real__std__less (void)
   {
     if (TLS_argument_count != 2) {
       invalid_arguments();
@@ -20070,21 +20070,21 @@ static void entry__std_types___real___std___less (void)
       result_count_mismatch();
       return;
     }
-    if ((TLS_arguments[1])->type == std_types___real.type) {
+    if ((TLS_arguments[1])->type == std_types__real.type) {
       {
         NODE *result__node = (NODE *)(from_bool(TLS_arguments[0]->real.value < TLS_arguments[1]->real.value));
         TLS_arguments[0] = result__node;
         TLS_argument_count = 1;
         return;
       }
-    } else if ((TLS_arguments[1])->type == builtin_types___positive_integer.type) {
+    } else if ((TLS_arguments[1])->type == builtin_types__positive_integer.type) {
       {
         NODE *result__node = (NODE *)(from_bool(TLS_arguments[0]->real.value < TLS_arguments[1]->integer.value));
         TLS_arguments[0] = result__node;
         TLS_argument_count = 1;
         return;
       }
-    } else if ((TLS_arguments[1])->type == builtin_types___negative_integer.type) {
+    } else if ((TLS_arguments[1])->type == builtin_types__negative_integer.type) {
       {
         NODE *result__node = (NODE *)(from_bool(-TLS_arguments[0]->real.value > TLS_arguments[1]->integer.value));
         TLS_arguments[0] = result__node;
@@ -20098,7 +20098,7 @@ static void entry__std_types___real___std___less (void)
     }
   }
 
-static void entry__builtin_types___positive_integer___std___shift_left (void)
+static void entry__builtin_types__positive_integer__std__shift_left (void)
   {
     if (TLS_argument_count != 2) {
       invalid_arguments();
@@ -20108,9 +20108,9 @@ static void entry__builtin_types___positive_integer___std___shift_left (void)
       result_count_mismatch();
       return;
     }
-    if ((TLS_arguments[1])->type == builtin_types___positive_integer.type) {
+    if ((TLS_arguments[1])->type == builtin_types__positive_integer.type) {
       {
-        NODE *result__node = (NODE *)(create__builtin_types___positive_integer(TLS_arguments[0]->integer.value << TLS_arguments[1]->integer.value));
+        NODE *result__node = (NODE *)(create__builtin_types__positive_integer(TLS_arguments[0]->integer.value << TLS_arguments[1]->integer.value));
         TLS_arguments[0] = result__node;
         TLS_argument_count = 1;
         return;
@@ -20122,7 +20122,7 @@ static void entry__builtin_types___positive_integer___std___shift_left (void)
     }
   }
 
-static void entry__builtin_types___positive_integer___std___shift_right (void)
+static void entry__builtin_types__positive_integer__std__shift_right (void)
   {
     if (TLS_argument_count != 2) {
       invalid_arguments();
@@ -20132,9 +20132,9 @@ static void entry__builtin_types___positive_integer___std___shift_right (void)
       result_count_mismatch();
       return;
     }
-    if ((TLS_arguments[1])->type == builtin_types___positive_integer.type) {
+    if ((TLS_arguments[1])->type == builtin_types__positive_integer.type) {
       {
-        NODE *result__node = (NODE *)(create__builtin_types___positive_integer(TLS_arguments[0]->integer.value >> TLS_arguments[1]->integer.value));
+        NODE *result__node = (NODE *)(create__builtin_types__positive_integer(TLS_arguments[0]->integer.value >> TLS_arguments[1]->integer.value));
         TLS_arguments[0] = result__node;
         TLS_argument_count = 1;
         return;
@@ -20146,7 +20146,7 @@ static void entry__builtin_types___positive_integer___std___shift_right (void)
     }
   }
 
-static void entry__builtin_types___positive_integer___std___bit_and (void)
+static void entry__builtin_types__positive_integer__std__bit_and (void)
   {
     if (TLS_argument_count != 2) {
       invalid_arguments();
@@ -20156,9 +20156,9 @@ static void entry__builtin_types___positive_integer___std___bit_and (void)
       result_count_mismatch();
       return;
     }
-    if ((TLS_arguments[1])->type == builtin_types___positive_integer.type) {
+    if ((TLS_arguments[1])->type == builtin_types__positive_integer.type) {
       {
-        NODE *result__node = (NODE *)(create__builtin_types___positive_integer(TLS_arguments[0]->integer.value & TLS_arguments[1]->integer.value));
+        NODE *result__node = (NODE *)(create__builtin_types__positive_integer(TLS_arguments[0]->integer.value & TLS_arguments[1]->integer.value));
         TLS_arguments[0] = result__node;
         TLS_argument_count = 1;
         return;
@@ -20170,7 +20170,7 @@ static void entry__builtin_types___positive_integer___std___bit_and (void)
     }
   }
 
-static void entry__builtin_types___positive_integer___std___bit_or (void)
+static void entry__builtin_types__positive_integer__std__bit_or (void)
   {
     if (TLS_argument_count != 2) {
       invalid_arguments();
@@ -20180,9 +20180,9 @@ static void entry__builtin_types___positive_integer___std___bit_or (void)
       result_count_mismatch();
       return;
     }
-    if ((TLS_arguments[1])->type == builtin_types___positive_integer.type) {
+    if ((TLS_arguments[1])->type == builtin_types__positive_integer.type) {
       {
-        NODE *result__node = (NODE *)(create__builtin_types___positive_integer(TLS_arguments[0]->integer.value | TLS_arguments[1]->integer.value));
+        NODE *result__node = (NODE *)(create__builtin_types__positive_integer(TLS_arguments[0]->integer.value | TLS_arguments[1]->integer.value));
         TLS_arguments[0] = result__node;
         TLS_argument_count = 1;
         return;
@@ -20194,7 +20194,7 @@ static void entry__builtin_types___positive_integer___std___bit_or (void)
     }
   }
 
-static void entry__builtin_types___positive_integer___std___bit_xor (void)
+static void entry__builtin_types__positive_integer__std__bit_xor (void)
   {
     if (TLS_argument_count != 2) {
       invalid_arguments();
@@ -20204,9 +20204,9 @@ static void entry__builtin_types___positive_integer___std___bit_xor (void)
       result_count_mismatch();
       return;
     }
-    if ((TLS_arguments[1])->type == builtin_types___positive_integer.type) {
+    if ((TLS_arguments[1])->type == builtin_types__positive_integer.type) {
       {
-        NODE *result__node = (NODE *)(create__builtin_types___positive_integer(TLS_arguments[0]->integer.value ^ TLS_arguments[1]->integer.value));
+        NODE *result__node = (NODE *)(create__builtin_types__positive_integer(TLS_arguments[0]->integer.value ^ TLS_arguments[1]->integer.value));
         TLS_arguments[0] = result__node;
         TLS_argument_count = 1;
         return;
@@ -20218,7 +20218,7 @@ static void entry__builtin_types___positive_integer___std___bit_xor (void)
     }
   }
 
-static void entry__std___sin (void)
+static void entry__std__sin (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -20227,14 +20227,14 @@ static void entry__std___sin (void)
     double arg;
     if (!to_double(TLS_arguments[0], &arg)) return;
     {
-      NODE *result__node = (NODE *)(create__std_types___real(sin(arg)));
+      NODE *result__node = (NODE *)(create__std_types__real(sin(arg)));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
   }
 
-static void entry__std___cos (void)
+static void entry__std__cos (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -20243,14 +20243,14 @@ static void entry__std___cos (void)
     double arg;
     if (!to_double(TLS_arguments[0], &arg)) return;
     {
-      NODE *result__node = (NODE *)(create__std_types___real(cos(arg)));
+      NODE *result__node = (NODE *)(create__std_types__real(cos(arg)));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
   }
 
-static void entry__std___tan (void)
+static void entry__std__tan (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -20259,14 +20259,14 @@ static void entry__std___tan (void)
     double arg;
     if (!to_double(TLS_arguments[0], &arg)) return;
     {
-      NODE *result__node = (NODE *)(create__std_types___real(tan(arg)));
+      NODE *result__node = (NODE *)(create__std_types__real(tan(arg)));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
   }
 
-static void entry__std___asin (void)
+static void entry__std__asin (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -20275,14 +20275,14 @@ static void entry__std___asin (void)
     double arg;
     if (!to_double(TLS_arguments[0], &arg)) return;
     {
-      NODE *result__node = (NODE *)(create__std_types___real(asin(arg)));
+      NODE *result__node = (NODE *)(create__std_types__real(asin(arg)));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
   }
 
-static void entry__std___acos (void)
+static void entry__std__acos (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -20291,14 +20291,14 @@ static void entry__std___acos (void)
     double arg;
     if (!to_double(TLS_arguments[0], &arg)) return;
     {
-      NODE *result__node = (NODE *)(create__std_types___real(acos(arg)));
+      NODE *result__node = (NODE *)(create__std_types__real(acos(arg)));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
   }
 
-static void entry__std___atan (void)
+static void entry__std__atan (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -20307,14 +20307,14 @@ static void entry__std___atan (void)
     double arg;
     if (!to_double(TLS_arguments[0], &arg)) return;
     {
-      NODE *result__node = (NODE *)(create__std_types___real(atan(arg)));
+      NODE *result__node = (NODE *)(create__std_types__real(atan(arg)));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
   }
 
-static void entry__debug___object_type (void)
+static void entry__debug__object_type (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -20352,7 +20352,7 @@ static void entry__debug___object_type (void)
     }
   }
 
-static void entry__debug___object_attributes (void)
+static void entry__debug__object_attributes (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -20395,7 +20395,7 @@ static void entry__debug___object_attributes (void)
       }
     }
     {
-      NODE *result__node = (NODE *)(create__std_types___list(0, n, data));
+      NODE *result__node = (NODE *)(create__std_types__list(0, n, data));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -20406,7 +20406,7 @@ static void entry__debug___object_attributes (void)
     }
   }
 
-static void entry__std_types___object___std___new (void)
+static void entry__std_types__object__std__new (void)
   {
     if (TLS_argument_count != 2) {
       invalid_arguments();
@@ -20415,8 +20415,8 @@ static void entry__std_types___object___std___new (void)
     NODE *to = TLS_arguments[0];
     NODE *from = TLS_arguments[1];
     if (
-      from->type == std_types___undefined.type ||
-      from->type == std_types___error.type
+      from->type == std_types__undefined.type ||
+      from->type == std_types__error.type
     ) {
       NODE *result__node = (NODE *)(from);
       TLS_arguments[0] = result__node;
@@ -20425,7 +20425,7 @@ static void entry__std_types___object___std___new (void)
     }
     if (from->type != to->type) {
       create_error_message(
-        module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+        module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
         "TYPE MISMATCH", 0, 0, NULL);
       return;
     }
@@ -20467,13 +20467,13 @@ static void entry__std_types___object___std___new (void)
     }
   }
 
-static void entry__std_types___file_type___std___equal (void)
+static void entry__std_types__file_type__std__equal (void)
   {
     if (TLS_argument_count != 2) {
       invalid_arguments();
       return;
     }
-    if ((TLS_arguments[1])->type == std_types___file_type.type)
+    if ((TLS_arguments[1])->type == std_types__file_type.type)
       {
         NODE *result__node = (NODE *)(from_bool(
       	  TLS_arguments[0]->file_type.value ==
@@ -20483,14 +20483,14 @@ static void entry__std_types___file_type___std___equal (void)
         return;
       }
     {
-      NODE *result__node = (NODE *)(&std_types___false);
+      NODE *result__node = (NODE *)(&std_types__false);
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
   }
 
-static void entry__std_types___file_type___std___hash (void)
+static void entry__std_types__file_type__std__hash (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -20508,7 +20508,7 @@ static void entry__std_types___file_type___std___hash (void)
     };
   }
 
-static void entry__std___file_type (void)
+static void entry__std__file_type (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -20517,14 +20517,14 @@ static void entry__std___file_type (void)
     int value;
     if (!(to_int(TLS_arguments[0], &value))) return;
     {
-      NODE *result__node = (NODE *)(create__std_types___file_type(value));
+      NODE *result__node = (NODE *)(create__std_types__file_type(value));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
   }
 
-static void entry__std_types___file_type___std___to_integer (void)
+static void entry__std_types__file_type__std__to_integer (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -20539,13 +20539,13 @@ static void entry__std_types___file_type___std___to_integer (void)
     }
   }
 
-static void entry__std_types___file_descriptor___std___equal (void)
+static void entry__std_types__file_descriptor__std__equal (void)
   {
     if (TLS_argument_count != 2) {
       invalid_arguments();
       return;
     }
-    if ((TLS_arguments[1])->type == std_types___file_descriptor.type)
+    if ((TLS_arguments[1])->type == std_types__file_descriptor.type)
       {
         NODE *result__node = (NODE *)(from_bool(
       	  TLS_arguments[0]->file_descriptor.value ==
@@ -20555,14 +20555,14 @@ static void entry__std_types___file_descriptor___std___equal (void)
         return;
       }
     {
-      NODE *result__node = (NODE *)(&std_types___false);
+      NODE *result__node = (NODE *)(&std_types__false);
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
   }
 
-static void entry__std_types___file_descriptor___std___hash (void)
+static void entry__std_types__file_descriptor__std__hash (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -20580,7 +20580,7 @@ static void entry__std_types___file_descriptor___std___hash (void)
     };
   }
 
-static void entry__std___file_descriptor (void)
+static void entry__std__file_descriptor (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -20589,14 +20589,14 @@ static void entry__std___file_descriptor (void)
     int value;
     if (!(to_int(TLS_arguments[0], &value))) return;
     {
-      NODE *result__node = (NODE *)(create__std_types___file_descriptor(value));
+      NODE *result__node = (NODE *)(create__std_types__file_descriptor(value));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
   }
 
-static void entry__std_types___file_descriptor___std___to_integer (void)
+static void entry__std_types__file_descriptor__std__to_integer (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -20611,13 +20611,13 @@ static void entry__std_types___file_descriptor___std___to_integer (void)
     }
   }
 
-static void entry__std_types___signal_number___std___equal (void)
+static void entry__std_types__signal_number__std__equal (void)
   {
     if (TLS_argument_count != 2) {
       invalid_arguments();
       return;
     }
-    if ((TLS_arguments[1])->type == std_types___signal_number.type)
+    if ((TLS_arguments[1])->type == std_types__signal_number.type)
       {
         NODE *result__node = (NODE *)(from_bool(
       	  TLS_arguments[0]->signal_number.value ==
@@ -20627,14 +20627,14 @@ static void entry__std_types___signal_number___std___equal (void)
         return;
       }
     {
-      NODE *result__node = (NODE *)(&std_types___false);
+      NODE *result__node = (NODE *)(&std_types__false);
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
   }
 
-static void entry__std_types___signal_number___std___hash (void)
+static void entry__std_types__signal_number__std__hash (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -20652,7 +20652,7 @@ static void entry__std_types___signal_number___std___hash (void)
     };
   }
 
-static void entry__std___signal_number (void)
+static void entry__std__signal_number (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -20661,14 +20661,14 @@ static void entry__std___signal_number (void)
     int value;
     if (!(to_int(TLS_arguments[0], &value))) return;
     {
-      NODE *result__node = (NODE *)(create__std_types___signal_number(value));
+      NODE *result__node = (NODE *)(create__std_types__signal_number(value));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
   }
 
-static void entry__std_types___signal_number___std___to_integer (void)
+static void entry__std_types__signal_number__std__to_integer (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -20683,13 +20683,13 @@ static void entry__std_types___signal_number___std___to_integer (void)
     }
   }
 
-static void entry__std_types___shutdown_type___std___equal (void)
+static void entry__std_types__shutdown_type__std__equal (void)
   {
     if (TLS_argument_count != 2) {
       invalid_arguments();
       return;
     }
-    if ((TLS_arguments[1])->type == std_types___shutdown_type.type)
+    if ((TLS_arguments[1])->type == std_types__shutdown_type.type)
       {
         NODE *result__node = (NODE *)(from_bool(
       	  TLS_arguments[0]->shutdown_type.value ==
@@ -20699,14 +20699,14 @@ static void entry__std_types___shutdown_type___std___equal (void)
         return;
       }
     {
-      NODE *result__node = (NODE *)(&std_types___false);
+      NODE *result__node = (NODE *)(&std_types__false);
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
   }
 
-static void entry__std_types___shutdown_type___std___hash (void)
+static void entry__std_types__shutdown_type__std__hash (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -20724,7 +20724,7 @@ static void entry__std_types___shutdown_type___std___hash (void)
     };
   }
 
-static void entry__std___shutdown_type (void)
+static void entry__std__shutdown_type (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -20733,14 +20733,14 @@ static void entry__std___shutdown_type (void)
     int value;
     if (!(to_int(TLS_arguments[0], &value))) return;
     {
-      NODE *result__node = (NODE *)(create__std_types___shutdown_type(value));
+      NODE *result__node = (NODE *)(create__std_types__shutdown_type(value));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
   }
 
-static void entry__std_types___shutdown_type___std___to_integer (void)
+static void entry__std_types__shutdown_type__std__to_integer (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -20755,13 +20755,13 @@ static void entry__std_types___shutdown_type___std___to_integer (void)
     }
   }
 
-static void entry__std_types___seek_type___std___equal (void)
+static void entry__std_types__seek_type__std__equal (void)
   {
     if (TLS_argument_count != 2) {
       invalid_arguments();
       return;
     }
-    if ((TLS_arguments[1])->type == std_types___seek_type.type)
+    if ((TLS_arguments[1])->type == std_types__seek_type.type)
       {
         NODE *result__node = (NODE *)(from_bool(
       	  TLS_arguments[0]->seek_type.value == TLS_arguments[1]->seek_type.value));
@@ -20770,14 +20770,14 @@ static void entry__std_types___seek_type___std___equal (void)
         return;
       }
     {
-      NODE *result__node = (NODE *)(&std_types___false);
+      NODE *result__node = (NODE *)(&std_types__false);
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
   }
 
-static void entry__std_types___seek_type___std___hash (void)
+static void entry__std_types__seek_type__std__hash (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -20795,7 +20795,7 @@ static void entry__std_types___seek_type___std___hash (void)
     };
   }
 
-static void entry__std___seek_type (void)
+static void entry__std__seek_type (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -20804,14 +20804,14 @@ static void entry__std___seek_type (void)
     int value;
     if (!(to_int(TLS_arguments[0], &value))) return;
     {
-      NODE *result__node = (NODE *)(create__std_types___seek_type(value));
+      NODE *result__node = (NODE *)(create__std_types__seek_type(value));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
   }
 
-static void entry__std_types___seek_type___std___to_integer (void)
+static void entry__std_types__seek_type__std__to_integer (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -20826,13 +20826,13 @@ static void entry__std_types___seek_type___std___to_integer (void)
     }
   }
 
-static void entry__std_types___device_id___std___equal (void)
+static void entry__std_types__device_id__std__equal (void)
   {
     if (TLS_argument_count != 2) {
       invalid_arguments();
       return;
     }
-    if ((TLS_arguments[1])->type == std_types___device_id.type)
+    if ((TLS_arguments[1])->type == std_types__device_id.type)
       {
         NODE *result__node = (NODE *)(from_bool(
       	  TLS_arguments[0]->device_id.value ==
@@ -20842,14 +20842,14 @@ static void entry__std_types___device_id___std___equal (void)
         return;
       }
     {
-      NODE *result__node = (NODE *)(&std_types___false);
+      NODE *result__node = (NODE *)(&std_types__false);
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
   }
 
-static void entry__std_types___device_id___std___hash (void)
+static void entry__std_types__device_id__std__hash (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -20867,7 +20867,7 @@ static void entry__std_types___device_id___std___hash (void)
     };
   }
 
-static void entry__std___device_id (void)
+static void entry__std__device_id (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -20876,14 +20876,14 @@ static void entry__std___device_id (void)
     unsigned long value;
     if (!(to_ulong(TLS_arguments[0], &value))) return;
     {
-      NODE *result__node = (NODE *)(create__std_types___device_id(value));
+      NODE *result__node = (NODE *)(create__std_types__device_id(value));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
   }
 
-static void entry__std_types___device_id___std___to_integer (void)
+static void entry__std_types__device_id__std__to_integer (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -20898,13 +20898,13 @@ static void entry__std_types___device_id___std___to_integer (void)
     }
   }
 
-static void entry__std_types___directory___std___equal (void)
+static void entry__std_types__directory__std__equal (void)
   {
     if (TLS_argument_count != 2) {
       invalid_arguments();
       return;
     }
-    if ((TLS_arguments[1])->type == std_types___directory.type)
+    if ((TLS_arguments[1])->type == std_types__directory.type)
       {
         NODE *result__node = (NODE *)(from_bool(
       	  TLS_arguments[0]->directory.value ==
@@ -20914,14 +20914,14 @@ static void entry__std_types___directory___std___equal (void)
         return;
       }
     {
-      NODE *result__node = (NODE *)(&std_types___false);
+      NODE *result__node = (NODE *)(&std_types__false);
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
   }
 
-static void entry__std_types___directory___std___hash (void)
+static void entry__std_types__directory__std__hash (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -20939,13 +20939,13 @@ static void entry__std_types___directory___std___hash (void)
     };
   }
 
-static void entry__std_types___group_id___std___equal (void)
+static void entry__std_types__group_id__std__equal (void)
   {
     if (TLS_argument_count != 2) {
       invalid_arguments();
       return;
     }
-    if ((TLS_arguments[1])->type == std_types___group_id.type)
+    if ((TLS_arguments[1])->type == std_types__group_id.type)
       {
         NODE *result__node = (NODE *)(from_bool(
       	  TLS_arguments[0]->group_id.value ==
@@ -20955,14 +20955,14 @@ static void entry__std_types___group_id___std___equal (void)
         return;
       }
     {
-      NODE *result__node = (NODE *)(&std_types___false);
+      NODE *result__node = (NODE *)(&std_types__false);
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
   }
 
-static void entry__std_types___group_id___std___hash (void)
+static void entry__std_types__group_id__std__hash (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -20980,7 +20980,7 @@ static void entry__std_types___group_id___std___hash (void)
     };
   }
 
-static void entry__std___group_id (void)
+static void entry__std__group_id (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -20989,14 +20989,14 @@ static void entry__std___group_id (void)
     int value;
     if (!(to_int(TLS_arguments[0], &value))) return;
     {
-      NODE *result__node = (NODE *)(create__std_types___group_id(value));
+      NODE *result__node = (NODE *)(create__std_types__group_id(value));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
   }
 
-static void entry__std_types___group_id___std___to_integer (void)
+static void entry__std_types__group_id__std__to_integer (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -21011,13 +21011,13 @@ static void entry__std_types___group_id___std___to_integer (void)
     }
   }
 
-static void entry__std_types___inode_number___std___equal (void)
+static void entry__std_types__inode_number__std__equal (void)
   {
     if (TLS_argument_count != 2) {
       invalid_arguments();
       return;
     }
-    if ((TLS_arguments[1])->type == std_types___inode_number.type)
+    if ((TLS_arguments[1])->type == std_types__inode_number.type)
       {
         NODE *result__node = (NODE *)(from_bool(
       	  TLS_arguments[0]->inode_number.value ==
@@ -21027,14 +21027,14 @@ static void entry__std_types___inode_number___std___equal (void)
         return;
       }
     {
-      NODE *result__node = (NODE *)(&std_types___false);
+      NODE *result__node = (NODE *)(&std_types__false);
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
   }
 
-static void entry__std_types___inode_number___std___hash (void)
+static void entry__std_types__inode_number__std__hash (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -21052,7 +21052,7 @@ static void entry__std_types___inode_number___std___hash (void)
     };
   }
 
-static void entry__std___inode_number (void)
+static void entry__std__inode_number (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -21061,14 +21061,14 @@ static void entry__std___inode_number (void)
     unsigned long value;
     if (!(to_ulong(TLS_arguments[0], &value))) return;
     {
-      NODE *result__node = (NODE *)(create__std_types___inode_number(value));
+      NODE *result__node = (NODE *)(create__std_types__inode_number(value));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
   }
 
-static void entry__std_types___inode_number___std___to_integer (void)
+static void entry__std_types__inode_number__std__to_integer (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -21083,13 +21083,13 @@ static void entry__std_types___inode_number___std___to_integer (void)
     }
   }
 
-static void entry__std_types___process_id___std___equal (void)
+static void entry__std_types__process_id__std__equal (void)
   {
     if (TLS_argument_count != 2) {
       invalid_arguments();
       return;
     }
-    if ((TLS_arguments[1])->type == std_types___process_id.type)
+    if ((TLS_arguments[1])->type == std_types__process_id.type)
       {
         NODE *result__node = (NODE *)(from_bool(
       	  TLS_arguments[0]->process_id.value ==
@@ -21099,14 +21099,14 @@ static void entry__std_types___process_id___std___equal (void)
         return;
       }
     {
-      NODE *result__node = (NODE *)(&std_types___false);
+      NODE *result__node = (NODE *)(&std_types__false);
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
   }
 
-static void entry__std_types___process_id___std___hash (void)
+static void entry__std_types__process_id__std__hash (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -21124,7 +21124,7 @@ static void entry__std_types___process_id___std___hash (void)
     };
   }
 
-static void entry__std___process_id (void)
+static void entry__std__process_id (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -21133,14 +21133,14 @@ static void entry__std___process_id (void)
     int value;
     if (!(to_int(TLS_arguments[0], &value))) return;
     {
-      NODE *result__node = (NODE *)(create__std_types___process_id(value));
+      NODE *result__node = (NODE *)(create__std_types__process_id(value));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
   }
 
-static void entry__std_types___process_id___std___to_integer (void)
+static void entry__std_types__process_id__std__to_integer (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -21155,13 +21155,13 @@ static void entry__std_types___process_id___std___to_integer (void)
     }
   }
 
-static void entry__std_types___user_id___std___equal (void)
+static void entry__std_types__user_id__std__equal (void)
   {
     if (TLS_argument_count != 2) {
       invalid_arguments();
       return;
     }
-    if ((TLS_arguments[1])->type == std_types___user_id.type)
+    if ((TLS_arguments[1])->type == std_types__user_id.type)
       {
         NODE *result__node = (NODE *)(from_bool(
       	  TLS_arguments[0]->user_id.value ==
@@ -21171,14 +21171,14 @@ static void entry__std_types___user_id___std___equal (void)
         return;
       }
     {
-      NODE *result__node = (NODE *)(&std_types___false);
+      NODE *result__node = (NODE *)(&std_types__false);
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
   }
 
-static void entry__std_types___user_id___std___hash (void)
+static void entry__std_types__user_id__std__hash (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -21196,7 +21196,7 @@ static void entry__std_types___user_id___std___hash (void)
     };
   }
 
-static void entry__std___user_id (void)
+static void entry__std__user_id (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -21205,14 +21205,14 @@ static void entry__std___user_id (void)
     int value;
     if (!(to_int(TLS_arguments[0], &value))) return;
     {
-      NODE *result__node = (NODE *)(create__std_types___user_id(value));
+      NODE *result__node = (NODE *)(create__std_types__user_id(value));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
   }
 
-static void entry__std_types___user_id___std___to_integer (void)
+static void entry__std_types__user_id__std__to_integer (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -21227,13 +21227,13 @@ static void entry__std_types___user_id___std___to_integer (void)
     }
   }
 
-static void entry__std_types___error_number___std___equal (void)
+static void entry__std_types__error_number__std__equal (void)
   {
     if (TLS_argument_count != 2) {
       invalid_arguments();
       return;
     }
-    if ((TLS_arguments[1])->type == std_types___error_number.type)
+    if ((TLS_arguments[1])->type == std_types__error_number.type)
       {
         NODE *result__node = (NODE *)(from_bool(
       	  TLS_arguments[0]->error_number.value ==
@@ -21243,14 +21243,14 @@ static void entry__std_types___error_number___std___equal (void)
         return;
       }
     {
-      NODE *result__node = (NODE *)(&std_types___false);
+      NODE *result__node = (NODE *)(&std_types__false);
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
   }
 
-static void entry__std_types___error_number___std___hash (void)
+static void entry__std_types__error_number__std__hash (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -21268,7 +21268,7 @@ static void entry__std_types___error_number___std___hash (void)
     };
   }
 
-static void entry__std___error_number (void)
+static void entry__std__error_number (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -21277,14 +21277,14 @@ static void entry__std___error_number (void)
     int value;
     if (!(to_int(TLS_arguments[0], &value))) return;
     {
-      NODE *result__node = (NODE *)(create__std_types___error_number(value));
+      NODE *result__node = (NODE *)(create__std_types__error_number(value));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
   }
 
-static void entry__std_types___error_number___std___to_integer (void)
+static void entry__std_types__error_number__std__to_integer (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -21299,7 +21299,7 @@ static void entry__std_types___error_number___std___to_integer (void)
     }
   }
 
-static void entry__std___access (void)
+static void entry__std__access (void)
   {
     if (TLS_argument_count != 2) {
       invalid_arguments();
@@ -21329,7 +21329,7 @@ static void entry__std___access (void)
 	  break;
 	default:
 	  create_error_message(
-	    module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+	    module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
 	    "ACCESS: INVALID MODE", 0, 0, NULL);
 	  goto cleanup;
       }
@@ -21359,20 +21359,20 @@ static void entry__std___access (void)
     }
     if (result == 0) {
       {
-        NODE *result__node = (NODE *)(&std_types___true);
+        NODE *result__node = (NODE *)(&std_types__true);
         TLS_arguments[0] = result__node;
         TLS_argument_count = 1;
       }
     } else {
       if (errno == EACCES) {
 	{
-	  NODE *result__node = (NODE *)(&std_types___false);
+	  NODE *result__node = (NODE *)(&std_types__false);
 	  TLS_arguments[0] = result__node;
 	  TLS_argument_count = 1;
 	}
       } else {
 	create_error_message(
-	  module__builtin.constants_base[unique__std___IO_ERROR-1],
+	  module__builtin.constants_base[unique__std__IO_ERROR-1],
 	  "ACCESS FAILED", errno, 0, NULL);
       }
     }
@@ -21381,7 +21381,7 @@ static void entry__std___access (void)
     deallocate_memory(mode_str);
   }
 
-static void entry__std___chdir (void)
+static void entry__std__chdir (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -21418,7 +21418,7 @@ static void entry__std___chdir (void)
     }
     if (result == -1) {
       create_error_message(
-	module__builtin.constants_base[unique__std___IO_ERROR-1],
+	module__builtin.constants_base[unique__std__IO_ERROR-1],
 	"CHDIR FAILED", errno, 0, NULL);
     } else {
       TLS_argument_count = 0;
@@ -21427,7 +21427,7 @@ static void entry__std___chdir (void)
     deallocate_memory(pathname);
   }
 
-static void entry__std___chmod (void)
+static void entry__std__chmod (void)
   {
     if (TLS_argument_count != 2) {
       invalid_arguments();
@@ -21467,7 +21467,7 @@ static void entry__std___chmod (void)
     }
     if (result == -1) {
       create_error_message(
-	module__builtin.constants_base[unique__std___IO_ERROR-1],
+	module__builtin.constants_base[unique__std__IO_ERROR-1],
 	"CHMOD FAILED", errno, 0, NULL);
     } else {
       TLS_argument_count = 0;
@@ -21476,7 +21476,7 @@ static void entry__std___chmod (void)
     deallocate_memory(filename);
   }
 
-static void entry__std___chown (void)
+static void entry__std__chown (void)
   {
     if (TLS_argument_count != 3) {
       invalid_arguments();
@@ -21519,7 +21519,7 @@ static void entry__std___chown (void)
     }
     if (result == -1) {
       create_error_message(
-	module__builtin.constants_base[unique__std___IO_ERROR-1],
+	module__builtin.constants_base[unique__std__IO_ERROR-1],
 	"CHOWN FAILED", errno, 0, NULL);
     } else {
       TLS_argument_count = 0;
@@ -21528,7 +21528,7 @@ static void entry__std___chown (void)
     deallocate_memory(filename);
   }
 
-static void entry__std___chroot (void)
+static void entry__std__chroot (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -21565,7 +21565,7 @@ static void entry__std___chroot (void)
     }
     if (result == -1) {
       create_error_message(
-	module__builtin.constants_base[unique__std___IO_ERROR-1],
+	module__builtin.constants_base[unique__std__IO_ERROR-1],
 	"CHROOT FAILED", errno, 0, NULL);
     } else {
       TLS_argument_count = 0;
@@ -21574,7 +21574,7 @@ static void entry__std___chroot (void)
     deallocate_memory(pathname);
   }
 
-static void entry__std_types___file_descriptor___std___close (void)
+static void entry__std_types__file_descriptor__std__close (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -21612,14 +21612,14 @@ static void entry__std_types___file_descriptor___std___close (void)
     }
     if (result == -1) {
       create_error_message(
-	module__builtin.constants_base[unique__std___IO_ERROR-1],
+	module__builtin.constants_base[unique__std__IO_ERROR-1],
 	"CLOSE FAILED", errno, 0, NULL);
     } else {
       TLS_argument_count = 0;
     }
   }
 
-static void entry__std___closedir (void)
+static void entry__std__closedir (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -21656,14 +21656,14 @@ static void entry__std___closedir (void)
     }
     if (result == -1) {
       create_error_message(
-	module__builtin.constants_base[unique__std___IO_ERROR-1],
+	module__builtin.constants_base[unique__std__IO_ERROR-1],
 	"CLOSEDIR FAILED", errno, 0, NULL);
     } else {
       TLS_argument_count = 0;
     }
   }
 
-static void entry__std___dup2 (void)
+static void entry__std__dup2 (void)
   {
     if (TLS_argument_count != 2) {
       invalid_arguments();
@@ -21705,14 +21705,14 @@ static void entry__std___dup2 (void)
     }
     if (result == -1) {
       create_error_message(
-	module__builtin.constants_base[unique__std___IO_ERROR-1],
+	module__builtin.constants_base[unique__std__IO_ERROR-1],
 	"DUP2 FAILED", errno, 0, NULL);
     } else {
       TLS_argument_count = 0;
     }
   }
 
-static void entry__std___fstat (void)
+static void entry__std__fstat (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -21746,7 +21746,7 @@ static void entry__std___fstat (void)
     }
     if (result == -1) {
       create_error_message(
-	module__builtin.constants_base[unique__std___IO_ERROR-1],
+	module__builtin.constants_base[unique__std__IO_ERROR-1],
 	"FSTAT FAILED", errno, 0, NULL);
     } else {
       NODE *node__device_of = device_id_from_ulong(statbuf.st_dev);
@@ -21761,68 +21761,68 @@ static void entry__std___fstat (void)
       NODE *node__block_size_of = from_long(statbuf.st_blksize);
       NODE *node__block_count_of = from_long(statbuf.st_blocks);
       NODE *node_access_time_of =
-	create__std_types___date_and_time(statbuf.st_atim.tv_sec, statbuf.st_atim.tv_nsec);
+	create__std_types__date_and_time(statbuf.st_atim.tv_sec, statbuf.st_atim.tv_nsec);
       NODE *node_modification_time_of =
-	create__std_types___date_and_time(statbuf.st_mtim.tv_sec, statbuf.st_mtim.tv_nsec);
+	create__std_types__date_and_time(statbuf.st_mtim.tv_sec, statbuf.st_mtim.tv_nsec);
       NODE *node_status_change_time_of =
-	create__std_types___date_and_time(statbuf.st_ctim.tv_sec, statbuf.st_ctim.tv_nsec);
-      NODE *node = clone_object_and_attributes((NODE *)&std_types___stat);
+	create__std_types__date_and_time(statbuf.st_ctim.tv_sec, statbuf.st_ctim.tv_nsec);
+      NODE *node = clone_object_and_attributes((NODE *)&std_types__stat);
       update_start_p = node_p;
       redefine_attribute(
 	node->attributes,
-	variables_table[var_no__std___device_of-FIRST_VAR].poly_idx,
+	variables_table[var_std__device_of-FIRST_VAR].poly_idx,
 	MAKE_ATTRIBUTE_VALUE(node__device_of));
       redefine_attribute(
 	node->attributes,
-	variables_table[var_no__std___inode_number_of-FIRST_VAR].poly_idx,
+	variables_table[var_std__inode_number_of-FIRST_VAR].poly_idx,
 	MAKE_ATTRIBUTE_VALUE(node__inode_number_of));
       redefine_attribute(
 	node->attributes,
-	variables_table[var_no__std___type_of-FIRST_VAR].poly_idx,
+	variables_table[var_std__type_of-FIRST_VAR].poly_idx,
 	MAKE_ATTRIBUTE_VALUE(node__type_of));
       redefine_attribute(
 	node->attributes,
-	variables_table[var_no__std___mode_of-FIRST_VAR].poly_idx,
+	variables_table[var_std__mode_of-FIRST_VAR].poly_idx,
 	MAKE_ATTRIBUTE_VALUE(node__mode_of));
       redefine_attribute(
 	node->attributes,
-	variables_table[var_no__std___link_count_of-FIRST_VAR].poly_idx,
+	variables_table[var_std__link_count_of-FIRST_VAR].poly_idx,
 	MAKE_ATTRIBUTE_VALUE(node__link_count_of));
       redefine_attribute(
 	node->attributes,
-	variables_table[var_no__std___user_id_of-FIRST_VAR].poly_idx,
+	variables_table[var_std__user_id_of-FIRST_VAR].poly_idx,
 	MAKE_ATTRIBUTE_VALUE(node__user_id_of));
       redefine_attribute(
 	node->attributes,
-	variables_table[var_no__std___group_id_of-FIRST_VAR].poly_idx,
+	variables_table[var_std__group_id_of-FIRST_VAR].poly_idx,
 	MAKE_ATTRIBUTE_VALUE(node__group_id_of));
       redefine_attribute(
 	node->attributes,
-	variables_table[var_no__std___root_device_of-FIRST_VAR].poly_idx,
+	variables_table[var_std__root_device_of-FIRST_VAR].poly_idx,
 	MAKE_ATTRIBUTE_VALUE(node__root_device_of));
       redefine_attribute(
 	node->attributes,
-	variables_table[var_no__std___size_of-FIRST_VAR].poly_idx,
+	variables_table[var_std__size_of-FIRST_VAR].poly_idx,
 	MAKE_ATTRIBUTE_VALUE(node__size_of));
       redefine_attribute(
 	node->attributes,
-	variables_table[var_no__std___block_size_of-FIRST_VAR].poly_idx,
+	variables_table[var_std__block_size_of-FIRST_VAR].poly_idx,
 	MAKE_ATTRIBUTE_VALUE(node__block_size_of));
       redefine_attribute(
 	node->attributes,
-	variables_table[var_no__std___block_count_of-FIRST_VAR].poly_idx,
+	variables_table[var_std__block_count_of-FIRST_VAR].poly_idx,
 	MAKE_ATTRIBUTE_VALUE(node__block_count_of));
       redefine_attribute(
 	node->attributes,
-	variables_table[var_no__std___access_time_of-FIRST_VAR].poly_idx,
+	variables_table[var_std__access_time_of-FIRST_VAR].poly_idx,
 	MAKE_ATTRIBUTE_VALUE(node_access_time_of));
       redefine_attribute(
 	node->attributes,
-	variables_table[var_no__std___modification_time_of-FIRST_VAR].poly_idx,
+	variables_table[var_std__modification_time_of-FIRST_VAR].poly_idx,
 	MAKE_ATTRIBUTE_VALUE(node_modification_time_of));
       redefine_attribute(
 	node->attributes,
-	variables_table[var_no__std___status_change_time_of-FIRST_VAR].poly_idx,
+	variables_table[var_std__status_change_time_of-FIRST_VAR].poly_idx,
 	MAKE_ATTRIBUTE_VALUE(node_status_change_time_of));
       {
         NODE *result__node = (NODE *)(node);
@@ -21832,7 +21832,7 @@ static void entry__std___fstat (void)
     }
   }
 
-static void entry__std___fsync (void)
+static void entry__std__fsync (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -21869,14 +21869,14 @@ static void entry__std___fsync (void)
     }
     if (result == -1) {
       create_error_message(
-	module__builtin.constants_base[unique__std___IO_ERROR-1],
+	module__builtin.constants_base[unique__std__IO_ERROR-1],
 	"FSYNC FAILED", errno, 0, NULL);
     } else {
       TLS_argument_count = 0;
     }
   }
 
-static void entry__std___getcwd (void)
+static void entry__std__getcwd (void)
   {
     if (TLS_argument_count != 0) {
       invalid_arguments();
@@ -21915,7 +21915,7 @@ static void entry__std___getcwd (void)
     }
     if (result == NULL) {
       create_error_message(
-	module__builtin.constants_base[unique__std___IO_ERROR-1],
+	module__builtin.constants_base[unique__std__IO_ERROR-1],
 	"GETCWD FAILED", errno, 0, NULL);
     } else {
       {
@@ -21927,7 +21927,7 @@ static void entry__std___getcwd (void)
     deallocate_memory(buf);
   }
 
-static void entry__std___getenv (void)
+static void entry__std__getenv (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -21957,7 +21957,7 @@ static void entry__std___getenv (void)
     }
     if (result == NULL) {
       create_error_message(
-	module__builtin.constants_base[unique__std___IO_ERROR-1],
+	module__builtin.constants_base[unique__std__IO_ERROR-1],
 	"GETENV FAILED", errno, 0, NULL);
     } else {
       {
@@ -21970,7 +21970,7 @@ static void entry__std___getenv (void)
     deallocate_memory(var_name);
   }
 
-static void entry__std___getegid (void)
+static void entry__std__getegid (void)
   {
     if (TLS_argument_count != 0) {
       invalid_arguments();
@@ -22002,7 +22002,7 @@ static void entry__std___getegid (void)
     }
   }
 
-static void entry__std___geteuid (void)
+static void entry__std__geteuid (void)
   {
     if (TLS_argument_count != 0) {
       invalid_arguments();
@@ -22034,7 +22034,7 @@ static void entry__std___geteuid (void)
     }
   }
 
-static void entry__std___getgid (void)
+static void entry__std__getgid (void)
   {
     if (TLS_argument_count != 0) {
       invalid_arguments();
@@ -22066,7 +22066,7 @@ static void entry__std___getgid (void)
     }
   }
 
-static void entry__std___gethostname (void)
+static void entry__std__gethostname (void)
   {
     if (TLS_argument_count != 0) {
       invalid_arguments();
@@ -22094,7 +22094,7 @@ static void entry__std___gethostname (void)
     }
     if (result == -1) {
       create_error_message(
-	module__builtin.constants_base[unique__std___IO_ERROR-1],
+	module__builtin.constants_base[unique__std__IO_ERROR-1],
 	"GETHOSTNAME FAILED", errno, 0, NULL);
     } else {
       {
@@ -22105,7 +22105,7 @@ static void entry__std___gethostname (void)
     }
   }
 
-static void entry__std___getlogin (void)
+static void entry__std__getlogin (void)
   {
     if (TLS_argument_count != 0) {
       invalid_arguments();
@@ -22132,7 +22132,7 @@ static void entry__std___getlogin (void)
     }
     if (result == NULL) {
       create_error_message(
-	module__builtin.constants_base[unique__std___IO_ERROR-1],
+	module__builtin.constants_base[unique__std__IO_ERROR-1],
 	"GETLOGIN FAILED", errno, 0, NULL);
     } else {
       {
@@ -22143,7 +22143,7 @@ static void entry__std___getlogin (void)
     }
   }
 
-static void entry__std___getpid (void)
+static void entry__std__getpid (void)
   {
     if (TLS_argument_count != 0) {
       invalid_arguments();
@@ -22175,7 +22175,7 @@ static void entry__std___getpid (void)
     }
   }
 
-static void entry__std___getppid (void)
+static void entry__std__getppid (void)
   {
     if (TLS_argument_count != 0) {
       invalid_arguments();
@@ -22207,7 +22207,7 @@ static void entry__std___getppid (void)
     }
   }
 
-static void entry__std___getpwuid (void)
+static void entry__std__getpwuid (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -22239,7 +22239,7 @@ static void entry__std___getpwuid (void)
     }
     if (result == NULL) {
       create_error_message(
-	module__builtin.constants_base[unique__std___IO_ERROR-1],
+	module__builtin.constants_base[unique__std__IO_ERROR-1],
 	"GETPWUID FAILED", errno, 0, NULL);
     } else {
       NODE *node__username_of = from_c_string(result->pw_name);
@@ -22249,35 +22249,35 @@ static void entry__std___getpwuid (void)
       NODE *node__user_information_of = from_c_string(result->pw_gecos);
       NODE *node__home_directory_of = from_c_string(result->pw_dir);
       NODE *node__shell_of = from_c_string(result->pw_shell);
-      NODE *node = clone_object_and_attributes((NODE *)&std_types___passwd);
+      NODE *node = clone_object_and_attributes((NODE *)&std_types__passwd);
       update_start_p = node_p;
       redefine_attribute(
 	node->attributes,
-	variables_table[var_no__std___username_of-FIRST_VAR].poly_idx,
+	variables_table[var_std__username_of-FIRST_VAR].poly_idx,
 	MAKE_ATTRIBUTE_VALUE(node__username_of));
       redefine_attribute(
 	node->attributes,
-	variables_table[var_no__std___password_of-FIRST_VAR].poly_idx,
+	variables_table[var_std__password_of-FIRST_VAR].poly_idx,
 	MAKE_ATTRIBUTE_VALUE(node__password_of));
       redefine_attribute(
 	node->attributes,
-	variables_table[var_no__std___user_id_of-FIRST_VAR].poly_idx,
+	variables_table[var_std__user_id_of-FIRST_VAR].poly_idx,
 	MAKE_ATTRIBUTE_VALUE(node__user_id_of));
       redefine_attribute(
 	node->attributes,
-	variables_table[var_no__std___group_id_of-FIRST_VAR].poly_idx,
+	variables_table[var_std__group_id_of-FIRST_VAR].poly_idx,
 	MAKE_ATTRIBUTE_VALUE(node__group_id_of));
       redefine_attribute(
 	node->attributes,
-	variables_table[var_no__std___user_information_of-FIRST_VAR].poly_idx,
+	variables_table[var_std__user_information_of-FIRST_VAR].poly_idx,
 	MAKE_ATTRIBUTE_VALUE(node__user_information_of));
       redefine_attribute(
 	node->attributes,
-	variables_table[var_no__std___home_directory_of-FIRST_VAR].poly_idx,
+	variables_table[var_std__home_directory_of-FIRST_VAR].poly_idx,
 	MAKE_ATTRIBUTE_VALUE(node__home_directory_of));
       redefine_attribute(
 	node->attributes,
-	variables_table[var_no__std___shell_of-FIRST_VAR].poly_idx,
+	variables_table[var_std__shell_of-FIRST_VAR].poly_idx,
 	MAKE_ATTRIBUTE_VALUE(node__shell_of));
       {
         NODE *result__node = (NODE *)(node);
@@ -22287,7 +22287,7 @@ static void entry__std___getpwuid (void)
     }
   }
 
-static void entry__std___getsid (void)
+static void entry__std__getsid (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -22317,7 +22317,7 @@ static void entry__std___getsid (void)
     }
     if (result == -1) {
       create_error_message(
-	module__builtin.constants_base[unique__std___IO_ERROR-1],
+	module__builtin.constants_base[unique__std__IO_ERROR-1],
 	"GETSID FAILED", errno, 0, NULL);
     } else {
       {
@@ -22328,7 +22328,7 @@ static void entry__std___getsid (void)
     }
   }
 
-static void entry__std___getuid (void)
+static void entry__std__getuid (void)
   {
     if (TLS_argument_count != 0) {
       invalid_arguments();
@@ -22360,7 +22360,7 @@ static void entry__std___getuid (void)
     }
   }
 
-static void entry__std___isatty (void)
+static void entry__std__isatty (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -22395,7 +22395,7 @@ static void entry__std___isatty (void)
     }
   }
 
-static void entry__std___kill (void)
+static void entry__std__kill (void)
   {
     if (TLS_argument_count != 2) {
       invalid_arguments();
@@ -22435,14 +22435,14 @@ static void entry__std___kill (void)
     }
     if (result == -1) {
       create_error_message(
-	module__builtin.constants_base[unique__std___IO_ERROR-1],
+	module__builtin.constants_base[unique__std__IO_ERROR-1],
 	"KILL FAILED", errno, 0, NULL);
     } else {
       TLS_argument_count = 0;
     }
   }
 
-static void entry__std___link (void)
+static void entry__std__link (void)
   {
     if (TLS_argument_count != 2) {
       invalid_arguments();
@@ -22462,7 +22462,7 @@ static void entry__std___link (void)
     if (event__mode != EM__REPLAY) {
       if (link(old_path, new_path) == -1) {
 	create_error_message(
-	  module__builtin.constants_base[unique__std___IO_ERROR-1],
+	  module__builtin.constants_base[unique__std__IO_ERROR-1],
 	  "LINK FAILED", errno, 0, NULL);
       } else {
 	TLS_argument_count = 0;
@@ -22486,7 +22486,7 @@ static void entry__std___link (void)
     deallocate_memory(new_path);
   }
 
-static void entry__std___lseek (void)
+static void entry__std__lseek (void)
   {
     if (TLS_argument_count != 3) {
       invalid_arguments();
@@ -22528,7 +22528,7 @@ static void entry__std___lseek (void)
     }
     if (result == -1) {
       create_error_message(
-	module__builtin.constants_base[unique__std___IO_ERROR-1],
+	module__builtin.constants_base[unique__std__IO_ERROR-1],
 	"LSEEK FAILED", errno, 0, NULL);
     } else {
       {
@@ -22539,7 +22539,7 @@ static void entry__std___lseek (void)
     }
   }
 
-static void entry__std___mkdir (void)
+static void entry__std__mkdir (void)
   {
     if (TLS_argument_count < 1) {
       too_few_arguments();
@@ -22583,7 +22583,7 @@ static void entry__std___mkdir (void)
     }
     if (result == -1) {
       create_error_message(
-	module__builtin.constants_base[unique__std___IO_ERROR-1],
+	module__builtin.constants_base[unique__std__IO_ERROR-1],
 	"MKDIR FAILED", errno, 0, NULL);
     } else {
       TLS_argument_count = 0;
@@ -22592,7 +22592,7 @@ static void entry__std___mkdir (void)
     deallocate_memory(pathname);
   }
 
-static void entry__std___mkfifo (void)
+static void entry__std__mkfifo (void)
   {
     if (TLS_argument_count < 1) {
       too_few_arguments();
@@ -22636,7 +22636,7 @@ static void entry__std___mkfifo (void)
     }
     if (result == -1) {
       create_error_message(
-	module__builtin.constants_base[unique__std___IO_ERROR-1],
+	module__builtin.constants_base[unique__std__IO_ERROR-1],
 	"MKFIFO FAILED", errno, 0, NULL);
     } else {
       TLS_argument_count = 0;
@@ -22645,7 +22645,7 @@ static void entry__std___mkfifo (void)
     deallocate_memory(filename);
   }
 
-static void entry__std___open (void)
+static void entry__std__open (void)
   {
     if (TLS_argument_count < 2) {
       too_few_arguments();
@@ -22687,7 +22687,7 @@ static void entry__std___open (void)
     }
     if (result == -1) {
       create_error_message(
-	module__builtin.constants_base[unique__std___IO_ERROR-1],
+	module__builtin.constants_base[unique__std__IO_ERROR-1],
 	"OPEN FAILED", errno, 0, TLS_arguments[0]);
     } else {
       {
@@ -22700,7 +22700,7 @@ static void entry__std___open (void)
     deallocate_memory(filename);
   }
 
-static void entry__std___opendir (void)
+static void entry__std__opendir (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -22730,7 +22730,7 @@ static void entry__std___opendir (void)
     }
     if (!result) {
       create_error_message(
-	module__builtin.constants_base[unique__std___IO_ERROR-1],
+	module__builtin.constants_base[unique__std__IO_ERROR-1],
 	"OPENDIR FAILED", errno, 0, TLS_arguments[0]);
     } else {
       {
@@ -22743,7 +22743,7 @@ static void entry__std___opendir (void)
     deallocate_memory(name);
   }
 
-static void entry__std_types___file_descriptor___std___read (void)
+static void entry__std_types__file_descriptor__std__read (void)
   {
     if (TLS_argument_count != 2) {
       invalid_arguments();
@@ -22779,7 +22779,7 @@ static void entry__std_types___file_descriptor___std___read (void)
     }
     if (bytes_read == -1) {
       create_error_message(
-	module__builtin.constants_base[unique__std___IO_ERROR-1],
+	module__builtin.constants_base[unique__std__IO_ERROR-1],
 	"READ FAILED", errno, 0, NULL);
     } else {
       {
@@ -22792,7 +22792,7 @@ static void entry__std_types___file_descriptor___std___read (void)
     deallocate_memory(buf);
   }
 
-static void entry__std___readdir (void)
+static void entry__std__readdir (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -22822,25 +22822,25 @@ static void entry__std___readdir (void)
     }
     if (result == NULL) {
       create_error_message(
-	module__builtin.constants_base[unique__std___IO_ERROR-1],
+	module__builtin.constants_base[unique__std__IO_ERROR-1],
 	"READDIR FAILED", errno, 0, NULL);
     } else {
       NODE *node__inode_number_of = inode_number_from_ulong(result->d_ino);
       NODE *node__type_of = file_type_from_int(result->d_type);
       NODE *node__name_of = from_c_string(result->d_name);
-      NODE *node = clone_object_and_attributes((NODE *)&std_types___dirent);
+      NODE *node = clone_object_and_attributes((NODE *)&std_types__dirent);
       update_start_p = node_p;
       redefine_attribute(
 	node->attributes,
-	variables_table[var_no__std___inode_number_of-FIRST_VAR].poly_idx,
+	variables_table[var_std__inode_number_of-FIRST_VAR].poly_idx,
 	MAKE_ATTRIBUTE_VALUE(node__inode_number_of));
       redefine_attribute(
 	node->attributes,
-	variables_table[var_no__std___type_of-FIRST_VAR].poly_idx,
+	variables_table[var_std__type_of-FIRST_VAR].poly_idx,
 	MAKE_ATTRIBUTE_VALUE(node__type_of));
       redefine_attribute(
 	node->attributes,
-	variables_table[var_no__std___name_of-FIRST_VAR].poly_idx,
+	variables_table[var_std__name_of-FIRST_VAR].poly_idx,
 	MAKE_ATTRIBUTE_VALUE(node__name_of));
       {
         NODE *result__node = (NODE *)(node);
@@ -22850,7 +22850,7 @@ static void entry__std___readdir (void)
     }
   }
 
-static void entry__std___realpath (void)
+static void entry__std__realpath (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -22881,7 +22881,7 @@ static void entry__std___realpath (void)
     }
     if (result == NULL) {
       create_error_message(
-	module__builtin.constants_base[unique__std___IO_ERROR-1],
+	module__builtin.constants_base[unique__std__IO_ERROR-1],
 	"REALPATH FAILED", errno, 0, NULL);
     } else {
       {
@@ -22896,7 +22896,7 @@ static void entry__std___realpath (void)
     free(result);
   }
 
-static void entry__std___rename (void)
+static void entry__std__rename (void)
   {
     if (TLS_argument_count != 2) {
       invalid_arguments();
@@ -22936,7 +22936,7 @@ static void entry__std___rename (void)
     }
     if (result == -1) {
       create_error_message(
-	module__builtin.constants_base[unique__std___IO_ERROR-1],
+	module__builtin.constants_base[unique__std__IO_ERROR-1],
 	"RENAME FAILED", errno, 0, NULL);
     } else {
       TLS_argument_count = 0;
@@ -22946,7 +22946,7 @@ static void entry__std___rename (void)
     deallocate_memory(new_filename);
   }
 
-static void entry__std___sethostname (void)
+static void entry__std__sethostname (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -22988,7 +22988,7 @@ static void entry__std___sethostname (void)
     }
     if (result == -1) {
       create_error_message(
-	module__builtin.constants_base[unique__std___IO_ERROR-1],
+	module__builtin.constants_base[unique__std__IO_ERROR-1],
 	"SETHOSTNAME FAILED", errno, 0, NULL);
     } else {
       TLS_argument_count = 0;
@@ -22997,7 +22997,7 @@ static void entry__std___sethostname (void)
     deallocate_memory(buf);
   }
 
-static void entry__std___shutdown (void)
+static void entry__std__shutdown (void)
   {
     if (TLS_argument_count != 2) {
       invalid_arguments();
@@ -23037,14 +23037,14 @@ static void entry__std___shutdown (void)
     }
     if (result == -1) {
       create_error_message(
-	module__builtin.constants_base[unique__std___IO_ERROR-1],
+	module__builtin.constants_base[unique__std__IO_ERROR-1],
 	"SHUTDOWN FAILED", errno, 0, NULL);
     } else {
       TLS_argument_count = 0;
     }
   }
 
-static void entry__std___stat (void)
+static void entry__std__stat (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -23078,7 +23078,7 @@ static void entry__std___stat (void)
     }
     if (result == -1) {
       create_error_message(
-	module__builtin.constants_base[unique__std___IO_ERROR-1],
+	module__builtin.constants_base[unique__std__IO_ERROR-1],
 	"STAT FAILED", errno, 0, TLS_arguments[0]);
     } else {
       NODE *node__device_of = device_id_from_ulong(statbuf.st_dev);
@@ -23093,72 +23093,72 @@ static void entry__std___stat (void)
       NODE *node__block_size_of = from_long(statbuf.st_blksize);
       NODE *node__block_count_of = from_long(statbuf.st_blocks);
       NODE *node_access_time_of =
-	create__std_types___date_and_time(statbuf.st_atim.tv_sec, statbuf.st_atim.tv_nsec);
+	create__std_types__date_and_time(statbuf.st_atim.tv_sec, statbuf.st_atim.tv_nsec);
       NODE *node_modification_time_of =
-	create__std_types___date_and_time(statbuf.st_mtim.tv_sec, statbuf.st_mtim.tv_nsec);
+	create__std_types__date_and_time(statbuf.st_mtim.tv_sec, statbuf.st_mtim.tv_nsec);
       NODE *node_status_change_time_of =
-	create__std_types___date_and_time(statbuf.st_ctim.tv_sec, statbuf.st_ctim.tv_nsec);
-      NODE *node = clone_object_and_attributes((NODE *)&std_types___stat);
+	create__std_types__date_and_time(statbuf.st_ctim.tv_sec, statbuf.st_ctim.tv_nsec);
+      NODE *node = clone_object_and_attributes((NODE *)&std_types__stat);
       update_start_p = node_p;
       redefine_attribute(
 	node->attributes,
-	variables_table[var_no__std___device_of-FIRST_VAR].poly_idx,
+	variables_table[var_std__device_of-FIRST_VAR].poly_idx,
 	MAKE_ATTRIBUTE_VALUE(node__device_of));
       redefine_attribute(
 	node->attributes,
-	variables_table[var_no__std___inode_number_of-FIRST_VAR].poly_idx,
+	variables_table[var_std__inode_number_of-FIRST_VAR].poly_idx,
 	MAKE_ATTRIBUTE_VALUE(node__inode_number_of));
       redefine_attribute(
 	node->attributes,
-	variables_table[var_no__std___type_of-FIRST_VAR].poly_idx,
+	variables_table[var_std__type_of-FIRST_VAR].poly_idx,
 	MAKE_ATTRIBUTE_VALUE(node__type_of));
       redefine_attribute(
 	node->attributes,
-	variables_table[var_no__std___mode_of-FIRST_VAR].poly_idx,
+	variables_table[var_std__mode_of-FIRST_VAR].poly_idx,
 	MAKE_ATTRIBUTE_VALUE(node__mode_of));
       redefine_attribute(
 	node->attributes,
-	variables_table[var_no__std___link_count_of-FIRST_VAR].poly_idx,
+	variables_table[var_std__link_count_of-FIRST_VAR].poly_idx,
 	MAKE_ATTRIBUTE_VALUE(node__link_count_of));
       redefine_attribute(
 	node->attributes,
-	variables_table[var_no__std___user_id_of-FIRST_VAR].poly_idx,
+	variables_table[var_std__user_id_of-FIRST_VAR].poly_idx,
 	MAKE_ATTRIBUTE_VALUE(node__user_id_of));
       redefine_attribute(
 	node->attributes,
-	variables_table[var_no__std___group_id_of-FIRST_VAR].poly_idx,
+	variables_table[var_std__group_id_of-FIRST_VAR].poly_idx,
 	MAKE_ATTRIBUTE_VALUE(node__group_id_of));
       redefine_attribute(
 	node->attributes,
-	variables_table[var_no__std___root_device_of-FIRST_VAR].poly_idx,
+	variables_table[var_std__root_device_of-FIRST_VAR].poly_idx,
 	MAKE_ATTRIBUTE_VALUE(node__root_device_of));
       redefine_attribute(
 	node->attributes,
-	variables_table[var_no__std___size_of-FIRST_VAR].poly_idx,
+	variables_table[var_std__size_of-FIRST_VAR].poly_idx,
 	MAKE_ATTRIBUTE_VALUE(node__size_of));
       redefine_attribute(
 	node->attributes,
-	variables_table[var_no__std___block_size_of-FIRST_VAR].poly_idx,
+	variables_table[var_std__block_size_of-FIRST_VAR].poly_idx,
 	MAKE_ATTRIBUTE_VALUE(node__block_size_of));
       redefine_attribute(
 	node->attributes,
-	variables_table[var_no__std___block_count_of-FIRST_VAR].poly_idx,
+	variables_table[var_std__block_count_of-FIRST_VAR].poly_idx,
 	MAKE_ATTRIBUTE_VALUE(node__block_count_of));
       redefine_attribute(
 	node->attributes,
-	variables_table[var_no__std___block_count_of-FIRST_VAR].poly_idx,
+	variables_table[var_std__block_count_of-FIRST_VAR].poly_idx,
 	MAKE_ATTRIBUTE_VALUE(node__block_count_of));
       redefine_attribute(
 	node->attributes,
-	variables_table[var_no__std___access_time_of-FIRST_VAR].poly_idx,
+	variables_table[var_std__access_time_of-FIRST_VAR].poly_idx,
 	MAKE_ATTRIBUTE_VALUE(node_access_time_of));
       redefine_attribute(
 	node->attributes,
-	variables_table[var_no__std___modification_time_of-FIRST_VAR].poly_idx,
+	variables_table[var_std__modification_time_of-FIRST_VAR].poly_idx,
 	MAKE_ATTRIBUTE_VALUE(node_modification_time_of));
       redefine_attribute(
 	node->attributes,
-	variables_table[var_no__std___status_change_time_of-FIRST_VAR].poly_idx,
+	variables_table[var_std__status_change_time_of-FIRST_VAR].poly_idx,
 	MAKE_ATTRIBUTE_VALUE(node_status_change_time_of));
       {
         NODE *result__node = (NODE *)(node);
@@ -23170,7 +23170,7 @@ static void entry__std___stat (void)
     deallocate_memory(filename);
   }
 
-static void entry__std___strerror (void)
+static void entry__std__strerror (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -23196,7 +23196,7 @@ static void entry__std___strerror (void)
     }
     if (result == NULL) {
       create_error_message(
-	module__builtin.constants_base[unique__std___IO_ERROR-1],
+	module__builtin.constants_base[unique__std__IO_ERROR-1],
 	"STRERROR FAILED", errno, 0, NULL);
     } else {
       {
@@ -23207,7 +23207,7 @@ static void entry__std___strerror (void)
     }
   }
 
-static void entry__std___wait (void)
+static void entry__std__wait (void)
   {
     if (TLS_argument_count != 0) {
       invalid_arguments();
@@ -23240,7 +23240,7 @@ static void entry__std___wait (void)
     }
     if (result == -1) {
       create_error_message(
-	module__builtin.constants_base[unique__std___IO_ERROR-1],
+	module__builtin.constants_base[unique__std__IO_ERROR-1],
 	"WAIT FAILED", errno, 0, NULL);
     } else {
       TLS_argument_count = 2;
@@ -23249,7 +23249,7 @@ static void entry__std___wait (void)
     }
   }
 
-static void entry__std_types___file_descriptor___std___write (void)
+static void entry__std_types__file_descriptor__std__write (void)
   {
     if (TLS_argument_count != 2) {
       invalid_arguments();
@@ -23291,7 +23291,7 @@ static void entry__std_types___file_descriptor___std___write (void)
     }
     if (bytes_written == -1) {
       create_error_message(
-	module__builtin.constants_base[unique__std___IO_ERROR-1],
+	module__builtin.constants_base[unique__std__IO_ERROR-1],
 	"WRITE FAILED", errno, 0, NULL);
     } else {
       {
@@ -23304,7 +23304,7 @@ static void entry__std_types___file_descriptor___std___write (void)
     deallocate_memory(buf);
   }
 
-static void entry__std___umask (void)
+static void entry__std__umask (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -23339,7 +23339,7 @@ static void entry__std___umask (void)
     }
   }
 
-static void entry__std___unlink (void)
+static void entry__std__unlink (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -23376,7 +23376,7 @@ static void entry__std___unlink (void)
     }
     if (result == -1) {
       create_error_message(
-	module__builtin.constants_base[unique__std___IO_ERROR-1],
+	module__builtin.constants_base[unique__std__IO_ERROR-1],
 	"UNLINK FAILED", errno, 0, NULL);
     } else {
       TLS_argument_count = 0;
@@ -23385,7 +23385,7 @@ static void entry__std___unlink (void)
     deallocate_memory(filename);
   }
 
-static void entry__std___shm_unlink (void)
+static void entry__std__shm_unlink (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -23398,7 +23398,7 @@ static void entry__std___shm_unlink (void)
     #ifdef __ANDROID__
       {
         create_error_message(
-          module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+          module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
           "shm_unlink is not supported on Android!", 0, 0, NULL);
         return;
       }
@@ -23430,7 +23430,7 @@ static void entry__std___shm_unlink (void)
       }
       if (result == -1) {
 	create_error_message(
-	  module__builtin.constants_base[unique__std___IO_ERROR-1],
+	  module__builtin.constants_base[unique__std__IO_ERROR-1],
 	  "SHM_UNLINK FAILED", errno, 0, NULL);
       } else {
 	TLS_argument_count = 0;
@@ -23440,7 +23440,7 @@ static void entry__std___shm_unlink (void)
     #endif
   }
 
-static void entry__std___usleep (void)
+static void entry__std__usleep (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -23470,14 +23470,14 @@ static void entry__std___usleep (void)
     }
     if (result == -1) {
       create_error_message(
-	module__builtin.constants_base[unique__std___IO_ERROR-1],
+	module__builtin.constants_base[unique__std__IO_ERROR-1],
 	"SLEEP FAILED", errno, 0, NULL);
     } else {
       TLS_argument_count = 0;
     }
   }
 
-static void entry__std_types___octet_string___std___length_of (void)
+static void entry__std_types__octet_string__std__length_of (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -23495,7 +23495,7 @@ static void entry__std_types___octet_string___std___length_of (void)
     }
   }
 
-static void entry__std_types___wide_string___std___length_of (void)
+static void entry__std_types__wide_string__std__length_of (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -23513,7 +23513,7 @@ static void entry__std_types___wide_string___std___length_of (void)
     }
   }
 
-static void entry__std_types___octet_string___std___is_empty (void)
+static void entry__std_types__octet_string__std__is_empty (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -23531,7 +23531,7 @@ static void entry__std_types___octet_string___std___is_empty (void)
     }
   }
 
-static void entry__std_types___octet_string___std___is_not_empty (void)
+static void entry__std_types__octet_string__std__is_not_empty (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -23549,7 +23549,7 @@ static void entry__std_types___octet_string___std___is_not_empty (void)
     }
   }
 
-static void entry__std_types___wide_string___std___is_empty (void)
+static void entry__std_types__wide_string__std__is_empty (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -23567,7 +23567,7 @@ static void entry__std_types___wide_string___std___is_empty (void)
     }
   }
 
-static void entry__std_types___wide_string___std___is_not_empty (void)
+static void entry__std_types__wide_string__std__is_not_empty (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -23585,7 +23585,7 @@ static void entry__std_types___wide_string___std___is_not_empty (void)
     }
   }
 
-static void entry__std_types___octet_string___std___push (void)
+static void entry__std_types__octet_string__std__push (void)
   {
     if (TLS_argument_count != 2) {
       invalid_arguments();
@@ -23621,7 +23621,7 @@ static void entry__std_types___octet_string___std___push (void)
       data->buffer[end_offset] = (uint8_t)chr_code;
       data->length = end_offset+1;
       {
-        NODE *result__node = (NODE *)(create__std_types___octet_string(left_start_offset, new_length, data));
+        NODE *result__node = (NODE *)(create__std_types__octet_string(left_start_offset, new_length, data));
         TLS_arguments[0] = result__node;
         TLS_argument_count = 1;
         return;
@@ -23639,7 +23639,7 @@ static void entry__std_types___octet_string___std___push (void)
       }
       new_data->buffer[length] = chr_code;
       {
-        NODE *result__node = (NODE *)(create__std_types___wide_string(0, new_length, new_data));
+        NODE *result__node = (NODE *)(create__std_types__wide_string(0, new_length, new_data));
         TLS_arguments[0] = result__node;
         TLS_argument_count = 1;
         return;
@@ -23647,7 +23647,7 @@ static void entry__std_types___octet_string___std___push (void)
     }
   }
 
-static void entry__std_types___wide_string___std___push (void)
+static void entry__std_types__wide_string__std__push (void)
   {
     if (TLS_argument_count != 2) {
       invalid_arguments();
@@ -23682,14 +23682,14 @@ static void entry__std_types___wide_string___std___push (void)
     data->buffer[end_offset] = chr_code;
     data->length = end_offset+1;
     {
-      NODE *result__node = (NODE *)(create__std_types___wide_string(start_offset, new_length, data));
+      NODE *result__node = (NODE *)(create__std_types__wide_string(start_offset, new_length, data));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
   }
 
-static void entry__std_types___octet_string___std___append (void)
+static void entry__std_types__octet_string__std__append (void)
   {
     if (TLS_argument_count < 2) {
       too_few_arguments();
@@ -23702,13 +23702,13 @@ static void entry__std_types___octet_string___std___append (void)
     NODE *left = TLS_arguments[0];
     long left_length = left->octet_string.length;
     long new_length = left_length;
-    int is_a_std_types___wide_string = false;
+    int is_a_std_types__wide_string = false;
     int i;
     for (i = 1; i < TLS_argument_count; ++i) {
       NODE *right = TLS_arguments[i];
-      if ((right)->type == std_types___wide_string.type) {
-	is_a_std_types___wide_string = true;
-      } else if ((right)->type != std_types___octet_string.type) {
+      if ((right)->type == std_types__wide_string.type) {
+	is_a_std_types__wide_string = true;
+      } else if ((right)->type != std_types__octet_string.type) {
 	{
 	  invalid_arguments();
 	  return;
@@ -23732,7 +23732,7 @@ static void entry__std_types___octet_string___std___append (void)
     }
     long left_offset = left->octet_string.offset;
     OCTET_DATA *data = left->octet_string.data;
-    if (is_a_std_types___wide_string) {
+    if (is_a_std_types__wide_string) {
       long new_size = ALLOCATION_SIZE(4*2*new_length);
       WIDE_DATA *new_data =
 	allocate_large(sizeof(WIDE_DATA)+new_size);
@@ -23747,7 +23747,7 @@ static void entry__std_types___octet_string___std___append (void)
 	NODE *right = TLS_arguments[i];
 	long right_offset = right->octet_string.offset;
 	long right_length = right->octet_string.length;
-	if ((right)->type == std_types___wide_string.type) {
+	if ((right)->type == std_types__wide_string.type) {
 	  memcpy(
 	    new_data->buffer+offset,
 	    right->wide_string.data->buffer+right_offset,
@@ -23761,7 +23761,7 @@ static void entry__std_types___octet_string___std___append (void)
 	offset += right_length;
       }
       {
-        NODE *result__node = (NODE *)(create__std_types___wide_string(0, new_length, new_data));
+        NODE *result__node = (NODE *)(create__std_types__wide_string(0, new_length, new_data));
         TLS_arguments[0] = result__node;
         TLS_argument_count = 1;
         return;
@@ -23792,7 +23792,7 @@ static void entry__std_types___octet_string___std___append (void)
       }
       data->length = left_offset+new_length;
       {
-        NODE *result__node = (NODE *)(create__std_types___octet_string(left_offset, new_length, data));
+        NODE *result__node = (NODE *)(create__std_types__octet_string(left_offset, new_length, data));
         TLS_arguments[0] = result__node;
         TLS_argument_count = 1;
         return;
@@ -23800,7 +23800,7 @@ static void entry__std_types___octet_string___std___append (void)
     }
   }
 
-static void entry__std_types___wide_string___std___append (void)
+static void entry__std_types__wide_string__std__append (void)
   {
     if (TLS_argument_count < 2) {
       too_few_arguments();
@@ -23817,8 +23817,8 @@ static void entry__std_types___wide_string___std___append (void)
     for (i = 1; i < TLS_argument_count; ++i) {
       NODE *right = TLS_arguments[i];
       if (
-	(right)->type == std_types___octet_string.type ||
-	(right)->type == std_types___wide_string.type
+	(right)->type == std_types__octet_string.type ||
+	(right)->type == std_types__wide_string.type
       ) {
 	new_length += right->octet_string.length;
       } else {
@@ -23861,7 +23861,7 @@ static void entry__std_types___wide_string___std___append (void)
       NODE *right = TLS_arguments[i];
       long right_offset = right->octet_string.offset;
       long right_length = right->octet_string.length;
-      if ((right)->type == std_types___wide_string.type) {
+      if ((right)->type == std_types__wide_string.type) {
 	memcpy(
 	  data->buffer+offset,
 	  right->wide_string.data->buffer+right_offset,
@@ -23877,14 +23877,14 @@ static void entry__std_types___wide_string___std___append (void)
     }
     data->length = left_offset+new_length;
     {
-      NODE *result__node = (NODE *)(create__std_types___wide_string(left_offset, new_length, data));
+      NODE *result__node = (NODE *)(create__std_types__wide_string(left_offset, new_length, data));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
   }
 
-static void entry__std_types___octet_string___std___range (void)
+static void entry__std_types__octet_string__std__range (void)
   {
     if (TLS_argument_count != 3) {
       invalid_arguments();
@@ -23921,20 +23921,20 @@ static void entry__std_types___octet_string___std___range (void)
     }
     long new_len = last_idx-first_idx+1;
     if (new_len == 0) {
-      NODE *result__node = (NODE *)((NODE *)&std___empty_string);
+      NODE *result__node = (NODE *)((NODE *)&std__empty_string);
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
     {
-      NODE *result__node = (NODE *)(create__std_types___octet_string(self->octet_string.offset+first_idx-1, new_len, self->octet_string.data));
+      NODE *result__node = (NODE *)(create__std_types__octet_string(self->octet_string.offset+first_idx-1, new_len, self->octet_string.data));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
   }
 
-static void entry__std_types___wide_string___std___range (void)
+static void entry__std_types__wide_string__std__range (void)
   {
     if (TLS_argument_count != 3) {
       invalid_arguments();
@@ -23971,7 +23971,7 @@ static void entry__std_types___wide_string___std___range (void)
     }
     long new_len = last_idx-first_idx+1;
     if (new_len == 0) {
-      NODE *result__node = (NODE *)((NODE *)&std___empty_string);
+      NODE *result__node = (NODE *)((NODE *)&std__empty_string);
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -23982,7 +23982,7 @@ static void entry__std_types___wide_string___std___range (void)
     for (idx = first_idx-1; idx < last_idx; ++idx) {
       if (data->buffer[offset+idx] > 0xff) {
 	{
-	  NODE *result__node = (NODE *)(create__std_types___wide_string(offset+first_idx-1, new_len, data));
+	  NODE *result__node = (NODE *)(create__std_types__wide_string(offset+first_idx-1, new_len, data));
 	  TLS_arguments[0] = result__node;
 	  TLS_argument_count = 1;
 	  return;
@@ -23998,14 +23998,14 @@ static void entry__std_types___wide_string___std___range (void)
       new_data->buffer[idx] = data->buffer[idx+offset];
     }
     {
-      NODE *result__node = (NODE *)(create__std_types___octet_string(0, new_len, new_data));
+      NODE *result__node = (NODE *)(create__std_types__octet_string(0, new_len, new_data));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
   }
 
-static void entry__std_types___octet_string___std___hash (void)
+static void entry__std_types__octet_string__std__hash (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -24041,7 +24041,7 @@ static void entry__std_types___octet_string___std___hash (void)
     }
   }
 
-static void entry__std_types___wide_string___std___hash (void)
+static void entry__std_types__wide_string__std__hash (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -24078,7 +24078,7 @@ static void entry__std_types___wide_string___std___hash (void)
     }
   }
 
-static void entry__std_types___octet_string___std___equal (void)
+static void entry__std_types__octet_string__std__equal (void)
   {
     if (TLS_argument_count != 2) {
       invalid_arguments();
@@ -24091,20 +24091,20 @@ static void entry__std_types___octet_string___std___equal (void)
     NODE *left = TLS_arguments[0];
     NODE *right = TLS_arguments[1];
     if (left == right) {
-      NODE *result__node = (NODE *)(&std_types___true);
+      NODE *result__node = (NODE *)(&std_types__true);
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
-    if ((right)->type != std_types___octet_string.type) {
-      if ((TLS_arguments[1])->type == std_types___error.type) {
+    if ((right)->type != std_types__octet_string.type) {
+      if ((TLS_arguments[1])->type == std_types__error.type) {
 	{
 	  invalid_arguments();
 	  return;
 	}
       } else {
 	{
-	  NODE *result__node = (NODE *)(&std_types___false);
+	  NODE *result__node = (NODE *)(&std_types__false);
 	  TLS_arguments[0] = result__node;
 	  TLS_argument_count = 1;
 	  return;
@@ -24117,13 +24117,13 @@ static void entry__std_types___octet_string___std___equal (void)
     long right_offset = right->octet_string.offset;
     long length = left->octet_string.length;
     if (length != right->octet_string.length) {
-      NODE *result__node = (NODE *)(&std_types___false);
+      NODE *result__node = (NODE *)(&std_types__false);
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
     if (left_offset == right_offset && left_data == right_data) {
-      NODE *result__node = (NODE *)(&std_types___true);
+      NODE *result__node = (NODE *)(&std_types__true);
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -24131,7 +24131,7 @@ static void entry__std_types___octet_string___std___equal (void)
     long i;
     for (i = 0; i < length; ++i) {
       if (left_data->buffer[left_offset+i] != right_data->buffer[right_offset+i]) {
-        NODE *result__node = (NODE *)(&std_types___false);
+        NODE *result__node = (NODE *)(&std_types__false);
         TLS_arguments[0] = result__node;
         TLS_argument_count = 1;
         return;
@@ -24142,14 +24142,14 @@ static void entry__std_types___octet_string___std___equal (void)
       join_nodes(&left->octet_string.data, &right->octet_string.data);
     }
     {
-      NODE *result__node = (NODE *)(&std_types___true);
+      NODE *result__node = (NODE *)(&std_types__true);
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
   }
 
-static void entry__std_types___wide_string___std___equal (void)
+static void entry__std_types__wide_string__std__equal (void)
   {
     if (TLS_argument_count != 2) {
       invalid_arguments();
@@ -24162,13 +24162,13 @@ static void entry__std_types___wide_string___std___equal (void)
     NODE *left = TLS_arguments[0];
     NODE *right = TLS_arguments[1];
     if (left == right) {
-      NODE *result__node = (NODE *)(&std_types___true);
+      NODE *result__node = (NODE *)(&std_types__true);
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
-    if ((right)->type != std_types___wide_string.type) {
-      NODE *result__node = (NODE *)(&std_types___false);
+    if ((right)->type != std_types__wide_string.type) {
+      NODE *result__node = (NODE *)(&std_types__false);
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -24179,13 +24179,13 @@ static void entry__std_types___wide_string___std___equal (void)
     long right_offset = right->wide_string.offset;
     long length = left->wide_string.length;
     if (length != right->wide_string.length) {
-      NODE *result__node = (NODE *)(&std_types___false);
+      NODE *result__node = (NODE *)(&std_types__false);
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
     if (left_offset == right_offset && left_data == right_data) {
-      NODE *result__node = (NODE *)(&std_types___true);
+      NODE *result__node = (NODE *)(&std_types__true);
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
@@ -24193,7 +24193,7 @@ static void entry__std_types___wide_string___std___equal (void)
     long i;
     for (i = 0; i < length; ++i) {
       if (left_data->buffer[left_offset+i] != right_data->buffer[right_offset+i]) {
-        NODE *result__node = (NODE *)(&std_types___false);
+        NODE *result__node = (NODE *)(&std_types__false);
         TLS_arguments[0] = result__node;
         TLS_argument_count = 1;
         return;
@@ -24204,14 +24204,14 @@ static void entry__std_types___wide_string___std___equal (void)
       join_nodes(&left->wide_string.data, &right->wide_string.data);
     }
     {
-      NODE *result__node = (NODE *)(&std_types___true);
+      NODE *result__node = (NODE *)(&std_types__true);
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
   }
 
-static void entry__std_types___octet_string___std___less (void)
+static void entry__std_types__octet_string__std__less (void)
   {
     if (TLS_argument_count != 2) {
       invalid_arguments();
@@ -24224,12 +24224,12 @@ static void entry__std_types___octet_string___std___less (void)
     NODE *left = TLS_arguments[0];
     NODE *right = TLS_arguments[1];
     if (left == right) {
-      NODE *result__node = (NODE *)(&std_types___false);
+      NODE *result__node = (NODE *)(&std_types__false);
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
-    if ((right)->type == std_types___octet_string.type) {
+    if ((right)->type == std_types__octet_string.type) {
       OCTET_DATA *left_data = left->octet_string.data;
       OCTET_DATA *right_data = right->octet_string.data;
       long left_offset = left->octet_string.offset;
@@ -24238,7 +24238,7 @@ static void entry__std_types___octet_string___std___less (void)
       long right_length = right->octet_string.length;
       if (left_offset == right_offset && left_length == right_length && left_data == right_data)
 	{
-	  NODE *result__node = (NODE *)(&std_types___false);
+	  NODE *result__node = (NODE *)(&std_types__false);
 	  TLS_arguments[0] = result__node;
 	  TLS_argument_count = 1;
 	  return;
@@ -24250,20 +24250,20 @@ static void entry__std_types___octet_string___std___less (void)
 	uint8_t left_chr = left_data->buffer[left_offset+i];
 	uint8_t right_chr = right_data->buffer[right_offset+i];
 	if (left_chr < right_chr) {
-	  NODE *result__node = (NODE *)(&std_types___true);
+	  NODE *result__node = (NODE *)(&std_types__true);
 	  TLS_arguments[0] = result__node;
 	  TLS_argument_count = 1;
 	  return;
 	}
 	if (left_chr > right_chr) {
-	  NODE *result__node = (NODE *)(&std_types___false);
+	  NODE *result__node = (NODE *)(&std_types__false);
 	  TLS_arguments[0] = result__node;
 	  TLS_argument_count = 1;
 	  return;
 	}
       }
       if (left_length < right_length) {
-        NODE *result__node = (NODE *)(&std_types___true);
+        NODE *result__node = (NODE *)(&std_types__true);
         TLS_arguments[0] = result__node;
         TLS_argument_count = 1;
         return;
@@ -24273,12 +24273,12 @@ static void entry__std_types___octet_string___std___less (void)
 	join_nodes(&left->octet_string.data, &right->octet_string.data);
       }
       {
-        NODE *result__node = (NODE *)(&std_types___false);
+        NODE *result__node = (NODE *)(&std_types__false);
         TLS_arguments[0] = result__node;
         TLS_argument_count = 1;
         return;
       }
-    } else if ((right)->type == std_types___wide_string.type) {
+    } else if ((right)->type == std_types__wide_string.type) {
       OCTET_DATA *left_data = left->octet_string.data;
       WIDE_DATA *right_data = right->wide_string.data;
       long left_offset = left->octet_string.offset;
@@ -24292,26 +24292,26 @@ static void entry__std_types___octet_string___std___less (void)
 	uint32_t left_chr = left_data->buffer[left_offset+i];
 	uint32_t right_chr = right_data->buffer[right_offset+i];
 	if (left_chr < right_chr) {
-	  NODE *result__node = (NODE *)(&std_types___true);
+	  NODE *result__node = (NODE *)(&std_types__true);
 	  TLS_arguments[0] = result__node;
 	  TLS_argument_count = 1;
 	  return;
 	}
 	if (left_chr > right_chr) {
-	  NODE *result__node = (NODE *)(&std_types___false);
+	  NODE *result__node = (NODE *)(&std_types__false);
 	  TLS_arguments[0] = result__node;
 	  TLS_argument_count = 1;
 	  return;
 	}
       }
       if (left_length < right_length) {
-        NODE *result__node = (NODE *)(&std_types___true);
+        NODE *result__node = (NODE *)(&std_types__true);
         TLS_arguments[0] = result__node;
         TLS_argument_count = 1;
         return;
       }
       {
-        NODE *result__node = (NODE *)(&std_types___false);
+        NODE *result__node = (NODE *)(&std_types__false);
         TLS_arguments[0] = result__node;
         TLS_argument_count = 1;
         return;
@@ -24324,7 +24324,7 @@ static void entry__std_types___octet_string___std___less (void)
     }
   }
 
-static void entry__std_types___wide_string___std___less (void)
+static void entry__std_types__wide_string__std__less (void)
   {
     if (TLS_argument_count != 2) {
       invalid_arguments();
@@ -24337,12 +24337,12 @@ static void entry__std_types___wide_string___std___less (void)
     NODE *left = TLS_arguments[0];
     NODE *right = TLS_arguments[1];
     if (left == right) {
-      NODE *result__node = (NODE *)(&std_types___false);
+      NODE *result__node = (NODE *)(&std_types__false);
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
-    if ((right)->type == std_types___octet_string.type) {
+    if ((right)->type == std_types__octet_string.type) {
       WIDE_DATA *left_data = left->wide_string.data;
       OCTET_DATA *right_data = right->octet_string.data;
       long left_offset = left->wide_string.offset;
@@ -24356,31 +24356,31 @@ static void entry__std_types___wide_string___std___less (void)
 	uint32_t left_chr = left_data->buffer[left_offset+i];
 	uint32_t right_chr = right_data->buffer[right_offset+i];
 	if (left_chr < right_chr) {
-	  NODE *result__node = (NODE *)(&std_types___true);
+	  NODE *result__node = (NODE *)(&std_types__true);
 	  TLS_arguments[0] = result__node;
 	  TLS_argument_count = 1;
 	  return;
 	}
 	if (left_chr > right_chr) {
-	  NODE *result__node = (NODE *)(&std_types___false);
+	  NODE *result__node = (NODE *)(&std_types__false);
 	  TLS_arguments[0] = result__node;
 	  TLS_argument_count = 1;
 	  return;
 	}
       }
       if (left_length < right_length) {
-        NODE *result__node = (NODE *)(&std_types___true);
+        NODE *result__node = (NODE *)(&std_types__true);
         TLS_arguments[0] = result__node;
         TLS_argument_count = 1;
         return;
       }
       {
-        NODE *result__node = (NODE *)(&std_types___false);
+        NODE *result__node = (NODE *)(&std_types__false);
         TLS_arguments[0] = result__node;
         TLS_argument_count = 1;
         return;
       }
-    } else if ((right)->type == std_types___wide_string.type) {
+    } else if ((right)->type == std_types__wide_string.type) {
       WIDE_DATA *left_data = left->wide_string.data;
       WIDE_DATA *right_data = right->wide_string.data;
       long left_offset = left->wide_string.offset;
@@ -24389,7 +24389,7 @@ static void entry__std_types___wide_string___std___less (void)
       long right_length = right->wide_string.length;
       if (left_offset == right_offset && left_length == right_length && left_data == right_data)
 	{
-	  NODE *result__node = (NODE *)(&std_types___false);
+	  NODE *result__node = (NODE *)(&std_types__false);
 	  TLS_arguments[0] = result__node;
 	  TLS_argument_count = 1;
 	  return;
@@ -24401,20 +24401,20 @@ static void entry__std_types___wide_string___std___less (void)
 	uint32_t left_chr = left_data->buffer[left_offset+i];
 	uint32_t right_chr = right_data->buffer[right_offset+i];
 	if (left_chr < right_chr) {
-	  NODE *result__node = (NODE *)(&std_types___true);
+	  NODE *result__node = (NODE *)(&std_types__true);
 	  TLS_arguments[0] = result__node;
 	  TLS_argument_count = 1;
 	  return;
 	}
 	if (left_chr > right_chr) {
-	  NODE *result__node = (NODE *)(&std_types___false);
+	  NODE *result__node = (NODE *)(&std_types__false);
 	  TLS_arguments[0] = result__node;
 	  TLS_argument_count = 1;
 	  return;
 	}
       }
       if (left_length < right_length) {
-        NODE *result__node = (NODE *)(&std_types___true);
+        NODE *result__node = (NODE *)(&std_types__true);
         TLS_arguments[0] = result__node;
         TLS_argument_count = 1;
         return;
@@ -24424,7 +24424,7 @@ static void entry__std_types___wide_string___std___less (void)
 	join_nodes(&left->octet_string.data, &right->octet_string.data);
       }
       {
-        NODE *result__node = (NODE *)(&std_types___false);
+        NODE *result__node = (NODE *)(&std_types__false);
         TLS_arguments[0] = result__node;
         TLS_argument_count = 1;
         return;
@@ -24437,7 +24437,7 @@ static void entry__std_types___wide_string___std___less (void)
     }
   }
 
-static void entry__std_types___octet_string___std___width_of (void)
+static void entry__std_types__octet_string__std__width_of (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -24455,7 +24455,7 @@ static void entry__std_types___octet_string___std___width_of (void)
     }
   }
 
-static void entry__std_types___wide_string___std___width_of (void)
+static void entry__std_types__wide_string__std__width_of (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -24486,7 +24486,7 @@ static void entry__std_types___wide_string___std___width_of (void)
     }
   }
 
-static void entry__std_types___octet_string___std___from_utf8 (void)
+static void entry__std_types__octet_string__std__from_utf8 (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -24562,7 +24562,7 @@ static void entry__std_types___octet_string___std___from_utf8 (void)
 	data->buffer[dest_idx] = chr;
       }
       {
-        NODE *result__node = (NODE *)(create__std_types___octet_string(0, new_length, data));
+        NODE *result__node = (NODE *)(create__std_types__octet_string(0, new_length, data));
         TLS_arguments[0] = result__node;
         TLS_argument_count = 1;
         return;
@@ -24604,7 +24604,7 @@ static void entry__std_types___octet_string___std___from_utf8 (void)
 	data->buffer[dest_idx] = chr;
       }
       {
-        NODE *result__node = (NODE *)(create__std_types___wide_string(0, new_length, data));
+        NODE *result__node = (NODE *)(create__std_types__wide_string(0, new_length, data));
         TLS_arguments[0] = result__node;
         TLS_argument_count = 1;
         return;
@@ -24612,7 +24612,7 @@ static void entry__std_types___octet_string___std___from_utf8 (void)
     }
   }
 
-static void entry__std_types___octet_string___std___to_utf8 (void)
+static void entry__std_types__octet_string__std__to_utf8 (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -24645,14 +24645,14 @@ static void entry__std_types___octet_string___std___to_utf8 (void)
       }
     }
     {
-      NODE *result__node = (NODE *)(create__std_types___octet_string(0, new_len, data));
+      NODE *result__node = (NODE *)(create__std_types__octet_string(0, new_len, data));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
   }
 
-static void entry__std_types___wide_string___std___to_utf8 (void)
+static void entry__std_types__wide_string__std__to_utf8 (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -24745,14 +24745,14 @@ static void entry__std_types___wide_string___std___to_utf8 (void)
       }
     }
     {
-      NODE *result__node = (NODE *)(create__std_types___octet_string(0, new_len, data));
+      NODE *result__node = (NODE *)(create__std_types__octet_string(0, new_len, data));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
   }
 
-static void entry__std_types___file_descriptor___std___get_terminal_attributes (void)
+static void entry__std_types__file_descriptor__std__get_terminal_attributes (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -24781,14 +24781,14 @@ static void entry__std_types___file_descriptor___std___get_terminal_attributes (
     }
     if (success == 0) {
       {
-        NODE *result__node = (NODE *)(create__std_types___terminal_attributes(data));
+        NODE *result__node = (NODE *)(create__std_types__terminal_attributes(data));
         TLS_arguments[0] = result__node;
         TLS_argument_count = 1;
         return;
       }
     } else {
       {
-        NODE *result__node = (NODE *)(&std_types___undefined);
+        NODE *result__node = (NODE *)(&std_types__undefined);
         TLS_arguments[0] = result__node;
         TLS_argument_count = 1;
         return;
@@ -24796,7 +24796,7 @@ static void entry__std_types___file_descriptor___std___get_terminal_attributes (
     }
   }
 
-static void entry__std_types___file_descriptor___std___set_terminal_attributes (void)
+static void entry__std_types__file_descriptor__std__set_terminal_attributes (void)
   {
     if (TLS_argument_count != 2) {
       invalid_arguments();
@@ -24809,7 +24809,7 @@ static void entry__std_types___file_descriptor___std___set_terminal_attributes (
 
     int fd = TLS_arguments[0]->file_descriptor.value;
     NODE *attributes = TLS_arguments[1];
-    if ((attributes)->type != ((NODE *)&std_types___terminal_attributes)->type)
+    if ((attributes)->type != ((NODE *)&std_types__terminal_attributes)->type)
       {
         invalid_arguments();
         return;
@@ -24842,7 +24842,7 @@ static void entry__std_types___file_descriptor___std___set_terminal_attributes (
     }
   }
 
-static void entry__std_types___terminal_attributes___std___backspace_character_of (void)
+static void entry__std_types__terminal_attributes__std__backspace_character_of (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -24857,7 +24857,7 @@ static void entry__std_types___terminal_attributes___std___backspace_character_o
     }
   }
 
-static void entry__std_types___terminal_attributes___std___use_canonical_mode (void)
+static void entry__std_types__terminal_attributes__std__use_canonical_mode (void)
   {
     if (TLS_argument_count < 1) {
       too_few_arguments();
@@ -24886,7 +24886,7 @@ static void entry__std_types___terminal_attributes___std___use_canonical_mode (v
 	data->termios.c_lflag &= ~ICANON;
       }
       {
-        NODE *result__node = (NODE *)(create__std_types___terminal_attributes(data));
+        NODE *result__node = (NODE *)(create__std_types__terminal_attributes(data));
         TLS_arguments[0] = result__node;
         TLS_argument_count = 1;
         return;
@@ -24894,7 +24894,7 @@ static void entry__std_types___terminal_attributes___std___use_canonical_mode (v
     }
   }
 
-static void entry__std_types___terminal_attributes___std___echo_characters (void)
+static void entry__std_types__terminal_attributes__std__echo_characters (void)
   {
     if (TLS_argument_count < 1) {
       too_few_arguments();
@@ -24923,7 +24923,7 @@ static void entry__std_types___terminal_attributes___std___echo_characters (void
 	data->termios.c_lflag &= ~ECHO;
       }
       {
-        NODE *result__node = (NODE *)(create__std_types___terminal_attributes(data));
+        NODE *result__node = (NODE *)(create__std_types__terminal_attributes(data));
         TLS_arguments[0] = result__node;
         TLS_argument_count = 1;
         return;
@@ -24931,7 +24931,7 @@ static void entry__std_types___terminal_attributes___std___echo_characters (void
     }
   }
 
-static void entry__std_types___terminal_attributes___std___echo_new_lines (void)
+static void entry__std_types__terminal_attributes__std__echo_new_lines (void)
   {
     if (TLS_argument_count < 1) {
       too_few_arguments();
@@ -24960,7 +24960,7 @@ static void entry__std_types___terminal_attributes___std___echo_new_lines (void)
 	data->termios.c_lflag &= ~ECHONL;
       }
       {
-        NODE *result__node = (NODE *)(create__std_types___terminal_attributes(data));
+        NODE *result__node = (NODE *)(create__std_types__terminal_attributes(data));
         TLS_arguments[0] = result__node;
         TLS_argument_count = 1;
         return;
@@ -24968,7 +24968,7 @@ static void entry__std_types___terminal_attributes___std___echo_new_lines (void)
     }
   }
 
-static void entry__std_types___terminal_attributes___std___enable_xon_xoff_for_input (void)
+static void entry__std_types__terminal_attributes__std__enable_xon_xoff_for_input (void)
   {
     if (TLS_argument_count < 1) {
       too_few_arguments();
@@ -24997,7 +24997,7 @@ static void entry__std_types___terminal_attributes___std___enable_xon_xoff_for_i
 	data->termios.c_iflag &= ~IXOFF;
       }
       {
-        NODE *result__node = (NODE *)(create__std_types___terminal_attributes(data));
+        NODE *result__node = (NODE *)(create__std_types__terminal_attributes(data));
         TLS_arguments[0] = result__node;
         TLS_argument_count = 1;
         return;
@@ -25005,7 +25005,7 @@ static void entry__std_types___terminal_attributes___std___enable_xon_xoff_for_i
     }
   }
 
-static void entry__std_types___terminal_attributes___std___enable_xon_xoff_for_output (void)
+static void entry__std_types__terminal_attributes__std__enable_xon_xoff_for_output (void)
   {
     if (TLS_argument_count < 1) {
       too_few_arguments();
@@ -25034,7 +25034,7 @@ static void entry__std_types___terminal_attributes___std___enable_xon_xoff_for_o
 	data->termios.c_iflag &= ~IXON;
       }
       {
-        NODE *result__node = (NODE *)(create__std_types___terminal_attributes(data));
+        NODE *result__node = (NODE *)(create__std_types__terminal_attributes(data));
         TLS_arguments[0] = result__node;
         TLS_argument_count = 1;
         return;
@@ -25042,7 +25042,7 @@ static void entry__std_types___terminal_attributes___std___enable_xon_xoff_for_o
     }
   }
 
-static void entry__std_types___terminal_attributes___std___restart_output_on_any_character (void)
+static void entry__std_types__terminal_attributes__std__restart_output_on_any_character (void)
   {
     if (TLS_argument_count < 1) {
       too_few_arguments();
@@ -25071,7 +25071,7 @@ static void entry__std_types___terminal_attributes___std___restart_output_on_any
 	data->termios.c_iflag &= ~IXANY;
       }
       {
-        NODE *result__node = (NODE *)(create__std_types___terminal_attributes(data));
+        NODE *result__node = (NODE *)(create__std_types__terminal_attributes(data));
         TLS_arguments[0] = result__node;
         TLS_argument_count = 1;
         return;
@@ -25079,7 +25079,7 @@ static void entry__std_types___terminal_attributes___std___restart_output_on_any
     }
   }
 
-static void entry__std_types___terminal_attributes___std___ignore_cr_on_input (void)
+static void entry__std_types__terminal_attributes__std__ignore_cr_on_input (void)
   {
     if (TLS_argument_count < 1) {
       too_few_arguments();
@@ -25108,7 +25108,7 @@ static void entry__std_types___terminal_attributes___std___ignore_cr_on_input (v
 	data->termios.c_iflag &= ~IGNCR;
       }
       {
-        NODE *result__node = (NODE *)(create__std_types___terminal_attributes(data));
+        NODE *result__node = (NODE *)(create__std_types__terminal_attributes(data));
         TLS_arguments[0] = result__node;
         TLS_argument_count = 1;
         return;
@@ -25116,7 +25116,7 @@ static void entry__std_types___terminal_attributes___std___ignore_cr_on_input (v
     }
   }
 
-static void entry__std_types___terminal_attributes___std___generate_signals (void)
+static void entry__std_types__terminal_attributes__std__generate_signals (void)
   {
     if (TLS_argument_count < 1) {
       too_few_arguments();
@@ -25145,7 +25145,7 @@ static void entry__std_types___terminal_attributes___std___generate_signals (voi
 	data->termios.c_lflag &= ~ISIG;
       }
       {
-        NODE *result__node = (NODE *)(create__std_types___terminal_attributes(data));
+        NODE *result__node = (NODE *)(create__std_types__terminal_attributes(data));
         TLS_arguments[0] = result__node;
         TLS_argument_count = 1;
         return;
@@ -25153,7 +25153,7 @@ static void entry__std_types___terminal_attributes___std___generate_signals (voi
     }
   }
 
-static void entry__std_types___terminal_attributes___std___map_cr_to_lf_on_input (void)
+static void entry__std_types__terminal_attributes__std__map_cr_to_lf_on_input (void)
   {
     if (TLS_argument_count < 1) {
       too_few_arguments();
@@ -25182,7 +25182,7 @@ static void entry__std_types___terminal_attributes___std___map_cr_to_lf_on_input
 	data->termios.c_iflag &= ~ICRNL;
       }
       {
-        NODE *result__node = (NODE *)(create__std_types___terminal_attributes(data));
+        NODE *result__node = (NODE *)(create__std_types__terminal_attributes(data));
         TLS_arguments[0] = result__node;
         TLS_argument_count = 1;
         return;
@@ -25190,7 +25190,7 @@ static void entry__std_types___terminal_attributes___std___map_cr_to_lf_on_input
     }
   }
 
-static void entry__std_types___terminal_attributes___std___hangup_on_close (void)
+static void entry__std_types__terminal_attributes__std__hangup_on_close (void)
   {
     if (TLS_argument_count < 1) {
       too_few_arguments();
@@ -25219,7 +25219,7 @@ static void entry__std_types___terminal_attributes___std___hangup_on_close (void
 	data->termios.c_oflag &= ~HUPCL;
       }
       {
-        NODE *result__node = (NODE *)(create__std_types___terminal_attributes(data));
+        NODE *result__node = (NODE *)(create__std_types__terminal_attributes(data));
         TLS_arguments[0] = result__node;
         TLS_argument_count = 1;
         return;
@@ -25227,7 +25227,7 @@ static void entry__std_types___terminal_attributes___std___hangup_on_close (void
     }
   }
 
-static void entry__std_types___terminal_attributes___std___map_lf_to_crlf_on_output (void)
+static void entry__std_types__terminal_attributes__std__map_lf_to_crlf_on_output (void)
   {
     if (TLS_argument_count < 1) {
       too_few_arguments();
@@ -25256,7 +25256,7 @@ static void entry__std_types___terminal_attributes___std___map_lf_to_crlf_on_out
 	data->termios.c_oflag &= ~ONLCR;
       }
       {
-        NODE *result__node = (NODE *)(create__std_types___terminal_attributes(data));
+        NODE *result__node = (NODE *)(create__std_types__terminal_attributes(data));
         TLS_arguments[0] = result__node;
         TLS_argument_count = 1;
         return;
@@ -25264,7 +25264,7 @@ static void entry__std_types___terminal_attributes___std___map_lf_to_crlf_on_out
     }
   }
 
-static void entry__std_types___terminal_attributes___std___minimum_characters_for_canoncial_read (void)
+static void entry__std_types__terminal_attributes__std__minimum_characters_for_canoncial_read (void)
   {
     if (TLS_argument_count < 1) {
       too_few_arguments();
@@ -25289,7 +25289,7 @@ static void entry__std_types___terminal_attributes___std___minimum_characters_fo
       data->termios = *termios;
       data->termios.c_cc[VMIN] = value;
       {
-        NODE *result__node = (NODE *)(create__std_types___terminal_attributes(data));
+        NODE *result__node = (NODE *)(create__std_types__terminal_attributes(data));
         TLS_arguments[0] = result__node;
         TLS_argument_count = 1;
         return;
@@ -25297,7 +25297,7 @@ static void entry__std_types___terminal_attributes___std___minimum_characters_fo
     }
   }
 
-static void entry__std_types___terminal_attributes___std___timeout_for_reads (void)
+static void entry__std_types__terminal_attributes__std__timeout_for_reads (void)
   {
     if (TLS_argument_count < 1) {
       too_few_arguments();
@@ -25323,7 +25323,7 @@ static void entry__std_types___terminal_attributes___std___timeout_for_reads (vo
       data->termios = *termios;
       data->termios.c_cc[VTIME] = value;
       {
-        NODE *result__node = (NODE *)(create__std_types___terminal_attributes(data));
+        NODE *result__node = (NODE *)(create__std_types__terminal_attributes(data));
         TLS_arguments[0] = result__node;
         TLS_argument_count = 1;
         return;
@@ -25331,7 +25331,7 @@ static void entry__std_types___terminal_attributes___std___timeout_for_reads (vo
     }
   }
 
-static void entry__std_types___terminal_attributes___std___input_speed (void)
+static void entry__std_types__terminal_attributes__std__input_speed (void)
   {
     if (TLS_argument_count < 1) {
       too_few_arguments();
@@ -25407,7 +25407,7 @@ static void entry__std_types___terminal_attributes___std___input_speed (void)
       }
       if (speed < 0) {
 	{
-	  NODE *result__node = (NODE *)(&std_types___undefined);
+	  NODE *result__node = (NODE *)(&std_types__undefined);
 	  TLS_arguments[0] = result__node;
 	  TLS_argument_count = 1;
 	  return;
@@ -25491,7 +25491,7 @@ static void entry__std_types___terminal_attributes___std___input_speed (void)
       data->termios = *termios;
       cfsetispeed(&data->termios, speed);
       {
-        NODE *result__node = (NODE *)(create__std_types___terminal_attributes(data));
+        NODE *result__node = (NODE *)(create__std_types__terminal_attributes(data));
         TLS_arguments[0] = result__node;
         TLS_argument_count = 1;
         return;
@@ -25499,7 +25499,7 @@ static void entry__std_types___terminal_attributes___std___input_speed (void)
     }
   }
 
-static void entry__std_types___terminal_attributes___std___output_speed (void)
+static void entry__std_types__terminal_attributes__std__output_speed (void)
   {
     if (TLS_argument_count < 1) {
       too_few_arguments();
@@ -25575,7 +25575,7 @@ static void entry__std_types___terminal_attributes___std___output_speed (void)
       }
       if (speed < 0) {
 	{
-	  NODE *result__node = (NODE *)(&std_types___undefined);
+	  NODE *result__node = (NODE *)(&std_types__undefined);
 	  TLS_arguments[0] = result__node;
 	  TLS_argument_count = 1;
 	  return;
@@ -25659,7 +25659,7 @@ static void entry__std_types___terminal_attributes___std___output_speed (void)
       data->termios = *termios;
       cfsetospeed(&data->termios, speed);
       {
-        NODE *result__node = (NODE *)(create__std_types___terminal_attributes(data));
+        NODE *result__node = (NODE *)(create__std_types__terminal_attributes(data));
         TLS_arguments[0] = result__node;
         TLS_argument_count = 1;
         return;
@@ -25667,17 +25667,17 @@ static void entry__std_types___terminal_attributes___std___output_speed (void)
     }
   }
 
-static void entry__std_types___tuple___std___typed_tuple (void)
+static void entry__std_types__tuple__std__typed_tuple (void)
   {
     {
       create_error_message(
-        module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+        module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
         "Attempt to clone the tuple prototype object!", 0, 0, NULL);
       return;
     }
   }
 
-static void entry__builtin_types___tuple2___std___to_list (void)
+static void entry__builtin_types__tuple2__std__to_list (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -25690,14 +25690,14 @@ static void entry__builtin_types___tuple2___std___to_list (void)
     data->items[0] = self->tuple2.node_0;
     data->items[1] = self->tuple2.node_1;
     {
-      NODE *result__node = (NODE *)(create__std_types___list(0, 2, data));
+      NODE *result__node = (NODE *)(create__std_types__list(0, 2, data));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
   }
 
-static void entry__builtin_types___tuple2___std___typed_tuple (void)
+static void entry__builtin_types__tuple2__std__typed_tuple (void)
   {
     if (TLS_argument_count != 3) {
       invalid_arguments();
@@ -25705,7 +25705,7 @@ static void entry__builtin_types___tuple2___std___typed_tuple (void)
     }
     NODE *prototype = TLS_arguments[0];
     NODE *clone =
-      create__builtin_types___tuple2(TLS_arguments[1], TLS_arguments[2]);
+      create__builtin_types__tuple2(TLS_arguments[1], TLS_arguments[2]);
     clone->attributes = prototype->attributes;
     {
       NODE *result__node = (NODE *)(clone);
@@ -25715,7 +25715,7 @@ static void entry__builtin_types___tuple2___std___typed_tuple (void)
     }
   }
 
-static void entry__builtin_types___tuple3___std___to_list (void)
+static void entry__builtin_types__tuple3__std__to_list (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -25729,14 +25729,14 @@ static void entry__builtin_types___tuple3___std___to_list (void)
     data->items[1] = self->tuple3.node_1;
     data->items[2] = self->tuple3.node_2;
     {
-      NODE *result__node = (NODE *)(create__std_types___list(0, 3, data));
+      NODE *result__node = (NODE *)(create__std_types__list(0, 3, data));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
   }
 
-static void entry__builtin_types___tuple3___std___typed_tuple (void)
+static void entry__builtin_types__tuple3__std__typed_tuple (void)
   {
     if (TLS_argument_count != 4) {
       invalid_arguments();
@@ -25744,7 +25744,7 @@ static void entry__builtin_types___tuple3___std___typed_tuple (void)
     }
     NODE *prototype = TLS_arguments[0];
     NODE *clone =
-      create__builtin_types___tuple3(TLS_arguments[1], TLS_arguments[2], TLS_arguments[3]);
+      create__builtin_types__tuple3(TLS_arguments[1], TLS_arguments[2], TLS_arguments[3]);
     clone->attributes = prototype->attributes;
     {
       NODE *result__node = (NODE *)(clone);
@@ -25754,7 +25754,7 @@ static void entry__builtin_types___tuple3___std___typed_tuple (void)
     }
   }
 
-static void entry__builtin_types___tuple4___std___to_list (void)
+static void entry__builtin_types__tuple4__std__to_list (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -25769,14 +25769,14 @@ static void entry__builtin_types___tuple4___std___to_list (void)
     data->items[2] = self->tuple4.node_2;
     data->items[3] = self->tuple4.node_3;
     {
-      NODE *result__node = (NODE *)(create__std_types___list(0, 4, data));
+      NODE *result__node = (NODE *)(create__std_types__list(0, 4, data));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
   }
 
-static void entry__builtin_types___tuple4___std___typed_tuple (void)
+static void entry__builtin_types__tuple4__std__typed_tuple (void)
   {
     if (TLS_argument_count != 5) {
       invalid_arguments();
@@ -25784,7 +25784,7 @@ static void entry__builtin_types___tuple4___std___typed_tuple (void)
     }
     NODE *prototype = TLS_arguments[0];
     NODE *clone =
-      create__builtin_types___tuple4(TLS_arguments[1], TLS_arguments[2], TLS_arguments[3], TLS_arguments[4]);
+      create__builtin_types__tuple4(TLS_arguments[1], TLS_arguments[2], TLS_arguments[3], TLS_arguments[4]);
     clone->attributes = prototype->attributes;
     {
       NODE *result__node = (NODE *)(clone);
@@ -25794,7 +25794,7 @@ static void entry__builtin_types___tuple4___std___typed_tuple (void)
     }
   }
 
-static void entry__builtin_types___tuple5___std___to_list (void)
+static void entry__builtin_types__tuple5__std__to_list (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -25810,14 +25810,14 @@ static void entry__builtin_types___tuple5___std___to_list (void)
     data->items[3] = self->tuple5.node_3;
     data->items[4] = self->tuple5.node_4;
     {
-      NODE *result__node = (NODE *)(create__std_types___list(0, 5, data));
+      NODE *result__node = (NODE *)(create__std_types__list(0, 5, data));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
   }
 
-static void entry__builtin_types___tuple5___std___typed_tuple (void)
+static void entry__builtin_types__tuple5__std__typed_tuple (void)
   {
     if (TLS_argument_count != 6) {
       invalid_arguments();
@@ -25825,7 +25825,7 @@ static void entry__builtin_types___tuple5___std___typed_tuple (void)
     }
     NODE *prototype = TLS_arguments[0];
     NODE *clone =
-      create__builtin_types___tuple5(TLS_arguments[1], TLS_arguments[2], TLS_arguments[3], TLS_arguments[4], TLS_arguments[5]);
+      create__builtin_types__tuple5(TLS_arguments[1], TLS_arguments[2], TLS_arguments[3], TLS_arguments[4], TLS_arguments[5]);
     clone->attributes = prototype->attributes;
     {
       NODE *result__node = (NODE *)(clone);
@@ -25835,7 +25835,7 @@ static void entry__builtin_types___tuple5___std___typed_tuple (void)
     }
   }
 
-static void entry__builtin_types___tuple6___std___to_list (void)
+static void entry__builtin_types__tuple6__std__to_list (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -25852,14 +25852,14 @@ static void entry__builtin_types___tuple6___std___to_list (void)
     data->items[4] = self->tuple6.node_4;
     data->items[5] = self->tuple6.node_5;
     {
-      NODE *result__node = (NODE *)(create__std_types___list(0, 6, data));
+      NODE *result__node = (NODE *)(create__std_types__list(0, 6, data));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
   }
 
-static void entry__builtin_types___tuple6___std___typed_tuple (void)
+static void entry__builtin_types__tuple6__std__typed_tuple (void)
   {
     if (TLS_argument_count != 7) {
       invalid_arguments();
@@ -25867,7 +25867,7 @@ static void entry__builtin_types___tuple6___std___typed_tuple (void)
     }
     NODE *prototype = TLS_arguments[0];
     NODE *clone =
-      create__builtin_types___tuple6(TLS_arguments[1], TLS_arguments[2], TLS_arguments[3], TLS_arguments[4], TLS_arguments[5], TLS_arguments[6]);
+      create__builtin_types__tuple6(TLS_arguments[1], TLS_arguments[2], TLS_arguments[3], TLS_arguments[4], TLS_arguments[5], TLS_arguments[6]);
     clone->attributes = prototype->attributes;
     {
       NODE *result__node = (NODE *)(clone);
@@ -25877,7 +25877,7 @@ static void entry__builtin_types___tuple6___std___typed_tuple (void)
     }
   }
 
-static void entry__builtin_types___tuple7___std___to_list (void)
+static void entry__builtin_types__tuple7__std__to_list (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -25895,14 +25895,14 @@ static void entry__builtin_types___tuple7___std___to_list (void)
     data->items[5] = self->tuple7.node_5;
     data->items[6] = self->tuple7.node_6;
     {
-      NODE *result__node = (NODE *)(create__std_types___list(0, 7, data));
+      NODE *result__node = (NODE *)(create__std_types__list(0, 7, data));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
   }
 
-static void entry__builtin_types___tuple7___std___typed_tuple (void)
+static void entry__builtin_types__tuple7__std__typed_tuple (void)
   {
     if (TLS_argument_count != 8) {
       invalid_arguments();
@@ -25910,7 +25910,7 @@ static void entry__builtin_types___tuple7___std___typed_tuple (void)
     }
     NODE *prototype = TLS_arguments[0];
     NODE *clone =
-      create__builtin_types___tuple7(TLS_arguments[1], TLS_arguments[2], TLS_arguments[3], TLS_arguments[4], TLS_arguments[5], TLS_arguments[6], TLS_arguments[7]);
+      create__builtin_types__tuple7(TLS_arguments[1], TLS_arguments[2], TLS_arguments[3], TLS_arguments[4], TLS_arguments[5], TLS_arguments[6], TLS_arguments[7]);
     clone->attributes = prototype->attributes;
     {
       NODE *result__node = (NODE *)(clone);
@@ -25920,7 +25920,7 @@ static void entry__builtin_types___tuple7___std___typed_tuple (void)
     }
   }
 
-static void entry__builtin_types___tuple8___std___to_list (void)
+static void entry__builtin_types__tuple8__std__to_list (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -25939,14 +25939,14 @@ static void entry__builtin_types___tuple8___std___to_list (void)
     data->items[6] = self->tuple8.node_6;
     data->items[7] = self->tuple8.node_7;
     {
-      NODE *result__node = (NODE *)(create__std_types___list(0, 8, data));
+      NODE *result__node = (NODE *)(create__std_types__list(0, 8, data));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
   }
 
-static void entry__builtin_types___tuple8___std___typed_tuple (void)
+static void entry__builtin_types__tuple8__std__typed_tuple (void)
   {
     if (TLS_argument_count != 9) {
       invalid_arguments();
@@ -25954,7 +25954,7 @@ static void entry__builtin_types___tuple8___std___typed_tuple (void)
     }
     NODE *prototype = TLS_arguments[0];
     NODE *clone =
-      create__builtin_types___tuple8(TLS_arguments[1], TLS_arguments[2], TLS_arguments[3], TLS_arguments[4], TLS_arguments[5], TLS_arguments[6], TLS_arguments[7], TLS_arguments[8]);
+      create__builtin_types__tuple8(TLS_arguments[1], TLS_arguments[2], TLS_arguments[3], TLS_arguments[4], TLS_arguments[5], TLS_arguments[6], TLS_arguments[7], TLS_arguments[8]);
     clone->attributes = prototype->attributes;
     {
       NODE *result__node = (NODE *)(clone);
@@ -25964,7 +25964,7 @@ static void entry__builtin_types___tuple8___std___typed_tuple (void)
     }
   }
 
-static void entry__std___tuple (void)
+static void entry__std__tuple (void)
   {
     if (TLS_argument_count < 2) {
       too_few_arguments();
@@ -25977,49 +25977,49 @@ static void entry__std___tuple (void)
     switch (TLS_argument_count) {
       case 2:
 	{
-	  NODE *result__node = (NODE *)(create__builtin_types___tuple2(TLS_arguments[0], TLS_arguments[1]));
+	  NODE *result__node = (NODE *)(create__builtin_types__tuple2(TLS_arguments[0], TLS_arguments[1]));
 	  TLS_arguments[0] = result__node;
 	  TLS_argument_count = 1;
 	  return;
 	}
       case 3:
 	{
-	  NODE *result__node = (NODE *)(create__builtin_types___tuple3(TLS_arguments[0], TLS_arguments[1], TLS_arguments[2]));
+	  NODE *result__node = (NODE *)(create__builtin_types__tuple3(TLS_arguments[0], TLS_arguments[1], TLS_arguments[2]));
 	  TLS_arguments[0] = result__node;
 	  TLS_argument_count = 1;
 	  return;
 	}
       case 4:
 	{
-	  NODE *result__node = (NODE *)(create__builtin_types___tuple4(TLS_arguments[0], TLS_arguments[1], TLS_arguments[2], TLS_arguments[3]));
+	  NODE *result__node = (NODE *)(create__builtin_types__tuple4(TLS_arguments[0], TLS_arguments[1], TLS_arguments[2], TLS_arguments[3]));
 	  TLS_arguments[0] = result__node;
 	  TLS_argument_count = 1;
 	  return;
 	}
       case 5:
 	{
-	  NODE *result__node = (NODE *)(create__builtin_types___tuple5(TLS_arguments[0], TLS_arguments[1], TLS_arguments[2], TLS_arguments[3], TLS_arguments[4]));
+	  NODE *result__node = (NODE *)(create__builtin_types__tuple5(TLS_arguments[0], TLS_arguments[1], TLS_arguments[2], TLS_arguments[3], TLS_arguments[4]));
 	  TLS_arguments[0] = result__node;
 	  TLS_argument_count = 1;
 	  return;
 	}
       case 6:
 	{
-	  NODE *result__node = (NODE *)(create__builtin_types___tuple6(TLS_arguments[0], TLS_arguments[1], TLS_arguments[2], TLS_arguments[3], TLS_arguments[4], TLS_arguments[5]));
+	  NODE *result__node = (NODE *)(create__builtin_types__tuple6(TLS_arguments[0], TLS_arguments[1], TLS_arguments[2], TLS_arguments[3], TLS_arguments[4], TLS_arguments[5]));
 	  TLS_arguments[0] = result__node;
 	  TLS_argument_count = 1;
 	  return;
 	}
       case 7:
 	{
-	  NODE *result__node = (NODE *)(create__builtin_types___tuple7(TLS_arguments[0], TLS_arguments[1], TLS_arguments[2], TLS_arguments[3], TLS_arguments[4], TLS_arguments[5], TLS_arguments[6]));
+	  NODE *result__node = (NODE *)(create__builtin_types__tuple7(TLS_arguments[0], TLS_arguments[1], TLS_arguments[2], TLS_arguments[3], TLS_arguments[4], TLS_arguments[5], TLS_arguments[6]));
 	  TLS_arguments[0] = result__node;
 	  TLS_argument_count = 1;
 	  return;
 	}
       case 8:
 	{
-	  NODE *result__node = (NODE *)(create__builtin_types___tuple8(TLS_arguments[0], TLS_arguments[1], TLS_arguments[2], TLS_arguments[3], TLS_arguments[4], TLS_arguments[5], TLS_arguments[6], TLS_arguments[7]));
+	  NODE *result__node = (NODE *)(create__builtin_types__tuple8(TLS_arguments[0], TLS_arguments[1], TLS_arguments[2], TLS_arguments[3], TLS_arguments[4], TLS_arguments[5], TLS_arguments[6], TLS_arguments[7]));
 	  TLS_arguments[0] = result__node;
 	  TLS_argument_count = 1;
 	  return;
@@ -26027,7 +26027,7 @@ static void entry__std___tuple (void)
     }
   }
 
-static void entry__std___tuple_or_error (void)
+static void entry__std__tuple_or_error (void)
   {
     if (TLS_argument_count < 2) {
       too_few_arguments();
@@ -26039,7 +26039,7 @@ static void entry__std___tuple_or_error (void)
     }
     int i;
     for (i = 0; i < TLS_argument_count; ++i) {
-      if ((TLS_arguments[i])->type == std_types___error.type)
+      if ((TLS_arguments[i])->type == std_types__error.type)
 	{
 	  NODE *result__node = (NODE *)(TLS_arguments[i]);
 	  TLS_arguments[0] = result__node;
@@ -26050,49 +26050,49 @@ static void entry__std___tuple_or_error (void)
     switch (TLS_argument_count) {
       case 2:
 	{
-	  NODE *result__node = (NODE *)(create__builtin_types___tuple2(TLS_arguments[0], TLS_arguments[1]));
+	  NODE *result__node = (NODE *)(create__builtin_types__tuple2(TLS_arguments[0], TLS_arguments[1]));
 	  TLS_arguments[0] = result__node;
 	  TLS_argument_count = 1;
 	  return;
 	}
       case 3:
 	{
-	  NODE *result__node = (NODE *)(create__builtin_types___tuple3(TLS_arguments[0], TLS_arguments[1], TLS_arguments[2]));
+	  NODE *result__node = (NODE *)(create__builtin_types__tuple3(TLS_arguments[0], TLS_arguments[1], TLS_arguments[2]));
 	  TLS_arguments[0] = result__node;
 	  TLS_argument_count = 1;
 	  return;
 	}
       case 4:
 	{
-	  NODE *result__node = (NODE *)(create__builtin_types___tuple4(TLS_arguments[0], TLS_arguments[1], TLS_arguments[2], TLS_arguments[3]));
+	  NODE *result__node = (NODE *)(create__builtin_types__tuple4(TLS_arguments[0], TLS_arguments[1], TLS_arguments[2], TLS_arguments[3]));
 	  TLS_arguments[0] = result__node;
 	  TLS_argument_count = 1;
 	  return;
 	}
       case 5:
 	{
-	  NODE *result__node = (NODE *)(create__builtin_types___tuple5(TLS_arguments[0], TLS_arguments[1], TLS_arguments[2], TLS_arguments[3], TLS_arguments[4]));
+	  NODE *result__node = (NODE *)(create__builtin_types__tuple5(TLS_arguments[0], TLS_arguments[1], TLS_arguments[2], TLS_arguments[3], TLS_arguments[4]));
 	  TLS_arguments[0] = result__node;
 	  TLS_argument_count = 1;
 	  return;
 	}
       case 6:
 	{
-	  NODE *result__node = (NODE *)(create__builtin_types___tuple6(TLS_arguments[0], TLS_arguments[1], TLS_arguments[2], TLS_arguments[3], TLS_arguments[4], TLS_arguments[5]));
+	  NODE *result__node = (NODE *)(create__builtin_types__tuple6(TLS_arguments[0], TLS_arguments[1], TLS_arguments[2], TLS_arguments[3], TLS_arguments[4], TLS_arguments[5]));
 	  TLS_arguments[0] = result__node;
 	  TLS_argument_count = 1;
 	  return;
 	}
       case 7:
 	{
-	  NODE *result__node = (NODE *)(create__builtin_types___tuple7(TLS_arguments[0], TLS_arguments[1], TLS_arguments[2], TLS_arguments[3], TLS_arguments[4], TLS_arguments[5], TLS_arguments[6]));
+	  NODE *result__node = (NODE *)(create__builtin_types__tuple7(TLS_arguments[0], TLS_arguments[1], TLS_arguments[2], TLS_arguments[3], TLS_arguments[4], TLS_arguments[5], TLS_arguments[6]));
 	  TLS_arguments[0] = result__node;
 	  TLS_argument_count = 1;
 	  return;
 	}
       case 8:
 	{
-	  NODE *result__node = (NODE *)(create__builtin_types___tuple8(TLS_arguments[0], TLS_arguments[1], TLS_arguments[2], TLS_arguments[3], TLS_arguments[4], TLS_arguments[5], TLS_arguments[6], TLS_arguments[7]));
+	  NODE *result__node = (NODE *)(create__builtin_types__tuple8(TLS_arguments[0], TLS_arguments[1], TLS_arguments[2], TLS_arguments[3], TLS_arguments[4], TLS_arguments[5], TLS_arguments[6], TLS_arguments[7]));
 	  TLS_arguments[0] = result__node;
 	  TLS_argument_count = 1;
 	  return;
@@ -26100,7 +26100,7 @@ static void entry__std___tuple_or_error (void)
     }
   }
 
-static void entry__std___new_tuple (void)
+static void entry__std__new_tuple (void)
   {
     if (TLS_argument_count != 2) {
       invalid_arguments();
@@ -26108,7 +26108,7 @@ static void entry__std___new_tuple (void)
     }
     NODE *prototype = TLS_arguments[0];
     NODE *list = TLS_arguments[1];
-    if ((list)->type != std_types___list.type) {
+    if ((list)->type != std_types__list.type) {
       invalid_arguments();
       return;
     }
@@ -26117,7 +26117,7 @@ static void entry__std___new_tuple (void)
     if (length < 2) {
       {
         create_error_message(
-          module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+          module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
           "tuple_from_list - TOO FEW ITEMS", 0, 0, NULL);
         return;
       }
@@ -26125,7 +26125,7 @@ static void entry__std___new_tuple (void)
     } else if (length > 8) {
       {
         create_error_message(
-          module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+          module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
           "tuple_from_list - TOO MANY ITEMS", 0, 0, NULL);
         return;
       }
@@ -26136,35 +26136,35 @@ static void entry__std___new_tuple (void)
     switch (length) {
       case 2:
 	tuple =
-	  create__builtin_types___tuple2(data->items[offset+0], data->items[offset+1]);
+	  create__builtin_types__tuple2(data->items[offset+0], data->items[offset+1]);
 	break;
       case 3:
 	tuple =
-	  create__builtin_types___tuple3(data->items[offset+0], data->items[offset+1], data->items[offset+2]);
+	  create__builtin_types__tuple3(data->items[offset+0], data->items[offset+1], data->items[offset+2]);
 	break;
       case 4:
 	tuple =
-	  create__builtin_types___tuple4(data->items[offset+0], data->items[offset+1], data->items[offset+2], data->items[offset+3]);
+	  create__builtin_types__tuple4(data->items[offset+0], data->items[offset+1], data->items[offset+2], data->items[offset+3]);
 	break;
       case 5:
 	tuple =
-	  create__builtin_types___tuple5(data->items[offset+0], data->items[offset+1], data->items[offset+2], data->items[offset+3], data->items[offset+4]);
+	  create__builtin_types__tuple5(data->items[offset+0], data->items[offset+1], data->items[offset+2], data->items[offset+3], data->items[offset+4]);
 	break;
       case 6:
 	tuple =
-	  create__builtin_types___tuple6(data->items[offset+0], data->items[offset+1], data->items[offset+2], data->items[offset+3], data->items[offset+4], data->items[offset+5]);
+	  create__builtin_types__tuple6(data->items[offset+0], data->items[offset+1], data->items[offset+2], data->items[offset+3], data->items[offset+4], data->items[offset+5]);
 	break;
       case 7:
 	tuple =
-	  create__builtin_types___tuple7(data->items[offset+0], data->items[offset+1], data->items[offset+2], data->items[offset+3], data->items[offset+4], data->items[offset+5], data->items[offset+6]);
+	  create__builtin_types__tuple7(data->items[offset+0], data->items[offset+1], data->items[offset+2], data->items[offset+3], data->items[offset+4], data->items[offset+5], data->items[offset+6]);
 	break;
       case 8:
 	tuple =
-	  create__builtin_types___tuple8(data->items[offset+0], data->items[offset+1], data->items[offset+2], data->items[offset+3], data->items[offset+4], data->items[offset+5], data->items[offset+6], data->items[offset+7]);
+	  create__builtin_types__tuple8(data->items[offset+0], data->items[offset+1], data->items[offset+2], data->items[offset+3], data->items[offset+4], data->items[offset+5], data->items[offset+6], data->items[offset+7]);
 	break;
     }
-    if ((prototype)->type != std_types___tuple.type) {
-      // std_types___tuple is generic and cannot be used!
+    if ((prototype)->type != std_types__tuple.type) {
+      // std_types__tuple is generic and cannot be used!
       tuple->attributes = prototype->attributes;
     }
     {
@@ -26175,7 +26175,7 @@ static void entry__std___new_tuple (void)
     }
   }
 
-static void entry__std_types___character___std___to_upper_case (void)
+static void entry__std_types__character__std__to_upper_case (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -26188,14 +26188,14 @@ static void entry__std_types___character___std___to_upper_case (void)
     uint32_t chr_code;
     if (!to_uchar32(TLS_arguments[0], &chr_code)) return;;
     {
-      NODE *result__node = (NODE *)(create__std_types___character(to_upper_case(chr_code)));
+      NODE *result__node = (NODE *)(create__std_types__character(to_upper_case(chr_code)));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
   }
 
-static void entry__std___is_an_upper_case_letter_character (void)
+static void entry__std__is_an_upper_case_letter_character (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -26215,7 +26215,7 @@ static void entry__std___is_an_upper_case_letter_character (void)
     }
   }
 
-static void entry__std_types___character___std___to_lower_case (void)
+static void entry__std_types__character__std__to_lower_case (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -26228,14 +26228,14 @@ static void entry__std_types___character___std___to_lower_case (void)
     uint32_t chr_code;
     if (!to_uchar32(TLS_arguments[0], &chr_code)) return;;
     {
-      NODE *result__node = (NODE *)(create__std_types___character(to_lower_case(chr_code)));
+      NODE *result__node = (NODE *)(create__std_types__character(to_lower_case(chr_code)));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
   }
 
-static void entry__std___is_a_lower_case_letter_character (void)
+static void entry__std__is_a_lower_case_letter_character (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -26255,7 +26255,7 @@ static void entry__std___is_a_lower_case_letter_character (void)
     }
   }
 
-static void entry__std_types___character___std___to_title_case (void)
+static void entry__std_types__character__std__to_title_case (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -26268,14 +26268,14 @@ static void entry__std_types___character___std___to_title_case (void)
     uint32_t chr_code;
     if (!to_uchar32(TLS_arguments[0], &chr_code)) return;;
     {
-      NODE *result__node = (NODE *)(create__std_types___character(to_title_case(chr_code)));
+      NODE *result__node = (NODE *)(create__std_types__character(to_title_case(chr_code)));
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
   }
 
-static void entry__std___is_a_title_case_letter_character (void)
+static void entry__std__is_a_title_case_letter_character (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -26295,7 +26295,7 @@ static void entry__std___is_a_title_case_letter_character (void)
     }
   }
 
-static void entry__std___is_a_letter_character (void)
+static void entry__std__is_a_letter_character (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -26315,7 +26315,7 @@ static void entry__std___is_a_letter_character (void)
     }
   }
 
-static void entry__std___is_a_whitespace_character (void)
+static void entry__std__is_a_whitespace_character (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -26335,7 +26335,7 @@ static void entry__std___is_a_whitespace_character (void)
     }
   }
 
-static void entry__std___is_a_zero_width_character (void)
+static void entry__std__is_a_zero_width_character (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -26355,7 +26355,7 @@ static void entry__std___is_a_zero_width_character (void)
     }
   }
 
-static void entry__std___is_a_wide_character (void)
+static void entry__std__is_a_wide_character (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -26375,7 +26375,7 @@ static void entry__std___is_a_wide_character (void)
     }
   }
 
-static void entry__std_types___unique_item___std___to_string (void)
+static void entry__std_types__unique_item__std__to_string (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -26389,28 +26389,28 @@ static void entry__std_types___unique_item___std___to_string (void)
     }
   }
 
-static void entry__std_types___unique_item___std___equal (void)
+static void entry__std_types__unique_item__std__equal (void)
   {
     if (TLS_argument_count != 2) {
       invalid_arguments();
       return;
     }
     NODE *right = TLS_arguments[1];
-    if ((right)->type == std_types___unique_item.type) {
+    if ((right)->type == std_types__unique_item.type) {
       {
         NODE *result__node = (NODE *)(from_bool(TLS_arguments[0]->unique_item.id == right->unique_item.id));
         TLS_arguments[0] = result__node;
         TLS_argument_count = 1;
         return;
       }
-    } else if ((right)->type == std_types___error.type) {
+    } else if ((right)->type == std_types__error.type) {
       {
         invalid_arguments();
         return;
       }
     } else {
       {
-        NODE *result__node = (NODE *)(&std_types___false);
+        NODE *result__node = (NODE *)(&std_types__false);
         TLS_arguments[0] = result__node;
         TLS_argument_count = 1;
         return;
@@ -26418,7 +26418,7 @@ static void entry__std_types___unique_item___std___equal (void)
     }
   }
 
-static void entry__std_types___unique_item___std___hash (void)
+static void entry__std_types__unique_item__std__hash (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -26435,7 +26435,7 @@ static void entry__std_types___unique_item___std___hash (void)
     };
   }
 
-static void entry__std___unique_item (void)
+static void entry__std__unique_item (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -26447,7 +26447,7 @@ static void entry__std___unique_item (void)
     for (i = 1; i < unique_idx; ++i) {
       if (strcmp(name, my_unique_item_names[i]) == 0) {
 	{
-	  NODE *result__node = (NODE *)(create__std_types___unique_item(i));
+	  NODE *result__node = (NODE *)(create__std_types__unique_item(i));
 	  TLS_arguments[0] = result__node;
 	  TLS_argument_count = 1;
 	}
@@ -26456,7 +26456,7 @@ static void entry__std___unique_item (void)
     }
     {
       create_error_message(
-        module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+        module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
         "NO SUCH UNIQUE ITEM", 0, 0, NULL);
       return;
     }
@@ -26466,7 +26466,7 @@ static void entry__std___unique_item (void)
     deallocate_memory(name);
   }
 
-static void entry__std_types___file_descriptor___std___get_terminal_size (void)
+static void entry__std_types__file_descriptor__std__get_terminal_size (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -26509,12 +26509,12 @@ static void entry__std_types___file_descriptor___std___get_terminal_size (void)
       }
     } else {
       create_error_message(
-	module__builtin.constants_base[unique__std___IO_ERROR-1],
+	module__builtin.constants_base[unique__std__IO_ERROR-1],
 	"IOCTL FAILED", errno, 0, NULL);
     }
   }
 
-static void entry__std___exitstatus (void)
+static void entry__std__exitstatus (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -26529,7 +26529,7 @@ static void entry__std___exitstatus (void)
     }
   }
 
-static void entry__std___pselect (void)
+static void entry__std__pselect (void)
   {
     if (TLS_argument_count < 3) {
       too_few_arguments();
@@ -26556,7 +26556,7 @@ static void entry__std___pselect (void)
 
     if (
       TLS_argument_count > 3 &&
-      (TLS_arguments[3])->type != std_types___undefined.type
+      (TLS_arguments[3])->type != std_types__undefined.type
     ) {
       if (!to_double(TLS_arguments[3], &timeout)) return;
       if (timeout < 0.0) timeout = 0.0;
@@ -26637,11 +26637,11 @@ static void entry__std___pselect (void)
     //   store__int_array(descriptors, descriptor_count);
     if (ret == -1 && errno != EINTR) {
       create_error_message(
-	module__builtin.constants_base[unique__std___IO_ERROR-1],
+	module__builtin.constants_base[unique__std__IO_ERROR-1],
 	"PSELECT FAILED", errno, 0, NULL);
       return;
     }
-    NODE *signals = (NODE *)&std___empty_list;
+    NODE *signals = (NODE *)&std__empty_list;
     int read_count = 0;
     int write_count = 0;
     int except_count = 0;
@@ -26654,7 +26654,7 @@ static void entry__std___pselect (void)
       }
       if (read_count != read_descriptor_count) {
 	if (read_count == 0) {
-	  read_descriptors = (NODE *)&std___empty_list;
+	  read_descriptors = (NODE *)&std__empty_list;
 	} else {
 	  read_descriptors =
 	    create_descriptor_list(
@@ -26664,7 +26664,7 @@ static void entry__std___pselect (void)
       }
       if (write_count != write_descriptor_count) {
 	if (write_count == 0) {
-	  write_descriptors = (NODE *)&std___empty_list;
+	  write_descriptors = (NODE *)&std__empty_list;
 	} else {
 	  write_descriptors =
 	    create_descriptor_list(
@@ -26674,7 +26674,7 @@ static void entry__std___pselect (void)
       }
       if (except_count != except_descriptor_count) {
 	if (except_count == 0) {
-	  except_descriptors = (NODE *)&std___empty_list;
+	  except_descriptors = (NODE *)&std__empty_list;
 	} else {
 	  except_descriptors =
 	    create_descriptor_list(
@@ -26683,9 +26683,9 @@ static void entry__std___pselect (void)
 	}
       }
     } else {
-      read_descriptors = (NODE *)&std___empty_list;
-      write_descriptors = (NODE *)&std___empty_list;
-      except_descriptors = (NODE *)&std___empty_list;
+      read_descriptors = (NODE *)&std__empty_list;
+      write_descriptors = (NODE *)&std__empty_list;
+      except_descriptors = (NODE *)&std__empty_list;
     }
     int signal_count =
       caught_hup+caught_kill+caught_usr1+caught_usr2+
@@ -26697,22 +26697,22 @@ static void entry__std___pselect (void)
       data->length = signal_count;
       int n = 0;
       if (caught_hup) {
-	data->items[n++] = (NODE *)&std___SIGHUP;
+	data->items[n++] = (NODE *)&std__SIGHUP;
       }
       if (caught_usr1) {
-	data->items[n++] = (NODE *)&std___SIGUSR1;
+	data->items[n++] = (NODE *)&std__SIGUSR1;
       }
-      signals = create__std_types___list(0, signal_count, data);
+      signals = create__std_types__list(0, signal_count, data);
       if (caught_usr2) {
-	data->items[n++] = (NODE *)&std___SIGUSR2;
+	data->items[n++] = (NODE *)&std__SIGUSR2;
       }
       if (chld_changed_state) {
-	data->items[n++] = (NODE *)&std___SIGCHLD;
+	data->items[n++] = (NODE *)&std__SIGCHLD;
       }
       if (win_changed_size) {
-	data->items[n++] = (NODE *)&std___SIGWINCH;
+	data->items[n++] = (NODE *)&std__SIGWINCH;
       }
-      signals = create__std_types___list(0, signal_count, data);
+      signals = create__std_types__list(0, signal_count, data);
     }
     TLS_argument_count = 4;;
     TLS_arguments[0] = signals;
@@ -26724,7 +26724,7 @@ static void entry__std___pselect (void)
     }
   }
 
-static void entry__std___do_not_close (void)
+static void entry__std__do_not_close (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -26769,14 +26769,14 @@ static void entry__std___do_not_close (void)
     }
     if (result == -1) {
       create_error_message(
-	module__builtin.constants_base[unique__std___IO_ERROR-1],
+	module__builtin.constants_base[unique__std__IO_ERROR-1],
 	"DO_NO_CLOSE FAILED", errno, 0, NULL);
     } else {
       TLS_argument_count = 0;
     }
   }
 
-static void entry__std___waitpid (void)
+static void entry__std__waitpid (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -26811,7 +26811,7 @@ static void entry__std___waitpid (void)
     }
     if (result == -1) {
       create_error_message(
-	module__builtin.constants_base[unique__std___IO_ERROR-1],
+	module__builtin.constants_base[unique__std__IO_ERROR-1],
       "WAIT FAILED", errno, 0, NULL);
     } else {
       TLS_argument_count = 2;
@@ -26820,7 +26820,7 @@ static void entry__std___waitpid (void)
     }
   }
 
-static void entry__std___open_unix_socket (void)
+static void entry__std__open_unix_socket (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -26860,7 +26860,7 @@ static void entry__std___open_unix_socket (void)
     if (result == -1) {
       error:
       create_error_message(
-	module__builtin.constants_base[unique__std___IO_ERROR-1],
+	module__builtin.constants_base[unique__std__IO_ERROR-1],
 	"OPEN SOCKET FAILED", errno, 0, NULL);
     } else {
       {
@@ -26873,7 +26873,7 @@ static void entry__std___open_unix_socket (void)
     deallocate_memory(filename);
   }
 
-static void entry__std___send_file_descriptor (void)
+static void entry__std__send_file_descriptor (void)
   {
     if (TLS_argument_count != 3) {
       invalid_arguments();
@@ -26888,7 +26888,7 @@ static void entry__std___send_file_descriptor (void)
     char *message = NULL;
     int result;
     if (!file_descriptor_to_int(TLS_arguments[0], &sock)) return;
-    if ((TLS_arguments[1])->type != std_types___octet_string.type) {
+    if ((TLS_arguments[1])->type != std_types__octet_string.type) {
       invalid_arguments();
       return;
     }
@@ -26931,14 +26931,14 @@ static void entry__std___send_file_descriptor (void)
     }
     if (result == -1) {
       create_error_message(
-	module__builtin.constants_base[unique__std___IO_ERROR-1],
+	module__builtin.constants_base[unique__std__IO_ERROR-1],
 	"SEND FILE DESCRIPTOR FAILED", errno, 0, NULL);
     } else {
       TLS_argument_count = 0;
     }
   }
 
-static void entry__std___open_tcp_client_socket (void)
+static void entry__std__open_tcp_client_socket (void)
   {
     if (TLS_argument_count != 2) {
       invalid_arguments();
@@ -26992,7 +26992,7 @@ static void entry__std___open_tcp_client_socket (void)
     if (result == -1) {
       error:
       create_error_message(
-	module__builtin.constants_base[unique__std___IO_ERROR-1],
+	module__builtin.constants_base[unique__std__IO_ERROR-1],
 	"OPEN_TCP_CLIENT_SOCKET FAILED", errno, 0, NULL);
     } else {
       {
@@ -27005,7 +27005,7 @@ static void entry__std___open_tcp_client_socket (void)
     deallocate_memory(uri);
   }
 
-static void entry__std___open_tcp_server_socket (void)
+static void entry__std__open_tcp_server_socket (void)
   {
     if (TLS_argument_count < 2) {
       too_few_arguments();
@@ -27063,7 +27063,7 @@ static void entry__std___open_tcp_server_socket (void)
     if (result == -1) {
       error:
       create_error_message(
-	module__builtin.constants_base[unique__std___IO_ERROR-1],
+	module__builtin.constants_base[unique__std__IO_ERROR-1],
 	"OPEN_TCP_SERVER_SOCKET FAILED", errno, 0, NULL);
     } else {
       {
@@ -27074,7 +27074,7 @@ static void entry__std___open_tcp_server_socket (void)
     }
   }
 
-static void entry__std___accept (void)
+static void entry__std__accept (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -27094,7 +27094,7 @@ static void entry__std___accept (void)
       } while (conn == -1 && errno == EINTR);
       if (conn == -1) {
 	create_error_message(
-	  module__builtin.constants_base[unique__std___IO_ERROR-1],
+	  module__builtin.constants_base[unique__std__IO_ERROR-1],
 	  "ACCEPT FAILED", errno, 0, NULL);
       }
       if (event__mode == EM__RECORD) {
@@ -27119,7 +27119,7 @@ static void entry__std___accept (void)
     }
   }
 
-static void entry__std___is_listening (void)
+static void entry__std__is_listening (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -27137,7 +27137,7 @@ static void entry__std___is_listening (void)
     result = getsockopt(sock, SOL_SOCKET, SO_ACCEPTCONN, &does_listen, &len);
     if (result == -1) {
       create_error_message(
-	module__builtin.constants_base[unique__std___IO_ERROR-1],
+	module__builtin.constants_base[unique__std__IO_ERROR-1],
 	"GETSOCKOPT FAILED", errno, 0, NULL);
     } else {
       {
@@ -27149,7 +27149,7 @@ static void entry__std___is_listening (void)
     }
   }
 
-static void entry__std___get_first_mac_address (void)
+static void entry__std__get_first_mac_address (void)
   {
     if (TLS_argument_count != 0) {
       invalid_arguments();
@@ -27180,14 +27180,14 @@ static void entry__std___get_first_mac_address (void)
       freeifaddrs(addrs);
     #endif
     {
-      NODE *result__node = (NODE *)(&std_types___undefined);
+      NODE *result__node = (NODE *)(&std_types__undefined);
       TLS_arguments[0] = result__node;
       TLS_argument_count = 1;
       return;
     }
   }
 
-static void entry__std_types___shared_memory___std___size_of (void)
+static void entry__std_types__shared_memory__std__size_of (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -27201,7 +27201,7 @@ static void entry__std_types___shared_memory___std___size_of (void)
     }
   }
 
-static void entry__std_types___shared_memory___std___file_descriptor_of (void)
+static void entry__std_types__shared_memory__std__file_descriptor_of (void)
   {
     if (TLS_argument_count != 1) {
       invalid_arguments();
@@ -27215,7 +27215,7 @@ static void entry__std_types___shared_memory___std___file_descriptor_of (void)
     }
   }
 
-static void entry__std_types___shared_memory___std___write_at (void)
+static void entry__std_types__shared_memory__std__write_at (void)
   {
     if (TLS_argument_count != 3) {
       invalid_arguments();
@@ -27227,7 +27227,7 @@ static void entry__std_types___shared_memory___std___write_at (void)
     }
     long position;
     if (!to_long(TLS_arguments[1], &position)) return;
-    if ((TLS_arguments[2])->type != std_types___octet_string.type) {
+    if ((TLS_arguments[2])->type != std_types__octet_string.type) {
       invalid_arguments();
       return;
     }
@@ -27235,7 +27235,7 @@ static void entry__std_types___shared_memory___std___write_at (void)
     if (position < 1 || position+length-1 > TLS_arguments[0]->shared_memory.size) {
       {
         create_error_message(
-          module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+          module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
           "Invalid offset or length!", 0, 0, NULL);
         return;
       }
@@ -27251,7 +27251,7 @@ static void entry__std_types___shared_memory___std___write_at (void)
     }
   }
 
-static void entry__std___create_shared_memory (void)
+static void entry__std__create_shared_memory (void)
   {
     if (TLS_argument_count != 2) {
       invalid_arguments();
@@ -27264,7 +27264,7 @@ static void entry__std___create_shared_memory (void)
     #ifdef __ANDROID__
       {
         create_error_message(
-          module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+          module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
           "Shared memory is not supported on Android!", 0, 0, NULL);
         return;
       }
@@ -27277,25 +27277,25 @@ static void entry__std___create_shared_memory (void)
       fd = shm_open(filename, O_RDWR|O_CREAT|O_TRUNC|O_EXCL, 0600);
       if (fd == -1) {
 	create_error_message(
-	  module__builtin.constants_base[unique__std___IO_ERROR-1],
+	  module__builtin.constants_base[unique__std__IO_ERROR-1],
 	  "SHM_OPEN FAILED", errno, 0, NULL);
 	goto cleanup;
       }
       if (ftruncate(fd, size) == -1) {
 	create_error_message(
-	  module__builtin.constants_base[unique__std___IO_ERROR-1],
+	  module__builtin.constants_base[unique__std__IO_ERROR-1],
 	  "FTRUNCATE FAILED", errno, 0, NULL);
 	goto cleanup;
       }
       void *buf = mmap(NULL, size, PROT_READ|PROT_WRITE, MAP_SHARED, fd, 0);
       if (buf == MAP_FAILED) {
 	create_error_message(
-	  module__builtin.constants_base[unique__std___IO_ERROR-1],
+	  module__builtin.constants_base[unique__std__IO_ERROR-1],
 	  "MMAP FAILED", errno, 0, NULL);
 	goto cleanup;
       }
       {
-        NODE *result__node = (NODE *)(create__std_types___shared_memory(fd, size, buf));
+        NODE *result__node = (NODE *)(create__std_types__shared_memory(fd, size, buf));
         TLS_arguments[0] = result__node;
         TLS_argument_count = 1;
       }
@@ -27312,708 +27312,708 @@ static FUNKY_NAMESPACE defined_namespaces[] = {
 };
 
 static FUNKY_CONSTANT constants_table[] = {
-  {FLT_C_FUNCTION, -1, {.func = entry__std_types___array___std___length_of}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std_types___array___std___dimension_count_of}},
-  {FLT_C_FUNCTION, -1, {.func = entry__std___array}},
-  {FLT_C_FUNCTION, -1, {.func = entry__std___initialized_array}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std_types___array___std___create_empty_array}},
-  {FLT_C_FUNCTION, -1, {.func = entry__std_types___array___std___range}},
-  {FLT_C_FUNCTION, -1, {.func = entry__std_types___boolean_array___std___length_of}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std_types___boolean_array___std___dimension_count_of}},
-  {FLT_C_FUNCTION, 2, {.func = entry__std_types___boolean_array___std___equal}},
-  {FLT_C_FUNCTION, 2, {.func = entry__std_types___boolean_array___std___bit_and}},
-  {FLT_C_FUNCTION, 2, {.func = entry__std_types___boolean_array___std___bit_or}},
-  {FLT_C_FUNCTION, 2, {.func = entry__std_types___boolean_array___std___bit_xor}},
-  {FLT_C_FUNCTION, -1, {.func = entry__std___boolean_array}},
-  {FLT_C_FUNCTION, -1, {.func = entry__std___initialized_boolean_array}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std_types___boolean_array___std___create_empty_array}},
-  {FLT_C_FUNCTION, -1, {.func = entry__std_types___boolean_array___std___range}},
-  {FLT_C_FUNCTION, -1, {.func = entry__std_types___character_array___std___length_of}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std_types___character_array___std___dimension_count_of}},
-  {FLT_C_FUNCTION, 2, {.func = entry__std_types___character_array___std___equal}},
-  {FLT_C_FUNCTION, -1, {.func = entry__std___character_array}},
-  {FLT_C_FUNCTION, -1, {.func = entry__std___initialized_character_array}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std_types___character_array___std___create_empty_array}},
-  {FLT_C_FUNCTION, -1, {.func = entry__std_types___character_array___std___range}},
-  {FLT_C_FUNCTION, -1, {.func = entry__std_types___int8_array___std___length_of}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std_types___int8_array___std___dimension_count_of}},
-  {FLT_C_FUNCTION, 2, {.func = entry__std_types___int8_array___std___equal}},
-  {FLT_C_FUNCTION, 2, {.func = entry__std_types___int8_array___std___times}},
-  {FLT_C_FUNCTION, -1, {.func = entry__std___int8_array}},
-  {FLT_C_FUNCTION, -1, {.func = entry__std___initialized_int8_array}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std_types___int8_array___std___create_empty_array}},
-  {FLT_C_FUNCTION, -1, {.func = entry__std_types___int8_array___std___range}},
-  {FLT_C_FUNCTION, -1, {.func = entry__std_types___uint8_array___std___length_of}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std_types___uint8_array___std___dimension_count_of}},
-  {FLT_C_FUNCTION, 2, {.func = entry__std_types___uint8_array___std___equal}},
-  {FLT_C_FUNCTION, 2, {.func = entry__std_types___uint8_array___std___bit_and}},
-  {FLT_C_FUNCTION, 2, {.func = entry__std_types___uint8_array___std___bit_or}},
-  {FLT_C_FUNCTION, 2, {.func = entry__std_types___uint8_array___std___bit_xor}},
-  {FLT_C_FUNCTION, 2, {.func = entry__std_types___uint8_array___std___times}},
-  {FLT_C_FUNCTION, -1, {.func = entry__std___uint8_array}},
-  {FLT_C_FUNCTION, -1, {.func = entry__std___initialized_uint8_array}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std_types___uint8_array___std___create_empty_array}},
-  {FLT_C_FUNCTION, -1, {.func = entry__std_types___uint8_array___std___range}},
-  {FLT_C_FUNCTION, -1, {.func = entry__std_types___int16_array___std___length_of}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std_types___int16_array___std___dimension_count_of}},
-  {FLT_C_FUNCTION, 2, {.func = entry__std_types___int16_array___std___equal}},
-  {FLT_C_FUNCTION, 2, {.func = entry__std_types___int16_array___std___times}},
-  {FLT_C_FUNCTION, -1, {.func = entry__std___int16_array}},
-  {FLT_C_FUNCTION, -1, {.func = entry__std___initialized_int16_array}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std_types___int16_array___std___create_empty_array}},
-  {FLT_C_FUNCTION, -1, {.func = entry__std_types___int16_array___std___range}},
-  {FLT_C_FUNCTION, -1, {.func = entry__std_types___uint16_array___std___length_of}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std_types___uint16_array___std___dimension_count_of}},
-  {FLT_C_FUNCTION, 2, {.func = entry__std_types___uint16_array___std___equal}},
-  {FLT_C_FUNCTION, 2, {.func = entry__std_types___uint16_array___std___bit_and}},
-  {FLT_C_FUNCTION, 2, {.func = entry__std_types___uint16_array___std___bit_or}},
-  {FLT_C_FUNCTION, 2, {.func = entry__std_types___uint16_array___std___bit_xor}},
-  {FLT_C_FUNCTION, 2, {.func = entry__std_types___uint16_array___std___times}},
-  {FLT_C_FUNCTION, -1, {.func = entry__std___uint16_array}},
-  {FLT_C_FUNCTION, -1, {.func = entry__std___initialized_uint16_array}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std_types___uint16_array___std___create_empty_array}},
-  {FLT_C_FUNCTION, -1, {.func = entry__std_types___uint16_array___std___range}},
-  {FLT_C_FUNCTION, -1, {.func = entry__std_types___int32_array___std___length_of}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std_types___int32_array___std___dimension_count_of}},
-  {FLT_C_FUNCTION, 2, {.func = entry__std_types___int32_array___std___equal}},
-  {FLT_C_FUNCTION, 2, {.func = entry__std_types___int32_array___std___times}},
-  {FLT_C_FUNCTION, -1, {.func = entry__std___int32_array}},
-  {FLT_C_FUNCTION, -1, {.func = entry__std___initialized_int32_array}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std_types___int32_array___std___create_empty_array}},
-  {FLT_C_FUNCTION, -1, {.func = entry__std_types___int32_array___std___range}},
-  {FLT_C_FUNCTION, -1, {.func = entry__std_types___uint32_array___std___length_of}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std_types___uint32_array___std___dimension_count_of}},
-  {FLT_C_FUNCTION, 2, {.func = entry__std_types___uint32_array___std___equal}},
-  {FLT_C_FUNCTION, 2, {.func = entry__std_types___uint32_array___std___bit_and}},
-  {FLT_C_FUNCTION, 2, {.func = entry__std_types___uint32_array___std___bit_or}},
-  {FLT_C_FUNCTION, 2, {.func = entry__std_types___uint32_array___std___bit_xor}},
-  {FLT_C_FUNCTION, 2, {.func = entry__std_types___uint32_array___std___times}},
-  {FLT_C_FUNCTION, -1, {.func = entry__std___uint32_array}},
-  {FLT_C_FUNCTION, -1, {.func = entry__std___initialized_uint32_array}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std_types___uint32_array___std___create_empty_array}},
-  {FLT_C_FUNCTION, -1, {.func = entry__std_types___uint32_array___std___range}},
-  {FLT_C_FUNCTION, -1, {.func = entry__std_types___int64_array___std___length_of}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std_types___int64_array___std___dimension_count_of}},
-  {FLT_C_FUNCTION, 2, {.func = entry__std_types___int64_array___std___equal}},
-  {FLT_C_FUNCTION, 2, {.func = entry__std_types___int64_array___std___times}},
-  {FLT_C_FUNCTION, -1, {.func = entry__std___int64_array}},
-  {FLT_C_FUNCTION, -1, {.func = entry__std___initialized_int64_array}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std_types___int64_array___std___create_empty_array}},
-  {FLT_C_FUNCTION, -1, {.func = entry__std_types___int64_array___std___range}},
-  {FLT_C_FUNCTION, -1, {.func = entry__std_types___uint64_array___std___length_of}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std_types___uint64_array___std___dimension_count_of}},
-  {FLT_C_FUNCTION, 2, {.func = entry__std_types___uint64_array___std___equal}},
-  {FLT_C_FUNCTION, 2, {.func = entry__std_types___uint64_array___std___bit_and}},
-  {FLT_C_FUNCTION, 2, {.func = entry__std_types___uint64_array___std___bit_or}},
-  {FLT_C_FUNCTION, 2, {.func = entry__std_types___uint64_array___std___bit_xor}},
-  {FLT_C_FUNCTION, 2, {.func = entry__std_types___uint64_array___std___times}},
-  {FLT_C_FUNCTION, -1, {.func = entry__std___uint64_array}},
-  {FLT_C_FUNCTION, -1, {.func = entry__std___initialized_uint64_array}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std_types___uint64_array___std___create_empty_array}},
-  {FLT_C_FUNCTION, -1, {.func = entry__std_types___uint64_array___std___range}},
-  {FLT_C_FUNCTION, -1, {.func = entry__std_types___float32_array___std___length_of}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std_types___float32_array___std___dimension_count_of}},
-  {FLT_C_FUNCTION, 2, {.func = entry__std_types___float32_array___std___equal}},
-  {FLT_C_FUNCTION, 2, {.func = entry__std_types___float32_array___std___times}},
-  {FLT_C_FUNCTION, -1, {.func = entry__std___float32_array}},
-  {FLT_C_FUNCTION, -1, {.func = entry__std___initialized_float32_array}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std_types___float32_array___std___create_empty_array}},
-  {FLT_C_FUNCTION, -1, {.func = entry__std_types___float32_array___std___range}},
-  {FLT_C_FUNCTION, -1, {.func = entry__std_types___float64_array___std___length_of}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std_types___float64_array___std___dimension_count_of}},
-  {FLT_C_FUNCTION, 2, {.func = entry__std_types___float64_array___std___equal}},
-  {FLT_C_FUNCTION, 2, {.func = entry__std_types___float64_array___std___times}},
-  {FLT_C_FUNCTION, -1, {.func = entry__std___float64_array}},
-  {FLT_C_FUNCTION, -1, {.func = entry__std___initialized_float64_array}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std_types___float64_array___std___create_empty_array}},
-  {FLT_C_FUNCTION, -1, {.func = entry__std_types___float64_array___std___range}},
-  {FLT_C_FUNCTION, 0, {.func = entry__std___pass}},
-  {FLT_C_FUNCTION, 0, {.func = entry__std___result_count}},
-  {FLT_C_FUNCTION, 2, {.func = entry__std_types___true___std___equal}},
-  {FLT_C_FUNCTION, 2, {.func = entry__std_types___false___std___equal}},
-  {FLT_C_FUNCTION, 1, {.func = entry__c_function___std___parameter_count_of}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std___character}},
-  {FLT_C_FUNCTION, 2, {.func = entry__std_types___character___std___plus}},
-  {FLT_C_FUNCTION, 2, {.func = entry__std_types___character___std___minus}},
-  {FLT_C_FUNCTION, 2, {.func = entry__std_types___character___std___equal}},
-  {FLT_C_FUNCTION, 2, {.func = entry__std_types___character___std___less}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std_types___character___std___hash}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std_types___character___std___to_string}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std_types___character___std___to_integer}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std_types___character___std___width_of}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std___from_unix_time}},
-  {FLT_C_FUNCTION, 6, {.func = entry__std___date_and_time}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std_types___date_and_time___std___year_of}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std_types___date_and_time___std___month_of}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std_types___date_and_time___std___day_of}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std_types___date_and_time___std___day_of_week_of}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std_types___date_and_time___std___hour_of}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std_types___date_and_time___std___minute_of}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std_types___date_and_time___std___second_of}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std_types___date_and_time___std___time_shift_of}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std_types___date_and_time___std___seconds_since_epoch}},
-  {FLT_C_FUNCTION, 2, {.func = entry__std_types___date_and_time___std___plus}},
-  {FLT_C_FUNCTION, 2, {.func = entry__std_types___date_and_time___std___minus}},
-  {FLT_C_FUNCTION, 2, {.func = entry__std_types___date_and_time___std___equal}},
-  {FLT_C_FUNCTION, 2, {.func = entry__std_types___date_and_time___std___less}},
-  {FLT_C_FUNCTION, 0, {.func = entry__std___current_time}},
-  {FLT_C_FUNCTION, -1, {.func = entry__debug___string}},
-  {FLT_C_FUNCTION, 1, {.func = entry__debug___write}},
-  {FLT_C_FUNCTION, -1, {.func = entry__debug___dump_object}},
-  {FLT_C_FUNCTION, 0, {.func = entry__debug___has_io_access_rights}},
-  {FLT_C_FUNCTION, -1, {.func = entry__debug___exit}},
-  {FLT_C_FUNCTION, -1, {.func = entry__std___error_check}},
-  {FLT_C_FUNCTION, 0, {.func = entry__debug___total_garbage_collections}},
-  {FLT_C_FUNCTION, 0, {.func = entry__std___installation_prefix}},
-  {FLT_C_FUNCTION, 0, {.func = entry__std___package_version}},
+  {FLT_C_FUNCTION, -1, {.func = entry__std_types__array__std__length_of}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std_types__array__std__dimension_count_of}},
+  {FLT_C_FUNCTION, -1, {.func = entry__std__array}},
+  {FLT_C_FUNCTION, -1, {.func = entry__std__initialized_array}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std_types__array__std__create_empty_array}},
+  {FLT_C_FUNCTION, -1, {.func = entry__std_types__array__std__range}},
+  {FLT_C_FUNCTION, -1, {.func = entry__std_types__boolean_array__std__length_of}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std_types__boolean_array__std__dimension_count_of}},
+  {FLT_C_FUNCTION, 2, {.func = entry__std_types__boolean_array__std__equal}},
+  {FLT_C_FUNCTION, 2, {.func = entry__std_types__boolean_array__std__bit_and}},
+  {FLT_C_FUNCTION, 2, {.func = entry__std_types__boolean_array__std__bit_or}},
+  {FLT_C_FUNCTION, 2, {.func = entry__std_types__boolean_array__std__bit_xor}},
+  {FLT_C_FUNCTION, -1, {.func = entry__std__boolean_array}},
+  {FLT_C_FUNCTION, -1, {.func = entry__std__initialized_boolean_array}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std_types__boolean_array__std__create_empty_array}},
+  {FLT_C_FUNCTION, -1, {.func = entry__std_types__boolean_array__std__range}},
+  {FLT_C_FUNCTION, -1, {.func = entry__std_types__character_array__std__length_of}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std_types__character_array__std__dimension_count_of}},
+  {FLT_C_FUNCTION, 2, {.func = entry__std_types__character_array__std__equal}},
+  {FLT_C_FUNCTION, -1, {.func = entry__std__character_array}},
+  {FLT_C_FUNCTION, -1, {.func = entry__std__initialized_character_array}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std_types__character_array__std__create_empty_array}},
+  {FLT_C_FUNCTION, -1, {.func = entry__std_types__character_array__std__range}},
+  {FLT_C_FUNCTION, -1, {.func = entry__std_types__int8_array__std__length_of}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std_types__int8_array__std__dimension_count_of}},
+  {FLT_C_FUNCTION, 2, {.func = entry__std_types__int8_array__std__equal}},
+  {FLT_C_FUNCTION, 2, {.func = entry__std_types__int8_array__std__times}},
+  {FLT_C_FUNCTION, -1, {.func = entry__std__int8_array}},
+  {FLT_C_FUNCTION, -1, {.func = entry__std__initialized_int8_array}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std_types__int8_array__std__create_empty_array}},
+  {FLT_C_FUNCTION, -1, {.func = entry__std_types__int8_array__std__range}},
+  {FLT_C_FUNCTION, -1, {.func = entry__std_types__uint8_array__std__length_of}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std_types__uint8_array__std__dimension_count_of}},
+  {FLT_C_FUNCTION, 2, {.func = entry__std_types__uint8_array__std__equal}},
+  {FLT_C_FUNCTION, 2, {.func = entry__std_types__uint8_array__std__bit_and}},
+  {FLT_C_FUNCTION, 2, {.func = entry__std_types__uint8_array__std__bit_or}},
+  {FLT_C_FUNCTION, 2, {.func = entry__std_types__uint8_array__std__bit_xor}},
+  {FLT_C_FUNCTION, 2, {.func = entry__std_types__uint8_array__std__times}},
+  {FLT_C_FUNCTION, -1, {.func = entry__std__uint8_array}},
+  {FLT_C_FUNCTION, -1, {.func = entry__std__initialized_uint8_array}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std_types__uint8_array__std__create_empty_array}},
+  {FLT_C_FUNCTION, -1, {.func = entry__std_types__uint8_array__std__range}},
+  {FLT_C_FUNCTION, -1, {.func = entry__std_types__int16_array__std__length_of}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std_types__int16_array__std__dimension_count_of}},
+  {FLT_C_FUNCTION, 2, {.func = entry__std_types__int16_array__std__equal}},
+  {FLT_C_FUNCTION, 2, {.func = entry__std_types__int16_array__std__times}},
+  {FLT_C_FUNCTION, -1, {.func = entry__std__int16_array}},
+  {FLT_C_FUNCTION, -1, {.func = entry__std__initialized_int16_array}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std_types__int16_array__std__create_empty_array}},
+  {FLT_C_FUNCTION, -1, {.func = entry__std_types__int16_array__std__range}},
+  {FLT_C_FUNCTION, -1, {.func = entry__std_types__uint16_array__std__length_of}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std_types__uint16_array__std__dimension_count_of}},
+  {FLT_C_FUNCTION, 2, {.func = entry__std_types__uint16_array__std__equal}},
+  {FLT_C_FUNCTION, 2, {.func = entry__std_types__uint16_array__std__bit_and}},
+  {FLT_C_FUNCTION, 2, {.func = entry__std_types__uint16_array__std__bit_or}},
+  {FLT_C_FUNCTION, 2, {.func = entry__std_types__uint16_array__std__bit_xor}},
+  {FLT_C_FUNCTION, 2, {.func = entry__std_types__uint16_array__std__times}},
+  {FLT_C_FUNCTION, -1, {.func = entry__std__uint16_array}},
+  {FLT_C_FUNCTION, -1, {.func = entry__std__initialized_uint16_array}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std_types__uint16_array__std__create_empty_array}},
+  {FLT_C_FUNCTION, -1, {.func = entry__std_types__uint16_array__std__range}},
+  {FLT_C_FUNCTION, -1, {.func = entry__std_types__int32_array__std__length_of}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std_types__int32_array__std__dimension_count_of}},
+  {FLT_C_FUNCTION, 2, {.func = entry__std_types__int32_array__std__equal}},
+  {FLT_C_FUNCTION, 2, {.func = entry__std_types__int32_array__std__times}},
+  {FLT_C_FUNCTION, -1, {.func = entry__std__int32_array}},
+  {FLT_C_FUNCTION, -1, {.func = entry__std__initialized_int32_array}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std_types__int32_array__std__create_empty_array}},
+  {FLT_C_FUNCTION, -1, {.func = entry__std_types__int32_array__std__range}},
+  {FLT_C_FUNCTION, -1, {.func = entry__std_types__uint32_array__std__length_of}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std_types__uint32_array__std__dimension_count_of}},
+  {FLT_C_FUNCTION, 2, {.func = entry__std_types__uint32_array__std__equal}},
+  {FLT_C_FUNCTION, 2, {.func = entry__std_types__uint32_array__std__bit_and}},
+  {FLT_C_FUNCTION, 2, {.func = entry__std_types__uint32_array__std__bit_or}},
+  {FLT_C_FUNCTION, 2, {.func = entry__std_types__uint32_array__std__bit_xor}},
+  {FLT_C_FUNCTION, 2, {.func = entry__std_types__uint32_array__std__times}},
+  {FLT_C_FUNCTION, -1, {.func = entry__std__uint32_array}},
+  {FLT_C_FUNCTION, -1, {.func = entry__std__initialized_uint32_array}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std_types__uint32_array__std__create_empty_array}},
+  {FLT_C_FUNCTION, -1, {.func = entry__std_types__uint32_array__std__range}},
+  {FLT_C_FUNCTION, -1, {.func = entry__std_types__int64_array__std__length_of}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std_types__int64_array__std__dimension_count_of}},
+  {FLT_C_FUNCTION, 2, {.func = entry__std_types__int64_array__std__equal}},
+  {FLT_C_FUNCTION, 2, {.func = entry__std_types__int64_array__std__times}},
+  {FLT_C_FUNCTION, -1, {.func = entry__std__int64_array}},
+  {FLT_C_FUNCTION, -1, {.func = entry__std__initialized_int64_array}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std_types__int64_array__std__create_empty_array}},
+  {FLT_C_FUNCTION, -1, {.func = entry__std_types__int64_array__std__range}},
+  {FLT_C_FUNCTION, -1, {.func = entry__std_types__uint64_array__std__length_of}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std_types__uint64_array__std__dimension_count_of}},
+  {FLT_C_FUNCTION, 2, {.func = entry__std_types__uint64_array__std__equal}},
+  {FLT_C_FUNCTION, 2, {.func = entry__std_types__uint64_array__std__bit_and}},
+  {FLT_C_FUNCTION, 2, {.func = entry__std_types__uint64_array__std__bit_or}},
+  {FLT_C_FUNCTION, 2, {.func = entry__std_types__uint64_array__std__bit_xor}},
+  {FLT_C_FUNCTION, 2, {.func = entry__std_types__uint64_array__std__times}},
+  {FLT_C_FUNCTION, -1, {.func = entry__std__uint64_array}},
+  {FLT_C_FUNCTION, -1, {.func = entry__std__initialized_uint64_array}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std_types__uint64_array__std__create_empty_array}},
+  {FLT_C_FUNCTION, -1, {.func = entry__std_types__uint64_array__std__range}},
+  {FLT_C_FUNCTION, -1, {.func = entry__std_types__float32_array__std__length_of}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std_types__float32_array__std__dimension_count_of}},
+  {FLT_C_FUNCTION, 2, {.func = entry__std_types__float32_array__std__equal}},
+  {FLT_C_FUNCTION, 2, {.func = entry__std_types__float32_array__std__times}},
+  {FLT_C_FUNCTION, -1, {.func = entry__std__float32_array}},
+  {FLT_C_FUNCTION, -1, {.func = entry__std__initialized_float32_array}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std_types__float32_array__std__create_empty_array}},
+  {FLT_C_FUNCTION, -1, {.func = entry__std_types__float32_array__std__range}},
+  {FLT_C_FUNCTION, -1, {.func = entry__std_types__float64_array__std__length_of}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std_types__float64_array__std__dimension_count_of}},
+  {FLT_C_FUNCTION, 2, {.func = entry__std_types__float64_array__std__equal}},
+  {FLT_C_FUNCTION, 2, {.func = entry__std_types__float64_array__std__times}},
+  {FLT_C_FUNCTION, -1, {.func = entry__std__float64_array}},
+  {FLT_C_FUNCTION, -1, {.func = entry__std__initialized_float64_array}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std_types__float64_array__std__create_empty_array}},
+  {FLT_C_FUNCTION, -1, {.func = entry__std_types__float64_array__std__range}},
+  {FLT_C_FUNCTION, 0, {.func = entry__std__pass}},
+  {FLT_C_FUNCTION, 0, {.func = entry__std__result_count}},
+  {FLT_C_FUNCTION, 2, {.func = entry__std_types__true__std__equal}},
+  {FLT_C_FUNCTION, 2, {.func = entry__std_types__false__std__equal}},
+  {FLT_C_FUNCTION, 1, {.func = entry__c_function__std__parameter_count_of}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std__character}},
+  {FLT_C_FUNCTION, 2, {.func = entry__std_types__character__std__plus}},
+  {FLT_C_FUNCTION, 2, {.func = entry__std_types__character__std__minus}},
+  {FLT_C_FUNCTION, 2, {.func = entry__std_types__character__std__equal}},
+  {FLT_C_FUNCTION, 2, {.func = entry__std_types__character__std__less}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std_types__character__std__hash}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std_types__character__std__to_string}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std_types__character__std__to_integer}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std_types__character__std__width_of}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std__from_unix_time}},
+  {FLT_C_FUNCTION, 6, {.func = entry__std__date_and_time}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std_types__date_and_time__std__year_of}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std_types__date_and_time__std__month_of}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std_types__date_and_time__std__day_of}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std_types__date_and_time__std__day_of_week_of}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std_types__date_and_time__std__hour_of}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std_types__date_and_time__std__minute_of}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std_types__date_and_time__std__second_of}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std_types__date_and_time__std__time_shift_of}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std_types__date_and_time__std__seconds_since_epoch}},
+  {FLT_C_FUNCTION, 2, {.func = entry__std_types__date_and_time__std__plus}},
+  {FLT_C_FUNCTION, 2, {.func = entry__std_types__date_and_time__std__minus}},
+  {FLT_C_FUNCTION, 2, {.func = entry__std_types__date_and_time__std__equal}},
+  {FLT_C_FUNCTION, 2, {.func = entry__std_types__date_and_time__std__less}},
+  {FLT_C_FUNCTION, 0, {.func = entry__std__current_time}},
+  {FLT_C_FUNCTION, -1, {.func = entry__debug__string}},
+  {FLT_C_FUNCTION, 1, {.func = entry__debug__write}},
+  {FLT_C_FUNCTION, -1, {.func = entry__debug__dump_object}},
+  {FLT_C_FUNCTION, 0, {.func = entry__debug__has_io_access_rights}},
+  {FLT_C_FUNCTION, -1, {.func = entry__debug__exit}},
+  {FLT_C_FUNCTION, -1, {.func = entry__std__error_check}},
+  {FLT_C_FUNCTION, 0, {.func = entry__debug__total_garbage_collections}},
+  {FLT_C_FUNCTION, 0, {.func = entry__std__installation_prefix}},
+  {FLT_C_FUNCTION, 0, {.func = entry__std__package_version}},
   {FLT_UNIQUE, 0, {.str_8 = "std::IO_ERROR"}},
   {FLT_UNIQUE, 0, {.str_8 = "std::RUNTIME_ERROR"}},
   {FLT_UNIQUE, 0, {.str_8 = "std::APPLICATION_ERROR"}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std_types___error___std___error_category_of}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std_types___error___std___error_message_text_of}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std_types___error___std___error_details_of}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std_types___error___std___errno_of}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std_types___error___std___failed_attribute_of}},
-  {FLT_C_FUNCTION, -1, {.func = entry__std___error}},
-  {FLT_C_FUNCTION, 2, {.func = entry__std___exec}},
-  {FLT_C_FUNCTION, -1, {.func = entry__std___create_process}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std_types___function___std___parameter_count_of}},
-  {FLT_C_FUNCTION, 2, {.func = entry__std_types___function___std___new}},
-  {FLT_C_FUNCTION, -1, {.func = entry__std___list}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std_types___list___std___length_of}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std_types___list___std___is_empty}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std_types___list___std___is_not_empty}},
-  {FLT_C_FUNCTION, 2, {.func = entry__std_types___list___std___push}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std_types___list___std___drop}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std_types___list___std___pop}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std_types___list___std___peek}},
-  {FLT_C_FUNCTION, -1, {.func = entry__std_types___list___std___append}},
-  {FLT_C_FUNCTION, 3, {.func = entry__std_types___list___std___range}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std_types___list___std___spread}},
-  {FLT_C_FUNCTION, 1, {.func = entry__builtin_types___positive_integer___std___negate}},
-  {FLT_C_FUNCTION, 1, {.func = entry__builtin_types___negative_integer___std___negate}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std_types___real___std___negate}},
-  {FLT_C_FUNCTION, 2, {.func = entry__builtin_types___positive_integer___std___times}},
-  {FLT_C_FUNCTION, 2, {.func = entry__builtin_types___negative_integer___std___times}},
-  {FLT_C_FUNCTION, 1, {.func = entry__builtin_types___positive_integer___std___to_integer}},
-  {FLT_C_FUNCTION, 1, {.func = entry__builtin_types___negative_integer___std___to_integer}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std_types___real___std___to_integer}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std_types___real___std___floor}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std_types___real___std___ceil}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std_types___real___std___round}},
-  {FLT_C_FUNCTION, 1, {.func = entry__builtin_types___negative_integer___std___to_string}},
-  {FLT_C_FUNCTION, 1, {.func = entry__builtin_types___positive_integer___std___to_string}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std_types___real___std___to_string}},
-  {FLT_C_FUNCTION, 2, {.func = entry__builtin_types___positive_integer___std___over}},
-  {FLT_C_FUNCTION, 2, {.func = entry__builtin_types___negative_integer___std___over}},
-  {FLT_C_FUNCTION, 2, {.func = entry__builtin_types___positive_integer___std___div}},
-  {FLT_C_FUNCTION, 2, {.func = entry__builtin_types___negative_integer___std___div}},
-  {FLT_C_FUNCTION, 2, {.func = entry__builtin_types___positive_integer___std___mod}},
-  {FLT_C_FUNCTION, 2, {.func = entry__builtin_types___negative_integer___std___mod}},
-  {FLT_C_FUNCTION, 1, {.func = entry__builtin_types___positive_integer___std___hash}},
-  {FLT_C_FUNCTION, 1, {.func = entry__builtin_types___negative_integer___std___hash}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std_types___real___std___hash}},
-  {FLT_C_FUNCTION, 1, {.func = entry__builtin_types___positive_integer___std___ln}},
-  {FLT_C_FUNCTION, 1, {.func = entry__builtin_types___negative_integer___std___ln}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std_types___real___std___ln}},
-  {FLT_C_FUNCTION, 1, {.func = entry__builtin_types___positive_integer___std___exp}},
-  {FLT_C_FUNCTION, 1, {.func = entry__builtin_types___negative_integer___std___exp}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std_types___real___std___exp}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std___real}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std___integer}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std___sqrt}},
-  {FLT_C_FUNCTION, 2, {.func = entry__std___pow}},
-  {FLT_C_FUNCTION, 1, {.func = entry__builtin_types___positive_integer___std___exit}},
-  {FLT_C_FUNCTION, 2, {.func = entry__builtin_types___positive_integer___std___plus}},
-  {FLT_C_FUNCTION, 2, {.func = entry__builtin_types___negative_integer___std___plus}},
-  {FLT_C_FUNCTION, 2, {.func = entry__std_types___real___std___plus}},
-  {FLT_C_FUNCTION, 2, {.func = entry__builtin_types___positive_integer___std___minus}},
-  {FLT_C_FUNCTION, 2, {.func = entry__builtin_types___negative_integer___std___minus}},
-  {FLT_C_FUNCTION, 2, {.func = entry__std_types___real___std___minus}},
-  {FLT_C_FUNCTION, 2, {.func = entry__std_types___real___std___times}},
-  {FLT_C_FUNCTION, 2, {.func = entry__std_types___real___std___over}},
-  {FLT_C_FUNCTION, 2, {.func = entry__builtin_types___positive_integer___std___equal}},
-  {FLT_C_FUNCTION, 2, {.func = entry__builtin_types___negative_integer___std___equal}},
-  {FLT_C_FUNCTION, 2, {.func = entry__std_types___real___std___equal}},
-  {FLT_C_FUNCTION, 2, {.func = entry__builtin_types___positive_integer___std___less}},
-  {FLT_C_FUNCTION, 2, {.func = entry__builtin_types___negative_integer___std___less}},
-  {FLT_C_FUNCTION, 2, {.func = entry__std_types___real___std___less}},
-  {FLT_C_FUNCTION, 2, {.func = entry__builtin_types___positive_integer___std___shift_left}},
-  {FLT_C_FUNCTION, 2, {.func = entry__builtin_types___positive_integer___std___shift_right}},
-  {FLT_C_FUNCTION, 2, {.func = entry__builtin_types___positive_integer___std___bit_and}},
-  {FLT_C_FUNCTION, 2, {.func = entry__builtin_types___positive_integer___std___bit_or}},
-  {FLT_C_FUNCTION, 2, {.func = entry__builtin_types___positive_integer___std___bit_xor}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std___sin}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std___cos}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std___tan}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std___asin}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std___acos}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std___atan}},
-  {FLT_C_FUNCTION, 1, {.func = entry__debug___object_type}},
-  {FLT_C_FUNCTION, 1, {.func = entry__debug___object_attributes}},
-  {FLT_C_FUNCTION, 2, {.func = entry__std_types___object___std___new}},
-  {FLT_C_FUNCTION, 2, {.func = entry__std_types___file_type___std___equal}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std_types___file_type___std___hash}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std___file_type}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std_types___file_type___std___to_integer}},
-  {FLT_C_FUNCTION, 2, {.func = entry__std_types___file_descriptor___std___equal}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std_types___file_descriptor___std___hash}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std___file_descriptor}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std_types___file_descriptor___std___to_integer}},
-  {FLT_C_FUNCTION, 2, {.func = entry__std_types___signal_number___std___equal}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std_types___signal_number___std___hash}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std___signal_number}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std_types___signal_number___std___to_integer}},
-  {FLT_C_FUNCTION, 2, {.func = entry__std_types___shutdown_type___std___equal}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std_types___shutdown_type___std___hash}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std___shutdown_type}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std_types___shutdown_type___std___to_integer}},
-  {FLT_C_FUNCTION, 2, {.func = entry__std_types___seek_type___std___equal}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std_types___seek_type___std___hash}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std___seek_type}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std_types___seek_type___std___to_integer}},
-  {FLT_C_FUNCTION, 2, {.func = entry__std_types___device_id___std___equal}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std_types___device_id___std___hash}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std___device_id}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std_types___device_id___std___to_integer}},
-  {FLT_C_FUNCTION, 2, {.func = entry__std_types___directory___std___equal}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std_types___directory___std___hash}},
-  {FLT_C_FUNCTION, 2, {.func = entry__std_types___group_id___std___equal}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std_types___group_id___std___hash}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std___group_id}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std_types___group_id___std___to_integer}},
-  {FLT_C_FUNCTION, 2, {.func = entry__std_types___inode_number___std___equal}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std_types___inode_number___std___hash}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std___inode_number}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std_types___inode_number___std___to_integer}},
-  {FLT_C_FUNCTION, 2, {.func = entry__std_types___process_id___std___equal}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std_types___process_id___std___hash}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std___process_id}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std_types___process_id___std___to_integer}},
-  {FLT_C_FUNCTION, 2, {.func = entry__std_types___user_id___std___equal}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std_types___user_id___std___hash}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std___user_id}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std_types___user_id___std___to_integer}},
-  {FLT_C_FUNCTION, 2, {.func = entry__std_types___error_number___std___equal}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std_types___error_number___std___hash}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std___error_number}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std_types___error_number___std___to_integer}},
-  {FLT_C_FUNCTION, 2, {.func = entry__std___access}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std___chdir}},
-  {FLT_C_FUNCTION, 2, {.func = entry__std___chmod}},
-  {FLT_C_FUNCTION, 3, {.func = entry__std___chown}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std___chroot}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std_types___file_descriptor___std___close}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std___closedir}},
-  {FLT_C_FUNCTION, 2, {.func = entry__std___dup2}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std___fstat}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std___fsync}},
-  {FLT_C_FUNCTION, 0, {.func = entry__std___getcwd}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std___getenv}},
-  {FLT_C_FUNCTION, 0, {.func = entry__std___getegid}},
-  {FLT_C_FUNCTION, 0, {.func = entry__std___geteuid}},
-  {FLT_C_FUNCTION, 0, {.func = entry__std___getgid}},
-  {FLT_C_FUNCTION, 0, {.func = entry__std___gethostname}},
-  {FLT_C_FUNCTION, 0, {.func = entry__std___getlogin}},
-  {FLT_C_FUNCTION, 0, {.func = entry__std___getpid}},
-  {FLT_C_FUNCTION, 0, {.func = entry__std___getppid}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std___getpwuid}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std___getsid}},
-  {FLT_C_FUNCTION, 0, {.func = entry__std___getuid}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std___isatty}},
-  {FLT_C_FUNCTION, 2, {.func = entry__std___kill}},
-  {FLT_C_FUNCTION, 2, {.func = entry__std___link}},
-  {FLT_C_FUNCTION, 3, {.func = entry__std___lseek}},
-  {FLT_C_FUNCTION, -1, {.func = entry__std___mkdir}},
-  {FLT_C_FUNCTION, -1, {.func = entry__std___mkfifo}},
-  {FLT_C_FUNCTION, -1, {.func = entry__std___open}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std___opendir}},
-  {FLT_C_FUNCTION, 2, {.func = entry__std_types___file_descriptor___std___read}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std___readdir}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std___realpath}},
-  {FLT_C_FUNCTION, 2, {.func = entry__std___rename}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std___sethostname}},
-  {FLT_C_FUNCTION, 2, {.func = entry__std___shutdown}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std___stat}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std___strerror}},
-  {FLT_C_FUNCTION, 0, {.func = entry__std___wait}},
-  {FLT_C_FUNCTION, 2, {.func = entry__std_types___file_descriptor___std___write}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std___umask}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std___unlink}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std___shm_unlink}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std___usleep}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std_types___octet_string___std___length_of}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std_types___wide_string___std___length_of}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std_types___octet_string___std___is_empty}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std_types___octet_string___std___is_not_empty}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std_types___wide_string___std___is_empty}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std_types___wide_string___std___is_not_empty}},
-  {FLT_C_FUNCTION, 2, {.func = entry__std_types___octet_string___std___push}},
-  {FLT_C_FUNCTION, 2, {.func = entry__std_types___wide_string___std___push}},
-  {FLT_C_FUNCTION, -1, {.func = entry__std_types___octet_string___std___append}},
-  {FLT_C_FUNCTION, -1, {.func = entry__std_types___wide_string___std___append}},
-  {FLT_C_FUNCTION, 3, {.func = entry__std_types___octet_string___std___range}},
-  {FLT_C_FUNCTION, 3, {.func = entry__std_types___wide_string___std___range}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std_types___octet_string___std___hash}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std_types___wide_string___std___hash}},
-  {FLT_C_FUNCTION, 2, {.func = entry__std_types___octet_string___std___equal}},
-  {FLT_C_FUNCTION, 2, {.func = entry__std_types___wide_string___std___equal}},
-  {FLT_C_FUNCTION, 2, {.func = entry__std_types___octet_string___std___less}},
-  {FLT_C_FUNCTION, 2, {.func = entry__std_types___wide_string___std___less}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std_types___octet_string___std___width_of}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std_types___wide_string___std___width_of}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std_types___octet_string___std___from_utf8}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std_types___octet_string___std___to_utf8}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std_types___wide_string___std___to_utf8}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std_types___file_descriptor___std___get_terminal_attributes}},
-  {FLT_C_FUNCTION, 2, {.func = entry__std_types___file_descriptor___std___set_terminal_attributes}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std_types___terminal_attributes___std___backspace_character_of}},
-  {FLT_C_FUNCTION, -1, {.func = entry__std_types___terminal_attributes___std___use_canonical_mode}},
-  {FLT_C_FUNCTION, -1, {.func = entry__std_types___terminal_attributes___std___echo_characters}},
-  {FLT_C_FUNCTION, -1, {.func = entry__std_types___terminal_attributes___std___echo_new_lines}},
-  {FLT_C_FUNCTION, -1, {.func = entry__std_types___terminal_attributes___std___enable_xon_xoff_for_input}},
-  {FLT_C_FUNCTION, -1, {.func = entry__std_types___terminal_attributes___std___enable_xon_xoff_for_output}},
-  {FLT_C_FUNCTION, -1, {.func = entry__std_types___terminal_attributes___std___restart_output_on_any_character}},
-  {FLT_C_FUNCTION, -1, {.func = entry__std_types___terminal_attributes___std___ignore_cr_on_input}},
-  {FLT_C_FUNCTION, -1, {.func = entry__std_types___terminal_attributes___std___generate_signals}},
-  {FLT_C_FUNCTION, -1, {.func = entry__std_types___terminal_attributes___std___map_cr_to_lf_on_input}},
-  {FLT_C_FUNCTION, -1, {.func = entry__std_types___terminal_attributes___std___hangup_on_close}},
-  {FLT_C_FUNCTION, -1, {.func = entry__std_types___terminal_attributes___std___map_lf_to_crlf_on_output}},
-  {FLT_C_FUNCTION, -1, {.func = entry__std_types___terminal_attributes___std___minimum_characters_for_canoncial_read}},
-  {FLT_C_FUNCTION, -1, {.func = entry__std_types___terminal_attributes___std___timeout_for_reads}},
-  {FLT_C_FUNCTION, -1, {.func = entry__std_types___terminal_attributes___std___input_speed}},
-  {FLT_C_FUNCTION, -1, {.func = entry__std_types___terminal_attributes___std___output_speed}},
-  {FLT_C_FUNCTION, -1, {.func = entry__std_types___tuple___std___typed_tuple}},
-  {FLT_C_FUNCTION, 1, {.func = entry__builtin_types___tuple2___std___to_list}},
-  {FLT_C_FUNCTION, 3, {.func = entry__builtin_types___tuple2___std___typed_tuple}},
-  {FLT_C_FUNCTION, 1, {.func = entry__builtin_types___tuple3___std___to_list}},
-  {FLT_C_FUNCTION, 4, {.func = entry__builtin_types___tuple3___std___typed_tuple}},
-  {FLT_C_FUNCTION, 1, {.func = entry__builtin_types___tuple4___std___to_list}},
-  {FLT_C_FUNCTION, 5, {.func = entry__builtin_types___tuple4___std___typed_tuple}},
-  {FLT_C_FUNCTION, 1, {.func = entry__builtin_types___tuple5___std___to_list}},
-  {FLT_C_FUNCTION, 6, {.func = entry__builtin_types___tuple5___std___typed_tuple}},
-  {FLT_C_FUNCTION, 1, {.func = entry__builtin_types___tuple6___std___to_list}},
-  {FLT_C_FUNCTION, 7, {.func = entry__builtin_types___tuple6___std___typed_tuple}},
-  {FLT_C_FUNCTION, 1, {.func = entry__builtin_types___tuple7___std___to_list}},
-  {FLT_C_FUNCTION, 8, {.func = entry__builtin_types___tuple7___std___typed_tuple}},
-  {FLT_C_FUNCTION, 1, {.func = entry__builtin_types___tuple8___std___to_list}},
-  {FLT_C_FUNCTION, 9, {.func = entry__builtin_types___tuple8___std___typed_tuple}},
-  {FLT_C_FUNCTION, -1, {.func = entry__std___tuple}},
-  {FLT_C_FUNCTION, -1, {.func = entry__std___tuple_or_error}},
-  {FLT_C_FUNCTION, 2, {.func = entry__std___new_tuple}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std_types___character___std___to_upper_case}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std___is_an_upper_case_letter_character}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std_types___character___std___to_lower_case}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std___is_a_lower_case_letter_character}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std_types___character___std___to_title_case}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std___is_a_title_case_letter_character}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std___is_a_letter_character}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std___is_a_whitespace_character}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std___is_a_zero_width_character}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std___is_a_wide_character}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std_types___unique_item___std___to_string}},
-  {FLT_C_FUNCTION, 2, {.func = entry__std_types___unique_item___std___equal}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std_types___unique_item___std___hash}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std___unique_item}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std_types___file_descriptor___std___get_terminal_size}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std___exitstatus}},
-  {FLT_C_FUNCTION, -1, {.func = entry__std___pselect}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std___do_not_close}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std___waitpid}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std___open_unix_socket}},
-  {FLT_C_FUNCTION, 3, {.func = entry__std___send_file_descriptor}},
-  {FLT_C_FUNCTION, 2, {.func = entry__std___open_tcp_client_socket}},
-  {FLT_C_FUNCTION, -1, {.func = entry__std___open_tcp_server_socket}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std___accept}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std___is_listening}},
-  {FLT_C_FUNCTION, 0, {.func = entry__std___get_first_mac_address}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std_types___shared_memory___std___size_of}},
-  {FLT_C_FUNCTION, 1, {.func = entry__std_types___shared_memory___std___file_descriptor_of}},
-  {FLT_C_FUNCTION, 3, {.func = entry__std_types___shared_memory___std___write_at}},
-  {FLT_C_FUNCTION, 2, {.func = entry__std___create_shared_memory}}
+  {FLT_C_FUNCTION, 1, {.func = entry__std_types__error__std__error_category_of}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std_types__error__std__error_message_text_of}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std_types__error__std__error_details_of}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std_types__error__std__errno_of}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std_types__error__std__failed_attribute_of}},
+  {FLT_C_FUNCTION, -1, {.func = entry__std__error}},
+  {FLT_C_FUNCTION, 2, {.func = entry__std__exec}},
+  {FLT_C_FUNCTION, -1, {.func = entry__std__create_process}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std_types__function__std__parameter_count_of}},
+  {FLT_C_FUNCTION, 2, {.func = entry__std_types__function__std__new}},
+  {FLT_C_FUNCTION, -1, {.func = entry__std__list}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std_types__list__std__length_of}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std_types__list__std__is_empty}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std_types__list__std__is_not_empty}},
+  {FLT_C_FUNCTION, 2, {.func = entry__std_types__list__std__push}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std_types__list__std__drop}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std_types__list__std__pop}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std_types__list__std__peek}},
+  {FLT_C_FUNCTION, -1, {.func = entry__std_types__list__std__append}},
+  {FLT_C_FUNCTION, 3, {.func = entry__std_types__list__std__range}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std_types__list__std__spread}},
+  {FLT_C_FUNCTION, 1, {.func = entry__builtin_types__positive_integer__std__negate}},
+  {FLT_C_FUNCTION, 1, {.func = entry__builtin_types__negative_integer__std__negate}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std_types__real__std__negate}},
+  {FLT_C_FUNCTION, 2, {.func = entry__builtin_types__positive_integer__std__times}},
+  {FLT_C_FUNCTION, 2, {.func = entry__builtin_types__negative_integer__std__times}},
+  {FLT_C_FUNCTION, 1, {.func = entry__builtin_types__positive_integer__std__to_integer}},
+  {FLT_C_FUNCTION, 1, {.func = entry__builtin_types__negative_integer__std__to_integer}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std_types__real__std__to_integer}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std_types__real__std__floor}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std_types__real__std__ceil}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std_types__real__std__round}},
+  {FLT_C_FUNCTION, 1, {.func = entry__builtin_types__negative_integer__std__to_string}},
+  {FLT_C_FUNCTION, 1, {.func = entry__builtin_types__positive_integer__std__to_string}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std_types__real__std__to_string}},
+  {FLT_C_FUNCTION, 2, {.func = entry__builtin_types__positive_integer__std__over}},
+  {FLT_C_FUNCTION, 2, {.func = entry__builtin_types__negative_integer__std__over}},
+  {FLT_C_FUNCTION, 2, {.func = entry__builtin_types__positive_integer__std__div}},
+  {FLT_C_FUNCTION, 2, {.func = entry__builtin_types__negative_integer__std__div}},
+  {FLT_C_FUNCTION, 2, {.func = entry__builtin_types__positive_integer__std__mod}},
+  {FLT_C_FUNCTION, 2, {.func = entry__builtin_types__negative_integer__std__mod}},
+  {FLT_C_FUNCTION, 1, {.func = entry__builtin_types__positive_integer__std__hash}},
+  {FLT_C_FUNCTION, 1, {.func = entry__builtin_types__negative_integer__std__hash}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std_types__real__std__hash}},
+  {FLT_C_FUNCTION, 1, {.func = entry__builtin_types__positive_integer__std__ln}},
+  {FLT_C_FUNCTION, 1, {.func = entry__builtin_types__negative_integer__std__ln}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std_types__real__std__ln}},
+  {FLT_C_FUNCTION, 1, {.func = entry__builtin_types__positive_integer__std__exp}},
+  {FLT_C_FUNCTION, 1, {.func = entry__builtin_types__negative_integer__std__exp}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std_types__real__std__exp}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std__real}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std__integer}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std__sqrt}},
+  {FLT_C_FUNCTION, 2, {.func = entry__std__pow}},
+  {FLT_C_FUNCTION, 1, {.func = entry__builtin_types__positive_integer__std__exit}},
+  {FLT_C_FUNCTION, 2, {.func = entry__builtin_types__positive_integer__std__plus}},
+  {FLT_C_FUNCTION, 2, {.func = entry__builtin_types__negative_integer__std__plus}},
+  {FLT_C_FUNCTION, 2, {.func = entry__std_types__real__std__plus}},
+  {FLT_C_FUNCTION, 2, {.func = entry__builtin_types__positive_integer__std__minus}},
+  {FLT_C_FUNCTION, 2, {.func = entry__builtin_types__negative_integer__std__minus}},
+  {FLT_C_FUNCTION, 2, {.func = entry__std_types__real__std__minus}},
+  {FLT_C_FUNCTION, 2, {.func = entry__std_types__real__std__times}},
+  {FLT_C_FUNCTION, 2, {.func = entry__std_types__real__std__over}},
+  {FLT_C_FUNCTION, 2, {.func = entry__builtin_types__positive_integer__std__equal}},
+  {FLT_C_FUNCTION, 2, {.func = entry__builtin_types__negative_integer__std__equal}},
+  {FLT_C_FUNCTION, 2, {.func = entry__std_types__real__std__equal}},
+  {FLT_C_FUNCTION, 2, {.func = entry__builtin_types__positive_integer__std__less}},
+  {FLT_C_FUNCTION, 2, {.func = entry__builtin_types__negative_integer__std__less}},
+  {FLT_C_FUNCTION, 2, {.func = entry__std_types__real__std__less}},
+  {FLT_C_FUNCTION, 2, {.func = entry__builtin_types__positive_integer__std__shift_left}},
+  {FLT_C_FUNCTION, 2, {.func = entry__builtin_types__positive_integer__std__shift_right}},
+  {FLT_C_FUNCTION, 2, {.func = entry__builtin_types__positive_integer__std__bit_and}},
+  {FLT_C_FUNCTION, 2, {.func = entry__builtin_types__positive_integer__std__bit_or}},
+  {FLT_C_FUNCTION, 2, {.func = entry__builtin_types__positive_integer__std__bit_xor}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std__sin}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std__cos}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std__tan}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std__asin}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std__acos}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std__atan}},
+  {FLT_C_FUNCTION, 1, {.func = entry__debug__object_type}},
+  {FLT_C_FUNCTION, 1, {.func = entry__debug__object_attributes}},
+  {FLT_C_FUNCTION, 2, {.func = entry__std_types__object__std__new}},
+  {FLT_C_FUNCTION, 2, {.func = entry__std_types__file_type__std__equal}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std_types__file_type__std__hash}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std__file_type}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std_types__file_type__std__to_integer}},
+  {FLT_C_FUNCTION, 2, {.func = entry__std_types__file_descriptor__std__equal}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std_types__file_descriptor__std__hash}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std__file_descriptor}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std_types__file_descriptor__std__to_integer}},
+  {FLT_C_FUNCTION, 2, {.func = entry__std_types__signal_number__std__equal}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std_types__signal_number__std__hash}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std__signal_number}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std_types__signal_number__std__to_integer}},
+  {FLT_C_FUNCTION, 2, {.func = entry__std_types__shutdown_type__std__equal}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std_types__shutdown_type__std__hash}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std__shutdown_type}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std_types__shutdown_type__std__to_integer}},
+  {FLT_C_FUNCTION, 2, {.func = entry__std_types__seek_type__std__equal}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std_types__seek_type__std__hash}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std__seek_type}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std_types__seek_type__std__to_integer}},
+  {FLT_C_FUNCTION, 2, {.func = entry__std_types__device_id__std__equal}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std_types__device_id__std__hash}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std__device_id}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std_types__device_id__std__to_integer}},
+  {FLT_C_FUNCTION, 2, {.func = entry__std_types__directory__std__equal}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std_types__directory__std__hash}},
+  {FLT_C_FUNCTION, 2, {.func = entry__std_types__group_id__std__equal}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std_types__group_id__std__hash}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std__group_id}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std_types__group_id__std__to_integer}},
+  {FLT_C_FUNCTION, 2, {.func = entry__std_types__inode_number__std__equal}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std_types__inode_number__std__hash}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std__inode_number}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std_types__inode_number__std__to_integer}},
+  {FLT_C_FUNCTION, 2, {.func = entry__std_types__process_id__std__equal}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std_types__process_id__std__hash}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std__process_id}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std_types__process_id__std__to_integer}},
+  {FLT_C_FUNCTION, 2, {.func = entry__std_types__user_id__std__equal}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std_types__user_id__std__hash}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std__user_id}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std_types__user_id__std__to_integer}},
+  {FLT_C_FUNCTION, 2, {.func = entry__std_types__error_number__std__equal}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std_types__error_number__std__hash}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std__error_number}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std_types__error_number__std__to_integer}},
+  {FLT_C_FUNCTION, 2, {.func = entry__std__access}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std__chdir}},
+  {FLT_C_FUNCTION, 2, {.func = entry__std__chmod}},
+  {FLT_C_FUNCTION, 3, {.func = entry__std__chown}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std__chroot}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std_types__file_descriptor__std__close}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std__closedir}},
+  {FLT_C_FUNCTION, 2, {.func = entry__std__dup2}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std__fstat}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std__fsync}},
+  {FLT_C_FUNCTION, 0, {.func = entry__std__getcwd}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std__getenv}},
+  {FLT_C_FUNCTION, 0, {.func = entry__std__getegid}},
+  {FLT_C_FUNCTION, 0, {.func = entry__std__geteuid}},
+  {FLT_C_FUNCTION, 0, {.func = entry__std__getgid}},
+  {FLT_C_FUNCTION, 0, {.func = entry__std__gethostname}},
+  {FLT_C_FUNCTION, 0, {.func = entry__std__getlogin}},
+  {FLT_C_FUNCTION, 0, {.func = entry__std__getpid}},
+  {FLT_C_FUNCTION, 0, {.func = entry__std__getppid}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std__getpwuid}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std__getsid}},
+  {FLT_C_FUNCTION, 0, {.func = entry__std__getuid}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std__isatty}},
+  {FLT_C_FUNCTION, 2, {.func = entry__std__kill}},
+  {FLT_C_FUNCTION, 2, {.func = entry__std__link}},
+  {FLT_C_FUNCTION, 3, {.func = entry__std__lseek}},
+  {FLT_C_FUNCTION, -1, {.func = entry__std__mkdir}},
+  {FLT_C_FUNCTION, -1, {.func = entry__std__mkfifo}},
+  {FLT_C_FUNCTION, -1, {.func = entry__std__open}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std__opendir}},
+  {FLT_C_FUNCTION, 2, {.func = entry__std_types__file_descriptor__std__read}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std__readdir}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std__realpath}},
+  {FLT_C_FUNCTION, 2, {.func = entry__std__rename}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std__sethostname}},
+  {FLT_C_FUNCTION, 2, {.func = entry__std__shutdown}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std__stat}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std__strerror}},
+  {FLT_C_FUNCTION, 0, {.func = entry__std__wait}},
+  {FLT_C_FUNCTION, 2, {.func = entry__std_types__file_descriptor__std__write}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std__umask}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std__unlink}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std__shm_unlink}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std__usleep}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std_types__octet_string__std__length_of}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std_types__wide_string__std__length_of}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std_types__octet_string__std__is_empty}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std_types__octet_string__std__is_not_empty}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std_types__wide_string__std__is_empty}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std_types__wide_string__std__is_not_empty}},
+  {FLT_C_FUNCTION, 2, {.func = entry__std_types__octet_string__std__push}},
+  {FLT_C_FUNCTION, 2, {.func = entry__std_types__wide_string__std__push}},
+  {FLT_C_FUNCTION, -1, {.func = entry__std_types__octet_string__std__append}},
+  {FLT_C_FUNCTION, -1, {.func = entry__std_types__wide_string__std__append}},
+  {FLT_C_FUNCTION, 3, {.func = entry__std_types__octet_string__std__range}},
+  {FLT_C_FUNCTION, 3, {.func = entry__std_types__wide_string__std__range}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std_types__octet_string__std__hash}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std_types__wide_string__std__hash}},
+  {FLT_C_FUNCTION, 2, {.func = entry__std_types__octet_string__std__equal}},
+  {FLT_C_FUNCTION, 2, {.func = entry__std_types__wide_string__std__equal}},
+  {FLT_C_FUNCTION, 2, {.func = entry__std_types__octet_string__std__less}},
+  {FLT_C_FUNCTION, 2, {.func = entry__std_types__wide_string__std__less}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std_types__octet_string__std__width_of}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std_types__wide_string__std__width_of}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std_types__octet_string__std__from_utf8}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std_types__octet_string__std__to_utf8}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std_types__wide_string__std__to_utf8}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std_types__file_descriptor__std__get_terminal_attributes}},
+  {FLT_C_FUNCTION, 2, {.func = entry__std_types__file_descriptor__std__set_terminal_attributes}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std_types__terminal_attributes__std__backspace_character_of}},
+  {FLT_C_FUNCTION, -1, {.func = entry__std_types__terminal_attributes__std__use_canonical_mode}},
+  {FLT_C_FUNCTION, -1, {.func = entry__std_types__terminal_attributes__std__echo_characters}},
+  {FLT_C_FUNCTION, -1, {.func = entry__std_types__terminal_attributes__std__echo_new_lines}},
+  {FLT_C_FUNCTION, -1, {.func = entry__std_types__terminal_attributes__std__enable_xon_xoff_for_input}},
+  {FLT_C_FUNCTION, -1, {.func = entry__std_types__terminal_attributes__std__enable_xon_xoff_for_output}},
+  {FLT_C_FUNCTION, -1, {.func = entry__std_types__terminal_attributes__std__restart_output_on_any_character}},
+  {FLT_C_FUNCTION, -1, {.func = entry__std_types__terminal_attributes__std__ignore_cr_on_input}},
+  {FLT_C_FUNCTION, -1, {.func = entry__std_types__terminal_attributes__std__generate_signals}},
+  {FLT_C_FUNCTION, -1, {.func = entry__std_types__terminal_attributes__std__map_cr_to_lf_on_input}},
+  {FLT_C_FUNCTION, -1, {.func = entry__std_types__terminal_attributes__std__hangup_on_close}},
+  {FLT_C_FUNCTION, -1, {.func = entry__std_types__terminal_attributes__std__map_lf_to_crlf_on_output}},
+  {FLT_C_FUNCTION, -1, {.func = entry__std_types__terminal_attributes__std__minimum_characters_for_canoncial_read}},
+  {FLT_C_FUNCTION, -1, {.func = entry__std_types__terminal_attributes__std__timeout_for_reads}},
+  {FLT_C_FUNCTION, -1, {.func = entry__std_types__terminal_attributes__std__input_speed}},
+  {FLT_C_FUNCTION, -1, {.func = entry__std_types__terminal_attributes__std__output_speed}},
+  {FLT_C_FUNCTION, -1, {.func = entry__std_types__tuple__std__typed_tuple}},
+  {FLT_C_FUNCTION, 1, {.func = entry__builtin_types__tuple2__std__to_list}},
+  {FLT_C_FUNCTION, 3, {.func = entry__builtin_types__tuple2__std__typed_tuple}},
+  {FLT_C_FUNCTION, 1, {.func = entry__builtin_types__tuple3__std__to_list}},
+  {FLT_C_FUNCTION, 4, {.func = entry__builtin_types__tuple3__std__typed_tuple}},
+  {FLT_C_FUNCTION, 1, {.func = entry__builtin_types__tuple4__std__to_list}},
+  {FLT_C_FUNCTION, 5, {.func = entry__builtin_types__tuple4__std__typed_tuple}},
+  {FLT_C_FUNCTION, 1, {.func = entry__builtin_types__tuple5__std__to_list}},
+  {FLT_C_FUNCTION, 6, {.func = entry__builtin_types__tuple5__std__typed_tuple}},
+  {FLT_C_FUNCTION, 1, {.func = entry__builtin_types__tuple6__std__to_list}},
+  {FLT_C_FUNCTION, 7, {.func = entry__builtin_types__tuple6__std__typed_tuple}},
+  {FLT_C_FUNCTION, 1, {.func = entry__builtin_types__tuple7__std__to_list}},
+  {FLT_C_FUNCTION, 8, {.func = entry__builtin_types__tuple7__std__typed_tuple}},
+  {FLT_C_FUNCTION, 1, {.func = entry__builtin_types__tuple8__std__to_list}},
+  {FLT_C_FUNCTION, 9, {.func = entry__builtin_types__tuple8__std__typed_tuple}},
+  {FLT_C_FUNCTION, -1, {.func = entry__std__tuple}},
+  {FLT_C_FUNCTION, -1, {.func = entry__std__tuple_or_error}},
+  {FLT_C_FUNCTION, 2, {.func = entry__std__new_tuple}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std_types__character__std__to_upper_case}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std__is_an_upper_case_letter_character}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std_types__character__std__to_lower_case}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std__is_a_lower_case_letter_character}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std_types__character__std__to_title_case}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std__is_a_title_case_letter_character}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std__is_a_letter_character}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std__is_a_whitespace_character}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std__is_a_zero_width_character}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std__is_a_wide_character}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std_types__unique_item__std__to_string}},
+  {FLT_C_FUNCTION, 2, {.func = entry__std_types__unique_item__std__equal}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std_types__unique_item__std__hash}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std__unique_item}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std_types__file_descriptor__std__get_terminal_size}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std__exitstatus}},
+  {FLT_C_FUNCTION, -1, {.func = entry__std__pselect}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std__do_not_close}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std__waitpid}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std__open_unix_socket}},
+  {FLT_C_FUNCTION, 3, {.func = entry__std__send_file_descriptor}},
+  {FLT_C_FUNCTION, 2, {.func = entry__std__open_tcp_client_socket}},
+  {FLT_C_FUNCTION, -1, {.func = entry__std__open_tcp_server_socket}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std__accept}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std__is_listening}},
+  {FLT_C_FUNCTION, 0, {.func = entry__std__get_first_mac_address}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std_types__shared_memory__std__size_of}},
+  {FLT_C_FUNCTION, 1, {.func = entry__std_types__shared_memory__std__file_descriptor_of}},
+  {FLT_C_FUNCTION, 3, {.func = entry__std_types__shared_memory__std__write_at}},
+  {FLT_C_FUNCTION, 2, {.func = entry__std__create_shared_memory}}
 };
 
-static INTERNAL_METHOD std_types___array__internal_methods[] = {
+static INTERNAL_METHOD std_types__array__internal_methods[] = {
   {FIM_SIZE, {.size = sizeof(ARRAY)}},
-  {FIM_COLLECT, {std_types___array____collect}},
-  {FIM_DEBUG_STRING, {std_types___array____debug_string}}
+  {FIM_COLLECT, {std_types__array___collect}},
+  {FIM_DEBUG_STRING, {std_types__array___debug_string}}
 };
 
-static ATTRIBUTE_DEFINITION std_types___array__attributes[] = {
-  {var_no__std___create_empty_array, func__std_types___array___std___create_empty_array},
-  {var_no__std___dimension_count_of, func__std_types___array___std___dimension_count_of},
-  {var_no__std___length_of, func__std_types___array___std___length_of},
-  {var_no__std___range, func__std_types___array___std___range}
+static ATTRIBUTE_DEFINITION std_types__array__attributes[] = {
+  {var_std__create_empty_array, func__std_types__array__std__create_empty_array},
+  {var_std__dimension_count_of, func__std_types__array__std__dimension_count_of},
+  {var_std__length_of, func__std_types__array__std__length_of},
+  {var_std__range, func__std_types__array__std__range}
 };
 
-static INTERNAL_METHOD std_types___boolean_array__internal_methods[] = {
+static INTERNAL_METHOD std_types__boolean_array__internal_methods[] = {
   {FIM_SIZE, {.size = sizeof(BOOLEAN_ARRAY)}},
-  {FIM_COLLECT, {std_types___boolean_array____collect}},
-  {FIM_DEBUG_STRING, {std_types___boolean_array____debug_string}}
+  {FIM_COLLECT, {std_types__boolean_array___collect}},
+  {FIM_DEBUG_STRING, {std_types__boolean_array___debug_string}}
 };
 
-static ATTRIBUTE_DEFINITION std_types___boolean_array__attributes[] = {
-  {var_no__std___bit_and, func__std_types___boolean_array___std___bit_and},
-  {var_no__std___bit_or, func__std_types___boolean_array___std___bit_or},
-  {var_no__std___bit_xor, func__std_types___boolean_array___std___bit_xor},
-  {var_no__std___create_empty_array, func__std_types___boolean_array___std___create_empty_array},
-  {var_no__std___dimension_count_of, func__std_types___boolean_array___std___dimension_count_of},
-  {var_no__std___equal, func__std_types___boolean_array___std___equal},
-  {var_no__std___length_of, func__std_types___boolean_array___std___length_of},
-  {var_no__std___range, func__std_types___boolean_array___std___range}
+static ATTRIBUTE_DEFINITION std_types__boolean_array__attributes[] = {
+  {var_std__bit_and, func__std_types__boolean_array__std__bit_and},
+  {var_std__bit_or, func__std_types__boolean_array__std__bit_or},
+  {var_std__bit_xor, func__std_types__boolean_array__std__bit_xor},
+  {var_std__create_empty_array, func__std_types__boolean_array__std__create_empty_array},
+  {var_std__dimension_count_of, func__std_types__boolean_array__std__dimension_count_of},
+  {var_std__equal, func__std_types__boolean_array__std__equal},
+  {var_std__length_of, func__std_types__boolean_array__std__length_of},
+  {var_std__range, func__std_types__boolean_array__std__range}
 };
 
-static INTERNAL_METHOD std_types___character_array__internal_methods[] = {
+static INTERNAL_METHOD std_types__character_array__internal_methods[] = {
   {FIM_SIZE, {.size = sizeof(CHARACTER_ARRAY)}},
-  {FIM_COLLECT, {std_types___character_array____collect}},
-  {FIM_DEBUG_STRING, {std_types___character_array____debug_string}}
+  {FIM_COLLECT, {std_types__character_array___collect}},
+  {FIM_DEBUG_STRING, {std_types__character_array___debug_string}}
 };
 
-static ATTRIBUTE_DEFINITION std_types___character_array__attributes[] = {
-  {var_no__std___create_empty_array, func__std_types___character_array___std___create_empty_array},
-  {var_no__std___dimension_count_of, func__std_types___character_array___std___dimension_count_of},
-  {var_no__std___equal, func__std_types___character_array___std___equal},
-  {var_no__std___length_of, func__std_types___character_array___std___length_of},
-  {var_no__std___range, func__std_types___character_array___std___range}
+static ATTRIBUTE_DEFINITION std_types__character_array__attributes[] = {
+  {var_std__create_empty_array, func__std_types__character_array__std__create_empty_array},
+  {var_std__dimension_count_of, func__std_types__character_array__std__dimension_count_of},
+  {var_std__equal, func__std_types__character_array__std__equal},
+  {var_std__length_of, func__std_types__character_array__std__length_of},
+  {var_std__range, func__std_types__character_array__std__range}
 };
 
-static INTERNAL_METHOD std_types___int8_array__internal_methods[] = {
+static INTERNAL_METHOD std_types__int8_array__internal_methods[] = {
   {FIM_SIZE, {.size = sizeof(INT8_ARRAY)}},
-  {FIM_COLLECT, {std_types___int8_array____collect}},
-  {FIM_DEBUG_STRING, {std_types___int8_array____debug_string}}
+  {FIM_COLLECT, {std_types__int8_array___collect}},
+  {FIM_DEBUG_STRING, {std_types__int8_array___debug_string}}
 };
 
-static ATTRIBUTE_DEFINITION std_types___int8_array__attributes[] = {
-  {var_no__std___create_empty_array, func__std_types___int8_array___std___create_empty_array},
-  {var_no__std___dimension_count_of, func__std_types___int8_array___std___dimension_count_of},
-  {var_no__std___equal, func__std_types___int8_array___std___equal},
-  {var_no__std___length_of, func__std_types___int8_array___std___length_of},
-  {var_no__std___range, func__std_types___int8_array___std___range},
-  {var_no__std___times, func__std_types___int8_array___std___times}
+static ATTRIBUTE_DEFINITION std_types__int8_array__attributes[] = {
+  {var_std__create_empty_array, func__std_types__int8_array__std__create_empty_array},
+  {var_std__dimension_count_of, func__std_types__int8_array__std__dimension_count_of},
+  {var_std__equal, func__std_types__int8_array__std__equal},
+  {var_std__length_of, func__std_types__int8_array__std__length_of},
+  {var_std__range, func__std_types__int8_array__std__range},
+  {var_std__times, func__std_types__int8_array__std__times}
 };
 
-static INTERNAL_METHOD std_types___uint8_array__internal_methods[] = {
+static INTERNAL_METHOD std_types__uint8_array__internal_methods[] = {
   {FIM_SIZE, {.size = sizeof(UINT8_ARRAY)}},
-  {FIM_COLLECT, {std_types___uint8_array____collect}},
-  {FIM_DEBUG_STRING, {std_types___uint8_array____debug_string}}
+  {FIM_COLLECT, {std_types__uint8_array___collect}},
+  {FIM_DEBUG_STRING, {std_types__uint8_array___debug_string}}
 };
 
-static ATTRIBUTE_DEFINITION std_types___uint8_array__attributes[] = {
-  {var_no__std___bit_and, func__std_types___uint8_array___std___bit_and},
-  {var_no__std___bit_or, func__std_types___uint8_array___std___bit_or},
-  {var_no__std___bit_xor, func__std_types___uint8_array___std___bit_xor},
-  {var_no__std___create_empty_array, func__std_types___uint8_array___std___create_empty_array},
-  {var_no__std___dimension_count_of, func__std_types___uint8_array___std___dimension_count_of},
-  {var_no__std___equal, func__std_types___uint8_array___std___equal},
-  {var_no__std___length_of, func__std_types___uint8_array___std___length_of},
-  {var_no__std___range, func__std_types___uint8_array___std___range},
-  {var_no__std___times, func__std_types___uint8_array___std___times}
+static ATTRIBUTE_DEFINITION std_types__uint8_array__attributes[] = {
+  {var_std__bit_and, func__std_types__uint8_array__std__bit_and},
+  {var_std__bit_or, func__std_types__uint8_array__std__bit_or},
+  {var_std__bit_xor, func__std_types__uint8_array__std__bit_xor},
+  {var_std__create_empty_array, func__std_types__uint8_array__std__create_empty_array},
+  {var_std__dimension_count_of, func__std_types__uint8_array__std__dimension_count_of},
+  {var_std__equal, func__std_types__uint8_array__std__equal},
+  {var_std__length_of, func__std_types__uint8_array__std__length_of},
+  {var_std__range, func__std_types__uint8_array__std__range},
+  {var_std__times, func__std_types__uint8_array__std__times}
 };
 
-static INTERNAL_METHOD std_types___int16_array__internal_methods[] = {
+static INTERNAL_METHOD std_types__int16_array__internal_methods[] = {
   {FIM_SIZE, {.size = sizeof(INT16_ARRAY)}},
-  {FIM_COLLECT, {std_types___int16_array____collect}},
-  {FIM_DEBUG_STRING, {std_types___int16_array____debug_string}}
+  {FIM_COLLECT, {std_types__int16_array___collect}},
+  {FIM_DEBUG_STRING, {std_types__int16_array___debug_string}}
 };
 
-static ATTRIBUTE_DEFINITION std_types___int16_array__attributes[] = {
-  {var_no__std___create_empty_array, func__std_types___int16_array___std___create_empty_array},
-  {var_no__std___dimension_count_of, func__std_types___int16_array___std___dimension_count_of},
-  {var_no__std___equal, func__std_types___int16_array___std___equal},
-  {var_no__std___length_of, func__std_types___int16_array___std___length_of},
-  {var_no__std___range, func__std_types___int16_array___std___range},
-  {var_no__std___times, func__std_types___int16_array___std___times}
+static ATTRIBUTE_DEFINITION std_types__int16_array__attributes[] = {
+  {var_std__create_empty_array, func__std_types__int16_array__std__create_empty_array},
+  {var_std__dimension_count_of, func__std_types__int16_array__std__dimension_count_of},
+  {var_std__equal, func__std_types__int16_array__std__equal},
+  {var_std__length_of, func__std_types__int16_array__std__length_of},
+  {var_std__range, func__std_types__int16_array__std__range},
+  {var_std__times, func__std_types__int16_array__std__times}
 };
 
-static INTERNAL_METHOD std_types___uint16_array__internal_methods[] = {
+static INTERNAL_METHOD std_types__uint16_array__internal_methods[] = {
   {FIM_SIZE, {.size = sizeof(UINT16_ARRAY)}},
-  {FIM_COLLECT, {std_types___uint16_array____collect}},
-  {FIM_DEBUG_STRING, {std_types___uint16_array____debug_string}}
+  {FIM_COLLECT, {std_types__uint16_array___collect}},
+  {FIM_DEBUG_STRING, {std_types__uint16_array___debug_string}}
 };
 
-static ATTRIBUTE_DEFINITION std_types___uint16_array__attributes[] = {
-  {var_no__std___bit_and, func__std_types___uint16_array___std___bit_and},
-  {var_no__std___bit_or, func__std_types___uint16_array___std___bit_or},
-  {var_no__std___bit_xor, func__std_types___uint16_array___std___bit_xor},
-  {var_no__std___create_empty_array, func__std_types___uint16_array___std___create_empty_array},
-  {var_no__std___dimension_count_of, func__std_types___uint16_array___std___dimension_count_of},
-  {var_no__std___equal, func__std_types___uint16_array___std___equal},
-  {var_no__std___length_of, func__std_types___uint16_array___std___length_of},
-  {var_no__std___range, func__std_types___uint16_array___std___range},
-  {var_no__std___times, func__std_types___uint16_array___std___times}
+static ATTRIBUTE_DEFINITION std_types__uint16_array__attributes[] = {
+  {var_std__bit_and, func__std_types__uint16_array__std__bit_and},
+  {var_std__bit_or, func__std_types__uint16_array__std__bit_or},
+  {var_std__bit_xor, func__std_types__uint16_array__std__bit_xor},
+  {var_std__create_empty_array, func__std_types__uint16_array__std__create_empty_array},
+  {var_std__dimension_count_of, func__std_types__uint16_array__std__dimension_count_of},
+  {var_std__equal, func__std_types__uint16_array__std__equal},
+  {var_std__length_of, func__std_types__uint16_array__std__length_of},
+  {var_std__range, func__std_types__uint16_array__std__range},
+  {var_std__times, func__std_types__uint16_array__std__times}
 };
 
-static INTERNAL_METHOD std_types___int32_array__internal_methods[] = {
+static INTERNAL_METHOD std_types__int32_array__internal_methods[] = {
   {FIM_SIZE, {.size = sizeof(INT32_ARRAY)}},
-  {FIM_COLLECT, {std_types___int32_array____collect}},
-  {FIM_DEBUG_STRING, {std_types___int32_array____debug_string}}
+  {FIM_COLLECT, {std_types__int32_array___collect}},
+  {FIM_DEBUG_STRING, {std_types__int32_array___debug_string}}
 };
 
-static ATTRIBUTE_DEFINITION std_types___int32_array__attributes[] = {
-  {var_no__std___create_empty_array, func__std_types___int32_array___std___create_empty_array},
-  {var_no__std___dimension_count_of, func__std_types___int32_array___std___dimension_count_of},
-  {var_no__std___equal, func__std_types___int32_array___std___equal},
-  {var_no__std___length_of, func__std_types___int32_array___std___length_of},
-  {var_no__std___range, func__std_types___int32_array___std___range},
-  {var_no__std___times, func__std_types___int32_array___std___times}
+static ATTRIBUTE_DEFINITION std_types__int32_array__attributes[] = {
+  {var_std__create_empty_array, func__std_types__int32_array__std__create_empty_array},
+  {var_std__dimension_count_of, func__std_types__int32_array__std__dimension_count_of},
+  {var_std__equal, func__std_types__int32_array__std__equal},
+  {var_std__length_of, func__std_types__int32_array__std__length_of},
+  {var_std__range, func__std_types__int32_array__std__range},
+  {var_std__times, func__std_types__int32_array__std__times}
 };
 
-static INTERNAL_METHOD std_types___uint32_array__internal_methods[] = {
+static INTERNAL_METHOD std_types__uint32_array__internal_methods[] = {
   {FIM_SIZE, {.size = sizeof(UINT32_ARRAY)}},
-  {FIM_COLLECT, {std_types___uint32_array____collect}},
-  {FIM_DEBUG_STRING, {std_types___uint32_array____debug_string}}
+  {FIM_COLLECT, {std_types__uint32_array___collect}},
+  {FIM_DEBUG_STRING, {std_types__uint32_array___debug_string}}
 };
 
-static ATTRIBUTE_DEFINITION std_types___uint32_array__attributes[] = {
-  {var_no__std___bit_and, func__std_types___uint32_array___std___bit_and},
-  {var_no__std___bit_or, func__std_types___uint32_array___std___bit_or},
-  {var_no__std___bit_xor, func__std_types___uint32_array___std___bit_xor},
-  {var_no__std___create_empty_array, func__std_types___uint32_array___std___create_empty_array},
-  {var_no__std___dimension_count_of, func__std_types___uint32_array___std___dimension_count_of},
-  {var_no__std___equal, func__std_types___uint32_array___std___equal},
-  {var_no__std___length_of, func__std_types___uint32_array___std___length_of},
-  {var_no__std___range, func__std_types___uint32_array___std___range},
-  {var_no__std___times, func__std_types___uint32_array___std___times}
+static ATTRIBUTE_DEFINITION std_types__uint32_array__attributes[] = {
+  {var_std__bit_and, func__std_types__uint32_array__std__bit_and},
+  {var_std__bit_or, func__std_types__uint32_array__std__bit_or},
+  {var_std__bit_xor, func__std_types__uint32_array__std__bit_xor},
+  {var_std__create_empty_array, func__std_types__uint32_array__std__create_empty_array},
+  {var_std__dimension_count_of, func__std_types__uint32_array__std__dimension_count_of},
+  {var_std__equal, func__std_types__uint32_array__std__equal},
+  {var_std__length_of, func__std_types__uint32_array__std__length_of},
+  {var_std__range, func__std_types__uint32_array__std__range},
+  {var_std__times, func__std_types__uint32_array__std__times}
 };
 
-static INTERNAL_METHOD std_types___int64_array__internal_methods[] = {
+static INTERNAL_METHOD std_types__int64_array__internal_methods[] = {
   {FIM_SIZE, {.size = sizeof(INT64_ARRAY)}},
-  {FIM_COLLECT, {std_types___int64_array____collect}},
-  {FIM_DEBUG_STRING, {std_types___int64_array____debug_string}}
+  {FIM_COLLECT, {std_types__int64_array___collect}},
+  {FIM_DEBUG_STRING, {std_types__int64_array___debug_string}}
 };
 
-static ATTRIBUTE_DEFINITION std_types___int64_array__attributes[] = {
-  {var_no__std___create_empty_array, func__std_types___int64_array___std___create_empty_array},
-  {var_no__std___dimension_count_of, func__std_types___int64_array___std___dimension_count_of},
-  {var_no__std___equal, func__std_types___int64_array___std___equal},
-  {var_no__std___length_of, func__std_types___int64_array___std___length_of},
-  {var_no__std___range, func__std_types___int64_array___std___range},
-  {var_no__std___times, func__std_types___int64_array___std___times}
+static ATTRIBUTE_DEFINITION std_types__int64_array__attributes[] = {
+  {var_std__create_empty_array, func__std_types__int64_array__std__create_empty_array},
+  {var_std__dimension_count_of, func__std_types__int64_array__std__dimension_count_of},
+  {var_std__equal, func__std_types__int64_array__std__equal},
+  {var_std__length_of, func__std_types__int64_array__std__length_of},
+  {var_std__range, func__std_types__int64_array__std__range},
+  {var_std__times, func__std_types__int64_array__std__times}
 };
 
-static INTERNAL_METHOD std_types___uint64_array__internal_methods[] = {
+static INTERNAL_METHOD std_types__uint64_array__internal_methods[] = {
   {FIM_SIZE, {.size = sizeof(UINT64_ARRAY)}},
-  {FIM_COLLECT, {std_types___uint64_array____collect}},
-  {FIM_DEBUG_STRING, {std_types___uint64_array____debug_string}}
+  {FIM_COLLECT, {std_types__uint64_array___collect}},
+  {FIM_DEBUG_STRING, {std_types__uint64_array___debug_string}}
 };
 
-static ATTRIBUTE_DEFINITION std_types___uint64_array__attributes[] = {
-  {var_no__std___bit_and, func__std_types___uint64_array___std___bit_and},
-  {var_no__std___bit_or, func__std_types___uint64_array___std___bit_or},
-  {var_no__std___bit_xor, func__std_types___uint64_array___std___bit_xor},
-  {var_no__std___create_empty_array, func__std_types___uint64_array___std___create_empty_array},
-  {var_no__std___dimension_count_of, func__std_types___uint64_array___std___dimension_count_of},
-  {var_no__std___equal, func__std_types___uint64_array___std___equal},
-  {var_no__std___length_of, func__std_types___uint64_array___std___length_of},
-  {var_no__std___range, func__std_types___uint64_array___std___range},
-  {var_no__std___times, func__std_types___uint64_array___std___times}
+static ATTRIBUTE_DEFINITION std_types__uint64_array__attributes[] = {
+  {var_std__bit_and, func__std_types__uint64_array__std__bit_and},
+  {var_std__bit_or, func__std_types__uint64_array__std__bit_or},
+  {var_std__bit_xor, func__std_types__uint64_array__std__bit_xor},
+  {var_std__create_empty_array, func__std_types__uint64_array__std__create_empty_array},
+  {var_std__dimension_count_of, func__std_types__uint64_array__std__dimension_count_of},
+  {var_std__equal, func__std_types__uint64_array__std__equal},
+  {var_std__length_of, func__std_types__uint64_array__std__length_of},
+  {var_std__range, func__std_types__uint64_array__std__range},
+  {var_std__times, func__std_types__uint64_array__std__times}
 };
 
-static INTERNAL_METHOD std_types___float32_array__internal_methods[] = {
+static INTERNAL_METHOD std_types__float32_array__internal_methods[] = {
   {FIM_SIZE, {.size = sizeof(FLOAT32_ARRAY)}},
-  {FIM_COLLECT, {std_types___float32_array____collect}},
-  {FIM_DEBUG_STRING, {std_types___float32_array____debug_string}}
+  {FIM_COLLECT, {std_types__float32_array___collect}},
+  {FIM_DEBUG_STRING, {std_types__float32_array___debug_string}}
 };
 
-static ATTRIBUTE_DEFINITION std_types___float32_array__attributes[] = {
-  {var_no__std___create_empty_array, func__std_types___float32_array___std___create_empty_array},
-  {var_no__std___dimension_count_of, func__std_types___float32_array___std___dimension_count_of},
-  {var_no__std___equal, func__std_types___float32_array___std___equal},
-  {var_no__std___length_of, func__std_types___float32_array___std___length_of},
-  {var_no__std___range, func__std_types___float32_array___std___range},
-  {var_no__std___times, func__std_types___float32_array___std___times}
+static ATTRIBUTE_DEFINITION std_types__float32_array__attributes[] = {
+  {var_std__create_empty_array, func__std_types__float32_array__std__create_empty_array},
+  {var_std__dimension_count_of, func__std_types__float32_array__std__dimension_count_of},
+  {var_std__equal, func__std_types__float32_array__std__equal},
+  {var_std__length_of, func__std_types__float32_array__std__length_of},
+  {var_std__range, func__std_types__float32_array__std__range},
+  {var_std__times, func__std_types__float32_array__std__times}
 };
 
-static INTERNAL_METHOD std_types___float64_array__internal_methods[] = {
+static INTERNAL_METHOD std_types__float64_array__internal_methods[] = {
   {FIM_SIZE, {.size = sizeof(FLOAT64_ARRAY)}},
-  {FIM_COLLECT, {std_types___float64_array____collect}},
-  {FIM_DEBUG_STRING, {std_types___float64_array____debug_string}}
+  {FIM_COLLECT, {std_types__float64_array___collect}},
+  {FIM_DEBUG_STRING, {std_types__float64_array___debug_string}}
 };
 
-static ATTRIBUTE_DEFINITION std_types___float64_array__attributes[] = {
-  {var_no__std___create_empty_array, func__std_types___float64_array___std___create_empty_array},
-  {var_no__std___dimension_count_of, func__std_types___float64_array___std___dimension_count_of},
-  {var_no__std___equal, func__std_types___float64_array___std___equal},
-  {var_no__std___length_of, func__std_types___float64_array___std___length_of},
-  {var_no__std___range, func__std_types___float64_array___std___range},
-  {var_no__std___times, func__std_types___float64_array___std___times}
+static ATTRIBUTE_DEFINITION std_types__float64_array__attributes[] = {
+  {var_std__create_empty_array, func__std_types__float64_array__std__create_empty_array},
+  {var_std__dimension_count_of, func__std_types__float64_array__std__dimension_count_of},
+  {var_std__equal, func__std_types__float64_array__std__equal},
+  {var_std__length_of, func__std_types__float64_array__std__length_of},
+  {var_std__range, func__std_types__float64_array__std__range},
+  {var_std__times, func__std_types__float64_array__std__times}
 };
 
-static INTERNAL_METHOD std_types___true__internal_methods[] = {
-  {FIM_TO_BOOL, {std_types___true____to_bool}},
-  {FIM_DEBUG_STRING, {std_types___true____debug_string}}
+static INTERNAL_METHOD std_types__true__internal_methods[] = {
+  {FIM_TO_BOOL, {std_types__true___to_bool}},
+  {FIM_DEBUG_STRING, {std_types__true___debug_string}}
 };
 
-static ATTRIBUTE_DEFINITION std_types___true__attributes[] = {
-  {var_no__std___equal, func__std_types___true___std___equal}
+static ATTRIBUTE_DEFINITION std_types__true__attributes[] = {
+  {var_std__equal, func__std_types__true__std__equal}
 };
 
-static INTERNAL_METHOD std_types___false__internal_methods[] = {
-  {FIM_TO_BOOL, {std_types___false____to_bool}},
-  {FIM_DEBUG_STRING, {std_types___false____debug_string}}
+static INTERNAL_METHOD std_types__false__internal_methods[] = {
+  {FIM_TO_BOOL, {std_types__false___to_bool}},
+  {FIM_DEBUG_STRING, {std_types__false___debug_string}}
 };
 
-static ATTRIBUTE_DEFINITION std_types___false__attributes[] = {
-  {var_no__std___equal, func__std_types___false___std___equal}
+static ATTRIBUTE_DEFINITION std_types__false__attributes[] = {
+  {var_std__equal, func__std_types__false__std__equal}
 };
 
 static INTERNAL_METHOD c_function__internal_methods[] = {
   {FIM_SIZE, {.size = sizeof(C_FUNCTION)}},
-  {FIM_COLLECT, {c_function____collect}},
-  {FIM_DEBUG_STRING, {c_function____debug_string}}
+  {FIM_COLLECT, {c_function___collect}},
+  {FIM_DEBUG_STRING, {c_function___debug_string}}
 };
 
 static ATTRIBUTE_DEFINITION c_function__attributes[] = {
-  {var_no__std___parameter_count_of, func__c_function___std___parameter_count_of}
+  {var_std__parameter_count_of, func__c_function__std__parameter_count_of}
 };
 
-static INTERNAL_METHOD std_types___character__internal_methods[] = {
+static INTERNAL_METHOD std_types__character__internal_methods[] = {
   {FIM_SIZE, {.size = sizeof(CHARACTER)}},
-  {FIM_COLLECT, {std_types___character____collect}},
-  {FIM_TO_UCHAR32, {std_types___character____to_uchar32}},
-  {FIM_DEBUG_STRING, {std_types___character____debug_string}}
+  {FIM_COLLECT, {std_types__character___collect}},
+  {FIM_TO_UCHAR32, {std_types__character___to_uchar32}},
+  {FIM_DEBUG_STRING, {std_types__character___debug_string}}
 };
 
-static ATTRIBUTE_DEFINITION std_types___character__attributes[] = {
-  {var_no__std___equal, func__std_types___character___std___equal},
-  {var_no__std___hash, func__std_types___character___std___hash},
-  {var_no__std___less, func__std_types___character___std___less},
-  {var_no__std___minus, func__std_types___character___std___minus},
-  {var_no__std___plus, func__std_types___character___std___plus},
-  {var_no__std___to_integer, func__std_types___character___std___to_integer},
-  {var_no__std___to_lower_case, func__std_types___character___std___to_lower_case},
-  {var_no__std___to_string, func__std_types___character___std___to_string},
-  {var_no__std___to_title_case, func__std_types___character___std___to_title_case},
-  {var_no__std___to_upper_case, func__std_types___character___std___to_upper_case},
-  {var_no__std___width_of, func__std_types___character___std___width_of}
+static ATTRIBUTE_DEFINITION std_types__character__attributes[] = {
+  {var_std__equal, func__std_types__character__std__equal},
+  {var_std__hash, func__std_types__character__std__hash},
+  {var_std__less, func__std_types__character__std__less},
+  {var_std__minus, func__std_types__character__std__minus},
+  {var_std__plus, func__std_types__character__std__plus},
+  {var_std__to_integer, func__std_types__character__std__to_integer},
+  {var_std__to_lower_case, func__std_types__character__std__to_lower_case},
+  {var_std__to_string, func__std_types__character__std__to_string},
+  {var_std__to_title_case, func__std_types__character__std__to_title_case},
+  {var_std__to_upper_case, func__std_types__character__std__to_upper_case},
+  {var_std__width_of, func__std_types__character__std__width_of}
 };
 
-static INTERNAL_METHOD std_types___date_and_time__internal_methods[] = {
+static INTERNAL_METHOD std_types__date_and_time__internal_methods[] = {
   {FIM_SIZE, {.size = sizeof(DATE_AND_TIME)}},
-  {FIM_COLLECT, {std_types___date_and_time____collect}},
-  {FIM_DEBUG_STRING, {std_types___date_and_time____debug_string}}
+  {FIM_COLLECT, {std_types__date_and_time___collect}},
+  {FIM_DEBUG_STRING, {std_types__date_and_time___debug_string}}
 };
 
-static ATTRIBUTE_DEFINITION std_types___date_and_time__attributes[] = {
-  {var_no__std___day_of, func__std_types___date_and_time___std___day_of},
-  {var_no__std___day_of_week_of, func__std_types___date_and_time___std___day_of_week_of},
-  {var_no__std___equal, func__std_types___date_and_time___std___equal},
-  {var_no__std___hour_of, func__std_types___date_and_time___std___hour_of},
-  {var_no__std___less, func__std_types___date_and_time___std___less},
-  {var_no__std___minus, func__std_types___date_and_time___std___minus},
-  {var_no__std___minute_of, func__std_types___date_and_time___std___minute_of},
-  {var_no__std___month_of, func__std_types___date_and_time___std___month_of},
-  {var_no__std___plus, func__std_types___date_and_time___std___plus},
-  {var_no__std___second_of, func__std_types___date_and_time___std___second_of},
-  {var_no__std___seconds_since_epoch, func__std_types___date_and_time___std___seconds_since_epoch},
-  {var_no__std___time_shift_of, func__std_types___date_and_time___std___time_shift_of},
-  {var_no__std___year_of, func__std_types___date_and_time___std___year_of}
+static ATTRIBUTE_DEFINITION std_types__date_and_time__attributes[] = {
+  {var_std__day_of, func__std_types__date_and_time__std__day_of},
+  {var_std__day_of_week_of, func__std_types__date_and_time__std__day_of_week_of},
+  {var_std__equal, func__std_types__date_and_time__std__equal},
+  {var_std__hour_of, func__std_types__date_and_time__std__hour_of},
+  {var_std__less, func__std_types__date_and_time__std__less},
+  {var_std__minus, func__std_types__date_and_time__std__minus},
+  {var_std__minute_of, func__std_types__date_and_time__std__minute_of},
+  {var_std__month_of, func__std_types__date_and_time__std__month_of},
+  {var_std__plus, func__std_types__date_and_time__std__plus},
+  {var_std__second_of, func__std_types__date_and_time__std__second_of},
+  {var_std__seconds_since_epoch, func__std_types__date_and_time__std__seconds_since_epoch},
+  {var_std__time_shift_of, func__std_types__date_and_time__std__time_shift_of},
+  {var_std__year_of, func__std_types__date_and_time__std__year_of}
 };
 
-static INTERNAL_METHOD std_types___error__internal_methods[] = {
+static INTERNAL_METHOD std_types__error__internal_methods[] = {
   {FIM_SIZE, {.size = sizeof(ERROR)}},
-  {FIM_COLLECT, {std_types___error____collect}},
-  {FIM_DEBUG_STRING, {std_types___error____debug_string}},
+  {FIM_COLLECT, {std_types__error___collect}},
+  {FIM_DEBUG_STRING, {std_types__error___debug_string}},
   {FIM_TO_INT8, {propagate_error}},
   {FIM_TO_INT16, {propagate_error}},
   {FIM_TO_INT32, {propagate_error}},
@@ -28037,559 +28037,559 @@ static INTERNAL_METHOD std_types___error__internal_methods[] = {
   {FIM_UNFOLD, {propagate_error}}
 };
 
-static ATTRIBUTE_DEFINITION std_types___error__attributes[] = {
-  {var_no__std___errno_of, func__std_types___error___std___errno_of},
-  {var_no__std___error_category_of, func__std_types___error___std___error_category_of},
-  {var_no__std___error_details_of, func__std_types___error___std___error_details_of},
-  {var_no__std___error_message_text_of, func__std_types___error___std___error_message_text_of},
-  {var_no__std___failed_attribute_of, func__std_types___error___std___failed_attribute_of}
+static ATTRIBUTE_DEFINITION std_types__error__attributes[] = {
+  {var_std__errno_of, func__std_types__error__std__errno_of},
+  {var_std__error_category_of, func__std_types__error__std__error_category_of},
+  {var_std__error_details_of, func__std_types__error__std__error_details_of},
+  {var_std__error_message_text_of, func__std_types__error__std__error_message_text_of},
+  {var_std__failed_attribute_of, func__std_types__error__std__failed_attribute_of}
 };
 
-static INTERNAL_METHOD std_types___object__internal_methods[] = {
-  {FIM_TO_INT8, {std_types___object____to_int8}},
-  {FIM_TO_INT16, {std_types___object____to_int16}},
-  {FIM_TO_INT32, {std_types___object____to_int32}},
-  {FIM_TO_INT64, {std_types___object____to_int64}},
-  {FIM_TO_UINT8, {std_types___object____to_uint8}},
-  {FIM_TO_UINT16, {std_types___object____to_uint16}},
-  {FIM_TO_UINT32, {std_types___object____to_uint32}},
-  {FIM_TO_UINT64, {std_types___object____to_uint64}},
-  {FIM_TO_UCHAR32, {std_types___object____to_uchar32}},
-  {FIM_TO_BOOL, {std_types___object____to_bool}},
-  {FIM_TO_INT, {std_types___object____to_int}},
-  {FIM_TO_UINT, {std_types___object____to_uint}},
-  {FIM_TO_LONG, {std_types___object____to_long}},
-  {FIM_TO_ULONG, {std_types___object____to_ulong}},
-  {FIM_TO_FLOAT, {std_types___object____to_float}},
-  {FIM_TO_DOUBLE, {std_types___object____to_double}},
-  {FIM_TO_C_STRING, {std_types___object____to_c_string}},
-  {FIM_TO_OCTETS, {std_types___object____to_octets}},
-  {FIM_GET_ITEM_OF, {std_types___object____get_item_of}},
-  {FIM_LENGTH_OF, {std_types___object____length_of}},
-  {FIM_UNFOLD, {std_types___object____unfold}},
-  {FIM_COLLECT, {std_types___object____collect}},
-  {FIM_DEBUG_STRING, {std_types___object____debug_string}}
+static INTERNAL_METHOD std_types__object__internal_methods[] = {
+  {FIM_TO_INT8, {std_types__object___to_int8}},
+  {FIM_TO_INT16, {std_types__object___to_int16}},
+  {FIM_TO_INT32, {std_types__object___to_int32}},
+  {FIM_TO_INT64, {std_types__object___to_int64}},
+  {FIM_TO_UINT8, {std_types__object___to_uint8}},
+  {FIM_TO_UINT16, {std_types__object___to_uint16}},
+  {FIM_TO_UINT32, {std_types__object___to_uint32}},
+  {FIM_TO_UINT64, {std_types__object___to_uint64}},
+  {FIM_TO_UCHAR32, {std_types__object___to_uchar32}},
+  {FIM_TO_BOOL, {std_types__object___to_bool}},
+  {FIM_TO_INT, {std_types__object___to_int}},
+  {FIM_TO_UINT, {std_types__object___to_uint}},
+  {FIM_TO_LONG, {std_types__object___to_long}},
+  {FIM_TO_ULONG, {std_types__object___to_ulong}},
+  {FIM_TO_FLOAT, {std_types__object___to_float}},
+  {FIM_TO_DOUBLE, {std_types__object___to_double}},
+  {FIM_TO_C_STRING, {std_types__object___to_c_string}},
+  {FIM_TO_OCTETS, {std_types__object___to_octets}},
+  {FIM_GET_ITEM_OF, {std_types__object___get_item_of}},
+  {FIM_LENGTH_OF, {std_types__object___length_of}},
+  {FIM_UNFOLD, {std_types__object___unfold}},
+  {FIM_COLLECT, {std_types__object___collect}},
+  {FIM_DEBUG_STRING, {std_types__object___debug_string}}
 };
 
-static ATTRIBUTE_DEFINITION std_types___object__attributes[] = {
-  {var_no__std___new, func__std_types___object___std___new}
+static ATTRIBUTE_DEFINITION std_types__object__attributes[] = {
+  {var_std__new, func__std_types__object__std__new}
 };
 
-static INTERNAL_METHOD std_types___undefined__internal_methods[] = {
-  {FIM_TO_INT8, {std_types___undefined____to_int8}},
-  {FIM_TO_INT16, {std_types___undefined____to_int16}},
-  {FIM_TO_INT32, {std_types___undefined____to_int32}},
-  {FIM_TO_INT64, {std_types___undefined____to_int64}},
-  {FIM_TO_UINT8, {std_types___undefined____to_uint8}},
-  {FIM_TO_UINT16, {std_types___undefined____to_uint16}},
-  {FIM_TO_UINT32, {std_types___undefined____to_uint32}},
-  {FIM_TO_UINT64, {std_types___undefined____to_uint64}},
-  {FIM_TO_UCHAR32, {std_types___undefined____to_uchar32}},
-  {FIM_TO_BOOL, {std_types___undefined____to_bool}},
-  {FIM_TO_INT, {std_types___undefined____to_int}},
-  {FIM_TO_UINT, {std_types___undefined____to_uint}},
-  {FIM_TO_LONG, {std_types___undefined____to_long}},
-  {FIM_TO_ULONG, {std_types___undefined____to_ulong}},
-  {FIM_TO_FLOAT, {std_types___undefined____to_float}},
-  {FIM_TO_DOUBLE, {std_types___undefined____to_double}},
-  {FIM_TO_C_STRING, {std_types___undefined____to_c_string}},
-  {FIM_TO_OCTETS, {std_types___undefined____to_octets}},
-  {FIM_GET_ITEM_OF, {std_types___undefined____get_item_of}},
-  {FIM_LENGTH_OF, {std_types___undefined____length_of}},
-  {FIM_UNFOLD, {std_types___undefined____unfold}},
-  {FIM_COLLECT, {std_types___undefined____collect}},
-  {FIM_DEBUG_STRING, {std_types___undefined____debug_string}}
+static INTERNAL_METHOD std_types__undefined__internal_methods[] = {
+  {FIM_TO_INT8, {std_types__undefined___to_int8}},
+  {FIM_TO_INT16, {std_types__undefined___to_int16}},
+  {FIM_TO_INT32, {std_types__undefined___to_int32}},
+  {FIM_TO_INT64, {std_types__undefined___to_int64}},
+  {FIM_TO_UINT8, {std_types__undefined___to_uint8}},
+  {FIM_TO_UINT16, {std_types__undefined___to_uint16}},
+  {FIM_TO_UINT32, {std_types__undefined___to_uint32}},
+  {FIM_TO_UINT64, {std_types__undefined___to_uint64}},
+  {FIM_TO_UCHAR32, {std_types__undefined___to_uchar32}},
+  {FIM_TO_BOOL, {std_types__undefined___to_bool}},
+  {FIM_TO_INT, {std_types__undefined___to_int}},
+  {FIM_TO_UINT, {std_types__undefined___to_uint}},
+  {FIM_TO_LONG, {std_types__undefined___to_long}},
+  {FIM_TO_ULONG, {std_types__undefined___to_ulong}},
+  {FIM_TO_FLOAT, {std_types__undefined___to_float}},
+  {FIM_TO_DOUBLE, {std_types__undefined___to_double}},
+  {FIM_TO_C_STRING, {std_types__undefined___to_c_string}},
+  {FIM_TO_OCTETS, {std_types__undefined___to_octets}},
+  {FIM_GET_ITEM_OF, {std_types__undefined___get_item_of}},
+  {FIM_LENGTH_OF, {std_types__undefined___length_of}},
+  {FIM_UNFOLD, {std_types__undefined___unfold}},
+  {FIM_COLLECT, {std_types__undefined___collect}},
+  {FIM_DEBUG_STRING, {std_types__undefined___debug_string}}
 };
 
-static INTERNAL_METHOD std_types___function__internal_methods[] = {
-  {FIM_DEBUG_STRING, {std_types___function____debug_string}}
+static INTERNAL_METHOD std_types__function__internal_methods[] = {
+  {FIM_DEBUG_STRING, {std_types__function___debug_string}}
 };
 
-static ATTRIBUTE_DEFINITION std_types___function__attributes[] = {
-  {var_no__std___new, func__std_types___function___std___new},
-  {var_no__std___parameter_count_of, func__std_types___function___std___parameter_count_of}
+static ATTRIBUTE_DEFINITION std_types__function__attributes[] = {
+  {var_std__new, func__std_types__function__std__new},
+  {var_std__parameter_count_of, func__std_types__function__std__parameter_count_of}
 };
 
-static INTERNAL_METHOD std_types___list__internal_methods[] = {
+static INTERNAL_METHOD std_types__list__internal_methods[] = {
   {FIM_SIZE, {.size = sizeof(LIST)}},
-  {FIM_COLLECT, {std_types___list____collect}},
-  {FIM_DEBUG_STRING, {std_types___list____debug_string}},
-  {FIM_GET_ITEM_OF, {std_types___list____get_item_of}},
-  {FIM_UNFOLD, {std_types___list____unfold}},
-  {FIM_LENGTH_OF, {std_types___list____length_of}}
+  {FIM_COLLECT, {std_types__list___collect}},
+  {FIM_DEBUG_STRING, {std_types__list___debug_string}},
+  {FIM_GET_ITEM_OF, {std_types__list___get_item_of}},
+  {FIM_UNFOLD, {std_types__list___unfold}},
+  {FIM_LENGTH_OF, {std_types__list___length_of}}
 };
 
-static ATTRIBUTE_DEFINITION std_types___list__attributes[] = {
-  {var_no__std___append, func__std_types___list___std___append},
-  {var_no__std___drop, func__std_types___list___std___drop},
-  {var_no__std___is_empty, func__std_types___list___std___is_empty},
-  {var_no__std___is_not_empty, func__std_types___list___std___is_not_empty},
-  {var_no__std___length_of, func__std_types___list___std___length_of},
-  {var_no__std___peek, func__std_types___list___std___peek},
-  {var_no__std___pop, func__std_types___list___std___pop},
-  {var_no__std___push, func__std_types___list___std___push},
-  {var_no__std___range, func__std_types___list___std___range},
-  {var_no__std___spread, func__std_types___list___std___spread}
+static ATTRIBUTE_DEFINITION std_types__list__attributes[] = {
+  {var_std__append, func__std_types__list__std__append},
+  {var_std__drop, func__std_types__list__std__drop},
+  {var_std__is_empty, func__std_types__list__std__is_empty},
+  {var_std__is_not_empty, func__std_types__list__std__is_not_empty},
+  {var_std__length_of, func__std_types__list__std__length_of},
+  {var_std__peek, func__std_types__list__std__peek},
+  {var_std__pop, func__std_types__list__std__pop},
+  {var_std__push, func__std_types__list__std__push},
+  {var_std__range, func__std_types__list__std__range},
+  {var_std__spread, func__std_types__list__std__spread}
 };
 
-static INTERNAL_METHOD std_types___integer__internal_methods[] = {
+static INTERNAL_METHOD std_types__integer__internal_methods[] = {
   {FIM_SIZE, {.size = sizeof(INTEGER)}},
-  {FIM_COLLECT, {std_types___integer____collect}}
+  {FIM_COLLECT, {std_types__integer___collect}}
 };
 
-static INTERNAL_METHOD builtin_types___positive_integer__internal_methods[] = {
-  {FIM_DEBUG_STRING, {builtin_types___positive_integer____debug_string}},
-  {FIM_TO_DOUBLE, {builtin_types___positive_integer____to_double}},
-  {FIM_TO_FLOAT, {builtin_types___positive_integer____to_float}},
-  {FIM_TO_INT, {builtin_types___positive_integer____to_int}},
-  {FIM_TO_LONG, {builtin_types___positive_integer____to_long}},
-  {FIM_TO_UINT, {builtin_types___positive_integer____to_uint}},
-  {FIM_TO_ULONG, {builtin_types___positive_integer____to_ulong}},
-  {FIM_TO_INT8, {builtin_types___positive_integer____to_int8}},
-  {FIM_TO_INT16, {builtin_types___positive_integer____to_int16}},
-  {FIM_TO_INT32, {builtin_types___positive_integer____to_int32}},
-  {FIM_TO_INT64, {builtin_types___positive_integer____to_int64}},
-  {FIM_TO_UINT8, {builtin_types___positive_integer____to_uint8}},
-  {FIM_TO_UINT16, {builtin_types___positive_integer____to_uint16}},
-  {FIM_TO_UINT32, {builtin_types___positive_integer____to_uint32}},
-  {FIM_TO_UINT64, {builtin_types___positive_integer____to_uint64}}
+static INTERNAL_METHOD builtin_types__positive_integer__internal_methods[] = {
+  {FIM_DEBUG_STRING, {builtin_types__positive_integer___debug_string}},
+  {FIM_TO_DOUBLE, {builtin_types__positive_integer___to_double}},
+  {FIM_TO_FLOAT, {builtin_types__positive_integer___to_float}},
+  {FIM_TO_INT, {builtin_types__positive_integer___to_int}},
+  {FIM_TO_LONG, {builtin_types__positive_integer___to_long}},
+  {FIM_TO_UINT, {builtin_types__positive_integer___to_uint}},
+  {FIM_TO_ULONG, {builtin_types__positive_integer___to_ulong}},
+  {FIM_TO_INT8, {builtin_types__positive_integer___to_int8}},
+  {FIM_TO_INT16, {builtin_types__positive_integer___to_int16}},
+  {FIM_TO_INT32, {builtin_types__positive_integer___to_int32}},
+  {FIM_TO_INT64, {builtin_types__positive_integer___to_int64}},
+  {FIM_TO_UINT8, {builtin_types__positive_integer___to_uint8}},
+  {FIM_TO_UINT16, {builtin_types__positive_integer___to_uint16}},
+  {FIM_TO_UINT32, {builtin_types__positive_integer___to_uint32}},
+  {FIM_TO_UINT64, {builtin_types__positive_integer___to_uint64}}
 };
 
-static ATTRIBUTE_DEFINITION builtin_types___positive_integer__attributes[] = {
-  {var_no__std___bit_and, func__builtin_types___positive_integer___std___bit_and},
-  {var_no__std___bit_or, func__builtin_types___positive_integer___std___bit_or},
-  {var_no__std___bit_xor, func__builtin_types___positive_integer___std___bit_xor},
-  {var_no__std___div, func__builtin_types___positive_integer___std___div},
-  {var_no__std___equal, func__builtin_types___positive_integer___std___equal},
-  {var_no__std___exit, func__builtin_types___positive_integer___std___exit},
-  {var_no__std___exp, func__builtin_types___positive_integer___std___exp},
-  {var_no__std___hash, func__builtin_types___positive_integer___std___hash},
-  {var_no__std___less, func__builtin_types___positive_integer___std___less},
-  {var_no__std___ln, func__builtin_types___positive_integer___std___ln},
-  {var_no__std___minus, func__builtin_types___positive_integer___std___minus},
-  {var_no__std___mod, func__builtin_types___positive_integer___std___mod},
-  {var_no__std___negate, func__builtin_types___positive_integer___std___negate},
-  {var_no__std___over, func__builtin_types___positive_integer___std___over},
-  {var_no__std___plus, func__builtin_types___positive_integer___std___plus},
-  {var_no__std___shift_left, func__builtin_types___positive_integer___std___shift_left},
-  {var_no__std___shift_right, func__builtin_types___positive_integer___std___shift_right},
-  {var_no__std___times, func__builtin_types___positive_integer___std___times},
-  {var_no__std___to_integer, func__builtin_types___positive_integer___std___to_integer},
-  {var_no__std___to_string, func__builtin_types___positive_integer___std___to_string}
+static ATTRIBUTE_DEFINITION builtin_types__positive_integer__attributes[] = {
+  {var_std__bit_and, func__builtin_types__positive_integer__std__bit_and},
+  {var_std__bit_or, func__builtin_types__positive_integer__std__bit_or},
+  {var_std__bit_xor, func__builtin_types__positive_integer__std__bit_xor},
+  {var_std__div, func__builtin_types__positive_integer__std__div},
+  {var_std__equal, func__builtin_types__positive_integer__std__equal},
+  {var_std__exit, func__builtin_types__positive_integer__std__exit},
+  {var_std__exp, func__builtin_types__positive_integer__std__exp},
+  {var_std__hash, func__builtin_types__positive_integer__std__hash},
+  {var_std__less, func__builtin_types__positive_integer__std__less},
+  {var_std__ln, func__builtin_types__positive_integer__std__ln},
+  {var_std__minus, func__builtin_types__positive_integer__std__minus},
+  {var_std__mod, func__builtin_types__positive_integer__std__mod},
+  {var_std__negate, func__builtin_types__positive_integer__std__negate},
+  {var_std__over, func__builtin_types__positive_integer__std__over},
+  {var_std__plus, func__builtin_types__positive_integer__std__plus},
+  {var_std__shift_left, func__builtin_types__positive_integer__std__shift_left},
+  {var_std__shift_right, func__builtin_types__positive_integer__std__shift_right},
+  {var_std__times, func__builtin_types__positive_integer__std__times},
+  {var_std__to_integer, func__builtin_types__positive_integer__std__to_integer},
+  {var_std__to_string, func__builtin_types__positive_integer__std__to_string}
 };
 
-static INTERNAL_METHOD builtin_types___negative_integer__internal_methods[] = {
-  {FIM_DEBUG_STRING, {builtin_types___negative_integer____debug_string}},
-  {FIM_TO_DOUBLE, {builtin_types___negative_integer____to_double}},
-  {FIM_TO_FLOAT, {builtin_types___negative_integer____to_float}},
-  {FIM_TO_INT, {builtin_types___negative_integer____to_int}},
-  {FIM_TO_LONG, {builtin_types___negative_integer____to_long}},
-  {FIM_TO_INT8, {builtin_types___negative_integer____to_int8}},
-  {FIM_TO_INT16, {builtin_types___negative_integer____to_int16}},
-  {FIM_TO_INT32, {builtin_types___negative_integer____to_int32}},
-  {FIM_TO_INT64, {builtin_types___negative_integer____to_int64}}
+static INTERNAL_METHOD builtin_types__negative_integer__internal_methods[] = {
+  {FIM_DEBUG_STRING, {builtin_types__negative_integer___debug_string}},
+  {FIM_TO_DOUBLE, {builtin_types__negative_integer___to_double}},
+  {FIM_TO_FLOAT, {builtin_types__negative_integer___to_float}},
+  {FIM_TO_INT, {builtin_types__negative_integer___to_int}},
+  {FIM_TO_LONG, {builtin_types__negative_integer___to_long}},
+  {FIM_TO_INT8, {builtin_types__negative_integer___to_int8}},
+  {FIM_TO_INT16, {builtin_types__negative_integer___to_int16}},
+  {FIM_TO_INT32, {builtin_types__negative_integer___to_int32}},
+  {FIM_TO_INT64, {builtin_types__negative_integer___to_int64}}
 };
 
-static ATTRIBUTE_DEFINITION builtin_types___negative_integer__attributes[] = {
-  {var_no__std___div, func__builtin_types___negative_integer___std___div},
-  {var_no__std___equal, func__builtin_types___negative_integer___std___equal},
-  {var_no__std___exp, func__builtin_types___negative_integer___std___exp},
-  {var_no__std___hash, func__builtin_types___negative_integer___std___hash},
-  {var_no__std___less, func__builtin_types___negative_integer___std___less},
-  {var_no__std___ln, func__builtin_types___negative_integer___std___ln},
-  {var_no__std___minus, func__builtin_types___negative_integer___std___minus},
-  {var_no__std___mod, func__builtin_types___negative_integer___std___mod},
-  {var_no__std___negate, func__builtin_types___negative_integer___std___negate},
-  {var_no__std___over, func__builtin_types___negative_integer___std___over},
-  {var_no__std___plus, func__builtin_types___negative_integer___std___plus},
-  {var_no__std___times, func__builtin_types___negative_integer___std___times},
-  {var_no__std___to_integer, func__builtin_types___negative_integer___std___to_integer},
-  {var_no__std___to_string, func__builtin_types___negative_integer___std___to_string}
+static ATTRIBUTE_DEFINITION builtin_types__negative_integer__attributes[] = {
+  {var_std__div, func__builtin_types__negative_integer__std__div},
+  {var_std__equal, func__builtin_types__negative_integer__std__equal},
+  {var_std__exp, func__builtin_types__negative_integer__std__exp},
+  {var_std__hash, func__builtin_types__negative_integer__std__hash},
+  {var_std__less, func__builtin_types__negative_integer__std__less},
+  {var_std__ln, func__builtin_types__negative_integer__std__ln},
+  {var_std__minus, func__builtin_types__negative_integer__std__minus},
+  {var_std__mod, func__builtin_types__negative_integer__std__mod},
+  {var_std__negate, func__builtin_types__negative_integer__std__negate},
+  {var_std__over, func__builtin_types__negative_integer__std__over},
+  {var_std__plus, func__builtin_types__negative_integer__std__plus},
+  {var_std__times, func__builtin_types__negative_integer__std__times},
+  {var_std__to_integer, func__builtin_types__negative_integer__std__to_integer},
+  {var_std__to_string, func__builtin_types__negative_integer__std__to_string}
 };
 
-static INTERNAL_METHOD std_types___real__internal_methods[] = {
+static INTERNAL_METHOD std_types__real__internal_methods[] = {
   {FIM_SIZE, {.size = sizeof(REAL)}},
-  {FIM_COLLECT, {std_types___real____collect}},
-  {FIM_DEBUG_STRING, {std_types___real____debug_string}},
-  {FIM_TO_DOUBLE, {std_types___real____to_double}},
-  {FIM_TO_FLOAT, {std_types___real____to_float}}
+  {FIM_COLLECT, {std_types__real___collect}},
+  {FIM_DEBUG_STRING, {std_types__real___debug_string}},
+  {FIM_TO_DOUBLE, {std_types__real___to_double}},
+  {FIM_TO_FLOAT, {std_types__real___to_float}}
 };
 
-static ATTRIBUTE_DEFINITION std_types___real__attributes[] = {
-  {var_no__std___ceil, func__std_types___real___std___ceil},
-  {var_no__std___equal, func__std_types___real___std___equal},
-  {var_no__std___exp, func__std_types___real___std___exp},
-  {var_no__std___floor, func__std_types___real___std___floor},
-  {var_no__std___hash, func__std_types___real___std___hash},
-  {var_no__std___less, func__std_types___real___std___less},
-  {var_no__std___ln, func__std_types___real___std___ln},
-  {var_no__std___minus, func__std_types___real___std___minus},
-  {var_no__std___negate, func__std_types___real___std___negate},
-  {var_no__std___over, func__std_types___real___std___over},
-  {var_no__std___plus, func__std_types___real___std___plus},
-  {var_no__std___round, func__std_types___real___std___round},
-  {var_no__std___times, func__std_types___real___std___times},
-  {var_no__std___to_integer, func__std_types___real___std___to_integer},
-  {var_no__std___to_string, func__std_types___real___std___to_string}
+static ATTRIBUTE_DEFINITION std_types__real__attributes[] = {
+  {var_std__ceil, func__std_types__real__std__ceil},
+  {var_std__equal, func__std_types__real__std__equal},
+  {var_std__exp, func__std_types__real__std__exp},
+  {var_std__floor, func__std_types__real__std__floor},
+  {var_std__hash, func__std_types__real__std__hash},
+  {var_std__less, func__std_types__real__std__less},
+  {var_std__ln, func__std_types__real__std__ln},
+  {var_std__minus, func__std_types__real__std__minus},
+  {var_std__negate, func__std_types__real__std__negate},
+  {var_std__over, func__std_types__real__std__over},
+  {var_std__plus, func__std_types__real__std__plus},
+  {var_std__round, func__std_types__real__std__round},
+  {var_std__times, func__std_types__real__std__times},
+  {var_std__to_integer, func__std_types__real__std__to_integer},
+  {var_std__to_string, func__std_types__real__std__to_string}
 };
 
-static INTERNAL_METHOD std_types___file_type__internal_methods[] = {
+static INTERNAL_METHOD std_types__file_type__internal_methods[] = {
   {FIM_SIZE, {.size = sizeof(FILE_TYPE)}},
-  {FIM_COLLECT, {std_types___file_type____collect}},
-  {FIM_DEBUG_STRING, {std_types___file_type____debug_string}}
+  {FIM_COLLECT, {std_types__file_type___collect}},
+  {FIM_DEBUG_STRING, {std_types__file_type___debug_string}}
 };
 
-static ATTRIBUTE_DEFINITION std_types___file_type__attributes[] = {
-  {var_no__std___equal, func__std_types___file_type___std___equal},
-  {var_no__std___hash, func__std_types___file_type___std___hash},
-  {var_no__std___to_integer, func__std_types___file_type___std___to_integer}
+static ATTRIBUTE_DEFINITION std_types__file_type__attributes[] = {
+  {var_std__equal, func__std_types__file_type__std__equal},
+  {var_std__hash, func__std_types__file_type__std__hash},
+  {var_std__to_integer, func__std_types__file_type__std__to_integer}
 };
 
-static INTERNAL_METHOD std_types___file_descriptor__internal_methods[] = {
+static INTERNAL_METHOD std_types__file_descriptor__internal_methods[] = {
   {FIM_SIZE, {.size = sizeof(FILE_DESCRIPTOR)}},
-  {FIM_COLLECT, {std_types___file_descriptor____collect}},
-  {FIM_DEBUG_STRING, {std_types___file_descriptor____debug_string}}
+  {FIM_COLLECT, {std_types__file_descriptor___collect}},
+  {FIM_DEBUG_STRING, {std_types__file_descriptor___debug_string}}
 };
 
-static ATTRIBUTE_DEFINITION std_types___file_descriptor__attributes[] = {
-  {var_no__std___close, func__std_types___file_descriptor___std___close},
-  {var_no__std___equal, func__std_types___file_descriptor___std___equal},
-  {var_no__std___get_terminal_attributes, func__std_types___file_descriptor___std___get_terminal_attributes},
-  {var_no__std___get_terminal_size, func__std_types___file_descriptor___std___get_terminal_size},
-  {var_no__std___hash, func__std_types___file_descriptor___std___hash},
-  {var_no__std___read, func__std_types___file_descriptor___std___read},
-  {var_no__std___set_terminal_attributes, func__std_types___file_descriptor___std___set_terminal_attributes},
-  {var_no__std___to_integer, func__std_types___file_descriptor___std___to_integer},
-  {var_no__std___write, func__std_types___file_descriptor___std___write}
+static ATTRIBUTE_DEFINITION std_types__file_descriptor__attributes[] = {
+  {var_std__close, func__std_types__file_descriptor__std__close},
+  {var_std__equal, func__std_types__file_descriptor__std__equal},
+  {var_std__get_terminal_attributes, func__std_types__file_descriptor__std__get_terminal_attributes},
+  {var_std__get_terminal_size, func__std_types__file_descriptor__std__get_terminal_size},
+  {var_std__hash, func__std_types__file_descriptor__std__hash},
+  {var_std__read, func__std_types__file_descriptor__std__read},
+  {var_std__set_terminal_attributes, func__std_types__file_descriptor__std__set_terminal_attributes},
+  {var_std__to_integer, func__std_types__file_descriptor__std__to_integer},
+  {var_std__write, func__std_types__file_descriptor__std__write}
 };
 
-static INTERNAL_METHOD std_types___signal_number__internal_methods[] = {
+static INTERNAL_METHOD std_types__signal_number__internal_methods[] = {
   {FIM_SIZE, {.size = sizeof(SIGNAL_NUMBER)}},
-  {FIM_COLLECT, {std_types___signal_number____collect}},
-  {FIM_DEBUG_STRING, {std_types___signal_number____debug_string}}
+  {FIM_COLLECT, {std_types__signal_number___collect}},
+  {FIM_DEBUG_STRING, {std_types__signal_number___debug_string}}
 };
 
-static ATTRIBUTE_DEFINITION std_types___signal_number__attributes[] = {
-  {var_no__std___equal, func__std_types___signal_number___std___equal},
-  {var_no__std___hash, func__std_types___signal_number___std___hash},
-  {var_no__std___to_integer, func__std_types___signal_number___std___to_integer}
+static ATTRIBUTE_DEFINITION std_types__signal_number__attributes[] = {
+  {var_std__equal, func__std_types__signal_number__std__equal},
+  {var_std__hash, func__std_types__signal_number__std__hash},
+  {var_std__to_integer, func__std_types__signal_number__std__to_integer}
 };
 
-static INTERNAL_METHOD std_types___shutdown_type__internal_methods[] = {
+static INTERNAL_METHOD std_types__shutdown_type__internal_methods[] = {
   {FIM_SIZE, {.size = sizeof(SHUTDOWN_TYPE)}},
-  {FIM_COLLECT, {std_types___shutdown_type____collect}},
-  {FIM_DEBUG_STRING, {std_types___shutdown_type____debug_string}}
+  {FIM_COLLECT, {std_types__shutdown_type___collect}},
+  {FIM_DEBUG_STRING, {std_types__shutdown_type___debug_string}}
 };
 
-static ATTRIBUTE_DEFINITION std_types___shutdown_type__attributes[] = {
-  {var_no__std___equal, func__std_types___shutdown_type___std___equal},
-  {var_no__std___hash, func__std_types___shutdown_type___std___hash},
-  {var_no__std___to_integer, func__std_types___shutdown_type___std___to_integer}
+static ATTRIBUTE_DEFINITION std_types__shutdown_type__attributes[] = {
+  {var_std__equal, func__std_types__shutdown_type__std__equal},
+  {var_std__hash, func__std_types__shutdown_type__std__hash},
+  {var_std__to_integer, func__std_types__shutdown_type__std__to_integer}
 };
 
-static INTERNAL_METHOD std_types___seek_type__internal_methods[] = {
+static INTERNAL_METHOD std_types__seek_type__internal_methods[] = {
   {FIM_SIZE, {.size = sizeof(SEEK_TYPE)}},
-  {FIM_COLLECT, {std_types___seek_type____collect}},
-  {FIM_DEBUG_STRING, {std_types___seek_type____debug_string}}
+  {FIM_COLLECT, {std_types__seek_type___collect}},
+  {FIM_DEBUG_STRING, {std_types__seek_type___debug_string}}
 };
 
-static ATTRIBUTE_DEFINITION std_types___seek_type__attributes[] = {
-  {var_no__std___equal, func__std_types___seek_type___std___equal},
-  {var_no__std___hash, func__std_types___seek_type___std___hash},
-  {var_no__std___to_integer, func__std_types___seek_type___std___to_integer}
+static ATTRIBUTE_DEFINITION std_types__seek_type__attributes[] = {
+  {var_std__equal, func__std_types__seek_type__std__equal},
+  {var_std__hash, func__std_types__seek_type__std__hash},
+  {var_std__to_integer, func__std_types__seek_type__std__to_integer}
 };
 
-static INTERNAL_METHOD std_types___device_id__internal_methods[] = {
+static INTERNAL_METHOD std_types__device_id__internal_methods[] = {
   {FIM_SIZE, {.size = sizeof(DEVICE_ID)}},
-  {FIM_COLLECT, {std_types___device_id____collect}},
-  {FIM_DEBUG_STRING, {std_types___device_id____debug_string}}
+  {FIM_COLLECT, {std_types__device_id___collect}},
+  {FIM_DEBUG_STRING, {std_types__device_id___debug_string}}
 };
 
-static ATTRIBUTE_DEFINITION std_types___device_id__attributes[] = {
-  {var_no__std___equal, func__std_types___device_id___std___equal},
-  {var_no__std___hash, func__std_types___device_id___std___hash},
-  {var_no__std___to_integer, func__std_types___device_id___std___to_integer}
+static ATTRIBUTE_DEFINITION std_types__device_id__attributes[] = {
+  {var_std__equal, func__std_types__device_id__std__equal},
+  {var_std__hash, func__std_types__device_id__std__hash},
+  {var_std__to_integer, func__std_types__device_id__std__to_integer}
 };
 
-static INTERNAL_METHOD std_types___directory__internal_methods[] = {
+static INTERNAL_METHOD std_types__directory__internal_methods[] = {
   {FIM_SIZE, {.size = sizeof(DIRECTORY)}},
-  {FIM_COLLECT, {std_types___directory____collect}},
-  {FIM_DEBUG_STRING, {std_types___directory____debug_string}}
+  {FIM_COLLECT, {std_types__directory___collect}},
+  {FIM_DEBUG_STRING, {std_types__directory___debug_string}}
 };
 
-static ATTRIBUTE_DEFINITION std_types___directory__attributes[] = {
-  {var_no__std___equal, func__std_types___directory___std___equal},
-  {var_no__std___hash, func__std_types___directory___std___hash}
+static ATTRIBUTE_DEFINITION std_types__directory__attributes[] = {
+  {var_std__equal, func__std_types__directory__std__equal},
+  {var_std__hash, func__std_types__directory__std__hash}
 };
 
-static INTERNAL_METHOD std_types___group_id__internal_methods[] = {
+static INTERNAL_METHOD std_types__group_id__internal_methods[] = {
   {FIM_SIZE, {.size = sizeof(GROUP_ID)}},
-  {FIM_COLLECT, {std_types___group_id____collect}},
-  {FIM_DEBUG_STRING, {std_types___group_id____debug_string}}
+  {FIM_COLLECT, {std_types__group_id___collect}},
+  {FIM_DEBUG_STRING, {std_types__group_id___debug_string}}
 };
 
-static ATTRIBUTE_DEFINITION std_types___group_id__attributes[] = {
-  {var_no__std___equal, func__std_types___group_id___std___equal},
-  {var_no__std___hash, func__std_types___group_id___std___hash},
-  {var_no__std___to_integer, func__std_types___group_id___std___to_integer}
+static ATTRIBUTE_DEFINITION std_types__group_id__attributes[] = {
+  {var_std__equal, func__std_types__group_id__std__equal},
+  {var_std__hash, func__std_types__group_id__std__hash},
+  {var_std__to_integer, func__std_types__group_id__std__to_integer}
 };
 
-static INTERNAL_METHOD std_types___inode_number__internal_methods[] = {
+static INTERNAL_METHOD std_types__inode_number__internal_methods[] = {
   {FIM_SIZE, {.size = sizeof(INODE_NUMBER)}},
-  {FIM_COLLECT, {std_types___inode_number____collect}},
-  {FIM_DEBUG_STRING, {std_types___inode_number____debug_string}}
+  {FIM_COLLECT, {std_types__inode_number___collect}},
+  {FIM_DEBUG_STRING, {std_types__inode_number___debug_string}}
 };
 
-static ATTRIBUTE_DEFINITION std_types___inode_number__attributes[] = {
-  {var_no__std___equal, func__std_types___inode_number___std___equal},
-  {var_no__std___hash, func__std_types___inode_number___std___hash},
-  {var_no__std___to_integer, func__std_types___inode_number___std___to_integer}
+static ATTRIBUTE_DEFINITION std_types__inode_number__attributes[] = {
+  {var_std__equal, func__std_types__inode_number__std__equal},
+  {var_std__hash, func__std_types__inode_number__std__hash},
+  {var_std__to_integer, func__std_types__inode_number__std__to_integer}
 };
 
-static INTERNAL_METHOD std_types___process_id__internal_methods[] = {
+static INTERNAL_METHOD std_types__process_id__internal_methods[] = {
   {FIM_SIZE, {.size = sizeof(PROCESS_ID)}},
-  {FIM_COLLECT, {std_types___process_id____collect}},
-  {FIM_DEBUG_STRING, {std_types___process_id____debug_string}}
+  {FIM_COLLECT, {std_types__process_id___collect}},
+  {FIM_DEBUG_STRING, {std_types__process_id___debug_string}}
 };
 
-static ATTRIBUTE_DEFINITION std_types___process_id__attributes[] = {
-  {var_no__std___equal, func__std_types___process_id___std___equal},
-  {var_no__std___hash, func__std_types___process_id___std___hash},
-  {var_no__std___to_integer, func__std_types___process_id___std___to_integer}
+static ATTRIBUTE_DEFINITION std_types__process_id__attributes[] = {
+  {var_std__equal, func__std_types__process_id__std__equal},
+  {var_std__hash, func__std_types__process_id__std__hash},
+  {var_std__to_integer, func__std_types__process_id__std__to_integer}
 };
 
-static INTERNAL_METHOD std_types___user_id__internal_methods[] = {
+static INTERNAL_METHOD std_types__user_id__internal_methods[] = {
   {FIM_SIZE, {.size = sizeof(USER_ID)}},
-  {FIM_COLLECT, {std_types___user_id____collect}},
-  {FIM_DEBUG_STRING, {std_types___user_id____debug_string}}
+  {FIM_COLLECT, {std_types__user_id___collect}},
+  {FIM_DEBUG_STRING, {std_types__user_id___debug_string}}
 };
 
-static ATTRIBUTE_DEFINITION std_types___user_id__attributes[] = {
-  {var_no__std___equal, func__std_types___user_id___std___equal},
-  {var_no__std___hash, func__std_types___user_id___std___hash},
-  {var_no__std___to_integer, func__std_types___user_id___std___to_integer}
+static ATTRIBUTE_DEFINITION std_types__user_id__attributes[] = {
+  {var_std__equal, func__std_types__user_id__std__equal},
+  {var_std__hash, func__std_types__user_id__std__hash},
+  {var_std__to_integer, func__std_types__user_id__std__to_integer}
 };
 
-static INTERNAL_METHOD std_types___error_number__internal_methods[] = {
+static INTERNAL_METHOD std_types__error_number__internal_methods[] = {
   {FIM_SIZE, {.size = sizeof(ERROR_NUMBER)}},
-  {FIM_COLLECT, {std_types___error_number____collect}},
-  {FIM_DEBUG_STRING, {std_types___error_number____debug_string}}
+  {FIM_COLLECT, {std_types__error_number___collect}},
+  {FIM_DEBUG_STRING, {std_types__error_number___debug_string}}
 };
 
-static ATTRIBUTE_DEFINITION std_types___error_number__attributes[] = {
-  {var_no__std___equal, func__std_types___error_number___std___equal},
-  {var_no__std___hash, func__std_types___error_number___std___hash},
-  {var_no__std___to_integer, func__std_types___error_number___std___to_integer}
+static ATTRIBUTE_DEFINITION std_types__error_number__attributes[] = {
+  {var_std__equal, func__std_types__error_number__std__equal},
+  {var_std__hash, func__std_types__error_number__std__hash},
+  {var_std__to_integer, func__std_types__error_number__std__to_integer}
 };
 
-static ATTRIBUTE_DEFINITION std_types___passwd__attributes[] = {
-  {-var_no__std___group_id_of, -var_no__std_types___undefined},
-  {-var_no__std___home_directory_of, -var_no__std_types___undefined},
-  {-var_no__std___password_of, -var_no__std_types___undefined},
-  {-var_no__std___shell_of, -var_no__std_types___undefined},
-  {-var_no__std___user_id_of, -var_no__std_types___undefined},
-  {-var_no__std___user_information_of, -var_no__std_types___undefined},
-  {-var_no__std___username_of, -var_no__std_types___undefined}
+static ATTRIBUTE_DEFINITION std_types__passwd__attributes[] = {
+  {-var_std__group_id_of, -var_std_types__undefined},
+  {-var_std__home_directory_of, -var_std_types__undefined},
+  {-var_std__password_of, -var_std_types__undefined},
+  {-var_std__shell_of, -var_std_types__undefined},
+  {-var_std__user_id_of, -var_std_types__undefined},
+  {-var_std__user_information_of, -var_std_types__undefined},
+  {-var_std__username_of, -var_std_types__undefined}
 };
 
-static ATTRIBUTE_DEFINITION std_types___stat__attributes[] = {
-  {-var_no__std___access_time_of, -var_no__std_types___undefined},
-  {-var_no__std___block_count_of, -var_no__std_types___undefined},
-  {-var_no__std___block_size_of, -var_no__std_types___undefined},
-  {-var_no__std___device_of, -var_no__std_types___undefined},
-  {-var_no__std___group_id_of, -var_no__std_types___undefined},
-  {-var_no__std___inode_number_of, -var_no__std_types___undefined},
-  {-var_no__std___link_count_of, -var_no__std_types___undefined},
-  {-var_no__std___mode_of, -var_no__std_types___undefined},
-  {-var_no__std___modification_time_of, -var_no__std_types___undefined},
-  {-var_no__std___root_device_of, -var_no__std_types___undefined},
-  {-var_no__std___size_of, -var_no__std_types___undefined},
-  {-var_no__std___status_change_time_of, -var_no__std_types___undefined},
-  {-var_no__std___type_of, -var_no__std_types___undefined},
-  {-var_no__std___user_id_of, -var_no__std_types___undefined}
+static ATTRIBUTE_DEFINITION std_types__stat__attributes[] = {
+  {-var_std__access_time_of, -var_std_types__undefined},
+  {-var_std__block_count_of, -var_std_types__undefined},
+  {-var_std__block_size_of, -var_std_types__undefined},
+  {-var_std__device_of, -var_std_types__undefined},
+  {-var_std__group_id_of, -var_std_types__undefined},
+  {-var_std__inode_number_of, -var_std_types__undefined},
+  {-var_std__link_count_of, -var_std_types__undefined},
+  {-var_std__mode_of, -var_std_types__undefined},
+  {-var_std__modification_time_of, -var_std_types__undefined},
+  {-var_std__root_device_of, -var_std_types__undefined},
+  {-var_std__size_of, -var_std_types__undefined},
+  {-var_std__status_change_time_of, -var_std_types__undefined},
+  {-var_std__type_of, -var_std_types__undefined},
+  {-var_std__user_id_of, -var_std_types__undefined}
 };
 
-static ATTRIBUTE_DEFINITION std_types___dirent__attributes[] = {
-  {-var_no__std___inode_number_of, -var_no__std_types___undefined},
-  {-var_no__std___name_of, -var_no__std_types___undefined},
-  {-var_no__std___type_of, -var_no__std_types___undefined}
+static ATTRIBUTE_DEFINITION std_types__dirent__attributes[] = {
+  {-var_std__inode_number_of, -var_std_types__undefined},
+  {-var_std__name_of, -var_std_types__undefined},
+  {-var_std__type_of, -var_std_types__undefined}
 };
 
-static INTERNAL_METHOD std_types___octet_string__internal_methods[] = {
+static INTERNAL_METHOD std_types__octet_string__internal_methods[] = {
   {FIM_SIZE, {.size = sizeof(OCTET_STRING)}},
-  {FIM_COLLECT, {std_types___octet_string____collect}},
-  {FIM_DEBUG_STRING, {std_types___octet_string____debug_string}},
-  {FIM_GET_ITEM_OF, {std_types___octet_string____get_item_of}},
-  {FIM_TO_C_STRING, {std_types___octet_string____to_c_string}},
-  {FIM_TO_OCTETS, {std_types___octet_string____to_octets}},
-  {FIM_LENGTH_OF, {std_types___octet_string____length_of}}
+  {FIM_COLLECT, {std_types__octet_string___collect}},
+  {FIM_DEBUG_STRING, {std_types__octet_string___debug_string}},
+  {FIM_GET_ITEM_OF, {std_types__octet_string___get_item_of}},
+  {FIM_TO_C_STRING, {std_types__octet_string___to_c_string}},
+  {FIM_TO_OCTETS, {std_types__octet_string___to_octets}},
+  {FIM_LENGTH_OF, {std_types__octet_string___length_of}}
 };
 
-static ATTRIBUTE_DEFINITION std_types___octet_string__attributes[] = {
-  {var_no__std___append, func__std_types___octet_string___std___append},
-  {var_no__std___equal, func__std_types___octet_string___std___equal},
-  {var_no__std___from_utf8, func__std_types___octet_string___std___from_utf8},
-  {var_no__std___hash, func__std_types___octet_string___std___hash},
-  {var_no__std___is_empty, func__std_types___octet_string___std___is_empty},
-  {var_no__std___is_not_empty, func__std_types___octet_string___std___is_not_empty},
-  {var_no__std___length_of, func__std_types___octet_string___std___length_of},
-  {var_no__std___less, func__std_types___octet_string___std___less},
-  {var_no__std___push, func__std_types___octet_string___std___push},
-  {var_no__std___range, func__std_types___octet_string___std___range},
-  {var_no__std___to_utf8, func__std_types___octet_string___std___to_utf8},
-  {var_no__std___width_of, func__std_types___octet_string___std___width_of}
+static ATTRIBUTE_DEFINITION std_types__octet_string__attributes[] = {
+  {var_std__append, func__std_types__octet_string__std__append},
+  {var_std__equal, func__std_types__octet_string__std__equal},
+  {var_std__from_utf8, func__std_types__octet_string__std__from_utf8},
+  {var_std__hash, func__std_types__octet_string__std__hash},
+  {var_std__is_empty, func__std_types__octet_string__std__is_empty},
+  {var_std__is_not_empty, func__std_types__octet_string__std__is_not_empty},
+  {var_std__length_of, func__std_types__octet_string__std__length_of},
+  {var_std__less, func__std_types__octet_string__std__less},
+  {var_std__push, func__std_types__octet_string__std__push},
+  {var_std__range, func__std_types__octet_string__std__range},
+  {var_std__to_utf8, func__std_types__octet_string__std__to_utf8},
+  {var_std__width_of, func__std_types__octet_string__std__width_of}
 };
 
-static INTERNAL_METHOD std_types___wide_string__internal_methods[] = {
+static INTERNAL_METHOD std_types__wide_string__internal_methods[] = {
   {FIM_SIZE, {.size = sizeof(WIDE_STRING)}},
-  {FIM_COLLECT, {std_types___wide_string____collect}},
-  {FIM_DEBUG_STRING, {std_types___wide_string____debug_string}},
-  {FIM_GET_ITEM_OF, {std_types___wide_string____get_item_of}},
-  {FIM_LENGTH_OF, {std_types___wide_string____length_of}}
+  {FIM_COLLECT, {std_types__wide_string___collect}},
+  {FIM_DEBUG_STRING, {std_types__wide_string___debug_string}},
+  {FIM_GET_ITEM_OF, {std_types__wide_string___get_item_of}},
+  {FIM_LENGTH_OF, {std_types__wide_string___length_of}}
 };
 
-static ATTRIBUTE_DEFINITION std_types___wide_string__attributes[] = {
-  {var_no__std___append, func__std_types___wide_string___std___append},
-  {var_no__std___equal, func__std_types___wide_string___std___equal},
-  {var_no__std___hash, func__std_types___wide_string___std___hash},
-  {var_no__std___is_empty, func__std_types___wide_string___std___is_empty},
-  {var_no__std___is_not_empty, func__std_types___wide_string___std___is_not_empty},
-  {var_no__std___length_of, func__std_types___wide_string___std___length_of},
-  {var_no__std___less, func__std_types___wide_string___std___less},
-  {var_no__std___push, func__std_types___wide_string___std___push},
-  {var_no__std___range, func__std_types___wide_string___std___range},
-  {var_no__std___to_utf8, func__std_types___wide_string___std___to_utf8},
-  {var_no__std___width_of, func__std_types___wide_string___std___width_of}
+static ATTRIBUTE_DEFINITION std_types__wide_string__attributes[] = {
+  {var_std__append, func__std_types__wide_string__std__append},
+  {var_std__equal, func__std_types__wide_string__std__equal},
+  {var_std__hash, func__std_types__wide_string__std__hash},
+  {var_std__is_empty, func__std_types__wide_string__std__is_empty},
+  {var_std__is_not_empty, func__std_types__wide_string__std__is_not_empty},
+  {var_std__length_of, func__std_types__wide_string__std__length_of},
+  {var_std__less, func__std_types__wide_string__std__less},
+  {var_std__push, func__std_types__wide_string__std__push},
+  {var_std__range, func__std_types__wide_string__std__range},
+  {var_std__to_utf8, func__std_types__wide_string__std__to_utf8},
+  {var_std__width_of, func__std_types__wide_string__std__width_of}
 };
 
-static INTERNAL_METHOD std_types___terminal_attributes__internal_methods[] = {
+static INTERNAL_METHOD std_types__terminal_attributes__internal_methods[] = {
   {FIM_SIZE, {.size = sizeof(TERMINAL_ATTRIBUTES)}},
-  {FIM_COLLECT, {std_types___terminal_attributes____collect}},
-  {FIM_DEBUG_STRING, {std_types___terminal_attributes____debug_string}}
+  {FIM_COLLECT, {std_types__terminal_attributes___collect}},
+  {FIM_DEBUG_STRING, {std_types__terminal_attributes___debug_string}}
 };
 
-static ATTRIBUTE_DEFINITION std_types___terminal_attributes__attributes[] = {
-  {var_no__std___backspace_character_of, func__std_types___terminal_attributes___std___backspace_character_of},
-  {var_no__std___echo_characters, func__std_types___terminal_attributes___std___echo_characters},
-  {var_no__std___echo_new_lines, func__std_types___terminal_attributes___std___echo_new_lines},
-  {var_no__std___enable_xon_xoff_for_input, func__std_types___terminal_attributes___std___enable_xon_xoff_for_input},
-  {var_no__std___enable_xon_xoff_for_output, func__std_types___terminal_attributes___std___enable_xon_xoff_for_output},
-  {var_no__std___generate_signals, func__std_types___terminal_attributes___std___generate_signals},
-  {var_no__std___hangup_on_close, func__std_types___terminal_attributes___std___hangup_on_close},
-  {var_no__std___ignore_cr_on_input, func__std_types___terminal_attributes___std___ignore_cr_on_input},
-  {var_no__std___input_speed, func__std_types___terminal_attributes___std___input_speed},
-  {var_no__std___map_cr_to_lf_on_input, func__std_types___terminal_attributes___std___map_cr_to_lf_on_input},
-  {var_no__std___map_lf_to_crlf_on_output, func__std_types___terminal_attributes___std___map_lf_to_crlf_on_output},
-  {var_no__std___minimum_characters_for_canoncial_read, func__std_types___terminal_attributes___std___minimum_characters_for_canoncial_read},
-  {var_no__std___output_speed, func__std_types___terminal_attributes___std___output_speed},
-  {var_no__std___restart_output_on_any_character, func__std_types___terminal_attributes___std___restart_output_on_any_character},
-  {var_no__std___timeout_for_reads, func__std_types___terminal_attributes___std___timeout_for_reads},
-  {var_no__std___use_canonical_mode, func__std_types___terminal_attributes___std___use_canonical_mode}
+static ATTRIBUTE_DEFINITION std_types__terminal_attributes__attributes[] = {
+  {var_std__backspace_character_of, func__std_types__terminal_attributes__std__backspace_character_of},
+  {var_std__echo_characters, func__std_types__terminal_attributes__std__echo_characters},
+  {var_std__echo_new_lines, func__std_types__terminal_attributes__std__echo_new_lines},
+  {var_std__enable_xon_xoff_for_input, func__std_types__terminal_attributes__std__enable_xon_xoff_for_input},
+  {var_std__enable_xon_xoff_for_output, func__std_types__terminal_attributes__std__enable_xon_xoff_for_output},
+  {var_std__generate_signals, func__std_types__terminal_attributes__std__generate_signals},
+  {var_std__hangup_on_close, func__std_types__terminal_attributes__std__hangup_on_close},
+  {var_std__ignore_cr_on_input, func__std_types__terminal_attributes__std__ignore_cr_on_input},
+  {var_std__input_speed, func__std_types__terminal_attributes__std__input_speed},
+  {var_std__map_cr_to_lf_on_input, func__std_types__terminal_attributes__std__map_cr_to_lf_on_input},
+  {var_std__map_lf_to_crlf_on_output, func__std_types__terminal_attributes__std__map_lf_to_crlf_on_output},
+  {var_std__minimum_characters_for_canoncial_read, func__std_types__terminal_attributes__std__minimum_characters_for_canoncial_read},
+  {var_std__output_speed, func__std_types__terminal_attributes__std__output_speed},
+  {var_std__restart_output_on_any_character, func__std_types__terminal_attributes__std__restart_output_on_any_character},
+  {var_std__timeout_for_reads, func__std_types__terminal_attributes__std__timeout_for_reads},
+  {var_std__use_canonical_mode, func__std_types__terminal_attributes__std__use_canonical_mode}
 };
 
-static ATTRIBUTE_DEFINITION std_types___tuple__attributes[] = {
-  {var_no__std___typed_tuple, func__std_types___tuple___std___typed_tuple}
+static ATTRIBUTE_DEFINITION std_types__tuple__attributes[] = {
+  {var_std__typed_tuple, func__std_types__tuple__std__typed_tuple}
 };
 
-static INTERNAL_METHOD builtin_types___tuple2__internal_methods[] = {
+static INTERNAL_METHOD builtin_types__tuple2__internal_methods[] = {
   {FIM_SIZE, {.size = sizeof(TUPLE2)}},
-  {FIM_COLLECT, {builtin_types___tuple2____collect}},
-  {FIM_DEBUG_STRING, {builtin_types___tuple2____debug_string}}
+  {FIM_COLLECT, {builtin_types__tuple2___collect}},
+  {FIM_DEBUG_STRING, {builtin_types__tuple2___debug_string}}
 };
 
-static ATTRIBUTE_DEFINITION builtin_types___tuple2__attributes[] = {
-  {var_no__std___to_list, func__builtin_types___tuple2___std___to_list},
-  {var_no__std___typed_tuple, func__builtin_types___tuple2___std___typed_tuple}
+static ATTRIBUTE_DEFINITION builtin_types__tuple2__attributes[] = {
+  {var_std__to_list, func__builtin_types__tuple2__std__to_list},
+  {var_std__typed_tuple, func__builtin_types__tuple2__std__typed_tuple}
 };
 
-static INTERNAL_METHOD builtin_types___tuple3__internal_methods[] = {
+static INTERNAL_METHOD builtin_types__tuple3__internal_methods[] = {
   {FIM_SIZE, {.size = sizeof(TUPLE3)}},
-  {FIM_COLLECT, {builtin_types___tuple3____collect}},
-  {FIM_DEBUG_STRING, {builtin_types___tuple3____debug_string}}
+  {FIM_COLLECT, {builtin_types__tuple3___collect}},
+  {FIM_DEBUG_STRING, {builtin_types__tuple3___debug_string}}
 };
 
-static ATTRIBUTE_DEFINITION builtin_types___tuple3__attributes[] = {
-  {var_no__std___to_list, func__builtin_types___tuple3___std___to_list},
-  {var_no__std___typed_tuple, func__builtin_types___tuple3___std___typed_tuple}
+static ATTRIBUTE_DEFINITION builtin_types__tuple3__attributes[] = {
+  {var_std__to_list, func__builtin_types__tuple3__std__to_list},
+  {var_std__typed_tuple, func__builtin_types__tuple3__std__typed_tuple}
 };
 
-static INTERNAL_METHOD builtin_types___tuple4__internal_methods[] = {
+static INTERNAL_METHOD builtin_types__tuple4__internal_methods[] = {
   {FIM_SIZE, {.size = sizeof(TUPLE4)}},
-  {FIM_COLLECT, {builtin_types___tuple4____collect}},
-  {FIM_DEBUG_STRING, {builtin_types___tuple4____debug_string}}
+  {FIM_COLLECT, {builtin_types__tuple4___collect}},
+  {FIM_DEBUG_STRING, {builtin_types__tuple4___debug_string}}
 };
 
-static ATTRIBUTE_DEFINITION builtin_types___tuple4__attributes[] = {
-  {var_no__std___to_list, func__builtin_types___tuple4___std___to_list},
-  {var_no__std___typed_tuple, func__builtin_types___tuple4___std___typed_tuple}
+static ATTRIBUTE_DEFINITION builtin_types__tuple4__attributes[] = {
+  {var_std__to_list, func__builtin_types__tuple4__std__to_list},
+  {var_std__typed_tuple, func__builtin_types__tuple4__std__typed_tuple}
 };
 
-static INTERNAL_METHOD builtin_types___tuple5__internal_methods[] = {
+static INTERNAL_METHOD builtin_types__tuple5__internal_methods[] = {
   {FIM_SIZE, {.size = sizeof(TUPLE5)}},
-  {FIM_COLLECT, {builtin_types___tuple5____collect}},
-  {FIM_DEBUG_STRING, {builtin_types___tuple5____debug_string}}
+  {FIM_COLLECT, {builtin_types__tuple5___collect}},
+  {FIM_DEBUG_STRING, {builtin_types__tuple5___debug_string}}
 };
 
-static ATTRIBUTE_DEFINITION builtin_types___tuple5__attributes[] = {
-  {var_no__std___to_list, func__builtin_types___tuple5___std___to_list},
-  {var_no__std___typed_tuple, func__builtin_types___tuple5___std___typed_tuple}
+static ATTRIBUTE_DEFINITION builtin_types__tuple5__attributes[] = {
+  {var_std__to_list, func__builtin_types__tuple5__std__to_list},
+  {var_std__typed_tuple, func__builtin_types__tuple5__std__typed_tuple}
 };
 
-static INTERNAL_METHOD builtin_types___tuple6__internal_methods[] = {
+static INTERNAL_METHOD builtin_types__tuple6__internal_methods[] = {
   {FIM_SIZE, {.size = sizeof(TUPLE6)}},
-  {FIM_COLLECT, {builtin_types___tuple6____collect}},
-  {FIM_DEBUG_STRING, {builtin_types___tuple6____debug_string}}
+  {FIM_COLLECT, {builtin_types__tuple6___collect}},
+  {FIM_DEBUG_STRING, {builtin_types__tuple6___debug_string}}
 };
 
-static ATTRIBUTE_DEFINITION builtin_types___tuple6__attributes[] = {
-  {var_no__std___to_list, func__builtin_types___tuple6___std___to_list},
-  {var_no__std___typed_tuple, func__builtin_types___tuple6___std___typed_tuple}
+static ATTRIBUTE_DEFINITION builtin_types__tuple6__attributes[] = {
+  {var_std__to_list, func__builtin_types__tuple6__std__to_list},
+  {var_std__typed_tuple, func__builtin_types__tuple6__std__typed_tuple}
 };
 
-static INTERNAL_METHOD builtin_types___tuple7__internal_methods[] = {
+static INTERNAL_METHOD builtin_types__tuple7__internal_methods[] = {
   {FIM_SIZE, {.size = sizeof(TUPLE7)}},
-  {FIM_COLLECT, {builtin_types___tuple7____collect}},
-  {FIM_DEBUG_STRING, {builtin_types___tuple7____debug_string}}
+  {FIM_COLLECT, {builtin_types__tuple7___collect}},
+  {FIM_DEBUG_STRING, {builtin_types__tuple7___debug_string}}
 };
 
-static ATTRIBUTE_DEFINITION builtin_types___tuple7__attributes[] = {
-  {var_no__std___to_list, func__builtin_types___tuple7___std___to_list},
-  {var_no__std___typed_tuple, func__builtin_types___tuple7___std___typed_tuple}
+static ATTRIBUTE_DEFINITION builtin_types__tuple7__attributes[] = {
+  {var_std__to_list, func__builtin_types__tuple7__std__to_list},
+  {var_std__typed_tuple, func__builtin_types__tuple7__std__typed_tuple}
 };
 
-static INTERNAL_METHOD builtin_types___tuple8__internal_methods[] = {
+static INTERNAL_METHOD builtin_types__tuple8__internal_methods[] = {
   {FIM_SIZE, {.size = sizeof(TUPLE8)}},
-  {FIM_COLLECT, {builtin_types___tuple8____collect}},
-  {FIM_DEBUG_STRING, {builtin_types___tuple8____debug_string}}
+  {FIM_COLLECT, {builtin_types__tuple8___collect}},
+  {FIM_DEBUG_STRING, {builtin_types__tuple8___debug_string}}
 };
 
-static ATTRIBUTE_DEFINITION builtin_types___tuple8__attributes[] = {
-  {var_no__std___to_list, func__builtin_types___tuple8___std___to_list},
-  {var_no__std___typed_tuple, func__builtin_types___tuple8___std___typed_tuple}
+static ATTRIBUTE_DEFINITION builtin_types__tuple8__attributes[] = {
+  {var_std__to_list, func__builtin_types__tuple8__std__to_list},
+  {var_std__typed_tuple, func__builtin_types__tuple8__std__typed_tuple}
 };
 
-static INTERNAL_METHOD std_types___unique_item__internal_methods[] = {
+static INTERNAL_METHOD std_types__unique_item__internal_methods[] = {
   {FIM_SIZE, {.size = sizeof(UNIQUE_ITEM)}},
-  {FIM_COLLECT, {std_types___unique_item____collect}},
-  {FIM_DEBUG_STRING, {std_types___unique_item____debug_string}}
+  {FIM_COLLECT, {std_types__unique_item___collect}},
+  {FIM_DEBUG_STRING, {std_types__unique_item___debug_string}}
 };
 
-static ATTRIBUTE_DEFINITION std_types___unique_item__attributes[] = {
-  {var_no__std___equal, func__std_types___unique_item___std___equal},
-  {var_no__std___hash, func__std_types___unique_item___std___hash},
-  {var_no__std___to_string, func__std_types___unique_item___std___to_string}
+static ATTRIBUTE_DEFINITION std_types__unique_item__attributes[] = {
+  {var_std__equal, func__std_types__unique_item__std__equal},
+  {var_std__hash, func__std_types__unique_item__std__hash},
+  {var_std__to_string, func__std_types__unique_item__std__to_string}
 };
 
-static INTERNAL_METHOD std_types___shared_memory__internal_methods[] = {
+static INTERNAL_METHOD std_types__shared_memory__internal_methods[] = {
   {FIM_SIZE, {.size = sizeof(SHARED_MEMORY)}},
-  {FIM_COLLECT, {std_types___shared_memory____collect}},
-  {FIM_DEBUG_STRING, {std_types___shared_memory____debug_string}}
+  {FIM_COLLECT, {std_types__shared_memory___collect}},
+  {FIM_DEBUG_STRING, {std_types__shared_memory___debug_string}}
 };
 
-static ATTRIBUTE_DEFINITION std_types___shared_memory__attributes[] = {
-  {var_no__std___file_descriptor_of, func__std_types___shared_memory___std___file_descriptor_of},
-  {var_no__std___size_of, func__std_types___shared_memory___std___size_of},
-  {var_no__std___write_at, func__std_types___shared_memory___std___write_at}
+static ATTRIBUTE_DEFINITION std_types__shared_memory__attributes[] = {
+  {var_std__file_descriptor_of, func__std_types__shared_memory__std__file_descriptor_of},
+  {var_std__size_of, func__std_types__shared_memory__std__size_of},
+  {var_std__write_at, func__std_types__shared_memory__std__write_at}
 };
 
 static FUNKY_VARIABLE variables_table[] = {
@@ -28854,7 +28854,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"object\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std_types___generic_array}
+    {(NODE *)&std_types__generic_array}
   },
   {
     FOT_POLYMORPHIC, 0, 0,
@@ -28863,237 +28863,237 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_TYPE, 0, 4,
-    "array\000std_types", std_types___array__attributes,
+    "array\000std_types", std_types__array__attributes,
     {"generic_array\000std_types"},
     {.methods_count = 3}, 0,
-    std_types___array__internal_methods,
-    {(NODE *)&std_types___array}
+    std_types__array__internal_methods,
+    {(NODE *)&std_types__array}
   },
   {
     FOT_INITIALIZED, 0, 0,
     "array\000std", NULL,
-    {.const_idx = func__std___array}
+    {.const_idx = func__std__array}
   },
   {
     FOT_INITIALIZED, 0, 0,
     "initialized_array\000std", NULL,
-    {.const_idx = func__std___initialized_array}
+    {.const_idx = func__std__initialized_array}
   },
   {
     FOT_TYPE, 0, 8,
-    "boolean_array\000std_types", std_types___boolean_array__attributes,
+    "boolean_array\000std_types", std_types__boolean_array__attributes,
     {"generic_array\000std_types"},
     {.methods_count = 3}, 0,
-    std_types___boolean_array__internal_methods,
-    {(NODE *)&std_types___boolean_array}
+    std_types__boolean_array__internal_methods,
+    {(NODE *)&std_types__boolean_array}
   },
   {
     FOT_INITIALIZED, 0, 0,
     "boolean_array\000std", NULL,
-    {.const_idx = func__std___boolean_array}
+    {.const_idx = func__std__boolean_array}
   },
   {
     FOT_INITIALIZED, 0, 0,
     "initialized_boolean_array\000std", NULL,
-    {.const_idx = func__std___initialized_boolean_array}
+    {.const_idx = func__std__initialized_boolean_array}
   },
   {
     FOT_TYPE, 0, 5,
-    "character_array\000std_types", std_types___character_array__attributes,
+    "character_array\000std_types", std_types__character_array__attributes,
     {"generic_array\000std_types"},
     {.methods_count = 3}, 0,
-    std_types___character_array__internal_methods,
-    {(NODE *)&std_types___character_array}
+    std_types__character_array__internal_methods,
+    {(NODE *)&std_types__character_array}
   },
   {
     FOT_INITIALIZED, 0, 0,
     "character_array\000std", NULL,
-    {.const_idx = func__std___character_array}
+    {.const_idx = func__std__character_array}
   },
   {
     FOT_INITIALIZED, 0, 0,
     "initialized_character_array\000std", NULL,
-    {.const_idx = func__std___initialized_character_array}
+    {.const_idx = func__std__initialized_character_array}
   },
   {
     FOT_TYPE, 0, 6,
-    "int8_array\000std_types", std_types___int8_array__attributes,
+    "int8_array\000std_types", std_types__int8_array__attributes,
     {"generic_array\000std_types"},
     {.methods_count = 3}, 0,
-    std_types___int8_array__internal_methods,
-    {(NODE *)&std_types___int8_array}
+    std_types__int8_array__internal_methods,
+    {(NODE *)&std_types__int8_array}
   },
   {
     FOT_INITIALIZED, 0, 0,
     "int8_array\000std", NULL,
-    {.const_idx = func__std___int8_array}
+    {.const_idx = func__std__int8_array}
   },
   {
     FOT_INITIALIZED, 0, 0,
     "initialized_int8_array\000std", NULL,
-    {.const_idx = func__std___initialized_int8_array}
+    {.const_idx = func__std__initialized_int8_array}
   },
   {
     FOT_TYPE, 0, 9,
-    "uint8_array\000std_types", std_types___uint8_array__attributes,
+    "uint8_array\000std_types", std_types__uint8_array__attributes,
     {"generic_array\000std_types"},
     {.methods_count = 3}, 0,
-    std_types___uint8_array__internal_methods,
-    {(NODE *)&std_types___uint8_array}
+    std_types__uint8_array__internal_methods,
+    {(NODE *)&std_types__uint8_array}
   },
   {
     FOT_INITIALIZED, 0, 0,
     "uint8_array\000std", NULL,
-    {.const_idx = func__std___uint8_array}
+    {.const_idx = func__std__uint8_array}
   },
   {
     FOT_INITIALIZED, 0, 0,
     "initialized_uint8_array\000std", NULL,
-    {.const_idx = func__std___initialized_uint8_array}
+    {.const_idx = func__std__initialized_uint8_array}
   },
   {
     FOT_TYPE, 0, 6,
-    "int16_array\000std_types", std_types___int16_array__attributes,
+    "int16_array\000std_types", std_types__int16_array__attributes,
     {"generic_array\000std_types"},
     {.methods_count = 3}, 0,
-    std_types___int16_array__internal_methods,
-    {(NODE *)&std_types___int16_array}
+    std_types__int16_array__internal_methods,
+    {(NODE *)&std_types__int16_array}
   },
   {
     FOT_INITIALIZED, 0, 0,
     "int16_array\000std", NULL,
-    {.const_idx = func__std___int16_array}
+    {.const_idx = func__std__int16_array}
   },
   {
     FOT_INITIALIZED, 0, 0,
     "initialized_int16_array\000std", NULL,
-    {.const_idx = func__std___initialized_int16_array}
+    {.const_idx = func__std__initialized_int16_array}
   },
   {
     FOT_TYPE, 0, 9,
-    "uint16_array\000std_types", std_types___uint16_array__attributes,
+    "uint16_array\000std_types", std_types__uint16_array__attributes,
     {"generic_array\000std_types"},
     {.methods_count = 3}, 0,
-    std_types___uint16_array__internal_methods,
-    {(NODE *)&std_types___uint16_array}
+    std_types__uint16_array__internal_methods,
+    {(NODE *)&std_types__uint16_array}
   },
   {
     FOT_INITIALIZED, 0, 0,
     "uint16_array\000std", NULL,
-    {.const_idx = func__std___uint16_array}
+    {.const_idx = func__std__uint16_array}
   },
   {
     FOT_INITIALIZED, 0, 0,
     "initialized_uint16_array\000std", NULL,
-    {.const_idx = func__std___initialized_uint16_array}
+    {.const_idx = func__std__initialized_uint16_array}
   },
   {
     FOT_TYPE, 0, 6,
-    "int32_array\000std_types", std_types___int32_array__attributes,
+    "int32_array\000std_types", std_types__int32_array__attributes,
     {"generic_array\000std_types"},
     {.methods_count = 3}, 0,
-    std_types___int32_array__internal_methods,
-    {(NODE *)&std_types___int32_array}
+    std_types__int32_array__internal_methods,
+    {(NODE *)&std_types__int32_array}
   },
   {
     FOT_INITIALIZED, 0, 0,
     "int32_array\000std", NULL,
-    {.const_idx = func__std___int32_array}
+    {.const_idx = func__std__int32_array}
   },
   {
     FOT_INITIALIZED, 0, 0,
     "initialized_int32_array\000std", NULL,
-    {.const_idx = func__std___initialized_int32_array}
+    {.const_idx = func__std__initialized_int32_array}
   },
   {
     FOT_TYPE, 0, 9,
-    "uint32_array\000std_types", std_types___uint32_array__attributes,
+    "uint32_array\000std_types", std_types__uint32_array__attributes,
     {"generic_array\000std_types"},
     {.methods_count = 3}, 0,
-    std_types___uint32_array__internal_methods,
-    {(NODE *)&std_types___uint32_array}
+    std_types__uint32_array__internal_methods,
+    {(NODE *)&std_types__uint32_array}
   },
   {
     FOT_INITIALIZED, 0, 0,
     "uint32_array\000std", NULL,
-    {.const_idx = func__std___uint32_array}
+    {.const_idx = func__std__uint32_array}
   },
   {
     FOT_INITIALIZED, 0, 0,
     "initialized_uint32_array\000std", NULL,
-    {.const_idx = func__std___initialized_uint32_array}
+    {.const_idx = func__std__initialized_uint32_array}
   },
   {
     FOT_TYPE, 0, 6,
-    "int64_array\000std_types", std_types___int64_array__attributes,
+    "int64_array\000std_types", std_types__int64_array__attributes,
     {"generic_array\000std_types"},
     {.methods_count = 3}, 0,
-    std_types___int64_array__internal_methods,
-    {(NODE *)&std_types___int64_array}
+    std_types__int64_array__internal_methods,
+    {(NODE *)&std_types__int64_array}
   },
   {
     FOT_INITIALIZED, 0, 0,
     "int64_array\000std", NULL,
-    {.const_idx = func__std___int64_array}
+    {.const_idx = func__std__int64_array}
   },
   {
     FOT_INITIALIZED, 0, 0,
     "initialized_int64_array\000std", NULL,
-    {.const_idx = func__std___initialized_int64_array}
+    {.const_idx = func__std__initialized_int64_array}
   },
   {
     FOT_TYPE, 0, 9,
-    "uint64_array\000std_types", std_types___uint64_array__attributes,
+    "uint64_array\000std_types", std_types__uint64_array__attributes,
     {"generic_array\000std_types"},
     {.methods_count = 3}, 0,
-    std_types___uint64_array__internal_methods,
-    {(NODE *)&std_types___uint64_array}
+    std_types__uint64_array__internal_methods,
+    {(NODE *)&std_types__uint64_array}
   },
   {
     FOT_INITIALIZED, 0, 0,
     "uint64_array\000std", NULL,
-    {.const_idx = func__std___uint64_array}
+    {.const_idx = func__std__uint64_array}
   },
   {
     FOT_INITIALIZED, 0, 0,
     "initialized_uint64_array\000std", NULL,
-    {.const_idx = func__std___initialized_uint64_array}
+    {.const_idx = func__std__initialized_uint64_array}
   },
   {
     FOT_TYPE, 0, 6,
-    "float32_array\000std_types", std_types___float32_array__attributes,
+    "float32_array\000std_types", std_types__float32_array__attributes,
     {"generic_array\000std_types"},
     {.methods_count = 3}, 0,
-    std_types___float32_array__internal_methods,
-    {(NODE *)&std_types___float32_array}
+    std_types__float32_array__internal_methods,
+    {(NODE *)&std_types__float32_array}
   },
   {
     FOT_INITIALIZED, 0, 0,
     "float32_array\000std", NULL,
-    {.const_idx = func__std___float32_array}
+    {.const_idx = func__std__float32_array}
   },
   {
     FOT_INITIALIZED, 0, 0,
     "initialized_float32_array\000std", NULL,
-    {.const_idx = func__std___initialized_float32_array}
+    {.const_idx = func__std__initialized_float32_array}
   },
   {
     FOT_TYPE, 0, 6,
-    "float64_array\000std_types", std_types___float64_array__attributes,
+    "float64_array\000std_types", std_types__float64_array__attributes,
     {"generic_array\000std_types"},
     {.methods_count = 3}, 0,
-    std_types___float64_array__internal_methods,
-    {(NODE *)&std_types___float64_array}
+    std_types__float64_array__internal_methods,
+    {(NODE *)&std_types__float64_array}
   },
   {
     FOT_INITIALIZED, 0, 0,
     "float64_array\000std", NULL,
-    {.const_idx = func__std___float64_array}
+    {.const_idx = func__std__float64_array}
   },
   {
     FOT_INITIALIZED, 0, 0,
     "initialized_float64_array\000std", NULL,
-    {.const_idx = func__std___initialized_float64_array}
+    {.const_idx = func__std__initialized_float64_array}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -29101,7 +29101,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"positive_integer\000builtin_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___EXIT_SUCCESS}
+    {(NODE *)&std__EXIT_SUCCESS}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -29109,33 +29109,33 @@ static FUNKY_VARIABLE variables_table[] = {
     {"positive_integer\000builtin_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___EXIT_FAILURE}
+    {(NODE *)&std__EXIT_FAILURE}
   },
   {
     FOT_INITIALIZED, 0, 0,
     "pass\000std", NULL,
-    {.const_idx = func__std___pass}
+    {.const_idx = func__std__pass}
   },
   {
     FOT_INITIALIZED, 0, 0,
     "result_count\000std", NULL,
-    {.const_idx = func__std___result_count}
+    {.const_idx = func__std__result_count}
   },
   {
     FOT_TYPE, 0, 1,
-    "true\000std_types", std_types___true__attributes,
+    "true\000std_types", std_types__true__attributes,
     {"object\000std_types"},
     {.methods_count = 2}, 0,
-    std_types___true__internal_methods,
-    {(NODE *)&std_types___true}
+    std_types__true__internal_methods,
+    {(NODE *)&std_types__true}
   },
   {
     FOT_TYPE, 0, 1,
-    "false\000std_types", std_types___false__attributes,
+    "false\000std_types", std_types__false__attributes,
     {"object\000std_types"},
     {.methods_count = 2}, 0,
-    std_types___false__internal_methods,
-    {(NODE *)&std_types___false}
+    std_types__false__internal_methods,
+    {(NODE *)&std_types__false}
   },
   {
     FOT_TYPE, 0, 1,
@@ -29147,16 +29147,16 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_TYPE, 0, 11,
-    "character\000std_types", std_types___character__attributes,
+    "character\000std_types", std_types__character__attributes,
     {"object\000std_types"},
     {.methods_count = 4}, 0,
-    std_types___character__internal_methods,
-    {(NODE *)&std_types___character}
+    std_types__character__internal_methods,
+    {(NODE *)&std_types__character}
   },
   {
     FOT_INITIALIZED, 0, 0,
     "character\000std", NULL,
-    {.const_idx = func__std___character}
+    {.const_idx = func__std__character}
   },
   {
     FOT_POLYMORPHIC, 0, 0,
@@ -29205,61 +29205,61 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_TYPE, 0, 13,
-    "date_and_time\000std_types", std_types___date_and_time__attributes,
+    "date_and_time\000std_types", std_types__date_and_time__attributes,
     {"object\000std_types"},
     {.methods_count = 3}, 0,
-    std_types___date_and_time__internal_methods,
-    {(NODE *)&std_types___date_and_time}
+    std_types__date_and_time__internal_methods,
+    {(NODE *)&std_types__date_and_time}
   },
   {
     FOT_INITIALIZED, 0, 0,
     "from_unix_time\000std", NULL,
-    {.const_idx = func__std___from_unix_time}
+    {.const_idx = func__std__from_unix_time}
   },
   {
     FOT_INITIALIZED, 0, 0,
     "date_and_time\000std", NULL,
-    {.const_idx = func__std___date_and_time}
+    {.const_idx = func__std__date_and_time}
   },
   {
     FOT_INITIALIZED, 0, 0,
     "current_time\000std", NULL,
-    {.const_idx = func__std___current_time}
+    {.const_idx = func__std__current_time}
   },
   {
     FOT_INITIALIZED, 0, 0,
     "string\000debug", NULL,
-    {.const_idx = func__debug___string}
+    {.const_idx = func__debug__string}
   },
   {
     FOT_INITIALIZED, 0, 0,
     "write\000debug", NULL,
-    {.const_idx = func__debug___write}
+    {.const_idx = func__debug__write}
   },
   {
     FOT_INITIALIZED, 0, 0,
     "dump_object\000debug", NULL,
-    {.const_idx = func__debug___dump_object}
+    {.const_idx = func__debug__dump_object}
   },
   {
     FOT_INITIALIZED, 0, 0,
     "has_io_access_rights\000debug", NULL,
-    {.const_idx = func__debug___has_io_access_rights}
+    {.const_idx = func__debug__has_io_access_rights}
   },
   {
     FOT_INITIALIZED, 0, 0,
     "exit\000debug", NULL,
-    {.const_idx = func__debug___exit}
+    {.const_idx = func__debug__exit}
   },
   {
     FOT_INITIALIZED, 0, 0,
     "error_check\000std", NULL,
-    {.const_idx = func__std___error_check}
+    {.const_idx = func__std__error_check}
   },
   {
     FOT_INITIALIZED, 0, 0,
     "total_garbage_collections\000debug", NULL,
-    {.const_idx = func__debug___total_garbage_collections}
+    {.const_idx = func__debug__total_garbage_collections}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -29267,7 +29267,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"octet_string\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___program_name}
+    {(NODE *)&std__program_name}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -29275,7 +29275,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"list\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___command_line_arguments}
+    {(NODE *)&std__command_line_arguments}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -29283,40 +29283,40 @@ static FUNKY_VARIABLE variables_table[] = {
     {"list\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___environment_variables}
+    {(NODE *)&std__environment_variables}
   },
   {
     FOT_INITIALIZED, 0, 0,
     "installation_prefix\000std", NULL,
-    {.const_idx = func__std___installation_prefix}
+    {.const_idx = func__std__installation_prefix}
   },
   {
     FOT_INITIALIZED, 0, 0,
     "package_version\000std", NULL,
-    {.const_idx = func__std___package_version}
+    {.const_idx = func__std__package_version}
   },
   {
     FOT_INITIALIZED, 0, 0,
     "IO_ERROR\000std", NULL,
-    {.const_idx = unique__std___IO_ERROR}
+    {.const_idx = unique__std__IO_ERROR}
   },
   {
     FOT_INITIALIZED, 0, 0,
     "RUNTIME_ERROR\000std", NULL,
-    {.const_idx = unique__std___RUNTIME_ERROR}
+    {.const_idx = unique__std__RUNTIME_ERROR}
   },
   {
     FOT_INITIALIZED, 0, 0,
     "APPLICATION_ERROR\000std", NULL,
-    {.const_idx = unique__std___APPLICATION_ERROR}
+    {.const_idx = unique__std__APPLICATION_ERROR}
   },
   {
     FOT_TYPE, 0, 5,
-    "error\000std_types", std_types___error__attributes,
+    "error\000std_types", std_types__error__attributes,
     {NULL},
     {.methods_count = 24}, 0,
-    std_types___error__internal_methods,
-    {(NODE *)&std_types___error}
+    std_types__error__internal_methods,
+    {(NODE *)&std_types__error}
   },
   {
     FOT_POLYMORPHIC, 0, 0,
@@ -29346,41 +29346,41 @@ static FUNKY_VARIABLE variables_table[] = {
   {
     FOT_INITIALIZED, 0, 0,
     "error\000std", NULL,
-    {.const_idx = func__std___error}
+    {.const_idx = func__std__error}
   },
   {
     FOT_TYPE, 0, 1,
-    "object\000std_types", std_types___object__attributes,
+    "object\000std_types", std_types__object__attributes,
     {NULL},
     {.methods_count = 23}, 0,
-    std_types___object__internal_methods,
-    {(NODE *)&std_types___object}
+    std_types__object__internal_methods,
+    {(NODE *)&std_types__object}
   },
   {
     FOT_TYPE, 0, 0,
     "undefined\000std_types", NULL,
     {NULL},
     {.methods_count = 23}, 0,
-    std_types___undefined__internal_methods,
-    {(NODE *)&std_types___undefined}
+    std_types__undefined__internal_methods,
+    {(NODE *)&std_types__undefined}
   },
   {
     FOT_INITIALIZED, 0, 0,
     "exec\000std", NULL,
-    {.const_idx = func__std___exec}
+    {.const_idx = func__std__exec}
   },
   {
     FOT_INITIALIZED, 0, 0,
     "create_process\000std", NULL,
-    {.const_idx = func__std___create_process}
+    {.const_idx = func__std__create_process}
   },
   {
     FOT_TYPE, 0, 2,
-    "function\000std_types", std_types___function__attributes,
+    "function\000std_types", std_types__function__attributes,
     {"object\000std_types"},
     {.methods_count = 1}, 0,
-    std_types___function__internal_methods,
-    {(NODE *)&std_types___function}
+    std_types__function__internal_methods,
+    {(NODE *)&std_types__function}
   },
   {
     FOT_TYPE, 0, 0,
@@ -29396,7 +29396,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"tuple2\000builtin_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std_types___key_value_pair}
+    {(NODE *)&std_types__key_value_pair}
   },
   {
     FOT_TYPE, 0, 0,
@@ -29404,15 +29404,15 @@ static FUNKY_VARIABLE variables_table[] = {
     {"object\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std_types___generic_list}
+    {(NODE *)&std_types__generic_list}
   },
   {
     FOT_TYPE, 0, 10,
-    "list\000std_types", std_types___list__attributes,
+    "list\000std_types", std_types__list__attributes,
     {"generic_list\000std_types"},
     {.methods_count = 6}, 0,
-    std_types___list__internal_methods,
-    {(NODE *)&std_types___list}
+    std_types__list__internal_methods,
+    {(NODE *)&std_types__list}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -29420,12 +29420,12 @@ static FUNKY_VARIABLE variables_table[] = {
     {"list\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___empty_list}
+    {(NODE *)&std__empty_list}
   },
   {
     FOT_INITIALIZED, 0, 0,
     "list\000std", NULL,
-    {.const_idx = func__std___list}
+    {.const_idx = func__std__list}
   },
   {
     FOT_TYPE, 0, 0,
@@ -29433,99 +29433,99 @@ static FUNKY_VARIABLE variables_table[] = {
     {"object\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std_types___number}
+    {(NODE *)&std_types__number}
   },
   {
     FOT_TYPE, 0, 0,
     "integer\000std_types", NULL,
     {"number\000std_types"},
     {.methods_count = 2}, 0,
-    std_types___integer__internal_methods,
-    {(NODE *)&std_types___integer}
+    std_types__integer__internal_methods,
+    {(NODE *)&std_types__integer}
   },
   {
     FOT_TYPE, 0, 20,
-    "positive_integer\000builtin_types", builtin_types___positive_integer__attributes,
+    "positive_integer\000builtin_types", builtin_types__positive_integer__attributes,
     {"integer\000std_types"},
     {.methods_count = 15}, 0,
-    builtin_types___positive_integer__internal_methods,
-    {(NODE *)&builtin_types___positive_integer}
+    builtin_types__positive_integer__internal_methods,
+    {(NODE *)&builtin_types__positive_integer}
   },
   {
     FOT_TYPE, 0, 14,
-    "negative_integer\000builtin_types", builtin_types___negative_integer__attributes,
+    "negative_integer\000builtin_types", builtin_types__negative_integer__attributes,
     {"integer\000std_types"},
     {.methods_count = 9}, 0,
-    builtin_types___negative_integer__internal_methods,
-    {(NODE *)&builtin_types___negative_integer}
+    builtin_types__negative_integer__internal_methods,
+    {(NODE *)&builtin_types__negative_integer}
   },
   {
     FOT_TYPE, 0, 15,
-    "real\000std_types", std_types___real__attributes,
+    "real\000std_types", std_types__real__attributes,
     {"number\000std_types"},
     {.methods_count = 5}, 0,
-    std_types___real__internal_methods,
-    {(NODE *)&std_types___real}
+    std_types__real__internal_methods,
+    {(NODE *)&std_types__real}
   },
   {
     FOT_INITIALIZED, 0, 0,
     "real\000std", NULL,
-    {.const_idx = func__std___real}
+    {.const_idx = func__std__real}
   },
   {
     FOT_INITIALIZED, 0, 0,
     "integer\000std", NULL,
-    {.const_idx = func__std___integer}
+    {.const_idx = func__std__integer}
   },
   {
     FOT_INITIALIZED, 0, 0,
     "sqrt\000std", NULL,
-    {.const_idx = func__std___sqrt}
+    {.const_idx = func__std__sqrt}
   },
   {
     FOT_INITIALIZED, 0, 0,
     "pow\000std", NULL,
-    {.const_idx = func__std___pow}
+    {.const_idx = func__std__pow}
   },
   {
     FOT_INITIALIZED, 0, 0,
     "sin\000std", NULL,
-    {.const_idx = func__std___sin}
+    {.const_idx = func__std__sin}
   },
   {
     FOT_INITIALIZED, 0, 0,
     "cos\000std", NULL,
-    {.const_idx = func__std___cos}
+    {.const_idx = func__std__cos}
   },
   {
     FOT_INITIALIZED, 0, 0,
     "tan\000std", NULL,
-    {.const_idx = func__std___tan}
+    {.const_idx = func__std__tan}
   },
   {
     FOT_INITIALIZED, 0, 0,
     "asin\000std", NULL,
-    {.const_idx = func__std___asin}
+    {.const_idx = func__std__asin}
   },
   {
     FOT_INITIALIZED, 0, 0,
     "acos\000std", NULL,
-    {.const_idx = func__std___acos}
+    {.const_idx = func__std__acos}
   },
   {
     FOT_INITIALIZED, 0, 0,
     "atan\000std", NULL,
-    {.const_idx = func__std___atan}
+    {.const_idx = func__std__atan}
   },
   {
     FOT_INITIALIZED, 0, 0,
     "object_type\000debug", NULL,
-    {.const_idx = func__debug___object_type}
+    {.const_idx = func__debug__object_type}
   },
   {
     FOT_INITIALIZED, 0, 0,
     "object_attributes\000debug", NULL,
-    {.const_idx = func__debug___object_attributes}
+    {.const_idx = func__debug__object_attributes}
   },
   {
     FOT_TYPE, 0, 0,
@@ -29533,7 +29533,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"object\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std_types___polymorphic_function}
+    {(NODE *)&std_types__polymorphic_function}
   },
   {
     FOT_TYPE, 0, 0,
@@ -29541,7 +29541,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"polymorphic_function\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std_types___polymorphic_function_with_setter}
+    {(NODE *)&std_types__polymorphic_function_with_setter}
   },
   {
     FOT_POLYMORPHIC, 0, 0,
@@ -29554,7 +29554,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"file_type\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___BLOCK_DEVICE}
+    {(NODE *)&std__BLOCK_DEVICE}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -29562,7 +29562,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"file_type\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___CHARACTER_DEVICE}
+    {(NODE *)&std__CHARACTER_DEVICE}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -29570,7 +29570,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"file_type\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___DIRECTORY}
+    {(NODE *)&std__DIRECTORY}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -29578,7 +29578,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"file_type\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___NAMED_PIPE}
+    {(NODE *)&std__NAMED_PIPE}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -29586,7 +29586,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"file_type\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___SYMBOLIC_LINK}
+    {(NODE *)&std__SYMBOLIC_LINK}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -29594,7 +29594,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"file_type\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___REGULAR_FILE}
+    {(NODE *)&std__REGULAR_FILE}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -29602,7 +29602,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"file_type\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___SOCKET}
+    {(NODE *)&std__SOCKET}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -29610,7 +29610,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"file_type\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___UNKNOWN_FILE_TYPE}
+    {(NODE *)&std__UNKNOWN_FILE_TYPE}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -29618,7 +29618,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"file_descriptor\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___STDIN_FILENO}
+    {(NODE *)&std__STDIN_FILENO}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -29626,7 +29626,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"file_descriptor\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___STDOUT_FILENO}
+    {(NODE *)&std__STDOUT_FILENO}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -29634,7 +29634,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"file_descriptor\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___STDERR_FILENO}
+    {(NODE *)&std__STDERR_FILENO}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -29642,7 +29642,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"shutdown_type\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___SHUT_RD}
+    {(NODE *)&std__SHUT_RD}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -29650,7 +29650,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"shutdown_type\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___SHUT_WR}
+    {(NODE *)&std__SHUT_WR}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -29658,7 +29658,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"shutdown_type\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___SHUT_RDWR}
+    {(NODE *)&std__SHUT_RDWR}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -29666,7 +29666,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"seek_type\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___SEEK_SET}
+    {(NODE *)&std__SEEK_SET}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -29674,7 +29674,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"seek_type\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___SEEK_CUR}
+    {(NODE *)&std__SEEK_CUR}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -29682,7 +29682,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"seek_type\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___SEEK_END}
+    {(NODE *)&std__SEEK_END}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -29690,7 +29690,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"error_number\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___ENOERR}
+    {(NODE *)&std__ENOERR}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -29698,7 +29698,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"error_number\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___EPERM}
+    {(NODE *)&std__EPERM}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -29706,7 +29706,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"error_number\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___ENOENT}
+    {(NODE *)&std__ENOENT}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -29714,7 +29714,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"error_number\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___ESRCH}
+    {(NODE *)&std__ESRCH}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -29722,7 +29722,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"error_number\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___EINTR}
+    {(NODE *)&std__EINTR}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -29730,7 +29730,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"error_number\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___EIO}
+    {(NODE *)&std__EIO}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -29738,7 +29738,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"error_number\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___ENXIO}
+    {(NODE *)&std__ENXIO}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -29746,7 +29746,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"error_number\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___E2BIG}
+    {(NODE *)&std__E2BIG}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -29754,7 +29754,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"error_number\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___ENOEXEC}
+    {(NODE *)&std__ENOEXEC}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -29762,7 +29762,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"error_number\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___EBADF}
+    {(NODE *)&std__EBADF}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -29770,7 +29770,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"error_number\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___ECHILD}
+    {(NODE *)&std__ECHILD}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -29778,7 +29778,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"error_number\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___EAGAIN}
+    {(NODE *)&std__EAGAIN}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -29786,7 +29786,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"error_number\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___ENOMEM}
+    {(NODE *)&std__ENOMEM}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -29794,7 +29794,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"error_number\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___EACCES}
+    {(NODE *)&std__EACCES}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -29802,7 +29802,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"error_number\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___EFAULT}
+    {(NODE *)&std__EFAULT}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -29810,7 +29810,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"error_number\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___ENOTBLK}
+    {(NODE *)&std__ENOTBLK}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -29818,7 +29818,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"error_number\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___EBUSY}
+    {(NODE *)&std__EBUSY}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -29826,7 +29826,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"error_number\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___EEXIST}
+    {(NODE *)&std__EEXIST}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -29834,7 +29834,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"error_number\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___EXDEV}
+    {(NODE *)&std__EXDEV}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -29842,7 +29842,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"error_number\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___ENODEV}
+    {(NODE *)&std__ENODEV}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -29850,7 +29850,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"error_number\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___ENOTDIR}
+    {(NODE *)&std__ENOTDIR}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -29858,7 +29858,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"error_number\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___EISDIR}
+    {(NODE *)&std__EISDIR}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -29866,7 +29866,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"error_number\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___EINVAL}
+    {(NODE *)&std__EINVAL}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -29874,7 +29874,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"error_number\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___ENFILE}
+    {(NODE *)&std__ENFILE}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -29882,7 +29882,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"error_number\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___EMFILE}
+    {(NODE *)&std__EMFILE}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -29890,7 +29890,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"error_number\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___ENOTTY}
+    {(NODE *)&std__ENOTTY}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -29898,7 +29898,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"error_number\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___ETXTBSY}
+    {(NODE *)&std__ETXTBSY}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -29906,7 +29906,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"error_number\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___EFBIG}
+    {(NODE *)&std__EFBIG}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -29914,7 +29914,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"error_number\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___ENOSPC}
+    {(NODE *)&std__ENOSPC}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -29922,7 +29922,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"error_number\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___ESPIPE}
+    {(NODE *)&std__ESPIPE}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -29930,7 +29930,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"error_number\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___EROFS}
+    {(NODE *)&std__EROFS}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -29938,7 +29938,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"error_number\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___EMLINK}
+    {(NODE *)&std__EMLINK}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -29946,7 +29946,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"error_number\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___EPIPE}
+    {(NODE *)&std__EPIPE}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -29954,7 +29954,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"error_number\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___EDOM}
+    {(NODE *)&std__EDOM}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -29962,7 +29962,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"error_number\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___ERANGE}
+    {(NODE *)&std__ERANGE}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -29970,7 +29970,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"error_number\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___EDEADLK}
+    {(NODE *)&std__EDEADLK}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -29978,7 +29978,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"error_number\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___ENAMETOOLONG}
+    {(NODE *)&std__ENAMETOOLONG}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -29986,7 +29986,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"error_number\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___ENOLCK}
+    {(NODE *)&std__ENOLCK}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -29994,7 +29994,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"error_number\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___ENOSYS}
+    {(NODE *)&std__ENOSYS}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -30002,7 +30002,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"error_number\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___ENOTEMPTY}
+    {(NODE *)&std__ENOTEMPTY}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -30010,7 +30010,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"error_number\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___EILSEQ}
+    {(NODE *)&std__EILSEQ}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -30018,7 +30018,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"error_number\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___ELOOP}
+    {(NODE *)&std__ELOOP}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -30026,7 +30026,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"error_number\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___ENOMSG}
+    {(NODE *)&std__ENOMSG}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -30034,7 +30034,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"error_number\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___EIDRM}
+    {(NODE *)&std__EIDRM}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -30042,7 +30042,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"error_number\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___ECHRNG}
+    {(NODE *)&std__ECHRNG}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -30050,7 +30050,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"error_number\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___EL2NSYNC}
+    {(NODE *)&std__EL2NSYNC}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -30058,7 +30058,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"error_number\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___EL3HLT}
+    {(NODE *)&std__EL3HLT}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -30066,7 +30066,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"error_number\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___EL3RST}
+    {(NODE *)&std__EL3RST}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -30074,7 +30074,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"error_number\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___ELNRNG}
+    {(NODE *)&std__ELNRNG}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -30082,7 +30082,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"error_number\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___EUNATCH}
+    {(NODE *)&std__EUNATCH}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -30090,7 +30090,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"error_number\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___ENOCSI}
+    {(NODE *)&std__ENOCSI}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -30098,7 +30098,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"error_number\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___EL2HLT}
+    {(NODE *)&std__EL2HLT}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -30106,7 +30106,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"error_number\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___EBADE}
+    {(NODE *)&std__EBADE}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -30114,7 +30114,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"error_number\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___EBADR}
+    {(NODE *)&std__EBADR}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -30122,7 +30122,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"error_number\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___EXFULL}
+    {(NODE *)&std__EXFULL}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -30130,7 +30130,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"error_number\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___ENOANO}
+    {(NODE *)&std__ENOANO}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -30138,7 +30138,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"error_number\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___EBADRQC}
+    {(NODE *)&std__EBADRQC}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -30146,7 +30146,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"error_number\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___EBADSLT}
+    {(NODE *)&std__EBADSLT}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -30154,7 +30154,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"error_number\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___EBFONT}
+    {(NODE *)&std__EBFONT}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -30162,7 +30162,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"error_number\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___ENOSTR}
+    {(NODE *)&std__ENOSTR}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -30170,7 +30170,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"error_number\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___ENODATA}
+    {(NODE *)&std__ENODATA}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -30178,7 +30178,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"error_number\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___ETIME}
+    {(NODE *)&std__ETIME}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -30186,7 +30186,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"error_number\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___ENOSR}
+    {(NODE *)&std__ENOSR}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -30194,7 +30194,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"error_number\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___ENONET}
+    {(NODE *)&std__ENONET}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -30202,7 +30202,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"error_number\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___ENOPKG}
+    {(NODE *)&std__ENOPKG}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -30210,7 +30210,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"error_number\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___EREMOTE}
+    {(NODE *)&std__EREMOTE}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -30218,7 +30218,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"error_number\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___ENOLINK}
+    {(NODE *)&std__ENOLINK}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -30226,7 +30226,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"error_number\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___EADV}
+    {(NODE *)&std__EADV}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -30234,7 +30234,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"error_number\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___ESRMNT}
+    {(NODE *)&std__ESRMNT}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -30242,7 +30242,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"error_number\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___ECOMM}
+    {(NODE *)&std__ECOMM}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -30250,7 +30250,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"error_number\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___EPROTO}
+    {(NODE *)&std__EPROTO}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -30258,7 +30258,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"error_number\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___EMULTIHOP}
+    {(NODE *)&std__EMULTIHOP}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -30266,7 +30266,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"error_number\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___EDOTDOT}
+    {(NODE *)&std__EDOTDOT}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -30274,7 +30274,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"error_number\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___EBADMSG}
+    {(NODE *)&std__EBADMSG}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -30282,7 +30282,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"error_number\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___EOVERFLOW}
+    {(NODE *)&std__EOVERFLOW}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -30290,7 +30290,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"error_number\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___ENOTUNIQ}
+    {(NODE *)&std__ENOTUNIQ}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -30298,7 +30298,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"error_number\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___EBADFD}
+    {(NODE *)&std__EBADFD}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -30306,7 +30306,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"error_number\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___EREMCHG}
+    {(NODE *)&std__EREMCHG}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -30314,7 +30314,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"error_number\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___ELIBACC}
+    {(NODE *)&std__ELIBACC}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -30322,7 +30322,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"error_number\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___ELIBBAD}
+    {(NODE *)&std__ELIBBAD}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -30330,7 +30330,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"error_number\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___ELIBSCN}
+    {(NODE *)&std__ELIBSCN}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -30338,7 +30338,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"error_number\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___ELIBMAX}
+    {(NODE *)&std__ELIBMAX}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -30346,7 +30346,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"error_number\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___ELIBEXEC}
+    {(NODE *)&std__ELIBEXEC}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -30354,7 +30354,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"error_number\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___ESTRPIPE}
+    {(NODE *)&std__ESTRPIPE}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -30362,7 +30362,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"error_number\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___EUSERS}
+    {(NODE *)&std__EUSERS}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -30370,7 +30370,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"error_number\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___ENOTSOCK}
+    {(NODE *)&std__ENOTSOCK}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -30378,7 +30378,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"error_number\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___EDESTADDRREQ}
+    {(NODE *)&std__EDESTADDRREQ}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -30386,7 +30386,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"error_number\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___EMSGSIZE}
+    {(NODE *)&std__EMSGSIZE}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -30394,7 +30394,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"error_number\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___EPROTOTYPE}
+    {(NODE *)&std__EPROTOTYPE}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -30402,7 +30402,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"error_number\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___ENOPROTOOPT}
+    {(NODE *)&std__ENOPROTOOPT}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -30410,7 +30410,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"error_number\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___EPROTONOSUPPORT}
+    {(NODE *)&std__EPROTONOSUPPORT}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -30418,7 +30418,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"error_number\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___ESOCKTNOSUPPORT}
+    {(NODE *)&std__ESOCKTNOSUPPORT}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -30426,7 +30426,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"error_number\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___EOPNOTSUPP}
+    {(NODE *)&std__EOPNOTSUPP}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -30434,7 +30434,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"error_number\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___EPFNOSUPPORT}
+    {(NODE *)&std__EPFNOSUPPORT}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -30442,7 +30442,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"error_number\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___EAFNOSUPPORT}
+    {(NODE *)&std__EAFNOSUPPORT}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -30450,7 +30450,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"error_number\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___EADDRINUSE}
+    {(NODE *)&std__EADDRINUSE}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -30458,7 +30458,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"error_number\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___EADDRNOTAVAIL}
+    {(NODE *)&std__EADDRNOTAVAIL}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -30466,7 +30466,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"error_number\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___ENETDOWN}
+    {(NODE *)&std__ENETDOWN}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -30474,7 +30474,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"error_number\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___ENETUNREACH}
+    {(NODE *)&std__ENETUNREACH}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -30482,7 +30482,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"error_number\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___ENETRESET}
+    {(NODE *)&std__ENETRESET}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -30490,7 +30490,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"error_number\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___ECONNABORTED}
+    {(NODE *)&std__ECONNABORTED}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -30498,7 +30498,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"error_number\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___ECONNRESET}
+    {(NODE *)&std__ECONNRESET}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -30506,7 +30506,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"error_number\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___ENOBUFS}
+    {(NODE *)&std__ENOBUFS}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -30514,7 +30514,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"error_number\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___EISCONN}
+    {(NODE *)&std__EISCONN}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -30522,7 +30522,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"error_number\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___ENOTCONN}
+    {(NODE *)&std__ENOTCONN}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -30530,7 +30530,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"error_number\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___ESHUTDOWN}
+    {(NODE *)&std__ESHUTDOWN}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -30538,7 +30538,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"error_number\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___ETOOMANYREFS}
+    {(NODE *)&std__ETOOMANYREFS}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -30546,7 +30546,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"error_number\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___ETIMEDOUT}
+    {(NODE *)&std__ETIMEDOUT}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -30554,7 +30554,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"error_number\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___ECONNREFUSED}
+    {(NODE *)&std__ECONNREFUSED}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -30562,7 +30562,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"error_number\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___EHOSTDOWN}
+    {(NODE *)&std__EHOSTDOWN}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -30570,7 +30570,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"error_number\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___EHOSTUNREACH}
+    {(NODE *)&std__EHOSTUNREACH}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -30578,7 +30578,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"error_number\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___EALREADY}
+    {(NODE *)&std__EALREADY}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -30586,7 +30586,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"error_number\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___EINPROGRESS}
+    {(NODE *)&std__EINPROGRESS}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -30594,7 +30594,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"error_number\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___ESTALE}
+    {(NODE *)&std__ESTALE}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -30602,7 +30602,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"error_number\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___EDQUOT}
+    {(NODE *)&std__EDQUOT}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -30610,7 +30610,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"error_number\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___ENOMEDIUM}
+    {(NODE *)&std__ENOMEDIUM}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -30618,7 +30618,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"error_number\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___ECANCELED}
+    {(NODE *)&std__ECANCELED}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -30626,7 +30626,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"error_number\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___EOWNERDEAD}
+    {(NODE *)&std__EOWNERDEAD}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -30634,7 +30634,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"error_number\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___ENOTRECOVERABLE}
+    {(NODE *)&std__ENOTRECOVERABLE}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -30642,7 +30642,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"signal_number\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___SIGHUP}
+    {(NODE *)&std__SIGHUP}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -30650,7 +30650,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"signal_number\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___SIGINT}
+    {(NODE *)&std__SIGINT}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -30658,7 +30658,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"signal_number\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___SIGQUIT}
+    {(NODE *)&std__SIGQUIT}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -30666,7 +30666,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"signal_number\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___SIGILL}
+    {(NODE *)&std__SIGILL}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -30674,7 +30674,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"signal_number\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___SIGTRAP}
+    {(NODE *)&std__SIGTRAP}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -30682,7 +30682,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"signal_number\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___SIGABRT}
+    {(NODE *)&std__SIGABRT}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -30690,7 +30690,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"signal_number\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___SIGIOT}
+    {(NODE *)&std__SIGIOT}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -30698,7 +30698,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"signal_number\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___SIGBUS}
+    {(NODE *)&std__SIGBUS}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -30706,7 +30706,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"signal_number\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___SIGFPE}
+    {(NODE *)&std__SIGFPE}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -30714,7 +30714,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"signal_number\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___SIGKILL}
+    {(NODE *)&std__SIGKILL}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -30722,7 +30722,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"signal_number\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___SIGUSR1}
+    {(NODE *)&std__SIGUSR1}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -30730,7 +30730,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"signal_number\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___SIGSEGV}
+    {(NODE *)&std__SIGSEGV}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -30738,7 +30738,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"signal_number\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___SIGUSR2}
+    {(NODE *)&std__SIGUSR2}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -30746,7 +30746,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"signal_number\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___SIGPIPE}
+    {(NODE *)&std__SIGPIPE}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -30754,7 +30754,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"signal_number\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___SIGALRM}
+    {(NODE *)&std__SIGALRM}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -30762,7 +30762,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"signal_number\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___SIGTERM}
+    {(NODE *)&std__SIGTERM}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -30770,7 +30770,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"signal_number\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___SIGSTKFLT}
+    {(NODE *)&std__SIGSTKFLT}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -30778,7 +30778,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"signal_number\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___SIGCHLD}
+    {(NODE *)&std__SIGCHLD}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -30786,7 +30786,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"signal_number\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___SIGCONT}
+    {(NODE *)&std__SIGCONT}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -30794,7 +30794,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"signal_number\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___SIGSTOP}
+    {(NODE *)&std__SIGSTOP}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -30802,7 +30802,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"signal_number\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___SIGTSTP}
+    {(NODE *)&std__SIGTSTP}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -30810,7 +30810,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"signal_number\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___SIGTTIN}
+    {(NODE *)&std__SIGTTIN}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -30818,7 +30818,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"signal_number\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___SIGTTOU}
+    {(NODE *)&std__SIGTTOU}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -30826,7 +30826,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"signal_number\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___SIGURG}
+    {(NODE *)&std__SIGURG}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -30834,7 +30834,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"signal_number\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___SIGXCPU}
+    {(NODE *)&std__SIGXCPU}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -30842,7 +30842,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"signal_number\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___SIGXFSZ}
+    {(NODE *)&std__SIGXFSZ}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -30850,7 +30850,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"signal_number\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___SIGVTALRM}
+    {(NODE *)&std__SIGVTALRM}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -30858,7 +30858,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"signal_number\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___SIGPROF}
+    {(NODE *)&std__SIGPROF}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -30866,7 +30866,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"signal_number\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___SIGWINCH}
+    {(NODE *)&std__SIGWINCH}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -30874,7 +30874,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"signal_number\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___SIGIO}
+    {(NODE *)&std__SIGIO}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -30882,7 +30882,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"signal_number\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___SIGPWR}
+    {(NODE *)&std__SIGPWR}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -30890,7 +30890,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"signal_number\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___SIGSYS}
+    {(NODE *)&std__SIGSYS}
   },
   {
     FOT_POLYMORPHIC, 0, 0,
@@ -30994,383 +30994,383 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_TYPE, 0, 3,
-    "file_type\000std_types", std_types___file_type__attributes,
+    "file_type\000std_types", std_types__file_type__attributes,
     {"object\000std_types"},
     {.methods_count = 3}, 0,
-    std_types___file_type__internal_methods,
-    {(NODE *)&std_types___file_type}
+    std_types__file_type__internal_methods,
+    {(NODE *)&std_types__file_type}
   },
   {
     FOT_INITIALIZED, 0, 0,
     "file_type\000std", NULL,
-    {.const_idx = func__std___file_type}
+    {.const_idx = func__std__file_type}
   },
   {
     FOT_TYPE, 0, 9,
-    "file_descriptor\000std_types", std_types___file_descriptor__attributes,
+    "file_descriptor\000std_types", std_types__file_descriptor__attributes,
     {"object\000std_types"},
     {.methods_count = 3}, 0,
-    std_types___file_descriptor__internal_methods,
-    {(NODE *)&std_types___file_descriptor}
+    std_types__file_descriptor__internal_methods,
+    {(NODE *)&std_types__file_descriptor}
   },
   {
     FOT_INITIALIZED, 0, 0,
     "file_descriptor\000std", NULL,
-    {.const_idx = func__std___file_descriptor}
+    {.const_idx = func__std__file_descriptor}
   },
   {
     FOT_TYPE, 0, 3,
-    "signal_number\000std_types", std_types___signal_number__attributes,
+    "signal_number\000std_types", std_types__signal_number__attributes,
     {"object\000std_types"},
     {.methods_count = 3}, 0,
-    std_types___signal_number__internal_methods,
-    {(NODE *)&std_types___signal_number}
+    std_types__signal_number__internal_methods,
+    {(NODE *)&std_types__signal_number}
   },
   {
     FOT_INITIALIZED, 0, 0,
     "signal_number\000std", NULL,
-    {.const_idx = func__std___signal_number}
+    {.const_idx = func__std__signal_number}
   },
   {
     FOT_TYPE, 0, 3,
-    "shutdown_type\000std_types", std_types___shutdown_type__attributes,
+    "shutdown_type\000std_types", std_types__shutdown_type__attributes,
     {"object\000std_types"},
     {.methods_count = 3}, 0,
-    std_types___shutdown_type__internal_methods,
-    {(NODE *)&std_types___shutdown_type}
+    std_types__shutdown_type__internal_methods,
+    {(NODE *)&std_types__shutdown_type}
   },
   {
     FOT_INITIALIZED, 0, 0,
     "shutdown_type\000std", NULL,
-    {.const_idx = func__std___shutdown_type}
+    {.const_idx = func__std__shutdown_type}
   },
   {
     FOT_TYPE, 0, 3,
-    "seek_type\000std_types", std_types___seek_type__attributes,
+    "seek_type\000std_types", std_types__seek_type__attributes,
     {"object\000std_types"},
     {.methods_count = 3}, 0,
-    std_types___seek_type__internal_methods,
-    {(NODE *)&std_types___seek_type}
+    std_types__seek_type__internal_methods,
+    {(NODE *)&std_types__seek_type}
   },
   {
     FOT_INITIALIZED, 0, 0,
     "seek_type\000std", NULL,
-    {.const_idx = func__std___seek_type}
+    {.const_idx = func__std__seek_type}
   },
   {
     FOT_TYPE, 0, 3,
-    "device_id\000std_types", std_types___device_id__attributes,
+    "device_id\000std_types", std_types__device_id__attributes,
     {"object\000std_types"},
     {.methods_count = 3}, 0,
-    std_types___device_id__internal_methods,
-    {(NODE *)&std_types___device_id}
+    std_types__device_id__internal_methods,
+    {(NODE *)&std_types__device_id}
   },
   {
     FOT_INITIALIZED, 0, 0,
     "device_id\000std", NULL,
-    {.const_idx = func__std___device_id}
+    {.const_idx = func__std__device_id}
   },
   {
     FOT_TYPE, 0, 2,
-    "directory\000std_types", std_types___directory__attributes,
+    "directory\000std_types", std_types__directory__attributes,
     {"object\000std_types"},
     {.methods_count = 3}, 0,
-    std_types___directory__internal_methods,
-    {(NODE *)&std_types___directory}
+    std_types__directory__internal_methods,
+    {(NODE *)&std_types__directory}
   },
   {
     FOT_TYPE, 0, 3,
-    "group_id\000std_types", std_types___group_id__attributes,
+    "group_id\000std_types", std_types__group_id__attributes,
     {"object\000std_types"},
     {.methods_count = 3}, 0,
-    std_types___group_id__internal_methods,
-    {(NODE *)&std_types___group_id}
+    std_types__group_id__internal_methods,
+    {(NODE *)&std_types__group_id}
   },
   {
     FOT_INITIALIZED, 0, 0,
     "group_id\000std", NULL,
-    {.const_idx = func__std___group_id}
+    {.const_idx = func__std__group_id}
   },
   {
     FOT_TYPE, 0, 3,
-    "inode_number\000std_types", std_types___inode_number__attributes,
+    "inode_number\000std_types", std_types__inode_number__attributes,
     {"object\000std_types"},
     {.methods_count = 3}, 0,
-    std_types___inode_number__internal_methods,
-    {(NODE *)&std_types___inode_number}
+    std_types__inode_number__internal_methods,
+    {(NODE *)&std_types__inode_number}
   },
   {
     FOT_INITIALIZED, 0, 0,
     "inode_number\000std", NULL,
-    {.const_idx = func__std___inode_number}
+    {.const_idx = func__std__inode_number}
   },
   {
     FOT_TYPE, 0, 3,
-    "process_id\000std_types", std_types___process_id__attributes,
+    "process_id\000std_types", std_types__process_id__attributes,
     {"object\000std_types"},
     {.methods_count = 3}, 0,
-    std_types___process_id__internal_methods,
-    {(NODE *)&std_types___process_id}
+    std_types__process_id__internal_methods,
+    {(NODE *)&std_types__process_id}
   },
   {
     FOT_INITIALIZED, 0, 0,
     "process_id\000std", NULL,
-    {.const_idx = func__std___process_id}
+    {.const_idx = func__std__process_id}
   },
   {
     FOT_TYPE, 0, 3,
-    "user_id\000std_types", std_types___user_id__attributes,
+    "user_id\000std_types", std_types__user_id__attributes,
     {"object\000std_types"},
     {.methods_count = 3}, 0,
-    std_types___user_id__internal_methods,
-    {(NODE *)&std_types___user_id}
+    std_types__user_id__internal_methods,
+    {(NODE *)&std_types__user_id}
   },
   {
     FOT_INITIALIZED, 0, 0,
     "user_id\000std", NULL,
-    {.const_idx = func__std___user_id}
+    {.const_idx = func__std__user_id}
   },
   {
     FOT_TYPE, 0, 3,
-    "error_number\000std_types", std_types___error_number__attributes,
+    "error_number\000std_types", std_types__error_number__attributes,
     {"object\000std_types"},
     {.methods_count = 3}, 0,
-    std_types___error_number__internal_methods,
-    {(NODE *)&std_types___error_number}
+    std_types__error_number__internal_methods,
+    {(NODE *)&std_types__error_number}
   },
   {
     FOT_INITIALIZED, 0, 0,
     "error_number\000std", NULL,
-    {.const_idx = func__std___error_number}
+    {.const_idx = func__std__error_number}
   },
   {
     FOT_TYPE, 0, 7,
-    "passwd\000std_types", std_types___passwd__attributes,
+    "passwd\000std_types", std_types__passwd__attributes,
     {"object\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std_types___passwd}
+    {(NODE *)&std_types__passwd}
   },
   {
     FOT_TYPE, 0, 14,
-    "stat\000std_types", std_types___stat__attributes,
+    "stat\000std_types", std_types__stat__attributes,
     {"object\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std_types___stat}
+    {(NODE *)&std_types__stat}
   },
   {
     FOT_TYPE, 0, 3,
-    "dirent\000std_types", std_types___dirent__attributes,
+    "dirent\000std_types", std_types__dirent__attributes,
     {"object\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std_types___dirent}
+    {(NODE *)&std_types__dirent}
   },
   {
     FOT_INITIALIZED, 0, 0,
     "access\000std", NULL,
-    {.const_idx = func__std___access}
+    {.const_idx = func__std__access}
   },
   {
     FOT_INITIALIZED, 0, 0,
     "chdir\000std", NULL,
-    {.const_idx = func__std___chdir}
+    {.const_idx = func__std__chdir}
   },
   {
     FOT_INITIALIZED, 0, 0,
     "chmod\000std", NULL,
-    {.const_idx = func__std___chmod}
+    {.const_idx = func__std__chmod}
   },
   {
     FOT_INITIALIZED, 0, 0,
     "chown\000std", NULL,
-    {.const_idx = func__std___chown}
+    {.const_idx = func__std__chown}
   },
   {
     FOT_INITIALIZED, 0, 0,
     "chroot\000std", NULL,
-    {.const_idx = func__std___chroot}
+    {.const_idx = func__std__chroot}
   },
   {
     FOT_INITIALIZED, 0, 0,
     "closedir\000std", NULL,
-    {.const_idx = func__std___closedir}
+    {.const_idx = func__std__closedir}
   },
   {
     FOT_INITIALIZED, 0, 0,
     "dup2\000std", NULL,
-    {.const_idx = func__std___dup2}
+    {.const_idx = func__std__dup2}
   },
   {
     FOT_INITIALIZED, 0, 0,
     "fstat\000std", NULL,
-    {.const_idx = func__std___fstat}
+    {.const_idx = func__std__fstat}
   },
   {
     FOT_INITIALIZED, 0, 0,
     "fsync\000std", NULL,
-    {.const_idx = func__std___fsync}
+    {.const_idx = func__std__fsync}
   },
   {
     FOT_INITIALIZED, 0, 0,
     "getcwd\000std", NULL,
-    {.const_idx = func__std___getcwd}
+    {.const_idx = func__std__getcwd}
   },
   {
     FOT_INITIALIZED, 0, 0,
     "getenv\000std", NULL,
-    {.const_idx = func__std___getenv}
+    {.const_idx = func__std__getenv}
   },
   {
     FOT_INITIALIZED, 0, 0,
     "getegid\000std", NULL,
-    {.const_idx = func__std___getegid}
+    {.const_idx = func__std__getegid}
   },
   {
     FOT_INITIALIZED, 0, 0,
     "geteuid\000std", NULL,
-    {.const_idx = func__std___geteuid}
+    {.const_idx = func__std__geteuid}
   },
   {
     FOT_INITIALIZED, 0, 0,
     "getgid\000std", NULL,
-    {.const_idx = func__std___getgid}
+    {.const_idx = func__std__getgid}
   },
   {
     FOT_INITIALIZED, 0, 0,
     "gethostname\000std", NULL,
-    {.const_idx = func__std___gethostname}
+    {.const_idx = func__std__gethostname}
   },
   {
     FOT_INITIALIZED, 0, 0,
     "getlogin\000std", NULL,
-    {.const_idx = func__std___getlogin}
+    {.const_idx = func__std__getlogin}
   },
   {
     FOT_INITIALIZED, 0, 0,
     "getpid\000std", NULL,
-    {.const_idx = func__std___getpid}
+    {.const_idx = func__std__getpid}
   },
   {
     FOT_INITIALIZED, 0, 0,
     "getppid\000std", NULL,
-    {.const_idx = func__std___getppid}
+    {.const_idx = func__std__getppid}
   },
   {
     FOT_INITIALIZED, 0, 0,
     "getpwuid\000std", NULL,
-    {.const_idx = func__std___getpwuid}
+    {.const_idx = func__std__getpwuid}
   },
   {
     FOT_INITIALIZED, 0, 0,
     "getsid\000std", NULL,
-    {.const_idx = func__std___getsid}
+    {.const_idx = func__std__getsid}
   },
   {
     FOT_INITIALIZED, 0, 0,
     "getuid\000std", NULL,
-    {.const_idx = func__std___getuid}
+    {.const_idx = func__std__getuid}
   },
   {
     FOT_INITIALIZED, 0, 0,
     "isatty\000std", NULL,
-    {.const_idx = func__std___isatty}
+    {.const_idx = func__std__isatty}
   },
   {
     FOT_INITIALIZED, 0, 0,
     "kill\000std", NULL,
-    {.const_idx = func__std___kill}
+    {.const_idx = func__std__kill}
   },
   {
     FOT_INITIALIZED, 0, 0,
     "link\000std", NULL,
-    {.const_idx = func__std___link}
+    {.const_idx = func__std__link}
   },
   {
     FOT_INITIALIZED, 0, 0,
     "lseek\000std", NULL,
-    {.const_idx = func__std___lseek}
+    {.const_idx = func__std__lseek}
   },
   {
     FOT_INITIALIZED, 0, 0,
     "mkdir\000std", NULL,
-    {.const_idx = func__std___mkdir}
+    {.const_idx = func__std__mkdir}
   },
   {
     FOT_INITIALIZED, 0, 0,
     "mkfifo\000std", NULL,
-    {.const_idx = func__std___mkfifo}
+    {.const_idx = func__std__mkfifo}
   },
   {
     FOT_INITIALIZED, 0, 0,
     "open\000std", NULL,
-    {.const_idx = func__std___open}
+    {.const_idx = func__std__open}
   },
   {
     FOT_INITIALIZED, 0, 0,
     "opendir\000std", NULL,
-    {.const_idx = func__std___opendir}
+    {.const_idx = func__std__opendir}
   },
   {
     FOT_INITIALIZED, 0, 0,
     "readdir\000std", NULL,
-    {.const_idx = func__std___readdir}
+    {.const_idx = func__std__readdir}
   },
   {
     FOT_INITIALIZED, 0, 0,
     "realpath\000std", NULL,
-    {.const_idx = func__std___realpath}
+    {.const_idx = func__std__realpath}
   },
   {
     FOT_INITIALIZED, 0, 0,
     "rename\000std", NULL,
-    {.const_idx = func__std___rename}
+    {.const_idx = func__std__rename}
   },
   {
     FOT_INITIALIZED, 0, 0,
     "sethostname\000std", NULL,
-    {.const_idx = func__std___sethostname}
+    {.const_idx = func__std__sethostname}
   },
   {
     FOT_INITIALIZED, 0, 0,
     "shutdown\000std", NULL,
-    {.const_idx = func__std___shutdown}
+    {.const_idx = func__std__shutdown}
   },
   {
     FOT_INITIALIZED, 0, 0,
     "stat\000std", NULL,
-    {.const_idx = func__std___stat}
+    {.const_idx = func__std__stat}
   },
   {
     FOT_INITIALIZED, 0, 0,
     "strerror\000std", NULL,
-    {.const_idx = func__std___strerror}
+    {.const_idx = func__std__strerror}
   },
   {
     FOT_INITIALIZED, 0, 0,
     "wait\000std", NULL,
-    {.const_idx = func__std___wait}
+    {.const_idx = func__std__wait}
   },
   {
     FOT_INITIALIZED, 0, 0,
     "umask\000std", NULL,
-    {.const_idx = func__std___umask}
+    {.const_idx = func__std__umask}
   },
   {
     FOT_INITIALIZED, 0, 0,
     "unlink\000std", NULL,
-    {.const_idx = func__std___unlink}
+    {.const_idx = func__std__unlink}
   },
   {
     FOT_INITIALIZED, 0, 0,
     "shm_unlink\000std", NULL,
-    {.const_idx = func__std___shm_unlink}
+    {.const_idx = func__std__shm_unlink}
   },
   {
     FOT_INITIALIZED, 0, 0,
     "usleep\000std", NULL,
-    {.const_idx = func__std___usleep}
+    {.const_idx = func__std__usleep}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -31378,7 +31378,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"list\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std_types___sequence}
+    {(NODE *)&std_types__sequence}
   },
   {
     FOT_POLYMORPHIC, 0, 0,
@@ -31391,23 +31391,23 @@ static FUNKY_VARIABLE variables_table[] = {
     {"generic_list\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std_types___string}
+    {(NODE *)&std_types__string}
   },
   {
     FOT_TYPE, 0, 12,
-    "octet_string\000std_types", std_types___octet_string__attributes,
+    "octet_string\000std_types", std_types__octet_string__attributes,
     {"string\000std_types"},
     {.methods_count = 7}, 0,
-    std_types___octet_string__internal_methods,
-    {(NODE *)&std_types___octet_string}
+    std_types__octet_string__internal_methods,
+    {(NODE *)&std_types__octet_string}
   },
   {
     FOT_TYPE, 0, 11,
-    "wide_string\000std_types", std_types___wide_string__attributes,
+    "wide_string\000std_types", std_types__wide_string__attributes,
     {"string\000std_types"},
     {.methods_count = 5}, 0,
-    std_types___wide_string__internal_methods,
-    {(NODE *)&std_types___wide_string}
+    std_types__wide_string__internal_methods,
+    {(NODE *)&std_types__wide_string}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -31415,7 +31415,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"octet_string\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std___empty_string}
+    {(NODE *)&std__empty_string}
   },
   {
     FOT_POLYMORPHIC, 0, 0,
@@ -31509,19 +31509,19 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_TYPE, 0, 16,
-    "terminal_attributes\000std_types", std_types___terminal_attributes__attributes,
+    "terminal_attributes\000std_types", std_types__terminal_attributes__attributes,
     {"object\000std_types"},
     {.methods_count = 3}, 0,
-    std_types___terminal_attributes__internal_methods,
-    {(NODE *)&std_types___terminal_attributes}
+    std_types__terminal_attributes__internal_methods,
+    {(NODE *)&std_types__terminal_attributes}
   },
   {
     FOT_TYPE, 0, 1,
-    "tuple\000std_types", std_types___tuple__attributes,
+    "tuple\000std_types", std_types__tuple__attributes,
     {"object\000std_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std_types___tuple}
+    {(NODE *)&std_types__tuple}
   },
   {
     FOT_POLYMORPHIC, 0, 0,
@@ -31530,122 +31530,122 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_TYPE, 0, 2,
-    "tuple2\000builtin_types", builtin_types___tuple2__attributes,
+    "tuple2\000builtin_types", builtin_types__tuple2__attributes,
     {"tuple\000std_types"},
     {.methods_count = 3}, 0,
-    builtin_types___tuple2__internal_methods,
-    {(NODE *)&builtin_types___tuple2}
+    builtin_types__tuple2__internal_methods,
+    {(NODE *)&builtin_types__tuple2}
   },
   {
     FOT_TYPE, 0, 2,
-    "tuple3\000builtin_types", builtin_types___tuple3__attributes,
+    "tuple3\000builtin_types", builtin_types__tuple3__attributes,
     {"tuple\000std_types"},
     {.methods_count = 3}, 0,
-    builtin_types___tuple3__internal_methods,
-    {(NODE *)&builtin_types___tuple3}
+    builtin_types__tuple3__internal_methods,
+    {(NODE *)&builtin_types__tuple3}
   },
   {
     FOT_TYPE, 0, 2,
-    "tuple4\000builtin_types", builtin_types___tuple4__attributes,
+    "tuple4\000builtin_types", builtin_types__tuple4__attributes,
     {"tuple\000std_types"},
     {.methods_count = 3}, 0,
-    builtin_types___tuple4__internal_methods,
-    {(NODE *)&builtin_types___tuple4}
+    builtin_types__tuple4__internal_methods,
+    {(NODE *)&builtin_types__tuple4}
   },
   {
     FOT_TYPE, 0, 2,
-    "tuple5\000builtin_types", builtin_types___tuple5__attributes,
+    "tuple5\000builtin_types", builtin_types__tuple5__attributes,
     {"tuple\000std_types"},
     {.methods_count = 3}, 0,
-    builtin_types___tuple5__internal_methods,
-    {(NODE *)&builtin_types___tuple5}
+    builtin_types__tuple5__internal_methods,
+    {(NODE *)&builtin_types__tuple5}
   },
   {
     FOT_TYPE, 0, 2,
-    "tuple6\000builtin_types", builtin_types___tuple6__attributes,
+    "tuple6\000builtin_types", builtin_types__tuple6__attributes,
     {"tuple\000std_types"},
     {.methods_count = 3}, 0,
-    builtin_types___tuple6__internal_methods,
-    {(NODE *)&builtin_types___tuple6}
+    builtin_types__tuple6__internal_methods,
+    {(NODE *)&builtin_types__tuple6}
   },
   {
     FOT_TYPE, 0, 2,
-    "tuple7\000builtin_types", builtin_types___tuple7__attributes,
+    "tuple7\000builtin_types", builtin_types__tuple7__attributes,
     {"tuple\000std_types"},
     {.methods_count = 3}, 0,
-    builtin_types___tuple7__internal_methods,
-    {(NODE *)&builtin_types___tuple7}
+    builtin_types__tuple7__internal_methods,
+    {(NODE *)&builtin_types__tuple7}
   },
   {
     FOT_TYPE, 0, 2,
-    "tuple8\000builtin_types", builtin_types___tuple8__attributes,
+    "tuple8\000builtin_types", builtin_types__tuple8__attributes,
     {"tuple\000std_types"},
     {.methods_count = 3}, 0,
-    builtin_types___tuple8__internal_methods,
-    {(NODE *)&builtin_types___tuple8}
+    builtin_types__tuple8__internal_methods,
+    {(NODE *)&builtin_types__tuple8}
   },
   {
     FOT_INITIALIZED, 0, 0,
     "tuple\000std", NULL,
-    {.const_idx = func__std___tuple}
+    {.const_idx = func__std__tuple}
   },
   {
     FOT_INITIALIZED, 0, 0,
     "tuple_or_error\000std", NULL,
-    {.const_idx = func__std___tuple_or_error}
+    {.const_idx = func__std__tuple_or_error}
   },
   {
     FOT_INITIALIZED, 0, 0,
     "new_tuple\000std", NULL,
-    {.const_idx = func__std___new_tuple}
+    {.const_idx = func__std__new_tuple}
   },
   {
     FOT_INITIALIZED, 0, 0,
     "is_an_upper_case_letter_character\000std", NULL,
-    {.const_idx = func__std___is_an_upper_case_letter_character}
+    {.const_idx = func__std__is_an_upper_case_letter_character}
   },
   {
     FOT_INITIALIZED, 0, 0,
     "is_a_lower_case_letter_character\000std", NULL,
-    {.const_idx = func__std___is_a_lower_case_letter_character}
+    {.const_idx = func__std__is_a_lower_case_letter_character}
   },
   {
     FOT_INITIALIZED, 0, 0,
     "is_a_title_case_letter_character\000std", NULL,
-    {.const_idx = func__std___is_a_title_case_letter_character}
+    {.const_idx = func__std__is_a_title_case_letter_character}
   },
   {
     FOT_INITIALIZED, 0, 0,
     "is_a_letter_character\000std", NULL,
-    {.const_idx = func__std___is_a_letter_character}
+    {.const_idx = func__std__is_a_letter_character}
   },
   {
     FOT_INITIALIZED, 0, 0,
     "is_a_whitespace_character\000std", NULL,
-    {.const_idx = func__std___is_a_whitespace_character}
+    {.const_idx = func__std__is_a_whitespace_character}
   },
   {
     FOT_INITIALIZED, 0, 0,
     "is_a_zero_width_character\000std", NULL,
-    {.const_idx = func__std___is_a_zero_width_character}
+    {.const_idx = func__std__is_a_zero_width_character}
   },
   {
     FOT_INITIALIZED, 0, 0,
     "is_a_wide_character\000std", NULL,
-    {.const_idx = func__std___is_a_wide_character}
+    {.const_idx = func__std__is_a_wide_character}
   },
   {
     FOT_TYPE, 0, 3,
-    "unique_item\000std_types", std_types___unique_item__attributes,
+    "unique_item\000std_types", std_types__unique_item__attributes,
     {"object\000std_types"},
     {.methods_count = 3}, 0,
-    std_types___unique_item__internal_methods,
-    {(NODE *)&std_types___unique_item}
+    std_types__unique_item__internal_methods,
+    {(NODE *)&std_types__unique_item}
   },
   {
     FOT_INITIALIZED, 0, 0,
     "unique_item\000std", NULL,
-    {.const_idx = func__std___unique_item}
+    {.const_idx = func__std__unique_item}
   },
   {
     FOT_OBJECT, 0, 0,
@@ -31653,7 +31653,7 @@ static FUNKY_VARIABLE variables_table[] = {
     {"tuple2\000builtin_types"},
     {.methods_count = 0}, 0,
     NULL,
-    {(NODE *)&std_types___value_range}
+    {(NODE *)&std_types__value_range}
   },
   {
     FOT_POLYMORPHIC, 0, 0,
@@ -31663,65 +31663,65 @@ static FUNKY_VARIABLE variables_table[] = {
   {
     FOT_INITIALIZED, 0, 0,
     "exitstatus\000std", NULL,
-    {.const_idx = func__std___exitstatus}
+    {.const_idx = func__std__exitstatus}
   },
   {
     FOT_INITIALIZED, 0, 0,
     "pselect\000std", NULL,
-    {.const_idx = func__std___pselect}
+    {.const_idx = func__std__pselect}
   },
   {
     FOT_INITIALIZED, 0, 0,
     "do_not_close\000std", NULL,
-    {.const_idx = func__std___do_not_close}
+    {.const_idx = func__std__do_not_close}
   },
   {
     FOT_INITIALIZED, 0, 0,
     "waitpid\000std", NULL,
-    {.const_idx = func__std___waitpid}
+    {.const_idx = func__std__waitpid}
   },
   {
     FOT_INITIALIZED, 0, 0,
     "open_unix_socket\000std", NULL,
-    {.const_idx = func__std___open_unix_socket}
+    {.const_idx = func__std__open_unix_socket}
   },
   {
     FOT_INITIALIZED, 0, 0,
     "send_file_descriptor\000std", NULL,
-    {.const_idx = func__std___send_file_descriptor}
+    {.const_idx = func__std__send_file_descriptor}
   },
   {
     FOT_INITIALIZED, 0, 0,
     "open_tcp_client_socket\000std", NULL,
-    {.const_idx = func__std___open_tcp_client_socket}
+    {.const_idx = func__std__open_tcp_client_socket}
   },
   {
     FOT_INITIALIZED, 0, 0,
     "open_tcp_server_socket\000std", NULL,
-    {.const_idx = func__std___open_tcp_server_socket}
+    {.const_idx = func__std__open_tcp_server_socket}
   },
   {
     FOT_INITIALIZED, 0, 0,
     "accept\000std", NULL,
-    {.const_idx = func__std___accept}
+    {.const_idx = func__std__accept}
   },
   {
     FOT_INITIALIZED, 0, 0,
     "is_listening\000std", NULL,
-    {.const_idx = func__std___is_listening}
+    {.const_idx = func__std__is_listening}
   },
   {
     FOT_INITIALIZED, 0, 0,
     "get_first_mac_address\000std", NULL,
-    {.const_idx = func__std___get_first_mac_address}
+    {.const_idx = func__std__get_first_mac_address}
   },
   {
     FOT_TYPE, 0, 3,
-    "shared_memory\000std_types", std_types___shared_memory__attributes,
+    "shared_memory\000std_types", std_types__shared_memory__attributes,
     {"object\000std_types"},
     {.methods_count = 3}, 0,
-    std_types___shared_memory__internal_methods,
-    {(NODE *)&std_types___shared_memory}
+    std_types__shared_memory__internal_methods,
+    {(NODE *)&std_types__shared_memory}
   },
   {
     FOT_POLYMORPHIC, 0, 0,
@@ -31736,7 +31736,7 @@ static FUNKY_VARIABLE variables_table[] = {
   {
     FOT_INITIALIZED, 0, 0,
     "create_shared_memory\000std", NULL,
-    {.const_idx = func__std___create_shared_memory}
+    {.const_idx = func__std__create_shared_memory}
   }
 };
 
@@ -31752,484 +31752,484 @@ FUNKY_MODULE module__builtin = {
 };
 
 BUILTIN_FUNCTION_NAME builtin_function_names[478] = {
-  {std_types___generic_array____type, "std_types::generic_array/_type"},
-  {std_types___array____type, "std_types::array/_type"},
-  {entry__std_types___array___std___length_of, "std_types::array/length_of"},
-  {entry__std_types___array___std___dimension_count_of, "std_types::array/dimension_count_of"},
-  {entry__std___array, "std::array"},
-  {entry__std___initialized_array, "std::initialized_array"},
-  {entry__std_types___array___std___create_empty_array, "std_types::array/create_empty_array"},
-  {entry__std_types___array___std___range, "std_types::array/range"},
-  {std_types___boolean_array____type, "std_types::boolean_array/_type"},
-  {entry__std_types___boolean_array___std___length_of, "std_types::boolean_array/length_of"},
-  {entry__std_types___boolean_array___std___dimension_count_of, "std_types::boolean_array/dimension_count_of"},
-  {entry__std_types___boolean_array___std___equal, "std_types::boolean_array/equal"},
-  {entry__std_types___boolean_array___std___bit_and, "std_types::boolean_array/bit_and"},
-  {entry__std_types___boolean_array___std___bit_or, "std_types::boolean_array/bit_or"},
-  {entry__std_types___boolean_array___std___bit_xor, "std_types::boolean_array/bit_xor"},
-  {entry__std___boolean_array, "std::boolean_array"},
-  {entry__std___initialized_boolean_array, "std::initialized_boolean_array"},
-  {entry__std_types___boolean_array___std___create_empty_array, "std_types::boolean_array/create_empty_array"},
-  {entry__std_types___boolean_array___std___range, "std_types::boolean_array/range"},
-  {std_types___character_array____type, "std_types::character_array/_type"},
-  {entry__std_types___character_array___std___length_of, "std_types::character_array/length_of"},
-  {entry__std_types___character_array___std___dimension_count_of, "std_types::character_array/dimension_count_of"},
-  {entry__std_types___character_array___std___equal, "std_types::character_array/equal"},
-  {entry__std___character_array, "std::character_array"},
-  {entry__std___initialized_character_array, "std::initialized_character_array"},
-  {entry__std_types___character_array___std___create_empty_array, "std_types::character_array/create_empty_array"},
-  {entry__std_types___character_array___std___range, "std_types::character_array/range"},
-  {std_types___int8_array____type, "std_types::int8_array/_type"},
-  {entry__std_types___int8_array___std___length_of, "std_types::int8_array/length_of"},
-  {entry__std_types___int8_array___std___dimension_count_of, "std_types::int8_array/dimension_count_of"},
-  {entry__std_types___int8_array___std___equal, "std_types::int8_array/equal"},
-  {entry__std_types___int8_array___std___times, "std_types::int8_array/times"},
-  {entry__std___int8_array, "std::int8_array"},
-  {entry__std___initialized_int8_array, "std::initialized_int8_array"},
-  {entry__std_types___int8_array___std___create_empty_array, "std_types::int8_array/create_empty_array"},
-  {entry__std_types___int8_array___std___range, "std_types::int8_array/range"},
-  {std_types___uint8_array____type, "std_types::uint8_array/_type"},
-  {entry__std_types___uint8_array___std___length_of, "std_types::uint8_array/length_of"},
-  {entry__std_types___uint8_array___std___dimension_count_of, "std_types::uint8_array/dimension_count_of"},
-  {entry__std_types___uint8_array___std___equal, "std_types::uint8_array/equal"},
-  {entry__std_types___uint8_array___std___bit_and, "std_types::uint8_array/bit_and"},
-  {entry__std_types___uint8_array___std___bit_or, "std_types::uint8_array/bit_or"},
-  {entry__std_types___uint8_array___std___bit_xor, "std_types::uint8_array/bit_xor"},
-  {entry__std_types___uint8_array___std___times, "std_types::uint8_array/times"},
-  {entry__std___uint8_array, "std::uint8_array"},
-  {entry__std___initialized_uint8_array, "std::initialized_uint8_array"},
-  {entry__std_types___uint8_array___std___create_empty_array, "std_types::uint8_array/create_empty_array"},
-  {entry__std_types___uint8_array___std___range, "std_types::uint8_array/range"},
-  {std_types___int16_array____type, "std_types::int16_array/_type"},
-  {entry__std_types___int16_array___std___length_of, "std_types::int16_array/length_of"},
-  {entry__std_types___int16_array___std___dimension_count_of, "std_types::int16_array/dimension_count_of"},
-  {entry__std_types___int16_array___std___equal, "std_types::int16_array/equal"},
-  {entry__std_types___int16_array___std___times, "std_types::int16_array/times"},
-  {entry__std___int16_array, "std::int16_array"},
-  {entry__std___initialized_int16_array, "std::initialized_int16_array"},
-  {entry__std_types___int16_array___std___create_empty_array, "std_types::int16_array/create_empty_array"},
-  {entry__std_types___int16_array___std___range, "std_types::int16_array/range"},
-  {std_types___uint16_array____type, "std_types::uint16_array/_type"},
-  {entry__std_types___uint16_array___std___length_of, "std_types::uint16_array/length_of"},
-  {entry__std_types___uint16_array___std___dimension_count_of, "std_types::uint16_array/dimension_count_of"},
-  {entry__std_types___uint16_array___std___equal, "std_types::uint16_array/equal"},
-  {entry__std_types___uint16_array___std___bit_and, "std_types::uint16_array/bit_and"},
-  {entry__std_types___uint16_array___std___bit_or, "std_types::uint16_array/bit_or"},
-  {entry__std_types___uint16_array___std___bit_xor, "std_types::uint16_array/bit_xor"},
-  {entry__std_types___uint16_array___std___times, "std_types::uint16_array/times"},
-  {entry__std___uint16_array, "std::uint16_array"},
-  {entry__std___initialized_uint16_array, "std::initialized_uint16_array"},
-  {entry__std_types___uint16_array___std___create_empty_array, "std_types::uint16_array/create_empty_array"},
-  {entry__std_types___uint16_array___std___range, "std_types::uint16_array/range"},
-  {std_types___int32_array____type, "std_types::int32_array/_type"},
-  {entry__std_types___int32_array___std___length_of, "std_types::int32_array/length_of"},
-  {entry__std_types___int32_array___std___dimension_count_of, "std_types::int32_array/dimension_count_of"},
-  {entry__std_types___int32_array___std___equal, "std_types::int32_array/equal"},
-  {entry__std_types___int32_array___std___times, "std_types::int32_array/times"},
-  {entry__std___int32_array, "std::int32_array"},
-  {entry__std___initialized_int32_array, "std::initialized_int32_array"},
-  {entry__std_types___int32_array___std___create_empty_array, "std_types::int32_array/create_empty_array"},
-  {entry__std_types___int32_array___std___range, "std_types::int32_array/range"},
-  {std_types___uint32_array____type, "std_types::uint32_array/_type"},
-  {entry__std_types___uint32_array___std___length_of, "std_types::uint32_array/length_of"},
-  {entry__std_types___uint32_array___std___dimension_count_of, "std_types::uint32_array/dimension_count_of"},
-  {entry__std_types___uint32_array___std___equal, "std_types::uint32_array/equal"},
-  {entry__std_types___uint32_array___std___bit_and, "std_types::uint32_array/bit_and"},
-  {entry__std_types___uint32_array___std___bit_or, "std_types::uint32_array/bit_or"},
-  {entry__std_types___uint32_array___std___bit_xor, "std_types::uint32_array/bit_xor"},
-  {entry__std_types___uint32_array___std___times, "std_types::uint32_array/times"},
-  {entry__std___uint32_array, "std::uint32_array"},
-  {entry__std___initialized_uint32_array, "std::initialized_uint32_array"},
-  {entry__std_types___uint32_array___std___create_empty_array, "std_types::uint32_array/create_empty_array"},
-  {entry__std_types___uint32_array___std___range, "std_types::uint32_array/range"},
-  {std_types___int64_array____type, "std_types::int64_array/_type"},
-  {entry__std_types___int64_array___std___length_of, "std_types::int64_array/length_of"},
-  {entry__std_types___int64_array___std___dimension_count_of, "std_types::int64_array/dimension_count_of"},
-  {entry__std_types___int64_array___std___equal, "std_types::int64_array/equal"},
-  {entry__std_types___int64_array___std___times, "std_types::int64_array/times"},
-  {entry__std___int64_array, "std::int64_array"},
-  {entry__std___initialized_int64_array, "std::initialized_int64_array"},
-  {entry__std_types___int64_array___std___create_empty_array, "std_types::int64_array/create_empty_array"},
-  {entry__std_types___int64_array___std___range, "std_types::int64_array/range"},
-  {std_types___uint64_array____type, "std_types::uint64_array/_type"},
-  {entry__std_types___uint64_array___std___length_of, "std_types::uint64_array/length_of"},
-  {entry__std_types___uint64_array___std___dimension_count_of, "std_types::uint64_array/dimension_count_of"},
-  {entry__std_types___uint64_array___std___equal, "std_types::uint64_array/equal"},
-  {entry__std_types___uint64_array___std___bit_and, "std_types::uint64_array/bit_and"},
-  {entry__std_types___uint64_array___std___bit_or, "std_types::uint64_array/bit_or"},
-  {entry__std_types___uint64_array___std___bit_xor, "std_types::uint64_array/bit_xor"},
-  {entry__std_types___uint64_array___std___times, "std_types::uint64_array/times"},
-  {entry__std___uint64_array, "std::uint64_array"},
-  {entry__std___initialized_uint64_array, "std::initialized_uint64_array"},
-  {entry__std_types___uint64_array___std___create_empty_array, "std_types::uint64_array/create_empty_array"},
-  {entry__std_types___uint64_array___std___range, "std_types::uint64_array/range"},
-  {std_types___float32_array____type, "std_types::float32_array/_type"},
-  {entry__std_types___float32_array___std___length_of, "std_types::float32_array/length_of"},
-  {entry__std_types___float32_array___std___dimension_count_of, "std_types::float32_array/dimension_count_of"},
-  {entry__std_types___float32_array___std___equal, "std_types::float32_array/equal"},
-  {entry__std_types___float32_array___std___times, "std_types::float32_array/times"},
-  {entry__std___float32_array, "std::float32_array"},
-  {entry__std___initialized_float32_array, "std::initialized_float32_array"},
-  {entry__std_types___float32_array___std___create_empty_array, "std_types::float32_array/create_empty_array"},
-  {entry__std_types___float32_array___std___range, "std_types::float32_array/range"},
-  {std_types___float64_array____type, "std_types::float64_array/_type"},
-  {entry__std_types___float64_array___std___length_of, "std_types::float64_array/length_of"},
-  {entry__std_types___float64_array___std___dimension_count_of, "std_types::float64_array/dimension_count_of"},
-  {entry__std_types___float64_array___std___equal, "std_types::float64_array/equal"},
-  {entry__std_types___float64_array___std___times, "std_types::float64_array/times"},
-  {entry__std___float64_array, "std::float64_array"},
-  {entry__std___initialized_float64_array, "std::initialized_float64_array"},
-  {entry__std_types___float64_array___std___create_empty_array, "std_types::float64_array/create_empty_array"},
-  {entry__std_types___float64_array___std___range, "std_types::float64_array/range"},
-  {entry__std___pass, "std::pass"},
-  {entry__std___result_count, "std::result_count"},
-  {std_types___true____type, "std_types::true/_type"},
-  {entry__std_types___true___std___equal, "std_types::true/equal"},
-  {std_types___false____type, "std_types::false/_type"},
-  {entry__std_types___false___std___equal, "std_types::false/equal"},
-  {c_function____type, "c_function/_type"},
-  {entry__c_function___std___parameter_count_of, "c_function/parameter_count_of"},
-  {std_types___character____type, "std_types::character/_type"},
-  {entry__std___character, "std::character"},
-  {entry__std_types___character___std___plus, "std_types::character/plus"},
-  {entry__std_types___character___std___minus, "std_types::character/minus"},
-  {entry__std_types___character___std___equal, "std_types::character/equal"},
-  {entry__std_types___character___std___less, "std_types::character/less"},
-  {entry__std_types___character___std___hash, "std_types::character/hash"},
-  {entry__std_types___character___std___to_string, "std_types::character/to_string"},
-  {entry__std_types___character___std___to_integer, "std_types::character/to_integer"},
-  {entry__std_types___character___std___width_of, "std_types::character/width_of"},
-  {std_types___date_and_time____type, "std_types::date_and_time/_type"},
-  {entry__std___from_unix_time, "std::from_unix_time"},
-  {entry__std___date_and_time, "std::date_and_time"},
-  {entry__std_types___date_and_time___std___year_of, "std_types::date_and_time/year_of"},
-  {entry__std_types___date_and_time___std___month_of, "std_types::date_and_time/month_of"},
-  {entry__std_types___date_and_time___std___day_of, "std_types::date_and_time/day_of"},
-  {entry__std_types___date_and_time___std___day_of_week_of, "std_types::date_and_time/day_of_week_of"},
-  {entry__std_types___date_and_time___std___hour_of, "std_types::date_and_time/hour_of"},
-  {entry__std_types___date_and_time___std___minute_of, "std_types::date_and_time/minute_of"},
-  {entry__std_types___date_and_time___std___second_of, "std_types::date_and_time/second_of"},
-  {entry__std_types___date_and_time___std___time_shift_of, "std_types::date_and_time/time_shift_of"},
-  {entry__std_types___date_and_time___std___seconds_since_epoch, "std_types::date_and_time/seconds_since_epoch"},
-  {entry__std_types___date_and_time___std___plus, "std_types::date_and_time/plus"},
-  {entry__std_types___date_and_time___std___minus, "std_types::date_and_time/minus"},
-  {entry__std_types___date_and_time___std___equal, "std_types::date_and_time/equal"},
-  {entry__std_types___date_and_time___std___less, "std_types::date_and_time/less"},
-  {entry__std___current_time, "std::current_time"},
-  {entry__debug___string, "debug::string"},
-  {entry__debug___write, "debug::write"},
-  {entry__debug___dump_object, "debug::dump_object"},
-  {entry__debug___has_io_access_rights, "debug::has_io_access_rights"},
-  {entry__debug___exit, "debug::exit"},
-  {entry__std___error_check, "std::error_check"},
-  {entry__debug___total_garbage_collections, "debug::total_garbage_collections"},
-  {entry__std___installation_prefix, "std::installation_prefix"},
-  {entry__std___package_version, "std::package_version"},
-  {std_types___error____type, "std_types::error/_type"},
-  {entry__std_types___error___std___error_category_of, "std_types::error/error_category_of"},
-  {entry__std_types___error___std___error_message_text_of, "std_types::error/error_message_text_of"},
-  {entry__std_types___error___std___error_details_of, "std_types::error/error_details_of"},
-  {entry__std_types___error___std___errno_of, "std_types::error/errno_of"},
-  {entry__std_types___error___std___failed_attribute_of, "std_types::error/failed_attribute_of"},
-  {entry__std___error, "std::error"},
-  {entry__std___exec, "std::exec"},
-  {entry__std___create_process, "std::create_process"},
-  {std_types___function____type, "std_types::function/_type"},
-  {tabular_function____type, "tabular_function/_type"},
-  {entry__std_types___function___std___parameter_count_of, "std_types::function/parameter_count_of"},
-  {entry__std_types___function___std___new, "std_types::function/new"},
-  {std_types___generic_list____type, "std_types::generic_list/_type"},
-  {std_types___list____type, "std_types::list/_type"},
-  {entry__std___list, "std::list"},
-  {entry__std_types___list___std___length_of, "std_types::list/length_of"},
-  {entry__std_types___list___std___is_empty, "std_types::list/is_empty"},
-  {entry__std_types___list___std___is_not_empty, "std_types::list/is_not_empty"},
-  {entry__std_types___list___std___push, "std_types::list/push"},
-  {entry__std_types___list___std___drop, "std_types::list/drop"},
-  {entry__std_types___list___std___pop, "std_types::list/pop"},
-  {entry__std_types___list___std___peek, "std_types::list/peek"},
-  {entry__std_types___list___std___append, "std_types::list/append"},
-  {entry__std_types___list___std___range, "std_types::list/range"},
-  {entry__std_types___list___std___spread, "std_types::list/spread"},
-  {std_types___number____type, "std_types::number/_type"},
-  {std_types___integer____type, "std_types::integer/_type"},
-  {builtin_types___positive_integer____type, "builtin_types::positive_integer/_type"},
-  {builtin_types___negative_integer____type, "builtin_types::negative_integer/_type"},
-  {std_types___real____type, "std_types::real/_type"},
-  {entry__builtin_types___positive_integer___std___negate, "builtin_types::positive_integer/negate"},
-  {entry__builtin_types___negative_integer___std___negate, "builtin_types::negative_integer/negate"},
-  {entry__std_types___real___std___negate, "std_types::real/negate"},
-  {entry__builtin_types___positive_integer___std___times, "builtin_types::positive_integer/times"},
-  {entry__builtin_types___negative_integer___std___times, "builtin_types::negative_integer/times"},
-  {entry__builtin_types___positive_integer___std___to_integer, "builtin_types::positive_integer/to_integer"},
-  {entry__builtin_types___negative_integer___std___to_integer, "builtin_types::negative_integer/to_integer"},
-  {entry__std_types___real___std___to_integer, "std_types::real/to_integer"},
-  {entry__std_types___real___std___floor, "std_types::real/floor"},
-  {entry__std_types___real___std___ceil, "std_types::real/ceil"},
-  {entry__std_types___real___std___round, "std_types::real/round"},
-  {entry__builtin_types___negative_integer___std___to_string, "builtin_types::negative_integer/to_string"},
-  {entry__builtin_types___positive_integer___std___to_string, "builtin_types::positive_integer/to_string"},
-  {entry__std_types___real___std___to_string, "std_types::real/to_string"},
-  {entry__builtin_types___positive_integer___std___over, "builtin_types::positive_integer/over"},
-  {entry__builtin_types___negative_integer___std___over, "builtin_types::negative_integer/over"},
-  {entry__builtin_types___positive_integer___std___div, "builtin_types::positive_integer/div"},
-  {entry__builtin_types___negative_integer___std___div, "builtin_types::negative_integer/div"},
-  {entry__builtin_types___positive_integer___std___mod, "builtin_types::positive_integer/mod"},
-  {entry__builtin_types___negative_integer___std___mod, "builtin_types::negative_integer/mod"},
-  {entry__builtin_types___positive_integer___std___hash, "builtin_types::positive_integer/hash"},
-  {entry__builtin_types___negative_integer___std___hash, "builtin_types::negative_integer/hash"},
-  {entry__std_types___real___std___hash, "std_types::real/hash"},
-  {entry__builtin_types___positive_integer___std___ln, "builtin_types::positive_integer/ln"},
-  {entry__builtin_types___negative_integer___std___ln, "builtin_types::negative_integer/ln"},
-  {entry__std_types___real___std___ln, "std_types::real/ln"},
-  {entry__builtin_types___positive_integer___std___exp, "builtin_types::positive_integer/exp"},
-  {entry__builtin_types___negative_integer___std___exp, "builtin_types::negative_integer/exp"},
-  {entry__std_types___real___std___exp, "std_types::real/exp"},
-  {entry__std___real, "std::real"},
-  {entry__std___integer, "std::integer"},
-  {entry__std___sqrt, "std::sqrt"},
-  {entry__std___pow, "std::pow"},
-  {entry__builtin_types___positive_integer___std___exit, "builtin_types::positive_integer/exit"},
-  {entry__builtin_types___positive_integer___std___plus, "builtin_types::positive_integer/plus"},
-  {entry__builtin_types___negative_integer___std___plus, "builtin_types::negative_integer/plus"},
-  {entry__std_types___real___std___plus, "std_types::real/plus"},
-  {entry__builtin_types___positive_integer___std___minus, "builtin_types::positive_integer/minus"},
-  {entry__builtin_types___negative_integer___std___minus, "builtin_types::negative_integer/minus"},
-  {entry__std_types___real___std___minus, "std_types::real/minus"},
-  {entry__std_types___real___std___times, "std_types::real/times"},
-  {entry__std_types___real___std___over, "std_types::real/over"},
-  {entry__builtin_types___positive_integer___std___equal, "builtin_types::positive_integer/equal"},
-  {entry__builtin_types___negative_integer___std___equal, "builtin_types::negative_integer/equal"},
-  {entry__std_types___real___std___equal, "std_types::real/equal"},
-  {entry__builtin_types___positive_integer___std___less, "builtin_types::positive_integer/less"},
-  {entry__builtin_types___negative_integer___std___less, "builtin_types::negative_integer/less"},
-  {entry__std_types___real___std___less, "std_types::real/less"},
-  {entry__builtin_types___positive_integer___std___shift_left, "builtin_types::positive_integer/shift_left"},
-  {entry__builtin_types___positive_integer___std___shift_right, "builtin_types::positive_integer/shift_right"},
-  {entry__builtin_types___positive_integer___std___bit_and, "builtin_types::positive_integer/bit_and"},
-  {entry__builtin_types___positive_integer___std___bit_or, "builtin_types::positive_integer/bit_or"},
-  {entry__builtin_types___positive_integer___std___bit_xor, "builtin_types::positive_integer/bit_xor"},
-  {entry__std___sin, "std::sin"},
-  {entry__std___cos, "std::cos"},
-  {entry__std___tan, "std::tan"},
-  {entry__std___asin, "std::asin"},
-  {entry__std___acos, "std::acos"},
-  {entry__std___atan, "std::atan"},
-  {std_types___object____type, "std_types::object/_type"},
-  {entry__debug___object_type, "debug::object_type"},
-  {entry__debug___object_attributes, "debug::object_attributes"},
-  {entry__std_types___object___std___new, "std_types::object/new"},
-  {std_types___polymorphic_function____type, "std_types::polymorphic_function/_type"},
-  {std_types___polymorphic_function_with_setter____type, "std_types::polymorphic_function_with_setter/_type"},
-  {std_types___file_type____type, "std_types::file_type/_type"},
-  {entry__std_types___file_type___std___equal, "std_types::file_type/equal"},
-  {entry__std_types___file_type___std___hash, "std_types::file_type/hash"},
-  {entry__std___file_type, "std::file_type"},
-  {entry__std_types___file_type___std___to_integer, "std_types::file_type/to_integer"},
-  {std_types___file_descriptor____type, "std_types::file_descriptor/_type"},
-  {entry__std_types___file_descriptor___std___equal, "std_types::file_descriptor/equal"},
-  {entry__std_types___file_descriptor___std___hash, "std_types::file_descriptor/hash"},
-  {entry__std___file_descriptor, "std::file_descriptor"},
-  {entry__std_types___file_descriptor___std___to_integer, "std_types::file_descriptor/to_integer"},
-  {std_types___signal_number____type, "std_types::signal_number/_type"},
-  {entry__std_types___signal_number___std___equal, "std_types::signal_number/equal"},
-  {entry__std_types___signal_number___std___hash, "std_types::signal_number/hash"},
-  {entry__std___signal_number, "std::signal_number"},
-  {entry__std_types___signal_number___std___to_integer, "std_types::signal_number/to_integer"},
-  {std_types___shutdown_type____type, "std_types::shutdown_type/_type"},
-  {entry__std_types___shutdown_type___std___equal, "std_types::shutdown_type/equal"},
-  {entry__std_types___shutdown_type___std___hash, "std_types::shutdown_type/hash"},
-  {entry__std___shutdown_type, "std::shutdown_type"},
-  {entry__std_types___shutdown_type___std___to_integer, "std_types::shutdown_type/to_integer"},
-  {std_types___seek_type____type, "std_types::seek_type/_type"},
-  {entry__std_types___seek_type___std___equal, "std_types::seek_type/equal"},
-  {entry__std_types___seek_type___std___hash, "std_types::seek_type/hash"},
-  {entry__std___seek_type, "std::seek_type"},
-  {entry__std_types___seek_type___std___to_integer, "std_types::seek_type/to_integer"},
-  {std_types___device_id____type, "std_types::device_id/_type"},
-  {entry__std_types___device_id___std___equal, "std_types::device_id/equal"},
-  {entry__std_types___device_id___std___hash, "std_types::device_id/hash"},
-  {entry__std___device_id, "std::device_id"},
-  {entry__std_types___device_id___std___to_integer, "std_types::device_id/to_integer"},
-  {std_types___directory____type, "std_types::directory/_type"},
-  {entry__std_types___directory___std___equal, "std_types::directory/equal"},
-  {entry__std_types___directory___std___hash, "std_types::directory/hash"},
-  {std_types___group_id____type, "std_types::group_id/_type"},
-  {entry__std_types___group_id___std___equal, "std_types::group_id/equal"},
-  {entry__std_types___group_id___std___hash, "std_types::group_id/hash"},
-  {entry__std___group_id, "std::group_id"},
-  {entry__std_types___group_id___std___to_integer, "std_types::group_id/to_integer"},
-  {std_types___inode_number____type, "std_types::inode_number/_type"},
-  {entry__std_types___inode_number___std___equal, "std_types::inode_number/equal"},
-  {entry__std_types___inode_number___std___hash, "std_types::inode_number/hash"},
-  {entry__std___inode_number, "std::inode_number"},
-  {entry__std_types___inode_number___std___to_integer, "std_types::inode_number/to_integer"},
-  {std_types___process_id____type, "std_types::process_id/_type"},
-  {entry__std_types___process_id___std___equal, "std_types::process_id/equal"},
-  {entry__std_types___process_id___std___hash, "std_types::process_id/hash"},
-  {entry__std___process_id, "std::process_id"},
-  {entry__std_types___process_id___std___to_integer, "std_types::process_id/to_integer"},
-  {std_types___user_id____type, "std_types::user_id/_type"},
-  {entry__std_types___user_id___std___equal, "std_types::user_id/equal"},
-  {entry__std_types___user_id___std___hash, "std_types::user_id/hash"},
-  {entry__std___user_id, "std::user_id"},
-  {entry__std_types___user_id___std___to_integer, "std_types::user_id/to_integer"},
-  {std_types___error_number____type, "std_types::error_number/_type"},
-  {entry__std_types___error_number___std___equal, "std_types::error_number/equal"},
-  {entry__std_types___error_number___std___hash, "std_types::error_number/hash"},
-  {entry__std___error_number, "std::error_number"},
-  {entry__std_types___error_number___std___to_integer, "std_types::error_number/to_integer"},
-  {std_types___passwd____type, "std_types::passwd/_type"},
-  {std_types___stat____type, "std_types::stat/_type"},
-  {std_types___dirent____type, "std_types::dirent/_type"},
-  {entry__std___access, "std::access"},
-  {entry__std___chdir, "std::chdir"},
-  {entry__std___chmod, "std::chmod"},
-  {entry__std___chown, "std::chown"},
-  {entry__std___chroot, "std::chroot"},
-  {entry__std_types___file_descriptor___std___close, "std_types::file_descriptor/close"},
-  {entry__std___closedir, "std::closedir"},
-  {entry__std___dup2, "std::dup2"},
-  {entry__std___fstat, "std::fstat"},
-  {entry__std___fsync, "std::fsync"},
-  {entry__std___getcwd, "std::getcwd"},
-  {entry__std___getenv, "std::getenv"},
-  {entry__std___getegid, "std::getegid"},
-  {entry__std___geteuid, "std::geteuid"},
-  {entry__std___getgid, "std::getgid"},
-  {entry__std___gethostname, "std::gethostname"},
-  {entry__std___getlogin, "std::getlogin"},
-  {entry__std___getpid, "std::getpid"},
-  {entry__std___getppid, "std::getppid"},
-  {entry__std___getpwuid, "std::getpwuid"},
-  {entry__std___getsid, "std::getsid"},
-  {entry__std___getuid, "std::getuid"},
-  {entry__std___isatty, "std::isatty"},
-  {entry__std___kill, "std::kill"},
-  {entry__std___link, "std::link"},
-  {entry__std___lseek, "std::lseek"},
-  {entry__std___mkdir, "std::mkdir"},
-  {entry__std___mkfifo, "std::mkfifo"},
-  {entry__std___open, "std::open"},
-  {entry__std___opendir, "std::opendir"},
-  {entry__std_types___file_descriptor___std___read, "std_types::file_descriptor/read"},
-  {entry__std___readdir, "std::readdir"},
-  {entry__std___realpath, "std::realpath"},
-  {entry__std___rename, "std::rename"},
-  {entry__std___sethostname, "std::sethostname"},
-  {entry__std___shutdown, "std::shutdown"},
-  {entry__std___stat, "std::stat"},
-  {entry__std___strerror, "std::strerror"},
-  {entry__std___wait, "std::wait"},
-  {entry__std_types___file_descriptor___std___write, "std_types::file_descriptor/write"},
-  {entry__std___umask, "std::umask"},
-  {entry__std___unlink, "std::unlink"},
-  {entry__std___shm_unlink, "std::shm_unlink"},
-  {entry__std___usleep, "std::usleep"},
-  {std_types___string____type, "std_types::string/_type"},
-  {std_types___octet_string____type, "std_types::octet_string/_type"},
-  {std_types___wide_string____type, "std_types::wide_string/_type"},
-  {entry__std_types___octet_string___std___length_of, "std_types::octet_string/length_of"},
-  {entry__std_types___wide_string___std___length_of, "std_types::wide_string/length_of"},
-  {entry__std_types___octet_string___std___is_empty, "std_types::octet_string/is_empty"},
-  {entry__std_types___octet_string___std___is_not_empty, "std_types::octet_string/is_not_empty"},
-  {entry__std_types___wide_string___std___is_empty, "std_types::wide_string/is_empty"},
-  {entry__std_types___wide_string___std___is_not_empty, "std_types::wide_string/is_not_empty"},
-  {entry__std_types___octet_string___std___push, "std_types::octet_string/push"},
-  {entry__std_types___wide_string___std___push, "std_types::wide_string/push"},
-  {entry__std_types___octet_string___std___append, "std_types::octet_string/append"},
-  {entry__std_types___wide_string___std___append, "std_types::wide_string/append"},
-  {entry__std_types___octet_string___std___range, "std_types::octet_string/range"},
-  {entry__std_types___wide_string___std___range, "std_types::wide_string/range"},
-  {entry__std_types___octet_string___std___hash, "std_types::octet_string/hash"},
-  {entry__std_types___wide_string___std___hash, "std_types::wide_string/hash"},
-  {entry__std_types___octet_string___std___equal, "std_types::octet_string/equal"},
-  {entry__std_types___wide_string___std___equal, "std_types::wide_string/equal"},
-  {entry__std_types___octet_string___std___less, "std_types::octet_string/less"},
-  {entry__std_types___wide_string___std___less, "std_types::wide_string/less"},
-  {entry__std_types___octet_string___std___width_of, "std_types::octet_string/width_of"},
-  {entry__std_types___wide_string___std___width_of, "std_types::wide_string/width_of"},
-  {entry__std_types___octet_string___std___from_utf8, "std_types::octet_string/from_utf8"},
-  {entry__std_types___octet_string___std___to_utf8, "std_types::octet_string/to_utf8"},
-  {entry__std_types___wide_string___std___to_utf8, "std_types::wide_string/to_utf8"},
-  {std_types___terminal_attributes____type, "std_types::terminal_attributes/_type"},
-  {entry__std_types___file_descriptor___std___get_terminal_attributes, "std_types::file_descriptor/get_terminal_attributes"},
-  {entry__std_types___file_descriptor___std___set_terminal_attributes, "std_types::file_descriptor/set_terminal_attributes"},
-  {entry__std_types___terminal_attributes___std___backspace_character_of, "std_types::terminal_attributes/backspace_character_of"},
-  {entry__std_types___terminal_attributes___std___use_canonical_mode, "std_types::terminal_attributes/use_canonical_mode"},
-  {entry__std_types___terminal_attributes___std___echo_characters, "std_types::terminal_attributes/echo_characters"},
-  {entry__std_types___terminal_attributes___std___echo_new_lines, "std_types::terminal_attributes/echo_new_lines"},
-  {entry__std_types___terminal_attributes___std___enable_xon_xoff_for_input, "std_types::terminal_attributes/enable_xon_xoff_for_input"},
-  {entry__std_types___terminal_attributes___std___enable_xon_xoff_for_output, "std_types::terminal_attributes/enable_xon_xoff_for_output"},
-  {entry__std_types___terminal_attributes___std___restart_output_on_any_character, "std_types::terminal_attributes/restart_output_on_any_character"},
-  {entry__std_types___terminal_attributes___std___ignore_cr_on_input, "std_types::terminal_attributes/ignore_cr_on_input"},
-  {entry__std_types___terminal_attributes___std___generate_signals, "std_types::terminal_attributes/generate_signals"},
-  {entry__std_types___terminal_attributes___std___map_cr_to_lf_on_input, "std_types::terminal_attributes/map_cr_to_lf_on_input"},
-  {entry__std_types___terminal_attributes___std___hangup_on_close, "std_types::terminal_attributes/hangup_on_close"},
-  {entry__std_types___terminal_attributes___std___map_lf_to_crlf_on_output, "std_types::terminal_attributes/map_lf_to_crlf_on_output"},
-  {entry__std_types___terminal_attributes___std___minimum_characters_for_canoncial_read, "std_types::terminal_attributes/minimum_characters_for_canoncial_read"},
-  {entry__std_types___terminal_attributes___std___timeout_for_reads, "std_types::terminal_attributes/timeout_for_reads"},
-  {entry__std_types___terminal_attributes___std___input_speed, "std_types::terminal_attributes/input_speed"},
-  {entry__std_types___terminal_attributes___std___output_speed, "std_types::terminal_attributes/output_speed"},
-  {std_types___tuple____type, "std_types::tuple/_type"},
-  {entry__std_types___tuple___std___typed_tuple, "std_types::tuple/typed_tuple"},
-  {builtin_types___tuple2____type, "builtin_types::tuple2/_type"},
-  {entry__builtin_types___tuple2___std___to_list, "builtin_types::tuple2/to_list"},
-  {entry__builtin_types___tuple2___std___typed_tuple, "builtin_types::tuple2/typed_tuple"},
-  {builtin_types___tuple3____type, "builtin_types::tuple3/_type"},
-  {entry__builtin_types___tuple3___std___to_list, "builtin_types::tuple3/to_list"},
-  {entry__builtin_types___tuple3___std___typed_tuple, "builtin_types::tuple3/typed_tuple"},
-  {builtin_types___tuple4____type, "builtin_types::tuple4/_type"},
-  {entry__builtin_types___tuple4___std___to_list, "builtin_types::tuple4/to_list"},
-  {entry__builtin_types___tuple4___std___typed_tuple, "builtin_types::tuple4/typed_tuple"},
-  {builtin_types___tuple5____type, "builtin_types::tuple5/_type"},
-  {entry__builtin_types___tuple5___std___to_list, "builtin_types::tuple5/to_list"},
-  {entry__builtin_types___tuple5___std___typed_tuple, "builtin_types::tuple5/typed_tuple"},
-  {builtin_types___tuple6____type, "builtin_types::tuple6/_type"},
-  {entry__builtin_types___tuple6___std___to_list, "builtin_types::tuple6/to_list"},
-  {entry__builtin_types___tuple6___std___typed_tuple, "builtin_types::tuple6/typed_tuple"},
-  {builtin_types___tuple7____type, "builtin_types::tuple7/_type"},
-  {entry__builtin_types___tuple7___std___to_list, "builtin_types::tuple7/to_list"},
-  {entry__builtin_types___tuple7___std___typed_tuple, "builtin_types::tuple7/typed_tuple"},
-  {builtin_types___tuple8____type, "builtin_types::tuple8/_type"},
-  {entry__builtin_types___tuple8___std___to_list, "builtin_types::tuple8/to_list"},
-  {entry__builtin_types___tuple8___std___typed_tuple, "builtin_types::tuple8/typed_tuple"},
-  {entry__std___tuple, "std::tuple"},
-  {entry__std___tuple_or_error, "std::tuple_or_error"},
-  {entry__std___new_tuple, "std::new_tuple"},
-  {std_types___undefined____type, "std_types::undefined/_type"},
-  {entry__std_types___character___std___to_upper_case, "std_types::character/to_upper_case"},
-  {entry__std___is_an_upper_case_letter_character, "std::is_an_upper_case_letter_character"},
-  {entry__std_types___character___std___to_lower_case, "std_types::character/to_lower_case"},
-  {entry__std___is_a_lower_case_letter_character, "std::is_a_lower_case_letter_character"},
-  {entry__std_types___character___std___to_title_case, "std_types::character/to_title_case"},
-  {entry__std___is_a_title_case_letter_character, "std::is_a_title_case_letter_character"},
-  {entry__std___is_a_letter_character, "std::is_a_letter_character"},
-  {entry__std___is_a_whitespace_character, "std::is_a_whitespace_character"},
-  {entry__std___is_a_zero_width_character, "std::is_a_zero_width_character"},
-  {entry__std___is_a_wide_character, "std::is_a_wide_character"},
-  {std_types___unique_item____type, "std_types::unique_item/_type"},
-  {entry__std_types___unique_item___std___to_string, "std_types::unique_item/to_string"},
-  {entry__std_types___unique_item___std___equal, "std_types::unique_item/equal"},
-  {entry__std_types___unique_item___std___hash, "std_types::unique_item/hash"},
-  {entry__std___unique_item, "std::unique_item"},
-  {entry__std_types___file_descriptor___std___get_terminal_size, "std_types::file_descriptor/get_terminal_size"},
-  {entry__std___exitstatus, "std::exitstatus"},
-  {entry__std___pselect, "std::pselect"},
-  {entry__std___do_not_close, "std::do_not_close"},
-  {entry__std___waitpid, "std::waitpid"},
-  {entry__std___open_unix_socket, "std::open_unix_socket"},
-  {entry__std___send_file_descriptor, "std::send_file_descriptor"},
-  {entry__std___open_tcp_client_socket, "std::open_tcp_client_socket"},
-  {entry__std___open_tcp_server_socket, "std::open_tcp_server_socket"},
-  {entry__std___accept, "std::accept"},
-  {entry__std___is_listening, "std::is_listening"},
-  {entry__std___get_first_mac_address, "std::get_first_mac_address"},
-  {std_types___shared_memory____type, "std_types::shared_memory/_type"},
-  {entry__std_types___shared_memory___std___size_of, "std_types::shared_memory/size_of"},
-  {entry__std_types___shared_memory___std___file_descriptor_of, "std_types::shared_memory/file_descriptor_of"},
-  {entry__std_types___shared_memory___std___write_at, "std_types::shared_memory/write_at"},
-  {entry__std___create_shared_memory, "std::create_shared_memory"}
+  {std_types__generic_array___type, "std_types::generic_array/_type"},
+  {std_types__array___type, "std_types::array/_type"},
+  {entry__std_types__array__std__length_of, "std_types::array/length_of"},
+  {entry__std_types__array__std__dimension_count_of, "std_types::array/dimension_count_of"},
+  {entry__std__array, "std::array"},
+  {entry__std__initialized_array, "std::initialized_array"},
+  {entry__std_types__array__std__create_empty_array, "std_types::array/create_empty_array"},
+  {entry__std_types__array__std__range, "std_types::array/range"},
+  {std_types__boolean_array___type, "std_types::boolean_array/_type"},
+  {entry__std_types__boolean_array__std__length_of, "std_types::boolean_array/length_of"},
+  {entry__std_types__boolean_array__std__dimension_count_of, "std_types::boolean_array/dimension_count_of"},
+  {entry__std_types__boolean_array__std__equal, "std_types::boolean_array/equal"},
+  {entry__std_types__boolean_array__std__bit_and, "std_types::boolean_array/bit_and"},
+  {entry__std_types__boolean_array__std__bit_or, "std_types::boolean_array/bit_or"},
+  {entry__std_types__boolean_array__std__bit_xor, "std_types::boolean_array/bit_xor"},
+  {entry__std__boolean_array, "std::boolean_array"},
+  {entry__std__initialized_boolean_array, "std::initialized_boolean_array"},
+  {entry__std_types__boolean_array__std__create_empty_array, "std_types::boolean_array/create_empty_array"},
+  {entry__std_types__boolean_array__std__range, "std_types::boolean_array/range"},
+  {std_types__character_array___type, "std_types::character_array/_type"},
+  {entry__std_types__character_array__std__length_of, "std_types::character_array/length_of"},
+  {entry__std_types__character_array__std__dimension_count_of, "std_types::character_array/dimension_count_of"},
+  {entry__std_types__character_array__std__equal, "std_types::character_array/equal"},
+  {entry__std__character_array, "std::character_array"},
+  {entry__std__initialized_character_array, "std::initialized_character_array"},
+  {entry__std_types__character_array__std__create_empty_array, "std_types::character_array/create_empty_array"},
+  {entry__std_types__character_array__std__range, "std_types::character_array/range"},
+  {std_types__int8_array___type, "std_types::int8_array/_type"},
+  {entry__std_types__int8_array__std__length_of, "std_types::int8_array/length_of"},
+  {entry__std_types__int8_array__std__dimension_count_of, "std_types::int8_array/dimension_count_of"},
+  {entry__std_types__int8_array__std__equal, "std_types::int8_array/equal"},
+  {entry__std_types__int8_array__std__times, "std_types::int8_array/times"},
+  {entry__std__int8_array, "std::int8_array"},
+  {entry__std__initialized_int8_array, "std::initialized_int8_array"},
+  {entry__std_types__int8_array__std__create_empty_array, "std_types::int8_array/create_empty_array"},
+  {entry__std_types__int8_array__std__range, "std_types::int8_array/range"},
+  {std_types__uint8_array___type, "std_types::uint8_array/_type"},
+  {entry__std_types__uint8_array__std__length_of, "std_types::uint8_array/length_of"},
+  {entry__std_types__uint8_array__std__dimension_count_of, "std_types::uint8_array/dimension_count_of"},
+  {entry__std_types__uint8_array__std__equal, "std_types::uint8_array/equal"},
+  {entry__std_types__uint8_array__std__bit_and, "std_types::uint8_array/bit_and"},
+  {entry__std_types__uint8_array__std__bit_or, "std_types::uint8_array/bit_or"},
+  {entry__std_types__uint8_array__std__bit_xor, "std_types::uint8_array/bit_xor"},
+  {entry__std_types__uint8_array__std__times, "std_types::uint8_array/times"},
+  {entry__std__uint8_array, "std::uint8_array"},
+  {entry__std__initialized_uint8_array, "std::initialized_uint8_array"},
+  {entry__std_types__uint8_array__std__create_empty_array, "std_types::uint8_array/create_empty_array"},
+  {entry__std_types__uint8_array__std__range, "std_types::uint8_array/range"},
+  {std_types__int16_array___type, "std_types::int16_array/_type"},
+  {entry__std_types__int16_array__std__length_of, "std_types::int16_array/length_of"},
+  {entry__std_types__int16_array__std__dimension_count_of, "std_types::int16_array/dimension_count_of"},
+  {entry__std_types__int16_array__std__equal, "std_types::int16_array/equal"},
+  {entry__std_types__int16_array__std__times, "std_types::int16_array/times"},
+  {entry__std__int16_array, "std::int16_array"},
+  {entry__std__initialized_int16_array, "std::initialized_int16_array"},
+  {entry__std_types__int16_array__std__create_empty_array, "std_types::int16_array/create_empty_array"},
+  {entry__std_types__int16_array__std__range, "std_types::int16_array/range"},
+  {std_types__uint16_array___type, "std_types::uint16_array/_type"},
+  {entry__std_types__uint16_array__std__length_of, "std_types::uint16_array/length_of"},
+  {entry__std_types__uint16_array__std__dimension_count_of, "std_types::uint16_array/dimension_count_of"},
+  {entry__std_types__uint16_array__std__equal, "std_types::uint16_array/equal"},
+  {entry__std_types__uint16_array__std__bit_and, "std_types::uint16_array/bit_and"},
+  {entry__std_types__uint16_array__std__bit_or, "std_types::uint16_array/bit_or"},
+  {entry__std_types__uint16_array__std__bit_xor, "std_types::uint16_array/bit_xor"},
+  {entry__std_types__uint16_array__std__times, "std_types::uint16_array/times"},
+  {entry__std__uint16_array, "std::uint16_array"},
+  {entry__std__initialized_uint16_array, "std::initialized_uint16_array"},
+  {entry__std_types__uint16_array__std__create_empty_array, "std_types::uint16_array/create_empty_array"},
+  {entry__std_types__uint16_array__std__range, "std_types::uint16_array/range"},
+  {std_types__int32_array___type, "std_types::int32_array/_type"},
+  {entry__std_types__int32_array__std__length_of, "std_types::int32_array/length_of"},
+  {entry__std_types__int32_array__std__dimension_count_of, "std_types::int32_array/dimension_count_of"},
+  {entry__std_types__int32_array__std__equal, "std_types::int32_array/equal"},
+  {entry__std_types__int32_array__std__times, "std_types::int32_array/times"},
+  {entry__std__int32_array, "std::int32_array"},
+  {entry__std__initialized_int32_array, "std::initialized_int32_array"},
+  {entry__std_types__int32_array__std__create_empty_array, "std_types::int32_array/create_empty_array"},
+  {entry__std_types__int32_array__std__range, "std_types::int32_array/range"},
+  {std_types__uint32_array___type, "std_types::uint32_array/_type"},
+  {entry__std_types__uint32_array__std__length_of, "std_types::uint32_array/length_of"},
+  {entry__std_types__uint32_array__std__dimension_count_of, "std_types::uint32_array/dimension_count_of"},
+  {entry__std_types__uint32_array__std__equal, "std_types::uint32_array/equal"},
+  {entry__std_types__uint32_array__std__bit_and, "std_types::uint32_array/bit_and"},
+  {entry__std_types__uint32_array__std__bit_or, "std_types::uint32_array/bit_or"},
+  {entry__std_types__uint32_array__std__bit_xor, "std_types::uint32_array/bit_xor"},
+  {entry__std_types__uint32_array__std__times, "std_types::uint32_array/times"},
+  {entry__std__uint32_array, "std::uint32_array"},
+  {entry__std__initialized_uint32_array, "std::initialized_uint32_array"},
+  {entry__std_types__uint32_array__std__create_empty_array, "std_types::uint32_array/create_empty_array"},
+  {entry__std_types__uint32_array__std__range, "std_types::uint32_array/range"},
+  {std_types__int64_array___type, "std_types::int64_array/_type"},
+  {entry__std_types__int64_array__std__length_of, "std_types::int64_array/length_of"},
+  {entry__std_types__int64_array__std__dimension_count_of, "std_types::int64_array/dimension_count_of"},
+  {entry__std_types__int64_array__std__equal, "std_types::int64_array/equal"},
+  {entry__std_types__int64_array__std__times, "std_types::int64_array/times"},
+  {entry__std__int64_array, "std::int64_array"},
+  {entry__std__initialized_int64_array, "std::initialized_int64_array"},
+  {entry__std_types__int64_array__std__create_empty_array, "std_types::int64_array/create_empty_array"},
+  {entry__std_types__int64_array__std__range, "std_types::int64_array/range"},
+  {std_types__uint64_array___type, "std_types::uint64_array/_type"},
+  {entry__std_types__uint64_array__std__length_of, "std_types::uint64_array/length_of"},
+  {entry__std_types__uint64_array__std__dimension_count_of, "std_types::uint64_array/dimension_count_of"},
+  {entry__std_types__uint64_array__std__equal, "std_types::uint64_array/equal"},
+  {entry__std_types__uint64_array__std__bit_and, "std_types::uint64_array/bit_and"},
+  {entry__std_types__uint64_array__std__bit_or, "std_types::uint64_array/bit_or"},
+  {entry__std_types__uint64_array__std__bit_xor, "std_types::uint64_array/bit_xor"},
+  {entry__std_types__uint64_array__std__times, "std_types::uint64_array/times"},
+  {entry__std__uint64_array, "std::uint64_array"},
+  {entry__std__initialized_uint64_array, "std::initialized_uint64_array"},
+  {entry__std_types__uint64_array__std__create_empty_array, "std_types::uint64_array/create_empty_array"},
+  {entry__std_types__uint64_array__std__range, "std_types::uint64_array/range"},
+  {std_types__float32_array___type, "std_types::float32_array/_type"},
+  {entry__std_types__float32_array__std__length_of, "std_types::float32_array/length_of"},
+  {entry__std_types__float32_array__std__dimension_count_of, "std_types::float32_array/dimension_count_of"},
+  {entry__std_types__float32_array__std__equal, "std_types::float32_array/equal"},
+  {entry__std_types__float32_array__std__times, "std_types::float32_array/times"},
+  {entry__std__float32_array, "std::float32_array"},
+  {entry__std__initialized_float32_array, "std::initialized_float32_array"},
+  {entry__std_types__float32_array__std__create_empty_array, "std_types::float32_array/create_empty_array"},
+  {entry__std_types__float32_array__std__range, "std_types::float32_array/range"},
+  {std_types__float64_array___type, "std_types::float64_array/_type"},
+  {entry__std_types__float64_array__std__length_of, "std_types::float64_array/length_of"},
+  {entry__std_types__float64_array__std__dimension_count_of, "std_types::float64_array/dimension_count_of"},
+  {entry__std_types__float64_array__std__equal, "std_types::float64_array/equal"},
+  {entry__std_types__float64_array__std__times, "std_types::float64_array/times"},
+  {entry__std__float64_array, "std::float64_array"},
+  {entry__std__initialized_float64_array, "std::initialized_float64_array"},
+  {entry__std_types__float64_array__std__create_empty_array, "std_types::float64_array/create_empty_array"},
+  {entry__std_types__float64_array__std__range, "std_types::float64_array/range"},
+  {entry__std__pass, "std::pass"},
+  {entry__std__result_count, "std::result_count"},
+  {std_types__true___type, "std_types::true/_type"},
+  {entry__std_types__true__std__equal, "std_types::true/equal"},
+  {std_types__false___type, "std_types::false/_type"},
+  {entry__std_types__false__std__equal, "std_types::false/equal"},
+  {c_function___type, "c_function/_type"},
+  {entry__c_function__std__parameter_count_of, "c_function/parameter_count_of"},
+  {std_types__character___type, "std_types::character/_type"},
+  {entry__std__character, "std::character"},
+  {entry__std_types__character__std__plus, "std_types::character/plus"},
+  {entry__std_types__character__std__minus, "std_types::character/minus"},
+  {entry__std_types__character__std__equal, "std_types::character/equal"},
+  {entry__std_types__character__std__less, "std_types::character/less"},
+  {entry__std_types__character__std__hash, "std_types::character/hash"},
+  {entry__std_types__character__std__to_string, "std_types::character/to_string"},
+  {entry__std_types__character__std__to_integer, "std_types::character/to_integer"},
+  {entry__std_types__character__std__width_of, "std_types::character/width_of"},
+  {std_types__date_and_time___type, "std_types::date_and_time/_type"},
+  {entry__std__from_unix_time, "std::from_unix_time"},
+  {entry__std__date_and_time, "std::date_and_time"},
+  {entry__std_types__date_and_time__std__year_of, "std_types::date_and_time/year_of"},
+  {entry__std_types__date_and_time__std__month_of, "std_types::date_and_time/month_of"},
+  {entry__std_types__date_and_time__std__day_of, "std_types::date_and_time/day_of"},
+  {entry__std_types__date_and_time__std__day_of_week_of, "std_types::date_and_time/day_of_week_of"},
+  {entry__std_types__date_and_time__std__hour_of, "std_types::date_and_time/hour_of"},
+  {entry__std_types__date_and_time__std__minute_of, "std_types::date_and_time/minute_of"},
+  {entry__std_types__date_and_time__std__second_of, "std_types::date_and_time/second_of"},
+  {entry__std_types__date_and_time__std__time_shift_of, "std_types::date_and_time/time_shift_of"},
+  {entry__std_types__date_and_time__std__seconds_since_epoch, "std_types::date_and_time/seconds_since_epoch"},
+  {entry__std_types__date_and_time__std__plus, "std_types::date_and_time/plus"},
+  {entry__std_types__date_and_time__std__minus, "std_types::date_and_time/minus"},
+  {entry__std_types__date_and_time__std__equal, "std_types::date_and_time/equal"},
+  {entry__std_types__date_and_time__std__less, "std_types::date_and_time/less"},
+  {entry__std__current_time, "std::current_time"},
+  {entry__debug__string, "debug::string"},
+  {entry__debug__write, "debug::write"},
+  {entry__debug__dump_object, "debug::dump_object"},
+  {entry__debug__has_io_access_rights, "debug::has_io_access_rights"},
+  {entry__debug__exit, "debug::exit"},
+  {entry__std__error_check, "std::error_check"},
+  {entry__debug__total_garbage_collections, "debug::total_garbage_collections"},
+  {entry__std__installation_prefix, "std::installation_prefix"},
+  {entry__std__package_version, "std::package_version"},
+  {std_types__error___type, "std_types::error/_type"},
+  {entry__std_types__error__std__error_category_of, "std_types::error/error_category_of"},
+  {entry__std_types__error__std__error_message_text_of, "std_types::error/error_message_text_of"},
+  {entry__std_types__error__std__error_details_of, "std_types::error/error_details_of"},
+  {entry__std_types__error__std__errno_of, "std_types::error/errno_of"},
+  {entry__std_types__error__std__failed_attribute_of, "std_types::error/failed_attribute_of"},
+  {entry__std__error, "std::error"},
+  {entry__std__exec, "std::exec"},
+  {entry__std__create_process, "std::create_process"},
+  {std_types__function___type, "std_types::function/_type"},
+  {tabular_function___type, "tabular_function/_type"},
+  {entry__std_types__function__std__parameter_count_of, "std_types::function/parameter_count_of"},
+  {entry__std_types__function__std__new, "std_types::function/new"},
+  {std_types__generic_list___type, "std_types::generic_list/_type"},
+  {std_types__list___type, "std_types::list/_type"},
+  {entry__std__list, "std::list"},
+  {entry__std_types__list__std__length_of, "std_types::list/length_of"},
+  {entry__std_types__list__std__is_empty, "std_types::list/is_empty"},
+  {entry__std_types__list__std__is_not_empty, "std_types::list/is_not_empty"},
+  {entry__std_types__list__std__push, "std_types::list/push"},
+  {entry__std_types__list__std__drop, "std_types::list/drop"},
+  {entry__std_types__list__std__pop, "std_types::list/pop"},
+  {entry__std_types__list__std__peek, "std_types::list/peek"},
+  {entry__std_types__list__std__append, "std_types::list/append"},
+  {entry__std_types__list__std__range, "std_types::list/range"},
+  {entry__std_types__list__std__spread, "std_types::list/spread"},
+  {std_types__number___type, "std_types::number/_type"},
+  {std_types__integer___type, "std_types::integer/_type"},
+  {builtin_types__positive_integer___type, "builtin_types::positive_integer/_type"},
+  {builtin_types__negative_integer___type, "builtin_types::negative_integer/_type"},
+  {std_types__real___type, "std_types::real/_type"},
+  {entry__builtin_types__positive_integer__std__negate, "builtin_types::positive_integer/negate"},
+  {entry__builtin_types__negative_integer__std__negate, "builtin_types::negative_integer/negate"},
+  {entry__std_types__real__std__negate, "std_types::real/negate"},
+  {entry__builtin_types__positive_integer__std__times, "builtin_types::positive_integer/times"},
+  {entry__builtin_types__negative_integer__std__times, "builtin_types::negative_integer/times"},
+  {entry__builtin_types__positive_integer__std__to_integer, "builtin_types::positive_integer/to_integer"},
+  {entry__builtin_types__negative_integer__std__to_integer, "builtin_types::negative_integer/to_integer"},
+  {entry__std_types__real__std__to_integer, "std_types::real/to_integer"},
+  {entry__std_types__real__std__floor, "std_types::real/floor"},
+  {entry__std_types__real__std__ceil, "std_types::real/ceil"},
+  {entry__std_types__real__std__round, "std_types::real/round"},
+  {entry__builtin_types__negative_integer__std__to_string, "builtin_types::negative_integer/to_string"},
+  {entry__builtin_types__positive_integer__std__to_string, "builtin_types::positive_integer/to_string"},
+  {entry__std_types__real__std__to_string, "std_types::real/to_string"},
+  {entry__builtin_types__positive_integer__std__over, "builtin_types::positive_integer/over"},
+  {entry__builtin_types__negative_integer__std__over, "builtin_types::negative_integer/over"},
+  {entry__builtin_types__positive_integer__std__div, "builtin_types::positive_integer/div"},
+  {entry__builtin_types__negative_integer__std__div, "builtin_types::negative_integer/div"},
+  {entry__builtin_types__positive_integer__std__mod, "builtin_types::positive_integer/mod"},
+  {entry__builtin_types__negative_integer__std__mod, "builtin_types::negative_integer/mod"},
+  {entry__builtin_types__positive_integer__std__hash, "builtin_types::positive_integer/hash"},
+  {entry__builtin_types__negative_integer__std__hash, "builtin_types::negative_integer/hash"},
+  {entry__std_types__real__std__hash, "std_types::real/hash"},
+  {entry__builtin_types__positive_integer__std__ln, "builtin_types::positive_integer/ln"},
+  {entry__builtin_types__negative_integer__std__ln, "builtin_types::negative_integer/ln"},
+  {entry__std_types__real__std__ln, "std_types::real/ln"},
+  {entry__builtin_types__positive_integer__std__exp, "builtin_types::positive_integer/exp"},
+  {entry__builtin_types__negative_integer__std__exp, "builtin_types::negative_integer/exp"},
+  {entry__std_types__real__std__exp, "std_types::real/exp"},
+  {entry__std__real, "std::real"},
+  {entry__std__integer, "std::integer"},
+  {entry__std__sqrt, "std::sqrt"},
+  {entry__std__pow, "std::pow"},
+  {entry__builtin_types__positive_integer__std__exit, "builtin_types::positive_integer/exit"},
+  {entry__builtin_types__positive_integer__std__plus, "builtin_types::positive_integer/plus"},
+  {entry__builtin_types__negative_integer__std__plus, "builtin_types::negative_integer/plus"},
+  {entry__std_types__real__std__plus, "std_types::real/plus"},
+  {entry__builtin_types__positive_integer__std__minus, "builtin_types::positive_integer/minus"},
+  {entry__builtin_types__negative_integer__std__minus, "builtin_types::negative_integer/minus"},
+  {entry__std_types__real__std__minus, "std_types::real/minus"},
+  {entry__std_types__real__std__times, "std_types::real/times"},
+  {entry__std_types__real__std__over, "std_types::real/over"},
+  {entry__builtin_types__positive_integer__std__equal, "builtin_types::positive_integer/equal"},
+  {entry__builtin_types__negative_integer__std__equal, "builtin_types::negative_integer/equal"},
+  {entry__std_types__real__std__equal, "std_types::real/equal"},
+  {entry__builtin_types__positive_integer__std__less, "builtin_types::positive_integer/less"},
+  {entry__builtin_types__negative_integer__std__less, "builtin_types::negative_integer/less"},
+  {entry__std_types__real__std__less, "std_types::real/less"},
+  {entry__builtin_types__positive_integer__std__shift_left, "builtin_types::positive_integer/shift_left"},
+  {entry__builtin_types__positive_integer__std__shift_right, "builtin_types::positive_integer/shift_right"},
+  {entry__builtin_types__positive_integer__std__bit_and, "builtin_types::positive_integer/bit_and"},
+  {entry__builtin_types__positive_integer__std__bit_or, "builtin_types::positive_integer/bit_or"},
+  {entry__builtin_types__positive_integer__std__bit_xor, "builtin_types::positive_integer/bit_xor"},
+  {entry__std__sin, "std::sin"},
+  {entry__std__cos, "std::cos"},
+  {entry__std__tan, "std::tan"},
+  {entry__std__asin, "std::asin"},
+  {entry__std__acos, "std::acos"},
+  {entry__std__atan, "std::atan"},
+  {std_types__object___type, "std_types::object/_type"},
+  {entry__debug__object_type, "debug::object_type"},
+  {entry__debug__object_attributes, "debug::object_attributes"},
+  {entry__std_types__object__std__new, "std_types::object/new"},
+  {std_types__polymorphic_function___type, "std_types::polymorphic_function/_type"},
+  {std_types__polymorphic_function_with_setter___type, "std_types::polymorphic_function_with_setter/_type"},
+  {std_types__file_type___type, "std_types::file_type/_type"},
+  {entry__std_types__file_type__std__equal, "std_types::file_type/equal"},
+  {entry__std_types__file_type__std__hash, "std_types::file_type/hash"},
+  {entry__std__file_type, "std::file_type"},
+  {entry__std_types__file_type__std__to_integer, "std_types::file_type/to_integer"},
+  {std_types__file_descriptor___type, "std_types::file_descriptor/_type"},
+  {entry__std_types__file_descriptor__std__equal, "std_types::file_descriptor/equal"},
+  {entry__std_types__file_descriptor__std__hash, "std_types::file_descriptor/hash"},
+  {entry__std__file_descriptor, "std::file_descriptor"},
+  {entry__std_types__file_descriptor__std__to_integer, "std_types::file_descriptor/to_integer"},
+  {std_types__signal_number___type, "std_types::signal_number/_type"},
+  {entry__std_types__signal_number__std__equal, "std_types::signal_number/equal"},
+  {entry__std_types__signal_number__std__hash, "std_types::signal_number/hash"},
+  {entry__std__signal_number, "std::signal_number"},
+  {entry__std_types__signal_number__std__to_integer, "std_types::signal_number/to_integer"},
+  {std_types__shutdown_type___type, "std_types::shutdown_type/_type"},
+  {entry__std_types__shutdown_type__std__equal, "std_types::shutdown_type/equal"},
+  {entry__std_types__shutdown_type__std__hash, "std_types::shutdown_type/hash"},
+  {entry__std__shutdown_type, "std::shutdown_type"},
+  {entry__std_types__shutdown_type__std__to_integer, "std_types::shutdown_type/to_integer"},
+  {std_types__seek_type___type, "std_types::seek_type/_type"},
+  {entry__std_types__seek_type__std__equal, "std_types::seek_type/equal"},
+  {entry__std_types__seek_type__std__hash, "std_types::seek_type/hash"},
+  {entry__std__seek_type, "std::seek_type"},
+  {entry__std_types__seek_type__std__to_integer, "std_types::seek_type/to_integer"},
+  {std_types__device_id___type, "std_types::device_id/_type"},
+  {entry__std_types__device_id__std__equal, "std_types::device_id/equal"},
+  {entry__std_types__device_id__std__hash, "std_types::device_id/hash"},
+  {entry__std__device_id, "std::device_id"},
+  {entry__std_types__device_id__std__to_integer, "std_types::device_id/to_integer"},
+  {std_types__directory___type, "std_types::directory/_type"},
+  {entry__std_types__directory__std__equal, "std_types::directory/equal"},
+  {entry__std_types__directory__std__hash, "std_types::directory/hash"},
+  {std_types__group_id___type, "std_types::group_id/_type"},
+  {entry__std_types__group_id__std__equal, "std_types::group_id/equal"},
+  {entry__std_types__group_id__std__hash, "std_types::group_id/hash"},
+  {entry__std__group_id, "std::group_id"},
+  {entry__std_types__group_id__std__to_integer, "std_types::group_id/to_integer"},
+  {std_types__inode_number___type, "std_types::inode_number/_type"},
+  {entry__std_types__inode_number__std__equal, "std_types::inode_number/equal"},
+  {entry__std_types__inode_number__std__hash, "std_types::inode_number/hash"},
+  {entry__std__inode_number, "std::inode_number"},
+  {entry__std_types__inode_number__std__to_integer, "std_types::inode_number/to_integer"},
+  {std_types__process_id___type, "std_types::process_id/_type"},
+  {entry__std_types__process_id__std__equal, "std_types::process_id/equal"},
+  {entry__std_types__process_id__std__hash, "std_types::process_id/hash"},
+  {entry__std__process_id, "std::process_id"},
+  {entry__std_types__process_id__std__to_integer, "std_types::process_id/to_integer"},
+  {std_types__user_id___type, "std_types::user_id/_type"},
+  {entry__std_types__user_id__std__equal, "std_types::user_id/equal"},
+  {entry__std_types__user_id__std__hash, "std_types::user_id/hash"},
+  {entry__std__user_id, "std::user_id"},
+  {entry__std_types__user_id__std__to_integer, "std_types::user_id/to_integer"},
+  {std_types__error_number___type, "std_types::error_number/_type"},
+  {entry__std_types__error_number__std__equal, "std_types::error_number/equal"},
+  {entry__std_types__error_number__std__hash, "std_types::error_number/hash"},
+  {entry__std__error_number, "std::error_number"},
+  {entry__std_types__error_number__std__to_integer, "std_types::error_number/to_integer"},
+  {std_types__passwd___type, "std_types::passwd/_type"},
+  {std_types__stat___type, "std_types::stat/_type"},
+  {std_types__dirent___type, "std_types::dirent/_type"},
+  {entry__std__access, "std::access"},
+  {entry__std__chdir, "std::chdir"},
+  {entry__std__chmod, "std::chmod"},
+  {entry__std__chown, "std::chown"},
+  {entry__std__chroot, "std::chroot"},
+  {entry__std_types__file_descriptor__std__close, "std_types::file_descriptor/close"},
+  {entry__std__closedir, "std::closedir"},
+  {entry__std__dup2, "std::dup2"},
+  {entry__std__fstat, "std::fstat"},
+  {entry__std__fsync, "std::fsync"},
+  {entry__std__getcwd, "std::getcwd"},
+  {entry__std__getenv, "std::getenv"},
+  {entry__std__getegid, "std::getegid"},
+  {entry__std__geteuid, "std::geteuid"},
+  {entry__std__getgid, "std::getgid"},
+  {entry__std__gethostname, "std::gethostname"},
+  {entry__std__getlogin, "std::getlogin"},
+  {entry__std__getpid, "std::getpid"},
+  {entry__std__getppid, "std::getppid"},
+  {entry__std__getpwuid, "std::getpwuid"},
+  {entry__std__getsid, "std::getsid"},
+  {entry__std__getuid, "std::getuid"},
+  {entry__std__isatty, "std::isatty"},
+  {entry__std__kill, "std::kill"},
+  {entry__std__link, "std::link"},
+  {entry__std__lseek, "std::lseek"},
+  {entry__std__mkdir, "std::mkdir"},
+  {entry__std__mkfifo, "std::mkfifo"},
+  {entry__std__open, "std::open"},
+  {entry__std__opendir, "std::opendir"},
+  {entry__std_types__file_descriptor__std__read, "std_types::file_descriptor/read"},
+  {entry__std__readdir, "std::readdir"},
+  {entry__std__realpath, "std::realpath"},
+  {entry__std__rename, "std::rename"},
+  {entry__std__sethostname, "std::sethostname"},
+  {entry__std__shutdown, "std::shutdown"},
+  {entry__std__stat, "std::stat"},
+  {entry__std__strerror, "std::strerror"},
+  {entry__std__wait, "std::wait"},
+  {entry__std_types__file_descriptor__std__write, "std_types::file_descriptor/write"},
+  {entry__std__umask, "std::umask"},
+  {entry__std__unlink, "std::unlink"},
+  {entry__std__shm_unlink, "std::shm_unlink"},
+  {entry__std__usleep, "std::usleep"},
+  {std_types__string___type, "std_types::string/_type"},
+  {std_types__octet_string___type, "std_types::octet_string/_type"},
+  {std_types__wide_string___type, "std_types::wide_string/_type"},
+  {entry__std_types__octet_string__std__length_of, "std_types::octet_string/length_of"},
+  {entry__std_types__wide_string__std__length_of, "std_types::wide_string/length_of"},
+  {entry__std_types__octet_string__std__is_empty, "std_types::octet_string/is_empty"},
+  {entry__std_types__octet_string__std__is_not_empty, "std_types::octet_string/is_not_empty"},
+  {entry__std_types__wide_string__std__is_empty, "std_types::wide_string/is_empty"},
+  {entry__std_types__wide_string__std__is_not_empty, "std_types::wide_string/is_not_empty"},
+  {entry__std_types__octet_string__std__push, "std_types::octet_string/push"},
+  {entry__std_types__wide_string__std__push, "std_types::wide_string/push"},
+  {entry__std_types__octet_string__std__append, "std_types::octet_string/append"},
+  {entry__std_types__wide_string__std__append, "std_types::wide_string/append"},
+  {entry__std_types__octet_string__std__range, "std_types::octet_string/range"},
+  {entry__std_types__wide_string__std__range, "std_types::wide_string/range"},
+  {entry__std_types__octet_string__std__hash, "std_types::octet_string/hash"},
+  {entry__std_types__wide_string__std__hash, "std_types::wide_string/hash"},
+  {entry__std_types__octet_string__std__equal, "std_types::octet_string/equal"},
+  {entry__std_types__wide_string__std__equal, "std_types::wide_string/equal"},
+  {entry__std_types__octet_string__std__less, "std_types::octet_string/less"},
+  {entry__std_types__wide_string__std__less, "std_types::wide_string/less"},
+  {entry__std_types__octet_string__std__width_of, "std_types::octet_string/width_of"},
+  {entry__std_types__wide_string__std__width_of, "std_types::wide_string/width_of"},
+  {entry__std_types__octet_string__std__from_utf8, "std_types::octet_string/from_utf8"},
+  {entry__std_types__octet_string__std__to_utf8, "std_types::octet_string/to_utf8"},
+  {entry__std_types__wide_string__std__to_utf8, "std_types::wide_string/to_utf8"},
+  {std_types__terminal_attributes___type, "std_types::terminal_attributes/_type"},
+  {entry__std_types__file_descriptor__std__get_terminal_attributes, "std_types::file_descriptor/get_terminal_attributes"},
+  {entry__std_types__file_descriptor__std__set_terminal_attributes, "std_types::file_descriptor/set_terminal_attributes"},
+  {entry__std_types__terminal_attributes__std__backspace_character_of, "std_types::terminal_attributes/backspace_character_of"},
+  {entry__std_types__terminal_attributes__std__use_canonical_mode, "std_types::terminal_attributes/use_canonical_mode"},
+  {entry__std_types__terminal_attributes__std__echo_characters, "std_types::terminal_attributes/echo_characters"},
+  {entry__std_types__terminal_attributes__std__echo_new_lines, "std_types::terminal_attributes/echo_new_lines"},
+  {entry__std_types__terminal_attributes__std__enable_xon_xoff_for_input, "std_types::terminal_attributes/enable_xon_xoff_for_input"},
+  {entry__std_types__terminal_attributes__std__enable_xon_xoff_for_output, "std_types::terminal_attributes/enable_xon_xoff_for_output"},
+  {entry__std_types__terminal_attributes__std__restart_output_on_any_character, "std_types::terminal_attributes/restart_output_on_any_character"},
+  {entry__std_types__terminal_attributes__std__ignore_cr_on_input, "std_types::terminal_attributes/ignore_cr_on_input"},
+  {entry__std_types__terminal_attributes__std__generate_signals, "std_types::terminal_attributes/generate_signals"},
+  {entry__std_types__terminal_attributes__std__map_cr_to_lf_on_input, "std_types::terminal_attributes/map_cr_to_lf_on_input"},
+  {entry__std_types__terminal_attributes__std__hangup_on_close, "std_types::terminal_attributes/hangup_on_close"},
+  {entry__std_types__terminal_attributes__std__map_lf_to_crlf_on_output, "std_types::terminal_attributes/map_lf_to_crlf_on_output"},
+  {entry__std_types__terminal_attributes__std__minimum_characters_for_canoncial_read, "std_types::terminal_attributes/minimum_characters_for_canoncial_read"},
+  {entry__std_types__terminal_attributes__std__timeout_for_reads, "std_types::terminal_attributes/timeout_for_reads"},
+  {entry__std_types__terminal_attributes__std__input_speed, "std_types::terminal_attributes/input_speed"},
+  {entry__std_types__terminal_attributes__std__output_speed, "std_types::terminal_attributes/output_speed"},
+  {std_types__tuple___type, "std_types::tuple/_type"},
+  {entry__std_types__tuple__std__typed_tuple, "std_types::tuple/typed_tuple"},
+  {builtin_types__tuple2___type, "builtin_types::tuple2/_type"},
+  {entry__builtin_types__tuple2__std__to_list, "builtin_types::tuple2/to_list"},
+  {entry__builtin_types__tuple2__std__typed_tuple, "builtin_types::tuple2/typed_tuple"},
+  {builtin_types__tuple3___type, "builtin_types::tuple3/_type"},
+  {entry__builtin_types__tuple3__std__to_list, "builtin_types::tuple3/to_list"},
+  {entry__builtin_types__tuple3__std__typed_tuple, "builtin_types::tuple3/typed_tuple"},
+  {builtin_types__tuple4___type, "builtin_types::tuple4/_type"},
+  {entry__builtin_types__tuple4__std__to_list, "builtin_types::tuple4/to_list"},
+  {entry__builtin_types__tuple4__std__typed_tuple, "builtin_types::tuple4/typed_tuple"},
+  {builtin_types__tuple5___type, "builtin_types::tuple5/_type"},
+  {entry__builtin_types__tuple5__std__to_list, "builtin_types::tuple5/to_list"},
+  {entry__builtin_types__tuple5__std__typed_tuple, "builtin_types::tuple5/typed_tuple"},
+  {builtin_types__tuple6___type, "builtin_types::tuple6/_type"},
+  {entry__builtin_types__tuple6__std__to_list, "builtin_types::tuple6/to_list"},
+  {entry__builtin_types__tuple6__std__typed_tuple, "builtin_types::tuple6/typed_tuple"},
+  {builtin_types__tuple7___type, "builtin_types::tuple7/_type"},
+  {entry__builtin_types__tuple7__std__to_list, "builtin_types::tuple7/to_list"},
+  {entry__builtin_types__tuple7__std__typed_tuple, "builtin_types::tuple7/typed_tuple"},
+  {builtin_types__tuple8___type, "builtin_types::tuple8/_type"},
+  {entry__builtin_types__tuple8__std__to_list, "builtin_types::tuple8/to_list"},
+  {entry__builtin_types__tuple8__std__typed_tuple, "builtin_types::tuple8/typed_tuple"},
+  {entry__std__tuple, "std::tuple"},
+  {entry__std__tuple_or_error, "std::tuple_or_error"},
+  {entry__std__new_tuple, "std::new_tuple"},
+  {std_types__undefined___type, "std_types::undefined/_type"},
+  {entry__std_types__character__std__to_upper_case, "std_types::character/to_upper_case"},
+  {entry__std__is_an_upper_case_letter_character, "std::is_an_upper_case_letter_character"},
+  {entry__std_types__character__std__to_lower_case, "std_types::character/to_lower_case"},
+  {entry__std__is_a_lower_case_letter_character, "std::is_a_lower_case_letter_character"},
+  {entry__std_types__character__std__to_title_case, "std_types::character/to_title_case"},
+  {entry__std__is_a_title_case_letter_character, "std::is_a_title_case_letter_character"},
+  {entry__std__is_a_letter_character, "std::is_a_letter_character"},
+  {entry__std__is_a_whitespace_character, "std::is_a_whitespace_character"},
+  {entry__std__is_a_zero_width_character, "std::is_a_zero_width_character"},
+  {entry__std__is_a_wide_character, "std::is_a_wide_character"},
+  {std_types__unique_item___type, "std_types::unique_item/_type"},
+  {entry__std_types__unique_item__std__to_string, "std_types::unique_item/to_string"},
+  {entry__std_types__unique_item__std__equal, "std_types::unique_item/equal"},
+  {entry__std_types__unique_item__std__hash, "std_types::unique_item/hash"},
+  {entry__std__unique_item, "std::unique_item"},
+  {entry__std_types__file_descriptor__std__get_terminal_size, "std_types::file_descriptor/get_terminal_size"},
+  {entry__std__exitstatus, "std::exitstatus"},
+  {entry__std__pselect, "std::pselect"},
+  {entry__std__do_not_close, "std::do_not_close"},
+  {entry__std__waitpid, "std::waitpid"},
+  {entry__std__open_unix_socket, "std::open_unix_socket"},
+  {entry__std__send_file_descriptor, "std::send_file_descriptor"},
+  {entry__std__open_tcp_client_socket, "std::open_tcp_client_socket"},
+  {entry__std__open_tcp_server_socket, "std::open_tcp_server_socket"},
+  {entry__std__accept, "std::accept"},
+  {entry__std__is_listening, "std::is_listening"},
+  {entry__std__get_first_mac_address, "std::get_first_mac_address"},
+  {std_types__shared_memory___type, "std_types::shared_memory/_type"},
+  {entry__std_types__shared_memory__std__size_of, "std_types::shared_memory/size_of"},
+  {entry__std_types__shared_memory__std__file_descriptor_of, "std_types::shared_memory/file_descriptor_of"},
+  {entry__std_types__shared_memory__std__write_at, "std_types::shared_memory/write_at"},
+  {entry__std__create_shared_memory, "std::create_shared_memory"}
 };
 
 const char *internal_method_names[] = {

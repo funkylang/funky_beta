@@ -44,20 +44,6 @@ $std::do:
   )
   body!
 
-$std::ignore:
-  #
-    accepts a single argument and returns nothing
-
-    This procedure is used to ignore a result value.
-
-    See also: pass
-
-    Topic: Primitives
-  (
-    _arg # the argument to ignore
-  )
-  pass
-
 $std::assign:
   #
     returns all its arguments unaltered

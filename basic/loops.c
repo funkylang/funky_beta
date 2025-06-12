@@ -53,10 +53,10 @@ enum {
   var_basic_loops__by, // derived
   var_basic_loops__finally, // derived
   var_std__next, // derived
-  var_pass, // extern
   var_std__break, // derived
   var_std__loop, // initialized
   var_165_5_finally, // dynamic
+  var_pass, // extern
   var_next, // extern
   var_break, // extern
   var_tuple, // extern
@@ -763,12 +763,7 @@ static FUNKY_VARIABLE variables_table[] = {
   {
     FOT_DERIVED, 0, 0,
     "next\000std", NULL,
-    {"pass\000"}
-  },
-  {
-    FOT_UNKNOWN, 0, 0,
-    "pass\000", NULL,
-    {.position = POS(73, 12)}
+    {"undefined\000"}
   },
   {
     FOT_DERIVED, 0, 0,
@@ -783,6 +778,11 @@ static FUNKY_VARIABLE variables_table[] = {
   {
     FOT_UNINITIALIZED, 0, 0,
     "165_5_finally\000", NULL
+  },
+  {
+    FOT_UNKNOWN, 0, 0,
+    "pass\000", NULL,
+    {.position = POS(165, 15)}
   },
   {
     FOT_UNKNOWN, 0, 0,

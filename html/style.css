@@ -8,7 +8,7 @@ h1 {
   font-family: Arial, Helvetica;
   font-size: 20pt;
   color: #333;
-  margin-top: 0pt;
+  margin-top: 4pt;
   margin-bottom: 8pt;
 }
 h2 {
@@ -115,6 +115,12 @@ pre {
 }
 td.description {
   padding-left: 10pt;
+}
+tr:nth-child(odd) {
+  background-color: #fff;
+}
+tr:nth-child(even) {
+  background-color: #eee;
 }
 
 @media (prefers-color-scheme: dark) {

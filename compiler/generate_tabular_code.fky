@@ -538,6 +538,7 @@ $funky::generate_tabular_code: (top_level_statements is_a_main_module)
 		-> "var_@(parameter_name),@nl;"
 
     $compile: (self is_last)
+      #debug::dump 2 `self `is_last
       $head head_of(self)
       $arguments arguments_of(self)
       $input_arguments filter(arguments is_an_input)

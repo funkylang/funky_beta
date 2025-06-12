@@ -1,3 +1,4 @@
+<!doctype html>
 <html>
 <head>
 <title>Characters</title>
@@ -9,7 +10,7 @@
 </div>
 <h1>Characters</h1>
 <h2>Description</h2>
-<p>Characters are unicode code points in Funky. But they can hold any positive 32-bit integer value.</p>
+<p>Characters are unicode code points in Funky. But they can hold any positive 32-bit integer value (including zero).</p>
 <p>Characters are the building blocks of strings.</p>
 <h2>See also</h2>
 <table>
@@ -21,8 +22,44 @@
 <h2>Functions</h2>
 <table>
 <tr>
+  <td><a href="../symbols/std__equal.html">std::equal</a></td>
+  <td class="description">compares two objects for equality</td>
+</tr>
+<tr>
   <td><a href="../symbols/std__is_a_character.html">std::is_a_character</a></td>
   <td class="description">tests if an object is a character</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__is_a_letter_character.html">std::is_a_letter_character</a></td>
+  <td class="description">returns <a href="../symbols/std__true.html">std::true</a> for letter characters</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__is_a_lower_case_letter_character.html">std::is_a_lower_case_letter_character</a></td>
+  <td class="description">returns <a href="../symbols/std__true.html">std::true</a> for lower case letter characters</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__is_a_title_case_letter_character.html">std::is_a_title_case_letter_character</a></td>
+  <td class="description">returns <a href="../symbols/std__true.html">std::true</a> for title case letter characters</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__is_a_whitespace_character.html">std::is_a_whitespace_character</a></td>
+  <td class="description">returns <a href="../symbols/std__true.html">std::true</a> for whitespace characters</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__is_a_wide_character.html">std::is_a_wide_character</a></td>
+  <td class="description">returns <a href="../symbols/std__true.html">std::true</a> for wide characters</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__is_a_zero_width_character.html">std::is_a_zero_width_character</a></td>
+  <td class="description">returns <a href="../symbols/std__true.html">std::true</a> for zero width characters</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__is_an_upper_case_letter_character.html">std::is_an_upper_case_letter_character</a></td>
+  <td class="description">returns <a href="../symbols/std__true.html">std::true</a> for upper case letter characters</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__less.html">std::less</a></td>
+  <td class="description">compares two objects in an object specific way</td>
 </tr>
 <tr>
   <td><a href="../symbols/std__to_wide.html">std::to_wide</a></td>

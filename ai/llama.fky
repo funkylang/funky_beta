@@ -24,43 +24,13 @@
 <namespace ai_types>
 
 #
-  Topic: AI
+  Topic: Deprecated AI
 
-  Funky currently supports large language models based on the llama.cpp project.
+  This API is deprecated.
 
-  A "piece" is the string associated with a token.
+  The "funky_server" needed as a backend is no longer maintained.
 
-  Example:
-
-    <require basic/stdlib>
-    <require basic/uuid>
-    <require basic/export/json>
-    <require basic/import/json>
-    <require ai/llama>
-    <require web/server>
-
-    generate_uuid! $uuid undefined
-    ai::load_ai_model! $model modelname # assumes an already running AI-server
-      UUID = uuid
-      ai::CONTEXT_SIZE = 4096
-    print! prompt
-    ai::tokenize! $tokens model prompt
-    repeat 10 # generate 10 tokens
-      :
-	ai::evaluate! $token model tokens
-	$piece ai::detokenize(model token)
-	print! piece
-	push &tokens token
-	next!
-      :
-	ai::deregister! uuid # deregister from the AI-server
-
-    $modelname "sauerkrautlm-una-solar-instruct.Q5_K_M.gguf"
-    $prompt "Once upon a time"
-
-  Output:
-
-    Once upon a time, there was a beautiful princess named Aurora.
+  Use ai/new_llama instead.
 
 # Modes
 
@@ -383,13 +353,13 @@ $ai_types::model/ai::generate:
   $do_log log_level > 0
   update_if use_colours &be_verbose -> true
   on use_colours: print! ansi_text_colour(BLACK)
-  ai::tokenize! $tokens model prompt
-  generate_text! $text $_max_no tokens "" 0 empty_list
+  ai::tokenize! $prompt_tokens model prompt
+  generate_text! $result_text $_max_no2 prompt_tokens "" 0 empty_list
   on use_colours: print! ansi_reset_colour()
   on be_verbose: println!
   if
     result_count() == 1
-    -> text
+    -> result_text
     pass
 
   $generate_text: (tokens text no prefix)
@@ -920,6 +890,7 @@ $sync_deregister: (address port_no uuid)
   open_tcp_client_socket! $fd address port_no
   write_to! fd deregister_request(uuid)
   load! $_result fd
+  pass
 
 $async_deregister: (io id address port_no uuid)
   run io http_request id address port_no deregister_request(uuid)

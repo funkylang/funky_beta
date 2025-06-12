@@ -1,3 +1,4 @@
+<!doctype html>
 <html>
 <head>
 <title>std_types::window_manager</title>
@@ -9,6 +10,13 @@
 </div>
 <h1 class="pre">std_types::window_manager</h1>
 <p class="short">the prototype object for window managers</p>
+<h2>Derived from</h2>
+<table>
+<tr>
+<td><a href="std_types__object.html">std_types::object</a></td>
+<td class="description">the prototype object for all regular objects</td>
+</tr>
+</table>
 <h2>Parameters</h2>
 <dl>
 <dt>terminal</dt>
@@ -61,7 +69,7 @@ $window_manager <a href="std__create_window_manager.html">std::create_window_man
 </tr>
 <tr>
 <td><a href="std_types__window_manager/std__enlarge.html">std::enlarge</a></td>
-<td class="description">enlarges the specified window</td>
+<td class="description">maximizes a window</td>
 </tr>
 <tr>
 <td><a href="std_types__window_manager/std__focus_next_window.html">std::focus_next_window</a></td>
@@ -125,7 +133,7 @@ $window_manager <a href="std__create_window_manager.html">std::create_window_man
 </tr>
 <tr>
 <td><a href="std_types__window_manager/std__handle_window_event.html">std::handle_window_event</a></td>
-<td class="description">handles a window event</td>
+<td class="description">handles events for a window</td>
 </tr>
 <tr>
 <td><a href="std_types__window_manager/std__height_of.html">std::height_of</a></td>
@@ -133,51 +141,51 @@ $window_manager <a href="std__create_window_manager.html">std::create_window_man
 </tr>
 <tr>
 <td><a href="std_types__window_manager/std__move_bottom.html">std::move_bottom</a></td>
-<td class="description">moves the content of the window to the bottom</td>
+<td class="description">shows the bottom portion of a window's contents</td>
 </tr>
 <tr>
 <td><a href="std_types__window_manager/std__move_down.html">std::move_down</a></td>
-<td class="description">moves the window down</td>
+<td class="description">moves the content of a window down one line</td>
 </tr>
 <tr>
 <td><a href="std_types__window_manager/std__move_end.html">std::move_end</a></td>
-<td class="description">moves the content of the window to the right end</td>
+<td class="description">shows the rightmost part of a window's contents</td>
 </tr>
 <tr>
 <td><a href="std_types__window_manager/std__move_home.html">std::move_home</a></td>
-<td class="description">moves the first visible column to the leftmost column</td>
+<td class="description">shows the leftmost part of a window's contents</td>
 </tr>
 <tr>
 <td><a href="std_types__window_manager/std__move_left.html">std::move_left</a></td>
-<td class="description">moves the leftmost visible column of the specified window one column to the</td>
+<td class="description">moves the content of a window left one column</td>
 </tr>
 <tr>
 <td><a href="std_types__window_manager/std__move_page_down.html">std::move_page_down</a></td>
-<td class="description">moves the content of the window down by one page</td>
+<td class="description">moves the content of a window down one page</td>
 </tr>
 <tr>
 <td><a href="std_types__window_manager/std__move_page_up.html">std::move_page_up</a></td>
-<td class="description">moves the content of the specified window one page up</td>
+<td class="description">moves the content of a window up one page</td>
 </tr>
 <tr>
 <td><a href="std_types__window_manager/std__move_right.html">std::move_right</a></td>
-<td class="description">moves the content of the specified window to the right</td>
+<td class="description">moves the content of a window right one column</td>
 </tr>
 <tr>
 <td><a href="std_types__window_manager/std__move_top.html">std::move_top</a></td>
-<td class="description">moves the content of the window to the top</td>
+<td class="description">shows the top portion of a window's contents</td>
 </tr>
 <tr>
 <td><a href="std_types__window_manager/std__move_up.html">std::move_up</a></td>
-<td class="description">moves the window up</td>
+<td class="description">moves the content of a window up one line</td>
 </tr>
 <tr>
 <td><a href="std_types__window_manager/std__move_window_down.html">std::move_window_down</a></td>
-<td class="description">moves the specified window one position down</td>
+<td class="description">moves a window down in the window list</td>
 </tr>
 <tr>
 <td><a href="std_types__window_manager/std__move_window_up.html">std::move_window_up</a></td>
-<td class="description">moves the specified window one position up</td>
+<td class="description">moves a window up in the window list</td>
 </tr>
 <tr>
 <td><a href="std_types__window_manager/std__needs_updating.html">std::needs_updating</a></td>
@@ -221,7 +229,7 @@ $window_manager <a href="std__create_window_manager.html">std::create_window_man
 </tr>
 <tr>
 <td><a href="std_types__window_manager/std__set_status.html">std::set_status</a></td>
-<td class="description">sets the status line</td>
+<td class="description">sets the status information</td>
 </tr>
 <tr>
 <td><a href="std_types__window_manager/std__set_time.html">std::set_time</a></td>
@@ -237,7 +245,7 @@ $window_manager <a href="std__create_window_manager.html">std::create_window_man
 </tr>
 <tr>
 <td><a href="std_types__window_manager/std__shrink.html">std::shrink</a></td>
-<td class="description">shrinks the specified window</td>
+<td class="description">minimizes a window</td>
 </tr>
 <tr>
 <td><a href="std_types__window_manager/std__unset_selection.html">std::unset_selection</a></td>
@@ -259,6 +267,5 @@ $window_manager <a href="std__create_window_manager.html">std::create_window_man
 <div class="footer">(defined in <a href="../source/terminal/window_manager.fky">terminal/window_manager.fky</a>)</div>
 <div class="footer">(generated by gemma-2-27b-it-Q5_K_M.gguf)</div>
 <div class="footer">(2024-07-08 18:15:24)</div>
-<div class="footer">(<a href="../prompts/symbols/std_types__window_manager.prompt">prompt</a>)</div>
 </body>
 </html>

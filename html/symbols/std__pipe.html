@@ -1,3 +1,4 @@
+<!doctype html>
 <html>
 <head>
 <title>std::pipe</title>
@@ -8,74 +9,79 @@
 <a class="Button" href="../index.html">Home</a> <a class="Button" href="../manual.html">Manual</a> <a class="Button" href="../topics/index.html">Topics</a> <a class="Button" href="type_index.html">Types</a> <a class="Button" href="function_index.html">Functions</a> <a class="Button" href="objects_index.html">Objects</a> <a class="Button" href="constants_index.html">Constants</a> <a class="Button" href="index.html">All</a>
 </div>
 <h1 class="pre">std::pipe</h1>
-<p class="short">runs a pipe of commands</p>
+<p class="short">executes a sequence of commands in a pipeline</p>
 <h2>Parameters</h2>
 <dl>
-<dt>args</dt>
-<dd>a list of commands and arguments</dd>
+<dt>args <i>(zero or more)</i></dt>
+<dd>the commands to execute</dd>
 </dl>
 <h2>Results</h2>
 <dl>
-<dt>a list of exit codes</dt>
-<dd></dd>
+<dt>ret</dt>
+<dd>a list of exit codes (one from each command)</dd>
+<dt>out</dt>
+<dd>the standard output from the last command in the pipeline</dd>
+<dt>err</dt>
+<dd>a list of error outputs (one from each command)</dd>
 </dl>
 <h2>Description</h2>
 <p><em>Attention</em>: This function must be called with I/O-access rights!</p>
-<p>The function runs a pipe of commands.</p>
-<p>The first argument may be a string or a file descriptor.</p>
-<p>If the first argument is a string then it is fed to the first command.</p>
-<p>If the first argument is a file descriptor then it is used as the input file descriptor for the first command.</p>
-<p>The remaining arguments are commands and arguments.</p>
-<p>A command is a function that is called with the arguments that follow the command.</p>
-<p>The output of a command is fed to the next command.</p>
-<p>The last command's output is returned as a string.</p>
-<p>The last command's error output is returned as a list of strings.</p>
+<p>The function executes a sequence of commands. The output of each command is connected to the input of the next command. The output of the last command is returned as the first result.</p>
+<p>If the first "command" is a string, it is used as the input for the first command.</p>
+<p>If the first "command" is a file descriptor, it is used to "feed" the first command.</p>
 <h2>Topic</h2>
-<table><tr><td><a href="../topics/POSIX.html">POSIX</a></td></tr></table>
+<table><tr><td><a href="../topics/Input-Output.html">Input-Output</a></td></tr></table>
 <h2>See also</h2>
 <table>
 <tr>
   <td><a href="std__pipe_commands.html">std::pipe_commands</a></td>
-  <td class="description">pipes a series of commands together</td>
+  <td class="description">executes a sequence of commands in a pipeline</td>
 </tr>
 <tr>
   <td><a href="std__call.html">std::call</a></td>
   <td class="description">calls the specified command with the specified arguments</td>
 </tr>
+<tr>
+  <td><a href="std__execute.html">std::execute</a></td>
+  <td class="description">[missing]</td>
+</tr>
+<tr>
+  <td><a href="std__system.html">std::system</a></td>
+  <td class="description">[missing]</td>
+</tr>
+<tr>
+  <td><a href="std__extern.html">std::extern</a></td>
+  <td class="description">executes an external command</td>
+</tr>
 </table>
 <h2>Example</h2>
-<div class="Example">$cat:
-  (
-    args*
-  )
-  <a href="std__for_each.html">for_each</a> args
-    : (arg)
-      <a href="std__print.html">print</a>! arg
-      <a href="std__next.html">next</a>
-  -&gt; <a href="std__undefined.html">undefined</a>
+<div class="Example"><a href="std__load.html">load</a>! $buf "compiler/funky.fky"
 
-$grep:
-  (
-    args*
-  )
-  $pattern args(1)
-  <a href="std__for_each.html">for_each</a> args
-    : (arg)
-      <a href="std__if.html">if</a>
-        arg .<a href="std__matches.html">matches</a>. pattern:
-          <a href="std__println.html">println</a>! arg
-          <a href="std__next.html">next</a>
-      <a href="std__next.html">next</a>
-  -&gt; <a href="std__undefined.html">undefined</a>
+<a href="std__pipe.html">pipe</a>! $ret $out $err
+  buf
+  grep "^\$f"
 
-<a href="std__pipe.html">pipe</a>! "Hello, world!" cat grep "world"
+<a href="std__if.html">if</a>
+  <a href="std__any_of.html">any_of</a>(ret: (value) -&gt; value != 0):
+    <a href="std__eprint.html">eprint</a>! <a href="std__reduce.html">reduce</a>(err).<a href="std__from_utf8.html">from_utf8</a>
+  :
+    <a href="std__print.html">print</a>! out.<a href="std__from_utf8.html">from_utf8</a>
 </div>
-<h2>Output</h2>
-<div class="Output">Hello, world!
+<h2>Example</h2>
+<div class="Example"><a href="std__open.html">open</a>! $fd "compiler/funky.fky" "r"
+
+<a href="std__pipe.html">pipe</a>! $ret $out $err
+  fd
+  grep "^\$f"
+
+<a href="std__if.html">if</a>
+  <a href="std__any_of.html">any_of</a>(ret: (value) -&gt; value != 0):
+    <a href="std__eprint.html">eprint</a>! <a href="std__reduce.html">reduce</a>(err).<a href="std__from_utf8.html">from_utf8</a>
+  :
+    <a href="std__print.html">print</a>! out.<a href="std__from_utf8.html">from_utf8</a>
 </div>
 <div class="footer">(defined in <a href="../source/basic/io/io.fky">basic/io/io.fky</a>)</div>
-<div class="footer">(generated by Codestral-22B-v0.1-Q5_K_M.gguf)</div>
-<div class="footer">(2024-07-02 19:46:54)</div>
-<div class="footer">(<a href="../prompts/symbols/std__pipe.prompt">prompt</a>)</div>
+<div class="footer">(generated manually)</div>
+<div class="footer">(2025-05-07 11:54:21)</div>
 </body>
 </html>

@@ -104,7 +104,7 @@ $html::HTML:
   #
     Example:
 
-      printnln!
+      println!
 	HTML
 	  : HEAD
 	    : TITLE "My great Homepage"

@@ -1,0 +1,87 @@
+<!doctype html>
+<html>
+<head>
+<title>Objects</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<div>
+<a class="Button" href="../index.html">Home</a> <a class="Button" href="../manual.html">Manual</a> <a class="Button" href="index.html">Topics</a> <a class="Button" href="../symbols/type_index.html">Types</a> <a class="Button" href="../symbols/function_index.html">Functions</a> <a class="Button" href="../symbols/objects_index.html">Objects</a> <a class="Button" href="../symbols/constants_index.html">Constants</a> <a class="Button" href="../symbols/index.html">All</a>
+</div>
+<h1>Objects</h1>
+<h2>Description</h2>
+<p>Everything in Funky is an object - integers, strings, lists, functins, etc.</p>
+<p>But object can only be used as records with named fields (so-called attributes).</p>
+<p>In addition to attributes any number of methods can be defined for an object.</p>
+<h2>Example</h2>
+<div class="Example">&lt;namespace my_types&gt;
+
+ # we must define polymorphic functions to be used as attributes
+
+$first_name_of ()
+$last_name_of ()
+
+# now we can define our prototype person (derived from &lt;std_types::object&gt;)
+
+$my_types::person <a href="../symbols/std_types__object.html">std_types::object</a>
+  .first_name_of <a href="../symbols/std__undefined.html">undefined</a>
+  .last_name_of <a href="../symbols/std__undefined.html">undefined</a>
+
+#
+  now let's <a href="../symbols/std__add.html">add</a> a method that converts a person into a <a href="../symbols/std__string.html">string</a>
+  The polymorphic function &lt;<a href="../symbols/std__to_string.html">std::to_string</a>&gt; is already defined <a href="../symbols/std__in.html">in</a> the basic
+  library
+
+$my_types::person/<a href="../symbols/std__to_string.html">to_string</a>: (self)
+  <a href="../symbols/std__append.html">append</a> first_name_of(self) " " last_name_of(self)
+</div>
+<h2>Related topics</h2>
+<table>
+<tr>
+  <td><a href="Basics.html">Basics</a></td>
+</tr>
+</table>
+<h2>Types</h2>
+<table>
+<tr>
+  <td><a href="../symbols/std_types__error.html">std_types::error</a></td>
+  <td class="description">the prototype object for all error objects</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std_types__object.html">std_types::object</a></td>
+  <td class="description">the prototype object for all regular objects</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std_types__undefined.html">std_types::undefined</a></td>
+  <td class="description">the prototype for the singleton undefined object</td>
+</tr>
+</table>
+<h2>Functions</h2>
+<table>
+<tr>
+  <td><a href="../symbols/debug__object_attributes.html">debug::object_attributes</a></td>
+  <td class="description">returns a list of all attributes of an object</td>
+</tr>
+<tr>
+  <td><a href="../symbols/debug__object_type.html">debug::object_type</a></td>
+  <td class="description">returns the type of an object</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__equal.html">std::equal</a></td>
+  <td class="description">compares two objects for equality</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__hash.html">std::hash</a></td>
+  <td class="description">returns a hash value</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__is_defined.html">std::is_defined</a></td>
+  <td class="description">returns true for all "normal" objects"</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__parameter_count_of.html">std::parameter_count_of</a></td>
+  <td class="description">returns the number of arguments to use when calling its function</td>
+</tr>
+</table>
+</body>
+</html>

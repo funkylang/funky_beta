@@ -39,16 +39,16 @@ enum {
   var__START = FIRST_VAR-1,
   var_funky_types__node, // extern
   var_to_string, // extern polymorphic
-  var_27_0_self, // dynamic
-  var_28_0_indent, // dynamic
+  var_27_5_self, // dynamic
+  var_28_5_indent, // dynamic
   var_std__plus, // extern
   var_node_name_of, // extern
   var_node_fields_of, // extern
   var_append, // extern
   var_map_reduce, // extern
-  var_39_19_indent, // dynamic
-  var_39_26_name, // dynamic
-  var_39_31_node, // dynamic
+  var_39_20_indent, // dynamic
+  var_39_27_name, // dynamic
+  var_39_32_node, // dynamic
   var_is_undefined, // extern
   var_tabs_and_spaces, // extern
   var_string, // extern
@@ -59,11 +59,11 @@ enum {
   var_is_a_list, // extern
   var_true, // extern
   var_cond, // extern
-  var_60_24_indent, // dynamic
-  var_60_36_node_list, // dynamic
+  var_60_25_indent, // dynamic
+  var_60_37_node_list, // dynamic
   var_is_empty, // extern
   var_if, // extern
-  var_76_0_name, // dynamic
+  var_76_5_name, // dynamic
   var_undefined, // extern
   var_is_defined, // extern
   var_std__string, // extern
@@ -74,14 +74,14 @@ enum {
 static TAB_NUM t_func_funky_types__node___to_string[] = {
   3, // locals
   -2, // parameters
-  MANDATORY_PARAMETER, var_27_0_self,
-  num_0, var_28_0_indent,
+  MANDATORY_PARAMETER, var_27_5_self,
+  num_0, var_28_5_indent,
   // !indent indent+2
-  var_std__plus, 2, var_28_0_indent, num_2, 1, var_28_0_indent,
+  var_std__plus, 2, var_28_5_indent, num_2, 1, var_28_5_indent,
   // node_name_of(self)
-  var_node_name_of, 1, var_27_0_self, 1, LOCAL(1),
+  var_node_name_of, 1, var_27_5_self, 1, LOCAL(1),
   // node_fields_of(self): (attribute_of)
-  var_node_fields_of, 1, var_27_0_self, 1, LOCAL(2),
+  var_node_fields_of, 1, var_27_5_self, 1, LOCAL(2),
   // map_reduce
   var_map_reduce, 4, LOCAL(2), lambda_node_fields_ofself, var_append, string_1, 1, LOCAL(3),
   // append
@@ -93,96 +93,142 @@ static TAB_NUM t_func_funky_types__node___to_string[] = {
   POS(31, 3)
 };
 
+static FUNCTION_INFO i_func_funky_types__node___to_string = {
+  t_func_funky_types__node___to_string, NULL, 5, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_node_fields_ofself[] = {
   2, // locals
   1, // parameters
-  LOCAL(2), // 34_23_attribute_of
+  LOCAL(2), // 34_30_attribute_of
   // attribute_of(self)
-  LOCAL(2), 1, var_27_0_self, 1, LOCAL(1),
+  LOCAL(2), 1, var_27_5_self, 1, LOCAL(1),
   // field_to_string indent attribute_of attribute_of(self)
-  func_field_to_string, 3, var_28_0_indent, LOCAL(2), LOCAL(1), TAIL_CALL,
+  func_field_to_string, 3, var_28_5_indent, LOCAL(2), LOCAL(1), TAIL_CALL,
   POS(35, 45),
-  POS(35, 9)
+  POS(35, 9),
+  LOCAL(2)
+};
+
+static FUNCTION_INFO i_lambda_node_fields_ofself = {
+  t_lambda_node_fields_ofself, NULL, 2, 1,
+  {"34_30_attribute_of\000"}
 };
 
 static TAB_NUM t_func_field_to_string[] = {
   0, // locals
   3, // parameters
-  var_39_19_indent,
-  var_39_26_name,
-  var_39_31_node,
+  var_39_20_indent,
+  var_39_27_name,
+  var_39_32_node,
   // cond
   var_cond, 4, lambda_1, lambda_3, lambda_5, lambda_7, TAIL_CALL,
   POS(41, 3)
+};
+
+static FUNCTION_INFO i_func_field_to_string = {
+  t_func_field_to_string, NULL, 1, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_1[] = {
   1, // locals
   0, // parameters
   // is_undefined:
-  var_is_undefined, 1, var_39_31_node, 1, LOCAL(1),
+  var_is_undefined, 1, var_39_32_node, 1, LOCAL(1),
   //  node.is_undefined:
   LET, 2, LOCAL(1), lambda_2, TAIL_CALL,
   POS(42, 13),
   POS(42, 7)
 };
 
+static FUNCTION_INFO i_lambda_1 = {
+  t_lambda_1, NULL, 2, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_2[] = {
   1, // locals
   0, // parameters
   // tabs_and_spaces(indent)
-  var_tabs_and_spaces, 1, var_39_19_indent, 1, LOCAL(1),
+  var_tabs_and_spaces, 1, var_39_20_indent, 1, LOCAL(1),
   // string
-  var_string, 4, chr_10, LOCAL(1), var_39_26_name, str___undefined, TAIL_CALL,
+  var_string, 4, chr_10, LOCAL(1), var_39_27_name, str___undefined, TAIL_CALL,
   POS(45, 9),
   POS(43, 7)
+};
+
+static FUNCTION_INFO i_lambda_2 = {
+  t_lambda_2, NULL, 2, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_3[] = {
   1, // locals
   0, // parameters
   // is_a_string:
-  var_is_a_string, 1, var_39_31_node, 1, LOCAL(1),
+  var_is_a_string, 1, var_39_32_node, 1, LOCAL(1),
   //  node.is_a_string:
   LET, 2, LOCAL(1), lambda_4, TAIL_CALL,
   POS(48, 13),
   POS(48, 7)
 };
 
+static FUNCTION_INFO i_lambda_3 = {
+  t_lambda_3, NULL, 2, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_4[] = {
   3, // locals
   0, // parameters
   // tabs_and_spaces(indent)
-  var_tabs_and_spaces, 1, var_39_19_indent, 1, LOCAL(1),
+  var_tabs_and_spaces, 1, var_39_20_indent, 1, LOCAL(1),
   // serialize(node).trim_right
-  var_serialize, 1, var_39_31_node, 1, LOCAL(2),
+  var_serialize, 1, var_39_32_node, 1, LOCAL(2),
   // trim_right
   var_trim_right, 1, LOCAL(2), 1, LOCAL(3),
   // string
-  var_string, 5, chr_10, LOCAL(1), var_39_26_name, string_2, LOCAL(3), TAIL_CALL,
+  var_string, 5, chr_10, LOCAL(1), var_39_27_name, string_2, LOCAL(3), TAIL_CALL,
   POS(51, 9),
   POS(54, 9),
   POS(54, 25),
   POS(49, 7)
 };
 
+static FUNCTION_INFO i_lambda_4 = {
+  t_lambda_4, NULL, 4, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_5[] = {
   1, // locals
   0, // parameters
   // is_a_list:
-  var_is_a_list, 1, var_39_31_node, 1, LOCAL(1),
+  var_is_a_list, 1, var_39_32_node, 1, LOCAL(1),
   //  node.is_a_list:
   LET, 2, LOCAL(1), lambda_6, TAIL_CALL,
   POS(55, 13),
   POS(55, 7)
 };
 
+static FUNCTION_INFO i_lambda_5 = {
+  t_lambda_5, NULL, 2, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_6[] = {
   0, // locals
   0, // parameters
   // field_list_to_string indent name node
-  func_field_list_to_string, 3, var_39_19_indent, var_39_26_name, var_39_31_node, TAIL_CALL,
+  func_field_list_to_string, 3, var_39_20_indent, var_39_27_name, var_39_32_node, TAIL_CALL,
   POS(56, 7)
+};
+
+static FUNCTION_INFO i_lambda_6 = {
+  t_lambda_6, NULL, 1, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_7[] = {
@@ -193,27 +239,37 @@ static TAB_NUM t_lambda_7[] = {
   POS(57, 7)
 };
 
+static FUNCTION_INFO i_lambda_7 = {
+  t_lambda_7, NULL, 1, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_8[] = {
   1, // locals
   0, // parameters
   // subnode_to_string(name node indent)
-  func_subnode_to_string, 3, var_39_26_name, var_39_31_node, var_39_19_indent, 1, LOCAL(1),
+  func_subnode_to_string, 3, var_39_27_name, var_39_32_node, var_39_20_indent, 1, LOCAL(1),
   //  subnode_to_string(name node indent)
   LET, 1, LOCAL(1), TAIL_CALL,
   POS(58, 10),
   POS(58, 9)
 };
 
+static FUNCTION_INFO i_lambda_8 = {
+  t_lambda_8, NULL, 2, 0,
+  {}
+};
+
 static TAB_NUM t_func_field_list_to_string[] = {
   4, // locals
   3, // parameters
-  var_60_24_indent,
-  LOCAL(4), // 60_31_name
-  var_60_36_node_list,
+  var_60_25_indent,
+  LOCAL(4), // 60_32_name
+  var_60_37_node_list,
   // tabs_and_spaces(indent) name "[]"
-  var_tabs_and_spaces, 1, var_60_24_indent, 1, LOCAL(1),
+  var_tabs_and_spaces, 1, var_60_25_indent, 1, LOCAL(1),
   // is_empty
-  var_is_empty, 1, var_60_36_node_list, 1, LOCAL(2),
+  var_is_empty, 1, var_60_37_node_list, 1, LOCAL(2),
   // if
   var_if, 3, LOCAL(2), lambda_9, lambda_10, 1, LOCAL(3),
   // string
@@ -221,7 +277,13 @@ static TAB_NUM t_func_field_list_to_string[] = {
   POS(64, 5),
   POS(66, 17),
   POS(65, 5),
-  POS(62, 3)
+  POS(62, 3),
+  LOCAL(4)
+};
+
+static FUNCTION_INFO i_func_field_list_to_string = {
+  t_func_field_list_to_string, NULL, 4, 1,
+  {"60_32_name\000"}
 };
 
 static TAB_NUM t_lambda_9[] = {
@@ -232,42 +294,58 @@ static TAB_NUM t_lambda_9[] = {
   POS(67, 9)
 };
 
+static FUNCTION_INFO i_lambda_9 = {
+  t_lambda_9, NULL, 1, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_10[] = {
   1, // locals
   0, // parameters
   // map_reduce
-  var_map_reduce, 4, var_60_36_node_list, lambda_node_list, var_append, string_1, 1, LOCAL(1),
+  var_map_reduce, 4, var_60_37_node_list, lambda_node_list, var_append, string_1, 1, LOCAL(1),
   // 
   LET, 1, LOCAL(1), TAIL_CALL,
   POS(69, 9),
   POS(68, 9)
 };
 
+static FUNCTION_INFO i_lambda_10 = {
+  t_lambda_10, NULL, 2, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_node_list[] = {
   3, // locals
   1, // parameters
-  LOCAL(3), // 70_12_node
+  LOCAL(3), // 70_23_node
   // indent+2)
-  var_std__plus, 2, var_60_24_indent, num_2, 1, LOCAL(1),
+  var_std__plus, 2, var_60_25_indent, num_2, 1, LOCAL(1),
   // subnode_to_string(node indent+2)
   func_subnode_to_string, 2, LOCAL(3), LOCAL(1), 1, LOCAL(2),
   // -> subnode_to_string(node indent+2)
   LET, 1, LOCAL(2), TAIL_CALL,
   POS(70, 55),
   POS(70, 32),
-  POS(70, 29)
+  POS(70, 29),
+  LOCAL(3)
+};
+
+static FUNCTION_INFO i_lambda_node_list = {
+  t_lambda_node_list, NULL, 3, 1,
+  {"70_23_node\000"}
 };
 
 static TAB_NUM t_func_subnode_to_string[] = {
   6, // locals
   -3, // parameters
-  var_undefined, var_76_0_name,
-  MANDATORY_PARAMETER, LOCAL(5), // 77_0_node
-  MANDATORY_PARAMETER, LOCAL(6), // 78_0_indent
+  var_undefined, var_76_5_name,
+  MANDATORY_PARAMETER, LOCAL(5), // 77_5_node
+  MANDATORY_PARAMETER, LOCAL(6), // 78_5_indent
   // tabs_and_spaces(indent)
   var_tabs_and_spaces, 1, LOCAL(6), 1, LOCAL(1),
   // is_defined
-  var_is_defined, 1, var_76_0_name, 1, LOCAL(2),
+  var_is_defined, 1, var_76_5_name, 1, LOCAL(2),
   // if
   var_if, 3, LOCAL(2), lambda_11, lambda_12, 1, LOCAL(3),
   // to_string(node indent)
@@ -278,18 +356,30 @@ static TAB_NUM t_func_subnode_to_string[] = {
   POS(84, 12),
   POS(83, 5),
   POS(87, 5),
-  POS(80, 3)
+  POS(80, 3),
+  LOCAL(6),
+  LOCAL(5)
+};
+
+static FUNCTION_INFO i_func_subnode_to_string = {
+  t_func_subnode_to_string, NULL, 5, 2,
+  {"78_5_indent\000", "77_5_node\000"}
 };
 
 static TAB_NUM t_lambda_11[] = {
   1, // locals
   0, // parameters
   // "@(name) = "
-  var_std__string, 2, var_76_0_name, string_2, 1, LOCAL(1),
+  var_std__string, 2, var_76_5_name, string_2, 1, LOCAL(1),
   //  "@(name) = "
   LET, 1, LOCAL(1), TAIL_CALL,
   POS(85, 10),
   POS(85, 9)
+};
+
+static FUNCTION_INFO i_lambda_11 = {
+  t_lambda_11, NULL, 2, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_12[] = {
@@ -300,33 +390,38 @@ static TAB_NUM t_lambda_12[] = {
   POS(86, 9)
 };
 
+static FUNCTION_INFO i_lambda_12 = {
+  t_lambda_12, NULL, 1, 0,
+  {}
+};
+
 static FUNKY_CONSTANT constants_table[] = {
-  {FLT_FUNCTION, 0, {.tfunc = t_func_funky_types__node___to_string}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_funky_types__node___to_string}},
   {FLT_POSITIVE_INT64, 0, {.value = 0}},
   {FLT_POSITIVE_INT64, 0, {.value = 2}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_node_fields_ofself}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_node_fields_ofself}},
   {FLT_STRING_8, 0, {.str_8 = ""}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_field_to_string}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_1}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_2}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_field_to_string}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_1}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_2}},
   {FLT_CHARACTER, 0, {.value = 10}},
   {FLT_STRING_8, 14, {.str_8 = " = <undefined>"}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_3}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_4}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_3}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_4}},
   {FLT_STRING_8, 3, {.str_8 = " = "}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_5}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_6}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_7}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_8}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_field_list_to_string}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_9}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_5}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_6}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_7}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_8}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_field_list_to_string}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_9}},
   {FLT_STRING_8, 10, {.str_8 = " = <empty>"}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_10}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_node_list}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_10}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_node_list}},
   {FLT_STRING_8, 2, {.str_8 = "[]"}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_subnode_to_string}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_11}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_12}}
+  {FLT_FUNCTION, 0, {.func_info = &i_func_subnode_to_string}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_11}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_12}}
 };
 
 static ATTRIBUTE_DEFINITION funky_types__node__attributes[] = {
@@ -346,11 +441,11 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "27_0_self\000", NULL
+    "27_5_self\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "28_0_indent\000", NULL
+    "28_5_indent\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
@@ -379,15 +474,15 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "39_19_indent\000", NULL
+    "39_20_indent\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "39_26_name\000", NULL
+    "39_27_name\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "39_31_node\000", NULL
+    "39_32_node\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
@@ -441,11 +536,11 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "60_24_indent\000", NULL
+    "60_25_indent\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "60_36_node_list\000", NULL
+    "60_37_node_list\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
@@ -459,7 +554,7 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "76_0_name\000", NULL
+    "76_5_name\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
@@ -488,7 +583,7 @@ FUNKY_MODULE module__dump = {
   "dump.fky", // module filename
   .major_version = 0,
   .minor_version = 0,
-  .feature_flags = FEAT_POSITIONS,
+  .feature_flags = FEAT_POSITIONS|FEAT_FUNCTION_INFO,
   .marker = 0,
   0, // number of required modules
   0, // number of defined namespaces

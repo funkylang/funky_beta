@@ -87,6 +87,25 @@ do:
 	margin-top: 9pt;
 	margin-bottom: 5pt;
       }
+      h5 {
+	font-family: Arial, Helvetica;
+	font-size: 12pt;
+	color: #222;
+	margin-top: 8pt;
+	margin-bottom: 4pt;
+      }
+      h1.title {
+	font-size: 40pt;
+	color: #333;
+	margin-top: 6pt;
+	margin-bottom: 16pt;
+      }
+      h1.part {
+	font-size: 30pt;
+	color: #333;
+	margin-top: 12pt;
+	margin-bottom: 12pt;
+      }
       h1.index {
 	font-size: 16pt;
 	font-weight: normal;
@@ -114,13 +133,20 @@ do:
 	margin-bottom: 3pt;
 	margin-left: 60pt;
       }
+      h5.index {
+	font-size: 12pt;
+	font-weight: normal;
+	margin-top: 2pt;
+	margin-bottom: 3pt;
+	margin-left: 84pt;
+      }
       dt {
-	font-size: 14pt;
+	font-size: 13pt;
 	margin-bottom: 2pt;
       }
       dd {
 	font-style: italic;
-	font-size: 11pt;
+	font-size: 12pt;
 	padding-left: 0pt;
 	margin-left: 16pt;
 	margin-top: 0pt;
@@ -138,9 +164,24 @@ do:
       p.remark {
 	font-style: italic;
       }
-      p.created {
+      p.edited {
 	font-style: italic;
-	float: right;
+	text-align: right;
+      }
+      p.discuss {
+	background-color: #ffd;
+	padding: 4pt;
+	border: 1px solid #cc8;
+      }
+      p.note {
+	background-color: #ddf;
+	padding: 4pt;
+	border: 1px solid #88c;
+      }
+      p.attention {
+	background-color: #fee;
+	padding: 4pt;
+	border: 1px solid #c88;
       }
       pre {
 	font-size: 12pt;
@@ -171,8 +212,22 @@ do:
 	padding-top: 2pt;
 	padding-bottom: 2pt;
       }
+      table.noborder {
+	border: 0;
+	margin-top: 4pt;
+	margin-bottom: 4pt;
+      }
+      td.noborder {
+	border: 0;
+      }
       grey {
-       color: #555;
+       color: #666;
+      }
+      right {
+	text-align: right;
+      }
+      center {
+	text-align: center;
       }
     </style>
 
@@ -195,13 +250,15 @@ do:
     <body>
 
   current_time! $t
-  $created "@(day_of(t)).@(month_of(t)).@(year_of(t))"
+  #$edited "@(day_of(t)).@(month_of(t)).@(year_of(t))"
+  $edited
+    "@(year_of(t))-@(pad_left(month_of(t) 2 "0"))-@(pad_left(day_of(t) 2 "0"))"
   print! "
-    <p class="created">(letzte Änderung: @(created))</p>
+    <p class="edited">(last edited: @(edited))</p>
 
   on title_of(indented_lines).is_defined:
     print! "
-      <h1>@(title_of(indented_lines))</h1>
+      <h1 class="title">@(title_of(indented_lines))</h1>
 
   print! indented_lines_to_index(indented_lines)
   println! "<br>"
@@ -376,6 +433,7 @@ $insert_tags: (text)
   $within_bold false
   $within_italic false
   $within_preformatted false
+  $within_link false
   $in_math_mode false
   loop:
     inc &i
@@ -494,8 +552,33 @@ $insert_tags: (text)
 		next
 	      next
 	  '<':
-	    append &tagged "&lt;"
-	    next
+	    if
+	      i < n && text(i+1) == '#':
+		append &tagged "<a href=@quot;#"
+		!within_link true
+		inc &i # skip '#'
+		next
+	      :
+		append &tagged "&lt;"
+		next
+	  '#':
+	    if
+	      within_link && i < n && text(i+1) == ':':
+		append &tagged "@quot;>"
+		inc &i # skip '#'
+		next
+	      :
+		push &tagged chr
+		next
+	  '>':
+	    if
+	      within_link:
+		append &tagged "</a>"
+		!within_link false
+		next
+	      :
+		push &tagged chr
+		next
 	  :
 	    push &tagged chr
 	    next
@@ -540,6 +623,7 @@ $std_types::key_value_pair.is_empty true
 
 $indented_lines_to_index: (lines section = "")
   $buf ""
+  $part_no 0
   $no 0
   $total length_of(lines)
   for_each lines
@@ -557,8 +641,26 @@ $indented_lines_to_index: (lines section = "")
 	    contents.is_defined && line != "`" && line(1) != '*':
 	      cond
 		-> line == "PREFACE" || line == "GLOSSARY":
+		  $title line.to_title_case
+		  $ref replace_all(line.to_lower_case ' ' = "_")
+		  $tag "h"
+		  append &buf "
+		    <h1 class="index">@
+		      <a href="#@(ref)">@(title)</a></h1>
 		  next
 		-> line .has_prefix. "APPENDIX:":
+		  !no
+		    if
+		      no.is_a_number
+		      -> 'A'
+		      -> no+1
+		  $subsection no.to_string
+		  $title trim(line .behind. ':')
+		  $ref replace_all(title.to_lower_case ' ' = "_")
+		  append &buf "
+		    <h1 class="index">@
+		      <a href="#@(ref)">Appendix @(subsection): @(title)</a></h1>
+		  append &buf indented_lines_to_index(contents subsection)
 		  next
 		-> true:
 		  inc &no
@@ -576,11 +678,21 @@ $indented_lines_to_index: (lines section = "")
 		      <a href="#@(ref)">@(subsection) @(title)</a></@(tag)>
 		  append &buf indented_lines_to_index(contents subsection)
 		  next
-	    next
+	    :
+	      if
+		line .has_prefix. "PART:":
+		  inc &part_no
+		  $title trim(line .behind. ':')
+		  $ref replace_all(title.to_lower_case ' ' = "_")
+		  append &buf "
+		    <h1 class="part">Part @(part_no): @(title)</h1>
+		  next
+		next
     -> buf
 
 $indented_lines_to_html: (lines section = "")
   $buf ""
+  $part_no 0
   $no 0
   $total length_of(lines)
   for_each lines
@@ -615,12 +727,13 @@ $indented_lines_to_html: (lines section = "")
 		  maybe_end_unordered_list()
 	  next
 	-> line == "`":
+	  preprocess_pre &contents
 	  append &buf
 	    "<pre>@nl;"
 	    indented_lines_to_text(contents)
 	    "</pre>@nl;"
 	  next
-	#-> line(-1) == '=':
+	-> line(-1) == '=':
 	  append &buf
 	    maybe_start_definition_list()
 	    "<dt>"
@@ -662,32 +775,54 @@ $indented_lines_to_html: (lines section = "")
 		  update_if right_aligned &buf:
 		    if
 		      left_aligned:
-			append buf " align=@quot;center@quot;"
+			append buf " class=@quot;center@quot;"
 		      :
-			append buf " align=@quot;right@quot;"
+			append buf " class=@quot;right@quot;"
 		  update_if colspan > 1 &buf:
-		    append buf "colspan=" colspan.to_string
+		    append buf " colspan=@quot;" colspan.to_string "@quot;"
 		  push &buf '>'
 		  skip_column
 
 	    $skip_column:
+	      $column ""
 	      loop:
 		if
 		  line.is_empty
-		  -> append(buf "</td>")
+		  -> append(buf insert_tags(column) "</td>")
 		  :
 		    $chr line(1)
 		    range &line 2 -1
 		    case chr
 		      ' ':
-			append &buf "&nbsp;"
+			append &column "&nbsp;"
 			next
+		      '\':
+			if
+			  line(1) == '|':
+			    push &column '|'
+			    range &line 2 -1
+			    next
+			  :
+			    push &column '\'
+			    next
 		      '|':
-			append &buf "</td>"
+			append &buf insert_tags(column) "</td>"
 			add_column
 		      :
-			push &buf chr
+			push &column chr
 			next
+	-> line == "[[":
+	  append &buf "
+	    <table class="noborder"><tr><td class="noborder">
+	  next
+	-> line == "| |":
+	  append &buf "
+	    </td><td class="noborder">
+	  next
+	-> line == "]]":
+	  append &buf "
+	    </td></tr></table>
+	  next
 	-> line .has_prefix. "IMAGE:":
 	  $image_name between(line ' ' ' ')
 	  $mime_type image_name .behind. '.'
@@ -706,14 +841,35 @@ $indented_lines_to_html: (lines section = "")
 	  $source trim(line .behind. ':')
 	  append &buf "
 	    <p class="source">
-	    (Quelle: @(source))
+	    (Source: @(source))
 	    </p>
 	  next
 	-> line .has_prefix. "REMARK:":
 	  $remark trim(line .behind. ':')
 	  append &buf "
 	    <p class="remark">
-	    (Anmerkung: @(remark))
+	    (Remark: @(remark))
+	    </p>
+	  next
+	-> line .has_prefix. "DISCUSS:":
+	  $discuss insert_tags(trim(line .behind. ':'))
+	  append &buf "
+	    <p class="discuss">
+	    Discuss: @(discuss)
+	    </p>
+	  next
+	-> line .has_prefix. "NOTE:":
+	  $note insert_tags(trim(line .behind. ':'))
+	  append &buf "
+	    <p class="note">
+	    Note: @(note)
+	    </p>
+	  next
+	-> line .has_prefix. "ATTENTION:":
+	  $attention insert_tags(trim(line .behind. ':'))
+	  append &buf "
+	    <p class="attention">
+	    <b>Attention</b>: @(attention)
 	    </p>
 	  next
 	-> true:
@@ -721,8 +877,35 @@ $indented_lines_to_html: (lines section = "")
 	    contents.is_defined:
 	      cond
 		-> line == "PREFACE" || line == "GLOSSARY":
+		  $title line.to_title_case
+		  $ref replace_all(title.to_lower_case ' ' = "_")
+		  $anchor
+		    string
+		      "<a name=@quot;"
+		      ref
+		      "@quot;>"
+		      title
+		      "</a>"
+		  append &buf
+		    "<h1>@(anchor)</h1>@nl;"
+		    indented_lines_to_html(contents)
 		  next
 		-> line .has_prefix. "APPENDIX:":
+		  !no
+		    if
+		      no.is_a_number
+		      -> 'A'
+		      -> no+1
+		  $subsection no.to_string
+		  $title trim(line .behind. ':')
+		  $ref replace_all(title.to_lower_case ' ' = "_")
+		  $anchor
+		    "
+		      <a name="@(ref)"><span class="grey">Appendix @
+			@(subsection):</span> @(title)</a>@
+		  append &buf
+		    "<h1>@(anchor)</h1>@nl;"
+		    indented_lines_to_html(contents subsection)
 		  next
 		-> true:
 		  inc &no
@@ -736,22 +919,54 @@ $indented_lines_to_html: (lines section = "")
 		  $level count_occurrences(subsection ".")+1
 		  $tag "h@(level)"
 		  $anchor
-		    string
-		      "<a name=@quot;"
-		      ref
-		      "@quot;>"
-		      "<grey>" subsection "</grey> " title
-		      "</a>"
+		    "
+		      <a name="@(ref)"><span class="grey">@
+			@(subsection)</span> @(title)</a>@
 		  append &buf
 		    "<@(tag)>@(anchor)</@(tag)>@nl;"
 		    indented_lines_to_html(contents subsection)
 		  next
 	    :
-	      append &buf
-		maybe_start_paragraph()
-		insert_tags(line) "@nl;"
-		maybe_end_paragraph()
-	      next
+	      if
+		line .has_prefix. "PART:":
+		  inc &part_no
+		  $title trim(line .behind. ':')
+		  $ref replace_all(title.to_lower_case ' ' = "_")
+		  append &buf "
+		    <h1 class="part">Part @(part_no): @(title)</h1>
+		  next
+		:
+		  append &buf
+		    maybe_start_paragraph()
+		    insert_tags(line) "@nl;"
+		    maybe_end_paragraph()
+		  next
+
+      $line_before:
+	loop:
+	  if
+	    idx == 1
+	    -> ""
+	    :
+	      dec &idx
+	      $previous_line lines(idx)
+	      if
+		previous_line.is_empty
+		next
+		-> previous_line
+
+      $line_behind:
+	loop:
+	  if
+	    idx == total
+	    -> ""
+	    :
+	      inc &idx
+	      $next_line lines(idx)
+	      if
+		next_line.is_empty
+		next
+		-> next_line
 
       $behind_empty_line -> idx == 1 || lines(idx-1).is_empty
 
@@ -783,13 +998,13 @@ $indented_lines_to_html: (lines section = "")
 
       $maybe_start_definition_list:
 	if
-	  idx > 1 && lines(idx-1) .has_suffix. '='
+	  line_before() .has_suffix. '='
 	  -> ""
 	  -> "<dl>@nl;"
 
       $maybe_end_definition_list:
 	if
-	  idx < total && lines(idx+1) .has_suffix. '='
+	  line_behind() .has_suffix. '='
 	  -> ""
 	  -> "</dl>@nl;"
 
@@ -806,3 +1021,15 @@ $indented_lines_to_html: (lines section = "")
 	  -> "</table>@nl;"
 
     -> buf
+
+$preprocess_pre: (contents)
+  map contents replace_ampersands
+
+$replace_ampersands: (contents)
+  if
+    contents.is_a_string:
+      replace_all contents "&" = "&amp;"
+    :
+      contents $indent $lines
+      preprocess_pre &lines
+      key_value_pair indent lines

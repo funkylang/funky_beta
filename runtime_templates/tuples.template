@@ -134,7 +134,7 @@ METHOD long builtin_types::tuple2/_debug_string
     char *buf
   )
   {
-    /*NODE *subtype = get_attribute(node, poly_idx__std___subtype_of);
+    /*NODE *subtype = get_attribute(node, poly_idx__std__subtype_of);
     if (CONTAINS_AN_ATTRIBUTE_VALUE(subtype)) {
       subtype = RETRIEVE_ATTRIBUTE_VALUE(subtype);
       if (TYPEOF(subtype) == TYPE(std_types::undefined)) {
@@ -241,7 +241,7 @@ METHOD long builtin_types::tuple3/_debug_string
     char *buf
   )
   {
-    /*NODE *subtype = get_attribute(node, poly_idx__std___subtype_of);
+    /*NODE *subtype = get_attribute(node, poly_idx__std__subtype_of);
     if (CONTAINS_AN_ATTRIBUTE_VALUE(subtype)) {
       subtype = RETRIEVE_ATTRIBUTE_VALUE(subtype);
       if (TYPEOF(subtype) == TYPE(std_types::undefined)) {
@@ -351,7 +351,7 @@ METHOD long builtin_types::tuple4/_debug_string
     char *buf
   )
   {
-    /*NODE *subtype = get_attribute(node, poly_idx__std___subtype_of);
+    /*NODE *subtype = get_attribute(node, poly_idx__std__subtype_of);
     if (CONTAINS_AN_ATTRIBUTE_VALUE(subtype)) {
       subtype = RETRIEVE_ATTRIBUTE_VALUE(subtype);
       if (TYPEOF(subtype) == TYPE(std_types::undefined)) {
@@ -464,7 +464,7 @@ METHOD long builtin_types::tuple5/_debug_string
     char *buf
   )
   {
-    /*NODE *subtype = get_attribute(node, poly_idx__std___subtype_of);
+    /*NODE *subtype = get_attribute(node, poly_idx__std__subtype_of);
     if (CONTAINS_AN_ATTRIBUTE_VALUE(subtype)) {
       subtype = RETRIEVE_ATTRIBUTE_VALUE(subtype);
       if (TYPEOF(subtype) == TYPE(std_types::undefined)) {
@@ -580,7 +580,7 @@ METHOD long builtin_types::tuple6/_debug_string
     char *buf
   )
   {
-    /*NODE *subtype = get_attribute(node, poly_idx__std___subtype_of);
+    /*NODE *subtype = get_attribute(node, poly_idx__std__subtype_of);
     if (CONTAINS_AN_ATTRIBUTE_VALUE(subtype)) {
       subtype = RETRIEVE_ATTRIBUTE_VALUE(subtype);
       if (TYPEOF(subtype) == TYPE(std_types::undefined)) {
@@ -699,7 +699,7 @@ METHOD long builtin_types::tuple7/_debug_string
     char *buf
   )
   {
-    /*NODE *subtype = get_attribute(node, poly_idx__std___subtype_of);
+    /*NODE *subtype = get_attribute(node, poly_idx__std__subtype_of);
     if (CONTAINS_AN_ATTRIBUTE_VALUE(subtype)) {
       subtype = RETRIEVE_ATTRIBUTE_VALUE(subtype);
       if (TYPEOF(subtype) == TYPE(std_types::undefined)) {
@@ -821,7 +821,7 @@ METHOD long builtin_types::tuple8/_debug_string
     char *buf
   )
   {
-    /*NODE *subtype = get_attribute(node, poly_idx__std___subtype_of);
+    /*NODE *subtype = get_attribute(node, poly_idx__std__subtype_of);
     if (CONTAINS_AN_ATTRIBUTE_VALUE(subtype)) {
       subtype = RETRIEVE_ATTRIBUTE_VALUE(subtype);
       if (TYPEOF(subtype) == TYPE(std_types::undefined)) {

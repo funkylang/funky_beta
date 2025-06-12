@@ -1,0 +1,54 @@
+<!doctype html>
+<html>
+<head>
+<title>Control Flow</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<div>
+<a class="Button" href="../index.html">Home</a> <a class="Button" href="../manual.html">Manual</a> <a class="Button" href="index.html">Topics</a> <a class="Button" href="../symbols/type_index.html">Types</a> <a class="Button" href="../symbols/function_index.html">Functions</a> <a class="Button" href="../symbols/objects_index.html">Objects</a> <a class="Button" href="../symbols/constants_index.html">Constants</a> <a class="Button" href="../symbols/index.html">All</a>
+</div>
+<h1>Control Flow</h1>
+<h2>Description</h2>
+<p>In Funky there are no classical language elements to control the flow of execution. Instead, the flow of execution is controlled by calling functions.</p>
+<p>Polymorphic dispatch (on <a href="../symbols/std__true.html">std::true</a> and <a href="../symbols/std__false.html">std::false</a>) can be used to implement conditional execution.</p>
+<p>Recursive function calls can be used to emulate loops.</p>
+<h2>Related topics</h2>
+<table>
+<tr>
+  <td><a href="Branches.html">Branches</a></td>
+</tr>
+<tr>
+  <td><a href="Loops.html">Loops</a></td>
+</tr>
+</table>
+<h2>Example</h2>
+<div class="Example">$a 3
+$b 5
+<a href="../symbols/std__if.html">if</a>
+  a &gt; b:
+    <a href="../symbols/std__println.html">println</a>! "a is greater than b"
+  :
+    <a href="../symbols/std__println.html">println</a>! "b is greater or equal to a"
+</div>
+<h2>Output</h2>
+<div class="Output">b is greater or equal to a
+</div>
+<h2>Example</h2>
+<div class="Example">$i 1
+<a href="../symbols/std__loop.html">loop</a>:
+  <a href="../symbols/std__if.html">if</a>
+    i &lt;= 5:
+      <a href="../symbols/std__println.html">println</a>! i
+      <a href="../symbols/std__next.html">next</a>!
+    <a href="../symbols/std__break.html">break</a>
+</div>
+<h2>Output</h2>
+<div class="Output">1
+2
+3
+4
+5
+</div>
+</body>
+</html>

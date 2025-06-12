@@ -590,7 +590,7 @@ CODE
       int value
     )
     {
-      return create__std_types___file_type(value);
+      return create__std_types__file_type(value);
     }
 
 METHOD std_types::file_type/equal
@@ -654,7 +654,7 @@ FUNCTION std::file_type
     CHECK_ARGUMENTS(1)
     int value;
     if (!(to_int(ARGUMENTS(0), &value))) return;
-    RETURN_SINGLE_RESULT(create__std_types___file_type(value))
+    RETURN_SINGLE_RESULT(create__std_types__file_type(value))
   }
 
 METHOD std_types::file_type/to_integer
@@ -706,7 +706,7 @@ CODE
       int value
     )
     {
-      return create__std_types___file_descriptor(value);
+      return create__std_types__file_descriptor(value);
     }
 
 METHOD std_types::file_descriptor/equal
@@ -735,7 +735,7 @@ FUNCTION std::file_descriptor
     CHECK_ARGUMENTS(1)
     int value;
     if (!(to_int(ARGUMENTS(0), &value))) return;
-    RETURN_SINGLE_RESULT(create__std_types___file_descriptor(value))
+    RETURN_SINGLE_RESULT(create__std_types__file_descriptor(value))
   }
 
 METHOD std_types::file_descriptor/to_integer
@@ -787,7 +787,7 @@ CODE
       int value
     )
     {
-      return create__std_types___signal_number(value);
+      return create__std_types__signal_number(value);
     }
 
 METHOD std_types::signal_number/equal
@@ -816,7 +816,7 @@ FUNCTION std::signal_number
     CHECK_ARGUMENTS(1)
     int value;
     if (!(to_int(ARGUMENTS(0), &value))) return;
-    RETURN_SINGLE_RESULT(create__std_types___signal_number(value))
+    RETURN_SINGLE_RESULT(create__std_types__signal_number(value))
   }
 
 METHOD std_types::signal_number/to_integer
@@ -868,7 +868,7 @@ CODE
       int value
     )
     {
-      return create__std_types___shutdown_type(value);
+      return create__std_types__shutdown_type(value);
     }
 
 METHOD std_types::shutdown_type/equal
@@ -897,7 +897,7 @@ FUNCTION std::shutdown_type
     CHECK_ARGUMENTS(1)
     int value;
     if (!(to_int(ARGUMENTS(0), &value))) return;
-    RETURN_SINGLE_RESULT(create__std_types___shutdown_type(value))
+    RETURN_SINGLE_RESULT(create__std_types__shutdown_type(value))
   }
 
 METHOD std_types::shutdown_type/to_integer
@@ -949,7 +949,7 @@ CODE
       int value
     )
     {
-      return create__std_types___seek_type(value);
+      return create__std_types__seek_type(value);
     }
 
 METHOD std_types::seek_type/equal
@@ -977,7 +977,7 @@ FUNCTION std::seek_type
     CHECK_ARGUMENTS(1)
     int value;
     if (!(to_int(ARGUMENTS(0), &value))) return;
-    RETURN_SINGLE_RESULT(create__std_types___seek_type(value))
+    RETURN_SINGLE_RESULT(create__std_types__seek_type(value))
   }
 
 METHOD std_types::seek_type/to_integer
@@ -1029,7 +1029,7 @@ CODE
       unsigned long value
     )
     {
-      return create__std_types___device_id(value);
+      return create__std_types__device_id(value);
     }
 
 METHOD std_types::device_id/equal
@@ -1058,7 +1058,7 @@ FUNCTION std::device_id
     CHECK_ARGUMENTS(1)
     unsigned long value;
     if (!(to_ulong(ARGUMENTS(0), &value))) return;
-    RETURN_SINGLE_RESULT(create__std_types___device_id(value))
+    RETURN_SINGLE_RESULT(create__std_types__device_id(value))
   }
 
 METHOD std_types::device_id/to_integer
@@ -1111,7 +1111,7 @@ CODE
       void * value
     )
     {
-      return create__std_types___directory(value);
+      return create__std_types__directory(value);
     }
 
 METHOD std_types::directory/equal
@@ -1177,7 +1177,7 @@ CODE
       int value
     )
     {
-      return create__std_types___group_id(value);
+      return create__std_types__group_id(value);
     }
 
 METHOD std_types::group_id/equal
@@ -1206,7 +1206,7 @@ FUNCTION std::group_id
     CHECK_ARGUMENTS(1)
     int value;
     if (!(to_int(ARGUMENTS(0), &value))) return;
-    RETURN_SINGLE_RESULT(create__std_types___group_id(value))
+    RETURN_SINGLE_RESULT(create__std_types__group_id(value))
   }
 
 METHOD std_types::group_id/to_integer
@@ -1259,7 +1259,7 @@ CODE
       unsigned long value
     )
     {
-      return create__std_types___inode_number(value);
+      return create__std_types__inode_number(value);
     }
 
 METHOD std_types::inode_number/equal
@@ -1288,7 +1288,7 @@ FUNCTION std::inode_number
     CHECK_ARGUMENTS(1)
     unsigned long value;
     if (!(to_ulong(ARGUMENTS(0), &value))) return;
-    RETURN_SINGLE_RESULT(create__std_types___inode_number(value))
+    RETURN_SINGLE_RESULT(create__std_types__inode_number(value))
   }
 
 METHOD std_types::inode_number/to_integer
@@ -1340,7 +1340,7 @@ CODE
       int value
     )
     {
-      return create__std_types___process_id(value);
+      return create__std_types__process_id(value);
     }
 
 METHOD std_types::process_id/equal
@@ -1369,7 +1369,7 @@ FUNCTION std::process_id
     CHECK_ARGUMENTS(1)
     int value;
     if (!(to_int(ARGUMENTS(0), &value))) return;
-    RETURN_SINGLE_RESULT(create__std_types___process_id(value))
+    RETURN_SINGLE_RESULT(create__std_types__process_id(value))
   }
 
 METHOD std_types::process_id/to_integer
@@ -1422,7 +1422,7 @@ CODE
       int value
     )
     {
-      return create__std_types___user_id(value);
+      return create__std_types__user_id(value);
     }
 
 METHOD std_types::user_id/equal
@@ -1451,7 +1451,7 @@ FUNCTION std::user_id
     CHECK_ARGUMENTS(1)
     int value;
     if (!(to_int(ARGUMENTS(0), &value))) return;
-    RETURN_SINGLE_RESULT(create__std_types___user_id(value))
+    RETURN_SINGLE_RESULT(create__std_types__user_id(value))
   }
 
 METHOD std_types::user_id/to_integer
@@ -1504,7 +1504,7 @@ CODE
       int value
     )
     {
-      return create__std_types___error_number(value);
+      return create__std_types__error_number(value);
     }
 
 METHOD std_types::error_number/equal
@@ -1533,7 +1533,7 @@ FUNCTION std::error_number
     CHECK_ARGUMENTS(1)
     int value;
     if (!(to_int(ARGUMENTS(0), &value))) return;
-    RETURN_SINGLE_RESULT(create__std_types___error_number(value))
+    RETURN_SINGLE_RESULT(create__std_types__error_number(value))
   }
 
 METHOD std_types::error_number/to_integer
@@ -1642,7 +1642,7 @@ FUNCTION std::access
 	  break;
 	default:
 	  create_error_message(
-	    module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+	    module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
 	    "ACCESS: INVALID MODE", 0, 0, NULL);
 	  goto cleanup;
       }
@@ -1663,7 +1663,7 @@ FUNCTION std::access
 	PREPARE_SINGLE_RESULT(&std_types::false)
       } else {
 	create_error_message(
-	  module__builtin.constants_base[unique__std___IO_ERROR-1],
+	  module__builtin.constants_base[unique__std__IO_ERROR-1],
 	  "ACCESS FAILED", errno, 0, NULL);
       }
     }
@@ -1689,7 +1689,7 @@ FUNCTION std::chdir
     END
     if (result == -1) {
       create_error_message(
-	module__builtin.constants_base[unique__std___IO_ERROR-1],
+	module__builtin.constants_base[unique__std__IO_ERROR-1],
 	"CHDIR FAILED", errno, 0, NULL);
     } else {
       PREPARE_NO_RESULT
@@ -1769,7 +1769,7 @@ FUNCTION std::chmod
     END
     if (result == -1) {
       create_error_message(
-	module__builtin.constants_base[unique__std___IO_ERROR-1],
+	module__builtin.constants_base[unique__std__IO_ERROR-1],
 	"CHMOD FAILED", errno, 0, NULL);
     } else {
       PREPARE_NO_RESULT
@@ -1801,7 +1801,7 @@ FUNCTION std::chown
     END
     if (result == -1) {
       create_error_message(
-	module__builtin.constants_base[unique__std___IO_ERROR-1],
+	module__builtin.constants_base[unique__std__IO_ERROR-1],
 	"CHOWN FAILED", errno, 0, NULL);
     } else {
       PREPARE_NO_RESULT
@@ -1827,7 +1827,7 @@ FUNCTION std::chroot
     END
     if (result == -1) {
       create_error_message(
-	module__builtin.constants_base[unique__std___IO_ERROR-1],
+	module__builtin.constants_base[unique__std__IO_ERROR-1],
 	"CHROOT FAILED", errno, 0, NULL);
     } else {
       PREPARE_NO_RESULT
@@ -1854,7 +1854,7 @@ METHOD std_types::file_descriptor/close
     END
     if (result == -1) {
       create_error_message(
-	module__builtin.constants_base[unique__std___IO_ERROR-1],
+	module__builtin.constants_base[unique__std__IO_ERROR-1],
 	"CLOSE FAILED", errno, 0, NULL);
     } else {
       PREPARE_NO_RESULT
@@ -1878,7 +1878,7 @@ FUNCTION std::closedir
     END
     if (result == -1) {
       create_error_message(
-	module__builtin.constants_base[unique__std___IO_ERROR-1],
+	module__builtin.constants_base[unique__std__IO_ERROR-1],
 	"CLOSEDIR FAILED", errno, 0, NULL);
     } else {
       PREPARE_NO_RESULT
@@ -1907,7 +1907,7 @@ FUNCTION std::dup2
     END
     if (result == -1) {
       create_error_message(
-	module__builtin.constants_base[unique__std___IO_ERROR-1],
+	module__builtin.constants_base[unique__std__IO_ERROR-1],
 	"DUP2 FAILED", errno, 0, NULL);
     } else {
       PREPARE_NO_RESULT
@@ -1934,7 +1934,7 @@ FUNCTION std::fstat
     END
     if (result == -1) {
       create_error_message(
-	module__builtin.constants_base[unique__std___IO_ERROR-1],
+	module__builtin.constants_base[unique__std__IO_ERROR-1],
 	"FSTAT FAILED", errno, 0, NULL);
     } else {
       NODE *node__device_of = device_id_from_ulong(statbuf.st_dev);
@@ -1964,59 +1964,59 @@ FUNCTION std::fstat
       update_start_p = node_p;
       redefine_attribute(
 	node->attributes,
-	variables_table[var_no__std___device_of-FIRST_VAR].poly_idx,
+	variables_table[var_std__device_of-FIRST_VAR].poly_idx,
 	MAKE_ATTRIBUTE_VALUE(node__device_of));
       redefine_attribute(
 	node->attributes,
-	variables_table[var_no__std___inode_number_of-FIRST_VAR].poly_idx,
+	variables_table[var_std__inode_number_of-FIRST_VAR].poly_idx,
 	MAKE_ATTRIBUTE_VALUE(node__inode_number_of));
       redefine_attribute(
 	node->attributes,
-	variables_table[var_no__std___type_of-FIRST_VAR].poly_idx,
+	variables_table[var_std__type_of-FIRST_VAR].poly_idx,
 	MAKE_ATTRIBUTE_VALUE(node__type_of));
       redefine_attribute(
 	node->attributes,
-	variables_table[var_no__std___mode_of-FIRST_VAR].poly_idx,
+	variables_table[var_std__mode_of-FIRST_VAR].poly_idx,
 	MAKE_ATTRIBUTE_VALUE(node__mode_of));
       redefine_attribute(
 	node->attributes,
-	variables_table[var_no__std___link_count_of-FIRST_VAR].poly_idx,
+	variables_table[var_std__link_count_of-FIRST_VAR].poly_idx,
 	MAKE_ATTRIBUTE_VALUE(node__link_count_of));
       redefine_attribute(
 	node->attributes,
-	variables_table[var_no__std___user_id_of-FIRST_VAR].poly_idx,
+	variables_table[var_std__user_id_of-FIRST_VAR].poly_idx,
 	MAKE_ATTRIBUTE_VALUE(node__user_id_of));
       redefine_attribute(
 	node->attributes,
-	variables_table[var_no__std___group_id_of-FIRST_VAR].poly_idx,
+	variables_table[var_std__group_id_of-FIRST_VAR].poly_idx,
 	MAKE_ATTRIBUTE_VALUE(node__group_id_of));
       redefine_attribute(
 	node->attributes,
-	variables_table[var_no__std___root_device_of-FIRST_VAR].poly_idx,
+	variables_table[var_std__root_device_of-FIRST_VAR].poly_idx,
 	MAKE_ATTRIBUTE_VALUE(node__root_device_of));
       redefine_attribute(
 	node->attributes,
-	variables_table[var_no__std___size_of-FIRST_VAR].poly_idx,
+	variables_table[var_std__size_of-FIRST_VAR].poly_idx,
 	MAKE_ATTRIBUTE_VALUE(node__size_of));
       redefine_attribute(
 	node->attributes,
-	variables_table[var_no__std___block_size_of-FIRST_VAR].poly_idx,
+	variables_table[var_std__block_size_of-FIRST_VAR].poly_idx,
 	MAKE_ATTRIBUTE_VALUE(node__block_size_of));
       redefine_attribute(
 	node->attributes,
-	variables_table[var_no__std___block_count_of-FIRST_VAR].poly_idx,
+	variables_table[var_std__block_count_of-FIRST_VAR].poly_idx,
 	MAKE_ATTRIBUTE_VALUE(node__block_count_of));
       redefine_attribute(
 	node->attributes,
-	variables_table[var_no__std___access_time_of-FIRST_VAR].poly_idx,
+	variables_table[var_std__access_time_of-FIRST_VAR].poly_idx,
 	MAKE_ATTRIBUTE_VALUE(node_access_time_of));
       redefine_attribute(
 	node->attributes,
-	variables_table[var_no__std___modification_time_of-FIRST_VAR].poly_idx,
+	variables_table[var_std__modification_time_of-FIRST_VAR].poly_idx,
 	MAKE_ATTRIBUTE_VALUE(node_modification_time_of));
       redefine_attribute(
 	node->attributes,
-	variables_table[var_no__std___status_change_time_of-FIRST_VAR].poly_idx,
+	variables_table[var_std__status_change_time_of-FIRST_VAR].poly_idx,
 	MAKE_ATTRIBUTE_VALUE(node_status_change_time_of));
       PREPARE_SINGLE_RESULT(node)
     }
@@ -2039,7 +2039,7 @@ FUNCTION std::fsync
     END
     if (result == -1) {
       create_error_message(
-	module__builtin.constants_base[unique__std___IO_ERROR-1],
+	module__builtin.constants_base[unique__std__IO_ERROR-1],
 	"FSYNC FAILED", errno, 0, NULL);
     } else {
       PREPARE_NO_RESULT
@@ -2072,7 +2072,7 @@ FUNCTION std::getcwd
     END
     if (result == NULL) {
       create_error_message(
-	module__builtin.constants_base[unique__std___IO_ERROR-1],
+	module__builtin.constants_base[unique__std__IO_ERROR-1],
 	"GETCWD FAILED", errno, 0, NULL);
     } else {
       PREPARE_SINGLE_RESULT(from_c_string(result))
@@ -2097,7 +2097,7 @@ FUNCTION std::getenv
     END
     if (result == NULL) {
       create_error_message(
-	module__builtin.constants_base[unique__std___IO_ERROR-1],
+	module__builtin.constants_base[unique__std__IO_ERROR-1],
 	"GETENV FAILED", errno, 0, NULL);
     } else {
       PREPARE_SINGLE_RESULT(from_c_string(result))
@@ -2166,7 +2166,7 @@ FUNCTION std::gethostname
     END
     if (result == -1) {
       create_error_message(
-	module__builtin.constants_base[unique__std___IO_ERROR-1],
+	module__builtin.constants_base[unique__std__IO_ERROR-1],
 	"GETHOSTNAME FAILED", errno, 0, NULL);
     } else {
       PREPARE_SINGLE_RESULT(from_c_string(buf))
@@ -2187,7 +2187,7 @@ FUNCTION std::getlogin
     END
     if (result == NULL) {
       create_error_message(
-	module__builtin.constants_base[unique__std___IO_ERROR-1],
+	module__builtin.constants_base[unique__std__IO_ERROR-1],
 	"GETLOGIN FAILED", errno, 0, NULL);
     } else {
       PREPARE_SINGLE_RESULT(from_c_string(result))
@@ -2243,7 +2243,7 @@ FUNCTION std::getpwuid
     END
     if (result == NULL) {
       create_error_message(
-	module__builtin.constants_base[unique__std___IO_ERROR-1],
+	module__builtin.constants_base[unique__std__IO_ERROR-1],
 	"GETPWUID FAILED", errno, 0, NULL);
     } else {
       NODE *node__username_of = from_c_string(result->pw_name);
@@ -2257,31 +2257,31 @@ FUNCTION std::getpwuid
       update_start_p = node_p;
       redefine_attribute(
 	node->attributes,
-	variables_table[var_no__std___username_of-FIRST_VAR].poly_idx,
+	variables_table[var_std__username_of-FIRST_VAR].poly_idx,
 	MAKE_ATTRIBUTE_VALUE(node__username_of));
       redefine_attribute(
 	node->attributes,
-	variables_table[var_no__std___password_of-FIRST_VAR].poly_idx,
+	variables_table[var_std__password_of-FIRST_VAR].poly_idx,
 	MAKE_ATTRIBUTE_VALUE(node__password_of));
       redefine_attribute(
 	node->attributes,
-	variables_table[var_no__std___user_id_of-FIRST_VAR].poly_idx,
+	variables_table[var_std__user_id_of-FIRST_VAR].poly_idx,
 	MAKE_ATTRIBUTE_VALUE(node__user_id_of));
       redefine_attribute(
 	node->attributes,
-	variables_table[var_no__std___group_id_of-FIRST_VAR].poly_idx,
+	variables_table[var_std__group_id_of-FIRST_VAR].poly_idx,
 	MAKE_ATTRIBUTE_VALUE(node__group_id_of));
       redefine_attribute(
 	node->attributes,
-	variables_table[var_no__std___user_information_of-FIRST_VAR].poly_idx,
+	variables_table[var_std__user_information_of-FIRST_VAR].poly_idx,
 	MAKE_ATTRIBUTE_VALUE(node__user_information_of));
       redefine_attribute(
 	node->attributes,
-	variables_table[var_no__std___home_directory_of-FIRST_VAR].poly_idx,
+	variables_table[var_std__home_directory_of-FIRST_VAR].poly_idx,
 	MAKE_ATTRIBUTE_VALUE(node__home_directory_of));
       redefine_attribute(
 	node->attributes,
-	variables_table[var_no__std___shell_of-FIRST_VAR].poly_idx,
+	variables_table[var_std__shell_of-FIRST_VAR].poly_idx,
 	MAKE_ATTRIBUTE_VALUE(node__shell_of));
       PREPARE_SINGLE_RESULT(node)
     }
@@ -2304,7 +2304,7 @@ FUNCTION std::getsid
     END
     if (result == -1) {
       create_error_message(
-	module__builtin.constants_base[unique__std___IO_ERROR-1],
+	module__builtin.constants_base[unique__std__IO_ERROR-1],
 	"GETSID FAILED", errno, 0, NULL);
     } else {
       PREPARE_SINGLE_RESULT(process_id_from_int(result))
@@ -2364,7 +2364,7 @@ FUNCTION std::kill
     END
     if (result == -1) {
       create_error_message(
-	module__builtin.constants_base[unique__std___IO_ERROR-1],
+	module__builtin.constants_base[unique__std__IO_ERROR-1],
 	"KILL FAILED", errno, 0, NULL);
     } else {
       PREPARE_NO_RESULT
@@ -2385,7 +2385,7 @@ FUNCTION std::link
     EVENT(link)
       if (link(old_path, new_path) == -1) {
 	create_error_message(
-	  module__builtin.constants_base[unique__std___IO_ERROR-1],
+	  module__builtin.constants_base[unique__std__IO_ERROR-1],
 	  "LINK FAILED", errno, 0, NULL);
       } else {
 	PREPARE_NO_RESULT
@@ -2427,7 +2427,7 @@ FUNCTION std::lseek
     END
     if (result == -1) {
       create_error_message(
-	module__builtin.constants_base[unique__std___IO_ERROR-1],
+	module__builtin.constants_base[unique__std__IO_ERROR-1],
 	"LSEEK FAILED", errno, 0, NULL);
     } else {
       PREPARE_SINGLE_RESULT(from_long(result))
@@ -2455,7 +2455,7 @@ FUNCTION std::mkdir
     END
     if (result == -1) {
       create_error_message(
-	module__builtin.constants_base[unique__std___IO_ERROR-1],
+	module__builtin.constants_base[unique__std__IO_ERROR-1],
 	"MKDIR FAILED", errno, 0, NULL);
     } else {
       PREPARE_NO_RESULT
@@ -2504,7 +2504,7 @@ FUNCTION std::mkfifo
     END
     if (result == -1) {
       create_error_message(
-	module__builtin.constants_base[unique__std___IO_ERROR-1],
+	module__builtin.constants_base[unique__std__IO_ERROR-1],
 	"MKFIFO FAILED", errno, 0, NULL);
     } else {
       PREPARE_NO_RESULT
@@ -2586,7 +2586,7 @@ FUNCTION std::open
     END
     if (result == -1) {
       create_error_message(
-	module__builtin.constants_base[unique__std___IO_ERROR-1],
+	module__builtin.constants_base[unique__std__IO_ERROR-1],
 	"OPEN FAILED", errno, 0, ARGUMENTS(0));
     } else {
       PREPARE_SINGLE_RESULT(file_descriptor_from_int(result))
@@ -2651,7 +2651,7 @@ FUNCTION std::opendir
     END
     if (!result) {
       create_error_message(
-	module__builtin.constants_base[unique__std___IO_ERROR-1],
+	module__builtin.constants_base[unique__std__IO_ERROR-1],
 	"OPENDIR FAILED", errno, 0, ARGUMENTS(0));
     } else {
       PREPARE_SINGLE_RESULT(directory_from_ptr(result))
@@ -2683,7 +2683,7 @@ METHOD std_types::file_descriptor/read
     END
     if (bytes_read == -1) {
       create_error_message(
-	module__builtin.constants_base[unique__std___IO_ERROR-1],
+	module__builtin.constants_base[unique__std__IO_ERROR-1],
 	"READ FAILED", errno, 0, NULL);
     } else {
       PREPARE_SINGLE_RESULT(from_latin_1_string(buf, bytes_read))
@@ -2709,7 +2709,7 @@ FUNCTION std::readdir
     END
     if (result == NULL) {
       create_error_message(
-	module__builtin.constants_base[unique__std___IO_ERROR-1],
+	module__builtin.constants_base[unique__std__IO_ERROR-1],
 	"READDIR FAILED", errno, 0, NULL);
     } else {
       NODE *node__inode_number_of = inode_number_from_ulong(result->d_ino);
@@ -2719,15 +2719,15 @@ FUNCTION std::readdir
       update_start_p = node_p;
       redefine_attribute(
 	node->attributes,
-	variables_table[var_no__std___inode_number_of-FIRST_VAR].poly_idx,
+	variables_table[var_std__inode_number_of-FIRST_VAR].poly_idx,
 	MAKE_ATTRIBUTE_VALUE(node__inode_number_of));
       redefine_attribute(
 	node->attributes,
-	variables_table[var_no__std___type_of-FIRST_VAR].poly_idx,
+	variables_table[var_std__type_of-FIRST_VAR].poly_idx,
 	MAKE_ATTRIBUTE_VALUE(node__type_of));
       redefine_attribute(
 	node->attributes,
-	variables_table[var_no__std___name_of-FIRST_VAR].poly_idx,
+	variables_table[var_std__name_of-FIRST_VAR].poly_idx,
 	MAKE_ATTRIBUTE_VALUE(node__name_of));
       PREPARE_SINGLE_RESULT(node)
     }
@@ -2751,7 +2751,7 @@ FUNCTION std::realpath
     END
     if (result == NULL) {
       create_error_message(
-	module__builtin.constants_base[unique__std___IO_ERROR-1],
+	module__builtin.constants_base[unique__std__IO_ERROR-1],
 	"REALPATH FAILED", errno, 0, NULL);
     } else {
       PREPARE_SINGLE_RESULT(from_c_string(result))
@@ -2782,7 +2782,7 @@ FUNCTION std::rename
     END
     if (result == -1) {
       create_error_message(
-	module__builtin.constants_base[unique__std___IO_ERROR-1],
+	module__builtin.constants_base[unique__std__IO_ERROR-1],
 	"RENAME FAILED", errno, 0, NULL);
     } else {
       PREPARE_NO_RESULT
@@ -2814,7 +2814,7 @@ FUNCTION std::sethostname
     END
     if (result == -1) {
       create_error_message(
-	module__builtin.constants_base[unique__std___IO_ERROR-1],
+	module__builtin.constants_base[unique__std__IO_ERROR-1],
 	"SETHOSTNAME FAILED", errno, 0, NULL);
     } else {
       PREPARE_NO_RESULT
@@ -2843,7 +2843,7 @@ FUNCTION std::shutdown
     END
     if (result == -1) {
       create_error_message(
-	module__builtin.constants_base[unique__std___IO_ERROR-1],
+	module__builtin.constants_base[unique__std__IO_ERROR-1],
 	"SHUTDOWN FAILED", errno, 0, NULL);
     } else {
       PREPARE_NO_RESULT
@@ -2870,7 +2870,7 @@ FUNCTION std::stat
     END
     if (result == -1) {
       create_error_message(
-	module__builtin.constants_base[unique__std___IO_ERROR-1],
+	module__builtin.constants_base[unique__std__IO_ERROR-1],
 	"STAT FAILED", errno, 0, ARGUMENTS(0));
     } else {
       NODE *node__device_of = device_id_from_ulong(statbuf.st_dev);
@@ -2900,63 +2900,63 @@ FUNCTION std::stat
       update_start_p = node_p;
       redefine_attribute(
 	node->attributes,
-	variables_table[var_no__std___device_of-FIRST_VAR].poly_idx,
+	variables_table[var_std__device_of-FIRST_VAR].poly_idx,
 	MAKE_ATTRIBUTE_VALUE(node__device_of));
       redefine_attribute(
 	node->attributes,
-	variables_table[var_no__std___inode_number_of-FIRST_VAR].poly_idx,
+	variables_table[var_std__inode_number_of-FIRST_VAR].poly_idx,
 	MAKE_ATTRIBUTE_VALUE(node__inode_number_of));
       redefine_attribute(
 	node->attributes,
-	variables_table[var_no__std___type_of-FIRST_VAR].poly_idx,
+	variables_table[var_std__type_of-FIRST_VAR].poly_idx,
 	MAKE_ATTRIBUTE_VALUE(node__type_of));
       redefine_attribute(
 	node->attributes,
-	variables_table[var_no__std___mode_of-FIRST_VAR].poly_idx,
+	variables_table[var_std__mode_of-FIRST_VAR].poly_idx,
 	MAKE_ATTRIBUTE_VALUE(node__mode_of));
       redefine_attribute(
 	node->attributes,
-	variables_table[var_no__std___link_count_of-FIRST_VAR].poly_idx,
+	variables_table[var_std__link_count_of-FIRST_VAR].poly_idx,
 	MAKE_ATTRIBUTE_VALUE(node__link_count_of));
       redefine_attribute(
 	node->attributes,
-	variables_table[var_no__std___user_id_of-FIRST_VAR].poly_idx,
+	variables_table[var_std__user_id_of-FIRST_VAR].poly_idx,
 	MAKE_ATTRIBUTE_VALUE(node__user_id_of));
       redefine_attribute(
 	node->attributes,
-	variables_table[var_no__std___group_id_of-FIRST_VAR].poly_idx,
+	variables_table[var_std__group_id_of-FIRST_VAR].poly_idx,
 	MAKE_ATTRIBUTE_VALUE(node__group_id_of));
       redefine_attribute(
 	node->attributes,
-	variables_table[var_no__std___root_device_of-FIRST_VAR].poly_idx,
+	variables_table[var_std__root_device_of-FIRST_VAR].poly_idx,
 	MAKE_ATTRIBUTE_VALUE(node__root_device_of));
       redefine_attribute(
 	node->attributes,
-	variables_table[var_no__std___size_of-FIRST_VAR].poly_idx,
+	variables_table[var_std__size_of-FIRST_VAR].poly_idx,
 	MAKE_ATTRIBUTE_VALUE(node__size_of));
       redefine_attribute(
 	node->attributes,
-	variables_table[var_no__std___block_size_of-FIRST_VAR].poly_idx,
+	variables_table[var_std__block_size_of-FIRST_VAR].poly_idx,
 	MAKE_ATTRIBUTE_VALUE(node__block_size_of));
       redefine_attribute(
 	node->attributes,
-	variables_table[var_no__std___block_count_of-FIRST_VAR].poly_idx,
+	variables_table[var_std__block_count_of-FIRST_VAR].poly_idx,
 	MAKE_ATTRIBUTE_VALUE(node__block_count_of));
       redefine_attribute(
 	node->attributes,
-	variables_table[var_no__std___block_count_of-FIRST_VAR].poly_idx,
+	variables_table[var_std__block_count_of-FIRST_VAR].poly_idx,
 	MAKE_ATTRIBUTE_VALUE(node__block_count_of));
       redefine_attribute(
 	node->attributes,
-	variables_table[var_no__std___access_time_of-FIRST_VAR].poly_idx,
+	variables_table[var_std__access_time_of-FIRST_VAR].poly_idx,
 	MAKE_ATTRIBUTE_VALUE(node_access_time_of));
       redefine_attribute(
 	node->attributes,
-	variables_table[var_no__std___modification_time_of-FIRST_VAR].poly_idx,
+	variables_table[var_std__modification_time_of-FIRST_VAR].poly_idx,
 	MAKE_ATTRIBUTE_VALUE(node_modification_time_of));
       redefine_attribute(
 	node->attributes,
-	variables_table[var_no__std___status_change_time_of-FIRST_VAR].poly_idx,
+	variables_table[var_std__status_change_time_of-FIRST_VAR].poly_idx,
 	MAKE_ATTRIBUTE_VALUE(node_status_change_time_of));
       PREPARE_SINGLE_RESULT(node)
     }
@@ -2980,7 +2980,7 @@ FUNCTION std::strerror
     END
     if (result == NULL) {
       create_error_message(
-	module__builtin.constants_base[unique__std___IO_ERROR-1],
+	module__builtin.constants_base[unique__std__IO_ERROR-1],
 	"STRERROR FAILED", errno, 0, NULL);
     } else {
       PREPARE_SINGLE_RESULT(from_c_string(result))
@@ -3006,7 +3006,7 @@ FUNCTION std::wait
     END
     if (result == -1) {
       create_error_message(
-	module__builtin.constants_base[unique__std___IO_ERROR-1],
+	module__builtin.constants_base[unique__std__IO_ERROR-1],
 	"WAIT FAILED", errno, 0, NULL);
     } else {
       START_ARGUMENTS(2)
@@ -3037,7 +3037,7 @@ METHOD std_types::file_descriptor/write
     END
     if (bytes_written == -1) {
       create_error_message(
-	module__builtin.constants_base[unique__std___IO_ERROR-1],
+	module__builtin.constants_base[unique__std__IO_ERROR-1],
 	"WRITE FAILED", errno, 0, NULL);
     } else {
       PREPARE_SINGLE_RESULT(from_long(bytes_written))
@@ -3081,7 +3081,7 @@ FUNCTION std::unlink
     END
     if (result == -1) {
       create_error_message(
-	module__builtin.constants_base[unique__std___IO_ERROR-1],
+	module__builtin.constants_base[unique__std__IO_ERROR-1],
 	"UNLINK FAILED", errno, 0, NULL);
     } else {
       PREPARE_NO_RESULT
@@ -3110,7 +3110,7 @@ FUNCTION std::shm_unlink
       END
       if (result == -1) {
 	create_error_message(
-	  module__builtin.constants_base[unique__std___IO_ERROR-1],
+	  module__builtin.constants_base[unique__std__IO_ERROR-1],
 	  "SHM_UNLINK FAILED", errno, 0, NULL);
       } else {
 	PREPARE_NO_RESULT
@@ -3137,7 +3137,7 @@ FUNCTION std::usleep
     END
     if (result == -1) {
       create_error_message(
-	module__builtin.constants_base[unique__std___IO_ERROR-1],
+	module__builtin.constants_base[unique__std__IO_ERROR-1],
 	"SLEEP FAILED", errno, 0, NULL);
     } else {
       PREPARE_NO_RESULT

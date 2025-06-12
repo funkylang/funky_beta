@@ -30,72 +30,75 @@ enum {
   func_std_types__generic_terminal___set_text_attributes = -21,
   func_std_types__generic_terminal___add_text_attributes = -22,
   func_std_types__generic_terminal___remove_text_attributes = -23,
-  func_std_types__view___draw_text = -24,
-  func_std_types__view___draw_attributed_text = -25,
-  func_std_types__view___clear = -26,
-  lambda_5 = -27,
-  lambda_6 = -28,
-  func_std_types__view___invert = -29,
-  func_std_types__view___draw_shadow = -30,
-  func_clip_rectangle = -31,
-  lambda_7 = -32,
-  lambda_8 = -33,
-  lambda_9 = -34,
-  lambda_10 = -35,
-  lambda_11 = -36,
-  lambda_12 = -37,
-  func_std_types__view___copy = -38,
-  lambda_13 = -39,
-  lambda_14 = -40,
-  lambda_15 = -41,
-  lambda_16 = -42,
-  lambda_17 = -43,
-  lambda_18 = -44,
-  lambda_19 = -45,
-  lambda_20 = -46,
-  lambda_21 = -47,
-  func_std__create_vertical_panes = -48,
-  lambda_22 = -49,
-  lambda_23 = -50,
-  lambda_24 = -51,
-  lambda_25 = -52,
-  lambda_26 = -53,
-  lambda_27 = -54,
-  lambda_28 = -55,
-  lambda_29 = -56,
-  lambda_30 = -57,
-  lambda_31 = -58,
-  lambda_32 = -59,
-  lambda_33 = -60,
-  lambda_34 = -61,
-  func_create_pane_view = -62,
-  lambda_35 = -63,
-  lambda_36 = -64,
-  func_return = -65,
-  lambda_37 = -66,
-  lambda_38 = -67,
-  func_std__create_horizontal_panes = -68,
-  lambda_39 = -69,
-  lambda_40 = -70,
-  lambda_41 = -71,
-  lambda_42 = -72,
-  lambda_43 = -73,
-  lambda_44 = -74,
-  lambda_45 = -75,
-  lambda_46 = -76,
-  lambda_47 = -77,
-  lambda_48 = -78,
-  lambda_49 = -79,
-  lambda_50 = -80,
-  lambda_51 = -81,
-  lambda_52 = -82,
-  lambda_53 = -83,
-  func_2_create_pane_view = -84,
-  lambda_54 = -85,
-  lambda_55 = -86,
-  func_2_return = -87,
-  lambda_56 = -88,
-  lambda_57 = -89
+  func_std_types__generic_terminal___get_clear_colour = -24,
+  func_std_types__generic_terminal___get_draw_colour = -25,
+  func_std_types__generic_terminal___get_text_attributes = -26,
+  func_std_types__view___draw_text = -27,
+  func_std_types__view___draw_attributed_text = -28,
+  func_std_types__view___clear = -29,
+  lambda_5 = -30,
+  lambda_6 = -31,
+  func_std_types__view___invert = -32,
+  func_std_types__view___draw_shadow = -33,
+  func_clip_rectangle = -34,
+  lambda_7 = -35,
+  lambda_8 = -36,
+  lambda_9 = -37,
+  lambda_10 = -38,
+  lambda_11 = -39,
+  lambda_12 = -40,
+  func_std_types__view___copy = -41,
+  lambda_13 = -42,
+  lambda_14 = -43,
+  lambda_15 = -44,
+  lambda_16 = -45,
+  lambda_17 = -46,
+  lambda_18 = -47,
+  lambda_19 = -48,
+  lambda_20 = -49,
+  lambda_21 = -50,
+  func_std__create_vertical_panes = -51,
+  lambda_22 = -52,
+  lambda_23 = -53,
+  lambda_24 = -54,
+  lambda_25 = -55,
+  lambda_26 = -56,
+  lambda_27 = -57,
+  lambda_28 = -58,
+  lambda_29 = -59,
+  lambda_30 = -60,
+  lambda_31 = -61,
+  lambda_32 = -62,
+  lambda_33 = -63,
+  lambda_34 = -64,
+  func_create_pane_view = -65,
+  lambda_35 = -66,
+  lambda_36 = -67,
+  func_return = -68,
+  lambda_37 = -69,
+  lambda_38 = -70,
+  func_std__create_horizontal_panes = -71,
+  lambda_39 = -72,
+  lambda_40 = -73,
+  lambda_41 = -74,
+  lambda_42 = -75,
+  lambda_43 = -76,
+  lambda_44 = -77,
+  lambda_45 = -78,
+  lambda_46 = -79,
+  lambda_47 = -80,
+  lambda_48 = -81,
+  lambda_49 = -82,
+  lambda_50 = -83,
+  lambda_51 = -84,
+  lambda_52 = -85,
+  lambda_53 = -86,
+  func_2_create_pane_view = -87,
+  lambda_54 = -88,
+  lambda_55 = -89,
+  func_2_return = -90,
+  lambda_56 = -91,
+  lambda_57 = -92
 };
 
 enum {
@@ -119,6 +122,9 @@ enum {
   var_std__set_text_attributes, // attribute
   var_std__add_text_attributes, // attribute
   var_std__remove_text_attributes, // attribute
+  var_std__get_draw_colour, // attribute
+  var_std__get_clear_colour, // attribute
+  var_std__get_text_attributes, // attribute
   var_std__DRAW_COLOUR, // initialized
   var_std__CLEAR_COLOUR, // initialized
   var_std__TEXT_ATTRIBUTES, // initialized
@@ -160,14 +166,14 @@ enum {
   var_text_attributes_of, // extern polymorphic
   var_std_types__view, // derived
   var_basic_private__abs_x, // initialized
-  var_101_25_screen, // dynamic
-  var_101_32_x, // dynamic
+  var_104_25_screen, // dynamic
+  var_104_32_x, // dynamic
   var_std__less, // extern
   var_std__plus, // extern
   var_if, // extern
   var_basic_private__abs_y, // initialized
-  var_107_25_screen, // dynamic
-  var_107_32_y, // dynamic
+  var_110_25_screen, // dynamic
+  var_110_32_y, // dynamic
   var_std__create_view, // initialized
   var_std__minus, // extern
   var_set_clear_colour, // extern polymorphic
@@ -178,6 +184,9 @@ enum {
   var_remove_text_attributes, // extern polymorphic
   var_not, // extern
   var_std__bit_and, // extern
+  var_get_clear_colour, // extern polymorphic
+  var_get_draw_colour, // extern polymorphic
+  var_get_text_attributes, // extern polymorphic
   var_basic_private__draw_text, // attribute
   var_basic_private__draw_attributed_text, // attribute
   var_basic_private__clear, // attribute
@@ -185,53 +194,53 @@ enum {
   var_create_string, // extern
   var_draw_attributed_text, // extern polymorphic
   var_clear, // extern polymorphic
-  var_215_5_view, // dynamic
-  var_217_5_x, // dynamic
-  var_218_5_y, // dynamic
+  var_236_5_view, // dynamic
+  var_238_5_x, // dynamic
+  var_239_5_y, // dynamic
   var_is_undefined, // extern
   var_update_if, // extern
   var_invert, // extern polymorphic
   var_draw_shadow, // extern polymorphic
-  var_256_24_x, // dynamic
-  var_256_26_y, // dynamic
-  var_256_28_width, // dynamic
-  var_256_34_height, // dynamic
-  var_257_4_view_x, // dynamic
-  var_258_4_view_y, // dynamic
-  var_259_4_view_width, // dynamic
-  var_260_4_view_height, // dynamic
-  var_265_4_left_x, // dynamic
-  var_266_4_top_y, // dynamic
+  var_277_24_x, // dynamic
+  var_277_26_y, // dynamic
+  var_277_28_width, // dynamic
+  var_277_34_height, // dynamic
+  var_278_4_view_x, // dynamic
+  var_279_4_view_y, // dynamic
+  var_280_4_view_width, // dynamic
+  var_281_4_view_height, // dynamic
+  var_286_4_left_x, // dynamic
+  var_287_4_top_y, // dynamic
   var_copy, // extern polymorphic
-  var_282_5_destination, // dynamic
-  var_283_5_source, // dynamic
-  var_284_5_x, // dynamic
-  var_285_5_y, // dynamic
-  var_286_5_sx, // dynamic
-  var_287_5_sy, // dynamic
-  var_288_5_width, // dynamic
-  var_289_5_height, // dynamic
-  var_293_4_view_x, // dynamic
-  var_294_4_view_y, // dynamic
-  var_295_4_view_width, // dynamic
-  var_296_4_view_height, // dynamic
-  var_299_4_dx, // dynamic
-  var_300_4_dy, // dynamic
+  var_303_5_destination, // dynamic
+  var_304_5_source, // dynamic
+  var_305_5_x, // dynamic
+  var_306_5_y, // dynamic
+  var_307_5_sx, // dynamic
+  var_308_5_sy, // dynamic
+  var_309_5_width, // dynamic
+  var_310_5_height, // dynamic
+  var_314_4_view_x, // dynamic
+  var_315_4_view_y, // dynamic
+  var_316_4_view_width, // dynamic
+  var_317_4_view_height, // dynamic
+  var_320_4_dx, // dynamic
+  var_321_4_dy, // dynamic
   var_std__not, // extern
   var_std__or, // extern
   var_std__create_vertical_panes, // initialized
-  var_321_5_screen, // dynamic
-  var_322_5_pane_description, // dynamic
-  var_324_4_rc, // dynamic
+  var_342_5_screen, // dynamic
+  var_343_5_pane_description, // dynamic
+  var_345_4_rc, // dynamic
   var_result_count, // extern
-  var_325_4_x, // dynamic
-  var_326_4_y, // dynamic
-  var_327_4_width, // dynamic
-  var_328_4_height, // dynamic
-  var_329_4_views, // dynamic
+  var_346_4_x, // dynamic
+  var_347_4_y, // dynamic
+  var_348_4_width, // dynamic
+  var_349_4_height, // dynamic
+  var_350_4_views, // dynamic
   var_empty_list, // extern
   var_is_an_integer, // extern
-  var_333_8_iter, // dynamic
+  var_354_8_iter, // dynamic
   var_bresenham, // extern
   var_next_value, // extern
   var_create_view, // extern
@@ -239,14 +248,14 @@ enum {
   var_next, // extern
   var_repeat, // extern
   var_is_a_list, // extern
-  var_343_8_fixed_width, // dynamic
-  var_344_8_flex_width_count, // dynamic
-  var_346_12_pane_width, // dynamic
+  var_364_8_fixed_width, // dynamic
+  var_365_8_flex_width_count, // dynamic
+  var_367_12_pane_width, // dynamic
   var_inc, // extern
   var_plus, // extern
-  var_359_16_flex_width, // dynamic
-  var_360_16_remaining_flex_width, // dynamic
-  var_362_20_pane_width, // dynamic
+  var_380_16_flex_width, // dynamic
+  var_381_16_remaining_flex_width, // dynamic
+  var_383_20_pane_width, // dynamic
   var_dec, // extern
   var_std__times, // extern
   var_round, // extern
@@ -260,21 +269,21 @@ enum {
   var_std__equal, // extern
   var_spread, // extern
   var_std__create_horizontal_panes, // initialized
-  var_392_5_screen, // dynamic
-  var_393_5_pane_description, // dynamic
-  var_395_4_rc, // dynamic
-  var_396_4_x, // dynamic
-  var_397_4_y, // dynamic
-  var_398_4_width, // dynamic
-  var_399_4_height, // dynamic
-  var_400_4_views, // dynamic
-  var_404_8_iter, // dynamic
-  var_414_8_fixed_height, // dynamic
-  var_415_8_flex_height_count, // dynamic
-  var_417_12_pane_height, // dynamic
-  var_430_16_flex_height, // dynamic
-  var_431_16_remaining_flex_height, // dynamic
-  var_433_20_pane_height, // dynamic
+  var_413_5_screen, // dynamic
+  var_414_5_pane_description, // dynamic
+  var_416_4_rc, // dynamic
+  var_417_4_x, // dynamic
+  var_418_4_y, // dynamic
+  var_419_4_width, // dynamic
+  var_420_4_height, // dynamic
+  var_421_4_views, // dynamic
+  var_425_8_iter, // dynamic
+  var_435_8_fixed_height, // dynamic
+  var_436_8_flex_height_count, // dynamic
+  var_438_12_pane_height, // dynamic
+  var_451_16_flex_height, // dynamic
+  var_452_16_remaining_flex_height, // dynamic
+  var_454_20_pane_height, // dynamic
   var__END
 };
 
@@ -282,14 +291,14 @@ enum {
 static TAB_NUM t_func_basic_private__abs_x[] = {
   1, // locals
   2, // parameters
-  var_101_25_screen,
-  var_101_32_x,
+  var_104_25_screen,
+  var_104_32_x,
   // x < 0
-  var_std__less, 2, var_101_32_x, num_0, 1, LOCAL(1),
+  var_std__less, 2, var_104_32_x, num_0, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_1, lambda_2, TAIL_CALL,
-  POS(103, 5),
-  POS(102, 3)
+  POS(106, 5),
+  POS(105, 3)
 };
 
 static FUNCTION_INFO i_func_basic_private__abs_x = {
@@ -301,17 +310,17 @@ static TAB_NUM t_lambda_1[] = {
   3, // locals
   0, // parameters
   // width_of(screen)+x+1
-  var_width_of, 1, var_101_25_screen, 1, LOCAL(1),
+  var_width_of, 1, var_104_25_screen, 1, LOCAL(1),
   // width_of(screen)+x+1
-  var_std__plus, 2, LOCAL(1), var_101_32_x, 1, LOCAL(2),
+  var_std__plus, 2, LOCAL(1), var_104_32_x, 1, LOCAL(2),
   // width_of(screen)+x+1
   var_std__plus, 2, LOCAL(2), num_1, 1, LOCAL(3),
   //  width_of(screen)+x+1
   LET, 1, LOCAL(3), TAIL_CALL,
-  POS(104, 8),
-  POS(104, 8),
-  POS(104, 8),
-  POS(104, 7)
+  POS(107, 8),
+  POS(107, 8),
+  POS(107, 8),
+  POS(107, 7)
 };
 
 static FUNCTION_INFO i_lambda_1 = {
@@ -323,8 +332,8 @@ static TAB_NUM t_lambda_2[] = {
   0, // locals
   0, // parameters
   //  x
-  LET, 1, var_101_32_x, TAIL_CALL,
-  POS(105, 7)
+  LET, 1, var_104_32_x, TAIL_CALL,
+  POS(108, 7)
 };
 
 static FUNCTION_INFO i_lambda_2 = {
@@ -335,14 +344,14 @@ static FUNCTION_INFO i_lambda_2 = {
 static TAB_NUM t_func_basic_private__abs_y[] = {
   1, // locals
   2, // parameters
-  var_107_25_screen,
-  var_107_32_y,
+  var_110_25_screen,
+  var_110_32_y,
   // y < 0
-  var_std__less, 2, var_107_32_y, num_0, 1, LOCAL(1),
+  var_std__less, 2, var_110_32_y, num_0, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_3, lambda_4, TAIL_CALL,
-  POS(109, 5),
-  POS(108, 3)
+  POS(112, 5),
+  POS(111, 3)
 };
 
 static FUNCTION_INFO i_func_basic_private__abs_y = {
@@ -354,17 +363,17 @@ static TAB_NUM t_lambda_3[] = {
   3, // locals
   0, // parameters
   // height_of(screen)+y+1
-  var_height_of, 1, var_107_25_screen, 1, LOCAL(1),
+  var_height_of, 1, var_110_25_screen, 1, LOCAL(1),
   // height_of(screen)+y+1
-  var_std__plus, 2, LOCAL(1), var_107_32_y, 1, LOCAL(2),
+  var_std__plus, 2, LOCAL(1), var_110_32_y, 1, LOCAL(2),
   // height_of(screen)+y+1
   var_std__plus, 2, LOCAL(2), num_1, 1, LOCAL(3),
   //  height_of(screen)+y+1
   LET, 1, LOCAL(3), TAIL_CALL,
-  POS(110, 8),
-  POS(110, 8),
-  POS(110, 8),
-  POS(110, 7)
+  POS(113, 8),
+  POS(113, 8),
+  POS(113, 8),
+  POS(113, 7)
 };
 
 static FUNCTION_INFO i_lambda_3 = {
@@ -376,8 +385,8 @@ static TAB_NUM t_lambda_4[] = {
   0, // locals
   0, // parameters
   //  y
-  LET, 1, var_107_32_y, TAIL_CALL,
-  POS(111, 7)
+  LET, 1, var_110_32_y, TAIL_CALL,
+  POS(114, 7)
 };
 
 static FUNCTION_INFO i_lambda_4 = {
@@ -388,11 +397,11 @@ static FUNCTION_INFO i_lambda_4 = {
 static TAB_NUM t_func_std__create_view[] = {
   25, // locals
   5, // parameters
-  LOCAL(21), // 115_5_screen
-  LOCAL(22), // 116_5_left_x
-  LOCAL(23), // 117_5_top_y
-  LOCAL(24), // 118_5_right_x
-  LOCAL(25), // 119_5_bottom_y
+  LOCAL(21), // 118_5_screen
+  LOCAL(22), // 119_5_left_x
+  LOCAL(23), // 120_5_top_y
+  LOCAL(24), // 121_5_right_x
+  LOCAL(25), // 122_5_bottom_y
   // basic_private::abs_x screen &left_x
   var_basic_private__abs_x, 2, LOCAL(21), LOCAL(22), 1, LOCAL(22),
   // basic_private::abs_y screen &top_y
@@ -443,108 +452,108 @@ static TAB_NUM t_func_std__create_view[] = {
   LET, -13, var_std_types__view, var_x_of, LOCAL(3), var_y_of, LOCAL(6), var_width_of, LOCAL(8), var_height_of, LOCAL(10), var_character_width_of, LOCAL(11), var_ascent_of, LOCAL(12), var_descent_of, LOCAL(13), var_character_height_of, LOCAL(14), var_line_spacing_of, LOCAL(15), var_line_height_of, LOCAL(16), var_baseline_of, LOCAL(17), var_clear_colour_of, LOCAL(18), var_draw_colour_of, LOCAL(19), LOCAL(20),
   // ->
   LET, 1, LOCAL(20), TAIL_CALL,
-  POS(121, 3),
-  POS(122, 3),
-  POS(123, 3),
   POS(124, 3),
-  POS(127, 13),
-  POS(127, 13),
-  POS(127, 13),
-  POS(128, 13),
-  POS(128, 13),
-  POS(128, 13),
-  POS(129, 18),
-  POS(129, 18),
-  POS(130, 19),
-  POS(130, 19),
-  POS(131, 27),
+  POS(125, 3),
+  POS(126, 3),
+  POS(127, 3),
+  POS(130, 13),
+  POS(130, 13),
+  POS(130, 13),
+  POS(131, 13),
+  POS(131, 13),
+  POS(131, 13),
+  POS(132, 18),
   POS(132, 18),
   POS(133, 19),
-  POS(134, 28),
-  POS(135, 24),
-  POS(136, 23),
-  POS(137, 20),
+  POS(133, 19),
+  POS(134, 27),
+  POS(135, 18),
+  POS(136, 19),
+  POS(137, 28),
   POS(138, 24),
   POS(139, 23),
-  POS(126, 5),
-  POS(125, 3),
-  LOCAL(25),
-  LOCAL(21),
+  POS(140, 20),
+  POS(141, 24),
+  POS(142, 23),
+  POS(129, 5),
+  POS(128, 3),
   LOCAL(24),
-  LOCAL(23),
-  LOCAL(22)
+  LOCAL(21),
+  LOCAL(25),
+  LOCAL(22),
+  LOCAL(23)
 };
 
 static FUNCTION_INFO i_func_std__create_view = {
   t_func_std__create_view, NULL, 25, 5,
-  {"119_5_bottom_y\000", "115_5_screen\000", "118_5_right_x\000", "117_5_top_y\000", "116_5_left_x\000"}
+  {"121_5_right_x\000", "118_5_screen\000", "122_5_bottom_y\000", "119_5_left_x\000", "120_5_top_y\000"}
 };
 
 static TAB_NUM t_func_std_types__generic_terminal___set_clear_colour[] = {
   3, // locals
   2, // parameters
-  LOCAL(2), // 143_5_terminal
-  LOCAL(3), // 144_5_colour
+  LOCAL(2), // 146_5_terminal
+  LOCAL(3), // 147_5_colour
   // .clear_colour_of colour)
   LET, -1, LOCAL(2), var_clear_colour_of, LOCAL(3), LOCAL(1),
   // -> terminal(.clear_colour_of colour)
   LET, 1, LOCAL(1), TAIL_CALL,
-  POS(146, 15),
-  POS(146, 3),
+  POS(149, 15),
+  POS(149, 3),
   LOCAL(2),
   LOCAL(3)
 };
 
 static FUNCTION_INFO i_func_std_types__generic_terminal___set_clear_colour = {
   t_func_std_types__generic_terminal___set_clear_colour, NULL, 2, 2,
-  {"143_5_terminal\000", "144_5_colour\000"}
+  {"146_5_terminal\000", "147_5_colour\000"}
 };
 
 static TAB_NUM t_func_std_types__generic_terminal___set_draw_colour[] = {
   3, // locals
   2, // parameters
-  LOCAL(2), // 150_5_terminal
-  LOCAL(3), // 151_5_colour
+  LOCAL(2), // 153_5_terminal
+  LOCAL(3), // 154_5_colour
   // .draw_colour_of colour)
   LET, -1, LOCAL(2), var_draw_colour_of, LOCAL(3), LOCAL(1),
   // -> terminal(.draw_colour_of colour)
   LET, 1, LOCAL(1), TAIL_CALL,
-  POS(153, 15),
-  POS(153, 3),
-  LOCAL(2),
-  LOCAL(3)
+  POS(156, 15),
+  POS(156, 3),
+  LOCAL(3),
+  LOCAL(2)
 };
 
 static FUNCTION_INFO i_func_std_types__generic_terminal___set_draw_colour = {
   t_func_std_types__generic_terminal___set_draw_colour, NULL, 2, 2,
-  {"150_5_terminal\000", "151_5_colour\000"}
+  {"154_5_colour\000", "153_5_terminal\000"}
 };
 
 static TAB_NUM t_func_std_types__generic_terminal___set_text_attributes[] = {
   3, // locals
   2, // parameters
-  LOCAL(2), // 157_5_terminal
-  LOCAL(3), // 158_5_attributes
+  LOCAL(2), // 160_5_terminal
+  LOCAL(3), // 161_5_attributes
   // .text_attributes_of attributes)
   LET, -1, LOCAL(2), var_text_attributes_of, LOCAL(3), LOCAL(1),
   // -> terminal(.text_attributes_of attributes)
   LET, 1, LOCAL(1), TAIL_CALL,
-  POS(160, 15),
-  POS(160, 3),
-  LOCAL(2),
-  LOCAL(3)
+  POS(163, 15),
+  POS(163, 3),
+  LOCAL(3),
+  LOCAL(2)
 };
 
 static FUNCTION_INFO i_func_std_types__generic_terminal___set_text_attributes = {
   t_func_std_types__generic_terminal___set_text_attributes, NULL, 2, 2,
-  {"157_5_terminal\000", "158_5_attributes\000"}
+  {"161_5_attributes\000", "160_5_terminal\000"}
 };
 
 static TAB_NUM t_func_std_types__generic_terminal___add_text_attributes[] = {
   5, // locals
   2, // parameters
-  LOCAL(4), // 164_5_terminal
-  LOCAL(5), // 165_5_attributes
+  LOCAL(4), // 167_5_terminal
+  LOCAL(5), // 168_5_attributes
   // text_attributes_of(terminal) | attributes)
   var_text_attributes_of, 1, LOCAL(4), 1, LOCAL(1),
   // text_attributes_of(terminal) | attributes)
@@ -553,24 +562,24 @@ static TAB_NUM t_func_std_types__generic_terminal___add_text_attributes[] = {
   LET, -1, LOCAL(4), var_text_attributes_of, LOCAL(2), LOCAL(3),
   // -> terminal(.text_attributes_of text_attributes_of(terminal) | attributes)
   LET, 1, LOCAL(3), TAIL_CALL,
-  POS(167, 35),
-  POS(167, 35),
-  POS(167, 15),
-  POS(167, 3),
+  POS(170, 35),
+  POS(170, 35),
+  POS(170, 15),
+  POS(170, 3),
   LOCAL(5),
   LOCAL(4)
 };
 
 static FUNCTION_INFO i_func_std_types__generic_terminal___add_text_attributes = {
   t_func_std_types__generic_terminal___add_text_attributes, NULL, 4, 2,
-  {"165_5_attributes\000", "164_5_terminal\000"}
+  {"168_5_attributes\000", "167_5_terminal\000"}
 };
 
 static TAB_NUM t_func_std_types__generic_terminal___remove_text_attributes[] = {
   6, // locals
   2, // parameters
-  LOCAL(5), // 171_5_terminal
-  LOCAL(6), // 172_5_attributes
+  LOCAL(5), // 174_5_terminal
+  LOCAL(6), // 175_5_attributes
   // text_attributes_of(terminal) & not(attributes)
   var_text_attributes_of, 1, LOCAL(5), 1, LOCAL(1),
   // not(attributes)
@@ -581,28 +590,82 @@ static TAB_NUM t_func_std_types__generic_terminal___remove_text_attributes[] = {
   LET, -1, LOCAL(5), var_text_attributes_of, LOCAL(3), LOCAL(4),
   // ->
   LET, 1, LOCAL(4), TAIL_CALL,
-  POS(176, 27),
-  POS(176, 58),
-  POS(176, 27),
-  POS(175, 5),
-  POS(174, 3),
-  LOCAL(6),
-  LOCAL(5)
+  POS(179, 27),
+  POS(179, 58),
+  POS(179, 27),
+  POS(178, 5),
+  POS(177, 3),
+  LOCAL(5),
+  LOCAL(6)
 };
 
 static FUNCTION_INFO i_func_std_types__generic_terminal___remove_text_attributes = {
   t_func_std_types__generic_terminal___remove_text_attributes, NULL, 5, 2,
-  {"172_5_attributes\000", "171_5_terminal\000"}
+  {"174_5_terminal\000", "175_5_attributes\000"}
+};
+
+static TAB_NUM t_func_std_types__generic_terminal___get_clear_colour[] = {
+  2, // locals
+  1, // parameters
+  LOCAL(2), // 183_5_terminal
+  // clear_colour_of(terminal)
+  var_clear_colour_of, 1, LOCAL(2), 1, LOCAL(1),
+  // -> clear_colour_of(terminal)
+  LET, 1, LOCAL(1), TAIL_CALL,
+  POS(185, 6),
+  POS(185, 3),
+  LOCAL(2)
+};
+
+static FUNCTION_INFO i_func_std_types__generic_terminal___get_clear_colour = {
+  t_func_std_types__generic_terminal___get_clear_colour, NULL, 2, 1,
+  {"183_5_terminal\000"}
+};
+
+static TAB_NUM t_func_std_types__generic_terminal___get_draw_colour[] = {
+  2, // locals
+  1, // parameters
+  LOCAL(2), // 189_5_terminal
+  // draw_colour_of(terminal)
+  var_draw_colour_of, 1, LOCAL(2), 1, LOCAL(1),
+  // -> draw_colour_of(terminal)
+  LET, 1, LOCAL(1), TAIL_CALL,
+  POS(191, 6),
+  POS(191, 3),
+  LOCAL(2)
+};
+
+static FUNCTION_INFO i_func_std_types__generic_terminal___get_draw_colour = {
+  t_func_std_types__generic_terminal___get_draw_colour, NULL, 2, 1,
+  {"189_5_terminal\000"}
+};
+
+static TAB_NUM t_func_std_types__generic_terminal___get_text_attributes[] = {
+  2, // locals
+  1, // parameters
+  LOCAL(2), // 195_5_terminal
+  // text_attributes_of(terminal)
+  var_text_attributes_of, 1, LOCAL(2), 1, LOCAL(1),
+  // -> text_attributes_of(terminal)
+  LET, 1, LOCAL(1), TAIL_CALL,
+  POS(197, 6),
+  POS(197, 3),
+  LOCAL(2)
+};
+
+static FUNCTION_INFO i_func_std_types__generic_terminal___get_text_attributes = {
+  t_func_std_types__generic_terminal___get_text_attributes, NULL, 2, 1,
+  {"195_5_terminal\000"}
 };
 
 static TAB_NUM t_func_std_types__view___draw_text[] = {
   12, // locals
   -5, // parameters
-  MANDATORY_PARAMETER, LOCAL(7), // 184_5_view
-  MANDATORY_PARAMETER, LOCAL(8), // 185_5_screen
-  MANDATORY_PARAMETER, LOCAL(9), // 186_5_x
-  MANDATORY_PARAMETER, LOCAL(10), // 187_5_y
-  REST_PARAMETER, LOCAL(11), // 188_5_args
+  MANDATORY_PARAMETER, LOCAL(7), // 205_5_view
+  MANDATORY_PARAMETER, LOCAL(8), // 206_5_screen
+  MANDATORY_PARAMETER, LOCAL(9), // 207_5_x
+  MANDATORY_PARAMETER, LOCAL(10), // 208_5_y
+  REST_PARAMETER, LOCAL(11), // 209_5_args
   // $text create_string(args)
   var_create_string, 1, LOCAL(11), 1, LOCAL(12),
   // x_of(view)+x-1
@@ -619,35 +682,35 @@ static TAB_NUM t_func_std_types__view___draw_text[] = {
   var_std__minus, 2, LOCAL(5), num_1, 1, LOCAL(6),
   // basic_private::draw_text
   var_basic_private__draw_text, 5, LOCAL(8), LOCAL(7), LOCAL(3), LOCAL(6), LOCAL(12), TAIL_CALL,
-  POS(190, 3),
-  POS(194, 5),
-  POS(194, 5),
-  POS(194, 5),
-  POS(195, 5),
-  POS(195, 5),
-  POS(195, 5),
-  POS(191, 3),
-  LOCAL(10),
-  LOCAL(11),
+  POS(211, 3),
+  POS(215, 5),
+  POS(215, 5),
+  POS(215, 5),
+  POS(216, 5),
+  POS(216, 5),
+  POS(216, 5),
+  POS(212, 3),
   LOCAL(8),
+  LOCAL(7),
+  LOCAL(10),
   LOCAL(12),
   LOCAL(9),
-  LOCAL(7)
+  LOCAL(11)
 };
 
 static FUNCTION_INFO i_func_std_types__view___draw_text = {
   t_func_std_types__view___draw_text, NULL, 8, 6,
-  {"187_5_y\000", "188_5_args\000", "185_5_screen\000", "190_4_text\000", "186_5_x\000", "184_5_view\000"}
+  {"206_5_screen\000", "205_5_view\000", "208_5_y\000", "211_4_text\000", "207_5_x\000", "209_5_args\000"}
 };
 
 static TAB_NUM t_func_std_types__view___draw_attributed_text[] = {
   11, // locals
   5, // parameters
-  LOCAL(7), // 200_5_view
-  LOCAL(8), // 201_5_screen
-  LOCAL(9), // 202_5_x
-  LOCAL(10), // 203_5_y
-  LOCAL(11), // 204_5_attributed_text
+  LOCAL(7), // 221_5_view
+  LOCAL(8), // 222_5_screen
+  LOCAL(9), // 223_5_x
+  LOCAL(10), // 224_5_y
+  LOCAL(11), // 225_5_attributed_text
   // x_of(view)+x-1
   var_x_of, 1, LOCAL(7), 1, LOCAL(1),
   // x_of(view)+x-1
@@ -662,34 +725,34 @@ static TAB_NUM t_func_std_types__view___draw_attributed_text[] = {
   var_std__minus, 2, LOCAL(5), num_1, 1, LOCAL(6),
   // basic_private::draw_attributed_text
   var_basic_private__draw_attributed_text, 5, LOCAL(8), LOCAL(7), LOCAL(3), LOCAL(6), LOCAL(11), TAIL_CALL,
-  POS(209, 5),
-  POS(209, 5),
-  POS(209, 5),
-  POS(210, 5),
-  POS(210, 5),
-  POS(210, 5),
-  POS(206, 3),
+  POS(230, 5),
+  POS(230, 5),
+  POS(230, 5),
+  POS(231, 5),
+  POS(231, 5),
+  POS(231, 5),
+  POS(227, 3),
   LOCAL(8),
+  LOCAL(10),
   LOCAL(11),
-  LOCAL(9),
   LOCAL(7),
-  LOCAL(10)
+  LOCAL(9)
 };
 
 static FUNCTION_INFO i_func_std_types__view___draw_attributed_text = {
   t_func_std_types__view___draw_attributed_text, NULL, 7, 5,
-  {"201_5_screen\000", "204_5_attributed_text\000", "202_5_x\000", "200_5_view\000", "203_5_y\000"}
+  {"222_5_screen\000", "224_5_y\000", "225_5_attributed_text\000", "221_5_view\000", "223_5_x\000"}
 };
 
 static TAB_NUM t_func_std_types__view___clear[] = {
   9, // locals
   -6, // parameters
-  MANDATORY_PARAMETER, var_215_5_view,
-  MANDATORY_PARAMETER, LOCAL(7), // 216_5_screen
-  num_1, var_217_5_x,
-  num_1, var_218_5_y,
-  var_undefined, LOCAL(8), // 219_5_width
-  var_undefined, LOCAL(9), // 220_5_height
+  MANDATORY_PARAMETER, var_236_5_view,
+  MANDATORY_PARAMETER, LOCAL(7), // 237_5_screen
+  num_1, var_238_5_x,
+  num_1, var_239_5_y,
+  var_undefined, LOCAL(8), // 240_5_width
+  var_undefined, LOCAL(9), // 241_5_height
   // is_undefined &width -> width_of(view)-x+1
   var_is_undefined, 1, LOCAL(8), 1, LOCAL(1),
   // update_if width.is_undefined &width -> width_of(view)-x+1
@@ -699,55 +762,55 @@ static TAB_NUM t_func_std_types__view___clear[] = {
   // update_if height.is_undefined &height -> height_of(view)-y+1
   var_update_if, 3, LOCAL(1), LOCAL(9), lambda_6, 1, LOCAL(9),
   // x_of(view)+x-1
-  var_x_of, 1, var_215_5_view, 1, LOCAL(1),
+  var_x_of, 1, var_236_5_view, 1, LOCAL(1),
   // x_of(view)+x-1
-  var_std__plus, 2, LOCAL(1), var_217_5_x, 1, LOCAL(2),
+  var_std__plus, 2, LOCAL(1), var_238_5_x, 1, LOCAL(2),
   // x_of(view)+x-1
   var_std__minus, 2, LOCAL(2), num_1, 1, LOCAL(3),
   // y_of(view)+y-1
-  var_y_of, 1, var_215_5_view, 1, LOCAL(4),
+  var_y_of, 1, var_236_5_view, 1, LOCAL(4),
   // y_of(view)+y-1
-  var_std__plus, 2, LOCAL(4), var_218_5_y, 1, LOCAL(5),
+  var_std__plus, 2, LOCAL(4), var_239_5_y, 1, LOCAL(5),
   // y_of(view)+y-1
   var_std__minus, 2, LOCAL(5), num_1, 1, LOCAL(6),
   // basic_private::clear
-  var_basic_private__clear, 6, LOCAL(7), var_215_5_view, LOCAL(3), LOCAL(6), LOCAL(8), LOCAL(9), TAIL_CALL,
-  POS(222, 19),
-  POS(222, 3),
-  POS(223, 20),
-  POS(223, 3),
-  POS(227, 5),
-  POS(227, 5),
-  POS(227, 5),
-  POS(228, 5),
-  POS(228, 5),
-  POS(228, 5),
-  POS(224, 3),
-  LOCAL(8),
+  var_basic_private__clear, 6, LOCAL(7), var_236_5_view, LOCAL(3), LOCAL(6), LOCAL(8), LOCAL(9), TAIL_CALL,
+  POS(243, 19),
+  POS(243, 3),
+  POS(244, 20),
+  POS(244, 3),
+  POS(248, 5),
+  POS(248, 5),
+  POS(248, 5),
+  POS(249, 5),
+  POS(249, 5),
+  POS(249, 5),
+  POS(245, 3),
   LOCAL(7),
+  LOCAL(8),
   LOCAL(9)
 };
 
 static FUNCTION_INFO i_func_std_types__view___clear = {
   t_func_std_types__view___clear, NULL, 11, 3,
-  {"219_5_width\000", "216_5_screen\000", "220_5_height\000"}
+  {"237_5_screen\000", "240_5_width\000", "241_5_height\000"}
 };
 
 static TAB_NUM t_lambda_5[] = {
   3, // locals
   0, // parameters
   // width_of(view)-x+1
-  var_width_of, 1, var_215_5_view, 1, LOCAL(1),
+  var_width_of, 1, var_236_5_view, 1, LOCAL(1),
   // width_of(view)-x+1
-  var_std__minus, 2, LOCAL(1), var_217_5_x, 1, LOCAL(2),
+  var_std__minus, 2, LOCAL(1), var_238_5_x, 1, LOCAL(2),
   // width_of(view)-x+1
   var_std__plus, 2, LOCAL(2), num_1, 1, LOCAL(3),
   //  width_of(view)-x+1
   LET, 1, LOCAL(3), TAIL_CALL,
-  POS(222, 42),
-  POS(222, 42),
-  POS(222, 42),
-  POS(222, 41)
+  POS(243, 42),
+  POS(243, 42),
+  POS(243, 42),
+  POS(243, 41)
 };
 
 static FUNCTION_INFO i_lambda_5 = {
@@ -759,17 +822,17 @@ static TAB_NUM t_lambda_6[] = {
   3, // locals
   0, // parameters
   // height_of(view)-y+1
-  var_height_of, 1, var_215_5_view, 1, LOCAL(1),
+  var_height_of, 1, var_236_5_view, 1, LOCAL(1),
   // height_of(view)-y+1
-  var_std__minus, 2, LOCAL(1), var_218_5_y, 1, LOCAL(2),
+  var_std__minus, 2, LOCAL(1), var_239_5_y, 1, LOCAL(2),
   // height_of(view)-y+1
   var_std__plus, 2, LOCAL(2), num_1, 1, LOCAL(3),
   //  height_of(view)-y+1
   LET, 1, LOCAL(3), TAIL_CALL,
-  POS(223, 44),
-  POS(223, 44),
-  POS(223, 44),
-  POS(223, 43)
+  POS(244, 44),
+  POS(244, 44),
+  POS(244, 44),
+  POS(244, 43)
 };
 
 static FUNCTION_INFO i_lambda_6 = {
@@ -780,170 +843,170 @@ static FUNCTION_INFO i_lambda_6 = {
 static TAB_NUM t_func_std_types__view___invert[] = {
   6, // locals
   -6, // parameters
-  MANDATORY_PARAMETER, LOCAL(1), // 234_5_view
-  MANDATORY_PARAMETER, LOCAL(2), // 235_5_screen
-  num_1, LOCAL(3), // 236_5_x
-  num_1, LOCAL(4), // 237_5_y
-  var_undefined, LOCAL(5), // 238_5_width
-  var_undefined, LOCAL(6), // 239_5_height
+  MANDATORY_PARAMETER, LOCAL(1), // 255_5_view
+  MANDATORY_PARAMETER, LOCAL(2), // 256_5_screen
+  num_1, LOCAL(3), // 257_5_x
+  num_1, LOCAL(4), // 258_5_y
+  var_undefined, LOCAL(5), // 259_5_width
+  var_undefined, LOCAL(6), // 260_5_height
   // clip_rectangle view &x &y &width &height
   func_clip_rectangle, 5, LOCAL(1), LOCAL(3), LOCAL(4), LOCAL(5), LOCAL(6), 4, LOCAL(3), LOCAL(4), LOCAL(5), LOCAL(6),
   // invert screen x y width height
   var_invert, 5, LOCAL(2), LOCAL(3), LOCAL(4), LOCAL(5), LOCAL(6), TAIL_CALL,
-  POS(241, 3),
-  POS(242, 3),
-  LOCAL(6),
+  POS(262, 3),
+  POS(263, 3),
   LOCAL(2),
-  LOCAL(1),
   LOCAL(4),
   LOCAL(5),
-  LOCAL(3)
+  LOCAL(3),
+  LOCAL(1),
+  LOCAL(6)
 };
 
 static FUNCTION_INFO i_func_std_types__view___invert = {
   t_func_std_types__view___invert, NULL, 2, 6,
-  {"239_5_height\000", "235_5_screen\000", "234_5_view\000", "237_5_y\000", "238_5_width\000", "236_5_x\000"}
+  {"256_5_screen\000", "258_5_y\000", "259_5_width\000", "257_5_x\000", "255_5_view\000", "260_5_height\000"}
 };
 
 static TAB_NUM t_func_std_types__view___draw_shadow[] = {
   6, // locals
   -6, // parameters
-  MANDATORY_PARAMETER, LOCAL(1), // 246_5_view
-  MANDATORY_PARAMETER, LOCAL(2), // 247_5_screen
-  num_1, LOCAL(3), // 248_5_x
-  num_1, LOCAL(4), // 249_5_y
-  var_undefined, LOCAL(5), // 250_5_width
-  var_undefined, LOCAL(6), // 251_5_height
+  MANDATORY_PARAMETER, LOCAL(1), // 267_5_view
+  MANDATORY_PARAMETER, LOCAL(2), // 268_5_screen
+  num_1, LOCAL(3), // 269_5_x
+  num_1, LOCAL(4), // 270_5_y
+  var_undefined, LOCAL(5), // 271_5_width
+  var_undefined, LOCAL(6), // 272_5_height
   // clip_rectangle view &x &y &width &height
   func_clip_rectangle, 5, LOCAL(1), LOCAL(3), LOCAL(4), LOCAL(5), LOCAL(6), 4, LOCAL(3), LOCAL(4), LOCAL(5), LOCAL(6),
   // draw_shadow screen x y width height
   var_draw_shadow, 5, LOCAL(2), LOCAL(3), LOCAL(4), LOCAL(5), LOCAL(6), TAIL_CALL,
-  POS(253, 3),
-  POS(254, 3),
-  LOCAL(4),
-  LOCAL(2),
-  LOCAL(3),
-  LOCAL(1),
+  POS(274, 3),
+  POS(275, 3),
   LOCAL(6),
-  LOCAL(5)
+  LOCAL(2),
+  LOCAL(1),
+  LOCAL(3),
+  LOCAL(5),
+  LOCAL(4)
 };
 
 static FUNCTION_INFO i_func_std_types__view___draw_shadow = {
   t_func_std_types__view___draw_shadow, NULL, 2, 6,
-  {"249_5_y\000", "247_5_screen\000", "248_5_x\000", "246_5_view\000", "251_5_height\000", "250_5_width\000"}
+  {"272_5_height\000", "268_5_screen\000", "267_5_view\000", "269_5_x\000", "271_5_width\000", "270_5_y\000"}
 };
 
 static TAB_NUM t_func_clip_rectangle[] = {
   5, // locals
   5, // parameters
-  LOCAL(3), // 256_19_view
-  var_256_24_x,
-  var_256_26_y,
-  var_256_28_width,
-  var_256_34_height,
+  LOCAL(3), // 277_19_view
+  var_277_24_x,
+  var_277_26_y,
+  var_277_28_width,
+  var_277_34_height,
   // $view_x x_of(view)
-  var_x_of, 1, LOCAL(3), 1, var_257_4_view_x,
+  var_x_of, 1, LOCAL(3), 1, var_278_4_view_x,
   // $view_y y_of(view)
-  var_y_of, 1, LOCAL(3), 1, var_258_4_view_y,
+  var_y_of, 1, LOCAL(3), 1, var_279_4_view_y,
   // $view_width width_of(view)
-  var_width_of, 1, LOCAL(3), 1, var_259_4_view_width,
+  var_width_of, 1, LOCAL(3), 1, var_280_4_view_width,
   // $view_height height_of(view)
-  var_height_of, 1, LOCAL(3), 1, var_260_4_view_height,
+  var_height_of, 1, LOCAL(3), 1, var_281_4_view_height,
   // is_undefined &width -> view_width-x+1
-  var_is_undefined, 1, var_256_28_width, 1, LOCAL(1),
+  var_is_undefined, 1, var_277_28_width, 1, LOCAL(1),
   // update_if width.is_undefined &width -> view_width-x+1
-  var_update_if, 3, LOCAL(1), var_256_28_width, lambda_7, 1, var_256_28_width,
+  var_update_if, 3, LOCAL(1), var_277_28_width, lambda_7, 1, var_277_28_width,
   // is_undefined &height -> view_height-y+1
-  var_is_undefined, 1, var_256_34_height, 1, LOCAL(1),
+  var_is_undefined, 1, var_277_34_height, 1, LOCAL(1),
   // update_if height.is_undefined &height -> view_height-y+1
-  var_update_if, 3, LOCAL(1), var_256_34_height, lambda_8, 1, var_256_34_height,
+  var_update_if, 3, LOCAL(1), var_277_34_height, lambda_8, 1, var_277_34_height,
   // view_x+x-1
-  var_std__plus, 2, var_257_4_view_x, var_256_24_x, 1, LOCAL(1),
+  var_std__plus, 2, var_278_4_view_x, var_277_24_x, 1, LOCAL(1),
   // $left_x view_x+x-1
-  var_std__minus, 2, LOCAL(1), num_1, 1, var_265_4_left_x,
+  var_std__minus, 2, LOCAL(1), num_1, 1, var_286_4_left_x,
   // view_y+y-1
-  var_std__plus, 2, var_258_4_view_y, var_256_26_y, 1, LOCAL(1),
+  var_std__plus, 2, var_279_4_view_y, var_277_26_y, 1, LOCAL(1),
   // $top_y view_y+y-1
-  var_std__minus, 2, LOCAL(1), num_1, 1, var_266_4_top_y,
+  var_std__minus, 2, LOCAL(1), num_1, 1, var_287_4_top_y,
   // $right_x left_x+width # exclusive
-  var_std__plus, 2, var_265_4_left_x, var_256_28_width, 1, LOCAL(4),
+  var_std__plus, 2, var_286_4_left_x, var_277_28_width, 1, LOCAL(4),
   // $bottom_y top_y+height # exclusive
-  var_std__plus, 2, var_266_4_top_y, var_256_34_height, 1, LOCAL(5),
+  var_std__plus, 2, var_287_4_top_y, var_277_34_height, 1, LOCAL(5),
   // left_x < view_x &left_x &width -> view_x width-(view_x-left_x)
-  var_std__less, 2, var_265_4_left_x, var_257_4_view_x, 1, LOCAL(1),
+  var_std__less, 2, var_286_4_left_x, var_278_4_view_x, 1, LOCAL(1),
   // update_if left_x < view_x &left_x &width -> view_x width-(view_x-left_x)
-  var_update_if, 4, LOCAL(1), var_265_4_left_x, var_256_28_width, lambda_9, 2, var_265_4_left_x, var_256_28_width,
+  var_update_if, 4, LOCAL(1), var_286_4_left_x, var_277_28_width, lambda_9, 2, var_286_4_left_x, var_277_28_width,
   // top_y < view_y &top_y &height -> view_y height-(view_y-top_y)
-  var_std__less, 2, var_266_4_top_y, var_258_4_view_y, 1, LOCAL(1),
+  var_std__less, 2, var_287_4_top_y, var_279_4_view_y, 1, LOCAL(1),
   // update_if top_y < view_y &top_y &height -> view_y height-(view_y-top_y)
-  var_update_if, 4, LOCAL(1), var_266_4_top_y, var_256_34_height, lambda_10, 2, var_266_4_top_y, var_256_34_height,
+  var_update_if, 4, LOCAL(1), var_287_4_top_y, var_277_34_height, lambda_10, 2, var_287_4_top_y, var_277_34_height,
   // view_x+view_width &right_x -> view_x+view_width
-  var_std__plus, 2, var_257_4_view_x, var_259_4_view_width, 1, LOCAL(1),
+  var_std__plus, 2, var_278_4_view_x, var_280_4_view_width, 1, LOCAL(1),
   // view_x+view_width &right_x -> view_x+view_width
   var_std__less, 2, LOCAL(1), LOCAL(4), 1, LOCAL(2),
   // update_if right_x > view_x+view_width &right_x -> view_x+view_width
   var_update_if, 3, LOCAL(2), LOCAL(4), lambda_11, 1, LOCAL(4),
   // view_y+view_height &bottom_y -> view_y+view_height
-  var_std__plus, 2, var_258_4_view_y, var_260_4_view_height, 1, LOCAL(1),
+  var_std__plus, 2, var_279_4_view_y, var_281_4_view_height, 1, LOCAL(1),
   // view_y+view_height &bottom_y -> view_y+view_height
   var_std__less, 2, LOCAL(1), LOCAL(5), 1, LOCAL(2),
   // update_if bottom_y > view_y+view_height &bottom_y -> view_y+view_height
   var_update_if, 3, LOCAL(2), LOCAL(5), lambda_12, 1, LOCAL(5),
   // right_x-left_x bottom_y-top_y
-  var_std__minus, 2, LOCAL(4), var_265_4_left_x, 1, LOCAL(1),
+  var_std__minus, 2, LOCAL(4), var_286_4_left_x, 1, LOCAL(1),
   // bottom_y-top_y
-  var_std__minus, 2, LOCAL(5), var_266_4_top_y, 1, LOCAL(2),
+  var_std__minus, 2, LOCAL(5), var_287_4_top_y, 1, LOCAL(2),
   // -> left_x top_y right_x-left_x bottom_y-top_y
-  LET, 4, var_265_4_left_x, var_266_4_top_y, LOCAL(1), LOCAL(2), TAIL_CALL,
-  POS(257, 3),
-  POS(258, 3),
-  POS(259, 3),
-  POS(260, 3),
-  POS(262, 19),
-  POS(262, 3),
-  POS(263, 20),
-  POS(263, 3),
-  POS(265, 11),
-  POS(265, 3),
-  POS(266, 10),
-  POS(266, 3),
-  POS(267, 3),
-  POS(268, 3),
-  POS(272, 13),
-  POS(272, 3),
-  POS(273, 13),
-  POS(273, 3),
-  POS(274, 23),
-  POS(274, 23),
-  POS(274, 3),
-  POS(275, 24),
-  POS(275, 24),
-  POS(275, 3),
-  POS(277, 19),
-  POS(277, 34),
-  POS(277, 3),
+  LET, 4, var_286_4_left_x, var_287_4_top_y, LOCAL(1), LOCAL(2), TAIL_CALL,
+  POS(278, 3),
+  POS(279, 3),
+  POS(280, 3),
+  POS(281, 3),
+  POS(283, 19),
+  POS(283, 3),
+  POS(284, 20),
+  POS(284, 3),
+  POS(286, 11),
+  POS(286, 3),
+  POS(287, 10),
+  POS(287, 3),
+  POS(288, 3),
+  POS(289, 3),
+  POS(293, 13),
+  POS(293, 3),
+  POS(294, 13),
+  POS(294, 3),
+  POS(295, 23),
+  POS(295, 23),
+  POS(295, 3),
+  POS(296, 24),
+  POS(296, 24),
+  POS(296, 3),
+  POS(298, 19),
+  POS(298, 34),
+  POS(298, 3),
+  LOCAL(5),
   LOCAL(4),
-  LOCAL(3),
-  LOCAL(5)
+  LOCAL(3)
 };
 
 static FUNCTION_INFO i_func_clip_rectangle = {
   t_func_clip_rectangle, NULL, 27, 3,
-  {"267_4_right_x\000", "256_19_view\000", "268_4_bottom_y\000"}
+  {"289_4_bottom_y\000", "288_4_right_x\000", "277_19_view\000"}
 };
 
 static TAB_NUM t_lambda_7[] = {
   2, // locals
   0, // parameters
   // view_width-x+1
-  var_std__minus, 2, var_259_4_view_width, var_256_24_x, 1, LOCAL(1),
+  var_std__minus, 2, var_280_4_view_width, var_277_24_x, 1, LOCAL(1),
   // view_width-x+1
   var_std__plus, 2, LOCAL(1), num_1, 1, LOCAL(2),
   //  view_width-x+1
   LET, 1, LOCAL(2), TAIL_CALL,
-  POS(262, 42),
-  POS(262, 42),
-  POS(262, 41)
+  POS(283, 42),
+  POS(283, 42),
+  POS(283, 41)
 };
 
 static FUNCTION_INFO i_lambda_7 = {
@@ -955,14 +1018,14 @@ static TAB_NUM t_lambda_8[] = {
   2, // locals
   0, // parameters
   // view_height-y+1
-  var_std__minus, 2, var_260_4_view_height, var_256_26_y, 1, LOCAL(1),
+  var_std__minus, 2, var_281_4_view_height, var_277_26_y, 1, LOCAL(1),
   // view_height-y+1
   var_std__plus, 2, LOCAL(1), num_1, 1, LOCAL(2),
   //  view_height-y+1
   LET, 1, LOCAL(2), TAIL_CALL,
-  POS(263, 44),
-  POS(263, 44),
-  POS(263, 43)
+  POS(284, 44),
+  POS(284, 44),
+  POS(284, 43)
 };
 
 static FUNCTION_INFO i_lambda_8 = {
@@ -974,14 +1037,14 @@ static TAB_NUM t_lambda_9[] = {
   2, // locals
   0, // parameters
   // view_x-left_x)
-  var_std__minus, 2, var_257_4_view_x, var_265_4_left_x, 1, LOCAL(1),
+  var_std__minus, 2, var_278_4_view_x, var_286_4_left_x, 1, LOCAL(1),
   // width-(view_x-left_x)
-  var_std__minus, 2, var_256_28_width, LOCAL(1), 1, LOCAL(2),
+  var_std__minus, 2, var_277_28_width, LOCAL(1), 1, LOCAL(2),
   //  view_x width-(view_x-left_x)
-  LET, 2, var_257_4_view_x, LOCAL(2), TAIL_CALL,
-  POS(272, 61),
-  POS(272, 54),
-  POS(272, 46)
+  LET, 2, var_278_4_view_x, LOCAL(2), TAIL_CALL,
+  POS(293, 61),
+  POS(293, 54),
+  POS(293, 46)
 };
 
 static FUNCTION_INFO i_lambda_9 = {
@@ -993,14 +1056,14 @@ static TAB_NUM t_lambda_10[] = {
   2, // locals
   0, // parameters
   // view_y-top_y)
-  var_std__minus, 2, var_258_4_view_y, var_266_4_top_y, 1, LOCAL(1),
+  var_std__minus, 2, var_279_4_view_y, var_287_4_top_y, 1, LOCAL(1),
   // height-(view_y-top_y)
-  var_std__minus, 2, var_256_34_height, LOCAL(1), 1, LOCAL(2),
+  var_std__minus, 2, var_277_34_height, LOCAL(1), 1, LOCAL(2),
   //  view_y height-(view_y-top_y)
-  LET, 2, var_258_4_view_y, LOCAL(2), TAIL_CALL,
-  POS(273, 61),
-  POS(273, 53),
-  POS(273, 45)
+  LET, 2, var_279_4_view_y, LOCAL(2), TAIL_CALL,
+  POS(294, 61),
+  POS(294, 53),
+  POS(294, 45)
 };
 
 static FUNCTION_INFO i_lambda_10 = {
@@ -1012,11 +1075,11 @@ static TAB_NUM t_lambda_11[] = {
   1, // locals
   0, // parameters
   // view_x+view_width
-  var_std__plus, 2, var_257_4_view_x, var_259_4_view_width, 1, LOCAL(1),
+  var_std__plus, 2, var_278_4_view_x, var_280_4_view_width, 1, LOCAL(1),
   //  view_x+view_width
   LET, 1, LOCAL(1), TAIL_CALL,
-  POS(274, 53),
-  POS(274, 52)
+  POS(295, 53),
+  POS(295, 52)
 };
 
 static FUNCTION_INFO i_lambda_11 = {
@@ -1028,11 +1091,11 @@ static TAB_NUM t_lambda_12[] = {
   1, // locals
   0, // parameters
   // view_y+view_height
-  var_std__plus, 2, var_258_4_view_y, var_260_4_view_height, 1, LOCAL(1),
+  var_std__plus, 2, var_279_4_view_y, var_281_4_view_height, 1, LOCAL(1),
   //  view_y+view_height
   LET, 1, LOCAL(1), TAIL_CALL,
-  POS(275, 56),
-  POS(275, 55)
+  POS(296, 56),
+  POS(296, 55)
 };
 
 static FUNCTION_INFO i_lambda_12 = {
@@ -1043,128 +1106,128 @@ static FUNCTION_INFO i_lambda_12 = {
 static TAB_NUM t_func_std_types__view___copy[] = {
   4, // locals
   -9, // parameters
-  MANDATORY_PARAMETER, LOCAL(4), // 281_5_view
-  MANDATORY_PARAMETER, var_282_5_destination,
-  MANDATORY_PARAMETER, var_283_5_source,
-  num_1, var_284_5_x,
-  num_1, var_285_5_y,
-  num_1, var_286_5_sx,
-  num_1, var_287_5_sy,
-  var_undefined, var_288_5_width,
-  var_undefined, var_289_5_height,
+  MANDATORY_PARAMETER, LOCAL(4), // 302_5_view
+  MANDATORY_PARAMETER, var_303_5_destination,
+  MANDATORY_PARAMETER, var_304_5_source,
+  num_1, var_305_5_x,
+  num_1, var_306_5_y,
+  num_1, var_307_5_sx,
+  num_1, var_308_5_sy,
+  var_undefined, var_309_5_width,
+  var_undefined, var_310_5_height,
   // is_undefined &width -> width_of(source)-sx+1
-  var_is_undefined, 1, var_288_5_width, 1, LOCAL(1),
+  var_is_undefined, 1, var_309_5_width, 1, LOCAL(1),
   // update_if width.is_undefined &width -> width_of(source)-sx+1
-  var_update_if, 3, LOCAL(1), var_288_5_width, lambda_13, 1, var_288_5_width,
+  var_update_if, 3, LOCAL(1), var_309_5_width, lambda_13, 1, var_309_5_width,
   // is_undefined &height -> height_of(source)-sy+1
-  var_is_undefined, 1, var_289_5_height, 1, LOCAL(1),
+  var_is_undefined, 1, var_310_5_height, 1, LOCAL(1),
   // update_if height.is_undefined &height -> height_of(source)-sy+1
-  var_update_if, 3, LOCAL(1), var_289_5_height, lambda_14, 1, var_289_5_height,
+  var_update_if, 3, LOCAL(1), var_310_5_height, lambda_14, 1, var_310_5_height,
   // $view_x x_of(view)
-  var_x_of, 1, LOCAL(4), 1, var_293_4_view_x,
+  var_x_of, 1, LOCAL(4), 1, var_314_4_view_x,
   // $view_y y_of(view)
-  var_y_of, 1, LOCAL(4), 1, var_294_4_view_y,
+  var_y_of, 1, LOCAL(4), 1, var_315_4_view_y,
   // $view_width width_of(view)
-  var_width_of, 1, LOCAL(4), 1, var_295_4_view_width,
+  var_width_of, 1, LOCAL(4), 1, var_316_4_view_width,
   // $view_height height_of(view)
-  var_height_of, 1, LOCAL(4), 1, var_296_4_view_height,
+  var_height_of, 1, LOCAL(4), 1, var_317_4_view_height,
   // x+view_x-1
-  var_std__plus, 2, var_284_5_x, var_293_4_view_x, 1, LOCAL(1),
+  var_std__plus, 2, var_305_5_x, var_314_4_view_x, 1, LOCAL(1),
   // !x x+view_x-1
-  var_std__minus, 2, LOCAL(1), num_1, 1, var_284_5_x,
+  var_std__minus, 2, LOCAL(1), num_1, 1, var_305_5_x,
   // y+view_y-1
-  var_std__plus, 2, var_285_5_y, var_294_4_view_y, 1, LOCAL(1),
+  var_std__plus, 2, var_306_5_y, var_315_4_view_y, 1, LOCAL(1),
   // !y y+view_y-1
-  var_std__minus, 2, LOCAL(1), num_1, 1, var_285_5_y,
+  var_std__minus, 2, LOCAL(1), num_1, 1, var_306_5_y,
   // $dx view_x-x
-  var_std__minus, 2, var_293_4_view_x, var_284_5_x, 1, var_299_4_dx,
+  var_std__minus, 2, var_314_4_view_x, var_305_5_x, 1, var_320_4_dx,
   // $dy view_y-y
-  var_std__minus, 2, var_294_4_view_y, var_285_5_y, 1, var_300_4_dy,
+  var_std__minus, 2, var_315_4_view_y, var_306_5_y, 1, var_321_4_dy,
   // 0 &x &sx &width -> view_x sx+dx width-dx
-  var_std__less, 2, num_0, var_299_4_dx, 1, LOCAL(1),
+  var_std__less, 2, num_0, var_320_4_dx, 1, LOCAL(1),
   // update_if dx > 0 &x &sx &width -> view_x sx+dx width-dx
-  var_update_if, 5, LOCAL(1), var_284_5_x, var_286_5_sx, var_288_5_width, lambda_15, 3, var_284_5_x, var_286_5_sx, var_288_5_width,
+  var_update_if, 5, LOCAL(1), var_305_5_x, var_307_5_sx, var_309_5_width, lambda_15, 3, var_305_5_x, var_307_5_sx, var_309_5_width,
   // 0 &y &sy &height -> view_y sy+dy height-dy
-  var_std__less, 2, num_0, var_300_4_dy, 1, LOCAL(1),
+  var_std__less, 2, num_0, var_321_4_dy, 1, LOCAL(1),
   // update_if dy > 0 &y &sy &height -> view_y sy+dy height-dy
-  var_update_if, 5, LOCAL(1), var_285_5_y, var_287_5_sy, var_289_5_height, lambda_16, 3, var_285_5_y, var_287_5_sy, var_289_5_height,
+  var_update_if, 5, LOCAL(1), var_306_5_y, var_308_5_sy, var_310_5_height, lambda_16, 3, var_306_5_y, var_308_5_sy, var_310_5_height,
   // x-view_x+width > view_width &width -> view_width-(x-view_x)
-  var_std__minus, 2, var_284_5_x, var_293_4_view_x, 1, LOCAL(1),
+  var_std__minus, 2, var_305_5_x, var_314_4_view_x, 1, LOCAL(1),
   // x-view_x+width > view_width &width -> view_width-(x-view_x)
-  var_std__plus, 2, LOCAL(1), var_288_5_width, 1, LOCAL(2),
+  var_std__plus, 2, LOCAL(1), var_309_5_width, 1, LOCAL(2),
   // view_width &width -> view_width-(x-view_x)
-  var_std__less, 2, var_295_4_view_width, LOCAL(2), 1, LOCAL(3),
+  var_std__less, 2, var_316_4_view_width, LOCAL(2), 1, LOCAL(3),
   // update_if x-view_x+width > view_width &width -> view_width-(x-view_x)
-  var_update_if, 3, LOCAL(3), var_288_5_width, lambda_17, 1, var_288_5_width,
+  var_update_if, 3, LOCAL(3), var_309_5_width, lambda_17, 1, var_309_5_width,
   // y-view_y+height > view_height &height -> view_height-(y-view_y)
-  var_std__minus, 2, var_285_5_y, var_294_4_view_y, 1, LOCAL(1),
+  var_std__minus, 2, var_306_5_y, var_315_4_view_y, 1, LOCAL(1),
   // y-view_y+height > view_height &height -> view_height-(y-view_y)
-  var_std__plus, 2, LOCAL(1), var_289_5_height, 1, LOCAL(2),
+  var_std__plus, 2, LOCAL(1), var_310_5_height, 1, LOCAL(2),
   // view_height &height -> view_height-(y-view_y)
-  var_std__less, 2, var_296_4_view_height, LOCAL(2), 1, LOCAL(3),
+  var_std__less, 2, var_317_4_view_height, LOCAL(2), 1, LOCAL(3),
   // update_if y-view_y+height > view_height &height -> view_height-(y-view_y)
-  var_update_if, 3, LOCAL(3), var_289_5_height, lambda_18, 1, var_289_5_height,
+  var_update_if, 3, LOCAL(3), var_310_5_height, lambda_18, 1, var_310_5_height,
   // 0 || height <= 0
-  var_std__less, 2, num_0, var_288_5_width, 1, LOCAL(1),
+  var_std__less, 2, num_0, var_309_5_width, 1, LOCAL(1),
   // 0 || height <= 0
   var_std__not, 1, LOCAL(1), 1, LOCAL(2),
   // 0 || height <= 0
   var_std__or, 2, LOCAL(2), lambda_19, 1, LOCAL(3),
   // if
   var_if, 3, LOCAL(3), lambda_20, lambda_21, TAIL_CALL,
-  POS(291, 19),
-  POS(291, 3),
-  POS(292, 20),
-  POS(292, 3),
-  POS(293, 3),
-  POS(294, 3),
-  POS(295, 3),
-  POS(296, 3),
-  POS(297, 6),
-  POS(297, 3),
-  POS(298, 6),
-  POS(298, 3),
-  POS(299, 3),
-  POS(300, 3),
-  POS(301, 18),
-  POS(301, 3),
-  POS(302, 18),
-  POS(302, 3),
-  POS(303, 13),
-  POS(303, 13),
-  POS(303, 30),
-  POS(303, 3),
-  POS(304, 13),
-  POS(304, 13),
-  POS(304, 31),
-  POS(304, 3),
-  POS(306, 14),
-  POS(306, 14),
-  POS(306, 14),
-  POS(305, 3),
+  POS(312, 19),
+  POS(312, 3),
+  POS(313, 20),
+  POS(313, 3),
+  POS(314, 3),
+  POS(315, 3),
+  POS(316, 3),
+  POS(317, 3),
+  POS(318, 6),
+  POS(318, 3),
+  POS(319, 6),
+  POS(319, 3),
+  POS(320, 3),
+  POS(321, 3),
+  POS(322, 18),
+  POS(322, 3),
+  POS(323, 18),
+  POS(323, 3),
+  POS(324, 13),
+  POS(324, 13),
+  POS(324, 30),
+  POS(324, 3),
+  POS(325, 13),
+  POS(325, 13),
+  POS(325, 31),
+  POS(325, 3),
+  POS(327, 14),
+  POS(327, 14),
+  POS(327, 14),
+  POS(326, 3),
   LOCAL(4)
 };
 
 static FUNCTION_INFO i_func_std_types__view___copy = {
   t_func_std_types__view___copy, NULL, 30, 1,
-  {"281_5_view\000"}
+  {"302_5_view\000"}
 };
 
 static TAB_NUM t_lambda_13[] = {
   3, // locals
   0, // parameters
   // width_of(source)-sx+1
-  var_width_of, 1, var_283_5_source, 1, LOCAL(1),
+  var_width_of, 1, var_304_5_source, 1, LOCAL(1),
   // width_of(source)-sx+1
-  var_std__minus, 2, LOCAL(1), var_286_5_sx, 1, LOCAL(2),
+  var_std__minus, 2, LOCAL(1), var_307_5_sx, 1, LOCAL(2),
   // width_of(source)-sx+1
   var_std__plus, 2, LOCAL(2), num_1, 1, LOCAL(3),
   //  width_of(source)-sx+1
   LET, 1, LOCAL(3), TAIL_CALL,
-  POS(291, 42),
-  POS(291, 42),
-  POS(291, 42),
-  POS(291, 41)
+  POS(312, 42),
+  POS(312, 42),
+  POS(312, 42),
+  POS(312, 41)
 };
 
 static FUNCTION_INFO i_lambda_13 = {
@@ -1176,17 +1239,17 @@ static TAB_NUM t_lambda_14[] = {
   3, // locals
   0, // parameters
   // height_of(source)-sy+1
-  var_height_of, 1, var_283_5_source, 1, LOCAL(1),
+  var_height_of, 1, var_304_5_source, 1, LOCAL(1),
   // height_of(source)-sy+1
-  var_std__minus, 2, LOCAL(1), var_287_5_sy, 1, LOCAL(2),
+  var_std__minus, 2, LOCAL(1), var_308_5_sy, 1, LOCAL(2),
   // height_of(source)-sy+1
   var_std__plus, 2, LOCAL(2), num_1, 1, LOCAL(3),
   //  height_of(source)-sy+1
   LET, 1, LOCAL(3), TAIL_CALL,
-  POS(292, 44),
-  POS(292, 44),
-  POS(292, 44),
-  POS(292, 43)
+  POS(313, 44),
+  POS(313, 44),
+  POS(313, 44),
+  POS(313, 43)
 };
 
 static FUNCTION_INFO i_lambda_14 = {
@@ -1198,14 +1261,14 @@ static TAB_NUM t_lambda_15[] = {
   2, // locals
   0, // parameters
   // sx+dx width-dx
-  var_std__plus, 2, var_286_5_sx, var_299_4_dx, 1, LOCAL(1),
+  var_std__plus, 2, var_307_5_sx, var_320_4_dx, 1, LOCAL(1),
   // width-dx
-  var_std__minus, 2, var_288_5_width, var_299_4_dx, 1, LOCAL(2),
+  var_std__minus, 2, var_309_5_width, var_320_4_dx, 1, LOCAL(2),
   //  view_x sx+dx width-dx
-  LET, 3, var_293_4_view_x, LOCAL(1), LOCAL(2), TAIL_CALL,
-  POS(301, 44),
-  POS(301, 50),
-  POS(301, 36)
+  LET, 3, var_314_4_view_x, LOCAL(1), LOCAL(2), TAIL_CALL,
+  POS(322, 44),
+  POS(322, 50),
+  POS(322, 36)
 };
 
 static FUNCTION_INFO i_lambda_15 = {
@@ -1217,14 +1280,14 @@ static TAB_NUM t_lambda_16[] = {
   2, // locals
   0, // parameters
   // sy+dy height-dy
-  var_std__plus, 2, var_287_5_sy, var_300_4_dy, 1, LOCAL(1),
+  var_std__plus, 2, var_308_5_sy, var_321_4_dy, 1, LOCAL(1),
   // height-dy
-  var_std__minus, 2, var_289_5_height, var_300_4_dy, 1, LOCAL(2),
+  var_std__minus, 2, var_310_5_height, var_321_4_dy, 1, LOCAL(2),
   //  view_y sy+dy height-dy
-  LET, 3, var_294_4_view_y, LOCAL(1), LOCAL(2), TAIL_CALL,
-  POS(302, 45),
-  POS(302, 51),
-  POS(302, 37)
+  LET, 3, var_315_4_view_y, LOCAL(1), LOCAL(2), TAIL_CALL,
+  POS(323, 45),
+  POS(323, 51),
+  POS(323, 37)
 };
 
 static FUNCTION_INFO i_lambda_16 = {
@@ -1236,14 +1299,14 @@ static TAB_NUM t_lambda_17[] = {
   2, // locals
   0, // parameters
   // x-view_x)
-  var_std__minus, 2, var_284_5_x, var_293_4_view_x, 1, LOCAL(1),
+  var_std__minus, 2, var_305_5_x, var_314_4_view_x, 1, LOCAL(1),
   // view_width-(x-view_x)
-  var_std__minus, 2, var_295_4_view_width, LOCAL(1), 1, LOCAL(2),
+  var_std__minus, 2, var_316_4_view_width, LOCAL(1), 1, LOCAL(2),
   //  view_width-(x-view_x)
   LET, 1, LOCAL(2), TAIL_CALL,
-  POS(303, 63),
-  POS(303, 51),
-  POS(303, 50)
+  POS(324, 63),
+  POS(324, 51),
+  POS(324, 50)
 };
 
 static FUNCTION_INFO i_lambda_17 = {
@@ -1255,14 +1318,14 @@ static TAB_NUM t_lambda_18[] = {
   2, // locals
   0, // parameters
   // y-view_y)
-  var_std__minus, 2, var_285_5_y, var_294_4_view_y, 1, LOCAL(1),
+  var_std__minus, 2, var_306_5_y, var_315_4_view_y, 1, LOCAL(1),
   // view_height-(y-view_y)
-  var_std__minus, 2, var_296_4_view_height, LOCAL(1), 1, LOCAL(2),
+  var_std__minus, 2, var_317_4_view_height, LOCAL(1), 1, LOCAL(2),
   //  view_height-(y-view_y)
   LET, 1, LOCAL(2), TAIL_CALL,
-  POS(304, 67),
-  POS(304, 54),
-  POS(304, 53)
+  POS(325, 67),
+  POS(325, 54),
+  POS(325, 53)
 };
 
 static FUNCTION_INFO i_lambda_18 = {
@@ -1274,14 +1337,14 @@ static TAB_NUM t_lambda_19[] = {
   2, // locals
   0, // parameters
   // 0
-  var_std__less, 2, num_0, var_289_5_height, 1, LOCAL(1),
+  var_std__less, 2, num_0, var_310_5_height, 1, LOCAL(1),
   // 0
   var_std__not, 1, LOCAL(1), 1, LOCAL(2),
   // height <= 0
   LET, 1, LOCAL(2), TAIL_CALL,
-  POS(306, 29),
-  POS(306, 29),
-  POS(306, 19)
+  POS(327, 29),
+  POS(327, 29),
+  POS(327, 19)
 };
 
 static FUNCTION_INFO i_lambda_19 = {
@@ -1293,8 +1356,8 @@ static TAB_NUM t_lambda_20[] = {
   0, // locals
   0, // parameters
   //  destination
-  LET, 1, var_282_5_destination, TAIL_CALL,
-  POS(307, 7)
+  LET, 1, var_303_5_destination, TAIL_CALL,
+  POS(328, 7)
 };
 
 static FUNCTION_INFO i_lambda_20 = {
@@ -1306,8 +1369,8 @@ static TAB_NUM t_lambda_21[] = {
   0, // locals
   0, // parameters
   // copy
-  var_copy, 8, var_282_5_destination, var_283_5_source, var_284_5_x, var_285_5_y, var_286_5_sx, var_287_5_sy, var_288_5_width, var_289_5_height, TAIL_CALL,
-  POS(309, 7)
+  var_copy, 8, var_303_5_destination, var_304_5_source, var_305_5_x, var_306_5_y, var_307_5_sx, var_308_5_sy, var_309_5_width, var_310_5_height, TAIL_CALL,
+  POS(330, 7)
 };
 
 static FUNCTION_INFO i_lambda_21 = {
@@ -1318,29 +1381,29 @@ static FUNCTION_INFO i_lambda_21 = {
 static TAB_NUM t_func_std__create_vertical_panes[] = {
   0, // locals
   2, // parameters
-  var_321_5_screen,
-  var_322_5_pane_description,
+  var_342_5_screen,
+  var_343_5_pane_description,
   // $rc result_count()
-  var_result_count, 0, 1, var_324_4_rc,
+  var_result_count, 0, 1, var_345_4_rc,
   // $x x_of(screen)
-  var_x_of, 1, var_321_5_screen, 1, var_325_4_x,
+  var_x_of, 1, var_342_5_screen, 1, var_346_4_x,
   // $y y_of(screen)
-  var_y_of, 1, var_321_5_screen, 1, var_326_4_y,
+  var_y_of, 1, var_342_5_screen, 1, var_347_4_y,
   // $width width_of(screen)
-  var_width_of, 1, var_321_5_screen, 1, var_327_4_width,
+  var_width_of, 1, var_342_5_screen, 1, var_348_4_width,
   // $height height_of(screen)
-  var_height_of, 1, var_321_5_screen, 1, var_328_4_height,
+  var_height_of, 1, var_342_5_screen, 1, var_349_4_height,
   // $views empty_list
-  LET, 1, var_empty_list, 1, var_329_4_views,
+  LET, 1, var_empty_list, 1, var_350_4_views,
   // cond
   var_cond, 3, lambda_22, lambda_25, lambda_35, TAIL_CALL,
-  POS(324, 3),
-  POS(325, 3),
-  POS(326, 3),
-  POS(327, 3),
-  POS(328, 3),
-  POS(329, 3),
-  POS(330, 3)
+  POS(345, 3),
+  POS(346, 3),
+  POS(347, 3),
+  POS(348, 3),
+  POS(349, 3),
+  POS(350, 3),
+  POS(351, 3)
 };
 
 static FUNCTION_INFO i_func_std__create_vertical_panes = {
@@ -1352,11 +1415,11 @@ static TAB_NUM t_lambda_22[] = {
   1, // locals
   0, // parameters
   // is_an_integer:
-  var_is_an_integer, 1, var_322_5_pane_description, 1, LOCAL(1),
+  var_is_an_integer, 1, var_343_5_pane_description, 1, LOCAL(1),
   //  pane_description.is_an_integer:
   LET, 2, LOCAL(1), lambda_23, TAIL_CALL,
-  POS(331, 25),
-  POS(331, 7)
+  POS(352, 25),
+  POS(352, 7)
 };
 
 static FUNCTION_INFO i_lambda_22 = {
@@ -1368,69 +1431,69 @@ static TAB_NUM t_lambda_23[] = {
   3, // locals
   0, // parameters
   // $n pane_description
-  LET, 1, var_322_5_pane_description, 1, LOCAL(3),
+  LET, 1, var_343_5_pane_description, 1, LOCAL(3),
   // n+1 x x+width)
   var_std__plus, 2, LOCAL(3), num_1, 1, LOCAL(1),
   // x+width)
-  var_std__plus, 2, var_325_4_x, var_327_4_width, 1, LOCAL(2),
+  var_std__plus, 2, var_346_4_x, var_348_4_width, 1, LOCAL(2),
   // $iter bresenham(n+1 x x+width)
-  var_bresenham, 3, LOCAL(1), var_325_4_x, LOCAL(2), 1, var_333_8_iter,
+  var_bresenham, 3, LOCAL(1), var_346_4_x, LOCAL(2), 1, var_354_8_iter,
   // next_value &iter !x
-  var_next_value, 1, var_333_8_iter, 2, var_333_8_iter, var_325_4_x,
+  var_next_value, 1, var_354_8_iter, 2, var_354_8_iter, var_346_4_x,
   // repeat n
   var_repeat, 3, LOCAL(3), lambda_24, func_return, TAIL_CALL,
-  POS(332, 7),
-  POS(333, 23),
-  POS(333, 29),
-  POS(333, 7),
-  POS(334, 7),
-  POS(335, 7),
+  POS(353, 7),
+  POS(354, 23),
+  POS(354, 29),
+  POS(354, 7),
+  POS(355, 7),
+  POS(356, 7),
   LOCAL(3)
 };
 
 static FUNCTION_INFO i_lambda_23 = {
   t_lambda_23, NULL, 6, 1,
-  {"332_8_n\000"}
+  {"353_8_n\000"}
 };
 
 static TAB_NUM t_lambda_24[] = {
   3, // locals
   0, // parameters
   // next_value &iter $next_x
-  var_next_value, 1, var_333_8_iter, 2, var_333_8_iter, LOCAL(3),
+  var_next_value, 1, var_354_8_iter, 2, var_354_8_iter, LOCAL(3),
   // next_x-1 height)
   var_std__minus, 2, LOCAL(3), num_1, 1, LOCAL(1),
   // create_view(screen x y next_x-1 height)
-  var_create_view, 5, var_321_5_screen, var_325_4_x, var_326_4_y, LOCAL(1), var_328_4_height, 1, LOCAL(2),
+  var_create_view, 5, var_342_5_screen, var_346_4_x, var_347_4_y, LOCAL(1), var_349_4_height, 1, LOCAL(2),
   // push &views create_view(screen x y next_x-1 height)
-  var_push, 2, var_329_4_views, LOCAL(2), 1, var_329_4_views,
+  var_push, 2, var_350_4_views, LOCAL(2), 1, var_350_4_views,
   // !x next_x
-  LET, 1, LOCAL(3), 1, var_325_4_x,
+  LET, 1, LOCAL(3), 1, var_346_4_x,
   // next
   var_next, 0, TAIL_CALL,
-  POS(337, 11),
-  POS(338, 46),
-  POS(338, 23),
-  POS(338, 11),
-  POS(339, 11),
-  POS(340, 11),
+  POS(358, 11),
+  POS(359, 46),
+  POS(359, 23),
+  POS(359, 11),
+  POS(360, 11),
+  POS(361, 11),
   LOCAL(3)
 };
 
 static FUNCTION_INFO i_lambda_24 = {
   t_lambda_24, NULL, 6, 1,
-  {"337_29_next_x\000"}
+  {"358_29_next_x\000"}
 };
 
 static TAB_NUM t_lambda_25[] = {
   1, // locals
   0, // parameters
   // is_a_list:
-  var_is_a_list, 1, var_322_5_pane_description, 1, LOCAL(1),
+  var_is_a_list, 1, var_343_5_pane_description, 1, LOCAL(1),
   //  pane_description.is_a_list:
   LET, 2, LOCAL(1), lambda_26, TAIL_CALL,
-  POS(342, 25),
-  POS(342, 7)
+  POS(363, 25),
+  POS(363, 7)
 };
 
 static FUNCTION_INFO i_lambda_25 = {
@@ -1442,14 +1505,14 @@ static TAB_NUM t_lambda_26[] = {
   0, // locals
   0, // parameters
   // $fixed_width 0
-  LET, 1, num_0, 1, var_343_8_fixed_width,
+  LET, 1, num_0, 1, var_364_8_fixed_width,
   // $flex_width_count 0
-  LET, 1, num_0, 1, var_344_8_flex_width_count,
+  LET, 1, num_0, 1, var_365_8_flex_width_count,
   // for_each pane_description
-  var_for_each, 3, var_322_5_pane_description, lambda_27, lambda_30, TAIL_CALL,
-  POS(343, 7),
-  POS(344, 7),
-  POS(345, 7)
+  var_for_each, 3, var_343_5_pane_description, lambda_27, lambda_30, TAIL_CALL,
+  POS(364, 7),
+  POS(365, 7),
+  POS(366, 7)
 };
 
 static FUNCTION_INFO i_lambda_26 = {
@@ -1460,13 +1523,13 @@ static FUNCTION_INFO i_lambda_26 = {
 static TAB_NUM t_lambda_27[] = {
   1, // locals
   1, // parameters
-  var_346_12_pane_width,
+  var_367_12_pane_width,
   // pane_width < 1:
-  var_std__less, 2, var_346_12_pane_width, num_1, 1, LOCAL(1),
+  var_std__less, 2, var_367_12_pane_width, num_1, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_28, lambda_29, TAIL_CALL,
-  POS(348, 13),
-  POS(347, 11)
+  POS(369, 13),
+  POS(368, 11)
 };
 
 static FUNCTION_INFO i_lambda_27 = {
@@ -1478,11 +1541,11 @@ static TAB_NUM t_lambda_28[] = {
   0, // locals
   0, // parameters
   // inc &flex_width_count
-  var_inc, 1, var_344_8_flex_width_count, 1, var_344_8_flex_width_count,
+  var_inc, 1, var_365_8_flex_width_count, 1, var_365_8_flex_width_count,
   // next
   var_next, 0, TAIL_CALL,
-  POS(349, 15),
-  POS(350, 15)
+  POS(370, 15),
+  POS(371, 15)
 };
 
 static FUNCTION_INFO i_lambda_28 = {
@@ -1494,11 +1557,11 @@ static TAB_NUM t_lambda_29[] = {
   0, // locals
   0, // parameters
   // plus &fixed_width pane_width
-  var_plus, 2, var_343_8_fixed_width, var_346_12_pane_width, 1, var_343_8_fixed_width,
+  var_plus, 2, var_364_8_fixed_width, var_367_12_pane_width, 1, var_364_8_fixed_width,
   // next
   var_next, 0, TAIL_CALL,
-  POS(352, 15),
-  POS(353, 15)
+  POS(373, 15),
+  POS(374, 15)
 };
 
 static FUNCTION_INFO i_lambda_29 = {
@@ -1510,14 +1573,14 @@ static TAB_NUM t_lambda_30[] = {
   2, // locals
   0, // parameters
   // fixed_width+flex_width_count > width
-  var_std__plus, 2, var_343_8_fixed_width, var_344_8_flex_width_count, 1, LOCAL(1),
+  var_std__plus, 2, var_364_8_fixed_width, var_365_8_flex_width_count, 1, LOCAL(1),
   // width
-  var_std__less, 2, var_327_4_width, LOCAL(1), 1, LOCAL(2),
+  var_std__less, 2, var_348_4_width, LOCAL(1), 1, LOCAL(2),
   // if
   var_if, 3, LOCAL(2), lambda_31, lambda_32, TAIL_CALL,
-  POS(356, 13),
-  POS(356, 44),
-  POS(355, 11)
+  POS(377, 13),
+  POS(377, 44),
+  POS(376, 11)
 };
 
 static FUNCTION_INFO i_lambda_30 = {
@@ -1530,7 +1593,7 @@ static TAB_NUM t_lambda_31[] = {
   0, // parameters
   //  undefined
   LET, 1, var_undefined, TAIL_CALL,
-  POS(357, 15)
+  POS(378, 15)
 };
 
 static FUNCTION_INFO i_lambda_31 = {
@@ -1542,14 +1605,14 @@ static TAB_NUM t_lambda_32[] = {
   0, // locals
   0, // parameters
   // $flex_width width-fixed_width
-  var_std__minus, 2, var_327_4_width, var_343_8_fixed_width, 1, var_359_16_flex_width,
+  var_std__minus, 2, var_348_4_width, var_364_8_fixed_width, 1, var_380_16_flex_width,
   // $remaining_flex_width flex_width
-  LET, 1, var_359_16_flex_width, 1, var_360_16_remaining_flex_width,
+  LET, 1, var_380_16_flex_width, 1, var_381_16_remaining_flex_width,
   // for_each pane_description
-  var_for_each, 3, var_322_5_pane_description, lambda_33, func_return, TAIL_CALL,
-  POS(359, 15),
-  POS(360, 15),
-  POS(361, 15)
+  var_for_each, 3, var_343_5_pane_description, lambda_33, func_return, TAIL_CALL,
+  POS(380, 15),
+  POS(381, 15),
+  POS(382, 15)
 };
 
 static FUNCTION_INFO i_lambda_32 = {
@@ -1560,13 +1623,13 @@ static FUNCTION_INFO i_lambda_32 = {
 static TAB_NUM t_lambda_33[] = {
   1, // locals
   1, // parameters
-  var_362_20_pane_width,
+  var_383_20_pane_width,
   // pane_width < 1:
-  var_std__less, 2, var_362_20_pane_width, num_1, 1, LOCAL(1),
+  var_std__less, 2, var_383_20_pane_width, num_1, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_34, func_create_pane_view, TAIL_CALL,
-  POS(364, 21),
-  POS(363, 19)
+  POS(385, 21),
+  POS(384, 19)
 };
 
 static FUNCTION_INFO i_lambda_33 = {
@@ -1578,9 +1641,9 @@ static TAB_NUM t_lambda_34[] = {
   5, // locals
   0, // parameters
   // dec &flex_width_count
-  var_dec, 1, var_344_8_flex_width_count, 1, var_344_8_flex_width_count,
+  var_dec, 1, var_365_8_flex_width_count, 1, var_365_8_flex_width_count,
   // pane_width*flex_width).to_integer 1)
-  var_std__times, 2, var_362_20_pane_width, var_359_16_flex_width, 1, LOCAL(1),
+  var_std__times, 2, var_383_20_pane_width, var_380_16_flex_width, 1, LOCAL(1),
   // round(pane_width*flex_width).to_integer 1)
   var_round, 1, LOCAL(1), 1, LOCAL(2),
   // to_integer 1)
@@ -1588,22 +1651,22 @@ static TAB_NUM t_lambda_34[] = {
   // max(round(pane_width*flex_width).to_integer 1)
   var_max, 2, LOCAL(3), num_1, 1, LOCAL(4),
   // remaining_flex_width-flex_width_count #
-  var_std__minus, 2, var_360_16_remaining_flex_width, var_344_8_flex_width_count, 1, LOCAL(5),
+  var_std__minus, 2, var_381_16_remaining_flex_width, var_365_8_flex_width_count, 1, LOCAL(5),
   // !pane_width
-  var_min, 2, LOCAL(4), LOCAL(5), 1, var_362_20_pane_width,
+  var_min, 2, LOCAL(4), LOCAL(5), 1, var_383_20_pane_width,
   // minus &remaining_flex_width pane_width
-  var_minus, 2, var_360_16_remaining_flex_width, var_362_20_pane_width, 1, var_360_16_remaining_flex_width,
+  var_minus, 2, var_381_16_remaining_flex_width, var_383_20_pane_width, 1, var_381_16_remaining_flex_width,
   // create_pane_view
   func_create_pane_view, 0, TAIL_CALL,
-  POS(365, 23),
-  POS(368, 37),
-  POS(368, 31),
-  POS(368, 60),
-  POS(368, 27),
-  POS(369, 27),
-  POS(366, 23),
-  POS(373, 23),
-  POS(374, 23)
+  POS(386, 23),
+  POS(389, 37),
+  POS(389, 31),
+  POS(389, 60),
+  POS(389, 27),
+  POS(390, 27),
+  POS(387, 23),
+  POS(394, 23),
+  POS(395, 23)
 };
 
 static FUNCTION_INFO i_lambda_34 = {
@@ -1615,23 +1678,23 @@ static TAB_NUM t_func_create_pane_view[] = {
   3, // locals
   0, // parameters
   // x+pane_width-1 height)
-  var_std__plus, 2, var_325_4_x, var_362_20_pane_width, 1, LOCAL(1),
+  var_std__plus, 2, var_346_4_x, var_383_20_pane_width, 1, LOCAL(1),
   // x+pane_width-1 height)
   var_std__minus, 2, LOCAL(1), num_1, 1, LOCAL(2),
   // create_view(screen x y x+pane_width-1 height)
-  var_create_view, 5, var_321_5_screen, var_325_4_x, var_326_4_y, LOCAL(2), var_328_4_height, 1, LOCAL(3),
+  var_create_view, 5, var_342_5_screen, var_346_4_x, var_347_4_y, LOCAL(2), var_349_4_height, 1, LOCAL(3),
   // push &views create_view(screen x y x+pane_width-1 height)
-  var_push, 2, var_329_4_views, LOCAL(3), 1, var_329_4_views,
+  var_push, 2, var_350_4_views, LOCAL(3), 1, var_350_4_views,
   // plus &x pane_width
-  var_plus, 2, var_325_4_x, var_362_20_pane_width, 1, var_325_4_x,
+  var_plus, 2, var_346_4_x, var_383_20_pane_width, 1, var_346_4_x,
   // next
   var_next, 0, TAIL_CALL,
-  POS(378, 56),
-  POS(378, 56),
-  POS(378, 33),
-  POS(378, 21),
-  POS(379, 21),
-  POS(380, 21)
+  POS(399, 56),
+  POS(399, 56),
+  POS(399, 33),
+  POS(399, 21),
+  POS(400, 21),
+  POS(401, 21)
 };
 
 static FUNCTION_INFO i_func_create_pane_view = {
@@ -1644,7 +1707,7 @@ static TAB_NUM t_lambda_35[] = {
   0, // parameters
   //  true -> undefined
   LET, 2, var_true, lambda_36, TAIL_CALL,
-  POS(382, 7)
+  POS(403, 7)
 };
 
 static FUNCTION_INFO i_lambda_35 = {
@@ -1657,7 +1720,7 @@ static TAB_NUM t_lambda_36[] = {
   0, // parameters
   //  undefined
   LET, 1, var_undefined, TAIL_CALL,
-  POS(382, 15)
+  POS(403, 15)
 };
 
 static FUNCTION_INFO i_lambda_36 = {
@@ -1669,11 +1732,11 @@ static TAB_NUM t_func_return[] = {
   1, // locals
   0, // parameters
   // rc == 1
-  var_std__equal, 2, var_324_4_rc, num_1, 1, LOCAL(1),
+  var_std__equal, 2, var_345_4_rc, num_1, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_37, lambda_38, TAIL_CALL,
-  POS(386, 7),
-  POS(385, 5)
+  POS(407, 7),
+  POS(406, 5)
 };
 
 static FUNCTION_INFO i_func_return = {
@@ -1685,8 +1748,8 @@ static TAB_NUM t_lambda_37[] = {
   0, // locals
   0, // parameters
   //  views
-  LET, 1, var_329_4_views, TAIL_CALL,
-  POS(387, 9)
+  LET, 1, var_350_4_views, TAIL_CALL,
+  POS(408, 9)
 };
 
 static FUNCTION_INFO i_lambda_37 = {
@@ -1698,8 +1761,8 @@ static TAB_NUM t_lambda_38[] = {
   0, // locals
   0, // parameters
   // spread views
-  var_spread, 1, var_329_4_views, TAIL_CALL,
-  POS(388, 9)
+  var_spread, 1, var_350_4_views, TAIL_CALL,
+  POS(409, 9)
 };
 
 static FUNCTION_INFO i_lambda_38 = {
@@ -1710,29 +1773,29 @@ static FUNCTION_INFO i_lambda_38 = {
 static TAB_NUM t_func_std__create_horizontal_panes[] = {
   0, // locals
   2, // parameters
-  var_392_5_screen,
-  var_393_5_pane_description,
+  var_413_5_screen,
+  var_414_5_pane_description,
   // $rc result_count()
-  var_result_count, 0, 1, var_395_4_rc,
+  var_result_count, 0, 1, var_416_4_rc,
   // $x x_of(screen)
-  var_x_of, 1, var_392_5_screen, 1, var_396_4_x,
+  var_x_of, 1, var_413_5_screen, 1, var_417_4_x,
   // $y y_of(screen)
-  var_y_of, 1, var_392_5_screen, 1, var_397_4_y,
+  var_y_of, 1, var_413_5_screen, 1, var_418_4_y,
   // $width width_of(screen)
-  var_width_of, 1, var_392_5_screen, 1, var_398_4_width,
+  var_width_of, 1, var_413_5_screen, 1, var_419_4_width,
   // $height height_of(screen)
-  var_height_of, 1, var_392_5_screen, 1, var_399_4_height,
+  var_height_of, 1, var_413_5_screen, 1, var_420_4_height,
   // $views empty_list
-  LET, 1, var_empty_list, 1, var_400_4_views,
+  LET, 1, var_empty_list, 1, var_421_4_views,
   // cond
   var_cond, 3, lambda_39, lambda_42, lambda_54, TAIL_CALL,
-  POS(395, 3),
-  POS(396, 3),
-  POS(397, 3),
-  POS(398, 3),
-  POS(399, 3),
-  POS(400, 3),
-  POS(401, 3)
+  POS(416, 3),
+  POS(417, 3),
+  POS(418, 3),
+  POS(419, 3),
+  POS(420, 3),
+  POS(421, 3),
+  POS(422, 3)
 };
 
 static FUNCTION_INFO i_func_std__create_horizontal_panes = {
@@ -1744,11 +1807,11 @@ static TAB_NUM t_lambda_39[] = {
   1, // locals
   0, // parameters
   // is_an_integer:
-  var_is_an_integer, 1, var_393_5_pane_description, 1, LOCAL(1),
+  var_is_an_integer, 1, var_414_5_pane_description, 1, LOCAL(1),
   //  pane_description.is_an_integer:
   LET, 2, LOCAL(1), lambda_40, TAIL_CALL,
-  POS(402, 25),
-  POS(402, 7)
+  POS(423, 25),
+  POS(423, 7)
 };
 
 static FUNCTION_INFO i_lambda_39 = {
@@ -1760,69 +1823,69 @@ static TAB_NUM t_lambda_40[] = {
   3, // locals
   0, // parameters
   // $n pane_description
-  LET, 1, var_393_5_pane_description, 1, LOCAL(3),
+  LET, 1, var_414_5_pane_description, 1, LOCAL(3),
   // n+1 y y+height)
   var_std__plus, 2, LOCAL(3), num_1, 1, LOCAL(1),
   // y+height)
-  var_std__plus, 2, var_397_4_y, var_399_4_height, 1, LOCAL(2),
+  var_std__plus, 2, var_418_4_y, var_420_4_height, 1, LOCAL(2),
   // $iter bresenham(n+1 y y+height)
-  var_bresenham, 3, LOCAL(1), var_397_4_y, LOCAL(2), 1, var_404_8_iter,
+  var_bresenham, 3, LOCAL(1), var_418_4_y, LOCAL(2), 1, var_425_8_iter,
   // next_value &iter !y
-  var_next_value, 1, var_404_8_iter, 2, var_404_8_iter, var_397_4_y,
+  var_next_value, 1, var_425_8_iter, 2, var_425_8_iter, var_418_4_y,
   // repeat n
   var_repeat, 3, LOCAL(3), lambda_41, func_2_return, TAIL_CALL,
-  POS(403, 7),
-  POS(404, 23),
-  POS(404, 29),
-  POS(404, 7),
-  POS(405, 7),
-  POS(406, 7),
+  POS(424, 7),
+  POS(425, 23),
+  POS(425, 29),
+  POS(425, 7),
+  POS(426, 7),
+  POS(427, 7),
   LOCAL(3)
 };
 
 static FUNCTION_INFO i_lambda_40 = {
   t_lambda_40, NULL, 6, 1,
-  {"403_8_n\000"}
+  {"424_8_n\000"}
 };
 
 static TAB_NUM t_lambda_41[] = {
   3, // locals
   0, // parameters
   // next_value &iter $next_y
-  var_next_value, 1, var_404_8_iter, 2, var_404_8_iter, LOCAL(3),
+  var_next_value, 1, var_425_8_iter, 2, var_425_8_iter, LOCAL(3),
   // next_y-1)
   var_std__minus, 2, LOCAL(3), num_1, 1, LOCAL(1),
   // create_view(screen x y width next_y-1)
-  var_create_view, 5, var_392_5_screen, var_396_4_x, var_397_4_y, var_398_4_width, LOCAL(1), 1, LOCAL(2),
+  var_create_view, 5, var_413_5_screen, var_417_4_x, var_418_4_y, var_419_4_width, LOCAL(1), 1, LOCAL(2),
   // push &views create_view(screen x y width next_y-1)
-  var_push, 2, var_400_4_views, LOCAL(2), 1, var_400_4_views,
+  var_push, 2, var_421_4_views, LOCAL(2), 1, var_421_4_views,
   // !y next_y
-  LET, 1, LOCAL(3), 1, var_397_4_y,
+  LET, 1, LOCAL(3), 1, var_418_4_y,
   // next
   var_next, 0, TAIL_CALL,
-  POS(408, 11),
-  POS(409, 52),
-  POS(409, 23),
-  POS(409, 11),
-  POS(410, 11),
-  POS(411, 11),
+  POS(429, 11),
+  POS(430, 52),
+  POS(430, 23),
+  POS(430, 11),
+  POS(431, 11),
+  POS(432, 11),
   LOCAL(3)
 };
 
 static FUNCTION_INFO i_lambda_41 = {
   t_lambda_41, NULL, 6, 1,
-  {"408_29_next_y\000"}
+  {"429_29_next_y\000"}
 };
 
 static TAB_NUM t_lambda_42[] = {
   1, // locals
   0, // parameters
   // is_a_list:
-  var_is_a_list, 1, var_393_5_pane_description, 1, LOCAL(1),
+  var_is_a_list, 1, var_414_5_pane_description, 1, LOCAL(1),
   //  pane_description.is_a_list:
   LET, 2, LOCAL(1), lambda_43, TAIL_CALL,
-  POS(413, 25),
-  POS(413, 7)
+  POS(434, 25),
+  POS(434, 7)
 };
 
 static FUNCTION_INFO i_lambda_42 = {
@@ -1834,14 +1897,14 @@ static TAB_NUM t_lambda_43[] = {
   0, // locals
   0, // parameters
   // $fixed_height 0
-  LET, 1, num_0, 1, var_414_8_fixed_height,
+  LET, 1, num_0, 1, var_435_8_fixed_height,
   // $flex_height_count 0
-  LET, 1, num_0, 1, var_415_8_flex_height_count,
+  LET, 1, num_0, 1, var_436_8_flex_height_count,
   // for_each pane_description
-  var_for_each, 3, var_393_5_pane_description, lambda_44, lambda_47, TAIL_CALL,
-  POS(414, 7),
-  POS(415, 7),
-  POS(416, 7)
+  var_for_each, 3, var_414_5_pane_description, lambda_44, lambda_47, TAIL_CALL,
+  POS(435, 7),
+  POS(436, 7),
+  POS(437, 7)
 };
 
 static FUNCTION_INFO i_lambda_43 = {
@@ -1852,13 +1915,13 @@ static FUNCTION_INFO i_lambda_43 = {
 static TAB_NUM t_lambda_44[] = {
   1, // locals
   1, // parameters
-  var_417_12_pane_height,
+  var_438_12_pane_height,
   // pane_height < 1:
-  var_std__less, 2, var_417_12_pane_height, num_1, 1, LOCAL(1),
+  var_std__less, 2, var_438_12_pane_height, num_1, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_45, lambda_46, TAIL_CALL,
-  POS(419, 13),
-  POS(418, 11)
+  POS(440, 13),
+  POS(439, 11)
 };
 
 static FUNCTION_INFO i_lambda_44 = {
@@ -1870,11 +1933,11 @@ static TAB_NUM t_lambda_45[] = {
   0, // locals
   0, // parameters
   // inc &flex_height_count
-  var_inc, 1, var_415_8_flex_height_count, 1, var_415_8_flex_height_count,
+  var_inc, 1, var_436_8_flex_height_count, 1, var_436_8_flex_height_count,
   // next
   var_next, 0, TAIL_CALL,
-  POS(420, 15),
-  POS(421, 15)
+  POS(441, 15),
+  POS(442, 15)
 };
 
 static FUNCTION_INFO i_lambda_45 = {
@@ -1886,11 +1949,11 @@ static TAB_NUM t_lambda_46[] = {
   0, // locals
   0, // parameters
   // plus &fixed_height pane_height
-  var_plus, 2, var_414_8_fixed_height, var_417_12_pane_height, 1, var_414_8_fixed_height,
+  var_plus, 2, var_435_8_fixed_height, var_438_12_pane_height, 1, var_435_8_fixed_height,
   // next
   var_next, 0, TAIL_CALL,
-  POS(423, 15),
-  POS(424, 15)
+  POS(444, 15),
+  POS(445, 15)
 };
 
 static FUNCTION_INFO i_lambda_46 = {
@@ -1902,14 +1965,14 @@ static TAB_NUM t_lambda_47[] = {
   2, // locals
   0, // parameters
   // fixed_height+flex_height_count > height
-  var_std__plus, 2, var_414_8_fixed_height, var_415_8_flex_height_count, 1, LOCAL(1),
+  var_std__plus, 2, var_435_8_fixed_height, var_436_8_flex_height_count, 1, LOCAL(1),
   // height
-  var_std__less, 2, var_399_4_height, LOCAL(1), 1, LOCAL(2),
+  var_std__less, 2, var_420_4_height, LOCAL(1), 1, LOCAL(2),
   // if
   var_if, 3, LOCAL(2), lambda_48, lambda_49, TAIL_CALL,
-  POS(427, 13),
-  POS(427, 46),
-  POS(426, 11)
+  POS(448, 13),
+  POS(448, 46),
+  POS(447, 11)
 };
 
 static FUNCTION_INFO i_lambda_47 = {
@@ -1922,7 +1985,7 @@ static TAB_NUM t_lambda_48[] = {
   0, // parameters
   //  undefined
   LET, 1, var_undefined, TAIL_CALL,
-  POS(428, 15)
+  POS(449, 15)
 };
 
 static FUNCTION_INFO i_lambda_48 = {
@@ -1934,14 +1997,14 @@ static TAB_NUM t_lambda_49[] = {
   0, // locals
   0, // parameters
   // $flex_height height-fixed_height
-  var_std__minus, 2, var_399_4_height, var_414_8_fixed_height, 1, var_430_16_flex_height,
+  var_std__minus, 2, var_420_4_height, var_435_8_fixed_height, 1, var_451_16_flex_height,
   // $remaining_flex_height flex_height
-  LET, 1, var_430_16_flex_height, 1, var_431_16_remaining_flex_height,
+  LET, 1, var_451_16_flex_height, 1, var_452_16_remaining_flex_height,
   // for_each pane_description
-  var_for_each, 3, var_393_5_pane_description, lambda_50, func_2_return, TAIL_CALL,
-  POS(430, 15),
-  POS(431, 15),
-  POS(432, 15)
+  var_for_each, 3, var_414_5_pane_description, lambda_50, func_2_return, TAIL_CALL,
+  POS(451, 15),
+  POS(452, 15),
+  POS(453, 15)
 };
 
 static FUNCTION_INFO i_lambda_49 = {
@@ -1952,13 +2015,13 @@ static FUNCTION_INFO i_lambda_49 = {
 static TAB_NUM t_lambda_50[] = {
   1, // locals
   1, // parameters
-  var_433_20_pane_height,
+  var_454_20_pane_height,
   // pane_height < 1:
-  var_std__less, 2, var_433_20_pane_height, num_1, 1, LOCAL(1),
+  var_std__less, 2, var_454_20_pane_height, num_1, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_51, func_2_create_pane_view, TAIL_CALL,
-  POS(435, 21),
-  POS(434, 19)
+  POS(456, 21),
+  POS(455, 19)
 };
 
 static FUNCTION_INFO i_lambda_50 = {
@@ -1970,20 +2033,20 @@ static TAB_NUM t_lambda_51[] = {
   1, // locals
   0, // parameters
   // dec &flex_height_count
-  var_dec, 1, var_415_8_flex_height_count, 1, var_415_8_flex_height_count,
+  var_dec, 1, var_436_8_flex_height_count, 1, var_436_8_flex_height_count,
   // flex_height_count == 0
-  var_std__equal, 2, var_415_8_flex_height_count, num_0, 1, LOCAL(1),
+  var_std__equal, 2, var_436_8_flex_height_count, num_0, 1, LOCAL(1),
   // !pane_height
-  var_if, 3, LOCAL(1), lambda_52, lambda_53, 1, var_433_20_pane_height,
+  var_if, 3, LOCAL(1), lambda_52, lambda_53, 1, var_454_20_pane_height,
   // minus &remaining_flex_height pane_height
-  var_minus, 2, var_431_16_remaining_flex_height, var_433_20_pane_height, 1, var_431_16_remaining_flex_height,
+  var_minus, 2, var_452_16_remaining_flex_height, var_454_20_pane_height, 1, var_452_16_remaining_flex_height,
   // create_pane_view
   func_2_create_pane_view, 0, TAIL_CALL,
-  POS(436, 23),
-  POS(439, 27),
-  POS(437, 23),
-  POS(448, 23),
-  POS(449, 23)
+  POS(457, 23),
+  POS(460, 27),
+  POS(458, 23),
+  POS(469, 23),
+  POS(470, 23)
 };
 
 static FUNCTION_INFO i_lambda_51 = {
@@ -1995,8 +2058,8 @@ static TAB_NUM t_lambda_52[] = {
   0, // locals
   0, // parameters
   //  flex_height
-  LET, 1, var_430_16_flex_height, TAIL_CALL,
-  POS(440, 29)
+  LET, 1, var_451_16_flex_height, TAIL_CALL,
+  POS(461, 29)
 };
 
 static FUNCTION_INFO i_lambda_52 = {
@@ -2008,7 +2071,7 @@ static TAB_NUM t_lambda_53[] = {
   6, // locals
   0, // parameters
   // pane_height*flex_height).to_integer 1)
-  var_std__times, 2, var_433_20_pane_height, var_430_16_flex_height, 1, LOCAL(1),
+  var_std__times, 2, var_454_20_pane_height, var_451_16_flex_height, 1, LOCAL(1),
   // round(pane_height*flex_height).to_integer 1)
   var_round, 1, LOCAL(1), 1, LOCAL(2),
   // to_integer 1)
@@ -2016,18 +2079,18 @@ static TAB_NUM t_lambda_53[] = {
   // max(round(pane_height*flex_height).to_integer 1)
   var_max, 2, LOCAL(3), num_1, 1, LOCAL(4),
   // remaining_flex_height-flex_height_count #
-  var_std__minus, 2, var_431_16_remaining_flex_height, var_415_8_flex_height_count, 1, LOCAL(5),
+  var_std__minus, 2, var_452_16_remaining_flex_height, var_436_8_flex_height_count, 1, LOCAL(5),
   // min
   var_min, 2, LOCAL(4), LOCAL(5), 1, LOCAL(6),
   // 
   LET, 1, LOCAL(6), TAIL_CALL,
-  POS(443, 41),
-  POS(443, 35),
-  POS(443, 66),
-  POS(443, 31),
-  POS(444, 31),
-  POS(442, 29),
-  POS(441, 29)
+  POS(464, 41),
+  POS(464, 35),
+  POS(464, 66),
+  POS(464, 31),
+  POS(465, 31),
+  POS(463, 29),
+  POS(462, 29)
 };
 
 static FUNCTION_INFO i_lambda_53 = {
@@ -2039,23 +2102,23 @@ static TAB_NUM t_func_2_create_pane_view[] = {
   3, // locals
   0, // parameters
   // y+pane_height-1)
-  var_std__plus, 2, var_397_4_y, var_433_20_pane_height, 1, LOCAL(1),
+  var_std__plus, 2, var_418_4_y, var_454_20_pane_height, 1, LOCAL(1),
   // y+pane_height-1)
   var_std__minus, 2, LOCAL(1), num_1, 1, LOCAL(2),
   // create_view(screen x y width y+pane_height-1)
-  var_create_view, 5, var_392_5_screen, var_396_4_x, var_397_4_y, var_398_4_width, LOCAL(2), 1, LOCAL(3),
+  var_create_view, 5, var_413_5_screen, var_417_4_x, var_418_4_y, var_419_4_width, LOCAL(2), 1, LOCAL(3),
   // push &views create_view(screen x y width y+pane_height-1)
-  var_push, 2, var_400_4_views, LOCAL(3), 1, var_400_4_views,
+  var_push, 2, var_421_4_views, LOCAL(3), 1, var_421_4_views,
   // plus &y pane_height
-  var_plus, 2, var_397_4_y, var_433_20_pane_height, 1, var_397_4_y,
+  var_plus, 2, var_418_4_y, var_454_20_pane_height, 1, var_418_4_y,
   // next
   var_next, 0, TAIL_CALL,
-  POS(453, 62),
-  POS(453, 62),
-  POS(453, 33),
-  POS(453, 21),
-  POS(454, 21),
-  POS(455, 21)
+  POS(474, 62),
+  POS(474, 62),
+  POS(474, 33),
+  POS(474, 21),
+  POS(475, 21),
+  POS(476, 21)
 };
 
 static FUNCTION_INFO i_func_2_create_pane_view = {
@@ -2068,7 +2131,7 @@ static TAB_NUM t_lambda_54[] = {
   0, // parameters
   //  true -> undefined
   LET, 2, var_true, lambda_55, TAIL_CALL,
-  POS(457, 7)
+  POS(478, 7)
 };
 
 static FUNCTION_INFO i_lambda_54 = {
@@ -2081,7 +2144,7 @@ static TAB_NUM t_lambda_55[] = {
   0, // parameters
   //  undefined
   LET, 1, var_undefined, TAIL_CALL,
-  POS(457, 15)
+  POS(478, 15)
 };
 
 static FUNCTION_INFO i_lambda_55 = {
@@ -2093,11 +2156,11 @@ static TAB_NUM t_func_2_return[] = {
   1, // locals
   0, // parameters
   // rc == 1
-  var_std__equal, 2, var_395_4_rc, num_1, 1, LOCAL(1),
+  var_std__equal, 2, var_416_4_rc, num_1, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_56, lambda_57, TAIL_CALL,
-  POS(461, 7),
-  POS(460, 5)
+  POS(482, 7),
+  POS(481, 5)
 };
 
 static FUNCTION_INFO i_func_2_return = {
@@ -2109,8 +2172,8 @@ static TAB_NUM t_lambda_56[] = {
   0, // locals
   0, // parameters
   //  views
-  LET, 1, var_400_4_views, TAIL_CALL,
-  POS(462, 9)
+  LET, 1, var_421_4_views, TAIL_CALL,
+  POS(483, 9)
 };
 
 static FUNCTION_INFO i_lambda_56 = {
@@ -2122,8 +2185,8 @@ static TAB_NUM t_lambda_57[] = {
   0, // locals
   0, // parameters
   // spread views
-  var_spread, 1, var_400_4_views, TAIL_CALL,
-  POS(463, 9)
+  var_spread, 1, var_421_4_views, TAIL_CALL,
+  POS(484, 9)
 };
 
 static FUNCTION_INFO i_lambda_57 = {
@@ -2155,6 +2218,9 @@ static FUNKY_CONSTANT constants_table[] = {
   {FLT_FUNCTION, 0, {.func_info = &i_func_std_types__generic_terminal___set_text_attributes}},
   {FLT_FUNCTION, 0, {.func_info = &i_func_std_types__generic_terminal___add_text_attributes}},
   {FLT_FUNCTION, 0, {.func_info = &i_func_std_types__generic_terminal___remove_text_attributes}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std_types__generic_terminal___get_clear_colour}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std_types__generic_terminal___get_draw_colour}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std_types__generic_terminal___get_text_attributes}},
   {FLT_FUNCTION, 0, {.func_info = &i_func_std_types__view___draw_text}},
   {FLT_FUNCTION, 0, {.func_info = &i_func_std_types__view___draw_attributed_text}},
   {FLT_FUNCTION, 0, {.func_info = &i_func_std_types__view___clear}},
@@ -2245,7 +2311,10 @@ static ATTRIBUTE_DEFINITION std_types__generic_terminal__attributes[] = {
   {var_set_draw_colour, -func_std_types__generic_terminal___set_draw_colour},
   {var_set_text_attributes, -func_std_types__generic_terminal___set_text_attributes},
   {var_add_text_attributes, -func_std_types__generic_terminal___add_text_attributes},
-  {var_remove_text_attributes, -func_std_types__generic_terminal___remove_text_attributes}
+  {var_remove_text_attributes, -func_std_types__generic_terminal___remove_text_attributes},
+  {var_get_clear_colour, -func_std_types__generic_terminal___get_clear_colour},
+  {var_get_draw_colour, -func_std_types__generic_terminal___get_draw_colour},
+  {var_get_text_attributes, -func_std_types__generic_terminal___get_text_attributes}
 };
 
 static ATTRIBUTE_DEFINITION std_types__view__attributes[] = {
@@ -2354,6 +2423,21 @@ static FUNKY_VARIABLE variables_table[] = {
     {.has_a_setter = false}
   },
   {
+    FOT_POLYMORPHIC, 0, 0,
+    "get_draw_colour\000std", NULL,
+    {.has_a_setter = false}
+  },
+  {
+    FOT_POLYMORPHIC, 0, 0,
+    "get_clear_colour\000std", NULL,
+    {.has_a_setter = false}
+  },
+  {
+    FOT_POLYMORPHIC, 0, 0,
+    "get_text_attributes\000std", NULL,
+    {.has_a_setter = false}
+  },
+  {
     FOT_INITIALIZED, 0, 0,
     "DRAW_COLOUR\000std", NULL,
     {.const_idx = -uni_std__DRAW_COLOUR}
@@ -2449,104 +2533,104 @@ static FUNKY_VARIABLE variables_table[] = {
     {.has_a_setter = false}
   },
   {
-    FOT_DERIVED, 0, 22,
+    FOT_DERIVED, 0, 25,
     "generic_terminal\000std_types", std_types__generic_terminal__attributes,
     {"resource\000std_types"}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "resource\000std_types", NULL,
-    {.position = POS(79, 30)}
-  },
-  {
-    FOT_UNKNOWN_POLYMORPHIC, 0, 0,
-    "type_of\000", NULL,
-    {.position = POS(81, 30)}
-  },
-  {
-    FOT_UNKNOWN, 0, 0,
-    "undefined\000", NULL,
-    {.position = POS(81, 38)}
-  },
-  {
-    FOT_UNKNOWN_POLYMORPHIC, 0, 0,
-    "x_of\000", NULL,
     {.position = POS(82, 30)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
-    "y_of\000", NULL,
-    {.position = POS(83, 30)}
-  },
-  {
-    FOT_UNKNOWN_POLYMORPHIC, 0, 0,
-    "plot_x_resolution_of\000", NULL,
+    "type_of\000", NULL,
     {.position = POS(84, 30)}
   },
   {
+    FOT_UNKNOWN, 0, 0,
+    "undefined\000", NULL,
+    {.position = POS(84, 38)}
+  },
+  {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
-    "plot_y_resolution_of\000", NULL,
+    "x_of\000", NULL,
     {.position = POS(85, 30)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
-    "width_of\000", NULL,
+    "y_of\000", NULL,
     {.position = POS(86, 30)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
-    "height_of\000", NULL,
+    "plot_x_resolution_of\000", NULL,
     {.position = POS(87, 30)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
-    "character_width_of\000", NULL,
+    "plot_y_resolution_of\000", NULL,
     {.position = POS(88, 30)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
-    "ascent_of\000", NULL,
+    "width_of\000", NULL,
     {.position = POS(89, 30)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
-    "descent_of\000", NULL,
+    "height_of\000", NULL,
     {.position = POS(90, 30)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
-    "character_height_of\000", NULL,
+    "character_width_of\000", NULL,
     {.position = POS(91, 30)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
-    "line_spacing_of\000", NULL,
+    "ascent_of\000", NULL,
     {.position = POS(92, 30)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
-    "line_height_of\000", NULL,
+    "descent_of\000", NULL,
     {.position = POS(93, 30)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
-    "baseline_of\000", NULL,
+    "character_height_of\000", NULL,
     {.position = POS(94, 30)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
-    "clear_colour_of\000", NULL,
+    "line_spacing_of\000", NULL,
     {.position = POS(95, 30)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
-    "draw_colour_of\000", NULL,
+    "line_height_of\000", NULL,
     {.position = POS(96, 30)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
-    "text_attributes_of\000", NULL,
+    "baseline_of\000", NULL,
     {.position = POS(97, 30)}
+  },
+  {
+    FOT_UNKNOWN_POLYMORPHIC, 0, 0,
+    "clear_colour_of\000", NULL,
+    {.position = POS(98, 30)}
+  },
+  {
+    FOT_UNKNOWN_POLYMORPHIC, 0, 0,
+    "draw_colour_of\000", NULL,
+    {.position = POS(99, 30)}
+  },
+  {
+    FOT_UNKNOWN_POLYMORPHIC, 0, 0,
+    "text_attributes_of\000", NULL,
+    {.position = POS(100, 30)}
   },
   {
     FOT_DERIVED, 0, 6,
@@ -2560,26 +2644,26 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "101_25_screen\000", NULL
+    "104_25_screen\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "101_32_x\000", NULL
+    "104_32_x\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
     "less\000std", NULL,
-    {.position = POS(103, 5)}
+    {.position = POS(106, 5)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "plus\000std", NULL,
-    {.position = POS(104, 8)}
+    {.position = POS(107, 8)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "if\000", NULL,
-    {.position = POS(102, 3)}
+    {.position = POS(105, 3)}
   },
   {
     FOT_INITIALIZED, 0, 0,
@@ -2588,11 +2672,11 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "107_25_screen\000", NULL
+    "110_25_screen\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "107_32_y\000", NULL
+    "110_32_y\000", NULL
   },
   {
     FOT_INITIALIZED, 0, 0,
@@ -2602,47 +2686,62 @@ static FUNKY_VARIABLE variables_table[] = {
   {
     FOT_UNKNOWN, 0, 0,
     "minus\000std", NULL,
-    {.position = POS(127, 13)}
+    {.position = POS(130, 13)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
     "set_clear_colour\000", NULL,
-    {.position = POS(141, 30)}
+    {.position = POS(144, 30)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
     "set_draw_colour\000", NULL,
-    {.position = POS(148, 30)}
+    {.position = POS(151, 30)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
     "set_text_attributes\000", NULL,
-    {.position = POS(155, 30)}
+    {.position = POS(158, 30)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
     "add_text_attributes\000", NULL,
-    {.position = POS(162, 30)}
+    {.position = POS(165, 30)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "bit_or\000std", NULL,
-    {.position = POS(167, 35)}
+    {.position = POS(170, 35)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
     "remove_text_attributes\000", NULL,
-    {.position = POS(169, 30)}
+    {.position = POS(172, 30)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "not\000", NULL,
-    {.position = POS(176, 58)}
+    {.position = POS(179, 58)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "bit_and\000std", NULL,
-    {.position = POS(176, 27)}
+    {.position = POS(179, 27)}
+  },
+  {
+    FOT_UNKNOWN_POLYMORPHIC, 0, 0,
+    "get_clear_colour\000", NULL,
+    {.position = POS(181, 30)}
+  },
+  {
+    FOT_UNKNOWN_POLYMORPHIC, 0, 0,
+    "get_draw_colour\000", NULL,
+    {.position = POS(187, 30)}
+  },
+  {
+    FOT_UNKNOWN_POLYMORPHIC, 0, 0,
+    "get_text_attributes\000", NULL,
+    {.position = POS(193, 30)}
   },
   {
     FOT_POLYMORPHIC, 0, 0,
@@ -2662,165 +2761,165 @@ static FUNKY_VARIABLE variables_table[] = {
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
     "draw_text\000", NULL,
-    {.position = POS(182, 18)}
+    {.position = POS(203, 18)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "create_string\000", NULL,
-    {.position = POS(190, 9)}
+    {.position = POS(211, 9)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
     "draw_attributed_text\000", NULL,
-    {.position = POS(198, 18)}
+    {.position = POS(219, 18)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
     "clear\000", NULL,
-    {.position = POS(213, 18)}
+    {.position = POS(234, 18)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "215_5_view\000", NULL
+    "236_5_view\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "217_5_x\000", NULL
+    "238_5_x\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "218_5_y\000", NULL
+    "239_5_y\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
     "is_undefined\000", NULL,
-    {.position = POS(222, 19)}
+    {.position = POS(243, 19)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "update_if\000", NULL,
-    {.position = POS(222, 3)}
+    {.position = POS(243, 3)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
     "invert\000", NULL,
-    {.position = POS(232, 18)}
+    {.position = POS(253, 18)}
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
     "draw_shadow\000", NULL,
-    {.position = POS(244, 18)}
+    {.position = POS(265, 18)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "256_24_x\000", NULL
+    "277_24_x\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "256_26_y\000", NULL
+    "277_26_y\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "256_28_width\000", NULL
+    "277_28_width\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "256_34_height\000", NULL
+    "277_34_height\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "257_4_view_x\000", NULL
+    "278_4_view_x\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "258_4_view_y\000", NULL
+    "279_4_view_y\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "259_4_view_width\000", NULL
+    "280_4_view_width\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "260_4_view_height\000", NULL
+    "281_4_view_height\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "265_4_left_x\000", NULL
+    "286_4_left_x\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "266_4_top_y\000", NULL
+    "287_4_top_y\000", NULL
   },
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
     "copy\000", NULL,
-    {.position = POS(279, 18)}
+    {.position = POS(300, 18)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "282_5_destination\000", NULL
+    "303_5_destination\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "283_5_source\000", NULL
+    "304_5_source\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "284_5_x\000", NULL
+    "305_5_x\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "285_5_y\000", NULL
+    "306_5_y\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "286_5_sx\000", NULL
+    "307_5_sx\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "287_5_sy\000", NULL
+    "308_5_sy\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "288_5_width\000", NULL
+    "309_5_width\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "289_5_height\000", NULL
+    "310_5_height\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "293_4_view_x\000", NULL
+    "314_4_view_x\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "294_4_view_y\000", NULL
+    "315_4_view_y\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "295_4_view_width\000", NULL
+    "316_4_view_width\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "296_4_view_height\000", NULL
+    "317_4_view_height\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "299_4_dx\000", NULL
+    "320_4_dx\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "300_4_dy\000", NULL
+    "321_4_dy\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
     "not\000std", NULL,
-    {.position = POS(306, 14)}
+    {.position = POS(327, 14)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "or\000std", NULL,
-    {.position = POS(306, 14)}
+    {.position = POS(327, 14)}
   },
   {
     FOT_INITIALIZED, 0, 0,
@@ -2829,183 +2928,183 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "321_5_screen\000", NULL
+    "342_5_screen\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "322_5_pane_description\000", NULL
+    "343_5_pane_description\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "324_4_rc\000", NULL
+    "345_4_rc\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
     "result_count\000", NULL,
-    {.position = POS(324, 7)}
+    {.position = POS(345, 7)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "325_4_x\000", NULL
+    "346_4_x\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "326_4_y\000", NULL
+    "347_4_y\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "327_4_width\000", NULL
+    "348_4_width\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "328_4_height\000", NULL
+    "349_4_height\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "329_4_views\000", NULL
+    "350_4_views\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
     "empty_list\000", NULL,
-    {.position = POS(329, 10)}
+    {.position = POS(350, 10)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "is_an_integer\000", NULL,
-    {.position = POS(331, 25)}
+    {.position = POS(352, 25)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "333_8_iter\000", NULL
+    "354_8_iter\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
     "bresenham\000", NULL,
-    {.position = POS(333, 13)}
+    {.position = POS(354, 13)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "next_value\000", NULL,
-    {.position = POS(334, 7)}
+    {.position = POS(355, 7)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "create_view\000", NULL,
-    {.position = POS(338, 23)}
+    {.position = POS(359, 23)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "push\000", NULL,
-    {.position = POS(338, 11)}
+    {.position = POS(359, 11)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "next\000", NULL,
-    {.position = POS(340, 11)}
+    {.position = POS(361, 11)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "repeat\000", NULL,
-    {.position = POS(335, 7)}
+    {.position = POS(356, 7)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "is_a_list\000", NULL,
-    {.position = POS(342, 25)}
+    {.position = POS(363, 25)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "343_8_fixed_width\000", NULL
+    "364_8_fixed_width\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "344_8_flex_width_count\000", NULL
+    "365_8_flex_width_count\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "346_12_pane_width\000", NULL
+    "367_12_pane_width\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
     "inc\000", NULL,
-    {.position = POS(349, 15)}
+    {.position = POS(370, 15)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "plus\000", NULL,
-    {.position = POS(352, 15)}
+    {.position = POS(373, 15)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "359_16_flex_width\000", NULL
+    "380_16_flex_width\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "360_16_remaining_flex_width\000", NULL
+    "381_16_remaining_flex_width\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "362_20_pane_width\000", NULL
+    "383_20_pane_width\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
     "dec\000", NULL,
-    {.position = POS(365, 23)}
+    {.position = POS(386, 23)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "times\000std", NULL,
-    {.position = POS(368, 37)}
+    {.position = POS(389, 37)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "round\000", NULL,
-    {.position = POS(368, 31)}
+    {.position = POS(389, 31)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "to_integer\000", NULL,
-    {.position = POS(368, 60)}
+    {.position = POS(389, 60)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "max\000", NULL,
-    {.position = POS(368, 27)}
+    {.position = POS(389, 27)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "min\000", NULL,
-    {.position = POS(367, 25)}
+    {.position = POS(388, 25)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "minus\000", NULL,
-    {.position = POS(373, 23)}
+    {.position = POS(394, 23)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "for_each\000", NULL,
-    {.position = POS(361, 15)}
+    {.position = POS(382, 15)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "true\000", NULL,
-    {.position = POS(382, 8)}
+    {.position = POS(403, 8)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "cond\000", NULL,
-    {.position = POS(330, 3)}
+    {.position = POS(351, 3)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "equal\000std", NULL,
-    {.position = POS(386, 7)}
+    {.position = POS(407, 7)}
   },
   {
     FOT_UNKNOWN, 0, 0,
     "spread\000", NULL,
-    {.position = POS(388, 9)}
+    {.position = POS(409, 9)}
   },
   {
     FOT_INITIALIZED, 0, 0,
@@ -3014,63 +3113,63 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "392_5_screen\000", NULL
+    "413_5_screen\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "393_5_pane_description\000", NULL
+    "414_5_pane_description\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "395_4_rc\000", NULL
+    "416_4_rc\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "396_4_x\000", NULL
+    "417_4_x\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "397_4_y\000", NULL
+    "418_4_y\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "398_4_width\000", NULL
+    "419_4_width\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "399_4_height\000", NULL
+    "420_4_height\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "400_4_views\000", NULL
+    "421_4_views\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "404_8_iter\000", NULL
+    "425_8_iter\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "414_8_fixed_height\000", NULL
+    "435_8_fixed_height\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "415_8_flex_height_count\000", NULL
+    "436_8_flex_height_count\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "417_12_pane_height\000", NULL
+    "438_12_pane_height\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "430_16_flex_height\000", NULL
+    "451_16_flex_height\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "431_16_remaining_flex_height\000", NULL
+    "452_16_remaining_flex_height\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "433_20_pane_height\000", NULL
+    "454_20_pane_height\000", NULL
   }
 };
 
@@ -3088,8 +3187,8 @@ FUNKY_MODULE module__basic__io__generic_terminal = {
   0, // number of required modules
   0, // number of defined namespaces
   1, // number of used namespaces
-  89, // number of constants
-  175, // number of variables
+  92, // number of constants
+  181, // number of variables
   NULL, // required modules
   NULL, // defined namespaces
   used_namespaces,

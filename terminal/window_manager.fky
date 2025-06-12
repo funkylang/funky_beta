@@ -1416,7 +1416,7 @@ $std_types::window_manager/move_top:
       update_if cursor_y_of(window).is_defined &window.cursor_y_of -> 1
       wm
 	.windows_of windows(index window)
-	.is_up_to_date false     -> wm
+	.is_up_to_date false
     -> wm
 
 $std_types::window_manager/move_bottom:

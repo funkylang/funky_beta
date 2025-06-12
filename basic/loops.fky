@@ -70,7 +70,7 @@ $basic_loops::finally undefined
 
   Practically all <@Collections> support <for_each>.
 
-$std::next pass
+$std::next undefined
   #
     starts the next "iteration" of a "loop"
 

@@ -1,3 +1,4 @@
+<!doctype html>
 <html>
 <head>
 <title>Types</title>
@@ -18,28 +19,32 @@
 <td class="description">the prototype object for all AI models</td>
 </tr>
 <tr>
+<td><a href="llama_types__model.html">llama_types::model</a></td>
+<td class="description">the prototype object for all models</td>
+</tr>
+<tr>
 <td><a href="std__widget_settings.html">std::widget_settings</a></td>
 <td class="description">the prototype object for widget settings</td>
 </tr>
 <tr>
 <td><a href="std_types__FUNKY_IDENTIFIER.html">std_types::FUNKY_IDENTIFIER</a></td>
-<td class="description">the prototype object for all Funky identifiers</td>
+<td class="description">the prototype grammar object for Funky identifiers</td>
 </tr>
 <tr>
 <td><a href="std_types__WHITESPACE.html">std_types::WHITESPACE</a></td>
-<td class="description">the prototype object for all whitespace matchers</td>
+<td class="description">the prototype grammar object for whitespace</td>
 </tr>
 <tr>
 <td><a href="std_types__alt.html">std_types::alt</a></td>
-<td class="description">This object represents an alternation of expressions.</td>
+<td class="description">a grammar object to match one of several alternatives</td>
 </tr>
 <tr>
 <td><a href="std_types__any_character_but.html">std_types::any_character_but</a></td>
-<td class="description">the prototype object for the "any character but" grammar object</td>
+<td class="description">the prototype grammar object for matching anything but the specified</td>
 </tr>
 <tr>
 <td><a href="std_types__anything.html">std_types::anything</a></td>
-<td class="description">the prototype object for the "anything"-grammar object</td>
+<td class="description">the prototype for grammar objects that match everything</td>
 </tr>
 <tr>
 <td><a href="std_types__array.html">std_types::array</a></td>
@@ -63,7 +68,7 @@
 </tr>
 <tr>
 <td><a href="std_types__bresenham_delta_iterator.html">std_types::bresenham_delta_iterator</a></td>
-<td class="description">the prototype object for iterators that produce a sequence of values that</td>
+<td class="description">the prototype object for all Bresenham delta iterators</td>
 </tr>
 <tr>
 <td><a href="std_types__bresenham_iterator.html">std_types::bresenham_iterator</a></td>
@@ -71,7 +76,7 @@
 </tr>
 <tr>
 <td><a href="std_types__capture.html">std_types::capture</a></td>
-<td class="description">the prototype object for capturing expressions</td>
+<td class="description">the prototype grammar object for capturing text</td>
 </tr>
 <tr>
 <td><a href="std_types__character.html">std_types::character</a></td>
@@ -98,16 +103,20 @@
 <td class="description">a directory</td>
 </tr>
 <tr>
+<td><a href="std_types__dirent.html">std_types::dirent</a></td>
+<td class="description">a directory entry</td>
+</tr>
+<tr>
 <td><a href="std_types__error.html">std_types::error</a></td>
 <td class="description">the prototype object for all error objects</td>
 </tr>
 <tr>
 <td><a href="std_types__error_number.html">std_types::error_number</a></td>
-<td class="description">a POSIX error number</td>
+<td class="description">the protoype object for all POSIX error numbers</td>
 </tr>
 <tr>
 <td><a href="std_types__false.html">std_types::false</a></td>
-<td class="description">the <i>type</i> of the boolean value <em>false</em></td>
+<td class="description">the prototype for the boolean value <i>false</i></td>
 </tr>
 <tr>
 <td><a href="std_types__file_descriptor.html">std_types::file_descriptor</a></td>
@@ -139,7 +148,7 @@
 </tr>
 <tr>
 <td><a href="std_types__generic_terminal.html">std_types::generic_terminal</a></td>
-<td class="description">the prototype object for all terminal types</td>
+<td class="description">a generic terminal object</td>
 </tr>
 <tr>
 <td><a href="std_types__group_id.html">std_types::group_id</a></td>
@@ -159,7 +168,7 @@
 </tr>
 <tr>
 <td><a href="std_types__html_element.html">std_types::html_element</a></td>
-<td class="description">the prototype object for HTML elements</td>
+<td class="description">a HTML element</td>
 </tr>
 <tr>
 <td><a href="std_types__inode_number.html">std_types::inode_number</a></td>
@@ -195,11 +204,7 @@
 </tr>
 <tr>
 <td><a href="std_types__io.html">std_types::io</a></td>
-<td class="description">the prototype object for input-output objects</td>
-</tr>
-<tr>
-<td><a href="std_types__io_task.html">std_types::io_task</a></td>
-<td class="description">the prototype object for all tasks</td>
+<td class="description">the I/O object</td>
 </tr>
 <tr>
 <td><a href="std_types__iterator.html">std_types::iterator</a></td>
@@ -227,7 +232,7 @@
 </tr>
 <tr>
 <td><a href="std_types__line.html">std_types::line</a></td>
-<td class="description">a tuple with two fields:</td>
+<td class="description">a tuple with two fields (indent and text)</td>
 </tr>
 <tr>
 <td><a href="std_types__list.html">std_types::list</a></td>
@@ -235,7 +240,7 @@
 </tr>
 <tr>
 <td><a href="std_types__many.html">std_types::many</a></td>
-<td class="description">the prototype object for "many"-expressions</td>
+<td class="description">the protoype grammar object for matching one or more occurences of something</td>
 </tr>
 <tr>
 <td><a href="std_types__mersenne_twister.html">std_types::mersenne_twister</a></td>
@@ -255,7 +260,11 @@
 </tr>
 <tr>
 <td><a href="std_types__optional.html">std_types::optional</a></td>
-<td class="description">the prototype object for optional expressions</td>
+<td class="description">the prototype grammar object for matching zero or one occurrence of something</td>
+</tr>
+<tr>
+<td><a href="std_types__passwd.html">std_types::passwd</a></td>
+<td class="description">a POSIX passwd structure</td>
 </tr>
 <tr>
 <td><a href="std_types__polymorphic_function.html">std_types::polymorphic_function</a></td>
@@ -275,7 +284,7 @@
 </tr>
 <tr>
 <td><a href="std_types__resource.html">std_types::resource</a></td>
-<td class="description">the prototype object for all resources</td>
+<td class="description">a resource object</td>
 </tr>
 <tr>
 <td><a href="std_types__screen.html">std_types::screen</a></td>
@@ -307,7 +316,7 @@
 </tr>
 <tr>
 <td><a href="std_types__some.html">std_types::some</a></td>
-<td class="description">the prototype object for "some"-expressions</td>
+<td class="description">the prototype grammar object to match zero or more occurrences of something</td>
 </tr>
 <tr>
 <td><a href="std_types__stat.html">std_types::stat</a></td>
@@ -331,7 +340,7 @@
 </tr>
 <tr>
 <td><a href="std_types__true.html">std_types::true</a></td>
-<td class="description">the <i>type</i> of the boolean value <em>true</em></td>
+<td class="description">the prototype for the boolean value <i>true</i></td>
 </tr>
 <tr>
 <td><a href="std_types__tuple.html">std_types::tuple</a></td>
@@ -371,7 +380,7 @@
 </tr>
 <tr>
 <td><a href="std_types__view.html">std_types::view</a></td>
-<td class="description">the prototype object for views</td>
+<td class="description">a view of a screen</td>
 </tr>
 <tr>
 <td><a href="std_types__web_terminal.html">std_types::web_terminal</a></td>

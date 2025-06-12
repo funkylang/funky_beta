@@ -1,3 +1,4 @@
+<!doctype html>
 <html>
 <head>
 <title>Collections</title>
@@ -17,8 +18,35 @@
 <li>lists
 </ul>
 <ul>
+<li>sets
+</ul>
+<ul>
+<li>bags
+</ul>
+<ul>
 <li>tables
 </ul>
+<p>Sets, bags and tables come in several variants, that offer specific features.</p>
+<p>Collections have type functions that allow retrieving and "updating" individual elements in the collection.</p>
+<p>When a collection is "updated" a new collection is created where the element is changed. The original collection is not changed.</p>
+<h2>Related topics</h2>
+<table>
+<tr>
+  <td><a href="Tuples.html">Tuples</a></td>
+</tr>
+<tr>
+  <td><a href="Lists.html">Lists</a></td>
+</tr>
+<tr>
+  <td><a href="Sets.html">Sets</a></td>
+</tr>
+<tr>
+  <td><a href="Bags.html">Bags</a></td>
+</tr>
+<tr>
+  <td><a href="Tables.html">Tables</a></td>
+</tr>
+</table>
 <h2>Types</h2>
 <table>
 <tr>
@@ -114,11 +142,11 @@
 </tr>
 <tr>
   <td><a href="../symbols/std__all_of.html">std::all_of</a></td>
-  <td class="description">tests all items of a collection</td>
+  <td class="description">checks whether all items of a collection pass the specified test</td>
 </tr>
 <tr>
   <td><a href="../symbols/std__any_of.html">std::any_of</a></td>
-  <td class="description">tests all items of a collection</td>
+  <td class="description">checks whether at least one item of a collection passes the specified test</td>
 </tr>
 <tr>
   <td><a href="../symbols/std__append.html">std::append</a></td>
@@ -182,7 +210,7 @@
 </tr>
 <tr>
   <td><a href="../symbols/std__for_each.html">std::for_each</a></td>
-  <td class="description">iterate over all items of a collection</td>
+  <td class="description">iterates over all items of a collection</td>
 </tr>
 <tr>
   <td><a href="../symbols/std__from.html">std::from</a></td>
@@ -258,7 +286,7 @@
 </tr>
 <tr>
   <td><a href="../symbols/std__map.html">std::map</a></td>
-  <td class="description">appliies a function to all items of a collection</td>
+  <td class="description">applies a function to all items of a collection</td>
 </tr>
 <tr>
   <td><a href="../symbols/std__map_or_error.html">std::map_or_error</a></td>
@@ -383,6 +411,10 @@
 <tr>
   <td><a href="../symbols/std__truncate_until.html">std::truncate_until</a></td>
   <td class="description">returns the substring behind the specified expression</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__tuple.html">std::tuple</a></td>
+  <td class="description">constructs a tuple from the specified arguments</td>
 </tr>
 <tr>
   <td><a href="../symbols/std__typed_tuple.html">std::typed_tuple</a></td>

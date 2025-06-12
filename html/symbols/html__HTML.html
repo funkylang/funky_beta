@@ -1,3 +1,4 @@
+<!doctype html>
 <html>
 <head>
 <title>html::HTML</title>
@@ -11,146 +12,35 @@
 <p class="short">generates an HTML document</p>
 <h2>Parameters</h2>
 <dl>
-<dt>items</dt>
-<dd>the items to include in the document</dd>
+<dt>items <i>(zero or more)</i></dt>
+<dd>the content of the document</dd>
 </dl>
 <h2>Result</h2>
 <dl>
-<dt>the generated HTML document</dt>
+<dt>a string containing the HTML document</dt>
 <dd></dd>
 </dl>
 <h2>Description</h2>
-<p>The items are converted to HTML elements.</p>
+<p>The function generates a complete HTML document with the given content.</p>
+<p>The content is typically a sequence of elements such as HEAD and BODY.</p>
+<p>The function is used as a block function, with the content placed between the HTML tags.</p>
 <h2>Topic</h2>
 <table><tr><td><a href="../topics/HTML.html">HTML</a></td></tr></table>
-<h2>See also</h2>
-<table>
-<tr>
-  <td><a href="html__HEAD.html">html::HEAD</a></td>
-  <td class="description">creates a HTML head</td>
-</tr>
-<tr>
-  <td><a href="html__BODY.html">html::BODY</a></td>
-  <td class="description">creates a HTML body</td>
-</tr>
-<tr>
-  <td><a href="html__TITLE.html">html::TITLE</a></td>
-  <td class="description">creates a HTML title tag</td>
-</tr>
-<tr>
-  <td><a href="html__STYLE.html">html::STYLE</a></td>
-  <td class="description">creates a style-tag</td>
-</tr>
-<tr>
-  <td><a href="html__LINK.html">html::LINK</a></td>
-  <td class="description">creates a link element</td>
-</tr>
-<tr>
-  <td><a href="html__H1.html">html::H1</a></td>
-  <td class="description">creates a HTML H1-tag</td>
-</tr>
-<tr>
-  <td><a href="html__H2.html">html::H2</a></td>
-  <td class="description">creates an HTML "h2"-tag</td>
-</tr>
-<tr>
-  <td><a href="html__H3.html">html::H3</a></td>
-  <td class="description">creates an HTML h3-tag</td>
-</tr>
-<tr>
-  <td><a href="html__H4.html">html::H4</a></td>
-  <td class="description">creates a HTML-H4-tag</td>
-</tr>
-<tr>
-  <td><a href="html__H5.html">html::H5</a></td>
-  <td class="description">creates an HTML "h5"-tag</td>
-</tr>
-<tr>
-  <td><a href="html__H6.html">html::H6</a></td>
-  <td class="description">creates a HTML-H6-tag</td>
-</tr>
-<tr>
-  <td><a href="html__P.html">html::P</a></td>
-  <td class="description">creates a paragraph</td>
-</tr>
-<tr>
-  <td><a href="html__DIV.html">html::DIV</a></td>
-  <td class="description">creates a DIV-tag</td>
-</tr>
-<tr>
-  <td><a href="html__TABLE.html">html::TABLE</a></td>
-  <td class="description">creates a HTML table</td>
-</tr>
-<tr>
-  <td><a href="html__TBODY.html">html::TBODY</a></td>
-  <td class="description">creates a "tbody"-tag</td>
-</tr>
-<tr>
-  <td><a href="html__TR.html">html::TR</a></td>
-  <td class="description">creates a table row</td>
-</tr>
-<tr>
-  <td><a href="html__TH.html">html::TH</a></td>
-  <td class="description">creates a table header cell</td>
-</tr>
-<tr>
-  <td><a href="html__TD.html">html::TD</a></td>
-  <td class="description">creates a table data cell</td>
-</tr>
-<tr>
-  <td><a href="html__DL.html">html::DL</a></td>
-  <td class="description">creates a HTML description list</td>
-</tr>
-<tr>
-  <td><a href="html__DT.html">html::DT</a></td>
-  <td class="description">creates a definition term</td>
-</tr>
-<tr>
-  <td><a href="html__DD.html">html::DD</a></td>
-  <td class="description">creates a <a href="std__dd.html">std::dd</a>-tag</td>
-</tr>
-<tr>
-  <td><a href="html__PRE.html">html::PRE</a></td>
-  <td class="description">creates a <a href="std__pre.html">std::pre</a>-tag</td>
-</tr>
-<tr>
-  <td><a href="html__A.html">html::A</a></td>
-  <td class="description">creates an HTML "a"-tag</td>
-</tr>
-<tr>
-  <td><a href="html__I.html">html::I</a></td>
-  <td class="description">creates an HTML "i"-tag</td>
-</tr>
-<tr>
-  <td><a href="html__B.html">html::B</a></td>
-  <td class="description">creates a bold HTML tag</td>
-</tr>
-<tr>
-  <td><a href="html__SPAN.html">html::SPAN</a></td>
-  <td class="description">creates a span-element</td>
-</tr>
-<tr>
-  <td><a href="html__GROUP.html">html::GROUP</a></td>
-  <td class="description">groups multiple items into a single item</td>
-</tr>
-<tr>
-  <td><a href="html__FROM_TO.html">html::FROM_TO</a></td>
-  <td class="description">generates a string by calling a function for each index in a range</td>
-</tr>
-<tr>
-  <td><a href="html__FOR_EACH.html">html::FOR_EACH</a></td>
-  <td class="description">iterates over a collection and calls a function for each item</td>
-</tr>
-</table>
 <h2>Example</h2>
-<div class="Example">printnln!
-  HTML
-    : HEAD
+<div class="Example">&lt;require basic/stdlib&gt;
+&lt;require basic/export/html&gt;
+
+&lt;using std&gt;
+&lt;using html&gt;
+
+<a href="std__println.html">println</a>!
+  <a href="html__HTML.html">HTML</a>
+    : <a href="html__HEAD.html">HEAD</a>
       : <a href="std__TITLE.html">TITLE</a> "My great Homepage"
-      : LINK "rel" = "stylesheet" "href" = "style.css"
-    : BODY
-      : H1 "My great Homepage"
-      : P "This is my great homepage."
+      : <a href="html__LINK.html">LINK</a> "rel" = "stylesheet" "href" = "style.css"
+    : <a href="html__BODY.html">BODY</a>
+      : <a href="html__H1.html">H1</a> "My great Homepage"
+      : <a href="html__P.html">P</a> "This is my great homepage."
 </div>
 <h2>Output</h2>
 <div class="Output">&lt;html&gt;
@@ -165,8 +55,8 @@
 &lt;/html&gt;
 </div>
 <div class="footer">(defined in <a href="../source/basic/export/html.fky">basic/export/html.fky</a>)</div>
-<div class="footer">(generated by Codestral-22B-v0.1-Q5_K_M.gguf)</div>
-<div class="footer">(2024-07-03 8:49:10)</div>
-<div class="footer">(<a href="../prompts/symbols/html__HTML.prompt">prompt</a>)</div>
+<div class="footer">(generated by Qwen_Qwen3-30B-A3B-Q4_K_M.gguf)</div>
+<div class="footer">(rating 7)</div>
+<div class="footer">(2025-05-10 17:55:14)</div>
 </body>
 </html>

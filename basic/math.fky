@@ -24,19 +24,6 @@
 
 $std::bin:
   #
-    converts a positive integer value into a string consisting of binary digits
-
-    Result:
-      string # a string consisting of binary digits
-
-    The optional second parameter specifies the minimum length of the resulting
-    string. If there are fewer binary digits than the specified length, the
-    strint is left-padded with zeros.
-
-    Topic: Math, Strings
-
-    See also: hex, oct, to_string
-
     Example:
 
       println! bin(123)
@@ -53,11 +40,11 @@ $std::bin:
 
       01111011
   (
-    val # the value to convert
+    value # the value to convert
     size = undefined # the optional minimum length
   )
   if
-    val == 0:
+    value == 0:
       if
 	size.is_defined
 	-> dup("0" size)
@@ -66,9 +53,9 @@ $std::bin:
       $str ""
       loop !str:
 	if
-	  val > 0:
-	    put &str '0'+(val & 1)
-	    !val val >> 1
+	  value > 0:
+	    put &str '0'+(value & 1)
+	    !value value >> 1
 	    next
 	  -> str
       if
@@ -78,19 +65,6 @@ $std::bin:
 
 $std::oct:
   #
-    converts a positive integer value into a string consisting of octal digits
-
-    The optional second parameter specifies the minimum length of the resulting
-    string. If there are fewer octal digits than the specified length, the
-    string is left-padded with zeros.
-
-    Result:
-      string # a string consisting of octal digits
-
-    Topic: Math, Strings
-
-    See also: bin, hex, to_string
-
     Example:
 
       println! oct(123)
@@ -107,11 +81,11 @@ $std::oct:
 
       0173
   (
-    val # the value to convert
+    value # the value to convert
     size = undefined # the optional minimum length
   )
   if
-    val == 0:
+    value == 0:
       if
 	size.is_defined
 	-> dup("0" size)
@@ -120,9 +94,9 @@ $std::oct:
       $str ""
       loop !str:
 	if
-	  val > 0:
-	    put &str '0'+(val & 0x07)
-	    !val val >> 3
+	  value > 0:
+	    put &str '0'+(value & 0x07)
+	    !value value >> 3
 	    next
 	  -> str
       if
@@ -132,20 +106,6 @@ $std::oct:
 
 $std::hex:
   #
-    converts a positive integer value into a string consisting of hexadecimal
-    digits
-
-    Result:
-      string # a string consisting of hexadecimal digits
-
-    The optional second parameter specifies the minimum length of the resulting
-    string. If there are fewer hexadecimal digits than the specified length,
-    the string is left-padded with zeros.
-
-    Topic: Math, Strings
-
-    See also: bin, oct, to_string
-
     Example:
 
       println! hex(123)
@@ -162,11 +122,11 @@ $std::hex:
 
       007b
   (
-    val # the value to convert
+    value # the value to convert
     size = undefined # the optional minimum length
   )
   if
-    val == 0:
+    value == 0:
       if
 	size.is_defined
 	-> dup("0" size)
@@ -175,14 +135,14 @@ $std::hex:
       $str ""
       loop !str:
 	if
-	  val > 0:
-	    $hex_digit val & 0x0f
+	  value > 0:
+	    $hex_digit value & 0x0f
 	    put &str
 	      if
 		hex_digit >= 10
 		-> 'a'+hex_digit-10
 		-> '0'+hex_digit
-	    !val val >> 4
+	    !value value >> 4
 	    next
 	  -> str
       if
@@ -192,15 +152,6 @@ $std::hex:
 
 $std::inc:
   #
-    adds the number 1 to the specified value
-
-    Result:
-      value # the value increased by 1
-
-    Topic: Math
-
-    See also: dec, plus
-
     Example:
 
       println! inc(123)
@@ -215,15 +166,6 @@ $std::inc:
 
 $std::dec:
   #
-    subtracts the number 1 from the specified value
-
-    Result:
-      value # the value decreased by 1
-
-    Topic: Math
-
-    See also: inc, minus
-
     Example:
 
       println! dec(123)
@@ -238,12 +180,6 @@ $std::dec:
 
 $std::abs:
   #
-    returns the absolute value of its (numerical) argument
-
-    Topic: Math
-
-    See also: sgn
-
     Example:
 
       println! abs(-123)
@@ -261,21 +197,6 @@ $std::abs:
 
 $std::sgn:
   #
-    returns the sign of its (numerical) argument
-
-    Result:
-      result # -1, 0, or 1
-
-    If the argument is less than zero then *-1* is returned.
-
-    If the argument equals zero then *0* is returned.
-
-    If the argument is greater than zero then *1* is returned.
-
-    Topic: Math
-
-    See also: abs
-
     Example:
 
       println! sgn(-123)
@@ -309,23 +230,6 @@ $std::sgn:
 
 $std::is_odd:
   #
-    returns true if the specified value is odd, false otherwise
-
-    Result:
-      success # true or false
-
-    Topic: Math
-
-    See also: is_even
-
-    Example:
-
-      dump! `is_odd(123)
-
-    Output:
-
-      is_odd(123): <true>
-
     Example:
 
       dump! `is_odd(124)
@@ -340,15 +244,6 @@ $std::is_odd:
 
 $std::is_even:
   #
-    returns true if the specified value is even, false otherwise
-
-    Result:
-      success # true or false
-
-    Topic: Math
-
-    See also: is_odd
-
     Example:
 
       dump! `is_even(124)
@@ -371,15 +266,6 @@ $std::is_even:
 
 $std::sqr:
   #
-    returns the square of its (numerical) argument
-
-    Result:
-      value # the square of the argument
-
-    Topic: Math
-
-    See also: pow, sqrt, isqrt
-
     Example:
 
       println! sqr(4)
@@ -394,15 +280,6 @@ $std::sqr:
 
 $std::min:
   #
-    returns the smallest of its (potentially) many arguments
-
-    Result:
-      value # the smallest of the arguments
-
-    Topic: Math
-
-    See also: max, min_max
-
     Example:
 
       println! min(47 11 32)
@@ -425,14 +302,6 @@ $std::min:
 
 $std::max:
   #
-    returns the largest of its (potentially) many arguments
-
-    Result:
-      value # the largest of the arguments
-    Topic: Math
-
-    See also: min, min_max
-
     Example:
 
       println! max(47 11 32)
@@ -455,16 +324,6 @@ $std::max:
 
 $std::min_max:
   #
-    returns the smaller and the larger of its two arguments
-
-    Result:
-      min # the smaller of the arguments
-      max # the larger of the arguments
-
-    Topic: Math
-
-    See also: min, max
-
     Example:
 
       $a 47
@@ -487,12 +346,6 @@ $std::min_max:
     -> second_value first_value
 
 $std::isqrt:
-  #
-    returns the integer square root of its argument
-
-    Topic: Math
-
-    See also: sqr, pow
   (
     n
   )
@@ -512,9 +365,3 @@ $std::isqrt:
 	  -> x
 
 $std::PI 3.1415926535897932846
-  #
-    the mathematical constant PI
-
-    Topic: Math
-
-    See also: cos, sin, tan, asin, acos, atan

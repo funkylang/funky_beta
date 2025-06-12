@@ -86,7 +86,7 @@ METHOD long std_types::list/_debug_string
     char *buf
   )
   {
-    /*NODE *subtype = get_attribute(node, poly_idx__std___subtype_of);
+    /*NODE *subtype = get_attribute(node, poly_idx__std__subtype_of);
     if (CONTAINS_AN_ATTRIBUTE_VALUE(subtype)) {
       subtype = RETRIEVE_ATTRIBUTE_VALUE(subtype);
       if (TYPEOF(subtype) == TYPE(std_types::undefined)) {

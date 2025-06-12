@@ -1,3 +1,4 @@
+<!doctype html>
 <html>
 <head>
 <title>Environment</title>
@@ -8,11 +9,43 @@
 <a class="Button" href="../index.html">Home</a> <a class="Button" href="../manual.html">Manual</a> <a class="Button" href="index.html">Topics</a> <a class="Button" href="../symbols/type_index.html">Types</a> <a class="Button" href="../symbols/function_index.html">Functions</a> <a class="Button" href="../symbols/objects_index.html">Objects</a> <a class="Button" href="../symbols/constants_index.html">Constants</a> <a class="Button" href="../symbols/index.html">All</a>
 </div>
 <h1>Environment</h1>
+<h2>Description</h2>
+<p>Allows retrieval of information about the operating system's "environment" and also about where the Funky tools are installed.</p>
+<h2>Example</h2>
+<div class="Example">$shared_path
+  <a href="../symbols/std__append.html">append</a>
+    <a href="../symbols/std__installation_prefix.html">installation_prefix</a>()
+    "/share/funky-" <a href="../symbols/std__package_version.html">package_version</a>()
+
+<a href="../symbols/std__println.html">println</a>! shared_path
+</div>
+<h2>Output</h2>
+<div class="Output">/usr/local/share/funky-0.0.0
+</div>
+<h2>Functions</h2>
+<table>
+<tr>
+  <td><a href="../symbols/std__installation_prefix.html">std::installation_prefix</a></td>
+  <td class="description">returns the installation prefix of Funky</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__package_version.html">std::package_version</a></td>
+  <td class="description">returns the version of the Funky installation</td>
+</tr>
+</table>
 <h2>Objects</h2>
 <table>
 <tr>
-  <td><a href="../symbols/std__environment.html">std::environment</a></td>
-  <td class="description">a table holding all environment variables</td>
+  <td><a href="../symbols/std__command_line_arguments.html">std::command_line_arguments</a></td>
+  <td class="description">a list containing the application's command line arguments</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__environment_variables.html">std::environment_variables</a></td>
+  <td class="description">a list containing the environment variables</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__program_name.html">std::program_name</a></td>
+  <td class="description">the name of the current process</td>
 </tr>
 </table>
 <div class="footer">(defined in <a href="../source/basic/environment.fky">basic/environment.fky</a>)</div>

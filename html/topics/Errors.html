@@ -1,3 +1,4 @@
+<!doctype html>
 <html>
 <head>
 <title>Errors</title>
@@ -21,6 +22,7 @@
 <li>if a function would return no value at all, it <em>will</em> return a single error object to its caller, which results in an error in the caller and leads to propagation of the error
 </ul>
 <p>Error objects contain only very few and special methods. Any attempt to access other methods will propagate the error.</p>
+<p>When an error occurs within a function then all function arguments are checked. If any argument is an error object then instead of generating a new error object the existing error object is returned. This allows to propagate errors without losing information about the original error.</p>
 <p>To check whether a value is an error object or not, use <a href="../symbols/std__is_an_error.html">std::is_an_error</a>.</p>
 <h2>Example</h2>
 <div class="Example"><a href="../symbols/std__load.html">load</a> $buf filename
@@ -37,28 +39,44 @@
 <h2>Functions</h2>
 <table>
 <tr>
+  <td><a href="../symbols/std__Error.html">std::Error</a></td>
+  <td class="description">displays an error message and terminates the program</td>
+</tr>
+<tr>
   <td><a href="../symbols/std__errno_of.html">std::errno_of</a></td>
-  <td class="description">retrieves the errno associated with the error object</td>
+  <td class="description">the errno associated with an error object</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__error.html">std::error</a></td>
+  <td class="description">creates an error object</td>
 </tr>
 <tr>
   <td><a href="../symbols/std__error_category_of.html">std::error_category_of</a></td>
-  <td class="description">retrieves the error category of an error object</td>
+  <td class="description">the error category of an error object</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__error_check.html">std::error_check</a></td>
+  <td class="description">raises an error if any of its arguments is an error object</td>
 </tr>
 <tr>
   <td><a href="../symbols/std__error_details_of.html">std::error_details_of</a></td>
-  <td class="description">retrieves the details associated with the error object</td>
+  <td class="description">the details associated with the error object</td>
 </tr>
 <tr>
   <td><a href="../symbols/std__error_message_text_of.html">std::error_message_text_of</a></td>
-  <td class="description">retrieves the error message text of an error object</td>
+  <td class="description">the error message text of an error object</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__error_number.html">std::error_number</a></td>
+  <td class="description">constructs an error number object from an integer</td>
 </tr>
 <tr>
   <td><a href="../symbols/std__failed_attribute_of.html">std::failed_attribute_of</a></td>
-  <td class="description">retrieves the attribute associated with the error object</td>
+  <td class="description">the attribute associated with the error object</td>
 </tr>
 <tr>
   <td><a href="../symbols/std__is_an_error.html">std::is_an_error</a></td>
-  <td class="description">returns true if the argument denotes an error-object</td>
+  <td class="description">returns true if the argument denotes an error object</td>
 </tr>
 <tr>
   <td><a href="../symbols/std__to_error_message_string.html">std::to_error_message_string</a></td>
@@ -66,7 +84,7 @@
 </tr>
 <tr>
   <td><a href="../symbols/std__unreachable.html">std::unreachable</a></td>
-  <td class="description">This function is called if the program flow reaches a point that should</td>
+  <td class="description">indicates that the program flow reached a point that should never be reached</td>
 </tr>
 </table>
 <h2>Constants</h2>

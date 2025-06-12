@@ -25,6 +25,8 @@
 
 <resolve std_types-2.0>
 
+$EDIT .
+
 $tedi::page_constructors empty_hash_table
 
 $tedi::create_text_page: (io state text filename)
@@ -78,9 +80,9 @@ $tedi::create_page_from_text: (lines state filename)
     case
       behind(filename '.' -1)
       "c", "cc", "cpp", "h" -> C
-      -> kind_of(tedi_types::text_page)
+      -> kind_of(tedi_types::page)
   prepare
-    tedi_types::text_page
+    tedi_types::page
       .lines_of lines
       .kind_of kind
       .filename_of filename
@@ -195,6 +197,7 @@ $tedi::change_text:
     .selection_x_of undefined
     .selection_y_of undefined
     .do_keep_completions_of false
+    .error_message_of undefined
   if
     argument.is_defined:
       action $line_no $inserted $new_x $new_y $new_info
@@ -242,6 +245,8 @@ $update_text:
     new_info
     action_class
   )
+  update_if error_message_of(new_info).is_defined &state:
+    show_error_message state EDIT error_message_of(new_info)
   $window_manager window_manager_of(state)
   $page get_content(window_manager window_id)
   get_xy page window_manager window_id $x $y
@@ -268,134 +273,21 @@ $update_text:
       update_if first > n &first &last &inserted
 	-> n+1 n append(dup(list(undefined) first-n-1) inserted)
       if
-	&&
-	  use_soft_line_breaks_of(new_info)
-	  first == last
-	  length_of(inserted) == 1
-	  lines(first).is_defined
-	  inserted(1).is_defined
-	:
-	  # replace a single line
-	  !line_no first
-	  $old_line lines(line_no)
-	  $new_line inserted(1)
-	  $text text_of(new_line)
-	  $right_margin right_margin_of(new_info)
-	  $indent indent_of(old_line)
-	  $max_width right_margin-indent
-	  $insertions empty_list
-	  $text_width width_of(text)
-	  cond
-	    -> text_width > max_width:
-	      loop:
-		split_text_into_two &text $overflow max_width
+	first > length_of(lines):
+	  # truncate trailing empty lines
+	  $len length_of(inserted)
+	  loop:
+	    if
+	      len > 0 && inserted(len).is_undefined:
+		dec &len
+		next
+	      :
+		range &inserted 1 len
 		if
-		  overflow.is_empty:
-		    debug::println "cannot fix overflow"
-		    debug::dump 3 `insertions
-		    check_for_append
-		  :
-		    push &insertions
-		      old_line
-			.text_of text
-			.tokens_of undefined
-		    !text_width width_of(text)
-		    update_if new_y == line_no && new_x > indent+text_width
-		      &new_x &new_y
-		      -> new_x-text_width-1 new_y+1
-		    inc &line_no
-		    !old_line
-		      if
-			line_no > length_of(lines)
-			-> undefined
-			-> lines(line_no)
-		    if
-		      old_line.is_defined && old_line.is_a_continuation_line:
-			inc &last
-			!text append(overflow " " text_of(old_line))
-			if
-			  width_of(text) > max_width
-			  next
-			  :
-			    push &insertions
-			      old_line
-				.text_of text
-				.tokens_of undefined
-			    !inserted insertions
-			    check_for_append
-		      :
-			push &insertions
-			  tedi_line(indent overflow)
-			    .is_a_continuation_line true
-			!inserted insertions
-			check_for_append
-	    -> text_width < width_of(text_of(old_line)):
-	      loop:
-		inc &line_no
-		$next_line
-		  if
-		    line_no > length_of(lines)
-		    -> undefined
-		    -> lines(line_no)
-		if
-		  next_line.is_defined && next_line.is_a_continuation_line:
-		    $available_width max_width-text_width-1
-		    $next_text text_of(next_line)
-		    split_text_into_two $word &next_text available_width
-		    if
-		      length_of(word) <= available_width:
-			inc &last
-			push &insertions
-			  old_line
-			    .text_of append(text " " word)
-			    .tokens_of undefined
-			!old_line next_line
-			!text next_text
-			!text_width width_of(text)
-			next
-		      fix_underflow
-		  fix_underflow
-
-		$fix_underflow:
-		  if
-		    insertions.is_empty:
-		      if
-			old_line.is_a_continuation_line:
-			  !inserted(1).is_a_continuation_line true
-			  check_for_append
-			check_for_append
-		    :
-		      push &insertions
-			old_line
-			  .text_of text
-			  .tokens_of undefined
-		      !inserted insertions
-		      check_for_append
-	    -> true:
-	      if
-		old_line.is_a_continuation_line:
-		  !inserted(1).is_a_continuation_line true
-		  check_for_append
-		check_for_append
-	check_for_append
-
-      $check_for_append:
-	if
-	  first > length_of(lines):
-	    # truncate trailing empty lines
-	    $len length_of(inserted)
-	    loop:
-	      if
-		len > 0 && inserted(len).is_undefined:
-		  dec &len
-		  next
-		:
-		  range &inserted 1 len
-		  if
-		    inserted.is_empty # e.g. pasting empty lines
-		    update_cursor_position
-		    insert_lines
-	  insert_lines
+		  inserted.is_empty # e.g. pasting empty lines
+		  update_cursor_position
+		  insert_lines
+	insert_lines
 
       $insert_lines:
 	!symbol_info symbol_info_of(state)
@@ -408,9 +300,17 @@ $update_text:
 	    $reinserted range(lines first last)
 	    update_if first > len+1 &first &reinserted
 	      -> len+1 append(dup(list(undefined) first-(len+1)) reinserted)
-	    add_history_entry &new_info action_class == REDO
-	      first length_of(inserted) reinserted version_of(info) x y
-	    update_title
+	    if
+	      &&
+		version_of(info) == 0
+		!=
+		  use_soft_line_breaks_of(new_info)
+		  use_soft_line_breaks_of(info)
+	      update_title # do not add history entry
+	      :
+		add_history_entry &new_info action_class == REDO
+		  first length_of(inserted) reinserted version_of(info) x y
+		update_title
     :
       if
 	action_class == UNDO
@@ -474,35 +374,6 @@ $update_text:
   $return:
     state
       .window_manager_of window_manager
-
-$split_text_into_two: (text max_width)
-  $width 0
-  $n length_of(text)
-  $split_pos undefined
-  $i 0
-  loop:
-    inc &i
-    if
-      width > max_width && split_pos.is_defined
-      -> range(text 1 split_pos-1) range(text split_pos+1 -1)
-      :
-	if
-	  i > n
-	  -> text ""
-	  :
-	    $chr text(i)
-	    if
-	      width > 0 && chr == ' ' && text(i-1) != ' ':
-		if
-		  width >= max_width
-		  -> range(text 1 i-1) range(text i+1 -1)
-		  :
-		    !split_pos i
-		    inc &width
-		    next
-	      :
-		plus &width width_of(chr)
-		next
 
 $tedi_types::page/handle_mouse_click: (page io state x y _button)
   minus &x get_decoration_width(page)
@@ -618,8 +489,29 @@ $tedi_types::basic_state/set_status_line: (state)
   if
     page.is_defined && page.is_a_text_page:
       get_xy page window_manager_of(state) $x $y
+      if !y $height
+	use_soft_line_breaks_of(info_of(page)):
+	  $py 1
+	  $h 0
+	  for_each lines_of(page)
+	    : (no line)
+	      if
+		line.is_defined && line.is_a_continuation_line
+		maybe_set_py
+		:
+		  !h h+1
+		  maybe_set_py
+
+	      $maybe_set_py:
+		if
+		  no == y:
+		    !py h
+		    next
+		  next
+	    -> py h
+	-> y height_of(page)
       set_status &state.window_manager_of
-	"@(y):@(x) (@(height_of(page)):@(width_of(page)))"
+	"@(y):@(x) (@(height):@(width_of(page)))"
       -> state
     -> state
 
@@ -661,74 +553,102 @@ $tedi::insert: (x y lines info str)
     insert_non_empty_string
 
   $insert_non_empty_string:
+    $par_y get_par_y(y lines)
     $leading_spaces count_leading_spaces(str)
     $trailing_spaces count_trailing_spaces(str)
     $spaces_only leading_spaces == length_of(str)
     $insert_width width_of(str)
-    $new_x x+insert_width
+    $cursor_x x+insert_width
+    $max_width right_margin_of(info)
     if
-      y > length_of(lines)
+      par_y.is_defined
+      insert_into_non_empty_line
       insert_into_empty_line
-      :
-	$line lines(y)
-	if
-	  line.is_undefined
-	  insert_into_empty_line
-	  :
-	    $indent indent_of(line)
-	    $text text_of(line)
-	    $text_width width_of(text)
-	    cond
-	      -> x <= indent+1: # before text
-		if
-		  spaces_only
-		  ->
-		    y
-		    tedi_line(indent+insert_width text)
-		    new_x
-		    y
-		    info
-		  ->
-		    y
-		    tedi_line
-		      x-1+leading_spaces
-		      append
-			range(str leading_spaces+1 -1)
-			spaces(indent-x+1)
-			text
-		    new_x
-		    y
-		    info
-	      -> x > indent+text_width: # behind text
-		if
-		  spaces_only
-		  -> undefined undefined new_x y info
-		  ->
-		    y
-		    tedi_line
-		      indent
-		      append
-			text
-			spaces(x-indent-text_width-1)
-			range(str 1 -1-trailing_spaces)
-		    new_x
-		    y
-		    info
-	      -> true: # within text
-		$pos get_position(text x-indent)
+
+    $insert_into_non_empty_line:
+      $par_indent indent_of(lines(par_y))
+      $line lines(y)
+      $indent indent_of(line)
+      $text text_of(line)
+      $text_width width_of(text)
+      cond
+	-> x <= par_indent && y != par_y:
+	  out_of_bounds_error x y info
+	-> x <= indent+1: # before text
+	  if
+	    spaces_only && y == par_y:
+	      increase_indent x y lines info insert_width
+	    :
+	      $new_indent x-1+leading_spaces
+	      $new_text
+		append
+		  range(str leading_spaces+1 -1)
+		  spaces(indent-x+1)
+		  text
+	      if
+		&&
+		  use_soft_line_breaks_of(info)
+		  indent+insert_width+text_width > max_width
+		:
+		  check_wrap_after_insertion
+		    cursor_x y lines info par_y new_indent new_text
+		:
+		  if
+		    y == par_y && new_indent < par_indent:
+		      !lines(y) tedi_line(indent false new_text)
+		      $dx par_indent-new_indent
+		      decrease_indent x+dx y lines info dx
+		    ->
+		      y
+		      tedi_line(new_indent line.is_a_continuation_line new_text)
+		      cursor_x
+		      y
+		      info
+	-> x > indent+text_width: # behind text
+	  if
+	    spaces_only
+	    -> undefined undefined cursor_x y info
+	    :
+	      $new_text
+		append
+		  text
+		  spaces(x-indent-text_width-1)
+		  range(str 1 -1-trailing_spaces)
+
+	      if
+		&&
+		  use_soft_line_breaks_of(info)
+		  x-1+insert_width > max_width
+		:
+		  check_wrap_after_insertion
+		    cursor_x y lines info par_y indent new_text
 		->
 		  y
-		  tedi_line
-		    indent
-		    append(range(text 1 pos-1) str range(text pos -1))
-		  new_x
+		  tedi_line(indent line.is_a_continuation_line new_text)
+		  cursor_x
 		  y
 		  info
+	-> true: # within text
+	  $pos get_position(text x-indent)
+	  $new_text append(range(text 1 pos-1) str range(text pos -1))
+	  if
+	    &&
+	      use_soft_line_breaks_of(info)
+	      indent+insert_width+text_width > max_width
+	    :
+	      check_wrap_after_insertion
+		cursor_x y lines info par_y indent new_text
+	    ->
+	      y
+	      tedi_line(indent line.is_a_continuation_line new_text)
+	      cursor_x
+	      y
+	      info
 
     $insert_into_empty_line:
       if
 	spaces_only
-	-> undefined undefined new_x y info
+	-> undefined undefined cursor_x y info
 	:
 	  $inserted
 	    tedi_line
@@ -737,8 +657,93 @@ $tedi::insert: (x y lines info str)
 	  $n length_of(lines)
 	  if
 	    y <= n
-	    -> y inserted new_x y info
-	    -> y .. y-1 inserted new_x y info
+	    -> y inserted cursor_x y info
+	    -> y .. y-1 inserted cursor_x y info
+
+$out_of_bounds_error: (x y info)
+  -> undefined undefined x y info(.error_message_of "Out of bounds!")
+
+$check_wrap_after_insertion: (x y lines info par_y indent text)
+  $max_width right_margin_of(info)
+  $first_y y
+  $par_indent indent_of(lines(par_y))
+  $cursor_y y
+  $updated_lines empty_list
+  $line lines(y)
+  if
+    line.is_a_continuation_line:
+      $line_before lines(y-1)
+      $indent_before indent_of(line_before)
+      $text_before text_of(line_before)
+      $width_before width_of(text_before)
+      $available_width max_width-indent_before-width_before-1
+      split_text_into_two $word $_remaining_text text available_width
+      if
+	length_of(word) <= available_width:
+	  !lines(y) tedi_line(indent true text)
+	  check_wrap_after_deletion $insertions $deletions !x !y
+	    indent+1 y-1 lines &info par_y indent_before text_before
+	  -> insertions deletions x y+1 info
+	wrap_following_lines
+    wrap_following_lines
+
+  $wrap_following_lines:
+    loop:
+      split_text_into_two &text $overflow max_width-indent
+      update_if cursor_y == y && x > indent+width_of(text)+1
+	&x &cursor_y
+	-> x-width_of(text)-1 cursor_y+1
+      push &updated_lines
+	tedi_line(indent line.is_a_continuation_line text)
+      if
+	overflow.is_empty
+	-> first_y .. y updated_lines x cursor_y info
+	:
+	  if
+	    &&
+	      y < length_of(lines)
+	      lines(y+1).is_defined
+	      lines(y+1).is_a_continuation_line
+	    :
+	      inc &y
+	      !line lines(y)
+	      !indent indent_of(line)
+	      !text append(overflow spaces(indent-par_indent+1) text_of(line))
+	      !indent par_indent
+	      next
+	    :
+	      !indent par_indent
+	      !text overflow
+	      next
+
+$split_text_into_two: (text max_width)
+  $width 0
+  $n length_of(text)
+  $split_pos undefined
+  $i 0
+  loop:
+    inc &i
+    if
+      width > max_width && split_pos.is_defined
+      -> range(text 1 split_pos-1) range(text split_pos+1 -1)
+      :
+	if
+	  i > n
+	  -> text ""
+	  :
+	    $chr text(i)
+	    if
+	      width > 0 && chr == ' ' && text(i-1) != ' ':
+		if
+		  width >= max_width
+		  -> range(text 1 i-1) range(text i+1 -1)
+		  :
+		    !split_pos i
+		    inc &width
+		    next
+	      :
+		plus &width width_of(chr)
+		next
 
 # Key Classes (used to decide which information to supply to handlers)
 
@@ -880,11 +885,22 @@ $tedi::cursor_right: (x y lines info)
 	  $text text_of(line)
 	  $text_width width_of(text)
 	  if
-	    x <= indent || x > indent+text_width
-	    -> undefined undefined x+1 y info
+	    &&
+	      use_soft_line_breaks_of(info)
+	      x == indent+text_width+1
+	      y < length_of(lines)
+	      lines(y+1).is_defined
+	      lines(y+1).is_a_continuation_line
 	    :
-	      $pos get_position(text x-indent)
-	      -> undefined undefined x+width_of(text(pos)) y info
+	      $par_y get_par_y(y lines)
+	      -> undefined undefined indent_of(lines(par_y))+1 y+1 info
+	    :
+	      if
+		x <= indent || x > indent+text_width
+		-> undefined undefined x+1 y info
+		:
+		  $pos get_position(text x-indent)
+		  -> undefined undefined x+width_of(text(pos)) y info
 
 $tedi::cursor_left: (x y lines info)
   if
@@ -899,10 +915,25 @@ $tedi::cursor_left: (x y lines info)
 	  $indent indent_of(line)
 	  $text text_of(line)
 	  $text_width width_of(text)
-	  if
-	    x <= indent+1 || x > indent+text_width+1
-	    -> undefined undefined max(x-1 1) y info
-	    :
+	  cond
+	    -> x <= indent+1:
+	      if
+		line.is_a_continuation_line:
+		  $par_y get_par_y(y lines)
+		  $par_indent indent_of(lines(par_y))
+		  if
+		    x == par_indent+1:
+		      $line_before lines(y-1)
+		      ->
+			undefined undefined
+			indent_of(line_before)+width_of(text_of(line_before))+1
+			y-1
+			info
+		    -> undefined undefined x-1 y info
+		-> undefined undefined max(x-1 1) y info
+	    -> x > indent+text_width+1
+	      -> undefined undefined max(x-1 1) y info
+	    -> true:
 	      $pos get_position(text x-indent-1)
 	      -> undefined undefined x-width_of(text(pos)) y info
 
@@ -1069,15 +1100,11 @@ $smart_indent: (x y lines info)
 	y > length_of(lines) || lines(y).is_undefined
 	-> undefined undefined x+2 y info
 	:
-	  $line lines(y)
-	  $indent indent_of(line)
-	  $text text_of(line)
-	  ->
-	    y
-	    tedi_line(indent+2 text)
-	    x+2
-	    y
-	    info
+	  if
+	    lines(y).is_a_continuation_line
+	    -> undefined undefined x y info
+	    :
+	      increase_indent x y lines info 2
 
 $smart_outdent: (x y lines info)
   if
@@ -1110,19 +1137,47 @@ $smart_outdent: (x y lines info)
 	y > length_of(lines) || lines(y).is_undefined
 	-> undefined undefined max(x-2 1) y info
 	:
-	  $line lines(y)
-	  $indent indent_of(line)
-	  $text text_of(line)
-	  ->
-	    y
-	    tedi_line(max(indent-2 0) text)
-	    max(x-2 1)
-	    y
-	    info
+	  if
+	    lines(y).is_a_continuation_line
+	    -> undefined undefined x y info
+	    :
+	      decrease_indent x y lines info 2
+
+$increase_indent: (x y lines info dx)
+  if
+    use_soft_line_breaks_of(info):
+      wrap_paragraph x+dx y lines info dx
+    :
+      $line lines(y)
+      -> y tedi_line(indent_of(line)+dx text_of(line)) x+dx y info
+
+$decrease_indent: (x y lines info dx)
+  $line lines(y)
+  min &dx indent_of(line)
+  if
+    dx > 0:
+      if
+	use_soft_line_breaks_of(info):
+	  wrap_paragraph max(x-dx 1) y lines info -dx
+	->
+	  y
+	  tedi_line(max(indent_of(line)-dx 0) text_of(line))
+	  max(x-dx 1) y info
+    -> undefined undefined x y info
+
+$wrap_paragraph: (x y lines info dx)
+  $max_width right_margin_of(info)
+  $ly find_last_line_of_paragraph(lines y+1)
+  range &lines y ly
+  remove_all_soft_breaks &lines
+  plus &lines(1).indent_of dx
+  break_all_lines &lines max_width
+  -> y .. ly lines x y info
 
 $tedi::split_line: (x y lines info)
+  $height length_of(lines)
   if
-    y > length_of(lines)
+    y > height
     -> undefined undefined 1 y+1 info
     :
       $line lines(y)
@@ -1136,13 +1191,26 @@ $tedi::split_line: (x y lines info)
 	  cond
 	    -> x <= indent+1: # before text
 	      if
-		x == 1
-		->
-		  y .. y-1
-		  list(undefined)
-		  x
-		  y+1
-		  info
+		x == 1:
+		  if
+		    &&
+		      y < height
+		      lines(y+1).is_defined
+		      lines(y+1).is_a_continuation_line
+		    ->
+		      y .. y
+		      list
+			undefined
+			line(.is_a_continuation_line false)
+		      x
+		      y+1
+		      info
+		    ->
+		      y .. y-1
+		      list(undefined)
+		      x
+		      y+1
+		      info
 		->
 		  y
 		  list
@@ -1158,83 +1226,262 @@ $tedi::split_line: (x y lines info)
 	      $left range(text 1 pos-1)
 	      $right range(text pos -1)
 	      update_if right(1) == ' ' &right -> range(right 2 -1)
-	      ->
-		y
-		list(tedi_line(indent left) tedi_line(indent right))
-		indent+1
-		y+1
-		info
+	      if
+		&&
+		  use_soft_line_breaks_of(info)
+		  y < height
+		  lines(y+1).is_defined
+		  lines(y+1).is_a_continuation_line
+		:
+		  $ly find_last_line_of_paragraph(lines y+2)
+		  range &lines y ly
+		  !lines(1).text_of right
+		  !lines(1).is_a_continuation_line false
+		  remove_all_soft_breaks &lines
+		  break_all_lines &lines right_margin_of(info)
+		  !line.text_of left
+		  inc &y
+		  !x indent+1
+		  ->
+		    y-1 .. ly
+		    put(lines line)
+		    x
+		    y
+		    info
+		->
+		  y
+		  list(tedi_line(indent left) tedi_line(indent right))
+		  indent+1
+		  y+1
+		  info
 
 $delete_left: (x y lines info)
+  $par_y get_par_y(y lines)
   if
-    y <= length_of(lines):
+    par_y.is_defined:
       $line lines(y)
-      if
-	line.is_undefined:
-	  cursor_left x y lines info
-	:
-	  $indent indent_of(line)
-	  $text text_of(line)
-	  $text_width width_of(text)
-	  cond
-	    -> x == 1
-	      -> undefined undefined x y info
-	    -> x <= indent+1:
-	      ->
-		y
-		tedi_line(indent-1 text)
-		x-1
-		y
-		info
-	    -> x > indent+text_width+1
-	      -> undefined undefined x-1 y info
-	    -> true:
-	      $pos get_position(text x-1-indent)
-	      ->
-		y
-		list
-		  tedi_line
-		    indent
-		    append(range(text 1 pos-1) range(text pos+1 -1))
-		x-width_of(text(pos))
-		y
-		info
+      $indent indent_of(line)
+      $text text_of(line)
+      $text_width width_of(text)
+      cond
+	-> x == 1 && not(line.is_a_continuation_line)
+	  -> undefined undefined x y info
+	-> x <= indent+1:
+	  if
+	    line.is_a_continuation_line:
+	      $par_indent indent_of(lines(par_y))
+	      cond
+		-> indent > par_indent:
+		  if
+		    x > par_indent+1:
+		      check_wrap_after_deletion x-1 y lines info
+			par_y indent-1 text
+		    :
+		      check_wrap_after_deletion $deletions $insertions
+			&x &y lines &info par_y indent-1 text
+		      $prev_line lines(y-1)
+		      ->
+			deletions
+			insertions
+			indent_of(prev_line)+width_of(text_of(prev_line))+1
+			y-1
+			info
+		-> x <= par_indent:
+		  out_of_bounds_error x y info
+		-> true:
+		  dec &y
+		  !line lines(y)
+		  !text text_of(line)
+		  !x indent_of(line)+width_of(text)+1
+		  join_next_line x y lines info par_y text
+	    :
+	      decrease_indent x y lines info 1
+	-> x > indent+text_width+1
+	  -> undefined undefined x-1 y info
+	-> true:
+	  $pos get_position(text x-1-indent)
+	  check_wrap_after_deletion x-1 y lines info
+	    par_y indent append(range(text 1 pos-1) range(text pos+1 -1))
     :
       cursor_left x y lines info
 
 $delete_right: (x y lines info)
+  $par_y get_par_y(y lines)
   if
-    y <= length_of(lines):
+    par_y.is_defined:
       $line lines(y)
-      if
-	line.is_undefined
-	-> undefined undefined x y info
-	:
-	  $indent indent_of(line)
-	  $text text_of(line)
-	  $text_width width_of(text)
-	  cond
-	    -> x > indent+text_width
-	      -> undefined undefined x y info
-	    -> x <= indent
-	      ->
-		y
-		tedi_line(indent-1 text)
-		x
-		y
-		info
-	    -> true:
-	      $pos get_position(text x-indent)
-	      ->
-		y
-		list
-		  tedi_line
-		    indent
-		    append(range(text 1 pos-1) range(text pos+1 -1))
-		x
-		y
-		info
+      $indent indent_of(line)
+      $text text_of(line)
+      $text_width width_of(text)
+      cond
+	-> x > indent+text_width:
+	  if
+	    &&
+	      y < length_of(lines)
+	      lines(y+1).is_defined
+	      lines(y+1).is_a_continuation_line
+	    :
+	      if
+		x > indent+text_width+1:
+		  out_of_bounds_error x y info
+		:
+		  join_next_line x y lines info par_y text
+	    -> undefined undefined x y info
+	-> x <= indent:
+	  if
+	    y == par_y:
+	      decrease_indent x+1 y lines info 1
+	    :
+	      $par_indent indent_of(lines(par_y))
+	      if
+		x <= par_indent
+		-> undefined undefined x y info
+		:
+		  check_wrap_after_deletion x y lines info par_y indent-1 text
+	-> true:
+	  $pos get_position(text x-indent)
+	  check_wrap_after_deletion x y lines info
+	    par_y indent append(range(text 1 pos-1) range(text pos+1 -1))
     -> undefined undefined x y info
+
+$join_next_line: (x y lines info par_y text)
+  $par_indent indent_of(lines(par_y))
+  $next_line lines(y+1)
+  $next_indent indent_of(next_line)
+  $next_text text_of(next_line)
+  if
+    next_indent > par_indent: # remove leading whitespace of next line
+      inc &y
+      check_wrap_after_deletion $deletions $insertions &x &y lines &info
+	par_y next_indent-1 next_text
+      -> deletions insertions x y-1 info
+    :
+      split_text_into_two &text $word width_of(text)-1
+      if
+	word.is_empty: # the line's text doesn't contain a single space
+	  split_text_into_two !word &next_text 1
+	  append &text word
+	  inc &y
+	  check_wrap_after_deletion $deletions $insertions !x !y !info
+	    x y lines info par_y next_indent next_text
+	  modify_current_line deletions insertions y-1
+	:
+	  check_wrap_after_insertion $deletions $insertions !x !y
+	    next_indent+width_of(word)+1 y+1 lines &info
+	    par_y next_indent append(word next_text)
+	  modify_current_line deletions insertions y
+
+      $modify_current_line: (deletions insertions cursor_y)
+	put &insertions lines(y-1)(.text_of text)
+	!deletions lower_bound_of(deletions)-1 .. upper_bound_of(deletions)
+	-> deletions insertions x cursor_y info
+
+$check_wrap_after_deletion:
+  (
+    x
+    y
+    lines
+    info
+    par_y
+    indent
+    text
+  )
+  loop !indent !text: # remove leading spaces
+    if
+      text .has_prefix. ' ':
+	inc &indent
+	range &text 2 -1
+	next
+      -> indent text
+  $par_indent indent_of(lines(par_y))
+  $cursor_y y
+  $max_width right_margin_of(info)
+  $first_y y
+  $line lines(y)
+  $is_a_continuation line.is_a_continuation_line
+  if
+    is_a_continuation:
+      $line_before lines(y-1)
+      $indent_before indent_of(line_before)
+      $text_before text_of(line_before)
+      $width_before width_of(text_before)
+      $available_width
+	max_width-indent_before-width_before-1-(indent-par_indent)
+      split_text_into_two $word $remaining_text text available_width
+      if
+	length_of(word) > available_width
+	wrap_following_lines
+	:
+	  $new_text append(text_before spaces(indent-par_indent+1) word)
+	  !indent par_indent
+	  !text remaining_text
+	  wrap_following_lines $deletions $insertions !x !y !info
+	  !deletions y-1 .. upper_bound_of(deletions)
+	  put &insertions
+	    tedi_line(indent_before lines(y-1).is_a_continuation_line new_text)
+	  ->
+	    deletions
+	    insertions
+	    indent_before+width_before+1+x-indent
+	    y-1
+	    info
+    :
+      if
+	indent > par_indent:
+	  !lines(y) tedi_line(par_indent is_a_continuation text)
+	  $dx indent-par_indent
+	  increase_indent x-dx y lines info dx
+	wrap_following_lines
+
+  $wrap_following_lines:
+    $insertions empty_list
+    loop:
+      if
+	text.is_empty
+	:
+	  if
+	    is_a_continuation
+	    -> first_y .. y insertions x cursor_y info
+	    -> first_y .. y list(undefined) x cursor_y info
+	:
+	  $next_line
+	    if
+	      y < length_of(lines)
+	      -> lines(y+1)
+	      -> undefined
+	  if
+	    next_line.is_defined && next_line.is_a_continuation_line:
+	      $next_indent indent_of(next_line)
+	      $next_text text_of(next_line)
+	      $available_width
+		max_width-(next_indent-par_indent)-indent-width_of(text)-1
+	      split_text_into_two $word &next_text available_width
+	      if
+		length_of(word) <= available_width:
+		  inc &y
+		  append &text spaces(next_indent-par_indent+1) word
+		  push &insertions tedi_line(indent is_a_continuation text)
+		  !is_a_continuation true
+		  !indent par_indent
+		  !text next_text
+		  next
+		return
+	    return
+
+    $return:
+      push &insertions tedi_line(indent is_a_continuation text)
+      -> first_y .. y insertions x cursor_y info
+
+$get_par_y: (y lines)
+  if
+    y <= length_of(lines) && lines(y).is_defined:
+      loop:
+	if
+	  lines(y).is_a_continuation_line:
+	    dec &y
+	    next
+	  -> y
+    -> undefined
 
 $delete_to_line_start: (x y lines info)
   $new_x get_x(y-1 lines) # previous line
@@ -1250,12 +1497,7 @@ $delete_to_line_start: (x y lines info)
       cond
 	-> x <= indent+1:
 	  update_if new_x >= x &new_x -> 1
-	  ->
-	    y
-	    tedi_line(new_x-1 text)
-	    new_x
-	    y
-	    info
+	  decrease_indent x y lines info x-new_x
 	-> x > indent+text_width
 	  ->
 	    y
@@ -2218,6 +2460,23 @@ $go_to_line: (state _x y lines _info)
   !state.text_window_id_of undefined
   $page get_content(window_manager_of(state))
   !page.info_of.go_to_history_of lines
+  update_if use_soft_line_breaks_of(info_of(page)) &line_no:
+    $py 0
+    for_each lines_of(page)
+      : (no line)
+	if
+	  line.is_defined && line.is_a_continuation_line
+	  maybe_return
+	  :
+	    inc &py
+	    maybe_return
+
+	$maybe_return:
+	  if
+	    py == line_no
+	    -> no
+	    next
+      -> undefined
   if
     line_no.is_defined:
       get_xy page window_manager_of(state) $old_x $old_y
@@ -2366,6 +2625,26 @@ $join_lines: (x y lines info)
   if
     selection_y.is_defined:
       min_max &selection_y &y
+      # extend selection to completely include soft-breaked lines
+      loop !selection_y:
+	if
+	  &&
+	    lines(selection_y).is_defined
+	    lines(selection_y).is_a_continuation_line
+	  :
+	    dec &selection_y
+	    next
+	  -> selection_y
+      loop !y:
+	if
+	  &&
+	    y <= height
+	    lines(y).is_defined
+	    lines(y).is_a_continuation_line
+	  :
+	    inc &y
+	    next
+	  -> y
       range &lines selection_y y-1
       $new_lines empty_list
       $current_indent undefined
@@ -2392,6 +2671,8 @@ $join_lines: (x y lines info)
 	:
 	  update_if current_indent.is_defined &new_lines:
 	    push new_lines tedi_line(current_indent current_text)
+	  update_if use_soft_line_breaks_of(info) &new_lines:
+	    break_all_lines new_lines right_margin_of(info)
 	  ->
 	    selection_y .. y-1
 	    new_lines
@@ -2426,61 +2707,79 @@ $join_lines: (x y lines info)
 		-> x <= indent+1 && y > 1: # before text
 		  $line_above lines(y-1)
 		  if
-		    line_above.is_defined:
-		      $indent_above indent_of(line_above)
-		      $text_above text_of(line_above)
-		      $width_above indent_above+width_of(text_above)
+		    line.is_a_continuation_line
+		    -> undefined undefined x y info
+		    :
 		      if
-			indent > 0
-			->
-			  y-1 .. y
-			  tedi_line
-			    indent_above
-			    append(text_above " " text)
+			line_above.is_defined:
+			  $indent_above indent_of(line_above)
+			  $text_above text_of(line_above)
 			  if
-			    x > 1
-			    -> width_above+2
-			    -> width_above+1
-			  y-1
-			  info
+			    use_soft_line_breaks_of(info):
+			      !x indent_above+width_of(text_above)+1
+			      dec &y
+			      join_paragraphs
+			    :
+			      $width_above indent_above+width_of(text_above)
+			      if
+				indent > 0
+				->
+				  y-1 .. y
+				  tedi_line
+				    indent_above
+				    append(text_above " " text)
+				  if
+				    x > 1
+				    -> width_above+2
+				    -> width_above+1
+				  y-1
+				  info
+				->
+				  y-1 .. y
+				  tedi_line
+				    indent_above
+				    append(text_above text)
+				  width_above+1
+				  y-1
+				  info
 			->
-			  y-1 .. y
-			  tedi_line
-			    indent_above
-			    append(text_above text)
-			  width_above+1
+			  y-1
+			  undefined
+			  x
 			  y-1
 			  info
-		    ->
-		      y-1
-		      undefined
-		      x
-		      y-1
-		      info
 		-> x > indent+text_width && y < height: # behind text
 		  $line_below lines(y+1)
 		  if
 		    line_below.is_defined:
-		      $indent_below indent_of(line_below)
-		      $text_below text_of(line_below)
 		      if
-			indent_below > 0
-			->
-			  y .. y+1
-			  tedi_line
-			    indent
-			    append(text " " text_below)
-			  x
-			  y
-			  info
-			->
-			  y .. y+1
-			  tedi_line
-			    indent
-			    append(text text_below)
-			  x
-			  y
-			  info
+			line_below.is_a_continuation_line
+			-> undefined undefined x y info
+			:
+			  if
+			    use_soft_line_breaks_of(info):
+			      join_paragraphs
+			    :
+			      $indent_below indent_of(line_below)
+			      $text_below text_of(line_below)
+			      if
+				indent_below > 0
+				->
+				  y .. y+1
+				  tedi_line
+				    indent
+				    append(text " " text_below)
+				  x
+				  y
+				  info
+				->
+				  y .. y+1
+				  tedi_line
+				    indent
+				    append(text text_below)
+				  x
+				  y
+				  info
 		    ->
 		      y+1
 		      undefined
@@ -2489,6 +2788,22 @@ $join_lines: (x y lines info)
 		      info
 		-> true # within text
 		  -> undefined undefined x y info
+
+	      $join_paragraphs:
+		$ly find_last_line_of_paragraph(lines y+2)
+		range &lines y ly
+		$is_a_continuation lines(1).is_a_continuation_line
+		!lines(1).is_a_continuation_line false
+		!lines(2).is_a_continuation_line true
+		remove_all_soft_breaks &lines
+		break_all_lines &lines right_margin_of(info)
+		!lines(1).is_a_continuation_line is_a_continuation
+		->
+		  y .. ly
+		  lines
+		  x
+		  y
+		  info
 	    :
 	      if
 		y > 1:
@@ -2514,10 +2829,30 @@ $join_lines: (x y lines info)
 		  y
 		  info
 
+$find_last_line_of_paragraph: (lines y)
+  $height length_of(lines)
+  loop:
+    if
+      y > height
+      -> height
+      :
+	$line lines(y)
+	if
+	  &&
+	    line.is_defined
+	    line.is_a_continuation_line
+	  :
+	    inc &y
+	    next
+	  -> y-1
+
 $delete_line: (x y _lines info)
   -> y undefined x y info
 
-$save_contents: (io state _x _y lines info)
+$tedi::save_contents: (io state _x _y lines info)
+  run_save_contents_job io state lines info undefined
+
+$tedi::run_save_contents_job: (io state lines info completion_handler)
   !info.saved_version_of version_of(info)
   $page get_content(window_manager_of(state))
   !page.info_of info
@@ -2527,7 +2862,7 @@ $save_contents: (io state _x _y lines info)
   update_if use_soft_line_breaks_of(info) &lines
     -> remove_all_soft_breaks(lines)
   $text lines_to_text(range(lines 1 -1))
-  run &io save_contents_action filename text
+  run &io save_contents_action filename text completion_handler
   -> io state
 
 $tedi::lines_to_text: (lines)
@@ -2544,17 +2879,22 @@ $tedi::lines_to_text: (lines)
 
 $SAVE_CONTENTS .
 
-$save_contents_action: (io filename text)
+$save_contents_action: (io filename text completion_handler)
   stat! $stat_info filename
   if
     stat_info.is_an_error:
       if
 	errno_of(stat_info) == ENOENT: # file does not exist
-	  save &io SAVE_CONTENTS filename text tuple(filename undefined)
+	  save &io SAVE_CONTENTS filename text
+	    tuple(filename undefined completion_handler)
 	  -> io undefined
 	->
 	  io
-	  tuple(JOB_FAILED SAVE_CONTENTS stat_info tuple(filename undefined))
+	  tuple
+	    JOB_FAILED
+	    SAVE_CONTENTS
+	    stat_info
+	    tuple(filename undefined completion_handler)
     :
       $mode range(mode_of(stat_info) 2 -1)
       $t modification_time_of(stat_info)
@@ -2575,7 +2915,8 @@ $save_contents_action: (io filename text)
 	:
 	  log &io 4 -> "
 	    saving file "@(filename)" ...
-	  save &io SAVE_CONTENTS filename text tuple(filename mode)
+	  save &io SAVE_CONTENTS filename text
+	    tuple(filename mode completion_handler)
 	  -> io undefined
 
 $SAVE_CONTENTS/job_failed: (_self io state err filename)
@@ -2586,7 +2927,7 @@ $SAVE_CONTENTS/job_failed: (_self io state err filename)
   -> io state
 
 $SAVE_CONTENTS/job_completed: (_self io state _data context)
-  context $filename $mode
+  context $filename $mode $completion_handler
   log &io 4 -> "
     saved file "@(filename)"
   show_success_message &state SAVE_CONTENTS "
@@ -2594,8 +2935,14 @@ $SAVE_CONTENTS/job_completed: (_self io state _data context)
   if
     mode.is_defined:
       run &io chmod_action filename mode
+      return
+    return
+
+  $return:
+    if
+      completion_handler.is_defined:
+	completion_handler io state filename
       -> io state
-    -> io state
 
 $chmod_action: (io filename mode)
   chmod! filename mode
@@ -2757,7 +3104,9 @@ $remove_all_soft_breaks: (lines)
 		    $next_line lines(idx)
 		    if
 		      next_line.is_defined && next_line.is_a_continuation_line:
-			append &text " " text_of(next_line)
+			append &text
+			  spaces(indent_of(next_line)-indent+1)
+			  text_of(next_line)
 			next
 		      break
 		  break
@@ -2884,9 +3233,6 @@ $tedi_types::page std_types::object
   .info_of tedi_types::info
   .commands_of undefined
   .first_screen_line_of undefined
-
-$tedi_types::text_page tedi_types::page
-  # allows "overwriting" of methods
 
 # Page Kinds
 
@@ -3079,12 +3425,34 @@ $tedi::decorate: (page line_no line_screen)
   if
     do_show_line_numbers_of(info):
       $decoration create_screen(template_screen_of(page) decoration_width 1)
-      set_draw_colour &decoration GREY
+      if
+	use_soft_line_breaks_of(info):
+	  $lines lines_of(page)
+	  $current_line lines(line_no)
+	  if
+	    current_line.is_defined && current_line.is_a_continuation_line:
+	      adjoin decoration line_screen
+	    :
+	      for_each range(lines 1 line_no)
+		: (line)
+		  if
+		    line.is_defined:
+		      if
+			line.is_a_continuation_line:
+			  !line_no line_no-1
+			  next
+			next
+		    next
+		add_line_number
+	add_line_number
 
-      update_if is_bookmarked &decoration:
-	set_clear_colour decoration '@0xffc000;'
-      draw_text &decoration 1 1 push(pad_left(line_no decoration_width-1) ' ')
-      adjoin decoration line_screen
+      $add_line_number:
+	set_draw_colour &decoration GREY
+
+	update_if is_bookmarked &decoration:
+	  set_clear_colour decoration '@0xffc000;'
+	draw_text &decoration 1 1 push(pad_left(line_no decoration_width-1) ' ')
+	adjoin decoration line_screen
     :
       if
 	bookmarks_of(info).is_empty
@@ -3105,6 +3473,7 @@ $tedi_types::line std_types::line
 $tedi_line:
   (
     indent = 0
+    is_a_continuation = false
     text
   )
   $leading_spaces count_leading_spaces(text)
@@ -3117,6 +3486,7 @@ $tedi_line:
       tedi_types::line
 	.indent_of indent+leading_spaces
 	.text_of range(text leading_spaces+1 -1-trailing_spaces)
+	.is_a_continuation_line is_a_continuation
 
 $tedi::version_of ()
 $next_version_of ()
@@ -3136,6 +3506,7 @@ $tedi::do_show_right_margin_of ()
 $do_highlight_cursor_line_of ()
 $do_show_line_numbers_of ()
 $right_margin_of ()
+$error_message_of ()
 
 $tedi_types::info std_types::object
   .version_of 0
@@ -3156,6 +3527,7 @@ $tedi_types::info std_types::object
   .do_highlight_cursor_line_of true
   .do_show_line_numbers_of false
   .right_margin_of 80
+  .error_message_of undefined
 
 # Helpers
 

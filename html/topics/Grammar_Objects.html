@@ -1,3 +1,4 @@
+<!doctype html>
 <html>
 <head>
 <title>Grammar Objects</title>
@@ -9,59 +10,88 @@
 </div>
 <h1>Grammar Objects</h1>
 <h2>Description</h2>
-<p>Grammar objects support methods for matching and searching.</p>
+<p>Grammar objects support methods for matching and searching. They take the place of regular expressions used in some other languages and libraries.</p>
+<p>A simple string or character is a grammar object that matches its contents.</p>
+<p>A range of characters is also a grammar object, e.g.</p>
+<p>'a'..'z'</p>
+<p>takes the place of the regular expression</p>
+<p>[a..z]</p>
+<p>The grammar object</p>
+<p>some(<i>expr</i>)</p>
+<p>takes the place of the regular expression</p>
+<p><i>expr</i>*</p>
+<p>The grammar object</p>
+<p>many(<i>expr</i>)</p>
+<p>takes the place of the regular expression</p>
+<p><i>expr</i>+</p>
+<p>The grammar object</p>
+<p>optional(<i>expr</i>)</p>
+<p>takes the place of the regular expression</p>
+<p><i>expr</i>?</p>
+<p>To concatenate several grammar objects the are put into a sequence:</p>
+<p><i>expr_1</i>, <i>expr_2</i>, ..., <i>expr_n</i></p>
+<p>The grammar object</p>
+<p>alt(<i>expr_1</i> <i>expr_2</i>)</p>
+<p>takes the place of the regular expression</p>
+<p><i>expr_1</i>|<i>expr_2</i></p>
+<p>Grammar objects can be built stepwise from already defined grammar objects.</p>
+<p>They can be used in string functions like <a href="../symbols/std__before.html">std::before</a> or <a href="../symbols/std__has_prefix.html">std::has_prefix</a>.</p>
 <h2>Types</h2>
 <table>
 <tr>
   <td><a href="../symbols/std_types__FUNKY_IDENTIFIER.html">std_types::FUNKY_IDENTIFIER</a></td>
-  <td class="description">the prototype object for all Funky identifiers</td>
+  <td class="description">the prototype grammar object for Funky identifiers</td>
 </tr>
 <tr>
   <td><a href="../symbols/std_types__WHITESPACE.html">std_types::WHITESPACE</a></td>
-  <td class="description">the prototype object for all whitespace matchers</td>
+  <td class="description">the prototype grammar object for whitespace</td>
 </tr>
 <tr>
   <td><a href="../symbols/std_types__alt.html">std_types::alt</a></td>
-  <td class="description">This object represents an alternation of expressions.</td>
+  <td class="description">a grammar object to match one of several alternatives</td>
 </tr>
 <tr>
   <td><a href="../symbols/std_types__any_character_but.html">std_types::any_character_but</a></td>
-  <td class="description">the prototype object for the "any character but" grammar object</td>
+  <td class="description">the prototype grammar object for matching anything but the specified</td>
 </tr>
 <tr>
   <td><a href="../symbols/std_types__anything.html">std_types::anything</a></td>
-  <td class="description">the prototype object for the "anything"-grammar object</td>
+  <td class="description">the prototype for grammar objects that match everything</td>
 </tr>
 <tr>
   <td><a href="../symbols/std_types__capture.html">std_types::capture</a></td>
-  <td class="description">the prototype object for capturing expressions</td>
+  <td class="description">the prototype grammar object for capturing text</td>
 </tr>
 <tr>
   <td><a href="../symbols/std_types__many.html">std_types::many</a></td>
-  <td class="description">the prototype object for "many"-expressions</td>
+  <td class="description">the protoype grammar object for matching one or more occurences of something</td>
 </tr>
 <tr>
   <td><a href="../symbols/std_types__optional.html">std_types::optional</a></td>
-  <td class="description">the prototype object for optional expressions</td>
+  <td class="description">the prototype grammar object for matching zero or one occurrence of something</td>
 </tr>
 <tr>
   <td><a href="../symbols/std_types__some.html">std_types::some</a></td>
-  <td class="description">the prototype object for "some"-expressions</td>
+  <td class="description">the prototype grammar object to match zero or more occurrences of something</td>
 </tr>
 </table>
 <h2>Functions</h2>
 <table>
 <tr>
+  <td><a href="../symbols/std__alt.html">std::alt</a></td>
+  <td class="description">creates a grammar object for matching one of several alternatives</td>
+</tr>
+<tr>
   <td><a href="../symbols/std__any_character_but.html">std::any_character_but</a></td>
-  <td class="description">creates a grammar object that matches any character but the specified</td>
+  <td class="description">creates grammar object to match anything but the specified expression</td>
 </tr>
 <tr>
   <td><a href="../symbols/std__capture.html">std::capture</a></td>
-  <td class="description">captures the result of a match</td>
+  <td class="description">creates a capture grammar object</td>
 </tr>
 <tr>
   <td><a href="../symbols/std__many.html">std::many</a></td>
-  <td class="description">creates a grammar object that matches multiple occurrences of the specified</td>
+  <td class="description">creates a grammar object to match one or more occurrences of an expression</td>
 </tr>
 <tr>
   <td><a href="../symbols/std__match.html">std::match</a></td>
@@ -73,7 +103,7 @@
 </tr>
 <tr>
   <td><a href="../symbols/std__optional.html">std::optional</a></td>
-  <td class="description">creates an optional expression</td>
+  <td class="description">creates a grammar object to match zero or one occurrence of an expression</td>
 </tr>
 <tr>
   <td><a href="../symbols/std__search.html">std::search</a></td>
@@ -81,7 +111,7 @@
 </tr>
 <tr>
   <td><a href="../symbols/std__some.html">std::some</a></td>
-  <td class="description">creates a "some"-object</td>
+  <td class="description">creates a grammar object to match zero or more occurrences of an expression</td>
 </tr>
 </table>
 <h2>Objects</h2>
@@ -99,12 +129,19 @@
   <td class="description">a value used to match whitespace</td>
 </tr>
 <tr>
-  <td><a href="../symbols/std__alt.html">std::alt</a></td>
-  <td class="description">a grammar object that matches any of the specified expressions</td>
-</tr>
-<tr>
   <td><a href="../symbols/std__set.html">std::set</a></td>
   <td class="description">a set of unique values</td>
+</tr>
+</table>
+<h2>Constants</h2>
+<table>
+<tr>
+  <td><a href="../symbols/std__DIGIT.html">std::DIGIT</a></td>
+  <td class="description">a grammar object to match a digit</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__LETTER.html">std::LETTER</a></td>
+  <td class="description">a grammar object to match a letter</td>
 </tr>
 </table>
 <div class="footer">(defined in <a href="../source/basic/grammar.fky">basic/grammar.fky</a>)</div>

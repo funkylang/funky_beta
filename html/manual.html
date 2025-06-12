@@ -1,0 +1,4140 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  body {
+    font-family: Palatino, Times New Roman, Times;
+    font-size: 13pt;
+    color: #222;
+    background-color: white;
+    padding-left: 3pt;
+    padding-right: 3pt;
+  }
+  h1 {
+    font-family: Arial, Helvetica;
+    font-size: 20pt;
+    color: #333;
+    margin-top: 6pt;
+    margin-bottom: 8pt;
+  }
+  h2 {
+    font-family: Arial, Helvetica;
+    font-size: 16pt;
+    color: #222;
+    margin-top: 12pt;
+    margin-bottom: 7pt;
+  }
+  h3 {
+    font-family: Arial, Helvetica;
+    font-size: 14pt;
+    color: #222;
+    margin-top: 10pt;
+    margin-bottom: 6pt;
+  }
+  h4 {
+    font-family: Arial, Helvetica;
+    font-size: 13pt;
+    color: #222;
+    margin-top: 9pt;
+    margin-bottom: 5pt;
+  }
+  h5 {
+    font-family: Arial, Helvetica;
+    font-size: 12pt;
+    color: #222;
+    margin-top: 8pt;
+    margin-bottom: 4pt;
+  }
+  h1.title {
+    font-size: 40pt;
+    color: #333;
+    margin-top: 6pt;
+    margin-bottom: 16pt;
+  }
+  h1.part {
+    font-size: 30pt;
+    color: #333;
+    margin-top: 12pt;
+    margin-bottom: 12pt;
+  }
+  h1.index {
+    font-size: 16pt;
+    font-weight: normal;
+    margin-top: 2pt;
+    margin-bottom: 3pt;
+  }
+  h2.index {
+    font-size: 14pt;
+    font-weight: normal;
+    margin-top: 2pt;
+    margin-bottom: 3pt;
+    margin-left: 12pt;
+  }
+  h3.index {
+    font-size: 12pt;
+    font-weight: normal;
+    margin-top: 2pt;
+    margin-bottom: 3pt;
+    margin-left: 36pt;
+  }
+  h4.index {
+    font-size: 12pt;
+    font-weight: normal;
+    margin-top: 2pt;
+    margin-bottom: 3pt;
+    margin-left: 60pt;
+  }
+  h5.index {
+    font-size: 12pt;
+    font-weight: normal;
+    margin-top: 2pt;
+    margin-bottom: 3pt;
+    margin-left: 84pt;
+  }
+  dt {
+    font-size: 13pt;
+    margin-bottom: 2pt;
+  }
+  dd {
+    font-style: italic;
+    font-size: 12pt;
+    padding-left: 0pt;
+    margin-left: 16pt;
+    margin-top: 0pt;
+    margin-bottom: 4pt;
+  }
+  p {
+    margin-top: 0pt;
+    margin-bottom: 8pt;
+    text-align: justify;
+  }
+  p.source {
+    font-style: italic;
+    text-align: right;
+  }
+  p.remark {
+    font-style: italic;
+  }
+  p.edited {
+    font-style: italic;
+    text-align: right;
+  }
+  p.discuss {
+    background-color: #ffd;
+    padding: 4pt;
+    border: 1px solid #cc8;
+  }
+  p.note {
+    background-color: #ddf;
+    padding: 4pt;
+    border: 1px solid #88c;
+  }
+  p.attention {
+    background-color: #fee;
+    padding: 4pt;
+    border: 1px solid #c88;
+  }
+  pre {
+    font-size: 12pt;
+  }
+  code {
+    font-size: 12pt;
+  }
+  figure {
+    text-align: center;
+  }
+  a {
+    text-decoration: none;
+  }
+  a:visited {
+    color: #80f;
+  }
+  table {
+    border: solid;
+    border-collapse: collapse;
+    border-spacing: 0;
+    margin-top: 4pt;
+    margin-bottom: 8pt;
+  }
+  td {
+    border: solid;
+    padding-left: 3pt;
+    padding-right: 3pt;
+    padding-top: 2pt;
+    padding-bottom: 2pt;
+  }
+  table.noborder {
+    border: 0;
+    margin-top: 4pt;
+    margin-bottom: 4pt;
+  }
+  td.noborder {
+    border: 0;
+  }
+  grey {
+   color: #666;
+  }
+  right {
+    text-align: right;
+  }
+  center {
+    text-align: center;
+  }
+</style>
+<title>Programming - The Funky Way</title>
+</head>
+<body>
+<p class="edited">(last edited: 2025-06-09)</p>
+<h1 class="title">Programming - The Funky Way</h1>
+<h1 class="index"><a href="#preface">Preface</a></h1>
+<h1 class="part">Part 1: The Language</h1>
+<h1 class="index"><a href="#look_and_feel">1 Look and Feel</a></h1>
+<h1 class="index"><a href="#language_design">2 Language Design</a></h1>
+<h2 class="index"><a href="#functional_programming">2.1 Functional Programming</a></h2>
+<h2 class="index"><a href="#object_oriented_programming">2.2 Object Oriented Programming</a></h2>
+<h2 class="index"><a href="#typing_discipline">2.3 Typing Discipline</a></h2>
+<h3 class="index"><a href="#dynamic_vs._static_typing">2.3.1 Dynamic vs. Static Typing</a></h3>
+<h4 class="index"><a href="#duck_typing">2.3.1.1 Duck Typing</a></h4>
+<h3 class="index"><a href="#strong_vs._weak_typing">2.3.2 Strong vs. Weak Typing</a></h3>
+<h2 class="index"><a href="#memory_management">2.4 Memory Management</a></h2>
+<h2 class="index"><a href="#program_correctness">2.5 Program Correctness</a></h2>
+<h2 class="index"><a href="#error_handling">2.6 Error Handling</a></h2>
+<h1 class="index"><a href="#basic_concepts">3 Basic Concepts</a></h1>
+<h2 class="index"><a href="#objects">3.1 Objects</a></h2>
+<h3 class="index"><a href="#root_objects">3.1.1 Root Objects</a></h3>
+<h2 class="index"><a href="#types">3.2 Types</a></h2>
+<h2 class="index"><a href="#functions">3.3 Functions</a></h2>
+<h2 class="index"><a href="#variables">3.4 Variables</a></h2>
+<h2 class="index"><a href="#determinism">3.5 Determinism</a></h2>
+<h2 class="index"><a href="#uniform_access">3.6 Uniform Access</a></h2>
+<h2 class="index"><a href="#versioning">3.7 Versioning</a></h2>
+<h1 class="index"><a href="#builtin_objects_and_literals">4 Builtin Objects and Literals</a></h1>
+<h2 class="index"><a href="#scalars">4.1 Scalars</a></h2>
+<h3 class="index"><a href="#numbers">4.1.1 Numbers</a></h3>
+<h4 class="index"><a href="#integers">4.1.1.1 Integers</a></h4>
+<h4 class="index"><a href="#real_numbers">4.1.1.2 Real Numbers</a></h4>
+<h3 class="index"><a href="#booleans">4.1.2 Booleans</a></h3>
+<h3 class="index"><a href="#unique_items">4.1.3 Unique Items</a></h3>
+<h3 class="index"><a href="#characters">4.1.4 Characters</a></h3>
+<h4 class="index"><a href="#simple_character_literals">4.1.4.1 Simple Character Literals</a></h4>
+<h4 class="index"><a href="#numeric_character_literals">4.1.4.2 Numeric Character Literals</a></h4>
+<h4 class="index"><a href="#at-character-literal">4.1.4.3 At-Character-Literal</a></h4>
+<h4 class="index"><a href="#named_character_literals">4.1.4.4 Named Character Literals</a></h4>
+<h2 class="index"><a href="#compound">4.2 Compound</a></h2>
+<h3 class="index"><a href="#strings">4.2.1 Strings</a></h3>
+<h4 class="index"><a href="#inline_string_literals">4.2.1.1 Inline String Literals</a></h4>
+<h4 class="index"><a href="#multi-line_string_literals">4.2.1.2 Multi-Line String Literals</a></h4>
+<h4 class="index"><a href="#string_interpolation">4.2.1.3 String Interpolation</a></h4>
+<h3 class="index"><a href="#lists">4.2.2 Lists</a></h3>
+<h4 class="index"><a href="#sequences">4.2.2.1 Sequences</a></h4>
+<h3 class="index"><a href="#tuples">4.2.3 Tuples</a></h3>
+<h4 class="index"><a href="#key-value-pairs">4.2.3.1 Key-Value-Pairs</a></h4>
+<h4 class="index"><a href="#value-ranges">4.2.3.2 Value-Ranges</a></h4>
+<h2 class="index"><a href="#functions">4.3 Functions</a></h2>
+<h3 class="index"><a href="#parameters">4.3.1 Parameters</a></h3>
+<h4 class="index"><a href="#mandatory_parameters">4.3.1.1 Mandatory Parameters</a></h4>
+<h4 class="index"><a href="#optional_parameters">4.3.1.2 Optional Parameters</a></h4>
+<h4 class="index"><a href="#rest_parameter">4.3.1.3 Rest Parameter</a></h4>
+<h4 class="index"><a href="#myself">4.3.1.4 Myself</a></h4>
+<h4 class="index"><a href="#single-line_parameter_list">4.3.1.5 Single-Line Parameter List</a></h4>
+<h4 class="index"><a href="#multi-line_parameter_list">4.3.1.6 Multi-Line Parameter List</a></h4>
+<h3 class="index"><a href="#results">4.3.2 Results</a></h3>
+<h3 class="index"><a href="#polymorphic_functions">4.3.3 Polymorphic Functions</a></h3>
+<h4 class="index"><a href="#attributes">4.3.3.1 Attributes</a></h4>
+<h4 class="index"><a href="#methods">4.3.3.2 Methods</a></h4>
+<h4 class="index"><a href="#polymorphic_functions_without_setter">4.3.3.3 Polymorphic Functions Without Setter</a></h4>
+<h4 class="index"><a href="#polymorphic_functions_with_setter">4.3.3.4 Polymorphic Functions With Setter</a></h4>
+<h1 class="index"><a href="#statements">5 Statements</a></h1>
+<h2 class="index"><a href="#function_calls">5.1 Function Calls</a></h2>
+<h3 class="index"><a href="#input-ouput_arguments">5.1.1 Input-Ouput Arguments</a></h3>
+<h3 class="index"><a href="#backquoted_arguments">5.1.2 Backquoted Arguments</a></h3>
+<h3 class="index"><a href="#assignments">5.1.3 Assignments</a></h3>
+<h4 class="index"><a href="#complex_destinations">5.1.3.1 Complex Destinations</a></h4>
+<h3 class="index"><a href="#tail_calls">5.1.4 Tail Calls</a></h3>
+<h4 class="index"><a href="#return">5.1.4.1 Return</a></h4>
+<h3 class="index"><a href="#function_call_arguments">5.1.5 Function Call Arguments</a></h3>
+<h4 class="index"><a href="#inline-function-calls">5.1.5.1 Inline-Function-Calls</a></h4>
+<h4 class="index"><a href="#multiline-function-calls">5.1.5.2 Multiline-Function-Calls</a></h4>
+<h4 class="index"><a href="#infix-operator-style">5.1.5.3 Infix-Operator-Style</a></h4>
+<h4 class="index"><a href="#suffix-operator-style">5.1.5.4 Suffix-Operator-Style</a></h4>
+<h4 class="index"><a href="#infix-operators">5.1.5.5 Infix-Operators</a></h4>
+<h5 class="index"><a href="#comparison_operators">5.1.5.5.1 Comparison Operators</a></h5>
+<h5 class="index"><a href="#short_circuit_evaluation">5.1.5.5.2 Short Circuit Evaluation</a></h5>
+<h4 class="index"><a href="#prefix_usage_of_infix_operators">5.1.5.6 Prefix Usage Of Infix Operators</a></h4>
+<h4 class="index"><a href="#prefix-operators">5.1.5.7 Prefix-Operators</a></h4>
+<h2 class="index"><a href="#attribute_definitions">5.2 Attribute Definitions</a></h2>
+<h1 class="index"><a href="#identifiers">6 Identifiers</a></h1>
+<h2 class="index"><a href="#unused_identifiers">6.1 Unused Identifiers</a></h2>
+<h2 class="index"><a href="#local_identifiers">6.2 Local Identifiers</a></h2>
+<h2 class="index"><a href="#global_identifiers">6.3 Global Identifiers</a></h2>
+<h2 class="index"><a href="#naming_conventions">6.4 Naming Conventions</a></h2>
+<h1 class="index"><a href="#definitions_and_redefinitions">7 Definitions and Redefinitions</a></h1>
+<h2 class="index"><a href="#distributed_definitions">7.1 Distributed Definitions</a></h2>
+<h2 class="index"><a href="#local_definitions">7.2 Local Definitions</a></h2>
+<h3 class="index"><a href="#local_polymorphic_functions">7.2.1 Local Polymorphic Functions</a></h3>
+<h3 class="index"><a href="#local_types">7.2.2 Local Types</a></h3>
+<h1 class="index"><a href="#meta-instructions">8 Meta-Instructions</a></h1>
+<h2 class="index"><a href="#requiring_modules">8.1 Requiring Modules</a></h2>
+<h2 class="index"><a href="#managing_namespaces">8.2 Managing Namespaces</a></h2>
+<h1 class="index"><a href="#remarks">9 Remarks</a></h1>
+<h2 class="index"><a href="#documentation_remarks">9.1 Documentation Remarks</a></h2>
+<h1 class="part">Part 2: Functional Programming</h1>
+<h1 class="index"><a href="#quick_start">10 Quick Start</a></h1>
+<h2 class="index"><a href="#source_code_files">10.1 Source Code Files</a></h2>
+<h2 class="index"><a href="#hello_world">10.2 Hello World</a></h2>
+<h1 class="index"><a href="#function_calls_and_the_stack">11 Function Calls And the Stack</a></h1>
+<h2 class="index"><a href="#normal_function_calls">11.1 Normal function calls</a></h2>
+<h2 class="index"><a href="#tail_calls">11.2 Tail Calls</a></h2>
+<h1 class="index"><a href="#control_flow">12 Control Flow</a></h1>
+<h2 class="index"><a href="#conditional_execution">12.1 Conditional Execution</a></h2>
+<h2 class="index"><a href="#looping">12.2 Looping</a></h2>
+<h2 class="index"><a href="#programming_style">12.3 Programming Style</a></h2>
+<h1 class="index"><a href="#collections">13 Collections</a></h1>
+<h1 class="index"><a href="#input/output">14 Input/Output</a></h1>
+<h2 class="index"><a href="#concentrating_io-operations">14.1 Concentrating IO-Operations</a></h2>
+<h2 class="index"><a href="#handling_io_with_io-objects">14.2 Handling IO with IO-Objects</a></h2>
+<h1 class="part">Part 3: The Libraries</h1>
+<h1 class="index"><a href="#glossary">Glossary</a></h1>
+<h1 class="index"><a href="#named_characters">Appendix A: Named Characters</a></h1>
+<br>
+<h1><a name="preface">Preface</a></h1>
+<p>
+Funky is an all-purpose pure functional and pure object oriented programming language. It can be used to write small scripts, large application programs and just about any software that does not rely on direct access to hardware.
+</p>
+<p>
+Pure functional programming languages are often associated with academic research and beeing not suited for practical use. Funky attempts to keep all the advantages of pure functional programming while offering a much more pragmatic approach to programming.
+</p>
+<p>
+Funky differs a lot from other programming languages ‒ functional languages as well as traditional. There are a lot of new concepts and ideas in Funky that may be unfamiliar to programmers coming from other languages. It will take some time to get used to the Funky way of programming.
+</p>
+<p>
+This book is intended to be a complete guide to the Funky programming language. It is assumed that the reader is already familiar with the basics of programming.
+</p>
+<h1 class="part">Part 1: The Language</h1>
+<h1><a name="look_and_feel"><span class="grey">1</span> Look and Feel</a></h1>
+<p>
+On the first look Funky programs may resemble shell scripts or Python programs, because Funky does not use commas to separate arguments and use
+indentation to group statements but don't let this fool you. Funky is a real programming language, not a scripting language. Everything has do be defined explicitly before it can be used.
+</p>
+<p>
+Funky do not have keywords and uses special characters like "$" (<i>declares a symbol</i>) or ":" (<i>starts a function definition</i>) instead.
+</p>
+<p>
+Some examples:
+</p>
+<pre>
+println! "Hello, world!"
+</pre>
+<pre>
+print! "Hello, world!@nl;"
+</pre>
+<pre>
+print! "
+  Hello, world!
+</pre>
+<p>
+All three examples produce the same output. The exclamation mark after <code>print</code> denotes that <code>print</code> is a so-called I/O-function that produces some output as a side effect which would be forbidden otherwise.
+</p>
+<p>
+The second example makes use of <code>"@nl;"</code> ‒ the Funky way to print special characters. It's the same as <code>"\n"</code> in languages like C or Java.
+</p>
+<p>
+The third example shows how to write multi-line string literals in Funky. They start with a double quote at the end of a line and contain all following lines as long as their indentation is greater than the indentation of the first line.
+</p>
+<p>
+Example:
+</p>
+<pre>
+$numbers list(1 2 3 4 5)
+
+for_each numbers
+  : (number)
+    println! number
+    next!
+  pass
+</pre>
+<p>
+Pure functional programming languages do not have loops. Funky offers "anonymous recursion" to replace loops. The next iteration of the loop is started with the call of <code>next</code>. And because the next iteration will need I/O-access again, <code>next</code> must also be called with I/O-access rights which is denoted by the exclamation mark.
+</p>
+<h1><a name="language_design"><span class="grey">2</span> Language Design</a></h1>
+<h2><a name="functional_programming"><span class="grey">2.1</span> Functional Programming</a></h2>
+<p>
+Functional programming was introduced in the 1950s by Alonzo Church and John McCarthy. The first functional programming language was Lisp, which was invented by John McCarthy in 1958.
+</p>
+<p>
+Functional programming is a programming paradigm that treats computation as the evaluation of functions and avoids changing state and mutable data.
+</p>
+<p>
+Many modern programming languages, including Python, Ruby, and JavaScript, support functional programming. But supporting functional programming doesn't mean that the language is a functional programming language.
+</p>
+<p>
+The main advantage of a <i>pure</i> functional programming language is not about what one <i>can</i> do, but what one <i>cannot</i> do. It offers guarantees about the behavior of programs:
+</p>
+<ul>
+<li>a program run on the same input data will always produce the same output</li>
+</ul>
+<ul>
+<li>no shared (writable) state: a function can't change the value of a variable that's defined outside of it</li>
+</ul>
+<p>
+This prevents many types of bugs and makes it easier to reason about the code. It's a real lot easier to find a bug in a program that doesn't change state than in a program that does.
+</p>
+<p>
+There are also advantages when executing a functional program:
+</p>
+<ul>
+<li>functions can be evaluated lazily, which means that they are only evaluated when their result is needed</li>
+</ul>
+<p>
+That's the way languages like Haskell work.
+</p>
+<ul>
+<li>functions can be evaluated in parallel, which means that they can be executed on multiple processors at the same time</li>
+</ul>
+<p>
+That's the way Funky works.
+</p>
+<h2><a name="object_oriented_programming"><span class="grey">2.2</span> Object Oriented Programming</a></h2>
+<p>
+Object oriented programming was introduced in the 1960s by Simula 67. The first object oriented programming language was Smalltalk, which was invented by Alan Kay, Dan Ingalls, Adele Goldberg, and others in 1972.
+</p>
+<p>
+An <i>object</i> is a data structure that contains data and functions that operate on that data. The data is called <i>attributes</i> or <i>properties</i> and the functions are called <i>methods</i>.
+</p>
+<p>
+The most popular object oriented programming languages are Java, C#, C++, Python, Ruby, and JavaScript.
+</p>
+<p>
+In a <i>pure</i> object oriented programming language, everything is an object. This means that even primitive data types like integers and strings are objects. This is not the case in Java, C#, and C++.
+</p>
+<p>
+Funky is a pure object oriented programming language.
+</p>
+<p>
+Important features of object oriented programming are:
+</p>
+<ul>
+<li>Encapsulation: the data and the functions that operate on that data are bundled together in an object. This means that the data can be hidden from the outside world and can only be accessed through the methods of the object.</li>
+</ul>
+<ul>
+<li>Inheritance: objects can inherit attributes and methods from other objects. This means that you can create a new object that is a specialization of an existing object.</li>
+</ul>
+<ul>
+<li>Polymorphism: objects of different types can be treated as if they were the same type. This means that you can write code that works with objects of different types without knowing the exact type of the object.</li>
+</ul>
+<p>
+Funky supports all three features of object oriented programming.
+</p>
+<h2><a name="typing_discipline"><span class="grey">2.3</span> Typing Discipline</a></h2>
+<p>
+Funky attempts a pragmatic approach to typing. It is a dynamically but strong typed language.
+</p>
+<h3><a name="dynamic_vs._static_typing"><span class="grey">2.3.1</span> Dynamic vs. Static Typing</a></h3>
+<p>
+In a statically typed language each variable has an associated type and can only hold values of that type. In a dynamically typed language, variables don't have a type and can hold values of any type.
+</p>
+<p>
+The advantage of static typing is that the compiler can check that the program is type correct. This means that the compiler can catch errors at compile time instead of at runtime.
+</p>
+<p>
+The advantage of dynamic typing is that it is more flexible. You can write code that is more concise and easier to read.
+</p>
+<p>
+So both typing disciplines have their advantages and disadvantages.
+</p>
+<p>
+Checking only the type of a variable at compile time is often not enough. Lots of errors are not about types but about the values of variables. For example array indices can be out of bounds, or a variable can be null.
+</p>
+<p>
+The praxis shows that most errors are about values and not about types. So static type checking is only a small part of the solution.
+</p>
+<p>
+It takes less time to write a program in a dynamically typed language than in a statically typed language. This time can be used to test the program more thoroughly.
+</p>
+<p>
+Many statically typed programming language do not care what a type is used for. For example file descriptors, file modes, and process ids are all of integer type.
+</p>
+<p>
+Funky is a dynamically typed language, but it differentiates between types, that are used for different purposes ‒ for example file descriptors, file modes, and process ids are all different and types of their own.
+</p>
+<h4><a name="duck_typing"><span class="grey">2.3.1.1</span> Duck Typing</a></h4>
+<p>
+Duck typing is a typing discipline that is used in dynamically typed languages. It is called duck typing because it is based on the saying "If it walks like a duck and it quacks like a duck, then it must be a duck".
+</p>
+<p>
+In a duck typed language the compiler does not check beforehand if a variable or a method even exists. It is only checked at runtime.
+</p>
+<p>
+Duck typing allows for quick and easy prototyping and development, but is not suited for large code bases.
+</p>
+<p>
+In Funky each variable or method <b>must</b> be declared before it is used.
+</p>
+<h3><a name="strong_vs._weak_typing"><span class="grey">2.3.2</span> Strong vs. Weak Typing</a></h3>
+<p>
+In a strongly typed language each operation can only be performed on values of matching types. In a weakly typed language, the language system will try to automatically convert values of one type to values of another type or do other strange things (e.g. adding a string and an integer in C).
+</p>
+<p>
+Many languages also use the same operators for different purposes. For example the "<code>+</code>" operator can be used to add two numbers or to concatenate two strings.
+</p>
+<p>
+Funky follows a strong typing discipline. This means that each operation can only be performed on values of matching types and "<code>+</code>" can only be applied to numbers.
+</p>
+<h2><a name="memory_management"><span class="grey">2.4</span> Memory Management</a></h2>
+<p>
+Funky typically uses a garbage collector to manage memory. This means that the programmer does not have to worry about memory management. The garbage collector will automatically free memory that is no longer used.
+</p>
+<p>
+This has some performance implications. The garbage collector will run periodically to free memory which will slow down the execution of the program.
+</p>
+<p>
+But it also has big advantages. The programmer does not have to worry about memory management. This means that the programmer can focus on the problem at hand instead of on memory management.
+</p>
+<h2><a name="program_correctness"><span class="grey">2.5</span> Program Correctness</a></h2>
+<p>
+Many programming errors that plague programmers in other languages, are not possible in Funky, e.g. "race conditions", "spooky action at a distance", and so on.
+</p>
+<p>
+Conversely, one can make errors in Funky, that were never seen before ...
+</p>
+<p>
+Beginners often tend to write programs that do exactly nothing! They rely on "side effects" that will not happen in Funky.
+</p>
+<p>
+The cause of most bugs in Funky programs is easy to find ‒ very much easier than in other languages.
+</p>
+<p>
+The downside: It takes a lot of experience to efficiently use a language like Funky.
+</p>
+<p>
+But when you have that experience, you can write correct programs much faster than in other languages.
+</p>
+<h2><a name="error_handling"><span class="grey">2.6</span> Error Handling</a></h2>
+<p>
+Even the best programmers make mistakes. So it is important to have a good error handling mechanism.
+</p>
+<p>
+Many "modern" languages like Rust, Go, and Swift use the "<code>panic</code>" mechanism to handle errors. This means that the program will abort with an error message if an error occurs.
+</p>
+<p>
+This may be a nice feature for a small command line tool but is a catastrophic approach for servers or realtime applications! Such programs must not fail if an error occurs. It does not matter whether the error was caused by a hardware failure, erroneous input data or a programming error.
+</p>
+<p>
+Languages like C++ or Java use exceptions to handle errors. This means that the program will throw an exception if an error occurs. The exception can then be caught and handled by the caller.
+</p>
+<p>
+This is a really neat feature but it has some drawbacks. It assumes that a program is executed in a single thread. This is not the case in Funky. Funky supports parallel execution of functions. This means that a function can be executed in a different thread than the caller. This means that exceptions cannot be used to handle errors in Funky.
+</p>
+<p>
+So Funky uses so-called "<code>error objects</code>" to handle errors. This means that a function will return an error object if an error occurs. The caller can check the error if he wants do. If he does not check the error, the error will propagate and will eventually be handled by some outer function or by the runtime system.
+</p>
+<h1><a name="basic_concepts"><span class="grey">3</span> Basic Concepts</a></h1>
+<h2><a name="objects"><span class="grey">3.1</span> Objects</a></h2>
+<p>
+In Funky everything is an object and all objects are immutable.
+</p>
+<p>
+An object consists of
+</p>
+<ul>
+<li>a so-called <i>type-function</i></li>
+</ul>
+<ul>
+<li>any number of <i>methods</i></li>
+</ul>
+<ul>
+<li>any number of <i>attributes</i></li>
+</ul>
+<ul>
+<li>maybe some additional internal fields (builtin objects only)</li>
+</ul>
+<p>
+Every object acts as a function. When an object is called as a function the object's type-function is called. The type-function and the methods have access to the object's attributes. Type-functions and methods of builtin objects also have access to the object's internal fields. (It's also possible to define attributes in a way that external functions can access them, too.)
+</p>
+<p>
+Internally every object is of a specific type. The type-function and the methods are associated with this type and are only stored once for all objects of this type.
+</p>
+<p>
+All objects of a specific type contain the same set of attributes. For each attribute there is a <i>slot</i> to hold a value in every object of this type.
+</p>
+<p>
+Builtin objects can contain internal fields, e.g. for storing the numeric value of an integer object.
+</p>
+<p>
+Methods and attributes must be declared as so-called polymorphic functions before they can be attached to an object. While one object can implement a specific polymorphic function as a method, another object can implement the same polymorphic function as an attribute.
+</p>
+<p>
+To create a new object, an existing object is "cloned" and some attribute values are changed.
+</p>
+<h3><a name="root_objects"><span class="grey">3.1.1</span> Root Objects</a></h3>
+<p>
+All objects are derived from one of three root objects:
+</p>
+<ul>
+<li><code>std_types::object</code></li>
+</ul>
+<p>
+This is the root object of all "normal" objects.
+</p>
+<ul>
+<li><code>std_types::undefined</code></li>
+</ul>
+<p>
+This object is a placeholder with no attributes and very view methods defined. It replaces the "NULL" pointer of other languages.
+</p>
+<ul>
+<li><code>std_types::error</code></li>
+</ul>
+<p>
+This is the root object of all error objects.
+</p>
+<h2><a name="types"><span class="grey">3.2</span> Types</a></h2>
+<p>
+<i>Types</i> (more correctly: <i>prototypes</i>) are not explicitly defined in Funky.
+</p>
+<p>
+Every object for which at least one attribute, method or type-function is defined becomes a (proto)type.
+</p>
+<p>
+Types are used internally for dispatching <i>polymorphic function calls</i> (see <a href="#polymorphic_functions">Polymorphic Functions</a>).
+</p>
+<h2><a name="functions"><span class="grey">3.3</span> Functions</a></h2>
+<p>
+A function is merely the same as an object, because every object <b>is</b> a function.
+</p>
+<p>
+Methods are functions, too.
+</p>
+<p>
+In Funky functions are "pure", meaning that they don't have side effects.
+</p>
+<p>
+The only exception are so-called IO-functions which cannot change state, too, but which can perform input/output-operations. (IO-functions must be called with a "!"-suffix.)
+</p>
+<p>
+Calls to such functions must be annotated in the source code. Each function calling an IO-function is itself an IO-function and so calls to it must be annotated, too, and so on.
+</p>
+<p>
+In Funky functions have no names but are bound to an object's type-function or an object's method.
+</p>
+<p>
+A "function object" is an object that contains neither methods nor attributes and is used solely for its type-function.
+</p>
+<h2><a name="variables"><span class="grey">3.4</span> Variables</a></h2>
+<p>
+Variables are lexically scoped.
+</p>
+<p>
+All variables must be initialized on definition.
+</p>
+<p>
+A function can access a variable only if it's in its lexical scope.
+</p>
+<p>
+The set of all variables in a program is called an <i>environment</i>. An environment can be thought of as a table holding a slot for each variable.
+</p>
+<p>
+When a function is called it receives a copy of this environment. So any
+redefinitions of variables within the function will not affect the caller of the function.
+</p>
+<p>
+Variables have a single <i>definition</i> and can be <i>redefined</i> in the same or an inner scope. This <i>redefinition</i> is not the same as an <i>assignment</i> in conventional programming languages.
+</p>
+<h2><a name="determinism"><span class="grey">3.5</span> Determinism</a></h2>
+<p>
+Funky is a deterministic programming language. If fed the same input data, a Funky program will return the same results on each run and (hopefully!) each platform.
+</p>
+<p>
+This sounds trivial but isn't.
+</p>
+<ul>
+<li>This prevents the usage of concurrency.</li>
+</ul>
+<ul>
+<li>There is no room for <i>implementation defined</i> stuff.</li>
+</ul>
+<p>
+Remark: The order of evaluation for operations which (should!) obeye the association law (e.g. "<code>+</code>" and "<code>*</code>") is not defined.
+</p>
+<p>
+Compilers can and should make use of modern multi-core CPUs and even of compute-clusters to arrange the evaluation of expressions in a way that maximizes performance.
+</p>
+<p>
+So Funky programs can execute functions in parallel. But there is no explicit language support for parallelism! Each and every Funky program is logically sequential. It's up to the compiler and runtime system to run parts of the code in parallel.
+</p>
+<p>
+This automatic parallelization <i>must not</i> undermine determinism.
+</p>
+<h2><a name="uniform_access"><span class="grey">3.6</span> Uniform Access</a></h2>
+<p>
+There is no syntactic difference in accessing lists, attributes, methods and (non-polymorphic) functions.
+</p>
+<p>
+An example:
+</p>
+<pre>
+println! x_of(point)
+</pre>
+<p>
+which means: "print the <i>x_of</i> property value of a thing named <i>point</i>".
+</p>
+<p>
+But there are multiple ways to implement this:
+</p>
+<ul>
+<li><i>point</i> could be an object and <i>x_of</i> an <b>attribute</b></li>
+</ul>
+<ul>
+<li><i>point</i> could be an object and <i>x_of</i> a <b>method</b></li>
+</ul>
+<ul>
+<li><i>x_of</i> could be a function and <i>point</i> an <b>argument</b></li>
+</ul>
+<ul>
+<li><i>x_of</i> could be a list and <i>point</i> an <b>index</b></li>
+</ul>
+<ul>
+<li><i>x_of</i> could be a table and <i>point</i> a <b>key</b></li>
+</ul>
+<p>
+This offers the possibility to change the implementation later on without the need to change the interface. It's especially easy to turn an attribute into a method or vice versa.
+</p>
+<h2><a name="versioning"><span class="grey">3.7</span> Versioning</a></h2>
+<p>
+Funky has builtin support for symbol versioning. Every exported symbol has an attached version number in a <i>major</i>.<i>minor</i>-scheme. If no version is explicitly specified, the version defaults to "1.0".
+</p>
+<p>
+Several versions of a symbol can coexist. Older versions should <i>not</i> be removed. Any existing application program will thus be able to link against future versions of a library ensuring backwards compatibility.
+</p>
+<p>
+Versioning is done via <i>namespaces</i>. In the simplest (and most common) case one only specifies the desired version of each namespace to be used once in every source code module.
+</p>
+<p>
+Once published, a specific namespace-version should never change. No changes, no additions ‒ only bug fixes are allowed.
+</p>
+<p>
+To add a symbol to an already published namespace the minor version number of the namespace is incremented. To change the semantics of an existing symbol, the major version number is incremented and the minor version number is reset to 0.
+</p>
+<p>
+Each version of a namespace also includes all symbols defined in older versions (if they were not redefined in a newer major version), e.g. version 3.2 also includes all symbols of versions 1.x, 2.x, 3.0 and 3.1.
+</p>
+<h1><a name="builtin_objects_and_literals"><span class="grey">4</span> Builtin Objects and Literals</a></h1>
+<p>
+Each object is based upon one of the three so-called <i>root objects</i>:
+</p>
+<ul>
+<li><code>std_types::object</code></li>
+</ul>
+<ul>
+<li><code>std_types::undefined</code></li>
+</ul>
+<ul>
+<li><code>std_types::error</code></li>
+</ul>
+<p>
+All "normal" objects are derived from <code>std_types::object</code>.
+</p>
+<p>
+<code>std_types::undefined</code> is a <i>one-of-a-kind</i> object.
+</p>
+<p>
+All <i>error-objects</i> are derived from <code>std_types::error</code>.
+</p>
+<p>
+An object consists of
+</p>
+<ul>
+<li>a function</li>
+</ul>
+<ul>
+<li>slots for polymorphic functions implemented as attributes on this object</li>
+</ul>
+<ul>
+<li>methods for polymorphic functions implemented as functions on this object</li>
+</ul>
+<ul>
+<li>builtin objects may contain additional internal fields</li>
+</ul>
+<p>
+Such internal fields are used to store the numeric values of integers, the characters that build a string, and things like that.
+</p>
+<p>
+The Funky builtin library defines a number of builtin objects:
+</p>
+<ul>
+<li>numbers</li>
+</ul>
+<ul>
+<li>booleans</li>
+</ul>
+<ul>
+<li>unique items</li>
+</ul>
+<ul>
+<li>characters</li>
+</ul>
+<ul>
+<li>strings</li>
+</ul>
+<ul>
+<li>tuples</li>
+</ul>
+<ul>
+<li>lists</li>
+</ul>
+<ul>
+<li>functions</li>
+</ul>
+<p>
+Numbers, booleans, unique items and characters are scalar values. Tuples and lists are compound values; strings are a bit of both. Functions contain no data but are called to execute their embedded statement sequences.
+</p>
+<h2><a name="scalars"><span class="grey">4.1</span> Scalars</a></h2>
+<h3><a name="numbers"><span class="grey">4.1.1</span> Numbers</a></h3>
+<p>
+There are exact (integer) and inexact (real) numbers.
+</p>
+<p class="discuss">
+Discuss: Should rational numbers (fractions) and complex numbers be added to form a "numeric tower"?
+</p>
+<h4><a name="integers"><span class="grey">4.1.1.1</span> Integers</a></h4>
+<p>
+Integers are of arbitrary size and can literally consist of billions of digits.
+</p>
+<p class="attention">
+<b>Attention</b>: Large Integers are <b>not</b> implemented in the current version!
+</p>
+<p>
+There are <i>positive</i> and <i>negative</i> integers (zero is treated as a positive integer). Some operations can only be performed on positive integers.
+</p>
+<p>
+It would be more correct to name the <i>positive</i> integers <i>non-negative</i> integers but this would be quite a long name.
+</p>
+<p>
+All integer literals are <i>positive</i>. To negate an integer number use the negation operator.
+</p>
+<p>
+Integer literals can be written in various numeral systems: <i>decimal</i>, <i>binary</i>, <i>octal</i> and <i>hexadecimal</i>.
+</p>
+<p>
+Binary numeric literals are prefixed with "0b", octal with "0o" and hexadecimal with "0x". The letters must be written in lower case.
+</p>
+<p>
+In addition to the standard digits from <code>0</code> to <code>9</code> hexadecimal literals make use of the letters <code>a</code>  to <code>f</code>. These letters can be written in lower case or upper case.
+</p>
+<p>
+Any group of digits can be separated by apostrophs.
+</p>
+<p>
+Examples for valid integer literals:
+</p>
+<pre>
+23
+1'000'000
+0xAffe
+0b10'1010'1010
+0o755
+0644
+</pre>
+<p>
+The literal in the last example stands for the <b>decimal</b> number 644.
+</p>
+<p>
+Examples for invalid integer literals:
+</p>
+<pre>
+2'000'
+0Xaffe
+0b'0101'0101
+0o123456789
+</pre>
+<p>
+Operations on integers return an integer number if the result is an integral number and a real number otherwise.
+</p>
+<p>
+So <code>4/2</code> will return the integer number <code>2</code> while <code>5/2</code> will return the real number <code>2.5</code>.
+</p>
+<p class="discuss">
+Discuss: Does this really make sense?
+</p>
+<h4><a name="real_numbers"><span class="grey">4.1.1.2</span> Real Numbers</a></h4>
+<p>
+These are IEEE 754 64 bit ("double precision") floating point numbers. All computations on real numbers will return real numbers; <code>2.5-2.5</code> will return the real number <code>0.0</code> and <code>3.7/3.7</code> will return the real number <code>1.0</code>.
+</p>
+<p>
+Like integer literals all real literals are <i>positive</i>. To negate a real number use the negation operator.
+</p>
+<p>
+Real literals can only be written in decimal notation. They <b>must</b>
+</p>
+<ul>
+<li>contain a decimal point and at least a single digit after the point</li>
+</ul>
+<p>
+or
+</p>
+<ul>
+<li>an exponent</li>
+</ul>
+<p>
+They can, of course, contain a decimal part as well as an exponent.
+</p>
+<p>
+The exponent is introduced by the letter "e" (lower or upper case), followed by an optional sign ("+" or "-") and a decimal exponent.
+</p>
+<p>
+Digit separators (apostrophs) are not allowed in real literals, neither in the mantissa nor in the exponent.
+</p>
+<p>
+Examples for valid real literals:
+</p>
+<pre>
+1.0
+0.5
+3.1415
+2.9e4
+1e-100
+123.456E+16
+</pre>
+<p>
+Examples for invalid real literals:
+</p>
+<pre>
+1.
+.5
+3.141'592'653
+1e -100
+0x1234e8
+1e+0b1000
+</pre>
+<h3><a name="booleans"><span class="grey">4.1.2</span> Booleans</a></h3>
+<p>
+In contrast to most other programming languages there is not a single <i>boolean</i> type instead there are two boolean objects:
+</p>
+<ul>
+<li><code>std::true</code></li>
+</ul>
+<p>
+and
+</p>
+<ul>
+<li><code>std::false</code></li>
+</ul>
+<p>
+These two objects are the single instances of their prototypes:
+</p>
+<ul>
+<li><code>std_types::true</code></li>
+</ul>
+<p>
+and
+</p>
+<ul>
+<li><code>std_types::false</code></li>
+</ul>
+<p>
+These boolean objects are used to implement control structures like <code>if</code> as <a href="#polymorphic_functions">polymorphic functions</a>.
+</p>
+<h3><a name="unique_items"><span class="grey">4.1.3</span> Unique Items</a></h3>
+<p>
+<i>Unique items</i> are values that are different to any other value (any other object). They are mostly used as <i>enumeration items</i>.
+</p>
+<p>
+They can be compared for equality but have no ordering.
+</p>
+<p>
+Unique item literals are written as a <i>standalone</i> point (".").
+</p>
+<p>
+They can only be used as initialization values in definitions, e.g.:
+</p>
+<pre>
+$RED .
+$GREEN .
+$BLUE .
+</pre>
+<h3><a name="characters"><span class="grey">4.1.4</span> Characters</a></h3>
+<p>
+<i>Characters</i> are implemented as 32-bit unsigned integers. They form the elements of strings and are mostly used to hold Unicode codepoints, but can also be used for any numbers, e.g. waveform data, colour information, etc.
+</p>
+<p>
+Character literals are written between apostrophs.
+</p>
+<h4><a name="simple_character_literals"><span class="grey">4.1.4.1</span> Simple Character Literals</a></h4>
+<p>
+A simple literal is just the Unicode character between two apostrophs. The character must consist of a single code point. Because Funky source code files are always stored in <i>UTF8</i>-format, practically all <i>printable</i> Unicode characters can be used.
+</p>
+<p>
+Valid examples:
+</p>
+<pre>
+'a'
+' '
+'#'
+'α'
+'统'
+</pre>
+<h4><a name="numeric_character_literals"><span class="grey">4.1.4.2</span> Numeric Character Literals</a></h4>
+<p>
+To create a character literal with a specific numeric code one can specify the code between an opening at-sign ("@") and a terminating semicolon (";"). The numeric code is an <a href="#integers"><i>integer literal</i></a>.
+</p>
+<p>
+Valid examples:
+</p>
+<pre>
+'@65;'
+'@0x40;'
+'@0b0111'111;'
+</pre>
+<p>
+Invalid examples:
+</p>
+<pre>
+'@-3;'
+'@x40;'
+'@65'
+</pre>
+<h4><a name="at-character-literal"><span class="grey">4.1.4.3</span> At-Character-Literal</a></h4>
+<p>
+To represent the at-character itself one can write '@@' (two consecutive at-signs).
+</p>
+<h4><a name="named_character_literals"><span class="grey">4.1.4.4</span> Named Character Literals</a></h4>
+<p>
+There are 276 different named character literals (see appendix <a href="#named_characters">Named Characters</a>). They are written in the form
+</p>
+<pre>
+'@<i>name</i>;'
+</pre>
+<p>
+Valid examples:
+</p>
+<pre>
+'@cr;'
+'@at;'
+'@quot;'
+'@alpha;'
+'@Omega;'
+</pre>
+<h2><a name="compound"><span class="grey">4.2</span> Compound</a></h2>
+<h3><a name="strings"><span class="grey">4.2.1</span> Strings</a></h3>
+<p>
+<i>Strings</i> have an explicitly stored length and contain exactly that number of characters.
+</p>
+<p>
+Strings that contain only 8-bit-character-values form a "subtype" that can be used in input/output-operations.
+</p>
+<p>
+A string (like every other object) is a function. If called with a single integer argument the character at the specified position is returned.
+</p>
+<p>
+String indices are <i>one-based</i>.
+</p>
+<p>
+If called with two arguments the first argument is an index of an existing character and the second argument is a <i>replacement character</i>. The returned string is a copy of the original string with exactly this one character replaced.
+</p>
+<p>
+Examples:
+</p>
+<pre>
+$str "Hello"
+println! str(2) # prints "e"
+println! str(2 'a') # prints "Hallo"
+</pre>
+<p>
+There are lots of functions to create new strings out of existing ones (&lt;strings.html:see Strings>).
+</p>
+<h4><a name="inline_string_literals"><span class="grey">4.2.1.1</span> Inline String Literals</a></h4>
+<p>
+String literals are enclosed within double quotes, e.g.:
+</p>
+<pre>
+"Hello, world!"
+</pre>
+<p>
+Instead of a Unicode character (more precise: Unicode codepoint) all kinds of character literals (see above) can be used, e.g.:
+</p>
+<pre>
+"From @alpha; to @Omega;"
+</pre>
+<h4><a name="multi-line_string_literals"><span class="grey">4.2.1.2</span> Multi-Line String Literals</a></h4>
+<p>
+A multi-line string literal starts with a single double quote at the end of a line. All following indented lines are the contents of the string literal. The least indented line of the string literal defines the <i>zero indent</i> for all lines.
+</p>
+<p>
+The lines after the double quote describe the strings contents, e.g.:
+</p>
+<pre>
+"
+    This is a multi-line
+    string literal.
+  
+  It spans four lines.
+</pre>
+<p>
+Each line-end within the string literal is converted into a linefeed-character. The above literal is therefor equal to:
+</p>
+<pre>
+"  This is a multi-line@nl;  string literal.@nl;@nl;It spans four lines.@nl;"
+</pre>
+<p>
+The sequence "@;" in a string literal expands to nothing. It can be used to add empty lines at the end of a multi-line string literal or to add spaces at the end of a line of a multi-line string literal.
+</p>
+<p>
+A single "@" at the end of a line prevents the linefeed character and any whitespace at the start of the next line from beeing added to the string. It can also be used to define the zero indent.
+</p>
+<p>
+An example:
+</p>
+<pre>
+"
+  @
+      This is a single line @
+      of text.
+</pre>
+<p>
+is equal to
+</p>
+<pre>
+"    This is a single line of text.@nl;"
+</pre>
+<p>
+Another example:
+</p>
+<pre>
+"
+  Title
+    
+    This is a single line @
+    of text.
+</pre>
+<p>
+is equal to
+</p>
+<pre>
+"Title@nl;@nl;  This is a single line of text.@nl;"
+</pre>
+<p>
+The space character between "<code>line</code>" and the "<code>@</code>" is part of the string. The spaces at the start of the next line are discarded.
+</p>
+<h4><a name="string_interpolation"><span class="grey">4.2.1.3</span> String Interpolation</a></h4>
+<p>
+Funky supports <i>string interpolations</i>. A <i>string interpolation</i> looks like a string literal with embedded expressions.
+</p>
+<p>
+The expressions are embedded within "@(" and ")".
+</p>
+<p>
+They are converted into calls to the string constructor function <code>std::string</code>, e.g.:
+</p>
+<pre>
+"@(a) * @(b) = @(a*b)"
+</pre>
+<p>
+is converted into
+</p>
+<pre>
+std::string(a " * " b " = " a*b)
+</pre>
+<p>
+String interpolations can be used within inline string literals as well as within multi-line string literals.
+</p>
+<p>
+It is possible to embed multiple expressions at once, e.g.:
+</p>
+<pre>
+"
+  This is @(article substantive).
+</pre>
+<p>
+is converted into
+</p>
+<pre>
+std::string("This is " article substantive ".")
+</pre>
+<p class="attention">
+<b>Attention</b>: The current implementation does only allow a single expression within a "@(…)" embedding, but any inline expression is valid as an embedded expression.
+</p>
+<p>
+It is even possible to use a string expression as an embedded expression. The following examples are all equal:
+</p>
+<pre>
+"
+  This is @(article " " substantive).
+</pre>
+<pre>
+"
+  This is @(article) @(substantive).
+</pre>
+<pre>
+std::string("This is " article " " substantive ".")
+</pre>
+<h3><a name="lists"><span class="grey">4.2.2</span> Lists</a></h3>
+<p>
+Like strings <i>lists</i> have an explicitly stored length and contain exactly that number of items.
+</p>
+<p>
+A list (like every other object) is a function. If called with a single integer argument the item at the specified position is returned.
+</p>
+<p>
+Like string indices, list indices are <i>one-based</i>.
+</p>
+<p>
+If called with two arguments the first argument is an index of an existing item and the second argument is a <i>replacement item</i>. The returned list is a copy of the original list with exactly this one item replaced.
+</p>
+<p>
+There are lots of functions to create new lists out of existing ones.
+</p>
+<p>
+Lists are sometimes used for special purposes (e.g. grammar rules). To clone a list with all its modified attributes and methods one can use the <i>new</i> method.
+</p>
+<p>
+There is no special syntax for normal list literals, but <i>sequences</i> are based upon lists.
+</p>
+<h4><a name="sequences"><span class="grey">4.2.2.1</span> Sequences</a></h4>
+<p>
+Sequences are a subtype of lists and used (often together with value-ranges) to describe the arguments in calls to the <code>case</code>-function or grammar rules.
+</p>
+<p>
+The items of a sequence are separated by commas.
+</p>
+<p>
+Syntax:
+</p>
+<pre>
+<i>value_1</i>, <i>value_2</i>, …, <i>value_3</i>
+</pre>
+<p>
+An example:
+</p>
+<pre>
+case chr
+  'a'..'z', 'A'..'Z', '0'..'9':
+    …
+</pre>
+<p>
+This is just syntactic sugar for
+</p>
+<pre>
+case chr
+  std::sequence
+    std::value_range('a' 'z')
+    std::value_range('A' 'Z')
+    std::value_range('0' '9')
+  :
+    …
+</pre>
+<p>
+Funky lists are very different from lists in other functional programming languages which are linked lists and work more like "stacks".
+</p>
+<p>
+In Funky lists resemble more a written shopping list than a stack of plates. Items can be added very easily at the end of the list but inserting or deleting an item at an arbitrary position is an expensive operation.
+</p>
+<p>
+They are also well suited for parallel processing (e.g. mapping or reducing).
+</p>
+<h3><a name="tuples"><span class="grey">4.2.3</span> Tuples</a></h3>
+<p>
+<i>Tuples</i> consist of a fixed number of unnamed fields. Each field stores an object.
+To create a tuple one has to supply all its fields at once.
+</p>
+<p>
+If a tuple is read then as many tuple fields as there are destinations are returned.
+</p>
+<p>
+Example:
+</p>
+<pre>
+$t tuple("a" 47 'c')
+
+t $first $second # first = "a", second = 47
+</pre>
+<p>
+To create a tuple based on an existing one the <i>new</i> method can be used.
+</p>
+<p>
+There is no special syntax for normal tuple literals, but there are two types that are based upon tuples.
+</p>
+<h4><a name="key-value-pairs"><span class="grey">4.2.3.1</span> Key-Value-Pairs</a></h4>
+<p>
+A <i>key-value-pair</i> associates a <i>key</i> with a <i>value</i>. Technicalls it is simply a tuple with two fields.
+</p>
+<p>
+The syntax is
+</p>
+<pre>
+<i>key</i> = <i>value</i>
+</pre>
+<p class="attention">
+<b>Attention</b>: This is <i>not</i> an assignment!
+</p>
+<p>
+Some examples:
+</p>
+<pre>
+FIRST_NAME = "John"
+LAST_NAME = "Doe"
+AGE = 47
+CHILDREN = list("Jane" "Patrick")
+</pre>
+<h4><a name="value-ranges"><span class="grey">4.2.3.2</span> Value-Ranges</a></h4>
+<p>
+A <i>value-range</i> is typically used to specify the start and end of a range of values (both, start and end value, are included in the range). Technically it is simply a tuple with two fields.
+</p>
+<p>
+Some examples:
+</p>
+<pre>
+1..10
+'a'..'z'
+-100 .. 100
+</pre>
+<h2><a name="functions"><span class="grey">4.3</span> Functions</a></h2>
+<p>
+Functions are literals like numbers or strings. Their definition starts with
+a colon (":"), optionally followed by a parenthesized list of parameters and one or more statements.
+</p>
+<p>
+Example:
+</p>
+<pre>
+$heron: (a b c) # parameters
+  $s (a+b+c)/2 # first statement
+  -> sqrt(s*(s-a)*(s-b)*(s-c)) # second statement
+</pre>
+<p>
+Statements are described <a href="#statements">here</a>.
+</p>
+<h3><a name="parameters"><span class="grey">4.3.1</span> Parameters</a></h3>
+<p>
+A function can have any number of <i>parameters</i>. A parameter is a variable. (The scope of a parameter is the function and all embedded functions.)
+</p>
+<p>
+A function can have any number of <i>mandatory</i> and <i>optional</i> parameters as well as a single <i>rest</i> parameter.
+</p>
+<p>
+The <i>caller</i> of the function must supply an argument for every <i>mandatory</i> parameter of the called function.
+</p>
+<p>
+The <i>caller</i> can supply an argument for each <i>optional</i> parameter of the
+called function.
+</p>
+<p>
+If there is no <i>rest</i> parameter the caller must <i>not</i> supply any excess
+arguments to the called function.
+</p>
+<h4><a name="mandatory_parameters"><span class="grey">4.3.1.1</span> Mandatory Parameters</a></h4>
+<p>
+Mandatory parameters can be written at the start as well as at the end of a parameter list.
+</p>
+<p>
+A caller must supply an argument for each mandatory parameter.
+</p>
+<p>
+The first supplied arguments are assigned to the mandatory parameters at the start of the parameter list in their corresponding order.
+</p>
+<p>
+The last supplied arguments are assigned to the mandatory parameters at the end of the parameter list in their corresponing order.
+</p>
+<p>
+If a function is used to implement a method of an object then there must be a mandatory parameter at the start of the parameter list. This parameter takes the role of <code>self</code> or <code>this</code> in other object oriented programming languages. In Funky the name of this parameter can be freely chosen. Usually it is called "self".
+</p>
+<h4><a name="optional_parameters"><span class="grey">4.3.1.2</span> Optional Parameters</a></h4>
+<p>
+Optional parameters follow the mandatory parameters at the start of a parameter list or start the parameter list.
+</p>
+<p>
+For each optional parameter a default value must be specified. This default value must be either
+</p>
+<ul>
+<li>a literal</li>
+</ul>
+<p>
+or
+</p>
+<ul>
+<li>an identifier</li>
+</ul>
+<p>
+More complex default values are not allowed.
+</p>
+<p>
+The syntax is as follows:
+</p>
+<pre>
+<i>optional_parameter</i> = <i>default_value</i>
+</pre>
+<p>
+If the caller supplies more arguments than the number of mandatory parameters the surplus arguments are used to assign values to the optional parameters from left to right.
+</p>
+<p>
+A neat trick is to use a (local) unique item to initialize an optional parameter, so one can simply check if the parameter was explicitly initialized or not.
+</p>
+<p>
+Example:
+</p>
+<pre>
+$NONE .
+
+$set_or_get_value:
+  (
+    array
+    index
+    value = NONE
+  )
+  …
+</pre>
+<h4><a name="rest_parameter"><span class="grey">4.3.1.3</span> Rest Parameter</a></h4>
+<p>
+A rest parameter follows the last optional parameter if there are one or the last starting mandatory parameter if there is one or starts the parameter list otherwise.
+</p>
+<p>
+If the caller supplies more arguments than the sum of mandatory and optional parameters then the surplus arguments are collected into a list and this list is assigned to the rest parameter.
+</p>
+<p>
+If there are no surplus arguments then an empty list is assigned to the rest parameter.
+</p>
+<p>
+The syntax for a rest parameter:
+</p>
+<pre>
+<i>rest_parameter</i>*
+</pre>
+<p>
+Example:
+</p>
+<pre>
+$sum: (addends*)
+  reduce addends plus
+</pre>
+<h4><a name="myself"><span class="grey">4.3.1.4</span> Myself</a></h4>
+<p>
+A special "parameter" that describes the function object itself can be supplied as the very first "parameter" of the function. It somewhat takes the role of <code>argv[0]</code> when calling a C-executable.
+</p>
+<p>
+It is most important when accessing containers where the object itself stores all the items of the container.
+</p>
+<p>
+The syntax for a myself parameter:
+</p>
+<pre>
+<i>myself_parameter</i>^
+</pre>
+<p>
+Example:
+</p>
+<pre>
+$std_types::table/:
+  (
+    myself^
+    key
+    value = NONE
+  )
+  …
+</pre>
+<h4><a name="single-line_parameter_list"><span class="grey">4.3.1.5</span> Single-Line Parameter List</a></h4>
+<p>
+A parameter list can be written on a single line:
+</p>
+<pre>
+(<i>myself</i>^ <i>left<sub>1</sub></i> … <i>left<sub>n</sub></i> <i>optional<sub>1</sub></i> … <i>optional<sub>n</sub></i> <i>rest</i> <i>right<sub>1</sub></i> … <i>right<sub>n</sub></i>)
+</pre>
+<p>
+Some examples:
+</p>
+<pre>
+(myself^ key value = NONE)
+</pre>
+<pre>
+(options* body)
+</pre>
+<h4><a name="multi-line_parameter_list"><span class="grey">4.3.1.6</span> Multi-Line Parameter List</a></h4>
+<p>
+If a parameter list is written on mutltiple lines then each line must contain exactly one parameter:
+</p>
+<pre>
+(
+  <i>myself</i>^
+  <i>left<sub>1</sub></i>
+  …
+  <i>left<sub>n</sub></i>
+  <i>optional<sub>1</sub></i>
+  …
+  <i>optional<sub>n</sub></i>
+  <i>rest</i>
+  <i>right<sub>1</sub></i>
+  …
+  <i>right<sub>n</sub></i>
+)
+</pre>
+<p>
+The closing parenthesis must have the same indentation as the opening parenthesis. The parameters all have the same (greater) indentation.
+</p>
+<p>
+Some examples:
+</p>
+<pre>
+(
+  myself^
+  key
+  value = NONE
+)
+</pre>
+<pre>
+(
+  options*
+  body
+)
+</pre>
+<p>
+Statements are described in details in the section <a href="#statements">Statements</a>.
+</p>
+<h3><a name="results"><span class="grey">4.3.2</span> Results</a></h3>
+<p>
+The <i>results</i> of a function are the values that a function returns to its caller.
+</p>
+<p>
+In Funky a function can return any number of results.
+</p>
+<h3><a name="polymorphic_functions"><span class="grey">4.3.3</span> Polymorphic Functions</a></h3>
+<p>
+A <i>polymorphic function</i> is a function that has multiple implementations.
+</p>
+<p>
+Each type can implement its own version of a polymorphic function. If it does not then it "inherits" the implementation of its "parent".
+</p>
+<p>
+If a polymorphic function is not implemented in a root object (see <a href="#root_objects">Root Objects</a>) then it has a default implementation that creates an error object when called.
+</p>
+<p>
+When a polymorphic function is called then the actual type of the first argument of the function call is used to "dispatch" the call (determine which implementation to call).
+</p>
+<p>
+A polymorphic function can be implemented for a specific type as an <i>attribute</i> or a <i>method</i>.
+</p>
+<h4><a name="attributes"><span class="grey">4.3.3.1</span> Attributes</a></h4>
+<p>
+An <i>attribute</i> is a value (an object) stored in an object's slot.
+</p>
+<p>
+The type of an object decides for which polymorphic function an object contains slots.
+</p>
+<p>
+Attributes are re(defined) using an object <a href="#attribute_definitions">re(definition) statement</a>.
+</p>
+<p>
+Definition:
+</p>
+<pre>
+$<i>object</i>.<i>polymorphic_function</i> <i>value</i>
+</pre>
+<p>
+Redefinition:
+</p>
+<pre>
+!<i>object</i>.<i>polymorphic_function</i> <i>value</i>
+</pre>
+<p>
+E.g.:
+</p>
+<pre>
+!person.age_of 47
+</pre>
+<p>
+Remember, this does <b>not</b> modify the object bound to <i>person</i>. Instead a new object is created as a clone of the original object (with the attribute <i>age</i> changed) and bound to the variable <i>person</i>.
+</p>
+<p class="attention">
+<b>Attention</b>: An attribute can only be redefined for a specific type when it was <i>defined</i> for this type before!
+</p>
+<p>
+When the polymorphic function <i>age_of</i> is called with <i>person</i> as its first argument then the attribute value (47) is returned.
+</p>
+<p>
+E.g.:
+</p>
+<pre>
+println! age_of(person) # prints "47"
+</pre>
+<h4><a name="methods"><span class="grey">4.3.3.2</span> Methods</a></h4>
+<p>
+A <i>method</i> is a function used to implement a polymorphic function for a specific type.
+</p>
+<p>
+Methods are defined using a special syntax:
+</p>
+<pre>
+$<i>object</i>/<i>polymorphic_function</i> <i>method</i>
+</pre>
+<p>
+E.g.:
+</p>
+<pre>
+$person/age_of: (self)
+  -> years_of(current_date()-birth_date_of(self))
+</pre>
+<p class="attention">
+<b>Attention</b>: Methods cannot be redefined!
+</p>
+<p>
+When the polymorphic function <i>age_of</i> is called with <i>age_of</i> as its first argument then the dispatcher calls the method defined for the type of the first argument:
+</p>
+<pre>
+: (self)
+  -> years_of(current_date()-birth_date_of(self))
+</pre>
+<p>
+(This is not a valid source code example for itself but illustrates which function is called.)
+</p>
+<p>
+This function is then called and will (in our case) return the current age of the person.
+</p>
+<p>
+In Funky it is <i>not</i> possible to <i>retrieve</i> the function used to implement a method!
+</p>
+<p class="attention">
+<b>Attention</b>: This is a very important feature. It prevents one from moving a method of a builtin object (that accesses internals of builtin objects directly) to an object of the wrong type!
+</p>
+<h4><a name="polymorphic_functions_without_setter"><span class="grey">4.3.3.3</span> Polymorphic Functions Without Setter</a></h4>
+<p>
+A polymorphic function without a setter is defined like this:
+</p>
+<pre>
+$<i>attribute_of</i> ()
+</pre>
+<p>
+This kind of polymorphic function needs an explicit redefinition to change an attribute's value, e.g.:
+</p>
+<pre>
+$my_attr_of ()
+
+$obj std_types::object
+  .my_attr_of 47
+
+do: # now let's change the value
+  !obj.my_attr_of 11 # explicitly redefine the attribute value
+</pre>
+<h4><a name="polymorphic_functions_with_setter"><span class="grey">4.3.3.4</span> Polymorphic Functions With Setter</a></h4>
+<p>
+A polymorphic function can be defined to have <i>setter</i> functionality.
+</p>
+<p>
+A polymorphic function with a setter is defined like this:
+</p>
+<pre>
+$<i>attribute</i> (!)
+</pre>
+<p>
+An example:
+</p>
+<pre>
+$attribute_of (!)
+</pre>
+<p>
+The setter functionality works only on objects that implement this polymorphic function as an attribute.
+</p>
+<p>
+If an object implements this polymorphic function as a method then the setter functionality is not used.
+</p>
+<p>
+The setter can be used to derive a new object from an existing one where the attribute value is replaced by a new attribute value:
+</p>
+<pre>
+$my_attr_of (!)
+
+$obj std_types::object
+  .my_attr_of 47
+
+do: # now let's change the value
+  my_attr_of &amp;obj 11 # use the setter to redefine the attribute value
+  !obj.my_attr_of 815 # explicit redefinition is also possible
+</pre>
+<h1><a name="statements"><span class="grey">5</span> Statements</a></h1>
+<p>
+With the exception of attribute (re)definitions statements in Funky are simply function calls.
+</p>
+<h2><a name="function_calls"><span class="grey">5.1</span> Function Calls</a></h2>
+<p>
+A function call consists of a <i>functor</i>, <i>destinations</i> and <i>arguments</i>.
+</p>
+<p>
+A <i>functor</i> is an object that contains the statements of the function to be called.
+</p>
+<p>
+The <i>arguments</i> are the values that the caller supplies to the callee.
+</p>
+<p>
+The <i>destinations</i> denote the variables where the <i>results</i> returned from the callee are stored.
+</p>
+<p>
+Here are the steps that take place when a function is called:
+</p>
+<ul>
+<li>a copy of the caller's enviroment is made and is used as the callee's environment</li>
+</ul>
+<ul>
+<li>the argument values are read from the caller's environment and stored in the callee's environment using the names of the function parameters</li>
+</ul>
+<ul>
+<li>the statements of the function are executed one after the other using the callee's environment</li>
+</ul>
+<ul>
+<li>the last statement of the function produces the result values that are read from the callee's environment and returned to the caller where they are stored in the caller's environment using the names of the destination variables</li>
+</ul>
+<ul>
+<li>the callee's environment is discarded and the caller's environment is made the active environment again</li>
+</ul>
+<p>
+Some functions need to communicate with the operating system, retrieving data from a database, reading from a file, writing to a console, etc. These functions are called <i>IO-functions</i>.
+</p>
+<p>
+The call of an IO-function must be annotated with a an exclamation mark ("!") suffixing the functor, e.g.:
+</p>
+<pre>
+println! "Hello, world!"
+</pre>
+<p>
+Functions in Funky are pure, meaning that they don't have side effects (they cannot alter any variable in the caller's environment). Even IO-functions have no side effects beside the IO-operations.
+</p>
+<p>
+So non-IO-functions must return at least one result. Otherwise there would be no use in calling them.
+</p>
+<p>
+The <i>canonical form</i> of a function calls looks like this:
+</p>
+<pre>
+<i>function_name</i>
+  !<i>destination<sub>1</sub></i>
+  !<i>destination<sub>2</sub></i>
+  …
+  !<i>destination<sub>n</sub></i>
+  <i>argument<sub>1</sub></i>
+  <i>argument<sub>2</sub></i>
+  …
+  <i>argument<sub>n</sub></i>
+</pre>
+<p>
+If the variable to store the result is defined here the exclamation mark ("!") is replaced by a dollar sign ("$").
+</p>
+<p>
+The destinations and arguments can be spread over multiple lines. They are separated with a single space from the <i>function_name</i> and beyond each other. The follow-up lines are all indented (by the same amount of whitespace) relative to the first line of the function call.
+</p>
+<p>
+So the above call could also be written like this:
+</p>
+<pre>
+<i>function_name</i> !<i>destination<sub>1</sub></i> !<i>destination<sub>2</sub></i>
+  …
+  !<i>destination<sub>n</sub></i> <i>argument<sub>1</sub></i>
+  <i>argument<sub>2</sub></i> … <i>argument<sub>n</sub></i>
+</pre>
+<p>
+Results and arguments can me mixed in any way as long as the relative order of destinations and the relative order of arguments is not altered.
+</p>
+<p>
+So the following calls are all identical:
+</p>
+<pre>
+assign !a 1 !b 2
+</pre>
+<pre>
+assign 1 !a 2 !b
+</pre>
+<pre>
+assign !a !b 1 2
+</pre>
+<pre>
+assign 1 2 !a !b
+</pre>
+<h3><a name="input-ouput_arguments"><span class="grey">5.1.1</span> Input-Ouput Arguments</a></h3>
+<p>
+Often one wants to update the contents of a specific variable like that:
+</p>
+<pre>
+!x sqrt(x)
+</pre>
+<p>
+This will be translated by the compiler into the canonical form:
+</p>
+<pre>
+sqrt !x x
+</pre>
+<p>
+To prevent the repetition of the variable name ("<code>x</code>") one can use an <i>input-output</i> argument like this:
+</p>
+<pre>
+sqrt &amp;x
+</pre>
+<p>
+Here "<code>x</code>" acts as an input argument as well as a destination.
+</p>
+<h3><a name="backquoted_arguments"><span class="grey">5.1.2</span> Backquoted Arguments</a></h3>
+<p>
+Backquoted arguments are syntactic sugar and are most often used in calls to <code>debug::dump</code>. (The use of symbols in the <code>debug</code> namespace is not allowed in production code. They are meant for debugging purposes only.)
+</p>
+<p>
+The expression
+</p>
+<pre>
+`<i>expr</i>
+</pre>
+<p>
+is converted into
+</p>
+<pre>
+"<i>expr</i>" <i>expr</i>
+</pre>
+<p>
+An example:
+</p>
+<pre>
+debug::dump `width `height
+</pre>
+<p>
+is the same as:
+</p>
+<pre>
+debug::dump "width" width "height" height
+</pre>
+<h3><a name="assignments"><span class="grey">5.1.3</span> Assignments</a></h3>
+<p>
+Because it's so common a call to the <code>assign</code>-function can be abbreviated if there is only a single input argument and a single destination. In the call
+</p>
+<pre>
+assign $<i>destination</i> <i>source</i>
+</pre>
+<p>
+the <code>assign</code> can be omitted:
+</p>
+<pre>
+$<i>destination</i> <i>source</i>
+</pre>
+<p>
+That's the reason vou will rarely see explicit calls to "<code>assign</code>" in a Funky program.
+</p>
+<h4><a name="complex_destinations"><span class="grey">5.1.3.1</span> Complex Destinations</a></h4>
+<p>
+The Funky compiler can handle more complex destinations. They are translated into more basic function calls.
+</p>
+<pre>
+!tab(idx) val
+</pre>
+<p>
+is converted into
+</p>
+<pre>
+tab !tab idx val
+</pre>
+<p>
+This is <b>no</b> typo! The function "<code>tab</code>" is called with the arguments "<code>idx</code>" and "<code>val</code>" and will hopefully return a new table that is then assigned to "<code>tab</code>".
+</p>
+<p>
+In Funky data structures like lists, arrays, tables, etc. are implemented as objects where the <i>type function</i> implements the access to the data and the <i>attributes</i> hold the actual data.
+</p>
+<pre>
+!obj.value_of val
+</pre>
+<p>
+creates a clone of "<code>obj</code>" where the contents of the slot "<code>value_of</code>" are replaced by the contents of "<code>val</code>" (see <a href="#attribute_definitions">Attribute Definitions</a>).
+</p>
+<p>
+These expressions can be combined to any depth and complexity, e.g.:
+</p>
+<pre>
+!tab(i+1).values_of(2*j+k) val
+</pre>
+<p>
+is converted into
+</p>
+<pre>
+std::plus $temp__1 i 1
+tab $temp__2 temp__1
+values_of $temp__3 temp__2
+std::times $temp__4 2 j
+std::plus $temp__5 temp__4 k
+temp__3 !temp__3 temp__5 val
+!temp__2.values_of temp__3
+tab !tab temp__1 temp__2
+</pre>
+<p class="note">
+Note: The compiler generates symbols with two consecutive underline characters for internal use to prevent name clashes with user defined variables.
+</p>
+<p>
+The evaluations of "i+1" and "2*j+k" are guaranteed to be free of side effects because Funky is a functional language! So there is no need to compute them twice.
+</p>
+<h3><a name="tail_calls"><span class="grey">5.1.4</span> Tail Calls</a></h3>
+<p>
+The last function call in a body's statement sequence is treated specially. It is a <i>tail call</i>. That means that its results are directly returned to the function's caller. So no stack space is needed to hold (temporary) results.
+</p>
+<p>
+Do <b>not</b> specifiy destinations in the last statement of a function! These would store the results in no longer used local variables and the results would be thrown away!
+</p>
+<p>
+The compiler will report the occurrence of destinations in the final call of a statement sequence as an error.
+</p>
+<h4><a name="return"><span class="grey">5.1.4.1</span> Return</a></h4>
+<p>
+To return results from a function one could call the <code>assign</code> function in tail position without specifying any destinations for the results:
+</p>
+<pre>
+assign <i>result<sub>1</sub></i> <i>result<sub>2</sub></i> … <i>result<sub>n</sub></i>
+</pre>
+<p>
+To make the intention more clear there is special syntax for this case:
+</p>
+<pre>
+-> <i>result<sub>1</sub></i> <i>result<sub>2</sub></i> … <i>result<sub>n</sub></i>
+</pre>
+<p>
+If a function has no parameters and consists of a single return-statement it can be abbreviated. The following expressions are all equivalent:
+</p>
+<pre>
+: () -> <i>result<sub>1</sub></i> <i>result<sub>2</sub></i> … <i>result<sub>n</sub></i>
+</pre>
+<pre>
+: -> <i>result<sub>1</sub></i> <i>result<sub>2</sub></i> … <i>result<sub>n</sub></i>
+</pre>
+<pre>
+-> <i>result<sub>1</sub></i> <i>result<sub>2</sub></i> … <i>result<sub>n</sub></i>
+</pre>
+<h3><a name="function_call_arguments"><span class="grey">5.1.5</span> Function Call Arguments</a></h3>
+<p>
+All arguments of function calls should be identifiers or literals. But this would be very impractical. So the compiler transforms more complex arguments into function calls of their own.
+</p>
+<p>
+A complex argument is a function call itself. These function calls must return exactly one result.
+</p>
+<p>
+Here an example how the compiler might transform a complex function call:
+</p>
+<p>
+Source code:
+</p>
+<pre>
+p $z f(x) g(h(y))
+</pre>
+<p>
+is transformed into
+</p>
+<pre>
+f $temp__1 x
+h $temp__2 y
+g $temp__3 temp__2
+p $z temp__1 temp__3
+</pre>
+<p>
+The following sections describe the plentiful variants of writing <i>function-call-arguments</i>.
+</p>
+<h4><a name="inline-function-calls"><span class="grey">5.1.5.1</span> Inline-Function-Calls</a></h4>
+<p>
+In an inline-function-call all arguments fit on a single line. They immediately follow the function name, enclosed in parentheses:
+</p>
+<pre>
+<i>function_name</i>(<i>argument<sub>1</sub></i> <i>argument<sub>2</sub></i> … <i>argument<sub>n</sub></i>)
+</pre>
+<p>
+Example:
+</p>
+<pre>
+append(first_name " " last_name)
+</pre>
+<p>
+Besides the absence of commas to separate the arguments this looks very much like a function call in a language like C or Java.
+</p>
+<h4><a name="multiline-function-calls"><span class="grey">5.1.5.2</span> Multiline-Function-Calls</a></h4>
+<p>
+In a multiline-function-call the function name stands on a new line and must <b>not</b> be followed by any arguments on this line. Instead all arguments must follow on equally indented successive lines. It is therefore <b>not</b> possible to call a function with no arguments this way.
+</p>
+<pre>
+<i>function_name</i>
+  <i>argument<sub>1</sub></i>
+  <i>argument<sub>2</sub></i>
+  …
+  <i>argument<sub>n</sub></i>
+</pre>
+<p>
+Example:
+</p>
+<pre>
+append
+  first_name
+  " "
+  last_name
+</pre>
+<p>
+It is allowed to write multiple arguments on a single line, e.g.:
+</p>
+<pre>
+append
+  first_name " "
+  last_name
+</pre>
+<h4><a name="infix-operator-style"><span class="grey">5.1.5.3</span> Infix-Operator-Style</a></h4>
+<p>
+Any inline-function-call with exactly two arguments of the form
+</p>
+<pre>
+<i>function</i>(<i>argument<sub>1</sub></i> <i>argument<sub>2</sub></i>)
+</pre>
+<p>
+can be replaced with
+</p>
+<pre>
+<i>argument<sub>1</sub></i> .<i>function</i>. <i>argument<sub>2</sub></i>
+</pre>
+<p>
+Instead of
+</p>
+<pre>
+contains(bag item)
+</pre>
+<p>
+one could write
+</p>
+<pre>
+bag .contains. item
+</pre>
+<h4><a name="suffix-operator-style"><span class="grey">5.1.5.4</span> Suffix-Operator-Style</a></h4>
+<p>
+Any inline-function-call with a single argument of the form
+</p>
+<pre>
+<i>function</i>(<i>argument</i>)
+</pre>
+<p>
+can be replaced with
+</p>
+<pre>
+<i>argument</i>.<i>function</i>
+</pre>
+<p class="note">
+Note: The argument must be an idenfier or a parenthesed expression.
+</p>
+<p>
+This is very convenient for calling <i>test</i>- or <i>conversion</i>-functions.
+</p>
+<p>
+Instead of
+</p>
+<pre>
+is_defined(value)
+</pre>
+<p>
+one can write
+</p>
+<pre>
+value.is_defined
+</pre>
+<h4><a name="infix-operators"><span class="grey">5.1.5.5</span> Infix-Operators</a></h4>
+<p>
+To make writing arithmetic and logic expressions more convenient one can use C-style infix operators.
+</p>
+<p>
+Instead of
+</p>
+<pre>
+plus(a times(b c))
+</pre>
+<p>
+one can simply write
+</p>
+<pre>
+a+b*c
+</pre>
+<p>
+Each infix operator has an assigned operator precedence and an <i>association</i>.
+</p>
+<p>
+Association defines the order in which operators are applied.
+</p>
+<p>
+The (right associative) expression
+</p>
+<p>
+<code>a && b && c</code>
+</p>
+<p>
+is equal to
+</p>
+<p>
+<code>a && (b && c)</code>
+</p>
+<p>
+If the association is <i>undefined</i> then the compiler can decide  whether to use left or right association. Only operations where association does not matter (e.g. addition) have undefined association.
+</p>
+<p>
+If the association is <i>none</i> then you must explicitly use parentheses when combining multiple operators.
+</p>
+<p>
+This is the complete list of infix-operators:
+</p>
+<table>
+<tr><td>Symbol</td><td>Function</td><td>Precedence</td><td>Association</td></tr><tr><td><code>*</code></td><td><code>std::times</code></td><td>9</td><td>undefined</td></tr><tr><td><code>/</code></td><td><code>std::over</code></td><td>9</td><td>none</td></tr><tr><td><code>+</code></td><td><code>std::plus</code></td><td>8</td><td>undefined</td></tr><tr><td><code>-</code></td><td><code>std::minus</code></td><td>8</td><td>left</td></tr><tr><td><code>&lt;&lt;</code></td><td><code>std::shift_left</code></td><td>7</td><td>none</td></tr><tr><td><code>>></code></td><td><code>std::shift_right</code></td><td>7</td><td>none</td></tr><tr><td><code>&</code></td><td><code>std::bit_and</code></td><td>7</td><td>none</td></tr><tr><td><code>|</code></td><td><code>std::bit_or</code></td><td>7</td><td>none</td></tr><tr><td><code>^</code></td><td><code>std::bit_xor</code></td><td>7</td><td>none</td></tr><tr><td><code>==</code></td><td><code>std::equal</code></td><td>6</td><td>none</td></tr><tr><td><code>!=</code></td><td><code>std::not(std::equal(left&nbsp;right))</code></td><td>6</td><td>none</td></tr><tr><td><code>&lt;</code></td><td><code>std::less</code></td><td>6</td><td>none</td></tr><tr><td><code><=</code></td><td><code>std::not(std::less(right&nbsp;left))</code></td><td>6</td><td>none</td></tr><tr><td><code>></code></td><td><code>std::less(right&nbsp;left)</code></td><td>6</td><td>none</td></tr><tr><td><code>>=</code></td><td><code>std::not(std::less(left&nbsp;right))</code></td><td>6</td><td>none</td></tr><tr><td><code>..</code></td><td><code>std::value_range</code></td><td>5</td><td>none</td></tr><tr><td>.<i>named_operator</i>.</td><td><i>named_operator</i></td><td>4</td><td>none</td></tr><tr><td><code>&&</code></td><td><code>std::and</code></td><td>3</td><td>right</td></tr><tr><td><code>||</code></td><td><code>std::or</code></td><td>3</td><td>right</td></tr><tr><td><code>,</code></td><td><code>std::sequence</code></td><td>2</td><td>undefined</td></tr><tr><td><code>=</code></td><td><code>std::key_value_pair</code></td><td>1</td><td>none</td></tr></table>
+<p>
+The order of operand evaluation can be freely chosen by the compiler because all operators are function calls and all functions in Funky are pure functions.
+</p>
+<p>
+The predefined precedences can be overwritten through the use of parentheses like in mathematics, e.g.:
+</p>
+<pre>
+(a+b) * (c-d)
+</pre>
+<p>
+See the following sections for special treatment of some operators.
+</p>
+<h5><a name="comparison_operators"><span class="grey">5.1.5.5.1</span> Comparison Operators</a></h5>
+<p>
+There are only two comparison functions (<code>std::equal</code> and <code>std::less</code>). So all comparisons are based on those two functions and the logical negation (<code>std::not</code>).
+</p>
+<pre>
+<i>left</i> &lt;= <i>right</i>
+</pre>
+<p>
+is converted into
+</p>
+<pre>
+std::not(std::less(right left))
+</pre>
+<p>
+and
+</p>
+<pre>
+<i>left</i> >= <i>right</i>
+</pre>
+<p>
+is converted into
+</p>
+<pre>
+std::not(std::less(left right))
+</pre>
+<p>
+Further
+</p>
+<pre>
+<i>left</i> > <i>right</i>
+</pre>
+<p>
+is converted into
+</p>
+<pre>
+std::less(right left)
+</pre>
+<p>
+and
+</p>
+<pre>
+<i>left</i> != <i>right</i>
+</pre>
+<p>
+is converted into
+</p>
+<pre>
+std::not(std::equal(left right))
+</pre>
+<h5><a name="short_circuit_evaluation"><span class="grey">5.1.5.5.2</span> Short Circuit Evaluation</a></h5>
+<p>
+The operators <code>&&</code> and <code>||</code> call the functions <code>std::and</code> and <code>std::or</code> respectively. These two functions take a boolean value as their first argument and a function that evaluates to a boolean value as their second argument. So these operators are converted as shown below:
+</p>
+<pre>
+<i>left</i> &amp;&amp; <i>right</i>
+</pre>
+<p>
+is converted into
+</p>
+<pre>
+std::and(<i>left</i> (-> <i>right</i>))
+</pre>
+<p>
+and
+</p>
+<pre>
+<i>left</i> || <i>right</i>
+</pre>
+<p>
+is converted into
+</p>
+<pre>
+std::or(<i>left</i> (-> <i>right</i>))
+</pre>
+<p>
+So the second argument is only evaluated if necessary. This is called <i>short circuit evaluation</i>.
+</p>
+<h4><a name="prefix_usage_of_infix_operators"><span class="grey">5.1.5.6</span> Prefix Usage Of Infix Operators</a></h4>
+<p>
+Expressions with infix operators cannot be spread over multiple lines.
+</p>
+<p>
+But one can use them in prefix notation. The operator is put on a line of its own and the arguments are written (indented) on the following lines.
+</p>
+<pre>
+*
+  a+b
+  c-d
+</pre>
+<p>
+is the same as
+</p>
+<pre>
+(a+b) * (c-d)
+</pre>
+<p>
+It is also possible to have more than two arguments.
+</p>
+<pre>
+&amp;&amp;
+  <i>condition<sub>1</sub></i>
+  <i>condition<sub>2</sub></i>
+  <i>condition<sub>3</sub></i>
+</pre>
+<p>
+is converted into
+</p>
+<pre>
+<i>condition<sub>1</sub></i> &amp;&amp; <i>condition<sub>2</sub></i> &amp;&amp; <i>condition<sub>3</sub></i>
+</pre>
+<p>
+The association rules are obeyed!
+</p>
+<h4><a name="prefix-operators"><span class="grey">5.1.5.7</span> Prefix-Operators</a></h4>
+<p>
+There is only a single prefix operator: "<code>-</code>". It calls the function <code>std::negate</code>.
+</p>
+<p>
+So
+</p>
+<pre>
+-123
+</pre>
+<p>
+is a shortcut for
+</p>
+<pre>
+std::negate(123)
+</pre>
+<h2><a name="attribute_definitions"><span class="grey">5.2</span> Attribute Definitions</a></h2>
+<p>
+There is a special syntax to (re)define an object's attributes.
+</p>
+<p>
+Definition:
+</p>
+<pre>
+$<i>object</i>
+  .<i>attribute<sub>1</sub></i> <i>value<sub>1</sub></i>
+  .<i>attribute<sub>2</sub></i> <i>value<sub>2</sub></i>
+  …
+  .<i>attribute<sub>n</sub></i> <i>value<sub>n</sub></i>
+</pre>
+<p>
+Redefinition:
+</p>
+<pre>
+!<i>object</i>
+  .<i>attribute<sub>1</sub></i> <i>value<sub>1</sub></i>
+  .<i>attribute<sub>2</sub></i> <i>value<sub>2</sub></i>
+  …
+  .<i>attribute<sub>n</sub></i> <i>value<sub>n</sub></i>
+</pre>
+<p>
+If only a single attribute is to be re(defined) the following simplfied form can be used:
+</p>
+<p>
+Definition:
+</p>
+<pre>
+$<i>object</i>.<i>attribute</i> <i>value</i>
+</pre>
+<p>
+Redefinition:
+</p>
+<pre>
+!<i>object</i>.<i>attribute</i> <i>value</i>
+</pre>
+<p>
+When definining an object also methods and the type function can be defined.
+</p>
+<p>
+Method definition:
+</p>
+<pre>
+$<i>object</i>/<i>method</i> <i>function</i>
+</pre>
+<p>
+Type function definition:
+</p>
+<pre>
+$<i>object</i>/<i>function</i>
+</pre>
+<p class="note">
+Note: The <i>function</i> always starts with a ":".
+</p>
+<p>
+In an objects definition the definitions of attributes, methods and the type function can be mixed in any order.
+</p>
+<p>
+An example:
+</p>
+<pre>
+$person
+  std_types::object
+    .first_name_of "John"
+    .last_name_of "Doe"
+    /name_of: (self)
+      -> string(first_name_of(self) " " last_name_of(self))
+    /: (myself^)
+      print! "
+        Hi, I'm @(first_name_of(myself)) @(last_name_of(myself))!
+</pre>
+<p>
+There is a special syntax ("<code>/:</code>") to assign an already defined function as a type function to an object:
+</p>
+<pre>
+$person
+  std_types::object
+    .first_name_of "John"
+    .last_name_of "Doe"
+    /: greeting
+
+$greeting: (myself^)
+  print! "
+    Hi, I'm @(first_name_of(myself)) @(last_name_of(myself))!
+</pre>
+<h1><a name="identifiers"><span class="grey">6</span> Identifiers</a></h1>
+<p>
+An identifier consists of an (optional) <i>namespace</i> and a <i>name</i>.
+</p>
+<p>
+The rules for namespaces and names are the same:
+</p>
+<p>
+They consist of one or more "words". A word consists of one or more ASCII letters or digits. Words are separated by a single underscore-symbol ("_"). The first word must start with a letter.
+</p>
+<p>
+Letters can be upper or lower case. Case is relevant, so identifiers differing only in letter case <i>are</i> different identifiers.
+</p>
+<h2><a name="unused_identifiers"><span class="grey">6.1</span> Unused Identifiers</a></h2>
+<p>
+The compiler will report an error if a defined variable is <i>not</i> used. (There is a meta-instruction to suppress this kind of error messages.)
+</p>
+<p>
+To mark a variable as unsued its name is preceeded with an underscore character ("_") in its declaration, e.g.:
+</p>
+<pre>
+$_dummy
+$_unused
+</pre>
+<p>
+This is used most commonly in parameter lists:
+</p>
+<pre>
+(_self value)
+</pre>
+<p>
+The names of "anonymous" variables are completely ignored, so the same name can be used multiple times.
+</p>
+<h2><a name="local_identifiers"><span class="grey">6.2</span> Local Identifiers</a></h2>
+<p>
+Identifiers without a namespace are local to the source code module in which they are defined.
+</p>
+<p>
+Some valid examples:
+</p>
+<pre>
+This_is_a_valid_identifier
+s7
+x
+A_B_C
+</pre>
+<p>
+Some invalid examples:
+</p>
+<pre>
+_invalid_name
+x__11
+7_angels
+just_to_be_continued_
+</pre>
+<p>
+Local variables <b>must not</b> be <i>shadowed</i> ‒ that means that a variable with the same name must not be defined again in an inner scope (within an embedded function) or again in the same function.
+</p>
+<h2><a name="global_identifiers"><span class="grey">6.3</span> Global Identifiers</a></h2>
+<p>
+Variables that shall be visible in other source code modules must belong to a <i>declared</i> namespace.
+</p>
+<p>
+A namespaced variable is written like
+</p>
+<p>
+<i>namespace::name</i>
+</p>
+<p>
+Global variables must be defined on the top-level of a module.
+</p>
+<h2><a name="naming_conventions"><span class="grey">6.4</span> Naming Conventions</a></h2>
+<p>
+Funky programs use "snake_case" for normal identfiers. Constants are written in "SCREAMING_SNAKE_CASE".
+</p>
+<p>
+Names that are not used only inside a single function are <i>not</i> abbreviated.
+</p>
+<p>
+Typical identifiers:
+</p>
+<pre>
+insert_items
+is_an_upper_case_letter_character
+MAXIMUM_VALUE
+</pre>
+<p>
+Unusual identifiers:
+</p>
+<pre>
+ins_itms
+isAnUpperCaseLetterCharacter
+MAX_VAL
+</pre>
+<p>
+When appropriate the article "an" is used instead of "a".
+</p>
+<p>
+Names that denote collections are written in <i>plural</i> form.
+</p>
+<p>
+Attributes usually have the suffix "_of".
+</p>
+<p>
+Tests often have the prefix "is_a_" ("is_an_") or "has_a_" ("has_an_").
+</p>
+<p>
+Conversion functions usually have the prefix "to_"
+</p>
+<p>
+Some examples:
+</p>
+<pre>
+$value_of ()
+$is_an_integer ()
+$to_integer ()
+</pre>
+<h1><a name="definitions_and_redefinitions"><span class="grey">7</span> Definitions and Redefinitions</a></h1>
+<p>
+Every variable is defined exactly once. A variable is defined by using it as a destination and prefixing its name with a dollar sign.
+</p>
+<p>
+The scope of a variable spans all following statements of the function in which it is defined and all function literals embedded in this function ‒ even if they are placed textually <i>before</i> the definition of the variable.
+</p>
+<p>
+If a "variable" is assigned a <i>constant expression</i> and is never redefined then it is a "named constant" and its scope starts at the beginning of the function where it is defined.
+</p>
+<p>
+If a variable is defined outside of any function (at the top level) its scope is the whole source code module.
+</p>
+<p>
+If it is defined within a namespace it can be accessed from absolutely <i>everywhere</i> (even from other modules).
+</p>
+<p>
+Variables defined at the top-level that are not initalized with <i>literals</i> or <i>constant expressions</i> are handled specially. The expressions used to initialize these variables are executed before the start of the program and can access only variables that have already been initialized. This is checked at runtime. Modules are evaluated in the order of "requirement". Within a single module expressions are evaluated top down.
+</p>
+<p>
+A <i>constant expression</i> is a literal or a function call whose functor is one of several builtin functions allowed within constant expressions and whose arguments are themself constant expressions.
+</p>
+<p>
+On the top-level every unknown symbol is treated as a constant by the compiler.
+</p>
+<p>
+Functions allowed in constant expressions are:
+</p>
+<ul>
+<li>arithmethic and logical operations ("+", "|", "&lt;&lt;", etc.)</li>
+</ul>
+<ul>
+<li>the tuple constructor function: <code>std::tuple</code></li>
+</ul>
+<ul>
+<li>the list constructor function <code>std::list</code></li>
+</ul>
+<ul>
+<li>constructor functions for subtypes of tuples and lists: <code>std::key_value_pair</code>, <code>std::value_range</code>, <code>std::sequence</code></li>
+</ul>
+<p>
+Some examples:
+</p>
+<pre>
+$p: (x)
+  println! a # invalid ‒ not in scope
+  $print_square:
+    println! a*a # valid ‒ in scope
+  $a 2*x # define the variable "a"
+  println! a+1 # valid ‒ in scope
+  print_square!
+</pre>
+<pre>
+$q: (x)
+  println! a # valid, because "a" is definitely constant
+  $a 47 # define the variable "a"
+</pre>
+<p>
+A variable can be redefined within its scope any number of times.
+</p>
+<h2><a name="distributed_definitions"><span class="grey">7.1</span> Distributed Definitions</a></h2>
+<p>
+At the global scope the definition of a variable with attributes and methods can be split into several separate definitions. In the case of a namespaced identifier these definitions can be distributed over several source code modules.
+</p>
+<p>
+Before an attribute or method can be defined, a polymorphic function must be defined. Polymorphic functions are "literals" consisting of a pair of parentheses.
+</p>
+<p>
+Attributes are defined with the dot operator and methods are defined with the slash operator.
+</p>
+<p>
+An example:
+</p>
+<pre>
+$first_name_of () # a polymorphic function
+$last_name_of () # a polymorphic function
+$name_of () # a polymorphic function
+
+$person std_types::object
+
+$person.first_name_of "Joe"
+$person.last_name_of "Doe"
+
+$person/name_of: (self)
+  -> string(first_name_of(self) " " last_name_of(self))
+
+$person/: (myself^)
+  print! "
+    Hi, I'm @(first_name_of(myself)) @(last_name_of(myself))!
+</pre>
+<p>
+is equal to
+</p>
+<pre>
+$first_name_of ()
+$last_name_of ()
+$name_of ()
+
+$person
+  std_types::object
+    .first_name_of "Joe"
+    .last_name_of "Doe"
+    /name_of: (self)
+      -> string(first_name_of(self) " " last_name_of(self))
+    /: (myself^)
+      print! "
+        Hi, I'm @(first_name_of(myself)) @(last_name_of(myself))!
+</pre>
+<p>
+See the section about <i>attribute-value-pairs</i> for a detailed description of the syntax used here.
+</p>
+<h2><a name="local_definitions"><span class="grey">7.2</span> Local Definitions</a></h2>
+<h3><a name="local_polymorphic_functions"><span class="grey">7.2.1</span> Local Polymorphic Functions</a></h3>
+<p>
+Not only variables but also polymorphic functions and their implementations (methods, attributes) can be defined locally.
+</p>
+<p>
+Instead of
+</p>
+<pre>
+$print_type: (obj)
+  cond
+    -> obj.is_a_number:
+      println! "number"
+    -> obj.is_a_string:
+      println! "string"
+    -> true:
+      println! "unknown"
+</pre>
+<p>
+the function could also be defined using a local polymorphic function and local methods:
+</p>
+<pre>
+$print_type: (obj)
+  println! get_type(obj)
+  
+  $get_type ()
+  $std_types::object/get_type: (_self) -> "unknown"
+  $std_types::number/get_type: (_self) -> "number"
+  $std_types::string/get_type: (_self) -> "string"
+</pre>
+<p>
+The function "<code>get_type</code>" is defined locally and is only visible within the function "<code>print_type</code>".
+</p>
+<h3><a name="local_types"><span class="grey">7.2.2</span> Local Types</a></h3>
+<p>
+Types can be defined locally, too.
+</p>
+<pre>
+$p: (first_name last_name)
+  my_type
+    .first_name_of first_name
+    .last_name_of last_name
+  
+  $first_name_of ()
+  $last_name_of ()
+  
+  $my_type std_types::object
+    .first_name_of undefined
+    .last_name_of undefined
+    /to_string: (self)
+      append first_name_of(self) " " last_name_of(self)
+</pre>
+<p>
+Within the function "<code>p</code>" the type "<code>my_type</code>" is defined locally. It contains two local attributes "<code>first_name_of</code>" and "<code>last_name_of</code>" and implements the global method "<code>to_string</code>".
+</p>
+<p>
+When the function "<code>p</code>" is called an object of type "<code>my_type</code>" is created and returned.
+</p>
+<p>
+The caller of "<code>p</code>" can access the global method "<code>to_string</code>" of the returned object but not the local attributes "<code>first_name_of</code>" and "<code>last_name_of</code>".
+</p>
+<h1><a name="meta-instructions"><span class="grey">8</span> Meta-Instructions</a></h1>
+<p>
+<i>Meta-instructions</i> are used to combine source code modules into application programs or libraries and to manage namespaces.
+</p>
+<p>
+Meta-instructions are always located at the start of a source code module, before any other statements.
+</p>
+<h2><a name="requiring_modules"><span class="grey">8.1</span> Requiring Modules</a></h2>
+<p>
+The <code>require</code>-instruction is used to include a specific source code module into an application or library.
+</p>
+<p>
+The syntax is streightforward:
+</p>
+<pre>
+&lt;require <i>module_name</i>>
+</pre>
+<p>
+The <i>module_name</i> ist the <i>filename</i> of the source code module without the ".fky"-extension.
+</p>
+<p>
+If the filename starts with a dot-character (".") then the filename is relative to the requiring module's directory.
+</p>
+<p>
+If the filename starts with a letter then the filename specifies a module in a library. The absolute location of library files is system dependent. The environment variable <code>FUNKY_LIBRARY_PATH</code> can be used to overwrite this system dependent location and to use one's own version of library modules.
+</p>
+<p>
+The rules for naming source code files are the same as the rules for naming identifiers.
+</p>
+<p>
+Some examples:
+</p>
+<pre>
+&lt;require basic/stdlib>
+</pre>
+<pre>
+&lt;require ./my_tools>
+</pre>
+<p>
+If an application program (not a library) does not explicitly use "require" to include at least a single module then the module "<code>basic/stdlib</code>" is automatically included.
+</p>
+<p>
+In Funky it's common that only the main module of an application program requires other modules. The Funky standard libraries <i>do not</i> require other libraries by themselves!
+</p>
+<p>
+As an exception there are special library modules that require a set of other modules, e,g. "<code>basic/stdlib</code>".
+</p>
+<p>
+So the application writer can choose to use other implementations for functions than the default implementations supplied by the standard library.
+</p>
+<h2><a name="managing_namespaces"><span class="grey">8.2</span> Managing Namespaces</a></h2>
+<p>
+In Funky namespaces have two responsibilities:
+</p>
+<ul>
+<li>defining symbols that can be accessed from other modules</li>
+</ul>
+<ul>
+<li>version management</li>
+</ul>
+<p>
+Every <i>namespace</i> (and its major versions) needs to be declared exactly once in an application.
+</p>
+<p>
+It's an error to forget to declare a namespace or to declare a namespace twice.
+</p>
+<pre>
+&lt;namespace <i>namespace</i>>
+</pre>
+<pre>
+&lt;namespace <i>namespace</i>-<i>major</i>.<i>minor</i>>
+</pre>
+<pre>
+&lt;namespace <i>namespace</i>-unstable>
+</pre>
+<p>
+An unspecified version number always defaults to "1.0".
+</p>
+<p>
+The version <code>unstable</code> is special and denotes the most current version that is still under development and functions defined with this version number can change their behaviour at any time without further notice.
+</p>
+<p>
+An <i>unstable</i> namespace should only be used for testing new functionality.
+</p>
+<p>
+There must be a namespace declaration for each major-version number of a namespace. The respective minor-version number declares the highest minor version that is available for the corresponding major version number.
+</p>
+<p>
+E.g.:
+</p>
+<pre>
+&lt;namespace std-1.3>
+&lt;namespace std-2.1>
+&lt;namespace std-unstable>
+</pre>
+<p>
+makes the following namespaces available:
+</p>
+<pre>
+std-1.0
+std-1.1
+std-1.2
+std-1.3
+std-2.0
+std-2.1
+std-unstable
+</pre>
+<p>
+When defining a namespaced variable it is necessary to explicitly specify the version number of the namespace. <code>using</code>- and <code>resolve</code>-directives are ignored when a variable is defined, but <code>alias</code>-directives are obeyed.
+</p>
+<p>
+When a namespaced identifier is <i>read</i> or <i>redefined</i> (not <i>defined</i>) then the version must not be specified. The version of used namespaced identifiers is set with the "<code>using</code>" meta-instruction.
+</p>
+<pre>
+&lt;using <i>namespace</i>>
+</pre>
+<pre>
+&lt;using <i>namespace</i>-<i>major</i>.<i>minor</i>>
+</pre>
+<pre>
+&lt;using <i>namespace</i>-unstable>
+</pre>
+<p>
+For a single namespace each source code module can only contain <i>one</i> <code>using</code>-directive.
+</p>
+<p>
+So a module can <i>define</i> the same namespaced identifier in multiple namespace versions but can use only <i>one</i> version!
+</p>
+<p>
+Whenever a variable is redefined or read that is <i>not</i> locally defined and without the explicit use of a namespace the <code>using</code>-directive is used by the runtime linker to find the corresponding variable.
+</p>
+<p>
+It the runtime linker cannot resolve it unambigously it refuses to start the program and terminates with an appropriate error message.
+</p>
+<p>
+The version number for a specific namespace can be selected for the whole module using a <code>resolve</code>-directive:
+</p>
+<pre>
+&lt;resolve <i>namespace</i>-<i>major</i>.<i>minor</i>>
+</pre>
+<pre>
+&lt;resolve <i>namespace</i>-unstable>
+</pre>
+<p>
+To use a namespace under a different name an <code>alias</code>-directive can be used:
+</p>
+<pre>
+&lt;alias <i>namespace_alias</i> = <i>namespace</i>>
+</pre>
+<p>
+<code>alias</code>-directives are used for variable definitions as well as for redefinitions and reads.
+</p>
+<pre>
+&lt;namespace my_long_namespace>
+
+&lt;alias mln = my_long_namespace>
+
+$mln::twice: (body)
+  body
+  body
+</pre>
+<p>
+is equivalent to
+</p>
+<pre>
+&lt;namespace my_long_namespace>
+
+$my_long_namespace::twice: (body)
+  body
+  body
+</pre>
+<h1><a name="remarks"><span class="grey">9</span> Remarks</a></h1>
+<p>
+<i>Remarks</i> always start with a hash-tag-character ("#").
+</p>
+<p>
+Everything after the hash-tag until the end of the line is part of the remark.
+</p>
+<p>
+Consecutive <b>and</b> indented lines are also part of the remark!
+</p>
+<p>
+Examples:
+</p>
+<pre>
+$x 1 # this is an end-of-line remark
+</pre>
+<pre>
+$y 2
+  #
+    This is a
+    multi-line remark
+</pre>
+<pre>
+# This is not the
+  usual way to write a
+  remark in Funky, but it's
+  valid, too.
+</pre>
+<pre>
+#
+  Empty lines
+  
+  do not end the
+  remark!
+</pre>
+<p>
+Conventions for writing remarks:
+</p>
+<ul>
+<li>remarks are written to the right of a statement</li>
+</ul>
+<ul>
+<li>remarks are written (indented) <i>below</i> a statement</li>
+</ul>
+<ul>
+<li>remarks are <i>not</i> written <i>before</i> a statement</li>
+</ul>
+<p>
+Before you write a remark describing a variable's meaning, think of a more comprehensive name for the variable!
+</p>
+<h2><a name="documentation_remarks"><span class="grey">9.1</span> Documentation Remarks</a></h2>
+<p>
+The compiler associates remarks with syntactic expressions.
+</p>
+<p>
+Remarks are either
+</p>
+<ul>
+<li>statements of their own</li>
+</ul>
+<ul>
+<li>pseudo arguments to procedure or function calls or return statements</li>
+</ul>
+<ul>
+<li>part of a body declaration</li>
+</ul>
+<ul>
+<li>part of a parameter declaration</li>
+</ul>
+<p>
+An indentifier does not become a function call, when it contains only remark pseudo arguments.
+</p>
+<p>
+A return statement containing only remark pseudo arguments is invalid.
+</p>
+<p>
+There are two ways to associate a remark with a function:
+</p>
+<pre>
+$<i>function</i>:
+  #
+    <i>remark</i>
+  (
+    <i>parameters</i>
+  )
+  …
+</pre>
+<p>
+or if the function has no parameter list:
+</p>
+<pre>
+$<i>function</i>
+  #
+    <i>remark</i>
+  :
+    …
+</pre>
+<p>
+To associate a remark with an expression:
+</p>
+<pre>
+<i>expression</i> # <i>remark</i>
+</pre>
+<p>
+or
+</p>
+<pre>
+<i>expression</i>
+  #
+    <i>remark</i>
+    …
+</pre>
+<p>
+An example to associate a remark with a parameter:
+</p>
+<pre>
+$twice:
+  (
+    body # the function to execute twice
+  )
+  …
+</pre>
+<p>
+or
+</p>
+<pre>
+$twice:
+  (
+    body
+      #
+        the function to execute twice;
+        the function is called without any arguments
+  
+  )
+  …
+</pre>
+<h1 class="part">Part 2: Functional Programming</h1>
+<h1><a name="quick_start"><span class="grey">10</span> Quick Start</a></h1>
+<h2><a name="source_code_files"><span class="grey">10.1</span> Source Code Files</a></h2>
+<p>
+Source code files that are referred from other Funky source code files must adhere to strict rules:
+</p>
+<ul>
+<li>they must have the extension ".fky"</li>
+</ul>
+<ul>
+<li>their name must consist of ASCII-letters, digits and underscores only</li>
+</ul>
+<ul>
+<li>their name must start with a letter</li>
+</ul>
+<ul>
+<li>their name must not end with an underscore</li>
+</ul>
+<ul>
+<li>their name must not contain two consecutive underscores</li>
+</ul>
+<p>
+For source code files that are used as scripts, none of the above rules applies. They can be given any convenient name.
+</p>
+<p>
+All source code files must be UTF-8-encoded (ASCII is a subset of UTF-8) and must not start with a byte-order-marker.
+</p>
+<p>
+Line-feed-characters are used to terminate lines. The last line needs to be terminated, too.
+</p>
+<p>
+The tab-width is assumed to be 8 spaces.
+</p>
+<p>
+Tab-characters may only appear at the start of a line; they are not allowed within a line.
+</p>
+<p>
+Empty lines must not contain whitespace and whitespace at the end of a non-empty line is disallowed, too.
+</p>
+<p>
+Syntactic units are separated by exactly one space character.
+</p>
+<p>
+Other whitespace-characters (including carriage returns) are not allowed.
+</p>
+<h2><a name="hello_world"><span class="grey">10.2</span> Hello World</a></h2>
+<p>
+Here is the Funky source code for the "classical" hello-world-program:
+</p>
+<pre>
+#!/usr/bin/env fkyrun
+
+print! "
+  Hello, world!
+</pre>
+<h1><a name="function_calls_and_the_stack"><span class="grey">11</span> Function Calls And the Stack</a></h1>
+<h2><a name="normal_function_calls"><span class="grey">11.1</span> Normal function calls</a></h2>
+<p>
+Function calls make use of a <i>stack</i>.
+</p>
+<p>
+A <i>stack</i> is a data structure that grows and shrinks dynamically. When a function is called, a new <i>stack frame</i> is allocated on the stack. This frame contains the function's local variables including its parameters.
+</p>
+<p>
+An example:
+</p>
+<pre>
+f
+
+$f:
+  g
+  …
+
+$g: …
+</pre>
+<p>
+At the start of the program the stack consists of a single frame reprenting the main program:
+</p>
+<table>
+<tr><td class="center">main</td></tr></table>
+<p>
+When the function "<code>f</code>" is called, a new frame (for "<code>f</code>") is allocated on the stack. The stack will now look like this:
+</p>
+<table>
+<tr><td class="center">main</td></tr><tr><td class="center">f</td></tr></table>
+<p>
+When "<code>f</code>" calls "<code>g</code>", a new frame (for "<code>g</code>") is allocated on the stack. The stack will now look like this:
+</p>
+<table>
+<tr><td class="center">main</td></tr><tr><td class="center">f</td></tr><tr><td class="center">g</td></tr></table>
+<p>
+When later on the function "<code>g</code>" returns, its frame is removed from the stack. The stack will now look exactly the same as before "<code>g</code>" was called:
+</p>
+<table>
+<tr><td class="center">main</td></tr><tr><td class="center">f</td></tr></table>
+<p>
+When "<code>f</code>" returns, its frame is removed from the stack. The only frame left on the stack is the one representing the main program:
+</p>
+<h2><a name="tail_calls"><span class="grey">11.2</span> Tail Calls</a></h2>
+<p>
+A <i>tail call</i> is a function call that is the last statement in a function. In this case the function call is optimized by the compiler. Instead of allocating a new stack frame, the current stack frame is replaced with
+the stack frame of the called function.
+</p>
+<p>
+When the called functions returns it will return its results to the caller of the caller.
+</p>
+<p>
+An example:
+</p>
+<pre>
+f $x
+
+$f:
+  …
+  g
+
+$g:
+  …
+  -> 1
+</pre>
+<p>
+When "<code>f</code>" is entered the stack will look like this:
+</p>
+<table>
+<tr><td class="center">main</td></tr><tr><td class="center">f</td></tr></table>
+<p>
+When "<code>f</code>" calls "<code>g</code>" in tail position, the stack frame of "<code>f</code>" is replaced with the stack frame of "<code>g</code>":
+</p>
+<table class="noborder"><tr><td class="noborder">
+<table>
+<tr><td class="center">main</td></tr><tr><td class="center">f</td></tr></table>
+</td><td class="noborder">
+⇒
+</td><td class="noborder">
+<table>
+<tr><td class="center">main</td></tr><tr><td class="center">g</td></tr></table>
+</td></tr></table>
+<p>
+So there is no stack frame for "<code>f</code>" left. When "<code>g</code>" returns, it will return its results directly to the main program.
+</p>
+<h1><a name="control_flow"><span class="grey">12</span> Control Flow</a></h1>
+<p>
+Funky does not contain any builtin statements to change the flow of control. All control flow is implemented using functions.
+</p>
+<p>
+These functions are implemented as regular functions in the "basic" library.
+</p>
+<h2><a name="conditional_execution"><span class="grey">12.1</span> Conditional Execution</a></h2>
+<p>
+Most conditional controls are based on boolean values.
+</p>
+<p>
+In Funky there is no "boolean" type because it wouldn't be of great help. Instead there are two types:
+</p>
+<ul>
+<li><code>std_types::true</code></li>
+</ul>
+<p>
+and
+</p>
+<ul>
+<li><code>std_types::false</code></li>
+</ul>
+<p>
+(The values "<code>std::true</code>" and "<code>std::false</code>" are the single "instances" of these types.)
+</p>
+<p>
+The most common statement in most programming languages is the "if"-statement.
+</p>
+<p>
+The "basic" library provides an "<code>if</code>"-function. Here's the implementation:
+</p>
+<pre>
+$std::if ()
+
+$std_types::true/std::if: (_condition then_part _else_part) then_part
+$std_types::false/std::if: (_condition _then_part else_part) else_part
+</pre>
+<p>
+That's it!
+</p>
+<p>
+The "<code>if</code>"-function takes three arguments:
+</p>
+<ul>
+<li>a <i>condition</i></li>
+<li>a <i>then_part</i></li>
+<li>an <i>else_part</i></li>
+</ul>
+<p>
+The <i>condition</i> is evaluated by the caller of the "<code>if</code>"-function. The "<code>if</code>"-function is implemented as a polymorphic function.
+</p>
+<p>
+The <i>then_part</i> and the <i>else_part</i> are functions, too.
+</p>
+<p>
+The implementation of the "<code>if</code>"-function for "<code>std_types::true</code>" simply calls the <i>then_part</i> and the implementation for "<code>std_types::false</code>" calls the <i>else_part</i>.
+</p>
+<p>
+The condition checking is reduced to a simple dispatch on the type of the condition.
+</p>
+<p>
+An example:
+</p>
+<pre>
+$a 3
+$b 4
+if
+  a > b:
+    println! "a is greater than b"
+  :
+    println! "a is not greater than b"
+</pre>
+<p>
+In this example "<code>if</code>" is used as an IO-function and returns no result.
+</p>
+<p>
+Another example:
+</p>
+<pre>
+$min: (a b)
+  if
+    a &lt; b
+    -> a
+    -> b
+</pre>
+<p>
+In this example "<code>if</code>" is used as a regular function and returns a result (the lesser of the two values).
+</p>
+<p>
+"<code>if</code>" is not statement! So the following code makes no sense:
+</p>
+<pre>
+$a 2
+$b 4
+if
+  <i>some_condition</i>:
+    !a 3
+  :
+    !b 5
+println! a # always prints "2"
+println! b # always prints "4"
+</pre>
+<p>
+The assignments to "<code>a</code>" and "<code>b</code>" within the then- and else-part are not visible outside the call to the "<code>if</code>"-function.
+</p>
+<p>
+If you really need such functionality you can write it this way:
+</p>
+<pre>
+$a 2
+$b 4
+if
+  <i>some_condition</i>:
+    !a 3
+    print_a_and_b!
+  :
+    !b 5
+    print_a_and_b!
+
+$print_a_and_b:
+  println! a
+  println! b
+</pre>
+<p>
+Functions like "<code>if_not</code>", "<code>not</code>", "<code>and</code>" or "<code>or</code>" are implemented in a similar way.
+</p>
+<p>
+More complex conditional functions like "<code>cond</code>" or "<code>case</code>" are implemented using the "<code>if</code>"-function.
+</p>
+<h2><a name="looping"><span class="grey">12.2</span> Looping</a></h2>
+<p>
+In a pure functional programming language there are no loops. Instead looping is implemented using recursion.
+</p>
+<p>
+The "basic" library uses "anonymous" recursions to implement loops.
+</p>
+<p>
+The most common looping construct in Funky is the "<code>loop</code>"-function. Here's a very simplified implementation:
+</p>
+<pre>
+$std::next undefined
+$std::break undefined
+
+$std::loop:
+  (
+    body
+    finally = pass
+  )
+  !next body
+  !break finally
+  next!
+</pre>
+<p>
+And here's an example of how to use it:
+</p>
+<pre>
+$i 1
+loop
+  :
+    if
+      i &lt;= 10:
+        println! i
+        inc &amp;i
+        next!
+      break
+  :
+    println! "done"
+</pre>
+<p>
+The "<code>loop</code>"-function takes two arguments:
+</p>
+<ul>
+<li>the <i>body</i> of the loop</li>
+<li>a <i>finally</i>-function that is executed after the last iteration of the loop</li>
+</ul>
+<p>
+The <i>body</i> is a function that is called for each "iteration" of the "loop". The tail-call at the end of the <i>body</i> must either call "<code>next!</code>" (to continue the loop) or "<code>break</code>" (to exit the loop).
+</p>
+<p>
+"<code>next!</code>" and "<code>break</code>" are two global variables that are set by each "loop" construct.
+</p>
+<p>
+Let's take a look how the execution actually works:
+</p>
+<p>
+Here's the initial stack:
+</p>
+<table>
+<tr><td class="center">main</td></tr></table>
+<p>
+When the "<code>loop</code>"-function is called, a new stack frame is allocated on the stack:
+</p>
+<table>
+<tr><td class="center">main</td></tr><tr><td class="center">loop</td></tr></table>
+<p>
+The "<code>loop</code>"-function calls the supplied <code>"body"</code>-function in tail position:
+</p>
+<table class="noborder"><tr><td class="noborder">
+<table>
+<tr><td class="center">main</td></tr><tr><td class="center">loop</td></tr></table>
+</td><td class="noborder">
+⇒
+</td><td class="noborder">
+<table>
+<tr><td class="center">main</td></tr><tr><td class="center">body</td></tr></table>
+</td></tr></table>
+<p>
+Our "<code>body</code>"-function calls "<code>if</code>" in tail position:
+</p>
+<table class="noborder"><tr><td class="noborder">
+<table>
+<tr><td class="center">main</td></tr><tr><td class="center">body</td></tr></table>
+</td><td class="noborder">
+⇒
+</td><td class="noborder">
+<table>
+<tr><td class="center">main</td></tr><tr><td class="center">if</td></tr></table>
+</td></tr></table>
+<p>
+When the if-condition is true, "<code>if</code>" calls its then-part
+</p>
+<pre>
+:
+  println! i
+  inc &amp;i
+  next!
+</pre>
+<p>
+in tail position:
+</p>
+<table class="noborder"><tr><td class="noborder">
+<table>
+<tr><td class="center">main</td></tr><tr><td class="center">if</td></tr></table>
+</td><td class="noborder">
+⇒
+</td><td class="noborder">
+<table>
+<tr><td class="center">main</td></tr><tr><td class="center">then_part</td></tr></table>
+</td></tr></table>
+<p>
+We don't care about the calls to "<code>println!</code>" and "<code>inc</code>".
+</p>
+<p>
+When "<code>inc</code>" returns, the "<code>then_part</code>" calls "<code>next</code>" in tail position. We remember that "<code>next</code>" was bound to our "<code>body</code>"-function by "<code>loop</code>".
+</p>
+<table class="noborder"><tr><td class="noborder">
+<table>
+<tr><td class="center">main</td></tr><tr><td class="center">then_part</td></tr></table>
+</td><td class="noborder">
+⇒
+</td><td class="noborder">
+<table>
+<tr><td class="center">main</td></tr><tr><td class="center">body</td></tr></table>
+</td></tr></table>
+<p>
+These steps will be repeated until the if-condition is false.
+</p>
+<p>
+When the if-condition is false, "<code>if</code>" calls its else-part ("<code>break</code>") in tail position.
+</p>
+<p>
+The "<code>break</code>"-function was bound to our "<code>finally</code>"-function
+</p>
+<pre>
+:
+  println! "done"
+</pre>
+<p>
+by "<code>loop</code>".
+</p>
+<table class="noborder"><tr><td class="noborder">
+<table>
+<tr><td class="center">main</td></tr><tr><td class="center">if</td></tr></table>
+</td><td class="noborder">
+⇒
+</td><td class="noborder">
+<table>
+<tr><td class="center">main</td></tr><tr><td class="center">finally</td></tr></table>
+</td></tr></table>
+<p>
+After "<code>finally</code>" has printed "<code>done</code>" it returns to the main program and the stack will look like this:
+</p>
+<table>
+<tr><td class="center">main</td></tr></table>
+<p>
+As you see, branching and looping heavily rely on tail calls.
+</p>
+<p>
+To enable the use of inner loops "<code>loop</code>" would have to take care about saving and restoring the old values of "<code>next</code>" and "<code>break</code>". This is quite complex. If you're interested in the details, take a look at the implementation of "<code>loop</code>" in the "basic" library.
+</p>
+<p>
+It's also possible to exit a function without calling "<code>break</code>" by returning a value:
+</p>
+<pre>
+$sentence "This is a sentence."
+
+println! get_first_word(sentence)
+
+$get_first_word: (text)
+  $i 1
+  $n length_of(text)
+  loop:
+    if
+      i > n:
+        if
+          n == 0
+          -> undefined
+          -> text
+      :
+        if
+          text(i) == ' '
+          -> range(text 1 i-1)
+          :
+            inc &amp;i
+            next!
+</pre>
+<h2><a name="programming_style"><span class="grey">12.3</span> Programming Style</a></h2>
+<p>
+The biggest difference to conventional control flow is the fact that a "conditional statement" or a "loop" that have no results must be the last statement in a function.
+</p>
+<p>
+There is only one exception to this rule: It might make sense to call "Output"-functions just for their "side effects".
+</p>
+<p>
+A conditional as well as a looping construct can return results, in which case the construct can be used as a regular function.
+</p>
+<pre>
+$a 3
+$b 5
+$min if(a &lt; b (-> a) -> b)
+</pre>
+<p>
+This is the minimum number of necessary parentheses. If we ommit the parentheses around "(-> a)" then the "<code>if</code>"-function would be called with only two arguments:
+</p>
+<pre>
+a &lt; b
+-> a -> b
+</pre>
+<p>
+The second is a function that returns two values:
+</p>
+<ul>
+<li>the integer value 3</li>
+<li>a function that returns the contents of the variable "<code>b</code>"</li>
+</ul>
+<p>
+Here an example with a loop:
+</p>
+<pre>
+# compute the sum 1 .. 10
+$i 0
+$sum 0
+loop !sum:
+  inc &amp;i
+  if
+    i &lt;= 10:
+      plus &amp;sum i
+      next
+    -> sum
+</pre>
+<p>
+The variables "<code>i</code>" and "<code>sum</code>" are defined outside of the loop.
+</p>
+<p>
+When the loop is called it "inherits" the variables "<code>i</code>" and "<code>sum</code>" and their current values from the caller.
+</p>
+<p>
+When "<code>next</code>" is called the loop is called recursively and the variables "<code>i</code>" and "<code>sum</code>" and their current values are again inherited from the caller (the previous iteration of the loop).
+</p>
+<p>
+When the loop finally returns the value of "<code>sum</code>" from the last iteration of the loop is returned and stored in the caller's version of the variable "<code>sum</code>".
+</p>
+<h1><a name="collections"><span class="grey">13</span> Collections</a></h1>
+<p>
+There are three builtin data collections in Funky:
+</p>
+<ul>
+<li>objects</li>
+<li>tuples</li>
+<li>lists</li>
+</ul>
+<p>
+More complex data collections are implemented using these three data collections. The "basic" library provides a range of sets and tables:
+</p>
+<ul>
+<li>key_order_set</li>
+<li>insert_order_set</li>
+<li>hash_set</li>
+<li>key_order_table</li>
+<li>insert_order_table</li>
+<li>hash_table</li>
+</ul>
+<p>
+They are all implemented using tree structures.
+</p>
+<p>
+Let's see how to implement a (simplified) "<code>key_order_table</code>" as an unbalanced (for simplicity) binary tree.
+</p>
+<p>
+First we need a type for the table and a type for the table's nodes:
+</p>
+<pre>
+$std_types::key_order_table std_types::table
+$table_node std_types::object
+</pre>
+<p>
+The type for the table has to be exported to be available to other modules.
+</p>
+<p>
+To export a symbol it must be placed in a <i>namespace</i>. The standard libraries use the namespace "<code>std_types</code>" for all exported types.
+</p>
+<p>
+To "derive" a new type from an existing one the existing type is simply used as the initial value for the new type.
+</p>
+<p>
+To share behaviour between different kinds of tables we use a common basetype for all tables: "<code>std_types::table</code>". We do not make use of any shared behaviour in this example and could have used "<code>std_types::object</code>" as basetype for the table.
+</p>
+<p>
+The type for the table's nodes is an implementation detail and is not exported.
+</p>
+<p>
+Next we define some attributes for the table type:
+</p>
+<pre>
+$item_count_of ()
+$items_of ()
+
+$std_types::key_order_table.item_count_of 0
+$std_types::key_order_table.items_of table_node
+</pre>
+<p>
+The polymorphic functions "<code>item_count_of</code>" and "<code>items_of</code>" are private to the "<code>key_order_table</code>" type and are not exported.
+</p>
+<p>
+We also implement these two polymorphic functions as attributes for our table type. So each "<code>key_order_table</code>" object will contain two slots:
+</p>
+<ul>
+<li>one for the item count</li>
+<li>one for the items of the table</li>
+</ul>
+<p>
+Now let's define the attributes for the table's nodes:
+</p>
+<pre>
+$key_of ()
+$value_of ()
+$left_of ()
+$right_of ()
+
+$table_node.key_of undefined
+$table_node.value_of undefined
+$table_node.left_of undefined
+$table_node.right_of undefined
+</pre>
+<p>
+There is no need to export the polymorphic functions "<code>key_of</code>", "<code>value_of</code>", "<code>left_of</code>" and "<code>right_of</code>".
+</p>
+<p>
+The four polymorphic functions are implemented as attributes for the "<code>table_node</code>" type. So each "<code>table_node</code>" object will contain four slots:
+</p>
+<ul>
+<li>one for the key</li>
+<li>one for the value</li>
+<li>one for the left child</li>
+<li>one for the right child</li>
+</ul>
+<p>
+Our data structures are now complete.
+</p>
+<p>
+The most important function is the <i>type function</i> that allows retrieving and setting the table's items.
+</p>
+<p>
+The table acts as a function that takes a key and returns the corresponding value or, if we add a second argument, sets the value for the given key.
+</p>
+<p>
+Let's define the type function for the "<code>key_order_table</code>" type:
+</p>
+<pre>
+$NONE .
+
+$std_types::key_order_table/:
+  (
+    myself^
+    key
+    value = NONE
+  )
+  …
+</pre>
+<p>
+To define a type function we do not supply a method name but instead follow the "/"-symbol immediately with the ":" that starts the function definition.
+</p>
+<p>
+The first "parameter" is special. We assign the type function's object to the variable "<code>myself</code>". This can be done for any function but is especially useful for type functions. The type of "<code>myself</code>" is therefor "<code>std_types::key_order_table</code>". To mark a parameter to hold the type function's object we append a "^" to the parameter's name.
+</p>
+<p>
+The first real parameter is the key used to retrieve or set the value.
+</p>
+<p>
+The second parameter is the value to be set. If this parameter is omitted then the value for the given key is retrieved. We assign the default value "<code>NONE</code>" to this parameter. "<code>NONE</code>" is a unique item we defined and which is unknown to everybody else. So when "<code>value</code>" is "<code>NONE</code>" we know that the caller did not supply a value and we should retrieve the value for the given key.
+</p>
+<p>
+Now we can start the implementation of the type function:
+</p>
+<pre>
+$std_types::key_order_table/:
+  (
+    myself^
+    key
+    value = NONE
+  )
+  $items items_of(myself)
+  if
+    value == NONE
+    -> retrieve(items key)
+    :
+      if
+        value.is_defined:
+          insert &amp;items $was_updated key value
+          !myself.items_of items
+          if
+            was_updated
+            -> myself
+            -> myself(.item_count_of item_count_of(myself)+1)
+        :
+          remove &amp;items $was_removed key
+          if
+            was_removed
+            ->
+              myself
+                .items_of items
+                .item_count_of item_count_of(myself)-1
+            -> myself
+</pre>
+<p>
+The first thing we do is to retrieve the items of the table. The items are stored in the "<code>items_of</code>" attribute of the table.
+</p>
+<p>
+Then we check if the caller supplied a value. If not we call the "<code>retrieve</code>" function to retrieve the value for the given key. We will define the "<code>retrieve</code>" function later.
+</p>
+<p>
+If the caller supplied a value we check if the value is defined. If the value is defined we call the "<code>insert</code>" function to insert the key/value pair into the table. We will define the "<code>insert</code>" function later.
+</p>
+<p>
+We have to consider two cases:
+</p>
+<ul>
+<li>the key is already in the table</li>
+<li>the key is not in the table</li>
+</ul>
+<p>
+If the key is already in the table then the "<code>insert</code>" function will return "<code>true</code>" as its second result which is assigned to the variable "<code>was_updated</code>". In this case we do not change the item count of the table.
+</p>
+<p>
+Otherwhise the "<code>insert</code>" function will return "<code>false</code>" and the item count of the table is incremented by one.
+</p>
+<p>
+If the value is not defined we call the "<code>remove</code>" function to remove the key/value pair from the table. We will define the "<code>remove</code>" function later.
+</p>
+<p>
+We again have to consider two cases:
+</p>
+<ul>
+<li>the key is in the table</li>
+<li>the key is not in the table</li>
+</ul>
+<p>
+If the key is in the table then the "<code>remove</code>" function will return "<code>true</code>" as its second result which is assigned to the variable "<code>was_removed</code>". In this case we udpate the items of the table and decrement the item count of the table by one.
+</p>
+<p>
+Otherwhise the "<code>remove</code>" function will return "<code>false</code>" and there's no need to change anything.
+</p>
+<p>
+Now let's define the "<code>retrieve</code>" function:
+</p>
+<pre>
+$retrieve: (items key)
+  if
+    items.is_defined:
+      if
+        key_of(items) == key
+        -> value_of(items)
+        :
+          if
+            key > key_of(items)
+            -> retrieve(right_of(items) key)
+            -> retrieve(left_of(items) key)
+    -> undefined
+</pre>
+<p>
+This is an implementation of a recursive search in a binary tree.
+</p>
+<p>
+If the items are defined (meaning the tree is not empty) we check if the key of the current node is equal to the key we are looking for. If so we return the value of the current node.
+</p>
+<p>
+Otherwise we will continue the search in the left or right subtree depending on the value of the key.
+</p>
+<p>
+The next function we need is the "<code>insert</code>" function:
+</p>
+<pre>
+$insert: (items key value)
+  if
+    items.is_defined:
+      if
+        key_of(items) == key
+        -> items(.value_of value) true
+        :
+          if
+            key > key_of(items):
+              insert &amp;items.right_of $was_updated key value
+              -> items was_updated
+            :
+              insert &amp;items.left_of $was_updated key value
+              -> items was_updated
+    -> table_node(.key_of key .value_of value) false
+</pre>
+<p>
+Let's take a closer look at the "<code>insert</code>" function.
+</p>
+<p>
+If the items are defined (meaning the tree is not empty) we check if the key of the current node is equal to the key we are looking for. If so we update the value of the current node and return the updated node and "<code>true</code>" to inform the caller that the value was updated.
+</p>
+<p>
+Otherwise we will continue the search in the left or right subtree depending on the value of the key.
+</p>
+<p>
+We must update our node with the new subtree returned from the recursive call to "<code>insert</code>" and we must return the updated node as well as the information whether the value was updated or inserted in the recursive call.
+</p>
+<p>
+If the items are not defined (meaning the tree is empty) we create a new node with the given key and value and return the new node and "<code>false</code>" to inform the caller that the value inserted and not updated.
+</p>
+<p>
+The last function we need is the "<code>remove</code>" function. This is the most complicated one because we might need to rearrange the tree.
+</p>
+<pre>
+$remove: (items key)
+  if
+    items.is_defined:
+      if
+        key_of(items) == key:
+          if
+            left_of(items).is_defined:
+              if
+                right_of(items).is_defined:
+                  #
+                    the node to be removed has two children
+                    find the node with the smallest key in the right subtree
+                    and replace the node to be removed with this node
+                  $first_node get_first_node(right_of(items))
+                  remove &amp;items.right_of key_of(first_node) $_was_removed
+                  ->
+                    items
+                      .key_of key_of(first_node)
+                      .value_of value_of(first_node)
+                    true
+                :
+                  #
+                    the node to be removed has only a left child
+                    replace the node to be removed with its left child
+                  -> left_of(items) true
+            :
+              if
+                right_of(items).is_defined:
+                  #
+                    the node to be removed has only a right child
+                    replace the node to be removed with its right child
+                  -> right_of(items) true
+                :
+                  #
+                    the node to be removed has no children
+                  -> undefined true
+        :
+          if
+            key > key_of(items):
+              remove &amp;items.right_of key $was_removed
+              -> items was_removed
+            :
+              remove &amp;items.left_of key $was_removed
+              -> items was_removed
+    -> items false
+</pre>
+<p>
+The "<code>remove</code>" function is implemented in a similar way as the "<code>insert</code>" function.
+</p>
+<p>
+If the items are defined (meaning the tree is not empty) we check if the key of the current node is equal to the key we are looking for. If so we have to remove the current node which can be complicated if the current node has one or two children.
+</p>
+<p>
+If the current node has only one child we can simply replace the current node with its child.
+</p>
+<p>
+If the current node has two children we have to find the node with the smallest key in the right subtree and replace the current node with this node. (We could as well find the node with the largest key in the left subtree and replace the current node with this node.)
+</p>
+<p>
+We must not forget to remove the node we replaced the current node with from the right subtree.
+</p>
+<p>
+If the key of the current node is not equal to the key we are looking for we will continue the search in the left or right subtree depending on the value of the key.
+</p>
+<p>
+If our node is empty (no items) we return the empty node and "<code>false</code>" to inform the caller that the value was not removed.
+</p>
+<p>
+The "<code>remove</code>" function is not complete yet. We still need to define the "<code>get_first_node</code>" function:
+</p>
+<pre>
+$get_first_node: (items)
+  if
+    left_of(items).is_defined
+    -> get_first_node(left_of(items))
+    -> items
+</pre>
+<p>
+The "<code>get_first_node</code>" function is a simple recursive search for the node with the smallest key in a binary tree.
+</p>
+<p>
+If the left child of the current node is defined we will continue the search in the left subtree otherwise we the current node is the node with the smallest key and we return it.
+</p>
+<p>
+The "basic" library provides a wide range of methods for all kinds of tables, which we are not going to implement here.
+</p>
+<p>
+A very simple example:
+</p>
+<pre>
+$std_types::key_order_table/length_of: (self) -> item_count_of(self)
+</pre>
+<p>
+We could have used "<code>length_of</code>" as the attribute name and omitted the definition of "<code>length_of</code>" above but then an external user of our table type could manipulate the length of a table by simply setting the "<code>length_of</code>" attribute to an arbitrary value!
+</p>
+<h1><a name="input/output"><span class="grey">14</span> Input/Output</a></h1>
+<p>
+All input/output-operations in Funky are based on the POSIX-API.
+</p>
+<p>
+Pure functions clearly cannot perform input/output-operations because reading from a file or writing to a file is a "side effect".
+</p>
+<p>
+So these functions are implemented as IO-functions.
+</p>
+<p>
+To call an IO-function IO-access-rights are required and the function name must be suffixed with an exclamation mark.
+</p>
+<p>
+The "basic" library provides a set of functions that directly resembles the POSIX-API.
+</p>
+<p>
+Here's how to create a file:
+</p>
+<pre>
+open! $fd "hello.txt" "w+"
+write_to! fd "Hello, World!@nl;"
+close! fd
+</pre>
+<p>
+For this to work we must have IO-access rights. The top-level statements of the main module always start with IO-access rights, so this should work.
+</p>
+<p>
+Our minimal test program does not care about errors.
+</p>
+<p>
+The "open" function resembles the "<code>fopen</code>"-function from the C-library but it is based on the POSIX "<code>open</code>"-function. The "mode"-parameter works similar to <code>fopen</code>". It does not return an abstraction of a buffered stream (like "<code>fopen</code>") but a file descriptor.
+</p>
+<p class="attention">
+<b>Attention</b>: IO-functions must always be called in procedure call style.
+</p>
+<p>
+The following is not valid Funky syntax:
+</p>
+<pre>
+$fd open!("hello.txt" "w+")
+</pre>
+<p>
+"<code>write_to!</code>" works similar to the "<code>fwrite</code>"-function from the C-library but its parameters are a lot simpler (a file descriptor and a string).
+</p>
+<p class="attention">
+<b>Attention</b>: The string must not contain any codepoints with values greater than 255. (To stay on the save side, the output string is best converted to UTF-8 before writing it to a file.)
+</p>
+<p>
+If the output device cannot handle all the data at once, "<code>write_to!</code>" will block until all the data has been written.
+</p>
+<p>
+There is also a "<code>write</code>"-function. This function behaves exactly the same as the POSIX function of the same name. It will return the number of bytes that have been written. If the output device cannot handle all the data at once the function will return the number of bytes that have been written which will be less than the length of the string passed to the function. It's then up to the caller to write the remaining data.
+</p>
+<p>
+Finally the "<code>close!</code>"-function is called to close the file.
+</p>
+<p>
+Not let's try again with naive error handling:
+</p>
+<pre>
+open! $fd "hello.txt" "w+"
+on fd.is_an_error:
+  eprint! "
+    Error: Failed to create file "hello.txt"!
+  exit! EXIT_FAILURE
+try $err: write_to! fd "Hello, World!@nl;"
+on err.is_an_error:
+  eprint! "
+    Error: Failed to write to file "hello.txt"!
+  exit! EXIT_FAILURE
+try $err: close! fd
+on err.is_an_error:
+  eprint! "
+    Error: Failed to close file "hello.txt"!
+  exit! EXIT_FAILURE
+</pre>
+<p>
+The "<code>open!</code>"-function returns an error object if it fails. The "<code>is_an_error</code>"-method is used to check if the result is an error object.
+</p>
+<p>
+The "<code>write_to!</code>"- and the "<code>close!</code>"-functions normally do not return anything. But in case of an error they return an error object.
+</p>
+<p>
+The "<code>try</code>"-function is used to call functions that normally do not return anything but may return an error object. The "<code>try</code>"-function itself returns either "<code>std::undefined</code>" or the error object returned by the function.
+</p>
+<p>
+To explicitly check each call for errors is a lot of work, makes the code hard to read and is error prone.
+</p>
+<p>
+So let's try again with a much simpler approach:
+</p>
+<pre>
+try $err:
+  open! $fd "hello.txt" "w+"
+  write_to! fd "Hello, World!@nl;"
+  close! fd
+on err.is_an_error:
+  eprint! "
+    Error: Failed to create file "hello.txt"!
+           (@(err.to_error_message_string))
+</pre>
+<p>
+This will catch all errors that might happen when creating, writing to or closing the file. The method "<code>to_error_message_string</code>" is used to convert the error object to a string that contains a human readable error message.
+</p>
+<p>
+How does this work?
+</p>
+<p>
+In case of error "<code>open!</code>" will store an error object in the variable "<code>fd</code>". When then "<code>write_to!</code>" (which is a method dispatched on the type of "<code>fd</code>") is called it will attempt to call an (unknown) method on an error object. All methods on error objects that are not explicitly implemented will return the error object itself. (This is called error propagation.)
+</p>
+<p>
+If "<code>write_to!</code>" or "<code>close!</code>" return an error object then this will cause a "too many results"-error because the caller expected no results at all but got a single result (the error object). Here again error propagation will ensure that the original error object (produced by "<code>write_to!</code>" or "<code>close!</code>") is returned to the caller which is the "<code>try</code>"-function.
+</p>
+<h2><a name="concentrating_io-operations"><span class="grey">14.1</span> Concentrating IO-Operations</a></h2>
+<p>
+It is bad style to spread IO-calls all over the code. Instead IO-calls should be collected in a few places.
+</p>
+<p>
+Example:
+</p>
+<pre>
+load! $data input_filename
+process $result data
+save! output_filename data
+</pre>
+<p>
+There is no need to handle errors explicitly when calling IO-functions. Errors will never be silently ignored. If not handled by the caller, errors will eventually be propagated to the caller's caller and so on until they are handled or, if not handled, will be caught by the runtime system and will terminate the program with an appropriate error message.
+</p>
+<p>
+Do not scatter your programs with error handling code. Handle errors at a level where it makes sense.
+</p>
+<p>
+But interactive programs and servers applications pose more challenges for handling IO. They are steadily receiving and sending data. For such applications Funky provides the so-called "IO"-object.
+</p>
+<h2><a name="handling_io_with_io-objects"><span class="grey">14.2</span> Handling IO with IO-Objects</a></h2>
+<p>
+An "IO"-object delegates IO-operations. Instead of performing IO-operations directly, an IO-request is added to the "IO"-object.
+</p>
+<p>
+Direct IO:
+</p>
+<pre>
+write! <i>file_descriptor</i> <i>data</i>
+</pre>
+<p>
+Using an "IO"-object:
+</p>
+<pre>
+$io std_types::io
+
+write &amp;io <i>file_descriptor</i> <i>data</i>
+</pre>
+<p>
+We need no IO-access rights to add a request to an "IO"-object. We can add as many requests as we want.
+</p>
+<p>
+To finally perform the IO-operations the "<code>get_events</code>"-function is called. This function performs all pending IO-operations and returns a list of newly arrived low-level input-events.
+</p>
+<pre>
+get_events &amp;io $events
+</pre>
+<p>
+To receive input-events we must register which file-descriptors we are interested in.
+</p>
+<p>
+To register reading from the standard input:
+</p>
+<pre>
+start_reading_from &amp;io STDIN_FILENO
+</pre>
+<p>
+Here is a complete example:
+</p>
+<pre>
+$io std_types::io
+
+start_reading_from &amp;io STDIN_FILENO
+get_events! &amp;io $events
+debug::dump 3 `events
+</pre>
+<p>
+Let's press the "HOME"-key followed by "ENTER".
+</p>
+<p>
+Output:
+</p>
+<pre>
+events:
+  list
+    tuple
+      std::READ
+      &lt;file_descriptor 0>
+      "@0x1b;[H@0xa;"
+</pre>
+<p>
+Each event is a tuple of
+</p>
+<ul>
+<li>the event type</li>
+<li>an <i>id</i> (e.g. a file-descriptor)</li>
+<li>the event data</li>
+<li>some application defined context (optional)</li>
+</ul>
+<p>
+The sequence "<code>@0x1b;[H@0xa;</code>" is the raw input data read from the standard input. It denotes the two key-presses "HOME" ("ESC[H") and "ENTER" ("LF").
+</p>
+<p>
+(To receive key presses immediately without waiting for the "ENTER"-key, the terminal must be set to "raw"-mode.)
+</p>
+<p>
+Most applications will not want to deal with low-level input data to process terminal input events like key-presses or mouse-clicks. Instead they will want to receive a list of high-level input events.
+</p>
+<pre>
+&lt;require basic/stdlib>
+&lt;require terminal/terminal>
+
+$io std_types::io
+
+start_reading_from &amp;io STDIN_FILENO
+register_handlers &amp;io STDIN_FILENO READ = create_terminal_events
+get_events! &amp;io $events
+handle_events &amp;io &amp;events
+debug::dump 3 `events
+</pre>
+<p>
+First of all we have to "require" the "terminal"-module which defines the "<code>create_terminal_events</code>"-function.
+</p>
+<p>
+As soon as we require one module explicitly, we also must require the "basic/stdlib"-module explicitly.
+</p>
+<p>
+We register the "<code>create_terminal_events</code>"-function as a handler for "<code>READ</code>"-events on standard input. This handler will convert low-level input events into high-level input events.
+</p>
+<p>
+To call (all) registered handlers to preprocess events we call the "<code>handle_events</code>"-function. Like "<code>get_events</code>" this function does not need IO-access rights, too. It can manipulate the "IO"-object and remove or add events.
+</p>
+<p>
+On the same input we will now receive:
+</p>
+<pre>
+events:
+  list
+    tuple
+      std::KEY_PRESS
+      &lt;file_descriptor 0>
+      std::HOME
+    tuple
+      std::KEY_PRESS
+      &lt;file_descriptor 0>
+      std::CTRL_J
+</pre>
+<p>
+(The ENTER-key cannot be distinguished from the CTRL-J-key.)
+</p>
+<h1 class="part">Part 3: The Libraries</h1>
+<h1><a name="glossary">Glossary</a></h1>
+<dl>
+<dt>Argument</dt>
+<dd>
+
+arguments are passed from the caller to the callee
+</dd>
+<dt>Attribute</dt>
+<dd>
+
+an object's slot that contains a value
+</dd>
+<dt>Callee</dt>
+<dd>
+
+the called function in a function call
+</dd>
+<dt>Caller</dt>
+<dd>
+
+the calling function in a function call
+</dd>
+<dt>Constant Expression</dt>
+<dd>
+
+an expression that will always return the same (constant) value
+</dd>
+<dt>Definition</dt>
+<dd>
+
+a variable is defined and initialized
+</dd>
+<dt>Destination</dt>
+<dd>
+
+where the caller stores the results returned from the callee
+</dd>
+<dt>Environment</dt>
+<dd>
+
+a table that stores all variables
+</dd>
+<dt>Functor</dt>
+<dd>
+
+an object that stores a function definition
+</dd>
+<dt>Inline Expression</dt>
+<dd>
+
+an expression that fits completely on a single line
+</dd>
+<dt>Literal</dt>
+<dd>
+
+describes a simple constant like a string but also complete functions
+</dd>
+<dt>Method</dt>
+<dd>
+
+a function stored in an object's type used to implement a polymorphic function
+</dd>
+<dt>Multi-Line Expression</dt>
+<dd>
+
+an expression that spreads over multiple lines
+</dd>
+<dt>Object</dt>
+<dd>
+
+a value with its associated type-function, attributes and methods
+</dd>
+<dt>Parameter</dt>
+<dd>
+
+where the callee stores the caller's arguments
+</dd>
+<dt>Polymorphic Function</dt>
+<dd>
+
+a function to be implemented differently for different objects
+</dd>
+<dt>Redefinition</dt>
+<dd>
+
+an existing variable is bound to another value
+</dd>
+<dt>Result</dt>
+<dd>
+
+results are passed from the callee to the caller
+</dd>
+<dt>Slot</dt>
+<dd>
+
+stores an attribute within an object
+</dd>
+<dt>Statement</dt>
+<dd>
+
+a function call or an attribute (re)definition
+</dd>
+<dt>String Interpolation</dt>
+<dd>
+looks like a literal, but is a call to the string-constructor function
+</dd>
+<dt>Top-Level</dt>
+<dd>
+
+everything that is not indented and therefor on the outermost level
+</dd>
+</dl>
+<h1><a name="named_characters"><span class="grey">Appendix A:</span> Named Characters</a></h1>
+<table>
+<tr><td>Name</td><td>Code</td><td>Glyph</td><td></td><td>Name</td><td>Code</td><td>Glyph</td><td></td><td>Name</td><td>Code</td><td>Glyph</td><td></td><td>Name</td><td>Code</td><td>Glyph</td></tr><tr><td>nul</td><td>0x0</td><td></td><td></td><td>soh</td><td>0x1</td><td></td><td></td><td>stx</td><td>0x2</td><td></td><td></td><td>etx</td><td>0x3</td><td></td></tr><tr><td>eot</td><td>0x4</td><td></td><td></td><td>enq</td><td>0x5</td><td></td><td></td><td>ack</td><td>0x6</td><td></td><td></td><td>bel</td><td>0x7</td><td></td></tr><tr><td>bs</td><td>0x8</td><td></td><td></td><td>ht</td><td>0x9</td><td></td><td></td><td>nl</td><td>0xa</td><td></td><td></td><td>vt</td><td>0xb</td><td></td></tr><tr><td>ff</td><td>0xc</td><td></td><td></td><td>cr</td><td>0xd</td><td></td><td></td><td>so</td><td>0xe</td><td></td><td></td><td>si</td><td>0xf</td><td></td></tr><tr><td>dle</td><td>0x10</td><td></td><td></td><td>dc1</td><td>0x11</td><td></td><td></td><td>xon</td><td>0x11</td><td></td><td></td><td>dc2</td><td>0x12</td><td></td></tr><tr><td>dc3</td><td>0x13</td><td></td><td></td><td>xoff</td><td>0x13</td><td></td><td></td><td>dc4</td><td>0x14</td><td></td><td></td><td>nak</td><td>0x15</td><td></td></tr><tr><td>syn</td><td>0x16</td><td></td><td></td><td>etb</td><td>0x17</td><td></td><td></td><td>can</td><td>0x18</td><td></td><td></td><td>em</td><td>0x19</td><td></td></tr><tr><td>sub</td><td>0x1a</td><td></td><td></td><td>esc</td><td>0x1b</td><td></td><td></td><td>fs</td><td>0x1c</td><td></td><td></td><td>gs</td><td>0x1d</td><td></td></tr><tr><td>rs</td><td>0x1e</td><td></td><td></td><td>us</td><td>0x1f</td><td></td><td></td><td>spc</td><td>0x20</td><td></td><td></td><td>amp</td><td>0x26</td><td>&</td></tr><tr><td>quot</td><td>0x22</td><td>"</td><td></td><td>apos</td><td>0x27</td><td>'</td><td></td><td>at</td><td>0x40</td><td>@</td><td></td><td>del</td><td>0x7f</td><td></td></tr><tr><td>csi</td><td>0x9b</td><td></td><td></td><td>nbsp</td><td>0xa0</td><td> </td><td></td><td>iexcl</td><td>0xa1</td><td>¡</td><td></td><td>cent</td><td>0xa2</td><td>¢</td></tr><tr><td>pound</td><td>0xa3</td><td>£</td><td></td><td>curren</td><td>0xa4</td><td>¤</td><td></td><td>yen</td><td>0xa5</td><td>¥</td><td></td><td>brvbar</td><td>0xa6</td><td colspan="2"></td></tr><tr><td>sect</td><td>0xa7</td><td>§</td><td></td><td>uml</td><td>0xa8</td><td>¨</td><td></td><td>copy</td><td>0xa9</td><td>©</td><td></td><td>ordf</td><td>0xaa</td><td>ª</td></tr><tr><td>laquo</td><td>0xab</td><td>«</td><td></td><td>not</td><td>0xac</td><td>¬</td><td></td><td>shy</td><td>0xad</td><td>­</td><td></td><td>reg</td><td>0xae</td><td>®</td></tr><tr><td>macr</td><td>0xaf</td><td>¯</td><td></td><td>deg</td><td>0xb0</td><td>°</td><td></td><td>plusmn</td><td>0xb1</td><td>±</td><td></td><td>sup2</td><td>0xb2</td><td>²</td></tr><tr><td>sup3</td><td>0xb3</td><td>³</td><td></td><td>acute</td><td>0xb4</td><td>´</td><td></td><td>micro</td><td>0xb5</td><td>µ</td><td></td><td>para</td><td>0xb6</td><td>¶</td></tr><tr><td>middot</td><td>0xb7</td><td>·</td><td></td><td>cedil</td><td>0xb8</td><td>¸</td><td></td><td>sup1</td><td>0xb9</td><td>¹</td><td></td><td>ordm</td><td>0xba</td><td>º</td></tr><tr><td>raquo</td><td>0xbb</td><td>»</td><td></td><td>frac14</td><td>0xbc</td><td>¼</td><td></td><td>frac12</td><td>0xbd</td><td>½</td><td></td><td>frac34</td><td>0xbe</td><td>¾</td></tr><tr><td>iquest</td><td>0xbf</td><td>¿</td><td></td><td>Agrave</td><td>0xc0</td><td>À</td><td></td><td>Aacute</td><td>0xc1</td><td>Á</td><td></td><td>Acirc</td><td>0xc2</td><td>Â</td></tr><tr><td>Atilde</td><td>0xc3</td><td>Ã</td><td></td><td>Auml</td><td>0xc4</td><td>Ä</td><td></td><td>Aring</td><td>0xc5</td><td>Å</td><td></td><td>AElig</td><td>0xc6</td><td>Æ</td></tr><tr><td>Ccedil</td><td>0xc7</td><td>Ç</td><td></td><td>Egrave</td><td>0xc8</td><td>È</td><td></td><td>Eacute</td><td>0xc9</td><td>É</td><td></td><td>Ecirc</td><td>0xca</td><td>Ê</td></tr><tr><td>Euml</td><td>0xcb</td><td>Ë</td><td></td><td>Igrave</td><td>0xcc</td><td>Ì</td><td></td><td>Iacute</td><td>0xcd</td><td>Í</td><td></td><td>Icirc</td><td>0xce</td><td>Î</td></tr><tr><td>Iuml</td><td>0xcf</td><td>Ï</td><td></td><td>ETH</td><td>0xd0</td><td>Ð</td><td></td><td>Ntilde</td><td>0xd1</td><td>Ñ</td><td></td><td>Ograve</td><td>0xd2</td><td>Ò</td></tr><tr><td>Oacute</td><td>0xd3</td><td>Ó</td><td></td><td>Ocirc</td><td>0xd4</td><td>Ô</td><td></td><td>Otilde</td><td>0xd5</td><td>Õ</td><td></td><td>Ouml</td><td>0xd6</td><td>Ö</td></tr><tr><td>times</td><td>0xd7</td><td>×</td><td></td><td>Oslash</td><td>0xd8</td><td>Ø</td><td></td><td>Ugrave</td><td>0xd9</td><td>Ù</td><td></td><td>Uacute</td><td>0xda</td><td>Ú</td></tr><tr><td>Ucirc</td><td>0xdb</td><td>Û</td><td></td><td>Uuml</td><td>0xdc</td><td>Ü</td><td></td><td>Yacute</td><td>0xdd</td><td>Ý</td><td></td><td>THORN</td><td>0xde</td><td>Þ</td></tr><tr><td>szlig</td><td>0xdf</td><td>ß</td><td></td><td>agrave</td><td>0xe0</td><td>à</td><td></td><td>aacute</td><td>0xe1</td><td>á</td><td></td><td>acirc</td><td>0xe2</td><td>â</td></tr><tr><td>atilde</td><td>0xe3</td><td>ã</td><td></td><td>auml</td><td>0xe4</td><td>ä</td><td></td><td>aring</td><td>0xe5</td><td>å</td><td></td><td>aelig</td><td>0xe6</td><td>æ</td></tr><tr><td>ccedil</td><td>0xe7</td><td>ç</td><td></td><td>egrave</td><td>0xe8</td><td>è</td><td></td><td>eacute</td><td>0xe9</td><td>é</td><td></td><td>ecirc</td><td>0xea</td><td>ê</td></tr><tr><td>euml</td><td>0xeb</td><td>ë</td><td></td><td>igrave</td><td>0xec</td><td>ì</td><td></td><td>iacute</td><td>0xed</td><td>í</td><td></td><td>icirc</td><td>0xee</td><td>î</td></tr><tr><td>iuml</td><td>0xef</td><td>ï</td><td></td><td>eth</td><td>0xf0</td><td>ð</td><td></td><td>ntilde</td><td>0xf1</td><td>ñ</td><td></td><td>ograve</td><td>0xf2</td><td>ò</td></tr><tr><td>oacute</td><td>0xf3</td><td>ó</td><td></td><td>ocirc</td><td>0xf4</td><td>ô</td><td></td><td>otilde</td><td>0xf5</td><td>õ</td><td></td><td>ouml</td><td>0xf6</td><td>ö</td></tr><tr><td>divide</td><td>0xf7</td><td>÷</td><td></td><td>oslash</td><td>0xf8</td><td>ø</td><td></td><td>ugrave</td><td>0xf9</td><td>ù</td><td></td><td>uacute</td><td>0xfa</td><td>ú</td></tr><tr><td>ucirc</td><td>0xfb</td><td>û</td><td></td><td>uuml</td><td>0xfc</td><td>ü</td><td></td><td>yacute</td><td>0xfd</td><td>ý</td><td></td><td>thorn</td><td>0xfe</td><td>þ</td></tr><tr><td>yuml</td><td>0xff</td><td>ÿ</td><td></td><td>OElig</td><td>0x152</td><td>Œ</td><td></td><td>oelig</td><td>0x153</td><td>œ</td><td></td><td>Scaron</td><td>0x160</td><td>Š</td></tr><tr><td>scaron</td><td>0x161</td><td>š</td><td></td><td>Yuml</td><td>0x178</td><td>Ÿ</td><td></td><td>fnof</td><td>0x192</td><td>ƒ</td><td></td><td>circ</td><td>0x2c6</td><td>ˆ</td></tr><tr><td>tilde</td><td>0x2dc</td><td>˜</td><td></td><td>Alpha</td><td>0x391</td><td>Α</td><td></td><td>Beta</td><td>0x392</td><td>Β</td><td></td><td>Gamma</td><td>0x393</td><td>Γ</td></tr><tr><td>Delta</td><td>0x394</td><td>Δ</td><td></td><td>Epsilon</td><td>0x395</td><td>Ε</td><td></td><td>Zeta</td><td>0x396</td><td>Ζ</td><td></td><td>Eta</td><td>0x397</td><td>Η</td></tr><tr><td>Theta</td><td>0x398</td><td>Θ</td><td></td><td>Iota</td><td>0x399</td><td>Ι</td><td></td><td>Kappa</td><td>0x39a</td><td>Κ</td><td></td><td>Lambda</td><td>0x39b</td><td>Λ</td></tr><tr><td>Mu</td><td>0x39c</td><td>Μ</td><td></td><td>Nu</td><td>0x39d</td><td>Ν</td><td></td><td>Xi</td><td>0x39e</td><td>Ξ</td><td></td><td>Omicron</td><td>0x39f</td><td>Ο</td></tr><tr><td>Pi</td><td>0x3a0</td><td>Π</td><td></td><td>Rho</td><td>0x3a1</td><td>Ρ</td><td></td><td>Sigma</td><td>0x3a3</td><td>Σ</td><td></td><td>Tau</td><td>0x3a4</td><td>Τ</td></tr><tr><td>Upsilon</td><td>0x3a5</td><td>Υ</td><td></td><td>Phi</td><td>0x3a6</td><td>Φ</td><td></td><td>Chi</td><td>0x3a7</td><td>Χ</td><td></td><td>Psi</td><td>0x3a8</td><td>Ψ</td></tr><tr><td>Omega</td><td>0x3a9</td><td>Ω</td><td></td><td>alpha</td><td>0x3b1</td><td>α</td><td></td><td>beta</td><td>0x3b2</td><td>β</td><td></td><td>gamma</td><td>0x3b3</td><td>γ</td></tr><tr><td>delta</td><td>0x3b4</td><td>δ</td><td></td><td>epsilon</td><td>0x3b5</td><td>ε</td><td></td><td>zeta</td><td>0x3b6</td><td>ζ</td><td></td><td>eta</td><td>0x3b7</td><td>η</td></tr><tr><td>theta</td><td>0x3b8</td><td>θ</td><td></td><td>iota</td><td>0x3b9</td><td>ι</td><td></td><td>kappa</td><td>0x3ba</td><td>κ</td><td></td><td>lambda</td><td>0x3bb</td><td>λ</td></tr><tr><td>mu</td><td>0x3bc</td><td>μ</td><td></td><td>nu</td><td>0x3bd</td><td>ν</td><td></td><td>xi</td><td>0x3be</td><td>ξ</td><td></td><td>omicron</td><td>0x3bf</td><td>ο</td></tr><tr><td>pi</td><td>0x3c0</td><td>π</td><td></td><td>rho</td><td>0x3c1</td><td>ρ</td><td></td><td>sigmaf</td><td>0x3c2</td><td>ς</td><td></td><td>sigma</td><td>0x3c3</td><td>σ</td></tr><tr><td>tau</td><td>0x3c4</td><td>τ</td><td></td><td>upsilon</td><td>0x3c5</td><td>υ</td><td></td><td>phi</td><td>0x3c6</td><td>φ</td><td></td><td>chi</td><td>0x3c7</td><td>χ</td></tr><tr><td>psi</td><td>0x3c8</td><td>ψ</td><td></td><td>omega</td><td>0x3c9</td><td>ω</td><td></td><td>thetasym</td><td>0x3d1</td><td>ϑ</td><td></td><td>upsih</td><td>0x3d2</td><td>ϒ</td></tr><tr><td>piv</td><td>0x3d6</td><td>ϖ</td><td></td><td>ensp</td><td>0x2002</td><td> </td><td></td><td>emsp</td><td>0x2003</td><td> </td><td></td><td>thinsp</td><td>0x2009</td><td> </td></tr><tr><td>zwnj</td><td>0x200c</td><td>‌</td><td></td><td>zwj</td><td>0x200d</td><td>‍</td><td></td><td>lrm</td><td>0x200e</td><td>‎</td><td></td><td>rlm</td><td>0x200f</td><td>‏</td></tr><tr><td>ndash</td><td>0x2013</td><td>–</td><td></td><td>mdash</td><td>0x2014</td><td>—</td><td></td><td>lsquo</td><td>0x2018</td><td>‘</td><td></td><td>rsquo</td><td>0x2019</td><td>’</td></tr><tr><td>sbquo</td><td>0x201a</td><td>‚</td><td></td><td>ldquo</td><td>0x201c</td><td>“</td><td></td><td>rdquo</td><td>0x201d</td><td>”</td><td></td><td>bdquo</td><td>0x201e</td><td>„</td></tr><tr><td>dagger</td><td>0x2020</td><td>†</td><td></td><td>Dagger</td><td>0x2021</td><td>‡</td><td></td><td>bull</td><td>0x2022</td><td>•</td><td></td><td>hellip</td><td>0x2026</td><td>…</td></tr><tr><td>permil</td><td>0x2030</td><td>‰</td><td></td><td>prime</td><td>0x2032</td><td>′</td><td></td><td>Prime</td><td>0x2033</td><td>″</td><td></td><td>lsaquo</td><td>0x2039</td><td>‹</td></tr><tr><td>rsaquo</td><td>0x203a</td><td>›</td><td></td><td>oline</td><td>0x203e</td><td>‾</td><td></td><td>euro</td><td>0x20ac</td><td>€</td><td></td><td>larr</td><td>0x2190</td><td>←</td></tr><tr><td>uarr</td><td>0x2191</td><td>↑</td><td></td><td>rarr</td><td>0x2192</td><td>→</td><td></td><td>darr</td><td>0x2193</td><td>↓</td><td></td><td>harr</td><td>0x2194</td><td>↔</td></tr><tr><td>crarr</td><td>0x21b5</td><td>↵</td><td></td><td>forall</td><td>0x2200</td><td>∀</td><td></td><td>part</td><td>0x2202</td><td>∂</td><td></td><td>exist</td><td>0x2203</td><td>∃</td></tr><tr><td>empty</td><td>0x2205</td><td>∅</td><td></td><td>nabla</td><td>0x2207</td><td>∇</td><td></td><td>isin</td><td>0x2208</td><td>∈</td><td></td><td>notin</td><td>0x2209</td><td>∉</td></tr><tr><td>ni</td><td>0x220b</td><td>∋</td><td></td><td>prod</td><td>0x220f</td><td>∏</td><td></td><td>sum</td><td>0x2211</td><td>∑</td><td></td><td>minus</td><td>0x2212</td><td>−</td></tr><tr><td>lowast</td><td>0x2217</td><td>∗</td><td></td><td>radic</td><td>0x221a</td><td>√</td><td></td><td>prop</td><td>0x221d</td><td>∝</td><td></td><td>infin</td><td>0x221e</td><td>∞</td></tr><tr><td>ang</td><td>0x2220</td><td>∠</td><td></td><td>and</td><td>0x2227</td><td>∧</td><td></td><td>or</td><td>0x2228</td><td>∨</td><td></td><td>cap</td><td>0x2229</td><td>∩</td></tr><tr><td>cup</td><td>0x222a</td><td>∪</td><td></td><td>int</td><td>0x222b</td><td>∫</td><td></td><td>there4</td><td>0x2234</td><td>∴</td><td></td><td>sim</td><td>0x223c</td><td>∼</td></tr><tr><td>cong</td><td>0x2245</td><td>≅</td><td></td><td>asymp</td><td>0x2248</td><td>≈</td><td></td><td>ne</td><td>0x2260</td><td>≠</td><td></td><td>equiv</td><td>0x2261</td><td>≡</td></tr><tr><td>le</td><td>0x2264</td><td>≤</td><td></td><td>ge</td><td>0x2265</td><td>≥</td><td></td><td>subset</td><td>0x2282</td><td>⊂</td><td></td><td>superset</td><td>0x2283</td><td>⊃</td></tr><tr><td>nsub</td><td>0x2284</td><td>⊄</td><td></td><td>sube</td><td>0x2286</td><td>⊆</td><td></td><td>supe</td><td>0x2287</td><td>⊇</td><td></td><td>oplus</td><td>0x2295</td><td>⊕</td></tr><tr><td>otimes</td><td>0x2297</td><td>⊗</td><td></td><td>perp</td><td>0x22a5</td><td>⊥</td><td></td><td>sdot</td><td>0x22c5</td><td>⋅</td><td></td><td>lceil</td><td>0x2308</td><td>⌈</td></tr><tr><td>rceil</td><td>0x2309</td><td>⌉</td><td></td><td>lfloor</td><td>0x230a</td><td>⌊</td><td></td><td>rfloor</td><td>0x230b</td><td>⌋</td><td></td><td>loz</td><td>0x25ca</td><td>◊</td></tr><tr><td>spades</td><td>0x2660</td><td>♠</td><td></td><td>clubs</td><td>0x2663</td><td>♣</td><td></td><td>hearts</td><td>0x2665</td><td>♥</td><td></td><td>diams</td><td>0x2666</td><td>♦</td></tr></table>
+</body>

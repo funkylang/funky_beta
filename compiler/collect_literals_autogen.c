@@ -103,25 +103,37 @@ enum {
 static TAB_NUM t_func_std_types__undefined___collect_literals[] = {
   1, // locals
   1, // parameters
-  LOCAL(1), // 10_41_self
+  LOCAL(1), // 10_42_self
   // -> empty_insert_order_set
   LET, 1, var_empty_insert_order_set, TAIL_CALL,
-  POS(11, 3)
+  POS(11, 3),
+  LOCAL(1)
+};
+
+static FUNCTION_INFO i_func_std_types__undefined___collect_literals = {
+  t_func_std_types__undefined___collect_literals, NULL, 1, 1,
+  {"10_42_self\000"}
 };
 
 static TAB_NUM t_func_funky_types__node___collect_literals[] = {
   1, // locals
   1, // parameters
-  LOCAL(1), // 13_38_self
+  LOCAL(1), // 13_39_self
   // -> empty_insert_order_set
   LET, 1, var_empty_insert_order_set, TAIL_CALL,
-  POS(14, 3)
+  POS(14, 3),
+  LOCAL(1)
+};
+
+static FUNCTION_INFO i_func_funky_types__node___collect_literals = {
+  t_func_funky_types__node___collect_literals, NULL, 1, 1,
+  {"13_39_self\000"}
 };
 
 static TAB_NUM t_func_funky_types__identifier_and_expression___collect_literals[] = {
   3, // locals
   1, // parameters
-  LOCAL(2), // 16_59_self
+  LOCAL(2), // 16_60_self
   // funky::expression_of(self) $result_insert_order_set
   var_funky__expression_of, 1, LOCAL(2), 1, LOCAL(1),
   // collect_literals funky::expression_of(self) $result_insert_order_set
@@ -130,13 +142,20 @@ static TAB_NUM t_func_funky_types__identifier_and_expression___collect_literals[
   LET, 1, LOCAL(3), TAIL_CALL,
   POS(17, 20),
   POS(17, 3),
-  POS(18, 3)
+  POS(18, 3),
+  LOCAL(2),
+  LOCAL(3)
+};
+
+static FUNCTION_INFO i_func_funky_types__identifier_and_expression___collect_literals = {
+  t_func_funky_types__identifier_and_expression___collect_literals, NULL, 3, 2,
+  {"16_60_self\000", "17_48_result_insert_order_set\000"}
 };
 
 static TAB_NUM t_func_funky_types__simple_expression___collect_literals[] = {
   3, // locals
   1, // parameters
-  LOCAL(2), // 20_51_self
+  LOCAL(2), // 20_52_self
   // funky::expression_of(self) $result_insert_order_set
   var_funky__expression_of, 1, LOCAL(2), 1, LOCAL(1),
   // collect_literals funky::expression_of(self) $result_insert_order_set
@@ -145,13 +164,20 @@ static TAB_NUM t_func_funky_types__simple_expression___collect_literals[] = {
   LET, 1, LOCAL(3), TAIL_CALL,
   POS(21, 20),
   POS(21, 3),
-  POS(22, 3)
+  POS(22, 3),
+  LOCAL(3),
+  LOCAL(2)
+};
+
+static FUNCTION_INFO i_func_funky_types__simple_expression___collect_literals = {
+  t_func_funky_types__simple_expression___collect_literals, NULL, 3, 2,
+  {"21_48_result_insert_order_set\000", "20_52_self\000"}
 };
 
 static TAB_NUM t_func_funky_types__statement___collect_literals[] = {
   4, // locals
   1, // parameters
-  LOCAL(2), // 24_43_self
+  LOCAL(2), // 24_44_self
   // funky::head_of(self) $result_insert_order_set
   var_funky__head_of, 1, LOCAL(2), 1, LOCAL(1),
   // collect_literals funky::head_of(self) $result_insert_order_set
@@ -169,13 +195,21 @@ static TAB_NUM t_func_funky_types__statement___collect_literals[] = {
   POS(26, 14),
   POS(26, 3),
   POS(27, 3),
-  POS(28, 3)
+  POS(28, 3),
+  LOCAL(2),
+  LOCAL(3),
+  LOCAL(4)
+};
+
+static FUNCTION_INFO i_func_funky_types__statement___collect_literals = {
+  t_func_funky_types__statement___collect_literals, NULL, 6, 3,
+  {"24_44_self\000", "25_42_result_insert_order_set\000", "26_41_arguments_result_insert_order_set\000"}
 };
 
 static TAB_NUM t_func_funky_types__inline_statement___collect_literals[] = {
   4, // locals
   1, // parameters
-  LOCAL(2), // 30_50_self
+  LOCAL(2), // 30_51_self
   // funky::head_of(self) $result_insert_order_set
   var_funky__head_of, 1, LOCAL(2), 1, LOCAL(1),
   // collect_literals funky::head_of(self) $result_insert_order_set
@@ -193,13 +227,21 @@ static TAB_NUM t_func_funky_types__inline_statement___collect_literals[] = {
   POS(32, 20),
   POS(32, 3),
   POS(33, 3),
-  POS(34, 3)
+  POS(34, 3),
+  LOCAL(2),
+  LOCAL(3),
+  LOCAL(4)
+};
+
+static FUNCTION_INFO i_func_funky_types__inline_statement___collect_literals = {
+  t_func_funky_types__inline_statement___collect_literals, NULL, 6, 3,
+  {"30_51_self\000", "31_42_result_insert_order_set\000", "32_47_arguments_result_insert_order_set\000"}
 };
 
 static TAB_NUM t_func_funky_types__pair___collect_literals[] = {
   3, // locals
   1, // parameters
-  LOCAL(2), // 36_38_self
+  LOCAL(2), // 36_39_self
   // funky::argument_of(self) $result_insert_order_set
   var_funky__argument_of, 1, LOCAL(2), 1, LOCAL(1),
   // collect_literals funky::argument_of(self) $result_insert_order_set
@@ -208,13 +250,20 @@ static TAB_NUM t_func_funky_types__pair___collect_literals[] = {
   LET, 1, LOCAL(3), TAIL_CALL,
   POS(37, 20),
   POS(37, 3),
-  POS(38, 3)
+  POS(38, 3),
+  LOCAL(2),
+  LOCAL(3)
+};
+
+static FUNCTION_INFO i_func_funky_types__pair___collect_literals = {
+  t_func_funky_types__pair___collect_literals, NULL, 3, 2,
+  {"36_39_self\000", "37_46_result_insert_order_set\000"}
 };
 
 static TAB_NUM t_func_funky_types__functor___collect_literals[] = {
   3, // locals
   1, // parameters
-  LOCAL(2), // 40_41_self
+  LOCAL(2), // 40_42_self
   // funky::extensions_of(self) $result_insert_order_set collect_literals merge empty_insert_order_set
   var_funky__extensions_of, 1, LOCAL(2), 1, LOCAL(1),
   // map_reduce funky::extensions_of(self) $result_insert_order_set collect_literals merge empty_insert_order_set
@@ -223,13 +272,20 @@ static TAB_NUM t_func_funky_types__functor___collect_literals[] = {
   LET, 1, LOCAL(3), TAIL_CALL,
   POS(41, 14),
   POS(41, 3),
-  POS(42, 3)
+  POS(42, 3),
+  LOCAL(2),
+  LOCAL(3)
+};
+
+static FUNCTION_INFO i_func_funky_types__functor___collect_literals = {
+  t_func_funky_types__functor___collect_literals, NULL, 3, 2,
+  {"40_42_self\000", "41_42_result_insert_order_set\000"}
 };
 
 static TAB_NUM t_func_funky_types__function_call_extension___collect_literals[] = {
   4, // locals
   1, // parameters
-  LOCAL(2), // 44_57_self
+  LOCAL(2), // 44_58_self
   // funky::call_of(self) $result_insert_order_set
   var_funky__call_of, 1, LOCAL(2), 1, LOCAL(1),
   // collect_literals funky::call_of(self) $result_insert_order_set
@@ -247,13 +303,21 @@ static TAB_NUM t_func_funky_types__function_call_extension___collect_literals[] 
   POS(46, 14),
   POS(46, 3),
   POS(47, 3),
-  POS(48, 3)
+  POS(48, 3),
+  LOCAL(2),
+  LOCAL(3),
+  LOCAL(4)
+};
+
+static FUNCTION_INFO i_func_funky_types__function_call_extension___collect_literals = {
+  t_func_funky_types__function_call_extension___collect_literals, NULL, 6, 3,
+  {"44_58_self\000", "45_42_result_insert_order_set\000", "46_42_extensions_result_insert_order_set\000"}
 };
 
 static TAB_NUM t_func_funky_types__attribute_access_extension___collect_literals[] = {
   4, // locals
   1, // parameters
-  LOCAL(2), // 50_60_self
+  LOCAL(2), // 50_61_self
   // funky::access_of(self) $result_insert_order_set
   var_funky__access_of, 1, LOCAL(2), 1, LOCAL(1),
   // collect_literals funky::access_of(self) $result_insert_order_set
@@ -271,13 +335,21 @@ static TAB_NUM t_func_funky_types__attribute_access_extension___collect_literals
   POS(52, 14),
   POS(52, 3),
   POS(53, 3),
-  POS(54, 3)
+  POS(54, 3),
+  LOCAL(2),
+  LOCAL(4),
+  LOCAL(3)
+};
+
+static FUNCTION_INFO i_func_funky_types__attribute_access_extension___collect_literals = {
+  t_func_funky_types__attribute_access_extension___collect_literals, NULL, 6, 3,
+  {"50_61_self\000", "52_42_extensions_result_insert_order_set\000", "51_44_result_insert_order_set\000"}
 };
 
 static TAB_NUM t_func_funky_types__inline_function_call_extension___collect_literals[] = {
   4, // locals
   1, // parameters
-  LOCAL(2), // 56_64_self
+  LOCAL(2), // 56_65_self
   // funky::call_of(self) $result_insert_order_set
   var_funky__call_of, 1, LOCAL(2), 1, LOCAL(1),
   // collect_literals funky::call_of(self) $result_insert_order_set
@@ -295,13 +367,21 @@ static TAB_NUM t_func_funky_types__inline_function_call_extension___collect_lite
   POS(58, 14),
   POS(58, 3),
   POS(59, 3),
-  POS(60, 3)
+  POS(60, 3),
+  LOCAL(4),
+  LOCAL(3),
+  LOCAL(2)
+};
+
+static FUNCTION_INFO i_func_funky_types__inline_function_call_extension___collect_literals = {
+  t_func_funky_types__inline_function_call_extension___collect_literals, NULL, 6, 3,
+  {"58_42_extensions_result_insert_order_set\000", "57_42_result_insert_order_set\000", "56_65_self\000"}
 };
 
 static TAB_NUM t_func_funky_types__inline_attribute_access_extension___collect_literals[] = {
   4, // locals
   1, // parameters
-  LOCAL(2), // 62_67_self
+  LOCAL(2), // 62_68_self
   // funky::access_of(self) $result_insert_order_set
   var_funky__access_of, 1, LOCAL(2), 1, LOCAL(1),
   // collect_literals funky::access_of(self) $result_insert_order_set
@@ -319,13 +399,21 @@ static TAB_NUM t_func_funky_types__inline_attribute_access_extension___collect_l
   POS(64, 14),
   POS(64, 3),
   POS(65, 3),
-  POS(66, 3)
+  POS(66, 3),
+  LOCAL(4),
+  LOCAL(3),
+  LOCAL(2)
+};
+
+static FUNCTION_INFO i_func_funky_types__inline_attribute_access_extension___collect_literals = {
+  t_func_funky_types__inline_attribute_access_extension___collect_literals, NULL, 6, 3,
+  {"64_42_extensions_result_insert_order_set\000", "63_44_result_insert_order_set\000", "62_68_self\000"}
 };
 
 static TAB_NUM t_func_funky_types__function_call___collect_literals[] = {
   3, // locals
   1, // parameters
-  LOCAL(2), // 68_47_self
+  LOCAL(2), // 68_48_self
   // funky::arguments_of(self) $result_insert_order_set collect_literals merge empty_insert_order_set
   var_funky__arguments_of, 1, LOCAL(2), 1, LOCAL(1),
   // map_reduce funky::arguments_of(self) $result_insert_order_set collect_literals merge empty_insert_order_set
@@ -334,13 +422,20 @@ static TAB_NUM t_func_funky_types__function_call___collect_literals[] = {
   LET, 1, LOCAL(3), TAIL_CALL,
   POS(69, 14),
   POS(69, 3),
-  POS(70, 3)
+  POS(70, 3),
+  LOCAL(2),
+  LOCAL(3)
+};
+
+static FUNCTION_INFO i_func_funky_types__function_call___collect_literals = {
+  t_func_funky_types__function_call___collect_literals, NULL, 3, 2,
+  {"68_48_self\000", "69_41_result_insert_order_set\000"}
 };
 
 static TAB_NUM t_func_funky_types__spaced_arguments___collect_literals[] = {
   3, // locals
   1, // parameters
-  LOCAL(2), // 72_50_self
+  LOCAL(2), // 72_51_self
   // funky::arguments_of(self) $result_insert_order_set
   var_funky__arguments_of, 1, LOCAL(2), 1, LOCAL(1),
   // collect_literals funky::arguments_of(self) $result_insert_order_set
@@ -349,13 +444,20 @@ static TAB_NUM t_func_funky_types__spaced_arguments___collect_literals[] = {
   LET, 1, LOCAL(3), TAIL_CALL,
   POS(73, 20),
   POS(73, 3),
-  POS(74, 3)
+  POS(74, 3),
+  LOCAL(2),
+  LOCAL(3)
+};
+
+static FUNCTION_INFO i_func_funky_types__spaced_arguments___collect_literals = {
+  t_func_funky_types__spaced_arguments___collect_literals, NULL, 3, 2,
+  {"72_51_self\000", "73_47_result_insert_order_set\000"}
 };
 
 static TAB_NUM t_func_funky_types__spaced_statement_arguments___collect_literals[] = {
   3, // locals
   1, // parameters
-  LOCAL(2), // 76_60_self
+  LOCAL(2), // 76_61_self
   // funky::arguments_of(self) $result_insert_order_set
   var_funky__arguments_of, 1, LOCAL(2), 1, LOCAL(1),
   // collect_literals funky::arguments_of(self) $result_insert_order_set
@@ -364,13 +466,20 @@ static TAB_NUM t_func_funky_types__spaced_statement_arguments___collect_literals
   LET, 1, LOCAL(3), TAIL_CALL,
   POS(77, 20),
   POS(77, 3),
-  POS(78, 3)
+  POS(78, 3),
+  LOCAL(2),
+  LOCAL(3)
+};
+
+static FUNCTION_INFO i_func_funky_types__spaced_statement_arguments___collect_literals = {
+  t_func_funky_types__spaced_statement_arguments___collect_literals, NULL, 3, 2,
+  {"76_61_self\000", "77_47_result_insert_order_set\000"}
 };
 
 static TAB_NUM t_func_funky_types__arguments___collect_literals[] = {
   4, // locals
   1, // parameters
-  LOCAL(2), // 80_43_self
+  LOCAL(2), // 80_44_self
   // funky::argument_of(self) $result_insert_order_set
   var_funky__argument_of, 1, LOCAL(2), 1, LOCAL(1),
   // collect_literals funky::argument_of(self) $result_insert_order_set
@@ -388,13 +497,21 @@ static TAB_NUM t_func_funky_types__arguments___collect_literals[] = {
   POS(82, 14),
   POS(82, 3),
   POS(83, 3),
-  POS(84, 3)
+  POS(84, 3),
+  LOCAL(3),
+  LOCAL(2),
+  LOCAL(4)
+};
+
+static FUNCTION_INFO i_func_funky_types__arguments___collect_literals = {
+  t_func_funky_types__arguments___collect_literals, NULL, 6, 3,
+  {"81_46_result_insert_order_set\000", "80_44_self\000", "82_41_arguments_result_insert_order_set\000"}
 };
 
 static TAB_NUM t_func_funky_types__even_more_statement_arguments___collect_literals[] = {
   4, // locals
   1, // parameters
-  LOCAL(2), // 86_63_self
+  LOCAL(2), // 86_64_self
   // funky::argument_of(self) $result_insert_order_set
   var_funky__argument_of, 1, LOCAL(2), 1, LOCAL(1),
   // collect_literals funky::argument_of(self) $result_insert_order_set
@@ -412,13 +529,21 @@ static TAB_NUM t_func_funky_types__even_more_statement_arguments___collect_liter
   POS(88, 14),
   POS(88, 3),
   POS(89, 3),
-  POS(90, 3)
+  POS(90, 3),
+  LOCAL(3),
+  LOCAL(2),
+  LOCAL(4)
+};
+
+static FUNCTION_INFO i_func_funky_types__even_more_statement_arguments___collect_literals = {
+  t_func_funky_types__even_more_statement_arguments___collect_literals, NULL, 6, 3,
+  {"87_46_result_insert_order_set\000", "86_64_self\000", "88_41_arguments_result_insert_order_set\000"}
 };
 
 static TAB_NUM t_func_funky_types__remark_and_multiline_function_call___collect_literals[] = {
   3, // locals
   1, // parameters
-  LOCAL(2), // 92_68_self
+  LOCAL(2), // 92_69_self
   // funky::arguments_of(self) $result_insert_order_set collect_literals merge empty_insert_order_set
   var_funky__arguments_of, 1, LOCAL(2), 1, LOCAL(1),
   // map_reduce funky::arguments_of(self) $result_insert_order_set collect_literals merge empty_insert_order_set
@@ -427,13 +552,20 @@ static TAB_NUM t_func_funky_types__remark_and_multiline_function_call___collect_
   LET, 1, LOCAL(3), TAIL_CALL,
   POS(93, 14),
   POS(93, 3),
-  POS(94, 3)
+  POS(94, 3),
+  LOCAL(3),
+  LOCAL(2)
+};
+
+static FUNCTION_INFO i_func_funky_types__remark_and_multiline_function_call___collect_literals = {
+  t_func_funky_types__remark_and_multiline_function_call___collect_literals, NULL, 3, 2,
+  {"93_41_result_insert_order_set\000", "92_69_self\000"}
 };
 
 static TAB_NUM t_func_funky_types__expression___collect_literals[] = {
   4, // locals
   1, // parameters
-  LOCAL(2), // 96_44_self
+  LOCAL(2), // 96_45_self
   // funky::expression_of(self) $result_insert_order_set
   var_funky__expression_of, 1, LOCAL(2), 1, LOCAL(1),
   // collect_literals funky::expression_of(self) $result_insert_order_set
@@ -451,13 +583,21 @@ static TAB_NUM t_func_funky_types__expression___collect_literals[] = {
   POS(98, 20),
   POS(98, 3),
   POS(99, 3),
-  POS(100, 3)
+  POS(100, 3),
+  LOCAL(3),
+  LOCAL(2),
+  LOCAL(4)
+};
+
+static FUNCTION_INFO i_func_funky_types__expression___collect_literals = {
+  t_func_funky_types__expression___collect_literals, NULL, 6, 3,
+  {"97_48_result_insert_order_set\000", "96_45_self\000", "98_46_operator_result_insert_order_set\000"}
 };
 
 static TAB_NUM t_func_funky_types__parenthesed_expression___collect_literals[] = {
   4, // locals
   1, // parameters
-  LOCAL(2), // 102_56_self
+  LOCAL(2), // 102_57_self
   // funky::expression_of(self) $result_insert_order_set
   var_funky__expression_of, 1, LOCAL(2), 1, LOCAL(1),
   // collect_literals funky::expression_of(self) $result_insert_order_set
@@ -475,13 +615,21 @@ static TAB_NUM t_func_funky_types__parenthesed_expression___collect_literals[] =
   POS(104, 14),
   POS(104, 3),
   POS(105, 3),
-  POS(106, 3)
+  POS(106, 3),
+  LOCAL(4),
+  LOCAL(2),
+  LOCAL(3)
+};
+
+static FUNCTION_INFO i_func_funky_types__parenthesed_expression___collect_literals = {
+  t_func_funky_types__parenthesed_expression___collect_literals, NULL, 6, 3,
+  {"104_37_calls_result_insert_order_set\000", "102_57_self\000", "103_48_result_insert_order_set\000"}
 };
 
 static TAB_NUM t_func_funky_types__multiline_minus___collect_literals[] = {
   3, // locals
   1, // parameters
-  LOCAL(2), // 108_49_self
+  LOCAL(2), // 108_50_self
   // funky::arguments_of(self) $result_insert_order_set collect_literals merge empty_insert_order_set
   var_funky__arguments_of, 1, LOCAL(2), 1, LOCAL(1),
   // map_reduce funky::arguments_of(self) $result_insert_order_set collect_literals merge empty_insert_order_set
@@ -490,13 +638,20 @@ static TAB_NUM t_func_funky_types__multiline_minus___collect_literals[] = {
   LET, 1, LOCAL(3), TAIL_CALL,
   POS(109, 14),
   POS(109, 3),
-  POS(110, 3)
+  POS(110, 3),
+  LOCAL(2),
+  LOCAL(3)
+};
+
+static FUNCTION_INFO i_func_funky_types__multiline_minus___collect_literals = {
+  t_func_funky_types__multiline_minus___collect_literals, NULL, 3, 2,
+  {"108_50_self\000", "109_41_result_insert_order_set\000"}
 };
 
 static TAB_NUM t_func_funky_types__expression_and_inline_arguments___collect_literals[] = {
   4, // locals
   1, // parameters
-  LOCAL(2), // 112_65_self
+  LOCAL(2), // 112_66_self
   // funky::expression_of(self) $result_insert_order_set
   var_funky__expression_of, 1, LOCAL(2), 1, LOCAL(1),
   // collect_literals funky::expression_of(self) $result_insert_order_set
@@ -514,13 +669,21 @@ static TAB_NUM t_func_funky_types__expression_and_inline_arguments___collect_lit
   POS(114, 20),
   POS(114, 3),
   POS(115, 3),
-  POS(116, 3)
+  POS(116, 3),
+  LOCAL(3),
+  LOCAL(2),
+  LOCAL(4)
+};
+
+static FUNCTION_INFO i_func_funky_types__expression_and_inline_arguments___collect_literals = {
+  t_func_funky_types__expression_and_inline_arguments___collect_literals, NULL, 6, 3,
+  {"113_48_result_insert_order_set\000", "112_66_self\000", "114_47_arguments_result_insert_order_set\000"}
 };
 
 static TAB_NUM t_func_funky_types__string_literal___collect_literals[] = {
   3, // locals
   1, // parameters
-  LOCAL(2), // 118_48_self
+  LOCAL(2), // 118_49_self
   // funky::components_of(self) $result_insert_order_set collect_literals merge empty_insert_order_set
   var_funky__components_of, 1, LOCAL(2), 1, LOCAL(1),
   // map_reduce funky::components_of(self) $result_insert_order_set collect_literals merge empty_insert_order_set
@@ -529,13 +692,20 @@ static TAB_NUM t_func_funky_types__string_literal___collect_literals[] = {
   LET, 1, LOCAL(3), TAIL_CALL,
   POS(119, 14),
   POS(119, 3),
-  POS(120, 3)
+  POS(120, 3),
+  LOCAL(3),
+  LOCAL(2)
+};
+
+static FUNCTION_INFO i_func_funky_types__string_literal___collect_literals = {
+  t_func_funky_types__string_literal___collect_literals, NULL, 3, 2,
+  {"119_42_result_insert_order_set\000", "118_49_self\000"}
 };
 
 static TAB_NUM t_func_funky_types__some_string_components___collect_literals[] = {
   4, // locals
   1, // parameters
-  LOCAL(2), // 122_56_self
+  LOCAL(2), // 122_57_self
   // funky::component_of(self) $result_insert_order_set
   var_funky__component_of, 1, LOCAL(2), 1, LOCAL(1),
   // collect_literals funky::component_of(self) $result_insert_order_set
@@ -553,13 +723,21 @@ static TAB_NUM t_func_funky_types__some_string_components___collect_literals[] =
   POS(124, 14),
   POS(124, 3),
   POS(125, 3),
-  POS(126, 3)
+  POS(126, 3),
+  LOCAL(3),
+  LOCAL(4),
+  LOCAL(2)
+};
+
+static FUNCTION_INFO i_func_funky_types__some_string_components___collect_literals = {
+  t_func_funky_types__some_string_components___collect_literals, NULL, 6, 3,
+  {"123_47_result_insert_order_set\000", "124_42_components_result_insert_order_set\000", "122_57_self\000"}
 };
 
 static TAB_NUM t_func_funky_types__some_string_line_components___collect_literals[] = {
   4, // locals
   1, // parameters
-  LOCAL(2), // 128_61_self
+  LOCAL(2), // 128_62_self
   // funky::component_of(self) $result_insert_order_set
   var_funky__component_of, 1, LOCAL(2), 1, LOCAL(1),
   // collect_literals funky::component_of(self) $result_insert_order_set
@@ -577,13 +755,21 @@ static TAB_NUM t_func_funky_types__some_string_line_components___collect_literal
   POS(130, 14),
   POS(130, 3),
   POS(131, 3),
-  POS(132, 3)
+  POS(132, 3),
+  LOCAL(4),
+  LOCAL(3),
+  LOCAL(2)
+};
+
+static FUNCTION_INFO i_func_funky_types__some_string_line_components___collect_literals = {
+  t_func_funky_types__some_string_line_components___collect_literals, NULL, 6, 3,
+  {"130_42_components_result_insert_order_set\000", "129_47_result_insert_order_set\000", "128_62_self\000"}
 };
 
 static TAB_NUM t_func_funky_types__inline_body___collect_literals[] = {
   4, // locals
   1, // parameters
-  LOCAL(2), // 134_45_self
+  LOCAL(2), // 134_46_self
   // funky::parameters_of(self) $result_insert_order_set collect_literals merge empty_insert_order_set
   var_funky__parameters_of, 1, LOCAL(2), 1, LOCAL(1),
   // map_reduce funky::parameters_of(self) $result_insert_order_set collect_literals merge empty_insert_order_set
@@ -601,13 +787,21 @@ static TAB_NUM t_func_funky_types__inline_body___collect_literals[] = {
   POS(136, 20),
   POS(136, 3),
   POS(137, 3),
-  POS(138, 3)
+  POS(138, 3),
+  LOCAL(4),
+  LOCAL(2),
+  LOCAL(3)
+};
+
+static FUNCTION_INFO i_func_funky_types__inline_body___collect_literals = {
+  t_func_funky_types__inline_body___collect_literals, NULL, 6, 3,
+  {"136_47_statement_result_insert_order_set\000", "134_46_self\000", "135_42_result_insert_order_set\000"}
 };
 
 static TAB_NUM t_func_funky_types__statements___collect_literals[] = {
   3, // locals
   1, // parameters
-  LOCAL(2), // 140_44_self
+  LOCAL(2), // 140_45_self
   // funky::statement_of(self) $result_insert_order_set collect_literals merge empty_insert_order_set
   var_funky__statement_of, 1, LOCAL(2), 1, LOCAL(1),
   // map_reduce funky::statement_of(self) $result_insert_order_set collect_literals merge empty_insert_order_set
@@ -616,13 +810,20 @@ static TAB_NUM t_func_funky_types__statements___collect_literals[] = {
   LET, 1, LOCAL(3), TAIL_CALL,
   POS(141, 14),
   POS(141, 3),
-  POS(142, 3)
+  POS(142, 3),
+  LOCAL(3),
+  LOCAL(2)
+};
+
+static FUNCTION_INFO i_func_funky_types__statements___collect_literals = {
+  t_func_funky_types__statements___collect_literals, NULL, 3, 2,
+  {"141_41_result_insert_order_set\000", "140_45_self\000"}
 };
 
 static TAB_NUM t_func_funky_types__one_or_more_inline_parameters___collect_literals[] = {
   4, // locals
   1, // parameters
-  LOCAL(2), // 144_63_self
+  LOCAL(2), // 144_64_self
   // funky::parameter_of(self) $result_insert_order_set
   var_funky__parameter_of, 1, LOCAL(2), 1, LOCAL(1),
   // collect_literals funky::parameter_of(self) $result_insert_order_set
@@ -640,13 +841,21 @@ static TAB_NUM t_func_funky_types__one_or_more_inline_parameters___collect_liter
   POS(146, 20),
   POS(146, 3),
   POS(147, 3),
-  POS(148, 3)
+  POS(148, 3),
+  LOCAL(2),
+  LOCAL(3),
+  LOCAL(4)
+};
+
+static FUNCTION_INFO i_func_funky_types__one_or_more_inline_parameters___collect_literals = {
+  t_func_funky_types__one_or_more_inline_parameters___collect_literals, NULL, 6, 3,
+  {"144_64_self\000", "145_47_result_insert_order_set\000", "146_48_parameters_result_insert_order_set\000"}
 };
 
 static TAB_NUM t_func_funky_types__open_parameters___collect_literals[] = {
   3, // locals
   1, // parameters
-  LOCAL(2), // 150_49_self
+  LOCAL(2), // 150_50_self
   // funky::parameter_of(self) $result_insert_order_set collect_literals merge empty_insert_order_set
   var_funky__parameter_of, 1, LOCAL(2), 1, LOCAL(1),
   // map_reduce funky::parameter_of(self) $result_insert_order_set collect_literals merge empty_insert_order_set
@@ -655,13 +864,20 @@ static TAB_NUM t_func_funky_types__open_parameters___collect_literals[] = {
   LET, 1, LOCAL(3), TAIL_CALL,
   POS(151, 14),
   POS(151, 3),
-  POS(152, 3)
+  POS(152, 3),
+  LOCAL(3),
+  LOCAL(2)
+};
+
+static FUNCTION_INFO i_func_funky_types__open_parameters___collect_literals = {
+  t_func_funky_types__open_parameters___collect_literals, NULL, 3, 2,
+  {"151_41_result_insert_order_set\000", "150_50_self\000"}
 };
 
 static TAB_NUM t_func_funky_types__inline_parameter___collect_literals[] = {
   3, // locals
   1, // parameters
-  LOCAL(2), // 154_50_self
+  LOCAL(2), // 154_51_self
   // funky::option_of(self) $result_insert_order_set
   var_funky__option_of, 1, LOCAL(2), 1, LOCAL(1),
   // collect_literals funky::option_of(self) $result_insert_order_set
@@ -670,13 +886,20 @@ static TAB_NUM t_func_funky_types__inline_parameter___collect_literals[] = {
   LET, 1, LOCAL(3), TAIL_CALL,
   POS(155, 20),
   POS(155, 3),
-  POS(156, 3)
+  POS(156, 3),
+  LOCAL(2),
+  LOCAL(3)
+};
+
+static FUNCTION_INFO i_func_funky_types__inline_parameter___collect_literals = {
+  t_func_funky_types__inline_parameter___collect_literals, NULL, 3, 2,
+  {"154_51_self\000", "155_44_result_insert_order_set\000"}
 };
 
 static TAB_NUM t_func_funky_types__parameter___collect_literals[] = {
   3, // locals
   1, // parameters
-  LOCAL(2), // 158_43_self
+  LOCAL(2), // 158_44_self
   // funky::option_of(self) $result_insert_order_set
   var_funky__option_of, 1, LOCAL(2), 1, LOCAL(1),
   // collect_literals funky::option_of(self) $result_insert_order_set
@@ -685,13 +908,20 @@ static TAB_NUM t_func_funky_types__parameter___collect_literals[] = {
   LET, 1, LOCAL(3), TAIL_CALL,
   POS(159, 20),
   POS(159, 3),
-  POS(160, 3)
+  POS(160, 3),
+  LOCAL(3),
+  LOCAL(2)
+};
+
+static FUNCTION_INFO i_func_funky_types__parameter___collect_literals = {
+  t_func_funky_types__parameter___collect_literals, NULL, 3, 2,
+  {"159_44_result_insert_order_set\000", "158_44_self\000"}
 };
 
 static TAB_NUM t_func_funky_types__initial_value___collect_literals[] = {
   3, // locals
   1, // parameters
-  LOCAL(2), // 162_47_self
+  LOCAL(2), // 162_48_self
   // funky::operand_of(self) $result_insert_order_set
   var_funky__operand_of, 1, LOCAL(2), 1, LOCAL(1),
   // collect_literals funky::operand_of(self) $result_insert_order_set
@@ -700,42 +930,49 @@ static TAB_NUM t_func_funky_types__initial_value___collect_literals[] = {
   LET, 1, LOCAL(3), TAIL_CALL,
   POS(163, 20),
   POS(163, 3),
-  POS(164, 3)
+  POS(164, 3),
+  LOCAL(3),
+  LOCAL(2)
+};
+
+static FUNCTION_INFO i_func_funky_types__initial_value___collect_literals = {
+  t_func_funky_types__initial_value___collect_literals, NULL, 3, 2,
+  {"163_45_result_insert_order_set\000", "162_48_self\000"}
 };
 
 static FUNKY_CONSTANT constants_table[] = {
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std_types__undefined___collect_literals}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_funky_types__node___collect_literals}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_funky_types__identifier_and_expression___collect_literals}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_funky_types__simple_expression___collect_literals}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_funky_types__statement___collect_literals}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_funky_types__inline_statement___collect_literals}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_funky_types__pair___collect_literals}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_funky_types__functor___collect_literals}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_funky_types__function_call_extension___collect_literals}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_funky_types__attribute_access_extension___collect_literals}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_funky_types__inline_function_call_extension___collect_literals}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_funky_types__inline_attribute_access_extension___collect_literals}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_funky_types__function_call___collect_literals}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_funky_types__spaced_arguments___collect_literals}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_funky_types__spaced_statement_arguments___collect_literals}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_funky_types__arguments___collect_literals}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_funky_types__even_more_statement_arguments___collect_literals}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_funky_types__remark_and_multiline_function_call___collect_literals}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_funky_types__expression___collect_literals}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_funky_types__parenthesed_expression___collect_literals}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_funky_types__multiline_minus___collect_literals}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_funky_types__expression_and_inline_arguments___collect_literals}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_funky_types__string_literal___collect_literals}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_funky_types__some_string_components___collect_literals}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_funky_types__some_string_line_components___collect_literals}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_funky_types__inline_body___collect_literals}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_funky_types__statements___collect_literals}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_funky_types__one_or_more_inline_parameters___collect_literals}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_funky_types__open_parameters___collect_literals}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_funky_types__inline_parameter___collect_literals}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_funky_types__parameter___collect_literals}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_funky_types__initial_value___collect_literals}}
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std_types__undefined___collect_literals}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_funky_types__node___collect_literals}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_funky_types__identifier_and_expression___collect_literals}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_funky_types__simple_expression___collect_literals}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_funky_types__statement___collect_literals}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_funky_types__inline_statement___collect_literals}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_funky_types__pair___collect_literals}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_funky_types__functor___collect_literals}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_funky_types__function_call_extension___collect_literals}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_funky_types__attribute_access_extension___collect_literals}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_funky_types__inline_function_call_extension___collect_literals}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_funky_types__inline_attribute_access_extension___collect_literals}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_funky_types__function_call___collect_literals}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_funky_types__spaced_arguments___collect_literals}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_funky_types__spaced_statement_arguments___collect_literals}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_funky_types__arguments___collect_literals}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_funky_types__even_more_statement_arguments___collect_literals}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_funky_types__remark_and_multiline_function_call___collect_literals}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_funky_types__expression___collect_literals}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_funky_types__parenthesed_expression___collect_literals}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_funky_types__multiline_minus___collect_literals}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_funky_types__expression_and_inline_arguments___collect_literals}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_funky_types__string_literal___collect_literals}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_funky_types__some_string_components___collect_literals}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_funky_types__some_string_line_components___collect_literals}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_funky_types__inline_body___collect_literals}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_funky_types__statements___collect_literals}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_funky_types__one_or_more_inline_parameters___collect_literals}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_funky_types__open_parameters___collect_literals}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_funky_types__inline_parameter___collect_literals}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_funky_types__parameter___collect_literals}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_funky_types__initial_value___collect_literals}}
 };
 
 static ATTRIBUTE_DEFINITION std_types__undefined__attributes[] = {
@@ -1144,7 +1381,7 @@ FUNKY_MODULE module__collect_literals_autogen = {
   "collect_literals_autogen.fky", // module filename
   .major_version = 0,
   .minor_version = 0,
-  .feature_flags = FEAT_POSITIONS,
+  .feature_flags = FEAT_POSITIONS|FEAT_FUNCTION_INFO,
   .marker = 0,
   0, // number of required modules
   0, // number of defined namespaces

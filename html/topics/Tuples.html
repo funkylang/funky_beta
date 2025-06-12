@@ -1,3 +1,4 @@
+<!doctype html>
 <html>
 <head>
 <title>Tuples</title>
@@ -8,6 +9,24 @@
 <a class="Button" href="../index.html">Home</a> <a class="Button" href="../manual.html">Manual</a> <a class="Button" href="index.html">Topics</a> <a class="Button" href="../symbols/type_index.html">Types</a> <a class="Button" href="../symbols/function_index.html">Functions</a> <a class="Button" href="../symbols/objects_index.html">Objects</a> <a class="Button" href="../symbols/constants_index.html">Constants</a> <a class="Button" href="../symbols/index.html">All</a>
 </div>
 <h1>Tuples</h1>
+<h2>Description</h2>
+<p>In Funky tuples are <em>not</em> used to return multiple values from a function because this is a builtin feature of Funky.</p>
+<p>Instead tuples are used to represent small "records" of data.</p>
+<p>To create a tuple the tuple "constructor" is called with values for the tuple's fields:</p>
+<p>$my_rec <a href="../symbols/std__tuple.html">std::tuple</a>(value_1, value_2, ..., value_n)</p>
+<p>To retrieve a tuple's fields one "destructs" the tuple like this:</p>
+<p>my_rec $field_1 $field_2 ... $field_n</p>
+<p>Tuples might be removed from the standard library in the future and the functionality be merged with lists.</p>
+<p>An object derived from <a href="../symbols/std_types__object.html">std_types::object</a> can be used to create a record with named fields.</p>
+<h2>Related topics</h2>
+<table>
+<tr>
+  <td><a href="Lists.html">Lists</a></td>
+</tr>
+<tr>
+  <td><a href="Objects.html">Objects</a></td>
+</tr>
+</table>
 <h2>Types</h2>
 <table>
 <tr>
@@ -38,12 +57,24 @@
   <td class="description">creates a key-value-pair</td>
 </tr>
 <tr>
+  <td><a href="../symbols/std__new_tuple.html">std::new_tuple</a></td>
+  <td class="description">constructs a tuple with specified type and fields</td>
+</tr>
+<tr>
   <td><a href="../symbols/std__second.html">std::second</a></td>
   <td class="description">returns the second element of a tuple</td>
 </tr>
 <tr>
   <td><a href="../symbols/std__third.html">std::third</a></td>
   <td class="description">returns the third element of a tuple</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__tuple.html">std::tuple</a></td>
+  <td class="description">constructs a tuple from the specified arguments</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__tuple_or_error.html">std::tuple_or_error</a></td>
+  <td class="description">constructs a tuple from the specified arguments</td>
 </tr>
 <tr>
   <td><a href="../symbols/std__value_range.html">std::value_range</a></td>

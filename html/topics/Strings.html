@@ -1,3 +1,4 @@
+<!doctype html>
 <html>
 <head>
 <title>Strings</title>
@@ -10,11 +11,25 @@
 <h1>Strings</h1>
 <h2>Description</h2>
 <p>Strings consist of zero or more characters.</p>
-<p>A character is a tagged unsigned 32-bit integer.</p>
-<p>They usually store uni-code code points.</p>
-<p>The subtype <a href="../symbols/std_types__octet_string.html">std_types::octet_string</a> of <a href="../symbols/std_types__string.html">std_types::string</a> is used for binary data, often for storing utf8 encoded strings.</p>
-<p>The most efficient string operation is <a href="../symbols/std__push.html">std::push</a> which adds a character to the end of the string. Appending two or more strings is also done in an efficient way.</p>
-<p>Reading a character at any position is also efficient.</p>
+<p>A character is a tagged unsigned 32-bit integer which can be used to represent a unicode code point. But they can also be used for representing other things like 24-bit colour codes.</p>
+<p>Strings are tagged lists of characters. The characters in a list can be accessed in a left to right manner using one based indices.</p>
+<p>They can also be accessed right to left if the indices are negative numbers.</p>
+<h2>Example</h2>
+<div class="Example">$str "abc"
+<a href="../symbols/std__println.html">println</a>! str(1) # prints "a"
+<a href="../symbols/std__println.html">println</a>! str(-1) # prints "c"
+</div>
+<p>The subtype <a href="../symbols/std_types__octet_string.html">std_types::octet_string</a> of <a href="../symbols/std_types__string.html">std_types::string</a> is used for binary data or storing utf8 encoded strings.</p>
+<p>In an <i>octet string</i> each character is encoded with only 8 bits.</p>
+<p><i>Octet strings</i> are generated automatically if a string contains only 8-bit characters.</p>
+<p>Accessing a single character of a string using indexing is an O(1) operation.</p>
+<p>Strings, as everything else in Funky, are immutable. So "changing" a string in some way always results in a new string being created.</p>
+<p>This new string can use "structure sharing" with the original string to avoid unnecessary copying of data.</p>
+<p>Adding a character at the end of a string (<a href="../symbols/std__push.html">std::push</a>) is an accumulated O(1) operation if applied multiple times to the same string.</p>
+<p>Changing a single character in a string <i>can</i> be implemented as an accumulated O(1) operation if applied multiple times to the same string.</p>
+<p>The <a href="../symbols/std__append.html">std::append</a> method also tries to use structure sharing to avoid unnecessary copying of data.</p>
+<p>It's more efficient to append multiple strings in one go than to append them one by one.</p>
+<p>A string <i>range</i> is a substring of a string and is usually implementing using structure sharing. Creating a string range using <a href="../symbols/std__range.html">std::range</a> is an O(1) operation.</p>
 <p>The most basic string operations are builtin.</p>
 <p>Strings have a lot in common with <a href="../symbols/std_types__list.html">std_types::list</a>.</p>
 <h2>Related topics</h2>
@@ -31,7 +46,7 @@
 </tr>
 <tr>
   <td><a href="../symbols/std_types__line.html">std_types::line</a></td>
-  <td class="description">a tuple with two fields:</td>
+  <td class="description">a tuple with two fields (indent and text)</td>
 </tr>
 <tr>
   <td><a href="../symbols/std_types__octet_string.html">std_types::octet_string</a></td>
@@ -53,6 +68,10 @@
   <td class="description">converts a positive integer value into a string consisting of binary digits</td>
 </tr>
 <tr>
+  <td><a href="../symbols/std__character.html">std::character</a></td>
+  <td class="description">returns the character with the specified unicode codepoint</td>
+</tr>
+<tr>
   <td><a href="../symbols/std__count_occurrences.html">std::count_occurrences</a></td>
   <td class="description">returns the number of occurences of the specified expression</td>
 </tr>
@@ -65,12 +84,16 @@
   <td class="description">deletes all occurences of the specfified expressions</td>
 </tr>
 <tr>
+  <td><a href="../symbols/std__equal.html">std::equal</a></td>
+  <td class="description">compares two objects for equality</td>
+</tr>
+<tr>
   <td><a href="../symbols/std__format.html">std::format</a></td>
   <td class="description">formats its arguments using the specified template string</td>
 </tr>
 <tr>
   <td><a href="../symbols/std__from_utf8.html">std::from_utf8</a></td>
-  <td class="description">converts a string from utf-8 encoding to code points</td>
+  <td class="description">converts an UTF-8 encoded octet string into a string of code points</td>
 </tr>
 <tr>
   <td><a href="../symbols/std__has_suffix.html">std::has_suffix</a></td>
@@ -125,6 +148,10 @@
   <td class="description">concatenates the list items using the specified separator</td>
 </tr>
 <tr>
+  <td><a href="../symbols/std__less.html">std::less</a></td>
+  <td class="description">compares two objects in an object specific way</td>
+</tr>
+<tr>
   <td><a href="../symbols/std__levenshtein_distance.html">std::levenshtein_distance</a></td>
   <td class="description">computes the Levenshtein distance between two strings</td>
 </tr>
@@ -159,6 +186,10 @@
 <tr>
   <td><a href="../symbols/std__pop.html">std::pop</a></td>
   <td class="description">removes and returns the last item of a collection</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__push.html">std::push</a></td>
+  <td class="description">adds a single item at the end of a collection</td>
 </tr>
 <tr>
   <td><a href="../symbols/std__replace_all.html">std::replace_all</a></td>
@@ -271,6 +302,13 @@
 <tr>
   <td><a href="../symbols/std__wrap_words.html">std::wrap_words</a></td>
   <td class="description">wraps a string consisting of words onto multiple lines</td>
+</tr>
+</table>
+<h2>Objects</h2>
+<table>
+<tr>
+  <td><a href="../symbols/std__empty_string.html">std::empty_string</a></td>
+  <td class="description">the empty string</td>
 </tr>
 </table>
 <h2>Constants</h2>

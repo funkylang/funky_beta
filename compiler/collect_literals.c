@@ -41,19 +41,19 @@ enum {
   var_funky_types__definition, // extern
   var_identifier_of, // extern
   var_variables, // extern
-  var_42_38_value, // dynamic
+  var_42_41_value, // dynamic
   var_CONSTANT_COMPOUND, // extern
   var_INITIALIZED_COMPOUND, // extern
   var_std__sequence, // extern
   var_case, // extern
   var_funky_types__redefinition, // extern
-  var_48_46_self, // dynamic
+  var_48_47_self, // dynamic
   var_kind_of, // extern
   var_TEMPORARY, // extern
   var_std__equal, // extern
-  var_51_1_info, // dynamic
+  var_51_8_info, // dynamic
   var_is_defined, // extern
-  var_54_12_value, // dynamic
+  var_54_23_value, // dynamic
   var_if, // extern
   var_funky_types__body, // extern
   var_funky__parameters_of, // extern
@@ -66,34 +66,46 @@ enum {
 static TAB_NUM t_func_std_types__list___collect_literals[] = {
   1, // locals
   1, // parameters
-  LOCAL(1), // 29_36_self
+  LOCAL(1), // 29_37_self
   // map_reduce self collect_literals merge empty_insert_order_set
   var_map_reduce, 4, LOCAL(1), var_collect_literals, var_merge, var_empty_insert_order_set, TAIL_CALL,
-  POS(30, 3)
+  POS(30, 3),
+  LOCAL(1)
+};
+
+static FUNCTION_INFO i_func_std_types__list___collect_literals = {
+  t_func_std_types__list___collect_literals, NULL, 1, 1,
+  {"29_37_self\000"}
 };
 
 static TAB_NUM t_func_collect_literal[] = {
   2, // locals
   1, // parameters
-  LOCAL(2), // 39_19_self
+  LOCAL(2), // 39_20_self
   // insert_order_set(self)
   var_insert_order_set, 1, LOCAL(2), 1, LOCAL(1),
   // -> insert_order_set(self)
   LET, 1, LOCAL(1), TAIL_CALL,
   POS(39, 29),
-  POS(39, 26)
+  POS(39, 26),
+  LOCAL(2)
+};
+
+static FUNCTION_INFO i_func_collect_literal = {
+  t_func_collect_literal, NULL, 2, 1,
+  {"39_20_self\000"}
 };
 
 static TAB_NUM t_func_funky_types__definition___collect_literals[] = {
   4, // locals
   1, // parameters
-  LOCAL(3), // 41_44_self
+  LOCAL(3), // 41_45_self
   // identifier_of(self)) $kind $value
   var_identifier_of, 1, LOCAL(3), 1, LOCAL(1),
   // variables(identifier_of(self)) $kind $value
   var_variables, 1, LOCAL(1), 1, LOCAL(2),
   // variables(identifier_of(self)) $kind $value
-  LOCAL(2), 0, 2, LOCAL(4), var_42_38_value,
+  LOCAL(2), 0, 2, LOCAL(4), var_42_41_value,
   // CONSTANT_COMPOUND, INITIALIZED_COMPOUND
   var_std__sequence, 2, var_CONSTANT_COMPOUND, var_INITIALIZED_COMPOUND, 1, LOCAL(1),
   // case kind
@@ -102,18 +114,30 @@ static TAB_NUM t_func_funky_types__definition___collect_literals[] = {
   POS(42, 3),
   POS(42, 3),
   POS(44, 5),
-  POS(43, 3)
+  POS(43, 3),
+  LOCAL(4),
+  LOCAL(3)
+};
+
+static FUNCTION_INFO i_func_funky_types__definition___collect_literals = {
+  t_func_funky_types__definition___collect_literals, NULL, 5, 2,
+  {"42_35_kind\000", "41_45_self\000"}
 };
 
 static TAB_NUM t_lambda_1[] = {
   1, // locals
   0, // parameters
   // insert_order_set(value)
-  var_insert_order_set, 1, var_42_38_value, 1, LOCAL(1),
+  var_insert_order_set, 1, var_42_41_value, 1, LOCAL(1),
   //  insert_order_set(value)
   LET, 1, LOCAL(1), TAIL_CALL,
   POS(45, 8),
   POS(45, 7)
+};
+
+static FUNCTION_INFO i_lambda_1 = {
+  t_lambda_1, NULL, 2, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_2[] = {
@@ -124,12 +148,17 @@ static TAB_NUM t_lambda_2[] = {
   POS(46, 7)
 };
 
+static FUNCTION_INFO i_lambda_2 = {
+  t_lambda_2, NULL, 1, 0,
+  {}
+};
+
 static TAB_NUM t_func_funky_types__redefinition___collect_literals[] = {
   2, // locals
   1, // parameters
-  var_48_46_self,
+  var_48_47_self,
   // kind_of(self) == TEMPORARY:
-  var_kind_of, 1, var_48_46_self, 1, LOCAL(1),
+  var_kind_of, 1, var_48_47_self, 1, LOCAL(1),
   // kind_of(self) == TEMPORARY:
   var_std__equal, 2, LOCAL(1), var_TEMPORARY, 1, LOCAL(2),
   // if
@@ -139,15 +168,20 @@ static TAB_NUM t_func_funky_types__redefinition___collect_literals[] = {
   POS(49, 3)
 };
 
+static FUNCTION_INFO i_func_funky_types__redefinition___collect_literals = {
+  t_func_funky_types__redefinition___collect_literals, NULL, 3, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_3[] = {
   1, // locals
   0, // parameters
   // identifier_of(self))
-  var_identifier_of, 1, var_48_46_self, 1, LOCAL(1),
+  var_identifier_of, 1, var_48_47_self, 1, LOCAL(1),
   // $info variables(identifier_of(self))
-  var_variables, 1, LOCAL(1), 1, var_51_1_info,
+  var_variables, 1, LOCAL(1), 1, var_51_8_info,
   // is_defined:
-  var_is_defined, 1, var_51_1_info, 1, LOCAL(1),
+  var_is_defined, 1, var_51_8_info, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_info_is_defined, lambda_6, TAIL_CALL,
   POS(51, 23),
@@ -156,29 +190,45 @@ static TAB_NUM t_lambda_3[] = {
   POS(52, 7)
 };
 
+static FUNCTION_INFO i_lambda_3 = {
+  t_lambda_3, NULL, 4, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_info_is_defined[] = {
   2, // locals
   0, // parameters
   // info $kind $value
-  var_51_1_info, 0, 2, LOCAL(2), var_54_12_value,
+  var_51_8_info, 0, 2, LOCAL(2), var_54_23_value,
   // CONSTANT_COMPOUND, INITIALIZED_COMPOUND
   var_std__sequence, 2, var_CONSTANT_COMPOUND, var_INITIALIZED_COMPOUND, 1, LOCAL(1),
   // case kind
   var_case, 4, LOCAL(2), LOCAL(1), lambda_4, lambda_5, TAIL_CALL,
   POS(54, 11),
   POS(56, 13),
-  POS(55, 11)
+  POS(55, 11),
+  LOCAL(2)
+};
+
+static FUNCTION_INFO i_lambda_info_is_defined = {
+  t_lambda_info_is_defined, NULL, 3, 1,
+  {"54_17_kind\000"}
 };
 
 static TAB_NUM t_lambda_4[] = {
   1, // locals
   0, // parameters
   // insert_order_set(value)
-  var_insert_order_set, 1, var_54_12_value, 1, LOCAL(1),
+  var_insert_order_set, 1, var_54_23_value, 1, LOCAL(1),
   //  insert_order_set(value)
   LET, 1, LOCAL(1), TAIL_CALL,
   POS(57, 16),
   POS(57, 15)
+};
+
+static FUNCTION_INFO i_lambda_4 = {
+  t_lambda_4, NULL, 2, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_5[] = {
@@ -189,12 +239,22 @@ static TAB_NUM t_lambda_5[] = {
   POS(58, 15)
 };
 
+static FUNCTION_INFO i_lambda_5 = {
+  t_lambda_5, NULL, 1, 0,
+  {}
+};
+
 static TAB_NUM t_lambda_6[] = {
   0, // locals
   0, // parameters
   //  empty_insert_order_set
   LET, 1, var_empty_insert_order_set, TAIL_CALL,
   POS(59, 11)
+};
+
+static FUNCTION_INFO i_lambda_6 = {
+  t_lambda_6, NULL, 1, 0,
+  {}
 };
 
 static TAB_NUM t_lambda_7[] = {
@@ -205,10 +265,15 @@ static TAB_NUM t_lambda_7[] = {
   POS(60, 7)
 };
 
+static FUNCTION_INFO i_lambda_7 = {
+  t_lambda_7, NULL, 1, 0,
+  {}
+};
+
 static TAB_NUM t_func_funky_types__body___collect_literals[] = {
   5, // locals
   1, // parameters
-  LOCAL(2), // 62_38_self
+  LOCAL(2), // 62_39_self
   // funky::parameters_of(self) $result_set
   var_funky__parameters_of, 1, LOCAL(2), 1, LOCAL(1),
   // map_reduce funky::parameters_of(self) $result_set
@@ -241,23 +306,32 @@ static TAB_NUM t_func_funky_types__body___collect_literals[] = {
   POS(68, 14),
   POS(68, 3),
   POS(70, 3),
-  POS(71, 3)
+  POS(71, 3),
+  LOCAL(4),
+  LOCAL(2),
+  LOCAL(3),
+  LOCAL(5)
+};
+
+static FUNCTION_INFO i_func_funky_types__body___collect_literals = {
+  t_func_funky_types__body___collect_literals, NULL, 11, 4,
+  {"66_47_statement_result_set\000", "62_39_self\000", "63_42_result_set\000", "68_42_statements_result_set\000"}
 };
 
 static FUNKY_CONSTANT constants_table[] = {
-  {FLT_FUNCTION, 0, {.tfunc = t_func_std_types__list___collect_literals}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_collect_literal}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_funky_types__definition___collect_literals}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_1}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_2}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_funky_types__redefinition___collect_literals}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_3}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_info_is_defined}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_4}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_5}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_6}},
-  {FLT_FUNCTION, 0, {.tfunc = t_lambda_7}},
-  {FLT_FUNCTION, 0, {.tfunc = t_func_funky_types__body___collect_literals}}
+  {FLT_FUNCTION, 0, {.func_info = &i_func_std_types__list___collect_literals}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_collect_literal}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_funky_types__definition___collect_literals}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_1}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_2}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_funky_types__redefinition___collect_literals}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_3}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_info_is_defined}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_4}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_5}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_6}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_7}},
+  {FLT_FUNCTION, 0, {.func_info = &i_func_funky_types__body___collect_literals}}
 };
 
 static ATTRIBUTE_DEFINITION std_types__list__attributes[] = {
@@ -388,7 +462,7 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "42_38_value\000", NULL
+    "42_41_value\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
@@ -417,7 +491,7 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "48_46_self\000", NULL
+    "48_47_self\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
@@ -436,7 +510,7 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "51_1_info\000", NULL
+    "51_8_info\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
@@ -445,7 +519,7 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "54_12_value\000", NULL
+    "54_23_value\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 0,
@@ -484,7 +558,7 @@ FUNKY_MODULE module__collect_literals = {
   "collect_literals.fky", // module filename
   .major_version = 0,
   .minor_version = 0,
-  .feature_flags = FEAT_POSITIONS,
+  .feature_flags = FEAT_POSITIONS|FEAT_FUNCTION_INFO,
   .marker = 0,
   0, // number of required modules
   0, // number of defined namespaces

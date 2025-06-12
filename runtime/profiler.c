@@ -248,7 +248,7 @@ static NODE *from_arguments
   )
   {
     if (count <= 0) {
-      return (NODE *)&std___empty_list;
+      return (NODE *)&std__empty_list;
     }
     LIST_DATA *data = my_allocate(sizeof(LIST_DATA)+count*sizeof(NODE *));
     data->size = count;
@@ -257,7 +257,7 @@ static NODE *from_arguments
     for (i = 0; i < count; ++i) {
       data->items[i] = get_argument(frame, tab[i]);
     }
-    return create__std_types___list(0, count, data);
+    return create__std_types__list(0, count, data);
   }
 
 extern void collect_garbage(void);
@@ -301,7 +301,7 @@ static void allocate_frame_and_initialize_locals(
   {
     int i;
     for (i = 0; i < slot_count; ++i) {
-      TLS_frame->slots[i] = (NODE *)&std_types___undefined;
+      TLS_frame->slots[i] = (NODE *)&std_types__undefined;
     }
   }
 }
@@ -719,7 +719,7 @@ void profiler(void) {
 	      // if we do not have I/O-access then remove one level
 	    TLS_code = TLS_frame->code;
 	    TLS_result_count = *TLS_code;
-	    if (TLS_argument_count == 1) {
+	    if (TLS_result_count == 1) {
 	      ++TLS_code;
 	      set_argument(*TLS_code++, result);
 	      goto execute_statements;

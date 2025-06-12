@@ -54,6 +54,55 @@ $std_types::set/merge:
       next
     -> self
 
+$std_types::set/intersection:
+  #
+    returns the intersection of the two sets
+  (
+    self # the base set
+    other # the set to intersect
+  )
+  $result empty_collection_of(self)
+  for_each self
+    : (key)
+      if
+	other(key):
+	  !result(key) true
+	  next
+	next
+    -> result
+
+$std_types::set/equal:
+  # checks if the two sets are equal
+  (
+    self
+    other
+  )
+  if
+    length_of(self) != length_of(other)
+    -> false
+    :
+      for_each self
+	: (item)
+	  if
+	    other(item)
+	    next
+	    -> false
+	-> true
+
+$std_types::set/contains:
+  # checks if the set contains all items of the other set
+  (
+    self
+    other
+  )
+  for_each other
+    : (item)
+      if
+	self(item)
+	next
+	-> false
+    -> true
+
 $std_types::set/to_list:
   #
     returns a list of all elements in the set

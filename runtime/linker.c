@@ -1603,7 +1603,7 @@ static NODE *create_constant(FUNKY_CONSTANT *constant, uint8_t feature_flags) {
     case FLT_POSITIVE_INT64:
       return from_uint64(constant->value);
     case FLT_NEGATIVE_INT64:
-      return create__builtin_types___negative_integer(constant->value);
+      return create__builtin_types__negative_integer(constant->value);
     case FLT_REAL:
       return from_double(constant->real_value);
     case FLT_STRING_8:
@@ -2091,16 +2091,16 @@ static void initialize_tuples_lists_and_functions(void) {
 	  NODE *node = (current_module->constants_base)[i];
 	  switch (constant->type) {
 	    case FLT_KEY_VALUE_PAIR:
-	      node->type = std_types___key_value_pair.type;
-	      node->attributes = std_types___key_value_pair.attributes;
+	      node->type = std_types__key_value_pair.type;
+	      node->attributes = std_types__key_value_pair.attributes;
 	      break;
 	    case FLT_VALUE_RANGE:
-	      node->type = std_types___value_range.type;
-	      node->attributes = std_types___value_range.attributes;
+	      node->type = std_types__value_range.type;
+	      node->attributes = std_types__value_range.attributes;
 	      break;
 	    case FLT_SEQUENCE:
-	      node->type = std_types___sequence.type;
-	      node->attributes = std_types___sequence.attributes;
+	      node->type = std_types__sequence.type;
+	      node->attributes = std_types__sequence.attributes;
 	      break;
 	  }
 	  const int *arguments = constant->arguments;

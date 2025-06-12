@@ -1,0 +1,134 @@
+<!doctype html>
+<html>
+<head>
+<title>llama_types::model</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<div>
+<a class="Button" href="../index.html">Home</a> <a class="Button" href="../manual.html">Manual</a> <a class="Button" href="../topics/index.html">Topics</a> <a class="Button" href="type_index.html">Types</a> <a class="Button" href="function_index.html">Functions</a> <a class="Button" href="objects_index.html">Objects</a> <a class="Button" href="constants_index.html">Constants</a> <a class="Button" href="index.html">All</a>
+</div>
+<h1 class="pre">llama_types::model</h1>
+<p class="short">the prototype object for all models</p>
+<h2>Derived from</h2>
+<table>
+<tr>
+<td><a href="std_types__object.html">std_types::object</a></td>
+<td class="description">the prototype object for all regular objects</td>
+</tr>
+</table>
+<h2>Description</h2>
+<p>This object is never used directly but cloned to create a new model.</p>
+<p>The model contains a list of all <i>pieces</i> to allow for local detokenization.</p>
+<p>Tokenization on the other hand is done using complicated algorithms that depend on the model in use. Because a model was trained with exact this tokenization applied one should always rely on server-side tokenization!</p>
+<h2>Topics</h2>
+<table>
+<tr><td><a href="../topics/AI.html">AI</a></td></tr>
+</table>
+<h2>See also</h2>
+<table>
+<tr>
+  <td><a href="llama__open_model.html">llama::open_model</a></td>
+  <td class="description">opens a model</td>
+</tr>
+</table>
+<h2>Example</h2>
+<div class="Example">&lt;require basic/stdlib&gt;
+&lt;require ai/new_llama&gt;
+
+&lt;using std&gt;
+&lt;using llama&gt;
+
+$MODEL_NAME "sauerkrautlm-una-solar-instruct.Q5_K_M.gguf"
+$PROMPT "Once upon a time"
+
+$SEQ_ID 1
+<a href="llama__open_model.html">open_model</a>! $model MODEL_NAME
+<a href="llama__tokenize.html">tokenize</a>! $tokens model PROMPT
+<a href="llama__create_sequence.html">create_sequence</a>! model SEQ_ID
+<a href="llama__add_tokens.html">add_tokens</a>! model SEQ_ID <a href="std__list.html">list</a>(<a href="llama__bos_token_of.html">bos_token_of</a>(model))
+<a href="llama__add_tokens.html">add_tokens</a>! model SEQ_ID tokens
+<a href="llama__evaluate.html">evaluate</a>! model SEQ_ID
+$prefix ""
+<a href="std__print.html">print</a>! PROMPT
+<a href="std__repeat.html">repeat</a> 20:
+  <a href="llama__get_logits.html">get_logits</a>! $_seq_id $_position $logits model
+  logits(1) $best_token $_best_logit
+  <a href="llama__detokenize.html">detokenize</a> model best_token $piece &prefix
+  <a href="std__print.html">print</a>! piece
+  <a href="llama__add_token_and_evaluate.html">add_token_and_evaluate</a>! model SEQ_ID best_token
+  <a href="std__next.html">next</a>!
+<a href="std__println.html">println</a>!
+</div>
+<h2>Methods</h2>
+<table>
+<tr>
+<td><a href="llama_types__model/llama__add_token_and_evaluate.html">llama::add_token_and_evaluate</a></td>
+<td class="description">adds a token and evaluates the sequence</td>
+</tr>
+<tr>
+<td><a href="llama_types__model/llama__add_tokens.html">llama::add_tokens</a></td>
+<td class="description">adds tokens to a sequence</td>
+</tr>
+<tr>
+<td><a href="llama_types__model/llama__bos_token_of.html">llama::bos_token_of</a></td>
+<td class="description">the begin-of-sequence token</td>
+</tr>
+<tr>
+<td><a href="llama_types__model/llama__copy_sequence.html">llama::copy_sequence</a></td>
+<td class="description">copies a sequence from a model</td>
+</tr>
+<tr>
+<td><a href="llama_types__model/llama__delete_sequence.html">llama::delete_sequence</a></td>
+<td class="description">deletes the specified sequence</td>
+</tr>
+<tr>
+<td><a href="llama_types__model/llama__delete_tokens.html">llama::delete_tokens</a></td>
+<td class="description">deletes tokens from a sequence</td>
+</tr>
+<tr>
+<td><a href="llama_types__model/llama__eos_token_of.html">llama::eos_token_of</a></td>
+<td class="description">the end-of-sequence token of the model</td>
+</tr>
+<tr>
+<td><a href="llama_types__model/llama__eot_token_of.html">llama::eot_token_of</a></td>
+<td class="description">the end-of-text token of the model</td>
+</tr>
+<tr>
+<td><a href="llama_types__model/llama__evaluate.html">llama::evaluate</a></td>
+<td class="description">evaluates the specified sequence</td>
+</tr>
+<tr>
+<td><a href="llama_types__model/llama__fd_of.html">llama::fd_of</a></td>
+<td class="description">the file descriptor used</td>
+</tr>
+<tr>
+<td><a href="llama_types__model/llama__insert_tokens.html">llama::insert_tokens</a></td>
+<td class="description">inserts tokens into a sequence</td>
+</tr>
+<tr>
+<td><a href="llama_types__model/llama__nl_token_of.html">llama::nl_token_of</a></td>
+<td class="description">the newline token of the model</td>
+</tr>
+<tr>
+<td><a href="llama_types__model/llama__pad_token_of.html">llama::pad_token_of</a></td>
+<td class="description">the pad token of the model</td>
+</tr>
+<tr>
+<td><a href="llama_types__model/llama__sep_token_of.html">llama::sep_token_of</a></td>
+<td class="description">the separator token of the model</td>
+</tr>
+<tr>
+<td><a href="llama_types__model/llama__truncate_sequence.html">llama::truncate_sequence</a></td>
+<td class="description">truncates a sequence</td>
+</tr>
+<tr>
+<td><a href="llama_types__model/std__close.html">std::close</a></td>
+<td class="description">closes a model</td>
+</tr>
+</table>
+<div class="footer">(defined in <a href="../source/ai/new_llama.fky">ai/new_llama.fky</a>)</div>
+<div class="footer">(generated by Codestral-22B-v0.1-Q5_K_M.gguf)</div>
+<div class="footer">(2025-04-02 10:50:58)</div>
+</body>
+</html>

@@ -44,6 +44,8 @@ $template_screen undefined
 
 $tedi::create_html_page: (filename buf screen)
   !template_screen screen
+  without_prefix &buf "
+    <!doctype html>
   initialize_html_styles:
     $html buf.from_html
     $history list(tedi_types::history(.filename_of filename))
@@ -55,7 +57,7 @@ $tedi::create_html_page: (filename buf screen)
 $tedi::create_page_from_html: (html screen)
   !template_screen screen
   initialize_html_styles:
-    new tedi_types::html_page render_block(html 80)
+    new tedi_types::html_page render_block(html window_width)
 
 $render_blocks: (blocks width)
   filter &blocks: (item)
@@ -76,7 +78,7 @@ $render_block: (element width)
 	: (block) render_block block width
 	concatenate(empty_line)
     "h1", "h2", "h3", "h4", "h5", "h6":
-      !style header
+      set_style &style header
       render_contents contents width
     "p":
       plus &rendering_indent 2
@@ -86,7 +88,7 @@ $render_block: (element width)
     "dt":
       render_contents contents width
     "dd":
-      !style italic
+      set_style &style italic
       plus &rendering_indent 2
       render_contents contents width
     "dl":
@@ -117,12 +119,14 @@ $render_block: (element width)
 	    map
 	      table_rows: (table_row)
 		map table_row: (cell)
-		  map_reduce cell width_of max
+		  map_reduce cell width_of max 0
 	  $max_width
 	    map
 	      table_rows: (table_row)
 		map table_row: (cell)
-		  map_reduce cell width_of: (left right) -> left+1+right
+		  map_reduce cell width_of
+		    : (left right) -> left+1+right
+		    0
 	  $min_column_widths reduce_rows(min_width max)
 	  $max_column_widths reduce_rows(max_width max)
 	  $column_widths min_column_widths
@@ -154,7 +158,8 @@ $render_block: (element width)
 	  pad_right
 	    map_reduce
 	      table_rows
-	      : (row)
+	      : (row_no row)
+		set_style &style if(row_no.is_odd (-> odd) (-> even))
 		$max_height map_reduce(row height_of max)
 		adjoin
 		  create_screen(style 2 max_height)
@@ -173,21 +178,29 @@ $render_block: (element width)
 $collect_table_rows: (table_contents)
   map table_contents collect_table_cells
 
-$collect_table_cells: (row_element)
-  row_element $_tag $_attributes $cells
+$collect_table_cells: (row_no row_element)
+  row_element $_tag $row_attributes $cells
+  get_style row_attributes !style !is_preformatted !rendering_indent
   filter &cells is_an_html_element
   map cells: (cell)
     cell $_tag $attributes $contents
     get_style attributes !style !is_preformatted !rendering_indent
+    set_style &style if(row_no.is_odd (-> odd) (-> even))
     render_items contents
 
 $get_style: (attributes)
   $class attributes("class")
-  case class
+  case class $style_info !is_preformatted !rendering_indent
+    "odd" -> odd false rendering_indent
+    "even" -> even false rendering_indent
     "footer" -> footer false rendering_indent
     "description" -> italic false rendering_indent
-    "Example", "Output" -> Example true rendering_indent+2
-    -> style false rendering_indent
+    "Example" -> Example true rendering_indent+2
+    "Output" -> Output true rendering_indent+2
+    "Error_output" -> Error_output true rendering_indent+2
+    -> undefined false rendering_indent
+  update_if style_info.is_defined &style: set_style style style_info
+  -> style is_preformatted rendering_indent
 
 $render_contents: (contents width)
   if
@@ -225,7 +238,7 @@ $render_paragraph: (items width)
 	      !current_width width_of(row)
 	      next
 	    :
-	      update_if spacing > 0 &row: adjoin row space
+	      update_if spacing > 0 &row: resize row width_of(row)+1 1
 	      adjoin &row item
 	      plus &current_width spacing+item_width
 	      !is_first false
@@ -238,19 +251,28 @@ $render_paragraph: (items width)
 
 $render_items: (contents)
   $items empty_list
+  $do_adjoin false
   for_each contents
     : (idx content)
       if
 	content.is_an_html_element:
-	  append &items render_inline(content)
-	  next
+	  $html_items render_inline(content)
+	  $is_a_newline NEWLINE == html_items(1)
+	  if
+	    do_adjoin && not(is_a_newline):
+	      adjoin &items(-1) html_items(1)
+	      next
+	    :
+	      append &items html_items
+	      !do_adjoin not(is_a_newline)
+	      next
 	:
 	  if
 	    is_preformatted:
 	      split_into_lines &content
 	      for_each content
 		: (no line)
-		  replace_all &line "&gt;" = ">"
+		  replace_all &line "&lt;" = "<" "&gt;" = ">"
 		  push &items
 		    create_text_screen(style line .without_suffix. '@nl;' href)
 		  if
@@ -262,19 +284,33 @@ $render_items: (contents)
 		    next
 		    :
 		      push &items NEWLINE
+		      !do_adjoin false
 		      next
 		next
 	    :
+	      $has_leading_space content .has_prefix. ' '
+	      $has_trailing_space content .has_suffix. ' '
 	      trim &content
 	      if
-		content.is_empty
-		next
+		content.is_empty:
+		  if
+		    items.is_empty
+		    next
+		    :
+		      !do_adjoin not(has_trailing_space)
+		      next
 		:
-		  replace_all &content "&gt;" = ">"
+		  replace_all &content "&lt;" = "<" "&gt;" = ">"
 		  split &content many(WHITESPACE)
+		  update_if do_adjoin && not(has_leading_space)
+		    &items &content:
+		      adjoin &items(-1)
+			create_text_screen(style content(1) href)
+		      -> items range(content 2 -1)
 		  append &items
 		    map
 		      content: (word) create_text_screen style word href
+		  !do_adjoin not(has_trailing_space)
 		  next
     -> items
 
@@ -296,24 +332,31 @@ $render_inline: (element)
       debug::dump `tag
       debug::exit
 
-$italic undefined
-$Example undefined
-$space undefined
-$tedi::no_line undefined
-$empty_line undefined
-$header undefined
-$footer undefined
+$set_style: (style style_info)
+  style_info $draw_colour $clear_colour $text_attributes
+  update_if draw_colour.is_defined &style: set_draw_colour style draw_colour
+  update_if clear_colour.is_defined &style: set_clear_colour style clear_colour
+  update_if text_attributes.is_defined &style:
+    set_text_attributes style text_attributes
+  -> style
 
 $initialize_html_styles: (continuation)
   !style create_style(BLACK WHITE)
-  !header create_style(BLACK WHITE BOLD)
-  !footer create_style(GREY WHITE)
-  !italic create_style(BLACK WHITE ITALIC)
-  !Example create_style(BLACK '@0xffff80;')
-  !space create_text_screen(template_screen " ")
   !no_line create_screen(style window_width 0)
   !empty_line create_screen(style window_width 1)
   continuation!
+
+$tedi::no_line undefined
+$empty_line undefined
+
+$header tuple(undefined undefined BOLD)
+$footer tuple(GREY undefined)
+$odd tuple(undefined WHITE)
+$even tuple(undefined '@0xeeeeee;')
+$italic tuple(undefined undefined ITALIC)
+$Example tuple(undefined '@0xffffcc;')
+$Output tuple(undefined '@0xddffdd;')
+$Error_output tuple(undefined '@0xffdddd;')
 
 $create_style: (draw_colour clear_colour text_attributes = NORMAL)
   create_screen template_screen 0 0
@@ -378,7 +421,21 @@ $tedi_types::html_page/handle_key_press: (page io state key)
     ESCAPE:
       close &state.window_manager_of
       -> io state
+    F3:
+      if
+	do_enable_developer_mode_of(configuration_of(state)):
+	  edit_help_page io state
+	-> undefined undefined
     -> undefined undefined
+
+$edit_help_page: (io state)
+  $filename get_title(window_manager_of(state))
+  without_prefix &filename "html/"
+  without_suffix &filename ".html"
+  append "docs/" &filename ".txt"
+  close &state.window_manager_of
+  push &state.files_to_load_of tuple(filename true)
+  load_files io state
 
 $tedi_types::html_page/handle_paste_string: (_page io state _text)
   -> io state

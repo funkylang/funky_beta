@@ -841,7 +841,7 @@ FUNCTION std::integer
     overflow:
 
     create_error_message(
-      module__builtin.constants_base[unique__std___RUNTIME_ERROR-1],
+      module__builtin.constants_base[unique__std__RUNTIME_ERROR-1],
       "std::integer OVERFLOW", 0, 0, NULL);
 
     cleanup:

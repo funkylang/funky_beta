@@ -198,6 +198,8 @@ $does_match ()
 
 $std_types::object/does_match equal
 
+$std_types::undefined/does_match equal
+
 $std_types::value_range/does_match: (self expr)
   self $lower_bound $upper_bound
   -> expr >= lower_bound && expr <= upper_bound

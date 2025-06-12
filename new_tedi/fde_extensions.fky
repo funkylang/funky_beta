@@ -125,6 +125,12 @@ $PREVIOUS_IO_CALL .
   append
     range(main_menu 1 -2)
     list
+      "View" =
+	list
+	  "Right margin" = RIGHT_MARGIN
+	  "Cursor line" = CURSOR_LINE
+	  #"Plain text (F3)" = PLAIN_TEXT
+	  "Line numbers" = LINE_NUMBERS
       "Debug" =
 	list
 	  "Compile (F9)" = COMPILE
@@ -141,7 +147,7 @@ $PREVIOUS_IO_CALL .
 	  "Exit function backwards (shift-F6)" = EXIT_FUNCTION_BACKWARDS
 	  "Toggle breakpoint (F5)" = TOGGLE_BREAKPOINT
 	  "Add/remove watch (F10)" = ADD_OR_REMOVE_WATCH
-	  "Next I/O-call (F12" = NEXT_IO_CALL
+	  "Next I/O-call (F12)" = NEXT_IO_CALL
 	  "Previous I/O-call (shift-F12)" = PREVIOUS_IO_CALL
       main_menu(-1)
 
@@ -185,6 +191,9 @@ $fde::FDE .
 !default_configuration.commands_of(PREVIOUS_IO_CALL) "previous_io_call"
 !default_configuration.commands_of(SHIFT_F12) "previous_io_call"
 
+!default_configuration.commands_of(F3) "save_and_show_html"
+!default_configuration.commands_of(SHIFT_F3) "rate_as_5"
+
 !functions("compile") tuple(compile IO)
 !functions("run_program") tuple(run_program IO)
 !functions("start_or_stop_debugging") tuple(start_or_stop_debugging IO)
@@ -202,6 +211,9 @@ $fde::FDE .
 !functions("next_io_call") tuple(next_io_call IO)
 !functions("previous_io_call") tuple(previous_io_call IO)
 
+!functions("save_and_show_html") tuple(save_and_show_html IO)
+!functions("rate_as_5") tuple(rate_as_5 IO)
+
 !double_click_action context_help_or_add_or_remove_watch
 
 push &plugins symbol_plugin
@@ -211,7 +223,7 @@ push &plugins symbol_plugin
 $create_funky_page: (io state lines filename)
   $page
     prepare
-      tedi_types::text_page
+      fde_types::page
 	.lines_of lines
 	.kind_of FDE
 	.filename_of filename
@@ -251,34 +263,89 @@ $fde_context_help: (io state x y lines _info)
       $identifier get_identifier_at_xy(x y lines)
       if
 	identifier.is_defined:
-	  $used_namespaces list("std")
-	  for_each used_namespaces
-	    : (namespace)
-	      $symbol append(namespace "::" identifier)
-	      if
-		symbols(symbol).is_undefined
-		next
-		:
-		  $filename "html/symbols/@(namespace)__@(identifier).html"
-		  append
-		    root_prefix
-		    installation_prefix()
-		    "/share/funky-"
-		    package_version()
-		    "/"
-		    &filename
-		  load &io LOAD_HELP filename undefined tuple(filename undefined)
-		    # tuple(filename id): id == undefined -> open in new window
-		  -> io state
+	  if
+	    identifier .contains. "::":
+	      load_symbol identifier
 	    :
-	      show_error_message &state "
-		No help available for "@(identifier)"!
-	      -> io state
+	      $used_namespaces used_namespaces_of(lines)
+	      for_each used_namespaces
+		: (namespace)
+		  $symbol append(namespace "::" identifier)
+		  if
+		    symbols(symbol).is_undefined
+		    next
+		    :
+		      load_symbol symbol
+		:
+		  show_error_message &state "
+		    No help available for "@(identifier)"!
+		  -> io state
+
+	  $load_symbol: (symbol)
+	    replace_first &symbol "::" = "__"
+	    $filename "html/symbols/@(symbol).html"
+	    update_if_not
+	      do_enable_developer_mode_of(configuration_of(state))
+	      &filename:
+		append
+		  root_prefix
+		  installation_prefix()
+		  "/share/funky-"
+		  package_version()
+		  "/"
+		  filename
+	    load &io LOAD_HELP filename undefined tuple(filename undefined)
+	      # tuple(filename id): id == undefined -> open in new window
+	    -> io state
 	-> io state
     :
       show_error_message &state "
 	No symbol information available!
       -> io state
+
+$save_and_show_html: (io state _x _y lines info)
+  run_save_contents_job io state lines info save_html
+
+$save_html: (io state filename)
+  call &io SAVE_HTML "./generate_html_documentation" list("--update") filename
+  -> io state
+
+$SAVE_HTML .
+
+$SAVE_HTML/job_failed: (_self io state _err _data)
+  log &io "failed to generate HTML page"
+  show_error_message &state SAVE_HTML "failed to generate HTML page"
+  -> io state
+
+$SAVE_HTML/job_completed: (_self io state _data filename)
+  without_prefix &filename "docs/"
+  without_suffix &filename ".txt"
+  append "html/" &filename ".html"
+  close &state.window_manager_of
+  load &io LOAD_HELP filename undefined tuple(filename undefined)
+  -> io state
+
+$rate_as_5: (io state x y lines info)
+  $found false
+  for_each lines
+    : (idx line)
+      if
+	line.is_undefined
+	next
+	:
+	  if
+	    text_of(line) .has_prefix. "((rating":
+	      !found true
+	      !lines(idx) line(.text_of "((rating 5))")
+	      break
+	    next
+    :
+      if
+	found:
+	  save_contents &io &state x y lines info
+	  close &state.window_manager_of
+	  -> io state
+	-> io state
 
 $compile: (io state _x _y _lines _info)
   if
@@ -1277,12 +1344,15 @@ $get_identifier_at_xy: (x y lines)
       $text text_of(line)
       $indent indent_of(line)
       if
-	x <= indent || x > indent+width_of(text)
+	x <= indent || x > indent+width_of(text)+1
 	-> undefined
 	:
+	  min &x indent+width_of(text)
 	  $pos get_position(text x-indent)
 	  $chr text(pos)
-	  update_if chr == ':' &pos &chr:
+	  update_if chr == ' ' &pos &chr -> pos-1 text(pos-1)
+	  update_if chr == '!' && pos > 1 &pos &chr -> pos-1 text(pos-1)
+	  update_if chr == ':' && pos > 1 &pos &chr:
 	    if
 	      pos > 1 && text(pos-1) == ':'
 	      -> pos-2 text(pos-2)

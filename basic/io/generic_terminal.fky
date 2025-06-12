@@ -41,6 +41,9 @@ $std::set_clear_colour ()
 $std::set_text_attributes ()
 $std::add_text_attributes ()
 $std::remove_text_attributes ()
+$std::get_draw_colour ()
+$std::get_clear_colour ()
+$std::get_text_attributes ()
 
 $std::DRAW_COLOUR .
 $std::CLEAR_COLOUR .
@@ -174,6 +177,24 @@ $std_types::generic_terminal/remove_text_attributes:
   ->
     terminal
       .text_attributes_of text_attributes_of(terminal) & not(attributes)
+
+$std_types::generic_terminal/get_clear_colour:
+  (
+    terminal
+  )
+  -> clear_colour_of(terminal)
+
+$std_types::generic_terminal/get_draw_colour:
+  (
+    terminal
+  )
+  -> draw_colour_of(terminal)
+
+$std_types::generic_terminal/get_text_attributes:
+  (
+    terminal
+  )
+  -> text_attributes_of(terminal)
 
 $basic_private::draw_text ()
 $basic_private::draw_attributed_text ()

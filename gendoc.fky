@@ -1,0 +1,1461 @@
+#!/usr/bin/env fkyrun
+
+  Copyright (C) 2025 by
+  Dipl.-Ing. Michael Niederle
+
+  This program is free software; you can redistribute it and/or modify
+  it under the terms of the GNU General Public License, version 2, or
+  (at your option) version 3.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  GNU General Public License for more details.
+
+  For details of the GNU General Public License see the accompanying
+  files GPLv2.txt and GLPv3.txt or
+  http://www.gnu.org/licenses/gpl-2.0.html
+  http://www.gnu.org/licenses/gpl-3.0.html
+  or write to the
+  Free Software Foundation, Inc.,
+  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+
+<require basic/stdlib>
+<require ./ai/new_llama>
+<require ./build_symbol_metadata>
+
+<using std>
+<using llama>
+<using documentation>
+
+<allow unused>
+
+$documentation::ATTRIBUTE.to_string "an attribute"
+$documentation::BUILTIN_FUNCTION.to_string "a builtin function"
+$documentation::BUILTIN_IO_FUNCTION.to_string "a builtin I/O-function"
+$documentation::BUILTIN_IO_METHOD.to_string "a builtin I/O-method"
+$documentation::BUILTIN_OBJECT.to_string "a builtin object"
+$documentation::BUILTIN_METHOD.to_string "a builtin method"
+$documentation::BUILTIN_TYPE.to_string "a builtin type"
+$documentation::CONSTANT.to_string "a constant"
+$documentation::FUNCTION.to_string "a function"
+$documentation::IO_FUNCTION.to_string "an I/O-function"
+$documentation::IO_METHOD.to_string "an I/O-method"
+$documentation::METHOD.to_string "a method"
+$documentation::OBJECT.to_string "an object"
+$documentation::POLYMORPHIC_FUNCTION.to_string "a polymorphic function"
+$documentation::TYPE.to_string "a type"
+$documentation::UNIQUE_ITEM.to_string "a unique item"
+
+$TYPE_FUNCTION .
+
+$documentation::kind_of_definition
+  hash_table
+    "TYPE" = BUILTIN_TYPE
+    "FUNCTION" = FUNCTION
+    "METHOD" = METHOD
+    "OBJECT" = OBJECT
+    "UNIQUE" = UNIQUE_ITEM
+    "POLY" = POLYMORPHIC_FUNCTION
+    "ATTR" = POLYMORPHIC_FUNCTION
+
+$prompt_of ()
+$topics_of ()
+
+$group_no_of ()
+$is_a_space_token_of ()
+$space_tokens_of ()
+
+$proto_info tuple(undefined undefined undefined undefined)
+$proto_info.prompt_of undefined
+$proto_info.topics_of undefined
+
+$std_types::line.group_no_of undefined
+
+$documentation::LOCAL_DEFINITION
+  '$', capture(FUNKY_IDENTIFIER)
+
+$documentation::GLOBAL_DEFINITION
+  '$', capture(FUNKY_IDENTIFIER), "::", capture(FUNKY_IDENTIFIER)
+
+#$modelname "Qwen3-235B-A22B-Q4_K_M-00001-of-00003.gguf"
+$modelname "Qwen_Qwen3-30B-A3B-Q4_K_M.gguf"
+#$modelname "Codestral-22B-v0.1-Q5_K_M.gguf"
+#$modelname "DeepSeek-Coder-V2-Instruct.Q4_K_M.gguf"
+#$modelname "gemma-2-27b-it-Q5_K_M.gguf"
+#$modelname "fusionnet_34bx2_moe.Q2_K.gguf"
+#$modelname "DeepSeek-Coder-V2-Instruct.Q4_K_M.gguf"
+#$modelname "deepseek-coder-33b-instruct.Q5_K_M.gguf"
+#$modelname "DeepSeek-Coder-V2-Lite-Instruct-Q5_K_M.gguf"
+#$modelname "DeepSeek-Coder-V2-Instruct-Q3_K_L-00001-of-00004.gguf"
+#$modelname "Codestral-22B-v0.1-Q8_0.gguf"
+#$modelname "Codestral-22B-v0.1-Q5_K_M.gguf"
+#$modelname "wizardlm-1.0-uncensored-codellama-34b.Q4_K_S.gguf"
+#$modelname "Mixtral-8x22B-v0.1.Q5_K_M-00001-of-00005.gguf"
+#$modelname "mixtral-8x7b-v0.1.Q3_K_M.gguf"
+#$modelname "sauerkrautlm-una-solar-instruct.Q5_K_M.gguf"
+#$modelname "ggml-dbrx-instruct-16x12b-iq4_xs-00001-of-00002.gguf"
+#$modelname "codellama-70b-instruct.Q5_K_M.gguf"
+#$modelname "dolphin-2.9-llama3-70b-Q5_K_M.gguf"
+
+$minimum_confidence 15
+
+$current_filename undefined
+$current_groups undefined
+$current_prompt undefined
+$current_topics undefined
+
+$all_definitions empty_list
+$all_topics empty_list
+$topics_table undefined
+$polymorphic_functions undefined
+
+build_metadata! $all_symbols libraries
+
+for_each put(libraries "runtime_templates")
+  : (library)
+    collect_all_definitions! !all_definitions !all_topics library
+    next!
+  :
+    eprintln! "total:  @(length_of(all_definitions)) symbols"
+    eprintln! "total:  @(length_of(all_topics)) topics"
+    !topics_table create_topics_table()
+    !polymorphic_functions extract_polymorphic_functions()
+    #for_each topics_table
+      : (title info)
+	create_topic_documentation! title info
+	next!
+    do
+      :
+	create_annotated_source_files!
+
+$create_annotated_source_files:
+  $definitions_per_file empty_list
+  $current_source_filename undefined
+  do !definitions_per_file:
+    $definitions empty_list
+    for_each all_definitions
+      : (definition)
+	definition $_kind $_symbol $_base $info
+	info $_group $_module_summary $filename $_groups
+	if
+	  filename .has_prefix. "runtime_templates"
+	  next
+	  :
+	    if
+	      filename != current_source_filename:
+		if
+		  definitions.is_empty:
+		    !current_source_filename filename
+		    !definitions list(definition)
+		    next
+		  :
+		    push &definitions_per_file
+		      tuple(current_source_filename definitions)
+		    !current_source_filename filename
+		    !definitions list(definition)
+		    next
+	      :
+		push &definitions definition
+		next
+      :
+	push &definitions_per_file
+	  tuple(current_source_filename definitions)
+	-> definitions_per_file
+
+  # collect template modules
+  $template_modules empty_list
+  for_each definitions_per_file !template_modules
+    : (filename_and_definitions)
+      filename_and_definitions $module_filename $definitions
+      $module_name between(module_filename '/' '.' -1)
+
+      $prompt ""
+      $template_kinds empty_hash_set
+      for_each definitions !prompt !template_kinds
+	: (definition)
+	  resolve_definition &definition
+	  if
+	    definition.is_defined:
+	      definition $kind $symbol $base $info
+	      resolve_kind_and_name &kind $name symbol base
+	      info $group $module_summary $filename $groups
+	      if
+		kind.is_defined:
+		  load! $txt "docs/symbols/@(replace_all(name "::" = "__")).txt"
+		  if
+		    txt.is_acceptable:
+		      !template_kinds(kind) true
+		      update_if prompt.is_empty &prompt:
+			create_module_prompt module_filename definitions
+		      truncate_from &txt "(("
+		      trim &txt
+		      $title range(txt .before. '@nl;' 2 -1)
+		      behind &txt '@nl;'
+		      append &prompt "
+
+			@(group_to_string(group))
+			<annotation@(title)>
+			@(txt)
+
+			</annotation>
+		      next!
+		    next
+		next
+	    next
+	-> prompt template_kinds
+      if
+	length_of(template_kinds) > 0:
+	  push &template_modules tuple(module_name prompt template_kinds)
+	  next!
+	next
+    -> template_modules
+
+  # look for modules which need annotations
+  for_each definitions_per_file
+    : (filename_and_definitions)
+      filename_and_definitions $module_filename $definitions
+      $module_name between(module_filename '/' '.' -1)
+      $missing_kinds empty_hash_set
+      for_each definitions !missing_kinds
+	: (definition)
+	  resolve_definition &definition
+	  if
+	    definition.is_defined:
+	      definition $kind $symbol $base $info
+	      resolve_kind_and_name &kind $name symbol base
+	      info $group $module_summary $filename $groups
+	      if
+		kind.is_defined:
+		  load! $txt "docs/symbols/@(replace_all(name "::" = "__")).txt"
+		  if
+		    txt.should_be_regenerated:
+		      !missing_kinds(kind) true
+		      next!
+		    next
+		next
+	    next
+	-> missing_kinds
+      if
+	missing_kinds.is_empty
+	next
+	:
+	  $best_template_module undefined
+	  $best_kind_count 0
+	  for_each template_modules
+	    : (template_module)
+	      template_module
+		$template_module_name
+		$_prompt
+		$template_module_kinds
+	      $count
+		length_of(template_module_kinds .intersection. missing_kinds)
+	      update_if count > best_kind_count
+		&best_template_module &best_kind_count
+		-> template_module count
+	      next!
+	    :
+	      if
+		best_template_module.is_defined:
+		  best_template_module
+		    $template_module_name $prompt $template_module_kinds
+		  update_if module_name != template_module_name &prompt:
+		    # add the current module, too
+		    append &prompt "@nl;@nl;"
+		    for_each template_modules
+		      : (module)
+			module $name $module_prompt
+			if
+			  name == module_name:
+			    append prompt module_prompt
+			  next
+		      :
+			append prompt
+			  create_module_prompt(module_filename definitions)
+		  annotate_module!
+		    module_filename prompt template_module_kinds definitions
+		  terminate!
+		next
+    pass
+
+$annotate_module: (module_filename prompt template_kinds definitions)
+  eprint! "
+    annotating "@(module_filename)"
+  append INSTRUCTIONS &prompt
+  open_model! $model modelname
+  create_sequence! model 1
+  for_each definitions
+    : (definition)
+      resolve_definition &definition
+      if
+	definition.is_defined:
+	  definition $kind $symbol $base $info
+	  resolve_kind_and_name &kind $name symbol base
+	  if
+	    kind.is_defined && template_kinds(kind):
+	      info $group $module_summary $filename $groups
+	      $txt_filename
+		append
+		  "docs/symbols/"
+		  replace_all(name "::" = "__" '.' = "/")
+		  ".txt"
+	      load! $txt txt_filename
+	      if
+		txt.should_be_regenerated:
+		  # ATTENTION:
+
+		    Qwen does not produce meaningful output if a trailing
+		    newline character is added to the prompt!!!
+
+		  append &prompt
+		    "@nl;@nl;" group_to_string(group)
+		    "@nl;<annotation " name " (" kind.to_string ")>"
+		  print! prompt
+		  tokenize! $tokens model prompt
+		  add_tokens! model 1 tokens
+		  evaluate! model 1
+		  $annotation ""
+		  $prefix ""
+		  $n 0
+		  loop
+		    :
+		      get_logits! $_seq_id $_position $logits model
+		      $best_choice logits(1)
+		      best_choice $next_token $confidence
+		      inc &n
+		      if
+			n > 1000
+			debug::exit
+			:
+			  detokenize model next_token $piece &prefix
+			  print! piece
+			  append &annotation piece
+			  if
+			    annotation .contains. "</annotation>":
+			      add_tokens! model 1 list(next_token)
+			      break!
+			    :
+			      add_token_and_evaluate! model 1 next_token
+			      next!
+		    :
+		      eprint! "
+			saving "@(txt_filename)" ...
+		      current_time! $timestamp
+		      to_string &timestamp
+		      truncate_from &timestamp '.'
+		      remove_leading_newlines &annotation
+		      truncate_from &annotation "
+			</annotation>
+		      append
+			"# " name " (" kind.to_string ")@nl;@nl;"
+			&annotation
+			"
+			  ((defined in @(filename)))
+			  ((generated by @(modelname)))
+			  ((rating 0))
+			  ((@(timestamp)))
+		      save! txt_filename annotation
+		      !prompt ""
+		      next!
+		next
+	    next
+	next
+    :
+      println!
+      terminate!
+
+$create_module_prompt: (module_name definitions)
+  without_suffix &module_name ".fky"
+  $topics empty_insert_order_set
+  $exported_symbols ""
+  for_each definitions
+    : (definition)
+      resolve_definition &definition
+      if
+	definition.is_defined:
+	  definition $kind $symbol $base $info
+	  resolve_kind_and_name &kind $name symbol base
+	  if
+	    kind.is_defined:
+	      append &exported_symbols
+		"  " name " (" kind.to_string ")@nl;"
+	      for_each topics_of(info)
+		: (topic)
+		  !topics(topic) true
+		  next
+		next
+	    next
+	next
+    :
+      $prompt
+	"
+	  # Module @(module_name)
+	  @;
+      for_each topics
+	: (topic)
+	  topics_table(topic) $topic_text
+	  append &prompt "#" range(topic_text 2 -1) "@nl;"
+	  next
+	:
+	  append &prompt
+	    "
+	      # Exported Symbols
+	      @;
+	    exported_symbols
+	    "
+
+	      # Implementations
+	  for_each definitions
+	    : (definition)
+	      definition $kind $symbol $base $info
+	      symbol $name $namespace
+	      if
+		||
+		  &&
+		    kind == METHOD || kind == ATTRIBUTE
+		    second(base).is_defined
+		  namespace.is_defined
+		next
+		:
+		  info $group
+		  append &prompt "@nl;" group_to_string(group)
+		  next
+	    -> prompt
+
+$resolve_kind_and_name: (kind symbol base)
+  symbol $name $namespace
+  if
+    namespace.is_defined:
+      append namespace "::" &name
+      case kind
+	METHOD, ATTRIBUTE:
+	  base $base_name $base_namespace
+	  if
+	    base_namespace.is_defined:
+	      append base_namespace "::" &base_name
+	      $symbol_info all_symbols(base_name)
+	      $separator
+		if
+		  kind == METHOD
+		  -> "/"
+		  -> "."
+	      -> methods_of(symbol_info)(name) append(base_name separator name)
+	    -> undefined undefined
+	:
+	  $symbol_info all_symbols(name)
+	  -> kind_of(symbol_info) name
+    -> undefined undefined
+
+$is_acceptable: (txt)
+  if
+    txt.is_an_error
+    -> false
+    ->
+      ||
+	txt .contains. "((generated manually))"
+	txt .contains. "((revised))"
+	rating_of(txt) >= 5
+
+$should_be_regenerated: (txt)
+  if
+    txt.is_an_error
+    -> true
+    ->
+      ||
+	txt .contains. "((generate))"
+	txt .contains. "((rating 0))"
+
+$rating_of: (txt)
+  behind &txt "@nl;((rating "
+  if
+    txt.is_empty
+    -> 0
+    :
+      parse_number &txt $value
+      -> value
+
+$mkpath: (filename)
+  # create path components if they do not already exist
+  $path truncate_from(filename '/' -1)
+  file_exists! $does_exist path
+  on_not does_exist:
+    mkpath! path
+    mkdir! path
+
+$remove_leading_newlines: (text)
+  loop:
+    if
+      text .has_prefix. '@nl;':
+	range &text 2 -1
+	next
+      :
+	if
+	  text .has_prefix. " @nl;":
+	    range &text 3 -1
+	    next
+	  -> text
+
+$extract_polymorphic_functions:
+  !polymorphic_functions empty_hash_table
+  for_each all_definitions
+    : (definition)
+      definition $kind $symbol
+      case kind
+	POLYMORPHIC_FUNCTION:
+	  symbol $name $namespace
+	  if
+	    namespace.is_defined:
+	      $polymorphic_function
+		default_value(polymorphic_functions(name) empty_hash_set)
+	      !polymorphic_functions(name) polymorphic_function(namespace true)
+	      next
+	    next
+	next
+    -> polymorphic_functions
+
+$resolve_definition: (definition)
+  definition $kind $symbol $base $info
+  case kind
+    ATTRIBUTE, METHOD:
+      symbol $name $namespace
+      if
+	namespace.is_defined
+	-> definition
+	:
+	  $polymorphic_function polymorphic_functions(name)
+	  if
+	    polymorphic_function.is_defined:
+	      # TODO: resolve using "<using>" meta-instructions
+	      if
+		polymorphic_function("std")
+		-> tuple(kind tuple(name "std") base info)
+		:
+		  debug::dump `name
+		  -> undefined
+	    -> undefined
+    -> definition
+
+$collect_all_definitions: (library)
+  directory! $entries library
+  for_each entries
+    : (entry)
+      $name std::name_of(entry)
+      case type_of(entry)
+	DIRECTORY:
+	  if
+	    name .has_prefix. '.'
+	    next
+	    :
+	      collect_all_definitions! !all_definitions !all_topics
+		append(library "/" name)
+	      next!
+	REGULAR_FILE:
+	  !current_filename append(library "/" name)
+	  cond
+	    -> name .has_suffix. ".fky":
+	      collect_definitions! !all_definitions !all_topics
+	      next!
+	    -> name .has_suffix. ".template":
+	      collect_definitions_from_template! !all_definitions !all_topics
+	      next!
+	    -> true
+	      next
+	next
+    -> all_definitions all_topics
+
+$collect_definitions:
+  # TODO: filter local methods and attributes
+  eprintln! "adding " current_filename " ..."
+  load_groups! $groups current_filename
+  $topics filter(groups is_a_topic)
+  map &topics: (topic) tuple topic current_filename
+  append &all_topics topics
+  $definitions filter(groups is_a_symbol) # includes head line remarks
+  if
+    definitions.is_empty:
+      eprintln! " no symbols"
+      -> all_definitions all_topics
+    :
+      !current_groups groups
+      create_base_prompt !current_prompt !current_topics topics definitions
+      $new_definitions filter(map(groups classify_funky_group) is_defined)
+      eprintln! " @(length_of(new_definitions)) symbols"
+      append &all_definitions new_definitions
+      -> all_definitions all_topics
+
+$extract_declaration: (group)
+  group $_indent $text
+  if
+    text(1) == '#'
+    -> append("@nl;" text "@nl;")
+    :
+      trim &text
+      update_if text(-1) == ':' &text:
+	append range(text 1 -2) " <function>"
+      -> append("# " text "@nl;")
+
+$collect_definitions_from_template:
+  eprintln! "adding " current_filename " ..."
+  load_groups! $groups current_filename
+  $definitions filter(groups is_a_symbol_definition)
+  $topics filter(groups is_a_topic)
+  map &topics: (topic) tuple topic current_filename
+  append &all_topics topics
+  if
+    definitions.is_empty:
+      eprintln! " no symbols"
+      -> all_definitions all_topics
+    :
+      !current_groups groups
+      create_base_prompt !current_prompt !current_topics
+	topics definitions
+      $new_definitions filter(map(groups classify_template_group) is_defined)
+      eprintln! " @(length_of(new_definitions)) symbols"
+      append &all_definitions new_definitions
+      -> all_definitions all_topics
+
+$group_to_string: (group)
+  if
+    group.is_undefined
+    -> "@nl;"
+    :
+      group $indent $text
+      $subgroups subgroups_of(group)
+      $buf append(spaces(indent) text)
+      if
+	subgroups.is_undefined
+	-> buf
+	:
+	  for_each subgroups
+	    : (subgroup)
+	      if
+		subgroup.is_defined:
+		  append &buf group_to_string(subgroup)
+		  next
+		:
+		  push &buf '@nl;'
+		  next
+	    -> buf
+
+$create_topics_table:
+  !topics_table empty_hash_table
+  for_each all_topics
+    : (topic)
+      topic $group $defined_in
+      $subgroups subgroups_of(group)
+      if
+	subgroups.is_defined:
+	  $text map_reduce(subgroups group_to_string)
+	  $title between(text ':' '@nl;').trim
+	  !topics_table(title) tuple(text empty_list defined_in)
+	  next
+	next
+    -> topics_table
+
+$is_a_topic: (group)
+  if
+    group.is_undefined
+    -> false
+    :
+      group $_indent $remark
+      if
+	remark .has_prefix. '#':
+	  $subgroups subgroups_of(group)
+	  if
+	    subgroups.is_undefined:
+	      range &remark 2 -1
+	      trim &remark
+	      ->
+		||
+		  remark .has_prefix. "Topic:"
+		  remark .has_prefix. "Topics:"
+	    :
+	      $head subgroups(1)
+	      if
+		head.is_undefined
+		-> false
+		:
+		  head $_indent $text
+		  -> text .has_prefix. "Topic:" || text .has_prefix. "Topics:"
+	-> false
+
+$classify_funky_group: (group)
+  if
+    group.is_undefined
+    -> undefined
+    :
+      group $_indent $text
+      match GLOBAL_DEFINITION text $len $captured
+      if
+	len.is_defined:
+	  classify captured(1) captured(2)
+	:
+	  match LOCAL_DEFINITION text !len !captured
+	  if
+	    len.is_defined:
+	      classify undefined captured(1)
+	    -> undefined
+
+      $classify: (namespace name)
+	if
+	  namespace.is_private -> undefined
+	  :
+	    $value range(text len+1 -1)
+	    truncate_from &value '#'
+	    trim &value
+	    $kind
+	      cond
+		-> value == "()" -> POLYMORPHIC_FUNCTION
+		-> value == "(!)" -> POLYMORPHIC_FUNCTION
+		-> value == "." -> UNIQUE_ITEM
+		-> value .has_prefix. "/:" -> TYPE_FUNCTION
+		-> value .has_prefix. '/' -> METHOD
+		-> value .has_prefix. '.' -> ATTRIBUTE
+		-> value .has_prefix. ':' -> FUNCTION
+		-> value .has_prefix. '@quot;' -> CONSTANT
+		-> value .has_prefix. '@apos;' -> CONSTANT
+		-> value .has_prefix. DIGIT -> CONSTANT
+		-> true -> OBJECT
+	    $info
+	      new
+		proto_info
+		tuple(group current_prompt current_filename current_groups)
+	    !info.prompt_of current_prompt
+	    !info.topics_of current_topics
+	    $symbol tuple(name namespace)
+	    case kind
+	      METHOD, ATTRIBUTE:
+		range &value 2 -1
+		truncate_from &value ' '
+		truncate_from &value ": "
+		without_suffix &value ':'
+		if !namespace !value
+		  value .contains. "::"
+		  -> value .before. "::" value .behind. "::"
+		  -> undefined value
+		if
+		  namespace.is_defined && namespace.is_private
+		  -> undefined
+		  -> tuple(kind tuple(value namespace) symbol info)
+	      -> tuple(kind symbol undefined info)
+
+$is_private: (namespace)
+  ->
+    &&
+      namespace.is_defined
+      ||
+	namespace == "builtin_types"
+	namespace .has_prefix. "basic_"
+	namespace .has_suffix. "_private"
+
+$is_a_symbol: (group)
+  ->
+    ||
+      group.is_a_headline
+      group.is_a_local_definition
+      group.is_a_namespaced_definition
+
+$is_a_local_definition: (group)
+  if
+    group.is_undefined
+    -> false
+    :
+      group $_indent $text
+      -> match(LOCAL_DEFINITION text).is_defined
+
+$is_a_namespaced_definition: (group)
+  if
+    group.is_undefined
+    -> false
+    :
+      group $_indent $text
+      -> match(GLOBAL_DEFINITION text).is_defined
+
+$is_a_headline: (group)
+  if
+    group.is_undefined
+    -> false
+    :
+      group $_indent $text
+      -> text .has_prefix. "# " && subgroups_of(group).is_undefined
+
+$classify_template_group: (group)
+  if
+    group.is_undefined
+    -> undefined
+    :
+      group $_indent $text
+      update_if text .has_prefix. "PUBLIC" &text -> text .behind. ' '
+      $keyword text .truncate_from. ' '
+      $kind kind_of_definition(keyword)
+      if
+	kind.is_undefined
+	-> undefined
+	:
+	  truncate_until &text ' '
+	  if
+	    text .has_prefix. "builtin_types::"
+	    -> undefined
+	    :
+	      trim_right &text
+	      $info
+		new
+		  proto_info
+		  tuple(group current_prompt current_filename current_groups)
+	      !info.prompt_of current_prompt
+	      !info.topics_of current_topics
+	      case kind
+		FUNCTION:
+		  if
+		    text .contains. ' '
+		    -> undefined
+		    return
+		METHOD:
+		  $base text .before. '/'
+		  cond
+		    -> text .has_suffix. "/_type":
+		      if
+			base .contains. "::"
+			-> tuple(TYPE_FUNCTION base.to_symbol undefined info)
+			-> undefined
+		    -> text .contains. ' ' || text .contains. "/_"
+		      -> undefined
+		    -> true:
+		      truncate_until &text '/'
+		      if
+			base .contains. "::"
+			-> tuple(kind tuple(text "std") base.to_symbol info)
+			-> undefined
+		UNIQUE_ITEM
+		-> tuple(kind tuple(text "std") undefined info)
+		OBJECT, BUILTIN_TYPE:
+		  truncate_from &text ' '
+		  if
+		    text .contains. "::"
+		    return
+		    -> undefined
+		return
+
+	      $return -> tuple(kind text.to_symbol undefined info)
+
+$is_a_symbol_definition: (group) # in a template file
+  if
+    group.is_undefined
+    -> false
+    :
+      group $_indent $text
+      update_if text .has_prefix. "PUBLIC" &text -> text .behind. ' '
+      $keyword text .truncate_from. ' '
+      -> kind_of_definition(keyword).is_defined
+
+$to_symbol: (str)
+  split str "::" $namespace $name
+  tuple name namespace
+
+$load_groups: (filename)
+  load! $source filename
+  cond
+    -> source.is_empty:
+      Error! "
+	Empty source file "@(filename)"!@
+    -> source(-1) != '@nl;':
+      Error! "
+	Missing trailing newline character in "@(filename)"!@
+  from_utf8 &source
+  split_into_indented_lines $lines source
+  split_into_groups $groups lines
+  map groups: (no group) -> group(.group_no_of no)
+
+$create_base_prompt: (topics definitions)
+  $topics_list
+    map
+      topics: (topic)
+	topic $group
+	$subgroups subgroups_of(group)
+	if
+	  subgroups.is_defined
+	  -> (second(subgroups(1)) .behind. ':').trim
+	  :
+	    group $_indent $remark
+	    behind &remark ':'
+	    trim remark
+
+  $symbols map_reduce(definitions extract_declaration)
+  $topics_text
+    if
+      topics.is_empty
+      -> ""
+      :
+	map_reduce
+	  topics: (topic)
+	    topic $group
+	    if
+	      subgroups_of(group).is_defined
+	      -> append("@nl;" group_to_string(group))
+	      -> ""
+  ->
+    "
+      @(topics_text)@
+
+      # Symbols
+
+      @(symbols)@
+    topics_list
+
+$create_topic_documentation: (title info)
+  info $text $referrers $defined_in
+  $filename replace_all(title ' ' = "_")
+  behind &text ':'
+  trim_left &text
+  append "# " &text
+  update_if referrers.is_not_empty &text:
+    append text "
+      @
+
+	See also:
+	  @(reduce(referrers concatenate(",@nl;    ")))
+  append &text "
+
+    ((defined in @(defined_in)))
+  append "docs/topics/" &filename ".txt"
+  save! filename text
+
+#$create_symbol_documentation: (definition)
+  definition $kind $symbol $base $info
+  symbol $name $namespace
+  info $group $module_summary $filename $groups
+  $symbol_filename "@(namespace)__@(name)"
+  $object_name
+    if
+      base.is_defined:
+	base $base_name $base_namespace
+	-> "@(base_namespace)::@(base_name)"
+      -> undefined
+  $directory_name "docs/symbols/"
+  update_if object_name.is_defined &directory_name
+    -> "@(directory_name)@(object_name.to_filename)/"
+  append directory_name &symbol_filename ".txt"
+  file_exists! $does_file_exist symbol_filename
+  if
+    does_file_exist
+    pass
+    :
+      file_exists! $does_directory_exist directory_name
+      on_not does_directory_exist: mkdir! directory_name
+      $context create_context(definition)
+      $qualified_name "@(namespace)::@(name)"
+      case !qualified_name !kind
+	kind
+	METHOD
+	->
+	  "@(object_name)/@(qualified_name)"
+	  methods_of(all_symbols(object_name))(qualified_name)
+	ATTRIBUTE -> "@(object_name).@(qualified_name)" kind
+	-> qualified_name kind_of(all_symbols(qualified_name))
+      $source map(groups group_to_string)
+      group $_indent $text
+      $verbose_kind
+	cond
+	  -> (kind == BUILTIN_TYPE || kind == OBJECT) && text .contains. "->"
+	    -> "@(kind) derived from @((text .behind. "->").trim)"
+	  #-> kind == DERIVED:
+	    if
+	      reduce(source) .contains. push(qualified_name '/')
+	      -> "a type derived from @((text .behind. ' ').trim)"
+	      -> "an object derived from @((text .behind. ' ').trim)"
+	  -> true -> kind
+      $symbol_name_and_kind "
+	# @(qualified_name) (@(verbose_kind))
+	@;
+      $topics topics_of(info)
+      !topics
+	case
+	  kind
+	  IO_FUNCTION, IO_METHOD, BUILTIN_IO_FUNCTION, BUILTIN_IO_METHOD:
+	    if
+	      topics .contains. "Input-Output"
+	      -> topics
+	      -> push(topics "Input-Output")
+	  -> topics
+      $topics_text reduce(topics concatenate(", "))
+      on topics_text.is_undefined:
+	debug::println "No topic!"
+	debug::dump 2 `symbol
+	debug::dump `filename
+	debug::exit
+      #$symbol_prompt "
+
+	[documentation remark]
+
+	### Always copy examples contained in the symbol's description remark
+	    into the documentation
+
+	### Use (parts of) the documentation already provided in the source
+
+	### Do not create completely new examples on your own
+
+	### Use only one of the following topics: @(topics_text)
+
+	@(symbol_name_and_kind)@
+      $symbol_prompt "
+
+	[documentation remark]
+
+	@(symbol_name_and_kind)@
+      map &source: (text) -> append("@nl;" text)
+      $is_a_template filename .has_suffix. ".template"
+      append $instructions
+	if
+	  is_a_template
+	  -> ""
+	  -> manual
+	guidelines
+	if
+	  is_a_template:
+	    case
+	      kind
+	      BUILTIN_TYPE -> builtin_type_examples
+	      POLYMORPHIC_FUNCTION -> builtin_polymorphic_function_examples
+	      BUILTIN_OBJECT -> builtin_objects_examples
+	      BUILTIN_METHOD -> builtin_method_examples
+	      BUILTIN_IO_METHOD -> builtin_method_examples
+	      BUILTIN_FUNCTION -> builtin_function_examples
+	      BUILTIN_IO_FUNCTION -> builtin_io_function_examples
+	      UNIQUE_ITEM -> builtin_unique_item_examples
+	      :
+		debug::dump `kind
+		debug::dump `qualified_name
+		debug::dump `filename
+		debug::exit
+	  :
+	    case
+	      kind
+	      ATTRIBUTE -> attribute_examples
+	      CONSTANT, UNIQUE_ITEM -> literal_examples
+	      FUNCTION -> function_examples
+	      IO_FUNCTION -> io_function_examples
+	      IO_METHOD -> io_method_examples
+	      METHOD -> method_examples
+	      OBJECT, VARIABLE -> object_examples
+	      POLYMORPHIC_FUNCTION -> polymorphic_function_examples
+	      TYPE -> type_examples
+	      :
+		debug::dump `kind
+		debug::dump `qualified_name
+		debug::dump `filename
+		debug::exit
+	module_summary
+      create_prompt! $prompt_string $prompt_tokens
+	instructions
+	source
+	group_no_of(group)
+	context
+	symbol_prompt
+      eprint!
+	ansi_background_colour(DARK_BLUE)
+	trim_right(symbol_prompt)
+	ansi_reset_colour()
+	"@nl;@nl;"
+      $prompt_filename append(truncate_behind(symbol_filename '.') "prompt")
+      save! prompt_filename prompt_string.to_utf8
+      current_time! $t
+      $timestamp t.to_string .truncate_from. '.'
+      evaluate! prompt_tokens $output
+      append
+	symbol_name_and_kind
+	&output
+	"
+
+	  ((defined in @(filename)))
+	  ((generated by @(modelname)))
+	  ((@(timestamp)))
+      save! symbol_filename output.to_utf8
+
+#$create_context: (definition)
+  definition $kind $symbol $_base $info
+  info $group
+  $symbol_source group_to_string(group)
+  $context empty_list
+  $extern_definitions empty_list
+  case kind
+    POLYMORPHIC_FUNCTION:
+      add_extern_definitions
+	filter
+	  all_definitions: (a_definition)
+	    a_definition $a_kind $a_symbol
+	    ->
+	      &&
+		symbol == a_symbol
+		a_kind == METHOD || a_kind == ATTRIBUTE
+    METHOD:
+      add_extern_definitions
+	filter
+	  all_definitions: (a_definition)
+	    a_definition $a_kind $a_symbol
+	    -> symbol == a_symbol && a_kind == POLYMORPHIC_FUNCTION
+    TYPE, BUILTIN_TYPE:
+      add_extern_definitions
+	filter
+	  all_definitions: (a_definition)
+	    a_definition $a_kind $a_symbol
+	    -> a_kind == TYPE_FUNCTION && symbol == a_symbol
+    append_source
+
+  $add_extern_definitions: (definitions)
+    for_each definitions
+      : (definition)
+	definition $_kind $_symbol $_base $definition_info
+	definition_info $definition_group
+	push &extern_definitions
+	  append
+	    "@nl;"
+	    group_to_string(definition_group)
+	next
+      append_source
+
+  $append_source:
+    append
+      context
+      list
+	"
+	  @;
+	  [source]
+      extern_definitions
+      list(append("@nl;" symbol_source))
+
+#$create_prompt:
+  (
+    instructions # a text
+    source # a list of strings representing the module's source code
+    defininition_index # the index of the symbol definition in the above list
+    context # a list of strings representing additional context
+    symbol_prompt # the name and kind of the defined symbol
+  )
+  #
+    the above parameter strings are concatenated first to last
+
+    <instructions> *must* be included;
+    <source> will be included starting with the definition index if there is
+    enough model context available;
+    <context> is included starting the the last item if there is enough model
+    context available (has prioriy over <source>);
+    <symbol_prompt> *must* be included
+  $paragraphs append(list(instructions) source context list(symbol_prompt))
+  tokenize! $tokens model paragraphs
+  $instruction_tokens tokens(1)
+  $source_tokens range(tokens 2 length_of(source)+1)
+  $context_tokens range(tokens length_of(source)+2 -2)
+  $symbol_prompt_tokens tokens(-1)
+  $available_tokens context_size_of(model)
+  minus &available_tokens 1024 # reserved for documentation generation
+  minus &available_tokens length_of(instruction_tokens)
+  minus &available_tokens length_of(symbol_prompt_tokens)
+  on available_tokens < 0: error "TOO SMALL CONTEXT"
+  $first_context_idx length_of(context)+1
+  loop
+    :
+      if
+	first_context_idx <= 1
+	break
+	:
+	  $len length_of(context_tokens(first_context_idx-1))
+	  if
+	    available_tokens < len
+	    break
+	    :
+	      dec &first_context_idx
+	      minus &available_tokens len
+	      next
+    :
+      $first_source_idx defininition_index
+      $last_source_idx defininition_index
+      $n length_of(source)
+      loop
+	:
+	  $added_something false
+	  if
+	    last_source_idx > n
+	    try_add_before
+	    :
+	      $len length_of(source_tokens(last_source_idx))
+	      if
+		available_tokens < len
+		try_add_before
+		:
+		  minus &available_tokens len
+		  inc &last_source_idx
+		  !added_something true
+		  try_add_before
+
+	  $try_add_before:
+	    if
+	      first_source_idx <= 1:
+		if
+		  added_something
+		  next
+		  break
+	      :
+		$len length_of(source_tokens(first_source_idx-1))
+		if
+		  available_tokens < len:
+		    if
+		      added_something
+		      next
+		      break
+		  :
+		    minus &available_tokens len
+		    dec &first_source_idx
+		    next
+	->
+	  append
+	    instructions
+	    reduce(range(source first_source_idx last_source_idx-1) append "")
+	    reduce(range(context first_context_idx -1) append "")
+	    symbol_prompt
+	  append
+	    instruction_tokens
+	    reduce
+	      range(source_tokens first_source_idx last_source_idx-1)
+	      append
+	      empty_list
+	    reduce
+	      range(context_tokens first_context_idx -1)
+	      append
+	      empty_list
+	    symbol_prompt_tokens
+
+#$evaluate: (tokens)
+  $prefix empty_list
+  $end_of_text_token
+    if
+      name_of(model) .has_prefix. "gemma"
+      -> -4711
+      -> end_of_text_token_of(model)
+  $end_of_stream_token end_of_stream_token_of(model)
+  $output ""
+  loop:
+    if
+      length_of(tokens) >= context_size_of(model):
+	eprintln!
+	  ansi_background_colour(RED)
+	  "CONTEXT EXCEEDED ("
+	  length_of(tokens) "/" context_size_of(model)
+	  " TOKENS)!!!"
+	  ansi_reset_colour()
+	-> append(output "@nl;CONTEXT EXCEEDED@nl;")
+      :
+	ai::evaluate! model tokens $next_token $confidences
+	case next_token
+	  end_of_text_token, end_of_stream_token -> output
+	  :
+	    detokenize model next_token $next_piece &prefix
+	    push &tokens next_token
+	    $result output
+	    append &output next_piece
+	    if
+	      length_of(output) > 6000: # 2048:
+		eprintln!
+		  ansi_background_colour(RED) "STOPPED!!!" ansi_reset_colour()
+		-> append(output "@nl;STOPPED@nl;")
+	      :
+		$last_line truncate_until(output '@nl;' -1)
+		if
+		  last_line.is_empty || last_line(1) == ' ':
+		    if
+		      next_piece .contains. '@nl;':
+			eprint! next_piece
+		      :
+			$confidence second(confidences(1))
+			eprint!
+			  ansi_background_colour(confidence_colour(confidence))
+			  next_piece
+			  ansi_reset_colour()
+		    next!
+		  -> push(result .without_suffix. many('@nl;') '@nl;')
+
+$confidence_colour: (confidence)
+  $confidence_delta confidence-minimum_confidence
+  cond
+    -> confidence_delta < 0 ->
+      colour_mixture
+	BLACK = -confidence_delta
+	DARK_RED = minimum_confidence+confidence_delta
+    -> confidence_delta > 10 ->
+      colour_mixture
+	DARK_GREEN = 10
+	GREEN = confidence_delta-10
+    -> true ->
+      colour_mixture
+	DARK_RED = 10-confidence_delta
+	DARK_GREEN = confidence_delta
+
+#$initialize_model: (model)
+  $space_token empty_list
+  $is_a_space_token empty_hash_set
+  from_to 1 16
+    : (i)
+      $token piece_table_of(model)(spaces(i))
+      push &space_token token
+      if
+	token.is_defined:
+	  !is_a_space_token(token) true
+	  next
+	next
+    :
+      $space_tokens empty_list
+      $tokens empty_list
+      from_to 1 80
+	: (i)
+	  $n i .mod. 16
+	  if
+	    n == 0:
+	      push &tokens space_token(16)
+	      push &space_tokens tokens
+	      next
+	    :
+	      $piece space_token(n)
+	      if
+		piece.is_defined:
+		  push &space_tokens push(tokens piece)
+		  next
+		: # the desired number of spaces is not a single token
+		  push &space_tokens
+		    push(push(tokens space_token(n-1)) space_token(1))
+		  next
+	->
+	  model
+	    .is_a_space_token_of is_a_space_token
+	    .space_tokens_of space_tokens
+
+$to_filename: (name)
+  replace_all name
+    ' ' = "_"
+    "::" = "__"
+    '.' = "___"
+    '/' = "___"
+
+$manual "
+  [MANUAL]
+
+  In Funky function calls are either written on a single line with arguments
+  enclosed within parentheses and separated by single spaces, e.g.:
+
+  print! f(a b c) g(x y z)
+
+  or they are written in indentation style using mutliple lines:
+
+  print!
+    f
+      a
+      b
+      c
+    g
+      x
+      y
+      z
+
+  Functions that create any output or read any input need I/O-access rights.
+
+  A function that needs I/O-access rights must be called with a trailing
+  exclamation mark after the function name, e.g.:
+
+  println! "Hello, World!"
+
+  The expression
+
+  key = value
+
+  denotes a key-value-pair.
+
+  Collection types cannot be printed directly. You can use "dump!" to
+  dump the contents of a collection, e.g.:
+
+  $ages
+    hash_table
+      "John" = 42
+      "Mary" = 25
+      "Irene" = 49
+
+  dump! `ages
+
+  Output:
+
+  ages: hash_table <6>
+    "Mary"
+    25
+    "Irene"
+    49
+    "John"
+    42
+
+  Note: The number in angular brackets after the typename denotes the number
+  of (indented) lines that follow the head.
+
+  A tail call returns the result of the called function; e.g.:
+
+  $calc:
+    (
+      x
+      y
+    )
+    plus x*x y*y
+
+  println! calc(2 3)
+
+  prints
+
+  13
+  @;
+
+$INSTRUCTIONS "
+  <instructions>
+    All annotations must have
+
+    * a single short (single line) description written in lower case
+
+    * a parameter(s) section (if appropriate)
+
+    * a result(s) section (if appropriate)
+
+    * a detailed description of how to use the symbol: when describing unique
+      items of constants, describe how to use them;
+      do not repeat yourself
+
+    * one or more associated topic(s) (if appropriate)
+
+    * a "See also" entry - mention only a view relevant symbols here
+
+    Do not mention unknown symbols!
+
+    Do not mention more than 10 symbols in the "See also" entry.
+
+    DO NOT MENTION MORE THAN 10 SYMBOLS IN THE "See also" ENTRY!
+
+    Do not mention internal details of functions.
+
+    Do not start each sentence in the description with "If" or "The".
+
+    DO NOT START EACH SENTENCE IN THE DESCRIPTION WITH "If" OR "The"!
+
+    Do not tell the user what a function does not do.
+
+    When referring to another symbol write it enclosed in angle brackets, e.g.
+    <std::clear>.
+
+    The "self"-parameter is a normal parameter like any other and should be
+    mentioned in the the parameter description.
+
+    Replace symbolic constants by their value.
+
+    Operations on I/O-objects are not executed immediately but queued as jobs.
+    To identify a job, an "id" is used.
+
+    I/O-functions and I/O-methods either need I/O-access rights or propagate
+    them ("if", "for_each", etc.).
+
+    If appropriate try to add an "example" section.
+
+    If there is an appropriate example in the source code then use this example
+    in the "example" section!
+  </instructions>
+  @;

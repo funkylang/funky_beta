@@ -1,0 +1,156 @@
+#!/usr/bin/env fkyrun
+
+<require basic/stdlib>
+<require terminal/terminal>
+<require ai/new_llama>
+
+<using std>
+<using llama>
+
+$MODEL_NAME "Devstral-Small-2505-Q4_K_M.gguf"
+#$MODEL_NAME "Qwen_Qwen3-30B-A3B-Q4_K_M.gguf"
+#$MODEL_NAME "Qwen3-235B-A22B-Q4_K_M-00001-of-00003.gguf"
+#$MODEL_NAME "Qwen_Qwen3-30B-A3B-Q4_K_M.gguf"
+#$MODEL_NAME "Qwen3-32B-Q4_0.gguf"
+#$MODEL_NAME "sauerkrautlm-una-solar-instruct.Q5_K_M.gguf"
+$PROMPT command_line_arguments(1).from_utf8
+$minimum_confidence 10.0
+
+get_terminal_size! STDIN_FILENO $width $height
+create_terminal $terminal width height
+$lines wrap_words(PROMPT width)
+$x 1
+$y 1
+for_each lines
+  : (line)
+    draw_text &terminal 1 y line
+    inc &y
+    next!
+  :
+    update &terminal $output
+    print! output
+    start!
+
+$start:
+  $SEQ_ID 1
+  open_model! $model MODEL_NAME
+  tokenize! $tokens model PROMPT
+  create_sequence! model SEQ_ID
+  $fixed_x 1
+  $unfixed_output empty_list
+  $prefix ""
+  loop:
+    add_tokens! model SEQ_ID tokens
+    evaluate! model SEQ_ID
+    get_logits! $_seq_id $_position $logits model
+    $best_choice logits(1)
+    best_choice $next_token $confidence
+    detokenize model next_token $piece &prefix
+    $newlines 0
+    case next_token
+      eos_token_of(model), eot_token_of(model), pad_token_of(model):
+	close! model
+	terminate!
+      handle_token
+
+    $handle_token:
+      !tokens list(next_token)
+      loop
+	:
+	  if
+	    piece .has_suffix. '@nl;':
+	      inc &newlines
+	      range &piece 1 -2
+	      next!
+	    break
+	:
+	  if
+	    ||
+	      piece.is_empty
+	      newlines > 0 && piece == " " # Deepseek has strange tokens!
+	    :
+	      plus &y newlines
+	      !x 1
+	      !fixed_x 1
+	      !unfixed_output empty_list
+	      next!
+	    :
+	      if
+		piece(1) == ' ':
+		  !fixed_x x
+		  !unfixed_output empty_list
+		  print_piece!
+		print_piece
+
+    $print_piece:
+      if
+	x+width_of(piece)-1 <= width:
+	  if
+	    y > height:
+	      scroll_up &terminal y-height
+	      !y height
+	      draw_token!
+	    draw_token
+	:
+	  # delete already printed text
+	  set_clear_colour &terminal WHITE
+	  draw_text &terminal fixed_x y spaces(x-fixed_x)
+	  inc &y
+	  !x 1
+	  !fixed_x 1
+	  if
+	    y > height:
+	      scroll_up &terminal
+	      !y height
+	      redraw_unfixed!
+	    redraw_unfixed
+
+	  $redraw_unfixed:
+	    # redraw already printed text
+	    for_each unfixed_output
+	      : (item)
+		item $unfixed_token $unfixed_confidence
+		detokenize model unfixed_token $unfixed_piece &prefix
+		set_clear_colour &terminal
+		  get_output_piece_colour(unfixed_confidence)
+		update_if x == 1 && unfixed_piece(1) == ' ' &unfixed_piece
+		  -> range(unfixed_piece 2 -1)
+		draw_text &terminal x y unfixed_piece
+		plus &x width_of(unfixed_piece)
+		next!
+	      :
+		!unfixed_output empty_list
+		draw_token!
+
+      $draw_token:
+	set_clear_colour &terminal get_output_piece_colour(confidence)
+	update_if x == 1 && piece(1) == ' ' &piece -> range(piece 2 -1)
+	draw_text &terminal x y piece
+	update &terminal $output
+	print! output
+	if
+	  newlines == 0:
+	    plus &x width_of(piece)
+	    push &unfixed_output best_choice
+	    next!
+	  :
+	    plus &y newlines
+	    !x 1
+	    !unfixed_output empty_list
+	    next!
+
+$get_output_piece_colour: (confidence)
+  $confidence_delta confidence-minimum_confidence
+  cond
+    -> confidence_delta < 0 ->
+      colour_mixture
+	GREY = -confidence_delta
+	VERY_LIGHT_RED = minimum_confidence+confidence_delta
+    -> confidence_delta > 10 ->
+      colour_mixture
+	VERY_LIGHT_GREEN = 10
+	WHITE = confidence_delta-10
+    -> true ->
+      colour_mixture
+	VERY_LIGHT_RED = 10-confidence_delta
+	VERY_LIGHT_GREEN = confidence_delta

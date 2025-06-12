@@ -1,3 +1,4 @@
+<!doctype html>
 <html>
 <head>
 <title>Input-Output</title>
@@ -28,9 +29,6 @@
 <tr>
   <td><a href="POSIX.html">POSIX</a></td>
 </tr>
-<tr>
-  <td><a href="Input-Output_Task_Manager.html">Input-Output Task Manager</a></td>
-</tr>
 </table>
 <h2>Example</h2>
 <div class="Example"><a href="../symbols/std__println.html">println</a>! "Hello, world!"
@@ -56,12 +54,36 @@
   <td class="description">returns the access time of a file</td>
 </tr>
 <tr>
+  <td><a href="../symbols/std__chdir.html">std::chdir</a></td>
+  <td class="description">changes the current working directory</td>
+</tr>
+<tr>
   <td><a href="../symbols/std__check.html">std::check</a></td>
-  <td class="description">checks if a value is an error</td>
+  <td class="description">checks if its argument is an error</td>
 </tr>
 <tr>
   <td><a href="../symbols/std__close.html">std::close</a></td>
   <td class="description">closes a resource</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__closedir.html">std::closedir</a></td>
+  <td class="description">closes a directory stream</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__cond.html">std::cond</a></td>
+  <td class="description">executes the function associated with the first successful test</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__create_shared_memory.html">std::create_shared_memory</a></td>
+  <td class="description">creates a block of shared memory</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__directory.html">std::directory</a></td>
+  <td class="description">returns a list of entries in a directory</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__dup2.html">std::dup2</a></td>
+  <td class="description">duplicates a file descriptor</td>
 </tr>
 <tr>
   <td><a href="../symbols/std__echo_characters.html">std::echo_characters</a></td>
@@ -72,16 +94,56 @@
   <td class="description">set or clear ECHONL in c_lflag</td>
 </tr>
 <tr>
+  <td><a href="../symbols/std__edump.html">std::edump</a></td>
+  <td class="description">writes a string representation of some objects to stderr</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__ehexdump.html">std::ehexdump</a></td>
+  <td class="description">writes a hexdump of the given string to stderr</td>
+</tr>
+<tr>
   <td><a href="../symbols/std__enable_xon_xoff_for_output.html">std::enable_xon_xoff_for_output</a></td>
   <td class="description">set or clear IXON in c_iflag</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__eprint.html">std::eprint</a></td>
+  <td class="description">prints its arguments to the standard error output</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__eprint_string.html">std::eprint_string</a></td>
+  <td class="description">prints a string to the standard error output</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__eprintln.html">std::eprintln</a></td>
+  <td class="description">prints its arguments and a line feed to the standard error output</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__exec.html">std::exec</a></td>
+  <td class="description">replaces the current process with the given command</td>
 </tr>
 <tr>
   <td><a href="../symbols/std__exit.html">std::exit</a></td>
   <td class="description">terminates the current program or task</td>
 </tr>
 <tr>
+  <td><a href="../symbols/std__extern.html">std::extern</a></td>
+  <td class="description">executes an external command</td>
+</tr>
+<tr>
   <td><a href="../symbols/std__file_descriptor_of.html">std::file_descriptor_of</a></td>
   <td class="description">returns the file descriptor of an I/O-object</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__file_exists.html">std::file_exists</a></td>
+  <td class="description">checks if a file exists</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__find_first_process.html">std::find_first_process</a></td>
+  <td class="description">finds the process ID of the first process with the specified name</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__find_processes.html">std::find_processes</a></td>
+  <td class="description">finds the process IDs of all processes with the specified name</td>
 </tr>
 <tr>
   <td><a href="../symbols/std__flush.html">std::flush</a></td>
@@ -92,12 +154,44 @@
   <td class="description">set or clear ISIG in c_lflag</td>
 </tr>
 <tr>
+  <td><a href="../symbols/std__get_from_until.html">std::get_from_until</a></td>
+  <td class="description">reads data from a file descriptor until a sentinel is found and decodes the</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__get_mac_address.html">std::get_mac_address</a></td>
+  <td class="description">gets the MAC address of the first network interface</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__get_process_name.html">std::get_process_name</a></td>
+  <td class="description">gets the name of a process</td>
+</tr>
+<tr>
   <td><a href="../symbols/std__get_terminal_attributes.html">std::get_terminal_attributes</a></td>
   <td class="description">retrieve the current terminal attributes</td>
 </tr>
 <tr>
   <td><a href="../symbols/std__get_terminal_size.html">std::get_terminal_size</a></td>
   <td class="description">retrieves the current width and height of the specified terminal</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__get_until.html">std::get_until</a></td>
+  <td class="description">reads data from the standard input until a sentinel is found and decodes the</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__getcwd.html">std::getcwd</a></td>
+  <td class="description">returns the current working directory</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__getln.html">std::getln</a></td>
+  <td class="description">reads a line from the standard input and decodes the data to a string</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__getln_from.html">std::getln_from</a></td>
+  <td class="description">reads a line from the specified file descriptor and decodes the data to a</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__getppid.html">std::getppid</a></td>
+  <td class="description">returns the process ID of the parent of the calling process</td>
 </tr>
 <tr>
   <td><a href="../symbols/std__height_of.html">std::height_of</a></td>
@@ -124,20 +218,92 @@
   <td class="description">checks if a value is a process id</td>
 </tr>
 <tr>
+  <td><a href="../symbols/std__link.html">std::link</a></td>
+  <td class="description">creates a hard link</td>
+</tr>
+<tr>
   <td><a href="../symbols/std__load.html">std::load</a></td>
   <td class="description">loads a file in some way; returns a string</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__mkfifo.html">std::mkfifo</a></td>
+  <td class="description">creates a FIFO</td>
 </tr>
 <tr>
   <td><a href="../symbols/std__modification_time_of.html">std::modification_time_of</a></td>
   <td class="description">returns the modification time of a file</td>
 </tr>
 <tr>
+  <td><a href="../symbols/std__open.html">std::open</a></td>
+  <td class="description">opens a file</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__open_unix_socket.html">std::open_unix_socket</a></td>
+  <td class="description">opens a UNIX domain socket</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__opendir.html">std::opendir</a></td>
+  <td class="description">opens a directory stream</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__pipe.html">std::pipe</a></td>
+  <td class="description">executes a sequence of commands in a pipeline</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__pipe_commands.html">std::pipe_commands</a></td>
+  <td class="description">executes a sequence of commands in a pipeline</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__print.html">std::print</a></td>
+  <td class="description">prints its arguments to the standard output</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__print_string.html">std::print_string</a></td>
+  <td class="description">prints a string to the standard output</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__print_string_to.html">std::print_string_to</a></td>
+  <td class="description">prints a string to the specified file descriptor</td>
+</tr>
+<tr>
   <td><a href="../symbols/std__print_to.html">std::print_to</a></td>
-  <td class="description">prints a string to a file descriptor</td>
+  <td class="description">prints its arguments to a file descriptor</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__println.html">std::println</a></td>
+  <td class="description">prints its arguments and a line feed to the standard output</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__println_to.html">std::println_to</a></td>
+  <td class="description">prints its arguments and a line feed to the specified file descriptor</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__pselect.html">std::pselect</a></td>
+  <td class="description">waits for one or more file descriptors to become ready</td>
 </tr>
 <tr>
   <td><a href="../symbols/std__read.html">std::read</a></td>
   <td class="description">a low level read function</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__read_all_from.html">std::read_all_from</a></td>
+  <td class="description">reads all data from the specified file descriptor</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__read_from.html">std::read_from</a></td>
+  <td class="description">reads a specified number of bytes from a file descriptor</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__read_from_until.html">std::read_from_until</a></td>
+  <td class="description">reads data from a file descriptor until a sentinel is found</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__readln_from.html">std::readln_from</a></td>
+  <td class="description">reads a line from the specified file descriptor</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__rename.html">std::rename</a></td>
+  <td class="description">renames a file</td>
 </tr>
 <tr>
   <td><a href="../symbols/std__restart_output_on_any_character.html">std::restart_output_on_any_character</a></td>
@@ -152,20 +318,52 @@
   <td class="description">update the current terminal attributes</td>
 </tr>
 <tr>
+  <td><a href="../symbols/std__sleep.html">std::sleep</a></td>
+  <td class="description">sleeps for the specified amount of time</td>
+</tr>
+<tr>
   <td><a href="../symbols/std__status_change_time_of.html">std::status_change_time_of</a></td>
   <td class="description">returns the last status change time of a file</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__terminate.html">std::terminate</a></td>
+  <td class="description">terminates the program</td>
 </tr>
 <tr>
   <td><a href="../symbols/std__timeout_for_reads.html">std::timeout_for_reads</a></td>
   <td class="description">set or get the value of VTIME in c_cc; timeout is converted to/from seconds!</td>
 </tr>
 <tr>
+  <td><a href="../symbols/std__try.html">std::try</a></td>
+  <td class="description">executes the specified body and catches any error</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__unlink.html">std::unlink</a></td>
+  <td class="description">removes a file</td>
+</tr>
+<tr>
   <td><a href="../symbols/std__update.html">std::update</a></td>
   <td class="description">updates the state of an object</td>
 </tr>
 <tr>
+  <td><a href="../symbols/std__which.html">std::which</a></td>
+  <td class="description">finds the full path of an executable file</td>
+</tr>
+<tr>
   <td><a href="../symbols/std__write.html">std::write</a></td>
   <td class="description">writes data to a stream</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__write_string_to.html">std::write_string_to</a></td>
+  <td class="description">writes the specified string to the specified file descriptor</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__write_to.html">std::write_to</a></td>
+  <td class="description">writes its arguments to the specified file descriptor</td>
+</tr>
+<tr>
+  <td><a href="../symbols/std__writeln_to.html">std::writeln_to</a></td>
+  <td class="description">writes its arguments and a line feed to the specified file descriptor</td>
 </tr>
 </table>
 <h2>Constants</h2>
