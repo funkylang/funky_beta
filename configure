@@ -738,7 +738,7 @@ do
 echo "${TAB}mkdir -p \
   \"\$(DESTDIR)$PREFIX/share/funky-$RUNTIME_VERSION/source/$LIBNAME\""
 echo "${TAB}find $LIBNAME -name \"*.fky\" | \
-  cpio -pdmu \$(DESTDIR)$PREFIX/share/funky-$RUNTIME_VERSION/source/$LIBNAME/"
+  cpio -pdmu \$(DESTDIR)$PREFIX/share/funky-$RUNTIME_VERSION/source/"
 done
 echo "${TAB}mkdir -p \
   \"\$(DESTDIR)$PREFIX/share/funky-$RUNTIME_VERSION/prompts\""
