@@ -1,0 +1,39 @@
+# std::get_until (an I/O-function)
+
+  reads data from the standard input until a sentinel is found and decodes the
+  data to a string
+
+  Parameter:
+    sentinel: the sentinel to search for
+
+  Results:
+    the read string
+
+  **Attention**: This function must be called with I/O-access rights!
+
+  The function reads data from the standard input until the specified
+  sentinel is found and returns the read data as a string. The sentinel is
+  included in the returned string and the string is decoded from UTF-8.
+
+  Topic: Input-Output
+
+  See also: std::getln, std::get_from_until, std::read_from_until
+
+  Example:
+
+    print! "Enter your name: "
+    get_until! $name '@nl;'
+    println! "Hello, @(name)!"
+
+  Input:
+
+    Enter your name: John Doe
+
+  Output:
+
+    Enter your name: John Doe
+    Hello, John Doe!
+
+((defined in basic/io/io.fky))
+((generated manually))
+((2025-05-05))

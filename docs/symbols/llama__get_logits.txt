@@ -1,0 +1,17 @@
+# llama::get_logits (an I/O-function)
+
+  returns the logits for the next token
+
+  Parameters:
+    model: the model to use
+
+  Results:
+    a tuple containing the sequence id and the logits
+
+  **Attention**: This function must be called with I/O-access rights!
+
+  Topic: AI
+
+  See also: llama::open_model, llama::tokenize, llama::create_sequence,
+	    llama::add_tokens
+

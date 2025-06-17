@@ -1,0 +1,40 @@
+# std::bresenham_delta (a function)
+
+  returns an iterator
+
+  The iterator produces *count* equally distributed values that sum up to
+  *amount*.
+
+  Parameters:
+    count: the number of values to return
+    amount: the sum of all returned values (a positive value)
+
+  Result:
+    iterator: an iterator that produces the values
+
+  Example:
+
+    count 5
+    $amount 7
+
+    $iter bresenham_delta(count amount)
+    repeat count:
+      next_value &iter $value
+      println! value
+      next!
+
+  Output:
+
+    1
+    2
+    1
+    2
+    1
+
+  Topics: Iterators
+
+  See also: std::bresenham
+
+((defined in basic/types/iterators/bresenham.fky))
+((generated manually))
+((2025-05-11))

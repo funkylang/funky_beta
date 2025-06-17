@@ -1,0 +1,32 @@
+# std::writeln_to (an I/O-function)
+
+  writes its arguments and a line feed to the specified file descriptor
+
+  Parameters:
+    fd: the file descriptor to write to
+    args*: the arguments to write
+
+  Results:
+    none
+
+  **Attention**: This function must be called with I/O-access rights!
+
+  The function converts its arguments to a single string, appends a line feed
+  character and writes this string to the specified file descriptor.
+
+  Topic: Input-Output
+
+  See also: std::write_to, std::write_string_to, std::println, std::print_to
+
+  Example:
+
+    writeln_to! STDOUT_FILENO "Hello, world!"
+
+  Output:
+
+    Hello, world!
+
+((defined in basic/io/io.fky))
+((generated manually))
+((2025-05-05))
+

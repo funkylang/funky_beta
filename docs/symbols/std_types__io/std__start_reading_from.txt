@@ -1,0 +1,29 @@
+# std_types::io/std::start_reading_from (a method)
+
+  starts reading from a file descriptor
+
+  Parameters:
+    self: the I/O-object
+    fd: the file descriptor
+    do_close: whether to close the file descriptor when reading is done
+    max_length: the maximum number of bytes to read
+
+  Result:
+    self: the updated I/O-object
+
+  This starts reading from the specified file descriptor. The I/O-object will
+  generate a <std::READ> event whenever data is available.
+
+  When there is an error while attempting to receive data then a
+  <std::READ_FAILED> will be created.
+
+  When the *do_close* option is specified and no more data is available or an
+  error occurred then the file will be closed.
+
+  Topics: I/O, Events
+
+  See also: std_types::io/std::stop_reading_from
+
+((defined in basic/io/io_events.fky))
+((generated manually))
+((2025-05-11))

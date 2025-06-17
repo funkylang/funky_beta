@@ -1,0 +1,25 @@
+# Collections
+
+  There are several kinds of collections
+
+  * tuples
+
+  * lists
+
+  * sets
+
+  * bags
+
+  * tables
+
+  Sets, bags and tables come in several variants, that offer specific features.
+
+  Collections have type functions that allow retrieving and "updating"
+  individual elements in the collection.
+
+  When a collection is "updated" a new collection is created where the
+  element is changed. The original collection is not changed.
+
+  Related topics: Tuples, Lists, Sets, Bags, Tables
+
+((defined in basic/types/collections/collection.fky))

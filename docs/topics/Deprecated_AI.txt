@@ -1,0 +1,11 @@
+# Deprecated AI
+
+  This API is deprecated.
+
+  The "funky_server" needed as a backend is no longer maintained.
+
+  Use ai/new_llama instead.
+
+  Related topics: AI
+
+((defined in ai/llama.fky))

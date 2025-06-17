@@ -1,0 +1,35 @@
+# std_types::window_manager/std::move_top (a method)
+
+  shows the top portion of a window's contents
+
+  Parameters:
+    window_manager: a window manager
+    id?: the id of the window to move (default: the focused window)
+
+  Result:
+    window_manager: the updated window manager
+
+  Shows the top portion of the contents of the window with the specified *id*.
+
+  If no *id* is specified then the focused window is moved to the top.
+
+  If the window has a cursor, then the cursor is moved to the first line.
+
+  Topic: Window Manager
+
+  See also: std_types::window_manager/std::move_bottom,
+	    std_types::window_manager/std::move_home,
+	    std_types::window_manager/std::move_end,
+	    std_types::window_manager/std::move_up,
+	    std_types::window_manager/std::move_down
+
+  Example:
+
+    $wm create_window_manager(terminal)
+    create_window &wm $id "My Window"
+    ...
+    move_top &wm id
+
+((defined in terminal/window_manager.fky))
+((generated manually))
+((2024-07-13 12:41:25))

@@ -1,0 +1,43 @@
+# Control Flow
+
+  In Funky there are no classical language elements to control the flow of
+  execution. Instead, the flow of execution is controlled by calling functions.
+
+  Polymorphic dispatch (on <true> and <false>) can be used to implement
+  conditional execution.
+
+  Recursive function calls can be used to emulate loops.
+
+  Related topics: Branches, Loops
+
+  Example:
+
+    $a 3
+    $b 5
+    if
+      a > b:
+	println! "a is greater than b"
+      :
+	println! "b is greater or equal to a"
+
+  Output:
+
+    b is greater or equal to a
+
+  Example:
+
+    $i 1
+    loop:
+      if
+	i <= 5:
+	  println! i
+	  next!
+	break
+
+  Output:
+
+    1
+    2
+    3
+    4
+    5

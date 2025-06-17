@@ -1,0 +1,30 @@
+# std::chain (an I/O-function)
+
+  chains multiple initializers
+
+  Parameters:
+    initializers*: the initializers to chain
+    body: the body to execute after the initialization
+
+  Result:
+    the results returend by the body
+
+  This function supports I/O-access. If it is called with I/O-access rights than
+  these access rights are passed on to *body*.
+
+  This function is used to chain multiple initializers.
+
+  Topic: Primitives
+
+  See also: std::do, std::assign, std::pass
+
+  Example:
+
+    chain! initialize_module_1 initialize_module_2 start
+
+    $start:
+      ...
+
+((defined in basic/primitives.fky))
+((generated manually))
+((2025-05-11))

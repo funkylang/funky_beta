@@ -1,0 +1,38 @@
+# std::bin (a function)
+
+  converts a positive integer value into a string consisting of binary digits
+
+  Parameters:
+    value: the value to convert
+    size: the minimum number of digits to generate (optional)
+
+  Result:
+    a string consisting of binary digits
+
+  The optional second parameter specifies the minimum length of the resulting
+  string. If there are fewer binary digits than the specified length, the
+  string is left-padded with zeros.
+
+  Topics: Math, Strings
+
+  See also: std::hex, std::oct, std::to_string
+
+  Example:
+
+    println! bin(123)
+
+  Output:
+
+    1111011
+
+  Example:
+
+    println! bin(123 8)
+
+  Output:
+
+    01111011
+
+((defined in basic/math.fky))
+((generated manually))
+((2025-05-06))

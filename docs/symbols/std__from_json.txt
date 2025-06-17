@@ -1,0 +1,53 @@
+# std::from_json (a function)
+
+  converts a JSON string into a corresponding object
+
+  Parameter:
+    text: the JSON string to parse
+
+  Result:
+    the parsed object
+
+  Topic: Data Exchange
+
+  To use this function it is necessary to import the defining module:
+
+  <require basic/import/json>
+
+  See also: std::to_json
+
+  Example:
+
+    $json_text "
+      {
+	"name": "John Doe",
+	"age": 35,
+	"is_student": false,
+	"courses": ["Math", "Physics"],
+	"address": {
+	  "street": "123 Main St",
+	  "city": "Anytown"
+	}
+      }
+    $data from_json(json_text)
+    debug::dump 99 `data
+
+  Error output:
+
+    data:
+      insert_order_table
+	"name" = "John Doe"
+	"age" = 35
+	"is_student" = false
+	"courses" =
+	  list
+	    "Math"
+	    "Physics"
+	"address" =
+	  insert_order_table
+	    "street" = "123 Main St"
+	    "city" = "Anytown"
+
+((defined in basic/import/json.fky))
+((generated manually))
+((2025-05-10))

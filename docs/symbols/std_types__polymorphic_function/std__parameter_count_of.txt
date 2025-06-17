@@ -1,0 +1,441 @@
+# std_types::polymorphic_function.std::parameter_count_of (an attribute)
+
+  returns the number of parameters of the function
+
+  Parameters:
+    self: the function
+
+  Result:
+    count: the number of parameters of the function
+
+  Topic: Functions
+
+  See also: std_types::function/std::parameter_count_of,
+            std_types::polymorphic_function/std::parameter_type_of,
+            std_types::polymorphic_function/std::parameter_name_of,
+            std_types::polymorphic_function/std::parameter_default_value_of
+
+  Example:
+
+    $std_types::polymorphic_function.parameter_count_of undefined
+
+  Output:
+
+    undefined
+
+  Example:
+
+    $std_types::function.parameter_count_of std::is_a_function
+
+  Output:
+
+    1
+
+  Example:
+
+    $std_types::polymorphic_function.parameter_count_of std::is_a_function
+
+  Output:
+
+    1
+
+  Example:
+
+    $std_types::polymorphic_function.parameter_count_of std::is_a_function
+
+  Output:
+
+    1
+
+  Example:
+
+    $std_types::polymorphic_function.parameter_count_of std::is_a_function
+
+  Output:
+
+    1
+
+  Example:
+
+    $std_types::polymorphic_function.parameter_count_of std::is_a_function
+
+  Output:
+
+    1
+
+  Example:
+
+    $std_types::polymorphic_function.parameter_count_of std::is_a_function
+
+  Output:
+
+    1
+
+  Example:
+
+    $std_types::polymorphic_function.parameter_count_of std::is_a_function
+
+  Output:
+
+    1
+
+  Example:
+
+    $std_types::polymorphic_function.parameter_count_of std::is_a_function
+
+  Output:
+
+    1
+
+  Example:
+
+    $std_types::polymorphic_function.parameter_count_of std::is_a_function
+
+  Output:
+
+    1
+
+  Example:
+
+    $std_types::polymorphic_function.parameter_count_of std::is_a_function
+
+  Output:
+
+    1
+
+  Example:
+
+    $std_types::polymorphic_function.parameter_count_of std::is_a_function
+
+  Output:
+
+    1
+
+  Example:
+
+    $std_types::polymorphic_function.parameter_count_of std::is_a_function
+
+  Output:
+
+    1
+
+  Example:
+
+    $std_types::polymorphic_function.parameter_count_of std::is_a_function
+
+  Output:
+
+    1
+
+  Example:
+
+    $std_types::polymorphic_function.parameter_count_of std::is_a_function
+
+  Output:
+
+    1
+
+  Example:
+
+    $std_types::polymorphic_function.parameter_count_of std::is_a_function
+
+  Output:
+
+    1
+
+  Example:
+
+    $std_types::polymorphic_function.parameter_count_of std::is_a_function
+
+  Output:
+
+    1
+
+  Example:
+
+    $std_types::polymorphic_function.parameter_count_of std::is_a_function
+
+  Output:
+
+    1
+
+  Example:
+
+    $std_types::polymorphic_function.parameter_count_of std::is_a_function
+
+  Output:
+
+    1
+
+  Example:
+
+    $std_types::polymorphic_function.parameter_count_of std::is_a_function
+
+  Output:
+
+    1
+
+  Example:
+
+    $std_types::polymorphic_function.parameter_count_of std::is_a_function
+
+  Output:
+
+    1
+
+  Example:
+
+    $std_types::polymorphic_function.parameter_count_of std::is_a_function
+
+  Output:
+
+    1
+
+  Example:
+
+    $std_types::polymorphic_function.parameter_count_of std::is_a_function
+
+  Output:
+
+    1
+
+  Example:
+
+    $std_types::polymorphic_function.parameter_count_of std::is_a_function
+
+  Output:
+
+    1
+
+  Example:
+
+    $std_types::polymorphic_function.parameter_count_of std::is_a_function
+
+  Output:
+
+    1
+
+  Example:
+
+    $std_types::polymorphic_function.parameter_count_of std::is_a_function
+
+  Output:
+
+    1
+
+  Example:
+
+    $std_types::polymorphic_function.parameter_count_of std::is_a_function
+
+  Output:
+
+    1
+
+  Example:
+
+    $std_types::polymorphic_function.parameter_count_of std::is_a_function
+
+  Output:
+
+    1
+
+  Example:
+
+    $std_types::polymorphic_function.parameter_count_of std::is_a_function
+
+  Output:
+
+    1
+
+  Example:
+
+    $std_types::polymorphic_function.parameter_count_of std::is_a_function
+
+  Output:
+
+    1
+
+  Example:
+
+    $std_types::polymorphic_function.parameter_count_of std::is_a_function
+
+  Output:
+
+    1
+
+  Example:
+
+    $std_types::polymorphic_function.parameter_count_of std::is_a_function
+
+  Output:
+
+    1
+
+  Example:
+
+    $std_types::polymorphic_function.parameter_count_of std::is_a_function
+
+  Output:
+
+    1
+
+  Example:
+
+    $std_types::polymorphic_function.parameter_count_of std::is_a_function
+
+  Output:
+
+    1
+
+  Example:
+
+    $std_types::polymorphic_function.parameter_count_of std::is_a_function
+
+  Output:
+
+    1
+
+  Example:
+
+    $std_types::polymorphic_function.parameter_count_of std::is_a_function
+
+  Output:
+
+    1
+
+  Example:
+
+    $std_types::polymorphic_function.parameter_count_of std::is_a_function
+
+  Output:
+
+    1
+
+  Example:
+
+    $std_types::polymorphic_function.parameter_count_of std::is_a_function
+
+  Output:
+
+    1
+
+  Example:
+
+    $std_types::polymorphic_function.parameter_count_of std::is_a_function
+
+  Output:
+
+    1
+
+  Example:
+
+    $std_types::polymorphic_function.parameter_count_of std::is_a_function
+
+  Output:
+
+    1
+
+  Example:
+
+    $std_types::polymorphic_function.parameter_count_of std::is_a_function
+
+  Output:
+
+    1
+
+  Example:
+
+    $std_types::polymorphic_function.parameter_count_of std::is_a_function
+
+  Output:
+
+    1
+
+  Example:
+
+    $std_types::polymorphic_function.parameter_count_of std::is_a_function
+
+  Output:
+
+    1
+
+  Example:
+
+    $std_types::polymorphic_function.parameter_count_of std::is_a_function
+
+  Output:
+
+    1
+
+  Example:
+
+    $std_types::polymorphic_function.parameter_count_of std::is_a_function
+
+  Output:
+
+    1
+
+  Example:
+
+    $std_types::polymorphic_function.parameter_count_of std::is_a_function
+
+  Output:
+
+    1
+
+  Example:
+
+    $std_types::polymorphic_function.parameter_count_of std::is_a_function
+
+  Output:
+
+    1
+
+  Example:
+
+    $std_types::polymorphic_function.parameter_count_of std::is_a_function
+
+  Output:
+
+    1
+
+  Example:
+
+    $std_types::polymorphic_function.parameter_count_of std::is_a_function
+
+  Output:
+
+    1
+
+  Example:
+
+    $std_types::polymorphic_function.parameter_count_of std::is_a_function
+
+  Output:
+
+    1
+
+  Example:
+
+    $std_types::polymorphic_function.parameter_count_of std::is_a_function
+
+  Output:
+
+    1
+
+  Example:
+
+    $std_types::polymorphic_function.parameter_count_of std::is_a_function
+
+  Output:
+
+    1
+
+  Example:
+
+    $std_types::polymorphic_function.parameter_
+STOPPED
+
+((defined in basic/types/function.fky))
+((generated by Codestral-22B-v0.1-Q5_K_M.gguf))
+((2024-12-09 20:45:41))

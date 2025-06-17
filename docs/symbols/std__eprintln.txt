@@ -1,0 +1,33 @@
+# std::eprintln (an I/O-function)
+
+  prints its arguments and a line feed to the standard error output
+
+  Parameter:
+    args: the arguments to write
+
+  Results:
+    none
+
+  **Attention**: This function must be called with I/O-access rights!
+
+  The function converts its arguments to a single string, encodes this string
+  to UTF-8, appends a line feed character and writes this encoded string to
+  the standard error output.
+
+  Topic: Input-Output
+
+  See also: std::eprint, std::eprint_string, std::print, std::println,
+	    std::print_string, std::print_to, std::println_to,
+	    std::print_string_to
+
+  Example:
+
+    eprintln! "Hello, world!"
+
+  Error output:
+
+    Hello, world!
+
+((defined in basic/io/io.fky))
+((generated manually))
+((2025-05-05))

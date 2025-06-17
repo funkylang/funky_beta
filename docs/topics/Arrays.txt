@@ -1,0 +1,48 @@
+# Arrays
+
+  An array is a fixed-size collection of elements. It can have more than one
+  dimension.
+
+  The elements are accessed using one-based indexing.
+
+  Negative indices are supported and are interpreted as counting from the right
+  end of the array dimension.
+
+  In a pure functional language, arrays are immutable. So it would be very
+  inefficient to update a single element. Therefor update operations are
+  stored in a log buffer and executed in a batch.
+
+  Example:
+
+    $a array(3 2) # 3 rows, 2 columns
+
+    # initialize array
+
+    from_to !a 1 3
+      : (row)
+        from_to 1 2
+          : (column)
+            !a(row column) row*column
+            next
+          next
+      -> a
+
+    from_to 1 3
+      : (row)
+        from_to 1 2
+          : (column)
+            println! "a(" row ", " column ") = " a(row column)
+            next!
+          next
+      pass
+
+  Output:
+
+    a(1, 1) = 1
+    a(1, 2) = 2
+    a(2, 1) = 2
+    a(2, 2) = 4
+    a(3, 1) = 3
+    a(3, 2) = 6
+
+((defined in basic/types/collections/arrays/array.fky))

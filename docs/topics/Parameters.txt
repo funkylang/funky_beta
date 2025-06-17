@@ -1,0 +1,9 @@
+# Parameters
+
+  These functions make it easy to parse
+
+  * command line arguments - <program_parameters>
+
+  * "named" options of functions - <extract_options>
+
+((defined in basic/parameters.fky))

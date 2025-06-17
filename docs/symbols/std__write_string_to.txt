@@ -1,0 +1,33 @@
+# std::write_string_to (an I/O-function)
+
+  writes the specified string to the specified file descriptor
+
+  Parameters:
+    fd: the file descriptor to write to
+    str: the string to write
+
+  Results:
+    none
+
+  **Attention**: This function must be called with I/O-access rights!
+
+  The function writes the string to the file descriptor.
+
+  Topic: Input-Output
+
+  See also: std::write_to, std::writeln_to, std::print_string_to,
+	    std::println_to, std::print_string, std::print, std::println,
+	    std::eprint_string, std::eprint, std::eprintln
+
+  Example:
+
+    write_string_to! STDOUT_FILENO "Hello, world!"
+
+  Output:
+
+    Hello, world!
+
+((defined in basic/io/io.fky))
+((generated manually))
+((2025-05-05))
+

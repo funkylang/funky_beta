@@ -1,0 +1,53 @@
+# Basics
+
+  The standard library provides many functions and prototypes. There are no
+  types in Funky, but it is common to abbreviate *prototype objects* as
+  *types*.
+
+  The standard libraries use the namespace "std_types" for prototype objects.
+
+  The namespace "std_types" is reserved for definitions by the standard
+  libraries.
+
+  For most "types" there is a constructor function, or, if the type describes
+  a *singleton*, a single object with the same name, but in the namespace "std".
+
+  The namespace "std" is also reserved for definitions by the standard
+  libraries.
+
+  An example:
+
+  <std_types::list>
+
+  is the prototype for lists.
+
+  and
+
+  <std::list>
+
+  is the constructor function for lists.
+
+  Another example:
+
+  <std_types::true>
+
+  is the type of the boolean value "true" and
+
+  <std::true>
+
+  *is* the boolean value "true".
+
+  There are three root objects. All other objects are derived from one of these
+  objects.
+
+  These root objects are:
+
+  <std_types::obect> - the prototype for all normal objects
+
+  <std_types::undefined> - a singleton used to represent the absence of a value
+
+  <std_types::error> - the prototype for all error objects
+
+  Related topics: Objects
+
+((defined in basic/types/object.fky))

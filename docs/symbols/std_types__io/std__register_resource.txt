@@ -1,0 +1,26 @@
+# std_types::io/std::register_resource (a method)
+
+  registers a resource with the I/O-object
+
+  Parameters:
+    self: the I/O-object
+    key: the key to use for the resource
+    resource: the resource
+
+  Result:
+    self: the updated I/O-object
+
+  This registers a resource with the I/O-object.
+
+  Topics: I/O, Events
+
+  See also: std_types::resource/enable_logging,
+	    std_types::resource/disable_logging
+
+  Example:
+
+    register_resource &io TERMINAL terminal
+
+((defined in basic/io/io_events.fky))
+((generated manually))
+((2025-05-11))

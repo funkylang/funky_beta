@@ -1,0 +1,14 @@
+# Debugging
+
+  **Attention**: Functions in the namespace "debug" are not available in
+  production code.
+
+  They can access object details via introspection which is not available in
+  production code.
+
+  These functions can also write to *stderr* without needing I/O-acccess rights!
+  To do so they prevent parallel code execution.
+
+  Related topics: Errors, Input-Output
+
+((defined in basic/debug.fky))

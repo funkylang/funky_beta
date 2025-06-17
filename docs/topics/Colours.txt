@@ -1,0 +1,11 @@
+# Colours
+
+  The <@Terminal> library uses <std_types::character>s for text and background
+  colours.
+
+  Each colour is a combination of red, green and blue. Each colour component
+  supports 256 shades.
+
+  Related topics: Terminal
+
+((defined in terminal/terminal.fky))

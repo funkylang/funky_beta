@@ -1,0 +1,17 @@
+# Branches
+
+  There are no builtin branch instructions in the Funky language.
+
+  Branch "instructions" are functions that are supplied some form of *condition*
+  and two or more functions. Based upon the evaluation of the condition, one of
+  the supplied functions is called.
+
+  The basic branch instructions of the standard library use polymorphic dispatch
+  on the truth values <true> and <false> to implement <if> and <if_not>.
+
+  More complex branches like <cond> or <case> use <if> to check their
+  conditions.
+
+  Related topics: Control Flow, Loops
+
+((defined in basic/branches.fky))

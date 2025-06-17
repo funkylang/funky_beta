@@ -1,0 +1,27 @@
+# Input-Output
+
+  Input/Output is handled in a special way in Funky.
+
+  I/O-functions must be called with so-called *I/O-access rights*.
+
+  To call a function with I/O-access rights one
+
+  * must already have *I/O-access rights*
+
+  and
+
+  * give them to the called function
+
+  To give *I/O-access rights* to a function it is called with a "!"-suffix.
+
+  Related topics: Input-Output Events, POSIX
+
+  Example:
+
+    println! "Hello, world!"
+
+  Output:
+
+    Hello, world!
+
+((defined in basic/io/io.fky))

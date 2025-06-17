@@ -1,0 +1,33 @@
+# Errors
+
+  In Funky errors are handled via so-called error objects.
+
+  In the case an error occurs:
+
+  * if a function would return a single value, it returns an error object
+    instead
+
+  * if a function would return several values, it returns the expected number
+    of results, replacing each result with the error object
+
+  * if a function would return no value at all, it **will** return a single
+    error object to its caller, which results in an error in the caller and
+    leads to propagation of the error
+
+  Error objects contain only very few and special methods. Any attempt to
+  access other methods will propagate the error.
+
+  When an error occurs within a function then all function arguments are
+  checked. If any argument is an error object then instead of generating a new
+  error object the existing error object is returned. This allows to propagate
+  errors without losing information about the original error.
+
+  To check whether a value is an error object or not, use <std::is_an_error>.
+
+  Example:
+
+    load $buf filename
+    on buf.is_an_error: Error "
+      Could not load file "@(filename)"!
+
+((defined in basic/error.fky))

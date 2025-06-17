@@ -1,0 +1,19 @@
+# Environment
+
+  Allows retrieval of information about the operating system's "environment"
+  and also about where the Funky tools are installed.
+
+  Example:
+
+    $shared_path
+      append
+	installation_prefix()
+	"/share/funky-" package_version()
+
+    println! shared_path
+
+  Output:
+
+    /usr/local/share/funky-0.0.0
+
+((defined in basic/environment.fky))

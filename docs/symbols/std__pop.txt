@@ -1,0 +1,18 @@
+# std::pop (a polymorphic function)
+
+  removes and returns the last item of a collection
+
+  Parameter:
+    collection: the collection to be modified
+
+  Results:
+    collection: the modified collection
+    item: the removed item
+
+  Topics: Strings, Lists
+
+  See also: std::peek, std::drop, std::push, std::put
+
+((defined in runtime_templates/aaa.template))
+((generate))
+((2024-07-03 17:16:20))

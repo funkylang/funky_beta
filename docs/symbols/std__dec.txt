@@ -1,0 +1,33 @@
+# std::dec (a function)
+
+  subtracts 1 from the specified value
+
+  Parameter:
+    value: the value from which to subtract 1
+
+  Result:
+    the value decreased by 1
+
+  Topic: Math
+
+  See also: std::inc, std::minus
+
+  Example:
+
+    println! dec(123)
+
+  Output:
+
+    122
+
+  Example:
+
+    println! dec('Z')
+
+  Output:
+
+    Y
+
+((defined in basic/math.fky))
+((generated manually))
+((2025-05-06))

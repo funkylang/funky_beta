@@ -1,0 +1,24 @@
+# std_types::io/std::enable_logging (a method)
+
+  enables logging for the I/O-object
+
+  Parameters:
+    self: the I/O-object
+    level: the log level (default: 1)
+
+  Result:
+    self: the updated I/O-object
+
+  This enables the logging feature of the I/O-object. All log messages up to
+  the specfied log level will be output.
+
+  The lower the log level number the more important is the message. Severe
+  errors have a log level of 1.
+
+  Topics: I/O, Logging
+
+  See also:: std_types::io/std::disable_logging
+
+((defined in basic/io/io_events.fky))
+((generated manually))
+((2025-05-11 18:49:47))

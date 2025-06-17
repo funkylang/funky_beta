@@ -1,0 +1,357 @@
+# std_types::web_terminal (a type)
+
+  the prototype object for web terminals
+
+  This object is never used directly but cloned to create a new web terminal.
+
+  Topics: Network Clients and Servers
+
+  See also: std_types::generic_terminal
+
+  Example:
+
+    $std::on_websocket_message:
+      (
+        io
+        fd
+        message
+      )
+      println! "got message: @(message)"
+      -> io
+
+    $std::on_key_press:
+      (
+        io
+        fd
+        key
+      )
+      println! "got key press: @(key)"
+      -> io
+
+    $std::on_mouse_click:
+      (
+        io
+        fd
+        button
+        x
+        y
+      )
+      println! "got mouse click: @(button) @(x) @(y)"
+      -> io
+
+    $std::on_accept:
+      (
+        io
+        fd
+        address
+        port
+      )
+      println! "accepted connection from @(address) @(port)"
+      -> io
+
+    $std::on_close:
+      (
+        io
+        fd
+      )
+      println! "closed connection from @(fd.serialize)"
+      -> io
+
+    $std::on_error:
+      (
+        io
+        fd
+        message
+      )
+      println! "error on @(fd.serialize): @(message)"
+      -> io
+
+    $std::on_timeout:
+      (
+        io
+        fd
+        message
+      )
+      println! "timeout on @(fd.serialize): @(message)"
+      -> io
+
+    $std::on_connect:
+      (
+        io
+        fd
+        address
+        port
+      )
+      println! "connected to @(address) @(port)"
+      -> io
+
+    $std::on_disconnect:
+      (
+        io
+        fd
+        address
+        port
+      )
+      println! "disconnected from @(address) @(port)"
+      -> io
+
+    $std::on_listen:
+      (
+        io
+        fd
+        address
+        port
+      )
+      println! "listening on @(address) @(port)"
+      -> io
+
+    $std::on_stop_listen:
+      (
+        io
+        fd
+        address
+        port
+      )
+      println! "stopped listening on @(address) @(port)"
+      -> io
+
+    $std::on_accept_error:
+      (
+        io
+        fd
+        message
+      )
+      println! "accept error on @(fd.serialize): @(message)"
+      -> io
+
+    $std::on_connect_error:
+      (
+        io
+        fd
+        message
+      )
+      println! "connect error on @(fd.serialize): @(message)"
+      -> io
+
+    $std::on_listen_error:
+      (
+        io
+        fd
+        message
+      )
+      println! "listen error on @(fd.serialize): @(message)"
+      -> io
+
+    $std::on_stop_listen_error:
+      (
+        io
+        fd
+        message
+      )
+      println! "stop listen error on @(fd.serialize): @(message)"
+      -> io
+
+    $std::on_send_error:
+      (
+        io
+        fd
+        message
+      )
+      println! "send error on @(fd.serialize): @(message)"
+      -> io
+
+    $std::on_receive_error:
+      (
+        io
+        fd
+        message
+      )
+      println! "receive error on @(fd.serialize): @(message)"
+      -> io
+
+    $std::on_send_timeout:
+      (
+        io
+        fd
+        message
+      )
+      println! "send timeout on @(fd.serialize): @(message)"
+      -> io
+
+    $std::on_receive_timeout:
+      (
+        io
+        fd
+        message
+      )
+      println! "receive timeout on @(fd.serialize): @(message)"
+      -> io
+
+    $std::on_send_complete:
+      (
+        io
+        fd
+        message
+      )
+      println! "send complete on @(fd.serialize): @(message)"
+      -> io
+
+    $std::on_receive_complete:
+      (
+        io
+        fd
+        message
+      )
+      println! "receive complete on @(fd.serialize): @(message)"
+      -> io
+
+    $std::on_send_cancel:
+      (
+        io
+        fd
+        message
+      )
+      println! "send cancel on @(fd.serialize): @(message)"
+      -> io
+
+    $std::on_receive_cancel:
+      (
+        io
+        fd
+        message
+      )
+      println! "receive cancel on @(fd.serialize): @(message)"
+      -> io
+
+    $std::on_send_abort:
+      (
+        io
+        fd
+        message
+      )
+      println! "send abort on @(fd.serialize): @(message)"
+      -> io
+
+    $std::on_receive_abort:
+      (
+        io
+        fd
+        message
+      )
+      println! "receive abort on @(fd.serialize): @(message)"
+      -> io
+
+    $std::on_send_shutdown:
+      (
+        io
+        fd
+        message
+      )
+      println! "send shutdown on @(fd.serialize): @(message)"
+      -> io
+
+    $std::on_receive_shutdown:
+      (
+        io
+        fd
+        message
+      )
+      println! "receive shutdown on @(fd.serialize): @(message)"
+      -> io
+
+    $std::on_send_reset:
+      (
+        io
+        fd
+        message
+      )
+      println! "send reset on @(fd.serialize): @(message)"
+      -> io
+
+    $std::on_receive_reset:
+      (
+        io
+        fd
+        message
+      )
+      println! "receive reset on @(fd.serialize): @(message)"
+      -> io
+
+    $std::on_send_urgent:
+      (
+        io
+        fd
+        message
+      )
+      println! "send urgent on @(fd.serialize): @(message)"
+      -> io
+
+    $std::on_receive_urgent:
+      (
+        io
+        fd
+        message
+      )
+      println! "receive urgent on @(fd.serialize): @(message)"
+      -> io
+
+    $std::on_send_keep_alive:
+      (
+        io
+        fd
+        message
+      )
+      println! "send keep alive on @(fd.serialize): @(message)"
+      -> io
+
+    $std::on_receive_keep_alive:
+      (
+        io
+        fd
+        message
+      )
+      println! "receive keep alive on @(fd.serialize): @(message)"
+      -> io
+
+    $std::on_send_heartbeat:
+      (
+        io
+        fd
+        message
+      )
+      println! "send heartbeat on @(fd.serialize): @(message)"
+      -> io
+
+    $std::on_receive_heartbeat:
+      (
+        io
+        fd
+        message
+      )
+      println! "receive heartbeat on @(fd.serialize): @(message)"
+      -> io
+
+    $std::on_send_bandwidth_limit:
+      (
+        io
+        fd
+        message
+      )
+      println! "send bandwidth limit on @(fd.serialize): @(message)"
+      -> io
+
+    $std::on_receive_bandwidth_limit:
+      (
+        io
+        fd
+        message
+      )
+      println! "receive bandwidth limit on @(fd.serialize): @(message)"
+      -> io
+
+    $std::on_send_congest
+STOPPED
+
+((defined in web/terminal.fky))
+((generated by Codestral-22B-v0.1-Q5_K_M.gguf))
+((2024-07-03 16:16:56))

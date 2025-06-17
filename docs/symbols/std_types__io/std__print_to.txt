@@ -1,0 +1,28 @@
+# std_types::io/std::print_to (a method)
+
+  prints to a file descriptor
+
+  Parameters:
+    self: the I/O-object
+    fd: the file descriptor
+    args: the arguments to print
+
+  Result:
+    self: the updated I/O-object
+
+  The arguments are conerted to a single string, encoded to UTF-8 and queued for
+  writing to the specified file-descriptor.
+
+  When the write operation is completed a <std::WRITE_COMPLETED> event is sent.
+
+  For each partial write a <std::WRITE_PENDING> event is sent.
+
+  If an error occurs a <std::WRITE_ERROR> event ist sent.
+
+  Topics: I/O, Events
+
+  See also: std_types::io/std::write, std::WRITE_COMPLETED, std::WRITE_PENDING
+
+((defined in basic/io/io_events.fky))
+((generated manually))
+((2025-05-11))

@@ -1,0 +1,41 @@
+# html::STYLE (a function)
+
+  generates a STYLE element
+
+  Parameters:
+    items*: the content of the element
+
+  Result:
+    a string containing the STYLE element
+
+  The function is used as a block function, with the content placed between the
+  STYLE tags.
+
+  Topic: HTML
+
+  Example:
+
+    <require basic/stdlib>
+    <require basic/export/html>
+
+    <using std>
+    <using html>
+
+    println!
+      STYLE
+	"
+	  body {
+	    background: #eee;
+	  }
+
+  Output:
+
+    <style>
+    body {
+      background: #eee;
+    }
+    </style>
+
+((defined in basic/export/html.fky))
+((generated manually))
+((2025-05-10 17:56:02))

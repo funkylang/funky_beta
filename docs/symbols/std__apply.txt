@@ -1,0 +1,30 @@
+# std::apply (an I/O-function)
+
+  calls a function with the specified arguments
+
+  Parameters:
+    function: the function to call
+    arguments*: the arguments to pass to the function
+
+  Result:
+    the result of the function call
+
+  If *apply* is called with I/O-access rights then the *function* is called with
+  I/O-access rights.
+
+  The last argument must be a list of arguments. This list is expanded and the
+  *function* is called with all the supplied arguments.
+
+  Topic: Functions
+
+  Example:
+
+    apply! println 'a' 'b' list('c' 'd' 'e')
+
+  Output:
+
+    abcde
+
+((defined in basic/functional.fky))
+((generated manually))
+((2025-05-10 21:11:12))

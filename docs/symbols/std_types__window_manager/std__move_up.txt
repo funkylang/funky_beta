@@ -1,0 +1,36 @@
+# std_types::window_manager/std::move_up (a method)
+
+  moves the content of a window up one line
+
+  Parameters:
+    window_manager: a window manager
+    id?: the id of the window to move (default: the focused window)
+
+  Result:
+    window_manager: the updated window manager
+
+  Moves the contents of the window with the specified *id* up one line.
+
+  If no *id* is specified then the contents of the focused window are moved up.
+
+  If the window has a cursor, then the cursor is moved up one line instead. In
+  this case the contents do not necessarily scroll!
+
+  Topic: Window Manager
+
+  See also: std_types::window_manager/std::move_down,
+	    std_types::window_manager/std::move_left,
+	    std_types::window_manager/std::move_right,
+	    std_types::window_manager/std::move_top,
+	    std_types::window_manager/std::move_bottom
+
+  Example:
+
+    $wm create_window_manager(terminal)
+    create_window &wm $id "My Window"
+    ...
+    move_up &wm id
+
+((defined in terminal/window_manager.fky))
+((generated manually))
+((2024-07-13 12:40:05))

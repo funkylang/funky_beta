@@ -1,0 +1,22 @@
+# std::check (a function)
+
+  checks if its argument is an error
+
+  Parameter:
+    argument: the value to check
+
+  Result(s):
+    the error object if the argument is an error otherwise none
+
+  Topic: Input-Output
+
+  See also: std::try
+
+  Example:
+
+    load! $buf "test.dat"
+    check buf # fails immediately if <buf> is an error
+
+((defined in basic/io/io.fky))
+((generated manually))
+((2025-05-05))

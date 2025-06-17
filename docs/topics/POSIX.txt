@@ -1,0 +1,15 @@
+# POSIX
+
+  The Funky-API includes most POSIX-function calls.
+
+  The are wrapped in a Funky-style API.
+
+  Funky uses mainly blocking I/O but makes heavy use of the <std::pselect>
+  function to make I/O-calls only when non-blocking behaviour is guaranteed.
+
+  In most cases it will be more appropriate to use the <@Input-Output>-API than
+  the POSIX-API.
+
+  Related topics: Input-Output
+
+((defined in basic/io/io.fky))

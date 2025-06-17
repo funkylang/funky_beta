@@ -1,0 +1,5 @@
+# Numbers
+
+  See also: std_types::number, std_types::integer, std_types::real
+
+((defined in basic/types/number.fky))

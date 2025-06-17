@@ -1,0 +1,34 @@
+# html::TITLE (a function)
+
+  generates a TITLE element
+
+  Parameters:
+    items*: the content of the element
+
+  Result:
+    a string containing the TITLE element
+
+  The function is used as a block function, with the content placed between the
+  TITLE tags.
+
+  Topic: HTML
+
+  Example:
+
+    <require basic/stdlib>
+    <require basic/export/html>
+
+    <using std>
+    <using html>
+
+    println!
+      TITLE
+	"My great Homepage"
+
+  Output:
+
+    <title>My great Homepage</title>
+
+((defined in basic/export/html.fky))
+((generated manually))
+((2025-05-10 17:55:50))

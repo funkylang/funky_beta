@@ -1,0 +1,28 @@
+# HTML
+
+  Use <std::from_html> to convert an HTML-text into a tree of of tables and
+  tuples representing the structure of the HTML-document.
+
+  Use functions like <HTML>, or <BODY> to generate HTML-text.
+
+ Example:
+
+    <require basic/stdlib>
+    <require basic/export/html>
+
+    <using std>
+    <using html>
+
+    print!
+      BODY
+	: H1 "My great Homepage"
+	: P "This is my great homepage."
+
+  Output:
+
+    <body>
+    <h1>My great Homepage</h1>
+    <p>This is my great homepage.</p>
+    </body>
+
+((defined in basic/export/html.fky))

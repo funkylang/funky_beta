@@ -1,0 +1,17 @@
+# std::peek (a polymorphic function)
+
+  returns the last item of a collection without removing it
+
+  Parameters:
+    collection # the collection to be analyzed
+
+  Result:
+    item # the last item of collection
+
+  Topic: Collections
+
+  See also: std::pop, std::drop, std::push, std::put
+
+((defined in runtime_templates/aaa.template))
+((generate))
+((2024-07-03 21:00:18))

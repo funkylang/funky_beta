@@ -1,0 +1,23 @@
+# std::sleep (an I/O-function)
+
+  sleeps for the specified amount of time
+
+  Parameter:
+    duration: the sleep time in seconds
+
+  Results:
+    none
+
+  **Attention**: This function must be called with I/O-access rights!
+
+  Topic: Input-Output
+
+  See also: std::usleep
+
+  Example:
+
+    sleep! 1
+
+((defined in basic/io/io.fky))
+((generated manually))
+((2025-05-05))

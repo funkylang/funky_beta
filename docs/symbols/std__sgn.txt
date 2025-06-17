@@ -1,0 +1,47 @@
+# std::sgn (a function)
+
+  returns the sign of its (numerical) argument
+
+  Parameter:
+    value: a number
+
+  Result:
+    -1, 0, or 1
+
+  If the argument is less than zero then *-1* is returned.
+
+  If the argument equals zero then *0* is returned.
+
+  If the argument is greater than zero then *1* is returned.
+
+  Topic: Math
+
+  See also: std::abs
+
+  Example:
+
+    println! sgn(-123)
+
+  Output:
+
+    -1
+
+  Example:
+
+    println! sgn(0)
+
+  Output:
+
+    0
+
+  Example:
+
+    println! sgn(123)
+
+  Output:
+
+    1
+
+((defined in basic/math.fky))
+((generated manually))
+((2025-05-06))

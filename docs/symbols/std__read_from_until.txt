@@ -1,0 +1,65 @@
+# std::read_from_until (an I/O-function)
+
+  reads data from a file descriptor until a sentinel is found
+
+  Parameters:
+    fd: the file descriptor to read from
+    sentinel: the sentinel to search for
+    nth: the nth occurrence of the sentinel to search for
+
+  Results:
+    a string containing the read data or an error
+
+  **Attention**: This function must be called with I/O-access rights!
+
+  The function reads data from the file descriptor until the specified
+  sentinel is found and returns the read data as a string. The sentinel is
+  included in the returned string.
+
+
+  If the <nth> parameter is specified, the function returns the data up to
+  the nth occurrence of the sentinel.
+
+  If the end of the file is reached, the function returns the already read
+  data as a string.
+
+  If an error occurs, the function returns the error.
+
+  Topic: Input-Output
+
+  See also: std::read_from, std::read_all_from, std::get_from_until,
+	    std::getln_from, std::get_until, std::getln
+
+  Example:
+
+    $data read_from_until! STDIN_FILENO '@nl;'
+
+  Input:
+
+    Line number one.
+    Line number two.
+
+  Output:
+
+    Line number one.
+
+  Example:
+
+    $data read_from_until! STDIN_FILENO '@nl;' 2
+    print! data
+
+  Input:
+
+    Line number one.
+    Line number two.
+    Line number three.
+
+  Output:
+
+    Line number one.
+    Line number two.
+
+((defined in basic/io/io.fky))
+((generated manually))
+((2025-05-05))
+

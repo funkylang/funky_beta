@@ -1,0 +1,27 @@
+# std_types::string/std::save (an I/O-method)
+
+  saves the supplied data to a file
+
+  Parameters:
+    filename: the name of the file to save to
+    data: the data to save
+
+  Results:
+    none
+
+  **Attention**: This function must be called with I/O-access rights!
+
+  The function opens the file with the specified name, writes the supplied
+  data to the file and closes the file.
+
+  Topic: Input-Output
+
+  See also: std_types::string/std::load
+
+  Example:
+
+    save! "test.dat" "Hello, world!@nl;"
+
+((defined in basic/io/io.fky))
+((generated manually))
+((2025-05-05))

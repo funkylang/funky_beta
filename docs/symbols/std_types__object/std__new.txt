@@ -1,0 +1,206 @@
+# std_types::object/std::new (a builtin method)
+
+  creates a new object with inherited attributes
+
+  Parameters:
+    self: the object to be copied
+    other: the object to be copied
+
+  Result:
+    new_object: a copy of the other object with inherited attributes
+
+  Topic: Basics
+
+  See also: std_types::object
+
+  Example:
+
+    # create a new object with inherited attributes
+    new_object = new(other_object)
+
+    # create a new object with inherited attributes
+    new_object = other_object.new()
+
+    # create a new object with inherited attributes
+    new_object = std::new(other_object)
+
+    # create a new object with inherited attributes
+    new_object = other_object.std::new()
+
+    # create a new object with inherited attributes
+    new_object = std::new(other_object)
+
+    # create a new object with inherited attributes
+    new_object = other_object.std::new()
+
+    # create a new object with inherited attributes
+    new_object = std::new(other_object)
+
+    # create a new object with inherited attributes
+    new_object = other_object.std::new()
+
+    # create a new object with inherited attributes
+    new_object = std::new(other_object)
+
+    # create a new object with inherited attributes
+    new_object = other_object.std::new()
+
+    # create a new object with inherited attributes
+    new_object = std::new(other_object)
+
+    # create a new object with inherited attributes
+    new_object = other_object.std::new()
+
+    # create a new object with inherited attributes
+    new_object = std::new(other_object)
+
+    # create a new object with inherited attributes
+    new_object = other_object.std::new()
+
+    # create a new object with inherited attributes
+    new_object = std::new(other_object)
+
+    # create a new object with inherited attributes
+    new_object = other_object.std::new()
+
+    # create a new object with inherited attributes
+    new_object = std::new(other_object)
+
+    # create a new object with inherited attributes
+    new_object = other_object.std::new()
+
+    # create a new object with inherited attributes
+    new_object = std::new(other_object)
+
+    # create a new object with inherited attributes
+    new_object = other_object.std::new()
+
+    # create a new object with inherited attributes
+    new_object = std::new(other_object)
+
+    # create a new object with inherited attributes
+    new_object = other_object.std::new()
+
+    # create a new object with inherited attributes
+    new_object = std::new(other_object)
+
+    # create a new object with inherited attributes
+    new_object = other_object.std::new()
+
+    # create a new object with inherited attributes
+    new_object = std::new(other_object)
+
+    # create a new object with inherited attributes
+    new_object = other_object.std::new()
+
+    # create a new object with inherited attributes
+    new_object = std::new(other_object)
+
+    # create a new object with inherited attributes
+    new_object = other_object.std::new()
+
+    # create a new object with inherited attributes
+    new_object = std::new(other_object)
+
+    # create a new object with inherited attributes
+    new_object = other_object.std::new()
+
+    # create a new object with inherited attributes
+    new_object = std::new(other_object)
+
+    # create a new object with inherited attributes
+    new_object = other_object.std::new()
+
+    # create a new object with inherited attributes
+    new_object = std::new(other_object)
+
+    # create a new object with inherited attributes
+    new_object = other_object.std::new()
+
+    # create a new object with inherited attributes
+    new_object = std::new(other_object)
+
+    # create a new object with inherited attributes
+    new_object = other_object.std::new()
+
+    # create a new object with inherited attributes
+    new_object = std::new(other_object)
+
+    # create a new object with inherited attributes
+    new_object = other_object.std::new()
+
+    # create a new object with inherited attributes
+    new_object = std::new(other_object)
+
+    # create a new object with inherited attributes
+    new_object = other_object.std::new()
+
+    # create a new object with inherited attributes
+    new_object = std::new(other_object)
+
+    # create a new object with inherited attributes
+    new_object = other_object.std::new()
+
+    # create a new object with inherited attributes
+    new_object = std::new(other_object)
+
+    # create a new object with inherited attributes
+    new_object = other_object.std::new()
+
+    # create a new object with inherited attributes
+    new_object = std::new(other_object)
+
+    # create a new object with inherited attributes
+    new_object = other_object.std::new()
+
+    # create a new object with inherited attributes
+    new_object = std::new(other_object)
+
+    # create a new object with inherited attributes
+    new_object = other_object.std::new()
+
+    # create a new object with inherited attributes
+    new_object = std::new(other_object)
+
+    # create a new object with inherited attributes
+    new_object = other_object.std::new()
+
+    # create a new object with inherited attributes
+    new_object = std::new(other_object)
+
+    # create a new object with inherited attributes
+    new_object = other_object.std::new()
+
+    # create a new object with inherited attributes
+    new_object = std::new(other_object)
+
+    # create a new object with inherited attributes
+    new_object = other_object.std::new()
+
+    # create a new object with inherited attributes
+    new_object = std::new(other_object)
+
+    # create a new object with inherited attributes
+    new_object = other_object.std::new()
+
+    # create a new object with inherited attributes
+    new_object = std::new(other_object)
+
+    # create a new object with inherited attributes
+    new_object = other_object.std::new()
+
+    # create a new object with inherited attributes
+    new_object = std::new(other_object)
+
+    # create a new object with inherited attributes
+    new_object = other_object.std::new()
+
+    # create a new object with inherited attributes
+    new_object = std::new(other_object)
+
+    # create a new object with inherited
+STOPPED
+
+((defined in runtime_templates/object.template))
+((generated by Codestral-22B-v0.1-Q5_K_M.gguf))
+((2024-12-09 20:38:15))

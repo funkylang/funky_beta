@@ -1,0 +1,10 @@
+# Characters
+
+  Characters are unicode code points in Funky. But they can hold any positive
+  32-bit integer value (including zero).
+
+  Characters are the building blocks of strings.
+
+  See also: Strings
+
+((defined in basic/types/character.fky))

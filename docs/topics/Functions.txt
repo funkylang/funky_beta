@@ -1,0 +1,5 @@
+# Functions
+
+  Every object in Funky is a function.
+
+((defined in basic/types/function.fky))

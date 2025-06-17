@@ -1,0 +1,60 @@
+# std::pipe (an I/O-function)
+
+  executes a sequence of commands in a pipeline
+
+  Parameters:
+    args*: the commands to execute
+
+  Results:
+    ret: a list of exit codes (one from each command)
+    out: the standard output from the last command in the pipeline
+    err: a list of error outputs (one from each command)
+
+  **Attention**: This function must be called with I/O-access rights!
+
+  The function executes a sequence of commands. The output of each command is
+  connected to the input of the next command. The output of the last command
+  is returned as the first result.
+
+  If the first "command" is a string, it is used as the input for the first
+  command.
+
+  If the first "command" is a file descriptor, it is used to "feed" the first
+  command.
+
+  Topic: Input-Output
+
+  See also: std::pipe_commands, std::call, std::execute, std::system,
+	   std::extern
+
+  Example:
+
+    load! $buf "compiler/funky.fky"
+
+    pipe! $ret $out $err
+      buf
+      grep "^\$f"
+
+    if
+      any_of(ret: (value) -> value != 0):
+	eprint! reduce(err).from_utf8
+      :
+	print! out.from_utf8
+
+  Example:
+
+    open! $fd "compiler/funky.fky" "r"
+
+    pipe! $ret $out $err
+      fd
+      grep "^\$f"
+
+    if
+      any_of(ret: (value) -> value != 0):
+	eprint! reduce(err).from_utf8
+      :
+	print! out.from_utf8
+
+((defined in basic/io/io.fky))
+((generated manually))
+((2025-05-07 11:54:21))

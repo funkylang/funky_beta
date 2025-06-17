@@ -1,0 +1,58 @@
+# Strings
+
+  Strings consist of zero or more characters.
+
+  A character is a tagged unsigned 32-bit integer which can be used to represent
+  a unicode code point. But they can also be used for representing other things
+  like 24-bit colour codes.
+
+  Strings are tagged lists of characters. The characters in a list can be
+  accessed in a left to right manner using one based indices.
+
+  They can also be accessed right to left if the indices are negative numbers.
+
+  Example:
+
+    $str "abc"
+    println! str(1) # prints "a"
+    println! str(-1) # prints "c"
+
+  The subtype <std_types::octet_string> of <std_types::string> is used for
+  binary data or storing utf8 encoded strings.
+
+  In an *octet string* each character is encoded with only 8 bits.
+
+  *Octet strings* are generated automatically if a string contains only 8-bit
+  characters.
+
+  Accessing a single character of a string using indexing is an O(1) operation.
+
+  Strings, as everything else in Funky, are immutable. So "changing" a string in
+  some way always results in a new string being created.
+
+  This new string can use "structure sharing" with the original string to avoid
+  unnecessary copying of data.
+
+  Adding a character at the end of a string (<std::push>) is an accumulated O(1)
+  operation if applied multiple times to the same string.
+
+  Changing a single character in a string *can* be implemented as an accumulated
+  O(1) operation if applied multiple times to the same string.
+
+  The <std::append> method also tries to use structure sharing to avoid
+  unnecessary copying of data.
+
+  It's more efficient to append multiple strings in one go than to append them
+  one by one.
+
+  A string *range* is a substring of a string and is usually implementing using
+  structure sharing. Creating a string range using <std::range> is an O(1)
+  operation.
+
+  The most basic string operations are builtin.
+
+  Strings have a lot in common with <std_types::list>.
+
+  Related topics: Lists
+
+((defined in basic/types/collections/strings/string.fky))

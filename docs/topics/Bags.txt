@@ -1,0 +1,8 @@
+# Bags
+
+  Bags are "multi-sets". A bag keeps a record of how many of each elements
+  are stored.
+
+  A bag can contain a negative number of elements!
+
+((defined in basic/types/collections/bags/hash_bag.fky))

@@ -1,0 +1,3 @@
+# Window Manager
+
+((defined in terminal/window_manager.fky))

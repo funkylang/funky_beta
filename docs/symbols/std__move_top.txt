@@ -1,0 +1,20 @@
+# std::move_top (a polymorphic function)
+
+  shows the top portion of an object's contents
+
+  Parameters:
+    self: an object with some contents
+
+  Result:
+    window_manager: the updated window manager
+
+  Shows the top portion of the contents of the object.
+
+  Topic: Window Manager
+
+  See also: std::move_bottom, std::move_home, std::move_end, std::move_down,
+	    std::move_up
+
+((defined in terminal/window_manager.fky))
+((generated manually))
+((2024-07-13 12:36:03))

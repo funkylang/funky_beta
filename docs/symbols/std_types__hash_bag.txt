@@ -1,0 +1,40 @@
+# std_types::hash_bag (a type)
+
+  the prototype object for all hash-based bags
+
+  This object is never used directly but cloned to create a new bag.
+
+  A hash bag is an "unordered" bag optimized for quick access. Each entry stores
+  a key and an associated count. The count can be negative!
+
+  The type function of a hash bag allows for retrieval of the *count* associated
+  with a *key* when called with the *key* as its single argument.
+
+  When the type function is called with two arguments (a *key* and a *count*),
+  it creates a new bag which is an updated version of the current bag. The
+  new bag contains all the entries of the current bag, plus an a new entry
+  with the given *key* and *count*. If the *key* already exists in the bag,
+  its count is updated by adding the given *count*. If the resulting count
+  is zero, the entry is removed from the bag.
+
+  Topics: Bags, Collections
+
+  See also: std_types::hash_bag/std::add,
+	    std_types::hash_bag/std::merge,
+	    std_types::hash_bag/std::difference
+
+  Example:
+
+    $bag empty_hash_bag
+    !bag("Joe" 2)
+    !bag("Mary" 3)
+    !bag("Bob" 2)
+    println! bag("Mary")
+
+  Output:
+
+    3
+
+((defined in basic/types/collections/bags/hash_bag.fky))
+((generated manually))
+((2025-05-18))

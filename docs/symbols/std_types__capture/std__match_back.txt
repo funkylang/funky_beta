@@ -1,0 +1,17 @@
+# std::get_clear_colour (a polymorphic function)
+
+  gets the current clear colour
+
+  Parameters:
+    self: the object from which to get the clear colour
+
+  Result:
+    colour: the current clear colour
+
+  Topic: Terminal
+
+  See also: std::set_clear_colour, std::draw_colour_of
+
+((defined in basic/io/generic_terminal.fky))
+((rating 5))
+((2025-05-22 8:42:16))

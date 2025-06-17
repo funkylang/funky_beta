@@ -1,0 +1,15 @@
+# Lists
+
+  A list is a variable sized collection of elements.
+
+  The elements are accessed using a one-based index.
+
+  Negative indices are supported and count from the end of the list.
+
+  Lists are one of the basic data types in Funky.
+
+  They are used to hold the values of so-called "rest parameters".
+
+  Related topics: Collections
+
+((defined in basic/types/collections/lists/list.fky))

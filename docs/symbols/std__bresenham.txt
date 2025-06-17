@@ -1,0 +1,45 @@
+# std::bresenham (a function)
+
+  returns an iterator that produces *count* equally distributed values starting
+  with the *first* value and ending with the *last* value.
+
+  Parameters:
+    count: the number of values to return
+    first: the first value to return
+    last: the last value to return
+
+  Result:
+    iterator: an iterator that produces the values
+
+  Example:
+
+    count 5
+    $start 4
+    $end 11
+
+    $iter bresenham(count start end)
+    loop:
+      next_value &iter $value
+      println! value
+      if
+	value < end
+	next
+	:
+	  println! "done"
+
+  Output:
+
+    4
+    6
+    7
+    9
+    11
+    done
+
+  Topics: Iterators
+
+  See also: std::bresenham_delta
+
+((defined in basic/types/iterators/bresenham.fky))
+((generated manually))
+((2025-05-11 17:01:37))

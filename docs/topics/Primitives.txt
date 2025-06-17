@@ -1,0 +1,6 @@
+# Primitives
+
+Primitives are mostly very simple functions that might be builtin in other
+languages.
+
+((defined in basic/primitives.fky))

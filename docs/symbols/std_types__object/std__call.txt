@@ -1,0 +1,41 @@
+# std_types::object/std::call (an I/O-method)
+
+  calls an external command
+
+  Parameters:
+    cmd: the command to call
+    args: the arguments to pass to the command
+
+  Result(s):
+    ret: the exit code of the command
+    out: the command output written to stdout
+    err: the command output written to stderr
+
+  **Attention**: This function must be called with I/O-access rights!
+
+  The function executes the specified command in a subprocess.
+
+  The specified arguments are passed to the command.
+
+  The function used the current contents of <std::enviroment> as the enviroment
+  for the external command.
+
+  Depending of the number of desired results the function returns:
+
+  * the exit code
+
+  * the exit code and the output written to stdout
+
+  * the exit code, the output written to stdout and the output written to stderr
+
+  If an output (stdout, stderr) is not captured, it is written to the current
+  stdout or stderr.
+
+  Topic: Input-Output
+
+  See also: std::call, std::extern, std::execute, std::system, std::pipe,
+	   std::pipe_commands
+
+((defined in basic/io/io.fky))
+((generated manually))
+((2025-05-07))

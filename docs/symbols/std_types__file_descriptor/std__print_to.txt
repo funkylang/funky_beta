@@ -1,0 +1,31 @@
+# std_types::file_descriptor/std::print_to (an I/O-method)
+
+  prints its arguments to the specified file descriptor
+
+  Parameters:
+    fd: the file descriptor to print to
+    args*: the arguments to print
+
+  Results:
+    none
+
+  **Attention**: This function must be called with I/O-access rights!
+
+  The function converts its arguments to a single string, encodes this string
+  to UTF-8 and writes this encoded string to the specified file descriptor.
+
+  Topic: Input-Output
+
+  See also: std::println_to, std::print_string_to
+
+  Example:
+
+    print_to! STDOUT_FILENO "Hello, world!"
+
+  Output:
+
+    Hello, world!
+
+((defined in basic/io/io.fky))
+((generated manually))
+((2025-05-05))

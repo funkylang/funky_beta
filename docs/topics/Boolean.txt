@@ -1,0 +1,8 @@
+# Boolean
+
+  There is no common prototype for "true" and "false" in Funky.
+
+  Instead <std_types::true> and <std_types::false> are used for dispatching
+  polymorphic functions like <std::if>.
+
+((defined in basic/types/boolean.fky))

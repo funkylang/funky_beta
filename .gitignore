@@ -25,6 +25,9 @@ compiler/configuration.fky
 *.bak
 *~*
 s[0-9]*
+!docs/topics
+!docs/topics/**/*.txt
+!docs/symbols/**/*.txt
 !fllama.c
 !basic/**/*.c
 !runtime

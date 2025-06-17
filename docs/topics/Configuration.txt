@@ -1,0 +1,17 @@
+# Configuration
+
+  In Funky configuration files are files where each line contains a key-value
+  pair.
+
+  Key and value are separated by whitespace only. Remarks and empty lines are
+  allowed.
+
+  Example:
+
+    # control commands
+
+    ctrl-a jump_to_next_bookmark
+    ctrl-b toggle_bookmark
+    ctrl-c copy
+
+((defined in basic/configuration.fky))

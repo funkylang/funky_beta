@@ -1,0 +1,25 @@
+# Tuples
+
+  In Funky tuples are **not** used to return multiple values from a function
+  because this is a builtin feature of Funky.
+
+  Instead tuples are used to represent small "records" of data.
+
+  To create a tuple the tuple "constructor" is called with values for the
+  tuple's fields:
+
+  $my_rec <std::tuple>(value_1, value_2, ..., value_n)
+
+  To retrieve a tuple's fields one "destructs" the tuple like this:
+
+  my_rec $field_1 $field_2 ... $field_n
+
+  Tuples might be removed from the standard library in the future and the
+  functionality be merged with lists.
+
+  An object derived from <std_types::object> can be used to create a record
+  with named fields.
+
+  Related topics: Lists, Objects
+
+((defined in basic/types/collections/tuples/tuple.fky))

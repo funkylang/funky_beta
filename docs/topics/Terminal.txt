@@ -1,0 +1,72 @@
+# Terminal
+
+  The terminal library offers an interface for using text-terminals in a
+  comfortable way.
+
+  The base data type is <std_types::screen>, a rectangular array of characters,
+  associated text-styles (bold, italic, ...), draw and clear colours.
+
+  Coordinates are always one-based. The first coordinate (*x*) is the column,
+  the second coordinate (*y*) is the row.
+
+  Each colour supports 256 shades of red, green and blue.
+
+  A <std_types::terminal> is a type based on <std_types::screen> and is
+  associated with the file descriptor of a terminal.
+
+  To update the state of a <std_types::screen> or <std_types::terminal no
+  I/O-acccess rights are necessary.
+
+  There are methods to set draw and clear colors, to draw text, lines
+  or more complex shapes, to clear the screen or parts of it, to scroll the
+  screen or copy arbitrary rectangular areas between screens ("blitting").
+
+  Horizontal and vertical lines are drawn using the appropriate unicode graphics
+  characters.
+
+  Screens and terminals also support wide characters and Unicode emojis.
+
+  The terminal library is somewhat similar to the *curses* library. It tries to
+  update the contents of a terminal in a smart way.
+
+  To start using the functions of this library one must first create a
+  <std_types::terminal> object (see <std::create_terminal>) supplying the
+  terminal's width and height. The current terminal size can be retrieved via
+  the I/O-function <std::get_terminal_size>.
+
+  As an alternative one can use the high-level function
+  <std::initialize_terminal>. When using this function one gets automatic
+  cleanup "for free".
+
+  <std_types::terminal> objects are an in-memory representation of the
+  terminal's contents.
+
+  To update the terminal's contents one must call the method
+  <std_types::terminal/std::update> to create a character string representing
+  the changes to the terminal's contents and then write this string to the
+  terminal.
+
+  Related topics: Input-Output, Colours
+
+  Example:
+
+    <require basic/stdlib>
+    <require terminal/terminal>
+
+    get_terminal_size! STDIN_FILENO $width $height
+    create_terminal $terminal width height
+    draw_text &terminal 10 5 "Hello, world!"
+    update_terminal &terminal $output # create output character stream
+    print! output # print the generated character stream
+
+  Example:
+
+    <require basic/stdlib>
+    <require terminal/terminal>
+
+    initialize_terminal!: (terminal)
+      draw_text &terminal 10 5 "Hello, world!"
+      update_terminal &terminal $output # create output character stream
+      print! output # print the generated character stream
+
+((defined in terminal/terminal.fky))

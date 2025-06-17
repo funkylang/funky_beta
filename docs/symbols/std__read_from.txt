@@ -1,0 +1,34 @@
+# std::read_from (an I/O-function)
+
+  reads a specified number of bytes from a file descriptor
+
+  Parameters:
+    fd: the file descriptor to read from
+    length: the number of bytes to read
+
+  Results:
+    a string containing the read bytes or an error
+
+  **Attention**: This function must be called with I/O-access rights!
+
+  The function reads the specified number of bytes from the file descriptor and
+  returns these bytes as a string.
+
+  If the end of the file is reached, the function returns the already read
+  bytes as a string.
+
+  If an error occurs, the function returns the error.
+
+  Topic: Input-Output
+
+  See also: std::read_from_until, std::readln_from, std::read_all_from,
+	    std::get_from_until, std::getln_from, std::get_until, std::getln
+
+  Example:
+
+    $data read_from! STDIN_FILENO 10
+
+((defined in basic/io/io.fky))
+((generated manually))
+((2025-05-05))
+

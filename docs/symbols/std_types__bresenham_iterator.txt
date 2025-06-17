@@ -1,0 +1,13 @@
+# std_types::bresenham_iterator (a type)
+
+  the prototype object for all Bresenham iterators
+
+  This object is never used directly but cloned to create a new iterator.
+
+  Topics: Iterators
+
+  See also: std::bresenham
+
+((defined in basic/types/iterators/bresenham.fky))
+((generated manually))
+((2025-05-11))

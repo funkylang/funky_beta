@@ -1,0 +1,33 @@
+# Objects
+
+  Everything in Funky is an object - integers, strings, lists, functins, etc.
+
+  But object can only be used as records with named fields (so-called
+  attributes).
+
+  In addition to attributes any number of methods can be defined for an object.
+
+  Example:
+
+    <namespace my_types>
+
+     # we must define polymorphic functions to be used as attributes
+
+    $first_name_of ()
+    $last_name_of ()
+
+    # now we can define our prototype person (derived from <std_types::object>)
+
+    $my_types::person std_types::object
+      .first_name_of undefined
+      .last_name_of undefined
+
+    #
+      now let's add a method that converts a person into a string
+      The polymorphic function <std::to_string> is already defined in the basic
+      library
+
+    $my_types::person/to_string: (self)
+      append first_name_of(self) " " last_name_of(self)
+
+Related topics: Basics

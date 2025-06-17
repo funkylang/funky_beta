@@ -1,0 +1,29 @@
+# std::restore_colours (an I/O-function)
+
+  resets the text and background colour to the default
+
+  Parameters:
+    none
+
+  Results:
+    none
+
+  **Attention**: This function must be called with I/O-access rights!
+
+  The function sends the ANSI escape sequence "@esc;[39m@esc;[49m" to the
+  standard output.
+
+  Topic: Colours
+
+  See also: std::ansi_text_colour, std::ansi_background_colour,
+	    std::ansi_reset_colour
+
+  Example:
+
+    print! ansi_text_colour(RED) "Hello, "
+    print! ansi_text_colour(BLUE) "World!"
+    restore_colours!
+
+((defined in basic/io/colours.fky))
+((revised))
+((2024-07-02 20:00:09))

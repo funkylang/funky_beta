@@ -1,0 +1,32 @@
+# std::file_exists (an I/O-function)
+
+  checks if a file exists
+
+  Parameter:
+    filename: the name of the file to check
+
+  Results:
+    true if the file exists, false otherwise
+
+  **Attention**: This function must be called with I/O-access rights!
+
+  Topic: Input-Output
+
+  See also: std::directory_exists, std::is_a_directory, std::stat
+
+  Example:
+
+    file_exists! $does_exist "test.dat"
+    if
+      does_exist:
+	println! "test.dat exists"
+      :
+	println! "test.dat does not exist"
+
+  Example output:
+
+    test.dat exists
+
+((defined in basic/io/io.fky))
+((generated manually))
+((2025-05-05))

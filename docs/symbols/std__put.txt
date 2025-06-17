@@ -1,0 +1,23 @@
+# std::put (a polymorphic function)
+
+  adds a single item at the front of a collection
+
+  Parameters:
+    collection: the collection to be modified
+    item: the item to be added
+
+  Result:
+    collection: the modified collection
+
+  Topic: Lists
+
+  See also: std::get, std::push, std::pop
+
+  Example:
+
+    $str " big surprise"
+    put &str 'a'
+
+((defined in runtime_templates/aaa.template))
+((generate))
+((2024-07-03 21:00:40))

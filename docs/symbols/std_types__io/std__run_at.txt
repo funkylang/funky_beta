@@ -1,0 +1,22 @@
+# std_types::io/std::run_at (a method)
+
+  runs a command at a specific time
+
+  Parameters:
+    self: the I/O-object
+    time: a time span or an absolute time
+    command: the function to run
+    arguments: the arguments to pass to the function
+
+  Result:
+    self: the updated I/O-object
+
+  This runs the specified function at the specified time with I/O-access rights.
+
+  Topics: I/O, Events
+
+  See also: std_types::io/std::run
+
+((defined in basic/io/io_events.fky))
+((generated manually))
+((2025-05-11))

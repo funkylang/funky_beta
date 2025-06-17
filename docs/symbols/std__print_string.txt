@@ -1,0 +1,32 @@
+# std::print_string (an I/O-function)
+
+  prints a string to the standard output
+
+  Parameter:
+    str: the string to write
+
+  Results:
+    none
+
+  **Attention**: This function must be called with I/O-access rights!
+
+  The function encodes the string to UTF-8 and writes this encoded string to
+  the standard output.
+
+  Topic: Input-Output
+
+  See also: std::print, std::println, std::eprint_string, std::eprint,
+	    std::eprintln, std::write_string_to, std::write_to, std::writeln_to,
+	    std::print_to, std::println_to
+
+  Example:
+
+    print_string! "Hello, world!"
+
+  Output:
+
+    Hello, world!
+
+((defined in basic/io/io.fky))
+((generated manually))
+((2025-05-05))

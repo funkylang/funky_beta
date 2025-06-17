@@ -1,0 +1,23 @@
+# std_types::io/std::exit (a method)
+
+  exits the I/O-object
+
+  Parameters:
+    self: the I/O-object
+    exit_code: the exit code
+
+  Result:
+    self: the updated I/O-object
+
+  This tells the I/O-object to terminate the program with the specified exit
+  code.
+
+  All read requests will be cancelled.
+
+  Pending write operations will be completed before the program terminates.
+
+  Topics: I/O, Events
+
+((defined in basic/io/io_events.fky))
+((generated manually))
+((2025-05-11 20:00:04))

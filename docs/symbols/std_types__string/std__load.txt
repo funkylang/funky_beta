@@ -1,0 +1,34 @@
+# std_types::string/std::load (an I/O-method)
+
+  loads the contents of a file into a string
+
+  Parameters:
+    filename: the name of the file to load
+    max_length: the maximum number of bytes to load (optional)
+
+  Results:
+    the contents of the file as a string
+
+  **Attention**: This function must be called with I/O-access rights!
+
+  The function opens the file with the specified name, reads the contents of
+  the file into a string, closes the file and returns the string.
+
+  If the maximum number of bytes to load is specified, the function reads at
+  most this number of bytes from the file.
+
+  Topic: Input-Output
+
+  See also: std::save
+
+  Example:
+
+    load! $buf "test.dat"
+
+  Example:
+
+    load! $buf "/dev/sda" 512 # load first sector of /dev/sda
+
+((defined in basic/io/io.fky))
+((generated manually))
+((2025-05-05))

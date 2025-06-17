@@ -1,0 +1,25 @@
+# std::sqr (a function)
+
+  returns the square of its (numerical) argument
+
+  Parameter:
+    value: a non number
+
+  Result:
+    the square of the argument
+
+  Topic: Math
+
+  See also: std::pow, std::sqrt, std::isqrt
+
+  Example:
+
+    println! sqr(4)
+
+  Output:
+
+    16
+
+((defined in basic/math.fky))
+((generated manually))
+((2025-05-06))

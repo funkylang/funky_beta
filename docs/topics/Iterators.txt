@@ -1,0 +1,9 @@
+# Iterators
+
+  In Funky iterators are **not** used to iterate over the elements of a
+  collection!
+
+  Instead iterators are used to generate (possibly infinite) sequences like
+  random numbers.
+
+((defined in basic/types/iterators/iterator.fky))

@@ -1,0 +1,40 @@
+# std::getln (an I/O-function)
+
+  reads a line from the standard input and decodes the data to a string
+
+  Parameters:
+    none
+
+  Results:
+    the line read from the standard input
+
+  **Attention**: This function must be called with I/O-access rights!
+
+  The function reads data from the standard input until a newline character
+  is found and returns the read data as a string. The newline character is
+  included in the returned string and the string is decoded from UTF-8.
+
+  Topic: Input-Output
+
+  Topic: Input-Output
+
+  See also: std::getln_from, std::get_until, std::get_from_until,
+	    std::getln_from, std::readln_from, std::read_from_until
+
+  Example:
+
+    $line getln
+    println! "You entered: @(line)"
+
+  Input:
+
+    Hello, world!
+
+  Output:
+
+    You entered: Hello, world!
+
+((defined in basic/io/io.fky))
+((generated manually))
+((2025-05-05))
+

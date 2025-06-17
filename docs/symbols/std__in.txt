@@ -1,0 +1,30 @@
+# std::in (a function)
+
+  checks whether an element is contained in a collection
+
+  Parameters:
+    element: the element to be searched for
+    collection: the collection to be searched
+
+  Results:
+    true if the element is in the collection, false otherwise
+
+  **Attention**: This function must be called with I/O-access rights!
+
+  The function checks if the element is present in the collection.
+
+  Topic: Collections
+
+  See also: std::contains
+
+  Example:
+
+    if
+      "apple" .in. list("apple" "banana" "cherry"):
+	println! "Found apple"
+      :
+	println! "Apple not found"
+
+((defined in basic/logical.fky))
+((generated manually))
+((2025-05-09))

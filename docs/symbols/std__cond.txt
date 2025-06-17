@@ -1,0 +1,69 @@
+# std::cond (an I/O-function)
+
+  executes the function associated with the first successful test
+
+  Parameters:
+    args*: a sequence of functions that return a boolean and a function
+
+  Results:
+    the results of the executed function
+
+  This function supports I/O-access. If it is called with I/O-access rights than
+  these access rights are passed on to the executed function.
+
+  Each argument is a function that itself returns a boolean value and the
+  function that should be executed if this boolean value equals true.
+
+  This allows for "lazy evaluation" of the conditions.
+
+  Starting with the first argument each argument is evaluated and if the
+  returned boolean value equals <std::true>  then its associated function is
+  tail-called.
+
+  If the returned boolean equals <std::false> then the next argument is
+  evaluated and checked and so on.
+
+  If none of the conditions is true, the *cond* returns no results.
+
+  Topic: Branches, Input-Output
+
+  See also: std::if, std::case
+
+  Example:
+
+    $chr '7'
+    cond
+      -> chr >= 'a' && chr <= 'z':
+	println! "lower case character"
+      -> chr >= 'A' && chr <= 'Z':
+	println! "upper case character"
+      -> chr == '_':
+	println! "underscore"
+      -> chr >= '0' && chr <= '9':
+	println! "digit"
+      -> true:
+	println! "neither character nor digit nor underscore"
+
+  Output:
+
+    digit
+
+  Example:
+
+    $chr '7'
+    $character_class
+      cond
+	-> chr >= 'a' && chr <= 'z' -> "lower case character"
+	-> chr >= 'A' && chr <= 'Z' -> "upper case character"
+	-> chr == '_' -> "underscore"
+	-> chr >= '0' && chr <= '9' -> "digit"
+	-> true -> "neither character nor digit nor underscore"
+    println! character_class
+
+  Output:
+
+    digit
+
+((defined in basic/branches.fky))
+((generated manually))
+((2025-05-11))

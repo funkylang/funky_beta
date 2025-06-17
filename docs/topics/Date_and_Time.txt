@@ -1,0 +1,14 @@
+# Date and Time
+
+  Dates are based on the UNIX epoch.
+
+  Example:
+
+    current_time! $t
+    println! t
+
+  Output:
+
+    2025-05-24 19:12:06.699 GMT+2
+
+((defined in basic/types/date_and_time.fky))

@@ -1,0 +1,31 @@
+# std_types::io/std::load (a method)
+
+  loads a file asynchronously
+
+  Parameters:
+    io: the I/O-object
+    id: a caller supplied id to identify the I/O-job
+    filename: the name of the file to load
+    max_length: the maximum number of bytes to load
+    context: some caller supplied context to attach to the I/O-job (default: the
+	     filename)
+
+  Result:
+    the updated I/O-object
+
+  This function adds a job for loading a file to the I/O-object. The job is
+  executed asynchronously within <std::get_events>.
+
+  When the file has been loaded successfully, a <std::JOB_COMPLETED>-event is
+  generated.
+
+  If the file cannot be loaded, a <std::JOB_FAILED>-event is generated.
+
+  Topic: Input-Output
+
+  See also: std_types::io/std::save,
+	    std::get_events, std::JOB_COMPLETED, std::JOB_FAILED
+
+((defined in basic/io/io.fky))
+((generated manually))
+((2025-05-05))

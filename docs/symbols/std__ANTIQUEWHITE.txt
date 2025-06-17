@@ -1,0 +1,19 @@
+# std::ANTIQUEWHITE (a constant)
+
+  the colour "antiquewhite" (0xfaebd7) as used by the terminal library
+
+  Topics: Colours, Terminal
+
+  Colour constants are used to set the draw or clear colour.
+
+  The colour code for "antiquewhite" is 0xf0f8ff.
+
+  See also: std::set_draw_colour, std::set_clear_colour
+
+  Example:
+
+    set_clear_colour &terminal ANTIQUEWHITE
+
+((defined in basic/io/css_colours.fky))
+((generated manually))
+((2025-05-09))

@@ -1,0 +1,33 @@
+# std::try (an I/O-function)
+
+  executes the specified body and catches any error
+
+  Parameter:
+    body: a function that is called with I/O-access rights
+
+  Result:
+    undefined on success; an error object on failure
+
+  The function calls the specified body with I/O-access rights.
+
+  If an error occurs whithin the excution of the body, the error is caught and
+  returned.
+
+  If no error occurs, the function returns <std::undefined>.
+
+  Topic: Input-Output
+
+  See also: std::check, std::is_an_error
+
+  Example:
+
+    try $success:
+      load! $buf "test.dat"
+      print! buf
+    on success.is_an_error:
+      eprintln! "Failed to load test.dat"
+      exit EXIT_FAILURE
+
+((defined in basic/io/io.fky))
+((generated manually))
+((2025-05-05))
