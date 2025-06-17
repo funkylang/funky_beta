@@ -1,0 +1,390 @@
+#
+  Copyright (C) 2024 by
+  Dipl.-Ing. Michael Niederle
+
+  This program is free software; you can redistribute it and/or modify
+  it under the terms of the GNU General Public License, version 2, or
+  (at your option) version 3.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  GNU General Public License for more details.
+
+  For details of the GNU General Public License see the accompanying
+  files GPLv2.txt and GLPv3.txt or
+  http://www.gnu.org/licenses/gpl-2.0.html
+  http://www.gnu.org/licenses/gpl-3.0.html
+  or write to the
+  Free Software Foundation, Inc.,
+  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+
+<namespace documentation>
+<namespace documentation_types>
+
+<using std>
+<using documentation>
+
+$documentation::kind_of ()
+$documentation::base_of ()
+$documentation::methods_of ()
+
+$documentation_types::symbol_info std_types::object
+
+$documentation_types::symbol_info.kind_of undefined
+$documentation_types::symbol_info.base_of undefined
+$documentation_types::symbol_info.methods_of empty_key_order_table
+
+# Kinds
+
+$documentation::ATTRIBUTE .
+$documentation::BUILTIN_FUNCTION .
+$documentation::BUILTIN_IO_FUNCTION .
+$documentation::BUILTIN_IO_METHOD .
+$documentation::BUILTIN_METHOD .
+$documentation::BUILTIN_OBJECT .
+$documentation::BUILTIN_TYPE .
+$documentation::FUNCTION .
+$documentation::IO_FUNCTION .
+$documentation::IO_METHOD .
+$documentation::CONSTANT .
+$documentation::METHOD .
+$documentation::OBJECT .
+$documentation::POLYMORPHIC_FUNCTION .
+$documentation::TYPE .
+$documentation::UNIQUE_ITEM .
+$documentation::UNKNOWN .
+$documentation::VARIABLE .
+
+$documentation::libraries list("basic" "terminal" "ai" "web")
+
+$documentation::be_verbose true
+
+$is_a_builtin_module undefined
+
+$definitions empty_key_order_table
+
+$documentation::build_metadata: (libraries)
+  !is_a_builtin_module true
+  collect_definitions! "runtime/builtins.c" !definitions
+  for_each libraries
+    : (library)
+      if
+	library != "runtime_templates":
+	  traverse_files! !definitions library
+	  next!
+	next
+    -> definitions
+    #:
+      eprintln! "total:  @(length_of(definitions)) symbols"
+      for_each definitions
+	: (name info)
+	  eprint! name " (" kind_of(info)
+	  on base_of(info).is_defined: eprint! " derived from " base_of(info)
+	  eprintln! ")"
+	  for_each methods_of(info)
+	    : (method_name method_kind)
+	      eprintln! "  " method_name " (" method_kind ")"
+	      next!
+	    next
+	debug::exit
+
+$traverse_files: (library)
+  directory! $entries library
+  for_each entries
+    : (entry)
+      $name std::name_of(entry)
+      case type_of(entry)
+	DIRECTORY:
+	  if
+	    name .has_prefix. '.'
+	    next
+	    :
+	      traverse_files! !definitions
+		append(library "/" name)
+	      next!
+	REGULAR_FILE:
+	  $filename append(library "/" name)
+	  if
+	    name .has_suffix. ".c":
+	      !is_a_builtin_module false
+	      collect_definitions! !definitions filename
+	      next!
+	    next
+	next
+    -> definitions
+
+$collect_definitions: (filename)
+  on be_verbose: eprint! "adding " filename " ...@nl;"
+  load_groups! $groups filename
+  $variables empty_hash_table
+  $attributes empty_hash_table
+  $is_an_io_function empty_hash_set
+  for_each groups
+    : (group)
+      group $_indent $header
+      cond
+	-> header .has_prefix. "static TAB_NUM t_func_":
+	  $name between(header "t_func_" '[')
+	  if
+	    name .contains. "___":
+	      $base name .before. "___"
+	      behind &name "___"
+	      if
+		base .contains. "__":
+		  replace_first &base "__" = "::"
+		  !name
+		    if
+		      name .contains. "__"
+		      -> replace_first(name "__" = "::")
+		      -> append("std::" name)
+		  add_function append(base "/" name)
+		next
+	    :
+	      if
+		name .contains. "__":
+		  replace_first &name "__" = "::"
+		  add_function name
+		next
+
+	  $add_function: (name)
+	    if
+	      any_of
+		subgroups_of(group)
+		: (line)
+		  line $_indent $text
+		  -> text .contains. ", IO_"
+	      :
+		#debug::println name
+		!is_an_io_function(name) true
+		next
+	      next
+	-> header .has_prefix. "static void entry__":
+	  $name between(header "entry__" ' ')
+	  if
+	    name .has_prefix. "builtin___"
+	    next
+	    :
+	      replace_first &name "___" = "::"
+	      replace_first &name "___" = "/"
+	      replace_first &name "___" = "::"
+	      if
+		any_of
+		  subgroups_of(group)
+		  : (line)
+		    if
+		      line.is_undefined
+		      -> false
+		      :
+			line $_indent $text
+			-> text == "if (TLS_deny_io) {@nl;"
+		:
+		  !is_an_io_function(name) true
+		  next
+		next
+	-> header .has_prefix. "static ATTRIBUTE_DEFINITION":
+	  $name between(header ' ' "__attributes" 2)
+	  if
+	    name .contains. "__":
+	      replace_first &name "___" = "::"
+	      replace_first &name "__" = "::"
+	      !attributes(name) subgroups_of(group)
+	      next
+	    next # ignore local types
+	->
+	  &&
+	    header .has_prefix. "static FUNKY_VARIABLE"
+	    header .has_suffix. "{@nl;"
+	  :
+	    $lines subgroups_of(group)
+	    for_each lines
+	      : (line_no line)
+		line $_indent $text
+		if
+		  text .has_prefix. "FOT_":
+		    $kind (text .behind. '_') .truncate_from. ','
+		    $name exctract_name(second(lines(line_no+1)))
+		    $symbol_info documentation_types::symbol_info
+		    $value second(lines(line_no+2))
+		    case !symbol_info kind
+		      "DERIVED" ->
+			symbol_info
+			  .kind_of OBJECT
+			  .base_of exctract_name(value)
+		      "INITIALIZED":
+			cond
+			  -> value .has_prefix. "{.const_idx = func__":
+			    if
+			      is_an_io_function(name)
+			      -> symbol_info(.kind_of BUILTIN_IO_FUNCTION)
+			      -> symbol_info(.kind_of BUILTIN_FUNCTION)
+			  -> value .has_prefix. "{.const_idx = -func_":
+			    if
+			      is_an_io_function(name)
+			      -> symbol_info(.kind_of IO_FUNCTION)
+			      -> symbol_info(.kind_of FUNCTION)
+			  -> value .has_prefix. "{.const_idx = unique__"
+			    -> symbol_info(.kind_of UNIQUE_ITEM)
+			  -> value .has_prefix. "{.const_idx = -uni_"
+			    -> symbol_info(.kind_of UNIQUE_ITEM)
+			  -> true -> symbol_info(.kind_of CONSTANT)
+		      "OBJECT" ->
+			symbol_info
+			  .kind_of BUILTIN_OBJECT
+			  .base_of exctract_name(value)
+		      "POLYMORPHIC" -> symbol_info(.kind_of POLYMORPHIC_FUNCTION)
+		      "TYPE" ->
+			symbol_info
+			  .kind_of BUILTIN_TYPE
+			  .base_of exctract_name(value)
+		      "UNINITIALIZED" -> symbol_info(.kind_of VARIABLE)
+		      "UNKNOWN", "UNKNOWN_POLYMORPHIC" ->
+			symbol_info(.kind_of UNKNOWN)
+		      :
+			debug::dump `kind
+			debug::exit
+		    !variables(name) symbol_info
+		    next
+		  next
+	      next
+	-> true next
+
+      $exctract_name: (value)
+	if
+	  value .contains. '"':
+	    $name between(value '"' '"')
+	    $namespace name .behind. "\000"
+	    truncate_from &name "\000"
+	    if
+	      namespace.is_empty
+	      -> name
+	      -> append(namespace "::" name)
+	  -> undefined
+    :
+      for_each attributes
+	: (name slots)
+	  if
+	    (name .before. "::").is_private
+	    next
+	    :
+	      $definition
+		default_value
+		  definitions(name)
+		  documentation_types::symbol_info
+		    .kind_of
+		      if
+			is_a_builtin_module
+			-> BUILTIN_TYPE
+			-> TYPE
+	      $methods methods_of(definition)
+	      for_each slots
+		: (slot)
+		  slot $_indent $entry
+		  $slot_name between(entry '{' ',')
+		  #$value between(entry ',' '}').trim
+		  $is_an_attribute slot_name(1) == '-'
+		  if
+		    slot_name == "TYPE_FUNCTION"
+		    next
+		    :
+		      cond !slot_name
+			-> slot_name .has_prefix. "var_no__"
+			  -> replace_first(range(slot_name 9 -1) "___" = "::")
+			-> slot_name .has_prefix. "var_"
+			  -> replace_first(range(slot_name 5 -1) "__" = "::")
+			-> slot_name .has_prefix. "-var_"
+			  -> replace_first(range(slot_name 6 -1) "__" = "::")
+			-> true:
+			  debug::dump `slot_name
+			  debug::exit
+		      if
+			slot_name .contains. "::":
+			  if
+			    is_private(slot_name .before. "::")
+			    next
+			    :
+			      $method_name append(name "/" slot_name)
+			      !methods(slot_name)
+				if
+				  is_a_builtin_module:
+				    if
+				      is_an_io_function(method_name)
+				      -> BUILTIN_IO_METHOD
+				      -> BUILTIN_METHOD
+				  :
+				    if
+				      is_an_attribute
+				      -> ATTRIBUTE
+				      :
+					if
+					  is_an_io_function(method_name)
+					  -> IO_METHOD
+					  -> METHOD
+			      next
+			:
+			  if
+			    kind_of(variables(slot_name)) == UNKNOWN:
+			      append "std::" &slot_name
+			      !methods(slot_name)
+				if
+				  is_an_attribute
+				  -> ATTRIBUTE
+				  :
+				    $method_name append(name "/" slot_name)
+				    if
+				      is_an_io_function(method_name)
+				      -> IO_METHOD
+				      -> METHOD
+			      next
+			    next
+		:
+		  !definition
+		    case
+		      kind_of(definition)
+		      OBJECT -> definition(.kind_of TYPE)
+		      BUILTIN_OBJECT -> definition(.kind_of BUILTIN_TYPE)
+		      -> definition
+		  !definitions(name) definition(.methods_of methods)
+		  next
+	:
+	  for_each variables
+	    : (name symbol_info)
+	      $kind kind_of(symbol_info)
+	      if
+		(name .before. "::").is_private
+		next
+		:
+		  case kind
+		    UNKNOWN next
+		    :
+		      $definition definitions(name)
+		      if
+			definition.is_defined:
+			  !definitions(name)
+			    definition(.base_of base_of(symbol_info))
+			  next
+			:
+			  !definitions(name) symbol_info
+			  next
+	    -> definitions
+
+$is_private: (namespace)
+  ->
+    ||
+      namespace.is_empty
+      namespace == "builtin_types"
+      namespace .has_prefix. "basic_"
+      namespace .has_suffix. "_private"
+
+$load_groups: (filename)
+  load! $source filename
+  cond
+    -> source.is_empty:
+      Error! "
+	Empty source file "@(filename)"!@
+    -> source(-1) != '@nl;':
+      Error! "
+	Missing trailing newline character in "@(filename)"!@
+  from_utf8 &source
+  split_into_indented_lines $lines source
+  split_into_groups lines

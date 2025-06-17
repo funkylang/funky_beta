@@ -1,0 +1,1218 @@
+#!/usr/bin/env fkyrun
+
+  Copyright (C) 2024 by
+  Dipl.-Ing. Michael Niederle
+
+  This program is free software; you can redistribute it and/or modify
+  it under the terms of the GNU General Public License, version 2, or
+  (at your option) version 3.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  GNU General Public License for more details.
+
+  For details of the GNU General Public License see the accompanying
+  files GPLv2.txt and GLPv3.txt or
+  http://www.gnu.org/licenses/gpl-2.0.html
+  http://www.gnu.org/licenses/gpl-3.0.html
+  or write to the
+  Free Software Foundation, Inc.,
+  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+
+<require basic/stdlib>
+<require basic/export/html>
+<require basic/types/collections/tables/binary_table>
+<require basic/types/collections/tables/avl_table>
+<require ./build_symbol_metadata>
+
+<using std>
+<using html>
+<using documentation>
+
+$do_link_prompt false
+
+program_parameters!
+  $do_update_only
+  list
+    "update" "
+      update only modified pages
+
+$dot_or_slash set('.' '/')
+
+$doctype "
+  <!doctype html>
+
+$FUNKY_SYMBOL FUNKY_IDENTIFIER, optional("::", FUNKY_IDENTIFIER)
+$REMARK '#', some(any_character_but('@nl;'))
+$STRING '"', alt('@nl;' some(any_character_but('"')), '"')
+$USING "<using ", capture(FUNKY_IDENTIFIER), '>'
+
+$descriptions empty_list
+
+build_metadata! $all_symbols libraries
+collect_descriptions! !descriptions "docs/topics"
+collect_descriptions! !descriptions "docs/symbols"
+extract_short_descriptions $short_descriptions
+$topics
+  filter
+    descriptions: (description)
+      -> first(description) .has_prefix. "docs/topics/"
+$symbols
+  filter
+    descriptions: (description)
+      -> first(description) .has_prefix. "docs/symbols/"
+extract_polymorphic_functions $methods
+extract_slots_methods_and_derived_types $slots !methods $all_derived_types
+
+do:
+  on_not do_update_only:
+    save! "html/all_symbols.txt" create_all_symbols_text()
+    save! "html/topics/index.html" create_topics_index_page()
+    save! "html/symbols/index.html" create_symbols_index_page()
+    save! "html/symbols/type_index.html" create_type_index_page()
+    save! "html/symbols/function_index.html" create_function_index_page()
+    save! "html/symbols/objects_index.html" create_objects_index_page()
+    save! "html/symbols/constants_index.html" create_constants_index_page()
+  generate_html_descriptions!
+
+$collect_descriptions: (path)
+  directory! $dir SORT path
+  for_each dir
+    : (entry)
+      $filename name_of(entry)
+      case type_of(entry)
+	DIRECTORY:
+	  if
+	    filename .has_prefix. '.'
+	    next
+	    :
+	      collect_descriptions! !descriptions append(path "/" filename)
+	      next!
+	REGULAR_FILE:
+	  if
+	    filename .has_suffix. ".txt":
+	      append path "/" &filename
+	      load! $description filename
+	      replace_all &description '@ht;' = "        "
+	      push &descriptions tuple(filename description)
+	      next!
+	    next
+	next
+    -> descriptions
+
+$extract_short_descriptions:
+  !short_descriptions empty_hash_table
+  for_each descriptions
+    : (description)
+      description $_filename $text
+      $name extract_name(text)
+      replace_first &name '.' = "/"
+      !short_descriptions(name) extract_short_description(text)
+      next
+    -> short_descriptions
+
+$extract_short_description: (text)
+  -> (behind(text '@nl;' 2) .truncate_from. '@nl;').trim
+
+$extract_polymorphic_functions:
+  !methods empty_avl_table
+  for_each symbols
+    : (description)
+      description $_filename $text
+      $kind between(text '(' ')')
+      if
+	kind == "a polymorphic function":
+	  $name extract_name(text)
+	  !methods(name) empty_key_order_set
+	  next
+	next
+    -> methods
+
+$extract_slots_methods_and_derived_types:
+  !slots empty_key_order_table
+  !all_derived_types empty_key_order_table
+  for_each symbols
+    : (description)
+      description $_filename $text
+      $name extract_name(text)
+      if
+	name .contains. dot_or_slash:
+	  $type_name name .before. dot_or_slash
+	  $slot_name name .behind. dot_or_slash
+	  $method methods(slot_name)
+	  if
+	    method.is_defined:
+	      $slot default_value(slots(type_name) empty_key_order_set)
+	      !slot(slot_name) true
+	      !slots(type_name) slot
+	      !method(type_name) true
+	      !methods(slot_name) method
+	      next
+	    next
+	:
+	  $symbol all_symbols(name)
+	  if
+	    symbol.is_defined:
+	      $derived_from base_of(symbol)
+	      if
+		derived_from.is_defined:
+		  $derived_types
+		    default_value
+		      all_derived_types(derived_from)
+		      empty_key_order_set
+		  !derived_types(name) true
+		  !all_derived_types(derived_from) derived_types
+		  next
+		next
+	    next
+    -> slots methods all_derived_types
+
+
+$generate_html_descriptions:
+  for_each descriptions
+    : (description)
+      description $filename $text
+      if $txt_info
+       do_update_only:
+	 stat! filename
+       -> undefined
+      truncate_from &filename '.' -1
+      truncate_until &filename '/'
+      append &filename ".html"
+      !page_filename filename
+      append "html/" &filename
+      !root_prefix dup("../" count_occurrences(page_filename '/'))
+      if $html_info
+	do_update_only:
+	  stat! filename
+	-> undefined
+      if
+	||
+	  not(do_update_only)
+	  html_info.is_an_error
+	  &&
+	    html_info.is_defined
+	    modification_time_of(txt_info) > modification_time_of(html_info)
+	:
+	  mkpath! filename
+	  $html_text text_to_html(text)
+	  on html_text.is_an_error:
+	    debug::dump `filename
+	    debug::print text
+	    debug::dump_object 50 html_text
+	    debug::exit
+	  #debug::println "create @(filename)"
+	  check_for_invalid_links! filename html_text
+	  save! filename html_text
+	  next!
+	next
+
+      $check_for_invalid_links: (basename html)
+	truncate_behind &basename '/' -1
+	loop:
+	  search $pos $len "<a href=@quot;" html
+	  if
+	    pos.is_defined:
+	      range &html pos+len -1
+	      $link html .truncate_from. '"'
+	      if
+		link .has_suffix. ".fky" || link .has_suffix. ".template"
+		next
+		:
+		  create_absolute_filename basename &link
+		  behind &html '"'
+		  $txt_filename
+		    append
+		      "docs"
+		      (link .from. '/') .until. '.'
+		      "txt"
+		  file_exists! $does_exist txt_filename
+		  if
+		    does_exist
+		    next
+		    :
+		      #eprintln! filename ": " link
+		      next!
+	    pass
+    pass
+
+$create_absolute_filename: (basename link)
+  loop:
+    if
+      link .has_prefix. "../":
+	create_absolute_filename until(basename '/' -2) range(link 4 -1)
+      -> append(basename link)
+
+$extract_name: (text)
+  -> (between(text '#' '@nl;') .truncate_from. '(').trim
+
+$mkpath: (filename)
+  # create path components if they do not already exist
+  $path truncate_from(filename '/' -1)
+  file_exists! $does_exist path
+  on_not does_exist:
+    mkpath! path
+    mkdir! path
+
+$create_topics_index_page:
+  !page_filename "topics/index.html"
+  append
+    doctype
+    HTML
+      : HEAD
+	: TITLE "Topics"
+	: LINK "rel" = "stylesheet" "href" = "../style.css"
+      : BODY
+	: header
+	: H1 "Topics"
+	: TABLE
+	  :
+	    FOR_EACH topics: (topic)
+	      topic $_filename $text
+	      $name between(text '#' '@nl;').trim
+	      TR: TD: A "href" = "@(mangle(name)).html" name
+
+$create_symbols_index_page:
+  !page_filename "symbols/index.html"
+  map &symbols: (symbol)
+    symbol $_filename $text
+    -> (between(text '#' '@nl;') .truncate_from. '(').trim
+  filter &symbols: (symbol) -> not(symbol .contains. dot_or_slash)
+  sort &symbols
+  append
+    doctype
+    HTML
+      : HEAD
+	: TITLE "Symbols"
+	: LINK "rel" = "stylesheet" "href" = "../style.css"
+      : BODY
+	: header
+	: H1 "Symbols"
+	: TABLE
+	  :
+	    FOR_EACH symbols: (name)
+	      TR
+		: TD: A "href" = name.to_filename name
+		: TD "class" = "description" convert(get_short_description(name))
+
+$create_type_index_page:
+  !page_filename "symbols/type_index.html"
+  append
+    doctype
+    HTML
+      : HEAD
+	: TITLE "Types"
+	: LINK "rel" = "stylesheet" "href" = "../style.css"
+      : BODY
+	: header
+	: H1 "Types"
+	: TABLE
+	  :
+	    FOR_EACH slots: (name _slots)
+	      TR
+		: TD: A "href" = name.to_filename name
+		: TD "class" = "description" convert(get_short_description(name))
+
+$create_function_index_page:
+  $functions
+    filter
+      symbols: (symbol)
+	symbol $_filename $text
+	$kind between(text '(' ')')
+	-> kind == "a function" || kind == "a polymorphic function"
+  map &functions: (function)
+    function $_filename $text
+    -> (between(text '#' '@nl;') .truncate_from. '(').trim
+  !page_filename "symbols/functions_index.html"
+  append
+    doctype
+    HTML
+      : HEAD
+	: TITLE "Functions"
+	: LINK "rel" = "stylesheet" "href" = "../style.css"
+      : BODY
+	: header
+	: H1 "Functions"
+	: TABLE
+	  :
+	    FOR_EACH functions: (name)
+	      TR
+		: TD: A "href" = name.to_filename name
+		: TD "class" = "description" convert(get_short_description(name))
+
+$create_objects_index_page:
+  $objects
+    filter
+      symbols: (symbol)
+	symbol $_filename $text
+	-> between(text '(' ')') .has_prefix. "an object"
+  map &objects: (object)
+    object $_filename $text
+    -> (between(text '#' '@nl;') .truncate_from. '(').trim
+  !page_filename "symbols/objects_index.html"
+  append
+    doctype
+    HTML
+      : HEAD
+	: TITLE "Objects"
+	: LINK "rel" = "stylesheet" "href" = "../style.css"
+      : BODY
+	: header
+	: H1 "Objects"
+	: TABLE
+	  :
+	    FOR_EACH objects: (name)
+	      TR
+		: TD: A "href" = name.to_filename name
+		: TD "class" = "description" convert(get_short_description(name))
+
+$create_constants_index_page:
+  $constants
+    filter
+      symbols: (symbol)
+	symbol $_filename $text
+	case between(text '(' ')')
+	  "a constant", "a literal", "a unique item", "an object"
+	  -> true
+	  -> false
+  map &constants: (constant)
+    constant $_filename $text
+    -> (between(text '#' '@nl;') .truncate_from. '(').trim
+  !page_filename "symbols/constants_index.html"
+  append
+    doctype
+    HTML
+      : HEAD
+	: TITLE "Constants"
+	: LINK "rel" = "stylesheet" "href" = "../style.css"
+      : BODY
+	: header
+	: H1 "Constants"
+	: TABLE
+	  :
+	    FOR_EACH constants: (name)
+	      TR
+		: TD: A "href" = name.to_filename name
+		: TD "class" = "description" convert(get_short_description(name))
+
+$header:
+  DIV
+    : A "class" = "Button"
+      "href" = html_filename("index") "Home"
+    -> " "
+    : A "class" = "Button"
+      "href" = html_filename("manual") "Manual"
+    -> " "
+    : A "class" = "Button"
+      "href" = html_filename("topics/index") "Topics"
+    -> " "
+    : A "class" = "Button"
+      "href" = html_filename("symbols/type_index") "Types"
+    -> " "
+    : A "class" = "Button"
+      "href" = html_filename("symbols/function_index") "Functions"
+    -> " "
+    : A "class" = "Button"
+      "href" = html_filename("symbols/objects_index") "Objects"
+    -> " "
+    : A "class" = "Button"
+      "href" = html_filename("symbols/constants_index") "Constants"
+    -> " "
+    : A "class" = "Button"
+      "href" = html_filename("symbols/index") "All"
+
+$root_prefix undefined
+$page_filename undefined
+
+$text_to_html: (text)
+  $lines split(text '@nl;')
+  $title lines(1)
+  truncate_until &title '#'
+  truncate_from &title '('
+  trim &title
+  $is_a_topic page_filename .has_prefix. "topics/"
+  $h1_class
+    if
+      is_a_topic
+      -> ""
+      -> " class=@quot;pre@quot;"
+  $n length_of(lines)
+  if $short $i
+    is_a_topic
+    -> "" 1
+    :
+      $idx 3
+      collect_paragraph_text &idx $short_text lines(3)
+      trim &short_text
+      ->
+	"
+	  <p class="short">@(convert(short_text))</p>
+	idx
+  $derived_from
+    if
+      is_a_topic
+      -> ""
+      :
+	$symbol all_symbols(title)
+	if
+	  symbol.is_defined:
+	    $base_type base_of(symbol)
+	    if
+	      base_type.is_defined:
+		GROUP
+		  : H2 "Derived from"
+		  : TABLE
+		    : TR
+			: TD: A "href" = base_type.to_filename base_type
+			:
+			  TD "class" = "description"
+			    convert(get_short_description(base_type))
+	      -> ""
+	  -> ""
+  $derived
+    if
+      all_derived_types(title).is_defined
+      :
+	$derived_types all_derived_types(title)
+	GROUP
+	  : H2 "Derived types"
+	  : TABLE
+	    :
+	      FOR_EACH derived_types: (derived_type)
+		TR
+		  : TD: A "href" = derived_type.to_filename derived_type
+		  :
+		    TD "class" = "description"
+		      convert(get_short_description(derived_type))
+      -> ""
+  $footer ""
+  $html "
+    @(doctype)@
+    <html>
+    <head>
+    <title>@(title)</title>
+    <link rel="stylesheet" href="@(root_prefix)style.css">
+    </head>
+    <body>
+    @(header())@
+    <h1@(h1_class)>@(title)</h1>
+    @(short)@
+    @(derived_from)@
+    @(derived)@
+  $emitted_description_header false
+  $paragraph ""
+  loop:
+    inc &i
+    if
+      i > n
+      :
+	if
+	  is_a_topic:
+	    $types_html ""
+	    $functions_html ""
+	    $objects_html ""
+	    $constants_html ""
+	    for_each symbols
+	      : (description)
+		description $_filename $documentation
+		$symbol_topics documentation .behind. "@nl;  Topic"
+		behind &symbol_topics ':'
+		truncate_from &symbol_topics '@nl;'
+		trim &symbol_topics
+		split &symbol_topics ','
+		map &symbol_topics trim
+		if
+		  any_of
+		    symbol_topics: (topic) -> topic == title
+		  :
+		    $name extract_name(documentation)
+		    $kind
+		      trim
+			between(documentation '(' ')') .truncate_from. "derived"
+		    $filename name.to_filename
+		    $entry "
+		      <tr>
+			<td><a href="@(filename)">@(name)</a></td>
+			<td class="description">@
+			@(convert(get_short_description(name)))</td>
+		      </tr>
+		    if
+		      slots(name).is_defined:
+			append &types_html entry
+			next
+		      :
+			case kind
+			  sequence
+			    "a function"
+			    "a builtin function"
+			    "an I/O-function"
+			    "a builtin I/O-function"
+			    "a polymorphic function"
+			  :
+			    append &functions_html entry
+			    next
+			  "an object", "a builtin object":
+			    append &objects_html entry
+			    next
+			  "a constant", "a literal", "a unique item":
+			    append &constants_html entry
+			    next
+			  next
+		  next
+	      :
+		update_if_not types_html.is_empty &html:
+		  append html "
+		    <h2>Types</h2>
+		    <table>
+		    @(types_html)@
+		    </table>
+		update_if_not functions_html.is_empty &html:
+		  append html "
+		    <h2>Functions</h2>
+		    <table>
+		    @(functions_html)@
+		    </table>
+		update_if_not objects_html.is_empty &html:
+		  append html "
+		    <h2>Objects</h2>
+		    <table>
+		    @(objects_html)@
+		    </table>
+		update_if_not constants_html.is_empty &html:
+		  append html "
+		     <h2>Constants</h2>
+		     <table>
+		     @(constants_html)@
+		     </table>
+		add_footer
+	  :
+	    if
+	      do_link_prompt:
+		$prompt_filename
+		  append
+		    dup("../" count_occurrences(page_filename '/'))
+		    "prompts/"
+		    page_filename .until. '.'
+		    "prompt"
+		append &footer "
+		  <div class="footer">(<a href="@(prompt_filename)">prompt</a>)@
+		  </div>
+		add_footer
+	      add_footer
+
+	$add_footer:
+	  append html poly_info() footer "
+	    </body>
+	    </html>
+      :
+	$line lines(i)
+	if
+	  line.is_empty:
+	    maybe_output_paragraph next
+	  :
+	    trim &line
+	    cond
+	      -> line .has_prefix. "Topic:":
+		maybe_output_paragraph:
+		  $name (line .behind. ':').trim
+		  $filename append(replace_all(name ' ' = "_") ".html")
+		  append &html "
+		    <h2>Topic</h2>
+		    <table><tr><td><a href="@(root_prefix)topics/@(filename)">@(name)</a></td></tr></table>
+		  next
+	      -> line .has_prefix. "Topics:":
+		maybe_output_paragraph:
+		  $names split(line .behind. ':' ',')
+		  map &names trim
+		  append &html "
+		    <h2>Topics</h2>
+		    <table>
+		  for_each names
+		    : (name)
+		      $filename append(replace_all(name ' ' = "_") ".html")
+		      append &html "
+			<tr><td><a href="@(root_prefix)topics/@(filename)">@(name)</a></td></tr>
+		      next
+		    :
+		      append &html "
+			</table>
+		      next
+	      -> line .has_prefix. "Parameter:":
+		add_parameters_or_results "Parameter"
+	      -> line .has_prefix. "Parameters:":
+		add_parameters_or_results "Parameters"
+	      -> line .has_prefix. "Options:":
+		add_parameters_or_results "Options"
+	      -> line .has_prefix. "Result:":
+		add_parameters_or_results "Result"
+	      -> line .has_prefix. "Results:":
+		add_parameters_or_results "Results"
+	      -> line .has_prefix. "Example":
+		add_source "Example" true
+	      -> line .has_prefix. "Output":
+		add_source "Output"
+	      -> line .has_prefix. "Error output":
+		add_source "Error output"
+	      -> line .has_prefix. "See also:":
+		behind &line ':'
+		loop
+		  :
+		    if
+		      i >= n || lines(i+1).is_empty
+		      break
+		      :
+			inc &i
+			append &line lines(i).trim
+			next
+		  :
+		    $references split(line ',')
+		    map &references trim
+		    append &html "
+		      <h2>See also</h2>
+		      <table>
+		    for_each references
+		      : (reference)
+			on reference.is_empty:
+			  debug::dump `title
+			  debug::dump 2 `references
+			  debug::exit
+			$filename reference.to_filename
+			append &html "
+			  <tr>
+			    <td><a href="@(filename)">@(reference)</a></td>
+			    <td class="description">@
+			    @(convert(get_short_description(reference)))</td>
+			  </tr>
+			next
+		      :
+			append &html "
+			  </table>
+			next
+	      -> line .has_prefix. "Related topics:":
+		behind &line ':'
+		loop
+		  :
+		    if
+		      i >= n || lines(i+1).is_empty
+		      break
+		      :
+			inc &i
+			append &line lines(i).trim
+			next
+		  :
+		    $references split(line ',')
+		    map &references trim
+		    append &html "
+		      <h2>Related topics</h2>
+		      <table>
+		    for_each references
+		      : (reference)
+			$filename
+			  append(replace_all(reference ' ' = "_") ".html")
+			append &html "
+			  <tr>
+			    <td><a href="@(filename)">@(reference)</a></td>
+			  </tr>
+			next
+		      :
+			append &html "
+			  </table>
+			next
+	      -> line .has_prefix. "* ":
+		append &html "
+		  <ul>
+		loop
+		  :
+		    get_indented_lines !line !i range(line 3 -1)
+		    append &html "
+		      <li>@(convert(line))
+		    if
+		      i >= n
+		      break
+		      :
+			!line lines(i+1)
+			if
+			  line .has_prefix. "* ":
+			    inc &i
+			    next
+			  break
+		  :
+		    append &html "
+		      </ul>
+		    next
+	      -> line .has_prefix. "((":
+		between &line "((" "))"
+		update_if line .has_prefix. "defined in" &line
+		  :
+		    $name (line .behind. "defined in").trim
+		    $filename "source/@(name)"
+		    -> "
+		      defined in <a href="@(link_filename(filename))">@(name)</a>@
+		append &footer "
+		  <div class="footer">(@(line))</div>
+		next
+	      -> true:
+		update_if paragraph.is_not_empty &paragraph
+		  -> push(paragraph ' ')
+		append &paragraph trim(line)
+		next
+
+  $collect_paragraph_text: (idx buf)
+    loop:
+      inc &idx
+      if
+	idx > n
+	-> idx buf
+	:
+	  $line lines(idx)
+	  if
+	    line.is_empty
+	    -> idx buf
+	    :
+	      if
+		buf.is_empty:
+		  !buf line
+		  next
+		:
+		  append &buf " " line
+		  next
+
+  $add_parameters_or_results: (title)
+    maybe_output_paragraph:
+      append &html "
+	<h2>@(title)</h2>
+	<dl>
+      loop
+	:
+	  inc &i
+	  if
+	    i > n || lines(i).is_empty
+	    break
+	    :
+	      $indent get_indent(lines(i))
+	      $line lines(i).trim
+	      $name (line .truncate_from. ": ").trim
+	      loop
+		:
+		  if
+		    &&
+		      i < n
+		      lines(i+1).is_defined
+		      get_indent(lines(i+1)) > indent
+		    :
+		      inc &i
+		      append &line " " lines(i).trim
+		      next
+		    break
+		:
+		  $description convert((line .behind. ": ").trim)
+		  update_if name .has_suffix. '?' &name:
+		    append range(name 1 -2) " <i>(optional)</i>"
+		  update_if name .has_suffix. '*' &name:
+		    append range(name 1 -2) " <i>(zero or more)</i>"
+		  append &html "
+		    <dt>@(name)</dt>
+		    <dd>@(description)</dd>
+		  next
+	:
+	  append &html "
+	    </dl>
+	  next
+
+  $add_source: (category do_add_links = false)
+    maybe_output_paragraph:
+      $namespaces hash_set("std")
+      update_if do_add_links &namespaces:
+	for_each lines
+	  : (line)
+	    trim &line
+	    match USING line $_len $captured
+	    if
+	      captured.is_defined:
+		!namespaces(captured(1)) true
+		next
+	      next
+	  -> namespaces
+      append &html "
+	<h2>@(category)</h2>
+	<pre class="@(replace_all(category ' ' = "_"))">@
+      $s undefined
+      $e undefined
+      $source ""
+      loop
+	:
+	  inc &i
+	  if
+	    i > n
+	    break
+	    :
+	      $line lines(i)
+	      if
+		line.is_empty
+		next
+		:
+		  if
+		    line(1) != ' ' || line(2) != ' ' || line(3) != ' ':
+		      dec &i
+		      break
+		    :
+		      update_if s.is_undefined &s -> i
+		      !e i
+		      next
+	:
+	  from_to s e
+	    : (idx)
+	      $line lines(idx)
+	      if
+		line.is_empty:
+		  push &source '@nl;'
+		  next
+		:
+		  append &source range(line 5 -1) "@nl;"
+		  next
+	    :
+	      replace_all &source
+		'<' = "&lt;"
+		'>' = "&gt;"
+	      update_if do_add_links &source: add_links source
+	      append &html source "
+		</pre>
+	      next
+
+	  $add_links: (text)
+	    replace_all text
+	      FUNKY_SYMBOL = maybe_add_link
+	      REMARK = do_not_replace
+	      STRING = do_not_replace
+
+	    $maybe_add_link: (name)
+	      if
+		name .contains. "::":
+		  if
+		    all_symbols(name).is_defined
+		    -> "
+		      <a href="@(name.to_filename)">@
+			@(name)</a>@
+		    -> name
+		:
+		  for_each namespaces
+		    : (namespace)
+		      $namespaced_name append(namespace "::" name)
+		      if
+			all_symbols(namespaced_name).is_defined
+			-> "
+			  <a href="@(namespaced_name.to_filename)">@
+			    @(name)</a>@
+			next
+		    -> name
+	    $do_not_replace: (capture) -> capture
+
+  $get_indented_lines: (buf)
+    loop:
+      inc &i
+      if
+	i > n
+	-> buf i-1
+	:
+	  $line lines(i)
+	  if
+	    line.is_empty
+	    next
+	    :
+	      if
+		line(1) != ' ' || line(2) != ' ' || line(3) != ' '
+		-> buf i-1
+		:
+		  update_if buf.is_not_empty &buf -> push(buf ' ')
+		  append &buf line.trim
+		  next
+
+  $maybe_output_paragraph: (continuation)
+    if
+      paragraph.is_empty
+      continuation
+      :
+	if
+	  emitted_description_header
+	  emit_paragraph
+	  :
+	    append &html "
+	      <h2>Description</h2>
+	    !emitted_description_header true
+	    emit_paragraph
+
+    $emit_paragraph:
+      append &html "
+	<p>@(convert(paragraph))</p>
+      !paragraph ""
+      continuation
+
+  $poly_info:
+    if
+      is_a_topic
+      -> ""
+      :
+	if
+	  title .contains. dot_or_slash:
+	    $type_name title .before. dot_or_slash
+	    $slot_name title .behind. dot_or_slash
+	    GROUP
+	      : H2 "Base object"
+	      : TABLE
+		: TR
+		    : TD: A "href" = type_name.to_filename type_name
+		    :
+		      TD "class" = "description"
+			convert(get_short_description(type_name))
+	      : H2 "Implements"
+	      : TABLE
+		: TR
+		    : TD: A "href" = slot_name.to_filename slot_name
+		    :
+		      TD "class" = "description"
+			convert(get_short_description(slot_name))
+	  :
+	    $symbol_info all_symbols(title)
+	    if
+	      symbol_info.is_defined:
+		case kind_of(symbol_info)
+		  TYPE, BUILTIN_TYPE:
+		    $all_methods empty_key_order_table
+		    collect_methods !all_methods title symbol_info
+		    if
+		      all_methods.is_empty
+		      -> ""
+		      :
+			GROUP
+			  : H2 "Methods"
+			  : TABLE
+			    :
+			      FOR_EACH all_methods: (name base)
+				$method append(base "/" name)
+				TR
+				  : TD: A "href" = method.to_filename name
+				  :
+				    TD "class" = "description"
+				      convert(get_short_description(method))
+
+		    $collect_methods: (base info)
+		      loop:
+			for_each methods_of(info)
+			  : (name _kind)
+			    !all_methods(name) base
+			    next
+			  :
+			    !base base_of(info)
+			    if
+			      base.is_undefined || base == "std_types::object"
+			      -> all_methods
+			      :
+				!info all_symbols(base)
+				if
+				  info.is_undefined # e.g. for "builtin::tuple2"
+				  -> all_methods
+				  next
+
+		  POLYMORPHIC_FUNCTION:
+		    $symbol_methods methods(title)
+		    if
+		      symbol_methods.is_defined:
+			GROUP
+			  : H2 "Implementations"
+			  : TABLE
+			    :
+			      FOR_EACH symbol_methods: (method)
+				$type append(method "/" title)
+				TR
+				  : TD: A "href" = type.to_filename method
+				  :
+				    TD
+				      "class" = "description"
+				      convert(get_short_description(type))
+		      -> ""
+		  -> ""
+	      :
+		debug::dump `title
+		-> ""
+
+$get_indent: (text)
+  $i 1
+  $n length_of(text)
+  loop:
+    if
+      i > n || text(i) != ' '
+      -> i-1
+      :
+	inc &i
+	next
+
+$get_short_description: (reference)
+  replace_first &reference '.' = "/"
+  $short_description short_descriptions(reference)
+  if
+    short_description.is_defined
+    -> short_description
+    -> "[missing]"
+
+$convert: (text)
+  $buf ""
+  $i 0
+  $n length_of(text)
+  $s 1
+  $within_italics false
+  $within_emphasized false
+  $within_link false
+  loop:
+    inc &i
+    if
+      i > n
+      -> append(buf range(text s n))
+      :
+	case text(i)
+	  '*':
+	    append &buf range(text s i-1)
+	    if
+	      i < n && text(i+1) == '*':
+		if
+		  within_emphasized:
+		    append &buf "</em>"
+		    inc &i
+		    !s i+1
+		    !within_emphasized false
+		    next
+		  :
+		    append &buf "<em>"
+		    inc &i
+		    !s i+1
+		    !within_emphasized true
+		    next
+	      :
+		if
+		  within_italics:
+		    append &buf "</i>"
+		    !s i+1
+		    !within_italics false
+		    next
+		  :
+		    append &buf "<i>"
+		    !within_italics true
+		    !s i+1
+		    next
+	  '\':
+	    append &buf range(text s i-1)
+	    inc &i
+	    push &buf text(i)
+	    !s i+1
+	    next
+	  '<':
+	    append &buf range(text s i-1)
+	    !within_link true
+	    !s i+1
+	    next
+	  '>':
+	    if
+	      within_link:
+		$link range(text s i-1)
+		maybe_add_namespaces &link
+		$linkname link .without_prefix. '@@'
+		$filename link.to_filename
+		append &buf "
+		  <a href="@(filename)">@(linkname)</a>@
+		!within_link false
+		!s i+1
+		next
+	      next
+	  next
+
+$maybe_add_namespaces: (name)
+  cond
+    -> name.is_empty -> "[[EMPTY_NAME]]"
+    -> name .contains. '/':
+      append
+	maybe_add_namespaces(name .before. '/')
+	"/"
+	maybe_add_namespaces(name .behind. '/')
+    -> name .contains. '.':
+      append
+	maybe_add_namespaces(name .before. '.')
+	"."
+	maybe_add_namespaces(name .behind. '.')
+    -> name .contains. "::" -> name
+    -> name(1) != '@@' -> "std::@(name)"
+    -> true -> name
+
+$to_filename: (name)
+  link_filename name.to_absolute_filename
+
+$to_absolute_filename: (name)
+  mangle &name
+  if
+    name(1) == '@@'
+    -> append("topics/" range(name 2 -1) ".html")
+    -> append("symbols/" name ".html")
+
+$mangle: (name)
+  replace_all name
+    ' ' = "_"
+    "::" = "__"
+    '.' = "/"
+
+$html_filename: (filename)
+  link_filename append(filename ".html")
+
+$link_filename: (filename)
+  append
+    relative
+      before(page_filename '/' -1)
+      before(filename '/' -1)
+    truncate_until(filename '/' -1)
+
+  $relative: (from_path to_path)
+    if
+      from_path == to_path
+      -> ""
+      :
+	if
+	  to_path.is_empty
+	  -> dup("../" count_occurrences(from_path '/')+1)
+	  :
+	    if
+	      from_path.is_empty
+	      -> push(to_path '/')
+	      :
+		if
+		  truncate_from(from_path '/') == truncate_from(to_path '/')
+		  -> relative(behind(from_path '/') behind(to_path '/'))
+		  :
+		    append
+		      dup("../" count_occurrences(from_path '/')+1)
+		      to_path
+		      "/"
+
+$create_all_symbols_text:
+  $buf ""
+  for_each all_symbols
+    : (name info)
+      append &buf "
+	@(name) @(kind_of(info))
+      next
+    -> buf
+
+$documentation::ATTRIBUTE.to_string "ATTRIBUTE"
+$documentation::BUILTIN_FUNCTION.to_string "BUILTIN_FUNCTION"
+$documentation::BUILTIN_IO_FUNCTION.to_string "BUILTIN_IO_FUNCTION"
+$documentation::BUILTIN_IO_METHOD.to_string "BUILTIN_IO_METHOD"
+$documentation::BUILTIN_OBJECT.to_string "BUILTIN_OBJECT"
+$documentation::BUILTIN_METHOD.to_string "BUILTIN_METHOD"
+$documentation::BUILTIN_TYPE.to_string "BUILTIN_TYPE"
+$documentation::CONSTANT.to_string "CONSTANT"
+$documentation::FUNCTION.to_string "FUNCTION"
+$documentation::IO_FUNCTION.to_string "IO_FUNCTION"
+$documentation::IO_METHOD.to_string "IO_METHOD"
+$documentation::METHOD.to_string "METHOD"
+$documentation::OBJECT.to_string "OBJECT"
+$documentation::POLYMORPHIC_FUNCTION.to_string "POLYMORPHIC_FUNCTION"
+$documentation::TYPE.to_string "TYPE"
+$documentation::UNIQUE_ITEM.to_string "UNIQUE_ITEM"
+$documentation::VARIABLE.to_string "VARIABLE"
