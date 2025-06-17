@@ -28,21 +28,21 @@
 <p>To start the next iteration the <i>body</i> must tail-call <a href="std__next.html">std::next</a>.</p>
 <p>To exit from the loop the <i>body</i> must tail-call <a href="std__break.html">std::break</a>.</p>
 <h2>Example</h2>
-<div class="Example">$numbers <a href="std__list.html">list</a>(1 2 3 4 5)
+<pre class="Example">$numbers <a href="std__list.html">list</a>(1 2 3 4 5)
 
 <a href="std__for_each.html">for_each</a> numbers
   : (number)
     <a href="std__println.html">println</a>! number
     <a href="std__next.html">next</a>!
   <a href="std__pass.html">pass</a>
-</div>
+</pre>
 <h2>Output</h2>
-<div class="Output">1
+<pre class="Output">1
 2
 3
 4
 5
-</div>
+</pre>
 <h2>Topics</h2>
 <table>
 <tr><td><a href="../topics/Collections.html">Collections</a></td></tr>

@@ -42,12 +42,12 @@
 </tr>
 </table>
 <h2>Example</h2>
-<div class="Example">$model <a href="llama__open_model.html">llama::open_model</a>("llama-2-7b-chat.ggmlv3.q4_0.bin")
+<pre class="Example">$model <a href="llama__open_model.html">llama::open_model</a>("llama-2-7b-chat.ggmlv3.q4_0.bin")
 <a href="llama__create_sequence.html">llama::create_sequence</a> &model 0
 $tokens <a href="llama__tokenize.html">llama::tokenize</a> &model "Hello, World!"
 <a href="llama__add_tokens.html">llama::add_tokens</a> &model 0 tokens
 <a href="llama__insert_tokens.html">llama::insert_tokens</a> &model 0 1 tokens
-</div>
+</pre>
 <h2>Implementations</h2>
 <table>
 <tr>

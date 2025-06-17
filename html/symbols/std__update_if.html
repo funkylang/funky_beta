@@ -42,29 +42,29 @@
 </tr>
 </table>
 <h2>Example</h2>
-<div class="Example">$x -5
+<pre class="Example">$x -5
 <a href="std__update_if.html">update_if</a> x &lt; 0 &x -&gt; -x
 <a href="std__println.html">println</a>! x
-</div>
+</pre>
 <h2>Output</h2>
-<div class="Output">5
-</div>
+<pre class="Output">5
+</pre>
 <h2>Example</h2>
-<div class="Example">$items <a href="std__list.html">list</a>("apples" "bananas" "cherries")
+<pre class="Example">$items <a href="std__list.html">list</a>("apples" "bananas" "cherries")
 $already_processed_items <a href="std__list.html">list</a>()
 
 <a href="std__update_if.html">update_if</a> items.<a href="std__is_not_empty.html">is_not_empty</a> &items &already_processed_items
   -&gt; <a href="std__range.html">range</a>(items 2 -1) <a href="std__push.html">push</a>(already_processed_items items(1))
 
 <a href="std__dump.html">dump</a>! `items `already_processed_items
-</div>
+</pre>
 <h2>Output</h2>
-<div class="Output">items: list &lt;2&gt;
+<pre class="Output">items: list &lt;2&gt;
   "bananas"
   "cherries"
 already_processed_items: list &lt;1&gt;
   "apples"
-</div>
+</pre>
 <h2>Implementations</h2>
 <table>
 <tr>

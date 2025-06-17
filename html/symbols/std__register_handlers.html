@@ -27,11 +27,11 @@
 <h2>Description</h2>
 <p>The handler function will be called when an event of the specified type occurs. The handler function will receive the event object as its only argument.</p>
 <h2>Example</h2>
-<div class="Example">$io <a href="std_types__io.html">std_types::io</a> # create an input-output object
+<pre class="Example">$io <a href="std_types__io.html">std_types::io</a> # create an input-output object
 <a href="std__register_handlers.html">register_handlers</a> &io "my_handlers"
   <a href="std__tuple.html">tuple</a>(<a href="std__READ.html">READ</a> (event) -&gt; <a href="std__print.html">print</a>! "Read event:", event)
   <a href="std__tuple.html">tuple</a>(<a href="std__WRITE_COMPLETED.html">WRITE_COMPLETED</a> (event) -&gt; <a href="std__print.html">print</a>! "Write completed event:", event)
-</div>
+</pre>
 <h2>Topic</h2>
 <table><tr><td><a href="../topics/Input-Output_Events.html">Input-Output Events</a></td></tr></table>
 <h2>See also</h2>

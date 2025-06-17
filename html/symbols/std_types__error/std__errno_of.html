@@ -38,13 +38,13 @@
 </tr>
 </table>
 <h2>Example</h2>
-<div class="Example"><a href="../std__load.html">load</a>! $buf "some-non-existing-file"
+<pre class="Example"><a href="../std__load.html">load</a>! $buf "some-non-existing-file"
 <a href="../std__on.html">on</a> buf.<a href="../std__is_an_error.html">is_an_error</a>:
   <a href="../std__dump.html">dump</a>! `<a href="../std__errno_of.html">errno_of</a>(buf)
-</div>
+</pre>
 <h2>Output</h2>
-<div class="Output">errno_of(buf): object &lt;0&gt;
-</div>
+<pre class="Output">errno_of(buf): object &lt;0&gt;
+</pre>
 <h2>Base object</h2>
 <table>
 <tr>

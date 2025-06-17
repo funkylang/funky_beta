@@ -68,7 +68,7 @@ a.Button {
   border-width: 2pt;
   border-style: solid;
 }
-div.Example {
+pre.Example {
   font-family: Courier New, Courier, Typewriter;
   font-size: 13pt;
   background-color: #ffc;
@@ -79,7 +79,7 @@ div.Example {
   white-space: pre;
   border-radius: 6pt;
 }
-div.Output {
+pre.Output {
   font-family: Courier New, Courier, Typewriter;
   font-size: 13pt;
   background-color: #dfd;
@@ -90,7 +90,7 @@ div.Output {
   white-space: pre;
   border-radius: 6pt;
 }
-div.Error_output {
+pre.Error_output {
   font-family: Courier New, Courier, Typewriter;
   font-size: 13pt;
   background-color: #fdd;

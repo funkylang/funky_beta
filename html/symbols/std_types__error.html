@@ -55,48 +55,48 @@
 </tr>
 </table>
 <h2>Example</h2>
-<div class="Example"><a href="std__load.html">load</a>! $buf "some-non-existing-file"
+<pre class="Example"><a href="std__load.html">load</a>! $buf "some-non-existing-file"
 <a href="std__on.html">on</a> buf.<a href="std__is_an_error.html">is_an_error</a>:
   <a href="std__dump.html">dump</a>! `<a href="std__error_category_of.html">error_category_of</a>(buf)
-</div>
+</pre>
 <h2>Output</h2>
-<div class="Output">error_category_of(buf): &lt;std::IO_ERROR&gt;
-</div>
+<pre class="Output">error_category_of(buf): &lt;std::IO_ERROR&gt;
+</pre>
 <h2>Example</h2>
-<div class="Example"><a href="std__load.html">load</a>! $buf "some-non-existing-file"
+<pre class="Example"><a href="std__load.html">load</a>! $buf "some-non-existing-file"
 <a href="std__on.html">on</a> buf.<a href="std__is_an_error.html">is_an_error</a>:
   <a href="std__println.html">println</a>! <a href="std__error_message_text_of.html">error_message_text_of</a>(buf)
-</div>
+</pre>
 <h2>Output</h2>
-<div class="Output">OPEN FAILED
-</div>
+<pre class="Output">OPEN FAILED
+</pre>
 <h2>Example</h2>
-<div class="Example"><a href="std__load.html">load</a>! $buf "some-non-existing-file"
+<pre class="Example"><a href="std__load.html">load</a>! $buf "some-non-existing-file"
 <a href="std__on.html">on</a> buf.<a href="std__is_an_error.html">is_an_error</a>:
   <a href="std__dump.html">dump</a>! `<a href="std__error_details_of.html">error_details_of</a>(buf)
-</div>
+</pre>
 <h2>Output</h2>
-<div class="Output">error_details_of(buf): &lt;undefined&gt;
-</div>
+<pre class="Output">error_details_of(buf): &lt;undefined&gt;
+</pre>
 <h2>Example</h2>
-<div class="Example">$my_attr_of ()
+<pre class="Example">$my_attr_of ()
 $a my_attr_of("abc")
 <a href="std__on.html">on</a> a.<a href="std__is_an_error.html">is_an_error</a>:
   <a href="std__dump.html">dump</a>! `<a href="std__error_message_text_of.html">error_message_text_of</a>(a)
   <a href="std__dump.html">dump</a>! `<a href="std__failed_attribute_of.html">failed_attribute_of</a>(a)
-</div>
+</pre>
 <h2>Output</h2>
-<div class="Output">error_message_text_of(a): "NO SUCH ATTRIBUTE"
+<pre class="Output">error_message_text_of(a): "NO SUCH ATTRIBUTE"
 failed_attribute_of(a): "my_attr_of"
-</div>
+</pre>
 <h2>Example</h2>
-<div class="Example"><a href="std__load.html">load</a>! $buf "some-non-existing-file"
+<pre class="Example"><a href="std__load.html">load</a>! $buf "some-non-existing-file"
 <a href="std__on.html">on</a> buf.<a href="std__is_an_error.html">is_an_error</a>:
   <a href="std__dump.html">dump</a>! `<a href="std__errno_of.html">errno_of</a>(buf)
-</div>
+</pre>
 <h2>Output</h2>
-<div class="Output">errno_of(buf): object &lt;0&gt;
-</div>
+<pre class="Output">errno_of(buf): object &lt;0&gt;
+</pre>
 <h2>Methods</h2>
 <table>
 <tr>

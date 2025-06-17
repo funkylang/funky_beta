@@ -38,22 +38,22 @@
 </tr>
 </table>
 <h2>Example</h2>
-<div class="Example"><a href="std__load.html">load</a>! $buf "some-non-existing-file"
+<pre class="Example"><a href="std__load.html">load</a>! $buf "some-non-existing-file"
 <a href="std__on.html">on</a> buf.<a href="std__is_an_error.html">is_an_error</a>:
   <a href="std__edump.html">edump</a>! `<a href="std__error_details_of.html">error_details_of</a>(buf)
-</div>
+</pre>
 <h2>Output</h2>
-<div class="Output">error_details_of(buf): &lt;undefined&gt;
-</div>
+<pre class="Output">error_details_of(buf): &lt;undefined&gt;
+</pre>
 <h2>Example</h2>
-<div class="Example">$my_attr_of ()
+<pre class="Example">$my_attr_of ()
 $a my_attr_of("abc")
 <a href="std__on.html">on</a> a.<a href="std__is_an_error.html">is_an_error</a>:
   <a href="std__dump.html">dump</a>! `<a href="std__error_details_of.html">error_details_of</a>(a)
-</div>
+</pre>
 <h2>Output</h2>
-<div class="Output">error_details_of(a): "abc"
-</div>
+<pre class="Output">error_details_of(a): "abc"
+</pre>
 <h2>Implementations</h2>
 <table>
 <tr>

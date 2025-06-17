@@ -38,16 +38,16 @@
 </tr>
 </table>
 <h2>Example</h2>
-<div class="Example">&lt;require basic/stdlib&gt;
+<pre class="Example">&lt;require basic/stdlib&gt;
 &lt;require ai/llama&gt;
 
 <a href="../ai__load_ai_model.html">ai::load_ai_model</a>! $model "sauerkrautlm-una-solar-instruct.Q5_K_M.gguf"
 <a href="../ai__tokenize.html">ai::tokenize</a>! $tokens model "Hello, World!"
 <a href="../std__println.html">println</a>! tokens
-</div>
+</pre>
 <h2>Output</h2>
-<div class="Output">[15, 11, 259, 290, 265, 287, 447, 290, 257]
-</div>
+<pre class="Output">[15, 11, 259, 290, 265, 287, 447, 290, 257]
+</pre>
 <h2>Base object</h2>
 <table>
 <tr>

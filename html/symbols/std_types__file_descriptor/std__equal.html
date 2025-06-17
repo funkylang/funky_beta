@@ -36,16 +36,16 @@
 </tr>
 </table>
 <h2>Example</h2>
-<div class="Example"><a href="../std__open.html">open</a>! $fd "/dev/null" "w"
+<pre class="Example"><a href="../std__open.html">open</a>! $fd "/dev/null" "w"
 <a href="../std__if.html">if</a>
   <a href="../std__equal.html">equal</a>(fd, <a href="../std__STDOUT_FILENO.html">STDOUT_FILENO</a>)
   <a href="../std__println.html">println</a>! "STDOUT_FILENO is a file descriptor to /dev/null"
   :
     <a href="../std__println.html">println</a>! "STDOUT_FILENO is not a file descriptor to /dev/null"
-</div>
+</pre>
 <h2>Output</h2>
-<div class="Output">STDOUT_FILENO is a file descriptor to /dev/null
-</div>
+<pre class="Output">STDOUT_FILENO is a file descriptor to /dev/null
+</pre>
 <h2>Base object</h2>
 <table>
 <tr>

@@ -15,7 +15,7 @@
 <p>Negative indices are supported and are interpreted as counting from the right end of the array dimension.</p>
 <p>In a pure functional language, arrays are immutable. So it would be very inefficient to update a single element. Therefor update operations are stored in a log buffer and executed in a batch.</p>
 <h2>Example</h2>
-<div class="Example">$a <a href="../symbols/std__array.html">array</a>(3 2) # 3 rows, 2 columns
+<pre class="Example">$a <a href="../symbols/std__array.html">array</a>(3 2) # 3 rows, 2 columns
 
 # initialize array
 
@@ -36,15 +36,15 @@
         <a href="../symbols/std__next.html">next</a>!
       <a href="../symbols/std__next.html">next</a>
   <a href="../symbols/std__pass.html">pass</a>
-</div>
+</pre>
 <h2>Output</h2>
-<div class="Output">a(1, 1) = 1
+<pre class="Output">a(1, 1) = 1
 a(1, 2) = 2
 a(2, 1) = 2
 a(2, 2) = 4
 a(3, 1) = 3
 a(3, 2) = 6
-</div>
+</pre>
 <h2>Types</h2>
 <table>
 <tr>

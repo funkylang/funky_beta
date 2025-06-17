@@ -98,7 +98,7 @@
 </tr>
 </table>
 <h2>Example</h2>
-<div class="Example">$fd open_file("tty", "r")
+<pre class="Example">$fd open_file("tty", "r")
 $attributes <a href="std__get_terminal_attributes.html">get_terminal_attributes</a>($fd)
 <a href="std__println.html">println</a>! "backspace character of: " !attributes <a href="std__backspace_character_of.html">backspace_character_of</a>
 <a href="std__println.html">println</a>! "use canonical mode: " !attributes <a href="std__use_canonical_mode.html">use_canonical_mode</a>
@@ -117,9 +117,9 @@ $attributes <a href="std__get_terminal_attributes.html">get_terminal_attributes<
 <a href="std__println.html">println</a>! "input speed: " !attributes <a href="std__input_speed.html">input_speed</a>
 <a href="std__println.html">println</a>! "output speed: " !attributes <a href="std__output_speed.html">output_speed</a>
 close_file($fd)
-</div>
+</pre>
 <h2>Output</h2>
-<div class="Output">backspace character of: 127
+<pre class="Output">backspace character of: 127
 use canonical mode: true
 echo characters: true
 echo new lines: true
@@ -135,7 +135,7 @@ minimum characters for canonical read: 1
 timeout for reads: 0
 input speed: 9600
 output speed: 9600
-</div>
+</pre>
 <h2>Methods</h2>
 <table>
 <tr>

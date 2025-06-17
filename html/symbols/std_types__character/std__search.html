@@ -42,41 +42,41 @@
 </tr>
 </table>
 <h2>Example</h2>
-<div class="Example">$str "abcdef"
+<pre class="Example">$str "abcdef"
 <a href="../std__search.html">search</a> $pos $len 'd' str
 <a href="../std__dump.html">dump</a>! `pos `len
-</div>
+</pre>
 <h2>Output</h2>
-<div class="Output">pos: 4
+<pre class="Output">pos: 4
 len: 1
-</div>
+</pre>
 <h2>Example</h2>
-<div class="Example">$str "abcdef"
+<pre class="Example">$str "abcdef"
 <a href="../std__search.html">search</a> $pos $len 'z' str
 <a href="../std__dump.html">dump</a>! `pos `len
-</div>
+</pre>
 <h2>Output</h2>
-<div class="Output">pos: &lt;undefined&gt;
+<pre class="Output">pos: &lt;undefined&gt;
 len: &lt;undefined&gt;
-</div>
+</pre>
 <h2>Example</h2>
-<div class="Example">$str "In the wild, wild west we were alone."
+<pre class="Example">$str "In the wild, wild west we were alone."
 <a href="../std__search.html">search</a> $pos $len 'w' str 2
 <a href="../std__dump.html">dump</a>! `pos `len
-</div>
+</pre>
 <h2>Output</h2>
-<div class="Output">pos: 14
+<pre class="Output">pos: 14
 len: 1
-</div>
+</pre>
 <h2>Example</h2>
-<div class="Example">$str "In the wild, wild west we were alone."
+<pre class="Example">$str "In the wild, wild west we were alone."
 <a href="../std__search.html">search</a> $pos $len 'w' str -2
 <a href="../std__dump.html">dump</a>! `pos `len
-</div>
+</pre>
 <h2>Output</h2>
-<div class="Output">pos: 24
+<pre class="Output">pos: 24
 len: 1
-</div>
+</pre>
 <h2>Base object</h2>
 <table>
 <tr>

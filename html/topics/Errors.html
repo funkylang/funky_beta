@@ -25,10 +25,10 @@
 <p>When an error occurs within a function then all function arguments are checked. If any argument is an error object then instead of generating a new error object the existing error object is returned. This allows to propagate errors without losing information about the original error.</p>
 <p>To check whether a value is an error object or not, use <a href="../symbols/std__is_an_error.html">std::is_an_error</a>.</p>
 <h2>Example</h2>
-<div class="Example"><a href="../symbols/std__load.html">load</a> $buf filename
+<pre class="Example"><a href="../symbols/std__load.html">load</a> $buf filename
 <a href="../symbols/std__on.html">on</a> buf.<a href="../symbols/std__is_an_error.html">is_an_error</a>: <a href="../symbols/std__Error.html">Error</a> "
   Could <a href="../symbols/std__not.html">not</a> <a href="../symbols/std__load.html">load</a> file "@(filename)"!
-</div>
+</pre>
 <h2>Types</h2>
 <table>
 <tr>

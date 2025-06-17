@@ -29,13 +29,13 @@
 </tr>
 </table>
 <h2>Example</h2>
-<div class="Example">$io <a href="std_types__io.html">std_types::io</a> # create an input-output object
+<pre class="Example">$io <a href="std_types__io.html">std_types::io</a> # create an input-output object
 <a href="std__register_handlers.html">register_handlers</a> &io "my_handlers"
   <a href="std__tuple.html">tuple</a>(<a href="std__READ.html">READ</a> "read_handler")
   <a href="std__tuple.html">tuple</a>(<a href="std__WRITE_COMPLETED.html">WRITE_COMPLETED</a> "write_completed_handler")
 <a href="std__deregister_handlers.html">deregister_handlers</a> &io "my_handlers" "READ"
 # now only the "write_completed_handler" is registered
-</div>
+</pre>
 <h2>Implementations</h2>
 <table>
 <tr>

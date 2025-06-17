@@ -46,15 +46,15 @@
 </tr>
 </table>
 <h2>Example</h2>
-<div class="Example">$modelname "sauerkrautem-una-solar-instruc.Q5_K_M.gguf"
+<pre class="Example">$modelname "sauerkrautem-una-solar-instruc.Q5_K_M.gguf"
 $prompt "Once upon a time"
 <a href="ai__load_ai_model.html">ai::load_ai_model</a>! $model modelname
 <a href="ai__evaluate.html">ai::evaluate</a>! $result model prompt
 <a href="std__print.html">print</a>! result
-</div>
+</pre>
 <h2>Output</h2>
-<div class="Output">[("Once", 0.999), ("upon", 0.998), ("a", 0.997), ("time", 0.996)]
-</div>
+<pre class="Output">[("Once", 0.999), ("upon", 0.998), ("a", 0.997), ("time", 0.996)]
+</pre>
 <h2>Implementations</h2>
 <table>
 <tr>

@@ -16,16 +16,16 @@
 <h2>Description</h2>
 <p>token: the token representing a space character</p>
 <h2>Example</h2>
-<div class="Example">$modelname "sauerkrautem-una-solar-instruc.Q5_K_M.gguf"
+<pre class="Example">$modelname "sauerkrautem-una-solar-instruc.Q5_K_M.gguf"
 $prompt "Once upon a time"
 <a href="ai__load_ai_model.html">ai::load_ai_model</a>! $model modelname
 <a href="ai__tokenize.html">ai::tokenize</a>! $tokens model prompt
 $space_token <a href="ai__space_token_of.html">ai::space_token_of</a>(model)
 <a href="std__print.html">print</a>! space_token
-</div>
+</pre>
 <h2>Output</h2>
-<div class="Output">32
-</div>
+<pre class="Output">32
+</pre>
 <h2>Topic</h2>
 <table><tr><td><a href="../topics/Deprecated_AI.html">Deprecated AI</a></td></tr></table>
 <h2>See also</h2>

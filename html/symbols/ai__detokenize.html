@@ -36,16 +36,16 @@
 </tr>
 </table>
 <h2>Example</h2>
-<div class="Example">$modelname "sauerkrautem-una-solar-instruc.Q5_K_M.gguf"
+<pre class="Example">$modelname "sauerkrautem-una-solar-instruc.Q5_K_M.gguf"
 $prompt "Once upon a time"
 <a href="ai__load_ai_model.html">ai::load_ai_model</a>! $model modelname
 <a href="ai__tokenize.html">ai::tokenize</a>! $tokens model prompt
 ai::dettokenize! $piece model tokens
 <a href="std__print.html">print</a>! piece
-</div>
+</pre>
 <h2>Output</h2>
-<div class="Output">Once upon a time
-</div>
+<pre class="Output">Once upon a time
+</pre>
 <h2>Implementations</h2>
 <table>
 <tr>

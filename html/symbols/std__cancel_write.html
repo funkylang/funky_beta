@@ -33,7 +33,7 @@
 </tr>
 </table>
 <h2>Example</h2>
-<div class="Example">$io <a href="std_types__io.html">std_types::io</a> # create an input-output object
+<pre class="Example">$io <a href="std_types__io.html">std_types::io</a> # create an input-output object
 <a href="std__start_reading_from.html">start_reading_from</a> &io <a href="std__STDIN_FILENO.html">STDIN_FILENO</a> # register reading from STDIN
 <a href="std__write.html">write</a> &io <a href="std__STDOUT_FILENO.html">STDOUT_FILENO</a> "Please enter some text:@nl;"
   # write a prompt text to STDOUT
@@ -90,7 +90,7 @@ $handle_input: (buffer)
             <a href="std__next.html">next</a> # continue processing the buffer
       -&gt; io buffer
         # return the (maybe) modified input-output object and buffer
-</div>
+</pre>
 <h2>Implementations</h2>
 <table>
 <tr>

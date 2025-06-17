@@ -30,7 +30,7 @@
 </tr>
 </table>
 <h2>Example</h2>
-<div class="Example">$io <a href="std_types__io.html">std_types::io</a> # create an input-output object
+<pre class="Example">$io <a href="std_types__io.html">std_types::io</a> # create an input-output object
 <a href="std__set_timeout.html">set_timeout</a> &io 5 # set a timeout of 5 seconds
 <a href="std__loop.html">loop</a>: # the event loop
   <a href="std__get_events.html">get_events</a>! &io $events # get one or more events
@@ -40,7 +40,7 @@
       # timeout occurred
       <a href="std__terminate.html">terminate</a>! # terminate the program
     <a href="std__next.html">next</a> # continue processing events
-</div>
+</pre>
 <h2>Implementations</h2>
 <table>
 <tr>
