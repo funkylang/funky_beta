@@ -67,6 +67,8 @@ extract_slots_methods_and_derived_types $slots !methods $all_derived_types
 
 do:
   on_not do_update_only:
+    mkpath! "html/topics/"
+    mkpath! "html/symbols/"
     save! "html/all_symbols.txt" create_all_symbols_text()
     save! "html/topics/index.html" create_topics_index_page()
     save! "html/symbols/index.html" create_symbols_index_page()
