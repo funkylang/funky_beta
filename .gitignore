@@ -14,8 +14,8 @@ compiler/configuration.fky
 !docs/symbols
 !docs/symbols/*
 !html
-!html/symbols
-!html/topics
+html/symbols
+html/topics
 .*
 *.o
 *.c

@@ -594,7 +594,11 @@ $tedi::insert: (x y lines info str)
 		    cursor_x y lines info par_y new_indent new_text
 		:
 		  if
-		    y == par_y && new_indent < par_indent:
+		    &&
+		      use_soft_line_breaks_of(info)
+		      y == par_y
+		      new_indent < par_indent
+		    :
 		      !lines(y) tedi_line(indent false new_text)
 		      $dx par_indent-new_indent
 		      decrease_indent x+dx y lines info dx
@@ -1300,8 +1304,11 @@ $delete_left: (x y lines info)
 	  -> undefined undefined x-1 y info
 	-> true:
 	  $pos get_position(text x-1-indent)
-	  check_wrap_after_deletion x-1 y lines info
-	    par_y indent append(range(text 1 pos-1) range(text pos+1 -1))
+	  $new_text append(range(text 1 pos-1) range(text pos+1 -1))
+	  if
+	    use_soft_line_breaks_of(info):
+	      check_wrap_after_deletion x-1 y lines info par_y indent new_text
+	    -> y tedi_line(indent new_text) x-1 y info
     :
       cursor_left x y lines info
 
@@ -1340,8 +1347,11 @@ $delete_right: (x y lines info)
 		  check_wrap_after_deletion x y lines info par_y indent-1 text
 	-> true:
 	  $pos get_position(text x-indent)
-	  check_wrap_after_deletion x y lines info
-	    par_y indent append(range(text 1 pos-1) range(text pos+1 -1))
+	  $new_text append(range(text 1 pos-1) range(text pos+1 -1))
+	  if
+	    use_soft_line_breaks_of(info):
+	      check_wrap_after_deletion x y lines info par_y indent new_text
+	    -> y tedi_line(indent new_text) x y info
     -> undefined undefined x y info
 
 $join_next_line: (x y lines info par_y text)
@@ -1426,6 +1436,7 @@ $check_wrap_after_deletion:
 	    y-1
 	    info
     :
+      debug::dump `indent `par_indent
       if
 	indent > par_indent:
 	  !lines(y) tedi_line(par_indent is_a_continuation text)

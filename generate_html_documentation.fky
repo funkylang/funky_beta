@@ -38,6 +38,10 @@ program_parameters!
     "update" "
       update only modified pages
 
+on everything_is_up_to_date():
+  eprintln! "everything is up to date"
+  terminate!
+
 $dot_or_slash set('.' '/')
 
 $doctype "
@@ -1200,6 +1204,16 @@ $create_all_symbols_text:
 	@(name) @(kind_of(info))
       next
     -> buf
+
+$everything_is_up_to_date:
+  -> check("topics") && check("symbols")
+
+  $check: (path)
+    $dir directory("docs/@(path)"
+    for_each dir
+      : (entry)
+	debug::dump `entry
+      -> false
 
 $documentation::ATTRIBUTE.to_string "ATTRIBUTE"
 $documentation::BUILTIN_FUNCTION.to_string "BUILTIN_FUNCTION"
