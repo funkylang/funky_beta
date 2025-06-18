@@ -38,7 +38,8 @@ program_parameters!
     "update" "
       update only modified pages
 
-on everything_is_up_to_date():
+check_whether_everything_is_up_to_date! $everything_is_up_to_date
+on everything_is_up_to_date:
   eprintln! "everything is up to date"
   terminate!
 
@@ -427,6 +428,9 @@ $header:
     -> " "
     : A "class" = "Button"
       "href" = html_filename("symbols/index") "All"
+
+  $html_filename: (filename)
+    link_filename append(filename ".html")
 
 $root_prefix undefined
 $page_filename undefined
@@ -1164,9 +1168,6 @@ $mangle: (name)
     "::" = "__"
     '.' = "/"
 
-$html_filename: (filename)
-  link_filename append(filename ".html")
-
 $link_filename: (filename)
   append
     relative
@@ -1205,15 +1206,43 @@ $create_all_symbols_text:
       next
     -> buf
 
-$everything_is_up_to_date:
-  -> check("topics") && check("symbols")
+$check_whether_everything_is_up_to_date:
+  check! "topics" "symbols"
 
-  $check: (path)
-    $dir directory("docs/@(path)"
-    for_each dir
-      : (entry)
-	debug::dump `entry
-      -> false
+  $check: (paths*)
+    for_each paths
+      : (path)
+	directory! $dir "docs/@(path)"
+	for_each dir
+	  : (entry)
+	    $name name_of(entry)
+	    if
+	      name(1) == '.'
+	      next
+	      :
+		if
+		  entry.is_a_directory:
+		    check! $is_up_to_date append(path "/" name_of(entry))
+		    if!
+		      is_up_to_date
+		      next
+		      -> false
+		  :
+		    $txt_filename string("docs/" path "/" name)
+		    $html_filename
+		      string("html/" path "/" name .before. '.' ".html")
+		    stat! $txt_info txt_filename
+		    stat! $html_info html_filename
+		    if!
+		      ||
+			html_info.is_an_error
+			>
+			  modification_time_of(txt_info)
+			  modification_time_of(html_info)
+		      -> false
+		      next
+	  next
+      -> true
 
 $documentation::ATTRIBUTE.to_string "ATTRIBUTE"
 $documentation::BUILTIN_FUNCTION.to_string "BUILTIN_FUNCTION"

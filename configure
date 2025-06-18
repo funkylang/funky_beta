@@ -36,7 +36,8 @@ PREFIX='/usr/local'
 
 OPTIONAL_LIBRARIES=''
 ADDITIONAL_LIBRARIES=''
-TOOLS='otedi chat_with_vicuna extract_documentation reformat_c'
+TOOLS="otedi chat_with_vicuna extract_documentation reformat_c \
+  generate_html_documentation"
 DIRECTORIES='new_tedi'
 APPLICATIONS='new_tedi/tedi new_tedi/fde new_tedi/tedi_light'
 
@@ -639,6 +640,8 @@ do
   printf " \\
   $APPLICATION"
 done
+printf " \\
+  html_documentation"
 echo
 
 echo
@@ -688,6 +691,8 @@ do
   echo "${TAB}rm -f $DIRECTORY/*.c"
   echo "${TAB}rm -f $DIRECTORY/*.o"
 done
+echo "${TAB}rm -rf html/topics"
+echo "${TAB}rm -rf html/symbols"
 
 echo
 echo '.PHONY: install'
@@ -824,6 +829,11 @@ echo "${TAB}ar rcs libfky$LIB_EXTENSION \$(runtime_OBJECTS)"
 echo
 echo '.PHONY: funky'
 echo "funky: compiler/funky$EXE_EXTENSION"
+
+echo
+echo '.PHONY: html_documentation'
+echo 'html_documentation: generate_html_documentation'
+echo "${TAB}./generate_html_documentation"
 
 echo
 echo -n "compiler/funky$EXE_EXTENSION: \$(funky_OBJECTS) libfky$DLL_EXTENSION"

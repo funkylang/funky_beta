@@ -484,6 +484,9 @@ $std::directory:
 $std_types::stat/is_a_directory: (self)
   -> mode_of(self)(1) == 'd'
 
+$std_types::dirent/is_a_directory: (self)
+  -> type_of(self) == DIRECTORY
+
 $std::call ()
 
 $std_types::object/call:
