@@ -745,6 +745,10 @@ echo "${TAB}mkdir -p \
 echo "${TAB}find $LIBNAME -name \"*.fky\" | \
   cpio -pdmu \$(DESTDIR)$PREFIX/share/funky-$RUNTIME_VERSION/source/"
 done
+echo "${TAB}mkdir -p \
+  \"\$(DESTDIR)$PREFIX/share/funky-$RUNTIME_VERSION/source/runtime_templates\""
+echo "${TAB}find runtime_templates -name \"*.template\" | \
+  cpio -pdmu \$(DESTDIR)$PREFIX/share/funky-$RUNTIME_VERSION/source/"
 echo "${TAB}cp -r html \"\$(DESTDIR)$PREFIX/share/funky-$RUNTIME_VERSION\""
 echo "${TAB}ln -fsT ../source \
   \$(DESTDIR)$PREFIX/share/funky-$RUNTIME_VERSION/html/source"

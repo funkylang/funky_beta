@@ -83,7 +83,7 @@ $render_block: (element width)
     "p":
       plus &rendering_indent 2
       render_contents contents width
-    "div":
+    "div", "pre":
       render_contents contents width
     "dt":
       render_contents contents width

@@ -2,7 +2,7 @@
 
   constructs a list from its arguments
 
-  See also: std_types::list/new
+  See also: std_types::list/std::new
 
   Topic: Lists
 
