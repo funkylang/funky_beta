@@ -109,3 +109,5 @@ ws.symbols
 !examples
 examples/*
 !examples/cave.fky
+!examples/star_and_sinus.fky
+!examples/ws

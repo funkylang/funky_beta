@@ -1,0 +1,207 @@
+#!/usr/bin/env fkyrun
+
+  Copyright (C) 2024 by
+  Dipl.-Ing. Michael Niederle
+
+  This program is free software; you can redistribute it and/or modify
+  it under the terms of the GNU General Public License, version 2, or
+  (at your option) version 3.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  GNU General Public License for more details.
+
+  For details of the GNU General Public License see the accompanying
+  files GPLv2.txt and GLPv3.txt or
+  http://www.gnu.org/licenses/gpl-2.0.html
+  http://www.gnu.org/licenses/gpl-3.0.html
+  or write to the
+  Free Software Foundation, Inc.,
+  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+
+<namespace worldsim>
+
+<using std>
+<using worldsim>
+
+<require basic/stdlib>
+<require terminal/terminal>
+
+<require ./create_map>
+<require ./render_map>
+
+$MAP_WIDTH 180
+$MAP_HEIGHT 90
+
+$worldsim::do_print_coordinates false
+$worldsim::do_use_emojis true
+
+$rng lcg(4712)
+create_maps
+  $elevation_map $info_map $temperature_map $rainfall_map $vegetation_map &rng
+  MAP_WIDTH MAP_HEIGHT
+
+error_check elevation_map temperature_map rainfall_map vegetation_map
+
+$world_screen_width 2*MAP_WIDTH
+$world_screen_height MAP_HEIGHT
+$world_screen undefined
+$map_mode undefined
+
+do:
+  get_terminal_attributes! STDIN_FILENO $attributes
+  use_canonical_mode &attributes false # we want no line-buffering ...
+  echo_characters &attributes false # ... and no echoing of typed in characters
+  set_terminal_attributes! $success STDIN_FILENO attributes
+  if
+    success
+    pass
+    :
+      eprintln! "Failed to disable canonical input mode!"
+      terminate
+
+get_terminal_size! STDIN_FILENO $width $height
+create_terminal $term width height
+  CURSOR_OFF
+cursor_off!
+
+$x_offset 79
+$y_offset 0
+
+$max_y_offset max(world_screen_height-height_of(term) 0)
+
+$update_screen:
+  copy! &term world_screen x_offset 1+y_offset
+  copy! &term world_screen x_offset-world_screen_width 1+y_offset
+  update &term $output
+  print! output
+  -> term
+
+$end_game:
+  restore_colours!
+  clear_screen!
+  cursor_on!
+  get_terminal_attributes! STDIN_FILENO $attributes
+  use_canonical_mode! &attributes false
+  echo_characters! &attributes true
+  set_terminal_attributes! $success STDIN_FILENO attributes
+  if
+    success
+    :
+      terminate!
+    :
+      eprintln! "Failed to reset input mode!"
+      terminate!
+
+$input "p"
+$new_map_mode map_mode
+loop:
+  if !input
+    input.is_empty:
+      read! STDIN_FILENO 32
+      -> input
+    -> input
+
+  $delta_x 0
+  $delta_y 0
+  $i 1
+  loop
+    :
+      if
+	i <= length_of(input):
+	  $key input(i)
+	  case key
+	    'a':
+	      plus &delta_x 2
+	      inc &i
+	      next!
+	    'd':
+	      minus &delta_x 2
+	      inc &i
+	      next!
+	    'w':
+	      dec &delta_y
+	      inc &i
+	      next!
+	    's':
+	      inc &delta_y
+	      inc &i
+	      next!
+	    'p', 'e', 't', 'r', 'v', 'm':
+	      inc &i
+	      !new_map_mode key
+	      maybe_update_screen!
+	    'q':
+	      end_game!
+	    :
+	      inc &i
+	      maybe_update_screen!
+	      next!
+	:
+	  maybe_update_screen!
+    next
+
+  $maybe_update_screen:
+    range &input i -1
+    $prev_x_offset x_offset
+    $prev_y_offset y_offset
+    !x_offset x_offset+delta_x .mod. world_screen_width
+    !y_offset min(max(y_offset+delta_y 0) max_y_offset)
+    cond
+      -> new_map_mode != map_mode:
+	if
+	  new_map_mode == 'm':
+	    !world_screen_width 7*MAP_WIDTH
+	    !world_screen_height 3*MAP_HEIGHT
+	    !x_offset 1
+	    !y_offset 0
+	    !max_y_offset max(world_screen_height-height_of(term) 0)
+	    !map_mode new_map_mode
+	    create_world_map !world_screen elevation_map info_map vegetation_map
+	    update_screen! !term
+	    break!
+	  :
+	    case map_mode
+	      'p', 'e', 't', 'r', 'v'
+	      :
+		draw_new_map!
+	      :
+		!world_screen_width 2*MAP_WIDTH
+		!world_screen_height MAP_HEIGHT
+		!x_offset 1
+		!y_offset 0
+		draw_new_map!
+
+	$draw_new_map:
+	  !map_mode new_map_mode
+	  create_screen term
+	    !world_screen world_screen_width world_screen_height
+	  !max_y_offset max(world_screen_height-height_of(term) 0)
+	  case map_mode
+	    'p':
+	      draw_physical_map &world_screen elevation_map info_map
+	      update_screen! !term
+	      break!
+	    'e':
+	      draw_numerical_map &world_screen elevation_map info_map elevation_map
+	      update_screen! !term
+	      break!
+	    't':
+	      draw_numerical_map &world_screen elevation_map info_map temperature_map
+	      update_screen! !term
+	      break!
+	    'r':
+	      draw_numerical_map &world_screen elevation_map info_map rainfall_map
+	      update_screen! !term
+	      break!
+	    'v':
+	      draw_vegetation_map &world_screen
+		elevation_map info_map vegetation_map
+	      update_screen! !term
+	      break!
+      -> x_offset != prev_x_offset || y_offset != prev_y_offset:
+	update_screen! !term
+	break!
+      -> true:
+	break!

@@ -1,0 +1,740 @@
+#
+  Copyright (C) 2024 by
+  Dipl.-Ing. Michael Niederle
+
+  This program is free software; you can redistribute it and/or modify
+  it under the terms of the GNU General Public License, version 2, or
+  (at your option) version 3.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  GNU General Public License for more details.
+
+  For details of the GNU General Public License see the accompanying
+  files GPLv2.txt and GLPv3.txt or
+  http://www.gnu.org/licenses/gpl-2.0.html
+  http://www.gnu.org/licenses/gpl-3.0.html
+  or write to the
+  Free Software Foundation, Inc.,
+  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+
+<using std>
+<using worldsim>
+
+$worldsim::SEA_LEVEL 25
+$worldsim::HILL_LEVEL 50
+$worldsim::MOUNTAIN_LEVEL 100
+
+$worldsim::OCEAN 0
+$worldsim::LAND 8
+$worldsim::SPRING 0x10
+$worldsim::RIVER 0x18
+$worldsim::LAKE 0x20
+$worldsim::LAKE_EXIT 0x28
+
+$worldsim::SEA_WATER .
+$worldsim::FRESH_WATER .
+$worldsim::ICE .
+$worldsim::SWAMP .
+$worldsim::TUNDRA .
+$worldsim::CONIFEROUS_FOREST .
+$worldsim::MIXED_FOREST .
+$worldsim::DECIDUOUS_FOREST .
+$worldsim::TROPICAL_FOREST .
+$worldsim::GRASSLAND .
+$worldsim::STEPPE .
+$worldsim::DESERT .
+
+$worldsim::DDX list(0 1 1 1 0 -1 -1 -1)
+$worldsim::DDY list(-1 -1 0 1 1 1 0 -1)
+
+$dist: (x1 y1 x2 y2)
+  $dx x2-x1
+  $dy y2-y1
+  -> isqrt(dx*dx+dy*dy)
+
+$coin: (rng)
+  next_value &rng $v 100
+  $result v > 50
+  -> rng result
+
+$create_prototype_plateau: (d)
+  # this routine builds a plateau prototype to speed up map generating
+
+  $R1 16*(d+1) .div. 3
+  $R2 8*(d+1)
+  $H 256
+  $dd 2*d+1
+  $plateau dup(list(dup(list(0) dd)) dd)
+
+  # the horizontal and vertical axis are asigned 4 times
+  from_to 0 d
+    : (dy)
+      from_to 0 d
+	: (dx)
+	  $z isqrt(dx*dx+dy*dy) << 3
+	  !z
+	    cond
+	      -> z <= R1 -> H
+	      -> z <= R2 -> (R2-z)*H .div. R2-R1
+	      -> true -> 0
+	  !plateau(1+d+dy)(1+d+dx) z
+	  !plateau(1+d+dy)(1+d-dx) z
+	  !plateau(1+d-dy)(1+d+dx) z
+	  !plateau(1+d-dy)(1+d-dx) z
+	  next
+	next
+    -> plateau
+
+$worldsim::create_maps: (rng MAP_WIDTH MAP_HEIGHT)
+  $MINIMUM_DISTANCE 3*MAP_WIDTH .div. 20
+  $MINIMUM_RIDGE_LENGTH 11*MAP_WIDTH .div. 8
+  $MAXIMUM_RIDGE_LENGTH 9*MAP_WIDTH .div. 2
+  $MINIMUM_STEEPNESS 4000 .div. MAP_WIDTH
+  $MAXIMUM_STEEPNESS 30000 .div. MAP_WIDTH
+  $AVERAGE_STEEPNESS 20000 .div. MAP_WIDTH
+
+  $M: (x)
+    -> (x-1 .mod. MAP_WIDTH)+1
+
+  $elevation_map dup(list(dup(list(0) MAP_WIDTH)) MAP_HEIGHT)
+
+  $plateau_5 create_prototype_plateau(5)
+  $plateau_7 create_prototype_plateau(7)
+  $plateau_9 create_prototype_plateau(9)
+  $plateau_11 create_prototype_plateau(11)
+
+  $empty_marks dup(list(empty_key_order_set) MAP_HEIGHT)
+
+  $create_cone: (x y h steepness)
+    div &x 8 # might be negative
+    div &y 8 # might be negative
+    shift_right &h 8
+    next_value &rng $v 100
+    $d
+      +
+	1
+	div
+	  600*h
+	  steepness*(99+v)
+    $md isqrt(2*d*d)
+    from_to y-d y+d
+      : (cy)
+	from_to x-d x+d
+	  : (cx)
+	    if
+	      cy >= 1 && cy <= MAP_HEIGHT:
+		$hh h*(md-dist(cx cy x y)) .div. md
+		M &cx
+		if
+		  hh > elevation_map(cy)(cx):
+		    !elevation_map(cy)(cx) hh
+		    next
+		  next
+	      next
+	  next
+      -> elevation_map rng
+
+
+  $create_plateau: (x y r h)
+
+    #eprintln! "create plateau at @(x)/@(y) and radius @(r) with height @(h)"
+
+    $hp
+      case
+	r
+	5 -> plateau_5
+	7 -> plateau_7
+	9 -> plateau_9
+	11 -> plateau_11
+
+    from_to -r r
+      : (dy)
+	from_to -r r
+	  : (dx)
+	    if
+	      y+dy >= 1 && y+dy <= MAP_HEIGHT:
+		plus &elevation_map(y+dy)(M(x+dx)) h*hp(r+dy+1)(r+dx+1) >> 16
+		next
+	      next
+	  next
+      -> elevation_map rng
+
+  $create_plateaus: (count)
+    repeat count
+      :
+	next_value &rng $x MAP_WIDTH
+	next_value &rng $y MAP_HEIGHT
+	next_value &rng $r 4
+	!r 3+2*r
+	next_value &rng $h 501
+	!h 499+h
+	create_plateau x y r h !elevation_map !rng
+	next
+      -> elevation_map rng
+
+  $create_ridge: (x1 y1 h1 x2 y2 h2 steepness)
+    # x, y count in 1/8 units; h in 1/256 units
+    #eprint "
+      create ridge from @(x1)/@(y1) (height: @(h1)) to @(x2)/@(y2) (height: @(h2))
+    if
+      h1+h2 < 7000
+      -> elevation_map rng
+      :
+	max &steepness MINIMUM_STEEPNESS
+	min &steepness MAXIMUM_STEEPNESS
+	$d dist(x1 y1 x2 y2)
+	if
+	  d < MINIMUM_DISTANCE:
+	    # end of recursion
+	    create_cone !elevation_map !rng x1 y1 h1 steepness
+	    create_cone !elevation_map !rng x2 y2 h2 steepness
+	    next_value &rng $v 100
+	    if
+	      v <= (MINIMUM_DISTANCE >> 1)-(d .div. 50)
+	      :
+		# create mountain foot
+		next_value &rng $dh 7000
+		if
+		  h1 >= 6000+dh
+		  :
+		    $alpha asin(abs(y2-y1)/d)
+		    !alpha
+		      if
+			x1 > x2
+			-> PI-alpha
+			-> alpha
+		    next_value &rng $bv 21
+		    $beta (79+bv)*PI/180
+		    coin &rng $c
+		    !alpha
+		      if
+			c
+			-> alpha+beta
+			-> alpha-beta
+		    next_value &rng $rv 3*MINIMUM_DISTANCE >> 1
+		    $r
+		      /
+			h1
+			5*MINIMUM_DISTANCE+rv
+		    next_value &rng $sv 17
+		    create_ridge
+		      x1 y1 h1
+		      x1+to_integer(r*cos(alpha))
+		      y1+to_integer(r*sin(alpha))
+		      0
+		      steepness+sv-9
+		  -> elevation_map rng
+	      -> elevation_map rng
+	  :
+	    next_value &rng $alpha 720
+	    !alpha alpha*PI/360
+	    next_value &rng $r d >> 2
+	    $xm to_integer(((x1+x2) >> 1)+cos(alpha)*r)
+	    $ym to_integer(((y1+y2) >> 1)+sin(alpha)*r)
+	    next_value &rng !r 201
+	    !r 101-r
+	    $hm
+	      +
+		(h1+h2) >> 1
+		r*(h1+h2) .div. 1000
+	    next_value &rng $sv1 17
+	    next_value &rng $sv2 17
+	    create_ridge !elevation_map !rng
+	      xm ym hm x1 y1 h1 steepness+sv1-9
+	    create_ridge
+	      xm ym hm x2 y2 h2 steepness+sv2-9
+
+  $create_mountain:
+    # x, y count in 1/8 units; h in 1/256 units
+
+    loop:
+      next_value &rng $x1 8*MAP_WIDTH
+      next_value &rng $y1 6*MAP_HEIGHT
+      !y1 MAP_HEIGHT+y1
+      next_value &rng $x2 2*MAP_WIDTH
+      !x2 x1+x2
+      next_value &rng $y2 6*MAP_HEIGHT
+      !y2 MAP_HEIGHT+y2
+      $d dist(x1 y1 x2 y2)
+      if
+	d < MINIMUM_RIDGE_LENGTH || d > MAXIMUM_RIDGE_LENGTH
+	next
+	:
+	  #eprintln "create mountain from @(x1)/@(y1) to @(x2)/@(y2)"
+	  next_value &rng $alpha 360
+	  !alpha alpha*PI/180
+	  next_value &rng $r d >> 2
+	  $xm to_integer(((x1+x2) >> 1)+cos(alpha)*r)
+	  $ym to_integer(((y1+y2) >> 1)+sin(alpha)*r)
+	  next_value &rng $hm 20000
+	  !hm 15000+10*d+hm
+	  next_value &rng $sv 31
+	  $steepness
+	    div
+	      *
+		AVERAGE_STEEPNESS
+		+
+		  79
+		  sv
+		  hm .div. 500
+	      100
+	  next_value &rng $sv1 20
+	  next_value &rng $sv2 20
+	  create_ridge !elevation_map !rng
+	    xm ym hm x1 y1 0 steepness+sv1
+	  create_ridge
+	    xm ym hm x2 y2 0 steepness+sv2
+
+  $create_mountains: (count)
+    repeat count
+      :
+	create_mountain !elevation_map !rng
+	next
+      -> elevation_map rng
+
+  $remove_small_oceans: (minimum_size)
+    $flood_fill: (x y)
+      $lx x
+      loop # look right
+	:
+	  !ocean_map(y)(x) ocean_no
+	  !x M(x+1)
+	  if
+	    elevation_map(y)(x) < SEA_LEVEL && ocean_map(y)(x).is_undefined
+	    next
+	    break
+	:
+	  # we reached land or traversed the whole globe
+	  $rx M(x-1)
+	  !x lx
+	  loop # look left
+	    :
+	      !x M(x-1)
+	      if
+		x != rx && elevation_map(y)(x) < SEA_LEVEL:
+		  !ocean_map(y)(x) ocean_no
+		  !lx x
+		  next
+		break
+	    :
+	      $check_row: (cy)
+		!rx
+		  if
+		    rx < lx
+		    -> rx+MAP_WIDTH
+		    -> rx
+		from_to lx-1 rx+1
+		  : (cx)
+		    M &cx
+		    if
+		      &&
+			elevation_map(cy)(cx) < SEA_LEVEL
+			ocean_map(cy)(cx).is_undefined
+		      :
+			flood_fill cx cy !ocean_map
+			next
+		      next
+		  -> ocean_map
+	      update_if y > 2 &ocean_map: check_row y-1
+	      update_if y < MAP_HEIGHT-1 ocean_map: check_row y+1
+
+    #$dump_map:
+      for_each ocean_map: (row)
+	for_each row
+	  : (cell)
+	    if
+	      cell.is_defined:
+		print cell
+		next
+	      :
+		print '.'
+		next
+	  :
+	    println
+	    next
+
+    $ocean_map dup(list(dup(list(undefined) MAP_WIDTH)) MAP_HEIGHT)
+    $ocean_no 0
+    from_to 2 MAP_HEIGHT-1
+      : (y)
+	from_to 1 MAP_WIDTH
+	  : (x)
+	    if
+	      elevation_map(y)(x) < SEA_LEVEL && ocean_map(y)(x).is_undefined:
+		inc &ocean_no
+		flood_fill x y !ocean_map
+		next
+	      next
+	  next
+      :
+	$ocean_sizes empty_hash_table
+	from_to 1 ocean_no
+	  : (no)
+	    !ocean_sizes(no) 0
+	    next
+	  :
+	    from_to 2 MAP_HEIGHT-1
+	      : (y)
+		from_to 1 MAP_WIDTH
+		  : (x)
+		    $no ocean_map(y)(x)
+		    if
+		      no.is_defined:
+			inc &ocean_sizes(no)
+			next
+		      next
+		  next
+	      :
+		from_to 2 MAP_HEIGHT-1
+		  : (y)
+		    from_to 1 MAP_WIDTH
+		      : (x)
+			$no ocean_map(y)(x)
+			if
+			  no.is_defined && ocean_sizes(no) < minimum_size:
+			    !elevation_map(y)(x) SEA_LEVEL
+			    next
+			  next
+		      next
+		  -> elevation_map
+
+  #
+    the map contains the region from 75° northern latitude to
+    75° southern latitude
+
+    from 0° to 15° east winds dominate
+    from 15° to 30° there are arid zones
+    from 30° to 75° west winds dominate
+
+  $create_temperature_map:
+    map elevation_map: (y _row)
+      $latitude to_integer(abs((MAP_HEIGHT+1)/2-y)*150/MAP_HEIGHT)
+      $base_temperature
+	if
+	  latitude < 25
+	  -> 30
+	  -> 225-3*latitude .div. 5
+      $temperatures empty_list
+      from_to 1 MAP_WIDTH
+	: (x)
+	  $elevation max(elevation_map(y)(x)-SEA_LEVEL 0)
+	  $temperature base_temperature-(elevation .div. 5)
+	  push &temperatures temperature
+	  next
+	-> temperatures
+
+  $max_humidity: (temperature)
+    # in 0.1 g/m³
+    cond
+      -> temperature >= 25 -> 230+(temperature-25)*14
+      -> temperature >= 20 -> 170+(temperature-20)*12
+      -> temperature >= 15 -> 130+(temperature-15)*8
+      -> temperature >= 10 -> 95+(temperature-10)*7
+      -> temperature >= 5 -> 70+(temperature-5)*5
+      -> temperature >= 0 -> 50+temperature*4
+      -> temperature >= -10 -> 20+(temperature+10)*3
+      -> true -> 20
+
+  $create_rainfall_map:
+    map elevation_map: (y _row)
+      $latitude to_integer(abs((MAP_HEIGHT+1)/2-y)*150/MAP_HEIGHT)
+      $wind_direction
+	cond
+	  -> latitude > 30 -> 10
+	  -> latitude > 25 -> latitude-25
+	  -> latitude > 20 -> 0
+	  -> latitude > 15 -> 20-latitude
+	  -> true -> -10
+      $rainfalls empty_list
+      $base_temperature
+	if
+	  latitude < 25
+	  -> 30
+	  -> 225-3*latitude .div. 5
+      $humidity max_humidity(base_temperature)
+
+      $compute_rainfall: (x)
+	$temperature temperature_map(y)(x)
+	$humidity_limit max_humidity(temperature)
+	$rainfall max(humidity-humidity_limit 0)+(humidity .div. 25)
+	!rainfall rainfall*(10+abs(wind_direction)) .div. 20
+	minus &humidity rainfall
+	if
+	  elevation_map(y)(x) < SEA_LEVEL:
+	    plus &humidity
+	      humidity_limit*(10+abs(wind_direction)) .div. 200
+	    min &humidity humidity_limit
+	    -> rainfall humidity
+	  -> rainfall humidity
+
+      if
+	wind_direction < 0:
+	  from_to_by MAP_WIDTH 1 -1
+	    : (x)
+	      compute_rainfall x $rainfall !humidity
+	      put &rainfalls rainfall
+	      next
+	    -> rainfalls
+	:
+	  from_to 1 MAP_WIDTH
+	    : (x)
+	      compute_rainfall x $rainfall !humidity
+	      push &rainfalls rainfall
+	      next
+	    -> rainfalls
+
+  $create_info_map:
+    map elevation_map: (line)
+      map line: (height)
+	if
+	  height >= SEA_LEVEL
+	  -> LAND
+	  -> OCEAN
+
+  $create_lake: (x y height)
+    $has_exit: (cx cy)
+      $best_direction undefined
+      $best_nx undefined
+      $best_ny undefined
+      $best_height 255
+      from_to 1 8
+	: (direction)
+	  $nx M(cx+DDX(direction))
+	  $ny cy+DDY(direction)
+	  $nh elevation_map(ny)(nx)
+	  if
+	    nh < height && nh < best_height:
+	      !best_height nh
+	      !best_direction direction
+	      !best_nx nx
+	      !best_ny ny
+	      next
+	    next
+	-> best_direction best_nx best_ny best_direction.is_defined
+
+    $extend_lake_and_search_exit:
+      $new_shore empty_list
+      for_each shore
+	: (cell)
+	  cell $cx $cy
+	  from_to 1 8
+	    : (direction)
+	      $nx M(cx+DDX(direction))
+	      $ny cy+DDY(direction)
+	      if
+		&&
+		  elevation_map(ny)(nx) == height
+		  not(is_a_lake(ny)(nx))
+		:
+		  has_exit nx ny $exit_direction $ex $ey $f
+		  if
+		    f:
+		      if
+			elevation_map(ey)(ex) < SEA_LEVEL:
+			  !info_map(cy)(cx) LAKE_EXIT | direction-1
+			  !info_map(ny)(nx) RIVER | exit_direction-1
+			  ->
+			    new_shore exit_direction ex ey info_map is_a_lake true
+			:
+			  !info_map(ny)(nx) LAKE_EXIT | exit_direction-1
+			  ->
+			    new_shore exit_direction ex ey info_map is_a_lake true
+		    :
+		      !is_a_lake(ny)(nx) true
+		      !info_map(ny)(nx) LAKE
+		      push &new_shore tuple(nx ny)
+		      next
+		next
+	    next
+	-> new_shore undefined undefined undefined info_map is_a_lake false
+
+    #eprintln! "create lake at @(x)/@(y) with height @(height)"
+    $is_a_lake empty_marks
+    !is_a_lake(y)(x) true
+    !info_map(y)(x) LAKE
+    $shore list(tuple(x y))
+    loop
+      :
+	extend_lake_and_search_exit
+	  $new_shore $exit_direction $ex $ey !info_map !is_a_lake $success
+	if
+	  success:
+	    if
+	      elevation_map(ey)(ex) < SEA_LEVEL
+	      -> elevation_map info_map rng
+	      :
+		create_river RIVER ex ey exit_direction empty_marks
+	  :
+	    if
+	      new_shore.is_empty:
+		inc &height
+		for_each shore
+		  : (coordinates)
+		    coordinates $cx $cy
+		    !elevation_map(cy)(cx) height
+		    next
+		  next
+	      :
+		append &shore new_shore
+		next
+
+  $create_river: (kind x y direction marked)
+    # direction is a value in the range 1..8
+
+    $is_fresh_water: (cx cy)
+      $c_info info_map(cy)(cx) & 0xf8
+      -> c_info == RIVER || c_info == LAKE || c_info == LAKE_EXIT
+
+    #eprintln! "create river at @(x)/@(y) in direction @(direction)"
+    $info info_map(y)(x)
+    case info & 0xf8
+      OCEAN, RIVER, LAKE, LAKE_EXIT:
+	#eprintln! "found exit (@(start_x)/@(start_y))"
+	-> elevation_map info_map rng
+      SPRING:
+	!info_map(y)(x) RIVER+(info & 7)
+	-> elevation_map info_map rng
+      :
+	$height elevation_map(y)(x)
+	$new_direction undefined
+	$new_height undefined
+	$best_direction undefined
+	$best_height 255 # unreachable maximum value
+	$lowest_height 255 # unreachable maximum value
+	coin &rng $do_rotate_right # turn left or right without a bias
+
+	# rotate through neighbouring cells
+	repeat
+	  8:
+	    $rotate:
+	      !direction
+		if
+		  do_rotate_right
+		  -> (direction & 7)+1
+		  -> (direction+6 & 7)+1
+	      next
+
+	    $nx M(x+DDX(direction))
+	    $ny y+DDY(direction)
+	    $neighbour_height elevation_map(ny)(nx)
+	    min &lowest_height neighbour_height
+	    if
+	      neighbour_height < height:
+		if !new_direction !new_height
+		  new_direction.is_undefined
+		  -> direction neighbour_height
+		  -> new_direction new_height
+		if !best_direction !best_height
+		  ||
+		    neighbour_height < best_height
+		    &&
+		      neighbour_height == best_height
+		      is_fresh_water(nx ny)
+		  -> direction neighbour_height
+		  -> best_direction best_height
+		rotate
+	      rotate
+	  :
+	    if
+	      new_direction.is_defined:
+		if !new_direction !new_height
+		  best_height < new_height
+		  -> best_direction best_height
+		  -> new_direction new_height
+		!info_map(y)(x) kind+new_direction-1
+		!marked(y)(x) true
+		create_river
+		  RIVER
+		  M(x+DDX(new_direction)) y+DDY(new_direction)
+		  new_direction marked
+	      :
+		# we're caught in a through
+		#eprintln "we're caught in a through"
+		!elevation_map(y)(x) lowest_height
+		create_lake x y lowest_height
+
+  $create_rivers: (count)
+    repeat count
+      :
+	loop
+	  :
+	    next_value &rng $x MAP_WIDTH
+	    next_value &rng $y 14*MAP_HEIGHT
+	    !y (MAP_HEIGHT+y) >> 4
+	    $height elevation_map(y)(x)
+	    $info info_map(y)(x) & 0xf8
+	    next_value &rng $rv 10
+	    next_value &rng $hv 50
+	    if
+	      ||
+		info == OCEAN
+		info == LAKE
+		info == LAKE_EXIT
+		info == RIVER
+		info == SPRING
+		rainfall_map(y)(x) < 1+rv
+		height <= SEA_LEVEL+hv
+	      next
+	      :
+		next_value &rng $ev 8
+		create_river !elevation_map !info_map !rng
+		  SPRING x y ev
+		  empty_marks
+		break
+	  next
+      -> elevation_map info_map rng
+
+  $create_vegetation_map:
+    #
+      woods: rainfall >= 400 mm/year
+      grassland: rainfall < 400 mm/year
+      steppe: rainfall < 250 mm/year
+      desert: rainfaill < 100 mm/year
+
+      woods:
+	tropical forest: >= 25°
+	deciduous forest: >= 18°
+	mixed forest: >= 12°
+	coniferous forest: >= 5°
+	tundra: < 5°
+
+    map rainfall_map: (y line)
+      map line: (x rainfall)
+	if
+	  y == 1 || y == MAP_HEIGHT
+	  -> ICE
+	  :
+	    case
+	      info_map(y)(x) & 0xf8
+	      OCEAN -> SEA_WATER
+	      LAKE, LAKE_EXIT -> FRESH_WATER
+	      :
+		$temperature temperature_map(y)(x)
+		if
+		  temperature > 0:
+		    cond
+		      -> rainfall >= 4:
+			cond
+			  -> temperature >= 25 -> TROPICAL_FOREST
+			  -> temperature >= 18 -> DECIDUOUS_FOREST
+			  -> temperature >= 12 -> MIXED_FOREST
+			  -> temperature >= 5 -> CONIFEROUS_FOREST
+			  -> true -> TUNDRA
+		      -> rainfall >= 2 -> GRASSLAND
+		      -> rainfall >= 1 -> STEPPE
+		      -> true -> DESERT
+		  -> ICE
+
+  create_mountains 12 !elevation_map !rng
+  create_plateaus 600 !elevation_map !rng
+
+  remove_small_oceans 25 !elevation_map
+
+  create_temperature_map $temperature_map
+  create_rainfall_map $rainfall_map
+  create_info_map $info_map
+  create_rivers 75 !elevation_map !info_map !rng
+  create_vegetation_map $vegetation_map
+  -> elevation_map info_map temperature_map rainfall_map vegetation_map rng

@@ -1,0 +1,655 @@
+#
+  Copyright (C) 2021 by
+  Dipl.-Ing. Michael Niederle
+
+  This program is free software; you can redistribute it and/or modify
+  it under the terms of the GNU General Public License, version 2, or
+  (at your option) version 3.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  GNU General Public License for more details.
+
+  For details of the GNU General Public License see the accompanying
+  files GPLv2.txt and GLPv3.txt or
+  http://www.gnu.org/licenses/gpl-2.0.html
+  http://www.gnu.org/licenses/gpl-3.0.html
+  or write to the
+  Free Software Foundation, Inc.,
+  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+
+<using std>
+<using worldsim>
+
+$river_placement
+  list
+    list
+      tuple(3..5 3)
+      tuple(4 2)
+      tuple(3..5 1)
+    list
+      tuple(5 3)
+      tuple(6 2)
+      tuple(7 1)
+    list
+      tuple(5 3..4)
+      tuple(6 3..4)
+      tuple(7 3..4)
+    list
+      tuple(5 5)
+      tuple(6 5)
+      tuple(7 6)
+    list
+      tuple(3..5 5)
+      tuple(4 6)
+    list
+      tuple(3 5)
+      tuple(2 5)
+      tuple(1 6)
+    list
+      tuple(3 3..4)
+      tuple(2 3..4)
+      tuple(1 3..4)
+    list
+      tuple(3 3)
+      tuple(2 2)
+      tuple(1 1)
+
+$corner_coordinates
+  list
+    list
+      tuple(1 1) tuple(1 2) tuple(2 1)
+    list
+      tuple(7 1) tuple(6 1) tuple(7 2)
+    list
+      tuple(7 6) tuple(7 5) tuple(6 6)
+    list
+      tuple(1 6) tuple(2 6) tuple(1 5)
+
+$wide_feature_positions
+  list
+    list(1 3 5)
+    list(1 3 6)
+    list(1 4 6)
+    list(2 4 6)
+    list(1 5)
+    list(1 6)
+    list(2 5)
+    list(2 6)
+
+$worldsim::create_world_map: (elevation_map info_map vegetation_map)
+  $MAP_WIDTH length_of(elevation_map(1))
+  $MAP_HEIGHT length_of(elevation_map)
+  $CELL_WIDTH 7
+  $CELL_HEIGHT 3
+
+  $M: (x)
+    -> (x-1 .mod. MAP_WIDTH)+1
+
+  $river_colour '@0x0000ff;'
+  $grass_colour '@0x30a030;'
+  $mountain_colour '@0x505050;'
+  $hill_colour '@0x507040;'
+
+  $coniferous_forest_colour '@0x005020;'
+  $deciduous_forest_colour '@0x008000;'
+  $tropical_forest_colour '@0x308000;'
+  $cactus_colour '@0x307000;'
+
+  $vegetation_colours
+    hash_table
+      SEA_WATER = '@0xc0c0e0;'
+      FRESH_WATER = '@0x4080c0;'
+      ICE = '@0xffffff;'
+      SWAMP = '@0x807030;'
+      TUNDRA = '@0x909040;'
+      CONIFEROUS_FOREST = grass_colour
+      MIXED_FOREST = grass_colour
+      DECIDUOUS_FOREST = grass_colour
+      TROPICAL_FOREST = grass_colour
+      GRASSLAND = grass_colour
+      STEPPE = '@0xa0a030;'
+      DESERT = '@0xb0b010;'
+
+  $vegetation_hierarchy
+    hash_table
+      SEA_WATER = 1
+      FRESH_WATER = 1
+      ICE = 2
+      SWAMP = 3
+      TUNDRA = 4
+      DESERT = 5
+      STEPPE = 6
+      CONIFEROUS_FOREST = 7
+      MIXED_FOREST = 7
+      DECIDUOUS_FOREST = 7
+      TROPICAL_FOREST = 7
+      GRASSLAND = 7
+
+  $vegetation_cells
+    do
+      :
+	$cells empty_hash_table
+	for_each vegetation_colours
+	  : (vegetation colour)
+	    !cells(vegetation)
+	      create_screen
+		CELL_WIDTH CELL_HEIGHT
+		DRAW_COLOUR = colour-0x303030
+		CLEAR_COLOUR = colour
+	    next
+	  -> cells
+
+  $create_cell: (cx cy vegetation)
+    $draw_features:
+      $draw_narrow_feature:
+	(
+	  icon
+	  icon_colour
+	  r = 3
+	)
+	# draw a feature with character_width 1
+	set_clear_colour &cell vegetation_colours(vegetation)
+	$len
+	  max
+	    if
+	      icon.is_a_string
+	      -> length_of(icon)
+	      -> 1
+	    if
+	      icon_colour.is_a_list
+	      -> length_of(icon_colour)
+	      -> 1
+	from_to 1 CELL_HEIGHT
+	  : (y)
+	    from_to 1 CELL_WIDTH: (x)
+	      next_value &rng $v 10
+	      if
+		v <= r:
+		  if
+		    len > 1:
+		      set_draw_colour &cell
+			if
+			  icon_colour.is_a_list:
+			    next_value &rng $colour len
+			    -> icon_colour(colour)
+			  -> icon_colour
+		      draw_text &cell x 2*y
+			if
+			  icon.is_a_string:
+			    next_value &rng $colour len
+			    -> icon(colour).to_string
+			  -> icon.to_string
+		      next
+		    :
+		      set_draw_colour &cell icon_colour
+		      draw_text &cell x 2*y icon.to_string
+		      next
+		next
+	  -> cell rng
+
+      $draw_wide_feature: (icon)
+	# draw a feature with character_width 2
+	set_clear_colour &cell vegetation_colours(vegetation)
+	from_to 1 CELL_HEIGHT
+	  : (y)
+	    next_value &rng $pos 8
+	    for_each wide_feature_positions(pos): (x)
+	      if
+		icon.is_a_character:
+		  draw_text &cell x 2*y icon.to_string
+		  next
+		:
+		  next_value &rng $v length_of(icon)
+		  draw_text &cell x 2*y icon(v).to_string
+		  next
+	  -> cell rng
+
+
+      if
+	do_use_emojis:
+	  case vegetation
+	    CONIFEROUS_FOREST:
+	      draw_wide_feature '🌲'
+	    MIXED_FOREST:
+	      draw_wide_feature "🌲🌳"
+	    DECIDUOUS_FOREST:
+	      draw_wide_feature '🌳'
+	    TROPICAL_FOREST:
+	      draw_wide_feature '🌴'
+	    DESERT:
+	      draw_wide_feature '🌵'
+	    -> cell rng
+	  cond
+	    -> vegetation == FRESH_WATER -> cell rng
+	    -> height >= MOUNTAIN_LEVEL:
+	      draw_narrow_feature '⯅' mountain_colour 4
+	    -> height >= HILL_LEVEL:
+	      draw_narrow_feature '☁' hill_colour
+	    -> true -> cell rng
+	:
+	  case vegetation
+	    CONIFEROUS_FOREST:
+	      draw_narrow_feature '✱' coniferous_forest_colour
+	    MIXED_FOREST:
+	      draw_narrow_feature "✱●"
+		list(coniferous_forest_colour deciduous_forest_colour)
+	    DECIDUOUS_FOREST:
+	      draw_narrow_feature '●' deciduous_forest_colour
+	    TROPICAL_FOREST:
+	      draw_narrow_feature "●◯" tropical_forest_colour 6
+	    DESERT:
+	      draw_narrow_feature '•' cactus_colour 1
+	    -> cell rng
+	  cond
+	    -> vegetation == FRESH_WATER -> cell rng
+	    -> height >= MOUNTAIN_LEVEL:
+	      draw_narrow_feature "■▪▮▬◆▰" mountain_colour 6
+	    -> height >= HILL_LEVEL:
+	      draw_narrow_feature '▪' hill_colour
+	    -> true -> cell rng
+
+    $blur_edges:
+      $blur_edge: (ny nx x_range y_range direction)
+	$neighbour_vegetation vegetation_map(ny)(nx)
+	$neighbour_hierarchy vegetation_hierarchy(neighbour_vegetation)
+	$neighbour_info info_map(ny)(nx)
+	$obeye_river
+	  case
+	    neighbour_info & 0xf8
+	    SPRING, RIVER, LAKE_EXIT -> neighbour_info & 7 == direction
+	    -> false
+	if
+	  neighbour_hierarchy != 1 && neighbour_hierarchy != hierarchy:
+	    set_draw_colour &cell vegetation_colours(neighbour_vegetation)
+	    if
+	      x_range.is_a_value_range:
+		#
+		  ATTENTION:
+
+		  Never compute side effects in a shortcut logical expression!
+
+		for_each x_range
+		  : (x)
+		    next_value &rng $r 5
+		    if
+		      obeye_river || r > 2:
+			plot &cell x y_range
+			next
+		      next
+		  :
+		    if
+		      obeye_river:
+			set_draw_colour &cell river_colour
+			plot &cell 4 y_range
+			-> cell rng
+		      -> cell rng
+	      :
+		for_each y_range
+		  : (y)
+		    next_value &rng $r 5
+		    if
+		      obeye_river || r > 2:
+			plot &cell x_range y
+			next
+		      next
+		  :
+		    if
+		      obeye_river:
+			set_draw_colour &cell river_colour
+			next_value &rng $v 3..4
+			plot &cell x_range v
+			-> cell rng
+		      -> cell rng
+	  -> cell rng
+
+      if
+	hierarchy == 1: # water
+	  blur_edge ty cx 3..5 1 4 !cell !rng
+	  blur_edge cy rx 7 3..4 6 !cell !rng
+	  blur_edge by cx 3..5 6 0 !cell !rng
+	  blur_edge cy lx 1 3..4 2
+	:
+	  blur_edge ty cx 2..6 1 4 !cell !rng
+	  blur_edge cy rx 7 2..5 6 !cell !rng
+	  blur_edge by cx 2..6 6 0 !cell !rng
+	  blur_edge cy lx 1 2..5 2
+
+    $draw_rivers:
+      $compute_value: (val)
+	if
+	  val.is_a_value_range:
+	    val $low $high
+	    next_value &rng $delta high+1-low
+	    -> rng low+delta-1
+	  -> rng val
+
+      $draw_river: (direction)
+	$placement river_placement(direction)
+	for_each placement
+	  : (coordinates)
+	    coordinates $x $y
+	    compute_value !rng &x
+	    compute_value !rng &y
+	    plot &cell x y
+	    next
+	  -> cell rng
+
+      $river_exit
+	case
+	  info & 0xf8
+	  SPRING, RIVER
+	  -> info & 7
+	  -> undefined
+
+      if
+	river_exit.is_defined: # a river exits this cell
+	  set_draw_colour &cell river_colour
+	  from_to 1 8
+	    : (i)
+	      $nx cx+DDX(i)
+	      $ny cy+DDY(i)
+	      $neighbour_info info_map(ny)(M(nx))
+	      $my_direction (i+3) & 7
+	      if
+		||
+		  neighbour_info == RIVER+my_direction
+		  neighbour_info == SPRING+my_direction
+		  neighbour_info == LAKE_EXIT+my_direction
+		:
+		  draw_river !cell !rng i
+		  next
+		next
+	    :
+	      plot &cell 4 4
+	      draw_river !cell !rng river_exit+1
+	      -> cell rng
+	-> cell rng
+
+    $is_river_exit: (idx)
+      # check whether a river exits in our direction
+      $n_info info_map(ny_tab(idx))(nx_tab(idx))
+      case n_info & 0xf8
+	RIVER, LAKE_EXIT, SPRING
+	-> n_info & 7 == (idx+2) & 7
+	-> false
+
+    $is_lake_exit: (idx)
+      # check whether we are a lake exit in the relevant direction
+      -> info == LAKE_EXIT | ((idx+6) & 7)
+
+    $fill_corners:
+      from_to_by 1 7 2
+	: (idx)
+	  $next_idx (idx .mod. 8)+1
+	  $prev_idx (idx-2 .mod. 8)+1
+	  if
+	    &&
+	      >
+		vegetation_hierarchy
+		  vegetation_map(ny_tab(idx))(nx_tab(idx))
+		hierarchy
+	      >
+		vegetation_hierarchy
+		  vegetation_map(ny_tab(prev_idx))(nx_tab(prev_idx))
+		hierarchy
+	      >
+		vegetation_hierarchy
+		  vegetation_map(ny_tab(next_idx))(nx_tab(next_idx))
+		hierarchy
+	    :
+	      $coordinates corner_coordinates((idx >> 1)+1)
+	      if !cell !rng
+		is_river_exit(idx) || is_lake_exit(idx):
+		  set_draw_colour &cell river_colour
+		  -> cell rng
+		:
+		  next_value &rng $coin 2
+		  $n_idx
+		    if
+		      coin == 1
+		      -> prev_idx
+		      -> next_idx
+		  set_draw_colour &cell
+		    vegetation_colours
+		      vegetation_map(ny_tab(n_idx))(nx_tab(n_idx))
+		  -> cell rng
+	      coordinates(1) $x1 $y1
+	      plot &cell x1 y1
+	      next_value &rng $r 4
+	      update_if r > 2 &cell:
+		  set_draw_colour &cell
+		    vegetation_colours
+		      vegetation_map(ny_tab(prev_idx))(nx_tab(prev_idx))
+		  coordinates(2) $x2 $y2
+		  plot cell x2 y2
+	      update_if r.is_odd &cell:
+		  set_draw_colour &cell
+		    vegetation_colours
+		      vegetation_map(ny_tab(next_idx))(nx_tab(next_idx))
+		  coordinates(3) $x2 $y2
+		  plot cell x2 y2
+	      next
+	    next
+	-> cell
+
+    $disconnect_corners:
+      from_to_by 1 7 2
+	: (idx)
+	  $next_idx (idx .mod. 8)+1
+	  $prev_idx (idx-2 .mod. 8)+1
+	  $neighbour_vegetation
+	    vegetation_map(ny_tab(prev_idx))(nx_tab(prev_idx))
+	  $neighbour_hierarchy
+	    vegetation_hierarchy(neighbour_vegetation)
+	  if
+	    &&
+	      neighbour_hierarchy < hierarchy
+	      ==
+		vegetation_hierarchy
+		  vegetation_map(ny_tab(next_idx))(nx_tab(next_idx))
+		neighbour_hierarchy
+	    :
+	      $coordinates corner_coordinates((idx >> 1)+1)
+	      set_draw_colour &cell vegetation_colours(neighbour_vegetation)
+	      coordinates(1) $x1 $y1
+	      plot &cell x1 y1
+	      next_value &rng $r 4
+	      update_if r > 2 &cell:
+		coordinates(2) $x2 $y2
+		plot cell x2 y2
+	      update_if r.is_odd &cell:
+		coordinates(3) $x2 $y2
+		plot cell x2 y2
+	      next
+	    next
+	-> cell
+
+    # create cell
+
+    $cell vegetation_cells(vegetation)
+
+    $rng lcg(17*cx+31*cy)
+
+    # compute coordinates of neighbouring cells
+
+    $lx (cx-2 .mod. MAP_WIDTH)+1
+    $rx (cx .mod. MAP_WIDTH)+1
+    $ty cy-1
+    $by cy+1
+    $nx_tab list(M(lx) M(cx) M(rx) M(rx) M(rx) M(cx) M(lx) M(lx))
+    $ny_tab list(ty ty ty cy by by by cy)
+
+    $height elevation_map(cy)(cx)
+    $info info_map(cy)(cx)
+    $hierarchy vegetation_hierarchy(vegetation)
+
+    draw_features !cell !rng
+    blur_edges !cell !rng
+    draw_rivers !cell !rng
+
+    update_if do_print_coordinates &cell:
+      draw_text cell 1 4 "@(cx)/@(cy)"
+
+    # handle the 4 corners of the cell
+
+    fill_corners !cell
+    disconnect_corners
+
+  map_reduce vegetation_map
+    : (y row)
+      if
+	y == 1 || y == MAP_HEIGHT: # create polar regions
+	  create_screen
+	    MAP_WIDTH*CELL_WIDTH CELL_HEIGHT
+	    DRAW_COLOUR = '@0xffffff;'
+	    CLEAR_COLOUR = '@0xffffff;'
+	:
+	  map_reduce row
+	    : (x vegetation)
+	      create_cell x y vegetation
+	    : (left right)
+	      adjoin left right
+    : (top bottom)
+      append top bottom
+
+$worldsim::draw_numerical_map: (screen elevation_map info_map feature_map)
+  from_to 1 length_of(elevation_map)
+    : (y)
+      from_to 1 length_of(elevation_map(1))
+	: (x)
+	  $height elevation_map(y)(x)
+	  $info info_map(y)(x)
+	  $shade 0x010101*(height >> 1)
+	  set_clear_colour &screen
+	    case
+	      info & 0xf8
+	      LAND -> character(0x008000+shade)
+	      RIVER -> character(0x000080+shade)
+	      LAKE, LAKE_EXIT -> character(0x004080+shade)
+	      SPRING -> character(0x800080+shade)
+	      -> '@0xc0c0e0;'
+	  draw_text &screen 2*x-1 2*y pad_left(feature_map(y)(x) 2)
+	  next
+    -> screen
+
+$worldsim::draw_physical_map: (screen elevation_map info_map)
+  from_to 1 length_of(elevation_map)
+    : (y)
+      from_to 1 length_of(elevation_map(1))
+	: (x)
+	  $height elevation_map(y)(x)
+	  $info info_map(y)(x)
+	  $shade 0x010101*(height >> 1)
+	  set_clear_colour &screen
+	    case
+	      info & 0xf8
+	      LAND -> character(0x008000+shade)
+	      RIVER -> character(0x000080+shade)
+	      LAKE, LAKE_EXIT -> character(0x004080+shade)
+	      SPRING -> character(0x800080+shade)
+	      -> '@0xc0c0e0;'
+	  case
+	    info & 0xf8
+	    SPRING, RIVER, LAKE_EXIT:
+	      draw_text &screen 2*x-1 y
+		case
+		  info & 7
+		  0 -> "🡹🡹"
+		  1 -> "🡽🡽"
+		  2 -> "🡺🡺"
+		  3 -> "🡾🡾"
+		  4 -> "🢃🢃"
+		  5 -> "🡿🡿"
+		  6 -> "🡸🡸"
+		  7 -> "🡼🡼"
+	      next
+	    :
+	      draw_text &screen 2*x-1 y "  "
+	      next
+	next
+    -> screen
+
+$worldsim::draw_vegetation_map: (screen elevation_map info_map vegetation_map)
+  from_to 1 length_of(elevation_map)
+    : (y)
+      from_to 1 length_of(elevation_map(1)): (x)
+	$height elevation_map(y)(x)
+	$info info_map(y)(x)
+	$vegetation vegetation_map(y)(x)
+	$shade 0x010101*(height >> 1)
+	$background_colour
+	  case
+	    info & 0xf8
+	    OCEAN:
+	      if
+		vegetation == ICE
+		-> '@0xffffff;'
+		-> '@0xc0c0e0;'
+	    LAKE, LAKE_EXIT -> character(0x004080+shade)
+	    :
+	      case
+		vegetation
+		ICE -> '@0xffffff;'
+		SWAMP -> character(0x807030+shade)
+		TUNDRA -> character(0x808040+shade)
+		CONIFEROUS_FOREST -> character(0x406030+shade)
+		MIXED_FOREST -> character(0x387020+shade)
+		DECIDUOUS_FOREST -> character(0x308000+shade)
+		TROPICAL_FOREST -> character(0x00a000+shade)
+		GRASSLAND -> character(0x008000+shade)
+		STEPPE -> character(0xa0a000+shade)
+		DESERT -> character(0xa0a000+shade)
+		-> '@0;'
+	set_clear_colour &screen background_colour
+	case
+	  info & 0xf8
+	  SPRING, RIVER, LAKE_EXIT:
+	    set_draw_colour &screen '@0x0000ff;'
+	    draw_text &screen 2*x-1 2*y
+	      case
+		info & 7
+		0 -> "🡹🡹"
+		1 -> "🡽🡽"
+		2 -> "🡺🡺"
+		3 -> "🡾🡾"
+		4 -> "🢃🢃"
+		5 -> "🡿🡿"
+		6 -> "🡸🡸"
+		7 -> "🡼🡼"
+	    next
+	  :
+	    cond
+	      -> vegetation == SEA_WATER:
+		set_draw_colour &screen '@0x404080;'
+		draw_text &screen 2*x-1 2*y "~~"
+		next
+	      -> vegetation == FRESH_WATER:
+		draw_text &screen 2*x-1 2*y "  "
+		next
+	      -> height >= MOUNTAIN_LEVEL:
+		set_draw_colour &screen '@0x404040;'
+		draw_text &screen 2*x-1 2*y "⛰ "
+		next
+	      -> height >= HILL_LEVEL:
+		set_draw_colour &screen '@0x206020;'
+		draw_text &screen 2*x-1 2*y "⯅⯅"
+		next
+	      -> true:
+		draw_text &screen 2*x-1 2*y
+		  case
+		    vegetation
+		    CONIFEROUS_FOREST -> "🌲"
+		    DECIDUOUS_FOREST -> "🌳"
+		    MIXED_FOREST:
+		      if
+			(x+y).is_odd
+			-> "🌲"
+			-> "🌳"
+		    TROPICAL_FOREST -> "🌴"
+		    STEPPE -> ".."
+		    DESERT -> "🌵"
+		    -> "  "
+		next
+    -> screen

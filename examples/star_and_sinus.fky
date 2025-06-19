@@ -1,0 +1,34 @@
+#!/usr/bin/env fkyrun
+
+<require basic/stdlib>
+<require terminal/terminal>
+
+get_terminal_size! STDIN_FILENO $terminal_width $terminal_height
+create_terminal $term terminal_width terminal_height
+  DRAW_COLOUR = WHITE
+  CLEAR_COLOUR = BLACK
+
+$cx 30
+$cy 30
+$r 25
+$spokes_count 30
+from_to !term 1 spokes_count
+  : (i)
+    $alpha i*2*PI/spokes_count
+    set_draw_colour &term rgb_character(100+5*i 200-5*i 128)
+    plot_line &term
+      cx cy cx+to_integer(r*cos(alpha)) cy+to_integer(r*sin(alpha))
+    next
+  -> term
+
+$by 80
+$width 60
+from_to !term 1 60
+  : (x)
+    $y by+to_integer(sin(x*2*PI/width)*r)
+    plot &term x y
+    next
+  -> term
+
+update! &term $output
+print! output
