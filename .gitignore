@@ -34,7 +34,6 @@ s[0-9]*
 !runtime/*.c
 !runtime/*.h
 runtime/platform.h
-examples
 Makefile
 adv2.fky
 ai.sml
@@ -107,3 +106,6 @@ todo.txt
 ws.symbols
 !build_symbol_metadata.fky
 !generate_html_documentation.fky
+!examples
+examples/*
+!examples/cave.fky

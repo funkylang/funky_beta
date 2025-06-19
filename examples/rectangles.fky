@@ -5,7 +5,7 @@
 
 $rng mersenne_twister(4711)
 
-initialize_terminal LINE_HEIGHT = 2: (terminal)
+initialize_terminal: (terminal)
   $width width_of(terminal)
   $height height_of(terminal)
   repeat 1000
@@ -18,9 +18,11 @@ initialize_terminal LINE_HEIGHT = 2: (terminal)
 
       # clear random rectangle
       next_value &rng $rx width
-      next_value &rng $ry height
+      next_value &rng $ry 2*height
       next_value &rng $rw width-rx+1
-      next_value &rng $rh height-ry+1
+      next_value &rng $rh 2*height-ry+1
+      over &ry 2 # half units are allowed for y coordinates
+      over &rh 2 # half units are allowed for heights
       clear &terminal rx ry rw rh
 
       update &terminal $out
