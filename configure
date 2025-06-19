@@ -745,15 +745,9 @@ echo "${TAB}mkdir -p \
 echo "${TAB}find $LIBNAME -name \"*.fky\" | \
   cpio -pdmu \$(DESTDIR)$PREFIX/share/funky-$RUNTIME_VERSION/source/"
 done
-echo "${TAB}mkdir -p \
-  \"\$(DESTDIR)$PREFIX/share/funky-$RUNTIME_VERSION/prompts\""
-echo "${TAB}find docs -name \"*.prompt\" | \
-  cpio -pdmu \$(DESTDIR)$PREFIX/share/funky-$RUNTIME_VERSION/prompts/"
 echo "${TAB}cp -r html \"\$(DESTDIR)$PREFIX/share/funky-$RUNTIME_VERSION\""
 echo "${TAB}ln -fsT ../source \
   \$(DESTDIR)$PREFIX/share/funky-$RUNTIME_VERSION/html/source"
-echo "${TAB}ln -fsT ../prompts \
-  \$(DESTDIR)$PREFIX/share/funky-$RUNTIME_VERSION/html/prompts"
 echo "${TAB}ln -fsT funky-$RUNTIME_VERSION \
   \$(DESTDIR)$PREFIX/share/funky-$DLL_VERSION"
 if [ $OS = 'linux' ]
@@ -787,7 +781,6 @@ done
 echo "${TAB}rm \
   -f \"\$(DESTDIR)$PREFIX/share/funky-$RUNTIME_VERSION/runtime\"/*.h"
 echo "${TAB}rm -rf \"\$(DESTDIR)$PREFIX/share/funky-$RUNTIME_VERSION/source\""
-echo "${TAB}rm -rf \"\$(DESTDIR)$PREFIX/share/funky-$RUNTIME_VERSION/prompts\""
 echo "${TAB}rm -rf \"\$(DESTDIR)$PREFIX/share/funky-$RUNTIME_VERSION/html\""
 echo "${TAB}rmdir \
   \"\$(DESTDIR)$PREFIX/share/funky-$RUNTIME_VERSION/runtime\" || true"
@@ -833,7 +826,7 @@ echo "funky: compiler/funky$EXE_EXTENSION"
 echo
 echo '.PHONY: html_documentation'
 echo 'html_documentation: generate_html_documentation'
-echo "${TAB}./generate_html_documentation"
+echo "${TAB}LD_LIBRARY_PATH=\"`pwd`\" ./generate_html_documentation"
 
 echo
 echo -n "compiler/funky$EXE_EXTENSION: \$(funky_OBJECTS) libfky$DLL_EXTENSION"
