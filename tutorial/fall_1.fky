@@ -13,12 +13,13 @@ initialize_terminal CURSOR_OFF: (terminal)
   $screen create_screen(terminal)
   clear &screen
   initialize! &io
+  register_handlers &io STDIN_FILENO READ = create_terminal_events
   start_reading_from &io STDIN_FILENO
   !t current_time_of(io) # immediately
   loop:
     set_timeout &io t
     get_events! &io $events # get all events
-    handle_terminal_events &io &events
+    handle_events &io &events
     for_each events
       : (event)
 	event $type $_fd $key
