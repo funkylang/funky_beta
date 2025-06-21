@@ -1388,7 +1388,7 @@ Statements
 	`
 	  *argument*.*function*
 
-	NOTE: The argument must be an idenfier or a parenthesed expression.
+	NOTE: The argument must be an identifier or a parenthesized expression.
 
 	This is very convenient for calling *test*- or *conversion*-functions.
 
@@ -1930,11 +1930,31 @@ Input-Output
 
   The function *greet* is called with an IO-annotation. This means that it can perform input/output-operations.
 
-  The function *greet* calls the function *if* without an IO-annotation. This would mean that *if* is not allowed to perform input/output-operations.
+  The function *greet* calls the function *if* which has no explicit IO-annotation. This would prevent performing input/output-operations in its then- or else-part.
 
-  The fact that *println* is called with an IO-annotation is not enough. The
+  The reason the above code works, is "implicit IO-annotation inheritance":
 
+  NOTE: If a function call has at least one argument that is a function-literal that contains at least one function call with IO-annotation then the outer function call is itself *implicitely* annotated as a function call.
 
+  Example:
+
+  `
+    do: println! "Hello, world!"
+
+  is implicitely annotated like it had been written as
+
+  `
+    do!: println! "Hello, world!"
+
+  This implicit annotation works recursively. So
+
+  `
+    do: do: println! "Hello, world!"
+
+  is implicitely annotated like it had been written as
+
+  `
+    do!: do!: println! "Hello, world!"
 
 Meta-Instructions
 

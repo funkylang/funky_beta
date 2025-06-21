@@ -1257,7 +1257,7 @@ There is no special syntax for normal tuple literals, but there are two types th
 </p>
 <h4><a name="key-value-pairs"><span class="grey">4.2.3.1</span> Key-Value-Pairs</a></h4>
 <p>
-A <i>key-value-pair</i> associates a <i>key</i> with a <i>value</i>. Technicalls it is simply a tuple with two fields.
+A <i>key-value-pair</i> associates a <i>key</i> with a <i>value</i>. Technically it is simply a tuple with two fields.
 </p>
 <p>
 The syntax is
@@ -2007,7 +2007,7 @@ can be replaced with
 <i>argument</i>.<i>function</i>
 </pre>
 <p class="note">
-Note: The argument must be an idenfier or a parenthesed expression.
+Note: The argument must be an identifier or a parenthesized expression.
 </p>
 <p>
 This is very convenient for calling <i>test</i>- or <i>conversion</i>-functions.
@@ -2589,12 +2589,10 @@ The caller of "<code>p</code>" can access the global method "<code>to_string</co
 </p>
 <h1><a name="input-output"><span class="grey">8</span> Input-Output</a></h1>
 <p>
-All input and output operations directly or indirectly make use of the POSIX
-API which is supplied by the builtin library.
+All input and output operations directly or indirectly make use of the POSIX API which is supplied by the builtin library.
 </p>
 <p>
-To call an IO-function one must append an exclamation mark to the function
-name (called an IO-annotation), e.g.:
+To call an IO-function one must append an exclamation mark to the function name (called an IO-annotation), e.g.:
 </p>
 <pre>
 println! "Hello, world!"
@@ -2608,6 +2606,56 @@ $hello:
   println! "Hello, world!"
 
 hello!
+</pre>
+<p>
+Let's look at one a bit more complex example:
+</p>
+<pre>
+greet! "Fred"
+greet!
+
+$greet: (name = undefined)
+  if
+    name.is_defined:
+      println! "Hello, @(name)!"
+    :
+      println! "Hi!"
+</pre>
+<p>
+The function <i>greet</i> is called with an IO-annotation. This means that it can perform input/output-operations.
+</p>
+<p>
+The function <i>greet</i> calls the function <i>if</i> which has no explicit IO-annotation. This would prevent performing input/output-operations in its then- or else-part.
+</p>
+<p>
+The reason the above code works, is "implicit IO-annotation inheritance":
+</p>
+<p class="note">
+Note: If a function call has at least one argument that is a function-literal that contains at least one function call with IO-annotation then the outer function call is itself <i>implicitely</i> annotated as a function call.
+</p>
+<p>
+Example:
+</p>
+<pre>
+do: println! "Hello, world!"
+</pre>
+<p>
+is implicitely annotated like it had been written as
+</p>
+<pre>
+do!: println! "Hello, world!"
+</pre>
+<p>
+This implicit annotation works recursively. So
+</p>
+<pre>
+do: do: println! "Hello, world!"
+</pre>
+<p>
+is implicitely annotated like it had been written as
+</p>
+<pre>
+do!: do!: println! "Hello, world!"
 </pre>
 <h1><a name="meta-instructions"><span class="grey">9</span> Meta-Instructions</a></h1>
 <p>
