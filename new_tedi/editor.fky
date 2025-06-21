@@ -674,8 +674,9 @@ $check_wrap_after_insertion: (x y lines info par_y indent text)
   $cursor_y y
   $updated_lines empty_list
   $line lines(y)
+  $is_a_continuation line.is_a_continuation_line
   if
-    line.is_a_continuation_line:
+    is_a_continuation:
       $line_before lines(y-1)
       $indent_before indent_of(line_before)
       $text_before text_of(line_before)
@@ -698,18 +699,19 @@ $check_wrap_after_insertion: (x y lines info par_y indent text)
 	&x &cursor_y
 	-> x-width_of(text)-1 cursor_y+1
       push &updated_lines
-	tedi_line(indent line.is_a_continuation_line text)
+	tedi_line(indent is_a_continuation text)
       if
 	overflow.is_empty
 	-> first_y .. y updated_lines x cursor_y info
 	:
+	  !is_a_continuation true
+	  inc &y
 	  if
 	    &&
-	      y < length_of(lines)
-	      lines(y+1).is_defined
-	      lines(y+1).is_a_continuation_line
+	      y <= length_of(lines)
+	      lines(y).is_defined
+	      lines(y).is_a_continuation_line
 	    :
-	      inc &y
 	      !line lines(y)
 	      !indent indent_of(line)
 	      !text append(overflow spaces(indent-par_indent+1) text_of(line))
@@ -1436,7 +1438,6 @@ $check_wrap_after_deletion:
 	    y-1
 	    info
     :
-      debug::dump `indent `par_indent
       if
 	indent > par_indent:
 	  !lines(y) tedi_line(par_indent is_a_continuation text)

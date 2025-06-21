@@ -31,7 +31,7 @@ Look and Feel
     print! "
       Hello, world!
 
-  All three examples produce the same output. The exclamation mark after `print` denotes that `print` is a so-called I/O-function that produces some output as a side effect which would be forbidden otherwise.
+  All three examples produce the same output. The exclamation mark after `print` denotes that `print` is a call to an I/O-function that produces some output as a side effect which would be forbidden otherwise.
 
   The second example makes use of `"@nl;"` - the Funky way to print special characters. It's the same as `"\\n"` in languages like C or Java.
 
@@ -176,7 +176,7 @@ Language Design
 
     This is a really neat feature but it has some drawbacks. It assumes that a program is executed in a single thread. This is not the case in Funky. Funky supports parallel execution of functions. This means that a function can be executed in a different thread than the caller. This means that exceptions cannot be used to handle errors in Funky.
 
-    So Funky uses so-called "`error objects`" to handle errors. This means that a function will return an error object if an error occurs. The caller can check the error if he wants do. If he does not check the error, the error will propagate and will eventually be handled by some outer function or by the runtime system.
+    So Funky uses "`error objects`" to handle errors. This means that a function will return an error object if an error occurs. The caller can check the error if he wants do. If he does not check the error, the error will propagate and will eventually be handled by some outer function or by the runtime system.
 
 Basic Concepts
 
@@ -186,7 +186,7 @@ Basic Concepts
 
     An object consists of
 
-    * a so-called *type-function*
+    * a *type-function*
 
     * any number of *methods*
 
@@ -202,7 +202,7 @@ Basic Concepts
 
     Builtin objects can contain internal fields, e.g. for storing the numeric value of an integer object.
 
-    Methods and attributes must be declared as so-called polymorphic functions before they can be attached to an object. While one object can implement a specific polymorphic function as a method, another object can implement the same polymorphic function as an attribute.
+    Methods and attributes must be declared as polymorphic functions before they can be attached to an object. While one object can implement a specific polymorphic function as a method, another object can implement the same polymorphic function as an attribute.
 
     To create a new object, an existing object is "cloned" and some attribute values are changed.
 
@@ -238,7 +238,7 @@ Basic Concepts
 
     In Funky functions are "pure", meaning that they don't have side effects.
 
-    The only exception are so-called IO-functions which cannot change state, too, but which can perform input/output-operations. (IO-functions must be called with a "!"-suffix.)
+    The only exception are IO-functions which cannot change state, too, but which can perform input/output-operations. (IO-functions must be called with a "!"-suffix.)
 
     Calls to such functions must be annotated in the source code. Each function calling an IO-function is itself an IO-function and so calls to it must be annotated, too, and so on.
 
@@ -320,7 +320,7 @@ Basic Concepts
 
 Builtin Objects and Literals
 
-  Each object is based upon one of the three so-called *root objects*:
+  Each object is based upon one of the three *root objects*:
 
   * `std_types::object`
 
@@ -754,7 +754,7 @@ Builtin Objects and Literals
 
       Key-Value-Pairs
 
-	A *key-value-pair* associates a *key* with a *value*. Technicalls it is simply a tuple with two fields.
+	A *key-value-pair* associates a *key* with a *value*. Technically it is simply a tuple with two fields.
 
 	The syntax is
 
@@ -1897,6 +1897,45 @@ Definitions and Redefinitions
 
       The caller of "`p`" can access the global method "`to_string`" of the returned object but not the local attributes "`first_name_of`" and "`last_name_of`".
 
+Input-Output
+
+  All input and output operations directly or indirectly make use of the POSIX API which is supplied by the builtin library.
+
+  To call an IO-function one must append an exclamation mark to the function name (called an IO-annotation), e.g.:
+
+  `
+    println! "Hello, world!"
+
+  In the case an IO-function is called from another function then this function
+  must also be called with an IO-annotation:
+
+  `
+    \$hello:
+      println! "Hello, world!"
+
+    hello!
+
+  Let's look at one a bit more complex example:
+
+  `
+    greet! "Fred"
+    greet!
+
+    \$greet: (name = undefined)
+      if
+	name.is_defined:
+	  println! "Hello, @(name)!"
+	:
+	  println! "Hi!"
+
+  The function *greet* is called with an IO-annotation. This means that it can perform input/output-operations.
+
+  The function *greet* calls the function *if* without an IO-annotation. This would mean that *if* is not allowed to perform input/output-operations.
+
+  The fact that *println* is called with an IO-annotation is not enough. The
+
+
+
 Meta-Instructions
 
   *Meta-instructions* are used to combine source code modules into application programs or libraries and to manage namespaces.
@@ -3023,7 +3062,7 @@ Input/Output
 
     Do not scatter your programs with error handling code. Handle errors at a level where it makes sense.
 
-    But interactive programs and servers applications pose more challenges for handling IO. They are steadily receiving and sending data. For such applications Funky provides the so-called "IO"-object.
+    But interactive programs and servers applications pose more challenges for handling IO. They are steadily receiving and sending data. For such applications Funky provides the "IO"-object.
 
   Handling IO with IO-Objects
 

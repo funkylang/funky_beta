@@ -185,7 +185,7 @@
 <title>Programming - The Funky Way</title>
 </head>
 <body>
-<p class="edited">(last edited: 2025-06-09)</p>
+<p class="edited">(last edited: 2025-06-21)</p>
 <h1 class="title">Programming - The Funky Way</h1>
 <h1 class="index"><a href="#preface">Preface</a></h1>
 <h1 class="part">Part 1: The Language</h1>
@@ -274,26 +274,27 @@
 <h2 class="index"><a href="#local_definitions">7.2 Local Definitions</a></h2>
 <h3 class="index"><a href="#local_polymorphic_functions">7.2.1 Local Polymorphic Functions</a></h3>
 <h3 class="index"><a href="#local_types">7.2.2 Local Types</a></h3>
-<h1 class="index"><a href="#meta-instructions">8 Meta-Instructions</a></h1>
-<h2 class="index"><a href="#requiring_modules">8.1 Requiring Modules</a></h2>
-<h2 class="index"><a href="#managing_namespaces">8.2 Managing Namespaces</a></h2>
-<h1 class="index"><a href="#remarks">9 Remarks</a></h1>
-<h2 class="index"><a href="#documentation_remarks">9.1 Documentation Remarks</a></h2>
+<h1 class="index"><a href="#input-output">8 Input-Output</a></h1>
+<h1 class="index"><a href="#meta-instructions">9 Meta-Instructions</a></h1>
+<h2 class="index"><a href="#requiring_modules">9.1 Requiring Modules</a></h2>
+<h2 class="index"><a href="#managing_namespaces">9.2 Managing Namespaces</a></h2>
+<h1 class="index"><a href="#remarks">10 Remarks</a></h1>
+<h2 class="index"><a href="#documentation_remarks">10.1 Documentation Remarks</a></h2>
 <h1 class="part">Part 2: Functional Programming</h1>
-<h1 class="index"><a href="#quick_start">10 Quick Start</a></h1>
-<h2 class="index"><a href="#source_code_files">10.1 Source Code Files</a></h2>
-<h2 class="index"><a href="#hello_world">10.2 Hello World</a></h2>
-<h1 class="index"><a href="#function_calls_and_the_stack">11 Function Calls And the Stack</a></h1>
-<h2 class="index"><a href="#normal_function_calls">11.1 Normal function calls</a></h2>
-<h2 class="index"><a href="#tail_calls">11.2 Tail Calls</a></h2>
-<h1 class="index"><a href="#control_flow">12 Control Flow</a></h1>
-<h2 class="index"><a href="#conditional_execution">12.1 Conditional Execution</a></h2>
-<h2 class="index"><a href="#looping">12.2 Looping</a></h2>
-<h2 class="index"><a href="#programming_style">12.3 Programming Style</a></h2>
-<h1 class="index"><a href="#collections">13 Collections</a></h1>
-<h1 class="index"><a href="#input/output">14 Input/Output</a></h1>
-<h2 class="index"><a href="#concentrating_io-operations">14.1 Concentrating IO-Operations</a></h2>
-<h2 class="index"><a href="#handling_io_with_io-objects">14.2 Handling IO with IO-Objects</a></h2>
+<h1 class="index"><a href="#quick_start">11 Quick Start</a></h1>
+<h2 class="index"><a href="#source_code_files">11.1 Source Code Files</a></h2>
+<h2 class="index"><a href="#hello_world">11.2 Hello World</a></h2>
+<h1 class="index"><a href="#function_calls_and_the_stack">12 Function Calls And the Stack</a></h1>
+<h2 class="index"><a href="#normal_function_calls">12.1 Normal function calls</a></h2>
+<h2 class="index"><a href="#tail_calls">12.2 Tail Calls</a></h2>
+<h1 class="index"><a href="#control_flow">13 Control Flow</a></h1>
+<h2 class="index"><a href="#conditional_execution">13.1 Conditional Execution</a></h2>
+<h2 class="index"><a href="#looping">13.2 Looping</a></h2>
+<h2 class="index"><a href="#programming_style">13.3 Programming Style</a></h2>
+<h1 class="index"><a href="#collections">14 Collections</a></h1>
+<h1 class="index"><a href="#input/output">15 Input/Output</a></h1>
+<h2 class="index"><a href="#concentrating_io-operations">15.1 Concentrating IO-Operations</a></h2>
+<h2 class="index"><a href="#handling_io_with_io-objects">15.2 Handling IO with IO-Objects</a></h2>
 <h1 class="part">Part 3: The Libraries</h1>
 <h1 class="index"><a href="#glossary">Glossary</a></h1>
 <h1 class="index"><a href="#named_characters">Appendix A: Named Characters</a></h1>
@@ -334,7 +335,7 @@ print! "
   Hello, world!
 </pre>
 <p>
-All three examples produce the same output. The exclamation mark after <code>print</code> denotes that <code>print</code> is a so-called I/O-function that produces some output as a side effect which would be forbidden otherwise.
+All three examples produce the same output. The exclamation mark after <code>print</code> denotes that <code>print</code> is a call to an I/O-function that produces some output as a side effect which would be forbidden otherwise.
 </p>
 <p>
 The second example makes use of <code>"@nl;"</code> ‒ the Funky way to print special characters. It's the same as <code>"\n"</code> in languages like C or Java.
@@ -527,7 +528,7 @@ Languages like C++ or Java use exceptions to handle errors. This means that the 
 This is a really neat feature but it has some drawbacks. It assumes that a program is executed in a single thread. This is not the case in Funky. Funky supports parallel execution of functions. This means that a function can be executed in a different thread than the caller. This means that exceptions cannot be used to handle errors in Funky.
 </p>
 <p>
-So Funky uses so-called "<code>error objects</code>" to handle errors. This means that a function will return an error object if an error occurs. The caller can check the error if he wants do. If he does not check the error, the error will propagate and will eventually be handled by some outer function or by the runtime system.
+So Funky uses "<code>error objects</code>" to handle errors. This means that a function will return an error object if an error occurs. The caller can check the error if he wants do. If he does not check the error, the error will propagate and will eventually be handled by some outer function or by the runtime system.
 </p>
 <h1><a name="basic_concepts"><span class="grey">3</span> Basic Concepts</a></h1>
 <h2><a name="objects"><span class="grey">3.1</span> Objects</a></h2>
@@ -538,7 +539,7 @@ In Funky everything is an object and all objects are immutable.
 An object consists of
 </p>
 <ul>
-<li>a so-called <i>type-function</i></li>
+<li>a <i>type-function</i></li>
 </ul>
 <ul>
 <li>any number of <i>methods</i></li>
@@ -562,7 +563,7 @@ All objects of a specific type contain the same set of attributes. For each attr
 Builtin objects can contain internal fields, e.g. for storing the numeric value of an integer object.
 </p>
 <p>
-Methods and attributes must be declared as so-called polymorphic functions before they can be attached to an object. While one object can implement a specific polymorphic function as a method, another object can implement the same polymorphic function as an attribute.
+Methods and attributes must be declared as polymorphic functions before they can be attached to an object. While one object can implement a specific polymorphic function as a method, another object can implement the same polymorphic function as an attribute.
 </p>
 <p>
 To create a new object, an existing object is "cloned" and some attribute values are changed.
@@ -610,7 +611,7 @@ Methods are functions, too.
 In Funky functions are "pure", meaning that they don't have side effects.
 </p>
 <p>
-The only exception are so-called IO-functions which cannot change state, too, but which can perform input/output-operations. (IO-functions must be called with a "!"-suffix.)
+The only exception are IO-functions which cannot change state, too, but which can perform input/output-operations. (IO-functions must be called with a "!"-suffix.)
 </p>
 <p>
 Calls to such functions must be annotated in the source code. Each function calling an IO-function is itself an IO-function and so calls to it must be annotated, too, and so on.
@@ -721,7 +722,7 @@ Each version of a namespace also includes all symbols defined in older versions 
 </p>
 <h1><a name="builtin_objects_and_literals"><span class="grey">4</span> Builtin Objects and Literals</a></h1>
 <p>
-Each object is based upon one of the three so-called <i>root objects</i>:
+Each object is based upon one of the three <i>root objects</i>:
 </p>
 <ul>
 <li><code>std_types::object</code></li>
@@ -2586,14 +2587,36 @@ When the function "<code>p</code>" is called an object of type "<code>my_type</c
 <p>
 The caller of "<code>p</code>" can access the global method "<code>to_string</code>" of the returned object but not the local attributes "<code>first_name_of</code>" and "<code>last_name_of</code>".
 </p>
-<h1><a name="meta-instructions"><span class="grey">8</span> Meta-Instructions</a></h1>
+<h1><a name="input-output"><span class="grey">8</span> Input-Output</a></h1>
+<p>
+All input and output operations directly or indirectly make use of the POSIX
+API which is supplied by the builtin library.
+</p>
+<p>
+To call an IO-function one must append an exclamation mark to the function
+name (called an IO-annotation), e.g.:
+</p>
+<pre>
+println! "Hello, world!"
+</pre>
+<p>
+In the case an IO-function is called from another function then this function
+must also be called with an IO-annotation:
+</p>
+<pre>
+$hello:
+  println! "Hello, world!"
+
+hello!
+</pre>
+<h1><a name="meta-instructions"><span class="grey">9</span> Meta-Instructions</a></h1>
 <p>
 <i>Meta-instructions</i> are used to combine source code modules into application programs or libraries and to manage namespaces.
 </p>
 <p>
 Meta-instructions are always located at the start of a source code module, before any other statements.
 </p>
-<h2><a name="requiring_modules"><span class="grey">8.1</span> Requiring Modules</a></h2>
+<h2><a name="requiring_modules"><span class="grey">9.1</span> Requiring Modules</a></h2>
 <p>
 The <code>require</code>-instruction is used to include a specific source code module into an application or library.
 </p>
@@ -2636,7 +2659,7 @@ As an exception there are special library modules that require a set of other mo
 <p>
 So the application writer can choose to use other implementations for functions than the default implementations supplied by the standard library.
 </p>
-<h2><a name="managing_namespaces"><span class="grey">8.2</span> Managing Namespaces</a></h2>
+<h2><a name="managing_namespaces"><span class="grey">9.2</span> Managing Namespaces</a></h2>
 <p>
 In Funky namespaces have two responsibilities:
 </p>
@@ -2757,7 +2780,7 @@ $my_long_namespace::twice: (body)
   body
   body
 </pre>
-<h1><a name="remarks"><span class="grey">9</span> Remarks</a></h1>
+<h1><a name="remarks"><span class="grey">10</span> Remarks</a></h1>
 <p>
 <i>Remarks</i> always start with a hash-tag-character ("#").
 </p>
@@ -2807,7 +2830,7 @@ Conventions for writing remarks:
 <p>
 Before you write a remark describing a variable's meaning, think of a more comprehensive name for the variable!
 </p>
-<h2><a name="documentation_remarks"><span class="grey">9.1</span> Documentation Remarks</a></h2>
+<h2><a name="documentation_remarks"><span class="grey">10.1</span> Documentation Remarks</a></h2>
 <p>
 The compiler associates remarks with syntactic expressions.
 </p>
@@ -2894,8 +2917,8 @@ $twice:
   …
 </pre>
 <h1 class="part">Part 2: Functional Programming</h1>
-<h1><a name="quick_start"><span class="grey">10</span> Quick Start</a></h1>
-<h2><a name="source_code_files"><span class="grey">10.1</span> Source Code Files</a></h2>
+<h1><a name="quick_start"><span class="grey">11</span> Quick Start</a></h1>
+<h2><a name="source_code_files"><span class="grey">11.1</span> Source Code Files</a></h2>
 <p>
 Source code files that are referred from other Funky source code files must adhere to strict rules:
 </p>
@@ -2938,7 +2961,7 @@ Syntactic units are separated by exactly one space character.
 <p>
 Other whitespace-characters (including carriage returns) are not allowed.
 </p>
-<h2><a name="hello_world"><span class="grey">10.2</span> Hello World</a></h2>
+<h2><a name="hello_world"><span class="grey">11.2</span> Hello World</a></h2>
 <p>
 Here is the Funky source code for the "classical" hello-world-program:
 </p>
@@ -2948,8 +2971,8 @@ Here is the Funky source code for the "classical" hello-world-program:
 print! "
   Hello, world!
 </pre>
-<h1><a name="function_calls_and_the_stack"><span class="grey">11</span> Function Calls And the Stack</a></h1>
-<h2><a name="normal_function_calls"><span class="grey">11.1</span> Normal function calls</a></h2>
+<h1><a name="function_calls_and_the_stack"><span class="grey">12</span> Function Calls And the Stack</a></h1>
+<h2><a name="normal_function_calls"><span class="grey">12.1</span> Normal function calls</a></h2>
 <p>
 Function calls make use of a <i>stack</i>.
 </p>
@@ -2991,7 +3014,7 @@ When later on the function "<code>g</code>" returns, its frame is removed from t
 <p>
 When "<code>f</code>" returns, its frame is removed from the stack. The only frame left on the stack is the one representing the main program:
 </p>
-<h2><a name="tail_calls"><span class="grey">11.2</span> Tail Calls</a></h2>
+<h2><a name="tail_calls"><span class="grey">12.2</span> Tail Calls</a></h2>
 <p>
 A <i>tail call</i> is a function call that is the last statement in a function. In this case the function call is optimized by the compiler. Instead of allocating a new stack frame, the current stack frame is replaced with
 the stack frame of the called function.
@@ -3033,14 +3056,14 @@ When "<code>f</code>" calls "<code>g</code>" in tail position, the stack frame o
 <p>
 So there is no stack frame for "<code>f</code>" left. When "<code>g</code>" returns, it will return its results directly to the main program.
 </p>
-<h1><a name="control_flow"><span class="grey">12</span> Control Flow</a></h1>
+<h1><a name="control_flow"><span class="grey">13</span> Control Flow</a></h1>
 <p>
 Funky does not contain any builtin statements to change the flow of control. All control flow is implemented using functions.
 </p>
 <p>
 These functions are implemented as regular functions in the "basic" library.
 </p>
-<h2><a name="conditional_execution"><span class="grey">12.1</span> Conditional Execution</a></h2>
+<h2><a name="conditional_execution"><span class="grey">13.1</span> Conditional Execution</a></h2>
 <p>
 Most conditional controls are based on boolean values.
 </p>
@@ -3163,7 +3186,7 @@ Functions like "<code>if_not</code>", "<code>not</code>", "<code>and</code>" or 
 <p>
 More complex conditional functions like "<code>cond</code>" or "<code>case</code>" are implemented using the "<code>if</code>"-function.
 </p>
-<h2><a name="looping"><span class="grey">12.2</span> Looping</a></h2>
+<h2><a name="looping"><span class="grey">13.2</span> Looping</a></h2>
 <p>
 In a pure functional programming language there are no loops. Instead looping is implemented using recursion.
 </p>
@@ -3350,7 +3373,7 @@ $get_first_word: (text)
             inc &amp;i
             next!
 </pre>
-<h2><a name="programming_style"><span class="grey">12.3</span> Programming Style</a></h2>
+<h2><a name="programming_style"><span class="grey">13.3</span> Programming Style</a></h2>
 <p>
 The biggest difference to conventional control flow is the fact that a "conditional statement" or a "loop" that have no results must be the last statement in a function.
 </p>
@@ -3406,7 +3429,7 @@ When "<code>next</code>" is called the loop is called recursively and the variab
 <p>
 When the loop finally returns the value of "<code>sum</code>" from the last iteration of the loop is returned and stored in the caller's version of the variable "<code>sum</code>".
 </p>
-<h1><a name="collections"><span class="grey">13</span> Collections</a></h1>
+<h1><a name="collections"><span class="grey">14</span> Collections</a></h1>
 <p>
 There are three builtin data collections in Funky:
 </p>
@@ -3766,7 +3789,7 @@ $std_types::key_order_table/length_of: (self) -> item_count_of(self)
 <p>
 We could have used "<code>length_of</code>" as the attribute name and omitted the definition of "<code>length_of</code>" above but then an external user of our table type could manipulate the length of a table by simply setting the "<code>length_of</code>" attribute to an arbitrary value!
 </p>
-<h1><a name="input/output"><span class="grey">14</span> Input/Output</a></h1>
+<h1><a name="input/output"><span class="grey">15</span> Input/Output</a></h1>
 <p>
 All input/output-operations in Funky are based on the POSIX-API.
 </p>
@@ -3880,7 +3903,7 @@ In case of error "<code>open!</code>" will store an error object in the variable
 <p>
 If "<code>write_to!</code>" or "<code>close!</code>" return an error object then this will cause a "too many results"-error because the caller expected no results at all but got a single result (the error object). Here again error propagation will ensure that the original error object (produced by "<code>write_to!</code>" or "<code>close!</code>") is returned to the caller which is the "<code>try</code>"-function.
 </p>
-<h2><a name="concentrating_io-operations"><span class="grey">14.1</span> Concentrating IO-Operations</a></h2>
+<h2><a name="concentrating_io-operations"><span class="grey">15.1</span> Concentrating IO-Operations</a></h2>
 <p>
 It is bad style to spread IO-calls all over the code. Instead IO-calls should be collected in a few places.
 </p>
@@ -3899,9 +3922,9 @@ There is no need to handle errors explicitly when calling IO-functions. Errors w
 Do not scatter your programs with error handling code. Handle errors at a level where it makes sense.
 </p>
 <p>
-But interactive programs and servers applications pose more challenges for handling IO. They are steadily receiving and sending data. For such applications Funky provides the so-called "IO"-object.
+But interactive programs and servers applications pose more challenges for handling IO. They are steadily receiving and sending data. For such applications Funky provides the "IO"-object.
 </p>
-<h2><a name="handling_io_with_io-objects"><span class="grey">14.2</span> Handling IO with IO-Objects</a></h2>
+<h2><a name="handling_io_with_io-objects"><span class="grey">15.2</span> Handling IO with IO-Objects</a></h2>
 <p>
 An "IO"-object delegates IO-operations. Instead of performing IO-operations directly, an IO-request is added to the "IO"-object.
 </p>

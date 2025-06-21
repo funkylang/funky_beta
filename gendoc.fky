@@ -79,8 +79,8 @@ $documentation::GLOBAL_DEFINITION
   '$', capture(FUNKY_IDENTIFIER), "::", capture(FUNKY_IDENTIFIER)
 
 #$modelname "Qwen3-235B-A22B-Q4_K_M-00001-of-00003.gguf"
-$modelname "Qwen_Qwen3-30B-A3B-Q4_K_M.gguf"
-#$modelname "Codestral-22B-v0.1-Q5_K_M.gguf"
+#$modelname "Qwen_Qwen3-30B-A3B-Q4_K_M.gguf"
+$modelname "Codestral-22B-v0.1-Q5_K_M.gguf"
 #$modelname "DeepSeek-Coder-V2-Instruct.Q4_K_M.gguf"
 #$modelname "gemma-2-27b-it-Q5_K_M.gguf"
 #$modelname "fusionnet_34bx2_moe.Q2_K.gguf"
