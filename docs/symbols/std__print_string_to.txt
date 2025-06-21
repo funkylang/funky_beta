@@ -1,6 +1,6 @@
 # std::print_string_to (an I/O-function)
 
-  prints a string to the specified file descriptor
+  prints a string to a file descriptor
 
   Parameters:
     fd: the file descriptor to write to
@@ -30,4 +30,3 @@
 ((defined in basic/io/io.fky))
 ((generated manually))
 ((2025-05-05))
-

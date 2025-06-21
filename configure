@@ -37,7 +37,7 @@ PREFIX='/usr/local'
 OPTIONAL_LIBRARIES=''
 ADDITIONAL_LIBRARIES=''
 TOOLS="otedi chat_with_vicuna extract_documentation reformat_c \
-  generate_html_documentation"
+  generate_html_documentation sml2html"
 DIRECTORIES='new_tedi'
 APPLICATIONS='new_tedi/tedi new_tedi/fde new_tedi/tedi_light'
 
@@ -642,6 +642,8 @@ do
 done
 printf " \\
   html_documentation"
+printf " \\
+  html/manual.html"
 echo
 
 echo
@@ -678,9 +680,9 @@ do
 done
 for TOOL in $TOOLS
 do
-  echo "${TAB}rm -f $TOOL$EXE_EXTENSION"
-  echo "${TAB}rm -f $TOOL.c"
-  echo "${TAB}rm -f $TOOL.o"
+  echo "${TAB}rm -f tools/$TOOL$EXE_EXTENSION"
+  echo "${TAB}rm -f tools/$TOOL.c"
+  echo "${TAB}rm -f tools/$TOOL.o"
 done
 for APPLICATION in $APPLICATIONS
 do
@@ -693,6 +695,7 @@ do
 done
 echo "${TAB}rm -rf html/topics"
 echo "${TAB}rm -rf html/symbols"
+echo "${TAB}rm html/manual.html"
 
 echo
 echo '.PHONY: install'
@@ -725,7 +728,7 @@ done
 for TOOL in $TOOLS
 do
   echo "${TAB}rm -f \"\$(DESTDIR)$PREFIX/bin/$TOOL$EXE_EXTENSION\""
-  echo "${TAB}cp $TOOL$EXE_EXTENSION \
+  echo "${TAB}cp tools/$TOOL$EXE_EXTENSION \
     \"\$(DESTDIR)$PREFIX/bin/$TOOL$EXE_EXTENSION\""
 done
 for APPLICATION in $APPLICATIONS
@@ -830,7 +833,7 @@ echo "funky: compiler/funky$EXE_EXTENSION"
 echo
 echo '.PHONY: html_documentation'
 echo 'html_documentation: generate_html_documentation'
-echo "${TAB}LD_LIBRARY_PATH=\"`pwd`\" ./generate_html_documentation"
+echo "${TAB}LD_LIBRARY_PATH=\"`pwd`\" tools/generate_html_documentation"
 
 echo
 echo -n "compiler/funky$EXE_EXTENSION: \$(funky_OBJECTS) libfky$DLL_EXTENSION"
@@ -915,7 +918,7 @@ do
   echo
   echo "${TAB}LD_LIBRARY_PATH=\"`pwd`\" \\
 ${TAB}FUNKY_LIBRARY_PATH=. FUNKY_INCLUDE_PATH=. \\
-${TAB}compiler/funky $TOOL.fky"
+${TAB}compiler/funky tools/$TOOL.fky"
 done
 
 for APPLICATION in $APPLICATIONS
@@ -994,3 +997,6 @@ ${TAB}  compiler/funky --print-c $FKYNAME > $FILENAME; \\"
       '-c' $FILENAME '-o' $OBJNAME
   done
 done
+
+echo 'html/manual.html: sml2html'
+echo "$TAB"tools/sml2html documentation/manual.sml \>html/manual.html

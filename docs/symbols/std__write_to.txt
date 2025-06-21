@@ -17,7 +17,7 @@
   Topic: Input-Output
 
   See also: std::write_string_to, std::writeln_to, std::print_to,
-	    std::println_to, std::eprint_to, std::eprintln_to
+	    std::println_to
 
   Example:
 
@@ -30,4 +30,3 @@
 ((defined in basic/io/io.fky))
 ((generated manually))
 ((2025-05-05))
-

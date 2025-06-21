@@ -35,6 +35,7 @@ s[0-9]*
 !runtime/*.h
 runtime/platform.h
 Makefile
+!tools
 adv2.fky
 ai.sml
 all_kinds_of_variables.fky
