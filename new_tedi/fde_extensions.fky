@@ -307,12 +307,13 @@ $save_and_show_html: (io state _x _y lines info)
   run_save_contents_job io state lines info save_html
 
 $save_html: (io state filename)
-  call &io SAVE_HTML "./generate_html_documentation" list("--update") filename
+  call &io SAVE_HTML "tools/generate_html_documentation" list("--update") filename
   -> io state
 
 $SAVE_HTML .
 
-$SAVE_HTML/job_failed: (_self io state _err _data)
+$SAVE_HTML/job_failed: (_self io state err _data)
+  debug::dump 3 `err
   log &io "failed to generate HTML page"
   show_error_message &state SAVE_HTML "failed to generate HTML page"
   -> io state
