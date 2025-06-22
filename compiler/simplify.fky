@@ -1356,6 +1356,8 @@ $funky_types::inline_parameter/add_definition add_parameter_definition
 
 $add_parameter_definition: (self)
   $name funky::name_of(self)
+  on not(allow_hidden) && resolve_variable(name).is_defined:
+    syntax_error "Variable is already defined" self
   !resolve_variable(name) mangle_local_definition(name self)
   next
 

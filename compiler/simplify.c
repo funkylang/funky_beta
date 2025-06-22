@@ -404,8 +404,10 @@ enum {
   lambda_162 = -395,
   str_Variable_is_alre = -396,
   func_add_parameter_definition = -397,
-  func_funky__mangle_local_definition = -398,
-  func_funky__mangle_position = -399
+  lambda_163 = -398,
+  lambda_164 = -399,
+  func_funky__mangle_local_definition = -400,
+  func_funky__mangle_position = -401
 };
 
 enum {
@@ -780,6 +782,8 @@ enum {
   var_contains, // extern
   var_allow_hidden, // extern
   var_mangle_local_definition, // extern
+  var_1357_29_self, // dynamic
+  var_1358_4_name, // dynamic
   var_funky__mangle_local_definition, // initialized
   var_funky__mangle_position, // initialized
   var_second, // extern
@@ -7583,57 +7587,96 @@ static FUNCTION_INFO i_lambda_162 = {
 };
 
 static TAB_NUM t_func_add_parameter_definition[] = {
-  4, // locals
+  2, // locals
   1, // parameters
-  LOCAL(3), // 1357_29_self
+  var_1357_29_self,
   // $name funky::name_of(self)
-  var_funky__name_of, 1, LOCAL(3), 1, LOCAL(4),
+  var_funky__name_of, 1, var_1357_29_self, 1, var_1358_4_name,
+  // not(allow_hidden) && resolve_variable(name).is_defined:
+  var_not, 1, var_allow_hidden, 1, LOCAL(1),
+  // not(allow_hidden) && resolve_variable(name).is_defined:
+  var_std__and, 2, LOCAL(1), lambda_163, 1, LOCAL(2),
+  // on not(allow_hidden) && resolve_variable(name).is_defined:
+  var_on, 2, LOCAL(2), lambda_164, 0,
   // !resolve_variable(name) mangle_local_definition(name self)
-  var_mangle_local_definition, 2, LOCAL(4), LOCAL(3), 1, LOCAL(2),
+  var_mangle_local_definition, 2, var_1358_4_name, var_1357_29_self, 1, LOCAL(2),
   // resolve_variable(name) mangle_local_definition(name self)
-  var_resolve_variable, 2, LOCAL(4), LOCAL(2), 1, var_resolve_variable,
+  var_resolve_variable, 2, var_1358_4_name, LOCAL(2), 1, var_resolve_variable,
   // next
   var_next, 0, TAIL_CALL,
   POS(1358, 3),
+  POS(1359, 6),
+  POS(1359, 6),
   POS(1359, 3),
-  POS(1359, 4),
-  POS(1360, 3),
-  LOCAL(3),
-  LOCAL(4)
+  POS(1361, 3),
+  POS(1361, 4),
+  POS(1362, 3)
 };
 
 static FUNCTION_INFO i_func_add_parameter_definition = {
-  t_func_add_parameter_definition, NULL, 4, 2,
-  {"1357_29_self\000", "1358_4_name\000"}
+  t_func_add_parameter_definition, NULL, 7, 0,
+  {}
+};
+
+static TAB_NUM t_lambda_163[] = {
+  2, // locals
+  0, // parameters
+  // resolve_variable(name).is_defined:
+  var_resolve_variable, 1, var_1358_4_name, 1, LOCAL(1),
+  // is_defined:
+  var_is_defined, 1, LOCAL(1), 1, LOCAL(2),
+  // resolve_variable(name).is_defined:
+  LET, 1, LOCAL(2), TAIL_CALL,
+  POS(1359, 27),
+  POS(1359, 50),
+  POS(1359, 27)
+};
+
+static FUNCTION_INFO i_lambda_163 = {
+  t_lambda_163, NULL, 3, 0,
+  {}
+};
+
+static TAB_NUM t_lambda_164[] = {
+  0, // locals
+  0, // parameters
+  // syntax_error "Variable is already defined" self
+  var_syntax_error, 2, str_Variable_is_alre, var_1357_29_self, TAIL_CALL,
+  POS(1360, 5)
+};
+
+static FUNCTION_INFO i_lambda_164 = {
+  t_lambda_164, NULL, 1, 0,
+  {}
 };
 
 static TAB_NUM t_func_funky__mangle_local_definition[] = {
   4, // locals
   2, // parameters
-  LOCAL(3), // 1362_35_identifier
-  LOCAL(4), // 1362_46_definition
+  LOCAL(3), // 1364_35_identifier
+  LOCAL(4), // 1364_46_definition
   // mangle_position(definition))_@(identifier)"
   var_mangle_position, 1, LOCAL(4), 1, LOCAL(1),
   // "@(mangle_position(definition))_@(identifier)"
   var_std__string, 3, LOCAL(1), string_2, LOCAL(3), 1, LOCAL(2),
   // -> "@(mangle_position(definition))_@(identifier)"
   LET, 1, LOCAL(2), TAIL_CALL,
-  POS(1363, 9),
-  POS(1363, 6),
-  POS(1363, 3),
-  LOCAL(4),
-  LOCAL(3)
+  POS(1365, 9),
+  POS(1365, 6),
+  POS(1365, 3),
+  LOCAL(3),
+  LOCAL(4)
 };
 
 static FUNCTION_INFO i_func_funky__mangle_local_definition = {
   t_func_funky__mangle_local_definition, NULL, 3, 2,
-  {"1362_46_definition\000", "1362_35_identifier\000"}
+  {"1364_35_identifier\000", "1364_46_definition\000"}
 };
 
 static TAB_NUM t_func_funky__mangle_position[] = {
   11, // locals
   1, // parameters
-  LOCAL(7), // 1365_27_node
+  LOCAL(7), // 1367_27_node
   // $source_group source_group_of(node)
   var_source_group_of, 1, LOCAL(7), 1, LOCAL(8),
   // $line_text second(source_group)
@@ -7658,28 +7701,28 @@ static TAB_NUM t_func_funky__mangle_position[] = {
   var_std__string, 3, LOCAL(10), string_2, LOCAL(11), 1, LOCAL(1),
   // -> "@(line_no)_@(column_no)"
   LET, 1, LOCAL(1), TAIL_CALL,
-  POS(1366, 3),
-  POS(1367, 3),
   POS(1368, 3),
-  POS(1372, 7),
-  POS(1370, 6),
-  POS(1373, 7),
-  POS(1373, 38),
-  POS(1373, 28),
-  POS(1373, 7),
   POS(1369, 3),
-  POS(1374, 6),
-  POS(1374, 3),
+  POS(1370, 3),
+  POS(1374, 7),
+  POS(1372, 6),
+  POS(1375, 7),
+  POS(1375, 38),
+  POS(1375, 28),
+  POS(1375, 7),
+  POS(1371, 3),
+  POS(1376, 6),
+  POS(1376, 3),
+  LOCAL(9),
+  LOCAL(8),
   LOCAL(7),
   LOCAL(11),
-  LOCAL(8),
-  LOCAL(9),
   LOCAL(10)
 };
 
 static FUNCTION_INFO i_func_funky__mangle_position = {
   t_func_funky__mangle_position, NULL, 12, 5,
-  {"1365_27_node\000", "1369_4_column_no\000", "1366_4_source_group\000", "1367_4_line_text\000", "1368_4_line_no\000"}
+  {"1369_4_line_text\000", "1368_4_source_group\000", "1367_27_node\000", "1371_4_column_no\000", "1370_4_line_no\000"}
 };
 
 static int tuple_55_1_arguments[] = {
@@ -8092,6 +8135,8 @@ static FUNKY_CONSTANT constants_table[] = {
   {FLT_FUNCTION, 0, {.func_info = &i_lambda_162}},
   {FLT_STRING_8, 27, {.str_8 = "Variable is already defined"}},
   {FLT_FUNCTION, 0, {.func_info = &i_func_add_parameter_definition}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_163}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_164}},
   {FLT_FUNCTION, 0, {.func_info = &i_func_funky__mangle_local_definition}},
   {FLT_FUNCTION, 0, {.func_info = &i_func_funky__mangle_position}}
 };
@@ -10051,6 +10096,14 @@ static FUNKY_VARIABLE variables_table[] = {
     {.position = POS(1351, 37)}
   },
   {
+    FOT_UNINITIALIZED, 0, 0,
+    "1357_29_self\000", NULL
+  },
+  {
+    FOT_UNINITIALIZED, 0, 0,
+    "1358_4_name\000", NULL
+  },
+  {
     FOT_INITIALIZED, 0, 0,
     "mangle_local_definition\000funky", NULL,
     {.const_idx = -func_funky__mangle_local_definition}
@@ -10063,7 +10116,7 @@ static FUNKY_VARIABLE variables_table[] = {
   {
     FOT_UNKNOWN, 0, 0,
     "second\000", NULL,
-    {.position = POS(1367, 14)}
+    {.position = POS(1369, 14)}
   },
   {
     FOT_POLYMORPHIC, 0, 0,
@@ -10073,12 +10126,12 @@ static FUNKY_VARIABLE variables_table[] = {
   {
     FOT_UNKNOWN, 0, 1,
     "remark\000funky_types", funky_types__remark__attributes,
-    {.position = POS(1381, 1)}
+    {.position = POS(1383, 1)}
   },
   {
     FOT_UNKNOWN, 0, 1,
     "multiline_remark\000funky_types", funky_types__multiline_remark__attributes,
-    {.position = POS(1382, 1)}
+    {.position = POS(1384, 1)}
   },
   {
     FOT_DERIVED, 0, 0,
@@ -10098,7 +10151,7 @@ static FUNKY_VARIABLE variables_table[] = {
   {
     FOT_UNKNOWN_POLYMORPHIC, 0, 0,
     "is_an_input\000", NULL,
-    {.position = POS(1395, 20)}
+    {.position = POS(1397, 20)}
   }
 };
 
@@ -10117,8 +10170,8 @@ FUNKY_MODULE module__simplify = {
   0, // number of required modules
   0, // number of defined namespaces
   2, // number of used namespaces
-  399, // number of constants
-  380, // number of variables
+  401, // number of constants
+  382, // number of variables
   NULL, // required modules
   NULL, // defined namespaces
   used_namespaces,
