@@ -926,7 +926,7 @@ $main: (initial_terminal)
 		  .upper_bound_of 1+(window_height .div. 4)
 		  .lower_bound_of window_height-(window_height .div. 4)
 	      !lines lines_of(window)
-	      update_all_views &terminal &state
+	      update_all_views !terminal !state
 	      !window_before_update window
 	      update &terminal $initial_output
 	      print! initial_output
@@ -941,23 +941,23 @@ $main: (initial_terminal)
 		:
 		  on terminal.is_an_error terminal
 
-$update_all_views: (terminal state)
+$update_all_views:
   $windows windows_of(state)
   $views views_of(state)
-  update &windows(current_bar_index_of(state)) views(-1) &terminal
+  update &windows(current_bar_index_of(state)) views(-1) !terminal
   if
     cwi() == HELP_WINDOW:
-      update &windows(HELP_WINDOW) views(-2) &terminal
+      update &windows(HELP_WINDOW) views(-2) !terminal
       -> terminal state(.windows_of windows)
     :
       case mode_of(state)
 	SMALL:
-	  update &windows(cwi()) views(1) &terminal
+	  update &windows(cwi()) views(1) !terminal
 	  -> terminal state(.windows_of windows)
 	NORMAL:
 	  from_to 1 text_window_count_of(state)
 	    : (idx)
-	      update &windows(idx) views(idx) &terminal
+	      update &windows(idx) views(idx) !terminal
 	      next
 	    -> terminal state(.windows_of windows)
 
@@ -998,7 +998,7 @@ $event_loop:
 			  $idx cwi()
 			  !window windows_of(state)(idx)
 			  !lines lines_of(window)
-			  update &window views_of(state)(idx) &terminal
+			  update &window views_of(state)(idx) !terminal
 			  !state.windows_of(idx) window
 			  !window_before_update window
 			  update &terminal $output
@@ -1020,7 +1020,7 @@ $event_loop:
 				!state.windows_of(bar_idx).needs_redraw true
 				create_views !state window_idx
 				show_dummy !state
-				update_all_views &terminal &state
+				update_all_views !terminal !state
 				update &terminal $output
 				print! output
 				next!
@@ -1173,7 +1173,7 @@ $event_loop:
     !window.needs_redraw true
     $idx cwi()
     !state.windows_of(idx) window
-    update &window views_of(state)(idx) &terminal
+    update &window views_of(state)(idx) !terminal
     next!
 
   $check_updates:
@@ -1208,7 +1208,7 @@ $event_loop:
 	  !window.needs_redraw true
 	  !state.windows_of(idx) window
 	  create_views !state idx
-	  update_all_views terminal state
+	  update_all_views
 	:
 	  $view_idx
 	    cond
@@ -1223,12 +1223,12 @@ $event_loop:
 	  $bar windows_of(state)(cbi())
 	  if
 	    view_idx != -1 && bar.was_updated:
-	      update &state.windows_of(cbi()) views(-1) &terminal
+	      update &state.windows_of(cbi()) views(-1) !terminal
 	      update_window_view
 	    update_window_view
 
 	  $update_window_view:
-	    update &window views(view_idx) &terminal
+	    update &window views(view_idx) !terminal
 	    !state.windows_of(idx) window
 	    -> terminal state
 
@@ -4316,12 +4316,12 @@ $create_indentation_patterns: (colour_set)
 	      background_colour_3
 	    256
 
-$tedi_types::window/update: (self view terminal)
+$tedi_types::window/update: (self view)
   !lines lines_of(self)
-  update_contents &self view &terminal
+  update_contents !self view !terminal
   -> self terminal
 
-$tedi_types::text_window/update: (self view terminal)
+$tedi_types::text_window/update: (self view)
   !lines lines_of(self)
   $is_minimized height_of(view) == 1
   if
@@ -4329,7 +4329,7 @@ $tedi_types::text_window/update: (self view terminal)
     draw_title_bar
     :
       $contents_view create_view(view 1 2 -1 -1)
-      update_contents &self contents_view &terminal
+      update_contents !self contents_view !terminal
       draw_title_bar
 
   $draw_title_bar:
@@ -4366,7 +4366,7 @@ $tedi_types::text_window/update: (self view terminal)
     draw_text view &terminal 1 1 left mid right
     -> self terminal
 
-$update_contents: (window view terminal)
+$update_contents: (view)
   #
     if <cursor_x> or <cursor_y> is undefined then <x> and <y> must be defined
 

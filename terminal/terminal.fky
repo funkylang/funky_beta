@@ -1809,7 +1809,7 @@ $std_types::screen/basic_private::draw_text:
 		    inc &i
 		    next
 
-	$create_attributed_text: (x text insert_space)
+	$create_attributed_text: (ax atext insert_space)
 	  #
 	    ATTENTION!!!
 
@@ -1821,27 +1821,27 @@ $std_types::screen/basic_private::draw_text:
 
 	  if
 	    colour.is_defined:
-	      if $attributed_text !x
+	      if $attributed_text !ax
 		insert_space
-		-> string(' ' colour) x+1
-		-> "" x
-	      for_each text
+		-> string(' ' colour) ax+1
+		-> "" ax
+	      for_each atext
 		: (chr)
 		  $cw width_of(chr)
 		  if
-		    x+cw > right_x+1:
+		    ax+cw > right_x+1:
 		      if
-			x == right_x:
+			ax == right_x:
 			  push &attributed_text ' '
 			  append &attributed_text colour
-			  -> x+1 attributed_text
-			-> x attributed_text
+			  -> ax+1 attributed_text
+			-> ax attributed_text
 		    :
 		      if
 			cw == 1:
 			  push &attributed_text chr
 			  append &attributed_text colour
-			  inc &x
+			  inc &ax
 			  next
 			:
 			  push &attributed_text chr
@@ -1849,44 +1849,44 @@ $std_types::screen/basic_private::draw_text:
 			  push &attributed_text clear_colour
 			  push &attributed_text INVALID_CHARACTER
 			  append &attributed_text colour
-			  plus &x cw
+			  plus &ax cw
 			  next
-		-> x attributed_text
+		-> ax attributed_text
 	    :
-	      if $attributed_text !x
+	      if $attributed_text !ax
 		insert_space
-		-> string(' ' draw_colour row(3*x)) x+1
-		-> "" x
-	      for_each text
+		-> string(' ' draw_colour row(3*ax)) ax+1
+		-> "" ax
+	      for_each atext
 		: (chr)
 		  $cw width_of(chr)
 		  if
-		    x+cw > right_x+1:
+		    ax+cw > right_x+1:
 		      if
-			x == right_x:
+			ax == right_x:
 			  push &attributed_text ' '
 			  push &attributed_text draw_colour
-			  push &attributed_text row(3*x)
-			  -> x+1 attributed_text
-			-> x attributed_text
+			  push &attributed_text row(3*ax)
+			  -> ax+1 attributed_text
+			-> ax attributed_text
 		    :
 		      if
 			cw == 1:
 			  push &attributed_text chr
 			  push &attributed_text draw_colour
-			  push &attributed_text row(3*x)
-			  inc &x
+			  push &attributed_text row(3*ax)
+			  inc &ax
 			  next
 			:
 			  push &attributed_text chr
 			  push &attributed_text draw_colour
-			  push &attributed_text row(3*x)
+			  push &attributed_text row(3*ax)
 			  push &attributed_text INVALID_CHARACTER
 			  push &attributed_text draw_colour
-			  push &attributed_text row(3*(x+1))
-			  plus &x cw
+			  push &attributed_text row(3*(ax+1))
+			  plus &ax cw
 			  next
-		-> x attributed_text
+		-> ax attributed_text
 
 $std_types::screen/draw_attributed_text:
   #

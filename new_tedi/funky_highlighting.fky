@@ -1367,8 +1367,8 @@ $create_screens: (page symbol_info from_line to_line)
 
     $create_screen_for_line ()
 
-    $std_types::undefined/create_screen_for_line: (_self indent_screen colour)
-      set_clear_colour indent_screen indent_colours(colour)
+    $std_types::undefined/create_screen_for_line: (_self ind_screen colour)
+      set_clear_colour ind_screen indent_colours(colour)
 
     $fde_types::node/create_screen_for_line: (line screen colour)
       $indent indent_of(line)
@@ -2190,11 +2190,11 @@ $annotate_single_node: (node)
 		-> i range(text s i-1)
 	    -> i range(text s i-1)
 
-  $add_symbol_kind: (identifier kind continuation)
+  $add_symbol_kind: (identifier skind continuation)
     $symbol_kind
       default_value
 	definitions(identifier) empty_hash_bag
-    add &symbol_kind kind
+    add &symbol_kind skind
     !definitions(identifier) symbol_kind
     continuation
 

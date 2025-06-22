@@ -1688,12 +1688,12 @@ $start_completion: (state x y lines info direction)
 		    range(text length_of(left)+1 -(length_of(right)+1))
 		    right
 
-    $add_words: (line_no direction)
+    $add_words: (line_no dir)
       $line lines(line_no)
       if
 	line.is_undefined
 	-> words
-	-> collect_words(text_of(line) direction)
+	-> collect_words(text_of(line) dir)
 
     $collect_words: (text right_to_left)
       cond

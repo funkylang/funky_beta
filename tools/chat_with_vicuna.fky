@@ -99,7 +99,7 @@ initialize_terminal &io TERMINAL
   MAP_CR = true
   CLEAR_COLOUR = WHITE
   DRAW_COLOUR = BLACK
-get_terminal! &io $terminal
+get_terminal! !io $terminal
 
 $configuration_filename
   if
@@ -172,7 +172,7 @@ $state.help_bar_of undefined
 
 main!
 
-$get_terminal: (io)
+$get_terminal:
   get_events! &io $events
   $event events(1)
   event $type $_id $data
@@ -217,8 +217,8 @@ $main:
 	debug::dump 50 `events
 	debug::exit
       handle_events &io &events
-      process_events &io &state &events
-      process_terminal_events &io &terminal &state events
+      process_events !io !state &events
+      process_terminal_events !io !terminal !state events
       next!
 
   debug::dump 50 `err
@@ -228,7 +228,7 @@ $main:
     get_events! &io $_events
     next!
 
-$process_events: (io state events)
+$process_events: (events)
   $remaining_events empty_list
   for_each events
     : (event)
@@ -315,7 +315,7 @@ $process_events: (io state events)
 		  log &io err
 		  next!
 		:
-		  log_completed &io &state "
+		  log_completed !io !state "
 		    loaded configuration from "@(configuration_filename)"@
 		  maybe_register_at_ai_server !io !state
 		  next
@@ -324,20 +324,20 @@ $process_events: (io state events)
 	      enable_logging &connection
 	      !state.connection_of connection
 	      register_resource &io CONNECTION connection
-	      log_completed &io &state
+	      log_completed !io !state
 		if
 		  id == START_SERVER
 		  -> "started AI server"
 		  -> "connected to AI server"
 	      $configuration configuration_of(state)
-	      log_message &io &state "
+	      log_message !io !state "
 		loading model "@(model_name_of(configuration))"
 	      load_ai_model &io LOAD_MODEL
 		model_name_of(configuration) connection
 	      next
 	    LOAD_MODEL:
 	      !state.model_of argument
-	      log_completed &io &state "
+	      log_completed !io !state "
 		loaded model "@(name_of(argument))"
 	      next
 	    TOKENIZE:
@@ -346,7 +346,7 @@ $process_events: (io state events)
 		.confidences_of empty_list
 		.already_evaluated_of 0
 		.current_batch_of 0
-	      log_completed &io &state "
+	      log_completed !io !state "
 		tokenized input - got @(length_of(argument)) tokens
 	      evaluate_tokens
 	    EVALUATE:
@@ -475,7 +475,7 @@ $process_events: (io state events)
 	  case id
 	    LOAD_CONFIGURATION:
 	      !state.configuration_of default_configuration
-	      log_failed &io &state
+	      log_failed !io !state
 		"NO CONFIGURATION FOUND - using default configuration"
 	      next!
 	    CONNECT:
@@ -489,7 +489,7 @@ $process_events: (io state events)
 		:
 		  !state.did_start_server_of true
 		  log &io err_msg
-		  log_message &io &state "
+		  log_message !io !state "
 		    starting server
 		  $options list(UUID = uuid_of(state))
 		  $server_name server_name_of(configuration)
@@ -521,7 +521,7 @@ $process_events: (io state events)
 	      exit &io EXIT_SUCCESS
 	      next
 	    :
-	      log_failed &io &state "
+	      log_failed !io !state "
 		@(id):  @(argument.to_error_message_string)
 	      next
 	WRITE_COMPLETED:
@@ -542,7 +542,7 @@ $process_events: (io state events)
       :
 	$address server_address_of(configuration)
 	$port_no server_port_no_of(configuration)
-	log_message &io &state "connecting to AI server @(address):@(port_no)"
+	log_message !io !state "connecting to AI server @(address):@(port_no)"
 	connect_to_ai_server &io CONNECT
 	  ADDRESS = address
 	  PORT_NO = port_no
@@ -550,7 +550,7 @@ $process_events: (io state events)
 	-> io state
       -> io state
 
-$process_terminal_events: (io terminal state events)
+$process_terminal_events: (events)
   for_each events
     : (event)
       event $type $id $argument
@@ -574,15 +574,15 @@ $process_terminal_events: (io terminal state events)
 	  output_was_updated_of(state)
 	  everything_was_updated_of(state)
 	:
-	  draw_contents terminal state
+	  draw_contents
 	-> terminal
       if !terminal
 	message_bar_was_updated_of(state) || everything_was_updated_of(state):
-	  draw_message_bar terminal state
+	  draw_message_bar
 	-> terminal
       if !terminal
 	everything_was_updated_of(state):
-	  draw_help_bar terminal state
+	  draw_help_bar
 	-> terminal
       if
 	||
@@ -605,7 +605,7 @@ $process_terminal_events: (io terminal state events)
 	  .message_bar_was_updated_of false
 	  .everything_was_updated_of false
 
-$log_message: (io state colour = DARK_GREY message)
+$log_message: (colour = DARK_GREY message)
   trim &message
   !state
     .message_colour_of colour
@@ -614,19 +614,19 @@ $log_message: (io state colour = DARK_GREY message)
   log &io message
   -> io state
 
-$log_completed: (io state message)
+$log_completed: (message)
   log_message io state DARK_GREEN message
 
-$log_failed: (io state message)
+$log_failed: (message)
   log_message io state DARK_RED message
 
-$draw_contents: (terminal state)
+$draw_contents:
   $configuration configuration_of(state)
   $view input_window_of(state)
   clear view &terminal
   $width width_of(view)
   $height height_of(view)
-  update_attributed_text_cache &state
+  update_attributed_text_cache !state
   $messages messages_of(state)
   $input_text input_text_of(state)
   if $input_lines $cursor_y $cursor_x
@@ -707,7 +707,7 @@ $create_attributed_text_lines: (lines width draw_colour clear_colour)
     : (line)
       add_attributes pad_right(line width) draw_colour clear_colour
 
-$update_attributed_text_cache: (state)
+$update_attributed_text_cache:
   $model model_of(state)
   $width width_of(input_window_of(state))
   $minimum_confidence minimum_confidence_of(configuration_of(state))
@@ -879,7 +879,7 @@ $get_output_piece_colour: (i info)
 	VERY_LIGHT_RED = 10-confidence_delta
 	VERY_LIGHT_GREEN = confidence_delta
 
-$draw_help_bar: (terminal state)
+$draw_help_bar:
   $help_bar help_bar_of(state)
   set_clear_colour &help_bar LIGHT_GREY
   set_draw_colour &help_bar BLACK
@@ -890,7 +890,7 @@ $draw_help_bar: (terminal state)
   draw_text help_bar terminal 1 1 "
     Press <F12> to send your request; enter <ctrl-q> to exit@
 
-$draw_message_bar: (terminal state)
+$draw_message_bar:
   $message_bar message_bar_of(state)
   $message message_text_of(state)
   set_clear_colour &message_bar message_colour_of(state)

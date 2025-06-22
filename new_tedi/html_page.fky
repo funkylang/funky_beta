@@ -332,13 +332,15 @@ $render_inline: (element)
       debug::dump `tag
       debug::exit
 
-$set_style: (style style_info)
+$set_style: (new_style style_info)
   style_info $draw_colour $clear_colour $text_attributes
-  update_if draw_colour.is_defined &style: set_draw_colour style draw_colour
-  update_if clear_colour.is_defined &style: set_clear_colour style clear_colour
-  update_if text_attributes.is_defined &style:
-    set_text_attributes style text_attributes
-  -> style
+  update_if draw_colour.is_defined &new_style:
+    set_draw_colour new_style draw_colour
+  update_if clear_colour.is_defined &new_style:
+    set_clear_colour new_style clear_colour
+  update_if text_attributes.is_defined &new_style:
+    set_text_attributes new_style text_attributes
+  -> new_style
 
 $initialize_html_styles: (continuation)
   !style create_style(BLACK WHITE)

@@ -837,8 +837,8 @@ $create_html_page: (title info)
 	      :
 		map_reduce
 		  preformatted
-		  : (info)
-		    info $class $paragraph
+		  : (inf)
+		    inf $class $paragraph
 		    GROUP
 		      : H2 class
 		      : DIV "class" = replace_all(class ' ' = "_") paragraph

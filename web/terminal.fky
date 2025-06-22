@@ -189,10 +189,10 @@ $std::create_web_terminal: (io fd message)
   cond
     -> message .has_prefix. "DOM@nl;":
       !vt std_types::web_terminal
-      extract_parameters io vt message
+      extract_parameters vt
     -> message .has_prefix. "VT@nl;":
       $client std_types::generic_terminal
-      extract_parameters &io &client message
+      extract_parameters !io &client
       !vt create_terminal(width_of(client) height_of(client))
       !vt.character_width_of character_width_of(client)
       !vt.ascent_of ascent_of(client)
@@ -206,7 +206,7 @@ $std::create_web_terminal: (io fd message)
       log &io "UNKNOWN TERMINAL TYPE: @(message .truncate_behind. '@nl;')"
       close_connection io fd
 
-  $extract_parameters: (io client message)
+  $extract_parameters: (client)
     $lines split_into_lines(message .truncate_until. '@nl;')
     for_each lines
       : (line)

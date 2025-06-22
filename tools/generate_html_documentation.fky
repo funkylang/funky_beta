@@ -788,10 +788,10 @@ $text_to_html: (text)
 		  append &buf " " line
 		  next
 
-  $add_parameters_or_results: (title)
+  $add_parameters_or_results: (ptitle)
     maybe_output_paragraph:
       append &html "
-	<h2>@(title)</h2>
+	<h2>@(ptitle)</h2>
 	<dl>
       loop
 	:
@@ -890,8 +890,8 @@ $text_to_html: (text)
 		</pre>
 	      next
 
-	  $add_links: (text)
-	    replace_all text
+	  $add_links: (ltext)
+	    replace_all ltext
 	      FUNKY_SYMBOL = maybe_add_link
 	      REMARK = do_not_replace
 	      STRING = do_not_replace
