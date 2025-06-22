@@ -21,7 +21,7 @@
   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
 <require basic/stdlib>
-<require ./ai/new_llama>
+<require ai/new_llama>
 <require ./build_symbol_metadata>
 
 <using std>
@@ -344,8 +344,7 @@ $annotate_module: (module_filename prompt template_kinds definitions)
 		      to_string &timestamp
 		      truncate_from &timestamp '.'
 		      remove_leading_newlines &annotation
-		      truncate_from &annotation "
-			</annotation>
+		      truncate_from &annotation "</annotation>"
 		      append
 			"# " name " (" kind.to_string ")@nl;@nl;"
 			&annotation

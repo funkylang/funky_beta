@@ -3,164 +3,28 @@
   creates a dialog
 
   Parameters:
-    wm: the window manager
-    info: the dialog's info
-    content: the dialog's content
+    window_manager: a window manager
+    info: the dialog information
+    content: the dialog content
 
   Result:
-    wm: the updated window manager
+    window_manager: the updated window manager
 
-  A dialog is a special window that is displayed on top of all other windows.
+  Creates a dialog with the specified *content* and *info*.
 
-  The dialog is displayed until the user closes it.
+  The *info* parameter is passed to the dialog handler when a button is pressed.
 
-  The dialog is displayed in the center of the screen.
+  Topic: Window Manager
 
-  The dialog is displayed using the current draw colour.
+  See also: std_types::window_manager/std::create_window
 
-  The dialog is displayed using the current clear colour.
+  Example:
 
-  The dialog is displayed using the current draw colour.
-
-  The dialog is displayed using the current clear colour.
-
-  The dialog is displayed using the current draw colour.
-
-  The dialog is displayed using the current clear colour.
-
-  The dialog is displayed using the current draw colour.
-
-  The dialog is displayed using the current clear colour.
-
-  The dialog is displayed using the current draw colour.
-
-  The dialog is displayed using the current clear colour.
-
-  The dialog is displayed using the current draw colour.
-
-  The dialog is displayed using the current clear colour.
-
-  The dialog is displayed using the current draw colour.
-
-  The dialog is displayed using the current clear colour.
-
-  The dialog is displayed using the current draw colour.
-
-  The dialog is displayed using the current clear colour.
-
-  The dialog is displayed using the current draw colour.
-
-  The dialog is displayed using the current clear colour.
-
-  The dialog is displayed using the current draw colour.
-
-  The dialog is displayed using the current clear colour.
-
-  The dialog is displayed using the current draw colour.
-
-  The dialog is displayed using the current clear colour.
-
-  The dialog is displayed using the current draw colour.
-
-  The dialog is displayed using the current clear colour.
-
-  The dialog is displayed using the current draw colour.
-
-  The dialog is displayed using the current clear colour.
-
-  The dialog is displayed using the current draw colour.
-
-  The dialog is displayed using the current clear colour.
-
-  The dialog is displayed using the current draw colour.
-
-  The dialog is displayed using the current clear colour.
-
-  The dialog is displayed using the current draw colour.
-
-  The dialog is displayed using the current clear colour.
-
-  The dialog is displayed using the current draw colour.
-
-  The dialog is displayed using the current clear colour.
-
-  The dialog is displayed using the current draw colour.
-
-  The dialog is displayed using the current clear colour.
-
-  The dialog is displayed using the current draw colour.
-
-  The dialog is displayed using the current clear colour.
-
-  The dialog is displayed using the current draw colour.
-
-  The dialog is displayed using the current clear colour.
-
-  The dialog is displayed using the current draw colour.
-
-  The dialog is displayed using the current clear colour.
-
-  The dialog is displayed using the current draw colour.
-
-  The dialog is displayed using the current clear colour.
-
-  The dialog is displayed using the current draw colour.
-
-  The dialog is displayed using the current clear colour.
-
-  The dialog is displayed using the current draw colour.
-
-  The dialog is displayed using the current clear colour.
-
-  The dialog is displayed using the current draw colour.
-
-  The dialog is displayed using the current clear colour.
-
-  The dialog is displayed using the current draw colour.
-
-  The dialog is displayed using the current clear colour.
-
-  The dialog is displayed using the current draw colour.
-
-  The dialog is displayed using the current clear colour.
-
-  The dialog is displayed using the current draw colour.
-
-  The dialog is displayed using the current clear colour.
-
-  The dialog is displayed using the current draw colour.
-
-  The dialog is displayed using the current clear colour.
-
-  The dialog is displayed using the current draw colour.
-
-  The dialog is displayed using the current clear colour.
-
-  The dialog is displayed using the current draw colour.
-
-  The dialog is displayed using the current clear colour.
-
-  The dialog is displayed using the current draw colour.
-
-  The dialog is displayed using the current clear colour.
-
-  The dialog is displayed using the current draw colour.
-
-  The dialog is displayed using the current clear colour.
-
-  The dialog is displayed using the current draw colour.
-
-  The dialog is displayed using the current clear colour.
-
-  The dialog is displayed using the current draw colour.
-
-  The dialog is displayed using the current clear colour.
-
-  The dialog is displayed using the current draw colour.
-
-  The dialog is displayed
-CONTEXT EXCEEDED
+    $wm create_window_manager(terminal)
+    ...
+    create_dialog &wm "My Dialog" "My Content"
 
 ((defined in terminal/window_manager.fky))
 ((generated by Codestral-22B-v0.1-Q5_K_M.gguf))
-((2024-12-09 21:05:01))
+((rating 5))
+((2025-06-22 18:08:54))
