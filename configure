@@ -222,6 +222,9 @@ then
 elif [ x`echo $MACHINE | cut -c1-3` = xarm ]
 then
   ARCHITECTURE=arm_32
+elif [ x$MACHINE = xaarch64 ]
+then
+  ARCHITECTURE=arm_64
 fi
 
 # set platform specific settings
@@ -820,7 +823,7 @@ echo "${TAB}ln -fsT libfky-${RUNTIME_VERSION}${DLL_EXTENSION}" \
 echo
 echo "libfky-$RUNTIME_VERSION$DLL_EXTENSION: \$(runtime_OBJECTS)"
 echo "${TAB}\$(CC) \$(RUNTIME_DLL_OPTIONS)" $LDFLAGS "\$(runtime_OBJECTS)" \
-  $LIBS "-o libfky-$RUNTIME_VERSION$DLL_EXTENSION"
+  $LIBS -lm "-o libfky-$RUNTIME_VERSION$DLL_EXTENSION"
 
 echo
 echo "libfky$LIB_EXTENSION: \$(runtime_OBJECTS)"
