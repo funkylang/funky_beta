@@ -90,6 +90,8 @@ $tedi::create_page_from_text: (lines state filename)
     state
     undefined
 
+$command_string undefined
+
 $tedi_types::page/handle_key_press: (page io state key)
   case current_action_state_of(state)
     NONE:
@@ -102,7 +104,8 @@ $tedi_types::page/handle_key_press: (page io state key)
 	  $command commands(key)
 	  if
 	    command.is_defined:
-	      update_if command.is_a_string &command -> functions(command)
+	      update_if command.is_a_string &command &command_string
+		-> functions(command .truncate_from. ' ') command
 	      if
 		command.is_defined:
 		  command $action $action_class
@@ -863,7 +866,7 @@ $tedi::functions
 
     # filter & action
 
-    "filter" = tuple(filter_selection OTHER)
+    "filter" = tuple(filter_selection IO)
     "reload" = tuple(reload IO)
     "save_contents" = tuple(save_contents IO)
     "save_with_leading_spaces" = tuple(save_with_leading_spaces IO)
@@ -3169,8 +3172,36 @@ $break_into_lines: (text width)
 		minus &pos break_pos
 		next
 
-$filter_selection: (x y _lines info)
-  -> undefined undefined x y info
+$filter_selection: (io state x y lines info)
+  if
+    selection_x_of(info).is_undefined
+    -> io state
+    :
+      !selection_x selection_x_of(info)
+      !selection_y selection_y_of(info)
+      $selection get_selection(x y lines info)
+      $command command_string .behind. ' '
+      update_if_not selection.is_a_string &selection: lines_to_text selection
+      call_with_input &io FILTER selection command empty_list
+      -> io state
+
+$FILTER .
+
+$FILTER/job_completed: (_self io state data _context)
+  data $text
+  $inserted split_into_indented_lines(text false tedi_types::line)
+  $window_manager window_manager_of(state)
+  $page get_content(window_manager)
+  get_xy page window_manager $cursor_x $cursor_y
+  $info info_of(page)
+  $sel_y selection_y_of(info)
+  min_max $y $end_y cursor_y sel_y
+  update_text &state y .. end_y-1 inserted cursor_x cursor_y info OTHER
+  -> io state
+
+$FILTER/job_failed: (_self io state err _context)
+  debug::dump 2 `err
+  -> io state
 
 $show_help: (state _x _y _lines _info)
   $configuration configuration_of(state)

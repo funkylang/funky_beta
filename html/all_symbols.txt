@@ -791,6 +791,7 @@ std::bresenham FUNCTION
 std::bresenham_delta FUNCTION
 std::broadcast_websocket_text_message IO_FUNCTION
 std::call POLYMORPHIC_FUNCTION
+std::call_with_input POLYMORPHIC_FUNCTION
 std::cancel_write POLYMORPHIC_FUNCTION
 std::capture FUNCTION
 std::case IO_FUNCTION

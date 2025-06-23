@@ -488,6 +488,7 @@ $std_types::dirent/is_a_directory: (self)
   -> type_of(self) == DIRECTORY
 
 $std::call ()
+$std::call_with_input ()
 
 $std_types::object/call:
   (
@@ -573,9 +574,20 @@ $std_types::io/call:
     args
     context = undefined
   )
-  run io start_process id cmd args context
+  run io start_process id undefined cmd args context
 
-$start_process: (io id cmd args context)
+$std_types::io/call_with_input:
+  (
+    io
+    id
+    feed
+    cmd
+    args
+    context = undefined
+  )
+  run io start_process id feed cmd args context
+
+$start_process: (io id feed cmd args context)
   map &args to_string
   $env_vars empty_list
   for_each environment !env_vars
@@ -584,24 +596,44 @@ $start_process: (io id cmd args context)
       next
     -> env_vars
   create_process! $pid $in_fd $out_fd $err_fd cmd args env_vars
-  close! in_fd
-  join_process &io pid
-  start_reading_from &io out_fd
-  start_reading_from &io err_fd
-  !io.id_of(pid) id
-  !io.info_of(out_fd) ""
-  !io.info_of(err_fd) ""
-  !io.info_of(pid) tuple(out_fd err_fd)
-  register_handlers &io out_fd
-    READ = read_process_output
-    READ_FAILED = read_from_process_failed
-    CLOSED = ignore_close
-  register_handlers &io err_fd
-    READ = read_process_output
-    READ_FAILED = read_from_process_failed
-    CLOSED = ignore_close
-  register_handlers &io pid
-    PROCESS_JOINED = tuple(process_finished context)
+  if
+    feed.is_defined:
+      write &io in_fd feed
+      register_handlers &io in_fd
+	WRITE_COMPLETED = feed_written
+	WRITE_FAILED = write_feed_failed
+      get_results
+    :
+      close! in_fd
+      get_results
+
+  $get_results:
+    join_process &io pid
+    start_reading_from &io out_fd
+    start_reading_from &io err_fd
+    !io.id_of(pid) id
+    !io.info_of(out_fd) ""
+    !io.info_of(err_fd) ""
+    !io.info_of(pid) tuple(out_fd err_fd)
+    register_handlers &io out_fd
+      READ = read_process_output
+      READ_FAILED = read_from_process_failed
+      CLOSED = ignore_close
+    register_handlers &io err_fd
+      READ = read_process_output
+      READ_FAILED = read_from_process_failed
+      CLOSED = ignore_close
+    register_handlers &io pid
+      PROCESS_JOINED = tuple(process_finished context)
+    -> io undefined
+
+$feed_written: (io fd _data)
+  close &io fd
+  deregister_all_handlers &io fd
+  -> io undefined
+
+$write_feed_failed: (io fd _err)
+  deregister_all_handlers &io fd
   -> io undefined
 
 $read_process_output: (io fd data)
