@@ -211,7 +211,7 @@ $std_types::generic_array/map:
     3:
       $n length_of(self 1)
       $m length_of(self 2)
-      $k length_of(self 3)
+      $l length_of(self 3)
       $new_array create_empty_array(self)
       from_to 1 n
 	: (i)
@@ -219,13 +219,13 @@ $std_types::generic_array/map:
 	    : (j)
 	      if
 		parameter_count_of(map_function) == 1:
-		  from_to 1 k
+		  from_to 1 l
 		    : (k)
 		      !new_array(i j k) map_function(self(i j k))
 		      next
 		    next
 		:
-		  from_to 1 k
+		  from_to 1 l
 		    : (k)
 		      !new_array(i j k) map_function(i j k self(i j k))
 		      next
@@ -275,13 +275,13 @@ $std_types::generic_array/reduce:
     3:
       $n length_of(self 1)
       $m length_of(self 2)
-      $k length_of(self 3)
+      $l length_of(self 3)
       $acc neutral_element_of(self(1 1 1))
       from_to 1 n
 	: (i)
 	  from_to 1 m
 	    : (j)
-	      from_to 1 k
+	      from_to 1 l
 		: (k)
 		  reduce_function &acc self(i j k)
 		  next
@@ -355,7 +355,7 @@ $std_types::generic_array/map_reduce:
     3:
       $n length_of(self 1)
       $m length_of(self 2)
-      $k length_of(self 3)
+      $l length_of(self 3)
       $acc neutral_element_of(map_function(self(1 1 1)))
       from_to 1 n
 	: (i)
@@ -363,13 +363,13 @@ $std_types::generic_array/map_reduce:
 	    : (j)
 	      if
 		parameter_count_of(map_function) == 1:
-		  from_to 1 k
+		  from_to 1 l
 		    : (k)
 		      reduce_function &acc map_function(self(i j k))
 		      next
 		    next
 		:
-		  from_to 1 k
+		  from_to 1 l
 		    : (k)
 		      reduce_function &acc map_function(i j k self(i j k))
 		      next

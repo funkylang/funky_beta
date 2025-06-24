@@ -144,10 +144,10 @@ $collect_definitions: (filename)
 	      if
 		name .contains. "__":
 		  replace_first &name "__" = "::"
-		  add_function
+		  add_function name
 		next
 
-	  $add_function:
+	  $add_function: (fname)
 	    if
 	      any_of
 		subgroups_of(group)
@@ -156,7 +156,7 @@ $collect_definitions: (filename)
 		  -> text .contains. ", IO_"
 	      :
 		#debug::println name
-		!is_an_io_function(name) true
+		!is_an_io_function(fname) true
 		next
 	      next
 	-> header .has_prefix. "static void entry__":

@@ -153,7 +153,7 @@ enum {
   var_194_8_new_array, // dynamic
   var_196_12_i, // dynamic
   var_213_8_m, // dynamic
-  var_214_8_k, // dynamic
+  var_214_8_l, // dynamic
   var_215_8_new_array, // dynamic
   var_217_12_i, // dynamic
   var_219_16_j, // dynamic
@@ -171,7 +171,7 @@ enum {
   var_neutral_element_of, // extern
   var_268_12_i, // dynamic
   var_277_8_m, // dynamic
-  var_278_8_k, // dynamic
+  var_278_8_l, // dynamic
   var_279_8_acc, // dynamic
   var_281_12_i, // dynamic
   var_283_16_j, // dynamic
@@ -188,7 +188,7 @@ enum {
   var_338_8_acc, // dynamic
   var_340_12_i, // dynamic
   var_357_8_m, // dynamic
-  var_358_8_k, // dynamic
+  var_358_8_l, // dynamic
   var_359_8_acc, // dynamic
   var_361_12_i, // dynamic
   var_363_16_j, // dynamic
@@ -710,8 +710,8 @@ static TAB_NUM t_lambda_20[] = {
   var_length_of, 2, var_171_5_self, num_1, 1, LOCAL(1),
   // $m length_of(self 2)
   var_length_of, 2, var_171_5_self, num_2, 1, var_213_8_m,
-  // $k length_of(self 3)
-  var_length_of, 2, var_171_5_self, num_3, 1, var_214_8_k,
+  // $l length_of(self 3)
+  var_length_of, 2, var_171_5_self, num_3, 1, var_214_8_l,
   // $new_array create_empty_array(self)
   var_create_empty_array, 1, var_171_5_self, 1, var_215_8_new_array,
   // from_to 1 n
@@ -766,8 +766,8 @@ static FUNCTION_INFO i_lambda_22 = {
 static TAB_NUM t_lambda_23[] = {
   0, // locals
   0, // parameters
-  // from_to 1 k
-  var_from_to, 4, num_1, var_214_8_k, lambda_24, var_next, TAIL_CALL,
+  // from_to 1 l
+  var_from_to, 4, num_1, var_214_8_l, lambda_24, var_next, TAIL_CALL,
   POS(222, 19)
 };
 
@@ -803,8 +803,8 @@ static FUNCTION_INFO i_lambda_24 = {
 static TAB_NUM t_lambda_25[] = {
   0, // locals
   0, // parameters
-  // from_to 1 k
-  var_from_to, 4, num_1, var_214_8_k, lambda_26, var_next, TAIL_CALL,
+  // from_to 1 l
+  var_from_to, 4, num_1, var_214_8_l, lambda_26, var_next, TAIL_CALL,
   POS(228, 19)
 };
 
@@ -1043,8 +1043,8 @@ static TAB_NUM t_lambda_36[] = {
   var_length_of, 2, var_247_5_self, num_1, 1, LOCAL(2),
   // $m length_of(self 2)
   var_length_of, 2, var_247_5_self, num_2, 1, var_277_8_m,
-  // $k length_of(self 3)
-  var_length_of, 2, var_247_5_self, num_3, 1, var_278_8_k,
+  // $l length_of(self 3)
+  var_length_of, 2, var_247_5_self, num_3, 1, var_278_8_l,
   // self(1 1 1))
   var_247_5_self, 3, num_1, num_1, num_1, 1, LOCAL(1),
   // $acc neutral_element_of(self(1 1 1))
@@ -1083,8 +1083,8 @@ static TAB_NUM t_lambda_38[] = {
   0, // locals
   1, // parameters
   var_283_16_j,
-  // from_to 1 k
-  var_from_to, 4, num_1, var_278_8_k, lambda_39, var_next, TAIL_CALL,
+  // from_to 1 l
+  var_from_to, 4, num_1, var_278_8_l, lambda_39, var_next, TAIL_CALL,
   POS(284, 15)
 };
 
@@ -1487,8 +1487,8 @@ static TAB_NUM t_lambda_58[] = {
   var_length_of, 2, var_305_5_self, num_1, 1, LOCAL(3),
   // $m length_of(self 2)
   var_length_of, 2, var_305_5_self, num_2, 1, var_357_8_m,
-  // $k length_of(self 3)
-  var_length_of, 2, var_305_5_self, num_3, 1, var_358_8_k,
+  // $l length_of(self 3)
+  var_length_of, 2, var_305_5_self, num_3, 1, var_358_8_l,
   // self(1 1 1)))
   var_305_5_self, 3, num_1, num_1, num_1, 1, LOCAL(1),
   // map_function(self(1 1 1)))
@@ -1549,8 +1549,8 @@ static FUNCTION_INFO i_lambda_60 = {
 static TAB_NUM t_lambda_61[] = {
   0, // locals
   0, // parameters
-  // from_to 1 k
-  var_from_to, 4, num_1, var_358_8_k, lambda_62, var_next, TAIL_CALL,
+  // from_to 1 l
+  var_from_to, 4, num_1, var_358_8_l, lambda_62, var_next, TAIL_CALL,
   POS(366, 19)
 };
 
@@ -1586,8 +1586,8 @@ static FUNCTION_INFO i_lambda_62 = {
 static TAB_NUM t_lambda_63[] = {
   0, // locals
   0, // parameters
-  // from_to 1 k
-  var_from_to, 4, num_1, var_358_8_k, lambda_64, var_next, TAIL_CALL,
+  // from_to 1 l
+  var_from_to, 4, num_1, var_358_8_l, lambda_64, var_next, TAIL_CALL,
   POS(372, 19)
 };
 
@@ -2153,7 +2153,7 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "214_8_k\000", NULL
+    "214_8_l\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
@@ -2231,7 +2231,7 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "278_8_k\000", NULL
+    "278_8_l\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
@@ -2300,7 +2300,7 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "358_8_k\000", NULL
+    "358_8_l\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
