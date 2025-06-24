@@ -5,7 +5,7 @@
   Result:
     date_and_time: the current time
 
-  Related topics: Input-Output Events
+  Topic: Input-Output Events
 
   Example:
 

@@ -11,7 +11,7 @@
 
   The function waits for the process with the given process ID to finish.
 
-  Related topics: Input-Output Events
+  Topic: Input-Output Events
 
   Example:
 

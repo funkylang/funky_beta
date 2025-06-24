@@ -6,7 +6,7 @@
 
     seed: the current random seed
 
-  Related topics: Input-Output Events
+  Topic: Input-Output Events
 
   Example:
 

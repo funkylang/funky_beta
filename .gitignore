@@ -11,6 +11,8 @@ compiler/configuration.fky
 !terminal
 !web
 !docs
+!docs/topics
+!docs/topics/*
 !docs/symbols
 !docs/symbols/*
 !html

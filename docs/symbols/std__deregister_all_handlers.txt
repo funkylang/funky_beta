@@ -10,7 +10,7 @@
   Result:
     self: the updated input-output object
 
-  Related topics: Input-Output Events
+  Topic: Input-Output Events
 
   Example:
 

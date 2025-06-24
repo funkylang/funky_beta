@@ -22,7 +22,7 @@
   If the time is a date and time object, it is interpreted as the absolute
   time at which the command should be executed.
 
-  Related topics: Input-Output Events
+  Topic: Input-Output Events
 
   Example:
 

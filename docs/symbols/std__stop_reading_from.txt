@@ -11,7 +11,7 @@
 
   Stops reading from the specified file descriptor.
 
-  Related topics: Input-Output Events
+  Topic: Input-Output Events
 
   Example:
 

@@ -2,7 +2,7 @@
 
   used to identify a job failed event
 
-  Topics: Input-Output Events
+  Topic: Input-Output Events
 
   See also: std::JOB_COMPLETED, std::get_events
 

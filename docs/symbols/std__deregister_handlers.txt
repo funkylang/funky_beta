@@ -17,7 +17,7 @@
   The function deregisters handlers for the specified event types from the
   handler set with the given id.
 
-  Related topics: Input-Output Events
+  Topic: Input-Output Events
 
   Example:
 
