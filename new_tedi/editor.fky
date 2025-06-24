@@ -1313,7 +1313,8 @@ $delete_left: (x y lines info)
 	  if
 	    use_soft_line_breaks_of(info):
 	      check_wrap_after_deletion x-1 y lines info par_y indent new_text
-	    -> y tedi_line(indent new_text) x-1 y info
+	    :
+	      -> y list(tedi_line(indent new_text)) x-1 y info
     :
       cursor_left x y lines info
 
@@ -1356,7 +1357,7 @@ $delete_right: (x y lines info)
 	  if
 	    use_soft_line_breaks_of(info):
 	      check_wrap_after_deletion x y lines info par_y indent new_text
-	    -> y tedi_line(indent new_text) x y info
+	    -> y list(tedi_line(indent new_text)) x y info
     -> undefined undefined x y info
 
 $join_next_line: (x y lines info par_y text)

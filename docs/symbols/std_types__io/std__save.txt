@@ -20,7 +20,7 @@
 
   If the file cannot be saved, a <std::JOB_FAILED>-event is generated.
 
-  Topic: Input-Output
+  Topics: Input-Output Jobs, Input-Output Events
 
   See also: std_types::io/std::load,
 	    std::get_events, std::JOB_COMPLETED, std::JOB_FAILED

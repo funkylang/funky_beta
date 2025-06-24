@@ -4,15 +4,18 @@
   parallel way.
 
   The event system is based on the concept of an event "loop". The event "loop"
-  is part of the application program.                                                  ▆▆
+  is part of the application program.
 
   Before entering the event loop, the application program must create an
-  input-output object and register all input-output streams that should be
+  input-output object and register input-output streams that should be
   handled by the event loop.
 
-  To create an input-output object, simply clone the object <std_types::io>.
+  More input-output streams can be registered at any time. It's also possible
+  to unregister already registered streams.
 
-  The event loop then waits for an event to occur (using <std::get_events>.
+  To create an input-output object the object <std_types::io> is cloned.
+
+  The event loop then waits for an event to occur (using <std::get_events>).
   When one or more events occurs, the event loop processes them and then
   continues to wait for the next event(s).
 
@@ -37,7 +40,10 @@
   Actual input operations are performed by <get_events>. Write operations are
   initiated by the application program and performed by <get_events>.
 
-  Related topics: Input-Output, Input-Output Task Manager
+  To register, unregister or process input-output events or to initiate a write
+  operation does **not** need IO-access rights!
+
+  Related topics: Input-Output Jobs, Input-Output
 
   Example:
 
@@ -47,17 +53,16 @@
       # write a prompt text to STDOUT
     $input_buffer "" # create an initially empty input buffer
 
-
     loop: # the event loop
       get_events! &io $events # get one or more events
       for_each events # handle all received events
 	: (event)
-	  event $type $fd $argument # destructure the event
+	  event $type $fd $data # destructure the event
 	  case type # check the event type
 	    READ: # event is a read event
 	      case fd # check the file descriptor
 		STDIN_FILENO: # it was a read event from STDIN
-		  append &input_buffer argument
+		  append &input_buffer data
 		    # append the received data to the input buffer
 		  handle_input !io &input_buffer # call the input handler
 		  if
@@ -76,10 +81,12 @@
 	    WRITE_COMPLETED: # event is a write completed event
 	      # ignore
 	      next! # continue processing the events
+	    WRITE_FAILED: # event is a write error
+	      Error! "Error writing to standard output!"
 	    next # ignore all other events
 	next # check for more events
 
-    $handle_input: (buffer)
+    $handle_input: (buffer) # no need for IO-access rights
       loop:
 	if
 	  buffer .contains. '@nl;':

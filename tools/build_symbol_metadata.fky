@@ -144,10 +144,10 @@ $collect_definitions: (filename)
 	      if
 		name .contains. "__":
 		  replace_first &name "__" = "::"
-		  add_function name
+		  add_function
 		next
 
-	  $add_function: (name)
+	  $add_function:
 	    if
 	      any_of
 		subgroups_of(group)

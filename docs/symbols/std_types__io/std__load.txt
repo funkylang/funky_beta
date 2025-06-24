@@ -21,10 +21,44 @@
 
   If the file cannot be loaded, a <std::JOB_FAILED>-event is generated.
 
-  Topic: Input-Output
+  Topics: Input-Output Jobs, Input-Output Events
 
   See also: std_types::io/std::save,
 	    std::get_events, std::JOB_COMPLETED, std::JOB_FAILED
+
+  Example:
+
+    $GPL .
+
+    $io std_types::io
+    load &io GPL "GPLv2.txt"
+    loop:
+      get_events! &io $events
+      handle_events &io &events
+      for_each events
+	: (event)
+	  event $type $id $data
+	  case type
+	    JOB_COMPLETED:
+	      case id
+		GPL:
+		  write &io STDOUT_FILENO until(data '@nl;' 5)
+		  next!
+		next
+	    JOB_FAILED:
+	      Error! "Failed to load file!"
+	    WRITE_COMPLETED:
+	      terminate!
+	    next
+	next
+
+  Output:
+
+			GNU GENERAL PUBLIC LICENSE
+			   Version 2, June 1991
+
+     Copyright (C) 1989, 1991 Free Software Foundation, Inc.,
+     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
 
 ((defined in basic/io/io.fky))
 ((generated manually))

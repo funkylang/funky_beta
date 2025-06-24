@@ -329,7 +329,7 @@ $funky_types::pair/simplify: (self temp_no)
   $argument argument_of(self)
   if
     argument.is_a_list:
-      filter &argument: (argument) -> not(argument.is_a_remark)
+      filter &argument: (arg) -> not(arg.is_a_remark)
       if
 	length_of(argument) == 1:
 	  !argument argument(1)
@@ -974,7 +974,7 @@ $funky_types::statement/simplify: (self temp_no)
   $check_that_all_arguments_are_slot_assignments:
     $argument
       find_first
-	arguments: (argument) -> node_type_of(argument) != ATTRIBUTE_VALUE_PAIR
+	arguments: (arg) -> node_type_of(arg) != ATTRIBUTE_VALUE_PAIR
     on argument.is_defined:
       syntax_error "Argument should be a slot assignment" argument
 

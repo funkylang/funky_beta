@@ -2122,7 +2122,7 @@ static FUNCTION_INFO i_func_funky_types__pair___simplify = {
 static TAB_NUM t_lambda_argument_is_a_list[] = {
   2, // locals
   0, // parameters
-  // filter &argument: (argument) -> not(argument.is_a_remark)
+  // filter &argument: (arg) -> not(arg.is_a_remark)
   var_filter, 2, var_329_4_argument, lambda_32, 1, var_329_4_argument,
   // length_of(argument) == 1:
   var_length_of, 1, var_329_4_argument, 1, LOCAL(1),
@@ -2144,22 +2144,22 @@ static FUNCTION_INFO i_lambda_argument_is_a_list = {
 static TAB_NUM t_lambda_32[] = {
   3, // locals
   1, // parameters
-  LOCAL(3), // 332_26_argument
+  LOCAL(3), // 332_26_arg
   // is_a_remark)
   var_is_a_remark, 1, LOCAL(3), 1, LOCAL(1),
-  // not(argument.is_a_remark)
+  // not(arg.is_a_remark)
   var_not, 1, LOCAL(1), 1, LOCAL(2),
-  // -> not(argument.is_a_remark)
+  // -> not(arg.is_a_remark)
   LET, 1, LOCAL(2), TAIL_CALL,
-  POS(332, 52),
-  POS(332, 39),
-  POS(332, 36),
+  POS(332, 42),
+  POS(332, 34),
+  POS(332, 31),
   LOCAL(3)
 };
 
 static FUNCTION_INFO i_lambda_32 = {
   t_lambda_32, NULL, 3, 1,
-  {"332_26_argument\000"}
+  {"332_26_arg\000"}
 };
 
 static TAB_NUM t_lambda_33[] = {
@@ -5729,25 +5729,25 @@ static FUNCTION_INFO i_func_check_that_all_arguments_are_slot_assignments = {
 static TAB_NUM t_lambda_arguments[] = {
   4, // locals
   1, // parameters
-  LOCAL(4), // 977_21_argument
-  // node_type_of(argument) != ATTRIBUTE_VALUE_PAIR
+  LOCAL(4), // 977_21_arg
+  // node_type_of(arg) != ATTRIBUTE_VALUE_PAIR
   var_node_type_of, 1, LOCAL(4), 1, LOCAL(1),
-  // node_type_of(argument) != ATTRIBUTE_VALUE_PAIR
+  // node_type_of(arg) != ATTRIBUTE_VALUE_PAIR
   var_std__equal, 2, LOCAL(1), var_ATTRIBUTE_VALUE_PAIR, 1, LOCAL(2),
-  // node_type_of(argument) != ATTRIBUTE_VALUE_PAIR
+  // node_type_of(arg) != ATTRIBUTE_VALUE_PAIR
   var_std__not, 1, LOCAL(2), 1, LOCAL(3),
-  // -> node_type_of(argument) != ATTRIBUTE_VALUE_PAIR
+  // -> node_type_of(arg) != ATTRIBUTE_VALUE_PAIR
   LET, 1, LOCAL(3), TAIL_CALL,
-  POS(977, 34),
-  POS(977, 34),
-  POS(977, 34),
-  POS(977, 31),
+  POS(977, 29),
+  POS(977, 29),
+  POS(977, 29),
+  POS(977, 26),
   LOCAL(4)
 };
 
 static FUNCTION_INFO i_lambda_arguments = {
   t_lambda_arguments, NULL, 4, 1,
-  {"977_21_argument\000"}
+  {"977_21_arg\000"}
 };
 
 static TAB_NUM t_lambda_118[] = {
@@ -8985,7 +8985,7 @@ static FUNKY_VARIABLE variables_table[] = {
   {
     FOT_UNKNOWN, 0, 0,
     "not\000", NULL,
-    {.position = POS(332, 39)}
+    {.position = POS(332, 34)}
   },
   {
     FOT_UNKNOWN, 0, 0,
@@ -9773,7 +9773,7 @@ static FUNKY_VARIABLE variables_table[] = {
   {
     FOT_UNKNOWN, 0, 0,
     "ATTRIBUTE_VALUE_PAIR\000", NULL,
-    {.position = POS(977, 60)}
+    {.position = POS(977, 50)}
   },
   {
     FOT_UNINITIALIZED, 0, 0,

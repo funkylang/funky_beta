@@ -537,9 +537,9 @@ $funky::generate_tabular_code: (top_level_statements is_a_main_module)
 		-> "LOCAL(@(temp_count+idx)), // @(parameter_name)@nl;"
 		-> "var_@(parameter_name),@nl;"
 
-    $compile: (self is_last)
-      $head head_of(self)
-      $arguments arguments_of(self)
+    $compile: (statement is_last)
+      $head head_of(statement)
+      $arguments arguments_of(statement)
       $input_arguments filter(arguments is_an_input)
       $output_arguments filter(arguments is_an_output)
       $invalid_last_statement
@@ -549,13 +549,13 @@ $funky::generate_tabular_code: (top_level_statements is_a_main_module)
 	  invalid_last_statement
 	  is_a_main_module || name != "module_entry"
 	:
-	  syntax_error "Last statement is not a tail call" self
+	  syntax_error "Last statement is not a tail call" statement
       $input_count length_of(input_arguments)
       $output_count length_of(output_arguments)
       $is_a_tail_call (is_last && output_arguments.is_empty)
       !output_count
 	if
-	  self.is_an_io_call:
+	  statement.is_an_io_call:
 	    if
 	      is_a_tail_call
 	      -> "IO_TAIL_CALL"
@@ -570,14 +570,14 @@ $funky::generate_tabular_code: (top_level_statements is_a_main_module)
       append
 	"
 	  @
-	    // @(source_position_of(self))@
+	    // @(source_position_of(statement))@
 	if
 	  node_type_of(head) == FUNCTOR:
 	    case identifier_of(head)
 	      "std::assign", "assign":
 		on output_count == 0 && not(is_last):
 		  syntax_error "Return statement not allowed within function body"
-		    self
+		    statement
 		-> "
 		  @
 		    LET, @
@@ -587,7 +587,7 @@ $funky::generate_tabular_code: (top_level_statements is_a_main_module)
 		  LET, @
 		  -@(input_count-1)@(inputs)@(outputs),
 	      :
-		$statement "
+		$stmt "
 		  @
 		    @(head.to_index), @
 		    @(input_count)@(inputs), @(output_count)@(outputs),
@@ -596,12 +596,12 @@ $funky::generate_tabular_code: (top_level_statements is_a_main_module)
 		    if
 		      invalid_last_statement # "return" from initializer
 		      -> "
-			@(statement)@
+			@(stmt)@
 			  LET, 1, 0, TAIL_CALL,
 		      -> "
-			@(statement)@
+			@(stmt)@
 			  LET, 0, TAIL_CALL,
-		  -> statement
+		  -> stmt
 	  -> "
 	    @
 	      LET, 1@(inputs), 1, @(head.to_index),

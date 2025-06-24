@@ -265,7 +265,7 @@ enum {
   lambda_107 = -256,
   str_Last_statement_i = -257,
   lambda_108 = -258,
-  lambda_self_is_an_io_call = -259,
+  lambda_statement_is_an_io_call = -259,
   lambda_109 = -260,
   str_IO_TAIL_CALL = -261,
   lambda_110 = -262,
@@ -663,8 +663,8 @@ enum {
   var_528_31_parameter, // dynamic
   var_533_16_parameter_name, // dynamic
   var_534_16_idx, // dynamic
-  var_540_16_self, // dynamic
-  var_540_21_is_last, // dynamic
+  var_540_16_statement, // dynamic
+  var_540_26_is_last, // dynamic
   var_541_8_head, // dynamic
   var_is_an_input, // extern
   var_is_an_output, // extern
@@ -685,7 +685,7 @@ enum {
   var_FUNCTOR, // extern
   var_std__minus, // extern
   var_to_index, // attribute
-  var_590_18_statement, // dynamic
+  var_590_18_stmt, // dynamic
   var_funky_types__node, // extern
   var_funky_types__inline_attribute_value_pair, // extern
   var_expression_of, // extern
@@ -3522,18 +3522,18 @@ static FUNCTION_INFO i_lambda_103 = {
 static TAB_NUM t_func_compile[] = {
   7, // locals
   2, // parameters
-  var_540_16_self,
-  var_540_21_is_last,
-  // $head head_of(self)
-  var_head_of, 1, var_540_16_self, 1, var_541_8_head,
-  // $arguments arguments_of(self)
-  var_arguments_of, 1, var_540_16_self, 1, LOCAL(6),
+  var_540_16_statement,
+  var_540_26_is_last,
+  // $head head_of(statement)
+  var_head_of, 1, var_540_16_statement, 1, var_541_8_head,
+  // $arguments arguments_of(statement)
+  var_arguments_of, 1, var_540_16_statement, 1, LOCAL(6),
   // $input_arguments filter(arguments is_an_input)
   var_filter, 2, LOCAL(6), var_is_an_input, 1, LOCAL(7),
   // $output_arguments filter(arguments is_an_output)
   var_filter, 2, LOCAL(6), var_is_an_output, 1, var_544_8_output_arguments,
   // $invalid_last_statement
-  var_std__and, 2, var_540_21_is_last, lambda_104, 1, var_545_8_invalid_last_statement,
+  var_std__and, 2, var_540_26_is_last, lambda_104, 1, var_545_8_invalid_last_statement,
   // 
   var_std__and, 2, var_545_8_invalid_last_statement, lambda_105, 1, LOCAL(1),
   // on
@@ -3543,17 +3543,17 @@ static TAB_NUM t_func_compile[] = {
   // $output_count length_of(output_arguments)
   var_length_of, 1, var_544_8_output_arguments, 1, var_554_8_output_count,
   // $is_a_tail_call (is_last && output_arguments.is_empty)
-  var_std__and, 2, var_540_21_is_last, lambda_108, 1, var_555_8_is_a_tail_call,
+  var_std__and, 2, var_540_26_is_last, lambda_108, 1, var_555_8_is_a_tail_call,
   // is_an_io_call:
-  var_is_an_io_call, 1, var_540_16_self, 1, LOCAL(1),
+  var_is_an_io_call, 1, var_540_16_statement, 1, LOCAL(1),
   // !output_count
-  var_if, 3, LOCAL(1), lambda_self_is_an_io_call, lambda_111, 1, var_554_8_output_count,
+  var_if, 3, LOCAL(1), lambda_statement_is_an_io_call, lambda_111, 1, var_554_8_output_count,
   // $inputs map_reduce(input_arguments to_separated_index append "")
   var_map_reduce, 4, LOCAL(7), var_609_8_to_separated_index, var_append, string_6, 1, var_568_8_inputs,
   // $outputs map_reduce(output_arguments to_separated_index append "")
   var_map_reduce, 4, var_544_8_output_arguments, var_609_8_to_separated_index, var_append, string_6, 1, var_569_8_outputs,
-  // source_position_of(self))@
-  var_source_position_of, 1, var_540_16_self, 1, LOCAL(1),
+  // source_position_of(statement))@
+  var_source_position_of, 1, var_540_16_statement, 1, LOCAL(1),
   // "
   var_std__string, 2, string_40, LOCAL(1), 1, LOCAL(2),
   // node_type_of(head) == FUNCTOR:
@@ -3574,7 +3574,7 @@ static TAB_NUM t_func_compile[] = {
   POS(553, 7),
   POS(554, 7),
   POS(555, 7),
-  POS(558, 16),
+  POS(558, 21),
   POS(556, 7),
   POS(568, 7),
   POS(569, 7),
@@ -3650,8 +3650,8 @@ static FUNCTION_INFO i_lambda_106 = {
 static TAB_NUM t_lambda_107[] = {
   0, // locals
   0, // parameters
-  // syntax_error "Last statement is not a tail call" self
-  var_syntax_error, 2, str_Last_statement_i, var_540_16_self, TAIL_CALL,
+  // syntax_error "Last statement is not a tail call" statement
+  var_syntax_error, 2, str_Last_statement_i, var_540_16_statement, TAIL_CALL,
   POS(552, 11)
 };
 
@@ -3676,7 +3676,7 @@ static FUNCTION_INFO i_lambda_108 = {
   {}
 };
 
-static TAB_NUM t_lambda_self_is_an_io_call[] = {
+static TAB_NUM t_lambda_statement_is_an_io_call[] = {
   0, // locals
   0, // parameters
   // if
@@ -3684,8 +3684,8 @@ static TAB_NUM t_lambda_self_is_an_io_call[] = {
   POS(559, 13)
 };
 
-static FUNCTION_INFO i_lambda_self_is_an_io_call = {
-  t_lambda_self_is_an_io_call, NULL, 1, 0,
+static FUNCTION_INFO i_lambda_statement_is_an_io_call = {
+  t_lambda_statement_is_an_io_call, NULL, 1, 0,
   {}
 };
 
@@ -3802,7 +3802,7 @@ static TAB_NUM t_lambda_116[] = {
   1, // locals
   0, // parameters
   // not(is_last):
-  var_not, 1, var_540_21_is_last, 1, LOCAL(1),
+  var_not, 1, var_540_26_is_last, 1, LOCAL(1),
   // not(is_last):
   LET, 1, LOCAL(1), TAIL_CALL,
   POS(578, 41),
@@ -3818,7 +3818,7 @@ static TAB_NUM t_lambda_117[] = {
   0, // locals
   0, // parameters
   // syntax_error "Return statement not allowed within function body"
-  var_syntax_error, 2, str_Return_statement, var_540_16_self, TAIL_CALL,
+  var_syntax_error, 2, str_Return_statement, var_540_16_statement, TAIL_CALL,
   POS(579, 19)
 };
 
@@ -3851,10 +3851,10 @@ static TAB_NUM t_lambda_118[] = {
   0, // parameters
   // to_index), @
   var_to_index, 1, var_541_8_head, 1, LOCAL(1),
-  // $statement "
-  var_std__string, 9, string_8, LOCAL(1), string_30, var_553_8_input_count, var_568_8_inputs, string_30, var_554_8_output_count, var_569_8_outputs, string_10, 1, var_590_18_statement,
+  // $stmt "
+  var_std__string, 9, string_8, LOCAL(1), string_30, var_553_8_input_count, var_568_8_inputs, string_30, var_554_8_output_count, var_569_8_outputs, string_10, 1, var_590_18_stmt,
   // is_last && not(is_a_tail_call):
-  var_std__and, 2, var_540_21_is_last, lambda_119, 1, LOCAL(1),
+  var_std__and, 2, var_540_26_is_last, lambda_119, 1, LOCAL(1),
   // if
   var_if, 3, LOCAL(1), lambda_120, lambda_123, TAIL_CALL,
   POS(592, 28),
@@ -3901,7 +3901,7 @@ static TAB_NUM t_lambda_121[] = {
   1, // locals
   0, // parameters
   // "
-  var_std__string, 2, var_590_18_statement, str___LET_1_0_TAIL_C, 1, LOCAL(1),
+  var_std__string, 2, var_590_18_stmt, str___LET_1_0_TAIL_C, 1, LOCAL(1),
   //  "
   LET, 1, LOCAL(1), TAIL_CALL,
   POS(598, 26),
@@ -3917,7 +3917,7 @@ static TAB_NUM t_lambda_122[] = {
   1, // locals
   0, // parameters
   // "
-  var_std__string, 2, var_590_18_statement, str___LET_0_TAIL_CAL, 1, LOCAL(1),
+  var_std__string, 2, var_590_18_stmt, str___LET_0_TAIL_CAL, 1, LOCAL(1),
   //  "
   LET, 1, LOCAL(1), TAIL_CALL,
   POS(601, 26),
@@ -3932,8 +3932,8 @@ static FUNCTION_INFO i_lambda_122 = {
 static TAB_NUM t_lambda_123[] = {
   0, // locals
   0, // parameters
-  //  statement
-  LET, 1, var_590_18_statement, TAIL_CALL,
+  //  stmt
+  LET, 1, var_590_18_stmt, TAIL_CALL,
   POS(604, 21)
 };
 
@@ -7628,7 +7628,7 @@ static FUNKY_CONSTANT constants_table[] = {
   {FLT_FUNCTION, 0, {.func_info = &i_lambda_107}},
   {FLT_STRING_8, 33, {.str_8 = "Last statement is not a tail call"}},
   {FLT_FUNCTION, 0, {.func_info = &i_lambda_108}},
-  {FLT_FUNCTION, 0, {.func_info = &i_lambda_self_is_an_io_call}},
+  {FLT_FUNCTION, 0, {.func_info = &i_lambda_statement_is_an_io_call}},
   {FLT_FUNCTION, 0, {.func_info = &i_lambda_109}},
   {FLT_STRING_8, 12, {.str_8 = "IO_TAIL_CALL"}},
   {FLT_FUNCTION, 0, {.func_info = &i_lambda_110}},
@@ -8598,11 +8598,11 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "540_16_self\000", NULL
+    "540_16_statement\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "540_21_is_last\000", NULL
+    "540_26_is_last\000", NULL
   },
   {
     FOT_UNINITIALIZED, 0, 0,
@@ -8661,7 +8661,7 @@ static FUNKY_VARIABLE variables_table[] = {
   {
     FOT_UNKNOWN, 0, 0,
     "is_an_io_call\000", NULL,
-    {.position = POS(558, 16)}
+    {.position = POS(558, 21)}
   },
   {
     FOT_POLYMORPHIC, 0, 0,
@@ -8698,7 +8698,7 @@ static FUNKY_VARIABLE variables_table[] = {
   },
   {
     FOT_UNINITIALIZED, 0, 0,
-    "590_18_statement\000", NULL
+    "590_18_stmt\000", NULL
   },
   {
     FOT_UNKNOWN, 0, 5,
