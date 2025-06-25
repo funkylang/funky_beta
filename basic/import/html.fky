@@ -93,17 +93,21 @@ $parse_html: (text)
 			is_a_void_element(tag)
 			-> i typed_tuple(std_types::html_element tag attributes undefined)
 			:
-			  parse_contents !i $contents
+			  parse_contents !i $contents tag
+			  $element
+			    typed_tuple
+			      std_types::html_element
+			      tag attributes contents
 			  if
 			    i+1 > n || text(i) != '<' || text(i+1) != '/':
-			      error PARSE_ERROR
-				"Expected closing tag"
-				range(text i -1)
+			      case tag
+				"li", "p"
+				-> i element
+				:
+				  error PARSE_ERROR
+				    "Expected closing tag"
+				    range(text i -1)
 			    :
-			      $element
-				typed_tuple
-				  std_types::html_element
-				  tag attributes contents
 			      $bti i # backtrack position
 			      plus &i 2
 			      parse_tag !i $end_tag
@@ -235,7 +239,7 @@ $parse_html: (text)
 			    inc &i
 			    next
 
-  $parse_contents:
+  $parse_contents: (outer_tag)
     $contents empty_list
     loop:
       if
@@ -246,7 +250,9 @@ $parse_html: (text)
 	  if
 	    chr == '<':
 	      if
-		i+1 < n && text(i+1) == '/'
+		&&
+		  i+1 < n
+		  text(i+1) == '/' || range(text i+1 -1) .has_prefix. outer_tag
 		-> i contents
 		:
 		  parse_element !i $element

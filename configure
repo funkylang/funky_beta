@@ -698,7 +698,7 @@ do
 done
 echo "${TAB}rm -rf html/topics"
 echo "${TAB}rm -rf html/symbols"
-echo "${TAB}rm html/manual.html"
+echo "${TAB}rm -f html/manual.html"
 
 echo
 echo '.PHONY: install'

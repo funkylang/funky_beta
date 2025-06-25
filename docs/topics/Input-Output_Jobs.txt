@@ -1,0 +1,18 @@
+# Input-Output Jobs
+
+More complex input-output operations like loading the contens of a file or
+creating a new file with some contents are handled by IO-jobs.
+
+IO-Jobs are identified by an ID which can be freely chosen by the caller.
+
+An ID must support the following methods:
+
+* equal
+
+* hash
+
+In addition some arbitrary *context* data can be supplied. This data will be
+returned when the job finishes - either successful (<JOB_COMPLETED>) or
+unsuccessful (<JOB_FAILED>).
+
+Related topics: Input-Output Events
