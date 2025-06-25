@@ -16,7 +16,7 @@
 
   Pending write operations will be completed before the program terminates.
 
-  Topics: I/O, Events
+  Topic: Input-Output Events
 
 ((defined in basic/io/io_events.fky))
 ((generated manually))

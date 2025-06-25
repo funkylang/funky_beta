@@ -6,9 +6,8 @@
     io: the I/O-object
     id: a caller supplied id to identify the I/O-job
     filename: the name of the file to load
-    max_length: the maximum number of bytes to load
-    context: some caller supplied context to attach to the I/O-job (default: the
-	     filename)
+    max_length: the maximum number of bytes to load (default: all)
+    context: caller supplied context for the I/O-job (default: filename)
 
   Result:
     the updated I/O-object
@@ -33,11 +32,12 @@
     $io std_types::io
     load &io GPL "GPLv2.txt"
     loop:
+
       get_events! &io $events
       handle_events &io &events
       for_each events
 	: (event)
-	  event $type $id $data
+	  event $type $id $data $context
 	  case type
 	    JOB_COMPLETED:
 	      case id
@@ -46,9 +46,11 @@
 		  next!
 		next
 	    JOB_FAILED:
-	      Error! "Failed to load file!"
+	      Error! "
+		Failed to load file "@(context)"!
 	    WRITE_COMPLETED:
-	      terminate!
+	      exit &io EXIT_SUCCESS
+	      next!
 	    next
 	next
 

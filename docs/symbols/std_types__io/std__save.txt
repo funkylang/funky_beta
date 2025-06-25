@@ -7,7 +7,7 @@
     id: a caller supplied id to identify the I/O-job
     filename: the name of the file to save
     data: the data to save
-    context: some caller supplied context to attach to the I/O-job (optional)
+    context: caller supplied context for the I/O-job (optional)
 
   Result:
     the updated I/O-object
@@ -24,6 +24,41 @@
 
   See also: std_types::io/std::load,
 	    std::get_events, std::JOB_COMPLETED, std::JOB_FAILED
+
+  Example:
+
+    #!/usr/bin/env fkyrun
+
+    $SAVE_DATA .
+
+    $io std_types::io
+    save &io SAVE_DATA "/tmp/test.dat" "
+      This is
+      some text.
+    loop:
+      get_events! &io $events
+      handle_events &io &events
+      for_each events
+	: (event)
+	  event $type $id $_data $context
+	  case type
+	    JOB_COMPLETED:
+	      case id
+		SAVE_DATA:
+		  write &io STDOUT_FILENO "
+		    saved data to "@(context)"
+		  exit &io EXIT_SUCCESS
+		  next!
+		next
+	    JOB_FAILED:
+	      Error! "
+		Failed to save data to "@(context)"!
+	    next
+	next
+
+  Output:
+
+    saved data to "/tmp/test.dat"
 
 ((defined in basic/io/io.fky))
 ((generated manually))

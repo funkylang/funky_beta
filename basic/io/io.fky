@@ -372,7 +372,7 @@ $std_types::io/save:
     id
     filename
     data
-    context = undefined
+    context = filename
   )
   run io save_file id filename data context
 
