@@ -9,7 +9,7 @@
   Result:
     a list of directory entries
 
-  **Attention**: This function must be called with I/O-access rights!
+  **This function must be called with I/O-access rights!**
 
   The function opens the specified directory, reads all entries and returns
   them as a list.

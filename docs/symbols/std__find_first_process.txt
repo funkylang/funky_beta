@@ -8,7 +8,7 @@
   Results:
     the process ID of the first matching process or <std::undefined>
 
-  **Attention**: This function must be called with I/O-access rights!
+  **This function must be called with I/O-access rights!**
 
   The function searches for the first process with the specified name in the
   "/proc" directory.

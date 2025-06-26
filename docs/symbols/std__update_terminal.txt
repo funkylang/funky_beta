@@ -9,7 +9,7 @@
   Results:
     the updated character stream
 
-  **Attention**: This function must be called with I/O-access rights!
+  **This function must be called with I/O-access rights!**
 
   The function creates a character stream that updates the terminal's contents
   to match the contents of the specified <std_types::terminal> object.

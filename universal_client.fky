@@ -60,26 +60,15 @@ on conn_fd.is_an_error conn_fd
 
 upgrade_to_websocket &io conn_fd
 
-get_terminal_size! STDIN_FILENO $terminal_width $terminal_height
+initialize_terminal!
+  RECEIVE_CTRL_C_AND_CTRL_Z
+  RECEIVE_CTRL_Q_AND_CTRL_S
+  CURSOR_OFF
+  main
 
-# set terminal attributes
-
-get_terminal_attributes! STDIN_FILENO $original_attributes
-$attributes original_attributes
-use_canonical_mode &attributes false #  no line-buffering ...
-echo_characters &attributes false # ... and no echoing of typed in characters
-generate_signals &attributes false
-enable_xon_xoff_for_output &attributes false
-map_cr_to_lf_on_input &attributes false
-set_terminal_attributes! $_success STDIN_FILENO attributes
-
-# switch to alternate screen and store cursor position
-
-write &io STDOUT_FILENO "@esc;[?47h@esc;[33s"
-cursor_off!
-
-$err undefined
-try !err: chain initialize_terminal_keys:
+$main: (terminal)
+  $terminal_width width_of(terminal)
+  $terminal_height height_of(terminal)
   start_reading_from &io STDIN_FILENO
   start_reading_from &io conn_fd
   loop:
@@ -97,18 +86,18 @@ try !err: chain initialize_terminal_keys:
 		send_websocket_text_message &io conn_fd "KEY_PRESS: @(key)"
 		next!
 	      next
-	  CLOSED: cleanup!
+	  CLOSED pass
 	  UPGRADED_TO_WEBSOCKET:
 	    send_websocket_text_message &io fd "
-	      VT
+	      VT:
 	      width: @(terminal_width)
-	      height: @(2*terminal_height)
+	      height: @(terminal_height)
 	      character_width: 1
 	      ascent: 1
 	      descent: 1
-	      character_height: 2
+	      character_height: 1
 	      line_spacing: 0
-	      line_height: 2
+	      line_height: 1
 	      baseline: 1
 	    next!
 	  WEBSOCKET_MESSAGE:
@@ -118,23 +107,3 @@ try !err: chain initialize_terminal_keys:
 	    log_unhandled_event &io event
 	    next!
       next
-
-cleanup!
-
-$cleanup:
-  debug::print "
-    cleanup
-
-  # restore terminal attributes
-
-  set_terminal_attributes! $_success STDIN_FILENO original_attributes
-
-  print! "@esc;[u" # restore cursor position
-  print! "@esc;[?47l" # switch to default screen
-  print! "@esc;[0m" # set default colours
-
-  cursor_on!
-
-  on err.is_an_error err
-
-  exit! EXIT_SUCCESS

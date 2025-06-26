@@ -14,7 +14,7 @@
     if result_count() == 2:
       the token with the highest confidence and the confidence values
 
-  **Attention**: This function must be called with I/O-access rights!
+  **This function must be called with I/O-access rights!**
 
   The prompt is tokenized and evaluated using the specified model.
 

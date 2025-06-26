@@ -25,6 +25,7 @@
 $std_types::web_terminal std_types::generic_terminal
 
 $std::WEB .
+$std::CONNECT_TERMINAL .
 
 $std_types::web_terminal.type_of WEB
 
@@ -109,7 +110,7 @@ $std_types::web_terminal/copy:
 
   (
     destination
-    source
+    _source
     x
     y
     sx
@@ -117,7 +118,6 @@ $std_types::web_terminal/copy:
     width
     height
   )
-  ignore source
   append &destination.script_of "
     copy(@(x),@(y),@(sx),@(sy),@(width),@(height))
   -> destination
@@ -153,7 +153,7 @@ $std::on_websocket_message:
       -> io(.websocket_message_handlers_of websocket_message_handlers)
 
 $std::handle_websocket_terminal_events: (io events)
-  $remaining_events empty_list
+  $new_events empty_list
   for_each events
     : (event)
       event $type $fd $argument
@@ -163,18 +163,21 @@ $std::handle_websocket_terminal_events: (io events)
 	  accept_upgrade_to_websocket &io fd fields
 	  next
 	WEBSOCKET_MESSAGE:
-	  $message argument
-	  handle_websocket_message &io fd message
-	  next
+	  handle_websocket_message &io $new_event fd argument
+	  if
+	    new_event.is_defined:
+	      push &new_events new_event
+	      next
+	    next
 	WEBSOCKET_CLOSED:
 	  handle_close &io fd
 	  next!
 	:
-	  push &remaining_events event
+	  push &new_events event
 	  next
-    -> io remaining_events
+    -> io new_events
 
-$handle_websocket_message: (io fd message)
+#$handle_websocket_message: (io fd message)
   $websocket_message_handler websocket_message_handlers_of(io)(fd)
   update_if websocket_message_handler.is_undefined &websocket_message_handler
     -> websocket_message_handler_of(io)
@@ -184,74 +187,89 @@ $handle_websocket_message: (io fd message)
     :
       log io 2 "No websocket message handler defined for @(fd.serialize)"
 
-$std::create_web_terminal: (io fd message)
-  $vt undefined
-  cond
-    -> message .has_prefix. "DOM@nl;":
-      !vt std_types::web_terminal
-      extract_parameters vt
-    -> message .has_prefix. "VT@nl;":
-      $client std_types::generic_terminal
-      extract_parameters !io &client
-      !vt create_terminal(width_of(client) height_of(client))
-      !vt.character_width_of character_width_of(client)
-      !vt.ascent_of ascent_of(client)
-      !vt.descent_of descent_of(client)
-      !vt.character_height_of character_height_of(client)
-      !vt.line_spacing_of line_spacing_of(client)
-      !vt.line_height_of line_height_of(client)
-      !vt.baseline_of baseline_of(client)
-      -> io vt
-    -> true:
-      log &io "UNKNOWN TERMINAL TYPE: @(message .truncate_behind. '@nl;')"
-      close_connection io fd
+$handle_websocket_message: (io fd message)
+  from_utf8 &message
+  log &io 4 "got dom event for @(fd.serialize.trim): @(message)"
+  $type message .before. ':'
+  $data (message .behind. ':').trim
+  case type
+    "KEY_PRESS":
+      $key
+	if
+	  length_of(data) == 1
+	  -> data(1)
+	  -> name_to_key(data)
+      if
+	key.is_defined
+	-> io tuple(KEY_PRESS fd key)
+	:
+	  log &io 2 "
+	    No key defined for string "@(data)"
+	  -> io undefined
+    "DOM", "VT":
+      $attributes build_attributes_table(type data)
+      -> io tuple(CONNECT_TERMINAL fd attributes)
+    :
+      log &io 2 "
+	Unhandled websocket message type: "@(type)"
+      -> io undefined
 
-  $extract_parameters: (client)
-    $lines split_into_lines(message .truncate_until. '@nl;')
-    for_each lines
-      : (line)
-	$key (line .before. ':').trim
-	$value (line .behind. ':').trim
-	case key
-	  "width":
-	    !client.width_of value.to_number
-	    next
-	  "height":
-	    !client.height_of value.to_number
-	    next
-	  "character_width":
-	    !client.character_width_of value.to_number
-	    next
-	  "ascent":
-	    !client.ascent_of value.to_number
-	    next
-	  "descent":
-	    !client.descent_of value.to_number
-	    next
-	  "character_height":
-	    !client.character_height_of value.to_number
-	    next
-	  "line_spacing":
-	    !client.line_spacing_of value.to_number
-	    next
-	  "line_height":
-	    !client.line_height_of value.to_number
-	    next
-	  "baseline":
-	    !client.baseline_of value.to_number
-	    next
-	  :
-	    log &io 3 "
-	      Unknown client attribute: "@(key)"
-	    next
-      :
-	log &io 3 "
-	  create web terminal for @(fd.serialize):
-	  width: @(width_of(client))
-	  height: @(height_of(client))
-	  character_width: @(character_width_of(client))
-	  character_height: @(character_height_of(client))
-	-> io client
+$build_attributes_table: (type data)
+  $attributes insert_order_table("type" = type)
+  for_each split(data '@nl;')
+    : (line)
+      $key line .before. ':'
+      $value (line .behind. ':').trim
+      !attributes(key) value
+      next
+    -> attributes
+
+$std::create_web_terminal: (io fd vt_info)
+  $type vt_info("type")
+  $width vt_info("width").to_number
+  $height vt_info("height").to_number
+  $vt
+    case
+      type
+      "DOM":
+	std_types::web_terminal
+	  .width_of width
+	  .height_of height
+      "VT":
+	create_terminal width height
+  for_each vt_info
+    : (key value)
+      case key
+	"character_width":
+	  !vt.character_width_of value.to_number
+	  next
+	"ascent":
+	  !vt.ascent_of value.to_number
+	  next
+	"descent":
+	  !vt.descent_of value.to_number
+	  next
+	"character_height":
+	  !vt.character_height_of value.to_number
+	  next
+	"line_spacing":
+	  !vt.line_spacing_of value.to_number
+	  next
+	"line_height":
+	  !vt.line_height_of value.to_number
+	  next
+	"baseline":
+	  !vt.baseline_of value.to_number
+	  next
+	next
+    :
+      log &io 3 "
+	create web terminal for @(fd.serialize)@
+	width: @(width)
+	height: @(height)
+	character_width: @(character_width_of(vt))
+	character_height: @(character_height_of(vt))
+      -> io vt
 
 $std::handle_dom_input_event: (io fd message)
   from_utf8 &message
@@ -267,7 +285,8 @@ $std::handle_dom_input_event: (io fd message)
 	  -> name_to_key(value)
       if
 	key.is_defined:
-	  $key_press_handler key_press_handlers_of(io)(fd)
+	  #$key_press_handler key_press_handlers_of(io)(fd)
+	  $key_press_handler undefined
 	  if
 	    key_press_handler.is_defined:
 	      key_press_handler io fd key
@@ -278,12 +297,9 @@ $std::handle_dom_input_event: (io fd message)
 	    No key defined for string "@(value)"
     -> io
 
-  #$log_error
-    log io 2 "ERROR IN DOM INPUT EVENT FROM @(fd.serialize.trim): @(message)"
-
 $handle_close: (io fd)
   log &io 4 "close web terminal for @(fd.serialize)"
   !io.websocket_message_handlers_of(fd) undefined
-  !io.key_press_handlers_of(fd) undefined
-  !io.mouse_click_handlers_of(fd) undefined
+  #!io.key_press_handlers_of(fd) undefined
+  #!io.mouse_click_handlers_of(fd) undefined
   -> io

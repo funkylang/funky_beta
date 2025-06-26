@@ -5,7 +5,7 @@
   Results:
     none
 
-  **Attention**: This function must be called with I/O-access rights!
+  **This function must be called with I/O-access rights!**
 
   The function terminates the program with an exit code of 0.
 

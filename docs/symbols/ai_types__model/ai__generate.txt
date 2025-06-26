@@ -10,7 +10,7 @@
   Results:
     the generated text
 
-  **Attention**: This function must be called with I/O-access rights!
+  **This function must be called with I/O-access rights!**
 
   The options are:
 

@@ -9,7 +9,7 @@
   Results:
     none
 
-  **Attention**: This function must be called with I/O-access rights!
+  **This function must be called with I/O-access rights!**
 
   The function opens the file with the specified name, writes the supplied
   data to the file and closes the file.

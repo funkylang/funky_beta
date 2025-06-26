@@ -11,7 +11,7 @@
     out: the standard output from the last command in the pipeline
     err: a list of error outputs (one from each command)
 
-  **Attention**: This function must be called with I/O-access rights!
+  **This function must be called with I/O-access rights!**
 
   The function executes a sequence of commands. The output of each command is
   connected to the input of the next command. The output of the last command

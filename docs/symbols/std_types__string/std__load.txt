@@ -9,7 +9,7 @@
   Results:
     the contents of the file as a string
 
-  **Attention**: This function must be called with I/O-access rights!
+  **This function must be called with I/O-access rights!**
 
   The function opens the file with the specified name, reads the contents of
   the file into a string, closes the file and returns the string.

@@ -120,8 +120,7 @@ $std::handle_web_server_events: (io events)
 	CLOSED:
 	  if
 	    protocols_of(io)(fd) == WEBSOCKET:
-	      push &new_events
-		new(std_types::event WEBSOCKET_CLOSED fd undefined)
+	      push &new_events tuple(WEBSOCKET_CLOSED fd undefined)
 	      closed_connection &io fd
 	      next
 	    :
@@ -163,11 +162,11 @@ $handle_http_request: (io fd request)
 	upgrade.is_defined:
 	  if
 	    upgrade == "websocket"
-	    -> io new(std_types::event UPGRADE_TO_WEBSOCKET fd fields)
+	    -> io tuple(UPGRADE_TO_WEBSOCKET fd fields)
 	    :
 	      bad_request! &io fd
 	      -> io undefined
-	-> io new(std_types::event GET fd uri)
+	-> io tuple(GET fd uri)
     :
       bad_request &io fd
       -> io undefined
@@ -333,7 +332,7 @@ $handle_websocket_message: (io fd message)
 	  CLOSE_FRAME:
 	    log &io 4 -> "websocket closed - @(serialize(fd))"
 	    close_connection &io fd
-	    -> io list(new(std_types::event WEBSOCKET_CLOSED fd undefined))
+	    -> io list(tuple(WEBSOCKET_CLOSED fd undefined))
 	  :
 	    log &io -> "INVALID WEBSOCKET OPCODE (@(opcode)) - @(serialize(fd))"
 	    close_connection &io fd
@@ -348,7 +347,7 @@ $handle_websocket_message: (io fd message)
 
   $queue_message: (payload)
     log &io 4 -> "received websocket text message - @(serialize(fd))"
-    push &events new(std_types::event WEBSOCKET_MESSAGE fd payload)
+    push &events tuple(WEBSOCKET_MESSAGE fd payload)
     if
       message.is_empty
       -> io events
@@ -449,8 +448,7 @@ $std::handle_web_client_events: (io events conn_fd)
 		    code == "101":
 		      log &io 4 -> "upgraded to websocket - @(serialize(fd))"
 		      !io.protocols_of(fd) WEBSOCKET
-		      push &new_events
-			new(std_types::event UPGRADED_TO_WEBSOCKET fd undefined)
+		      push &new_events tuple(UPGRADED_TO_WEBSOCKET fd undefined)
 		      next
 		    upgrading_failed
 		upgrading_failed

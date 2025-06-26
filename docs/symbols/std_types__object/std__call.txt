@@ -11,7 +11,7 @@
     out: the command output written to stdout
     err: the command output written to stderr
 
-  **Attention**: This function must be called with I/O-access rights!
+  **This function must be called with I/O-access rights!**
 
   The function executes the specified command in a subprocess.
 

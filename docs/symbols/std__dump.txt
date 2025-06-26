@@ -2,7 +2,7 @@
 
   writes a string representation of some objects to stdout
 
-  **Attention**: This function must be called with I/O-access rights!
+  **This function must be called with I/O-access rights!**
 
   The function displays a label before each object.
 

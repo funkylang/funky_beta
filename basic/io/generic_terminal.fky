@@ -45,6 +45,8 @@ $std::get_draw_colour ()
 $std::get_clear_colour ()
 $std::get_text_attributes ()
 
+$std::move ()
+
 $std::DRAW_COLOUR .
 $std::CLEAR_COLOUR .
 $std::TEXT_ATTRIBUTES .
@@ -195,6 +197,18 @@ $std_types::generic_terminal/get_text_attributes:
     terminal
   )
   -> text_attributes_of(terminal)
+
+$std_types::generic_terminal/move:
+  (
+    screen
+    x
+    y
+    sx
+    sy
+    width
+    height
+  )
+  copy screen screen x y sx sy width height
 
 $basic_private::draw_text ()
 $basic_private::draw_attributed_text ()

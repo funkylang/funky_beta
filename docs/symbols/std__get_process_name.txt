@@ -8,7 +8,7 @@
   Results:
     the name of the process or <std::undefined>
 
-  **Attention**: This function must be called with I/O-access rights!
+  **This function must be called with I/O-access rights!**
 
   The function reads the command line of the specified process from the
   "/proc" directory and returns the name of the process.

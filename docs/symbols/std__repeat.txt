@@ -10,7 +10,7 @@
   Results:
     the result of the *finally* function
 
-  **Attention**: This function must be called with I/O-access rights!
+  Attention: This function supports I/O-access rights!
 
   The statement sequence *body* is invoked exactly *n* times.
 
@@ -27,7 +27,7 @@
   Topic: Loops
 
   See also: std::loop, std::while, std::while_not, std::from_to,
-            std::from_to_by
+	    std::from_to_by
 
   Example:
 
@@ -46,15 +46,15 @@
     $n 1
     $result
       repeat
-        10
-        :
-          inc &n
-          times &value n
-          if
-            value > 100
-            -> value
-            next
-          -> value
+	10
+	:
+	  inc &n
+	  times &value n
+	  if
+	    value > 100
+	    -> value
+	    next
+	  -> value
       println! result
 
   Output:
@@ -67,15 +67,15 @@
     $n 1
     $result
       repeat
-        10
-        :
-          inc &n
-          times &value n
-          if
-            value > 1'000'000
-            -> value
-            next
-          -> value
+	10
+	:
+	  inc &n
+	  times &value n
+	  if
+	    value > 1'000'000
+	    -> value
+	    next
+	  -> value
       println! result
 
   Output:

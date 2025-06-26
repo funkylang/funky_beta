@@ -11,7 +11,7 @@
     the command's standard output (if requested)
     the command's standard error output (if requested)
 
-  **Attention**: This function must be called with I/O-access rights!
+  **This function must be called with I/O-access rights!**
 
   The function calls the specified command with the specified arguments.
 

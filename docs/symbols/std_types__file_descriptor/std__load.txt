@@ -8,7 +8,7 @@
   Results:
     the contents of the specified file descriptor
 
-  **Attention**: This function must be called with I/O-access rights!
+  **This function must be called with I/O-access rights!**
 
   The function reads all available data from the specified file descriptor
   into a string, closes the file descriptor and returns the string.

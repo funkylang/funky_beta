@@ -10,7 +10,7 @@
   Results:
     none
 
-  **Attention**: This function must be called with I/O-access rights!
+  **This function must be called with I/O-access rights!**
 
   The server stored sequence is truncated to the specified length.
 

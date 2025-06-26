@@ -14,7 +14,7 @@
     undefined: if the request was sent successfully
     tuple(JOB_FAILED id err): if the request could not be sent
 
-  **Attention**: This function must be called with I/O-access rights!
+  **This function must be called with I/O-access rights!**
 
   The request is sent asynchronously. The result of the request is returned
   as a job.

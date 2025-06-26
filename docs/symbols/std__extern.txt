@@ -8,7 +8,7 @@
   Results:
     the exit code of the command
 
-  **Attention**: This function must be called with I/O-access rights!
+  **This function must be called with I/O-access rights!**
 
   The function executes the specified command in a new process and returns the
   exit code of the command.

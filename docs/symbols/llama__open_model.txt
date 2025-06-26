@@ -8,7 +8,7 @@
   Result:
     a model object
 
-  **Attention**: This function must be called with I/O-access rights!
+  **This function must be called with I/O-access rights!**
 
   The server is instructed to load the specified model (if it is not already
   loaded). Then some model specific meta data is retrieved from the server (e.g.

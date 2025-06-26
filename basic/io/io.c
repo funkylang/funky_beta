@@ -1881,7 +1881,7 @@ static TAB_NUM t_func_std_types__io___save[] = {
   MANDATORY_PARAMETER, LOCAL(2), // 372_5_id
   MANDATORY_PARAMETER, LOCAL(3), // 373_5_filename
   MANDATORY_PARAMETER, LOCAL(4), // 374_5_data
-  var_undefined, LOCAL(5), // 375_5_context
+  LOCAL(3), LOCAL(5), // 375_5_context
   // run io save_file id filename data context
   var_run, 6, LOCAL(1), func_save_file, LOCAL(2), LOCAL(3), LOCAL(4), LOCAL(5), TAIL_CALL,
   POS(377, 3),

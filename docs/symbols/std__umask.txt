@@ -8,7 +8,7 @@
   Results:
     the previous file mode creation mask
 
-  **Attention**: This function must be called with I/O-access rights!
+  **This function must be called with I/O-access rights!**
 
   Topic: POSIX
 

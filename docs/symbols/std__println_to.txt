@@ -9,7 +9,7 @@
   Results:
     none
 
-  **Attention**: This function must be called with I/O-access rights!
+  **This function must be called with I/O-access rights!**
 
   The function converts its arguments to a single string, encodes this string
   to UTF-8, appends a line feed character and writes this encoded string to

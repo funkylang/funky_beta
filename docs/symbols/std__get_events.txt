@@ -1,6 +1,6 @@
 # std::get_events (a polymorphic function)
 
-  retrieves events from the input-output object.
+  retrieves events from the input-output object
 
   Parameters:
     self: the input-output object

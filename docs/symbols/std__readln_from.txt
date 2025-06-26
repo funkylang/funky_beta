@@ -8,7 +8,7 @@
   Results:
     the read line (without the trailing newline)
 
-  **Attention**: This function must be called with I/O-access rights!
+  **This function must be called with I/O-access rights!**
 
   The function reads data from the file descriptor until a newline character
   is found and returns the read data as a string. The newline character is

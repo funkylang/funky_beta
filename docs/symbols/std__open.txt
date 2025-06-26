@@ -10,7 +10,7 @@
   Result:
     fd: a file descriptor
 
-  **Attention**: This function must be called with I/O-access rights!
+  **This function must be called with I/O-access rights!**
 
   On success a valid file handle is returned, on failure an appropriate
   error-object is returned.

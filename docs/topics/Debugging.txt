@@ -1,7 +1,7 @@
 # Debugging
 
-  **Attention**: Functions in the namespace "debug" are not available in
-  production code.
+  **Functions in the namespace "debug" are not available in
+  production code.**
 
   They can access object details via introspection which is not available in
   production code.

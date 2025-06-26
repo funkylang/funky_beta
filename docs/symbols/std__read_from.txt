@@ -9,7 +9,7 @@
   Results:
     a string containing the read bytes or an error
 
-  **Attention**: This function must be called with I/O-access rights!
+  **This function must be called with I/O-access rights!**
 
   The function reads the specified number of bytes from the file descriptor and
   returns these bytes as a string.

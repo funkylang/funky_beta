@@ -114,7 +114,6 @@ $std::set_draw_colour_at ()
 $std::get_draw_colour_at ()
 $std::set_clear_colour_at ()
 $std::get_clear_colour_at ()
-$std::move ()
 $std::draw_character ()
 $std::draw_line ()
 $std::draw_thick_line ()
@@ -671,18 +670,6 @@ $std_types::screen/fill_rectangle:
 	      to_integer(red*opacity+bg_red*(1-opacity))
 	      to_integer(green*opacity+bg_green*(1-opacity))
 	      to_integer(blue*opacity+bg_blue*(1-opacity))
-
-$std_types::screen/move:
-  (
-    screen
-    x
-    y
-    sx
-    sy
-    width
-    height
-  )
-  copy screen screen x y sx sy width height
 
 $std_types::screen/copy:
   (

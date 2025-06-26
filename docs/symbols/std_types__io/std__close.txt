@@ -3,16 +3,17 @@
   closes a file descriptor
 
   Parameters:
-    self: the I/O-object
+    io: the I/O-object
     fd: the file descriptor
 
   Result:
-    self: the updated I/O-object
+    io: the updated I/O-object
 
-  This closes the specified file descriptor. The I/O-object will generate a
-  <std::CLOSED> event when the file descriptor is closed.
+  Instructs the event system (<std::get_events>) to close the specified file
+  descriptor. A <std::CLOSED> event will be created when the file descriptor is
+  closed.
 
-  Topics: I/O, Events
+  Topic: Input-Output Events
 
   See also: std_types::io/std::start_reading_from
 

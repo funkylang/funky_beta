@@ -7,7 +7,7 @@
     * **child_process_id**: the process ID of the terminated child process
     * **status**: the exit status of the terminated child process
 
-  **Attention**: This function must be called with I/O-access rights!
+  **This function must be called with I/O-access rights!**
 
   Topic: POSIX
 

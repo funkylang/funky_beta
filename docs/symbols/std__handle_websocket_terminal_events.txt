@@ -9,7 +9,7 @@
   Results:
     the remaining events
 
-  **Attention**: This function must be called with I/O-access rights!
+  **This function must be called with I/O-access rights!**
 
   This function handles the following events:
 

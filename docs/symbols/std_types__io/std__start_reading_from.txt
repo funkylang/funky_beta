@@ -11,16 +11,16 @@
   Result:
     self: the updated I/O-object
 
-  This starts reading from the specified file descriptor. The I/O-object will
+  This starts reading from the specified file descriptor. <std::get_events> will
   generate a <std::READ> event whenever data is available.
 
   When there is an error while attempting to receive data then a
-  <std::READ_FAILED> will be created.
+  <std::READ_FAILED> event will be created.
 
   When the *do_close* option is specified and no more data is available or an
   error occurred then the file will be closed.
 
-  Topics: I/O, Events
+  Topic: Input-Output Events
 
   See also: std_types::io/std::stop_reading_from
 

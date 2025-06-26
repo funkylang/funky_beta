@@ -71,18 +71,33 @@ $circles
 
 $FRAME_RATE 6
 
+$std_types::generic_terminal
+  .player_no_of undefined
+  .x_of undefined
+  .y_of undefined
+  .first_x_of undefined
+  .first_y_of undefined
+  .last_x_of undefined
+  .last_y_of undefined
+  .sx_of undefined
+  .sy_of undefined
+  .action_of undefined
+
 load! $universal_client "universal_client.html"
 append "<!DOCTYPE html>@nl;" &universal_client
 
 $BOARD_WIDTH 100
 $BOARD_HEIGHT 100
 
-$io std_types::io
-$io.clients_of empty_hash_table
-$io.player_mask_of 0
-$io.changed_fields_of empty_list
+$proto_io std_types::io
+  .clients_of empty_hash_table
+  .player_mask_of 0
+  .changed_fields_of empty_list
+  .rng_of undefined
+  .board_of undefined
 
-chain initialize_terminal_keys:
+initialize_terminal: (_terminal)
+  $io proto_io
   $full_line dup("▒" BOARD_WIDTH)
   $board
     append
@@ -100,7 +115,6 @@ chain initialize_terminal_keys:
   set_random_blocks &io &board 1500
   !io.board_of board
   enable_logging &io 3
-  on_websocket_message &io login
   start_web_server! &io 8000
   start_reading_from &io STDIN_FILENO
   loop:
@@ -120,6 +134,12 @@ chain initialize_terminal_keys:
 	  : (event)
 	    event $type $fd $argument
 	    case type
+	      CONNECT_TERMINAL:
+		login &io fd argument
+		next!
+	      KEY_PRESS:
+		handle_key_press &io fd argument
+		next!
 	      READ:
 		if
 		  fd == STDIN_FILENO:
@@ -136,7 +156,7 @@ chain initialize_terminal_keys:
 		log_unhandled_event &io event
 		next!
 	  :
-	    handle_jobs &io
+	    #handle_jobs &io
 	    next!
 
 $set_random_blocks: (io board n)
@@ -165,10 +185,8 @@ $get_requested_resource: (io fd uri)
     :
       http_resource_not_found io fd uri
 
-$login: (io fd message)
+$login: (io fd dom_info)
   log &io 3 -> "login from @(fd.serialize)"
-  on_websocket_message &io fd handle_dom_input_event
-  on_key_press &io fd handle_key_press
   $player_mask player_mask_of(io)
   from_to $player_no 1 7
     : (no)
@@ -189,7 +207,7 @@ $login: (io fd message)
       !io.board_of board
       log &io 3 -> "board position: @(x) @(y)"
       push &io.changed_fields_of tuple(x y)
-      create_web_terminal &io $vt fd message
+      create_web_terminal &io $vt fd dom_info
       !vt.player_no_of player_no
       !vt.x_of x
       !vt.y_of y
@@ -203,8 +221,7 @@ $login: (io fd message)
       if
 	player_mask == 0:
 	  log &io 2 -> "game started"
-	  schedule &io !io.job_id_of 1/FRAME_RATE next_frame
-	  -> io
+	  run_at io 1/FRAME_RATE next_frame
 	-> io
 
 $logout: (io fd)
@@ -221,12 +238,12 @@ $logout: (io fd)
   !io.clients_of clients
   if
     clients.is_empty:
-      cancel &io job_id_of(io)
+      #cancel &io job_id_of(io)
       log io 2 "all players left the game"
     -> io
 
 $handle_key_press: (io fd key)
-  log &io 3 -> "key press: @(key)"
+  log &io 4 -> "key press: @(key)"
   $vt clients_of(io)(fd)
   case key
     CURSOR_LEFT, CURSOR_RIGHT, CURSOR_UP, CURSOR_DOWN:
@@ -387,8 +404,8 @@ $next_frame: (io)
       $reschedule:
 	!io.board_of board
 	!io.clients_of clients
-	schedule &io !io.job_id_of 1/FRAME_RATE next_frame
-	-> io
+	run_at &io 1/FRAME_RATE next_frame
+	-> io undefined
 
 $move_left: (vt board)
   $sx sx_of(vt)
@@ -405,7 +422,7 @@ $move_left: (vt board)
   $field_height line_height_of(vt)
   move # scroll right
     &vt sx+field_width sy
-    vt sx sy
+    sx sy
     (last_x-first_x)*field_width (last_y-first_y+1)*field_height
   draw_text vt sx sy # first column
     map_reduce
@@ -432,7 +449,7 @@ $move_right: (vt board)
   $field_height line_height_of(vt)
   move # scroll left
     &vt sx sy
-    vt sx+field_width sy
+    sx+field_width sy
     (last_x-first_x)*field_width (last_y-first_y+1)*field_height
   draw_text vt sx+(last_x-first_x)*field_width sy # last column
     map_reduce
@@ -459,7 +476,7 @@ $move_up: (vt board)
   $field_height line_height_of(vt)
   move # scroll down
     &vt sx sy+field_height
-    vt sx sy
+    sx sy
     (last_x-first_x+1)*field_width (last_y-first_y)*field_height
   draw_text vt sx sy # first row
     map_reduce
@@ -485,7 +502,7 @@ $move_down: (vt board)
   $field_height line_height_of(vt)
   move # scroll up
     &vt sx sy
-    vt sx sy+field_height
+    sx sy+field_height
     (last_x-first_x+1)*field_width (last_y-first_y)*field_height
   draw_text vt sx sy+(last_y-first_y)*field_height # last row
     map_reduce

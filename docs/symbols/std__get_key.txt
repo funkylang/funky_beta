@@ -9,7 +9,7 @@
     the key that was pressed or undefined if no key was pressed within the
     specified timeout
 
-  **Attention**: This function must be called with I/O-access rights!
+  **This function must be called with I/O-access rights!**
 
   The function waits for a keyboard input event or until the timeout expires.
 

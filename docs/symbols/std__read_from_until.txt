@@ -10,7 +10,7 @@
   Results:
     a string containing the read data or an error
 
-  **Attention**: This function must be called with I/O-access rights!
+  **This function must be called with I/O-access rights!**
 
   The function reads data from the file descriptor until the specified
   sentinel is found and returns the read data as a string. The sentinel is

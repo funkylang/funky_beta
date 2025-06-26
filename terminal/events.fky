@@ -45,8 +45,8 @@ $std::create_terminal_events:
 	: (key)
 	  if
 	    key.is_a_tuple:
-	      key $t $x $y $button
-	      case t
+	      key $type $x $y $button
+	      case type
 		MOUSE_CLICK:
 		  case button
 		    64: # mouse wheel up

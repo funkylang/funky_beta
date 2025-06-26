@@ -9,7 +9,7 @@
   Results:
     true if the element is in the collection, false otherwise
 
-  **Attention**: This function must be called with I/O-access rights!
+  **This function must be called with I/O-access rights!**
 
   The function checks if the element is present in the collection.
 

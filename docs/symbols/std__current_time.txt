@@ -8,7 +8,7 @@
   Results:
     date_and_time: the current date and time
 
-  **Attention**: This function must be called with I/O-access rights!
+  **This function must be called with I/O-access rights!**
 
   Topic: Date and Time
 

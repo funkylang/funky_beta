@@ -11,7 +11,7 @@
     configuration: the configuration object
     errors: a list of errors
 
-  **Attention**: This function must be called with I/O-access rights!
+  **This function must be called with I/O-access rights!**
 
   The function loads the configuration from the specified file and returns the
   configuration object and a list of errors (invalid configuration entries).

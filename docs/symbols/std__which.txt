@@ -8,7 +8,7 @@
   Results:
     the full path of the executable file or <std::undefined>
 
-  **Attention**: This function must be called with I/O-access rights!
+  **This function must be called with I/O-access rights!**
 
   The function searches for the specified executable file in the directories
   listed in the PATH environment variable.

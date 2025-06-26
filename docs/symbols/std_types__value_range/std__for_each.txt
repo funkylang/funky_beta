@@ -10,7 +10,7 @@
   Results:
     none
 
-  **Attention**: This function must be called with I/O-access rights!
+  **This function must be called with I/O-access rights!**
 
   The function "body" is called for each item of the value-range.
   The function "finally" is called after the iteration.

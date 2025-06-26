@@ -9,7 +9,7 @@
   Results:
     io: the I/O-object
 
-  **Attention**: This function must be called with I/O-access rights!
+  **This function must be called with I/O-access rights!**
 
   Topic: Network Clients and Servers
 

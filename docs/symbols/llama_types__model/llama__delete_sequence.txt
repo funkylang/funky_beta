@@ -9,7 +9,7 @@
   Results:
     none
 
-  **Attention**: This function must be called with I/O-access rights!
+  **This function must be called with I/O-access rights!**
 
   This deletes the sequence on the server. No longer needed sequences should be
   deleted as soon as possible to save space on the server.
