@@ -132,26 +132,6 @@ $std_types::web_terminal/update: (self)
       !self.script_of script_start
       -> self command
 
-$websocket_message_handler_of ()
-$websocket_message_handlers_of ()
-
-$std_types::io.websocket_message_handler_of undefined
-$std_types::io.websocket_message_handlers_of empty_hash_table
-
-$std::on_websocket_message:
-  (
-    io
-    fd = undefined
-    handler
-  )
-  if
-    fd.is_undefined
-    -> io(.websocket_message_handler_of handler)
-    :
-      $websocket_message_handlers websocket_message_handlers_of(io)
-      !websocket_message_handlers(fd) handler
-      -> io(.websocket_message_handlers_of websocket_message_handlers)
-
 $std::handle_websocket_terminal_events: (io events)
   $new_events empty_list
   for_each events
@@ -176,16 +156,6 @@ $std::handle_websocket_terminal_events: (io events)
 	  push &new_events event
 	  next
     -> io new_events
-
-#$handle_websocket_message: (io fd message)
-  $websocket_message_handler websocket_message_handlers_of(io)(fd)
-  update_if websocket_message_handler.is_undefined &websocket_message_handler
-    -> websocket_message_handler_of(io)
-  if
-    websocket_message_handler.is_defined:
-      websocket_message_handler io fd message
-    :
-      log io 2 "No websocket message handler defined for @(fd.serialize)"
 
 $handle_websocket_message: (io fd message)
   from_utf8 &message
@@ -299,7 +269,4 @@ $std::handle_dom_input_event: (io fd message)
 
 $handle_close: (io fd)
   log &io 4 "close web terminal for @(fd.serialize)"
-  !io.websocket_message_handlers_of(fd) undefined
-  #!io.key_press_handlers_of(fd) undefined
-  #!io.mouse_click_handlers_of(fd) undefined
   -> io

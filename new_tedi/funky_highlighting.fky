@@ -1395,16 +1395,20 @@ $create_screens: (page symbol_info from_line to_line)
       $STATEMENT/draw_line draw_line_with_syntax_highlighting
       $ARGUMENTS/draw_line draw_line_with_syntax_highlighting
       $PARAMETERS/draw_line draw_line_with_syntax_highlighting
+      $STRING/draw_line draw_line_with_syntax_highlighting
 
       $draw_line_with_syntax_highlighting: (_kind)
 	$n length_of(text)
 	$i 1
 	$s 1
 	$style DUMMY
-	#$within_lambda false
 
-	if
-	  text(1) == '<':
+	cond
+	  -> kind == STRING:
+	    !i 0
+	    !style STRING
+	    handle_string
+	  -> text(1) == '<':
 	    !style META
 	    loop:
 	      inc &i
@@ -1417,7 +1421,7 @@ $create_screens: (page symbol_info from_line to_line)
 		      inc &i
 		      add_part DUMMY check
 		    next
-	  check
+	  -> true check
 
 	$check:
 	  if
@@ -1457,14 +1461,16 @@ $create_screens: (page symbol_info from_line to_line)
 	      i > n
 	      add_part
 	      :
-		case text(i)
-		  '"':
+		$chr text(i)
+		cond
+		  -> chr == '"' && kind != STRING:
 		    inc &i
 		    add_part DUMMY check
-		  '@@':
+		  -> chr == '@@':
 		    if
 		      i < n && text(i+1) == '(':
 			plus &i 2
+			$parenthesis_counter 1
 			add_part IDENTIFIER:
 			  loop
 			    :
@@ -1472,16 +1478,59 @@ $create_screens: (page symbol_info from_line to_line)
 				i > n
 				add_part
 				:
+				  !chr text(i)
 				  if
-				    text(i) == ')'
-				    break
+				    chr == ')':
+				      dec &parenthesis_counter
+				      if
+					parenthesis_counter == 0
+					break
+					:
+					  if
+					    style == IDENTIFIER:
+					      add_part STRING:
+						inc &i
+						next
+					    :
+					      inc &i
+					      next
 				    :
-				      inc &i
-				      next
+				      if
+					style == IDENTIFIER:
+					  if
+					    ||
+					      chr.is_a_letter
+					      chr.is_a_digit
+					      chr == ' '
+					    :
+					      inc &i
+					      next
+					    :
+					      if
+						&&
+						  chr == ':'
+						  i < n
+						  text(i+1) == ':'
+						:
+						  plus &i 2
+						  next
+						:
+						  add_part STRING:
+						    inc &i
+						    next
+					:
+					  if
+					    chr.is_a_letter || chr == '_':
+					      add_part IDENTIFIER:
+						inc &i
+						next
+					    :
+					      inc &i
+					      next
 			    :
 			      add_part STRING handle_string
 		      handle_string
-		  handle_string
+		  -> true handle_string
 
 	$skip_identifier:
 	  if

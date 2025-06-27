@@ -114,7 +114,7 @@ initialize_terminal: (_terminal)
   !io.rng_of mersenne_twister((1'000'000'000*second_of(t)).to_integer)
   set_random_blocks &io &board 1500
   !io.board_of board
-  enable_logging &io 3
+  enable_logging &io 4
   start_web_server! &io 8000
   start_reading_from &io STDIN_FILENO
   loop:
@@ -155,9 +155,7 @@ initialize_terminal: (_terminal)
 	      :
 		log_unhandled_event &io event
 		next!
-	  :
-	    #handle_jobs &io
-	    next!
+	  next
 
 $set_random_blocks: (io board n)
   repeat n
@@ -238,7 +236,6 @@ $logout: (io fd)
   !io.clients_of clients
   if
     clients.is_empty:
-      #cancel &io job_id_of(io)
       log io 2 "all players left the game"
     -> io
 
@@ -256,7 +253,6 @@ $handle_key_press: (io fd key)
       -> io
 
 $next_frame: (io)
-  log &io 4 -> "next frame"
   $clients clients_of(io)
   $board board_of(io)
   $changed_fields empty_list
