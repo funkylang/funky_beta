@@ -1282,11 +1282,23 @@ $resolve_backquoted: (arguments node) # already simplified
 	    not &within_string
 	    next
 	  '(':
-	    inc &level
-	    next
+	    if
+	      within_string
+	      next
+	      :
+		inc &level
+		next
 	  ')':
-	    dec &level
-	    next
+	    if
+	      within_string
+	      next
+	      :
+		if
+		  level == 0
+		  -> range(str 1 idx-1)
+		  :
+		    dec &level
+		    next
 	  next
       next
 

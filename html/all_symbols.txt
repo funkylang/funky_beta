@@ -1227,7 +1227,6 @@ std::okay_cancel_dialog FUNCTION
 std::okay_dialog FUNCTION
 std::on POLYMORPHIC_FUNCTION
 std::on_not POLYMORPHIC_FUNCTION
-std::on_websocket_message FUNCTION
 std::open BUILTIN_FUNCTION
 std::open_tcp_client_socket BUILTIN_FUNCTION
 std::open_tcp_server_socket BUILTIN_FUNCTION
