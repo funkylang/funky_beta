@@ -1161,7 +1161,7 @@ Statements
     `
       assign 1 2 !a !b
 
-    Input-Ouput Arguments
+    Input-Output Arguments
 
       Often one wants to update the contents of a specific variable like that:
 

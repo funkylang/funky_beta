@@ -356,6 +356,7 @@ $terminal_of ()
 $tedi::template_screen_of ()
 $tedi::window_manager_of ()
 $tedi::files_to_load_of () # a list of filenames
+$files_loaded_of () # list of tuples of filename and contents
 $tedi::files_to_save_of () # a list of window ids
 $tedi::text_window_id_of ()
 $tedi::clipboard_contents_of ()
@@ -380,6 +381,7 @@ $tedi_types::state tedi_types::basic_state
   .template_screen_of undefined
   .window_manager_of undefined
   .files_to_load_of empty_list
+  .files_loaded_of empty_list
   .files_to_save_of empty_list
   .text_window_id_of undefined # the target window of the current command box
   .clipboard_contents_of undefined
@@ -464,6 +466,8 @@ $LOAD_CONFIGURATION/job_completed: (_id io state data _context)
     :
       load_files io state
 
+$tedi::on_load_callback undefined
+
 $tedi::load_files: (io state)
   $files_to_load files_to_load_of(state)
   if
@@ -492,7 +496,9 @@ $LOAD_FILE/job_completed: (_self io state text info)
       -> info
   log &io 4 -> "
     loaded file "@(filename)" with @(length_of(text)) bytes
-  create_or_update_page io state text.from_utf8 info
+  create_text_page &io state $page text.from_utf8 filename
+  push &state.files_loaded_of tuple(filename page)
+  load_more_files io state
 
 $LOAD_FILE/job_failed: (_self io state err info)
   $filename
@@ -504,14 +510,28 @@ $LOAD_FILE/job_failed: (_self io state err info)
     failed to load file "@(filename)": @(err.to_error_message_string)
   show_error_message &state "
     could not load file "@(filename)"
-  create_or_update_page io state "" info
+  load_more_files io state
 
-$tedi::create_or_update_page: (io state text info)
+$load_more_files: (io state)
+  if
+    files_to_load_of(state).is_empty:
+      create_windows io state
+    :
+      load_files io state
+
+$create_windows: (io state)
+  for_each files_loaded_of(state)
+    : (filename_and_page)
+      filename_and_page $filename $page
+      create_or_update_page &io &state page filename
+      next
+    -> io state
+
+$tedi::create_or_update_page: (io state new_page info)
   if $filename $do_focus $line_no $column_no
     info.is_a_tuple
     info
     -> info false undefined undefined
-  create_text_page &io &state $new_page text filename
   for_each window_manager_of(state)
     : (id page)
       if
@@ -529,7 +549,7 @@ $tedi::create_or_update_page: (io state text info)
 	  $update_cursor:
 	    if
 	      line_no.is_defined:
-		set_content &state.window_manager_of id page
+		#set_content &state.window_manager_of id new_page
 		goto_xy &page &state.window_manager_of id line_no column_no
 		-> io state
 	      -> io state
@@ -561,15 +581,8 @@ $tedi::create_or_update_page: (io state text info)
       if
 	is_first_window:
 	  set_status_line &state
-	  load_more_files
-	load_more_files
-
-      $load_more_files:
-	if
-	  files_to_load_of(state).is_empty
 	  -> io state
-	  :
-	    load_files io state
+	-> io state
 
 $tedi::save_files: (io state continuation = undefined)
   # only called if there is at least one file to save

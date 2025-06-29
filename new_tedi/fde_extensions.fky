@@ -219,6 +219,7 @@ $fde::FDE .
 push &plugins symbol_plugin
 
 !page_constructors("fky") create_funky_page
+!on_load_callback create_exports_table
 
 $create_funky_page: (io state lines filename)
   $page
@@ -230,13 +231,15 @@ $create_funky_page: (io state lines filename)
 	.commands_of commands_of(configuration_of(state))
       state
       undefined
-  if
+  -> io page
+  #if
     &&
       files_to_load_of(state).is_empty
       exports_of(symbol_info_of(state)).is_undefined
     :
-      create_exports_table io state filename page
-    -> io state page
+      create_exports_table &io &state
+      -> io page
+    -> io page
 
 $tedi_types::state/set_status_line: (state)
   $page get_content(window_manager_of(state))

@@ -52,7 +52,7 @@ $tedi::create_text_page: (io state text filename)
       page_constructor io state lines filename
     :
       $page create_page_from_text(lines state filename)
-      -> io state page
+      -> io page
 
 $check_end_of_text: (text)
   $n length_of(text)
@@ -352,8 +352,8 @@ $update_text:
 
   $update_cursor_position:
     !page.info_of new_info
-    set_content &window_manager window_id page
     goto_xy &page &window_manager window_id new_x new_y
+    set_content &window_manager window_id page
     $start_x selection_x_of(new_info)
     if
       start_x.is_defined:
@@ -403,8 +403,8 @@ $tedi_types::page/handle_mouse_click: (page io state x y _button)
 	    update_cursor_position
 
 	  $update_cursor_position:
-	    set_content &state.window_manager_of page
 	    goto_xy &page &state.window_manager_of x y
+	    set_content &state.window_manager_of page
 	    -> io state
     -> io state
 
@@ -2159,8 +2159,8 @@ $start_search: (state x y lines do_a_backwards_search)
 	  ew_x != old_x || ew_y != old_y:
 	    add_history_entry &ew_info old_x old_y
 	    !page.info_of ew_info
-	    set_content &state.window_manager_of page
 	    goto_xy &page &state.window_manager_of ew_x ew_y
+	    set_content &state.window_manager_of page
 	    $end_x selection_x_of(ew_info)
 	    if
 	      end_x.is_defined:
@@ -2346,7 +2346,8 @@ $find_previous: (state x y lines info)
 	      $text text_of(line)
 	      search_backwards_within_line $pos $len text
 	      if
-		pos.is_defined: return_match indent text pos len
+		pos.is_defined:
+		  return_match indent text pos len
 		next
 
   $search_backwards_within_line: (text)
@@ -2497,8 +2498,8 @@ $go_to_line: (state _x y lines _info)
     line_no.is_defined:
       get_xy page window_manager_of(state) $old_x $old_y
       add_history_entry &page.info_of old_x old_y
-      set_content &state.window_manager_of page
       goto_xy &page &state.window_manager_of 1 line_no
+      set_content &state.window_manager_of page
       -> state
     :
       set_content &state.window_manager_of page

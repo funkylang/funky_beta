@@ -428,7 +428,7 @@ $std_types::window_manager/prepare_update:
 		tuple
 		  first_visible_row .. last_visible_row
 		  id_of(window)
-		  content_of(window)
+		  content
 	      next
 	-> wm terminal update_ranges
 

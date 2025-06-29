@@ -576,7 +576,8 @@ $LOAD_HELP/job_completed: (_self io state buf info)
     :
       log &io "
 	loaded linked file "@(filename)"
-      create_or_update_page io state buf tuple(filename true)
+      create_text_page &io state $page buf filename
+      create_or_update_page io state page tuple(filename true)
 
 $LOAD_HELP/job_failed: (_self io state _buf info)
   info $filename

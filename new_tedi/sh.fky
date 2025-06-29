@@ -155,7 +155,7 @@ $create_sh_page: (io state lines filename)
 	.commands_of commands_of(configuration_of(state))
       state
       undefined
-  -> io state page
+  -> io page
 
 $tedi_types::sh_page/height_of: (page)
   max length_of(lines_of(page)) length_of(screens_of(page))

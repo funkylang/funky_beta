@@ -25,8 +25,6 @@
 
 <resolve std_types-2.0>
 
-<allow unused>
-
 $DO_VALIDATE false
 
 # New Types
@@ -210,12 +208,6 @@ $kind_from_string
     "UNIQUE_ITEM" = LIBRARY_UNIQUE_ITEM
     "VARIABLE" = LIBRARY_VARIABLE
 
-#$indent_colours
-  list
-    '@0xe4f4ff;'
-    '@0xe8ffe8;'
-    '@0xffffe0;'
-
 $indent_colours
   list
     '@0xecf7ff;'
@@ -228,54 +220,65 @@ $fde_types::exports std_types::object
   .symbols_of undefined
   #.referrers_of undefined
 
-$fde::create_exports_table: (io state filename page)
-  log &io 4 "create exports table"
-  $path until(filename '/' -1)
+$fde::create_exports_table: (io state)
   $exports empty_hash_table
-  $lines lines_of(page)
-  if
-    length_of(lines) >= 1:
-      $text text_of(lines(1))
+  for_each $main_module $main_lines window_manager_of(state)
+    : (_id content)
       if
-	text .has_prefix. "#!": # a main module
-	  add_exports !io !exports filename lines
-	  !state.symbol_info_of.exports_of
-	    fde_types::exports
-	      .symbols_of exports
-	  -> io state page
-	-> io state page
-    -> io state page
-
-  $add_exports: (module_name tree)
-    $definitions empty_hash_table
-    for_each local_definitions_of(tree)
-      : (symbol kind)
-	if
-	  symbol .contains. ':':
-	    !definitions(symbol) kind
-	    next
-	  next
-      :
-	!exports(module_name) definitions
-	for_each required_modules_of(tree)
-	  : (required)
-	    if
-	      required .has_prefix. "./":
-		add_module !io !exports append(path range(required 3 -1) ".fky")
+	kind_of(content) == FDE:
+	  $lines lines_of(content)
+	  if
+	    length_of(lines) >= 1:
+	      if
+		text_of(lines(1)) .has_prefix. "#!"
+		-> filename_of(content) lines
 		next
-	      next
-	  -> io exports
-
-  $add_module: (module_name)
-    log &io 4 "add module @(module_name)"
-    for_each window_manager_of(state)
-      : (id content)
-	if
-	  kind_of(content) == FDE && filename_of(content) == module_name:
-	    add_exports !io !exports module_name lines_of(content)
 	    next
-	  next
-      -> io exports
+	next
+    -> undefined undefined
+  if
+    main_module.is_defined
+    collect_exports
+    -> io state
+
+  $collect_exports:
+    $path until(main_module '/' -1)
+    add_exports !io !exports main_module main_lines
+    !state.symbol_info_of.exports_of
+      fde_types::exports
+	.symbols_of exports
+    -> io state
+
+    $add_exports: (module_name tree)
+      $definitions empty_hash_table
+      for_each local_definitions_of(tree)
+	: (symbol kind)
+	  if
+	    symbol .contains. ':':
+	      !definitions(symbol) kind
+	      next
+	    next
+	:
+	  !exports(module_name) definitions
+	  for_each required_modules_of(tree)
+	    : (required)
+	      if
+		required .has_prefix. "./":
+		  add_module !io !exports append(path range(required 3 -1) ".fky")
+		  next
+		next
+	    -> io exports
+
+    $add_module: (module_name)
+      log &io 4 "add module @(module_name)"
+      for_each window_manager_of(state)
+	: (_id content)
+	  if
+	    kind_of(content) == FDE && filename_of(content) == module_name:
+	      add_exports !io !exports module_name lines_of(content)
+	      next
+	    next
+	-> io exports
 
 # Text Page
 
@@ -1501,7 +1504,7 @@ $create_screens: (page symbol_info from_line to_line)
 					    ||
 					      chr.is_a_letter
 					      chr.is_a_digit
-					      chr == ' '
+					      chr == '_'
 					    :
 					      inc &i
 					      next
@@ -1716,7 +1719,7 @@ $create_screens: (page symbol_info from_line to_line)
 			    : (namespace)
 			      $identifier append(namespace "::" part)
 			      for_each symbols_of(exports)
-				: (module_name module_symbols)
+				: (_module_name module_symbols)
 				  $definition module_symbols(identifier)
 				  if
 				    definition.is_defined:

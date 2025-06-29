@@ -578,10 +578,16 @@ $funky::generate_tabular_code: (top_level_statements is_a_main_module)
 		on output_count == 0 && not(is_last):
 		  syntax_error "Return statement not allowed within function body"
 		    statement
-		-> "
+		$stmt "
 		  @
 		    LET, @
 		    @(input_count)@(inputs), @(output_count)@(outputs),
+		if
+		  is_last && not(is_a_tail_call)
+		  -> "
+		    @(stmt)@
+		      LET, 1, 0, TAIL_CALL,
+		  -> stmt
 	      "_assign_attributes" -> "
 		@
 		  LET, @
