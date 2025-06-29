@@ -222,8 +222,9 @@ $fde_types::exports std_types::object
 
 $fde::create_exports_table: (io state)
   $exports empty_hash_table
-  for_each $main_module $main_lines window_manager_of(state)
-    : (_id content)
+  for_each $main_module $main_lines files_loaded_of(state)
+    : (content)
+      $filename filename_of(content)
       if
 	kind_of(content) == FDE:
 	  $lines lines_of(content)
@@ -231,7 +232,7 @@ $fde::create_exports_table: (io state)
 	    length_of(lines) >= 1:
 	      if
 		text_of(lines(1)) .has_prefix. "#!"
-		-> filename_of(content) lines
+		-> filename lines
 		next
 	    next
 	next
@@ -271,8 +272,8 @@ $fde::create_exports_table: (io state)
 
     $add_module: (module_name)
       log &io 4 "add module @(module_name)"
-      for_each window_manager_of(state)
-	: (_id content)
+      for_each files_loaded_of(state)
+	: (content)
 	  if
 	    kind_of(content) == FDE && filename_of(content) == module_name:
 	      add_exports !io !exports module_name lines_of(content)
@@ -1673,7 +1674,17 @@ $create_screens: (page symbol_info from_line to_line)
 			if
 			  kind_string.is_defined
 			  -> kind_from_string(kind_string)
-			  -> IDENTIFIER
+			  :
+			    for_each symbols_of(exports)
+			      : (_module_name module_symbols)
+				$definition module_symbols(part)
+				if
+				  definition.is_defined:
+				    get_first_key_and_value
+				      &definition $count
+				    return_kind definition count
+				  next
+			      -> IDENTIFIER
 		  -> true:
 		    $found_node undefined
 		    update_if
@@ -1766,18 +1777,18 @@ $create_screens: (page symbol_info from_line to_line)
 				  get_first_key_and_value &var_kind $count
 				  return_kind var_kind count
 
-		    $return_kind: (var_kind count)
-		      if
-			count > 1
-			-> MULTIPLE_DEFINITIONS
-			:
-			  case var_kind
-			    sequence
-			      LOCAL_FUNCTION
-			      LOCAL_UNIQUE_ITEM
-			      MULTIPLE_DEFINITIONS
-			    -> var_kind
-			    -> LOCAL_CONSTANT
+		$return_kind: (var_kind count)
+		  if
+		    count > 1
+		    -> MULTIPLE_DEFINITIONS
+		    :
+		      case var_kind
+			sequence
+			  LOCAL_FUNCTION
+			  LOCAL_UNIQUE_ITEM
+			  MULTIPLE_DEFINITIONS
+			-> var_kind
+			-> LOCAL_CONSTANT
 
 	      set_draw_colour &screen kind_to_colour(style)
 	      set_text_attributes &screen kind_to_text_attributes(style)
