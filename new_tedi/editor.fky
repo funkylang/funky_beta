@@ -385,9 +385,13 @@ $tedi_types::page/handle_mouse_click: (page io state x y _button)
       get_xy page window_manager_of(state) $cx $cy
       if
 	cx == x && cy == y:
+	  $lines lines_of(page)
 	  if
-	    double_click_action.is_defined:
-	      double_click_action io state x y lines_of(page) info_of(page)
+	    y <= length_of(lines):
+	      if
+		double_click_action.is_defined:
+		  double_click_action io state x y lines info_of(page)
+		-> io state
 	    -> io state
 	:
 	  add_history_entry &page.info_of cx cy

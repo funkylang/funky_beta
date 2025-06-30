@@ -1135,7 +1135,7 @@ Statements
 
     If the variable to store the result is defined here the exclamation mark ("!") is replaced by a dollar sign ("\$").
 
-    The destinations and arguments can be spread over multiple lines. They are separated with a single space from the *function_name* and beyond each other. The follow-up lines are all indented (by the same amount of whitespace) relative to the first line of the function call.
+    The destinations and arguments can be spread over multiple lines. They are separated with a single space from the *function_name* and beyond each other. The follow-up lines are all indented (by the same amount of whitespace) relative to the first line of the function call. Empty lines are skipped.
 
     So the above call could also be written like this:
 
@@ -1934,14 +1934,14 @@ Input-Output
 
   The reason the above code works, is "implicit IO-annotation inheritance":
 
-  NOTE: If a function call has at least one argument that is a function-literal that contains at least one function call with IO-annotation then the outer function call is itself *implicitely* annotated as a function call.
+  NOTE: If a function call has at least one argument that is a function-literal that contains at least one function call with IO-annotation then the outer function call is itself *implicitly* annotated as an IO-function call.
 
   Example:
 
   `
     do: println! "Hello, world!"
 
-  is implicitely annotated like it had been written as
+  is implicitly annotated like it had been written as
 
   `
     do!: println! "Hello, world!"
@@ -1951,7 +1951,7 @@ Input-Output
   `
     do: do: println! "Hello, world!"
 
-  is implicitely annotated like it had been written as
+  is implicitly annotated like it had been written as
 
   `
     do!: do!: println! "Hello, world!"
@@ -2044,7 +2044,19 @@ Meta-Instructions
 
   When defining a namespaced variable it is necessary to explicitly specify the version number of the namespace. `using`- and `resolve`-directives are ignored when a variable is defined, but `alias`-directives are obeyed.
 
-  When a namespaced identifier is *read* or *redefined* (not *defined*) then the version must not be specified. The version of used namespaced identifiers is set with the "`using`" meta-instruction.
+  Examples for definining symbols in versioned namespaces:
+
+  `
+    \$std-2.0::indent_of ()
+    \$std-2.0::text_of ()
+
+  When no explicit version number is supplied the version number defaults to 1.0.
+
+  Within a single module only one version of a namespace can be *used*! (Using means reading, redefining or updating).
+
+  There are two ways to specify the version number to use for the whole module.
+
+  Specify namespace **and** version number to use for the whole module:
 
   `
     <using *namespace*\>
@@ -2055,13 +2067,14 @@ Meta-Instructions
   `
     <using *namespace*-unstable\>
 
-  For a single namespace each source code module can only contain *one* `using`-directive.
+  E.g.:
 
-  So a module can *define* the same namespaced identifier in multiple namespace versions but can use only *one* version!
+  `
+    <using std-2.0>
 
-  Whenever a variable is redefined or read that is *not* locally defined and without the explicit use of a namespace the `using`-directive is used by the runtime linker to find the corresponding variable.
+    println! indent_of(...) # uses the symbol "indent" in namespace std-2.0
 
-  It the runtime linker cannot resolve it unambigously it refuses to start the program and terminates with an appropriate error message.
+  Alternatively one can only globally define the version number and specify the namespace on each use.
 
   The version number for a specific namespace can be selected for the whole module using a `resolve`-directive:
 
@@ -2071,12 +2084,30 @@ Meta-Instructions
   `
     <resolve *namespace*-unstable\>
 
+  E.g.:
+
+  `
+    <resolve std-2.0>
+
+    println! std::indent_of(...) # uses the symbol "indent" in namespace std-2.0
+
+  When a namespaced identifier is *read* or *redefined* (not *defined*) then the version must not be specified. The version of used namespaced identifiers is set with the "`using`" or "`resolve` " meta-instructions shown above.
+
+  For a single namespace each source code module can only contain *one* `using`-directive.
+
+  So a module can *define* the same namespaced identifier in multiple namespace versions but can *use* only *one* version!
+
+  Whenever a symbol is redefined or read that is *not* locally defined and without the explicit use of a namespace the `using`-directive is used by the
+  runtime linker to find the corresponding symbol.
+
+  It the runtime linker cannot resolve it unambigously it refuses to start the program and terminates with an appropriate error message.
+
   To use a namespace under a different name an `alias`-directive can be used:
 
   `
     <alias *namespace_alias* = *namespace*\>
 
-  `alias`-directives are used for variable definitions as well as for redefinitions and reads.
+  `alias`-directives are used for variable definitions as well as for redefinitions, reads and updates.
 
   `
     <namespace my_long_namespace\>
@@ -2152,7 +2183,7 @@ Remarks
 
     * part of a parameter declaration
 
-    An indentifier does not become a function call, when it contains only remark pseudo arguments.
+    An indentifier does not become a function call when it contains only remark pseudo arguments.
 
     A return statement containing only remark pseudo arguments is invalid.
 
@@ -2299,8 +2330,7 @@ Function Calls And the Stack
 
   Tail Calls
 
-    A *tail call* is a function call that is the last statement in a function. In this case the function call is optimized by the compiler. Instead of allocating a new stack frame, the current stack frame is replaced with
-    the stack frame of the called function.
+    A *tail call* is a function call that is the last statement in a function. In this case the *call* is replaced by a *jump*. Instead of allocating a new stack frame, the current stack frame is replaced with the stack frame of the called function.
 
     When the called functions returns it will return its results to the caller of the caller.
 
@@ -2490,7 +2520,7 @@ Control Flow
 
     The *body* is a function that is called for each "iteration" of the "loop". The tail-call at the end of the *body* must either call "`next!`" (to continue the loop) or "`break`" (to exit the loop).
 
-    "`next!`" and "`break`" are two global variables that are set by each "loop" construct.
+    "`next`" and "`break`" are two global variables that are set by each "loop" construct.
 
     Let's take a look how the execution actually works:
 
@@ -2649,7 +2679,7 @@ Control Flow
       \$b 5
       \$min if(a < b (-> a) -> b)
 
-    This is the minimum number of necessary parentheses. If we ommit the parentheses around "(-> a)" then the "`if`"-function would be called with only two arguments:
+    This is the minimum number of necessary parentheses. If we omit the parentheses around "(-> a)" then the "`if`"-function would be called with only two arguments:
 
     `
       a < b
