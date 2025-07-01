@@ -530,8 +530,9 @@ $worldsim::draw_numerical_map: (screen elevation_map info_map feature_map)
 	      LAKE, LAKE_EXIT -> character(0x004080+shade)
 	      SPRING -> character(0x800080+shade)
 	      -> '@0xc0c0e0;'
-	  draw_text &screen 2*x-1 2*y pad_left(feature_map(y)(x) 2)
+	  draw_text &screen 2*x-1 y pad_left(feature_map(y)(x) 2)
 	  next
+	next
     -> screen
 
 $worldsim::draw_physical_map: (screen elevation_map info_map)
@@ -574,82 +575,84 @@ $worldsim::draw_physical_map: (screen elevation_map info_map)
 $worldsim::draw_vegetation_map: (screen elevation_map info_map vegetation_map)
   from_to 1 length_of(elevation_map)
     : (y)
-      from_to 1 length_of(elevation_map(1)): (x)
-	$height elevation_map(y)(x)
-	$info info_map(y)(x)
-	$vegetation vegetation_map(y)(x)
-	$shade 0x010101*(height >> 1)
-	$background_colour
+      from_to 1 length_of(elevation_map(1))
+	: (x)
+	  $height elevation_map(y)(x)
+	  $info info_map(y)(x)
+	  $vegetation vegetation_map(y)(x)
+	  $shade 0x010101*(height >> 1)
+	  $background_colour
+	    case
+	      info & 0xf8
+	      OCEAN:
+		if
+		  vegetation == ICE
+		  -> '@0xffffff;'
+		  -> '@0xc0c0e0;'
+	      LAKE, LAKE_EXIT -> character(0x004080+shade)
+	      :
+		case
+		  vegetation
+		  ICE -> '@0xffffff;'
+		  SWAMP -> character(0x807030+shade)
+		  TUNDRA -> character(0x808040+shade)
+		  CONIFEROUS_FOREST -> character(0x406030+shade)
+		  MIXED_FOREST -> character(0x387020+shade)
+		  DECIDUOUS_FOREST -> character(0x308000+shade)
+		  TROPICAL_FOREST -> character(0x00a000+shade)
+		  GRASSLAND -> character(0x008000+shade)
+		  STEPPE -> character(0xa0a000+shade)
+		  DESERT -> character(0xa0a000+shade)
+		  -> '@0;'
+	  set_clear_colour &screen background_colour
 	  case
 	    info & 0xf8
-	    OCEAN:
-	      if
-		vegetation == ICE
-		-> '@0xffffff;'
-		-> '@0xc0c0e0;'
-	    LAKE, LAKE_EXIT -> character(0x004080+shade)
+	    SPRING, RIVER, LAKE_EXIT:
+	      set_draw_colour &screen '@0x0000ff;'
+	      draw_text &screen 2*x-1 y
+		case
+		  info & 7
+		  0 -> "🡹🡹"
+		  1 -> "🡽🡽"
+		  2 -> "🡺🡺"
+		  3 -> "🡾🡾"
+		  4 -> "🢃🢃"
+		  5 -> "🡿🡿"
+		  6 -> "🡸🡸"
+		  7 -> "🡼🡼"
+	      next
 	    :
-	      case
-		vegetation
-		ICE -> '@0xffffff;'
-		SWAMP -> character(0x807030+shade)
-		TUNDRA -> character(0x808040+shade)
-		CONIFEROUS_FOREST -> character(0x406030+shade)
-		MIXED_FOREST -> character(0x387020+shade)
-		DECIDUOUS_FOREST -> character(0x308000+shade)
-		TROPICAL_FOREST -> character(0x00a000+shade)
-		GRASSLAND -> character(0x008000+shade)
-		STEPPE -> character(0xa0a000+shade)
-		DESERT -> character(0xa0a000+shade)
-		-> '@0;'
-	set_clear_colour &screen background_colour
-	case
-	  info & 0xf8
-	  SPRING, RIVER, LAKE_EXIT:
-	    set_draw_colour &screen '@0x0000ff;'
-	    draw_text &screen 2*x-1 2*y
-	      case
-		info & 7
-		0 -> "🡹🡹"
-		1 -> "🡽🡽"
-		2 -> "🡺🡺"
-		3 -> "🡾🡾"
-		4 -> "🢃🢃"
-		5 -> "🡿🡿"
-		6 -> "🡸🡸"
-		7 -> "🡼🡼"
-	    next
-	  :
-	    cond
-	      -> vegetation == SEA_WATER:
-		set_draw_colour &screen '@0x404080;'
-		draw_text &screen 2*x-1 2*y "~~"
-		next
-	      -> vegetation == FRESH_WATER:
-		draw_text &screen 2*x-1 2*y "  "
-		next
-	      -> height >= MOUNTAIN_LEVEL:
-		set_draw_colour &screen '@0x404040;'
-		draw_text &screen 2*x-1 2*y "⛰ "
-		next
-	      -> height >= HILL_LEVEL:
-		set_draw_colour &screen '@0x206020;'
-		draw_text &screen 2*x-1 2*y "⯅⯅"
-		next
-	      -> true:
-		draw_text &screen 2*x-1 2*y
-		  case
-		    vegetation
-		    CONIFEROUS_FOREST -> "🌲"
-		    DECIDUOUS_FOREST -> "🌳"
-		    MIXED_FOREST:
-		      if
-			(x+y).is_odd
-			-> "🌲"
-			-> "🌳"
-		    TROPICAL_FOREST -> "🌴"
-		    STEPPE -> ".."
-		    DESERT -> "🌵"
-		    -> "  "
-		next
+	      cond
+		-> vegetation == SEA_WATER:
+		  set_draw_colour &screen '@0x404080;'
+		  draw_text &screen 2*x-1 y "~~"
+		  next
+		-> vegetation == FRESH_WATER:
+		  draw_text &screen 2*x-1 y "  "
+		  next
+		-> height >= MOUNTAIN_LEVEL:
+		  set_draw_colour &screen '@0x404040;'
+		  draw_text &screen 2*x-1 y "⛰ "
+		  next
+		-> height >= HILL_LEVEL:
+		  set_draw_colour &screen '@0x206020;'
+		  draw_text &screen 2*x-1 y "⯅⯅"
+		  next
+		-> true:
+		  draw_text &screen 2*x-1 y
+		    case
+		      vegetation
+		      CONIFEROUS_FOREST -> "🌲"
+		      DECIDUOUS_FOREST -> "🌳"
+		      MIXED_FOREST:
+			if
+			  (x+y).is_odd
+			  -> "🌲"
+			  -> "🌳"
+		      TROPICAL_FOREST -> "🌴"
+		      STEPPE -> ".."
+		      DESERT -> "🌵"
+		      -> "  "
+		  next
+	next
     -> screen

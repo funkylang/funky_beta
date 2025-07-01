@@ -102,37 +102,37 @@ loop:
       read! STDIN_FILENO 32
       -> input
     -> input
-
+  $keys extract_keys(input true)
   $delta_x 0
   $delta_y 0
   $i 1
   loop
     :
       if
-	i <= length_of(input):
-	  $key input(i)
+	i <= length_of(keys):
+	  $key keys(i)
 	  case key
-	    'a':
+	    CURSOR_LEFT, "a":
 	      plus &delta_x 2
 	      inc &i
 	      next!
-	    'd':
+	    CURSOR_RIGHT, "d":
 	      minus &delta_x 2
 	      inc &i
 	      next!
-	    'w':
+	    CURSOR_UP, "w":
 	      dec &delta_y
 	      inc &i
 	      next!
-	    's':
+	    CURSOR_DOWN, "s":
 	      inc &delta_y
 	      inc &i
 	      next!
-	    'p', 'e', 't', 'r', 'v', 'm':
+	    "p", "e", "t", "r", "v", "m":
 	      inc &i
 	      !new_map_mode key
 	      maybe_update_screen!
-	    'q':
+	    "q", "x":
 	      end_game!
 	    :
 	      inc &i
@@ -151,7 +151,7 @@ loop:
     cond
       -> new_map_mode != map_mode:
 	if
-	  new_map_mode == 'm':
+	  new_map_mode == "m":
 	    !world_screen_width 7*MAP_WIDTH
 	    !world_screen_height 3*MAP_HEIGHT
 	    !x_offset 1
@@ -163,7 +163,7 @@ loop:
 	    break!
 	  :
 	    case map_mode
-	      'p', 'e', 't', 'r', 'v'
+	      "p", "e", "t", "r", "v"
 	      :
 		draw_new_map!
 	      :
@@ -179,23 +179,23 @@ loop:
 	    !world_screen world_screen_width world_screen_height
 	  !max_y_offset max(world_screen_height-height_of(term) 0)
 	  case map_mode
-	    'p':
+	    "p":
 	      draw_physical_map &world_screen elevation_map info_map
 	      update_screen! !term
 	      break!
-	    'e':
+	    "e": # elevation
 	      draw_numerical_map &world_screen elevation_map info_map elevation_map
 	      update_screen! !term
 	      break!
-	    't':
+	    "t": # temperature
 	      draw_numerical_map &world_screen elevation_map info_map temperature_map
 	      update_screen! !term
 	      break!
-	    'r':
+	    "r": # rainfall
 	      draw_numerical_map &world_screen elevation_map info_map rainfall_map
 	      update_screen! !term
 	      break!
-	    'v':
+	    "v":
 	      draw_vegetation_map &world_screen
 		elevation_map info_map vegetation_map
 	      update_screen! !term
