@@ -5007,6 +5007,24 @@ int dup2_fd(int src_fd, int dest_fd) {
   return err;
 }
 
+static void close_on_exec
+(
+  int fd
+)
+{
+  int flags;
+  do {
+    flags = fcntl(fd, F_GETFD);
+  } while (flags == -1 && errno == EINTR);
+  if (flags != -1) {
+    flags |= FD_CLOEXEC;
+    int result;
+    do {
+      result = fcntl(fd, F_SETFD, flags);
+    } while (result == -1 && errno == EINTR);
+  }
+}
+
 static long std_types__function___debug_string
   (
     NODE *node,
@@ -18153,10 +18171,12 @@ static void entry__std__create_process (void)
     child_pid = process_id_from_int(pid);
     if (TLS_argument_count < 4) {
       child_stdin = file_descriptor_from_int(in_pipe.write_fd);
+      close_on_exec(in_pipe.write_fd);
     }
     child_stdout = file_descriptor_from_int(out_pipe.read_fd);
+    close_on_exec(out_pipe.read_fd);
     child_stderr = file_descriptor_from_int(err_pipe.read_fd);
-
+    close_on_exec(err_pipe.read_fd);
 
     if (TLS_argument_count == 4) {
       // we got *stdin* from the caller

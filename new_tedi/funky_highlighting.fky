@@ -1675,15 +1675,18 @@ $create_screens: (page symbol_info from_line to_line)
 			  kind_string.is_defined
 			  -> kind_from_string(kind_string)
 			  :
-			    for_each symbols_of(exports)
-			      : (_module_name module_symbols)
-				$definition module_symbols(part)
-				if
-				  definition.is_defined:
-				    get_first_key_and_value
-				      &definition $count
-				    return_kind definition count
-				  next
+			    if
+			      exports.is_defined:
+				for_each symbols_of(exports)
+				  : (_module_name module_symbols)
+				    $definition module_symbols(part)
+				    if
+				      definition.is_defined:
+					get_first_key_and_value
+					  &definition $count
+					return_kind definition count
+				      next
+				  -> IDENTIFIER
 			      -> IDENTIFIER
 		  -> true:
 		    $found_node undefined

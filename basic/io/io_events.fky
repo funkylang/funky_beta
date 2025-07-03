@@ -653,17 +653,25 @@ $std_types::io/get_events:
 	: (signal)
 	  case signal
 	    SIGCHLD:
-	      wait! $pid $status
-	      exitstatus &status
-	      if
-		watched_pids_of(self)(pid):
-		  !self.watched_pids_of(pid) false
-		  push &events
-		    typed_tuple(std_types::event PROCESS_JOINED pid status)
-		  next!
+	      loop
 		:
-		  !self.exit_codes_of(pid) status
-		  next!
+		  waitpid! $pid $status process_id(-1)
+		  if
+		    pid.is_an_error || pid.to_integer == 0
+		    break
+		    :
+		      exitstatus &status
+		      if
+			watched_pids_of(self)(pid):
+			  !self.watched_pids_of(pid) false
+			  push &events
+			    typed_tuple
+			      std_types::event PROCESS_JOINED pid status
+			  next!
+			:
+			  !self.exit_codes_of(pid) status
+			  next!
+		next
 	    SIGWINCH:
 	      !self.window_change_event_occurred true
 	      next!
