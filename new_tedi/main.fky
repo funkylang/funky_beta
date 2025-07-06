@@ -114,13 +114,15 @@ $tedi::main:
     tuple(toggle_soft_line_break UPDATE_STATE)
 
   !default_configuration.commands_of(RIGHT_MARGIN)
-    tuple(toggle_right_margin_display OTHER)
+    tuple(toggle_right_margin_display UPDATE_STATE)
   !default_configuration.commands_of(CURSOR_LINE)
-    tuple(toggle_cursor_line_highlighting OTHER)
+    tuple(toggle_cursor_line_highlighting UPDATE_STATE)
   !default_configuration.commands_of(SOFT_LINE_BREAKS)
     tuple(toggle_soft_line_break UPDATE_STATE)
   !default_configuration.commands_of(LINE_NUMBERS)
-    tuple(toggle_line_numbers OTHER)
+    tuple(toggle_line_numbers UPDATE_STATE)
+  !default_configuration.commands_of(PLAIN_TEXT)
+    tuple(toggle_plain_text UPDATE_STATE)
 
   load_configuration &io LOAD_CONFIGURATION
     default_configuration configuration_filename
@@ -510,6 +512,8 @@ $LOAD_FILE/job_failed: (_self io state err info)
     failed to load file "@(filename)": @(err.to_error_message_string)
   show_error_message &state "
     could not load file "@(filename)"
+  create_text_page &io state $page "" filename
+  create_or_update_page &io &state page info
   load_more_files io state
 
 $load_more_files: (io state)

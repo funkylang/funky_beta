@@ -331,7 +331,13 @@ $create_function_index_page:
       symbols: (symbol)
 	symbol $_filename $text
 	$kind between(text '(' ')')
-	-> kind == "a function" || kind == "a polymorphic function"
+	->
+	  ||
+	    kind == "a function"
+	    kind == "a polymorphic function"
+	    kind == "a builtin function"
+	    kind == "an I/O-function"
+	    kind == "a builtin I/O-function"
   map &functions: (function)
     function $_filename $text
     -> (between(text '#' '@nl;') .truncate_from. '(').trim

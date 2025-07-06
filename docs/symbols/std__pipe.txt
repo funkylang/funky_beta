@@ -24,8 +24,7 @@
 
   Topic: Input-Output
 
-  See also: std::pipe_commands, std::call, std::execute, std::system,
-	   std::extern
+  See also: std::pipe_commands, std::call, std::extern
 
   Example:
 

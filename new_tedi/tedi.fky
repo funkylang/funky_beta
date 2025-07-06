@@ -39,6 +39,7 @@
 	  "Line numbers (F6)" = LINE_NUMBERS
     range(main_menu -1 -1)
 
+!default_configuration.commands_of(F3) "toggle_plain_text"
 !default_configuration.commands_of(F5) "toggle_soft_line_break"
 !default_configuration.commands_of(F6) "toggle_line_numbers"
 

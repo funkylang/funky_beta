@@ -856,12 +856,13 @@ $tedi::functions
     # view
 
     "change_colour_set" = tuple(change_colour_set OTHER)
-    "toggle_indentation_highlighting" =
-      tuple(toggle_right_margin_display OTHER)
+    "toggle_right_margin_display" =
+      tuple(toggle_right_margin_display UPDATE_STATE)
     "toggle_cursor_line_highlighting" =
-      tuple(toggle_cursor_line_highlighting OTHER)
+      tuple(toggle_cursor_line_highlighting UPDATE_STATE)
     "toggle_soft_line_break" = tuple(toggle_soft_line_break UPDATE_STATE)
-    "toggle_line_numbers" = tuple(toggle_line_numbers OTHER)
+    "toggle_line_numbers" = tuple(toggle_line_numbers UPDATE_STATE)
+    "toggle_plain_text" = tuple(toggle_plain_text UPDATE_STATE)
 
     # help
 
@@ -2982,13 +2983,23 @@ $reload: (io state _x _y _lines _info)
 $change_colour_set: (x y _lines info)
   -> undefined undefined x y info
 
-$tedi::toggle_right_margin_display: (x y _lines info)
-  not &info.do_show_right_margin_of
-  -> undefined undefined x y info
+$tedi::toggle_right_margin_display: (state x y _lines info)
+  update_if previous_mode_of(info).is_defined &state:
+    set_plain_text_mode &state.window_manager_of false
+    -> state
+  !info
+    .previous_mode_of undefined
+    .do_show_right_margin_of not(do_show_right_margin_of(info))
+  -> state undefined undefined x y info
 
-$tedi::toggle_cursor_line_highlighting: (x y _lines info)
-  not &info.do_highlight_cursor_line_of
-  -> undefined undefined x y info
+$tedi::toggle_cursor_line_highlighting: (state x y _lines info)
+  update_if previous_mode_of(info).is_defined &state:
+    set_plain_text_mode &state.window_manager_of false
+    -> state
+  !info
+    .previous_mode_of undefined
+    .do_highlight_cursor_line_of not(do_highlight_cursor_line_of(info))
+  -> state undefined undefined x y info
 
 $tedi::toggle_soft_line_break: (state x y lines info)
   $page get_content(window_manager_of(state))
@@ -3096,13 +3107,51 @@ $tedi::toggle_soft_line_break: (state x y lines info)
 		  info
     -> state undefined undefined x y info
 
-$tedi::toggle_line_numbers: (x y _lines info)
+$tedi::toggle_line_numbers: (state x y _lines info)
+  update_if previous_mode_of(info).is_defined &state:
+    set_plain_text_mode &state.window_manager_of false
+    -> state
   ->
+    state
     undefined undefined x y
     info
+      .previous_mode_of undefined
       .do_show_line_numbers_of not(do_show_line_numbers_of(info))
       .selection_x_of selection_x
       .selection_y_of selection_y
+
+$tedi::toggle_plain_text: (state x y _lines info)
+  if
+    previous_mode_of(info).is_defined:
+      set_plain_text_mode &state.window_manager_of false
+      previous_mode_of(info)
+	$do_show_line_numbers $do_show_right_margin $do_highlight_cursor_line
+      ->
+	state
+	undefined undefined x y
+	info
+	  .previous_mode_of undefined
+	  .do_show_line_numbers_of do_show_line_numbers
+	  .do_show_right_margin_of do_show_right_margin
+	  .do_highlight_cursor_line_of do_highlight_cursor_line
+	  .selection_x_of selection_x
+	  .selection_y_of selection_y
+    :
+      set_plain_text_mode &state.window_manager_of true
+      ->
+	state
+	undefined undefined x y
+	info
+	  .previous_mode_of
+	    tuple
+	      do_show_line_numbers_of(info)
+	      do_show_right_margin_of(info)
+	      do_highlight_cursor_line_of(info)
+	  .do_show_line_numbers_of false
+	  .do_show_right_margin_of false
+	  .do_highlight_cursor_line_of false
+	  .selection_x_of selection_x
+	  .selection_y_of selection_y
 
 $remove_all_soft_breaks: (lines)
   $len length_of(lines)
@@ -3555,6 +3604,7 @@ $tedi::do_show_right_margin_of ()
 $do_highlight_cursor_line_of ()
 $do_show_line_numbers_of ()
 $right_margin_of ()
+$previous_mode_of ()
 $error_message_of ()
 
 $tedi_types::info std_types::object
@@ -3576,6 +3626,7 @@ $tedi_types::info std_types::object
   .do_highlight_cursor_line_of true
   .do_show_line_numbers_of false
   .right_margin_of 80
+  .previous_mode_of undefined
   .error_message_of undefined
 
 # Helpers

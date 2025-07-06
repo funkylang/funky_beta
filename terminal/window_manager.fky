@@ -64,6 +64,7 @@ $std::set_content ()
 $std::get_content ()
 $std::set_inbounds_width ()
 $std::get_inbounds_width ()
+$std::set_plain_text_mode ()
 $std::get_id ()
 $std::get_focused_window ()
 $std::get_window_at ()
@@ -169,6 +170,7 @@ $needs_a_horizontal_scrollbar ()
 $needs_a_vertical_scrollbar ()
 $has_a_horizontal_scrollbar ()
 $has_a_vertical_scrollbar ()
+$is_in_plain_text_mode ()
 $first_visible_column_of ()
 $first_visible_row_of ()
 $is_modal ()
@@ -197,6 +199,7 @@ $proto_window std_types::object
   .needs_a_vertical_scrollbar undefined
   .has_a_horizontal_scrollbar false
   .has_a_vertical_scrollbar false
+  .is_in_plain_text_mode false
   .first_visible_column_of 1
   .first_visible_row_of 1
   .is_modal false
@@ -617,7 +620,10 @@ $std_types::window_manager/update:
 		  $show_selection:
 		    $selection selection_of(window)
 		    if
-		      selection.is_defined:
+		      &&
+			selection.is_defined
+			not(is_in_plain_text_mode(window))
+		      :
 			selection $sx $sy $w $h
 			draw_shadow view &terminal
 			  #invert view &terminal
@@ -992,6 +998,7 @@ $maybe_add_scrollbars: (window)
     &&
       window.has_a_vertical_scrollbar
       max_y > content_height
+      not(window.is_in_plain_text_mode)
   update_if do_show_vertical_scrollbar
     &width -> width-2
   # recompute horizontal scrollbar necessity
@@ -1871,6 +1878,24 @@ $std_types::window_manager/get_inbounds_width:
     index.is_defined
     -> inbounds_width_of(windows(index))
     -> undefined
+
+$std_types::window_manager/set_plain_text_mode:
+  (
+    wm
+    id = undefined
+    mode
+  )
+  update_if id.is_undefined &id -> focused_of(wm)
+  $windows windows_of(wm)
+  $index find_index(windows id)
+  if
+    index.is_defined:
+      $window windows(index)
+      !window.is_in_plain_text_mode mode
+      wm
+	.windows_of windows(index window)
+	.is_up_to_date false
+    -> wm
 
 $std_types::window_manager/set_selection:
   (

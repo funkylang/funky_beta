@@ -1347,6 +1347,7 @@ std::set_draw_colour_at POLYMORPHIC_FUNCTION
 std::set_inbounds_width POLYMORPHIC_FUNCTION
 std::set_menu POLYMORPHIC_FUNCTION
 std::set_mouse_reporting POLYMORPHIC_FUNCTION
+std::set_plain_text_mode POLYMORPHIC_FUNCTION
 std::set_selection POLYMORPHIC_FUNCTION
 std::set_status POLYMORPHIC_FUNCTION
 std::set_terminal_attributes POLYMORPHIC_FUNCTION
