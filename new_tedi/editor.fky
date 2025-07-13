@@ -856,12 +856,11 @@ $tedi::functions
     # view
 
     "change_colour_set" = tuple(change_colour_set OTHER)
-    "toggle_right_margin_display" =
-      tuple(toggle_right_margin_display UPDATE_STATE)
+    "toggle_right_margin_display" = tuple(toggle_right_margin_display OTHER)
     "toggle_cursor_line_highlighting" =
-      tuple(toggle_cursor_line_highlighting UPDATE_STATE)
+      tuple(toggle_cursor_line_highlighting OTHER)
     "toggle_soft_line_break" = tuple(toggle_soft_line_break UPDATE_STATE)
-    "toggle_line_numbers" = tuple(toggle_line_numbers UPDATE_STATE)
+    "toggle_line_numbers" = tuple(toggle_line_numbers OTHER)
     "toggle_plain_text" = tuple(toggle_plain_text UPDATE_STATE)
 
     # help
@@ -2512,26 +2511,30 @@ $go_to_line: (state _x y lines _info)
 
 $toggle_bookmark: (x y lines info)
   if
-    y <= length_of(lines):
-      $bookmarks bookmarks_of(info)
-      $idx get_item_index(bookmarks y)
+    do_show_plain_text_of(info)
+    -> undefined undefined x y info(.error_message_of "In plain text mode!")
+    :
       if
-	idx <= length_of(bookmarks) && bookmarks(idx) == y:
-	  # remove bookmark
-	  !info.bookmarks_of
-	    append
-	      range(bookmarks 1 idx-1)
-	      range(bookmarks idx+1 -1)
-	  -> undefined undefined x y info
-	:
-	  # add bookmark
-	  !info.bookmarks_of
-	    append
-	      range(bookmarks 1 idx-1)
-	      list(y)
-	      range(bookmarks idx -1)
-	  -> undefined undefined x y info
-    -> undefined undefined x y info
+	y <= length_of(lines):
+	  $bookmarks bookmarks_of(info)
+	  $idx get_item_index(bookmarks y)
+	  if
+	    idx <= length_of(bookmarks) && bookmarks(idx) == y:
+	      # remove bookmark
+	      !info.bookmarks_of
+		append
+		  range(bookmarks 1 idx-1)
+		  range(bookmarks idx+1 -1)
+	      -> undefined undefined x y info
+	    :
+	      # add bookmark
+	      !info.bookmarks_of
+		append
+		  range(bookmarks 1 idx-1)
+		  list(y)
+		  range(bookmarks idx -1)
+	      -> undefined undefined x y info
+	-> undefined undefined x y info
 
 $jump_to_next_bookmark: (x y _lines info)
   $bookmarks bookmarks_of(info)
@@ -2983,23 +2986,21 @@ $reload: (io state _x _y _lines _info)
 $change_colour_set: (x y _lines info)
   -> undefined undefined x y info
 
-$tedi::toggle_right_margin_display: (state x y _lines info)
-  update_if previous_mode_of(info).is_defined &state:
-    set_plain_text_mode &state.window_manager_of false
-    -> state
-  !info
-    .previous_mode_of undefined
-    .do_show_right_margin_of not(do_show_right_margin_of(info))
-  -> state undefined undefined x y info
+$tedi::toggle_right_margin_display: (x y _lines info)
+  if
+    do_show_plain_text_of(info)
+    -> undefined undefined x y info(.error_message_of "In plain text mode!")
+    :
+      not &info.do_show_right_margin_of
+      -> undefined undefined x y info
 
-$tedi::toggle_cursor_line_highlighting: (state x y _lines info)
-  update_if previous_mode_of(info).is_defined &state:
-    set_plain_text_mode &state.window_manager_of false
-    -> state
-  !info
-    .previous_mode_of undefined
-    .do_highlight_cursor_line_of not(do_highlight_cursor_line_of(info))
-  -> state undefined undefined x y info
+$tedi::toggle_cursor_line_highlighting: (x y _lines info)
+  if
+    do_show_plain_text_of(info)
+    -> undefined undefined x y info(.error_message_of "In plain text mode!")
+    :
+      not &info.do_highlight_cursor_line_of
+      -> undefined undefined x y info
 
 $tedi::toggle_soft_line_break: (state x y lines info)
   $page get_content(window_manager_of(state))
@@ -3107,51 +3108,23 @@ $tedi::toggle_soft_line_break: (state x y lines info)
 		  info
     -> state undefined undefined x y info
 
-$tedi::toggle_line_numbers: (state x y _lines info)
-  update_if previous_mode_of(info).is_defined &state:
-    set_plain_text_mode &state.window_manager_of false
-    -> state
+$tedi::toggle_line_numbers: (x y _lines info)
+  if
+    do_show_plain_text_of(info)
+    -> undefined undefined x y info(.error_message_of "In plain text mode!")
+    :
+      not &info.do_show_line_numbers_of
+      -> undefined undefined x y info
+
+$tedi::toggle_plain_text: (state x y _lines info)
+  not &info.do_show_plain_text_of
+  set_plain_text_mode &state.window_manager_of do_show_plain_text_of(info)
   ->
     state
     undefined undefined x y
     info
-      .previous_mode_of undefined
-      .do_show_line_numbers_of not(do_show_line_numbers_of(info))
       .selection_x_of selection_x
       .selection_y_of selection_y
-
-$tedi::toggle_plain_text: (state x y _lines info)
-  if
-    previous_mode_of(info).is_defined:
-      set_plain_text_mode &state.window_manager_of false
-      previous_mode_of(info)
-	$do_show_line_numbers $do_show_right_margin $do_highlight_cursor_line
-      ->
-	state
-	undefined undefined x y
-	info
-	  .previous_mode_of undefined
-	  .do_show_line_numbers_of do_show_line_numbers
-	  .do_show_right_margin_of do_show_right_margin
-	  .do_highlight_cursor_line_of do_highlight_cursor_line
-	  .selection_x_of selection_x
-	  .selection_y_of selection_y
-    :
-      set_plain_text_mode &state.window_manager_of true
-      ->
-	state
-	undefined undefined x y
-	info
-	  .previous_mode_of
-	    tuple
-	      do_show_line_numbers_of(info)
-	      do_show_right_margin_of(info)
-	      do_highlight_cursor_line_of(info)
-	  .do_show_line_numbers_of false
-	  .do_show_right_margin_of false
-	  .do_highlight_cursor_line_of false
-	  .selection_x_of selection_x
-	  .selection_y_of selection_y
 
 $remove_all_soft_breaks: (lines)
   $len length_of(lines)
@@ -3501,66 +3474,74 @@ $get_decoration_width: (page)
 
 $tedi::decorate: (page line_no line_screen)
   $info info_of(page)
-  $decoration_width get_decoration_width(page)
-  $bookmarks bookmarks_of(info)
-  $idx get_item_index(bookmarks line_no)
-  $is_bookmarked idx <= length_of(bookmarks) && bookmarks(idx) == line_no
-  update_if do_show_right_margin_of(info) &line_screen:
-    $right_margin right_margin_of(info)
-    $width width_of(line_screen)
-    if
-      width >= right_margin:
-	draw_shadow line_screen 0.94 right_margin+1 1 width-right_margin 1
-      :
-	adjoin &line_screen create_screen(line_screen right_margin-width 1)
-	draw_shadow line_screen 0.94 width+1 1 0 1
-  update_if
-    do_highlight_cursor_line_of(info) && line_no == current_cursor_y
-    &line_screen
-    :
-      draw_shadow line_screen 0.94
-	1 1 width_of(line_screen) height_of(line_screen)
   if
-    do_show_line_numbers_of(info):
-      $decoration create_screen(template_screen_of(page) decoration_width 1)
-      if
-	use_soft_line_breaks_of(info):
-	  $lines lines_of(page)
-	  $current_line lines(line_no)
-	  if
-	    current_line.is_defined && current_line.is_a_continuation_line:
-	      adjoin decoration line_screen
-	    :
-	      for_each range(lines 1 line_no)
-		: (line)
-		  if
-		    line.is_defined:
-		      if
-			line.is_a_continuation_line:
-			  !line_no line_no-1
-			  next
-			next
-		    next
-		add_line_number
-	add_line_number
+    do_show_plain_text_of(info)
+    -> line_screen
+    start_decoration
 
-      $add_line_number:
-	set_draw_colour &decoration GREY
-
-	update_if is_bookmarked &decoration:
-	  set_clear_colour decoration '@0xffc000;'
-	draw_text &decoration 1 1 push(pad_left(line_no decoration_width-1) ' ')
-	adjoin decoration line_screen
-    :
+  $start_decoration:
+    $decoration_width get_decoration_width(page)
+    $bookmarks bookmarks_of(info)
+    $idx get_item_index(bookmarks line_no)
+    $is_bookmarked idx <= length_of(bookmarks) && bookmarks(idx) == line_no
+    update_if do_show_right_margin_of(info) &line_screen:
+      $right_margin right_margin_of(info)
+      $width width_of(line_screen)
       if
-	bookmarks_of(info).is_empty
-	-> line_screen
+	width >= right_margin:
+	  draw_shadow line_screen 0.94 right_margin+1 1 width-right_margin 1
 	:
-	  $decoration create_screen(template_screen_of(page) decoration_width 1)
+	  adjoin &line_screen create_screen(line_screen right_margin-width 1)
+	  draw_shadow line_screen 0.94 width+1 1 0 1
+    update_if
+      do_highlight_cursor_line_of(info) && line_no == current_cursor_y
+      &line_screen
+      :
+	draw_shadow line_screen 0.94
+	  1 1 width_of(line_screen) height_of(line_screen)
+    if
+      do_show_line_numbers_of(info):
+	$decoration create_screen(template_screen_of(page) decoration_width 1)
+	if
+	  use_soft_line_breaks_of(info):
+	    $lines lines_of(page)
+	    $current_line lines(line_no)
+	    if
+	      current_line.is_defined && current_line.is_a_continuation_line:
+		adjoin decoration line_screen
+	      :
+		for_each range(lines 1 line_no)
+		  : (line)
+		    if
+		      line.is_defined:
+			if
+			  line.is_a_continuation_line:
+			    !line_no line_no-1
+			    next
+			  next
+		      next
+		  add_line_number
+	  add_line_number
+
+	$add_line_number:
+	  set_draw_colour &decoration GREY
+
 	  update_if is_bookmarked &decoration:
-	    set_clear_colour &decoration '@0xffc000;'
-	    draw_text decoration 1 1 " "
+	    set_clear_colour decoration '@0xffc000;'
+	  draw_text &decoration
+	    1 1 push(pad_left(line_no decoration_width-1) ' ')
 	  adjoin decoration line_screen
+      :
+	if
+	  bookmarks_of(info).is_empty
+	  -> line_screen
+	  :
+	    $decoration
+	      create_screen(template_screen_of(page) decoration_width 1)
+	    update_if is_bookmarked &decoration:
+	      set_clear_colour &decoration '@0xffc000;'
+	      draw_text decoration 1 1 " "
+	    adjoin decoration line_screen
 
 $tedi::is_a_continuation_line ()
 
@@ -3603,6 +3584,7 @@ $use_soft_line_breaks_of ()
 $tedi::do_show_right_margin_of ()
 $do_highlight_cursor_line_of ()
 $do_show_line_numbers_of ()
+$do_show_plain_text_of ()
 $right_margin_of ()
 $previous_mode_of ()
 $error_message_of ()
@@ -3625,6 +3607,7 @@ $tedi_types::info std_types::object
   .use_soft_line_breaks_of false
   .do_highlight_cursor_line_of true
   .do_show_line_numbers_of false
+  .do_show_plain_text_of false
   .right_margin_of 80
   .previous_mode_of undefined
   .error_message_of undefined

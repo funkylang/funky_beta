@@ -243,24 +243,44 @@ $std_types::event tuple(undefined undefined undefined)
 $std_types::io/start_reading_from:
   (
     self
-    fd
+    fd_or_list
     do_close = true
     max_length = undefined
   )
   if
-    exit_code_of(self).is_defined
+    exit_code_of(self).is_defined || fd_or_list.is_undefined
     -> self
     :
-      !self.read_jobs_of(fd) tuple(do_close max_length)
-      -> self
+      if
+	fd_or_list.is_a_list:
+	  for_each fd_or_list
+	    : (fd)
+	      !self.read_jobs_of(fd) tuple(do_close max_length)
+	      next
+	    -> self
+	:
+	  !self.read_jobs_of(fd_or_list) tuple(do_close max_length)
+	  -> self
 
 $std_types::io/stop_reading_from:
   (
     self
-    fd
+    fd_or_list
   )
-  !self.read_jobs_of(fd) undefined
-  -> self
+  if
+    fd_or_list.is_undefined
+    -> self
+    :
+      if
+	fd_or_list.is_a_list:
+	  for_each fd_or_list
+	    : (fd)
+	      !self.read_jobs_of(fd) undefined
+	      next
+	    -> self
+	:
+	  !self.read_jobs_of(fd_or_list) undefined
+	  -> self
 
 $std_types::io/print_to:
   (
@@ -306,10 +326,22 @@ $std_types::io/close:
 $std_types::io/join_process:
   (
     self
-    pid
+    pid_or_list
   )
-  !self.watched_pids_of(pid) true
-  -> self
+  if
+    pid_or_list.is_undefined
+    -> self
+    :
+      if
+	pid_or_list.is_a_list:
+	  for_each pid_or_list
+	    : (pid)
+	      !self.watched_pids_of(pid) true
+	      next
+	    -> self
+	:
+	  !self.watched_pids_of(pid_or_list) true
+	  -> self
 
 $std_types::io/start_injecting_window_change_events:
   (

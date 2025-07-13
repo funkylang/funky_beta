@@ -122,6 +122,7 @@ $dialog_of ()
 $menus_of ()
 $status_of ()
 $current_menu_of ()
+$current_menu_index_of ()
 $default_message_of ()
 $messages_of ()
 $has_a_valid_layout ()
@@ -140,6 +141,7 @@ $std_types::window_manager std_types::object
   .menus_of undefined
   .status_of undefined
   .current_menu_of undefined
+  .current_menu_index_of undefined
   .default_message_of undefined
   .messages_of empty_list
   .next_window_id_of 1
@@ -2125,7 +2127,7 @@ $handle_mouse_click: (wm fd mouse_x mouse_y)
 	menus.is_defined && mouse_y == 1:
 	  $x 1
 	  for_each menus
-	    : (menu)
+	    : (idx menu)
 	      menu $title $content
 	      if
 		mouse_x < x
@@ -2134,10 +2136,19 @@ $handle_mouse_click: (wm fd mouse_x mouse_y)
 		  $width width_of(title)
 		  if
 		    mouse_x < x+width:
-		      !wm
-			.current_menu_of create_menu(wm x 2 content)
-			.is_up_to_date false
-		      -> wm true
+		      if
+			current_menu_index_of(wm) == idx:
+			  !wm
+			    .current_menu_index_of undefined
+			    .current_menu_of undefined
+			    .is_up_to_date false
+			  -> wm true
+			:
+			  !wm
+			    .current_menu_index_of idx
+			    .current_menu_of create_menu(wm x 2 content)
+			    .is_up_to_date false
+			  -> wm true
 		    :
 		      plus &x width+1
 		      next
@@ -2158,6 +2169,7 @@ $handle_mouse_click: (wm fd mouse_x mouse_y)
 		  mouse_y > y+height
 		:
 		  !wm
+		    .current_menu_index_of undefined
 		    .current_menu_of undefined
 		    .is_up_to_date false
 		  handle_windows
@@ -2166,6 +2178,7 @@ $handle_mouse_click: (wm fd mouse_x mouse_y)
 		  if
 		    rect.is_defined:
 		      !wm
+			.current_menu_index_of undefined
 			.current_menu_of undefined
 			.is_up_to_date false
 		      rect $action
@@ -2333,12 +2346,13 @@ $handle_key_press: (wm fd key)
 	menus.is_defined:
 	  $x 1
 	  for_each menus
-	    : (menu)
+	    : (idx menu)
 	      menu $title $content
 	      $shortcut alt_key(title(1).to_lower_case)
 	      if
 		shortcut == key:
 		  !wm
+		    .current_menu_index_of idx
 		    .current_menu_of create_menu(wm x 2 content)
 		    .is_up_to_date false
 		  -> wm true
@@ -2355,6 +2369,7 @@ $handle_key_press: (wm fd key)
 	if
 	  key == ESCAPE:
 	    !wm
+	      .current_menu_index_of undefined
 	      .current_menu_of undefined
 	      .is_up_to_date false
 	    -> wm true
@@ -2363,6 +2378,7 @@ $handle_key_press: (wm fd key)
 	    if
 	      rect.is_defined:
 		!wm
+		  .current_menu_index_of undefined
 		  .current_menu_of undefined
 		  .is_up_to_date false
 		rect $_kind $action

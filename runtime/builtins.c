@@ -4999,6 +4999,14 @@ int close_fd(int *fd_p) {
   return err;
 }
 
+int dup_fd(int src_fd) {
+  int fd;
+  do {
+    fd = dup(src_fd);
+  } while (fd == -1 && errno == EINTR);
+  return fd;
+}
+
 int dup2_fd(int src_fd, int dest_fd) {
   int err;
   do {
@@ -18105,31 +18113,50 @@ static void entry__std__create_process (void)
     pid_t pid = fork();
     if (pid == 0) {
       // child process
+
+      // we must take care of the case that any of the supplied file descriptors
+      // is a standard file descriptor, if so then let's duplicate them
+
+      int fd_in, fd_out, fd_err;
+
       if (TLS_argument_count >= 4) {
-	dup2_fd(TLS_arguments[3]->file_descriptor.value, STDIN_FILENO);
+	fd_in = TLS_arguments[3]->file_descriptor.value;
+	if (fd_in < 3) { // it's a standard file descriptor
+	  fd_in = dup_fd(fd_in);
+	}
       }
       if (TLS_argument_count >= 5) {
-	dup2_fd(TLS_arguments[4]->file_descriptor.value, STDOUT_FILENO);
+	fd_out = TLS_arguments[4]->file_descriptor.value;
+	if (fd_out < 3) { // it's a standard file descriptor
+	  fd_out = dup_fd(fd_out);
+	}
       }
       if (TLS_argument_count >= 6) {
-	dup2_fd(TLS_arguments[5]->file_descriptor.value, STDERR_FILENO);
+	fd_err = TLS_arguments[5]->file_descriptor.value;
+	if (fd_err < 3) { // it's a standard file descriptor
+	  fd_err = dup_fd(fd_err);
+	}
       }
+
       if (TLS_argument_count >= 4) {
-	close(TLS_arguments[3]->file_descriptor.value);
+	dup2_fd(fd_in, STDIN_FILENO);
+	close(fd_in);
       } else {
 	close(in_pipe.write_fd);
 	dup2_fd(in_pipe.read_fd, STDIN_FILENO);
 	close(in_pipe.read_fd);
       }
       if (TLS_argument_count >= 5) {
-	close(TLS_arguments[4]->file_descriptor.value);
+	dup2_fd(fd_out, STDOUT_FILENO);
+	close(fd_out);
       } else {
 	close(out_pipe.read_fd);
 	dup2_fd(out_pipe.write_fd, STDOUT_FILENO);
 	close(out_pipe.write_fd);
       }
       if (TLS_argument_count >= 6) {
-	close(TLS_arguments[5]->file_descriptor.value);
+	dup2_fd(fd_err, STDERR_FILENO);
+	close(fd_err);
       } else {
 	close(err_pipe.read_fd);
 	dup2_fd(err_pipe.write_fd, STDERR_FILENO);

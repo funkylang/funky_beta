@@ -731,30 +731,31 @@ $extern_call:
 
 $extern_call.command_of undefined
 
-$std::pipe:
+$std::pipe ()
+
+$std_types::object/std::pipe:
   (
     args*
   )
+  parse_pipe_arguments $input $output_fd $commands args
+  prepare_pipe! $in_fd $out_fd $err_fds $pids input output_fd commands
+  run_pipe! input in_fd out_fd err_fds pids
+
+$parse_pipe_arguments: (args)
   $i 1
   $n length_of(args)
-  $in_fd undefined
-  $feed undefined
+  $in_fd_or_feed undefined
+  $out_fd undefined
   $commands empty_list
   $head undefined
   $arguments undefined
   $first_arg args(1)
   if
-    first_arg.is_a_string:
-      !feed first_arg
+    first_arg.is_a_string || first_arg.is_a_file_descriptor:
+      !in_fd_or_feed first_arg
       !i 2
       build_commands!
-    :
-      if
-	first_arg.is_a_file_descriptor:
-	  !in_fd first_arg
-	  !i 2
-	  build_commands!
-	build_commands
+    build_commands
 
   $build_commands:
     loop
@@ -772,38 +773,60 @@ $std::pipe:
 		inc &i
 		next!
 	      :
-		push &arguments arg
-		inc &i
-		next!
+		if
+		  i == n && arg.is_a_file_descriptor:
+		    !out_fd arg
+		    inc &i
+		    next!
+		  :
+		    push &arguments arg
+		    inc &i
+		    next!
       :
 	update_if head.is_defined &commands:
 	  push commands tuple(head map(flatten(arguments) to_string))
-	run_pipe! in_fd feed commands
+	-> in_fd_or_feed out_fd commands
+
+$std_types::io/std::pipe:
+  (
+    io
+    id
+    context
+    args*
+  )
+  parse_pipe_arguments $input $output_fd $commands args
+  run io start_pipe id context input output_fd commands
+
+$start_pipe: (io id context input output_fd commands)
+  prepare_pipe! $in_fd $out_fd $err_fds $pids input output_fd commands
+  start_reading_from &io out_fd
+  start_reading_from &io err_fds
+  join_process &io pids
+  -> io tuple(JOB_COMPLETED id tuple(in_fd out_fd err_fds pids) context)
 
 $std::pipe_commands:
   (
-    feed_or_fd = undefined
+    input = undefined
+    output_fd = undefined
     commands
   )
-  if
-    feed_or_fd.is_defined:
-      if
-	feed_or_fd.is_a_file_descriptor:
-	  run_pipe! feed_or_fd undefined commands
-	:
-	  run_pipe! undefined feed_or_fd commands
-    :
-      run_pipe! undefined undefined commands
+  prepare_pipe! $in_fd $out_fd $err_fds $pids input output_fd commands
+  run_pipe! input in_fd out_fd err_fds pids
 
-$run_pipe:
+$prepare_pipe:
   (
-    in_fd
-    feed
+    input # a file descriptor, a string or <undefined>
+    output_fd # a file descriptor or <undefined>
     commands
   )
-  $pids empty_hash_table
-  $err_fds empty_hash_table
-  $out_fd in_fd
+  $pids empty_list
+  $input_fd undefined # a file descriptor to send input to the first filter
+  $in_fd # the input file descriptor for the next filter
+    if
+      input.is_defined && input.is_a_file_descriptor
+      -> input
+      -> undefined
+  $err_fds empty_list
   $env_vars undefined
   update_if environment.is_defined &env_vars:
     !env_vars empty_list
@@ -812,6 +835,7 @@ $run_pipe:
 	push &env_vars "@(key)=@(value)"
 	next
       -> env_vars
+  $n length_of(commands)
   for_each commands
     : (idx command)
       command $head $arguments
@@ -819,100 +843,144 @@ $run_pipe:
       $pid undefined
       $err_fd undefined
       if
-	idx == 1 && in_fd.is_undefined:
-	  create_process! !pid !in_fd !out_fd !err_fd head arguments env_vars
-	  store_pid_and_err_fd!
-	:
-	  create_process! !pid !out_fd !err_fd head arguments env_vars out_fd
-	  store_pid_and_err_fd!
+	in_fd.is_defined: # chain the input stream to the filter
+	  if
+	    idx == n && output_fd.is_defined:
+	      # send the output of the filter directly to <output_fd>
+	      create_process!
+		!pid !err_fd head arguments env_vars in_fd output_fd
+	      !in_fd undefined
+	      store_pid_and_err_fd!
+	    : # we need a file descriptor that receives output from the filter
+	      create_process!
+		!pid !in_fd !err_fd head arguments env_vars in_fd
+	      store_pid_and_err_fd!
+	: # we need a file descriptor to send input to the first filter
+	  if
+	    idx == n && output_fd.is_defined:
+	      # send the output of the filter directly to <output_fd>
+	      create_process!
+		!pid !input_fd !err_fd head arguments env_vars
+		undefined output_fd
+	      !in_fd undefined
+	      store_pid_and_err_fd!
+	    : # we need a file descriptor that receives output from the filter
+	      create_process!
+		!pid !input_fd !in_fd !err_fd head arguments env_vars
+	      store_pid_and_err_fd!
 
       $store_pid_and_err_fd:
-	!pids(pid) idx
-	!err_fds(err_fd) idx
+	push &pids pid
+	push &err_fds err_fd
 	next!
     :
-      $ret dup(list(undefined) length_of(commands))
-      $out ""
-      $err dup(list("") length_of(commands))
       if
-	feed.is_defined
-	manage_io
-	:
-	  close! in_fd
-	  !in_fd undefined
-	  manage_io!
+	input.is_defined && input.is_a_file_descriptor:
+	  close! input
+	  -> input_fd in_fd err_fds pids
+	-> input_fd in_fd err_fds pids
 
-      $manage_io:
-	loop:
-	  $read_descriptor_list keys_of(err_fds)
-	  $write_descriptor_list
+$run_pipe:
+  (
+    feed # input data or irrelevant
+    in_fd # the file descriptor to feed data into the first filter
+    out_fd # the file descriptor to read data from the last filter
+    err_fds # the file descriptors to read error output from all filters
+    pids # the process ids of all filters
+  )
+
+  $err_fd_tab empty_hash_table
+  $pid_tab empty_hash_table
+  for_each !err_fd_tab err_fds
+    : (idx err_fd)
+      !err_fd_tab(err_fd) idx
+      next
+    -> err_fd_tab
+  for_each !pid_tab pids
+    : (idx pid)
+      !pid_tab(pid) idx
+      next
+    -> pid_tab
+  $rets dup(list(undefined) length_of(pids))
+  $out
+    if
+      out_fd.is_defined
+      -> ""
+      -> undefined
+  $errs dup(list("") length_of(pids))
+  loop:
+    $read_descriptor_list keys_of(err_fd_tab)
+    $write_descriptor_list
+      if
+	in_fd.is_defined
+	-> list(in_fd)
+	-> empty_list
+    update_if out_fd.is_defined &read_descriptor_list:
+      # collect the output of the last filter
+      push read_descriptor_list out_fd
+    pselect!
+      $signals
+      $read_descriptors read_descriptor_list
+      $write_descriptors write_descriptor_list
+      $_out_of_band_descriptors empty_list
+    for_each signals
+      : (signal)
+	if
+	  signal == SIGCHLD:
+	    loop
+	      :
+		wait! $rpid $status
+		if
+		  rpid.is_an_error || rpid.is_undefined
+		  break
+		  :
+		    !rets(pid_tab(rpid)) exitstatus(status)
+		    !pid_tab(rpid) undefined
+		    if!
+		      pid_tab.is_empty
+		      break
+		      next
+	      next
+	  next
+      :
+	for_each write_descriptors
+	  : (write_descriptor) # must be <in_fd>
+	    write! $bytes_written write_descriptor feed
+	    range &feed bytes_written+1 -1
 	    if
-	      in_fd.is_defined
-	      -> list(in_fd)
-	      -> empty_list
-	  update_if out_fd.is_defined &read_descriptor_list:
-	    push read_descriptor_list out_fd
-	  pselect!
-	    $signals
-	    $read_descriptors read_descriptor_list
-	    $write_descriptors write_descriptor_list
-	    $_out_of_band_descriptors empty_list
-	  for_each signals
-	    : (signal)
-	      if
-		signal == SIGCHLD:
-		  loop
-		    :
-		      wait! $rpid $status
-		      if
-			rpid.is_defined:
-			  !ret(pids(rpid)) status
-			  !pids(rpid) undefined
-			  if!
-			    pids.is_empty
-			    break
-			    next
-			break
-		    next
-		next
-	    :
-	      for_each write_descriptors
-		: (write_descriptor) # must be <in_fd>
-		  write! $bytes_written write_descriptor feed
-		  range &feed bytes_written+1 -1
-		  if
-		    feed.is_empty:
-		      close! in_fd
-		      !in_fd undefined
-		      next!
-		    next
-		:
-		  for_each read_descriptors
-		    : (read_descriptor)
-		      read! $buf read_descriptor 0x100000
-		      if
-			buf.is_empty: # closed from the other side
-			  close! read_descriptor
-			  if
-			    read_descriptor == out_fd:
-			      !out_fd undefined
-			      next!
-			    :
-			      !err_fds(read_descriptor) undefined
-			      next!
-			:
-			  if
-			    read_descriptor == out_fd:
-			      append &out buf
-			      next!
-			    :
-			      append &err(err_fds(read_descriptor)) buf
-			      next!
-		    :
-		      if!
-			pids.is_empty && out_fd.is_undefined && err_fds.is_empty
-			-> ret out err
-			next
+	      feed.is_empty:
+		close! in_fd
+		!in_fd undefined
+		next!
+	      next
+	  :
+	    for_each read_descriptors
+	      : (read_descriptor)
+		read! $buf read_descriptor 0x100000
+		if
+		  buf.is_empty: # closed from the other side
+		    close! read_descriptor
+		    if
+		      read_descriptor == out_fd:
+			!out_fd undefined
+			next!
+		      :
+			!err_fd_tab(read_descriptor) undefined
+			next!
+		  :
+		    if
+		      read_descriptor == out_fd:
+			# collect output from the last filter
+			append &out buf
+			next!
+		      :
+			append &errs(err_fd_tab(read_descriptor)) buf
+			next!
+	      :
+		if!
+		  pid_tab.is_empty && out_fd.is_undefined && err_fd_tab.is_empty
+		  -> rets out errs
+		  next
 
 $std::which:
   (

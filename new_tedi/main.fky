@@ -114,13 +114,13 @@ $tedi::main:
     tuple(toggle_soft_line_break UPDATE_STATE)
 
   !default_configuration.commands_of(RIGHT_MARGIN)
-    tuple(toggle_right_margin_display UPDATE_STATE)
+    tuple(toggle_right_margin_display OTHER)
   !default_configuration.commands_of(CURSOR_LINE)
-    tuple(toggle_cursor_line_highlighting UPDATE_STATE)
+    tuple(toggle_cursor_line_highlighting OTHER)
   !default_configuration.commands_of(SOFT_LINE_BREAKS)
     tuple(toggle_soft_line_break UPDATE_STATE)
   !default_configuration.commands_of(LINE_NUMBERS)
-    tuple(toggle_line_numbers UPDATE_STATE)
+    tuple(toggle_line_numbers OTHER)
   !default_configuration.commands_of(PLAIN_TEXT)
     tuple(toggle_plain_text UPDATE_STATE)
 

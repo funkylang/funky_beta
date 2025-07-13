@@ -129,7 +129,7 @@ $PREVIOUS_IO_CALL .
 	list
 	  "Right margin" = RIGHT_MARGIN
 	  "Cursor line" = CURSOR_LINE
-	  #"Plain text (F3)" = PLAIN_TEXT
+	  "Plain text" = PLAIN_TEXT
 	  "Line numbers" = LINE_NUMBERS
       "Debug" =
 	list
